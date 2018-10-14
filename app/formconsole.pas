@@ -57,7 +57,8 @@ type
     property OnConsoleInput: TAppConsoleEvent read FOnConsoleInput write FOnConsoleInput;
     property OnConsolePrint: TAppStrEvent read FOnConsolePrint write FOnConsolePrint;
     property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
-    procedure DoLogConsoleLine(const Str: string);
+    procedure DoAddLine(const Str: string);
+    procedure DoUpdate;
     procedure DoExecuteConsoleLine(Str: string);
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
     property Wordwrap: boolean read GetWrap write SetWrap;
@@ -78,19 +79,29 @@ implementation
 
 { TfmConsole }
 
-procedure TfmConsole.DoLogConsoleLine(const Str: string);
+procedure TfmConsole.DoAddLine(const Str: string);
+begin
+  with memo do
+  begin
+    ModeReadOnly:= false;
+    Strings.LineAddRaw_UTF8_NoUndo(Str, cEndUnix);
+    ModeReadOnly:= true;
+  end;
+end;
+
+procedure TfmConsole.DoUpdate;
 begin
   with memo do
   begin
     ModeReadOnly:= false;
     while Strings.Count>cPyConsoleMaxLines do
       Strings.LineDelete(0);
-    Strings.LineAddRaw_UTF8_NoUndo(Str, cEndUnix);
+    //if Strings.LinesUTF8[0]='' then
+    //  Strings.LineDelete(0);
     ModeReadOnly:= true;
 
     Update(true);
     Application.ProcessMessages;
-
     DoCommand(cCommand_GotoTextEnd);
     ColumnLeft:= 0;
     Update;

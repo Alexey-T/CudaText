@@ -1214,13 +1214,17 @@ var
 begin
   //avoid output of huge items count at once
   NCnt:= 0;
-  while not FConsoleQueue.IsEmpty() and (NCnt<100) do
+  while not FConsoleQueue.IsEmpty() and (NCnt<500) do
   begin
     S:= FConsoleQueue.Front();
     FConsoleQueue.Pop();
-    MsgLogConsole(S);
+    fmConsole.DoAddLine(S);
+    if UiOps.LogConsole then
+      MsgLogToFilename(S, FFileNameLogConsole, false);
     Inc(NCnt);
   end;
+
+  fmConsole.DoUpdate;
 
   PntScreen:= Mouse.CursorPos;
   if PntScreen<>FLastMousePos then
@@ -5136,9 +5140,11 @@ begin
   if UiOps.LogConsole then
     MsgLogToFilename(AText, FFileNameLogConsole, false);
 
-  if DoOnConsolePrint(AText) then
-    if Assigned(fmConsole) then
-      fmConsole.DoLogConsoleLine(AText);
+  //if DoOnConsolePrint(AText) then //disabled on_console_print, later will delete it
+    begin
+      fmConsole.DoAddLine(AText);
+      fmConsole.DoUpdate;;
+    end;
 end;
 
 
