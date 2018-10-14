@@ -191,10 +191,6 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 * PROC_SET_FINDER_PROP: Sets props of Find/Replace dialog and search engine. Param "text" must be dict, with some keys listed in PROC_GET_FINDER_PROP. Values of keys must be str (for text fields) or bool.
 
-* deprecated: PROC_SET_FIND_OPTIONS: Sets options of finder-object from string. Note: Find dialog don't apply these opts immediately.
-* deprecated: PROC_GET_FIND_OPTIONS: Gets options of finder-object as string.
-* deprecated: PROC_GET_FIND_STRINGS: Gets strings of finder-object, 2-tuple, (str_search_for, str_replace_with), or None if finder-object not inited.
-
 ====System====
 
 * PROC_ENUM_FONTS: Gets list of font names, currently installed in OS. Note: only some names are common in all OSes (like Arial, Courier, Courier New, Terminal, maybe more).
