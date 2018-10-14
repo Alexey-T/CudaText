@@ -2,7 +2,7 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '2.3.05 2018-09-26'
+    '2.3.06 2018-10-10'
 ToDo: (see end of file)
 '''
 
@@ -426,7 +426,8 @@ class OptEdD:
     COL_LXR = 5
     COL_FIL = 6
     COL_NMS = (_('Section'), _('Option'), '!', _('Default'), ('User'), _('Lexer'), _('File "{}"'))
-    COL_MWS = [   70,           150,       25,    120,         120,       70,         50]   # Min col widths
+    COL_MWS = [   70,           210,       25,    120,         120,       70,         50]   # Min col widths
+#   COL_MWS = [   70,           150,       25,    120,         120,       70,         50]   # Min col widths
     COL_N   = len(COL_MWS)
     CMNT_MHT= 60                            # Min height of Comment
     STBR_FLT= 10
@@ -787,7 +788,9 @@ class OptEdD:
 
         m.dlg_min_w = 10 + sum(M.COL_MWS) + M.COL_N + M.SCROLL_W
         m.dlg_w     = 10 + sum(m.col_ws)  + M.COL_N + M.SCROLL_W
-        m.dlg_h     = 270 + m.h_cmnt    +10 + M.STBR_H
+        m.dlg_h     = 380 + m.h_cmnt    +10 + M.STBR_H
+#       m.dlg_h     = 270 + m.h_cmnt    +10 + M.STBR_H
+        pass;                  #log('m.dlg_w,m.dlg_h={}',(m.dlg_w,m.dlg_h))
         m.ag = DlgAgent(
             form =dict(cap     = title + f(' ({})', VERSION_V)
                       ,resize  = True

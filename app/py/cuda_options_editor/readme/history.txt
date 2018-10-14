@@ -1,3 +1,6 @@
+2.3.06 (2018-10-10)
+fixed: enlarge minimal size
+
 2.3.05 (2018-09-26)
 fixed: avoid deprecated API
 
