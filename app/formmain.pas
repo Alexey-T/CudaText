@@ -1209,19 +1209,22 @@ var
   S: string;
   NCnt, i: integer;
 begin
-  //avoid output of huge items count at once
-  NCnt:= 0;
-  while not FConsoleQueue.IsEmpty() and (NCnt<500) do
+  if not FConsoleQueue.IsEmpty() then
   begin
-    S:= FConsoleQueue.Front();
-    FConsoleQueue.Pop();
-    fmConsole.DoAddLine(S);
-    if UiOps.LogConsole then
-      MsgLogToFilename(S, FFileNameLogConsole, false);
-    Inc(NCnt);
-  end;
+    //avoid output of huge items count at once
+    NCnt:= 0;
+    while not FConsoleQueue.IsEmpty() and (NCnt<500) do
+    begin
+      S:= FConsoleQueue.Front();
+      FConsoleQueue.Pop();
+      fmConsole.DoAddLine(S);
+      if UiOps.LogConsole then
+        MsgLogToFilename(S, FFileNameLogConsole, false);
+      Inc(NCnt);
+    end;
 
-  fmConsole.DoUpdate;
+    fmConsole.DoUpdate;
+  end;
 
   PntScreen:= Mouse.CursorPos;
   if PntScreen<>FLastMousePos then
