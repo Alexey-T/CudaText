@@ -124,6 +124,7 @@ begin
 
   list.Font.Name:= UiOps.VarFontName;
   list.Font.Size:= UiOps.VarFontSize;
+  edit.Height:= UiOps.InputHeight;
   edit.Font.Name:= EditorOps.OpFontName;
   edit.Font.Size:= EditorOps.OpFontSize;
   edit.Font.Quality:= EditorOps.OpFontQuality;

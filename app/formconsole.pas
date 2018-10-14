@@ -132,6 +132,7 @@ begin
   ed:= TATComboEdit.Create(Self);
   ed.Parent:= Self;
   ed.Align:= alBottom;
+  ed.Height:= UiOps.InputHeight;
 
   ed.OnCommand:= @ComboCommand;
 

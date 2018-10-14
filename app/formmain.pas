@@ -2355,9 +2355,11 @@ begin
   TimerTreeFocus.Interval:= UiOps.TreeTimeFocus;
   CodeTree.Tree.ToolTips:= UiOps.TreeShowTooltips;
   CodeTreeFilterInput.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
+  PanelCodeTreeTop.Height:= UiOps.InputHeight;
 
   fmConsole.memo.OptCaretShapeRO:= TATSynCaretShape(EditorOps.OpCaretShapeRO);
   fmConsole.memo.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
+  fmConsole.ed.Height:= UiOps.InputHeight;
   fmConsole.ed.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   fmConsole.Wordwrap:= UiOps.ConsoleWordWrap;
 

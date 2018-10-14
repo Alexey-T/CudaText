@@ -101,6 +101,7 @@ end;
 
 procedure TfmGoto.FormCreate(Sender: TObject);
 begin
+  edInput.Height:= UiOps.InputHeight;
   edInput.BorderStyle:= bsNone;
   edInput.OnCheckInput:= @EditCheckInput;
 

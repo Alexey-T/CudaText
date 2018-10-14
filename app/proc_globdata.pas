@@ -179,8 +179,9 @@ type
 
     EscapeClose: boolean;
     EscapeCloseConsole: boolean;
-    ConsoleWordWrap: boolean;
     ConsoleCompact: boolean;
+    ConsoleWordWrap: boolean;
+    InputHeight: integer;
     InitialDir: string;
 
     ExportHtmlNumbers: boolean;
@@ -1196,8 +1197,9 @@ begin
 
     EscapeClose:= false;
     EscapeCloseConsole:= true;
-    ConsoleWordWrap:= true;
     ConsoleCompact:= false;
+    ConsoleWordWrap:= true;
+    InputHeight:= 26;
     InitialDir:= '';
 
     ExportHtmlNumbers:= false;
