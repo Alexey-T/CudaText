@@ -80,7 +80,13 @@ begin
   with memo do
   begin
     ModeReadOnly:= false;
-    Strings.LineAddRaw_UTF8_NoUndo(Str, cEndUnix);
+
+    //this is to remove 1st empty line
+    if (Strings.Count=1) and (Strings.LinesUTF8[0]='') then
+      Strings.LinesUTF8[0]:= Str
+    else
+      Strings.LineAddRaw_UTF8_NoUndo(Str, cEndUnix);
+
     ModeReadOnly:= true;
   end;
 end;
