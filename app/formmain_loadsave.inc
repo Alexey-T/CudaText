@@ -650,7 +650,7 @@ begin
     UiOps.ShowTitlePath:= c.GetValue('ui_title_path', UiOps.ShowTitlePath);
     UiOps.ReopenSession:= c.GetValue('ui_reopen_session', UiOps.ReopenSession);
     UiOps.AutoSaveSession:= c.GetValue('ui_auto_save_session', UiOps.AutoSaveSession);
-    UiOps.FloatGroupsInTaskbar:= c.GetValue('ui_float_groups_in_taskbar', UiOps.FloatGroupsInTaskbar);
+    //UiOps.FloatGroupsInTaskbar:= c.GetValue('ui_float_groups_in_taskbar', UiOps.FloatGroupsInTaskbar);
     UiOps.OneInstance:= c.GetValue('ui_one_instance', UiOps.OneInstance);
 
     UiOps.NotifEnabled:= c.GetValue('ui_notif', UiOps.NotifEnabled);

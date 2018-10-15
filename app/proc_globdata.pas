@@ -1241,7 +1241,7 @@ begin
     AutoSaveSession:= false;
     ShowFormsOnTop:= false;
 
-    FloatGroupsInTaskbar:= false;
+    FloatGroupsInTaskbar:= true;
     OneInstance:= false;
     NotifEnabled:= true;
     NotifTimeSec:= 2;
