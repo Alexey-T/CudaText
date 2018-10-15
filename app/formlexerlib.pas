@@ -46,7 +46,6 @@ type
     FFontName: string;
     FFontSize: integer;
     FDirAcp: string;
-    FStylesFilename: string;
     property OnDeleteLexer: TStrEvent read FOnDeleteLexer write FOnDeleteLexer;
   end;
 
@@ -57,7 +56,6 @@ function DoShowDialogLexerLib(
   const ADirAcp: string;
   const AFontName: string;
   AFontSize: integer;
-  const AStylesFilename: string;
   AOnDeleteLexer: TStrEvent): boolean;
 
 implementation
@@ -93,7 +91,7 @@ end;
 
 
 function DoShowDialogLexerLib(const ADirAcp: string; const AFontName: string;
-  AFontSize: integer; const AStylesFilename: string; AOnDeleteLexer: TStrEvent): boolean;
+  AFontSize: integer; AOnDeleteLexer: TStrEvent): boolean;
 var
   F: TfmLexerLib;
 begin
@@ -104,7 +102,6 @@ begin
     F.FFontName:= AFontName;
     F.FFontSize:= AFontSize;
     F.FDirAcp:= ADirAcp;
-    F.FStylesFilename:= AStylesFilename;
     F.ShowModal;
     Result:= AppManager.Modified;
   finally

@@ -88,8 +88,7 @@ type
     cFileOptionsUser,
     cFileOptionsFiletypes,
     cFileOptionsKeymap,
-    cFileOptionsHistoryFiles,
-    cFileLexerStylesBackup
+    cFileOptionsHistoryFiles
     );
 
 type
@@ -883,10 +882,6 @@ begin
     cFileOptionsHistoryFiles:
       begin
         Result:= GetAppPath(cDirSettings)+DirectorySeparator+'history files.json';
-      end;
-    cFileLexerStylesBackup:
-      begin
-        Result:= GetAppPath(cDirSettings)+DirectorySeparator+'lexer styles backup.ini';
       end;
   end;
 end;

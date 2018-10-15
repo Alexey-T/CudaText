@@ -2174,7 +2174,6 @@ begin
     GetAppPath(cDirDataAutocomplete),
     EditorOps.OpFontName,
     EditorOps.OpFontSize,
-    GetAppPath(cFileLexerStylesBackup),
     @DoOnDeleteLexer
     ) then
   begin
