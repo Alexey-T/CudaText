@@ -93,7 +93,6 @@ uses
   formconfirmrep,
   formlexerprop,
   formlexerlib,
-  formlexerstylesload,
   formlexerstylemap,
   formcolorsetup,
   formabout,
@@ -872,7 +871,6 @@ type
     procedure DoDialogLexerProp(an: TecSyntAnalyzer);
     procedure DoDialogLexerLib;
     procedure DoDialogLexerMap;
-    procedure DoDialogRestoreLexerStyles;
     procedure DoDialogTheme(AThemeUI: boolean);
     procedure DoShowConsole(AndFocus: boolean);
     procedure DoShowOutput;
@@ -4655,40 +4653,6 @@ begin
   if assigned(mnuTextUndo) then mnuTextUndo.Enabled:= not Ed.ModeReadOnly and (Ed.UndoCount>0);
   if assigned(mnuTextRedo) then mnuTextRedo.Enabled:= not Ed.ModeReadOnly and (Ed.RedoCount>0);
   if assigned(mnuTextOpenUrl) then mnuTextOpenUrl.Enabled:= EditorGetLinkAtScreenCoord(Ed, PopupText.PopupPoint)<>'';
-end;
-
-
-procedure TfmMain.DoDialogRestoreLexerStyles;
-var
-  Form: TfmLexerStylesRestore;
-  An: TecSyntAnalyzer;
-  i: integer;
-begin
-  Form:= TfmLexerStylesRestore.Create(nil);
-  try
-    DoLocalize_FormLexerRestoreStyles(Form);
-    Form.StylesFilename:= GetAppPath(cFileLexerStylesBackup);
-
-    if Form.ShowModal=mrOk then
-    begin
-      for i:= 0 to Form.List.Count-1 do
-        if Form.List.Checked[i] then
-        begin
-          An:= AppManager.FindLexerByName(Form.List.Items[i]);
-          if Assigned(An) then
-          begin
-            DoLoadLexerStylesFromFile(An, Form.StylesFilename);
-            //DoLexerExportFromLibToFile(An);
-          end
-          else
-            MsgBox(msgCannotFindLexerInLibrary+' '+Form.List.Items[i], MB_OK);
-        end;
-
-      UpdateFrame;
-    end;
-  finally
-    FreeAndNil(Form);
-  end;
 end;
 
 

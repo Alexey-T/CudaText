@@ -74,7 +74,6 @@ const
   cmd_ShowPanelValidate  = 2537;
   cmd_ToggleFindDialog   = 2538;
   cmd_ToggleOnTop        = 2539;
-  cmd_DialogLoadLexerStyles = 2540;
   cmd_ToggleToolbar      = 2541;
   cmd_ToggleStatusbar    = 2542;
   cmd_ResetPythonPlugins = 2543;
@@ -357,7 +356,6 @@ begin
   M.Add(cmd_DialogLexerProp, 'dialog: lexer properties', [], []);
   M.Add(cmd_DialogLexerLib, 'dialog: lexer library', [], []);
   M.Add(cmd_DialogLexerStyleMap, 'dialog: lexer styles map', [], []);
-  M.Add(cmd_DialogLoadLexerStyles, 'dialog: restore lexer styles', [], []);
   M.Add(cmd_DialogThemeUi, 'dialog: config ui-theme', [], []);
   M.Add(cmd_DialogThemeSyntax, 'dialog: config syntax-theme', [], []);
   M.Add(cmd_DialogCharMap, 'dialog: char map', [], []);
@@ -587,7 +585,6 @@ begin
     //cmd_ShowPanelOutput,
     //cmd_ShowPanelValidate,
     cmd_ToggleFindDialog,
-    cmd_DialogLoadLexerStyles,
     cmd_ToggleToolbar,
     cmd_ToggleStatusbar,
     cmd_ResetPythonPlugins,
@@ -669,7 +666,6 @@ begin
     cmd_DialogLexerLib,
     cmd_DialogLexerProp,
     cmd_DialogLexerStyleMap,
-    cmd_DialogLoadLexerStyles,
     cmd_DialogSaveTabs,
     cmd_FileNew,
     cmd_FileNewMenu,
