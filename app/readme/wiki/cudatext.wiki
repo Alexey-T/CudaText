@@ -803,12 +803,6 @@ First, you need to know GitHub repository (repo) URL of plugin. For example, htt
 
 Next, call CudaText menu item "Plugins / Addon Manager / Install from GitHub". And enter URL in the suggested dialog. AddonManager will install latest version from GitHub from "master" branch.
 
-==How to restore lexers styles after reinstalling==
-
-When you customize lexers styles/colors (in the Lexer Properties dialog) and press OK in dialog, your styles/colors are saved to the lexer file (in "data/lexlib") and also to file "settings/lexer styles backup.ini". If you reinstall app, you overwrite standard lexers. But you don't overwrite "lexer styles backup.ini" - you can restore your styles from this file. To do it, call Commands dialog, search for command "restore lexer styles", run it. You'll see dialog in which you can choose which lexer props to restore (from ini file).
-
-[[File:cudatext_restore_styles.png]]
-
 ==How to make translation==
 
 Translation template-file is in dir "data/lang".
