@@ -916,9 +916,6 @@
   "py_change_slow": 2000,
 
   //[Text/Commands]
-  //Commenting: If no selection then comment full line
-  "comment_full_line_if_no_sel": true,
-
   //Commenting: If no selection then move caret to next line
   "comment_move_down": true,
 

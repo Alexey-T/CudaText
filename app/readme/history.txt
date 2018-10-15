@@ -17,6 +17,7 @@
 + add: lexer Markdown improved (<kbd> content highlighted, fixed rule for strikeout text)
 * change: deleted option "log_debug"
 * change: deleted option "ui_float_groups_in_taskbar"
+* change: deleted option "comment_full_line_if_no_sel"
 - fix: fixes for non-blinking caret
 
 1.63.0 (2018/10)
