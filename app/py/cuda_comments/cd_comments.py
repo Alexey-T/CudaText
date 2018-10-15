@@ -2,7 +2,7 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '0.8.5 2017-07-25'
+    '0.8.6 2018-10-15'
 ToDo: (see end of file)
 '''
 
@@ -26,7 +26,7 @@ class Command:
     def dlg_config(self):
         save_bd_col = apx.get_opt('comment_save_column'         , False)
         at_min_bd   = apx.get_opt('comment_equal_column'        , False)
-        bUseFLn     = apx.get_opt('comment_full_line_if_no_sel' , True)
+        bUseFLn     = True
         bSkip       = apx.get_opt('comment_move_down'           , True)
 
         save_s      = _('(Line commands) Try to keep text position after (un)commenting')
@@ -49,24 +49,20 @@ class Command:
                         '\r·#··foo2'
                         '\r·#····foo3'
                         )
-        full_s      = _('(Stream) Comment full line if no selection')
         down_s      = _('(All) Move caret to next line')
-        aid,vals,chds   = dlg_wrapper(_('Config commenting commands'), 610, 135,     #NOTE: dlg-cmnt
+        aid,vals,chds   = dlg_wrapper(_('Config commenting commands'), 610, 110,     #NOTE: dlg-cmnt
              [dict(cid='save',tp='ch'   ,t=5    ,l=5    ,w=600      ,cap=save_s ,hint=save_h) #
              ,dict(cid='vert',tp='ch'   ,t=5+25 ,l=5    ,w=600      ,cap=vert_s ,hint=vert_h) #
-             ,dict(cid='full',tp='ch'   ,t=5+50 ,l=5    ,w=600      ,cap=full_s             ) #
-             ,dict(cid='down',tp='ch'   ,t=5+75 ,l=5    ,w=600      ,cap=down_s             ) #
-             ,dict(cid='!'   ,tp='bt'   ,t=105  ,l=610-165-5,w=80   ,cap=_('OK'),props='1'                                                          ) #     default
-             ,dict(cid='-'   ,tp='bt'   ,t=105  ,l=610 -80-5,w=80   ,cap=_('Cancel')                                                                )
+             ,dict(cid='down',tp='ch'   ,t=5+50 ,l=5    ,w=600      ,cap=down_s             ) #
+             ,dict(cid='!'   ,tp='bt'   ,t=80   ,l=610-165-5,w=80   ,cap=_('OK'),props='1'                                                          ) #     default
+             ,dict(cid='-'   ,tp='bt'   ,t=80   ,l=610 -80-5,w=80   ,cap=_('Cancel')                                                                )
              ], dict(save=save_bd_col
                     ,vert=at_min_bd
-                    ,full=bUseFLn
                     ,down=bSkip
              ), focus_cid='save')
         if aid is None or aid=='-': return
         if vals['save'] != save_bd_col: apx.set_opt('comment_save_column'       , vals['save'])
         if vals['vert'] != at_min_bd:   apx.set_opt('comment_equal_column'      , vals['vert'])
-        if vals['full'] != bUseFLn:     apx.set_opt('comment_full_line_if_no_sel',vals['full'])
         if vals['down'] != bSkip:       apx.set_opt('comment_move_down'         , vals['down'])
        #def dlg_config
 
@@ -217,7 +213,7 @@ class Command:
         ,bOnlyLn)=self._get_cmt_pair(lex)
         if not bgn_sgn:
             return app.msg_status(f(_('No stream comment for lexer "{}"'), lex))
-        bUseFLn = apx.get_opt('comment_full_line_if_no_sel', True)
+        bUseFLn = True
         crts    = ed.get_carets()
         pass;                  #LOG and log('lex, get_carets()={}', (lex, crts))
         pass;                  #LOG and log('(bgn_sgn,end_sgn),bOnlyLn,bUseFLn={}', ((bgn_sgn,end_sgn),bOnlyLn,bUseFLn))
