@@ -15,6 +15,7 @@
 + add: command "settings: font size: bigger"
 + add: command "settings: font size: smaller"
 + add: lexer Markdown improved (<kbd> content highlighted, fixed rule for strikeout text)
+* change: deleted deprecated command "Restore lexer styles"; you can delete old "settings/lexer styles backup.ini"
 * change: deleted option "log_debug"
 * change: deleted option "ui_float_groups_in_taskbar"
 * change: deleted option "comment_full_line_if_no_sel"
