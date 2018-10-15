@@ -316,6 +316,8 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 
 * "toolbar themes": These are icon sets for the main toolbar (horizontal row of buttons).
 
+* "toolbar x icons": These are icon-sets for plugin Config Toolbar, for new user-added buttons.
+
 * "file type icons": These are icon sets for the "Project Manager" file list. Most popular lexers have icons here.
 
 * "code tree icons": These are icon sets for the Code Tree (icons are visible in the Code Tree with some lexers, e.g. C#).
