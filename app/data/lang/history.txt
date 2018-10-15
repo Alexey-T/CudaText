@@ -1,5 +1,8 @@
 see http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2018.10.15
+* delete section [d_lex_restore]
+
 2018.08.24
 * delete [si] ErrorInConfigFile, IncorrectFilename
 
