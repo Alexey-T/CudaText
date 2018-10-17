@@ -1006,9 +1006,9 @@
   //Highlight border of focused input box (find/ replace/ goto/ console input)
   "ui_active_border": true,
 
-  //Console and other bottom panels: in docked state, use narrow width.
+  //Console and other bottom panels: use narrow width (in docked state).
   //Otherwise, use full width.
-  //(true: Code Tree is lefter than Console; false: Code Tree is above Console.)
+  //(true: Code Tree is on the side of Console; false: Code Tree is above Console.)
   "ui_console_compact": false,
 
   //Console panel (Ctrl+`): word wrap mode
