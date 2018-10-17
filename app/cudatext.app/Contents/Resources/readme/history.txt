@@ -4,6 +4,23 @@
   * changed
 
 
+1.64.0 (2018/10)
+
++ add: file-types config allows to detect lexer by first line of text. See details in the wiki.
++ add: option "ui_listbox_centered", allows to place menu dialogs (e.g. Command Palette) on screen center
++ add: option "ui_console_compact", allows narrow layout of bottom panels
++ add: improved auto-closing of brackets, it works if next char is one of ;:.,=>
++ add: app detects missed elements in old color themes, and shows it in console, on loading theme
++ add: dialog "Go to" ignores letter chars
++ add: command "settings: font size: bigger"
++ add: command "settings: font size: smaller"
++ add: lexer Markdown improved (<kbd> content highlighted, fixed rule for strikeout text)
+* change: deleted deprecated command "Restore lexer styles"; you can delete old "settings/lexer styles backup.ini"
+* change: deleted option "log_debug"
+* change: deleted option "ui_float_groups_in_taskbar"
+* change: deleted option "comment_full_line_if_no_sel"
+- fix: fixes for non-blinking caret
+
 1.63.0 (2018/10)
 
 + add: option "ui_auto_save_session", allows closing without questions, like in Sublime Text

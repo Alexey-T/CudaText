@@ -55,11 +55,21 @@ File name is "settings/filetypes.json". Menu item "Options / Settings - more / S
   "*.mht": "HTML",
   "myconfig.conf": "Nginx",
   ".profile": "Bash script",
+  "line": {
+    "<html.*": "HTML",
+    "<!DOCTYPE.*": "HTML",
+    "<\\?xml.*": "XML",
+  }
 }
 </syntaxhighlight>
 
-* Key name: file mask. Must be full name (without path), or extension after "*." chars. More complex masks are not yet supported.
-* Key value: lexer name. Value "-" means "don't activate lexer".
+* Key name: File mask. Must be full name (without path), or extension after "*." chars. More complex masks are not yet supported.
+* Key value: Lexer name. Value "-" means "don't activate lexer".
+
+Section "line" contains config to detect lexer by first line of file.
+
+* Key name: Reg-ex for first line. Case sensitive, but you can use (?i) modifier in reg-ex.
+* Key value: Lexer name. Value "-" means "don't activate lexer".
 
 Another method to specify this mapping is dialog "Lexer properties", in which you can add extension or name+extension to a lexer. But dialog is more limited: it saves option to the lexer file (data/lexlib/lexername.lcf), so setting will be reset on reinstalling lexer.
 
@@ -305,6 +315,8 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 * "sidebar themes": These are icon sets for the sidebar (vertical bar on the left side).
 
 * "toolbar themes": These are icon sets for the main toolbar (horizontal row of buttons).
+
+* "toolbar x icons": These are icon-sets for plugin Config Toolbar, for new user-added buttons.
 
 * "file type icons": These are icon sets for the "Project Manager" file list. Most popular lexers have icons here.
 
@@ -792,12 +804,6 @@ And here is the old way:
 First, you need to know GitHub repository (repo) URL of plugin. For example, https://github.com/kvichans/cuda_find_in_files . If you have plugin already, then you can see this URL in the plugin's install.inf (line "homepage=").
 
 Next, call CudaText menu item "Plugins / Addon Manager / Install from GitHub". And enter URL in the suggested dialog. AddonManager will install latest version from GitHub from "master" branch.
-
-==How to restore lexers styles after reinstalling==
-
-When you customize lexers styles/colors (in the Lexer Properties dialog) and press OK in dialog, your styles/colors are saved to the lexer file (in "data/lexlib") and also to file "settings/lexer styles backup.ini". If you reinstall app, you overwrite standard lexers. But you don't overwrite "lexer styles backup.ini" - you can restore your styles from this file. To do it, call Commands dialog, search for command "restore lexer styles", run it. You'll see dialog in which you can choose which lexer props to restore (from ini file).
-
-[[File:cudatext_restore_styles.png]]
 
 ==How to make translation==
 

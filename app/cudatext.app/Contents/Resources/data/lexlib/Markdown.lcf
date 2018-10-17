@@ -1,4 +1,4 @@
-object SyntAnal19: TLibSyntAnalyzer
+object SyntAnal18: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Heading'
@@ -169,6 +169,16 @@ object SyntAnal19: TLibSyntAnalyzer
       Font.Name = 'Courier New'
       Font.Style = []
       BgColor = clYellow
+    end
+    item
+      DisplayName = 'Hotkey BG'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = clYellow
+      FormatType = ftBackGround
     end>
   TokenRules = <
     item
@@ -305,10 +315,10 @@ object SyntAnal19: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Block'
+      DisplayName = 'Codeblock fenced'
       StyleName = 'Block'
       TokenType = 5
-      Expression = '(?s)(^```|`).*?(^```|`)|'#13#10'(?s)^~~~.*?^~~~)'
+      Expression = '(?s)(^```|`).*?(^```|`)|'#13#10'(?s)^~~~.*?^~~~'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -316,7 +326,7 @@ object SyntAnal19: TLibSyntAnalyzer
       DisplayName = 'Crossed Out'
       StyleName = 'Crossed out'
       TokenType = 1
-      Expression = '(~~).*?(~~)'
+      Expression = '(?s)~~[^\x20\x09\n\r].*?~~'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -333,6 +343,14 @@ object SyntAnal19: TLibSyntAnalyzer
       StyleName = 'Link'
       TokenType = 11
       Expression = '\[.+?\] '
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Hotkey'
+      StyleName = 'Hotkey BG'
+      TokenType = 1
+      Expression = '(?<=<kbd>).+?(?=</kbd>)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -389,7 +407,7 @@ object SyntAnal19: TLibSyntAnalyzer
     ''
     '# Header'
     '<!-- This is a comment -->'
-    '/* This, too */'
+    '/* This, too */ <kbd>Ctrl+C</kbd>'
     ''
     '`get_prop` id "token_type"; optional `get_prop` param'
     ''

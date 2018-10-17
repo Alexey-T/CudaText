@@ -604,6 +604,9 @@
   "ui_tab_preview_font_style": "iu",
 
   //[Ui/Listbox]
+  //Listboxes: place dialog on screen center, instead of near top editor edge
+  "ui_listbox_centered": false,
+  
   //Listboxes: Commands/API listbox width
   "ui_listbox_size_x": 450,
 
@@ -716,19 +719,19 @@
   "indent_makes_whole_line_sel": false,
 
   //[Mouse]
-  //Drag-drop of text blocks
+  //Enable drag-drop of text blocks
   "mouse_drag_drop": true,
 
   //After drag-drop of text block to another group, focus target editor
   "mouse_drag_drop_focus_target": true,
 
-  //Right-click moves caret, before menu
+  //Right-click moves caret (before showing context menu)
   "mouse_rt_click_moves_caret": false,
 
-  //Dbl-click and immediately drag makes selection by words
+  //Double-click and immediately drag, makes selection by words
   "mouse_2click_drag_select_words": true,
 
-  //Middle-click shows circle, then mouse-move near circle does auto-scrolling
+  //Middle-click shows circle picture, then mouse-move near that circle does auto-scrolling
   "mouse_mid_click_scroll": true,
 
   //Middle-click does paste from clipboard (usual in Linux apps)
@@ -749,7 +752,7 @@
   //Mouse wheel scrolling speed, horizontal (in chars)
   "mouse_wheel_speed_horz": 10,
 
-  //Call Goto-Definition command, by click with modifier key
+  //Call "Go to definition" command, by click with modifier key
   //  "": disabled
   //  "a": by Alt+click
   //  "sa": by Shift+Alt+click
@@ -758,7 +761,7 @@
   "mouse_goto_definition": "a",
 
   //Mouse click on line number: select line with end-of-line
-  //(so caret placed on the next line)
+  //(so caret is placed on the next line)
   "mouse_click_number_selects_eol": true,
 
   //[Keys]
@@ -913,9 +916,6 @@
   "py_change_slow": 2000,
 
   //[Text/Commands]
-  //Commenting: If no selection then comment full line
-  "comment_full_line_if_no_sel": true,
-
   //Commenting: If no selection then move caret to next line
   "comment_move_down": true,
 
@@ -1006,12 +1006,14 @@
   //Highlight border of focused input box (find/ replace/ goto/ console input)
   "ui_active_border": true,
 
+  //Console and other bottom panels: use narrow width (in docked state).
+  //Otherwise, use full width.
+  //(true: Code Tree is on the side of Console; false: Code Tree is above Console.)
+  "ui_console_compact": false,
+
   //Console panel (Ctrl+`): word wrap mode
   "ui_console_wrap": true,
   
-  //Show floating (undocked) groups in taskbar too
-  "ui_float_groups_in_taskbar": false,
-
   //[Ui/Toolbars]
   //Show sidebar (vertical toolbar at the left edge)
   "ui_sidebar_show": true,
@@ -1058,8 +1060,5 @@
 
   //Log console contents to file settings/console.log
   "log_console": false,
-   
-  //Log app debug info to file settings/debug.log
-  "log_debug": false,
   
 }

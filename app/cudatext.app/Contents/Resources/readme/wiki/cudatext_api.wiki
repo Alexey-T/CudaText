@@ -63,8 +63,6 @@ Usually methods returns None, sometimes they can return True or False to block t
 
 ==Panels==
 
-* on_console(self, ed_self, text): Called on entering text command in Python Console panel. Method can return False to disable internal command processing, other value is ignored. Ignore ed_self.
-* on_console_print(self, ed_self, text): Called on adding line to Python Console memo. Also called on "print" commands. Method can return False to disable standard output to the Console panel. Ignore ed_self. Also called when app_log() clears console memo - with param text=None.
 * on_console_nav(self, ed_self, text): Called on double-clicking line, or calling context menu item "Navigate", in Python Console panel. Ignore ed_self. Param "text" is line with caret.
 * on_output_nav(self, ed_self, text, tag): Called on clicking line, or pressing Enter, in the Output or Validate panel. Ignore ed_self. Param "text" is clicked line, param "tag" is int value associated with line. Event is called only if app cannot parse output line by itself using given regex, or regex is not set.
 
@@ -192,10 +190,6 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** "op_mulline_d": option "multi-line input fields" of dialog, None if dialog not inited
 
 * PROC_SET_FINDER_PROP: Sets props of Find/Replace dialog and search engine. Param "text" must be dict, with some keys listed in PROC_GET_FINDER_PROP. Values of keys must be str (for text fields) or bool.
-
-* deprecated: PROC_SET_FIND_OPTIONS: Sets options of finder-object from string. Note: Find dialog don't apply these opts immediately.
-* deprecated: PROC_GET_FIND_OPTIONS: Gets options of finder-object as string.
-* deprecated: PROC_GET_FIND_STRINGS: Gets strings of finder-object, 2-tuple, (str_search_for, str_replace_with), or None if finder-object not inited.
 
 ====System====
 
@@ -1935,6 +1929,8 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_CELL_SIZE: 2-tuple of int: size in pixels of average char cell.
 * PROP_ONE_LINE: bool: editor has single-line mode. (Usual editors are multi-line.)
 * PROP_MODERN_SCROLLBAR: bool: use custom-drawn themed scrollbars.
+* PROP_SAVE_HISTORY: bool: allows to save history (caret, scroll pos, folding etc) on file closing.
+* PROP_PREVIEW: bool: editor is inside "Preview tab" (it has italic caption).
 * PROP_ACTIVATION_TIME: int: relative time (in OS timer ticks) when tab ("main" or "brother" editor in the same tab) was last focused. It's 0 for not yet focused tabs. It's None for editors created by dlg_proc().
 * PROP_KIND: str: kind of UI control in the tab.
 ** "text": normal editor
@@ -2012,6 +2008,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_CODETREE: bool: enable standard Code Tree filling.
 * PROP_ONE_LINE: bool: editor has single-line mode.
 * PROP_MODERN_SCROLLBAR: bool: use custom-drawn themed scrollbars.
+* PROP_SAVE_HISTORY: bool: allows to save history (caret, scroll pos, folding etc) on file closing.
 * PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
 * PROP_V_POS: int: for binary viewer, scroll position.
 * PROP_V_SEL_START: int: for binary viewer, selection start offset.
@@ -3008,3 +3005,11 @@ Text is chr(1) separated items:
 1.0.258 (app 1.62.5)
 * deleted deprecated: PROC_GET_FIND_OPTIONS, PROC_GET_FIND_STRINGS (now use PROC_GET_FINDER_PROP)
 * deleted deprecated: PROC_SET_FIND_OPTIONS (now use PROC_SET_FINDER_PROP)
+
+1.0.259 (app 1.63.5)
+* add: Editor.get_prop/set_prop: PROP_SAVE_HISTORY
+* add: Editor.get_prop/set_prop: PROP_PREVIEW
+
+1.0.260 (app 1.63.6)
+* deleted event "on_console"
+* deleted event "on_console_print"
