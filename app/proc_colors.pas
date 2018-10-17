@@ -62,7 +62,7 @@ var
     s:= c.GetValue(id, '?');
     if s='?' then
     begin
-      LogProc(Format('Error in theme "%s": missed item "%s"', [ExtractFileName(fn), id]));
+      LogProc(Format(msgErrorInTheme, [ExtractFileName(fn), id]));
       exit;
     end;
     if s='' then
@@ -95,7 +95,7 @@ begin
       begin
         st:= TecSyntaxFormat(d.Styles[i]);
         if not DoLoadLexerStyleFromFile_JsonTheme(st, c, 'Lex_'+st.DisplayName) then
-          LogProc(Format('Error in theme "%s": missed item "%s"',
+          LogProc(Format(msgErrorInTheme,
             [ExtractFileName(fn), 'Lex_'+st.DisplayName]));
       end;
     end;

@@ -34,6 +34,7 @@ const
   msgApiDeprecated = 'Deprecated API usage: %s'; //no i18n
   msgLiteLexerSuffix = ' ^'; //no i18n
   msgButtonX = '×'; //no i18n
+  msgErrorInTheme = 'Warning for theme "%s": missed item "%s"';
 
   msgClearFilterTooltip: string = 'Clear filter';
   msgUntitledTab: string = 'Untitled';
