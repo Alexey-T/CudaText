@@ -96,7 +96,8 @@ end;
 procedure TfmGoto.EditCheckInput(Sender: TObject; AChar: WideChar; var AllowInput: boolean);
 begin
   AllowInput:=
-    char(AChar) in ['0'..'9', ':', '.'];
+    //allow all symbol chars for plugins, to extend input in them
+    Pos(AChar, '0123456789:;.,~`!@#$%^&*-+()[]{}_=/\')>0;
 end;
 
 procedure TfmGoto.FormCreate(Sender: TObject);
