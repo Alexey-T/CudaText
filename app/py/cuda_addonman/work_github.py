@@ -51,11 +51,7 @@ def do_install_from_github():
     file_open(fn)
     os.remove(fn) #cleanup temp
 
-    dir = app_path(APP_DIR_INSTALLED_ADDON)
-    if dir:
-        fn = os.path.join(dir, 'v.inf')
-        with open(fn, 'w') as f:
-            f.write('github '+ get_datetime_short())
+    #version = 'github '+ get_datetime_short()
 
     #move new url to 1st item
     if url in list_hist:
