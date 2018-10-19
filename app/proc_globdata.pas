@@ -1316,31 +1316,18 @@ end;
 
 
 function DoGetFirstLine(const AFilename: string): string;
-const
-  cMaxLen = 100;
 var
-  fs: TFileStreamUTF8;
-  Buf: array[0..cMaxLen] of char;
-  N: integer;
+  f: TextFile;
 begin
   Result:= '';
-  FillChar(Buf, SizeOf(Buf), 0);
-
-  try
-    try
-      fs:= TFileStreamUTF8.Create(AFilename, fmOpenRead or fmShareDenyNone);
-      N:= fs.Read(Buf, cMaxLen);
-      SetString(Result, Buf, N);
-      N:= Pos(#10, Result);
-      if N>0 then
-        SetLength(Result, N-1);
-      N:= Pos(#13, Result);
-      if N>0 then
-        SetLength(Result, N-1);
-    finally
-      FreeAndNil(fs);
-    end;
-  except
+  {$IOChecks off}
+  Assign(f, AFilename);
+  Reset(f);
+  if IOResult=0 then
+  begin
+    if not Eof(f) then
+      Readln(f, Result);
+    CloseFile(f);
   end;
 end;
 
