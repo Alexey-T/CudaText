@@ -19,7 +19,7 @@ uses
   Dialogs, Graphics, ExtCtrls, ComCtrls,
   InterfaceBase,
   LclProc, LclType, LazFileUtils,
-  LazUTF8, LazUTF8Classes,
+  LazUTF8,
   FileUtil, IniFiles, StrUtils,
   Process,
   ATSynEdit,
