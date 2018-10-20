@@ -59,7 +59,207 @@ function EditorGetColorById(Ed: TATSynEdit; const Id: string): TColor;
 function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boolean;
 function EditorAutoCloseBracket(Ed: TATSynEdit; SBegin: char): boolean;
 
+procedure EditorSetCaretPropsFromCaretShape(Props: TATCaretProps; Shape: TATSynCaretShape);
+
+
 implementation
+
+procedure EditorSetCaretPropsFromCaretShape(Props: TATCaretProps; Shape: TATSynCaretShape);
+begin
+  with Props do
+  case Shape of
+    cCaretShapeFull:
+      begin
+        Width:= 100;
+        Height:= 0;
+        InPercents:= true;
+        EmptyInside:= false;
+      end;
+    cCaretShapeVertPixels1:
+      begin
+        Width:= 1;
+        Height:= 0;
+        InPercents:= false;
+        EmptyInside:= false;
+      end;
+    cCaretShapeVertPixels2:
+      begin
+        Width:= 2;
+        Height:= 0;
+        InPercents:= false;
+        EmptyInside:= false;
+      end;
+    cCaretShapeVertPixels3:
+      begin
+        Width:= 3;
+        Height:= 0;
+        InPercents:= false;
+        EmptyInside:= false;
+      end;
+    cCaretShapeVertPixels4:
+      begin
+        Width:= 4;
+        Height:= 0;
+        InPercents:= false;
+        EmptyInside:= false;
+      end;
+    cCaretShapeVertPercents10:
+      begin
+        Width:= 10;
+        Height:= 0;
+        InPercents:= true;
+        EmptyInside:= false;
+      end;
+    cCaretShapeVertPercents15:
+      begin
+        Width:= 15;
+        Height:= 0;
+        InPercents:= true;
+        EmptyInside:= false;
+      end;
+    cCaretShapeVertPercents20:
+      begin
+        Width:= 20;
+        Height:= 0;
+        InPercents:= true;
+        EmptyInside:= false;
+      end;
+    cCaretShapeVertPercents25:
+      begin
+        Width:= 25;
+        Height:= 0;
+        InPercents:= true;
+        EmptyInside:= false;
+      end;
+    cCaretShapeVertPercents30:
+      begin
+        Width:= 30;
+        Height:= 0;
+        InPercents:= true;
+        EmptyInside:= false;
+      end;
+    cCaretShapeVertPercents35:
+      begin
+        Width:= 35;
+        Height:= 0;
+        InPercents:= true;
+        EmptyInside:= false;
+      end;
+    cCaretShapeVertPercents40:
+      begin
+        Width:= 40;
+        Height:= 0;
+        InPercents:= true;
+        EmptyInside:= false;
+      end;
+    cCaretShapeVertPercents50:
+      begin
+        Width:= 50;
+        Height:= 0;
+        InPercents:= true;
+        EmptyInside:= false;
+      end;
+    cCaretShapeHorzPixels1:
+      begin
+        Width:= 0;
+        Height:= 1;
+        InPercents:= false;
+        EmptyInside:= false;
+      end;
+    cCaretShapeHorzPixels2:
+      begin
+        Width:= 0;
+        Height:= 2;
+        InPercents:= false;
+        EmptyInside:= false;
+      end;
+    cCaretShapeHorzPixels3:
+      begin
+        Width:= 0;
+        Height:= 3;
+        InPercents:= false;
+        EmptyInside:= false;
+      end;
+    cCaretShapeHorzPixels4:
+      begin
+        Width:= 0;
+        Height:= 4;
+        InPercents:= false;
+        EmptyInside:= false;
+      end;
+    cCaretShapeHorzPixels5:
+      begin
+        Width:= 0;
+        Height:= 5;
+        InPercents:= false;
+        EmptyInside:= false;
+      end;
+    cCaretShapeHorzPercents10:
+      begin
+        Width:= 0;
+        Height:= 10;
+        InPercents:= true;
+        EmptyInside:= false;
+      end;
+    cCaretShapeHorzPercents15:
+      begin
+        Width:= 0;
+        Height:= 15;
+        InPercents:= true;
+        EmptyInside:= false;
+      end;
+    cCaretShapeHorzPercents20:
+      begin
+        Width:= 0;
+        Height:= 20;
+        InPercents:= true;
+        EmptyInside:= false;
+      end;
+    cCaretShapeHorzPercents25:
+      begin
+        Width:= 0;
+        Height:= 25;
+        InPercents:= true;
+        EmptyInside:= false;
+      end;
+    cCaretShapeHorzPercents30:
+      begin
+        Width:= 0;
+        Height:= 30;
+        InPercents:= true;
+        EmptyInside:= false;
+      end;
+    cCaretShapeHorzPercents35:
+      begin
+        Width:= 0;
+        Height:= 35;
+        InPercents:= true;
+        EmptyInside:= false;
+      end;
+    cCaretShapeHorzPercents40:
+      begin
+        Width:= 0;
+        Height:= 40;
+        InPercents:= true;
+        EmptyInside:= false;
+      end;
+    cCaretShapeHorzPercents50:
+      begin
+        Width:= 0;
+        Height:= 50;
+        InPercents:= true;
+        EmptyInside:= false;
+      end;
+    cCaretShapeFrameFull:
+      begin
+        Width:= 100;
+        Height:= 0;
+        InPercents:= true;
+        EmptyInside:= true;
+      end;
+  end;
+end;
+
 
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
   AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering: boolean);
@@ -167,11 +367,11 @@ begin
   Ed.OptCaretBlinkEnabled:= Op.OpCaretBlinkEn;
 
   if Op.OpCaretShapeNorm<=Ord(High(TATSynCaretShape)) then
-    Ed.OptCaretShape:= TATSynCaretShape(Op.OpCaretShapeNorm);
+    EditorSetCaretPropsFromCaretShape(Ed.CaretPropsNormal, TATSynCaretShape(Op.OpCaretShapeNorm));
   if Op.OpCaretShapeOvr<=Ord(High(TATSynCaretShape)) then
-    Ed.OptCaretShapeOvr:= TATSynCaretShape(Op.OpCaretShapeOvr);
+    EditorSetCaretPropsFromCaretShape(Ed.CaretPropsOverwrite, TATSynCaretShape(Op.OpCaretShapeOvr));
   if Op.OpCaretShapeRO<=Ord(High(TATSynCaretShape)) then
-    Ed.OptCaretShapeRO:= TATSynCaretShape(Op.OpCaretShapeRO);
+    EditorSetCaretPropsFromCaretShape(Ed.CaretPropsReadonly, TATSynCaretShape(Op.OpCaretShapeRO));
 
   if Op.OpCaretAfterPasteColumn<=Ord(High(TATPasteCaret)) then
     Ed.OptCaretPosAfterPasteColumn:= TATPasteCaret(Op.OpCaretAfterPasteColumn);

@@ -2485,18 +2485,18 @@ begin
             Result:= Py_BuildValue('(ii)', Num1, Num2);
           end;
 
-        PROP_CARET_SHAPE:
-          Result:= PyInt_FromLong(Ord(Ed.OptCaretShape));
-        PROP_CARET_SHAPE_OVR:
-          Result:= PyInt_FromLong(Ord(Ed.OptCaretShapeOvr));
-        PROP_CARET_SHAPE_RO:
-          Result:= PyInt_FromLong(Ord(Ed.OptCaretShapeRO));
-
         PROP_CARET_VIRTUAL:
           Result:= PyBool_FromLong(Ord(Ed.OptCaretVirtual));
 
         PROP_CARET_STOP_UNFOCUSED:
           Result:= PyBool_FromLong(Ord(Ed.OptCaretStopUnfocused));
+
+        PROP_CARET_SHAPE:
+          Result:= PyBool_FromLong(EditorOps.OpCaretShapeNorm);
+        PROP_CARET_SHAPE_OVR:
+          Result:= PyBool_FromLong(EditorOps.OpCaretShapeOvr);
+        PROP_CARET_SHAPE_RO:
+          Result:= PyBool_FromLong(EditorOps.OpCaretShapeRO);
 
         PROP_MINIMAP:
           Result:= PyBool_FromLong(Ord(Ed.OptMinimapVisible));
@@ -2890,11 +2890,11 @@ begin
           end;
 
         PROP_CARET_SHAPE:
-          Ed.OptCaretShape:= TATSynCaretShape(StrToIntDef(Str, 0));
+          EditorSetCaretPropsFromCaretShape(Ed.CaretPropsNormal, TATSynCaretShape(StrToIntDef(Str, 0)));
         PROP_CARET_SHAPE_OVR:
-          Ed.OptCaretShapeOvr:= TATSynCaretShape(StrToIntDef(Str, 0));
+          EditorSetCaretPropsFromCaretShape(Ed.CaretPropsOverwrite, TATSynCaretShape(StrToIntDef(Str, 0)));
         PROP_CARET_SHAPE_RO:
-          Ed.OptCaretShapeRO:= TATSynCaretShape(StrToIntDef(Str, 0));
+          EditorSetCaretPropsFromCaretShape(Ed.CaretPropsReadonly, TATSynCaretShape(StrToIntDef(Str, 0)));
 
         PROP_CARET_VIRTUAL:
           Ed.OptCaretVirtual:= ValueBool;
