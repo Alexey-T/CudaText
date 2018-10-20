@@ -1354,11 +1354,14 @@ begin
     end;
 
     //by first line
-    sLine:= DoGetFirstLine(AFilename);
-    if sLine<>'' then
-      for i:= 0 to AppConfigFiletypes_LineKeys.Count-1 do
-        if SRegexMatchesString(sLine, AppConfigFiletypes_LineKeys[i], true) then
-          exit(AppManager.FindLexerByName(AppConfigFiletypes_LineValues[i]));
+    if AppConfigFiletypes_LineKeys.Count>0 then
+    begin
+      sLine:= DoGetFirstLine(AFilename);
+      if sLine<>'' then
+        for i:= 0 to AppConfigFiletypes_LineKeys.Count-1 do
+          if SRegexMatchesString(sLine, AppConfigFiletypes_LineKeys[i], true) then
+            exit(AppManager.FindLexerByName(AppConfigFiletypes_LineValues[i]));
+    end;
   end;
 
   Result:= AppManager.FindLexerByFilename(AFilename);
