@@ -472,15 +472,15 @@
   // 26: Frame
   //
   //Caret: shape for normal state
-  "caret_shape": 1,
+  "caret_shape": 2,
 
   //...
   //Caret: shape for overwrite state (Ins key: insert/overwrite)
-  "caret_shape_ovr": 0,
+  "caret_shape_ovr": 25,
 
   //...
   //Caret: shape for read-only mode
-  "caret_shape_ro": 13,
+  "caret_shape_ro": 14,
 
   //Caret: positions after pasting column-block
   //  0: no change

@@ -1023,9 +1023,9 @@ begin
 
     OpCaretBlinkTime:= cInitTimerBlink;
     OpCaretBlinkEn:= true;
-    OpCaretShapeNorm:= Ord(cInitCaretShapeIns);
-    OpCaretShapeOvr:= Ord(cInitCaretShapeOvr);
-    OpCaretShapeRO:= Ord(cInitCaretShapeRO);
+    OpCaretShapeNorm:= Ord(cCaretShapeVertPixels2);
+    OpCaretShapeOvr:= Ord(cCaretShapeHorzPercents50);
+    OpCaretShapeRO:= Ord(cCaretShapeHorzPixels2);
     OpCaretVirtual:= false;
     OpCaretMulti:= true;
     OpCaretAfterPasteColumn:= Ord(cPasteCaretColumnRight);
