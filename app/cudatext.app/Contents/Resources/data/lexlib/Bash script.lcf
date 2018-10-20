@@ -83,14 +83,6 @@ object SyntAnal3: TLibSyntAnalyzer
       Font.Style = []
       BgColor = 16767669
       FormatType = ftBackGround
-    end
-    item
-      DisplayName = 'Text'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
     end>
   TokenRules = <
     item
@@ -167,13 +159,6 @@ object SyntAnal3: TLibSyntAnalyzer
       StyleName = 'Params'
       TokenType = 2
       Expression = '\w[\w\-\.]+'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Text'
-      StyleName = 'Text'
-      Expression = '.'
       ColumnFrom = 0
       ColumnTo = 0
     end>
