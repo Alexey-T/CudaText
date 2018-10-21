@@ -1,5 +1,5 @@
 [info]
-title=Test gaps
+title=Testing of gaps API
 desc=
 type=cudatext-plugin
 subdir=cuda_testing_gaps
@@ -7,5 +7,5 @@ homepage=
 
 [item1]
 section=commands
-caption=Test gaps
+caption=Testing of gaps API
 method=run
