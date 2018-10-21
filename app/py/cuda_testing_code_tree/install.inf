@@ -1,8 +1,8 @@
 [info]
-title=Markdown Code Tree
-desc=Supports Code Tree for Markdown lexer
+title=Testing of Code Tree API
+desc=Plugin tests filling of Code Tree by API: for Markdown lexer, it fills Code Tree witl few fake lines
 type=cudatext-plugin
-subdir=cuda_markdown_code_tree
+subdir=cuda_testing_code_tree
 homepage=
 
 [item1]
