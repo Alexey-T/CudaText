@@ -1,6 +1,6 @@
 [info]
 title=Testing of Code Tree API
-desc=Plugin tests filling of Code Tree by API: for Markdown lexer, it fills Code Tree witl few fake lines
+desc=Plugin tests filling Code Tree by API: for Markdown lexer, it fills Code Tree with some fake lines
 type=cudatext-plugin
 subdir=cuda_testing_code_tree
 homepage=
