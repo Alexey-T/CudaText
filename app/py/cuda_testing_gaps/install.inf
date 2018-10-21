@@ -1,6 +1,6 @@
 [info]
 title=Testing of gaps API
-desc=
+desc=Plugin to test CudaText Editor.gaps() API
 type=cudatext-plugin
 subdir=cuda_testing_gaps
 homepage=
