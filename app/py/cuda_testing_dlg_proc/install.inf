@@ -1,6 +1,6 @@
 [info]
-title=Test dlg_proc
-desc=Testing plugin
+title=Testing of dialog API
+desc=Testing plugin of CudaText dialog API
 type=cudatext-plugin
 subdir=cuda_testing_dlg_proc
 homepage=
@@ -11,61 +11,61 @@ events=on_dlg
 
 [item10]
 section=commands
-caption=Test dlg_proc\modal
+caption=Testing of dialog API\modal
 method=run_modal
 
 [item11]
 section=commands
-caption=Test dlg_proc\nonmodal
+caption=Testing of dialog API\nonmodal
 method=run_nonmodal
 
 [item20]
 section=commands
-caption=Test dlg_proc\test dlg_custom
+caption=Testing of dialog API\test dlg_custom
 method=run_dlgcustom
 
 [item22]
 section=commands
-caption=Test dlg_proc\test type=pages
+caption=Testing of dialog API\test type=pages
 method=test_pages
 
 [item23]
 section=commands
-caption=Test dlg_proc\test type=toolbar/statusbar
+caption=Testing of dialog API\test type=toolbar/statusbar
 method=test_toolbar
 
 [item25]
 section=commands
-caption=Test dlg_proc\test type=treeview
+caption=Testing of dialog API\test type=treeview
 method=test_treeview
 
 [item26]
 section=commands
-caption=Test dlg_proc\test type=listview
+caption=Testing of dialog API\test type=listview
 method=test_listview
 
 [item30]
 section=commands
-caption=Test dlg_proc\test type=button_ex
+caption=Testing of dialog API\test type=button_ex
 method=test_btn
 
 [item31]
 section=commands
-caption=Test dlg_proc\test type=splitter
+caption=Testing of dialog API\test type=splitter
 method=test_splitter
 
 [item32]
 section=commands
-caption=Test dlg_proc\test type=listbox_ex
+caption=Testing of dialog API\test type=listbox_ex
 method=test_listbox
 
 [item33]
 section=commands
-caption=Test dlg_proc\test type=editor
+caption=Testing of dialog API\test type=editor
 method=test_editor
 
 [item50]
 section=commands
-caption=Test dlg_proc\test side-panel
+caption=Testing of dialog API\test side-panel
 method=test_sidepanel
 
