@@ -5,10 +5,6 @@ type=cudatext-plugin
 subdir=cuda_testing_dlg_proc
 homepage=
 
-[item1]
-section=events
-events=on_dlg
-
 [item10]
 section=commands
 caption=Testing of dialog API\modal
