@@ -2357,7 +2357,7 @@ begin
   CodeTreeFilterInput.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   PanelCodeTreeTop.Height:= UiOps.InputHeight;
 
-  EditorSetCaretPropsFromCaretShape(fmConsole.memo.CaretPropsReadonly, TATSynCaretShape(EditorOps.OpCaretShapeRO));
+  EditorCaretPropsFromShape(fmConsole.memo.CaretPropsReadonly, TATSynCaretShape(EditorOps.OpCaretShapeRO));
   fmConsole.memo.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   fmConsole.ed.Height:= UiOps.InputHeight;
   fmConsole.ed.OptBorderFocusedActive:= UiOps.ShowActiveBorder;

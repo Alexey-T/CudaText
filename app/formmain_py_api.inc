@@ -2890,11 +2890,11 @@ begin
           end;
 
         PROP_CARET_SHAPE:
-          EditorSetCaretPropsFromCaretShape(Ed.CaretPropsNormal, TATSynCaretShape(StrToIntDef(Str, 0)));
+          EditorCaretPropsFromShape(Ed.CaretPropsNormal, TATSynCaretShape(StrToIntDef(Str, 0)));
         PROP_CARET_SHAPE_OVR:
-          EditorSetCaretPropsFromCaretShape(Ed.CaretPropsOverwrite, TATSynCaretShape(StrToIntDef(Str, 0)));
+          EditorCaretPropsFromShape(Ed.CaretPropsOverwrite, TATSynCaretShape(StrToIntDef(Str, 0)));
         PROP_CARET_SHAPE_RO:
-          EditorSetCaretPropsFromCaretShape(Ed.CaretPropsReadonly, TATSynCaretShape(StrToIntDef(Str, 0)));
+          EditorCaretPropsFromShape(Ed.CaretPropsReadonly, TATSynCaretShape(StrToIntDef(Str, 0)));
 
         PROP_CARET_VIRTUAL:
           Ed.OptCaretVirtual:= ValueBool;

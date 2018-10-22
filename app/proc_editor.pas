@@ -59,12 +59,13 @@ function EditorGetColorById(Ed: TATSynEdit; const Id: string): TColor;
 function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boolean;
 function EditorAutoCloseBracket(Ed: TATSynEdit; SBegin: char): boolean;
 
-procedure EditorSetCaretPropsFromCaretShape(Props: TATCaretProps; Shape: TATSynCaretShape);
+procedure EditorCaretPropsFromShape(Props: TATCaretProps; Shape: TATSynCaretShape);
+procedure EditorCaretPropsFromString(Props: TATCaretProps; S: string);
 
 
 implementation
 
-procedure EditorSetCaretPropsFromCaretShape(Props: TATCaretProps; Shape: TATSynCaretShape);
+procedure EditorCaretPropsFromShape(Props: TATCaretProps; Shape: TATSynCaretShape);
 begin
   with Props do
   case Shape of
@@ -367,11 +368,11 @@ begin
   Ed.OptCaretBlinkEnabled:= Op.OpCaretBlinkEn;
 
   if Op.OpCaretShapeNorm<=Ord(High(TATSynCaretShape)) then
-    EditorSetCaretPropsFromCaretShape(Ed.CaretPropsNormal, TATSynCaretShape(Op.OpCaretShapeNorm));
+    EditorCaretPropsFromShape(Ed.CaretPropsNormal, TATSynCaretShape(Op.OpCaretShapeNorm));
   if Op.OpCaretShapeOvr<=Ord(High(TATSynCaretShape)) then
-    EditorSetCaretPropsFromCaretShape(Ed.CaretPropsOverwrite, TATSynCaretShape(Op.OpCaretShapeOvr));
+    EditorCaretPropsFromShape(Ed.CaretPropsOverwrite, TATSynCaretShape(Op.OpCaretShapeOvr));
   if Op.OpCaretShapeRO<=Ord(High(TATSynCaretShape)) then
-    EditorSetCaretPropsFromCaretShape(Ed.CaretPropsReadonly, TATSynCaretShape(Op.OpCaretShapeRO));
+    EditorCaretPropsFromShape(Ed.CaretPropsReadonly, TATSynCaretShape(Op.OpCaretShapeRO));
 
   if Op.OpCaretAfterPasteColumn<=Ord(High(TATPasteCaret)) then
     Ed.OptCaretPosAfterPasteColumn:= TATPasteCaret(Op.OpCaretAfterPasteColumn);
@@ -1028,6 +1029,38 @@ begin
     true
     );
   Ed.Update;
+end;
+
+
+procedure EditorCaretPropsFromString(Props: TATCaretProps; S: string);
+var
+  bVert: boolean;
+  N: integer;
+begin
+  S:= Trim(S);
+  if S='' then exit;
+
+  if Pos(S[1], 'vhVH')=0 then exit;
+  bVert:= UpCase(S[1])='V';
+  Delete(S, 1, 1);
+
+  Props.EmptyInside:= S[Length(S)]='-';
+  Props.InPercents:= Pos('%', S)>0;
+
+  while not IsCharDigit(S[Length(S)]) do
+    Delete(S, Length(S), 1);
+  N:= StrToIntDef(S, -1);
+  if N>0 then
+    if bVert then
+    begin
+      Props.Width:= N;
+      Props.Height:= 0;
+    end
+    else
+    begin
+      Props.Width:= 0;
+      Props.Height:= N;
+    end;
 end;
 
 
