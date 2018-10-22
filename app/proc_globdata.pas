@@ -1054,9 +1054,9 @@ begin
 
     OpCaretBlinkTime:= cInitTimerBlink;
     OpCaretBlinkEn:= true;
-    OpCaretViewNormal:= 'v2';
-    OpCaretViewOverwrite:= 'v100%';
-    OpCaretViewReadonly:= 'h2';
+    OpCaretViewNormal:= '2,-100';
+    OpCaretViewOverwrite:= '-100,-100';
+    OpCaretViewReadonly:= '-100,2';
     OpCaretVirtual:= false;
     OpCaretMulti:= true;
     OpCaretAfterPasteColumn:= Ord(cPasteCaretColumnRight);

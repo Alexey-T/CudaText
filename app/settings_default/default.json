@@ -442,24 +442,21 @@
   //Enable multi-carets, see "Help--Mouse usage"
   "caret_multi": true,
 
-  //Examples of string values of caret shape:
-  // - "v2": vertical, 2 pixels
-  // - "v50%": vertical, 50% of cell
-  // - "h2": horizontal, 2 pixels
-  // - "h50%": horizontal, 50% of cell
-  // - "v100%": full cell
-  // - "v100%-": full cell, empty inside
+  //Caret shape is 2-3 values (3rd is optional), comma-separated: width,height,options
+  //- width: if > 0, in pixels; in < 0, in %
+  //- height: if > 0, in pixels; in < 0, in %; can be taller than 100%
+  //- options: can be "_" to make caret empty inside
   //
   //Caret: shape for normal state
-  "caret_view": "v2",
+  "caret_view": "2,-100",
 
   //...
   //Caret: shape for overwrite state (Ins key: insert/overwrite)
-  "caret_view_ovr": "v100%",
+  "caret_view_ovr": "-100,-100",
 
   //...
   //Caret: shape for read-only mode
-  "caret_view_ro": "h2",
+  "caret_view_ro": "-100,2",
 
   //Caret: positions after pasting column-block
   //  0: no change

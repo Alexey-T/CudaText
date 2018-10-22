@@ -833,40 +833,10 @@ end;
 
 
 procedure EditorCaretPropsFromString(Props: TATCaretProps; S: string);
-var
-  bVert, bPercent: boolean;
-  N: integer;
 begin
-  S:= Trim(S);
-  if S='' then exit;
-
-  if Pos(S[1], 'vhVH')=0 then exit;
-  bVert:= UpCase(S[1])='V';
-  Delete(S, 1, 1);
-
-  Props.EmptyInside:= S[Length(S)]='-';
-  bPercent:= Pos('%', S)>0;
-
-  while not IsCharDigit(S[Length(S)]) do
-    Delete(S, Length(S), 1);
-  N:= StrToIntDef(S, -1);
-  if N>0 then
-    if bVert then
-    begin
-      if bPercent then
-        Props.Width:= -N
-      else
-        Props.Width:= N;
-      Props.Height:= -100;
-    end
-    else
-    begin
-      Props.Width:= -100;
-      if bPercent then
-        Props.Height:= -N
-      else
-        Props.Height:= N;
-    end;
+  Props.Width:= StrToIntDef(SGetItem(S), 0);
+  Props.Height:= StrToIntDef(SGetItem(S), 0);
+  Props.EmptyInside:= SGetItem(S)='_';
 end;
 
 
