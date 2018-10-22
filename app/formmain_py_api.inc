@@ -2492,11 +2492,11 @@ begin
           Result:= PyBool_FromLong(Ord(Ed.OptCaretStopUnfocused));
 
         PROP_CARET_SHAPE:
-          Result:= PyBool_FromLong(EditorOps.OpCaretShapeNorm);
+          Result:= PyBool_FromLong(0);
         PROP_CARET_SHAPE_OVR:
-          Result:= PyBool_FromLong(EditorOps.OpCaretShapeOvr);
+          Result:= PyBool_FromLong(0);
         PROP_CARET_SHAPE_RO:
-          Result:= PyBool_FromLong(EditorOps.OpCaretShapeRO);
+          Result:= PyBool_FromLong(0);
 
         PROP_MINIMAP:
           Result:= PyBool_FromLong(Ord(Ed.OptMinimapVisible));

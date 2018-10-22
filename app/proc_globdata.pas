@@ -362,9 +362,9 @@ type
     //caret
     OpCaretBlinkTime: integer;
     OpCaretBlinkEn: boolean;
-    OpCaretShapeNorm: integer;
-    OpCaretShapeOvr: integer;
-    OpCaretShapeRO: integer;
+    OpCaretViewNormal: string;
+    OpCaretViewOverwrite: string;
+    OpCaretViewReadonly: string;
     OpCaretVirtual: boolean;
     OpCaretMulti: boolean;
     OpCaretAfterPasteColumn: integer;
@@ -1054,9 +1054,9 @@ begin
 
     OpCaretBlinkTime:= cInitTimerBlink;
     OpCaretBlinkEn:= true;
-    OpCaretShapeNorm:= Ord(cCaretShapeVertPixels2);
-    OpCaretShapeOvr:= Ord(cCaretShapeHorzPercents50);
-    OpCaretShapeRO:= Ord(cCaretShapeHorzPixels2);
+    OpCaretViewNormal:= 'v2';
+    OpCaretViewOverwrite:= 'v100%';
+    OpCaretViewReadonly:= 'h2';
     OpCaretVirtual:= false;
     OpCaretMulti:= true;
     OpCaretAfterPasteColumn:= Ord(cPasteCaretColumnRight);

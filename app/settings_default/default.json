@@ -442,45 +442,24 @@
   //Enable multi-carets, see "Help--Mouse usage"
   "caret_multi": true,
 
-  //Possible caret shapes:
-  //  0: Full block
-  //  1: Vert 1 pixels
-  //  2: Vert 2 pixels
-  //  3: Vert 3 pixels
-  //  4: Vert 4 pixels
-  //  5: Vert 10%
-  //  6: Vert 15%
-  //  7: Vert 20%
-  //  8: Vert 25%
-  //  9: Vert 30%
-  // 10: Vert 35%
-  // 11: Vert 40%
-  // 12: Vert 50%
-  // 13: Horz 1 pixels
-  // 14: Horz 2 pixels
-  // 15: Horz 3 pixels
-  // 16: Horz 4 pixels
-  // 17: Horz 5 pixels
-  // 18: Horz 10%
-  // 19: Horz 15%
-  // 20: Horz 20%
-  // 21: Horz 25%
-  // 22: Horz 30%
-  // 23: Horz 35%
-  // 24: Horz 40%
-  // 25: Horz 50%
-  // 26: Frame
+  //Examples of string values of caret shape:
+  // - "v2": vertical, 2 pixels
+  // - "v50%": vertical, 50% of cell
+  // - "h2": horizontal, 2 pixels
+  // - "h50%": horizontal, 50% of cell
+  // - "v100%": full cell
+  // - "v100%-": full cell, empty inside
   //
   //Caret: shape for normal state
-  "caret_shape": 2,
+  "caret_view": "v2",
 
   //...
   //Caret: shape for overwrite state (Ins key: insert/overwrite)
-  "caret_shape_ovr": 25,
+  "caret_view_ovr": "v100%",
 
   //...
   //Caret: shape for read-only mode
-  "caret_shape_ro": 14,
+  "caret_view_ro": "h2",
 
   //Caret: positions after pasting column-block
   //  0: no change

@@ -759,9 +759,9 @@ begin
 
     Op.OpCaretBlinkTime:= c.GetValue('caret_blink_time', Op.OpCaretBlinkTime);
     Op.OpCaretBlinkEn:= c.GetValue('caret_blink_en', Op.OpCaretBlinkEn);
-    Op.OpCaretShapeNorm:= c.GetValue('caret_shape', Op.OpCaretShapeNorm);
-    Op.OpCaretShapeOvr:= c.GetValue('caret_shape_ovr', Op.OpCaretShapeOvr);
-    Op.OpCaretShapeRO:= c.GetValue('caret_shape_ro', Op.OpCaretShapeRO);
+    Op.OpCaretViewNormal:= c.GetValue('caret_view', Op.OpCaretViewNormal);
+    Op.OpCaretViewOverwrite:= c.GetValue('caret_view_ovr', Op.OpCaretViewOverwrite);
+    Op.OpCaretViewReadonly:= c.GetValue('caret_view_ro', Op.OpCaretViewReadonly);
     Op.OpCaretVirtual:= c.GetValue('caret_after_end', Op.OpCaretVirtual);
     Op.OpCaretMulti:= c.GetValue('caret_multi', Op.OpCaretMulti);
     Op.OpCaretAfterPasteColumn:= c.GetValue('caret_after_paste_column', Op.OpCaretAfterPasteColumn);

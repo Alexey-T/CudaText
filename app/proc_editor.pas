@@ -367,12 +367,9 @@ begin
   Ed.OptCaretBlinkTime:= Op.OpCaretBlinkTime;
   Ed.OptCaretBlinkEnabled:= Op.OpCaretBlinkEn;
 
-  if Op.OpCaretShapeNorm<=Ord(High(TATSynCaretShape)) then
-    EditorCaretPropsFromShape(Ed.CaretPropsNormal, TATSynCaretShape(Op.OpCaretShapeNorm));
-  if Op.OpCaretShapeOvr<=Ord(High(TATSynCaretShape)) then
-    EditorCaretPropsFromShape(Ed.CaretPropsOverwrite, TATSynCaretShape(Op.OpCaretShapeOvr));
-  if Op.OpCaretShapeRO<=Ord(High(TATSynCaretShape)) then
-    EditorCaretPropsFromShape(Ed.CaretPropsReadonly, TATSynCaretShape(Op.OpCaretShapeRO));
+  EditorCaretPropsFromString(Ed.CaretPropsNormal, Op.OpCaretViewNormal);
+  EditorCaretPropsFromString(Ed.CaretPropsOverwrite, Op.OpCaretViewOverwrite);
+  EditorCaretPropsFromString(Ed.CaretPropsReadonly, Op.OpCaretViewReadonly);
 
   if Op.OpCaretAfterPasteColumn<=Ord(High(TATPasteCaret)) then
     Ed.OptCaretPosAfterPasteColumn:= TATPasteCaret(Op.OpCaretAfterPasteColumn);
