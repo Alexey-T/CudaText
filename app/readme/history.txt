@@ -4,9 +4,10 @@
   * changed
 
 
-1.64.1 (2018/10)
+1.64.2 (2018/10)
 
 + add: new options for caret shape: "caret_view", "caret_view_ovr", "caret_view_ro"
++ add: caret shape(s) can have height bigger than full cell, e.g. 140%
 * change: deleted options "caret_shape", "caret_shape_ovr", "caret_shape_ro"
 + add: improved lexer Markdown (highlighted math blocks, table chars; fixed definition lists)
 
