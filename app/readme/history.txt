@@ -8,7 +8,7 @@
 
 + add: new options for caret shape: "caret_view", "caret_view_ovr", "caret_view_ro"
 * change: deleted options "caret_shape", "caret_shape_ovr", "caret_shape_ro"
-+ add: improved lexer Markdown
++ add: improved lexer Markdown (highlighted math blocks, table chars; fixed definition lists)
 
 1.64.0 (2018/10)
 
