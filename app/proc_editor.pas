@@ -61,6 +61,7 @@ function EditorAutoCloseBracket(Ed: TATSynEdit; SBegin: char): boolean;
 
 procedure EditorCaretPropsFromShape(Props: TATCaretProps; Shape: TATSynCaretShape);
 procedure EditorCaretPropsFromString(Props: TATCaretProps; S: string);
+procedure EditorCaretPropsFromPyTuple(Props: TATCaretProps; S: string);
 
 
 implementation
@@ -1060,6 +1061,16 @@ begin
     end;
 end;
 
+
+procedure EditorCaretPropsFromPyTuple(Props: TATCaretProps; S: string);
+var
+  SItem: string;
+begin
+  Props.Width:= StrToIntDef(SGetItem(S), 0);
+  Props.Height:= StrToIntDef(SGetItem(S), 0);
+  Props.InPercents:= SGetItem(S)='1';
+  Props.EmptyInside:= SGetItem(S)='1';
+end;
 
 end.
 

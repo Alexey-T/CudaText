@@ -2901,12 +2901,12 @@ begin
             end;
           end;
 
-        //PROP_CARET_SHAPE:
-        //  EditorCaretPropsFromShape(Ed.CaretPropsNormal, TATSynCaretShape(StrToIntDef(Str, 0)));
-        //PROP_CARET_SHAPE_OVR:
-        //  EditorCaretPropsFromShape(Ed.CaretPropsOverwrite, TATSynCaretShape(StrToIntDef(Str, 0)));
-        //PROP_CARET_SHAPE_RO:
-        //  EditorCaretPropsFromShape(Ed.CaretPropsReadonly, TATSynCaretShape(StrToIntDef(Str, 0)));
+        PROP_CARET_VIEW:
+          EditorCaretPropsFromPyTuple(Ed.CaretPropsNormal, Str);
+        PROP_CARET_VIEW_OVR:
+          EditorCaretPropsFromPyTuple(Ed.CaretPropsOverwrite, Str);
+        PROP_CARET_VIEW_RO:
+          EditorCaretPropsFromPyTuple(Ed.CaretPropsReadonly, Str);
 
         PROP_CARET_VIRTUAL:
           Ed.OptCaretVirtual:= ValueBool;
