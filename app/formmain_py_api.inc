@@ -76,6 +76,18 @@ begin
 end;
 
 
+function Py_GetCaretProps(Props: TATCaretProps): PPyObject;
+begin
+  with GetPythonEngine do
+    Result:= Py_BuildValue('(iiOO)',
+      Props.Width,
+      Props.Height,
+      PyBool_FromLong(Ord(Props.InPercents)),
+      PyBool_FromLong(Ord(Props.EmptyInside))
+      );
+end;
+
+
 function Py_GetThemeData_UI: PPyObject;
 var
   NLen, i: integer;
@@ -2491,12 +2503,12 @@ begin
         PROP_CARET_STOP_UNFOCUSED:
           Result:= PyBool_FromLong(Ord(Ed.OptCaretStopUnfocused));
 
-        PROP_CARET_SHAPE:
-          Result:= PyBool_FromLong(0);
-        PROP_CARET_SHAPE_OVR:
-          Result:= PyBool_FromLong(0);
-        PROP_CARET_SHAPE_RO:
-          Result:= PyBool_FromLong(0);
+        PROP_CARET_VIEW:
+          Result:= Py_GetCaretProps(Ed.CaretPropsNormal);
+        PROP_CARET_VIEW_OVR:
+          Result:= Py_GetCaretProps(Ed.CaretPropsOverwrite);
+        PROP_CARET_VIEW_RO:
+          Result:= Py_GetCaretProps(Ed.CaretPropsReadonly);
 
         PROP_MINIMAP:
           Result:= PyBool_FromLong(Ord(Ed.OptMinimapVisible));
@@ -2889,12 +2901,12 @@ begin
             end;
           end;
 
-        PROP_CARET_SHAPE:
-          EditorCaretPropsFromShape(Ed.CaretPropsNormal, TATSynCaretShape(StrToIntDef(Str, 0)));
-        PROP_CARET_SHAPE_OVR:
-          EditorCaretPropsFromShape(Ed.CaretPropsOverwrite, TATSynCaretShape(StrToIntDef(Str, 0)));
-        PROP_CARET_SHAPE_RO:
-          EditorCaretPropsFromShape(Ed.CaretPropsReadonly, TATSynCaretShape(StrToIntDef(Str, 0)));
+        //PROP_CARET_SHAPE:
+        //  EditorCaretPropsFromShape(Ed.CaretPropsNormal, TATSynCaretShape(StrToIntDef(Str, 0)));
+        //PROP_CARET_SHAPE_OVR:
+        //  EditorCaretPropsFromShape(Ed.CaretPropsOverwrite, TATSynCaretShape(StrToIntDef(Str, 0)));
+        //PROP_CARET_SHAPE_RO:
+        //  EditorCaretPropsFromShape(Ed.CaretPropsReadonly, TATSynCaretShape(StrToIntDef(Str, 0)));
 
         PROP_CARET_VIRTUAL:
           Ed.OptCaretVirtual:= ValueBool;
