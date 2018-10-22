@@ -1892,9 +1892,9 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
 * PROP_TAG: str: some string attached to editor's tab. Value must be "key:defvalue" or simply "defvalue". Saved value for "key" is returned, or "defvalue" returned if value for key was not set. Empty key means key "_".
-* PROP_CARET_VIEW: 4-tuple: shape of caret, normal mode. Tuple contents is (int_width, int_height, bool_in_percents, bool_empty_inside).
-* PROP_CARET_VIEW_OVR: 4-tuple: shape of caret, overwrite mode.
-* PROP_CARET_VIEW_RO: 4-tuple: shape of caret, read-only mode.
+* PROP_CARET_VIEW: 3-tuple: shape of caret, normal mode. Tuple contents is (int_width, int_height, bool_empty_inside). Width/height<0 means value in percents.
+* PROP_CARET_VIEW_OVR: 3-tuple: shape of caret, overwrite mode.
+* PROP_CARET_VIEW_RO: 3-tuple: shape of caret, read-only mode.
 * PROP_CARET_VIRTUAL: bool: caret position is allowed after line-ends.
 * PROP_CARET_STOP_UNFOCUSED: bool: caret blinks only when editor is focused.
 * PROP_MACRO_REC: bool: currently macro is recording.
@@ -1979,9 +1979,9 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
 * PROP_TAG: str: some string attached to editor's tab. Param text must be pair "key:value" or simply "value", this sets value for specified key (internally it is dictionary). Empty key means key "_".
-* PROP_CARET_VIEW: 4-tuple: shape of caret, normal mode. Tuple contents is (int_width, int_height, bool_in_percents, bool_empty_inside).
-* PROP_CARET_VIEW_OVR: 4-tuple: shape of caret, overwrite mode.
-* PROP_CARET_VIEW_RO: 4-tuple: shape of caret, read-only mode.
+* PROP_CARET_VIEW: 3-tuple: shape of caret, normal mode. Tuple contents is (int_width, int_height, bool_empty_inside). Width/height<0 means value in percents.
+* PROP_CARET_VIEW_OVR: 3-tuple: shape of caret, overwrite mode.
+* PROP_CARET_VIEW_RO: 3-tuple: shape of caret, read-only mode.
 * PROP_CARET_VIRTUAL: bool: caret position is allowed after line-ends.
 * PROP_CARET_STOP_UNFOCUSED: bool: caret blinks only when editor is focused.
 * PROP_MARKED_RANGE: line indexes of "marked range", value is 2-tuple (index1, index2) or (-1, -1) to remove this range.
