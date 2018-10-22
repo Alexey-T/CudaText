@@ -79,10 +79,9 @@ end;
 function Py_GetCaretProps(Props: TATCaretProps): PPyObject;
 begin
   with GetPythonEngine do
-    Result:= Py_BuildValue('(iiOO)',
+    Result:= Py_BuildValue('(iiO)',
       Props.Width,
       Props.Height,
-      PyBool_FromLong(Ord(Props.InPercents)),
       PyBool_FromLong(Ord(Props.EmptyInside))
       );
 end;

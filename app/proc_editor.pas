@@ -59,209 +59,11 @@ function EditorGetColorById(Ed: TATSynEdit; const Id: string): TColor;
 function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boolean;
 function EditorAutoCloseBracket(Ed: TATSynEdit; SBegin: char): boolean;
 
-procedure EditorCaretPropsFromShape(Props: TATCaretProps; Shape: TATSynCaretShape);
 procedure EditorCaretPropsFromString(Props: TATCaretProps; S: string);
 procedure EditorCaretPropsFromPyTuple(Props: TATCaretProps; S: string);
 
 
 implementation
-
-procedure EditorCaretPropsFromShape(Props: TATCaretProps; Shape: TATSynCaretShape);
-begin
-  with Props do
-  case Shape of
-    cCaretShapeFull:
-      begin
-        Width:= 100;
-        Height:= 0;
-        InPercents:= true;
-        EmptyInside:= false;
-      end;
-    cCaretShapeVertPixels1:
-      begin
-        Width:= 1;
-        Height:= 0;
-        InPercents:= false;
-        EmptyInside:= false;
-      end;
-    cCaretShapeVertPixels2:
-      begin
-        Width:= 2;
-        Height:= 0;
-        InPercents:= false;
-        EmptyInside:= false;
-      end;
-    cCaretShapeVertPixels3:
-      begin
-        Width:= 3;
-        Height:= 0;
-        InPercents:= false;
-        EmptyInside:= false;
-      end;
-    cCaretShapeVertPixels4:
-      begin
-        Width:= 4;
-        Height:= 0;
-        InPercents:= false;
-        EmptyInside:= false;
-      end;
-    cCaretShapeVertPercents10:
-      begin
-        Width:= 10;
-        Height:= 0;
-        InPercents:= true;
-        EmptyInside:= false;
-      end;
-    cCaretShapeVertPercents15:
-      begin
-        Width:= 15;
-        Height:= 0;
-        InPercents:= true;
-        EmptyInside:= false;
-      end;
-    cCaretShapeVertPercents20:
-      begin
-        Width:= 20;
-        Height:= 0;
-        InPercents:= true;
-        EmptyInside:= false;
-      end;
-    cCaretShapeVertPercents25:
-      begin
-        Width:= 25;
-        Height:= 0;
-        InPercents:= true;
-        EmptyInside:= false;
-      end;
-    cCaretShapeVertPercents30:
-      begin
-        Width:= 30;
-        Height:= 0;
-        InPercents:= true;
-        EmptyInside:= false;
-      end;
-    cCaretShapeVertPercents35:
-      begin
-        Width:= 35;
-        Height:= 0;
-        InPercents:= true;
-        EmptyInside:= false;
-      end;
-    cCaretShapeVertPercents40:
-      begin
-        Width:= 40;
-        Height:= 0;
-        InPercents:= true;
-        EmptyInside:= false;
-      end;
-    cCaretShapeVertPercents50:
-      begin
-        Width:= 50;
-        Height:= 0;
-        InPercents:= true;
-        EmptyInside:= false;
-      end;
-    cCaretShapeHorzPixels1:
-      begin
-        Width:= 0;
-        Height:= 1;
-        InPercents:= false;
-        EmptyInside:= false;
-      end;
-    cCaretShapeHorzPixels2:
-      begin
-        Width:= 0;
-        Height:= 2;
-        InPercents:= false;
-        EmptyInside:= false;
-      end;
-    cCaretShapeHorzPixels3:
-      begin
-        Width:= 0;
-        Height:= 3;
-        InPercents:= false;
-        EmptyInside:= false;
-      end;
-    cCaretShapeHorzPixels4:
-      begin
-        Width:= 0;
-        Height:= 4;
-        InPercents:= false;
-        EmptyInside:= false;
-      end;
-    cCaretShapeHorzPixels5:
-      begin
-        Width:= 0;
-        Height:= 5;
-        InPercents:= false;
-        EmptyInside:= false;
-      end;
-    cCaretShapeHorzPercents10:
-      begin
-        Width:= 0;
-        Height:= 10;
-        InPercents:= true;
-        EmptyInside:= false;
-      end;
-    cCaretShapeHorzPercents15:
-      begin
-        Width:= 0;
-        Height:= 15;
-        InPercents:= true;
-        EmptyInside:= false;
-      end;
-    cCaretShapeHorzPercents20:
-      begin
-        Width:= 0;
-        Height:= 20;
-        InPercents:= true;
-        EmptyInside:= false;
-      end;
-    cCaretShapeHorzPercents25:
-      begin
-        Width:= 0;
-        Height:= 25;
-        InPercents:= true;
-        EmptyInside:= false;
-      end;
-    cCaretShapeHorzPercents30:
-      begin
-        Width:= 0;
-        Height:= 30;
-        InPercents:= true;
-        EmptyInside:= false;
-      end;
-    cCaretShapeHorzPercents35:
-      begin
-        Width:= 0;
-        Height:= 35;
-        InPercents:= true;
-        EmptyInside:= false;
-      end;
-    cCaretShapeHorzPercents40:
-      begin
-        Width:= 0;
-        Height:= 40;
-        InPercents:= true;
-        EmptyInside:= false;
-      end;
-    cCaretShapeHorzPercents50:
-      begin
-        Width:= 0;
-        Height:= 50;
-        InPercents:= true;
-        EmptyInside:= false;
-      end;
-    cCaretShapeFrameFull:
-      begin
-        Width:= 100;
-        Height:= 0;
-        InPercents:= true;
-        EmptyInside:= true;
-      end;
-  end;
-end;
-
 
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
   AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering: boolean);
@@ -1032,7 +834,7 @@ end;
 
 procedure EditorCaretPropsFromString(Props: TATCaretProps; S: string);
 var
-  bVert: boolean;
+  bVert, bPercent: boolean;
   N: integer;
 begin
   S:= Trim(S);
@@ -1043,7 +845,7 @@ begin
   Delete(S, 1, 1);
 
   Props.EmptyInside:= S[Length(S)]='-';
-  Props.InPercents:= Pos('%', S)>0;
+  bPercent:= Pos('%', S)>0;
 
   while not IsCharDigit(S[Length(S)]) do
     Delete(S, Length(S), 1);
@@ -1051,24 +853,27 @@ begin
   if N>0 then
     if bVert then
     begin
-      Props.Width:= N;
-      Props.Height:= 0;
+      if bPercent then
+        Props.Width:= -N
+      else
+        Props.Width:= N;
+      Props.Height:= -100;
     end
     else
     begin
-      Props.Width:= 0;
-      Props.Height:= N;
+      Props.Width:= -100;
+      if bPercent then
+        Props.Height:= -N
+      else
+        Props.Height:= N;
     end;
 end;
 
 
 procedure EditorCaretPropsFromPyTuple(Props: TATCaretProps; S: string);
-var
-  SItem: string;
 begin
   Props.Width:= StrToIntDef(SGetItem(S), 0);
   Props.Height:= StrToIntDef(SGetItem(S), 0);
-  Props.InPercents:= SGetItem(S)='1';
   Props.EmptyInside:= SGetItem(S)='1';
 end;
 
