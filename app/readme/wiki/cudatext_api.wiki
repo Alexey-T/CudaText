@@ -60,6 +60,7 @@ Usually methods returns None, sometimes they can return True or False to block t
 * on_complete(self, ed_self): Called by auto-completion command (default hotkey: Ctrl+Space). Method should call Editor.complete API. Method must return True if it handled command, otherwise None.  
 * on_func_hint(self, ed_self): Called by function-hint command (default hotkey: Ctrl+Shift+Space). Method must return function-hint string (comma-separated parameters, brackets are optional). Empty str or None means no hint found.
 * on_goto_def(self, ed_self): Called by go-to-definition command (in editor context menu). Method must return True if it handled command, otherwise None.
+* on_goto_enter(self, ed_self, text): Called after user entered text in the Go To dialog. Method can return False to disable default processing.
 
 ==Panels==
 
@@ -3011,7 +3012,7 @@ Text is chr(1) separated items:
 * deleted event "on_console"
 * deleted event "on_console_print"
 
-1.0.261 (app 1.64.1)
+1.0.261 (app 1.64.2)
+* add: event on_goto_enter
 * deleted actions PROP_CARET_SHAPE, PROP_CARET_SHAPE_OVR, PROP_CARET_SHAPE_RO
 * add: actions PROP_CARET_VIEW, PROP_CARET_VIEW_OVR, PROP_CARET_VIEW_RO
-
