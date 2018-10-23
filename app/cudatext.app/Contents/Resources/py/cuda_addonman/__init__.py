@@ -29,6 +29,9 @@ STD_MODULES = (
   'cuda_project_man',
   'cuda_show_unsaved',
   'cuda_tabs_list',
+  'cuda_testing_code_tree',
+  'cuda_testing_dlg_proc',
+  'cuda_testing_gaps',
   'cudax_lib',
   )
 
@@ -350,7 +353,7 @@ class Command:
 
                 url = remote_item[0]['url']
                 v_remote = remote_item[0]['v']
-                v_local = get_addon_version(url) or get_addon_version_old(m) or '?'
+                v_local = get_addon_version(url) or get_addon_version_old(m) or v_local
 
                 col_item = name + '\r' + m + '\r' + v_local + '\r' + v_remote
                 if v_local == PREINST:

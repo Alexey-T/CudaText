@@ -60,6 +60,7 @@ Usually methods returns None, sometimes they can return True or False to block t
 * on_complete(self, ed_self): Called by auto-completion command (default hotkey: Ctrl+Space). Method should call Editor.complete API. Method must return True if it handled command, otherwise None.  
 * on_func_hint(self, ed_self): Called by function-hint command (default hotkey: Ctrl+Shift+Space). Method must return function-hint string (comma-separated parameters, brackets are optional). Empty str or None means no hint found.
 * on_goto_def(self, ed_self): Called by go-to-definition command (in editor context menu). Method must return True if it handled command, otherwise None.
+* on_goto_enter(self, ed_self, text): Called after user entered text in the Go To dialog. Method can return False to disable default processing.
 
 ==Panels==
 
@@ -1892,9 +1893,9 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
 * PROP_TAG: str: some string attached to editor's tab. Value must be "key:defvalue" or simply "defvalue". Saved value for "key" is returned, or "defvalue" returned if value for key was not set. Empty key means key "_".
-* PROP_CARET_SHAPE: int: shape of caret, normal mode.
-* PROP_CARET_SHAPE_OVR: int: shape of caret, overwrite mode.
-* PROP_CARET_SHAPE_RO: int: shape of caret, read-only mode.
+* PROP_CARET_VIEW: 3-tuple: shape of caret, normal mode. Tuple contents is (int_width, int_height, bool_empty_inside). Width/height<0 means value in percents.
+* PROP_CARET_VIEW_OVR: 3-tuple: shape of caret, overwrite mode.
+* PROP_CARET_VIEW_RO: 3-tuple: shape of caret, read-only mode.
 * PROP_CARET_VIRTUAL: bool: caret position is allowed after line-ends.
 * PROP_CARET_STOP_UNFOCUSED: bool: caret blinks only when editor is focused.
 * PROP_MACRO_REC: bool: currently macro is recording.
@@ -1979,9 +1980,9 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
 * PROP_TAG: str: some string attached to editor's tab. Param text must be pair "key:value" or simply "value", this sets value for specified key (internally it is dictionary). Empty key means key "_".
-* PROP_CARET_SHAPE: int: shape of caret, normal mode.
-* PROP_CARET_SHAPE_OVR: int: shape of caret, overwrite mode.
-* PROP_CARET_SHAPE_RO: int: shape of caret, read-only mode.
+* PROP_CARET_VIEW: 3-tuple: shape of caret, normal mode. Tuple contents is (int_width, int_height, bool_empty_inside). Width/height<0 means value in percents.
+* PROP_CARET_VIEW_OVR: 3-tuple: shape of caret, overwrite mode.
+* PROP_CARET_VIEW_RO: 3-tuple: shape of caret, read-only mode.
 * PROP_CARET_VIRTUAL: bool: caret position is allowed after line-ends.
 * PROP_CARET_STOP_UNFOCUSED: bool: caret blinks only when editor is focused.
 * PROP_MARKED_RANGE: line indexes of "marked range", value is 2-tuple (index1, index2) or (-1, -1) to remove this range.
@@ -2019,9 +2020,6 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 
 Many get_prop/set_prop ids correspond to CudaText options. List of correspoding pairs:
 
-* PROP_CARET_SHAPE - caret_shape
-* PROP_CARET_SHAPE_OVR - caret_shape_ovr
-* PROP_CARET_SHAPE_RO - caret_shape_ro
 * PROP_CARET_VIRTUAL - caret_after_end
 * PROP_GUTTER_ALL - gutter_show
 * PROP_GUTTER_BM - gutter_bookmarks
@@ -3013,3 +3011,8 @@ Text is chr(1) separated items:
 1.0.260 (app 1.63.6)
 * deleted event "on_console"
 * deleted event "on_console_print"
+
+1.0.261 (app 1.64.2)
+* add: event on_goto_enter
+* deleted actions PROP_CARET_SHAPE, PROP_CARET_SHAPE_OVR, PROP_CARET_SHAPE_RO
+* add: actions PROP_CARET_VIEW, PROP_CARET_VIEW_OVR, PROP_CARET_VIEW_RO
