@@ -2856,13 +2856,17 @@ begin
 
     if Frame.IsBinary then
     begin
-      if not ViewerGotoFromString(Frame.Binary, AInput) then
+      if ViewerGotoFromString(Frame.Binary, AInput) then
+        MsgStatus('')
+      else
         MsgStatus(msgStatusBadLineNum);
     end
     else
     if Frame.IsText then
     begin
-      if not EditorGotoFromString(Ed, AInput) then
+      if EditorGotoFromString(Ed, AInput) then
+        MsgStatus('')
+      else
         MsgStatus(msgStatusBadLineNum);
     end;
 
