@@ -11,7 +11,7 @@ Duplicate:
 Authors:
     Andrey Kvichansky    (kvichans on github)
 Version:
-    '0.6.5 2018-05-21'
+    '0.6.5.at 2018-10-22'
 Wiki: github.com/kvichans/cudax_lib/wiki
 ToDo: (see end of file)
 """
