@@ -2828,13 +2828,22 @@ end;
 
 
 procedure TfmMain.DoDialogGoto;
+var
+  Str: string;
 begin
   DoLocalize_FormGoto;
   fmGoto.Width:= MulDiv(UiOps.ListboxSizeX, UiOps.ScreenScale, 100);
   UpdateInputForm(fmGoto, false);
 
   if fmGoto.ShowModal=mrOk then
-    DoGotoFromInput(UTF8Encode(fmGoto.edInput.Text));
+  begin
+    Str:= UTF8Encode(fmGoto.edInput.Text);
+
+    if DoPyEvent(CurrentEditor, cEventOnGotoEnter,
+      [SStringToPythonString(Str)]) = cPyFalse then exit;
+
+    DoGotoFromInput(Str);
+  end;
 end;
 
 procedure TfmMain.DoGotoFromInput(const AInput: string);
