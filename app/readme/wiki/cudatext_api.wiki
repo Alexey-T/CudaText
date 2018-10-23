@@ -3014,5 +3014,5 @@ Text is chr(1) separated items:
 
 1.0.261 (app 1.64.2)
 * add: event on_goto_enter
-* deleted actions PROP_CARET_SHAPE, PROP_CARET_SHAPE_OVR, PROP_CARET_SHAPE_RO
-* add: actions PROP_CARET_VIEW, PROP_CARET_VIEW_OVR, PROP_CARET_VIEW_RO
+* add: Editor.get_prop/set_prop: PROP_CARET_VIEW, PROP_CARET_VIEW_OVR, PROP_CARET_VIEW_RO
+* deleted: Editor.get_prop/set_prop: PROP_CARET_SHAPE, PROP_CARET_SHAPE_OVR, PROP_CARET_SHAPE_RO
