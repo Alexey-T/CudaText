@@ -14,7 +14,7 @@ object fmKeys: TfmKeys
   OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever
-  LCLVersion = '1.9.0.0'
+  LCLVersion = '2.1.0.0'
   object panelBtn: TButtonPanel
     Left = 6
     Height = 29
@@ -152,7 +152,7 @@ object fmKeys: TfmKeys
       Left = 9
       Height = 24
       Top = 162
-      Width = 140
+      Width = 138
       Anchors = [akLeft, akBottom]
       Caption = 'For current lexer'
       TabOrder = 4
@@ -161,7 +161,7 @@ object fmKeys: TfmKeys
       Left = 9
       Height = 17
       Top = 128
-      Width = 99
+      Width = 98
       Caption = 'duplicated key'
       ParentColor = False
       Visible = False

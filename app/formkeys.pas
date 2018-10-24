@@ -116,6 +116,14 @@ var
   SDesc: string;
   N: integer;
 begin
+  //don't check for duplicates, if "For current kexer" checked
+  //to fix https://github.com/Alexey-T/CudaText/issues/1656
+  if chkForLexer.Checked then
+  begin
+    ModalResult:= mrOk;
+    exit;
+  end;
+
   Item:= TATKeymapItem.Create;
   try
     Item.Command:= CommandCode;
