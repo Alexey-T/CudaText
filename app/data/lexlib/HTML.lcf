@@ -217,7 +217,6 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'Tag param'
       StyleName = 'Tag string'
       BlockName = 'Tag begin'
-      StatesAbsent = 8
       TokenType = 4
       Expression = '(?s) ("|'#39') (<\?.+?\?>|.)*? (\1|\Z)'
       ColumnFrom = 0
@@ -817,7 +816,6 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'CSS string'
       StyleName = 'Sublexer BG'
-      StatesAdd = 8
       StartExpression = '\bstyle\s*=\s*"'
       EndExpression = '"'
       SyntAnalyzer = SyntAnal8
@@ -825,7 +823,6 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'CSS string2'
       StyleName = 'Sublexer BG'
-      StatesAdd = 8
       StartExpression = '\bstyle\s*=\s*'#39
       EndExpression = #39
       SyntAnalyzer = SyntAnal8
