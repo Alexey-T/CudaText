@@ -4,6 +4,11 @@
   * changed
 
 
+1.64.3 (2018/10)
+
+* disabled CSS highlight in HTML strings style="" because it gave lexer problems
+- minor fixes
+
 1.64.2 (2018/10)
 
 + add: new options for caret shape: "caret_view", "caret_view_ovr", "caret_view_ro"
