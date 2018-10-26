@@ -1,4 +1,4 @@
-object SyntAnal13: TLibSyntAnalyzer
+object SyntAnal12: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Text'
@@ -788,7 +788,7 @@ object SyntAnal13: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<script[^>]*vbscript[^>]*>\s*(<!--)?'
       EndExpression = '(?i)(-->)?\s*</script>'
-      SyntAnalyzer = SyntAnal31
+      SyntAnalyzer = SyntAnal30
     end
     item
       DisplayName = 'JavaScript'
@@ -796,14 +796,14 @@ object SyntAnal13: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<script[^>]*javascript [^>]* [^\?] > \s*(<!--)?'
       EndExpression = '(?i)(//)?(-->)?\s*</script>'
-      SyntAnalyzer = SyntAnal15
+      SyntAnalyzer = SyntAnal14
     end
     item
       DisplayName = 'JavaScript simple'
       StyleName = 'Sublexer BG'
       StartExpression = '<script>'
       EndExpression = '</script>'
-      SyntAnalyzer = SyntAnal15
+      SyntAnalyzer = SyntAnal14
     end
     item
       DisplayName = 'ASP'
@@ -811,21 +811,7 @@ object SyntAnal13: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '<%'
       EndExpression = '%>'
-      SyntAnalyzer = SyntAnal31
-    end
-    item
-      DisplayName = 'CSS string'
-      StyleName = 'Sublexer BG'
-      StartExpression = '\bstyle\s*=\s*"'
-      EndExpression = '"'
-      SyntAnalyzer = SyntAnal8
-    end
-    item
-      DisplayName = 'CSS string2'
-      StyleName = 'Sublexer BG'
-      StartExpression = '\bstyle\s*=\s*'#39
-      EndExpression = #39
-      SyntAnalyzer = SyntAnal8
+      SyntAnalyzer = SyntAnal30
     end>
   SampleText.Strings = (
     '<!doctype test="123">'
