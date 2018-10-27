@@ -1164,7 +1164,7 @@ Index possible values: 0..5 (first 6 groups) and 6..8 (3 floating groups).
  ini_read(filename, section, key, value)
  ini_write(filename, section, key, value)
 
-Reads or writes single string to ini file. Params:
+Reads/writes single string from/to .ini file. Params:
 
 * filename: Path of ini file. Can be name w/o path, this means that path of "settings" dir is used.
 * section: str: Section of ini file.
@@ -1174,6 +1174,17 @@ Reads or writes single string to ini file. Params:
 ** on write: value to write. 
 
 On read: gets string value. On write: gets None.
+
+===ini_proc===
+
+ ini_proc(id, filename, section="", key="")
+
+Performs action on .ini file. Possible values of id:
+
+* INI_GET_SECTIONS: Gets list of sections. Params "section", "key" ignored.
+* INI_GET_SECTION_KEYS: Gets list of keys in given section. Param "key" ignored.
+* INI_DELETE_KEY: Deletes given key in given section.
+* INI_DELETE_SECTION: Deletes given section with all its keys. Param "key" ignored.
 
 ===lexer_proc===
 
@@ -3016,3 +3027,6 @@ Text is chr(1) separated items:
 * add: event on_goto_enter
 * add: Editor.get_prop/set_prop: PROP_CARET_VIEW, PROP_CARET_VIEW_OVR, PROP_CARET_VIEW_RO
 * deleted: Editor.get_prop/set_prop: PROP_CARET_SHAPE, PROP_CARET_SHAPE_OVR, PROP_CARET_SHAPE_RO
+
+1.0.262 (app 1.64.4)
+* add: ini_proc()
