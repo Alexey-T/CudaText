@@ -6,9 +6,10 @@
 
 1.64.4 (2018/10)
 
++ add: command "show+focus bottom panel / console" (note: now this command has the Ctrl+` hotkey)
 + add: command "show+focus bottom panel / output"
 + add: command "show+focus bottom panel / validate"
-- fix: mass replace on big files has 2 stages, but stage-2 didn't show progressbar and couldn't be stopped
+- fix: mass replace command has 2 stages, but stage-2 didn't show progress and couldn't be stopped
 - fix: disabled CSS highlight in HTML strings style="" because it gave lexer problems
 
 1.64.2 (2018/10)
