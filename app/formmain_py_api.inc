@@ -1122,7 +1122,7 @@ begin
       StrText:= string(PtrText);
 
       Ed.Strings.TextReplaceRange(X1, Y1, X2, Y2,
-        UTF8Decode(StrText), Shift, PosAfter);
+        UTF8Decode(StrText), Shift, PosAfter, true);
 
       Ed.DoEventChange;
 
