@@ -1947,6 +1947,29 @@ begin
               end;
             end;
 
+          INI_GET_SECTION_KEYS:
+            begin
+              L:= TStringList.Create;
+              try
+                Ini.ReadSection(StrSection, L);
+                Result:= StringsToPyList(L);
+              finally
+                FreeAndNil(L);
+              end;
+            end;
+
+          INI_DELETE_KEY:
+            begin
+              Ini.DeleteKey(StrSection, StrKey);
+              Result:= ReturnNone;
+            end;
+
+          INI_DELETE_SECTION:
+            begin
+              Ini.EraseSection(StrSection);
+              Result:= ReturnNone;
+            end;
+
           else
             Result:= ReturnNone;
         end;
