@@ -1914,6 +1914,51 @@ begin
   Result:= Py_ini_readwrite(Self, Args, true);
 end;
 
+function Py_ini_proc(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  Id: Longint;
+  PtrFN, PtrSection, PtrKey: PChar;
+  StrFN, StrSection, StrKey: string;
+  L: TStringList;
+  Ini: TIniFile;
+begin
+  with GetPythonEngine do
+  begin
+    if Bool(PyArg_ParseTuple(Args, 'isss:ini_proc', @Id, @PtrFN, @PtrSection, @PtrKey)) then
+    begin
+      StrFN:= string(PtrFN);
+      StrSection:= string(PtrSection);
+      StrKey:= string(PtrKey);
+
+      if ExtractFileDir(StrFN)='' then
+        StrFN:= GetAppPath(cDirSettings)+DirectorySeparator+StrFN;
+
+      Ini:= TIniFile.Create(StrFN);
+      try
+        case Id of
+          INI_GET_SECTIONS:
+            begin
+              L:= TStringList.Create;
+              try
+                Ini.ReadSections(L);
+                Result:= StringsToPyList(L);
+              finally
+                FreeAndNil(L);
+              end;
+            end;
+
+          else
+            Result:= ReturnNone;
+        end;
+
+      finally
+        FreeAndNil(Ini);
+      end;
+    end;
+  end;
+end;
+
+
 function Py_dlg_color(Self, Args : PPyObject): PPyObject; cdecl;
 var
   NCode: Longint;
@@ -6463,6 +6508,7 @@ begin
     AddMethod('ed_group', @Py_ed_group, '');
     AddMethod('ini_read', @Py_ini_read, '');
     AddMethod('ini_write', @Py_ini_write, '');
+    AddMethod('ini_proc', @Py_ini_proc, '');
 
     AddMethod('lexer_proc', @Py_lexer_proc, '');
     AddMethod('tree_proc', @Py_tree_proc, '');

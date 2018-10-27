@@ -697,6 +697,11 @@ DECOR_DELETE_BY_TAG    = 6
 DECOR_DELETE_ALL       = 7
 DECOR_GET_IMAGELIST    = 10
 
+INI_GET_SECTIONS     = 0
+INI_GET_SECTION_KEYS = 1
+INI_DELETE_KEY       = 2
+INI_DELETE_SECTION   = 3
+
 
 def app_exe_version():
     return ct.app_exe_version()
@@ -815,6 +820,9 @@ def ini_read(filename, section, key, value):
 
 def ini_write(filename, section, key, value):
     return ct.ini_write(filename, section, key, value)
+    
+def ini_proc(id, filename, section='', key=''):
+    return ct.ini_proc(id, filename, section, key)
 
 def lexer_proc(id, value):
     return ct.lexer_proc(id, to_str(value))

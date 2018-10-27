@@ -563,6 +563,11 @@ const
   DECOR_DELETE_ALL       = 7;
   DECOR_GET_IMAGELIST    = 10;
 
+  INI_GET_SECTIONS     = 0;
+  INI_GET_SECTION_KEYS = 1;
+  INI_DELETE_KEY       = 2;
+  INI_DELETE_SECTION   = 3;
+
 implementation
 
 end.
