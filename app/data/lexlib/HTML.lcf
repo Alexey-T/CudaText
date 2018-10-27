@@ -252,7 +252,7 @@ object SyntAnal12: TLibSyntAnalyzer
       DisplayName = 'Text'
       StyleName = 'Text'
       TokenType = 9
-      Expression = '[^<>&\{\}\[\]/\\=\x20]+'
+      Expression = '\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -818,11 +818,11 @@ object SyntAnal12: TLibSyntAnalyzer
     '<!-- comment -->'
     '<meta1/>'
     '<meta2>text</meta3>'
-    '<% asp text %>'
+    '<? php ?> or <% asp text  %> '
     ''
     '<html> '
     '  <head>'
-    '    <title test="15" #$@ >Text</title>'
+    '    <title test="15" #$@ >Text 123</title>'
     '  </head>'
     ''
     '  <script type="text/javascript">'
