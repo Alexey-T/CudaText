@@ -89,7 +89,7 @@ begin
     cmd_ToggleFloatBottom: DoToggleFloatBottom;
 
     cmd_OpsReloadAndApply: DoOps_LoadOptionsAndApplyAll;
-    cmd_ShowPanelConsole:  DoShowConsole(true);
+    cmd_ShowPanelConsole:  DoShowConsole(false);
     cmd_ShowPanelOutput:   DoShowOutput(false);
     cmd_ShowPanelValidate: DoShowValidate(false);
     cmd_ShowPanelConsole_AndFocus:  DoShowConsole(true);

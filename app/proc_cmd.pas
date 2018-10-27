@@ -338,15 +338,15 @@ begin
   M.Add(cmd_ToggleFloatBottom, 'ui: toggle floating bottom panel', [], []);
 
   M.Add(cmd_ShowSidePanelAsIs, 'ui: show side panel', [], []);
-  M.Add(cmd_ShowSidePanelAndSyntaxTree, 'ui: show side panel, code tree', [], []);
+  M.Add(cmd_ShowSidePanelAndSyntaxTree, 'ui: show side panel / code tree', [], []);
   M.Add(cmd_HideSidePanel, 'ui: hide side panel', [], []);
   M.Add(cmd_HideBottomPanel, 'ui: hide bottom panel', [], []);
 
-  M.Add(cmd_ShowPanelConsole,          'ui: show bottom panel / console', ['Ctrl+`'], []);
-  M.Add(cmd_ShowPanelConsole_AndFocus, 'ui: show+focus bottom panel / console', [], []);
+  M.Add(cmd_ShowPanelConsole,          'ui: show bottom panel / console', [], []);
   M.Add(cmd_ShowPanelOutput,           'ui: show bottom panel / output', [], []);
-  M.Add(cmd_ShowPanelOutput_AndFocus,  'ui: show+focus bottom panel / output', [], []);
   M.Add(cmd_ShowPanelValidate,         'ui: show bottom panel / validate', [], []);
+  M.Add(cmd_ShowPanelConsole_AndFocus, 'ui: show+focus bottom panel / console', ['Ctrl+`'], []);
+  M.Add(cmd_ShowPanelOutput_AndFocus,  'ui: show+focus bottom panel / output', [], []);
   M.Add(cmd_ShowPanelValidate_AndFocus, 'ui: show+focus bottom panel / validate', [], []);
 
   M.Add(cmd_ToggleFocusSplitEditors, 'ui: toggle focus between split 1st/2nd editors', [], []);
