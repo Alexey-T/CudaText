@@ -94,6 +94,9 @@ const
   cmd_HideBottomPanel = 2558;
   cmd_OpsFontSizeBigger = 2559;
   cmd_OpsFontSizeSmaller = 2560;
+  cmd_ShowPanelConsole_AndFocus   = 2561;
+  cmd_ShowPanelOutput_AndFocus    = 2562;
+  cmd_ShowPanelValidate_AndFocus  = 2563;
 
   cmd_ToggleFocusSplitEditors = 2576;
   cmd_FocusEditor = 2577;
@@ -339,9 +342,12 @@ begin
   M.Add(cmd_HideSidePanel, 'ui: hide side panel', [], []);
   M.Add(cmd_HideBottomPanel, 'ui: hide bottom panel', [], []);
 
-  M.Add(cmd_ShowPanelConsole, 'ui: show bottom panel / console', ['Ctrl+`'], []);
-  M.Add(cmd_ShowPanelOutput, 'ui: show bottom panel / output', [], []);
-  M.Add(cmd_ShowPanelValidate, 'ui: show bottom panel / validate', [], []);
+  M.Add(cmd_ShowPanelConsole,          'ui: show bottom panel / console', ['Ctrl+`'], []);
+  M.Add(cmd_ShowPanelConsole_AndFocus, 'ui: show+focus bottom panel / console', [], []);
+  M.Add(cmd_ShowPanelOutput,           'ui: show bottom panel / output', [], []);
+  M.Add(cmd_ShowPanelOutput_AndFocus,  'ui: show+focus bottom panel / output', [], []);
+  M.Add(cmd_ShowPanelValidate,         'ui: show bottom panel / validate', [], []);
+  M.Add(cmd_ShowPanelValidate_AndFocus, 'ui: show+focus bottom panel / validate', [], []);
 
   M.Add(cmd_ToggleFocusSplitEditors, 'ui: toggle focus between split 1st/2nd editors', [], []);
   M.Add(cmd_FocusEditor, 'ui: focus editor', [], []);

@@ -873,8 +873,8 @@ type
     procedure DoDialogLexerMap;
     procedure DoDialogTheme(AThemeUI: boolean);
     procedure DoShowConsole(AndFocus: boolean);
-    procedure DoShowOutput;
-    procedure DoShowValidate;
+    procedure DoShowOutput(AndFocus: boolean);
+    procedure DoShowValidate(AndFocus: boolean);
     procedure DoShowSidePanel(const ATabCaption: string; AndFocus: boolean);
     function FrameOfPopup: TEditorFrame;
     procedure FrameOnCommand(Sender: TObject; ACommand: integer; const AText: string;
@@ -3698,14 +3698,14 @@ begin
   DoShowBottomPanel(msgPanelConsole_Init, AndFocus);
 end;
 
-procedure TfmMain.DoShowOutput;
+procedure TfmMain.DoShowOutput(AndFocus: boolean);
 begin
-  DoShowBottomPanel(msgPanelOutput_Init, false);
+  DoShowBottomPanel(msgPanelOutput_Init, AndFocus);
 end;
 
-procedure TfmMain.DoShowValidate;
+procedure TfmMain.DoShowValidate(AndFocus: boolean);
 begin
-  DoShowBottomPanel(msgPanelValidate_Init, false);
+  DoShowBottomPanel(msgPanelValidate_Init, AndFocus);
 end;
 
 procedure TfmMain.DoShowSidePanel(const ATabCaption: string; AndFocus: boolean);

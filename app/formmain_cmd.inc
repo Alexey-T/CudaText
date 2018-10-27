@@ -90,8 +90,11 @@ begin
 
     cmd_OpsReloadAndApply: DoOps_LoadOptionsAndApplyAll;
     cmd_ShowPanelConsole:  DoShowConsole(true);
-    cmd_ShowPanelOutput:   DoShowOutput;
-    cmd_ShowPanelValidate: DoShowValidate;
+    cmd_ShowPanelOutput:   DoShowOutput(false);
+    cmd_ShowPanelValidate: DoShowValidate(false);
+    cmd_ShowPanelConsole_AndFocus:  DoShowConsole(true);
+    cmd_ShowPanelOutput_AndFocus:   DoShowOutput(true);
+    cmd_ShowPanelValidate_AndFocus: DoShowValidate(true);
 
     cmd_ShowSidePanelAsIs: DoShowSidePanel('', false);
     cmd_ShowSidePanelAndSyntaxTree: DoShowSidePanel(msgPanelTree_Init, false);
