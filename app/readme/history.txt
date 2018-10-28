@@ -6,7 +6,8 @@
 
 1.64.4 (2018/10)
 
-+ add: command "show+focus bottom panel / console" (note: now this command has the Ctrl+` hotkey)
++ add: option "saving_trim_final_empty"
++ add: command "show+focus bottom panel / console"; default hotkey Ctrl+` was assigned to this command
 + add: command "show+focus bottom panel / output"
 + add: command "show+focus bottom panel / validate"
 - fix: mass replace command has 2 stages, but stage-2 didn't show progress and couldn't be stopped

@@ -778,6 +778,7 @@ begin
     Op.OpCutLineIfNoSel:= c.GetValue('cut_line_if_no_sel', Op.OpCutLineIfNoSel);
     Op.OpCopyColumnAlignedBySpaces:= c.GetValue('copy_column_aligned_by_spaces', Op.OpCopyColumnAlignedBySpaces);
     Op.OpSavingTrimSpaces:= c.GetValue('saving_trim_spaces', Op.OpSavingTrimSpaces);
+    Op.OpSavingTrimFinalEmptyLines:= c.GetValue('saving_trim_final_empty', Op.OpSavingTrimFinalEmptyLines);
     Op.OpSavingForceFinalEol:= c.GetValue('saving_force_final_eol', Op.OpSavingForceFinalEol);
     Op.OpShowHintOnVertScroll:= c.GetValue('show_hint_on_vert_scroll', Op.OpShowHintOnVertScroll);
     Op.OpCenteringWidth:= c.GetValue('centering_width', Op.OpCenteringWidth);

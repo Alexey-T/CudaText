@@ -226,6 +226,9 @@
   //[File/Save]
   //On saving file: delete spaces at lines ends
   "saving_trim_spaces": false,
+  
+  //On saving file: delete redundant empty lines at file end
+  "saving_trim_final_empty": false,
 
   //On saving file: force end-of-line chars at file end (if not entered)
   "saving_force_final_eol": false,

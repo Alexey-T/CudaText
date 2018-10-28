@@ -382,6 +382,7 @@ type
     OpCutLineIfNoSel: boolean;
     OpCopyColumnAlignedBySpaces: boolean;
     OpSavingTrimSpaces: boolean;
+    OpSavingTrimFinalEmptyLines: boolean;
     OpSavingForceFinalEol: boolean;
     OpShowHintOnVertScroll: boolean;
     OpCenteringWidth: integer;
@@ -1075,6 +1076,7 @@ begin
     OpCutLineIfNoSel:= false;
     OpCopyColumnAlignedBySpaces:= true;
     OpSavingTrimSpaces:= false;
+    OpSavingTrimFinalEmptyLines:= false;
     OpSavingForceFinalEol:= false;
     OpShowHintOnVertScroll:= false;
     OpCenteringWidth:= 0;

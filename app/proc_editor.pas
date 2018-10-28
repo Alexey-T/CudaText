@@ -192,6 +192,7 @@ begin
   Ed.OptCutLinesIfNoSel:= Op.OpCutLineIfNoSel;
   Ed.OptCopyColumnBlockAlignedBySpaces:= Op.OpCopyColumnAlignedBySpaces;
   Ed.OptSavingTrimSpaces:= Op.OpSavingTrimSpaces;
+  Ed.OptSavingTrimFinalEmptyLines:= Op.OpSavingTrimFinalEmptyLines;
   Ed.OptSavingForceFinalEol:= Op.OpSavingForceFinalEol;
   Ed.OptShowScrollHint:= Op.OpShowHintOnVertScroll;
   Ed.OptScrollbarHorizontalHidden:= Op.OpHideHorizScrollbar;
