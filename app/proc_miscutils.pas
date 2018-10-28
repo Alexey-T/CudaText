@@ -170,11 +170,14 @@ end;
 
 function KeyboardStateToShiftState: TShiftState;
 begin
-  Result := [];
+  Result:= [];
   if GetKeyState(VK_SHIFT) < 0 then Include(Result, ssShift);
   if GetKeyState(VK_CONTROL) < 0 then Include(Result, ssCtrl);
   if GetKeyState(VK_MENU) < 0 then Include(Result, ssAlt);
   if GetKeyState(VK_LWIN) < 0 then Include(Result, ssMeta);
+  if GetKeyState(VK_LBUTTON) < 0 then Include(Result, ssLeft);
+  if GetKeyState(VK_RBUTTON) < 0 then Include(Result, ssRight);
+  if GetKeyState(VK_MBUTTON) < 0 then Include(Result, ssMiddle);
 end;
 
 function ConvertShiftStateToString(const Shift: TShiftState): string;
