@@ -406,7 +406,6 @@ end;
 procedure TEditorFrame.EditorOnClick(Sender: TObject);
 var
   NewAlt: boolean;
-  State: TShiftState;
   StateString: string;
 begin
   NewAlt:= Sender=Ed2;
@@ -416,8 +415,7 @@ begin
     DoOnUpdateStatus;
   end;
 
-  State:= KeyboardStateToShiftState;
-  StateString:= ConvertShiftStateToString(State);
+  StateString:= ConvertShiftStateToString(KeyboardStateToShiftState);
 
   if UiOps.MouseGotoDefinition<>'' then
     if StateString=UiOps.MouseGotoDefinition then
@@ -1885,15 +1883,11 @@ end;
 procedure TEditorFrame.EditorOnClickGutter(Sender: TObject; ABand, ALine: integer);
 var
   Ed: TATSynEdit;
-  State: TShiftState;
-  StateString: string;
 begin
   Ed:= Sender as TATSynEdit;
-  State:= KeyboardStateToShiftState;
-  StateString:= ConvertShiftStateToString(State);
 
   if DoPyEvent(Ed, cEventOnClickGutter, [
-    '"'+StateString+'"',
+    '"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"',
     IntToStr(ALine),
     IntToStr(ABand)
     ]) = cPyFalse then exit;
