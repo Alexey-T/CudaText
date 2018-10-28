@@ -1166,7 +1166,7 @@ Index possible values: 0..5 (first 6 groups) and 6..8 (3 floating groups).
 
 Reads/writes single string from/to .ini file. Params:
 
-* filename: Path of ini file. Can be name w/o path, this means that path of "settings" dir is used.
+* filename: str: Path of file. Can be without path, this means that path of "settings" dir is used.
 * section: str: Section of ini file.
 * key: str: Key in section.
 * value: str:
@@ -1179,7 +1179,9 @@ On read: gets string value. On write: gets None.
 
  ini_proc(id, filename, section="", key="")
 
-Performs action on .ini file. Possible values of id:
+Performs action on .ini file. Filename can be w/o path, this means that path of "settings" dir is used.
+
+Possible values of "id":
 
 * INI_GET_SECTIONS: Gets list of sections. Params "section", "key" ignored.
 * INI_GET_SECTION_KEYS: Gets list of keys in given section. Param "key" ignored.
