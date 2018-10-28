@@ -179,11 +179,14 @@ end;
 
 function ConvertShiftStateToString(const Shift: TShiftState): string;
 begin
-  Result:=
-    IfThen(ssShift in Shift, 's')+
-    IfThen(ssCtrl in Shift, 'c')+
-    IfThen(ssAlt in Shift, 'a')+
-    IfThen(ssMeta in Shift, 'm');
+  Result:= '';
+  if ssShift in Shift then Result+= 's';
+  if ssCtrl in Shift then Result+= 'c';
+  if ssAlt in Shift then Result+= 'a';
+  if ssMeta in Shift then Result+= 'm';
+  if ssLeft in Shift then Result+= 'L';
+  if ssRight in Shift then Result+= 'R';
+  if ssMiddle in Shift then Result+= 'M';
 end;
 
 function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist;
