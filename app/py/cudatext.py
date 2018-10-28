@@ -698,7 +698,7 @@ DECOR_DELETE_ALL       = 7
 DECOR_GET_IMAGELIST    = 10
 
 INI_GET_SECTIONS     = 0
-INI_GET_SECTION_KEYS = 1
+INI_GET_KEYS         = 1
 INI_DELETE_KEY       = 2
 INI_DELETE_SECTION   = 3
 
@@ -820,7 +820,7 @@ def ini_read(filename, section, key, value):
 
 def ini_write(filename, section, key, value):
     return ct.ini_write(filename, section, key, value)
-    
+
 def ini_proc(id, filename, section='', key=''):
     return ct.ini_proc(id, filename, section, key)
 
@@ -1131,10 +1131,10 @@ class Editor:
 
     def __str__(self):
         return '<Editor id:{} title:"{}" gr:{} tab:{}>'.format(
-            self.get_prop(PROP_TAB_ID), 
+            self.get_prop(PROP_TAB_ID),
             self.get_prop(PROP_TAB_TITLE),
-            self.get_prop(PROP_INDEX_GROUP), 
-            self.get_prop(PROP_INDEX_TAB) 
+            self.get_prop(PROP_INDEX_GROUP),
+            self.get_prop(PROP_INDEX_TAB)
             )
     def __repr__(self):
         return self.__str__()

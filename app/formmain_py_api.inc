@@ -1947,7 +1947,7 @@ begin
               end;
             end;
 
-          INI_GET_SECTION_KEYS:
+          INI_GET_KEYS:
             begin
               L:= TStringList.Create;
               try

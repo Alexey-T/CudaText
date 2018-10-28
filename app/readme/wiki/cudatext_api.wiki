@@ -1179,12 +1179,12 @@ On read: gets string value. On write: gets None.
 
  ini_proc(id, filename, section="", key="")
 
-Performs action on .ini file. Filename can be w/o path, this means that path of "settings" dir is used.
+Performs action on .ini file. Filename can be without path, this means that path of "settings" dir is used.
 
 Possible values of "id":
 
 * INI_GET_SECTIONS: Gets list of sections. Params "section", "key" ignored.
-* INI_GET_SECTION_KEYS: Gets list of keys in given section. Param "key" ignored.
+* INI_GET_KEYS: Gets list of keys in given section. Param "key" ignored.
 * INI_DELETE_KEY: Deletes given key in given section.
 * INI_DELETE_SECTION: Deletes given section with all its keys. Param "key" ignored.
 
