@@ -246,7 +246,7 @@ Actions:
 * PROC_SET_ESCAPE: Sets Esc-key flag. Text must be "0"/"1".
 * PROC_GET_HOTKEY: Gets hotkeys strings for given command_id. Examples of result: "F1", "Ctrl+B * B", "Ctrl+B * B * C|Ctrl+B * D" (two hotkeys for one command). Gets empty str for unknown command_id.
 * PROC_SET_HOTKEY: Sets hotkeys for given command_id from strings. Text must be "command_id|hotkey1|hotkey2", where hotkey1/hotkey2 examples: "F1", "Ctrl+B * B", "Ctrl+B * B * C". Symbol "*" can be without near spaces. Gets bool: command_id exists, changed.
-* PROC_GET_KEYSTATE: Gets state of pressed special keys. String has "c" for Ctrl pressed, "a" for Alt, "s" for Shift, "m" for Meta (Windows key).
+* PROC_GET_KEYSTATE: Gets state of pressed keyboard/mouse keys. String has "c" for Ctrl pressed, "a" for Alt, "s" for Shift, "m" for Meta (Windows key), "L" for left mouse button, "R" for right mouse button, "M" for middle mouse button.
 * PROC_HOTKEY_INT_TO_STR: Converts given int hotkey to string. Gets empty str for unknown code.
 * PROC_HOTKEY_STR_TO_INT: Converts given string hotkey to int. Gets 0 for incorrect string. Example: converts "alt+shift+z" to "41050", which is then converted to "Shift+Alt+Z".
 
@@ -3032,3 +3032,4 @@ Text is chr(1) separated items:
 
 1.0.262 (app 1.64.4)
 * add: ini_proc()
+* add: app_proc: PROC_GET_KEYSTATE gets also state of pressed mouse buttons
