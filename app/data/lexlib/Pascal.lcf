@@ -1,4 +1,4 @@
-object SyntAnal20: TLibSyntAnalyzer
+object SyntAnal19: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Default'
@@ -293,7 +293,7 @@ object SyntAnal20: TLibSyntAnalyzer
       DisplayName = 'Hex'
       StyleName = 'Number'
       TokenType = 7
-      Expression = '\$[a-f\d]+ | &[0-7]+'
+      Expression = '\$[a-f\d]+ | &[0-7]+ | %[01]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -1487,8 +1487,8 @@ object SyntAnal20: TLibSyntAnalyzer
     ''
     'const'
     '  cColorCodes: array[0..1] of TColorCode = ('
-    '    (sName: '#39'AliceBlue'#39'; sVal: '#39'#00'#39'),'
-    '    (sName: '#39'AntiqueWhite'#39'; sVal: '#39'#00'#39'),'
+    '    (sName: '#39'ee'#39'; sVal: %100110),'
+    '    (sName: '#39'ddd'#39'; sVal: &700),'
     '    );'
     '    '
     'type                        '
