@@ -789,6 +789,7 @@ Properties:
 * Initial folder: {FileDir}
 * Lexers: C,C++
 * Capture output: Output panel
+* Encoding: utf_8
 
 Optionally, configure "Pattern", so double click in the Output panel will put caret to the source code. Example of GCC error line in the Output panel, it will be handled by double click: "new.cpp:10:3: error: 'zz' was not declared in this scope".
 
@@ -796,7 +797,7 @@ Optionally, configure "Pattern", so double click in the Output panel will put ca
 
 ===Tool to run compiled C program===
 
-Note that file name don't have an extension, because tool is for Linux. For Windows, you must add .exe extension in the "File name" field.
+Tool is for Linux, so "File name" don't have an extension. For Windows, change "File name" field to "{FileNameNoExt}.exe".
 
 * Name: C - run
 * File name: "./{FileNameNoExt}"
@@ -805,7 +806,22 @@ Note that file name don't have an extension, because tool is for Linux. For Wind
 * Initial folder: {FileDir}
 * Lexers: C,C++
 * Capture output: Output panel
+* Encoding: utf_8
 * Pattern: (empty)
+
+===Tool to run Python scripts===
+
+Tool uses Python 3 installation on Linux. For Windows, change "File name" field to the full path to "python.exe" file. Also on Windows you may need to toggle checkbox "Shell command".
+
+* Name: Python3
+* File name: python3
+* Shell command: unchecked
+* Parameters: "{FileNameOnly}"
+* Initial folder: {FileDir}
+* Lexers: Python
+* Capture output: Output panel
+* Encoding: utf_8
+* Pattern: \s*File "(?P<file>.+)", line (?P<line>\d+) 
 
 ==more==
 
