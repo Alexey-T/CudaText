@@ -270,6 +270,9 @@ cmd_ToggleFloatBottom = 2557
 cmd_HideBottomPanel = 2558
 cmd_OpsFontSizeBigger = 2559
 cmd_OpsFontSizeSmaller = 2560
+cmd_ShowPanelConsole_AndFocus  = 2561
+cmd_ShowPanelOutput_AndFocus   = 2562
+cmd_ShowPanelValidate_AndFocus = 2563
 
 cmd_ToggleFocusSplitEditors = 2576
 cmd_FocusEditor = 2577

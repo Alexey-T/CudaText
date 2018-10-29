@@ -4,6 +4,15 @@
   * changed
 
 
+1.64.4 (2018/10)
+
++ add: option "saving_trim_final_empty"
++ add: command "show+focus bottom panel / console"; default hotkey Ctrl+` was assigned to this command
++ add: command "show+focus bottom panel / output"
++ add: command "show+focus bottom panel / validate"
+- fix: mass replace command has 2 stages, but stage-2 didn't show progress and couldn't be stopped
+- fix: disabled CSS highlight in HTML strings style="" because it gave lexer problems
+
 1.64.2 (2018/10)
 
 + add: new options for caret shape: "caret_view", "caret_view_ovr", "caret_view_ro"
@@ -374,7 +383,7 @@
 + add: on macOS, some features use Command-key instead of Ctrl-key: Ctrl+click; Ctrl+(double click); Ctrl with drag-drop of text
 + add: API
 * change: option "lexer_dynamic_hilite" turned off by default (problems with option on macOS; slows down)
-- fix: Find dialog: Shift key runs search
+- fix: dialog Find: Shift key runs search
 
 1.34.0 (2018/01)
 
@@ -478,8 +487,8 @@
 + added: non-RegEx search engine is rewritten. It now finds text in big (10Mb+) files 10-15 times faster. RegEx search is still slow, it builds string buffer from entire file.
 + added: lexer Bash: reworked to hilite ${complex vars} and `complex backtick commands`, now don't hilite "echo" command 
 + added: lexer Pascal: support keyword "operator" (hilite, show in code tree)
-* change: Find dialog: Select-all don't join adjacent selections to bigger selection
-* change: Find dialog: disable option "words" for multi-line input
+* change: dialog Find: Select-all don't join adjacent selections to bigger selection
+* change: dialog Find: disable option "words" for multi-line input
 
 1.23.6 (2017/11)
 
@@ -809,7 +818,7 @@ fixes:
 + option "mouse_goto_definition"
 + option "autocomplete_autoshow_lexers" can have none-lexer as "-"
 + AddonManager: use temp-file on downloading (safer)
-+ AddonManager: message retry/ignore/abort on download err
++ AddonManager: message retry/ignore/abort on download errors
 + addons install.inf has field for API ver
 - dont suggest multi-line sel to Find dialog
 
@@ -991,11 +1000,11 @@ fixes:
 
 1.3.23
 + lexer-overrides for hotkeys: option "For current lexer" in hotkey dialog (saved in "keys lexer NNN.json")
-+ find dialog: unprinted line-ends for multi-line input
-- fix range-check err
++ dialog Find: unprinted line-ends for multi-line input
+- fix range-check error
 
 1.3.22
-+ Find dialog: multi-line by "+" btn
++ dialog Find: multi-line by "+" button
 + on closing with "ui_reopen_session":true, modified+untitled tabs content saves to session
 + AddonManager warns on adding linter w/o CudaLint
 + option find_multiline_scale
@@ -1233,14 +1242,14 @@ fixes:
 + add commands: column select to line begin/ line end/ page up/ page down
 + faster render on Linux gtk2
 - fix: grouped-undo was broken
-- fix: btn "cancel search" didnt work 
+- fix: button "cancel search" didnt work 
 
 1.2.15
 + option "backup"
 + plugin autocomplete: reshow list if 1 char typed
 + improved "Make Plugin", can hide items in Plugins
 + with column-block of zero width, can use Del/BkSp too
-+ replace dialog key Ctrl+Alt+Enter: replace and don't find next
++ dialog Replace key Ctrl+Alt+Enter: replace and don't find next
 * changed hotkeys in Replace
 * output panel uses dbl-click
 - fixes

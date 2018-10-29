@@ -1,4 +1,4 @@
-object SyntAnal13: TLibSyntAnalyzer
+object SyntAnal12: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Text'
@@ -217,7 +217,6 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'Tag param'
       StyleName = 'Tag string'
       BlockName = 'Tag begin'
-      StatesAbsent = 8
       TokenType = 4
       Expression = '(?s) ("|'#39') (<\?.+?\?>|.)*? (\1|\Z)'
       ColumnFrom = 0
@@ -253,7 +252,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'Text'
       StyleName = 'Text'
       TokenType = 9
-      Expression = '[^<>&\{\}\[\]/\\=\x20]+'
+      Expression = '\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -789,7 +788,7 @@ object SyntAnal13: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<script[^>]*vbscript[^>]*>\s*(<!--)?'
       EndExpression = '(?i)(-->)?\s*</script>'
-      SyntAnalyzer = SyntAnal31
+      SyntAnalyzer = SyntAnal30
     end
     item
       DisplayName = 'JavaScript'
@@ -797,14 +796,14 @@ object SyntAnal13: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<script[^>]*javascript [^>]* [^\?] > \s*(<!--)?'
       EndExpression = '(?i)(//)?(-->)?\s*</script>'
-      SyntAnalyzer = SyntAnal15
+      SyntAnalyzer = SyntAnal14
     end
     item
       DisplayName = 'JavaScript simple'
       StyleName = 'Sublexer BG'
       StartExpression = '<script>'
       EndExpression = '</script>'
-      SyntAnalyzer = SyntAnal15
+      SyntAnalyzer = SyntAnal14
     end
     item
       DisplayName = 'ASP'
@@ -812,34 +811,18 @@ object SyntAnal13: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '<%'
       EndExpression = '%>'
-      SyntAnalyzer = SyntAnal31
-    end
-    item
-      DisplayName = 'CSS string'
-      StyleName = 'Sublexer BG'
-      StatesAdd = 8
-      StartExpression = '\bstyle\s*=\s*"'
-      EndExpression = '"'
-      SyntAnalyzer = SyntAnal8
-    end
-    item
-      DisplayName = 'CSS string2'
-      StyleName = 'Sublexer BG'
-      StatesAdd = 8
-      StartExpression = '\bstyle\s*=\s*'#39
-      EndExpression = #39
-      SyntAnalyzer = SyntAnal8
+      SyntAnalyzer = SyntAnal30
     end>
   SampleText.Strings = (
     '<!doctype test="123">'
     '<!-- comment -->'
     '<meta1/>'
     '<meta2>text</meta3>'
-    '<% asp text %>'
+    '<? php ?> or <% asp text  %> '
     ''
     '<html> '
     '  <head>'
-    '    <title test="15" #$@ >Text</title>'
+    '    <title test="15" #$@ >Text 123</title>'
     '  </head>'
     ''
     '  <script type="text/javascript">'
