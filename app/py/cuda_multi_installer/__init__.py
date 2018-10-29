@@ -92,7 +92,8 @@ class Command:
 
         url, version = self.get_url(kind,name)
         if not url:
-            print('Not found: '+kind+' '+name)
+            print('Not found: %s %s'%(kind, name))
+            self.error_count+=1
             return
 
         state='Installing: %s %s'%(kind,name)
