@@ -166,8 +166,6 @@ begin
   an.Internal:= not an.Internal;
   AppManager.Modified:= true;
   UpdateList;
-
-  //DoLexerExportFromLibToFile(an);
 end;
 
 procedure TfmLexerLib.FormKeyDown(Sender: TObject; var Key: Word;
@@ -226,6 +224,8 @@ begin
     DeleteFile(GetAppLexerAcpFilename(an.LexerName));
 
     AppManager.DeleteLexer(an);
+    AppManager.Modified:= true;
+
     UpdateList;
     List.ItemIndex:= Min(NIndex, List.Count-1);
   end;
