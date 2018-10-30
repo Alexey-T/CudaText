@@ -41,6 +41,14 @@ type
   TATTabMenuItem = {$ifdef TNT} TTntMenuItem {$else} TMenuItem {$endif};
 
 type
+  TATTabPosition = (
+    atpTop,
+    atpBottom,
+    atpLeft,
+    atpRight
+    );
+
+type
   { TATTabData }
 
   TATTabData = class(TCollectionItem)
@@ -53,18 +61,26 @@ type
     FTabSpecial: boolean;
     FTabSpecialWidth: integer;
     FTabSpecialHeight: integer;
-    FTabRect: TRect;
+    FTabRectOrig: TRect;
     FTabImageIndex: integer;
     FTabPopupMenu: TPopupMenu;
     FTabFontStyle: TFontStyles;
     FTabStartsNewLine: boolean;
     FTabHideXButton: boolean;
+    FTabPosition: TATTabPosition;
+    FOffsetHorz: integer;
+    FOffsetVert: integer;
+    function GetTabRect: TRect;
   public
     constructor Create(ACollection: TCollection); override;
     property TabObject: TObject read FTabObject write FTabObject;
-    property TabRect: TRect read FTabRect write FTabRect;
+    property TabRect: TRect read GetTabRect;
+    property TabRectOrig: TRect read FTabRectOrig write FTabRectOrig;
     property TabSpecial: boolean read FTabSpecial write FTabSpecial default false;
     property TabStartsNewLine: boolean read FTabStartsNewLine write FTabStartsNewLine;
+    property TabPosition: TATTabPosition read FTabPosition write FTabPosition;
+    property OffsetHorz: integer read FOffsetHorz write FOffsetHorz;
+    property OffsetVert: integer read FOffsetVert write FOffsetVert;
   published
     property TabCaption: TATTabString read FTabCaption write FTabCaption;
     property TabHint: TATTabString read FTabHint write FTabHint;
@@ -119,14 +135,6 @@ type
     );
 
   TATTabButtons = array[0..20] of TATTabButton;
-
-type
-  TATTabPosition = (
-    atpTop,
-    atpBottom,
-    atpLeft,
-    atpRight
-    );
 
 type
   TATTabIconPosition = (
@@ -211,6 +219,10 @@ const
   _InitTabColorScrollMark = _InitTabColorDropMark;
 
 const
+  _InitOptAnimationEnabled = false;
+  _InitOptAnimationStepV = 4;
+  _InitOptAnimationStepH = 25;
+  _InitOptAnimationPause = 60;
   _InitOptButtonLayout = '<>,v';
   _InitOptButtonSize = 16;
   _InitOptTabHeight = 24;
@@ -302,6 +314,11 @@ type
     FButtonsRight: TATTabButtons;
     FOptButtonSize: integer;
     FOptButtonLayout: string;
+
+    FOptAnimationEnabled: boolean;
+    FOptAnimationStepV: integer;
+    FOptAnimationStepH: integer;
+    FOptAnimationPause: integer;
 
     FOptVarWidth: boolean;
     FOptMultiline: boolean;
@@ -407,6 +424,8 @@ type
     FOnTabGetCloseAction: TATTabGetCloseActionEvent;
 
     procedure ApplyButtonLayout;
+    procedure DoAnimationTabAdd(AIndex: integer);
+    procedure DoAnimationTabClose(AIndex: integer);
     procedure DoClickUser(AIndex: integer);
     procedure DoHandleClick;
     procedure DoHandleRightClick;
@@ -474,7 +493,8 @@ type
     procedure DragDrop(Source: TObject; X, Y: integer); override;
 
     function GetTabRectWidth(APlusBtn: boolean): integer;
-    function GetTabRect(AIndex: integer; AWithScroll: boolean= true): TRect;
+    function GetTabRect(AIndex: integer; AWithScroll: boolean=true;
+      AWithOffsets: boolean=true): TRect;
     function GetTabRect_Plus(AWithScroll: boolean= true): TRect;
     function GetTabRect_X(const ARect: TRect): TRect;
     function GetTabAt(X, Y: integer; out APressedX: boolean): integer;
@@ -586,6 +606,10 @@ type
     property ColorScrollMark: TColor read FColorScrollMark write FColorScrollMark default _InitTabColorScrollMark;
 
     //options
+    property OptAnimationEnabled: boolean read FOptAnimationEnabled write FOptAnimationEnabled default _InitOptAnimationEnabled;
+    property OptAnimationStepVert: integer read FOptAnimationStepV write FOptAnimationStepV default _InitOptAnimationStepV;
+    property OptAnimationStepHorz: integer read FOptAnimationStepH write FOptAnimationStepH default _InitOptAnimationStepH;
+    property OptAnimationPause: integer read FOptAnimationPause write FOptAnimationPause default _InitOptAnimationPause;
     property OptButtonLayout: string read FOptButtonLayout write SetOptButtonLayout;
     property OptButtonSize: integer read FOptButtonSize write FOptButtonSize default _InitOptButtonSize;
     property OptVarWidth: boolean read FOptVarWidth write SetOptVarWidth default false;
@@ -861,6 +885,21 @@ end;
 
 { TATTabData }
 
+function TATTabData.GetTabRect: TRect;
+begin
+  Result:= FTabRectOrig;
+  case FTabPosition of
+    atpTop:
+      Inc(Result.Top, FOffsetVert);
+    atpBottom:
+      Dec(Result.Bottom, FOffsetVert);
+    atpLeft:
+      Inc(Result.Left, FOffsetHorz);
+    atpRight:
+      Dec(Result.Right, FOffsetHorz);
+  end;
+end;
+
 constructor TATTabData.Create(ACollection: TCollection);
 begin
   inherited;
@@ -917,6 +956,11 @@ begin
   FColorArrowOver:= _InitTabColorArrowOver;
   FColorDropMark:= _InitTabColorDropMark;
   FColorScrollMark:= _InitTabColorScrollMark;
+
+  FOptAnimationEnabled:= _InitOptAnimationEnabled;
+  FOptAnimationStepV:= _InitOptAnimationStepV;
+  FOptAnimationStepH:= _InitOptAnimationStepH;
+  FOptAnimationPause:= _InitOptAnimationPause;
 
   FOptButtonLayout:= _InitOptButtonLayout;
   ApplyButtonLayout;
@@ -1355,13 +1399,18 @@ begin
 end;
 
 
-function TATTabs.GetTabRect(AIndex: integer; AWithScroll: boolean=true): TRect;
+function TATTabs.GetTabRect(AIndex: integer; AWithScroll: boolean=true; AWithOffsets: boolean=true): TRect;
 var
   Data: TATTabData;
 begin
   Data:= GetTabData(AIndex);
   if Assigned(Data) then
-    Result:= Data.TabRect
+  begin
+    if AWithOffsets then
+      Result:= Data.TabRect
+    else
+      Result:= Data.TabRectOrig;
+  end
   else
     Result:= Rect(0, 0, 10, 10);
 
@@ -1419,7 +1468,9 @@ begin
         NLineHeight:= FOptTabHeight;
 
       R.Bottom:= R.Top + NLineHeight;
-      Data.TabRect:= R;
+
+      Data.TabRectOrig:= R;
+      Data.TabPosition:= FOptPosition;
     end;
 
     exit;
@@ -1493,7 +1544,9 @@ begin
       end;
 
     R.Right:= R.Left + FTabWidth;
-    Data.TabRect:= R;
+
+    Data.TabRectOrig:= R;
+    Data.TabPosition:= FOptPosition;
   end;
 
   if FOptFillWidth and FOptFillWidthLastToo then
@@ -1515,7 +1568,7 @@ begin
       begin
         if TabCount>0 then
         begin
-          Result:= GetTabRect(TabCount-1, AWithScroll);
+          Result:= GetTabRect(TabCount-1, AWithScroll, false);
           Result.Left:= Result.Right + FOptSpaceBetweenTabs;
           Result.Right:= Result.Left + GetTabRectWidth(true);
         end
@@ -1531,7 +1584,7 @@ begin
       begin
         if TabCount>0 then
         begin
-          Result:= GetTabRect(TabCount-1, AWithScroll);
+          Result:= GetTabRect(TabCount-1, AWithScroll, false);
           Result.Top:= Result.Bottom + FOptSpaceBetweenTabs;
           Result.Bottom:= Result.Top + FOptTabHeight;
         end
@@ -2393,6 +2446,9 @@ begin
   Data.TabPopupMenu:= APopupMenu;
   Data.TabFontStyle:= AFontStyle;
 
+  if FOptAnimationEnabled then
+    DoAnimationTabAdd(AIndex);
+
   Invalidate;
 
   if Assigned(FOnTabMove) then
@@ -2458,6 +2514,9 @@ begin
 
   if IsIndexOk(AIndex) then
   begin
+    if FOptAnimationEnabled then
+      DoAnimationTabClose(AIndex);
+
     FTabList.Delete(AIndex);
 
     if AAction=aocDefault then
@@ -3297,7 +3356,8 @@ begin
     if i=AIndexTo then
       R.Right:= ClientWidth - FRealIndentRight - NWidthOfPlus;
 
-    D.TabRect:= R;
+    D.TabRectOrig:= R;
+    D.TabPosition:= FOptPosition;
   end;
 end;
 
@@ -3399,6 +3459,83 @@ begin
   FScrollPos:= AValue;
   Invalidate;
 end;
+
+
+procedure TATTabs.DoAnimationTabClose(AIndex: integer);
+var
+  Data: TATTabData;
+  i: integer;
+begin
+  Data:= GetTabData(AIndex);
+  if Data=nil then exit;
+
+  Enabled:= false;
+
+  case FOptPosition of
+    atpTop,
+    atpBottom:
+      begin
+        for i:= 0 to FOptTabHeight div FOptAnimationStepV-1 do
+        begin
+          Data.OffsetVert:= i*FOptAnimationStepV;
+          Invalidate;
+          Application.ProcessMessages;
+          Sleep(FOptAnimationPause);
+        end;
+      end;
+    else
+      begin
+        for i:= 0 to FOptTabWidthNormal div FOptAnimationStepH-1 do
+        begin
+          Data.OffsetHorz:= i*FOptAnimationStepH;
+          Invalidate;
+          Application.ProcessMessages;
+          Sleep(FOptAnimationPause);
+        end;
+      end;
+  end;
+
+  Enabled:= true;
+end;
+
+
+procedure TATTabs.DoAnimationTabAdd(AIndex: integer);
+var
+  Data: TATTabData;
+  i: integer;
+begin
+  Data:= GetTabData(AIndex);
+  if Data=nil then exit;
+
+  Enabled:= false;
+
+  case FOptPosition of
+    atpTop,
+    atpBottom:
+      begin
+        for i:= FOptTabHeight div FOptAnimationStepV-1 downto 0 do
+        begin
+          Data.OffsetVert:= i*FOptAnimationStepV;
+          Invalidate;
+          Application.ProcessMessages;
+          Sleep(FOptAnimationPause);
+        end;
+      end;
+    else
+      begin
+        for i:= FOptTabWidthNormal div FOptAnimationStepH-1 downto 0 do
+        begin
+          Data.OffsetHorz:= i*FOptAnimationStepH;
+          Invalidate;
+          Application.ProcessMessages;
+          Sleep(FOptAnimationPause);
+        end;
+      end;
+  end;
+
+  Enabled:= true;
+end;
+
 
 end.
 
