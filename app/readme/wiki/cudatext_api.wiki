@@ -3032,3 +3032,5 @@ Text is chr(1) separated items:
 1.0.262 (app 1.64.4)
 * add: ini_proc()
 * add: app_proc: PROC_GET_KEYSTATE gets also state of pressed mouse buttons
+
+[[Category:CudaText]]
