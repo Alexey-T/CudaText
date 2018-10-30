@@ -110,6 +110,8 @@ type
     tabColorSpecMarks,
     tabColorActiveMark,
     tabOptionMultiline,
+    tabOptionAnimationEn,
+    tabOptionAnimationPause,
     tabOptionAngled,
     tabOptionFontSize,
     tabOptionPosition,
@@ -1696,6 +1698,8 @@ begin
           end;
 
         tabOptionMultiline:        OptMultiline:= Boolean(N);
+        tabOptionAnimationEn:      OptAnimationEnabled:= Boolean(N);
+        tabOptionAnimationPause:   OptAnimationPause:= N;
         tabOptionAngled:           OptShowAngled:= Boolean(N);
         tabOptionShowFlat:         OptShowFlat:= Boolean(N);
         tabOptionShowTabs:         Visible:= Boolean(N);
