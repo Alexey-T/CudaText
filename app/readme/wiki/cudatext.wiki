@@ -823,6 +823,13 @@ Tool uses Python 3 installation on Linux. For Windows, change "File name" field 
 * Encoding: utf_8
 * Pattern: \s*File "(?P<file>.+)", line (?P<line>\d+) 
 
+===URL for Google search===
+
+This is URL, not tool. In the External Tools dialog, press URL button, then press Add to add a new URL.
+
+* Name: Google find
+* URL: http://google.com/search?q={SelectedText|q}
+
 ==more==
 
 =Tech topics=
