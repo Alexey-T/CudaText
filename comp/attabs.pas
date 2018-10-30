@@ -61,26 +61,18 @@ type
     FTabSpecial: boolean;
     FTabSpecialWidth: integer;
     FTabSpecialHeight: integer;
-    FTabRectOrig: TRect;
+    FTabRect: TRect;
     FTabImageIndex: integer;
     FTabPopupMenu: TPopupMenu;
     FTabFontStyle: TFontStyles;
     FTabStartsNewLine: boolean;
     FTabHideXButton: boolean;
-    FTabPosition: TATTabPosition;
-    FOffsetHorz: integer;
-    FOffsetVert: integer;
-    function GetTabRect: TRect;
   public
     constructor Create(ACollection: TCollection); override;
     property TabObject: TObject read FTabObject write FTabObject;
-    property TabRect: TRect read GetTabRect;
-    property TabRectOrig: TRect read FTabRectOrig write FTabRectOrig;
+    property TabRect: TRect read FTabRect write FTabRect;
     property TabSpecial: boolean read FTabSpecial write FTabSpecial default false;
     property TabStartsNewLine: boolean read FTabStartsNewLine write FTabStartsNewLine;
-    property TabPosition: TATTabPosition read FTabPosition write FTabPosition;
-    property OffsetHorz: integer read FOffsetHorz write FOffsetHorz;
-    property OffsetVert: integer read FOffsetVert write FOffsetVert;
   published
     property TabCaption: TATTabString read FTabCaption write FTabCaption;
     property TabHint: TATTabString read FTabHint write FTabHint;
@@ -383,6 +375,7 @@ type
     FTabIndexOver: integer;
     FTabIndexDrop: integer;
     FTabIndexHinted: integer;
+    FTabIndexAnimated: integer;
     FTabList: TCollection;
     FTabMenu: TATTabPopupMenu;
     FCaptionList: TStringList;
@@ -392,6 +385,7 @@ type
     FRealIndentRight: integer;
     FAngleTangent: single;
     FAngleSide: integer;
+    FAnimationOffset: integer;
 
     FScrollPos: integer;
     FImages: TImageList;
@@ -494,7 +488,7 @@ type
 
     function GetTabRectWidth(APlusBtn: boolean): integer;
     function GetTabRect(AIndex: integer; AWithScroll: boolean=true;
-      AWithOffsets: boolean=true): TRect;
+      AWithAnimation: boolean=true): TRect;
     function GetTabRect_Plus(AWithScroll: boolean= true): TRect;
     function GetTabRect_X(const ARect: TRect): TRect;
     function GetTabAt(X, Y: integer; out APressedX: boolean): integer;
@@ -885,21 +879,6 @@ end;
 
 { TATTabData }
 
-function TATTabData.GetTabRect: TRect;
-begin
-  Result:= FTabRectOrig;
-  case FTabPosition of
-    atpTop:
-      Inc(Result.Top, FOffsetVert);
-    atpBottom:
-      Dec(Result.Bottom, FOffsetVert);
-    atpLeft:
-      Inc(Result.Left, FOffsetHorz);
-    atpRight:
-      Dec(Result.Right, FOffsetHorz);
-  end;
-end;
-
 constructor TATTabData.Create(ACollection: TCollection);
 begin
   inherited;
@@ -1028,6 +1007,8 @@ begin
   FTabIndex:= 0;
   FTabIndexOver:= -1;
   FTabIndexHinted:= -1;
+  FTabIndexAnimated:= -1;
+  FAnimationOffset:= 0;
   FTabList:= TCollection.Create(TATTabData);
   FTabMenu:= nil;
   FScrollPos:= 0;
@@ -1399,17 +1380,25 @@ begin
 end;
 
 
-function TATTabs.GetTabRect(AIndex: integer; AWithScroll: boolean=true; AWithOffsets: boolean=true): TRect;
+function TATTabs.GetTabRect(AIndex: integer; AWithScroll: boolean=true; AWithAnimation: boolean=true): TRect;
 var
   Data: TATTabData;
 begin
   Data:= GetTabData(AIndex);
   if Assigned(Data) then
   begin
-    if AWithOffsets then
-      Result:= Data.TabRect
-    else
-      Result:= Data.TabRectOrig;
+    Result:= Data.TabRect;
+    if AWithAnimation and (AIndex=FTabIndexAnimated) then
+      case FOptPosition of
+        atpTop:
+          Inc(Result.Top, FAnimationOffset);
+        atpBottom:
+          Dec(Result.Bottom, FAnimationOffset);
+        atpLeft:
+          Inc(Result.Left, FAnimationOffset);
+        atpRight:
+          Dec(Result.Right, FAnimationOffset);
+      end;
   end
   else
     Result:= Rect(0, 0, 10, 10);
@@ -1468,9 +1457,7 @@ begin
         NLineHeight:= FOptTabHeight;
 
       R.Bottom:= R.Top + NLineHeight;
-
-      Data.TabRectOrig:= R;
-      Data.TabPosition:= FOptPosition;
+      Data.TabRect:= R;
     end;
 
     exit;
@@ -1544,9 +1531,7 @@ begin
       end;
 
     R.Right:= R.Left + FTabWidth;
-
-    Data.TabRectOrig:= R;
-    Data.TabPosition:= FOptPosition;
+    Data.TabRect:= R;
   end;
 
   if FOptFillWidth and FOptFillWidthLastToo then
@@ -3356,8 +3341,7 @@ begin
     if i=AIndexTo then
       R.Right:= ClientWidth - FRealIndentRight - NWidthOfPlus;
 
-    D.TabRectOrig:= R;
-    D.TabPosition:= FOptPosition;
+    D.TabRect:= R;
   end;
 end;
 
@@ -3470,6 +3454,7 @@ begin
   if Data=nil then exit;
 
   Enabled:= false;
+  FTabIndexAnimated:= AIndex;
 
   case FOptPosition of
     atpTop,
@@ -3477,7 +3462,7 @@ begin
       begin
         for i:= 0 to FOptTabHeight div FOptAnimationStepV-1 do
         begin
-          Data.OffsetVert:= i*FOptAnimationStepV;
+          FAnimationOffset:= i*FOptAnimationStepV;
           Invalidate;
           Application.ProcessMessages;
           Sleep(FOptAnimationPause);
@@ -3487,7 +3472,7 @@ begin
       begin
         for i:= 0 to FOptTabWidthNormal div FOptAnimationStepH-1 do
         begin
-          Data.OffsetHorz:= i*FOptAnimationStepH;
+          FAnimationOffset:= i*FOptAnimationStepH;
           Invalidate;
           Application.ProcessMessages;
           Sleep(FOptAnimationPause);
@@ -3495,6 +3480,7 @@ begin
       end;
   end;
 
+  FTabIndexAnimated:= -1;
   Enabled:= true;
 end;
 
@@ -3508,6 +3494,7 @@ begin
   if Data=nil then exit;
 
   Enabled:= false;
+  FTabIndexAnimated:= AIndex;
 
   case FOptPosition of
     atpTop,
@@ -3515,7 +3502,7 @@ begin
       begin
         for i:= FOptTabHeight div FOptAnimationStepV-1 downto 0 do
         begin
-          Data.OffsetVert:= i*FOptAnimationStepV;
+          FAnimationOffset:= i*FOptAnimationStepV;
           Invalidate;
           Application.ProcessMessages;
           Sleep(FOptAnimationPause);
@@ -3525,7 +3512,7 @@ begin
       begin
         for i:= FOptTabWidthNormal div FOptAnimationStepH-1 downto 0 do
         begin
-          Data.OffsetHorz:= i*FOptAnimationStepH;
+          FAnimationOffset:= i*FOptAnimationStepH;
           Invalidate;
           Application.ProcessMessages;
           Sleep(FOptAnimationPause);
@@ -3533,6 +3520,7 @@ begin
       end;
   end;
 
+  FTabIndexAnimated:= -1;
   Enabled:= true;
 end;
 
