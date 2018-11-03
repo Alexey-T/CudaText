@@ -776,7 +776,7 @@ Viewer has simple search support (without reg.ex.), and allows to use "Go to" di
 
 Several examples of external tools configs. Call dialog of External Tools plugin (menu Tools -- Config...). Add a new tool. Set dialog properties as shown below. This must add menu item, for new tool, under Tools menu.
 
-===Tool to compile by GCC compiler===
+===Tool to compile by GCC===
 
 You can test how this tool works on any Linux, because GCC is preinstalled. Test the tool on C++ example, which is created from CudaText by menu "File -- New from template -- C++". 
 
@@ -795,7 +795,7 @@ Optionally, configure "Pattern", so double click in the Output panel will put ca
 
 * Pattern: (?P<file>[^:]+):(?P<line>\d+):(?P<col>\d+): .+
 
-===Tool to run compiled C program===
+===Tool to run C program===
 
 Tool is for Linux, so "File name" don't have an extension. For Windows, change "File name" field to "{FileNameNoExt}.exe".
 
@@ -808,6 +808,15 @@ Tool is for Linux, so "File name" don't have an extension. For Windows, change "
 * Capture output: Output panel
 * Encoding: utf_8
 * Pattern: (empty)
+
+===Tool to compile+run C program===
+
+In the External Tools dialog, press Join button, to join 2 tools created in above steps. Properties of joined tool:
+
+* Name: C - make+run
+* Series: C - compile; C - run
+* Lexers: C,C++
+
 
 ===Tool to run Python scripts===
 
