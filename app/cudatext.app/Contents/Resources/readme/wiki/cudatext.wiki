@@ -22,9 +22,13 @@ Features for HTML/CSS coding:
 * HTML tooltips on mouse-over.
 * Viewer for pictures (jpeg, png, gif, bmp, ico). 
 
-Screenshot:
+Screenshot on Windows:
 
 [[File:cudatext.png]]
+
+Screenshot on macOS Sierra:
+
+[[File:CudaText macOS Sierra.png]]
 
 = Download =
 
@@ -768,6 +772,67 @@ CudaText suggests to use viewer for files of too big size (bigger than option ui
 
 Viewer has simple search support (without reg.ex.), and allows to use "Go to" dialog. In the "Go to" dialog, you can enter "2000" to jump to hex offset 0x2000 (in hex mode, rounded to 16 bytes). If you enter "50%", viewer will jump to the middle. Viewer supports selection of block by mouse, and hotkeys Ctrl+A, Ctrl+C. Viewer supports double-click to select whole word. Viewer allows to change encoding via statusbar click, but only in non-Unicode modes.
 
+==External Tools plugin==
+
+Several examples of external tools configs. Call dialog of External Tools plugin (menu Tools -- Config...). Add a new tool. Set dialog properties as shown below. This must add menu item, for new tool, under Tools menu.
+
+===Tool to compile by GCC compiler===
+
+You can test how this tool works on any Linux, because GCC is preinstalled. Test the tool on C++ example, which is created from CudaText by menu "File -- New from template -- C++". 
+
+Properties:
+
+* Name: C - compile
+* File name: gcc
+* Shell command: unchecked
+* Parameters: "{FileNameOnly}" -o "{FileNameNoExt}" 
+* Initial folder: {FileDir}
+* Lexers: C,C++
+* Capture output: Output panel
+* Encoding: utf_8
+
+Optionally, configure "Pattern", so double click in the Output panel will put caret to the source code. Example of GCC error line in the Output panel, it will be handled by double click: "new.cpp:10:3: error: 'zz' was not declared in this scope".
+
+* Pattern: (?P<file>[^:]+):(?P<line>\d+):(?P<col>\d+): .+
+
+===Tool to run compiled C program===
+
+Tool is for Linux, so "File name" don't have an extension. For Windows, change "File name" field to "{FileNameNoExt}.exe".
+
+* Name: C - run
+* File name: "./{FileNameNoExt}"
+* Shell command: checked
+* Parameters: (empty)
+* Initial folder: {FileDir}
+* Lexers: C,C++
+* Capture output: Output panel
+* Encoding: utf_8
+* Pattern: (empty)
+
+===Tool to run Python scripts===
+
+Tool uses Python 3 installation on Linux. For Windows, change "File name" field to the full path to "python.exe" file. Also on Windows you may need to toggle checkbox "Shell command".
+
+* Name: Python3
+* File name: python3
+* Shell command: unchecked
+* Parameters: "{FileNameOnly}"
+* Initial folder: {FileDir}
+* Lexers: Python
+* Capture output: Output panel
+* Encoding: utf_8
+* Pattern: \s*File "(?P<file>.+)", line (?P<line>\d+) 
+
+===URL for Google search===
+
+This is URL, not tool. In the External Tools dialog, press URL button, then press Add to add a new URL.
+
+* Name: Google find
+* URL:
+<syntaxhighlight lang="ini">
+http://google.com/search?q={SelectedText|q}
+</syntaxhighlight>
+
 ==more==
 
 =Tech topics=
@@ -1192,6 +1257,7 @@ Color in Pascal format: hex number (6..8 digits) with "$" prefix, or constants. 
 
 ==More==
 
+[[Category: CudaText]]
 [[Category: Applications written in Free Pascal]]
 [[Category: Applications created with Lazarus]]
 [[Category: Tools]]

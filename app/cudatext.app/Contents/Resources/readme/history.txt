@@ -4,14 +4,14 @@
   * changed
 
 
-1.64.4 (2018/10)
+1.65.0 (2018/11)
 
-+ add: option "saving_trim_final_empty"
++ add: option "saving_trim_final_empty" - delete redundant final empty lines
 + add: command "show+focus bottom panel / console"; default hotkey Ctrl+` was assigned to this command
 + add: command "show+focus bottom panel / output"
 + add: command "show+focus bottom panel / validate"
 - fix: mass replace command has 2 stages, but stage-2 didn't show progress and couldn't be stopped
-- fix: disabled CSS highlight in HTML strings style="" because it gave lexer problems
+- fix: lexer HTML: disabled CSS highlight in attribute style="" because it gave problems
 
 1.64.2 (2018/10)
 

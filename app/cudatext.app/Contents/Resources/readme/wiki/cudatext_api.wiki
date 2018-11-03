@@ -406,7 +406,6 @@ Performs action with standard panels in the bottom panel: Output, Validate, Cons
 
 Possible values of "panel":
 
-* "": use panel chosen by LOG_SET_PANEL action
 * value LOG_PANEL_OUTPUT: Output panel
 * value LOG_PANEL_VALIDATE: Validate panel
 
@@ -3033,3 +3032,5 @@ Text is chr(1) separated items:
 1.0.262 (app 1.64.4)
 * add: ini_proc()
 * add: app_proc: PROC_GET_KEYSTATE gets also state of pressed mouse buttons
+
+[[Category:CudaText]]
