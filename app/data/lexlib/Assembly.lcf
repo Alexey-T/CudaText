@@ -109,7 +109,7 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'Label'
       StyleName = 'Label'
       TokenType = 2
-      Expression = '@\w+ | @@:'
+      Expression = '@{1,2}\w+ | @@:'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -748,16 +748,11 @@ object SyntAnal2: TLibSyntAnalyzer
   SampleText.Strings = (
     '; x86 assembly sample source'
     '# Another comment'
-    '// C-style comment'
-    '/**'
-    ' * Multi-line'
-    ' * C-style comment'
+    '// Comment'
+    '/* Comment'
     ' */'
     'CODE SEGMENT'#9'BYTE PUBLIC '
     '    ASSUME'#9'CS:CODE'
-    '    '
-    '    PUSH SS'
-    '    POP DS'
     '    MOV AX, AABBh+20d+1010b+'
     '    MOV'#9'BYTE PTR ES:[DI], 255'
     '    JMP SHORT @AsmEnd'
@@ -767,8 +762,8 @@ object SyntAnal2: TLibSyntAnalyzer
     '  labela:'
     '    _label.b:'
     '    @@:'
-    '    '
-    '  @AsmEnd:'
+    '    @@name'
+    '    @AsmEnd:'
     '    MOV AX, 0'
     '    RET'
     '    '
@@ -810,10 +805,11 @@ object SyntAnal2: TLibSyntAnalyzer
   SkipSpaces = False
   Notes.Strings = (
     'Original from EControl,'
-    'changes by Alexey (SynWrite)'
+    'changes by Alexey (CudaText)'
     '+ macros/procs/segments in tree (for MASM/NASM)'
     '+ parser "symbol"'
-    '* renamed styles')
+    '* renamed styles'
+    '+ @@label')
   LineComment = ';'
   Charset = DEFAULT_CHARSET
 end
