@@ -3987,7 +3987,7 @@ begin
 
         CONVERT_LINE_TABS_TO_SPACES:
           begin
-            StrTemp:= STabsToSpaces(UTF8Decode(StrValue), Ed.OptTabSize);
+            StrTemp:= Ed.TabHelper.TabsToSpaces(UTF8Decode(StrValue));
             Result:= PyUnicode_FromWideString(StrTemp);
           end;
 
