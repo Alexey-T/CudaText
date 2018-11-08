@@ -131,7 +131,7 @@ begin
     if F.IsBinary then
     begin
       S:= F.Binary.TextEncoding;
-      if S='' then S:= 'ANSI';
+      if S='' then S:= '?';
     end
     else
       S:= '';
