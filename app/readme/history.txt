@@ -7,9 +7,10 @@
 1.65.2 (2018/11)
 
 + add: statusbar have tooltips for cells
-* change: removed encoding aliases "ANSI", "OEM": now app uses direct names only, not aliases
-* change: removed 2 commands for "ANSI" encoding
-- fix: plugin Show Unsaved Changes failed on Rus text in "ANSI" encoding
+* change: removed encoding aliases "ANSI", "OEM", now app uses/shows direct names only
+* change: removed 2 commands for "ANSI" encoding alias
+* change: encoding names "cpNNNN" are now in lowercase
+- fix: plugin Show Unsaved Changes failed on Rus text in "ANSI" encoding (one of reasons to remove aliases)
 
 1.65.0 (2018/11)
 
