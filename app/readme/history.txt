@@ -7,6 +7,7 @@
 1.65.2 (2018/11)
 
 + add: statusbar have tooltips for cells
++ add: if many zip files opened via "File-Open", install them silently w/o msg-boxes, report only count if zip files
 * change: removed encoding aliases "ANSI", "OEM", now app uses/shows direct names only
 * change: removed 2 commands for "ANSI" encoding alias
 * change: encoding names "cpNNNN" are now in lowercase
