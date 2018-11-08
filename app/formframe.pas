@@ -719,12 +719,9 @@ begin
          begin
            Editor.Strings.Encoding:= cEncAnsi;
            Editor.Strings.EncodingCodepage:= Str;
-
-           {$ifdef windows}
            //support old value 'ANSI' in user history
            if Str='ANSI' then
-             Editor.Strings.EncodingCodepage:= GetDefaultTextEncoding;
-           {$endif}
+             Editor.Strings.EncodingCodepage:= {$ifdef windows} GetDefaultTextEncoding {$else} 'cp1252' {$endif};
          end;
 end;
 
