@@ -3972,7 +3972,7 @@ begin
             if (X<0) or (not Ed.Strings.IsIndexValid(Y)) then
               exit(ReturnNone);
 
-            X:= Ed.Strings.CharPosToColumnPos(Y, X, Ed.OptTabSize);
+            X:= Ed.Strings.CharPosToColumnPos(Y, X, Ed.TabHelper);
             Result:= Py_BuildValue('(ii)', X, Y);
           end;
 
@@ -3981,13 +3981,13 @@ begin
             if (X<0) or (not Ed.Strings.IsIndexValid(Y)) then
               exit(ReturnNone);
 
-            X:= Ed.Strings.ColumnPosToCharPos(Y, X, Ed.OptTabSize);
+            X:= Ed.Strings.ColumnPosToCharPos(Y, X, Ed.TabHelper);
             Result:= Py_BuildValue('(ii)', X, Y);
           end;
 
         CONVERT_LINE_TABS_TO_SPACES:
           begin
-            StrTemp:= Ed.TabHelper.TabsToSpaces(UTF8Decode(StrValue));
+            StrTemp:= Ed.TabHelper.TabsToSpaces(-1, UTF8Decode(StrValue));
             Result:= PyUnicode_FromWideString(StrTemp);
           end;
 

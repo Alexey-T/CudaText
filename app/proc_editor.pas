@@ -297,7 +297,7 @@ begin
     if ed.Strings.IsIndexValid(caret.PosY) then
     begin
       //optimized for huge lines
-      n:= ed.Strings.CharPosToColumnPos(caret.PosY, caret.PosX, ed.OptTabSize)+1;
+      n:= ed.Strings.CharPosToColumnPos(caret.PosY, caret.PosX, ed.TabHelper)+1;
       result:= stringreplace(result, '{xx}', inttostr(n), []);
     end;
 
