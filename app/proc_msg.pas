@@ -139,6 +139,7 @@ const
   msgStatusbarHintLexer: string = 'Lexer (language)';
   msgStatusbarHintEnds: string = 'End-of-line character';
   msgStatusbarHintSelMode: string = 'Mouse selection mode (normal/column)';
+  msgStatusbarHintTabSize: string = 'Tabulation width, using of space-chars';
   msgStatusbarHintInsOvr: string = 'Insert/Overwrite mode';
   msgStatusbarHintWrap: string = 'Word wrap (off, by window, by fixed margin)';
 

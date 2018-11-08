@@ -980,9 +980,9 @@ type
     procedure UpdateSidebarButtons;
     procedure UpdateSidebarPanels(const ACaption: string; AndFocus: boolean);
     procedure UpdateStatusbarPanelsFromString(AStr: string);
+    procedure UpdateStatusbarHints;
     procedure UpdateBottomButtons;
     procedure UpdateStatus_ForFrame(AStatus: TATStatus; F: TEditorFrame);
-    procedure UpdateStatusbarHints(AStatus: TATStatus);
     procedure UpdateStatus_RealWork;
     procedure UpdateStatus_ToolButton(AToolbar: TATFlatToolbar; ACmd: integer; AChecked: boolean);
     procedure UpdateTabCaptionsFromFolders;
@@ -2352,6 +2352,7 @@ begin
 
   UpdateBottomCompact;
   UpdateStatusbarPanelsFromString(UiOps.StatusPanels);
+  UpdateStatusbarHints;
 
   TimerTreeFill.Interval:= UiOps.TreeTimeFill;
   TimerTreeFocus.Interval:= UiOps.TreeTimeFocus;
