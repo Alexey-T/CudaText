@@ -132,8 +132,9 @@ const
   msgCannotInstallReqLexer: string = 'Cannot install "%s", it requires missing lexer(s): %s';
   msgCannotAutocompleteMultiCarets: string = 'Cannot auto-complete with multi-carets';
 
-  msgStatusTabSize: string = 'Tab size';
-  msgStatusWrapStates: array[0..2] of string = ('no wrap', 'wrap', 'wrap m');
+  msgStatusbarTabSize: string = 'Tab size';
+  msgStatusbarWrapStates: array[0..2] of string = ('no wrap', 'wrap', 'wrap m');
+
   msgStatusIncorrectInstallInfInZip: string = 'Incorrect install.inf in zip';
   msgStatusUnsupportedAddonType: string = 'Unsupported addon type:';
   msgStatusPackageContains: string = 'This package contains:';

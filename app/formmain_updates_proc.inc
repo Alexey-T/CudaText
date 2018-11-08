@@ -95,7 +95,7 @@ end;
 function EditorFormatTabsize(ed: TATSynEdit; const str: string): string;
 begin
   Result:= str;
-  SReplaceAll(Result, '{s}', msgStatusTabSize);
+  SReplaceAll(Result, '{s}', msgStatusbarTabSize);
   SReplaceAll(Result, '{tab}', IntToStr(Ed.OptTabSize));
   SReplaceAll(Result, '{_}', IfThen(Ed.OptTabSpaces, '_'));
 end;
@@ -186,7 +186,7 @@ begin
 
   //------
   DoStatusbarTextByTag(AStatus, StatusbarTag_SelMode, IfThen(Ed.OptMouseColumnSelectionWithoutKey, '| |', '-'));
-  DoStatusbarTextByTag(AStatus, StatusbarTag_WrapMode, msgStatusWrapStates[Ord(Ed.OptWrapMode)]);
+  DoStatusbarTextByTag(AStatus, StatusbarTag_WrapMode, msgStatusbarWrapStates[Ord(Ed.OptWrapMode)]);
 end;
 
 procedure TfmMain.InitStatusButton;

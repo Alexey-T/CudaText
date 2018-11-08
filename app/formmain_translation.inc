@@ -337,10 +337,10 @@ begin
     msgClearFilterTooltip:= ini.ReadString('ui', 'clr_f', msgClearFilterTooltip);
     CodeTreeFilterReset.Hint:= msgClearFilterTooltip;
 
-    msgStatusTabSize:= ini.ReadString('ui', 'tsz', msgStatusTabSize);
-    msgStatusWrapStates[0]:= ini.ReadString('ui', 'wr0', msgStatusWrapStates[0]);
-    msgStatusWrapStates[1]:= ini.ReadString('ui', 'wr1', msgStatusWrapStates[1]);
-    msgStatusWrapStates[2]:= ini.ReadString('ui', 'wr2', msgStatusWrapStates[2]);
+    msgStatusbarTabSize:= ini.ReadString('ui', 'tsz', msgStatusbarTabSize);
+    msgStatusbarWrapStates[0]:= ini.ReadString('ui', 'wr0', msgStatusbarWrapStates[0]);
+    msgStatusbarWrapStates[1]:= ini.ReadString('ui', 'wr1', msgStatusbarWrapStates[1]);
+    msgStatusbarWrapStates[2]:= ini.ReadString('ui', 'wr2', msgStatusbarWrapStates[2]);
 
     msgNoLexer:= ini.ReadString('ui', 'nlex', msgNoLexer);
     UpdateMenuLexers;
