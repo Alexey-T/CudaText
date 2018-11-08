@@ -15,6 +15,7 @@ uses
   Classes, SysUtils, Graphics, Forms, Controls, Dialogs,
   ExtCtrls, Menus, StdCtrls, StrUtils, ComCtrls,
   LCLIntf, LCLProc, LCLType, LazUTF8, LazFileUtils, FileUtil,
+  LConvEncoding,
   ATTabs,
   ATGroups,
   ATSynEdit,
@@ -718,6 +719,12 @@ begin
          begin
            Editor.Strings.Encoding:= cEncAnsi;
            Editor.Strings.EncodingCodepage:= Str;
+
+           {$ifdef windows}
+           //support old value 'ANSI' in user history
+           if Str='ANSI' then
+             Editor.Strings.EncodingCodepage:= GetDefaultTextEncoding;
+           {$endif}
          end;
 end;
 
