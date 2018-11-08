@@ -2729,8 +2729,10 @@ procedure TfmMain.DoFileOpenDialog(AOptions: string='');
 const
   //passive option used only for many files
   SOptionPassive = '/passive /nonear';
+  SOptionSilent = '/silent';
 var
-  i: integer;
+  NCountZip, i: integer;
+  fn: string;
 begin
   with OpenDlg do
   begin
@@ -2741,8 +2743,18 @@ begin
 
     if Files.Count>1 then
     begin
+      NCountZip:= 0;
       for i:= 0 to Files.Count-1 do
-        DoFileOpen(Files[i], nil, AOptions+SOptionPassive);
+      begin
+        fn:= Files[i];
+        if ExtractFileExt(fn)='.zip' then
+          Inc(NCountZip);
+        DoFileOpen(fn, nil, AOptions+SOptionPassive+SOptionSilent);
+      end;
+      if NCountZip>0 then
+        MsgBox(
+          Format(msgStatusNAddonsInstalled, [NCountZip]),
+          MB_OK or MB_ICONINFORMATION);
     end
     else
     begin
