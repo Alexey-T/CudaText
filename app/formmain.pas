@@ -17,6 +17,7 @@ uses
   Clipbrd, StrUtils, Variants, IniFiles,
   LclType, LclProc, LclIntf,
   LazFileUtils, LazUTF8, FileUtil,
+  LConvEncoding,
   TreeFilterEdit,
   gqueue,
   {$ifdef LCLGTK2}
