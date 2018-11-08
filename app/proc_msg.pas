@@ -132,14 +132,15 @@ const
   msgCannotInstallReqLexer: string = 'Cannot install "%s", it requires missing lexer(s): %s';
   msgCannotAutocompleteMultiCarets: string = 'Cannot auto-complete with multi-carets';
 
-  msgStatusbarTabSize: string = 'Tab size';
-  msgStatusbarWrapStates: array[0..2] of string = ('no wrap', 'wrap', 'wrap m');
+  msgStatusbarTabSize: string = 'Tab';
+  msgStatusbarWrapStates: array[0..2] of string = ('no wrap', 'wrap', 'wrap mrg');
+
   msgStatusbarHintCaret: string = 'Caret position, selection';
   msgStatusbarHintEnc: string = 'File encoding';
   msgStatusbarHintLexer: string = 'Lexer (language)';
-  msgStatusbarHintEnds: string = 'End-of-line character';
+  msgStatusbarHintEnds: string = 'End-of-line chars';
   msgStatusbarHintSelMode: string = 'Mouse selection mode (normal/column)';
-  msgStatusbarHintTabSize: string = 'Tabulation width, using of space-chars';
+  msgStatusbarHintTabSize: string = 'Tabulation width, by space-chars';
   msgStatusbarHintInsOvr: string = 'Insert/Overwrite mode';
   msgStatusbarHintWrap: string = 'Word wrap (off, by window, by fixed margin)';
 
