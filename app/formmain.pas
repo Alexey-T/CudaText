@@ -2733,6 +2733,7 @@ const
 var
   NCountZip, i: integer;
   fn: string;
+  bZip: boolean;
 begin
   with OpenDlg do
   begin
@@ -2744,13 +2745,24 @@ begin
     if Files.Count>1 then
     begin
       NCountZip:= 0;
+      StatusProgress.Progress:= 0;
+      StatusProgress.MaxValue:= Files.Count;
+      StatusProgress.Show;
+
       for i:= 0 to Files.Count-1 do
       begin
         fn:= Files[i];
-        if ExtractFileExt(fn)='.zip' then
+        bZip:= ExtractFileExt(fn)='.zip';
+        if bZip then
+        begin
           Inc(NCountZip);
-        DoFileOpen(fn, nil, AOptions+SOptionPassive+SOptionSilent);
+          StatusProgress.Progress:= i+1;
+          Application.ProcessMessages;
+        end;
+        DoFileOpen(fn, nil, AOptions + SOptionPassive + IfThen(bZip, SOptionSilent));
       end;
+
+      StatusProgress.Hide;
       if NCountZip>0 then
         MsgBox(
           Format(msgStatusAddonsInstalled, [NCountZip]),
