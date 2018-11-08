@@ -879,6 +879,12 @@ First, you need to know GitHub repository (repo) URL of plugin. For example, htt
 
 Next, call CudaText menu item "Plugins / Addon Manager / Install from GitHub". And enter URL in the suggested dialog. AddonManager will install latest version from GitHub from "master" branch.
 
+==How to simply install many add-ons==
+
+* In the dialog "File - Open", you can multi-select files in list - with Ctrl+click (on Windows) or Shift+arrows.
+* Use command "Plugins - Addons Manager - Download all", which saves all addons zip files to some folder. When done, install many addons from this folder using "File - Open" multi-selection.
+* To download without SourceForge lags, use this page: http://totalcmd.net/plugring/CudaText_addons.html , but page is updated not often.
+
 ==How to make translation==
 
 Translation template-file is in dir "data/lang".
