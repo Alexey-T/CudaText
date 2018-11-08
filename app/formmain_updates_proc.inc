@@ -120,6 +120,9 @@ var
 begin
   Ed:= F.Editor;
 
+  //hide hints for pictures/viewer
+  AStatus.ShowHint:= F.IsText;
+
   if not F.IsText then
   begin
     if F.IsBinary then
