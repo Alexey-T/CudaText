@@ -177,7 +177,6 @@ begin
         PopupLex.Popup(P.X, P.Y);
       end;
 
-    cmd_Encoding_ansi_NoReload: SetFrameEncoding(CurrentFrame, cEncNameAnsi, false);
     cmd_Encoding_utf8bom_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf8_WithBom, false);
     cmd_Encoding_utf8nobom_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf8_NoBom, false);
     cmd_Encoding_utf16le_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf16LE_WithBom, false);
@@ -204,7 +203,6 @@ begin
     cmd_Encoding_cp949_NoReload: SetFrameEncoding(CurrentFrame, cEncNameCP949, false);
     cmd_Encoding_cp950_NoReload: SetFrameEncoding(CurrentFrame, cEncNameCP950, false);
 
-    cmd_Encoding_ansi_Reload: SetFrameEncoding(CurrentFrame, cEncNameAnsi, true);
     cmd_Encoding_utf8bom_Reload: SetFrameEncoding(CurrentFrame, cEncNameUtf8_WithBom, true);
     cmd_Encoding_utf8nobom_Reload: SetFrameEncoding(CurrentFrame, cEncNameUtf8_NoBom, true);
     cmd_Encoding_utf16le_Reload: SetFrameEncoding(CurrentFrame, cEncNameUtf16LE_WithBom, true);

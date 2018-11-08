@@ -201,7 +201,6 @@ const
   cmd_HelpHotkeys   = 2707;
   cmd_HelpCheckUpdates = 2708;
 
-  cmd_Encoding_ansi_NoReload      = 2710;
   cmd_Encoding_utf8bom_NoReload   = 2711;
   cmd_Encoding_utf8nobom_NoReload = 2712;
   cmd_Encoding_utf16le_NoReload   = 2713;
@@ -228,7 +227,6 @@ const
   cmd_Encoding_cp949_NoReload     = 2737;
   cmd_Encoding_cp950_NoReload     = 2738;
 
-  cmd_Encoding_ansi_Reload      = 2750;
   cmd_Encoding_utf8bom_Reload   = 2751;
   cmd_Encoding_utf8nobom_Reload = 2752;
   cmd_Encoding_utf16le_Reload   = 2753;
@@ -450,7 +448,6 @@ begin
   M.Add(cmd_FoldingDisable, 'folding: disable folding functionality', [], []);
   M.Add(cmd_DeleteNewColorAttrs, 'delete new color attribs (added in plugins)', [], []);
 
-  M.Add(cmd_Encoding_ansi_NoReload, 'change encoding, no reload: ansi', [], []);
   M.Add(cmd_Encoding_utf8bom_NoReload, 'change encoding, no reload: utf8 bom', [], []);
   M.Add(cmd_Encoding_utf8nobom_NoReload, 'change encoding, no reload: utf8 no bom', [], []);
   M.Add(cmd_Encoding_utf16le_NoReload, 'change encoding, no reload: utf16 le', [], []);
@@ -477,7 +474,6 @@ begin
   M.Add(cmd_Encoding_cp949_NoReload, 'change encoding, no reload: cp949', [], []);
   M.Add(cmd_Encoding_cp950_NoReload, 'change encoding, no reload: cp950', [], []);
 
-  M.Add(cmd_Encoding_ansi_Reload, 'change encoding, reload: ansi', [], []);
   M.Add(cmd_Encoding_utf8bom_Reload, 'change encoding, reload: utf8 bom', [], []);
   M.Add(cmd_Encoding_utf8nobom_Reload, 'change encoding, reload: utf8 no bom', [], []);
   M.Add(cmd_Encoding_utf16le_Reload, 'change encoding, reload: utf16 le', [], []);

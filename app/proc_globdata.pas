@@ -493,8 +493,6 @@ const
   cEncNameUtf16LE_NoBom = 'UTF-16 LE';
   cEncNameUtf16BE_WithBom = 'UTF-16 BE with BOM';
   cEncNameUtf16BE_NoBom = 'UTF-16 BE';
-  cEncNameAnsi = 'ANSI';
-  cEncNameOem = 'OEM';
 
   cEncNameCP1250 = 'CP1250';
   cEncNameCP1251 = 'CP1251';
@@ -526,15 +524,13 @@ type
   end;
 
 const
-  AppEncodings: array[0..31] of TAppEncodingRecord = (
+  AppEncodings: array[0..29] of TAppEncodingRecord = (
     (Sub: ''; Name: cEncNameUtf8_NoBom; ShortName: 'utf8'),
     (Sub: ''; Name: cEncNameUtf8_WithBom; ShortName: 'utf8_bom'),
     (Sub: ''; Name: cEncNameUtf16LE_NoBom; ShortName: 'utf16le'),
     (Sub: ''; Name: cEncNameUtf16LE_WithBom; ShortName: 'utf16le_bom'),
     (Sub: ''; Name: cEncNameUtf16BE_NoBom; ShortName: 'utf16be'),
     (Sub: ''; Name: cEncNameUtf16BE_WithBom; ShortName: 'utf16be_bom'),
-    (Sub: ''; Name: cEncNameAnsi; ShortName: 'ansi'),
-    (Sub: ''; Name: cEncNameOem; ShortName: 'oem'),
     (Sub: ''; Name: '-'; ShortName: ''),
     (Sub: 'eu'; Name: cEncNameCP1250; ShortName: cEncNameCP1250),
     (Sub: 'eu'; Name: cEncNameCP1251; ShortName: cEncNameCP1251),
@@ -720,7 +716,6 @@ procedure CommandPlugins_AssignItem(var Dst, Src: TAppPluginCmd);
 function AppEncodingShortnameToFullname(const S: string): string;
 function AppEncodingFullnameToShortname(const S: string): string;
 function AppEncodingListAsString: string;
-function AppEncodingOem: string;
 
 procedure UpdateFormOnTop(F: TForm);
 procedure DoStatusbarTextByTag(AStatus: TATStatus; ATag: PtrInt; const AText: string);
@@ -1888,26 +1883,6 @@ begin
     F.FormStyle:= fsSystemStayOnTop
   else
     F.FormStyle:= fsNormal;
-end;
-
-function AppEncodingOem: string;
-begin
-  {$ifdef windows}
-  case Windows.GetOEMCP of
-    437: Result:= 'CP437';
-    850: Result:= 'CP850';
-    852: Result:= 'CP852';
-    866: Result:= 'CP866';
-    874: Result:= 'CP874';
-    932: Result:= 'CP932';
-    936: Result:= 'CP936';
-    949: Result:= 'CP949';
-    950: Result:= 'CP950';
-    else Result:= 'CP437';
-  end;
-  {$else}
-  Result:= 'CP437';
-  {$endif}
 end;
 
 
