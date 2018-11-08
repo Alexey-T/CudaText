@@ -5,7 +5,6 @@ from cudatext import *
 fn_ini = 'plugins.ini'
 
 REPLACE_ENC = {
-    'ansi': 'cp1252', #cannot detect local region ANSI
     'utf8_bom': 'utf-8-sig',
     'utf16le': 'utf-16-le',
     'utf16le_bom': 'utf-16-le',
