@@ -100,6 +100,18 @@ begin
   SReplaceAll(Result, '{_}', IfThen(Ed.OptTabSpaces, '_'));
 end;
 
+procedure TfmMain.UpdateStatusbarHints(AStatus: TATStatus);
+begin
+  DoStatusbarHintByTag(AStatus, StatusbarTag_Caret, msgStatusbarHintCaret);
+  DoStatusbarHintByTag(AStatus, StatusbarTag_Enc, msgStatusbarHintEnc);
+  DoStatusbarHintByTag(AStatus, StatusbarTag_LineEnds, msgStatusbarHintEnds);
+  DoStatusbarHintByTag(AStatus, StatusbarTag_Lexer, msgStatusbarHintLexer);
+  DoStatusbarHintByTag(AStatus, StatusbarTag_SelMode, msgStatusbarHintSelMode);
+  DoStatusbarHintByTag(AStatus, StatusbarTag_TabSize, msgStatusbarTabSize);
+  DoStatusbarHintByTag(AStatus, StatusbarTag_InsOvr, msgStatusbarHintInsOvr);
+  DoStatusbarHintByTag(AStatus, StatusbarTag_WrapMode, msgStatusbarHintWrap);
+end;
+
 procedure TfmMain.UpdateStatus_ForFrame(AStatus: TATStatus; F: TEditorFrame);
 var
   Ed: TATSynEdit;
@@ -1046,6 +1058,8 @@ begin
 
     Status.AddPanel(-1, NSize, Al, '', -1, NTag, false, bStretch);
   until false;
+
+  UpdateStatusbarHints(Status);
 end;
 
 

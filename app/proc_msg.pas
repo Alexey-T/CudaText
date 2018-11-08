@@ -134,6 +134,13 @@ const
 
   msgStatusbarTabSize: string = 'Tab size';
   msgStatusbarWrapStates: array[0..2] of string = ('no wrap', 'wrap', 'wrap m');
+  msgStatusbarHintCaret: string = 'Caret position, selection';
+  msgStatusbarHintEnc: string = 'File encoding';
+  msgStatusbarHintLexer: string = 'Lexer (language)';
+  msgStatusbarHintEnds: string = 'End-of-line character';
+  msgStatusbarHintSelMode: string = 'Mouse selection mode (normal/column)';
+  msgStatusbarHintInsOvr: string = 'Insert/Overwrite mode';
+  msgStatusbarHintWrap: string = 'Word wrap (off, by window, by fixed margin)';
 
   msgStatusIncorrectInstallInfInZip: string = 'Incorrect install.inf in zip';
   msgStatusUnsupportedAddonType: string = 'Unsupported addon type:';

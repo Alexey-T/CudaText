@@ -982,6 +982,7 @@ type
     procedure UpdateStatusbarPanelsFromString(AStr: string);
     procedure UpdateBottomButtons;
     procedure UpdateStatus_ForFrame(AStatus: TATStatus; F: TEditorFrame);
+    procedure UpdateStatusbarHints(AStatus: TATStatus);
     procedure UpdateStatus_RealWork;
     procedure UpdateStatus_ToolButton(AToolbar: TATFlatToolbar; ACmd: integer; AChecked: boolean);
     procedure UpdateTabCaptionsFromFolders;
@@ -1616,6 +1617,7 @@ begin
   Status.Height:= 23;
   Status.Padding:= 2;
   Status.OnPanelClick:= @StatusPanelClick;
+  Status.ShowHint:= true;
 
   StatusAlt:= TATStatus.Create(Self);
   StatusAlt.Parent:= Self;

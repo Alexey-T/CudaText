@@ -724,6 +724,7 @@ function AppEncodingOem: string;
 
 procedure UpdateFormOnTop(F: TForm);
 procedure DoStatusbarTextByTag(AStatus: TATStatus; ATag: PtrInt; const AText: string);
+procedure DoStatusbarHintByTag(AStatus: TATStatus; ATag: PtrInt; const AText: string);
 function IsFileTooBigForOpening(const AFilename: string): boolean;
 function IsFileTooBigForLexer(const AFilename: string): boolean;
 procedure DoLexerDetect(const AFilename: string;
@@ -1917,6 +1918,15 @@ begin
   NIndex:= AStatus.FindPanel(ATag);
   if NIndex>=0 then
     AStatus.Captions[NIndex]:= AText;
+end;
+
+procedure DoStatusbarHintByTag(AStatus: TATStatus; ATag: PtrInt; const AText: string);
+var
+  NIndex: integer;
+begin
+  NIndex:= AStatus.FindPanel(ATag);
+  if NIndex>=0 then
+    AStatus.Hints[NIndex]:= AText;
 end;
 
 function IsFileTooBigForOpening(const AFilename: string): boolean;
