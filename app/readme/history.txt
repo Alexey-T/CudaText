@@ -4,6 +4,10 @@
   * changed
 
 
+1.65.2 (2018/11)
+
++ add: statusbar have tooltips for cells
+
 1.65.0 (2018/11)
 
 + add: option "saving_trim_final_empty" - delete redundant final empty lines
