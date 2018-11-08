@@ -501,6 +501,7 @@ begin
     DoLocString(msgStatusOpenedBrowser           , ini, 'si', 'OpenedBrowser');
     DoLocString(msgStatusCopiedLink              , ini, 'si', 'CopiedLink');
     DoLocString(msgStatusAddonInstalled          , ini, 'si', 'AddonInstalled');
+    DoLocString(msgStatusAddonsInstalled         , ini, 'si', 'AddonsInstalled');
     DoLocString(msgStatusOpened                  , ini, 'si', 'Opened');
     DoLocString(msgStatusReopened                , ini, 'si', 'Reopened');
     DoLocString(msgStatusBadRegex                , ini, 'si', 'BadRegex');

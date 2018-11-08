@@ -2753,7 +2753,7 @@ begin
       end;
       if NCountZip>0 then
         MsgBox(
-          Format(msgStatusNAddonsInstalled, [NCountZip]),
+          Format(msgStatusAddonsInstalled, [NCountZip]),
           MB_OK or MB_ICONINFORMATION);
     end
     else

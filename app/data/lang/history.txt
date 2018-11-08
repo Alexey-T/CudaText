@@ -3,6 +3,7 @@ see http://wiki.freepascal.org/CudaText#How_to_make_translation
 2018.11.08
 + added [sta]
 * moved items from [ui] to [sta]: tsz wr0 wr1 wr2
++ [si] AddonsInstalled
 
 2018.10.15
 * delete section [d_lex_restore]
