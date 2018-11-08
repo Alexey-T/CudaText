@@ -342,6 +342,16 @@ begin
     msgStatusbarWrapStates[1]:= ini.ReadString('sta', 'wr1', msgStatusbarWrapStates[1]);
     msgStatusbarWrapStates[2]:= ini.ReadString('sta', 'wr2', msgStatusbarWrapStates[2]);
 
+    msgStatusbarHintCaret:= ini.ReadString('sta', 'crt', msgStatusbarHintCaret);
+    msgStatusbarHintEnc:= ini.ReadString('sta', 'enc', msgStatusbarHintEnc);
+    msgStatusbarHintLexer:= ini.ReadString('sta', 'lex', msgStatusbarHintLexer);
+    msgStatusbarHintEnds:= ini.ReadString('sta', 'end', msgStatusbarHintEnds);
+    msgStatusbarHintSelMode:= ini.ReadString('sta', 'sel', msgStatusbarHintSelMode);
+    msgStatusbarHintTabSize:= ini.ReadString('sta', 'tab', msgStatusbarHintTabSize);
+    msgStatusbarHintInsOvr:= ini.ReadString('sta', 'ins', msgStatusbarHintInsOvr);
+    msgStatusbarHintWrap:= ini.ReadString('sta', 'wrp', msgStatusbarHintWrap);
+    UpdateStatusbarHints;
+
     msgNoLexer:= ini.ReadString('ui', 'nlex', msgNoLexer);
     UpdateMenuLexers;
     msgFileClearList:= ini.ReadString('ui', 'clr', msgFileClearList);
