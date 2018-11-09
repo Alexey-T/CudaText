@@ -4,7 +4,7 @@
   * changed
 
 
-1.65.2 (2018/11)
+1.65.5 (2018/11)
 
 + add: statusbar have tooltips
 + add: if many zip files opened via "File-Open", they're installed silently, reported only count of zip files
@@ -12,6 +12,7 @@
 * change: removed encoding aliases "ANSI", "OEM", now app uses/shows direct names only
 * change: removed 2 commands for "ANSI" encoding alias
 - fix: plugin Show Unsaved Changes failed on Rus text in "ANSI" encoding (one of reasons to remove aliases)
+- fix: command "Invert selection" gave redundant carets at file begin/end
 
 1.65.0 (2018/11)
 
