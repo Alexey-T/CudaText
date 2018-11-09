@@ -2752,6 +2752,7 @@ begin
       for i:= 0 to Files.Count-1 do
       begin
         fn:= Files[i];
+        if not FileExistsUTF8(fn) then Continue;
         bZip:= ExtractFileExt(fn)='.zip';
         if bZip then
         begin
