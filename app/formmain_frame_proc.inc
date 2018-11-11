@@ -206,6 +206,8 @@ begin
 end;
 
 procedure TfmMain.FrameParseDone(Sender: TObject);
+const
+  cMinTime = 600;
 var
   Frame: TEditorFrame;
 begin
@@ -215,6 +217,9 @@ begin
   //after parsing done
   Frame:= (Sender as TATAdapterEControl).Owner as TEditorFrame;
   Frame.DoRestoreFolding;
+
+  if (Sender as TATAdapterEControl).LexerParsingElapsed>=cMinTime then
+    DoPyEvent(Frame.Editor, cEventOnLexerParsed, []);
 end;
 
 function TfmMain.FrameOfPopup: TEditorFrame;
