@@ -744,33 +744,33 @@
   "mouse_click_number_selects_eol": true,
 
   //[Keys]
-  //Key BkSp: do unindent too (if caret inside indented area)
+  //Key BackSpace: do Unindent command, if caret is inside indented area
   "key_bksp_unindent": true,
 
-  //Key Tab: do block-indent too (if selection)
+  //Key Tab: do Indent command, if text is selected
   "key_tab_indents_sel": true,
 
-  //Key Home: first jump to nonspace, next to line start
+  //Key Home: first jump to leading non-space char, then to line start
   "key_home_to_nonspace": true,
 
-  //Key End: first jump to ending nonspace, next to line end
+  //Key End: first jump to trailing non-space char, then to line end
   "key_end_to_nonspace": true,
 
   //Keys Home/End: when moving on long wrapped lines, treat wrapped parts like
-  //separate lines and first jump to wrapped parts edge, next to line edge
+  //separate lines and first jump to wrapped parts edge
   "key_home_end_nav_wrapped": true,
 
   //Keys PageUp/PageDown: keep relative offset from top of editor
   "key_page_keeps_rel_pos": true,
 
-  //Keys PageUp/PageDown page size
+  //Keys PageUp/PageDown: page size
   //  0: full height
   //  1: full height minus 1
   //  2: half height
   "key_page_size": 1,
 
-  //Keys Up/Down: try to keep caret column
-  //(if moving from long line, to short line, to long line again)
+  //Keys Up/Down: try to remember/keep caret column: if moving from long line, 
+  //to short line, to long line again
   "key_up_down_keeps_column": true,
 
   //Keys Up/Down: when moving on long wrapped lines, treat wrapped parts
