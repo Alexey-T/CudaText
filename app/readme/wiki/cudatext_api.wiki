@@ -40,7 +40,8 @@ Usually methods returns None, sometimes they can return True or False to block t
 * on_key(self, ed_self, key, state): Called when user presses a key in editor. Param "key" is int key code; values are listed in the module cudatext_keys. Param "state" is string of chars: "a" if Alt pressed, "c" if Ctrl pressed, "s" if Shift pressed, "m" if Meta (Windows-key) pressed. Method can return False to disable key processing, other return value is ignored.
 * on_key_up(self, ed_self, key, state): Called when user depresses a key in editor. Params meaning is the same as in "on_key". Currently called only for Ctrl/Shift/Alt keys (to not slow down).
 * on_focus(self, ed_self): Called after any editor gets focus.
-* on_lexer(self, ed_self): Called after any editor's lexer is changed.
+* on_lexer(self, ed_self): Called after editor's lexer is changed.
+* on_lexer_parsed(self, ed_self): Called after lexer has finished its parsing. To not slow down usual work, event is called only if parsing time was >=600 msec.
 * on_paste(self, ed_self, keep_caret, select_then): Called before some Clipboard Paste command runs. Parameters are options of various paste commands. Method can return False to disable default operation.
 * on_scroll(self, ed_self): Called on scrolling in editor.
 * on_mouse_stop(self, ed_self, x, y): Called when mouse cursor stops (for a short delay) over editor. Params "x", "y" are mouse editor-related coords.
@@ -3037,5 +3038,8 @@ Text is chr(1) separated items:
 1.0.262 (app 1.64.4)
 * add: ini_proc()
 * add: app_proc: PROC_GET_KEYSTATE gets also state of pressed mouse buttons
+
+1.0.263 (app 1.65.6)
+* add: event on_lexer_parsed
 
 [[Category:CudaText]]
