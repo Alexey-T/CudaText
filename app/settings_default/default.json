@@ -398,9 +398,6 @@
   //Unprinted: Scale (% of char height) of space dot
   "unprinted_space_dot_scale": 15,
 
-  //Unprinted: Scale of end-of-line dot (if dot shown, not arrow)
-  "unprinted_end_dot_scale": 30,
-
   //Unprinted: Scale of end-of-line text: "un", "win", "mac"
   "unprinted_end_font_scale": 80,
 
