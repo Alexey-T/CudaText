@@ -12,7 +12,8 @@ unit proc_msg;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils,
+  ATSynEdit;
 
 const
   cAppExeVersion = '1.65.6.0';
@@ -133,7 +134,8 @@ const
   msgCannotAutocompleteMultiCarets: string = 'Cannot auto-complete with multi-carets';
 
   msgStatusbarTabSize: string = 'Tab';
-  msgStatusbarWrapStates: array[0..2] of string = ('no wrap', 'wrap', 'wrap mrg');
+  msgStatusbarWrapStates: array[0..Ord(High(TATSynWrapMode))] of string =
+    ('no wrap', 'wrap', 'margin', 'wnd/mrg');
 
   msgStatusbarHintCaret: string = 'Caret position, selection';
   msgStatusbarHintEnc: string = 'File encoding';

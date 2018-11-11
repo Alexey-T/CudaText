@@ -409,9 +409,10 @@
 
   //[Text/Wrap]
   //Wrap mode:
-  //  0: off (faster)
-  //  1: wrap at editor edge (changed on window resize)
+  //  0: no wrap (fastest)
+  //  1: wrap at window edge
   //  2: wrap at "fixed margin"
+  //  3: wrap at minimum of "window edge" and "fixed margin"
   "wrap_mode": 0,
 
   //Show wrapped parts of long line indented, like line itself

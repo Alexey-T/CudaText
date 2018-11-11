@@ -7,6 +7,7 @@
 1.65.5 (2018/11)
 
 + add: statusbar have tooltips
++ add: option "wrap_mode" has new possible value "wrap at minimum of window edge / margin"
 + add: if many zip files opened via "File - Open file", they install silently, reported only count of zip files
 + add: assigned default hotkeys: Shift+Enter, Shift+BkSp
 + add: for horizontal scrollbar, app adds 4 spaces after longest line (before: was 1, VS Code has 5)
