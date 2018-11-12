@@ -7,6 +7,8 @@
 1.65.5 (2018/11)
 
 + add: statusbar have tooltips
+* change: removed 5 unprinted_ options ("unprinted_spaces", "unprinted_spaces_trailing", "unprinted_ends", "unprinted_end_details", "unprinted_end_arrow")
++ add: single option instead of deleted ones: "unprinted_content", and it has new sub-option to show unprinted spaces/tabs only at begin/end of lines
 + add: option "wrap_mode" has new possible value "wrap at minimum of window edge / margin"
 + add: if many zip files opened via "File - Open file", they install silently, reported only count of zip files
 + add: assigned default hotkeys: Shift+Enter, Shift+BkSp

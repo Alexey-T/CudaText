@@ -367,20 +367,17 @@
   "margin_string": "",
   
   //[View/Unprinted]
-  //Unprinted: Global enable-flag for unprinted_ options below (spaces, ends, details)
+  //Unprinted: Global enable-flag for unprinted_ options below
   "unprinted_show": false,
-
-  //Unprinted: Show unprinted spaces/tabs
-  "unprinted_spaces": true,
-
-  //Unprinted: Show only trailing spaces/tabs, at line ends (don't show lefter)
-  "unprinted_spaces_trailing": false,
-
-  //Unprinted: Show unprinted end-of-line marks
-  "unprinted_ends": true,
-
-  //Unprinted: Paint at line-end strings like "un", "win", "mac"
-  "unprinted_end_details": false,
+  
+  //Unprinted: What info to show for unprinted chars. Option is string.
+  //  if "s" in value: Show whitespace
+  //  if "l' in value: Whitespace only at begin/end of lines (overrides "t')
+  //  if "t" in value: Whitespace only at end of lines
+  //  if "e" in value: Show end-of-lines marks
+  //  if "d" in value: Detailed end-of-lines: "un", "win", "mac" (overrides ".")
+  //  if "." in value: Instead of arrows at end-of-lines, show thick dots
+  "unprinted_content": "se",
 
   //Unprinted: Show control ASCII chars (codes 0..31) as replacement-char
   //(else show them as "xNN" hex codes)
@@ -388,9 +385,6 @@
 
   //Unprinted: Replacement-char hex code for control ASCII chars
   "unprinted_replace_to_code": "A4",
-
-  //Unprinted: Paint arrow-down at end-of-line, instead of dot
-  "unprinted_end_arrow": true,
 
   //Unprinted: Length of arrow for tab-char (1 is minimal, 0 means full size)
   "unprinted_tab_len": 1,

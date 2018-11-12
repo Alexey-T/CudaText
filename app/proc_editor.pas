@@ -136,17 +136,18 @@ begin
   if AApplyUnprintedAndWrap then
   begin
     Ed.OptUnprintedVisible:= Op.OpUnprintedShow;
-    Ed.OptUnprintedSpaces:= Op.OpUnprintedSpaces;
-    Ed.OptUnprintedSpacesTrailing:= Op.OpUnprintedSpacesTrailing;
-    Ed.OptUnprintedEnds:= Op.OpUnprintedEnds;
-    Ed.OptUnprintedEndsDetails:= Op.OpUnprintedEndDetails;
+    Ed.OptUnprintedSpaces:=         Pos('s', Op.OpUnprintedContent)>0;
+    Ed.OptUnprintedSpacesTrailing:= Pos('t', Op.OpUnprintedContent)>0;
+    Ed.OptUnprintedSpacesBothEnds:= Pos('l', Op.OpUnprintedContent)>0;
+    Ed.OptUnprintedEnds:=           Pos('e', Op.OpUnprintedContent)>0;
+    Ed.OptUnprintedEndsDetails:=    Pos('d', Op.OpUnprintedContent)>0;
   end;
 
   //global options
   OptMaxTabPositionToExpand:= Op.OpTabMaxPosExpanded;
   OptHexChars:= OptHexCharsDefault + Op.OpHexChars;
 
-  OptUnprintedEndArrowOrDot:= Op.OpUnprintedEndArrow;
+  OptUnprintedEndArrowOrDot:= Pos('.', Op.OpUnprintedContent)=0;
   OptUnprintedTabCharLength:= Op.OpUnprintedTabArrowLen;
   OptUnprintedSpaceDotScale:= Op.OpUnprintedSpaceDotScale;
   OptUnprintedEndDotScale:= Op.OpUnprintedEndDotScale;

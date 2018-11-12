@@ -336,14 +336,11 @@ type
 
     //unprinted
     OpUnprintedShow: boolean;
-    OpUnprintedSpaces: boolean;
-    OpUnprintedSpacesTrailing: boolean;
-    OpUnprintedEnds: boolean;
-    OpUnprintedEndDetails: boolean;
+    OpUnprintedContent: string;
+
     OpUnprintedReplaceSpec: boolean;
     OpUnprintedReplaceToCode: string;
 
-    OpUnprintedEndArrow: boolean;
     OpUnprintedTabArrowLen: integer;
     OpUnprintedSpaceDotScale: integer;
     OpUnprintedEndDotScale: integer;
@@ -1010,14 +1007,10 @@ begin
     OpStaplesStyle:= 1; //Ord(cLineStyleSolid)
 
     OpUnprintedShow:= false;
-    OpUnprintedSpaces:= true;
-    OpUnprintedSpacesTrailing:= false;
-    OpUnprintedEnds:= true;
-    OpUnprintedEndDetails:= false;
+    OpUnprintedContent:= 'se';
     OpUnprintedReplaceSpec:= false;
     OpUnprintedReplaceToCode:= 'A4';
 
-    OpUnprintedEndArrow:= true;
     OpUnprintedTabArrowLen:= 1;
     OpUnprintedSpaceDotScale:= 15;
     OpUnprintedEndDotScale:= 30;
