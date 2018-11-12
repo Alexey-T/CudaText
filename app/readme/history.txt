@@ -7,12 +7,13 @@
 1.65.5 (2018/11)
 
 + add: statusbar have tooltips
++ add: deepest block staple, containing first caret, is highlighted (like VS Code)
 * change: removed 5 unprinted_ options ("unprinted_spaces", "unprinted_spaces_trailing", "unprinted_ends", "unprinted_end_details", "unprinted_end_arrow")
 + add: single option instead of deleted ones: "unprinted_content", and it has new sub-option to show unprinted spaces/tabs only at begin/end of lines
-+ add: option "wrap_mode" has new possible value "wrap at minimum of window edge / margin"
++ add: option "wrap_mode" has new possible value "wrap at minimum of window edge / margin" (like VS Code)
 + add: if many zip files opened via "File - Open file", they install silently, reported only count of zip files
-+ add: assigned default hotkeys: Shift+Enter, Shift+BkSp
 + add: for horizontal scrollbar, app adds 4 spaces after longest line (before: was 1, VS Code has 5)
++ add: assigned hotkeys Shift+Enter, Shift+BkSp (same as Enter, BkSp)
 * change: encoding names "cpNNNN" are now in lower case
 * change: removed encoding aliases "ANSI", "OEM", now app uses/shows direct names only
 * change: removed 2 commands for "ANSI" encoding alias
