@@ -1,14 +1,11 @@
 import sys, os
+from cudatext import *
+
 if os.name=='nt':
     os.putenv('PYTHONIOENCODING', 'UTF-8')
 
-_v = sys.version_info
-print("Python %d.%d.%d"%_v[:3])
+print("Python %d.%d.%d" % sys.version_info[:3])
 
-# it's to test API in console
-from cudatext import *
-
-# check old crap files/dirs
 bads = [
     os.path.join(app_path(APP_DIR_PY), 'cudax_lib'),
     os.path.join(app_path(APP_DIR_PY), 'requests'),
