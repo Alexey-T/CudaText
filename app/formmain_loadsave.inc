@@ -618,6 +618,14 @@ begin
     for s in AppConfigPluginGroups_Keys do
       AppConfigPluginGroups_Values.Add(c.GetValue('/plugin_groups/'+s, ''));
 
+    c.EnumValues('/detect', AppConfigFiletypes_NameKeys);
+    for s in AppConfigFiletypes_NameKeys do
+      AppConfigFiletypes_NameValues.Add(c.GetValue('/detect/'+s, ''));
+
+    c.EnumValues('/detect_line', AppConfigFiletypes_LineKeys);
+    for s in AppConfigFiletypes_LineKeys do
+      AppConfigFiletypes_LineValues.Add(c.GetValue('/detect_line/'+s, ''));
+
     Op.OpFontName:= FixFontMonospaced(c.GetValue(str_FontName, Op.OpFontName));
     Op.OpFontName_i:= FixFontMonospaced(c.GetValue(str_FontName_i, Op.OpFontName_i));
     Op.OpFontName_b:= FixFontMonospaced(c.GetValue(str_FontName_b, Op.OpFontName_b));

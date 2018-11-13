@@ -50,7 +50,8 @@ var
 var
   AppBookmarkImagelist: TImageList = nil;
   AppFolderOfLastInstalledAddon: string = '';
-  AppConfigFiletypes: TJsonConfig;
+  AppConfigFiletypes_NameKeys: TStringList;
+  AppConfigFiletypes_NameValues: TStringList;
   AppConfigFiletypes_LineKeys: TStringList;
   AppConfigFiletypes_LineValues: TStringList;
   AppConfigPluginGroups_Keys: TStringList;
@@ -1333,34 +1334,31 @@ end;
 
 function DoLexerFindByFilename(const AFilename: string): TecSyntAnalyzer;
 var
-  s, ext, sLine: string;
+  ext, sLine: string;
   i: integer;
 begin
-  if AppConfigFiletypes.Filename<>'' then
+  //detect by filename
+  i:= AppConfigFiletypes_NameKeys.IndexOf(ExtractFileName(AFilename));
+  if i>=0 then
+    exit(AppManager.FindLexerByName(AppConfigFiletypes_NameValues[i]));
+
+  //detect by extention
+  ext:= ExtractFileExt(AFilename);
+  if ext<>'' then
   begin
-    //by filename
-    s:= AppConfigFiletypes.GetValue(ExtractFileName(AFilename), '');
-    if s<>'' then
-      exit(AppManager.FindLexerByName(s));
+    i:= AppConfigFiletypes_NameKeys.IndexOf('*'+ext);
+    if i>=0 then
+      exit(AppManager.FindLexerByName(AppConfigFiletypes_NameValues[i]));
+  end;
 
-    //by extention
-    ext:= ExtractFileExt(AFilename);
-    if ext<>'' then
-    begin
-      s:= AppConfigFiletypes.GetValue('*'+ext, '');
-      if s<>'' then
-        exit(AppManager.FindLexerByName(s));
-    end;
-
-    //by first line
-    if AppConfigFiletypes_LineKeys.Count>0 then
-    begin
-      sLine:= DoGetFirstLine(AFilename);
-      if sLine<>'' then
-        for i:= 0 to AppConfigFiletypes_LineKeys.Count-1 do
-          if SRegexMatchesString(sLine, AppConfigFiletypes_LineKeys[i], true) then
-            exit(AppManager.FindLexerByName(AppConfigFiletypes_LineValues[i]));
-    end;
+  //detect by first line
+  if AppConfigFiletypes_LineKeys.Count>0 then
+  begin
+    sLine:= DoGetFirstLine(AFilename);
+    if sLine<>'' then
+      for i:= 0 to AppConfigFiletypes_LineKeys.Count-1 do
+        if SRegexMatchesString(sLine, AppConfigFiletypes_LineKeys[i], true) then
+          exit(AppManager.FindLexerByName(AppConfigFiletypes_LineValues[i]));
   end;
 
   Result:= AppManager.FindLexerByFilename(AFilename);
@@ -1947,19 +1945,21 @@ initialization
   AppShortcutShiftTab:= ShortCut(VK_TAB, [ssShift]);
   Mouse.DragImmediate:= false;
 
+  AppConfigFiletypes_NameKeys:= TStringList.Create;
+  AppConfigFiletypes_NameValues:= TStringList.Create;
   AppConfigFiletypes_LineKeys:= TStringList.Create;
   AppConfigFiletypes_LineValues:= TStringList.Create;
   AppConfigPluginGroups_Keys:= TStringList.Create;
   AppConfigPluginGroups_Values:= TStringList.Create;
 
-  AppConfigFiletypes:= TJsonConfig.Create(nil);
 
 finalization
-  FreeAndNil(AppConfigPluginGroups_Values);
   FreeAndNil(AppConfigPluginGroups_Keys);
-  FreeAndNil(AppConfigFiletypes);
+  FreeAndNil(AppConfigPluginGroups_Values);
   FreeAndNil(AppConfigFiletypes_LineKeys);
   FreeAndNil(AppConfigFiletypes_LineValues);
+  FreeAndNil(AppConfigFiletypes_NameKeys);
+  FreeAndNil(AppConfigFiletypes_NameValues);
   FreeAndNil(AppKeymap);
   FreeAndNil(AppBookmarkImagelist);
 
