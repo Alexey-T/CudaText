@@ -92,14 +92,6 @@ begin
   UpdateStatus_ForFrame(Status, F);
 end;
 
-function EditorFormatTabsize(ed: TATSynEdit): string;
-begin
-  if Ed.OptTabSpaces then
-    Result:= msgStatusbarTextSpaces+': '+IntToStr(Ed.OptTabSize)
-  else
-    Result:= msgStatusbarTextTab+': '+IntToStr(Ed.OptTabSize);
-end;
-
 procedure TfmMain.UpdateStatusbarHints;
 begin
   DoStatusbarHintByTag(Status, StatusbarTag_Caret, msgStatusbarHintCaret);
@@ -193,10 +185,17 @@ begin
   DoStatusbarTextByTag(AStatus, StatusbarTag_Lexer, S);
 
   //------
-  DoStatusbarTextByTag(AStatus, StatusbarTag_TabSize, EditorFormatTabsize(Ed));
+  if Ed.OptTabSpaces then
+    S:= msgStatusbarTextSpaces+': '+IntToStr(Ed.OptTabSize)
+  else
+    S:= msgStatusbarTextTab+': '+IntToStr(Ed.OptTabSize);
+  DoStatusbarTextByTag(AStatus, StatusbarTag_TabSize, S);
 
   //------
-  S:= IfThen(Ed.ModeOverwrite, 'Ovr', 'Ins');
+  if Ed.ModeOverwrite then
+    S:= 'Ovr'
+  else
+    S:= 'Ins';
   DoStatusbarTextByTag(AStatus, StatusbarTag_InsOvr, S);
 
   //------
