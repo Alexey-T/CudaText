@@ -646,14 +646,13 @@
   //New tabs: Lexer name
   "newdoc_lexer": "",
 
-  //New tabs: Encoding name
-  //Possible names are listed in Wiki. Examples: utf8, utf8_bom, utf16le, cp1250 etc
+  //New tabs: Encoding name. Possible names are listed in Wiki (utf8, utf8_bom, cp1250 etc).
   "newdoc_encoding": "utf8",
 
-  //New tabs: End-of-line characters
+  //New tabs: End-of-line sequence
   //  0: Auto (CRLF on Windows, LF otherwise)
-  //  1: LF (Unix)
-  //  2: CRLF (Windows)
+  //  1: LF
+  //  2: CRLF
   "newdoc_ends": 0,
 
   //[File]
