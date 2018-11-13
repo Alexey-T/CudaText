@@ -255,9 +255,6 @@ begin
 end;
 
 procedure TfmMain.UpdateMenuPlugins;
-var
-  ListGroups: TStringList;
-  ListGroupsVal: TStringList;
   //
   function GroupValue(AName: string): string;
   var
@@ -265,11 +262,9 @@ var
   begin
     Result:= '';
     AName:= SGetItem(AName, '\');
-    for i:= 0 to ListGroups.Count-1 do
-    begin
-      if SRegexMatchesString(AName, ListGroups[i], false) then
-        exit(ListGroupsVal[i]+'\');
-    end;
+    for i:= 0 to AppConfigPluginGroups_Keys.Count-1 do
+      if SRegexMatchesString(AName, AppConfigPluginGroups_Keys[i], false) then
+        exit(AppConfigPluginGroups_Values[i]+'\');
   end;
   //
 var
@@ -282,16 +277,6 @@ begin
   mnuPlugins.Clear;
   if Assigned(mnuOpPlugins) then
     mnuOpPlugins.Clear;
-
-  ListGroups:= TStringList.Create;
-  ListGroupsVal:= TStringList.Create;
-  try
-    if AppConfigPluginGroups.Filename<>'' then
-    begin
-      AppConfigPluginGroups.EnumValues('/', ListGroups);
-      for SCaption in ListGroups do
-        ListGroupsVal.Add(AppConfigPluginGroups.GetValue('/'+SCaption, ''));
-    end;
 
     for i:= 0 to High(AppPluginsCommand) do
     begin
@@ -311,10 +296,6 @@ begin
       if Pos('o', SInMenu)>0 then
         DoOps_AddPluginMenuItem(SCaption, mnuOpPlugins, i);
     end;
-  finally
-    FreeAndNil(ListGroupsVal);
-    FreeAndNil(ListGroups);
-  end;
 end;
 
 procedure TfmMain.UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean = false);

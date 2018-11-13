@@ -53,7 +53,8 @@ var
   AppConfigFiletypes: TJsonConfig;
   AppConfigFiletypes_LineKeys: TStringList;
   AppConfigFiletypes_LineValues: TStringList;
-  AppConfigPluginGroups: TJsonConfig;
+  AppConfigPluginGroups_Keys: TStringList;
+  AppConfigPluginGroups_Values: TStringList;
 
 const
   AppExtensionThemeUi = '.cuda-theme-ui';
@@ -1953,6 +1954,8 @@ initialization
 
   AppConfigFiletypes_LineKeys:= TStringList.Create;
   AppConfigFiletypes_LineValues:= TStringList.Create;
+  AppConfigPluginGroups_Keys:= TStringList.Create;
+  AppConfigPluginGroups_Values:= TStringList.Create;
 
   AppConfigFiletypes:= TJsonConfig.Create(nil);
   fn:= GetAppPath(cFileOptionsFiletypes);
@@ -1966,16 +1969,9 @@ initialization
   except
   end;
 
-  AppConfigPluginGroups:= TJsonConfig.Create(nil);
-  fn:= GetAppPath(cDirSettings)+DirectorySeparator+'plugin groups.json';
-  if FileExistsUTF8(fn) then
-  try
-    AppConfigPluginGroups.Filename:= fn;
-  except
-  end;
-
 finalization
-  FreeAndNil(AppConfigPluginGroups);
+  FreeAndNil(AppConfigPluginGroups_Values);
+  FreeAndNil(AppConfigPluginGroups_Keys);
   FreeAndNil(AppConfigFiletypes);
   FreeAndNil(AppConfigFiletypes_LineKeys);
   FreeAndNil(AppConfigFiletypes_LineValues);
