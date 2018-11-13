@@ -78,16 +78,16 @@ Section "detect_line" in user.json. Allows to detect lexer by first line of file
 
 == Plugin groups config ==
 
-It is section "plugin_groups" in user.json. It allows to add grouping to the Plugins menu, e.g. to put all "HTML ..." and "CSS ..." menu items into "Web" submenu. Example:
+Section "plugin_groups" in user.json. Allows to add grouping to the Plugins menu, e.g. to put all "HTML ..." and "CSS ..." menu items into "Web" submenu. Example:
 
 <syntaxhighlight lang="javascript">
   "plugin_groups": {
-      "CSS .+": "Web",
-      "HTML .+": "Web",
-      "JS .+": "Web",
-      "Config.+": "Config",
-      "Option.+": "Config",
-    }
+    "CSS .+": "Web",
+    "HTML .+": "Web",
+    "JS .+": "Web",
+    "Config.+": "Config",
+    "Option.+": "Config",
+  },
 </syntaxhighlight>
 
 * Key name: regular expression for the first part of menu name. E.g. if menu name in install.inf is "CSS Utils\Misc\Action", then first part is "CSS Utils".
