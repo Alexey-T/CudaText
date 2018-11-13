@@ -14,6 +14,7 @@
 + add: if many zip files opened via "File - Open file", they install silently, reported only count of zip files
 + add: for horizontal scrollbar, app adds 4 spaces after longest line (before: was 1, VS Code has 5)
 + add: assigned hotkeys Shift+Enter, Shift+BkSp (same as Enter, BkSp)
++ add: checking/warning for outdated files/dirs of CudaText, which should be removed by user
 * change: end-of-line marks changed to "LF", "CRLF", "CR"
 * change: encoding names "cpNNNN" changed to lower case
 * change: removed option "newdoc_eol", instead added option "newdoc_ends" with new possible value Auto
