@@ -248,7 +248,6 @@ type
     mnuFind2Prev: TMenuItem;
     mnuTabSaveAs: TMenuItem;
     mnuTabSave: TMenuItem;
-    mnuOpFileTypes: TMenuItem;
     mnuFindPrev: TMenuItem;
     mnuOpLexLib: TMenuItem;
     mnuOpLexSub: TMenuItem;
@@ -840,7 +839,6 @@ type
     function DoOps_LoadSession(fn_session: string): boolean;
     procedure DoOps_LoadOptionsAndApplyAll;
     procedure DoOps_LoadOptionsLexerSpecific(F: TEditorFrame);
-    procedure DoOps_OpenFile_FileTypes;
     procedure DoOps_OpenFile_LexerSpecific;
     procedure DoOps_LoadPlugins;
     procedure DoOps_DialogFont(var OpName: string; var OpSize: integer;
@@ -4014,20 +4012,6 @@ begin
     if not FileExistsUTF8(fn) then Exit;
   end;
   DoFileOpen(fn, Groups.Pages[1]);
-end;
-
-procedure TfmMain.DoOps_OpenFile_FileTypes;
-var
-  fn: string;
-begin
-  fn:= GetAppPath(cFileOptionsFiletypes);
-  if not FileExistsUTF8(fn) then
-  begin
-    FCreateFile(fn, true);
-    if not FileExistsUTF8(fn) then Exit;
-  end;
-
-  DoFileOpen(fn);
 end;
 
 procedure TfmMain.DoOps_OpenFile_LexerSpecific;

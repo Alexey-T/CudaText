@@ -650,9 +650,6 @@ object fmMain: TfmMain
         object mnuOpKeys: TMenuItem
           Caption = 'Settings - &hotkeys'
         end
-        object mnuOpFileTypes: TMenuItem
-          Caption = 'Settings - &file types'
-        end
         object MenuItem3: TMenuItem
           Caption = '-'
         end

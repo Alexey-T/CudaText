@@ -723,7 +723,6 @@ begin
   UpdateMenuItemHotkey(mnuOpUser, cmd_OpsOpenUser);
   UpdateMenuItemHotkey(mnuOpDefaultUser, cmd_OpsOpenDefaultAndUser);
   UpdateMenuItemHotkey(mnuOpLexer, cmd_OpsOpenLexerSpecific);
-  UpdateMenuItemHotkey(mnuOpFileTypes, cmd_OpsOpenFileTypes);
   UpdateMenuItemHotkey(mnuOpKeys, cmd_HelpHotkeys);
 
   UpdateMenuItemHotkey(mnuFontText, cmd_OpsFontText);

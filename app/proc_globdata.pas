@@ -88,7 +88,6 @@ type
     cFileOptionsHistory,
     cFileOptionsDefault,
     cFileOptionsUser,
-    cFileOptionsFiletypes,
     cFileOptionsKeymap,
     cFileOptionsHistoryFiles
     );
@@ -878,10 +877,6 @@ begin
     cFileOptionsUser:
       begin
         Result:= GetAppPath(cDirSettings)+DirectorySeparator+'user.json';
-      end;
-    cFileOptionsFiletypes:
-      begin
-        Result:= GetAppPath(cDirSettings)+DirectorySeparator+'filetypes.json';
       end;
     cFileOptionsKeymap:
       begin
@@ -1958,16 +1953,6 @@ initialization
   AppConfigPluginGroups_Values:= TStringList.Create;
 
   AppConfigFiletypes:= TJsonConfig.Create(nil);
-  fn:= GetAppPath(cFileOptionsFiletypes);
-  if FileExistsUTF8(fn) then
-  try
-    AppConfigFiletypes.Filename:= fn;
-    AppConfigFiletypes.EnumValues('/line', AppConfigFiletypes_LineKeys);
-    for i:= 0 to AppConfigFiletypes_LineKeys.Count-1 do
-      AppConfigFiletypes_LineValues.Add(
-        AppConfigFiletypes.GetValue('/line/'+AppConfigFiletypes_LineKeys[i], ''));
-  except
-  end;
 
 finalization
   FreeAndNil(AppConfigPluginGroups_Values);

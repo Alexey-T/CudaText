@@ -275,7 +275,6 @@ begin
     DoLocMenuitem(ini, mnuOpDefaultUser, 'm_o', 'usd');
     DoLocMenuitem(ini, mnuOpMore, 'm_o', 'mr');
     DoLocMenuitem(ini, mnuOpLexer, 'm_o', 'lx');
-    DoLocMenuitem(ini, mnuOpFileTypes, 'm_o', 'fi');
     DoLocMenuitem(ini, mnuOpThemeUi, 'm_o', 'cou');
     DoLocMenuitem(ini, mnuOpThemeSyntax, 'm_o', 'cos');
     DoLocMenuitem(ini, mnuOpKeys, 'm_o', 'ke');

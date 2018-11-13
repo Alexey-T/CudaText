@@ -58,7 +58,6 @@ const
   cmd_OpsOpenDefault     = 2521;
   cmd_OpsOpenUser        = 2522;
   cmd_OpsOpenLexerSpecific = 2523;
-  cmd_OpsOpenFileTypes   = 2524;
   cmd_OpsFontText        = 2525;
   cmd_OpsFontUi          = 2526;
   cmd_OpsFontOutput      = 2527;
@@ -310,7 +309,6 @@ begin
   M.Add(cmd_OpsOpenUser, 'settings: open user config', [], []);
   M.Add(cmd_OpsOpenDefaultAndUser, 'settings: open default/user configs', [], []);
   M.Add(cmd_OpsOpenLexerSpecific, 'settings: open lexer-specific config', [], []);
-  M.Add(cmd_OpsOpenFileTypes, 'settings: open file-types config', [], []);
 
   M.Add(cmd_OpsFontText, 'settings: select font: text', [], []);
   M.Add(cmd_OpsFontUi, 'settings: select font: ui', [], []);
@@ -568,7 +566,6 @@ begin
     cmd_OpsOpenUser,
     cmd_OpsOpenDefaultAndUser,
     cmd_OpsOpenLexerSpecific,
-    cmd_OpsOpenFileTypes,
     cmd_OpsFontText,
     cmd_OpsFontUi,
     cmd_OpsFontOutput,

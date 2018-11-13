@@ -4,6 +4,7 @@ See http://wiki.freepascal.org/CudaText#How_to_make_translation
 + add [sta]
 * delete [ui] tsz, wr0, wr1, wr2
 * delete [m_f] z_w, z_u, z_m
+* delete [m_o] fi
 + [si] AddonsInstalled
 
 2018.10.15
