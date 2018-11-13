@@ -1,4 +1,7 @@
-see http://wiki.freepascal.org/CudaText#How_to_make_translation
+See http://wiki.freepascal.org/CudaText#How_to_make_translation
+
+2018.11.13
+* delete [m_f] z_w, z_u, z_m
 
 2018.11.08
 + added [sta]

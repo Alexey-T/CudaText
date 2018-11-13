@@ -824,13 +824,13 @@ object fmMain: TfmMain
     left = 744
     top = 32
     object mnuEndsWin: TMenuItem
-      Caption = 'Win'
+      Caption = 'CRLF'
     end
     object mnuEndsUnix: TMenuItem
-      Caption = 'Unix'
+      Caption = 'LF'
     end
     object mnuEndsMac: TMenuItem
-      Caption = 'MacOS9'
+      Caption = 'CR'
     end
   end
   object SaveDlg: TSaveDialog

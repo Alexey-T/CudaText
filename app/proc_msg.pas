@@ -97,9 +97,9 @@ const
   msgEncAsian: string = 'Asian';
   msgEncMisc: string = 'Misc';
 
-  msgEndWin: string = 'Win';
-  msgEndUnix: string = 'Unix';
-  msgEndMac: string = 'MacOS9';
+  msgEndWin: string = 'CRLF';
+  msgEndUnix: string = 'LF';
+  msgEndMac: string = 'CR';
 
   msgCannotInitPython1: string = 'No Python engine (3.x) found. Python plugins don''t work now. To make it ok:';
   {$ifdef darwin}

@@ -375,7 +375,7 @@
   //  if "l' in value: Whitespace only at begin/end of lines (overrides "t')
   //  if "t" in value: Whitespace only at end of lines
   //  if "e" in value: Show end-of-lines marks
-  //  if "d" in value: Detailed end-of-lines: "un", "win", "mac" (overrides ".")
+  //  if "d" in value: Detailed end-of-lines: "LF", "CRLF", "CR" (overrides ".")
   //  if "." in value: Instead of arrows at end-of-lines, show thick dots
   "unprinted_content": "se",
 
@@ -392,7 +392,7 @@
   //Unprinted: Scale (% of char height) of space dot
   "unprinted_space_dot_scale": 15,
 
-  //Unprinted: Scale of end-of-line text: "un", "win", "mac"
+  //Unprinted: Scale of end-of-line text marks: "LF", "CRLF", "CR"
   "unprinted_end_font_scale": 80,
 
   //Unprinted: Scale of tab-arrow pointer (15..50)

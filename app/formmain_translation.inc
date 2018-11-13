@@ -107,10 +107,6 @@ begin
     UpdateMenuEnc(mnuFileEnc);
     UpdateMenuEnc(PopupEnc.Items);
 
-    msgEndWin:= ini.ReadString('m_f', 'z_w', msgEndWin);
-    msgEndUnix:= ini.ReadString('m_f', 'z_u', msgEndUnix);
-    msgEndMac:= ini.ReadString('m_f', 'z_m', msgEndMac);
-
     DoLocMenuItem(mnuFileEndWin, msgEndWin);
     DoLocMenuItem(mnuFileEndUn, msgEndUnix);
     DoLocMenuItem(mnuFileEndMac, msgEndMac);
