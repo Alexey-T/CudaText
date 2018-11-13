@@ -1346,7 +1346,12 @@ begin
   EditorApplyTheme(Ed2);
 
   //newdoc props
-  Ed1.Strings.Endings:= TATLineEnds(UiOps.NewdocEnds);
+  case UiOps.NewdocEnds of
+    0: Ed1.Strings.Endings:= {$ifdef windows} cEndWin {$else} cEndUnix {$endif};
+    1: Ed1.Strings.Endings:= cEndUnix;
+    2: Ed1.Strings.Endings:= cEndWin;
+  end;
+
   Ed1.Strings.DoClearUndo;
   Ed1.Strings.Modified:= false;
   Ed1.Strings.EncodingDetectDefaultUtf8:= UiOps.DefaultEncUtf8;

@@ -1218,7 +1218,7 @@ begin
 
     NewdocLexer:= '';
     NewdocEnc:= 'utf8';
-    NewdocEnds:= {$ifdef windows} Ord(cEndWin) {$else} Ord(cEndUnix) {$endif};
+    NewdocEnds:= 0;
 
     DefaultEncUtf8:= {$ifdef windows} false {$else} true {$endif};
     ViewerBinaryWidth:= 100;

@@ -890,9 +890,7 @@ begin
 
     UiOps.NewdocLexer:= c.GetValue('newdoc_lexer', UiOps.NewdocLexer);
     UiOps.NewdocEnc:= c.GetValue('newdoc_encoding', UiOps.NewdocEnc);
-    {$ifdef windows}
-    UiOps.NewdocEnds:= c.GetValue('newdoc_eol', UiOps.NewdocEnds);
-    {$endif}
+    UiOps.NewdocEnds:= c.GetValue('newdoc_ends', UiOps.NewdocEnds);
 
     UiOps.DefaultEncUtf8:= c.GetValue(str_DefEncodingIsUtf8, UiOps.DefaultEncUtf8);
     UiOps.ViewerBinaryWidth:= c.GetValue('viewer_binary_width', UiOps.ViewerBinaryWidth);
