@@ -15,13 +15,13 @@
 + add: for horizontal scrollbar, app adds 4 spaces after longest line (before: was 1, VS Code has 5)
 + add: assigned hotkeys Shift+Enter, Shift+BkSp (same as Enter, BkSp)
 * change: end-of-line marks changed to "LF", "CRLF", "CR"
+* change: encoding names "cpNNNN" changed to lower case
 * change: removed option "newdoc_eol", instead added option "newdoc_ends" with new possible value Auto
-* change: encoding names "cpNNNN" are now in lower case
 * change: removed encoding aliases "ANSI", "OEM", now app uses/shows direct names only
 * change: removed 2 commands for "ANSI" encoding alias
-* change: deleted option "unprinted_end_dot_scale"
+* change: removed option "unprinted_end_dot_scale"
 - fix: plugin Show Unsaved Changes failed on Rus text in "ANSI" encoding (one of reasons to remove aliases)
-- fix: command "Invert selection" gave redundant carets at file begin/end
+- fix: command "Invert selection" gave redundant carets at text begin/end
 
 1.65.0 (2018/11)
 
