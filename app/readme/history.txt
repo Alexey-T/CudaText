@@ -14,6 +14,7 @@
 + add: if many zip files opened via "File - Open file", they install silently, reported only count of zip files
 + add: for horizontal scrollbar, app adds 4 spaces after longest line (before: was 1, VS Code has 5)
 + add: assigned hotkeys Shift+Enter, Shift+BkSp (same as Enter, BkSp)
+* change: end-of-line marks changed to "LF", "CRLF", "CR"
 * change: encoding names "cpNNNN" are now in lower case
 * change: removed encoding aliases "ANSI", "OEM", now app uses/shows direct names only
 * change: removed 2 commands for "ANSI" encoding alias
