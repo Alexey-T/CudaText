@@ -262,9 +262,9 @@ procedure TfmMain.UpdateMenuPlugins;
   begin
     Result:= '';
     AName:= SGetItem(AName, '\');
-    for i:= 0 to AppConfigPluginGroups_Keys.Count-1 do
-      if SRegexMatchesString(AName, AppConfigPluginGroups_Keys[i], false) then
-        exit(AppConfigPluginGroups_Values[i]+'\');
+    for i:= 0 to AppConfig_PGroups_Keys.Count-1 do
+      if SRegexMatchesString(AName, AppConfig_PGroups_Keys[i], false) then
+        exit(AppConfig_PGroups_Values[i]+'\');
   end;
   //
 var

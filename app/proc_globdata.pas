@@ -50,12 +50,14 @@ var
 var
   AppBookmarkImagelist: TImageList = nil;
   AppFolderOfLastInstalledAddon: string = '';
-  AppConfigFiletypes_NameKeys: TStringList;
-  AppConfigFiletypes_NameValues: TStringList;
-  AppConfigFiletypes_LineKeys: TStringList;
-  AppConfigFiletypes_LineValues: TStringList;
-  AppConfigPluginGroups_Keys: TStringList;
-  AppConfigPluginGroups_Values: TStringList;
+
+var
+  AppConfig_Detect_Keys: TStringList;
+  AppConfig_Detect_Values: TStringList;
+  AppConfig_DetectLine_Keys: TStringList;
+  AppConfig_DetectLine_Values: TStringList;
+  AppConfig_PGroups_Keys: TStringList;
+  AppConfig_PGroups_Values: TStringList;
 
 const
   AppExtensionThemeUi = '.cuda-theme-ui';
@@ -1338,27 +1340,27 @@ var
   i: integer;
 begin
   //detect by filename
-  i:= AppConfigFiletypes_NameKeys.IndexOf(ExtractFileName(AFilename));
+  i:= AppConfig_Detect_Keys.IndexOf(ExtractFileName(AFilename));
   if i>=0 then
-    exit(AppManager.FindLexerByName(AppConfigFiletypes_NameValues[i]));
+    exit(AppManager.FindLexerByName(AppConfig_Detect_Values[i]));
 
   //detect by extention
   ext:= ExtractFileExt(AFilename);
   if ext<>'' then
   begin
-    i:= AppConfigFiletypes_NameKeys.IndexOf('*'+ext);
+    i:= AppConfig_Detect_Keys.IndexOf('*'+ext);
     if i>=0 then
-      exit(AppManager.FindLexerByName(AppConfigFiletypes_NameValues[i]));
+      exit(AppManager.FindLexerByName(AppConfig_Detect_Values[i]));
   end;
 
   //detect by first line
-  if AppConfigFiletypes_LineKeys.Count>0 then
+  if AppConfig_DetectLine_Keys.Count>0 then
   begin
     sLine:= DoGetFirstLine(AFilename);
     if sLine<>'' then
-      for i:= 0 to AppConfigFiletypes_LineKeys.Count-1 do
-        if SRegexMatchesString(sLine, AppConfigFiletypes_LineKeys[i], true) then
-          exit(AppManager.FindLexerByName(AppConfigFiletypes_LineValues[i]));
+      for i:= 0 to AppConfig_DetectLine_Keys.Count-1 do
+        if SRegexMatchesString(sLine, AppConfig_DetectLine_Keys[i], true) then
+          exit(AppManager.FindLexerByName(AppConfig_DetectLine_Values[i]));
   end;
 
   Result:= AppManager.FindLexerByFilename(AFilename);
@@ -1945,21 +1947,21 @@ initialization
   AppShortcutShiftTab:= ShortCut(VK_TAB, [ssShift]);
   Mouse.DragImmediate:= false;
 
-  AppConfigFiletypes_NameKeys:= TStringList.Create;
-  AppConfigFiletypes_NameValues:= TStringList.Create;
-  AppConfigFiletypes_LineKeys:= TStringList.Create;
-  AppConfigFiletypes_LineValues:= TStringList.Create;
-  AppConfigPluginGroups_Keys:= TStringList.Create;
-  AppConfigPluginGroups_Values:= TStringList.Create;
+  AppConfig_Detect_Keys:= TStringList.Create;
+  AppConfig_Detect_Values:= TStringList.Create;
+  AppConfig_DetectLine_Keys:= TStringList.Create;
+  AppConfig_DetectLine_Values:= TStringList.Create;
+  AppConfig_PGroups_Keys:= TStringList.Create;
+  AppConfig_PGroups_Values:= TStringList.Create;
 
 
 finalization
-  FreeAndNil(AppConfigPluginGroups_Keys);
-  FreeAndNil(AppConfigPluginGroups_Values);
-  FreeAndNil(AppConfigFiletypes_LineKeys);
-  FreeAndNil(AppConfigFiletypes_LineValues);
-  FreeAndNil(AppConfigFiletypes_NameKeys);
-  FreeAndNil(AppConfigFiletypes_NameValues);
+  FreeAndNil(AppConfig_PGroups_Keys);
+  FreeAndNil(AppConfig_PGroups_Values);
+  FreeAndNil(AppConfig_DetectLine_Keys);
+  FreeAndNil(AppConfig_DetectLine_Values);
+  FreeAndNil(AppConfig_Detect_Keys);
+  FreeAndNil(AppConfig_Detect_Values);
   FreeAndNil(AppKeymap);
   FreeAndNil(AppBookmarkImagelist);
 
