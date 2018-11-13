@@ -22,7 +22,8 @@
 * change: removed 2 commands for "ANSI" encoding alias
 * change: removed option "unprinted_end_dot_scale"
 * change: removed option "ui_statusbar_tabsize"
-* change: separate config file "plugin groups.json" not used, instead used section "plugin_groups" in the user.json
+* change: separate config file "plugin groups.json" not used, instead used section "plugin_groups" in user.json
+* change: separate config file "filetypes.json" not used, instead used sections "detect"/"detect_line" in user.json
 - fix: plugin Show Unsaved Changes failed on Rus text in "ANSI" encoding (one of reasons to remove aliases)
 - fix: command "Invert selection" gave redundant carets at text begin/end
 
