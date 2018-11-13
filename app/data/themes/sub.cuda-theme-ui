@@ -83,7 +83,7 @@
   "ListFontHotkey" : "#80A0D0",
   "ListFontHilite" : "#80A0D0",
   "ListCompletePrefix" : "#80A0D0",
-  "ListCompleteParams" : "#008080",
+  "ListCompleteParams" : "#00A0A0",
   "GaugeFill" : "#000080",
   "GaugeBg" : "#272822",
   "ButtonFont" : "#A0A0A4",
