@@ -333,7 +333,9 @@ begin
     msgClearFilterTooltip:= ini.ReadString('ui', 'clr_f', msgClearFilterTooltip);
     CodeTreeFilterReset.Hint:= msgClearFilterTooltip;
 
-    msgStatusbarTabSize:= ini.ReadString('sta', 'tsz', msgStatusbarTabSize);
+    msgStatusbarTextTab:= ini.ReadString('sta', 'tsz', msgStatusbarTextTab);
+    msgStatusbarTextSpaces:= ini.ReadString('sta', 'tsp', msgStatusbarTextSpaces);
+
     msgStatusbarWrapStates[0]:= ini.ReadString('sta', 'wr0', msgStatusbarWrapStates[0]);
     msgStatusbarWrapStates[1]:= ini.ReadString('sta', 'wr1', msgStatusbarWrapStates[1]);
     msgStatusbarWrapStates[2]:= ini.ReadString('sta', 'wr2', msgStatusbarWrapStates[2]);

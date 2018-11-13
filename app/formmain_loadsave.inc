@@ -644,7 +644,6 @@ begin
     UiOps.StatusPanels:= c.GetValue('ui_statusbar_panels', UiOps.StatusPanels);
     UiOps.StatusHeight:= c.GetValue('ui_statusbar_height', UiOps.StatusHeight);
     UiOps.StatusTime:= Max(1, Min(60, c.GetValue('ui_statusbar_time', UiOps.StatusTime)));
-    UiOps.StatusTabsize:= c.GetValue('ui_statusbar_tabsize', UiOps.StatusTabsize);
 
     UiOps.ShowActiveBorder:= c.GetValue('ui_active_border', UiOps.ShowActiveBorder);
     UiOps.ShowTitlePath:= c.GetValue('ui_title_path', UiOps.ShowTitlePath);

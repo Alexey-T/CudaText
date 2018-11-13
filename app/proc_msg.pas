@@ -133,7 +133,9 @@ const
   msgCannotInstallReqLexer: string = 'Cannot install "%s", it requires missing lexer(s): %s';
   msgCannotAutocompleteMultiCarets: string = 'Cannot auto-complete with multi-carets';
 
-  msgStatusbarTabSize: string = 'Tab';
+  msgStatusbarTextTab: string = 'Tab';
+  msgStatusbarTextSpaces: string = 'Spaces';
+
   msgStatusbarWrapStates: array[0..Ord(High(TATSynWrapMode))] of string =
     ('no wrap', 'wrap', 'margin', 'wnd/mrg');
 

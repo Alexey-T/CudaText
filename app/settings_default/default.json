@@ -820,12 +820,6 @@
   //Statusbar message (in the last panel): show time in seconds
   "ui_statusbar_time": 5,
 
-  //Statusbar: tabsize-panel text. Macros here:
-  //  {s}: localized string "Tab size" 
-  //  {tab}: tab size
-  //  {_}: char "_" if spaces used
-  "ui_statusbar_tabsize": "{s} {tab}{_}",
-
   //[Ui]
   //Show full file path in window title
   "ui_title_path": false,

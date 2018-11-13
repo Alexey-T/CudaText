@@ -212,7 +212,6 @@ type
     StatusHeight: integer;
     StatusTime: integer;
     StatusAltTime: integer;
-    StatusTabsize: string;
 
     ShowActiveBorder: boolean;
     ShowSidebarCaptions: boolean;
@@ -1228,11 +1227,10 @@ begin
     StatusStreamSel:= 'Ln {y}, Col {xx}, {sel} lines sel';
     StatusColSel:= '{sel}x{cols} column';
     StatusCarets:= '{carets} carets, {sel} lines sel';
-    StatusPanels:= 'caret,C,170|enc,C,125|ends,C,50|lexer,C,140|tabsize,C,60|selmode,C,15|msg,L,4000';
+    StatusPanels:= 'caret,C,170|enc,C,125|ends,C,45|lexer,C,140|tabsize,C,75|selmode,C,15|msg,L,4000';
     StatusHeight:= TabHeight;
     StatusTime:= 5;
     StatusAltTime:= 7;
-    StatusTabsize:= '{s} {tab}{_}';
 
     ShowActiveBorder:= true;
     ShowSidebarCaptions:= false;

@@ -1,11 +1,9 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 2018.11.13
++ add [sta]
+* delete [ui] tsz, wr0, wr1, wr2
 * delete [m_f] z_w, z_u, z_m
-
-2018.11.08
-+ added [sta]
-* moved items from [ui] to [sta]: tsz wr0 wr1 wr2
 + [si] AddonsInstalled
 
 2018.10.15
