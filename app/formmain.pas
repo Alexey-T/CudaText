@@ -4428,12 +4428,8 @@ end;
 
 
 procedure TfmMain.DoHelpLexers;
-var
-  fn: string;
 begin
-  fn:= GetAppPath(cDirReadme)+DirectorySeparator+'help lexers install.txt';
-  if FileExistsUTF8(fn) then
-    DoFileOpen(fn);
+  OpenURL('http://wiki.freepascal.org/CudaText#Lexers');
 end;
 
 procedure TfmMain.DoHelpIssues;

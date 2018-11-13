@@ -1,6 +1,0 @@
-Lexer library has only subset of lexers.
-Other lexers (same format as SynWrite has) are at SourceForge:
-http://sourceforge.net/projects/synwrite-addons/files/Lexers/
-
-These zip packages can be installed in CudaText: open zip-file via 
-"File - Open" and confirm installation.
