@@ -4,7 +4,7 @@
   * changed
 
 
-1.65.8 (2018/11)
+1.66.0 (2018/11)
 
 + add: statusbar have tooltips
 + add: dialog "Go to": can enter absolute decimal offset (d1000) or hex offset (xFF00)
