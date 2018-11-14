@@ -803,12 +803,29 @@ end;
 function EditorGotoFromString(Ed: TATSynEdit; SInput: string): boolean;
 var
   NumLine, NumCol: integer;
+  Pnt: TPoint;
 begin
   if SEndsWith(SInput, '%') then
   begin
     NumLine:= StrToIntDef(Copy(SInput, 1, Length(SInput)-1), -1);
     NumLine:= Ed.Strings.Count * NumLine div 100 - 1;
     NumCol:= 0;
+  end
+  else
+  if SBeginsWith(SInput, 'd') then
+  begin
+    Pnt:= Ed.Strings.OffsetToPosition(
+      StrToIntDef(Copy(SInput, 2, MaxInt), -1));
+    NumLine:= Pnt.Y;
+    NumCol:= Pnt.X;
+  end
+  else
+  if SBeginsWith(SInput, 'x') then
+  begin
+    Pnt:= Ed.Strings.OffsetToPosition(
+      StrToIntDef('$'+Copy(SInput, 2, MaxInt), -1));
+    NumLine:= Pnt.Y;
+    NumCol:= Pnt.X;
   end
   else
   begin
