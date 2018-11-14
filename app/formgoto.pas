@@ -86,6 +86,8 @@ begin
   finally
     Free
   end;
+
+  plCaption.Caption:= plCaption.Caption+ ' (10, 10:10, 10%, d100, xFFF)';
 end;
 
 procedure TfmGoto.SetIsDoubleBuffered(AValue: boolean);
