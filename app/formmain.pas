@@ -5224,6 +5224,7 @@ end;
 
 procedure TfmMain.UpdateBottomCompact;
 begin
+  if FloatBottom then exit;
   if UiOps.ConsoleCompact then
     PanelBottom.Parent:= PanelEditors
   else
