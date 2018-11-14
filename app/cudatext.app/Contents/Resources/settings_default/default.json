@@ -367,20 +367,17 @@
   "margin_string": "",
   
   //[View/Unprinted]
-  //Unprinted: Global enable-flag for unprinted_ options below (spaces, ends, details)
+  //Unprinted: Global enable-flag for unprinted_ options below
   "unprinted_show": false,
-
-  //Unprinted: Show unprinted spaces/tabs
-  "unprinted_spaces": true,
-
-  //Unprinted: Show only trailing spaces/tabs, at line ends (don't show lefter)
-  "unprinted_spaces_trailing": false,
-
-  //Unprinted: Show unprinted end-of-line marks
-  "unprinted_ends": true,
-
-  //Unprinted: Paint at line-end strings like "un", "win", "mac"
-  "unprinted_end_details": false,
+  
+  //Unprinted: What info to show for unprinted chars. Option is string.
+  //  if "s" in value: Show whitespace
+  //  if "l' in value: Whitespace only at begin/end of lines (overrides "t')
+  //  if "t" in value: Whitespace only at end of lines
+  //  if "e" in value: Show end-of-lines marks
+  //  if "d" in value: Detailed end-of-lines: "LF", "CRLF", "CR" (overrides ".")
+  //  if "." in value: Instead of arrows at end-of-lines, show thick dots
+  "unprinted_content": "se",
 
   //Unprinted: Show control ASCII chars (codes 0..31) as replacement-char
   //(else show them as "xNN" hex codes)
@@ -389,19 +386,13 @@
   //Unprinted: Replacement-char hex code for control ASCII chars
   "unprinted_replace_to_code": "A4",
 
-  //Unprinted: Paint arrow-down at end-of-line, instead of dot
-  "unprinted_end_arrow": true,
-
   //Unprinted: Length of arrow for tab-char (1 is minimal, 0 means full size)
   "unprinted_tab_len": 1,
 
   //Unprinted: Scale (% of char height) of space dot
   "unprinted_space_dot_scale": 15,
 
-  //Unprinted: Scale of end-of-line dot (if dot shown, not arrow)
-  "unprinted_end_dot_scale": 30,
-
-  //Unprinted: Scale of end-of-line text: "un", "win", "mac"
+  //Unprinted: Scale of end-of-line text marks: "LF", "CRLF", "CR"
   "unprinted_end_font_scale": 80,
 
   //Unprinted: Scale of tab-arrow pointer (15..50)
@@ -409,9 +400,10 @@
 
   //[Text/Wrap]
   //Wrap mode:
-  //  0: off (faster)
-  //  1: wrap at editor edge (changed on window resize)
+  //  0: no wrap (fastest)
+  //  1: wrap at window edge
   //  2: wrap at "fixed margin"
+  //  3: wrap at minimum of "window edge" and "fixed margin"
   "wrap_mode": 0,
 
   //Show wrapped parts of long line indented, like line itself
@@ -654,15 +646,14 @@
   //New tabs: Lexer name
   "newdoc_lexer": "",
 
-  //New tabs: Encoding name
-  //Possible names are listed in Wiki. Examples: utf8, utf8_bom, utf16le, cp1250 etc
+  //New tabs: Encoding name. Possible names are listed in Wiki (utf8, utf8_bom, cp1250 etc).
   "newdoc_encoding": "utf8",
 
-  //New tabs: End-of-line characters; option is only for Windows
-  //  1: Windows line-ends
-  //  2: Unix line-ends
-  //  3: MacOS 9 line-ends
-  "newdoc_eol": 1,
+  //New tabs: End-of-line sequence
+  //  0: Auto (CRLF on Windows, LF otherwise)
+  //  1: LF
+  //  2: CRLF
+  "newdoc_ends": 0,
 
   //[File]
   //When file opens, and cannot detect encoding, open it as ANSI (value=false)
@@ -744,33 +735,33 @@
   "mouse_click_number_selects_eol": true,
 
   //[Keys]
-  //Key BkSp: do unindent too (if caret inside indented area)
+  //Key BackSpace: do Unindent command, if caret is inside indented area
   "key_bksp_unindent": true,
 
-  //Key Tab: do block-indent too (if selection)
+  //Key Tab: do Indent command, if text is selected
   "key_tab_indents_sel": true,
 
-  //Key Home: first jump to nonspace, next to line start
+  //Key Home: first jump to leading non-space char, then to line start
   "key_home_to_nonspace": true,
 
-  //Key End: first jump to ending nonspace, next to line end
+  //Key End: first jump to trailing non-space char, then to line end
   "key_end_to_nonspace": true,
 
   //Keys Home/End: when moving on long wrapped lines, treat wrapped parts like
-  //separate lines and first jump to wrapped parts edge, next to line edge
+  //separate lines and first jump to wrapped parts edge
   "key_home_end_nav_wrapped": true,
 
   //Keys PageUp/PageDown: keep relative offset from top of editor
   "key_page_keeps_rel_pos": true,
 
-  //Keys PageUp/PageDown page size
+  //Keys PageUp/PageDown: page size
   //  0: full height
   //  1: full height minus 1
   //  2: half height
   "key_page_size": 1,
 
-  //Keys Up/Down: try to keep caret column
-  //(if moving from long line, to short line, to long line again)
+  //Keys Up/Down: try to remember/keep caret column: if moving from long line, 
+  //to short line, to long line again
   "key_up_down_keeps_column": true,
 
   //Keys Up/Down: when moving on long wrapped lines, treat wrapped parts
@@ -820,19 +811,13 @@
   //    wrap   : State of wrap mode: no wrap, wrap at window edge, wrap at fixed margin
   //    msg    : Message from CudaText or plugins (panel is auto-sized)
   //Panel alignment: C (center), L (left), R (right)
-  "ui_statusbar_panels": "caret,C,170|enc,C,125|ends,C,50|lexer,C,140|tabsize,C,80|selmode,C,15|msg,L,",
+  "ui_statusbar_panels": "caret,C,170|enc,C,125|ends,C,50|lexer,C,140|tabsize,C,60|selmode,C,15|msg,L,",
 
   //Statusbar height
   "ui_statusbar_height": 24,
 
   //Statusbar message (in the last panel): show time in seconds
   "ui_statusbar_time": 5,
-
-  //Statusbar: tabsize-panel text. Macros here:
-  //  {s}: localized string "Tab size" 
-  //  {tab}: tab size
-  //  {_}: char "_" if spaces used
-  "ui_statusbar_tabsize": "{s} {tab}{_}",
 
   //[Ui]
   //Show full file path in window title

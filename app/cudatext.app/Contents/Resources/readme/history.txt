@@ -4,6 +4,29 @@
   * changed
 
 
+1.65.8 (2018/11)
+
++ add: statusbar have tooltips
++ add: deepest block staple, containing first caret, is highlighted (like VS Code)
+* change: removed 5 unprinted_ options ("unprinted_spaces", "unprinted_spaces_trailing", "unprinted_ends", "unprinted_end_details", "unprinted_end_arrow")
++ add: single option instead of deleted ones: "unprinted_content", and it has new sub-option to show unprinted spaces/tabs only at begin/end of lines
++ add: option "wrap_mode" has new possible value "wrap at minimum of window edge / margin" (like VS Code)
++ add: if many zip files opened via "File - Open file", they install silently, reported only count of zip files
++ add: for horizontal scrollbar, app adds 4 spaces after longest line (before: was 1, VS Code has 5)
++ add: assigned hotkeys Shift+Enter, Shift+BkSp (same as Enter, BkSp)
++ add: checking/warning for outdated files/dirs of CudaText, which should be removed by user
+* change: end-of-line marks changed to "LF", "CRLF", "CR"
+* change: encoding names "cpNNNN" changed to lower case
+* change: removed option "newdoc_eol", instead added option "newdoc_ends" with new possible value Auto
+* change: removed encoding aliases "ANSI", "OEM", now app uses/shows direct names only
+* change: removed 2 commands for "ANSI" encoding alias
+* change: removed option "unprinted_end_dot_scale"
+* change: removed option "ui_statusbar_tabsize"
+* change: separate config file "plugin groups.json" not used, instead used section "plugin_groups" in user.json
+* change: separate config file "filetypes.json" not used, instead used sections "detect"/"detect_line" in user.json
+- fix: plugin Show Unsaved Changes failed on Rus text in "ANSI" encoding (one of reasons to remove aliases)
+- fix: command "Invert selection" gave redundant carets at text begin/end
+
 1.65.0 (2018/11)
 
 + add: option "saving_trim_final_empty" - delete redundant final empty lines

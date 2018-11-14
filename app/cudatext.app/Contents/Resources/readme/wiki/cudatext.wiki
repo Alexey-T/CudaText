@@ -44,51 +44,50 @@ Editor has config system in JSON files: call menu item "Settings-default" and yo
 
 '''Lexer-specific config''': settings which are read when some lexer activates. E.g. if you open Pascal file, config for Pascal is read after user config (file "lexer Pascal.json"). You should not write "ui_" options to lexer-specific configs (it may give weird effects on changing lexer), and some other global options.
 
-'''File types config''': specifies mapping between file names (name or extension) and lexer names. Such mapping exists in lexer-library, this config overrides it.
-
-'''Plugin groups config''': adds grouping in the Plugins menu.
-
 '''Hotkey config'''. Special dialog allows to change all hotkeys in the app. You should not edit config file here. Dialog is called from "Help - Commands" list by key F9. Dialog allows to set hotkey-1 and hotkey-2 for any command (except dynamically added commands to change lexer).
 
 == File types config ==
 
-File name is "settings/filetypes.json". Menu item "Options / Settings - more / Settings - file types" opens this file. It specifies mapping from "file name" to "lexer name". Example:
+Section "detect" in user.json. Specifies mapping from "file name" to "lexer name".
 
 <syntaxhighlight lang="javascript">
-{
-  "*.mht": "HTML",
-  "myconfig.conf": "Nginx",
-  ".profile": "Bash script",
-  "line": {
-    "<html.*": "HTML",
-    "<!DOCTYPE.*": "HTML",
-    "<\\?xml.*": "XML",
-  }
-}
+  "detect": {
+    "*.mht": "HTML",
+    "myconfig.conf": "Nginx",
+    ".profile": "Bash script",
+  },
 </syntaxhighlight>
 
 * Key name: File mask. Must be full name (without path), or extension after "*." chars. More complex masks are not yet supported.
 * Key value: Lexer name. Value "-" means "don't activate lexer".
 
-Section "line" contains config to detect lexer by first line of file.
+Another method to specify this mapping is dialog "Lexer properties", in which you can add extension or name+extension to a lexer. But dialog is more limited: it saves option to the lexer file (data/lexlib/lexername.lcf), so setting will be reset on reinstalling lexer.
+
+Section "detect_line" in user.json. Allows to detect lexer by first line of file.
+
+<syntaxhighlight lang="javascript">
+  "detect_line": {
+    "<html.*": "HTML",
+    "<!DOCTYPE.*": "HTML",
+    "<\\?xml.*": "XML",
+  },
+</syntaxhighlight>
 
 * Key name: Reg-ex for first line. Case sensitive, but you can use (?i) modifier in reg-ex.
 * Key value: Lexer name. Value "-" means "don't activate lexer".
 
-Another method to specify this mapping is dialog "Lexer properties", in which you can add extension or name+extension to a lexer. But dialog is more limited: it saves option to the lexer file (data/lexlib/lexername.lcf), so setting will be reset on reinstalling lexer.
-
 == Plugin groups config ==
 
-File name is "settings/plugin groups.json". It allows to add grouping to the Plugins menu, e.g. to put all "HTML ..." and "CSS ..." menu items into "Web" submenu. Example:
+Section "plugin_groups" in user.json. Allows to add grouping to the Plugins menu, e.g. to put all "HTML ..." and "CSS ..." menu items into "Web" submenu. Example:
 
 <syntaxhighlight lang="javascript">
-{
-  "CSS .+": "Web",
-  "HTML .+": "Web",
-  "JS .+": "Web",
-  "Config.+": "Config",
-  "Option.+": "Config",
-}
+  "plugin_groups": {
+    "CSS .+": "Web",
+    "HTML .+": "Web",
+    "JS .+": "Web",
+    "Config.+": "Config",
+    "Option.+": "Config",
+  },
 </syntaxhighlight>
 
 * Key name: regular expression for the first part of menu name. E.g. if menu name in install.inf is "CSS Utils\Misc\Action", then first part is "CSS Utils".
@@ -776,7 +775,7 @@ Viewer has simple search support (without reg.ex.), and allows to use "Go to" di
 
 Several examples of external tools configs. Call dialog of External Tools plugin (menu Tools -- Config...). Add a new tool. Set dialog properties as shown below. This must add menu item, for new tool, under Tools menu.
 
-===Tool to compile by GCC compiler===
+===Tool to compile by GCC===
 
 You can test how this tool works on any Linux, because GCC is preinstalled. Test the tool on C++ example, which is created from CudaText by menu "File -- New from template -- C++". 
 
@@ -795,7 +794,7 @@ Optionally, configure "Pattern", so double click in the Output panel will put ca
 
 * Pattern: (?P<file>[^:]+):(?P<line>\d+):(?P<col>\d+): .+
 
-===Tool to run compiled C program===
+===Tool to run C program===
 
 Tool is for Linux, so "File name" don't have an extension. For Windows, change "File name" field to "{FileNameNoExt}.exe".
 
@@ -808,6 +807,15 @@ Tool is for Linux, so "File name" don't have an extension. For Windows, change "
 * Capture output: Output panel
 * Encoding: utf_8
 * Pattern: (empty)
+
+===Tool to compile+run C program===
+
+In the External Tools dialog, press Join button, to join 2 tools created in above steps. Properties of joined tool:
+
+* Name: C - make+run
+* Series: C - compile; C - run
+* Lexers: C,C++
+
 
 ===Tool to run Python scripts===
 
@@ -868,7 +876,13 @@ And here is the old way:
 
 First, you need to know GitHub repository (repo) URL of plugin. For example, https://github.com/kvichans/cuda_find_in_files . If you have plugin already, then you can see this URL in the plugin's install.inf (line "homepage=").
 
-Next, call CudaText menu item "Plugins / Addon Manager / Install from GitHub". And enter URL in the suggested dialog. AddonManager will install latest version from GitHub from "master" branch.
+Next, call CudaText menu item "Plugins - Addons Manager - Install from GitHub". Enter URL in the suggested dialog. Addons Manager will install latest version from GitHub "master" branch.
+
+==How to simply install many add-ons==
+
+* In the dialog "File - Open file", you can multi-select files in list - with Ctrl+click (on Windows) or Shift+arrows.
+* Use command "Plugins - Addons Manager - Download all", which saves all addons zip files to some folder. When done, install many addons from this folder using "File - Open file" multi-selection.
+* To download without SourceForge lags, use this page: http://totalcmd.net/plugring/CudaText_addons.html , but page is updated not often.
 
 ==How to make translation==
 

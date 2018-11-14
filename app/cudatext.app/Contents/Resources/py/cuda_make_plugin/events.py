@@ -20,6 +20,7 @@ EVENTS = [
     'on_key',
     'on_key_up',
     'on_lexer',
+    'on_lexer_parsed',
     'on_macro',
     'on_mouse_stop',
     'on_open',
