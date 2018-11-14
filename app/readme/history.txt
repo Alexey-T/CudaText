@@ -7,7 +7,8 @@
 1.65.8 (2018/11)
 
 + add: statusbar have tooltips
-+ add: dialog "Go to": can enter absolute decimal offset (dNNN) or hex offset (xNNN)
++ add: dialog "Go to": can enter absolute decimal offset (d1000) or hex offset (xFF00)
++ add: dialog "Go to": title shows detailed hint
 + add: deepest block staple, containing first caret, is highlighted (like VS Code)
 * change: removed 5 unprinted_ options ("unprinted_spaces", "unprinted_spaces_trailing", "unprinted_ends", "unprinted_end_details", "unprinted_end_arrow")
 + add: single option instead of deleted ones: "unprinted_content", and it has new sub-option to show unprinted spaces/tabs only at begin/end of lines
@@ -25,6 +26,7 @@
 * change: removed option "ui_statusbar_tabsize"
 * change: separate config file "plugin groups.json" not used, instead used section "plugin_groups" in user.json
 * change: separate config file "filetypes.json" not used, instead used sections "detect"/"detect_line" in user.json
+* change: plugin Multi Installer: removed options to make menu groups
 - fix: plugin Show Unsaved Changes failed on Rus text in "ANSI" encoding (one of reasons to remove aliases)
 - fix: command "Invert selection" gave redundant carets at text begin/end
 
