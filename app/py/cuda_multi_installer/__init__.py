@@ -125,22 +125,16 @@ class Command:
             to_install[i] = []
 
         RES_LIST = 2
-        RES_GR_WEB = 3
-        RES_GR_PY = 4
-        RES_GR_XML = 5
-        RES_NEXT = 7
+        RES_NEXT = 4
         
-        res = dlg_custom('CudaText Multi Installer', 360, 460, '\n'.join([
+        res = dlg_custom('CudaText Multi Installer', 360, 410, '\n'.join([
             '\1'.join(['type=label','pos=5,5,350,0','cap=Select language(s) needed for you.']),
             '\1'.join(['type=label','pos=5,25,350,0','cap=Next steps will suggest add-ons for them.']),
-            '\1'.join(['type=checklistbox','pos=5,48,355,330','items='+
+            '\1'.join(['type=checklistbox','pos=5,48,425,370','items='+
                 '\t'.join(langs)
                 ]),
-            '\1'.join(['type=check', 'pos=5,335,300,0', 'cap=Make menu group "Web" for HTML/CSS/JS/PHP']),
-            '\1'.join(['type=check', 'pos=5,365,300,0', 'cap=Make menu group "Python"']),
-            '\1'.join(['type=check', 'pos=5,395,300,0', 'cap=Make menu group "XML"']),
-            '\1'.join(['type=button','pos=5,425,85,0','cap=Cancel']),
-            '\1'.join(['type=button','pos=275,425,355,0','cap=Next']),
+            '\1'.join(['type=button','pos=5,375,85,0','cap=Cancel']),
+            '\1'.join(['type=button','pos=275,375,355,0','cap=Next']),
             ]),
             get_dict=True
             )
@@ -149,17 +143,17 @@ class Command:
         if res['clicked']!=RES_NEXT:
             return
 
-        if res[RES_GR_WEB]=='1':
-            make_plugin_group('HTML.+', 'Web')
-            make_plugin_group('CSS.+', 'Web')
-            make_plugin_group('JS.+', 'Web')
-            make_plugin_group('PHP.+', 'Web')
-            
-        if res[RES_GR_PY]=='1':
-            make_plugin_group('Python.+', 'Python')
-            
-        if res[RES_GR_XML]=='1':
-            make_plugin_group('XML.+', 'XML')
+        #if res[RES_GR_WEB]=='1':
+        #    make_plugin_group('HTML.+', 'Web')
+        #    make_plugin_group('CSS.+', 'Web')
+        #    make_plugin_group('JS.+', 'Web')
+        #    make_plugin_group('PHP.+', 'Web')
+        #    
+        #if res[RES_GR_PY]=='1':
+        #    make_plugin_group('Python.+', 'Python')
+        #    
+        #if res[RES_GR_XML]=='1':
+        #    make_plugin_group('XML.+', 'XML')
 
         res_list = res[RES_LIST].split(';')[1].split(',')
         res_list = list(map(str_to_bool,res_list))
