@@ -1,6 +1,6 @@
 import os
-import json
 from cudatext import *
+import cudax_lib as apx
 import cuda_addonman
 import urllib.request
 import tempfile
@@ -8,7 +8,6 @@ import tempfile
 URL_DB = 'https://raw.githubusercontent.com/Alexey-T/CudaText-registry/master/multi_inst/db.py'
 COLUMN_LEN = 20
 COLUMN_W = 240
-FN_GROUPS = os.path.join(app_path(APP_DIR_SETTINGS), 'plugin groups.json')
 
 def str_to_bool(s):
     return s == '1'
@@ -25,13 +24,7 @@ def is_file_html(fn):
 
 def make_plugin_group(regex, name):
 
-    d = {}
-    if os.path.isfile(FN_GROUPS):
-        with open(FN_GROUPS) as f:
-            d = json.load(f)
-    d[regex] = name
-    with open(FN_GROUPS, 'w') as f:
-        f.write(json.dumps(d, indent=2))
+    apx.set_opt('plugin_groups/'+regex, name)
 
 
 class Command:
