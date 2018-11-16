@@ -375,11 +375,7 @@ Main types of line-ends are supported:
 
 To change line-ends for current file, click statusbar item. You need to save file then. Changed line-ends can be undone via "Undo".
 
-Mixed line-ends in one file are supported. To see ends for all lines, set to "true" these options: 
-
-* unprinted_show
-* unprinted_ends
-* unprinted_end_details
+Mixed line-ends (LF with CR LF) in one file are supported. To see mixed line-ends, use app option "unprinted_content".
 
 ==Groups of tabs==
 
@@ -389,7 +385,7 @@ Groups are tab-sets, each tab with an editor control. By default only the first 
 * 2 groups: vertically or horizontally 
 * 3 groups: vertically, horizontally or 1+2 
 * 4 groups: vertically, horizontally or grid 
-* 6 groups: grid 
+* 6 groups: vertically, horizontally or grid
 
 First group cannot be empty, at last one tab exists in it. Other groups can be empty: on closing last tab, if it's active, the first group activates. 
 
