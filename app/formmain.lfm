@@ -275,13 +275,13 @@ object fmMain: TfmMain
       object mnuFileEnds: TMenuItem
         Caption = 'L&ine ends'
         object mnuFileEndWin: TMenuItem
-          Caption = 'Win'
+          Caption = 'CRLF'
         end
         object mnuFileEndUn: TMenuItem
-          Caption = 'Unix'
+          Caption = 'LF'
         end
         object mnuFileEndMac: TMenuItem
-          Caption = 'MacOS9'
+          Caption = 'CR'
         end
       end
       object SepFile4: TMenuItem

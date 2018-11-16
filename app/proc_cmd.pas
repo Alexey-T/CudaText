@@ -427,9 +427,9 @@ begin
   M.Add(cmd_SplitTab6040, 'split tab: 60/40', [], []);
   M.Add(cmd_SplitTab7030, 'split tab: 70/30', [], []);
 
-  M.Add(cmd_LineEndWin, 'change line ends: win', [], []);
-  M.Add(cmd_LineEndUnix, 'change line ends: unix', [], []);
-  M.Add(cmd_LineEndMac, 'change line ends: mac', [], []);
+  M.Add(cmd_LineEndWin, 'change line ends: CRLF', [], []);
+  M.Add(cmd_LineEndUnix, 'change line ends: LF', [], []);
+  M.Add(cmd_LineEndMac, 'change line ends: CR', [], []);
 
   M.Add(cmd_MenuEnc, 'menu: encodings', [], []);
   M.Add(cmd_MenuEnds, 'menu: line ends', [], []);
