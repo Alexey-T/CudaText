@@ -335,6 +335,12 @@ begin
     msgStatusbarTextTab:= ini.ReadString('sta', 'tsz', msgStatusbarTextTab);
     msgStatusbarTextSpaces:= ini.ReadString('sta', 'tsp', msgStatusbarTextSpaces);
 
+    msgStatusbarTextLine:= ini.ReadString('sta', '_ln', msgStatusbarTextLine);
+    msgStatusbarTextCol:= ini.ReadString('sta', '_col', msgStatusbarTextCol);
+    msgStatusbarTextSel:= ini.ReadString('sta', '_sel', msgStatusbarTextSel);
+    msgStatusbarTextLinesSel:= ini.ReadString('sta', '_lsel', msgStatusbarTextLinesSel);
+    msgStatusbarTextCarets:= ini.ReadString('sta', '_cr', msgStatusbarTextCarets);
+
     msgStatusbarWrapStates[0]:= ini.ReadString('sta', 'wr0', msgStatusbarWrapStates[0]);
     msgStatusbarWrapStates[1]:= ini.ReadString('sta', 'wr1', msgStatusbarWrapStates[1]);
     msgStatusbarWrapStates[2]:= ini.ReadString('sta', 'wr2', msgStatusbarWrapStates[2]);

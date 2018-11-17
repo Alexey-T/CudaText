@@ -16,7 +16,7 @@ uses
   ATSynEdit;
 
 const
-  cAppExeVersion = '1.66.0.0';
+  cAppExeVersion = '1.66.1.0';
   cAppApiVersion = '1.0.263';
 
 const
@@ -135,6 +135,12 @@ const
 
   msgStatusbarTextTab: string = 'Tab';
   msgStatusbarTextSpaces: string = 'Spaces';
+
+  msgStatusbarTextLine: string = 'Ln';
+  msgStatusbarTextCol: string = 'Col';
+  msgStatusbarTextSel: string = 'sel';
+  msgStatusbarTextLinesSel: string = 'lines sel';
+  msgStatusbarTextCarets: string = 'carets';
 
   msgStatusbarWrapStates: array[0..Ord(High(TATSynWrapMode))] of string =
     ('no wrap', 'wrap', 'margin', 'wnd/mrg');

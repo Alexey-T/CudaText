@@ -26,6 +26,7 @@ uses
   ATStringProc,
   proc_globdata,
   proc_colors,
+  proc_msg,
   math;
 
 procedure EditorFocus(C: TWinControl);
@@ -290,6 +291,12 @@ begin
   result:= stringreplace(result, '{count}', inttostr(ed.strings.count), []);
   result:= stringreplace(result, '{carets}', inttostr(ed.carets.count), []);
   result:= stringreplace(result, '{cols}', inttostr(cols), []);
+
+  result:= stringreplace(result, '{_ln}', msgStatusbarTextLine, []);
+  result:= stringreplace(result, '{_col}', msgStatusbarTextCol, []);
+  result:= stringreplace(result, '{_sel}', msgStatusbarTextSel, []);
+  result:= stringreplace(result, '{_linesel}', msgStatusbarTextLinesSel, []);
+  result:= stringreplace(result, '{_carets}', msgStatusbarTextCarets, []);
 
   if pos('{sel}', result)>0 then
     result:= stringreplace(result, '{sel}', inttostr(EditorGetSelLines(ed)), []);

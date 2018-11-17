@@ -1221,11 +1221,12 @@ begin
     DefaultEncUtf8:= {$ifdef windows} false {$else} true {$endif};
     ViewerBinaryWidth:= 100;
 
-    StatusNoSel:= 'Ln {y}, Col {xx}';
-    StatusSmallSel:= 'Ln {y}, Col {xx}, sel';
-    StatusStreamSel:= 'Ln {y}, Col {xx}, {sel} lines sel';
-    StatusColSel:= '{sel}x{cols} column';
-    StatusCarets:= '{carets} carets, {sel} lines sel';
+    StatusNoSel:= '{_ln} {y}, {_col} {xx}';
+    StatusSmallSel:= '{_ln} {y}, {_col} {xx}, {_sel}';
+    StatusStreamSel:= '{_ln} {y}, {_col} {xx}, {sel} {_linesel}';
+    StatusColSel:= '{sel}x{cols} {_sel}';
+    StatusCarets:= '{carets} {_carets}, {sel} {_linesel}';
+
     StatusPanels:= 'caret,C,170|enc,C,125|ends,C,45|lexer,C,140|tabsize,C,75|selmode,C,15|msg,L,4000';
     StatusHeight:= TabHeight;
     StatusTime:= 5;
