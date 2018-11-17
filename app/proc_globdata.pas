@@ -917,7 +917,11 @@ begin
       {$ifdef darwin}
       OpDirLocal:= GetEnvironmentVariableUTF8('HOME')+'/Library/Application Support/CudaText';
       {$else}
-      OpDirLocal:= GetEnvironmentVariableUTF8('HOME')+'/.config/cudatext';
+      S:= GetEnvironmentVariableUTF8('XDG_CONFIG_HOME');
+      if S<>'' then
+        OpDirLocal:= S+'/cudatext'
+      else
+        OpDirLocal:= GetEnvironmentVariableUTF8('HOME')+'/.config/cudatext';
       {$endif}
     {$endif}
 
