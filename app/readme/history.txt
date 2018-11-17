@@ -4,6 +4,13 @@
   * changed
 
 
+1.66.1 (2018/11)
+
++ add: localization of statusbar first cell, via additional macros used in default value for this cell
++ add: option "ui_menu_show"
++ add: option "ui_statusbar_show"
++ add: option "ui_toolbar_show"
+
 1.66.0 (2018/11)
 
 + add: statusbar have tooltips

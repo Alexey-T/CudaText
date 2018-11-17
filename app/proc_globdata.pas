@@ -216,6 +216,9 @@ type
     StatusTime: integer;
     StatusAltTime: integer;
 
+    ShowMenubar: boolean;
+    ShowStatusbar: boolean;
+    ShowToolbar: boolean;
     ShowActiveBorder: boolean;
     ShowSidebarCaptions: boolean;
     ShowTitlePath: boolean;
@@ -1232,6 +1235,9 @@ begin
     StatusTime:= 5;
     StatusAltTime:= 7;
 
+    ShowMenubar:= true;
+    ShowStatusbar:= true;
+    ShowToolbar:= false;
     ShowActiveBorder:= true;
     ShowSidebarCaptions:= false;
     ShowTitlePath:= false;

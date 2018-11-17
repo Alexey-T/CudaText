@@ -2373,6 +2373,10 @@ begin
     DoApplyUiOpsToGroups(GroupsF3);
   end;
 
+  ShowMenu:= UiOps.ShowMenubar;
+  ShowStatus:= UiOps.ShowStatusbar;
+  ShowToolbar:= UiOps.ShowToolbar;
+
   PanelSide.Visible:= UiOps.SidebarShow;
   ShowSideBarOnRight:= UiOps.SidebarOnRight;
   PanelLeftTitle.Height:= Groups.Pages1.Tabs.Height;

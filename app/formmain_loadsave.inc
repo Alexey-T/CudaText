@@ -66,11 +66,8 @@ begin
         c.SetValue('/dialog/fl_g3/sizey', FFormFloatGroups3.Height);
       end;
 
-      c.SetValue('show_toolbar', ShowToolbar);
-      c.SetValue('show_status', ShowStatus);
       c.SetValue('show_sidepanel', ShowSidePanel);
       c.SetValue('show_bottom', ShowBottom);
-      c.SetValue('show_menu', ShowMenu);
 
       c.SetValue('float_side', FloatSide);
       c.SetValue('float_bottom', FloatBottom);
@@ -474,11 +471,8 @@ begin
     FFinder.OptInSelection:= c.GetValue('/finder/insel', false);
 
     ////state
-    ShowToolbar:= c.GetValue('show_toolbar', false);
-    ShowStatus:= c.GetValue('show_status', true);
     ShowSidePanel:= c.GetValue('show_sidepanel', true);
     ShowBottom:= c.GetValue('show_bottom', false);
-    ShowMenu:= c.GetValue('show_menu', true);
 
     PanelLeft.Width:= Min(c.GetValue('size_side', 200), ClientWidth div 2);
     PanelBottom.Height:= Min(c.GetValue('size_bottom', 200), ClientHeight div 2);
@@ -810,6 +804,10 @@ begin
     UiOps.LexerPostponeUntilShown:= c.GetValue('lexer_postpone_until_shown', UiOps.LexerPostponeUntilShown);
     if not UiOps.LexerPostponeUntilShown then
       AllowFrameParsing:= true;
+
+    UiOps.ShowMenubar:= c.GetValue('ui_menu_show', UiOps.ShowMenubar);
+    UiOps.ShowStatusbar:= c.GetValue('ui_statusbar_show', UiOps.ShowStatusbar);
+    UiOps.ShowToolbar:= c.GetValue('ui_toolbar_show', UiOps.ShowToolbar);
 
     UiOps.SidebarShow:= c.GetValue('ui_sidebar_show', UiOps.SidebarShow);
     UiOps.SidebarOnRight:= c.GetValue('ui_sidebar_on_right', UiOps.SidebarOnRight);

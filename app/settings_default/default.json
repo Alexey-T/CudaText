@@ -804,6 +804,9 @@
   "ui_statusbar_col_sel": "{sel}x{cols} {_sel}",
   "ui_statusbar_carets": "{carets} {_carets}, {sel} {_linesel}",
 
+  //Statusbar is visible
+  "ui_statusbar_show": true,
+
   //Statusbar panels list. Can skip items, can reorder items.
   //Panel names:
   //    caret  : Caret(s) info
@@ -984,7 +987,7 @@
   "ui_console_wrap": true,
   
   //[Ui/Toolbars]
-  //Show sidebar (vertical toolbar at the left edge)
+  //Show sidebar (vertical bar on the left side)
   "ui_sidebar_show": true,
   
   //Show sidebar on the right side
@@ -994,9 +997,15 @@
   //Folders from: sideicons
   "ui_sidebar_theme": "common_20x20",
 
+  //Show toolbar (horizontal bar, below window title)
+  "ui_toolbar_show": false,
+
   //Toolbar icons theme
   //Folders from: toolbaricons
   "ui_toolbar_theme": "default_24x24", 
+
+  //Show main menu bar
+  "ui_menu_show": true,
 
   //[Find/Hotkeys]
   //Hotkeys in Find/Replace dialog
