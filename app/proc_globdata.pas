@@ -902,18 +902,25 @@ begin
   OpDirExe:= ExtractFileDir(ParamStrUTF8(0));
   OpDirPrecopy:= GetDirPrecopy;
 
+  //portable folder of app
   if DirectoryExistsUTF8(
       OpDirExe+
       DirectorySeparator+'data'+
       DirectorySeparator+'lexlib') then
     OpDirLocal:= OpDirExe
   else
+  //not portable folder, use Home dir
   begin
     {$ifdef windows}
     OpDirLocal:= GetEnvironmentVariableUTF8('appdata')+'\CudaText';
     {$else}
-    OpDirLocal:= GetEnvironmentVariableUTF8('HOME')+'/.cudatext';
+      {$ifdef darwin}
+      OpDirLocal:= GetEnvironmentVariableUTF8('HOME')+'/Library/Application Support/CudaText';
+      {$else}
+      OpDirLocal:= GetEnvironmentVariableUTF8('HOME')+'/.config/cudatext';
+      {$endif}
     {$endif}
+
     CreateDirUTF8(OpDirLocal);
 
     if DirectoryExistsUTF8(OpDirPrecopy) then
