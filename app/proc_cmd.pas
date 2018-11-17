@@ -73,6 +73,7 @@ const
   cmd_ShowPanelValidate  = 2537;
   cmd_ToggleFindDialog   = 2538;
   cmd_ToggleOnTop        = 2539;
+  cmd_ToggleSidebar      = 2540;
   cmd_ToggleToolbar      = 2541;
   cmd_ToggleStatusbar    = 2542;
   cmd_ResetPythonPlugins = 2543;
@@ -326,10 +327,11 @@ begin
   M.Add(cmd_ToggleSidePanel, 'ui: toggle side panel', [{$ifndef darwin}'F12'{$endif}], []);
   M.Add(cmd_ToggleBottomPanel, 'ui: toggle bottom panel', [], []);
   M.Add(cmd_ToggleFindDialog, 'ui: toggle find/replace dialog', [], []);
+  M.Add(cmd_ToggleSidebar, 'ui: toggle sidebar', [], []);
   M.Add(cmd_ToggleToolbar, 'ui: toggle toolbar', [], []);
   M.Add(cmd_ToggleStatusbar, 'ui: toggle statusbar', [], []);
+  M.Add(cmd_ToggleMenu, 'ui: toggle menu bar', [], []);
   M.Add(cmd_ToggleOnTop, 'ui: toggle window always on top', [], []);
-  M.Add(cmd_ToggleMenu, 'ui: toggle main menu', [], []);
   M.Add(cmd_ToggleFloatSide, 'ui: toggle floating side panel', [], []);
   M.Add(cmd_ToggleFloatBottom, 'ui: toggle floating bottom panel', [], []);
 
@@ -584,6 +586,7 @@ begin
     //cmd_ShowPanelOutput,
     //cmd_ShowPanelValidate,
     cmd_ToggleFindDialog,
+    cmd_ToggleSidebar,
     cmd_ToggleToolbar,
     cmd_ToggleStatusbar,
     cmd_ResetPythonPlugins,
@@ -686,6 +689,7 @@ begin
     cmd_ToggleFindDialog,
     cmd_ToggleFullScreen,
     cmd_ToggleDistractionFree,
+    cmd_ToggleSidebar,
     cmd_ToggleStatusbar,
     cmd_ToggleToolbar,
     cmd_Groups1,

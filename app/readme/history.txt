@@ -10,6 +10,7 @@
 + add: option "ui_menu_show"
 + add: option "ui_statusbar_show"
 + add: option "ui_toolbar_show"
++ add: command "ui: toggle sidebar"
 
 1.66.0 (2018/11)
 

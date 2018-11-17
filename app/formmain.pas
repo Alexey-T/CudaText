@@ -901,6 +901,7 @@ type
     procedure DoToggleSidePanel;
     procedure DoToggleBottomPanel;
     procedure DoToggleFindDialog;
+    procedure DoToggleSidebar;
     procedure DoToggleToolbar;
     procedure DoToggleStatusbar;
     procedure FindDialogDone(Sender: TObject; const Res: string);
@@ -3698,6 +3699,11 @@ begin
   if not fmFind.Visible then
     if bBottom then
       CurrentFrame.SetFocus;
+end;
+
+procedure TfmMain.DoToggleSidebar;
+begin
+  ShowSideBar:= not ShowSideBar;
 end;
 
 procedure TfmMain.DoToggleToolbar;
