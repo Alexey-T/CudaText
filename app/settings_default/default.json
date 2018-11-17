@@ -811,7 +811,7 @@
   //    wrap   : State of wrap mode: no wrap, wrap at window edge, wrap at fixed margin
   //    msg    : Message from CudaText or plugins (panel is auto-sized)
   //Panel alignment: C (center), L (left), R (right)
-  "ui_statusbar_panels": "caret,C,170|enc,C,125|ends,C,50|lexer,C,140|tabsize,C,60|selmode,C,15|msg,L,",
+  "ui_statusbar_panels": "caret,C,180|enc,C,125|ends,C,45|lexer,C,140|tabsize,C,75|selmode,C,15|msg,L,4000",
 
   //Statusbar height
   "ui_statusbar_height": 24,

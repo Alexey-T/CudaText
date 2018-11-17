@@ -1227,7 +1227,7 @@ begin
     StatusColSel:= '{sel}x{cols} {_sel}';
     StatusCarets:= '{carets} {_carets}, {sel} {_linesel}';
 
-    StatusPanels:= 'caret,C,170|enc,C,125|ends,C,45|lexer,C,140|tabsize,C,75|selmode,C,15|msg,L,4000';
+    StatusPanels:= 'caret,C,180|enc,C,125|ends,C,45|lexer,C,140|tabsize,C,75|selmode,C,15|msg,L,4000';
     StatusHeight:= TabHeight;
     StatusTime:= 5;
     StatusAltTime:= 7;
