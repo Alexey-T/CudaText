@@ -792,12 +792,17 @@
   //  {char_dec}: character at first caret - decimal code (empty if no char)
   //  {char_hex}: character at first caret - 2..4-digit hex code (empty if no char)
   //  {char_hex4}: character at first caret - 4-digit hex code (empty if no char)
+  //  {_ln}: localized string "Ln"
+  //  {_col}: localized string "Col"
+  //  {_sel}: localized string "sel"
+  //  {_linesel}: localized string "lines sel"
+  //  {_carets}: localized string "carets"
   //
-  "ui_statusbar_no_sel": "Ln {y}, Col {xx}",
-  "ui_statusbar_small_sel": "Ln {y}, Col {xx}, sel",
-  "ui_statusbar_str_sel": "Ln {y}, Col {xx}, {sel} lines sel",
-  "ui_statusbar_col_sel": "{sel}x{cols} column",
-  "ui_statusbar_carets": "{carets} carets, {sel} lines sel",
+  "ui_statusbar_no_sel": "{_ln} {y}, {_col} {xx}",
+  "ui_statusbar_small_sel": "{_ln} {y}, {_col} {xx}, {_sel}",
+  "ui_statusbar_str_sel": "{_ln} {y}, {_col} {xx}, {sel} {_linesel}",
+  "ui_statusbar_col_sel": "{sel}x{cols} {_sel}",
+  "ui_statusbar_carets": "{carets} {_carets}, {sel} {_linesel}",
 
   //Statusbar panels list. Can skip items, can reorder items.
   //Panel names:
