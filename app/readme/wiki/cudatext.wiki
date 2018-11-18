@@ -325,6 +325,19 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 
 * "code tree icons": These are icon sets for the Code Tree (icons are visible in the Code Tree with some lexers, e.g. C#).
 
+==Location of settings/data files==
+
+When CudaText runs in portable mode (executable file is located near folder "data"), then portable folders are used. Otherwise:
+
+In CudaText version 1.66 or older:
+* Windows: %AppData%\CudaText
+* Linux, macOS, FreeBSD: ~/.cudatext
+
+In CudaText version 1.67 or newer:
+* Windows: %AppData%\CudaText
+* Linux, FreeBSD: ~/.config/cudatext, or $XDG_CONFIG_HOME/cudatext if variable set 
+* macOS: ~/Library/Application Support/CudaText
+
 ==Encodings==
 
 You can change encoding of file using click on statusbar item. Menu will give list of encodings. Also menu gives 2 choices: 
