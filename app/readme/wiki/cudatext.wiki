@@ -658,7 +658,9 @@ Notes:
 
 ==Python integration==
 ===Python on Windows===
-For Windows builds, Python engine is preinstalled. 
+On Windows, Python engine (currently version 3.5) is preinstalled. Option "pylib" has default value like this: "python35.dll".
+
+For Python 3.5, you need Visual C++ Redistributable for Visual Studio 2015 (32-bit or 64-bit, same as CudaText). Download it from Microsoft site.
 
 For old Windows XP, Python 3.4 or 3.3 must be used, you can get its files from SynWrite.SF.net, from archived versions of SynWrite. Before copying these files, first delete current Python files (*.dll, python*.zip, folder DLLs). And write option "pylib" in the user.json:
 
