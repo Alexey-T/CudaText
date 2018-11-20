@@ -3614,6 +3614,16 @@ begin
             Result:= PyBool_FromLong(Ord(fmMain.ShowSideBar));
           end;
 
+        APP_PROC_SHOW_TREEFILTER_SET:
+          begin
+            fmMain.PanelCodeTreeTop.Visible:= ParamBool;
+            Result:= ReturnNone;
+          end;
+        APP_PROC_SHOW_TREEFILTER_GET:
+          begin
+            Result:= PyBool_FromLong(Ord(fmMain.PanelCodeTreeTop.Visible));
+          end;
+
         APP_PROC_SHOW_FLOATGROUP1_SET:
           begin
             fmMain.ShowFloatGroup1:= ParamBool;
