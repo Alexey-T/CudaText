@@ -959,7 +959,7 @@ type
     procedure UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean=false);
     procedure UpdateMenuChecks;
     procedure UpdateMenuEnc(AMenu: TMenuItem);
-    procedure UpdateBottomCompact;
+    procedure UpdateBottomLayout(ASetFloating: boolean);
     procedure DoApplyUiOps;
     procedure DoApplyUiOpsToGroups(G: TATGroups);
     procedure InitPyEngine;
@@ -2350,7 +2350,7 @@ begin
     fmGoto.IsDoubleBuffered:= UiOps.DoubleBuffered;
   //end apply DoubleBuffered
 
-  UpdateBottomCompact;
+  UpdateBottomLayout(FloatBottom);
   UpdateStatusbarPanelsFromString(UiOps.StatusPanels);
   UpdateStatusbarHints;
 
@@ -5232,17 +5232,27 @@ begin
     (PanelBottom.Parent=FFormFloatBottom);
 end;
 
-procedure TfmMain.UpdateBottomCompact;
+procedure TfmMain.UpdateBottomLayout(ASetFloating: boolean);
 begin
-  if FloatBottom then exit;
-  if UiOps.ConsoleCompact then
-    PanelBottom.Parent:= PanelEditors
+  if ASetFloating then
+  begin
+    PanelBottom.Parent:= FFormFloatBottom;
+    PanelBottom.Align:= alClient;
+    PanelBottom.Show;
+    SplitterHorz.Hide;
+  end
   else
-    PanelBottom.Parent:= PanelAll;
-  PanelBottom.Align:= alBottom;
-  SplitterHorz.Parent:= PanelBottom.Parent;
-  SplitterHorz.Visible:= PanelBottom.Visible;
-  SplitterHorz.Top:= PanelBottom.Top-8;
+  begin
+    if UiOps.ConsoleCompact then
+      PanelBottom.Parent:= PanelEditors
+    else
+      PanelBottom.Parent:= PanelAll;
+
+    PanelBottom.Align:= alBottom;
+    SplitterHorz.Parent:= PanelBottom.Parent;
+    SplitterHorz.Visible:= PanelBottom.Visible;
+    SplitterHorz.Top:= PanelBottom.Top-8;
+  end;
 end;
 
 procedure TfmMain.SetFloatBottom(AValue: boolean);
@@ -5262,17 +5272,7 @@ begin
   FFormFloatBottom.Visible:= AValue;
   FFormFloatBottom.Caption:= FLastBottomPanel + ' - ' + msgTitle;
 
-  if AValue then
-  begin
-    PanelBottom.Parent:= FFormFloatBottom;
-    PanelBottom.Align:= alClient;
-    PanelBottom.Show;
-    SplitterHorz.Hide;
-  end
-  else
-  begin
-    UpdateBottomCompact;
-  end
+  UpdateBottomLayout(AValue);
 end;
 
 
