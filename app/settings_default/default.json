@@ -926,6 +926,11 @@
   //  chars trigger autocompletion, in Nnn lexer.
   "autocomplete_trigger_chars": "",
 
+  //When any of these chars is typed while showing completion listbox,
+  //listbox enters selection, and typed char is appended too.
+  //Option is for lexer-specific configs, not for user.json config.
+  "autocomplete_commit_chars": " .,;/\\''\"=<>()[]{}",
+
   //If chosen auto-completion item has (), then append "(" on insertion
   "autocomplete_add_opening_bracket": true,
 

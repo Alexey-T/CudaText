@@ -4121,6 +4121,8 @@ begin
     end;
   MsgStatus(msgStatusTryingAutocomplete+' '+LexName);
 
+  CompletionOps.CommitChars:= UiOps.AutocompleteCommitChars;
+
   if IsHtml then
   begin
     if EditorHasCssAtCaret(Ed) then

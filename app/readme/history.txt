@@ -14,6 +14,7 @@
 + add: option "ui_statusbar_show"
 + add: option "ui_toolbar_show"
 + add: command "ui: toggle sidebar"
++ add: option "autocomplete_commit_chars" (like VS Code)
 * change: history file don't store the state of toolbar/statusbar/menubar, these are options in user.json now
 
 1.66.0 (2018/11)
