@@ -274,6 +274,7 @@ begin
       fmFind.Parent:= PanelMain;
       fmFind.Align:= alBottom;
       fmFind.BorderStyle:= bsNone;
+      fmFind.FormStyle:= fsNormal;
     end
     else
     begin
