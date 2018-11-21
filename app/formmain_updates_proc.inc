@@ -1020,7 +1020,7 @@ var
   SPanel, SItem: string;
   NIndex, NSize, NTag: integer;
   Al: TAlignment;
-  bStretch: boolean;
+  bAutoSize, bStretch: boolean;
 begin
   //complex deletion of panels, touch only CudaText std panels
   for NTag:= StatusbarTag_Caret{minimal tag} to StatusbarTag_Msg{maximal tag} do
@@ -1052,12 +1052,16 @@ begin
     end;
 
     SItem:= SGetItem(SPanel);
-    Al:= AppStringToAlignment(SItem);
+    bAutoSize:= SItem='A';
+    if bAutoSize then
+      Al:= taLeftJustify
+    else
+      Al:= AppStringToAlignment(SItem);
 
     SItem:= SGetItem(SPanel);
     NSize:= Max(16, StrToIntDef(SItem, 200));
 
-    Status.AddPanel(-1, NSize, Al, '', -1, NTag, false, bStretch);
+    Status.AddPanel(-1, NSize, Al, '', -1, NTag, bAutoSize, bStretch);
   until false;
 end;
 

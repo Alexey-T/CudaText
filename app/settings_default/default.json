@@ -818,8 +818,8 @@
   //    selmode: Shows "-" for normal selection mode, "| |" for column selection mode
   //    wrap   : State of wrap mode: no wrap, wrap at window edge, wrap at fixed margin
   //    msg    : Message from CudaText or plugins (panel is auto-sized)
-  //Panel alignment: C (center), L (left), R (right)
-  "ui_statusbar_panels": "caret,C,180|enc,C,125|ends,C,45|lexer,C,140|tabsize,C,75|selmode,C,15|msg,L,4000",
+  //Panel alignment: C (center), L (left), R (right), A (auto-size)
+  "ui_statusbar_panels": "caret,C,180|enc,C,125|ends,A,45|lexer,C,140|tabsize,A,75|selmode,A,15|msg,L,4000",
 
   //Statusbar height
   "ui_statusbar_height": 24,
