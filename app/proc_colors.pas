@@ -304,7 +304,7 @@ begin
   //don't use Italic for comments, coz comments often have Unicode
   AddStyle('Comment', clGray, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
   AddStyle('Comment2', $00C080, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('CommentDoc', $A0B090, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  AddStyle('CommentDoc', $809070, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
 
   AddStyle('Number', clNavy, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
   AddStyle('Label', $607EB6, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
