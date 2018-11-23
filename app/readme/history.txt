@@ -16,7 +16,8 @@
 + add: command "ui: toggle sidebar"
 + add: option "autocomplete_commit_chars" (like VS Code)
 + add: option "ui_statusbar_panels" can specify auto-sized cells; default is changed for this
-* change: history file don't store the state of toolbar/statusbar/menubar, these are options in user.json now
++ add: menu item "View - Toggle sidebar"
+* change: history file don't store visible state of toolbar/statusbar/menubar, these are options in user.json now
 - fix: "autocomplete_add_opening_bracket" inserted bracket even if it's already in text
 
 1.66.0 (2018/11)
