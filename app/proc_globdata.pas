@@ -1974,6 +1974,9 @@ initialization
   AppConfig_PGroups_Keys:= TStringList.Create;
   AppConfig_PGroups_Values:= TStringList.Create;
 
+  //detection of Unix Shell files
+  AppConfig_DetectLine_Keys.Add('\#!.+');
+  AppConfig_DetectLine_Values.Add('Bash script');
 
 finalization
   FreeAndNil(AppConfig_PGroups_Keys);
