@@ -1,4 +1,4 @@
-object SyntAnal3: TLibSyntAnalyzer
+object SyntAnal4: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -27,7 +27,7 @@ object SyntAnal3: TLibSyntAnalyzer
     item
       DisplayName = 'Comment shebang'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clPurple
+      Font.Color = clOlive
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
@@ -143,13 +143,14 @@ object SyntAnal3: TLibSyntAnalyzer
       DisplayName = 'String'
       StyleName = 'String'
       TokenType = 5
-      Expression = '("|'#39') (\\\\|\\\1|.)*? (\1|$)'
+      Expression = '(?s)("|'#39') (\\\\|\\\1|.)*? (\1|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Int'
+      DisplayName = 'Number'
       StyleName = 'Number'
+      TokenType = 6
       Expression = '\b\d+\b'
       ColumnFrom = 0
       ColumnTo = 0
@@ -628,7 +629,8 @@ object SyntAnal3: TLibSyntAnalyzer
   SampleText.Strings = (
     '#!/bin/bash'
     'var=value'
-    '/ddd/ddd.command'
+    '/ddd/ddd.sh, "test'
+    'string"'
     ''
     'test `dirname $var 20+30`'
     'echo `more $var(20)`'
@@ -639,7 +641,7 @@ object SyntAnal3: TLibSyntAnalyzer
     '  test "test\"test" '
     '  len=${#line} $(text here)'
     '  if [[ "$len" -lt "$MINLEN" && "$line" =~ \[*\.\] ]]'
-    '    then echo  #cmt'
+    '    then echo'
     '  fi'
     'done')
   TokenTypeNames.Strings = (
@@ -648,7 +650,8 @@ object SyntAnal3: TLibSyntAnalyzer
     'Id'
     'Label'
     'Symbol'
-    'String')
+    'String'
+    'Number')
   Extentions = 'sh csh bash command /.bashrc /.zshrc'
   LexerName = 'Bash script'
   SkipSpaces = False
