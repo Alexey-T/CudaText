@@ -711,6 +711,7 @@ begin
 
   UpdateMenuItemHotkey(mnuViewFullscr, cmd_ToggleFullScreen);
   UpdateMenuItemHotkey(mnuViewDistFree, cmd_ToggleDistractionFree);
+  UpdateMenuItemHotkey(mnuViewSidebar, cmd_ToggleSidebar);
   UpdateMenuItemHotkey(mnuViewSide, cmd_ToggleSidePanel);
   UpdateMenuItemHotkey(mnuViewBottom, cmd_ToggleBottomPanel);
   UpdateMenuItemHotkey(mnuViewFloatSide, cmd_ToggleFloatSide);
@@ -841,6 +842,7 @@ begin
   UpdateMenuItemChecked(mnuViewStatus, mnuViewStatus_Alt, ShowStatus);
   UpdateMenuItemChecked(mnuViewFullscr, mnuViewFullscr_Alt, ShowFullscreen);
   UpdateMenuItemChecked(mnuViewDistFree, mnuViewDistFree_Alt, ShowDistractionFree);
+  UpdateMenuItemChecked(mnuViewSidebar, mnuViewSidebar_Alt, ShowSideBar);
   UpdateMenuItemChecked(mnuViewSide, mnuViewSide_Alt, ShowSidePanel);
   UpdateMenuItemChecked(mnuViewBottom, mnuViewBottom_Alt, ShowBottom);
   UpdateMenuItemChecked(mnuViewFloatSide, mnuViewFloatSide_Alt, FloatSide);

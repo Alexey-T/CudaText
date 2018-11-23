@@ -124,6 +124,7 @@ type
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
     ButtonCancel: TATButton;
+    mnuViewSidebar: TMenuItem;
     mnuTabCopyName: TMenuItem;
     mnuTabCopyDir: TMenuItem;
     mnuTabCopyFullPath: TMenuItem;
@@ -581,6 +582,7 @@ type
     mnuViewStatus_Alt,
     mnuViewFullscr_Alt,
     mnuViewDistFree_Alt,
+    mnuViewSidebar_Alt,
     mnuViewSide_Alt,
     mnuViewBottom_Alt,
     mnuViewFloatSide_Alt,

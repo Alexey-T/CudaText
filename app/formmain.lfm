@@ -593,6 +593,9 @@ object fmMain: TfmMain
       object mnuViewStatus: TMenuItem
         Caption = 'Toggle st&atusbar'
       end
+      object mnuViewSidebar: TMenuItem
+        Caption = 'Toggle sidebar'
+      end
       object mnuViewSide: TMenuItem
         Caption = 'Toggle s&ide panel'
       end
