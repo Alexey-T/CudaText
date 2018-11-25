@@ -2694,6 +2694,12 @@ begin
               Result:= PyBool_FromLong(0);
           end;
 
+        PROP_UNDO_GROUPED:
+          Result:= PyBool_FromLong(Ord(Ed.OptUndoGrouped));
+
+        PROP_UNDO_LIMIT:
+          Result:= PyInt_FromLong(Ed.OptUndoLimit);
+
         PROP_FOLD_TOOLTIP_SHOW:
           begin
             Result:= PyBool_FromLong(Ord(Ed.OptFoldTooltipVisible));
@@ -3047,6 +3053,12 @@ begin
             if Assigned(F) then
               F.SaveHistory:= ValueBool;
           end;
+
+        PROP_UNDO_GROUPED:
+          Ed.OptUndoGrouped:= ValueBool;
+
+        PROP_UNDO_LIMIT:
+          Ed.OptUndoLimit:= ValueInt;
 
         PROP_FOLD_TOOLTIP_SHOW:
           Ed.OptFoldTooltipVisible:= ValueBool;
