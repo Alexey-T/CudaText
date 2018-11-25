@@ -1954,6 +1954,8 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_PREVIEW: bool: editor is inside "Preview tab" (it has italic caption).
 * PROP_UNDO_GROUPED: bool: editor undo/redo is grouped.
 * PROP_UNDO_LIMIT: int: max count of simple actions, which can be undone.
+* PROP_UNDO_DATA: str: string representation of Undo data.
+* PROP_REDO_DATA: str: string representation of Redo data.
 * PROP_ACTIVATION_TIME: int: relative time (in OS timer ticks) when tab ("main" or "brother" editor in the same tab) was last focused. It's 0 for not yet focused tabs. It's None for editors created by dlg_proc().
 * PROP_KIND: str: kind of UI control in the tab.
 ** "text": normal editor
@@ -2034,6 +2036,8 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_SAVE_HISTORY: bool: allows to save history (caret, scroll pos, folding etc) on file closing.
 * PROP_UNDO_GROUPED: bool: editor undo/redo is grouped.
 * PROP_UNDO_LIMIT: int: max count of simple actions, which can be undone.
+* PROP_UNDO_DATA: str: string representation of Undo data.
+* PROP_REDO_DATA: str: string representation of Redo data.
 * PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
 * PROP_V_POS: int: for binary viewer, scroll position.
 * PROP_V_SEL_START: int: for binary viewer, selection start offset.
@@ -3050,6 +3054,9 @@ Text is chr(1) separated items:
 
 1.0.264 (app 1.67.0)
 * add: app_proc: PROC_SHOW_TREEFILTER_GET, _SET
-* add: Editor.get_prop/set_prop: PROP_UNDO_GROUPED, PROP_UNDO_LIMIT
+* add: Editor.get_prop/set_prop: PROP_UNDO_GROUPED
+* add: Editor.get_prop/set_prop: PROP_UNDO_LIMIT
+* add: Editor.get_prop/set_prop: PROP_UNDO_DATA
+* add: Editor.get_prop/set_prop: PROP_REDO_DATA
 
 [[Category:CudaText]]
