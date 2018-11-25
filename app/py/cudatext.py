@@ -209,6 +209,7 @@ PROP_SAVE_HISTORY              = 86
 PROP_PREVIEW                   = 87
 PROP_UNDO_GROUPED              = 88
 PROP_UNDO_LIMIT                = 89
+PROP_UNDO_STRING               = 90
 PROP_FOLD_TOOLTIP_SHOW         = 101
 PROP_FOLD_ALWAYS               = 102
 PROP_FOLD_ICONS                = 103

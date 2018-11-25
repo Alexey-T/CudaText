@@ -2700,6 +2700,9 @@ begin
         PROP_UNDO_LIMIT:
           Result:= PyInt_FromLong(Ed.OptUndoLimit);
 
+        PROP_UNDO_STRING:
+          Result:= PyString_FromString(PChar(Ed.UndoAsString));
+
         PROP_FOLD_TOOLTIP_SHOW:
           begin
             Result:= PyBool_FromLong(Ord(Ed.OptFoldTooltipVisible));
