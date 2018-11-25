@@ -239,21 +239,6 @@ Screenshot of SynWrite dialog:
 
 [[File:synwrite-lexer-editor.png]]
 
-=== Why Comments-plugin dont comment blocks in lexer? ===
-
-Plugin "Comments" can comment
-
-* line comments (to end of line): comment-chars are configured inside lexer .lcf file, no need to change usually
-* stream comments (from offset to offset): some lexers are configured with stream-comment-chars, and some are not.
-
-To configure stream-comment-chars, open CudaText dialog "Lexer properties" for lexer, and dialog tab "Commenting" shows inputs for these chars.
-
-* Comment to line-end (usually this is configured)
-* Comment range (often not configured)
-* Comment range, for full lines (this is very rarely supported by lexers)
-
-Stream-comment-chars are saved to separate file, lexername.cuda-lexmap. If plugin cannot comment, your lexer misses this file, or file misses the option. Check that file is absent in folder "data/lexlib". If it's absent, create file via "Lexer properties" dialog. To share file, put it to lexer's ZIP file. You can make ZIP file from SynWrite, from plugin "ExLexer", then add to it .cuda-lexmap file. CudaText and SynWrite both install this .cuda-lexmap file on installing lexer's zip file.
-
 === How to setup styles of hidden sublexer? ===
 
 Some lexers are distributed in packages together with sub-lexer, and sub-lexer is hidden. Example: "HTML Django" with sub-lexer "HTML Django internal" (the 2nd isn't visible in the Lexers menu, so it's called hidden). Users, which have option "ui_lexer_themes" off, want to configure styles of all lexers. How to access hidden ones?
@@ -349,7 +334,6 @@ If you change enc for untitled tab, then enc is changed only in-memory (next fil
 
 Encoding names for command-line:
 
-* ansi
 * utf8
 * utf8_bom
 * utf16le
@@ -374,8 +358,8 @@ Encoding names for command-line:
 * cp936
 * cp949
 * cp950
-* iso-8859-1
-* iso-8859-2
+* iso88591
+* iso88592
 * mac
 
 ==Line ends==
@@ -587,21 +571,22 @@ More allowed formats can be added by plugins.
 
 ==Comments==
 
-You can add/remove code comments, via "Comments" plugin. Plugin is preinstalled in CudaText. It gives about 6 commands in menu "Plugins - Comments - ...". Plugin supports only adding/removing of comments, not syntax highlighting for them.
+You can add/remove code comments, via "Comments" plugin. Plugin is preinstalled in CudaText. It gives about 6 commands in menu "Plugins - Comments". Plugin supports only adding/removing of comments, not syntax highlighting for them (highlighting is lexer's work).
 
-* '''Line comments''': from substring to line-end. E.g. in C lexer: "//text here", in Python lexer: "# text here".
-* '''Comments for range''' ('''Stream comments'''): from substring-1 to substring-2. E.g. in C lexer: "/* text here */". 
-* '''Comments for full lines''': from newline to another newline. E.g. used in PowerShell.
+* '''Line comments''': from some position to line-end. E.g. in C lexer: "//text here", in Python lexer: "# text here".
+* '''Comments for range''' ('''Stream comments'''): from offset to another offset. E.g. in C lexer: "/* text here */". 
+* '''Comments for full lines''': from newline to another newline. Rarely used, e.g. used in PowerShell.
 
-For ex, Python lexer supports only line comment, and don't support stream comments. PowerShell lexer supports comments for full lines, while don't support comments for any block.
+For example, Python lexer supports only line comment, and don't support stream comments. PowerShell lexer supports comments for full lines, while don't support comments for any range.
 
-Comment chars are editable in dialog "Lexer properties" (after you called needed lexer), in tab "Commenting" you see few input fields.
+Comment chars are editable in SynWrite editor, in dialog "Lexer properties" (after you install the same lexer to SynWrite). In dialog tab "Commenting" you'll see input fields.
+
 Command "Toggle stream comment" in plugin adds/removes comments of last 2 types: for range, for full lines (plugin chooses needed kind).
 
 Comment chars are saved:
 
-* Line comments: in lexer file (data/lexlib/lexername.lcf)
-* Comments for range/ for full lines: in separate files (data/lexlib/lexername.cuda-lexmap), which not exist for many lexers yet. On installing a lexer without .cuda-lexmap file, you'll see a warning about it in "Addon installed" dialog. In this case, open "Lexer properties" dialog and configure these chars.
+* Line comments: in lexer file data/lexlib/nnn.lcf.
+* Range comments: in files data/lexlib/nnn.cuda-lexmap.
 
 == Char map ==
 
