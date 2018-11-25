@@ -3052,10 +3052,12 @@ Text is chr(1) separated items:
 1.0.263 (app 1.65.6)
 * add: event on_lexer_parsed
 
-1.0.264 (app 1.67.0)
+1.0.264 (app 1.66.7)
 * add: app_proc: PROC_SHOW_TREEFILTER_GET, _SET
 * add: Editor.get_prop/set_prop: PROP_UNDO_GROUPED
 * add: Editor.get_prop/set_prop: PROP_UNDO_LIMIT
+
+1.0.265 (app 1.67.0)
 * add: Editor.get_prop/set_prop: PROP_UNDO_DATA
 * add: Editor.get_prop/set_prop: PROP_REDO_DATA
 
