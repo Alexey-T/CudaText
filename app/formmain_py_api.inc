@@ -2700,8 +2700,11 @@ begin
         PROP_UNDO_LIMIT:
           Result:= PyInt_FromLong(Ed.OptUndoLimit);
 
-        PROP_UNDO_STRING:
+        PROP_UNDO_DATA:
           Result:= PyString_FromString(PChar(Ed.UndoAsString));
+
+        PROP_REDO_DATA:
+          Result:= PyString_FromString(PChar(Ed.RedoAsString));
 
         PROP_FOLD_TOOLTIP_SHOW:
           begin
