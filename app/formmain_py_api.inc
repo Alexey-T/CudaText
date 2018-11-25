@@ -3066,6 +3066,12 @@ begin
         PROP_UNDO_LIMIT:
           Ed.OptUndoLimit:= ValueInt;
 
+        PROP_UNDO_DATA:
+          Ed.UndoAsString:= Str;
+
+        PROP_REDO_DATA:
+          Ed.RedoAsString:= Str;
+
         PROP_FOLD_TOOLTIP_SHOW:
           Ed.OptFoldTooltipVisible:= ValueBool;
 
