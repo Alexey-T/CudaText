@@ -6,9 +6,9 @@
 
 1.67.0 (2018/11)
 
-* change: on Unix, changed app subfolder in home folder:
+* change: changed app subfolder in home folder:
+       Linux, FreeBSD: ~/.config/cudatext (or $XDG_CONFIG_HOME/cudatext if variable set)
        macOS: ~/Library/Application Support/CudaText
-       Linux, FreeBSD: ~/.config/cudatext
 + add: localization of statusbar first cell (default values for ui_statusbar_* options are changed)
 + add: option "ui_menu_show"
 + add: option "ui_statusbar_show"
@@ -18,8 +18,8 @@
 + add: option "ui_statusbar_panels" can specify auto-sized cells; default is changed for this
 + add: menu item "View - Toggle sidebar"
 + add: File Types config has default entry to detect Shell files by shebang
++ add: option "autocomplete_add_opening_bracket" now doesn't insert bracket if it's already in text
 * change: history file don't store visible state of toolbar/statusbar/menubar, these are options in user.json now
-- fix: "autocomplete_add_opening_bracket" inserted bracket even if it's already in text
 
 1.66.0 (2018/11)
 
