@@ -474,7 +474,7 @@ procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string; AL
 procedure DoOps_SaveKey_ForPluginModuleAndMethod(AOverwriteKey: boolean;
   const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string);
 
-function DoLexerFindByFilename(const AFilename: string): TecSyntAnalyzer;
+function DoLexerDetectByFilenameOrContent(const AFilename: string): TecSyntAnalyzer;
 procedure DoLexerEnum(L: TStringList; AlsoDisabled: boolean = false);
 
 var
@@ -1354,7 +1354,7 @@ begin
 end;
 
 
-function DoLexerFindByFilename(const AFilename: string): TecSyntAnalyzer;
+function DoLexerDetectByFilenameOrContent(const AFilename: string): TecSyntAnalyzer;
 var
   ext, sLine: string;
   i: integer;
@@ -1918,7 +1918,7 @@ begin
   end
   else
   begin
-    Lexer:= DoLexerFindByFilename(AFilename);
+    Lexer:= DoLexerDetectByFilenameOrContent(AFilename);
     if Lexer=nil then
       LexerLite:= AppManagerLite.FindLexerByFilename(AFilename);
   end;
@@ -1977,6 +1977,10 @@ initialization
   //detection of Unix Shell files
   AppConfig_DetectLine_Keys.Add('\#!.+');
   AppConfig_DetectLine_Values.Add('Bash script');
+
+  //detection of XML
+  AppConfig_DetectLine_Keys.Add('<\?xml .+');
+  AppConfig_DetectLine_Values.Add('XML');
 
 finalization
   FreeAndNil(AppConfig_PGroups_Keys);
