@@ -4077,14 +4077,18 @@ end;
 procedure TfmMain.SetLexerIndex(AIndex: integer);
 var
   F: TEditorFrame;
+  CountUsual, CountLite: integer;
 begin
   F:= CurrentFrame;
-  if (AIndex>=0) and (AIndex<AppManager.LexerCount+AppManagerLite.LexerCount) then
+  CountUsual:= AppManager.LexerCount;
+  CountLite:= AppManagerLite.LexerCount;
+
+  if (AIndex>=0) and (AIndex<CountUsual+CountLite) then
   begin
-    if AIndex<AppManager.LexerCount then
+    if AIndex<CountUsual then
       F.Lexer:= AppManager.Lexers[AIndex]
     else
-      F.LexerLite:= AppManagerLite.Lexers[AIndex-AppManager.LexerCount];
+      F.LexerLite:= AppManagerLite.Lexers[AIndex-CountUsual];
   end
   else
   begin
