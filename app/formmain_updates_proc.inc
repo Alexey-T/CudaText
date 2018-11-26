@@ -774,8 +774,15 @@ begin
   //dynamic lexer items
   sl:= TStringList.Create;
   try
+    //usual lexers
     for i:= 0 to AppManager.LexerCount-1 do
-      sl.AddObject('lexer: '+AppManager.Lexers[i].LexerName, TObject(cmdFirstLexerCommand+i));
+      sl.AddObject('lexer: '+AppManager.Lexers[i].LexerName,
+                   TObject(cmdFirstLexerCommand+i));
+    //lite lexers
+    for i:= 0 to AppManagerLite.LexerCount-1 do
+      sl.AddObject('lexer: '+AppManagerLite.Lexers[i].LexerName+msgLiteLexerSuffix,
+                   TObject(cmdFirstLexerCommand+i+AppManager.LexerCount));
+
     sl.Sort;
 
     //insert "none" at list begin

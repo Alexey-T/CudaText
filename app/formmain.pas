@@ -933,7 +933,7 @@ type
     procedure DoPyCommand_ByPluginIndex(AIndex: integer);
     procedure SetFrameEncoding(Frame: TEditorFrame; const AEnc: string;
       AAlsoReloadFile: boolean);
-    procedure SetLexerIndex(N: integer);
+    procedure SetLexerIndex(AIndex: integer);
     procedure SetShowStatus(AValue: boolean);
     procedure SetShowToolbar(AValue: boolean);
     procedure SetShowBottom(AValue: boolean);
@@ -4074,13 +4074,18 @@ begin
   UpdateStatus;
 end;
 
-procedure TfmMain.SetLexerIndex(N: integer);
+procedure TfmMain.SetLexerIndex(AIndex: integer);
 var
   F: TEditorFrame;
 begin
   F:= CurrentFrame;
-  if (N>=0) and (N<AppManager.LexerCount) then
-    F.Lexer:= AppManager.Lexers[N]
+  if (AIndex>=0) and (AIndex<AppManager.LexerCount+AppManagerLite.LexerCount) then
+  begin
+    if AIndex<AppManager.LexerCount then
+      F.Lexer:= AppManager.Lexers[AIndex]
+    else
+      F.LexerLite:= AppManagerLite.Lexers[AIndex-AppManager.LexerCount];
+  end
   else
   begin
     F.Lexer:= nil;
