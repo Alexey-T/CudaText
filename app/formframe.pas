@@ -146,7 +146,7 @@ type
     procedure EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorDrawMicromap(Sender: TObject; C: TCanvas; const ARect: TRect);
-    procedure EditorOnChangeCommon(Sender: TObject);
+    procedure EditorOnChangeCommon(Sender: TObject); inline;
     procedure EditorOnChange1(Sender: TObject);
     procedure EditorOnChange2(Sender: TObject);
     procedure EditorOnClick(Sender: TObject);
@@ -999,7 +999,7 @@ begin
   DoOnUpdateStatus;
 end;
 
-procedure TEditorFrame.EditorOnChangeCommon(Sender: TObject);
+procedure TEditorFrame.EditorOnChangeCommon(Sender: TObject); inline;
 begin
   UpdateModifiedState;
 end;
@@ -1012,19 +1012,6 @@ begin
   DoPyEvent(Sender as TATSynEdit, cEventOnFocus, []);
 
   FActivationTime:= GetTickCount64;
-end;
-
-function _GetPairForCloseBracket(ch: char): char;
-begin
-  case ch of
-    ')': Result:= '(';
-    ']': Result:= '[';
-    '}': Result:= '{';
-    '"': Result:= '"';
-    '''': Result:= '''';
-    '`': Result:= '`';
-    else Result:= #0;
-  end;
 end;
 
 procedure TEditorFrame.EditorOnCommand(Sender: TObject; ACmd: integer;
@@ -1046,7 +1033,7 @@ begin
         if Ed.Strings.IsIndexValid(Caret.PosY) then
           if Length(AText)=1 then
           begin
-            ch:= _GetPairForCloseBracket(AText[1]);
+            ch:= EditorGetPairForCloseBracket(AText[1]);
             if (ch<>#0) and (Pos(ch, UiOps.AutoCloseBrackets)>0) then
             begin
               Str:= Ed.Strings.Lines[Caret.PosY];
