@@ -20,6 +20,7 @@
 + add: File Types config has default entry to detect Shell files by shebang
 + add: option "autocomplete_add_opening_bracket" now doesn't insert bracket if it's already in text
 * change: history file don't store visible state of toolbar/statusbar/menubar, these are options in user.json now
+- fix: rendering artifacts in Bash lexer on fast editing (issue #1710)
 
 1.66.0 (2018/11)
 

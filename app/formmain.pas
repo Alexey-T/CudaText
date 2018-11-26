@@ -4075,11 +4075,17 @@ begin
 end;
 
 procedure TfmMain.SetLexerIndex(N: integer);
+var
+  F: TEditorFrame;
 begin
+  F:= CurrentFrame;
   if (N>=0) and (N<AppManager.LexerCount) then
-    CurrentFrame.Lexer:= AppManager.Lexers[N]
+    F.Lexer:= AppManager.Lexers[N]
   else
-    CurrentFrame.Lexer:= nil;
+  begin
+    F.Lexer:= nil;
+    F.LexerLite:= nil;
+  end;
 
   UpdateFrame;
   UpdateStatus;
