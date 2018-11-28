@@ -338,8 +338,10 @@ type
     OpMicromapWidthSmall: integer;
     OpMarginFixed: integer;
     OpMarginString: string;
+
     OpStaplesStyle: integer;
     OpStaplesIndent: integer;
+    OpStaplesWidth: integer;
 
     //unprinted
     OpUnprintedShow: boolean;
@@ -1018,8 +1020,10 @@ begin
 
     OpMarginFixed:= 2000; //hide margin
     OpMarginString:= '';
+
     OpStaplesStyle:= 1; //Ord(cLineStyleSolid)
     OpStaplesIndent:= 1;
+    OpStaplesWidth:= 40;
 
     OpUnprintedShow:= false;
     OpUnprintedContent:= 'se';
