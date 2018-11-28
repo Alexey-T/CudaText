@@ -2142,6 +2142,8 @@ Performs action on folding ranges. Possible values of "id":
 ** "staple": bool: range has block staple.
 ** "folded": bool: range is currently folded.
 
+* FOLDING_GET_LIST_FILTERED: Gets list of folding ranges, which contain given range: line indexes from param "item_y" to param "item_y2" (inclusive). If item_y<0, then no filtering is done. You can perform this filtering from the result of FOLDING_GET_LIST, but it's slower.
+
 * FOLDING_FOLD: Folds range with given index (index in list, from FOLDING_GET_LIST). Params used: "index".
 * FOLDING_FOLD_ALL: Folds all ranges.
 * FOLDING_FOLD_LEVEL: Unfolds all ranges, then folds ranges starting with given nesting level. Params used: "index": nesting level, 0..9.
@@ -3060,5 +3062,6 @@ Text is chr(1) separated items:
 1.0.265 (app 1.67.0)
 * add: Editor.get_prop/set_prop: PROP_UNDO_DATA
 * add: Editor.get_prop/set_prop: PROP_REDO_DATA
+* add: Editor.folding: FOLDING_GET_LIST_FILTERED
 
 [[Category:CudaText]]
