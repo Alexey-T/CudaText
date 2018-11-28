@@ -4065,14 +4065,28 @@ begin
 end;
 
 
-function Py_ed_folding_getlist(Ed: TATSynEdit): PPyObject; cdecl;
+function Py_ed_folding_getlist(Ed: TATSynEdit; NeedY, NeedY2: integer): PPyObject; cdecl;
 var
   Range: TATSynRange;
   NLen, i: Integer;
+  L: TList;
+  ok: boolean;
 begin
+  L:= TList.Create;
+  for i:= 0 to Ed.Fold.Count-1 do
+  begin
+    Range:= Ed.Fold[i];
+    if NeedY<0 then
+      ok:= true
+    else
+      ok:= (Range.Y<=NeedY) and (Range.Y2>=NeedY2);
+    if ok then
+      L.Add(Range);
+  end;
+
   with GetPythonEngine do
   begin
-    NLen:= Ed.Fold.Count;
+    NLen:= L.Count;
     if NLen>0 then
     begin
       Result:= PyList_New(NLen);
@@ -4080,7 +4094,7 @@ begin
         raise EPythonError.Create(msgPythonListError);
       for i:= 0 to NLen-1 do
       begin
-        Range:= Ed.Fold[i];
+        Range:= TATSynRange(L[i]);
         PyList_SetItem(Result, i,
           Py_BuildValue('(iiiOO)',
             Range.Y,
@@ -4094,6 +4108,7 @@ begin
     else
       Result:= ReturnNone;
   end;
+  FreeAndNil(L);
 end;
 
 
@@ -5574,7 +5589,12 @@ begin
       case Id of
         FOLDING_GET_LIST:
           begin
-            Result:= Py_ed_folding_getlist(Ed);
+            Result:= Py_ed_folding_getlist(Ed, -1, -1);
+          end;
+
+        FOLDING_GET_LIST_FILTERED:
+          begin
+            Result:= Py_ed_folding_getlist(Ed, NY, NY2);
           end;
 
         FOLDING_FOLD:

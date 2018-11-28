@@ -383,6 +383,7 @@ const
   FOLDING_CHECK_RANGE_INSIDE = 10;
   FOLDING_CHECK_RANGES_SAME  = 11;
   FOLDING_FOLD_LEVEL         = 12;
+  FOLDING_GET_LIST_FILTERED  = 13;
 
   PyMenuId_Top = 'top';
   PyMenuId_TopEdit = 'top-edit';
