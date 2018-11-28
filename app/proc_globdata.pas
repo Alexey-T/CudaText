@@ -339,6 +339,7 @@ type
     OpMarginFixed: integer;
     OpMarginString: string;
     OpStaplesStyle: integer;
+    OpStaplesIndent: integer;
 
     //unprinted
     OpUnprintedShow: boolean;
@@ -1018,6 +1019,7 @@ begin
     OpMarginFixed:= 2000; //hide margin
     OpMarginString:= '';
     OpStaplesStyle:= 1; //Ord(cLineStyleSolid)
+    OpStaplesIndent:= 1;
 
     OpUnprintedShow:= false;
     OpUnprintedContent:= 'se';

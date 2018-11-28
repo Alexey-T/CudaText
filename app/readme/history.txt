@@ -10,6 +10,7 @@
        Linux, FreeBSD: ~/.config/cudatext (or $XDG_CONFIG_HOME/cudatext if variable set)
        macOS: ~/Library/Application Support/CudaText
 + add: localization of statusbar first cell (default values for ui_statusbar_* options are changed)
++ add: option "staples_indent"
 + add: option "ui_menu_show"
 + add: option "ui_statusbar_show"
 + add: option "ui_toolbar_show"
