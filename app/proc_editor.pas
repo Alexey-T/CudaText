@@ -204,6 +204,7 @@ begin
   Ed.OptFoldStyle:= TATFoldStyle(Op.OpFoldStyle);
   Ed.OptFoldTooltipVisible:= Op.OpFoldTooltipShow;
   Ed.OptShowStapleStyle:= TATLineStyle(Op.OpStaplesStyle);
+  Ed.OptShowStapleIndent:= 0;
 
   Ed.OptAutoIndent:= Op.OpIndentAuto;
   if Op.OpIndentAutoKind<=Ord(High(TATAutoIndentKind)) then
