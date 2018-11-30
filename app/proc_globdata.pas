@@ -1980,9 +1980,10 @@ initialization
   AppConfig_PGroups_Keys:= TStringList.Create;
   AppConfig_PGroups_Values:= TStringList.Create;
 
-  //detection of Unix Shell files
-  AppConfig_DetectLine_Keys.Add('\#!.+');
-  AppConfig_DetectLine_Values.Add('Bash script');
+  ////detection of Shell files
+  ////disabled: it detects Python files with shebang
+  //AppConfig_DetectLine_Keys.Add('\#!.+');
+  //AppConfig_DetectLine_Values.Add('Bash script');
 
   //detection of XML
   AppConfig_DetectLine_Keys.Add('<\?xml .+');

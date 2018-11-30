@@ -18,7 +18,6 @@
 + add: option "autocomplete_commit_chars" (like VS Code)
 + add: option "ui_statusbar_panels" can specify auto-sized cells; default is changed for this
 + add: menu item "View - Toggle sidebar"
-+ add: File Types config has default entry to detect Shell scripts by shebang
 + add: File Types config has default entry to detect XML by signature
 + add: option "autocomplete_add_opening_bracket" now doesn't insert bracket if it's already in text
 * change: history file don't store visible state of toolbar/statusbar/menubar, these are options in user.json now
