@@ -304,9 +304,8 @@
   //  4: dotted lines
   "staples_style": 1,
   
-  //Indent of block staples (to the right).
-  //If < 0, staple is painted lefter, with additional top edge.
-  "staples_indent": 1,
+  //Indent of block staples (to the right)
+  "staples_indent": -1,
 
   //[View/Ruler]
   //Ruler: show ruler (horizontal, on the top)

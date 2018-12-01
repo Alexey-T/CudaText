@@ -1022,7 +1022,7 @@ begin
     OpMarginString:= '';
 
     OpStaplesStyle:= 1; //Ord(cLineStyleSolid)
-    OpStaplesIndent:= 1;
+    OpStaplesIndent:= -1;
     OpStaplesWidth:= 40;
 
     OpUnprintedShow:= false;
