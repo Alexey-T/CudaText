@@ -276,23 +276,23 @@
   "gutter_bookmarks": true,
 
   //[View/LineNumbers]
-  //Show gutter's numbers column
+  //Show gutter's "Line numbers" column
   "numbers_show": true,
 
-  //If not 0, special font size used for numbers
+  //If not 0, special font size is used for numbers
   "numbers_font_size": 0,
 
-  //Line numbers: Numbers style
-  //  0: all lines
-  //  1: none
-  //  2: each 10th line
-  //  3: each 5th line
+  //For which lines to show numbers
+  //  0: show for all lines
+  //  1: don't show
+  //  2: show for each 10th line
+  //  3: show for each 5th line
   "numbers_style": 0,
 
-  //Show numbers for lines with carets
+  //Always show numbers for line(s) with caret(s)
   "numbers_for_carets": false,
 
-  //Center numbers on column
+  //Center line numbers on gutter column
   "numbers_center": true,
 
   //[Text]
