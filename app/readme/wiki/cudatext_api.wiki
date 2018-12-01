@@ -1099,10 +1099,11 @@ Show commands dialog, which is like customizable version of F1 dialog in CudaTex
 
 Param options is sum of int flags:
 
-* COMMANDS_USUAL - Show usual commands, which have int codes. Function gets "c:"+str(int_command) for them.
-* COMMANDS_PLUGINS - Show plugins commands. Function gets "p:"+callback_string for them.
-* COMMANDS_LEXERS - Show lexers pseudo-commands. Function gets "l:"+lexer_name for them.
-* COMMANDS_CONFIG - Allow to call Configure Hotkeys dialog by F9 key.
+* COMMANDS_USUAL: Show usual commands, which have int codes. Function gets "c:"+str(int_command) for them.
+* COMMANDS_PLUGINS: Show plugins commands. Function gets "p:"+callback_string for them.
+* COMMANDS_LEXERS: Show lexers pseudo-commands. Function gets "l:"+lexer_name for them.
+* COMMANDS_CONFIG: Allow to call Configure Hotkeys dialog by F9 key.
+* COMMANDS_CENTERED: Set dialog position to the center of desktop. Otherwise, position depends on CudaText option.
 
 Gets string if command selected, or None if cancelled.
 
@@ -3059,9 +3060,12 @@ Text is chr(1) separated items:
 * add: Editor.get_prop/set_prop: PROP_UNDO_GROUPED
 * add: Editor.get_prop/set_prop: PROP_UNDO_LIMIT
 
-1.0.265 (app 1.67.0)
+1.0.265 (app 1.66.9)
 * add: Editor.get_prop/set_prop: PROP_UNDO_DATA
 * add: Editor.get_prop/set_prop: PROP_REDO_DATA
 * add: Editor.folding: FOLDING_GET_LIST_FILTERED
+
+1.0.266 (app 1.67.0)
+* add: dlg_commands: add COMMANDS_CENTERED
 
 [[Category:CudaText]]
