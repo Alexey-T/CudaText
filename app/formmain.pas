@@ -864,8 +864,9 @@ type
     procedure DoCopyLine;
     procedure DoDialogCommands;
     function DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers,
-      AAllowConfig: boolean; AFocusedCommand: integer): integer;
-    function DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers, AAllowConfig: boolean): string;
+      AAllowConfig, AShowCentered: boolean; AFocusedCommand: integer): integer;
+    function DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers,
+      AAllowConfig, AShowCentered: boolean): string;
     procedure DoDialogGoto;
     procedure DoDialogGotoBookmark;
     function DoDialogSaveTabs: boolean;
@@ -2795,7 +2796,7 @@ var
   NCmd: integer;
 begin
   MsgStatus(msgStatusHelpOnShowCommands);
-  NCmd:= DoDialogCommands_Custom(true, true, true, true, FLastSelectedCommand);
+  NCmd:= DoDialogCommands_Custom(true, true, true, true, false, FLastSelectedCommand);
   if NCmd>0 then
   begin
     FLastSelectedCommand:= NCmd;
@@ -2805,12 +2806,12 @@ begin
 end;
 
 
-function TfmMain.DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers, AAllowConfig: boolean): string;
+function TfmMain.DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers, AAllowConfig, AShowCentered: boolean): string;
 var
   NCmd: integer;
 begin
   Result:= '';
-  NCmd:= DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers, AAllowConfig, 0);
+  NCmd:= DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers, AAllowConfig, AShowCentered, 0);
   if NCmd<=0 then exit;
 
   if (NCmd>=cmdFirstPluginCommand) and (NCmd<=cmdLastPluginCommand) then
@@ -2832,7 +2833,7 @@ end;
 
 
 function TfmMain.DoDialogCommands_Custom(
-  AShowUsual, AShowPlugins, AShowLexers, AAllowConfig: boolean;
+  AShowUsual, AShowPlugins, AShowLexers, AAllowConfig, AShowCentered: boolean;
   AFocusedCommand: integer): integer;
 var
   bKeysChanged: boolean;
@@ -2849,6 +2850,8 @@ begin
     fmCommands.OnMsg:= @DoCommandsMsgStatus;
     fmCommands.CurrentLexerName:= CurrentFrame.LexerName;
     fmCommands.Keymap:= CurrentEditor.Keymap;
+    if AShowCentered then
+      fmCommands.Position:= poDesktopCenter;
     fmCommands.ShowModal;
     Result:= fmCommands.ResultCommand;
     bKeysChanged:= fmCommands.ResultHotkeysChanged;

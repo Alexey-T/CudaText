@@ -2265,7 +2265,8 @@ begin
         (NOps and COMMANDS_USUAL)<>0,
         (NOps and COMMANDS_PLUGINS)<>0,
         (NOps and COMMANDS_LEXERS)<>0,
-        (NOps and COMMANDS_CONFIG)<>0
+        (NOps and COMMANDS_CONFIG)<>0,
+        (NOps and COMMANDS_CENTERED)<>0
         );
       if Str='' then
         Result:= ReturnNone
