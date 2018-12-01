@@ -304,8 +304,12 @@
   //  4: dotted lines
   "staples_style": 1,
   
-  //Indent of block staples (to the right)
-  "staples_indent": -1,
+  //Properties of block staples. String value contains ","-separated options:
+  //  - Staple indent to the right (-5..5).
+  //  - Width in % of text cell (0..200).
+  //  - Kind of top staple edge. Enum. 0: none; 1: angle; 2: simple line
+  //  - Kind of bottom staple edge.
+  "staples_props": "-1,40,1,1",
 
   //[View/Ruler]
   //Ruler: show ruler (horizontal, on the top)

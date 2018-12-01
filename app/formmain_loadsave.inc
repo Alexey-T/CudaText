@@ -739,7 +739,7 @@ begin
     Op.OpMarginFixed:= c.GetValue('margin', Op.OpMarginFixed);
     Op.OpMarginString:= c.GetValue('margin_string', Op.OpMarginString);
     Op.OpStaplesStyle:= c.GetValue('staples_style', Op.OpStaplesStyle);
-    Op.OpStaplesIndent:= c.GetValue('staples_indent', Op.OpStaplesIndent);
+    Op.OpStaplesProps:= c.GetValue('staples_props', Op.OpStaplesProps);
 
     Op.OpUnprintedShow:= c.GetValue('unprinted_show', Op.OpUnprintedShow);
     Op.OpUnprintedContent:= c.GetValue('unprinted_content', Op.OpUnprintedContent);

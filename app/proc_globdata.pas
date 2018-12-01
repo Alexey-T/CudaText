@@ -340,8 +340,7 @@ type
     OpMarginString: string;
 
     OpStaplesStyle: integer;
-    OpStaplesIndent: integer;
-    OpStaplesWidth: integer;
+    OpStaplesProps: string;
 
     //unprinted
     OpUnprintedShow: boolean;
@@ -1022,8 +1021,7 @@ begin
     OpMarginString:= '';
 
     OpStaplesStyle:= 1; //Ord(cLineStyleSolid)
-    OpStaplesIndent:= -1;
-    OpStaplesWidth:= 40;
+    OpStaplesProps:= '-1,40,1,1';
 
     OpUnprintedShow:= false;
     OpUnprintedContent:= 'se';
