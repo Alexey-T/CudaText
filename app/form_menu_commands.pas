@@ -38,6 +38,7 @@ type
   TfmCommands = class(TForm)
     edit: TATEdit;
     list: TATListbox;
+    PanelCaption: TPanel;
     procedure editChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -53,9 +54,11 @@ type
     procedure DoConfigKey(Cmd: integer);
     procedure DoFilter;
     procedure DoResetKey(K: TATKeymapItem);
+    function GetListCaption: string;
     function GetResultCmd: integer;
     function IsFiltered(Item: TATKeymapItem): boolean;
     procedure DoMsgStatus(const S: string);
+    procedure SetListCaption(const AValue: string);
   public
     { public declarations }
     Keymap: TATKeymap;
@@ -68,6 +71,7 @@ type
     OptAllowConfig: boolean;
     OptFocusedCommand: integer;
     property OnMsg: TStrEvent read FOnMsg write FOnMsg;
+    property ListCaption: string read GetListCaption write SetListCaption;
   end;
 
 var
@@ -128,6 +132,8 @@ begin
   edit.Font.Name:= EditorOps.OpFontName;
   edit.Font.Size:= EditorOps.OpFontSize;
   edit.Font.Quality:= EditorOps.OpFontQuality;
+  panelCaption.Font.Name:= UiOps.VarFontName;
+  panelCaption.Font.Size:= UiOps.VarFontSize;
 
   self.Color:= GetAppColor('ListBg');
   edit.Colors.TextFont:= GetAppColor('EdTextFont');
@@ -136,6 +142,7 @@ begin
   edit.Colors.TextSelBG:= GetAppColor('EdSelBg');
   edit.Colors.BorderLine:= GetAppColor('EdBorder');
   list.Color:= GetAppColor('ListBg');
+  panelCaption.Font.Color:= GetAppColor('ListFont');
 
   ResultCommand:= 0;
   ResultHotkeysChanged:= false;
@@ -276,6 +283,11 @@ begin
   finally
     c.Free;
   end;
+end;
+
+function TfmCommands.GetListCaption: string;
+begin
+  Result:= PanelCaption.Caption;
 end;
 
 procedure TfmCommands.listDrawItem(Sender: TObject; C: TCanvas;
@@ -433,6 +445,12 @@ procedure TfmCommands.DoMsgStatus(const S: string);
 begin
   if Assigned(FOnMsg) then
     FOnMsg(Self, S);
+end;
+
+procedure TfmCommands.SetListCaption(const AValue: string);
+begin
+  PanelCaption.Caption:= AValue;
+  PanelCaption.Visible:= AValue<>'';
 end;
 
 end.

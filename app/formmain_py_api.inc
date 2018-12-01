@@ -2256,17 +2256,20 @@ end;
 function Py_dlg_commands(Self, Args : PPyObject): PPyObject; cdecl;
 var
   NOps: integer;
-  Str: string;
+  PtrTitle: PChar;
+  StrTitle, Str: string;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'i:dlg_commands', @NOps)) then
+    if Bool(PyArg_ParseTuple(Args, 'is:dlg_commands', @NOps, @PtrTitle)) then
     begin
+      StrTitle:= string(PtrTitle);
       Str:= fmMain.DoDialogCommands_Py(
         (NOps and COMMANDS_USUAL)<>0,
         (NOps and COMMANDS_PLUGINS)<>0,
         (NOps and COMMANDS_LEXERS)<>0,
         (NOps and COMMANDS_CONFIG)<>0,
-        (NOps and COMMANDS_CENTERED)<>0
+        (NOps and COMMANDS_CENTERED)<>0,
+        StrTitle
         );
       if Str='' then
         Result:= ReturnNone

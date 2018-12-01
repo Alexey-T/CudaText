@@ -864,9 +864,10 @@ type
     procedure DoCopyLine;
     procedure DoDialogCommands;
     function DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers,
-      AAllowConfig, AShowCentered: boolean; AFocusedCommand: integer): integer;
+      AAllowConfig, AShowCentered: boolean; ACaption: string;
+  AFocusedCommand: integer): integer;
     function DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers,
-      AAllowConfig, AShowCentered: boolean): string;
+      AAllowConfig, AShowCentered: boolean; ACaption: string): string;
     procedure DoDialogGoto;
     procedure DoDialogGotoBookmark;
     function DoDialogSaveTabs: boolean;
@@ -2796,7 +2797,7 @@ var
   NCmd: integer;
 begin
   MsgStatus(msgStatusHelpOnShowCommands);
-  NCmd:= DoDialogCommands_Custom(true, true, true, true, false, FLastSelectedCommand);
+  NCmd:= DoDialogCommands_Custom(true, true, true, true, false, '', FLastSelectedCommand);
   if NCmd>0 then
   begin
     FLastSelectedCommand:= NCmd;
@@ -2806,12 +2807,13 @@ begin
 end;
 
 
-function TfmMain.DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers, AAllowConfig, AShowCentered: boolean): string;
+function TfmMain.DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers,
+  AAllowConfig, AShowCentered: boolean; ACaption: string): string;
 var
   NCmd: integer;
 begin
   Result:= '';
-  NCmd:= DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers, AAllowConfig, AShowCentered, 0);
+  NCmd:= DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers, AAllowConfig, AShowCentered, ACaption, 0);
   if NCmd<=0 then exit;
 
   if (NCmd>=cmdFirstPluginCommand) and (NCmd<=cmdLastPluginCommand) then
@@ -2834,7 +2836,7 @@ end;
 
 function TfmMain.DoDialogCommands_Custom(
   AShowUsual, AShowPlugins, AShowLexers, AAllowConfig, AShowCentered: boolean;
-  AFocusedCommand: integer): integer;
+  ACaption: string; AFocusedCommand: integer): integer;
 var
   bKeysChanged: boolean;
 begin
@@ -2850,6 +2852,7 @@ begin
     fmCommands.OnMsg:= @DoCommandsMsgStatus;
     fmCommands.CurrentLexerName:= CurrentFrame.LexerName;
     fmCommands.Keymap:= CurrentEditor.Keymap;
+    fmCommands.ListCaption:= ACaption;
     if AShowCentered then
       fmCommands.Position:= poDesktopCenter;
     fmCommands.ShowModal;

@@ -15,11 +15,11 @@ object fmCommands: TfmCommands
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   ShowInTaskBar = stNever
-  LCLVersion = '1.9.0.0'
+  LCLVersion = '2.1.0.0'
   object edit: TATEdit
     Left = 6
     Height = 26
-    Top = 6
+    Top = 32
     Width = 488
     Align = alTop
     BorderSpacing.Around = 6
@@ -106,8 +106,8 @@ object fmCommands: TfmCommands
   end
   object list: TATListbox
     Left = 6
-    Height = 204
-    Top = 38
+    Height = 178
+    Top = 64
     Width = 488
     Align = alClient
     BorderSpacing.Around = 6
@@ -118,5 +118,16 @@ object fmCommands: TfmCommands
     ParentColor = False
     OnClick = listClick
     OnDrawItem = listDrawItem
+  end
+  object PanelCaption: TPanel
+    Left = 0
+    Height = 26
+    Top = 0
+    Width = 500
+    Align = alTop
+    BevelOuter = bvNone
+    Caption = 'Caption'
+    TabOrder = 2
+    Visible = False
   end
 end

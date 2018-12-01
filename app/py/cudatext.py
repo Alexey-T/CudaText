@@ -776,8 +776,8 @@ def dlg_hotkey(title=''):
 def dlg_hotkeys(command, lexer=''):
     return ct.dlg_hotkeys(command, lexer)
 
-def dlg_commands(options):
-    return ct.dlg_commands(options)
+def dlg_commands(options, title=''):
+    return ct.dlg_commands(options, title)
 
 def _dlg_custom_dict(res, count):
     """Parse dlg_custom str result to dict"""
