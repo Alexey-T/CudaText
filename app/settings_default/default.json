@@ -312,7 +312,7 @@
   "staples_props": "-1,40,1,1",
 
   //[View/Ruler]
-  //Ruler: show ruler (horizontal, on the top)
+  //Ruler: show ruler (horizontal bar at the top)
   "ruler_show": false,
 
   //Ruler: numeration style
@@ -321,14 +321,11 @@
   //  2: numbers 1 - 10 - 20 - 30...
   "ruler_numeration": 0,
 
-  //Ruler: if not 0, special font size used for ruler
+  //Ruler: if not 0, special font size is used for ruler
   "ruler_font_size": 8,
 
   //Ruler: ruler height, pixels
   "ruler_size": 20,
-
-  //Ruler: numbers indent from top, pixels
-  "ruler_text_indent": 0,
 
   //[View/Minimap]
   //Minimap: Show
