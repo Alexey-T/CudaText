@@ -406,6 +406,7 @@ begin
   Ed.Colors.StateAdded:= GetAppColor('EdStateAdded');
   Ed.Colors.StateSaved:= GetAppColor('EdStateSaved');
   Ed.Colors.BlockStaple:= GetAppColor('EdBlockStaple');
+  Ed.Colors.BlockStapleForCaret:= GetAppColor('EdBlockStapleActive');
   Ed.Colors.BlockSepLine:= GetAppColor('EdBlockSepLine');
   Ed.Colors.Links:= GetAppColor('EdLinks');
   Ed.Colors.LockedBG:= GetAppColor('EdLockedBg');
@@ -465,6 +466,7 @@ begin
   if Id='EdStateAdded' then Ed.Colors.StateAdded:= AColor else
   if Id='EdStateSaved' then Ed.Colors.StateSaved:= AColor else
   if Id='EdBlockStaple' then Ed.Colors.BlockStaple:= AColor else
+  if Id='EdBlockStapleActive' then Ed.Colors.BlockStapleForCaret:= AColor else
   if Id='EdBlockSepLine' then Ed.Colors.BlockSepLine:= AColor else
   if Id='EdLinks' then Ed.Colors.Links:= AColor else
   if Id='EdLockedBg' then Ed.Colors.LockedBG:= AColor else
@@ -515,6 +517,7 @@ begin
   if Id='EdStateAdded' then exit(Ed.Colors.StateAdded);
   if Id='EdStateSaved' then exit(Ed.Colors.StateSaved);
   if Id='EdBlockStaple' then exit(Ed.Colors.BlockStaple);
+  if Id='EdBlockStapleActive' then exit(Ed.Colors.BlockStapleForCaret);
   if Id='EdBlockSepLine' then exit(Ed.Colors.BlockSepLine);
   if Id='EdLinks' then exit(Ed.Colors.Links);
   if Id='EdLockedBg' then exit(Ed.Colors.LockedBG);

@@ -188,6 +188,7 @@ begin
   Add($80a080, 'EdStateAdded', 'editor, line states, added');
   Add(clMedGray, 'EdStateSaved', 'editor, line states, saved');
   Add($b0b0b0, 'EdBlockStaple', 'editor, block staples (indent guides)');
+  Add(clNone, 'EdBlockStapleActive', 'editor, block staples, for caret');
   Add(nColorArrow, 'EdComboArrow', 'editor, combobox arrow-down');
   Add(nColorBack, 'EdComboArrowBg', 'editor, combobox arrow-down BG');
   Add(nColorBorder, 'EdBorder', 'editor, combobox border');
