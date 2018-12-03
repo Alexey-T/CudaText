@@ -11,7 +11,7 @@
        macOS: ~/Library/Application Support/CudaText
 + add: much improved painting of minimap (spaces/tabs should paint correctly in multiline comments/strings, or in plain text)
 + add: localization of statusbar first cell (default values for ui_statusbar_* options are changed)
-+ add: option "staples_indent"
++ add: option "staples_props"
 + add: option "ui_menu_show"
 + add: option "ui_statusbar_show"
 + add: option "ui_toolbar_show"
@@ -21,7 +21,6 @@
 + add: menu item "View - Toggle sidebar"
 + add: File Types config has default entry to detect XML by signature
 + add: option "autocomplete_add_opening_bracket" now doesn't insert bracket if it's already in text
-+ add: option "staples_props"
 + add: UI theme color "block staples, for caret" (default is "none")
 + add: lexer Ruby much improved
 * change: deleted option "staples_indent"

@@ -26,6 +26,7 @@
   "EdStateAdded" : "#006060",
   "EdStateSaved" : "#505050",
   "EdBlockStaple" : "#26435C",
+  "EdBlockStapleActive" : "",
   "EdComboArrow" : "#505050",
   "EdComboArrowBg" : "#001C35",
   "EdBorder" : "#002D55",
