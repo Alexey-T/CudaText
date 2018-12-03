@@ -1,4 +1,4 @@
-object SyntAnal26: TLibSyntAnalyzer
+object SyntAnal30: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Number'
@@ -432,6 +432,7 @@ object SyntAnal26: TLibSyntAnalyzer
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
+      DrawStaple = True
       GroupIndex = 20
       CollapseFmt = '%s0 %s-1...'
       IgnoreAsParent = False

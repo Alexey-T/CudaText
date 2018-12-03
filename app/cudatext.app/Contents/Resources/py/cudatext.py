@@ -207,6 +207,10 @@ PROP_ACTIVATION_TIME           = 82
 PROP_MODERN_SCROLLBAR          = 85
 PROP_SAVE_HISTORY              = 86
 PROP_PREVIEW                   = 87
+PROP_UNDO_GROUPED              = 88
+PROP_UNDO_LIMIT                = 89
+PROP_UNDO_DATA                 = 90
+PROP_REDO_DATA                 = 91
 PROP_FOLD_TOOLTIP_SHOW         = 101
 PROP_FOLD_ALWAYS               = 102
 PROP_FOLD_ICONS                = 103
@@ -293,6 +297,8 @@ PROC_SHOW_FLOATGROUP2_GET = 114
 PROC_SHOW_FLOATGROUP2_SET = 115
 PROC_SHOW_FLOATGROUP3_GET = 116
 PROC_SHOW_FLOATGROUP3_SET = 117
+PROC_SHOW_TREEFILTER_GET  = 118
+PROC_SHOW_TREEFILTER_SET  = 119
 #
 PROC_FLOAT_SIDE_GET       = 120
 PROC_FLOAT_SIDE_SET       = 121
@@ -503,11 +509,13 @@ FOLDING_UNFOLD_ALL         = 9
 FOLDING_CHECK_RANGE_INSIDE = 10
 FOLDING_CHECK_RANGES_SAME  = 11
 FOLDING_FOLD_LEVEL         = 12
+FOLDING_GET_LIST_FILTERED  = 13
 
 COMMANDS_USUAL   = 1
 COMMANDS_PLUGINS = 2
 COMMANDS_LEXERS  = 4
 COMMANDS_CONFIG  = 8
+COMMANDS_CENTERED = 16
 
 TOOLBAR_UPDATE         = 1
 TOOLBAR_GET_BUTTON_HANDLE = 2
@@ -768,8 +776,8 @@ def dlg_hotkey(title=''):
 def dlg_hotkeys(command, lexer=''):
     return ct.dlg_hotkeys(command, lexer)
 
-def dlg_commands(options):
-    return ct.dlg_commands(options)
+def dlg_commands(options, title=''):
+    return ct.dlg_commands(options, title)
 
 def _dlg_custom_dict(res, count):
     """Parse dlg_custom str result to dict"""

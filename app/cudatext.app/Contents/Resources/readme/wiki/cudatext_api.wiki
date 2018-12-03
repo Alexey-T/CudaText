@@ -375,6 +375,8 @@ Actions can get/set state of UI elements (pass "0"/"1" or False/True):
 * PROC_SHOW_BOTTOMPANEL_SET
 * PROC_SHOW_TABS_GET
 * PROC_SHOW_TABS_SET
+* PROC_SHOW_TREEFILTER_GET
+* PROC_SHOW_TREEFILTER_SET
 * PROC_SHOW_FLOATGROUP1_GET
 * PROC_SHOW_FLOATGROUP1_SET
 * PROC_SHOW_FLOATGROUP2_GET
@@ -1091,16 +1093,17 @@ Detailed demo plugin exists, it shows many dlg_proc actions, shows modal/nonmoda
 
 ===dlg_commands===
 
- dlg_commands(options)
+ dlg_commands(options, title="")
 
-Show commands dialog, which is like customizable version of F1 dialog in CudaText.
+Show commands dialog, which is customizable version of Commands (F1) dialog in CudaText.
 
-Param options is sum of int flags:
+Param "options" should be 0 or sum of int flags:
 
-* COMMANDS_USUAL - Show usual commands, which have int codes. Function gets "c:"+str(int_command) for them.
-* COMMANDS_PLUGINS - Show plugins commands. Function gets "p:"+callback_string for them.
-* COMMANDS_LEXERS - Show lexers pseudo-commands. Function gets "l:"+lexer_name for them.
-* COMMANDS_CONFIG - Allow to call Configure Hotkeys dialog by F9 key.
+* COMMANDS_USUAL: Show usual commands, which have int codes. Function gets "c:"+str(int_command) for them.
+* COMMANDS_PLUGINS: Show plugins commands. Function gets "p:"+callback_string for them.
+* COMMANDS_LEXERS: Show lexers pseudo-commands. Function gets "l:"+lexer_name for them.
+* COMMANDS_CONFIG: Allow to call Configure Hotkeys dialog by F9 key.
+* COMMANDS_CENTERED: Set dialog position to the center of desktop. Otherwise, position depends on CudaText option.
 
 Gets string if command selected, or None if cancelled.
 
@@ -1950,6 +1953,10 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_MODERN_SCROLLBAR: bool: use custom-drawn themed scrollbars.
 * PROP_SAVE_HISTORY: bool: allows to save history (caret, scroll pos, folding etc) on file closing.
 * PROP_PREVIEW: bool: editor is inside "Preview tab" (it has italic caption).
+* PROP_UNDO_GROUPED: bool: editor undo/redo is grouped.
+* PROP_UNDO_LIMIT: int: max count of simple actions, which can be undone.
+* PROP_UNDO_DATA: str: string representation of Undo data.
+* PROP_REDO_DATA: str: string representation of Redo data.
 * PROP_ACTIVATION_TIME: int: relative time (in OS timer ticks) when tab ("main" or "brother" editor in the same tab) was last focused. It's 0 for not yet focused tabs. It's None for editors created by dlg_proc().
 * PROP_KIND: str: kind of UI control in the tab.
 ** "text": normal editor
@@ -2028,6 +2035,10 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_ONE_LINE: bool: editor has single-line mode.
 * PROP_MODERN_SCROLLBAR: bool: use custom-drawn themed scrollbars.
 * PROP_SAVE_HISTORY: bool: allows to save history (caret, scroll pos, folding etc) on file closing.
+* PROP_UNDO_GROUPED: bool: editor undo/redo is grouped.
+* PROP_UNDO_LIMIT: int: max count of simple actions, which can be undone.
+* PROP_UNDO_DATA: str: string representation of Undo data.
+* PROP_REDO_DATA: str: string representation of Redo data.
 * PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
 * PROP_V_POS: int: for binary viewer, scroll position.
 * PROP_V_SEL_START: int: for binary viewer, selection start offset.
@@ -2131,6 +2142,8 @@ Performs action on folding ranges. Possible values of "id":
 ** "x": int: x-offset of range start (char index in start line).
 ** "staple": bool: range has block staple.
 ** "folded": bool: range is currently folded.
+
+* FOLDING_GET_LIST_FILTERED: Gets list of folding ranges, which contain given range: line indexes from param "item_y" to param "item_y2" (inclusive). If item_y<0, then no filtering is done. You can perform this filtering from the result of FOLDING_GET_LIST, but it's slower.
 
 * FOLDING_FOLD: Folds range with given index (index in list, from FOLDING_GET_LIST). Params used: "index".
 * FOLDING_FOLD_ALL: Folds all ranges.
@@ -3041,5 +3054,19 @@ Text is chr(1) separated items:
 
 1.0.263 (app 1.65.6)
 * add: event on_lexer_parsed
+
+1.0.264 (app 1.66.7)
+* add: app_proc: PROC_SHOW_TREEFILTER_GET, _SET
+* add: Editor.get_prop/set_prop: PROP_UNDO_GROUPED
+* add: Editor.get_prop/set_prop: PROP_UNDO_LIMIT
+
+1.0.265 (app 1.66.9)
+* add: Editor.get_prop/set_prop: PROP_UNDO_DATA
+* add: Editor.get_prop/set_prop: PROP_REDO_DATA
+* add: Editor.folding: FOLDING_GET_LIST_FILTERED
+
+1.0.266 (app 1.67.0)
+* add: dlg_commands: add COMMANDS_CENTERED
+* add: dlg_commands: add "title" param
 
 [[Category:CudaText]]

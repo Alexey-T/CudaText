@@ -239,21 +239,6 @@ Screenshot of SynWrite dialog:
 
 [[File:synwrite-lexer-editor.png]]
 
-=== Why Comments-plugin dont comment blocks in lexer? ===
-
-Plugin "Comments" can comment
-
-* line comments (to end of line): comment-chars are configured inside lexer .lcf file, no need to change usually
-* stream comments (from offset to offset): some lexers are configured with stream-comment-chars, and some are not.
-
-To configure stream-comment-chars, open CudaText dialog "Lexer properties" for lexer, and dialog tab "Commenting" shows inputs for these chars.
-
-* Comment to line-end (usually this is configured)
-* Comment range (often not configured)
-* Comment range, for full lines (this is very rarely supported by lexers)
-
-Stream-comment-chars are saved to separate file, lexername.cuda-lexmap. If plugin cannot comment, your lexer misses this file, or file misses the option. Check that file is absent in folder "data/lexlib". If it's absent, create file via "Lexer properties" dialog. To share file, put it to lexer's ZIP file. You can make ZIP file from SynWrite, from plugin "ExLexer", then add to it .cuda-lexmap file. CudaText and SynWrite both install this .cuda-lexmap file on installing lexer's zip file.
-
 === How to setup styles of hidden sublexer? ===
 
 Some lexers are distributed in packages together with sub-lexer, and sub-lexer is hidden. Example: "HTML Django" with sub-lexer "HTML Django internal" (the 2nd isn't visible in the Lexers menu, so it's called hidden). Users, which have option "ui_lexer_themes" off, want to configure styles of all lexers. How to access hidden ones?
@@ -325,6 +310,19 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 
 * "code tree icons": These are icon sets for the Code Tree (icons are visible in the Code Tree with some lexers, e.g. C#).
 
+==Location of settings/data files==
+
+When CudaText runs in portable mode (executable file is located near folder "data"), then portable folders are used. Otherwise:
+
+In CudaText version 1.66 or older:
+* Windows: %AppData%\CudaText
+* Linux, macOS, FreeBSD: ~/.cudatext
+
+In CudaText version 1.67 or newer:
+* Windows: %AppData%\CudaText
+* Linux, FreeBSD: ~/.config/cudatext, or $XDG_CONFIG_HOME/cudatext if variable set 
+* macOS: ~/Library/Application Support/CudaText
+
 ==Encodings==
 
 You can change encoding of file using click on statusbar item. Menu will give list of encodings. Also menu gives 2 choices: 
@@ -336,7 +334,6 @@ If you change enc for untitled tab, then enc is changed only in-memory (next fil
 
 Encoding names for command-line:
 
-* ansi
 * utf8
 * utf8_bom
 * utf16le
@@ -361,8 +358,8 @@ Encoding names for command-line:
 * cp936
 * cp949
 * cp950
-* iso-8859-1
-* iso-8859-2
+* iso88591
+* iso88592
 * mac
 
 ==Line ends==
@@ -375,11 +372,7 @@ Main types of line-ends are supported:
 
 To change line-ends for current file, click statusbar item. You need to save file then. Changed line-ends can be undone via "Undo".
 
-Mixed line-ends in one file are supported. To see ends for all lines, set to "true" these options: 
-
-* unprinted_show
-* unprinted_ends
-* unprinted_end_details
+Mixed line-ends (LF with CR LF) in one file are supported. To see mixed line-ends, use app option "unprinted_content".
 
 ==Groups of tabs==
 
@@ -389,7 +382,7 @@ Groups are tab-sets, each tab with an editor control. By default only the first 
 * 2 groups: vertically or horizontally 
 * 3 groups: vertically, horizontally or 1+2 
 * 4 groups: vertically, horizontally or grid 
-* 6 groups: grid 
+* 6 groups: vertically, horizontally or grid
 
 First group cannot be empty, at last one tab exists in it. Other groups can be empty: on closing last tab, if it's active, the first group activates. 
 
@@ -578,21 +571,22 @@ More allowed formats can be added by plugins.
 
 ==Comments==
 
-You can add/remove code comments, via "Comments" plugin. Plugin is preinstalled in CudaText. It gives about 6 commands in menu "Plugins - Comments - ...". Plugin supports only adding/removing of comments, not syntax highlighting for them.
+You can add/remove code comments, via "Comments" plugin. Plugin is preinstalled in CudaText. It gives about 6 commands in menu "Plugins - Comments". Plugin supports only adding/removing of comments, not syntax highlighting for them (highlighting is lexer's work).
 
-* '''Line comments''': from substring to line-end. E.g. in C lexer: "//text here", in Python lexer: "# text here".
-* '''Comments for range''' ('''Stream comments'''): from substring-1 to substring-2. E.g. in C lexer: "/* text here */". 
-* '''Comments for full lines''': from newline to another newline. E.g. used in PowerShell.
+* '''Line comments''': from some position to line-end. E.g. in C lexer: "//text here", in Python lexer: "# text here".
+* '''Comments for range''' ('''Stream comments'''): from offset to another offset. E.g. in C lexer: "/* text here */". 
+* '''Comments for full lines''': from newline to another newline. Rarely used, e.g. used in PowerShell.
 
-For ex, Python lexer supports only line comment, and don't support stream comments. PowerShell lexer supports comments for full lines, while don't support comments for any block.
+For example, Python lexer supports only line comment, and don't support stream comments. PowerShell lexer supports comments for full lines, while don't support comments for any range.
 
-Comment chars are editable in dialog "Lexer properties" (after you called needed lexer), in tab "Commenting" you see few input fields.
+Comment chars are editable in SynWrite editor, in dialog "Lexer properties" (after you install the same lexer to SynWrite). In dialog tab "Commenting" you'll see input fields.
+
 Command "Toggle stream comment" in plugin adds/removes comments of last 2 types: for range, for full lines (plugin chooses needed kind).
 
 Comment chars are saved:
 
-* Line comments: in lexer file (data/lexlib/lexername.lcf)
-* Comments for range/ for full lines: in separate files (data/lexlib/lexername.cuda-lexmap), which not exist for many lexers yet. On installing a lexer without .cuda-lexmap file, you'll see a warning about it in "Addon installed" dialog. In this case, open "Lexer properties" dialog and configure these chars.
+* Line comments: in lexer file data/lexlib/nnn.lcf.
+* Range comments: in files data/lexlib/nnn.cuda-lexmap.
 
 == Char map ==
 
@@ -649,7 +643,9 @@ Notes:
 
 ==Python integration==
 ===Python on Windows===
-For Windows builds, Python engine is preinstalled. 
+On Windows, Python engine (currently version 3.5) is preinstalled. Option "pylib" has default value like this: "python35.dll".
+
+For Python 3.5, you need Visual C++ Redistributable for Visual Studio 2015 (32-bit or 64-bit, same as CudaText). Download it from Microsoft site.
 
 For old Windows XP, Python 3.4 or 3.3 must be used, you can get its files from SynWrite.SF.net, from archived versions of SynWrite. Before copying these files, first delete current Python files (*.dll, python*.zip, folder DLLs). And write option "pylib" in the user.json:
 
