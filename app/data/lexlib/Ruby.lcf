@@ -230,7 +230,7 @@ object SyntAnal27: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[,;\+\-\*\/\?\!=\^\$\.<>%\|:~\#&]+'
+      Expression = '[,;\+\-\*\/\!=\^\$\.<>%\|:~\#&]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -238,7 +238,7 @@ object SyntAnal27: TLibSyntAnalyzer
       DisplayName = 'Single symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\{\}\(\)\[\]]'
+      Expression = '[\{\}\(\)\[\]\?]'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -280,7 +280,6 @@ object SyntAnal27: TLibSyntAnalyzer
             'rescue'
             'retry'
             'return'
-            'self'
             'super'
             'then'
             'undef'
@@ -404,6 +403,7 @@ object SyntAnal27: TLibSyntAnalyzer
       NameFmt = '%sz0'
       HighlightPos = cpAny
       CollapseFmt = '%sz0'
+      TreeItemImage = 1
       IgnoreAsParent = False
     end
     item
@@ -488,9 +488,8 @@ object SyntAnal27: TLibSyntAnalyzer
     'name = /^name/ =~ %r{\w+}'
     'name = "Name \'
     '  End" #trailing \'
-    
-      'puts '#39'Escape "\\"'#39' + '#39'That\'#39's right'#39' + 1.23 + 1.0e6 + 4E20 + 4e+' +
-      '20;'
+    'puts '#39'Escape "\\"'#39'+ '#39'That\'#39's right'#39' +1.23+1.0e6+1e+20 '
+    '  +?a+?\n+true+false+nil;'
     ''
     'def create'
     '  @unit = opt["opt"]'
