@@ -100,7 +100,7 @@ object SyntAnal27: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Comment 2'
+      DisplayName = 'Comment line'
       StyleName = 'Comment'
       TokenType = 1
       Expression = '\# (?!\{) .*'
@@ -116,14 +116,6 @@ object SyntAnal27: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'String2'
-      StyleName = 'String'
-      TokenType = 4
-      Expression = #39'.*?('#39'|$)'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'String regex'
       StyleName = 'String regex'
       TokenType = 4
@@ -132,10 +124,34 @@ object SyntAnal27: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'String regex2'
-      StyleName = 'String regex'
+      DisplayName = 'String %{}'
+      StyleName = 'String'
       TokenType = 4
-      Expression = '%r\{.*?(\})'
+      Expression = '(?s)%\w?\{ (\{.*?\}|.)*? (\}|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'String %()'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '(?s)%\w?\( (\(.*?\)|.)*? (\)|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'String %[]'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '(?s)%\w?\[ (\[.*?\]|.)*? (\]|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'String %//'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '(?s)%\w? ([/%~@!\$\?\^]) (\\\1|.)*? (\1|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -420,33 +436,6 @@ object SyntAnal27: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'q{'
-      StyleName = 'Quote block'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '{')
-          TokenTypes = 8
-        end
-        item
-          TagList.Strings = (
-            'q')
-          TokenTypes = 4
-        end
-        item
-          TagList.Strings = (
-            '%')
-          TokenTypes = 8
-        end>
-      BlockEnd = '}'
-      DisplayInTree = False
-      DynHighlight = dhRange
-      HighlightPos = cpAny
-      CancelNextRules = True
-      CollapseFmt = '{ ... }'
-      IgnoreAsParent = False
-    end
-    item
       DisplayName = '{'
       ConditionList = <
         item
@@ -482,8 +471,12 @@ object SyntAnal27: TLibSyntAnalyzer
     '=end'
     ''
     '%q{ '
-    '  test name{name}'
-    '}'
+    '  test name{name} '
+    '} +'
+    '%Q{one\ntwo\n#{ 1 + 2 }} +'
+    '%q[one\ntwo\n#[ 1 + 2 ]] +'
+    '%r/#{name}/i +'
+    '%w{one two three} ;'
     ''
     'name = /^name/ =~ %r{\w+}'
     'name = "Name \'
