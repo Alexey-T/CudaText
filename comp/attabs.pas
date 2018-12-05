@@ -1091,12 +1091,15 @@ begin
   //imagelist
   if Assigned(FImages) then
     if (AImageIndex>=0) and (AImageIndex<FImages.Count) then
+    begin
+      NIndentTop:=
+        (RectText.Top + RectText.Bottom - FImages.Height + FOptColoredBandSize) div 2;
       case FOptIconPosition of
         aipIconLefterThanText:
           begin
             FImages.Draw(C,
               RectText.Left - 2,
-              (RectText.Top + RectText.Bottom - FImages.Height) div 2,
+              NIndentTop,
               AImageIndex);
             Inc(RectText.Left, FImages.Width+FOptSpaceBetweenIconCaption);
           end;
@@ -1104,7 +1107,7 @@ begin
           begin
             FImages.Draw(C,
               RectText.Right - FImages.Width + 2,
-              (RectText.Top + RectText.Bottom - FImages.Height) div 2,
+              NIndentTop,
               AImageIndex);
             Dec(RectText.Right, FImages.Width+FOptSpaceBetweenIconCaption);
           end;
@@ -1112,7 +1115,7 @@ begin
           begin
             FImages.Draw(C,
               (RectText.Left + RectText.Right - FImages.Width) div 2,
-              (RectText.Top + RectText.Bottom - FImages.Height) div 2,
+              NIndentTop,
               AImageIndex);
           end;
         aipIconAboveTextCentered:
@@ -1132,6 +1135,7 @@ begin
             Dec(RectText.Bottom, FImages.Height+FOptSpaceBetweenIconCaption);
           end;
       end;
+    end;
 
   PL1:= Point(ARect.Left, ARect.Top);
   PL2:= Point(ARect.Left, ARect.Bottom-1);
@@ -1507,7 +1511,8 @@ begin
           Inc(FTabWidth, FImages.Width);
 
       if FOptShowXButtons<>atbxShowNone then
-        Inc(FTabWidth, FOptSpaceXSize);
+        if not Data.TabHideXButton then
+          Inc(FTabWidth, FOptSpaceXSize);
 
       if FTabWidth<FOptTabWidthMinimal then
         FTabWidth:= FOptTabWidthMinimal;
