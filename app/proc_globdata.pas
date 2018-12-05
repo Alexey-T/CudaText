@@ -146,6 +146,7 @@ type
     ListboxHotkeyFontSizeDelta: integer;
 
     TabsDisabled: boolean;
+    TabVarWidth: boolean;
     TabMultiline: boolean;
     TabAngled: boolean;
     TabFlat: boolean;
@@ -1178,6 +1179,7 @@ begin
     ListboxHotkeyFontSizeDelta:= 0; //2 gives too small hotkey font on Lin/Win
 
     TabsDisabled:= false;
+    TabVarWidth:= false;
     TabMultiline:= false;
     TabAngled:= {$ifdef darwin} false {$else} true {$endif};
     TabFlat:= false;

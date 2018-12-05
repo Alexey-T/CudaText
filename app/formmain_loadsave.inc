@@ -849,6 +849,7 @@ begin
     UiOps.FindSeparateForm:= c.GetValue('find_separate_form', UiOps.FindSeparateForm);
 
     UiOps.TabsDisabled:= c.GetValue('ui_tab_disabled', UiOps.TabsDisabled);
+    UiOps.TabVarWidth:= c.GetValue('ui_tab_variable_width', UiOps.TabVarWidth);
     UiOps.TabMultiline:= c.GetValue('ui_tab_multiline', UiOps.TabMultiline);
     UiOps.TabAngled:= c.GetValue('ui_tab_angled', UiOps.TabAngled);
     UiOps.TabFlat:= c.GetValue('ui_tab_flat', UiOps.TabFlat);
