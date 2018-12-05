@@ -109,6 +109,7 @@ type
     tabColorArrowOver,
     tabColorSpecMarks,
     tabColorActiveMark,
+    tabOptionVarWidth,
     tabOptionMultiline,
     tabOptionAnimationEn,
     tabOptionAnimationPause,
@@ -1697,6 +1698,7 @@ begin
             end;
           end;
 
+        tabOptionVarWidth:         OptVarWidth:= Boolean(N);
         tabOptionMultiline:        OptMultiline:= Boolean(N);
         tabOptionAnimationEn:      OptAnimationEnabled:= Boolean(N);
         tabOptionAnimationPause:   OptAnimationPause:= N;
