@@ -965,7 +965,7 @@ begin
     OpFontName_b:= '';
     OpFontName_bi:= '';
 
-    OpFontSize:= 10; //now Win, Carbon and Cocoa use the same font size
+    OpFontSize:= 9; //now Win, Carbon and Cocoa use the same font size
     OpFontSize_i:= OpFontSize;
     OpFontSize_b:= OpFontSize;
     OpFontSize_bi:= OpFontSize;
@@ -1132,7 +1132,7 @@ begin
     ScreenScale:= 100;
 
     VarFontName:= 'default';
-    VarFontSize:= {$ifdef LCLCocoa}13{$else}9{$endif};
+    VarFontSize:= 9;
 
     OutputFontName:= VarFontName;
     OutputFontSize:= VarFontSize;
