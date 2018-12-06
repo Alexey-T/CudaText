@@ -70,7 +70,7 @@
   "TabArrow" : "#808080",
   "TabArrowOver" : "#D0D0D0",
   "TabActiveMark" : "#505050",
-  "TabMarks" : "#E06060",
+  "TabMarks" : "#808080",
   "TreeFont" : "#858585",
   "TreeBg" : "#202020",
   "TreeSelFont" : "#BBBBBB",
