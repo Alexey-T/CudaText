@@ -127,6 +127,7 @@ type
     tabOptionDragDrop,
     tabOptionHeight,
     tabOptionHeightInner,
+    tabOptionWidthNormal,
     tabOptionWidthMin,
     tabOptionWidthMax,
     tabOptionSpacer,
@@ -1716,7 +1717,8 @@ begin
         tabOptionHeight:           Height:= DoScale(N);
         tabOptionHeightInner:      OptTabHeight:= DoScale(N);
         tabOptionWidthMin:         OptTabWidthMinimal:= DoScale(N);
-        tabOptionWidthMax:
+        tabOptionWidthMax:         OptTabWidthMaximal:= DoScale(N);
+        tabOptionWidthNormal:
           begin
             OptTabWidthNormal:= DoScale(N);
             if OptPosition in [atpLeft, atpRight] then

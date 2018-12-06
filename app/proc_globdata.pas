@@ -152,6 +152,7 @@ type
     TabFlat: boolean;
     TabWidth: integer;
     TabWidthMin: integer;
+    TabWidthMax: integer;
     TabHeight: integer;
     TabHeightInner: integer;
     TabSpacer: integer;
@@ -1185,6 +1186,7 @@ begin
     TabFlat:= false;
     TabWidth:= 170;
     TabWidthMin:= 40;
+    TabWidthMax:= 300;
     TabHeight:= 25;
     TabHeightInner:= TabHeight-1;
     TabSpacer:= 2;

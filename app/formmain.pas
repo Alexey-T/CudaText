@@ -2301,8 +2301,9 @@ begin
   G.SetTabOption(tabOptionShowPlus, Ord(UiOps.TabShowPlus));
   G.SetTabOption(tabOptionShowEntireColor, Ord(UiOps.TabColorFull));
   G.SetTabOption(tabOptionDoubleClickClose, Ord(UiOps.TabDblClickClose));
+  G.SetTabOption(tabOptionWidthNormal, UiOps.TabWidth);
   G.SetTabOption(tabOptionWidthMin, UiOps.TabWidthMin);
-  G.SetTabOption(tabOptionWidthMax, UiOps.TabWidth);
+  G.SetTabOption(tabOptionWidthMax, UiOps.TabWidthMax);
   G.SetTabOption(tabOptionHeight, UiOps.TabHeight+UiOps.TabSpacer);
   G.SetTabOption(tabOptionHeightInner, UiOps.TabHeightInner);
   G.SetTabOption(tabOptionSpacer, IfThen(UiOps.TabPosition=0, UiOps.TabSpacer));
