@@ -902,10 +902,14 @@ var
   S, STemp: UnicodeString;
   N, i: integer;
 begin
-  if Mode=attcNone then exit(Text);
-  if C.TextWidth(Text)<=Width then exit(Text);
+  if (Mode=attcNone) or
+    (C.TextWidth(Text)<=Width) then
+  begin
+    Result:= Text;
+    exit
+  end;
 
-  S:= UTF8Decode(Text);
+  S:= Text;
   STemp:= S;
 
   case Mode of
@@ -914,7 +918,7 @@ begin
         repeat
           Delete(STemp, 1, 1);
           S:= DotsString+STemp;
-        until (Length(S)<=cMinLen) or (C.TextWidth(UTF8Encode(S))<=Width);
+        until (Length(S)<=cMinLen) or (C.TextWidth(S)<=Width);
       end;
 
     attcDotsMiddle:
@@ -923,7 +927,7 @@ begin
         begin
           N:= (Length(STemp)+1) div 2 - i div 2;
           S:= Copy(STemp, 1, N)+DotsString+Copy(STemp, N+i, MaxInt);
-          if (Length(S)<=cMinLen) or (C.TextWidth(UTF8Encode(S))<=Width) then Break;
+          if (Length(S)<=cMinLen) or (C.TextWidth(S)<=Width) then Break;
         end;
       end;
 
@@ -932,11 +936,11 @@ begin
         repeat
           SetLength(STemp, Length(STemp)-1);
           S:= STemp+DotsString;
-        until (Length(S)<=cMinLen) or (C.TextWidth(UTF8Encode(S))<=Width);
+        until (Length(S)<=cMinLen) or (C.TextWidth(S)<=Width);
       end;
   end;
 
-  Result:= UTF8Encode(S);
+  Result:= S;
 end;
 
 
