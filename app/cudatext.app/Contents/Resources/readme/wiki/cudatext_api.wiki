@@ -2483,6 +2483,18 @@ Text is chr(1) separated items:
 ** 'a': wrapped search
 ** 's': search in selection
 
+==Format of serialized Undo/Redo==
+
+Text is "\n"-separated lines, each line is Undo/Redo item. Each item is "\t"-separated elements:
+
+* action, number 0..4. 0: change; 1: change EOL; 2: insert; 3: delete; 4: clear modified flag.
+* line index, number from 0.
+* end of line, number 0..3. 0: none; 1: CRLF; 2: LF; 3: CR.
+* caret position(s). "x0,y0;x1,y1;x2,y2;" etc. 2*N numbers in total for N carets.
+* soft mark flag, number 0/1 (boolean). Logic of soft/hard marks is described in wiki page [[ATSynEdit]].
+* hard mark flag, number 0/1.
+* line text, in UTF8. This text can have "\t", not a separator here.
+
 =FAQ=
 
 ==How plugin can fill Code Tree?==

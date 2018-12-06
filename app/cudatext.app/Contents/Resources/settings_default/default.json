@@ -511,6 +511,9 @@
   //UI tabs: Don't create tabs (except the first one), ie use Single Document Interface
   "ui_tab_disabled": false,  
   
+  //UI tabs: Use variable tabs width
+  "ui_tab_variable_width": false,
+  
   //UI tabs: Multi-line mode, ie tabs are wrappable to several lines, when lot of tabs
   "ui_tab_multiline": false,
 
