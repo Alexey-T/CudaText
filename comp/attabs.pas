@@ -48,6 +48,13 @@ type
     atpRight
     );
 
+  TATTabTruncateCaption = (
+    attcNone,
+    attcDotsLeft,
+    attcDotsMiddle,
+    attcDotsRight
+    );
+
 type
   { TATTabData }
 
@@ -211,6 +218,7 @@ const
   _InitTabColorScrollMark = _InitTabColorDropMark;
 
 const
+  _InitOptTruncateCaption = attcDotsMiddle;
   _InitOptAnimationEnabled = false;
   _InitOptAnimationStepV = 4;
   _InitOptAnimationStepH = 25;
@@ -314,6 +322,7 @@ type
 
     FOptVarWidth: boolean;
     FOptMultiline: boolean;
+    FOptTruncateCaption: TATTabTruncateCaption;
     FOptFillWidth: boolean;
     FOptFillWidthLastToo: boolean;
     FOptTabHeight: integer;
@@ -610,6 +619,7 @@ type
     property OptMultiline: boolean read FOptMultiline write FOptMultiline default false;
     property OptFillWidth: boolean read FOptFillWidth write FOptFillWidth default _InitOptFillWidth;
     property OptFillWidthLastToo: boolean read FOptFillWidthLastToo write FOptFillWidthLastToo default _InitOptFillWidthLastToo;
+    property OptTruncateCaption: TATTabTruncateCaption read FOptTruncateCaption write FOptTruncateCaption default _InitOptTruncateCaption;
     property OptTabHeight: integer read FOptTabHeight write FOptTabHeight default _InitOptTabHeight;
     property OptTabWidthNormal: integer read FOptTabWidthNormal write FOptTabWidthNormal default _InitOptTabWidthNormal;
     property OptTabWidthMinimal: integer read FOptTabWidthMinimal write FOptTabWidthMinimal default _InitOptTabWidthMinimal;
@@ -683,6 +693,11 @@ var
   cTabsMouseMinDistanceToDrag: integer = 10; //mouse must move >=N pixels to start drag-drop
   cTabsMouseMaxDistanceToClick: integer = 4; //if mouse moves during mouse-down >=N pixels, dont click
 
+  function _ShortenStringEx(C: TCanvas;
+    const Text: string;
+    Mode: TATTabTruncateCaption;
+    Width: integer;
+    const DotsString: string = #$2026): string;
 
 implementation
 
@@ -876,6 +891,54 @@ begin
   end;
 end;
 
+function _ShortenStringEx(C: TCanvas;
+  const Text: string;
+  Mode: TATTabTruncateCaption;
+  Width: integer;
+  const DotsString: string = #$2026): string;
+const
+  cMinLen = 3;
+var
+  S, STemp: UnicodeString;
+  N, i: integer;
+begin
+  if Mode=attcNone then exit(Text);
+  if C.TextWidth(Text)<=Width then exit(Text);
+
+  S:= UTF8Decode(Text);
+  STemp:= S;
+
+  case Mode of
+    attcDotsLeft:
+      begin
+        repeat
+          Delete(STemp, 1, 1);
+          S:= DotsString+STemp;
+        until (Length(S)<=cMinLen) or (C.TextWidth(UTF8Encode(S))<=Width);
+      end;
+
+    attcDotsMiddle:
+      begin
+        for i:= 2 to $FFFF do
+        begin
+          N:= (Length(STemp)+1) div 2 - i div 2;
+          S:= Copy(STemp, 1, N)+DotsString+Copy(STemp, N+i, MaxInt);
+          if (Length(S)<=cMinLen) or (C.TextWidth(UTF8Encode(S))<=Width) then Break;
+        end;
+      end;
+
+    attcDotsRight:
+      begin
+        repeat
+          SetLength(STemp, Length(STemp)-1);
+          S:= STemp+DotsString;
+        until (Length(S)<=cMinLen) or (C.TextWidth(UTF8Encode(S))<=Width);
+      end;
+  end;
+
+  Result:= UTF8Encode(S);
+end;
+
 
 { TATTabData }
 
@@ -949,6 +1012,7 @@ begin
   FOptWhichActivateOnClose:= aocRight;
   FOptFillWidth:= _InitOptFillWidth;
   FOptFillWidthLastToo:= _InitOptFillWidthLastToo;
+  FOptTruncateCaption:= _InitOptTruncateCaption;
   FOptTabHeight:= _InitOptTabHeight;
   FOptTabWidthMinimal:= _InitOptTabWidthMinimal;
   FOptTabWidthMaximal:= _InitOptTabWidthMaximal;
@@ -1192,7 +1256,8 @@ begin
         NIndentL,
         RectText.Top+NIndentTop+i*NLineHeight,
         RectText,
-        FCaptionList[i]);
+        _ShortenStringEx(C, FCaptionList[i], FOptTruncateCaption, RectText.Width, '????')
+        );
     end;
   end;
 
