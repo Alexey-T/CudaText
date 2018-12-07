@@ -148,7 +148,7 @@ const
   nColorGutterBack = $d8d8d8;
   nColorGutterFont = $909090;
   nColorArrow = $969696;
-  nColorBorder = $c0c0c0;
+  nColorBorder = $b0b0b0;
   nColorListBack = $c4b8b8;
   nColorListSelBack = $d0d0d0;
   nColorListSelBack2 = $f4f4f4;
