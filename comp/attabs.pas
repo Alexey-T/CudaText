@@ -1160,7 +1160,7 @@ begin
 
   if FOptShowFlat then
   begin
-    C.Pen.Color:= ColorBorderPassive;
+    C.Pen.Color:= ColorBorderActive;
     i:= ARect.Left - FOptSpaceBetweenTabs div 2;
     C.Line(i, ARect.Top+cIndentSep, i, ARect.Bottom-cIndentSep);
   end;
