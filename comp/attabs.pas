@@ -1126,6 +1126,8 @@ procedure TATTabs.DoPaintTabTo(
   AShowCloseBtn, ATabModified, ATabActive: boolean;
   AImageIndex: integer;
   AFontStyle: TFontStyles);
+const
+  cIndentSep = 2;
 var
   PL1, PL2, PR1, PR2: TPoint;
   RectText: TRect;
@@ -1155,6 +1157,13 @@ begin
   NIndentR:= NIndentL+IfThen(AShowCloseBtn, FOptSpaceXRight);
   C.FillRect(RectText);
   RectText:= Rect(ARect.Left+NIndentL, ARect.Top, ARect.Right-NIndentR, ARect.Bottom);
+
+  if FOptShowFlat then
+  begin
+    C.Pen.Color:= ColorBorderPassive;
+    i:= ARect.Left - FOptSpaceBetweenTabs div 2;
+    C.Line(i, ARect.Top+cIndentSep, i, ARect.Bottom-cIndentSep);
+  end;
 
   //imagelist
   if Assigned(FImages) then
