@@ -253,6 +253,7 @@ const
   _InitOptHotFontStyleUsed = false;
 
   _InitOptShowFlat = false;
+  _InitOptShowFlatSep = true;
   _InitOptPosition = atpTop;
   _InitOptFillWidth = true;
   _InitOptFillWidthLastToo = false;
@@ -356,6 +357,7 @@ type
     FOptWhichActivateOnClose: TATTabActionOnClose;
     FOptCaptionAlignment: TAlignment;
     FOptShowFlat: boolean;
+    FOptShowFlatSep: boolean;
     FOptShowXButtons: TATTabShowClose; //show mode for "x" buttons
     FOptShowArrowsNear: boolean;
     FOptShowPlusTab: boolean; //show "plus" tab
@@ -653,6 +655,7 @@ type
     property OptShowAngled: boolean read FOptShowAngled write FOptShowAngled default _InitOptShowAngled;
     property OptShowAngleTangent: single read FAngleTangent write FAngleTangent {$ifdef fpc} default _InitOptShowAngleTangent {$endif};
     property OptShowFlat: boolean read FOptShowFlat write FOptShowFlat default _InitOptShowFlat;
+    property OptShowFlatSepar: boolean read FOptShowFlatSep write FOptShowFlatSep default _InitOptShowFlatSep;
     property OptShowScrollMark: boolean read FOptShowScrollMark write FOptShowScrollMark default _InitOptShowScrollMark;
     property OptShowDropMark: boolean read FOptShowDropMark write FOptShowDropMark default _InitOptShowDropMark;
     property OptShowXButtons: TATTabShowClose read FOptShowXButtons write FOptShowXButtons default _InitOptShowXButtons;
@@ -1049,6 +1052,7 @@ begin
   FOptHotFontStyleUsed:= _InitOptHotFontStyleUsed;
 
   FOptShowFlat:= _InitOptShowFlat;
+  FOptShowFlatSep:= _InitOptShowFlatSep;
   FOptPosition:= _InitOptPosition;
   FOptShowNumberPrefix:= _InitOptShowNumberPrefix;
   FOptShowScrollMark:= _InitOptShowScrollMark;
@@ -1158,7 +1162,7 @@ begin
   C.FillRect(RectText);
   RectText:= Rect(ARect.Left+NIndentL, ARect.Top, ARect.Right-NIndentR, ARect.Bottom);
 
-  if FOptShowFlat then
+  if FOptShowFlat and FOptShowFlatSep then
   begin
     C.Pen.Color:= ColorBorderActive;
     i:= ARect.Left - FOptSpaceBetweenTabs div 2;
