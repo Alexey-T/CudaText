@@ -861,6 +861,7 @@ begin
     UiOps.TabPosition:= c.GetValue('ui_tab_position', UiOps.TabPosition);
     UiOps.TabColorFull:= c.GetValue('ui_tab_fullcolor', UiOps.TabColorFull);
     UiOps.TabShowX:= c.GetValue('ui_tab_show_x', UiOps.TabShowX);
+    UiOps.TabShowXSize:= c.GetValue('ui_tab_show_x_size', UiOps.TabShowXSize);
     UiOps.TabShowPlus:= c.GetValue('ui_tab_show_plus', UiOps.TabShowPlus);
     UiOps.TabDblClickClose:= c.GetValue('ui_tab_2click_closes', UiOps.TabDblClickClose);
     UiOps.TabNumbers:= c.GetValue('ui_tab_numbers', UiOps.TabNumbers);

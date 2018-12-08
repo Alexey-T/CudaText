@@ -159,6 +159,7 @@ type
     TabPosition: integer;
     TabColorFull: boolean;
     TabShowX: integer;
+    TabShowXSize: integer;
     TabShowPlus: boolean;
     TabDblClickClose: boolean;
     TabNumbers: boolean;
@@ -1193,6 +1194,7 @@ begin
     TabPosition:= 0;
     TabColorFull:= false;
     TabShowX:= 1; //show all
+    TabShowXSize:= 15;
     TabShowPlus:= true;
     TabDblClickClose:= false;
     TabNumbers:= false;

@@ -557,6 +557,9 @@
   //  2: show only for active tab
   //  3: show only for mouse-over tab
   "ui_tab_show_x": 1,
+  
+  //UI tabs: Size of "x" buttons
+  "ui_tab_show_x_size": 15,
 
   //UI tabs: Show "+" pseudo-tab (its click creates new tab)
   "ui_tab_show_plus": true,
