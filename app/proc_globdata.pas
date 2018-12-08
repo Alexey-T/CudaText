@@ -1187,7 +1187,7 @@ begin
     TabWidth:= 170;
     TabWidthMin:= 40;
     TabWidthMax:= 300;
-    TabHeight:= 25;
+    TabHeight:= 26;
     TabHeightInner:= TabHeight-1;
     TabSpacer:= 2;
     TabPosition:= 0;

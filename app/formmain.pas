@@ -2314,7 +2314,7 @@ begin
   G.SetTabOption(tabOptionScrollMarkSizeY, _InitOptScrollMarkSizeY);
   G.SetTabOption(tabOptionShowNums, Ord(UiOps.TabNumbers));
   G.SetTabOption(tabOptionSpaceXRight, 10);
-  G.SetTabOption(tabOptionSpaceXSize, 12);
+  G.SetTabOption(tabOptionSpaceXSize, 15);
   G.SetTabOption(tabOptionArrowSize, 4);
   G.SetTabOption(tabOptionButtonSize, 16);
   G.SetTabOption(tabOptionShowArrowsNear, Ord(Pos('<>', UiOps.TabButtonLayout)>0));
