@@ -34,6 +34,7 @@ begin
   G.SetTabOption(tabColorBgPassiveOver, GetAppColor('TabOver'));
   G.SetTabOption(tabColorBorderActive, GetAppColor('TabBorderActive'));
   G.SetTabOption(tabColorBorderPassive, GetAppColor('TabBorderPassive'));
+  G.SetTabOption(tabColorSeparator, GetAppColor('TabBorderActive'));
   G.SetTabOption(tabColorArrow, GetAppColor('TabArrow'));
   G.SetTabOption(tabColorArrowOver, GetAppColor('TabArrowOver'));
   G.SetTabOption(tabColorCloseBg, GetAppColor('TabCloseBg'));

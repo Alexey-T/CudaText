@@ -292,6 +292,7 @@ type
     FColorBg: TColor; //color of background (visible at top and between tabs)
     FColorBorderActive: TColor; //color of 1px border of active tab
     FColorBorderPassive: TColor; //color of 1px border of inactive tabs
+    FColorSeparator: TColor; //vertical lines between tabs in Flat mode
     FColorTabActive: TColor; //color of active tab
     FColorTabPassive: TColor; //color of inactive tabs
     FColorTabOver: TColor; //color of inactive tabs, mouse-over
@@ -357,7 +358,7 @@ type
     FOptWhichActivateOnClose: TATTabActionOnClose;
     FOptCaptionAlignment: TAlignment;
     FOptShowFlat: boolean;
-    FOptShowFlatSep: boolean;
+    FOptShowFlatSepar: boolean;
     FOptShowXButtons: TATTabShowClose; //show mode for "x" buttons
     FOptShowArrowsNear: boolean;
     FOptShowPlusTab: boolean; //show "plus" tab
@@ -592,6 +593,7 @@ type
     property ColorBg: TColor read FColorBg write FColorBg default _InitTabColorBg;
     property ColorBorderActive: TColor read FColorBorderActive write FColorBorderActive default _InitTabColorBorderActive;
     property ColorBorderPassive: TColor read FColorBorderPassive write FColorBorderPassive default _InitTabColorBorderPassive;
+    property ColorSeparator: TColor read FColorSeparator write FColorSeparator default _InitTabColorArrow;
     property ColorTabActive: TColor read FColorTabActive write FColorTabActive default _InitTabColorTabActive;
     property ColorTabPassive: TColor read FColorTabPassive write FColorTabPassive default _InitTabColorTabPassive;
     property ColorTabOver: TColor read FColorTabOver write FColorTabOver default _InitTabColorTabOver;
@@ -655,7 +657,7 @@ type
     property OptShowAngled: boolean read FOptShowAngled write FOptShowAngled default _InitOptShowAngled;
     property OptShowAngleTangent: single read FAngleTangent write FAngleTangent {$ifdef fpc} default _InitOptShowAngleTangent {$endif};
     property OptShowFlat: boolean read FOptShowFlat write FOptShowFlat default _InitOptShowFlat;
-    property OptShowFlatSepar: boolean read FOptShowFlatSep write FOptShowFlatSep default _InitOptShowFlatSep;
+    property OptShowFlatSepar: boolean read FOptShowFlatSepar write FOptShowFlatSepar default _InitOptShowFlatSep;
     property OptShowScrollMark: boolean read FOptShowScrollMark write FOptShowScrollMark default _InitOptShowScrollMark;
     property OptShowDropMark: boolean read FOptShowDropMark write FOptShowDropMark default _InitOptShowDropMark;
     property OptShowXButtons: TATTabShowClose read FOptShowXButtons write FOptShowXButtons default _InitOptShowXButtons;
@@ -986,6 +988,7 @@ begin
   FMouseDownRightBtn:=false;
 
   FColorBg:= _InitTabColorBg;
+  FColorSeparator:= _InitTabColorArrow;
   FColorTabActive:= _InitTabColorTabActive;
   FColorTabPassive:= _InitTabColorTabPassive;
   FColorTabOver:= _InitTabColorTabOver;
@@ -1052,7 +1055,7 @@ begin
   FOptHotFontStyleUsed:= _InitOptHotFontStyleUsed;
 
   FOptShowFlat:= _InitOptShowFlat;
-  FOptShowFlatSep:= _InitOptShowFlatSep;
+  FOptShowFlatSepar:= _InitOptShowFlatSep;
   FOptPosition:= _InitOptPosition;
   FOptShowNumberPrefix:= _InitOptShowNumberPrefix;
   FOptShowScrollMark:= _InitOptShowScrollMark;
@@ -1162,9 +1165,9 @@ begin
   C.FillRect(RectText);
   RectText:= Rect(ARect.Left+NIndentL, ARect.Top, ARect.Right-NIndentR, ARect.Bottom);
 
-  if FOptShowFlat and FOptShowFlatSep then
+  if FOptShowFlat and FOptShowFlatSepar then
   begin
-    C.Pen.Color:= ColorBorderActive;
+    C.Pen.Color:= FColorSeparator;
     i:= ARect.Left - FOptSpaceBetweenTabs div 2;
     C.Line(i, ARect.Top+cIndentSep, i, ARect.Bottom-cIndentSep);
   end;

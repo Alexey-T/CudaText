@@ -100,6 +100,7 @@ type
     tabColorBgPassiveOver,
     tabColorBorderActive,
     tabColorBorderPassive,
+    tabColorSeparator,
     tabColorCloseBg,
     tabColorCloseBgOver,
     tabColorCloseBorderOver,
@@ -1655,6 +1656,7 @@ begin
         tabColorTextModified: ColorFontModified:= N;
         tabColorBorderActive: ColorBorderActive:= N;
         tabColorBorderPassive: ColorBorderPassive:= N;
+        tabColorSeparator: ColorSeparator:= N;
         tabColorCloseBg: ColorCloseBg:= N;
         tabColorCloseBgOver: ColorCloseBgOver:= N;
         tabColorCloseBorderOver: ColorCloseBorderOver:= N;
