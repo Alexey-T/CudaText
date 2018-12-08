@@ -4,14 +4,14 @@
   * changed
 
 
-1.67.1 (2018/12)
+1.67.2 (2018/12)
 
 + add: option "ui_tab_variable_width", can set variable width tabs
 + add: option "ui_tab_size_x_max"
 + add: option "ui_tab_show_x_size"
 + add: too long UI tab captions are now truncated in the middle, by "…" char
 + add: Multi Installer skips more error messages (about incompatible OS, API, requires)
-+ add: on Linux: selection is auto-copied to OS Primary Selection (for max line count ~200) 
++ add: on Linux: selection is auto-copied to OS Primary Selection (for max line count ~200). So plugin "Auto Copy to Clipboard" is almost not needed (it can copy to usual clipboard though). 
 
 1.67.0 (2018/12)
 
