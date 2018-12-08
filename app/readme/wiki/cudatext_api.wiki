@@ -527,24 +527,25 @@ Gets list of entered strings or None if cancelled.
 
  dlg_file(is_open, init_filename, init_dir, filters)
 
-Shows file-open or file-save-as modal dialog.
+Shows file-open or file-save-as modal dialog. Gets filename (str) or None if cancelled.
 
-Gets filename (str) or None if cancelled. Params:
+* Param "is_open": True for open dialog, False for save-as dialog.
+* Param "init_filename": Initial filename for save-as dialog. Can be empty.
+* Param "init_dir": Initial folder. Can be empty.
+* Param "filters": File filters string. Can be empty. Example for 2 filters: "Source codes|*.pas;*.inc|Text files|*.txt"
 
-* is_open: True for open dialog, False for save-as dialog.
-* init_filename: Initial filename for save-as dialog. Can be empty.
-* init_dir: Initial dir for dialog. Can be empty.
-* filters: Sets file filters for dialog. Can be empty. Example, 2 filters: "Texts|*.pas;*.txt|Include|*.inc"
+Features:
 
-To allow multi-select in open dialog, pass init_filename="*". If single filename selected, result is str. If several filenames selected, result is list of str.
-
-To disable check "filename exists" in open dialog, start init_filename with "!".
+* To allow multi-select in open dialog, pass init_filename="*". If single filename selected, result is str. If several filenames selected, result is list of str.
+* To disable check "filename exists" in open dialog, start init_filename with "!".
 
 ===dlg_dir===
 
  dlg_dir(init_dir)
 
 Shows dialog to select folder. Gets folder path, or None if cancelled.
+
+Param "init_dir": Initial folder.
 
 ===dlg_menu===
 
