@@ -205,10 +205,10 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 * PROC_GET_CLIP: Gets clipboard text.
 * PROC_SET_CLIP: Copies text to clipboard (usual).
-* PROC_SET_CLIP_ALT: Copies text to alternate clipboard on Linux gtk2, called "primary selection" (also "secondary selection" exists, but no API for it here).
-** CudaText copy commands put text to usual clipboard + primary selection.
-** CudaText paste commands get text from usual clipboard.
-** CudaText option "mouse_mid_click_paste" gets text from primary selection.
+* PROC_SET_CLIP_ALT: Copies text to alternate clipboard on Linux, called "primary selection".
+** CudaText Copy commands put text to usual clipboard + primary selection.
+** CudaText Paste commands get text from usual clipboard.
+** CudaText Paste with option "mouse_mid_click_paste":true gets text from primary selection.
 
 ====Plugin calls====
 
