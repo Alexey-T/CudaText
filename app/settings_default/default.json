@@ -551,7 +551,7 @@
   //  3: right
   "ui_tab_position": 0,
 
-  //UI tabs: Show "x" buttons on tabs
+  //UI tabs: When to show "x" buttons on tabs
   //  0: don't show
   //  1: show for all tabs
   //  2: show only for active tab
@@ -564,7 +564,7 @@
   //UI tabs: Show "+" pseudo-tab (its click creates new tab)
   "ui_tab_show_plus": true,
 
-  //UI tabs: Feature "Set tab color" fills the entire tab height
+  //UI tabs: Feature "Set tab color" colorizes the entire tab height
   "ui_tab_fullcolor": false,
 
   //UI tabs: Double-click closes tab
