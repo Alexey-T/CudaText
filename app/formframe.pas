@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Forms, Controls, Dialogs,
-  ExtCtrls, Menus, StdCtrls, StrUtils, ComCtrls,
+  ExtCtrls, Menus, StdCtrls, StrUtils, ComCtrls, Clipbrd,
   LCLIntf, LCLProc, LCLType, LazUTF8, LazFileUtils, FileUtil,
   LConvEncoding,
   ATTabs,
@@ -528,10 +528,28 @@ begin
 end;
 
 procedure TEditorFrame.EditorOnChangeCaretPos(Sender: TObject);
+const
+  cMaxSelectedLinesForAutoCopy = 200;
+var
+  Ed: TATSynEdit;
+  NFrom, NTo: integer;
 begin
   DoOnChangeCaretPos;
   DoOnUpdateStatus;
-  DoPyEvent(Sender as TATSynEdit, cEventOnCaret, []);
+
+  Ed:= Sender as TATSynEdit;
+
+  //support Primary Selection on Linux
+  {$ifdef linux}
+  if Ed.Carets.Count=1 then
+  begin
+    Ed.Carets[0].GetSelLines(NFrom, NTo, false);
+    if (NTo-NFrom)<=cMaxSelectedLinesForAutoCopy then
+      SClipboardCopy(Ed.TextSelected, PrimarySelection);
+  end;
+  {$endif}
+
+  DoPyEvent(Ed, cEventOnCaret, []);
 end;
 
 procedure TEditorFrame.EditorOnHotspotEnter(Sender: TObject; AHotspotIndex: integer);

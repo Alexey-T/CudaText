@@ -10,7 +10,8 @@
 + add: option "ui_tab_size_x_max"
 + add: option "ui_tab_show_x_size"
 + add: too long UI tab captions are now truncated in the middle, by "…" char
-+ add: Multi Installer skips more error messages (about incompatible OS, API, requires) 
++ add: Multi Installer skips more error messages (about incompatible OS, API, requires)
++ add: on Linux: selection is auto-copied to OS Primary Selection (for max line count ~200) 
 
 1.67.0 (2018/12)
 

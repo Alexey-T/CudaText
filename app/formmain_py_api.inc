@@ -3283,7 +3283,7 @@ begin
           end;
         APP_PROC_SET_CLIP_ALT:
           begin
-            SClipboardCopy(Str, PrimarySelection); //for gtk2
+            SClipboardCopy(Str, PrimarySelection); //for Linux
             Result:= ReturnNone;
           end;
 
