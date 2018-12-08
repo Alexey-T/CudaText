@@ -463,25 +463,29 @@ begin
 
   if not CheckValue_OS(s_os) then
   begin
-    MsgBox(Format(msgCannotInstallOnOS, [s_title, s_os]), MB_OK or MB_ICONERROR);
+    if not ASilent then
+      MsgBox(Format(msgCannotInstallOnOS, [s_title, s_os]), MB_OK or MB_ICONERROR);
     exit
   end;
 
   if not CheckValue_ReqPlugin(s_req) then
   begin
-    MsgBox(Format(msgCannotInstallReqPlugin, [s_title, s_req]), MB_OK or MB_ICONERROR);
+    if not ASilent then
+      MsgBox(Format(msgCannotInstallReqPlugin, [s_title, s_req]), MB_OK or MB_ICONERROR);
     exit
   end;
 
   if not CheckValue_ReqLexer(s_req_lexer) then
   begin
-    MsgBox(Format(msgCannotInstallReqLexer, [s_title, s_req_lexer]), MB_OK or MB_ICONERROR);
+    if not ASilent then
+      MsgBox(Format(msgCannotInstallReqLexer, [s_title, s_req_lexer]), MB_OK or MB_ICONERROR);
     exit
   end;
 
   if (s_api<>'') and (s_api>cAppApiVersion) then
   begin
-    MsgBox(Format(msgCannotInstallAddonApi, [s_title, s_api]), MB_OK or MB_ICONERROR);
+    if not ASilent then
+      MsgBox(Format(msgCannotInstallAddonApi, [s_title, s_api]), MB_OK or MB_ICONERROR);
     exit
   end;
 
