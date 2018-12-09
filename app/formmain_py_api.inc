@@ -1193,14 +1193,20 @@ var
   H: Int64;
   Ed: TATSynEdit;
   F: TEditorFrame;
+  Str: string;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_filename', @H)) then
     begin
       Ed:= PyEditor(H);
       F:= GetEditorFrame(Ed);
-      if F=nil then exit(ReturnNone);
-      Result:= PyUnicode_FromWideString(Utf8Decode(F.FileName));
+      if F=nil then
+        exit(ReturnNone);
+      if F.IsText then
+        Str:= F.FileName
+      else
+        Str:= '?';
+      Result:= PyString_FromString(PChar(Str));
     end;
 end;
 
