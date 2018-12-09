@@ -122,7 +122,6 @@ type
     FImageBox: TATImageBox;
     FBin: TATBinHex;
     FBinStream: TFileStreamUTF8;
-    FImageFilename: string;
     FCheckFilenameOpened: TStrFunction;
     FOnMsgStatus: TStrEvent;
     FSaveDialog: TSaveDialog;
@@ -172,7 +171,6 @@ type
     function GetCommentString: string;
     function GetEnabledFolding: boolean;
     function GetEncodingName: string;
-    function GetFileName: string;
     function GetLineEnds: TATLineEnds;
     function GetNotifEnabled: boolean;
     function GetNotifTime: integer;
@@ -232,7 +230,7 @@ type
     procedure DoShow;
     property ReadOnly: boolean read GetReadOnly write SetReadOnly;
     property ReadOnlyFromFile: boolean read FReadOnlyFromFile write FReadOnlyFromFile;
-    property FileName: string read GetFileName write SetFileName;
+    property FileName: string read FFileName write SetFileName;
     property FileWasBig: boolean read FFileWasBig write SetFileWasBig;
     property TabCaption: string read FTabCaption write SetTabCaption;
     property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
@@ -268,7 +266,6 @@ type
     function IsText: boolean;
     function IsPicture: boolean;
     function IsBinary: boolean;
-    property PictureFileName: string read FImageFilename;
     function PictureSizes: TPoint;
     property PictureScale: integer read GetPictureScale write SetPictureScale;
     property Binary: TATBinHex read FBin;
@@ -669,14 +666,6 @@ begin
     else
       Result:= '?';
   end;
-end;
-
-function TEditorFrame.GetFileName: string;
-begin
-  if Assigned(FImageBox) and FImageBox.Visible then
-    exit(FImageFilename);
-
-  Result:= FFileName;
 end;
 
 function TEditorFrame.GetLineEnds: TATLineEnds;
@@ -1562,7 +1551,7 @@ end;
 procedure TEditorFrame.DoFileOpen_AsPicture(const AFileName: string);
 begin
   TabCaption:= ExtractFileName(AFileName);
-  FFileName:= '?';
+  FFileName:= AFileName;
 
   Ed1.Hide;
   Ed2.Hide;
@@ -1579,9 +1568,7 @@ begin
 
   try
     FImageBox.LoadFromFile(AFileName);
-    FImageFilename:= AFileName;
   except
-    FImageFilename:= '';
   end;
 
   FrameResize(Self);

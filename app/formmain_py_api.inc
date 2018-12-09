@@ -2644,7 +2644,7 @@ begin
             else
             begin
               Pnt:= F.PictureSizes;
-              Result:= Py_BuildValue('(sii)', PChar(F.PictureFileName), Pnt.X, Pnt.Y);
+              Result:= Py_BuildValue('(sii)', PChar(F.FileName), Pnt.X, Pnt.Y);
             end;
           end;
 

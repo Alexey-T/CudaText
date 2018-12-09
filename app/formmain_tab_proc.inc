@@ -385,10 +385,7 @@ begin
   F:= D.TabObject as TEditorFrame;
   if F=nil then exit;
 
-  if not F.IsText then
-    MsgStatus(F.PictureFileName)
-  else
-    MsgStatus(F.FileName);
+  MsgStatus(F.FileName);
 end;
 
 procedure TfmMain.DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
@@ -442,15 +439,7 @@ begin
     for i:= 0 to FrameCount-1 do
     begin
       Frame:= Frames[i];
-
-      if Frame.IsPicture then
-        SName:= Frame.PictureFileName
-      else
-      if Frame.IsBinary then
-        SName:= Frame.Binary.FileName
-      else
-        SName:= Frame.FileName;
-
+      SName:= Frame.FileName;
       L_fn.Add(SName);
       if SName<>'' then
         L_cap.Add(ExtractFileName(SName))

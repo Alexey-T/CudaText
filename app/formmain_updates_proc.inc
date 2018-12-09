@@ -17,10 +17,7 @@ begin
 
   if UiOps.ShowTitlePath then
   begin
-    if F.IsText then
-      SName:= F.FileName
-    else
-      SName:= F.PictureFileName;
+    SName:= F.FileName;
     if SName='' then
       SName:= F.TabCaption;
   end
