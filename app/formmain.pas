@@ -3630,7 +3630,6 @@ procedure TfmMain.DoFileCloseAndDelete;
 var
   fn: string;
 begin
-  if not CurrentFrame.IsText then exit;
   fn:= CurrentFrame.FileName;
   if fn='' then exit;
 

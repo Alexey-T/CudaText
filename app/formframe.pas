@@ -137,8 +137,8 @@ type
       var AContinueSearching: Boolean);
     procedure DoDeactivatePictureMode;
     procedure DoDeactivateViewerMode;
-    procedure DoFileOpen_AsBinary(const fn: string; AMode: TATBinHexMode);
-    procedure DoFileOpen_AsPicture(const fn: string);
+    procedure DoFileOpen_AsBinary(const AFileName: string; AMode: TATBinHexMode);
+    procedure DoFileOpen_AsPicture(const AFileName: string);
     procedure DoImageboxScroll(Sender: TObject);
     procedure DoOnChangeCaption;
     procedure DoOnChangeCaretPos;
@@ -172,6 +172,7 @@ type
     function GetCommentString: string;
     function GetEnabledFolding: boolean;
     function GetEncodingName: string;
+    function GetFileName: string;
     function GetLineEnds: TATLineEnds;
     function GetNotifEnabled: boolean;
     function GetNotifTime: integer;
@@ -231,7 +232,7 @@ type
     procedure DoShow;
     property ReadOnly: boolean read GetReadOnly write SetReadOnly;
     property ReadOnlyFromFile: boolean read FReadOnlyFromFile write FReadOnlyFromFile;
-    property FileName: string read FFileName write SetFileName;
+    property FileName: string read GetFileName write SetFileName;
     property FileWasBig: boolean read FFileWasBig write SetFileWasBig;
     property TabCaption: string read FTabCaption write SetTabCaption;
     property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
@@ -668,6 +669,14 @@ begin
     else
       Result:= '?';
   end;
+end;
+
+function TEditorFrame.GetFileName: string;
+begin
+  if Assigned(FImageBox) and FImageBox.Visible then
+    exit(FImageFilename);
+
+  Result:= FFileName;
 end;
 
 function TEditorFrame.GetLineEnds: TATLineEnds;
@@ -1504,10 +1513,10 @@ begin
   Adapter.OnLexerChange(Adapter);
 end;
 
-procedure TEditorFrame.DoFileOpen_AsBinary(const fn: string; AMode: TATBinHexMode);
+procedure TEditorFrame.DoFileOpen_AsBinary(const AFileName: string; AMode: TATBinHexMode);
 begin
-  TabCaption:= ExtractFileName(fn);
-  FFileName:= fn;
+  TabCaption:= ExtractFileName(AFileName);
+  FFileName:= AFileName;
 
   Ed1.Hide;
   Ed2.Hide;
@@ -1518,7 +1527,7 @@ begin
     FBin.OpenStream(nil);
   if Assigned(FBinStream) then
     FreeAndNil(FBinStream);
-  FBinStream:= TFileStreamUTF8.Create(fn, fmOpenRead or fmShareDenyWrite);
+  FBinStream:= TFileStreamUTF8.Create(AFileName, fmOpenRead or fmShareDenyWrite);
 
   if not Assigned(FBin) then
   begin
@@ -1550,9 +1559,9 @@ begin
 end;
 
 
-procedure TEditorFrame.DoFileOpen_AsPicture(const fn: string);
+procedure TEditorFrame.DoFileOpen_AsPicture(const AFileName: string);
 begin
-  TabCaption:= ExtractFileName(fn);
+  TabCaption:= ExtractFileName(AFileName);
   FFileName:= '?';
 
   Ed1.Hide;
@@ -1569,8 +1578,8 @@ begin
   FImageBox.OnKeyDown:= @BinaryOnKeyDown;
 
   try
-    FImageBox.LoadFromFile(fn);
-    FImageFilename:= fn;
+    FImageBox.LoadFromFile(AFileName);
+    FImageFilename:= AFileName;
   except
     FImageFilename:= '';
   end;
