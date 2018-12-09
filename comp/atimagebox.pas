@@ -464,6 +464,8 @@ begin
         Key:= 0;
       end;
   end;
+
+  inherited;
 end;
 
 

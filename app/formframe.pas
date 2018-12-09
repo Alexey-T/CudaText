@@ -1566,6 +1566,8 @@ begin
   FImageBox.BorderStyle:= bsNone;
   FImageBox.OptFitToWindow:= true;
   FImageBox.OnScroll:= @DoImageboxScroll;
+  FImageBox.OnKeyDown:= @BinaryOnKeyDown;
+
   try
     FImageBox.LoadFromFile(fn);
     FImageFilename:= fn;
@@ -2514,15 +2516,18 @@ begin
   DoShow;
 
   if Assigned(FBin) then
-  begin
-    EditorFocus(FBin);
-    exit;
-  end;
+    if FBin.Visible then
+    begin
+      EditorFocus(FBin);
+      exit;
+    end;
 
   if Assigned(FImageBox) then
-  begin
-    exit;
-  end;
+    if FImageBox.Visible then
+    begin
+      FImageBox.SetFocus;
+      exit;
+    end;
 
   EditorFocus(Editor);
 end;
