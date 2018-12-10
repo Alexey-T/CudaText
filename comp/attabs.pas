@@ -543,6 +543,7 @@ type
     {$endif}
     procedure DragOver(Source: TObject; X, Y: integer; State: TDragState; var Accept: Boolean); override;
     procedure Loaded; override;
+    procedure DoContextPopup(MousePos: TPoint; var Handled: Boolean); override;
 
   published
     //inherited
@@ -2290,15 +2291,15 @@ end;
 
 procedure TATTabs.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: integer);
 var
-  IsClick, IsDblClick, IsRightClick: boolean;
+  IsClick, IsDblClick: boolean;
 begin
   IsClick:= FMouseDown and
     (Abs(X-FMouseDownPnt.X) < cTabsMouseMaxDistanceToClick) and
     (Abs(Y-FMouseDownPnt.Y) < cTabsMouseMaxDistanceToClick);
   IsDblClick:= IsClick and FMouseDownDbl;
-  IsRightClick:= FMouseDownRightBtn and
-    (Abs(X-FMouseDownPnt.X) < cTabsMouseMaxDistanceToClick) and
-    (Abs(Y-FMouseDownPnt.Y) < cTabsMouseMaxDistanceToClick);
+  //IsRightClick:= FMouseDownRightBtn and
+  //  (Abs(X-FMouseDownPnt.X) < cTabsMouseMaxDistanceToClick) and
+  //  (Abs(Y-FMouseDownPnt.Y) < cTabsMouseMaxDistanceToClick);
        
   FMouseDown:= false;
   FMouseDownDbl:= false;
@@ -2322,12 +2323,6 @@ begin
     DoHandleClick;
     Invalidate;
     Exit
-  end;
-
-  if IsRightClick then
-  begin
-    DoHandleRightClick;
-    Exit;
   end;
 end;
 
@@ -3323,6 +3318,16 @@ procedure TATTabs.Loaded;
 begin
   inherited;
   TabIndex:= FTabIndexLoaded;
+end;
+
+procedure TATTabs.DoContextPopup(MousePos: TPoint; var Handled: Boolean);
+begin
+  inherited;
+  if not Handled then
+  begin
+    DoHandleRightClick;
+    Handled:= true;
+  end;
 end;
 
 function TATTabs.GetButtonsEmpty: boolean;
