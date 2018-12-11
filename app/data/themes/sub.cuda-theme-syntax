@@ -299,7 +299,7 @@
     "Type" : 1,
     "Styles" : "",
     "CFont" : "#000000",
-    "CBack" : "#FF8080",
+    "CBack" : "#AD3131",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
@@ -307,7 +307,7 @@
     "Type" : 1,
     "Styles" : "",
     "CFont" : "#000000",
-    "CBack" : "#FFFF00",
+    "CBack" : "#C0B43C",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
@@ -315,7 +315,7 @@
     "Type" : 1,
     "Styles" : "",
     "CFont" : "#000000",
-    "CBack" : "#40F040",
+    "CBack" : "#008000",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
@@ -323,7 +323,7 @@
     "Type" : 1,
     "Styles" : "",
     "CFont" : "#000000",
-    "CBack" : "#8080F0",
+    "CBack" : "#5E5E9C",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
@@ -331,7 +331,7 @@
     "Type" : 1,
     "Styles" : "",
     "CFont" : "#000000",
-    "CBack" : "#B0C0C0",
+    "CBack" : "#5A8484",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
