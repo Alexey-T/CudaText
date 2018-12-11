@@ -703,7 +703,7 @@ var
     const Text: string;
     Mode: TATTabTruncateCaption;
     Width: integer;
-    const DotsString: string = #$2026): string;
+    DotsString: string=''): string;
 
 implementation
 
@@ -901,7 +901,7 @@ function _ShortenStringEx(C: TCanvas;
   const Text: string;
   Mode: TATTabTruncateCaption;
   Width: integer;
-  const DotsString: string = #$2026): string;
+  DotsString: string=''): string;
 const
   cMinLen = 3;
 var
@@ -914,6 +914,9 @@ begin
     Result:= Text;
     exit
   end;
+
+  if DotsString='' then
+    DotsString:= {$ifdef fpc}UTF8Encode{$endif}(#$2026);
 
   S:= Text;
   STemp:= S;
@@ -1168,9 +1171,8 @@ begin
 
   if FOptShowFlat and FOptShowFlatSepar then
   begin
-    C.Pen.Color:= FColorSeparator;
     i:= ARect.Left - FOptSpaceBetweenTabs div 2;
-    C.Line(i, ARect.Top+cIndentSep, i, ARect.Bottom-cIndentSep);
+    DrawLine(C, i, ARect.Top+cIndentSep, i, ARect.Bottom-cIndentSep, FColorSeparator);
   end;
 
   //imagelist
@@ -1277,7 +1279,7 @@ begin
         NIndentL,
         RectText.Top+NIndentTop+i*NLineHeight,
         RectText,
-        _ShortenStringEx(C, FCaptionList[i], FOptTruncateCaption, RectText.Width)
+        _ShortenStringEx(C, FCaptionList[i], FOptTruncateCaption, RectText.Right-RectText.Left)
         );
     end;
   end;
@@ -1310,7 +1312,8 @@ begin
           DrawLine(C, PR1.X, PR1.Y, PR2.X, PR2.Y+1, AColorBorder);
         DrawLine(C, PL1.X, PL1.Y, PR1.X, PL1.Y, AColorBorder);
         if AColorBorderLow<>clNone then
-          DrawLine(C, PL2.X, ARect.Bottom, PR2.X, ARect.Bottom, AColorBorderLow)
+          DrawLine(C, PL2.X-IfThen(FOptShowAngled, FAngleSide), ARect.Bottom,
+                      PR2.X+IfThen(FOptShowAngled, FAngleSide), ARect.Bottom, AColorBorderLow)
         else
           DrawLine(C, PL2.X+1, ARect.Bottom, PR2.X-1, ARect.Bottom, AColorBg);
       end;
@@ -1320,7 +1323,8 @@ begin
         DrawLine(C, PR1.X, PR1.Y, PR2.X, PR2.Y+1, AColorBorder);
         DrawLine(C, PL2.X, PL2.Y+1, PR2.X, PL2.Y+1, AColorBorder);
         if AColorBorderLow<>clNone then
-          DrawLine(C, PL1.X, ARect.Top, PR1.X, ARect.Top, AColorBorderLow)
+          DrawLine(C, PL1.X-IfThen(FOptShowAngled, FAngleSide), ARect.Top,
+                      PR1.X+IfThen(FOptShowAngled, FAngleSide), ARect.Top, AColorBorderLow)
       end;
     atpLeft:
       begin
@@ -2338,6 +2342,11 @@ begin
   FMouseDownShift:= Shift;
 
   FTabIndexOver:= GetTabAt(X, Y, IsX);
+
+  //maybe X is hidden
+  if (FTabIndexOver>=0) and IsX then
+    if not IsShowX(FTabIndexOver) then
+      IsX:= false;
 
   //activate tab only if not X clicked
   if not IsX then
