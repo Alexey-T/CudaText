@@ -505,11 +505,12 @@ Time in seconds: 1..30; seconds<=0 hides statusbar (if shown before).
 
 ===dlg_input===
 
- dlg_input(label, defvalue)
+ dlg_input(label, text)
 
-Shows modal dialog to input one string.
+Shows modal dialog to input one string. Gets entered string or None of cancelled.
 
-Gets entered string or None of cancelled.
+* Param "label": prompt text above input field.
+* Param "text": initial value of input field.
 
 ===dlg_input_ex===
 
@@ -519,9 +520,11 @@ Gets entered string or None of cancelled.
                label7="", text7="", label8="", text8="", label9="", text9="",
                label10="", text10="")
 
-Shows modal dialog to enter 1 to 10 strings. Param number is count of strings.
+Shows modal dialog to enter 1 to 10 string fields at once. Gets list of strings or None if cancelled.
 
-Gets list of entered strings or None if cancelled.
+* Param "number": count of input fields.
+* Params "label": prompt text above input field.
+* Params "text": initial value of input field.
 
 ===dlg_file===
 
