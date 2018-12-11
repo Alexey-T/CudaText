@@ -1167,7 +1167,7 @@ begin
     AutocompleteHtml:= true;
     AutocompleteAutoshowCharCount:= 0;
     AutocompleteTriggerChars:= '';
-    AutocompleteCommitChars:= ' .,;/\''"=<>()[]{}';
+    AutocompleteCommitChars:= ' ,;/\''"=<>()[]{}';
     AutocompleteAddOpeningBracket:= true;
     AutocompleteUpDownAtEdge:= 1; //cudWrap
     AutoCloseBrackets:= '([{';
