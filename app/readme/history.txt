@@ -13,6 +13,7 @@
 + add: Multi Installer skips more error messages (about incompatible OS, API, requires)
 + add: on Linux: selection is auto-copied to OS Primary Selection (for max line count ~200). So plugin "Auto Copy to Clipboard" is almost not needed (it can copy to usual clipboard though).
 + add: command "Close and delete file" works for puctures and binary files too
++ add: can continue column selection after multi-carets. After column selection made, then Shift+Right used (it converted column block to multi-carets), you can continue column selection by Shift+Alt+Down
 - fix: most of app hotkeys didn't work in picture viewer 
 
 1.67.0 (2018/12)
