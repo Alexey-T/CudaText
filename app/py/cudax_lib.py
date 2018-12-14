@@ -262,7 +262,7 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer=''):
             return None # Fail!
         return value
 
-    lev = CONFIG_LEV_LEX                                if lexer and not lev else lev
+    lev = CONFIG_LEV_LEX                                if lexer    else lev
     lex = ''
     if lev==CONFIG_LEV_LEX:
         lex     = lexer                                 if lexer    else \
@@ -330,7 +330,8 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer=''):
         # 1. Repl   2. Parse
         body_c2p = comms2pairs(body)
         body_c2p = re.sub(r',\s*}$', '}', body_c2p)     # Kill "," after last value
-        body_js  = json.loads(body_c2p, object_pairs_hook=odict)
+        body_js  = _json_loads(body_c2p, object_pairs_hook=odict)
+#       body_js  = json.loads(body_c2p, object_pairs_hook=odict)
         # 3. Modify
         node    = body_js
         kv_node = None
@@ -432,7 +433,25 @@ def _json_loads(s, **kw):
             Delete comments
             Delete unnecessary ',' from {,***,} and [,***,]
     '''
-    s = re.sub(r'(^|[^:])//.*'  , r'\1', s)     # :// in http://
+#   s = re.sub(r'(^|[^:])//.*'  , r'\1', s)     # :// in http://
+#   s = re.sub(r'(^|[^:])//.*'  , r'\1', s, flags=re.MULTILINE)     # :// in http://
+    def rm_cm(match):
+        line    = match.group(0)
+        pos     = 0
+        in_str  = False
+        while pos<len(line):
+            ch  = line[pos]
+            if ch=='\\':
+                pos += 2
+            else:
+                if ch=='"':
+                    in_str = not in_str
+                else:
+                    if line[pos:pos+2]=='//' and not in_str:
+                        return line[:pos]
+                pos += 1
+        return line
+    s = re.sub(r'^.*//.*$'     , rm_cm, s, flags=re.MULTILINE)     # re.MULTILINE for ^$
     s = re.sub(r'{\s*,'         , r'{' , s)
     s = re.sub(r',\s*}'         , r'}' , s)
     s = re.sub(r'\[\s*,'        , r'[' , s)
@@ -442,7 +461,9 @@ def _json_loads(s, **kw):
     except:
         pass;                   LOG and log('FAIL: s={}',s)
         pass;                   LOG and log('sys.exc_info()={}',sys.exc_info())
-        open(kw.get('log_file', _get_log_file()), 'a').write('_json_loads FAIL: s=\n'+s)
+        log_file    = kw.get('log_file', _get_log_file())
+        open(log_file, 'a').write('_json_loads FAIL: s=\n'+s)
+        print('Error on load json. See ',log_file)
         ans = None
     return ans
 #   return json.loads(s, **kw)
