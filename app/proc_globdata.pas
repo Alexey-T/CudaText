@@ -17,6 +17,7 @@ uses
   {$endif}
   Classes, SysUtils, Forms, Controls, Menus,
   Dialogs, Graphics, ExtCtrls, ComCtrls,
+  Math,
   InterfaceBase,
   LclProc, LclType, LazFileUtils,
   LazUTF8,
@@ -461,6 +462,8 @@ procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
 
 function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
 function FixFontMonospaced(const AName: string): string;
+procedure FixFormPositionToDesktop(F: TForm);
+procedure FixRectPositionToDesktop(var F: TRect);
 
 function GetAppKeymap_LexerSpecificConfig(AName: string): string;
 function GetAppKeymapHotkey(const ACmdString: string): string;
@@ -1951,6 +1954,38 @@ begin
   else
     Result:= 'Courier';
     }
+end;
+
+
+procedure FixFormPositionToDesktop(F: TForm);
+const
+  cReservePixels = 100;
+var
+  R: TRect;
+begin
+  R:= Screen.DesktopRect;
+  F.Left:= Max(F.Left, R.Left);
+  F.Left:= Min(F.Left, R.Right-F.Width);
+  F.Top:= Min(F.Top, R.Bottom-cReservePixels);
+end;
+
+procedure FixRectPositionToDesktop(var F: TRect);
+const
+  cReservePixels = 200;
+var
+  R: TRect;
+  w, h: integer;
+begin
+  w:= F.Width;
+  h:= F.Height;
+
+  R:= Screen.DesktopRect;
+  F.Left:= Max(F.Left, R.Left);
+  F.Left:= Min(F.Left, R.Right-F.Width);
+  F.Top:= Min(F.Top, R.Bottom-cReservePixels);
+
+  F.Right:= F.Left+w;
+  F.Bottom:= F.Top+h;
 end;
 
 

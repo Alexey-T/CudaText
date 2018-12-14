@@ -574,17 +574,10 @@ end;
 
 
 procedure TfmFind.FormShow(Sender: TObject);
-const
-  cReservePixels = 80;
 begin
   UpdateSize;
   UpdateFonts;
-
-  //fit form to screen
-  if Left>=Screen.DesktopWidth-cReservePixels then
-    Left:= Screen.DesktopWidth-Width;
-  if Top>=Screen.DesktopHeight-cReservePixels then
-    Top:= Screen.DesktopHeight-200;
+  FixFormPositionToDesktop(Self);
 end;
 
 procedure TfmFind.DoResult(const Str: string);

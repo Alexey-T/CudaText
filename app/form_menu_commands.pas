@@ -88,10 +88,7 @@ var
   i: integer;
 begin
   UpdateFormOnTop(Self);
-
-  //fit in scrn
-  Left:= Max(0, Left);
-  Left:= Min(Left, Screen.DesktopWidth-Width);
+  FixFormPositionToDesktop(Self);
 
   DoFilter;
 

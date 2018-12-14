@@ -415,19 +415,13 @@ end;
 
 
 procedure DoOps_LoadFormRect(c: TJSONConfig; const path: string; var R: TRect);
-const
-  cReservePixels=70;
 begin
   R.Left:= c.GetValue(path+'/posx', R.Left);
   R.Top:= c.GetValue(path+'/posy', R.Top);
   R.Width:= c.GetValue(path+'/sizex', R.Width);
   R.Height:= c.GetValue(path+'/sizey', R.Height);
 
-  //fit form to desktop
-  if R.Left>Screen.DesktopWidth-cReservePixels then
-    R.Left:= Screen.DesktopWidth-R.Width;
-  if R.Top>Screen.DesktopHeight-cReservePixels then
-    R.Top:= Screen.DesktopHeight-R.Height;
+  FixRectPositionToDesktop(R);
 end;
 
 

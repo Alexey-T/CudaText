@@ -257,8 +257,9 @@ begin
     Form.Position:= poDesigned;
     Ed:= CurrentEditor;
     P:= Ed.ClientToScreen(Point(0, 0));
-    Form.Left:= Max(0, P.X+(Ed.Width-Form.Width) div 2);
-    Form.Top:= Max(0, P.Y);
+    Form.Left:= P.X+(Ed.Width-Form.Width) div 2;
+    Form.Top:= P.Y;
+    FixFormPositionToDesktop(Form);
   end;
 
   if AndHeight then
