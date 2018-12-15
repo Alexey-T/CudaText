@@ -157,6 +157,8 @@ Misc:
 * Shift+Alt+click - make vertical (column) selection, from first caret to clicked position.
 * Shift+ scroll mouse wheel - scroll text horizontally.
 * Ctrl+ scroll mouse wheel (with option mouse_wheel_zoom) - zoom text in/out.
+* Ctrl+ scroll mouse wheel (on picture preview panel) - zoom picture in/out.
+* Ctrl+ drag-drop selected block - copy this block, instead of moving it.
 
 == Multi-carets ==
 
