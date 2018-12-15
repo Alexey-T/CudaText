@@ -11,7 +11,7 @@ Duplicate:
 Authors:
     Andrey Kvichansky    (kvichans on github)
 Version:
-    '0.6.5.at 2018-10-22'
+    '0.6.7 2018-12-10'
 Wiki: github.com/kvichans/cudax_lib/wiki
 ToDo: (see end of file)
 """
@@ -20,6 +20,7 @@ import  cudatext        as app
 from    cudatext    import ed
 import  cudatext_cmd    as cmds
 import  os, json, re, sys, collections
+odict       = collections.OrderedDict
 
 # Overridden option tools:
 CONFIG_LEV_DEF      = 'def'
@@ -60,7 +61,6 @@ OPT2PROP            = dict(
 
 # Localization
 CONFIG_MSG_DONT_SET_FILE= 'Cannot set editor properties'
-CONFIG_MSG_DONT_SET_PATH= 'Cannot set complex path'
 NEED_NEWER_API          = 'Needs newer app version'
 DUPLICATION             = 'Duplication'
 ONLY_NORM_SEL_MODE      = '{} works only with normal selection'
@@ -262,6 +262,7 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer=''):
             return None # Fail!
         return value
 
+    lev = CONFIG_LEV_LEX                                if lexer    else lev
     lex = ''
     if lev==CONFIG_LEV_LEX:
         lex     = lexer                                 if lexer    else \
@@ -275,29 +276,94 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer=''):
     if not os.path.exists(cfg_json)     and value is     None:
         return None # SUCCESS (or fail?)
     
+    kv_dct  = {path:value}
+    keys    = path.split('/')
+    if '/' in path:
+        kv_dct  = {}
+        dic     = kv_dct
+        for ikey,key in enumerate(keys):
+            if ikey+1<len(keys):
+                dic = dic.setdefault(key, {})
+            else:
+                dic[key] = value
+
     if not os.path.exists(cfg_json)     and value is not None:
         # First pair for this file
-        dct     = {path:value}
-        if '/' in path:
-            keys= path.split('/')
-            dct = {}
-            dic = dct
-            for ikey in range(len(keys)):
-                key     = keys[ikey]
-                if ikey+1<len(keys):
-                    dic = dic.setdefault(key, {})
-                else:
-                    dic[key] = value
-        open(cfg_json, 'w', encoding='utf8').write(json.dumps(dct, indent=4))
+        open(cfg_json, 'w', encoding='utf8').write(json.dumps(kv_dct, indent=4))
         return value
 
     # Try to modify file
     body    = open(cfg_json, encoding='utf8').read()
     value4js= json.dumps({"": value})[len('{"": '):-1]      # Format value as 'after ": " string'
     if '/' in path:
-        # Fail! Complex path
-        pass;                   app.msg_status(CONFIG_MSG_DONT_SET_PATH)
-        return None
+        # Trick: 
+        #   1. Replace all comments to cmkey:value
+        #   2. Parse
+        #   3. Modify
+        #   4. Dump
+        #   5. Replace all cmkey:value to comments
+        # Comments
+        #   //abc
+        #     //xyz
+        #   //"a": "\t"
+        # Pairs
+        # "__c_m_n_t_0__":"  //abc"
+        # "__c_m_n_t_1__":"    //xyz"
+        # "__c_m_n_t_2__":"  //\"a\": \"\\t\""
+        # Comment # N 
+        #   //smth
+        # is replaced to pair
+        #   "__c_m_n_t_N__":"SMTH"
+        # where
+        #   SMTH = repr(r'  //smth')
+        def comms2pairs(text):
+            co_num  = 0
+            def c2p(match):     # Saving: Replace all json comments to spec_key:val_from_comment
+                nonlocal co_num
+                co_num += 1
+                return '"__c_m_n_t_{}__": "{}",'.format(co_num, repr(match.group(0)).replace('"', r'\"'))
+            return re.sub(r'^\s*//.*', c2p, text, flags=re.MULTILINE)
+        def pairs2comms(text):  # Restoring: Replace all spec_key:val to json comment lines
+            def p2c(match):
+                return eval(match.group(1))
+            return re.sub(r'^\s*"__c_m_n_t_\d+__": "(.*)",?$', p2c, text, flags=re.MULTILINE)
+        # 1. Repl   2. Parse
+        body_c2p = comms2pairs(body)
+        body_c2p = re.sub(r',\s*}$', '}', body_c2p)     # Kill "," after last value
+        body_js  = _json_loads(body_c2p, object_pairs_hook=odict)
+#       body_js  = json.loads(body_c2p, object_pairs_hook=odict)
+        # 3. Modify
+        node    = body_js
+        kv_node = None
+        for ikey,key in enumerate(keys):
+            assert isinstance(node, dict)
+            if key not in node and value is None:
+                return None                             # Nothing to modify
+            if ikey+1==len(keys):                       # Last path segment
+                if value is None:
+                    del node[key]                       # Remove pair
+                    remove_empty_nodes(body_js, keys)
+                else:
+                    log(_('Warning: section is overwrited with simple key.\n\tfile={}\n\tpath={}').format(
+                            cfg_json, '/'.join(keys[:ikey+1]), node[key])) \
+                        if key in node and isinstance(node[key], dict) else 0
+                    if node.get(key)==value:
+                        return value                    # No need to modify
+                    node[key]   = value                 # Change or Add
+            else:                                       # Middle path segment
+                if key not in node:
+                    node    = node.setdefault(key, {})  # Add section
+                elif isinstance(node[key], dict):
+                    node    = node[key]                 # Step down
+                else:                                   # key is not for section
+                    log(_('Warning: simple key is overwrited with section.\n\tfile={}\n\tpath={}\n\told value={}').format(
+                            cfg_json, '/'.join(keys[:ikey+1]), node[key]))
+                    node[key]   = {}
+                    node    = node[key]                 # Step down
+           #for ikey,key
+        # 4. Dump   5. Repl
+        body_pr  = json.dumps(body_js, indent=4)
+        body     = pairs2comms(body_pr)
     else:
         # Simple key
         # Assumptions:
@@ -335,6 +401,18 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer=''):
     return value
    #def set_opt
 
+def remove_empty_nodes(tree, keys):
+    prn_keys= []
+    prn     = tree
+    for key in keys:
+        if key not in prn: break
+        prn_keys   += [(prn, key)]
+        prn         = prn[key]
+    for prn, key in reversed(prn_keys):
+        if not prn[key]:
+            del prn[key]
+   #def remove_empty_nodes
+
 def _move_caret_down(cCrtSmb, rCrt, ed_=ed, id_crt=app.CARET_SET_ONE):
     ''' Caret will be moved to next line with save start column (if next line exists)
         Params
@@ -355,7 +433,25 @@ def _json_loads(s, **kw):
             Delete comments
             Delete unnecessary ',' from {,***,} and [,***,]
     '''
-    s = re.sub(r'(^|[^:])//.*'  , r'\1', s)     # :// in http://
+#   s = re.sub(r'(^|[^:])//.*'  , r'\1', s)     # :// in http://
+#   s = re.sub(r'(^|[^:])//.*'  , r'\1', s, flags=re.MULTILINE)     # :// in http://
+    def rm_cm(match):
+        line    = match.group(0)
+        pos     = 0
+        in_str  = False
+        while pos<len(line):
+            ch  = line[pos]
+            if ch=='\\':
+                pos += 2
+            else:
+                if ch=='"':
+                    in_str = not in_str
+                else:
+                    if line[pos:pos+2]=='//' and not in_str:
+                        return line[:pos]
+                pos += 1
+        return line
+    s = re.sub(r'^.*//.*$'     , rm_cm, s, flags=re.MULTILINE)     # re.MULTILINE for ^$
     s = re.sub(r'{\s*,'         , r'{' , s)
     s = re.sub(r',\s*}'         , r'}' , s)
     s = re.sub(r'\[\s*,'        , r'[' , s)
@@ -365,7 +461,9 @@ def _json_loads(s, **kw):
     except:
         pass;                   LOG and log('FAIL: s={}',s)
         pass;                   LOG and log('sys.exc_info()={}',sys.exc_info())
-        open(kw.get('log_file', _get_log_file()), 'a').write('_json_loads FAIL: s=\n'+s)
+        log_file    = kw.get('log_file', _get_log_file())
+        open(log_file, 'a').write('_json_loads FAIL: s=\n'+s)
+        print('Error on load json. See ',log_file)
         ans = None
     return ans
 #   return json.loads(s, **kw)
