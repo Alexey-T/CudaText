@@ -2973,15 +2973,21 @@ end;
 procedure TATTabs.DragOver(Source: TObject; X, Y: integer; State: TDragState;
   var Accept: Boolean);
 begin
-  Accept:=
-    (Source is TATTabs) and
-    FOptMouseDragEnabled and
-    FOptMouseDragOutEnabled;
+  if Source is TATTabs then
+    Accept:=
+      FOptMouseDragEnabled and
+      FOptMouseDragOutEnabled
+  else
+    inherited;
 end;
 
 procedure TATTabs.DragDrop(Source: TObject; X, Y: integer);
 begin
-  if not (Source is TATTabs) then exit;
+  if not (Source is TATTabs) then
+  begin
+    inherited;
+    exit;
+  end;
 
   if (Source=Self) then
   begin
