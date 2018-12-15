@@ -741,12 +741,12 @@ Screenshot with icons of main toolbar, sidebar, Project Manager toolbar:
 
 * Icons in the main toolbar. To change them:
 ** (Optional) Install add-on(s) of kind "toolbar theme" (each add-on gives additional icon set or several sets).
-** Change option "ui_toolbar_theme" in user.json. Option value is some subfolder in [cudatext]\data\toolbaricons (Windows) or ~/.cudatext/data/toolbaricons (Unix).
+** Change option "ui_toolbar_theme" in user.json. Option value is some subfolder in [cudatext]/data/toolbaricons.
 ** Restart CudaText.
 
 * Icons in the sidebar (vertical band on the left). To change them:
 ** (Optional) Install add-on(s) of kind "sidebar theme".
-** Change option "ui_sidebar_theme" in user.json. Option value is some subfolder in [cudatext]\data\sideicons (Windows) or ~/.cudatext/data/sideicons (Unix).
+** Change option "ui_sidebar_theme" in user.json. Option value is some subfolder in [cudatext]/data/sideicons.
 ** Restart CudaText.
 
 * Icons in the Project Manager toolbar. To change them:
@@ -1017,10 +1017,10 @@ To fix: change IM from e.g."XIM" to "none" in the Language Support settings, the
 On Linux you can install program, not using installers, in such way:
 
 * copy file "cudatext" to folder /usr/bin
-* copy dirs [data, readme, settings_default] to "~/.cudatext"
-* dir "~/.cudatext/settings" will appear automatically on run
+* copy dirs [data, readme, settings_default] to "~/.config/cudatext"
+* dir "~/.config/cudatext/settings" will appear automatically on run
 
-If program runs and cannot find "data/lexlib" near executable, it opens dirs from "~/.cudatext". This allows to install binary to PATH, and data dirs to homedir.
+If program runs and cannot find "data/lexlib" near executable, it opens dirs from "~/.config/cudatext". This allows to install binary to PATH, and data dirs to homedir.
 
 === Linux Qt build ===
 For CudaText Qt version, library libQt4Pas needed.
