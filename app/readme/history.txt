@@ -4,7 +4,7 @@
   * changed
 
 
-1.67.2 (2018/12)
+1.68.0 (2018/12)
 
 + add: option "ui_tab_variable_width", can set variable width tabs
 + add: option "ui_tab_size_x_max"
