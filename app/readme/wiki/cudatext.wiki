@@ -3,24 +3,24 @@
 CudaText is a cross-platform text editor, written in Lazarus.
 
 * Syntax highlighting for 200+ languages ([http://sourceforge.net/p/synwrite/wiki/Lexers%20list/ full lexers list])
-* Code folding 
+* Code folding
 * Code tree (treeview with functions/classes/etc in the code)
-* Multi-carets, multi-selections 
+* Multi-carets, multi-selections
 * Search/replace with reg.ex.
 * Supports many encodings
 * Simple auto-completion (fixed list) for some lexers
 * Extendable via Python plugins
 * Command palette (Sublime style)
 * Configs in JSON
-* Made on [[ATSynEdit]] engine 
+* Made on [[ATSynEdit]] engine
 
-Features for HTML/CSS coding: 
+Features for HTML/CSS coding:
 
 * Smart auto-completion for HTML, CSS.
 * HTML tags completion with Tab-key.
 * HTML color codes underline.
 * HTML tooltips on mouse-over.
-* Viewer for pictures (jpeg, png, gif, bmp, ico). 
+* Viewer for pictures (jpeg, png, gif, bmp, ico).
 
 Screenshot on Windows:
 
@@ -146,13 +146,13 @@ Clicks:
 
 * double-click - select clicked word (see option word_chars).
 * triple-click - select entire line (limited by end-of-lines).
-    
+
 * middle-button click (with option mouse_mid_click_scroll) - start "Browser Scroll" mode: circle mark appears and mouse moving around this mark auto-scrolls text in 4 directions; speed of scrolling depends on distance of cursor from circle mark (any click to turn off).
 
 * middle-button click (with option mouse_mid_click_paste) - paste from clipboard. This is like in Linux. Additionally it's good to install plugin "Auto-Copy to Clipboard".
 
 Misc:
-       
+
 * Alt+click (with option mouse_goto_definition) - call "Goto definition" command (if plugin installed).
 * Shift+Alt+click - make vertical (column) selection, from first caret to clicked position.
 * Shift+ scroll mouse wheel - scroll text horizontally.
@@ -182,21 +182,21 @@ Some details about this:
 
 {| class="wikitable"
 |-
-! Command 
+! Command
 ! Behaviour, when there're no selections
 ! Behaviour, when at last one selection present
-|-		
-| Copy to clipboard 
+|-
+| Copy to clipboard
 | Copies entire lines, containing carets. (Ignores multiple carets on same line.)
 | Copies only selections text. (Ignores carets without selections.)
 |-
 | Cut to clipboard
 | Similarly to "Copy" w/o selections.
 | Similarly to "Copy" with selections.
-|-		
+|-
 | Paste from clipboard
 | colspan="2" | First, selections are cleared (deleted). Then, command pastes text into each caret position. Special case is when clipboard lines count equals to carets count - in this case, first line is inserted at first caret, second line is inserted at 2nd caret, etc.
-|-		
+|-
 | Delete char
 | Deletes one char at each caret position.
 | Deletes only selections text. (Ignores carets without selections.)
@@ -213,9 +213,9 @@ Lexers (syntax highlighters) from SynWrite editor are used. Used EControl.ru syn
 
 Dialog "Lexer library" has hotkeys:
 
-* Enter: same as "Configure" button 
-* Delete: same as "Delete" button 
-* Space: same as "Hide/Show" button 
+* Enter: same as "Configure" button
+* Delete: same as "Delete" button
+* Space: same as "Hide/Show" button
 * Esc: close dialog
 
 === Lexers at sf.net ===
@@ -228,7 +228,7 @@ These zip packages can be installed in CudaText: open any zip file via "File--Op
 
 === Lexers editing ===
 
-You can modify/create lexers. But not in CudaText. Install SynWrite (needed Wine on Linux) and in it you have lexer editor dialog. 
+You can modify/create lexers. But not in CudaText. Install SynWrite (needed Wine on Linux) and in it you have lexer editor dialog.
 
 * In Synwrite call menu "Options--Addons manager--Install", install needed lexer from web. Synwrite lexer-library must have lexer before you edit it.
 * In Synwrite call "Lexer prop" dialog and edit all you need. Or make new lexer.
@@ -252,11 +252,11 @@ You can make lexer hidden/visible, by using "Hide/Show" button in the "Lexer lib
 
 ===I have made new lexer - how to distribute it?===
 
-In SynWrite, you've created .lcf file in folder SynWrite/Data/LexLib. 
+In SynWrite, you've created .lcf file in folder SynWrite/Data/LexLib.
 If you configured "Commenting" options, also file .cuda-lexmap is created.
 Now you need to create .zip installation of lexer, for both editors: SynWrite, CudaText.
 
-* In lexer file, replace system colors to usual colors: replace "clWindowText" to "clBlack" (clWindowText may be light on CudaText on Linux); replace "clInfoText" and "clInfoBk" too. 
+* In lexer file, replace system colors to usual colors: replace "clWindowText" to "clBlack" (clWindowText may be light on CudaText on Linux); replace "clInfoText" and "clInfoBk" too.
 * In SynWrite, in Addon Manager, install plugin "ExLexer".
 * In SynWrite, run menu item "Plugins - ExLexer", to create .zip for your lexer.
 * In CudaText, open this new zip file, this installs lexer to CudaText.
@@ -276,7 +276,7 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 * SynWrite handles \S regex (non space chars) ok, while CudaText not
 * SynWrite lexers need constructs like \x0D\x0A, or \z (EOL), while CudaText is ok with simple \n (CudaText text never has CR char)
 * For CudaText avoid "system colors" in lexer styles (e.g. "window background", "window text", "hint background"), because OSes have different system colors
-* SynWrite lexer settings are not used in CudaText: 
+* SynWrite lexer settings are not used in CudaText:
 ** Default style
 ** Selection mark style
 ** Search mark style
@@ -320,12 +320,12 @@ In CudaText version 1.66 or older:
 
 In CudaText version 1.67 or newer:
 * Windows: %AppData%\CudaText
-* Linux, FreeBSD: ~/.config/cudatext, or $XDG_CONFIG_HOME/cudatext if variable set 
+* Linux, FreeBSD: ~/.config/cudatext, or $XDG_CONFIG_HOME/cudatext if variable set
 * macOS: ~/Library/Application Support/CudaText
 
 ==Encodings==
 
-You can change encoding of file using click on statusbar item. Menu will give list of encodings. Also menu gives 2 choices: 
+You can change encoding of file using click on statusbar item. Menu will give list of encodings. Also menu gives 2 choices:
 
 * reload file in given encoding from disk
 * change encoding in memory only (this doesn't save file)
@@ -364,7 +364,7 @@ Encoding names for command-line:
 
 ==Line ends==
 
-Main types of line-ends are supported: 
+Main types of line-ends are supported:
 
 * CR LF (Windows)
 * LF (Unix)
@@ -376,18 +376,18 @@ Mixed line-ends (LF with CR LF) in one file are supported. To see mixed line-end
 
 ==Groups of tabs==
 
-Groups are tab-sets, each tab with an editor control. By default only the first group is shown. Totally 6 groups can be shown at once, see menu item "=" (on top menu level), which allows to choose the grouping mode: 
+Groups are tab-sets, each tab with an editor control. By default only the first group is shown. Totally 6 groups can be shown at once, see menu item "=" (on top menu level), which allows to choose the grouping mode:
 
-* one group 
-* 2 groups: vertically or horizontally 
-* 3 groups: vertically, horizontally or 1+2 
-* 4 groups: vertically, horizontally or grid 
+* one group
+* 2 groups: vertically or horizontally
+* 3 groups: vertically, horizontally or 1+2
+* 4 groups: vertically, horizontally or grid
 * 6 groups: vertically, horizontally or grid
 
-First group cannot be empty, at last one tab exists in it. Other groups can be empty: on closing last tab, if it's active, the first group activates. 
+First group cannot be empty, at last one tab exists in it. Other groups can be empty: on closing last tab, if it's active, the first group activates.
 
-* You can drag-drop tabs from any group to any other visible group (drop only on tabs area). 
-* You can move tabs to other groups (by group number or to the next/previous), using commands in tab headers context menu. 
+* You can drag-drop tabs from any group to any other visible group (drop only on tabs area).
+* You can move tabs to other groups (by group number or to the next/previous), using commands in tab headers context menu.
 * In grouping modes "2 groups" and "1+2" there's a context menu for splitter, to choose splitting 50/50, 40/60 etc.
 
 ==Auto-completion==
@@ -523,7 +523,7 @@ These snippets have markers and Tab-key jumps to next marker, ie next parameter/
 
 These lists allow to hilite (e.g. in blue) lines which match some regex. This regex is set by plugin which uses these panels. E.g. plugin HTML Tidy uses panel Validate and sets regex for Tidy result lines. If a line matches regex and hilited, dbl-click on line navigates to source file.
 
-These panels have hotkeys: 
+These panels have hotkeys:
 
 * Up/Down/PgUp/PgDown/Home/End: move selection in list
 * Enter: navigate to source file, like dbl-click
@@ -574,7 +574,7 @@ More allowed formats can be added by plugins.
 You can add/remove code comments, via "Comments" plugin. Plugin is preinstalled in CudaText. It gives about 6 commands in menu "Plugins - Comments". Plugin supports only adding/removing of comments, not syntax highlighting for them (highlighting is lexer's work).
 
 * '''Line comments''': from some position to line-end. E.g. in C lexer: "//text here", in Python lexer: "# text here".
-* '''Comments for range''' ('''Stream comments'''): from offset to another offset. E.g. in C lexer: "/* text here */". 
+* '''Comments for range''' ('''Stream comments'''): from offset to another offset. E.g. in C lexer: "/* text here */".
 * '''Comments for full lines''': from newline to another newline. Rarely used, e.g. used in PowerShell.
 
 For example, Python lexer supports only line comment, and don't support stream comments. PowerShell lexer supports comments for full lines, while don't support comments for any range.
@@ -590,7 +590,7 @@ Comment chars are saved:
 
 == Char map ==
 
-Char-map dialog can be called in Edit menu. It has 2 modes: 
+Char-map dialog can be called in Edit menu. It has 2 modes:
 
 * ANSI: Shows ANSI char codes from 0 to 255 (codes 128..255 map to different Unicode codes, this depends on active OS locale).
 * Unicode: Shows almost all Unicode code points, they are divided to groups. Change active group using combobox at the bottom.
@@ -611,7 +611,7 @@ Minimap is wide vertical bar near editor's right (default) or left side. To show
 If you drag mouse over minimap, editor will scroll entirely from top to bottom, even for huge files (it's made like in Sublime).
 Text in minimap is painted by 1-2 pixels per char, not by font rendering, so scale of minimap cannot change.
 
-Micromap is thin (about 12 pixels) vertical bar near editor's right side (near vert scrollbar). To show it, set option "micromap_show". 
+Micromap is thin (about 12 pixels) vertical bar near editor's right side (near vert scrollbar). To show it, set option "micromap_show".
 
 Colored marks on micromap:
 
@@ -625,9 +625,9 @@ Colored marks on micromap:
 To paste like in Linux, with middle-click, you need
 
 * set option "mouse_mid_click_paste"
-* install plugin "Auto-Copy to Clipboard" 
+* install plugin "Auto-Copy to Clipboard"
 
-This activates auto-copy of selection (copy to clipboard after text selection changes), and paste to position of mouse cursor on middle-click. 
+This activates auto-copy of selection (copy to clipboard after text selection changes), and paste to position of mouse cursor on middle-click.
 But it works only for "editor frame", and don't work for: Console read-only editor, single-line inputs. So this method is limited.
 
 ==Full-screen==
@@ -713,7 +713,7 @@ To see preview tab, call "File - Open folder" and choose a folder with text file
 ==CudaLint plugin==
 CudaLint allows to check syntax of source code files. It was initially ported from SublimeLinter 2.x plugin for Sublime Text. It requires sub-plugins, "linters", for each lexer. When a linter works, it adds output lines to the "Validate" panel of CudaText, and puts yellow/red bookmarks on warning/error lines.
 
-Linters are Python modules, in the "py" folder, with names "cuda_lint_"+something. 
+Linters are Python modules, in the "py" folder, with names "cuda_lint_"+something.
 
 To support more lexers, it's a good idea to port linter from SublimeLinter. To port a linter, most you need is:
 
@@ -766,7 +766,7 @@ CudaText has internal file viewer, for files on unlimited size. Only visible por
 * unicode (UTF-16) text with variable line length
 * combined unicode+hex (with fixed width)
 
-CudaText suggests to use viewer for files of too big size (bigger than option ui_max_size_open). And for files with binary contents. You cannot change viewer mode from UI, but can do it from plugin API. 
+CudaText suggests to use viewer for files of too big size (bigger than option ui_max_size_open). And for files with binary contents. You cannot change viewer mode from UI, but can do it from plugin API.
 
 Viewer has simple search support (without reg.ex.), and allows to use "Go to" dialog. In the "Go to" dialog, you can enter "2000" to jump to hex offset 0x2000 (in hex mode, rounded to 16 bytes). If you enter "50%", viewer will jump to the middle. Viewer supports selection of block by mouse, and hotkeys Ctrl+A, Ctrl+C. Viewer supports double-click to select whole word. Viewer allows to change encoding via statusbar click, but only in non-Unicode modes.
 
@@ -776,14 +776,14 @@ Several examples of external tools configs. Call dialog of External Tools plugin
 
 ===Tool to compile by GCC===
 
-You can test how this tool works on any Linux, because GCC is preinstalled. Test the tool on C++ example, which is created from CudaText by menu "File -- New from template -- C++". 
+You can test how this tool works on any Linux, because GCC is preinstalled. Test the tool on C++ example, which is created from CudaText by menu "File -- New from template -- C++".
 
 Properties:
 
 * Name: C - compile
 * File name: gcc
 * Shell command: unchecked
-* Parameters: "{FileNameOnly}" -o "{FileNameNoExt}" 
+* Parameters: "{FileNameOnly}" -o "{FileNameNoExt}"
 * Initial folder: {FileDir}
 * Lexers: C,C++
 * Capture output: Output panel
@@ -828,7 +828,7 @@ Tool uses Python 3 installation on Linux. For Windows, change "File name" field 
 * Lexers: Python
 * Capture output: Output panel
 * Encoding: utf_8
-* Pattern: \s*File "(?P<file>.+)", line (?P<line>\d+) 
+* Pattern: \s*File "(?P<file>.+)", line (?P<line>\d+)
 
 ===URL for Google search===
 
@@ -866,7 +866,7 @@ And here is the old way:
 ** https://github.com/Alexey-T/CudaText (no package here, only project)
 
 * install .lpk packages into Lazarus IDE (find all .lpk files, open them in IDE, install from Packages dialog)
-* in IDE, in component palette, you must see: 
+* in IDE, in component palette, you must see:
 ** in Misc tab: TATButton, TATButtonsToolbar, TATListbox, TATFileNotif, TATScroll, TATSynEdit, TATLabelLink, TGauge
 ** in System tab: TUniqueInstance
 * in IDE, open "cudatext.lpi" Lazarus project, compile it
@@ -907,7 +907,7 @@ How to make translation zip package:
 * if package ok, it will be at SF.net downloads, and in Addon Manager
 
 ==Color themes==
-Two kinds of themes exist: 
+Two kinds of themes exist:
 
 * UI themes, file extension .cuda-theme-ui
 * Syntax themes, file extension .cuda-theme-syntax
@@ -917,8 +917,8 @@ Two dialogs allow to paint these kinds of themes. To paint a theme:
 * Call dialog: "Options/ Settings - more/ Settings - theme - nnnnn"
 * For UI themes: customize colors in dialog
 * For syntax themes: customize lexer-styles in dialog
-* For syntax themes: test theme at last on JS/HTML/CSS/C/Pascal/Ini/Markdown/Go lexers. 
-** You can use sample codes in the Lexer Properties dialog. 
+* For syntax themes: test theme at last on JS/HTML/CSS/C/Pascal/Ini/Markdown/Go lexers.
+** You can use sample codes in the Lexer Properties dialog.
 ** You can use sample files from https://github.com/Alexey-T/lexer_tests/tree/master/test_CudaText_color_themes
 * New theme files are saved in the subdir "data/themes"
 
@@ -1014,7 +1014,7 @@ To fix: change IM from e.g."XIM" to "none" in the Language Support settings, the
 === Linux installation ===
 On Linux you can install program, not using installers, in such way:
 
-* copy file "cudatext" to folder /usr/bin 
+* copy file "cudatext" to folder /usr/bin
 * copy dirs [data, readme, settings_default] to "~/.cudatext"
 * dir "~/.cudatext/settings" will appear automatically on run
 
@@ -1033,7 +1033,7 @@ For CudaText Qt version, library libQt4Pas needed.
 
 If you run app in Terminal, you'll see an error about missing .so file. Reason of this error: FreeBSD version was compiled on Linux with different .so files. To fix error, run command in Terminal:
 
-  $ sudo ln -s /usr/local/lib/libiconv.so.2 /usr/local/lib/libiconv.so.3 
+  $ sudo ln -s /usr/local/lib/libiconv.so.2 /usr/local/lib/libiconv.so.3
 
 ==More==
 
@@ -1089,19 +1089,19 @@ Example of install.inf for plugin (plugin adds 2 menu items with menu separator 
  subdir=cuda_test
  homepage=http://github.com/some/name/
  api=1.0.200
- 
+
  [item1]
  section=commands
  caption=MyPlugin\Cmd one
  method=run
  lexers=CSS,HTML
  hotkey=Alt+F
- 
+
  [item2]
  section=commands
  caption=MyPlugin\-
  method=nnnn
- 
+
  [item3]
  section=commands
  caption=MyPlugin\Cmd other
@@ -1114,8 +1114,8 @@ Section names: from "item1" to "item400", any numbers can be skipped. Fields in 
 * "caption": caption of menu item in Plugins menu. "\" separates menu levels. "&" makes accelerator hotkey. "-" as final level name, makes separator menu item.
 * "method": Python method name in Command class.
 * "lexers": comma-separated lexer names, means that command can be run only when such lexer(s) active.
-* "hotkey": value must be simple hotkey string (e.g. "Alt+F", "Ctrl+Shift+F1") or key combo separated by "|" (e.g. "Alt+F|F|G"). 
-** If "lexers=" param missed, then hotkey saves to file "keys.json" for all lexers. 
+* "hotkey": value must be simple hotkey string (e.g. "Alt+F", "Ctrl+Shift+F1") or key combo separated by "|" (e.g. "Alt+F|F|G").
+** If "lexers=" param missed, then hotkey saves to file "keys.json" for all lexers.
 ** If "lexers=" param present, then hotkey saves to "keys lexer NNNN.json" for each mentioned lexer.
 * "menu": optional. Possible values:
 ** "" (empty, default): menu item will be put to "Plugins".
@@ -1131,7 +1131,7 @@ Only for "section=events":
 Plugin can show sidebar button(s), without running plugin code. For this, add sections "sidebar1" to "sidebar3", with keys:
 
 * "hint": hint of button, must be the same as used by plugin to create button in runtime.
-* "icon": filename of PNG icon. If path missed, used file from CudaText. To use path in plugin dir, write value as "{dir}/subdir/filename.png" - with macro, with / slashes. 
+* "icon": filename of PNG icon. If path missed, used file from CudaText. To use path in plugin dir, write value as "{dir}/subdir/filename.png" - with macro, with / slashes.
 * "method": Python method name to show plugin side panel. This command must create side panel for this sidebar button.
 
 ==== Lexer lists ====
@@ -1169,7 +1169,7 @@ To see example of install.inf for lexers, download any lexer. To see complex exa
  title=HTML Smarty
  type=lexer
  subdir=-
- 
+
  [lexer1]
  file=HTML Smarty internal
  [lexer2]
@@ -1206,7 +1206,7 @@ After snippet insertion, tab-key goes to markers (and deletes them).
 
 * Markers can be in any order in snippet (e.g. marker 4 can be between 1 and 2)
 * Tab-key goes first to marker 1, 2, 3... and marker 0 is always last by tab-key.
-* Markers with the same index will place multi-carets, when tab-key goes to them. 
+* Markers with the same index will place multi-carets, when tab-key goes to them.
 * Nested markers with def-text allowed, but only 1 level: ${2:text is {$3:here}}.
 * Macro ${NN:...} with def-text can take n lines (ending "}" on next lines, so selection will be multi-line).
 
@@ -1214,7 +1214,7 @@ The following macros are allowed in snippets text:
 
 * ${sel} - Replaced with text selected before snippet insertion. (If snippet called with Tab key, it's empty string.)
 * ${cp} - Replaced with clipboard text.
-* ${fname} - Replaced with current file name (w/out path and extension). 
+* ${fname} - Replaced with current file name (w/out path and extension).
 * ${date:nnnnnn} - Replaced with current date/time formatted by string nnnnnn. See [http://strftime.org/ Python doc].
 
 ===File names===
@@ -1235,9 +1235,9 @@ First lines have format "key=value" (no spaces around "="), where "key" is one o
 * "id": snippet short alias for Tab-key (latin letters, digits, "_.$"), line is optional.
 * "lex": lexers list, comma-separated, for which snippet is active, line is optional, empty means snippet always active.
 
-Then follows the line "text=" without value, and all next lines - are snippet contents. 
+Then follows the line "text=" without value, and all next lines - are snippet contents.
 
-* Trailing blank lines are discarded. 
+* Trailing blank lines are discarded.
 * Use tab-chars in text indents, they are auto replaced to spaces if current editor configured so.
 
 ===Format of .cuda-snips===
@@ -1266,7 +1266,7 @@ Root keys:
 ** "brd_c_l", "brd_c_r", "brd_c_t", "brd_c_b": str: color of border (left, right, top, bottom), in Pascal format.
 ** "brd_t_l", "brd_t_r", "brd_t_t", "brd_t_b": int: type of border (left, right, top, bottom). Values 0..9: None, Solid, Dash, Dot, DashDot, DashDotDot, Solid2, Solid3, WavyLine, Double.
 
-Color in Pascal format: hex number (6..8 digits) with "$" prefix, or constants. See possible constants (with hex values) in Lazarus file Graphics.pp, where string 'clBlack' is defined. https://github.com/graemeg/lazarus/blob/upstream/lcl/graphics.pp  
+Color in Pascal format: hex number (6..8 digits) with "$" prefix, or constants. See possible constants (with hex values) in Lazarus file Graphics.pp, where string 'clBlack' is defined. https://github.com/graemeg/lazarus/blob/upstream/lcl/graphics.pp
 
 ==More==
 
