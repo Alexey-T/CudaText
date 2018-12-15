@@ -261,9 +261,7 @@ begin
     cmd_HelpAbout: DoHelpAbout;
     cmd_HelpForum: DoHelpForum;
     cmd_HelpWiki: DoHelpWiki;
-    cmd_HelpMouse: DoHelpMouse;
     cmd_HelpChangelog: DoHelpChangelog;
-    cmd_HelpLexers: DoHelpLexers;
     cmd_HelpIssues: DoHelpIssues;
     cmd_HelpHotkeys: DoHelpHotkeys;
     cmd_HelpCheckUpdates: DoPyCommand('cuda_addonman', 'check_cudatext_updates', []);

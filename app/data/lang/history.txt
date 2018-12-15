@@ -1,5 +1,8 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2018.12.15
+* delete [m_h] mo, lx
+
 2018.11.23
 + [m_v] t_sl
 

@@ -241,7 +241,6 @@ type
     mnuEditTrimL: TMenuItem;
     mnuEditTrimR: TMenuItem;
     mnuEditTrim: TMenuItem;
-    mnuHelpLexers: TMenuItem;
     mnuTabColor: TMenuItem;
     mnuThemes: TMenuItem;
     MenuItem29: TMenuItem;
@@ -266,7 +265,6 @@ type
     mnuFind2WordNext: TMenuItem;
     mnuFind2WordPrev: TMenuItem;
     mnuHelpChangelog: TMenuItem;
-    mnuHelpMouse: TMenuItem;
     mnuHelpForum: TMenuItem;
     mnuViewToolbar: TMenuItem;
     mnuFontText: TMenuItem;
@@ -472,9 +470,7 @@ type
     procedure DoHelpAbout;
     procedure DoHelpForum;
     procedure DoHelpChangelog;
-    procedure DoHelpMouse;
     procedure DoHelpWiki;
-    procedure DoHelpLexers;
     procedure DoHelpIssues;
     procedure DoHelpHotkeys;
 
@@ -2255,15 +2251,6 @@ var
   fn: string;
 begin
   fn:= GetAppPath(cDirReadme)+DirectorySeparator+'history.txt';
-  if FileExistsUTF8(fn) then
-    DoFileOpen(fn);
-end;
-
-procedure TfmMain.DoHelpMouse;
-var
-  fn: string;
-begin
-  fn:= GetAppPath(cDirReadme)+DirectorySeparator+'help mouse.txt';
   if FileExistsUTF8(fn) then
     DoFileOpen(fn);
 end;
@@ -4462,11 +4449,6 @@ begin
   end;
 end;
 
-
-procedure TfmMain.DoHelpLexers;
-begin
-  OpenURL('http://wiki.freepascal.org/CudaText#Lexers');
-end;
 
 procedure TfmMain.DoHelpIssues;
 begin

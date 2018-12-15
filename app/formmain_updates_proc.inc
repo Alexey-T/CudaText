@@ -737,8 +737,6 @@ begin
   UpdateMenuItemHotkey(mnuHelpCmd, cmd_DialogCommands);
   UpdateMenuItemHotkey(mnuHelpForum, cmd_HelpForum);
   UpdateMenuItemHotkey(mnuHelpWiki, cmd_HelpWiki);
-  UpdateMenuItemHotkey(mnuHelpMouse, cmd_HelpMouse);
-  UpdateMenuItemHotkey(mnuHelpLexers, cmd_HelpLexers);
   UpdateMenuItemHotkey(mnuHelpIssues, cmd_HelpIssues);
   UpdateMenuItemHotkey(mnuHelpChangelog, cmd_HelpChangelog);
   UpdateMenuItemHotkey(mnuHelpCheckUpd, cmd_HelpCheckUpdates);

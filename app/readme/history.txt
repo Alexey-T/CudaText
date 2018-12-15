@@ -14,6 +14,7 @@
 + add: can continue column selection after multi-carets. After column selection made, then Shift+Right used (it converted column block to multi-carets), you can continue column selection by Shift+Alt+Down
 + add: plugin Multi Installer skips more error messages (about incompatible OS, API)
 + add: command "Close and delete file" also works in picture viewer and binary/hex viewer
+* change: removed menu items "Help - Mouse usage", "Help - Lexers"
 - fix: most of app hotkeys didn't work in picture viewer (e.g. F1, Ctrl+Tab)
 - fix: Windows: dialog positions on 2 monitors configuration 
 - fix: macOS: Ctrl+click didn't call context menu in all places

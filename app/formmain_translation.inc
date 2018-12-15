@@ -301,8 +301,6 @@ begin
     DoLocMenuitem(ini, mnuHelpCmd, 'm_h', 'co');
     DoLocMenuitem(ini, mnuHelpForum, 'm_h', 'fo');
     DoLocMenuitem(ini, mnuHelpWiki, 'm_h', 'wi');
-    DoLocMenuitem(ini, mnuHelpMouse, 'm_h', 'mo');
-    DoLocMenuitem(ini, mnuHelpLexers, 'm_h', 'lx');
     DoLocMenuitem(ini, mnuHelpChangelog, 'm_h', 'ch');
     DoLocMenuitem(ini, mnuHelpIssues, 'm_h', 'iss');
     DoLocMenuitem(ini, mnuHelpAbout, 'm_h', 'ab');

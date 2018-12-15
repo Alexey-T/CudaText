@@ -194,9 +194,9 @@ const
   cmd_HelpAbout     = 2700;
   cmd_HelpForum     = 2701;
   cmd_HelpWiki      = 2702;
-  cmd_HelpMouse     = 2703;
+  //cmd_HelpMouse     = 2703;
   cmd_HelpChangelog = 2704;
-  cmd_HelpLexers    = 2705;
+  //cmd_HelpLexers    = 2705;
   cmd_HelpIssues    = 2706;
   cmd_HelpHotkeys   = 2707;
   cmd_HelpCheckUpdates = 2708;
@@ -530,9 +530,7 @@ begin
   M.Add(cmd_HelpAbout, 'help: about', [], []);
   M.Add(cmd_HelpForum, 'help: forum', [], []);
   M.Add(cmd_HelpWiki, 'help: wiki', [], []);
-  M.Add(cmd_HelpMouse, 'help: mouse usage', [], []);
   M.Add(cmd_HelpChangelog, 'help: changelog', [], []);
-  M.Add(cmd_HelpLexers, 'help: lexers', [], []);
   M.Add(cmd_HelpIssues, 'help: issues', [], []);
 
 end;
@@ -635,9 +633,7 @@ begin
     cmd_HelpAbout,
     cmd_HelpForum,
     cmd_HelpWiki,
-    cmd_HelpMouse,
     cmd_HelpChangelog,
-    cmd_HelpLexers,
     cmd_HelpIssues:
       Result:= true;
 
@@ -714,9 +710,7 @@ begin
     cmd_HelpCheckUpdates,
     cmd_HelpForum,
     cmd_HelpWiki,
-    cmd_HelpMouse,
     cmd_HelpChangelog,
-    cmd_HelpLexers,
     cmd_HelpIssues:
       Result:= false;
     else
