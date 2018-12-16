@@ -556,6 +556,7 @@
   //  1: show for all tabs
   //  2: show only for active tab
   //  3: show only for mouse-over tab
+  //  4: show for active + mouse-over tabs
   "ui_tab_show_x": 1,
   
   //UI tabs: Size of "x" buttons
