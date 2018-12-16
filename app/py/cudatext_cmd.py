@@ -461,3 +461,13 @@ cmd_TreeGotoBlockForCurNode    = 2822
 cmd_TreeFilterClear            = 2823
 cmd_TreeFilterFocus            = 2824
 cmd_TreeFocus                  = 2825
+
+cmd_GroupActivate1             = 2901
+cmd_GroupActivate2             = 2902
+cmd_GroupActivate3             = 2903
+cmd_GroupActivate4             = 2904
+cmd_GroupActivate5             = 2905
+cmd_GroupActivate6             = 2906
+cmd_GroupActivateFloat1        = 2910
+cmd_GroupActivateFloat2        = 2911
+cmd_GroupActivateFloat3        = 2912

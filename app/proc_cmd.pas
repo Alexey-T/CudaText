@@ -280,6 +280,16 @@ const
   cmd_TreeFilterFocus            = 2824;
   cmd_TreeFocus                  = 2825;
 
+  cmd_GroupActivate1             = 2901;
+  cmd_GroupActivate2             = 2902;
+  cmd_GroupActivate3             = 2903;
+  cmd_GroupActivate4             = 2904;
+  cmd_GroupActivate5             = 2905;
+  cmd_GroupActivate6             = 2906;
+  cmd_GroupActivateFloat1        = 2910;
+  cmd_GroupActivateFloat2        = 2911;
+  cmd_GroupActivateFloat3        = 2912;
+
 implementation
 
 const
@@ -406,6 +416,17 @@ begin
 
   M.Add(cmd_GroupActivateNext, 'groups: focus next group', [], []);
   M.Add(cmd_GroupActivatePrev, 'groups: focus previous group', [], []);
+
+  M.Add(cmd_GroupActivate1, 'groups: focus group 1', [], []);
+  M.Add(cmd_GroupActivate2, 'groups: focus group 2', [], []);
+  M.Add(cmd_GroupActivate3, 'groups: focus group 3', [], []);
+  M.Add(cmd_GroupActivate4, 'groups: focus group 4', [], []);
+  M.Add(cmd_GroupActivate5, 'groups: focus group 5', [], []);
+  M.Add(cmd_GroupActivate6, 'groups: focus group 6', [], []);
+  M.Add(cmd_GroupActivateFloat1, 'groups: focus group floating-1', [], []);
+  M.Add(cmd_GroupActivateFloat2, 'groups: focus group floating-2', [], []);
+  M.Add(cmd_GroupActivateFloat3, 'groups: focus group floating-3', [], []);
+
   M.Add(cmd_MoveTabToGroupNext, 'groups: move tab to next group', [], []);
   M.Add(cmd_MoveTabToGroupPrev, 'groups: move tab to previous group', [], []);
 
@@ -619,6 +640,15 @@ begin
 
     cmd_GroupActivateNext,
     cmd_GroupActivatePrev,
+    cmd_GroupActivate1,
+    cmd_GroupActivate2,
+    cmd_GroupActivate3,
+    cmd_GroupActivate4,
+    cmd_GroupActivate5,
+    cmd_GroupActivate6,
+    cmd_GroupActivateFloat1,
+    cmd_GroupActivateFloat2,
+    cmd_GroupActivateFloat3,
 
     cmd_MoveTabToGroupNext,
     cmd_MoveTabToGroupPrev,
@@ -703,6 +733,15 @@ begin
     cmd_Groups6grid,
     cmd_GroupActivateNext,
     cmd_GroupActivatePrev,
+    cmd_GroupActivate1,
+    cmd_GroupActivate2,
+    cmd_GroupActivate3,
+    cmd_GroupActivate4,
+    cmd_GroupActivate5,
+    cmd_GroupActivate6,
+    cmd_GroupActivateFloat1,
+    cmd_GroupActivateFloat2,
+    cmd_GroupActivateFloat3,
     cmd_MenuEnc,
     cmd_MenuEnds,
     cmd_MenuLexers,
