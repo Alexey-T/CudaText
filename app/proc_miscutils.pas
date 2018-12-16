@@ -79,6 +79,7 @@ procedure DoPaintCheckers(C: TCanvas;
   ASizeX, ASizeY: integer;
   ACellSize: integer;
   AColor1, AColor2: TColor);
+procedure DoFormFocus(F: TForm; AllowShow: boolean);
 
 procedure Menu_Copy(ASrc, ADest: TMenu);
 function Menu_GetIndexToInsert(AMenu: TMenuItem; ACaption: string): integer;
@@ -688,6 +689,23 @@ begin
       Result[i]:= '_';
 end;
 
+
+procedure DoFormFocus(F: TForm; AllowShow: boolean);
+begin
+  if Assigned(F) and F.Enabled then
+  begin
+    if not F.Visible then
+      if AllowShow then
+        F.Show
+      else
+        exit;
+    F.SetFocus;
+
+    {
+    todo: make focusing of editor inside floating group
+    }
+  end;
+end;
 
 end.
 

@@ -146,12 +146,17 @@ begin
 
     cmd_GroupActivateNext: Groups.PagesSetNext(true);
     cmd_GroupActivatePrev: Groups.PagesSetNext(false);
+
     cmd_GroupActivate1: Groups.PagesSetIndex(0);
     cmd_GroupActivate2: Groups.PagesSetIndex(1);
     cmd_GroupActivate3: Groups.PagesSetIndex(2);
     cmd_GroupActivate4: Groups.PagesSetIndex(3);
     cmd_GroupActivate5: Groups.PagesSetIndex(4);
     cmd_GroupActivate6: Groups.PagesSetIndex(5);
+
+    cmd_GroupActivateFloat1: DoFormFocus(FFormFloatGroups1, true);
+    cmd_GroupActivateFloat2: DoFormFocus(FFormFloatGroups2, true);
+    cmd_GroupActivateFloat3: DoFormFocus(FFormFloatGroups3, true);
 
     cmd_MoveTabToGroupNext: Groups.MoveCurrentTabToNext(true);
     cmd_MoveTabToGroupPrev: Groups.MoveCurrentTabToNext(false);
