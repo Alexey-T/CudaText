@@ -4,6 +4,12 @@
   * changed
 
 
+1.68.1 (2018/12)
+
++ add: option "ui_tab_show_x" has additional enum value
++ add: lexer Assembly improved (highlight 2 more keyword groups, fix folding of segments)
++ add: lexer JavaScript improved (show anonymous functions (...)=>{...} in code tree); lexer TypeScript in addons improved the same way
+
 1.68.0 (2018/12)
 
 + add: option "ui_tab_variable_width", can set variable width tabs
