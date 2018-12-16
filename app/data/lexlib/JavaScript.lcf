@@ -1,4 +1,4 @@
-object SyntAnal15: TLibSyntAnalyzer
+object SyntAnal14: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -355,6 +355,7 @@ object SyntAnal15: TLibSyntAnalyzer
     end
     item
       DisplayName = 'id jquery'
+      Enabled = False
       StyleName = 'Id jquery'
       BlockType = btTagDetect
       ConditionList = <
@@ -676,6 +677,41 @@ object SyntAnal15: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = 'function anonym =>'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 256
+        end
+        item
+          TagList.Strings = (
+            '=>')
+          TokenTypes = 8
+        end
+        item
+          TagList.Strings = (
+            ')')
+          TokenTypes = 128
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 62
+        end
+        item
+          TagList.Strings = (
+            '(')
+          TokenTypes = 128
+        end>
+      BlockEnd = '}'
+      NameFmt = 'func <anon>'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      CollapseFmt = 'func <anon>'
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = 'function anonym'
       ConditionList = <
         item
@@ -707,11 +743,11 @@ object SyntAnal15: TLibSyntAnalyzer
           TokenTypes = 4
         end>
       BlockEnd = '}'
-      NameFmt = 'func anonym'
+      NameFmt = 'func <anon>'
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
-      CollapseFmt = 'func anonym'
+      CollapseFmt = 'func <anon>'
       IgnoreAsParent = False
     end
     item
@@ -808,7 +844,7 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal22
+      SyntAnalyzer = SyntAnal21
     end>
   SampleText.Strings = (
     '//Comment'
@@ -869,8 +905,9 @@ object SyntAnal15: TLibSyntAnalyzer
   Extentions = 'js'
   LexerName = 'JavaScript'
   Notes.Strings = (
-    'Reworked by Alexey (Synwrite)'
-    '-tree: func params shown'
+    'Reworked by Alexey (CudaText)'
+    '-code tree: func params shown'
+    '-code tree: support anonym funcs'
     '-strings oneline '#39'...'#39
     '-strings multiline "..."'
     '-strings regex /.../gi'
