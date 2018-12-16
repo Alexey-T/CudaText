@@ -149,7 +149,7 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\.,:\-\+\*\\/%@<>\(\)\[\]\{\}\?]'
+      Expression = '[\.,:\-\+\*\\/%@<>\(\)\[\]\{\}\?\$]'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -587,6 +587,7 @@ object SyntAnal2: TLibSyntAnalyzer
             'sub'
             'subttl'
             'symtype'
+            'syscall'
             'tbyte'
             'test'
             'this'
@@ -622,9 +623,11 @@ object SyntAnal2: TLibSyntAnalyzer
           TokenTypes = 4
         end>
       BlockEnd = 'seg end'
+      EndOfTextClose = True
       NameFmt = 'segment %s0'
       RefToCondEnd = True
       HighlightPos = cpAny
+      SelfClose = True
       IgnoreAsParent = False
     end
     item
@@ -703,37 +706,6 @@ object SyntAnal2: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'macro%'
-      ConditionList = <
-        item
-          TokenTypes = 4
-        end
-        item
-          TagList.Strings = (
-            '%macro')
-          TokenTypes = 4
-          IgnoreCase = True
-        end>
-      BlockEnd = 'macro% end'
-      NameFmt = 'macro %s-1'
-      RefToCondEnd = True
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'macro% end'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '%endmacro')
-          TokenTypes = 4
-          IgnoreCase = True
-        end>
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
       DisplayName = 'label'
       ConditionList = <
         item
@@ -786,12 +758,6 @@ object SyntAnal2: TLibSyntAnalyzer
     '       PUSH ES DI'
     #9'ENDM'
     '    '
-    '; nasm macro taking 1 par'
-    '%MACRO DOSB 1'
-    '           mov ah, %1'
-    '           int 21h'
-    '%ENDMACRO    '
-    '  '
     'END')
   TokenTypeNames.Strings = (
     'Label'
