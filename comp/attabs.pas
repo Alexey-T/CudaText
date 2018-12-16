@@ -177,7 +177,8 @@ type
     atbxShowNone,
     atbxShowAll,
     atbxShowActive,
-    atbxShowMouseOver
+    atbxShowMouseOver,
+    atbxShowActiveAndMouseOver
     );
 
 //int constants for GetTabAt
@@ -1588,6 +1589,11 @@ begin
     if FOptVarWidth then
     begin
       C.Font.Style:= Data.TabFontStyle;
+
+      if FOptActiveFontStyleUsed then
+        if i=FTabIndex then
+          C.Font.Style:= FOptActiveFontStyle;
+
       TempCaption:=
         Format(FOptShowNumberPrefix, [i+1]) +
         FOptShowModifiedText +
@@ -2812,6 +2818,8 @@ begin
       Result:= AIndex=FTabIndex;
     atbxShowMouseOver:
       Result:= AIndex=FTabIndexOver;
+    atbxShowActiveAndMouseOver:
+      Result:= (AIndex=FTabIndex) or (AIndex=FTabIndexOver);
     else
       Result:= false;
   end;
