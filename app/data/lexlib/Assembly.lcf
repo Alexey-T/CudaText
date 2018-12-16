@@ -1,15 +1,6 @@
 object SyntAnal2: TLibSyntAnalyzer
   Formats = <
     item
-      DisplayName = 'Default'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-      FormatType = ftCustomFont
-    end
-    item
       DisplayName = 'Comment'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clGray
@@ -72,6 +63,14 @@ object SyntAnal2: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Segment'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -95,6 +94,14 @@ object SyntAnal2: TLibSyntAnalyzer
       StyleName = 'Comment'
       TokenType = 1
       Expression = '[;|\#].*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Segment'
+      StyleName = 'Segment'
+      TokenType = 6
+      Expression = '\bsegment\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -528,7 +535,6 @@ object SyntAnal2: TLibSyntAnalyzer
             'seges'
             'segfs'
             'seggs'
-            'segment'
             'segss'
             'set'
             'seta'
@@ -614,19 +620,14 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'seg'
       ConditionList = <
         item
-          TagList.Strings = (
-            'segment')
-          TokenTypes = 4
-          IgnoreCase = True
-        end
-        item
-          TokenTypes = 4
+          TokenTypes = 64
         end>
       BlockEnd = 'seg end'
       EndOfTextClose = True
-      NameFmt = 'segment %s0'
+      NameFmt = '%sz0'
       RefToCondEnd = True
       HighlightPos = cpAny
+      CollapseFmt = '%sz0'
       SelfClose = True
       IgnoreAsParent = False
     end
@@ -723,7 +724,7 @@ object SyntAnal2: TLibSyntAnalyzer
     '// Comment'
     '/* Comment'
     ' */'
-    'CODE SEGMENT'#9'BYTE PUBLIC '
+    'CODE SEGMENT  BYTE PUBLIC '
     '    ASSUME'#9'CS:CODE'
     '    MOV AX, AABBh+20d+1010b+'
     '    MOV'#9'BYTE PTR ES:[DI], 255'
@@ -737,7 +738,12 @@ object SyntAnal2: TLibSyntAnalyzer
     '    @@name'
     '    @AsmEnd:'
     '    MOV AX, 0'
-    '    RET'
+    '    RET      '
+    '    '
+    ''
+    '  SEGMENT readable writable ; no-named segment'
+    '    msg db '#39'Test'#39' '
+    '    ends'
     '    '
     'test1 PROC NEAR'
     '      MOV ax,10'
@@ -753,8 +759,6 @@ object SyntAnal2: TLibSyntAnalyzer
     'CODE ENDS'
     '  '
     'PUSHALL MACRO'
-    '       PUSH AX BX CX DX'
-    '       PUSH DS SI'
     '       PUSH ES DI'
     #9'ENDM'
     '    '
@@ -762,11 +766,12 @@ object SyntAnal2: TLibSyntAnalyzer
   TokenTypeNames.Strings = (
     'Label'
     'Comment'
-    'Identifier'
+    'Id'
     'Symbol'
     'String'
-    'Number')
-  Extentions = 'asm s'
+    'Number'
+    'Segment')
+  Extentions = 'asm'
   LexerName = 'Assembly'
   SkipSpaces = False
   Notes.Strings = (
@@ -775,7 +780,8 @@ object SyntAnal2: TLibSyntAnalyzer
     '+ macros/procs/segments in tree (for MASM/NASM)'
     '+ parser "symbol"'
     '* renamed styles'
-    '+ @@label')
+    '+ @@label'
+    '+ new rule to find segments')
   LineComment = ';'
   Charset = DEFAULT_CHARSET
 end

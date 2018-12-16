@@ -3,7 +3,6 @@ styles_cmt=Comment
 styles_str=String
 
 [map]
-Default=-
 Comment=Comment
 Id=Id
 Id std=Id1
@@ -12,3 +11,4 @@ Label=Label
 Registers=Id2
 String=String
 Symbol=Symbol
+Segment=Id3
