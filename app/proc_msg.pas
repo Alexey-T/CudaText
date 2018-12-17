@@ -49,7 +49,8 @@ const
   msgNoLexer: string = '(none)';
   msgThemeDefault: string = '(default)';
   msgThemeName: string = 'Theme name:';
-  msgGotoDialogTooltip = '(10, 10:10, 10%, d100, xFFF, with "+": select)';
+  msgGotoDialogTooltip: string = '(10, 10:10, 10%, d100, xFFF, %s)';
+  msgGotoDialogTooltipAdd: string = 'with "+": select';
 
   msgPanelMenu_Init = 'Menu';
   msgPanelTree_Init = 'Code tree';
@@ -197,7 +198,6 @@ const
   msgStatusBadLineNum: string = 'Incorrect number entered';
   msgStatusEndsChanged: string = 'Line ends changed';
   msgStatusEncChanged: string = 'Encoding changed';
-  msgStatusGotoLine: string = 'Go to line: %d';
   msgStatusGotoFileLineCol: string = 'File "%s", Line %d Col %d';
   msgStatusHelpOnKeysConfig: string = 'To customize hotkeys, call Help/Commands dialog, focus needed command, and press F9, you''ll see additional dialog';
   msgStatusClickingLogLine: string = 'Clicking log line';

@@ -3015,8 +3015,6 @@ begin
     true,
     true
     );
-
-  MsgStatus(Format(msgStatusGotoLine, [Num+1]));
 end;
 
 
