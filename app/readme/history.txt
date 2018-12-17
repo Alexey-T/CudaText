@@ -8,8 +8,9 @@
 
 + add: option "ui_tab_show_x" has additional enum value
 + add: context menus for Output and Validate panels
-+ add: commands "focus group 1...6"
 + add: tooltips for UI tabs buttons (x, +, <, >, v)
++ add: Go To dialog supports "+" at end of text to select to this position
++ add: commands "focus group 1...6"
 + add: lexer Assembly improved (highlight 2 more keyword groups, fix folding of segments)
 + add: lexer JavaScript improved (show anonymous functions (...)=>{...} in code tree); lexer TypeScript in addons improved the same way
 
