@@ -537,6 +537,7 @@ begin
     DoLocString(msgStatusFilenameAlreadyOpened   , ini, 'si', 'FilenameAlreadyOpened');
     DoLocString(msgStatusNeedToCloseTabSavedOrDup, ini, 'si', 'NeedToCloseTabSavedOrDup');
     DoLocString(msgStatusHotkeyBusy              , ini, 'si', 'HotkeyBusy');
+    DoLocString(msgGotoDialogInfoExt             , ini, 'si', 'GotoInfoExt');
 
     DoLocString(msgConfirmSyntaxThemeSameName    , ini, 'sc', 'ThemeSyntaxSame');
     DoLocString(msgConfirmInstallIt              , ini, 'sc', 'InstallIt');

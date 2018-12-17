@@ -50,7 +50,7 @@ const
   msgThemeDefault: string = '(default)';
   msgThemeName: string = 'Theme name:';
   msgGotoDialogTooltip: string = '(10, 10:10, 10%, d100, xFFF, %s)';
-  msgGotoDialogTooltipAdd: string = 'with "+": select';
+  msgGotoDialogInfoExt: string = 'with "+": select';
 
   msgPanelMenu_Init = 'Menu';
   msgPanelTree_Init = 'Code tree';

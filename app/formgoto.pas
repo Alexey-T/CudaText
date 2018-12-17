@@ -89,7 +89,7 @@ begin
   end;
 
   plCaption.Caption:= plCaption.Caption+' '+
-    Format(msgGotoDialogTooltip, [msgGotoDialogTooltipAdd]);
+    Format(msgGotoDialogTooltip, [msgGotoDialogInfoExt]);
 end;
 
 procedure TfmGoto.SetIsDoubleBuffered(AValue: boolean);
