@@ -563,13 +563,12 @@ Option buttons have hotkeys too, hover mouse over them to see hints:
 
 Dialog allows to enter text in formats:
 
-* 10: jump to given line number (to line start)
-* 10:10: jump to given line and column numbers
-* 10%: jump to percents of total line count
-* d1000: jump to absolute decimal offset
-* xFF00: jump to absolute hex offset
-
-More allowed formats can be added by plugins.
+* 10 (decimal number): jump to given line number (to line start)
+* 10:10 (two decimal numbers): jump to given line and column numbers
+* 10% (decimal with trailing "%"): jump to percents of total line count
+* d100 (decimal with leading "d"): jump to absolute decimal offset
+* xFFF (hex number with leading "x"): jump to absolute hex offset
+* value with trailing "+": extend selection to this position (CudaText 1.69+)
 
 ==Comments==
 
