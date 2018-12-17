@@ -4,9 +4,10 @@
   * changed
 
 
-1.68.1 (2018/12)
+1.68.2 (2018/12)
 
 + add: option "ui_tab_show_x" has additional enum value
++ add: context menus for Output and Validate panels
 + add: lexer Assembly improved (highlight 2 more keyword groups, fix folding of segments)
 + add: lexer JavaScript improved (show anonymous functions (...)=>{...} in code tree); lexer TypeScript in addons improved the same way
 
