@@ -4597,7 +4597,10 @@ var
   ResLine, ResCol: integer;
   NIndex, NTag: integer;
   SText: string;
+  Ed: TATSynEdit;
 begin
+  Ed:= CurrentEditor;
+
   if Sender=ListboxOut then
     Prop:= @AppPanelProp_Out
   else
@@ -4617,16 +4620,16 @@ begin
     if FileExists(ResFilename) then
     begin
       DoFileOpen(ResFilename);
-      CurrentFrame.Editor.DoCaretSingle(ResCol, ResLine);
-      CurrentFrame.Editor.DoGotoCaret(cEdgeTop);
-      CurrentFrame.Editor.Update;
+      Ed.DoCaretSingle(ResCol, ResLine);
+      Ed.DoGotoCaret(cEdgeTop);
+      Ed.Update;
       UpdateStatus;
     end;
   end
   else
   begin
     MsgStatus(msgStatusClickingLogLine);
-    DoPyEvent(CurrentEditor, cEventOnOutputNav,
+    DoPyEvent(Ed, cEventOnOutputNav,
       [SStringToPythonString(SText), IntToStr(NTag)] );
   end;
 end;
