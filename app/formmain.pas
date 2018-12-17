@@ -643,6 +643,7 @@ type
     procedure CodeTreeFilterOnCommand(Sender: TObject; ACmd: integer;
       const AText: string; var AHandled: boolean);
     procedure DoApplyCenteringOption;
+    procedure DoApplyTranslationToGroups(G: TATGroups);
     procedure DoClearSingleFirstTab;
     procedure DoCloseAllTabs;
     procedure DoFileDialog_PrepareDir(Dlg: TFileDialog);
@@ -2307,8 +2308,19 @@ begin
   G.SetTabOption(tabOptionButtonSize, 16);
   G.SetTabOption(tabOptionShowArrowsNear, Ord(Pos('<>', UiOps.TabButtonLayout)>0));
   G.SetTabOption(tabOptionWhichActivateOnClose, IfThen(UiOps.TabRecentOnClose, Ord(aocRecent), Ord(aocRight)));
+
   G.SetTabOptionString(tabOptionButtonLayout, UiOps.TabButtonLayout);
   G.SetTabOptionString(tabOptionModifiedText, '*');
+  DoApplyTranslationToGroups(G);
+end;
+
+procedure TfmMain.DoApplyTranslationToGroups(G: TATGroups);
+begin
+  G.SetTabOptionString(tabOptionHintForX, msgTooltipCloseTab);
+  G.SetTabOptionString(tabOptionHintForPlus, msgTooltipAddTab);
+  G.SetTabOptionString(tabOptionHintForArrowLeft, msgTooltipArrowLeft);
+  G.SetTabOptionString(tabOptionHintForArrowRight, msgTooltipArrowRight);
+  G.SetTabOptionString(tabOptionHintForArrowMenu, msgTooltipArrowMenu);
 end;
 
 procedure TfmMain.DoApplyUiOps;

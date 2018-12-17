@@ -38,6 +38,11 @@ const
   msgErrorInTheme = 'Warning for theme "%s": missed item "%s"';
 
   msgTooltipClearFilter: string = 'Clear filter';
+  msgTooltipCloseTab: string = 'Close tab';
+  msgTooltipAddTab: string = 'Add tab';
+  msgTooltipArrowLeft: string = 'Scroll tabs left';
+  msgTooltipArrowRight: string = 'Scroll tabs right';
+  msgTooltipArrowMenu: string = 'Show tabs menu';
 
   msgUntitledTab: string = 'Untitled';
   msgAllFiles: string = 'All files';

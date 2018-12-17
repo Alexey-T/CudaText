@@ -331,6 +331,13 @@ begin
     msgTooltipClearFilter:= ini.ReadString('ui', 'clr_f', msgTooltipClearFilter);
     CodeTreeFilterReset.Hint:= msgTooltipClearFilter;
 
+    msgTooltipCloseTab:= ini.ReadString('ui', 'ti_x', msgTooltipCloseTab);
+    msgTooltipAddTab:= ini.ReadString('ui', 'ti_p', msgTooltipAddTab);
+    msgTooltipArrowLeft:= ini.ReadString('ui', 'ti_al', msgTooltipArrowLeft);
+    msgTooltipArrowRight:= ini.ReadString('ui', 'ti_ar', msgTooltipArrowRight);
+    msgTooltipArrowMenu:= ini.ReadString('ui', 'ti_am', msgTooltipArrowMenu);
+    DoApplyTranslationToGroups(Groups);
+
     msgStatusbarTextTab:= ini.ReadString('sta', 'tsz', msgStatusbarTextTab);
     msgStatusbarTextSpaces:= ini.ReadString('sta', 'tsp', msgStatusbarTextSpaces);
 
