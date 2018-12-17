@@ -2,7 +2,7 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '0.8.6 2018-10-15'
+    '0.8.7 2018-12-17'
 ToDo: (see end of file)
 '''
 
@@ -89,7 +89,7 @@ class Command:
         lex         = ed_.get_prop(app.PROP_LEXER_CARET)
         prop        = app.lexer_proc(app.LEXER_GET_PROP, lex)
         cmt_sgn     = prop['c_line'] if prop else None
-        pass;                  #LOG and log('cmt_type, lex, cmt_sgn={}', (cmt_type, lex, cmt_sgn))
+        pass;                  #log('cmt_type, lex, cmt_sgn={}', (cmt_type, lex, cmt_sgn))
         if not cmt_sgn:
             return app.msg_status(f(_('No line comment for lexer "{}"'), lex))
         # Analize
@@ -117,7 +117,7 @@ class Command:
             rWrks       = list(range(rSelBgn, rSelEnd+1))
         if not rWrks:
             rWrks       = [crts[0][1]]
-        pass;                  #LOG and log('rWrks={}', (rWrks))
+        pass;                  #log('rWrks={}', (rWrks))
         y1,y2       = (rWrks[0],rWrks[-1]) if bUseRepLns else (y1,y2)
         pass;                  #LOG and log('y1,y2,lines={}', (y1,y2,lines))
         do_uncmt    = ed_.get_text_line(rWrks[0]).lstrip().startswith(cmt_sgn) \
@@ -138,7 +138,7 @@ class Command:
                 if 0==col_min_bd:
                     break # for rWrk
         blnks4cmt   = ' '*len(cmt_sgn) # '\t'.expandtabs(len(cmt_sgn))
-        pass;                  #LOG and log('rWrks,do_uncmt, save_cols, at_min_bd, col_min_bd={}', (rWrks,do_uncmt,save_bd_col,at_min_bd,col_min_bd))
+        pass;                  #log('rWrks,do_uncmt, save_cols, at_min_bd, col_min_bd={}', (rWrks,do_uncmt,save_bd_col,at_min_bd,col_min_bd))
         for rWrk in rWrks:
             line    = ed_.get_text_line(rWrk)
             pos_body= line.index(line.lstrip())
@@ -193,10 +193,15 @@ class Command:
             if bUseRepLns:
                 lines += [line]
             else:
+                pass;           log('line={}',(line))
                 ed_.set_text_line(rWrk, line)
             #for rWrk
         if bUseRepLns:
-            ed_.replace_lines(y1, y2, lines)
+            pass;              #log('y1, y2, len(lines), lines={}',(y1, y2, len(lines), lines))
+            if y1==y2:
+                ed_.set_text_line(y1, lines[0])
+            else:
+                ed_.replace_lines(y1, y2, lines)
         bSkip    = apx.get_opt('comment_move_down', True)
         if bEmpSel and bSkip:
             (cCrt, rCrt, cEnd, rEnd)    = crts[0]

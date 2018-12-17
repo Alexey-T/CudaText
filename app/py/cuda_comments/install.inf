@@ -56,5 +56,3 @@ section=commands
 caption=Comments\Config...
 method=dlg_config
 menu=op
-
-
