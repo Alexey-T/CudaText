@@ -824,6 +824,7 @@ var
   NumLine, NumCol: integer;
   Pnt: TPoint;
   bExtend: boolean;
+  Caret: TATCaretItem;
 begin
   bExtend:= SEndsWith(SInput, '+');
   if bExtend then
@@ -863,13 +864,28 @@ begin
   NumLine:= Min(NumLine, Ed.Strings.Count-1);
   NumCol:= Max(0, NumCol);
 
+  Pnt:= Point(-1, -1);
   if bExtend then
   begin
-    with Ed.Carets[0] do
-      Pnt:= Point(PosX, PosY);
-  end
-  else
-    Pnt:= Point(-1, -1);
+    if Ed.Carets.Count=0 then exit;
+    Caret:= Ed.Carets[0];
+    //set end of selection to previous caret pos
+    Pnt:= Point(Caret.PosX, Caret.PosY);
+    //make it like SynWrite: jump extends previous selection (below and above)
+    if Caret.EndY>=0 then
+      if IsPosSorted(Caret.PosX, Caret.PosY, NumCol, NumLine, true) then
+      begin
+        //jump below
+        if IsPosSorted(Caret.EndX, Caret.EndY, Caret.PosX, Caret.PosY, false) then
+          Pnt:= Point(Caret.EndX, Caret.EndY);
+      end
+      else
+      begin
+        //jump above
+        if not IsPosSorted(Caret.EndX, Caret.EndY, Caret.PosX, Caret.PosY, false) then
+          Pnt:= Point(Caret.EndX, Caret.EndY);
+      end;
+  end;
 
   Ed.DoGotoPos(
     Point(NumCol, NumLine),
