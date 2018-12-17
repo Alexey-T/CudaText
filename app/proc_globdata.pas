@@ -1048,7 +1048,7 @@ begin
     OpUndoGrouped:= true;
     OpUndoAfterSave:= true;
 
-    OpCaretBlinkTime:= cInitTimerBlink;
+    OpCaretBlinkTime:= cInitCaretBlinkTime;
     OpCaretBlinkEn:= true;
     OpCaretViewNormal:= '2,-100';
     OpCaretViewOverwrite:= '-100,-100';
