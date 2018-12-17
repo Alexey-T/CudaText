@@ -37,7 +37,8 @@ const
   msgButtonX = '×'; //no i18n
   msgErrorInTheme = 'Warning for theme "%s": missed item "%s"';
 
-  msgClearFilterTooltip: string = 'Clear filter';
+  msgTooltipClearFilter: string = 'Clear filter';
+
   msgUntitledTab: string = 'Untitled';
   msgAllFiles: string = 'All files';
   msgNoLexer: string = '(none)';

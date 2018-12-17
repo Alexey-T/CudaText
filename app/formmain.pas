@@ -1543,7 +1543,7 @@ begin
   CodeTreeFilterReset.Focusable:= false;
   CodeTreeFilterReset.Flat:= true;
   CodeTreeFilterReset.ShowHint:= true;
-  CodeTreeFilterReset.Hint:= msgClearFilterTooltip;
+  CodeTreeFilterReset.Hint:= msgTooltipClearFilter;
   CodeTreeFilterReset.OnClick:= @CodeTreeFilterResetClick;
 
   CodeTreeFilterInput:= TATComboEdit.Create(Self);
@@ -2277,6 +2277,7 @@ procedure TfmMain.DoApplyUiOpsToGroups(G: TATGroups);
 begin
   G.SetTabFont(Self.Font);
   G.ScalePercents:= UiOps.ScreenScale;
+  G.SetTabOption(tabOptionShowHint, 1);
   G.SetTabOption(tabOptionVarWidth, Ord(UiOps.TabVarWidth));
   G.SetTabOption(tabOptionMultiline, Ord(UiOps.TabMultiline));
   G.SetTabOption(tabOptionAngled, Ord(UiOps.TabAngled));
