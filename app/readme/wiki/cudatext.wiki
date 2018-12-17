@@ -1218,6 +1218,9 @@ The following macros are allowed in snippets text:
 * ${cp} - Replaced with clipboard text.
 * ${fname} - Replaced with current file name (w/out path and extension).
 * ${date:nnnnnn} - Replaced with current date/time formatted by string nnnnnn. See [http://strftime.org/ Python doc].
+* ${cmt_start} - Replaced with current lexer's "block comment" start symbols (or empty string).
+* ${cmt_end} - Replaced with current lexer's "block comment" end symbols (or empty string).
+* ${cmt_line} - Replaced with current lexer's "line comment" symbols (or empty string).
 
 ===File names===
 
