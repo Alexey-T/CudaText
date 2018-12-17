@@ -620,6 +620,8 @@ type
     FFileNameLogConsole: string;
     FTreeClick: boolean;
     FMenuCopy: TPopupMenu;
+    FPopupListboxOutput: TPopupMenu;
+    FPopupListboxValidate: TPopupMenu;
     FNewClickedEditor: TATSynEdit;
     FPyComplete_Editor: TATSynEdit;
     FPyComplete_Text: string;
@@ -802,6 +804,10 @@ type
     procedure MsgLogDebug(const AText: string);
     procedure MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
     procedure MsgStatusAlt(const AText: string; ASeconds: integer);
+    procedure PopupListboxOutputCopyClick(Sender: TObject);
+    procedure PopupListboxOutputClearClick(Sender: TObject);
+    procedure PopupListboxValidateClearClick(Sender: TObject);
+    procedure PopupListboxValidateCopyClick(Sender: TObject);
     procedure SetFloatBottom(AValue: boolean);
     procedure SetFloatSide(AValue: boolean);
     procedure SetShowFloatGroup1(AValue: boolean);
@@ -1477,6 +1483,7 @@ end;
 
 procedure TfmMain.FormCreate(Sender: TObject);
 var
+  mi: TMenuItem;
   i: integer;
 begin
   CustomDialog_DoPyCallback:= @DoPyCallbackFromAPI;
@@ -1553,12 +1560,33 @@ begin
   CodeTreeFilterInput.OnChange:= @CodeTreeFilterInputOnChange;
   CodeTreeFilterInput.OnCommand:= @CodeTreeFilterOnCommand;
 
+  FPopupListboxOutput:= TPopupMenu.Create(Self);
+  mi:= TMenuItem.Create(Self);
+  mi.Caption:= msgFileClearList;
+  mi.OnClick:= @PopupListboxOutputClearClick;
+  FPopupListboxOutput.Items.Add(mi);
+  mi:= TMenuItem.Create(Self);
+  mi.Caption:= msgEditCopy;
+  mi.OnClick:= @PopupListboxOutputCopyClick;
+  FPopupListboxOutput.Items.Add(mi);
+
+  FPopupListboxValidate:= TPopupMenu.Create(Self);
+  mi:= TMenuItem.Create(Self);
+  mi.Caption:= msgFileClearList;
+  mi.OnClick:= @PopupListboxValidateClearClick;
+  FPopupListboxValidate.Items.Add(mi);
+  mi:= TMenuItem.Create(Self);
+  mi.Caption:= msgEditCopy;
+  mi.OnClick:= @PopupListboxValidateCopyClick;
+  FPopupListboxValidate.Items.Add(mi);
+
   ListboxOut:= TATListbox.Create(Self);
   ListboxOut.VirtualMode:= false;
   ListboxOut.Parent:= PanelBottom;
   ListboxOut.Align:= alClient;
   ListboxOut.CanGetFocus:= true;
   ListboxOut.OwnerDrawn:= true;
+  ListboxOut.PopupMenu:= FPopupListboxOutput;
   ListboxOut.OnDblClick:= @ListboxOutClick;
   ListboxOut.OnDrawItem:= @ListboxOutDrawItem;
   ListboxOut.OnKeyDown:= @ListboxOutKeyDown;
@@ -1569,6 +1597,7 @@ begin
   ListboxVal.Align:= alClient;
   ListboxVal.CanGetFocus:= true;
   ListboxVal.OwnerDrawn:= true;
+  ListboxVal.PopupMenu:= FPopupListboxValidate;
   ListboxVal.OnDblClick:= @ListboxOutClick;
   ListboxVal.OnDrawItem:= @ListboxOutDrawItem;
   ListboxVal.OnKeyDown:= @ListboxOutKeyDown;
@@ -3467,6 +3496,32 @@ begin
   TimerStatusAlt.Interval:= ASeconds*1000;
   TimerStatusAlt.Enabled:= false;
   TimerStatusAlt.Enabled:= true;
+end;
+
+procedure TfmMain.PopupListboxOutputCopyClick(Sender: TObject);
+begin
+  SClipboardCopy(ListboxOut.Items.Text);
+end;
+
+procedure TfmMain.PopupListboxOutputClearClick(Sender: TObject);
+begin
+  ListboxOut.Items.Clear;
+  ListboxOut.ItemIndex:= -1;
+  ListboxOut.ItemTop:= 0;
+  ListboxOut.Invalidate;
+end;
+
+procedure TfmMain.PopupListboxValidateCopyClick(Sender: TObject);
+begin
+  SClipboardCopy(ListboxVal.Items.Text);
+end;
+
+procedure TfmMain.PopupListboxValidateClearClick(Sender: TObject);
+begin
+  ListboxVal.Items.Clear;
+  ListboxVal.ItemIndex:= -1;
+  ListboxVal.ItemTop:= 0;
+  ListboxVal.Invalidate;
 end;
 
 procedure TfmMain.SetShowMenu(AValue: boolean);
