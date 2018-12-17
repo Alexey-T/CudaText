@@ -87,7 +87,12 @@ type
 type
   TATTabsStringOptionId = (
     tabOptionModifiedText,
-    tabOptionButtonLayout
+    tabOptionButtonLayout,
+    tabOptionHintForX,
+    tabOptionHintForPlus,
+    tabOptionHintForArrowLeft,
+    tabOptionHintForArrowRight,
+    tabOptionHintForArrowMenu
     );
 
 type
@@ -110,6 +115,7 @@ type
     tabColorArrowOver,
     tabColorSpecMarks,
     tabColorActiveMark,
+    tabOptionShowHint,
     tabOptionVarWidth,
     tabOptionMultiline,
     tabOptionAnimationEn,
@@ -284,7 +290,7 @@ type
     function GetTabDataOfTotalIndex(N: Integer): TATTabData;
     function SetPagesAndTabIndex(APageIndex, ATabIndex: Integer): boolean;
     procedure SetTabOption(Id: TATTabsOptionId; N: Integer);
-    procedure SetTabOptionString(Id: TATTabsStringOptionId; const Value: string);
+    procedure SetTabOptionString(Id: TATTabsStringOptionId; const AValue: string);
     procedure SetTabFont(AFont: TFont);
     //
     function CloseTabsOther(APages: TATPages; ATabIndex: Integer;
@@ -1616,7 +1622,7 @@ begin
     Pages[i].Tabs.Font.Assign(AFont);
 end;
 
-procedure TATGroups.SetTabOptionString(Id: TATTabsStringOptionId; const Value: string);
+procedure TATGroups.SetTabOptionString(Id: TATTabsStringOptionId; const AValue: string);
 var
   i: Integer;
 begin
@@ -1624,9 +1630,19 @@ begin
     with Pages[i].Tabs do
       case Id of
         tabOptionModifiedText:
-          OptShowModifiedText:= Value;
+          OptShowModifiedText:= AValue;
         tabOptionButtonLayout:
-          OptButtonLayout:= Value;
+          OptButtonLayout:= AValue;
+        tabOptionHintForX:
+          OptHintForX:= AValue;
+        tabOptionHintForPlus:
+          OptHintForPlus:= AValue;
+        tabOptionHintForArrowLeft:
+          OptHintForArrowLeft:= AValue;
+        tabOptionHintForArrowRight:
+          OptHintForArrowRight:= AValue;
+        tabOptionHintForArrowMenu:
+          OptHintForArrowMenu:= AValue;
       end;
 end;
 
@@ -1701,6 +1717,7 @@ begin
             end;
           end;
 
+        tabOptionShowHint:         ShowHint:= Boolean(N);
         tabOptionVarWidth:         OptVarWidth:= Boolean(N);
         tabOptionMultiline:        OptMultiline:= Boolean(N);
         tabOptionAnimationEn:      OptAnimationEnabled:= Boolean(N);
