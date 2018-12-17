@@ -586,8 +586,10 @@ type
     property OnEndDrag;
     property OnContextPopup;
     //these 2 lines don't compile under Delphi 7
+    {$ifndef VER150}
     property OnMouseEnter;
     property OnMouseLeave;
+    {$endif}
     //
     property OnMouseMove;
     property OnMouseUp;
@@ -928,7 +930,7 @@ function _ShortenStringEx(C: TCanvas;
 const
   cMinLen = 3;
 var
-  S, STemp: UnicodeString;
+  S, STemp: WideString;
   N, i: integer;
 begin
   if (Mode=attcNone) or
