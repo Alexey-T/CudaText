@@ -823,7 +823,12 @@ function EditorGotoFromString(Ed: TATSynEdit; SInput: string): boolean;
 var
   NumLine, NumCol: integer;
   Pnt: TPoint;
+  bExtend: boolean;
 begin
+  bExtend:= SEndsWith(SInput, '+');
+  if bExtend then
+    SetLength(SInput, Length(SInput)-1);
+
   if SEndsWith(SInput, '%') then
   begin
     NumLine:= StrToIntDef(Copy(SInput, 1, Length(SInput)-1), -1);
@@ -858,9 +863,17 @@ begin
   NumLine:= Min(NumLine, Ed.Strings.Count-1);
   NumCol:= Max(0, NumCol);
 
+  if bExtend then
+  begin
+    with Ed.Carets[0] do
+      Pnt:= Point(PosX, PosY);
+  end
+  else
+    Pnt:= Point(-1, -1);
+
   Ed.DoGotoPos(
     Point(NumCol, NumLine),
-    Point(-1, -1),
+    Pnt,
     UiOps.FindIndentHorz,
     UiOps.FindIndentVert,
     true,

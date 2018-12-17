@@ -18,6 +18,7 @@ uses
   ExtCtrls,
   IniFiles,
   ATSynEdit_Edits,
+  proc_msg,
   proc_globdata,
   proc_colors,
   proc_editor,
@@ -87,7 +88,7 @@ begin
     Free
   end;
 
-  plCaption.Caption:= plCaption.Caption+ ' (10, 10:10, 10%, d100, xFFF)';
+  plCaption.Caption:= plCaption.Caption+' '+msgGotoDialogTooltip;
 end;
 
 procedure TfmGoto.SetIsDoubleBuffered(AValue: boolean);
