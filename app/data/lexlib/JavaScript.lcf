@@ -637,16 +637,6 @@ object SyntAnal14: TLibSyntAnalyzer
   Notes.Strings = (
     'Original from EControl'
     'Heavily reworked by Alexey (CudaText)'
-    '-code tree: func params shown'
-    '-code tree: support anonym funcs'
-    '-strings oneline '#39'...'#39
-    '-strings multiline "..."'
-    '-strings regex /.../gi'
-    '-strings heredoc'
-    '-doc comments'
-    '-new keyword groups'
-    '-hilite function names'
-    ''
     'Keywords: http://www.w3schools.com/js/js_reserved.asp')
   LineComment = '//'
   Charset = DEFAULT_CHARSET
