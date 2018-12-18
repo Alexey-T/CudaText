@@ -816,6 +816,18 @@ In the External Tools dialog, press Join button, to join 2 tools created in abov
 * Series: C - compile; C - run
 * Lexers: C,C++
 
+===Tool to run current Batch file===
+
+Create new tool with such properties:
+
+* Name: Run batch file
+* File name: cmd.exe
+* Shell command: unchecked
+* Parameters: /c "{FileName}"
+* Initial folder: {FileDir}
+* Lexers: Batch files
+* Capture output: Output panel
+* Encoding: the same as file's encoding: e.g. utf_8 or cp1251 (cp1251 is Russian ANSI codepage)
 
 ===Tool to run Python scripts===
 
