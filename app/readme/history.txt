@@ -14,8 +14,8 @@
 + add: lexer JavaScript improved:
       + show anonymous functions (...)=>{...} in code tree
       + highlight "true/false/null/this/undefined" in new color
-      + hilite function names in new color
-+ add: lexer Assembly improved (highlight 2 more keyword groups, fix folding of segments)
+      + highlight function names in new color
++ add: lexer Assembly improved (highlight more word groups, fix folding)
 * change: changed default value of "pylib__linux" to "libpython3.so"
 
 1.68.0 (2018/12)
