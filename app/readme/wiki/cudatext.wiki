@@ -817,8 +817,7 @@ In the External Tools dialog, press Join button, to join 2 tools created in abov
 * Lexers: C,C++
 
 ===Tool to run current Batch file===
-
-Create new tool with such properties:
+Tool properties:
 
 * Name: Run batch file
 * File name: cmd.exe
@@ -828,6 +827,16 @@ Create new tool with such properties:
 * Lexers: Batch files
 * Capture output: Output panel
 * Encoding: the same as file's encoding: e.g. utf_8 or cp1251 (cp1251 is Russian ANSI codepage)
+
+===Tool to call WinMerge to compare 2 files===
+Tool, which calls WinMerge to compare 2 files: active files in group-1 and group-2:
+
+* Name: Compare files in G1, G2
+* File name: C:\Program Files\WinMerge2011\WinMergeU.exe
+* Shell command: unchecked
+* Parameters: "{FileName_g1}" "{FileName_g2}"
+* Initial folder: (empty)
+* Capture output: Ignore
 
 ===Tool to run Python scripts===
 
