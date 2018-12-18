@@ -11,8 +11,11 @@
 + add: dialog Go To supports "+" at end of text to select to this position (like SynWrite)
 + add: option "ui_tab_show_x" has additional enum value (mimic VSCode)
 + add: commands "focus group 1...6"
++ add: lexer JavaScript improved:
+      + show anonymous functions (...)=>{...} in code tree
+      + highlight "true/false/null/this/undefined" in new color
+      + hilite function names in new color
 + add: lexer Assembly improved (highlight 2 more keyword groups, fix folding of segments)
-+ add: lexer JavaScript improved (show anonymous functions (...)=>{...} in code tree); lexer TypeScript in addons improved the same way
 * change: changed default value of "pylib__linux" to "libpython3.so"
 
 1.68.0 (2018/12)
