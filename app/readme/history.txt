@@ -13,6 +13,7 @@
 + add: commands "focus group 1...6"
 + add: lexer Assembly improved (highlight 2 more keyword groups, fix folding of segments)
 + add: lexer JavaScript improved (show anonymous functions (...)=>{...} in code tree); lexer TypeScript in addons improved the same way
+* change: changed default value of "pylib__linux" to "libpython3.so"
 
 1.68.0 (2018/12)
 

@@ -895,7 +895,7 @@
   //  CudaText will find Python then (any version until 3.9).
   //
   "pylib": "python35.dll",
-  "pylib__linux": "libpython3.5m.so.1.0",
+  "pylib__linux": "libpython3.so",
   "pylib__mac": "/Library/Frameworks/Python.framework/Versions/3.5/lib/libpython3.5.dylib",
 
   //API: delay for event on_change_slow in msec (used in CudaLint)

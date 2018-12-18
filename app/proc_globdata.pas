@@ -771,8 +771,10 @@ function InitPyLibraryPath: string;
       [NMinorVersion, NMinorVersion]);
   end;
   //
+{$ifdef darwin}
 var
   N: integer;
+{$endif}
 begin
   Result:= '';
 
@@ -781,7 +783,7 @@ begin
   {$endif}
 
   {$ifdef linux}
-  exit('libpython3.6m.so.1.0');
+  exit('libpython3.so');
   {$endif}
 
   {$ifdef freebsd}

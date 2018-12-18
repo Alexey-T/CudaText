@@ -3191,16 +3191,6 @@ begin
   PythonEngine.DllName:= ExtractFileName(UiOps.PyLibrary);
   PythonEngine.LoadDll;
 
-  {$ifdef linux}
-  // symlink libpython3.so exists on some Linuxes, but not on Ubuntu 18
-  if not PythonOK then
-  begin
-    PythonEngine.DllPath:= '';
-    PythonEngine.DllName:= 'libpython3.so';
-    PythonEngine.LoadDll;
-  end;
-  {$endif}
-
   if PythonOK then
     GetPythonEngine.ExecString('import sys')
   else
