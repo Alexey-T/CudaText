@@ -1,4 +1,4 @@
-object SyntAnal2: TLibSyntAnalyzer
+object SyntAnal3: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -164,7 +164,7 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\.,:\-\+\*\\/%@<>\(\)\[\]\{\}\?\$]'
+      Expression = '[\.,:\-\+\*\\/%@<>\(\)\[\]\{\}\?]'
       ColumnFrom = 0
       ColumnTo = 0
     end>
