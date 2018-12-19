@@ -447,6 +447,7 @@ var
 
 function GetAppPath(id: TAppPathId): string;
 function GetAppLangFilename: string;
+function GetAppUndoFilename(const fn: string): string;
 
 function EscapeLexerFilename(const ALexName: string): string;
 function GetAppLexerFilename(const ALexName: string): string;
@@ -1687,6 +1688,12 @@ begin
   Result:= GetAppPath(cDirDataAutocomplete)+DirectorySeparator+EscapeLexerFilename(ALexName)+'.acp';
 end;
 
+function GetAppUndoFilename(const fn: string): string;
+begin
+  Result:= ExtractFileDir(fn)+DirectorySeparator+
+    '.cudatext'+DirectorySeparator+
+    ExtractFileName(fn)+'.undo';
+end;
 
 function GetAppKeymapHotkey(const ACmdString: string): string;
 var
