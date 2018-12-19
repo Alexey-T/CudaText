@@ -293,8 +293,10 @@ type
     procedure DoLexerFromFilename(const AFilename: string);
     procedure DoSaveHistory;
     procedure DoSaveHistoryEx(c: TJsonConfig; const path: string);
+    procedure DoSaveUndo;
     procedure DoLoadHistory;
     procedure DoLoadHistoryEx(c: TJsonConfig; const path: string);
+    procedure DoLoadUndo;
     //misc
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
     procedure DoGotoPos(APosX, APosY: integer);
@@ -2172,7 +2174,6 @@ var
   caret: TATCaretItem;
   items, items2: TStringList;
   bookmark: TATBookmarkItem;
-  s, fn, dir: string;
   i: integer;
 begin
   c.SetValue(path+cHistory_Lexer, LexerName);
@@ -2229,6 +2230,13 @@ begin
   c.SetValue(path+cHistory_CodeTreeFilter, FCodetreeFilter);
   c.SetValue(path+cHistory_CodeTreeFilters, FCodetreeFilterHistory);
 
+  DoSaveUndo;
+end;
+
+procedure TEditorFrame.DoSaveUndo;
+var
+  fn, dir, s: string;
+begin
   if IsFilenameListedInExtensionList(FileName, UiOps.UndoPersistent) then
   begin
     fn:= GetAppUndoFilename(FileName);
@@ -2274,7 +2282,7 @@ end;
 
 procedure TEditorFrame.DoLoadHistoryEx(c: TJsonConfig; const path: string);
 var
-  fn, str, str0: string;
+  str, str0: string;
   Caret: TATCaretItem;
   nTop, nKind, i: integer;
   items, items2: TStringlist;
@@ -2384,6 +2392,17 @@ begin
   FCodetreeFilter:= c.GetValue(path+cHistory_CodeTreeFilter, '');
   c.GetValue(path+cHistory_CodeTreeFilters, FCodetreeFilterHistory, '');
 
+  DoLoadUndo;
+
+  Editor.Update;
+  if Splitted then
+    Editor2.Update;
+end;
+
+procedure TEditorFrame.DoLoadUndo;
+var
+  fn, str: string;
+begin
   if IsFilenameListedInExtensionList(FileName, UiOps.UndoPersistent) then
   begin
     fn:= GetAppUndoFilename(FileName);
@@ -2394,10 +2413,6 @@ begin
         Editor.UndoAsString:= str;
     end;
   end;
-
-  Editor.Update;
-  if Splitted then
-    Editor2.Update;
 end;
 
 function TEditorFrame.DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
