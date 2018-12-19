@@ -193,7 +193,7 @@ object SyntAnal14: TLibSyntAnalyzer
       DisplayName = 'Id func name'
       StyleName = 'Id func name'
       TokenType = 2
-      Expression = '(?<=function\x20+)[a-z_]\w*'
+      Expression = '(?<=\bfunction\x20+)[a-z_]\w* | (?<=\bclass\x20+)[a-z_]\w*'
       ColumnFrom = 0
       ColumnTo = 0
     end
