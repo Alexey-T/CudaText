@@ -8,6 +8,7 @@ Copyright (c) Alexey Torgashin
 unit proc_globdata;
 
 {$mode objfpc}{$H+}
+{$IOChecks off}
 
 interface
 
@@ -1366,7 +1367,6 @@ var
   f: TextFile;
 begin
   Result:= '';
-  {$IOChecks off}
   Assign(f, AFilename);
   Reset(f);
   if IOResult=0 then
@@ -1397,12 +1397,11 @@ procedure DoWriteStringToFile(const AFilename, AText: string);
 var
   f: TextFile;
 begin
-  {$IOChecks off}
   Assign(f, AFilename);
   Rewrite(f);
   if IOResult=0 then
   begin
-    Writeln(f, AText);
+    Write(f, AText);
     CloseFile(f);
   end;
 end;
