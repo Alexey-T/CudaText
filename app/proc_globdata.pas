@@ -227,9 +227,11 @@ type
     ShowActiveBorder: boolean;
     ShowSidebarCaptions: boolean;
     ShowTitlePath: boolean;
+
     ReopenSession: boolean;
     AutoSaveSession: boolean;
     ShowFormsOnTop: boolean;
+    UndoPersistent: string;
 
     FloatGroupsInTaskbar: boolean;
     OneInstance: boolean;
@@ -485,6 +487,10 @@ procedure DoOps_SaveKey_ForPluginModuleAndMethod(AOverwriteKey: boolean;
 
 function DoLexerDetectByFilenameOrContent(const AFilename: string): TecSyntAnalyzer;
 procedure DoLexerEnum(L: TStringList; AlsoDisabled: boolean = false);
+
+function DoReadOneStringFromFile(const AFilename: string): string;
+function DoReadContentFromFile(const AFilename: string): string;
+procedure DoWriteStringToFile(const AFilename, AText: string);
 
 var
   AppManager: TecLexerList = nil;
@@ -1270,9 +1276,11 @@ begin
     ShowActiveBorder:= true;
     ShowSidebarCaptions:= false;
     ShowTitlePath:= false;
+
     ReopenSession:= true;
     AutoSaveSession:= false;
     ShowFormsOnTop:= false;
+    UndoPersistent:= '*';
 
     FloatGroupsInTaskbar:= true;
     OneInstance:= false;
@@ -1353,7 +1361,7 @@ begin
 end;
 
 
-function DoGetFirstLine(const AFilename: string): string;
+function DoReadOneStringFromFile(const AFilename: string): string;
 var
   f: TextFile;
 begin
@@ -1365,6 +1373,36 @@ begin
   begin
     if not Eof(f) then
       Readln(f, Result);
+    CloseFile(f);
+  end;
+end;
+
+function DoReadContentFromFile(const AFilename: string): string;
+var
+  L: TStringList;
+begin
+  Result:= '';
+  L:= TStringList.Create;
+  try
+    L.LoadFromFile(AFilename);
+    L.TextLineBreakStyle:= tlbsLF;
+    if L.Count>0 then
+      Result:= L.Text;
+  finally
+    FreeAndNil(L);
+  end;
+end;
+
+procedure DoWriteStringToFile(const AFilename, AText: string);
+var
+  f: TextFile;
+begin
+  {$IOChecks off}
+  Assign(f, AFilename);
+  Rewrite(f);
+  if IOResult=0 then
+  begin
+    Writeln(f, AText);
     CloseFile(f);
   end;
 end;
@@ -1392,7 +1430,7 @@ begin
   //detect by first line
   if AppConfig_DetectLine_Keys.Count>0 then
   begin
-    sLine:= DoGetFirstLine(AFilename);
+    sLine:= DoReadOneStringFromFile(AFilename);
     if sLine<>'' then
       for i:= 0 to AppConfig_DetectLine_Keys.Count-1 do
         if SRegexMatchesString(sLine, AppConfig_DetectLine_Keys[i], true) then

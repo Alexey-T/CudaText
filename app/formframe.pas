@@ -2172,6 +2172,7 @@ var
   caret: TATCaretItem;
   items, items2: TStringList;
   bookmark: TATBookmarkItem;
+  s, fn, dir: string;
   i: integer;
 begin
   c.SetValue(path+cHistory_Lexer, LexerName);
@@ -2227,6 +2228,24 @@ begin
 
   c.SetValue(path+cHistory_CodeTreeFilter, FCodetreeFilter);
   c.SetValue(path+cHistory_CodeTreeFilters, FCodetreeFilterHistory);
+
+  if IsFilenameListedInExtensionList(FileName, UiOps.UndoPersistent) then
+  begin
+    fn:= GetAppUndoFilename(FileName);
+    s:= Editor.UndoAsString;
+    if s<>'' then
+    begin
+      dir:= ExtractFileDir(fn);
+      if not DirectoryExists(dir) then
+        CreateDir(dir);
+      DoWriteStringToFile(fn, s);
+    end
+    else
+    begin
+      if FileExistsUTF8(fn) then
+        DeleteFile(fn);
+    end;
+  end;
 end;
 
 procedure TEditorFrame.DoLoadHistory;
@@ -2255,7 +2274,7 @@ end;
 
 procedure TEditorFrame.DoLoadHistoryEx(c: TJsonConfig; const path: string);
 var
-  str, str0: string;
+  fn, str, str0: string;
   Caret: TATCaretItem;
   nTop, nKind, i: integer;
   items, items2: TStringlist;
@@ -2364,6 +2383,17 @@ begin
 
   FCodetreeFilter:= c.GetValue(path+cHistory_CodeTreeFilter, '');
   c.GetValue(path+cHistory_CodeTreeFilters, FCodetreeFilterHistory, '');
+
+  if IsFilenameListedInExtensionList(FileName, UiOps.UndoPersistent) then
+  begin
+    fn:= GetAppUndoFilename(FileName);
+    if FileExistsUTF8(fn) then
+    begin
+      str:= DoReadContentFromFile(fn);
+      if str<>'' then
+        Editor.UndoAsString:= str;
+    end;
+  end;
 
   Editor.Update;
   if Splitted then
