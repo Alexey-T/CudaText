@@ -115,14 +115,12 @@ object SyntAnal14: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'HTML include BG'
+      DisplayName = 'HTML tag name'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
+      Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-      BgColor = 13361622
-      FormatType = ftBackGround
     end>
   TokenRules = <
     item
@@ -194,6 +192,14 @@ object SyntAnal14: TLibSyntAnalyzer
       StyleName = 'Id func name'
       TokenType = 2
       Expression = '(?<=\bfunction\x20+)[a-z_]\w* | (?<=\bclass\x20+)[a-z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'HTML tag name'
+      StyleName = 'HTML tag name'
+      TokenType = 2
+      Expression = '(?<=</?)\w+(?=[\x20/>])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -582,69 +588,6 @@ object SyntAnal14: TLibSyntAnalyzer
       NameFmt = '%s0 %s-1'
       HighlightPos = cpAny
       NoEndRule = True
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'HTML include simple'
-      StyleName = 'HTML include BG'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '>')
-          TokenTypes = 8
-        end
-        item
-          TokenTypes = 4
-        end
-        item
-          TagList.Strings = (
-            '<'
-            '</')
-          TokenTypes = 8
-        end>
-      NotCollapsed = True
-      DisplayInTree = False
-      RefToCondEnd = True
-      DynHighlight = dhRange
-      HighlightPos = cpAny
-      CancelNextRules = True
-      NoEndRule = True
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'HTML include begin'
-      StyleName = 'HTML include BG'
-      ConditionList = <
-        item
-          TokenTypes = 4
-        end
-        item
-          TokenTypes = 4
-        end
-        item
-          TagList.Strings = (
-            '<')
-          TokenTypes = 8
-        end>
-      BlockEnd = 'HTML include end'
-      NotCollapsed = True
-      DisplayInTree = False
-      RefToCondEnd = True
-      DynHighlight = dhRange
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'HTML include end'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '/>'
-            '>')
-          TokenTypes = 8
-        end>
-      HighlightPos = cpAny
       IgnoreAsParent = False
     end>
   CodeTemplates = <>

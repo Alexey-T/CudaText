@@ -21,4 +21,4 @@ Comment doc=CommentDoc
 Current block=BracketBG
 PHP tag=TagInclude
 Id func name=Id4
-HTML include BG=IncludeBG1
+HTML tag name=TagId
