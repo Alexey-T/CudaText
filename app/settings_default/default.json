@@ -86,10 +86,10 @@
 
   //Allows to use width of Unicode characters proportional to font
   "unicode_proportional": true,
-  
+
   //If "unicode_proportional":false, allows to use bigger width of full-width Unicode characters (else use 100%)
   "unicode_wide_allowed": true,
-  
+
   //If "unicode_proportional":false, sets width (in percents) of full-width characters
   "unicode_full_width": 190,
 
@@ -164,7 +164,7 @@
   "hide_horiz_scrollbar": false,
 
   //Shift text area to the right, so part of text will look "centered".
-  //  If value=0: no shifting. 
+  //  If value=0: no shifting.
   //  If value>0, text area is shifted, so N first characters in lines look "centered".
   "centering_width": 0,
 
@@ -200,7 +200,7 @@
   //  3: always [...] after line
   //  4: horiz colored line below line text
   "fold_style": 1,
-  
+
   //Show tooltip when mouse hovers over [...] folded marks
   "fold_tooltip_show": false,
 
@@ -211,7 +211,7 @@
   //If no selection, "Cut to clipboard" will take entire line with caret
   "cut_line_if_no_sel": false,
 
-  //If vertical (column) selection is placed, copy it to clipboard aligned by spaces, 
+  //If vertical (column) selection is placed, copy it to clipboard aligned by spaces,
   //i.e. lines are padded by spaces to have equal length
   "copy_column_aligned_by_spaces": true,
 
@@ -226,7 +226,7 @@
   //[File/Save]
   //On saving file: delete spaces at lines ends
   "saving_trim_spaces": false,
-  
+
   //On saving file: delete redundant empty lines at file end
   "saving_trim_final_empty": false,
 
@@ -303,7 +303,7 @@
   //  3: 2-pixel lines
   //  4: dotted lines
   "staples_style": 1,
-  
+
   //Properties of block staples. String value contains ","-separated options:
   //- Shift of staple to the right (-5..5, 0: staple is near the left edge of text cell).
   //- Width (in percents) of staple's angled side (0..200).
@@ -347,7 +347,7 @@
 
   //Minimap: show tooltip, when mouse cursor moves over minimap
   "minimap_tooltip_show": false,
-  
+
   //Minimap: number of lines in "tooltip"
   "minimap_tooltip_line_count": 6,
 
@@ -369,11 +369,11 @@
   //Additional vertical lines.
   //List of column positions, space-separated, e.g. "20 40 50".
   "margin_string": "",
-  
+
   //[View/Unprinted]
   //Unprinted: Global enable-flag for unprinted_ options below
   "unprinted_show": false,
-  
+
   //Unprinted: What info to show for unprinted chars. Option is string.
   //  if "s" in value: Show whitespace
   //  if "l' in value: Whitespace only at begin/end of lines (overrides "t')
@@ -427,10 +427,10 @@
 
   //Undo: Undo is enabled even after file saving
   "undo_after_save": true,
-  
+
   //Undo: For which files Undo is saved to disk (files in .cudatext folder).
   //Value can be "": disabled, "*": enabled for all files,
-  //or ","-separated file extensions like "c,h,txt". 
+  //or ","-separated file extensions like "c,h,txt".
   "undo_persistent": "",
 
   //[Text/Caret]
@@ -480,7 +480,7 @@
 
   //Find dialog: suggest current word (at first caret) as initial search text
   "find_suggest_cur_word": true,
-  
+
   //Find dialog: check option "Search in selection", if editor has single caret with multi-line selection
   "find_suggest_in_selection": false,
 
@@ -514,11 +514,11 @@
 
   //[Ui/Tabs]
   //UI tabs: Don't create tabs (except the first one), ie use Single Document Interface
-  "ui_tab_disabled": false,  
-  
+  "ui_tab_disabled": false,
+
   //UI tabs: Use variable tabs width
   "ui_tab_variable_width": false,
-  
+
   //UI tabs: Multi-line mode, ie tabs are wrappable to several lines, when lot of tabs
   "ui_tab_multiline": false,
 
@@ -563,7 +563,7 @@
   //  3: show only for mouse-over tab
   //  4: show for active + mouse-over tabs
   "ui_tab_show_x": 1,
-  
+
   //UI tabs: Size of "x" buttons
   "ui_tab_show_x_size": 15,
 
@@ -596,7 +596,7 @@
   //[Ui/Listbox]
   //Listboxes: place dialog on screen center, instead of near top editor edge
   "ui_listbox_centered": false,
-  
+
   //Listboxes: Commands/API listbox width
   "ui_listbox_size_x": 450,
 
@@ -779,7 +779,7 @@
   //  2: half height
   "key_page_size": 1,
 
-  //Keys Up/Down: try to remember/keep caret column: if moving from long line, 
+  //Keys Up/Down: try to remember/keep caret column: if moving from long line,
   //to short line, to long line again
   "key_up_down_keeps_column": true,
 
@@ -854,7 +854,7 @@
   //Save last session on close, and restore it on start (all named+unnamed tabs).
   //This also shows "Don't save/ Keep in session" button in the "Save tabs?" dialog.
   "ui_reopen_session": true,
-  
+
   //On closing app, save current session without asking.
   //Requires option "ui_reopen_session": true.
   "ui_auto_save_session": false,
@@ -931,7 +931,7 @@
 
   //Enable special auto-completion for CSS lexer (see wiki)
   "autocomplete_css": true,
-  
+
   //Reg.ex. for lexer name, to activate special CSS auto-completion
   "autocomplete_css_lexers": "CSS",
 
@@ -1009,11 +1009,11 @@
 
   //Console panel (Ctrl+`): word wrap mode
   "ui_console_wrap": true,
-  
+
   //[Ui/Toolbars]
   //Show sidebar (vertical bar on the left side)
   "ui_sidebar_show": true,
-  
+
   //Show sidebar on the right side
   "ui_sidebar_on_right": false,
 
@@ -1026,7 +1026,7 @@
 
   //Toolbar icons theme
   //Folders from: toolbaricons
-  "ui_toolbar_theme": "default_24x24", 
+  "ui_toolbar_theme": "default_24x24",
 
   //Show main menu bar
   "ui_menu_show": true,
@@ -1062,5 +1062,5 @@
 
   //Log console contents to file settings/console.log
   "log_console": false,
-  
+
 }
