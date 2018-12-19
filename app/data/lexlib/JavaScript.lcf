@@ -113,6 +113,16 @@ object SyntAnal14: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'HTML include BG'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = 13361622
+      FormatType = ftBackGround
     end>
   TokenRules = <
     item
@@ -573,6 +583,69 @@ object SyntAnal14: TLibSyntAnalyzer
       HighlightPos = cpAny
       NoEndRule = True
       IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'HTML include simple'
+      StyleName = 'HTML include BG'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '>')
+          TokenTypes = 8
+        end
+        item
+          TokenTypes = 4
+        end
+        item
+          TagList.Strings = (
+            '<'
+            '</')
+          TokenTypes = 8
+        end>
+      NotCollapsed = True
+      DisplayInTree = False
+      RefToCondEnd = True
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      CancelNextRules = True
+      NoEndRule = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'HTML include begin'
+      StyleName = 'HTML include BG'
+      ConditionList = <
+        item
+          TokenTypes = 4
+        end
+        item
+          TokenTypes = 4
+        end
+        item
+          TagList.Strings = (
+            '<')
+          TokenTypes = 8
+        end>
+      BlockEnd = 'HTML include end'
+      NotCollapsed = True
+      DisplayInTree = False
+      RefToCondEnd = True
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'HTML include end'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '/>'
+            '>')
+          TokenTypes = 8
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <
@@ -580,7 +653,7 @@ object SyntAnal14: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal21
+      SyntAnalyzer = SyntAnal22
     end>
   SampleText.Strings = (
     '//Comment'
@@ -608,9 +681,10 @@ object SyntAnal14: TLibSyntAnalyzer
     '  addMenuItem('#39'Txt3'#39', '#39'Ctrl+Alt+;'#39');'
     '}'
     ''
-    'funcVar: function(inc, offset) {'
+    'anon_func1: function(inc, offset) {'
     '  return -1'
     '}'
+    'anon_func2 = (v, x) => { return x };'
     '    '
     'function funcWork() {'
     '  $('#39'#name'#39').html('#39#39');'
@@ -621,6 +695,17 @@ object SyntAnal14: TLibSyntAnalyzer
     '      delete ids[id];'
     '    }'
     '  }'
+    '}'
+    ''
+    'function css_in_js() {'
+    '  return ('
+    
+      '    <JssProvider jss={jss} generateClassName={generateClassName}' +
+      '>'
+    '      ...'
+    '    </JssProvider>'
+    '  );'
+    '  return <div className={this.props.classes.root} />;'
     '}')
   TokenTypeNames.Strings = (
     'Unknown'
