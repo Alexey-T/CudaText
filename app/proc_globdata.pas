@@ -1280,7 +1280,7 @@ begin
     ReopenSession:= true;
     AutoSaveSession:= false;
     ShowFormsOnTop:= false;
-    UndoPersistent:= '*';
+    UndoPersistent:= '';
 
     FloatGroupsInTaskbar:= true;
     OneInstance:= false;

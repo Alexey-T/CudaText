@@ -6,6 +6,7 @@
 
 1.68.5 (2018/12)
 
++ add: option "undo_persistent" (disabled by default), which allows to keep Undo information in files in .cudatext folder near original file
 + add: context menus for Output and Validate panels
 + add: tooltips for UI tabs buttons (x, +, <, >, v)
 + add: dialog Go To supports "+" at end of text to select to this position (like SynWrite)

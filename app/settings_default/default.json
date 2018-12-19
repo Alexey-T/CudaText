@@ -419,14 +419,19 @@
   "wrap_enabled_max_lines": 60000,
 
   //[Text/Undo]
-  //Undo: Max count of commands which can be undone
+  //Undo: Max count of simple commands which can be undone
   "undo_limit": 5000,
 
-  //Undo: Undo commands by groups (groups are separated eg by mouse clicks)
+  //Undo: Allows to revert commands by groups (groups are separated e.g. by mouse clicks)
   "undo_grouped": true,
 
-  //Undo: Enabled even after file saving
+  //Undo: Undo is enabled even after file saving
   "undo_after_save": true,
+  
+  //Undo: For which files Undo is saved to disk (files in .cudatext folder).
+  //Value can be "": disabled, "*": enabled for all files,
+  //or ","-separated file extensions like "c,h,txt". 
+  "undo_persistent": "",
 
   //[Text/Caret]
   //Allow to place caret after end-of-line (virtual caret pos)
