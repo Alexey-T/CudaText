@@ -15,7 +15,8 @@
       + show anonymous functions (...)=>{...} in code tree
       + highlight "true/false/null/this/undefined" in new color
       + highlight function names in new color
-+ add: lexer Assembly improved (highlight more word groups, fix folding)
++ add: lexer Python improved: highlight func/class names
++ add: lexer Assembly improved: highlight more word groups, fix folding
 * change: changed default value of "pylib__linux" to "libpython3.so"
 
 1.68.0 (2018/12)
