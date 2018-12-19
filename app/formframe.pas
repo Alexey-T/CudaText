@@ -1770,6 +1770,8 @@ begin
   if not TabCaptionFromApi then
     TabCaption:= ExtractFileName(FFileName);
 
+  DoSaveUndo;
+
   DoPyEvent(Editor, cEventOnSaveAfter, []);
   if Assigned(FOnSaveFile) then
     FOnSaveFile(Self);
@@ -2229,8 +2231,6 @@ begin
 
   c.SetValue(path+cHistory_CodeTreeFilter, FCodetreeFilter);
   c.SetValue(path+cHistory_CodeTreeFilters, FCodetreeFilterHistory);
-
-  DoSaveUndo;
 end;
 
 procedure TEditorFrame.DoSaveUndo;
