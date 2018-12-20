@@ -2406,25 +2406,15 @@ end;
 
 procedure TEditorFrame.DoLoadUndo;
 var
-  fn, str: string;
+  fn: string;
 begin
   if IsFilenameListedInExtensionList(FileName, UiOps.UndoPersistent) then
   begin
     fn:= GetAppUndoFilename(FileName, false);
-    if FileExistsUTF8(fn) then
-    begin
-      str:= DoReadContentFromFile(fn);
-      if str<>'' then
-        Editor.UndoAsString:= str;
-    end;
+    Editor.UndoAsString:= DoReadContentFromFile(fn);
 
     fn:= GetAppUndoFilename(FileName, true);
-    if FileExistsUTF8(fn) then
-    begin
-      str:= DoReadContentFromFile(fn);
-      if str<>'' then
-        Editor.RedoAsString:= str;
-    end;
+    Editor.RedoAsString:= DoReadContentFromFile(fn);
   end;
 end;
 

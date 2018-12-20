@@ -1382,6 +1382,8 @@ var
   L: TStringList;
 begin
   Result:= '';
+  if not FileExistsUTF8(AFilename) then exit;
+
   L:= TStringList.Create;
   try
     L.LoadFromFile(AFilename);
