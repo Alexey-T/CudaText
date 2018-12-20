@@ -2694,6 +2694,7 @@ function TATTabs.DeleteTab(AIndex: integer;
   //
 var
   CanClose, CanContinue: boolean;
+  NMax: integer;
 begin
   FMouseDown:= false;
 
@@ -2729,6 +2730,12 @@ begin
       else
         _ActivateRightTab;
     end;
+
+    //if lot of tabs were opened, and closed last tab, need to scroll all tabs righter
+    NMax:= GetMaxScrollPos;
+    if ScrollPos>NMax then
+      ScrollPos:= NMax;
+
     Invalidate;
 
     if (TabCount=0) then
