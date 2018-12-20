@@ -2233,31 +2233,35 @@ begin
   c.SetValue(path+cHistory_CodeTreeFilters, FCodetreeFilterHistory);
 end;
 
-procedure TEditorFrame.DoSaveUndo;
-  //
-  procedure _Save(const fn, s: string);
-  var
-    dir: string;
+procedure _WriteStringToFileInHiddenDir(const fn, s: string);
+var
+  dir: string;
+begin
+  if s<>'' then
   begin
-    if s<>'' then
+    dir:= ExtractFileDir(fn);
+    if not DirectoryExists(dir) then
     begin
-      dir:= ExtractFileDir(fn);
-      if not DirectoryExists(dir) then
-        CreateDir(dir);
-      DoWriteStringToFile(fn, s);
-    end
-    else
-    begin
-      if FileExistsUTF8(fn) then
-        DeleteFile(fn);
+      CreateDir(dir);
+      {$ifdef windows}
+      FileSetAttr(dir, faHidden);
+      {$endif}
     end;
+    DoWriteStringToFile(fn, s);
+  end
+  else
+  begin
+    if FileExistsUTF8(fn) then
+      DeleteFile(fn);
   end;
-  //
+end;
+
+procedure TEditorFrame.DoSaveUndo;
 begin
   if IsFilenameListedInExtensionList(FileName, UiOps.UndoPersistent) then
   begin
-    _Save(GetAppUndoFilename(FileName, false), Editor.UndoAsString);
-    _Save(GetAppUndoFilename(FileName, true), Editor.RedoAsString);
+    _WriteStringToFileInHiddenDir(GetAppUndoFilename(FileName, false), Editor.UndoAsString);
+    _WriteStringToFileInHiddenDir(GetAppUndoFilename(FileName, true), Editor.RedoAsString);
   end;
 end;
 
