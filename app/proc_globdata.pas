@@ -450,7 +450,7 @@ var
 
 function GetAppPath(id: TAppPathId): string;
 function GetAppLangFilename: string;
-function GetAppUndoFilename(const fn: string): string;
+function GetAppUndoFilename(const fn: string; IsRedo: boolean): string;
 
 function EscapeLexerFilename(const ALexName: string): string;
 function GetAppLexerFilename(const ALexName: string): string;
@@ -1725,11 +1725,13 @@ begin
   Result:= GetAppPath(cDirDataAutocomplete)+DirectorySeparator+EscapeLexerFilename(ALexName)+'.acp';
 end;
 
-function GetAppUndoFilename(const fn: string): string;
+function GetAppUndoFilename(const fn: string; IsRedo: boolean): string;
+const
+  Ext: array[boolean] of string = ('.undo', '.redo');
 begin
   Result:= ExtractFileDir(fn)+DirectorySeparator+
     '.cudatext'+DirectorySeparator+
-    ExtractFileName(fn)+'.undo';
+    ExtractFileName(fn)+Ext[IsRedo];
 end;
 
 function GetAppKeymapHotkey(const ACmdString: string): string;

@@ -2234,13 +2234,11 @@ begin
 end;
 
 procedure TEditorFrame.DoSaveUndo;
-var
-  fn, dir, s: string;
-begin
-  if IsFilenameListedInExtensionList(FileName, UiOps.UndoPersistent) then
+  //
+  procedure _Save(const fn, s: string);
+  var
+    dir: string;
   begin
-    fn:= GetAppUndoFilename(FileName);
-    s:= Editor.UndoAsString;
     if s<>'' then
     begin
       dir:= ExtractFileDir(fn);
@@ -2253,6 +2251,13 @@ begin
       if FileExistsUTF8(fn) then
         DeleteFile(fn);
     end;
+  end;
+  //
+begin
+  if IsFilenameListedInExtensionList(FileName, UiOps.UndoPersistent) then
+  begin
+    _Save(GetAppUndoFilename(FileName, false), Editor.UndoAsString);
+    _Save(GetAppUndoFilename(FileName, true), Editor.RedoAsString);
   end;
 end;
 
@@ -2405,12 +2410,20 @@ var
 begin
   if IsFilenameListedInExtensionList(FileName, UiOps.UndoPersistent) then
   begin
-    fn:= GetAppUndoFilename(FileName);
+    fn:= GetAppUndoFilename(FileName, false);
     if FileExistsUTF8(fn) then
     begin
       str:= DoReadContentFromFile(fn);
       if str<>'' then
         Editor.UndoAsString:= str;
+    end;
+
+    fn:= GetAppUndoFilename(FileName, true);
+    if FileExistsUTF8(fn) then
+    begin
+      str:= DoReadContentFromFile(fn);
+      if str<>'' then
+        Editor.RedoAsString:= str;
     end;
   end;
 end;
