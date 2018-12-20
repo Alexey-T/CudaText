@@ -3158,7 +3158,7 @@ begin
   if FOptShowPlusTab then
     R:= GetTabRect_Plus(false)
   else
-    R:= GetTabRect(TabCount-1, false);
+    R:= GetTabRect(TabCount-1, false, false);
 
   case FOptPosition of
     atpTop,
