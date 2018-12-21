@@ -1661,7 +1661,10 @@ begin
 
   DoLexerFromFilename(fn);
   if AAllowLoadHistory then
+  begin
+    DoLoadUndo;
     DoLoadHistory;
+  end;
   UpdateReadOnlyFromFile;
 
   NotifEnabled:= UiOps.NotifEnabled;
@@ -2400,8 +2403,6 @@ begin
 
   FCodetreeFilter:= c.GetValue(path+cHistory_CodeTreeFilter, '');
   c.GetValue(path+cHistory_CodeTreeFilters, FCodetreeFilterHistory, '');
-
-  DoLoadUndo;
 
   Editor.Update;
   if Splitted then
