@@ -4,22 +4,22 @@
   * changed
 
 
-1.68.5 (2018/12)
+1.69.0 (2018/12)
 
-+ add: option "undo_persistent" (disabled by default), which allows to keep Undo information in files in .cudatext folder near original file
-+ add: context menus for Output and Validate panels
++ add: option "undo_persistent" (disabled by default), which allows to keep Undo/Redo data in files, in .cudatext folder near original file
++ add: dialog Go To supports "+" at end of text to select to entered position (like SynWrite "Extend selection")
 + add: tooltips for UI tabs buttons (x, +, <, >, v)
-+ add: dialog Go To supports "+" at end of text to select to this position (like SynWrite)
++ add: context menus for Output and Validate panels
 + add: option "ui_tab_show_x" has additional enum value (mimic VSCode)
 + add: commands "focus group 1...6"
 + add: lexer JavaScript improved:
       + show anonymous functions (...)=>{...} in code tree
       + highlight true/false/null/this/undefined in new color
       + highlight func/class names in new color
-      + highlight HTML tags (needed for CSS-in-JS)
+      + highlight HTML tags (needed for CSS-in-JS syntax)
 + add: lexer Python improved: highlight func/class names
 + add: lexer Assembly improved: highlight more word groups, fix folding
-* change: changed default value of "pylib__linux" to "libpython3.so"
+* change: changed default value of option "pylib__linux" to "libpython3.so"
 
 1.68.0 (2018/12)
 
