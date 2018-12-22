@@ -110,6 +110,7 @@ begin
   end;
 end;
 
+//{$define py_always_eval}
 procedure TfmConsole.DoRunLine(Str: string);
 var
   bNoLog: boolean;
@@ -127,7 +128,14 @@ begin
     Str:= 'print('+Copy(Str, 2, MaxInt) + ')';
 
   try
+    {$ifdef PY_ALWAYS_EVAL}
+    //commented because it gives error message if user runs "import sys"
+    Str:= GetPythonEngine.EvalStringAsStr(Str);
+    if Str<>'None' then
+      DoAddLine(Str);
+    {$else}
     GetPythonEngine.ExecString(Str);
+    {$endif}
   except
   end;
 end;
