@@ -484,6 +484,7 @@ begin
     DoLocString(msgCannotFindSublexerInLibrary   , ini, 'se', 'FindSublexerInLibrary');
     DoLocString(msgCannotCreateDir               , ini, 'se', 'CreateDir');
     DoLocString(msgCannotSaveFile                , ini, 'se', 'SaveFile');
+    DoLocString(msgCannotSaveFileWithEnc         , ini, 'se', 'SaveWithEnc');
     DoLocString(msgCannotSaveUserConf            , ini, 'se', 'SaveUserConf');
     DoLocString(msgCannotReadConf                , ini, 'se', 'ReadConf');
     DoLocString(msgCannotReloadUntitledTab       , ini, 'se', 'ReloadUntitledTab');
