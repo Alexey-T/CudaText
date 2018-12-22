@@ -126,6 +126,7 @@ const
   msgCannotFindSublexerInLibrary: string = 'Cannot find linked sublexer:';
   msgCannotCreateDir: string = 'Cannot create dir:';
   msgCannotSaveFile: string = 'Cannot save file:';
+  msgCannotSaveFileWithEnc: string = 'Cannot save file because current 1-byte encoding cannot handle Unicode text';
   msgCannotSaveUserConf: string = 'Cannot save user config (read only?)';
   msgCannotReadConf: string = 'Cannot read/parse config:';
   msgCannotReloadUntitledTab: string = 'Cannot reload untitled tab';

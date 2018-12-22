@@ -1762,9 +1762,18 @@ begin
     FFileAttrRestore(FFileName, attr);
     Break;
   except
-    if MsgBox(msgCannotSaveFile+#10+FFileName,
-      MB_RETRYCANCEL or MB_ICONERROR) = IDCANCEL then
-      Exit(false);
+    on E: EConvertError do
+      begin
+        MsgBox(msgCannotSaveFileWithEnc+#10+FFileName,
+          MB_OK or MB_ICONERROR);
+        Exit(false);
+      end
+    else
+      begin
+        if MsgBox(msgCannotSaveFile+#10+FFileName,
+          MB_RETRYCANCEL or MB_ICONERROR) = IDCANCEL then
+          Exit(false);
+      end;
   end;
 
   NotifEnabled:= PrevEnabled;
