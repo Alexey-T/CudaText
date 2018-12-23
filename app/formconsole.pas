@@ -85,14 +85,14 @@ procedure TfmConsole.DoGetLineColor(const AText: UnicodeString; var AColorFont, 
 var
   fmt: TecSyntaxFormat;
 begin
-  if SBeginsWith(AText, '>>>') then
+  if SBeginsWith(AText, cPyConsolePrompt) then
   begin
     fmt:= GetAppStyleFromName('Id2');
     AColorFont:= fmt.Font.Color
   end
   else
   if (AText='Traceback (most recent call last):') or
-    SRegexMatchesString(AText, '^\w+Error: .+', true) then
+    SRegexMatchesString(AText, '^[A-Z]\w+Error: .+', true) then
   begin
     fmt:= GetAppStyleFromName('LightBG1');
     AColorFont:= fmt.Font.Color;
