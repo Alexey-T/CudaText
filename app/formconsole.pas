@@ -21,6 +21,7 @@ uses
   ATSynEdit_Adapter_Simple,
   ATStringProc,
   ec_SyntAnal,
+  proc_str,
   proc_colors,
   proc_globdata;
 
@@ -90,7 +91,8 @@ begin
     AColorFont:= fmt.Font.Color
   end
   else
-  if AText='Traceback (most recent call last):' then
+  if (AText='Traceback (most recent call last):') or
+    SRegexMatchesString(AText, '^\w+Error: .+', true) then
   begin
     fmt:= GetAppStyleFromName('LightBG1');
     AColorFont:= fmt.Font.Color;
