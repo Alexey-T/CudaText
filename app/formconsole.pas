@@ -92,6 +92,8 @@ begin
 end;
 
 procedure TfmConsole.DoUpdate;
+//DoUpdate must be called after 1+ DoAddLine calls
+//It's called after N calls in main form
 begin
   with memo do
   begin
@@ -132,7 +134,10 @@ begin
     //commented because it gives error message if user runs "import sys"
     Str:= GetPythonEngine.EvalStringAsStr(Str);
     if Str<>'None' then
+    begin
       DoAddLine(Str);
+      DoUpdate;
+    end;
     {$else}
     GetPythonEngine.ExecString(Str);
     {$endif}
