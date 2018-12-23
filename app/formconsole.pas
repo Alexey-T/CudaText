@@ -18,6 +18,7 @@ uses
   ATSynEdit,
   ATSynEdit_Edits,
   ATSynEdit_Commands,
+  ATSynEdit_Adapter_Simple,
   ATStringProc,
   proc_globdata;
 
@@ -35,8 +36,10 @@ type
     procedure MemoClickDbl(Sender: TObject; var AHandled: boolean);
   private
     { private declarations }
+    FAdapter: TATAdapterSimple;
     FOnNavigate: TAppConsoleEvent;
     procedure ComboCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
+    procedure DoGetLineColor(const AText: UnicodeString; var AColorFont, AColorBg: TColor);
     function GetWrap: boolean;
     procedure MemoCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
     procedure DoClearMemo(Sender: TObject);
@@ -74,6 +77,18 @@ implementation
 {$R *.lfm}
 
 { TfmConsole }
+
+procedure TfmConsole.DoGetLineColor(const AText: UnicodeString; var AColorFont, AColorBg: TColor);
+begin
+  if SBeginsWith(AText, '>>>') then
+    AColorFont:= clPurple
+  else
+  if AText='Traceback (most recent call last):' then
+  begin
+    AColorFont:= clWhite;
+    AColorBg:= clRed;
+  end;
+end;
 
 procedure TfmConsole.DoAddLine(const Str: string);
 begin
@@ -148,6 +163,9 @@ end;
 
 procedure TfmConsole.FormCreate(Sender: TObject);
 begin
+  FAdapter:= TATAdapterSimple.Create(Self);
+  FAdapter.OnGetLineColor:= @DoGetLineColor;
+
   ed:= TATComboEdit.Create(Self);
   ed.Parent:= Self;
   ed.Align:= alBottom;
@@ -169,6 +187,7 @@ begin
 
   memo.WantTabs:= false;
   memo.TabStop:= true;
+  memo.AdapterForHilite:= FAdapter;
 
   IsDoubleBuffered:= UiOps.DoubleBuffered;
 
