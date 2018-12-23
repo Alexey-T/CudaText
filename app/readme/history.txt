@@ -12,6 +12,7 @@
 + add: tooltips for UI tabs buttons (x, +, <, >, v)
 + add: context menus for Output and Validate panels
 + add: option "ui_tab_show_x" has additional enum value (mimic VSCode)
++ add: console panel highlights special lines (>>> and Python errors)
 + add: commands "focus group 1...6"
 + add: lexer JavaScript improved:
       + show anonymous functions (...)=>{...} in code tree
