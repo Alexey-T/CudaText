@@ -1807,6 +1807,10 @@ begin
   ElemType:= aeBackground;
   RRect:= ClientRect;
 
+  //update index here, because user can add/del tabs by keyboard
+  with ScreenToClient(Mouse.CursorPos) do
+    FTabIndexOver:= GetTabAt(X, Y, bMouseOverX);
+
   FAngleSide:= Trunc(FOptTabHeight/FAngleTangent);
 
   FRealIndentLeft:= FOptSpaceInitial;
