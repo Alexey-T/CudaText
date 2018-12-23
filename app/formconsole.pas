@@ -42,7 +42,7 @@ type
     FAdapter: TATAdapterSimple;
     FOnNavigate: TAppConsoleEvent;
     procedure ComboCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
-    procedure DoGetLineColor(const AText: UnicodeString; var AColorFont, AColorBg: TColor);
+    procedure DoGetLineColor(Ed: TATSynEdit; ALineIndex: integer; var AColorFont, AColorBg: TColor);
     function GetWrap: boolean;
     procedure MemoCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
     procedure DoClearMemo(Sender: TObject);
@@ -81,18 +81,21 @@ implementation
 
 { TfmConsole }
 
-procedure TfmConsole.DoGetLineColor(const AText: UnicodeString; var AColorFont, AColorBg: TColor);
+procedure TfmConsole.DoGetLineColor(Ed: TATSynEdit; ALineIndex: integer;
+  var AColorFont, AColorBg: TColor);
 var
+  Str: string;
   fmt: TecSyntaxFormat;
 begin
-  if SBeginsWith(AText, cPyConsolePrompt) then
+  Str:= Ed.Strings.LinesUTF8[ALineIndex];
+  if SBeginsWith(Str, cPyConsolePrompt) then
   begin
     fmt:= GetAppStyleFromName('Id2');
     AColorFont:= fmt.Font.Color
   end
   else
-  if (AText='Traceback (most recent call last):') or
-    SRegexMatchesString(AText, '^[A-Z]\w+Error: .+', true) then
+  if (Str='Traceback (most recent call last):') or
+    SRegexMatchesString(Str, '^[A-Z]\w+Error: .+', true) then
   begin
     fmt:= GetAppStyleFromName('LightBG1');
     AColorFont:= fmt.Font.Color;
