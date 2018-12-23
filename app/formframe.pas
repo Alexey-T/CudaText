@@ -1755,25 +1755,26 @@ begin
     FFileAttrPrepare(FFileName, attr);
     Editor.BeginUpdate;
     try
-      Editor.SaveToFile(FFileName);
+      try
+        Editor.SaveToFile(FFileName);
+      except
+        on E: EConvertError do
+          begin
+            NameTemp:= EncodingName;
+            EncodingName:= cEncNameUtf8_NoBom;
+            Editor.SaveToFile(FFileName);
+            MsgBox(Format(msgCannotSaveFileWithEnc, [NameTemp]), MB_OK or MB_ICONWARNING);
+          end
+      end;
     finally
       Editor.EndUpdate;
     end;
     FFileAttrRestore(FFileName, attr);
     Break;
   except
-    on E: EConvertError do
-      begin
-        MsgBox(msgCannotSaveFileWithEnc+#10+FFileName,
-          MB_OK or MB_ICONERROR);
-        Exit(false);
-      end
-    else
-      begin
-        if MsgBox(msgCannotSaveFile+#10+FFileName,
-          MB_RETRYCANCEL or MB_ICONERROR) = IDCANCEL then
-          Exit(false);
-      end;
+    if MsgBox(msgCannotSaveFile+#10+FFileName,
+      MB_RETRYCANCEL or MB_ICONERROR) = IDCANCEL then
+      Exit(false);
   end;
 
   NotifEnabled:= PrevEnabled;
