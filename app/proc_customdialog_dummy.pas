@@ -231,7 +231,7 @@ begin
   BorderStyle:= bsDialog;
   BorderIcons:= [biSystemMenu];
   KeyPreview:= true;
-  Position:= poScreenCenter;
+  Position:= poMainFormCenter;
   ShowHint:= true;
   Scaled:= false;
   ShowInTaskBar:= stNever;
