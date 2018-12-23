@@ -368,16 +368,25 @@ begin
   Result:= PtInRect(Control.ClientRect, Control.ScreenToClient(ScreenPnt));
 end;
 
+type
+  TFormHack = class(TForm);
+
 procedure DoControlLock(Ctl: TWinControl);
 begin
-  {$ifdef windows}
+  {$ifdef fpc}
+  if Application.MainForm<>nil then
+    TFormHack(Application.MainForm).BeginFormUpdate;
+  {$else}
   Ctl.Perform(WM_SetRedraw, 0, 0);
   {$endif}
 end;
 
 procedure DoControlUnlock(Ctl: TWinControl);
 begin
-  {$ifdef windows}
+  {$ifdef fpc}
+  if Application.MainForm<>nil then
+    TFormHack(Application.MainForm).EndFormUpdate;
+  {$else}
   Ctl.Perform(WM_SetRedraw, 1, 0);
   SetWindowPos(Ctl.Handle, 0, 0, 0, 0, 0,
     SWP_FRAMECHANGED or SWP_NOCOPYBITS or SWP_NOMOVE or SWP_NOZORDER or SWP_NOSIZE);
