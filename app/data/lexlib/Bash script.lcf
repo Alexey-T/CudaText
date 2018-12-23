@@ -1,4 +1,4 @@
-object SyntAnal4: TLibSyntAnalyzer
+object SyntAnal3: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -127,7 +127,7 @@ object SyntAnal4: TLibSyntAnalyzer
       DisplayName = 'Symbol single'
       StyleName = 'Symbol'
       TokenType = 4
-      Expression = '[=,;`\(\)\[\]@] | \$\( | \$\{'
+      Expression = '[=,;`\(\)\[\]\}@] | \$\( | \$\{'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -135,7 +135,7 @@ object SyntAnal4: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 4
-      Expression = '[\+\*\{\}<>~!&\|:%\^\#\?\\]+'
+      Expression = '[\+\*\{<>~!&\|:%\^\#\?\\]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -453,6 +453,7 @@ object SyntAnal4: TLibSyntAnalyzer
       NameFmt = '%sz0'
       RefToCondEnd = True
       HighlightPos = cpAny
+      CollapseFmt = '%sz0'
       IgnoreAsParent = False
     end
     item
@@ -468,6 +469,7 @@ object SyntAnal4: TLibSyntAnalyzer
       NameFmt = '%sz0'
       HighlightPos = cpAny
       DrawStaple = True
+      CollapseFmt = '%sz0'
       IgnoreAsParent = False
     end
     item
@@ -492,8 +494,10 @@ object SyntAnal4: TLibSyntAnalyzer
         end>
       BlockEnd = 'if end'
       DisplayInTree = False
+      NameFmt = '%sz0'
       HighlightPos = cpAny
       DrawStaple = True
+      CollapseFmt = '%sz0'
       IgnoreAsParent = False
     end
     item
@@ -520,6 +524,7 @@ object SyntAnal4: TLibSyntAnalyzer
       DisplayInTree = False
       NameFmt = '%sz0'
       HighlightPos = cpAny
+      CollapseFmt = '%sz0'
       IgnoreAsParent = False
     end
     item
@@ -544,8 +549,10 @@ object SyntAnal4: TLibSyntAnalyzer
         end>
       BlockEnd = 'for end'
       DisplayInTree = False
+      NameFmt = '%sz0'
       HighlightPos = cpAny
       DrawStaple = True
+      CollapseFmt = '%sz0'
       IgnoreAsParent = False
     end
     item
@@ -571,6 +578,7 @@ object SyntAnal4: TLibSyntAnalyzer
           TokenTypes = 16
         end>
       BlockEnd = 'var end'
+      NotCollapsed = True
       DisplayInTree = False
       RefToCondEnd = True
       DynHighlight = dhRange
@@ -657,7 +665,7 @@ object SyntAnal4: TLibSyntAnalyzer
   SkipSpaces = False
   Notes.Strings = (
     'Initial by: Matthias Eberhardt (SynWrite admin)'
-    'Reworked by: Alexey (SynWrite)')
+    'Reworked by: Alexey (CudaText)')
   RestartFromLineStart = True
   LineComment = '#'
   Charset = DEFAULT_CHARSET
