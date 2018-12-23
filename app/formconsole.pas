@@ -20,6 +20,8 @@ uses
   ATSynEdit_Commands,
   ATSynEdit_Adapter_Simple,
   ATStringProc,
+  ec_SyntAnal,
+  proc_colors,
   proc_globdata;
 
 type
@@ -79,14 +81,20 @@ implementation
 { TfmConsole }
 
 procedure TfmConsole.DoGetLineColor(const AText: UnicodeString; var AColorFont, AColorBg: TColor);
+var
+  fmt: TecSyntaxFormat;
 begin
   if SBeginsWith(AText, '>>>') then
-    AColorFont:= clPurple
+  begin
+    fmt:= GetAppStyleFromName('Id2');
+    AColorFont:= fmt.Font.Color
+  end
   else
   if AText='Traceback (most recent call last):' then
   begin
-    AColorFont:= clWhite;
-    AColorBg:= clRed;
+    fmt:= GetAppStyleFromName('LightBG1');
+    AColorFont:= fmt.Font.Color;
+    AColorBg:= fmt.BgColor;
   end;
 end;
 
