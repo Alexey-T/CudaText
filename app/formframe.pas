@@ -1765,6 +1765,8 @@ begin
             Editor.SaveToFile(FFileName);
             MsgBox(Format(msgCannotSaveFileWithEnc, [NameTemp]), MB_OK or MB_ICONWARNING);
           end
+        else
+          raise;
       end;
     finally
       Editor.EndUpdate;
