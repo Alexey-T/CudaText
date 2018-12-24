@@ -2342,6 +2342,7 @@ procedure TATTabs.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: intege
 var
   IsClick, IsDblClick: boolean;
 begin
+  inherited;
   IsClick:= FMouseDown and
     (Abs(X-FMouseDownPnt.X) < cTabsMouseMaxDistanceToClick) and
     (Abs(Y-FMouseDownPnt.Y) < cTabsMouseMaxDistanceToClick);
@@ -2380,6 +2381,7 @@ procedure TATTabs.MouseDown(Button: TMouseButton; Shift: TShiftState;
 var
   IsX: boolean;
 begin
+  inherited;
   FMouseDown:= Button in [mbLeft, mbMiddle]; //but not mbRight
   FMouseDownRightBtn:= (Button = mbRight);
   FMouseDownPnt:= Point(X, Y);
