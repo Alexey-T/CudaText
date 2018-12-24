@@ -368,14 +368,10 @@ begin
   Result:= PtInRect(Control.ClientRect, Control.ScreenToClient(ScreenPnt));
 end;
 
-type
-  TFormHack = class(TForm);
-
 procedure DoControlLock(Ctl: TWinControl);
 begin
   {$ifdef fpc}
-  if Application.MainForm<>nil then
-    TFormHack(Application.MainForm).BeginFormUpdate;
+  Ctl.DisableAutoSizing;
   {$else}
   Ctl.Perform(WM_SetRedraw, 0, 0);
   {$endif}
@@ -384,8 +380,7 @@ end;
 procedure DoControlUnlock(Ctl: TWinControl);
 begin
   {$ifdef fpc}
-  if Application.MainForm<>nil then
-    TFormHack(Application.MainForm).EndFormUpdate;
+  Ctl.EnableAutoSizing;
   {$else}
   Ctl.Perform(WM_SetRedraw, 1, 0);
   SetWindowPos(Ctl.Handle, 0, 0, 0, 0, 0,
