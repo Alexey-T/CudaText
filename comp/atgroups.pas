@@ -370,18 +370,18 @@ end;
 
 procedure DoControlLock(Ctl: TWinControl);
 begin
-  {$ifdef fpc}
   Ctl.DisableAutoSizing;
-  {$else}
+
+  {$ifdef windows}
   Ctl.Perform(WM_SetRedraw, 0, 0);
   {$endif}
 end;
 
 procedure DoControlUnlock(Ctl: TWinControl);
 begin
-  {$ifdef fpc}
   Ctl.EnableAutoSizing;
-  {$else}
+
+  {$ifdef windows}
   Ctl.Perform(WM_SetRedraw, 1, 0);
   SetWindowPos(Ctl.Handle, 0, 0, 0, 0, 0,
     SWP_FRAMECHANGED or SWP_NOCOPYBITS or SWP_NOMOVE or SWP_NOZORDER or SWP_NOSIZE);

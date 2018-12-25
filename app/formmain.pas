@@ -1732,6 +1732,9 @@ begin
   UpdateMenuItemHint(mnuThemesSyntax, '_themes-syntax');
   UpdateMenuItemHint(mnuOpPlugins, '_oplugins');
   UpdateMenuItemHint(mnuLang, '_langs');
+
+  //must load history (ie window position) in OnCreate to fix flickering with maximized window, Win10
+  DoOps_LoadHistory;
 end;
 
 procedure TfmMain.DoCloseAllTabs;
@@ -1932,6 +1935,7 @@ var
   i: integer;
 begin
   if FHandledOnShow then exit;
+  DoControlLock(Self);
 
   DoOps_LoadCommandLineOptions;
   DoOps_LoadOptions(GetAppPath(cFileOptionsUser), EditorOps);
@@ -1951,7 +1955,6 @@ begin
   FHandledOnShow:= true;
 
   DoOps_LoadPlugins;
-  DoOps_LoadHistory;
   FAllowLoadKeymap:= true;
   DoOps_LoadKeymap;
 
@@ -1995,6 +1998,8 @@ begin
   FAllowOnFocus:= true;
   Frame:= CurrentFrame;
   if Assigned(Frame) then Frame.SetFocus;
+
+  DoControlUnlock(Self);
 
   NTickShowEnd:= GetTickCount64;
   MsgLogConsole(Format(
