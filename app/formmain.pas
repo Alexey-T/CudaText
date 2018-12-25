@@ -1733,7 +1733,9 @@ begin
   UpdateMenuItemHint(mnuOpPlugins, '_oplugins');
   UpdateMenuItemHint(mnuLang, '_langs');
 
-  //must load history (ie window position) in OnCreate to fix flickering with maximized window, Win10
+  //must load window position in OnCreate to fix flickering with maximized window, Win10
+  DoOps_LoadCommandLineOptions;
+  DoOps_LoadOptions(GetAppPath(cFileOptionsUser), EditorOps);
   DoOps_LoadHistory;
 end;
 
@@ -1937,8 +1939,6 @@ begin
   if FHandledOnShow then exit;
   DoControlLock(Self);
 
-  DoOps_LoadCommandLineOptions;
-  DoOps_LoadOptions(GetAppPath(cFileOptionsUser), EditorOps);
   DoApplyFont_Text;
   DoApplyFont_Ui;
   DoApplyFont_Output;
