@@ -273,7 +273,7 @@ const
   _InitOptMouseMiddleClickClose = true;
   _InitOptMouseDoubleClickClose = true;
   _InitOptMouseDoubleClickPlus = false;
-  _InitOptMouseDragEnabled = {$ifdef fpc} true {$else} false {$endif};
+  _InitOptMouseDragEnabled = true;
   _InitOptMouseDragOutEnabled = true;
 
 type
@@ -503,6 +503,7 @@ type
     procedure DoTabDrop;
     procedure DoTabDropToOtherControl(ATarget: TControl; const APnt: TPoint);
     function GetTabTick(AIndex: integer): Int64;
+    function _IsDrag: boolean;
 
   public
     constructor Create(AOnwer: TComponent); override;
@@ -1007,6 +1008,7 @@ begin
   Caption:= '';
   ControlStyle:= ControlStyle+[csOpaque];
   DoubleBuffered:= IsDoubleBufferedNeeded;
+  DragMode:= dmManual; //required Manual
 
   Width:= 400;
   Height:= 35;
@@ -1736,9 +1738,9 @@ begin
     P.Y+FOptSpaceXSize);
 end;
 
-function _IsDrag: boolean;
+function TATTabs._IsDrag: boolean;
 begin
-  Result:= Mouse.IsDragging;
+  Result:= Dragging;
 end;
 
 procedure TATTabs.GetTabXProps(AIndex: integer; const ARect: TRect;
@@ -2508,6 +2510,14 @@ begin
   FTabIndexOver:= GetTabAt(X, Y, IsX);
   FTabIndexDrop:= FTabIndexOver;
 
+  // LCL dragging with DragMode=automatic is started too early.
+  // so use DragMode=manual and DragStart.
+  if OptMouseDragEnabled and FMouseDown and not _IsDrag then
+  begin
+    BeginDrag(false, Mouse.DragThreshold);
+    Exit
+  end;
+
   if ShowHint and ((FTabIndexOver=cTabIndexPlus) or (FTabIndexOver=cTabIndexPlusBtn)) then
   begin
     Hint:= FHintForPlus;
@@ -3107,11 +3117,24 @@ end;
 
 procedure TATTabs.DragOver(Source: TObject; X, Y: integer; State: TDragState;
   var Accept: Boolean);
+var
+  IsX: Boolean;  
 begin
   if Source is TATTabs then
+  begin
     Accept:=
       FOptMouseDragEnabled and
-      FOptMouseDragOutEnabled
+      FOptMouseDragOutEnabled;
+
+    // Delphi 7 don't call MouseMove during dragging
+    {$ifndef fpc}
+    if Accept then
+    begin
+      FTabIndexDrop:= GetTabAt(X, Y, IsX);
+      Invalidate;
+    end;
+    {$endif}
+  end    
   else
     inherited;
 end;
