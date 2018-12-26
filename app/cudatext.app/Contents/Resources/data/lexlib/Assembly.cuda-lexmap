@@ -3,12 +3,13 @@ styles_cmt=Comment
 styles_str=String
 
 [map]
-Default=-
 Comment=Comment
 Id=Id
-Id std=Id1
+Id operators=Id1
 Number=Number
 Label=Label
-Registers=Id2
 String=String
 Symbol=Symbol
+Id registers=Id3
+Id directives=Id2
+Id vars=IdVar

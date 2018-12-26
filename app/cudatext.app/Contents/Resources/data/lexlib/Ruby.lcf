@@ -1,4 +1,4 @@
-object SyntAnal27: TLibSyntAnalyzer
+object SyntAnal31: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -111,7 +111,7 @@ object SyntAnal27: TLibSyntAnalyzer
       DisplayName = 'String'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?s)("|'#39')(\\\1|.)*?(\1|(?<!\\)$)'
+      Expression = '(?s)("|'#39')(\\\1|.)*?(\1|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -276,6 +276,7 @@ object SyntAnal27: TLibSyntAnalyzer
             'def'
             'defined'
             'do'
+            'each'
             'else'
             'elsif'
             'end'
@@ -284,6 +285,7 @@ object SyntAnal27: TLibSyntAnalyzer
             'for'
             'if'
             'in'
+            'loop'
             'module'
             'new'
             'next'

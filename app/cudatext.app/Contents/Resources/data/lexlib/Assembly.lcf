@@ -1,14 +1,5 @@
-object SyntAnal2: TLibSyntAnalyzer
+object SyntAnal3: TLibSyntAnalyzer
   Formats = <
-    item
-      DisplayName = 'Default'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-      FormatType = ftCustomFont
-    end
     item
       DisplayName = 'Comment'
       Font.Charset = DEFAULT_CHARSET
@@ -26,9 +17,9 @@ object SyntAnal2: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Id std'
+      DisplayName = 'Id operators'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clPurple
+      Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -50,14 +41,6 @@ object SyntAnal2: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Registers'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlue
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-    end
-    item
       DisplayName = 'String'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clTeal
@@ -72,6 +55,30 @@ object SyntAnal2: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Id registers'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Id directives'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Id vars'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -95,6 +102,14 @@ object SyntAnal2: TLibSyntAnalyzer
       StyleName = 'Comment'
       TokenType = 1
       Expression = '[;|\#].*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Segment'
+      StyleName = 'Id directives'
+      TokenType = 6
+      Expression = '\bsegment\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -155,8 +170,8 @@ object SyntAnal2: TLibSyntAnalyzer
     end>
   BlockRules = <
     item
-      DisplayName = 'Registers'
-      StyleName = 'Registers'
+      DisplayName = 'Id registers'
+      StyleName = 'Id registers'
       BlockType = btTagDetect
       ConditionList = <
         item
@@ -215,8 +230,8 @@ object SyntAnal2: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'Keywords'
-      StyleName = 'Id std'
+      DisplayName = 'Id operators'
+      StyleName = 'Id operators'
       BlockType = btTagDetect
       ConditionList = <
         item
@@ -227,13 +242,8 @@ object SyntAnal2: TLibSyntAnalyzer
             'aas'
             'adc'
             'add'
-            'align'
             'and'
             'arpl'
-            'ascii'
-            'asciz'
-            'assume'
-            'bound'
             'bsf'
             'bsr'
             'bswap'
@@ -241,7 +251,6 @@ object SyntAnal2: TLibSyntAnalyzer
             'btc'
             'btr'
             'bts'
-            'byte'
             'call'
             'cbw'
             'cdq'
@@ -256,30 +265,14 @@ object SyntAnal2: TLibSyntAnalyzer
             'cmpsd'
             'cmpsw'
             'cmpxchg'
-            'comment'
             'cwd'
             'cwde'
             'daa'
             'das'
-            'db'
-            'dd'
             'dec'
             'div'
-            'dl'
-            'dq'
-            'dt'
-            'dw'
-            'dword'
-            'end'
-            'endm'
-            'endp'
-            'ends'
-            'enter'
             'eq'
             'equ'
-            'exitm'
-            'extern'
-            'extrn'
             'f2xm1'
             'fabs'
             'fadd'
@@ -369,18 +362,13 @@ object SyntAnal2: TLibSyntAnalyzer
             'fyl2x'
             'fyl2xp1'
             'ge'
-            'global'
-            'globl'
-            'group'
             'gs'
             'gt'
-            'high'
             'hlt'
             'idiv'
             'imul'
             'in'
             'inc'
-            'include'
             'insb'
             'insd'
             'insw'
@@ -423,10 +411,8 @@ object SyntAnal2: TLibSyntAnalyzer
             'jpo'
             'js'
             'jz'
-            'label'
             'lahf'
             'lar'
-            'large'
             'lds'
             'le'
             'lea'
@@ -439,7 +425,6 @@ object SyntAnal2: TLibSyntAnalyzer
             'lidt'
             'lldt'
             'lmsw'
-            'local'
             'lock'
             'lods'
             'lodsb'
@@ -455,13 +440,10 @@ object SyntAnal2: TLibSyntAnalyzer
             'loopne'
             'loopnz'
             'loopz'
-            'low'
             'lsl'
             'lss'
             'lt'
             'ltr'
-            'macro'
-            'mask'
             'mod'
             'mov'
             'movs'
@@ -471,37 +453,27 @@ object SyntAnal2: TLibSyntAnalyzer
             'movsx'
             'movzx'
             'mul'
-            'name'
-            'near'
             'neg'
             'nop'
             'not'
-            'offset'
             'or'
             'org'
             'out'
             'outsb'
             'outsd'
             'outsw'
-            'page'
             'pop'
             'popa'
             'popad'
             'popf'
             'popfd'
-            'proc'
-            'ptr'
-            'public'
-            'purge'
             'push'
             'pusha'
             'pushad'
             'pushf'
             'pushfd'
-            'qword'
             'rcl'
             'rcr'
-            'record'
             'rep'
             'repe'
             'repne'
@@ -521,15 +493,6 @@ object SyntAnal2: TLibSyntAnalyzer
             'scasb'
             'scasd'
             'scasw'
-            'section'
-            'seg'
-            'segcs'
-            'segds'
-            'seges'
-            'segfs'
-            'seggs'
-            'segment'
-            'segss'
             'set'
             'seta'
             'setae'
@@ -564,15 +527,12 @@ object SyntAnal2: TLibSyntAnalyzer
             'sgdt'
             'shl'
             'shld'
-            'short'
             'shr'
             'shrd'
             'sidt'
             'size'
             'sldt'
-            'small'
             'smsw'
-            'space'
             'st'
             'stc'
             'std'
@@ -581,17 +541,12 @@ object SyntAnal2: TLibSyntAnalyzer
             'stosb'
             'stosd'
             'stosw'
-            'str'
-            'string'
-            'struc'
             'sub'
             'subttl'
             'symtype'
+            'syscall'
             'tbyte'
             'test'
-            'this'
-            'title'
-            'type'
             'verr'
             'verw'
             'wait'
@@ -610,21 +565,105 @@ object SyntAnal2: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'seg'
+      DisplayName = 'Id special'
+      StyleName = 'Id directives'
+      BlockType = btTagDetect
       ConditionList = <
         item
           TagList.Strings = (
-            'segment')
+            'align'
+            'ascii'
+            'asciz'
+            'assume'
+            'bound'
+            'byte'
+            'comment'
+            'dword'
+            'end'
+            'endm'
+            'endp'
+            'ends'
+            'enter'
+            'exitm'
+            'extern'
+            'extrn'
+            'global'
+            'globl'
+            'group'
+            'high'
+            'include'
+            'label'
+            'large'
+            'local'
+            'low'
+            'macro'
+            'mask'
+            'name'
+            'near'
+            'offset'
+            'page'
+            'proc'
+            'ptr'
+            'public'
+            'purge'
+            'qword'
+            'record'
+            'section'
+            'seg'
+            'segcs'
+            'segds'
+            'seges'
+            'segfs'
+            'seggs'
+            'segss'
+            'short'
+            'small'
+            'space'
+            'str'
+            'string'
+            'struc'
+            'this'
+            'title'
+            'type'
+            'word')
           TokenTypes = 4
           IgnoreCase = True
-        end
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Id types'
+      StyleName = 'Id vars'
+      BlockType = btTagDetect
+      ConditionList = <
         item
+          TagList.Strings = (
+            'db'
+            'dd'
+            'dl'
+            'dq'
+            'dt'
+            'dw')
           TokenTypes = 4
+          IgnoreCase = True
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'seg'
+      ConditionList = <
+        item
+          TokenTypes = 64
         end>
       BlockEnd = 'seg end'
-      NameFmt = 'segment %s0'
+      EndOfTextClose = True
+      NameFmt = '%sz0'
       RefToCondEnd = True
       HighlightPos = cpAny
+      CollapseFmt = '%sz0'
+      SelfClose = True
       IgnoreAsParent = False
     end
     item
@@ -703,37 +742,6 @@ object SyntAnal2: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'macro%'
-      ConditionList = <
-        item
-          TokenTypes = 4
-        end
-        item
-          TagList.Strings = (
-            '%macro')
-          TokenTypes = 4
-          IgnoreCase = True
-        end>
-      BlockEnd = 'macro% end'
-      NameFmt = 'macro %s-1'
-      RefToCondEnd = True
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'macro% end'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '%endmacro')
-          TokenTypes = 4
-          IgnoreCase = True
-        end>
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
       DisplayName = 'label'
       ConditionList = <
         item
@@ -751,7 +759,7 @@ object SyntAnal2: TLibSyntAnalyzer
     '// Comment'
     '/* Comment'
     ' */'
-    'CODE SEGMENT'#9'BYTE PUBLIC '
+    'CODE SEGMENT  BYTE PUBLIC '
     '    ASSUME'#9'CS:CODE'
     '    MOV AX, AABBh+20d+1010b+'
     '    MOV'#9'BYTE PTR ES:[DI], 255'
@@ -765,7 +773,12 @@ object SyntAnal2: TLibSyntAnalyzer
     '    @@name'
     '    @AsmEnd:'
     '    MOV AX, 0'
-    '    RET'
+    '    RET      '
+    '    '
+    ''
+    '  SEGMENT readable writable ; no-named segment'
+    '    msg db '#39'Test'#39' '
+    '    ends'
     '    '
     'test1 PROC NEAR'
     '      MOV ax,10'
@@ -781,35 +794,23 @@ object SyntAnal2: TLibSyntAnalyzer
     'CODE ENDS'
     '  '
     'PUSHALL MACRO'
-    '       PUSH AX BX CX DX'
-    '       PUSH DS SI'
     '       PUSH ES DI'
     #9'ENDM'
     '    '
-    '; nasm macro taking 1 par'
-    '%MACRO DOSB 1'
-    '           mov ah, %1'
-    '           int 21h'
-    '%ENDMACRO    '
-    '  '
     'END')
   TokenTypeNames.Strings = (
     'Label'
     'Comment'
-    'Identifier'
+    'Id'
     'Symbol'
     'String'
-    'Number')
-  Extentions = 'asm s'
+    'Number'
+    'Segment')
+  Extentions = 'asm'
   LexerName = 'Assembly'
   SkipSpaces = False
   Notes.Strings = (
-    'Original from EControl,'
-    'changes by Alexey (CudaText)'
-    '+ macros/procs/segments in tree (for MASM/NASM)'
-    '+ parser "symbol"'
-    '* renamed styles'
-    '+ @@label')
+    'Original from EControl, heavily rewritten by Alexey (CudaText)')
   LineComment = ';'
   Charset = DEFAULT_CHARSET
 end

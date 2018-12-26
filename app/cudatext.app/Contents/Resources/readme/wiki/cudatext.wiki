@@ -563,13 +563,12 @@ Option buttons have hotkeys too, hover mouse over them to see hints:
 
 Dialog allows to enter text in formats:
 
-* 10: jump to given line number (to line start)
-* 10:10: jump to given line and column numbers
-* 10%: jump to percents of total line count
-* d1000: jump to absolute decimal offset
-* xFF00: jump to absolute hex offset
-
-More allowed formats can be added by plugins.
+* 10 (decimal number): jump to given line number (to line start)
+* 10:10 (two decimal numbers): jump to given line and column numbers
+* 10% (decimal with trailing "%"): jump to percents of total line count
+* d100 (decimal with leading "d"): jump to absolute decimal offset
+* xFFF (hex number with leading "x"): jump to absolute hex offset
+* value with trailing "+": extend selection to this position (CudaText 1.69+)
 
 ==Comments==
 
@@ -817,6 +816,27 @@ In the External Tools dialog, press Join button, to join 2 tools created in abov
 * Series: C - compile; C - run
 * Lexers: C,C++
 
+===Tool to run current Batch file===
+Tool properties:
+
+* Name: Run batch file
+* File name: cmd.exe
+* Shell command: unchecked
+* Parameters: /c "{FileName}"
+* Initial folder: {FileDir}
+* Lexers: Batch files
+* Capture output: Output panel
+* Encoding: the same as file's encoding: e.g. utf_8 or cp1251 (cp1251 is Russian ANSI codepage)
+
+===Tool to call WinMerge to compare 2 files===
+Tool, which calls WinMerge to compare 2 files: active files in group-1 and group-2:
+
+* Name: Compare files in G1, G2
+* File name: C:\Program Files\WinMerge2011\WinMergeU.exe
+* Shell command: unchecked
+* Parameters: "{FileName_g1}" "{FileName_g2}"
+* Initial folder: (empty)
+* Capture output: Ignore
 
 ===Tool to run Python scripts===
 
@@ -1218,6 +1238,9 @@ The following macros are allowed in snippets text:
 * ${cp} - Replaced with clipboard text.
 * ${fname} - Replaced with current file name (w/out path and extension).
 * ${date:nnnnnn} - Replaced with current date/time formatted by string nnnnnn. See [http://strftime.org/ Python doc].
+* ${cmt_start} - Replaced with current lexer's "block comment" start symbols (or empty string).
+* ${cmt_end} - Replaced with current lexer's "block comment" end symbols (or empty string).
+* ${cmt_line} - Replaced with current lexer's "line comment" symbols (or empty string).
 
 ===File names===
 

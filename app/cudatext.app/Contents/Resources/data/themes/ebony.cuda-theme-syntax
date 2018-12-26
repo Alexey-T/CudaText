@@ -298,8 +298,8 @@
   "Lex_LightBG1" : {
     "Type" : 1,
     "Styles" : "",
-    "CFont" : "#4C2727",
-    "CBack" : "#FF8080",
+    "CFont" : "#000000",
+    "CBack" : "#CA3535",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
@@ -307,22 +307,22 @@
     "Type" : 1,
     "Styles" : "",
     "CFont" : "#4B4C28",
-    "CBack" : "#FDFF87",
+    "CBack" : "#D5D84B",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
   "Lex_LightBG3" : {
     "Type" : 1,
     "Styles" : "",
-    "CFont" : "#2D4C27",
-    "CBack" : "#90F780",
+    "CFont" : "#000000",
+    "CBack" : "#008000",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
   "Lex_LightBG4" : {
     "Type" : 1,
     "Styles" : "",
-    "CFont" : "#28294C",
+    "CFont" : "#000000",
     "CBack" : "#878BFF",
     "CBorder" : "",
     "Border" : "0,0,0,0"
@@ -330,8 +330,8 @@
   "Lex_LightBG5" : {
     "Type" : 1,
     "Styles" : "",
-    "CFont" : "#4C4C4C",
-    "CBack" : "#CCCCCC",
+    "CFont" : "#000000",
+    "CBack" : "#B0B0B0",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },

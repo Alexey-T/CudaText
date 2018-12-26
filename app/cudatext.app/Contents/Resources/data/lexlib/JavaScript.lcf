@@ -1,4 +1,4 @@
-object SyntAnal15: TLibSyntAnalyzer
+object SyntAnal14: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -43,10 +43,10 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Id keyword'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clNavy
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = []
+      Font.Style = [fsBold]
     end
     item
       DisplayName = 'Id standard'
@@ -57,7 +57,7 @@ object SyntAnal15: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Id jquery'
+      DisplayName = 'Id const'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
       Font.Height = -13
@@ -105,6 +105,22 @@ object SyntAnal15: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Id func name'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'HTML tag name'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -168,6 +184,22 @@ object SyntAnal15: TLibSyntAnalyzer
       StyleName = 'String'
       TokenType = 4
       Expression = '(?s) <r><!\[CDATA\[ .+? (\]\]></r> | \Z) '
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Id func name'
+      StyleName = 'Id func name'
+      TokenType = 2
+      Expression = '(?<=\bfunction\x20+)[a-z_]\w* | (?<=\bclass\x20+)[a-z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'HTML tag name'
+      StyleName = 'HTML tag name'
+      TokenType = 2
+      Expression = '(?<=</?)\w+(?=[\x20/>])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -275,7 +307,6 @@ object SyntAnal15: TLibSyntAnalyzer
             'eval'
             'export'
             'extends'
-            'false'
             'final'
             'finally'
             'float'
@@ -294,7 +325,6 @@ object SyntAnal15: TLibSyntAnalyzer
             'long'
             'native'
             'new'
-            'null'
             'package'
             'private'
             'protected'
@@ -305,11 +335,9 @@ object SyntAnal15: TLibSyntAnalyzer
             'super'
             'switch'
             'synchronized'
-            'this'
             'throw'
             'throws'
             'transient'
-            'true'
             'try'
             'typeof'
             'var'
@@ -346,7 +374,6 @@ object SyntAnal15: TLibSyntAnalyzer
             'prototype'
             'String'
             'toString'
-            'undefined'
             'valueOf')
           TokenTypes = 4
         end>
@@ -354,291 +381,17 @@ object SyntAnal15: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'id jquery'
-      StyleName = 'Id jquery'
+      DisplayName = 'id const'
+      StyleName = 'Id const'
       BlockType = btTagDetect
       ConditionList = <
         item
           TagList.Strings = (
-            '$'
-            'add'
-            'addBack'
-            'addClass'
-            'after'
-            'ajax'
-            'ajaxComplete'
-            'ajaxError'
-            'ajaxPrefilter'
-            'ajaxSend'
-            'ajaxSetup'
-            'ajaxStart'
-            'ajaxStop'
-            'ajaxSuccess'
-            'ajaxTransport'
-            'altKey'
-            'always'
-            'andSelf'
-            'animate'
-            'animated'
-            'append'
-            'appendTo'
-            'attr'
-            'before'
-            'bind'
-            'blur'
-            'bottom'
-            'boxModel'
-            'browser'
-            'button'
-            'callbacks'
-            'cancelBubble'
-            'change'
-            'checkbox'
-            'checked'
-            'children'
-            'clearQueue'
-            'click'
-            'clone'
-            'closest'
-            'contains'
-            'contents'
-            'context'
-            'core'
-            'css'
-            'cssHooks'
-            'cssNumber'
-            'ctrlKey'
-            'currentTarget'
-            'data'
-            'dblclick'
-            'deferred'
-            'delay'
-            'delegate'
-            'delegateTarget'
-            'dequeue'
-            'detach'
-            'die'
-            'disable'
-            'disabled'
-            'done'
-            'each'
-            'empty'
-            'enabled'
-            'end'
-            'eq'
-            'error'
-            'even'
-            'event'
-            'extend'
-            'fadeIn'
-            'fadeOut'
-            'fadeTo'
-            'fadeToggle'
-            'fail'
-            'file'
-            'filter'
-            'find'
-            'finish'
-            'fire'
-            'fired'
-            'fireWith'
-            'first'
-            'first-child'
-            'first-of-type'
-            'fn'
-            'focus'
-            'focusin'
-            'focusout'
-            'fx'
-            'get'
-            'getJSON'
-            'getScript'
-            'globalEval'
-            'grep'
-            'gt'
-            'has'
-            'hasClass'
-            'hasData'
-            'header'
-            'height'
-            'hidden'
-            'hide'
-            'holdReady'
-            'hover'
-            'html'
-            'image'
-            'inArray'
-            'index'
-            'init'
-            'innerHeight'
-            'innerWidth'
-            'input'
-            'insertAfter'
-            'insertBefore'
-            'interval'
-            'is'
-            'isArray'
-            'isDefaultPrevented'
-            'isEmptyObject'
-            'isFunction'
-            'isImmediatePropagationStopped'
-            'isNumeric'
-            'isPlainObject'
-            'isPropagationStopped'
-            'isRejected'
-            'isResolved'
-            'isWindow'
-            'isXMLDoc'
-            'jquery'
-            'keyCode'
-            'keydown'
-            'keypress'
-            'keyup'
-            'lang'
-            'last'
-            'last-child'
-            'last-of-type'
-            'length'
-            'live'
-            'load'
-            'lock'
-            'locked'
-            'lt'
-            'makeArray'
-            'map'
-            'merge'
-            'metaKey'
-            'mousedown'
-            'mouseenter'
-            'mouseleave'
-            'mousemove'
-            'mouseout'
-            'mouseover'
-            'mouseup'
-            'namespace'
-            'next'
-            'nextAll'
-            'nextUntil'
-            'noConflict'
-            'noop'
-            'not'
-            'notify'
-            'notifyWith'
-            'now'
-            'nth-child'
-            'nth-child-last'
-            'nth-first-of-type'
-            'nth-last-child'
-            'nth-last-of-type'
-            'nth-of-type'
-            'obj'
-            'odd'
-            'off'
-            'offset'
-            'offsetParent'
-            'on'
-            'one'
-            'only-child'
-            'only-of-type'
-            'outerHeight'
-            'outerWidth'
-            'pageX'
-            'pageY'
-            'param'
-            'parent'
-            'parents'
-            'parentsUntil'
-            'parseHTML'
-            'parseInt'
-            'parseJSON'
-            'parseXML'
-            'password'
-            'pipe'
-            'position'
-            'post'
-            'prepend'
-            'prependTo'
-            'prev'
-            'prevAll'
-            'preventDefault'
-            'prevUntil'
-            'progress'
-            'promise'
-            'prop'
-            'proxy'
-            'pushStack'
-            'queue'
-            'radio'
-            'ready'
-            'reject'
-            'rejectWith'
-            'relatedTarget'
-            'remove'
-            'removeAttr'
-            'removeClass'
-            'removeData'
-            'removeProp'
-            'replaceAll'
-            'replaceWith'
-            'reset'
-            'resize'
-            'resolve'
-            'resolved'
-            'resolveWith'
-            'result'
-            'root'
-            'scroll'
-            'scrollLeft'
-            'scrollTop'
-            'select'
-            'selected'
-            'selector'
-            'self'
-            'serialize'
-            'serializeArray'
-            'set'
-            'setTimeout'
-            'shiftKey'
-            'show'
-            'siblings'
-            'size'
-            'slice'
-            'slideDown'
-            'slideToggle'
-            'slideUp'
-            'state'
-            'stop'
-            'stopImmediatePropagation'
-            'stopPropagation'
-            'sub'
-            'submit'
-            'support'
-            'target'
-            'text'
-            'then'
-            'timeStamp'
-            'toArray'
-            'toggle'
-            'toggleClass'
-            'top'
-            'trigger'
-            'triggerHandler'
-            'trim'
-            'type'
-            'unbind'
-            'undelegate'
-            'unique'
-            'unload'
-            'unwrap'
-            'val'
-            'visible'
-            'when'
-            'which'
-            'width'
-            'window'
-            'wrap'
-            'wrapAll'
-            'wrapInner')
+            'false'
+            'null'
+            'this'
+            'true'
+            'undefined')
           TokenTypes = 4
         end>
       HighlightPos = cpAny
@@ -676,6 +429,41 @@ object SyntAnal15: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = 'function anonym =>'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 256
+        end
+        item
+          TagList.Strings = (
+            '=>')
+          TokenTypes = 8
+        end
+        item
+          TagList.Strings = (
+            ')')
+          TokenTypes = 128
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 62
+        end
+        item
+          TagList.Strings = (
+            '(')
+          TokenTypes = 128
+        end>
+      BlockEnd = '}'
+      NameFmt = 'func <anon>'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      CollapseFmt = 'func <anon>'
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = 'function anonym'
       ConditionList = <
         item
@@ -707,11 +495,11 @@ object SyntAnal15: TLibSyntAnalyzer
           TokenTypes = 4
         end>
       BlockEnd = '}'
-      NameFmt = 'func anonym'
+      NameFmt = 'func <anon>'
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
-      CollapseFmt = 'func anonym'
+      CollapseFmt = 'func <anon>'
       IgnoreAsParent = False
     end
     item
@@ -821,7 +609,7 @@ object SyntAnal15: TLibSyntAnalyzer
     '<?php echo '#39'test'#39' ?>'
     'var test = NaN + Object + $ + offset;'
     'var s_regex = /^<\/?\w.*?>/gi;'
-    '    s_not_regex = 1 / 2 + (0xFF+10) / 3;'
+    '    s_not_regex = 1 / 2 + (0xFF+10) / 3 + false-true;'
     '    s_ticks = `some str`;'
     '    s_mulline = " \'
     '      <div class='#39'"+some+"'#39'> \'
@@ -836,16 +624,11 @@ object SyntAnal15: TLibSyntAnalyzer
     '  addMenuItem('#39'Txt3'#39', '#39'Ctrl+Alt+;'#39');'
     '}'
     ''
-    'funcVar: function(inc, offset) {'
+    'anon_func1: function(inc, offset) {'
     '  return -1'
     '}'
+    'anon_func2 = (v, x) => { return x };'
     '    '
-    'function funcEn(A, count)'
-    '{'
-    '  for(i=0; i<count; i++)'
-    '    A(i).Enabled = !A(i).Enabled;'
-    '}'
-    ''
     'function funcWork() {'
     '  $('#39'#name'#39').html('#39#39');'
     '  for (id in ids) {'
@@ -855,6 +638,17 @@ object SyntAnal15: TLibSyntAnalyzer
     '      delete ids[id];'
     '    }'
     '  }'
+    '}'
+    ''
+    'function css_in_js() {'
+    '  return ('
+    
+      '    <JssProvider jss={jss} generateClassName={generateClassName}' +
+      '>'
+    '      ...'
+    '    </JssProvider>'
+    '  );'
+    '  return <div className={this.props.classes.root} />;'
     '}')
   TokenTypeNames.Strings = (
     'Unknown'
@@ -869,14 +663,8 @@ object SyntAnal15: TLibSyntAnalyzer
   Extentions = 'js'
   LexerName = 'JavaScript'
   Notes.Strings = (
-    'Reworked by Alexey (Synwrite)'
-    '-tree: func params shown'
-    '-strings oneline '#39'...'#39
-    '-strings multiline "..."'
-    '-strings regex /.../gi'
-    '-strings heredoc'
-    '-doc comments'
-    ''
+    'Original from EControl'
+    'Heavily reworked by Alexey (CudaText)'
     'Keywords: http://www.w3schools.com/js/js_reserved.asp')
   LineComment = '//'
   Charset = DEFAULT_CHARSET
