@@ -7,6 +7,25 @@ Copyright (c) Alexey Torgashin
 *)
 {$ifdef nn}begin end;{$endif}
 
+procedure TfmMain.DoOps_SaveOptionBool(const APath: string; AValue: boolean);
+var
+  c: TJSONConfig;
+begin
+  c:= TJSONConfig.Create(nil);
+  try
+    try
+      c.Formatted:= true; //needs last at__jsonconf.pp
+      c.Filename:= GetAppPath(cFileOptionsUser);
+    except
+      exit;
+    end;
+
+    c.SetValue(APath, AValue);
+  finally
+    c.Free;
+  end;
+end;
+
 procedure TfmMain.DoOps_SaveHistory;
 var
   c: TJSONConfig;

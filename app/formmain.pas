@@ -837,6 +837,7 @@ type
     procedure DoOps_LoadLexerLib;
     procedure DoOps_SaveHistory;
     procedure DoOps_SaveHistory_GroupView(c: TJsonConfig);
+    procedure DoOps_SaveOptionBool(const APath: string; AValue: boolean);
     procedure DoOps_LoadHistory;
     procedure DoOps_LoadHistory_GroupView(c: TJsonConfig);
     procedure DoOps_LoadHistory_AfterOnStart;
@@ -3772,16 +3773,19 @@ end;
 procedure TfmMain.DoToggleSidebar;
 begin
   ShowSideBar:= not ShowSideBar;
+  DoOps_SaveOptionBool('/ui_sidebar_show', ShowSideBar);
 end;
 
 procedure TfmMain.DoToggleToolbar;
 begin
   ShowToolbar:= not ShowToolbar;
+  DoOps_SaveOptionBool('/ui_toolbar_show', ShowToolbar);
 end;
 
 procedure TfmMain.DoToggleStatusbar;
 begin
   ShowStatus:= not ShowStatus;
+  DoOps_SaveOptionBool('/ui_statusbar_show', ShowStatus);
 end;
 
 procedure TfmMain.DoCudaLibAction(const AMethod: string);
