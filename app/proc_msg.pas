@@ -49,7 +49,7 @@ const
   msgNoLexer: string = '(none)';
   msgThemeDefault: string = '(default)';
   msgThemeName: string = 'Theme name:';
-  msgGotoDialogTooltip: string = '(10, 10:10, 10%, d100, xFFF, %s)';
+  msgGotoDialogTooltip: string = '(10, 10:10, 10%%, d100, xFFF, %s)';
   msgGotoDialogInfoExt: string = 'with "+": select';
 
   msgPanelMenu_Init = 'Menu';
