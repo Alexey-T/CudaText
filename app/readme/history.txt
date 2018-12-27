@@ -15,6 +15,7 @@
 + add: console panel highlights special lines (>>> and Python errors)
 + add: commands "focus group 1...6"
 * change: changed default value of option "pylib__linux" to "libpython3.so"
+- fix: menu items "Toggle statusbar"/"Toggle sidebar"/"Toggle toolbar" didn't save option to config
 - fix: Windows: flickering on start if window is miximized
 
 + add: lexer JavaScript improved:
