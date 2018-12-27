@@ -669,16 +669,10 @@ begin
   Add(80);
 end;
 
-type
-  TControlHack = class(TSplitter);
-
 procedure SetSplitterPopup(ASplitter: TMySplitter; APopup: TPopupMenu);
 begin
-  {$ifdef SP}
+  //some Delphi version dont publish TSplitter.PopupMenu
   ASplitter.PopupMenu:= APopup;
-  {$else}
-  TControlHack(ASplitter).PopupMenu:= APopup;
-  {$endif}
 end;
 
 procedure TATGroups.MoveTabsFromGroupToAnother(APagesFrom, APagesTo: TATPages);
