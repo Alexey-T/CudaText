@@ -3630,6 +3630,7 @@ begin
   F.DoFileReload;
   F.Lexer:= AppManager.FindLexerByName(PrevLexer);
   F.ReadOnly:= PrevRO;
+  F.Modified:= false;
 
   UpdateStatus;
   MsgStatus(msgStatusReopened+' '+ExtractFileName(F.Filename));
