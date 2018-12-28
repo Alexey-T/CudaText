@@ -388,6 +388,7 @@ type
     FTabIndexOver: integer;
     FTabIndexDrop: integer;
     FTabIndexHinted: integer;
+    FTabIndexHintedPrev: integer;
     FTabIndexAnimated: integer;
     FTabList: TCollection;
     FTabMenu: TATTabPopupMenu;
@@ -2518,101 +2519,53 @@ begin
     Exit
   end;
 
-  if ShowHint and ((FTabIndexOver=cTabIndexPlus) or (FTabIndexOver=cTabIndexPlusBtn)) then
+  if ShowHint then
   begin
-    Hint:= FHintForPlus;
-    FTabIndexHinted:= -1;
-    Application.ActivateHint(Mouse.CursorPos);
-  end
-  else
-  if ShowHint and (FTabIndexOver=cTabIndexArrowScrollLeft) then
-  begin
-    Hint:= FHintForArrowLeft;
-    FTabIndexHinted:= -1;
-    Application.ActivateHint(Mouse.CursorPos);
-  end
-  else
-  if ShowHint and (FTabIndexOver=cTabIndexArrowScrollRight) then
-  begin
-    Hint:= FHintForArrowRight;
-    FTabIndexHinted:= -1;
-    Application.ActivateHint(Mouse.CursorPos);
-  end
-  else
-  if ShowHint and (FTabIndexOver=cTabIndexArrowMenu) then
-  begin
-    Hint:= FHintForArrowMenu;
-    FTabIndexHinted:= -1;
-    Application.ActivateHint(Mouse.CursorPos);
-  end
-  else
-  if ShowHint and (IsX or (FTabIndexOver=cTabIndexCloseBtn)) then
-  begin
-    Hint:= FHintForX;
-    FTabIndexHinted:= -1;
-    Application.ActivateHint(Mouse.CursorPos);
-  end
-  else
-  if ShowHint and (FTabIndexOver=cTabIndexUser0) then
-  begin
-    Hint:= FHintForUser0;
-    FTabIndexHinted:= -1;
-    Application.ActivateHint(Mouse.CursorPos);
-  end
-  else
-  if ShowHint and (FTabIndexOver=cTabIndexUser1) then
-  begin
-    Hint:= FHintForUser1;
-    FTabIndexHinted:= -1;
-    Application.ActivateHint(Mouse.CursorPos);
-  end
-  else
-  if ShowHint and (FTabIndexOver=cTabIndexUser2) then
-  begin
-    Hint:= FHintForUser2;
-    FTabIndexHinted:= -1;
-    Application.ActivateHint(Mouse.CursorPos);
-  end
-  else
-  if ShowHint and (FTabIndexOver=cTabIndexUser3) then
-  begin
-    Hint:= FHintForUser3;
-    FTabIndexHinted:= -1;
-    Application.ActivateHint(Mouse.CursorPos);
-  end
-  else
-  if ShowHint and (FTabIndexOver=cTabIndexUser4) then
-  begin
-    Hint:= FHintForUser4;
-    FTabIndexHinted:= -1;
-    Application.ActivateHint(Mouse.CursorPos);
-  end
-  else
-  if ShowHint and (FTabIndexOver>=0) then
-  begin
-    Data:= GetTabData(FTabIndexOver);
-    if Assigned(Data) and (Data.TabHint<>'') then
-    begin
-      Hint:= Data.TabHint;
-      if FTabIndexOver<>FTabIndexHinted then
-      begin
-        FTabIndexHinted:= FTabIndexOver;
-        Application.ActivateHint(Mouse.CursorPos);
-      end;
-    end
+    if IsX then
+      FTabIndexHinted:= cTabIndexCloseBtn
     else
+      FTabIndexHinted:= FTabIndexOver;
+
+    if FTabIndexHinted<>FTabIndexHintedPrev then
     begin
-      FTabIndexHinted:= -1;
+      FTabIndexHintedPrev:= FTabIndexHinted;
       Hint:= '';
-      Application.HideHint;
+      case FTabIndexHinted of
+        cTabIndexPlus,
+        cTabIndexPlusBtn:
+          Hint:= FHintForPlus;
+        cTabIndexArrowScrollLeft:
+          Hint:= FHintForArrowLeft;
+        cTabIndexArrowScrollRight:
+          Hint:= FHintForArrowRight;
+        cTabIndexArrowMenu:
+          Hint:= FHintForArrowMenu;
+        cTabIndexCloseBtn:
+          Hint:= FHintForX;
+        cTabIndexUser0:
+          Hint:= FHintForUser0;
+        cTabIndexUser1:
+          Hint:= FHintForUser1;
+        cTabIndexUser2:
+          Hint:= FHintForUser2;
+        cTabIndexUser3:
+          Hint:= FHintForUser3;
+        cTabIndexUser4:
+          Hint:= FHintForUser4;
+        0..10000:
+          begin
+            Data:= GetTabData(FTabIndexOver);
+            if Assigned(Data) and (Data.TabHint<>'') then
+              Hint:= Data.TabHint;
+          end;
+      end; //case
+
+      if Hint<>'' then
+        Application.ActivateHint(Mouse.CursorPos)
+      else
+        Application.HideHint;
     end;
-  end
-  else
-  begin
-    FTabIndexHinted:= -1;
-    Hint:= '';
-    Application.HideHint;
-  end;
+  end; //if ShowHint
 
   if Assigned(Data) then
     if Assigned(FOnTabOver) then
