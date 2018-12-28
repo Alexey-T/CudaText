@@ -2060,7 +2060,9 @@ initialization
 
   AppShortcutEscape:= ShortCut(VK_ESCAPE, []);
   AppShortcutShiftTab:= ShortCut(VK_TAB, [ssShift]);
+
   Mouse.DragImmediate:= false;
+  Mouse.DragThreshold:= 12;
 
   AppConfig_Detect_Keys:= TStringList.Create;
   AppConfig_Detect_Values:= TStringList.Create;
