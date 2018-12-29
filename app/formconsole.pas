@@ -140,8 +140,11 @@ begin
   end;
 end;
 
-//{$define py_always_eval}
+{$define py_always_eval}
 procedure TfmConsole.DoRunLine(Str: string);
+const
+  cPyNotExpression =
+    '(.*(assert|return|del|import|pass|raise|yield|def|for|with|while|if|print)\b.*)|(.*[^=><][=][^=><].*)';
 var
   bNoLog: boolean;
 begin
@@ -154,19 +157,19 @@ begin
   DoAddLine(cPyConsolePrompt+Str);
   DoUpdate;
 
-  if SBeginsWith(Str, cPyCharPrint) then
-    Str:= 'print('+Copy(Str, 2, MaxInt) + ')';
-
   try
     {$ifdef PY_ALWAYS_EVAL}
-    //commented because it gives error message if user runs "import sys"
-    Str:= GetPythonEngine.EvalStringAsStr(Str);
-    if Str<>'None' then
-    begin
-      DoAddLine(Str);
-      DoUpdate;
-    end;
+    if SBeginsWith(Str, cPyCharPrint) then
+      GetPythonEngine.ExecString('print('+Copy(Str, 2, MaxInt) + ')')
+    else
+    if SRegexMatchesString(Str, cPyNotExpression, false) then
+      GetPythonEngine.ExecString(Str)
+    else
+      GetPythonEngine.Run_CommandAsString('print('+Str+')', file_input);
+
     {$else}
+    if SBeginsWith(Str, cPyCharPrint) then
+      Str:= 'print('+Copy(Str, 2, MaxInt) + ')';
     GetPythonEngine.ExecString(Str);
     {$endif}
   except
