@@ -50,7 +50,7 @@ procedure SLoadStringsFromFile(cfg: TJsonConfig; const path: string; List: TStri
 procedure SSaveStringsToFile(cfg: TJsonConfig; const path: string; List: TStrings; MaxItems: integer);
 function SMaskFilenameSlashes(const fn: string): string;
 procedure SParseFilenameWithTwoNumbers(var fn: string; out NLine, NColumn: integer);
-function IsPythonExpression(Str: string): boolean;
+function IsPythonExpression(const S: string): boolean;
 
 
 implementation
@@ -376,12 +376,12 @@ begin
     end;
 end;
 
-function IsPythonExpression(Str: string): boolean;
+function IsPythonExpression(const S: string): boolean;
 const
   cTest =
     '(.*(assert|return|del|import|pass|raise|yield|def|for|with|while|if|print)\b.*)|(.*[^=><][=][^=><].*)';
 begin
-  Result:= not SRegexMatchesString(SDeletePythonStrings(Str), cTest, false);
+  Result:= not SRegexMatchesString(SDeletePythonStrings(S), cTest, false);
 end;
 
 
