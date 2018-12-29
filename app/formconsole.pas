@@ -140,14 +140,6 @@ begin
   end;
 end;
 
-function _IsPythonExpression(Str: string): boolean;
-const
-  cTest =
-    '(.*(assert|return|del|import|pass|raise|yield|def|for|with|while|if|print)\b.*)|(.*[^=><][=][^=><].*)';
-begin
-  Result:= not SRegexMatchesString(Str, cTest, false);
-end;
-
 {$define py_always_eval}
 procedure TfmConsole.DoRunLine(Str: string);
 var
@@ -167,7 +159,7 @@ begin
     if SBeginsWith(Str, cPyCharPrint) then
       GetPythonEngine.ExecString('print('+Copy(Str, 2, MaxInt) + ')')
     else
-    if not _IsPythonExpression(Str) then
+    if not IsPythonExpression(Str) then
       GetPythonEngine.ExecString(Str)
     else
       GetPythonEngine.Run_CommandAsString('print('+Str+')', file_input);
