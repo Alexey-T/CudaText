@@ -2031,6 +2031,7 @@ const
   cTagSpellChecker = 105; //see plugin SpellChecker
 var
   NScale: double;
+  NPixelOffset: integer;
 //
   function GetItemRect(NLine1, NLine2: integer; ALeft: boolean): TRect;
   begin
@@ -2046,6 +2047,8 @@ var
     end;
     Result.Top:= ARect.Top+Trunc(NLine1*NScale);
     Result.Bottom:= Max(Result.Top+2, ARect.Top+Trunc((NLine2+1)*NScale));
+    //Inc(Result.Top, NPixelOffset);
+    //Inc(Result.Bottom, NPixelOffset);
   end;
 //
 var
@@ -2062,6 +2065,7 @@ begin
   Ed:= Sender as TATSynEdit;
   if Ed.Strings.Count=0 then exit;
   NScale:= (ARect.Bottom-ARect.Top) / Ed.Strings.Count;
+  NPixelOffset:= Ed.ScrollVert.NPixelOffset;
 
   C.Brush.Color:= GetAppColor('EdMicromapBg');
   C.FillRect(ARect);
