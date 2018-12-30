@@ -828,15 +828,35 @@ Tool properties:
 * Capture output: Output panel
 * Encoding: the same as file's encoding: e.g. utf_8 or cp1251 (cp1251 is Russian ANSI codepage)
 
-===Tool to call WinMerge to compare 2 files===
-Tool, which calls WinMerge to compare 2 files: active files in group-1 and group-2:
+===Tool to call file-compare utility ===
+Tools, which call file-compare utility, to compare 2 files: active files in group-1 and group-2.
+
+====WinMerge, KDiff, Kompare====
 
 * Name: Compare files in G1, G2
-* File name: C:\Program Files\WinMerge2011\WinMergeU.exe
+* File name: (full name of executable file)
 * Shell command: unchecked
 * Parameters: "{FileName_g1}" "{FileName_g2}"
 * Initial folder: (empty)
 * Capture output: Ignore
+
+====Meld====
+
+* Name: Compare files in G1, G2
+* File name: (full name of executable file)
+* Shell command: unchecked
+* Parameters: --newtab "{FileName_g1}" "{FileName_g2}"
+* Initial folder: (empty)
+* Capture output: Ignore
+
+====diff====
+
+* Name: Compare files in G1, G2
+* File name: diff
+* Shell command: unchecked
+* Parameters: -Nau "{FileName_g1}" "{FileName_g2}"
+* Initial folder: (empty)
+* Capture output: Copy to new document
 
 ===Tool to run Python scripts===
 
@@ -858,7 +878,7 @@ This is URL, not tool. In the External Tools dialog, press URL button, then pres
 
 * Name: Google find
 * URL:
-<syntaxhighlight lang="ini">
+<syntaxhighlight lang="text">
 http://google.com/search?q={SelectedText|q}
 </syntaxhighlight>
 
