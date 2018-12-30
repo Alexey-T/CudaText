@@ -799,6 +799,7 @@ begin
     Op.OpSavingTrimFinalEmptyLines:= c.GetValue('saving_trim_final_empty', Op.OpSavingTrimFinalEmptyLines);
     Op.OpSavingForceFinalEol:= c.GetValue('saving_force_final_eol', Op.OpSavingForceFinalEol);
     Op.OpShowHintOnVertScroll:= c.GetValue('show_hint_on_vert_scroll', Op.OpShowHintOnVertScroll);
+    Op.OpSmoothScroll:= c.GetValue('smooth_scroll', Op.OpSmoothScroll);
     Op.OpCenteringWidth:= c.GetValue('centering_width', Op.OpCenteringWidth);
     Op.OpCenteringForDistractionFree:= c.GetValue('centering_for_distraction_free', Op.OpCenteringForDistractionFree);
     Op.OpHideHorizScrollbar:= c.GetValue('hide_horiz_scrollbar', Op.OpHideHorizScrollbar);

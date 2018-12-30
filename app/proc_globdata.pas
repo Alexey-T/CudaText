@@ -398,6 +398,7 @@ type
     OpSavingTrimFinalEmptyLines: boolean;
     OpSavingForceFinalEol: boolean;
     OpShowHintOnVertScroll: boolean;
+    OpSmoothScroll: boolean;
     OpCenteringWidth: integer;
     OpCenteringForDistractionFree: integer;
     OpHideHorizScrollbar: boolean;
@@ -1082,6 +1083,7 @@ begin
     OpSavingTrimFinalEmptyLines:= false;
     OpSavingForceFinalEol:= false;
     OpShowHintOnVertScroll:= false;
+    OpSmoothScroll:= true;
     OpCenteringWidth:= 0;
     OpCenteringForDistractionFree:= 100;
     OpHideHorizScrollbar:= false;

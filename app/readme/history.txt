@@ -6,6 +6,7 @@
 
 1.70.0 (2019/01)
 
++ add: smooth (per-pixel) scrolling like in modern editors. It is option "smooth_scroll".
 + add: option "undo_persistent" (disabled by default), which allows to keep Undo/Redo data in files, in .cudatext folder near original file
 + add: dialog Go To supports "+" at end of text to select to entered position (like SynWrite "Extend selection")
 + add: on saving file in 1-byte encoding, app checks that Unicode text can be converted to this encoding, and if it cannot, app saves file in UTF-8

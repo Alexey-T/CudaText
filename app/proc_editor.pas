@@ -200,6 +200,7 @@ begin
   Ed.OptSavingTrimFinalEmptyLines:= Op.OpSavingTrimFinalEmptyLines;
   Ed.OptSavingForceFinalEol:= Op.OpSavingForceFinalEol;
   Ed.OptShowScrollHint:= Op.OpShowHintOnVertScroll;
+  Ed.OptScrollSmooth:= Op.OpSmoothScroll;
   Ed.OptScrollbarHorizontalHidden:= Op.OpHideHorizScrollbar;
   Ed.OptTextCenteringCharWidth:= IfThen(AApplyCentering, Op.OpCenteringWidth, 0);
   Ed.OptWordChars:= Op.OpWordChars;

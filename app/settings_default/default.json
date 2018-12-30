@@ -147,6 +147,9 @@
 
   //Show additional vertical lines at all caret(s) position(s)
   "show_cur_column": false,
+  
+  //Use smooth (per-pixel) scrolling. Note, it increases CPU load.
+  "smooth_scroll": true,
 
   //Allow last line to scroll to the top of window
   "show_last_line_on_top": true,
