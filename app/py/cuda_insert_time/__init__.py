@@ -67,7 +67,7 @@ class Command:
 
         fmt = get_default_format()
         if not fmt:
-            msg_box('No default time format is specified. To specify it, open config file, and prefix some format with @ char.',
+            msg_box('No default time format is specified. To specify it, open config file (menu Options / Settings-plugins / Insert Time), and prefix some format with @ char.',
               MB_OK or MB_ICONINFO)
             return
 
