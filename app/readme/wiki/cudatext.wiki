@@ -366,15 +366,15 @@ Encoding names for command-line:
 
 ==Line ends==
 
-Main types of line-ends are supported:
+All major types of line-ends are supported:
 
-* CR LF (Windows)
-* LF (Unix)
-* CR (Mac OS 9)
+* CR LF (usual for Windows)
+* LF (usual for Unix)
+* CR (usual for Mac OS 9, now almost not used)
 
-To change line-ends for current file, click statusbar item. You need to save file then. Changed line-ends can be undone via "Undo".
+Mixed line-ends (CR with LF with CR LF) in one file are supported. Because of this feature, CudaText saves binary files to disk without corrupting them. To see mixed line-ends, use application option "unprinted_content", which can show text marks ("lf" etc) at line-ends.
 
-Mixed line-ends (LF with CR LF) in one file are supported. To see mixed line-ends, use app option "unprinted_content".
+To change line-ends for all lines in the current document, click statusbar cell for line-ends, menu will appear. You need to save file then. Changed line-ends can be undone via "Undo".
 
 ==Groups of tabs==
 
@@ -1266,11 +1266,10 @@ The following macros are allowed in snippets text:
 
 Snippets are stored in separate files with extensions:
 
-* .cuda-snippet
-* .synw-snippet (same format as .cuda-snippet)
-* .cuda-snips (compact format)
+* .cuda-snippet or .synw-snippet: main format.
+* .cuda-snips: compact format for collections of tiny snippets.
 
-Encoding is UTF-8, no BOM. Files can be placed in any subdir of "data/snippets" dir, file names and dir names have no meaning, but it's good to name subdirs like AuthorName.SyntaxName, so users can easily find newly installed snippets.
+Encoding is UTF-8, no BOM. Files can be placed in any subfolder of "data/snippets" folder, file/folder names have no meaning, but it's recommented to name subfolders like AuthorName.SyntaxName, so users can easily find newly installed snippets.
 
 ===Format of .cuda-snippet===
 
