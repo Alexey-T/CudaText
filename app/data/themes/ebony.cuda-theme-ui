@@ -47,7 +47,7 @@
   "EdFoldPlusLine" : "#707070",
   "EdFoldPlusBg" : "#202020",
   "EdMarginFixed" : "#505050",
-  "EdMarginCaret" : "#000000",
+  "EdMarginCaret" : "#505050",
   "EdMarginUser" : "#FFFF70",
   "EdBookmarkBg" : "#606060",
   "EdBookmarkIcon" : "#6F6F6F",
