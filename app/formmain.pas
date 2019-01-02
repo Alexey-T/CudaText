@@ -1736,7 +1736,9 @@ begin
 
   //must load window position in OnCreate to fix flickering with maximized window, Win10
   DoOps_LoadCommandLineOptions;
-  DoOps_LoadOptions(GetAppPath(cFileOptionsUser), EditorOps);
+  DoOps_LoadOptions(GetAppPath(cFileOptionsUser), EditorOps); //before LoadHistory
+  DoOps_LoadLexerLib; //before LoadHistory
+  DoFileOpen(''); //before LoadHistory
   DoOps_LoadHistory;
 end;
 
@@ -1951,8 +1953,6 @@ begin
   DoOps_LoadTreeIcons;
   DoOps_LoadToolBarIcons;
 
-  DoOps_LoadLexerLib;
-  DoFileOpen('');
   FHandledOnShow:= true;
 
   DoOps_LoadPlugins;
