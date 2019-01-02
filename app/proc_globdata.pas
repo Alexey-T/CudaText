@@ -915,6 +915,23 @@ begin
   end;
 end;
 
+//from https://github.com/graemeg/freepascal/blob/master/rtl/unix/sysutils.pp
+function _GetHomeDir: String;
+begin
+  Result:=GetEnvironmentVariable('HOME');
+  If (Result<>'') then
+    Result:=IncludeTrailingPathDelimiter(Result);
+end;
+
+function _XdgConfigHome: String;
+begin
+  Result:=GetEnvironmentVariable('XDG_CONFIG_HOME');
+  if (Result='') then
+    Result:= _GetHomeDir + '.config/'
+  else
+    Result:= IncludeTrailingPathDelimiter(Result);
+end;
+
 procedure InitDirs;
 var
   S: string;
@@ -935,13 +952,9 @@ begin
     OpDirLocal:= GetEnvironmentVariableUTF8('appdata')+'\CudaText';
     {$else}
       {$ifdef darwin}
-      OpDirLocal:= GetEnvironmentVariableUTF8('HOME')+'/Library/Application Support/CudaText';
+      OpDirLocal:= _GetHomeDir+'Library/Application Support/CudaText';
       {$else}
-      S:= GetEnvironmentVariableUTF8('XDG_CONFIG_HOME');
-      if S<>'' then
-        OpDirLocal:= S+'/cudatext'
-      else
-        OpDirLocal:= GetEnvironmentVariableUTF8('HOME')+'/.config/cudatext';
+      OpDirLocal:= _XdgConfigHome+'cudatext';
       {$endif}
     {$endif}
 
