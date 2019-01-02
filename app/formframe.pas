@@ -2581,14 +2581,14 @@ begin
   DoShow;
 
   if Assigned(FBin) then
-    if FBin.Visible then
+    if FBin.Visible and FBin.CanFocus then
     begin
       EditorFocus(FBin);
       exit;
     end;
 
   if Assigned(FImageBox) then
-    if FImageBox.Visible then
+    if FImageBox.Visible and FImageBox.CanFocus then
     begin
       FImageBox.SetFocus;
       exit;
