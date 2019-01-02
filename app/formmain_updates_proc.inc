@@ -421,7 +421,10 @@ begin
     if not F.IsText then exit;
     if F.FileName='' then exit;
     if F.NotInRecents then exit;
-    SAddStringToHistory(F.FileName, FListRecents, UiOps.MaxHistoryMenu);
+    SAddStringToHistory(
+      SCollapseHomeDirInFilename(F.FileName),
+      FListRecents,
+      UiOps.MaxHistoryMenu);
     F.DoSaveHistory;
   end;
 

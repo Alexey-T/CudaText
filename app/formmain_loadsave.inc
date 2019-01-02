@@ -190,7 +190,7 @@ begin
       bModified:= F.Modified or ((F.FileName='') and not F.IsEmpty);
 
       c.SetValue(path+'/modified', bModified);
-      c.SetValue(path+'/file', F.Filename);
+      c.SetValue(path+'/file', SCollapseHomeDirInFilename(F.Filename));
       c.SetValue(path+'/tab_title', F.TabCaption);
       c.SetValue(path+'/group', nLocalGroup+1); //support old sessions with 1-based index
 
@@ -261,7 +261,7 @@ begin
     for i:= 0 to list.Count-1 do
     begin
       item_path:= '/'+list[i]+'/';
-      sFilename:= c.GetValue(item_path+'file', '');
+      sFilename:= SExpandHomeDirInFilename(c.GetValue(item_path+'file', ''));
       sTabTitle:= c.GetValue(item_path+'tab_title', '');
       sText:= c.GetValue(item_path+'text', '');
       sKind:= c.GetValue(item_path+'kind', '');

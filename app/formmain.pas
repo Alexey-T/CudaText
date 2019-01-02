@@ -3705,7 +3705,7 @@ var
   n: integer;
 begin
   n:= (Sender as TComponent).Tag;
-  fn:= FListRecents[n];
+  fn:= SExpandHomeDirInFilename(FListRecents[n]);
   if FileExistsUTF8(fn) then
     DoFileOpen(fn)
   else
