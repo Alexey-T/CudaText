@@ -6,6 +6,7 @@
 1.70.1 (2019/01)
 
 + add: dialog Find has new Extract button (it finds all matches in RegEx mode and puts them to a new document, plugin Extract Strings also does this)
++ add: option "find_hotkey_extract"
 
 1.70.0 (2019/01)
 

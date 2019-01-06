@@ -337,6 +337,7 @@ begin
   bRep.Hint:= UiOps.HotkeyReplaceAndFindNext;
   bRepAll.Hint:= UiOps.HotkeyReplaceAll;
   bCount.Hint:= UiOps.HotkeyCountAll;
+  bExtract.Hint:= UiOps.HotkeyExtractAll;
   bSelectAll.Hint:= UiOps.HotkeySelectAll;
   bMarkAll.Hint:= UiOps.HotkeyMarkAll;
 end;
@@ -533,6 +534,14 @@ begin
   if Str=UiOps.HotkeyCountAll then
   begin
     bCountClick(Self);
+    UpdateState;
+    key:= 0;
+    exit
+  end;
+
+  if Str=UiOps.HotkeyExtractAll then
+  begin
+    bExtractClick(Self);
     UpdateState;
     key:= 0;
     exit

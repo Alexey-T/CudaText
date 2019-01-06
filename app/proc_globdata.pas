@@ -256,6 +256,7 @@ type
     HotkeyReplaceNoFindNext,
     HotkeyReplaceAll,
     HotkeyCountAll,
+    HotkeyExtractAll,
     HotkeySelectAll,
     HotkeyMarkAll,
     HotkeyToggleRegex,
@@ -1342,6 +1343,7 @@ begin
     HotkeyReplaceNoFindNext:= 'Ctrl+Alt+Z';
     HotkeyReplaceAll:= 'Alt+A';
     HotkeyCountAll:= 'Alt+O';
+    HotkeyExtractAll:= 'Alt+Q';
     HotkeySelectAll:= 'Alt+E';
     HotkeyMarkAll:= 'Alt+K';
     HotkeyToggleRegex:= 'Alt+R';
