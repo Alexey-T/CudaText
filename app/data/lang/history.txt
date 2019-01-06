@@ -1,5 +1,9 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2018.01.06
++ [d_f] get
++ [si] FoundFragments
+
 2018.12.22
 + [se] SaveWithEnc
 

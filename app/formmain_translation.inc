@@ -517,6 +517,7 @@ begin
     DoLocString(msgStatusReopened                , ini, 'si', 'Reopened');
     DoLocString(msgStatusBadRegex                , ini, 'si', 'BadRegex');
     DoLocString(msgStatusFoundNextMatch          , ini, 'si', 'FoundNextMatch');
+    DoLocString(msgStatusFoundFragments          , ini, 'si', 'FoundFragments');
     DoLocString(msgStatusTryingAutocomplete      , ini, 'si', 'TryingAutocomplete');
     DoLocString(msgStatusHelpOnShowCommands      , ini, 'si', 'HelpOnShowCommands');
     DoLocString(msgStatusNoLineCmtDefined        , ini, 'si', 'NoLineCmtDefined');
@@ -610,6 +611,7 @@ begin
       with fmFind.bFindNext do Caption:= ini.ReadString(section, 'f_n', Caption);
       with fmFind.bFindPrev do Caption:= ini.ReadString(section, 'f_p', Caption);
       with fmFind.bCount do Caption:= ini.ReadString(section, 'cnt', Caption);
+      with fmFind.bExtract do Caption:= ini.ReadString(section, 'get', Caption);
       with fmFind.bSelectAll do Caption:= ini.ReadString(section, 'sel', Caption);
       with fmFind.bMarkAll do Caption:= ini.ReadString(section, 'mk', Caption);
       with fmFind.bRep do Caption:= ini.ReadString(section, 'r_c', Caption);
