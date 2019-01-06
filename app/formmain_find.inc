@@ -228,7 +228,7 @@ begin
   begin
     ListFound:= TStringList.Create;
     try
-      FFinder.DoAction_ExtractAll(true, ListFound);
+      FFinder.DoAction_ExtractAll(false, ListFound);
       if ListFound.Count>0 then
       begin
         FrameNew:= DoFileOpen('');
