@@ -233,14 +233,12 @@ begin
       begin
         FrameNew:= DoFileOpen('');
         Ed:= FrameNew.Editor;
-        Ed.Strings.BeginUndoGroup;
         try
-          Ed.Strings.LoadFromString(UTF8Decode(ListFound.Text));
+          Ed.Strings.LoadFromStrings(ListFound, cEndUnix);
+          MsgStatus(Format(msgStatusFoundFragments, [ListFound.Count]));
         finally
-          Ed.Strings.EndUndoGroup;
           Ed.DoEventChange;
         end;
-        MsgStatus(Format(msgStatusFoundFragments, [ListFound.Count]));
       end
       else
         MsgStatus(msgCannotFindMatch);
