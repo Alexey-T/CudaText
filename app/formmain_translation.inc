@@ -655,6 +655,7 @@ begin
   fmFind.bFindNext.AutoSize:= true;
   fmFind.bFindPrev.AutoSize:= true;
   fmFind.bCount.AutoSize:= true;
+  fmFind.bExtract.AutoSize:= true;
   fmFind.bSelectAll.AutoSize:= true;
   fmFind.bMarkAll.AutoSize:= true;
   fmFind.bRep.AutoSize:= true;

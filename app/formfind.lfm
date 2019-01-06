@@ -183,6 +183,7 @@ object fmFind: TfmFind
       Colors.StateAdded = 2146336
       Colors.StateSaved = clMedGray
       Colors.BlockStaple = clMedGray
+      Colors.BlockStapleForCaret = clNone
       Colors.BlockSepLine = clMedGray
       Colors.Links = clBlue
       Colors.LockedBG = 14737632
@@ -281,6 +282,7 @@ object fmFind: TfmFind
       Colors.StateAdded = 2146336
       Colors.StateSaved = clMedGray
       Colors.BlockStaple = clMedGray
+      Colors.BlockStapleForCaret = clNone
       Colors.BlockSepLine = clMedGray
       Colors.Links = clBlue
       Colors.LockedBG = 14737632
@@ -357,7 +359,7 @@ object fmFind: TfmFind
         OnClick = bCountClick
       end
       object bMarkAll: TATButton
-        Left = 450
+        Left = 540
         Height = 25
         Top = 0
         Width = 90
@@ -379,7 +381,7 @@ object fmFind: TfmFind
         OnClick = bFindPrevClick
       end
       object bSelectAll: TATButton
-        Left = 360
+        Left = 450
         Height = 25
         Top = 0
         Width = 90
@@ -388,6 +390,17 @@ object fmFind: TfmFind
         TabStop = True
         TabOrder = 4
         OnClick = bSelectAllClick
+      end
+      object bExtract: TATButton
+        Left = 360
+        Height = 25
+        Top = 0
+        Width = 90
+        Align = alLeft
+        Caption = 'Extract'
+        TabStop = True
+        TabOrder = 6
+        OnClick = bExtractClick
       end
     end
     object PanelBtnRep: TATPanelSimple

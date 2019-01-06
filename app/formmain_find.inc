@@ -67,11 +67,13 @@ end;
 
 procedure TfmMain.FindDialogDone(Sender: TObject; const Res: string);
 var
+  ListFound: TStringList;
   ok, bChanged, bDoLock, bFindMode: boolean;
   cnt, NTop, NLeft,
   NCaretX, NCaretY: integer;
   NTick, NTime: QWord;
-  Frame: TEditorFrame;
+  Frame, FrameNew: TEditorFrame;
+  Ed: TATSynEdit;
 begin
   InitFormFind;
   Frame:= CurrentFrame;
@@ -220,6 +222,31 @@ begin
     DoFindMarkingInit(markingNone);
     cnt:= FFinder.DoAction_CountAll(false);
     MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt]));
+  end;
+
+  if Res=cOpFindExtract then
+  begin
+    ListFound:= TStringList.Create;
+    try
+      FFinder.DoAction_ExtractAll(true, ListFound);
+      if ListFound.Count>0 then
+      begin
+        FrameNew:= DoFileOpen('');
+        Ed:= FrameNew.Editor;
+        Ed.Strings.BeginUndoGroup;
+        try
+          Ed.Strings.LoadFromString(UTF8Decode(ListFound.Text));
+        finally
+          Ed.Strings.EndUndoGroup;
+          Ed.DoEventChange;
+        end;
+        MsgStatus(Format(msgStatusFoundFragments, [ListFound.Count]));
+      end
+      else
+        MsgStatus(msgCannotFindMatch);
+    finally
+      FreeAndNil(ListFound);
+    end;
   end;
 
   if Res=cOpFindSelectAll then

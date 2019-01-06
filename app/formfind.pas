@@ -33,6 +33,7 @@ const
   cOpFindRepAndStop='repstop';
   cOpFindRepAll='repall';
   cOpFindCount='findcnt';
+  cOpFindExtract='findget';
   cOpFindSelectAll='findsel';
   cOpFindMarkAll='findmark';
   cOpFindClose='x';
@@ -42,6 +43,7 @@ type
 
   TfmFind = class(TForm)
     bCount: TATButton;
+    bExtract: TATButton;
     bFindFirst: TATButton;
     bFindNext: TATButton;
     bFindPrev: TATButton;
@@ -68,6 +70,7 @@ type
     PanelOps2: TATPanelSimple;
     PanelTop: TATPanelSimple;
     PanelTopOps: TATPanelSimple;
+    procedure bExtractClick(Sender: TObject);
     procedure bFindNextClick(Sender: TObject);
     procedure bFindPrevClick(Sender: TObject);
     procedure bMarkAllClick(Sender: TObject);
@@ -156,6 +159,11 @@ end;
 procedure TfmFind.bFindNextClick(Sender: TObject);
 begin
   DoResult(cOpFindNext);
+end;
+
+procedure TfmFind.bExtractClick(Sender: TObject);
+begin
+  DoResult(cOpFindExtract);
 end;
 
 procedure TfmFind.bFindPrevClick(Sender: TObject);
@@ -564,6 +572,7 @@ begin
     - BtnSize(bFindNext)
     - BtnSize(bFindPrev)
     - BtnSize(bCount)
+    - BtnSize(bExtract)
     - BtnSize(bSelectAll)
     - BtnSize(bMarkAll)
     - IfThen(not IsNarrow, PanelOps.Width)
@@ -725,6 +734,7 @@ begin
   bFindFirst.Enabled:= true;
   bFindNext.Enabled:= true;
   bFindPrev.Enabled:= not chkRegex.Checked;
+  bExtract.Enabled:= chkRegex.Checked;
   edRep.Enabled:= IsReplace;
   bRep.Enabled:= IsReplace;
   bRepAll.Enabled:= IsReplace;

@@ -189,6 +189,7 @@ const
   msgStatusNoLineCmtDefined: string = 'No line comment defined for lexer';
   msgStatusReplaceCount: string = 'Replaces made: %d';
   msgStatusFindCount: string = 'Count of "%s": %d';
+  msgStatusFoundFragments: string = 'Found %d different fragment(s)';
   msgStatusReadingOps: string = 'Reading options';
   msgStatusSavedFile: string = 'Saved:';
   msgStatusReadonly: string = '[Read Only]';
