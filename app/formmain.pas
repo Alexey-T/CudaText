@@ -661,6 +661,7 @@ type
     procedure DoOps_AddPluginMenuItem(ACaption: string; ASubMenu: TMenuItem; ATag: integer);
     procedure DoOps_LexersDisableInFrames(ListNames: TStringList);
     procedure DoOps_LexersRestoreInFrames(ListNames: TStringList);
+    procedure DoOps_OnCreate;
     procedure DoShowBottomPanel(const ATabCaption: string; AndFocus: boolean);
     function DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
     procedure DoSidebar_InitPanelForm(var AItem: TAppSidePanel;
@@ -1734,11 +1735,24 @@ begin
   UpdateMenuItemHint(mnuOpPlugins, '_oplugins');
   UpdateMenuItemHint(mnuLang, '_langs');
 
+  DoOps_OnCreate;
+end;
+
+procedure TfmMain.DoOps_OnCreate;
+begin
   //must load window position in OnCreate to fix flickering with maximized window, Win10
   DoOps_LoadCommandLineOptions;
   DoOps_LoadOptions(GetAppPath(cFileOptionsUser), EditorOps); //before LoadHistory
   DoOps_LoadLexerLib; //before LoadHistory
   DoFileOpen(''); //before LoadHistory
+
+  DoOps_LoadSidebarIcons; //before LoadPlugins (for sidebar icons)
+  DoOps_LoadTreeIcons;
+  DoOps_LoadToolBarIcons;
+
+  InitPyEngine; //before LoadPlugins
+  DoOps_LoadPlugins; //before LoadHistory (for on_open for restored session)
+
   DoOps_LoadHistory;
 end;
 
@@ -1947,15 +1961,8 @@ begin
   DoApplyFont_Output;
   DoApplyUiOps;
 
-  InitPyEngine;
-
-  DoOps_LoadSidebarIcons;
-  DoOps_LoadTreeIcons;
-  DoOps_LoadToolBarIcons;
-
   FHandledOnShow:= true;
 
-  DoOps_LoadPlugins;
   FAllowLoadKeymap:= true;
   DoOps_LoadKeymap;
 
