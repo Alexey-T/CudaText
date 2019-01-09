@@ -288,6 +288,7 @@ type
     FMouseDownButton: TMouseButton;
     FMouseDownShift: TShiftState;
     FMouseDownRightBtn: boolean;
+    FMouseDragBegins: boolean;
 
     //colors
     FColorBg: TColor; //color of background (visible at top and between tabs)
@@ -1741,7 +1742,7 @@ end;
 
 function TATTabs._IsDrag: boolean;
 begin
-  Result:= Dragging;
+  Result:= Dragging and FMouseDragBegins;
 end;
 
 procedure TATTabs.GetTabXProps(AIndex: integer; const ARect: TRect;
@@ -2327,7 +2328,7 @@ begin
     if PtInRect(RectTab, Pnt) then
     begin
       Result:= i;
-      APressedX:= PtInRect(GetTabRect_X(RectTab), Pnt);
+      APressedX:= IsShowX(i) and PtInRect(GetTabRect_X(RectTab), Pnt);
       Exit;
     end;
   end;
@@ -2357,6 +2358,7 @@ begin
   FMouseDown:= false;
   FMouseDownDbl:= false;
   FMouseDownRightBtn:= false;
+  FMouseDragBegins:= false;
   Cursor:= crDefault;
   Screen.Cursor:= crDefault;
   
@@ -2390,13 +2392,9 @@ begin
   FMouseDownPnt:= Point(X, Y);
   FMouseDownButton:= Button;
   FMouseDownShift:= Shift;
+  FMouseDragBegins:= false;
 
   FTabIndexOver:= GetTabAt(X, Y, IsX);
-
-  //maybe X is hidden
-  if (FTabIndexOver>=0) and IsX then
-    if not IsShowX(FTabIndexOver) then
-      IsX:= false;
 
   //activate tab only if not X clicked
   if not IsX then
@@ -3071,8 +3069,16 @@ end;
 procedure TATTabs.DragOver(Source: TObject; X, Y: integer; State: TDragState;
   var Accept: Boolean);
 var
-  IsX: Boolean;  
+  IsX: Boolean;
+  Limit: integer;
 begin
+  //this is workaround for too early painted drop-mark (vertical red line)
+  if not FMouseDragBegins then
+  begin
+    Limit:= Mouse.DragThreshold;
+    FMouseDragBegins:= (Abs(X-FMouseDownPnt.X)>=Limit) or (Abs(Y-FMouseDownPnt.Y)>=Limit);
+  end;
+
   if Source is TATTabs then
   begin
     Accept:=
