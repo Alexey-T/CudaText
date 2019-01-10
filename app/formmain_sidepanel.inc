@@ -134,6 +134,9 @@ begin
       if bFound and (ItemModule<>'') and (ItemMethod<>'') then
         DoPyCommand(ItemModule, ItemMethod, []);
     end;
+
+  //codetree filter has different parent, so adjust visible too
+  PanelCodeTreeTop.Visible:= CodeTree.Visible and (UiOps.TreeFilterLayout>0);
 end;
 
 function TfmMain.DoSidebar_CaptionToPanelsIndex(const Str: string): integer;
