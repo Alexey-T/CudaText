@@ -3157,4 +3157,8 @@ This will show:
 * add: dlg_commands: add COMMANDS_CENTERED
 * add: dlg_commands: add "title" param
 
+1.0.267 (app 1.70.3)
+* add: on_state: add APPSTATE_CONFIG_REREAD
+* add: on_state: add APPSTATE_SESSION_LOAD
+
 [[Category:CudaText]]
