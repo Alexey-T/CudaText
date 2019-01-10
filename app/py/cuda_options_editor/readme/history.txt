@@ -1,3 +1,6 @@
+2.3.08 (2019-01-10)
+fixed: avoid Alt+1..9 on macOS 
+
 2.3.07 (2019-01-10)
 fixed: error "save user value to lexer config (if lexer)" 
 

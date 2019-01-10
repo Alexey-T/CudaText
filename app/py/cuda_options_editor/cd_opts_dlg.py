@@ -2,7 +2,7 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '2.3.07 2019-01-10'
+    '2.3.08 2019-01-10'
 ToDo: (see end of file)
 '''
 
@@ -1831,8 +1831,8 @@ class OptEdD:
     '\r • Clicking "{reset}" will ask for confirmation, for user/lexer options.'
     '\r   Hold Ctrl key to skip this confirmation.'
     '\r • Click on a column header sorts data in the column.'
-    '\r     Alt+N sorts the N column.'
-    '\r     Alt+9 resets sorting.'
+    '\r     Alt+# (# is 1..8) sorts the N column (not on macOS).'
+    '\r     Alt+9 resets sorting (not on macOS).'
     '\r     Click with Ctrl allows to sort by several columns.'
     '\r     Clicking with Ctrl on already sorted column does 2-state loop (down, up).'
     '\r     Clicking with Ctrl on already sorted column with maximal sorting index, '
