@@ -2512,12 +2512,13 @@ Text is "\n"-separated lines, each line is Undo/Redo item. Each item is "\t"-sep
 * hard mark flag, number 0/1.
 * line text, in UTF8. This text can have "\t", not a separator here.
 
-==How to use Options Editor dialog for other plugins==
+==How to use Options Editor in other plugins==
 
 Options Editor plugin (preinstalled in CudaText) has API which allows to call its dialog with custom options. Example shows dialog with 4 custom options, with custom title.
 
 <syntaxhighlight lang="Python">
 import os
+import json
 import cuda_options_editor as op_ed
 
 class Command:
@@ -2565,6 +2566,10 @@ class Command:
         title = 'My Options' # Dialog caption
         op_ed.OptEdD(path_keys_info=info_file, subset=subset).show(title)
 </syntaxhighlight>
+
+This will show:
+
+[[File:cudatext_options_editor.png]]
 
 =FAQ=
 
