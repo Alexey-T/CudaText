@@ -2514,7 +2514,7 @@ Text is "\n"-separated lines, each line is Undo/Redo item. Each item is "\t"-sep
 
 ==How to use Options Editor in other plugins==
 
-Options Editor plugin (preinstalled in CudaText) has API which allows to call its dialog with custom options. Example shows dialog with 4 custom options, with custom title.
+Options Editor plugin (preinstalled in CudaText) has API which allows to call its dialog with custom options. Example shows dialog with 4 custom options, with custom title. Options which user changed in dialog will be saved to user.json or lexer-specific config.
 
 <syntaxhighlight lang="Python">
 import os
