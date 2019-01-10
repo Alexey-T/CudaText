@@ -1072,6 +1072,7 @@ begin
   DoOps_LoadOptions(GetAppPath(cFileOptionsUser), EditorOps);
   DoApplyAllOps;
   MsgStatus(msgStatusReadingOps);
+  DoPyEvent(CurrentEditor, cEventOnState, [IntToStr(APPSTATE_CONFIG_REREAD)]);
 end;
 
 
