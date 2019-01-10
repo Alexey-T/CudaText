@@ -1,4 +1,4 @@
-object SyntAnal7: TLibSyntAnalyzer
+object SyntAnal5: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Default'
@@ -35,22 +35,6 @@ object SyntAnal7: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Identifier'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-    end
-    item
-      DisplayName = 'Reserved word'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsBold]
-    end
-    item
       DisplayName = 'Comment'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clGray
@@ -59,30 +43,44 @@ object SyntAnal7: TLibSyntAnalyzer
       Font.Style = [fsItalic]
     end
     item
+      DisplayName = 'Id'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Id keyword'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Id special'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Id types'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
       DisplayName = 'Preprocessor'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-    end
-    item
-      DisplayName = 'Current block'
-      Font.Charset = RUSSIAN_CHARSET
-      Font.Color = clMaroon
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsBold]
-      BgColor = 13369046
-      FormatType = ftColor
-      BorderTypeLeft = blSolid
-      BorderColorLeft = clGray
-      BorderTypeTop = blSolid
-      BorderColorTop = clGray
-      BorderTypeRight = blSolid
-      BorderColorRight = clGray
-      BorderTypeBottom = blSolid
-      BorderColorBottom = clGray
     end
     item
       DisplayName = 'Asm BG'
@@ -105,7 +103,7 @@ object SyntAnal7: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Id keyword'
-      StyleName = 'Reserved word'
+      StyleName = 'Id keyword'
       TokenType = 7
       Expression = '\b(catch|else|for|if|switch|while)\b'
       ColumnFrom = 0
@@ -113,7 +111,7 @@ object SyntAnal7: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Id'
-      StyleName = 'Identifier'
+      StyleName = 'Id'
       TokenType = 2
       Expression = '[a-z_]\w*'
       ColumnFrom = 0
@@ -196,7 +194,44 @@ object SyntAnal7: TLibSyntAnalyzer
   BlockRules = <
     item
       DisplayName = 'keywords'
-      StyleName = 'Reserved word'
+      StyleName = 'Id keyword'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'asm'
+            'auto'
+            'break'
+            'case'
+            'catch'
+            'class'
+            'continue'
+            'default'
+            'delete'
+            'do'
+            'else'
+            'enum'
+            'for'
+            'goto'
+            'if'
+            'new'
+            'operator'
+            'return'
+            'struct'
+            'switch'
+            'throw'
+            'try'
+            'union'
+            'uuid'
+            'while')
+          TokenTypes = 4
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'keywords2'
+      StyleName = 'Id special'
       BlockType = btTagDetect
       ConditionList = <
         item
@@ -230,68 +265,55 @@ object SyntAnal7: TLibSyntAnalyzer
             '_import'
             '_pascal'
             '_stdcall'
-            'asm'
-            'auto'
-            'bool'
-            'break'
-            'case'
-            'catch'
             'cdecl'
-            'char'
-            'class'
             'const'
-            'continue'
-            'default'
-            'delete'
-            'do'
-            'double'
-            'else'
-            'enum'
             'explicit'
             'export'
             'extern'
-            'false'
-            'float'
-            'for'
             'friend'
-            'goto'
-            'if'
             'inline'
-            'int'
-            'long'
             'mutable'
-            'new'
-            'operator'
             'pascal'
             'private'
             'protected'
             'public'
             'register'
-            'return'
-            'short'
-            'signed'
             'sizeof'
             'static'
-            'struct'
-            'switch'
             'this'
-            'throw'
-            'true'
-            'try'
             'typedef'
             'typeid'
             'typename'
-            'union'
-            'unsigned'
-            'uuid'
             'virtual'
-            'void'
-            'volatile'
-            'wchar_t'
-            'while')
+            'volatile')
           TokenTypes = 4
         end>
-      HighlightPos = cpBound
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'types'
+      StyleName = 'Id types'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'bool'
+            'char'
+            'double'
+            'false'
+            'float'
+            'int'
+            'long'
+            'short'
+            'signed'
+            'true'
+            'unsigned'
+            'void'
+            'wchar_t')
+          TokenTypes = 4
+        end>
+      HighlightPos = cpAny
       IgnoreAsParent = False
     end
     item
@@ -389,7 +411,6 @@ object SyntAnal7: TLibSyntAnalyzer
     end
     item
       DisplayName = '{'
-      StyleName = 'Current block'
       ConditionList = <
         item
           TagList.Strings = (
@@ -398,9 +419,7 @@ object SyntAnal7: TLibSyntAnalyzer
         end>
       BlockEnd = '}'
       DisplayInTree = False
-      DynHighlight = dhBound
-      HighlightPos = cpRange
-      DynSelectMin = True
+      HighlightPos = cpAny
       DrawStaple = True
       CollapseFmt = '{ ... }'
       IgnoreAsParent = False
@@ -487,7 +506,7 @@ object SyntAnal7: TLibSyntAnalyzer
       NameFmt = '%s0 %s-1'
       HighlightPos = cpAny
       NoEndRule = True
-      TreeItemImage = 4
+      TreeItemImage = 3
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
@@ -514,25 +533,17 @@ object SyntAnal7: TLibSyntAnalyzer
     ''
     'void stdcall Init(void) {'
     '  TestModDeinit(B64UTIL);'
+    '  return 0;'
     '}'
     ''
-    '    char* Small(int a) {'
-    '    }'
+    'char* Small(int a) {'
+    '}'
     '     '
     'void Test(char *Sender)'
     '{'
-    '  int Number = 10;  // View integer number style'
-    '  double F = 1e2 + 0.123e+2;  // View float number style'
-    
-      '  Caption = "Number is " + IntToStr(Number); // View string styl' +
-      'e'
-    '  Number += 0x1FA7; // View HEX style'
-    '  char c = '#39'D'#39';'
-    '  for (i=0; i<5; i++) {'
+    '  int Number = 10 + 1e2 + 0.12e-2 + 0xFF + '#39'D'#39' + "String\nEnd";'
+    '  for (i=0; i<5; i++) { '
     '  } '
-    '  if (c=='#39'A'#39') {'
-    '    return;'
-    '  }'
     '}'
     ''
     'typedef struct HashTab {'
