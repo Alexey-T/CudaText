@@ -1537,7 +1537,7 @@ begin
   CodeTree.Tree.PopupMenu:= PopupTree;
 
   PanelCodeTreeTop:= TATPanelSimple.Create(Self);
-  PanelCodeTreeTop.Parent:= CodeTree;
+  PanelCodeTreeTop.Parent:= PanelLeft;
   PanelCodeTreeTop.Align:= alTop;
   PanelCodeTreeTop.Height:= 28;
 
