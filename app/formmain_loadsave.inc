@@ -366,6 +366,8 @@ begin
     list.Free;
     c.Free;
   end;
+
+  DoPyEvent(CurrentEditor, cEventOnState, [IntToStr(APPSTATE_SESSION_LOAD)]);
 end;
 
 procedure TfmMain.DoOps_LoadHistory_GroupView(c: TJsonConfig);
