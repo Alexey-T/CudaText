@@ -507,7 +507,7 @@ Time in seconds: 1..30; seconds<=0 hides statusbar (if shown before).
 
  dlg_input(label, text)
 
-Shows modal dialog to input one string. Gets entered string or None of cancelled.
+Shows modal dialog to input one string. Gets entered string or None if cancelled.
 
 * Param "label": prompt text above input field.
 * Param "text": initial value of input field.
@@ -1697,6 +1697,19 @@ Returns list of 4-tuples, each item is info about one caret: (PosX, PosY, EndX, 
 * PosX is caret's column (0-base). Tab-chars give x increment 1, like others.
 * PosY is caret's line (0-base).
 * EndX/EndY is position of selection edge for this caret. Both -1 if no selection for caret.
+
+Example shows text of first caret's selection:
+
+<syntaxhighlight lang="Python">
+    carets = ed.get_carets()
+    x1, y1, x2, y2 = carets[0]
+    if y2>=0:
+        # sort (y,x) pairs
+        if (y1, x1)>(y2, x2):
+            x1, y1, x2, y2 = x2, y2, x1, y1
+        s = ed.get_text_substr(x1, y1, x2, y2)
+        msg_status('Selection: '+s)
+</syntaxhighlight>
 
 ===set_caret===
 
