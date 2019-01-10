@@ -1488,6 +1488,9 @@ var
   mi: TMenuItem;
   i: integer;
 begin
+  //Check for Updates: doesn't work because app is hosted on new site
+  mnuHelpCheckUpd.Enabled:= false;
+
   CustomDialog_DoPyCallback:= @DoPyCallbackFromAPI;
   FFileNameLogDebug:= GetAppPath(cDirSettings)+DirectorySeparator+'app.log';
   FFileNameLogConsole:= GetAppPath(cDirSettings)+DirectorySeparator+'console.log';
