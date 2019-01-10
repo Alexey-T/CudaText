@@ -2,7 +2,7 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '2.3.06.at 2018-10-23'
+    '2.3.07 2019-01-10'
 ToDo: (see end of file)
 '''
 
@@ -476,7 +476,7 @@ class OptEdD:
         , subset            =''             # To get/set from/to cuda_options_editor.json
         , how               ={}             # Details to work
         ):
-        M,m         = OptEdD,self
+        M,m         = self.__class__,self
         
         m.ed        = ed
         m.how       = how
@@ -538,13 +538,13 @@ class OptEdD:
        #def __init__
     
     def stbr_act(self, tag=None, val='', opts={}):
-        M,m = OptEdD,self
+        M,m = self.__class__,self
         if not m.stbr:  return 
         app.statusbar_proc(m.stbr, app.STATUSBAR_SET_CELL_TEXT, tag=tag, value=str(val))
        #def stbr_act
     
     def do_file(self, what, data='', opts={}):
-        M,m = OptEdD,self
+        M,m = self.__class__,self
         if False:pass
         elif what=='load-data':
             pass;              #LOG and log('',)
@@ -660,7 +660,7 @@ class OptEdD:
                 {}  val-attrs
                 {}  items-attrs
         """
-        M,m = OptEdD,self
+        M,m = self.__class__,self
         if opts=='key2ind':
             opt_nm  = nm if nm else m.cur_op
             m.cur_in= index_1([m.SKWULFs[row][1] for row in range(len(m.SKWULFs))], opt_nm, -1)
@@ -767,7 +767,7 @@ class OptEdD:
     def show(self
         , title                     # For cap of dlg
         ):
-        M,m = OptEdD,self
+        M,m = self.__class__,self
 
         def when_exit(ag):
             pass;              #LOG and log('',())
@@ -834,7 +834,7 @@ class OptEdD:
        #def show
     
     def get_cnts(self, what=''):
-        M,m = OptEdD,self
+        M,m = self.__class__,self
         
         reNotWdChar = re.compile(r'\W')
         def test_fltr(fltr_s, op, oi):
@@ -972,14 +972,14 @@ class OptEdD:
     # Hidden buttons                                                                                                                    
  ,('flt-',d(tp='bt' ,cap='&l'   ,sto=False              ,t=0,l=-99,w=44))  # &l
  ,('fltr',d(tp='bt' ,cap=''     ,sto=False  ,def_bt='1' ,t=0,l=-99,w=44))  # Enter
- ,('srt0',d(tp='bt' ,cap=''   ,sto=False              ,t=0,l=-99,w=44))  # &1
- ,('srt1',d(tp='bt' ,cap=''   ,sto=False              ,t=0,l=-99,w=44))  # &2
- ,('srt2',d(tp='bt' ,cap=''   ,sto=False              ,t=0,l=-99,w=44))  # &3
- ,('srt3',d(tp='bt' ,cap=''   ,sto=False              ,t=0,l=-99,w=44))  # &4
- ,('srt4',d(tp='bt' ,cap=''   ,sto=False              ,t=0,l=-99,w=44))  # &5
- ,('srt5',d(tp='bt' ,cap=''   ,sto=False              ,t=0,l=-99,w=44))  # &6
- ,('srt6',d(tp='bt' ,cap=''   ,sto=False              ,t=0,l=-99,w=44))  # &7
- ,('srt-',d(tp='bt' ,cap=''   ,sto=False              ,t=0,l=-99,w=44))  # &9
+ ,('srt0',d(tp='bt' ,cap='&1'   ,sto=False              ,t=0,l=-99,w=44))  # &1
+ ,('srt1',d(tp='bt' ,cap='&2'   ,sto=False              ,t=0,l=-99,w=44))  # &2
+ ,('srt2',d(tp='bt' ,cap='&3'   ,sto=False              ,t=0,l=-99,w=44))  # &3
+ ,('srt3',d(tp='bt' ,cap='&4'   ,sto=False              ,t=0,l=-99,w=44))  # &4
+ ,('srt4',d(tp='bt' ,cap='&5'   ,sto=False              ,t=0,l=-99,w=44))  # &5
+ ,('srt5',d(tp='bt' ,cap='&6'   ,sto=False              ,t=0,l=-99,w=44))  # &6
+ ,('srt6',d(tp='bt' ,cap='&7'   ,sto=False              ,t=0,l=-99,w=44))  # &7
+ ,('srt-',d(tp='bt' ,cap='&9'   ,sto=False              ,t=0,l=-99,w=44))  # &9
  ,('cws-',d(tp='bt' ,cap='&W'   ,sto=False              ,t=0,l=-99,w=44))  # &w
  ,('cpnm',d(tp='bt' ,cap='&C'   ,sto=False              ,t=0,l=-99,w=44))  # &c
  ,('erpt',d(tp='bt' ,cap='&O'   ,sto=False              ,t=0,l=-99,w=44))  # &o
@@ -1064,7 +1064,7 @@ class OptEdD:
        #def get_cnts
     
     def get_vals(self, what=''):
-        M,m = OptEdD,self
+        M,m = self.__class__,self
         m.cur_in    = m._prep_opt('key2ind')
         if not what or 'cur' in what:
             vis,ens,vas,its = m._prep_opt()
@@ -1128,7 +1128,7 @@ class OptEdD:
        #def get_vals
     
     def do_resize(self, ag):
-        M,m = OptEdD,self
+        M,m = self.__class__,self
         m.stbr_act(M.STBR_MSG, '')
         f_w     = ag.fattr('w')
         l_w     = ag.cattr('lvls', 'w')
@@ -1154,7 +1154,7 @@ class OptEdD:
        #def do_resize
     
     def do_cust(self, aid, ag, data=''):
-        M,m = OptEdD,self
+        M,m = self.__class__,self
         m.stbr_act(M.STBR_MSG, '')
         pass;                  #LOG and log('aid={}',(aid))
         if False:pass
@@ -1204,7 +1204,7 @@ class OptEdD:
     
     def do_menu(self, aid, ag, data=''):
         pass;                  #LOG and log('aid={}',(aid))
-        M,m = OptEdD,self
+        M,m = self.__class__,self
         m.stbr_act(M.STBR_MSG, '')
 
         scam    = app.app_proc(app.PROC_GET_KEYSTATE, '')
@@ -1422,7 +1422,7 @@ class OptEdD:
        #def do_menu
 
     def do_fltr(self, aid, ag, data=''):
-        M,m = OptEdD,self
+        M,m = self.__class__,self
         m.stbr_act(M.STBR_MSG, '')
         m.col_ws= [ci['wd'] for ci in m.ag.cattr('lvls', 'cols')]
 
@@ -1478,7 +1478,7 @@ class OptEdD:
         scam    = app.app_proc(app.PROC_GET_KEYSTATE, '')
         pass;                  #LOG and log('col,scam={}',(col,scam))
         pass;                  #return []
-        M,m = OptEdD,self
+        M,m = self.__class__,self
         m.stbr_act(M.STBR_MSG, '')
         m.col_ws= [ci['wd'] for ci in m.ag.cattr('lvls', 'cols')]
         
@@ -1505,7 +1505,7 @@ class OptEdD:
        #def do_sort
 
     def do_sele(self, aid, ag, data=''):
-        M,m = OptEdD,self
+        M,m = self.__class__,self
         m.stbr_act(M.STBR_MSG, '')
         pass;                  #LOG and log('data,m.cur_op,m.cur_in={}',(data,m.cur_op,m.cur_in))
         m.cur_op= m._prep_opt('ind2key')
@@ -1516,7 +1516,7 @@ class OptEdD:
        #def do_sele
     
     def do_lxfi(self, aid, ag, data=''):
-        M,m = OptEdD,self
+        M,m = self.__class__,self
         m.stbr_act(M.STBR_MSG, '')
         pass;                  #LOG and log('aid={}',(aid))
         m.col_ws= [ci['wd'] for ci in m.ag.cattr('lvls', 'cols')]
@@ -1554,7 +1554,7 @@ class OptEdD:
        #def do_lxfi
     
     def do_dbcl(self, aid, ag, data=''):
-        M,m = OptEdD,self
+        M,m = self.__class__,self
         m.stbr_act(M.STBR_MSG, '')
         pass;                  #LOG and log('data,m.cur_op,m.cur_in={}',(data,m.cur_op,m.cur_in))
         m.col_ws= [ci['wd'] for ci in m.ag.cattr('lvls', 'cols')]
@@ -1603,7 +1603,7 @@ class OptEdD:
        #def do_dbcl
     
     def do_setv(self, aid, ag, data=''):
-        M,m = OptEdD,self
+        M,m = self.__class__,self
         m.stbr_act(M.STBR_MSG, '')
         pass;                  #LOG and log('aid,m.cur_op={}',(aid,m.cur_op))
         if not m.cur_op:   return []
@@ -1711,9 +1711,9 @@ class OptEdD:
             pass;              #LOG and log('?? set_opt',())
             apx.set_opt(op
                        ,newv
-                       ,apx.CONFIG_LEV_LEX if m.for_ulf=='l' else apx.CONFIG_LEV_USER
+                       ,apx.CONFIG_LEV_LEX  if m.for_ulf=='l' else apx.CONFIG_LEV_USER
                        ,ed_cfg  =None
-                       ,lexer   =m.lexr
+                       ,lexer   =m.lexr     if m.for_ulf=='l' else None
                        )
 
             if not m.apply_one:
@@ -1762,7 +1762,7 @@ class OptEdD:
 
     def do_erpt(self, what='', jnewv=None, joldv=None):
         pass;                  #LOG and log('what, newv={}',(what, newv))
-        M,m = OptEdD,self
+        M,m = self.__class__,self
         
         if 0==len(m.chng_rpt):
             rpt = f('Starting to change options at {:%Y-%m-%d %H:%M:%S}', datetime.datetime.now())
@@ -1803,7 +1803,7 @@ class OptEdD:
        #def do_erpt
     
     def do_help(self, aid, ag, data=''):
-        M,m = OptEdD,self
+        M,m = self.__class__,self
         m.stbr_act(M.STBR_MSG, '')
         pass;                  #LOG and log('',())
         dlg_wrapper('Help'
