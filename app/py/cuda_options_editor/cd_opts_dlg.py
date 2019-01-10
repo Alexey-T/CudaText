@@ -970,21 +970,21 @@ class OptEdD:
         co_tp   = 'ed' if m.live_fltr else 'cb'
         cnts    = [0                                                                                                                        #
     # Hidden buttons                                                                                                                    
- ,('flt-',d(tp='bt' ,cap='&l'   ,sto=False              ,t=0,l=-99,w=44))  # &l
- ,('fltr',d(tp='bt' ,cap=''     ,sto=False  ,def_bt='1' ,t=0,l=-99,w=44))  # Enter
- ,('srt0',d(tp='bt' ,cap=''   ,sto=False              ,t=0,l=-99,w=44))  # &1
- ,('srt1',d(tp='bt' ,cap=''   ,sto=False              ,t=0,l=-99,w=44))  # &2
- ,('srt2',d(tp='bt' ,cap=''   ,sto=False              ,t=0,l=-99,w=44))  # &3
- ,('srt3',d(tp='bt' ,cap=''   ,sto=False              ,t=0,l=-99,w=44))  # &4
- ,('srt4',d(tp='bt' ,cap=''   ,sto=False              ,t=0,l=-99,w=44))  # &5
- ,('srt5',d(tp='bt' ,cap=''   ,sto=False              ,t=0,l=-99,w=44))  # &6
- ,('srt6',d(tp='bt' ,cap=''   ,sto=False              ,t=0,l=-99,w=44))  # &7
- ,('srt-',d(tp='bt' ,cap=''   ,sto=False              ,t=0,l=-99,w=44))  # &9
- ,('cws-',d(tp='bt' ,cap='&W'   ,sto=False              ,t=0,l=-99,w=44))  # &w
- ,('cpnm',d(tp='bt' ,cap='&C'   ,sto=False              ,t=0,l=-99,w=44))  # &c
- ,('erpt',d(tp='bt' ,cap='&O'   ,sto=False              ,t=0,l=-99,w=44))  # &o
- ,('apnw',d(tp='bt' ,cap='&Y'   ,sto=False              ,t=0,l=-99,w=44))  # &y
- ,('help',d(tp='bt' ,cap='&H'   ,sto=False              ,t=0,l=-99,w=44))  # &h
+ ,('flt-',d(tp='bt' ,cap='&l'   ,sto=False              ,t=-99,l=0,w=44))  # &l
+ ,('fltr',d(tp='bt' ,cap=''     ,sto=False  ,def_bt='1' ,t=-99,l=0,w=44))  # Enter
+ ,('srt0',d(tp='bt' ,cap='&1'   ,sto=False              ,t=-99,l=0,w=44))  # &1
+ ,('srt1',d(tp='bt' ,cap='&2'   ,sto=False              ,t=-99,l=0,w=44))  # &2
+ ,('srt2',d(tp='bt' ,cap='&3'   ,sto=False              ,t=-99,l=0,w=44))  # &3
+ ,('srt3',d(tp='bt' ,cap='&4'   ,sto=False              ,t=-99,l=0,w=44))  # &4
+ ,('srt4',d(tp='bt' ,cap='&5'   ,sto=False              ,t=-99,l=0,w=44))  # &5
+ ,('srt5',d(tp='bt' ,cap='&6'   ,sto=False              ,t=-99,l=0,w=44))  # &6
+ ,('srt6',d(tp='bt' ,cap='&7'   ,sto=False              ,t=-99,l=0,w=44))  # &7
+ ,('srt-',d(tp='bt' ,cap='&9'   ,sto=False              ,t=-99,l=0,w=44))  # &9
+ ,('cws-',d(tp='bt' ,cap='&W'   ,sto=False              ,t=-99,l=0,w=44))  # &w
+ ,('cpnm',d(tp='bt' ,cap='&C'   ,sto=False              ,t=-99,l=0,w=44))  # &c
+ ,('erpt',d(tp='bt' ,cap='&O'   ,sto=False              ,t=-99,l=0,w=44))  # &o
+ ,('apnw',d(tp='bt' ,cap='&Y'   ,sto=False              ,t=-99,l=0,w=44))  # &y
+ ,('help',d(tp='bt' ,cap='&H'   ,sto=False              ,t=-99,l=0,w=44))  # &h
     # Top-panel                                                                                                             
  ,('ptop',d(tp='pn' ,h=    270 ,w=m.dlg_w               ,ali=ALI_CL                                                         
                     ,h_min=270                                                                                                  ))
@@ -1022,6 +1022,8 @@ class OptEdD:
  ,('stbr',d(tp='sb' ,y=-M.STBR_H                                                                                                
                     ,h= M.STBR_H                        ,ali=ALI_BT                                                             ))
                 ][1:]
+        if 'mac'==get_desktop_environment():
+            cnts    = [(cid,cnt) for cid,cnt in cnts if cnt.get('cap', '')[:3]!='srt']
         cnts    = odict(cnts)
         for cnt in cnts.values():
             if 'l' in cnt:  cnt['l']    = m.dlg_w+cnt['l'] if cnt['l']<0 else cnt['l']
