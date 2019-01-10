@@ -1,4 +1,4 @@
-object SyntAnal44: TLibSyntAnalyzer
+object SyntAnal33: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -159,7 +159,7 @@ object SyntAnal44: TLibSyntAnalyzer
       DisplayName = 'Comment'
       StyleName = 'Comment'
       TokenType = 1
-      Expression = '(?s)<!--.*?(-->|\Z)'
+      Expression = '(?s)<!--.+?(?<!\-)-->'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -235,6 +235,13 @@ object SyntAnal44: TLibSyntAnalyzer
       StyleName = 'Tag bound'
       TokenType = 3
       Expression = '='
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Comment invalid end'
+      StyleName = 'Error content'
+      Expression = '\-{3,}>'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -500,6 +507,7 @@ object SyntAnal44: TLibSyntAnalyzer
   SampleText.Strings = (
     '<?xml version="1.0" encoding="utf8" ?>'
     '<!-- comment -->'
+    '<!-- comment invalid --->'
     ''
     '<!DOCTYPE web-app ['
     '  <!ELEMENT web-app (icon?, display-name?, ejb-local-ref*)>'
