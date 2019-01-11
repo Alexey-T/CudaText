@@ -3,13 +3,15 @@
   - fixed
   * changed
 
-1.70.2 (2019/01)
+1.70.3 (2019/01)
 
 + add: dialog Find has new Extract button (it finds all matches in RegEx mode and puts them to a new document, plugin Extract Strings also does this)
 + add: option "find_hotkey_extract"
 + add: in the list of recent files, paths are shown shorted with ~ char (for home folder)
-+ add: lexer C improved: highlight more keyword groups
 - fix: bug in Option Editor (leads to saving to lexer-specific config)
+
++ add: lexer C improved: highlight more keyword groups
++ add: lexer XML improved: incorrect comment ends "<!-- tst --->" are highlighted 
 
 1.70.0 (2019/01)
 
