@@ -340,7 +340,7 @@ class Command:
 
         dir_lexers = os.path.join(app_path(APP_DIR_DATA), 'lexlib')
         lexers = os.listdir(dir_lexers)
-        lexers = [s.split('.', maxsplit=1)[0].replace(' ', '_') for s in lexers if s.endswith('.lcf')]
+        lexers = [s[:-4].replace(' ', '_') for s in lexers if s.endswith('.lcf')]
 
         addons = [a for a in addons if a['kind'] in ('plugin', 'treehelper', 'linter') and a.get('module', '') in modules] \
                + [a for a in addons if a['kind']=='lexer' and a['name'] in lexers]
@@ -372,8 +372,6 @@ class Command:
                 check = True
             elif v_local < v_remote:
                 check = True
-            else:
-                check = False
             a['check'] = check
 
         '''
