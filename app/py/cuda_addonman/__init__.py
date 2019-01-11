@@ -337,15 +337,26 @@ class Command:
 
         modules = get_installed_list()
         modules = [m for m in modules if m not in STD_MODULES] + [m for m in modules if m in STD_MODULES]
+        
+        dir_lexers = os.path.join(app_path(APP_DIR_DATA), 'lexlib')
+        lexers = os.listdir(dir_lexers)
+        lexers = [s.split('.', maxsplit=1)[0].replace(' ', '_') for s in lexers if s.endswith('.lcf')]
 
-        addons = [a for a in addons if a['kind'] in ('plugin', 'treehelper', 'linter')]
-        addons = [a for a in addons if a.get('module', '') in modules]
+        addons = [a for a in addons if a['kind'] in ('plugin', 'treehelper', 'linter') and a.get('module', '') in modules] \
+               + [a for a in addons if a['kind']=='lexer' and a['name'] in lexers]
 
         modules_web = [a.get('module', '') for a in addons]
         modules_local = [m for m in modules if m not in modules_web]
 
         for a in addons:
             m = a.get('module', '')
+            
+            if a['kind']=='lexer':
+                a['dir'] = 'data/lexlib'
+                a['name'] = 'Lexer: '+a['name']
+            else:
+                a['dir'] = 'py/'+m
+            
             v_local = '?'
             if m in STD_MODULES:
                 v_local = PREINST
@@ -381,7 +392,7 @@ class Command:
         '''
 
         text_headers = '\r'.join(('Name=240', 'Folder=170', 'Local=125', 'Available=125'))
-        text_columns = ['\r'.join((i['name'], i.get('module', ''), i['v_local'], i['v'])) for i in addons]
+        text_columns = ['\r'.join((i['name'], i['dir'], i['v_local'], i['v'])) for i in addons]
         text_items = '\t'.join([text_headers]+text_columns)
         text_checks = ['1' if i['check'] else '0' for i in addons]
         text_val = '0;'+','.join(text_checks)
@@ -428,12 +439,13 @@ class Command:
         fail_count = 0
 
         for a in addons:
-            m = a.get('module', '')
-            if not m: continue
-
             print('  [%s] %s' % (a['kind'], a['name']))
             msg_status('Updating: [%s] %s' % (a['kind'], a['name']), True)
-            do_remove_module(m) # delete old dir
+            
+            m = a.get('module', '')
+            if m:
+                # delete old dir
+                do_remove_module(m)
 
             url = a['url']
             if not url: continue
@@ -445,7 +457,7 @@ class Command:
                 do_save_version(url, fn, a['v'])
             else:
                 fail_count += 1
-                print('  '+a['name']+' - Update failed')
+                print('  Update failed: '+a['name'])
 
         s = 'Done'
         if fail_count>0:
