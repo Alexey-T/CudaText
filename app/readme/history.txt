@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.70.3 (2019/01)
+1.71.0 (2019/01)
 
 + add: dialog Find has new Extract button: it finds all matches in RegEx mode and puts them to a new document (plugin Extract Strings also does this)
 + add: Addon Manager "Update" dialog can update also lexers/themes/translations
