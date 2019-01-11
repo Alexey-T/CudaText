@@ -29,6 +29,9 @@ def versions_ordered(s1, s2):
 
 def check_cudatext():
 
+    if os.name!='nt':
+        return
+        
     fn = os.path.join(tempfile.gettempdir(), 'cudatext_download.html')
     app.msg_status('Downloading: '+DOWNLOAD_PAGE, True)
     get_url(DOWNLOAD_PAGE, fn, True)
