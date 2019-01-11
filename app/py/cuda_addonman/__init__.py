@@ -337,8 +337,9 @@ class Command:
 
         modules = get_installed_list()
         modules = [m for m in modules if m not in STD_MODULES] + [m for m in modules if m in STD_MODULES]
-        modules_selected = []
-        text_col = []
+        
+        columns = []
+        checks = []
 
         for m in modules:
             name = get_name_of_module(m)
@@ -347,7 +348,7 @@ class Command:
             v_remote = '?'
             if m in STD_MODULES:
                 v_local = PREINST
-            col_item = name + '\r' + m + '\r' + v_local + '\r' + v_remote
+            column = (name, m, v_local, v_remote)
 
             remote_item = [d for d in remotes if d.get('module', '')==m]
             if remote_item:
@@ -356,24 +357,25 @@ class Command:
                 v_remote = remote_item[0]['v']
                 v_local = get_addon_version(url) or get_addon_version_old(m) or v_local
 
-                col_item = name + '\r' + m + '\r' + v_local + '\r' + v_remote
+                column = (name, m, v_local, v_remote)
                 if v_local == PREINST:
-                    s = '0'
+                    check = '0'
                 elif v_local == '?':
-                    s = '1'
+                    check = '1'
                 elif v_local < v_remote:
-                    s = '1'
+                    check = '1'
                 else:
-                    s = '0'
+                    check = '0'
             else:
-                s = '0'
+                check = '0'
 
-            modules_selected.append(s)
-            text_col.append(col_item)
-
+            columns.append(column)
+            checks.append(check)
+            
         text_col_head = 'Name=220\rFolder=170\rLocal=125\rAvailable=125'
+        text_col = ['\r'.join(item) for item in columns]
         text_items = '\t'.join([text_col_head]+text_col)
-        text_val = '0;'+','.join(modules_selected)
+        text_val = '0;'+','.join(checks)
         text_val_initial = text_val
 
         RES_OK = 0
