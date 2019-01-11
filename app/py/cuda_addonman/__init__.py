@@ -10,7 +10,7 @@ from .work_local import *
 from .work_remote import *
 from .work_dlg_config import *
 from .work_github import *
-from .work_cudatext_updates import check_cudatext
+from .work_cudatext_updates__fosshub import check_cudatext
 from . import opt
 
 dir_for_all = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
