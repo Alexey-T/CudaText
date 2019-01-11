@@ -380,8 +380,8 @@ class Command:
         addons.extend(addons2)
         '''
 
-        text_headers = '\r'.join(['Name=240', 'Folder=170', 'Local=125', 'Available=125'])
-        text_columns = [i['name']+'\r'+i['module']+'\r'+i['v_local']+'\r'+i['v'] for i in addons]
+        text_headers = '\r'.join(('Name=240', 'Folder=170', 'Local=125', 'Available=125'))
+        text_columns = ['\r'.join((i['name'], i.get('module', ''), i['v_local'], i['v'])) for i in addons]
         text_items = '\t'.join([text_headers]+text_columns)
         text_checks = ['1' if i['check'] else '0' for i in addons]
         text_val = '0;'+','.join(text_checks)
