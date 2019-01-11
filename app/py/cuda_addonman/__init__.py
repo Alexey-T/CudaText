@@ -351,7 +351,6 @@ class Command:
         for a in addons:
             m = a.get('module', '')
 
-            a['name'] = '['+a['kind']+'] '+a['name']
             if a['kind']=='lexer':
                 a['dir'] = 'data/lexlib'
             else:
@@ -390,7 +389,7 @@ class Command:
         '''
 
         text_headers = '\r'.join(('Name=270', 'Folder=180', 'Local=125', 'Available=125'))
-        text_columns = ['\r'.join((i['name'], i['dir'], i['v_local'], i['v'])) for i in addons]
+        text_columns = ['\r'.join(('['+i['kind']+'] '+i['name'], i['dir'], i['v_local'], i['v'])) for i in addons]
         text_items = '\t'.join([text_headers]+text_columns)
         text_checks = ['1' if i['check'] else '0' for i in addons]
         text_val = '0;'+','.join(text_checks)
@@ -437,10 +436,8 @@ class Command:
         fail_count = 0
 
         for a in addons:
-            #print('  [%s] %s' % (a['kind'], a['name']))
-            print('  '+a['name'])
-            #msg_status('Updating: [%s] %s' % (a['kind'], a['name']), True)
-            msg_status('Updating: '+a['name'], True)
+            print('  [%s] %s' % (a['kind'], a['name']))
+            msg_status('Updating: [%s] %s' % (a['kind'], a['name']), True)
 
             m = a.get('module', '')
             if m:
@@ -457,7 +454,7 @@ class Command:
                 do_save_version(url, fn, a['v'])
             else:
                 fail_count += 1
-                print('  Update failed: '+a['name'])
+                print('  Update failed: [%s] %s' % (a['kind'], a['name']) )
 
         s = 'Done'
         if fail_count>0:
