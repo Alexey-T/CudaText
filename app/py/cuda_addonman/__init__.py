@@ -346,9 +346,14 @@ class Command:
         langs = os.listdir(dir_langs)
         langs = [s[:-4] for s in langs if s.endswith('.ini')]
 
+        dir_themes = os.path.join(app_path(APP_DIR_DATA), 'themes')
+        themes = os.listdir(dir_themes)
+        themes = [s.split('.')[0].replace(' ', '_') for s in themes if '.cuda-theme' in s]
+
         addons = [a for a in addons if a['kind'] in ('plugin', 'treehelper', 'linter') and a.get('module', '') in modules] \
                + [a for a in addons if a['kind']=='lexer' and a['name'] in lexers] \
-               + [a for a in addons if a['kind']=='translation' and a['name'] in langs]
+               + [a for a in addons if a['kind']=='translation' and a['name'] in langs] \
+               + [a for a in addons if a['kind']=='theme' and a['name'] in themes]
 
         modules_web = [a.get('module', '') for a in addons]
         modules_local = [m for m in modules if m not in modules_web]
@@ -360,6 +365,8 @@ class Command:
                 a['dir'] = 'data/lexlib'
             elif a['kind']=='translation':
                 a['dir'] = 'data/lang'
+            elif a['kind']=='theme':
+                a['dir'] = 'data/themes'
             else:
                 a['dir'] = 'py/'+m
 
