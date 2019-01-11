@@ -370,7 +370,7 @@ class Command:
             columns.append(column)
             checks.append(check)
             
-        text_col_head = 'Name=220\rFolder=170\rLocal=125\rAvailable=125'
+        text_col_head = '\r'.join(['Name=240', 'Folder=170', 'Local=125', 'Available=125'])
         text_col = ['\r'.join(item) for item in columns]
         text_items = '\t'.join([text_col_head]+text_col)
         text_val = '0;'+','.join(checks)
@@ -392,7 +392,7 @@ class Command:
               c1.join(['type=button', 'pos=106,500,200,0', 'cap=Select new']),
               ])
 
-            res = dlg_custom('Update plugins', 676, 532, text)
+            res = dlg_custom('Update plugins', 696, 532, text)
             if res is None: return
 
             res, text = res
