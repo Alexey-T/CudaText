@@ -41,7 +41,8 @@ def get_props_of_zip_filename(zip_fn):
     z = zipfile.ZipFile(zip_fn, 'r')
 
     files = z.namelist()
-    files.remove('install.inf')
+    if 'install.inf' in files:
+        files.remove('install.inf')
     files = [f for f in files if _root_item(f)]
 
     z.extract('install.inf', temp_dir)
