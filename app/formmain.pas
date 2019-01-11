@@ -1542,6 +1542,7 @@ begin
   PanelCodeTreeTop:= TATPanelSimple.Create(Self);
   PanelCodeTreeTop.Parent:= PanelLeft;
   PanelCodeTreeTop.Align:= alTop;
+  PanelCodeTreeTop.Top:= PanelLeftTitle.Height; //fix pos relative to title
   PanelCodeTreeTop.Height:= 28;
 
   CodeTreeFilter:= TTreeFilterEdit.Create(Self);
@@ -2445,12 +2446,12 @@ begin
       begin
         PanelCodeTreeTop.Show;
         PanelCodeTreeTop.Align:= alTop;
+        PanelCodeTreeTop.Top:= PanelLeftTitle.Height; //fix pos relative to title
       end;
     2:
       begin
         PanelCodeTreeTop.Show;
         PanelCodeTreeTop.Align:= alBottom;
-        PanelCodeTreeTop.Top:= PanelLeft.Height; //fix pos relative to horz scrollbar
       end;
   end;
 
