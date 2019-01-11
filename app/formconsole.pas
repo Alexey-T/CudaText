@@ -204,7 +204,6 @@ begin
 
   IsDoubleBuffered:= UiOps.DoubleBuffered;
 
-  //Linux h-scroll paints bad (some gtk2 bug) so i disabled it
   memo.OptWrapMode:= cWrapOn;
   memo.OptScrollbarsNew:= true;
   memo.OptUndoLimit:= 0;
@@ -311,7 +310,7 @@ begin
     fmConsole.memo.OptWrapMode:= cWrapOn
   else
     fmConsole.memo.OptWrapMode:= cWrapOff;
-  fmConsole.memo.OptAllowScrollbarHorz:= AValue;
+  //fmConsole.memo.OptAllowScrollbarHorz:= not AValue;
   fmConsole.memo.Update;
 
   mnuTextWrap.Checked:= AValue;
