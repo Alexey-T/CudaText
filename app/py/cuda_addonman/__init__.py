@@ -341,9 +341,14 @@ class Command:
         dir_lexers = os.path.join(app_path(APP_DIR_DATA), 'lexlib')
         lexers = os.listdir(dir_lexers)
         lexers = [s[:-4].replace(' ', '_') for s in lexers if s.endswith('.lcf')]
+        
+        dir_langs = os.path.join(app_path(APP_DIR_DATA), 'lang')
+        langs = os.listdir(dir_langs)
+        langs = [s[:-4] for s in langs if s.endswith('.ini')]
 
         addons = [a for a in addons if a['kind'] in ('plugin', 'treehelper', 'linter') and a.get('module', '') in modules] \
-               + [a for a in addons if a['kind']=='lexer' and a['name'] in lexers]
+               + [a for a in addons if a['kind']=='lexer' and a['name'] in lexers] \
+               + [a for a in addons if a['kind']=='translation' and a['name'] in langs]
 
         modules_web = [a.get('module', '') for a in addons]
         modules_local = [m for m in modules if m not in modules_web]
@@ -353,6 +358,8 @@ class Command:
 
             if a['kind']=='lexer':
                 a['dir'] = 'data/lexlib'
+            elif a['kind']=='translation':
+                a['dir'] = 'data/lang'
             else:
                 a['dir'] = 'py/'+m
 
@@ -411,7 +418,7 @@ class Command:
               c1.join(['type=button', 'pos=106,500,200,0', 'cap=Select new']),
               ])
 
-            res = dlg_custom('Update plugins', 736, 532, text)
+            res = dlg_custom('Update add-ons', 736, 532, text)
             if res is None: return
 
             res, text = res
