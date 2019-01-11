@@ -338,42 +338,51 @@ class Command:
         modules = get_installed_list()
         modules = [m for m in modules if m not in STD_MODULES] + [m for m in modules if m in STD_MODULES]
         
-        columns = []
-        checks = []
-
-        for m in modules:
-            name = get_name_of_module(m)
-
+        addons = [a for a in addons if a['kind'] in ('plugin', 'treehelper', 'linter')]
+        addons = [a for a in addons if a.get('module', '') in modules]
+        
+        modules_web = [a.get('module', '') for a in addons]
+        modules_local = [m for m in modules if m not in modules_web]
+        
+        for a in addons:
+            m = a.get('module', '')
             v_local = '?'
-            v_remote = '?'
             if m in STD_MODULES:
                 v_local = PREINST
-            column = (name, m, v_local, v_remote)
-            check = '0'
+            url = a['url']
+            v_remote = a['v']
+            v_local = get_addon_version(url) or get_addon_version_old(m) or v_local
+            a['v_local'] = v_local
 
-            a = [d for d in addons if d.get('module', '')==m]
-            if a:
-                url = a[0]['url']
-                v_remote = a[0]['v']
-                v_local = get_addon_version(url) or get_addon_version_old(m) or v_local
+            check = False
+            if v_local == PREINST:
+                check = False
+            elif v_local == '?':
+                check = True
+            elif v_local < v_remote:
+                check = True
+            else:
+                check = False
+            a['check'] = check
 
-                column = (name, m, v_local, v_remote)
-                if v_local == PREINST:
-                    check = '0'
-                elif v_local == '?':
-                    check = '1'
-                elif v_local < v_remote:
-                    check = '1'
-                else:
-                    check = '0'
+        addons2 = [{
+            'module': m,
+            'kind': 'plugin',
+            'url': '',
+            'name': get_name_of_module(m),
+            'desc': '',
+            'v': '?',
+            'v_local': PREINST if m in STD_MODULES else '?',
+            'check': False,
+            } for m in modules_local]
 
-            columns.append(column)
-            checks.append(check)
+        addons.extend(addons2)
             
-        text_col_head = '\r'.join(['Name=240', 'Folder=170', 'Local=125', 'Available=125'])
-        text_col = ['\r'.join(item) for item in columns]
-        text_items = '\t'.join([text_col_head]+text_col)
-        text_val = '0;'+','.join(checks)
+        text_headers = '\r'.join(['Name=240', 'Folder=170', 'Local=125', 'Available=125'])
+        text_columns = [i['name']+'\r'+i['module']+'\r'+i['v_local']+'\r'+i['v'] for i in addons]
+        text_items = '\t'.join([text_headers]+text_columns)
+        text_checks = ['1' if i['check'] else '0' for i in addons]
+        text_val = '0;'+','.join(text_checks)
         text_val_initial = text_val
 
         RES_OK = 0
@@ -410,23 +419,26 @@ class Command:
         text = text.splitlines()[RES_LIST]
         text = text.split(';')[1].split(',')
 
-        modules = [m for (i, m) in enumerate(modules) if 0<=i<len(text) and text[i]=='1']
-        if not modules: return
+        addons = [a for (i, a) in enumerate(addons) if 0<=i<len(text) and text[i]=='1']
+        if not addons:
+            return
         print('Updating addons:')
         fail_count = 0
 
         for a in addons:
             m = a.get('module', '')
-            if not m in modules: continue
+            if not m: continue
 
             print('  [%s] %s' % (a['kind'], a['name']))
             msg_status('Updating: [%s] %s' % (a['kind'], a['name']), True)
             do_remove_module(m) # delete old dir
 
             url = a['url']
+            if not url: continue
 
             fn = get_plugin_zip(url)
             if not fn: continue
+            
             if os.path.isfile(fn) and file_open(fn, options='/silent'):
                 do_save_version(url, fn, a['v'])
             else:
