@@ -344,9 +344,10 @@ class Command:
             name = get_name_of_module(m)
 
             v_local = '?'
+            v_remote = '?'
             if m in STD_MODULES:
                 v_local = PREINST
-            col_item = name+'\r'+m+'\r'+v_local+'\r?'
+            col_item = name + '\r' + m + '\r' + v_local + '\r' + v_remote
 
             remote_item = [d for d in remotes if d.get('module', '')==m]
             if remote_item:
@@ -369,11 +370,6 @@ class Command:
 
             modules_selected.append(s)
             text_col.append(col_item)
-
-        #move preinstalled to end
-        #--breaks checks, commented
-        #text_col = [t for t in text_col if PREINST not in t] +\
-                   #[t for t in text_col if PREINST in t]
 
         text_col_head = 'Name=220\rFolder=170\rLocal=125\rAvailable=125'
         text_items = '\t'.join([text_col_head]+text_col)
