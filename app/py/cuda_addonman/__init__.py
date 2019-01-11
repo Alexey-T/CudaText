@@ -329,9 +329,9 @@ class Command:
     def do_update(self):
 
         msg_status('Downloading list...')
-        remotes = get_remote_addons_list(opt.ch_def+opt.ch_user)
+        addons = get_remote_addons_list(opt.ch_def+opt.ch_user)
         msg_status('')
-        if not remotes:
+        if not addons:
             msg_status('Cannot download list')
             return
 
@@ -349,12 +349,12 @@ class Command:
             if m in STD_MODULES:
                 v_local = PREINST
             column = (name, m, v_local, v_remote)
+            check = '0'
 
-            remote_item = [d for d in remotes if d.get('module', '')==m]
-            if remote_item:
-
-                url = remote_item[0]['url']
-                v_remote = remote_item[0]['v']
+            a = [d for d in addons if d.get('module', '')==m]
+            if a:
+                url = a[0]['url']
+                v_remote = a[0]['v']
                 v_local = get_addon_version(url) or get_addon_version_old(m) or v_local
 
                 column = (name, m, v_local, v_remote)
@@ -366,8 +366,6 @@ class Command:
                     check = '1'
                 else:
                     check = '0'
-            else:
-                check = '0'
 
             columns.append(column)
             checks.append(check)
@@ -417,23 +415,23 @@ class Command:
         print('Updating addons:')
         fail_count = 0
 
-        for remote in remotes:
-            m = remote.get('module', '')
+        for a in addons:
+            m = a.get('module', '')
             if not m in modules: continue
 
-            print('  [%s] %s' % (remote['kind'], remote['name']))
-            msg_status('Updating: [%s] %s' % (remote['kind'], remote['name']), True)
+            print('  [%s] %s' % (a['kind'], a['name']))
+            msg_status('Updating: [%s] %s' % (a['kind'], a['name']), True)
             do_remove_module(m) # delete old dir
 
-            url = remote['url']
+            url = a['url']
 
             fn = get_plugin_zip(url)
             if not fn: continue
             if os.path.isfile(fn) and file_open(fn, options='/silent'):
-                do_save_version(url, fn, remote['v'])
+                do_save_version(url, fn, a['v'])
             else:
                 fail_count += 1
-                print('  '+remote['name']+' - Update failed')
+                print('  '+a['name']+' - Update failed')
 
         s = 'Done'
         if fail_count>0:
