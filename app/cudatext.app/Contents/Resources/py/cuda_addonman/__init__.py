@@ -10,7 +10,7 @@ from .work_local import *
 from .work_remote import *
 from .work_dlg_config import *
 from .work_github import *
-from .work_cudatext_updates import check_cudatext
+from .work_cudatext_updates__fosshub import check_cudatext
 from . import opt
 
 dir_for_all = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
@@ -268,7 +268,7 @@ class Command:
             return
         if msg_box('Remove plugin: '+get_name_of_module(m), MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
             return
-        
+
         do_remove_version_of_plugin(m)
         if do_remove_module(m):
             msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
@@ -327,57 +327,94 @@ class Command:
 
 
     def do_update(self):
+    
+        def filename2name(s):
+            s = s.split('.')[0].replace(' ', '_')
+            # strip additions in name for "gruvbox (Dark) (Medium)"
+            n = s.find('_(')
+            if n>=0:
+                s = s[:n]
+            return s
 
         msg_status('Downloading list...')
-        remotes = get_remote_addons_list(opt.ch_def+opt.ch_user)
+        addons = get_remote_addons_list(opt.ch_def+opt.ch_user)
         msg_status('')
-        if not remotes:
+        if not addons:
             msg_status('Cannot download list')
             return
 
         modules = get_installed_list()
         modules = [m for m in modules if m not in STD_MODULES] + [m for m in modules if m in STD_MODULES]
-        modules_selected = []
-        text_col = []
 
-        for m in modules:
-            name = get_name_of_module(m)
+        dir_lexers = os.path.join(app_path(APP_DIR_DATA), 'lexlib')
+        lexers = os.listdir(dir_lexers)
+        lexers = [filename2name(s) for s in lexers if s.endswith('.lcf')]
+        
+        dir_langs = os.path.join(app_path(APP_DIR_DATA), 'lang')
+        langs = os.listdir(dir_langs)
+        langs = [filename2name(s) for s in langs if s.endswith('.ini')]
+
+        dir_themes = os.path.join(app_path(APP_DIR_DATA), 'themes')
+        themes = os.listdir(dir_themes)
+        themes = [filename2name(s) for s in themes if '.cuda-theme' in s]
+
+        addons = [a for a in addons if a['kind'] in ('plugin', 'treehelper', 'linter') and a.get('module', '') in modules] \
+               + [a for a in addons if a['kind']=='lexer' and a['name'] in lexers] \
+               + [a for a in addons if a['kind']=='translation' and a['name'] in langs] \
+               + [a for a in addons if a['kind']=='theme' and a['name'] in themes]
+
+        modules_web = [a.get('module', '') for a in addons]
+        modules_local = [m for m in modules if m not in modules_web]
+
+        for a in addons:
+            m = a.get('module', '')
+
+            if a['kind']=='lexer':
+                a['dir'] = 'data/lexlib'
+            elif a['kind']=='translation':
+                a['dir'] = 'data/lang'
+            elif a['kind']=='theme':
+                a['dir'] = 'data/themes'
+            else:
+                a['dir'] = 'py/'+m
 
             v_local = '?'
             if m in STD_MODULES:
                 v_local = PREINST
-            col_item = name+'\r'+m+'\r'+v_local+'\r?'
+            url = a['url']
+            v_remote = a['v']
+            v_local = get_addon_version(url) or v_local
+            a['v_local'] = v_local
 
-            remote_item = [d for d in remotes if d.get('module', '')==m]
-            if remote_item:
+            check = False
+            if v_local == PREINST:
+                check = False
+            elif v_local == '?':
+                check = True
+            elif v_local < v_remote:
+                check = True
+            a['check'] = check
 
-                url = remote_item[0]['url']
-                v_remote = remote_item[0]['v']
-                v_local = get_addon_version(url) or get_addon_version_old(m) or v_local
+        '''
+        addons2 = [{
+            'module': m,
+            'kind': 'plugin',
+            'url': '',
+            'name': get_name_of_module(m),
+            'desc': '',
+            'v': '?',
+            'v_local': PREINST if m in STD_MODULES else '?',
+            'check': False,
+            } for m in modules_local]
 
-                col_item = name + '\r' + m + '\r' + v_local + '\r' + v_remote
-                if v_local == PREINST:
-                    s = '0'
-                elif v_local == '?':
-                    s = '1'
-                elif v_local < v_remote:
-                    s = '1'
-                else:
-                    s = '0'
-            else:
-                s = '0'
+        addons.extend(addons2)
+        '''
 
-            modules_selected.append(s)
-            text_col.append(col_item)
-
-        #move preinstalled to end
-        #--breaks checks, commented
-        #text_col = [t for t in text_col if PREINST not in t] +\
-                   #[t for t in text_col if PREINST in t]
-
-        text_col_head = 'Name=220\rFolder=170\rLocal=125\rAvailable=125'
-        text_items = '\t'.join([text_col_head]+text_col)
-        text_val = '0;'+','.join(modules_selected)
+        text_headers = '\r'.join(('Name=270', 'Folder=180', 'Local=125', 'Available=125'))
+        text_columns = ['\r'.join(('['+i['kind']+'] '+i['name'], i['dir'], i['v_local'], i['v'])) for i in addons]
+        text_items = '\t'.join([text_headers]+text_columns)
+        text_checks = ['1' if i['check'] else '0' for i in addons]
+        text_val = '0;'+','.join(text_checks)
         text_val_initial = text_val
 
         RES_OK = 0
@@ -389,14 +426,14 @@ class Command:
 
         while True:
             text = '\n'.join([
-              c1.join(['type=button', 'pos=464,500,564,0', 'cap=Update', 'props=1']),
-              c1.join(['type=button', 'pos=570,500,670,0', 'cap=Cancel']),
-              c1.join(['type=checklistview', 'pos=6,6,670,490', 'items='+text_items, 'val='+text_val, 'props=1']),
+              c1.join(['type=button', 'pos=524,500,624,0', 'cap=Update', 'props=1']),
+              c1.join(['type=button', 'pos=630,500,730,0', 'cap=Cancel']),
+              c1.join(['type=checklistview', 'pos=6,6,730,490', 'items='+text_items, 'val='+text_val, 'props=1']),
               c1.join(['type=button', 'pos=6,500,100,0', 'cap=Deselect all']),
               c1.join(['type=button', 'pos=106,500,200,0', 'cap=Select new']),
               ])
 
-            res = dlg_custom('Update plugins', 676, 532, text)
+            res = dlg_custom('Update add-ons', 736, 532, text)
             if res is None: return
 
             res, text = res
@@ -414,28 +451,32 @@ class Command:
         text = text.splitlines()[RES_LIST]
         text = text.split(';')[1].split(',')
 
-        modules = [m for (i, m) in enumerate(modules) if 0<=i<len(text) and text[i]=='1']
-        if not modules: return
+        addons = [a for (i, a) in enumerate(addons) if 0<=i<len(text) and text[i]=='1']
+        if not addons:
+            return
         print('Updating addons:')
         fail_count = 0
 
-        for remote in remotes:
-            m = remote.get('module', '')
-            if not m in modules: continue
+        for a in addons:
+            print('  [%s] %s' % (a['kind'], a['name']))
+            msg_status('Updating: [%s] %s' % (a['kind'], a['name']), True)
 
-            print('  [%s] %s' % (remote['kind'], remote['name']))
-            msg_status('Updating: [%s] %s' % (remote['kind'], remote['name']), True)
-            do_remove_module(m) # delete old dir
+            m = a.get('module', '')
+            if m:
+                # delete old dir
+                do_remove_module(m)
 
-            url = remote['url']
+            url = a['url']
+            if not url: continue
 
             fn = get_plugin_zip(url)
             if not fn: continue
+
             if os.path.isfile(fn) and file_open(fn, options='/silent'):
-                do_save_version(url, fn, remote['v'])
+                do_save_version(url, fn, a['v'])
             else:
                 fail_count += 1
-                print('  '+remote['name']+' - Update failed')
+                print('  Update failed: [%s] %s' % (a['kind'], a['name']) )
 
         s = 'Done'
         if fail_count>0:

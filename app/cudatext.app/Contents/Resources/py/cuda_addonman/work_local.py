@@ -41,7 +41,8 @@ def get_props_of_zip_filename(zip_fn):
     z = zipfile.ZipFile(zip_fn, 'r')
 
     files = z.namelist()
-    files.remove('install.inf')
+    if 'install.inf' in files:
+        files.remove('install.inf')
     files = [f for f in files if _root_item(f)]
 
     z.extract('install.inf', temp_dir)
@@ -219,15 +220,6 @@ def do_save_version(url, fn, version):
         ini_write(fn, sec, 'f', ';'.join(f))
         ini_write(fn, sec, 'v', version)
         return props
-
-
-def get_addon_version_old(mod):
-
-    fn = os.path.join(app_path(APP_DIR_PY), mod, 'v.inf')
-    s = ''
-    if os.path.isfile(fn):
-        s = open(fn).read()
-    return s
 
 
 def get_addon_version(url):

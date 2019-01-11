@@ -507,7 +507,7 @@ Time in seconds: 1..30; seconds<=0 hides statusbar (if shown before).
 
  dlg_input(label, text)
 
-Shows modal dialog to input one string. Gets entered string or None of cancelled.
+Shows modal dialog to input one string. Gets entered string or None if cancelled.
 
 * Param "label": prompt text above input field.
 * Param "text": initial value of input field.
@@ -1698,6 +1698,19 @@ Returns list of 4-tuples, each item is info about one caret: (PosX, PosY, EndX, 
 * PosY is caret's line (0-base).
 * EndX/EndY is position of selection edge for this caret. Both -1 if no selection for caret.
 
+Example shows text of first caret's selection:
+
+<syntaxhighlight lang="Python">
+    carets = ed.get_carets()
+    x1, y1, x2, y2 = carets[0]
+    if y2>=0:
+        # sort (y,x) pairs
+        if (y1, x1)>(y2, x2):
+            x1, y1, x2, y2 = x2, y2, x1, y1
+        s = ed.get_text_substr(x1, y1, x2, y2)
+        msg_status('Selection: '+s)
+</syntaxhighlight>
+
 ===set_caret===
 
  set_caret(posx, posy, endx=-1, endy=-1, id=CARET_SET_ONE)
@@ -2499,6 +2512,107 @@ Text is "\n"-separated lines, each line is Undo/Redo item. Each item is "\t"-sep
 * hard mark flag, number 0/1.
 * line text, in UTF8. This text can have "\t", not a separator here.
 
+=API of 3rd-party plugins=
+==Options Editor==
+Options Editor plugin (preinstalled in CudaText) has API which allows to call its dialog with custom options. Example shows dialog with 4 custom options, with custom title. Options which user changed in dialog will be saved to user.json or lexer-specific config.
+
+<syntaxhighlight lang="Python">
+import os
+import json
+import cuda_options_editor as op_ed
+
+class Command:
+    def config(self):
+        info_file = os.path.dirname(__file__)+os.sep+'my plugin options.json'
+
+        open(info_file, 'w').write(json.dumps([
+        {   "opt": "my_opt_1",
+            "cmt": ["Comment line 1",
+                    "Comment line 2",
+                    "Comment line 3"],
+            "def": True,        # Default value
+            "frm": "bool",      # Value type from
+                                #   bool float int str - simple types
+                                #   font - font name
+                                #   font-e - font name or empty
+                                #   hotk - hotkey
+                                #   file - file path
+                                #   strs  - list of str
+                                #   int2s - dict int to str
+                                #   str2s - dict str to str
+            "chp": "MySection"  # Section (can be empty)
+        },
+        {   "opt": "my_opt_2",
+            "cmt": ["Comment"],
+            "def": "v1",
+            "frm": "strs",
+            "lst": ["v1", "v2"]
+        },
+        {   "opt": "my_opt_3",
+            "cmt": ["Comment"],
+            "def": 11,
+            "frm": "int2s",
+            "dct": [[11, "value for 11"], [22, "value for 22"]]
+        },
+        {   "opt": "my_opt_4",
+            "cmt": ["Comment"],
+            "def": "a",
+            "frm": "int2s",
+            "dct": [["a", "value for a"], ["b", "value for b"]]
+        }
+        ]))
+
+        subset ='my plugin.' # Key for isolated storage on plugin settings
+        title = 'My Options' # Dialog caption
+        op_ed.OptEdD(path_keys_info=info_file, subset=subset).show(title)
+</syntaxhighlight>
+
+This will show:
+
+[[File:cudatext_options_editor.png]]
+
+==Project Manager==
+Project Manager plugin (preinstalled in CudaText) gives API to read properties of currently opened project. It has global variable '''global_project_info''', which is dict with keys:
+
+* "filename": Path of project file (*.cuda-proj), or empty string if project is not saved.
+* "mainfile": Path of "main file" (which must be set by user from Project Manager context menu).
+* "nodes": List of root project nodes, ie folder and file paths in the root level.
+* "vars": List of variables defined in the Project Properties dialog. List of strings in the form "name=value".
+
+Example:
+<syntaxhighlight lang="Python">
+     from cuda_project_man import global_project_info
+     roots = global_project_info['nodes']
+</syntaxhighlight>
+
+Also global function '''project_variables()''' exists, which is handy wrapper around global_project_info. It returns dict with keys:
+
+* "ProjDir": Folder of project file (*.cuda-proj).
+* "ProjMainFile": Path of "main file".
+* "ProjMainFileNameOnly": Only name of "main file", without path.
+* "ProjMainFileNameNoExt": Name of "main file", without path and extension.
+* Additional keys for project variables.
+
+Its code currently is:
+
+<syntaxhighlight lang="Python">
+def project_variables():
+    res = collections.OrderedDict()
+    data = global_project_info
+    res['ProjDir'] = os.path.dirname(data.get('filename', ''))
+
+    fn = data.get('mainfile', '')
+    res['ProjMainFile'] = fn
+    res['ProjMainFileNameOnly'] = os.path.basename(fn)
+    res['ProjMainFileNameNoExt'] = '.'.join(os.path.basename(fn).split('.')[0:-1])
+
+    data = global_project_info.get('vars', [])
+    for item in data:
+        s1, s2 = item.split('=', maxsplit=1)
+        res[s1] = s2
+    return res
+</syntaxhighlight>
+
 =FAQ=
 
 ==How plugin can fill Code Tree?==
@@ -3084,5 +3198,9 @@ Text is "\n"-separated lines, each line is Undo/Redo item. Each item is "\t"-sep
 1.0.266 (app 1.67.0)
 * add: dlg_commands: add COMMANDS_CENTERED
 * add: dlg_commands: add "title" param
+
+1.0.267 (app 1.70.3)
+* add: on_state: add APPSTATE_CONFIG_REREAD
+* add: on_state: add APPSTATE_SESSION_LOAD
 
 [[Category:CudaText]]

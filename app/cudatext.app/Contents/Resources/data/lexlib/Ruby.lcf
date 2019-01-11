@@ -1,4 +1,4 @@
-object SyntAnal31: TLibSyntAnalyzer
+object SyntAnal30: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -175,7 +175,7 @@ object SyntAnal31: TLibSyntAnalyzer
       DisplayName = 'Id'
       StyleName = 'Id'
       TokenType = 2
-      Expression = '[a-z_]\w*'
+      Expression = '[a-z_]\w*\??'
       ColumnFrom = 0
       ColumnTo = 0
     end
