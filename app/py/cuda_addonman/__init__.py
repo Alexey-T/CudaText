@@ -268,7 +268,7 @@ class Command:
             return
         if msg_box('Remove plugin: '+get_name_of_module(m), MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
             return
-        
+
         do_remove_version_of_plugin(m)
         if do_remove_module(m):
             msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
@@ -337,13 +337,13 @@ class Command:
 
         modules = get_installed_list()
         modules = [m for m in modules if m not in STD_MODULES] + [m for m in modules if m in STD_MODULES]
-        
+
         addons = [a for a in addons if a['kind'] in ('plugin', 'treehelper', 'linter')]
         addons = [a for a in addons if a.get('module', '') in modules]
-        
+
         modules_web = [a.get('module', '') for a in addons]
         modules_local = [m for m in modules if m not in modules_web]
-        
+
         for a in addons:
             m = a.get('module', '')
             v_local = '?'
@@ -365,6 +365,7 @@ class Command:
                 check = False
             a['check'] = check
 
+        '''
         addons2 = [{
             'module': m,
             'kind': 'plugin',
@@ -377,7 +378,8 @@ class Command:
             } for m in modules_local]
 
         addons.extend(addons2)
-            
+        '''
+
         text_headers = '\r'.join(['Name=240', 'Folder=170', 'Local=125', 'Available=125'])
         text_columns = [i['name']+'\r'+i['module']+'\r'+i['v_local']+'\r'+i['v'] for i in addons]
         text_items = '\t'.join([text_headers]+text_columns)
@@ -438,7 +440,7 @@ class Command:
 
             fn = get_plugin_zip(url)
             if not fn: continue
-            
+
             if os.path.isfile(fn) and file_open(fn, options='/silent'):
                 do_save_version(url, fn, a['v'])
             else:
