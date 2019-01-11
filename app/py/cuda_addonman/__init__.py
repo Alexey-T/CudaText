@@ -383,7 +383,7 @@ class Command:
                 v_local = PREINST
             url = a['url']
             v_remote = a['v']
-            v_local = get_addon_version(url) or get_addon_version_old(m) or v_local
+            v_local = get_addon_version(url) or v_local
             a['v_local'] = v_local
 
             check = False

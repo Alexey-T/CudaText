@@ -221,15 +221,6 @@ def do_save_version(url, fn, version):
         return props
 
 
-def get_addon_version_old(mod):
-
-    fn = os.path.join(app_path(APP_DIR_PY), mod, 'v.inf')
-    s = ''
-    if os.path.isfile(fn):
-        s = open(fn).read()
-    return s
-
-
 def get_addon_version(url):
 
     fn = get_packages_ini()

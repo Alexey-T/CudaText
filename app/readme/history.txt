@@ -9,6 +9,7 @@
 + add: Addon Manager "Update" dialog can update also lexers/themes/translations
 + add: option "find_hotkey_extract"
 + add: in the list of recent files, paths are shorted with ~ char (for home folder)
+* change: Addon Manager doesn't support versions in old files v.inf
 - fix: bug in Option Editor (leads to saving to lexer-specific config)
 
 + add: lexer C improved: highlight more keyword groups
