@@ -327,6 +327,14 @@ class Command:
 
 
     def do_update(self):
+    
+        def filename2name(s):
+            s = s.split('.')[0].replace(' ', '_')
+            # strip additions in name for "gruvbox (Dark) (Medium)"
+            n = s.find('_(')
+            if n>=0:
+                s = s[:n]
+            return s
 
         msg_status('Downloading list...')
         addons = get_remote_addons_list(opt.ch_def+opt.ch_user)
@@ -340,15 +348,15 @@ class Command:
 
         dir_lexers = os.path.join(app_path(APP_DIR_DATA), 'lexlib')
         lexers = os.listdir(dir_lexers)
-        lexers = [s[:-4].replace(' ', '_') for s in lexers if s.endswith('.lcf')]
+        lexers = [filename2name(s) for s in lexers if s.endswith('.lcf')]
         
         dir_langs = os.path.join(app_path(APP_DIR_DATA), 'lang')
         langs = os.listdir(dir_langs)
-        langs = [s[:-4] for s in langs if s.endswith('.ini')]
+        langs = [filename2name(s) for s in langs if s.endswith('.ini')]
 
         dir_themes = os.path.join(app_path(APP_DIR_DATA), 'themes')
         themes = os.listdir(dir_themes)
-        themes = [s.split('.')[0].replace(' ', '_') for s in themes if '.cuda-theme' in s]
+        themes = [filename2name(s) for s in themes if '.cuda-theme' in s]
 
         addons = [a for a in addons if a['kind'] in ('plugin', 'treehelper', 'linter') and a.get('module', '') in modules] \
                + [a for a in addons if a['kind']=='lexer' and a['name'] in lexers] \
