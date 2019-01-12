@@ -397,21 +397,6 @@ class Command:
                 check = True
             a['check'] = check
 
-        '''
-        addons2 = [{
-            'module': m,
-            'kind': 'plugin',
-            'url': '',
-            'name': get_name_of_module(m),
-            'desc': '',
-            'v': '?',
-            'v_local': PREINST if m in STD_MODULES else '?',
-            'check': False,
-            } for m in modules_local]
-
-        addons.extend(addons2)
-        '''
-
         text_headers = '\r'.join(('Name=260', 'Folder=180', 'Local=125', 'Available=125'))
         text_columns = ['\r'.join(('['+i['kind']+'] '+i['name'], i['dir'], i['v_local'], i['v'])) for i in addons]
         text_items = '\t'.join([text_headers]+text_columns)
