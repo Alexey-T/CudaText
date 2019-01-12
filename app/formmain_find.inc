@@ -155,8 +155,8 @@ begin
       [cmd_FinderAction, Res, FFinder.StrFind, FFinder.StrReplace, DoFindOptionsToString])+#10);
 
   bDoLock:=
-    (Res=cOpFindRep) or
-    (Res=cOpFindRepAndStop) or
+    //(Res=cOpFindRep) or //don't lock for single replace, issue #1216
+    //(Res=cOpFindRepAndStop) or
     (Res=cOpFindRepAll);
   UpdateAppForSearch(true, bDoLock, bFindMode);
 

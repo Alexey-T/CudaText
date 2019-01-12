@@ -411,7 +411,7 @@ class Command:
         addons.extend(addons2)
         '''
 
-        text_headers = '\r'.join(('Name=270', 'Folder=180', 'Local=125', 'Available=125'))
+        text_headers = '\r'.join(('Name=260', 'Folder=180', 'Local=125', 'Available=125'))
         text_columns = ['\r'.join(('['+i['kind']+'] '+i['name'], i['dir'], i['v_local'], i['v'])) for i in addons]
         text_items = '\t'.join([text_headers]+text_columns)
         text_checks = ['1' if i['check'] else '0' for i in addons]
@@ -427,14 +427,14 @@ class Command:
 
         while True:
             text = '\n'.join([
-              c1.join(['type=button', 'pos=524,500,624,0', 'cap=Update', 'props=1']),
-              c1.join(['type=button', 'pos=630,500,730,0', 'cap=Cancel']),
-              c1.join(['type=checklistview', 'pos=6,6,730,490', 'items='+text_items, 'val='+text_val, 'props=1']),
+              c1.join(['type=button', 'pos=514,500,614,0', 'cap=Update', 'props=1']),
+              c1.join(['type=button', 'pos=620,500,720,0', 'cap=Cancel']),
+              c1.join(['type=checklistview', 'pos=6,6,720,490', 'items='+text_items, 'val='+text_val, 'props=1']),
               c1.join(['type=button', 'pos=6,500,100,0', 'cap=Deselect all']),
               c1.join(['type=button', 'pos=106,500,200,0', 'cap=Select new']),
               ])
 
-            res = dlg_custom('Update add-ons', 736, 532, text)
+            res = dlg_custom('Update add-ons', 726, 532, text)
             if res is None: return
 
             res, text = res
