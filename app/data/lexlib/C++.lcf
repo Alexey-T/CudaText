@@ -262,7 +262,7 @@ object SyntAnal7: TLibSyntAnalyzer
       DisplayName = 'Symbol single'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\[\],]'
+      Expression = '[\[\],\*]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -270,7 +270,7 @@ object SyntAnal7: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[/\+\-\*=<>&/\|\^\.!\?%\\:]+'
+      Expression = '[/\+\-=<>&/\|\^\.!\?%\\:]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -310,7 +310,6 @@ object SyntAnal7: TLibSyntAnalyzer
             'goto'
             'if'
             'new'
-            'noexcept'
             'not'
             'not_eq'
             'operator'
@@ -350,11 +349,14 @@ object SyntAnal7: TLibSyntAnalyzer
             'explicit'
             'export'
             'extern'
+            'final'
             'friend'
             'inline'
             'mutable'
             'namespace'
+            'noexcept'
             'nullptr'
+            'override'
             'private'
             'protected'
             'public'

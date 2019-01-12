@@ -13,6 +13,7 @@
 - fix: bug in Option Editor (leads to saving to lexer-specific config)
 
 + add: lexer C improved: highlight more keyword groups
++ add: lexer C++ improved: more std words; support hex&floating numbers
 + add: lexer XML improved: handle incorrect comment endings 
 
 1.70.0 (2019/01)
