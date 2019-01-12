@@ -365,6 +365,7 @@ class Command:
                + [a for a in addons if a['kind']=='theme' and a['name'] in themes]
 
         modules_web = [a.get('module', '') for a in addons]
+        modules_web = [a for a in modules_web if a]
         modules_local = [m for m in modules if m not in modules_web]
 
         for a in addons:
