@@ -122,7 +122,7 @@ object SyntAnal7: TLibSyntAnalyzer
       DisplayName = 'String'
       StyleName = 'String'
       TokenType = 4
-      Expression = '"(\\"|\\\\|.)*?("|$)'
+      Expression = 'L?"(\\"|\\\\|.)*?("|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -151,6 +151,16 @@ object SyntAnal7: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Hex float'
+      StyleName = 'Number'
+      TokenType = 5
+      Expression = 
+        '0x([\da-f][\da-f'#39']* \.)? [\da-f][\da-f'#39']* p [\+\-]? [\da-f][\da-' +
+        'f'#39']* |'#13#10'0x[\da-f][\da-f'#39']* \. [\da-f][\da-f'#39']*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Hex'
       StyleName = 'Number'
       TokenType = 5
@@ -163,8 +173,8 @@ object SyntAnal7: TLibSyntAnalyzer
       StyleName = 'Number'
       TokenType = 5
       Expression = 
-        '#with exp. dot is optional '#13#10'(\d[\d'#39']* \.)? \d[\d'#39']* e [\+\-]? \' +
-        'd[\d'#39']* |'#13#10'#without exp. dot is required'#13#10'\d[\d'#39']* \. \d[\d'#39']*'
+        '(\d[\d'#39']* \.)? \d[\d'#39']* e [\+\-]? \d[\d'#39']* |'#13#10'\d[\d'#39']* \. \d[\d'#39 +
+        ']*f?'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -386,6 +396,8 @@ object SyntAnal7: TLibSyntAnalyzer
             'char'
             'char16_t'
             'char32_t'
+            'cin'
+            'cout'
             'double'
             'false'
             'FALSE'
@@ -397,6 +409,7 @@ object SyntAnal7: TLibSyntAnalyzer
             'short'
             'signed'
             'string'
+            'stringstream'
             'true'
             'TRUE'
             'uint16_t'
@@ -688,15 +701,17 @@ object SyntAnal7: TLibSyntAnalyzer
     '/* Test */'
     '#define max(a, b) ((a > b) ? a : b)'
     '#  asm(" pop ax ");'
-    'strcpy(b, "text\"text");'
-    'double F = 1e2 + 0.12e+2 + 0xAF;'
-    'name = name<CName>'
+    'tst = "text\"text" + L"test";'
+    
+      'F = 1e2 + 0.12e+2 + 0xA'#39'B + 0b11'#39'00 + 1'#39'12'#39'23 + 0.1'#39'2f + 0xF.Ap3' +
+      ';  '
+    'name<CName>'
     ''
     'Id Template::getTemplate(const string &id) const { '
     '  return id;'
     '}'
     ''
-    'void CNested1::CMonitor(MonitorIT* part) {'
+    'double CNested1::CMonitor(MonitorIT* part) {'
     '}'
     ''
     'void CNested2::CMonitor::connectMonitorIT(MonitorIT* part) {'
