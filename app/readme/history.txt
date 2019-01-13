@@ -7,8 +7,9 @@
 
 + add: dialog Find has new Extract button: it finds all matches in RegEx mode and puts them to a new document (plugin Extract Strings also does this)
 + add: Addon Manager "Update" dialog can update also lexers/themes/translations
-+ add: option "find_hotkey_extract"
++ add: if curly brackets {} typed and caret is inside them, Enter makes additional indented line between brackets (uses option "indent_size")
 + add: in the list of recent files, paths are shorted with ~ char (for home folder)
++ add: option "find_hotkey_extract"
 * change: Addon Manager doesn't support versions in old files v.inf
 - fix: bug in Option Editor (leads to saving to lexer-specific config)
 
