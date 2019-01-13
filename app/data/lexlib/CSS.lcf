@@ -11,7 +11,7 @@ object SyntAnal8: TLibSyntAnalyzer
     item
       DisplayName = 'Param correct'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -19,7 +19,7 @@ object SyntAnal8: TLibSyntAnalyzer
     item
       DisplayName = 'Param incorrect'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -29,7 +29,7 @@ object SyntAnal8: TLibSyntAnalyzer
     item
       DisplayName = 'Value'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlue
+      Font.Color = clPurple
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -79,10 +79,10 @@ object SyntAnal8: TLibSyntAnalyzer
     item
       DisplayName = 'Number'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clPurple
+      Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = []
+      Font.Style = [fsBold]
     end
     item
       DisplayName = 'StyleSuffix'
@@ -95,11 +95,10 @@ object SyntAnal8: TLibSyntAnalyzer
     item
       DisplayName = 'ParamCustom'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-      BorderTypeBottom = blDot
     end
     item
       DisplayName = 'Include tag'
@@ -108,12 +107,19 @@ object SyntAnal8: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Media'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clFuchsia
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
-      DisplayName = '{}'
+      DisplayName = 'Symbol {}'
       StyleName = 'Symbol'
-      TokenType = 3
       Expression = '[\{\}]'
       ColumnFrom = 0
       ColumnTo = 0
@@ -135,7 +141,7 @@ object SyntAnal8: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'UnicodeRange'
+      DisplayName = 'Unicode range'
       StyleName = 'String'
       TokenType = 4
       Expression = 'U\+[\w\?\-]+'
@@ -151,7 +157,7 @@ object SyntAnal8: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'ParamCustom'
+      DisplayName = 'Prop custom'
       StyleName = 'ParamCustom'
       TokenType = 2
       Expression = '\-\-\w[\w\-]*'
@@ -159,7 +165,7 @@ object SyntAnal8: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Param'
+      DisplayName = 'Prop'
       StyleName = 'Param incorrect'
       BlockName = 'Style begin'
       TokenType = 9
@@ -168,12 +174,20 @@ object SyntAnal8: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'StyleSuffix'
+      DisplayName = 'Style suffix'
       StyleName = 'StyleSuffix'
       BlockName = 'Style begin'
       NotParent = True
       TokenType = 2
       Expression = ':{1,2}[\w\-]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Media'
+      StyleName = 'Media'
+      TokenType = 10
+      Expression = '@[\w\-]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -229,7 +243,7 @@ object SyntAnal8: TLibSyntAnalyzer
     end>
   BlockRules = <
     item
-      DisplayName = 'Params'
+      DisplayName = 'Id props'
       StyleName = 'Param correct'
       BlockType = btTagDetect
       ConditionList = <
@@ -588,7 +602,7 @@ object SyntAnal8: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'Params vendors'
+      DisplayName = 'Id props vendor'
       StyleName = 'Param correct'
       BlockType = btTagDetect
       ConditionList = <
@@ -1056,20 +1070,18 @@ object SyntAnal8: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '{')
-          TokenTypes = 8
+          TokenTypes = 1
         end
         item
           CondType = tcSkip
-          TokenTypes = 246
+          TokenTypes = 254
         end
         item
-          TagList.Strings = (
-            '@')
-          TokenTypes = 32
+          TokenTypes = 1024
         end>
       BlockEnd = 'Style end'
       NameFmt = '%sz0'
-      GroupFmt = 'AtRules'
+      GroupFmt = '@Rules'
       RefToCondEnd = True
       DynHighlight = dhRange
       HighlightPos = cpRange
@@ -1085,7 +1097,7 @@ object SyntAnal8: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '{')
-          TokenTypes = 8
+          TokenTypes = 1
         end>
       BlockEnd = 'Style end'
       Highlight = True
@@ -1107,7 +1119,7 @@ object SyntAnal8: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '}')
-          TokenTypes = 8
+          TokenTypes = 1
         end>
       HighlightPos = cpBound
       IgnoreAsParent = False
@@ -1141,7 +1153,7 @@ object SyntAnal8: TLibSyntAnalyzer
           TagList.Strings = (
             ';'
             '}')
-          TokenTypes = 40
+          TokenTypes = 41
         end>
       BlockOffset = 1
       DisplayInTree = False
@@ -1356,7 +1368,7 @@ object SyntAnal8: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal24
+      SyntAnalyzer = SyntAnal21
     end>
   SampleText.Strings = (
     '/* Comment */'
@@ -1398,16 +1410,17 @@ object SyntAnal8: TLibSyntAnalyzer
     '    padding: 0 15px'
     '}')
   TokenTypeNames.Strings = (
-    'Unknown'
+    'Symbol {}'
     'Comment'
-    'Identifier'
+    'Id'
     'Symbol'
     'String'
     'Delimiter'
     'Color'
     'Number'
     'Include tag'
-    'Param')
+    'Param'
+    'Media')
   Extentions = 'css'
   LexerName = 'CSS'
   Notes.Strings = (
