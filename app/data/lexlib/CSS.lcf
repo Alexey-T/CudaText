@@ -167,7 +167,7 @@ object SyntAnal8: TLibSyntAnalyzer
     item
       DisplayName = 'Prop'
       StyleName = 'Param incorrect'
-      BlockName = 'Style begin'
+      BlockName = '{'
       TokenType = 9
       Expression = '[\w\.-]+ (?=\s*\:)'
       ColumnFrom = 0
@@ -176,7 +176,7 @@ object SyntAnal8: TLibSyntAnalyzer
     item
       DisplayName = 'Style suffix'
       StyleName = 'StyleSuffix'
-      BlockName = 'Style begin'
+      BlockName = '{'
       NotParent = True
       TokenType = 2
       Expression = ':{1,2}[\w\-]+'
@@ -202,7 +202,7 @@ object SyntAnal8: TLibSyntAnalyzer
     item
       DisplayName = 'Color'
       StyleName = 'Color'
-      BlockName = 'Style begin'
+      BlockName = '{'
       TokenType = 6
       Expression = '\#[\da-f]+'
       ColumnFrom = 0
@@ -219,7 +219,7 @@ object SyntAnal8: TLibSyntAnalyzer
     item
       DisplayName = 'Value'
       StyleName = 'Value'
-      BlockName = 'Style begin'
+      BlockName = '{'
       TokenType = 2
       Expression = '[\w:\#\.\-]+'
       ColumnFrom = 0
@@ -1064,22 +1064,13 @@ object SyntAnal8: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'Media begin'
+      DisplayName = 'Media'
       StyleName = 'Current block'
       ConditionList = <
         item
-          TagList.Strings = (
-            '{')
-          TokenTypes = 1
-        end
-        item
-          CondType = tcSkip
-          TokenTypes = 254
-        end
-        item
           TokenTypes = 1024
         end>
-      BlockEnd = 'Style end'
+      BlockEnd = '}'
       NameFmt = '%sz0'
       GroupFmt = '@Rules'
       RefToCondEnd = True
@@ -1091,7 +1082,7 @@ object SyntAnal8: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'Style begin'
+      DisplayName = '{'
       StyleName = 'Current block'
       ConditionList = <
         item
@@ -1099,7 +1090,7 @@ object SyntAnal8: TLibSyntAnalyzer
             '{')
           TokenTypes = 1
         end>
-      BlockEnd = 'Style end'
+      BlockEnd = '}'
       Highlight = True
       InvertColors = True
       NameFmt = '%sl1'
@@ -1113,7 +1104,7 @@ object SyntAnal8: TLibSyntAnalyzer
       AutoCloseText = '}'#13#10
     end
     item
-      DisplayName = 'Style end'
+      DisplayName = '}'
       BlockType = btRangeEnd
       ConditionList = <
         item
@@ -1126,7 +1117,7 @@ object SyntAnal8: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Param to tree'
-      BlockName = 'Style begin'
+      BlockName = '{'
       ConditionList = <
         item
           TagList.Strings = (
@@ -1173,7 +1164,7 @@ object SyntAnal8: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Images'
-      BlockName = 'Style begin'
+      BlockName = '{'
       ConditionList = <
         item
           TagList.Strings = (
@@ -1203,7 +1194,7 @@ object SyntAnal8: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'Known colors'
+      DisplayName = 'Id colors'
       StyleName = 'Color'
       BlockType = btTagDetect
       ConditionList = <
