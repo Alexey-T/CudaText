@@ -217,6 +217,8 @@ begin
   Ed.OptAutoIndent:= Op.OpIndentAuto;
   if Op.OpIndentAutoKind<=Ord(High(TATAutoIndentKind)) then
     Ed.OptAutoIndentKind:= TATAutoIndentKind(Op.OpIndentAutoKind);
+  Ed.OptAutoIndentBetterBracketsCurly:= Op.OpIndentAuto; //no separate option
+
   Ed.OptIndentSize:= Op.OpIndentSize;
   Ed.OptIndentKeepsAlign:= Op.OpUnIndentKeepsAlign;
   Ed.OptIndentMakesWholeLinesSelection:= Op.OpIndentMakesWholeLineSel;
