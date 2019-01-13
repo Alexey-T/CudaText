@@ -9,7 +9,7 @@ object SyntAnal8: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Param correct'
+      DisplayName = 'Prop correct'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clGreen
       Font.Height = -13
@@ -17,7 +17,7 @@ object SyntAnal8: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Param incorrect'
+      DisplayName = 'Prop incorrect'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clGreen
       Font.Height = -13
@@ -85,7 +85,7 @@ object SyntAnal8: TLibSyntAnalyzer
       Font.Style = [fsBold]
     end
     item
-      DisplayName = 'StyleSuffix'
+      DisplayName = 'Style suffix'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clGreen
       Font.Height = -13
@@ -93,7 +93,7 @@ object SyntAnal8: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'ParamCustom'
+      DisplayName = 'Prop user'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
       Font.Height = -13
@@ -101,7 +101,7 @@ object SyntAnal8: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Include tag'
+      DisplayName = 'PHP tag'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clRed
       Font.Height = -13
@@ -112,6 +112,14 @@ object SyntAnal8: TLibSyntAnalyzer
       DisplayName = 'Media'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clFuchsia
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Value unit'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -158,7 +166,7 @@ object SyntAnal8: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Prop custom'
-      StyleName = 'ParamCustom'
+      StyleName = 'Prop user'
       TokenType = 2
       Expression = '\-\-\w[\w\-]*'
       ColumnFrom = 0
@@ -166,7 +174,7 @@ object SyntAnal8: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Prop'
-      StyleName = 'Param incorrect'
+      StyleName = 'Prop incorrect'
       BlockName = '{'
       TokenType = 9
       Expression = '[\w\.-]+ (?=\s*\:)'
@@ -175,27 +183,11 @@ object SyntAnal8: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Style suffix'
-      StyleName = 'StyleSuffix'
+      StyleName = 'Style suffix'
       BlockName = '{'
       NotParent = True
       TokenType = 2
       Expression = ':{1,2}[\w\-]+'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Media'
-      StyleName = 'Media'
-      TokenType = 10
-      Expression = '@[\w\-]+'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Symbol'
-      StyleName = 'Symbol'
-      TokenType = 5
-      Expression = '[;:,%\(\)\[\]@=/\*>\-\+!\^\$\|~]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -217,6 +209,22 @@ object SyntAnal8: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Media'
+      StyleName = 'Media'
+      TokenType = 5
+      Expression = '@[\w\-]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Value unit'
+      StyleName = 'Value unit'
+      TokenType = 2
+      Expression = '(?<=\b\d+)[a-z]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Value'
       StyleName = 'Value'
       BlockName = '{'
@@ -229,13 +237,21 @@ object SyntAnal8: TLibSyntAnalyzer
       DisplayName = 'Style'
       StyleName = 'Style'
       TokenType = 2
-      Expression = '[\w\#\.\-\+]+'
+      Expression = '\-[\w\-]+ | [\w\#\.][\w\-]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Include tag'
-      StyleName = 'Include tag'
+      DisplayName = 'Symbol'
+      StyleName = 'Symbol'
+      TokenType = 3
+      Expression = '[;:,%\(\)\[\]@=/\*>\-\+!\^\$\|~]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'PHP tag'
+      StyleName = 'PHP tag'
       TokenType = 8
       Expression = '<\?php | <\? | \?>'
       ColumnFrom = 0
@@ -244,7 +260,7 @@ object SyntAnal8: TLibSyntAnalyzer
   BlockRules = <
     item
       DisplayName = 'Id props'
-      StyleName = 'Param correct'
+      StyleName = 'Prop correct'
       BlockType = btTagDetect
       ConditionList = <
         item
@@ -603,7 +619,7 @@ object SyntAnal8: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Id props vendor'
-      StyleName = 'Param correct'
+      StyleName = 'Prop correct'
       BlockType = btTagDetect
       ConditionList = <
         item
@@ -1064,136 +1080,6 @@ object SyntAnal8: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'Media'
-      StyleName = 'Current block'
-      ConditionList = <
-        item
-          TokenTypes = 1024
-        end>
-      BlockEnd = '}'
-      NameFmt = '%sz0'
-      GroupFmt = '@Rules'
-      RefToCondEnd = True
-      DynHighlight = dhRange
-      HighlightPos = cpRange
-      DynSelectMin = True
-      CancelNextRules = True
-      CollapseFmt = '@{...}'
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = '{'
-      StyleName = 'Current block'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '{')
-          TokenTypes = 1
-        end>
-      BlockEnd = '}'
-      Highlight = True
-      InvertColors = True
-      NameFmt = '%sl1'
-      GroupFmt = '\Styles'
-      DynHighlight = dhRange
-      HighlightPos = cpRange
-      DynSelectMin = True
-      CollapseFmt = '{ ... }'
-      IgnoreAsParent = False
-      AutoCloseMode = acmCloseNearest
-      AutoCloseText = '}'#13#10
-    end
-    item
-      DisplayName = '}'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '}')
-          TokenTypes = 1
-        end>
-      HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Param to tree'
-      BlockName = '{'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            ':')
-          TokenTypes = 544
-        end
-        item
-          TagList.Strings = (
-            'http')
-          CondType = tcNotEqual
-          TokenTypes = 4
-        end>
-      IdentIndex = 1
-      BlockOffset = 1
-      BlockEnd = 'Param end'
-      HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Param end'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            ';'
-            '}')
-          TokenTypes = 41
-        end>
-      BlockOffset = 1
-      DisplayInTree = False
-      HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Colors'
-      ConditionList = <
-        item
-          TokenTypes = 64
-        end>
-      GroupFmt = '\Colors'
-      HighlightPos = cpAny
-      NoEndRule = True
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Images'
-      BlockName = '{'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '(')
-          TokenTypes = 32
-        end
-        item
-          TagList.Strings = (
-            'url')
-        end>
-      BlockEnd = 'Images end'
-      NameFmt = '%s-1~s[)]1'
-      GroupFmt = '\Images'
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Images end'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            ')')
-          TokenTypes = 32
-        end>
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
       DisplayName = 'Id colors'
       StyleName = 'Color'
       BlockType = btTagDetect
@@ -1352,6 +1238,125 @@ object SyntAnal8: TLibSyntAnalyzer
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
+    end
+    item
+      DisplayName = '{'
+      StyleName = 'Current block'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 1
+        end>
+      BlockEnd = '}'
+      Highlight = True
+      InvertColors = True
+      NameFmt = '%sl1'
+      GroupFmt = '\Styles'
+      DynHighlight = dhRange
+      HighlightPos = cpRange
+      DynSelectMin = True
+      CollapseFmt = '{ ... }'
+      IgnoreAsParent = False
+      AutoCloseMode = acmCloseNearest
+      AutoCloseText = '}'#13#10
+    end
+    item
+      DisplayName = '}'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '}')
+          TokenTypes = 1
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Media'
+      StyleName = 'Current block'
+      ConditionList = <
+        item
+          TokenTypes = 32
+        end>
+      DisplayInTree = False
+      NameFmt = '%sz0'
+      GroupFmt = '@Rules'
+      RefToCondEnd = True
+      DynHighlight = dhRange
+      HighlightPos = cpRange
+      DynSelectMin = True
+      NoEndRule = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Prop'
+      BlockName = '{'
+      ConditionList = <
+        item
+          TokenTypes = 512
+        end>
+      BlockEnd = 'Prop end'
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Prop end'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            ';'
+            '}')
+          TokenTypes = 9
+        end>
+      BlockOffset = 1
+      DisplayInTree = False
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Colors'
+      ConditionList = <
+        item
+          TokenTypes = 64
+        end>
+      GroupFmt = '\Colors'
+      HighlightPos = cpAny
+      NoEndRule = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Images'
+      BlockName = '{'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '(')
+          TokenTypes = 32
+        end
+        item
+          TagList.Strings = (
+            'url')
+        end>
+      BlockEnd = 'Images end'
+      NameFmt = '%s-1~s[)]1'
+      GroupFmt = '\Images'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Images end'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            ')')
+          TokenTypes = 32
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <
@@ -1365,10 +1370,8 @@ object SyntAnal8: TLibSyntAnalyzer
     '/* Comment */'
     '<?php echo '#39'test'#39' ?>'
     '.name, .name2 { '
-    '  font-size: 18pt;'
+    '  font-size: 10em;'
     '  --my-var: 10.2e+2; /* custom prop; float */'
-    '  color: #000099;'
-    '  width: 100%; '
     '  background: url("../img.gif") no-repeat;'
     '  back2: url(http://www.com/url);'
     '  back3: url(../img.gif);'
@@ -1399,6 +1402,10 @@ object SyntAnal8: TLibSyntAnalyzer
     ''
     '.button_size_m .button__text {'
     '    padding: 0 15px'
+    '}'
+    ''
+    '@supports not (-webkit-backdrop-filter: blur(10px)) {'
+    '  background: rgba(230, 230, 230, 1);'
     '}')
   TokenTypeNames.Strings = (
     'Symbol {}'
@@ -1406,22 +1413,19 @@ object SyntAnal8: TLibSyntAnalyzer
     'Id'
     'Symbol'
     'String'
-    'Delimiter'
+    'Media'
     'Color'
     'Number'
-    'Include tag'
-    'Param'
-    'Media')
+    'PHP tag'
+    'Prop')
   Extentions = 'css'
   LexerName = 'CSS'
   Notes.Strings = (
-    'Author: Alexey (SynWrite)'
-    'Added misspelled properties underlining'
-    'Added @media handling'
-    ''
+    'Alexey (CudaText)'
     'Known properties: http://htmlbook.ru'
     
       'Known vendor prefixes: http://peter.sh/experiments/vendor-prefix' +
       'ed-css-property-overview/')
+  LineComment = '//'
   Charset = DEFAULT_CHARSET
 end
