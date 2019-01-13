@@ -328,12 +328,13 @@ class Command:
 
     def do_update(self):
     
-        def filename2name(s):
+        def fn2name(s, del_brackets):
             s = s.split('.')[0].replace(' ', '_')
             # strip additions in name for "gruvbox (Dark) (Medium)"
-            n = s.find('_(')
-            if n>=0:
-                s = s[:n]
+            if del_brackets:
+                n = s.find('_(')
+                if n>=0:
+                    s = s[:n]
             return s
 
         msg_status('Downloading list...')
@@ -348,15 +349,15 @@ class Command:
 
         dir_lexers = os.path.join(app_path(APP_DIR_DATA), 'lexlib')
         lexers = os.listdir(dir_lexers)
-        lexers = [filename2name(s) for s in lexers if s.endswith('.lcf')]
+        lexers = [fn2name(s, False) for s in lexers if s.endswith('.lcf')]
         
         dir_langs = os.path.join(app_path(APP_DIR_DATA), 'lang')
         langs = os.listdir(dir_langs)
-        langs = [filename2name(s) for s in langs if s.endswith('.ini')]
+        langs = [fn2name(s, False) for s in langs if s.endswith('.ini')]
 
         dir_themes = os.path.join(app_path(APP_DIR_DATA), 'themes')
         themes = os.listdir(dir_themes)
-        themes = [filename2name(s) for s in themes if '.cuda-theme' in s]
+        themes = [fn2name(s, True) for s in themes if '.cuda-theme' in s]
 
         addons = [a for a in addons if a['kind'] in ('plugin', 'treehelper', 'linter') and a.get('module', '') in modules] \
                + [a for a in addons if a['kind']=='lexer' and a['name'] in lexers] \
@@ -364,6 +365,7 @@ class Command:
                + [a for a in addons if a['kind']=='theme' and a['name'] in themes]
 
         modules_web = [a.get('module', '') for a in addons]
+        modules_web = [a for a in modules_web if a]
         modules_local = [m for m in modules if m not in modules_web]
 
         for a in addons:
@@ -395,22 +397,7 @@ class Command:
                 check = True
             a['check'] = check
 
-        '''
-        addons2 = [{
-            'module': m,
-            'kind': 'plugin',
-            'url': '',
-            'name': get_name_of_module(m),
-            'desc': '',
-            'v': '?',
-            'v_local': PREINST if m in STD_MODULES else '?',
-            'check': False,
-            } for m in modules_local]
-
-        addons.extend(addons2)
-        '''
-
-        text_headers = '\r'.join(('Name=270', 'Folder=180', 'Local=125', 'Available=125'))
+        text_headers = '\r'.join(('Name=260', 'Folder=180', 'Local=125', 'Available=125'))
         text_columns = ['\r'.join(('['+i['kind']+'] '+i['name'], i['dir'], i['v_local'], i['v'])) for i in addons]
         text_items = '\t'.join([text_headers]+text_columns)
         text_checks = ['1' if i['check'] else '0' for i in addons]
@@ -426,14 +413,14 @@ class Command:
 
         while True:
             text = '\n'.join([
-              c1.join(['type=button', 'pos=524,500,624,0', 'cap=Update', 'props=1']),
-              c1.join(['type=button', 'pos=630,500,730,0', 'cap=Cancel']),
-              c1.join(['type=checklistview', 'pos=6,6,730,490', 'items='+text_items, 'val='+text_val, 'props=1']),
+              c1.join(['type=button', 'pos=514,500,614,0', 'cap=Update', 'props=1']),
+              c1.join(['type=button', 'pos=620,500,720,0', 'cap=Cancel']),
+              c1.join(['type=checklistview', 'pos=6,6,720,490', 'items='+text_items, 'val='+text_val, 'props=1']),
               c1.join(['type=button', 'pos=6,500,100,0', 'cap=Deselect all']),
               c1.join(['type=button', 'pos=106,500,200,0', 'cap=Select new']),
               ])
 
-            res = dlg_custom('Update add-ons', 736, 532, text)
+            res = dlg_custom('Update add-ons', 726, 532, text)
             if res is None: return
 
             res, text = res

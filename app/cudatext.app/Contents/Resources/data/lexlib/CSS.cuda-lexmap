@@ -9,8 +9,8 @@ styles_str=String
 
 [map]
 Style=TagId
-Param correct=TagProp
-Param incorrect=TagPropBad
+Prop correct=TagProp
+Prop incorrect=TagPropBad
 Value=Id2
 Symbol=Symbol
 Comment=Comment
@@ -18,6 +18,8 @@ Current block=CurBlockBG
 Color=Color
 String=String
 Number=Number
-StyleSuffix=Id3
-ParamCustom=Id4
-Include tag=TagInclude
+Style suffix=Id4
+Prop user=IdVar
+PHP tag=TagInclude
+Media=Id1
+Value unit=Id3
