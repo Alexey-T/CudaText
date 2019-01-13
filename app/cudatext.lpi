@@ -883,7 +883,7 @@
         <RangeChecks Value="True"/>
       </Checks>
       <Optimizations>
-        <OptimizationLevel Value="2"/>
+        <OptimizationLevel Value="3"/>
       </Optimizations>
     </CodeGeneration>
     <Linking>
@@ -897,7 +897,8 @@
       </Options>
     </Linking>
     <Other>
-      <CustomOptions Value="-dcomplete_at_scroll"/>
+      <CustomOptions Value="-dcomplete_at_scroll
+-Or"/>
     </Other>
   </CompilerOptions>
   <Debugging>
