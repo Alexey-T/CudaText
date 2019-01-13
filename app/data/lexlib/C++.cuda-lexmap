@@ -1,23 +1,20 @@
 [ref]
 0=Assembly
 
-[map]
-Default=-
-Symbol=Symbol
-Number=Number
-String=String
-Id=Id
-Id keyword=IdKeyword
-Id type=Id1
-Id special=Id2
-Comment=Comment
-Preprocessor=Comment2
-Current block BG=BracketBG
-Asm BG=IncludeBG1
-Generic param=Id3
-
 [comments]
 str1=/*
 str2=*/
 styles_cmt=Comment
 styles_str=String
+
+[map]
+Symbol=Symbol
+Number=Number
+String=String
+Id=Id
+Id keyword=IdKeyword
+Id type=Id2
+Id special=Id1
+Comment=Comment
+Preprocessor=Comment2
+Asm BG=IncludeBG1
