@@ -897,8 +897,7 @@
       </Options>
     </Linking>
     <Other>
-      <CustomOptions Value="-dcomplete_at_scroll
--Or"/>
+      <CustomOptions Value="-dcomplete_at_scroll"/>
     </Other>
   </CompilerOptions>
   <Debugging>
