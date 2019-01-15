@@ -642,6 +642,7 @@ type
     FOption_GroupMode: TATGroupsMode;
     FOption_GroupSizes: array[TATGroupsNums] of TPoint;
     FOption_GroupPanelSize: TPoint;
+    FOption_SidebarTab: string;
 
     procedure CodeTreeFilterInputOnChange(Sender: TObject);
     procedure CodeTreeFilterResetClick(Sender: TObject);
@@ -844,7 +845,6 @@ type
     procedure DoOps_SaveOptionBool(const APath: string; AValue: boolean);
     procedure DoOps_LoadHistory;
     procedure DoOps_LoadHistory_GroupView(c: TJsonConfig);
-    procedure DoOps_LoadHistory_AfterOnStart;
     function DoOps_SaveSession(fn_session: string): boolean;
     function DoOps_LoadSession(fn_session: string): boolean;
     procedure DoOps_LoadOptionsAndApplyAll;
@@ -974,7 +974,8 @@ type
     procedure UpdateBottomLayout(ASetFloating: boolean);
     procedure DoApplyUiOps;
     procedure DoApplyUiOpsToGroups(G: TATGroups);
-    procedure DoApplyGroupsInitialSizes;
+    procedure DoApplyInitialGroupSizes;
+    procedure DoApplyInitialSidebarPanel;
     procedure InitPyEngine;
     procedure FrameOnChangeCaption(Sender: TObject);
     procedure FrameOnUpdateStatus(Sender: TObject);
@@ -1966,7 +1967,7 @@ begin
   if FHandledOnShow then exit;
   DoControlLock(Self);
 
-  DoApplyGroupsInitialSizes;
+  DoApplyInitialGroupSizes;
   DoApplyFont_Text;
   DoApplyFont_Ui;
   DoApplyFont_Output;
@@ -1984,7 +1985,7 @@ begin
   DoPyEvent(CurrentEditor, cEventOnStart, []);
   NTickPluginEnd:= GetTickCount64;
 
-  DoOps_LoadHistory_AfterOnStart;
+  DoApplyInitialSidebarPanel;
 
   UpdateMenuPlugins;
   UpdateMenuPlugins_Shortcuts(true);

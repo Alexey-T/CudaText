@@ -403,32 +403,6 @@ begin
 end;
 
 
-procedure TfmMain.DoOps_LoadHistory_AfterOnStart;
-var
-  c: TJSONConfig;
-  SCaption: string;
-begin
-  c:= TJSONConfig.Create(nil);
-  try
-    try
-      c.Filename:= GetAppPath(cFileOptionsHistory);
-    except
-      exit;
-    end;
-
-    SCaption:= c.GetValue('tab_left', '');
-
-    //if plugin didnt load, caption not valid
-    if DoSidebar_CaptionToTabIndex(SCaption)<0 then
-      SCaption:= msgPanelTree_Init;
-
-    SidebarPanel:= SCaption;
-  finally
-    FreeAndNil(c);
-  end;
-end;
-
-
 procedure DoOps_LoadFormRect(c: TJSONConfig; const path: string; var R: TRect);
 begin
   R.Left:= c.GetValue(path+'/posx', R.Left);
@@ -504,13 +478,27 @@ begin
       DoLocalize;
 
     DoOps_LoadHistory_GroupView(c);
+
+    FOption_SidebarTab:= c.GetValue('tab_left', '');
   finally
     c.Free;
   end;
 end;
 
 
-procedure TfmMain.DoApplyGroupsInitialSizes;
+procedure TfmMain.DoApplyInitialSidebarPanel;
+var
+  S: string;
+begin
+  S:= FOption_SidebarTab;
+  //if plugin didnt load, caption not valid
+  if DoSidebar_CaptionToTabIndex(S)<0 then
+    S:= msgPanelTree_Init;
+
+  SidebarPanel:= S;
+end;
+
+procedure TfmMain.DoApplyInitialGroupSizes;
 var
   i: integer;
 begin
