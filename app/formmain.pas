@@ -639,6 +639,9 @@ type
     FOption_WindowPos: string;
     FOption_Encoding: string;
     FOption_FileOpenOptions: string;
+    FOption_GroupMode: TATGroupsMode;
+    FOption_GroupSizes: array[TATGroupsNums] of TPoint;
+    FOption_GroupPanelSize: TPoint;
 
     procedure CodeTreeFilterInputOnChange(Sender: TObject);
     procedure CodeTreeFilterResetClick(Sender: TObject);
@@ -840,6 +843,7 @@ type
     procedure DoOps_SaveHistory_GroupView(c: TJsonConfig);
     procedure DoOps_SaveOptionBool(const APath: string; AValue: boolean);
     procedure DoOps_LoadHistory;
+    procedure DoOps_LoadHistory_OnShow;
     procedure DoOps_LoadHistory_GroupView(c: TJsonConfig);
     procedure DoOps_LoadHistory_AfterOnStart;
     function DoOps_SaveSession(fn_session: string): boolean;
@@ -1961,6 +1965,7 @@ var
 begin
   if FHandledOnShow then exit;
   DoControlLock(Self);
+  DoOps_LoadHistory_OnShow;
 
   DoApplyFont_Text;
   DoApplyFont_Ui;

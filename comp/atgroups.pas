@@ -402,6 +402,9 @@ begin
   BevelOuter:= bvNone;
   FEnabledEmpty:= true;
 
+  Width:= 600;
+  Height:= 600;
+
   FTabs:= TATTabs.Create(Self);
   FTabs.Parent:= Self;
   FTabs.Align:= alTop;

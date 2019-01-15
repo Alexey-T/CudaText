@@ -374,22 +374,16 @@ procedure TfmMain.DoOps_LoadHistory_GroupView(c: TJsonConfig);
 var
   i: integer;
 begin
-  Groups.Mode:= TATGroupsMode(c.GetValue('groups', Ord(gmOne)));
+  FOption_GroupMode:= TATGroupsMode(c.GetValue('groups', Ord(gmOne)));
 
   for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
-    with Groups.Pages[i] do
-    begin
-      Width:= c.GetValue('/gr/g'+Inttostr(i)+'_x', Width);
-      Height:= c.GetValue('/gr/g'+Inttostr(i)+'_y', Height);
-    end;
-
-  with Groups.Panel1 do
   begin
-    Width:= c.GetValue('/gr/p1_x', Width);
-    Height:= c.GetValue('/gr/p1_y', Height);
+    FOption_GroupSizes[i].x:= c.GetValue('/gr/g'+IntToStr(i)+'_x', 800);
+    FOption_GroupSizes[i].y:= c.GetValue('/gr/g'+IntToStr(i)+'_y', 600);
   end;
 
-  Groups.SaveSplitPos; //apply current sizes to internal Groups vars
+  FOption_GroupPanelSize.x:= c.GetValue('/gr/p1_x', 800);
+  FOption_GroupPanelSize.y:= c.GetValue('/gr/p1_y', 600);
 end;
 
 procedure TfmMain.DoOps_SaveHistory_GroupView(c: TJsonConfig);
@@ -400,8 +394,8 @@ begin
 
   for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
   begin
-    c.SetValue('/gr/g'+Inttostr(i)+'_x', Groups.Pages[i].Width);
-    c.SetValue('/gr/g'+Inttostr(i)+'_y', Groups.Pages[i].Height);
+    c.SetValue('/gr/g'+IntToStr(i)+'_x', Groups.Pages[i].Width);
+    c.SetValue('/gr/g'+IntToStr(i)+'_y', Groups.Pages[i].Height);
   end;
 
   c.SetValue('/gr/p1_x', Groups.Panel1.Width);
@@ -447,6 +441,8 @@ end;
 
 
 procedure TfmMain.DoOps_LoadHistory;
+//this should be called in OnCreate, to fix window flickering if window
+//was maximized (Win32).
 var
   c: TJSONConfig;
   RectMain: TRect;
@@ -511,11 +507,31 @@ begin
   finally
     c.Free;
   end;
+end;
+
+
+procedure TfmMain.DoOps_LoadHistory_OnShow;
+var
+  i: integer;
+begin
+  Groups.Mode:= FOption_GroupMode;
+
+  //groups sizes must be restored in OnShow, OnCreate is too early
+  for i in TATGroupsNums do
+    with Groups.Pages[i] do
+    begin
+      Width:= FOption_GroupSizes[i].x;
+      Height:= FOption_GroupSizes[i].y;
+    end;
+
+  Groups.Panel1.Width:= FOption_GroupPanelSize.x;
+  Groups.Panel1.Height:= FOption_GroupPanelSize.y;
+
+  Groups.SaveSplitPos; //apply current sizes to internal Groups vars
 
   if UiOps.ReopenSession then
     DoOps_LoadSession(GetSessionFilename);
 end;
-
 
 procedure TfmMain.DoOps_LoadKeymap;
 var
