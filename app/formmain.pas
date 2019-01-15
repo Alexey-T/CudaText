@@ -843,7 +843,6 @@ type
     procedure DoOps_SaveHistory_GroupView(c: TJsonConfig);
     procedure DoOps_SaveOptionBool(const APath: string; AValue: boolean);
     procedure DoOps_LoadHistory;
-    procedure DoOps_LoadHistory_OnShow;
     procedure DoOps_LoadHistory_GroupView(c: TJsonConfig);
     procedure DoOps_LoadHistory_AfterOnStart;
     function DoOps_SaveSession(fn_session: string): boolean;
@@ -975,6 +974,7 @@ type
     procedure UpdateBottomLayout(ASetFloating: boolean);
     procedure DoApplyUiOps;
     procedure DoApplyUiOpsToGroups(G: TATGroups);
+    procedure DoApplyGroupsInitialSizes;
     procedure InitPyEngine;
     procedure FrameOnChangeCaption(Sender: TObject);
     procedure FrameOnUpdateStatus(Sender: TObject);
@@ -1965,12 +1965,15 @@ var
 begin
   if FHandledOnShow then exit;
   DoControlLock(Self);
-  DoOps_LoadHistory_OnShow;
 
+  DoApplyGroupsInitialSizes;
   DoApplyFont_Text;
   DoApplyFont_Ui;
   DoApplyFont_Output;
   DoApplyUiOps;
+
+  if UiOps.ReopenSession then
+    DoOps_LoadSession(GetSessionFilename);
 
   FHandledOnShow:= true;
 

@@ -510,7 +510,7 @@ begin
 end;
 
 
-procedure TfmMain.DoOps_LoadHistory_OnShow;
+procedure TfmMain.DoApplyGroupsInitialSizes;
 var
   i: integer;
 begin
@@ -528,9 +528,6 @@ begin
   Groups.Panel1.Height:= FOption_GroupPanelSize.y;
 
   Groups.SaveSplitPos; //apply current sizes to internal Groups vars
-
-  if UiOps.ReopenSession then
-    DoOps_LoadSession(GetSessionFilename);
 end;
 
 procedure TfmMain.DoOps_LoadKeymap;
