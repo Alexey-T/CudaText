@@ -498,6 +498,17 @@ begin
   SidebarPanel:= S;
 end;
 
+procedure TfmMain.DoApplyInitialWindowPos;
+begin
+  if FOption_WindowPos<>'' then
+  begin
+    Left:= StrToIntDef(SGetItem(FOption_WindowPos), Left);
+    Top:= StrToIntDef(SGetItem(FOption_WindowPos), Top);
+    Width:= StrToIntDef(SGetItem(FOption_WindowPos), Width);
+    Height:= StrToIntDef(SGetItem(FOption_WindowPos), Height);
+  end;
+end;
+
 procedure TfmMain.DoApplyInitialGroupSizes;
 var
   i: integer;

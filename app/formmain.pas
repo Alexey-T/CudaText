@@ -665,6 +665,7 @@ type
     procedure DoOps_AddPluginMenuItem(ACaption: string; ASubMenu: TMenuItem; ATag: integer);
     procedure DoOps_LexersDisableInFrames(ListNames: TStringList);
     procedure DoOps_LexersRestoreInFrames(ListNames: TStringList);
+    procedure DoOps_MultiInstaller;
     procedure DoOps_OnCreate;
     procedure DoShowBottomPanel(const ATabCaption: string; AndFocus: boolean);
     function DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
@@ -976,6 +977,7 @@ type
     procedure DoApplyUiOpsToGroups(G: TATGroups);
     procedure DoApplyInitialGroupSizes;
     procedure DoApplyInitialSidebarPanel;
+    procedure DoApplyInitialWindowPos;
     procedure InitPyEngine;
     procedure FrameOnChangeCaption(Sender: TObject);
     procedure FrameOnUpdateStatus(Sender: TObject);
@@ -2000,14 +2002,7 @@ begin
   UpdateBottomButtons;
   UpdateStatus;
   DoLoadCommandLine;
-
-  if FOption_WindowPos<>'' then
-  begin
-    Left:= StrToIntDef(SGetItem(FOption_WindowPos), Left);
-    Top:= StrToIntDef(SGetItem(FOption_WindowPos), Top);
-    Width:= StrToIntDef(SGetItem(FOption_WindowPos), Width);
-    Height:= StrToIntDef(SGetItem(FOption_WindowPos), Height);
-  end;
+  DoApplyInitialWindowPos;
 
   //postpone parsing until frames are shown
   AllowFrameParsing:= true;
@@ -2032,8 +2027,11 @@ begin
     ]));
 
   MsgLogDebug('start');
+  DoOps_MultiInstaller;
+end;
 
-  //run Multi Installer
+procedure TfmMain.DoOps_MultiInstaller;
+begin
   if not FileExistsUTF8(GetAppPath(cFileOptionsHistory)) then
     DoPyCommand('cuda_multi_installer', 'open_menu', []);
 end;
