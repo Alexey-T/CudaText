@@ -1343,9 +1343,13 @@ begin
 end;
 
 procedure TATGroups.RestoreSplitPos;
+var
+  w, h: integer;
 begin
-  if ClientWidth<=0 then Exit;
-  if ClientHeight<=0 then Exit;
+  w:= ClientWidth;
+  h:= ClientHeight;
+  if w<=2 then Exit;
+  if h<=2 then Exit;
 
   case FMode of
     gm2v,
@@ -1353,46 +1357,46 @@ begin
     gm4v,
     gm6v:
       begin
-        UpdW(Pages1, Trunc(FPos1 * ClientWidth));
-        UpdW(Pages2, Trunc(FPos2 * ClientWidth));
-        UpdW(Pages3, Trunc(FPos3 * ClientWidth));
-        UpdW(Pages4, Trunc(FPos4 * ClientWidth));
-        UpdW(Pages5, Trunc(FPos5 * ClientWidth));
+        UpdW(Pages1, Trunc(FPos1 * w));
+        UpdW(Pages2, Trunc(FPos2 * w));
+        UpdW(Pages3, Trunc(FPos3 * w));
+        UpdW(Pages4, Trunc(FPos4 * w));
+        UpdW(Pages5, Trunc(FPos5 * w));
       end;
     gm2h,
     gm3h,
     gm4h,
     gm6h:
       begin
-        UpdH(Pages1, Trunc(FPos1 * ClientHeight));
-        UpdH(Pages2, Trunc(FPos2 * ClientHeight));
-        UpdH(Pages3, Trunc(FPos3 * ClientHeight));
-        UpdH(Pages4, Trunc(FPos4 * ClientHeight));
-        UpdH(Pages5, Trunc(FPos5 * ClientHeight));
+        UpdH(Pages1, Trunc(FPos1 * h));
+        UpdH(Pages2, Trunc(FPos2 * h));
+        UpdH(Pages3, Trunc(FPos3 * h));
+        UpdH(Pages4, Trunc(FPos4 * h));
+        UpdH(Pages5, Trunc(FPos5 * h));
       end;
     gm1plus2v:
       begin
-        UpdW(FPanel1, Trunc(FPos1 * ClientWidth));
-        UpdH(Pages2, Trunc(FPos2 * ClientHeight));
+        UpdW(FPanel1, Trunc(FPos1 * w));
+        UpdH(Pages2, Trunc(FPos2 * h));
       end;
     gm1plus2h:
       begin
-        UpdH(FPanel1, Trunc(FPos1 * ClientHeight));
-        UpdW(Pages2, Trunc(FPos2 * ClientWidth));
+        UpdH(FPanel1, Trunc(FPos1 * h));
+        UpdW(Pages2, Trunc(FPos2 * w));
       end;
     gm4grid:
       begin
-        UpdW(Pages1, Trunc(FPos1 * ClientWidth));
-        UpdW(Pages3, Trunc(FPos2 * ClientWidth));
-        UpdH(FPanel1, Trunc(FPos3 * ClientHeight));
+        UpdW(Pages1, Trunc(FPos1 * w));
+        UpdW(Pages3, Trunc(FPos2 * w));
+        UpdH(FPanel1, Trunc(FPos3 * h));
       end;
     gm6grid:
       begin
-        UpdW(Pages1, Trunc(FPos1 * ClientWidth));
-        UpdW(Pages2, Trunc(FPos2 * ClientWidth));
-        UpdH(FPanel1, Trunc(FPos3 * ClientHeight));
-        UpdW(Pages4, Trunc(FPos4 * ClientWidth));
-        UpdW(Pages5, Trunc(FPos5 * ClientWidth));
+        UpdW(Pages1, Trunc(FPos1 * w));
+        UpdW(Pages2, Trunc(FPos2 * w));
+        UpdH(FPanel1, Trunc(FPos3 * h));
+        UpdW(Pages4, Trunc(FPos4 * w));
+        UpdW(Pages5, Trunc(FPos5 * w));
       end;
   end;
 end;
