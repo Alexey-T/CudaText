@@ -60,7 +60,15 @@ begin
     if APages.Tabs.TabIndex<APages.Tabs.TabCount-1 then
       NToIndex:= APages.Tabs.TabIndex+1;
 
-  NToIndex:= APages.AddTab(NToIndex, F, F.TabCaption, false, clNone, AndActivate);
+  NToIndex:= APages.AddTab(
+    NToIndex,
+    F,
+    F.TabCaption,
+    false,
+    clNone,
+    -1,
+    AndActivate
+    );
   APages.Tabs.MakeVisible(NToIndex);
 
   Result:= APages.Tabs.GetTabData(NToIndex);
