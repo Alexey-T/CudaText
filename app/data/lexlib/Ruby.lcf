@@ -119,7 +119,7 @@ object SyntAnal27: TLibSyntAnalyzer
       DisplayName = 'String regex'
       StyleName = 'String regex'
       TokenType = 4
-      Expression = '/(\\/|.)*?(/) [igm]?'
+      Expression = '(?s) (?<![\w\]\)]\x20*) /(\\/|.)*?(/) [igmx]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -159,7 +159,15 @@ object SyntAnal27: TLibSyntAnalyzer
       DisplayName = 'String HereDoc'
       StyleName = 'String here-doc'
       TokenType = 4
-      Expression = '(?s)<<[`"\-~]? (\w+)\b .*? ^[\x20\x09]*\1'
+      Expression = '(?s)<<[`"\-~'#39']? (\w+)\b .*? ^[\x20\x09]*\1'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'String ticks'
+      StyleName = 'String regex'
+      TokenType = 4
+      Expression = '(?s) `.+?`'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -246,7 +254,7 @@ object SyntAnal27: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[,;\+\-\*\/\!=\^\$\.<>%\|:~\#&]+'
+      Expression = '[,;\+\-\*\\!=\^\$\.<>\|:~\#&]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -254,7 +262,7 @@ object SyntAnal27: TLibSyntAnalyzer
       DisplayName = 'Single symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\{\}\(\)\[\]\?]'
+      Expression = '[\{\}\(\)\[\]\?/%]'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -282,9 +290,11 @@ object SyntAnal27: TLibSyntAnalyzer
             'end'
             'END'
             'ensure'
+            'fail'
             'for'
             'if'
             'in'
+            'include'
             'loop'
             'module'
             'new'
@@ -317,8 +327,11 @@ object SyntAnal27: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
+            '__DIR__'
+            '__END__'
             '__FILE__'
             '__LINE__'
+            '__method__'
             'false'
             'nil'
             'self'
@@ -413,9 +426,9 @@ object SyntAnal27: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
-            'class')
+            'class'
+            'module')
           TokenTypes = 4
-          IgnoreCase = True
         end>
       BlockEnd = 'end'
       NameFmt = '%sz0'
@@ -480,11 +493,22 @@ object SyntAnal27: TLibSyntAnalyzer
     '%r/#{name}/i +'
     '%w{one two three} ;'
     ''
-    'name = /^name/ =~ %r{\w+}'
-    'name = "Name \'
+    'name=/^name/ =~ %r{\w+}'
+    'name="Name \'
     '  End" #trailing \'
     'puts '#39'Escape "\\"'#39'+ '#39'That\'#39's right'#39' +?a+?\n+true+false+nil;'
     'num = +1.23 + 1.0e6 + 1e+20 + 0xFA + 0o77 + 0b11 + 0d99 '
+    ''
+    '# Regex'
+    '{a: /#{x}/i} or {:a => /#{x}/xi}'
+    '/^xyz\Z/'
+    '['#39'xyz'#39' =~ /^xyz\Z/]'
+    #39'xyz'#39'[/^xyz\Z/]'
+    '/^xyz\Z/ =~ '#39'xyz'#39
+    '/whitespace'
+    'regex'
+    '/x'
+    '=/[]/'
     ''
     'def create'
     '  @unit = opt["opt"]'
