@@ -873,6 +873,7 @@ begin
     UiOps.FindShow_FindFirst:= c.GetValue('find_show_findfirst', UiOps.FindShow_FindFirst);
     UiOps.FindShow_MarkALl:= c.GetValue('find_show_mark_all', UiOps.FindShow_MarkALl);
     UiOps.FindShow_SelectAll:= c.GetValue('find_show_select_all', UiOps.FindShow_SelectAll);
+    UiOps.FindShow_Extract:= c.GetValue('find_show_extract', UiOps.FindShow_Extract);
     UiOps.FindIndentVert:= c.GetValue('find_indent_vert', UiOps.FindIndentVert);
     UiOps.FindIndentHorz:= c.GetValue('find_indent_horz', UiOps.FindIndentHorz);
     UiOps.FindMultiLineScale:= c.GetValue('find_multiline_scale', UiOps.FindMultiLineScale);

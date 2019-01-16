@@ -181,6 +181,7 @@ type
     FindShow_FindFirst: boolean;
     FindShow_MarkALl: boolean;
     FindShow_SelectAll: boolean;
+    FindShow_Extract: boolean;
     FindIndentVert: integer;
     FindIndentHorz: integer;
     FindMultiLineScale: double;
@@ -1265,6 +1266,7 @@ begin
     FindShow_FindFirst:= true;
     FindShow_MarkALl:= true;
     FindShow_SelectAll:= true;
+    FindShow_Extract:= true;
     FindIndentVert:= -5;
     FindIndentHorz:= 10;
     FindMultiLineScale:= 2.5;

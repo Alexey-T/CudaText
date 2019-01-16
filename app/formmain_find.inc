@@ -365,6 +365,7 @@ begin
   with fmFind do
   begin
     bFindFirst.Visible:= UiOps.FindShow_FindFirst;
+    bExtract.Visible:= UiOps.FindShow_Extract;
     bSelectAll.Visible:= UiOps.FindShow_SelectAll;
     bMarkAll.Visible:= UiOps.FindShow_MarkALl;
 
