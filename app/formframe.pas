@@ -1685,7 +1685,7 @@ var
   attr: integer;
   PrevEnabled: boolean;
   NameCounter: integer;
-  NameTemp: string;
+  NameTemp, NameInitial: string;
 begin
   Result:= false;
   if not IsText then exit(true); //disable saving, but close
@@ -1707,11 +1707,15 @@ begin
 
     if FFileName='' then
     begin
+      NameInitial:= DoPyEvent(Editor, cEventOnSaveNaming, []);
+      if (NameInitial='') or (NameInitial=cPyNone) then
+        NameInitial:= 'new';
+
       //get first free filename: new.txt, new1.txt, new2.txt, ...
       NameCounter:= 0;
       repeat
         NameTemp:= SaveDialog.InitialDir+DirectorySeparator+
-                   'new'+IfThen(NameCounter>0, IntToStr(NameCounter))+
+                   NameInitial+IfThen(NameCounter>0, IntToStr(NameCounter))+
                    SaveDialog.DefaultExt; //DefaultExt with dot
         if not FileExistsUTF8(NameTemp) then
         begin
