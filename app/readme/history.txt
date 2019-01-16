@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.71.1 (2019/01)
+
++ add: option "find_show_extract" allows to hide Extract button
+- fix: caret pos after commands "scroll line up/down" was wrong sometimes
+
 1.71.0 (2019/01)
 
 + add: dialog Find has new Extract button: it finds all matches in RegEx mode and puts them to a new document (plugin Extract Strings also does this)
