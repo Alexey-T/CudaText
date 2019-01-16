@@ -1,4 +1,4 @@
-object SyntAnal30: TLibSyntAnalyzer
+object SyntAnal27: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -191,7 +191,7 @@ object SyntAnal30: TLibSyntAnalyzer
       DisplayName = 'Hex'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '0x[0-9a-f]+ | 0b[01]+'
+      Expression = '0x[0-9a-f]+ | 0b[01]+ | 0o[0-7]+ | 0d[0-9]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -483,8 +483,8 @@ object SyntAnal30: TLibSyntAnalyzer
     'name = /^name/ =~ %r{\w+}'
     'name = "Name \'
     '  End" #trailing \'
-    'puts '#39'Escape "\\"'#39'+ '#39'That\'#39's right'#39' +1.23+1.0e6+1e+20 '
-    '  +?a+?\n+true+false+nil;'
+    'puts '#39'Escape "\\"'#39'+ '#39'That\'#39's right'#39' +?a+?\n+true+false+nil;'
+    'num = +1.23 + 1.0e6 + 1e+20 + 0xFA + 0o77 + 0b11 + 0d99 '
     ''
     'def create'
     '  @unit = opt["opt"]'
