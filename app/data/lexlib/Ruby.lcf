@@ -89,6 +89,14 @@ object SyntAnal27: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'Id :param'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -176,6 +184,13 @@ object SyntAnal27: TLibSyntAnalyzer
       StyleName = 'Id keyword'
       TokenType = 6
       Expression = '^[\x20\x09]* (if|unless|while)\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = ':Param'
+      StyleName = 'Id :param'
+      Expression = ':\w+ | [a-z_]\w*:'
       ColumnFrom = 0
       ColumnTo = 0
     end
