@@ -16,3 +16,4 @@ Ticks block BG=IncludeBG2
 Command=Id1
 Command param=Id2
 Func name=Id4
+Symbol2=Symbol2
