@@ -16,3 +16,4 @@ String regex=String2
 String here-doc=CommentDoc
 Quote block=IncludeBG1
 Id const=Id2
+Id :param=Id4
