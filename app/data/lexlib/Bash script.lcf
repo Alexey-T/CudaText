@@ -11,10 +11,10 @@ object SyntAnal3: TLibSyntAnalyzer
     item
       DisplayName = 'Keywords'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clNavy
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = []
+      Font.Style = [fsBold]
     end
     item
       DisplayName = 'Params'
@@ -83,6 +83,22 @@ object SyntAnal3: TLibSyntAnalyzer
       Font.Style = []
       BgColor = 16767669
       FormatType = ftBackGround
+    end
+    item
+      DisplayName = 'Command param'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Func name'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -152,6 +168,21 @@ object SyntAnal3: TLibSyntAnalyzer
       StyleName = 'Number'
       TokenType = 6
       Expression = '\b\d+\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Func name'
+      StyleName = 'Func name'
+      TokenType = 2
+      Expression = '(?<=\bfunction\x20+)\w+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Command param'
+      StyleName = 'Command param'
+      Expression = '-\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -642,6 +673,11 @@ object SyntAnal3: TLibSyntAnalyzer
     ''
     'test `dirname $var 20+30`'
     'echo `more $var(20)`'
+    ''
+    'function usage {'
+    #9'git -a -f some'
+    #9'exit 1'
+    '}'
     ''
     'while read line  # comment'
     'do'

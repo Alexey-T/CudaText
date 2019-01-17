@@ -8,7 +8,9 @@
 + add: option "find_show_extract" allows to hide Extract button
 - fix: caret pos after commands "scroll line up/down" was wrong sometimes
 
-+ add: lexer Ruby improved: fixed regex and heredoc; highlight "par:" and ":par"; highlight octals/decimals; highlight more std funcs 
++ add: lexer Ruby improved: fixed regex and heredoc; highlight "par:" and ":par"; highlight octals/decimals; highlight more std funcs
++ add: lexer Bash improved: highlight func names and "-params"
++ add: lexers C, C++ improved 
 
 1.71.0 (2019/01)
 
