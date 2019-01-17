@@ -127,7 +127,7 @@ object SyntAnal27: TLibSyntAnalyzer
       DisplayName = 'String regex'
       StyleName = 'String regex'
       TokenType = 4
-      Expression = '(?s) (?<![\w\]\)]\x20*) /(\\/|.)*?(/) [igmx]*'
+      Expression = '(?s) (?<![\w\]\)\.]\x20*) /(\\/|.)*?(/) [igmx]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -348,7 +348,10 @@ object SyntAnal27: TLibSyntAnalyzer
             '__LINE__'
             '__method__'
             'false'
+            'gsub'
             'nil'
+            'print'
+            'puts'
             'self'
             'true')
           TokenTypes = 4
@@ -515,7 +518,7 @@ object SyntAnal27: TLibSyntAnalyzer
     'num = +1.23 + 1.0e6 + 1e+20 + 0xFA + 0o77 + 0b11 + 0d99 '
     ''
     '# Regex'
-    '{a: /#{x}/i} or {:a => /#{x}/xi}'
+    '{aaa: /#{x}/i} or {:aaa => /#{x}/xi}'
     '/^xyz\Z/'
     '['#39'xyz'#39' =~ /^xyz\Z/]'
     #39'xyz'#39'[/^xyz\Z/]'
@@ -524,6 +527,7 @@ object SyntAnal27: TLibSyntAnalyzer
     'regex'
     '/x'
     '=/[]/'
+    'a./.< == true ? b./.< : b./.<.<'
     ''
     'def create'
     '  @unit = opt["opt"]'
