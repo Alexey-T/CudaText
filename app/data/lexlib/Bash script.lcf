@@ -151,7 +151,7 @@ object SyntAnal3: TLibSyntAnalyzer
       DisplayName = 'Comment'
       StyleName = 'Comment'
       TokenType = 1
-      Expression = '(?<![\+\-\*\(\)\[\]\{\}\<>\.,~!&\|;:=%\^\$\w/])\# (?![\}]).*'
+      Expression = '^\#.* | (?<=[\x20\x09])\# (?![\}]).*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -214,7 +214,7 @@ object SyntAnal3: TLibSyntAnalyzer
       DisplayName = 'Command'
       StyleName = 'Command'
       TokenType = 2
-      Expression = '\w[\w\-\.]+'
+      Expression = '[a-z_][\w\-\.]*\w'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -380,6 +380,7 @@ object SyntAnal3: TLibSyntAnalyzer
             'make'
             'man'
             'md'
+            'md5sum'
             'mkdir'
             'mkfifo'
             'mkisofs'
