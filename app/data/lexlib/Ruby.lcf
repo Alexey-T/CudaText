@@ -83,6 +83,14 @@ object SyntAnal27: TLibSyntAnalyzer
       FormatType = ftBackGround
     end
     item
+      DisplayName = 'Id std func'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
       DisplayName = 'Id const'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clPurple
@@ -97,6 +105,14 @@ object SyntAnal27: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'Comment shebang'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 5545077
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -104,6 +120,14 @@ object SyntAnal27: TLibSyntAnalyzer
       StyleName = 'Comment'
       TokenType = 1
       Expression = '(?s)=begin.*?=end'#13#10
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Comment shebang'
+      StyleName = 'Comment shebang'
+      TokenType = 1
+      Expression = '^\#!.+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -167,7 +191,7 @@ object SyntAnal27: TLibSyntAnalyzer
       DisplayName = 'String HereDoc'
       StyleName = 'String here-doc'
       TokenType = 4
-      Expression = '(?s)<<[`"\-~'#39']? (\w+)\b .*? ^[\x20\x09]*\1'
+      Expression = '(?s)<<[`"\-~'#39']? (\w+)\b .*? ^[\x20\x09]*\1\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -188,9 +212,9 @@ object SyntAnal27: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = ':Param'
+      DisplayName = 'Param:'
       StyleName = 'Id :param'
-      Expression = ':\w+ | [a-z_]\w*:'
+      Expression = ':\w+ | [a-z_]\w*:(?!:)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -269,7 +293,7 @@ object SyntAnal27: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[,;\+\-\*\\!=\^\$\.<>\|:~\#&]+'
+      Expression = '[,;\+\-\*\\!=\^\$\.>\|:~\#&]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -277,7 +301,7 @@ object SyntAnal27: TLibSyntAnalyzer
       DisplayName = 'Single symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\{\}\(\)\[\]\?/%]'
+      Expression = '[\{\}\(\)\[\]\?/%<]'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -308,16 +332,20 @@ object SyntAnal27: TLibSyntAnalyzer
             'extend'
             'fail'
             'for'
+            'gem'
             'if'
             'in'
             'include'
             'loop'
             'module'
+            'module_function'
             'new'
             'next'
             'not'
             'or'
             'prepend'
+            'private'
+            'protected'
             'raise'
             'redo'
             'require'
@@ -337,6 +365,35 @@ object SyntAnal27: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = 'id std func'
+      StyleName = 'Id std func'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'abort'
+            'append'
+            'binding'
+            'dump'
+            'exit'
+            'gets'
+            'gsub'
+            'load'
+            'print'
+            'puts'
+            'read'
+            'reject'
+            'select'
+            'sub'
+            'taint'
+            'to_s'
+            'tr')
+          TokenTypes = 4
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = 'id const'
       StyleName = 'Id const'
       BlockType = btTagDetect
@@ -349,10 +406,7 @@ object SyntAnal27: TLibSyntAnalyzer
             '__LINE__'
             '__method__'
             'false'
-            'gsub'
             'nil'
-            'print'
-            'puts'
             'self'
             'true')
           TokenTypes = 4
@@ -463,32 +517,6 @@ object SyntAnal27: TLibSyntAnalyzer
       NameFmt = '%sz0'
       HighlightPos = cpAny
       CollapseFmt = '%sz0'
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = '{'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '{')
-          TokenTypes = 8
-        end>
-      BlockEnd = '}'
-      NotCollapsed = True
-      DisplayInTree = False
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = '}'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '}')
-          TokenTypes = 8
-        end>
-      HighlightPos = cpAny
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
