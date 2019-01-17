@@ -98,7 +98,7 @@
   "Lex_Symbol2" : {
     "Type" : 1,
     "Styles" : "b",
-    "CFont" : "#DE6767",
+    "CFont" : "#952C2C",
     "CBack" : "",
     "CBorder" : "",
     "Border" : "0,0,0,0"
@@ -195,7 +195,7 @@
     "Type" : 3,
     "Styles" : "",
     "CFont" : "#000000",
-    "CBack" : "#403232",
+    "CBack" : "#383232",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
@@ -203,7 +203,7 @@
     "Type" : 3,
     "Styles" : "",
     "CFont" : "#000000",
-    "CBack" : "#302810",
+    "CBack" : "#382810",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
