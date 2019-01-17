@@ -171,7 +171,7 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'Single symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\{\}\(\)\[\],;:]'
+      Expression = '[\{\}\(\)\[\],;:/]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -179,7 +179,7 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[/\+\-\*=<>&/\|\^\.!\\\?%]+'
+      Expression = '[\+\-\*=<>&\|\^\.!\\\?%]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
