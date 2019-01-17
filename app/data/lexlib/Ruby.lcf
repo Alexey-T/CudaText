@@ -305,6 +305,7 @@ object SyntAnal27: TLibSyntAnalyzer
             'end'
             'END'
             'ensure'
+            'extend'
             'fail'
             'for'
             'if'
@@ -398,10 +399,8 @@ object SyntAnal27: TLibSyntAnalyzer
             'case'
             'do'
             'for'
-            'module'
             'until')
           TokenTypes = 4
-          IgnoreCase = True
         end>
       BlockEnd = 'end'
       DisplayInTree = False
@@ -418,7 +417,6 @@ object SyntAnal27: TLibSyntAnalyzer
           TagList.Strings = (
             'end')
           TokenTypes = 4
-          IgnoreCase = True
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
@@ -430,7 +428,6 @@ object SyntAnal27: TLibSyntAnalyzer
           TagList.Strings = (
             'def')
           TokenTypes = 4
-          IgnoreCase = True
         end>
       BlockEnd = 'end'
       NameFmt = '%sz0'
