@@ -4,16 +4,16 @@ styles_str=String
 
 [map]
 Comment=Comment
-Keywords=IdKeyword
-Params=Id
 Comment shebang=Comment2
+Keywords=IdKeyword
+Command=Id
 String=String
 Symbol=Symbol
 Var=IdVar
 Number=Number
 Var block BG=SectionBG1
 Ticks block BG=SectionBG2
-Command=Id1
+Command std=Id1
 Command param=Id2
 Func name=Id4
 Symbol2=Symbol2

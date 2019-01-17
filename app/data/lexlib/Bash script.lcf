@@ -9,6 +9,14 @@ object SyntAnal3: TLibSyntAnalyzer
       Font.Style = [fsItalic]
     end
     item
+      DisplayName = 'Comment shebang'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 6464605
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
       DisplayName = 'Keywords'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
@@ -17,20 +25,12 @@ object SyntAnal3: TLibSyntAnalyzer
       Font.Style = [fsBold]
     end
     item
-      DisplayName = 'Params'
+      DisplayName = 'Command'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-    end
-    item
-      DisplayName = 'Comment shebang'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clOlive
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsItalic]
     end
     item
       DisplayName = 'String'
@@ -85,7 +85,7 @@ object SyntAnal3: TLibSyntAnalyzer
       FormatType = ftBackGround
     end
     item
-      DisplayName = 'Command'
+      DisplayName = 'Command std'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clNavy
       Font.Height = -13
@@ -121,7 +121,7 @@ object SyntAnal3: TLibSyntAnalyzer
       DisplayName = 'Shebang'
       StyleName = 'Comment shebang'
       TokenType = 1
-      Expression = '\#!.*'
+      Expression = '^\#!.+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -135,7 +135,7 @@ object SyntAnal3: TLibSyntAnalyzer
     item
       DisplayName = 'Var='
       StyleName = 'Var'
-      Expression = '^\w+ (?=\=)'
+      Expression = '\b\w+(?=\x20*\=)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -151,7 +151,14 @@ object SyntAnal3: TLibSyntAnalyzer
       DisplayName = 'Comment'
       StyleName = 'Comment'
       TokenType = 1
-      Expression = '(?<![\+\-\*\(\)\[\]\{\}\<>\.,~!&\|;:=%\^\$])\#.*'
+      Expression = '(?<![\+\-\*\(\)\[\]\{\}\<>\.,~!&\|;:=%\^\$\w/])\# (?![\}]).*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Command param'
+      StyleName = 'Command param'
+      Expression = '[\-]{1,2}[a-z][\w\-]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -159,15 +166,15 @@ object SyntAnal3: TLibSyntAnalyzer
       DisplayName = 'Symbol single'
       StyleName = 'Symbol'
       TokenType = 4
-      Expression = '[,;`\(\)\[\]\}@] | \$\( | \$\{'
+      Expression = '\\. | [,;`\(\)\[\]\}@] | \$\( | \$\{'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Symbol2'
+      DisplayName = 'Symbol 2'
       StyleName = 'Symbol2'
       TokenType = 4
-      Expression = '<|>|\||=[=~]?'
+      Expression = '=~ | [&\|=<>]=? | [/\-\+!\*\^:~%]='
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -175,7 +182,7 @@ object SyntAnal3: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 4
-      Expression = '[\+\*\{~!&:%\^\#\?\\]+'
+      Expression = '[\+\*\{&:%\#\?\\\$\-!\^~]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -191,7 +198,7 @@ object SyntAnal3: TLibSyntAnalyzer
       DisplayName = 'Number'
       StyleName = 'Number'
       TokenType = 6
-      Expression = '\b\d+\b'
+      Expression = '\b0x[a-f0-9]+\b | \b\d+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -204,15 +211,8 @@ object SyntAnal3: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Command param'
-      StyleName = 'Command param'
-      Expression = '\-+\w+'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Command'
-      StyleName = 'Params'
+      StyleName = 'Command'
       TokenType = 2
       Expression = '\w[\w\-\.]+'
       ColumnFrom = 0
@@ -249,7 +249,7 @@ object SyntAnal3: TLibSyntAnalyzer
     end
     item
       DisplayName = 'id commands'
-      StyleName = 'Command'
+      StyleName = 'Command std'
       BlockType = btTagDetect
       ConditionList = <
         item
@@ -296,6 +296,7 @@ object SyntAnal3: TLibSyntAnalyzer
             'ddrescue'
             'declare'
             'df'
+            'die'
             'diff'
             'diff3'
             'dig'
@@ -412,6 +413,8 @@ object SyntAnal3: TLibSyntAnalyzer
             'ps'
             'pushd'
             'pwd'
+            'python'
+            'python3'
             'quota'
             'quotacheck'
             'quotactl'
@@ -432,6 +435,7 @@ object SyntAnal3: TLibSyntAnalyzer
             'rmmod'
             'route'
             'rsync'
+            'ruby'
             'scp'
             'screen'
             'sdiff'
@@ -471,6 +475,7 @@ object SyntAnal3: TLibSyntAnalyzer
             'tsort'
             'tty'
             'type'
+            'typeset'
             'ulimit'
             'umask'
             'umount'
@@ -708,15 +713,14 @@ object SyntAnal3: TLibSyntAnalyzer
     'var=value'
     '/ddd/ddd.sh, "test'
     'string"'
-    ''
-    'test `dirname $var 20+30`'
-    'echo `more $var(20)`'
+    '+= -= /= *= &= |= ^= ~= == != >= <= ( ) [ ] { } $( ) + - / | < >'
+    'test `dirname $var 20+30`, `more $var(20)`'
     ''
     'function echo {'
     #9'git -a --test "path"'
     '}'
     ''
-    'while read line  # comment'
+    'while read line  #comment'
     'do'
     '  test $(test "$line"); '
     '  test "test\"test" '
@@ -734,7 +738,10 @@ object SyntAnal3: TLibSyntAnalyzer
     'String'
     'Number'
     'Id func name')
-  Extentions = 'sh csh bash command /.bashrc /.zshrc'
+  Extentions = 
+    'sh bash zsh fish csh command /.bashrc /.zshrc /.bash_aliases /.b' +
+    'ash_completions /.bash_functions /.bash_login /.bash_logout /.ba' +
+    'sh_profile /.bash_variables /.profile /.textmate_init'
   LexerName = 'Bash script'
   SkipSpaces = False
   Notes.Strings = (
