@@ -13,5 +13,6 @@ Var=IdVar
 Number=Number
 Var block BG=IncludeBG1
 Ticks block BG=IncludeBG2
+Command=Id1
 Command param=Id2
 Func name=Id4

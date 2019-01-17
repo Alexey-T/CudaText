@@ -85,6 +85,14 @@ object SyntAnal3: TLibSyntAnalyzer
       FormatType = ftBackGround
     end
     item
+      DisplayName = 'Command'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
       DisplayName = 'Command param'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clPurple
@@ -174,7 +182,7 @@ object SyntAnal3: TLibSyntAnalyzer
     item
       DisplayName = 'Func name'
       StyleName = 'Func name'
-      TokenType = 2
+      TokenType = 7
       Expression = '(?<=\bfunction\x20+)\w+'
       ColumnFrom = 0
       ColumnTo = 0
@@ -182,7 +190,7 @@ object SyntAnal3: TLibSyntAnalyzer
     item
       DisplayName = 'Command param'
       StyleName = 'Command param'
-      Expression = '-\w+'
+      Expression = '\-+\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -196,8 +204,36 @@ object SyntAnal3: TLibSyntAnalyzer
     end>
   BlockRules = <
     item
-      DisplayName = 'keywords'
+      DisplayName = 'id keywords'
       StyleName = 'Keywords'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'case'
+            'do'
+            'done'
+            'elif'
+            'else'
+            'esac'
+            'fi'
+            'for'
+            'function'
+            'if'
+            'in'
+            'select'
+            'then'
+            'time'
+            'until'
+            'while')
+          TokenTypes = 4
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'id commands'
+      StyleName = 'Command'
       BlockType = btTagDetect
       ConditionList = <
         item
@@ -219,7 +255,6 @@ object SyntAnal3: TLibSyntAnalyzer
             'builtin'
             'bzip2'
             'cal'
-            'case'
             'cat'
             'cd'
             'cfdisk'
@@ -253,18 +288,13 @@ object SyntAnal3: TLibSyntAnalyzer
             'dirname'
             'dirs'
             'dmesg'
-            'do'
-            'done'
             'dpkg-deb'
             'du'
             'echo'
             'egrep'
             'eject'
-            'elif'
-            'else'
             'enable'
             'env'
-            'esac'
             'ethtool'
             'eval'
             'exec'
@@ -278,20 +308,18 @@ object SyntAnal3: TLibSyntAnalyzer
             'fdisk'
             'fg'
             'fgrep'
-            'fi'
             'file'
             'find'
             'fmt'
             'fold'
-            'for'
             'format'
             'free'
             'fsck'
             'ftp'
-            'function'
             'fuser'
             'gawk'
             'getopts'
+            'git'
             'grep'
             'groups'
             'gzip'
@@ -302,12 +330,10 @@ object SyntAnal3: TLibSyntAnalyzer
             'history'
             'hostname'
             'id'
-            'if'
             'ifconfig'
             'ifdown'
             'ifup'
             'import'
-            'in'
             'init'
             'initlog'
             'insmod'
@@ -394,7 +420,6 @@ object SyntAnal3: TLibSyntAnalyzer
             'screen'
             'sdiff'
             'sed'
-            'select'
             'seq'
             'set'
             'sftp'
@@ -412,14 +437,13 @@ object SyntAnal3: TLibSyntAnalyzer
             'sudo'
             'sum'
             'suspend'
+            'svn'
             'symlink'
             'sync'
             'tail'
             'tar'
             'tee'
             'test'
-            'then'
-            'time'
             'times'
             'top'
             'touch'
@@ -441,7 +465,6 @@ object SyntAnal3: TLibSyntAnalyzer
             'units'
             'unset'
             'unshar'
-            'until'
             'useradd'
             'usermod'
             'users'
@@ -453,10 +476,9 @@ object SyntAnal3: TLibSyntAnalyzer
             'vmstat'
             'watch'
             'wc'
-            'Wget'
+            'wget'
             'whereis'
             'which'
-            'while'
             'who'
             'whoami'
             'write'
@@ -674,9 +696,8 @@ object SyntAnal3: TLibSyntAnalyzer
     'test `dirname $var 20+30`'
     'echo `more $var(20)`'
     ''
-    'function usage {'
-    #9'git -a -f some'
-    #9'exit 1'
+    'function echo {'
+    #9'git -a --test "path"'
     '}'
     ''
     'while read line  # comment'
@@ -695,7 +716,8 @@ object SyntAnal3: TLibSyntAnalyzer
     'Label'
     'Symbol'
     'String'
-    'Number')
+    'Number'
+    'Id func name')
   Extentions = 'sh csh bash command /.bashrc /.zshrc'
   LexerName = 'Bash script'
   SkipSpaces = False
