@@ -149,9 +149,10 @@ object SyntAnal27: TLibSyntAnalyzer
     end
     item
       DisplayName = 'String regex'
+      Enabled = False
       StyleName = 'String regex'
       TokenType = 4
-      Expression = '(?s) (?<![\w\]\)\.]\x20*) / (\\/|\#\{.+?\}|.)+? /[igmx]*'
+      Expression = '(?s) (?<![\w\]\)\.!]\x20*) / (\\/|\#\{.+?\}|.)+? /[igmx]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -285,7 +286,7 @@ object SyntAnal27: TLibSyntAnalyzer
       DisplayName = 'String char'
       StyleName = 'String'
       TokenType = 4
-      Expression = '\?\\?\w'
+      Expression = '\?\\\w'
       ColumnFrom = 0
       ColumnTo = 0
     end
