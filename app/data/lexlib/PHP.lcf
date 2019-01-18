@@ -778,7 +778,6 @@ object SyntAnal23: TLibSyntAnalyzer
   SubAnalyzers = <
     item
       DisplayName = 'PHP_'
-      StyleName = 'Sublexer BG'
       AlwaysEnabled = True
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
