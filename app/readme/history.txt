@@ -8,6 +8,7 @@
 + add: option "find_show_extract" allows to hide Extract button
 - fix: caret pos after commands "scroll line up/down" was wrong sometimes
 
+* change: lexers removed to addons: Perl, Apache config
 + add: lexer Python improved: fix numbers with "_"
 + add: lexer Bash improved: highlight keywords in separate style; highlight func names, "-params"; highlight half of symbols in new style
 + add: lexer Ruby improved: disabled regex rule (temporary?); fixed heredoc rule; highlight "par:" and ":par"; highlight octals/decimals; highlight more std funcs
