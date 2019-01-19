@@ -2570,7 +2570,7 @@ function TfmMain.DoFileOpen(AFilename: string; APages: TATPages;
 var
   D: TATTabData;
   F: TEditorFrame;
-  bSilent, bPreviewTab, bEnableHistory, bEnableEvent,
+  bSilent, bPreviewTab, bEnableHistory, bEnableEvent, bNoZip,
   bAndActivate, bAllowNear: boolean;
   OpenMode, NonTextMode: TAppOpenMode;
   tick: QWord;
@@ -2587,6 +2587,7 @@ begin
   bEnableEvent:= Pos('/noevent', AOptions)=0;
   bAndActivate:= Pos('/passive', AOptions)=0;
   bAllowNear:= Pos('/nonear', AOptions)=0;
+  bNoZip:= Pos('/nozip', AOptions)>0;
 
   if Pos('/view-text', AOptions)>0 then
     OpenMode:= cOpenModeViewText
@@ -2648,6 +2649,7 @@ begin
   if OpenMode=cOpenModeEditor then
   begin
     //zip files
+    if not bNoZip then
     if ExtractFileExt(AFilename)='.zip' then
     begin
       if DoFileInstallZip(AFilename, AppFolderOfLastInstalledAddon, bSilent) then
