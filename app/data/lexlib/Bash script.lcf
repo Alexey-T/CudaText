@@ -571,7 +571,7 @@ object SyntAnal2: TLibSyntAnalyzer
       NameFmt = '%sz0'
       HighlightPos = cpAny
       DrawStaple = True
-      CollapseFmt = '%sz0'
+      CollapseFmt = '%sz0 ...'
       IgnoreAsParent = False
     end
     item
@@ -591,46 +591,19 @@ object SyntAnal2: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
-            'do')
+            'do'
+            'for')
           TokenTypes = 4
         end>
       BlockEnd = 'do end'
       DisplayInTree = False
       NameFmt = '%sz0'
       HighlightPos = cpAny
-      CollapseFmt = '%sz0'
+      CollapseFmt = '%sz0 ...'
       IgnoreAsParent = False
     end
     item
       DisplayName = 'do end'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            'done')
-          TokenTypes = 4
-        end>
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'for begin'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            'for')
-          TokenTypes = 4
-        end>
-      BlockEnd = 'for end'
-      DisplayInTree = False
-      NameFmt = '%sz0'
-      HighlightPos = cpAny
-      DrawStaple = True
-      CollapseFmt = '%sz0'
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'for end'
       BlockType = btRangeEnd
       ConditionList = <
         item
