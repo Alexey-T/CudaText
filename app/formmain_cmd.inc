@@ -462,25 +462,6 @@ begin
         exit
       end;
 
-    cmd_FoldingFoldAtCurLine:
-      begin
-        Ed.DoFoldUnfoldRangeAtCurLine(cFoldingFold);
-        AHandled:= true;
-        exit
-      end;
-    cmd_FoldingUnfoldAtCurLine:
-      begin
-        Ed.DoFoldUnfoldRangeAtCurLine(cFoldingUnfold);
-        AHandled:= true;
-        exit
-      end;
-    cmd_FoldingToggleAtCurLine:
-      begin
-        Ed.DoFoldUnfoldRangeAtCurLine(cFoldingToggle);
-        AHandled:= true;
-        exit
-      end;
-
     cmd_FoldingEnable:
       begin
         if Assigned(Frame) then

@@ -176,9 +176,6 @@ const
   cmd_LineEndUnix       = 2678;
   cmd_LineEndMac        = 2679;
 
-  cmd_FoldingFoldAtCurLine   = 2680;
-  cmd_FoldingUnfoldAtCurLine = 2681;
-  cmd_FoldingToggleAtCurLine = 2682;
   cmd_DeleteNewColorAttrs    = 2683;
   cmd_FoldingEnable          = 2684;
   cmd_FoldingDisable         = 2685;
@@ -464,9 +461,6 @@ begin
   M.Add(cmd_GotoDefinition, 'code: go to definition', [], []);
   M.Add(cmd_ShowFunctionHint, 'code: show function-hint', ['Ctrl+Shift+Space'], []);
 
-  M.Add(cmd_FoldingFoldAtCurLine, 'folding: fold range at current line', [], []);
-  M.Add(cmd_FoldingUnfoldAtCurLine, 'folding: unfold range at current line', [], []);
-  M.Add(cmd_FoldingToggleAtCurLine, 'folding: fold/unfold range at current line', [], []);
   M.Add(cmd_FoldingEnable, 'folding: enable folding functionality', [], []);
   M.Add(cmd_FoldingDisable, 'folding: disable folding functionality', [], []);
   M.Add(cmd_DeleteNewColorAttrs, 'delete new color attribs (added in plugins)', [], []);

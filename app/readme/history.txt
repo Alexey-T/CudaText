@@ -6,6 +6,7 @@
 1.71.5 (2019/01)
 
 + add: option "find_show_extract" allows to hide Extract button
+* change: deleted 3 commands "folding: fold range....", because they were duplicated by commands "folding: fold block...."
 - fix: caret pos after commands "scroll line up/down" was wrong sometimes
 
 * change: lexers removed to addons: Perl, Apache config

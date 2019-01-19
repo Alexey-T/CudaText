@@ -356,9 +356,6 @@ cmd_LineEndWin        = 2677
 cmd_LineEndUnix       = 2678
 cmd_LineEndMac        = 2679
 
-cmd_FoldingFoldAtCurLine   = 2680
-cmd_FoldingUnfoldAtCurLine = 2681
-cmd_FoldingToggleAtCurLine = 2682
 cmd_DeleteNewColorAttrs    = 2683
 cmd_FoldingEnable          = 2684
 cmd_FoldingDisable         = 2685
