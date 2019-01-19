@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.71.2 (2019/01)
+1.71.5 (2019/01)
 
 + add: option "find_show_extract" allows to hide Extract button
 - fix: caret pos after commands "scroll line up/down" was wrong sometimes
