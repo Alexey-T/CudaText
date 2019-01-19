@@ -1,4 +1,4 @@
-object SyntAnal3: TLibSyntAnalyzer
+object SyntAnal2: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -512,7 +512,6 @@ object SyntAnal3: TLibSyntAnalyzer
             'zip'
             'zless')
           TokenTypes = 4
-          IgnoreCase = True
         end>
       HighlightPos = cpBound
       IgnoreAsParent = False
