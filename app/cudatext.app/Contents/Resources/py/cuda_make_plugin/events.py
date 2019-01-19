@@ -30,6 +30,7 @@ EVENTS = [
     'on_paste',
     'on_save',
     'on_save_pre',
+    'on_save_naming',
     'on_scroll',
     'on_snippet',
     'on_start',

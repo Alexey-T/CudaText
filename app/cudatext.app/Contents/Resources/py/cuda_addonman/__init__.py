@@ -388,14 +388,7 @@ class Command:
             v_local = get_addon_version(url) or v_local
             a['v_local'] = v_local
 
-            check = False
-            if v_local == PREINST:
-                check = False
-            elif v_local == '?':
-                check = True
-            elif v_local < v_remote:
-                check = True
-            a['check'] = check
+            a['check'] = (v_local!=PREINST) and ((v_local=='?') or (v_local<v_remote))
 
         text_headers = '\r'.join(('Name=260', 'Folder=180', 'Local=125', 'Available=125'))
         text_columns = ['\r'.join(('['+i['kind']+'] '+i['name'], i['dir'], i['v_local'], i['v'])) for i in addons]

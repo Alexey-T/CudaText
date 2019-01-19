@@ -1,4 +1,4 @@
-object SyntAnal27: TLibSyntAnalyzer
+object SyntAnal23: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Number'
@@ -43,10 +43,10 @@ object SyntAnal27: TLibSyntAnalyzer
     item
       DisplayName = 'Id keyword'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clPurple
+      Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = [fsBold]
+      Font.Style = []
     end
     item
       DisplayName = 'Id keyword def'
@@ -59,7 +59,7 @@ object SyntAnal27: TLibSyntAnalyzer
     item
       DisplayName = 'Id function'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlue
+      Font.Color = clPurple
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -67,7 +67,7 @@ object SyntAnal27: TLibSyntAnalyzer
     item
       DisplayName = 'Id func name'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGreen
+      Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -92,14 +92,6 @@ object SyntAnal27: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = '1st Number'
-      StyleName = 'Number'
-      TokenType = 9
-      Expression = '^[\x20\x09]* \d(_?\d)* (\.(_?\d)*)?'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = '1st String'
       StyleName = 'String'
       TokenType = 4
@@ -111,7 +103,7 @@ object SyntAnal27: TLibSyntAnalyzer
       DisplayName = '1st Id'
       StyleName = 'Id'
       TokenType = 9
-      Expression = '^[\x20\x09]*\w+'
+      Expression = '^[\x20\x09]*[a-z_]\w*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -192,7 +184,7 @@ object SyntAnal27: TLibSyntAnalyzer
       DisplayName = 'Int hex'
       StyleName = 'Number'
       TokenType = 7
-      Expression = '\b 0x(_?[0-9a-f])+'
+      Expression = '\b0x[_0-9a-f]+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -213,10 +205,12 @@ object SyntAnal27: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Float'
+      DisplayName = 'Int/float'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '\b \d(_?\d)* (\.(_?\d)*)? (e[\-\+]?\d+)? |'#13#10'\.(_?\d)+'
+      Expression = 
+        '\b \d[_\d]* \.\d[_\d]* (e[\-\+]?\d[_\d]*)? \b |'#13#10'\b\d[_\d]*\.? |' +
+        #13#10'\.\d[_\d]*\b |'
       ColumnFrom = 0
       ColumnTo = 0
     end
