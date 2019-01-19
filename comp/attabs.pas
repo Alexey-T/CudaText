@@ -2612,8 +2612,7 @@ begin
   Data.TabPopupMenu:= APopupMenu;
   Data.TabFontStyle:= AFontStyle;
 
-  if FOptAnimationEnabled then
-    DoAnimationTabAdd(AIndex);
+  DoAnimationTabAdd(AIndex);
 
   Invalidate;
 
@@ -2681,8 +2680,7 @@ begin
 
   if IsIndexOk(AIndex) then
   begin
-    if FOptAnimationEnabled then
-      DoAnimationTabClose(AIndex);
+    DoAnimationTabClose(AIndex);
 
     FTabList.Delete(AIndex);
 
@@ -3178,6 +3176,13 @@ const
   cStep = 70; //pixels
   cSleepTime = 20; //msec
 begin
+  if not FOptAnimationEnabled then
+  begin
+    FScrollPos:= APosTo;
+    Invalidate;
+    exit;
+  end;
+
   Enabled:= false;
   try
     if APosTo>FScrollPos then
@@ -3207,6 +3212,7 @@ begin
   if FOptMultiline then exit;
 
   NPos:= Max(0, FScrollPos-GetScrollPageSize);
+
   if NPos<>FScrollPos then
     DoScrollAnimation(NPos);
 end;
@@ -3677,6 +3683,8 @@ var
   Data: TATTabData;
   i: integer;
 begin
+  if not FOptAnimationEnabled then exit;
+
   Data:= GetTabData(AIndex);
   if Data=nil then exit;
 
@@ -3717,6 +3725,8 @@ var
   Data: TATTabData;
   i: integer;
 begin
+  if not FOptAnimationEnabled then exit;
+
   Data:= GetTabData(AIndex);
   if Data=nil then exit;
 
