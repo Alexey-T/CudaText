@@ -61,6 +61,7 @@ type
 
 type
   TAppOpenMode = (
+    cOpenModeNone,
     cOpenModeEditor,
     cOpenModeViewText,
     cOpenModeViewBinary,

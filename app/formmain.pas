@@ -2614,6 +2614,9 @@ begin
   if Pos('/nontext-view-unicode', AOptions)>0 then
     NonTextMode:= cOpenModeViewUnicode
   else
+  if Pos('/nontext-cancel', AOptions)>0 then
+    NonTextMode:= cOpenModeNone
+  else
     NonTextMode:= cOpenModeEditor;
 
   if APages=nil then
@@ -2666,6 +2669,8 @@ begin
                GlobalDetectUf16BufferWords,
                false) then
       begin
+        if NonTextMode=cOpenModeNone then
+          Exit;
         if NonTextMode<>cOpenModeEditor then
           OpenMode:= NonTextMode
         else
