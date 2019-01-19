@@ -1,4 +1,4 @@
-object SyntAnal25: TLibSyntAnalyzer
+object SyntAnal23: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Number'
@@ -205,12 +205,12 @@ object SyntAnal25: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Float'
+      DisplayName = 'Int/float'
       StyleName = 'Number'
       TokenType = 5
       Expression = 
-        '\b \d[_\d]* \.\d[_\d]* (e[\-\+]?\d[_\d]*)? \b |'#13#10'\b\d[_\d]*\. |'#13 +
-        #10'\.\d[_\d]*\b |'
+        '\b \d[_\d]* \.\d[_\d]* (e[\-\+]?\d[_\d]*)? \b |'#13#10'\b\d[_\d]*\.? |' +
+        #13#10'\.\d[_\d]*\b |'
       ColumnFrom = 0
       ColumnTo = 0
     end
