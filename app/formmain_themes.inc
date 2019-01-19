@@ -84,7 +84,9 @@ begin
   ListboxVal.Invalidate;
 
   for i:= Low(AppBookmarkSetup) to High(AppBookmarkSetup) do
-    AppBookmarkSetup[i].Color:= GetAppColor('EdBookmarkBg');
+    with AppBookmarkSetup[i] do
+      if Color=0 then //don't touch colors inited in CudaLint
+        Color:= GetAppColor('EdBookmarkBg');
 
   EditorApplyTheme(CodeTreeFilterInput);
   EditorApplyTheme(fmConsole.ed);
