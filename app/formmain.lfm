@@ -18,6 +18,7 @@ object fmMain: TfmMain
   OnDestroy = FormDestroy
   OnDropFiles = FormDropFiles
   OnKeyDown = FormKeyDown
+  OnResize = FormResize
   OnShow = FormShow
   LCLVersion = '2.1.0.0'
   Visible = True

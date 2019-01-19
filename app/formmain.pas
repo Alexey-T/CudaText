@@ -436,6 +436,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames: array of String);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FrameStopTreeUpdate;
     procedure FrameAddRecent(Sender: TObject);
@@ -675,6 +676,7 @@ type
       AIndex: integer; const ARect: TRect);
     procedure DoSidebar_MainMenuClick(Sender: TObject);
     function DoSidebar_TranslatedCaption(const ACaption: string): string;
+    procedure FixMainLayout;
     procedure FormFloatBottomOnClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormFloatGroups1_OnEmpty(Sender: TObject);
     procedure FormFloatGroups2_OnEmpty(Sender: TObject);
@@ -1957,6 +1959,21 @@ begin
 
     exit
   end;
+end;
+
+procedure TfmMain.FormResize(Sender: TObject);
+begin
+  FixMainLayout;
+end;
+
+procedure TfmMain.FixMainLayout;
+begin
+  //issue #1814
+  if SplitterHorz.Visible and PanelBottom.Visible then
+    SplitterHorz.Top:= PanelBottom.Top-8;
+
+  if SplitterVert.Visible and PanelLeft.Visible then
+    SplitterVert.Left:= PanelLeft.Width;
 end;
 
 procedure TfmMain.FormShow(Sender: TObject);
