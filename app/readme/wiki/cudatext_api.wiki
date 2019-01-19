@@ -1130,6 +1130,10 @@ Opens editor tab with given filename. If filename already opened, activates its 
 ** If it has "/view-binary', then file will open in internal viewer, binary (fixed width) mode.
 ** If it has "/view-hex', then file will open in internal viewer, hex mode.
 ** If it has "/view-unicode', then file will open in internal viewer, unicode (variable width) mode.
+** If it has "/nontext-view-text", then in the case of non-text file, file will open in internal viewer, text (variable width) mode.
+** If it has "/nontext-view-binary", then in the case of non-text file, file will open in internal viewer, binary (fixed width) mode.
+** If it has "/nontext-view-hex", then in the case of non-text file, file will open in internal viewer, hex mode.
+** If it has "/nontext-view-unicode", then in the case of non-text file, file will open in internal viewer, unicode mode.
 
 Note: "ed" is always the current editor, after file_open() current editor changes, and "ed" is the new cur editor.
 
@@ -3204,7 +3208,10 @@ def project_variables():
 * add: on_state: add APPSTATE_CONFIG_REREAD
 * add: on_state: add APPSTATE_SESSION_LOAD
 
-1.0.268 (app 1.71.1)
+1.0.268 (app 1.71.5)
 * add: event on_save_naming
+
+1.0.269 (app 1.71.6)
+* add: file_open: options "/nontext-view-text", "/nontext-view-binary", "/nontext-view-hex", "/nontext-view-unicode"
 
 [[Category:CudaText]]
