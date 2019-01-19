@@ -2570,7 +2570,8 @@ function TfmMain.DoFileOpen(AFilename: string; APages: TATPages;
 var
   D: TATTabData;
   F: TEditorFrame;
-  bSilent, bPreviewTab, bEnableHistory, bEnableEvent, bNoZip,
+  bSilent, bPreviewTab, bEnableHistory, bEnableEvent,
+  bAllowZip, bAllowPics, bDetectedPics,
   bAndActivate, bAllowNear: boolean;
   OpenMode, NonTextMode: TAppOpenMode;
   tick: QWord;
@@ -2587,7 +2588,8 @@ begin
   bEnableEvent:= Pos('/noevent', AOptions)=0;
   bAndActivate:= Pos('/passive', AOptions)=0;
   bAllowNear:= Pos('/nonear', AOptions)=0;
-  bNoZip:= Pos('/nozip', AOptions)>0;
+  bAllowZip:= Pos('/nozip', AOptions)=0;
+  bAllowPics:= Pos('/nopictures', AOptions)=0;
 
   if Pos('/view-text', AOptions)>0 then
     OpenMode:= cOpenModeViewText
@@ -2649,7 +2651,7 @@ begin
   if OpenMode=cOpenModeEditor then
   begin
     //zip files
-    if not bNoZip then
+    if bAllowZip then
     if ExtractFileExt(AFilename)='.zip' then
     begin
       if DoFileInstallZip(AFilename, AppFolderOfLastInstalledAddon, bSilent) then
@@ -2662,8 +2664,10 @@ begin
       if DoPyEvent(CurrentEditor, cEventOnOpenBefore,
         [SStringToPythonString(AFilename)]) = cPyFalse then exit;
 
+    bDetectedPics:= bAllowPics and IsFilenameListedInExtensionList(AFilename, UiOps.PictureTypes);
+
     //non-text option
-    if not IsFilenameListedInExtensionList(AFilename, UiOps.PictureTypes) then
+    if not bDetectedPics then
     if UiOps.NonTextFiles<>1 then
       if not IsFileContentText(
                AFilename,
