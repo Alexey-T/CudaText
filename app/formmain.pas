@@ -2572,7 +2572,7 @@ var
   F: TEditorFrame;
   bSilent, bPreviewTab, bEnableHistory, bEnableEvent,
   bAndActivate, bAllowNear: boolean;
-  OpenMode: TAppOpenMode;
+  OpenMode, NonTextMode: TAppOpenMode;
   tick: QWord;
   msg: string;
   i: integer;
@@ -2601,6 +2601,20 @@ begin
     OpenMode:= cOpenModeViewUnicode
   else
     OpenMode:= cOpenModeEditor;
+
+  if Pos('/nontext-view-text', AOptions)>0 then
+    NonTextMode:= cOpenModeViewText
+  else
+  if Pos('/nontext-view-binary', AOptions)>0 then
+    NonTextMode:= cOpenModeViewBinary
+  else
+  if Pos('/nontext-view-hex', AOptions)>0 then
+    NonTextMode:= cOpenModeViewHex
+  else
+  if Pos('/nontext-view-unicode', AOptions)>0 then
+    NonTextMode:= cOpenModeViewUnicode
+  else
+    NonTextMode:= cOpenModeEditor;
 
   if APages=nil then
     APages:= Groups.PagesCurrent;
@@ -2651,6 +2665,10 @@ begin
                UiOps.NonTextFilesBufferKb,
                GlobalDetectUf16BufferWords,
                false) then
+      begin
+        if NonTextMode<>cOpenModeEditor then
+          OpenMode:= NonTextMode
+        else
         case UiOps.NonTextFiles of
           0:
             case DoDialogConfirmBinaryFile(AFileName, false) of
@@ -2669,6 +2687,7 @@ begin
           else
             Exit;
         end;
+      end;
 
     //too big size?
     if (OpenMode=cOpenModeEditor) and IsFileTooBigForOpening(AFilename) then
