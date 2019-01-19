@@ -591,8 +591,7 @@ object SyntAnal2: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
-            'do'
-            'for')
+            'do')
           TokenTypes = 4
         end>
       BlockEnd = 'do end'
