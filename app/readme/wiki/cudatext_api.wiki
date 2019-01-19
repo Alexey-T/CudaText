@@ -1116,7 +1116,9 @@ Gets string if command selected, or None if cancelled.
 
  file_open(filename, group=-1, options="")
 
-Opens editor tab with given filename. If filename already opened, activates its tab. Pass empty str to open untitled tab. Gets bool: filename is empty or file successfully opened. For zip files, gets True only if add-on (in zip file) was installed.
+Opens editor tab with given filename. If filename already opened, activates its tab. Pass empty str to open untitled tab.
+
+Gets bool: filename is empty or file was successfully opened. For zip files, gets True only if add-on (in zip file) was correct and installed.
 
 * Param "group": index of tab-group (0-based), default means "current group". If you pass index of currently hidden group, group won't show, you need to call editor command to show it, see [[#cmd]].
 * Param "options": string:
@@ -1134,6 +1136,7 @@ Opens editor tab with given filename. If filename already opened, activates its 
 ** If it has "/nontext-view-binary", then in the case of non-text file, file will open in internal viewer, binary (fixed width) mode.
 ** If it has "/nontext-view-hex", then in the case of non-text file, file will open in internal viewer, hex mode.
 ** If it has "/nontext-view-unicode", then in the case of non-text file, file will open in internal viewer, unicode mode.
+** If it has "/nontext-cancel", then in the case of non-text file, function will fail and return False.
 
 Note: "ed" is always the current editor, after file_open() current editor changes, and "ed" is the new cur editor.
 
@@ -3212,6 +3215,6 @@ def project_variables():
 * add: event on_save_naming
 
 1.0.269 (app 1.71.6)
-* add: file_open: options "/nontext-view-text", "/nontext-view-binary", "/nontext-view-hex", "/nontext-view-unicode"
+* add: file_open: options "/nontext-view-text", "/nontext-view-binary", "/nontext-view-hex", "/nontext-view-unicode", "/nontext-cancel"
 
 [[Category:CudaText]]
