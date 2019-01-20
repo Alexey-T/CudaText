@@ -97,6 +97,14 @@ object SyntAnal5: TLibSyntAnalyzer
       BorderColorRight = clSilver
       BorderTypeBottom = blSolid
       BorderColorBottom = clSilver
+    end
+    item
+      DisplayName = 'Id modifier'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -220,10 +228,8 @@ object SyntAnal5: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
-            'abstract'
             'add'
             'as'
-            'async'
             'await'
             'base'
             'bool'
@@ -234,7 +240,6 @@ object SyntAnal5: TLibSyntAnalyzer
             'char'
             'checked'
             'class'
-            'const'
             'continue'
             'decimal'
             'default'
@@ -243,9 +248,7 @@ object SyntAnal5: TLibSyntAnalyzer
             'double'
             'else'
             'enum'
-            'event'
             'explicit'
-            'extern'
             'false'
             'finally'
             'fixed'
@@ -259,7 +262,6 @@ object SyntAnal5: TLibSyntAnalyzer
             'in'
             'int'
             'interface'
-            'internal'
             'is'
             'lock'
             'long'
@@ -269,23 +271,15 @@ object SyntAnal5: TLibSyntAnalyzer
             'object'
             'operator'
             'out'
-            'override'
             'params'
-            'partial'
-            'private'
-            'protected'
-            'public'
-            'readonly'
             'ref'
             'remove'
             'return'
             'sbyte'
-            'sealed'
             'set'
             'short'
             'sizeof'
             'stackalloc'
-            'static'
             'string'
             'struct'
             'switch'
@@ -297,12 +291,10 @@ object SyntAnal5: TLibSyntAnalyzer
             'uint'
             'ulong'
             'unchecked'
-            'unsafe'
             'ushort'
             'using'
             'value'
             'var'
-            'virtual'
             'void'
             'where'
             'while'
@@ -335,6 +327,35 @@ object SyntAnal5: TLibSyntAnalyzer
             'ulong'
             'ushort'
             'void')
+          TokenTypes = 4
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Id modifier'
+      StyleName = 'Id modifier'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'abstract'
+            'async'
+            'const'
+            'event'
+            'extern'
+            'internal'
+            'override'
+            'partial'
+            'private'
+            'protected'
+            'public'
+            'readonly'
+            'sealed'
+            'static'
+            'unsafe'
+            'virtual'
+            'volatile')
           TokenTypes = 4
         end>
       HighlightPos = cpAny
