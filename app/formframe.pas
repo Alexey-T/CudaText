@@ -215,6 +215,7 @@ type
     procedure SetLexerName(const AValue: string);
   protected
     procedure DoOnResize; override;
+    procedure VisibleChanged; override;
   public
     { public declarations }
     Ed1: TATSynEdit;
@@ -1249,6 +1250,22 @@ procedure TEditorFrame.DoOnResize;
 begin
   inherited;
   SplitPos:= SplitPos;
+end;
+
+procedure TEditorFrame.VisibleChanged;
+begin
+  inherited;
+
+  if Visible then
+  begin
+    Ed1.TimersStart;
+    Ed2.TimersStart;
+  end
+  else
+  begin
+    Ed1.TimersStop;
+    Ed2.TimersStop;
+  end;
 end;
 
 procedure TEditorFrame.InitEditor(var ed: TATSynEdit);

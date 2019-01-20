@@ -4,9 +4,9 @@ program cudatext;
 
 uses
   //heaptrc,
-  {$IFDEF UNIX}{$IFDEF UseCThreads}
+  {$IFDEF UNIX}
   cthreads,
-  {$ENDIF}{$ENDIF}
+  {$ENDIF}
   Interfaces, // this includes the LCL widgetset
   SysUtils,
   Forms, lazcontrols, uniqueinstance_package, FormMain, FormConsole, proc_str,
