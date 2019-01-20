@@ -10,7 +10,12 @@
 * change: deleted 3 commands "folding: fold range....", because they were duplicated by commands "folding: fold block...."
 - fix: caret pos after commands "scroll line up/down" was wrong sometimes
 
-* change: lexers removed to addons: Perl, Apache config
+* change: lexer removed to addons: C#
+* change: lexer removed to addons: Perl
+* change: lexer removed to addons: Tcl
+* change: lexer removed to addons: Haskell
+* change: lexer removed to addons: Apache config
+* change: lexer removed to addons: Delphi resources
 + add: lexer Python improved: fix numbers with "_"
 + add: lexer Bash improved: highlight keywords in separate style; highlight func names, "-params"; highlight half of symbols in new style
 + add: lexer Ruby improved: disabled regex rule (temporary?); fixed heredoc rule; highlight "par:" and ":par"; highlight octals/decimals; highlight more std funcs
