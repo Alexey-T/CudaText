@@ -1256,6 +1256,8 @@ procedure TEditorFrame.VisibleChanged;
 begin
   inherited;
 
+  {
+  //seems not needed
   if Visible then
   begin
     Ed1.TimersStart;
@@ -1266,6 +1268,7 @@ begin
     Ed1.TimersStop;
     Ed2.TimersStop;
   end;
+  }
 end;
 
 procedure TEditorFrame.InitEditor(var ed: TATSynEdit);
