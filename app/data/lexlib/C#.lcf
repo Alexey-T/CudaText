@@ -1,4 +1,4 @@
-object SyntAnal6: TLibSyntAnalyzer
+object SyntAnal5: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -149,14 +149,6 @@ object SyntAnal6: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Id keyword'
-      StyleName = 'Id keyword'
-      TokenType = 2
-      Expression = '\b(if | foreach | while | catch)\b'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Id'
       StyleName = 'Id'
       TokenType = 2
@@ -231,6 +223,8 @@ object SyntAnal6: TLibSyntAnalyzer
             'abstract'
             'add'
             'as'
+            'async'
+            'await'
             'base'
             'bool'
             'break'
@@ -950,8 +944,8 @@ object SyntAnal6: TLibSyntAnalyzer
   Extentions = 'cs csx'
   LexerName = 'C#'
   Notes.Strings = (
-    'Original was from EControl package'
-    'Improved much by Alexey (SynWrite)')
+    'Original lexer was from EControl package'
+    'Reworked by Alexey (CudaText)')
   LineComment = '//'
   Charset = DEFAULT_CHARSET
 end
