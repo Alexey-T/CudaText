@@ -14,7 +14,8 @@
 + add: lexer Python improved: fix numbers with "_"
 + add: lexer Bash improved: highlight keywords in separate style; highlight func names, "-params"; highlight half of symbols in new style
 + add: lexer Ruby improved: disabled regex rule (temporary?); fixed heredoc rule; highlight "par:" and ":par"; highlight octals/decimals; highlight more std funcs
-+ add: lexers C, C++ improved 
++ add: lexer C# improved: highlight modifiers in separate style; add 'await'/'async'
++ add: lexers C, C++ fixed
 
 1.71.0 (2019/01)
 

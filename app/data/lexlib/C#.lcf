@@ -168,7 +168,7 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'Hex'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '0x[\da-f]+'
+      Expression = '0x[\da-f]+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -176,7 +176,7 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'Float'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '\d+ \.? \d+ e [\+\-]? \d+ [mdf]? |'#13#10'\d+ \. \d+ [mdf]?'
+      Expression = '\d+ \.? \d+ e [\+\-]? \d+ [mdf]?\b |'#13#10'\d+ \. \d+ [mdf]?\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -184,7 +184,7 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'Integer'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '\d+ (LU|L|UL|U)?'
+      Expression = '\d+ (LU|L|UL|U|UU)? \b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -900,7 +900,7 @@ object SyntAnal5: TLibSyntAnalyzer
     '   ///doc'
     '#  pragma Test'
     'test = @"begin'
-    'end\" + "str\"d\"" + '#39'd'#39' + 0xA0F0;'
+    'end\" + "str\"d\"" + '#39'd'#39' + 0xF0 + 1.2e-3;'
     'from nn select dd; //Linq'
     'enum Days {P1, P2, P3};'
     ' '
