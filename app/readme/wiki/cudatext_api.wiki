@@ -2412,7 +2412,7 @@ Possible values of id:
 ** "id_canvas": needed to paint an image on bitmap, by canvas_proc().
 
 * GAP_ADD: Adds gap to editor, with ready bitmap. Gets bool: params correct, gap added. Params:
-** "num1": line index
+** "num1": line index; can be -1 for gap before the first line
 ** "num2": id_bitmap you got before
 ** "tag": int value (signed 64 bit) to separate gaps from several plugins.
 
@@ -3217,6 +3217,7 @@ def project_variables():
 * add: event on_save_naming
 
 1.0.269 (app 1.71.6)
+* add: Editor.gap: allowed gap before the first line (line index = -1)
 * add: file_open: options "/nontext-view-text", "/nontext-view-binary", "/nontext-view-hex", "/nontext-view-unicode", "/nontext-cancel"
 * add: file_open: options "/nozip", "/nopictures"
 
