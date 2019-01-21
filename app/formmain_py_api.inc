@@ -5538,7 +5538,7 @@ begin
 
         GAP_ADD:
           begin
-            if Ed.Strings.IsIndexValid(Num1) then
+            if Ed.Strings.IsIndexValid(Num1) or (Num1=-1) then
             begin
               Bmp:= TBitmap(PtrInt(Num2));
               Ed.Gaps.DeleteForLineRange(Num1, Num1);
