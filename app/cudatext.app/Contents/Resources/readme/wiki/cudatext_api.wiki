@@ -810,8 +810,8 @@ Dialog is closed by clicking any button or by changing of any control which has 
 * If cancelled, gets None
 * If get_dict=True, gets dict: {0: str_value_0, 1: str_value_1, ..., 'clicked': N, 'focused': N}
 * If get_dict=False, gets 2-tuple: (clicked_index, state_text)
-** clicked_index: index of control which closed dialog (0-based).
-** state_text: "\n"-separated values of controls. Same count of items as in text, plus optional additional lines in the form "key=value". Line "focused=N" with index of last focused control (0-based) or -1.
+** "clicked_index": index of control which closed dialog (0-based).
+** "state_text": "\n"-separated values of controls. Same count of items as in text, plus optional additional lines in the form "key=value". Line "focused=N" with index of last focused control (0-based) or -1.
 
 ====Notes====
 
@@ -992,10 +992,10 @@ class Command:
 
 Parameters:
 
-* id_dlg: Int handle of form.
-* id_ctl: Int index of control. Used only for control events.
-* data: Value, specific to event.
-* info: Value from extended form of callback string.
+* "id_dlg": Int handle of form.
+* "id_ctl": Int index of control. Used only for control events.
+* "data": Value, specific to event.
+* "info": Value from extended form of callback string.
 
 ====Actions====
 
@@ -1188,10 +1188,10 @@ Index possible values: 0..5 (first 6 groups) and 6..8 (3 floating groups).
 
 Reads/writes single string from/to .ini file. Params:
 
-* filename: str: Path of file. Can be without path, this means that path of "settings" dir is used.
-* section: str: Section of ini file.
-* key: str: Key in section.
-* value: str:
+* "filename": str: Path of file. Can be without path, this means that path of "settings" dir is used.
+* "section": str: Section of ini file.
+* "key": str: Key in section.
+* "value": str:
 ** on read: default value which is returned if no such filename/section/key was found.
 ** on write: value to write.
 
@@ -1321,21 +1321,21 @@ Id_canvas is handle of canvas of some GUI control. Special value 0 means testing
 Possible values of id_action:
 
 * CANVAS_SET_FONT: Sets props of font. Params:
-** text - font name;
-** color;
-** size;
-** style - 0 for normal, or sum of values FONT_B (bold), FONT_I (italic), FONT_U (underline), FONT_S (strikeout)
+** "text": font name
+** "color"
+** "size"
+** "style": 0 for normal, or sum of values FONT_B (bold), FONT_I (italic), FONT_U (underline), FONT_S (strikeout)
 
 * CANVAS_SET_PEN: Sets props of pen. Params:
-** color;
-** size;
-** style - one of PEN_STYLE_nnnn;
-** p1 - end caps style - one of PEN_CAPS_nnnn;
-** p2 - line joining style - one of PEN_JOIN_nnnn
+** "color"
+** "size"
+** "style": one of PEN_STYLE_nnnn
+** "p1": end caps style - one of PEN_CAPS_nnnn
+** "p2": line joining style - one of PEN_JOIN_nnnn
 
 * CANVAS_SET_BRUSH: Sets props of brush. Params:
-** color;
-** style - one of BRUSH_nnnn. Usually used: BRUSH_SOLID (filled background), BRUSH_CLEAR (transparent background).
+** "color"
+** "style": one of BRUSH_nnnn. Usually used: BRUSH_SOLID (filled background), BRUSH_CLEAR (transparent background).
 
 * CANVAS_SET_ANTIALIAS: Sets anti-aliasing mode of canvas. Params: style - ANTIALIAS_NONE, _ON, _OFF.
 * CANVAS_GET_TEXT_SIZE: Gets size of text on canvas, as 2-tuple (size_x, size_y). Uses font. Params: text.
@@ -1356,9 +1356,9 @@ Possible values of id_action:
 
 Perform action on timers. Many different timers allowed, they work at the same time, each uniq callback - makes new timer with its own interval. To stop some timer, you must specify same callback as on start.
 
-* callback: Callback which is called on timer tick, see below.
-* interval: Timer delay in msec, 150 or bigger. Specify it only on starting (ignored on stopping).
-* tag: Some string, if not empty, it will be parameter to callback. If empty, callback is called without additional params.
+* "callback": Callback which is called on timer tick, see below.
+* "interval": Timer delay in msec, 150 or bigger. Specify it only on starting (ignored on stopping).
+* "tag": Some string, if not empty, it will be parameter to callback. If empty, callback is called without additional params.
 
 Possible values of id:
 
@@ -1692,10 +1692,10 @@ Note: Toolbars contain several "button_ex" objects, which are anchored one to an
 
 Editor class has methods to work with editor. Global objects of Editor exist:
 
-* ed: refers to currently focused editor (in any tab).
-* ed_bro: refers to "brother" of ed. If tab is splitted, 2 editors are shown: 1st/2nd. 1st and 2nd are "brother" editors.
-* ed_con_log: refers to log field (multi-line) in the "Console" panel.
-* ed_con_in: refers to input field (single line) in the "Console" panel.
+* "ed": refers to currently focused editor (in any tab).
+* "ed_bro": refers to "brother" of ed. If tab is splitted, 2 editors are shown: 1st/2nd. 1st and 2nd are "brother" editors.
+* "ed_con_log": refers to log field (multi-line) in the "Console" panel.
+* "ed_con_in": refers to input field (single line) in the "Console" panel.
 
 ==Carets==
 ===get_carets===
@@ -1887,11 +1887,11 @@ Gets tab splitting: each tab can be splitted to primary/second editors.
 
 Gets 2-tuple: (state, percent):
 
-* int: state of splitting, one of the values
+* "state": int: state of splitting, one of the values
 ** TAB_SPLIT_NO: tab is not splitted
 ** TAB_SPLIT_HORZ: tab is splitted horizontally
 ** TAB_SPLIT_VERT: tab is splitted vertically
-* float: percent of splitting, e.g. it's 0.5 if tab splitted 50/50.
+* "percent": float: percent of splitting, e.g. it's 0.5 if tab splitted 50/50.
 
 ===set_split===
 
@@ -2408,13 +2408,13 @@ Possible values of id:
 * GAP_GET_LIST: Gets list of gaps. List of 4-tuples (nline, ntag, bitmap_size_x, bitmap_size_y), or None.
 
 * GAP_MAKE_BITMAP: Makes new bitmap for future gap. Size of bitmap is num1 x num2. Gets 2-tuple (id_bitmap, id_canvas).
-** id_bitmap is needed to later call GAP_ADD.
-** id_canvas is needed to paint an image on bitmap, by canvas_proc().
+** "id_bitmap" needed to later call GAP_ADD.
+** "id_canvas": needed to paint an image on bitmap, by canvas_proc().
 
 * GAP_ADD: Adds gap to editor, with ready bitmap. Gets bool: params correct, gap added. Params:
-** num1 - line index
-** num2 - id_bitmap you got before
-** tag - int value (signed 64 bit) to separate gaps from several plugins.
+** "num1": line index; can be -1 for gap before the first line
+** "num2": id_bitmap you got before
+** "tag": int value (signed 64 bit) to separate gaps from several plugins.
 
 * GAP_DELETE: Deletes gaps, for line indexes from num1 to num2.
 * GAP_DELETE_ALL: Deletes all gaps.
@@ -2468,13 +2468,13 @@ Use case: plugin appends n lines to text (line by line), then lexer needs to res
 
 Makes HTML file from source text with syntax highlighting. Gets bool: file is created. Params:
 
-* file_name: str: Path of file.
-* title: str: HTML page title.
-* font_name: str: Font name.
-* int: Font size, in HTML points.
-* with_nums: bool: Make column with line numbers.
-* color_bg: int: RGB color of page background.
-* color_nums: int: RGB color of line numbers.
+* "file_name": str: Path of file.
+* "title": str: HTML page title.
+* "font_name": str: Font name.
+* "int": Font size, in HTML points.
+* "with_nums": bool: Make column with line numbers.
+* "color_bg": int: RGB color of page background.
+* "color_nums": int: RGB color of line numbers.
 
 ===more===
 
@@ -3217,6 +3217,7 @@ def project_variables():
 * add: event on_save_naming
 
 1.0.269 (app 1.71.6)
+* add: Editor.gap: allowed gap before the first line (line index = -1)
 * add: file_open: options "/nontext-view-text", "/nontext-view-binary", "/nontext-view-hex", "/nontext-view-unicode", "/nontext-cancel"
 * add: file_open: options "/nozip", "/nopictures"
 
