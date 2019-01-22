@@ -1360,7 +1360,6 @@ begin
   Adapter:= TATAdapterEControl.Create(Self);
   Adapter.DynamicHiliteEnabled:= EditorOps.OpLexerDynamicHiliteEnabled;
   Adapter.DynamicHiliteMaxLines:= EditorOps.OpLexerDynamicHiliteMaxLines;
-  Adapter.EnabledLineSeparators:= EditorOps.OpLexerLineSeparators;
 
   Adapter.AddEditor(Ed1);
   Adapter.AddEditor(Ed2);

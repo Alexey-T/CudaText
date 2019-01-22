@@ -608,7 +608,6 @@ begin
     Adapter:= TATAdapterEControl.Create(Ctl);
     Adapter.DynamicHiliteEnabled:= EditorOps.OpLexerDynamicHiliteEnabled;
     Adapter.DynamicHiliteMaxLines:= EditorOps.OpLexerDynamicHiliteMaxLines;
-    Adapter.EnabledLineSeparators:= EditorOps.OpLexerLineSeparators;
     Adapter.AddEditor(TATSynEdit(Ctl));
 
     exit;
