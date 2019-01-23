@@ -642,13 +642,13 @@ begin
     for s in List do
       AppConfig_PGroups.Add(s, c.GetValue('/plugin_groups/'+s, ''));
 
-    c.EnumValues('/detect', AppConfig_Detect_Keys);
-    for s in AppConfig_Detect_Keys do
-      AppConfig_Detect_Values.Add(c.GetValue('/detect/'+s, ''));
+    c.EnumValues('/detect', List);
+    for s in List do
+      AppConfig_Detect.Add(s, c.GetValue('/detect/'+s, ''));
 
-    c.EnumValues('/detect_line', AppConfig_DetectLine_Keys);
-    for s in AppConfig_DetectLine_Keys do
-      AppConfig_DetectLine_Values.Add(c.GetValue('/detect_line/'+s, ''));
+    c.EnumValues('/detect_line', List);
+    for s in List do
+      AppConfig_DetectLine.Add(s, c.GetValue('/detect_line/'+s, ''));
 
     FreeAndNil(List);
 

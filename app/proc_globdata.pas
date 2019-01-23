@@ -69,10 +69,8 @@ type
   end;
 
 var
-  AppConfig_Detect_Keys: TStringList;
-  AppConfig_Detect_Values: TStringList;
-  AppConfig_DetectLine_Keys: TStringList;
-  AppConfig_DetectLine_Values: TStringList;
+  AppConfig_Detect: TAppKeyValues;
+  AppConfig_DetectLine: TAppKeyValues;
   AppConfig_PGroups: TAppKeyValues;
 
 const
@@ -1461,31 +1459,37 @@ end;
 
 function DoLexerDetectByFilenameOrContent(const AFilename: string): TecSyntAnalyzer;
 var
-  ext, sLine: string;
+  Item: TAppKeyValue;
+  ext, sLine, res: string;
   i: integer;
 begin
   //detect by filename
-  i:= AppConfig_Detect_Keys.IndexOf(ExtractFileName(AFilename));
-  if i>=0 then
-    exit(AppManager.FindLexerByName(AppConfig_Detect_Values[i]));
+  res:= AppConfig_Detect.GetValue(ExtractFileName(AFilename), '');
+  if res<>'' then
+    exit(AppManager.FindLexerByName(res));
 
   //detect by extention
   ext:= ExtractFileExt(AFilename);
   if ext<>'' then
   begin
-    i:= AppConfig_Detect_Keys.IndexOf('*'+ext);
-    if i>=0 then
-      exit(AppManager.FindLexerByName(AppConfig_Detect_Values[i]));
+    res:= AppConfig_Detect.GetValue('*'+ext, '');
+    if res<>'' then
+      exit(AppManager.FindLexerByName(res));
   end;
 
   //detect by first line
-  if AppConfig_DetectLine_Keys.Count>0 then
+  if AppConfig_DetectLine.Count>0 then
   begin
     sLine:= DoReadOneStringFromFile(AFilename);
     if sLine<>'' then
-      for i:= 0 to AppConfig_DetectLine_Keys.Count-1 do
-        if SRegexMatchesString(sLine, AppConfig_DetectLine_Keys[i], true) then
-          exit(AppManager.FindLexerByName(AppConfig_DetectLine_Values[i]));
+    begin
+      for i:= 0 to AppConfig_DetectLine.Count-1 do
+      begin
+        Item:= TAppKeyValue(AppConfig_DetectLine[i]);
+        if SRegexMatchesString(sLine, Item.Key, true) then
+          exit(AppManager.FindLexerByName(Item.Value));
+      end;
+    end;
   end;
 
   Result:= AppManager.FindLexerByFilename(AFilename);
@@ -2103,10 +2107,8 @@ initialization
   Mouse.DragImmediate:= false;
   Mouse.DragThreshold:= 12;
 
-  AppConfig_Detect_Keys:= TStringList.Create;
-  AppConfig_Detect_Values:= TStringList.Create;
-  AppConfig_DetectLine_Keys:= TStringList.Create;
-  AppConfig_DetectLine_Values:= TStringList.Create;
+  AppConfig_Detect:= TAppKeyValues.Create;
+  AppConfig_DetectLine:= TAppKeyValues.Create;
   AppConfig_PGroups:= TAppKeyValues.Create;
 
   ////detection of Shell files
@@ -2115,15 +2117,12 @@ initialization
   //AppConfig_DetectLine_Values.Add('Bash script');
 
   //detection of XML
-  AppConfig_DetectLine_Keys.Add('<\?xml .+');
-  AppConfig_DetectLine_Values.Add('XML');
+  AppConfig_DetectLine.Add('<\?xml .+', 'XML');
 
 finalization
   FreeAndNil(AppConfig_PGroups);
-  FreeAndNil(AppConfig_DetectLine_Keys);
-  FreeAndNil(AppConfig_DetectLine_Values);
-  FreeAndNil(AppConfig_Detect_Keys);
-  FreeAndNil(AppConfig_Detect_Values);
+  FreeAndNil(AppConfig_DetectLine);
+  FreeAndNil(AppConfig_Detect);
   FreeAndNil(AppKeymap);
   FreeAndNil(AppBookmarkImagelist);
   FreeAndNil(AppBottomPanels);
