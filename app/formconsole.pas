@@ -95,7 +95,7 @@ begin
   end
   else
   if (Str='Traceback (most recent call last):') or
-    SRegexMatchesString(Str, '^[A-Z]\w+Error: .+', true) then
+    SRegexMatchesString(Str, '^[a-zA-Z][\w\.]*Error: .+', true) then
   begin
     fmt:= GetAppStyleFromName('LightBG1');
     AColorFont:= fmt.Font.Color;
