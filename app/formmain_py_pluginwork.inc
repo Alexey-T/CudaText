@@ -256,13 +256,17 @@ procedure TfmMain.UpdateMenuPlugins;
   //
   function GroupValue(AName: string): string;
   var
+    Item: TAppKeyValue;
     i: integer;
   begin
     Result:= '';
     AName:= SGetItem(AName, '\');
-    for i:= 0 to AppConfig_PGroups_Keys.Count-1 do
-      if SRegexMatchesString(AName, AppConfig_PGroups_Keys[i], false) then
-        exit(AppConfig_PGroups_Values[i]+'\');
+    for i:= 0 to AppConfig_PGroups.Count-1 do
+    begin
+      Item:= TAppKeyValue(AppConfig_PGroups[i]);
+      if SRegexMatchesString(AName, Item.Key, false) then
+        exit(Item.Value+'\');
+    end;
   end;
   //
 var

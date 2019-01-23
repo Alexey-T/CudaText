@@ -53,13 +53,27 @@ var
   AppBookmarkImagelist: TImageList = nil;
   AppFolderOfLastInstalledAddon: string = '';
 
+type
+  TAppKeyValue = class
+    Key: string;
+    Value: string;
+  end;
+
+type
+  { TAppKeyValues }
+
+  TAppKeyValues = class(TList)
+  public
+    procedure Add(const AKey, AValue: string);
+    function GetValue(const AKey, ADefValue: string): string;
+  end;
+
 var
   AppConfig_Detect_Keys: TStringList;
   AppConfig_Detect_Values: TStringList;
   AppConfig_DetectLine_Keys: TStringList;
   AppConfig_DetectLine_Values: TStringList;
-  AppConfig_PGroups_Keys: TStringList;
-  AppConfig_PGroups_Values: TStringList;
+  AppConfig_PGroups: TAppKeyValues;
 
 const
   AppExtensionThemeUi = '.cuda-theme-ui';
@@ -2040,6 +2054,32 @@ var
   fn: string;
   i: integer;
 
+{ TAppKeyValues }
+
+procedure TAppKeyValues.Add(const AKey, AValue: string);
+var
+  Item: TAppKeyValue;
+begin
+  Item:= TAppKeyValue.Create;
+  Item.Key:= AKey;
+  Item.Value:= AValue;
+  inherited Add(Item);
+end;
+
+function TAppKeyValues.GetValue(const AKey, ADefValue: string): string;
+var
+  Item: TAppKeyValue;
+  i: integer;
+begin
+  for i:= 0 to Count-1 do
+  begin
+    Item:= TAppKeyValue(Items[i]);
+    if Item.Key=AKey then
+      exit(Item.Value);
+  end;
+  Result:= ADefValue;
+end;
+
 initialization
   InitDirs;
   InitEditorOps(EditorOps);
@@ -2067,8 +2107,7 @@ initialization
   AppConfig_Detect_Values:= TStringList.Create;
   AppConfig_DetectLine_Keys:= TStringList.Create;
   AppConfig_DetectLine_Values:= TStringList.Create;
-  AppConfig_PGroups_Keys:= TStringList.Create;
-  AppConfig_PGroups_Values:= TStringList.Create;
+  AppConfig_PGroups:= TAppKeyValues.Create;
 
   ////detection of Shell files
   ////disabled: it detects Python files with shebang
@@ -2080,8 +2119,7 @@ initialization
   AppConfig_DetectLine_Values.Add('XML');
 
 finalization
-  FreeAndNil(AppConfig_PGroups_Keys);
-  FreeAndNil(AppConfig_PGroups_Values);
+  FreeAndNil(AppConfig_PGroups);
   FreeAndNil(AppConfig_DetectLine_Keys);
   FreeAndNil(AppConfig_DetectLine_Values);
   FreeAndNil(AppConfig_Detect_Keys);

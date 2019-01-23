@@ -620,6 +620,7 @@ end;
 
 procedure TfmMain.DoOps_LoadOptions(const fn: string; var Op: TEditorOps);
 var
+  List: TStringList;
   c: TJsonConfig;
   s: string;
 begin
@@ -635,9 +636,11 @@ begin
       end;
     end;
 
-    c.EnumValues('/plugin_groups', AppConfig_PGroups_Keys);
-    for s in AppConfig_PGroups_Keys do
-      AppConfig_PGroups_Values.Add(c.GetValue('/plugin_groups/'+s, ''));
+    List:= TStringList.Create;
+
+    c.EnumValues('/plugin_groups', List);
+    for s in List do
+      AppConfig_PGroups.Add(s, c.GetValue('/plugin_groups/'+s, ''));
 
     c.EnumValues('/detect', AppConfig_Detect_Keys);
     for s in AppConfig_Detect_Keys do
@@ -646,6 +649,8 @@ begin
     c.EnumValues('/detect_line', AppConfig_DetectLine_Keys);
     for s in AppConfig_DetectLine_Keys do
       AppConfig_DetectLine_Values.Add(c.GetValue('/detect_line/'+s, ''));
+
+    FreeAndNil(List);
 
     Op.OpFontName:= FixFontMonospaced(c.GetValue(str_FontName, Op.OpFontName));
     Op.OpFontName_i:= FixFontMonospaced(c.GetValue(str_FontName_i, Op.OpFontName_i));
