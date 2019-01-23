@@ -24,7 +24,7 @@ const
   cmdFirstLexerCommand = 6000;
   cmdLastLexerCommand = 6400-1;
   cmdFirstPluginCommand = 6400;
-  cmdLastPluginCommand = 6800-1;
+  cmdLastPluginCommand = 8000-1;
 
   //for macros
   cmd_MouseClickAtCursor = 2480;
