@@ -80,20 +80,18 @@ begin
 
   //get max prior for AEvent
   MaxPrior:= 0;
-  for i_plugin in TAppPluginEventArray do
-    with AppPluginsEvent[i_plugin] do
+  for i_plugin:= 0 to AppEventList.Count-1 do
+    with TAppEvent(AppEventList[i_plugin]) do
     begin
-      if (ItemModule='') then Break;
       if (AEvent in ItemEvents) then
         MaxPrior:= Max(MaxPrior, ItemEventsPrior[AEvent]);
     end;
 
   //see all items for prior=MaxPrior..0
   for i_prior:= MaxPrior downto 0 do
-    for i_plugin in TAppPluginEventArray do
-      with AppPluginsEvent[i_plugin] do
+    for i_plugin:= 0 to AppEventList.Count-1 do
+      with TAppEvent(AppEventList[i_plugin]) do
       begin
-        if (ItemModule='') then Break;
         if not (AEvent in ItemEvents) then Continue;
         if (i_prior<>ItemEventsPrior[AEvent]) then Continue;
         if not ((ItemLexers='') or IsLexerListed(SCurLexer, ItemLexers)) then Continue;
@@ -211,18 +209,27 @@ end;
 
 procedure TfmMain.DoPyUpdateEvents(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
 var
-  i, N: integer;
+  EventItem: TAppEvent;
+  i: integer;
 begin
   //find index of plugin (get first empty index if not listed)
-  N:= -1;
-  for i:= Low(AppPluginsEvent) to High(AppPluginsEvent) do
-    with AppPluginsEvent[i] do
-      if (ItemModule=AModuleName) or (ItemModule='') then
-        begin N:= i; Break end;
-  if N<0 then Exit;
+  EventItem:= nil;
+  for i:= 0 to AppEventList.Count-1 do
+    with TAppEvent(AppEventList[i]) do
+      if (ItemModule=AModuleName) then
+      begin
+        EventItem:= TAppEvent(AppEventList[i]);
+        Break
+      end;
 
-  //update record
-  with AppPluginsEvent[N] do
+  if EventItem=nil then
+  begin
+    EventItem:= TAppEvent.Create;
+    AppEventList.Add(EventItem);
+  end;
+
+  //update item
+  with EventItem do
   begin
     if ItemModule='' then
       ItemModule:= AModuleName;

@@ -654,7 +654,6 @@ const
     );
 
 const
-  cMaxEventPlugins = 100;
   cMaxSidePanels = 40;
   cMaxBottomPanels = 40;
 
@@ -671,7 +670,7 @@ type
   end;
 
 type
-  TAppPluginEvent = record
+  TAppEvent = class
     ItemModule: string;
     ItemLexers: string;
     ItemEvents: TAppPyEvents;
@@ -679,7 +678,6 @@ type
     ItemEventsLazy: TAppPyEventsLazy;
     ItemKeys: string;
   end;
-  TAppPluginEventArray = array[0..cMaxEventPlugins-1] of TAppPluginEvent;
 
 type
   TAppSidePanel = record
@@ -691,7 +689,7 @@ type
 
 var
   AppCommandList: TList;
-  AppPluginsEvent: TAppPluginEventArray;
+  AppEventList: TList;
   AppSidePanels: array[0..cMaxSidePanels-1] of TAppSidePanel;
   AppBottomPanels: array[0..cMaxBottomPanels-1] of TAppSidePanel;
 
@@ -718,7 +716,6 @@ type
 
 function CommandPlugins_GetIndexFromModuleAndMethod(AStr: string): integer;
 procedure CommandPlugins_UpdateSubcommands(AStr: string);
-procedure CommandPlugins_DeleteItem(AIndex: integer);
 
 function AppEncodingShortnameToFullname(const S: string): string;
 function AppEncodingFullnameToShortname(const S: string): string;
@@ -1620,12 +1617,6 @@ begin
 end;
 }
 
-procedure CommandPlugins_DeleteItem(AIndex: integer);
-begin
-  if (AIndex>=0) and (AIndex<AppCommandList.Count) then
-    AppCommandList.Delete(AIndex);
-end;
-
 function CommandPlugins_GetIndexFromModuleAndMethod(AStr: string): integer;
 var
   i: integer;
@@ -1665,7 +1656,7 @@ begin
   for N:= AppCommandList.Count-1 downto 0 do
     with TAppCommand(AppCommandList[N]) do
       if (ItemModule=SModule) and (ItemProc=SProc) and (ItemProcParam<>'') then
-        CommandPlugins_DeleteItem(N);
+        AppCommandList.Delete(N);
 
   //add items for SParams
   repeat
@@ -2059,6 +2050,7 @@ initialization
   InitUiOps(UiOps);
 
   AppCommandList:= TList.Create;
+  AppEventList:= TList.Create;
   AppKeymap:= TATKeymap.Create;
   InitKeymapFull(AppKeymap);
   InitKeymapForApplication(AppKeymap);
@@ -2100,6 +2092,7 @@ finalization
   FreeAndNil(AppConfig_Detect_Values);
   FreeAndNil(AppKeymap);
   FreeAndNil(AppBookmarkImagelist);
+  FreeAndNil(AppEventList);
   FreeAndNil(AppCommandList);
 
 end.

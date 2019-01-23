@@ -54,9 +54,10 @@ begin
   for i:= AppCommandList.Count-1 downto 0 do
     with TAppCommand(AppCommandList[i]) do
       if (ItemModule<>'') and (not ItemFromApi) then
-        CommandPlugins_DeleteItem(i);
+        AppCommandList.Delete(i);
+
   //events: clear all
-  FillChar(AppPluginsEvent, SizeOf(AppPluginsEvent), 0);
+  AppEventList.Clear;
 
   list:= TStringlist.Create;
   try
@@ -83,8 +84,8 @@ var
   ini_section,
   dir_inf, s_section, s_caption, s_module, s_method, s_lexers,
   s_events, s_keys, s_inmenu, s_icon: string;
-  cnt: integer;
   CmdItem: TAppCommand;
+  EventItem: TAppEvent;
 begin
   ini:= TIniFile.Create(fn_inf);
   sections:= TStringList.Create;
@@ -155,18 +156,16 @@ begin
       begin
         if s_events='' then Continue;
 
-        cnt:= 0;
-        while AppPluginsEvent[cnt].ItemModule<>'' do Inc(cnt);
-        if cnt>=High(AppPluginsEvent) then Break;
-
-        AppPluginsEvent[cnt].ItemModule:= s_module;
+        EventItem:= TAppEvent.Create;
+        EventItem.ItemModule:= s_module;
         DoPyStringToEvents(s_events,
-          AppPluginsEvent[cnt].ItemEvents,
-          AppPluginsEvent[cnt].ItemEventsPrior,
-          AppPluginsEvent[cnt].ItemEventsLazy
+          EventItem.ItemEvents,
+          EventItem.ItemEventsPrior,
+          EventItem.ItemEventsLazy
           );
-        AppPluginsEvent[cnt].ItemLexers:= s_lexers;
-        AppPluginsEvent[cnt].ItemKeys:= s_keys;
+        EventItem.ItemLexers:= s_lexers;
+        EventItem.ItemKeys:= s_keys;
+        AppEventList.Add(EventItem);
       end;
     end;
   finally
@@ -178,17 +177,16 @@ end;
 
 procedure TfmMain.DoOps_ShowEventPlugins;
 var
-  i: integer;
-  s, s2: string;
   ev: TAppPyEvent;
+  s, s2: string;
+  i: integer;
 begin
-  exit;////////
+  exit; //this is debug procedure
 
   s:= '';
-  for i:= 0 to 100 do
-    with AppPluginsEvent[i] do
+  for i:= 0 to Min(AppEventList.Count-1, 20) do
+    with TAppEvent(AppEventList[i]) do
     begin
-      if ItemModule='' then Break;
       s2:= '';
       for ev in TAppPyEvent do
         if ev in ItemEvents then
@@ -200,7 +198,7 @@ begin
         'keys: "'+ItemKeys+'"'#13+
         'events: '+s2+#13;
     end;
-  Showmessage(s);
+  ShowMessage(s);
 end;
 
 
