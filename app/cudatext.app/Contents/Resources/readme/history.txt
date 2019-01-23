@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.72.1 (2019/01)
+
+- fix: all installed plugins (400+ command items) gave misfunction
+
 1.72.0 (2019/01)
 
 + add: command "folding: fold block at current line" allows caret inside all block lines (not only block start)
