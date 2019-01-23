@@ -654,13 +654,13 @@ const
     );
 
 const
-  cMaxCommandPlugins = 800;
   cMaxEventPlugins = 100;
   cMaxSidePanels = 40;
   cMaxBottomPanels = 40;
 
 type
-  TAppPluginCmd = record
+  TAppCommand = class
+  public
     ItemModule: string;
     ItemProc: string;
     ItemProcParam: string;
@@ -669,7 +669,6 @@ type
     ItemInMenu: string;
     ItemFromApi: boolean;
   end;
-  TAppPluginCmdArray = array[0..cMaxCommandPlugins-1] of TAppPluginCmd;
 
 type
   TAppPluginEvent = record
@@ -691,7 +690,7 @@ type
   end;
 
 var
-  AppPluginsCommand: TAppPluginCmdArray;
+  AppCommandList: TList;
   AppPluginsEvent: TAppPluginEventArray;
   AppSidePanels: array[0..cMaxSidePanels-1] of TAppSidePanel;
   AppBottomPanels: array[0..cMaxBottomPanels-1] of TAppSidePanel;
@@ -720,7 +719,6 @@ type
 function CommandPlugins_GetIndexFromModuleAndMethod(AStr: string): integer;
 procedure CommandPlugins_UpdateSubcommands(AStr: string);
 procedure CommandPlugins_DeleteItem(AIndex: integer);
-procedure CommandPlugins_AssignItem(var Dst, Src: TAppPluginCmd);
 
 function AppEncodingShortnameToFullname(const S: string): string;
 function AppEncodingFullnameToShortname(const S: string): string;
@@ -1492,7 +1490,7 @@ begin
 
   if (ACmd>=cmdFirstPluginCommand) and
      (ACmd<=cmdLastPluginCommand) then
-    with AppPluginsCommand[ACmd-cmdFirstPluginCommand] do
+    with TAppCommand(AppCommandList[ACmd-cmdFirstPluginCommand]) do
       Result:= ItemModule+','+ItemProc+IfThen(ItemProcParam<>'', ','+ItemProcParam);
 end;
 
@@ -1622,34 +1620,10 @@ begin
 end;
 }
 
-procedure CommandPlugins_AssignItem(var Dst, Src: TAppPluginCmd);
-begin
-  Dst.ItemModule:= Src.ItemModule;
-  Dst.ItemProc:= Src.ItemProc;
-  Dst.ItemProcParam:= Src.ItemProcParam;
-  Dst.ItemCaption:= Src.ItemCaption;
-  Dst.ItemLexers:= Src.ItemLexers;
-  Dst.ItemInMenu:= Src.ItemInMenu;
-  Dst.ItemFromApi:= Src.ItemFromApi;
-end;
-
 procedure CommandPlugins_DeleteItem(AIndex: integer);
-var
-  i: integer;
 begin
-  if (AIndex>=Low(AppPluginsCommand)) and (AIndex<=High(AppPluginsCommand)) then
-  begin
-    for i:= AIndex to High(AppPluginsCommand)-1 do
-      CommandPlugins_AssignItem(AppPluginsCommand[i], AppPluginsCommand[i+1])
-  end;
-  with AppPluginsCommand[High(AppPluginsCommand)] do
-  begin
-    ItemModule:= '';
-    ItemProc:= '';
-    ItemProcParam:= '';
-    ItemFromApi:= false;
-    ItemInMenu:= '';
-  end;
+  if (AIndex>=0) and (AIndex<AppCommandList.Count) then
+    AppCommandList.Delete(AIndex);
 end;
 
 function CommandPlugins_GetIndexFromModuleAndMethod(AStr: string): integer;
@@ -1666,12 +1640,10 @@ begin
   if SModule='' then exit;
   if SProc='' then exit;
 
-  for i:= Low(AppPluginsCommand) to High(AppPluginsCommand) do
-    with AppPluginsCommand[i] do
-    begin
-      if ItemModule='' then Break;
-      if (ItemModule=SModule) and (ItemProc=SProc) and (ItemProcParam=SProcParam) then exit(i);
-    end;
+  for i:= 0 to AppCommandList.Count-1 do
+    with TAppCommand(AppCommandList[i]) do
+      if (ItemModule=SModule) and (ItemProc=SProc) and (ItemProcParam=SProcParam) then
+        exit(i);
 end;
 
 
@@ -1682,6 +1654,7 @@ const
   cSepNameParam=#9;
 var
   SModule, SProc, SParams, SItem, SItemParam, SItemCaption: string;
+  CmdItem: TAppCommand;
   N: integer;
 begin
   SModule:= SGetItem(AStr, cSepRoot);
@@ -1689,18 +1662,10 @@ begin
   SParams:= AStr;
 
   //del items for module/method
-  for N:= High(AppPluginsCommand) downto Low(AppPluginsCommand) do
-    with AppPluginsCommand[N] do
+  for N:= AppCommandList.Count-1 downto 0 do
+    with TAppCommand(AppCommandList[N]) do
       if (ItemModule=SModule) and (ItemProc=SProc) and (ItemProcParam<>'') then
         CommandPlugins_DeleteItem(N);
-
-  //find index of first free item
-  N:= Low(AppPluginsCommand);
-  repeat
-    if AppPluginsCommand[N].ItemModule='' then break;
-    Inc(N);
-    if N>High(AppPluginsCommand) then exit;
-  until false;
 
   //add items for SParams
   repeat
@@ -1710,7 +1675,8 @@ begin
     SItemCaption:= SGetItem(SItem, cSepNameParam);
     SItemParam:= SItem;
 
-    with AppPluginsCommand[N] do
+    CmdItem:= TAppCommand.Create;
+    with CmdItem do
     begin
       ItemModule:= SModule;
       ItemProc:= SProc;
@@ -1718,8 +1684,7 @@ begin
       ItemCaption:= SItemCaption;
       ItemFromApi:= true;
     end;
-    Inc(N);
-    if N>High(AppPluginsCommand) then exit;
+    AppCommandList.Add(CmdItem);
   until false;
 end;
 
@@ -2093,6 +2058,7 @@ initialization
   InitEditorOps(EditorOps);
   InitUiOps(UiOps);
 
+  AppCommandList:= TList.Create;
   AppKeymap:= TATKeymap.Create;
   InitKeymapFull(AppKeymap);
   InitKeymapForApplication(AppKeymap);
@@ -2134,6 +2100,7 @@ finalization
   FreeAndNil(AppConfig_Detect_Values);
   FreeAndNil(AppKeymap);
   FreeAndNil(AppBookmarkImagelist);
+  FreeAndNil(AppCommandList);
 
 end.
 

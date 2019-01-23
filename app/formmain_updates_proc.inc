@@ -761,6 +761,7 @@ end;
 
 procedure TfmMain.UpdateKeymapDynamicItems;
 var
+  CmdItem: TAppCommand;
   sl: TStringList;
   str: string;
   i: integer;
@@ -793,12 +794,13 @@ begin
   end;
 
   //dynamic plugin items
-  for i:= 0 to High(AppPluginsCommand) do
+  for i:= 0 to AppCommandList.Count-1 do
   begin
-    if AppPluginsCommand[i].ItemModule='' then Break;
-    if SEndsWith(AppPluginsCommand[i].ItemCaption, '-') then Continue;
+    CmdItem:= TAppCommand(AppCommandList[i]);
+    if CmdItem.ItemModule='' then Break;
+    if SEndsWith(CmdItem.ItemCaption, '-') then Continue;
 
-    Str:= AppPluginsCommand[i].ItemCaption;
+    Str:= CmdItem.ItemCaption;
     Str:= StringReplace(Str, '\', ': ', [rfReplaceAll]);
     Str:= StringReplace(Str, '&', '', [rfReplaceAll]);
 

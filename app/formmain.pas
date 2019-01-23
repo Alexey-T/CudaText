@@ -2923,7 +2923,7 @@ begin
 
   if (NCmd>=cmdFirstPluginCommand) and (NCmd<=cmdLastPluginCommand) then
   begin
-    with AppPluginsCommand[NCmd-cmdFirstPluginCommand] do
+    with TAppCommand(AppCommandList[NCmd-cmdFirstPluginCommand]) do
       if ItemProcParam<>'' then
         Result:= Format('p:module=%s;cmd=%s;info=%s;', [ItemModule, ItemProc, ItemProcParam])
       else

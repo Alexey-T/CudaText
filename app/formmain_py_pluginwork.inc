@@ -51,9 +51,10 @@ var
   i: integer;
 begin
   //commands: don't clear all, leave items from Api
-  for i:= High(AppPluginsCommand) downto Low(AppPluginsCommand) do
-    if (AppPluginsCommand[i].ItemModule<>'') and (not AppPluginsCommand[i].ItemFromApi) then
-      CommandPlugins_DeleteItem(i);
+  for i:= AppCommandList.Count-1 downto 0 do
+    with TAppCommand(AppCommandList[i]) do
+      if (ItemModule<>'') and (not ItemFromApi) then
+        CommandPlugins_DeleteItem(i);
   //events: clear all
   FillChar(AppPluginsEvent, SizeOf(AppPluginsEvent), 0);
 
@@ -83,6 +84,7 @@ var
   dir_inf, s_section, s_caption, s_module, s_method, s_lexers,
   s_events, s_keys, s_inmenu, s_icon: string;
   cnt: integer;
+  CmdItem: TAppCommand;
 begin
   ini:= TIniFile.Create(fn_inf);
   sections:= TStringList.Create;
@@ -139,16 +141,14 @@ begin
         if s_caption='' then Continue;
         if s_method='' then Continue;
 
-        cnt:= 0;
-        while AppPluginsCommand[cnt].ItemModule<>'' do Inc(cnt);
-        if cnt>=High(AppPluginsCommand) then Break;
-
-        AppPluginsCommand[cnt].ItemModule:= s_module;
-        AppPluginsCommand[cnt].ItemProc:= s_method;
-        AppPluginsCommand[cnt].ItemProcParam:= '';
-        AppPluginsCommand[cnt].ItemCaption:= s_caption;
-        AppPluginsCommand[cnt].ItemLexers:= s_lexers;
-        AppPluginsCommand[cnt].ItemInMenu:= s_inmenu;
+        CmdItem:= TAppCommand.Create;
+        CmdItem.ItemModule:= s_module;
+        CmdItem.ItemProc:= s_method;
+        CmdItem.ItemProcParam:= '';
+        CmdItem.ItemCaption:= s_caption;
+        CmdItem.ItemLexers:= s_lexers;
+        CmdItem.ItemInMenu:= s_inmenu;
+        AppCommandList.Add(CmdItem);
       end;
 
       if s_section='events' then
@@ -269,6 +269,7 @@ procedure TfmMain.UpdateMenuPlugins;
   //
 var
   SCaption, SInMenu: string;
+  CmdItem: TAppCommand;
   i: integer;
 begin
   if not PythonOK then exit;
@@ -278,13 +279,14 @@ begin
   if Assigned(mnuOpPlugins) then
     mnuOpPlugins.Clear;
 
-    for i:= 0 to High(AppPluginsCommand) do
+    for i:= 0 to AppCommandList.Count-1 do
     begin
-      if AppPluginsCommand[i].ItemModule='' then Break;
-      if AppPluginsCommand[i].ItemFromApi then Continue;
+      CmdItem:= TAppCommand(AppCommandList[i]);
+      if CmdItem.ItemModule='' then Break;
+      if CmdItem.ItemFromApi then Continue;
 
-      SCaption:= AppPluginsCommand[i].ItemCaption;
-      SInMenu:= AppPluginsCommand[i].ItemInMenu;
+      SCaption:= CmdItem.ItemCaption;
+      SInMenu:= CmdItem.ItemInMenu;
       if SInMenu='0' then Continue;
 
       //add to Plugins
