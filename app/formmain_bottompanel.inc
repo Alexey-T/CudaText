@@ -81,9 +81,9 @@ begin
   ListboxVal.Hide;
 
   //hide panels from proc_bottompanel_add
-  for i:= Low(AppBottomPanels) to High(AppBottomPanels) do
+  for i:= 0 to AppBottomPanels.Count-1 do
   begin
-    Ctl:= AppBottomPanels[i].ItemControl;
+    Ctl:= TAppSidePanel(AppBottomPanels[i]).ItemControl;
     if Assigned(Ctl) then
       Ctl.Hide;
   end;
@@ -111,10 +111,9 @@ begin
   else
   begin
     //tabs for api proc_bottompanel
-    for i:= Low(AppBottomPanels) to High(AppBottomPanels) do
-      with AppBottomPanels[i] do
+    for i:= 0 to AppBottomPanels.Count-1 do
+      with TAppSidePanel(AppBottomPanels[i]) do
       begin
-        if ItemCaption='' then break;
         if Assigned(ItemControl) then
         begin
           ItemControl.Visible:= SameText(ItemCaption, ACaption);
@@ -128,17 +127,15 @@ begin
   end;
 end;
 
-function TfmMain.DoBottom_CaptionToPanelsIndex(const Str: string): integer;
+function TfmMain.DoBottom_CaptionToPanelsIndex(const ACaption: string): integer;
 var
   i: integer;
 begin
   Result:= -1;
-  for i:= Low(AppBottomPanels) to High(AppBottomPanels) do
-    with AppBottomPanels[i] do
-    begin
-      if ItemCaption='' then break;
-      if ItemCaption=Str then exit(i);
-    end;
+  for i:= 0 to AppBottomPanels.Count-1 do
+    with TAppSidePanel(AppBottomPanels[i]) do
+      if ItemCaption=ACaption then
+        exit(i);
 end;
 
 function TfmMain.DoBottom_CaptionToControlHandle(const ACaption: string): PtrInt;
@@ -149,7 +146,7 @@ begin
   Num:= DoBottom_CaptionToPanelsIndex(ACaption);
   if Num<0 then exit;
 
-  with AppBottomPanels[Num] do
+  with TAppSidePanel(AppBottomPanels[Num]) do
     if Assigned(ItemControl) then
       Result:= PtrInt(ItemControl);
 end;
@@ -170,15 +167,14 @@ end;
 function TfmMain.DoBottom_AddTab(const ACaption: string; AImageIndex: integer;
   AHandle: PtrInt): boolean;
 var
-  Num: integer;
+  Panel: TAppSidePanel;
 begin
   if DoBottom_CaptionToPanelsIndex(ACaption)>=0 then exit(false);
 
-  Num:= 0;
-  while AppBottomPanels[Num].ItemCaption<>'' do Inc(Num);
-  if Num>High(AppBottomPanels) then exit(false);
+  Panel:= TAppSidePanel.Create;
+  AppBottomPanels.Add(Panel);
 
-  DoSidebar_InitPanelForm(AppBottomPanels[Num], ACaption, TCustomForm(AHandle), PanelBottom);
+  DoSidebar_InitPanelForm(Panel, ACaption, TCustomForm(AHandle), PanelBottom);
 
   ToolbarSideLow.AddButton(AImageIndex, @DoBottom_OnTabClick, ACaption, ACaption, '', UiOps.ShowSidebarCaptions);
   ToolbarSideLow.UpdateControls;
@@ -196,13 +192,14 @@ begin
     ToolbarSideLow.Buttons[Num].Free;
     ToolbarSideLow.UpdateControls;
 
-    //hard to remov array item, so hide it by "?"
-    for i:= Low(AppBottomPanels) to High(AppBottomPanels) do
-      if AppBottomPanels[i].ItemCaption=ACaption then
-      begin
-        AppBottomPanels[i].ItemCaption:= '?';
-        Break;
-      end;
+    //hard to remove item, so hide it by "?"
+    for i:= 0 to AppBottomPanels.Count-1 do
+      with TAppSidePanel(AppBottomPanels[i]) do
+        if ItemCaption=ACaption then
+        begin
+          ItemCaption:= '?';
+          Break;
+        end;
   end;
 end;
 

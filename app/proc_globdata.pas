@@ -653,10 +653,6 @@ const
     'on_exit'
     );
 
-const
-  cMaxSidePanels = 40;
-  cMaxBottomPanels = 40;
-
 type
   TAppCommand = class
   public
@@ -680,7 +676,7 @@ type
   end;
 
 type
-  TAppSidePanel = record
+  TAppSidePanel = class
     ItemCaption: string;
     ItemControl: TCustomControl;
     ItemModule: string;
@@ -690,8 +686,8 @@ type
 var
   AppCommandList: TList;
   AppEventList: TList;
-  AppSidePanels: array[0..cMaxSidePanels-1] of TAppSidePanel;
-  AppBottomPanels: array[0..cMaxBottomPanels-1] of TAppSidePanel;
+  AppSidePanels: TList;
+  AppBottomPanels: TList;
 
 type
   PAppPanelProps = ^TAppPanelProps;
@@ -2051,15 +2047,15 @@ initialization
 
   AppCommandList:= TList.Create;
   AppEventList:= TList.Create;
+  AppSidePanels:= TList.Create;
+  AppBottomPanels:= TList.Create;
+
   AppKeymap:= TATKeymap.Create;
   InitKeymapFull(AppKeymap);
   InitKeymapForApplication(AppKeymap);
 
   FillChar(AppBookmarkSetup, SizeOf(AppBookmarkSetup), 0);
   AppBookmarkImagelist:= TImageList.Create(nil);
-
-  FillChar(AppSidePanels, SizeOf(AppSidePanels), 0);
-  FillChar(AppBottomPanels, SizeOf(AppBottomPanels), 0);
 
   AppShortcutEscape:= ShortCut(VK_ESCAPE, []);
   AppShortcutShiftTab:= ShortCut(VK_TAB, [ssShift]);
@@ -2092,6 +2088,8 @@ finalization
   FreeAndNil(AppConfig_Detect_Values);
   FreeAndNil(AppKeymap);
   FreeAndNil(AppBookmarkImagelist);
+  FreeAndNil(AppBottomPanels);
+  FreeAndNil(AppSidePanels);
   FreeAndNil(AppEventList);
   FreeAndNil(AppCommandList);
 

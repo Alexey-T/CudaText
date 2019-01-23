@@ -116,8 +116,8 @@ begin
   if FloatSide then
     FFormFloatSide.Caption:= LabelSideTitle.Caption + ' - ' + msgTitle;
 
-  for i:= Low(AppSidePanels) to High(AppSidePanels) do
-    with AppSidePanels[i] do
+  for i:= 0 to AppSidePanels.Count-1 do
+    with TAppSidePanel(AppSidePanels[i]) do
     begin
       if ItemCaption='' then Break;
       bFound:= SameText(ItemCaption, ACaption);
@@ -139,17 +139,15 @@ begin
   PanelCodeTreeTop.Visible:= CodeTree.Visible and (UiOps.TreeFilterLayout>0);
 end;
 
-function TfmMain.DoSidebar_CaptionToPanelsIndex(const Str: string): integer;
+function TfmMain.DoSidebar_CaptionToPanelsIndex(const ACaption: string): integer;
 var
   i: integer;
 begin
   Result:= -1;
-  for i:= Low(AppSidePanels) to High(AppSidePanels) do
-    with AppSidePanels[i] do
-    begin
-      if ItemCaption='' then break;
-      if ItemCaption=Str then exit(i);
-    end;
+  for i:= 0 to AppSidePanels.Count-1 do
+    with TAppSidePanel(AppSidePanels[i]) do
+      if ItemCaption=ACaption then
+        exit(i);
 end;
 
 function TfmMain.DoSidebar_CaptionToControlHandle(const ACaption: string): PtrInt;
@@ -160,7 +158,7 @@ begin
   Num:= DoSidebar_CaptionToPanelsIndex(ACaption);
   if Num<0 then exit;
 
-  with AppSidePanels[Num] do
+  with TAppSidePanel(AppSidePanels[Num]) do
     if Assigned(ItemControl) then
       Result:= PtrInt(ItemControl);
 end;
@@ -176,7 +174,7 @@ begin
 end;
 
 
-procedure TfmMain.DoSidebar_InitPanelForm(var AItem: TAppSidePanel;
+procedure TfmMain.DoSidebar_InitPanelForm(AItem: TAppSidePanel;
   const ACaption: string; AForm: TCustomForm; AParent: TWinControl);
 begin
   AItem.ItemCaption:= ACaption;
@@ -204,22 +202,23 @@ end;
 function TfmMain.DoSidebar_AddTab(const ACaption: string; AImageIndex: integer;
   AHandle: PtrInt): boolean;
 var
+  Panel: TAppSidePanel;
   Num: integer;
   bExist: boolean;
 begin
   Num:= DoSidebar_CaptionToPanelsIndex(ACaption);
   bExist:= Num>=0;
 
-  if not bExist then
+  if bExist then
+    Panel:= TAppSidePanel(AppSidePanels[Num])
+  else
   begin
-    //find free index for new button
-    Num:= 0;
-    while AppSidePanels[Num].ItemCaption<>'' do Inc(Num);
-    if Num>High(AppSidePanels) then exit(false);
+    Panel:= TAppSidePanel.Create;
+    AppSidePanels.Add(Panel);
   end;
 
   if AHandle<>0 then
-    DoSidebar_InitPanelForm(AppSidePanels[Num], ACaption, TCustomForm(AHandle), PanelLeft);
+    DoSidebar_InitPanelForm(Panel, ACaption, TCustomForm(AHandle), PanelLeft);
 
   if not bExist then
   begin
@@ -233,19 +232,16 @@ end;
 function TfmMain.DoSidebar_AddTab_Empty(const ACaption: string; AImageIndex: integer;
   const AModule, AMethod: string): boolean;
 var
-  Num: integer;
+  Panel: TAppSidePanel;
 begin
   if DoSidebar_CaptionToPanelsIndex(ACaption)>=0 then exit(false);
 
-  //find free index for button
-  Num:= 0;
-  while AppSidePanels[Num].ItemCaption<>'' do Inc(Num);
-  if Num>High(AppSidePanels) then exit(false);
-
-  AppSidePanels[Num].ItemCaption:= ACaption;
-  AppSidePanels[Num].ItemControl:= nil;
-  AppSidePanels[Num].ItemModule:= AModule;
-  AppSidePanels[Num].ItemMethod:= AMethod;
+  Panel:= TAppSidePanel.Create;
+  Panel.ItemCaption:= ACaption;
+  Panel.ItemControl:= nil;
+  Panel.ItemModule:= AModule;
+  Panel.ItemMethod:= AMethod;
+  AppSidePanels.Add(Panel);
 
   //save module/method to Btn.DataString
   ToolbarSideTop.AddButton(AImageIndex, @DoSidebar_OnTabClick, ACaption, ACaption,
@@ -268,13 +264,14 @@ begin
     ToolbarSideTop.Buttons[Num].Free;
     ToolbarSideTop.UpdateControls;
 
-    //hard to remov array item, so hide it by "?"
-    for i:= Low(AppSidePanels) to High(AppSidePanels) do
-      if AppSidePanels[i].ItemCaption=ACaption then
-      begin
-        AppSidePanels[i].ItemCaption:= '?';
-        Break;
-      end;
+    //hard to remove item, so hide it by "?"
+    for i:= 0 to AppSidePanels.Count-1 do
+      with TAppSidePanel(AppSidePanels[i]) do
+        if ItemCaption=ACaption then
+        begin
+          ItemCaption:= '?';
+          Break;
+        end;
   end;
 end;
 

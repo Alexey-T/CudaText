@@ -670,8 +670,8 @@ type
     procedure DoOps_OnCreate;
     procedure DoShowBottomPanel(const ATabCaption: string; AndFocus: boolean);
     function DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
-    procedure DoSidebar_InitPanelForm(var AItem: TAppSidePanel;
-      const ACaption: string; AForm: TCustomForm; AParent: TWinControl);
+    procedure DoSidebar_InitPanelForm(AItem: TAppSidePanel; const ACaption: string; AForm: TCustomForm;
+      AParent: TWinControl);
     procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas;
       AIndex: integer; const ARect: TRect);
     procedure DoSidebar_MainMenuClick(Sender: TObject);
@@ -717,7 +717,7 @@ type
     function DoSidebar_AddTab_Empty(const ACaption: string;
       AImageIndex: integer; const AModule, AMethod: string): boolean;
     function DoSidebar_RemoveTab(const ACaption: string): boolean;
-    function DoSidebar_CaptionToPanelsIndex(const Str: string): integer;
+    function DoSidebar_CaptionToPanelsIndex(const ACaption: string): integer;
     function DoSidebar_CaptionToTabIndex(const Str: string): integer;
     function DoSidebar_CaptionToControlHandle(const ACaption: string): PtrInt;
     procedure DoSidebar_FocusCodetreeFilter;
@@ -728,7 +728,7 @@ type
     function DoBottom_CaptionToControlHandle(const ACaption: string): PtrInt;
     function DoBottom_AddTab(const ACaption: string;
       AImageIndex: integer; AHandle: PtrInt): boolean;
-    function DoBottom_CaptionToPanelsIndex(const Str: string): integer;
+    function DoBottom_CaptionToPanelsIndex(const ACaption: string): integer;
     function DoBottom_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
     function DoBottom_CaptionToTabIndex(const ACaption: string): integer;
     function DoBottom_RemoveTab(const ACaption: string): boolean;
@@ -1494,6 +1494,7 @@ end;
 
 procedure TfmMain.FormCreate(Sender: TObject);
 var
+  Panel: TAppSidePanel;
   mi: TMenuItem;
   i: integer;
 begin
@@ -1699,11 +1700,10 @@ begin
   Groups.OnTabOver:= @DoOnTabOver;
   Groups.OnTabGetTick:= @DoOnTabGetTick;
 
-  with AppSidePanels[0] do
-  begin
-    ItemCaption:= msgPanelTree_Init;
-    ItemControl:= CodeTree;
-  end;
+  Panel:= TAppSidePanel.Create;
+  Panel.ItemCaption:= msgPanelTree_Init;
+  Panel.ItemControl:= CodeTree;
+  AppSidePanels.Add(Panel);
 
   FFinder:= TATEditorFinder.Create;
   FFinder.OptRegex:= true;
