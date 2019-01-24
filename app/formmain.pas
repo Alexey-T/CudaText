@@ -5513,7 +5513,7 @@ begin
     F.Hide;
     F.Position:= poDesigned;
     F.BoundsRect:= ARect;
-    F.BorderIcons:= [biSystemMenu, biMaximize];
+    F.BorderIcons:= [biSystemMenu, biMaximize, biMinimize];
     F.OnClose:= AOnClose;
     F.Caption:= msgTitle + Format(' [f%d]', [ATag]);
 
