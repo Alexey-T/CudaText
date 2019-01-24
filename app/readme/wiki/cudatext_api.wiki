@@ -166,6 +166,8 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_PROGRESSBAR: Changes state of the progress-bar (hidden by default), which is located on the status-bar right corner. Int value<0: progressbar hides, value in 0..100: progressbar shows with the given value.
 * PROC_GET_TAB_IMAGELIST: Gets int handle of imagelist, for file-tabs. Use imagelist_proc() to work with it. Use PROP_TAB_ICON property to get/set file-tab icon index (index in this imagelist).
 * PROC_GET_CODETREE: Gets int handle of Code Tree UI control. Use tree_proc() to work with it.
+* PROC_WINDOW_TOPMOST_GET: Gets bool flag: main window has "always on top" style.
+* PROC_WINDOW_TOPMOST_SET: Sets bool flag: main window has "always on top" style.
 
 ====Search properties====
 
@@ -3220,5 +3222,8 @@ def project_variables():
 * add: Editor.gap: allowed gap before the first line (line index = -1)
 * add: file_open: options "/nontext-view-text", "/nontext-view-binary", "/nontext-view-hex", "/nontext-view-unicode", "/nontext-cancel"
 * add: file_open: options "/nozip", "/nopictures"
+
+1.0.270 (app 1.72.1)
+* add: app_proc: PROC_WINDOW_TOPMOST_GET, PROC_WINDOW_TOPMOST_SET
 
 [[Category:CudaText]]
