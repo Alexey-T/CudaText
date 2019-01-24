@@ -3433,6 +3433,19 @@ begin
             Result:= PyLong_FromLongLong(Int64(PtrInt(fmMain.CodeTree)));
           end;
 
+        APP_PROC_WINDOW_TOPMOST_GET:
+          begin
+            Result:= PyBool_FromLong(Ord(fmMain.FormStyle=fsSystemStayOnTop));
+          end;
+        APP_PROC_WINDOW_TOPMOST_SET:
+          begin
+            if ParamBool then
+              fmMain.FormStyle:= fsSystemStayOnTop
+            else
+              fmMain.FormStyle:= fsNormal;
+            Result:= ReturnNone;
+          end;
+
         //-------------------
         APP_PROC_SIDEPANEL_ADD_DIALOG:
           begin
