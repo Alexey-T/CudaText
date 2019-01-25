@@ -1005,7 +1005,8 @@ class BaseDlgAgent:
                 fpr['h_min']    = fpr.get('h_min', fpr['h'])
             fpr     = BaseDlgAgent._form_acts('move', form=fpr      # Move and (maybe) resize
                                              , key4store=self.opts.get('form data key'))
-            fpr['topmost']      = True
+            fpr['topmost']      = app.app_api_version()<'1.0.270' or app.app_proc(app.PROC_WINDOW_TOPMOST_GET, '')
+#           fpr['topmost']      = True
             dlg_proc_wpr(       self.id_dlg
                             , app.DLG_PROP_SET
                             , prop=fpr)
@@ -1571,7 +1572,8 @@ class DlgAgent(BaseDlgAgent):
             pass;              #log('fpr[w],fpr[h],w0,h0={}',(fpr['w'], fpr['h'], w0,h0))
             self.form['on_resize'](self)
 
-        fpr['topmost']      = True
+        fpr['topmost']      = app.app_api_version()<'1.0.270' or app.app_proc(app.PROC_WINDOW_TOPMOST_GET, '')
+#       fpr['topmost']      = True
         dlg_proc_wpr(           self.id_dlg
                             , app.DLG_PROP_SET
                             , prop=fpr)                         # Upd live-attrs
