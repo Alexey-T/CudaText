@@ -1,4 +1,4 @@
-object SyntAnal7: TLibSyntAnalyzer
+object SyntAnal6: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -111,7 +111,7 @@ object SyntAnal7: TLibSyntAnalyzer
       DisplayName = 'Id'
       StyleName = 'Id'
       TokenType = 2
-      Expression = '\~?[a-z_]\w*'
+      Expression = '\~?[a-z_][\w\#]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -651,7 +651,7 @@ object SyntAnal7: TLibSyntAnalyzer
       StyleName = 'Asm BG'
       StartExpression = '\#\x20*asm\x20*\(\x20*"'
       EndExpression = '"\)'
-      SyntAnalyzer = SyntAnal2
+      SyntAnalyzer = SyntAnal1
       IncludeBounds = True
     end>
   SampleText.Strings = (
