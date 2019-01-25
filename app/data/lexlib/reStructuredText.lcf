@@ -1,4 +1,4 @@
-object SyntAnal29: TLibSyntAnalyzer
+object SyntAnal27: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Head'
@@ -99,14 +99,6 @@ object SyntAnal29: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-    end
-    item
-      DisplayName = 'Text'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
     end>
   TokenRules = <
     item
@@ -193,14 +185,6 @@ object SyntAnal29: TLibSyntAnalyzer
       StyleName = 'Table'
       TokenType = 7
       Expression = '^[\+\|] [\-\+=]*'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Text'
-      StyleName = 'Text'
-      TokenType = 1
-      Expression = '\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -296,7 +280,7 @@ object SyntAnal29: TLibSyntAnalyzer
   LexerName = 'reStructuredText'
   SkipSpaces = False
   Notes.Strings = (
-    'Alexey (Synwrite)'
+    'Alexey (CudaText)'
     'Test: https://github.com/jkbrzt/httpie/blob/master/README.rst')
   Charset = DEFAULT_CHARSET
 end
