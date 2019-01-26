@@ -39,14 +39,12 @@ begin
 
     markingMarkers:
       begin
-        //marker sel is only 1 line
+        //marker selection is single line
         if APos2.Y=APos1.Y then
           NLen:= Abs(APos2.X-APos1.X)
         else
           NLen:= 0;
-
-        //ShowMessage(Format('mark at %d:%d', [APos1.Y, APos1.X]));//debug
-        Ed.Markers.Add(APos1.X, APos1.Y, 0, NLen, 0, nil);
+        Ed.Markers.Add(APos1.X, APos1.Y, 0, NLen, 0);
       end;
 
     markingBookmarks:
