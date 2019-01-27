@@ -150,7 +150,7 @@ type
     procedure EditorOnChange1(Sender: TObject);
     procedure EditorOnChange2(Sender: TObject);
     procedure EditorOnClick(Sender: TObject);
-    procedure EditorOnClickGap(Sender: TObject; AGapItem: TATSynGapItem; APos: TPoint);
+    procedure EditorOnClickGap(Sender: TObject; AGapItem: TATGapItem; APos: TPoint);
     procedure EditorOnClickGutter(Sender: TObject; ABand, ALine: integer);
     procedure EditorOnClickDouble(Sender: TObject; var AHandled: boolean);
     procedure EditorOnClickMicroMap(Sender: TObject; AX, AY: integer);
@@ -1225,7 +1225,7 @@ begin
 end;
 
 procedure TEditorFrame.EditorOnClickGap(Sender: TObject;
-  AGapItem: TATSynGapItem; APos: TPoint);
+  AGapItem: TATGapItem; APos: TPoint);
 var
   Ed: TATSynEdit;
 begin

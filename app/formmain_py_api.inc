@@ -2333,7 +2333,7 @@ function Py_ed_get_wrapinfo(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
-  Data: TATSynWrapItem;
+  Data: TATWrapItem;
   NLen, i: Integer;
 begin
   with GetPythonEngine do
@@ -5492,7 +5492,7 @@ end;
 
 function Py_ed_gap_getlist(Ed: TATSynEdit): PPyObject; cdecl;
 var
-  Item: TATSynGapItem;
+  Item: TATGapItem;
   NLen, i: Integer;
 begin
   with GetPythonEngine do

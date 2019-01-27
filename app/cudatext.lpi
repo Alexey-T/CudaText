@@ -883,7 +883,7 @@
         <RangeChecks Value="True"/>
       </Checks>
       <Optimizations>
-        <OptimizationLevel Value="3"/>
+        <OptimizationLevel Value="2"/>
       </Optimizations>
     </CodeGeneration>
     <Linking>

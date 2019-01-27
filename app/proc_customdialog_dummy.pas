@@ -144,7 +144,7 @@ type
     procedure DoOnEditorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnEditorKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnEditorClickGutter(Sender: TObject; ABand, ALine: integer);
-    procedure DoOnEditorClickGap(Sender: TObject; AGapItem: TATSynGapItem; APos: TPoint);
+    procedure DoOnEditorClickGap(Sender: TObject; AGapItem: TATGapItem; APos: TPoint);
     procedure DoOnEditorPaste(Sender: TObject; var AHandled: boolean; AKeepCaret, ASelectThen: boolean);
     function DoEvent(AIdControl: integer; const ACallback, AData: string): string;
     procedure DoEmulatedModalShow;
@@ -850,7 +850,7 @@ begin
     ]));
 end;
 
-procedure TFormDummy.DoOnEditorClickGap(Sender: TObject; AGapItem: TATSynGapItem; APos: TPoint);
+procedure TFormDummy.DoOnEditorClickGap(Sender: TObject; AGapItem: TATGapItem; APos: TPoint);
 var
   Props: TAppControlProps;
   IdControl: integer;
