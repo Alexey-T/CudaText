@@ -5077,7 +5077,7 @@ var
   H: Int64;
   Ed: TATSynEdit;
   Id, NIndex1, NIndex2, NValue, NLen, i: integer;
-  Range: TATDimRange;
+  Item: TATMarkerItem;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liiii:dim', @H, @Id, @NIndex1, @NIndex2, @NValue)) then
@@ -5122,10 +5122,13 @@ begin
                 raise EPythonError.Create(msgPythonListError);
               for i:= 0 to NLen-1 do
               begin
-                Range:= Ed.DimRanges[i];
+                Item:= Ed.DimRanges[i];
                 PyList_SetItem(Result, i,
                   Py_BuildValue('(iii)',
-                    Range.LineFrom, Range.LineTo, Range.DimValue));
+                    Item.PosY,
+                    Item.PosY+Item.LenY-1,
+                    Item.Value
+                    ));
               end;
             end
             else
