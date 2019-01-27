@@ -3,10 +3,11 @@
   - fixed
   * changed
 
-1.72.1 (2019/01)
+1.72.2 (2019/01)
 
++ add: speedup rendering when lot of color-attributes (Editor.attr) added
 - fix: all installed plugins (400+ command items) gave misfunction
-- fix: rare crash on fast dragging vert-scrollbar (Windows)
+- fix: rare crash on dragging scrollbar (Windows)
 
 + add: lexers Markdown, reStructuredText improved: speedup
 + add: lexer C++ improved: support ## in identifier name
