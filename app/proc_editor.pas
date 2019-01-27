@@ -516,6 +516,8 @@ begin
   if Id='EdUnprintHexFont' then exit(Ed.Colors.UnprintedHexFont);
   if Id='EdMinimapBorder' then exit(Ed.Colors.MinimapBorder);
   if Id='EdMinimapSelBg' then exit(Ed.Colors.MinimapSelBG);
+  if Id='EdMinimapTooltipBg' then exit(Ed.Colors.MinimapTooltipBG);
+  if Id='EdMinimapTooltipBorder' then exit(Ed.Colors.MinimapTooltipBorder);
   if Id='EdStateChanged' then exit(Ed.Colors.StateChanged);
   if Id='EdStateAdded' then exit(Ed.Colors.StateAdded);
   if Id='EdStateSaved' then exit(Ed.Colors.StateSaved);
