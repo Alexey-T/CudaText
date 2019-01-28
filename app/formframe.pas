@@ -419,6 +419,7 @@ begin
   end;
 
   StateString:= ConvertShiftStateToString(KeyboardStateToShiftState);
+  FTextCharsTyped:= 0; //reset count for option "autocomplete_autoshow_chars"
 
   if UiOps.MouseGotoDefinition<>'' then
     if StateString=UiOps.MouseGotoDefinition then
