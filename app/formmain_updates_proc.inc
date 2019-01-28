@@ -1153,7 +1153,7 @@ begin
   ToolbarMain.AddButton(10, @DoToolbarClick, '', 'Indent block', IntToStr(cCommand_TextIndent), false);
   ToolbarMain.AddButton(11, @DoToolbarClick, '', 'Unindent block', IntToStr(cCommand_TextUnIndent), false);
 
-  ToolbarMain.AddDropdown(12, PopupEditCase);
+  ToolbarMain.AddDropdown(12, PopupToolbarCase);
 
   ToolbarMain.UpdateControls;
 end;

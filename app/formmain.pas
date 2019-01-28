@@ -137,7 +137,6 @@ type
     mnuViewFloatSide: TMenuItem;
     mnuViewFloatBottom: TMenuItem;
     mnuOpDefaultUser: TMenuItem;
-    PopupEditCase: TPopupMenu;
     TimerStatusBusy: TTimer;
     TimerAppIdle: TIdleTimer;
     ImageListTabs: TImageList;
@@ -532,6 +531,7 @@ type
     mnuToolbarCaseTitle,
     mnuToolbarCaseInvert,
     mnuToolbarCaseSent: TMenuItem;
+    PopupToolbarCase: TPopupMenu;
     FFormFloatSide: TForm;
     FFormFloatBottom: TForm;
     FFormFloatGroups1: TForm;
@@ -1536,11 +1536,12 @@ begin
   mnuToolbarCaseSent.Tag:= cCommand_TextCaseSentence;
   mnuToolbarCaseSent.OnClick:= @MenuitemClick_CommandFromTag;
 
-  PopupEditCase.Items.Add(mnuToolbarCaseUp);
-  PopupEditCase.Items.Add(mnuToolbarCaseLow);
-  PopupEditCase.Items.Add(mnuToolbarCaseTitle);
-  PopupEditCase.Items.Add(mnuToolbarCaseInvert);
-  PopupEditCase.Items.Add(mnuToolbarCaseSent);
+  PopupToolbarCase:= TPopupMenu.Create(Self);
+  PopupToolbarCase.Items.Add(mnuToolbarCaseUp);
+  PopupToolbarCase.Items.Add(mnuToolbarCaseLow);
+  PopupToolbarCase.Items.Add(mnuToolbarCaseTitle);
+  PopupToolbarCase.Items.Add(mnuToolbarCaseInvert);
+  PopupToolbarCase.Items.Add(mnuToolbarCaseSent);
 
   {$ifdef windows}
   UiOps.ScreenScale:= MulDiv(100, Screen.PixelsPerInch, 96);

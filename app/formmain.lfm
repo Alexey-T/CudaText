@@ -1586,8 +1586,4 @@ object fmMain: TfmMain
     left = 378
     top = 234
   end
-  object PopupEditCase: TPopupMenu
-    left = 800
-    top = 295
-  end
 end
