@@ -124,11 +124,6 @@ type
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
     ButtonCancel: TATButton;
-    mnuExCaseTitle: TMenuItem;
-    mnuExCaseSent: TMenuItem;
-    mnuExCaseLo: TMenuItem;
-    mnuExCaseUp: TMenuItem;
-    mnuExCaseInv: TMenuItem;
     mnuViewSidebar: TMenuItem;
     mnuTabCopyName: TMenuItem;
     mnuTabCopyDir: TMenuItem;
@@ -454,12 +449,7 @@ type
       const ARect: TRect);
     procedure ListboxOutKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure mnuExCaseLoClick(Sender: TObject);
     procedure MenuThemesSyntaxClick(Sender: TObject);
-    procedure mnuExCaseSentClick(Sender: TObject);
-    procedure mnuExCaseTitleClick(Sender: TObject);
-    procedure mnuExCaseInvClick(Sender: TObject);
-    procedure mnuExCaseUpClick(Sender: TObject);
     procedure mnuTabColorClick(Sender: TObject);
     procedure mnuTabCopyDirClick(Sender: TObject);
     procedure mnuTabCopyFullPathClick(Sender: TObject);
@@ -537,6 +527,11 @@ type
     {$endif}
   private
     { private declarations }
+    mnuToolbarCaseLow,
+    mnuToolbarCaseUp,
+    mnuToolbarCaseTitle,
+    mnuToolbarCaseInvert,
+    mnuToolbarCaseSent: TMenuItem;
     FFormFloatSide: TForm;
     FFormFloatBottom: TForm;
     FFormFloatGroups1: TForm;
@@ -813,6 +808,7 @@ type
     procedure LiteLexer_ApplyStyle(Sender: TObject; AStyleHash: integer; var APart: TATLinePart);
     function LiteLexer_GetStyleHash(Sender: TObject; const AStyleName: string): integer;
     procedure MenuEncWithReloadClick(Sender: TObject);
+    procedure MenuitemClick_CommandFromTag(Sender: TObject);
     procedure MenuLangClick(Sender: TObject);
     procedure MenuPicScaleClick(Sender: TObject);
     procedure MenuPluginClick(Sender: TObject);
@@ -1518,6 +1514,28 @@ begin
   CustomDialog_DoPyCallback:= @DoPyCallbackFromAPI;
   FFileNameLogDebug:= GetAppPath(cDirSettings)+DirectorySeparator+'app.log';
   FFileNameLogConsole:= GetAppPath(cDirSettings)+DirectorySeparator+'console.log';
+
+  mnuToolbarCaseLow:= TMenuItem.Create(Self);
+  mnuToolbarCaseLow.Tag:= cCommand_TextCaseLower;
+  mnuToolbarCaseLow.OnClick:= @MenuitemClick_CommandFromTag;
+  mnuToolbarCaseUp:= TMenuItem.Create(Self);
+  mnuToolbarCaseUp.Tag:= cCommand_TextCaseUpper;
+  mnuToolbarCaseUp.OnClick:= @MenuitemClick_CommandFromTag;
+  mnuToolbarCaseTitle:= TMenuItem.Create(Self);
+  mnuToolbarCaseTitle.Tag:= cCommand_TextCaseTitle;
+  mnuToolbarCaseTitle.OnClick:= @MenuitemClick_CommandFromTag;
+  mnuToolbarCaseInvert:= TMenuItem.Create(Self);
+  mnuToolbarCaseInvert.Tag:= cCommand_TextCaseInvert;
+  mnuToolbarCaseInvert.OnClick:= @MenuitemClick_CommandFromTag;
+  mnuToolbarCaseSent:= TMenuItem.Create(Self);
+  mnuToolbarCaseSent.Tag:= cCommand_TextCaseSentence;
+  mnuToolbarCaseSent.OnClick:= @MenuitemClick_CommandFromTag;
+
+  PopupEditCase.Items.Add(mnuToolbarCaseUp);
+  PopupEditCase.Items.Add(mnuToolbarCaseLow);
+  PopupEditCase.Items.Add(mnuToolbarCaseTitle);
+  PopupEditCase.Items.Add(mnuToolbarCaseInvert);
+  PopupEditCase.Items.Add(mnuToolbarCaseSent);
 
   {$ifdef windows}
   UiOps.ScreenScale:= MulDiv(100, Screen.PixelsPerInch, 96);
@@ -5577,29 +5595,9 @@ begin
   Result:= ShowFullscreen or (WindowState=wsMaximized);
 end;
 
-procedure TfmMain.mnuExCaseLoClick(Sender: TObject);
+procedure TfmMain.MenuItemClick_CommandFromTag(Sender: TObject);
 begin
-  CurrentEditor.DoCommand(cCommand_TextCaseLower);
-end;
-
-procedure TfmMain.mnuExCaseUpClick(Sender: TObject);
-begin
-  CurrentEditor.DoCommand(cCommand_TextCaseUpper);
-end;
-
-procedure TfmMain.mnuExCaseSentClick(Sender: TObject);
-begin
-  CurrentEditor.DoCommand(cCommand_TextCaseSentence);
-end;
-
-procedure TfmMain.mnuExCaseTitleClick(Sender: TObject);
-begin
-  CurrentEditor.DoCommand(cCommand_TextCaseTitle);
-end;
-
-procedure TfmMain.mnuExCaseInvClick(Sender: TObject);
-begin
-  CurrentEditor.DoCommand(cCommand_TextCaseInvert);
+  CurrentEditor.DoCommand((Sender as TComponent).Tag);
 end;
 
 

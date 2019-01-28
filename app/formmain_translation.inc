@@ -177,11 +177,11 @@ begin
     DoLocMenuitem(ini, mnuCaseInvert, 'm_e', 'cas_i');
     DoLocMenuitem(ini, mnuCaseSent, 'm_e', 'cas_s');
 
-    mnuExCaseUp.Caption:= mnuCaseUp.Caption;
-    mnuExCaseLo.Caption:= mnuCaseLow.Caption;
-    mnuExCaseTitle.Caption:= mnuCaseTitle.Caption;
-    mnuExCaseInv.Caption:= mnuCaseInvert.Caption;
-    mnuExCaseSent.Caption:= mnuCaseSent.Caption;
+    mnuToolbarCaseUp.Caption:= mnuCaseUp.Caption;
+    mnuToolbarCaseLow.Caption:= mnuCaseLow.Caption;
+    mnuToolbarCaseTitle.Caption:= mnuCaseTitle.Caption;
+    mnuToolbarCaseInvert.Caption:= mnuCaseInvert.Caption;
+    mnuToolbarCaseSent.Caption:= mnuCaseSent.Caption;
 
     DoLocMenuitem(ini, mnuEditCharmap, 'm_e', 'map');
 
