@@ -1128,6 +1128,9 @@ begin
     if (UiOps.AutocompleteTriggerChars<>'') and
       (Pos(AText[1], UiOps.AutocompleteTriggerChars)>0) then
     begin
+      //check that we are not inside comment/string
+      if IsCaretInsideCommentOrString(Caret.PosX, Caret.PosY) then exit;
+
       FTextCharsTyped:= 0;
       Ed.DoCommand(cmd_AutoComplete);
       exit;
