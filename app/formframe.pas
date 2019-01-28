@@ -1102,8 +1102,7 @@ procedure TEditorFrame.EditorOnCommandAfter(Sender: TObject; ACommand: integer;
 var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
-  SLexerName, STokenText, STokenStyle: string;
-  PntToken1, PntToken2: TPoint;
+  SLexerName: string;
   bWordChar, bIdentChar: boolean;
 begin
   Ed:= Sender as TATSynEdit;
