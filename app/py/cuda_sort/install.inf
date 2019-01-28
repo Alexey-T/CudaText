@@ -1,0 +1,139 @@
+[info]
+title=Sort
+desc=Commands for lines: sort, reverse, shuffle, find duplicates, find uniques, delete duplicates, delete blanks etc.
+type=cudatext-plugin
+subdir=cuda_sort
+homepage=https://github.com/CudaText-addons/cuda_sort
+
+[item1]
+section=commands
+caption=Sort\Sort, asc.
+method=sort_asc
+
+[item2]
+section=commands
+caption=Sort\Sort, desc.
+method=sort_desc
+
+[item3]
+section=commands
+caption=Sort\Sort, asc., ignore case
+method=sort_asc_nocase
+
+[item4]
+section=commands
+caption=Sort\Sort, desc., ignore case
+method=sort_desc_nocase
+
+[item19]
+section=commands
+caption=Sort\-
+method=_
+
+[item20]
+section=commands
+caption=Sort\Sort dialog...
+method=sort_dlg
+
+[item30]
+section=commands
+caption=Sort\-
+method=_
+
+[item31]
+section=commands
+caption=Sort\Reverse lines
+method=reverse
+
+[item32]
+section=commands
+caption=Sort\Shuffle lines
+method=shuffle
+
+[item35]
+section=commands
+caption=Sort\-
+method=_
+
+[item36]
+section=commands
+caption=Sort\Remove duplicate lines
+method=del_dup
+
+[item37]
+section=commands
+caption=Sort\Remove duplicate lines + origins
+method=del_dup_orig
+
+[item38]
+section=commands
+caption=Sort\Remove adjacent duplicate lines
+method=del_dup_adj
+
+
+[item40]
+section=commands
+caption=Sort\Extract duplicate lines
+method=get_dups
+
+[item41]
+section=commands
+caption=Sort\Extract duplicate lines, ignore case
+method=get_dups_nocase
+
+[item42]
+section=commands
+caption=Sort\Extract unique lines
+method=get_uniq
+
+
+[item50]
+section=commands
+caption=Sort\-
+method=_
+
+[item51]
+section=commands
+caption=Sort\Remove blank lines
+method=del_blank
+
+[item52]
+section=commands
+caption=Sort\Remove adjacent blank lines
+method=del_blank_adj
+
+
+[item90]
+section=commands
+caption=Sort\-
+method=_
+
+[item91]
+section=commands
+caption=Sort\Ini file: sort sections and keys
+method=ini_sort_all
+lexers=Ini files
+
+[item92]
+section=commands
+caption=Sort\Ini file: sort sections, but not keys
+method=ini_sort_not_keys
+lexers=Ini files
+
+
+[item95]
+section=commands
+caption=Sort\-
+method=_
+
+[item96]
+section=commands
+caption=Sort\Sort e-mail list by domain
+method=sort_emails
+
+
+[item101]
+section=commands
+caption=Sort\Config
+method=config
+menu=o
