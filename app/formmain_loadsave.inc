@@ -132,7 +132,8 @@ begin
     c.SetValue('lang', AppLangName);
     c.SetValue('session', IfThen(UiOps.ReopenSession, FSessionName, ''));
 
-    DoOps_SaveHistory_GroupView(c);
+    if not IsWindowMaximizedOrFullscreen then
+      DoOps_SaveHistory_GroupView(c);
   finally
     c.Free;
   end;
