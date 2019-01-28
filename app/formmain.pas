@@ -540,6 +540,10 @@ type
     mnuToolbarSortAscNocase: TMenuItem;
     mnuToolbarSortDescNocase: TMenuItem;
     mnuToolbarSortDialog: TMenuItem;
+    mnuToolbarSortReverse: TMenuItem;
+    mnuToolbarSortShuffle: TMenuItem;
+    mnuToolbarSortSep1: TMenuItem;
+    mnuToolbarSortSep2: TMenuItem;
     PopupToolbarCase: TPopupMenu;
     PopupToolbarComment: TPopupMenu;
     PopupToolbarSort: TPopupMenu;
@@ -1594,17 +1598,33 @@ begin
   mnuToolbarSortDescNocase.Caption:= 'Sort descending, ignore case';
   mnuToolbarSortDescNocase.Hint:= 'cuda_sort,sort_desc_nocase';
   mnuToolbarSortDescNocase.OnClick:= @MenuitemClick_CommandFromHint;
+  mnuToolbarSortSep1:= TMenuItem.Create(Self);
+  mnuToolbarSortSep1.Caption:= '-';
   mnuToolbarSortDialog:= TMenuItem.Create(Self);
   mnuToolbarSortDialog.Caption:= 'Sort dialog...';
   mnuToolbarSortDialog.Hint:= 'cuda_sort,sort_dlg';
   mnuToolbarSortDialog.OnClick:= @MenuitemClick_CommandFromHint;
+  mnuToolbarSortSep2:= TMenuItem.Create(Self);
+  mnuToolbarSortSep2.Caption:= '-';
+  mnuToolbarSortReverse:= TMenuItem.Create(Self);
+  mnuToolbarSortReverse.Caption:= 'Reverse lines';
+  mnuToolbarSortReverse.Hint:= 'cuda_sort,reverse';
+  mnuToolbarSortReverse.OnClick:= @MenuitemClick_CommandFromHint;
+  mnuToolbarSortShuffle:= TMenuItem.Create(Self);
+  mnuToolbarSortShuffle.Caption:= 'Shuffle lines';
+  mnuToolbarSortShuffle.Hint:= 'cuda_sort,shuffle';
+  mnuToolbarSortShuffle.OnClick:= @MenuitemClick_CommandFromHint;
 
   PopupToolbarSort:= TPopupMenu.Create(Self);
   PopupToolbarSort.Items.Add(mnuToolbarSortAsc);
   PopupToolbarSort.Items.Add(mnuToolbarSortDesc);
   PopupToolbarSort.Items.Add(mnuToolbarSortAscNocase);
   PopupToolbarSort.Items.Add(mnuToolbarSortDescNocase);
+  PopupToolbarSort.Items.Add(mnuToolbarSortSep1);
   PopupToolbarSort.Items.Add(mnuToolbarSortDialog);
+  PopupToolbarSort.Items.Add(mnuToolbarSortSep2);
+  PopupToolbarSort.Items.Add(mnuToolbarSortReverse);
+  PopupToolbarSort.Items.Add(mnuToolbarSortShuffle);
 
   {$ifdef windows}
   UiOps.ScreenScale:= MulDiv(100, Screen.PixelsPerInch, 96);
