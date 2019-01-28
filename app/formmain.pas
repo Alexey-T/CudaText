@@ -1516,18 +1516,23 @@ begin
   FFileNameLogConsole:= GetAppPath(cDirSettings)+DirectorySeparator+'console.log';
 
   mnuToolbarCaseLow:= TMenuItem.Create(Self);
+  mnuToolbarCaseLow.Caption:= mnuCaseLow.Caption;
   mnuToolbarCaseLow.Tag:= cCommand_TextCaseLower;
   mnuToolbarCaseLow.OnClick:= @MenuitemClick_CommandFromTag;
   mnuToolbarCaseUp:= TMenuItem.Create(Self);
+  mnuToolbarCaseUp.Caption:= mnuCaseUp.Caption;
   mnuToolbarCaseUp.Tag:= cCommand_TextCaseUpper;
   mnuToolbarCaseUp.OnClick:= @MenuitemClick_CommandFromTag;
   mnuToolbarCaseTitle:= TMenuItem.Create(Self);
+  mnuToolbarCaseTitle.Caption:= mnuCaseTitle.Caption;
   mnuToolbarCaseTitle.Tag:= cCommand_TextCaseTitle;
   mnuToolbarCaseTitle.OnClick:= @MenuitemClick_CommandFromTag;
   mnuToolbarCaseInvert:= TMenuItem.Create(Self);
+  mnuToolbarCaseInvert.Caption:= mnuCaseInvert.Caption;
   mnuToolbarCaseInvert.Tag:= cCommand_TextCaseInvert;
   mnuToolbarCaseInvert.OnClick:= @MenuitemClick_CommandFromTag;
   mnuToolbarCaseSent:= TMenuItem.Create(Self);
+  mnuToolbarCaseSent.Caption:= mnuCaseSent.Caption;
   mnuToolbarCaseSent.Tag:= cCommand_TextCaseSentence;
   mnuToolbarCaseSent.OnClick:= @MenuitemClick_CommandFromTag;
 
