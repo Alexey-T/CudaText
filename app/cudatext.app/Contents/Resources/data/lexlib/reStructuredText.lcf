@@ -1,4 +1,4 @@
-object SyntAnal29: TLibSyntAnalyzer
+object SyntAnal21: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Head'
@@ -101,9 +101,9 @@ object SyntAnal29: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Text'
+      DisplayName = 'Var'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -112,14 +112,16 @@ object SyntAnal29: TLibSyntAnalyzer
     item
       DisplayName = 'Head'
       StyleName = 'Head'
-      Expression = '^[\*\#=\-\+\^\"]{2,}$ \z '#13#10'^.+$ \z '#13#10'^[\*\#=\-\+\^\"]{2,}$'
+      Expression = 
+        '^[\*\#=\-\+\^\"`~!"'#39']{2,}$ \z '#13#10'^[\x20\w].*$ \z '#13#10'^[\*\#=\-\+\^\' +
+        '"`~!"'#39']{2,}$'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'Head 2'
       StyleName = 'Head'
-      Expression = '^\w.+$ \z'#13#10'^[\*\#=\-\+\^\"]{2,}'
+      Expression = '^\w.+$ \z'#13#10'^[\*\#=\-\+\^\"`~!"'#39']{2,}$'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -127,7 +129,9 @@ object SyntAnal29: TLibSyntAnalyzer
       DisplayName = 'List'
       StyleName = 'List'
       TokenType = 6
-      Expression = '^([\*\#]+\.|\-|\d+\.) \x20'
+      Expression = 
+        '^\x20*([\*\-\+]\x20|\d+\.\x20|\#+\.\x20|[a-z][\)\.]\x20|[ivxlm]+' +
+        '\.\x20|\([a-z]+\)\x20)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -156,10 +160,34 @@ object SyntAnal29: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Quote'
+      DisplayName = 'Quote 1'
       StyleName = 'Quote'
       TokenType = 3
-      Expression = '`` .+? `` |'#13#10'(?s) ` .+? `_?'
+      Expression = '(?s)``[^`]+``'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Quote 2'
+      StyleName = 'Quote'
+      TokenType = 3
+      Expression = '`[^`]+`_*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Quote >'
+      StyleName = 'Quote'
+      TokenType = 3
+      Expression = '^>.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Var'
+      StyleName = 'Var'
+      TokenType = 1
+      Expression = '^\x20*:[^:]+:'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -167,7 +195,7 @@ object SyntAnal29: TLibSyntAnalyzer
       DisplayName = 'Sign'
       StyleName = 'Sign'
       TokenType = 3
-      Expression = '\| \w.+? \|'
+      Expression = '\| \w.+? \|_*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -192,45 +220,29 @@ object SyntAnal29: TLibSyntAnalyzer
       DisplayName = 'Table'
       StyleName = 'Table'
       TokenType = 7
-      Expression = '^[\+\|] [\-\+=]*'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Text'
-      StyleName = 'Text'
-      TokenType = 1
-      Expression = '\w+'
+      Expression = '^\x20*[\+\|] [\-\+=]*'
       ColumnFrom = 0
       ColumnTo = 0
     end>
-  BlockRules = <
-    item
-      DisplayName = 'Head'
-      ConditionList = <
-        item
-          TokenTypes = 1
-        end>
-      EndOfTextClose = True
-      HighlightPos = cpAny
-      SelfClose = True
-      IgnoreAsParent = False
-    end>
+  BlockRules = <>
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
+    ':field name: This is field.'
     'Head'
-    '+++++++'
+    '+++++'
     ''
-    '** This is a bulleted list.'
-    '** It has two items, the second'
-    '  item uses two lines.'
-    ''
-    '1. This is a numbered list.'
-    '2. It has two items too.'
-    ''
-    '###. This is a numbered list.'
-    '###. It has two items too.'
+    '* List'
+    '   - List'
+    '   + List'
+    '   * List'
+    '   iii. List  '
+    '   text. Not list.'
+    '   A) List'
+    '   (iii) List'
+    '  1. List'
+    '  200. List'
+    '   ###. List'
     ''
     '****************************************'
     'HTTPie '
@@ -244,12 +256,9 @@ object SyntAnal29: TLibSyntAnalyzer
       '-friendly**'
     'as possible. It provides a simple ``http`` command'
     ''
-    
-      '.. image:: https://raw.githubusercontent.com/jkbrzt/httpie/maste' +
-      'r/httpie.png'
+    '.. image:: https://www.png'
     '    :alt: HTTPie compared to cURL'
     '    :align: center'
-    ''
     ''
     
       'HTTPie is written in Python, and under the hood it uses the exce' +
@@ -296,7 +305,7 @@ object SyntAnal29: TLibSyntAnalyzer
   LexerName = 'reStructuredText'
   SkipSpaces = False
   Notes.Strings = (
-    'Alexey (Synwrite)'
+    'Alexey (CudaText)'
     'Test: https://github.com/jkbrzt/httpie/blob/master/README.rst')
   Charset = DEFAULT_CHARSET
 end

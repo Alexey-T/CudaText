@@ -1,4 +1,4 @@
-object SyntAnal18: TLibSyntAnalyzer
+object SyntAnal14: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Heading'
@@ -395,14 +395,6 @@ object SyntAnal18: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Usual text'
-      StyleName = 'Text'
-      TokenType = 1
-      Expression = '\w+'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Mark-added'
       StyleName = 'Mark-added'
       TokenType = 14
@@ -429,6 +421,7 @@ object SyntAnal18: TLibSyntAnalyzer
   BlockRules = <
     item
       DisplayName = 'Header'
+      Enabled = False
       ConditionList = <
         item
           TokenTypes = 1
