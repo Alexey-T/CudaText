@@ -531,7 +531,12 @@ type
     mnuToolbarCaseTitle,
     mnuToolbarCaseInvert,
     mnuToolbarCaseSent: TMenuItem;
+    mnuToolbarCommentLineAdd: TMenuItem;
+    mnuToolbarCommentLineDel: TMenuItem;
+    mnuToolbarCommentLineToggle: TMenuItem;
+    mnuToolbarCommentStream: TMenuItem;
     PopupToolbarCase: TPopupMenu;
+    PopupToolbarComment: TPopupMenu;
     FFormFloatSide: TForm;
     FFormFloatBottom: TForm;
     FFormFloatGroups1: TForm;
@@ -809,6 +814,7 @@ type
     function LiteLexer_GetStyleHash(Sender: TObject; const AStyleName: string): integer;
     procedure MenuEncWithReloadClick(Sender: TObject);
     procedure MenuitemClick_CommandFromTag(Sender: TObject);
+    procedure MenuitemClick_CommandFromHint(Sender: TObject);
     procedure MenuLangClick(Sender: TObject);
     procedure MenuPicScaleClick(Sender: TObject);
     procedure MenuPluginClick(Sender: TObject);
@@ -1542,6 +1548,29 @@ begin
   PopupToolbarCase.Items.Add(mnuToolbarCaseTitle);
   PopupToolbarCase.Items.Add(mnuToolbarCaseInvert);
   PopupToolbarCase.Items.Add(mnuToolbarCaseSent);
+
+  mnuToolbarCommentLineToggle:= TMenuItem.Create(Self);
+  mnuToolbarCommentLineToggle.Caption:= 'Line comment: toggle';
+  mnuToolbarCommentLineToggle.Hint:= 'cuda_comments,cmt_toggle_line_body';
+  mnuToolbarCommentLineToggle.OnClick:= @MenuitemClick_CommandFromHint;
+  mnuToolbarCommentLineAdd:= TMenuItem.Create(Self);
+  mnuToolbarCommentLineAdd.Caption:= 'Line comment: add';
+  mnuToolbarCommentLineAdd.Hint:= 'cuda_comments,cmt_add_line_body';
+  mnuToolbarCommentLineAdd.OnClick:= @MenuitemClick_CommandFromHint;
+  mnuToolbarCommentLineDel:= TMenuItem.Create(Self);
+  mnuToolbarCommentLineDel.Caption:= 'Line comment: remove';
+  mnuToolbarCommentLineDel.Hint:= 'cuda_comments,cmt_del_line';
+  mnuToolbarCommentLineDel.OnClick:= @MenuitemClick_CommandFromHint;
+  mnuToolbarCommentStream:= TMenuItem.Create(Self);
+  mnuToolbarCommentStream.Caption:= 'Stream comment: toggle';
+  mnuToolbarCommentStream.Hint:= 'cuda_comments,cmt_toggle_stream';
+  mnuToolbarCommentStream.OnClick:= @MenuitemClick_CommandFromHint;
+
+  PopupToolbarComment:= TPopupMenu.Create(Self);
+  PopupToolbarComment.Items.Add(mnuToolbarCommentLineToggle);
+  PopupToolbarComment.Items.Add(mnuToolbarCommentLineAdd);
+  PopupToolbarComment.Items.Add(mnuToolbarCommentLineDel);
+  PopupToolbarComment.Items.Add(mnuToolbarCommentStream);
 
   {$ifdef windows}
   UiOps.ScreenScale:= MulDiv(100, Screen.PixelsPerInch, 96);
@@ -5601,9 +5630,19 @@ begin
   Result:= ShowFullscreen or (WindowState=wsMaximized);
 end;
 
-procedure TfmMain.MenuItemClick_CommandFromTag(Sender: TObject);
+procedure TfmMain.MenuitemClick_CommandFromTag(Sender: TObject);
 begin
   CurrentEditor.DoCommand((Sender as TComponent).Tag);
+end;
+
+procedure TfmMain.MenuitemClick_CommandFromHint(Sender: TObject);
+var
+  SCmd, SModule, SProc: string;
+begin
+  SCmd:= (Sender as TMenuItem).Hint;
+  SModule:= SGetItem(SCmd);
+  SProc:= SGetItem(SCmd);
+  DoPyCommand(SModule, SProc, []);
 end;
 
 
