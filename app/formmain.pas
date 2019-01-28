@@ -542,6 +542,8 @@ type
     mnuToolbarSortDialog: TMenuItem;
     mnuToolbarSortReverse: TMenuItem;
     mnuToolbarSortShuffle: TMenuItem;
+    mnuToolbarSortRemoveDup: TMenuItem;
+    mnuToolbarSortRemoveBlank: TMenuItem;
     mnuToolbarSortSep1: TMenuItem;
     mnuToolbarSortSep2: TMenuItem;
     PopupToolbarCase: TPopupMenu;
@@ -1614,6 +1616,14 @@ begin
   mnuToolbarSortShuffle.Caption:= 'Shuffle lines';
   mnuToolbarSortShuffle.Hint:= 'cuda_sort,shuffle';
   mnuToolbarSortShuffle.OnClick:= @MenuitemClick_CommandFromHint;
+  mnuToolbarSortRemoveDup:= TMenuItem.Create(Self);
+  mnuToolbarSortRemoveDup.Caption:= 'Remove duplicate lines';
+  mnuToolbarSortRemoveDup.Hint:= 'cuda_sort,del_dup';
+  mnuToolbarSortRemoveDup.OnClick:= @MenuitemClick_CommandFromHint;
+  mnuToolbarSortRemoveBlank:= TMenuItem.Create(Self);
+  mnuToolbarSortRemoveBlank.Caption:= 'Remove blank lines';
+  mnuToolbarSortRemoveBlank.Hint:= 'cuda_sort,del_blank';
+  mnuToolbarSortRemoveBlank.OnClick:= @MenuitemClick_CommandFromHint;
 
   PopupToolbarSort:= TPopupMenu.Create(Self);
   PopupToolbarSort.Items.Add(mnuToolbarSortAsc);
@@ -1625,6 +1635,8 @@ begin
   PopupToolbarSort.Items.Add(mnuToolbarSortSep2);
   PopupToolbarSort.Items.Add(mnuToolbarSortReverse);
   PopupToolbarSort.Items.Add(mnuToolbarSortShuffle);
+  PopupToolbarSort.Items.Add(mnuToolbarSortRemoveDup);
+  PopupToolbarSort.Items.Add(mnuToolbarSortRemoveBlank);
 
   {$ifdef windows}
   UiOps.ScreenScale:= MulDiv(100, Screen.PixelsPerInch, 96);
