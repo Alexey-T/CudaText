@@ -183,6 +183,7 @@ type
     function GetUnprintedShow: boolean;
     function GetUnprintedSpaces: boolean;
     procedure InitEditor(var ed: TATSynEdit);
+    function IsCaretInsideCommentOrString(AX, AY: integer): boolean;
     procedure NotifChanged(Sender: TObject);
     procedure SetEnabledCodeTree(AValue: boolean);
     procedure SetEnabledFolding(AValue: boolean);
@@ -1166,17 +1167,7 @@ begin
       if (FTextCharsTyped=0) and (not bIdentChar) then exit;
 
       //check that we are not inside comment/string
-      if LexerName<>'' then
-      begin
-        Adapter.GetTokenAtPos(
-          Point(Caret.PosX, Caret.PosY),
-          PntToken1,
-          PntToken2,
-          STokenText,
-          STokenStyle
-          );
-        if IsLexerStyleCommentOrString(LexerName, STokenStyle) then exit;
-      end;
+      if IsCaretInsideCommentOrString(Caret.PosX, Caret.PosY) then exit;
 
       Inc(FTextCharsTyped);
       if FTextCharsTyped=UiOps.AutocompleteAutoshowCharCount then
@@ -2734,6 +2725,22 @@ begin
   end;
 end;
 
+function TEditorFrame.IsCaretInsideCommentOrString(AX, AY: integer): boolean;
+var
+  Pnt1, Pnt2: TPoint;
+  STokenText, STokenStyle: string;
+begin
+  Result:= false;
+  if LexerName='' then exit;
+  Adapter.GetTokenAtPos(
+    Point(AX, AY),
+    Pnt1,
+    Pnt2,
+    STokenText,
+    STokenStyle
+    );
+  Result:= IsLexerStyleCommentOrString(LexerName, STokenStyle);
+end;
 
 end.
 
