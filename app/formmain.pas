@@ -526,10 +526,10 @@ type
     {$endif}
   private
     { private declarations }
-    mnuToolbarCaseLow,
-    mnuToolbarCaseUp,
-    mnuToolbarCaseTitle,
-    mnuToolbarCaseInvert,
+    mnuToolbarCaseLow: TMenuItem;
+    mnuToolbarCaseUp: TMenuItem;
+    mnuToolbarCaseTitle: TMenuItem;
+    mnuToolbarCaseInvert: TMenuItem;
     mnuToolbarCaseSent: TMenuItem;
     mnuToolbarCommentLineAdd: TMenuItem;
     mnuToolbarCommentLineDel: TMenuItem;
@@ -537,6 +537,9 @@ type
     mnuToolbarCommentStream: TMenuItem;
     mnuToolbarSortAsc: TMenuItem;
     mnuToolbarSortDesc: TMenuItem;
+    mnuToolbarSortAscNocase: TMenuItem;
+    mnuToolbarSortDescNocase: TMenuItem;
+    mnuToolbarSortDialog: TMenuItem;
     PopupToolbarCase: TPopupMenu;
     PopupToolbarComment: TPopupMenu;
     PopupToolbarSort: TPopupMenu;
@@ -1579,9 +1582,29 @@ begin
   mnuToolbarSortAsc.Caption:= 'Sort ascending';
   mnuToolbarSortAsc.Hint:= 'cuda_sort,sort_asc';
   mnuToolbarSortAsc.OnClick:= @MenuitemClick_CommandFromHint;
+  mnuToolbarSortDesc:= TMenuItem.Create(Self);
+  mnuToolbarSortDesc.Caption:= 'Sort descending';
+  mnuToolbarSortDesc.Hint:= 'cuda_sort,sort_desc';
+  mnuToolbarSortDesc.OnClick:= @MenuitemClick_CommandFromHint;
+  mnuToolbarSortAscNocase:= TMenuItem.Create(Self);
+  mnuToolbarSortAscNocase.Caption:= 'Sort ascending, ignore case';
+  mnuToolbarSortAscNocase.Hint:= 'cuda_sort,sort_asc_nocase';
+  mnuToolbarSortAscNocase.OnClick:= @MenuitemClick_CommandFromHint;
+  mnuToolbarSortDescNocase:= TMenuItem.Create(Self);
+  mnuToolbarSortDescNocase.Caption:= 'Sort descending, ignore case';
+  mnuToolbarSortDescNocase.Hint:= 'cuda_sort,sort_desc_nocase';
+  mnuToolbarSortDescNocase.OnClick:= @MenuitemClick_CommandFromHint;
+  mnuToolbarSortDialog:= TMenuItem.Create(Self);
+  mnuToolbarSortDialog.Caption:= 'Sort dialog...';
+  mnuToolbarSortDialog.Hint:= 'cuda_sort,sort_dlg';
+  mnuToolbarSortDialog.OnClick:= @MenuitemClick_CommandFromHint;
 
   PopupToolbarSort:= TPopupMenu.Create(Self);
   PopupToolbarSort.Items.Add(mnuToolbarSortAsc);
+  PopupToolbarSort.Items.Add(mnuToolbarSortDesc);
+  PopupToolbarSort.Items.Add(mnuToolbarSortAscNocase);
+  PopupToolbarSort.Items.Add(mnuToolbarSortDescNocase);
+  PopupToolbarSort.Items.Add(mnuToolbarSortDialog);
 
   {$ifdef windows}
   UiOps.ScreenScale:= MulDiv(100, Screen.PixelsPerInch, 96);
