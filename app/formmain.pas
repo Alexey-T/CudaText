@@ -535,8 +535,11 @@ type
     mnuToolbarCommentLineDel: TMenuItem;
     mnuToolbarCommentLineToggle: TMenuItem;
     mnuToolbarCommentStream: TMenuItem;
+    mnuToolbarSortAsc: TMenuItem;
+    mnuToolbarSortDesc: TMenuItem;
     PopupToolbarCase: TPopupMenu;
     PopupToolbarComment: TPopupMenu;
+    PopupToolbarSort: TPopupMenu;
     FFormFloatSide: TForm;
     FFormFloatBottom: TForm;
     FFormFloatGroups1: TForm;
@@ -1571,6 +1574,14 @@ begin
   PopupToolbarComment.Items.Add(mnuToolbarCommentLineAdd);
   PopupToolbarComment.Items.Add(mnuToolbarCommentLineDel);
   PopupToolbarComment.Items.Add(mnuToolbarCommentStream);
+
+  mnuToolbarSortAsc:= TMenuItem.Create(Self);
+  mnuToolbarSortAsc.Caption:= 'Sort ascending';
+  mnuToolbarSortAsc.Hint:= 'cuda_sort,sort_asc';
+  mnuToolbarSortAsc.OnClick:= @MenuitemClick_CommandFromHint;
+
+  PopupToolbarSort:= TPopupMenu.Create(Self);
+  PopupToolbarSort.Items.Add(mnuToolbarSortAsc);
 
   {$ifdef windows}
   UiOps.ScreenScale:= MulDiv(100, Screen.PixelsPerInch, 96);
