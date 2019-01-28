@@ -6,8 +6,10 @@
 1.72.2 (2019/01)
 
 + add: preinstalled plugin "Sort"
++ add: added toolbar sub-menu with "Change case" actions
 + add: speedup rendering when lot of color-attributes (Editor.attr) added
-- fix: autocompletion must not auto-show inside comments/strings
+
+- fix: autocompletion: disabled auto-show inside comments/strings; other issues
 - fix: all installed plugins (400+ command items) gave misfunction
 - fix: rare crash on dragging scrollbar (Windows)
 
