@@ -475,6 +475,7 @@ function GetAppLexerOpsFilename(const ALexName: string): string;
 function GetAppLexerAcpFilename(const ALexName: string): string;
 function GetAppLexerSpecificConfig(AName: string): string;
 function GetAppLexerPropInCommentsSection(const ALexerName, AKey: string): string;
+function IsLexerStyleCommentOrString(const ALexer, AStyle: string): boolean;
 
 function MsgBox(const Str: string; Flags: Longint): integer;
 procedure MsgBadConfig(const fn: string);
@@ -1895,6 +1896,17 @@ begin
   finally
     Free
   end;
+end;
+
+function IsLexerStyleCommentOrString(const ALexer, AStyle: string): boolean;
+var
+  Styles: string;
+begin
+  if (ALexer='') or (AStyle='') then exit(false);
+  Styles:=
+    GetAppLexerPropInCommentsSection(ALexer, 'styles_cmt') + ',' +
+    GetAppLexerPropInCommentsSection(ALexer, 'styles_str');
+  Result:= Pos(','+AStyle+',', ','+Styles+',' )>0;
 end;
 
 procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);

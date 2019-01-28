@@ -1101,7 +1101,8 @@ procedure TEditorFrame.EditorOnCommandAfter(Sender: TObject; ACommand: integer;
 var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
-  SLexerName: string;
+  SLexerName, STokenText, STokenStyle: string;
+  PntToken1, PntToken2: TPoint;
   bWordChar, bIdentChar: boolean;
 begin
   Ed:= Sender as TATSynEdit;
@@ -1163,6 +1164,19 @@ begin
       //ignore if number typed
       bIdentChar:= bWordChar and not IsCharDigit(AText[1]);
       if (FTextCharsTyped=0) and (not bIdentChar) then exit;
+
+      //check that we are not inside comment/string
+      if LexerName<>'' then
+      begin
+        Adapter.GetTokenAtPos(
+          Point(Caret.PosX, Caret.PosY),
+          PntToken1,
+          PntToken2,
+          STokenText,
+          STokenStyle
+          );
+        if IsLexerStyleCommentOrString(LexerName, STokenStyle) then exit;
+      end;
 
       Inc(FTextCharsTyped);
       if FTextCharsTyped=UiOps.AutocompleteAutoshowCharCount then
