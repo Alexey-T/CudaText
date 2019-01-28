@@ -2473,8 +2473,13 @@ begin
             begin
               EndDrag(false);
               DeleteTab(FTabIndexOver, true, true);
+              exit
             end;
           end;
+
+          //normal click on tab caption - focus tab's control
+          if Assigned(FOnTabClick) then
+            FOnTabClick(Self);
         end;
     end;
   end;
