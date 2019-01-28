@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.72.2 (2019/01)
+1.72.4 (2019/01)
 
 + add: preinstalled plugin "Sort"
 + add: added toolbar sub-menu with "Change case" actions
@@ -12,11 +12,12 @@
 
 - fix: autocompletion: disabled auto-show inside comments/strings; other issues
 - fix: all installed plugins (400+ command items) gave misfunction
+- fix: clicking tab on inactive group must focus it
 - fix: rare crash on dragging scrollbar (Windows)
 
-+ add: lexers Markdown, reStructuredText improved: speedup
-+ add: lexer C++ improved: support ## in identifier name
++ add: lexer Markdown made faster
 + add: lexer reStructuredText reworked
++ add: lexer C++ improved: support ## in identifier name
 
 1.72.0 (2019/01)
 
