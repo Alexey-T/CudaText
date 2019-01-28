@@ -13,6 +13,7 @@
 
 + add: lexers Markdown, reStructuredText improved: speedup
 + add: lexer C++ improved: support ## in identifier name
++ add: lexer reStructuredText reworked
 
 1.72.0 (2019/01)
 
