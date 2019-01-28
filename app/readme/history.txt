@@ -5,6 +5,7 @@
 
 1.72.2 (2019/01)
 
++ add: preinstalled plugin "Sort"
 + add: speedup rendering when lot of color-attributes (Editor.attr) added
 - fix: all installed plugins (400+ command items) gave misfunction
 - fix: rare crash on dragging scrollbar (Windows)
