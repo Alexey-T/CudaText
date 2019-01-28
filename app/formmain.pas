@@ -796,6 +796,7 @@ type
     procedure InitFloatGroups;
     procedure InitSidebar;
     procedure InitToolbar;
+    function IsWindowMaximizedOrFullscreen: boolean;
     function IsAllowedToOpenFileNow: boolean;
     function IsThemeNameExist(const AName: string; AThemeUI: boolean): boolean;
     procedure LiteLexer_ApplyStyle(Sender: TObject; AStyleHash: integer; var APart: TATLinePart);
@@ -5560,6 +5561,11 @@ end;
 function TfmMain.DoOnTabGetTick(Sender: TObject; ATabObject: TObject): Int64;
 begin
   Result:= TEditorFrame(ATabObject).ActivationTime;
+end;
+
+function TfmMain.IsWindowMaximizedOrFullscreen: boolean;
+begin
+  Result:= ShowFullscreen or (WindowState=wsMaximized);
 end;
 
 

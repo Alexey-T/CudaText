@@ -43,7 +43,7 @@ begin
     if not ShowFullscreen then
     begin
       c.SetValue('/dialog/max', WindowState=wsMaximized);
-      if WindowState<>wsMaximized then
+      if not IsWindowMaximizedOrFullscreen then
       begin
         c.SetValue('/dialog/posx', Left);
         c.SetValue('/dialog/posy', Top);
