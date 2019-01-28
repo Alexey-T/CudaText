@@ -4252,6 +4252,7 @@ begin
   F:= CurrentFrame;
   Ed:= CurrentEditor;
 
+  CompletionOps.CommitChars:= UiOps.AutocompleteCommitChars; //before DoPyEvent
   if DoPyEvent(Ed, cEventOnComplete, [])=cPyTrue then exit;
 
   if F.Lexer=nil then exit;
@@ -4276,8 +4277,6 @@ begin
       exit;
     end;
   MsgStatus(msgStatusTryingAutocomplete+' '+LexName);
-
-  CompletionOps.CommitChars:= UiOps.AutocompleteCommitChars;
 
   if IsHtml then
   begin
