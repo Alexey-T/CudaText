@@ -1153,6 +1153,8 @@ begin
   ToolbarMain.AddButton(10, @DoToolbarClick, '', 'Indent block', IntToStr(cCommand_TextIndent), false);
   ToolbarMain.AddButton(11, @DoToolbarClick, '', 'Unindent block', IntToStr(cCommand_TextUnIndent), false);
 
+  ToolbarMain.AddDropdown(12, PopupEditCase);
+
   ToolbarMain.UpdateControls;
 end;
 
@@ -1246,6 +1248,9 @@ begin
   UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'map.png');
   UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'indent.png');
   UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'unindent.png');
+  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'case.png');
+  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'comment.png');
+  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'sort.png');
 
   ToolbarMain.UpdateControls;
 end;

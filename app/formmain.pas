@@ -124,6 +124,11 @@ type
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
     ButtonCancel: TATButton;
+    mnuExCaseTitle: TMenuItem;
+    mnuExCaseSent: TMenuItem;
+    mnuExCaseLo: TMenuItem;
+    mnuExCaseUp: TMenuItem;
+    mnuExCaseInv: TMenuItem;
     mnuViewSidebar: TMenuItem;
     mnuTabCopyName: TMenuItem;
     mnuTabCopyDir: TMenuItem;
@@ -137,6 +142,7 @@ type
     mnuViewFloatSide: TMenuItem;
     mnuViewFloatBottom: TMenuItem;
     mnuOpDefaultUser: TMenuItem;
+    PopupEditCase: TPopupMenu;
     TimerStatusBusy: TTimer;
     TimerAppIdle: TIdleTimer;
     ImageListTabs: TImageList;
@@ -448,7 +454,12 @@ type
       const ARect: TRect);
     procedure ListboxOutKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure mnuExCaseLoClick(Sender: TObject);
     procedure MenuThemesSyntaxClick(Sender: TObject);
+    procedure mnuExCaseSentClick(Sender: TObject);
+    procedure mnuExCaseTitleClick(Sender: TObject);
+    procedure mnuExCaseInvClick(Sender: TObject);
+    procedure mnuExCaseUpClick(Sender: TObject);
     procedure mnuTabColorClick(Sender: TObject);
     procedure mnuTabCopyDirClick(Sender: TObject);
     procedure mnuTabCopyFullPathClick(Sender: TObject);
@@ -4561,7 +4572,6 @@ begin
   end;
 end;
 
-
 procedure TfmMain.MenuLangClick(Sender: TObject);
 var
   NTag: integer;
@@ -5565,6 +5575,31 @@ end;
 function TfmMain.IsWindowMaximizedOrFullscreen: boolean;
 begin
   Result:= ShowFullscreen or (WindowState=wsMaximized);
+end;
+
+procedure TfmMain.mnuExCaseLoClick(Sender: TObject);
+begin
+  CurrentEditor.DoCommand(cCommand_TextCaseLower);
+end;
+
+procedure TfmMain.mnuExCaseUpClick(Sender: TObject);
+begin
+  CurrentEditor.DoCommand(cCommand_TextCaseUpper);
+end;
+
+procedure TfmMain.mnuExCaseSentClick(Sender: TObject);
+begin
+  CurrentEditor.DoCommand(cCommand_TextCaseSentence);
+end;
+
+procedure TfmMain.mnuExCaseTitleClick(Sender: TObject);
+begin
+  CurrentEditor.DoCommand(cCommand_TextCaseTitle);
+end;
+
+procedure TfmMain.mnuExCaseInvClick(Sender: TObject);
+begin
+  CurrentEditor.DoCommand(cCommand_TextCaseInvert);
 end;
 
 

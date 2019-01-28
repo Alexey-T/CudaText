@@ -1586,4 +1586,28 @@ object fmMain: TfmMain
     left = 378
     top = 234
   end
+  object PopupEditCase: TPopupMenu
+    left = 800
+    top = 295
+    object mnuExCaseLo: TMenuItem
+      Caption = 'Lower case'
+      OnClick = mnuExCaseLoClick
+    end
+    object mnuExCaseUp: TMenuItem
+      Caption = 'Upper case'
+      OnClick = mnuExCaseUpClick
+    end
+    object mnuExCaseTitle: TMenuItem
+      Caption = 'Title case'
+      OnClick = mnuExCaseTitleClick
+    end
+    object mnuExCaseSent: TMenuItem
+      Caption = 'Sentence case'
+      OnClick = mnuExCaseSentClick
+    end
+    object mnuExCaseInv: TMenuItem
+      Caption = 'Invert case'
+      OnClick = mnuExCaseInvClick
+    end
+  end
 end
