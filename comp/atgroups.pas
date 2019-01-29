@@ -2026,9 +2026,13 @@ var
 begin
   if (Width<2) or (Height<2) then
   begin
-    APanelSize:= Point(-1, -1);
+    APanelSize.x:= 100;
+    APanelSize.y:= 100;
     for i in TATGroupsNums do
-      APageSize[i]:= Point(-1, -1);
+    begin
+      APageSize[i].x:= 100;
+      APageSize[i].y:= 100;
+    end;
     exit
   end;
 
