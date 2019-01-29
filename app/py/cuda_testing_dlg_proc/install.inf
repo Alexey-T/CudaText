@@ -60,8 +60,12 @@ section=commands
 caption=Testing of dialog API\test type=editor
 method=test_editor
 
+[item34]
+section=commands
+caption=Testing of dialog API\test type=combo
+method=test_combo
+
 [item50]
 section=commands
 caption=Testing of dialog API\test side-panel
 method=test_sidepanel
-

@@ -76,6 +76,12 @@ class Command:
         h = id_dlg
         print('callback_splitter_left')
 
+    def callback_combo_change(self, id_dlg, id_ctl, data='', info=''):
+        print('combo on_change')
+
+    def callback_combo_change2(self, id_dlg, id_ctl, data='', info=''):
+        print('combo2 on_change')
+
     def callback_maindlg(self, id_dlg, id_ctl, data='', info=''):
         print('callback_maindlg(info=%s)' % repr(info))
         h = id_dlg
@@ -607,6 +613,42 @@ class Command:
         return h
 
 
+    def init_combo_dlg(self):
+
+        h=dlg_proc(0, DLG_CREATE)
+        dlg_proc(h, DLG_PROP_SET, prop={
+            'cap': 'combo test',
+            'w': 420,
+            'h': 300
+            })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'combo')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'c1',
+            'x': 10,
+            'y': 10,
+            'w': 400,
+            'items': '\t'.join(['Aaa', 'Bbb', 'Ccc', 'Ddd']),
+            'val': 'init text',
+            'act': True, # for on_change 
+            'on_change': self.callback_combo_change,
+            })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'combo_ro')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'c2',
+            'x': 10,
+            'y': 80,
+            'w': 400,
+            'items': '\t'.join(['Aaaaa', 'Bbbbb', 'Ccccc', 'Ddddd']),
+            'val': 1,
+            'act': True, # for on_change 
+            'on_change': self.callback_combo_change2,
+            })
+
+        return h
+
+
     def init_tempdlg(self, x=150, y=150):
         h=dlg_proc(0, DLG_CREATE)
         dlg_proc(h, DLG_PROP_SET, prop={
@@ -992,6 +1034,11 @@ end;
 
     def test_editor(self):
         h = self.init_editor_dlg()
+        dlg_proc(h, DLG_SHOW_MODAL)
+        dlg_proc(h, DLG_FREE)
+
+    def test_combo(self):
+        h = self.init_combo_dlg()
         dlg_proc(h, DLG_SHOW_MODAL)
         dlg_proc(h, DLG_FREE)
 
