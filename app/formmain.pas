@@ -664,7 +664,7 @@ type
     FOption_Encoding: string;
     FOption_FileOpenOptions: string;
     FOption_GroupMode: TATGroupsMode;
-    FOption_GroupSizes: array[TATGroupsNums] of TPoint;
+    FOption_GroupSizes: TATGroupsPoints;
     FOption_GroupPanelSize: TPoint;
     FOption_SidebarTab: string;
 

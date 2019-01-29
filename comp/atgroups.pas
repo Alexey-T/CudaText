@@ -194,6 +194,9 @@ type
   TATGroupsNums = 0..5;
 
 type
+  TATGroupsPoints = array[TATGroupsNums] of TPoint;
+
+type
   TATGroupsPopupEvent = procedure(Sender: TObject; APages: TATPages; ATabIndex: integer) of object;
 
 type
@@ -281,6 +284,8 @@ type
     function PagesIndexOf(APages: TATPages): Integer;
     function PagesNextIndex(AIndex: Integer; ANext: boolean; AEnableEmpty: boolean): Integer;
     procedure PagesAndTabIndexOfControl(AObject: TObject; out NPages, NTab: Integer);
+    procedure GetSizes(out APanelSize: TPoint; out APageSize: TATGroupsPoints);
+    procedure SetSizes(const APanelSize: TPoint; const APageSize: TATGroupsPoints);
     //
     property PopupPages: TATPages read FPopupPages write FPopupPages;
     property PopupTabIndex: Integer read FPopupTabIndex write FPopupTabIndex;
@@ -2013,6 +2018,40 @@ var
 begin
   for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
     Pages[i].Tabs.Images:= AValue;
+end;
+
+procedure TATGroups.GetSizes(out APanelSize: TPoint; out APageSize: TATGroupsPoints);
+var
+  i: integer;
+begin
+  if (Width<2) or (Height<2) then
+  begin
+    APanelSize:= Point(-1, -1);
+    for i in TATGroupsNums do
+      APageSize[i]:= Point(-1, -1);
+    exit
+  end;
+
+  APanelSize.x:= Panel1.Width * 100 div Width;
+  APanelSize.y:= Panel1.Height * 100 div Height;
+  for i in TATGroupsNums do
+  begin
+    APageSize[i].x:= Pages[i].Width * 100 div Width;
+    APageSize[i].y:= Pages[i].Height * 100 div Height;
+  end;
+end;
+
+procedure TATGroups.SetSizes(const APanelSize: TPoint; const APageSize: TATGroupsPoints);
+var
+  i: integer;
+begin
+  Panel1.Width := APanelSize.x * Width div 100;
+  Panel1.Height:= APanelSize.y * Height div 100;
+  for i in TATGroupsNums do
+  begin
+    Pages[i].Width:= APageSize[i].x * Width div 100;
+    Pages[i].Height:= APageSize[i].y * Height div 100;
+  end;
 end;
 
 end.

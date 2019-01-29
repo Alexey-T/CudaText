@@ -132,8 +132,7 @@ begin
     c.SetValue('lang', AppLangName);
     c.SetValue('session', IfThen(UiOps.ReopenSession, FSessionName, ''));
 
-    if not IsWindowMaximizedOrFullscreen then
-      DoOps_SaveHistory_GroupView(c);
+    DoOps_SaveHistory_GroupView(c);
   finally
     c.Free;
   end;
@@ -373,34 +372,41 @@ end;
 
 procedure TfmMain.DoOps_LoadHistory_GroupView(c: TJsonConfig);
 var
+  SPanel, SPages: string;
   i: integer;
 begin
   FOption_GroupMode:= TATGroupsMode(c.GetValue('groups', Ord(gmOne)));
 
-  for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
-  begin
-    FOption_GroupSizes[i].x:= c.GetValue('/gr/g'+IntToStr(i)+'_x', 800);
-    FOption_GroupSizes[i].y:= c.GetValue('/gr/g'+IntToStr(i)+'_y', 600);
-  end;
+  SPanel:= c.GetValue('/gr/panel', '');
+  SPages:= c.GetValue('/gr/pages', '');
 
-  FOption_GroupPanelSize.x:= c.GetValue('/gr/p1_x', 800);
-  FOption_GroupPanelSize.y:= c.GetValue('/gr/p1_y', 600);
+  FOption_GroupPanelSize.x:= StrToIntDef(SGetItem(SPanel), 50);
+  FOption_GroupPanelSize.y:= StrToIntDef(SGetItem(SPanel), 50);
+
+  for i in TATGroupsNums do
+  begin
+    FOption_GroupSizes[i].x:= StrToIntDef(SGetItem(SPages), 50);
+    FOption_GroupSizes[i].y:= StrToIntDef(SGetItem(SPages), 50);
+  end;
 end;
 
 procedure TfmMain.DoOps_SaveHistory_GroupView(c: TJsonConfig);
 var
+  SizePanel: TPoint;
+  SizePage: TATGroupsPoints;
+  S: string;
   i: integer;
 begin
   c.SetValue('groups', Ord(Groups.Mode));
 
-  for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
-  begin
-    c.SetValue('/gr/g'+IntToStr(i)+'_x', Groups.Pages[i].Width);
-    c.SetValue('/gr/g'+IntToStr(i)+'_y', Groups.Pages[i].Height);
-  end;
+  Groups.GetSizes(SizePanel, SizePage);
 
-  c.SetValue('/gr/p1_x', Groups.Panel1.Width);
-  c.SetValue('/gr/p1_y', Groups.Panel1.Height);
+  S:= '';
+  for i in TATGroupsNums do
+    S+= Format('%d,%d,', [SizePage[i].x, SizePage[i].y]);
+
+  c.SetValue('/gr/panel', Format('%d,%d', [SizePanel.x, SizePanel.y]));
+  c.SetValue('/gr/pages', S);
 end;
 
 
@@ -511,22 +517,10 @@ begin
 end;
 
 procedure TfmMain.DoApplyInitialGroupSizes;
-var
-  i: integer;
+//groups sizes must be restored in OnShow, OnCreate is too early
 begin
   Groups.Mode:= FOption_GroupMode;
-
-  //groups sizes must be restored in OnShow, OnCreate is too early
-  for i in TATGroupsNums do
-    with Groups.Pages[i] do
-    begin
-      Width:= FOption_GroupSizes[i].x;
-      Height:= FOption_GroupSizes[i].y;
-    end;
-
-  Groups.Panel1.Width:= FOption_GroupPanelSize.x;
-  Groups.Panel1.Height:= FOption_GroupPanelSize.y;
-
+  Groups.SetSizes(FOption_GroupPanelSize, FOption_GroupSizes);
   Groups.SaveSplitPos; //apply current sizes to internal Groups vars
 end;
 
