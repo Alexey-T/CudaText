@@ -10,6 +10,7 @@
 + add: added toolbar sub-menu with "Comment/Uncomment" actions
 + add: added toolbar sub-menu with "Sort" actions
 + add: speedup rendering when lot of color-attributes (Editor.attr) added
+* change: history file now stores percent sizes of groups, not pixel sizes (sizes history will reset one time)
 
 - fix: autocompletion: disabled auto-show inside comments/strings; other issues
 - fix: all installed plugins (400+ command items) gave misfunction
