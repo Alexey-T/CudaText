@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.72.4 (2019/01)
+1.73.0 (2019/01)
 
 + add: preinstalled plugin "Sort"
 + add: added toolbar sub-menu with "Change case" actions
@@ -18,8 +18,8 @@
 - fix: rare crash on dragging scrollbar (Windows)
 
 + add: lexer JavaScript improved: BigInt, underscore in numbers
-+ add: lexer Markdown made faster
-+ add: lexer reStructuredText reworked
++ add: lexer Markdown improved: speedup
++ add: lexer reStructuredText improved: many fixes
 + add: lexer C++ improved: support ## in ident name
 
 1.72.0 (2019/01)
