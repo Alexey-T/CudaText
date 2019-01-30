@@ -3091,7 +3091,7 @@ begin
     fmCommands.Keymap:= CurrentEditor.Keymap;
     fmCommands.ListCaption:= ACaption;
     if AShowCentered then
-      fmCommands.Position:= poDesktopCenter;
+      fmCommands.Position:= poScreenCenter;
     fmCommands.ShowModal;
     Result:= fmCommands.ResultCommand;
     bKeysChanged:= fmCommands.ResultHotkeysChanged;
