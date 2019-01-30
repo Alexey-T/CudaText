@@ -17,9 +17,10 @@
 - fix: clicking tab on inactive group must focus it
 - fix: rare crash on dragging scrollbar (Windows)
 
++ add: lexer JavaScript improved: BigInt, underscore in numbers
 + add: lexer Markdown made faster
 + add: lexer reStructuredText reworked
-+ add: lexer C++ improved: support ## in identifier name
++ add: lexer C++ improved: support ## in ident name
 
 1.72.0 (2019/01)
 
