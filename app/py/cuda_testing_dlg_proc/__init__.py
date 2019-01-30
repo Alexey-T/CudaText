@@ -77,10 +77,16 @@ class Command:
         print('callback_splitter_left')
 
     def callback_combo_change(self, id_dlg, id_ctl, data='', info=''):
-        print('combo on_change')
+        
+        p = dlg_proc(id_dlg, DLG_CTL_PROP_GET, name='c1')
+        text = p['val']
+        dlg_proc(id_dlg, DLG_PROP_SET, prop={'cap': 'text: '+text})
 
     def callback_combo_change2(self, id_dlg, id_ctl, data='', info=''):
-        print('combo2 on_change')
+    
+        p = dlg_proc(id_dlg, DLG_CTL_PROP_GET, name='c2')
+        index = p['val']
+        dlg_proc(id_dlg, DLG_PROP_SET, prop={'cap': 'index: '+str(index)})
 
     def callback_maindlg(self, id_dlg, id_ctl, data='', info=''):
         print('callback_maindlg(info=%s)' % repr(info))
