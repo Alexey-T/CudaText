@@ -672,6 +672,7 @@ type
     procedure CodeTreeFilterResetClick(Sender: TObject);
     procedure CodeTreeFilterOnCommand(Sender: TObject; ACmd: integer;
       const AText: string; var AHandled: boolean);
+    procedure DisablePluginMenuItems;
     procedure DoApplyCenteringOption;
     procedure DoApplyTranslationToGroups(G: TATGroups);
     procedure DoClearSingleFirstTab;
@@ -3404,9 +3405,28 @@ begin
     MsgLogConsole(msgCannotInitPython1);
     MsgLogConsole(msgCannotInitPython2);
     fmConsole.ShowError:= true;
-    //disable Plugins menu
-    mnuPlugins.Enabled:= false;
+    DisablePluginMenuItems;
   end;
+end;
+
+procedure TfmMain.DisablePluginMenuItems;
+begin
+  mnuPlugins.Enabled:= false;
+
+  mnuToolbarCommentLineAdd.Enabled:= false;
+  mnuToolbarCommentLineDel.Enabled:= false;
+  mnuToolbarCommentLineToggle.Enabled:= false;
+  mnuToolbarCommentStream.Enabled:= false;
+
+  mnuToolbarSortAsc.Enabled:= false;
+  mnuToolbarSortDesc.Enabled:= false;
+  mnuToolbarSortAscNocase.Enabled:= false;
+  mnuToolbarSortDescNocase.Enabled:= false;
+  mnuToolbarSortDialog.Enabled:= false;
+  mnuToolbarSortShuffle.Enabled:= false;
+  mnuToolbarSortReverse.Enabled:= false;
+  mnuToolbarSortRemoveBlank.Enabled:= false;
+  mnuToolbarSortRemoveDup.Enabled:= false;
 end;
 
 procedure TfmMain.MenuEncNoReloadClick(Sender: TObject);
