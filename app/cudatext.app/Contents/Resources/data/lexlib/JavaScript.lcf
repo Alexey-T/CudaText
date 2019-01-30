@@ -1,4 +1,4 @@
-object SyntAnal15: TLibSyntAnalyzer
+object SyntAnal10: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -51,7 +51,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Id standard'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clPurple
+      Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -59,7 +59,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Id const'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlue
+      Font.Color = clPurple
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -109,7 +109,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Id func name'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clNavy
+      Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -159,7 +159,7 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = 'String'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?s)("|'#39') (\\\\|\\\1|.)*? (\1|\Z)'
+      Expression = '("|'#39') (\\\\|\\\1|\\\z|.)*? (\1|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -167,7 +167,7 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = 'String ticks'
       StyleName = 'String regex'
       TokenType = 4
-      Expression = '` .*? (`|$)'
+      Expression = '(?s)`.+?(`|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -215,7 +215,7 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = 'Hex'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '0x[\da-f]*'
+      Expression = '0x[0-9a-f_]+n?\b | 0b[01_]+n?\b | 0o[0-7_]+n?\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -223,7 +223,9 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = 'Float'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '\d+ (\.\d+)? e [\+\-]? \d+ |'#13#10'\d+ \. \d+'
+      Expression = 
+        '\d[\d_]* (\.[\d_]*)? e [\+\-]? \d[\d_]*\b |'#13#10'\d[\d_]*\.[\d_]*\b ' +
+        '|'#13#10'\.\d[\d_]*\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -231,7 +233,7 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = 'Integer'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '\d+'
+      Expression = '\d[\d_]*n?\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -359,19 +361,20 @@ object SyntAnal15: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'Array'
+            'constructor'
             'Date'
+            'get'
             'hasOwnProperty'
-            'Infinity'
             'isFinite'
             'isNaN'
             'isPrototypeOf'
             'length'
             'Math'
             'name'
-            'NaN'
             'Number'
             'Object'
             'prototype'
+            'set'
             'String'
             'toString'
             'valueOf')
@@ -388,6 +391,8 @@ object SyntAnal15: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'false'
+            'Infinity'
+            'NaN'
             'null'
             'this'
             'true'
@@ -596,16 +601,15 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal23
+      SyntAnalyzer = SyntAnal16
     end>
   SampleText.Strings = (
+    '#!/bin/bash                         '
     '//Comment'
     '/** DocBlock '
     '*/'
-    '/* Comment */'
-    
-      '  #! Shebang                                                    ' +
-      '         '
+    'n = 12_34_5n+ 1.2+ 1.+ 1.2e+3+ 1.e-3+ '
+    '  +0xFF_AAn+ 0b11_00n+ 0o77_11n '
     '<?php echo '#39'test'#39' ?>'
     'var test = NaN + Object + $ + offset;'
     'var s_regex = /^<\/?\w.*?>/gi;'

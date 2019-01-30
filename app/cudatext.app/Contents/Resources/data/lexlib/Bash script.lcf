@@ -231,6 +231,7 @@ object SyntAnal2: TLibSyntAnalyzer
             'done'
             'elif'
             'else'
+            'endif'
             'esac'
             'fi'
             'for'
