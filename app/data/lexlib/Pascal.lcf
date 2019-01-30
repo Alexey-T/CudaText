@@ -1,4 +1,4 @@
-object SyntAnal19: TLibSyntAnalyzer
+object SyntAnal15: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Default'
@@ -204,7 +204,7 @@ object SyntAnal19: TLibSyntAnalyzer
       BgColor = clYellow
     end
     item
-      DisplayName = 'Id exit'
+      DisplayName = 'Id std'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clPurple
       Font.Height = -13
@@ -344,12 +344,14 @@ object SyntAnal19: TLibSyntAnalyzer
             'asm'
             'begin'
             'bitpacked'
+            'break'
             'case'
             'cdecl'
             'class'
             'const'
             'constructor'
             'contains'
+            'continue'
             'default'
             'destructor'
             'dispinterface'
@@ -360,6 +362,7 @@ object SyntAnal19: TLibSyntAnalyzer
             'else'
             'end'
             'except'
+            'exit'
             'exports'
             'external'
             'file'
@@ -436,15 +439,16 @@ object SyntAnal19: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'Id exit'
-      StyleName = 'Id exit'
+      DisplayName = 'Id std'
+      StyleName = 'Id std'
       BlockType = btTagDetect
       ConditionList = <
         item
           TagList.Strings = (
-            'Exit'
-            'Halt'
-            'Result')
+            'False'
+            'nil'
+            'Result'
+            'True')
           TokenTypes = 4
           IgnoreCase = True
         end>
@@ -1476,7 +1480,7 @@ object SyntAnal19: TLibSyntAnalyzer
       DisplayName = 'asm section'
       StartExpression = 'asm\b'#13#10
       EndExpression = 'end'#13#10
-      SyntAnalyzer = SyntAnal2
+      SyntAnalyzer = SyntAnal1
     end>
   SampleText.Strings = (
     'unit Test;    '
