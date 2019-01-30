@@ -1,4 +1,4 @@
-object SyntAnal15: TLibSyntAnalyzer
+object SyntAnal10: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -215,7 +215,7 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = 'Hex'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '0x[\da-f]*'
+      Expression = '0x[\da-f]+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -223,7 +223,7 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = 'Float'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '\d+ (\.\d+)? e [\+\-]? \d+ |'#13#10'\d+ \. \d+'
+      Expression = '\d+ (\.\d+)? e [\+\-]? \d+\b |'#13#10'\d+ \. \d+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -231,7 +231,7 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = 'Integer'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '\d+'
+      Expression = '\d+n?\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -596,16 +596,14 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal23
+      SyntAnalyzer = SyntAnal16
     end>
   SampleText.Strings = (
     '//Comment'
     '/** DocBlock '
     '*/'
     '/* Comment */'
-    
-      '  #! Shebang                                                    ' +
-      '         '
+    '#! Shebang          '
     '<?php echo '#39'test'#39' ?>'
     'var test = NaN + Object + $ + offset;'
     'var s_regex = /^<\/?\w.*?>/gi;'
