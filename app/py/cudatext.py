@@ -1162,5 +1162,7 @@ class Editor:
 #objects
 ed = Editor(0)
 ed_bro = Editor(1)
+ed_1st = Editor(2)
+ed_2nd = Editor(3)
 ed_con_log = Editor(7)
 ed_con_in = Editor(8)

@@ -52,6 +52,10 @@ begin
         Result:= fmMain.CurrentEditor;
       1:
         Result:= GetEditorBrother(fmMain.CurrentEditor);
+      2:
+        Result:= GetEditorFirstSecond(fmMain.CurrentEditor, true);
+      3:
+        Result:= GetEditorFirstSecond(fmMain.CurrentEditor, false);
 
       7:
         Result:= fmConsole.memo;

@@ -1119,11 +1119,24 @@ var
 begin
   F:= GetEditorFrame(Ed);
   if F=nil then exit(nil);
-  if Ed=F.Editor then
-    Result:= F.Editor2
+  if Ed=F.Ed1 then
+    Result:= F.Ed2
   else
-    Result:= F.Editor;
+    Result:= F.Ed1;
 end;
+
+function GetEditorFirstSecond(Ed: TATSynEdit; AFirst: boolean): TATSynEdit;
+var
+  F: TEditorFrame;
+begin
+  F:= GetEditorFrame(Ed);
+  if F=nil then exit(nil);
+  if AFirst then
+    Result:= F.Ed1
+  else
+    Result:= F.Ed2;
+end;
+
 
 function GetEditorActiveInGroup(AIndex: integer): TATSynEdit;
 var

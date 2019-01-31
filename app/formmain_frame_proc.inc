@@ -172,10 +172,11 @@ function TfmMain.CurrentEditor: TATSynEdit;
 var
   F: TEditorFrame;
 begin
-  Result:= nil;
   F:= CurrentFrame;
   if F<>nil then
-    Result:= F.Editor;
+    Result:= F.Editor
+  else
+    Result:= nil;
 end;
 
 procedure TfmMain.SetFrame(Frame: TEditorFrame);
