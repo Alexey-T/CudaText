@@ -1695,7 +1695,9 @@ Note: Toolbars contain several "button_ex" objects, which are anchored one to an
 Editor class has methods to work with editor. Global objects of Editor exist:
 
 * "ed": refers to currently focused editor (in any tab).
-* "ed_bro": refers to "brother" of ed. If tab is splitted, 2 editors are shown: 1st/2nd. 1st and 2nd are "brother" editors.
+* "ed_bro": refers to brother of "ed". When file tab is splitted, two editors are visible: 1st/2nd, they are brother editors.
+* "ed_1st": refers to first editor in the brother pair (always visible).
+* "ed_2nd": refers to second editor in the brother pair (visible only when file tab is splitted).
 * "ed_con_log": refers to log field (multi-line) in the "Console" panel.
 * "ed_con_in": refers to input field (single line) in the "Console" panel.
 
@@ -3237,5 +3239,8 @@ def project_variables():
 
 1.0.271 (app 1.73.1)
 * add: Editor.bookmark: added actions BOOKMARK2_*
+
+1.0.272 (app 1.73.2)
+* add: Editor objects "ed_1st", "ed_2nd"
 
 [[Category:CudaText]]
