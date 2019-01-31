@@ -488,15 +488,15 @@ end;
 procedure TfmMain.DoApplyFrameOps(F: TEditorFrame;
   const Op: TEditorOps; AForceApply: boolean);
 begin
-  EditorApplyOps(F.Editor, Op, AForceApply, not F.TabSizeChanged, Groups.Mode=gmOne);
-  EditorApplyOps(F.Editor2, Op, AForceApply, not F.TabSizeChanged, Groups.Mode=gmOne);
+  EditorApplyOps(F.Ed1, Op, AForceApply, not F.TabSizeChanged, Groups.Mode=gmOne);
+  EditorApplyOps(F.Ed2, Op, AForceApply, not F.TabSizeChanged, Groups.Mode=gmOne);
 
   F.Adapter.DynamicHiliteEnabled:= Op.OpLexerDynamicHiliteEnabled;
   F.Adapter.DynamicHiliteMaxLines:= Op.OpLexerDynamicHiliteMaxLines;
 
-  F.Editor.Update;
+  F.Ed1.Update;
   if F.Splitted then
-    F.Editor2.Update;
+    F.Ed2.Update;
 
   UpdateStatus;
 end;
@@ -1084,8 +1084,8 @@ begin
   begin
     F:= Frames[i];
     if not F.Visible then Continue;
-    F.Editor.Invalidate;
-    F.Editor2.Invalidate;
+    F.Ed1.Invalidate;
+    F.Ed2.Invalidate;
     F.Splitter.Invalidate;
   end;
 

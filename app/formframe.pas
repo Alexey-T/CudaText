@@ -230,7 +230,7 @@ type
     constructor Create(AOwner: TComponent; AApplyCentering: boolean); reintroduce;
     destructor Destroy; override;
     function Editor: TATSynEdit;
-    function Editor2: TATSynEdit;
+    function EditorBro: TATSynEdit;
     procedure EditorOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoShow;
     property ReadOnly: boolean read GetReadOnly write SetReadOnly;
@@ -1434,7 +1434,7 @@ begin
     Result:= Ed1;
 end;
 
-function TEditorFrame.Editor2: TATSynEdit;
+function TEditorFrame.EditorBro: TATSynEdit;
 begin
   if not FActiveSecondaryEd then
     Result:= Ed2
@@ -1455,8 +1455,8 @@ end;
 
 procedure TEditorFrame.ApplyTheme;
 begin
-  EditorApplyTheme(Editor);
-  EditorApplyTheme(Editor2);
+  EditorApplyTheme(Ed1);
+  EditorApplyTheme(Ed2);
   Ed1.Update;
   Ed2.Update;
 
@@ -2468,9 +2468,9 @@ begin
   FCodetreeFilter:= c.GetValue(path+cHistory_CodeTreeFilter, '');
   c.GetValue(path+cHistory_CodeTreeFilters, FCodetreeFilterHistory, '');
 
-  Editor.Update;
+  Ed1.Update;
   if Splitted then
-    Editor2.Update;
+    Ed2.Update;
 end;
 
 procedure TEditorFrame.DoLoadUndo;
@@ -2717,7 +2717,7 @@ var
 begin
   if Splitted then
   begin
-    Ed:= Editor2;
+    Ed:= EditorBro;
     if Ed.Enabled and Ed.Visible then
     begin
       FActiveSecondaryEd:= Ed=Ed2;
