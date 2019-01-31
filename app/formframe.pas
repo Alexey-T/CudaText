@@ -130,6 +130,7 @@ type
     FWasVisible: boolean;
     FInitialLexer: TecSyntAnalyzer;
     FSaveHistory: boolean;
+    FEditorsLinked: boolean;
 
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BinaryOnScroll(Sender: TObject);
@@ -207,6 +208,7 @@ type
     procedure SetTabCaption(const AValue: string);
     procedure SetLineEnds(Value: TATLineEnds);
     procedure SetUnprintedSpaces(AValue: boolean);
+    procedure SetEditorsLinked(AValue: boolean);
     procedure UpdateEds(AUpdateWrapInfo: boolean=false);
     function GetLexer: TecSyntAnalyzer;
     function GetLexerLite: TATLiteLexer;
@@ -284,6 +286,7 @@ type
     property Splitted: boolean read FSplitted write SetSplitted;
     property SplitHorz: boolean read FSplitHorz write SetSplitHorz;
     property SplitPos: double read FSplitPos write SetSplitPos;
+    property EditorsLinked: boolean read FEditorsLinked write SetEditorsLinked;
     property EnabledFolding: boolean read GetEnabledFolding write SetEnabledFolding;
     property SaveDialog: TSaveDialog read FSaveDialog write FSaveDialog;
     //file
@@ -968,10 +971,13 @@ begin
   if AValue then
   begin
     SplitPos:= SplitPos;
-    Ed2.Strings:= Ed1.Strings;
+    //enable linking
+    if FEditorsLinked then
+      Ed2.Strings:= Ed1.Strings;
   end
   else
   begin
+    //disable linking
     Ed2.Strings:= nil;
   end;
 
@@ -1343,6 +1349,7 @@ begin
   FNotInRecents:= false;
   FEnabledCodeTree:= true;
   FSaveHistory:= true;
+  FEditorsLinked:= true;
   FCodetreeFilterHistory:= TStringList.Create;
   CachedTreeview:= TTreeView.Create(Self);
 
@@ -1925,6 +1932,17 @@ procedure TEditorFrame.SetUnprintedSpaces(AValue: boolean);
 begin
   Ed1.OptUnprintedSpaces:= AValue;
   UpdateEds;
+end;
+
+procedure TEditorFrame.SetEditorsLinked(AValue: boolean);
+begin
+  if FEditorsLinked=AValue then exit;
+  FEditorsLinked:= AValue;
+  if FEditorsLinked then
+    Ed2.Strings:= Ed1.Strings
+  else
+    Ed2.Strings:= nil;
+  Ed2.Update(true);
 end;
 
 procedure TEditorFrame.SetUnprintedEnds(AValue: boolean);
