@@ -2568,6 +2568,7 @@ begin
 
         PROP_KIND:
           begin
+            if not Assigned(F) then exit(ReturnNone);
             if F.IsBinary then
               Str:= 'bin'
             else
@@ -2789,6 +2790,7 @@ begin
 
         PROP_V_MODE:
           begin
+            if not Assigned(F) then exit(ReturnNone);
             if F.IsBinary then
               Result:= PyInt_FromLong(Ord(F.Binary.Mode))
             else
@@ -2797,6 +2799,7 @@ begin
 
         PROP_V_POS:
           begin
+            if not Assigned(F) then exit(ReturnNone);
             if F.IsBinary then
               Result:= PyLong_FromLongLong(F.Binary.PosOffset)
             else
@@ -2805,6 +2808,7 @@ begin
 
         PROP_V_SEL_START:
           begin
+            if not Assigned(F) then exit(ReturnNone);
             if F.IsBinary then
               Result:= PyLong_FromLongLong(F.Binary.SelStart)
             else
@@ -2813,6 +2817,7 @@ begin
 
         PROP_V_SEL_LEN:
           begin
+            if not Assigned(F) then exit(ReturnNone);
             if F.IsBinary then
               Result:= PyLong_FromLongLong(F.Binary.SelLength)
             else
@@ -2821,6 +2826,7 @@ begin
 
         PROP_V_WIDTH:
           begin
+            if not Assigned(F) then exit(ReturnNone);
             if F.IsBinary then
               Result:= PyLong_FromLong(F.Binary.TextWidth)
             else
@@ -3092,12 +3098,14 @@ begin
 
         PROP_CODETREE:
           begin
-            F.EnabledCodeTree:= ValueBool;
+            if Assigned(F) then
+              F.EnabledCodeTree:= ValueBool;
           end;
 
         PROP_EDITORS_LINKED:
           begin
-            F.EditorsLinked:= ValueBool;
+            if Assigned(F) then
+              F.EditorsLinked:= ValueBool;
           end;
 
         PROP_ONE_LINE:
@@ -3154,6 +3162,7 @@ begin
 
         PROP_V_MODE:
           begin
+            if not Assigned(F) then exit(ReturnNone);
             if F.IsBinary then
               if (ValueInt>=0) and (ValueInt<=Ord(High(TATBinHexMode))) then
                 F.Binary.Mode:= TATBinHexMode(ValueInt);
@@ -3161,12 +3170,14 @@ begin
 
         PROP_V_POS:
           begin
+            if not Assigned(F) then exit(ReturnNone);
             if F.IsBinary then
               F.Binary.PosOffset:= ValueInt;
           end;
 
         PROP_V_SEL_START:
           begin
+            if not Assigned(F) then exit(ReturnNone);
             if F.IsBinary then
               F.Binary.SetSelection(
                 ValueInt,
@@ -3176,6 +3187,7 @@ begin
 
         PROP_V_SEL_LEN:
           begin
+            if not Assigned(F) then exit(ReturnNone);
             if F.IsBinary then
               F.Binary.SetSelection(
                 F.Binary.SelStart,
@@ -3185,6 +3197,7 @@ begin
 
         PROP_V_WIDTH:
           begin
+            if not Assigned(F) then exit(ReturnNone);
             if F.IsBinary then
             begin
               F.Binary.TextWidth:= ValueInt;
