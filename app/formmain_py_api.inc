@@ -45,37 +45,33 @@ var
   nTab: Integer;
 begin
   Result:= nil;
-  if Assigned(fmMain) then
-  begin
-    case Handle of
-      0:
-        Result:= fmMain.CurrentEditor;
-      1:
-        Result:= GetEditorBrother(fmMain.CurrentEditor);
-      2:
-        Result:= GetEditorFirstSecond(fmMain.CurrentEditor, true);
-      3:
-        Result:= GetEditorFirstSecond(fmMain.CurrentEditor, false);
+  if not Assigned(fmMain) then exit;
 
-      7:
-        Result:= fmConsole.memo;
+  if (Handle<0) or (Handle>cPyEditorHandleMax) then
+    exit(TATSynEdit(PtrInt(Handle))); //Access Violation for incorrect handle
 
-      8:
-        Result:= fmConsole.ed;
+  case Handle of
+    0: //"ed"
+      Result:= fmMain.CurrentEditor;
+    1: //"ed_bro"
+      Result:= GetEditorBrother(fmMain.CurrentEditor);
 
-      cPyEditorHandleMin..
-      cPyEditorHandleMax:
-        begin
-          nTab:= Handle-cPyEditorHandleMin;
-          if (nTab>=0) and (nTab<fmMain.FrameCount) then
-            Result:= fmMain.Frames[nTab].Editor
-          else
-            Result:= nil;
-        end;
+    2: //"ed_1st"
+      Result:= GetEditorFirstSecond(fmMain.CurrentEditor, true);
+    3: //"ed_2nd"
+      Result:= GetEditorFirstSecond(fmMain.CurrentEditor, false);
 
-      else
-        Result:= TATSynEdit(PtrInt(Handle));
-    end;
+    7: //"ed_con_log"
+      Result:= fmConsole.memo;
+    8: //"ed_con_in"
+      Result:= fmConsole.ed;
+
+    cPyEditorHandleMin..cPyEditorHandleMax:
+      begin
+        nTab:= Handle-cPyEditorHandleMin;
+        if (nTab>=0) and (nTab<fmMain.FrameCount) then
+          Result:= fmMain.Frames[nTab].Ed1;
+      end;
   end;
 end;
 
