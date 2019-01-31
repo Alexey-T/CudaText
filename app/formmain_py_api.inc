@@ -1314,6 +1314,30 @@ begin
       );
 end;
 
+function Py_ed_bookmark_getall(ABookmarks: TATBookmarks): PPyObject;
+var
+  NCount, i: integer;
+  BmItem: TATBookmarkItem;
+begin
+  with GetPythonEngine do
+  begin
+    NCount:= ABookmarks.Count;
+    if NCount>0 then
+    begin
+      Result:= PyList_New(NCount);
+      if not Assigned(Result) then
+        raise EPythonError.Create(msgPythonListError);
+      for i:= 0 to NCount-1 do
+      begin
+        BmItem:= ABookmarks[i];
+        PyList_SetItem(Result, i, Py_ed_bookmark_getitem(BmItem));
+      end;
+    end
+    else
+      Result:= ReturnNone;
+  end;
+end;
+
 function Py_ed_bookmark(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
@@ -1352,10 +1376,30 @@ begin
             else
               Result:= ReturnNone;
           end;
+        BOOKMARK2_GET_PROP:
+          begin
+            i:= Ed.Strings.Bookmarks2.Find(NLine);
+            if i>=0 then
+            begin
+              BmItem:= Ed.Strings.Bookmarks2[i];
+              Result:= Py_ed_bookmark_getitem(BmItem);
+            end
+            else
+              Result:= ReturnNone;
+          end;
 
         BOOKMARK_SET:
           begin
             ed.BookmarkSetForLine(NLine, NKind, StrText,
+                Bool(NDeleteIfDelLine),
+                Bool(NShowInList),
+                NTag
+                );
+            Result:= ReturnNone;
+          end;
+        BOOKMARK2_SET:
+          begin
+            ed.BookmarkSetForLine_2(NLine, NKind, StrText,
                 Bool(NDeleteIfDelLine),
                 Bool(NShowInList),
                 NTag
@@ -1368,10 +1412,20 @@ begin
             ed.BookmarkDeleteForLine(NLine);
             Result:= ReturnNone;
           end;
+        BOOKMARK2_CLEAR:
+          begin
+            ed.BookmarkDeleteForLine_2(NLine);
+            Result:= ReturnNone;
+          end;
 
         BOOKMARK_CLEAR_ALL:
           begin
             ed.BookmarkDeleteAll;
+            Result:= ReturnNone;
+          end;
+        BOOKMARK2_CLEAR_ALL:
+          begin
+            ed.BookmarkDeleteAll_2;
             Result:= ReturnNone;
           end;
 
@@ -1402,25 +1456,20 @@ begin
 
         BOOKMARK_GET_ALL:
           begin
-            NCount:= Ed.Strings.Bookmarks.Count;
-            if NCount>0 then
-            begin
-              Result:= PyList_New(NCount);
-              if not Assigned(Result) then
-                raise EPythonError.Create(msgPythonListError);
-              for i:= 0 to NCount-1 do
-              begin
-                BmItem:= Ed.Strings.Bookmarks[i];
-                PyList_SetItem(Result, i, Py_ed_bookmark_getitem(BmItem));
-              end;
-            end
-            else
-              Result:= ReturnNone;
+            Result:= Py_ed_bookmark_getall(Ed.Strings.Bookmarks);
+          end;
+        BOOKMARK2_GET_ALL:
+          begin
+            Result:= Py_ed_bookmark_getall(Ed.Strings.Bookmarks2);
           end;
 
         BOOKMARK_DELETE_BY_TAG:
           begin
             Result:= PyBool_FromLong(Ord(ed.BookmarkDeleteByTag(NTag)));
+          end;
+        BOOKMARK2_DELETE_BY_TAG:
+          begin
+            Result:= PyBool_FromLong(Ord(ed.BookmarkDeleteByTag_2(NTag)));
           end;
 
         else
