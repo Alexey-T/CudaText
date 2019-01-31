@@ -5,7 +5,6 @@ object EditorFrame: TEditorFrame
   Width = 594
   ClientHeight = 346
   ClientWidth = 594
-  OnResize = FrameResize
   TabOrder = 0
   DesignLeft = 59
   DesignTop = 27
@@ -18,7 +17,6 @@ object EditorFrame: TEditorFrame
     Align = alBottom
     AutoSnap = False
     MinSize = 100
-    OnMoved = SplitterMoved
     ResizeAnchor = akBottom
     ResizeStyle = rsPattern
   end

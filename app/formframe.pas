@@ -77,8 +77,6 @@ type
     MenuItem2: TMenuItem;
     Splitter: TSplitter;
     TimerChange: TTimer;
-    procedure FrameResize(Sender: TObject);
-    procedure SplitterMoved(Sender: TObject);
     procedure TimerChangeTimer(Sender: TObject);
   private
     { private declarations }
@@ -106,9 +104,7 @@ type
     FOnSaveFile: TNotifyEvent;
     FOnAddRecent: TNotifyEvent;
     FOnPyEvent: TEditorFramePyEvent;
-    FSplitted: boolean;
     FSplitHorz: boolean;
-    FSplitPos: double;
     FActiveSecondaryEd: boolean;
     FLocked: boolean;
     FTabColor: TColor;
@@ -178,6 +174,8 @@ type
     function GetNotifTime: integer;
     function GetPictureScale: integer;
     function GetReadOnly: boolean;
+    function GetSplitPos: double;
+    function GetSplitted: boolean;
     function GetTabKeyCollectMarkers: boolean;
     function GetUnprintedEnds: boolean;
     function GetUnprintedEndsDetails: boolean;
@@ -283,9 +281,9 @@ type
     property UnprintedSpaces: boolean read GetUnprintedSpaces write SetUnprintedSpaces;
     property UnprintedEnds: boolean read GetUnprintedEnds write SetUnprintedEnds;
     property UnprintedEndsDetails: boolean read GetUnprintedEndsDetails write SetUnprintedEndsDetails;
-    property Splitted: boolean read FSplitted write SetSplitted;
+    property Splitted: boolean read GetSplitted write SetSplitted;
     property SplitHorz: boolean read FSplitHorz write SetSplitHorz;
-    property SplitPos: double read FSplitPos write SetSplitPos;
+    property SplitPos: double read GetSplitPos write SetSplitPos;
     property EditorsLinked: boolean read FEditorsLinked write SetEditorsLinked;
     property EnabledFolding: boolean read GetEnabledFolding write SetEnabledFolding;
     property SaveDialog: TSaveDialog read FSaveDialog write FSaveDialog;
@@ -435,17 +433,20 @@ begin
   DoPyEvent(Sender as TATSynEdit, cEventOnClick, ['"'+StateString+'"']);
 end;
 
-procedure TEditorFrame.SplitterMoved(Sender: TObject);
+function TEditorFrame.GetSplitPos: double;
 begin
-  if FSplitted then
-    if FSplitHorz then
-      FSplitPos:= Ed2.height/height
-    else
-      FSplitPos:= Ed2.width/width;
+  if not Splitted then
+    Result:= 0
+  else
+  if FSplitHorz then
+    Result:= Ed2.Height/Max(Height, 1)
+  else
+    Result:= Ed2.Width/Max(Width, 1);
 end;
 
-procedure TEditorFrame.FrameResize(Sender: TObject);
+function TEditorFrame.GetSplitted: boolean;
 begin
+  Result:= Ed2.Visible;
 end;
 
 procedure TEditorFrame.EditorOnKeyDown(Sender: TObject; var Key: Word;
@@ -931,14 +932,15 @@ procedure TEditorFrame.SetSplitHorz(AValue: boolean);
 var
   al: TAlign;
 begin
-  if not IsText then exit;
   FSplitHorz:= AValue;
+  if not IsText then exit;
 
-  if FSplitHorz then al:= alBottom else al:= alRight;
+  if FSplitHorz then
+    al:= alBottom
+  else
+    al:= alRight;
   Splitter.Align:= al;
   Ed2.Align:= al;
-
-  SplitPos:= SplitPos;
 end;
 
 procedure TEditorFrame.SetSplitPos(AValue: double);
@@ -946,16 +948,18 @@ const
   cMin = 10;
 begin
   if not IsText then exit;
-  FSplitPos:= AValue;
+  if not Splitted then exit;
+
+  AValue:= Max(0.0, Min(1.0, AValue));
 
   if FSplitHorz then
   begin
-    Ed2.Height:= Max(cMin, trunc(FSplitPos*Height));
+    Ed2.Height:= Max(cMin, trunc(AValue*Height));
     Splitter.Top:= 0;
   end
   else
   begin
-    Ed2.Width:= Max(cMin, trunc(FSplitPos*Width));
+    Ed2.Width:= Max(cMin, trunc(AValue*Width));
     Splitter.Left:= 0;
   end;
 end;
@@ -963,14 +967,14 @@ end;
 procedure TEditorFrame.SetSplitted(AValue: boolean);
 begin
   if not IsText then exit;
+  if GetSplitted=AValue then exit;
 
-  FSplitted:= AValue;
   Ed2.Visible:= AValue;
   Splitter.Visible:= AValue;
 
   if AValue then
   begin
-    SplitPos:= SplitPos;
+    SplitPos:= 0.5;
     //enable linking
     if FEditorsLinked then
       Ed2.Strings:= Ed1.Strings;
@@ -1367,7 +1371,6 @@ begin
   Ed2.EditorIndex:= 1;
 
   FSplitHorz:= true;
-  FSplitPos:= 0.5;
   Splitted:= false;
 
   Adapter:= TATAdapterEControl.Create(Self);
@@ -1578,7 +1581,6 @@ begin
   if Visible and FBin.Visible then
     FBin.SetFocus;
 
-  FrameResize(Self);
   DoOnChangeCaption;
 end;
 
@@ -1606,7 +1608,6 @@ begin
   except
   end;
 
-  FrameResize(Self);
   DoOnChangeCaption;
 end;
 
