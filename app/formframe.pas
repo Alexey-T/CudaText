@@ -969,6 +969,10 @@ begin
   if not IsText then exit;
   if GetSplitted=AValue then exit;
 
+  if not AValue and Ed2.Focused then
+    if Ed1.CanFocus then
+      Ed1.SetFocus;
+
   Ed2.Visible:= AValue;
   Splitter.Visible:= AValue;
 
