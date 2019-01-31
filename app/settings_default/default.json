@@ -922,10 +922,10 @@
   //Commenting: If selected >1 lines, insert comment at maximal common indent
   "comment_equal_column": false,
 
-  //Duplicating line: If no selection then duplicate full line
+  //Command "Duplicate line (advanced)": If no selection, duplicate entire line
   "duplicate_full_line_if_no_sel": true,
 
-  //Duplicating line: If no selection then move caret to next line
+  //Command "Duplicate line (advanced)": After duplicating, move caret down
   "duplicate_move_down": true,
 
   //[Text/Completion]
