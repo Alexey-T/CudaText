@@ -161,7 +161,7 @@ type
     procedure EditorOnEnter(Sender: TObject);
     procedure EditorOnDrawLine(Sender: TObject; C: TCanvas; AX, AY: integer;
       const AStr: atString; ACharSize: TPoint; const AExtent: TATIntArray);
-    procedure EditorOnCalcBookmarkColor(Sender: TObject; ABookmarkKind: integer; out AColor: TColor);
+    procedure EditorOnCalcBookmarkColor(Sender: TObject; ABookmarkKind: integer; var AColor: TColor);
     procedure EditorOnChangeCaretPos(Sender: TObject);
     procedure EditorOnHotspotEnter(Sender: TObject; AHotspotIndex: integer);
     procedure EditorOnHotspotExit(Sender: TObject; AHotspotIndex: integer);
@@ -523,11 +523,9 @@ begin
 end;
 
 procedure TEditorFrame.EditorOnCalcBookmarkColor(Sender: TObject;
-  ABookmarkKind: integer; out AColor: TColor);
+  ABookmarkKind: integer; var AColor: TColor);
 begin
-  if ABookmarkKind<=1 then
-    AColor:= (Sender as TATSynEdit).Colors.BookmarkBG
-  else
+  if ABookmarkKind>1 then
     AColor:= AppBookmarkSetup[ABookmarkKind].Color;
 end;
 
