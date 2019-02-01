@@ -4224,8 +4224,8 @@ var
 begin
   F:= DoFileOpen('', '');
   if F=nil then exit;
-  F.Editor.Strings.LoadFromFile(fn);
-  F.DoLexerFromFilename(fn);
+  F.Ed1.Strings.LoadFromFile(fn);
+  F.DoLexerFromFilename(F.Ed1, fn);
   UpdateFrame(true);
   UpdateStatus;
 end;

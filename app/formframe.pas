@@ -314,7 +314,7 @@ type
     function DoFileSave(ASaveAs: boolean): boolean;
     procedure DoFileReload_DisableDetectEncoding;
     procedure DoFileReload;
-    procedure DoLexerFromFilename(const AFileName: string);
+    procedure DoLexerFromFilename(Ed: TATSynEdit; const AFileName: string);
     procedure DoSaveHistory(Ed: TATSynEdit; const AFileName: string);
     procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: string);
     procedure DoSaveUndo(Ed: TATSynEdit; const AFileName: string);
@@ -1804,7 +1804,7 @@ begin
   //turn off opts for huge files
   FileWasBig:= Ed.Strings.Count>EditorOps.OpWrapEnabledMaxLines;
 
-  DoLexerFromFilename(AFileName);
+  DoLexerFromFilename(Ed, AFileName);
   if AAllowLoadHistory then
   begin
     DoLoadUndo(Ed, AFileName);
@@ -1902,7 +1902,7 @@ begin
     else
       FFileName2:= AFileName;
 
-    DoLexerFromFilename(AFileName);
+    DoLexerFromFilename(Ed, AFileName);
 
     //add to recents saved-as file:
     if Assigned(FOnAddRecent) then
@@ -2756,7 +2756,7 @@ begin
   Ed.Update;
 end;
 
-procedure TEditorFrame.DoLexerFromFilename(const AFileName: string);
+procedure TEditorFrame.DoLexerFromFilename(Ed: TATSynEdit; const AFileName: string);
 var
   TempLexer: TecSyntAnalyzer;
   TempLexerLite: TATLiteLexer;
@@ -2765,10 +2765,10 @@ begin
   if AFileName='' then exit;
   DoLexerDetect(AFileName, TempLexer, TempLexerLite, SName);
   if Assigned(TempLexer) then
-    Lexer:= TempLexer
+    SetLexer_Ex(Ed, TempLexer)
   else
   if Assigned(TempLexerLite) then
-    LexerLite:= TempLexerLite;
+    SetLexerLite_Ex(Ed, TempLexerLite);
 end;
 
 procedure TEditorFrame.SetFocus;

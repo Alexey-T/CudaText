@@ -443,7 +443,7 @@ begin
       if StrName<>'' then
       begin
         Frame.FileName:= StrName;
-        Frame.DoLexerFromFilename(Frame.FileName);
+        Frame.DoLexerFromFilename(Ed, Frame.FileName);
       end;
 
       Ok:= false;
