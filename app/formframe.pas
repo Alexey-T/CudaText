@@ -192,6 +192,7 @@ type
     procedure SetFileName(const AValue: string);
     procedure SetFileName2(AValue: string);
     procedure SetFileWasBig(AValue: boolean);
+    procedure SetLexer_Ex(Ed: TATSynEdit; an: TecSyntAnalyzer);
     procedure SetLocked(AValue: boolean);
     procedure SetModified(AValue: boolean);
     procedure SetNotifEnabled(AValue: boolean);
@@ -225,6 +226,7 @@ type
     Ed1: TATSynEdit;
     Ed2: TATSynEdit;
     Adapter: TATAdapterEControl;
+    Adapter2: TATAdapterEControl;
     Groups: TATGroups;
     CachedTreeview: TTreeView;
 
@@ -1461,39 +1463,71 @@ end;
 
 
 procedure TEditorFrame.SetLexer(an: TecSyntAnalyzer);
+begin
+  SetLexer_Ex(Ed1, an);
+end;
+
+procedure TEditorFrame.SetLexer_Ex(Ed: TATSynEdit; an: TecSyntAnalyzer);
 var
   an2: TecSyntAnalyzer;
 begin
-  if IsFileTooBigForLexer(FileName) then
+  if Ed=Ed1 then
   begin
-    Adapter.Lexer:= nil;
-    exit
+    if IsFileTooBigForLexer(FFileName) then
+    begin
+      Adapter.Lexer:= nil;
+      exit;
+    end;
+  end
+  else
+  begin
+    if IsFileTooBigForLexer(FFileName2) then
+    begin
+      if Assigned(Adapter2) then
+        Adapter2.Lexer:= nil;
+      exit;
+    end;
   end;
 
   if AllowFrameParsing then
   begin
     if Assigned(an) then
     begin
-      Ed1.AdapterForHilite:= Adapter;
-      Ed2.AdapterForHilite:= Adapter;
+      if EditorsLinked then
+      begin
+        Ed1.AdapterForHilite:= Adapter;
+        Ed2.AdapterForHilite:= Adapter;
+      end
+      else
+      begin
+        Ed1.AdapterForHilite:= Adapter;
+        if Adapter2=nil then
+          Adapter2:= TATAdapterEControl.Create(Self);
+        Ed2.AdapterForHilite:= Adapter2;
+      end;
+
       if not DoApplyLexerStylesMap(an, an2) then
         DoDialogLexerStylesMap(an2);
     end
     else
     begin
-      Ed1.Fold.Clear;
-      Ed2.Fold.Clear;
-      Ed1.Update;
-      Ed2.Update;
+      Ed.Fold.Clear;
+      Ed.Update;
+      if (Ed=Ed1) and EditorsLinked then
+      begin
+        Ed2.Fold.Clear;
+        Ed2.Update;
+      end;
     end;
 
-    Adapter.Lexer:= an;
+    if Ed.AdapterForHilite is TATAdapterEControl then
+      TATAdapterEControl(Ed.AdapterForHilite).Lexer:= an;
   end
   else
   begin
     FInitialLexer:= an;
     //support on_lexer
-    DoPyEvent(Ed1, cEventOnLexer, []);
+    DoPyEvent(Ed, cEventOnLexer, []);
   end;
 end;
 
@@ -1938,10 +1972,30 @@ procedure TEditorFrame.SetEditorsLinked(AValue: boolean);
 begin
   if FEditorsLinked=AValue then exit;
   FEditorsLinked:= AValue;
+
   if FEditorsLinked then
     Ed2.Strings:= Ed1.Strings
   else
     Ed2.Strings:= nil;
+
+  Adapter.AddEditor(nil);
+  if Assigned(Adapter2) then
+    Adapter2.AddEditor(nil);
+
+  if FEditorsLinked then
+  begin
+    Adapter.AddEditor(Ed1);
+    Adapter.AddEditor(Ed2);
+  end
+  else
+  begin
+    if Adapter2=nil then
+      Adapter2:= TATAdapterEControl.Create(Self);
+    Adapter.AddEditor(Ed1);
+    Adapter2.AddEditor(Ed2);
+  end;
+
+  Ed2.Fold.Clear;
   Ed2.Update(true);
 end;
 
