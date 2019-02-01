@@ -172,6 +172,7 @@ type
     procedure EditorOnScroll(Sender: TObject);
     function GetCommentString: string;
     function GetEnabledFolding: boolean;
+    function GetLexerName_Ex(Ed: TATSynEdit): string;
     function GetLineEnds: TATLineEnds;
     function GetNotifEnabled: boolean;
     function GetNotifTime: integer;
@@ -192,6 +193,7 @@ type
     procedure SetFileName(const AValue: string);
     procedure SetFileName2(AValue: string);
     procedure SetFileWasBig(AValue: boolean);
+    procedure SetLexerName_Ex(Ed: TATSynEdit; const AValue: string);
     procedure SetLexer_Ex(Ed: TATSynEdit; an: TecSyntAnalyzer);
     procedure SetLocked(AValue: boolean);
     procedure SetModified(AValue: boolean);
@@ -213,11 +215,15 @@ type
     procedure SetEditorsLinked(AValue: boolean);
     procedure UpdateEds(AUpdateWrapInfo: boolean=false);
     function GetLexer: TecSyntAnalyzer;
+    function GetLexer2: TecSyntAnalyzer;
     function GetLexerLite: TATLiteLexer;
     procedure SetLexer(an: TecSyntAnalyzer);
+    procedure SetLexer2(an: TecSyntAnalyzer);
     procedure SetLexerLite(an: TATLiteLexer);
     function GetLexerName: string;
+    function GetLexerName2: string;
     procedure SetLexerName(const AValue: string);
+    procedure SetLexerName2(const AValue: string);
     procedure UpdateTabCaptionFromFilename;
   protected
     procedure DoOnResize; override;
@@ -252,8 +258,10 @@ type
     property NotifEnabled: boolean read GetNotifEnabled write SetNotifEnabled;
     property NotifTime: integer read GetNotifTime write SetNotifTime;
     property Lexer: TecSyntAnalyzer read GetLexer write SetLexer;
+    property Lexer2: TecSyntAnalyzer read GetLexer2 write SetLexer2;
     property LexerLite: TATLiteLexer read GetLexerLite write SetLexerLite;
     property LexerName: string read GetLexerName write SetLexerName;
+    property LexerName2: string read GetLexerName2 write SetLexerName2;
     function LexerNameAtPos(APos: TPoint): string;
     property Locked: boolean read FLocked write SetLocked;
     property CommentString: string read GetCommentString;
@@ -825,7 +833,18 @@ begin
     Result:= FInitialLexer
   else
   if Ed1.AdapterForHilite is TATAdapterEControl then
-    Result:= Adapter.Lexer
+    Result:= TATAdapterEControl(Ed1.AdapterForHilite).Lexer
+  else
+    Result:= nil;
+end;
+
+function TEditorFrame.GetLexer2: TecSyntAnalyzer;
+begin
+  if Assigned(FInitialLexer) then
+    Result:= FInitialLexer
+  else
+  if Ed2.AdapterForHilite is TATAdapterEControl then
+    Result:= TATAdapterEControl(Ed2.AdapterForHilite).Lexer
   else
     Result:= nil;
 end;
@@ -839,6 +858,16 @@ begin
 end;
 
 function TEditorFrame.GetLexerName: string;
+begin
+  Result:= GetLexerName_Ex(Ed1);
+end;
+
+function TEditorFrame.GetLexerName2: string;
+begin
+  Result:= GetLexerName_Ex(Ed2);
+end;
+
+function TEditorFrame.GetLexerName_Ex(Ed: TATSynEdit): string;
 var
   CurAdapter: TATAdapterHilite;
   an: TecSyntAnalyzer;
@@ -848,24 +877,34 @@ begin
   if Assigned(FInitialLexer) then
     exit(FInitialLexer.LexerName);
 
-  CurAdapter:= Ed1.AdapterForHilite;
+  CurAdapter:= Ed.AdapterForHilite;
   if CurAdapter=nil then exit;
 
   if CurAdapter is TATAdapterEControl then
   begin
-    if Adapter=nil then exit;
-    an:= Adapter.Lexer;
+    an:= TATAdapterEControl(CurAdapter).Lexer;
     if Assigned(an) then
       Result:= an.LexerName;
   end
   else
   if CurAdapter is TATLiteLexer then
   begin
-    Result:= (CurAdapter as TATLiteLexer).LexerName+msgLiteLexerSuffix;
+    Result:= TATLiteLexer(CurAdapter).LexerName+msgLiteLexerSuffix;
   end;
 end;
 
+
 procedure TEditorFrame.SetLexerName(const AValue: string);
+begin
+  SetLexerName_Ex(Ed1, AValue);
+end;
+
+procedure TEditorFrame.SetLexerName2(const AValue: string);
+begin
+  SetLexerName_Ex(Ed2, AValue);
+end;
+
+procedure TEditorFrame.SetLexerName_Ex(Ed: TATSynEdit; const AValue: string);
 var
   SName: string;
   anLite: TATLiteLexer;
@@ -877,11 +916,11 @@ begin
     if Assigned(anLite) then
       LexerLite:= anLite
     else
-      Lexer:= nil;
+      SetLexer_Ex(Ed, nil);
   end
   else
   begin
-    Lexer:= AppManager.FindLexerByName(AValue);
+    SetLexer_Ex(Ed, AppManager.FindLexerByName(AValue));
   end;
 end;
 
@@ -1465,6 +1504,11 @@ end;
 procedure TEditorFrame.SetLexer(an: TecSyntAnalyzer);
 begin
   SetLexer_Ex(Ed1, an);
+end;
+
+procedure TEditorFrame.SetLexer2(an: TecSyntAnalyzer);
+begin
+  SetLexer_Ex(Ed2, an);
 end;
 
 procedure TEditorFrame.SetLexer_Ex(Ed: TATSynEdit; an: TecSyntAnalyzer);
