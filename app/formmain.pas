@@ -2410,7 +2410,7 @@ begin
   for i:= 0 to FrameCount-1 do
     with Frames[i] do
     begin
-      SetLexer(Ed1, GetLexer(Ed1));
+      Lexer[Ed1]:= Lexer[Ed1];
       if AndApplyTheme then
         ApplyTheme;
     end;
@@ -2423,7 +2423,7 @@ begin
   F:= CurrentFrame;
   if F=nil then exit;
 
-  if DoDialogLexerStylesMap(F.GetLexer(F.Editor)) then
+  if DoDialogLexerStylesMap(F.Lexer[F.Editor]) then
     DoApplyLexerStyleMaps(false);
 end;
 
@@ -3534,9 +3534,9 @@ begin
   begin
     F:= Frames[i];
     ListNames.Add(F.GetLexerName(F.Ed1));
-    F.SetLexer(F.Ed1, nil);
+    F.Lexer[F.Ed1]:= nil;
     if not F.EditorsLinked then
-      F.SetLexer(F.Ed2, nil);
+      F.Lexer[F.Ed2]:= nil;
   end;
 end;
 
@@ -4424,13 +4424,13 @@ begin
   if (AIndex>=0) and (AIndex<CountUsual+CountLite) then
   begin
     if AIndex<CountUsual then
-      F.SetLexer(Ed, AppManager.Lexers[AIndex])
+      F.Lexer[Ed]:= AppManager.Lexers[AIndex]
     else
       F.SetLexerLite(Ed, AppManagerLite.Lexers[AIndex-CountUsual]);
   end
   else
   begin
-    F.SetLexer(Ed, nil);
+    F.Lexer[Ed]:= nil;
     F.SetLexerLite(Ed, nil);
   end;
 
@@ -4455,7 +4455,7 @@ begin
   CompletionOps.CommitChars:= UiOps.AutocompleteCommitChars; //before DoPyEvent
   if DoPyEvent(Ed, cEventOnComplete, [])=cPyTrue then exit;
 
-  if F.GetLexer(Ed)=nil then exit;
+  if F.Lexer[Ed]=nil then exit;
 
   Caret:= Ed.Carets[0];
   LexName:= F.LexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
@@ -5503,11 +5503,11 @@ begin
     F:= Frames[i];
 
     if F.GetLexerName(F.Ed1)=ALexerName then
-      F.SetLexer(F.Ed1, nil);
+      F.Lexer[F.Ed1]:= nil;
 
     if not F.EditorsLinked then
       if F.GetLexerName(F.Ed2)=ALexerName then
-        F.SetLexer(F.Ed2, nil);
+        F.Lexer[F.Ed2]:= nil;
   end;
 end;
 

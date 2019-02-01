@@ -211,6 +211,8 @@ type
     procedure SetEditorsLinked(AValue: boolean);
     procedure UpdateEds(AUpdateWrapInfo: boolean=false);
     procedure UpdateTabCaptionFromFilename;
+    function GetLexer(Ed: TATSynEdit): TecSyntAnalyzer;
+    procedure SetLexer(Ed: TATSynEdit; an: TecSyntAnalyzer);
   protected
     procedure DoOnResize; override;
   public
@@ -247,11 +249,10 @@ type
     function GetFileName(Ed: TATSynEdit): string;
     procedure SetFileName(Ed: TATSynEdit; const AFileName: string);
 
+    property Lexer[Ed: TATSynEdit]: TecSyntAnalyzer read GetLexer write SetLexer;
     function LexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
-    function GetLexer(Ed: TATSynEdit): TecSyntAnalyzer;
     function GetLexerLite(Ed: TATSynEdit): TATLiteLexer;
     function GetLexerName(Ed: TATSynEdit): string;
-    procedure SetLexer(Ed: TATSynEdit; an: TecSyntAnalyzer);
     procedure SetLexerLite(Ed: TATSynEdit; an: TATLiteLexer);
     procedure SetLexerName(Ed: TATSynEdit; const AValue: string);
 
@@ -539,7 +540,7 @@ begin
 
     if Assigned(FInitialLexer) then
     begin
-      SetLexer(Ed1, FInitialLexer);
+      Lexer[Ed1]:= FInitialLexer;
       FInitialLexer:= nil;
     end;
   end;
@@ -878,11 +879,11 @@ begin
     if Assigned(anLite) then
       SetLexerLite(Ed, anLite)
     else
-      SetLexer(Ed, nil);
+      Lexer[Ed]:= nil;
   end
   else
   begin
-    SetLexer(Ed, AppManager.FindLexerByName(AValue));
+    Lexer[Ed]:= AppManager.FindLexerByName(AValue);
   end;
 end;
 
@@ -1525,7 +1526,7 @@ end;
 
 procedure TEditorFrame.SetLexerLite(Ed: TATSynEdit; an: TATLiteLexer);
 begin
-  SetLexer(Ed, nil);
+  Lexer[Ed]:= nil;
 
   Ed.AdapterForHilite:= an;
   Ed.Update;
@@ -1647,9 +1648,9 @@ begin
   if (AFileName2<>'') then
     if not FileExistsUTF8(AFileName2) then exit;
 
-  SetLexer(Ed1, nil);
+  Lexer[Ed1]:= nil;
   if not EditorsLinked then
-    SetLexer(Ed2, nil);
+    Lexer[Ed2]:= nil;
 
   case AOpenMode of
     cOpenModeViewText:
@@ -2694,7 +2695,7 @@ begin
   if AFileName='' then exit;
   DoLexerDetect(AFileName, TempLexer, TempLexerLite, SName);
   if Assigned(TempLexer) then
-    SetLexer(Ed, TempLexer)
+    Lexer[Ed]:= TempLexer
   else
   if Assigned(TempLexerLite) then
     SetLexerLite(Ed, TempLexerLite);
@@ -2773,9 +2774,9 @@ end;
 
 procedure TEditorFrame.DoFileClose;
 begin
-  SetLexer(Ed1, nil);
+  Lexer[Ed1]:= nil;
   if not EditorsLinked then
-    SetLexer(Ed2, nil);
+    Lexer[Ed2]:= nil;
 
   FileName:= '';
   FileName2:= '';

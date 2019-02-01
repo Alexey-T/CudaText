@@ -72,7 +72,7 @@ begin
     cmd_DialogLexerProp:
       begin
         F:= CurrentFrame;
-        DoDialogLexerProp(F.GetLexer(F.Editor));
+        DoDialogLexerProp(F.Lexer[F.Editor]);
       end;
     cmd_DialogLexerLib:    DoDialogLexerLib;
     cmd_DialogLexerStyleMap: DoDialogLexerMap;

@@ -5551,7 +5551,7 @@ begin
     begin
       Ed:= PyEditor(H);
       F:= GetEditorFrame(Ed);
-      if Assigned(F) and Assigned(F.GetLexer(Ed)) then
+      if Assigned(F) and Assigned(F.Lexer[Ed]) then
         if Ed.Strings.IsIndexValid(Num) then
            TATAdapterEControl(Ed.AdapterForHilite).DoAnalyzeFromLine(Num, true);
       Result:= ReturnNone;
