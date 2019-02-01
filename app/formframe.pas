@@ -139,7 +139,8 @@ type
     procedure DoFileOpen_AsPicture(const AFileName: string);
     procedure DoFileOpen_Ex(Ed: TATSynEdit; var InternalFileName: string;
       const AFileName: string; AAllowLoadHistory, AAllowErrorMsgBox: boolean;
-  AOpenMode: TAppOpenMode);
+      AOpenMode: TAppOpenMode);
+    function DoFileSave_Ex(Ed: TATSynEdit; AFileName: string; ASaveAs: boolean): boolean;
     procedure DoImageboxScroll(Sender: TObject);
     procedure DoOnChangeCaption;
     procedure DoOnChangeCaretPos;
@@ -296,7 +297,7 @@ type
     function DoFileSave(ASaveAs: boolean): boolean;
     procedure DoFileReload_DisableDetectEncoding;
     procedure DoFileReload;
-    procedure DoLexerFromFilename(const AFilename: string);
+    procedure DoLexerFromFilename(const AFileName: string);
     procedure DoSaveHistory(Ed: TATSynEdit; const AFileName: string);
     procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: string);
     procedure DoSaveUndo(Ed: TATSynEdit; const AFileName: string);
@@ -1664,6 +1665,14 @@ begin
 end;
 
 function TEditorFrame.DoFileSave(ASaveAs: boolean): boolean;
+begin
+  Result:= DoFileSave_Ex(Ed1, FileName, ASaveAs);
+  if Result then
+    if not EditorsLinked then
+      Result:= DoFileSave_Ex(Ed2, FileName2, ASaveAs);
+end;
+
+function TEditorFrame.DoFileSave_Ex(Ed: TATSynEdit; AFileName: string; ASaveAs: boolean): boolean;
 var
   an: TecSyntAnalyzer;
   attr: integer;
@@ -1673,9 +1682,9 @@ var
 begin
   Result:= false;
   if not IsText then exit(true); //disable saving, but close
-  if DoPyEvent(Editor, cEventOnSaveBefore, [])=cPyFalse then exit(true); //disable saving, but close
+  if DoPyEvent(Ed, cEventOnSaveBefore, [])=cPyFalse then exit(true); //disable saving, but close
 
-  if ASaveAs or (FFileName='') then
+  if ASaveAs or (AFileName='') then
   begin
     an:= Lexer;
     if Assigned(an) then
@@ -1689,9 +1698,9 @@ begin
       SaveDialog.Filter:= '';
     end;
 
-    if FFileName='' then
+    if AFileName='' then
     begin
-      NameInitial:= DoPyEvent(Editor, cEventOnSaveNaming, []);
+      NameInitial:= DoPyEvent(Ed, cEventOnSaveNaming, []);
       if (NameInitial='') or (NameInitial=cPyNone) then
         NameInitial:= 'new';
 
@@ -1711,8 +1720,8 @@ begin
     end
     else
     begin
-      SaveDialog.FileName:= ExtractFileName(FFileName);
-      SaveDialog.InitialDir:= ExtractFileDir(FFileName);
+      SaveDialog.FileName:= ExtractFileName(AFileName);
+      SaveDialog.InitialDir:= ExtractFileDir(AFileName);
     end;
 
     if not SaveDialog.Execute then
@@ -1727,8 +1736,13 @@ begin
       exit;
     end;
 
-    FFileName:= SaveDialog.FileName;
-    DoLexerFromFilename(FFileName);
+    AFileName:= SaveDialog.FileName;
+    if Ed=Ed1 then
+      FFileName:= AFileName
+    else
+      FFileName2:= AFileName;
+
+    DoLexerFromFilename(AFileName);
 
     //add to recents saved-as file:
     if Assigned(FOnAddRecent) then
@@ -1740,42 +1754,42 @@ begin
 
   while true do
   try
-    FFileAttrPrepare(FFileName, attr);
-    Editor.BeginUpdate;
+    FFileAttrPrepare(AFileName, attr);
+    Ed.BeginUpdate;
     try
       try
-        Editor.SaveToFile(FFileName);
+        Ed.SaveToFile(AFileName);
       except
         on E: EConvertError do
           begin
-            NameTemp:= Ed1.EncodingName;
-            Ed1.EncodingName:= cEncNameUtf8_NoBom;
-            Editor.SaveToFile(FFileName);
+            NameTemp:= Ed.EncodingName;
+            Ed.EncodingName:= cEncNameUtf8_NoBom;
+            Ed.SaveToFile(AFileName);
             MsgBox(Format(msgCannotSaveFileWithEnc, [NameTemp]), MB_OK or MB_ICONWARNING);
           end
         else
           raise;
       end;
     finally
-      Editor.EndUpdate;
+      Ed.EndUpdate;
     end;
-    FFileAttrRestore(FFileName, attr);
+    FFileAttrRestore(AFileName, attr);
     Break;
   except
-    if MsgBox(msgCannotSaveFile+#10+FFileName,
+    if MsgBox(msgCannotSaveFile+#10+AFileName,
       MB_RETRYCANCEL or MB_ICONERROR) = IDCANCEL then
       Exit(false);
   end;
 
   NotifEnabled:= PrevEnabled;
 
-  Editor.OnChange(Editor); //modified
+  Ed.OnChange(Ed); //modified
   if not TabCaptionFromApi then
-    TabCaption:= ExtractFileName(FFileName);
+    TabCaption:= ExtractFileName(AFileName);
 
-  DoSaveUndo(Editor, FileName);
+  DoSaveUndo(Ed, AFileName);
 
-  DoPyEvent(Editor, cEventOnSaveAfter, []);
+  DoPyEvent(Ed, cEventOnSaveAfter, []);
   if Assigned(FOnSaveFile) then
     FOnSaveFile(Self);
   Result:= true;
@@ -2560,13 +2574,14 @@ begin
   Ed.Update;
 end;
 
-procedure TEditorFrame.DoLexerFromFilename(const AFilename: string);
+procedure TEditorFrame.DoLexerFromFilename(const AFileName: string);
 var
   TempLexer: TecSyntAnalyzer;
   TempLexerLite: TATLiteLexer;
   SName: string;
 begin
-  DoLexerDetect(AFilename, TempLexer, TempLexerLite, SName);
+  if AFileName='' then exit;
+  DoLexerDetect(AFileName, TempLexer, TempLexerLite, SName);
   if Assigned(TempLexer) then
     Lexer:= TempLexer
   else

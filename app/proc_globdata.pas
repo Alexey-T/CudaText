@@ -2001,6 +2001,7 @@ begin
   LexerName:= '';
   Lexer:= nil;
   LexerLite:= nil;
+  if AFilename='' then exit;
 
   if IsFileTooBigForLexer(AFilename) then
   begin
