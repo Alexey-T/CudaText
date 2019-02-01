@@ -840,6 +840,7 @@ type
     procedure MsgLogDebug(const AText: string);
     procedure MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
     procedure MsgStatusAlt(const AText: string; ASeconds: integer);
+    procedure MsgStatusFileOpened(const AFileName1, AFileName2: string);
     procedure PopupListboxOutputCopyClick(Sender: TObject);
     procedure PopupListboxOutputClearClick(Sender: TObject);
     procedure PopupListboxValidateClearClick(Sender: TObject);
@@ -2724,6 +2725,16 @@ begin
   CodeTreeFilterInput.OnChange(nil);
 end;
 
+procedure TfmMain.MsgStatusFileOpened(const AFileName1, AFileName2: string);
+var
+  S: string;
+begin
+  S:= msgStatusOpened+' "'+ExtractFileName(AFileName1)+'"';
+  if AFileName2<>'' then
+    S+= ', "'+ExtractFileName(AFileName2)+'"';
+  MsgStatus(S);
+end;
+
 function TfmMain.DoFileOpen(AFileName, AFileName2: string; APages: TATPages;
   const AOptions: string): TEditorFrame;
 var
@@ -2733,8 +2744,8 @@ var
   bAllowZip, bAllowPics, bDetectedPics,
   bAndActivate, bAllowNear: boolean;
   OpenMode, NonTextMode: TAppOpenMode;
-  tick: QWord;
-  msg: string;
+  //tick: QWord;
+  //msg: string;
   i: integer;
 begin
   Result:= nil;
@@ -2925,8 +2936,7 @@ begin
 
     Result.Adapter.Stop;
     Result.DoFileOpen(AFileName, AFileName2, bEnableHistory, true, OpenMode);
-    msg:= msgStatusOpened+' '+ExtractFileName(AFileName);
-    MsgStatus(msg);
+    MsgStatusFileOpened(AFileName, AFileName2);
 
     DoPyEvent(Result.Editor, cEventOnOpen, []);
     Result.SetFocus;
@@ -2940,16 +2950,15 @@ begin
     if Assigned(F) then
     if F.IsEmpty then
     begin
-      tick:= GetTickCount64;
+      //tick:= GetTickCount64;
       F.DoFileOpen(AFileName, AFileName2, bEnableHistory, true, OpenMode);
       Result:= F;
-      tick:= (GetTickCount64-tick) div 1000;
+      //tick:= (GetTickCount64-tick) div 1000;
 
       UpdateStatus;
-      msg:= msgStatusOpened+' '+ExtractFileName(AFileName);
-      if tick>2 then
-        msg:= msg+' ('+IntToStr(tick)+'s)';
-      MsgStatus(msg);
+      //if tick>2 then
+      //  msg:= msg+' ('+IntToStr(tick)+'s)';
+      MsgStatusFileOpened(AFileName, AFileName2);
 
       DoPyEvent(F.Editor, cEventOnOpen, []);
       if F.IsText and (F.LexerName[F.Ed1]='') then
@@ -2966,16 +2975,15 @@ begin
   end;
   F:= D.TabObject as TEditorFrame;
 
-  tick:= GetTickCount64;
+  //tick:= GetTickCount64;
   F.DoFileOpen(AFileName, AFileName2, bEnableHistory, true, OpenMode);
   Result:= F;
-  tick:= (GetTickCount64-tick) div 1000;
+  //tick:= (GetTickCount64-tick) div 1000;
 
   UpdateStatus;
-  msg:= msgStatusOpened+' '+ExtractFileName(AFileName);
-  if tick>2 then
-    msg:= msg+' ('+IntToStr(tick)+'s)';
-  MsgStatus(msg);
+  //if tick>2 then
+  //  msg:= msg+' ('+IntToStr(tick)+'s)';
+  MsgStatusFileOpened(AFileName, AFileName2);
 
   DoPyEvent(F.Ed1, cEventOnOpen, []);
   if F.IsText and (F.LexerName[F.Ed1]='') then
