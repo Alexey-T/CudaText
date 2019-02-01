@@ -137,6 +137,9 @@ type
     procedure DoDeactivateViewerMode;
     procedure DoFileOpen_AsBinary(const AFileName: string; AMode: TATBinHexMode);
     procedure DoFileOpen_AsPicture(const AFileName: string);
+    procedure DoFileOpen_Ex(Ed: TATSynEdit; var InternalFileName: string;
+      const AFileName: string; AAllowLoadHistory, AAllowErrorMsgBox: boolean;
+  AOpenMode: TAppOpenMode);
     procedure DoImageboxScroll(Sender: TObject);
     procedure DoOnChangeCaption;
     procedure DoOnChangeCaretPos;
@@ -169,7 +172,6 @@ type
     procedure EditorOnScroll(Sender: TObject);
     function GetCommentString: string;
     function GetEnabledFolding: boolean;
-    function GetEncodingName: string;
     function GetLineEnds: TATLineEnds;
     function GetNotifEnabled: boolean;
     function GetNotifTime: integer;
@@ -187,7 +189,6 @@ type
     procedure NotifChanged(Sender: TObject);
     procedure SetEnabledCodeTree(AValue: boolean);
     procedure SetEnabledFolding(AValue: boolean);
-    procedure SetEncodingName(const Str: string);
     procedure SetFileName(const AValue: string);
     procedure SetFileName2(AValue: string);
     procedure SetFileWasBig(AValue: boolean);
@@ -218,7 +219,6 @@ type
     procedure SetLexerName(const AValue: string);
   protected
     procedure DoOnResize; override;
-    procedure VisibleChanged; override;
   public
     { public declarations }
     Ed1: TATSynEdit;
@@ -279,7 +279,6 @@ type
     function BinaryFindNext(ABack: boolean): boolean;
     //
     property LineEnds: TATLineEnds read GetLineEnds write SetLineEnds;
-    property EncodingName: string read GetEncodingName write SetEncodingName;
     property UnprintedShow: boolean read GetUnprintedShow write SetUnprintedShow;
     property UnprintedSpaces: boolean read GetUnprintedSpaces write SetUnprintedSpaces;
     property UnprintedEnds: boolean read GetUnprintedEnds write SetUnprintedEnds;
@@ -292,21 +291,22 @@ type
     property SaveDialog: TSaveDialog read FSaveDialog write FSaveDialog;
     //file
     procedure DoFileClose;
-    procedure DoFileOpen(const fn: string; AAllowLoadHistory,
+    procedure DoFileOpen(const AFileName: string; AAllowLoadHistory,
       AAllowErrorMsgBox: boolean; AOpenMode: TAppOpenMode);
     function DoFileSave(ASaveAs: boolean): boolean;
     procedure DoFileReload_DisableDetectEncoding;
     procedure DoFileReload;
     procedure DoLexerFromFilename(const AFilename: string);
-    procedure DoSaveHistory;
-    procedure DoSaveHistoryEx(c: TJsonConfig; const path: string);
-    procedure DoSaveUndo;
-    procedure DoLoadHistory;
-    procedure DoLoadHistoryEx(c: TJsonConfig; const path: string);
-    procedure DoLoadUndo;
+    procedure DoSaveHistory(Ed: TATSynEdit; const AFileName: string);
+    procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: string);
+    procedure DoSaveUndo(Ed: TATSynEdit; const AFileName: string);
+    procedure DoLoadHistory(Ed: TATSynEdit; const AFileName: string);
+    procedure DoLoadHistoryEx(Ed: TATSynEdit; const AFileName: string;
+      c: TJsonConfig; const path: string);
+    procedure DoLoadUndo(Ed: TATSynEdit; const AFileName: string);
     //misc
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
-    procedure DoGotoPos(APosX, APosY: integer);
+    procedure DoGotoPos(Ed: TATSynEdit; APosX, APosY: integer);
     procedure DoRestoreFolding;
     procedure DoClearPreviewTabState;
     procedure DoToggleFocusSplitEditors;
@@ -645,39 +645,6 @@ begin
   end;
 end;
 
-function TEditorFrame.GetEncodingName: string;
-begin
-  case Editor.Strings.Encoding of
-    cEncAnsi:
-      begin
-        Result:= Editor.Strings.EncodingCodepage;
-        if Result='' then Result:= '?';
-      end;
-    cEncUTF8:
-      begin
-        if Editor.Strings.SaveSignUtf8 then
-          Result:= cEncNameUtf8_WithBom
-        else
-          Result:= cEncNameUtf8_NoBom;
-      end;
-    cEncWideLE:
-      begin
-        if Editor.Strings.SaveSignWide then
-          Result:= cEncNameUtf16LE_WithBom
-        else
-          Result:= cEncNameUtf16LE_NoBom;
-      end;
-    cEncWideBE:
-      begin
-        if Editor.Strings.SaveSignWide then
-          Result:= cEncNameUtf16BE_WithBom
-        else
-          Result:= cEncNameUtf16BE_NoBom;
-      end;
-    else
-      Result:= '?';
-  end;
-end;
 
 function TEditorFrame.GetLineEnds: TATLineEnds;
 begin
@@ -730,26 +697,6 @@ end;
 function TEditorFrame.GetUnprintedSpaces: boolean;
 begin
   Result:= Ed1.OptUnprintedSpaces;
-end;
-
-procedure TEditorFrame.SetEncodingName(const Str: string);
-begin
-  if Str='' then exit;
-  if SameText(Str, GetEncodingName) then exit;
-
-  if SameText(Str, cEncNameUtf8_WithBom) then begin Editor.Strings.Encoding:= cEncUTF8; Editor.Strings.SaveSignUtf8:= true; end else
-   if SameText(Str, cEncNameUtf8_NoBom) then begin Editor.Strings.Encoding:= cEncUTF8; Editor.Strings.SaveSignUtf8:= false; end else
-    if SameText(Str, cEncNameUtf16LE_WithBom) then begin Editor.Strings.Encoding:= cEncWideLE; Editor.Strings.SaveSignWide:= true; end else
-     if SameText(Str, cEncNameUtf16LE_NoBom) then begin Editor.Strings.Encoding:= cEncWideLE; Editor.Strings.SaveSignWide:= false; end else
-      if SameText(Str, cEncNameUtf16BE_WithBom) then begin Editor.Strings.Encoding:= cEncWideBE; Editor.Strings.SaveSignWide:= true; end else
-       if SameText(Str, cEncNameUtf16BE_NoBom) then begin Editor.Strings.Encoding:= cEncWideBE; Editor.Strings.SaveSignWide:= false; end else
-         begin
-           Editor.Strings.Encoding:= cEncAnsi;
-           Editor.Strings.EncodingCodepage:= Str;
-           //support old value 'ANSI' in user history
-           if Str='ANSI' then
-             Editor.Strings.EncodingCodepage:= {$ifdef windows} GetDefaultTextEncoding {$else} 'cp1252' {$endif};
-         end;
 end;
 
 procedure TEditorFrame.SetFileName(const AValue: string);
@@ -1009,7 +956,7 @@ procedure TEditorFrame.EditorOnChange1(Sender: TObject);
 begin
   EditorOnChangeCommon(Sender);
 
-  if Splitted then
+  if Splitted and EditorsLinked then
   begin
     Ed2.UpdateIncorrectCaretPositions;
     Ed2.Update(true);
@@ -1054,7 +1001,7 @@ end;
 procedure TEditorFrame.EditorOnEnter(Sender: TObject);
 begin
   if Assigned(FOnFocusEditor) then
-    FOnFocusEditor(Editor);
+    FOnFocusEditor(Sender);
 
   DoPyEvent(Sender as TATSynEdit, cEventOnFocus, []);
 
@@ -1285,25 +1232,6 @@ begin
   SplitPos:= SplitPos;
 end;
 
-procedure TEditorFrame.VisibleChanged;
-begin
-  inherited;
-
-  {
-  //seems not needed
-  if Visible then
-  begin
-    Ed1.TimersStart;
-    Ed2.TimersStart;
-  end
-  else
-  begin
-    Ed1.TimersStop;
-    Ed2.TimersStop;
-  end;
-  }
-end;
-
 procedure TEditorFrame.InitEditor(var ed: TATSynEdit);
 begin
   ed:= TATSynEdit.Create(Self);
@@ -1414,7 +1342,7 @@ begin
   Ed1.Strings.Modified:= false;
   Ed1.Strings.EncodingDetectDefaultUtf8:= UiOps.DefaultEncUtf8;
 
-  EncodingName:= AppEncodingShortnameToFullname(UiOps.NewdocEnc);
+  Ed1.EncodingName:= AppEncodingShortnameToFullname(UiOps.NewdocEnc);
 
   //passing lite lexer - crashes (can't solve), so disabled
   if not SEndsWith(UiOps.NewdocLexer, msgLiteLexerSuffix) then
@@ -1655,66 +1583,71 @@ begin
   end;
 end;
 
-procedure TEditorFrame.DoFileOpen(const fn: string; AAllowLoadHistory, AAllowErrorMsgBox: boolean;
+procedure TEditorFrame.DoFileOpen(const AFileName: string; AAllowLoadHistory, AAllowErrorMsgBox: boolean;
   AOpenMode: TAppOpenMode);
 begin
-  if not FileExistsUTF8(fn) then Exit;
+  if not FileExistsUTF8(AFileName) then Exit;
   SetLexer(nil);
 
   case AOpenMode of
     cOpenModeViewText:
       begin
-        DoFileOpen_AsBinary(fn, vbmodeText);
+        DoFileOpen_AsBinary(AFileName, vbmodeText);
         exit;
       end;
     cOpenModeViewBinary:
       begin
-        DoFileOpen_AsBinary(fn, vbmodeBinary);
+        DoFileOpen_AsBinary(AFileName, vbmodeBinary);
         exit;
       end;
     cOpenModeViewHex:
       begin
-        DoFileOpen_AsBinary(fn, vbmodeHex);
+        DoFileOpen_AsBinary(AFileName, vbmodeHex);
         exit;
       end;
     cOpenModeViewUnicode:
       begin
-        DoFileOpen_AsBinary(fn, vbmodeUnicode);
+        DoFileOpen_AsBinary(AFileName, vbmodeUnicode);
         exit;
       end;
   end;
 
-  if IsFilenameListedInExtensionList(fn, UiOps.PictureTypes) then
+  if IsFilenameListedInExtensionList(AFileName, UiOps.PictureTypes) then
   begin
-    DoFileOpen_AsPicture(fn);
+    DoFileOpen_AsPicture(AFileName);
     exit;
   end;
 
   DoDeactivatePictureMode;
   DoDeactivateViewerMode;
 
+  DoFileOpen_Ex(Ed1, FFileName, AFileName, AAllowLoadHistory, AAllowErrorMsgBox, AOpenMode);
+end;
+
+procedure TEditorFrame.DoFileOpen_Ex(Ed: TATSynEdit; var InternalFileName: string; const AFileName: string; AAllowLoadHistory, AAllowErrorMsgBox: boolean;
+  AOpenMode: TAppOpenMode);
+begin
   try
-    Editor.LoadFromFile(fn);
-    FFileName:= fn;
-    TabCaption:= ExtractFileName_Fixed(FFileName);
-      //_fixed to show ":streamname" at end
+    Ed.LoadFromFile(AFileName);
+    InternalFileName:= AFileName;
+    TabCaption:= ExtractFileName_Fixed(AFileName);
   except
     if AAllowErrorMsgBox then
-      MsgBox(msgCannotOpenFile+#13+fn, MB_OK or MB_ICONERROR);
+      MsgBox(msgCannotOpenFile+#13+AFileName, MB_OK or MB_ICONERROR);
 
-    EditorClear(Editor);
+    EditorClear(Ed);
     TabCaption:= GetUntitledCaption;
     exit
   end;
 
   //turn off opts for huge files
-  FileWasBig:= Editor.Strings.Count>EditorOps.OpWrapEnabledMaxLines;
+  FileWasBig:= Ed.Strings.Count>EditorOps.OpWrapEnabledMaxLines;
 
-  DoLexerFromFilename(fn);
+  DoLexerFromFilename(AFileName);
   if AAllowLoadHistory then
   begin
-    DoLoadUndo;
-    DoLoadHistory;
+    DoLoadUndo(Ed, AFileName);
+    DoLoadHistory(Ed, FileName);
   end;
   UpdateReadOnlyFromFile;
 
@@ -1815,8 +1748,8 @@ begin
       except
         on E: EConvertError do
           begin
-            NameTemp:= EncodingName;
-            EncodingName:= cEncNameUtf8_NoBom;
+            NameTemp:= Ed1.EncodingName;
+            Ed1.EncodingName:= cEncNameUtf8_NoBom;
             Editor.SaveToFile(FFileName);
             MsgBox(Format(msgCannotSaveFileWithEnc, [NameTemp]), MB_OK or MB_ICONWARNING);
           end
@@ -1840,7 +1773,7 @@ begin
   if not TabCaptionFromApi then
     TabCaption:= ExtractFileName(FFileName);
 
-  DoSaveUndo;
+  DoSaveUndo(Editor, FileName);
 
   DoPyEvent(Editor, cEventOnSaveAfter, []);
   if Assigned(FOnSaveFile) then
@@ -1857,9 +1790,9 @@ begin
       MB_OKCANCEL or MB_ICONWARNING
       ) <> ID_OK then exit;
 
-  Editor.Strings.EncodingDetect:= false;
-  Editor.Strings.LoadFromFile(FileName);
-  Editor.Strings.EncodingDetect:= true;
+  Ed1.Strings.EncodingDetect:= false;
+  Ed1.Strings.LoadFromFile(FileName);
+  Ed1.Strings.EncodingDetect:= true;
   UpdateEds(true);
 end;
 
@@ -1903,7 +1836,7 @@ begin
     end;
 
   //reopen
-  DoSaveHistory;
+  DoSaveHistory(Ed1, FileName);
   DoFileOpen(FileName, true{AllowLoadHistory}, false, Mode);
   if Editor.Strings.Count=0 then exit;
 
@@ -2216,13 +2149,13 @@ begin
 end;
 
 
-procedure TEditorFrame.DoSaveHistory;
+procedure TEditorFrame.DoSaveHistory(Ed: TATSynEdit; const AFileName: string);
 var
   c: TJSONConfig;
   path: string;
   items: TStringlist;
 begin
-  if FileName='' then exit;
+  if AFileName='' then exit;
   if not FSaveHistory then exit;
   if UiOps.MaxHistoryFiles<2 then exit;
 
@@ -2236,7 +2169,7 @@ begin
       exit
     end;
 
-    path:= SMaskFilenameSlashes(FileName);
+    path:= SMaskFilenameSlashes(AFileName);
     items:= TStringlist.Create;
     try
       c.DeletePath(path);
@@ -2250,13 +2183,13 @@ begin
       FreeAndNil(items);
     end;
 
-    DoSaveHistoryEx(c, path);
+    DoSaveHistoryEx(Ed, c, path);
   finally
     c.Free;
   end;
 end;
 
-procedure TEditorFrame.DoSaveHistoryEx(c: TJsonConfig; const path: string);
+procedure TEditorFrame.DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: string);
 var
   caret: TATCaretItem;
   items, items2: TStringList;
@@ -2264,31 +2197,31 @@ var
   i: integer;
 begin
   c.SetValue(path+cHistory_Lexer, LexerName);
-  c.SetValue(path+cHistory_Enc, EncodingName);
-  c.SetValue(path+cHistory_Top, Editor.LineTop);
-  c.SetValue(path+cHistory_Wrap, Ord(Editor.OptWrapMode));
+  c.SetValue(path+cHistory_Enc, Ed.EncodingName);
+  c.SetValue(path+cHistory_Top, Ed.LineTop);
+  c.SetValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode));
   if not ReadOnlyFromFile then
     c.SetValue(path+cHistory_RO, ReadOnly);
-  c.SetValue(path+cHistory_Ruler, Editor.OptRulerVisible);
-  c.SetValue(path+cHistory_Minimap, Editor.OptMinimapVisible);
-  c.SetValue(path+cHistory_Micromap, Editor.OptMicromapVisible);
-  c.SetValue(path+cHistory_TabSize, Editor.OptTabSize);
-  c.SetValue(path+cHistory_TabSpace, Editor.OptTabSpaces);
-  c.SetValue(path+cHistory_Unpri, Editor.OptUnprintedVisible);
-  c.SetValue(path+cHistory_Unpri_Spaces, Editor.OptUnprintedSpaces);
-  c.SetValue(path+cHistory_Unpri_Ends, Editor.OptUnprintedEnds);
-  c.SetValue(path+cHistory_Unpri_Detail, Editor.OptUnprintedEndsDetails);
-  c.SetValue(path+cHistory_Nums, Editor.Gutter[Editor.GutterBandNum].Visible);
-  c.SetValue(path+cHistory_Fold, EditorGetFoldString(Editor));
+  c.SetValue(path+cHistory_Ruler, Ed.OptRulerVisible);
+  c.SetValue(path+cHistory_Minimap, Ed.OptMinimapVisible);
+  c.SetValue(path+cHistory_Micromap, Ed.OptMicromapVisible);
+  c.SetValue(path+cHistory_TabSize, Ed.OptTabSize);
+  c.SetValue(path+cHistory_TabSpace, Ed.OptTabSpaces);
+  c.SetValue(path+cHistory_Unpri, Ed.OptUnprintedVisible);
+  c.SetValue(path+cHistory_Unpri_Spaces, Ed.OptUnprintedSpaces);
+  c.SetValue(path+cHistory_Unpri_Ends, Ed.OptUnprintedEnds);
+  c.SetValue(path+cHistory_Unpri_Detail, Ed.OptUnprintedEndsDetails);
+  c.SetValue(path+cHistory_Nums, Ed.Gutter[Ed.GutterBandNum].Visible);
+  c.SetValue(path+cHistory_Fold, EditorGetFoldString(Ed));
 
   if TabColor=clNone then
     c.SetValue(path+cHistory_TabColor, '')
   else
     c.SetValue(path+cHistory_TabColor, ColorToString(TabColor));
 
-  if Editor.Carets.Count>0 then
+  if Ed.Carets.Count>0 then
   begin
-    caret:= Editor.Carets[0];
+    caret:= Ed.Carets[0];
     c.SetValue(path+cHistory_Caret+'/x', caret.PosX);
     c.SetValue(path+cHistory_Caret+'/y', caret.PosY);
     c.SetValue(path+cHistory_Caret+'/x2', caret.EndX);
@@ -2298,9 +2231,9 @@ begin
   items:= TStringList.Create;
   items2:= TStringList.Create;
   try
-    for i:= 0 to Editor.Strings.Bookmarks.Count-1 do
+    for i:= 0 to Ed.Strings.Bookmarks.Count-1 do
     begin
-      bookmark:= Editor.Strings.Bookmarks[i];
+      bookmark:= Ed.Strings.Bookmarks[i];
       //save usual bookmarks and numbered bookmarks (kind=1..10)
       if (bookmark.Data.Kind>10) then Continue;
       items.Add(IntToStr(bookmark.Data.LineNum));
@@ -2341,20 +2274,20 @@ begin
   end;
 end;
 
-procedure TEditorFrame.DoSaveUndo;
+procedure TEditorFrame.DoSaveUndo(Ed: TATSynEdit; const AFileName: string);
 begin
-  if IsFilenameListedInExtensionList(FileName, UiOps.UndoPersistent) then
+  if IsFilenameListedInExtensionList(AFileName, UiOps.UndoPersistent) then
   begin
-    _WriteStringToFileInHiddenDir(GetAppUndoFilename(FileName, false), Editor.UndoAsString);
-    _WriteStringToFileInHiddenDir(GetAppUndoFilename(FileName, true), Editor.RedoAsString);
+    _WriteStringToFileInHiddenDir(GetAppUndoFilename(AFileName, false), Ed.UndoAsString);
+    _WriteStringToFileInHiddenDir(GetAppUndoFilename(AFileName, true), Ed.RedoAsString);
   end;
 end;
 
-procedure TEditorFrame.DoLoadHistory;
+procedure TEditorFrame.DoLoadHistory(Ed: TATSynEdit; const AFileName: string);
 var
   c: TJSONConfig;
 begin
-  if FileName='' then exit;
+  if AFileName='' then exit;
   if UiOps.MaxHistoryFiles<2 then exit;
 
   c:= TJsonConfig.Create(nil);
@@ -2367,14 +2300,14 @@ begin
       exit
     end;
 
-    DoLoadHistoryEx(c, SMaskFilenameSlashes(FileName));
+    DoLoadHistoryEx(Ed, AFileName, c, SMaskFilenameSlashes(AFileName));
   finally
     c.Free;
   end;
 end;
 
 
-procedure TEditorFrame.DoLoadHistoryEx(c: TJsonConfig; const path: string);
+procedure TEditorFrame.DoLoadHistoryEx(Ed: TATSynEdit; const AFileName: string; c: TJsonConfig; const path: string);
 var
   str, str0: string;
   Caret: TATCaretItem;
@@ -2395,16 +2328,16 @@ begin
     LexerName:= str;
 
   //enc
-  str0:= EncodingName;
+  str0:= Ed.EncodingName;
   str:= c.GetValue(path+cHistory_Enc, str0);
   if str<>str0 then
   begin
-    EncodingName:= str;
+    Ed.EncodingName:= str;
     //reread in enc
     //but only if not modified (modified means other text is loaded)
-    if FileName<>'' then
-      if not Editor.Modified then
-        Editor.LoadFromFile(FileName);
+    if AFileName<>'' then
+      if not Ed.Modified then
+        Ed.LoadFromFile(AFileName);
   end;
 
   TabColor:= StringToColorDef(c.GetValue(path+cHistory_TabColor, ''), clNone);
@@ -2412,17 +2345,17 @@ begin
   ReadOnly:= c.GetValue(path+cHistory_RO, ReadOnly);
   if not FileWasBig then
   begin
-    Editor.OptWrapMode:= TATSynWrapMode(c.GetValue(path+cHistory_Wrap, Ord(Editor.OptWrapMode)));
-    Editor.OptMinimapVisible:= c.GetValue(path+cHistory_Minimap, Editor.OptMinimapVisible);
-    Editor.OptMicromapVisible:= c.GetValue(path+cHistory_Micromap, Editor.OptMicromapVisible);
+    Ed.OptWrapMode:= TATSynWrapMode(c.GetValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode)));
+    Ed.OptMinimapVisible:= c.GetValue(path+cHistory_Minimap, Ed.OptMinimapVisible);
+    Ed.OptMicromapVisible:= c.GetValue(path+cHistory_Micromap, Ed.OptMicromapVisible);
   end;
-  Editor.OptRulerVisible:= c.GetValue(path+cHistory_Ruler, Editor.OptRulerVisible);
-  Editor.OptTabSize:= c.GetValue(path+cHistory_TabSize, Editor.OptTabSize);
-  Editor.OptTabSpaces:= c.GetValue(path+cHistory_TabSpace, Editor.OptTabSpaces);
-  Editor.OptUnprintedVisible:= c.GetValue(path+cHistory_Unpri, Editor.OptUnprintedVisible);
-  Editor.OptUnprintedSpaces:= c.GetValue(path+cHistory_Unpri_Spaces, Editor.OptUnprintedSpaces);
-  Editor.OptUnprintedEnds:= c.GetValue(path+cHistory_Unpri_Ends, Editor.OptUnprintedEnds);
-  Editor.OptUnprintedEndsDetails:= c.GetValue(path+cHistory_Unpri_Detail, Editor.OptUnprintedEndsDetails);
+  Ed.OptRulerVisible:= c.GetValue(path+cHistory_Ruler, Ed.OptRulerVisible);
+  Ed.OptTabSize:= c.GetValue(path+cHistory_TabSize, Ed.OptTabSize);
+  Ed.OptTabSpaces:= c.GetValue(path+cHistory_TabSpace, Ed.OptTabSpaces);
+  Ed.OptUnprintedVisible:= c.GetValue(path+cHistory_Unpri, Ed.OptUnprintedVisible);
+  Ed.OptUnprintedSpaces:= c.GetValue(path+cHistory_Unpri_Spaces, Ed.OptUnprintedSpaces);
+  Ed.OptUnprintedEnds:= c.GetValue(path+cHistory_Unpri_Ends, Ed.OptUnprintedEnds);
+  Ed.OptUnprintedEndsDetails:= c.GetValue(path+cHistory_Unpri_Detail, Ed.OptUnprintedEndsDetails);
 
   nTop:= c.GetValue(path+cHistory_Top, 0);
 
@@ -2432,30 +2365,30 @@ begin
     FFoldTodo:= c.GetValue(path+cHistory_Fold, '');
     //linetop
     FTopLineTodo:= nTop; //restore LineTop after analize done
-    Editor.LineTop:= nTop; //scroll immediately
+    Ed.LineTop:= nTop; //scroll immediately
   end
   else
   begin
     //for open-file from app: ok
     //for open via cmdline: not ok (maybe need to do it after form shown? how?)
-    Editor.Update(true);
+    Ed.Update(true);
     Application.ProcessMessages;
-    Editor.LineTop:= nTop;
+    Ed.LineTop:= nTop;
   end;
 
-  with Editor.Gutter[Editor.GutterBandNum] do
+  with Ed.Gutter[Ed.GutterBandNum] do
     Visible:= c.GetValue(path+cHistory_Nums, Visible);
 
   //caret
-  if Editor.Carets.Count>0 then
+  if Ed.Carets.Count>0 then
   begin
-    caret:= Editor.Carets[0];
+    caret:= Ed.Carets[0];
     caret.PosX:= c.GetValue(path+cHistory_Caret+'/x', 0);
     caret.PosY:= c.GetValue(path+cHistory_Caret+'/y', 0);
     caret.EndX:= c.GetValue(path+cHistory_Caret+'/x2', -1);
     caret.EndY:= c.GetValue(path+cHistory_Caret+'/y2', -1);
-    Editor.UpdateIncorrectCaretPositions;
-    Editor.DoEventCarets;
+    Ed.UpdateIncorrectCaretPositions;
+    Ed.DoEventCarets;
   end;
 
   //bookmarks
@@ -2471,11 +2404,11 @@ begin
         nKind:= StrToIntDef(items2[i], 1)
       else
         nKind:= 1;
-      if Editor.Strings.IsIndexValid(nTop) then
+      if Ed.Strings.IsIndexValid(nTop) then
       begin
         BmData.LineNum:= nTop;
         BmData.Kind:= nKind;
-        Editor.Strings.Bookmarks.Add(BmData);
+        Ed.Strings.Bookmarks.Add(BmData);
       end;
     end;
   finally
@@ -2486,22 +2419,22 @@ begin
   FCodetreeFilter:= c.GetValue(path+cHistory_CodeTreeFilter, '');
   c.GetValue(path+cHistory_CodeTreeFilters, FCodetreeFilterHistory, '');
 
-  Ed1.Update;
-  if Splitted then
+  Ed.Update;
+  if Splitted and EditorsLinked then
     Ed2.Update;
 end;
 
-procedure TEditorFrame.DoLoadUndo;
+procedure TEditorFrame.DoLoadUndo(Ed: TATSynEdit; const AFileName: string);
 var
   fn: string;
 begin
-  if IsFilenameListedInExtensionList(FileName, UiOps.UndoPersistent) then
+  if IsFilenameListedInExtensionList(AFileName, UiOps.UndoPersistent) then
   begin
-    fn:= GetAppUndoFilename(FileName, false);
-    Editor.UndoAsString:= DoReadContentFromFile(fn);
+    fn:= GetAppUndoFilename(AFileName, false);
+    Ed.UndoAsString:= DoReadContentFromFile(fn);
 
-    fn:= GetAppUndoFilename(FileName, true);
-    Editor.RedoAsString:= DoReadContentFromFile(fn);
+    fn:= GetAppUndoFilename(AFileName, true);
+    Ed.RedoAsString:= DoReadContentFromFile(fn);
   end;
 end;
 
@@ -2609,14 +2542,14 @@ begin
 end;
 
 
-procedure TEditorFrame.DoGotoPos(APosX, APosY: integer);
+procedure TEditorFrame.DoGotoPos(Ed: TATSynEdit; APosX, APosY: integer);
 begin
   if APosY<0 then exit;
   if APosX<0 then APosX:= 0; //allow x<0
 
-  Editor.LineTop:= APosY;
+  Ed.LineTop:= APosY;
   TopLineTodo:= APosY; //check is it still needed
-  Editor.DoGotoPos(
+  Ed.DoGotoPos(
     Point(APosX, APosY),
     Point(-1, -1),
     UiOps.FindIndentHorz,
@@ -2624,7 +2557,7 @@ begin
     true,
     true
     );
-  Editor.Update;
+  Ed.Update;
 end;
 
 procedure TEditorFrame.DoLexerFromFilename(const AFilename: string);

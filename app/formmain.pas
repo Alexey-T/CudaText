@@ -1431,7 +1431,7 @@ begin
     begin
       Frame:= DoFileOpen(SFilename);
       if Assigned(Frame) and (NLine>0) then
-        Frame.DoGotoPos(NColumn-1, NLine-1);
+        Frame.DoGotoPos(Frame.Editor, NColumn-1, NLine-1);
     end;
   end;
 
@@ -3455,8 +3455,8 @@ end;
 
 procedure TfmMain.SetFrameEncoding(Frame: TEditorFrame; const AEnc: string; AAlsoReloadFile: boolean);
 begin
-  if SameText(Frame.EncodingName, AEnc) then exit;
-  Frame.EncodingName:= AEnc;
+  if SameText(Frame.Ed1.EncodingName, AEnc) then exit;
+  Frame.Ed1.EncodingName:= AEnc;
 
   if AAlsoReloadFile then
   begin

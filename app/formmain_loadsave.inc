@@ -208,7 +208,7 @@ begin
           c.SetValue(path+'/file_date', FormatFileDateAsNiceString(F.FileName));
       end;
 
-      F.DoSaveHistoryEx(c, path);
+      F.DoSaveHistoryEx(F.Ed1, c, path);
     end;
 
     Result:= true;
@@ -322,7 +322,7 @@ begin
       begin
         //F.ActivationTime:= GetTickCount64;
         F.NotInRecents:= true;
-        F.DoLoadHistoryEx(c, '/'+list[i]);
+        F.DoLoadHistoryEx(F.Ed1, F.FileName, c, '/'+list[i]);
       end;
     end;
 

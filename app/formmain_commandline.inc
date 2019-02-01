@@ -164,7 +164,7 @@ begin
     if Assigned(Frame) then
     begin
       if NumLine>0 then
-        Frame.DoGotoPos(NumColumn-1, NumLine-1);
+        Frame.DoGotoPos(Frame.Ed1, NumColumn-1, NumLine-1);
 
       if FOption_OpenReadOnly then
       begin

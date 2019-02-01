@@ -163,7 +163,7 @@ begin
   DoStatusbarTextByTag(AStatus, StatusbarTag_Caret, EditorFormatStatus(Ed, fmt));
 
   //------
-  S:= F.EncodingName;
+  S:= F.Ed1.EncodingName;
   DoStatusbarTextByTag(AStatus, StatusbarTag_Enc, S);
 
   //------
@@ -425,7 +425,7 @@ begin
       SCollapseHomeDirInFilename(F.FileName),
       FListRecents,
       UiOps.MaxHistoryMenu);
-    F.DoSaveHistory;
+    F.DoSaveHistory(F.Ed1, F.FileName);
   end;
 
   sub:= mnuFileOpenSub;

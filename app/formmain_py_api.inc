@@ -2544,7 +2544,7 @@ begin
           begin
             if Assigned(F) then
             begin
-              Str:= AppEncodingFullnameToShortname(F.EncodingName);
+              Str:= AppEncodingFullnameToShortname(F.Ed1.EncodingName);
               Result:= PyUnicode_FromWideString(Utf8Decode(Str));
             end
             else
@@ -2968,7 +2968,7 @@ begin
         PROP_ENC:
           begin
             if Assigned(F) then
-              F.EncodingName:= AppEncodingShortnameToFullname(Str);
+              F.Ed1.EncodingName:= AppEncodingShortnameToFullname(Str);
           end;
 
         PROP_TAG:
