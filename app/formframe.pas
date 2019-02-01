@@ -1826,9 +1826,14 @@ end;
 
 function TEditorFrame.DoFileSave(ASaveAs: boolean): boolean;
 begin
-  Result:= DoFileSave_Ex(Ed1, FileName, ASaveAs);
-  if Result then
-    if not EditorsLinked then
+  Result:= true;
+
+  if Ed1.Modified then
+    Result:= DoFileSave_Ex(Ed1, FileName, ASaveAs);
+  if not Result then exit;
+
+  if not EditorsLinked then
+    if Ed2.Modified then
       Result:= DoFileSave_Ex(Ed2, FileName2, ASaveAs);
 end;
 
