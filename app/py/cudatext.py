@@ -820,8 +820,11 @@ def dlg_custom(title, size_x, size_y, text, focused=-1, get_dict=False):
     else:
         return _dlg_custom_dict(res, count=len(text.splitlines()) )
 
-def file_open(filename, group=-1, options=''):
-    return ct.file_open(filename, group, options)
+def file_open(name, group=-1, options=''):
+    if isinstance(name, (list, tuple)):
+        return ct.file_open(name[0], name[1], group, options)
+    else:
+        return ct.file_open(name, '', group, options)
 
 def file_save(filename=''):
     return ct.file_save(filename)

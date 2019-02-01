@@ -1770,6 +1770,8 @@ begin
   if AFileName2<>'' then
   begin
     EditorsLinked:= false;
+    SplitHorz:= false;
+    Splitted:= true;
     DoFileOpen_Ex(Ed2, AFileName2, AAllowLoadHistory, AAllowErrorMsgBox, AOpenMode);
   end;
 end;

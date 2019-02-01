@@ -928,7 +928,7 @@ type
     procedure DoFindNext(ANext: boolean);
     procedure DoFindMarkAll(AMode: TATFindMarkingMode);
     procedure DoMoveTabToGroup(AGroupIndex: Integer);
-    function DoFileOpen(AFilename: string; APages: TATPages=nil; const AOptions: string=''): TEditorFrame;
+    function DoFileOpen(AFileName, AFileName2: string; APages: TATPages=nil; const AOptions: string=''): TEditorFrame;
     procedure DoFileOpenDialog(AOptions: string= '');
     procedure DoFileOpenDialog_NoPlugins;
     function DoFileSaveAll: boolean;
@@ -1429,7 +1429,7 @@ begin
     else
     if FileExistsUTF8(SFilename) then
     begin
-      Frame:= DoFileOpen(SFilename);
+      Frame:= DoFileOpen(SFilename, '');
       if Assigned(Frame) and (NLine>0) then
         Frame.DoGotoPos(Frame.Editor, NColumn-1, NLine-1);
     end;
@@ -1477,7 +1477,7 @@ begin
       else
       if FileExistsUTF8(SFilename) then
       begin
-        Frame:= DoFileOpen(SFilename);
+        Frame:= DoFileOpen(SFilename, '');
         if Assigned(Frame) and (NLine>0) then
           Frame.DoGotoPos(Frame.Ed1, NColumn-1, NLine-1);
       end;
@@ -1904,7 +1904,7 @@ begin
   DoOps_LoadCommandLineOptions;
   DoOps_LoadOptions(GetAppPath(cFileOptionsUser), EditorOps); //before LoadHistory
   DoOps_LoadLexerLib; //before LoadHistory
-  DoFileOpen(''); //before LoadHistory
+  DoFileOpen('', ''); //before LoadHistory
 
   DoOps_LoadSidebarIcons; //before LoadPlugins (for sidebar icons)
   DoOps_LoadTreeIcons;
@@ -2061,7 +2061,7 @@ begin
       DoFolderOpen(SName, False)
     else
     if FileExistsUTF8(SName) then
-      DoFileOpen(SName, Pages);
+      DoFileOpen(SName, '', Pages);
   end;
 end;
 
@@ -2470,7 +2470,7 @@ var
 begin
   fn:= GetAppPath(cDirReadme)+DirectorySeparator+'history.txt';
   if FileExistsUTF8(fn) then
-    DoFileOpen(fn);
+    DoFileOpen(fn, '');
 end;
 
 procedure TfmMain.MenuWindowClick(Sender: TObject);
@@ -2710,7 +2710,7 @@ begin
   CodeTreeFilterInput.OnChange(nil);
 end;
 
-function TfmMain.DoFileOpen(AFilename: string; APages: TATPages;
+function TfmMain.DoFileOpen(AFileName, AFileName2: string; APages: TATPages;
   const AOptions: string): TEditorFrame;
 var
   D: TATTabData;
@@ -2770,7 +2770,7 @@ begin
   if APages=nil then
     APages:= Groups.PagesCurrent;
 
-  if AFilename='' then
+  if AFileName='' then
   begin
     D:= DoTabAdd(APages, GetUntitledCaption, bAndActivate, bAllowNear);
     if not Assigned(D) then
@@ -2785,11 +2785,14 @@ begin
 
   //expand "./name"
   //note: ExpandFileNameUTF8 has bug in Laz 1.9-
-  AFilename:= ExpandFileName(AFilename);
+  if AFileName<>'' then
+    AFileName:= ExpandFileName(AFileName);
+  if AFileName2<>'' then
+    AFileName2:= ExpandFileName(AFileName2);
 
-  if not FileExistsUTF8(AFilename) then
+  if not FileExistsUTF8(AFileName) then
   begin
-    MsgBox(msgCannotFindFile+#13+AFilename, mb_ok or mb_iconerror);
+    MsgBox(msgCannotFindFile+#13+AFileName, mb_ok or mb_iconerror);
     Exit
   end;
 
@@ -2797,9 +2800,9 @@ begin
   begin
     //zip files
     if bAllowZip then
-    if ExtractFileExt(AFilename)='.zip' then
+    if ExtractFileExt(AFileName)='.zip' then
     begin
-      if DoFileInstallZip(AFilename, AppFolderOfLastInstalledAddon, bSilent) then
+      if DoFileInstallZip(AFileName, AppFolderOfLastInstalledAddon, bSilent) then
         Result:= CurrentFrame;
       exit
     end;
@@ -2807,15 +2810,15 @@ begin
     //py event
     if bEnableEvent then
       if DoPyEvent(CurrentEditor, cEventOnOpenBefore,
-        [SStringToPythonString(AFilename)]) = cPyFalse then exit;
+        [SStringToPythonString(AFileName)]) = cPyFalse then exit;
 
-    bDetectedPics:= bAllowPics and IsFilenameListedInExtensionList(AFilename, UiOps.PictureTypes);
+    bDetectedPics:= bAllowPics and IsFilenameListedInExtensionList(AFileName, UiOps.PictureTypes);
 
     //non-text option
     if not bDetectedPics then
     if UiOps.NonTextFiles<>1 then
       if not IsFileContentText(
-               AFilename,
+               AFileName,
                UiOps.NonTextFilesBufferKb,
                GlobalDetectUf16BufferWords,
                false) then
@@ -2846,7 +2849,7 @@ begin
       end;
 
     //too big size?
-    if (OpenMode=cOpenModeEditor) and IsFileTooBigForOpening(AFilename) then
+    if (OpenMode=cOpenModeEditor) and IsFileTooBigForOpening(AFileName) then
     begin
       case DoDialogConfirmBinaryFile(AFileName, true) of
         ConfirmBinaryViewText: OpenMode:= cOpenModeViewText;
@@ -2862,7 +2865,7 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
-    if SameFileName(F.FileName, AFilename) then
+    if SameFileName(F.FileName, AFileName) then
     begin
       SetFrame(F);
       Result:= F;
@@ -2898,8 +2901,8 @@ begin
     end;
 
     Result.Adapter.Stop;
-    Result.DoFileOpen(AFilename, '', bEnableHistory, true, OpenMode);
-    msg:= msgStatusOpened+' '+ExtractFileName(AFilename);
+    Result.DoFileOpen(AFileName, AFileName2, bEnableHistory, true, OpenMode);
+    msg:= msgStatusOpened+' '+ExtractFileName(AFileName);
     MsgStatus(msg);
 
     DoPyEvent(Result.Editor, cEventOnOpen, []);
@@ -2915,12 +2918,12 @@ begin
     if F.IsEmpty then
     begin
       tick:= GetTickCount64;
-      F.DoFileOpen(AFilename, '', bEnableHistory, true, OpenMode);
+      F.DoFileOpen(AFileName, AFileName2, bEnableHistory, true, OpenMode);
       Result:= F;
       tick:= (GetTickCount64-tick) div 1000;
 
       UpdateStatus;
-      msg:= msgStatusOpened+' '+ExtractFileName(AFilename);
+      msg:= msgStatusOpened+' '+ExtractFileName(AFileName);
       if tick>2 then
         msg:= msg+' ('+IntToStr(tick)+'s)';
       MsgStatus(msg);
@@ -2932,7 +2935,7 @@ begin
     end;
   end;
 
-  D:= DoTabAdd(APages, ExtractFileName(AFilename), bAndActivate, bAllowNear);
+  D:= DoTabAdd(APages, ExtractFileName(AFileName), bAndActivate, bAllowNear);
   if not Assigned(D) then
   begin
     D:= Groups.Pages1.Tabs.GetTabData(0);
@@ -2941,12 +2944,12 @@ begin
   F:= D.TabObject as TEditorFrame;
 
   tick:= GetTickCount64;
-  F.DoFileOpen(AFilename, '', bEnableHistory, true, OpenMode);
+  F.DoFileOpen(AFileName, AFileName2, bEnableHistory, true, OpenMode);
   Result:= F;
   tick:= (GetTickCount64-tick) div 1000;
 
   UpdateStatus;
-  msg:= msgStatusOpened+' '+ExtractFileName(AFilename);
+  msg:= msgStatusOpened+' '+ExtractFileName(AFileName);
   if tick>2 then
     msg:= msg+' ('+IntToStr(tick)+'s)';
   MsgStatus(msg);
@@ -3017,7 +3020,7 @@ begin
           StatusProgress.Progress:= i+1;
           Application.ProcessMessages;
         end;
-        DoFileOpen(fn, nil, AOptions + SOptionPassive + IfThen(bZip, SOptionSilent));
+        DoFileOpen(fn, '', nil, AOptions + SOptionPassive + IfThen(bZip, SOptionSilent));
       end;
 
       StatusProgress.Hide;
@@ -3029,14 +3032,14 @@ begin
     else
     begin
       if FileExistsUTF8(FileName) then
-        DoFileOpen(FileName, nil, AOptions)
+        DoFileOpen(FileName, '', nil, AOptions)
       else
       if MsgBox(
         Format(msgConfirmCreateNewFile, [FileName]),
         MB_OKCANCEL or MB_ICONQUESTION)=ID_OK then
       begin
         FCreateFile(FileName);
-        DoFileOpen(FileName, nil, AOptions);
+        DoFileOpen(FileName, '', nil, AOptions);
       end;
     end;
   end;
@@ -3942,7 +3945,7 @@ begin
   n:= (Sender as TComponent).Tag;
   fn:= SExpandHomeDirInFilename(FListRecents[n]);
   if FileExistsUTF8(fn) then
-    DoFileOpen(fn)
+    DoFileOpen(fn, '')
   else
   begin
     MsgBox(msgCannotFindFile+#13+fn, MB_OK or MB_ICONERROR);
@@ -4219,7 +4222,7 @@ procedure TfmMain.DoFileNewFrom(const fn: string);
 var
   F: TEditorFrame;
 begin
-  F:= DoFileOpen('');
+  F:= DoFileOpen('', '');
   if F=nil then exit;
   F.Editor.Strings.LoadFromFile(fn);
   F.DoLexerFromFilename(fn);
@@ -4290,7 +4293,7 @@ var
   F: TEditorFrame;
 begin
   fn:= GetAppPath(cFileOptionsDefault);
-  F:= DoFileOpen(fn);
+  F:= DoFileOpen(fn, '');
   if Assigned(F) then
     F.ReadOnly:= true;
 end;
@@ -4306,7 +4309,7 @@ begin
     if not FileExistsUTF8(fn) then Exit;
   end;
 
-  DoFileOpen(fn);
+  DoFileOpen(fn, '');
 end;
 
 procedure TfmMain.DoOps_OpenFile_DefaultAndUser;
@@ -4318,7 +4321,7 @@ begin
     Groups.Mode:= gm2v;
 
   fn:= GetAppPath(cFileOptionsDefault);
-  F:= DoFileOpen(fn, Groups.Pages[0]);
+  F:= DoFileOpen(fn, '', Groups.Pages[0]);
   if Assigned(F) then
     F.ReadOnly:= true;
 
@@ -4328,7 +4331,7 @@ begin
     FCreateFile(fn, true);
     if not FileExistsUTF8(fn) then Exit;
   end;
-  DoFileOpen(fn, Groups.Pages[1]);
+  DoFileOpen(fn, '', Groups.Pages[1]);
 end;
 
 procedure TfmMain.DoOps_OpenFile_LexerSpecific;
@@ -4342,7 +4345,7 @@ begin
     if not FileExistsUTF8(fn) then exit;
   end;
 
-  DoFileOpen(fn);
+  DoFileOpen(fn, '');
 end;
 
 procedure TfmMain.MenuMainClick(Sender: TObject);
@@ -4915,7 +4918,7 @@ begin
     MsgStatus(Format(msgStatusGotoFileLineCol, [ResFilename, ResLine+1, ResCol+1]));
     if FileExists(ResFilename) then
     begin
-      DoFileOpen(ResFilename);
+      DoFileOpen(ResFilename, '');
       Ed.DoCaretSingle(ResCol, ResLine);
       Ed.DoGotoCaret(cEdgeTop);
       Ed.Update;

@@ -229,7 +229,7 @@ begin
       FFinder.DoAction_ExtractAll(false, ListFound);
       if ListFound.Count>0 then
       begin
-        FrameNew:= DoFileOpen('');
+        FrameNew:= DoFileOpen('', '');
         FrameNew.TabCaption:= fmFind.bExtract.Caption;
         Ed:= FrameNew.Editor;
         try

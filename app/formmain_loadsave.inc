@@ -300,7 +300,7 @@ begin
         if (FrameCount>0) and Frames[0].IsEmpty then
           F:= Frames[0]
         else
-          F:= DoFileOpen('', Pages, SOptionPassive);
+          F:= DoFileOpen('', '', Pages, SOptionPassive);
         if sFilename<>'' then
         begin
           F.FileName:= sFilename;
@@ -315,7 +315,7 @@ begin
       else
       //unmodified+named tabs must load file again
       if FileExistsUTF8(sFilename) then
-        F:= DoFileOpen(sFilename, Pages, sOpenOptions+SOptionPassive);
+        F:= DoFileOpen(sFilename, '', Pages, sOpenOptions+SOptionPassive);
 
       //load other props (caret/encoding/etc)
       if Assigned(F) then

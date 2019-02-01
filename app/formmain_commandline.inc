@@ -111,7 +111,7 @@ begin
       DoFolderOpen(fn, False)
     else
     if FileExistsUTF8(fn) then
-      DoFileOpen(fn, nil, cOptionPassive);
+      DoFileOpen(fn, '', nil, cOptionPassive);
   end;
 
   //if passed single file, must activate it, else not
@@ -146,7 +146,7 @@ begin
     if FileExistsUTF8(fn) then
     begin
       MsgStdout('CudaText: opened file: '+fn);
-      Frame:= DoFileOpen(fn, nil, SOption);
+      Frame:= DoFileOpen(fn, '', nil, SOption);
     end
     else
     if MsgBox(
@@ -158,7 +158,7 @@ begin
       else
         MsgStdout('CudaText: cannot create file: '+fn);
       if FileExistsUTF8(fn) then
-        Frame:= DoFileOpen(fn, nil, SOption);
+        Frame:= DoFileOpen(fn, '', nil, SOption);
     end;
 
     if Assigned(Frame) then
