@@ -4426,12 +4426,12 @@ begin
     if AIndex<CountUsual then
       F.Lexer[Ed]:= AppManager.Lexers[AIndex]
     else
-      F.SetLexerLite(Ed, AppManagerLite.Lexers[AIndex-CountUsual]);
+      F.LexerLite[Ed]:= AppManagerLite.Lexers[AIndex-CountUsual];
   end
   else
   begin
     F.Lexer[Ed]:= nil;
-    F.SetLexerLite(Ed, nil);
+    F.LexerLite[Ed]:= nil;
   end;
 
   UpdateFrame;

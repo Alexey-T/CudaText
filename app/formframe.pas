@@ -213,6 +213,8 @@ type
     procedure UpdateTabCaptionFromFilename;
     function GetLexer(Ed: TATSynEdit): TecSyntAnalyzer;
     procedure SetLexer(Ed: TATSynEdit; an: TecSyntAnalyzer);
+    function GetLexerLite(Ed: TATSynEdit): TATLiteLexer;
+    procedure SetLexerLite(Ed: TATSynEdit; an: TATLiteLexer);
   protected
     procedure DoOnResize; override;
   public
@@ -250,10 +252,9 @@ type
     procedure SetFileName(Ed: TATSynEdit; const AFileName: string);
 
     property Lexer[Ed: TATSynEdit]: TecSyntAnalyzer read GetLexer write SetLexer;
+    property LexerLite[Ed: TATSynEdit]: TATLiteLexer read GetLexerLite write SetLexerLite;
     function LexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
-    function GetLexerLite(Ed: TATSynEdit): TATLiteLexer;
     function GetLexerName(Ed: TATSynEdit): string;
-    procedure SetLexerLite(Ed: TATSynEdit; an: TATLiteLexer);
     procedure SetLexerName(Ed: TATSynEdit; const AValue: string);
 
     property Locked: boolean read FLocked write SetLocked;
@@ -877,7 +878,7 @@ begin
     SName:= Copy(AValue, 1, Length(AValue)-Length(msgLiteLexerSuffix));
     anLite:= AppManagerLite.FindLexerByName(SName);
     if Assigned(anLite) then
-      SetLexerLite(Ed, anLite)
+      LexerLite[Ed]:= anLite
     else
       Lexer[Ed]:= nil;
   end
@@ -1782,7 +1783,7 @@ begin
 
   if ASaveAs or (AFileName='') then
   begin
-    an:= GetLexer(Ed);
+    an:= Lexer[Ed];
     if Assigned(an) then
     begin
       SaveDialog.DefaultExt:= DoGetLexerDefaultExt(an);
@@ -2485,7 +2486,7 @@ begin
 
   nTop:= c.GetValue(path+cHistory_Top, 0);
 
-  if Assigned(GetLexer(Ed)) then
+  if Assigned(Lexer[Ed]) then
   begin
     //this seems ok: works even for open-file via cmdline
     FFoldTodo:= c.GetValue(path+cHistory_Fold, '');
@@ -2698,7 +2699,7 @@ begin
     Lexer[Ed]:= TempLexer
   else
   if Assigned(TempLexerLite) then
-    SetLexerLite(Ed, TempLexerLite);
+    LexerLite[Ed]:= TempLexerLite;
 end;
 
 procedure TEditorFrame.SetFocus;
