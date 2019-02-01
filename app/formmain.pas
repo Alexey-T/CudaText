@@ -1479,7 +1479,7 @@ begin
       begin
         Frame:= DoFileOpen(SFilename);
         if Assigned(Frame) and (NLine>0) then
-          Frame.DoGotoPos(NColumn-1, NLine-1);
+          Frame.DoGotoPos(Frame.Ed1, NColumn-1, NLine-1);
       end;
     end;
   finally
