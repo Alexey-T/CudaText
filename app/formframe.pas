@@ -211,7 +211,6 @@ type
     procedure SetEditorsLinked(AValue: boolean);
     procedure UpdateEds(AUpdateWrapInfo: boolean=false);
     function GetLexer: TecSyntAnalyzer;
-    function GetLexerLite_Ex(Ed: TATSynEdit): TATLiteLexer;
     procedure SetLexer(an: TecSyntAnalyzer);
     procedure UpdateTabCaptionFromFilename;
   protected
@@ -253,9 +252,10 @@ type
     property Lexer: TecSyntAnalyzer read GetLexer write SetLexer;
     function LexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
     function GetLexerName(Ed: TATSynEdit): string;
-    procedure SetLexer_Ex(Ed: TATSynEdit; an: TecSyntAnalyzer);
-    procedure SetLexerLite_Ex(Ed: TATSynEdit; an: TATLiteLexer);
+    function GetLexerLite(Ed: TATSynEdit): TATLiteLexer;
     procedure SetLexerName(Ed: TATSynEdit; const AValue: string);
+    procedure SetLexer_Ex(Ed: TATSynEdit; an: TecSyntAnalyzer);
+    procedure SetLexerLite(Ed: TATSynEdit; an: TATLiteLexer);
 
     property Locked: boolean read FLocked write SetLocked;
     property CommentString: string read GetCommentString;
@@ -833,7 +833,7 @@ begin
     Result:= nil;
 end;
 
-function TEditorFrame.GetLexerLite_Ex(Ed: TATSynEdit): TATLiteLexer;
+function TEditorFrame.GetLexerLite(Ed: TATSynEdit): TATLiteLexer;
 begin
   if Ed.AdapterForHilite is TATLiteLexer then
     Result:= TATLiteLexer(Ed.AdapterForHilite)
@@ -878,7 +878,7 @@ begin
     SName:= Copy(AValue, 1, Length(AValue)-Length(msgLiteLexerSuffix));
     anLite:= AppManagerLite.FindLexerByName(SName);
     if Assigned(anLite) then
-      SetLexerLite_Ex(Ed, anLite)
+      SetLexerLite(Ed, anLite)
     else
       SetLexer_Ex(Ed, nil);
   end
@@ -1530,7 +1530,7 @@ begin
   end;
 end;
 
-procedure TEditorFrame.SetLexerLite_Ex(Ed: TATSynEdit; an: TATLiteLexer);
+procedure TEditorFrame.SetLexerLite(Ed: TATSynEdit; an: TATLiteLexer);
 begin
   SetLexer_Ex(Ed, nil);
 
@@ -2703,7 +2703,7 @@ begin
     SetLexer_Ex(Ed, TempLexer)
   else
   if Assigned(TempLexerLite) then
-    SetLexerLite_Ex(Ed, TempLexerLite);
+    SetLexerLite(Ed, TempLexerLite);
 end;
 
 procedure TEditorFrame.SetFocus;
