@@ -2468,10 +2468,10 @@ begin
   if c.GetValue(path+cHistory_Top, -1)<0 then exit;
 
   //lexer
-  if Lexer=nil then str0:= '' else str0:= Lexer.LexerName;
-  str:= c.GetValue(path+cHistory_Lexer, str0);
+  str0:= GetLexerName_Ex(Ed);
+  str:= c.GetValue(path+cHistory_Lexer, '');
   if (str<>'') and (str<>str0) then
-    LexerName:= str;
+    SetLexerName_Ex(Ed, str);
 
   //enc
   str0:= Ed.EncodingName;
