@@ -449,7 +449,7 @@ begin
       Frame:= Frames[i];
       SName:= Frame.FileName;
       L_fn.Add(SName);
-      if SName<>'' then
+      if (SName<>'') and Frame.EditorsLinked then
         L_cap.Add(ExtractFileName(SName))
       else
         L_cap.Add(Frame.TabCaption);

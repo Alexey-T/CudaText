@@ -426,7 +426,7 @@ begin
     if (FFileName='') and (FFileName2='') then
       TabCaption:= GetUntitledCaption
     else
-      TabCaption:= ExtractFileName_Fixed(FFileName) + '|' +
+      TabCaption:= ExtractFileName_Fixed(FFileName) + ' | ' +
                    ExtractFileName_Fixed(FFileName2);
   end;
 end;
