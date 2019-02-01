@@ -215,9 +215,13 @@ type
     function GetLexer: TecSyntAnalyzer;
     function GetLexer2: TecSyntAnalyzer;
     function GetLexerLite: TATLiteLexer;
+    function GetLexerLite2: TATLiteLexer;
+    function GetLexerLite_Ex(Ed: TATSynEdit): TATLiteLexer;
     procedure SetLexer(an: TecSyntAnalyzer);
     procedure SetLexer2(an: TecSyntAnalyzer);
     procedure SetLexerLite(an: TATLiteLexer);
+    procedure SetLexerLite2(an: TATLiteLexer);
+    procedure SetLexerLite_Ex(Ed: TATSynEdit; an: TATLiteLexer);
     function GetLexerName: string;
     function GetLexerName2: string;
     procedure SetLexerName(const AValue: string);
@@ -259,6 +263,7 @@ type
     property Lexer: TecSyntAnalyzer read GetLexer write SetLexer;
     property Lexer2: TecSyntAnalyzer read GetLexer2 write SetLexer2;
     property LexerLite: TATLiteLexer read GetLexerLite write SetLexerLite;
+    property LexerLite2: TATLiteLexer read GetLexerLite2 write SetLexerLite2;
     property LexerName: string read GetLexerName write SetLexerName;
     property LexerName2: string read GetLexerName2 write SetLexerName2;
     function LexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
@@ -853,8 +858,18 @@ end;
 
 function TEditorFrame.GetLexerLite: TATLiteLexer;
 begin
-  if Ed1.AdapterForHilite is TATLiteLexer then
-    Result:= Ed1.AdapterForHilite as TATLiteLexer
+  Result:= GetLexerLite_Ex(Ed1);
+end;
+
+function TEditorFrame.GetLexerLite2: TATLiteLexer;
+begin
+  Result:= GetLexerLite_Ex(Ed2);
+end;
+
+function TEditorFrame.GetLexerLite_Ex(Ed: TATSynEdit): TATLiteLexer;
+begin
+  if Ed.AdapterForHilite is TATLiteLexer then
+    Result:= TATLiteLexer(Ed.AdapterForHilite)
   else
     Result:= nil;
 end;
@@ -916,7 +931,7 @@ begin
     SName:= Copy(AValue, 1, Length(AValue)-Length(msgLiteLexerSuffix));
     anLite:= AppManagerLite.FindLexerByName(SName);
     if Assigned(anLite) then
-      LexerLite:= anLite
+      SetLexerLite_Ex(Ed, anLite)
     else
       SetLexer_Ex(Ed, nil);
   end
@@ -1546,10 +1561,14 @@ begin
       end
       else
       begin
-        Ed1.AdapterForHilite:= Adapter;
-        if Adapter2=nil then
-          Adapter2:= TATAdapterEControl.Create(Self);
-        Ed2.AdapterForHilite:= Adapter2;
+        if Ed=Ed1 then
+          Ed1.AdapterForHilite:= Adapter
+        else
+        begin
+          if Adapter2=nil then
+            Adapter2:= TATAdapterEControl.Create(Self);
+          Ed2.AdapterForHilite:= Adapter2;
+        end;
       end;
 
       if not DoApplyLexerStylesMap(an, an2) then
@@ -1579,12 +1598,26 @@ end;
 
 procedure TEditorFrame.SetLexerLite(an: TATLiteLexer);
 begin
-  Adapter.Lexer:= nil;
+  SetLexerLite_Ex(Ed1, an);
+end;
 
-  Ed1.AdapterForHilite:= an;
-  Ed2.AdapterForHilite:= an;
-  Ed1.Update;
-  Ed2.Update;
+procedure TEditorFrame.SetLexerLite2(an: TATLiteLexer);
+begin
+  SetLexerLite_Ex(Ed2, an);
+end;
+
+procedure TEditorFrame.SetLexerLite_Ex(Ed: TATSynEdit; an: TATLiteLexer);
+begin
+  SetLexer_Ex(Ed, nil);
+
+  Ed.AdapterForHilite:= an;
+  Ed.Update;
+
+  if (Ed=Ed1) and EditorsLinked then
+  begin
+    Ed2.AdapterForHilite:= an;
+    Ed2.Update;
+  end;
 
   //support event on_lexer
   //we could do DoPyEvent(Ed1, cEventOnLexer, []);

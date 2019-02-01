@@ -176,7 +176,7 @@ begin
   DoStatusbarTextByTag(AStatus, StatusbarTag_LineEnds, S);
 
   //------
-  S:= F.LexerName;
+  S:= F.GetLexerName_Ex(Ed);
   if S='' then
     S:= msgNoLexer;
   DoStatusbarTextByTag(AStatus, StatusbarTag_Lexer, S);

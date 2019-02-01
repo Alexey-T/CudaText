@@ -3479,19 +3479,22 @@ end;
 
 procedure TfmMain.MenuLexerClick(Sender: TObject);
 var
+  F: TEditorFrame;
   obj: TObject;
+  SName: string;
 begin
+  F:= CurrentFrame;
   obj:= TObject((Sender as TComponent).Tag);
+
   if obj is TecSyntAnalyzer then
-    CurrentFrame.Lexer:= obj as TecSyntAnalyzer
+    SName:= (obj as TecSyntAnalyzer).LexerName
   else
   if obj is TATLiteLexer then
-    CurrentFrame.LexerLite:= obj as TATLiteLexer
+    SName:= (obj as TATLiteLexer).LexerName+msgLiteLexerSuffix
   else
-  begin
-    CurrentFrame.LexerLite:= nil;
-    CurrentFrame.Lexer:= nil;
-  end;
+    SName:= '';
+
+  F.SetLexerName_Ex(F.Editor, SName);
 
   UpdateFrame;
   UpdateStatus;
