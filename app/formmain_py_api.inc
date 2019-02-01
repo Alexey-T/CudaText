@@ -755,6 +755,7 @@ begin
             Obj.Data.BorderUp:= TATLineStyle(NBorderU);
             Obj.ShowOnMap:= Bool(NShowOnMap);
 
+            Ed.InvalidateHilitingCache;
             Ed.Attribs.Add(X, Y, NTag, NLen, 0, Obj);
             Ed.Update;
             fmMain.UpdateStatus;
@@ -763,6 +764,7 @@ begin
 
         MARKERS_DELETE_ALL:
           begin
+            Ed.InvalidateHilitingCache;
             Ed.Attribs.Clear;
             Ed.Update;
             fmMain.UpdateStatus;
@@ -771,6 +773,7 @@ begin
 
         MARKERS_DELETE_LAST:
           begin
+            Ed.InvalidateHilitingCache;
             if Ed.Attribs.Count>0 then
               Ed.Attribs.Delete(Ed.Attribs.Count-1);
             Ed.Update;
@@ -780,6 +783,7 @@ begin
 
         MARKERS_DELETE_BY_TAG:
           begin
+            Ed.InvalidateHilitingCache;
             Ed.Attribs.DeleteWithTag(NTag);
             Ed.Update;
             fmMain.UpdateStatus;
