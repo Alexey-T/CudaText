@@ -4421,7 +4421,7 @@ begin
   if F.Lexer=nil then exit;
 
   Caret:= Ed.Carets[0];
-  LexName:= F.LexerNameAtPos(Point(Caret.PosX, Caret.PosY));
+  LexName:= F.LexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
   if LexName='' then exit;
 
   IsPascal:= Pos('Pascal', LexName)>0;

@@ -262,7 +262,7 @@ type
     property LexerLite: TATLiteLexer read GetLexerLite write SetLexerLite;
     property LexerName: string read GetLexerName write SetLexerName;
     property LexerName2: string read GetLexerName2 write SetLexerName2;
-    function LexerNameAtPos(APos: TPoint): string;
+    function LexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
     property Locked: boolean read FLocked write SetLocked;
     property CommentString: string read GetCommentString;
     property TabColor: TColor read FTabColor write SetTabColor;
@@ -925,24 +925,24 @@ begin
 end;
 
 
-function TEditorFrame.LexerNameAtPos(APos: TPoint): string;
+function TEditorFrame.LexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
 var
   CurAdapter: TATAdapterHilite;
   an: TecSyntAnalyzer;
 begin
   Result:= '';
-  CurAdapter:= Ed1.AdapterForHilite;
+  CurAdapter:= Ed.AdapterForHilite;
   if CurAdapter=nil then exit;
 
   if CurAdapter is TATAdapterEControl then
   begin
-    an:= Adapter.LexerAtPos(APos);
+    an:= TATAdapterEControl(CurAdapter).LexerAtPos(APos);
     if Assigned(an) then
       Result:= an.LexerName;
   end
   else
   if CurAdapter is TATLiteLexer then
-    Result:= LexerName;
+    Result:= TATLiteLexer(CurAdapter).LexerName+msgLiteLexerSuffix;
 end;
 
 procedure TEditorFrame.SetSplitHorz(AValue: boolean);
@@ -1183,7 +1183,7 @@ begin
       exit;
     end;
 
-    SLexerName:= LexerNameAtPos(Point(Caret.PosX, Caret.PosY));
+    SLexerName:= LexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
 
     //autoshow for HTML
     if UiOps.AutocompleteHtml and (Pos('HTML', SLexerName)>0) then

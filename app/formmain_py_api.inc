@@ -2501,7 +2501,7 @@ begin
             Pnt.X:= StrToIntDef(SGetItem(Str, ','), 0);
             Pnt.Y:= StrToIntDef(SGetItem(Str, ','), 0);
             if Assigned(F) then
-              Result:= PyString_FromString(PChar(F.LexerNameAtPos(Pnt)))
+              Result:= PyString_FromString(PChar(F.LexerNameAtPos(Ed, Pnt)))
             else
               Result:= ReturnNone;
           end;
@@ -2511,7 +2511,7 @@ begin
             Pnt.X:= Ed.Carets[0].PosX;
             Pnt.Y:= Ed.Carets[0].PosY;
             if Assigned(F) then
-              Result:= PyString_FromString(PChar(F.LexerNameAtPos(Pnt)))
+              Result:= PyString_FromString(PChar(F.LexerNameAtPos(Ed, Pnt)))
             else
               Result:= ReturnNone;
           end;
