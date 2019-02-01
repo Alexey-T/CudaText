@@ -3455,8 +3455,8 @@ end;
 
 procedure TfmMain.SetFrameEncoding(Frame: TEditorFrame; const AEnc: string; AAlsoReloadFile: boolean);
 begin
-  if SameText(Frame.Ed1.EncodingName, AEnc) then exit;
-  Frame.Ed1.EncodingName:= AEnc;
+  if SameText(Frame.Editor.EncodingName, AEnc) then exit;
+  Frame.Editor.EncodingName:= AEnc;
 
   if AAlsoReloadFile then
   begin

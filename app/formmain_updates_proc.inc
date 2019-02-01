@@ -163,11 +163,11 @@ begin
   DoStatusbarTextByTag(AStatus, StatusbarTag_Caret, EditorFormatStatus(Ed, fmt));
 
   //------
-  S:= F.Ed1.EncodingName;
+  S:= Ed.EncodingName;
   DoStatusbarTextByTag(AStatus, StatusbarTag_Enc, S);
 
   //------
-  case F.LineEnds of
+  case Ed.Strings.Endings of
     cEndWin: S:= msgEndWin;
     cEndUnix: S:= msgEndUnix;
     cEndMac: S:= msgEndMac;
