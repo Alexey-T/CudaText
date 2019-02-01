@@ -1535,22 +1535,14 @@ procedure TEditorFrame.SetLexer_Ex(Ed: TATSynEdit; an: TecSyntAnalyzer);
 var
   an2: TecSyntAnalyzer;
 begin
-  if Ed=Ed1 then
+  if IsFileTooBigForLexer(GetFileName(Ed)) then
   begin
-    if IsFileTooBigForLexer(FFileName) then
-    begin
-      Adapter.Lexer:= nil;
-      exit;
-    end;
-  end
-  else
-  begin
-    if IsFileTooBigForLexer(FFileName2) then
-    begin
-      if Assigned(Adapter2) then
-        Adapter2.Lexer:= nil;
-      exit;
-    end;
+    if EditorsLinked or (Ed=Ed1) then
+      Adapter.Lexer:= nil
+    else
+    if Assigned(Adapter2) then
+      Adapter2.Lexer:= nil;
+    exit;
   end;
 
   if AllowFrameParsing then
@@ -1784,20 +1776,13 @@ procedure TEditorFrame.DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string; AA
 begin
   try
     Ed.LoadFromFile(AFileName);
-
-    if Ed=Ed1 then
-      FFileName:= AFileName
-    else
-      FFileName2:= AFileName;
+    SetFileName(Ed, AFileName);
     UpdateTabCaptionFromFilename;
   except
     if AAllowErrorMsgBox then
       MsgBox(msgCannotOpenFile+#13+AFileName, MB_OK or MB_ICONERROR);
 
-    if Ed=Ed1 then
-      FFileName:= ''
-    else
-      FFileName2:= '';
+    SetFileName(Ed, '');
     UpdateTabCaptionFromFilename;
 
     EditorClear(Ed);
@@ -1924,11 +1909,7 @@ begin
     end;
 
     AFileName:= SaveDialog.FileName;
-    if Ed=Ed1 then
-      FFileName:= AFileName
-    else
-      FFileName2:= AFileName;
-
+    SetFileName(Ed, AFileName);
     DoLexerFromFilename(Ed, AFileName);
 
     //add to recents saved-as file:
