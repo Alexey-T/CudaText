@@ -184,7 +184,7 @@ type
     function GetUnprintedShow: boolean;
     function GetUnprintedSpaces: boolean;
     procedure InitEditor(var ed: TATSynEdit);
-    function IsCaretInsideCommentOrString(AX, AY: integer): boolean;
+    function IsCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integer): boolean;
     procedure NotifChanged(Sender: TObject);
     procedure SetEnabledCodeTree(AValue: boolean);
     procedure SetEnabledFolding(AValue: boolean);
@@ -1145,7 +1145,7 @@ begin
       (Pos(AText[1], UiOps.AutocompleteTriggerChars)>0) then
     begin
       //check that we are not inside comment/string
-      if IsCaretInsideCommentOrString(Caret.PosX, Caret.PosY) then exit;
+      if IsCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit;
 
       FTextCharsTyped:= 0;
       Ed.DoCommand(cmd_AutoComplete);
@@ -1186,7 +1186,7 @@ begin
       if (FTextCharsTyped=0) and (not bIdentChar) then exit;
 
       //check that we are not inside comment/string
-      if IsCaretInsideCommentOrString(Caret.PosX, Caret.PosY) then exit;
+      if IsCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit;
 
       Inc(FTextCharsTyped);
       if FTextCharsTyped=UiOps.AutocompleteAutoshowCharCount then
@@ -1391,7 +1391,7 @@ begin
 
   //passing lite lexer - crashes (can't solve), so disabled
   if not SEndsWith(UiOps.NewdocLexer, msgLiteLexerSuffix) then
-    LexerName:= UiOps.NewdocLexer;
+    SetLexerName_Ex(Ed1, UiOps.NewdocLexer);
 
   FNotif:= TATFileNotif.Create(Self);
   FNotif.Timer.Interval:= 1000;
@@ -2342,7 +2342,7 @@ var
   bookmark: TATBookmarkItem;
   i: integer;
 begin
-  c.SetValue(path+cHistory_Lexer, LexerName);
+  c.SetValue(path+cHistory_Lexer, GetLexerName_Ex(Ed));
   c.SetValue(path+cHistory_Enc, Ed.EncodingName);
   c.SetValue(path+cHistory_Top, Ed.LineTop);
   c.SetValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode));
@@ -2845,21 +2845,26 @@ begin
   end;
 end;
 
-function TEditorFrame.IsCaretInsideCommentOrString(AX, AY: integer): boolean;
+function TEditorFrame.IsCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integer): boolean;
 var
   Pnt1, Pnt2: TPoint;
-  STokenText, STokenStyle: string;
+  SLexer, STokenText, STokenStyle: string;
 begin
   Result:= false;
-  if LexerName='' then exit;
-  Adapter.GetTokenAtPos(
+
+  //lite lexer not supported here
+  if not (Ed.AdapterForHilite is TATAdapterEControl) then exit;
+  SLexer:= GetLexerName_Ex(Ed);
+  if SLexer='' then exit;
+
+  TATAdapterEControl(Ed.AdapterForHilite).GetTokenAtPos(
     Point(AX, AY),
     Pnt1,
     Pnt2,
     STokenText,
     STokenStyle
     );
-  Result:= IsLexerStyleCommentOrString(LexerName, STokenStyle);
+  Result:= IsLexerStyleCommentOrString(SLexer, STokenStyle);
 end;
 
 end.
