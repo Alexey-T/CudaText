@@ -3247,7 +3247,8 @@ def project_variables():
 
 1.0.272 (app 1.73.2)
 * add: Editor objects "ed_1st", "ed_2nd"
-* add: Editor.get_prop/set_prop: PROP_EDITORS_LINKED allows to unlink primary/second editors in tab
+* add: Editor.get_prop/set_prop: PROP_EDITORS_LINKED allows to unlink primary/second editors
 * add: file_open: can open 2 files in a single tab
+* deprecated: file_save(), use ed.save() instead
 
 [[Category:CudaText]]
