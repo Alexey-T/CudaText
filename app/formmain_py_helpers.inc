@@ -37,12 +37,18 @@ end;
 
 procedure TfmMain.DoPyCommand_ByPluginIndex(AIndex: integer);
 var
+  F: TEditorFrame;
+  CurLexer: string;
   CmdItem: TAppCommand;
 begin
   if not ((AIndex>=0) and (AIndex<AppCommandList.Count)) then exit;
   CmdItem:= TAppCommand(AppCommandList[AIndex]);
 
-  if not IsLexerMatches(CmdItem.ItemLexers) then
+  F:= CurrentFrame;
+  if F=nil then exit;
+  CurLexer:= F.GetLexerName_Ex(F.Editor);
+
+  if not IsLexerListed(CurLexer, CmdItem.ItemLexers) then
   begin
     MsgStatus(msgStatusCommandOnlyForLexers+' '+CmdItem.ItemLexers);
     Exit

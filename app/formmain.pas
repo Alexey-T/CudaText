@@ -965,7 +965,6 @@ type
     procedure InitFormFind;
     function IsFocusedBottom: boolean;
     function IsFocusedFind: boolean;
-    function IsLexerMatches(const ANameList: string): boolean;
     procedure PyCompletionOnGetProp(Sender: TObject; out AText: string;
       out ACharsLeft, ACharsRight: integer);
     procedure PyCompletionOnResult(Sender: TObject;
@@ -5410,11 +5409,6 @@ begin
   MsgStatus(ARes);
 end;
 
-function TfmMain.IsLexerMatches(const ANameList: string): boolean;
-begin
-  Result:= IsLexerListed(CurrentFrame.LexerName, ANameList);
-end;
-
 function TfmMain.LiteLexer_GetStyleHash(Sender: TObject; const AStyleName: string): integer;
 var
   st: TecSyntaxFormat;
@@ -5484,14 +5478,19 @@ end;
 
 procedure TfmMain.DoOnDeleteLexer(Sender: TObject; const ALexerName: string);
 var
-  Frame: TEditorFrame;
+  F: TEditorFrame;
   i: integer;
 begin
   for i:= 0 to FrameCount-1 do
   begin
-    Frame:= Frames[i];
-    if Frame.LexerName=ALexerName then
-      Frame.Lexer:= nil;
+    F:= Frames[i];
+
+    if F.GetLexerName_Ex(F.Ed1)=ALexerName then
+      F.SetLexer_Ex(F.Ed1, nil);
+
+    if not F.EditorsLinked then
+      if F.GetLexerName_Ex(F.Ed2)=ALexerName then
+        F.SetLexer_Ex(F.Ed2, nil);
   end;
 end;
 
