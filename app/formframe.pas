@@ -139,7 +139,6 @@ type
     procedure DoFileOpen_AsPicture(const AFileName: string);
     procedure DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string;
       AAllowLoadHistory, AAllowErrorMsgBox: boolean; AOpenMode: TAppOpenMode);
-    function DoFileSave_Ex(Ed: TATSynEdit; AFileName: string; ASaveAs: boolean): boolean;
     procedure DoImageboxScroll(Sender: TObject);
     procedure DoOnChangeCaption;
     procedure DoOnChangeCaretPos;
@@ -312,6 +311,7 @@ type
     procedure DoFileOpen(const AFileName, AFileName2: string; AAllowLoadHistory,
       AAllowErrorMsgBox: boolean; AOpenMode: TAppOpenMode);
     function DoFileSave(ASaveAs: boolean): boolean;
+    function DoFileSave_Ex(Ed: TATSynEdit; AFileName: string; ASaveAs: boolean): boolean;
     procedure DoFileReload_DisableDetectEncoding;
     procedure DoFileReload;
     procedure DoLexerFromFilename(Ed: TATSynEdit; const AFileName: string);
