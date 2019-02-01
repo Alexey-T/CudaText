@@ -8,9 +8,11 @@ Copyright (c) Alexey Torgashin
 {$ifdef nn}begin end;{$endif}
 
 procedure TfmMain.UpdateCaption;
+const
+  cMark: array[boolean] of string = ('', '*');
 var
   F: TEditorFrame;
-  SName, SMark, SSession, SFileMode: string;
+  SName, SMark, SSession{, SFileMode}: string;
 begin
   F:= CurrentFrame;
   if F=nil then exit;
@@ -24,7 +26,7 @@ begin
   else
     SName:= F.TabCaption;
 
-  SMark:= IfThen(F.Editor.Modified, '*');
+  SMark:= cMark[F.Modified];
 
   SSession:= ChangeFileExt(ExtractFileName(FSessionName), '');
   if (SSession<>'') and (SSession<>'history session') then
@@ -32,14 +34,16 @@ begin
   else
     SSession:= '';
 
+  {
   SFileMode:= '';
   if F.IsPicture then
     SFileMode:= ' [pic]'
   else
   if F.IsBinary then
     SFileMode:= ' [hex]';
+  }
 
-  Caption:= SMark + SName + SSession + SFileMode + ' - ' + msgTitle;
+  Caption:= SMark + SName + SSession {+ SFileMode} + ' - ' + msgTitle;
   Application.Title:= SMark + F.TabCaption + ' - ' + msgTitle;
 end;
 
