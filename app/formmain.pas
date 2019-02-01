@@ -2929,7 +2929,7 @@ begin
       MsgStatus(msg);
 
       DoPyEvent(F.Editor, cEventOnOpen, []);
-      if F.IsText and (F.LexerName='') then
+      if F.IsText and (F.GetLexerName_Ex(F.Ed1)='') then
         DoPyEvent(F.Editor, cEventOnOpenNone, []);
       Exit
     end;
@@ -2954,9 +2954,9 @@ begin
     msg:= msg+' ('+IntToStr(tick)+'s)';
   MsgStatus(msg);
 
-  DoPyEvent(F.Editor, cEventOnOpen, []);
-  if F.IsText and (F.LexerName='') then
-    DoPyEvent(F.Editor, cEventOnOpenNone, []);
+  DoPyEvent(F.Ed1, cEventOnOpen, []);
+  if F.IsText and (F.GetLexerName_Ex(F.Ed1)='') then
+    DoPyEvent(F.Ed1, cEventOnOpenNone, []);
   Result.SetFocus;
 end;
 
@@ -3519,8 +3519,9 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     Frame:= Frames[i];
-    ListNames.Add(Frame.LexerName);
-    Frame.Lexer:= nil;
+    ListNames.Add(Frame.GetLexerName_Ex(Frame.Ed1));
+    Frame.SetLexer_Ex(Frame.Ed1, nil);
+    Frame.SetLexer_Ex(Frame.Ed2, nil);
   end;
 end;
 
@@ -3533,7 +3534,7 @@ begin
   begin
     Frame:= Frames[i];
     if i<ListNames.Count then
-      Frame.LexerName:= ListNames[i];
+      Frame.SetLexerName_Ex(Frame.Ed1, ListNames[i]);
   end;
 end;
 
@@ -3870,10 +3871,10 @@ begin
       ) <> ID_OK then exit;
 
   PrevRO:= F.ReadOnly;
-  PrevLexer:= F.LexerName;
+  PrevLexer:= F.GetLexerName_Ex(F.Ed1);
   F.ReadOnly:= false;
   F.DoFileReload;
-  F.Lexer:= AppManager.FindLexerByName(PrevLexer);
+  F.SetLexerName_Ex(F.Ed1, PrevLexer);
   F.ReadOnly:= PrevRO;
   F.Modified:= false;
 
@@ -4342,9 +4343,14 @@ end;
 
 procedure TfmMain.DoOps_OpenFile_LexerSpecific;
 var
-  fn: string;
+  F: TEditorFrame;
+  CurLexer, fn: string;
 begin
-  fn:= GetAppLexerSpecificConfig(CurrentFrame.LexerName);
+  F:= CurrentFrame;
+  if F=nil then exit;
+
+  CurLexer:= F.GetLexerName_Ex(F.Editor);
+  fn:= GetAppLexerSpecificConfig(CurLexer);
   if not FileExistsUTF8(fn) then
   begin
     FCreateFile(fn, true);

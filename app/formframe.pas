@@ -1931,7 +1931,6 @@ begin
   Ed:= Ed1;
 
   //remember props
-  //PrevLexer:= LexerName;
   PrevCaretX:= 0;
   PrevCaretY:= 0;
 
@@ -1967,7 +1966,6 @@ begin
   if Ed.Strings.Count=0 then exit;
 
   //restore props
-  //LexerName:= PrevLexer;
   PrevCaretY:= Min(PrevCaretY, Ed.Strings.Count-1);
   if PrevTail then
   begin
