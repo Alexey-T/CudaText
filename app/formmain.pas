@@ -3091,9 +3091,15 @@ function TfmMain.DoDialogCommands_Custom(
   AShowUsual, AShowPlugins, AShowLexers, AAllowConfig, AShowCentered: boolean;
   ACaption: string; AFocusedCommand: integer): integer;
 var
+  F: TEditorFrame;
+  Ed: TATSynEdit;
   bKeysChanged: boolean;
 begin
   Result:= 0;
+  F:= CurrentFrame;
+  if F=nil then exit;
+  Ed:= F.Editor;
+
   fmCommands:= TfmCommands.Create(Self);
   try
     UpdateInputForm(fmCommands);
@@ -3103,8 +3109,8 @@ begin
     fmCommands.OptAllowConfig:= AAllowConfig;
     fmCommands.OptFocusedCommand:= AFocusedCommand;
     fmCommands.OnMsg:= @DoCommandsMsgStatus;
-    fmCommands.CurrentLexerName:= CurrentFrame.LexerName;
-    fmCommands.Keymap:= CurrentEditor.Keymap;
+    fmCommands.CurrentLexerName:= F.GetLexerName_Ex(Ed);
+    fmCommands.Keymap:= Ed.Keymap;
     fmCommands.ListCaption:= ACaption;
     if AShowCentered then
       fmCommands.Position:= poScreenCenter;

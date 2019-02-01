@@ -75,7 +75,7 @@ begin
 
   if (AEvent=cEventOnFocus) and not FAllowOnFocus then exit;
 
-  SCurLexer:= Frame.LexerName;
+  SCurLexer:= Frame.GetLexerName_Ex(Frame.Editor);
   bNeedGroup:= AEvent in cTheseEventsNeedGroupingUndo;
 
   //get max prior for AEvent

@@ -321,20 +321,24 @@ procedure TfmMain.UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean = false);
   end;
   //
 var
-  NewLexer: string;
+  F: TEditorFrame;
   Ed: TATSynEdit;
+  NewLexer: string;
 begin
   if Application.Terminated then exit;
+
+  F:= CurrentFrame;
+  if F=nil then exit;
+  Ed:= F.Editor;
+
   if not AForceUpdate then
   begin
-    NewLexer:= CurrentFrame.LexerName;
+    NewLexer:= F.GetLexerName_Ex(Ed);
     if FLastLexerForPluginsMenu=NewLexer then exit;
     FLastLexerForPluginsMenu:= NewLexer;
   end;
 
-  Ed:= CurrentEditor;
-  if Assigned(Ed) then
-    UpdMenu(mnuPlugins, Ed.Keymap);
+  UpdMenu(mnuPlugins, Ed.Keymap);
 end;
 
 
