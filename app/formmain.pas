@@ -674,6 +674,7 @@ type
       const AText: string; var AHandled: boolean);
     procedure DisablePluginMenuItems;
     procedure DoApplyCenteringOption;
+    procedure DoApplyLexerStyleMaps(AndApplyTheme: boolean);
     procedure DoApplyTranslationToGroups(G: TATGroups);
     procedure DoClearSingleFirstTab;
     procedure DoCloseAllTabs;
@@ -2402,18 +2403,28 @@ begin
   end;
 end;
 
+procedure TfmMain.DoApplyLexerStyleMaps(AndApplyTheme: boolean);
+var
+  i: integer;
+begin
+  for i:= 0 to FrameCount-1 do
+    with Frames[i] do
+    begin
+      SetLexer(Ed1, GetLexer(Ed1));
+      if AndApplyTheme then
+        ApplyTheme;
+    end;
+end;
+
 procedure TfmMain.DoDialogLexerMap;
 var
   F: TEditorFrame;
-  i: integer;
 begin
   F:= CurrentFrame;
   if F=nil then exit;
 
   if DoDialogLexerStylesMap(F.GetLexer(F.Editor)) then
-    for i:= 0 to FrameCount-1 do
-      with Frames[i] do
-        SetLexer(Ed1, GetLexer(Ed1));
+    DoApplyLexerStyleMaps(false);
 end;
 
 procedure TfmMain.DoCopyFilenameFull;
@@ -3515,16 +3526,17 @@ end;
 
 procedure TfmMain.DoOps_LexersDisableInFrames(ListNames: TStringList);
 var
-  Frame: TEditorFrame;
+  F: TEditorFrame;
   i: integer;
 begin
   ListNames.Clear;
   for i:= 0 to FrameCount-1 do
   begin
-    Frame:= Frames[i];
-    ListNames.Add(Frame.GetLexerName(Frame.Ed1));
-    Frame.SetLexer(Frame.Ed1, nil);
-    Frame.SetLexer(Frame.Ed2, nil);
+    F:= Frames[i];
+    ListNames.Add(F.GetLexerName(F.Ed1));
+    F.SetLexer(F.Ed1, nil);
+    if not F.EditorsLinked then
+      F.SetLexer(F.Ed2, nil);
   end;
 end;
 

@@ -1648,7 +1648,8 @@ begin
     if not FileExistsUTF8(AFileName2) then exit;
 
   SetLexer(Ed1, nil);
-  SetLexer(Ed2, nil);
+  if not EditorsLinked then
+    SetLexer(Ed2, nil);
 
   case AOpenMode of
     cOpenModeViewText:

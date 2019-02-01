@@ -49,7 +49,6 @@ end;
 
 procedure TfmMain.DoApplyTheme;
 var
-  F: TEditorFrame;
   //PropObject: TAppPanelPropsClass;
   i: integer;
 begin
@@ -159,12 +158,7 @@ begin
     DoApplyThemeToCustomDialog(TFormDummy(CustomDialogs[i]));
 
   //apply AppTheme to all frames
-  for i:= 0 to FrameCount-1 do
-  begin
-    F:= Frames[i];
-    F.SetLexer(F.Ed1, F.GetLexer(F.Ed1)); //apply lexer style map
-    F.ApplyTheme;
-  end;
+  DoApplyLexerStyleMaps(true);
 
   SplitterVert.Color:= GetAppColor('SplitMain');
   SplitterHorz.Color:= SplitterVert.Color;
@@ -397,7 +391,6 @@ end;
 function TfmMain.DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean): boolean;
 var
   Form: TfmColorSetup;
-  i: integer;
 begin
   Form:= TfmColorSetup.Create(nil);
   try
@@ -412,9 +405,7 @@ begin
     if Result then
     begin
       AData:= Form.Data;
-      for i:= 0 to FrameCount-1 do
-        with Frames[i] do
-          SetLexer(Ed1, GetLexer(Ed1));
+      DoApplyLexerStyleMaps(false);
       UpdateFrame;
     end;
   finally
