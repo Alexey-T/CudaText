@@ -46,7 +46,7 @@ begin
 
   F:= CurrentFrame;
   if F=nil then exit;
-  CurLexer:= F.GetLexerName(F.Editor);
+  CurLexer:= F.LexerName[F.Editor];
 
   if not IsLexerListed(CurLexer, CmdItem.ItemLexers) then
   begin
@@ -81,7 +81,7 @@ begin
 
   if (AEvent=cEventOnFocus) and not FAllowOnFocus then exit;
 
-  SCurLexer:= Frame.GetLexerName(Frame.Editor);
+  SCurLexer:= Frame.LexerName[Frame.Editor];
   bNeedGroup:= AEvent in cTheseEventsNeedGroupingUndo;
 
   //get max prior for AEvent

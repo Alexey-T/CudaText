@@ -2943,7 +2943,7 @@ begin
       MsgStatus(msg);
 
       DoPyEvent(F.Editor, cEventOnOpen, []);
-      if F.IsText and (F.GetLexerName(F.Ed1)='') then
+      if F.IsText and (F.LexerName[F.Ed1]='') then
         DoPyEvent(F.Editor, cEventOnOpenNone, []);
       Exit
     end;
@@ -2969,7 +2969,7 @@ begin
   MsgStatus(msg);
 
   DoPyEvent(F.Ed1, cEventOnOpen, []);
-  if F.IsText and (F.GetLexerName(F.Ed1)='') then
+  if F.IsText and (F.LexerName[F.Ed1]='') then
     DoPyEvent(F.Ed1, cEventOnOpenNone, []);
   Result.SetFocus;
 end;
@@ -3123,7 +3123,7 @@ begin
     fmCommands.OptAllowConfig:= AAllowConfig;
     fmCommands.OptFocusedCommand:= AFocusedCommand;
     fmCommands.OnMsg:= @DoCommandsMsgStatus;
-    fmCommands.CurrentLexerName:= F.GetLexerName(Ed);
+    fmCommands.CurrentLexerName:= F.LexerName[Ed];
     fmCommands.Keymap:= Ed.Keymap;
     fmCommands.ListCaption:= ACaption;
     if AShowCentered then
@@ -3517,7 +3517,7 @@ begin
   else
     SName:= '';
 
-  F.SetLexerName(F.Editor, SName);
+  F.LexerName[F.Editor]:= SName;
 
   UpdateFrame;
   UpdateStatus;
@@ -3533,7 +3533,7 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
-    ListNames.Add(F.GetLexerName(F.Ed1));
+    ListNames.Add(F.LexerName[F.Ed1]);
     F.Lexer[F.Ed1]:= nil;
     if not F.EditorsLinked then
       F.Lexer[F.Ed2]:= nil;
@@ -3549,7 +3549,7 @@ begin
   begin
     Frame:= Frames[i];
     if i<ListNames.Count then
-      Frame.SetLexerName(Frame.Ed1, ListNames[i]);
+      Frame.LexerName[Frame.Ed1]:= ListNames[i];
   end;
 end;
 
@@ -3886,10 +3886,10 @@ begin
       ) <> ID_OK then exit;
 
   PrevRO:= F.ReadOnly;
-  PrevLexer:= F.GetLexerName(F.Ed1);
+  PrevLexer:= F.LexerName[F.Ed1];
   F.ReadOnly:= false;
   F.DoFileReload;
-  F.SetLexerName(F.Ed1, PrevLexer);
+  F.LexerName[F.Ed1]:= PrevLexer;
   F.ReadOnly:= PrevRO;
   F.Modified:= false;
 
@@ -4364,7 +4364,7 @@ begin
   F:= CurrentFrame;
   if F=nil then exit;
 
-  CurLexer:= F.GetLexerName(F.Editor);
+  CurLexer:= F.LexerName[F.Editor];
   fn:= GetAppLexerSpecificConfig(CurLexer);
   if not FileExistsUTF8(fn) then
   begin
@@ -5502,11 +5502,11 @@ begin
   begin
     F:= Frames[i];
 
-    if F.GetLexerName(F.Ed1)=ALexerName then
+    if F.LexerName[F.Ed1]=ALexerName then
       F.Lexer[F.Ed1]:= nil;
 
     if not F.EditorsLinked then
-      if F.GetLexerName(F.Ed2)=ALexerName then
+      if F.LexerName[F.Ed2]=ALexerName then
         F.Lexer[F.Ed2]:= nil;
   end;
 end;

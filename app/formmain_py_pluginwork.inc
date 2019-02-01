@@ -333,7 +333,7 @@ begin
 
   if not AForceUpdate then
   begin
-    NewLexer:= F.GetLexerName(Ed);
+    NewLexer:= F.LexerName[Ed];
     if FLastLexerForPluginsMenu=NewLexer then exit;
     FLastLexerForPluginsMenu:= NewLexer;
   end;
