@@ -251,7 +251,7 @@ type
     function GetLexer(Ed: TATSynEdit): TecSyntAnalyzer;
     function GetLexerLite(Ed: TATSynEdit): TATLiteLexer;
     function GetLexerName(Ed: TATSynEdit): string;
-    procedure SetLexer_Ex(Ed: TATSynEdit; an: TecSyntAnalyzer);
+    procedure SetLexer(Ed: TATSynEdit; an: TecSyntAnalyzer);
     procedure SetLexerLite(Ed: TATSynEdit; an: TATLiteLexer);
     procedure SetLexerName(Ed: TATSynEdit; const AValue: string);
 
@@ -539,7 +539,7 @@ begin
 
     if Assigned(FInitialLexer) then
     begin
-      SetLexer_Ex(Ed1, FInitialLexer);
+      SetLexer(Ed1, FInitialLexer);
       FInitialLexer:= nil;
     end;
   end;
@@ -878,11 +878,11 @@ begin
     if Assigned(anLite) then
       SetLexerLite(Ed, anLite)
     else
-      SetLexer_Ex(Ed, nil);
+      SetLexer(Ed, nil);
   end
   else
   begin
-    SetLexer_Ex(Ed, AppManager.FindLexerByName(AValue));
+    SetLexer(Ed, AppManager.FindLexerByName(AValue));
   end;
 end;
 
@@ -1463,7 +1463,7 @@ begin
 end;
 
 
-procedure TEditorFrame.SetLexer_Ex(Ed: TATSynEdit; an: TecSyntAnalyzer);
+procedure TEditorFrame.SetLexer(Ed: TATSynEdit; an: TecSyntAnalyzer);
 var
   an2: TecSyntAnalyzer;
 begin
@@ -1525,7 +1525,7 @@ end;
 
 procedure TEditorFrame.SetLexerLite(Ed: TATSynEdit; an: TATLiteLexer);
 begin
-  SetLexer_Ex(Ed, nil);
+  SetLexer(Ed, nil);
 
   Ed.AdapterForHilite:= an;
   Ed.Update;
@@ -1647,8 +1647,8 @@ begin
   if (AFileName2<>'') then
     if not FileExistsUTF8(AFileName2) then exit;
 
-  SetLexer_Ex(Ed1, nil);
-  SetLexer_Ex(Ed2, nil);
+  SetLexer(Ed1, nil);
+  SetLexer(Ed2, nil);
 
   case AOpenMode of
     cOpenModeViewText:
@@ -2693,7 +2693,7 @@ begin
   if AFileName='' then exit;
   DoLexerDetect(AFileName, TempLexer, TempLexerLite, SName);
   if Assigned(TempLexer) then
-    SetLexer_Ex(Ed, TempLexer)
+    SetLexer(Ed, TempLexer)
   else
   if Assigned(TempLexerLite) then
     SetLexerLite(Ed, TempLexerLite);
@@ -2772,9 +2772,9 @@ end;
 
 procedure TEditorFrame.DoFileClose;
 begin
-  SetLexer_Ex(Ed1, nil);
+  SetLexer(Ed1, nil);
   if not EditorsLinked then
-    SetLexer_Ex(Ed2, nil);
+    SetLexer(Ed2, nil);
 
   FileName:= '';
   FileName2:= '';

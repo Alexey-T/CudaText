@@ -162,7 +162,7 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
-    F.SetLexer_Ex(F.Ed1, F.GetLexer(F.Ed1)); //apply lexer style map
+    F.SetLexer(F.Ed1, F.GetLexer(F.Ed1)); //apply lexer style map
     F.ApplyTheme;
   end;
 
@@ -414,7 +414,7 @@ begin
       AData:= Form.Data;
       for i:= 0 to FrameCount-1 do
         with Frames[i] do
-          SetLexer_Ex(Ed1, GetLexer(Ed1));
+          SetLexer(Ed1, GetLexer(Ed1));
       UpdateFrame;
     end;
   finally

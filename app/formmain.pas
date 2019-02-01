@@ -2413,7 +2413,7 @@ begin
   if DoDialogLexerStylesMap(F.GetLexer(F.Editor)) then
     for i:= 0 to FrameCount-1 do
       with Frames[i] do
-        SetLexer_Ex(Ed1, GetLexer(Ed1));
+        SetLexer(Ed1, GetLexer(Ed1));
 end;
 
 procedure TfmMain.DoCopyFilenameFull;
@@ -3523,8 +3523,8 @@ begin
   begin
     Frame:= Frames[i];
     ListNames.Add(Frame.GetLexerName(Frame.Ed1));
-    Frame.SetLexer_Ex(Frame.Ed1, nil);
-    Frame.SetLexer_Ex(Frame.Ed2, nil);
+    Frame.SetLexer(Frame.Ed1, nil);
+    Frame.SetLexer(Frame.Ed2, nil);
   end;
 end;
 
@@ -4412,13 +4412,13 @@ begin
   if (AIndex>=0) and (AIndex<CountUsual+CountLite) then
   begin
     if AIndex<CountUsual then
-      F.SetLexer_Ex(Ed, AppManager.Lexers[AIndex])
+      F.SetLexer(Ed, AppManager.Lexers[AIndex])
     else
       F.SetLexerLite(Ed, AppManagerLite.Lexers[AIndex-CountUsual]);
   end
   else
   begin
-    F.SetLexer_Ex(Ed, nil);
+    F.SetLexer(Ed, nil);
     F.SetLexerLite(Ed, nil);
   end;
 
@@ -5491,11 +5491,11 @@ begin
     F:= Frames[i];
 
     if F.GetLexerName(F.Ed1)=ALexerName then
-      F.SetLexer_Ex(F.Ed1, nil);
+      F.SetLexer(F.Ed1, nil);
 
     if not F.EditorsLinked then
       if F.GetLexerName(F.Ed2)=ALexerName then
-        F.SetLexer_Ex(F.Ed2, nil);
+        F.SetLexer(F.Ed2, nil);
   end;
 end;
 
