@@ -1117,10 +1117,13 @@ Gets string if command selected, or None if cancelled.
 ===file_open===
 
  file_open(filename, group=-1, options="")
+ file_open((filename1, filename2), group=-1, options="")
 
-Opens editor tab with given filename. If filename already opened, activates its tab. Pass empty str to open untitled tab.
+Opens editor tab with given filename. If filename already opened, activates its tab. Pass empty string to open untitled tab.
 
-Gets bool: filename is empty or file was successfully opened. For zip files, gets True only if add-on (in zip file) was correct and installed.
+First parameter can be 2-tuple (or 2-list) of string, to open two files in a single tab, in a splitted view. In this case, second filename won't be handled specially for zip file, picture file, binary file etc.
+
+Gets bool: filename (first one) is empty or file was successfully opened. For zip files, gets True only if add-on (in zip file) was correct and installed.
 
 * Param "group": index of tab-group (0-based), default means "current group". If you pass index of currently hidden group, group won't show, you need to call editor command to show it, see [[#cmd]].
 * Param "options": string:
@@ -3245,5 +3248,6 @@ def project_variables():
 1.0.272 (app 1.73.2)
 * add: Editor objects "ed_1st", "ed_2nd"
 * add: Editor.get_prop/set_prop: PROP_EDITORS_LINKED allows to unlink primary/second editors in tab
+* add: file_open: can open 2 files in a single tab
 
 [[Category:CudaText]]
