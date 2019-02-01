@@ -248,7 +248,6 @@ type
     property NotifTime: integer read GetNotifTime write SetNotifTime;
 
     property FileName: string read FFileName write SetFileName;
-    property FileName2: string read FFileName2 write SetFileName2;
     property FileWasBig: boolean read FFileWasBig write SetFileWasBig;
     function GetFileName(Ed: TATSynEdit): string;
     procedure SetFileName(Ed: TATSynEdit; const AFileName: string);
@@ -1741,17 +1740,17 @@ end;
 function TEditorFrame.GetFileName(Ed: TATSynEdit): string;
 begin
   if EditorsLinked or (Ed=Ed1) then
-    Result:= FileName
+    Result:= FFileName
   else
-    Result:= FileName2;
+    Result:= FFileName2;
 end;
 
 procedure TEditorFrame.SetFileName(Ed: TATSynEdit; const AFileName: string);
 begin
   if EditorsLinked or (Ed=Ed1) then
-    FileName:= AFileName
+    FFileName:= AFileName
   else
-    FileName2:= AFileName;
+    FFileName2:= AFileName;
 end;
 
 function TEditorFrame.DoFileSave(ASaveAs: boolean): boolean;
@@ -2780,8 +2779,8 @@ begin
   if not EditorsLinked then
     Lexer[Ed2]:= nil;
 
-  FileName:= '';
-  FileName2:= '';
+  FFileName:= '';
+  FFileName2:= '';
   UpdateTabCaptionFromFilename;
 
   if Assigned(FBin) then
