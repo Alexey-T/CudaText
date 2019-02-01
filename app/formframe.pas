@@ -998,10 +998,17 @@ begin
 end;
 
 procedure TEditorFrame.UpdateModifiedState(AWithEvent: boolean=true);
+var
+  NewValue: boolean;
 begin
-  if FModified<>Ed1.Modified then
+  if EditorsLinked then
+    NewValue:= Ed1.Modified
+  else
+    NewValue:= Ed1.Modified or Ed2.Modified;
+
+  if FModified<>NewValue then
   begin
-    FModified:= Ed1.Modified;
+    FModified:= NewValue;
     if FModified then
       DoClearPreviewTabState;
     DoOnChangeCaption;
