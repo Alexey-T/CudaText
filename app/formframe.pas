@@ -309,7 +309,7 @@ type
     property SaveDialog: TSaveDialog read FSaveDialog write FSaveDialog;
     //file
     procedure DoFileClose;
-    procedure DoFileOpen(const AFileName: string; AAllowLoadHistory,
+    procedure DoFileOpen(const AFileName, AFileName2: string; AAllowLoadHistory,
       AAllowErrorMsgBox: boolean; AOpenMode: TAppOpenMode);
     function DoFileSave(ASaveAs: boolean): boolean;
     procedure DoFileReload_DisableDetectEncoding;
@@ -1723,11 +1723,15 @@ begin
   end;
 end;
 
-procedure TEditorFrame.DoFileOpen(const AFileName: string; AAllowLoadHistory, AAllowErrorMsgBox: boolean;
+procedure TEditorFrame.DoFileOpen(const AFileName, AFileName2: string; AAllowLoadHistory, AAllowErrorMsgBox: boolean;
   AOpenMode: TAppOpenMode);
 begin
-  if not FileExistsUTF8(AFileName) then Exit;
-  SetLexer(nil);
+  if not FileExistsUTF8(AFileName) then exit;
+  if (AFileName2<>'') then
+    if not FileExistsUTF8(AFileName2) then exit;
+
+  SetLexer_Ex(Ed1, nil);
+  SetLexer_Ex(Ed2, nil);
 
   case AOpenMode of
     cOpenModeViewText:
@@ -1762,6 +1766,12 @@ begin
   DoDeactivateViewerMode;
 
   DoFileOpen_Ex(Ed1, AFileName, AAllowLoadHistory, AAllowErrorMsgBox, AOpenMode);
+
+  if AFileName2<>'' then
+  begin
+    EditorsLinked:= false;
+    DoFileOpen_Ex(Ed2, AFileName2, AAllowLoadHistory, AAllowErrorMsgBox, AOpenMode);
+  end;
 end;
 
 procedure TEditorFrame.DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string; AAllowLoadHistory, AAllowErrorMsgBox: boolean;
@@ -1963,24 +1973,26 @@ var
   PrevCaretX, PrevCaretY: integer;
   PrevTail: boolean;
   Mode: TAppOpenMode;
+  Ed: TATSynEdit;
 begin
   if FileName='' then exit;
+  Ed:= Ed1;
 
   //remember props
   //PrevLexer:= LexerName;
   PrevCaretX:= 0;
   PrevCaretY:= 0;
 
-  if Editor.Carets.Count>0 then
-    with Editor.Carets[0] do
+  if Ed.Carets.Count>0 then
+    with Ed.Carets[0] do
       begin
         PrevCaretX:= PosX;
         PrevCaretY:= PosY;
       end;
 
   PrevTail:= UiOps.ReloadFollowTail and
-    (Editor.Strings.Count>0) and
-    (PrevCaretY=Editor.Strings.Count-1);
+    (Ed.Strings.Count>0) and
+    (PrevCaretY=Ed.Strings.Count-1);
 
   Mode:= cOpenModeEditor;
   if IsBinary then
@@ -1998,22 +2010,22 @@ begin
     end;
 
   //reopen
-  DoSaveHistory(Ed1, FileName);
-  DoFileOpen(FileName, true{AllowLoadHistory}, false, Mode);
-  if Editor.Strings.Count=0 then exit;
+  DoSaveHistory(Ed, FileName);
+  DoFileOpen(FileName, '', true{AllowLoadHistory}, false, Mode);
+  if Ed.Strings.Count=0 then exit;
 
   //restore props
   //LexerName:= PrevLexer;
-  PrevCaretY:= Min(PrevCaretY, Editor.Strings.Count-1);
+  PrevCaretY:= Min(PrevCaretY, Ed.Strings.Count-1);
   if PrevTail then
   begin
     PrevCaretX:= 0;
-    PrevCaretY:= Editor.Strings.Count-1;
+    PrevCaretY:= Ed.Strings.Count-1;
   end;
 
   Application.ProcessMessages; //for DoGotoPos
 
-  Editor.DoGotoPos(
+  Ed.DoGotoPos(
     Point(PrevCaretX, PrevCaretY),
     Point(-1, -1),
     1,

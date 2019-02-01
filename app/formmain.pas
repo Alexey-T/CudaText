@@ -2898,7 +2898,7 @@ begin
     end;
 
     Result.Adapter.Stop;
-    Result.DoFileOpen(AFilename, bEnableHistory, true, OpenMode);
+    Result.DoFileOpen(AFilename, '', bEnableHistory, true, OpenMode);
     msg:= msgStatusOpened+' '+ExtractFileName(AFilename);
     MsgStatus(msg);
 
@@ -2915,7 +2915,7 @@ begin
     if F.IsEmpty then
     begin
       tick:= GetTickCount64;
-      F.DoFileOpen(AFilename, bEnableHistory, true, OpenMode);
+      F.DoFileOpen(AFilename, '', bEnableHistory, true, OpenMode);
       Result:= F;
       tick:= (GetTickCount64-tick) div 1000;
 
@@ -2941,7 +2941,7 @@ begin
   F:= D.TabObject as TEditorFrame;
 
   tick:= GetTickCount64;
-  F.DoFileOpen(AFilename, bEnableHistory, true, OpenMode);
+  F.DoFileOpen(AFilename, '', bEnableHistory, true, OpenMode);
   Result:= F;
   tick:= (GetTickCount64-tick) div 1000;
 
