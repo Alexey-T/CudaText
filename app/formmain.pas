@@ -2800,14 +2800,23 @@ begin
   //expand "./name"
   //note: ExpandFileNameUTF8 has bug in Laz 1.9-
   if AFileName<>'' then
-    AFileName:= ExpandFileName(AFileName);
-  if AFileName2<>'' then
-    AFileName2:= ExpandFileName(AFileName2);
-
-  if not FileExistsUTF8(AFileName) then
   begin
-    MsgBox(msgCannotFindFile+#13+AFileName, mb_ok or mb_iconerror);
-    Exit
+    AFileName:= ExpandFileName(AFileName);
+    if not FileExistsUTF8(AFileName) then
+    begin
+      MsgBox(msgCannotFindFile+#13+AFileName, MB_OK or MB_ICONERROR);
+      Exit
+    end;
+  end;
+
+  if AFileName2<>'' then
+  begin
+    AFileName2:= ExpandFileName(AFileName2);
+    if not FileExistsUTF8(AFileName2) then
+    begin
+      MsgBox(msgCannotFindFile+#13+AFileName2, MB_OK or MB_ICONERROR);
+      Exit
+    end;
   end;
 
   if OpenMode=cOpenModeEditor then
