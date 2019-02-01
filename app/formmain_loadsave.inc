@@ -540,7 +540,7 @@ begin
   if F=nil then exit;
 
   //dont load lexer-specific cfg if tab changed, and same lexer active
-  CurLexer:= F.GetLexerName_Ex(F.Editor);
+  CurLexer:= F.GetLexerName(F.Editor);
   if FKeymapLastLexer=CurLexer then exit;
   FKeymapLastLexer:= CurLexer;
 
@@ -996,7 +996,7 @@ begin
   if F=nil then exit;
   DoOps_ResetLexerSpecificOptions;
 
-  fn:= GetAppLexerSpecificConfig(F.GetLexerName_Ex(F.Editor));
+  fn:= GetAppLexerSpecificConfig(F.GetLexerName(F.Editor));
   if FileExistsUTF8(fn) then
   begin
     Ops:= EditorOps;

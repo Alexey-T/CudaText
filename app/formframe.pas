@@ -252,10 +252,10 @@ type
 
     property Lexer: TecSyntAnalyzer read GetLexer write SetLexer;
     function LexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
-    function GetLexerName_Ex(Ed: TATSynEdit): string;
+    function GetLexerName(Ed: TATSynEdit): string;
     procedure SetLexer_Ex(Ed: TATSynEdit; an: TecSyntAnalyzer);
     procedure SetLexerLite_Ex(Ed: TATSynEdit; an: TATLiteLexer);
-    procedure SetLexerName_Ex(Ed: TATSynEdit; const AValue: string);
+    procedure SetLexerName(Ed: TATSynEdit; const AValue: string);
 
     property Locked: boolean read FLocked write SetLocked;
     property CommentString: string read GetCommentString;
@@ -841,7 +841,7 @@ begin
     Result:= nil;
 end;
 
-function TEditorFrame.GetLexerName_Ex(Ed: TATSynEdit): string;
+function TEditorFrame.GetLexerName(Ed: TATSynEdit): string;
 var
   CurAdapter: TATAdapterHilite;
   an: TecSyntAnalyzer;
@@ -868,7 +868,7 @@ begin
 end;
 
 
-procedure TEditorFrame.SetLexerName_Ex(Ed: TATSynEdit; const AValue: string);
+procedure TEditorFrame.SetLexerName(Ed: TATSynEdit; const AValue: string);
 var
   SName: string;
   anLite: TATLiteLexer;
@@ -1378,7 +1378,7 @@ begin
 
   //passing lite lexer - crashes (can't solve), so disabled
   if not SEndsWith(UiOps.NewdocLexer, msgLiteLexerSuffix) then
-    SetLexerName_Ex(Ed1, UiOps.NewdocLexer);
+    SetLexerName(Ed1, UiOps.NewdocLexer);
 
   FNotif:= TATFileNotif.Create(Self);
   FNotif.Timer.Interval:= 1000;
@@ -2327,7 +2327,7 @@ var
   bookmark: TATBookmarkItem;
   i: integer;
 begin
-  c.SetValue(path+cHistory_Lexer, GetLexerName_Ex(Ed));
+  c.SetValue(path+cHistory_Lexer, GetLexerName(Ed));
   c.SetValue(path+cHistory_Enc, Ed.EncodingName);
   c.SetValue(path+cHistory_Top, Ed.LineTop);
   c.SetValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode));
@@ -2453,10 +2453,10 @@ begin
   if c.GetValue(path+cHistory_Top, -1)<0 then exit;
 
   //lexer
-  str0:= GetLexerName_Ex(Ed);
+  str0:= GetLexerName(Ed);
   str:= c.GetValue(path+cHistory_Lexer, '');
   if (str<>'') and (str<>str0) then
-    SetLexerName_Ex(Ed, str);
+    SetLexerName(Ed, str);
 
   //enc
   str0:= Ed.EncodingName;
@@ -2839,7 +2839,7 @@ begin
 
   //lite lexer not supported here
   if not (Ed.AdapterForHilite is TATAdapterEControl) then exit;
-  SLexer:= GetLexerName_Ex(Ed);
+  SLexer:= GetLexerName(Ed);
   if SLexer='' then exit;
 
   TATAdapterEControl(Ed.AdapterForHilite).GetTokenAtPos(
