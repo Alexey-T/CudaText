@@ -213,8 +213,6 @@ type
     function GetLexer: TecSyntAnalyzer;
     function GetLexerLite_Ex(Ed: TATSynEdit): TATLiteLexer;
     procedure SetLexer(an: TecSyntAnalyzer);
-    function GetLexerName: string;
-    procedure SetLexerName(const AValue: string);
     procedure UpdateTabCaptionFromFilename;
   protected
     procedure DoOnResize; override;
@@ -253,7 +251,6 @@ type
     procedure SetFileName(Ed: TATSynEdit; const AFileName: string);
 
     property Lexer: TecSyntAnalyzer read GetLexer write SetLexer;
-    property LexerName: string read GetLexerName write SetLexerName;
     function LexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
     function GetLexerName_Ex(Ed: TATSynEdit): string;
     procedure SetLexer_Ex(Ed: TATSynEdit; an: TecSyntAnalyzer);
@@ -844,11 +841,6 @@ begin
     Result:= nil;
 end;
 
-function TEditorFrame.GetLexerName: string;
-begin
-  Result:= GetLexerName_Ex(Ed1);
-end;
-
 function TEditorFrame.GetLexerName_Ex(Ed: TATSynEdit): string;
 var
   CurAdapter: TATAdapterHilite;
@@ -875,11 +867,6 @@ begin
   end;
 end;
 
-
-procedure TEditorFrame.SetLexerName(const AValue: string);
-begin
-  SetLexerName_Ex(Ed1, AValue);
-end;
 
 procedure TEditorFrame.SetLexerName_Ex(Ed: TATSynEdit; const AValue: string);
 var
