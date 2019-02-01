@@ -1204,7 +1204,12 @@ begin
       if F=nil then
         exit(ReturnNone);
       if F.IsText then
-        Str:= F.FileName
+      begin
+        if Ed=F.Ed1 then
+          Str:= F.FileName
+        else
+          Str:= F.FileName2;
+      end
       else
         Str:= '?';
       Result:= PyString_FromString(PChar(Str));
