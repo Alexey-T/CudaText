@@ -2496,7 +2496,7 @@ end;
 procedure TfmMain.UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
 begin
   if Assigned(Frame) then
-    Frame.LineEnds:= AValue;
+    Frame.LineEnds[Frame.Editor]:= AValue;
   UpdateStatus;
   MsgStatus(msgStatusEndsChanged);
 end;

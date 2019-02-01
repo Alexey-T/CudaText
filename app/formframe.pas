@@ -171,7 +171,7 @@ type
     procedure EditorOnScroll(Sender: TObject);
     function GetCommentString: string;
     function GetEnabledFolding: boolean;
-    function GetLineEnds: TATLineEnds;
+    function GetLineEnds(Ed: TATSynEdit): TATLineEnds;
     function GetNotifEnabled: boolean;
     function GetNotifTime: integer;
     function GetPictureScale: integer;
@@ -206,7 +206,7 @@ type
     procedure SetSplitPos(AValue: double);
     procedure SetSplitted(AValue: boolean);
     procedure SetTabCaption(const AValue: string);
-    procedure SetLineEnds(Value: TATLineEnds);
+    procedure SetLineEnds(Ed: TATSynEdit; AValue: TATLineEnds);
     procedure SetUnprintedSpaces(AValue: boolean);
     procedure SetEditorsLinked(AValue: boolean);
     procedure UpdateEds(AUpdateWrapInfo: boolean=false);
@@ -283,7 +283,7 @@ type
     function BinaryFindFirst(AFinder: TATEditorFinder; AShowAll: boolean): boolean;
     function BinaryFindNext(ABack: boolean): boolean;
     //
-    property LineEnds: TATLineEnds read GetLineEnds write SetLineEnds;
+    property LineEnds[Ed: TATSynEdit]: TATLineEnds read GetLineEnds write SetLineEnds;
     property UnprintedShow: boolean read GetUnprintedShow write SetUnprintedShow;
     property UnprintedSpaces: boolean read GetUnprintedSpaces write SetUnprintedSpaces;
     property UnprintedEnds: boolean read GetUnprintedEnds write SetUnprintedEnds;
@@ -671,9 +671,9 @@ begin
 end;
 
 
-function TEditorFrame.GetLineEnds: TATLineEnds;
+function TEditorFrame.GetLineEnds(Ed: TATSynEdit): TATLineEnds;
 begin
-  Result:= Ed1.Strings.Endings;
+  Result:= Ed.Strings.Endings;
 end;
 
 function TEditorFrame.GetNotifEnabled: boolean;
@@ -1970,12 +1970,14 @@ begin
   OnUpdateStatus(Self);
 end;
 
-procedure TEditorFrame.SetLineEnds(Value: TATLineEnds);
+procedure TEditorFrame.SetLineEnds(Ed: TATSynEdit; AValue: TATLineEnds);
 begin
-  if GetLineEnds=Value then Exit;
-  Ed1.Strings.Endings:= Value;
-  Ed1.Update;
-  Ed2.Update;
+  if GetLineEnds(Ed)=AValue then Exit;
+
+  Ed.Strings.Endings:= AValue;
+  Ed.Update;
+  if (Ed=Ed1) and EditorsLinked then
+    Ed2.Update;
 
   EditorOnChangeCommon(Self);
 end;
