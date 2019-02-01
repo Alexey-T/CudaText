@@ -172,7 +172,6 @@ type
     procedure EditorOnScroll(Sender: TObject);
     function GetCommentString: string;
     function GetEnabledFolding: boolean;
-    function GetLexerName_Ex(Ed: TATSynEdit): string;
     function GetLineEnds: TATLineEnds;
     function GetNotifEnabled: boolean;
     function GetNotifTime: integer;
@@ -193,7 +192,6 @@ type
     procedure SetFileName(const AValue: string);
     procedure SetFileName2(AValue: string);
     procedure SetFileWasBig(AValue: boolean);
-    procedure SetLexerName_Ex(Ed: TATSynEdit; const AValue: string);
     procedure SetLexer_Ex(Ed: TATSynEdit; an: TecSyntAnalyzer);
     procedure SetLocked(AValue: boolean);
     procedure SetModified(AValue: boolean);
@@ -257,12 +255,16 @@ type
     procedure UpdateReadOnlyFromFile;
     property NotifEnabled: boolean read GetNotifEnabled write SetNotifEnabled;
     property NotifTime: integer read GetNotifTime write SetNotifTime;
+
     property Lexer: TecSyntAnalyzer read GetLexer write SetLexer;
     property Lexer2: TecSyntAnalyzer read GetLexer2 write SetLexer2;
     property LexerLite: TATLiteLexer read GetLexerLite write SetLexerLite;
     property LexerName: string read GetLexerName write SetLexerName;
     property LexerName2: string read GetLexerName2 write SetLexerName2;
     function LexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
+    function GetLexerName_Ex(Ed: TATSynEdit): string;
+    procedure SetLexerName_Ex(Ed: TATSynEdit; const AValue: string);
+
     property Locked: boolean read FLocked write SetLocked;
     property CommentString: string read GetCommentString;
     property TabColor: TColor read FTabColor write SetTabColor;

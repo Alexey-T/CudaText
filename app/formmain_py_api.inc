@@ -2491,7 +2491,7 @@ begin
         PROP_LEXER_FILE:
           begin
             if Assigned(F) then
-              Result:= PyString_FromString(PChar(F.LexerName))
+              Result:= PyString_FromString(PChar(F.GetLexerName_Ex(Ed)))
             else
               Result:= ReturnNone;
           end;
@@ -2901,7 +2901,7 @@ begin
             //for editors inside TEditorFrame
             if Assigned(F) then
             begin
-              F.LexerName:= Str;
+              F.SetLexerName_Ex(Ed, Str);
             end
             else
             //for other editors
