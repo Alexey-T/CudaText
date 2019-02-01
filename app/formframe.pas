@@ -210,8 +210,6 @@ type
     procedure SetUnprintedSpaces(AValue: boolean);
     procedure SetEditorsLinked(AValue: boolean);
     procedure UpdateEds(AUpdateWrapInfo: boolean=false);
-    function GetLexer: TecSyntAnalyzer;
-    procedure SetLexer(an: TecSyntAnalyzer);
     procedure UpdateTabCaptionFromFilename;
   protected
     procedure DoOnResize; override;
@@ -249,13 +247,13 @@ type
     function GetFileName(Ed: TATSynEdit): string;
     procedure SetFileName(Ed: TATSynEdit; const AFileName: string);
 
-    property Lexer: TecSyntAnalyzer read GetLexer write SetLexer;
     function LexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
-    function GetLexerName(Ed: TATSynEdit): string;
+    function GetLexer(Ed: TATSynEdit): TecSyntAnalyzer;
     function GetLexerLite(Ed: TATSynEdit): TATLiteLexer;
-    procedure SetLexerName(Ed: TATSynEdit; const AValue: string);
+    function GetLexerName(Ed: TATSynEdit): string;
     procedure SetLexer_Ex(Ed: TATSynEdit; an: TecSyntAnalyzer);
     procedure SetLexerLite(Ed: TATSynEdit; an: TATLiteLexer);
+    procedure SetLexerName(Ed: TATSynEdit; const AValue: string);
 
     property Locked: boolean read FLocked write SetLocked;
     property CommentString: string read GetCommentString;
@@ -541,7 +539,7 @@ begin
 
     if Assigned(FInitialLexer) then
     begin
-      Lexer:= FInitialLexer;
+      SetLexer_Ex(Ed1, FInitialLexer);
       FInitialLexer:= nil;
     end;
   end;
@@ -822,13 +820,13 @@ begin
   Ed2.Update(AUpdateWrapInfo);
 end;
 
-function TEditorFrame.GetLexer: TecSyntAnalyzer;
+function TEditorFrame.GetLexer(Ed: TATSynEdit): TecSyntAnalyzer;
 begin
   if Assigned(FInitialLexer) then
     Result:= FInitialLexer
   else
-  if Ed1.AdapterForHilite is TATAdapterEControl then
-    Result:= TATAdapterEControl(Ed1.AdapterForHilite).Lexer
+  if Ed.AdapterForHilite is TATAdapterEControl then
+    Result:= TATAdapterEControl(Ed.AdapterForHilite).Lexer
   else
     Result:= nil;
 end;
@@ -1465,11 +1463,6 @@ begin
 end;
 
 
-procedure TEditorFrame.SetLexer(an: TecSyntAnalyzer);
-begin
-  SetLexer_Ex(Ed1, an);
-end;
-
 procedure TEditorFrame.SetLexer_Ex(Ed: TATSynEdit; an: TecSyntAnalyzer);
 var
   an2: TecSyntAnalyzer;
@@ -1787,7 +1780,7 @@ begin
 
   if ASaveAs or (AFileName='') then
   begin
-    an:= Lexer;
+    an:= GetLexer(Ed);
     if Assigned(an) then
     begin
       SaveDialog.DefaultExt:= DoGetLexerDefaultExt(an);
@@ -2490,7 +2483,7 @@ begin
 
   nTop:= c.GetValue(path+cHistory_Top, 0);
 
-  if Assigned(Lexer) then
+  if Assigned(GetLexer(Ed)) then
   begin
     //this seems ok: works even for open-file via cmdline
     FFoldTodo:= c.GetValue(path+cHistory_Fold, '');
@@ -2779,7 +2772,10 @@ end;
 
 procedure TEditorFrame.DoFileClose;
 begin
-  SetLexer(nil);
+  SetLexer_Ex(Ed1, nil);
+  if not EditorsLinked then
+    SetLexer_Ex(Ed2, nil);
+
   FileName:= '';
   FileName2:= '';
   UpdateTabCaptionFromFilename;

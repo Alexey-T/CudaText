@@ -2404,12 +2404,16 @@ end;
 
 procedure TfmMain.DoDialogLexerMap;
 var
+  F: TEditorFrame;
   i: integer;
 begin
-  if DoDialogLexerStylesMap(CurrentFrame.Lexer) then
+  F:= CurrentFrame;
+  if F=nil then exit;
+
+  if DoDialogLexerStylesMap(F.GetLexer(F.Editor)) then
     for i:= 0 to FrameCount-1 do
       with Frames[i] do
-        Lexer:= Lexer;
+        SetLexer_Ex(Ed1, GetLexer(Ed1));
 end;
 
 procedure TfmMain.DoCopyFilenameFull;
@@ -4433,12 +4437,13 @@ var
   Caret: TATCaretItem;
 begin
   F:= CurrentFrame;
-  Ed:= CurrentEditor;
+  if F=nil then exit;
+  Ed:= F.Editor;
 
   CompletionOps.CommitChars:= UiOps.AutocompleteCommitChars; //before DoPyEvent
   if DoPyEvent(Ed, cEventOnComplete, [])=cPyTrue then exit;
 
-  if F.Lexer=nil then exit;
+  if F.GetLexer(Ed)=nil then exit;
 
   Caret:= Ed.Carets[0];
   LexName:= F.LexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));

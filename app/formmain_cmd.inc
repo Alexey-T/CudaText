@@ -11,6 +11,7 @@ procedure TfmMain.TimerCmdTimer(Sender: TObject);
 var
   Cmd: integer;
   P: TPoint;
+  F: TEditorFrame;
 begin
   TimerCmd.Enabled:= false;
   Cmd:= TimerCmd.Tag;
@@ -68,7 +69,11 @@ begin
     cmd_DialogFind_Hide:   DoDialogFind_Hide;
     cmd_DialogReplace:     DoDialogFind(true);
     cmd_DialogSaveTabs:    DoDialogSaveTabs;
-    cmd_DialogLexerProp:   DoDialogLexerProp(CurrentFrame.Lexer);
+    cmd_DialogLexerProp:
+      begin
+        F:= CurrentFrame;
+        DoDialogLexerProp(F.GetLexer(F.Editor));
+      end;
     cmd_DialogLexerLib:    DoDialogLexerLib;
     cmd_DialogLexerStyleMap: DoDialogLexerMap;
     cmd_DialogThemeUi:     DoDialogTheme(true);

@@ -162,7 +162,7 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
-    F.Lexer:= F.Lexer; //apply lexer style map
+    F.SetLexer_Ex(F.Ed1, F.GetLexer(F.Ed1)); //apply lexer style map
     F.ApplyTheme;
   end;
 
@@ -394,8 +394,7 @@ begin
   end;
 end;
 
-function TfmMain.DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean
-  ): boolean;
+function TfmMain.DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean): boolean;
 var
   Form: TfmColorSetup;
   i: integer;
@@ -414,7 +413,8 @@ begin
     begin
       AData:= Form.Data;
       for i:= 0 to FrameCount-1 do
-        with Frames[i] do Lexer:= Lexer;
+        with Frames[i] do
+          SetLexer_Ex(Ed1, GetLexer(Ed1));
       UpdateFrame;
     end;
   finally
