@@ -245,9 +245,6 @@ type
     procedure DoShow;
     property ReadOnly: boolean read GetReadOnly write SetReadOnly;
     property ReadOnlyFromFile: boolean read FReadOnlyFromFile write FReadOnlyFromFile;
-    property FileName: string read FFileName write SetFileName;
-    property FileName2: string read FFileName2 write SetFileName2;
-    property FileWasBig: boolean read FFileWasBig write SetFileWasBig;
     property TabCaption: string read FTabCaption write SetTabCaption;
     property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
     property TabCaptionFromApi: boolean read FTabCaptionFromApi write FTabCaptionFromApi;
@@ -258,6 +255,12 @@ type
     procedure UpdateReadOnlyFromFile;
     property NotifEnabled: boolean read GetNotifEnabled write SetNotifEnabled;
     property NotifTime: integer read GetNotifTime write SetNotifTime;
+
+    property FileName: string read FFileName write SetFileName;
+    property FileName2: string read FFileName2 write SetFileName2;
+    property FileWasBig: boolean read FFileWasBig write SetFileWasBig;
+    function GetFileName(Ed: TATSynEdit): string;
+    procedure SetFileName(Ed: TATSynEdit; const AFileName: string);
 
     property Lexer: TecSyntAnalyzer read GetLexer write SetLexer;
     property Lexer2: TecSyntAnalyzer read GetLexer2 write SetLexer2;
@@ -311,7 +314,7 @@ type
     procedure DoFileOpen(const AFileName, AFileName2: string; AAllowLoadHistory,
       AAllowErrorMsgBox: boolean; AOpenMode: TAppOpenMode);
     function DoFileSave(ASaveAs: boolean): boolean;
-    function DoFileSave_Ex(Ed: TATSynEdit; AFileName: string; ASaveAs: boolean): boolean;
+    function DoFileSave_Ex(Ed: TATSynEdit; ASaveAs: boolean): boolean;
     procedure DoFileReload_DisableDetectEncoding;
     procedure DoFileReload;
     procedure DoLexerFromFilename(Ed: TATSynEdit; const AFileName: string);
@@ -1824,30 +1827,49 @@ begin
   end;
 end;
 
+function TEditorFrame.GetFileName(Ed: TATSynEdit): string;
+begin
+  if EditorsLinked or (Ed=Ed1) then
+    Result:= FileName
+  else
+    Result:= FileName2;
+end;
+
+procedure TEditorFrame.SetFileName(Ed: TATSynEdit; const AFileName: string);
+begin
+  if EditorsLinked or (Ed=Ed1) then
+    FileName:= AFileName
+  else
+    FileName2:= AFileName;
+end;
+
 function TEditorFrame.DoFileSave(ASaveAs: boolean): boolean;
 begin
   Result:= true;
 
   if Ed1.Modified then
-    Result:= DoFileSave_Ex(Ed1, FileName, ASaveAs);
+    Result:= DoFileSave_Ex(Ed1, ASaveAs);
   if not Result then exit;
 
   if not EditorsLinked then
     if Ed2.Modified then
-      Result:= DoFileSave_Ex(Ed2, FileName2, ASaveAs);
+      Result:= DoFileSave_Ex(Ed2, ASaveAs);
 end;
 
-function TEditorFrame.DoFileSave_Ex(Ed: TATSynEdit; AFileName: string; ASaveAs: boolean): boolean;
+function TEditorFrame.DoFileSave_Ex(Ed: TATSynEdit; ASaveAs: boolean): boolean;
 var
   an: TecSyntAnalyzer;
   attr: integer;
   PrevEnabled: boolean;
   NameCounter: integer;
   NameTemp, NameInitial: string;
+  AFileName: string;
 begin
   Result:= false;
   if not IsText then exit(true); //disable saving, but close
   if DoPyEvent(Ed, cEventOnSaveBefore, [])=cPyFalse then exit(true); //disable saving, but close
+
+  AFileName:= GetFileName(Ed);
 
   if ASaveAs or (AFileName='') then
   begin

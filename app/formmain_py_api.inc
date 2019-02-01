@@ -440,24 +440,12 @@ begin
       if Frame=nil then exit(ReturnNone);
       StrName:= string(PtrName);
 
-      if Ed=Frame.Ed1 then
+      if StrName<>'' then
       begin
-        if StrName<>'' then
-        begin
-          Frame.FileName:= StrName;
-          Frame.DoLexerFromFilename(Ed, StrName);
-        end;
-        Ok:= Frame.DoFileSave_Ex(Ed, Frame.FileName, false);
-      end
-      else
-      begin
-        if StrName<>'' then
-        begin
-          Frame.FileName2:= StrName;
-          Frame.DoLexerFromFilename(Ed, StrName);
-        end;
-        Ok:= Frame.DoFileSave_Ex(Ed, Frame.FileName2, false);
+        Frame.SetFileName(Ed, StrName);
+        Frame.DoLexerFromFilename(Ed, StrName);
       end;
+      Ok:= Frame.DoFileSave_Ex(Ed, false);
 
       Result:= PyBool_FromLong(Ord(Ok));
     end;
