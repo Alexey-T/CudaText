@@ -85,6 +85,7 @@ type
     FTabImageIndex: integer;
     FTabId: integer;
     FFileName: string;
+    FFileName2: string;
     FFileWasBig: boolean;
     FModified: boolean;
     FNotif: TATFileNotif;
@@ -188,6 +189,7 @@ type
     procedure SetEnabledFolding(AValue: boolean);
     procedure SetEncodingName(const Str: string);
     procedure SetFileName(const AValue: string);
+    procedure SetFileName2(AValue: string);
     procedure SetFileWasBig(AValue: boolean);
     procedure SetLocked(AValue: boolean);
     procedure SetModified(AValue: boolean);
@@ -234,6 +236,7 @@ type
     property ReadOnly: boolean read GetReadOnly write SetReadOnly;
     property ReadOnlyFromFile: boolean read FReadOnlyFromFile write FReadOnlyFromFile;
     property FileName: string read FFileName write SetFileName;
+    property FileName2: string read FFileName2 write SetFileName2;
     property FileWasBig: boolean read FFileWasBig write SetFileWasBig;
     property TabCaption: string read FTabCaption write SetTabCaption;
     property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
@@ -756,6 +759,12 @@ begin
 
   //update Notif obj
   NotifEnabled:= NotifEnabled;
+end;
+
+procedure TEditorFrame.SetFileName2(AValue: string);
+begin
+  if SameFileName(FFileName2, AValue) then Exit;
+  FFileName2:= AValue;
 end;
 
 procedure TEditorFrame.SetFileWasBig(AValue: boolean);
