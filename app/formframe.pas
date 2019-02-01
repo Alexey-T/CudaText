@@ -137,9 +137,8 @@ type
     procedure DoDeactivateViewerMode;
     procedure DoFileOpen_AsBinary(const AFileName: string; AMode: TATBinHexMode);
     procedure DoFileOpen_AsPicture(const AFileName: string);
-    procedure DoFileOpen_Ex(Ed: TATSynEdit; var InternalFileName: string;
-      const AFileName: string; AAllowLoadHistory, AAllowErrorMsgBox: boolean;
-      AOpenMode: TAppOpenMode);
+    procedure DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string;
+      AAllowLoadHistory, AAllowErrorMsgBox: boolean; AOpenMode: TAppOpenMode);
     function DoFileSave_Ex(Ed: TATSynEdit; AFileName: string; ASaveAs: boolean): boolean;
     procedure DoImageboxScroll(Sender: TObject);
     procedure DoOnChangeCaption;
@@ -1622,15 +1621,20 @@ begin
   DoDeactivatePictureMode;
   DoDeactivateViewerMode;
 
-  DoFileOpen_Ex(Ed1, FFileName, AFileName, AAllowLoadHistory, AAllowErrorMsgBox, AOpenMode);
+  DoFileOpen_Ex(Ed1, AFileName, AAllowLoadHistory, AAllowErrorMsgBox, AOpenMode);
 end;
 
-procedure TEditorFrame.DoFileOpen_Ex(Ed: TATSynEdit; var InternalFileName: string; const AFileName: string; AAllowLoadHistory, AAllowErrorMsgBox: boolean;
+procedure TEditorFrame.DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string; AAllowLoadHistory, AAllowErrorMsgBox: boolean;
   AOpenMode: TAppOpenMode);
 begin
   try
     Ed.LoadFromFile(AFileName);
-    InternalFileName:= AFileName;
+
+    if Ed=Ed1 then
+      FFileName:= AFileName
+    else
+      FFileName2:= AFileName;
+
     TabCaption:= ExtractFileName_Fixed(AFileName);
   except
     if AAllowErrorMsgBox then
