@@ -217,6 +217,7 @@ type
     procedure SetLexerLite(an: TATLiteLexer);
     function GetLexerName: string;
     procedure SetLexerName(const AValue: string);
+    procedure UpdateTabCaptionFromFilename;
   protected
     procedure DoOnResize; override;
   public
@@ -409,6 +410,25 @@ begin
   if Upd then
     DoPyEvent(Editor, cEventOnState, [IntToStr(EDSTATE_TAB_TITLE)]);
   DoOnChangeCaption;
+end;
+
+procedure TEditorFrame.UpdateTabCaptionFromFilename;
+begin
+  if EditorsLinked then
+  begin
+    if FFileName='' then
+      TabCaption:= GetUntitledCaption
+    else
+      TabCaption:= ExtractFileName_Fixed(FFileName);
+  end
+  else
+  begin
+    if (FFileName='') and (FFileName2='') then
+      TabCaption:= GetUntitledCaption
+    else
+      TabCaption:= ExtractFileName_Fixed(FFileName) + '|' +
+                   ExtractFileName_Fixed(FFileName2);
+  end;
 end;
 
 procedure TEditorFrame.EditorOnClick(Sender: TObject);
@@ -1487,8 +1507,8 @@ end;
 
 procedure TEditorFrame.DoFileOpen_AsBinary(const AFileName: string; AMode: TATBinHexMode);
 begin
-  TabCaption:= ExtractFileName(AFileName);
   FFileName:= AFileName;
+  UpdateTabCaptionFromFilename;
 
   Ed1.Hide;
   Ed2.Hide;
@@ -1532,8 +1552,8 @@ end;
 
 procedure TEditorFrame.DoFileOpen_AsPicture(const AFileName: string);
 begin
-  TabCaption:= ExtractFileName(AFileName);
   FFileName:= AFileName;
+  UpdateTabCaptionFromFilename;
 
   Ed1.Hide;
   Ed2.Hide;
@@ -1634,14 +1654,18 @@ begin
       FFileName:= AFileName
     else
       FFileName2:= AFileName;
-
-    TabCaption:= ExtractFileName_Fixed(AFileName);
+    UpdateTabCaptionFromFilename;
   except
     if AAllowErrorMsgBox then
       MsgBox(msgCannotOpenFile+#13+AFileName, MB_OK or MB_ICONERROR);
 
+    if Ed=Ed1 then
+      FFileName:= ''
+    else
+      FFileName2:= '';
+    UpdateTabCaptionFromFilename;
+
     EditorClear(Ed);
-    TabCaption:= GetUntitledCaption;
     exit
   end;
 
@@ -1789,7 +1813,7 @@ begin
 
   Ed.OnChange(Ed); //modified
   if not TabCaptionFromApi then
-    TabCaption:= ExtractFileName(AFileName);
+    UpdateTabCaptionFromFilename;
 
   DoSaveUndo(Ed, AFileName);
 
@@ -2668,7 +2692,8 @@ procedure TEditorFrame.DoFileClose;
 begin
   SetLexer(nil);
   FileName:= '';
-  TabCaption:= GetUntitledCaption;
+  FileName2:= '';
+  UpdateTabCaptionFromFilename;
 
   if Assigned(FBin) then
   begin
@@ -2677,7 +2702,10 @@ begin
     Ed1.Show;
   end;
 
-  EditorClear(Editor);
+  EditorClear(Ed1);
+  if not EditorsLinked then
+    EditorClear(Ed2);
+
   UpdateModifiedState;
 end;
 
