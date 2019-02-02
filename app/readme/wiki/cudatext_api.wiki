@@ -138,7 +138,7 @@ Example of version check:
 
  app_path(id)
 
-Gets some path. Possible values of id:
+Gets file-system path. Possible values of "id":
 
 * APP_DIR_EXE: Dir of program executable.
 * APP_DIR_SETTINGS: Dir "settings".
@@ -1221,7 +1221,7 @@ Possible values of "id":
 
 Perform some lexer-related action.
 
-Possible values of id:
+Possible values of "id":
 
 * LEXER_GET_LEXERS: Gets list of lexers. Param "value" must be bool: allow to include also hidden lexers (not visible in the lexers menu).
 * LEXER_GET_PROP: For given lexer name, gets its properties as dict. For incorrect lexer name, gets None. Keys of dict:
@@ -1365,7 +1365,7 @@ Perform action on timers. Many different timers allowed, they work at the same t
 * "interval": Timer delay in msec, 150 or bigger. Specify it only on starting (ignored on stopping).
 * "tag": Some string, if not empty, it will be parameter to callback. If empty, callback is called without additional params.
 
-Possible values of id:
+Possible values of "id":
 
 * TIMER_START - Create (if needed) and start timer, infinite ticks. If timer already created, then it's restated.
 * TIMER_START_ONE - Create (if needed) and start timer, for single tick.
@@ -1729,7 +1729,7 @@ Example shows text of first caret's selection:
 
  set_caret(posx, posy, endx=-1, endy=-1, id=CARET_SET_ONE)
 
-Controls carets. Possible values of id:
+Controls carets. Possible values of "id":
 
 * CARET_SET_ONE: Removes multi-carets and sets single caret with given coords (posx, posy, endx, endy).
 * CARET_ADD: Adds caret (multi-carets feature) with given coords. Also gets count of carets after that (same as len(get_carets()) ).
@@ -1909,7 +1909,7 @@ Sets tab splitting. Meaning of params is the same as for get_split().
 
 Gets editor's property.
 
-Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible values of id:
+Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possible values of "id":
 
 * PROP_GUTTER_ALL: bool: gutter (container for all gutter columns) is visible.
 * PROP_GUTTER_STATES: bool: show gutter column "line states".
@@ -1994,6 +1994,10 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 ** "bin": binary viewer
 ** "pic": picture
 
+* PROP_SPLIT: 2-tuple: information about primary/secondary editors splitting as tuple (split_kind, split_pos).
+** "split_kind": str: "-" (not splitted), "v" (splitted vertically), "h" (splitted horizontally). 
+** "split_pos": float number: part of entire size for secondary editor (0.5 means half split).
+
 * PROP_HANDLE_SELF: int: handle of editor object, for which get_prop is called. This handle is unique among all objects in program (it is memory address). Note that ed.h==0, it is virtual handle for the focused editor. This API gets the real handle.
 * PROP_HANDLE_PRIMARY: int: handle of editor object, which is primary editor in a file tab (always visible). None for separate editors.
 * PROP_HANDLE_SECONDARY: int: handle of editor object, which is secondary editor in a file tab (visible only when file tab is splitted). None for separate editors.
@@ -2014,7 +2018,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 
 Sets editor's property.
 
-Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of simple type. Possible values of id:
+Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple of simple type. Possible values of "id":
 
 * PROP_GUTTER_ALL: bool: gutter (container for all gutter columns) is visible.
 * PROP_GUTTER_STATES: bool: show gutter column "line states".
@@ -2080,6 +2084,11 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_UNDO_LIMIT: int: max count of simple actions, which can be undone.
 * PROP_UNDO_DATA: str: string representation of Undo data.
 * PROP_REDO_DATA: str: string representation of Redo data.
+
+* PROP_SPLIT: 2-tuple: information about primary/secondary editors splitting as tuple (split_kind, split_pos).
+** "split_kind": str: "-" (not splitted), "v" (splitted vertically), "h" (splitted horizontally). 
+** "split_pos": float number: part of entire size for secondary editor (0.5 means half split).
+
 * PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
 * PROP_V_POS: int: for binary viewer, scroll position.
 * PROP_V_SEL_START: int: for binary viewer, selection start offset.
@@ -2121,7 +2130,7 @@ Many get_prop/set_prop ids correspond to CudaText options. List of correspoding 
 
  bookmark(id, nline, nkind=1, ncolor=-1, text="", auto_del=True, show=True, tag=0)
 
-Controls bookmarks. Possible values of id:
+Controls bookmarks. Possible values of "id":
 
 * BOOKMARK_GET_ALL: Gets list of bookmarks, as list of dict. Param "nline" ignored. Dict keys are: "line", "kind", "tag", "hint", "auto_del", "show_in_list".
 * BOOKMARK_GET_LIST: Gets list of line indexes, which have bookmarks. Param "nline" ignored.
@@ -2426,7 +2435,7 @@ Function params:
  gap(id, num1, num2, tag=-1)
 
 Performs action on inter-line gaps (they don't overlap text above/below).
-Possible values of id:
+Possible values of "id":
 
 * GAP_GET_LIST: Gets list of gaps. List of 4-tuples (nline, ntag, bitmap_size_x, bitmap_size_y), or None.
 
@@ -2467,7 +2476,7 @@ class Command:
 
 Controls dim (shade, fade) ranges, which blend text font color with background color. Dim value is 0..255, 0 means "no effect", 255 means "text is transparent".
 
-Possible values of id:
+Possible values of "id":
 
 * DIM_ADD: Adds new range.
 ** Param "index": index of first range line (0-base).
@@ -3252,10 +3261,12 @@ def project_variables():
 
 1.0.272 (app 1.73.4)
 * add: file_open: can open 2 files in a single tab
-* add: Editor.get_prop/set_prop: PROP_EDITORS_LINKED allows to unlink primary/second editors
+* add: Editor.get_prop/set_prop: PROP_EDITORS_LINKED
+* add: Editor.get_prop/set_prop: PROP_SPLIT
 * add: Editor.get_prop: PROP_HANDLE_SELF, PROP_HANDLE_PRIMARY, PROP_HANDLE_SECONDARY
 * add: Editor.get_prop: PROP_RECT_CLIENT, PROP_RECT_TEXT
-* deprecated: file_save(), use ed.save() instead
 * change: deleted object "ed_bro"
+* deprecated: file_save(), use ed.save() instead
+* deprecated: Editor.get_split, Editor.set_split; use PROP_SPLIT instead
 
 [[Category:CudaText]]
