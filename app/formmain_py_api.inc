@@ -53,6 +53,7 @@ begin
   case Handle of
     0: //"ed"
       Result:= fmMain.CurrentEditor;
+    {
     1: //"ed_bro"
       Result:= GetEditorBrother(fmMain.CurrentEditor);
 
@@ -60,6 +61,7 @@ begin
       Result:= GetEditorFirstSecond(fmMain.CurrentEditor, true);
     3: //"ed_2nd"
       Result:= GetEditorFirstSecond(fmMain.CurrentEditor, false);
+    }
 
     7: //"ed_con_log"
       Result:= fmConsole.memo;
