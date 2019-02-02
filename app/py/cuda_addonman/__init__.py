@@ -4,6 +4,7 @@ import shutil
 import json
 import collections
 import webbrowser
+import subprocess
 from cudatext import *
 from urllib.parse import unquote
 from .work_local import *
@@ -328,7 +329,7 @@ class Command:
 
 
     def do_update(self):
-    
+
         def fn2name(s, del_brackets):
             s = s.split('.')[0].replace(' ', '_')
             # strip additions in name for "gruvbox (Dark) (Medium)"
@@ -351,7 +352,7 @@ class Command:
         dir_lexers = os.path.join(app_path(APP_DIR_DATA), 'lexlib')
         lexers = os.listdir(dir_lexers)
         lexers = [fn2name(s, False) for s in lexers if s.endswith('.lcf')]
-        
+
         dir_langs = os.path.join(app_path(APP_DIR_DATA), 'lang')
         langs = os.listdir(dir_langs)
         langs = [fn2name(s, False) for s in langs if s.endswith('.ini')]
@@ -386,7 +387,13 @@ class Command:
                 v_local = PREINST
             url = a['url']
             v_remote = a['v']
-            v_local = get_addon_version(url) or v_local
+
+            if m:
+                if os.path.isdir(os.path.join(app_path(APP_DIR_PY), m, '.git')):
+                    v_local = 'Git'
+            if v_local != 'Git':
+                v_local = get_addon_version(url) or v_local
+
             a['v_local'] = v_local
 
             a['check'] = (v_local!=PREINST) and ((v_local=='?') or (v_local<v_remote))
@@ -444,8 +451,14 @@ class Command:
 
             m = a.get('module', '')
             if m:
-                # delete old dir
-                do_remove_module(m)
+                # special update for Git repos
+                m_dir = os.path.join(app_path(APP_DIR_PY), m)
+                if os.path.isdir(os.path.join(m_dir, '.git')):
+                    msg_status('Running "git pull" in "%s"'%m_dir, True)
+                    subprocess.Popen(['git', 'pull'], cwd=m_dir)
+                else:
+                    # delete old dir
+                    do_remove_module(m)
 
             url = a['url']
             if not url: continue
