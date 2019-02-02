@@ -2422,7 +2422,7 @@ var
   H: Int64;
   Id, Num1, Num2: integer;
   Ptr: PChar;
-  Str: string;
+  Str, Str1, Str2: string;
   Ed: TATSynEdit;
   F: TEditorFrame;
   Pnt: TPoint;
@@ -2771,6 +2771,19 @@ begin
 
         PROP_REDO_DATA:
           Result:= PyString_FromString(PChar(Ed.RedoAsString));
+
+        PROP_SPLIT:
+          begin
+            if Assigned(F) then
+            begin
+              if not F.Splitted then Str1:= '-' else
+                if F.SplitHorz then Str1:= 'h' else
+                  Str1:= 'v';
+              Result:= Py_BuildValue('(sd)', PChar(Str1), F.SplitPos);
+            end
+            else
+              Result:= ReturnNone;
+          end;
 
         PROP_FOLD_TOOLTIP_SHOW:
           begin
@@ -3178,6 +3191,18 @@ begin
 
         PROP_REDO_DATA:
           Ed.RedoAsString:= Str;
+
+        PROP_SPLIT:
+          begin
+            if Assigned(F) then
+            begin
+              Str1:= SGetItem(Str);
+              Str2:= SGetItem(Str);
+              F.Splitted:= Str1<>'-';
+              F.SplitHorz:= Str1='h';
+              F.SplitPos:= StrToFloatDef(Str2, 0.5);
+            end;
+          end;
 
         PROP_FOLD_TOOLTIP_SHOW:
           Ed.OptFoldTooltipVisible:= ValueBool;

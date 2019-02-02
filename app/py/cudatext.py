@@ -219,6 +219,7 @@ PROP_UNDO_GROUPED              = 88
 PROP_UNDO_LIMIT                = 89
 PROP_UNDO_DATA                 = 90
 PROP_REDO_DATA                 = 91
+PROP_SPLIT                     = 92
 PROP_FOLD_TOOLTIP_SHOW         = 101
 PROP_FOLD_ALWAYS               = 102
 PROP_FOLD_ICONS                = 103
