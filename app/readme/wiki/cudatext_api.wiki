@@ -3259,7 +3259,7 @@ def project_variables():
 1.0.271 (app 1.73.1)
 * add: Editor.bookmark: added actions BOOKMARK2_*
 
-1.0.272 (app 1.73.4)
+1.0.272 (app 1.74.0)
 * add: file_open: can open 2 files in a single tab
 * add: Editor.get_prop/set_prop: PROP_EDITORS_LINKED
 * add: Editor.get_prop/set_prop: PROP_SPLIT
