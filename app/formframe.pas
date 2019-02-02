@@ -367,7 +367,7 @@ const
   cHistory_Unpri_Spaces = '/unprinted_spaces';
   cHistory_Unpri_Ends   = '/unprinted_ends';
   cHistory_Unpri_Detail = '/unprinted_end_details';
-  cHistory_Caret       = '/caret';
+  cHistory_Caret       = '/crt';
   cHistory_TabColor    = '/color';
   cHistory_Bookmark    = '/bm';
   cHistory_BookmarkKind = '/bm_kind';
@@ -2358,10 +2358,8 @@ begin
   if Ed.Carets.Count>0 then
   begin
     caret:= Ed.Carets[0];
-    c.SetValue(path+cHistory_Caret+'/x', caret.PosX);
-    c.SetValue(path+cHistory_Caret+'/y', caret.PosY);
-    c.SetValue(path+cHistory_Caret+'/x2', caret.EndX);
-    c.SetValue(path+cHistory_Caret+'/y2', caret.EndY);
+    c.SetValue(path+cHistory_Caret,
+      Format('%d,%d,%d,%d,', [caret.PosX, caret.PosY, caret.EndX, caret.EndY]));
   end;
 
   items:= TStringList.Create;
@@ -2521,10 +2519,11 @@ begin
   if Ed.Carets.Count>0 then
   begin
     caret:= Ed.Carets[0];
-    caret.PosX:= c.GetValue(path+cHistory_Caret+'/x', 0);
-    caret.PosY:= c.GetValue(path+cHistory_Caret+'/y', 0);
-    caret.EndX:= c.GetValue(path+cHistory_Caret+'/x2', -1);
-    caret.EndY:= c.GetValue(path+cHistory_Caret+'/y2', -1);
+    str:= c.GetValue(path+cHistory_Caret, '');
+    caret.PosX:= StrToIntDef(SGetItem(str), 0);
+    caret.PosY:= StrToIntDef(SGetItem(str), 0);
+    caret.EndX:= StrToIntDef(SGetItem(str), -1);
+    caret.EndY:= StrToIntDef(SGetItem(str), -1);
     Ed.UpdateIncorrectCaretPositions;
     Ed.DoEventCarets;
   end;
