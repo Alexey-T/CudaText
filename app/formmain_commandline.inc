@@ -168,7 +168,7 @@ begin
 
       if FOption_OpenReadOnly then
       begin
-        Frame.ReadOnly:= true;
+        Frame.ReadOnly[Frame.Ed1]:= true;
         MsgStatus(''); //show "[read-only]"
       end;
 

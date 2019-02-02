@@ -175,7 +175,7 @@ type
     function GetNotifEnabled: boolean;
     function GetNotifTime: integer;
     function GetPictureScale: integer;
-    function GetReadOnly: boolean;
+    function GetReadOnly(Ed: TATSynEdit): boolean;
     function GetSplitPos: double;
     function GetSplitted: boolean;
     function GetTabKeyCollectMarkers: boolean;
@@ -196,7 +196,7 @@ type
     procedure SetNotifEnabled(AValue: boolean);
     procedure SetNotifTime(AValue: integer);
     procedure SetPictureScale(AValue: integer);
-    procedure SetReadOnly(AValue: boolean);
+    procedure SetReadOnly(Ed: TATSynEdit; AValue: boolean);
     procedure SetTabColor(AColor: TColor);
     procedure SetTabImageIndex(AValue: integer);
     procedure SetUnprintedEnds(AValue: boolean);
@@ -234,7 +234,7 @@ type
     function EditorBro: TATSynEdit;
     procedure EditorOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoShow;
-    property ReadOnly: boolean read GetReadOnly write SetReadOnly;
+    property ReadOnly[Ed: TATSynEdit]: boolean read GetReadOnly write SetReadOnly;
     property ReadOnlyFromFile: boolean read FReadOnlyFromFile write FReadOnlyFromFile;
     property TabCaption: string read FTabCaption write SetTabCaption;
     property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
@@ -243,7 +243,7 @@ type
     property Modified: boolean read FModified write SetModified;
     property SaveHistory: boolean read FSaveHistory write FSaveHistory;
     procedure UpdateModifiedState(AWithEvent: boolean= true);
-    procedure UpdateReadOnlyFromFile;
+    procedure UpdateReadOnlyFromFile(Ed: TATSynEdit);
     property NotifEnabled: boolean read GetNotifEnabled write SetNotifEnabled;
     property NotifTime: integer read GetNotifTime write SetNotifTime;
 
@@ -694,9 +694,9 @@ begin
     Result:= 100;
 end;
 
-function TEditorFrame.GetReadOnly: boolean;
+function TEditorFrame.GetReadOnly(Ed: TATSynEdit): boolean;
 begin
-  Result:= Ed1.ModeReadOnly;
+  Result:= Ed.ModeReadOnly;
 end;
 
 function TEditorFrame.GetTabKeyCollectMarkers: boolean;
@@ -805,10 +805,11 @@ begin
   end;
 end;
 
-procedure TEditorFrame.SetReadOnly(AValue: boolean);
+procedure TEditorFrame.SetReadOnly(Ed: TATSynEdit; AValue: boolean);
 begin
-  Ed1.ModeReadOnly:= AValue;
-  Ed2.ModeReadOnly:= AValue;
+  Ed.ModeReadOnly:= AValue;
+  if (Ed=Ed1) and EditorsLinked then
+    Ed2.ModeReadOnly:= AValue;
 end;
 
 procedure TEditorFrame.UpdateEds(AUpdateWrapInfo: boolean = false);
@@ -1556,7 +1557,7 @@ begin
   Ed1.Hide;
   Ed2.Hide;
   Splitter.Hide;
-  ReadOnly:= true;
+  ReadOnly[Ed1]:= true;
 
   if Assigned(FBin) then
     FBin.OpenStream(nil);
@@ -1601,7 +1602,7 @@ begin
   Ed1.Hide;
   Ed2.Hide;
   Splitter.Hide;
-  ReadOnly:= true;
+  ReadOnly[Ed1]:= true;
 
   FImageBox:= TATImageBox.Create(Self);
   FImageBox.Parent:= Self;
@@ -1631,7 +1632,7 @@ begin
   begin
     FreeAndNil(FImageBox);
     Ed1.Show;
-    ReadOnly:= false;
+    ReadOnly[Ed1]:= false;
   end;
 end;
 
@@ -1642,7 +1643,7 @@ begin
     FBin.OpenStream(nil);
     FreeAndNil(FBin);
     Ed1.Show;
-    ReadOnly:= false;
+    ReadOnly[Ed1]:= false;
   end;
 end;
 
@@ -1727,16 +1728,16 @@ begin
     DoLoadUndo(Ed);
     DoLoadHistory(Ed);
   end;
-  UpdateReadOnlyFromFile;
+  UpdateReadOnlyFromFile(Ed);
 
   NotifEnabled:= UiOps.NotifEnabled;
 end;
 
-procedure TEditorFrame.UpdateReadOnlyFromFile;
+procedure TEditorFrame.UpdateReadOnlyFromFile(Ed: TATSynEdit);
 begin
-  if IsFileReadonly(FileName) then
+  if IsFileReadonly(GetFileName(Ed)) then
   begin
-    ReadOnly:= true;
+    ReadOnly[Ed]:= true;
     ReadOnlyFromFile:= true;
   end;
 end;
@@ -2336,7 +2337,7 @@ begin
   c.SetValue(path+cHistory_Top, Ed.LineTop);
   c.SetValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode));
   if not ReadOnlyFromFile then
-    c.SetValue(path+cHistory_RO, ReadOnly);
+    c.SetValue(path+cHistory_RO, ReadOnly[Ed]);
   c.SetValue(path+cHistory_Ruler, Ed.OptRulerVisible);
   c.SetValue(path+cHistory_Minimap, Ed.OptMinimapVisible);
   c.SetValue(path+cHistory_Micromap, Ed.OptMicromapVisible);
@@ -2479,7 +2480,7 @@ begin
 
   TabColor:= StringToColorDef(c.GetValue(path+cHistory_TabColor, ''), clNone);
 
-  ReadOnly:= c.GetValue(path+cHistory_RO, ReadOnly);
+  ReadOnly[Ed]:= c.GetValue(path+cHistory_RO, ReadOnly[Ed]);
   if not FileWasBig then
   begin
     Ed.OptWrapMode:= TATSynWrapMode(c.GetValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode)));

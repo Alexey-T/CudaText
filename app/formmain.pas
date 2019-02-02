@@ -1194,6 +1194,8 @@ var
   Data: TATStatusData;
 begin
   Frame:= CurrentFrame;
+  if Frame=nil then exit;
+
   Data:= Status.GetPanelData(AIndex);
   if Data=nil then exit;
 
@@ -1221,12 +1223,12 @@ begin
   case Data.Tag of
     StatusbarTag_Enc:
       begin
-        if not Frame.ReadOnly then
+        if not Frame.ReadOnly[Frame.Editor] then
           PopupEnc.PopUp;
       end;
     StatusbarTag_LineEnds:
       begin
-        if not Frame.ReadOnly then
+        if not Frame.ReadOnly[Frame.Editor] then
           PopupEnds.PopUp;
       end;
     StatusbarTag_Lexer:
@@ -3734,13 +3736,15 @@ var
   S: string;
 begin
   Frame:= CurrentFrame;
+  if Frame=nil then exit;
+
   S:= AText;
   SReplaceAll(S, #10, ' ');
   SReplaceAll(S, #13, ' ');
 
   if Frame.IsText then
   begin
-    if Frame.ReadOnly then
+    if Frame.ReadOnly[Frame.Editor] then
       S:= msgStatusReadonly+' '+S;
     if Frame.MacroRecord then
       S:= msgStatusMacroRec+' '+S;
@@ -3902,12 +3906,12 @@ begin
       MB_OKCANCEL or MB_ICONQUESTION
       ) <> ID_OK then exit;
 
-  PrevRO:= F.ReadOnly;
+  PrevRO:= F.ReadOnly[F.Ed1];
   PrevLexer:= F.LexerName[F.Ed1];
-  F.ReadOnly:= false;
+  F.ReadOnly[F.Ed1]:= false;
   F.DoFileReload;
   F.LexerName[F.Ed1]:= PrevLexer;
-  F.ReadOnly:= PrevRO;
+  F.ReadOnly[F.Ed1]:= PrevRO;
   F.Modified:= false;
 
   UpdateStatus;
@@ -4334,7 +4338,7 @@ begin
   fn:= GetAppPath(cFileOptionsDefault);
   F:= DoFileOpen(fn, '');
   if Assigned(F) then
-    F.ReadOnly:= true;
+    F.ReadOnly[F.Ed1]:= true;
 end;
 
 procedure TfmMain.DoOps_OpenFile_User;
@@ -4362,7 +4366,7 @@ begin
   fn:= GetAppPath(cFileOptionsDefault);
   F:= DoFileOpen(fn, '', Groups.Pages[0]);
   if Assigned(F) then
-    F.ReadOnly:= true;
+    F.ReadOnly[F.Ed1]:= true;
 
   fn:= GetAppPath(cFileOptionsUser);
   if not FileExistsUTF8(fn) then
