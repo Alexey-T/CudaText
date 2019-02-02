@@ -1515,7 +1515,11 @@ begin
     end;
 
     if Ed.AdapterForHilite is TATAdapterEControl then
+    begin
       TATAdapterEControl(Ed.AdapterForHilite).Lexer:= an;
+      //if Assigned(an) then
+      //  ShowMessage('lexer '+an.LexerName);
+    end;
   end
   else
   begin
@@ -1721,7 +1725,7 @@ begin
   if AAllowLoadHistory then
   begin
     DoLoadUndo(Ed, AFileName);
-    DoLoadHistory(Ed, FileName);
+    DoLoadHistory(Ed, AFileName);
   end;
   UpdateReadOnlyFromFile;
 
