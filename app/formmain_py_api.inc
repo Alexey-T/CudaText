@@ -2787,6 +2787,26 @@ begin
             Result:= PyBool_FromLong(Ord(Ed.OptGutterIcons));
           end;
 
+        PROP_HANDLE_SELF:
+          begin
+            Result:= PyLong_FromLongLong(PtrInt(Ed));
+          end;
+
+        PROP_HANDLE_PRIMARY:
+          begin
+            if Assigned(F) then
+              Result:= PyLong_FromLongLong(PtrInt(F.Ed1))
+            else
+              Result:= ReturnNone;
+          end;
+        PROP_HANDLE_SECONDARY:
+          begin
+            if Assigned(F) then
+              Result:= PyLong_FromLongLong(PtrInt(F.Ed2))
+            else
+              Result:= ReturnNone;
+          end;
+
         PROP_V_MODE:
           begin
             if not Assigned(F) then exit(ReturnNone);

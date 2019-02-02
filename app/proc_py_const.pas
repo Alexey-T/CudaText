@@ -190,6 +190,11 @@ const
   PROP_FOLD_TOOLTIP_SHOW         = 101;
   PROP_FOLD_ALWAYS               = 102;
   PROP_FOLD_ICONS                = 103;
+  PROP_HANDLE_SELF        = 110;
+  PROP_HANDLE_PRIMARY     = 111;
+  PROP_HANDLE_SECONDARY   = 112;
+  PROP_RECT_ALL           = 115;
+  PROP_RECT_TEXT          = 116;
 
   APP_PROC_DUMP_CACHE = -2; //for debugging
   APP_PROC_SET_CLIP_ALT = -1;
