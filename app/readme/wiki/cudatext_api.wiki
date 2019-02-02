@@ -1698,9 +1698,6 @@ Note: Toolbars contain several "button_ex" objects, which are anchored one to an
 Editor class has methods to work with editor. Global objects of Editor exist:
 
 * "ed": refers to currently focused editor (in any tab).
-* "ed_bro": refers to brother of "ed". When file tab is splitted, two editors are visible: 1st/2nd, they are brother editors.
-* "ed_1st": refers to first editor in the brother pair (always visible).
-* "ed_2nd": refers to second editor in the brother pair (visible only when file tab is splitted).
 * "ed_con_log": refers to log field (multi-line) in the "Console" panel.
 * "ed_con_in": refers to input field (single line) in the "Console" panel.
 
@@ -1997,6 +1994,11 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 ** "text": normal editor
 ** "bin": binary viewer
 ** "pic": picture
+
+* PROP_HANDLE_SELF: int: handle of editor object, for which get_prop is called. This handle is unique among all objects in program (it is memory address). Note that ed.h==0, it is virtual handle for the focused editor. This API gets the real handle.
+* PROP_HANDLE_PRIMARY: int: handle of editor object, which is primary editor in a file tab (always visible). None for separate editors.
+* PROP_HANDLE_SECONDARY: int: handle of editor object, which is secondary editor in a file tab (visible only when file tab is splitted). None for separate editors.
+
 * PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
 * PROP_V_POS: int: for binary viewer, scroll position.
 * PROP_V_SEL_START: int: for binary viewer, selection start offset.
@@ -3245,10 +3247,11 @@ def project_variables():
 1.0.271 (app 1.73.1)
 * add: Editor.bookmark: added actions BOOKMARK2_*
 
-1.0.272 (app 1.73.2)
-* add: Editor objects "ed_1st", "ed_2nd"
-* add: Editor.get_prop/set_prop: PROP_EDITORS_LINKED allows to unlink primary/second editors
+1.0.272 (app 1.73.4)
 * add: file_open: can open 2 files in a single tab
+* add: Editor.get_prop/set_prop: PROP_EDITORS_LINKED allows to unlink primary/second editors
+* add: Editor.get_prop: PROP_HANDLE_SELF, PROP_HANDLE_PRIMARY, PROP_HANDLE_SECONDARY
 * deprecated: file_save(), use ed.save() instead
+* change: deleted object "ed_bro"
 
 [[Category:CudaText]]
