@@ -306,10 +306,10 @@ type
     procedure DoSaveHistory(Ed: TATSynEdit);
     procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: string);
     procedure DoSaveUndo(Ed: TATSynEdit; const AFileName: string);
-    procedure DoLoadHistory(Ed: TATSynEdit; const AFileName: string);
+    procedure DoLoadHistory(Ed: TATSynEdit);
     procedure DoLoadHistoryEx(Ed: TATSynEdit; const AFileName: string;
       c: TJsonConfig; const path: string);
-    procedure DoLoadUndo(Ed: TATSynEdit; const AFileName: string);
+    procedure DoLoadUndo(Ed: TATSynEdit);
     //misc
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
     procedure DoGotoPos(Ed: TATSynEdit; APosX, APosY: integer);
@@ -1724,8 +1724,8 @@ begin
   DoLexerFromFilename(Ed, AFileName);
   if AAllowLoadHistory then
   begin
-    DoLoadUndo(Ed, AFileName);
-    DoLoadHistory(Ed, AFileName);
+    DoLoadUndo(Ed);
+    DoLoadHistory(Ed);
   end;
   UpdateReadOnlyFromFile;
 
@@ -2418,11 +2418,13 @@ begin
   end;
 end;
 
-procedure TEditorFrame.DoLoadHistory(Ed: TATSynEdit; const AFileName: string);
+procedure TEditorFrame.DoLoadHistory(Ed: TATSynEdit);
 var
   c: TJSONConfig;
+  SFileName: string;
 begin
-  if AFileName='' then exit;
+  SFileName:= GetFileName(Ed);
+  if SFileName='' then exit;
   if UiOps.MaxHistoryFiles<2 then exit;
 
   c:= TJsonConfig.Create(nil);
@@ -2435,7 +2437,7 @@ begin
       exit
     end;
 
-    DoLoadHistoryEx(Ed, AFileName, c, SMaskFilenameSlashes(AFileName));
+    DoLoadHistoryEx(Ed, SFileName, c, SMaskFilenameSlashes(SFileName));
   finally
     c.Free;
   end;
@@ -2559,17 +2561,19 @@ begin
     Ed2.Update;
 end;
 
-procedure TEditorFrame.DoLoadUndo(Ed: TATSynEdit; const AFileName: string);
+procedure TEditorFrame.DoLoadUndo(Ed: TATSynEdit);
 var
-  fn: string;
+  SFileName, STemp: string;
 begin
-  if IsFilenameListedInExtensionList(AFileName, UiOps.UndoPersistent) then
+  SFileName:= GetFileName(Ed);
+  if SFileName='' then exit;
+  if IsFilenameListedInExtensionList(SFileName, UiOps.UndoPersistent) then
   begin
-    fn:= GetAppUndoFilename(AFileName, false);
-    Ed.UndoAsString:= DoReadContentFromFile(fn);
+    STemp:= GetAppUndoFilename(SFileName, false);
+    Ed.UndoAsString:= DoReadContentFromFile(STemp);
 
-    fn:= GetAppUndoFilename(AFileName, true);
-    Ed.RedoAsString:= DoReadContentFromFile(fn);
+    STemp:= GetAppUndoFilename(SFileName, true);
+    Ed.RedoAsString:= DoReadContentFromFile(STemp);
   end;
 end;
 
