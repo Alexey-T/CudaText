@@ -3,6 +3,12 @@
   - fixed
   * changed
 
+1.74.0 (2019/02)
+
++ add: extended API to allow 2 files in a single tab. This is big help for Differ plugin. Big internal changes for this.
++ add: extended API to allow "background passive bookmarks". Help for Differ plugin.
+- fix: bookmarks should show on minimap, while custom attribs (Editor.attr) should not
+
 1.73.0 (2019/01)
 
 + add: preinstalled plugin "Sort"
