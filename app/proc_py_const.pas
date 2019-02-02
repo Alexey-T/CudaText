@@ -193,7 +193,7 @@ const
   PROP_HANDLE_SELF        = 110;
   PROP_HANDLE_PRIMARY     = 111;
   PROP_HANDLE_SECONDARY   = 112;
-  PROP_RECT_ALL           = 115;
+  PROP_RECT_CLIENT        = 115;
   PROP_RECT_TEXT          = 116;
 
   APP_PROC_DUMP_CACHE = -2; //for debugging

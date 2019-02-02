@@ -2807,6 +2807,15 @@ begin
               Result:= ReturnNone;
           end;
 
+        PROP_RECT_CLIENT:
+          begin
+            Result:= Py_rect(Ed.ClientRect);
+          end;
+        PROP_RECT_TEXT:
+          begin
+            Result:= Py_rect(Ed.RectMain);
+          end;
+
         PROP_V_MODE:
           begin
             if not Assigned(F) then exit(ReturnNone);
