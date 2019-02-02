@@ -781,7 +781,7 @@ begin
   FNotif.Timer.Enabled:= false;
   FNotif.FileName:= '';
 
-  if IsText and AValue and FileExistsUTF8(FileName) then
+  if AValue and IsText and FileExistsUTF8(FileName) then
   begin
     FNotif.FileName:= FileName;
     FNotif.Timer.Enabled:= true;
