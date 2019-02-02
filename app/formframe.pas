@@ -303,7 +303,7 @@ type
     procedure DoFileReload_DisableDetectEncoding;
     procedure DoFileReload;
     procedure DoLexerFromFilename(Ed: TATSynEdit; const AFileName: string);
-    procedure DoSaveHistory(Ed: TATSynEdit; const AFileName: string);
+    procedure DoSaveHistory(Ed: TATSynEdit);
     procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: string);
     procedure DoSaveUndo(Ed: TATSynEdit; const AFileName: string);
     procedure DoLoadHistory(Ed: TATSynEdit; const AFileName: string);
@@ -1948,7 +1948,7 @@ begin
     end;
 
   //reopen
-  DoSaveHistory(Ed, FileName);
+  DoSaveHistory(Ed);
   DoFileOpen(FileName, '', true{AllowLoadHistory}, false, Mode);
   if Ed.Strings.Count=0 then exit;
 
@@ -2282,15 +2282,17 @@ begin
 end;
 
 
-procedure TEditorFrame.DoSaveHistory(Ed: TATSynEdit; const AFileName: string);
+procedure TEditorFrame.DoSaveHistory(Ed: TATSynEdit);
 var
   c: TJSONConfig;
-  path: string;
+  path, SFileName: string;
   items: TStringlist;
 begin
-  if AFileName='' then exit;
   if not FSaveHistory then exit;
   if UiOps.MaxHistoryFiles<2 then exit;
+
+  SFileName:= GetFileName(Ed);
+  if SFileName='' then exit;
 
   c:= TJsonConfig.Create(nil);
   try
@@ -2302,8 +2304,8 @@ begin
       exit
     end;
 
-    path:= SMaskFilenameSlashes(AFileName);
-    items:= TStringlist.Create;
+    path:= SMaskFilenameSlashes(SFileName);
+    items:= TStringList.Create;
     try
       c.DeletePath(path);
       c.EnumSubKeys('/', items);

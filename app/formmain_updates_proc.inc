@@ -429,7 +429,9 @@ begin
       SCollapseHomeDirInFilename(F.FileName),
       FListRecents,
       UiOps.MaxHistoryMenu);
-    F.DoSaveHistory(F.Ed1, F.FileName);
+    F.DoSaveHistory(F.Ed1);
+    if not F.EditorsLinked then
+      F.DoSaveHistory(F.Ed2);
   end;
 
   sub:= mnuFileOpenSub;
