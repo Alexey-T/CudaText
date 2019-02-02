@@ -4357,24 +4357,21 @@ end;
 
 procedure TfmMain.DoOps_OpenFile_DefaultAndUser;
 var
-  fn: string;
+  NameDef, NameUser: string;
   F: TEditorFrame;
 begin
-  if Groups.Mode=gmOne then
-    Groups.Mode:= gm2v;
+  NameDef:= GetAppPath(cFileOptionsDefault);
+  NameUser:= GetAppPath(cFileOptionsUser);
 
-  fn:= GetAppPath(cFileOptionsDefault);
-  F:= DoFileOpen(fn, '', Groups.Pages[0]);
+  if not FileExistsUTF8(NameUser) then
+  begin
+    FCreateFile(NameUser, true);
+    if not FileExistsUTF8(NameUser) then exit;
+  end;
+
+  F:= DoFileOpen(NameDef, NameUser);
   if Assigned(F) then
     F.ReadOnly[F.Ed1]:= true;
-
-  fn:= GetAppPath(cFileOptionsUser);
-  if not FileExistsUTF8(fn) then
-  begin
-    FCreateFile(fn, true);
-    if not FileExistsUTF8(fn) then Exit;
-  end;
-  DoFileOpen(fn, '', Groups.Pages[1]);
 end;
 
 procedure TfmMain.DoOps_OpenFile_LexerSpecific;

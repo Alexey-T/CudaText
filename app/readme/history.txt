@@ -6,7 +6,8 @@
 1.74.0 (2019/02)
 
 + add: API to allow 2 files in a single tab. This is big help for Differ plugin. Big internal changes for this.
-+ add: API to allow "background passive bookmarks". Help for Differ plugin.
++ add: API to allow "background passive bookmarks". This is help for Differ plugin.
++ add: command "Settings - default/user" opens 2 files in a single tab
 * change: bookmarks render on minimap, while custom attribs (Editor.attr) do not render
 
 1.73.0 (2019/01)
