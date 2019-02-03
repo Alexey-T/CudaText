@@ -81,7 +81,7 @@ def do_install_from_github():
 
     if do_clone:
         try:
-            subprocess.Popen(['git', 'clone', url], cwd=dir_py).wait()
+            subprocess.call(['git', 'clone', url], cwd=dir_py)
         except:
             msg_box('Error running Git command', MB_OK+MB_ICONERROR)
             return
