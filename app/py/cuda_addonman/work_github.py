@@ -73,7 +73,7 @@ def do_install_from_github():
                 'GitHub repository can be cloned (using "git clone") or can be downloaded as zip file. '+
                 ' If you clone, Addon Manager\'s Update dialog will update add-on using "git pull", which is recommended.'+
                 '\n\nYes: clone.\nNo: download as zip.',
-                MB_YESNOCANCEL)
+                MB_YESNOCANCEL+MB_ICONQUESTION)
         if res==ID_CANCEL:
             return
         if res==ID_YES:
