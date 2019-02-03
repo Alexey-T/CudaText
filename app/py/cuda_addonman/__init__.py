@@ -402,7 +402,7 @@ class Command:
         for m in modules_git:
             d = {}
             d['module'] = m
-            d['dir'] = 'data/lexlib'
+            d['dir'] = 'py/'+m
             d['kind'] = 'plugin'
             d['name'] = get_name_of_module(m)
             d['v_local'] = 'Git'
