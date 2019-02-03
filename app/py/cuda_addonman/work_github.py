@@ -80,8 +80,16 @@ def do_install_from_github():
             do_clone = True
 
     if do_clone:
-        subprocess.Popen(['git', 'clone', url], cwd=dir_py)
-        msg_box('Restart CudaText to make downloaded plugin visible', MB_OK)
+        try:
+            subprocess.Popen(['git', 'clone', url], cwd=dir_py).wait()
+        except:
+            msg_box('Error running Git command', MB_OK+MB_ICONERROR)
+            return
+        
+        if os.path.isdir(dir_plugin):
+            msg_box('Cloned, restart CudaText to make this plugin visible', MB_OK+MB_ICONINFO)
+        else:
+            msg_box('Could not clone the repo', MB_OK+MB_ICONERROR)
         return
 
     get_url(url+'/zipball/master', fn, True)
