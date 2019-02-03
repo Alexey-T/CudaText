@@ -966,11 +966,10 @@
   //  2: close autocompletion
   "autocomplete_up_down_at_edge": 1,
 
-  //Auto-close brackets/quotes.
-  //  Value can have only chars: ( [ { ' " `
-  //  (don't forget that json needs escaped double-quote)
-  //  Function don't work on escaped chars, after backslash.
-  //  Function don't work if after caret is non-space.
+  //Auto-close brackets/quotes. Value can have only chars: ( [ { ' " `
+  //(Don't forget that JSON config needs double-quote escaped.)
+  //Function doesn't work on escaped chars (after backslash).
+  //Function doesn't work if after caret is word char.
   "auto_close_brackets": "([{",
 
   //[File]
