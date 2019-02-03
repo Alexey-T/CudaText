@@ -2424,7 +2424,7 @@ var
   H: Int64;
   Id, Num1, Num2: integer;
   Ptr: PChar;
-  Str, Str1, Str2: string;
+  Str: string;
   Ed: TATSynEdit;
   F: TEditorFrame;
   Pnt: TPoint;
@@ -2778,10 +2778,14 @@ begin
           begin
             if Assigned(F) then
             begin
-              if not F.Splitted then Str1:= '-' else
-                if F.SplitHorz then Str1:= 'h' else
-                  Str1:= 'v';
-              Result:= Py_BuildValue('(sd)', PChar(Str1), F.SplitPos);
+              if not F.Splitted then
+                Str:= '-'
+              else
+              if F.SplitHorz then
+                Str:= 'h'
+              else
+                Str:= 'v';
+              Result:= Py_BuildValue('(sd)', PChar(Str), F.SplitPos);
             end
             else
               Result:= ReturnNone;
