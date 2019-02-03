@@ -2053,8 +2053,8 @@ begin
   Panel1.Height:= APanelSize.y * Height div 100;
   for i in TATGroupsNums do
   begin
-    Pages[i].Width:= APageSize[i].x * Width div 100;
-    Pages[i].Height:= APageSize[i].y * Height div 100;
+    Pages[i].Width:= Min(8000, APageSize[i].x * Width div 100);
+    Pages[i].Height:= Min(8000, APageSize[i].y * Height div 100);
   end;
 end;
 
