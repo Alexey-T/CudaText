@@ -339,6 +339,9 @@ class Command:
                     s = s[:n]
             return s
 
+        dir_data = app_path(APP_DIR_DATA)
+        dir_py = app_path(APP_DIR_PY)
+
         msg_status('Downloading list...')
         addons = get_remote_addons_list(opt.ch_def+opt.ch_user)
         msg_status('')
@@ -349,15 +352,18 @@ class Command:
         modules = get_installed_list()
         modules = [m for m in modules if m not in STD_MODULES] + [m for m in modules if m in STD_MODULES]
 
-        dir_lexers = os.path.join(app_path(APP_DIR_DATA), 'lexlib')
+        modules_git = [m for m in modules if os.path.isdir(os.path.join(dir_py, m, '.git'))]
+        modules = [m for m in modules if not m in modules_git]
+
+        dir_lexers = os.path.join(dir_data, 'lexlib')
         lexers = os.listdir(dir_lexers)
         lexers = [fn2name(s, False) for s in lexers if s.endswith('.lcf')]
 
-        dir_langs = os.path.join(app_path(APP_DIR_DATA), 'lang')
+        dir_langs = os.path.join(dir_data, 'lang')
         langs = os.listdir(dir_langs)
         langs = [fn2name(s, False) for s in langs if s.endswith('.ini')]
 
-        dir_themes = os.path.join(app_path(APP_DIR_DATA), 'themes')
+        dir_themes = os.path.join(dir_data, 'themes')
         themes = os.listdir(dir_themes)
         themes = [fn2name(s, True) for s in themes if '.cuda-theme' in s]
 
@@ -388,15 +394,22 @@ class Command:
             url = a['url']
             v_remote = a['v']
 
-            if m:
-                if os.path.isdir(os.path.join(app_path(APP_DIR_PY), m, '.git')):
-                    v_local = 'Git'
-            if v_local != 'Git':
-                v_local = get_addon_version(url) or v_local
-
+            v_local = get_addon_version(url) or v_local
             a['v_local'] = v_local
 
             a['check'] = (v_local!=PREINST) and ((v_local=='?') or (v_local<v_remote))
+
+        for m in modules_git:
+            d = {}
+            d['module'] = m
+            d['dir'] = 'data/lexlib'
+            d['kind'] = 'plugin'
+            d['name'] = get_name_of_module(m)
+            d['v_local'] = 'Git'
+            d['v'] = 'Git'
+            d['url'] = ''
+            d['check'] = False
+            addons.append(d)
 
         text_headers = '\r'.join(('Name=260', 'Folder=180', 'Local=125', 'Available=125'))
         text_columns = ['\r'.join(('['+i['kind']+'] '+i['name'], i['dir'], i['v_local'], i['v'])) for i in addons]
@@ -456,6 +469,7 @@ class Command:
                 if os.path.isdir(os.path.join(m_dir, '.git')):
                     msg_status('Running "git pull" in "%s"'%m_dir, True)
                     subprocess.Popen(['git', 'pull'], cwd=m_dir)
+                    time.sleep(2.0)
                 else:
                     # delete old dir
                     do_remove_module(m)
