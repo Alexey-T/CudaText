@@ -9,6 +9,7 @@
 + add: API to allow "background passive bookmarks". This is help for Differ plugin.
 + add: command "Settings - default/user" opens 2 files in a single tab
 + add: Addon Manager: if plugin folder is Git repo, Update dialog shows its version as "Git" and runs "git pull" when updating this plugin
++ add: Addon Manager: command "Install from Github" improved: now it suggests to clone Git repo or download it
 * change: bookmarks render on minimap, while custom attribs (Editor.attr) do not render
 
 1.73.0 (2019/01)
