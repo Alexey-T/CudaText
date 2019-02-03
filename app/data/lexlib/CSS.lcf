@@ -1451,6 +1451,6 @@ object SyntAnal8: TLibSyntAnalyzer
     
       'Known vendor prefixes: http://peter.sh/experiments/vendor-prefix' +
       'ed-css-property-overview/')
-  LineComment = '//'
+  LineComment = ''
   Charset = DEFAULT_CHARSET
 end
