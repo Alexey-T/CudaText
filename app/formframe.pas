@@ -2080,7 +2080,7 @@ begin
     c.pen.color:= c.brush.color;
     inc(r.top, 1);
     inc(r.left, 4);
-    dx:= (r.bottom-r.top) div 2-1;
+    dx:= r.Height div 2-1;
     c.Polygon([Point(r.left, r.top), Point(r.left+dx, r.top+dx), Point(r.left, r.top+2*dx)]);
   end
   else
@@ -2197,7 +2197,7 @@ var
 begin
   Ed:= Sender as TATSynEdit;
   if Ed.Strings.Count=0 then exit;
-  NScale:= (ARect.Bottom-ARect.Top) / Ed.Strings.Count;
+  NScale:= ARect.Height / Ed.Strings.Count;
   NPixelOffset:= Ed.ScrollVert.NPixelOffset;
 
   C.Brush.Color:= GetAppColor('EdMicromapBg');

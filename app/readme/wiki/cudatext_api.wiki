@@ -1467,7 +1467,7 @@ Possible values of "id_action":
 ** "tag": Any string stored in menu item.
 
 * MENU_REMOVE: Deletes menu item. Note: don't remove items, which are auto-updated by CudaText, because you'll get Access Violation on showing menu containing these items. E.g. some items in the tab context menu are auto-updated.
-* MENU_CREATE: Creates new popup-menu, independant from CudaText menus. It can be filled like other menus, then shown via MENU_SHOW.
+* MENU_CREATE: Creates new popup-menu, independent from CudaText menus. It can be filled like other menus, then shown via MENU_SHOW.
 * MENU_SHOW: Shows given popup-menu. Only menu created with MENU_CREATE should be specified here. Param "command" must be tuple (x,y) or string "x,y" with screen-related coordinates, if empty - menu shows at mouse cursor.
 
 * MENU_SET_CAPTION: Changes caption of menu item. Param "command" must be str value.
@@ -2171,7 +2171,7 @@ Notes:
 
  decor(id, line=-1, tag=0, text="", color=0, bold=False, italic=False, image=-1, auto_del=True)
 
-Controls decorations on gutter. It is used to show some visual marks, which look like bookmark icons, but independant of bookmarks. Possible values of "id":
+Controls decorations on gutter. It is used to show some visual marks, which look like bookmark icons, but independent of bookmarks. Possible values of "id":
 
 * DECOR_GET_ALL: Gets list of all decorations, as list of dict, or None.
 * DECOR_GET: Gets decoration for single line, as dict, or None. Params used: "line".
@@ -2253,7 +2253,7 @@ Possible values of "id":
 ** "x2": end column
 ** "y2": end line
 ** "str": text of token (can be multi-line with "\n")
-** "style": lexer style of token (lexer dependant)
+** "style": lexer style of token (lexer dependent)
 
 * TOKEN_LIST_SUB: Like TOKEN_LIST, but gets tokens only for given lines range, from "index1" to "index2" inclusive.
 
