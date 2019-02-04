@@ -907,8 +907,8 @@ begin
   if AConsiderTreeVisible then
     if not ShowSidePanel then exit;
 
-  Ed:= CurrentEditor;
-  Frame:= GetEditorFrame(Ed);
+  Frame:= CurrentFrame;
+  Ed:= Frame.Editor;
 
   if not Frame.EnabledCodeTree then
   begin
