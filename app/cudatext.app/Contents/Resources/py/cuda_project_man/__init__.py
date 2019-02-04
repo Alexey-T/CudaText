@@ -835,19 +835,23 @@ class Command:
             file_open(str(path), options=options)
 
 
+    def get_open_options(self):
+    
+        s = '/preview' if self.options.get('preview', True) else ''
+        s += ' /nozip /nontext-view-text'
+        return s
+    
     def tree_on_click(self, id_dlg, id_ctl, data='', info=''):
 
         if self.options.get('d_click', False):
             return
-        opt = '/preview' if self.options.get('preview', True) else ''
-        self.do_open_current_file(opt)
+        self.do_open_current_file(self.get_open_options())
 
     def tree_on_click_dbl(self, id_dlg, id_ctl, data='', info=''):
 
         if not self.options.get('d_click', False):
             return
-        opt = '/preview' if self.options.get('preview', True) else ''
-        self.do_open_current_file(opt)
+        self.do_open_current_file(self.get_open_options())
 
 
     def icon_init(self):

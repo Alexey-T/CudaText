@@ -4,6 +4,7 @@ import shutil
 import json
 import collections
 import webbrowser
+import subprocess
 from cudatext import *
 from urllib.parse import unquote
 from .work_local import *
@@ -328,7 +329,7 @@ class Command:
 
 
     def do_update(self):
-    
+
         def fn2name(s, del_brackets):
             s = s.split('.')[0].replace(' ', '_')
             # strip additions in name for "gruvbox (Dark) (Medium)"
@@ -337,6 +338,9 @@ class Command:
                 if n>=0:
                     s = s[:n]
             return s
+
+        dir_data = app_path(APP_DIR_DATA)
+        dir_py = app_path(APP_DIR_PY)
 
         msg_status('Downloading list...')
         addons = get_remote_addons_list(opt.ch_def+opt.ch_user)
@@ -348,15 +352,18 @@ class Command:
         modules = get_installed_list()
         modules = [m for m in modules if m not in STD_MODULES] + [m for m in modules if m in STD_MODULES]
 
-        dir_lexers = os.path.join(app_path(APP_DIR_DATA), 'lexlib')
+        modules_git = [m for m in modules if os.path.isdir(os.path.join(dir_py, m, '.git'))]
+        modules = [m for m in modules if not m in modules_git]
+
+        dir_lexers = os.path.join(dir_data, 'lexlib')
         lexers = os.listdir(dir_lexers)
         lexers = [fn2name(s, False) for s in lexers if s.endswith('.lcf')]
-        
-        dir_langs = os.path.join(app_path(APP_DIR_DATA), 'lang')
+
+        dir_langs = os.path.join(dir_data, 'lang')
         langs = os.listdir(dir_langs)
         langs = [fn2name(s, False) for s in langs if s.endswith('.ini')]
 
-        dir_themes = os.path.join(app_path(APP_DIR_DATA), 'themes')
+        dir_themes = os.path.join(dir_data, 'themes')
         themes = os.listdir(dir_themes)
         themes = [fn2name(s, True) for s in themes if '.cuda-theme' in s]
 
@@ -386,10 +393,23 @@ class Command:
                 v_local = PREINST
             url = a['url']
             v_remote = a['v']
+
             v_local = get_addon_version(url) or v_local
             a['v_local'] = v_local
 
             a['check'] = (v_local!=PREINST) and ((v_local=='?') or (v_local<v_remote))
+
+        for m in modules_git:
+            d = {}
+            d['module'] = m
+            d['dir'] = 'py/'+m
+            d['kind'] = 'plugin'
+            d['name'] = get_name_of_module(m)
+            d['v_local'] = 'Git'
+            d['v'] = 'Git'
+            d['url'] = ''
+            d['check'] = False
+            addons.append(d)
 
         text_headers = '\r'.join(('Name=260', 'Folder=180', 'Local=125', 'Available=125'))
         text_columns = ['\r'.join(('['+i['kind']+'] '+i['name'], i['dir'], i['v_local'], i['v'])) for i in addons]
@@ -444,8 +464,18 @@ class Command:
 
             m = a.get('module', '')
             if m:
-                # delete old dir
-                do_remove_module(m)
+                # special update for Git repos
+                m_dir = os.path.join(app_path(APP_DIR_PY), m)
+                if os.path.isdir(os.path.join(m_dir, '.git')):
+                    msg_status('Running "git pull" in "%s"'%m_dir, True)
+                    try:
+                        subprocess.call(['git', 'pull'], cwd=m_dir)
+                    except:
+                        msg_status('Error running Git', True)
+                        print('  Error running Git')
+                else:
+                    # delete old dir
+                    do_remove_module(m)
 
             url = a['url']
             if not url: continue

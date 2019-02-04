@@ -1,5 +1,6 @@
 import os
 import tempfile
+import subprocess
 from datetime import datetime
 from cudatext import *
 import cudatext_cmd
@@ -33,6 +34,7 @@ fn_history = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman_github.ini'
 
 
 def do_install_from_github():
+
     list_hist = ['https://github.com/kvichans/cuda_find_in_files']
     if os.path.isfile(fn_history):
         list_hist = open(fn_history).read().splitlines()
@@ -41,11 +43,59 @@ def do_install_from_github():
     if not url: return
 
     fn = os.path.join(tempfile.gettempdir(), 'cudatext_addon.zip')
-    msg_status('Downloading zip...')
+    fn_inf = os.path.join(tempfile.gettempdir(), 'cudatext_addon.inf')
+    dir_py = app_path(APP_DIR_PY)
+    dir_plugin = ''
+    msg_status('Downloading...')
+
+    get_url(
+        url.replace('http://', 'https://').replace('https://github.com/', 'https://raw.githubusercontent.com/')
+        + '/master/install.inf', fn_inf, True)
+    valid = os.path.isfile(fn_inf) \
+        and ini_read(fn_inf, 'info', 'type', '')=='cudatext-plugin'
+
+    if valid:
+        s = ini_read(fn_inf, 'info', 'subdir', '')
+        valid = bool(s)
+        dir_plugin = os.path.join(dir_py, s)
+
+    if not valid:
+        msg_box('GitHub repository doesn\'t contain valid "install.inf" file. Cannot proceed.', MB_OK+MB_ICONERROR)
+        return
+
+    if os.path.isdir(os.path.join(dir_plugin, '.git')):
+        msg_box('This repository is already cloned to your "py" folder, cannot proceed', MB_OK+MB_ICONERROR)
+        return
+
+    do_clone = False
+    if not os.path.isdir(dir_plugin):
+        res = msg_box(
+                'GitHub repository can be cloned (using "git clone") or can be downloaded as zip file. '+
+                ' If you clone, Addon Manager\'s Update dialog will update add-on using "git pull", which is recommended.'+
+                '\n\nYes: clone.\nNo: download as zip.',
+                MB_YESNOCANCEL+MB_ICONQUESTION)
+        if res==ID_CANCEL:
+            return
+        if res==ID_YES:
+            do_clone = True
+
+    if do_clone:
+        try:
+            subprocess.call(['git', 'clone', url], cwd=dir_py)
+        except:
+            msg_box('Error running Git command', MB_OK+MB_ICONERROR)
+            return
+        
+        if os.path.isdir(dir_plugin):
+            msg_box('Cloned, restart CudaText to make this plugin visible', MB_OK+MB_ICONINFO)
+        else:
+            msg_box('Could not clone the repo', MB_OK+MB_ICONERROR)
+        return
+
     get_url(url+'/zipball/master', fn, True)
     msg_status('')
     if not os.path.isfile(fn):
-        msg_status('Cannot download URL')
+        msg_status('Cannot download zip file')
         return
 
     file_open(fn)

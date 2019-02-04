@@ -96,6 +96,13 @@ BOOKMARK_GET_ALL     = 6
 BOOKMARK_GET_PROP      = 7
 BOOKMARK_DELETE_BY_TAG = 8
 
+BOOKMARK2_SET         = 11
+BOOKMARK2_CLEAR       = 12
+BOOKMARK2_CLEAR_ALL   = 13
+BOOKMARK2_GET_ALL     = 16
+BOOKMARK2_GET_PROP      = 17
+BOOKMARK2_DELETE_BY_TAG = 18
+
 MARKERS_GET           = 0
 MARKERS_ADD           = 1
 MARKERS_DELETE_ALL    = 2
@@ -185,6 +192,7 @@ PROP_ONE_LINE              = 51
 PROP_SCROLL_VERT           = 52
 PROP_SCROLL_HORZ           = 53
 PROP_CODETREE              = 54
+PROP_EDITORS_LINKED        = 55
 PROP_KIND                  = 59
 PROP_V_MODE                = 60
 PROP_V_POS                 = 61
@@ -211,9 +219,15 @@ PROP_UNDO_GROUPED              = 88
 PROP_UNDO_LIMIT                = 89
 PROP_UNDO_DATA                 = 90
 PROP_REDO_DATA                 = 91
+PROP_SPLIT                     = 92
 PROP_FOLD_TOOLTIP_SHOW         = 101
 PROP_FOLD_ALWAYS               = 102
 PROP_FOLD_ICONS                = 103
+PROP_HANDLE_SELF        = 110
+PROP_HANDLE_PRIMARY     = 111
+PROP_HANDLE_SECONDARY   = 112
+PROP_RECT_CLIENT        = 115
+PROP_RECT_TEXT          = 116
 
 SPLITTER_SIDE    = 0
 SPLITTER_BOTTOM  = 1
@@ -812,8 +826,11 @@ def dlg_custom(title, size_x, size_y, text, focused=-1, get_dict=False):
     else:
         return _dlg_custom_dict(res, count=len(text.splitlines()) )
 
-def file_open(filename, group=-1, options=''):
-    return ct.file_open(filename, group, options)
+def file_open(name, group=-1, options=''):
+    if isinstance(name, (list, tuple)):
+        return ct.file_open(name[0], name[1], group, options)
+    else:
+        return ct.file_open(name, '', group, options)
 
 def file_save(filename=''):
     return ct.file_save(filename)
@@ -1154,6 +1171,5 @@ class Editor:
 
 #objects
 ed = Editor(0)
-ed_bro = Editor(1)
 ed_con_log = Editor(7)
 ed_con_in = Editor(8)

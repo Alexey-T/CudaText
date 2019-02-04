@@ -138,7 +138,7 @@ Example of version check:
 
  app_path(id)
 
-Gets some path. Possible values of id:
+Gets file-system path. Possible values of "id":
 
 * APP_DIR_EXE: Dir of program executable.
 * APP_DIR_SETTINGS: Dir "settings".
@@ -1117,10 +1117,14 @@ Gets string if command selected, or None if cancelled.
 ===file_open===
 
  file_open(filename, group=-1, options="")
+ file_open((filename1, filename2), group=-1, options="")
 
-Opens editor tab with given filename. If filename already opened, activates its tab. Pass empty str to open untitled tab.
+Opens editor tab with given filename. If filename already opened, activates its tab. Pass empty string to open untitled tab.
 
-Gets bool: filename is empty or file was successfully opened. For zip files, gets True only if add-on (in zip file) was correct and installed.
+First parameter can be 2-tuple (or 2-list) of string, to open two files in a single tab, in a splitted view. In this case, second filename won't be handled specially for zip file, picture file, binary file etc.
+
+Gets bool. True, if first filename is empty. Otherwise, gets True if first filename exists, and second filename is empty or exists.
+For zip file (only first filename is checked for it), gets True only if zip file contains valid CudaText add-on, and it was installed.
 
 * Param "group": index of tab-group (0-based), default means "current group". If you pass index of currently hidden group, group won't show, you need to call editor command to show it, see [[#cmd]].
 * Param "options": string:
@@ -1218,7 +1222,7 @@ Possible values of "id":
 
 Perform some lexer-related action.
 
-Possible values of id:
+Possible values of "id":
 
 * LEXER_GET_LEXERS: Gets list of lexers. Param "value" must be bool: allow to include also hidden lexers (not visible in the lexers menu).
 * LEXER_GET_PROP: For given lexer name, gets its properties as dict. For incorrect lexer name, gets None. Keys of dict:
@@ -1362,7 +1366,7 @@ Perform action on timers. Many different timers allowed, they work at the same t
 * "interval": Timer delay in msec, 150 or bigger. Specify it only on starting (ignored on stopping).
 * "tag": Some string, if not empty, it will be parameter to callback. If empty, callback is called without additional params.
 
-Possible values of id:
+Possible values of "id":
 
 * TIMER_START - Create (if needed) and start timer, infinite ticks. If timer already created, then it's restated.
 * TIMER_START_ONE - Create (if needed) and start timer, for single tick.
@@ -1463,7 +1467,7 @@ Possible values of "id_action":
 ** "tag": Any string stored in menu item.
 
 * MENU_REMOVE: Deletes menu item. Note: don't remove items, which are auto-updated by CudaText, because you'll get Access Violation on showing menu containing these items. E.g. some items in the tab context menu are auto-updated.
-* MENU_CREATE: Creates new popup-menu, independant from CudaText menus. It can be filled like other menus, then shown via MENU_SHOW.
+* MENU_CREATE: Creates new popup-menu, independent from CudaText menus. It can be filled like other menus, then shown via MENU_SHOW.
 * MENU_SHOW: Shows given popup-menu. Only menu created with MENU_CREATE should be specified here. Param "command" must be tuple (x,y) or string "x,y" with screen-related coordinates, if empty - menu shows at mouse cursor.
 
 * MENU_SET_CAPTION: Changes caption of menu item. Param "command" must be str value.
@@ -1695,7 +1699,6 @@ Note: Toolbars contain several "button_ex" objects, which are anchored one to an
 Editor class has methods to work with editor. Global objects of Editor exist:
 
 * "ed": refers to currently focused editor (in any tab).
-* "ed_bro": refers to "brother" of ed. If tab is splitted, 2 editors are shown: 1st/2nd. 1st and 2nd are "brother" editors.
 * "ed_con_log": refers to log field (multi-line) in the "Console" panel.
 * "ed_con_in": refers to input field (single line) in the "Console" panel.
 
@@ -1727,7 +1730,7 @@ Example shows text of first caret's selection:
 
  set_caret(posx, posy, endx=-1, endy=-1, id=CARET_SET_ONE)
 
-Controls carets. Possible values of id:
+Controls carets. Possible values of "id":
 
 * CARET_SET_ONE: Removes multi-carets and sets single caret with given coords (posx, posy, endx, endy).
 * CARET_ADD: Adds caret (multi-carets feature) with given coords. Also gets count of carets after that (same as len(get_carets()) ).
@@ -1907,7 +1910,7 @@ Sets tab splitting. Meaning of params is the same as for get_split().
 
 Gets editor's property.
 
-Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible values of id:
+Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possible values of "id":
 
 * PROP_GUTTER_ALL: bool: gutter (container for all gutter columns) is visible.
 * PROP_GUTTER_STATES: bool: show gutter column "line states".
@@ -1976,7 +1979,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_HILITE_CUR_LINE_MINIMAL: bool: highlight current line, only minimal part of line.
 * PROP_HILITE_CUR_LINE_IF_FOCUS: bool: highlight current line, only when editor focused.
 * PROP_CODETREE: bool: enable standard Code Tree filling.
-* PROP_COORDS: 4-tuple of int: screen coordinates of editor UI control, (left, top, right, bottom).
+* PROP_EDITORS_LINKED: bool: enable sharing of the same text by primary/secondary editors in file tab.
 * PROP_CELL_SIZE: 2-tuple of int: size in pixels of average char cell.
 * PROP_ONE_LINE: bool: editor has single-line mode. (Usual editors are multi-line.)
 * PROP_MODERN_SCROLLBAR: bool: use custom-drawn themed scrollbars.
@@ -1991,6 +1994,19 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 ** "text": normal editor
 ** "bin": binary viewer
 ** "pic": picture
+
+* PROP_SPLIT: 2-tuple: information about primary/secondary editors splitting as tuple (split_kind, split_pos).
+** "split_kind": str: "-" (not splitted), "v" (splitted vertically), "h" (splitted horizontally). 
+** "split_pos": float number: part of entire size for secondary editor (0.5 means half split).
+
+* PROP_HANDLE_SELF: int: handle of editor object, for which get_prop is called. This handle is unique among all objects in program (it is memory address). Note that ed.h==0, it is virtual handle for the focused editor. This API gets the real handle.
+* PROP_HANDLE_PRIMARY: int: handle of editor object, which is primary editor in a file tab (always visible). None for separate editors.
+* PROP_HANDLE_SECONDARY: int: handle of editor object, which is secondary editor in a file tab (visible only when file tab is splitted). None for separate editors.
+
+* PROP_COORDS: 4-tuple of int: rectangle of entire editor area, relative to screen.
+* PROP_RECT_CLIENT: 4-tuple of int: rectangle of entire editor area, relative to editor.
+* PROP_RECT_TEXT: 4-tuple of int: rectangle of text-only editor area (excluding gutter/minimap/etc), relative to editor.
+
 * PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
 * PROP_V_POS: int: for binary viewer, scroll position.
 * PROP_V_SEL_START: int: for binary viewer, selection start offset.
@@ -2003,7 +2019,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 
 Sets editor's property.
 
-Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of simple type. Possible values of id:
+Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple of simple type. Possible values of "id":
 
 * PROP_GUTTER_ALL: bool: gutter (container for all gutter columns) is visible.
 * PROP_GUTTER_STATES: bool: show gutter column "line states".
@@ -2061,6 +2077,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_HILITE_CUR_LINE_MINIMAL: bool: highlight current line, only minimal part of line.
 * PROP_HILITE_CUR_LINE_IF_FOCUS: bool: highlight current line, only when editor focused.
 * PROP_CODETREE: bool: enable standard Code Tree filling.
+* PROP_EDITORS_LINKED: bool: enable sharing of the same text by primary/secondary editors in file tab.
 * PROP_ONE_LINE: bool: editor has single-line mode.
 * PROP_MODERN_SCROLLBAR: bool: use custom-drawn themed scrollbars.
 * PROP_SAVE_HISTORY: bool: allows to save history (caret, scroll pos, folding etc) on file closing.
@@ -2068,6 +2085,11 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_UNDO_LIMIT: int: max count of simple actions, which can be undone.
 * PROP_UNDO_DATA: str: string representation of Undo data.
 * PROP_REDO_DATA: str: string representation of Redo data.
+
+* PROP_SPLIT: 2-tuple: information about primary/secondary editors splitting as tuple (split_kind, split_pos).
+** "split_kind": str: "-" (not splitted), "v" (splitted vertically), "h" (splitted horizontally). 
+** "split_pos": float number: part of entire size for secondary editor (0.5 means half split).
+
 * PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
 * PROP_V_POS: int: for binary viewer, scroll position.
 * PROP_V_SEL_START: int: for binary viewer, selection start offset.
@@ -2109,7 +2131,7 @@ Many get_prop/set_prop ids correspond to CudaText options. List of correspoding 
 
  bookmark(id, nline, nkind=1, ncolor=-1, text="", auto_del=True, show=True, tag=0)
 
-Controls bookmarks. Possible values of id:
+Controls bookmarks. Possible values of "id":
 
 * BOOKMARK_GET_ALL: Gets list of bookmarks, as list of dict. Param "nline" ignored. Dict keys are: "line", "kind", "tag", "hint", "auto_del", "show_in_list".
 * BOOKMARK_GET_LIST: Gets list of line indexes, which have bookmarks. Param "nline" ignored.
@@ -2131,6 +2153,15 @@ Controls bookmarks. Possible values of id:
 ** Param "ncolor": Color of bookmarked line. Can be COLOR_NONE to not use background color.
 ** Param "text": Path to icon file for gutter, 16x16 .bmp or .png file. Empty str: don't show icon.
 
+Additional internal list Bookmarks2 exists, which holds list of background bookmarks. They have lower paint priority than usual bookmarks, so background bookmark is painted only if usual bookmark not exists. Actions BOOKMARK2_* are used for Bookmarks2 list, actions have the same meaning. Background bookmarks don't have gutter icon and mouse-over tooltip. They share the single setup with usual bookmarks.
+
+* BOOKMARK2_GET_ALL
+* BOOKMARK2_GET_PROP
+* BOOKMARK2_SET
+* BOOKMARK2_CLEAR
+* BOOKMARK2_CLEAR_ALL
+* BOOKMARK2_DELETE_BY_TAG
+
 Notes:
 
 * Param "nkind" must be in the range 1..63.
@@ -2140,7 +2171,7 @@ Notes:
 
  decor(id, line=-1, tag=0, text="", color=0, bold=False, italic=False, image=-1, auto_del=True)
 
-Controls decorations on gutter. It is used to show some visual marks, which look like bookmark icons, but independant of bookmarks. Possible values of "id":
+Controls decorations on gutter. It is used to show some visual marks, which look like bookmark icons, but independent of bookmarks. Possible values of "id":
 
 * DECOR_GET_ALL: Gets list of all decorations, as list of dict, or None.
 * DECOR_GET: Gets decoration for single line, as dict, or None. Params used: "line".
@@ -2222,7 +2253,7 @@ Possible values of "id":
 ** "x2": end column
 ** "y2": end line
 ** "str": text of token (can be multi-line with "\n")
-** "style": lexer style of token (lexer dependant)
+** "style": lexer style of token (lexer dependent)
 
 * TOKEN_LIST_SUB: Like TOKEN_LIST, but gets tokens only for given lines range, from "index1" to "index2" inclusive.
 
@@ -2405,7 +2436,7 @@ Function params:
  gap(id, num1, num2, tag=-1)
 
 Performs action on inter-line gaps (they don't overlap text above/below).
-Possible values of id:
+Possible values of "id":
 
 * GAP_GET_LIST: Gets list of gaps. List of 4-tuples (nline, ntag, bitmap_size_x, bitmap_size_y), or None.
 
@@ -2446,7 +2477,7 @@ class Command:
 
 Controls dim (shade, fade) ranges, which blend text font color with background color. Dim value is 0..255, 0 means "no effect", 255 means "text is transparent".
 
-Possible values of id:
+Possible values of "id":
 
 * DIM_ADD: Adds new range.
 ** Param "index": index of first range line (0-base).
@@ -3225,5 +3256,18 @@ def project_variables():
 
 1.0.270 (app 1.72.1)
 * add: app_proc: PROC_WINDOW_TOPMOST_GET, PROC_WINDOW_TOPMOST_SET
+
+1.0.271 (app 1.73.1)
+* add: Editor.bookmark: added actions BOOKMARK2_*
+
+1.0.272 (app 1.74.0)
+* add: file_open: can open 2 files in a single tab
+* add: Editor.get_prop/set_prop: PROP_EDITORS_LINKED
+* add: Editor.get_prop/set_prop: PROP_SPLIT
+* add: Editor.get_prop: PROP_HANDLE_SELF, PROP_HANDLE_PRIMARY, PROP_HANDLE_SECONDARY
+* add: Editor.get_prop: PROP_RECT_CLIENT, PROP_RECT_TEXT
+* change: deleted object "ed_bro"
+* deprecated: file_save(), use ed.save() instead
+* deprecated: Editor.get_split, Editor.set_split; use PROP_SPLIT instead
 
 [[Category:CudaText]]
