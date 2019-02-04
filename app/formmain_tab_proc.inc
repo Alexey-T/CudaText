@@ -452,7 +452,6 @@ end;
 procedure TfmMain.UpdateTabCaptionsFromFolders;
 const
   cMaxLevels = 5;
-  cModified: array[boolean] of string = ('', '*');
 var
   SName: string;
   Frame: TEditorFrame;
@@ -471,7 +470,7 @@ begin
       SName:= Frame.FileName;
       L_fn.Add(SName);
       if (SName<>'') and Frame.EditorsLinked then
-        L_cap.Add(cModified[Frame.Ed1.Modified]+ExtractFileName(SName))
+        L_cap.Add(msgModified[Frame.Ed1.Modified]+ExtractFileName(SName))
       else
         L_cap.Add(Frame.TabCaption);
     end;

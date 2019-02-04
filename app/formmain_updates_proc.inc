@@ -8,8 +8,6 @@ Copyright (c) Alexey Torgashin
 {$ifdef nn}begin end;{$endif}
 
 procedure TfmMain.UpdateCaption;
-const
-  cModified: array[boolean] of string = ('', '*');
 var
   F: TEditorFrame;
   SName, SSession, Name1, Name2: string;
@@ -31,8 +29,8 @@ begin
       Name2:= F.GetFileName(F.Ed2);
       if Name1='' then Name1:= msgUntitledTab;
       if Name2='' then Name2:= msgUntitledTab;
-      Name1:= cModified[F.Ed1.Modified]+Name1;
-      Name2:= cModified[F.Ed2.Modified]+Name2;
+      Name1:= msgModified[F.Ed1.Modified]+Name1;
+      Name2:= msgModified[F.Ed2.Modified]+Name2;
       SName:= Name1+' | '+Name2;
     end;
   end
@@ -48,7 +46,7 @@ begin
   Caption:= SName + SSession + ' - ' + msgTitle;
 
   Application.Title:=
-    cModified[F.Ed1.Modified or F.Ed2.Modified]+
+    msgModified[F.Ed1.Modified or F.Ed2.Modified]+
     F.TabCaption + ' - ' + msgTitle;
 end;
 

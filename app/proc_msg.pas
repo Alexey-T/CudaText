@@ -33,6 +33,7 @@ const
   msgCallbackBad = 'Bad API callback, report to plugin author: %s'; //no i18n
   msgCallbackDeprecated = 'Deprecated API callback, report to plugin author: %s'; //no i18n
   msgApiDeprecated = 'Deprecated API usage: %s'; //no i18n
+  msgModified: array[boolean] of string = ('', '*');
   msgLiteLexerSuffix = ' ^'; //no i18n
   msgButtonX = '×'; //no i18n
   msgErrorInTheme = 'Warning for theme "%s": missed item "%s"';
