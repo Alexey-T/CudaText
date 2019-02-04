@@ -2785,7 +2785,7 @@ begin
                 Str:= 'h'
               else
                 Str:= 'v';
-              Result:= Py_BuildValue('(sd)', PChar(Str), F.SplitPos);
+              Result:= Py_BuildValue('(si)', PChar(Str), Round(F.SplitPos*1000));
             end
             else
               Result:= ReturnNone;
@@ -3206,7 +3206,7 @@ begin
               Str2:= SGetItem(Str);
               F.Splitted:= Str1<>'-';
               F.SplitHorz:= Str1='h';
-              F.SplitPos:= StrToFloatDef(Str2, 0.5);
+              F.SplitPos:= StrToIntDef(Str2, 500)/1000;
             end;
           end;
 
