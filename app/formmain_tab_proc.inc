@@ -166,6 +166,7 @@ var
   Btn, Res: Integer;
   Msg: string;
   bNeedTreeUpd, bSavedOk: boolean;
+  Adapter: TATAdapterEControl;
 begin
   D:= (Sender as TATTabs).GetTabData(ATabIndex);
   if D=nil then exit;
@@ -218,10 +219,21 @@ begin
     UpdateMenuRecent(Frame);
     Frame.Ed1.AdapterForHilite:= nil;
     Frame.Ed2.AdapterForHilite:= nil;
-    Frame.Adapter[Frame.Ed1].StopTreeUpdate;
-    Frame.Adapter[Frame.Ed2].StopTreeUpdate;
-    Frame.Adapter[Frame.Ed1].Stop;
-    Frame.Adapter[Frame.Ed2].Stop;
+
+    Adapter:= Frame.Adapter[Frame.Ed1];
+    Adapter.StopTreeUpdate;
+    Adapter.Stop;
+
+    if not Frame.EditorsLinked then
+    begin
+      Adapter:= Frame.Adapter[Frame.Ed2];
+      if Assigned(Adapter) then
+      begin
+        Adapter.StopTreeUpdate;
+        Adapter.Stop;
+      end;
+    end;
+
     Frame.Free;
   end;
 
