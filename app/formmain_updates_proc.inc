@@ -19,9 +19,14 @@ begin
 
   if UiOps.ShowTitlePath then
   begin
-    SName:= F.FileName;
-    if SName='' then
-      SName:= F.TabCaption;
+    if F.EditorsLinked then
+    begin
+      SName:= F.FileName;
+      if SName='' then
+        SName:= F.TabCaption;
+    end
+    else
+      SName:= F.GetFileName(F.Ed1) + ' | ' + F.GetFileName(F.Ed2);
   end
   else
     SName:= F.TabCaption;
