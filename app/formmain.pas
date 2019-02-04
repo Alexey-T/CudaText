@@ -4576,31 +4576,45 @@ procedure TfmMain.DoFileExportHtml;
 var
   F: TEditorFrame;
   Ed: TATSynEdit;
-  STitle: string;
-  Opt: TOpenOptions;
+  Dlg: TSaveDialog;
+  SFileName, STitle: string;
+  NX, NY: integer;
 begin
   F:= CurrentFrame;
   if F=nil then exit;
   Ed:= F.Editor;
 
-  STitle:= ExtractFileName(CurrentFrame.FileName);
-  if STitle='' then STitle:= 'untitled';
-  SaveDlg.Filename:= STitle+'.html';
-  SaveDlg.InitialDir:= GetTempDir(false);
+  STitle:= ExtractFileName(F.GetFileName(Ed));
+  if STitle='' then
+    STitle:= 'untitled';
 
-  Opt:= SaveDlg.Options;
+  Dlg:= TSaveDialog.Create(Self);
   try
-    SaveDlg.Options:= SaveDlg.Options-[ofOverwritePrompt];
-    SaveDlg.Filter:= 'HTML files|*.htm;*.html';
-    if not SaveDlg.Execute then exit;
+    Dlg.Filename:= STitle+'.html';
+    Dlg.InitialDir:= GetTempDir(false);
+    Dlg.Options:= [ofPathMustExist, ofEnableSizing, ofDontAddToRecent];
+    Dlg.Filter:= 'HTML files|*.htm;*.html';
+    if not Dlg.Execute then exit;
+    SFileName:= Dlg.FileName;
   finally
-    SaveDlg.Options:= Opt;
+    FreeAndNil(Dlg);
   end;
 
-  F.Adapter[Ed].DynamicHiliteEnabled:= false; //turn off for html
-  Ed.DoCommand(cCommand_SelectNone);
+  //hide caret, so HTML won't contain dynamic lexer highlights
+  NX:= 0;
+  NY:= 0;
+  if Ed.Carets.Count>0 then
+    with Ed.Carets[0] do
+    begin
+      NX:= PosX;
+      NY:= PosY;
+    end;
+  Ed.DoCaretSingle(-1, -1);
+  Ed.DoEventCarets;
+  Ed.Update;
+  Application.ProcessMessages;
 
-  DoEditorExportToHTML(Ed, SaveDlg.FileName, STitle,
+  DoEditorExportToHTML(Ed, SFileName, STitle,
     UiOps.ExportHtmlFontName,
     UiOps.ExportHtmlFontSize,
     UiOps.ExportHtmlNumbers,
@@ -4608,11 +4622,14 @@ begin
     GetAppColor('ExportHtmlNumbers')
     );
 
-  F.Adapter[Ed].DynamicHiliteEnabled:= EditorOps.OpLexerDynamicHiliteEnabled; //turn back
+  //restore caret
+  Ed.DoCaretSingle(NX, NY);
+  Ed.DoEventCarets;
+  Ed.Update;
   UpdateFrame(true);
 
-  if MsgBox(msgConfirmOpenCreatedDoc, MB_OKCANCEL or MB_ICONQUESTION)=id_ok then
-    OpenDocument(SaveDlg.FileName);
+  if MsgBox(msgConfirmOpenCreatedDoc, MB_OKCANCEL or MB_ICONQUESTION)=ID_OK then
+    OpenDocument(SFileName);
 end;
 
 
