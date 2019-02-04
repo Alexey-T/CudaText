@@ -146,8 +146,7 @@ type
     procedure EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorDrawMicromap(Sender: TObject; C: TCanvas; const ARect: TRect);
-    procedure EditorOnChange1(Sender: TObject);
-    procedure EditorOnChange2(Sender: TObject);
+    procedure EditorOnChange(Sender: TObject);
     procedure EditorOnChangeModified(Sender: TObject);
     procedure EditorOnChangeState(Sender: TObject);
     procedure EditorOnClick(Sender: TObject);
@@ -975,25 +974,23 @@ begin
   Ed2.Update(true);
 end;
 
-procedure TEditorFrame.EditorOnChange1(Sender: TObject);
+procedure TEditorFrame.EditorOnChange(Sender: TObject);
+var
+  Ed: TATSynEdit;
 begin
-  if Splitted and EditorsLinked then
+  Ed:= Sender as TATSynEdit;
+
+  if (Ed=Ed1) and Splitted and EditorsLinked then
   begin
     Ed2.UpdateIncorrectCaretPositions;
     Ed2.Update(true);
   end;
 
-  DoPyEvent(Editor, cEventOnChange, []);
+  DoPyEvent(Ed, cEventOnChange, []);
 
   TimerChange.Enabled:= false;
   TimerChange.Interval:= UiOps.PyChangeSlow;
   TimerChange.Enabled:= true;
-end;
-
-procedure TEditorFrame.EditorOnChange2(Sender: TObject);
-begin
-  Ed1.UpdateIncorrectCaretPositions;
-  Ed1.Update(true);
 end;
 
 procedure TEditorFrame.EditorOnChangeModified(Sender: TObject);
@@ -1289,7 +1286,9 @@ begin
   ed.OnClickGap:= @EditorOnClickGap;
   ed.OnClickMicromap:= @EditorOnClickMicroMap;
   ed.OnEnter:= @EditorOnEnter;
-  ed.OnChangeState:=@EditorOnChangeState;
+  ed.OnChange:= @EditorOnChange;
+  ed.OnChangeModified:= @EditorOnChangeModified;
+  ed.OnChangeState:= @EditorOnChangeState;
   ed.OnChangeCaretPos:= @EditorOnChangeCaretPos;
   ed.OnCommand:= @EditorOnCommand;
   ed.OnCommandAfter:= @EditorOnCommandAfter;
@@ -1331,10 +1330,6 @@ begin
   Ed1.Align:= alClient;
   Ed2.Align:= alBottom;
 
-  Ed1.OnChange:= @EditorOnChange1;
-  Ed2.OnChange:= @EditorOnChange2;
-  Ed1.OnChangeModified:= @EditorOnChangeModified;
-  Ed2.OnChangeModified:= @EditorOnChangeModified;
   Ed1.EditorIndex:= 0;
   Ed2.EditorIndex:= 1;
 
