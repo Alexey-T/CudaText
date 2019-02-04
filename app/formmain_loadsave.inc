@@ -187,7 +187,7 @@ begin
       path:= '/'+Format('%3.3d', [i]);
 
       GetFrameLocation(F, Gr, Pages, nLocalGroup, nGlobalGroup, nTab);
-      bModified:= F.Modified or ((F.FileName='') and not F.IsEmpty);
+      bModified:= F.Ed1.Modified or ((F.GetFileName(F.Ed1)='') and not F.IsEmpty);
 
       c.SetValue(path+'/modified', bModified);
       c.SetValue(path+'/file', SCollapseHomeDirInFilename(F.Filename));

@@ -141,7 +141,7 @@ begin
     raise Exception.Create('Cannot get first tab');
 
   Frame:= (D.TabObject as TEditorFrame);
-  if Frame.Modified then
+  if Frame.Editor.Modified then
     if MsgBox(
          Format(msgConfirmSaveModifiedTab, [Frame.TabCaption]),
          MB_OKCANCEL or MB_ICONQUESTION
