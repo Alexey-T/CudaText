@@ -53,6 +53,12 @@ begin
   F.Visible:= false;
   F.TabCaption:= ACaption;
 
+  if ACaption='' then
+  begin
+    F.TabCaptionUntitled:= GetUntitledCaption;
+    F.TabCaption:= F.TabCaptionUntitled;
+  end;
+
   InitFrameEvents(F);
 
   NToIndex:= -1;
@@ -79,7 +85,7 @@ var
   Pages: TATPages;
 begin
   Pages:= (Sender as TATTabs).Parent as TATPages;
-  DoTabAdd(Pages, GetUntitledCaption);
+  DoTabAdd(Pages, '');
 end;
 
 procedure TfmMain.DoOnTabFocus(Sender: TObject);

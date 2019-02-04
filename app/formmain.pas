@@ -2545,7 +2545,7 @@ begin
   G.SetTabOption(tabOptionWhichActivateOnClose, IfThen(UiOps.TabRecentOnClose, Ord(aocRecent), Ord(aocRight)));
 
   G.SetTabOptionString(tabOptionButtonLayout, UiOps.TabButtonLayout);
-  G.SetTabOptionString(tabOptionModifiedText, '*');
+  G.SetTabOptionString(tabOptionModifiedText, ''); //'*' is added in Frame
   DoApplyTranslationToGroups(G);
 end;
 
@@ -2799,7 +2799,7 @@ begin
 
   if AFileName='' then
   begin
-    D:= DoTabAdd(APages, GetUntitledCaption, bAndActivate, bAllowNear);
+    D:= DoTabAdd(APages, '', bAndActivate, bAllowNear);
     if not Assigned(D) then
     begin
       D:= Groups.Pages1.Tabs.GetTabData(0);

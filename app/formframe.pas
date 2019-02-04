@@ -83,6 +83,7 @@ type
     Adapter1: TATAdapterEControl;
     Adapter2: TATAdapterEControl;
     FTabCaption: string;
+    FTabCaptionUntitled: string;
     FTabCaptionFromApi: boolean;
     FTabImageIndex: integer;
     FTabId: integer;
@@ -239,6 +240,7 @@ type
     property ReadOnly[Ed: TATSynEdit]: boolean read GetReadOnly write SetReadOnly;
     property ReadOnlyFromFile: boolean read FReadOnlyFromFile write FReadOnlyFromFile;
     property TabCaption: string read FTabCaption write SetTabCaption;
+    property TabCaptionUntitled: string read FTabCaptionUntitled write FTabCaptionUntitled;
     property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
     property TabCaptionFromApi: boolean read FTabCaptionFromApi write FTabCaptionFromApi;
     property TabId: integer read FTabId;
@@ -419,21 +421,37 @@ begin
 end;
 
 procedure TEditorFrame.UpdateTabCaptionFromFilename;
+const
+  cModified: array[boolean] of string = ('', '*');
+var
+  Name1, Name2: string;
 begin
   if EditorsLinked then
   begin
     if FFileName='' then
-      TabCaption:= GetUntitledCaption
+      Name1:= FTabCaptionUntitled
     else
-      TabCaption:= ExtractFileName_Fixed(FFileName);
+      Name1:= ExtractFileName_Fixed(FFileName);
+    Name1:= cModified[Ed1.Modified]+Name1;
+
+    TabCaption:= Name1;
   end
   else
   begin
     if (FFileName='') and (FFileName2='') then
-      TabCaption:= GetUntitledCaption
+      TabCaption:= FTabCaptionUntitled
     else
-      TabCaption:= ExtractFileName_Fixed(FFileName) + ' | ' +
-                   ExtractFileName_Fixed(FFileName2);
+    begin
+      Name1:= ExtractFileName_Fixed(FFileName);
+      if Name1='' then Name1:= msgUntitledTab;
+      Name1:= cModified[Ed1.Modified]+Name1;
+
+      Name2:= ExtractFileName_Fixed(FFileName2);
+      if Name2='' then Name2:= msgUntitledTab;
+      Name2:= cModified[Ed2.Modified]+Name2;
+
+      TabCaption:= Name1+' | '+Name2;
+    end;
   end;
 end;
 
@@ -1009,6 +1027,8 @@ procedure TEditorFrame.UpdateModifiedState(Ed: TATSynEdit; AWithEvent: boolean);
 begin
   if Ed.Modified then
     DoClearPreviewTabState;
+
+  UpdateTabCaptionFromFilename;
   DoOnChangeCaption;
 
   if AWithEvent then
