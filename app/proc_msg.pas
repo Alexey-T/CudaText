@@ -28,15 +28,16 @@ const
     ;
 
 const
-  msgTitle = 'CudaText'; //no need i18n
   msgPythonListError = 'Cannot create new list object'; //no need i18n
   msgCallbackBad = 'Bad API callback, report to plugin author: %s'; //no i18n
   msgCallbackDeprecated = 'Deprecated API callback, report to plugin author: %s'; //no i18n
   msgApiDeprecated = 'Deprecated API usage: %s'; //no i18n
-  msgModified: array[boolean] of string = ('', '*');
+  msgErrorInTheme = 'Warning for theme "%s": missed item "%s"';
+
+  msgTitle = 'CudaText'; //no i18n
+  msgModified: array[boolean] of string = ('', '*'); //no i18n
   msgLiteLexerSuffix = ' ^'; //no i18n
   msgButtonX = '×'; //no i18n
-  msgErrorInTheme = 'Warning for theme "%s": missed item "%s"';
 
   msgTooltipClearFilter: string = 'Clear filter';
   msgTooltipCloseTab: string = 'Close tab';
