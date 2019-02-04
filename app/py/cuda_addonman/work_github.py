@@ -49,7 +49,7 @@ def do_install_from_github():
     msg_status('Downloading...')
 
     get_url(
-        url.replace('https://github.com/', 'https://raw.githubusercontent.com/')
+        url.replace('http://', 'https://').replace('https://github.com/', 'https://raw.githubusercontent.com/')
         + '/master/install.inf', fn_inf, True)
     valid = os.path.isfile(fn_inf) \
         and ini_read(fn_inf, 'info', 'type', '')=='cudatext-plugin'
