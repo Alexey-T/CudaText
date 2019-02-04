@@ -2067,10 +2067,6 @@ begin
 end;
 
 
-var
-  fn: string;
-  i: integer;
-
 { TAppKeyValues }
 
 procedure TAppKeyValues.Add(const AKey, AValue: string);
