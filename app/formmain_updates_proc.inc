@@ -12,7 +12,7 @@ const
   cMark: array[boolean] of string = ('', '*');
 var
   F: TEditorFrame;
-  SName, SMark, SSession{, SFileMode}: string;
+  SName, SMark, SSession, Name1, Name2: string;
 begin
   F:= CurrentFrame;
   if F=nil then exit;
@@ -26,7 +26,13 @@ begin
         SName:= F.TabCaption;
     end
     else
-      SName:= F.GetFileName(F.Ed1) + ' | ' + F.GetFileName(F.Ed2);
+    begin
+      Name1:= F.GetFileName(F.Ed1);
+      Name2:= F.GetFileName(F.Ed2);
+      if Name1='' then Name1:= msgUntitledTab;
+      if Name2='' then Name2:= msgUntitledTab;
+      SName:= Name1+' | '+Name2;
+    end;
   end
   else
     SName:= F.TabCaption;
