@@ -2294,7 +2294,7 @@ var
 begin
   Result:= 0;
   for i:= 0 to FrameCount-1 do
-    if Frames[i].Modified then
+    if Frames[i].Ed1.Modified then
       Inc(Result);
 end;
 
@@ -2345,7 +2345,7 @@ begin
     for i:= 0 to FrameCount-1 do
     begin
       F:= Frames[i];
-      if not F.Modified then Continue;
+      if not (F.Ed1.Modified or F.Ed2.Modified) then Continue;
       SCaption:= F.TabCaption+IfThen(F.Filename<>'', '  ('+ExtractFileDir(F.Filename)+')');
       Form.List.Items.AddObject(SCaption, F);
       Form.List.Checked[Form.List.Count-1]:= true;
@@ -3885,7 +3885,7 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
-    if F.Modified then
+    if F.Editor.Modified then
       if not F.DoFileSave(false) then
         Result:= false;
   end;
@@ -3900,7 +3900,7 @@ begin
   F:= CurrentFrame;
   if F.FileName='' then exit;
 
-  if F.Modified and UiOps.ReloadUnsavedConfirm then
+  if F.Ed1.Modified and UiOps.ReloadUnsavedConfirm then
     if MsgBox(
       Format(msgConfirmReopenModifiedTab, [F.FileName]),
       MB_OKCANCEL or MB_ICONQUESTION
@@ -3912,7 +3912,7 @@ begin
   F.DoFileReload;
   F.LexerName[F.Ed1]:= PrevLexer;
   F.ReadOnly[F.Ed1]:= PrevRO;
-  F.Modified:= false;
+  F.Ed1.Modified:= false;
 
   UpdateStatus;
   MsgStatus(msgStatusReopened+' '+ExtractFileName(F.Filename));
@@ -3936,7 +3936,7 @@ begin
     for i:= 0 to FrameCount-1 do
     begin
       F:= Frames[i];
-      if F.Modified then
+      if F.Ed1.Modified then
         case MsgBox(
                Format(msgConfirmSaveModifiedTab, [F.TabCaption]),
                Flags) of
@@ -3956,7 +3956,7 @@ begin
     for i:= 0 to ListNoSave.Count-1 do
     begin
       F:= TEditorFrame(ListNoSave[i]);
-      F.Modified:= false;
+      F.Ed1.Modified:= false;
     end;
   finally
     FreeAndNil(ListNoSave);
@@ -4279,7 +4279,7 @@ var
 begin
   F:= CurrentFrame;
   DoFileDialog_PrepareDir(SaveDlg);
-  if F.Modified or (F.FileName='') then
+  if F.Editor.Modified or (F.GetFileName(F.Editor)='') then
     if F.DoFileSave(false) then
       DoFileDialog_SaveDir(SaveDlg);
 end;

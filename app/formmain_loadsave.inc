@@ -310,7 +310,7 @@ begin
         F.Editor.Modified:= bModified;
         if sTabTitle<>'' then
           F.TabCaption:= sTabTitle;
-        F.UpdateModifiedState;
+        F.UpdateModifiedState(F.Editor);
       end
       else
       //unmodified+named tabs must load file again

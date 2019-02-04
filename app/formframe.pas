@@ -87,8 +87,6 @@ type
     FFileName: string;
     FFileName2: string;
     FFileWasBig: boolean;
-    FModified: boolean;
-    FModified2: boolean;
     FNotif: TATFileNotif;
     FTextCharsTyped: integer;
     FActivationTime: Int64;
@@ -148,9 +146,10 @@ type
     procedure EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorDrawMicromap(Sender: TObject; C: TCanvas; const ARect: TRect);
-    procedure EditorOnChangeCommon(Sender: TObject); inline;
     procedure EditorOnChange1(Sender: TObject);
     procedure EditorOnChange2(Sender: TObject);
+    procedure EditorOnChangeModified(Sender: TObject);
+    procedure EditorOnChangeState(Sender: TObject);
     procedure EditorOnClick(Sender: TObject);
     procedure EditorOnClickGap(Sender: TObject; AGapItem: TATGapItem; APos: TPoint);
     procedure EditorOnClickGutter(Sender: TObject; ABand, ALine: integer);
@@ -194,7 +193,6 @@ type
     procedure SetFileName2(AValue: string);
     procedure SetFileWasBig(AValue: boolean);
     procedure SetLocked(AValue: boolean);
-    procedure SetModified(AValue: boolean);
     procedure SetNotifEnabled(AValue: boolean);
     procedure SetNotifTime(AValue: integer);
     procedure SetPictureScale(AValue: integer);
@@ -243,10 +241,8 @@ type
     property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
     property TabCaptionFromApi: boolean read FTabCaptionFromApi write FTabCaptionFromApi;
     property TabId: integer read FTabId;
-    property Modified: boolean read FModified write SetModified;
-    function GetModified(Ed: TATSynEdit): boolean;
     property SaveHistory: boolean read FSaveHistory write FSaveHistory;
-    procedure UpdateModifiedState(AWithEvent: boolean= true);
+    procedure UpdateModifiedState(Ed: TATSynEdit; AWithEvent: boolean= true);
     procedure UpdateReadOnlyFromFile(Ed: TATSynEdit);
     property NotifEnabled: boolean read GetNotifEnabled write SetNotifEnabled;
     property NotifTime: integer read GetNotifTime write SetNotifTime;
@@ -551,15 +547,6 @@ begin
   end;
 end;
 
-function TEditorFrame.GetModified(Ed: TATSynEdit): boolean;
-begin
-  if (Ed=Ed1) or EditorsLinked then
-    Result:= FModified
-  else
-    Result:= FModified2;
-end;
-
-
 procedure TEditorFrame.TimerChangeTimer(Sender: TObject);
 begin
   TimerChange.Enabled:= false;
@@ -782,12 +769,6 @@ begin
   end;
 end;
 
-procedure TEditorFrame.SetModified(AValue: boolean);
-begin
-  Ed1.Modified:= AValue;
-  UpdateModifiedState(false);
-end;
-
 procedure TEditorFrame.SetNotifEnabled(AValue: boolean);
 begin
   FNotif.Timer.Enabled:= false;
@@ -996,8 +977,6 @@ end;
 
 procedure TEditorFrame.EditorOnChange1(Sender: TObject);
 begin
-  EditorOnChangeCommon(Sender);
-
   if Splitted and EditorsLinked then
   begin
     Ed2.UpdateIncorrectCaretPositions;
@@ -1013,38 +992,30 @@ end;
 
 procedure TEditorFrame.EditorOnChange2(Sender: TObject);
 begin
-  EditorOnChangeCommon(Sender);
-
   Ed1.UpdateIncorrectCaretPositions;
   Ed1.Update(true);
 end;
 
-procedure TEditorFrame.UpdateModifiedState(AWithEvent: boolean=true);
-var
-  NewValue: boolean;
+procedure TEditorFrame.EditorOnChangeModified(Sender: TObject);
 begin
-  if EditorsLinked then
-    NewValue:= Ed1.Modified
-  else
-    NewValue:= Ed1.Modified or Ed2.Modified;
-
-  if FModified<>NewValue then
-  begin
-    FModified:= NewValue;
-    if FModified then
-      DoClearPreviewTabState;
-    DoOnChangeCaption;
-
-    if AWithEvent then
-      DoPyEvent(Editor, cEventOnState, [IntToStr(EDSTATE_MODIFIED)]);
-  end;
-
-  DoOnUpdateStatus;
+  UpdateModifiedState(Sender as TATSynEdit);
 end;
 
-procedure TEditorFrame.EditorOnChangeCommon(Sender: TObject); inline;
+procedure TEditorFrame.EditorOnChangeState(Sender: TObject);
 begin
-  UpdateModifiedState;
+  //
+end;
+
+procedure TEditorFrame.UpdateModifiedState(Ed: TATSynEdit; AWithEvent: boolean);
+begin
+  if Ed.Modified then
+    DoClearPreviewTabState;
+  DoOnChangeCaption;
+
+  if AWithEvent then
+    DoPyEvent(Ed, cEventOnState, [IntToStr(EDSTATE_MODIFIED)]);
+
+  DoOnUpdateStatus;
 end;
 
 procedure TEditorFrame.EditorOnEnter(Sender: TObject);
@@ -1318,7 +1289,7 @@ begin
   ed.OnClickGap:= @EditorOnClickGap;
   ed.OnClickMicromap:= @EditorOnClickMicroMap;
   ed.OnEnter:= @EditorOnEnter;
-  ed.OnChangeState:= @EditorOnChangeCommon;
+  ed.OnChangeState:=@EditorOnChangeState;
   ed.OnChangeCaretPos:= @EditorOnChangeCaretPos;
   ed.OnCommand:= @EditorOnCommand;
   ed.OnCommandAfter:= @EditorOnCommandAfter;
@@ -1340,7 +1311,6 @@ begin
   inherited Create(AOwner);
 
   FFileName:= '';
-  FModified:= false;
   FActiveSecondaryEd:= false;
   FTabColor:= clNone;
   Inc(FLastTabId);
@@ -1363,6 +1333,8 @@ begin
 
   Ed1.OnChange:= @EditorOnChange1;
   Ed2.OnChange:= @EditorOnChange2;
+  Ed1.OnChangeModified:= @EditorOnChangeModified;
+  Ed2.OnChangeModified:= @EditorOnChangeModified;
   Ed1.EditorIndex:= 0;
   Ed2.EditorIndex:= 1;
 
@@ -1392,10 +1364,12 @@ begin
   end;
 
   Ed1.Strings.DoClearUndo;
-  Ed1.Strings.Modified:= false;
   Ed1.Strings.EncodingDetectDefaultUtf8:= UiOps.DefaultEncUtf8;
 
   Ed1.EncodingName:= AppEncodingShortnameToFullname(UiOps.NewdocEnc);
+
+  Ed1.Modified:= false;
+  Ed2.Modified:= false;
 
   //passing lite lexer - crashes (can't solve), so disabled
   if not SEndsWith(UiOps.NewdocLexer, msgLiteLexerSuffix) then
@@ -1913,7 +1887,7 @@ end;
 procedure TEditorFrame.DoFileReload_DisableDetectEncoding;
 begin
   if FileName='' then exit;
-  if Modified then
+  if Ed1.Modified then
     if MsgBox(
       Format(msgConfirmReopenModifiedTab, [ExtractFileName(FileName)]),
       MB_OKCANCEL or MB_ICONWARNING
@@ -2000,8 +1974,6 @@ begin
   Ed.Update;
   if (Ed=Ed1) and EditorsLinked then
     Ed2.Update;
-
-  EditorOnChangeCommon(Self);
 end;
 
 procedure TEditorFrame.SetUnprintedShow(AValue: boolean);
@@ -2664,7 +2636,7 @@ end;
 procedure TEditorFrame.NotifChanged(Sender: TObject);
 begin
   //silent reload if: not modified, and undo empty
-  if (not Modified) and (Ed1.UndoCount<=1) then
+  if (not Ed1.Modified) and (Ed1.UndoCount<=1) then
   begin
     DoFileReload;
     exit
@@ -2828,7 +2800,7 @@ begin
   if not EditorsLinked then
     EditorClear(Ed2);
 
-  UpdateModifiedState;
+  UpdateModifiedState(Ed1);
 end;
 
 procedure TEditorFrame.DoToggleFocusSplitEditors;
