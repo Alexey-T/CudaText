@@ -214,7 +214,7 @@ type
     procedure SetEditorsLinked(AValue: boolean);
     procedure SplitterMoved(Sender: TObject);
     procedure UpdateEds(AUpdateWrapInfo: boolean=false);
-    procedure UpdateTabCaptionFromFilename;
+    procedure UpdateCaptionFromFilename;
     function GetLexer(Ed: TATSynEdit): TecSyntAnalyzer;
     function GetLexerLite(Ed: TATSynEdit): TATLiteLexer;
     function GetLexerName(Ed: TATSynEdit): string;
@@ -245,7 +245,7 @@ type
     property TabCaptionFromApi: boolean read FTabCaptionFromApi write FTabCaptionFromApi;
     property TabId: integer read FTabId;
     property SaveHistory: boolean read FSaveHistory write FSaveHistory;
-    procedure UpdateModifiedState(Ed: TATSynEdit; AWithEvent: boolean= true);
+    procedure UpdateModified(Ed: TATSynEdit; AWithEvent: boolean= true);
     procedure UpdateReadOnlyFromFile(Ed: TATSynEdit);
     property NotifEnabled: boolean read GetNotifEnabled write SetNotifEnabled;
     property NotifTime: integer read GetNotifTime write SetNotifTime;
@@ -420,7 +420,7 @@ begin
   DoOnChangeCaption;
 end;
 
-procedure TEditorFrame.UpdateTabCaptionFromFilename;
+procedure TEditorFrame.UpdateCaptionFromFilename;
 const
   cModified: array[boolean] of string = ('', '*');
 var
@@ -1015,7 +1015,7 @@ end;
 
 procedure TEditorFrame.EditorOnChangeModified(Sender: TObject);
 begin
-  UpdateModifiedState(Sender as TATSynEdit);
+  UpdateModified(Sender as TATSynEdit);
 end;
 
 procedure TEditorFrame.EditorOnChangeState(Sender: TObject);
@@ -1023,12 +1023,12 @@ begin
   //
 end;
 
-procedure TEditorFrame.UpdateModifiedState(Ed: TATSynEdit; AWithEvent: boolean);
+procedure TEditorFrame.UpdateModified(Ed: TATSynEdit; AWithEvent: boolean);
 begin
   if Ed.Modified then
     DoClearPreviewTabState;
 
-  UpdateTabCaptionFromFilename;
+  UpdateCaptionFromFilename;
   DoOnChangeCaption;
 
   if AWithEvent then
@@ -1572,7 +1572,7 @@ end;
 procedure TEditorFrame.DoFileOpen_AsBinary(const AFileName: string; AMode: TATBinHexMode);
 begin
   FFileName:= AFileName;
-  UpdateTabCaptionFromFilename;
+  UpdateCaptionFromFilename;
 
   Ed1.Hide;
   Ed2.Hide;
@@ -1617,7 +1617,7 @@ end;
 procedure TEditorFrame.DoFileOpen_AsPicture(const AFileName: string);
 begin
   FFileName:= AFileName;
-  UpdateTabCaptionFromFilename;
+  UpdateCaptionFromFilename;
 
   Ed1.Hide;
   Ed2.Hide;
@@ -1727,13 +1727,13 @@ begin
   try
     Ed.LoadFromFile(AFileName);
     SetFileName(Ed, AFileName);
-    UpdateTabCaptionFromFilename;
+    UpdateCaptionFromFilename;
   except
     if AAllowErrorMsgBox then
       MsgBox(msgCannotOpenFile+#13+AFileName, MB_OK or MB_ICONERROR);
 
     SetFileName(Ed, '');
-    UpdateTabCaptionFromFilename;
+    UpdateCaptionFromFilename;
 
     EditorClear(Ed);
     exit
@@ -1909,7 +1909,7 @@ begin
 
   Ed.OnChange(Ed); //modified
   if not TabCaptionFromApi then
-    UpdateTabCaptionFromFilename;
+    UpdateCaptionFromFilename;
 
   DoSaveUndo(Ed, AFileName);
 
@@ -2822,7 +2822,7 @@ begin
 
   FFileName:= '';
   FFileName2:= '';
-  UpdateTabCaptionFromFilename;
+  UpdateCaptionFromFilename;
 
   if Assigned(FBin) then
   begin
@@ -2835,7 +2835,7 @@ begin
   if not EditorsLinked then
     EditorClear(Ed2);
 
-  UpdateModifiedState(Ed1);
+  UpdateModified(Ed1);
 end;
 
 procedure TEditorFrame.DoToggleFocusSplitEditors;

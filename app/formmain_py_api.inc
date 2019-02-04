@@ -2941,7 +2941,7 @@ begin
           begin
             Ed.Modified:= ValueBool;
             if Assigned(F) then
-              F.UpdateModifiedState(Ed);
+              F.UpdateModified(Ed);
           end;
 
         PROP_RULER:
