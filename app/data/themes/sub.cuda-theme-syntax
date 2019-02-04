@@ -299,7 +299,7 @@
     "Type" : 1,
     "Styles" : "",
     "CFont" : "#000000",
-    "CBack" : "#AD3131",
+    "CBack" : "#602020",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
@@ -307,7 +307,7 @@
     "Type" : 1,
     "Styles" : "",
     "CFont" : "#000000",
-    "CBack" : "#C0B43C",
+    "CBack" : "#806020",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
@@ -315,7 +315,7 @@
     "Type" : 1,
     "Styles" : "",
     "CFont" : "#000000",
-    "CBack" : "#008000",
+    "CBack" : "#205020",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
