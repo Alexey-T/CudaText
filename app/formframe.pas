@@ -105,6 +105,7 @@ type
     FOnSaveFile: TNotifyEvent;
     FOnAddRecent: TNotifyEvent;
     FOnPyEvent: TEditorFramePyEvent;
+    FSplitPos: double;
     FSplitHorz: boolean;
     FActiveSecondaryEd: boolean;
     FLocked: boolean;
@@ -176,7 +177,7 @@ type
     function GetNotifTime: integer;
     function GetPictureScale: integer;
     function GetReadOnly(Ed: TATSynEdit): boolean;
-    function GetSplitPos: double;
+    function GetSplitPosCurrent: double;
     function GetSplitted: boolean;
     function GetTabKeyCollectMarkers: boolean;
     function GetUnprintedEnds: boolean;
@@ -209,6 +210,7 @@ type
     procedure SetLineEnds(Ed: TATSynEdit; AValue: TATLineEnds);
     procedure SetUnprintedSpaces(AValue: boolean);
     procedure SetEditorsLinked(AValue: boolean);
+    procedure SplitterMoved(Sender: TObject);
     procedure UpdateEds(AUpdateWrapInfo: boolean=false);
     procedure UpdateTabCaptionFromFilename;
     function GetLexer(Ed: TATSynEdit): TecSyntAnalyzer;
@@ -290,7 +292,7 @@ type
     property UnprintedEndsDetails: boolean read GetUnprintedEndsDetails write SetUnprintedEndsDetails;
     property Splitted: boolean read GetSplitted write SetSplitted;
     property SplitHorz: boolean read FSplitHorz write SetSplitHorz;
-    property SplitPos: double read GetSplitPos write SetSplitPos;
+    property SplitPos: double read FSplitPos write SetSplitPos;
     property EditorsLinked: boolean read FEditorsLinked write SetEditorsLinked;
     property EnabledFolding: boolean read GetEnabledFolding write SetEnabledFolding;
     property SaveDialog: TSaveDialog read FSaveDialog write FSaveDialog;
@@ -461,7 +463,7 @@ begin
   DoPyEvent(Sender as TATSynEdit, cEventOnClick, ['"'+StateString+'"']);
 end;
 
-function TEditorFrame.GetSplitPos: double;
+function TEditorFrame.GetSplitPosCurrent: double;
 begin
   if not Splitted then
     Result:= 0
@@ -923,6 +925,9 @@ begin
     al:= alRight;
   Splitter.Align:= al;
   Ed2.Align:= al;
+
+  //restore relative splitter ratio (e.g. 50%)
+  SplitPos:= SplitPos;
 end;
 
 procedure TEditorFrame.SetSplitPos(AValue: double);
@@ -935,6 +940,7 @@ begin
   if not Splitted then exit;
 
   AValue:= Max(0.0, Min(1.0, AValue));
+  FSplitPos:= AValue;
 
   if FSplitHorz then
   begin
@@ -1262,6 +1268,8 @@ end;
 procedure TEditorFrame.DoOnResize;
 begin
   inherited;
+
+  //this keeps ratio of splitter (e.g. 50%) on form resize
   SplitPos:= SplitPos;
 end;
 
@@ -1347,6 +1355,8 @@ begin
   Ed2.OnChange:= @EditorOnChange2;
   Ed1.EditorIndex:= 0;
   Ed2.EditorIndex:= 1;
+
+  Splitter.OnMoved:= @SplitterMoved;
 
   FSplitHorz:= true;
   Splitted:= false;
@@ -2028,6 +2038,11 @@ begin
 
   Ed2.Fold.Clear;
   Ed2.Update(true);
+end;
+
+procedure TEditorFrame.SplitterMoved(Sender: TObject);
+begin
+  FSplitPos:= GetSplitPosCurrent;
 end;
 
 procedure TEditorFrame.SetUnprintedEnds(AValue: boolean);
