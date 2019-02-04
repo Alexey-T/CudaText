@@ -80,6 +80,8 @@ type
     procedure TimerChangeTimer(Sender: TObject);
   private
     { private declarations }
+    Adapter1: TATAdapterEControl;
+    Adapter2: TATAdapterEControl;
     FTabCaption: string;
     FTabCaptionFromApi: boolean;
     FTabImageIndex: integer;
@@ -169,7 +171,8 @@ type
     procedure EditorOnPaste(Sender: TObject; var AHandled: boolean; AKeepCaret,
       ASelectThen: boolean);
     procedure EditorOnScroll(Sender: TObject);
-    function GetCommentString: string;
+    function GetAdapter(Ed: TATSynEdit): TATAdapterEControl;
+    function GetCommentString(Ed: TATSynEdit): string;
     function GetEnabledFolding: boolean;
     function GetLineEnds(Ed: TATSynEdit): TATLineEnds;
     function GetNotifEnabled: boolean;
@@ -223,8 +226,6 @@ type
     { public declarations }
     Ed1: TATSynEdit;
     Ed2: TATSynEdit;
-    Adapter: TATAdapterEControl;
-    Adapter2: TATAdapterEControl;
     Groups: TATGroups;
     CachedTreeview: TTreeView;
 
@@ -232,6 +233,7 @@ type
     destructor Destroy; override;
     function Editor: TATSynEdit;
     function EditorBro: TATSynEdit;
+    property Adapter[Ed: TATSynEdit]: TATAdapterEControl read GetAdapter;
     procedure EditorOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoShow;
     property ReadOnly[Ed: TATSynEdit]: boolean read GetReadOnly write SetReadOnly;
@@ -257,7 +259,7 @@ type
     function LexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
 
     property Locked: boolean read FLocked write SetLocked;
-    property CommentString: string read GetCommentString;
+    property CommentString[Ed: TATSynEdit]: string read GetCommentString;
     property TabColor: TColor read FTabColor write SetTabColor;
     property TabSizeChanged: boolean read FTabSizeChanged write FTabSizeChanged;
     property TabKeyCollectMarkers: boolean read GetTabKeyCollectMarkers write FTabKeyCollectMarkers;
@@ -1338,12 +1340,12 @@ begin
   FSplitHorz:= true;
   Splitted:= false;
 
-  Adapter:= TATAdapterEControl.Create(Self);
-  Adapter.DynamicHiliteEnabled:= EditorOps.OpLexerDynamicHiliteEnabled;
-  Adapter.DynamicHiliteMaxLines:= EditorOps.OpLexerDynamicHiliteMaxLines;
+  Adapter1:= TATAdapterEControl.Create(Self);
+  Adapter1.DynamicHiliteEnabled:= EditorOps.OpLexerDynamicHiliteEnabled;
+  Adapter1.DynamicHiliteMaxLines:= EditorOps.OpLexerDynamicHiliteMaxLines;
 
-  Adapter.AddEditor(Ed1);
-  Adapter.AddEditor(Ed2);
+  Adapter1.AddEditor(Ed1);
+  Adapter1.AddEditor(Ed2);
 
   //load options
   EditorApplyOps(Ed1, EditorOps, true, true, AApplyCentering);
@@ -1413,6 +1415,14 @@ begin
     Result:= Ed1;
 end;
 
+function TEditorFrame.GetAdapter(Ed: TATSynEdit): TATAdapterEControl;
+begin
+  if (Ed=Ed1) or EditorsLinked then
+    Result:= Adapter1
+  else
+    Result:= Adapter2;
+end;
+
 function TEditorFrame.IsEmpty: boolean;
 var
   Str: TATStrings;
@@ -1463,7 +1473,7 @@ begin
   if IsFileTooBigForLexer(GetFileName(Ed)) then
   begin
     if EditorsLinked or (Ed=Ed1) then
-      Adapter.Lexer:= nil
+      Adapter1.Lexer:= nil
     else
     if Assigned(Adapter2) then
       Adapter2.Lexer:= nil;
@@ -1476,13 +1486,13 @@ begin
     begin
       if EditorsLinked then
       begin
-        Ed1.AdapterForHilite:= Adapter;
-        Ed2.AdapterForHilite:= Adapter;
+        Ed1.AdapterForHilite:= Adapter1;
+        Ed2.AdapterForHilite:= Adapter1;
       end
       else
       begin
         if Ed=Ed1 then
-          Ed1.AdapterForHilite:= Adapter
+          Ed1.AdapterForHilite:= Adapter1
         else
         begin
           if Adapter2=nil then
@@ -1536,7 +1546,7 @@ begin
   //support event on_lexer
   //we could do DoPyEvent(Ed1, cEventOnLexer, []);
   //but OnLexerChange() does also task to load lexer-specific config
-  Adapter.OnLexerChange(Adapter);
+  Adapter[Ed].OnLexerChange(Adapter[Ed]);
 end;
 
 procedure TEditorFrame.DoFileOpen_AsBinary(const AFileName: string; AMode: TATBinHexMode);
@@ -1994,20 +2004,20 @@ begin
   else
     Ed2.Strings:= nil;
 
-  Adapter.AddEditor(nil);
+  Adapter1.AddEditor(nil);
   if Assigned(Adapter2) then
     Adapter2.AddEditor(nil);
 
   if FEditorsLinked then
   begin
-    Adapter.AddEditor(Ed1);
-    Adapter.AddEditor(Ed2);
+    Adapter1.AddEditor(Ed1);
+    Adapter1.AddEditor(Ed2);
   end
   else
   begin
     if Adapter2=nil then
       Adapter2:= TATAdapterEControl.Create(Self);
-    Adapter.AddEditor(Ed1);
+    Adapter1.AddEditor(Ed1);
     Adapter2.AddEditor(Ed2);
   end;
 
@@ -2082,12 +2092,12 @@ begin
 end;
 
 
-function TEditorFrame.GetCommentString: string;
+function TEditorFrame.GetCommentString(Ed: TATSynEdit): string;
 var
   an: TecSyntAnalyzer;
 begin
   Result:= '';
-  an:= Adapter.Lexer;
+  an:= Adapter[Ed].Lexer;
   if Assigned(an) then
     Result:= an.LineComment;
 end;

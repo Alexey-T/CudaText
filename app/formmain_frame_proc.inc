@@ -36,8 +36,8 @@ var
   F: TEditorFrame;
 begin
   F:= CurrentFrame;
-  if Assigned(F) then
-    F.Adapter.StopTreeUpdate;
+  if F=nil then exit;
+  F.Adapter[F.Editor].StopTreeUpdate;
 end;
 
 procedure TfmMain.FrameOnFocus(Sender: TObject);

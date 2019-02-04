@@ -2936,7 +2936,8 @@ begin
       Result:= D.TabObject as TEditorFrame;
     end;
 
-    Result.Adapter.Stop;
+    Result.Adapter[Result.Ed1].Stop;
+    Result.Adapter[Result.Ed2].Stop;
     Result.DoFileOpen(AFileName, AFileName2, bEnableHistory, true, OpenMode);
     MsgStatusFileOpened(AFileName, AFileName2);
 
@@ -4573,10 +4574,15 @@ end;
 
 procedure TfmMain.DoFileExportHtml;
 var
+  F: TEditorFrame;
   Ed: TATSynEdit;
   STitle: string;
   Opt: TOpenOptions;
 begin
+  F:= CurrentFrame;
+  if F=nil then exit;
+  Ed:= F.Editor;
+
   STitle:= ExtractFileName(CurrentFrame.FileName);
   if STitle='' then STitle:= 'untitled';
   SaveDlg.Filename:= STitle+'.html';
@@ -4591,9 +4597,7 @@ begin
     SaveDlg.Options:= Opt;
   end;
 
-  CurrentFrame.Adapter.DynamicHiliteEnabled:= false; //turn off for html
-
-  Ed:= CurrentEditor;
+  F.Adapter[Ed].DynamicHiliteEnabled:= false; //turn off for html
   Ed.DoCommand(cCommand_SelectNone);
 
   DoEditorExportToHTML(Ed, SaveDlg.FileName, STitle,
@@ -4604,7 +4608,7 @@ begin
     GetAppColor('ExportHtmlNumbers')
     );
 
-  CurrentFrame.Adapter.DynamicHiliteEnabled:= EditorOps.OpLexerDynamicHiliteEnabled; //turn back
+  F.Adapter[Ed].DynamicHiliteEnabled:= EditorOps.OpLexerDynamicHiliteEnabled; //turn back
   UpdateFrame(true);
 
   if MsgBox(msgConfirmOpenCreatedDoc, MB_OKCANCEL or MB_ICONQUESTION)=id_ok then

@@ -250,7 +250,7 @@ begin
 
   if AUpdatedText then
   begin
-    F.Adapter.OnEditorChange(F.Editor);
+    F.Adapter[F.Ed1].OnEditorChange(F.Editor);
   end;
 end;
 
@@ -502,8 +502,11 @@ begin
   EditorApplyOps(F.Ed1, Op, AForceApply, not F.TabSizeChanged, Groups.Mode=gmOne);
   EditorApplyOps(F.Ed2, Op, AForceApply, not F.TabSizeChanged, Groups.Mode=gmOne);
 
-  F.Adapter.DynamicHiliteEnabled:= Op.OpLexerDynamicHiliteEnabled;
-  F.Adapter.DynamicHiliteMaxLines:= Op.OpLexerDynamicHiliteMaxLines;
+  F.Adapter[F.Ed1].DynamicHiliteEnabled:= Op.OpLexerDynamicHiliteEnabled;
+  F.Adapter[F.Ed1].DynamicHiliteMaxLines:= Op.OpLexerDynamicHiliteMaxLines;
+
+  F.Adapter[F.Ed2].DynamicHiliteEnabled:= Op.OpLexerDynamicHiliteEnabled;
+  F.Adapter[F.Ed2].DynamicHiliteMaxLines:= Op.OpLexerDynamicHiliteMaxLines;
 
   F.Ed1.Update;
   if F.Splitted then
@@ -908,6 +911,7 @@ begin
     if not ShowSidePanel then exit;
 
   Frame:= CurrentFrame;
+  if Frame=nil then exit;
   Ed:= Frame.Editor;
 
   if not Frame.EnabledCodeTree then
@@ -924,7 +928,7 @@ begin
     exit;
   end;
 
-  while Frame.Adapter.TreeBusy do
+  while Frame.Adapter[Ed].TreeBusy do
   begin
     Application.ProcessMessages;
     if Application.Terminated then exit;
@@ -932,13 +936,13 @@ begin
 
   if AForceUpdateAll then
   begin
-    Frame.Adapter.DoAnalize(Ed, true);
+    Frame.Adapter[Ed].DoAnalize(Ed, true);
     Ed.DoEventChange;
   end;
 
   if AFill then
   begin
-    Frame.Adapter.TreeFill(Frame.CachedTreeview);
+    Frame.Adapter[Ed].TreeFill(Frame.CachedTreeview);
 
     //Lazarus dont sort new items
     if CodeTree.Tree.SortType<>stNone then
@@ -962,12 +966,14 @@ var
 begin
   if not UiOps.TreeAutoSync then exit;
 
-  Ed:= CurrentEditor;
-  Frame:= GetEditorFrame(Ed);
+  Frame:= CurrentFrame;
+  if Frame=nil then exit;
+  Ed:= Frame.Editor;
+
   if Ed.Carets.Count=0 then exit;
   Caret:= Ed.Carets[0];
 
-  Frame.Adapter.TreeShowItemForCaret(
+  Frame.Adapter[Ed].TreeShowItemForCaret(
     CodeTree.Tree,
     Point(Caret.PosX, Caret.PosY)
     );

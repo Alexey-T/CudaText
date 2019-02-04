@@ -27,8 +27,8 @@ begin
   F.SaveDialog:= SaveDlg;
 
   //F.Adapter.OnParseBegin:= @FrameParseBegin;
-  F.Adapter.OnParseDone:= @FrameParseDone;
-  F.Adapter.OnLexerChange:= @FrameLexerChange;
+  F.Adapter[F.Ed1].OnParseDone:= @FrameParseDone;
+  F.Adapter[F.Ed1].OnLexerChange:= @FrameLexerChange;
 
   F.Ed1.PopupText:= PopupText;
   F.Ed2.PopupText:= PopupText;
@@ -212,8 +212,10 @@ begin
     UpdateMenuRecent(Frame);
     Frame.Ed1.AdapterForHilite:= nil;
     Frame.Ed2.AdapterForHilite:= nil;
-    Frame.Adapter.StopTreeUpdate;
-    Frame.Adapter.Stop;
+    Frame.Adapter[Frame.Ed1].StopTreeUpdate;
+    Frame.Adapter[Frame.Ed2].StopTreeUpdate;
+    Frame.Adapter[Frame.Ed1].Stop;
+    Frame.Adapter[Frame.Ed2].Stop;
     Frame.Free;
   end;
 

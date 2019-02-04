@@ -4276,6 +4276,7 @@ var
   NLen, i: Integer;
   PntStart, PntEnd: TPoint;
   LexName, Str: string;
+  Adapter: TATAdapterEControl;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_sublexer_ranges', @H)) then
@@ -4284,12 +4285,13 @@ begin
       Frame:= GetEditorFrame(Ed);
       if Frame=nil then exit(ReturnNone);
 
-      NLen:= Frame.Adapter.SublexerRangeCount;
+      Adapter:= Frame.Adapter[Ed];
+      NLen:= Adapter.SublexerRangeCount;
       if NLen>0 then
       begin
         Str:= '';
         for i:= 0 to NLen-1 do
-          if Frame.Adapter.SublexerRangeProps(i, PntStart, PntEnd, LexName) then
+          if Adapter.SublexerRangeProps(i, PntStart, PntEnd, LexName) then
             Str:= Str + Format('%d,%d,%d,%d,%s;',
               [ PntStart.X, PntStart.Y,
                 PntEnd.X, PntEnd.Y,
@@ -5369,6 +5371,7 @@ var
   Ed: TATSynEdit;
   F: TEditorFrame;
   Id, NIndex1, NIndex2: integer;
+  Adapter: TATAdapterEControl;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liii:get_token', @H, @Id, @NIndex1, @NIndex2)) then
@@ -5380,15 +5383,17 @@ begin
       case Id of
         TOKEN_LIST:
           begin
-            if Assigned(F.Adapter) then
-              Result:= Py_GetTokenList(F.Adapter, 0, MaxInt)
+            Adapter:= F.Adapter[Ed];
+            if Assigned(Adapter) then
+              Result:= Py_GetTokenList(Adapter, 0, MaxInt)
             else
               Result:= ReturnNone;
           end;
         TOKEN_LIST_SUB:
           begin
-            if Assigned(F.Adapter) then
-              Result:= Py_GetTokenList(F.Adapter, NIndex1, NIndex2)
+            Adapter:= F.Adapter[Ed];
+            if Assigned(Adapter) then
+              Result:= Py_GetTokenList(Adapter, NIndex1, NIndex2)
             else
               Result:= ReturnNone;
           end;
