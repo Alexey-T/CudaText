@@ -9,10 +9,10 @@ Copyright (c) Alexey Torgashin
 
 procedure TfmMain.UpdateCaption;
 const
-  cMark: array[boolean] of string = ('', '*');
+  cModified: array[boolean] of string = ('', '*');
 var
   F: TEditorFrame;
-  SName, SMark, SSession, Name1, Name2: string;
+  SName, SSession, Name1, Name2: string;
 begin
   F:= CurrentFrame;
   if F=nil then exit;
@@ -31,13 +31,13 @@ begin
       Name2:= F.GetFileName(F.Ed2);
       if Name1='' then Name1:= msgUntitledTab;
       if Name2='' then Name2:= msgUntitledTab;
+      Name1:= cModified[F.Ed1.Modified]+Name1;
+      Name2:= cModified[F.Ed2.Modified]+Name2;
       SName:= Name1+' | '+Name2;
     end;
   end
   else
     SName:= F.TabCaption;
-
-  SMark:= cMark[F.Modified];
 
   SSession:= ChangeFileExt(ExtractFileName(FSessionName), '');
   if (SSession<>'') and (SSession<>'history session') then
@@ -45,17 +45,11 @@ begin
   else
     SSession:= '';
 
-  {
-  SFileMode:= '';
-  if F.IsPicture then
-    SFileMode:= ' [pic]'
-  else
-  if F.IsBinary then
-    SFileMode:= ' [hex]';
-  }
+  Caption:= SName + SSession + ' - ' + msgTitle;
 
-  Caption:= SMark + SName + SSession {+ SFileMode} + ' - ' + msgTitle;
-  Application.Title:= SMark + F.TabCaption + ' - ' + msgTitle;
+  Application.Title:=
+    cModified[F.Ed1.Modified or F.Ed2.Modified]+
+    F.TabCaption + ' - ' + msgTitle;
 end;
 
 
