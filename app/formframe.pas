@@ -1769,16 +1769,13 @@ begin
 end;
 
 function TEditorFrame.DoFileSave(ASaveAs: boolean): boolean;
+var
+  Ed: TATSynEdit;
 begin
   Result:= true;
-
-  if Ed1.Modified then
-    Result:= DoFileSave_Ex(Ed1, ASaveAs);
-  if not Result then exit;
-
-  if not EditorsLinked then
-    if Ed2.Modified then
-      Result:= DoFileSave_Ex(Ed2, ASaveAs);
+  Ed:= Editor;
+  if Ed.Modified or ASaveAs then
+    Result:= DoFileSave_Ex(Ed, ASaveAs);
 end;
 
 function TEditorFrame.DoFileSave_Ex(Ed: TATSynEdit; ASaveAs: boolean): boolean;
