@@ -441,8 +441,8 @@ begin
 
   M.Add(cmd_DuplicateLineEx, 'duplicate line (advanced)', [], []);
 
-  M.Add(cmd_SplitTabToggle, 'split tab: toggle split', [], []);
-  M.Add(cmd_SplitTabHorzVert, 'split tab: toggle horz/vert', [], []);
+  M.Add(cmd_SplitTabToggle, 'split tab: toggle splitted state', [], []);
+  M.Add(cmd_SplitTabHorzVert, 'split tab: toggle horizontal/vertical', [], []);
   M.Add(cmd_SplitTab3070, 'split tab: 30/70', [], []);
   M.Add(cmd_SplitTab4060, 'split tab: 40/60', [], []);
   M.Add(cmd_SplitTab5050, 'split tab: 50/50', [], []);
