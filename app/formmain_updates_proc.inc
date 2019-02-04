@@ -239,6 +239,7 @@ end;
 procedure TfmMain.UpdateFrame(AUpdatedText: boolean = false);
 var
   F: TEditorFrame;
+  Adapter: TATAdapterEControl;
 begin
   F:= CurrentFrame;
 
@@ -250,7 +251,15 @@ begin
 
   if AUpdatedText then
   begin
-    F.Adapter[F.Ed1].OnEditorChange(F.Editor);
+    Adapter:= F.Adapter[F.Ed1];
+    Adapter.OnEditorChange(F.Ed1);
+
+    if not F.EditorsLinked then
+    begin
+      Adapter:= F.Adapter[F.Ed2];
+      if Assigned(Adapter) then
+        Adapter.OnEditorChange(F.Ed2);
+    end;
   end;
 end;
 
