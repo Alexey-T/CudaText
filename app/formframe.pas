@@ -88,6 +88,7 @@ type
     FFileName2: string;
     FFileWasBig: boolean;
     FModified: boolean;
+    FModified2: boolean;
     FNotif: TATFileNotif;
     FTextCharsTyped: integer;
     FActivationTime: Int64;
@@ -243,6 +244,7 @@ type
     property TabCaptionFromApi: boolean read FTabCaptionFromApi write FTabCaptionFromApi;
     property TabId: integer read FTabId;
     property Modified: boolean read FModified write SetModified;
+    function GetModified(Ed: TATSynEdit): boolean;
     property SaveHistory: boolean read FSaveHistory write FSaveHistory;
     procedure UpdateModifiedState(AWithEvent: boolean= true);
     procedure UpdateReadOnlyFromFile(Ed: TATSynEdit);
@@ -547,6 +549,14 @@ begin
       FInitialLexer:= nil;
     end;
   end;
+end;
+
+function TEditorFrame.GetModified(Ed: TATSynEdit): boolean;
+begin
+  if (Ed=Ed1) or EditorsLinked then
+    Result:= FModified
+  else
+    Result:= FModified2;
 end;
 
 
