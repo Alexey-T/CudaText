@@ -317,7 +317,7 @@ type
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
     procedure DoGotoPos(Ed: TATSynEdit; APosX, APosY: integer);
     procedure DoRestoreFolding;
-    procedure DoClearPreviewTabState;
+    procedure DoRemovePreviewStyle;
     procedure DoToggleFocusSplitEditors;
     //macro
     procedure DoMacroStart;
@@ -1025,8 +1025,9 @@ end;
 
 procedure TEditorFrame.UpdateModified(Ed: TATSynEdit; AWithEvent: boolean);
 begin
-  if Ed.Modified then
-    DoClearPreviewTabState;
+  //when modified, remove "Preview tab" style (italic caption)
+  if (Ed=Ed1) and Ed.Modified then
+    DoRemovePreviewStyle;
 
   UpdateCaptionFromFilename;
   DoOnChangeCaption;
@@ -2632,7 +2633,7 @@ begin
   end;
 end;
 
-procedure TEditorFrame.DoClearPreviewTabState;
+procedure TEditorFrame.DoRemovePreviewStyle;
 var
   Gr: TATGroups;
   Pages: TATPages;
