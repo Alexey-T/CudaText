@@ -1362,6 +1362,7 @@ begin
     1: Ed1.Strings.Endings:= cEndUnix;
     2: Ed1.Strings.Endings:= cEndWin;
   end;
+  Ed2.Strings.Endings:= Ed1.Strings.Endings;
 
   Ed1.Strings.DoClearUndo;
   Ed1.Strings.EncodingDetectDefaultUtf8:= UiOps.DefaultEncUtf8;
