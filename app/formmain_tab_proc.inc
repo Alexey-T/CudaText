@@ -152,7 +152,7 @@ begin
          Format(msgConfirmSaveModifiedTab, [Frame.TabCaption]),
          MB_OKCANCEL or MB_ICONQUESTION
          ) = ID_OK then
-      Frame.DoFileSave(false);
+      Frame.DoFileSave(false, true);
 
   Frame.DoFileClose;
 end;
@@ -208,7 +208,7 @@ begin
     Msg:= Format(msgConfirmSaveModifiedTab, [D.TabCaption]);
     Res:= MsgBox(Msg, Btn or MB_ICONQUESTION);
     if (Res=ID_OK) or (Res=ID_YES) then
-      bSavedOk:= Frame.DoFileSave(false);
+      bSavedOk:= Frame.DoFileSave(false, true);
   end;
 
   ACanClose:= (Res<>ID_CANCEL) and bSavedOk;
@@ -382,7 +382,7 @@ var
 begin
   F:= FrameOfPopup;
   if F=nil then exit;
-  F.DoFileSave(true);
+  F.DoFileSave(true, false);
 end;
 
 procedure TfmMain.mnuTabSaveClick(Sender: TObject);
@@ -391,7 +391,7 @@ var
 begin
   F:= FrameOfPopup;
   if F=nil then exit;
-  F.DoFileSave(false);
+  F.DoFileSave(false, false);
 end;
 
 procedure TfmMain.mnuTabsizeSpaceClick(Sender: TObject);

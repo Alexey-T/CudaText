@@ -2369,7 +2369,7 @@ begin
             if Form.List.Checked[i] then
             begin
               F:= Form.List.Items.Objects[i] as TEditorFrame;
-              F.DoFileSave(false);
+              F.DoFileSave(false, true);
             end;
         end;
     end;
@@ -3887,7 +3887,7 @@ begin
   begin
     F:= Frames[i];
     if F.Editor.Modified then
-      if not F.DoFileSave(false) then
+      if not F.DoFileSave(false, true) then
         Result:= false;
   end;
 end;
@@ -3944,7 +3944,7 @@ begin
           ID_YES:
             begin
               //Cancel in "Save as" dlg must be global cancel
-              if not F.DoFileSave(false) then
+              if not F.DoFileSave(false, true) then
                 exit(false);
             end;
           ID_NO:
@@ -4281,7 +4281,7 @@ begin
   F:= CurrentFrame;
   DoFileDialog_PrepareDir(SaveDlg);
   if F.Editor.Modified or (F.GetFileName(F.Editor)='') then
-    if F.DoFileSave(false) then
+    if F.DoFileSave(false, false) then
       DoFileDialog_SaveDir(SaveDlg);
 end;
 
@@ -4291,7 +4291,7 @@ var
 begin
   F:= CurrentFrame;
   DoFileDialog_PrepareDir(SaveDlg);
-  if F.DoFileSave(true) then
+  if F.DoFileSave(true, false) then
     DoFileDialog_SaveDir(SaveDlg);
 end;
 

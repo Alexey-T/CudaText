@@ -420,7 +420,7 @@ begin
       if StrName<>'' then
         Frame.FileName:= StrName;
 
-      Ok:= Frame.DoFileSave(false);
+      Ok:= Frame.DoFileSave(false, false);
       Result:= PyBool_FromLong(Ord(Ok));
     end;
 end;

@@ -301,7 +301,7 @@ type
     procedure DoFileClose;
     procedure DoFileOpen(const AFileName, AFileName2: string; AAllowLoadHistory,
       AAllowErrorMsgBox: boolean; AOpenMode: TAppOpenMode);
-    function DoFileSave(ASaveAs: boolean): boolean;
+    function DoFileSave(ASaveAs, AAllEditors: boolean): boolean;
     function DoFileSave_Ex(Ed: TATSynEdit; ASaveAs: boolean): boolean;
     procedure DoFileReload_DisableDetectEncoding;
     procedure DoFileReload;
@@ -1778,14 +1778,23 @@ begin
     FFileName2:= AFileName;
 end;
 
-function TEditorFrame.DoFileSave(ASaveAs: boolean): boolean;
-var
-  Ed: TATSynEdit;
+function TEditorFrame.DoFileSave(ASaveAs, AAllEditors: boolean): boolean;
 begin
   Result:= true;
-  Ed:= Editor;
-  if Ed.Modified or ASaveAs then
-    Result:= DoFileSave_Ex(Ed, ASaveAs);
+
+  if not EditorsLinked and AAllEditors then
+  begin
+    if Ed1.Modified or ASaveAs then
+      Result:= DoFileSave_Ex(Ed1, ASaveAs);
+
+    if Ed2.Modified or ASaveAs then
+      Result:= DoFileSave_Ex(Ed2, ASaveAs);
+  end
+  else
+  begin
+    if Editor.Modified or ASaveAs then
+      Result:= DoFileSave_Ex(Editor, ASaveAs);
+  end;
 end;
 
 function TEditorFrame.DoFileSave_Ex(Ed: TATSynEdit; ASaveAs: boolean): boolean;
