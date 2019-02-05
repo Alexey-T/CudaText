@@ -977,7 +977,7 @@ begin
   if Ed.Carets.Count=0 then exit;
   Caret:= Ed.Carets[0];
 
-  Frame.Adapter[Ed].TreeShowItemForCaret(
+  CodetreeSelectItemForPosition(
     CodeTree.Tree,
     Point(Caret.PosX, Caret.PosY)
     );
