@@ -44,6 +44,7 @@ type
     procedure UpdateScrolls;
   public
     Tree: TAppTreeView;
+    SourceObject: TObject;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     property Themed: boolean read FThemed write SetThemed;

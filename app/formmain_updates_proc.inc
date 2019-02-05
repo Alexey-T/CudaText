@@ -958,6 +958,7 @@ begin
       Tree.AlphaSort;
 
     DoTreeviewCopy(Tree, CodeTree.Tree);
+    CodeTree.SourceObject:= Ed;
 
     //force update scrollbar
     CodeTree.Tree.Perform(CM_CHANGED, 0, 0);

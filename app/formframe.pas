@@ -146,7 +146,6 @@ type
       AAllowLoadHistory, AAllowErrorMsgBox: boolean; AOpenMode: TAppOpenMode);
     procedure DoImageboxScroll(Sender: TObject);
     procedure DoOnChangeCaption;
-    procedure DoOnChangeCaretPos;
     procedure DoOnUpdateStatus;
     procedure EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
@@ -584,7 +583,9 @@ var
   Ed: TATSynEdit;
   NFrom, NTo: integer;
 begin
-  DoOnChangeCaretPos;
+  if Assigned(FOnEditorChangeCaretPos) then
+    FOnEditorChangeCaretPos(Sender);
+
   DoOnUpdateStatus;
 
   Ed:= Sender as TATSynEdit;
@@ -2336,13 +2337,6 @@ procedure TEditorFrame.EditorClickEndSelect(Sender: TObject; APrevPnt,
 begin
   if Assigned(FOnEditorClickEndSelect) then
     FOnEditorClickEndSelect(Self, APrevPnt, ANewPnt);
-end;
-
-
-procedure TEditorFrame.DoOnChangeCaretPos;
-begin
-  if Assigned(FOnEditorChangeCaretPos) then
-    FOnEditorChangeCaretPos(Self);
 end;
 
 
