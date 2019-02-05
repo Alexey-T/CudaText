@@ -1823,26 +1823,25 @@ end;
 
 function TEditorFrame.DoFileSave_Ex(Ed: TATSynEdit; ASaveAs: boolean): boolean;
 var
-  an: TecSyntAnalyzer;
+  An: TecSyntAnalyzer;
   attr: integer;
   PrevEnabled: boolean;
   NameCounter: integer;
-  NameTemp, NameInitial: string;
-  AFileName: string;
+  SFileName, NameTemp, NameInitial: string;
 begin
   Result:= false;
   if not IsText then exit(true); //disable saving, but close
   if DoPyEvent(Ed, cEventOnSaveBefore, [])=cPyFalse then exit(true); //disable saving, but close
 
-  AFileName:= GetFileName(Ed);
+  SFileName:= GetFileName(Ed);
 
-  if ASaveAs or (AFileName='') then
+  if ASaveAs or (SFileName='') then
   begin
-    an:= Lexer[Ed];
-    if Assigned(an) then
+    An:= Lexer[Ed];
+    if Assigned(An) then
     begin
-      SaveDialog.DefaultExt:= DoGetLexerDefaultExt(an);
-      SaveDialog.Filter:= DoGetLexerFileFilter(an, msgAllFiles);
+      SaveDialog.DefaultExt:= DoGetLexerDefaultExt(An);
+      SaveDialog.Filter:= DoGetLexerFileFilter(An, msgAllFiles);
     end
     else
     begin
@@ -1850,7 +1849,7 @@ begin
       SaveDialog.Filter:= '';
     end;
 
-    if AFileName='' then
+    if SFileName='' then
     begin
       NameInitial:= DoPyEvent(Ed, cEventOnSaveNaming, []);
       if (NameInitial='') or (NameInitial=cPyNone) then
@@ -1872,8 +1871,8 @@ begin
     end
     else
     begin
-      SaveDialog.FileName:= ExtractFileName(AFileName);
-      SaveDialog.InitialDir:= ExtractFileDir(AFileName);
+      SaveDialog.FileName:= ExtractFileName(SFileName);
+      SaveDialog.InitialDir:= ExtractFileDir(SFileName);
     end;
 
     if not SaveDialog.Execute then
@@ -1888,9 +1887,9 @@ begin
       exit;
     end;
 
-    AFileName:= SaveDialog.FileName;
-    SetFileName(Ed, AFileName);
-    DoLexerFromFilename(Ed, AFileName);
+    SFileName:= SaveDialog.FileName;
+    SetFileName(Ed, SFileName);
+    DoLexerFromFilename(Ed, SFileName);
 
     //add to recents saved-as file:
     if Assigned(FOnAddRecent) then
@@ -1902,17 +1901,17 @@ begin
 
   while true do
   try
-    FFileAttrPrepare(AFileName, attr);
+    FFileAttrPrepare(SFileName, attr);
     Ed.BeginUpdate;
     try
       try
-        Ed.SaveToFile(AFileName);
+        Ed.SaveToFile(SFileName);
       except
         on E: EConvertError do
           begin
             NameTemp:= Ed.EncodingName;
             Ed.EncodingName:= cEncNameUtf8_NoBom;
-            Ed.SaveToFile(AFileName);
+            Ed.SaveToFile(SFileName);
             MsgBox(Format(msgCannotSaveFileWithEnc, [NameTemp]), MB_OK or MB_ICONWARNING);
           end
         else
@@ -1921,10 +1920,10 @@ begin
     finally
       Ed.EndUpdate;
     end;
-    FFileAttrRestore(AFileName, attr);
+    FFileAttrRestore(SFileName, attr);
     Break;
   except
-    if MsgBox(msgCannotSaveFile+#10+AFileName,
+    if MsgBox(msgCannotSaveFile+#10+SFileName,
       MB_RETRYCANCEL or MB_ICONERROR) = IDCANCEL then
       Exit(false);
   end;
@@ -1934,7 +1933,7 @@ begin
   if not TabCaptionFromApi then
     UpdateCaptionFromFilename;
 
-  DoSaveUndo(Ed, AFileName);
+  DoSaveUndo(Ed, SFileName);
 
   DoPyEvent(Ed, cEventOnSaveAfter, []);
   if Assigned(FOnSaveFile) then
