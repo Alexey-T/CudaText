@@ -214,7 +214,7 @@ type
     TreeTheme: string;
     TreeAutoSync: boolean;
     TreeTimeFill: integer;
-    TreeTimeFocus: integer;
+    TreeTimeCaret: integer;
     TreeShowIcons: boolean;
     TreeShowTooltips: boolean;
     TreeFilterLayout: integer;
@@ -1293,7 +1293,7 @@ begin
 
     TreeAutoSync:= true;
     TreeTimeFill:= 2000;
-    TreeTimeFocus:= 300;
+    TreeTimeCaret:= 300;
     TreeShowIcons:= true;
     TreeShowTooltips:= true;
     TreeFilterLayout:= 1;

@@ -421,7 +421,7 @@ type
     TimerTreeFill: TTimer;
     TimerCmd: TTimer;
     TimerStatus: TTimer;
-    TimerTreeFocus: TTimer;
+    TimerEdCaret: TTimer;
     ToolbarMain: TATFlatToolbar;
     ToolbarSideMid: TATFlatToolbar;
     ToolbarSideLow: TATFlatToolbar;
@@ -519,7 +519,7 @@ type
     procedure TimerStatusBusyTimer(Sender: TObject);
     procedure TimerStatusTimer(Sender: TObject);
     procedure TimerTreeFillTimer(Sender: TObject);
-    procedure TimerTreeFocusTimer(Sender: TObject);
+    procedure TimerEdCaretTimer(Sender: TObject);
     procedure UniqInstanceOtherInstance(Sender: TObject; ParamCount: Integer;
       Parameters: array of String);
     {$ifdef windows}
@@ -1333,9 +1333,9 @@ begin
   UpdateTree(true);
 end;
 
-procedure TfmMain.TimerTreeFocusTimer(Sender: TObject);
+procedure TfmMain.TimerEdCaretTimer(Sender: TObject);
 begin
-  TimerTreeFocus.Enabled:= false;
+  TimerEdCaret.Enabled:= false;
   UpdateTree(false);
 end;
 
@@ -2211,8 +2211,8 @@ end;
 procedure TfmMain.FrameOnChangeCaretPos(Sender: TObject);
 begin
   if FTreeClick then exit;
-  TimerTreeFocus.Enabled:= false;
-  TimerTreeFocus.Enabled:= true;
+  TimerEdCaret.Enabled:= false;
+  TimerEdCaret.Enabled:= true;
 end;
 
 procedure TfmMain.FrameOnMsgStatus(Sender: TObject; const AStr: string);
@@ -2598,7 +2598,7 @@ begin
   UpdateStatusbarHints;
 
   TimerTreeFill.Interval:= UiOps.TreeTimeFill;
-  TimerTreeFocus.Interval:= UiOps.TreeTimeFocus;
+  TimerEdCaret.Interval:= UiOps.TreeTimeCaret;
   CodeTree.Tree.ToolTips:= UiOps.TreeShowTooltips;
   CodeTreeFilterInput.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   PanelCodeTreeTop.Height:= UiOps.InputHeight;

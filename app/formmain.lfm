@@ -1096,10 +1096,10 @@ object fmMain: TfmMain
     left = 376
     top = 80
   end
-  object TimerTreeFocus: TTimer
+  object TimerEdCaret: TTimer
     Enabled = False
     Interval = 2000
-    OnTimer = TimerTreeFocusTimer
+    OnTimer = TimerEdCaretTimer
     left = 280
     top = 120
   end
