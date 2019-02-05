@@ -47,8 +47,8 @@ var
   FPages: TATPages;
   Tree: TTreeView;
 begin
-  F:= (Sender as TWinControl).Parent as TEditorFrame;
-  Ed:= F.Editor;
+  Ed:= Sender as TATSynEdit;
+  F:= Ed.Parent as TEditorFrame;
 
   //set Groups.PagesCurrent only for main (0..5) groups
   FPages:= F.Parent as TATPages;
