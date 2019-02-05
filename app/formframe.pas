@@ -1931,7 +1931,6 @@ begin
 
   NotifEnabled:= PrevEnabled;
 
-  Ed.OnChange(Ed); //modified
   if not TabCaptionFromApi then
     UpdateCaptionFromFilename;
 
