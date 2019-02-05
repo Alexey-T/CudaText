@@ -701,6 +701,7 @@ type
       AIndex: integer; const ARect: TRect);
     procedure DoSidebar_MainMenuClick(Sender: TObject);
     function DoSidebar_TranslatedCaption(const ACaption: string): string;
+    function FindFrameOfFilename(const AName: string): TEditorFrame;
     procedure FixMainLayout;
     procedure FormFloatBottomOnClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormFloatGroups1_OnEmpty(Sender: TObject);
@@ -2898,18 +2899,17 @@ begin
   end; //not binary
 
   //is file already opened? activate frame
-  for i:= 0 to FrameCount-1 do
+  F:= FindFrameOfFilename(AFileName);
+  if F=nil then
+    F:= FindFrameOfFilename(AFileName2);
+  if Assigned(F) then
   begin
-    F:= Frames[i];
-    if SameFileName(F.FileName, AFileName) then
-    begin
-      SetFrame(F);
-      Result:= F;
-      Result.SetFocus;
-      UpdateStatus;
-      UpdateTreeContents;
-      Exit
-    end;
+    SetFrame(F);
+    Result:= F;
+    Result.SetFocus;
+    UpdateStatus;
+    UpdateTreeContents;
+    Exit
   end;
 
   //preview-tab
@@ -4317,18 +4317,25 @@ begin
   Groups.PagesCurrent.Tabs.SwitchTab(ANext);
 end;
 
-function TfmMain.DoCheckFilenameOpened(const AName: string): boolean;
+function TfmMain.FindFrameOfFilename(const AName: string): TEditorFrame;
 var
-  SName: string;
+  F: TEditorFrame;
   i: integer;
 begin
-  Result:= false;
+  Result:= nil;
   if AName='' then exit;
   for i:= 0 to FrameCount-1 do
   begin
-    SName:= Frames[i].FileName;
-    if SameFileName(SName, AName) then exit(true);
+    F:= Frames[i];
+    if SameFileName(AName, F.GetFileName(F.Ed1)) or
+      SameFileName(AName, F.GetFileName(F.Ed2)) then exit(F);
   end;
+end;
+
+
+function TfmMain.DoCheckFilenameOpened(const AName: string): boolean;
+begin
+  Result:= Assigned(FindFrameOfFilename(AName));
 end;
 
 procedure TfmMain.DoOps_OpenFile_Default;
