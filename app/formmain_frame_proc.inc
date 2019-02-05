@@ -68,7 +68,7 @@ begin
     begin
       DoTreeviewCopy(Tree, CodeTree.Tree);
       UpdateTreeFilter;
-      UpdateTreeSelection;
+      UpdateTreeSelection(F, Ed);
     end
     else
       UpdateTreeContents;

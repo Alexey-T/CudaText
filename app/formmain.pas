@@ -1037,7 +1037,7 @@ type
     procedure UpdateTabsActiveColor(F: TEditorFrame);
     procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true; AForceUpdateAll: boolean=false);
     procedure UpdateTreeContents;
-    procedure UpdateTreeSelection;
+    procedure UpdateTreeSelection(Frame: TEditorFrame; Ed: TATSynEdit);
     procedure UpdateCaption;
     procedure UpdateEnabledAll(b: boolean);
     procedure InitFrameEvents(F: TEditorFrame);

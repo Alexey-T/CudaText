@@ -925,7 +925,7 @@ begin
   if not Frame.EnabledCodeTree[Ed] then
   begin
     //don't clear tree, it may be filled by plugin
-    UpdateTreeSelection; //needed even for disabled CodeTree (for plugins)
+    UpdateTreeSelection(Frame, Ed); //needed even for disabled CodeTree (for plugins)
     exit;
   end;
 
@@ -965,20 +965,14 @@ begin
   end;
 
   UpdateTreeFilter;
-  UpdateTreeSelection;
+  UpdateTreeSelection(Frame, Ed);
 end;
 
-procedure TfmMain.UpdateTreeSelection;
+procedure TfmMain.UpdateTreeSelection(Frame: TEditorFrame; Ed: TATSynEdit);
 var
-  Ed: TATSynEdit;
-  Frame: TEditorFrame;
   Caret: TATCaretItem;
 begin
   if not UiOps.TreeAutoSync then exit;
-
-  Frame:= CurrentFrame;
-  if Frame=nil then exit;
-  Ed:= Frame.Editor;
 
   if Ed.Carets.Count=0 then exit;
   Caret:= Ed.Carets[0];
