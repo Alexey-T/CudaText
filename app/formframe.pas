@@ -460,19 +460,22 @@ end;
 
 procedure TEditorFrame.EditorOnClick(Sender: TObject);
 var
+  Ed: TATSynEdit;
   StateString: string;
 begin
+  Ed:= Sender as TATSynEdit;
+
   StateString:= ConvertShiftStateToString(KeyboardStateToShiftState);
   FTextCharsTyped:= 0; //reset count for option "autocomplete_autoshow_chars"
 
   if UiOps.MouseGotoDefinition<>'' then
     if StateString=UiOps.MouseGotoDefinition then
     begin
-      DoPyEvent(Sender as TATSynEdit, cEventOnGotoDef, []);
+      DoPyEvent(Ed, cEventOnGotoDef, []);
       exit;
     end;
 
-  DoPyEvent(Sender as TATSynEdit, cEventOnClick, ['"'+StateString+'"']);
+  DoPyEvent(Ed, cEventOnClick, ['"'+StateString+'"']);
 end;
 
 function TEditorFrame.GetSplitPosCurrent: double;
