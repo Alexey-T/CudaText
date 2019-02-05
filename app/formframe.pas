@@ -460,16 +460,8 @@ end;
 
 procedure TEditorFrame.EditorOnClick(Sender: TObject);
 var
-  NewAlt: boolean;
   StateString: string;
 begin
-  NewAlt:= Sender=Ed2;
-  if NewAlt<>FActiveSecondaryEd then
-  begin
-    FActiveSecondaryEd:= NewAlt;
-    DoOnUpdateStatus;
-  end;
-
   StateString:= ConvertShiftStateToString(KeyboardStateToShiftState);
   FTextCharsTyped:= 0; //reset count for option "autocomplete_autoshow_chars"
 
@@ -1042,7 +1034,16 @@ begin
 end;
 
 procedure TEditorFrame.EditorOnEnter(Sender: TObject);
+var
+  IsEd2: boolean;
 begin
+  IsEd2:= Sender=Ed2;
+  if IsEd2<>FActiveSecondaryEd then
+  begin
+    FActiveSecondaryEd:= IsEd2;
+    DoOnUpdateStatus;
+  end;
+
   if Assigned(FOnFocusEditor) then
     FOnFocusEditor(Sender);
 
@@ -1336,6 +1337,7 @@ begin
   inherited Create(AOwner);
 
   FFileName:= '';
+  FFileName2:= '';
   FActiveSecondaryEd:= false;
   FTabColor:= clNone;
   Inc(FLastTabId);
