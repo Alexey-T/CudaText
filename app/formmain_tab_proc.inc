@@ -112,7 +112,7 @@ begin
   DoOps_LoadKeymap;
 
   UpdateStatus;
-  DoPyEvent(CurrentEditor, cEventOnTabChange, []);
+  DoPyEvent(F.Editor, cEventOnTabChange, []);
 end;
 
 procedure TfmMain.UpdateTabsActiveColor(F: TEditorFrame);
