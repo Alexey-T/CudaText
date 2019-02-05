@@ -2942,7 +2942,7 @@ begin
     Result.DoFileOpen(AFileName, AFileName2, bEnableHistory, true, OpenMode);
     MsgStatusFileOpened(AFileName, AFileName2);
 
-    DoPyEvent(Result.Editor, cEventOnOpen, []);
+    DoPyEvent(Result.Ed1, cEventOnOpen, []);
     Result.SetFocus;
     exit;
   end;
@@ -2964,9 +2964,12 @@ begin
       //  msg:= msg+' ('+IntToStr(tick)+'s)';
       MsgStatusFileOpened(AFileName, AFileName2);
 
-      DoPyEvent(F.Editor, cEventOnOpen, []);
+      DoPyEvent(F.Ed1, cEventOnOpen, []);
       if F.IsText and (F.LexerName[F.Ed1]='') then
-        DoPyEvent(F.Editor, cEventOnOpenNone, []);
+        DoPyEvent(F.Ed1, cEventOnOpenNone, []);
+      if AFileName2<>'' then
+        DoPyEvent(F.Ed2, cEventOnOpen, []);
+
       Exit
     end;
   end;
@@ -2992,6 +2995,9 @@ begin
   DoPyEvent(F.Ed1, cEventOnOpen, []);
   if F.IsText and (F.LexerName[F.Ed1]='') then
     DoPyEvent(F.Ed1, cEventOnOpenNone, []);
+  if AFileName2<>'' then
+    DoPyEvent(F.Ed2, cEventOnOpen, []);
+
   Result.SetFocus;
 end;
 
