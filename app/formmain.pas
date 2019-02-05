@@ -643,7 +643,7 @@ type
     FFileNamesDroppedInitially: array of string;
     FFileNameLogDebug: string;
     FFileNameLogConsole: string;
-    FTreeClick: boolean;
+    FCodetreeDblClicking: boolean;
     FMenuCopy: TPopupMenu;
     FPopupListboxOutput: TPopupMenu;
     FPopupListboxValidate: TPopupMenu;
@@ -1345,7 +1345,7 @@ var
 begin
   DoTreeGetSyntaxRange(CodeTree.Tree.Selected, PntBegin, PntEnd);
 
-  FTreeClick:= true;
+  FCodetreeDblClicking:= true;
   CurrentEditor.DoGotoPos(
     PntBegin,
     Point(-1, -1),
@@ -1355,7 +1355,7 @@ begin
     true
     );
   DoFocusEditor;
-  FTreeClick:= false;
+  FCodetreeDblClicking:= false;
 end;
 
 procedure TfmMain.DoTreeGetSyntaxRange(ANode: TTreeNode; out APosBegin, APosEnd: TPoint);
@@ -2210,7 +2210,7 @@ end;
 
 procedure TfmMain.FrameOnChangeCaretPos(Sender: TObject);
 begin
-  if FTreeClick then exit;
+  if FCodetreeDblClicking then exit;
   TimerEdCaret.Enabled:= false;
   TimerEdCaret.Enabled:= true;
 end;
