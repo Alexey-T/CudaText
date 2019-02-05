@@ -2674,10 +2674,20 @@ begin
           Result:= PyBool_FromLong(Ord(Ed.OptShowCurLineOnlyFocused));
 
         PROP_CODETREE:
-          Result:= PyBool_FromLong(Ord(F.EnabledCodeTree));
+          begin
+            if Assigned(F) then
+              Result:= PyBool_FromLong(Ord(F.EnabledCodeTree[Ed]))
+            else
+              Result:= PyBool_FromLong(0);
+          end;
 
         PROP_EDITORS_LINKED:
-          Result:= PyBool_FromLong(Ord(F.EditorsLinked));
+          begin
+            if Assigned(F) then
+              Result:= PyBool_FromLong(Ord(F.EditorsLinked))
+            else
+              Result:= PyBool_FromLong(0);
+          end;
 
         PROP_ACTIVATION_TIME:
           begin
@@ -3146,7 +3156,7 @@ begin
         PROP_CODETREE:
           begin
             if Assigned(F) then
-              F.EnabledCodeTree:= ValueBool;
+              F.EnabledCodeTree[Ed]:= ValueBool;
           end;
 
         PROP_EDITORS_LINKED:

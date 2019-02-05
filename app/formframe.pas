@@ -95,7 +95,7 @@ type
     FActivationTime: Int64;
     FCodetreeFilter: string;
     FCodetreeFilterHistory: TStringList;
-    FEnabledCodeTree: boolean;
+    FEnabledCodeTree: array[0..1] of boolean;
     FOnChangeCaption: TNotifyEvent;
     FOnProgress: TATFinderProgress;
     FOnUpdateStatus: TNotifyEvent;
@@ -174,6 +174,7 @@ type
     procedure EditorOnScroll(Sender: TObject);
     function GetAdapter(Ed: TATSynEdit): TATAdapterEControl;
     function GetCommentString(Ed: TATSynEdit): string;
+    function GetEnabledCodeTree(Ed: TATSynEdit): boolean;
     function GetEnabledFolding: boolean;
     function GetLineEnds(Ed: TATSynEdit): TATLineEnds;
     function GetNotifEnabled: boolean;
@@ -190,7 +191,7 @@ type
     procedure InitEditor(var ed: TATSynEdit);
     function IsCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integer): boolean;
     procedure NotifChanged(Sender: TObject);
-    procedure SetEnabledCodeTree(AValue: boolean);
+    procedure SetEnabledCodeTree(Ed: TATSynEdit; AValue: boolean);
     procedure SetEnabledFolding(AValue: boolean);
     procedure SetFileName(const AValue: string);
     procedure SetFileName2(AValue: string);
@@ -269,7 +270,7 @@ type
     property NotInRecents: boolean read FNotInRecents write FNotInRecents;
     property TopLineTodo: integer read FTopLineTodo write FTopLineTodo; //always use it instead of Ed.LineTop
     property TextCharsTyped: integer read FTextCharsTyped write FTextCharsTyped;
-    property EnabledCodeTree: boolean read FEnabledCodeTree write SetEnabledCodeTree;
+    property EnabledCodeTree[Ed: TATSynEdit]: boolean read GetEnabledCodeTree write SetEnabledCodeTree;
     property CodetreeFilter: string read FCodetreeFilter write FCodetreeFilter;
     property CodetreeFilterHistory: TStringList read FCodetreeFilterHistory;
     property ActivationTime: Int64 read FActivationTime write FActivationTime;
@@ -1337,7 +1338,8 @@ begin
   FTabId:= FLastTabId;
   FTabImageIndex:= -1;
   FNotInRecents:= false;
-  FEnabledCodeTree:= true;
+  FEnabledCodeTree[0]:= true;
+  FEnabledCodeTree[1]:= true;
   FSaveHistory:= true;
   FEditorsLinked:= true;
   FCodetreeFilterHistory:= TStringList.Create;
@@ -2130,6 +2132,14 @@ begin
     Result:= an.LineComment;
 end;
 
+function TEditorFrame.GetEnabledCodeTree(Ed: TATSynEdit): boolean;
+begin
+  if (Ed=Ed1) or EditorsLinked then
+    Result:= FEnabledCodeTree[0]
+  else
+    Result:= FEnabledCodeTree[1];
+end;
+
 function TEditorFrame.GetEnabledFolding: boolean;
 begin
   Result:= Editor.OptFoldEnabled;
@@ -2686,10 +2696,15 @@ begin
   end;
 end;
 
-procedure TEditorFrame.SetEnabledCodeTree(AValue: boolean);
+procedure TEditorFrame.SetEnabledCodeTree(Ed: TATSynEdit; AValue: boolean);
 begin
-  if FEnabledCodeTree=AValue then Exit;
-  FEnabledCodeTree:= AValue;
+  if GetEnabledCodeTree(Ed)=AValue then Exit;
+
+  if (Ed=Ed1) or EditorsLinked then
+    FEnabledCodeTree[0]:= AValue
+  else
+    FEnabledCodeTree[1]:= AValue;
+
   if not AValue then
     ClearTreeviewWithData(CachedTreeview);
 end;
