@@ -2477,9 +2477,11 @@ begin
             end;
           end;
 
-          //normal click on tab caption - focus tab's control
+          {
+          //normal click on tab caption - was handled on MouseDown before
           if Assigned(FOnTabClick) then
             FOnTabClick(Self);
+            }
         end;
     end;
   end;
