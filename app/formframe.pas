@@ -107,6 +107,7 @@ type
     FOnSaveFile: TNotifyEvent;
     FOnAddRecent: TNotifyEvent;
     FOnPyEvent: TEditorFramePyEvent;
+    FOnInitAdapter: TNotifyEvent;
     FSplitPos: double;
     FSplitHorz: boolean;
     FActiveSecondaryEd: boolean;
@@ -342,6 +343,7 @@ type
     property OnSaveFile: TNotifyEvent read FOnSaveFile write FOnSaveFile;
     property OnAddRecent: TNotifyEvent read FOnAddRecent write FOnAddRecent;
     property OnPyEvent: TEditorFramePyEvent read FOnPyEvent write FOnPyEvent;
+    property OnInitAdapter: TNotifyEvent read FOnInitAdapter write FOnInitAdapter;
   end;
 
 procedure GetFrameLocation(Frame: TEditorFrame;
@@ -1365,9 +1367,6 @@ begin
   Splitted:= false;
 
   Adapter1:= TATAdapterEControl.Create(Self);
-  Adapter1.DynamicHiliteEnabled:= EditorOps.OpLexerDynamicHiliteEnabled;
-  Adapter1.DynamicHiliteMaxLines:= EditorOps.OpLexerDynamicHiliteMaxLines;
-
   Adapter1.AddEditor(Ed1);
   Adapter1.AddEditor(Ed2);
 
@@ -1532,7 +1531,10 @@ begin
         else
         begin
           if Adapter2=nil then
+          begin
             Adapter2:= TATAdapterEControl.Create(Self);
+            OnInitAdapter(Adapter2);
+          end;
           Ed2.AdapterForHilite:= Adapter2;
         end;
       end;
@@ -2061,7 +2063,10 @@ begin
   else
   begin
     if Adapter2=nil then
+    begin
       Adapter2:= TATAdapterEControl.Create(Self);
+      OnInitAdapter(Adapter2);
+    end;
     Adapter1.AddEditor(Ed1);
     Adapter2.AddEditor(Ed2);
   end;

@@ -22,13 +22,11 @@ begin
   F.OnCheckFilenameOpened:= @DoCheckFilenameOpened;
   F.OnMsgStatus:= @FrameOnMsgStatus;
   F.OnProgress:= @FinderOnProgress;
+  F.OnInitAdapter:= @FrameOnInitAdapter;
 
   F.Groups:= Groups;
   F.SaveDialog:= SaveDlg;
-
-  //F.Adapter.OnParseBegin:= @FrameParseBegin;
-  F.Adapter[F.Ed1].OnParseDone:= @FrameParseDone;
-  F.Adapter[F.Ed1].OnLexerChange:= @FrameLexerChange;
+  F.OnInitAdapter(F.Adapter[F.Ed1]);
 
   F.Ed1.PopupText:= PopupText;
   F.Ed2.PopupText:= PopupText;

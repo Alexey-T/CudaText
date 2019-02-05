@@ -210,6 +210,19 @@ begin
     CurrentEditor.DoCommand(cmd_OpsReloadAndApply);
 end;
 
+
+procedure TfmMain.FrameOnInitAdapter(Sender: TObject);
+begin
+  with Sender as TATAdapterEControl do
+  begin
+    DynamicHiliteEnabled:= EditorOps.OpLexerDynamicHiliteEnabled;
+    DynamicHiliteMaxLines:= EditorOps.OpLexerDynamicHiliteMaxLines;
+
+    OnParseDone:= @FrameParseDone;
+    OnLexerChange:= @FrameLexerChange;
+  end;
+end;
+
 procedure TfmMain.FrameParseDone(Sender: TObject);
 const
   cMinTime = 600;
