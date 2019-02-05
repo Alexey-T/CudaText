@@ -908,6 +908,7 @@ procedure TfmMain.UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean;
 var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
+  Tree: TTreeView;
 begin
   if UiOps.TreeShowIcons then
     CodeTree.Tree.Images:= ImageListTree
@@ -949,13 +950,14 @@ begin
 
   if AFill then
   begin
-    Frame.Adapter[Ed].TreeFill(Frame.CachedTreeview);
+    Tree:= Frame.CachedTreeview[Ed];
+    Frame.Adapter[Ed].TreeFill(Tree);
 
     //Lazarus dont sort new items
     if CodeTree.Tree.SortType<>stNone then
-      Frame.CachedTreeview.AlphaSort;
+      Tree.AlphaSort;
 
-    DoTreeviewCopy(Frame.CachedTreeview, CodeTree.Tree);
+    DoTreeviewCopy(Tree, CodeTree.Tree);
 
     //force update scrollbar
     CodeTree.Tree.Perform(CM_CHANGED, 0, 0);

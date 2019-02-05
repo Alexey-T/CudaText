@@ -43,9 +43,12 @@ end;
 procedure TfmMain.FrameOnFocus(Sender: TObject);
 var
   F: TEditorFrame;
+  Ed: TATSynEdit;
   FPages: TATPages;
+  Tree: TTreeView;
 begin
   F:= (Sender as TWinControl).Parent as TEditorFrame;
+  Ed:= F.Editor;
 
   //set Groups.PagesCurrent only for main (0..5) groups
   FPages:= F.Parent as TATPages;
@@ -56,13 +59,14 @@ begin
   UpdateTabsActiveColor(F);
   UpdateMenuPlugins_Shortcuts;
 
-  if FNewClickedEditor<>CurrentEditor then
+  if FNewClickedEditor<>Ed then
   begin
-    FNewClickedEditor:= CurrentEditor;
+    FNewClickedEditor:= Ed;
 
-    if {UiOps.TreeCache and} (F.CachedTreeview.Items.Count>0) then
+    Tree:= F.CachedTreeView[Ed];
+    if {UiOps.TreeCache and} (Tree.Items.Count>0) then
     begin
-      DoTreeviewCopy(F.CachedTreeview, CodeTree.Tree);
+      DoTreeviewCopy(Tree, CodeTree.Tree);
       UpdateTreeFilter;
       UpdateTreeSelection;
     end

@@ -131,6 +131,7 @@ type
     FInitialLexer: TecSyntAnalyzer;
     FSaveHistory: boolean;
     FEditorsLinked: boolean;
+    FCachedTreeview: array[0..1] of TTreeView;
 
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BinaryOnScroll(Sender: TObject);
@@ -173,6 +174,7 @@ type
       ASelectThen: boolean);
     procedure EditorOnScroll(Sender: TObject);
     function GetAdapter(Ed: TATSynEdit): TATAdapterEControl;
+    function GetCachedTreeview(Ed: TATSynEdit): TTreeView;
     function GetCommentString(Ed: TATSynEdit): string;
     function GetEnabledCodeTree(Ed: TATSynEdit): boolean;
     function GetEnabledFolding: boolean;
@@ -229,7 +231,6 @@ type
     Ed1: TATSynEdit;
     Ed2: TATSynEdit;
     Groups: TATGroups;
-    CachedTreeview: TTreeView;
 
     constructor Create(AOwner: TComponent; AApplyCentering: boolean); reintroduce;
     destructor Destroy; override;
@@ -245,6 +246,7 @@ type
     property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
     property TabCaptionFromApi: boolean read FTabCaptionFromApi write FTabCaptionFromApi;
     property TabId: integer read FTabId;
+    property CachedTreeView[Ed: TATSynEdit]: TTreeView read GetCachedTreeview;
     property SaveHistory: boolean read FSaveHistory write FSaveHistory;
     procedure UpdateModified(Ed: TATSynEdit; AWithEvent: boolean= true);
     procedure UpdateReadOnlyFromFile(Ed: TATSynEdit);
@@ -1343,7 +1345,8 @@ begin
   FSaveHistory:= true;
   FEditorsLinked:= true;
   FCodetreeFilterHistory:= TStringList.Create;
-  CachedTreeview:= TTreeView.Create(Self);
+  FCachedTreeview[0]:= TTreeView.Create(Self);
+  FCachedTreeview[1]:= nil;
 
   InitEditor(Ed1);
   InitEditor(Ed2);
@@ -1442,6 +1445,18 @@ begin
     Result:= Adapter1
   else
     Result:= Adapter2;
+end;
+
+function TEditorFrame.GetCachedTreeview(Ed: TATSynEdit): TTreeView;
+begin
+  if (Ed=Ed1) or EditorsLinked then
+    Result:= FCachedTreeview[0]
+  else
+  begin
+    if FCachedTreeview[1]=nil then
+      FCachedTreeview[1]:= TTreeView.Create(Self);
+    Result:= FCachedTreeview[1];
+  end;
 end;
 
 function TEditorFrame.IsEmpty: boolean;
@@ -2706,7 +2721,7 @@ begin
     FEnabledCodeTree[1]:= AValue;
 
   if not AValue then
-    ClearTreeviewWithData(CachedTreeview);
+    ClearTreeviewWithData(CachedTreeview[Ed]);
 end;
 
 procedure TEditorFrame.SetEnabledFolding(AValue: boolean);
