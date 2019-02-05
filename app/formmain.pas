@@ -1709,7 +1709,6 @@ begin
 
   CodeTreeFilter:= TTreeFilterEdit.Create(Self);
   CodeTreeFilter.Hide;
-  CodeTreeFilter.FilteredTreeview:= CodeTree.Tree;
 
   CodeTreeFilterReset:= TATButton.Create(Self);
   CodeTreeFilterReset.Parent:= PanelCodeTreeTop;
@@ -2716,6 +2715,14 @@ var
   S: string;
 begin
   S:= UTF8Encode(CodeTreeFilterInput.Text);
+  if S='' then
+  begin
+    CodeTreeFilter.ForceFilter('');
+    CodeTreeFilter.FilteredTreeview:= nil;
+    exit;
+  end;
+
+  CodeTreeFilter.FilteredTreeview:= CodeTree.Tree;
   CodeTreeFilter.Text:= S;
 
   F:= CurrentFrame;
