@@ -241,7 +241,7 @@ Screenshot of SynWrite dialog:
 
 [[File:synwrite-lexer-editor.png]]
 
-=== How to setup styles of hidden sublexer? ===
+=== How to setup styles of hidden sublexer ===
 
 Some lexers are distributed in packages together with sub-lexer, and sub-lexer is hidden. Example: "HTML Django" with sub-lexer "HTML Django internal" (the 2nd isn't visible in the Lexers menu, so it's called hidden). Users, which have option "ui_lexer_themes" off, want to configure styles of all lexers. How to access hidden ones?
 
@@ -252,7 +252,7 @@ Some lexers are distributed in packages together with sub-lexer, and sub-lexer i
 
 You can make lexer hidden/visible, by using "Hide/Show" button in the "Lexer library" dialog.
 
-===I have made new lexer - how to distribute it?===
+===How to create distributive of new lexer===
 
 In SynWrite, you've created .lcf file in folder SynWrite/Data/LexLib.
 If you configured "Commenting" options, also file .cuda-lexmap is created.
