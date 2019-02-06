@@ -1997,7 +1997,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 
 * PROP_SPLIT: 2-tuple: information about primary/secondary editors splitting as tuple (split_kind, split_pos).
 ** "split_kind": str: "-" (not splitted), "v" (splitted vertically), "h" (splitted horizontally). 
-** "split_pos": float number: part of entire size for secondary editor (0.5 means half split).
+** "split_pos": int: part of entire size for secondary editor, multiplied by 1000 (e.g. 500 is half of size).
 
 * PROP_HANDLE_SELF: int: handle of editor object, for which get_prop is called. This handle is unique among all objects in program (it is memory address). Note that ed.h==0, it is virtual handle for the focused editor. This API gets the real handle.
 * PROP_HANDLE_PRIMARY: int: handle of editor object, which is primary editor in a file tab (always visible). None for separate editors.
@@ -2088,7 +2088,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 
 * PROP_SPLIT: 2-tuple: information about primary/secondary editors splitting as tuple (split_kind, split_pos).
 ** "split_kind": str: "-" (not splitted), "v" (splitted vertically), "h" (splitted horizontally). 
-** "split_pos": float number: part of entire size for secondary editor (0.5 means half split).
+** "split_pos": int: part of entire size for secondary editor, multiplied by 1000 (e.g. 500 is half of size).
 
 * PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
 * PROP_V_POS: int: for binary viewer, scroll position.
