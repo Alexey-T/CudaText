@@ -290,27 +290,29 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 
 ==Add-on types==
 
-* "plugins". These are addons with Python code. They add python events and/or python commands. Commands can be called then via "Plugins" top menu, but only if plugin's install.inf file doesn't hide menuitems in "Plugins". For example, install.inf in CudaExt hides all menuitems in "Plugins". In all cases, all commands can be called via Commands (F1) dialog.
+* "plugins". Extensions with Python code. They add events and/or commands. Commands can be called then via "Plugins" top menu, but only if plugin's install.inf file doesn't hide menuitems in "Plugins". For example, install.inf in CudaExt hides all menuitems in "Plugins". In all cases, all commands can be called via Commands (F1) dialog.
 
-* "lexers". These are syntax hiliting support. For ex, Arduino lexer adds menuitem "Arduino" to the lexer menu. Some addons can add 2 lexers (or more), for ex "HTML nnnnnn" addons often add 2 lexers: one is visible in the lexer menu, another one is hidden (it supports embedded blocks hiliting).
+* "lexers". Syntax highlighting files. For ex, Arduino lexer adds menuitem "Arduino" to the lexer menu. Some addons can add 2 lexers (or more), for ex "HTML nnnnnn" addons often add 2 lexers: one is visible in the lexer menu, another one is hidden (it supports embedded blocks hiliting).
 
-* "linters". These are Python modules for CudaLint plugin. Each supports some lexer (or several similar lexers). To use them, install CudaLint plugin, open your work file, and call CudaLint commands: it calls appropriate linter and shows colored bookmarks on error/warning lines.
+* "linters". Sub-plugins for CudaLint plugin. Each supports some lexer (or several similar lexers). To use them, install CudaLint plugin, open your work file, and call CudaLint commands: it calls appropriate linter and shows colored bookmarks on error/warning lines.
 
-* "snippets". These are collections of text fragments, for Snippets plugin. Install Snippets plugin first. Each addon supports some lexer(s). See details in the [[#Snippets]] topic.
+* "tree helpers": Sub-plugins for CudaTree plugin, which show Code Tree structure for some lexer.
 
-* "translations". These are CudaText UI translations. For ex, JP translation changes all menuitems + dialogs to JP language. Dialogs of plugins are not affected (but authors can support translation in their plugins).
+* "snippets". Collections of text fragments, for Snippets plugin. Install Snippets plugin first. Each addon supports some lexer(s). See details in the [[#Snippets]] topic.
 
-* "themes". These are UI/syntax themes for the "Options - Color themes" menu. UI themes change colors of CudaText interface. Syntax themes change colors of words in syntax hilited files.
+* "translations". CudaText UI translations. For ex, JP translation changes all menuitems + dialogs to JP language. Dialogs of plugins are not affected (but authors can support translation in their plugins).
 
-* "sidebar themes": These are icon sets for the sidebar (vertical bar on the left side).
+* "themes". UI/syntax themes for the "Options - Color themes" menu. UI themes change colors of CudaText interface. Syntax themes change colors of words in syntax hilited files.
 
-* "toolbar themes": These are icon sets for the main toolbar (horizontal row of buttons).
+* "sidebar themes": Icon sets for the sidebar (vertical row of buttons on the left side).
 
-* "toolbar x icons": These are icon-sets for plugin Config Toolbar, for new user-added buttons.
+* "toolbar themes": Icon sets for the main toolbar (horizontal row of buttons on the top).
 
-* "file type icons": These are icon sets for the "Project Manager" file list. Most popular lexers have icons here.
+* "toolbar x icons": Icon sets for plugin "Config Toolbar", for user-added buttons.
 
-* "code tree icons": These are icon sets for the Code Tree (icons are visible in the Code Tree with some lexers, e.g. C#).
+* "file type icons": Icon sets for the "Project Manager" file list. Most popular lexers have icons here.
+
+* "code tree icons": Icon sets for the Code Tree (icons are visible in the Code Tree with some lexers, e.g. C#).
 
 ==Location of settings/data files==
 
