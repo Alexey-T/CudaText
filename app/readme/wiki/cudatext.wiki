@@ -290,7 +290,7 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 
 ==Add-on types==
 
-* "plugins". Extensions with Python code. They add events and/or commands. Commands can be called then via "Plugins" top menu, but only if plugin's install.inf file doesn't hide menuitems in "Plugins". For example, install.inf in CudaExt hides all menuitems in "Plugins". In all cases, all commands can be called via Commands (F1) dialog.
+* "plugins". Extensions with Python code. They add events and/or commands. Commands can be called then via "Plugins" top menu, but only if plugin's install.inf file doesn't hide menu items in "Plugins". In any case, all commands can be called via Command Palette dialog.
 
 * "lexers". Syntax highlighting files. For ex, Arduino lexer adds menuitem "Arduino" to the lexer menu. Some addons can add 2 lexers (or more), for ex "HTML nnnnnn" addons often add 2 lexers: one is visible in the lexer menu, another one is hidden (it supports embedded blocks hiliting).
 
