@@ -2906,12 +2906,15 @@ begin
     end;
   end; //not binary
 
-  //is file already opened? activate frame
+  //file already opened? activate its frame
   F:= FindFrameOfFilename(AFileName);
   if F=nil then
     F:= FindFrameOfFilename(AFileName2);
   if Assigned(F) then
   begin
+    //don't work, if need to open 2 files
+    if AFileName2<>'' then exit;
+
     SetFrame(F);
     Result:= F;
     Result.SetFocus;
@@ -4393,7 +4396,9 @@ begin
 
   F:= DoFileOpen(NameDef, NameUser);
   if Assigned(F) then
-    F.ReadOnly[F.Ed1]:= true;
+    F.ReadOnly[F.Ed1]:= true
+  else
+    MsgStatus(msgCannotOpenFile+' default.json/user.json');
 end;
 
 procedure TfmMain.DoOps_OpenFile_LexerSpecific;
