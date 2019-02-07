@@ -19,8 +19,9 @@ begin
   begin
     if F.EditorsLinked then
     begin
-      SName:= F.FileName;
-      if SName='' then
+      if F.FileName<>'' then
+        SName:= msgModified[F.Ed1.Modified]+F.FileName
+      else
         SName:= F.TabCaption;
     end
     else
