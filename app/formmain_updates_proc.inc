@@ -45,9 +45,7 @@ begin
 
   Caption:= SName + SSession + ' - ' + msgTitle;
 
-  Application.Title:=
-    msgModified[F.Ed1.Modified or F.Ed2.Modified]+
-    F.TabCaption + ' - ' + msgTitle;
+  Application.Title:= F.TabCaption + ' - ' + msgTitle;
 end;
 
 
