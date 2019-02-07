@@ -5712,11 +5712,11 @@ begin
               else
               begin
                 Bmp:= TBitmap(PtrInt(Num2));
-                NHeight:= Bmp.Height;
+                NHeight:= Bmp.Height+2{borders};
               end;
 
               Ed.Gaps.DeleteForLineRange(Num1, Num1);
-              if Ed.Gaps.Add(Num1, NHeight+2{borders}, Bmp, NTag, NColor) then
+              if Ed.Gaps.Add(Num1, NHeight, Bmp, NTag, NColor) then
               begin
                 ////better to do always, to fix [v-scroll cannot reach end for many gaps at end]
                 //if Num1=Ed.Strings.Count-1 then
