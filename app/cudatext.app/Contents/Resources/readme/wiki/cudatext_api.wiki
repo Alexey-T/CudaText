@@ -2433,21 +2433,23 @@ Function params:
 
 ===gap===
 
- gap(id, num1, num2, tag=-1)
+ gap(id, num1, num2, tag=-1, size=0, color=COLOR_NONE)
 
 Performs action on inter-line gaps (they don't overlap text above/below).
 Possible values of "id":
 
 * GAP_GET_LIST: Gets list of gaps. List of 4-tuples (nline, ntag, bitmap_size_x, bitmap_size_y), or None.
 
-* GAP_MAKE_BITMAP: Makes new bitmap for future gap. Size of bitmap is num1 x num2. Gets 2-tuple (id_bitmap, id_canvas).
-** "id_bitmap" needed to later call GAP_ADD.
-** "id_canvas": needed to paint an image on bitmap, by canvas_proc().
+* GAP_MAKE_BITMAP: Action is needed only if you want to paint bitmap in gap, it's not needed for empty gaps. Makes new bitmap for future gap. Size of bitmap is (num1, num2). Gets 2-tuple (id_bitmap, id_canvas).
+** "id_bitmap": bitmap handle, needed to later call GAP_ADD.
+** "id_canvas": canvas handle, needed to paint on bitmap, by canvas_proc().
 
-* GAP_ADD: Adds gap to editor, with ready bitmap. Gets bool: params correct, gap added. Params:
-** "num1": line index; can be -1 for gap before the first line
-** "num2": id_bitmap you got before
-** "tag": int value (signed 64 bit) to separate gaps from several plugins.
+* GAP_ADD: Adds gap to editor. Gets bool: params correct, gap added. Params:
+** "num1": int: line index; can be -1 for gap before the first line.
+** "num2": int: if 0, gap will be empty; otherwise it is bitmap handle id_bitmap, which you got from GAP_MAKE_BITMAP.
+** "tag": int: some value to separate gaps from several plugins.
+** "size": int: if >0, it is gap height in pixels; if 0, gap height is calculated from bitmap handle.
+** "color": int: if not COLOR_NONE, then it's gap background color.
 
 * GAP_DELETE: Deletes gaps, for line indexes from num1 to num2.
 * GAP_DELETE_ALL: Deletes all gaps.
@@ -3269,5 +3271,8 @@ def project_variables():
 * change: deleted object "ed_bro"
 * deprecated: file_save(), use ed.save() instead
 * deprecated: Editor.get_split, Editor.set_split; use PROP_SPLIT instead
+
+1.0.273 (app 1.74.1)
+* add: Editor.gap: added params "size", "color"
 
 [[Category:CudaText]]

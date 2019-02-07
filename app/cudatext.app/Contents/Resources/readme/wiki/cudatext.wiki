@@ -241,7 +241,7 @@ Screenshot of SynWrite dialog:
 
 [[File:synwrite-lexer-editor.png]]
 
-=== How to setup styles of hidden sublexer? ===
+=== How to setup styles of hidden sublexer ===
 
 Some lexers are distributed in packages together with sub-lexer, and sub-lexer is hidden. Example: "HTML Django" with sub-lexer "HTML Django internal" (the 2nd isn't visible in the Lexers menu, so it's called hidden). Users, which have option "ui_lexer_themes" off, want to configure styles of all lexers. How to access hidden ones?
 
@@ -252,7 +252,7 @@ Some lexers are distributed in packages together with sub-lexer, and sub-lexer i
 
 You can make lexer hidden/visible, by using "Hide/Show" button in the "Lexer library" dialog.
 
-===I have made new lexer - how to distribute it?===
+===How to create distributive of new lexer===
 
 In SynWrite, you've created .lcf file in folder SynWrite/Data/LexLib.
 If you configured "Commenting" options, also file .cuda-lexmap is created.
@@ -269,7 +269,7 @@ Now you need to create .zip installation of lexer, for both editors: SynWrite, C
 
 ===Lite lexers===
 
-Lite lexers are lexers is special format (internally it's JSON file), with very limited features. They don't support code-tree, folding, don't support multi-line comments, don't have rich highlighting (e.g. background hilite of string `12+$var` with additional hilite for 12 and $var inside). And they don't keep tokens information in memory (positions of found tokens in text). But they work very fast for any file size (with average line length). Lite lexers have " ^" suffix in name. Currently few lite lexers are made: XML ^, JSON ^, Log files ^, SQL ^. You can also choose them, from the usual lexers menu (they are visible by suffix).
+Lite lexers are lexers is special format (internally it's JSON file), with very limited features. They don't support code-tree, folding, don't support multi-line comments, don't have rich highlighting (e.g. background highlight of string `12+$var` with additional highlight for 12 and $var inside). And they don't keep tokens information in memory (positions of found tokens in text). But they work very fast for any file size (with average line length). Lite lexers have " ^" suffix in name. Currently few lite lexers are made: XML ^, JSON ^, Log files ^, SQL ^. You can also choose them, from the usual lexers menu (they are visible by suffix).
 
 Lite lexers are auto used for big files, if file size is bigger than option "ui_max_size_lexer". And for small files, if normal lexer not found.
 
@@ -290,27 +290,29 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 
 ==Add-on types==
 
-* "plugins". These are addons with Python code. They add python events and/or python commands. Commands can be called then via "Plugins" top menu, but only if plugin's install.inf file doesn't hide menuitems in "Plugins". For example, install.inf in CudaExt hides all menuitems in "Plugins". In all cases, all commands can be called via Commands (F1) dialog.
+* "plugins". Extensions with Python code. They add events and/or commands. Commands can be called then via "Plugins" top menu, but only if plugin's install.inf file doesn't hide menu items in "Plugins". In any case, all commands can be called via Command Palette dialog.
 
-* "lexers". These are syntax hiliting support. For ex, Arduino lexer adds menuitem "Arduino" to the lexer menu. Some addons can add 2 lexers (or more), for ex "HTML nnnnnn" addons often add 2 lexers: one is visible in the lexer menu, another one is hidden (it supports embedded blocks hiliting).
+* "lexers". Syntax highlighting files. For ex, Arduino lexer adds item "Arduino" to the lexer menu. Some addons can add 2 or more lexers, for ex "HTML nnnnnn" addons often add 2 lexers: one is visible in the lexer menu, another one is hidden (it supports embedded blocks).
 
-* "linters". These are Python modules for CudaLint plugin. Each supports some lexer (or several similar lexers). To use them, install CudaLint plugin, open your work file, and call CudaLint commands: it calls appropriate linter and shows colored bookmarks on error/warning lines.
+* "linters". Sub-plugins for CudaLint plugin. Each supports some lexer (or several similar lexers). To use them, install CudaLint plugin, open your work file, and call CudaLint commands: it calls appropriate linter and shows colored bookmarks on error/warning lines.
 
-* "snippets". These are collections of text fragments, for Snippets plugin. Install Snippets plugin first. Each addon supports some lexer(s). See details in the [[#Snippets]] topic.
+* "tree helpers": Sub-plugins for CudaTree plugin, which show Code Tree structure for some lexer.
 
-* "translations". These are CudaText UI translations. For ex, JP translation changes all menuitems + dialogs to JP language. Dialogs of plugins are not affected (but authors can support translation in their plugins).
+* "snippets". Collections of text fragments, for Snippets plugin. Install Snippets plugin first. Each addon supports some lexer(s). See details in the [[#Snippets]] topic.
 
-* "themes". These are UI/syntax themes for the "Options - Color themes" menu. UI themes change colors of CudaText interface. Syntax themes change colors of words in syntax hilited files.
+* "translations". CudaText UI translations. For ex, JP translation changes all menuitems + dialogs to JP language. Dialogs of plugins are not affected (but authors can support translation in their plugins).
 
-* "sidebar themes": These are icon sets for the sidebar (vertical bar on the left side).
+* "themes". UI/syntax themes for the "Options - Color themes" menu. UI themes change colors of CudaText interface. Syntax themes change colors of words in syntax highlighted files.
 
-* "toolbar themes": These are icon sets for the main toolbar (horizontal row of buttons).
+* "sidebar themes": Icon sets for the sidebar (vertical row of buttons on the left side).
 
-* "toolbar x icons": These are icon-sets for plugin Config Toolbar, for new user-added buttons.
+* "toolbar themes": Icon sets for the main toolbar (horizontal row of buttons on the top).
 
-* "file type icons": These are icon sets for the "Project Manager" file list. Most popular lexers have icons here.
+* "toolbar x icons": Icon sets for plugin "Config Toolbar", for user-added buttons.
 
-* "code tree icons": These are icon sets for the Code Tree (icons are visible in the Code Tree with some lexers, e.g. C#).
+* "file type icons": Icon sets for the "Project Manager" file list. Most popular lexers have icons here.
+
+* "code tree icons": Icon sets for the Code Tree (icons are visible in the Code Tree with some lexers, e.g. C#).
 
 ==Location of settings/data files==
 
@@ -523,7 +525,7 @@ These snippets have markers and Tab-key jumps to next marker, ie next parameter/
 
 ==Output/Validate panels==
 
-These lists allow to hilite (e.g. in blue) lines which match some regex. This regex is set by plugin which uses these panels. E.g. plugin HTML Tidy uses panel Validate and sets regex for Tidy result lines. If a line matches regex and hilited, dbl-click on line navigates to source file.
+These lists allow to highlight (e.g. in blue) lines which match some regex. This regex is set by plugin which uses these panels. E.g. plugin HTML Tidy uses panel Validate and sets regex for Tidy result lines. If a line matches regex and highlighted, dbl-click on line navigates to source file.
 
 These panels have hotkeys:
 
