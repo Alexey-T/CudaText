@@ -473,7 +473,6 @@ begin
   if Id='EdBlockSepLine' then Ed.Colors.BlockSepLine:= AColor else
   if Id='EdLinks' then Ed.Colors.Links:= AColor else
   if Id='EdLockedBg' then Ed.Colors.LockedBG:= AColor else
-  if Id='EdGapsBg' then Ed.Colors.GapsBG:= AColor else
   if Id='EdComboArrow' then Ed.Colors.ComboboxArrow:= AColor else
   if Id='EdComboArrowBg' then Ed.Colors.ComboboxArrowBG:= AColor else
   if Id='EdFoldMarkLine' then Ed.Colors.CollapseLine:= AColor else
@@ -527,7 +526,6 @@ begin
   if Id='EdBlockSepLine' then exit(Ed.Colors.BlockSepLine);
   if Id='EdLinks' then exit(Ed.Colors.Links);
   if Id='EdLockedBg' then exit(Ed.Colors.LockedBG);
-  if Id='EdGapsBg' then exit(Ed.Colors.GapsBG);
   if Id='EdComboArrow' then exit(Ed.Colors.ComboboxArrow);
   if Id='EdComboArrowBg' then exit(Ed.Colors.ComboboxArrowBG);
   if Id='EdFoldMarkLine' then exit(Ed.Colors.CollapseLine);
