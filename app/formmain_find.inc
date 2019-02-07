@@ -1000,6 +1000,10 @@ begin
   SRep:= SGetItem(AStr, #1);
   SOpt:= SGetItem(AStr, #1);
 
+  //CR LF -> LF
+  SFind:= StringReplace(SFind, #13#10, #10, [rfReplaceAll]);
+  SRep:= StringReplace(SRep, #13#10, #10, [rfReplaceAll]);
+
   FFinder.Editor:= CurrentEditor;
   FFinder.StrFind:= UTF8Decode(SFind);
   FFinder.StrReplace:= UTF8Decode(SRep);
