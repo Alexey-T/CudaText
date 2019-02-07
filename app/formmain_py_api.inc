@@ -5672,12 +5672,12 @@ end;
 function Py_ed_gap(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H, Num1, Num2, NTag: Int64;
-  Id: integer;
+  Id, NColor, NHeight: integer;
   Ed: TATSynEdit;
   Bmp: TBitmap;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'LiLLL:gap', @H, @Id, @Num1, @Num2, @NTag)) then
+    if Bool(PyArg_ParseTuple(Args, 'LiLLLi:gap', @H, @Id, @Num1, @Num2, @NTag, @NColor)) then
     begin
       Ed:= PyEditor(H);
 
@@ -5704,12 +5704,22 @@ begin
           begin
             if Ed.Strings.IsIndexValid(Num1) or (Num1=-1) then
             begin
-              Bmp:= TBitmap(PtrInt(Num2));
-              Ed.Gaps.DeleteForLineRange(Num1, Num1);
-              if Ed.Gaps.Add(Num1, Bmp.Height+2{borders}, Bmp, NTag) then
+              if (Num2>=0) and (Num2<1000) then
               begin
+                Bmp:= nil;
+                NHeight:= Num2;
+              end
+              else
+              begin
+                Bmp:= TBitmap(PtrInt(Num2));
+                NHeight:= Bmp.Height;
+              end;
+
+              Ed.Gaps.DeleteForLineRange(Num1, Num1);
+              if Ed.Gaps.Add(Num1, NHeight+2{borders}, Bmp, NTag, NColor) then
+              begin
+                ////better to do always, to fix [v-scroll cannot reach end for many gaps at end]
                 //if Num1=Ed.Strings.Count-1 then
-                //better do always, to fix [v-scroll cannot reach end for many gaps at end]
                   Ed.OptLastLineOnTop:= true;
 
                 Ed.Update;
