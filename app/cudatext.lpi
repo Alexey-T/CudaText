@@ -891,7 +891,9 @@
       </Options>
     </Linking>
     <Other>
-      <CustomOptions Value="-dcomplete_at_scroll"/>
+      <CustomOptions Value="-dcomplete_at_scroll
+-dDisableLCLTIFF
+-dDisableLCLPNM"/>
     </Other>
   </CompilerOptions>
   <Debugging>
