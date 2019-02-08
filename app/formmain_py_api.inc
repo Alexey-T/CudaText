@@ -3638,6 +3638,12 @@ begin
               Result:= ReturnNone;
           end;
 
+        APP_PROC_SIDEPANEL_GET:
+          begin
+            Str:= fmMain.FLastSidebarPanel;
+            Result:= PyString_FromString(PChar(Str));
+          end;
+
         //-------------------
         APP_PROC_BOTTOMPANEL_GET_CONTROL:
           begin
@@ -3684,6 +3690,12 @@ begin
             Str:= '';
             for i:= 0 to fmMain.ToolbarSideLow.ButtonCount-1 do
               Str:= Str + IfThen(i>0, #10) + fmMain.ToolbarSideLow.Buttons[i].Caption;
+            Result:= PyString_FromString(PChar(Str));
+          end;
+
+        APP_PROC_BOTTOMPANEL_GET:
+          begin
+            Str:= fmMain.FLastBottomPanel;
             Result:= PyString_FromString(PChar(Str));
           end;
 
