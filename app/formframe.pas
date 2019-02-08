@@ -2625,10 +2625,12 @@ begin
   if IsFilenameListedInExtensionList(SFileName, UiOps.UndoPersistent) then
   begin
     STemp:= GetAppUndoFilename(SFileName, false);
-    Ed.UndoAsString:= DoReadContentFromFile(STemp);
+    if FileExistsUTF8(STemp) then
+      Ed.UndoAsString:= DoReadContentFromFile(STemp);
 
     STemp:= GetAppUndoFilename(SFileName, true);
-    Ed.RedoAsString:= DoReadContentFromFile(STemp);
+    if FileExistsUTF8(STemp) then
+      Ed.RedoAsString:= DoReadContentFromFile(STemp);
   end;
 end;
 
