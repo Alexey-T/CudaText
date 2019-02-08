@@ -3,6 +3,13 @@
   - fixed
   * changed
 
+
+1.74.1 (2019/02)
+
+- fix: small fixes
+
++ add: lexer C improved: better code-tree
+
 1.74.0 (2019/02)
 
 + add: API to allow 2 files in a single tab. This is big help for Differ plugin. Big internal changes for this.
