@@ -5701,9 +5701,6 @@ begin
 
         GAP_MAKE_BITMAP:
           begin
-            Num1:= Max(8, Min(2000, Num1));
-            Num2:= Max(8, Min(500, Num2));
-
             Bmp:= TBitmap.Create;
             Bmp.PixelFormat:= pf24bit;
             Bmp.SetSize(Num1, Num2);
