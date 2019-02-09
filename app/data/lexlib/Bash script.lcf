@@ -151,7 +151,7 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'Comment'
       StyleName = 'Comment'
       TokenType = 1
-      Expression = '^\#.* | (?<=[\x20\x09])\# (?![\}]).*'
+      Expression = '^\#.* | (?<=[\x20\x09])\# (?![\}\]]).*'
       ColumnFrom = 0
       ColumnTo = 0
     end
