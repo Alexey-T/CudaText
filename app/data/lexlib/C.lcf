@@ -253,10 +253,13 @@ object SyntAnal4: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '__asm'
+            '__attribute'
+            '__attribute__'
             '__automated'
             '__cdecl'
             '__classid'
             '__closure'
+            '__clrcall'
             '__declspec'
             '__dispid'
             '__except'
@@ -271,7 +274,9 @@ object SyntAnal4: TLibSyntAnalyzer
             '__pascal'
             '__property'
             '__published'
+            '__regcall'
             '__stdcall'
+            '__thiscall'
             '__try'
             '__uuidof'
             '_asm'

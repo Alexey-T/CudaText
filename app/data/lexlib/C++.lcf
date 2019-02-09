@@ -1,4 +1,4 @@
-object SyntAnal6: TLibSyntAnalyzer
+object SyntAnal5: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -293,9 +293,17 @@ object SyntAnal6: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
+            '__attribute'
+            '__attribute__'
+            '__cdecl'
+            '__clrcall'
             '__declspec'
+            '__fastcall'
+            '__regcall'
             '__restrict'
             '__restrict__'
+            '__stdcall'
+            '__thiscall'
             'alignas'
             'alignof'
             'const'
