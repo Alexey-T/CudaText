@@ -200,7 +200,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 * PROC_ENUM_FONTS: Gets list of font names, currently installed in OS. Note: only some names are common in all OSes (like Arial, Courier, Courier New, Terminal, maybe more).
 * PROC_GET_SYSTEM_PPI: Gets int value of screen pixels-per-inch. Usual value is 96. When OS UI is scaled, it's bigger, e.g. for scale 150% it is round(96*1.5).
-* PROC_GET_GUI_HEIGHT: Gets height (pixels) of GUI element for dlg_custom(). Possible values of text: 'button', 'label', 'linklabel', 'combo', 'combo_ro', 'edit', 'spinedit', 'check', 'radio', 'checkbutton', 'filter_listbox', 'filter_listview'. Special value 'scrollbar' gets size of OS scrollbar. Gets None for other values.
+* PROC_GET_GUI_HEIGHT: Gets height (pixels) of GUI element for dlg_custom(). Possible values of 'text': 'button', 'label', 'linklabel', 'combo', 'combo_ro', 'edit', 'spinedit', 'check', 'radio', 'checkbutton', 'filter_listbox', 'filter_listview'. Special value 'scrollbar' gets size of OS scrollbar. Gets None for other values.
 * PROC_GET_MOUSE_POS: Gets mouse cursor position in screen-related coordinates, as (x, y) tuple.
 * PROC_SEND_MESSAGE: For Windows. Sends message to a window by its handle. Param "text" must be 4-tuple of int (window_handle, msg_code, param1, param2).
 
@@ -1007,7 +1007,7 @@ Param prop: it can be of any simple type (str, int, bool), also tuple/list (of a
 
 Param id_dialog: int, form handle. Ignored only for DLG_CREATE (pass 0).
 
-Possible values of id_action:
+Possible values of "id_action":
 
 * DLG_CREATE: Creates new empty form, gets form "handle". You must pass this handle (int) to next calls of dlg_proc().
 * DLG_HIDE: Hides form.
@@ -1252,7 +1252,7 @@ Perform action on treeview UI-control.
 ** can clear entire tree using root-item
 ** can enumerate root level using root-item.
 
-Possible values of id_action:
+Possible values of "id_action":
 
 * TREE_ITEM_ENUM: Enumerates subitems on given item. Param id_item. Gets list of 2-tuples: (int_handle, str_caption), or None.
 * TREE_ITEM_ADD: Adds subitem as item's child. Param id_item. Param index: at which subitem index to insert (0-based), or -1 to append. Param text: caption of item. Param image_index: index in tree's icon list or -1 to not show icon. Gets int handle of subitem.
@@ -1298,7 +1298,7 @@ Perform action on listbox UI-control.
 * Param id_listbox: int handle of listbox.
 * Param index: index of item (0-base).
 
-Possible values of id_action:
+Possible values of "id_action":
 
 * LISTBOX_GET_COUNT: Gets number if items.
 * LISTBOX_ADD: Adds item (str) with associated tag (int). Param index: at which index to add, -1 to append.
@@ -1326,7 +1326,7 @@ Possible values of id_action:
 Performs action on canvas (drawing surface of some GUI control).
 Id_canvas is handle of canvas of some GUI control. Special value 0 means testing empty panel, it appears at the top of app, when used.
 
-Possible values of id_action:
+Possible values of "id_action":
 
 * CANVAS_SET_FONT: Sets props of font. Params:
 ** "text": font name
@@ -1609,7 +1609,7 @@ Perform action on image-list object.
 
 Param "id_list" is int handle of image-list. It is required for all actions, except IMAGELIST_CREATE, where it should be 0.
 
-Possible values of id_action:
+Possible values of "id_action":
 
 * IMAGELIST_CREATE: Creates new image-list object with default icon size 16x16. Gets int handle of this image-list. Param "value" must be int handle of owner form of object.
 ** If it is form handle from dlg_proc, object will be deleted after deletion of this form.
@@ -1631,7 +1631,7 @@ Perform action on image object.
 
 Param "id_image" is int handle of image. It is required for all actions, except IMAGE_CREATE, where it should be 0.
 
-Possible values of id_action:
+Possible values of "id_action":
 
 * IMAGE_CREATE: Creates new image object. Gets int handle of this image. Param "value" must be int handle of owner form of object.
 ** If it is form handle from dlg_proc, object will be deleted after deletion of this form.
