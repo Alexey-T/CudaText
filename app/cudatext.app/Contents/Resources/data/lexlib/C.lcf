@@ -1,4 +1,4 @@
-object SyntAnal5: TLibSyntAnalyzer
+object SyntAnal4: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Default'
@@ -168,10 +168,26 @@ object SyntAnal5: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Single symbol'
+      DisplayName = 'Symbol {}'
+      StyleName = 'Symbol'
+      TokenType = 8
+      Expression = '[\{\}]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Symbol ()'
+      StyleName = 'Symbol'
+      TokenType = 9
+      Expression = '[\(\)]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Symbol single'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\{\}\(\)\[\],;:/]'
+      Expression = '[\[\],;:/]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -237,10 +253,13 @@ object SyntAnal5: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '__asm'
+            '__attribute'
+            '__attribute__'
             '__automated'
             '__cdecl'
             '__classid'
             '__closure'
+            '__clrcall'
             '__declspec'
             '__dispid'
             '__except'
@@ -255,7 +274,9 @@ object SyntAnal5: TLibSyntAnalyzer
             '__pascal'
             '__property'
             '__published'
+            '__regcall'
             '__stdcall'
+            '__thiscall'
             '__try'
             '__uuidof'
             '_asm'
@@ -322,7 +343,7 @@ object SyntAnal5: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '{')
-          TokenTypes = 8
+          TokenTypes = 256
         end
         item
           CondType = tcSkip
@@ -331,15 +352,16 @@ object SyntAnal5: TLibSyntAnalyzer
         item
           TagList.Strings = (
             ')')
-          TokenTypes = 8
+          TokenTypes = 512
         end
         item
           CondType = tcSkip
+          TokenTypes = 62
         end
         item
           TagList.Strings = (
             '(')
-          TokenTypes = 8
+          TokenTypes = 512
         end
         item
           CondType = tcSkip
@@ -350,7 +372,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 2
+          TokenTypes = 10
         end
         item
           TokenTypes = 4
@@ -366,56 +388,12 @@ object SyntAnal5: TLibSyntAnalyzer
       AutoCloseText = '}'#13#10
     end
     item
-      DisplayName = 'func *'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '{')
-          TokenTypes = 8
-        end
-        item
-          CondType = tcSkip
-          TokenTypes = 2
-        end
-        item
-          TagList.Strings = (
-            ')')
-          TokenTypes = 8
-        end
-        item
-          CondType = tcSkip
-        end
-        item
-          TagList.Strings = (
-            '(')
-          TokenTypes = 8
-        end
-        item
-          TokenTypes = 4
-        end
-        item
-          TagList.Strings = (
-            '*')
-          TokenTypes = 8
-        end
-        item
-          TokenTypes = 4
-        end>
-      NotCollapsed = True
-      NameFmt = '%s-2'
-      RefToCondEnd = True
-      HighlightPos = cpAny
-      NoEndRule = True
-      TreeItemImage = 5
-      IgnoreAsParent = False
-    end
-    item
       DisplayName = '{'
       ConditionList = <
         item
           TagList.Strings = (
             '{')
-          TokenTypes = 8
+          TokenTypes = 256
         end>
       BlockEnd = '}'
       DisplayInTree = False
@@ -433,7 +411,7 @@ object SyntAnal5: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '}')
-          TokenTypes = 8
+          TokenTypes = 256
         end>
       HighlightPos = cpBound
       IgnoreAsParent = False
@@ -470,6 +448,7 @@ object SyntAnal5: TLibSyntAnalyzer
     end
     item
       DisplayName = 'define'
+      Enabled = False
       ConditionList = <
         item
           TagList.Strings = (
@@ -489,7 +468,7 @@ object SyntAnal5: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '{')
-          TokenTypes = 8
+          TokenTypes = 256
         end
         item
           CondType = tcSkip
@@ -516,7 +495,7 @@ object SyntAnal5: TLibSyntAnalyzer
       StyleName = 'Asm BG'
       StartExpression = '\#asm\s*\(\s*"'
       EndExpression = '"\)'
-      SyntAnalyzer = SyntAnal2
+      SyntAnalyzer = SyntAnal1
     end
     item
       DisplayName = 'asm-endasm'
@@ -524,7 +503,7 @@ object SyntAnal5: TLibSyntAnalyzer
       StyleName = 'Preprocessor'
       StartExpression = '\#asm'
       EndExpression = '\#endasm'
-      SyntAnalyzer = SyntAnal2
+      SyntAnalyzer = SyntAnal1
     end>
   SampleText.Strings = (
     '/* Test */'
@@ -557,11 +536,14 @@ object SyntAnal5: TLibSyntAnalyzer
     'String'
     'Number'
     'Preprocessor'
-    'Id keyword')
+    'Id keyword'
+    'Symbol {}'
+    'Symbol ()')
   Extentions = 'c h ch'
   LexerName = 'C'
   Notes.Strings = (
-    'Heavily redone by Alexey (SynWrite)')
+    'Based on original from EControl'
+    'Heavily redone by Alexey (CudaText)')
   LineComment = '//'
   Charset = DEFAULT_CHARSET
 end
