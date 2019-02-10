@@ -86,6 +86,7 @@ var
   s_events, s_keys, s_inmenu, s_icon: string;
   CmdItem: TAppCommand;
   EventItem: TAppEvent;
+  TreeHelper: TAppTreeHelper;
 begin
   ini:= TIniFile.Create(fn_inf);
   sections:= TStringList.Create;
@@ -122,6 +123,19 @@ begin
 
     for ini_section in sections do
     begin
+      //add tree helpers
+      if SRegexMatchesString(ini_section, 'treehelper\d+', true) then
+      begin
+        s_method:= ini.ReadString(ini_section, 'method', '');
+        s_lexers:= ini.ReadString(ini_section, 'lexers', '');
+        TreeHelper:= TAppTreeHelper.Create;
+        TreeHelper.ItemModule:= s_module;
+        TreeHelper.ItemProc:= s_method;
+        TreeHelper.ItemLexers:= s_lexers;
+        AppTreeHelpers.Add(TreeHelper);
+        Continue;
+      end;
+
       if not SRegexMatchesString(ini_section, 'item\d+', true) then Continue;
 
       s_section:= ini.ReadString(ini_section, 'section', '');
@@ -137,6 +151,7 @@ begin
       s_keys:= ini.ReadString(ini_section, 'keys', '');
       s_inmenu:= ini.ReadString(ini_section, 'menu', '');
 
+      //add commands
       if s_section='commands' then
       begin
         if s_caption='' then Continue;
@@ -150,8 +165,10 @@ begin
         CmdItem.ItemLexers:= s_lexers;
         CmdItem.ItemInMenu:= s_inmenu;
         AppCommandList.Add(CmdItem);
+        Continue;
       end;
 
+      //add events
       if s_section='events' then
       begin
         if s_events='' then Continue;
@@ -166,6 +183,7 @@ begin
         EventItem.ItemLexers:= s_lexers;
         EventItem.ItemKeys:= s_keys;
         AppEventList.Add(EventItem);
+        Continue;
       end;
     end;
   finally

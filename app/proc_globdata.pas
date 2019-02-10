@@ -696,11 +696,19 @@ type
     ItemMethod: string;
   end;
 
+type
+  TAppTreeHelper = class
+    ItemModule: string;
+    ItemProc: string;
+    ItemLexers: string;
+  end;
+
 var
   AppCommandList: TList;
   AppEventList: TList;
   AppSidePanels: TList;
   AppBottomPanels: TList;
+  AppTreeHelpers: TList;
 
 type
   PAppPanelProps = ^TAppPanelProps;
@@ -2102,6 +2110,7 @@ initialization
   AppEventList:= TList.Create;
   AppSidePanels:= TList.Create;
   AppBottomPanels:= TList.Create;
+  AppTreeHelpers:= TList.Create;
 
   AppKeymap:= TATKeymap.Create;
   InitKeymapFull(AppKeymap);
@@ -2134,6 +2143,8 @@ finalization
   FreeAndNil(AppConfig_Detect);
   FreeAndNil(AppKeymap);
   FreeAndNil(AppBookmarkImagelist);
+
+  FreeAndNil(AppTreeHelpers);
   FreeAndNil(AppBottomPanels);
   FreeAndNil(AppSidePanels);
   FreeAndNil(AppEventList);
