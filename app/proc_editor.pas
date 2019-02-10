@@ -23,6 +23,7 @@ uses
   ATSynEdit_Ranges,
   ATSynEdit_Commands,
   ATSynEdit_CharSizer,
+  ATStrings,
   ATStringProc,
   proc_globdata,
   proc_colors,
@@ -32,6 +33,7 @@ uses
 procedure EditorFocus(C: TWinControl);
 procedure EditorMouseClick_AtCursor(Ed: TATSynEdit; AAndSelect: boolean);
 procedure EditorMouseClick_NearCaret(Ed: TATSynEdit; AParams: string; AAndSelect: boolean);
+function EditorTextToPyString(Ed: TATSynEdit): string;
 
 procedure EditorClear(Ed: TATSynEdit);
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
@@ -929,6 +931,33 @@ begin
     '''': Result:= '''';
     '`': Result:= '`';
     else Result:= #0;
+  end;
+end;
+
+
+function _StringToPython(const S: string): string; inline;
+begin
+  Result:= '"' + StringReplace(S, '"', '\"', [rfReplaceAll]) + '"';
+end;
+
+
+function EditorTextToPyString(Ed: TATSynEdit): string;
+var
+  L: TStringList;
+  Strs: TATStrings;
+  i: integer;
+begin
+  L:= TStringList.Create;
+  try
+    L.Add('[');
+    Strs:= Ed.Strings;
+    for i:= 0 to Strs.Count-1 do
+      L.Add( _StringToPython(Strs.LinesUTF8[i])+',' );
+    L.Add(']');
+    L.LineBreak:= '';
+    Result:= L.Text;
+  finally
+    FreeAndNil(L);
   end;
 end;
 

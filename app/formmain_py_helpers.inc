@@ -136,26 +136,6 @@ begin
 end;
 
 
-function EditorToPyList(Ed: TATSynEdit): string;
-var
-  L: TStringList;
-  Strs: TATStrings;
-  i: integer;
-begin
-  L:= TStringList.Create;
-  try
-    L.Add('[');
-    Strs:= Ed.Strings;
-    for i:= 0 to Strs.Count-1 do
-      L.Add( SStringToPythonString(Strs.LinesUTF8[i])+',' );
-    L.Add(']');
-    L.LineBreak:= '';
-    Result:= L.Text;
-  finally
-    FreeAndNil(L);
-  end;
-end;
-
 function TfmMain.DoPyTreeHelper(Frame: TEditorFrame): boolean;
 var
   Ed: TATSynEdit;
@@ -176,13 +156,13 @@ begin
       if not IsLexerListed(CurLexer, ItemLexers) then Continue;
 
       Params[0]:= '"'+Frame.GetFileName(Ed)+'"';
-      Params[1]:= EditorToPyList(Ed);
+      Params[1]:= EditorTextToPyString(Ed);
       Res:= Py_RunModuleFunction(ItemModule, ItemProc, Params);
 
       if Res=cPyNone then exit;
       //ShowMessage(Res);
-      Result:= true;
-      exit;
+
+      exit(true);
     end;
 end;
 
