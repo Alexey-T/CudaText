@@ -94,6 +94,10 @@ begin
   try
     dir_inf:= ExtractFileDir(fn_inf);
     s_module:= ExtractFileName(dir_inf);
+
+    //block CudaTree, it's obsolete
+    if s_module='cuda_tree' then exit;
+
     ini.ReadSections(sections);
 
     for s_section in sections do
