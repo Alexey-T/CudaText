@@ -941,7 +941,7 @@ end;
 
 procedure TEditorFrame.SetSplitPos(AValue: double);
 const
-  Delta = 80;
+  Delta = 70;
 var
   N: integer;
 begin
@@ -953,13 +953,13 @@ begin
 
   if FSplitHorz then
   begin
-    N:= trunc(AValue*Height);
+    N:= Round(AValue*Height);
     Ed2.Height:= Max(Delta, Min(Height-Delta, N));
     Splitter.Top:= 0;
   end
   else
   begin
-    N:= trunc(AValue*Width);
+    N:= Round(AValue*Width);
     Ed2.Width:= Max(Delta, Min(Width-Delta, N));
     Splitter.Left:= 0;
   end;
