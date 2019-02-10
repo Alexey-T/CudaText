@@ -5852,9 +5852,16 @@ procedure TfmMain.DoCodetree_ApplyTreeHelperResults(Str: string);
 var
   NPos: integer;
   //
+  function IsQuote(ch: char): boolean; inline;
+  begin
+    Result:= (ch='''') or (ch='"');
+  end;
+  //
   function IsDigit(ch: char): boolean; inline;
   begin
-    Result:= (ch>='0') and (ch<='9');
+    if (ch='-') then exit(true);
+    if (ch>='0') and (ch<='9') then exit(true);
+    Result:= false;
   end;
   //
   function GetInt: integer;
@@ -5871,11 +5878,14 @@ var
   function GetStr: string;
   var
     N: integer;
+    quote: char;
   begin
-    while (NPos<=Length(Str)) and (Str[NPos]<>'''') do Inc(NPos);
+    //find first quote. then find the same quote, for string end.
+    while (NPos<=Length(Str)) and not IsQuote(Str[NPos]) do Inc(NPos);
+    quote:= Str[NPos];
     Inc(NPos);
     N:= NPos;
-    while (N<=Length(Str)) and (Str[N]<>'''') do Inc(N);
+    while (N<=Length(Str)) and not ((Str[N]=quote) and (Str[N-1]<>'\')) do Inc(N);
     Result:= Copy(Str, NPos, N-NPos);
     Inc(N);
     NPos:= N;
@@ -5887,7 +5897,7 @@ var
   Tree: TTreeView;
   Node, NodeParent: TTreeNode;
   Range: TATRangeInCodeTree;
-  NCounter, i: integer;
+  i: integer;
 begin
   //Str = '[ ((x1, y1, x2, y2), level, 'title', icon), ... ]'
   //code gets fixed number of numbers/strings from result, ignoring brackets
@@ -5911,10 +5921,12 @@ begin
   Node:= nil;
   NodeParent:= nil;
   NLevelPrev:= 1;
-  NCounter:= 0;
 
-  //StatusProgress.Show;
-  //StatusProgress.Progress:= 0;
+  {
+  NCounter:= 0;
+  StatusProgress.Show;
+  StatusProgress.Progress:= 0;
+  }
 
   while NPos<=Length(Str) do
   begin
