@@ -948,6 +948,7 @@ begin
   end;
 
   if AFill then
+  if not DoPyTreeHelper(Frame) then
   begin
     Tree:= Frame.CachedTreeview[Ed];
     Frame.Adapter[Ed].TreeFill(Tree);

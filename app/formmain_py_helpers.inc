@@ -136,6 +136,51 @@ begin
 end;
 
 
+function TfmMain.DoPyTreeHelper(Frame: TEditorFrame): boolean;
+var
+  Ed: TATSynEdit;
+  CurLexer, Res: string;
+  Params: array[0..1] of string;
+  Lines: TStringList;
+  Strs: TATStrings;
+  i_helper, i_line: integer;
+begin
+  Result:= false;
+  if not PythonOK then exit;
+
+  Ed:= Frame.Editor;
+  CurLexer:= Frame.LexerName[Ed];
+
+  for i_helper:= 0 to AppTreeHelpers.Count-1 do
+    with TAppTreeHelper(AppTreeHelpers[i_helper]) do
+    begin
+      if not IsLexerListed(CurLexer, ItemLexers) then Continue;
+
+      Lines:= TStringList.Create;
+      try
+        Lines.Add('[');
+        Strs:= Ed.Strings;
+        for i_line:= 0 to Strs.Count-1 do
+          Lines.Add( SStringToPythonString(Strs.LinesUTF8[i_line])+',' );
+        Lines.Add(']');
+        Lines.LineBreak:= '';
+
+        Params[0]:= '"'+Frame.GetFileName(Ed)+'"';
+        Params[1]:= Lines.Text;
+
+        Res:= Py_RunModuleFunction(ItemModule, ItemProc, Params);
+      finally
+        FreeAndNil(Lines);
+      end;
+
+      if Res=cPyNone then exit;
+      //ShowMessage(Res);
+      Result:= true;
+      exit;
+    end;
+end;
+
+
 function DoPyCallbackFromAPI(const ACallback: string;
   const AParams: array of string): string;
 const
