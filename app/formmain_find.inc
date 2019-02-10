@@ -195,9 +195,15 @@ begin
     NLeft:= FFinder.Editor.ColumnLeft;
     with FFinder.Editor do
       if Carets.Count>0 then
+        with Carets[0] do
+        begin
+          NCaretX:= PosX;
+          NCaretY:= PosY;
+        end
+      else
       begin
-        NCaretX:= Carets[0].PosX;
-        NCaretY:= Carets[0].PosY;
+        NCaretX:= 0;
+        NCaretY:= 0;
       end;
 
     NTick:= GetTickCount64;
