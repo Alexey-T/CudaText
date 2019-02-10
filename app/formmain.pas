@@ -5882,10 +5882,11 @@ var
   end;
   //
 var
-  NX1, NY1, NX2, NY2, NLevel, NIcon: integer;
+  NX1, NY1, NX2, NY2, NLevel, NLevelPrev, NIcon: integer;
   STitle: string;
   Tree: TTreeView;
   Node, NodeParent: TTreeNode;
+  Range: TATRangeInCodeTree;
   i: integer;
 begin
   //Str = '[ ((x1, y1, x2, y2), level, 'title', icon), ... ]'
@@ -5904,6 +5905,7 @@ begin
   NPos:= 1;
   Node:= nil;
   NodeParent:= nil;
+  NLevelPrev:= 1;
 
   while NPos<=Length(Str) do
   begin
@@ -5916,22 +5918,25 @@ begin
     NIcon:= GetInt;
     //ShowMessage(Str+#10+Format('%d,%d,%d,%d, lev %d, "%s", icon %d', [NX1, NY1, NX2, NY2, NLevel, STitle, NIcon]));
 
-    (*
-    if (Node=nil) then
+    if (Node=nil) or (NLevel<=1) then
       NodeParent:= nil
     else
     begin
       NodeParent:= Node;
-      for i:= 2 to NLevel do
+      for i:= NLevel to NLevelPrev do
         if Assigned(NodeParent) then
           NodeParent:= NodeParent.Parent;
     end;
 
-    Node:= Tree.Items.Add(NodeParent, NodeText, NodeData);
-    NodeParent.ImageIndex:= R.Rule.TreeItemImage;
-    NodeParent.SelectedIndex:= NodeParent.ImageIndex;
-    //Tree.Items.Add(;
-    *)
+    Range:= TATRangeInCodeTree.Create;
+    Range.PosBegin:= Point(NX1, NY1);
+    Range.PosEnd:= Point(NX2, NY2);
+
+    Node:= Tree.Items.AddChildObject(NodeParent, STitle, Range);
+    Node.ImageIndex:= NIcon;
+    Node.SelectedIndex:= NIcon;
+
+    NLevelPrev:= NLevel;
   end;
 
   Tree.EndUpdate;
