@@ -937,7 +937,9 @@ end;
 
 function _StringToPython(const S: string): string; inline;
 begin
-  Result:= '"' + StringReplace(S, '"', '\"', [rfReplaceAll]) + '"';
+  Result:= StringReplace(S, '\', '\\', [rfReplaceAll]);
+  Result:= StringReplace(Result, '"', '\"', [rfReplaceAll]);
+  Result:= '"'+Result+'"';
 end;
 
 

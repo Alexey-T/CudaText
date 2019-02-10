@@ -95,13 +95,13 @@ end;
 
 function SStringToPythonString(const Str: string): string;
 const
-  Decode: array[0..4] of TStringReplacePart =
+  Decode: array[0..3] of TStringReplacePart =
     (
       (SFrom: '\'; STo: '\\'),
-      (SFrom: '"'; STo: '"+''"''+"'),
+      (SFrom: '"'; STo: '\"'),
       (SFrom: #10; STo: '\n'),
-      (SFrom: #13; STo: '\r'),
-      (SFrom: #9; STo: '\t')
+      (SFrom: #13; STo: '\r')
+      //(SFrom: #9; STo: '\t')
     );
 begin
   Result:= SReplaceParts(Str, Decode);
