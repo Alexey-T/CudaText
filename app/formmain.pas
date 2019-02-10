@@ -5887,13 +5887,15 @@ var
   Tree: TTreeView;
   Node, NodeParent: TTreeNode;
   Range: TATRangeInCodeTree;
-  i: integer;
+  NCounter, i: integer;
 begin
   //Str = '[ ((x1, y1, x2, y2), level, 'title', icon), ... ]'
   //code gets fixed number of numbers/strings from result, ignoring brackets
 
-  Tree:= CodeTree.Tree;
-  Tree.BeginUpdate;
+ Tree:= CodeTree.Tree;
+ Tree.BeginUpdate;
+
+ try
   Tree.Items.Clear;
 
   {
@@ -5909,6 +5911,10 @@ begin
   Node:= nil;
   NodeParent:= nil;
   NLevelPrev:= 1;
+  NCounter:= 0;
+
+  //StatusProgress.Show;
+  //StatusProgress.Progress:= 0;
 
   while NPos<=Length(Str) do
   begin
@@ -5940,9 +5946,21 @@ begin
     Node.SelectedIndex:= NIcon;
 
     NLevelPrev:= NLevel;
+
+    {
+    Inc(NCounter);
+    if NCounter mod 50=0 then
+    begin
+      StatusProgress.Progress:= NPos * 100 div Length(Str);
+      Application.ProcessMessages;
+    end;
+    }
   end;
 
+ finally
   Tree.EndUpdate;
+  //StatusProgress.Hide;
+ end;
 end;
 
 
