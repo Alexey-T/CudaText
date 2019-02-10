@@ -5890,17 +5890,20 @@ var
   i: integer;
 begin
   //Str = '[ ((x1, y1, x2, y2), level, 'title', icon), ... ]'
-  //remove all brackets, then get fixed number of numbers/strings from result
+  //code gets fixed number of numbers/strings from result, ignoring brackets
 
   Tree:= CodeTree.Tree;
   Tree.BeginUpdate;
   Tree.Items.Clear;
 
+  {
+  //remove all brackets
   for i:= 1 to Length(Str) do
     case Str[i] of
       '(', ')', '[', ']':
           Str[i]:= ' ';
     end;
+    }
 
   NPos:= 1;
   Node:= nil;
