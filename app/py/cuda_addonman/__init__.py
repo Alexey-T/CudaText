@@ -209,10 +209,10 @@ class Command:
                 return
 
         #check for CudaTree
-        if 'treehelper.' in url:
-            if not 'cuda_tree' in get_installed_list():
-                msg_box('This is TreeHelper, it requires CudaTree plugin installed', MB_OK+MB_ICONWARNING)
-                return
+        #if 'treehelper.' in url:
+        #    if not 'cuda_tree' in get_installed_list():
+        #        msg_box('This is TreeHelper, it requires CudaTree plugin installed', MB_OK+MB_ICONWARNING)
+        #        return
 
         #download
         fn = get_plugin_zip(url)
