@@ -136,42 +136,48 @@ begin
 end;
 
 
+function EditorToPyList(Ed: TATSynEdit): string;
+var
+  L: TStringList;
+  Strs: TATStrings;
+  i: integer;
+begin
+  L:= TStringList.Create;
+  try
+    L.Add('[');
+    Strs:= Ed.Strings;
+    for i:= 0 to Strs.Count-1 do
+      L.Add( SStringToPythonString(Strs.LinesUTF8[i])+',' );
+    L.Add(']');
+    L.LineBreak:= '';
+    Result:= L.Text;
+  finally
+    FreeAndNil(L);
+  end;
+end;
+
 function TfmMain.DoPyTreeHelper(Frame: TEditorFrame): boolean;
 var
   Ed: TATSynEdit;
   CurLexer, Res: string;
   Params: array[0..1] of string;
-  Lines: TStringList;
-  Strs: TATStrings;
-  i_helper, i_line: integer;
+  iHelper: integer;
 begin
   Result:= false;
   if not PythonOK then exit;
 
   Ed:= Frame.Editor;
   CurLexer:= Frame.LexerName[Ed];
+  if CurLexer='' then exit;
 
-  for i_helper:= 0 to AppTreeHelpers.Count-1 do
-    with TAppTreeHelper(AppTreeHelpers[i_helper]) do
+  for iHelper:= 0 to AppTreeHelpers.Count-1 do
+    with TAppTreeHelper(AppTreeHelpers[iHelper]) do
     begin
       if not IsLexerListed(CurLexer, ItemLexers) then Continue;
 
-      Lines:= TStringList.Create;
-      try
-        Lines.Add('[');
-        Strs:= Ed.Strings;
-        for i_line:= 0 to Strs.Count-1 do
-          Lines.Add( SStringToPythonString(Strs.LinesUTF8[i_line])+',' );
-        Lines.Add(']');
-        Lines.LineBreak:= '';
-
-        Params[0]:= '"'+Frame.GetFileName(Ed)+'"';
-        Params[1]:= Lines.Text;
-
-        Res:= Py_RunModuleFunction(ItemModule, ItemProc, Params);
-      finally
-        FreeAndNil(Lines);
-      end;
+      Params[0]:= '"'+Frame.GetFileName(Ed)+'"';
+      Params[1]:= EditorToPyList(Ed);
+      Res:= Py_RunModuleFunction(ItemModule, ItemProc, Params);
 
       if Res=cPyNone then exit;
       //ShowMessage(Res);
