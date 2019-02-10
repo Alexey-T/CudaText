@@ -314,6 +314,8 @@ begin
         ShowFloatGroup3:= true;
         PagesTo:= GroupsF3.Pages1;
       end;
+    else
+      exit;
   end;
 
   GroupsCtx.MoveTab(Pages, NTabIndex, PagesTo, -1, false);

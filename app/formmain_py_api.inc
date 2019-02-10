@@ -1831,6 +1831,7 @@ var
 begin
   //find index-th line
   Str0:= FPyComplete_Text;
+  Str1:= '';
   for i:= 0 to ASnippetIndex do
     Str1:= SGetItem(Str0, #10);
   //in line snippet is 3rd column, skip 2 columns
