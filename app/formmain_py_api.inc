@@ -231,7 +231,9 @@ begin
 
         else
           Result:= ReturnNone;
-      end;
+      end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -245,7 +247,9 @@ begin
       Application.ProcessMessages;
       Application.Idle(Flag);
       Result:= GetPythonEngine.ReturnNone;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -263,7 +267,9 @@ begin
         Result:= PyString_FromString(PChar(StrVal))
       else
         Result:= ReturnNone;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 function Py_dlg_input_ex(Self, Args : PPyObject): PPyObject; cdecl;
@@ -321,7 +327,9 @@ begin
         Result:= PyString_FromString(PChar(str))
       else
         Result:= ReturnNone;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 function Py_msg_status(Self, Args: PPyObject): PPyObject; cdecl;
@@ -369,13 +377,13 @@ var
   Flags: integer;
 begin
   with GetPythonEngine do
-  begin
     if Bool(PyArg_ParseTuple(Args, 'si:msg_box', @Ptr, @Flags)) then
     begin
       Str:= string(Ptr);
       Result:= PyInt_FromLong(MsgBox(Str, Flags));
-    end;
-  end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -388,7 +396,6 @@ var
   Ok: boolean;
 begin
   with GetPythonEngine do
-  begin
     if Bool(PyArg_ParseTuple(Args, 'ssis:file_open', @PtrFile, @PtrFile2, @Num, @PtrArgs)) then
     begin
       StrFile:= string(PtrFile);
@@ -401,8 +408,9 @@ begin
 
       Ok:= fmMain.DoFileOpen(StrFile, StrFile2, Pages, StrArgs)<>nil;
       Result:= PyBool_FromLong(Ord(Ok));
-    end;
-  end;
+    end
+    else
+      Result:= ReturnNone;
 end;
 
 function Py_file_save(Self, Args: PPyObject): PPyObject; cdecl;
@@ -422,7 +430,9 @@ begin
 
       Ok:= Frame.DoFileSave(false, false);
       Result:= PyBool_FromLong(Ord(Ok));
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 function Py_ed_save(Self, Args: PPyObject): PPyObject; cdecl;
@@ -450,7 +460,9 @@ begin
       Ok:= Frame.DoFileSave_Ex(Ed, false);
 
       Result:= PyBool_FromLong(Ord(Ok));
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -460,7 +472,9 @@ var
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_text_sel', @H)) then
-      Result:= PyUnicode_FromWideString(PyEditor(H).TextSelected);
+      Result:= PyUnicode_FromWideString(PyEditor(H).TextSelected)
+  else
+    Result:= ReturnNone;
 end;
 
 function Py_ed_get_text_line(Self, Args: PPyObject): PPyObject; cdecl;
@@ -477,7 +491,9 @@ begin
         Result:= PyUnicode_FromWideString(Ed.Strings.Lines[N])
       else
         Result:= ReturnNone;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 function Py_ed_get_text_all(Self, Args: PPyObject): PPyObject; cdecl;
@@ -490,7 +506,9 @@ begin
     begin
       Ed:= PyEditor(H);
       Result:= PyString_FromString(PChar(Ed.Strings.TextString_UTF8));
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -507,7 +525,9 @@ begin
       Ed:= PyEditor(H);
       Str:= Ed.Strings.TextSubstring(X1, Y1, X2, Y2);
       Result:= PyUnicode_FromWideString(Str);
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 function Py_ed_set_caret(Self, Args: PPyObject): PPyObject; cdecl;
@@ -571,7 +591,9 @@ begin
 
       fmMain.UpdateFrame;
       fmMain.UpdateStatus;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -601,7 +623,9 @@ begin
       end
       else
         Result:= ReturnNone;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -680,7 +704,9 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -795,7 +821,9 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -885,7 +913,9 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -904,7 +934,9 @@ begin
       else
         N:= SEL_COLUMN;
       Result:= PyInt_FromLong(N);
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 function Py_ed_get_sel_rect(Self, Args: PPyObject): PPyObject; cdecl;
@@ -917,7 +949,9 @@ begin
     begin
       R:= PyEditor(H).SelRect;
       Result:= Py_BuildValue('(iiii)', R.Left, R.Top, R.Right, R.Bottom);
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 function Py_ed_get_sel_lines(Self, Args: PPyObject): PPyObject; cdecl;
@@ -934,7 +968,9 @@ begin
       Caret:= Ed.Carets[0];
       Caret.GetSelLines(N1, N2, false);
       Result:= Py_BuildValue('(ii)', N1, N2);
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 function Py_ed_set_sel_rect(Self, Args: PPyObject): PPyObject; cdecl;
@@ -952,7 +988,9 @@ begin
       fmMain.UpdateFrame;
       fmMain.UpdateStatus;
       Result:= ReturnNone;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -1041,7 +1079,9 @@ begin
         Ed.Update(true);
 
       Result:= ReturnNone;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -1069,7 +1109,9 @@ begin
         Ed.Update(true);
 
       Result:= ReturnNone;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 function Py_ed_insert(Self, Args: PPyObject): PPyObject; cdecl;
@@ -1107,7 +1149,9 @@ begin
         Ed.Update(true);
 
       Result:= Py_BuildValue('(ii)', PosAfter.X, PosAfter.Y);
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -1140,7 +1184,9 @@ begin
         Ed.Update(true);
 
       Result:= Py_BuildValue('(ii)', PosAfter.X, PosAfter.Y);
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -1189,7 +1235,9 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'L:get_line_count', @H)) then
     begin
       Result:= PyInt_FromLong(PyEditor(H).Strings.Count);
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -1212,7 +1260,9 @@ begin
       else
         Str:= '?';
       Result:= PyString_FromString(PChar(Str));
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -1243,7 +1293,9 @@ begin
 
       fmMain.UpdateStatus;
       Result:= ReturnNone;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 function Py_ed_lock(Self, Args: PPyObject): PPyObject; cdecl;
@@ -1257,7 +1309,9 @@ begin
       Ed:= PyEditor(H);
       Ed.BeginUpdate;
       Result:= ReturnNone;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 function Py_ed_unlock(Self, Args: PPyObject): PPyObject; cdecl;
@@ -1273,7 +1327,9 @@ begin
       fmMain.UpdateFrame();
       fmMain.UpdateStatus;
       Result:= ReturnNone;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 function Py_ed_focus(Self, Args: PPyObject): PPyObject; cdecl;
@@ -1296,7 +1352,9 @@ begin
       fmMain.UpdateFrame();
       fmMain.UpdateStatus;
       Result:= ReturnNone;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -1488,7 +1546,9 @@ begin
       end
       else
         Ed.Update;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -1618,7 +1678,9 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -1643,7 +1705,9 @@ begin
           NState:= TAB_SPLIT_VERT;
 
       Result:= Py_BuildValue('(id)', NState, NValue);
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -1669,7 +1733,9 @@ begin
       end;
       F.SplitPos:= NValue;
       Result:= ReturnNone;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 function Py_ed_handles(Self, Args : PPyObject): PPyObject; cdecl;
@@ -1696,7 +1762,9 @@ begin
         Result:= ReturnNone
       else
         Result:= PyLong_FromLongLong(PtrInt(Ed));
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -1892,7 +1960,9 @@ begin
       DoEditorCompletionListbox(Ed, @fmMain.PyCompletionOnGetProp, nil, '_', NSelIndex);
 
       Result:= ReturnNone;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 function Py_ed_complete_alt(Self, Args: PPyObject): PPyObject; cdecl;
@@ -1921,7 +1991,9 @@ begin
       DoEditorCompletionListbox(Ed, @fmMain.PyCompletionOnGetProp, @fmMain.PyCompletionOnResult, StrId, NSelIndex);
 
       Result:= ReturnNone;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -2057,7 +2129,9 @@ begin
         Result:= PyInt_FromLong(fmMain.FColorDialog.Color)
       else
         Result:= ReturnNone;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 function Py_dlg_menu(Self, Args: PPyObject): PPyObject; cdecl;
@@ -2093,7 +2167,9 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 var
@@ -2288,7 +2364,9 @@ begin
         Result:= PyString_FromString(PChar(S))
       else
         Result:= ReturnNone;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 function Py_dlg_hotkeys(Self, Args : PPyObject): PPyObject; cdecl;
@@ -2310,7 +2388,9 @@ begin
       else
         Ok:= DoDialogHotkeys(StrCaption, StrLexer);
       Result:= PyBool_FromLong(Ord(Ok));
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -2336,7 +2416,9 @@ begin
         Result:= ReturnNone
       else
         Result:= PyString_FromString(PChar(Str));
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -2380,7 +2462,9 @@ begin
         Result:= ReturnNone
       else
         Result:= Py_BuildValue('(is)', NButton, PChar(StrResult));
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -2416,7 +2500,9 @@ begin
       end
       else
         Result:= ReturnNone;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -2894,7 +2980,9 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 function Py_ed_set_prop(Self, Args: PPyObject): PPyObject; cdecl;
@@ -3279,7 +3367,9 @@ begin
       fmMain.UpdateFrame;
       fmMain.UpdateStatus;
       Result:= ReturnNone;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -3954,7 +4044,9 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -4240,7 +4332,9 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -4323,7 +4417,9 @@ begin
       end
       else
         Result:= ReturnNone;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -4481,7 +4577,9 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -4627,7 +4725,9 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -4864,7 +4964,9 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -4970,7 +5072,9 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -5296,7 +5400,9 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -5328,7 +5434,9 @@ begin
 
       ok:= FileExistsUTF8(string(SFileName));
       Result:= PyBool_FromLong(Ord(ok));
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -5423,7 +5531,9 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -5549,7 +5659,9 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -5627,7 +5739,9 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -5647,7 +5761,9 @@ begin
         if Ed.Strings.IsIndexValid(Num) then
            TATAdapterEControl(Ed.AdapterForHilite).DoAnalyzeFromLine(Num, true);
       Result:= ReturnNone;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -5758,7 +5874,9 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end;
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -5900,8 +6018,10 @@ begin
 
         else
           Result:= ReturnNone;
-      end;
-    end;
+      end
+    end
+  else
+    Result:= ReturnNone;
 end;
 
 
@@ -5982,7 +6102,9 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end;
+    end
+    else
+      Result:= ReturnNone;
   end;
 end;
 
@@ -6091,7 +6213,9 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end;
+    end
+    else
+      Result:= ReturnNone;
   end;
 end;
 
@@ -6466,7 +6590,9 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end;
+    end
+    else
+      Result:= ReturnNone;
   end;
 end;
 
