@@ -160,7 +160,7 @@ begin
       Res:= Py_RunModuleFunction(ItemModule, ItemProc, Params);
 
       if Res=cPyNone then exit;
-      //ShowMessage(Res);
+      DoCodetree_ApplyTreeHelperResults(Res);
 
       exit(true);
     end;

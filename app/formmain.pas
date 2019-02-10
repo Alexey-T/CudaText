@@ -737,6 +737,7 @@ type
     procedure DoCodetree_OnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoCodetree_GotoBlockForCurrentNode(AndSelect: boolean);
+    procedure DoCodetree_ApplyTreeHelperResults(Str: string);
     procedure DoSidebar_OnTabClick(Sender: TObject);
     function DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
     function DoSidebar_AddTab(const ACaption: string;
@@ -4767,7 +4768,6 @@ begin
     );
 end;
 
-
 procedure TfmMain.ListboxOutKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 var
@@ -5845,6 +5845,96 @@ begin
   SModule:= SGetItem(SCmd);
   SProc:= SGetItem(SCmd);
   DoPyCommand(SModule, SProc, []);
+end;
+
+
+procedure TfmMain.DoCodetree_ApplyTreeHelperResults(Str: string);
+var
+  NPos: integer;
+  //
+  function IsDigit(ch: char): boolean; inline;
+  begin
+    Result:= (ch>='0') and (ch<='9');
+  end;
+  //
+  function GetInt: integer;
+  var
+    N: integer;
+  begin
+    while (NPos<=Length(Str)) and not IsDigit(Str[NPos]) do Inc(NPos);
+    N:= NPos;
+    while (N<=Length(Str)) and IsDigit(Str[N]) do Inc(N);
+    Result:= StrToIntDef(Copy(Str, NPos, N-NPos), -1);
+    NPos:= N;
+  end;
+  //
+  function GetStr: string;
+  var
+    N: integer;
+  begin
+    while (NPos<=Length(Str)) and (Str[NPos]<>'''') do Inc(NPos);
+    Inc(NPos);
+    N:= NPos;
+    while (N<=Length(Str)) and (Str[N]<>'''') do Inc(N);
+    Result:= Copy(Str, NPos, N-NPos);
+    Inc(N);
+    NPos:= N;
+  end;
+  //
+var
+  NX1, NY1, NX2, NY2, NLevel, NIcon: integer;
+  STitle: string;
+  Tree: TTreeView;
+  Node, NodeParent: TTreeNode;
+  i: integer;
+begin
+  //Str = '[ ((x1, y1, x2, y2), level, 'title', icon), ... ]'
+  //remove all brackets, then get fixed number of numbers/strings from result
+
+  Tree:= CodeTree.Tree;
+  Tree.BeginUpdate;
+  Tree.Items.Clear;
+
+  for i:= 1 to Length(Str) do
+    case Str[i] of
+      '(', ')', '[', ']':
+          Str[i]:= ' ';
+    end;
+
+  NPos:= 1;
+  Node:= nil;
+  NodeParent:= nil;
+
+  while NPos<=Length(Str) do
+  begin
+    NX1:= GetInt;
+    NY1:= GetInt;
+    NX2:= GetInt;
+    NY2:= GetInt;
+    NLevel:= GetInt;
+    STitle:= GetStr;
+    NIcon:= GetInt;
+    //ShowMessage(Str+#10+Format('%d,%d,%d,%d, lev %d, "%s", icon %d', [NX1, NY1, NX2, NY2, NLevel, STitle, NIcon]));
+
+    (*
+    if (Node=nil) then
+      NodeParent:= nil
+    else
+    begin
+      NodeParent:= Node;
+      for i:= 2 to NLevel do
+        if Assigned(NodeParent) then
+          NodeParent:= NodeParent.Parent;
+    end;
+
+    Node:= Tree.Items.Add(NodeParent, NodeText, NodeData);
+    NodeParent.ImageIndex:= R.Rule.TreeItemImage;
+    NodeParent.SelectedIndex:= NodeParent.ImageIndex;
+    //Tree.Items.Add(;
+    *)
+  end;
+
+  Tree.EndUpdate;
 end;
 
 
