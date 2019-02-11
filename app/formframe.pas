@@ -1825,7 +1825,7 @@ function TEditorFrame.DoFileSave_Ex(Ed: TATSynEdit; ASaveAs: boolean): boolean;
 var
   An: TecSyntAnalyzer;
   attr: integer;
-  PrevEnabled: boolean;
+  PrevEnabled, bNameChanged: boolean;
   NameCounter: integer;
   SFileName, NameTemp, NameInitial: string;
 begin
@@ -1834,6 +1834,7 @@ begin
   if DoPyEvent(Ed, cEventOnSaveBefore, [])=cPyFalse then exit(true); //disable saving, but close
 
   SFileName:= GetFileName(Ed);
+  bNameChanged:= false;
 
   if ASaveAs or (SFileName='') then
   begin
@@ -1889,7 +1890,7 @@ begin
 
     SFileName:= SaveDialog.FileName;
     SetFileName(Ed, SFileName);
-    DoLexerFromFilename(Ed, SFileName);
+    bNameChanged:= true;
 
     //add to recents saved-as file:
     if Assigned(FOnAddRecent) then
@@ -1927,6 +1928,9 @@ begin
       MB_RETRYCANCEL or MB_ICONERROR) = IDCANCEL then
       Exit(false);
   end;
+
+  if bNameChanged then
+    DoLexerFromFilename(Ed, GetFileName(Ed));
 
   NotifEnabled:= PrevEnabled;
 
