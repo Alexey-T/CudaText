@@ -5276,7 +5276,7 @@ begin
 
         TREE_ITEM_GET_RANGE:
           begin
-            fmMain.DoTreeGetSyntaxRange(TreeNode, Pnt1, Pnt2);
+            fmMain.DoCodetree_GetSyntaxRange(TreeNode, Pnt1, Pnt2);
             Result:= Py_BuildValue('(iiii)', Pnt1.X, Pnt1.Y, Pnt2.X, Pnt2.Y);
           end;
 
@@ -5286,7 +5286,7 @@ begin
             Pnt1.Y:= StrToIntDef(SGetItem(StrText), 0);
             Pnt2.X:= StrToIntDef(SGetItem(StrText), 0);
             Pnt2.Y:= StrToIntDef(SGetItem(StrText), 0);
-            fmMain.DoTreeSetSyntaxRange(TreeNode, Pnt1, Pnt2);
+            fmMain.DoCodetree_SetSyntaxRange(TreeNode, Pnt1, Pnt2);
             Result:= ReturnNone;
           end;
 

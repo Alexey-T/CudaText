@@ -31,7 +31,7 @@ begin
   UpdateStatus;
 end;
 
-procedure TfmMain.FrameStopTreeUpdate;
+procedure TfmMain.DoCodetree_StopUpdate;
 var
   F: TEditorFrame;
 begin

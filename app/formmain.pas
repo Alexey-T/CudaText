@@ -438,7 +438,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure FrameStopTreeUpdate;
+    procedure DoCodetree_StopUpdate;
     procedure FrameAddRecent(Sender: TObject);
     procedure FrameOnMsgStatus(Sender: TObject; const AStr: string);
     procedure FrameOnChangeCaretPos(Sender: TObject);
@@ -733,6 +733,8 @@ type
     procedure DoOnTabOver(Sender: TObject; ATabIndex: Integer);
     procedure DoOnTabPopup(Sender: TObject; APages: TATPages; ATabIndex: integer);
     function DoOnTabGetTick(Sender: TObject; ATabObject: TObject): Int64;
+    procedure DoCodetree_GetSyntaxRange(ANode: TTreeNode; out APosBegin, APosEnd: TPoint);
+    procedure DoCodetree_SetSyntaxRange(ANode: TTreeNode; const APosBegin, APosEnd: TPoint);
     procedure DoCodetree_OnDblClick(Sender: TObject);
     procedure DoCodetree_OnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -865,8 +867,6 @@ type
     procedure SetThemeSyntax(const AValue: string);
     procedure SetThemeUi(const AValue: string);
     function SFindOptionsToTextHint: string;
-    procedure DoTreeGetSyntaxRange(ANode: TTreeNode; out APosBegin, APosEnd: TPoint);
-    procedure DoTreeSetSyntaxRange(ANode: TTreeNode; const APosBegin, APosEnd: TPoint);
     procedure DoOps_ShowEventPlugins;
     procedure DoOps_ResetLexerSpecificOptions;
     procedure DoOps_LoadPluginFromInf(const fn_inf: string);
@@ -1345,7 +1345,7 @@ procedure TfmMain.DoCodetree_OnDblClick(Sender: TObject);
 var
   PntBegin, PntEnd: TPoint;
 begin
-  DoTreeGetSyntaxRange(CodeTree.Tree.Selected, PntBegin, PntEnd);
+  DoCodetree_GetSyntaxRange(CodeTree.Tree.Selected, PntBegin, PntEnd);
 
   FCodetreeDblClicking:= true;
   CurrentEditor.DoGotoPos(
@@ -1360,7 +1360,7 @@ begin
   FCodetreeDblClicking:= false;
 end;
 
-procedure TfmMain.DoTreeGetSyntaxRange(ANode: TTreeNode; out APosBegin, APosEnd: TPoint);
+procedure TfmMain.DoCodetree_GetSyntaxRange(ANode: TTreeNode; out APosBegin, APosEnd: TPoint);
 var
   DataObj: TObject;
   Range: TATRangeInCodeTree;
@@ -1377,7 +1377,7 @@ begin
   APosEnd:= Range.PosEnd;
 end;
 
-procedure TfmMain.DoTreeSetSyntaxRange(ANode: TTreeNode; const APosBegin, APosEnd: TPoint);
+procedure TfmMain.DoCodetree_SetSyntaxRange(ANode: TTreeNode; const APosBegin, APosEnd: TPoint);
 var
   DataObj: TObject;
   Range: TATRangeInCodeTree;
@@ -4753,7 +4753,7 @@ begin
   Node:= CodeTree.Tree.Selected;
   if Node=nil then exit;
 
-  DoTreeGetSyntaxRange(Node, P1, P2);
+  DoCodetree_GetSyntaxRange(Node, P1, P2);
   if (P1.Y<0) or (P2.Y<0) then exit;
 
   if not AndSelect then
