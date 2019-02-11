@@ -29,6 +29,7 @@ STD_MODULES = (
   'cuda_palette',
   'cuda_project_man',
   'cuda_show_unsaved',
+  'cuda_snippet_panel',
   'cuda_sort',
   'cuda_tabs_list',
   'cuda_testing_code_tree',

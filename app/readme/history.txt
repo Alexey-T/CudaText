@@ -7,6 +7,7 @@
 1.75.0 (2019/02)
 
 + add: TreeHelpers are handled by built-in Pascal code, and CudaTree plugin is obsolete - you should remove it (later plugin will be removed from Addon Manager)
++ add: preinstalled plugin "Snippet Panel"
 * change: during text/folding change, editor is repainted more often - this helps to solve issue when command "Fold all" doesn't update screen
 
 1.74.1 (2019/02)
