@@ -1972,9 +1972,15 @@ begin
 end;
 
 procedure TfmMain.AppPropsActivate(Sender: TObject);
+var
+  F: TEditorFrame;
 begin
   if EditorOps.OpShowCurLineOnlyFocused then
-    CurrentEditor.Update;
+  begin
+    F:= CurrentFrame;
+    if F=nil then exit;
+    F.Editor.Update;
+  end;
 end;
 
 procedure TfmMain.FormCloseQuery(Sender: TObject; var ACanClose: boolean);
