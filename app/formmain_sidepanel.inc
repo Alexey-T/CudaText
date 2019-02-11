@@ -335,7 +335,7 @@ begin
 end;
 
 
-procedure TfmMain.CodeTreeFilterOnCommand(Sender: TObject; ACmd: integer;
+procedure TfmMain.CodeTreeFilter_OnCommand(Sender: TObject; ACmd: integer;
   const AText: string; var AHandled: boolean);
 var
   Ed: TATComboEdit;

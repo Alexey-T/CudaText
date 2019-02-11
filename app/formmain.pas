@@ -669,9 +669,9 @@ type
     FOption_GroupPanelSize: TPoint;
     FOption_SidebarTab: string;
 
-    procedure CodeTreeFilterInputOnChange(Sender: TObject);
-    procedure CodeTreeFilterResetClick(Sender: TObject);
-    procedure CodeTreeFilterOnCommand(Sender: TObject; ACmd: integer;
+    procedure CodeTreeFilter_OnChange(Sender: TObject);
+    procedure CodeTreeFilter_ResetOnClick(Sender: TObject);
+    procedure CodeTreeFilter_OnCommand(Sender: TObject; ACmd: integer;
       const AText: string; var AHandled: boolean);
     procedure DisablePluginMenuItems;
     procedure DoApplyCenteringOption;
@@ -1721,13 +1721,13 @@ begin
   CodeTreeFilterReset.Flat:= true;
   CodeTreeFilterReset.ShowHint:= true;
   CodeTreeFilterReset.Hint:= msgTooltipClearFilter;
-  CodeTreeFilterReset.OnClick:= @CodeTreeFilterResetClick;
+  CodeTreeFilterReset.OnClick:= @CodeTreeFilter_ResetOnClick;
 
   CodeTreeFilterInput:= TATComboEdit.Create(Self);
   CodeTreeFilterInput.Parent:= PanelCodeTreeTop;
   CodeTreeFilterInput.Align:= alClient;
-  CodeTreeFilterInput.OnChange:= @CodeTreeFilterInputOnChange;
-  CodeTreeFilterInput.OnCommand:= @CodeTreeFilterOnCommand;
+  CodeTreeFilterInput.OnChange:= @CodeTreeFilter_OnChange;
+  CodeTreeFilterInput.OnCommand:= @CodeTreeFilter_OnCommand;
 
   FPopupListboxOutput:= TPopupMenu.Create(Self);
   mi:= TMenuItem.Create(Self);
@@ -2711,7 +2711,7 @@ begin
   end;
 end;
 
-procedure TfmMain.CodeTreeFilterInputOnChange(Sender: TObject);
+procedure TfmMain.CodeTreeFilter_OnChange(Sender: TObject);
 var
   F: TEditorFrame;
   S: string;
@@ -2732,7 +2732,7 @@ begin
     F.CodetreeFilter:= S;
 end;
 
-procedure TfmMain.CodeTreeFilterResetClick(Sender: TObject);
+procedure TfmMain.CodeTreeFilter_ResetOnClick(Sender: TObject);
 begin
   CodeTreeFilterInput.Text:= '';
   CodeTreeFilterInput.OnChange(nil);

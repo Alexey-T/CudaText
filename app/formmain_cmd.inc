@@ -270,7 +270,7 @@ begin
     cmd_TreeUpdate: UpdateTree(true, false{ignore visible}, true{ForceUpdateAll});
     cmd_TreeSelectBlockForCurNode: DoCodetree_GotoBlockForCurrentNode(true);
     cmd_TreeGotoBlockForCurNode: DoCodetree_GotoBlockForCurrentNode(false);
-    cmd_TreeFilterClear: CodeTreeFilterResetClick(nil);
+    cmd_TreeFilterClear: CodeTreeFilter_ResetOnClick(nil);
     cmd_TreeFilterFocus: DoSidebar_FocusCodetreeFilter;
     cmd_TreeFocus: DoSidebar_FocusCodetree;
 

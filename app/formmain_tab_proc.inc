@@ -104,7 +104,7 @@ begin
     F.SetFocus;
 
   CodeTreeFilterInput.Text:= UTF8Decode(F.CodetreeFilter);
-  CodeTreeFilterInputOnChange(nil);
+  CodeTreeFilter_OnChange(nil);
   CodeTreeFilterInput.Items.Assign(F.CodetreeFilterHistory);
 
   //load lexer-specific config+keymap
