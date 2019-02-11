@@ -29,6 +29,7 @@ mkdir $dd/usr/share/cudatext/py/cuda_new_file
 mkdir $dd/usr/share/cudatext/py/cuda_options_editor
 mkdir $dd/usr/share/cudatext/py/cuda_palette
 mkdir $dd/usr/share/cudatext/py/cuda_project_man
+mkdir $dd/usr/share/cudatext/py/cuda_snippet_panel
 mkdir $dd/usr/share/cudatext/py/cuda_sort
 mkdir $dd/usr/share/cudatext/py/cuda_tabs_list
 mkdir $dd/usr/share/cudatext/py/cuda_show_unsaved
@@ -62,6 +63,8 @@ rm -rf ../app/py/cuda_insert_time/__pycache__
 cp -r ../app/py/cuda_insert_time $dd/usr/share/cudatext/py
 rm -rf ../app/py/cuda_project_man/__pycache__
 cp -r ../app/py/cuda_project_man $dd/usr/share/cudatext/py
+rm -rf ../app/py/cuda_snippet_panel/__pycache__
+cp -r ../app/py/cuda_snippet_panel $dd/usr/share/cudatext/py
 rm -rf ../app/py/cuda_sort/__pycache__
 cp -r ../app/py/cuda_sort $dd/usr/share/cudatext/py
 rm -rf ../app/py/cuda_tabs_list/__pycache__
