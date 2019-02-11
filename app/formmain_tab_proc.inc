@@ -396,10 +396,7 @@ end;
 
 procedure TfmMain.mnuTabsizeSpaceClick(Sender: TObject);
 begin
-  if CurrentEditor.OptTabSpaces then
-    UpdateEditorTabsize(-2)
-  else
-    UpdateEditorTabsize(-1)
+  UpdateEditorTabsize(-3);
 end;
 
 procedure TfmMain.DoOnTabOver(Sender: TObject; ATabIndex: Integer);

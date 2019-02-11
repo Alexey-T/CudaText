@@ -783,6 +783,8 @@ begin
       Ed.OptTabSpaces:= true;
     -2:
       Ed.OptTabSpaces:= false;
+    -3:
+      Ed.OptTabSpaces:= not Ed.OptTabSpaces;
     1..100:
       Ed.OptTabSize:= AValue;
   end;
