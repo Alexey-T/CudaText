@@ -987,7 +987,7 @@ type
     procedure SplitterOnPaint_Gr(Sender: TObject);
     procedure SplitterOnPaint_Main(Sender: TObject);
     procedure UpdateBottomPanels(const ACaption: string; AndFocus: boolean);
-    procedure UpdateEditorTabsize(N: integer);
+    procedure UpdateEditorTabsize(AValue: integer);
     procedure UpdateKeymapDynamicItems;
     procedure UpdateMenuItemAltObject(mi: TMenuItem; cmd: integer);
     procedure UpdateMenuItemChecked(mi: TMenuItem; saved: TATMenuItemsAlt; AValue: boolean);

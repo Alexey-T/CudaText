@@ -291,9 +291,13 @@ end;
 
 procedure TfmMain.UpdateAppForSearch(AStart, AEdLock, AFindMode: boolean);
 var
+  Frame: TEditorFrame;
   Ed: TATSynEdit;
 begin
-  Ed:= CurrentEditor;
+  Frame:= CurrentFrame;
+  if Frame=nil then exit;
+  Ed:= Frame.Editor;
+
   if AStart then
   begin
     FFinder.Editor:= Ed;
@@ -320,7 +324,7 @@ begin
     if Assigned(fmFind) and fmFind.Visible and fmFind.Enabled then
       fmFind.UpdateFocus(AFindMode)
     else
-      CurrentFrame.SetFocus;
+      Frame.SetFocus;
   end;
 
   Ed.DoEventCarets;
@@ -765,15 +769,25 @@ begin
   UpdateMenuItemHotkey(mnuHelpAbout, cmd_HelpAbout);
 end;
 
-procedure TfmMain.UpdateEditorTabsize(N: integer);
+procedure TfmMain.UpdateEditorTabsize(AValue: integer);
+var
+  F: TEditorFrame;
+  Ed: TATSynEdit;
 begin
-  case N of
-    -1: CurrentEditor.OptTabSpaces:= true;
-    -2: CurrentEditor.OptTabSpaces:= false;
-    1..20: CurrentEditor.OptTabSize:= N;
+  F:= CurrentFrame;
+  if F=nil then exit;
+  Ed:= F.Editor;
+
+  case AValue of
+    -1:
+      Ed.OptTabSpaces:= true;
+    -2:
+      Ed.OptTabSpaces:= false;
+    1..100:
+      Ed.OptTabSize:= AValue;
   end;
 
-  CurrentFrame.TabSizeChanged:= true;
+  F.TabSizeChanged:= true;
 
   UpdateFrame;
   UpdateStatus;
@@ -845,9 +859,8 @@ var
   Ed: TATSynEdit;
 begin
   F:= CurrentFrame;
-  Ed:= CurrentEditor;
   if F=nil then exit;
-  if Ed=nil then exit;
+  Ed:= F.Editor;
 
   UpdateMenuItemChecked(mnuViewWrap, mnuViewWrap_Alt, Ed.OptWrapMode<>cWrapOff);
   UpdateMenuItemChecked(mnuViewNums, mnuViewNums_Alt, Ed.Gutter.Items[Ed.GutterBandNum].Visible);
