@@ -737,7 +737,7 @@ type
     procedure DoCodetree_OnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoCodetree_GotoBlockForCurrentNode(AndSelect: boolean);
-    procedure DoCodetree_ApplyTreeHelperResults(Str: string);
+    procedure DoCodetree_ApplyTreeHelperResults(const Str: string);
     procedure DoSidebar_OnTabClick(Sender: TObject);
     function DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
     function DoSidebar_AddTab(const ACaption: string;
@@ -5848,7 +5848,7 @@ begin
 end;
 
 
-procedure TfmMain.DoCodetree_ApplyTreeHelperResults(Str: string);
+procedure TfmMain.DoCodetree_ApplyTreeHelperResults(const Str: string);
 var
   NPos: integer;
   //
