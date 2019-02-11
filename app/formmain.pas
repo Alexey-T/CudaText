@@ -1245,7 +1245,7 @@ begin
       end;
     StatusbarTag_SelMode:
       begin
-        with CurrentEditor do
+        with Frame.Editor do
         begin
           OptMouseColumnSelectionWithoutKey:= not OptMouseColumnSelectionWithoutKey;
           UpdateStatus;
@@ -1254,7 +1254,7 @@ begin
     StatusbarTag_WrapMode:
       begin
         //loop: no wrap - wrap at window - wrap at margin
-        with CurrentEditor do
+        with Frame.Editor do
         begin
           if OptWrapMode=High(OptWrapMode) then
             OptWrapMode:= Low(OptWrapMode)
