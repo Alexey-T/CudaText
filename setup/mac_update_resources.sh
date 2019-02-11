@@ -20,6 +20,7 @@ mkdir $app/Contents/Resources/py/cuda_new_file
 mkdir $app/Contents/Resources/py/cuda_options_editor
 mkdir $app/Contents/Resources/py/cuda_palette
 mkdir $app/Contents/Resources/py/cuda_project_man
+mkdir $app/Contents/Resources/py/cuda_snippet_panel
 mkdir $app/Contents/Resources/py/cuda_sort
 mkdir $app/Contents/Resources/py/cuda_tabs_list
 mkdir $app/Contents/Resources/py/cuda_show_unsaved
@@ -42,6 +43,8 @@ rm -rf $from/py/cuda_project_man/__pycache__
 cp -rf $from/py/cuda_project_man/* $app/Contents/Resources/py/cuda_project_man
 rm -rf $from/py/cuda_options_editor/__pycache__
 cp -rf $from/py/cuda_options_editor/* $app/Contents/Resources/py/cuda_options_editor
+rm -rf $from/py/cuda_snippet_panel/__pycache__
+cp -rf $from/py/cuda_snippet_panel/* $app/Contents/Resources/py/cuda_snippet_panel
 rm -rf $from/py/cuda_sort/__pycache__
 cp -rf $from/py/cuda_sort/* $app/Contents/Resources/py/cuda_sort
 rm -rf $from/py/cuda_tabs_list/__pycache__
