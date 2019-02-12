@@ -136,12 +136,31 @@ begin
 end;
 
 
+function EditorTextToPyObject(Ed: TATSynEdit): PPyObject;
+var
+  Count, i: integer;
+  Strs: TATStrings;
+  S: string;
+begin
+  Strs:= Ed.Strings;
+  Count:= Strs.Count;
+  with GetPythonEngine do
+  begin
+    Result:= PyList_New(Count);
+    for i:= 0 to Count-1 do
+    begin
+      S:= Strs.LinesUTF8[i];
+      PyList_SetItem(Result, i, PyString_FromString(PChar(S)));
+    end;
+  end;
+end;
+
+
 function TfmMain.DoPyTreeHelper(Frame: TEditorFrame): boolean;
 var
   Ed: TATSynEdit;
   CurLexer: string;
-  Params: array[0..1] of string;
-  Obj: PPyObject;
+  Obj, ObjLocals: PPyObject;
   iHelper: integer;
 begin
   Result:= false;
@@ -151,18 +170,32 @@ begin
   CurLexer:= Frame.LexerName[Ed];
   if CurLexer='' then exit;
 
-  for iHelper:= 0 to AppTreeHelpers.Count-1 do
-    with TAppTreeHelper(AppTreeHelpers[iHelper]) do
-    begin
-      if not IsLexerListed(CurLexer, ItemLexers) then Continue;
+  with GetPythonEngine do
+    for iHelper:= 0 to AppTreeHelpers.Count-1 do
+      with TAppTreeHelper(AppTreeHelpers[iHelper]) do
+      begin
+        if not IsLexerListed(CurLexer, ItemLexers) then Continue;
 
-      Params[0]:= '"'+Frame.GetFileName(Ed)+'"';
-      Params[1]:= EditorTextToPyString(Ed);
-      Obj:= Py_RunModuleFunction_GetObject(ItemModule, ItemProc, Params);
-      DoCodetree_ApplyTreeHelperResults(Obj);
+        Obj:= EditorTextToPyObject(Ed);
+        ObjLocals:= PyDict_New();
+        PyDict_SetItem(
+          ObjLocals,
+          PyString_FromString('text'),
+          Obj);
 
-      exit(true);
-    end;
+        try
+          ExecString('import '+ItemModule);
+          Obj:= EvalString(
+            Format('%s.%s("%s", text)', [ItemModule, ItemProc, Frame.GetFileName(Ed)]),
+            ObjLocals, //locals
+            nil //globals
+            );
+        except
+        end;
+
+        DoCodetree_ApplyTreeHelperResults(Obj);
+        exit(true);
+      end;
 end;
 
 
