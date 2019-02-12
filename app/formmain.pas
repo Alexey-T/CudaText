@@ -739,7 +739,7 @@ type
     procedure DoCodetree_OnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoCodetree_GotoBlockForCurrentNode(AndSelect: boolean);
-    procedure DoCodetree_ApplyTreeHelperResults(const Str: string);
+    procedure DoCodetree_ApplyTreeHelperResults(Data: PPyObject);
     procedure DoSidebar_OnTabClick(Sender: TObject);
     function DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
     function DoSidebar_AddTab(const ACaption: string;
@@ -5856,9 +5856,7 @@ begin
 end;
 
 
-procedure TfmMain.DoCodetree_ApplyTreeHelperResults(const Str: string);
-var
-  NPos: integer;
+(*
   //
   function IsQuote(ch: char): boolean; inline;
   begin
@@ -5898,58 +5896,68 @@ var
     Inc(N);
     NPos:= N;
   end;
-  //
+*)
+
+procedure TfmMain.DoCodetree_ApplyTreeHelperResults(Data: PPyObject);
 var
-  NX1, NY1, NX2, NY2, NLevel, NLevelPrev, NIcon: integer;
-  STitle: string;
   Tree: TTreeView;
+  DataItem, DataPos, DataLevel, DataTitle, DataIcon: PPyObject;
+  NCount, NX1, NY1, NX2, NY2, NLevel, NLevelPrev, NIcon: integer;
+  STitle: string;
   Node, NodeParent: TTreeNode;
   Range: TATRangeInCodeTree;
-  i: integer;
+  iItem, iLevel: integer;
 begin
-  //Str = '[ ((x1, y1, x2, y2), level, 'title', icon), ... ]'
-  //code gets fixed number of numbers/strings from result, ignoring brackets
-
   Tree:= CodeTree.Tree;
   Tree.BeginUpdate;
   try
     Tree.Items.Clear;
 
-    NPos:= 1;
     Node:= nil;
     NodeParent:= nil;
     NLevelPrev:= 1;
 
-    while NPos<=Length(Str) do
+    with GetPythonEngine do
     begin
-      NX1:= GetInt;
-      NY1:= GetInt;
-      NX2:= GetInt;
-      NY2:= GetInt;
-      NLevel:= GetInt;
-      STitle:= GetStr;
-      NIcon:= GetInt;
-      //ShowMessage(Str+#10+Format('%d,%d,%d,%d, lev %d, "%s", icon %d', [NX1, NY1, NX2, NY2, NLevel, STitle, NIcon]));
+      NCount:= PyList_Size(Data);
+      if NCount<=0 then exit;
 
-      if (Node=nil) or (NLevel<=1) then
-        NodeParent:= nil
-      else
+      for iItem:= 0 to NCount-1 do
       begin
-        NodeParent:= Node;
-        for i:= NLevel to NLevelPrev do
-          if Assigned(NodeParent) then
-            NodeParent:= NodeParent.Parent;
+        DataItem:= PyList_GetItem(Data, iItem);
+        DataPos:= PyTuple_GetItem(DataItem, 0);
+        DataLevel:= PyTuple_GetItem(DataItem, 1);
+        DataTitle:= PyTuple_GetItem(DataItem, 2);
+        DataIcon:= PyTuple_GetItem(DataItem, 3);
+
+        NX1:= PyInt_AsLong(PyTuple_GetItem(DataPos, 0));
+        NY1:= PyInt_AsLong(PyTuple_GetItem(DataPos, 1));
+        NX2:= PyInt_AsLong(PyTuple_GetItem(DataPos, 2));
+        NY2:= PyInt_AsLong(PyTuple_GetItem(DataPos, 3));
+        NLevel:= PyInt_AsLong(DataLevel);
+        STitle:= PyString_AsAnsiString(DataTitle);
+        NIcon:= PyInt_AsLong(DataIcon);
+
+        if (Node=nil) or (NLevel<=1) then
+          NodeParent:= nil
+        else
+        begin
+          NodeParent:= Node;
+          for iLevel:= NLevel to NLevelPrev do
+            if Assigned(NodeParent) then
+              NodeParent:= NodeParent.Parent;
+        end;
+
+        Range:= TATRangeInCodeTree.Create;
+        Range.PosBegin:= Point(NX1, NY1);
+        Range.PosEnd:= Point(NX2, NY2);
+
+        Node:= Tree.Items.AddChildObject(NodeParent, STitle, Range);
+        Node.ImageIndex:= NIcon;
+        Node.SelectedIndex:= NIcon;
+
+        NLevelPrev:= NLevel;
       end;
-
-      Range:= TATRangeInCodeTree.Create;
-      Range.PosBegin:= Point(NX1, NY1);
-      Range.PosEnd:= Point(NX2, NY2);
-
-      Node:= Tree.Items.AddChildObject(NodeParent, STitle, Range);
-      Node.ImageIndex:= NIcon;
-      Node.SelectedIndex:= NIcon;
-
-      NLevelPrev:= NLevel;
     end;
   finally
    Tree.EndUpdate;

@@ -139,8 +139,9 @@ end;
 function TfmMain.DoPyTreeHelper(Frame: TEditorFrame): boolean;
 var
   Ed: TATSynEdit;
-  CurLexer, Res: string;
+  CurLexer: string;
   Params: array[0..1] of string;
+  Obj: PPyObject;
   iHelper: integer;
 begin
   Result:= false;
@@ -157,10 +158,8 @@ begin
 
       Params[0]:= '"'+Frame.GetFileName(Ed)+'"';
       Params[1]:= EditorTextToPyString(Ed);
-      Res:= Py_RunModuleFunction(ItemModule, ItemProc, Params);
-
-      if Res=cPyNone then exit;
-      DoCodetree_ApplyTreeHelperResults(Res);
+      Obj:= Py_RunModuleFunction_GetObject(ItemModule, ItemProc, Params);
+      DoCodetree_ApplyTreeHelperResults(Obj);
 
       exit(true);
     end;
