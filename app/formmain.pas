@@ -3106,14 +3106,16 @@ end;
 
 procedure TfmMain.DoDialogCommands;
 var
+  Ed: TATSynEdit;
   NCmd: integer;
 begin
+  Ed:= CurrentEditor;
   MsgStatus(msgStatusHelpOnShowCommands);
   NCmd:= DoDialogCommands_Custom(true, true, true, true, false, '', FLastSelectedCommand);
   if NCmd>0 then
   begin
     FLastSelectedCommand:= NCmd;
-    CurrentEditor.DoCommand(NCmd);
+    Ed.DoCommand(NCmd);
     UpdateFrame;
   end;
 end;

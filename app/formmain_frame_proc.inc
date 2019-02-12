@@ -147,24 +147,32 @@ begin
   Result:= nil;
 
   Gr:= Groups;
+  Pages:= Gr.PagesCurrent;
+
   CurForm:= Screen.ActiveForm;
   if (CurForm<>Self) and FloatGroups then
   begin
     if CurForm=FFormFloatGroups1 then
-      Gr:= GroupsF1
+    begin
+      Gr:= GroupsF1;
+      Pages:= Gr.Pages1;
+    end
     else
     if CurForm=FFormFloatGroups2 then
-      Gr:= GroupsF2
+    begin
+      Gr:= GroupsF2;
+      Pages:= Gr.Pages1;
+    end
     else
     if CurForm=FFormFloatGroups3 then
+    begin
       Gr:= GroupsF3;
+      Pages:= Gr.Pages1;
+    end;
   end;
 
-  Pages:= Gr.PagesCurrent;
-  if Pages.Tabs.TabCount=0 then
-    Pages:= Gr.Pages1;
-  if Pages.Tabs.TabIndex<0 then
-    Pages.Tabs.TabIndex:= 0;
+  //if Pages.Tabs.TabIndex<0 then
+  //  Pages.Tabs.TabIndex:= 0;
 
   D:= Pages.Tabs.GetTabData(Pages.Tabs.TabIndex);
   if D=nil then Exit;
