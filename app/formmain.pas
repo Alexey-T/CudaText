@@ -5910,77 +5910,50 @@ begin
   //Str = '[ ((x1, y1, x2, y2), level, 'title', icon), ... ]'
   //code gets fixed number of numbers/strings from result, ignoring brackets
 
- Tree:= CodeTree.Tree;
- Tree.BeginUpdate;
+  Tree:= CodeTree.Tree;
+  Tree.BeginUpdate;
+  try
+    Tree.Items.Clear;
 
- try
-  Tree.Items.Clear;
+    NPos:= 1;
+    Node:= nil;
+    NodeParent:= nil;
+    NLevelPrev:= 1;
 
-  {
-  //remove all brackets
-  for i:= 1 to Length(Str) do
-    case Str[i] of
-      '(', ')', '[', ']':
-          Str[i]:= ' ';
-    end;
-    }
-
-  NPos:= 1;
-  Node:= nil;
-  NodeParent:= nil;
-  NLevelPrev:= 1;
-
-  {
-  NCounter:= 0;
-  StatusProgress.Show;
-  StatusProgress.Progress:= 0;
-  }
-
-  while NPos<=Length(Str) do
-  begin
-    NX1:= GetInt;
-    NY1:= GetInt;
-    NX2:= GetInt;
-    NY2:= GetInt;
-    NLevel:= GetInt;
-    STitle:= GetStr;
-    NIcon:= GetInt;
-    //ShowMessage(Str+#10+Format('%d,%d,%d,%d, lev %d, "%s", icon %d', [NX1, NY1, NX2, NY2, NLevel, STitle, NIcon]));
-
-    if (Node=nil) or (NLevel<=1) then
-      NodeParent:= nil
-    else
+    while NPos<=Length(Str) do
     begin
-      NodeParent:= Node;
-      for i:= NLevel to NLevelPrev do
-        if Assigned(NodeParent) then
-          NodeParent:= NodeParent.Parent;
+      NX1:= GetInt;
+      NY1:= GetInt;
+      NX2:= GetInt;
+      NY2:= GetInt;
+      NLevel:= GetInt;
+      STitle:= GetStr;
+      NIcon:= GetInt;
+      //ShowMessage(Str+#10+Format('%d,%d,%d,%d, lev %d, "%s", icon %d', [NX1, NY1, NX2, NY2, NLevel, STitle, NIcon]));
+
+      if (Node=nil) or (NLevel<=1) then
+        NodeParent:= nil
+      else
+      begin
+        NodeParent:= Node;
+        for i:= NLevel to NLevelPrev do
+          if Assigned(NodeParent) then
+            NodeParent:= NodeParent.Parent;
+      end;
+
+      Range:= TATRangeInCodeTree.Create;
+      Range.PosBegin:= Point(NX1, NY1);
+      Range.PosEnd:= Point(NX2, NY2);
+
+      Node:= Tree.Items.AddChildObject(NodeParent, STitle, Range);
+      Node.ImageIndex:= NIcon;
+      Node.SelectedIndex:= NIcon;
+
+      NLevelPrev:= NLevel;
     end;
-
-    Range:= TATRangeInCodeTree.Create;
-    Range.PosBegin:= Point(NX1, NY1);
-    Range.PosEnd:= Point(NX2, NY2);
-
-    Node:= Tree.Items.AddChildObject(NodeParent, STitle, Range);
-    Node.ImageIndex:= NIcon;
-    Node.SelectedIndex:= NIcon;
-
-    NLevelPrev:= NLevel;
-
-    {
-    Inc(NCounter);
-    if NCounter mod 50=0 then
-    begin
-      StatusProgress.Progress:= NPos * 100 div Length(Str);
-      Application.ProcessMessages;
-    end;
-    }
+  finally
+   Tree.EndUpdate;
   end;
-
- finally
-  Tree.EndUpdate;
-  //StatusProgress.Hide;
- end;
 end;
 
 
