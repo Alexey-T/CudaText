@@ -285,6 +285,7 @@ procedure TfmMain.DoMoveTabToGroup(AGroupIndex: Integer);
 var
   Pages, PagesTo: TATPages;
   NTabIndex: integer;
+  Form: TForm;
 begin
   Pages:= GroupsCtx.PopupPages;
   NTabIndex:= GroupsCtx.PopupTabIndex;
@@ -298,19 +299,25 @@ begin
 
   case AGroupIndex of
     0..High(TATGroupsNums):
-      PagesTo:= Groups.Pages[AGroupIndex];
+      begin
+        Form:= nil;
+        PagesTo:= Groups.Pages[AGroupIndex];
+      end;
     6:
       begin
+        Form:= FFormFloatGroups1;
         ShowFloatGroup1:= true;
         PagesTo:= GroupsF1.Pages1;
       end;
     7:
       begin
+        Form:= FFormFloatGroups2;
         ShowFloatGroup2:= true;
         PagesTo:= GroupsF2.Pages1;
       end;
     8:
       begin
+        Form:= FFormFloatGroups3;
         ShowFloatGroup3:= true;
         PagesTo:= GroupsF3.Pages1;
       end;
@@ -318,7 +325,7 @@ begin
       exit;
   end;
 
-  GroupsCtx.MoveTab(Pages, NTabIndex, PagesTo, -1, false);
+  GroupsCtx.MoveTab(Pages, NTabIndex, PagesTo, -1, true);
 end;
 
 procedure TfmMain.mnuTabMove1Click(Sender: TObject);
