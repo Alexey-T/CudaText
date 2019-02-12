@@ -190,10 +190,10 @@ begin
             ObjLocals, //locals
             nil //globals
             );
+          DoCodetree_ApplyTreeHelperResults(Obj);
         except
         end;
 
-        DoCodetree_ApplyTreeHelperResults(Obj);
         exit(true);
       end;
 end;
