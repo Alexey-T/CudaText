@@ -8,6 +8,7 @@
 
 + add: preinstalled plugin "Snippet Panel"
 + add: TreeHelpers are handled by built-in code, and CudaTree plugin is obsolete - you must remove it (later plugin will be removed from Addon Manager)
++ add: memory usage by lexer engine was optimized (1.5...1.9 less usage)
 * change: during text/folding change, editor is repainted more often, this helps to solve issue when command "Fold all" doesn't update screen
 
 + add: lexer C improved: better code-tree
