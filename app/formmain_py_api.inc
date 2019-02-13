@@ -5443,7 +5443,7 @@ end;
 function Py_GetTokenList(Adapter: TATAdapterEControl; ALineFrom, ALineTo: integer): PPyObject;
 var
   An: TecClientSyntAnalyzer;
-  ListTokens: TList;
+  ListTokens: TecTokenList;
   Token: TecSyntToken;
   TokenStr, TokenStyle: string;
   i: integer;
@@ -5453,12 +5453,12 @@ begin
     An:= Adapter.AnClient;
     if An=nil then exit(ReturnNone);
 
-    ListTokens:= TList.Create;
+    ListTokens:= TecTokenList.Create;
     for i:= 0 to An.TagCount-1 do
     begin
       Token:= An.Tags[i];
-      if (Token.PointEnd.Y<ALineFrom) then Continue;
-      if (Token.PointStart.Y>ALineTo) then Break;
+      if (Token.Range.PointEnd.Y<ALineFrom) then Continue;
+      if (Token.Range.PointStart.Y>ALineTo) then Break;
       ListTokens.Add(Token);
     end;
 
@@ -5482,13 +5482,13 @@ begin
           'style',
           PChar(TokenStyle),
           'x1',
-          Token.PointStart.X,
+          Token.Range.PointStart.X,
           'y1',
-          Token.PointStart.Y,
+          Token.Range.PointStart.Y,
           'x2',
-          Token.PointEnd.X,
+          Token.Range.PointEnd.X,
           'y2',
-          Token.PointEnd.Y
+          Token.Range.PointEnd.Y
           ));
     end;
 
