@@ -413,27 +413,6 @@ begin
       Result:= ReturnNone;
 end;
 
-function Py_file_save(Self, Args: PPyObject): PPyObject; cdecl;
-var
-  Ok: boolean;
-  PtrName: PChar;
-  StrName: string;
-  Frame: TEditorFrame;
-begin
-  with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 's:file_save', @PtrName)) then
-    begin
-      StrName:= string(PtrName);
-      Frame:= fmMain.CurrentFrame;
-      if StrName<>'' then
-        Frame.FileName:= StrName;
-
-      Ok:= Frame.DoFileSave(false, false);
-      Result:= PyBool_FromLong(Ord(Ok));
-    end
-  else
-    Result:= ReturnNone;
-end;
 
 function Py_ed_save(Self, Args: PPyObject): PPyObject; cdecl;
 var
@@ -6898,7 +6877,6 @@ begin
     AddMethod('ed_export_html', @Py_ed_export_html, '');
 
     AddMethod('file_open', @Py_file_open, '');
-    AddMethod('file_save', @Py_file_save, '');
     AddMethod('ed_handles', @Py_ed_handles, '');
     AddMethod('ed_group', @Py_ed_group, '');
     AddMethod('ini_read', @Py_ini_read, '');
