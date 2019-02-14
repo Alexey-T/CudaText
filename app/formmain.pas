@@ -439,7 +439,7 @@ type
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure DoCodetree_StopUpdate;
-    procedure FrameAddRecent(Sender: TObject);
+    procedure FrameAddRecent(Sender: TObject; const AFileName: string);
     procedure FrameOnMsgStatus(Sender: TObject; const AStr: string);
     procedure FrameOnChangeCaretPos(Sender: TObject);
     procedure FrameOnInitAdapter(Sender: TObject);
@@ -998,7 +998,7 @@ type
     procedure UpdateMenuTabsize;
     procedure UpdateMenuThemes(AThemeUI: boolean);
     procedure UpdateMenuLexersTo(AMenu: TMenuItem);
-    procedure UpdateMenuRecent(F: TEditorFrame);
+    procedure UpdateMenuRecent(F: TEditorFrame; const AFileName: string);
     procedure UpdateMenuHotkeys;
     procedure UpdateMenuLexers;
     procedure UpdateMenuPlugins;
@@ -1944,7 +1944,9 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
-    UpdateMenuRecent(F);
+    UpdateMenuRecent(F, F.FileName);
+    if not F.EditorsLinked then
+      UpdateMenuRecent(F, F.GetFileName(F.Ed2));
   end;
 
   //after UpdateMenuRecent
@@ -2210,9 +2212,9 @@ begin
     DoPyCommand('cuda_multi_installer', 'open_menu', []);
 end;
 
-procedure TfmMain.FrameAddRecent(Sender: TObject);
+procedure TfmMain.FrameAddRecent(Sender: TObject; const AFileName: string);
 begin
-  UpdateMenuRecent(Sender as TEditorFrame);
+  UpdateMenuRecent(Sender as TEditorFrame, AFileName);
 end;
 
 procedure TfmMain.FrameOnChangeCaretPos(Sender: TObject);
@@ -2255,7 +2257,7 @@ end;
 procedure TfmMain.DoClearRecentFileHistory;
 begin
   FListRecents.Clear;
-  UpdateMenuRecent(nil);
+  UpdateMenuRecent(nil, '');
   //
   DeleteFileUTF8(GetAppPath(cFileOptionsHistoryFiles));
 end;
@@ -4021,7 +4023,7 @@ begin
   begin
     MsgBox(msgCannotFindFile+#13+fn, MB_OK or MB_ICONERROR);
     FListRecents.Delete(n);
-    UpdateMenuRecent(nil);
+    UpdateMenuRecent(nil, '');
   end;
 end;
 
@@ -5417,7 +5419,7 @@ begin
     if AMenuCmd='_recents' then
     begin
       mnuFileOpenSub:= mi;
-      UpdateMenuRecent(nil);
+      UpdateMenuRecent(nil, '');
     end
     else
     if AMenuCmd='_themes-ui' then

@@ -58,6 +58,7 @@ uses
 
 type
   TEditorFramePyEvent = function(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string of object;
+  TEditorFrameStringEvent = procedure(Sender: TObject; const S: string) of object;
 
 type
   TAppOpenMode = (
@@ -105,7 +106,7 @@ type
     FOnEditorCommand: TATSynEditCommandEvent;
     FOnEditorChangeCaretPos: TNotifyEvent;
     FOnSaveFile: TNotifyEvent;
-    FOnAddRecent: TNotifyEvent;
+    FOnAddRecent: TEditorFrameStringEvent;
     FOnPyEvent: TEditorFramePyEvent;
     FOnInitAdapter: TNotifyEvent;
     FSplitPos: double;
@@ -340,7 +341,7 @@ type
     property OnEditorCommand: TATSynEditCommandEvent read FOnEditorCommand write FOnEditorCommand;
     property OnEditorChangeCaretPos: TNotifyEvent read FOnEditorChangeCaretPos write FOnEditorChangeCaretPos;
     property OnSaveFile: TNotifyEvent read FOnSaveFile write FOnSaveFile;
-    property OnAddRecent: TNotifyEvent read FOnAddRecent write FOnAddRecent;
+    property OnAddRecent: TEditorFrameStringEvent read FOnAddRecent write FOnAddRecent;
     property OnPyEvent: TEditorFramePyEvent read FOnPyEvent write FOnPyEvent;
     property OnInitAdapter: TNotifyEvent read FOnInitAdapter write FOnInitAdapter;
   end;
@@ -1888,13 +1889,17 @@ begin
       exit;
     end;
 
+    //add to recents previous filename
+    if Assigned(FOnAddRecent) then
+      FOnAddRecent(Self, SFileName);
+
     SFileName:= SaveDialog.FileName;
     SetFileName(Ed, SFileName);
     bNameChanged:= true;
 
-    //add to recents saved-as file:
+    //add to recents new filename
     if Assigned(FOnAddRecent) then
-      FOnAddRecent(Self);
+      FOnAddRecent(Self, SFileName);
   end;
 
   PrevEnabled:= NotifEnabled;

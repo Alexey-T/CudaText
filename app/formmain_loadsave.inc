@@ -451,7 +451,7 @@ begin
     ////recents
     SLoadStringsFromFile(c, '/recent_files', FListRecents, UiOps.MaxHistoryMenu);
     SLoadStringsFromFile(c, '/list_console', fmConsole.ed.Items, UiOps.MaxHistoryEdits);
-    UpdateMenuRecent(nil);
+    UpdateMenuRecent(nil, '');
 
     ////finder
     FFinder.OptRegex:= c.GetValue('/finder/regex', false);

@@ -426,7 +426,7 @@ begin
   ListboxVal.ItemHeight:= ListboxOut.ItemHeight;
 end;
 
-procedure TfmMain.UpdateMenuRecent(F: TEditorFrame);
+procedure TfmMain.UpdateMenuRecent(F: TEditorFrame; const AFileName: string);
 var
   sub: TMenuItem;
   mi: TMenuItem;
@@ -438,10 +438,10 @@ begin
   else
   begin
     if not F.IsText then exit;
-    if F.FileName='' then exit;
+    if AFileName='' then exit;
     if F.NotInRecents then exit;
     SAddStringToHistory(
-      SCollapseHomeDirInFilename(F.FileName),
+      SCollapseHomeDirInFilename(AFileName),
       FListRecents,
       UiOps.MaxHistoryMenu);
     F.DoSaveHistory(F.Ed1);

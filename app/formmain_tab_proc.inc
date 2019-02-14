@@ -214,7 +214,10 @@ begin
 
   if ACanClose then
   begin
-    UpdateMenuRecent(Frame);
+    UpdateMenuRecent(Frame, Frame.FileName);
+    if not Frame.EditorsLinked then
+      UpdateMenuRecent(Frame, Frame.GetFileName(Frame.Ed2));
+
     Frame.Ed1.AdapterForHilite:= nil;
     Frame.Ed2.AdapterForHilite:= nil;
 

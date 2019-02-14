@@ -371,7 +371,7 @@ begin
     msgNoLexer:= ini.ReadString('ui', 'nlex', msgNoLexer);
     UpdateMenuLexers;
     msgFileClearList:= ini.ReadString('ui', 'clr', msgFileClearList);
-    UpdateMenuRecent(nil);
+    UpdateMenuRecent(nil, '');
 
     DoLocString(msgFinderHintRegex,     ini, 'ui', 'fnd_re');
     DoLocString(msgFinderHintCase,      ini, 'ui', 'fnd_case');
