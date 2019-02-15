@@ -1663,60 +1663,6 @@ begin
 end;
 
 
-function Py_ed_get_split(Self, Args: PPyObject): PPyObject; cdecl;
-var
-  H: Int64;
-  NState: integer;
-  NValue: double;
-  Ed: TATSynEdit;
-  F: TEditorFrame;
-begin
-  with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'L:get_split', @H)) then
-    begin
-      Ed:= PyEditor(H);
-      F:= GetEditorFrame(Ed);
-      if F=nil then exit(ReturnNone);
-
-      NValue:= F.SplitPos;
-      if not F.Splitted then NState:= TAB_SPLIT_NO else
-        if F.SplitHorz then NState:= TAB_SPLIT_HORZ else
-          NState:= TAB_SPLIT_VERT;
-
-      Result:= Py_BuildValue('(id)', NState, NValue);
-    end
-  else
-    Result:= ReturnNone;
-end;
-
-
-function Py_ed_set_split(Self, Args: PPyObject): PPyObject; cdecl;
-var
-  H: Int64;
-  NState: integer;
-  NValue: double;
-  Ed: TATSynEdit;
-  F: TEditorFrame;
-begin
-  with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Lid:set_split', @H, @NState, @NValue)) then
-    begin
-      Ed:= PyEditor(H);
-      F:= GetEditorFrame(Ed);
-      if F=nil then exit(ReturnNone);
-
-      case NState of
-        TAB_SPLIT_NO: begin F.Splitted:= false; end;
-        TAB_SPLIT_HORZ: begin F.Splitted:= true; F.SplitHorz:= true; end;
-        TAB_SPLIT_VERT: begin F.Splitted:= true; F.SplitHorz:= false; end;
-      end;
-      F.SplitPos:= NValue;
-      Result:= ReturnNone;
-    end
-  else
-    Result:= ReturnNone;
-end;
-
 function Py_ed_handles(Self, Args : PPyObject): PPyObject; cdecl;
 var
   nMin, nMax: integer;
@@ -6849,8 +6795,6 @@ begin
     AddMethod('ed_replace_lines', @Py_ed_replace_lines, '');
 
     Addmethod('ed_get_filename', @Py_ed_get_filename, '');
-    AddMethod('ed_get_split', @Py_ed_get_split, '');
-    AddMethod('ed_set_split', @Py_ed_set_split, '');
     AddMethod('ed_get_prop', @Py_ed_get_prop, '');
     AddMethod('ed_set_prop', @Py_ed_set_prop, '');
     AddMethod('ed_folding', @Py_ed_folding, '');

@@ -109,10 +109,6 @@ MARKERS_DELETE_ALL    = 2
 MARKERS_DELETE_LAST   = 3
 MARKERS_DELETE_BY_TAG = 4
 
-TAB_SPLIT_NO   = 0
-TAB_SPLIT_HORZ = 1
-TAB_SPLIT_VERT = 2
-
 TIMER_START     = 0
 TIMER_START_ONE = 1
 TIMER_STOP      = 2
@@ -1063,11 +1059,6 @@ class Editor:
         return ct.ed_lock(self.h)
     def unlock(self):
         return ct.ed_unlock(self.h)
-
-    def get_split(self):
-        return ct.ed_get_split(self.h)
-    def set_split(self, state, value):
-        return ct.ed_set_split(self.h, state, value)
 
     def get_prop(self, id, value=''):
         value = to_str(value)
