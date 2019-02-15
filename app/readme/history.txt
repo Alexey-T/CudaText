@@ -6,12 +6,11 @@
 
 1.75.0 (2019/02)
 
++ add: much improved memory usage by lexer engine (1.5...1.8 less memory on 2M+ size files)
++ add: much improved scrolling speed on big files with lexer (3M+ size)
 + add: preinstalled plugin "Snippet Panel"
 + add: TreeHelpers are handled by built-in code, and CudaTree plugin is obsolete - you must remove it (later plugin will be removed from Addon Manager)
-+ add: much improved memory usage by lexer engine (1.5...1.9 less usage on big files)
-+ add: much improved scrolling speed on big files with lexer (3-10Mb)
 * change: during text/folding change, editor is repainted more often, this helps to solve issue when command "Fold all" doesn't update screen
-
 + add: lexer C improved: better code-tree
 
 1.74.0 (2019/02)
