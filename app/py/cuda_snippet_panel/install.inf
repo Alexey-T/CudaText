@@ -12,5 +12,5 @@ method=open_dlg
 
 [sidebar1]
 hint=Snippet Panel
-icon={dir}/snip.png
+icon=snip.png
 method=open_dlg
