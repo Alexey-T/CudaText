@@ -1156,16 +1156,6 @@ Example opens untitled tab, and writes multi-line text to it:
   ed.set_text_all(text)
 </syntaxhighlight>
 
-===file_save===
-
- file_save(filename="")
-
-Saves current tab to disk.
-
-Shows save-as dialog for untitled tab.
-If param "filename" not empty, it overrides current file name, and untitled tab becomes titled.
-Gets bool: file was saved.
-
 ===ed_handles===
 
  ed_handles()
@@ -3278,5 +3268,9 @@ def project_variables():
 * add: Editor.gap: added params "size", "color"
 * add: app_proc: PROC_SIDEPANEL_GET
 * add: app_proc: PROC_BOTTOMPANEL_GET
+
+1.0.274 (app 1.74.7)
+* deleted deprecated: file_save()
+* Editor.gap: no longer limit for gap height
 
 [[Category:CudaText]]

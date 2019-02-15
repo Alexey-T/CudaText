@@ -834,9 +834,6 @@ def file_open(name, group=-1, options=''):
     else:
         return ct.file_open(name, '', group, options)
 
-def file_save(filename=''):
-    return ct.file_save(filename)
-
 def ed_handles():
     r0, r1 = ct.ed_handles()
     return range(r0, r1+1)
