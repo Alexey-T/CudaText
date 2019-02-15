@@ -4,3 +4,6 @@ https://octicons.github.com/
 output icon - By Kirill Kazachek https://www.iconfinder.com/kirill.kazachek
 font icon - By Dave Gandy http://fontawesome.io/
             License: http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL
+snippet icon - by  Becris .  https://www.iconfinder.com/becris
+               https://www.iconfinder.com/iconsets/essential-web-2
+               License: Free for commercial use
