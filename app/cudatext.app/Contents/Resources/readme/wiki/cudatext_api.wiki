@@ -3261,7 +3261,7 @@ def project_variables():
 * add: Editor.get_prop: PROP_HANDLE_SELF, PROP_HANDLE_PRIMARY, PROP_HANDLE_SECONDARY
 * add: Editor.get_prop: PROP_RECT_CLIENT, PROP_RECT_TEXT
 * change: deleted object "ed_bro"
-* deprecated: file_save(), use ed.save() instead
+* deprecated: file_save(); use ed.save() instead
 * deprecated: Editor.get_split, Editor.set_split; use PROP_SPLIT instead
 
 1.0.273 (app 1.74.1)
@@ -3271,6 +3271,7 @@ def project_variables():
 
 1.0.274 (app 1.74.7)
 * deleted deprecated: file_save()
-* Editor.gap: no longer limit for gap height
+* deleted deprecated: Editor.get_split, Editor.set_split
+* add: Editor.gap: no limit for gap height
 
 [[Category:CudaText]]
