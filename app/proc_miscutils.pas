@@ -322,7 +322,7 @@ begin
   //fix result: make millisec=0, make seconds even int
   DecodeTime(ADate, NHour, NMinute, NSec, NMilSec);
   NMilSec:= 0;
-  NSec:= NSec div 2 * 2;
+  //NSec:= NSec div 2 * 2;
   DTime:= EncodeTime(NHour, NMinute, NSec, NMilSec);
   Result:= FormatDateTime('yyyy-mm-dd_hh-nn-ss', ComposeDateTime(ADate, DTime));
 end;
