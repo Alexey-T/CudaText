@@ -241,6 +241,7 @@ const
   _InitOptSpaceXRight = 10;
   _InitOptSpaceXInner = 3;
   _InitOptSpaceXSize = 12;
+  _InitOptSpaceXIncrementRound = 1;
   _InitOptArrowSize = 4;
   _InitOptArrowSpaceLeft = 4;
   _InitOptColoredBandSize = 4;
@@ -262,6 +263,7 @@ const
   _InitOptShowScrollMark = true;
   _InitOptShowDropMark = true;
   _InitOptShowArrowsNear = true;
+  _InitOptShowXRounded = true;
   _InitOptShowXButtons = atbxShowAll;
   _InitOptShowPlusTab = true;
   _InitOptShowModifiedText = '*';
@@ -269,6 +271,7 @@ const
   _InitOptShowEntireColor = false;
   _InitOptShowAngled = false;
   _InitOptShowAngleTangent = 2.6;
+  _InitRoundedBitmapSize = 60;
 
   _InitOptMouseMiddleClickClose = true;
   _InitOptMouseDoubleClickClose = true;
@@ -344,6 +347,7 @@ type
     FOptSpaceXRight: integer; //space from "x" btn to right tab edge
     FOptSpaceXInner: integer; //space from "x" square edge to "x" mark
     FOptSpaceXSize: integer; //size of "x" mark
+    FOptSpaceXIncrementRound: integer;
     FOptColoredBandSize: integer; //height of "misc color" line
     FOptColoredBandForTop: TATTabPosition;
     FOptColoredBandForBottom: TATTabPosition;
@@ -361,6 +365,7 @@ type
     FOptCaptionAlignment: TAlignment;
     FOptShowFlat: boolean;
     FOptShowFlatSepar: boolean;
+    FOptShowXRounded: boolean;
     FOptShowXButtons: TATTabShowClose; //show mode for "x" buttons
     FOptShowArrowsNear: boolean;
     FOptShowPlusTab: boolean; //show "plus" tab
@@ -405,6 +410,7 @@ type
     FScrollPos: integer;
     FImages: TImageList;
     FBitmap: TBitmap;
+    FBitmapRound: TBitmap;
 
     FRectArrowDown: TRect;
     FRectArrowLeft: TRect;
@@ -657,6 +663,7 @@ type
     property OptSpaceXRight: integer read FOptSpaceXRight write FOptSpaceXRight default _InitOptSpaceXRight;
     property OptSpaceXInner: integer read FOptSpaceXInner write FOptSpaceXInner default _InitOptSpaceXInner;
     property OptSpaceXSize: integer read FOptSpaceXSize write FOptSpaceXSize default _InitOptSpaceXSize;
+    property OptSpaceXIncrementRound: integer read FOptSpaceXIncrementRound write FOptSpaceXIncrementRound default _InitOptSpaceXIncrementRound;
     property OptColoredBandSize: integer read FOptColoredBandSize write FOptColoredBandSize default _InitOptColoredBandSize;
     property OptColoredBandForTop: TATTabPosition read FOptColoredBandForTop write FOptColoredBandForTop default atpTop;
     property OptColoredBandForBottom: TATTabPosition read FOptColoredBandForBottom write FOptColoredBandForBottom default atpBottom;
@@ -678,6 +685,7 @@ type
     property OptShowFlatSepar: boolean read FOptShowFlatSepar write FOptShowFlatSepar default _InitOptShowFlatSep;
     property OptShowScrollMark: boolean read FOptShowScrollMark write FOptShowScrollMark default _InitOptShowScrollMark;
     property OptShowDropMark: boolean read FOptShowDropMark write FOptShowDropMark default _InitOptShowDropMark;
+    property OptShowXRounded: boolean read FOptShowXRounded write FOptShowXRounded default _InitOptShowXRounded;
     property OptShowXButtons: TATTabShowClose read FOptShowXButtons write FOptShowXButtons default _InitOptShowXButtons;
     property OptShowPlusTab: boolean read FOptShowPlusTab write FOptShowPlusTab default _InitOptShowPlusTab;
     property OptShowArrowsNear: boolean read FOptShowArrowsNear write FOptShowArrowsNear default _InitOptShowArrowsNear;
@@ -1071,6 +1079,7 @@ begin
   FOptSpaceXRight:= _InitOptSpaceXRight;
   FOptSpaceXInner:= _InitOptSpaceXInner;
   FOptSpaceXSize:= _InitOptSpaceXSize;
+  FOptSpaceXIncrementRound:= _InitOptSpaceXIncrementRound;
   FOptArrowSize:= _InitOptArrowSize;
   FOptColoredBandSize:= _InitOptColoredBandSize;
   FOptColoredBandForTop:= atpTop;
@@ -1093,6 +1102,7 @@ begin
   FOptShowNumberPrefix:= _InitOptShowNumberPrefix;
   FOptShowScrollMark:= _InitOptShowScrollMark;
   FOptShowDropMark:= _InitOptShowDropMark;
+  FOptShowXRounded:= _InitOptShowXRounded;
   FOptShowXButtons:= _InitOptShowXButtons;
   FOptShowPlusTab:= _InitOptShowPlusTab;
   FOptShowArrowsNear:= _InitOptShowArrowsNear;
@@ -1122,6 +1132,11 @@ begin
   FBitmap.PixelFormat:= pf24bit;
   FBitmap.Width:= 1600;
   FBitmap.Height:= 60;
+
+  FBitmapRound:= TBitmap.Create;
+  FBitmapRound.PixelFormat:= pf24bit;
+  FBitmapRound.Width:= _InitRoundedBitmapSize;
+  FBitmapRound.Height:= _InitRoundedBitmapSize;
 
   FTabIndex:= 0;
   FTabIndexOver:= -1;
@@ -1153,6 +1168,7 @@ begin
   Clear;
   FreeAndNil(FCaptionList);
   FreeAndNil(FTabList);
+  FreeAndNil(FBitmapRound);
   FreeAndNil(FBitmap);
   inherited;
 end;
@@ -1459,12 +1475,42 @@ procedure TATTabs.DoPaintXTo(C: TCanvas; const R: TRect;
   ATabBg, ATabCloseBg, ATabCloseBorder, ATabCloseXMark: TColor);
 var
   PX1, PX2, PX3, PX4, PXX1, PXX2: TPoint;
+  RectRound, RectBitmap: TRect;
 begin
-  C.Brush.Color:= IfThen(ATabCloseBg<>clNone, ATabCloseBg, ATabBg);
-  C.FillRect(R);
-  C.Pen.Color:= IfThen(ATabCloseBorder<>clNone, ATabCloseBorder, ATabBg);
-  C.Rectangle(R);
-  C.Brush.Color:= ATabBg;
+  if FOptShowXRounded then
+  begin
+    if ATabCloseBg<>clNone then
+    begin
+      RectRound:= R;
+      InflateRect(RectRound, FOptSpaceXIncrementRound, FOptSpaceXIncrementRound);
+
+      RectBitmap.Left:= 0;
+      RectBitmap.Top:= 0;
+      RectBitmap.Right:= FBitmapRound.Width;
+      RectBitmap.Bottom:= RectBitmap.Right;
+
+      FBitmapRound.Canvas.Brush.Color:= IfThen(FOptShowFlat, FColorBg, ATabBg);
+      FBitmapRound.Canvas.FillRect(RectBitmap);
+
+      FBitmapRound.Canvas.Brush.Color:= ATabCloseBg;
+      FBitmapRound.Canvas.Pen.Color:= ATabCloseBorder;
+      FBitmapRound.Canvas.Ellipse(RectBitmap);
+
+      C.StretchDraw(RectRound, FBitmapRound);
+    end
+    else
+    begin
+      C.Brush.Color:= ATabBg;
+      C.FillRect(R);
+    end;
+  end
+  else
+  begin
+    C.Brush.Color:= IfThen(ATabCloseBg<>clNone, ATabCloseBg, ATabBg);
+    C.FillRect(R);
+    C.Pen.Color:= IfThen(ATabCloseBorder<>clNone, ATabCloseBorder, ATabBg);
+    C.Rectangle(R);
+  end;
 
   //paint cross by 2 polygons, each has 6 points (3 points at line edge)
   C.Brush.Color:= ATabCloseXMark;
