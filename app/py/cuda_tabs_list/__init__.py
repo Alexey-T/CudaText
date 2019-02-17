@@ -70,8 +70,8 @@ class Command:
         for h in handles:
             edit = Editor(h)
             image_index = h-handles[0]
-            prefix_mod = '*' if edit.get_prop(PROP_MODIFIED) else ''
-            name = prefix_mod + edit.get_prop(PROP_TAB_TITLE)
+            #prefix_mod = '*' if edit.get_prop(PROP_MODIFIED) else ''
+            name = edit.get_prop(PROP_TAB_TITLE)
             h_item = tree_proc(self.h_tree, TREE_ITEM_ADD, 0, -1, name, image_index)
             if edit.get_prop(PROP_TAG)=='tag':
                 tree_proc(self.h_tree, TREE_ITEM_SELECT, h_item)
