@@ -410,6 +410,7 @@ type
     FScrollPos: integer;
     FImages: TImageList;
     FBitmap: TBitmap;
+    FBitmapAngle: TBitmap;
     FBitmapRound: TBitmap;
 
     FRectArrowDown: TRect;
@@ -861,6 +862,29 @@ begin
 end;
 
 
+procedure CanvasStretchDraw(C: TCanvas; const R: TRect; Bmp: TBitmap); {$ifdef fpc}inline;{$endif}
+begin
+  {$ifdef fpc}
+  C.StretchDraw(R, Bmp);
+  {$else}
+  //Delphi: StretchDraw cannot draw smooth
+  StretchBlt(
+    C.Handle, R.Left, R.Top, R.Right-R.Left, R.Bottom-R.Top,
+    Bmp.Canvas.Handle, 0, 0, Bmp.Width, Bmp.Height,
+    C.CopyMode);
+  {$endif}
+end;
+
+procedure BitmapSetSize(b: TBitmap; W, H: integer); {$ifdef fpc}inline;{$endif}
+begin
+  {$ifdef fpc}
+  b.SetSize(W, H);
+  {$else}
+  b.Width:= W;
+  b.Height:= H;
+  {$endif}
+end;
+
 type
   TATMissedPoint = (
     ampnTopLeft,
@@ -872,21 +896,14 @@ type
 procedure DrawTriangleRectFramed(C: TCanvas;
   AX, AY, ASizeX, ASizeY, AScale: integer;
   ATriKind: TATMissedPoint;
-  AColorFill, AColorLine: TColor);
+  AColorFill, AColorLine: TColor;
+  b: TBitmap);
 var
-  b: TBitmap;
   p0, p1, p2, p3: TPoint;
   line1, line2: TPoint;
   ar: array[0..2] of TPoint;
 begin
-  b:= TBitmap.Create;
-  try
-    {$ifdef fpc}
-    b.SetSize(ASizeX*AScale, ASizeY*AScale);
-    {$else}
-    b.Width:= ASizeX*AScale;
-    b.Height:= ASizeY*AScale;
-    {$endif}
+    BitmapSetSize(b, ASizeX*AScale, ASizeY*AScale);
 
     p0:= Point(0, 0);
     p1:= Point(b.Width, 0);
@@ -919,18 +936,7 @@ begin
     b.Canvas.LineTo(line2.X, line2.Y);
     b.Canvas.Pen.Width:= 1;
 
-    {$ifdef fpc}
-    C.StretchDraw(Rect(AX, AY, AX+ASizeX, AY+ASizeY), b);
-    {$else}
-    //Delphi: StretchDraw cannot draw smooth
-    StretchBlt(
-      C.Handle, AX, AY, ASizeX, ASizeY,
-      b.Canvas.Handle, 0, 0, b.Width, b.Height,
-      C.CopyMode);
-    {$endif}
-  finally
-    b.Free;
-  end;
+    CanvasStretchDraw(C, Rect(AX, AY, AX+ASizeX, AY+ASizeY), b);
 end;
 
 function _ShortenStringEx(C: TCanvas;
@@ -1130,13 +1136,14 @@ begin
 
   FBitmap:= TBitmap.Create;
   FBitmap.PixelFormat:= pf24bit;
-  FBitmap.Width:= 1600;
-  FBitmap.Height:= 60;
+  BitmapSetSize(FBitmap, 1600, 60);
+
+  FBitmapAngle:= TBitmap.Create;
+  FBitmapAngle.PixelFormat:= pf24bit;
 
   FBitmapRound:= TBitmap.Create;
   FBitmapRound.PixelFormat:= pf24bit;
-  FBitmapRound.Width:= _InitRoundedBitmapSize;
-  FBitmapRound.Height:= _InitRoundedBitmapSize;
+  BitmapSetSize(FBitmapRound, _InitRoundedBitmapSize, _InitRoundedBitmapSize);
 
   FTabIndex:= 0;
   FTabIndexOver:= -1;
@@ -1169,6 +1176,7 @@ begin
   FreeAndNil(FCaptionList);
   FreeAndNil(FTabList);
   FreeAndNil(FBitmapRound);
+  FreeAndNil(FBitmapAngle);
   FreeAndNil(FBitmap);
   inherited;
 end;
@@ -1413,7 +1421,8 @@ begin
             cSmoothScale,
             ampnTopLeft,
             AColorBg,
-            AColorBorder);
+            AColorBorder,
+            FBitmapAngle);
           DrawTriangleRectFramed(C,
             ARect.Right-1,
             ARect.Top,
@@ -1422,7 +1431,8 @@ begin
             cSmoothScale,
             ampnTopRight,
             AColorBg,
-            AColorBorder);
+            AColorBorder,
+            FBitmapAngle);
         end;
       atpBottom:
         begin
@@ -1434,7 +1444,8 @@ begin
             cSmoothScale,
             ampnBottomLeft,
             AColorBg,
-            AColorBorder);
+            AColorBorder,
+            FBitmapAngle);
           DrawTriangleRectFramed(C,
             ARect.Right-1,
             ARect.Top+IfThen(not ATabActive, 1),
@@ -1443,7 +1454,8 @@ begin
             cSmoothScale,
             ampnBottomRight,
             AColorBg,
-            AColorBorder);
+            AColorBorder,
+            FBitmapAngle);
         end;
     end;
 
@@ -1496,7 +1508,7 @@ begin
       FBitmapRound.Canvas.Pen.Color:= ATabCloseBorder;
       FBitmapRound.Canvas.Ellipse(RectBitmap);
 
-      C.StretchDraw(RectRound, FBitmapRound);
+      CanvasStretchDraw(C, RectRound, FBitmapRound);
     end
     else
     begin
@@ -2629,10 +2641,7 @@ procedure TATTabs.Resize;
 begin
   inherited;
   if Assigned(FBitmap) then
-  begin
-    FBitmap.Width:= Max(FBitmap.Width, Width);
-    FBitmap.Height:= Max(FBitmap.Height, Height);
-  end;
+    BitmapSetSize(FBitmap, Max(FBitmap.Width, Width), Max(FBitmap.Height, Height));
   Invalidate;
 end;
 
