@@ -1,4 +1,4 @@
-object SyntAnal16: TLibSyntAnalyzer
+object SyntAnal11: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -227,7 +227,9 @@ object SyntAnal16: TLibSyntAnalyzer
     'Symbol'
     'String'
     'Number')
-  Extentions = 'json'
+  Extentions = 
+    'avsc babelrc bowerrc geojson gltf ipynb jscsrc jshintrc jslintrc' +
+    ' json jsonl jsonld ldj ldjson schema template topojson webapp'
   LexerName = 'JSON'
   Notes.Strings = (
     'Alexey (CudaText)'

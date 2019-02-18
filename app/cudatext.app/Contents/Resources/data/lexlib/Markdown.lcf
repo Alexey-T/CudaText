@@ -421,7 +421,6 @@ object SyntAnal14: TLibSyntAnalyzer
   BlockRules = <
     item
       DisplayName = 'Header'
-      Enabled = False
       ConditionList = <
         item
           TokenTypes = 1

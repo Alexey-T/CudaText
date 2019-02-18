@@ -1005,23 +1005,31 @@ class Editor:
 
     def get_text_all(self):
         return ct.ed_get_text_all(self.h)
+
     def set_text_all(self, text):
         return ct.ed_set_text_all(self.h, text)
+
     def get_text_sel(self):
         return ct.ed_get_text_sel(self.h)
+
     def get_text_line(self, num):
         return ct.ed_get_text_line(self.h, num)
+
     def set_text_line(self, num, text):
         return ct.ed_set_text_line(self.h, num, text)
+
     def get_text_substr(self, x1, y1, x2, y2):
         return ct.ed_get_text_substr(self.h, x1, y1, x2, y2)
 
     def get_sel_mode(self):
         return ct.ed_get_sel_mode(self.h)
+
     def get_sel_lines(self):
         return ct.ed_get_sel_lines(self.h)
+
     def get_sel_rect(self):
         return ct.ed_get_sel_rect(self.h)
+
     def set_sel_rect(self, x1, y1, x2, y2):
         return ct.ed_set_sel_rect(self.h, x1, y1, x2, y2)
 
@@ -1057,6 +1065,7 @@ class Editor:
 
     def lock(self):
         return ct.ed_lock(self.h)
+
     def unlock(self):
         return ct.ed_unlock(self.h)
 
@@ -1085,6 +1094,7 @@ class Editor:
 
     def complete(self, text, len1, len2, selected=0, alt_order=False):
         return ct.ed_complete(self.h, text, len1, len2, selected, alt_order)
+
     def complete_alt(self, text, snippet_id, len_chars, selected=0):
         return ct.ed_complete_alt(self.h, text, snippet_id, len_chars, selected)
 
@@ -1155,6 +1165,7 @@ class Editor:
             self.get_prop(PROP_INDEX_GROUP),
             self.get_prop(PROP_INDEX_TAB)
             )
+
     def __repr__(self):
         return self.__str__()
     #end

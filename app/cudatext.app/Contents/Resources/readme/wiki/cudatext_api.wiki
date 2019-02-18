@@ -1873,28 +1873,8 @@ Gets number of lines.
 
 Gets filename (str) of the editor's tab.
 
-* Empty str for untitled tab.
-* String "?" if picture file loaded in tab.
-
-===get_split===
-
- get_split()
-
-Gets tab splitting: each tab can be splitted to primary/second editors.
-
-Gets 2-tuple: (state, percent):
-
-* "state": int: state of splitting, one of the values
-** TAB_SPLIT_NO: tab is not splitted
-** TAB_SPLIT_HORZ: tab is splitted horizontally
-** TAB_SPLIT_VERT: tab is splitted vertically
-* "percent": float: percent of splitting, e.g. it's 0.5 if tab splitted 50/50.
-
-===set_split===
-
- set_split(state, percent)
-
-Sets tab splitting. Meaning of params is the same as for get_split().
+* Empty string for untitled tab.
+* String "?" if tab contains not normal text editor. See: get_prop(PROP_KIND).
 
 ===get_prop===
 
