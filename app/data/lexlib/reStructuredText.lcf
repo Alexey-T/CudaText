@@ -224,7 +224,20 @@ object SyntAnal21: TLibSyntAnalyzer
       ColumnFrom = 0
       ColumnTo = 0
     end>
-  BlockRules = <>
+  BlockRules = <
+    item
+      DisplayName = 'Header'
+      ConditionList = <
+        item
+          TokenTypes = 1
+        end>
+      EndOfTextClose = True
+      NameFmt = '%sz0'
+      HighlightPos = cpAny
+      CollapseFmt = '%sz0'
+      SelfClose = True
+      IgnoreAsParent = False
+    end>
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
