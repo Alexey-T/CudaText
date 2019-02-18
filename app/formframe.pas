@@ -312,11 +312,10 @@ type
     procedure DoFileReload;
     procedure DoLexerFromFilename(Ed: TATSynEdit; const AFileName: string);
     procedure DoSaveHistory(Ed: TATSynEdit);
-    procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: string);
+    procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
     procedure DoSaveUndo(Ed: TATSynEdit; const AFileName: string);
     procedure DoLoadHistory(Ed: TATSynEdit);
-    procedure DoLoadHistoryEx(Ed: TATSynEdit; const AFileName: string;
-      c: TJsonConfig; const path: string);
+    procedure DoLoadHistoryEx(Ed: TATSynEdit; const AFileName: string; c: TJsonConfig; const path: UnicodeString);
     procedure DoLoadUndo(Ed: TATSynEdit);
     //misc
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
@@ -2380,7 +2379,8 @@ end;
 procedure TEditorFrame.DoSaveHistory(Ed: TATSynEdit);
 var
   c: TJSONConfig;
-  path, SFileName: string;
+  SFileName: string;
+  path: UnicodeString;
   items: TStringlist;
 begin
   if not FSaveHistory then exit;
@@ -2399,14 +2399,14 @@ begin
       exit
     end;
 
-    path:= SMaskFilenameSlashes(SFileName);
+    path:= UTF8Decode(SMaskFilenameSlashes(SFileName));
     items:= TStringList.Create;
     try
       c.DeletePath(path);
       c.EnumSubKeys('/', items);
       while items.Count>=UiOps.MaxHistoryFiles do
       begin
-        c.DeletePath('/'+items[0]);
+        c.DeletePath(UTF8Decode('/'+items[0]));
         items.Delete(0);
       end;
     finally
@@ -2419,7 +2419,7 @@ begin
   end;
 end;
 
-procedure TEditorFrame.DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: string);
+procedure TEditorFrame.DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
 var
   caret: TATCaretItem;
   items, items2: TStringList;
@@ -2515,6 +2515,7 @@ procedure TEditorFrame.DoLoadHistory(Ed: TATSynEdit);
 var
   c: TJSONConfig;
   SFileName: string;
+  path: UnicodeString;
 begin
   SFileName:= GetFileName(Ed);
   if SFileName='' then exit;
@@ -2530,14 +2531,15 @@ begin
       exit
     end;
 
-    DoLoadHistoryEx(Ed, SFileName, c, SMaskFilenameSlashes(SFileName));
+    path:= UTF8Decode(SMaskFilenameSlashes(SFileName));
+    DoLoadHistoryEx(Ed, SFileName, c, path);
   finally
     c.Free;
   end;
 end;
 
 
-procedure TEditorFrame.DoLoadHistoryEx(Ed: TATSynEdit; const AFileName: string; c: TJsonConfig; const path: string);
+procedure TEditorFrame.DoLoadHistoryEx(Ed: TATSynEdit; const AFileName: string; c: TJsonConfig; const path: UnicodeString);
 var
   str, str0: string;
   Caret: TATCaretItem;
