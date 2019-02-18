@@ -6,6 +6,7 @@
 
 1.75.2 (2019/02)
 
++ add: UI tabs: round X mark on mouse-over
 + add: HTML color underline supports "hsl", "hsla" functions
 
 1.75.0 (2019/02)
