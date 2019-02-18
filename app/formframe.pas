@@ -2551,7 +2551,8 @@ begin
   BmData.ShowInBookmarkList:= true;
 
   //file not listed?
-  if c.GetValue(path+cHistory_Top, -1)<0 then exit;
+  nTop:= c.GetValue(path+cHistory_Top, -1);
+  if nTop<0 then exit;
 
   //lexer
   str0:= LexerName[Ed];
@@ -2588,8 +2589,6 @@ begin
   Ed.OptUnprintedSpaces:= c.GetValue(path+cHistory_Unpri_Spaces, Ed.OptUnprintedSpaces);
   Ed.OptUnprintedEnds:= c.GetValue(path+cHistory_Unpri_Ends, Ed.OptUnprintedEnds);
   Ed.OptUnprintedEndsDetails:= c.GetValue(path+cHistory_Unpri_Detail, Ed.OptUnprintedEndsDetails);
-
-  nTop:= c.GetValue(path+cHistory_Top, 0);
 
   if Assigned(Lexer[Ed]) then
   begin
