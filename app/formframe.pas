@@ -16,6 +16,7 @@ uses
   ExtCtrls, Menus, StdCtrls, StrUtils, ComCtrls, Clipbrd,
   LCLIntf, LCLProc, LCLType, LazUTF8, LazFileUtils, FileUtil,
   LConvEncoding,
+  GraphUtil,
   ATTabs,
   ATGroups,
   ATSynEdit,
@@ -625,12 +626,14 @@ procedure TEditorFrame.EditorOnDrawLine(Sender: TObject; C: TCanvas; AX,
   const AExtent: TATIntArray);
 const
   cRegexRGB = 'rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(,\s*[\.\d]+\s*)?\)';
+  cRegexHSL = 'hsla?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*(,\s*[\.\d%]+\s*)?\)';
 var
   X1, X2, Y, NLen: integer;
   NColor: TColor;
   Parts: TRegexParts;
   Ch: atChar;
   ValueR, ValueG, ValueB: byte;
+  ValueH, ValueS, ValueL: word;
   i: integer;
 begin
   if AStr='' then Exit;
@@ -684,7 +687,34 @@ begin
           C.Brush.Color:= NColor;
           C.FillRect(X1, Y-EditorOps.OpUnderlineColorSize, X2, Y);
         end;
-    end;
+    end
+    else
+    if (Ch='h') and //fast check
+      (Copy(AStr, i, 3)='hsl') and //slow check
+      (i>1) and not IsCharWord(AStr[i-1], '') //word boundary
+      then
+      begin
+        if SRegexFindParts(cRegexHSL, Copy(AStr, i, MaxInt), Parts) then
+          if Parts[0].Pos=1 then //need at i-th char
+          begin
+            ValueH:= StrToIntDef(Parts[1].Str, 0) * 255 div 360; //degrees -> 0..255
+            ValueS:= StrToIntDef(Parts[2].Str, 0) * 255 div 100; //percents -> 0..255
+            ValueL:= StrToIntDef(Parts[3].Str, 0) * 255 div 100; //percents -> 0..255
+
+            NColor:= HLStoColor(ValueH, ValueL, ValueS);
+            NLen:= Parts[0].Len;
+
+            if i-2>=0 then
+              X1:= AX+AExtent[i-2]
+            else
+              X1:= AX;
+            X2:= AX+AExtent[i-2+NLen];
+            Y:= AY+ACharSize.Y;
+
+            C.Brush.Color:= NColor;
+            C.FillRect(X1, Y-EditorOps.OpUnderlineColorSize, X2, Y);
+          end;
+      end;
   end;
 end;
 

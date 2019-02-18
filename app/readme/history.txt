@@ -4,6 +4,10 @@
   * changed
 
 
+1.75.2 (2019/02)
+
++ add: HTML color underline supports "hsl", "hsla" functions
+
 1.75.0 (2019/02)
 
 + add: much improved memory usage by lexer engine (1.5...1.8 less memory on 2M+ size files)
