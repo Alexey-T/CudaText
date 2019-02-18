@@ -664,7 +664,7 @@ begin
     //find "rgb(...)"
     if (Ch='r') and //fast check
        (Copy(AStr, i, 3)='rgb') and //slow check
-       (i>1) and not IsCharWord(AStr[i-1], '') //word boundary
+       ((i=1) or not IsCharWord(AStr[i-1], '')) //word boundary
     then
     begin
       if SRegexFindParts(cRegexRGB, Copy(AStr, i, MaxInt), Parts) then
@@ -691,7 +691,7 @@ begin
     else
     if (Ch='h') and //fast check
       (Copy(AStr, i, 3)='hsl') and //slow check
-      (i>1) and not IsCharWord(AStr[i-1], '') //word boundary
+      ((i=1) or not IsCharWord(AStr[i-1], '')) //word boundary
       then
       begin
         if SRegexFindParts(cRegexHSL, Copy(AStr, i, MaxInt), Parts) then
