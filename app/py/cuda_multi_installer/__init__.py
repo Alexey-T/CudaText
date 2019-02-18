@@ -243,8 +243,8 @@ class Command:
                 for i in to_install[T_LINTER]:
                     self.install(T_LINTER,i)
             if to_install[T_TREE]:
-                if not self.is_installed(T_OTHER,'CudaTree'):
-                    self.install(T_OTHER,'CudaTree')
+                #if not self.is_installed(T_OTHER,'CudaTree'):
+                #    self.install(T_OTHER,'CudaTree')
                 for i in to_install[T_TREE]:
                     self.install(T_TREE,i)
             if to_install[T_SNIP]:
