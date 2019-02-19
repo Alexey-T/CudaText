@@ -639,7 +639,7 @@ begin
   if not IsFilenameListedInExtensionList(FileName, EditorOps.OpUnderlineColorFiles)
     then exit;
 
-  for i:= 1 to Length(AStr) do
+  for i:= 1 to Length(AStr)-3 do
   begin
     Ch:= AStr[i];
 
@@ -661,8 +661,9 @@ begin
     end
     else
     //find "rgb(...)"
-    if (Ch='r') and //fast check
-       (Copy(AStr, i, 3)='rgb') and //slow check
+    if (Ch='r') and
+      (AStr[i+1]='g') and
+      (AStr[i+2]='b') and
        ((i=1) or not IsCharWord(AStr[i-1], '')) //word boundary
     then
     begin
@@ -688,8 +689,9 @@ begin
         end;
     end
     else
-    if (Ch='h') and //fast check
-      (Copy(AStr, i, 3)='hsl') and //slow check
+    if (Ch='h') and
+      (AStr[i+1]='s') and
+      (AStr[i+2]='l') and
       ((i=1) or not IsCharWord(AStr[i-1], '')) //word boundary
       then
       begin
