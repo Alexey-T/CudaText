@@ -8,6 +8,8 @@
 
 + add: UI tabs: round X mark on mouse-over
 + add: HTML color underline supports "hsl", "hsla" functions
+- fix: issue with highlighting in e.g. Bash lexer
+- fix: cannot set none-lexer after lite lexer
 
 1.75.0 (2019/02)
 

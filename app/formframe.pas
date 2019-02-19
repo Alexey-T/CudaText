@@ -922,6 +922,24 @@ var
   SName: string;
   anLite: TATLiteLexer;
 begin
+  if AValue='' then
+  begin
+    if EditorsLinked then
+    begin
+      Adapter1.Lexer:= nil;
+      Ed1.AdapterForHilite:= nil;
+      Ed2.AdapterForHilite:= nil;
+      UpdateEds;
+    end
+    else
+    begin
+      Lexer[Ed]:= nil;
+      Ed.AdapterForHilite:= nil;
+      Ed.Update;
+    end;
+    exit;
+  end;
+
   if SEndsWith(AValue, msgLiteLexerSuffix) then
   begin
     SName:= Copy(AValue, 1, Length(AValue)-Length(msgLiteLexerSuffix));
