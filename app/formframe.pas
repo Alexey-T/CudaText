@@ -672,9 +672,9 @@ begin
       if SRegexFindParts(cRegexRGB, Copy(AStr, i, MaxInt), Parts) then
         if Parts[0].Pos=1 then //need at i-th char
         begin
-          ValueR:= Max(0, Min(255, StrToIntDef(Parts[1].Str, 0)));
-          ValueG:= Max(0, Min(255, StrToIntDef(Parts[2].Str, 0)));
-          ValueB:= Max(0, Min(255, StrToIntDef(Parts[3].Str, 0)));
+          ValueR:= Min(255, StrToIntDef(Parts[1].Str, 0));
+          ValueG:= Min(255, StrToIntDef(Parts[2].Str, 0));
+          ValueB:= Min(255, StrToIntDef(Parts[3].Str, 0));
 
           NColor:= RGB(ValueR, ValueG, ValueB);
           NLen:= Parts[0].Len;
