@@ -2424,7 +2424,8 @@ begin
       exit
     end;
 
-    path:= UTF8Decode(SMaskFilenameSlashes(SFileName));
+    path:= SUnicodeEscape(UTF8Decode(SMaskFilenameSlashes(SFileName)));
+
     items:= TStringList.Create;
     try
       c.DeletePath(path);
@@ -2556,7 +2557,7 @@ begin
       exit
     end;
 
-    path:= UTF8Decode(SMaskFilenameSlashes(SFileName));
+    path:= SUnicodeEscape(UTF8Decode(SMaskFilenameSlashes(SFileName)));
     DoLoadHistoryEx(Ed, SFileName, c, path);
   finally
     c.Free;

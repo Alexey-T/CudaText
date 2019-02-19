@@ -32,6 +32,9 @@ function STextListsFuzzyInput(const SText, SFind: string): boolean;
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
 function SRegexMatchesString(const AStr, AStrRegex: string; ACaseSensitive: boolean): boolean;
 
+function SUnicodeEscape(const S: UnicodeString): UnicodeString;
+//function SUnicodeUnescape(const S: UnicodeString): UnicodeString;
+
 function IsLexerListed(const ALexer, ANameList: string): boolean;
 function IsFilenameListedInExtensionList(const AFilename, AExtList: string): boolean;
 
@@ -383,6 +386,47 @@ const
 begin
   Result:= not SRegexMatchesString(SDeletePythonStrings(S), cTest, false);
 end;
+
+
+function SUnicodeEscape(const S: UnicodeString): UnicodeString;
+var
+  i: integer;
+  ch: WideChar;
+begin
+  Result:= '';
+  for i:= 1 to Length(S) do
+  begin
+    ch:= S[i];
+    if Ord(ch)<255 then
+      Result+= ch
+    else
+      Result+= '\u'+HexStr(Ord(ch), 4);
+  end;
+end;
+
+(*
+//not tested!
+function SUnicodeUnescape(const S: UnicodeString): UnicodeString;
+var
+  i: integer;
+begin
+  Result:= '';
+  i:= 1;
+  while i<=Length(S) do
+  begin
+    if (i+5<=Length(S)) and (S[i]='\') and (S[i+1]='u') then
+    begin
+      Result+= WideChar(StrToIntDef('$'+Copy(S, i+2, 4), Ord('?')));
+      Inc(i, 6);
+    end
+    else
+    begin
+      Result+= S[i];
+      Inc(i);
+    end;
+  end;
+end;
+*)
 
 
 initialization
