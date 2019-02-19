@@ -660,11 +660,13 @@ begin
       C.FillRect(X1, Y-EditorOps.OpUnderlineColorSize, X2, Y);
     end
     else
-    //find "rgb(...)"
+    //find rgb(...), rgba(...)
     if (Ch='r') and
+      (i+6<=Length(AStr)) and
       (AStr[i+1]='g') and
       (AStr[i+2]='b') and
-       ((i=1) or not IsCharWord(AStr[i-1], '')) //word boundary
+      ((AStr[i+3]='(') or ((AStr[i+3]='a') and (AStr[i+4]='('))) and
+      ((i=1) or not IsCharWord(AStr[i-1], '')) //word boundary
     then
     begin
       if SRegexFindParts(cRegexRGB, Copy(AStr, i, MaxInt), Parts) then
@@ -689,9 +691,12 @@ begin
         end;
     end
     else
+    //find hsl(...), hsla(...)
     if (Ch='h') and
+      (i+6<=Length(AStr)) and
       (AStr[i+1]='s') and
       (AStr[i+2]='l') and
+      ((AStr[i+3]='(') or ((AStr[i+3]='a') and (AStr[i+4]='('))) and
       ((i=1) or not IsCharWord(AStr[i-1], '')) //word boundary
       then
       begin
