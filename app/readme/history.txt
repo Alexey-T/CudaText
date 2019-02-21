@@ -4,13 +4,14 @@
   * changed
 
 
-1.75.2 (2019/02)
+1.75.4 (2019/02)
 
 + add: UI tabs: round X mark on mouse-over
 + add: HTML color underlining supports "hsl", "hsla" functions
 - fix: issue with highlighting in e.g. Bash lexer
 - fix: cannot set none-lexer after lite lexer
-- fix: corrupted config "history files.json" for Unicode file names
+- fix: corrupted config "history files.json" for Unicode file names (Windows)
+- fix: one-instance feature cannot handle Unicode file names (Windows)
 
 1.75.0 (2019/02)
 
