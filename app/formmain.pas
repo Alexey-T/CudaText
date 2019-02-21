@@ -1471,10 +1471,11 @@ begin
   try
     params.StrictDelimiter := True;
     params.Delimiter := '|';
-    params.DelimitedText := UTF8Encode(StringOf(Msg));
+    params.DelimitedText := UTF8Encode(TEncoding.UTF8.GetString(Msg));
     for i := 0 to params.Count - 1 do
     begin
       SFilename := params[i];
+      if SFilename='' then Continue;
       SParseFilenameWithTwoNumbers(SFilename, NLine, NColumn);
       //if dir, open in ProjManager
       if DirectoryExistsUTF8(SFilename) then
