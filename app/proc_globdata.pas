@@ -1262,7 +1262,7 @@ begin
     TabPosition:= 0;
     TabColorFull:= false;
     TabShowX:= 1; //show all
-    TabShowXSize:= 15;
+    TabShowXSize:= 14;
     TabShowPlus:= true;
     TabDblClickClose:= false;
     TabNumbers:= false;

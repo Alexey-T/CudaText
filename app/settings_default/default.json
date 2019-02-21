@@ -553,7 +553,7 @@
   "ui_tab_size_x_max": 300,
 
   //UI tabs: Default tab height
-  "ui_tab_size_y": 25,
+  "ui_tab_size_y": 26,
 
   //UI tabs: Position (side) of tabs
   //  0: top
@@ -571,7 +571,7 @@
   "ui_tab_show_x": 1,
 
   //UI tabs: Size of "x" buttons
-  "ui_tab_show_x_size": 15,
+  "ui_tab_show_x_size": 14,
 
   //UI tabs: Show "+" pseudo-tab (its click creates new tab)
   "ui_tab_show_plus": true,
