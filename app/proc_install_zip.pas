@@ -391,7 +391,7 @@ var
   unzip: TUnZipper;
   list: TStringlist;
   dir_temp, dir_zipped, fn_inf: string;
-  s_title, s_type, s_subdir, s_desc, s_api, s_os, s_req, s_req_lexer: string;
+  s_title, s_type, s_subdir, s_desc, s_api, s_os: string;
 begin
   AStrReport:= '';
   AStrMessage:= '';
@@ -455,8 +455,6 @@ begin
     s_subdir:= ReadString('info', 'subdir', '');
     s_api:= ReadString('info', 'api', '');
     s_os:= ReadString('info', 'os', '');
-    s_req:= ReadString('info', 'req', '');
-    s_req_lexer:= ReadString('info', 'reqlexer', '');
   finally
     Free
   end;
@@ -468,6 +466,7 @@ begin
     exit
   end;
 
+  (*
   if not CheckValue_ReqPlugin(s_req) then
   begin
     if not ASilent then
@@ -481,6 +480,7 @@ begin
       MsgBox(Format(msgCannotInstallReqLexer, [s_title, s_req_lexer]), MB_OK or MB_ICONERROR);
     exit
   end;
+  *)
 
   if (s_api<>'') and (s_api>cAppApiVersion) then
   begin
