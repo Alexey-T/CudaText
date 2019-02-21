@@ -28,7 +28,6 @@ function STextListsAllWords(SText, SWords: string): boolean;
 function STextListsFuzzyInput(const SText, SFind: string): boolean;
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
 function SRegexMatchesString(const AStr, AStrRegex: string; ACaseSensitive: boolean): boolean;
-//function SUnicodeEscape(const S: UnicodeString): UnicodeString;
 
 function IsLexerListed(const ALexer, ANameList: string): boolean;
 function IsFilenameListedInExtensionList(const AFilename, AExtList: string): boolean;
@@ -381,25 +380,6 @@ const
 begin
   Result:= not SRegexMatchesString(SDeletePythonStrings(S), cTest, false);
 end;
-
-
-(*
-function SUnicodeEscape(const S: UnicodeString): UnicodeString;
-var
-  i: integer;
-  ch: WideChar;
-begin
-  Result:= '';
-  for i:= 1 to Length(S) do
-  begin
-    ch:= S[i];
-    if Ord(ch)<255 then
-      Result+= ch
-    else
-      Result+= '\u'+HexStr(Ord(ch), 4);
-  end;
-end;
-*)
 
 
 initialization
