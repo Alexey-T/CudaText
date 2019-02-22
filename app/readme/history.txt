@@ -4,6 +4,9 @@
   * changed
 
 
++ add: mouse wheel scrolling works also with pressed mouse button
++ add: lexers CSS, HTML improved (fixed rule "color")
+
 1.75.4 (2019/02)
 
 + add: UI tabs: round X mark on mouse-over
