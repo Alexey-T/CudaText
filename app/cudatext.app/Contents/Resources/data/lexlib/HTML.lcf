@@ -1,4 +1,4 @@
-object SyntAnal12: TLibSyntAnalyzer
+object SyntAnal9: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Text'
@@ -209,7 +209,7 @@ object SyntAnal12: TLibSyntAnalyzer
       StyleName = 'Color'
       BlockName = 'Tag begin'
       TokenType = 7
-      Expression = '\#[a-f\d]+'
+      Expression = '\#([0-9a-f]{3}|[0-9a-f]{6})\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -780,7 +780,7 @@ object SyntAnal12: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<style[^>]*>'
       EndExpression = '</style>'
-      SyntAnalyzer = SyntAnal8
+      SyntAnalyzer = SyntAnal7
     end
     item
       DisplayName = 'VBScript'
@@ -788,7 +788,7 @@ object SyntAnal12: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<script[^>]*vbscript[^>]*>\s*(<!--)?'
       EndExpression = '(?i)(-->)?\s*</script>'
-      SyntAnalyzer = SyntAnal30
+      SyntAnalyzer = SyntAnal26
     end
     item
       DisplayName = 'JavaScript'
@@ -796,14 +796,14 @@ object SyntAnal12: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<script[^>]*javascript [^>]* [^\?] > \s*(<!--)?'
       EndExpression = '(?i)(//)?(-->)?\s*</script>'
-      SyntAnalyzer = SyntAnal14
+      SyntAnalyzer = SyntAnal11
     end
     item
       DisplayName = 'JavaScript simple'
       StyleName = 'Sublexer BG'
       StartExpression = '<script>'
       EndExpression = '</script>'
-      SyntAnalyzer = SyntAnal14
+      SyntAnalyzer = SyntAnal11
     end
     item
       DisplayName = 'ASP'
@@ -811,7 +811,7 @@ object SyntAnal12: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '<%'
       EndExpression = '%>'
-      SyntAnalyzer = SyntAnal30
+      SyntAnalyzer = SyntAnal26
     end>
   SampleText.Strings = (
     '<!doctype test="123">'

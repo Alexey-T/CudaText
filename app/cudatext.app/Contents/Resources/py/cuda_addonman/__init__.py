@@ -191,6 +191,7 @@ class Command:
             url = items[res]['url']
             version = items[res]['v']
             kind = items[res]['kind']
+            req = items[res].get('req', '')
 
         else:
             res -= 1
@@ -198,11 +199,25 @@ class Command:
             url = items[res]['url']
             version = items[res]['v']
             kind = items[res]['kind']
+            req = items[res].get('req', '')
 
-        self.do_install_single(name, url, version, kind)
+        req_items = []
+        for req_name in req.split(','):
+            req_items += [i for i in items if req_name+'.zip'==os.path.basename(i['url']) ]
+
+        if req_items:
+            req_names = ', '.join([i['kind']+': '+i['name'] for i in req_items])
+            if msg_box('Add-on "%s" requires:\n%s\n\nRequirements will be auto-installed. Proceed?' % (name, req_names),
+                MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
+                return
+
+            for item in req_items:
+                self.do_install_single(item['name'], item['url'], item['v'], item['kind'], True)
+
+        self.do_install_single(name, url, version, kind, not opt.install_confirm)
 
 
-    def do_install_single(self, name, url, version, kind):
+    def do_install_single(self, name, url, version, kind, is_silent):
         #check for CudaLint
         if 'linter.' in url:
             if not 'cuda_lint' in get_installed_list():
@@ -221,7 +236,7 @@ class Command:
             msg_status('Cannot download file')
             return
 
-        s_options = '' if opt.install_confirm else '/silent'
+        s_options = '/silent' if is_silent else ''
         ok = file_open(fn, options=s_options)
 
         msg_status('Addon installed' if ok else 'Installation cancelled')
