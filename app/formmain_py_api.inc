@@ -4265,12 +4265,12 @@ end;
 
 function Py_ed_folding_getlist(Ed: TATSynEdit; NeedY, NeedY2: integer): PPyObject; cdecl;
 var
+  L: TATSynRangeList;
   Range: TATSynRange;
   NLen, i: Integer;
-  L: TList;
   ok: boolean;
 begin
-  L:= TList.Create;
+  L:= TATSynRangeList.Create;
   for i:= 0 to Ed.Fold.Count-1 do
   begin
     Range:= Ed.Fold[i];
@@ -4292,7 +4292,7 @@ begin
         raise EPythonError.Create(msgPythonListError);
       for i:= 0 to NLen-1 do
       begin
-        Range:= TATSynRange(L[i]);
+        Range:= L[i];
         PyList_SetItem(Result, i,
           Py_BuildValue('(iiiOO)',
             Range.Y,
@@ -5813,7 +5813,6 @@ var
   StrText: string;
   Ed: TATSynEdit;
   Ok: boolean;
-  Rng: TATSynRange;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liiiiiis:folding', @H, @Id, @NItem, @NX, @NY, @NY2, @NStaple, @PtrText)) then
@@ -5836,7 +5835,7 @@ begin
           begin
             if Ed.Fold.IsIndexValid(NItem) then
             begin
-              Ed.DoRangeFold(Ed.Fold.Items[NItem]);
+              Ed.DoRangeFold(NItem);
               Ed.Update;
             end;
             Result:= ReturnNone;
@@ -5846,7 +5845,7 @@ begin
           begin
             if Ed.Fold.IsIndexValid(NItem) then
             begin
-              Ed.DoRangeUnfold(Ed.Fold.Items[NItem]);
+              Ed.DoRangeUnfold(NItem);
               Ed.Update;
             end;
             Result:= ReturnNone;
@@ -5898,11 +5897,10 @@ begin
 
         FOLDING_FIND:
           begin
-            Rng:= nil;
             if Ed.Strings.IsIndexValid(NY) then
-              Rng:= Ed.Fold.FindRangeWithPlusAtLine(NY);
-            if Assigned(Rng) then
-              Result:= PyInt_FromLong(Ed.Fold.FindIndexOfRange(Rng))
+              NX:= Ed.Fold.FindRangeWithPlusAtLine(NY);
+            if NX>=0 then
+              Result:= PyInt_FromLong(NX)
             else
               Result:= ReturnNone;
           end;
