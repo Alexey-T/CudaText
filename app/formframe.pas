@@ -1414,6 +1414,9 @@ begin
   InitEditor(Ed1);
   InitEditor(Ed2);
 
+  Ed1.Strings.GutterDecor1:= Ed1.GutterDecor;
+  Ed1.Strings.GutterDecor2:= Ed2.GutterDecor;
+
   Ed2.Visible:= false;
   Splitter.Visible:= false;
   Ed1.Align:= alClient;
@@ -2117,6 +2120,18 @@ begin
     Ed2.Strings:= Ed1.Strings
   else
     Ed2.Strings:= nil;
+
+  Ed1.Strings.GutterDecor1:= Ed1.GutterDecor;
+  if FEditorsLinked then
+  begin
+    Ed1.Strings.GutterDecor2:= Ed2.GutterDecor;
+  end
+  else
+  begin
+    Ed1.Strings.GutterDecor2:= nil;
+    Ed2.Strings.GutterDecor1:= Ed2.GutterDecor;
+    Ed2.Strings.GutterDecor2:= nil;
+  end;
 
   Adapter1.AddEditor(nil);
   if Assigned(Adapter2) then
