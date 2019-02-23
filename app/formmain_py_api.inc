@@ -1348,7 +1348,7 @@ begin
       'kind',
       Integer(BmItem.Data.Kind),
       'hint',
-      PChar(BmItem.Data.Hint),
+      PChar(string(BmItem.Data.Hint)),
       'auto_del',
       PyBool_FromLong(Ord(BmItem.Data.DeleteOnDelLine)),
       'show_in_list',
