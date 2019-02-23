@@ -593,7 +593,6 @@ procedure EditorSetFoldString(Ed: TATSynEdit; S: string);
 var
   SItem: string;
   ScrollInfo: TATSynScrollInfo;
-  R: TATSynRange;
   n: integer;
 begin
   Ed.DoCommand(cCommand_UnfoldAll);
@@ -605,10 +604,10 @@ begin
     n:= StrToIntDef(SItem, -1);
     if not Ed.Strings.IsIndexValid(n) then Continue;
 
-    R:= Ed.Fold.FindRangeWithPlusAtLine(n);
-    if R=nil then Continue;
+    n:= Ed.Fold.FindRangeWithPlusAtLine(n);
+    if n<0 then Continue;
 
-    Ed.DoRangeFold(R);
+    Ed.DoRangeFold(n);
   until false;
 
   //fix changed horz scroll, https://github.com/Alexey-T/CudaText/issues/1439
