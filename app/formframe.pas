@@ -1478,8 +1478,16 @@ begin
   Ed1.AdapterForHilite:= nil;
   Ed2.AdapterForHilite:= nil;
 
+  Ed1.Strings.GutterDecor1:= nil;
+  Ed1.Strings.GutterDecor2:= nil;
+  if not FEditorsLinked then
+  begin
+    Ed2.Strings.GutterDecor1:= nil;
+    Ed2.Strings.GutterDecor2:= nil;
+  end;
+
   if not Application.Terminated then //prevent crash on exit
-    DoPyEvent(Editor, cEventOnClose, []);
+    DoPyEvent(Ed1, cEventOnClose, []);
 
   FreeAndNil(FCodetreeFilterHistory);
 

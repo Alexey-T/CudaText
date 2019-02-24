@@ -6,7 +6,7 @@
 
 1.76.0 (2019/02)
 
-+ add: optimizations here and there (results in ~10% faster scroll speed, less memory usage)
++ add: memory optimizations (less memory usage on mass-replace)
 + add: mouse wheel scrolling works also with pressed mouse button
 + add: AddonManager allows to write in "registry" that plugins require another plugins; removed support for install.inf keys "req", "reqlexer" because AddonManager support must be enough
 + add: lexers CSS, HTML improved (fixed rule "color")
@@ -86,7 +86,7 @@
 + add: in the list of recent files, paths are shorted with ~ char (for home folder)
 + add: option "find_hotkey_extract"
 * change: Addon Manager doesn't support versions in old files v.inf
-- fix: reworked dragging of Minimap's highlighted; now it must feel like Sublime
+- fix: reworked dragging of Minimap's highlighted area; now it must feel like Sublime
 - fix: bug in Option Editor (leads to saving to lexer-specific config)
 
 + add: lexer C improved: highlight more keyword groups
