@@ -189,11 +189,10 @@ def get_installed_choice(caption, exclude_list=None):
     return lmod[res]
 
 
-def get_installed_items_ex(exclude_modules):
+def get_installed_items_ex(exclude_modules, exclude_lexers, exclude_lexers_lite):
 
     l = get_installed_modules()
-    if exclude_modules:
-        l = [i for i in l if not i in exclude_modules]
+    l = [i for i in l if not i in exclude_modules]
     res = [{
         'kind': 'plugin',
         'module': i,
@@ -204,6 +203,7 @@ def get_installed_items_ex(exclude_modules):
     d_acp = os.path.join(app_path(APP_DIR_DATA), 'autocomplete')
     l = os.listdir(d)
     l = [i.split('.')[0] for i in l if i.endswith('.lcf')]
+    l = [i for i in l if not i in exclude_lexers]
     res += [{
         'kind': 'lexer',
         'name': i,
@@ -217,6 +217,7 @@ def get_installed_items_ex(exclude_modules):
     d = os.path.join(app_path(APP_DIR_DATA), 'lexliblite')
     l = os.listdir(d)
     l = [i.split('.')[0] for i in l if i.endswith('.cuda-litelexer')]
+    l = [i for i in l if not i in exclude_lexers_lite]
     res += [{
         'kind': 'lexer',
         'name': i+' ^',

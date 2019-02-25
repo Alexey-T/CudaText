@@ -37,7 +37,39 @@ STD_MODULES = (
   'cuda_testing_gaps',
   'cudax_lib',
   )
-
+STD_LEXERS = (
+  'Assembly',
+  'Bash script',
+  'Batch files',
+  'C',
+  'C++',
+  'CSS',
+  'Diff',
+  'HTML',
+  'Ini files',
+  'JavaScript',
+  'JSON',
+  'Lua',
+  'Makefile',
+  'Markdown',
+  'Pascal',
+  'PHP',
+  'PHP_',
+  'PowerShell',
+  'Properties',
+  'Python',
+  'reStructuredText',
+  'Ruby',
+  'Search results',
+  'VBScript',
+  'XML',
+)
+STD_LEXERS_LITE = (
+  'JSON',
+  'Log files',
+  'SQL',
+  'XML',
+)
 
 class Command:
 
@@ -285,7 +317,7 @@ class Command:
 
     def do_remove(self):
 
-        items = get_installed_items_ex(STD_MODULES)
+        items = get_installed_items_ex(STD_MODULES, STD_LEXERS, STD_LEXERS_LITE)
         desc = [i['kind']+': '+i['name'] for i in items]
 
         res = dlg_menu(MENU_LIST, desc, caption='Remove add-on')
