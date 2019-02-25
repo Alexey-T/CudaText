@@ -324,18 +324,15 @@ class Command:
         if res is None: return
 
         item = items[res]
+        if msg_box('Remove '+item['kind']+': '+item['name'], MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
+            return
+            
         if item['kind']=='plugin':
-            if msg_box('Remove plugin: '+item['name'], MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
-                return
-
             m = item['module']
             do_remove_version_of_plugin(m)
             if do_remove_module(m):
                 msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
-
-        elif item['kind']=='lexer':
-            if msg_box('Remove lexer: '+item['name'], MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
-                return
+        else:
             for fn in item['files']:
                 if os.path.isfile(fn):
                     os.remove(fn)

@@ -204,6 +204,7 @@ def get_installed_items_ex(exclude_modules, exclude_lexers, exclude_lexers_lite)
     l = os.listdir(d)
     l = [i.split('.')[0] for i in l if i.endswith('.lcf')]
     l = [i for i in l if not i in exclude_lexers]
+    l = sorted(l)
     res += [{
         'kind': 'lexer',
         'name': i,
@@ -218,11 +219,27 @@ def get_installed_items_ex(exclude_modules, exclude_lexers, exclude_lexers_lite)
     l = os.listdir(d)
     l = [i.split('.')[0] for i in l if i.endswith('.cuda-litelexer')]
     l = [i for i in l if not i in exclude_lexers_lite]
+    l = sorted(l)
     res += [{
         'kind': 'lexer',
         'name': i+' ^',
         'files': [
             os.path.join(d, i+'.cuda-litelexer'),
+            ],
+        } for i in l]
+
+    d = os.path.join(app_path(APP_DIR_DATA), 'themes')
+    l = os.listdir(d)
+    l = [i.split('.')[0] for i in l if i.endswith('.cuda-theme-syntax') or i.endswith('.cuda-theme-ui')]
+    #l = [i for i in l if not i in exclude_themes]
+    l = list(set(l)) # del duplicates
+    l = sorted(l)
+    res += [{
+        'kind': 'theme',
+        'name': i,
+        'files': [
+            os.path.join(d, i+'.cuda-theme-syntax'),
+            os.path.join(d, i+'.cuda-theme-ui'),
             ],
         } for i in l]
 
