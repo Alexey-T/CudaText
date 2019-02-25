@@ -333,10 +333,16 @@ class Command:
             if do_remove_module(m):
                 msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
         else:
+            ok = True
             for fn in item['files']:
-                if os.path.isfile(fn):
-                    os.remove(fn)
-            msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
+                if fn.endswith('/'):
+                    fn = fn[:-1]
+                    ok = do_remove_dir(fn)
+                else:
+                    if os.path.isfile(fn):
+                        os.remove(fn)
+            if ok:
+                msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
 
 
     def do_remove_data(self):

@@ -104,28 +104,34 @@ def get_homepage_of_module(mod):
     return ini_read(fn_ini, 'info', 'homepage', '')
 
 
-def do_remove_module(mod):
+def do_remove_dir(dir):
     """
-    move folder for py-module mod, into py/__trash
+    move folder to py/__trash
     (make copy with _ suffix if nessesary)
     """
-    dir_mod = os.path.join(app_path(APP_DIR_PY), mod)
+    print('Deleting folder:', dir)
+    if not os.path.isdir(dir):
+        return
+
     dir_trash = os.path.join(app_path(APP_DIR_PY), '__trash')
-    dir_dest = os.path.join(dir_trash, mod)
+    dir_dest = os.path.join(dir_trash, os.path.basename(dir))
     while os.path.isdir(dir_dest):
         dir_dest += '_'
 
-    if not os.path.isdir(dir_mod):
-        return
     if not os.path.isdir(dir_trash):
         os.mkdir(dir_trash)
 
     try:
-        os.rename(dir_mod, dir_dest)
+        os.rename(dir, dir_dest)
     except OSError:
-        msg_box('Cannot remove dir: '+dir_mod, MB_OK)
+        msg_box('Cannot remove folder:\n'+dir, MB_OK+MB_ICONERROR)
         return
     return True
+
+
+def do_remove_module(module):
+    dir = os.path.join(app_path(APP_DIR_PY), module)
+    return do_remove_dir(dir)
 
 
 def do_remove_data(fn):
@@ -228,6 +234,18 @@ def get_installed_items_ex(exclude_modules, exclude_lexers, exclude_lexers_lite)
             ],
         } for i in l]
 
+    d = os.path.join(app_path(APP_DIR_DATA), 'snippets')
+    l = os.listdir(d)
+    #l = [i for i in l if not i in exclude_themes]
+    l = sorted(l)
+    res += [{
+        'kind': 'snippets',
+        'name': i,
+        'files': [
+            os.path.join(d, i)+'/',
+            ],
+        } for i in l]
+
     d = os.path.join(app_path(APP_DIR_DATA), 'themes')
     l = os.listdir(d)
     l = [i.split('.')[0] for i in l if i.endswith('.cuda-theme-syntax') or i.endswith('.cuda-theme-ui')]
@@ -240,6 +258,20 @@ def get_installed_items_ex(exclude_modules, exclude_lexers, exclude_lexers_lite)
         'files': [
             os.path.join(d, i+'.cuda-theme-syntax'),
             os.path.join(d, i+'.cuda-theme-ui'),
+            ],
+        } for i in l]
+
+    d = os.path.join(app_path(APP_DIR_DATA), 'lang')
+    l = os.listdir(d)
+    l = [i.split('.')[0] for i in l if i.endswith('.ini')]
+    #l = [i for i in l if not i in exclude_themes]
+    l = list(set(l)) # del duplicates
+    l = sorted(l)
+    res += [{
+        'kind': 'translation',
+        'name': i,
+        'files': [
+            os.path.join(d, i+'.ini'),
             ],
         } for i in l]
 
