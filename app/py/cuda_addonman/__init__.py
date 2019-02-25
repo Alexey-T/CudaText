@@ -162,7 +162,7 @@ class Command:
 
         installed_modules = get_installed_modules()
         installed_lexers = get_installed_lexers()
-        
+
         if reinstall:
             items = [i for i in items if is_item_installed(i, installed_modules, installed_lexers)]
         else:
@@ -284,15 +284,31 @@ class Command:
             file_open(fn)
 
     def do_remove(self):
-        m = get_installed_choice('Remove', STD_MODULES)
-        if not m:
-            return
-        if msg_box('Remove plugin: '+get_name_of_module(m), MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
-            return
 
-        do_remove_version_of_plugin(m)
-        if do_remove_module(m):
+        items = get_installed_items_ex(STD_MODULES)
+        desc = [i['kind']+': '+i['name'] for i in items]
+
+        res = dlg_menu(MENU_LIST, desc, caption='Remove add-on')
+        if res is None: return
+
+        item = items[res]
+        if item['kind']=='plugin':
+            if msg_box('Remove plugin: '+item['name'], MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
+                return
+
+            m = item['module']
+            do_remove_version_of_plugin(m)
+            if do_remove_module(m):
+                msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
+
+        elif item['kind']=='lexer':
+            if msg_box('Remove lexer: '+item['name'], MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
+                return
+            for fn in item['files']:
+                if os.path.isfile(fn):
+                    os.remove(fn)
             msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
+
 
     def do_remove_data(self):
         path = get_installed_data_choice()
