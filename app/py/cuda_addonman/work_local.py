@@ -129,11 +129,6 @@ def do_remove_dir(dir):
     return True
 
 
-def do_remove_module(module):
-    dir = os.path.join(app_path(APP_DIR_PY), module)
-    return do_remove_dir(dir)
-
-
 def get_installed_modules():
     """
     gets list of py-modules inside "py"

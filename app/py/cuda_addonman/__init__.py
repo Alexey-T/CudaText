@@ -553,7 +553,7 @@ class Command:
                         print('  Error running Git')
                 else:
                     # delete old dir
-                    do_remove_module(m)
+                    do_remove_dir(m_dir)
 
             url = a['url']
             if not url: continue
