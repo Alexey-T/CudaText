@@ -168,7 +168,7 @@ def get_installed_choice(caption, exclude_list=None):
     return lmod[res]
 
 
-def get_installed_items_ex(
+def get_installed_addons(
     exclude_modules, 
     exclude_lexers, 
     exclude_lexers_lite,

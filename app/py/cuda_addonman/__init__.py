@@ -336,7 +336,7 @@ class Command:
 
     def do_remove(self):
 
-        items = get_installed_items_ex(
+        items = get_installed_addons(
             STD_MODULES,
             STD_LEXERS,
             STD_LEXERS_LITE,
