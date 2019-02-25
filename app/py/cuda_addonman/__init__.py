@@ -337,8 +337,8 @@ class Command:
     def do_remove(self):
 
         items = get_installed_items_ex(
-            STD_MODULES, 
-            STD_LEXERS, 
+            STD_MODULES,
+            STD_LEXERS,
             STD_LEXERS_LITE,
             STD_THEMES,
             STD_TRANSLATIONS,
@@ -352,23 +352,23 @@ class Command:
         item = items[res]
         if msg_box('Remove '+item['kind']+': '+item['name'], MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
             return
-            
-        if item['kind']=='plugin':
-            m = item['module']
-            do_remove_version_of_plugin(m)
-            if do_remove_module(m):
-                msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
+
+        module = item.get('module', '')
+        if module:
+            do_remove_version_of_plugin(module)
+
+        ok = True
+        for fn in item['files']:
+            if fn.endswith('/'):
+                fn = fn[:-1]
+                ok = do_remove_dir(fn)
+            else:
+                if os.path.isfile(fn):
+                    os.remove(fn)
+        if ok:
+            msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
         else:
-            ok = True
-            for fn in item['files']:
-                if fn.endswith('/'):
-                    fn = fn[:-1]
-                    ok = do_remove_dir(fn)
-                else:
-                    if os.path.isfile(fn):
-                        os.remove(fn)
-            if ok:
-                msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
+            msg_box('Cannot remove some files/folders:\n'+'\n'.join(items['files']), MB_OK+MB_ICONERROR)
 
 
     def do_edit(self):

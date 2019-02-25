@@ -182,12 +182,16 @@ def get_installed_items_ex(
     exclude_snippets,
     ):
 
+    d = app_path(APP_DIR_PY)
     l = get_installed_modules()
     l = [i for i in l if not i in exclude_modules]
     res = [{
         'kind': 'plugin',
-        'module': i,
         'name': get_name_of_module(i),
+        'module': i,
+        'files': [
+            os.path.join(d, i)+'/',
+            ],
         } for i in l]
 
     d = os.path.join(app_path(APP_DIR_DATA), 'lexlib')
