@@ -139,9 +139,12 @@ class Command:
 
     def do_install_addon(self, reinstall=False):
 
-        def is_item_installed(item, installed_list):
+        def is_item_installed(item, installed_modules, installed_lexers):
 
-            return item.get('module', '') in installed_list
+            if item['kind']=='lexer':
+                return item['name'] in installed_lexers
+            else:
+                return item.get('module', '') in installed_modules
 
         caption = 'Re-install' if reinstall else 'Install'
         msg_status('Downloading list...')
@@ -157,11 +160,13 @@ class Command:
 
         kinds = sorted(list(set([i['kind'] for i in items])))
 
-        installed_list = get_installed_list()
+        installed_modules = get_installed_list()
+        installed_lexers = get_installed_lexers()
+        
         if reinstall:
-            items = [i for i in items if is_item_installed(i, installed_list)]
+            items = [i for i in items if is_item_installed(i, installed_modules, installed_lexers)]
         else:
-            items = [i for i in items if not is_item_installed(i, installed_list)]
+            items = [i for i in items if not is_item_installed(i, installed_modules, installed_lexers)]
 
         names = ['<Category>'] + [ i['kind']+': '+i['name']+'\t'+i['desc'] for i in items ]
 

@@ -160,6 +160,23 @@ def get_installed_list():
     l = [s for s in l if os.path.isfile(os.path.join(d, s, 'install.inf'))]
     return sorted(l)
 
+def get_installed_lexers():
+    """
+    gets list of lexer names inside "lexlib" and "lexliblite"
+    """
+    d = os.path.join(app_path(APP_DIR_DATA), 'lexlib')
+    l = os.listdir(d)
+    res = [s for s in l if s.endswith('.lcf')]
+
+    d = os.path.join(app_path(APP_DIR_DATA), 'lexliblite')
+    l = os.listdir(d)
+    res += [s for s in l if s.endswith('.cuda-litelexer')]
+
+    res = [s.replace(' ', '_').split('.')[0] for s in res]
+    return sorted(res)
+
+get_installed_lexers()
+
 def get_installed_choice(caption, exclude_list=None):
     """
     gets module of addon, from menu of installed addons
