@@ -150,7 +150,7 @@ def do_remove_data(fn):
     return True
 
 
-def get_installed_list():
+def get_installed_modules():
     """
     gets list of py-modules inside "py"
     """
@@ -181,7 +181,7 @@ def get_installed_choice(caption, exclude_list=None):
     """
     gets module of addon, from menu of installed addons
     """
-    lmod = get_installed_list()
+    lmod = get_installed_modules()
     if exclude_list:
         lmod = [i for i in lmod if not i in exclude_list]
     ldesc = [get_name_of_module(l) for l in lmod]

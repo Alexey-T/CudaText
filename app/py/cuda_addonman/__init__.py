@@ -160,7 +160,7 @@ class Command:
 
         kinds = sorted(list(set([i['kind'] for i in items])))
 
-        installed_modules = get_installed_list()
+        installed_modules = get_installed_modules()
         installed_lexers = get_installed_lexers()
         
         if reinstall:
@@ -229,15 +229,9 @@ class Command:
     def do_install_single(self, name, url, version, kind, is_silent):
         #check for CudaLint
         if 'linter.' in url:
-            if not 'cuda_lint' in get_installed_list():
+            if not 'cuda_lint' in get_installed_modules():
                 msg_box('This is linter, it requires CudaLint plugin installed', MB_OK+MB_ICONWARNING)
                 return
-
-        #check for CudaTree
-        #if 'treehelper.' in url:
-        #    if not 'cuda_tree' in get_installed_list():
-        #        msg_box('This is TreeHelper, it requires CudaTree plugin installed', MB_OK+MB_ICONWARNING)
-        #        return
 
         #download
         fn = get_plugin_zip(url)
@@ -374,7 +368,7 @@ class Command:
             msg_status('Cannot download list')
             return
 
-        modules = get_installed_list()
+        modules = get_installed_modules()
         modules = [m for m in modules if m not in STD_MODULES] + [m for m in modules if m in STD_MODULES]
 
         modules_git = [m for m in modules if os.path.isdir(os.path.join(dir_py, m, '.git'))]
