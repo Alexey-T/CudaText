@@ -175,8 +175,6 @@ def get_installed_lexers():
     res = [s.replace(' ', '_').split('.')[0] for s in res]
     return sorted(res)
 
-get_installed_lexers()
-
 def get_installed_choice(caption, exclude_list=None):
     """
     gets module of addon, from menu of installed addons
