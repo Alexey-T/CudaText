@@ -211,8 +211,9 @@ class Command:
 
         kinds = sorted(list(set([i['kind'] for i in items])))
 
-        installed_modules = get_installed_modules()
-        installed_lexers = get_installed_lexers()
+        installed = get_installed_addons()
+        installed_modules = [i['module'] for i in installed if i['kind']=='plugin']
+        installed_lexers = [i['name'].replace(' ', '_') for i in installed if i['kind']=='lexer']
 
         if reinstall:
             items = [i for i in items if is_item_installed(i, installed_modules, installed_lexers)]
