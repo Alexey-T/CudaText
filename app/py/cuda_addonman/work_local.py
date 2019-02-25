@@ -208,7 +208,7 @@ def get_installed_items_ex(exclude_modules):
         'kind': 'lexer',
         'name': i,
         'files': [
-            os.path.join(d, i)+'.lcf',
+            os.path.join(d, i+'.lcf'),
             os.path.join(d, i+'.cuda-lexmap'),
             os.path.join(d_acp, i+'.acp'),
             ],
@@ -221,7 +221,7 @@ def get_installed_items_ex(exclude_modules):
         'kind': 'lexer',
         'name': i+' ^',
         'files': [
-            os.path.join(d, i)+'.cuda-litelexer',
+            os.path.join(d, i+'.cuda-litelexer'),
             ],
         } for i in l]
 
