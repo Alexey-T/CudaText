@@ -409,8 +409,8 @@ class Command:
 
     def do_update(self):
 
-        def fn2name(s, del_brackets):
-            s = s.split('.')[0].replace(' ', '_')
+        def fix_name(s, del_brackets):
+            s = s.replace(' ', '_')
             # strip additions in name for "gruvbox (Dark) (Medium)"
             if del_brackets:
                 n = s.find('_(')
@@ -432,17 +432,10 @@ class Command:
         modules_git = [m for m in modules if os.path.isdir(os.path.join(dir_py, m, '.git'))]
         modules = [m for m in modules if not m in modules_git]
 
-        dir_lexers = os.path.join(dir_data, 'lexlib')
-        lexers = os.listdir(dir_lexers)
-        lexers = [fn2name(s, False) for s in lexers if s.endswith('.lcf')]
-
-        dir_langs = os.path.join(dir_data, 'lang')
-        langs = os.listdir(dir_langs)
-        langs = [fn2name(s, False) for s in langs if s.endswith('.ini')]
-
-        dir_themes = os.path.join(dir_data, 'themes')
-        themes = os.listdir(dir_themes)
-        themes = [fn2name(s, True) for s in themes if '.cuda-theme' in s]
+        installed = get_installed_addons()
+        lexers = [fix_name(i['name'], False) for i in installed if i['kind']=='lexer']
+        langs = [fix_name(i['name'], False) for i in installed if i['kind']=='translation']
+        themes = [fix_name(i['name'], True) for i in installed if i['kind']=='theme']
 
         addons = [a for a in addons if a['kind'] in ('plugin', 'treehelper', 'linter') and a.get('module', '') in modules] \
                + [a for a in addons if a['kind']=='lexer' and a['name'] in lexers] \
