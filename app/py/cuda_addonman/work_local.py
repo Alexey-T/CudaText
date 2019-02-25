@@ -134,28 +134,6 @@ def do_remove_module(module):
     return do_remove_dir(dir)
 
 
-def do_remove_data(fn):
-    """
-    move filename/dirname from "data/..." to "data/__trash"
-    add suffix _ if nessesary
-    """
-    dir_trash = os.path.join(app_path(APP_DIR_DATA), '__trash')
-    fn_to = os.path.join(dir_trash, os.path.basename(fn))
-    while os.path.exists(fn_to):
-        fn_to += '_'
-
-    if not os.path.isdir(dir_trash):
-        os.mkdir(dir_trash)
-
-    try:
-        os.rename(fn, fn_to)
-        print('Moved "%s" to "%s"' % (fn, fn_to))
-    except OSError:
-        msg_box('Cannot move file/dir:\n%s\nto:\n%s' % (fn, fn_to), MB_OK)
-        return
-    return True
-
-
 def get_installed_modules():
     """
     gets list of py-modules inside "py"
@@ -282,37 +260,6 @@ def get_installed_items_ex(
         } for i in l]
 
     return res
-
-
-def get_installed_data_list():
-    """
-    gets list of filenames+dirnames inside "data", only 1 level deep
-    """
-    res = []
-    dir_data = os.path.join(app_path(APP_DIR_DATA))
-    for dir_item in DATA_DIRS:
-        dir1 = os.path.join(dir_data, dir_item[0])
-        names = os.listdir(dir1)
-        #filter out incorrect ext
-        if dir_item[1]:
-            names = [name for name in names if name.endswith(dir_item[1])]
-        names = [os.path.join(dir1, name) for name in names]
-        res += names
-    return sorted(res)
-
-
-def get_installed_data_choice():
-    """
-    gets choice for get_installed_data_list()
-    """
-    names = get_installed_data_list()
-    dir_data = os.path.join(app_path(APP_DIR_DATA))
-    skip_len = len(dir_data)+1
-    desc = [item[skip_len:] for item in names]
-    res = dlg_menu(MENU_LIST, desc, caption='Remove data file')
-    if res is None:
-        return None
-    return names[res]
 
 
 def get_packages_ini():
