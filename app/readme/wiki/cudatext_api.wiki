@@ -1755,10 +1755,12 @@ It cannot work with read-only editor (see get_prop/set_prop and PROP_RO).
 
 ===get_text_line===
 
- get_text_line(index)
+ get_text_line(index, max_len=0)
 
 Gets single line (str) with given index (0-based).
 Gets None if index incorrect.
+
+If param "max_len" is non-zero, and UTF-8 length of given line is greater than "max_len", function returns empty str. This allows to skip huge lines.
 
 ===set_text_line===
 
@@ -3260,5 +3262,8 @@ def project_variables():
 * deleted deprecated: file_save()
 * deleted deprecated: Editor.get_split, Editor.set_split
 * add: Editor.gap: no limit for gap height
+
+1.0.275 (app 1.75.6)
+* add: Editor.get_text_line has optional param "max_len"
 
 [[Category:CudaText]]
