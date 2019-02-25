@@ -9,6 +9,7 @@
 + add: memory optimizations (less memory usage on mass-replace)
 + add: mouse wheel scrolling works also with pressed mouse button
 + add: AddonManager allows to write in "registry" that plugins require another plugins; removed support for install.inf keys "req", "reqlexer" because AddonManager support must be enough
++ add: AddonManager allows to remove both plugins and lexers via "Remove addon" dialog
 + add: lexers CSS, HTML improved (fixed rule "color")
 
 1.75.4 (2019/02)
