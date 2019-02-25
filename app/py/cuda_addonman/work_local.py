@@ -168,14 +168,14 @@ def get_installed_choice(caption, exclude_list=None):
     return lmod[res]
 
 
-def get_installed_addons(
-    exclude_modules, 
-    exclude_lexers, 
-    exclude_lexers_lite,
-    exclude_themes,
-    exclude_translations,
-    exclude_snippets,
-    ):
+def get_installed_addons(ignore={}):
+
+    exclude_modules = ignore.get('plugins', []) 
+    exclude_lexers = ignore.get('lexers', [])
+    exclude_lexers_lite = ignore.get('lexers_lite', [])
+    exclude_themes = ignore.get('themes', [])
+    exclude_translations = ignore.get('lang', [])
+    exclude_snippets = ignore.get('snippets', [])
 
     d = app_path(APP_DIR_PY)
     l = get_installed_modules()

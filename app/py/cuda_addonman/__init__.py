@@ -336,14 +336,14 @@ class Command:
 
     def do_remove(self):
 
-        items = get_installed_addons(
-            STD_MODULES,
-            STD_LEXERS,
-            STD_LEXERS_LITE,
-            STD_THEMES,
-            STD_TRANSLATIONS,
-            STD_SNIPPETS,
-            )
+        items = get_installed_addons({
+            'plugins': STD_MODULES,
+            'lexers': STD_LEXERS,
+            'lexers_lite': STD_LEXERS_LITE,
+            'themes': STD_THEMES,
+            'lang': STD_TRANSLATIONS,
+            'snippets': STD_SNIPPETS,
+            })
         desc = [i['kind']+': '+i['name'] for i in items]
 
         res = dlg_menu(MENU_LIST, desc, caption='Remove add-on')
