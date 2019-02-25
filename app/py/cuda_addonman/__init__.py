@@ -429,8 +429,6 @@ class Command:
             return
 
         modules = get_installed_modules()
-        modules = [m for m in modules if m not in STD_MODULES] + [m for m in modules if m in STD_MODULES]
-
         modules_git = [m for m in modules if os.path.isdir(os.path.join(dir_py, m, '.git'))]
         modules = [m for m in modules if not m in modules_git]
 
