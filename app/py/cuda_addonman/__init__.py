@@ -70,6 +70,25 @@ STD_LEXERS_LITE = (
   'SQL',
   'XML',
 )
+STD_THEMES = (
+  'amy',
+  'cobalt',
+  'darkwolf',
+  'ebony',
+  'green',
+  'navy',
+  'sub',
+  'white',
+  'zeus',
+)
+STD_TRANSLATIONS = (
+  'ru_RU',
+  'translation template',
+)
+STD_SNIPPETS = (
+  'Std.HtmlTags',
+  'Std.Php',
+)
 
 class Command:
 
@@ -317,7 +336,14 @@ class Command:
 
     def do_remove(self):
 
-        items = get_installed_items_ex(STD_MODULES, STD_LEXERS, STD_LEXERS_LITE)
+        items = get_installed_items_ex(
+            STD_MODULES, 
+            STD_LEXERS, 
+            STD_LEXERS_LITE,
+            STD_THEMES,
+            STD_TRANSLATIONS,
+            STD_SNIPPETS,
+            )
         desc = [i['kind']+': '+i['name'] for i in items]
 
         res = dlg_menu(MENU_LIST, desc, caption='Remove add-on')

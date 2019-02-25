@@ -195,7 +195,14 @@ def get_installed_choice(caption, exclude_list=None):
     return lmod[res]
 
 
-def get_installed_items_ex(exclude_modules, exclude_lexers, exclude_lexers_lite):
+def get_installed_items_ex(
+    exclude_modules, 
+    exclude_lexers, 
+    exclude_lexers_lite,
+    exclude_themes,
+    exclude_translations,
+    exclude_snippets,
+    ):
 
     l = get_installed_modules()
     l = [i for i in l if not i in exclude_modules]
@@ -236,7 +243,7 @@ def get_installed_items_ex(exclude_modules, exclude_lexers, exclude_lexers_lite)
 
     d = os.path.join(app_path(APP_DIR_DATA), 'snippets')
     l = os.listdir(d)
-    #l = [i for i in l if not i in exclude_themes]
+    l = [i for i in l if not i in exclude_snippets]
     l = sorted(l)
     res += [{
         'kind': 'snippets',
@@ -249,7 +256,7 @@ def get_installed_items_ex(exclude_modules, exclude_lexers, exclude_lexers_lite)
     d = os.path.join(app_path(APP_DIR_DATA), 'themes')
     l = os.listdir(d)
     l = [i.split('.')[0] for i in l if i.endswith('.cuda-theme-syntax') or i.endswith('.cuda-theme-ui')]
-    #l = [i for i in l if not i in exclude_themes]
+    l = [i for i in l if not i in exclude_themes]
     l = list(set(l)) # del duplicates
     l = sorted(l)
     res += [{
@@ -264,8 +271,7 @@ def get_installed_items_ex(exclude_modules, exclude_lexers, exclude_lexers_lite)
     d = os.path.join(app_path(APP_DIR_DATA), 'lang')
     l = os.listdir(d)
     l = [i.split('.')[0] for i in l if i.endswith('.ini')]
-    #l = [i for i in l if not i in exclude_themes]
-    l = list(set(l)) # del duplicates
+    l = [i for i in l if not i in exclude_translations]
     l = sorted(l)
     res += [{
         'kind': 'translation',
