@@ -367,8 +367,6 @@ class Command:
                     os.remove(fn)
         if ok:
             msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
-        else:
-            msg_box('Cannot remove some files/folders:\n'+'\n'.join(items['files']), MB_OK+MB_ICONERROR)
 
 
     def do_edit(self):
