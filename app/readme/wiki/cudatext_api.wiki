@@ -859,7 +859,6 @@ Possible types of UI controls are described in dlg_custom, see [[#Types]]. Addit
 * "w_min", "w_max": int: Constraints for width, min/max value.
 * "h_min", "h_max": int: Constraints for height, min/max value.
 * "tag": str: Any string, set by plugin.
-* (deprecated) "resize": bool: Sets border of form to "resizable" style.
 * "border": int: Sets border of form, DBORDER_nnn constants. Don't specify it together with deprecated "resize".
 * "topmost": bool: Makes form stay on top of other forms in CudaText.
 * "vis": bool: Visible state.
@@ -867,6 +866,8 @@ Possible types of UI controls are described in dlg_custom, see [[#Types]]. Addit
 * "autosize": bool: Form resizes to minimal size, which shows all visible controls. Don't use it together with "resize".
 * "keypreview": bool: If on, then key press calls on_key_down before passing key to focused control. Should be True if form needs to handle on_key_down.
 * "p": int: Parent handle. Set this property to int handle of any windowed UI control or form, this control/form will be parent of form.
+* "focused" (only for reading): index of currently focused control.
+* (deprecated) "resize": bool: Border of form has "resizable" style.
 
 ====Form events====
 
