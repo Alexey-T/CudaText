@@ -459,15 +459,20 @@ end;
 function Py_ed_get_text_line(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
-  N: Integer;
+  Index, MaxLen: Integer;
   Ed: TATSynEdit;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Li:get_text_line', @H, @N)) then
+    if Bool(PyArg_ParseTuple(Args, 'Lii:get_text_line', @H, @Index, @MaxLen)) then
     begin
       Ed:= PyEditor(H);
-      if Ed.Strings.IsIndexValid(N) then
-        Result:= PyUnicode_FromWideString(Ed.Strings.Lines[N])
+      if Ed.Strings.IsIndexValid(Index) then
+      begin
+        if (MaxLen=0) or (Ed.Strings.LinesLenRaw[Index]<=MaxLen) then
+          Result:= PyUnicode_FromWideString(Ed.Strings.Lines[Index])
+        else
+          Result:= PyString_FromString('');
+      end
       else
         Result:= ReturnNone;
     end

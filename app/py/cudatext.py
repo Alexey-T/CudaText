@@ -1012,11 +1012,11 @@ class Editor:
     def get_text_sel(self):
         return ct.ed_get_text_sel(self.h)
 
-    def get_text_line(self, num):
-        return ct.ed_get_text_line(self.h, num)
+    def get_text_line(self, index, max_len=0):
+        return ct.ed_get_text_line(self.h, index, max_len)
 
-    def set_text_line(self, num, text):
-        return ct.ed_set_text_line(self.h, num, text)
+    def set_text_line(self, index, text):
+        return ct.ed_set_text_line(self.h, index, text)
 
     def get_text_substr(self, x1, y1, x2, y2):
         return ct.ed_get_text_substr(self.h, x1, y1, x2, y2)
