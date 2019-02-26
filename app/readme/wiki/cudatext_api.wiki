@@ -2494,6 +2494,41 @@ Makes HTML file from source text with syntax highlighting. Gets bool: file is cr
 
 ===more===
 
+=TreeHelpers=
+
+CudaText contains built-in support for TreeHelpers. They build Code Tree for additional lexers. TreeHelpers must be plugins, which have special install.inf file.
+
+Section [info]:
+* key "subdir" must begin with "cuda_tree_"
+
+Section(s) [treehelper1] ... [treehelper5]:
+* key "lexers" is comma-separated lexers list
+* key "method" is name of getter method in __init__.py
+
+File __init__.py must contain getter method(s), referenced by install.inf. Getter has signature (with any name):
+
+ def get_headers(filename, lines)
+
+* param "lines" is list of str, editor contents in CudaText.
+* param "filename" is full file path, it is to support included files or something.
+
+Getter must return list of tuples: (pos, level, caption, icon).
+
+* field "pos": tuple of int (x1, y1, x2, y2): range for tree node. 
+* field "level": 1-based level of node, node of level K+1 is nested into (nearest upper) node of level K.
+* field "caption": caption of node.
+* field "icon": 0-based index of icon from standard image-list, or -1 if icon not used.
+** 0: folder
+** 1: parts1
+** 2: parts2
+** 3: parts3
+** 4: box
+** 5: func
+** 6: arrow1
+** 7: arrow2
+
+See examples of TreeHelpers: for Markdown, for MediaWiki. They are add-ons in the CudaText AddonManager.
+
 =Tech info=
 
 ==Format of text for cmd_MouseClick==
