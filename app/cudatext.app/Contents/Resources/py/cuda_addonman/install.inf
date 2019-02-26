@@ -22,13 +22,8 @@ caption=Addons Manager\Edit plugin...
 method=do_edit
 [item14]
 section=commands
-caption=Addons Manager\Remove plugin...
+caption=Addons Manager\Remove add-on...
 method=do_remove
-[item15]
-section=commands
-caption=Addons Manager\Remove data files...
-method=do_remove_data
-menu=0
 
 [item17]
 section=commands

@@ -3263,7 +3263,7 @@ def project_variables():
 * deleted deprecated: Editor.get_split, Editor.set_split
 * add: Editor.gap: no limit for gap height
 
-1.0.275 (app 1.75.6)
+1.0.275 (app 1.76.0)
 * add: Editor.get_text_line has optional param "max_len"
 
 [[Category:CudaText]]

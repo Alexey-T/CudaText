@@ -104,53 +104,32 @@ def get_homepage_of_module(mod):
     return ini_read(fn_ini, 'info', 'homepage', '')
 
 
-def do_remove_module(mod):
+def do_remove_dir(dir):
     """
-    move folder for py-module mod, into py/__trash
+    move folder to py/__trash
     (make copy with _ suffix if nessesary)
     """
-    dir_mod = os.path.join(app_path(APP_DIR_PY), mod)
+    print('Deleting folder:', dir)
+    if not os.path.isdir(dir):
+        return
+
     dir_trash = os.path.join(app_path(APP_DIR_PY), '__trash')
-    dir_dest = os.path.join(dir_trash, mod)
+    dir_dest = os.path.join(dir_trash, os.path.basename(dir))
     while os.path.isdir(dir_dest):
         dir_dest += '_'
 
-    if not os.path.isdir(dir_mod):
-        return
     if not os.path.isdir(dir_trash):
         os.mkdir(dir_trash)
 
     try:
-        os.rename(dir_mod, dir_dest)
+        os.rename(dir, dir_dest)
     except OSError:
-        msg_box('Cannot remove dir: '+dir_mod, MB_OK)
+        msg_box('Cannot remove folder:\n'+dir, MB_OK+MB_ICONERROR)
         return
     return True
 
 
-def do_remove_data(fn):
-    """
-    move filename/dirname from "data/..." to "data/__trash"
-    add suffix _ if nessesary
-    """
-    dir_trash = os.path.join(app_path(APP_DIR_DATA), '__trash')
-    fn_to = os.path.join(dir_trash, os.path.basename(fn))
-    while os.path.exists(fn_to):
-        fn_to += '_'
-
-    if not os.path.isdir(dir_trash):
-        os.mkdir(dir_trash)
-
-    try:
-        os.rename(fn, fn_to)
-        print('Moved "%s" to "%s"' % (fn, fn_to))
-    except OSError:
-        msg_box('Cannot move file/dir:\n%s\nto:\n%s' % (fn, fn_to), MB_OK)
-        return
-    return True
-
-
-def get_installed_list():
+def get_installed_modules():
     """
     gets list of py-modules inside "py"
     """
@@ -160,11 +139,12 @@ def get_installed_list():
     l = [s for s in l if os.path.isfile(os.path.join(d, s, 'install.inf'))]
     return sorted(l)
 
+
 def get_installed_choice(caption, exclude_list=None):
     """
     gets module of addon, from menu of installed addons
     """
-    lmod = get_installed_list()
+    lmod = get_installed_modules()
     if exclude_list:
         lmod = [i for i in lmod if not i in exclude_list]
     ldesc = [get_name_of_module(l) for l in lmod]
@@ -173,35 +153,98 @@ def get_installed_choice(caption, exclude_list=None):
         return None
     return lmod[res]
 
-def get_installed_data_list():
-    """
-    gets list of filenames+dirnames inside "data", only 1 level deep
-    """
-    res = []
-    dir_data = os.path.join(app_path(APP_DIR_DATA))
-    for dir_item in DATA_DIRS:
-        dir1 = os.path.join(dir_data, dir_item[0])
-        names = os.listdir(dir1)
-        #filter out incorrect ext
-        if dir_item[1]:
-            names = [name for name in names if name.endswith(dir_item[1])]
-        names = [os.path.join(dir1, name) for name in names]
-        res += names
-    return sorted(res)
 
+def get_installed_addons(ignore={}):
 
-def get_installed_data_choice():
-    """
-    gets choice for get_installed_data_list()
-    """
-    names = get_installed_data_list()
-    dir_data = os.path.join(app_path(APP_DIR_DATA))
-    skip_len = len(dir_data)+1
-    desc = [item[skip_len:] for item in names]
-    res = dlg_menu(MENU_LIST, desc, caption='Remove data file')
-    if res is None:
-        return None
-    return names[res]
+    exclude_modules = ignore.get('plugins', []) 
+    exclude_lexers = ignore.get('lexers', [])
+    exclude_lexers_lite = ignore.get('lexers_lite', [])
+    exclude_themes = ignore.get('themes', [])
+    exclude_translations = ignore.get('lang', [])
+    exclude_snippets = ignore.get('snippets', [])
+
+    d = app_path(APP_DIR_PY)
+    l = get_installed_modules()
+    l = [i for i in l if not i in exclude_modules]
+    res = [{
+        'kind': 'plugin',
+        'name': get_name_of_module(i),
+        'module': i,
+        'files': [
+            os.path.join(d, i)+'/',
+            ],
+        } for i in l]
+
+    d = os.path.join(app_path(APP_DIR_DATA), 'lexlib')
+    d_acp = os.path.join(app_path(APP_DIR_DATA), 'autocomplete')
+    l = os.listdir(d)
+    l = [i.split('.')[0] for i in l if i.endswith('.lcf')]
+    l = [i for i in l if not i in exclude_lexers]
+    l = sorted(l)
+    res += [{
+        'kind': 'lexer',
+        'name': i,
+        'files': [
+            os.path.join(d, i+'.lcf'),
+            os.path.join(d, i+'.cuda-lexmap'),
+            os.path.join(d_acp, i+'.acp'),
+            ],
+        } for i in l]
+
+    d = os.path.join(app_path(APP_DIR_DATA), 'lexliblite')
+    l = os.listdir(d)
+    l = [i.split('.')[0] for i in l if i.endswith('.cuda-litelexer')]
+    l = [i for i in l if not i in exclude_lexers_lite]
+    l = sorted(l)
+    res += [{
+        'kind': 'lexer',
+        'name': i+' ^',
+        'files': [
+            os.path.join(d, i+'.cuda-litelexer'),
+            ],
+        } for i in l]
+
+    d = os.path.join(app_path(APP_DIR_DATA), 'snippets')
+    l = os.listdir(d)
+    l = [i for i in l if not i in exclude_snippets]
+    l = sorted(l)
+    res += [{
+        'kind': 'snippets',
+        'name': i,
+        'files': [
+            os.path.join(d, i)+'/',
+            ],
+        } for i in l]
+
+    d = os.path.join(app_path(APP_DIR_DATA), 'themes')
+    l = os.listdir(d)
+    l = [i.split('.')[0] for i in l if i.endswith('.cuda-theme-syntax') or i.endswith('.cuda-theme-ui')]
+    l = [i for i in l if not i in exclude_themes]
+    l = list(set(l)) # del duplicates
+    l = sorted(l)
+    res += [{
+        'kind': 'theme',
+        'name': i,
+        'files': [
+            os.path.join(d, i+'.cuda-theme-syntax'),
+            os.path.join(d, i+'.cuda-theme-ui'),
+            ],
+        } for i in l]
+
+    d = os.path.join(app_path(APP_DIR_DATA), 'lang')
+    l = os.listdir(d)
+    l = [i.split('.')[0] for i in l if i.endswith('.ini')]
+    l = [i for i in l if not i in exclude_translations]
+    l = sorted(l)
+    res += [{
+        'kind': 'translation',
+        'name': i,
+        'files': [
+            os.path.join(d, i+'.ini'),
+            ],
+        } for i in l]
+
+    return res
 
 
 def get_packages_ini():

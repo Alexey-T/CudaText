@@ -859,14 +859,21 @@ Possible types of UI controls are described in dlg_custom, see [[#Types]]. Addit
 * "w_min", "w_max": int: Constraints for width, min/max value.
 * "h_min", "h_max": int: Constraints for height, min/max value.
 * "tag": str: Any string, set by plugin.
-* (deprecated) "resize": bool: Sets border of form to "resizable" style.
 * "border": int: Sets border of form, DBORDER_nnn constants. Don't specify it together with deprecated "resize".
+** DBORDER_NONE: No visible border, not resizable 
+** DBORDER_SIZE: Standard resizable border (on Windows: with Minimize/Maximize buttons)
+** DBORDER_SINGLE: Single-line border, not resizable (on Windows: form has icon and Minimize button) 
+** DBORDER_DIALOG: Standard dialog box border, not resizable (on Windows: form has no icon nor Minimize button)
+** DBORDER_TOOL: Like DBORDER_SINGLE but with a smaller caption
+** DBORDER_TOOLSIZE: Like DBORDER_SIZE but with a smaller caption
 * "topmost": bool: Makes form stay on top of other forms in CudaText.
 * "vis": bool: Visible state.
 * "color": int: Background color.
 * "autosize": bool: Form resizes to minimal size, which shows all visible controls. Don't use it together with "resize".
 * "keypreview": bool: If on, then key press calls on_key_down before passing key to focused control. Should be True if form needs to handle on_key_down.
 * "p": int: Parent handle. Set this property to int handle of any windowed UI control or form, this control/form will be parent of form.
+* "focused" (only for reading): index of currently focused control.
+* (deprecated) "resize": bool: Border of form has "resizable" style.
 
 ====Form events====
 
@@ -1748,10 +1755,12 @@ It cannot work with read-only editor (see get_prop/set_prop and PROP_RO).
 
 ===get_text_line===
 
- get_text_line(index)
+ get_text_line(index, max_len=0)
 
 Gets single line (str) with given index (0-based).
 Gets None if index incorrect.
+
+If param "max_len" is non-zero, and UTF-8 length of given line is greater than "max_len", function returns empty str. This allows to skip huge lines.
 
 ===set_text_line===
 
@@ -3253,5 +3262,8 @@ def project_variables():
 * deleted deprecated: file_save()
 * deleted deprecated: Editor.get_split, Editor.set_split
 * add: Editor.gap: no limit for gap height
+
+1.0.275 (app 1.76.0)
+* add: Editor.get_text_line has optional param "max_len"
 
 [[Category:CudaText]]

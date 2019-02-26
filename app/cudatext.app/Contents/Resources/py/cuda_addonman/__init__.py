@@ -37,7 +37,58 @@ STD_MODULES = (
   'cuda_testing_gaps',
   'cudax_lib',
   )
-
+STD_LEXERS = (
+  'Assembly',
+  'Bash script',
+  'Batch files',
+  'C',
+  'C++',
+  'CSS',
+  'Diff',
+  'HTML',
+  'Ini files',
+  'JavaScript',
+  'JSON',
+  'Lua',
+  'Makefile',
+  'Markdown',
+  'Pascal',
+  'PHP',
+  'PHP_',
+  'PowerShell',
+  'Properties',
+  'Python',
+  'reStructuredText',
+  'Ruby',
+  'Search results',
+  'VBScript',
+  'XML',
+)
+STD_LEXERS_LITE = (
+  'JSON',
+  'Log files',
+  'SQL',
+  'XML',
+)
+STD_THEMES = (
+  'amy',
+  'cobalt',
+  'darkwolf',
+  'ebony',
+  'green',
+  'navy',
+  'sub',
+  'white',
+  'zeus',
+)
+STD_TRANSLATIONS = (
+  'ru_RU',
+  'translation template',
+)
+STD_SNIPPETS = (
+  'Std.HtmlTags',
+  'Std.Php',
+)
 
 class Command:
 
@@ -139,6 +190,13 @@ class Command:
 
     def do_install_addon(self, reinstall=False):
 
+        def is_item_installed(item, installed_modules, installed_lexers):
+
+            if item['kind']=='lexer':
+                return item['name'] in installed_lexers
+            else:
+                return item.get('module', '') in installed_modules
+
         caption = 'Re-install' if reinstall else 'Install'
         msg_status('Downloading list...')
         items = get_remote_addons_list(opt.ch_def+opt.ch_user)
@@ -153,11 +211,14 @@ class Command:
 
         kinds = sorted(list(set([i['kind'] for i in items])))
 
-        installed_list = get_installed_list()
+        installed = get_installed_addons()
+        installed_modules = [i['module'] for i in installed if i['kind']=='plugin']
+        installed_lexers = [i['name'].replace(' ', '_') for i in installed if i['kind']=='lexer']
+
         if reinstall:
-            items = [i for i in items if i.get('module', '') in installed_list]
+            items = [i for i in items if is_item_installed(i, installed_modules, installed_lexers)]
         else:
-            items = [i for i in items if i.get('module', '') not in installed_list]
+            items = [i for i in items if not is_item_installed(i, installed_modules, installed_lexers)]
 
         names = ['<Category>'] + [ i['kind']+': '+i['name']+'\t'+i['desc'] for i in items ]
 
@@ -220,15 +281,9 @@ class Command:
     def do_install_single(self, name, url, version, kind, is_silent):
         #check for CudaLint
         if 'linter.' in url:
-            if not 'cuda_lint' in get_installed_list():
+            if not 'cuda_lint' in get_installed_modules():
                 msg_box('This is linter, it requires CudaLint plugin installed', MB_OK+MB_ICONWARNING)
                 return
-
-        #check for CudaTree
-        #if 'treehelper.' in url:
-        #    if not 'cuda_tree' in get_installed_list():
-        #        msg_box('This is TreeHelper, it requires CudaTree plugin installed', MB_OK+MB_ICONWARNING)
-        #        return
 
         #download
         fn = get_plugin_zip(url)
@@ -281,29 +336,37 @@ class Command:
             file_open(fn)
 
     def do_remove(self):
-        m = get_installed_choice('Remove', STD_MODULES)
-        if not m:
-            return
-        if msg_box('Remove plugin: '+get_name_of_module(m), MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
-            return
 
-        do_remove_version_of_plugin(m)
-        if do_remove_module(m):
-            msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
+        items = get_installed_addons({
+            'plugins': STD_MODULES,
+            'lexers': STD_LEXERS,
+            'lexers_lite': STD_LEXERS_LITE,
+            'themes': STD_THEMES,
+            'lang': STD_TRANSLATIONS,
+            'snippets': STD_SNIPPETS,
+            })
+        desc = [i['kind']+': '+i['name'] for i in items]
 
-    def do_remove_data(self):
-        path = get_installed_data_choice()
-        if path is None:
-            return
+        res = dlg_menu(MENU_LIST, desc, caption='Remove add-on')
+        if res is None: return
 
-        if os.path.isfile(path):
-            msg = 'Remove data file:'
-        else:
-            msg = 'Remove data folder:'
-        if msg_box(msg+'\n'+path, MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
+        item = items[res]
+        if msg_box('Remove '+item['kind']+': '+item['name'], MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
             return
 
-        if do_remove_data(path):
+        module = item.get('module', '')
+        if module:
+            do_remove_version_of_plugin(module)
+
+        ok = True
+        for fn in item['files']:
+            if fn.endswith('/'):
+                fn = fn[:-1]
+                ok = do_remove_dir(fn)
+            else:
+                if os.path.isfile(fn):
+                    os.remove(fn)
+        if ok:
             msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
 
 
@@ -346,8 +409,8 @@ class Command:
 
     def do_update(self):
 
-        def fn2name(s, del_brackets):
-            s = s.split('.')[0].replace(' ', '_')
+        def fix_name(s, del_brackets):
+            s = s.replace(' ', '_')
             # strip additions in name for "gruvbox (Dark) (Medium)"
             if del_brackets:
                 n = s.find('_(')
@@ -365,23 +428,14 @@ class Command:
             msg_status('Cannot download list')
             return
 
-        modules = get_installed_list()
-        modules = [m for m in modules if m not in STD_MODULES] + [m for m in modules if m in STD_MODULES]
-
+        modules = get_installed_modules()
         modules_git = [m for m in modules if os.path.isdir(os.path.join(dir_py, m, '.git'))]
         modules = [m for m in modules if not m in modules_git]
 
-        dir_lexers = os.path.join(dir_data, 'lexlib')
-        lexers = os.listdir(dir_lexers)
-        lexers = [fn2name(s, False) for s in lexers if s.endswith('.lcf')]
-
-        dir_langs = os.path.join(dir_data, 'lang')
-        langs = os.listdir(dir_langs)
-        langs = [fn2name(s, False) for s in langs if s.endswith('.ini')]
-
-        dir_themes = os.path.join(dir_data, 'themes')
-        themes = os.listdir(dir_themes)
-        themes = [fn2name(s, True) for s in themes if '.cuda-theme' in s]
+        installed = get_installed_addons()
+        lexers = [fix_name(i['name'], False) for i in installed if i['kind']=='lexer']
+        langs = [fix_name(i['name'], False) for i in installed if i['kind']=='translation']
+        themes = [fix_name(i['name'], True) for i in installed if i['kind']=='theme']
 
         addons = [a for a in addons if a['kind'] in ('plugin', 'treehelper', 'linter') and a.get('module', '') in modules] \
                + [a for a in addons if a['kind']=='lexer' and a['name'] in lexers] \
@@ -491,7 +545,7 @@ class Command:
                         print('  Error running Git')
                 else:
                     # delete old dir
-                    do_remove_module(m)
+                    do_remove_dir(m_dir)
 
             url = a['url']
             if not url: continue

@@ -4,6 +4,14 @@
   * changed
 
 
+1.76.0 (2019/02)
+
++ add: memory optimizations (less memory usage on mass-replace)
++ add: mouse wheel scrolling works also with pressed mouse button
++ add: AddonManager dialog "Remove add-on" improved: it allows to remove plugins, lexers, themes, translations, snippets
++ add: AddonManager allows to write in "registry" that plugins require another plugins; removed support for install.inf keys "req", "reqlexer" because AddonManager support must be enough
++ add: lexers CSS, HTML improved (fixed rule "color")
+
 1.75.4 (2019/02)
 
 + add: UI tabs: round X mark on mouse-over
@@ -79,7 +87,7 @@
 + add: in the list of recent files, paths are shorted with ~ char (for home folder)
 + add: option "find_hotkey_extract"
 * change: Addon Manager doesn't support versions in old files v.inf
-- fix: reworked dragging of Minimap's highlighted; now it must feel like Sublime
+- fix: reworked dragging of Minimap's highlighted area; now it must feel like Sublime
 - fix: bug in Option Editor (leads to saving to lexer-specific config)
 
 + add: lexer C improved: highlight more keyword groups
