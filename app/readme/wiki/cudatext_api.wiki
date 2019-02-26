@@ -861,9 +861,9 @@ Possible types of UI controls are described in dlg_custom, see [[#Types]]. Addit
 * "tag": str: Any string, set by plugin.
 * "border": int: Sets border of form, DBORDER_nnn constants. Don't specify it together with deprecated "resize".
 ** DBORDER_NONE: No visible border, not resizable 
-** DBORDER_SINGLE: Single-line border, not resizable 
-** DBORDER_SIZE: Standard resizable border
-** DBORDER_DIALOG: Standard dialog box border, not resizable 
+** DBORDER_SIZE: Standard resizable border (on Windows: with Minimize/Maximize buttons)
+** DBORDER_SINGLE: Single-line border, not resizable (on Windows: form has icon and Minimize button) 
+** DBORDER_DIALOG: Standard dialog box border, not resizable (on Windows: form has no icon nor Minimize button)
 ** DBORDER_TOOL: Like DBORDER_SINGLE but with a smaller caption
 ** DBORDER_TOOLSIZE: Like DBORDER_SIZE but with a smaller caption
 * "topmost": bool: Makes form stay on top of other forms in CudaText.
