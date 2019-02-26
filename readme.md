@@ -3,5 +3,5 @@ CudaText editor
 * http://uvviewsoft.com
 * http://wiki.freepascal.org/CudaText
 
-Lazarus 1.9 (trunk), fpc 3.0.0+.
+Lazarus 2.0, FPC 3.0.4.
 See wiki topic "How to compile".
