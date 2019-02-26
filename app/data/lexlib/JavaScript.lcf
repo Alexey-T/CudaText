@@ -175,7 +175,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'String Regex'
       StyleName = 'String regex'
       TokenType = 4
-      Expression = '(?<=[=\(\[&!:]\x20*) / (\\/|\\\\|\[.+?\]|.)*? /[gimy]*'
+      Expression = '(?<=[=\(\[&!:/]\x20*) / (\\/|\\\\|\[.+?\]|.)*? /[gimy]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -207,7 +207,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'Id'
       StyleName = 'Identifier'
       TokenType = 2
-      Expression = '[a-z_\$]\w*'
+      Expression = '[a-z_\$][\w\$]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -437,9 +437,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'function anonym =>'
       ConditionList = <
         item
-          TagList.Strings = (
-            '{')
-          TokenTypes = 256
+          TokenTypes = 260
         end
         item
           TagList.Strings = (
