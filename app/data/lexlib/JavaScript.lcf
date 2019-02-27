@@ -57,7 +57,7 @@ object SyntAnal10: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Id const'
+      DisplayName = 'Id std'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clPurple
       Font.Height = -13
@@ -116,6 +116,14 @@ object SyntAnal10: TLibSyntAnalyzer
     end
     item
       DisplayName = 'HTML tag name'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Id upcase const'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clGreen
       Font.Height = -13
@@ -204,10 +212,18 @@ object SyntAnal10: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Id upcase const'
+      StyleName = 'Id upcase const'
+      TokenType = 2
+      Expression = '(?-i)[A-Z_\$][A-Z0-9_\$]*[A-Z][A-Z0-9_\$]* (?=\W)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Id'
       StyleName = 'Identifier'
       TokenType = 2
-      Expression = '[a-z_\$][\w\$]*'
+      Expression = '[a-z_\$][\w\$]*\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -382,7 +398,7 @@ object SyntAnal10: TLibSyntAnalyzer
     end
     item
       DisplayName = 'id const'
-      StyleName = 'Id const'
+      StyleName = 'Id std'
       BlockType = btTagDetect
       ConditionList = <
         item
@@ -607,7 +623,9 @@ object SyntAnal10: TLibSyntAnalyzer
     '/** DocBlock '
     '*/'
     'n = 12_34_5n+ 1.2+ 1.+ 1.2e+3+ 1.e-3+ '
-    '  +0xFF_AAn+ 0b11_00n+ 0o77_11n '
+    '  +0xFF_AAn+ 0b11_00n+ 0o77_11n'
+    'AB + AB$_AB+ _AB + $$AB_AB$ + NOTconst  '
+    '   '
     '<?php echo '#39'test'#39' ?>'
     'var test = NaN + Object + $ + offset;'
     'var s_regex = /^<\/?\w.*?>/gi;'
@@ -666,8 +684,7 @@ object SyntAnal10: TLibSyntAnalyzer
   LexerName = 'JavaScript'
   Notes.Strings = (
     'Original from EControl'
-    'Heavily reworked by Alexey (CudaText)'
-    'Keywords: http://www.w3schools.com/js/js_reserved.asp')
+    'Heavily reworked by Alexey (CudaText)')
   LineComment = '//'
   Charset = DEFAULT_CHARSET
 end
