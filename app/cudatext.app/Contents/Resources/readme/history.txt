@@ -10,8 +10,10 @@
 + add: mouse wheel scrolling works also with pressed mouse button
 + add: AddonManager dialog "Remove add-on" improved: it allows to remove plugins, lexers, themes, translations, snippets
 + add: AddonManager allows to write in "registry" that plugins require another plugins; removed support for install.inf keys "req", "reqlexer" because AddonManager support must be enough
-+ add: lexers CSS, HTML improved (fixed rule "color")
 - fix: more fixing of corrupted encoding of "history files.json"
+
++ add: lexers CSS, HTML improved (fixed rule "color")
++ add: lexer JavaScript improved (fixed many tiny issues)
 
 1.75.4 (2019/02)
 

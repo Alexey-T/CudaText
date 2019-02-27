@@ -175,7 +175,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'String Regex'
       StyleName = 'String regex'
       TokenType = 4
-      Expression = '(?<=[=\(\[&!:]\x20*) / (\\/|\\\\|\[.+?\]|.)*? /[gimy]*'
+      Expression = '(?<=[=\(\[&!:/]\x20*) / (\\/|\\\\|\[.+?\]|.)*? /[gimy]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -199,7 +199,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'HTML tag name'
       StyleName = 'HTML tag name'
       TokenType = 2
-      Expression = '(?<=</?)\w+(?=[\x20/>])'
+      Expression = '(?<=</?\x20*)\w+(?=[\x20/>\n])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -207,7 +207,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'Id'
       StyleName = 'Identifier'
       TokenType = 2
-      Expression = '[a-z_\$]\w*'
+      Expression = '[a-z_\$][\w\$]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -286,7 +286,6 @@ object SyntAnal10: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'abstract'
-            'arguments'
             'as'
             'async'
             'await'
@@ -300,7 +299,6 @@ object SyntAnal10: TLibSyntAnalyzer
             'const'
             'continue'
             'debugger'
-            'default'
             'delete'
             'do'
             'double'
@@ -334,7 +332,6 @@ object SyntAnal10: TLibSyntAnalyzer
             'return'
             'short'
             'static'
-            'super'
             'switch'
             'synchronized'
             'throw'
@@ -390,10 +387,13 @@ object SyntAnal10: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
+            'arguments'
+            'default'
             'false'
             'Infinity'
             'NaN'
             'null'
+            'super'
             'this'
             'true'
             'undefined')
@@ -437,9 +437,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'function anonym =>'
       ConditionList = <
         item
-          TagList.Strings = (
-            '{')
-          TokenTypes = 256
+          TokenTypes = 260
         end
         item
           TagList.Strings = (
@@ -453,7 +451,7 @@ object SyntAnal10: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 62
+          TokenTypes = 318
         end
         item
           TagList.Strings = (
@@ -601,7 +599,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal16
+      SyntAnalyzer = SyntAnal17
     end>
   SampleText.Strings = (
     '#!/bin/bash                         '
