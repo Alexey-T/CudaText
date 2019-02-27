@@ -451,10 +451,34 @@ object SyntAnal10: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'function id=>...'
+      DisplayName = 'function id=>id'
       ConditionList = <
         item
-          TokenTypes = 292
+          TokenTypes = 36
+        end
+        item
+          TagList.Strings = (
+            '=>')
+          TokenTypes = 8
+        end
+        item
+          TokenTypes = 4
+        end>
+      NameFmt = 'func <arrow>'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      CollapseFmt = 'func <arrow>'
+      NoEndRule = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'function id=>{'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 256
         end
         item
           TagList.Strings = (
@@ -473,10 +497,45 @@ object SyntAnal10: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'function ( )=>...'
+      DisplayName = 'function ( )=>id'
       ConditionList = <
         item
-          TokenTypes = 292
+          TokenTypes = 36
+        end
+        item
+          TagList.Strings = (
+            '=>')
+          TokenTypes = 8
+        end
+        item
+          TagList.Strings = (
+            ')')
+          TokenTypes = 136
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 318
+        end
+        item
+          TagList.Strings = (
+            '(')
+          TokenTypes = 128
+        end>
+      NameFmt = 'func <arrow>'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      CollapseFmt = 'func <arrow>'
+      NoEndRule = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'function ( )=>{'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 256
         end
         item
           TagList.Strings = (
