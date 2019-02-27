@@ -43,7 +43,7 @@ class Command:
         os.remove(fn)
 
         self.packets = cuda_addonman.work_remote.get_remote_addons_list(cuda_addonman.opt.ch_def+cuda_addonman.opt.ch_user)
-        self.installed_list = cuda_addonman.work_local.get_installed_list()
+        self.installed_list = cuda_addonman.work_local.get_installed_modules()
 
     def get_module(self,kind,name):
 
