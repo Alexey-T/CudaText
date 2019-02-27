@@ -57,7 +57,7 @@ object SyntAnal10: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Id const'
+      DisplayName = 'Id std'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clPurple
       Font.Height = -13
@@ -121,6 +121,14 @@ object SyntAnal10: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'Id upcase const'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -175,7 +183,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'String Regex'
       StyleName = 'String regex'
       TokenType = 4
-      Expression = '(?<=[=\(\[&!:/]\x20*) / (\\/|\\\\|\[.+?\]|.)*? /[gimy]*'
+      Expression = '(?<=[=\(\[&!:/>\?\+]\x20*) / (\\/|\\\\|\[.+?\]|.)*? /[gimy]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -204,10 +212,18 @@ object SyntAnal10: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Id upcase const'
+      StyleName = 'Id upcase const'
+      TokenType = 2
+      Expression = '(?-i)[A-Z_\$][A-Z0-9_\$]*[A-Z][A-Z0-9_\$]* (?=[^\w\(])'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Id'
       StyleName = 'Identifier'
       TokenType = 2
-      Expression = '[a-z_\$][\w\$]*'
+      Expression = '[a-z_\$][\w\$]*\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -325,6 +341,7 @@ object SyntAnal10: TLibSyntAnalyzer
             'long'
             'native'
             'new'
+            'of'
             'package'
             'private'
             'protected'
@@ -357,20 +374,28 @@ object SyntAnal10: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
+            '__dirname'
+            '__filename'
+            '$export'
             'Array'
             'constructor'
             'Date'
+            'exports'
             'get'
+            'global'
             'hasOwnProperty'
             'isFinite'
             'isNaN'
             'isPrototypeOf'
             'length'
             'Math'
+            'module'
             'name'
             'Number'
             'Object'
+            'process'
             'prototype'
+            'require'
             'set'
             'String'
             'toString'
@@ -382,7 +407,7 @@ object SyntAnal10: TLibSyntAnalyzer
     end
     item
       DisplayName = 'id const'
-      StyleName = 'Id const'
+      StyleName = 'Id std'
       BlockType = btTagDetect
       ConditionList = <
         item
@@ -434,10 +459,91 @@ object SyntAnal10: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'function anonym =>'
+      DisplayName = 'function id=>id'
       ConditionList = <
         item
-          TokenTypes = 260
+          TokenTypes = 36
+        end
+        item
+          TagList.Strings = (
+            '=>')
+          TokenTypes = 8
+        end
+        item
+          TokenTypes = 4
+        end>
+      NameFmt = 'func <arrow>'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      CollapseFmt = 'func <arrow>'
+      NoEndRule = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'function id=>{'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 256
+        end
+        item
+          TagList.Strings = (
+            '=>')
+          TokenTypes = 8
+        end
+        item
+          TokenTypes = 4
+        end>
+      BlockEnd = '}'
+      NameFmt = 'func <arrow>'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      CollapseFmt = 'func <arrow>'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'function ( )=>id'
+      ConditionList = <
+        item
+          TokenTypes = 36
+        end
+        item
+          TagList.Strings = (
+            '=>')
+          TokenTypes = 8
+        end
+        item
+          TagList.Strings = (
+            ')')
+          TokenTypes = 136
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 318
+        end
+        item
+          TagList.Strings = (
+            '(')
+          TokenTypes = 128
+        end>
+      NameFmt = 'func <arrow>'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      CollapseFmt = 'func <arrow>'
+      NoEndRule = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'function ( )=>{'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 256
         end
         item
           TagList.Strings = (
@@ -459,11 +565,11 @@ object SyntAnal10: TLibSyntAnalyzer
           TokenTypes = 128
         end>
       BlockEnd = '}'
-      NameFmt = 'func <anon>'
+      NameFmt = 'func <arrow>'
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
-      CollapseFmt = 'func <anon>'
+      CollapseFmt = 'func <arrow>'
       IgnoreAsParent = False
     end
     item
@@ -607,7 +713,9 @@ object SyntAnal10: TLibSyntAnalyzer
     '/** DocBlock '
     '*/'
     'n = 12_34_5n+ 1.2+ 1.+ 1.2e+3+ 1.e-3+ '
-    '  +0xFF_AAn+ 0b11_00n+ 0o77_11n '
+    '  +0xFF_AAn+ 0b11_00n+ 0o77_11n'
+    'AB + AB$_AB+ _AB + $$AB_AB$ + NOTconst + NOT_CONST() '
+    '   '
     '<?php echo '#39'test'#39' ?>'
     'var test = NaN + Object + $ + offset;'
     'var s_regex = /^<\/?\w.*?>/gi;'
@@ -662,12 +770,11 @@ object SyntAnal10: TLibSyntAnalyzer
     'PHP tag'
     'Symbol ( )'
     'Symbol { }')
-  Extentions = 'js'
+  Extentions = 'js htc _js es6 pjs'
   LexerName = 'JavaScript'
   Notes.Strings = (
     'Original from EControl'
-    'Heavily reworked by Alexey (CudaText)'
-    'Keywords: http://www.w3schools.com/js/js_reserved.asp')
+    'Heavily reworked by Alexey (CudaText)')
   LineComment = '//'
   Charset = DEFAULT_CHARSET
 end
