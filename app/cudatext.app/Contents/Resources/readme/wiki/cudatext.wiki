@@ -776,11 +776,11 @@ CudaText suggests to use viewer for files of too big size (bigger than option ui
 
 Viewer has simple search support (without reg.ex.), and allows to use "Go to" dialog. In the "Go to" dialog, you can enter "2000" to jump to hex offset 0x2000 (in hex mode, rounded to 16 bytes). If you enter "50%", viewer will jump to the middle. Viewer supports selection of block by mouse, and hotkeys Ctrl+A, Ctrl+C. Viewer supports double-click to select whole word. Viewer allows to change encoding via statusbar click, but only in non-Unicode modes.
 
-==External Tools plugin==
+=External Tools=
 
 Several examples of external tools configs. Call dialog of External Tools plugin (menu Tools -- Config...). Add a new tool. Set dialog properties as shown below. This must add menu item, for new tool, under Tools menu.
 
-===Tool to compile by GCC===
+==Tool to compile by GCC==
 
 You can test how this tool works on any Linux, because GCC is preinstalled. Test the tool on C++ example, which is created from CudaText by menu "File -- New from template -- C++".
 
@@ -799,7 +799,7 @@ Optionally, configure "Pattern", so double click in the Output panel will put ca
 
 * Pattern: (?P<file>[^:]+):(?P<line>\d+):(?P<col>\d+): .+
 
-===Tool to run C program===
+==Tool to run C program==
 
 Tool is for Linux, so "File name" don't have an extension. For Windows, change "File name" field to "{FileNameNoExt}.exe".
 
@@ -813,7 +813,7 @@ Tool is for Linux, so "File name" don't have an extension. For Windows, change "
 * Encoding: utf_8
 * Pattern: (empty)
 
-===Tool to compile+run C program===
+==Tool to compile+run C program==
 
 In the External Tools dialog, press Join button, to join 2 tools created in above steps. Properties of joined tool:
 
@@ -821,7 +821,7 @@ In the External Tools dialog, press Join button, to join 2 tools created in abov
 * Series: C - compile; C - run
 * Lexers: C,C++
 
-===Tool to run current Batch file===
+==Tool to run current Batch file==
 Tool properties:
 
 * Name: Run batch file
@@ -833,10 +833,10 @@ Tool properties:
 * Capture output: Output panel
 * Encoding: the same as file's encoding: e.g. utf_8 or cp1251 (cp1251 is Russian ANSI codepage)
 
-===Tool to call file-compare utility ===
+==Tool to call file-compare utility ==
 Tools, which call file-compare utility, to compare 2 files: active files in group-1 and group-2.
 
-====WinMerge, KDiff, Kompare====
+===WinMerge, KDiff, Kompare===
 
 * Name: Compare files in G1, G2
 * File name: (full name of executable file)
@@ -845,7 +845,7 @@ Tools, which call file-compare utility, to compare 2 files: active files in grou
 * Initial folder: (empty)
 * Capture output: Ignore
 
-====Meld====
+===Meld===
 
 * Name: Compare files in G1, G2
 * File name: (full name of executable file)
@@ -854,7 +854,7 @@ Tools, which call file-compare utility, to compare 2 files: active files in grou
 * Initial folder: (empty)
 * Capture output: Ignore
 
-====diff====
+===diff===
 
 * Name: Compare files in G1, G2
 * File name: diff
@@ -863,7 +863,7 @@ Tools, which call file-compare utility, to compare 2 files: active files in grou
 * Initial folder: (empty)
 * Capture output: Copy to new document
 
-===Tool to run Python scripts===
+==Tool to run Python scripts==
 
 Tool uses Python 3 installation on Linux. For Windows, change "File name" field to the full path to "python.exe" file. Also on Windows you may need to toggle checkbox "Shell command".
 
@@ -877,7 +877,43 @@ Tool uses Python 3 installation on Linux. For Windows, change "File name" field 
 * Encoding: utf_8
 * Pattern: \s*File "(?P<file>.+)", line (?P<line>\d+)
 
-===URL for Google search===
+==Tool to open PHP documentation with given topic==
+
+Tool to open PHP documentation, in .chm format, for the word under editor's caret. For Windows only. You need to install KeyHH from http://keyworks.helpmvp.com/ , it is stable tool mentioned on several sites. Program "keyhh.exe" will be in your system PATH.
+
+Before making the tool, add "$" char to word chars for PHP lexer. To do it, call "Plugins / Options Editor", in the Options Editor dialog find option "word_chars" and set it to "$". You must save option to PHP lexer-specific config, so in the dialog you must check flag "For [x] Lexer", and choose lexer "PHP", and then write option value "$" and press Enter.
+
+Download PHP documentation in .chm format from PHP.net, google for "php_manual_en chm", it is 16M file.
+
+Tool properties:
+
+* Name: PHP Help
+* File name: keyhh.exe
+* Shell command: unchecked
+* Parameters: -MyHelp -#klink {CurrentWord} "C:\Work\php_manual_en.chm"
+* Initial folder: (empty)
+* Lexers: PHP
+* Save before: Nothing
+* Capture output: Ignore
+
+==Tool to open AutoIt documentation with given topic==
+
+Tool to open AutoIt documentation, in .chm format, for the word under editor's caret. For Windows only. You need to install KeyHH from http://keyworks.helpmvp.com/ , it is stable tool mentioned on several sites. Program "keyhh.exe" will be in your system PATH.
+
+With AutoIt installed, you also have .chm documentation, its path is usually "C:\Program Files (x86)\AutoIt3\AutoIt.chm".
+
+Tool properties:
+
+* Name: AutoIt Help
+* File name: keyhh.exe
+* Shell command: unchecked
+* Parameters: -MyHelp -#klink  {CurrentWord} "C:\Program Files (x86)\AutoIt3\AutoIt.chm"
+* Initial folder: (empty)
+* Lexers: AutoIt
+* Save before: Nothing
+* Capture output: Ignore
+
+==URL for Google search==
 
 This is URL, not tool. In the External Tools dialog, press URL button, then press Add to add a new URL.
 
@@ -886,8 +922,6 @@ This is URL, not tool. In the External Tools dialog, press URL button, then pres
 <syntaxhighlight lang="text">
 http://google.com/search?q={SelectedText|q}
 </syntaxhighlight>
-
-==more==
 
 =Tech topics=
 == Python API ==
