@@ -273,12 +273,14 @@ class Command:
                 return
 
             for item in req_items:
-                self.do_install_single(item['name'], item['url'], item['v'], item['kind'], True)
+                self.do_install_single(item['name'], item['url'], item['v'], item['kind'], True, False)
 
-        self.do_install_single(name, url, version, kind, not opt.install_confirm)
+        self.do_install_single(name, url, version, kind, 
+            not opt.install_confirm,
+            opt.suggest_readme)
 
 
-    def do_install_single(self, name, url, version, kind, is_silent):
+    def do_install_single(self, name, url, version, kind, is_silent, suggest_readme):
         #check for CudaLint
         if 'linter.' in url:
             if not 'cuda_lint' in get_installed_modules():
@@ -306,7 +308,7 @@ class Command:
         if props:
             #suggest readme
             m = props[2]
-            if m and opt.suggest_readme:
+            if m and suggest_readme:
                 names = []
                 fn = get_readme_of_module(m)
                 if fn:
