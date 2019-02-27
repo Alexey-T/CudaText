@@ -183,7 +183,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'String Regex'
       StyleName = 'String regex'
       TokenType = 4
-      Expression = '(?<=[=\(\[&!:/]\x20*) / (\\/|\\\\|\[.+?\]|.)*? /[gimy]*'
+      Expression = '(?<=[=\(\[&!:/>\?]\x20*) / (\\/|\\\\|\[.+?\]|.)*? /[gimy]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -215,7 +215,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'Id upcase const'
       StyleName = 'Id upcase const'
       TokenType = 2
-      Expression = '(?-i)[A-Z_\$][A-Z0-9_\$]*[A-Z][A-Z0-9_\$]* (?=\W)'
+      Expression = '(?-i)[A-Z_\$][A-Z0-9_\$]*[A-Z][A-Z0-9_\$]* (?=[^\w\(])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -373,6 +373,7 @@ object SyntAnal10: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
+            '$export'
             'Array'
             'constructor'
             'Date'
@@ -450,10 +451,32 @@ object SyntAnal10: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'function anonym =>'
+      DisplayName = 'function id=>...'
       ConditionList = <
         item
-          TokenTypes = 260
+          TokenTypes = 292
+        end
+        item
+          TagList.Strings = (
+            '=>')
+          TokenTypes = 8
+        end
+        item
+          TokenTypes = 4
+        end>
+      BlockEnd = '}'
+      NameFmt = 'func <arrow>'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      CollapseFmt = 'func <arrow>'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'function ( )=>...'
+      ConditionList = <
+        item
+          TokenTypes = 292
         end
         item
           TagList.Strings = (
@@ -475,11 +498,11 @@ object SyntAnal10: TLibSyntAnalyzer
           TokenTypes = 128
         end>
       BlockEnd = '}'
-      NameFmt = 'func <anon>'
+      NameFmt = 'func <arrow>'
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
-      CollapseFmt = 'func <anon>'
+      CollapseFmt = 'func <arrow>'
       IgnoreAsParent = False
     end
     item
@@ -624,7 +647,7 @@ object SyntAnal10: TLibSyntAnalyzer
     '*/'
     'n = 12_34_5n+ 1.2+ 1.+ 1.2e+3+ 1.e-3+ '
     '  +0xFF_AAn+ 0b11_00n+ 0o77_11n'
-    'AB + AB$_AB+ _AB + $$AB_AB$ + NOTconst  '
+    'AB + AB$_AB+ _AB + $$AB_AB$ + NOTconst + NOT_CONST() '
     '   '
     '<?php echo '#39'test'#39' ?>'
     'var test = NaN + Object + $ + offset;'
