@@ -183,7 +183,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'String Regex'
       StyleName = 'String regex'
       TokenType = 4
-      Expression = '(?<=[=\(\[&!:/>\?]\x20*) / (\\/|\\\\|\[.+?\]|.)*? /[gimy]*'
+      Expression = '(?<=[=\(\[&!:/>\?\+]\x20*) / (\\/|\\\\|\[.+?\]|.)*? /[gimy]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -341,6 +341,7 @@ object SyntAnal10: TLibSyntAnalyzer
             'long'
             'native'
             'new'
+            'of'
             'package'
             'private'
             'protected'
@@ -373,21 +374,28 @@ object SyntAnal10: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
+            '__dirname'
+            '__filename'
             '$export'
             'Array'
             'constructor'
             'Date'
+            'exports'
             'get'
+            'global'
             'hasOwnProperty'
             'isFinite'
             'isNaN'
             'isPrototypeOf'
             'length'
             'Math'
+            'module'
             'name'
             'Number'
             'Object'
+            'process'
             'prototype'
+            'require'
             'set'
             'String'
             'toString'
@@ -762,7 +770,7 @@ object SyntAnal10: TLibSyntAnalyzer
     'PHP tag'
     'Symbol ( )'
     'Symbol { }')
-  Extentions = 'js'
+  Extentions = 'js htc _js es6 pjs'
   LexerName = 'JavaScript'
   Notes.Strings = (
     'Original from EControl'
