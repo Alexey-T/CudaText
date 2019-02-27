@@ -1166,6 +1166,16 @@ begin
       begin
         FTextCharsTyped:= 0;
       end;
+
+    cCommand_ClipboardPaste,
+    cCommand_ClipboardPaste_Select,
+    cCommand_ClipboardPaste_KeepCaret,
+    cCommand_ClipboardPaste_Column,
+    cCommand_ClipboardPaste_ColumnKeepCaret:
+      begin
+        Adapter[Ed].StopTreeUpdate;
+        Adapter[Ed].Stop;
+      end;
   end;
 
   if Assigned(FOnEditorCommand) then
