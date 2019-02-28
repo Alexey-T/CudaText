@@ -1,4 +1,4 @@
-object SyntAnal27: TLibSyntAnalyzer
+object SyntAnal11: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -53,7 +53,7 @@ object SyntAnal27: TLibSyntAnalyzer
       DisplayName = 'Name'
       StyleName = 'Name'
       TokenType = 3
-      Expression = '\[.+?\] |'#13#10'(?<=\}\x20+)[\w\.\[\]]+'#13#10
+      Expression = '\[.+?\] |'#13#10'(?<=\}\x20+)[\w\$\.\[\]]+'#13#10
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -73,7 +73,7 @@ object SyntAnal27: TLibSyntAnalyzer
     
       ' * @param {Object[]} employees - The employees who are responsib' +
       'le for the project.'
-    ' * @param {string} employees[].name - The name of an employee.'
+    ' * @param {string} $employees[].name - The name of an employee.'
     ' * @param {string} [somebody=John Doe] - Somebody'#39's name.'
     ' */')
   TokenTypeNames.Strings = (
@@ -84,5 +84,6 @@ object SyntAnal27: TLibSyntAnalyzer
   LexerName = 'JSDoc'
   Notes.Strings = (
     'Alexey (CudaText)')
+  Internal = True
   Charset = DEFAULT_CHARSET
 end
