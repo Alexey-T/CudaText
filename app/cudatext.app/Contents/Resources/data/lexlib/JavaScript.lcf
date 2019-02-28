@@ -706,6 +706,13 @@ object SyntAnal10: TLibSyntAnalyzer
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
       SyntAnalyzer = SyntAnal17
+    end
+    item
+      DisplayName = 'JSDoc'
+      StartExpression = '/\*\*'
+      EndExpression = '\*/'
+      SyntAnalyzer = SyntAnal27
+      IncludeBounds = True
     end>
   SampleText.Strings = (
     '#!/bin/bash                         '

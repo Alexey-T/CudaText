@@ -1,0 +1,89 @@
+object SyntAnal11: TLibSyntAnalyzer
+  Formats = <
+    item
+      DisplayName = 'Comment'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Param'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Type'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Name'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end>
+  TokenRules = <
+    item
+      DisplayName = 'Param'
+      StyleName = 'Param'
+      TokenType = 1
+      Expression = '@\w+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Type'
+      StyleName = 'Type'
+      TokenType = 2
+      Expression = '\{.+?\}'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Name'
+      StyleName = 'Name'
+      TokenType = 3
+      Expression = '\[.+?\] |'#13#10'(?<=\}\x20+)[\w\$\.\[\]]+'#13#10
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Comment'
+      StyleName = 'Comment'
+      Expression = '[^\x20\x09\n\r]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    '/**'
+    ' * Assign the project to a list of employees.'
+    
+      ' * @param {Object[]} employees - The employees who are responsib' +
+      'le for the project.'
+    ' * @param {string} $employees[].name - The name of an employee.'
+    ' * @param {string} [somebody=John Doe] - Somebody'#39's name.'
+    ' */')
+  TokenTypeNames.Strings = (
+    'Comment'
+    'Param'
+    'Type'
+    'Name')
+  LexerName = 'JSDoc'
+  Notes.Strings = (
+    'Alexey (CudaText)')
+  Internal = True
+  Charset = DEFAULT_CHARSET
+end
