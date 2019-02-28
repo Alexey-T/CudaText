@@ -28,13 +28,11 @@ type
   TfmLexerLib = class(TForm)
     btnConfig: TButton;
     btnDelete: TButton;
-    btnShowHide: TButton;
     List: TListBox;
     PanelBtn: TButtonPanel;
     PanelTop: TPanel;
     procedure btnDeleteClick(Sender: TObject);
     procedure btnConfigClick(Sender: TObject);
-    procedure btnShowHideClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
   private
@@ -81,7 +79,7 @@ begin
     with F.PanelBtn.CloseButton do Caption:= msgButtonClose;
     with F.btnConfig do Caption:= ini.ReadString(section, 'cfg', Caption);
     with F.btnDelete do Caption:= ini.ReadString(section, 'del', Caption);
-    with F.btnShowHide do Caption:= ini.ReadString(section, 'hid', Caption);
+    //with F.btnShowHide do Caption:= ini.ReadString(section, 'hid', Caption);
     cHiddenSuffix:= ini.ReadString(section, 'hidmk', cHiddenSuffix);
     cLexerLinks:= ini.ReadString(section, 'lns', cLexerLinks);
   finally
@@ -152,22 +150,6 @@ begin
   end;
 end;
 
-procedure TfmLexerLib.btnShowHideClick(Sender: TObject);
-var
-  an: TecSyntAnalyzer;
-  n: integer;
-begin
-  List.SetFocus;
-
-  n:= List.ItemIndex;
-  if n<0 then exit;
-  an:= List.Items.Objects[n] as TecSyntAnalyzer;
-
-  an.Internal:= not an.Internal;
-  AppManager.Modified:= true;
-  UpdateList;
-end;
-
 procedure TfmLexerLib.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -181,13 +163,6 @@ begin
   if (Key=VK_RETURN) and (Shift=[]) then
   begin
     btnConfig.Click;
-    Key:= 0;
-    exit
-  end;
-
-  if (Key=VK_SPACE) and (Shift=[]) then
-  begin
-    btnShowHide.Click;
     Key:= 0;
     exit
   end;

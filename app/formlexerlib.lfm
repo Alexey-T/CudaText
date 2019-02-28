@@ -14,11 +14,11 @@ object fmLexerLib: TfmLexerLib
   OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever
-  LCLVersion = '1.9.0.0'
+  LCLVersion = '2.1.0.0'
   object PanelBtn: TButtonPanel
     Left = 6
-    Height = 28
-    Top = 434
+    Height = 29
+    Top = 433
     Width = 447
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -34,22 +34,22 @@ object fmLexerLib: TfmLexerLib
   end
   object PanelTop: TPanel
     Left = 0
-    Height = 32
+    Height = 35
     Top = 0
     Width = 459
     Align = alTop
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 32
+    ClientHeight = 35
     ClientWidth = 459
     TabOrder = 0
     object btnConfig: TButton
       AnchorSideLeft.Control = PanelTop
       AnchorSideTop.Control = PanelTop
       Left = 6
-      Height = 26
+      Height = 29
       Top = 6
-      Width = 71
+      Width = 77
       AutoSize = True
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
@@ -61,35 +61,21 @@ object fmLexerLib: TfmLexerLib
       AnchorSideLeft.Control = btnConfig
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = btnConfig
-      Left = 83
-      Height = 26
+      Left = 89
+      Height = 29
       Top = 6
-      Width = 50
+      Width = 56
       AutoSize = True
       BorderSpacing.Left = 6
       Caption = '&Delete'
       OnClick = btnDeleteClick
       TabOrder = 1
     end
-    object btnShowHide: TButton
-      AnchorSideLeft.Control = btnDelete
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = btnConfig
-      Left = 139
-      Height = 26
-      Top = 6
-      Width = 76
-      AutoSize = True
-      BorderSpacing.Left = 6
-      Caption = '&Hide/Show'
-      OnClick = btnShowHideClick
-      TabOrder = 2
-    end
   end
   object List: TListBox
     Left = 6
-    Height = 390
-    Top = 38
+    Height = 386
+    Top = 41
     Width = 447
     Align = alClient
     BorderSpacing.Around = 6
