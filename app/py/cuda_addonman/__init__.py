@@ -48,6 +48,7 @@ STD_LEXERS = (
   'HTML',
   'Ini files',
   'JavaScript',
+  'JSDoc',
   'JSON',
   'Lua',
   'Makefile',
