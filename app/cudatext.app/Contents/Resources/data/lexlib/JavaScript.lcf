@@ -239,7 +239,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'Float'
       StyleName = 'Number'
       TokenType = 5
-      Expression = 
+      Expression =
         '\d[\d_]* (\.[\d_]*)? e [\+\-]? \d[\d_]*\b |'#13#10'\d[\d_]*\.[\d_]*\b ' +
         '|'#13#10'\.\d[\d_]*\b'
       ColumnFrom = 0
@@ -717,7 +717,7 @@ object SyntAnal10: TLibSyntAnalyzer
   SampleText.Strings = (
     '#!/bin/bash                         '
     '//Comment'
-    '/** DocBlock '
+    '/** @param {string} some[].name - Name.'
     '*/'
     'n = 12_34_5n+ 1.2+ 1.+ 1.2e+3+ 1.e-3+ '
     '  +0xFF_AAn+ 0b11_00n+ 0o77_11n'
@@ -759,7 +759,7 @@ object SyntAnal10: TLibSyntAnalyzer
     ''
     'function css_in_js() {'
     '  return ('
-    
+
       '    <JssProvider jss={jss} generateClassName={generateClassName}' +
       '>'
     '      ...'
@@ -780,8 +780,7 @@ object SyntAnal10: TLibSyntAnalyzer
   Extentions = 'js htc _js es6 pjs'
   LexerName = 'JavaScript'
   Notes.Strings = (
-    'Original from EControl'
-    'Heavily reworked by Alexey (CudaText)')
+    'Based on lexer from EControl, by Alexey (CudaText)')
   LineComment = '//'
   Charset = DEFAULT_CHARSET
 end

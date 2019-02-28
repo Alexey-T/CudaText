@@ -568,14 +568,15 @@ Possible values of "id":
 
 You can add to "id" values:
 
-* MENU_NO_FUZZY: disable fuzzy search in the filter field.
-* MENU_NO_FULLFILTER: disable filtering by 2nd part of items (part after "\t"), filter only by 1st part.
+* MENU_NO_FUZZY: Disable fuzzy search in the items list.
+* MENU_NO_FULLFILTER: Disable filtering by second part of items (after "\t"), filter only by first part.
+* MENU_CENTERED: Show menu centered on screen (otherwise it's aligned to current editor).
 
 Parameters:
 
-* Param "items": list of str, tuple of str, or string from joined items "\n".join(str_items). Each str item can be simple str or str1+"\t"+str2 (str2 shows right-aligned or below).
-* Param "focused": index of initially selected item.
-* Param "caption": if not empty str, caption will be shown above input box.
+* Param "items": Menu items, can be list of str, tuple of str, or string with "\n"-separated parts. Each item can be simple string or part1+"\t"+part2, where part2 shows right-aligned or below.
+* Param "focused": Index of initially selected item.
+* Param "caption": If not empty string, it is dialog caption.
 
 ===dlg_color===
 
@@ -3300,5 +3301,6 @@ def project_variables():
 
 1.0.275 (app 1.76.0)
 * add: Editor.get_text_line has optional param "max_len"
+* add: dlg_menu: added MENU_CENTERED
 
 [[Category:CudaText]]

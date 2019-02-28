@@ -70,11 +70,8 @@ object SyntAnal11: TLibSyntAnalyzer
   SampleText.Strings = (
     '/**'
     ' * Assign the project to a list of employees.'
-    
-      ' * @param {Object[]} employees - The employees who are responsib' +
-      'le for the project.'
     ' * @param {string} $employees[].name - The name of an employee.'
-    ' * @param {string} [somebody=John Doe] - Somebody'#39's name.'
+    ' * @param {string} [somebody=John Doe] - Some name.'
     ' */')
   TokenTypeNames.Strings = (
     'Comment'
