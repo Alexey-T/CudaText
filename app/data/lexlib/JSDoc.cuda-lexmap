@@ -7,5 +7,5 @@ styles_str=String
 [map]
 Comment=CommentDoc
 Param=Id1
-String=String
+Type=Id2
 Name=Id

@@ -6,20 +6,20 @@ object SyntAnal11: TLibSyntAnalyzer
       Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = [fsItalic]
+      Font.Style = []
     end
     item
       DisplayName = 'Param'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clPurple
+      Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
     end
     item
-      DisplayName = 'String'
+      DisplayName = 'Type'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clTeal
+      Font.Color = clPurple
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -42,8 +42,8 @@ object SyntAnal11: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'String'
-      StyleName = 'String'
+      DisplayName = 'Type'
+      StyleName = 'Type'
       TokenType = 2
       Expression = '\{.+?\}'
       ColumnFrom = 0
@@ -60,7 +60,7 @@ object SyntAnal11: TLibSyntAnalyzer
     item
       DisplayName = 'Comment'
       StyleName = 'Comment'
-      Expression = '[^\x20\x09]+'
+      Expression = '[^\x20\x09\n\r]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -77,10 +77,10 @@ object SyntAnal11: TLibSyntAnalyzer
     ' * @param {string} [somebody=John Doe] - Somebody'#39's name.'
     ' */')
   TokenTypeNames.Strings = (
-    'Unknown'
+    'Comment'
     'Param'
-    'String'
-    'Id')
+    'Type'
+    'Name')
   LexerName = 'JSDoc'
   Notes.Strings = (
     'Alexey (CudaText)')
