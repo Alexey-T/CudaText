@@ -1,4 +1,4 @@
-object SyntAnal15: TLibSyntAnalyzer
+object SyntAnal16: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Default'
@@ -832,6 +832,7 @@ object SyntAnal15: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Function separator'
+      Enabled = False
       StyleName = 'Function separator'
       StatesPresent = 2
       StatesAbsent = 24
@@ -909,7 +910,6 @@ object SyntAnal15: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Single function'
-      StyleName = 'Current function'
       BlockName = 'Implementation section'
       StrictParent = True
       StatesAdd = 16
@@ -937,7 +937,6 @@ object SyntAnal15: TLibSyntAnalyzer
       Highlight = True
       NameFmt = '%s2 %s1'
       GroupFmt = 'Functions'
-      DynHighlight = dhRange
       HighlightPos = cpRange
       CollapseFmt = '%s2 %s1'
       TreeGroupStyle = 'Group (tree)'
@@ -970,7 +969,6 @@ object SyntAnal15: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Function of class n.n'
-      StyleName = 'Current function'
       StatesAdd = 16
       StatesPresent = 2
       ConditionList = <
@@ -1014,7 +1012,6 @@ object SyntAnal15: TLibSyntAnalyzer
       NameFmt = '%s-3.%s-5'
       GroupFmt = 'classes\class %s-1'
       RefToCondEnd = True
-      DynHighlight = dhRange
       HighlightPos = cpRange
       CancelNextRules = True
       CollapseFmt = '%sz0'
@@ -1023,7 +1020,6 @@ object SyntAnal15: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Function of class'
-      StyleName = 'Current function'
       StatesAdd = 16
       StatesPresent = 2
       ConditionList = <
@@ -1059,7 +1055,6 @@ object SyntAnal15: TLibSyntAnalyzer
       NameFmt = '%s-3'
       GroupFmt = 'classes\class %s-1'
       RefToCondEnd = True
-      DynHighlight = dhRange
       HighlightPos = cpRange
       CollapseFmt = '%sz0'
       TreeItemImage = 6
