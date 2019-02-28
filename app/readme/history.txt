@@ -4,7 +4,7 @@
   * changed
 
 
-1.76.0 (2019/02)
+1.76.0 (2019/03)
 
 + add: memory optimizations (less memory usage on mass-replace)
 + add: mouse wheel scrolling works also with pressed mouse button
