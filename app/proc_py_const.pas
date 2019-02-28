@@ -57,6 +57,7 @@ const
   MENU_LIST_ALT = 1;
   MENU_NO_FUZZY = 16;
   MENU_NO_FULLFILTER = 32;
+  MENU_CENTERED = 64;
 
   MENU_CLEAR         = 0;
   MENU_ENUM          = 1;

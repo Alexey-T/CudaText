@@ -784,7 +784,7 @@ type
     function DoOnMacro(const Str: string): boolean;
     function DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean): boolean;
     function DoDialogMenuApi(const AText, ACaption: string; AMultiline: boolean;
-      AInitIndex: integer; ANoFuzzy: boolean; ANoFullFilter: boolean): integer;
+      AInitIndex: integer; ANoFuzzy, ANoFullFilter, AShowCentered: boolean): integer;
     procedure DoFileExportHtml;
     function DoFileInstallZip(const fn: string; out DirTarget: string; ASilent: boolean): boolean;
     procedure DoFileCloseAndDelete;
@@ -4673,10 +4673,8 @@ end;
 
 
 function TfmMain.DoDialogMenuApi(const AText, ACaption: string;
-  AMultiline: boolean;
-  AInitIndex: integer;
-  ANoFuzzy: boolean;
-  ANoFullFilter: boolean): integer;
+  AMultiline: boolean; AInitIndex: integer; ANoFuzzy, ANoFullFilter,
+  AShowCentered: boolean): integer;
 var
   Form: TfmMenuApi;
   S, SItem: string;
@@ -4691,6 +4689,9 @@ begin
     until false;
 
     UpdateInputForm(Form);
+    if AShowCentered then
+      Form.Position:= poScreenCenter;
+
     Form.ListCaption:= ACaption;
     Form.Multiline:= AMultiline;
     Form.InitItemIndex:= AInitIndex;
