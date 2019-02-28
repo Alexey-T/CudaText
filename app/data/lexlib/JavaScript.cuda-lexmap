@@ -6,6 +6,7 @@ styles_str=String
 
 [ref]
 0=PHP_
+1=JSDoc
 
 [map]
 Symbol=Symbol

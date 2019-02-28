@@ -12,6 +12,7 @@
 + add: AddonManager allows to write in "registry" that plugins require another plugins; removed support for install.inf keys "req", "reqlexer" because AddonManager support must be enough
 - fix: more fixing of corrupted encoding of "history files.json"
 
++ add: lexer JavaScript highlights JSDoc comments (added hidden lexer JSDoc)
 + add: lexer JavaScript improved: improved keywords, highlighted uppercase constants, better supported arrow functions, fixed many issues
 + add: lexers CSS, HTML improved (fixed rule "color")
 
