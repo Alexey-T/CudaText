@@ -159,6 +159,7 @@ const
   cmd_ToggleTabUsesSpaces = 2657;
   cmd_ConvertTabsToSpaces = 2658;
   cmd_ConvertSpacesToTabsLeading = 2659;
+  cmd_ConvertTabsToSpacesLeading = 2660;
 
   cmd_BookmarkToggle    = 2661;
   cmd_BookmarkInvertAll = 2662;
@@ -394,7 +395,8 @@ begin
   M.Add(cmd_CopyFilenameName, 'clipboard: copy filename only', [], []);
 
   M.Add(cmd_ToggleTabUsesSpaces, 'toggle tabulation-key uses spaces', [], []);
-  M.Add(cmd_ConvertTabsToSpaces, 'convert tabs to spaces', [], []);
+  M.Add(cmd_ConvertTabsToSpaces, 'convert tabs (all) to spaces', [], []);
+  M.Add(cmd_ConvertTabsToSpacesLeading, 'convert tabs (leading) to spaces', [], []);
   M.Add(cmd_ConvertSpacesToTabsLeading, 'convert spaces (leading) to tabs', [], []);
 
   M.Add(cmd_Groups1, 'groups: 1 group', [], []);

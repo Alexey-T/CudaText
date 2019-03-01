@@ -4,6 +4,10 @@
   * changed
 
 
+1.76.2 (2019/03)
+
++ add: command "convert tabs (leading) to spaces"
+
 1.76.0 (2019/03)
 
 + add: memory optimizations (less memory usage on mass-replace)

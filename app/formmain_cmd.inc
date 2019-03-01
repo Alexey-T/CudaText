@@ -357,9 +357,15 @@ begin
         AHandled:= true;
         exit
       end;
+    cmd_ConvertTabsToSpacesLeading:
+      begin
+        Ed.DoConvertIndentation(false);
+        AHandled:= true;
+        exit
+      end;
     cmd_ConvertSpacesToTabsLeading:
       begin
-        Ed.DoConvertSpacesToTabsLeading;
+        Ed.DoConvertIndentation(true);
         AHandled:= true;
         exit
       end;
