@@ -292,7 +292,7 @@ begin
 
   st.Font.Style:= StringToFontStyles(cfg.GetValue(skey+'Styles', FontStylesToString(st.Font.Style)));
   st.Font.Color:= SHtmlColorToColor(cfg.GetValue(skey+'CFont', ''), Len, st.Font.Color);
-  st.BgColor:= SHtmlColorToColor(cfg.GetValue(skey+'CBack', ''), Len, st.BgColor);
+  st.BgColor:= SHtmlColorToColor(cfg.GetValue(skey+'CBack', ''), Len, clNone);
   st.BorderColorBottom:= SHtmlColorToColor(cfg.GetValue(skey+'CBorder', ''), Len, st.BorderColorBottom);
   st.BorderColorLeft:= st.BorderColorBottom;
   st.BorderColorRight:= st.BorderColorBottom;
