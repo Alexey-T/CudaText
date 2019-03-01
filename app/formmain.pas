@@ -124,6 +124,9 @@ type
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
     ButtonCancel: TATButton;
+    mnuTabsizeSep: TMenuItem;
+    mnuTabsizeConvTabs: TMenuItem;
+    mnuTabsizeConvSpaces: TMenuItem;
     mnuViewSidebar: TMenuItem;
     mnuTabCopyName: TMenuItem;
     mnuTabCopyDir: TMenuItem;

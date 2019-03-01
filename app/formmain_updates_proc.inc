@@ -608,6 +608,9 @@ end;
 
 procedure TfmMain.UpdateMenuHotkeys;
 begin
+  UpdateMenuItemHotkey(mnuTabsizeConvSpaces, cmd_ConvertSpacesToTabsLeading);
+  UpdateMenuItemHotkey(mnuTabsizeConvTabs, cmd_ConvertTabsToSpacesLeading);
+
   UpdateMenuItemHotkey(mnuApple_About, cmd_HelpAbout);
   UpdateMenuItemHotkey(mnuApple_CheckUpd, cmd_HelpCheckUpdates);
 
