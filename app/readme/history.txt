@@ -7,6 +7,7 @@
 1.76.2 (2019/03)
 
 + add: command "convert tabs (leading) to spaces"
++ add: statusbar cell "Tab size" menu has additional items "Convert indentation to spaces", "Convert indentation to tabs"
 
 1.76.0 (2019/03)
 
