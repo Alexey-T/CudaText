@@ -443,7 +443,7 @@ class Command:
         addons = [a for a in addons if a['kind'] in ('plugin', 'treehelper', 'linter') and a.get('module', '') in modules] \
                + [a for a in addons if a['kind']=='lexer' and a['name'] in lexers] \
                + [a for a in addons if a['kind']=='translation' and a['name'] in langs] \
-               + [a for a in addons if a['kind']=='theme' and a['name'] in themes]
+               + [a for a in addons if a['kind']=='theme' and a['name'].lower() in themes]
 
         modules_web = [a.get('module', '') for a in addons]
         modules_web = [a for a in modules_web if a]
