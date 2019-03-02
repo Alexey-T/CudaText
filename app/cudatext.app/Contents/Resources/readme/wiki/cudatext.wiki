@@ -913,6 +913,17 @@ Tool properties:
 * Save before: Nothing
 * Capture output: Ignore
 
+==Tool to open .chm documentation for all lexers==
+
+See above example about tool for PHP documentation. Create the similar tool
+
+* File name: keyhh.exe
+* Shell command: unchecked
+* Parameters: -MyHelp -#klink "{CurrentWord}" "{AppDir}\..\Docs\{Lexer}.chm"
+* Lexers: (empty)
+
+This tool needs renamed .chm files: for lexer AutoIt it needs "AutoIt.chm" and so on. It needs .chm files in a single folder relative to CudaText folder.
+
 ==URL for Google search==
 
 This is URL, not tool. In the External Tools dialog, press URL button, then press Add to add a new URL.

@@ -339,6 +339,7 @@ cmd_SortDesc         = 2655 #deleted
 cmd_ToggleTabUsesSpaces = 2657
 cmd_ConvertTabsToSpaces = 2658
 cmd_ConvertSpacesToTabsLeading = 2659
+cmd_ConvertTabsToSpacesLeading = 2660
 
 cmd_BookmarkToggle    = 2661
 cmd_BookmarkInvertAll = 2662
