@@ -479,6 +479,8 @@ begin
     cStrMenuitemFoldLevel:= mnuTreeFoldLevel.Caption;
 
     DoLocMenuitem(ini, mnuTabsizeSpace, 'ct', 'tsz_sp');
+    DoLocMenuitem(ini, mnuTabsizeConvSpaces, 'ct', 'cnv_t');
+    DoLocMenuitem(ini, mnuTabsizeConvTabs, 'ct', 'cnv_s');
 
     ButtonCancel.Caption:= msgButtonCancel;
 

@@ -1026,7 +1026,7 @@ object fmMain: TfmMain
       Caption = '-'
     end
     object mnuTabsizeSpace: TMenuItem
-      Caption = 'Toggle use spaces'
+      Caption = 'Toggle using spaces'
       OnClick = mnuTabsizeSpaceClick
     end
     object mnuTabsizeSep: TMenuItem
