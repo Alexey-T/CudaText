@@ -1586,7 +1586,12 @@ end;
 procedure TEditorFrame.SetLexer(Ed: TATSynEdit; an: TecSyntAnalyzer);
 var
   an2: TecSyntAnalyzer;
+  ada: TATAdapterEControl;
 begin
+  ada:= Adapter[Ed];
+  if Assigned(ada.Lexer) then
+    if not ada.Stop then exit;
+
   if IsFileTooBigForLexer(GetFileName(Ed)) then
   begin
     if EditorsLinked or (Ed=Ed1) then
