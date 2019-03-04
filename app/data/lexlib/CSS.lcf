@@ -1,4 +1,4 @@
-object SyntAnal7: TLibSyntAnalyzer
+object SyntAnal6: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Style'
@@ -280,6 +280,7 @@ object SyntAnal7: TLibSyntAnalyzer
             'animation-name'
             'animation-play-state'
             'animation-timing-function'
+            'appearance'
             'azimuth'
             'backface-visibility'
             'background'
@@ -580,6 +581,7 @@ object SyntAnal7: TLibSyntAnalyzer
             'style-float'
             'table-layout'
             'tab-size'
+            'tap-highlight-color'
             'text-align'
             'text-align-last'
             'text-anchor'
@@ -601,6 +603,7 @@ object SyntAnal7: TLibSyntAnalyzer
             'text-overflow'
             'text-rendering'
             'text-shadow'
+            'text-size-adjust'
             'text-transform'
             'text-underline-position'
             'top'
