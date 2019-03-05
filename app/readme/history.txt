@@ -4,6 +4,10 @@
   * changed
 
 
+1.76.4
+
++ add: huge lines (len>4k) are now completely ignored by lexers (so file containing single huge line, e.g. minimized JSON, will take no time at all)
+
 1.76.2 (2019/03)
 
 + add: command "convert tabs (leading) to spaces"
