@@ -1,8 +1,9 @@
-﻿''' Plugin for CudaText editor
+''' Plugin for CudaText editor
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
+    Alexey Torgashin (CudaText)
 Version:
-    '0.8.7 2018-12-17'
+    '0.8.8 2018-03-05'
 ToDo: (see end of file)
 '''
 
@@ -226,6 +227,9 @@ class Command:
             pass;              #LOG and log('(cCrt, rCrt), (cEnd, rEnd)={}', ((cCrt, rCrt), (cEnd, rEnd)))
             bEmpSel     = -1==rEnd
             bDrtSel     = -1==rEnd or (rCrt, cCrt)>(rEnd, cEnd)
+            bEntireLn   = (rEnd>=0) and (cEnd==0) and (cCrt==0)
+            bEntireLn1  = bEntireLn and abs(rEnd-rCrt)==1
+            bEntireLn2  = bEntireLn and abs(rEnd-rCrt)>1
             if False:pass
             elif bEmpSel and (bUseFLn or bOnlyLn):
                 # Use full line
@@ -242,7 +246,8 @@ class Command:
                 (rTx1, cTx1), (rTx2, cTx2) = apx.minmax((rCrt, cCrt), (rEnd, cEnd))
             selTx   = ed.get_text_substr(cTx1, rTx1, cTx2, rTx2)
             pass;              #LOG and log('(rTx1, cTx1), (rTx2, cTx2), selTx={}', ((rTx1, cTx1), (rTx2, cTx2), repr(selTx)))
-            do_uncmt= selTx.startswith(bgn_sgn) and selTx.endswith(end_sgn)
+            do_uncmt= selTx.startswith(bgn_sgn) #and selTx.endswith(end_sgn)
+                # don't check for ending of selection - for HTML and entire selected line(s)
             pass;              #LOG and log('do_uncmt={}', (do_uncmt))
 
             if False:pass
@@ -252,19 +257,33 @@ class Command:
                 ed.insert(0, rTx1,   bgn_sgn+'\n')    #! true insert sequence
                 (cNSel1, rNSel1
                 ,cNSel2, rNSel2)    = 0, rTx1, len(end_sgn), rTx2+2
+
             elif not do_uncmt:
                 # Comment!
-                ed.insert(cTx2, rTx2, end_sgn)        #! true insert sequence
-                ed.insert(cTx1, rTx1, bgn_sgn)        #! true insert sequence
-                if False:pass
-                elif rTx1==rTx2:
-                    # sel into one row
+                if bEntireLn1:
+                    s = ed.get_text_line(rTx1)
+                    ed.set_text_line(rTx1, bgn_sgn+s+end_sgn)
                     (cNSel1, rNSel1
-                    ,cNSel2, rNSel2)    = cTx1, rTx1, cTx2+len(bgn_sgn)+len(end_sgn), rTx2
-                elif rTx1!=rTx2:
-                    # sel ends on diff rows
+                    ,cNSel2, rNSel2) = (0, rTx1, 0, rTx2)
+
+                elif bEntireLn2:
+                    ed.insert(0, rTx2, end_sgn+'\n')
+                    ed.insert(0, rTx1, bgn_sgn+'\n')
                     (cNSel1, rNSel1
-                    ,cNSel2, rNSel2)    = cTx1, rTx1, cTx2             +len(end_sgn), rTx2
+                    ,cNSel2, rNSel2) = (0, rTx1, 0, rTx2+2)
+
+                else:
+                    ed.insert(cTx2, rTx2, end_sgn)        #! true insert sequence
+                    ed.insert(cTx1, rTx1, bgn_sgn)        #! true insert sequence
+                    if False:pass
+                    elif rTx1==rTx2:
+                        # sel into one row
+                        (cNSel1, rNSel1
+                        ,cNSel2, rNSel2)    = cTx1, rTx1, cTx2+len(bgn_sgn)+len(end_sgn), rTx2
+                    elif rTx1!=rTx2:
+                        # sel ends on diff rows
+                        (cNSel1, rNSel1
+                        ,cNSel2, rNSel2)    = cTx1, rTx1, cTx2             +len(end_sgn), rTx2
 
             elif do_uncmt and bOnlyLn:
                 # UnComment!
@@ -272,19 +291,37 @@ class Command:
                 ed.delete(0, rTx1, 0, rTx1+1)    #! true delete sequence
                 (cNSel1, rNSel1
                 ,cNSel2, rNSel2)    = 0, rTx1, len(ed.get_text_line(rTx2-2)), rTx2-2
+
             elif do_uncmt:
                 # UnComment!
-                ed.delete(cTx2-len(end_sgn), rTx2, cTx2, rTx2)    #! true delete sequence
-                ed.delete(cTx1, rTx1, cTx1+len(bgn_sgn), rTx1)    #! true delete sequence
-                if False:pass
-                elif rTx1==rTx2:
-                    # sel into one row
+                if selTx.endswith(end_sgn):
+                    ed.delete(cTx2-len(end_sgn), rTx2, cTx2, rTx2)    #! true delete sequence
+                    ed.delete(cTx1, rTx1, cTx1+len(bgn_sgn), rTx1)    #! true delete sequence
+                    if False:pass
+                    elif rTx1==rTx2:
+                        # sel into one row
+                        (cNSel1, rNSel1
+                        ,cNSel2, rNSel2)    = cTx1, rTx1, cTx2-len(bgn_sgn)-len(end_sgn), rTx2
+                    elif rTx1!=rTx2:
+                        # sel ends on diff rows
+                        (cNSel1, rNSel1
+                        ,cNSel2, rNSel2)    = cTx1, rTx1, cTx2             -len(end_sgn), rTx2
+
+                elif bEntireLn1:
+                    s = ed.get_text_line(rTx1)
+                    if s.startswith(bgn_sgn):
+                        s = s[len(bgn_sgn):]
+                    if s.endswith(end_sgn):
+                        s = s[:-len(end_sgn)]
+                    ed.set_text_line(rTx1, s)
                     (cNSel1, rNSel1
-                    ,cNSel2, rNSel2)    = cTx1, rTx1, cTx2-len(bgn_sgn)-len(end_sgn), rTx2
-                elif rTx1!=rTx2:
-                    # sel ends on diff rows
+                    ,cNSel2, rNSel2) = (0, rTx1, 0, rTx2)
+
+                elif bEntireLn2:
+                    ed.delete(0, rTx2-1, 0, rTx2)
+                    ed.delete(0, rTx1, 0, rTx1+1)
                     (cNSel1, rNSel1
-                    ,cNSel2, rNSel2)    = cTx1, rTx1, cTx2             -len(end_sgn), rTx2
+                    ,cNSel2, rNSel2) = (0, rTx1, 0, rTx2-2)
 
             pass;              #LOG and log('bDrtSel, (cNSel1, rNSel1), (cNSel2, rNSel2)={}', (bDrtSel, (cNSel1, rNSel1), (cNSel2, rNSel2)))
             if bDrtSel:
