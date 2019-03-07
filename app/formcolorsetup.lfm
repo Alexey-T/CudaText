@@ -11,7 +11,7 @@ object fmColorSetup: TfmColorSetup
   OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever
-  LCLVersion = '1.9.0.0'
+  LCLVersion = '2.1.0.0'
   object ButtonPanel1: TButtonPanel
     Left = 6
     Height = 29
@@ -21,7 +21,6 @@ object fmColorSetup: TfmColorSetup
     OKButton.DefaultCaption = True
     HelpButton.Name = 'HelpButton'
     HelpButton.Caption = '&Apply'
-    HelpButton.DefaultCaption = False
     HelpButton.OnClick = HelpButtonClick
     CloseButton.Name = 'CloseButton'
     CloseButton.DefaultCaption = True
@@ -105,7 +104,9 @@ object fmColorSetup: TfmColorSetup
       Align = alLeft
       BorderSpacing.Around = 6
       ItemHeight = 0
+      OnDrawItem = ListStylesDrawItem
       ScrollWidth = 358
+      Style = lbOwnerDrawFixed
       TabOrder = 0
       TopIndex = -1
     end
@@ -150,7 +151,7 @@ object fmColorSetup: TfmColorSetup
       'ColorS=F0FBFF'
       'ColorT=A4A0A0'
     )
-    left = 112
-    top = 472
+    Left = 112
+    Top = 472
   end
 end

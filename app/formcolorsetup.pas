@@ -15,11 +15,12 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel,
   IniFiles, ColorBox, StdCtrls, ExtCtrls,
   LazUTF8, LazFileUtils,
+  LCLType,
   ec_SyntAnal,
   formlexerstyle,
   proc_msg,
   proc_globdata,
-  proc_colors;
+  proc_colors, Types;
 
 type
   TApplyThemeEvent = procedure(const AColors: TAppTheme) of object;
@@ -43,6 +44,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure HelpButtonClick(Sender: TObject);
     procedure ListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure ListStylesDrawItem(Control: TWinControl; Index: Integer; ARect: TRect; State: TOwnerDrawState);
   private
     { private declarations }
     procedure Updatelist;
@@ -205,6 +207,40 @@ begin
     bChange.Click;
     key:= 0;
     exit
+  end;
+end;
+
+procedure TfmColorSetup.ListStylesDrawItem(Control: TWinControl; Index: Integer; ARect: TRect;
+  State: TOwnerDrawState);
+const
+  cIndent = 14;
+var
+  C: TCanvas;
+  st: TecSyntaxFormat;
+  S: string;
+  NLeft: integer;
+begin
+  C:= (Control as TListbox).Canvas;
+  st:= ListStyles.Items.Objects[Index] as TecSyntaxFormat;
+
+  if odSelected in State then
+  begin
+    C.Brush.Color:= clHighlight;
+    C.FillRect(ARect);
+  end;
+
+  C.Font.Color:= st.Font.Color;
+  C.Font.Style:= st.Font.Style;
+  C.Brush.Color:= st.BgColor;
+
+  S:= ' '+ListStyles.Items[Index]+' ';
+  NLeft:= ARect.Left+cIndent;
+  C.TextOut(NLeft, ARect.Top, S);
+
+  if st.BorderColorBottom<>clNone then
+  begin
+    C.Pen.Color:= st.BorderColorBottom;
+    C.Line(NLeft, ARect.Bottom-2, NLeft+C.TextWidth(S), ARect.Bottom-2);
   end;
 end;
 
