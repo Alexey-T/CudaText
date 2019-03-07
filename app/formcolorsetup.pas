@@ -213,35 +213,43 @@ end;
 procedure TfmColorSetup.ListStylesDrawItem(Control: TWinControl; Index: Integer; ARect: TRect;
   State: TOwnerDrawState);
 const
-  cIndent = 14;
+  cIndent = 6;
+  cExample = ' Example  ';
 var
   C: TCanvas;
   st: TecSyntaxFormat;
   S: string;
-  NLeft: integer;
+  NWidth: integer;
 begin
   C:= (Control as TListbox).Canvas;
   st:= ListStyles.Items.Objects[Index] as TecSyntaxFormat;
-
-  if odSelected in State then
-  begin
-    C.Brush.Color:= clHighlight;
-    C.FillRect(ARect);
-  end;
 
   C.Font.Color:= st.Font.Color;
   C.Font.Style:= st.Font.Style;
   C.Brush.Color:= st.BgColor;
 
-  S:= ' '+ListStyles.Items[Index]+' ';
-  NLeft:= ARect.Left+cIndent;
-  C.TextOut(NLeft, ARect.Top, S);
+  S:= cExample;
+  NWidth:= C.TextWidth(S);
+  C.TextOut(ARect.Right-NWidth, ARect.Top, S);
 
   if st.BorderColorBottom<>clNone then
   begin
     C.Pen.Color:= st.BorderColorBottom;
-    C.Line(NLeft, ARect.Bottom-2, NLeft+C.TextWidth(S), ARect.Bottom-2);
+    C.Line(ARect.Right-NWidth, ARect.Bottom-2, ARect.Right, ARect.Bottom-2);
   end;
+
+  if odSelected in State then
+  begin
+    C.Brush.Color:= clHighlight;
+    C.FillRect(ARect.Left, ARect.Top, ARect.Right-NWidth, ARect.Bottom);
+  end
+  else
+    C.Brush.Color:= clNone;
+
+  S:= ListStyles.Items[Index];
+  C.Font.Color:= clBlack;
+  C.Font.Style:= [];
+  C.TextOut(ARect.Left+cIndent, ARect.Top, S);
 end;
 
 end.
