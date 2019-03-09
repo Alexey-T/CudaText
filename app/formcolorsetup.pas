@@ -214,7 +214,7 @@ procedure TfmColorSetup.ListStylesDrawItem(Control: TWinControl; Index: Integer;
   State: TOwnerDrawState);
 const
   cIndent = 6;
-  cExample = ' Example  ';
+  cExample = ' Example ';
 var
   C: TCanvas;
   st: TecSyntaxFormat;
