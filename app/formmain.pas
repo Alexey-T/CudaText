@@ -3446,7 +3446,10 @@ begin
     Msg:= msgStatusbarTextTab;
 
   for i:= cMenuTabsizeMin to cMenuTabsizeMax do
+  begin
     FMenuItemTabSize[i].Caption:= Msg+': '+IntToStr(i);
+    FMenuItemTabSize[i].Checked:= Ed.OptTabSize=i;
+  end;
 end;
 
 procedure TfmMain.PythonEngineAfterInit(Sender: TObject);
