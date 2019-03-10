@@ -478,7 +478,7 @@ begin
     cStrMenuitemUnfoldAll:= mnuTreeUnfoldAll.Caption;
     cStrMenuitemFoldLevel:= mnuTreeFoldLevel.Caption;
 
-    DoLocMenuitem(ini, mnuTabsizeSpace, 'ct', 'tsz_sp');
+    DoLocMenuitem(ini, mnuTabsizeSpace, 'ct', 'ussp');
     DoLocMenuitem(ini, mnuTabsizeConvSpaces, 'ct', 'cnv_t');
     DoLocMenuitem(ini, mnuTabsizeConvTabs, 'ct', 'cnv_s');
 

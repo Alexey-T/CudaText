@@ -3451,6 +3451,8 @@ begin
     FMenuItemTabSize[i].Caption:= Msg+': '+IntToStr(i);
     FMenuItemTabSize[i].Checked:= NTab=i;
   end;
+
+  mnuTabsizeSpace.Checked:= Ed.OptTabSpaces;
 end;
 
 procedure TfmMain.PythonEngineAfterInit(Sender: TObject);
