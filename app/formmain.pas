@@ -3437,18 +3437,19 @@ procedure TfmMain.PopupTabSizePopup(Sender: TObject);
 var
   Ed: TATSynEdit;
   Msg: string;
-  i: integer;
+  NTab, i: integer;
 begin
   Ed:= CurrentEditor;
   if Ed.OptTabSpaces then
     Msg:= msgStatusbarTextSpaces
   else
     Msg:= msgStatusbarTextTab;
+  NTab:= Ed.OptTabSize;
 
   for i:= cMenuTabsizeMin to cMenuTabsizeMax do
   begin
     FMenuItemTabSize[i].Caption:= Msg+': '+IntToStr(i);
-    FMenuItemTabSize[i].Checked:= Ed.OptTabSize=i;
+    FMenuItemTabSize[i].Checked:= NTab=i;
   end;
 end;
 
