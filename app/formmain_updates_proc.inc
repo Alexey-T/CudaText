@@ -1313,23 +1313,17 @@ end;
 
 
 procedure TfmMain.UpdateMenuTabsize;
-const
-  cMinSize = 1;
-  cMaxSize = 10;
 var
-  SPrefix: string;
   mi: TMenuItem;
   i: integer;
 begin
-  with TIniFile.Create(GetAppLangFilename) do
-    SPrefix:= ReadString('ct', 'tsz', 'Tab size:');
-
-  for i:= cMaxSize downto cMinSize do
+  for i:= cMenuTabsizeMax downto cMenuTabsizeMin do
   begin
     mi:= TMenuItem.Create(Self);
-    mi.Caption:= SPrefix+' '+IntToStr(i);
+    mi.Caption:= 'tab: '+IntToStr(i);
     mi.Tag:= i;
     mi.OnClick:= @MenuTabsizeClick;
+    FMenuItemTabSize[i]:= mi;
     PopupTabSize.Items.Insert(0, mi);
   end;
 end;

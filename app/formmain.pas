@@ -119,6 +119,10 @@ type
 
   TAppConsoleQueue = specialize TQueue<string>;
 
+const
+  cMenuTabsizeMin = 1;
+  cMenuTabsizeMax = 10;
+
 type
   { TfmMain }
   TfmMain = class(TForm)
@@ -459,14 +463,6 @@ type
     procedure mnuTabCopyNameClick(Sender: TObject);
     procedure mnuTabMoveF2Click(Sender: TObject);
     procedure mnuTabMoveF3Click(Sender: TObject);
-    procedure mnuTabsize1Click(Sender: TObject);
-    procedure mnuTabsize2Click(Sender: TObject);
-    procedure mnuTabsize3Click(Sender: TObject);
-    procedure mnuTabsize4Click(Sender: TObject);
-    procedure mnuTabsize5Click(Sender: TObject);
-    procedure mnuTabsize6Click(Sender: TObject);
-    procedure mnuTabsize7Click(Sender: TObject);
-    procedure mnuTabsize8Click(Sender: TObject);
     procedure MenuRecentsClear(Sender: TObject);
     procedure mnuFind2NextClick(Sender: TObject);
     procedure mnuFind2PrevClick(Sender: TObject);
@@ -511,6 +507,7 @@ type
     procedure mnuTreeSortedClick(Sender: TObject);
     procedure mnuTreeUnfoldAllClick(Sender: TObject);
     procedure PopupTabPopup(Sender: TObject);
+    procedure PopupTabSizePopup(Sender: TObject);
     procedure PopupTextPopup(Sender: TObject);
     procedure PythonEngineAfterInit(Sender: TObject);
     procedure PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
@@ -648,6 +645,7 @@ type
     FFileNameLogConsole: string;
     FCodetreeDblClicking: boolean;
     FMenuCopy: TPopupMenu;
+    FMenuItemTabSize: array[cMenuTabsizeMin..cMenuTabsizeMax] of TMenuItem;
     FPopupListboxOutput: TPopupMenu;
     FPopupListboxValidate: TPopupMenu;
     FNewClickedEditor: TATSynEdit;
@@ -3435,6 +3433,22 @@ begin
   UpdateMenuEnabled(mnuTabMovePrev, (NVis>=2) and (NCur<6));
 end;
 
+procedure TfmMain.PopupTabSizePopup(Sender: TObject);
+var
+  Ed: TATSynEdit;
+  Msg: string;
+  i: integer;
+begin
+  Ed:= CurrentEditor;
+  if Ed.OptTabSpaces then
+    Msg:= msgStatusbarTextSpaces
+  else
+    Msg:= msgStatusbarTextTab;
+
+  for i:= cMenuTabsizeMin to cMenuTabsizeMax do
+    FMenuItemTabSize[i].Caption:= Msg+': '+IntToStr(i);
+end;
+
 procedure TfmMain.PythonEngineAfterInit(Sender: TObject);
 var
   Str: array of string;
@@ -4930,46 +4944,6 @@ begin
   if F=nil then exit;
 
   F.Editor.DoCommand(cmd_CopyFilenameName);
-end;
-
-procedure TfmMain.mnuTabsize1Click(Sender: TObject);
-begin
-  UpdateEditorTabsize(1);
-end;
-
-procedure TfmMain.mnuTabsize2Click(Sender: TObject);
-begin
-  UpdateEditorTabsize(2);
-end;
-
-procedure TfmMain.mnuTabsize3Click(Sender: TObject);
-begin
-  UpdateEditorTabsize(3);
-end;
-
-procedure TfmMain.mnuTabsize4Click(Sender: TObject);
-begin
-  UpdateEditorTabsize(4);
-end;
-
-procedure TfmMain.mnuTabsize5Click(Sender: TObject);
-begin
-  UpdateEditorTabsize(5);
-end;
-
-procedure TfmMain.mnuTabsize6Click(Sender: TObject);
-begin
-  UpdateEditorTabsize(6);
-end;
-
-procedure TfmMain.mnuTabsize7Click(Sender: TObject);
-begin
-  UpdateEditorTabsize(7);
-end;
-
-procedure TfmMain.mnuTabsize8Click(Sender: TObject);
-begin
-  UpdateEditorTabsize(8);
 end;
 
 procedure DoParseOutputLine(const AProp: TAppPanelProps;

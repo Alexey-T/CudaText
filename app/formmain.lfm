@@ -1020,6 +1020,7 @@ object fmMain: TfmMain
     end
   end
   object PopupTabSize: TPopupMenu
+    OnPopup = PopupTabSizePopup
     Left = 568
     Top = 144
     object MenuItem29: TMenuItem
