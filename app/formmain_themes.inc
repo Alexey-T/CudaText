@@ -369,6 +369,9 @@ begin
   end
   else
   begin
+    if not UiOps.LexerThemes then
+      MsgBox(msgStatusSyntaxThemesOff, MB_OK or MB_ICONWARNING);
+
     StrName:= ThemeSyntax;
     StrExt:= AppExtensionThemeSyntax;
   end;
