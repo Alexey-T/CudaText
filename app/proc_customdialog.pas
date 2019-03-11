@@ -2093,7 +2093,7 @@ function DoForm_GetPropsAsStringDict(F: TFormDummy): PPyObject;
 begin
   with GetPythonEngine do
   begin
-    Result:= Py_BuildValue('{sssssisisisisisisOsOsOsO}',
+    Result:= Py_BuildValue('{sssssisisisisisisOsOsOsOsO}',
       'cap', PChar(F.Caption),
       'tag', PChar(F.TagString),
       PChar(string('x')), F.Left,
@@ -2105,7 +2105,8 @@ begin
       'vis', PyBool_FromLong(Ord(F.Visible)),
       'resize', PyBool_FromLong(Ord(F.BorderStyle=bsSizeable)),
       'topmost', PyBool_FromLong(Ord(F.FormStyle=fsStayOnTop)),
-      'keypreview', PyBool_FromLong(Ord(F.KeyPreview))
+      'keypreview', PyBool_FromLong(Ord(F.KeyPreview)),
+      PChar(string('p')), PyLong_FromLongLong(PtrInt(F.Parent))
       );
   end;
 end;
