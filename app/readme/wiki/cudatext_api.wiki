@@ -1005,7 +1005,7 @@ class Command:
 Parameters:
 
 * "id_dlg": Int handle of form.
-* "id_ctl": Int index of control. Used only for control events.
+* "id_ctl": Int index of control (usually; in on_key_down it has different meaning).
 * "data": Value, specific to event.
 * "info": Value from extended form of callback string.
 
