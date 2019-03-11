@@ -4534,6 +4534,7 @@ begin
   Ed:= F.Editor;
 
   CompletionOps.CommitChars:= UiOps.AutocompleteCommitChars; //before DoPyEvent
+  CompletionOps.CloseChars:= UiOps.AutocompleteCloseChars; //before DoPyEvent
   if DoPyEvent(Ed, cEventOnComplete, [])=cPyTrue then exit;
 
   if F.Lexer[Ed]=nil then exit;

@@ -9,6 +9,7 @@
 + add: huge lines (len>4k) are now completely ignored by lexers (so file containing single huge line, e.g. minimized JSON, will take no time at all)
 + add: plugin Comments improved: stream comment for entirely selected single line is added inside that line; stream comment for entirely selected 2+ lines is added on 2 new lines
 + add: dialog "Settings - theme - syntax" shows colored marks in listbox
++ add: option "autocomplete_close_chars"
 
 1.76.2 (2019/03)
 

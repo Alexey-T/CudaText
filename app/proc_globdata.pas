@@ -147,6 +147,7 @@ type
     AutocompleteAutoshowCharCount: integer;
     AutocompleteTriggerChars: string;
     AutocompleteCommitChars: string;
+    AutocompleteCloseChars: string;
     AutocompleteAddOpeningBracket: boolean;
     AutocompleteUpDownAtEdge: integer;
     AutoCloseBrackets: string;
@@ -1234,7 +1235,8 @@ begin
     AutocompleteHtml:= true;
     AutocompleteAutoshowCharCount:= 0;
     AutocompleteTriggerChars:= '';
-    AutocompleteCommitChars:= ' ,;/\''"=<>()[]{}';
+    AutocompleteCommitChars:= ' ,;/\''"';
+    AutocompleteCloseChars:= '<>()[]{}=';
     AutocompleteAddOpeningBracket:= true;
     AutocompleteUpDownAtEdge:= 1; //cudWrap
     AutoCloseBrackets:= '([{';

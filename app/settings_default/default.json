@@ -954,7 +954,11 @@
   //When any of these chars is typed while showing completion listbox,
   //listbox enters selection, and typed char is appended too.
   //Option is for lexer-specific configs, not for user.json config.
-  "autocomplete_commit_chars": " ,;/\\''\"=<>()[]{}",
+  "autocomplete_commit_chars": " ,;/\\''\"",
+
+  //When any of these chars is typed while showing completion listbox,
+  //listbox is closed, and typed char is appended.
+  "autocomplete_close_chars": "<>()[]{}=",
 
   //If chosen auto-completion item has (), then append "(" on insertion
   "autocomplete_add_opening_bracket": true,
