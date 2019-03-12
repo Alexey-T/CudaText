@@ -237,6 +237,7 @@ const
 var
   Frame: TEditorFrame;
 begin
+  StatusProgress.Hide;
   UpdateTreeContents;
 
   //restoring of folded state from history is here,

@@ -690,6 +690,7 @@ type
     function DoFindOptions_GetDict: PPyObject;
     procedure DoFolderOpen(const ADirName: string; ANewProject: boolean);
     procedure DoGroupsChangeMode(Sender: TObject);
+    procedure DoOnLexerParseProgress(Sender: TObject; AProgress: integer);
     procedure DoOps_AddPluginMenuItem(ACaption: string; ASubMenu: TMenuItem; ATag: integer);
     procedure DoOps_LexersDisableInFrames(ListNames: TStringList);
     procedure DoOps_LexersRestoreInFrames(ListNames: TStringList);
@@ -1552,6 +1553,7 @@ begin
   mnuHelpCheckUpd.Enabled:= false;
   {$endif}
 
+  OnLexerParseProgress:= @DoOnLexerParseProgress;
   CustomDialog_DoPyCallback:= @DoPyCallbackFromAPI;
   FFileNameLogDebug:= GetAppPath(cDirSettings)+DirectorySeparator+'app.log';
   FFileNameLogConsole:= GetAppPath(cDirSettings)+DirectorySeparator+'console.log';
@@ -5952,6 +5954,11 @@ begin
   end;
 end;
 
+procedure TfmMain.DoOnLexerParseProgress(Sender: TObject; AProgress: integer);
+begin
+  StatusProgress.Show;
+  StatusProgress.Progress:= AProgress;
+end;
 
 //----------------------------
 {$I formmain_loadsave.inc}
