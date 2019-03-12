@@ -124,7 +124,6 @@ object fmMain: TfmMain
         Height = 19
         Top = 50
         Width = 112
-        BorderSpacing.Around = 2
         Color = clBtnFace
         DoubleBuffered = False
         ParentColor = False

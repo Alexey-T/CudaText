@@ -219,6 +219,7 @@ begin
     AnchorSideTop.Control:= Status;
     AnchorSideTop.Side:= asrTop;
     Anchors:= [akRight, akTop, akBottom];
+    BorderSpacing.Around:= 2;
   end;
 
   with LexerProgress do
@@ -231,8 +232,8 @@ begin
     AnchorSideTop.Control:= Status;
     AnchorSideTop.Side:= asrTop;
     Anchors:= [akRight, akTop, akBottom];
-    BorderSpacing.Around:= 0;
-    BorderSpacing.Top:= Status.Height * 3 div 4;
+    BorderSpacing.Around:= 2;
+    BorderSpacing.Top:= Status.Height * 2 div 3;
     Kind:= gkHorizontalBar;
     ShowText:= false;
     MinValue:= 0;
@@ -248,6 +249,7 @@ begin
     AnchorSideBottom.Side:= asrBottom;
     AnchorSideTop.Control:= StatusProgress;
     Anchors:= [akRight, akTop, akBottom];
+    BorderSpacing.Around:= 2;
   end;
 
   LexerProgress.Hide;
