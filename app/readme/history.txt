@@ -4,13 +4,15 @@
   * changed
 
 
-1.76.6 (2019/03)
+1.77.0 (2019/03)
 
 + add: plugin Comments improved: stream comment for entirely selected single line is added inside that line; stream comment for entirely selected 2+ lines is added on 2 new lines
 + add: dialog "Settings - theme - syntax" shows colored marks in listbox
 + add: option "autocomplete_close_chars"
 + add: added rendering of selection background, when it's after line end (with "caret_after_end":true)
 + add: huge lines (length>4k) are now completely ignored by lexers (so file containing single huge line, e.g. minimized JSON, will take no time at all)
++ add: improved context menu for "Tab size" statusbar cell
+- fix: crash with Differ plugin (click on interline gap)
 
 1.76.2 (2019/03)
 
