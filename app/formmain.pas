@@ -1060,6 +1060,7 @@ type
     PanelCodeTreeTop: TATPanelSimple;
     ListboxOut: TATListbox;
     ListboxVal: TATListbox;
+    LexerProgress: TGauge;
     function FrameCount: integer;
     property Frames[N: integer]: TEditorFrame read GetFrame;
     function CurrentFrame: TEditorFrame;
@@ -1552,6 +1553,9 @@ begin
   {$ifndef windows}
   mnuHelpCheckUpd.Enabled:= false;
   {$endif}
+
+  LexerProgress:= TGauge.Create(Self);
+  LexerProgress.Parent:= Status;
 
   OnLexerParseProgress:= @DoOnLexerParseProgress;
   CustomDialog_DoPyCallback:= @DoPyCallbackFromAPI;
@@ -2596,6 +2600,7 @@ begin
   StatusAlt.DoubleBuffered:= UiOps.DoubleBuffered;
   ButtonCancel.DoubleBuffered:= UiOps.DoubleBuffered;
   StatusProgress.DoubleBuffered:= UiOps.DoubleBuffered;
+  LexerProgress.DoubleBuffered:= UiOps.DoubleBuffered;
   ListboxOut.DoubleBuffered:= UiOps.DoubleBuffered;
   ListboxVal.DoubleBuffered:= UiOps.DoubleBuffered;
   if Assigned(fmConsole) then
@@ -5956,8 +5961,8 @@ end;
 
 procedure TfmMain.DoOnLexerParseProgress(Sender: TObject; AProgress: integer);
 begin
-  StatusProgress.Show;
-  StatusProgress.Progress:= AProgress;
+  LexerProgress.Show;
+  LexerProgress.Progress:= AProgress;
 end;
 
 //----------------------------

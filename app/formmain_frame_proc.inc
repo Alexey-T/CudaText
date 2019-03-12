@@ -237,7 +237,7 @@ const
 var
   Frame: TEditorFrame;
 begin
-  StatusProgress.Hide;
+  LexerProgress.Hide;
   UpdateTreeContents;
 
   //restoring of folded state from history is here,

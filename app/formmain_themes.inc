@@ -120,6 +120,11 @@ begin
   StatusProgress.BackColor:= GetAppColor('GaugeBg');
   StatusProgress.BorderColor:= GetAppColor('ButtonBorderPassive');
 
+  LexerProgress.Font.Color:= Status.Font.Color;
+  LexerProgress.ForeColor:= StatusProgress.ForeColor;
+  LexerProgress.BackColor:= StatusProgress.BackColor;
+  LexerProgress.BorderColor:= StatusProgress.BorderColor;
+
   ATButtonTheme.ColorFont:= GetAppColor('ButtonFont');
   ATButtonTheme.ColorFontDisabled:= GetAppColor('ButtonFontDisabled');
   ATButtonTheme.ColorBgPassive:= GetAppColor('ButtonBgPassive');
