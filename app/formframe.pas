@@ -1321,21 +1321,31 @@ procedure TEditorFrame.EditorOnClickGap(Sender: TObject;
   AGapItem: TATGapItem; APos: TPoint);
 var
   Ed: TATSynEdit;
+  W, H: integer;
 begin
   if not Assigned(AGapItem) then exit;
   Ed:= Sender as TATSynEdit;
 
-  //Str:=
+  if Assigned(AGapItem.Bitmap) then
+  begin
+    W:= AGapItem.Bitmap.Width;
+    H:= AGapItem.Bitmap.Height;
+  end
+  else
+  begin
+    W:= 0;
+    H:= 0;
+  end;
+
   DoPyEvent(Ed, cEventOnClickGap, [
     '"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"',
     IntToStr(AGapItem.LineIndex),
     IntToStr(AGapItem.Tag),
-    IntToStr(AGapItem.Bitmap.Width),
-    IntToStr(AGapItem.Bitmap.Height),
+    IntToStr(W),
+    IntToStr(H),
     IntToStr(APos.X),
     IntToStr(APos.Y)
     ]);
-  //AHandled:= Str=cPyFalse;
 end;
 
 
