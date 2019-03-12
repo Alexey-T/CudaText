@@ -859,6 +859,7 @@ Possible types of UI controls are described in dlg_custom, see [[#Types]]. Addit
 * "w", "h": int: Size, width/height.
 * "w_min", "w_max": int: Constraints for width, min/max value.
 * "h_min", "h_max": int: Constraints for height, min/max value.
+* "p": int: Handle of parent form, or 0 if no parent.
 * "tag": str: Any string, set by plugin.
 * "border": int: Sets border of form, DBORDER_nnn constants. Don't specify it together with deprecated "resize".
 ** DBORDER_NONE: No visible border, not resizable 
@@ -1005,7 +1006,7 @@ class Command:
 Parameters:
 
 * "id_dlg": Int handle of form.
-* "id_ctl": Int index of control. Used only for control events.
+* "id_ctl": Int index of control (usually; in on_key_down it has different meaning).
 * "data": Value, specific to event.
 * "info": Value from extended form of callback string.
 
@@ -3302,5 +3303,9 @@ def project_variables():
 1.0.275 (app 1.76.0)
 * add: Editor.get_text_line has optional param "max_len"
 * add: dlg_menu: added MENU_CENTERED
+
+1.0.276 (app 1.76.6)
+* add: dlg_proc: form has property "p" (handle of parent form)
+
 
 [[Category:CudaText]]
