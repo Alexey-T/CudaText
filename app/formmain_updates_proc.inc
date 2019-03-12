@@ -232,7 +232,7 @@ begin
     AnchorSideTop.Side:= asrTop;
     Anchors:= [akRight, akTop, akBottom];
     BorderSpacing.Around:= 0;
-    BorderSpacing.Top:= Status.Height * 2 div 3;
+    BorderSpacing.Top:= Status.Height * 3 div 4;
     Kind:= gkHorizontalBar;
     ShowText:= false;
     MinValue:= 0;
