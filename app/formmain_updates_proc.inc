@@ -206,7 +206,7 @@ begin
   DoStatusbarTextByTag(AStatus, StatusbarTag_WrapMode, msgStatusbarWrapStates[Ord(Ed.OptWrapMode)]);
 end;
 
-procedure TfmMain.InitStatusButton;
+procedure TfmMain.InitStatusbarControls;
 begin
   //place StatusProgress+ButtonCancel onto Statusbar and anchor to right
   with StatusProgress do

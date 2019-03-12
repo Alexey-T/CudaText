@@ -1048,7 +1048,7 @@ type
     procedure UpdateFrame(AUpdatedText: boolean= false);
     procedure UpdateAppForSearch(AStart, AEdLock, AFindMode: boolean);
     procedure UpdateStatus;
-    procedure InitStatusButton;
+    procedure InitStatusbarControls;
     procedure DoOnDeleteLexer(Sender: TObject; const ALexerName: string);
     procedure UpdateTreeFilter;
   public
@@ -1873,7 +1873,7 @@ begin
 
   UpdateMenuEnc(PopupEnc.Items);
   UpdateMenuEnc(mnuFileEnc);
-  InitStatusButton;
+  InitStatusbarControls;
 
   FFindStop:= false;
   FFindConfirmAll:= mrNone;
