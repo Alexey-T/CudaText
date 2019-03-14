@@ -165,7 +165,7 @@ const
   msgStatusbarHintInsOvr: string = 'Insert/Overwrite mode';
   msgStatusbarHintWrap: string = 'Word wrap (off, by window, by fixed margin)';
 
-  msgStatusSyntaxThemesOff: string = 'Syntax themes are turned off by option "ui_lexer_themes": false. So the following dialog will have no effect.';
+  msgStatusSyntaxThemesOff: string = 'Syntax themes are turned off by option "ui_lexer_themes": false. So the following dialog will have no effect. To customize styles, use "Lexer properties" dialog.';
   msgStatusIncorrectInstallInfInZip: string = 'Incorrect install.inf in zip';
   msgStatusUnsupportedAddonType: string = 'Unsupported addon type:';
   msgStatusPackageContains: string = 'This package contains:';
