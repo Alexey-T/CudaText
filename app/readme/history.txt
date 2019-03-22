@@ -4,6 +4,10 @@
   * changed
 
 
+1.77.2
+
+- fix: memory leak on dragging vert scrollbar with lexer
+
 1.77.0 (2019/03)
 
 + add: preinstalled TreeHelper for Markdown
