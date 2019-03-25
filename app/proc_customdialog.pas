@@ -233,6 +233,7 @@ begin
   repeat
     SItem:= SGetItem(AValue, #9);
     if SItem='' then break;
+    SItem:= StringReplace(SItem, #3, #9, [rfReplaceAll]);
     C.Lines.Add(SItem);
   until false;
   C.Lines.EndUpdate;
