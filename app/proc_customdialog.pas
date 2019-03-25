@@ -128,8 +128,18 @@ begin
 end;
 
 function DoControl_GetState_Memo(C: TMemo): string;
+var
+  L: TStringList;
 begin
-  Result:= C.Lines.Text;
+  L:= TStringList.Create;
+  try
+    L.SkipLastLineBreak:= true;
+    L.Assign(C.Lines);
+    Result:= L.Text;
+  finally
+    L.Free;
+  end;
+
   Result:= StringReplace(Result, #9, #2, [rfReplaceAll]);
   Result:= StringReplace(Result, #13#10, #9, [rfReplaceAll]);
   Result:= StringReplace(Result, #13, #9, [rfReplaceAll]);
