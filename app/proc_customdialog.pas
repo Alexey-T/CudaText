@@ -140,7 +140,7 @@ begin
     L.Free;
   end;
 
-  Result:= StringReplace(Result, #9, #2, [rfReplaceAll]);
+  Result:= StringReplace(Result, #9, #3, [rfReplaceAll]);
   Result:= StringReplace(Result, #13#10, #9, [rfReplaceAll]);
   Result:= StringReplace(Result, #13, #9, [rfReplaceAll]);
   Result:= StringReplace(Result, #10, #9, [rfReplaceAll]);
