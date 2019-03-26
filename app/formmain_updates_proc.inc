@@ -989,7 +989,9 @@ begin
     Ed.DoEventChange;
   end;
 
-  if AFill then
+ if AFill then
+ begin
+  FCodetreeModifiedVersion:= Ed.Strings.ModifiedVersion;
   if not DoPyTreeHelper(Frame) then
   begin
     Tree:= Frame.CachedTreeview[Ed];
@@ -1005,6 +1007,7 @@ begin
     //force update scrollbar
     CodeTree.Tree.Perform(CM_CHANGED, 0, 0);
   end;
+ end;
 
   UpdateTreeFilter;
   UpdateTreeSelection(Frame, Ed);

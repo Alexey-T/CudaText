@@ -644,6 +644,7 @@ type
     FFileNameLogDebug: string;
     FFileNameLogConsole: string;
     FCodetreeDblClicking: boolean;
+    FCodetreeModifiedVersion: integer;
     FMenuCopy: TPopupMenu;
     FMenuItemTabSize: array[cMenuTabsizeMin..cMenuTabsizeMax] of TMenuItem;
     FPopupListboxOutput: TPopupMenu;
