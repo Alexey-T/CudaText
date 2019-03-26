@@ -146,13 +146,22 @@ begin
 
   Frame:= (D.TabObject as TEditorFrame);
   if Frame.Editor.Modified then
-    if MsgBox(
+    case MsgBox(
          Format(msgConfirmSaveModifiedTab, [Frame.TabCaption]),
-         MB_OKCANCEL or MB_ICONQUESTION
-         ) = ID_OK then
-      Frame.DoFileSave(false, true);
-
-  Frame.DoFileClose;
+         MB_YESNOCANCEL or MB_ICONQUESTION
+         ) of
+      ID_YES:
+        begin
+          Frame.DoFileSave(false, true);
+          Frame.DoFileClose;
+        end;
+      ID_NO:
+        begin
+          Frame.DoFileClose;
+        end;
+      ID_CANCEL:
+        exit;
+    end;
 end;
 
 
