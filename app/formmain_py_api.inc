@@ -2863,6 +2863,9 @@ begin
             Result:= Py_rect(Ed.RectMain);
           end;
 
+        PROP_CODETREE_MODIFIED_VERSION:
+          Result:= PyInt_FromLong(fmMain.FCodetreeModifiedVersion);
+
         PROP_V_MODE:
           begin
             if not Assigned(F) then exit(ReturnNone);
