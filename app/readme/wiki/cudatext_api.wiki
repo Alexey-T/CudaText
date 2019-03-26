@@ -1962,6 +1962,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_HILITE_CUR_LINE_MINIMAL: bool: highlight current line, only minimal part of line.
 * PROP_HILITE_CUR_LINE_IF_FOCUS: bool: highlight current line, only when editor focused.
 * PROP_CODETREE: bool: enable standard Code Tree filling.
+* PROP_CODETREE_MODIFIED_VERSION: modification version of the editor for the moment of Code Tree filling. See PROP_MODIFIED_VERSION.
 * PROP_EDITORS_LINKED: bool: enable sharing of the same text by primary/secondary editors in file tab.
 * PROP_CELL_SIZE: 2-tuple of int: size in pixels of average char cell.
 * PROP_ONE_LINE: bool: editor has single-line mode. (Usual editors are multi-line.)
@@ -3307,7 +3308,8 @@ def project_variables():
 1.0.276 (app 1.76.6)
 * add: dlg_proc: form has property "p" (handle of parent form)
 
-1.0.277 (app 1.77.1)
+1.0.277 (app 1.77.2)
 * change: dlg_proc: "memo" value must encode tab as chr(3) now (was chr(2))
+* add: get_prop: PROP_CODETREE_MODIFIED_VERSION
 
 [[Category:CudaText]]
