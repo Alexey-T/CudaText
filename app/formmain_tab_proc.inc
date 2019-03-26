@@ -152,8 +152,8 @@ begin
          ) of
       ID_YES:
         begin
-          Frame.DoFileSave(false, true);
-          Frame.DoFileClose;
+          if Frame.DoFileSave(false, true) then
+            Frame.DoFileClose;
         end;
       ID_NO:
         begin
