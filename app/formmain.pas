@@ -791,6 +791,7 @@ type
     procedure DoFileExportHtml;
     function DoFileInstallZip(const fn: string; out DirTarget: string; ASilent: boolean): boolean;
     procedure DoFileCloseAndDelete;
+    procedure DoFileNew;
     procedure DoFileNewMenu(Sender: TObject);
     procedure DoFileNewFrom(const fn: string);
     procedure DoFileSave;
@@ -4039,6 +4040,11 @@ begin
   if MsgBox(msgConfirmCloseDelFile+#13+fn, MB_OKCANCEL or MB_ICONWARNING)=id_ok then
     if Groups.CloseTabs(tabCloseCurrent, false) then
       DeleteFileUTF8(fn);
+end;
+
+procedure TfmMain.DoFileNew;
+begin
+  DoFileOpen('', '');
 end;
 
 

@@ -44,7 +44,7 @@ begin
         DoFileCloseAndDelete;
       end;
 
-    cmd_FileNew:             DoFileOpen('', '');
+    cmd_FileNew:             DoFileNew;
     cmd_FileNewMenu:         DoFileNewMenu(nil);
     cmd_FileOpen:            DoFileOpenDialog;
     cmd_FileOpenFolder:      DoPyCommand('cuda_project_man', 'new_project_open_dir', []);
