@@ -4,8 +4,9 @@
   * changed
 
 
-1.77.1
+1.77.2 (2019/03)
 
+- fix: critical bug when BkSp/Del/letter pressing reverted by editor
 - fix: memory leak with lexer usage
 
 1.77.0 (2019/03)
