@@ -5,6 +5,7 @@ from datetime import datetime
 from cudatext import *
 import cudatext_cmd
 from .work_remote import get_url
+from .work_install_helper import after_install
 
 
 def get_datetime_short():
@@ -55,11 +56,10 @@ def do_install_from_github():
         and ini_read(fn_inf, 'info', 'type', '')=='cudatext-plugin'
 
     if valid:
-        s = ini_read(fn_inf, 'info', 'subdir', '')
-        valid = bool(s)
-        dir_plugin = os.path.join(dir_py, s)
-
-    if not valid:
+        module = ini_read(fn_inf, 'info', 'subdir', '')
+        valid = bool(module)
+        dir_plugin = os.path.join(dir_py, module)
+    else:
         msg_box('GitHub repository doesn\'t contain valid "install.inf" file. Cannot proceed.', MB_OK+MB_ICONERROR)
         return
 
@@ -87,6 +87,7 @@ def do_install_from_github():
             return
         
         if os.path.isdir(dir_plugin):
+            after_install(module)
             msg_box('Cloned, restart CudaText to make this plugin visible', MB_OK+MB_ICONINFO)
         else:
             msg_box('Could not clone the repo', MB_OK+MB_ICONERROR)
@@ -100,6 +101,7 @@ def do_install_from_github():
 
     file_open(fn)
     os.remove(fn) #cleanup temp
+    after_install(module)
 
     #version = 'github '+ get_datetime_short()
 
