@@ -88,7 +88,7 @@ def do_install_from_github():
         
         if os.path.isdir(dir_plugin):
             after_install(module)
-            msg_box('Cloned, restart CudaText to make this plugin visible', MB_OK+MB_ICONINFO)
+            msg_box('Repo was cloned, restart CudaText to make this plugin visible', MB_OK+MB_ICONINFO)
         else:
             msg_box('Could not clone the repo', MB_OK+MB_ICONERROR)
         return
