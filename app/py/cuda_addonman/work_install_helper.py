@@ -1,2 +1,4 @@
 def after_install(module):
-    pass
+    print('Installed module:', module)
+    #check it for lexers/themes
+    
