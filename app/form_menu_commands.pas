@@ -316,9 +316,9 @@ begin
 
   //name, key
   strname:= TATKeymapItem(keymapList[AIndex]).Name;
-  strkey:= KeyArrayToString(TATKeymapItem(keymapList[AIndex]).Keys1);
+  strkey:= TATKeymapItem(keymapList[AIndex]).Keys1.ToString;
   //add key2
-  strfind:= KeyArrayToString(TATKeymapItem(keymapList[AIndex]).Keys2);
+  strfind:= TATKeymapItem(keymapList[AIndex]).Keys2.ToString;
   if strfind<>'' then strkey:= strkey+' / '+strfind;
 
   strfind:= Utf8Encode(Trim(edit.Text));
@@ -427,8 +427,8 @@ begin
   begin
     Delete(StrFind, 1, 1);
     Result:=
-      (Pos(LowerCase(StrFind), LowerCase(KeyArrayToString(Item.Keys1)))>0) or
-      (Pos(LowerCase(StrFind), LowerCase(KeyArrayToString(Item.Keys2)))>0);
+      (Pos(LowerCase(StrFind), LowerCase(Item.Keys1.ToString))>0) or
+      (Pos(LowerCase(StrFind), LowerCase(Item.Keys2.ToString))>0);
   end
   else
   //normal search in name

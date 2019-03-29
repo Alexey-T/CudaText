@@ -46,7 +46,6 @@ type
     { private declarations }
     FKeyPressed: integer;
     procedure DoAddKey(var K: TATKeyArray);
-    procedure DoClearKey(var K: TATKeyArray);
     procedure DoUpdate;
     function GetHotkey: integer;
   public
@@ -157,18 +156,17 @@ end;
 
 procedure TfmKeys.bClear1Click(Sender: TObject);
 begin
-  DoClearKey(Keys1);
+  Keys1.Clear;
   DoUpdate;
 end;
 
 procedure TfmKeys.bClear2Click(Sender: TObject);
 begin
-  DoClearKey(Keys2);
+  Keys2.Clear;
   DoUpdate;
 end;
 
-procedure TfmKeys.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
-  );
+procedure TfmKeys.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if not panelPress.Visible then exit;
 
@@ -188,13 +186,6 @@ begin
 
   FKeyPressed:= ShortCut(Key, Shift);
   key:= 0;
-end;
-
-procedure TfmKeys.DoClearKey(var K: TATKeyArray);
-var
-  i: integer;
-begin
-  for i:= 0 to High(K) do K[i]:= 0;
 end;
 
 procedure TfmKeys.bAdd1Click(Sender: TObject);
@@ -217,12 +208,12 @@ begin
   if newkey=0 then exit;
 
   index:= -1;
-  for i:= 0 to High(K) do
-    if K[i]=0 then
+  for i:= 0 to High(K.Data) do
+    if K.Data[i]=0 then
       begin index:= i; break end;
   if index<0 then exit;
 
-  K[index]:= newkey;
+  K.Data[index]:= newkey;
 end;
 
 function TfmKeys.GetHotkey: integer;
@@ -252,11 +243,11 @@ var
   SDesc: string;
   N: integer;
 begin
-  labelKey1.caption:= '1) '+ KeyArrayToString(Keys1);
-  labelKey2.caption:= '2) '+ KeyArrayToString(Keys2);
+  labelKey1.caption:= '1) '+ Keys1.ToString;
+  labelKey2.caption:= '2) '+ Keys2.ToString;
 
-  bAdd1.Enabled:= KeyArrayLength(Keys1)<cMaxKeyCombo;
-  bAdd2.Enabled:= KeyArrayLength(Keys2)<cMaxKeyCombo;
+  bAdd1.Enabled:= Keys1.Length<cMaxKeyCombo;
+  bAdd2.Enabled:= Keys2.Length<cMaxKeyCombo;
 
   if bAdd1.Enabled then
     ActiveControl:= bAdd1

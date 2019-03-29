@@ -564,7 +564,7 @@ var
     c.GetValue(path, skeys, '');
     for j:= 0 to skeys.count-1 do
       if skeys[j]<>'' then
-        keys[j]:= TextToShortCut(skeys[j]);
+        keys.Data[j]:= TextToShortCut(skeys[j]);
   end;
   //
 var

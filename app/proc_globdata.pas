@@ -1539,15 +1539,15 @@ begin
     c.SetValue(path+'/name', K.Name);
 
     sl.clear;
-    for i:= 0 to High(TATKeyArray) do
-      if K.Keys1[i]<>0 then
-        sl.Add(ShortCutToText(K.Keys1[i]));
+    for i:= 0 to High(TATKeyArray.Data) do
+      if K.Keys1.Data[i]<>0 then
+        sl.Add(ShortCutToText(K.Keys1.Data[i]));
     c.SetValue(path+'/s1', sl);
 
     sl.clear;
-    for i:= 0 to High(TATKeyArray) do
-      if K.Keys2[i]<>0 then
-        sl.Add(ShortCutToText(K.Keys2[i]));
+    for i:= 0 to High(TATKeyArray.Data) do
+      if K.Keys2.Data[i]<>0 then
+        sl.Add(ShortCutToText(K.Keys2.Data[i]));
     c.SetValue(path+'/s2', sl);
   finally
     c.Free;
@@ -1779,7 +1779,7 @@ begin
   NIndex:= AppKeymap.IndexOf(NCode);
   if NIndex<0 then exit;
   with AppKeymap[NIndex] do
-    Result:= KeyArrayToString(Keys1)+'|'+KeyArrayToString(Keys2);
+    Result:= Keys1.ToString+'|'+Keys2.ToString;
 end;
 
 
@@ -1806,8 +1806,8 @@ begin
   if NIndex<0 then exit;
   with AppKeymap[NIndex] do
   begin
-    KeyArraySetFromString(Keys1, SKey1);
-    KeyArraySetFromString(Keys2, SKey2);
+    Keys1.SetFromString(SKey1);
+    Keys2.SetFromString(SKey2);
 
     //save to keys.json
     //Py API: no need lexer-specific
@@ -1834,16 +1834,16 @@ begin
     item:= AppKeymap.Items[i];
     if item.Command=AKeymapItem.Command then Continue;
 
-    if KeyArraysEqualNotEmpty(AKeymapItem.Keys1, item.Keys1) or
-       KeyArraysEqualNotEmpty(AKeymapItem.Keys2, item.Keys1) then itemKeyPtr:= @item.Keys1 else
-    if KeyArraysEqualNotEmpty(AKeymapItem.Keys1, item.Keys2) or
-       KeyArraysEqualNotEmpty(AKeymapItem.Keys2, item.Keys2) then itemKeyPtr:= @item.Keys2 else
+    if (AKeymapItem.Keys1=item.Keys1) or
+       (AKeymapItem.Keys2=item.Keys1) then itemKeyPtr:= @item.Keys1 else
+    if (AKeymapItem.Keys1=item.Keys2) or
+       (AKeymapItem.Keys2=item.Keys2) then itemKeyPtr:= @item.Keys2 else
     Continue;
 
     if AOverwriteAndSave then
     begin
       //clear in memory
-      KeyArrayClear(itemKeyPtr^);
+      itemKeyPtr^.Clear;
 
       StrId:= DoOps_CommandCode_To_HotkeyStringId(item.Command);
 
@@ -1872,8 +1872,8 @@ begin
   for i:= 0 to AppKeymap.Count-1 do
   begin
     item:= AppKeymap.Items[i];
-    if (KeyArrayToString(item.Keys1)=AHotkey) or
-       (KeyArrayToString(item.Keys1)=AHotkey) then exit(true);
+    if (item.Keys1.ToString=AHotkey) or
+       (item.Keys2.ToString=AHotkey) then exit(true);
   end;
 end;
 

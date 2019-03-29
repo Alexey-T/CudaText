@@ -3348,9 +3348,9 @@ begin
                   'name',
                   PChar(Item.Name),
                   'key1',
-                  PChar(KeyArrayToString(Item.Keys1)),
+                  PChar(Item.Keys1.ToString),
                   'key2',
-                  PChar(KeyArrayToString(Item.Keys2))
+                  PChar(Item.Keys2.ToString)
                   ));
             end;
 
@@ -3367,9 +3367,9 @@ begin
                   'name',
                   PChar(Item.Name),
                   'key1',
-                  PChar(KeyArrayToString(Item.Keys1)),
+                  PChar(Item.Keys1.ToString),
                   'key2',
-                  PChar(KeyArrayToString(Item.Keys2)),
+                  PChar(Item.Keys2.ToString),
                   'p_module',
                   PChar(ItemPlugin.ItemModule),
                   'p_method',
@@ -3394,8 +3394,8 @@ begin
               if AppKeymapInitial.IsIndexValid(i) then
               begin
                 ItemInitial:= AppKeymapInitial[i];
-                SKeyInit1:= KeyArrayToString(ItemInitial.Keys1);
-                SKeyInit2:= KeyArrayToString(ItemInitial.Keys2);
+                SKeyInit1:= ItemInitial.Keys1.ToString;
+                SKeyInit2:= ItemInitial.Keys2.ToString;
               end;
 
               PyList_SetItem(Result, i,
@@ -3407,9 +3407,9 @@ begin
                   'name',
                   PChar(Item.Name),
                   'key1',
-                  PChar(KeyArrayToString(Item.Keys1)),
+                  PChar(Item.Keys1.ToString),
                   'key2',
-                  PChar(KeyArrayToString(Item.Keys2)),
+                  PChar(Item.Keys2.ToString),
                   'key1_init',
                   PChar(SKeyInit1),
                   'key2_init',
