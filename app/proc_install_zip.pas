@@ -217,6 +217,9 @@ begin
         //handle "hotkey"
         if s_hotkey<>'' then
         begin
+          if AppKeymap.GetCommandFromHotkeyString(s_hotkey, '|')>=0 then
+            AReport:= Format(msgStatusPluginHotkeyBusy, [s_hotkey])+#10+AReport
+          else
           if s_lexers='' then
             //set in keys.json
             DoOps_SaveKey_ForPluginModuleAndMethod(false,

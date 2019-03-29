@@ -16,7 +16,7 @@ uses
   ATSynEdit;
 
 const
-  cAppExeVersion = '1.77.2.0';
+  cAppExeVersion = '1.77.3.0';
   cAppApiVersion = '1.0.277';
 
 const
@@ -165,6 +165,7 @@ const
   msgStatusbarHintInsOvr: string = 'Insert/Overwrite mode';
   msgStatusbarHintWrap: string = 'Word wrap (off, by window, by fixed margin)';
 
+  msgStatusPluginHotkeyBusy: string = 'Warning: hotkey [%s] is busy, it was not set';
   msgStatusSyntaxThemesOff: string = 'Syntax themes are turned off by option "ui_lexer_themes": false. So the following dialog will have no effect. To customize styles, use "Lexer properties" dialog.';
   msgStatusIncorrectInstallInfInZip: string = 'Incorrect install.inf in zip';
   msgStatusUnsupportedAddonType: string = 'Unsupported addon type:';
