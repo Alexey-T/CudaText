@@ -246,8 +246,8 @@ begin
   labelKey1.caption:= '1) '+ Keys1.ToString;
   labelKey2.caption:= '2) '+ Keys2.ToString;
 
-  bAdd1.Enabled:= Keys1.Length<cMaxKeyCombo;
-  bAdd2.Enabled:= Keys2.Length<cMaxKeyCombo;
+  bAdd1.Enabled:= Keys1.Length<Length(TATKeyArray.Data);
+  bAdd2.Enabled:= Keys2.Length<Length(TATKeyArray.Data);
 
   if bAdd1.Enabled then
     ActiveControl:= bAdd1
