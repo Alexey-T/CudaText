@@ -161,6 +161,12 @@ function IsEventItemListed(const SItem, SList: string): boolean;
 
 implementation
 
+const
+  cPyFalse = 'False';
+  cPyTrue = 'True';
+  cPyFalseTrue: array[boolean] of string = ('False', 'True');
+
+
 procedure DoForm_SetupFilters(F: TFormDummy);
 const
   cPrefix = 'f_';
@@ -406,7 +412,7 @@ begin
     FEventOnKeyDown,
     '"'+ConvertShiftStateToString(Shift)+'"'
     );
-  if Str='False' then
+  if Str=cPyFalse then
   begin
     Key:= 0;
     exit;
@@ -443,7 +449,7 @@ begin
     FEventOnKeyUp,
     '"'+ConvertShiftStateToString(Shift)+'"'
     );
-  if Str='False' then
+  if Str=cPyFalse then
   begin
     Key:= 0;
     exit;
@@ -462,7 +468,7 @@ var
   Str: string;
 begin
   Str:= DoEvent(-1, FEventOnCloseQuery, '');
-  CanClose:= Str<>'False';
+  CanClose:= Str<>cPyFalse;
 end;
 
 procedure TFormDummy.DoOnControlMenu(Sender: TObject; MousePos: TPoint;
@@ -475,7 +481,7 @@ begin
   IdControl:= FindControlIndexByOurObject(Sender);
   Handled:= DoEvent(IdControl, Props.FEventOnMenu,
     _MouseEventString(mbRight, GetKeyShiftState, MousePos.X, MousePos.Y)
-    )='False';
+    )=cPyFalse;
 end;
 
 
@@ -638,8 +644,6 @@ end;
 
 procedure TFormDummy.DoOnListviewSelect(Sender: TObject; Item: TListItem;
   Selected: Boolean);
-const
-  cBool: array[boolean] of string = ('False', 'True');
 var
   Props: TAppControlProps;
   IdControl: integer;
@@ -650,7 +654,7 @@ begin
     Props:= TAppControlProps((Sender as TControl).Tag);
     IdControl:= FindControlIndexByOurObject(Sender);
     DoEvent(IdControl, Props.FEventOnSelect,
-      Format('(%d, %s)', [Item.Index, cBool[Selected] ])
+      Format('(%d, %s)', [Item.Index, cPyFalseTrue[Selected] ])
       );
   finally
     BlockedOnSelect_Listview:= false;
@@ -817,7 +821,7 @@ begin
   IdControl:= FindControlIndexByOurObject(Sender);
   if DoEvent(IdControl, Props.FEventOnEditorKeyDown,
     Format('(%d, "%s")', [Key, ConvertShiftStateToString(Shift)])
-    ) = 'False' then
+    ) = cPyFalse then
    Key:= 0;
 end;
 
@@ -830,7 +834,7 @@ begin
   IdControl:= FindControlIndexByOurObject(Sender);
   if DoEvent(IdControl, Props.FEventOnEditorKeyUp,
     Format('(%d, "%s")', [Key, ConvertShiftStateToString(Shift)])
-    ) = 'False' then
+    ) = cPyFalse then
    Key:= 0;
 end;
 
@@ -882,8 +886,6 @@ begin
 end;
 
 procedure TFormDummy.DoOnEditorPaste(Sender: TObject; var AHandled: boolean; AKeepCaret, ASelectThen: boolean);
-const
-  cBool: array[boolean] of string = ('False', 'True');
 var
   Props: TAppControlProps;
   IdControl: integer;
@@ -892,9 +894,9 @@ begin
   IdControl:= FindControlIndexByOurObject(Sender);
   if DoEvent(IdControl, Props.FEventOnEditorPaste,
     Format('{ "keep_caret": %s, "sel_then": %s }', [
-      cBool[AKeepCaret],
-      cBool[ASelectThen]
-    ])) = 'False' then
+      cPyFalseTrue[AKeepCaret],
+      cPyFalseTrue[ASelectThen]
+    ])) = cPyFalse then
     AHandled:= true;
 end;
 
