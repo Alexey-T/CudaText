@@ -7,10 +7,8 @@
 1.77.3 (2019/03)
 
 + add: on plugin installation app now skips all hotkeys (from install.inf) which are busy in config
-
-1.77.2 (2019/03)
-
-- fix: critical bug when BkSp/Del/letter pressing reverted by editor
+- fix: critical bug when BkSp/Del/letter pressing is reverted by editor
+- fix: bugs with "ui_tab_disabled":true
 - fix: memory leak with lexer usage
 
 1.77.0 (2019/03)
