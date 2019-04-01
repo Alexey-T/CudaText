@@ -811,7 +811,7 @@ begin
     else
     begin
       if (FFileName<>'') or (FFileName2<>'') then
-        SHint:= SCollapseHomeDirInFilename(FFileName) + ' | ' +
+        SHint:= SCollapseHomeDirInFilename(FFileName) + #10 +
                 SCollapseHomeDirInFilename(FFileName2);
     end;
 
