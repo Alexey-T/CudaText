@@ -418,6 +418,7 @@ begin
   UpdateEditorTabsize(-3);
 end;
 
+(*
 procedure TfmMain.DoOnTabOver(Sender: TObject; ATabIndex: Integer);
 var
   D: TATTabData;
@@ -431,6 +432,7 @@ begin
 
   MsgStatus(F.FileName);
 end;
+*)
 
 procedure TfmMain.DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
 begin

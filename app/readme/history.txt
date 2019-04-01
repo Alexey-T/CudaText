@@ -4,6 +4,10 @@
   * changed
 
 
+1.77.4 (2019/04)
+
++ show tooltip over UI tabs with filenames (instead of show filenames in statusbar)
+
 1.77.3 (2019/03)
 
 + add: on plugin installation app now skips all hotkeys (from install.inf) which are busy in config

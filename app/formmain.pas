@@ -733,7 +733,7 @@ type
     procedure DoOnTabAdd(Sender: TObject);
     procedure DoOnTabClose(Sender: TObject; ATabIndex: Integer; var ACanClose, ACanContinue: boolean);
     procedure DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
-    procedure DoOnTabOver(Sender: TObject; ATabIndex: Integer);
+    //procedure DoOnTabOver(Sender: TObject; ATabIndex: Integer);
     procedure DoOnTabPopup(Sender: TObject; APages: TATPages; ATabIndex: integer);
     function DoOnTabGetTick(Sender: TObject; ATabObject: TObject): Int64;
     procedure DoCodetree_GetSyntaxRange(ANode: TTreeNode; out APosBegin, APosEnd: TPoint);
@@ -1858,7 +1858,7 @@ begin
   Groups.OnTabClose:= @DoOnTabClose;
   Groups.OnTabMove:= @DoOnTabMove;
   Groups.OnTabPopup:= @DoOnTabPopup;
-  Groups.OnTabOver:= @DoOnTabOver;
+  //Groups.OnTabOver:= @DoOnTabOver;
   Groups.OnTabGetTick:= @DoOnTabGetTick;
 
   Panel:= TAppSidePanel.Create;
@@ -5809,7 +5809,7 @@ begin
     G.OnTabClose:= @DoOnTabClose;
     G.OnTabMove:= @DoOnTabMove;
     G.OnTabPopup:= @DoOnTabPopup;
-    G.OnTabOver:= @DoOnTabOver;
+    //G.OnTabOver:= @DoOnTabOver;
     G.OnEmpty:= AOnGroupEmpty;
 
     DoApplyThemeToGroups(G);

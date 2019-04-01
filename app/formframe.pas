@@ -226,6 +226,7 @@ type
     procedure SetLexer(Ed: TATSynEdit; an: TecSyntAnalyzer);
     procedure SetLexerLite(Ed: TATSynEdit; an: TATLiteLexer);
     procedure SetLexerName(Ed: TATSynEdit; const AValue: string);
+    procedure UpdateTabTooltip;
   protected
     procedure DoOnResize; override;
   public
@@ -456,6 +457,8 @@ begin
       TabCaption:= Name1+' | '+Name2;
     end;
   end;
+
+  UpdateTabTooltip;
 end;
 
 procedure TEditorFrame.EditorOnClick(Sender: TObject);
@@ -785,6 +788,36 @@ begin
 
   //update Notif obj
   NotifEnabled:= NotifEnabled;
+end;
+
+procedure TEditorFrame.UpdateTabTooltip;
+var
+  Gr: TATGroups;
+  Pages: TATPages;
+  NLocalGroups, NGlobalGroup, NTab: integer;
+  D: TATTabData;
+  SHint: string;
+begin
+  GetFrameLocation(Self, Gr, Pages, NLocalGroups, NGlobalGroup, NTab);
+  D:= Pages.Tabs.GetTabData(NTab);
+  if Assigned(D) then
+  begin
+    SHint:= '';
+    if EditorsLinked then
+    begin
+      if FFileName<>'' then
+        SHint:= SCollapseHomeDirInFilename(FFileName);
+    end
+    else
+    begin
+      if (FFileName<>'') or (FFileName2<>'') then
+        SHint:= SCollapseHomeDirInFilename(FFileName) + ' | ' +
+                SCollapseHomeDirInFilename(FFileName2);
+    end;
+
+    D.TabHint:= SHint;
+    Pages.Tabs.Invalidate;
+  end;
 end;
 
 procedure TEditorFrame.SetFileName2(AValue: string);
