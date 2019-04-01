@@ -175,7 +175,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'String ticks'
       StyleName = 'String regex'
       TokenType = 4
-      Expression = '(?s)`.+?(`|\Z)'
+      Expression = '(?s)`(\\`|.)*?(`|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end

@@ -12,6 +12,7 @@ from .work_remote import *
 from .work_dlg_config import *
 from .work_github import *
 from .work_cudatext_updates__fosshub import check_cudatext
+from .work_install_helper import after_install
 from . import opt
 
 dir_for_all = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
@@ -309,6 +310,9 @@ class Command:
         if props:
             #suggest readme
             m = props[2]
+            if m:
+                after_install(m)
+            
             if m and suggest_readme:
                 names = []
                 fn = get_readme_of_module(m)
