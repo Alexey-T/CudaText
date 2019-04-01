@@ -2819,6 +2819,15 @@ begin
               Result:= ReturnNone;
           end;
 
+        PROP_SAVING_FORCE_FINAL_EOL:
+          Result:= PyBool_FromLong(Ord(Ed.OptSavingForceFinalEol));
+
+        PROP_SAVING_TRIM_SPACES:
+          Result:= PyBool_FromLong(Ord(Ed.OptSavingTrimSpaces));
+
+        PROP_SAVING_TRIM_FINAL_EMPTY_LINES:
+          Result:= PyBool_FromLong(Ord(Ed.OptSavingTrimFinalEmptyLines));
+
         PROP_FOLD_TOOLTIP_SHOW:
           begin
             Result:= PyBool_FromLong(Ord(Ed.OptFoldTooltipVisible));
@@ -3242,6 +3251,15 @@ begin
               F.SplitPos:= StrToIntDef(Str2, 500)/1000;
             end;
           end;
+
+        PROP_SAVING_FORCE_FINAL_EOL:
+          Ed.OptSavingForceFinalEol:= ValueBool;
+
+        PROP_SAVING_TRIM_SPACES:
+          Ed.OptSavingTrimSpaces:= ValueBool;
+
+        PROP_SAVING_TRIM_FINAL_EMPTY_LINES:
+          Ed.OptSavingTrimFinalEmptyLines:= ValueBool;
 
         PROP_FOLD_TOOLTIP_SHOW:
           Ed.OptFoldTooltipVisible:= ValueBool;
