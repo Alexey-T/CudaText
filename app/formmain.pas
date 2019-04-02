@@ -12,6 +12,9 @@ unit FormMain;
 interface
 
 uses
+  {$ifdef windows}
+  Windows,
+  {$endif}
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
   StdCtrls, Buttons, ComCtrls, ExtCtrls, Menus,
   Clipbrd, StrUtils, Variants, IniFiles,
@@ -24,9 +27,6 @@ uses
   fix_gtk_clipboard,
   {$endif}
   fix_focus_window,
-  {$ifdef windows}
-  Windows,
-  {$endif}
   at__jsonconf,
   PythonEngine,
   UniqueInstance,
