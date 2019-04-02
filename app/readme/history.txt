@@ -4,13 +4,14 @@
   * changed
 
 
-1.77.4 (2019/04)
+1.77.6 (2019/04)
 
 + add: show tooltip over UI tabs with filenames (instead of show filenames in statusbar)
 + add: API for EditorConfig additional options
 * change: removed command "toggle menu bar"
 - fix: option "saving_force_final_eol" behaviour
 - fix: Windows: on rare PCs app hangs with hidden main menu
+- fix: CSS auto-completion bug
 
 1.77.3 (2019/03)
 
