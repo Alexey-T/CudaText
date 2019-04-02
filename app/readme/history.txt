@@ -9,6 +9,7 @@
 + add: show tooltip over UI tabs with filenames (instead of show filenames in statusbar)
 + add: API for EditorConfig additional options
 - fix: option "saving_force_final_eol" behaviour
+- fix: Windows: on rare PCs app hangs with hidden main menu
 
 1.77.3 (2019/03)
 
