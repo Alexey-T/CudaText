@@ -3878,7 +3878,9 @@ end;
 
 procedure TfmMain.SetShowMenu(AValue: boolean);
 begin
+  if FMenuVisible=AValue then exit;
   FMenuVisible:= AValue;
+
   {$ifdef windows}
   //workaround for LCL strange bug, when hiding MainMenu causes app hang on pressing Alt
   if AValue then
