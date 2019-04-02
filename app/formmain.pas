@@ -1916,6 +1916,10 @@ begin
   UpdateMenuItemHint(mnuLang, '_langs');
 
   DoOps_OnCreate;
+
+  //option is applied only once at app start
+  if not UiOps.ShowMenubar then
+    ShowMenu:= false;
 end;
 
 procedure TfmMain.DoOps_OnCreate;
@@ -2164,10 +2168,6 @@ begin
   DoApplyFont_Ui;
   DoApplyFont_Output;
   DoApplyUiOps;
-
-  //this option is applied only once at app start
-  if not UiOps.ShowMenubar then
-    ShowMenu:= false;
 
   if UiOps.ReopenSession then
     DoOps_LoadSession(GetSessionFilename);
