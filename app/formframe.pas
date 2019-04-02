@@ -1228,7 +1228,6 @@ begin
   Caret:= Ed.Carets[0];
   if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
 
-// try
   //some commands affect FTextCharsTyped
   if (ACommand=cCommand_KeyBackspace) then
   begin
@@ -1271,13 +1270,16 @@ begin
       exit;
     end;
 
+    (*
     //autoshow for CSS
+    //seems bad, so commented, CSS must work like other lexers with AutoshowCharCount
     if UiOps.AutocompleteCss and (SLexerName='CSS') then
     begin
       if EditorIsAutocompleteCssPosition(Ed, Caret.PosX-1, Caret.PosY) then
         Ed.DoCommand(cmd_AutoComplete);
       exit;
     end;
+    *)
 
     //autoshow for others, when typed N chars
     if (UiOps.AutocompleteAutoshowCharCount>0) then
@@ -1300,11 +1302,6 @@ begin
     else
       FTextCharsTyped:= 0;
   end;
- //finally
- // Application.MainForm.Caption:=
- //   'char: '+IfThen(AText<>'', AText[1])+
- //   ', count: '+Inttostr(FTextCharsTyped);
- //end;
 
   if Ed.LastCommandChangedLines>0 then
     if Assigned(FOnMsgStatus) then
