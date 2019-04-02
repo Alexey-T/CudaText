@@ -88,7 +88,7 @@ const
   cmd_DialogThemeUi       = 2552;
   cmd_DialogThemeSyntax   = 2553;
   cmd_ShowMainMenuAsPopup = 2554;
-  cmd_ToggleMenu = 2555;
+  //cmd_ToggleMenu = 2555;
   cmd_ToggleFloatSide = 2556;
   cmd_ToggleFloatBottom = 2557;
   cmd_HideBottomPanel = 2558;
@@ -338,7 +338,7 @@ begin
   M.Add(cmd_ToggleSidebar, 'ui: toggle sidebar', [], []);
   M.Add(cmd_ToggleToolbar, 'ui: toggle toolbar', [], []);
   M.Add(cmd_ToggleStatusbar, 'ui: toggle statusbar', [], []);
-  M.Add(cmd_ToggleMenu, 'ui: toggle menu bar', [], []);
+  //M.Add(cmd_ToggleMenu, 'ui: toggle menu bar', [], []);
   M.Add(cmd_ToggleOnTop, 'ui: toggle window always on top', [], []);
   M.Add(cmd_ToggleFloatSide, 'ui: toggle floating side panel', [], []);
   M.Add(cmd_ToggleFloatBottom, 'ui: toggle floating bottom panel', [], []);

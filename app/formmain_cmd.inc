@@ -90,7 +90,7 @@ begin
     cmd_ToggleToolbar:     DoToggleToolbar;
     cmd_ToggleStatusbar:   DoToggleStatusbar;
     cmd_ToggleOnTop:       DoToggleOnTop;
-    cmd_ToggleMenu:        DoToggleMenu;
+    //cmd_ToggleMenu:        DoToggleMenu;
     cmd_ToggleFloatSide:   DoToggleFloatSide;
     cmd_ToggleFloatBottom: DoToggleFloatBottom;
 

@@ -946,7 +946,7 @@ type
     function DoFileSaveAll: boolean;
     procedure DoFileReopen;
     procedure DoLoadCommandLine;
-    procedure DoToggleMenu;
+    //procedure DoToggleMenu;
     procedure DoToggleFloatSide;
     procedure DoToggleFloatBottom;
     procedure DoToggleOnTop;
@@ -4075,10 +4075,12 @@ begin
   end;
 end;
 
+{
 procedure TfmMain.DoToggleMenu;
 begin
   ShowMenu:= not ShowMenu;
 end;
+}
 
 procedure TfmMain.DoToggleFloatSide;
 begin
