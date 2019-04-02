@@ -1038,6 +1038,7 @@
   "ui_toolbar_theme": "default_24x24",
 
   //Show main menu bar
+  //Note: this option takes effect only after program restart
   "ui_menu_show": true,
 
   //[Find/Hotkeys]

@@ -2165,6 +2165,10 @@ begin
   DoApplyFont_Output;
   DoApplyUiOps;
 
+  //this option is applied only once at app start
+  if not UiOps.ShowMenubar then
+    ShowMenu:= false;
+
   if UiOps.ReopenSession then
     DoOps_LoadSession(GetSessionFilename);
 
@@ -2641,7 +2645,6 @@ begin
     DoApplyUiOpsToGroups(GroupsF3);
   end;
 
-  ShowMenu:= UiOps.ShowMenubar;
   ShowStatus:= UiOps.ShowStatusbar;
   ShowToolbar:= UiOps.ShowToolbar;
 
