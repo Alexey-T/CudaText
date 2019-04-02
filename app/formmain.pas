@@ -24,6 +24,9 @@ uses
   fix_gtk_clipboard,
   {$endif}
   fix_focus_window,
+  {$ifdef windows}
+  Windows,
+  {$endif}
   at__jsonconf,
   PythonEngine,
   UniqueInstance,
@@ -647,6 +650,7 @@ type
     FCodetreeModifiedVersion: integer;
     FMenuCopy: TPopupMenu;
     FMenuItemTabSize: array[cMenuTabsizeMin..cMenuTabsizeMax] of TMenuItem;
+    FMenuVisible: boolean;
     FPopupListboxOutput: TPopupMenu;
     FPopupListboxValidate: TPopupMenu;
     FNewClickedEditor: TATSynEdit;
@@ -821,7 +825,6 @@ type
     function GetShowFloatGroup1: boolean;
     function GetShowFloatGroup2: boolean;
     function GetShowFloatGroup3: boolean;
-    function GetShowMenu: boolean;
     function GetShowOnTop: boolean;
     function GetShowSidebarOnRight: boolean;
     procedure InitAppleMenu;
@@ -1073,7 +1076,7 @@ type
     property ShowFloatGroup1: boolean read GetShowFloatGroup1 write SetShowFloatGroup1;
     property ShowFloatGroup2: boolean read GetShowFloatGroup2 write SetShowFloatGroup2;
     property ShowFloatGroup3: boolean read GetShowFloatGroup3 write SetShowFloatGroup3;
-    property ShowMenu: boolean read GetShowMenu write SetShowMenu;
+    property ShowMenu: boolean read FMenuVisible write SetShowMenu;
     property ShowOnTop: boolean read GetShowOnTop write SetShowOnTop;
     property ShowFullscreen: boolean read FShowFullScreen write SetShowFullScreen;
     property ShowDistractionFree: boolean read FShowFullScreen write SetShowDistractionFree;
@@ -1800,6 +1803,7 @@ begin
   AppManagerLite.OnGetStyleHash:= @LiteLexer_GetStyleHash;
   AppManagerLite.OnApplyStyle:= @LiteLexer_ApplyStyle;
 
+  FMenuVisible:= true;
   FSessionName:= '';
   FListRecents:= TStringList.Create;
   FListThemesUI:= TStringList.Create;
@@ -3874,20 +3878,24 @@ end;
 
 procedure TfmMain.SetShowMenu(AValue: boolean);
 begin
+  FMenuVisible:= AValue;
+  {$ifdef windows}
+  //workaround for LCL strange bug, when hiding MainMenu causes app hang on pressing Alt
+  if AValue then
+    Windows.SetMenu(Handle, MainMenu.Handle)
+  else
+    Windows.SetMenu(Handle, 0);
+  {$else}
   if AValue then
     Menu:= MainMenu
   else
     Menu:= nil;
+  {$endif}
 end;
 
 function TfmMain.GetShowOnTop: boolean;
 begin
   Result:= UiOps.ShowFormsOnTop;
-end;
-
-function TfmMain.GetShowMenu: boolean;
-begin
-  Result:= Menu<>nil;
 end;
 
 procedure TfmMain.SetShowOnTop(AValue: boolean);
