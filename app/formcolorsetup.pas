@@ -224,6 +224,9 @@ begin
   C:= (Control as TListbox).Canvas;
   st:= ListStyles.Items.Objects[Index] as TecSyntaxFormat;
 
+  C.Brush.Color:= clWindow;
+  C.FillRect(ARect);
+
   C.Font.Color:= st.Font.Color;
   C.Font.Style:= st.Font.Style;
   C.Brush.Color:= st.BgColor;
