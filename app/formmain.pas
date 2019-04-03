@@ -4288,6 +4288,8 @@ begin
 
   {$ifdef windows}
   SetFullScreen_Win32(AValue);
+  if not UiOps.ShowMenubar then
+    ShowMenu:= false;
   {$else}
   SetFullScreen_Universal(AValue);
   {$endif}
