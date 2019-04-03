@@ -190,8 +190,8 @@ begin
       bModified:= F.Ed1.Modified or ((F.GetFileName(F.Ed1)='') and not F.IsEmpty);
 
       c.SetValue(path+'/modified', bModified);
-      c.SetValue(path+'/file', SCollapseHomeDirInFilename(F.Filename));
-      c.SetValue(path+'/tab_title', F.TabCaption);
+      c.SetValue(path+'/file', UTF8Decode(SCollapseHomeDirInFilename(F.Filename)));
+      c.SetValue(path+'/tab_title', UTF8Decode(F.TabCaption));
       c.SetValue(path+'/group', nLocalGroup+1); //support old sessions with 1-based index
 
       if F.IsText then value:= ''
@@ -199,7 +199,7 @@ begin
       if F.IsBinary then value:= 'bin,'+IntToStr(Ord(F.Binary.Mode))
       else
       if F.IsPicture then value:= 'pic';
-      c.SetValue(path+'/kind', value);
+      c.SetValue(path+'/kind', UTF8Decode(value));
 
       if bModified then
       begin
@@ -261,10 +261,11 @@ begin
     for i:= 0 to list.Count-1 do
     begin
       item_path:= '/'+list[i]+'/';
-      sFilename:= SExpandHomeDirInFilename(c.GetValue(item_path+'file', ''));
-      sTabTitle:= c.GetValue(item_path+'tab_title', '');
-      sText:= c.GetValue(item_path+'text', '');
-      sKind:= c.GetValue(item_path+'kind', '');
+      sFilename:= UTF8Encode(c.GetValue(item_path+'file', ''));
+      sFilename:= SExpandHomeDirInFilename(sFilename);
+      sTabTitle:= UTF8Encode(c.GetValue(item_path+'tab_title', ''));
+      sText:= UTF8Encode(c.GetValue(item_path+'text', ''));
+      sKind:= UTF8Encode(c.GetValue(item_path+'kind', ''));
       bModified:= c.GetValue(item_path+'modified', false);
 
       //support old sessions with 1-based group index
