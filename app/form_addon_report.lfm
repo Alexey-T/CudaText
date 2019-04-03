@@ -1,21 +1,20 @@
 object fmAddonReport: TfmAddonReport
   Left = 388
-  Height = 264
-  Top = 399
-  Width = 538
+  Height = 303
+  Top = 360
+  Width = 594
   BorderIcons = [biSystemMenu]
-  BorderStyle = bsDialog
   Caption = 'Addon installed'
-  ClientHeight = 264
-  ClientWidth = 538
+  ClientHeight = 303
+  ClientWidth = 594
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '1.7'
+  LCLVersion = '2.1.0.0'
   object ButtonPanel1: TButtonPanel
     Left = 6
     Height = 29
-    Top = 229
-    Width = 526
+    Top = 268
+    Width = 582
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
     HelpButton.Name = 'HelpButton'
@@ -29,24 +28,27 @@ object fmAddonReport: TfmAddonReport
     ShowBevel = False
   end
   object PanelInfo: TPanel
+    AnchorSideRight.Side = asrBottom
     Left = 0
     Height = 18
-    Top = 205
-    Width = 538
+    Top = 244
+    Width = 594
     Align = alBottom
     BevelOuter = bvNone
     Caption = 'PanelInfo'
     TabOrder = 1
   end
   object ListBox1: TListBox
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = PanelInfo
     Left = 6
-    Height = 193
+    Height = 232
     Top = 6
-    Width = 526
+    Width = 582
     Align = alClient
     BorderSpacing.Around = 6
     ItemHeight = 0
-    ScrollWidth = 524
+    ScrollWidth = 580
     TabOrder = 2
     TopIndex = -1
   end

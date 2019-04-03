@@ -53,8 +53,8 @@ end;
 
 procedure DoLocalize_FormAddonReport(F: TfmAddonReport);
 begin
-  with F do Caption:= msgStatusAddonInstalled;
-  with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;
+  F.Caption:= msgStatusAddonInstalled;
+  F.ButtonPanel1.OKButton.Caption:= msgButtonOk;
 end;
 
 { TfmAddonReport }
