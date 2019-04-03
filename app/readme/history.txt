@@ -8,6 +8,7 @@
 
 + add: show tooltip over UI tabs with filenames (instead of show filenames in statusbar)
 + add: API for EditorConfig additional options
++ add: option "newdoc_ends" allows value of MacOS 9 newlines
 * change: removed command "toggle menu bar"
 - fix: option "saving_force_final_eol" behaviour
 - fix: Windows: on rare PCs app hangs with hidden main menu

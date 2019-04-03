@@ -1495,6 +1495,7 @@ begin
     0: Ed1.Strings.Endings:= {$ifdef windows} cEndWin {$else} cEndUnix {$endif};
     1: Ed1.Strings.Endings:= cEndUnix;
     2: Ed1.Strings.Endings:= cEndWin;
+    3: Ed1.Strings.Endings:= cEndMac;
   end;
   Ed2.Strings.Endings:= Ed1.Strings.Endings;
 

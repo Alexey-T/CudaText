@@ -678,6 +678,7 @@
   //  0: Auto (CRLF on Windows, LF otherwise)
   //  1: LF
   //  2: CRLF
+  //  3: MacOS 9
   "newdoc_ends": 0,
 
   //[File]
