@@ -3885,17 +3885,17 @@ begin
   if FMenuVisible=AValue then exit;
   FMenuVisible:= AValue;
 
+  if AValue then
+    Menu:= MainMenu
+  else
+    Menu:= nil;
+
   {$ifdef windows}
   //workaround for LCL strange bug, when hiding MainMenu causes app hang on pressing Alt
   if AValue then
     Windows.SetMenu(Handle, MainMenu.Handle)
   else
     Windows.SetMenu(Handle, 0);
-  {$else}
-  if AValue then
-    Menu:= MainMenu
-  else
-    Menu:= nil;
   {$endif}
 end;
 
