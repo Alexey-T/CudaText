@@ -946,7 +946,7 @@ begin
     UiOps.InitialDir:= c.GetValue('ui_initial_dir', UiOps.InitialDir);
 
     UiOps.ExportHtmlNumbers:= c.GetValue('export_html_numbers', UiOps.ExportHtmlNumbers);
-    UiOps.ExportHtmlFontName:= c.GetValue('export_html_font_name', UiOps.ExportHtmlFontName);
+    UiOps.ExportHtmlFontName:= UTF8Encode(c.GetValue('export_html_font_name', UTF8Decode(UiOps.ExportHtmlFontName)));
     UiOps.ExportHtmlFontSize:= c.GetValue('export_html_font_size', UiOps.ExportHtmlFontSize);
 
     UiOps.TreeAutoSync:= c.GetValue('ui_tree_auto_sync', UiOps.TreeAutoSync);
@@ -1096,7 +1096,7 @@ begin
     try
       cfg.Formatted:= true;
       cfg.Filename:= fn;
-      cfg.SetValue(AConfigStrName, OpName);
+      cfg.SetValue(AConfigStrName, UTF8Decode(OpName));
       cfg.SetValue(AConfigStrSize, OpSize);
     except
     end;
