@@ -169,11 +169,11 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_WINDOW_TOPMOST_GET: Gets bool flag: main window has "always on top" style.
 * PROC_WINDOW_TOPMOST_SET: Sets bool flag: main window has "always on top" style.
 
-* PROC_PARSE_CONFIG: Reads param "text" like contents of JSON config file.
-* PROC_NEWDOC_NEWLINE_GET: Gets str: newline kind of newly created documents (app option "newdoc_ends").
-* PROC_NEWDOC_NEWLINE_SET: Sets str: newline kind of newly created documents.
-* PROC_NEWDOC_ENC_GET: Gets str: encoding name of newly created documents (app option "newdoc_encoding").
-* PROC_NEWDOC_ENC_SET: Sets str: encoding name of newly created documents.
+* PROC_CONFIG_READ: Reads param "text" as contents of CudaText JSON config file.
+* PROC_CONFIG_NEWDOC_EOL_GET: Gets str: newline kind of newly created documents (app option "newdoc_ends").
+* PROC_CONFIG_NEWDOC_EOL_SET: Sets str: newline kind of newly created documents.
+* PROC_CONFIG_NEWDOC_ENC_GET: Gets str: encoding name of newly created documents (app option "newdoc_encoding").
+* PROC_CONFIG_NEWDOC_ENC_SET: Sets str: encoding name of newly created documents.
 
 ====Search properties====
 
@@ -3332,10 +3332,10 @@ def project_variables():
 * add: Editor.get_prop/set_prop: PROP_SAVING_TRIM_FINAL_EMPTY_LINES
 
 1.0.279 (app 1.77.6)
-* add: app_proc: PROC_PARSE_CONFIG
-* add: app_proc: PROC_NEWDOC_NEWLINE_GET
-* add: app_proc: PROC_NEWDOC_NEWLINE_SET
-* add: app_proc: PROC_NEWDOC_ENC_GET
-* add: app_proc: PROC_NEWDOC_ENC_SET
+* add: app_proc: PROC_CONFIG_READ
+* add: app_proc: PROC_CONFIG_NEWDOC_EOL_GET
+* add: app_proc: PROC_CONFIG_NEWDOC_EOL_SET
+* add: app_proc: PROC_CONFIG_NEWDOC_ENC_GET
+* add: app_proc: PROC_CONFIG_NEWDOC_ENC_SET
 
 [[Category:CudaText]]

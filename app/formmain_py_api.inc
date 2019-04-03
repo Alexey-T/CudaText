@@ -3945,7 +3945,7 @@ begin
         APP_PROC_COORD_MONITOR3:
           Result:= Py_rect_monitor(3);
 
-        APP_PROC_PARSE_CONFIG:
+        APP_PROC_CONFIG_READ:
           begin
             fmMain.DoOps_LoadOptionsFromString(Str);
             Result:= ReturnNone;
@@ -3999,21 +3999,21 @@ begin
             Result:= PyString_FromString(PChar(fmMain.CurrentEditor.GetCacheDump));
           end;
 
-        APP_PROC_NEWDOC_NEWLINE_GET:
+        APP_PROC_CONFIG_NEWDOC_EOL_GET:
           begin
             Result:= PyInt_FromLong(Ord(UiOps.NewdocEnds));
           end;
-        APP_PROC_NEWDOC_NEWLINE_SET:
+        APP_PROC_CONFIG_NEWDOC_EOL_SET:
           begin
             UiOps.NewdocEnds:= StrToIntDef(Str, 0);
             Result:= ReturnNone;
           end;
 
-        APP_PROC_NEWDOC_ENC_GET:
+        APP_PROC_CONFIG_NEWDOC_ENC_GET:
           begin
             Result:= PyString_FromString(PChar(UiOps.NewdocEnc));
           end;
-        APP_PROC_NEWDOC_ENC_SET:
+        APP_PROC_CONFIG_NEWDOC_ENC_SET:
           begin
             UiOps.NewdocEnc:= Str;
             Result:= ReturnNone;
