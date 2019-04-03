@@ -614,6 +614,29 @@ begin
 end;
 
 
+procedure TfmMain.DoOps_LoadOptionsFromString(const AString: string);
+var
+  fn: string;
+begin
+  if AString='' then exit;
+  fn:= GetTempFileName+'.json';
+
+  with TFileStream.Create(fn, fmCreate) do
+  try
+    WriteBuffer(AString[1], Length(AString));
+  finally
+    Free;
+  end;
+
+  if FileExistsUTF8(fn) then
+  try
+    DoOps_LoadOptions(fn, EditorOps);
+    DoApplyAllOps;
+  finally
+    DeleteFileUTF8(fn);
+  end;
+end;
+
 procedure TfmMain.DoOps_LoadOptions(const fn: string; var Op: TEditorOps);
 var
   List: TStringList;

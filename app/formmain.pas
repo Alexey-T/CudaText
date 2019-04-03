@@ -903,6 +903,7 @@ type
     procedure DoOps_OpenFile_User;
     procedure DoOps_OpenFile_DefaultAndUser;
     procedure DoOps_LoadOptions(const fn: string; var Op: TEditorOps);
+    procedure DoOps_LoadOptionsFromString(const AString: string);
     procedure DoOps_LoadKeymap;
     procedure DoOps_LoadKeymapFrom(const AFilenameKeymap: string; AUndoList: TATKeymapUndoList);
     procedure DoEditorsLock(ALock: boolean);

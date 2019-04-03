@@ -3945,6 +3945,12 @@ begin
         APP_PROC_COORD_MONITOR3:
           Result:= Py_rect_monitor(3);
 
+        APP_PROC_PARSE_CONFIG:
+          begin
+            fmMain.DoOps_LoadOptionsFromString(Str);
+            Result:= ReturnNone;
+          end;
+
         APP_PROC_ENUM_FONTS:
           Result:= StringsToPyList(Screen.Fonts);
 
