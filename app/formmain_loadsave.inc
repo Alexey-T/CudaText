@@ -130,7 +130,7 @@ begin
     c.SetValue('theme_ui', FThemeUi);
     c.SetValue('theme_syntax', FThemeSyntax);
     c.SetValue('lang', AppLangName);
-    c.SetValue('session', IfThen(UiOps.ReopenSession, FSessionName, ''));
+    c.SetValue('session', UTF8Decode(IfThen(UiOps.ReopenSession, FSessionName, '')));
 
     DoOps_SaveHistory_GroupView(c);
   finally
@@ -480,7 +480,7 @@ begin
     ThemeUi:= c.GetValue('theme_ui', '');
     ThemeSyntax:= c.GetValue('theme_syntax', '');
     AppLangName:= c.GetValue('lang', '');
-    FSessionName:= c.GetValue('session', FSessionName);
+    FSessionName:= UTF8Encode(c.GetValue('session', UTF8Decode(FSessionName)));
 
     if AppLangName<>'' then
       DoLocalize;
