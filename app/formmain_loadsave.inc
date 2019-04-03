@@ -672,10 +672,10 @@ begin
 
     FreeAndNil(List);
 
-    Op.OpFontName:= FixFontMonospaced(c.GetValue(str_FontName, Op.OpFontName));
-    Op.OpFontName_i:= FixFontMonospaced(c.GetValue(str_FontName_i, Op.OpFontName_i));
-    Op.OpFontName_b:= FixFontMonospaced(c.GetValue(str_FontName_b, Op.OpFontName_b));
-    Op.OpFontName_bi:= FixFontMonospaced(c.GetValue(str_FontName_bi, Op.OpFontName_bi));
+    Op.OpFontName:= FixFontMonospaced(UTF8Encode(c.GetValue(str_FontName, UTF8Decode(Op.OpFontName))));
+    Op.OpFontName_i:= FixFontMonospaced(UTF8Encode(c.GetValue(str_FontName_i, UTF8Decode(Op.OpFontName_i))));
+    Op.OpFontName_b:= FixFontMonospaced(UTF8Encode(c.GetValue(str_FontName_b, UTF8Decode(Op.OpFontName_b))));
+    Op.OpFontName_bi:= FixFontMonospaced(UTF8Encode(c.GetValue(str_FontName_bi, UTF8Decode(Op.OpFontName_bi))));
 
     Op.OpFontSize:= c.GetValue(str_FontSize, Op.OpFontSize);
     Op.OpFontSize_i:= c.GetValue(str_FontSize_i, Op.OpFontSize_i);
@@ -685,10 +685,11 @@ begin
     Op.OpFontQuality:= TFontQuality(c.GetValue(str_FontQuality, Ord(Op.OpFontQuality)));
     Op.OpFontLigatures:= c.GetValue(str_FontLigatures, Op.OpFontLigatures);
 
-    UiOps.VarFontName:= c.GetValue(str_UiFontName, UiOps.VarFontName);
+    UiOps.VarFontName:= UTF8Encode(c.GetValue(str_UiFontName, UTF8Decode(UiOps.VarFontName)));
     UiOps.VarFontSize:= c.GetValue(str_UiFontSize, UiOps.VarFontSize);
-    UiOps.OutputFontName:= c.GetValue(str_UiFontOutputName, UiOps.OutputFontName);
+    UiOps.OutputFontName:= UTF8Encode(c.GetValue(str_UiFontOutputName, UTF8Decode(UiOps.OutputFontName)));
     UiOps.OutputFontSize:= c.GetValue(str_UiFontOutputSize, UiOps.OutputFontSize);
+
     UiOps.DoubleBuffered:= c.GetValue(str_UiDoubleBuffered, UiOps.DoubleBuffered);
 
     OptCharSizeProportional:= c.GetValue('unicode_proportional', OptCharSizeProportional);
