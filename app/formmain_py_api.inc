@@ -3993,6 +3993,26 @@ begin
             Result:= PyString_FromString(PChar(fmMain.CurrentEditor.GetCacheDump));
           end;
 
+        APP_PROC_NEWDOC_NEWLINE_GET:
+          begin
+            Result:= PyInt_FromLong(Ord(UiOps.NewdocEnds));
+          end;
+        APP_PROC_NEWDOC_NEWLINE_SET:
+          begin
+            UiOps.NewdocEnds:= StrToIntDef(Str, 0);
+            Result:= ReturnNone;
+          end;
+
+        APP_PROC_NEWDOC_ENC_GET:
+          begin
+            Result:= PyString_FromString(PChar(UiOps.NewdocEnc));
+          end;
+        APP_PROC_NEWDOC_ENC_SET:
+          begin
+            UiOps.NewdocEnc:= Str;
+            Result:= ReturnNone;
+          end
+
         else
           Result:= ReturnNone;
       end;
