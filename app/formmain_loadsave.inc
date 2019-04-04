@@ -1018,6 +1018,7 @@ procedure TfmMain.DoOps_LoadOptionsLexerSpecific(F: TEditorFrame);
 var
   fn: string;
   Ops: TEditorOps;
+  TempOps: TATEditorTempOps;
 begin
   if F=nil then exit;
   DoOps_ResetLexerSpecificOptions;
@@ -1027,7 +1028,9 @@ begin
   begin
     Ops:= EditorOps;
     DoOps_LoadOptions(fn, Ops);
+    EditorSaveTempOptions(F.Editor, TempOps);
     DoApplyFrameOps(F, Ops, true);
+    EditorRestoreTempOptions(F.Editor, TempOps);
   end;
 end;
 

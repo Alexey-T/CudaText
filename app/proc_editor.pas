@@ -30,6 +30,17 @@ uses
   proc_msg,
   math;
 
+type
+  TATEditorTempOps = record
+    WrapMode: TATSynWrapMode;
+    ShowMinimap: boolean;
+    ShowMicromap: boolean;
+    ShowLineNums: boolean;
+    Unprinted: boolean;
+  end;
+
+procedure EditorSaveTempOptions(Ed: TATSynEdit; var Ops: TATEditorTempOps);
+procedure EditorRestoreTempOptions(Ed: TATSynEdit; const Ops: TATEditorTempOps);
 procedure EditorFocus(C: TWinControl);
 procedure EditorMouseClick_AtCursor(Ed: TATSynEdit; AAndSelect: boolean);
 procedure EditorMouseClick_NearCaret(Ed: TATSynEdit; AParams: string; AAndSelect: boolean);
@@ -784,7 +795,6 @@ begin
   Result:= true;
 end;
 
-
 procedure EditorFocus(C: TWinControl);
 var
   CParent: TControl;
@@ -940,6 +950,21 @@ begin
   Result:= '"'+Result+'"';
 end;
 
+procedure EditorSaveTempOptions(Ed: TATSynEdit; var Ops: TATEditorTempOps);
+begin
+  Ops.WrapMode:= Ed.OptWrapMode;
+  Ops.ShowMinimap:= Ed.OptMinimapVisible;
+  Ops.ShowMicromap:= Ed.OptMicromapVisible;
+  Ops.Unprinted:= Ed.OptUnprintedVisible;
+end;
+
+procedure EditorRestoreTempOptions(Ed: TATSynEdit; const Ops: TATEditorTempOps);
+begin
+  Ed.OptWrapMode:= Ops.WrapMode;
+  Ed.OptMinimapVisible:= Ops.ShowMinimap;
+  Ed.OptMicromapVisible:= Ops.ShowMicromap;
+  Ed.OptUnprintedVisible:= Ops.Unprinted;
+end;
 
 end.
 
