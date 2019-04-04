@@ -2574,6 +2574,19 @@ begin
               Result:= ReturnNone;
           end;
 
+        PROP_NEWLINE:
+          begin
+            case Ed.Strings.Endings of
+              cEndWin:
+                Str:= 'crlf';
+              cEndMac:
+                Str:= 'cr';
+              else
+                Str:= 'lf';
+            end;
+            Result:= PyString_FromString(PChar(Str));
+          end;
+
         PROP_INDEX_GROUP:
           begin
             fmMain.GetEditorIndexes(Ed, Num1, Num2);
@@ -3062,6 +3075,27 @@ begin
           begin
             if Assigned(F) then
               F.Ed1.EncodingName:= AppEncodingShortnameToFullname(Str);
+          end;
+
+        PROP_NEWLINE:
+          begin
+            if Str='lf' then
+            begin
+              if Ed.Strings.Endings<>cEndUnix then
+                Ed.DoCommand(cmd_LineEndUnix);
+            end
+            else
+            if Str='crlf' then
+            begin
+              if Ed.Strings.Endings<>cEndWin then
+                Ed.DoCommand(cmd_LineEndWin);
+            end
+            else
+            if Str='cr' then
+            begin
+              if Ed.Strings.Endings<>cEndMac then
+                Ed.DoCommand(cmd_LineEndMac);
+            end;
           end;
 
         PROP_TAG:
