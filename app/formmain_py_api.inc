@@ -2956,6 +2956,7 @@ var
   Gr: TATGroups;
   Pages, PagesTo: TATPages;
   NLocalGroup, NGlobalGroup, NTab, NIndexNew, N1, N2: integer;
+  LineEnd: TATLineEnds;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:set_prop', @H, @Id, @Ptr)) then
@@ -3080,21 +3081,25 @@ begin
         PROP_NEWLINE:
           begin
             if Str='lf' then
-            begin
-              if Ed.Strings.Endings<>cEndUnix then
-                Ed.DoCommand(cmd_LineEndUnix);
-            end
+              LineEnd:= cEndUnix
             else
             if Str='crlf' then
-            begin
-              if Ed.Strings.Endings<>cEndWin then
-                Ed.DoCommand(cmd_LineEndWin);
-            end
+              LineEnd:= cEndWin
             else
             if Str='cr' then
+              LineEnd:= cEndMac
+            else
+              LineEnd:= cEndNone;
+
+            if LineEnd<>cEndNone then
             begin
-              if Ed.Strings.Endings<>cEndMac then
-                Ed.DoCommand(cmd_LineEndMac);
+              if Assigned(F) then
+                fmMain.UpdateFrameLineEnds(F, LineEnd)
+              else
+              begin
+                Ed.Strings.Endings:= LineEnd;
+                Ed.Update;
+              end;
             end;
           end;
 
