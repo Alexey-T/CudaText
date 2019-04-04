@@ -35,8 +35,9 @@ type
     WrapMode: TATSynWrapMode;
     ShowMinimap: boolean;
     ShowMicromap: boolean;
-    ShowLineNums: boolean;
-    Unprinted: boolean;
+    ShowRuler: boolean;
+    ShowNumbers: boolean;
+    ShowUnprinted: boolean;
   end;
 
 procedure EditorSaveTempOptions(Ed: TATSynEdit; var Ops: TATEditorTempOps);
@@ -955,7 +956,9 @@ begin
   Ops.WrapMode:= Ed.OptWrapMode;
   Ops.ShowMinimap:= Ed.OptMinimapVisible;
   Ops.ShowMicromap:= Ed.OptMicromapVisible;
-  Ops.Unprinted:= Ed.OptUnprintedVisible;
+  Ops.ShowRuler:= Ed.OptRulerVisible;
+  Ops.ShowNumbers:= Ed.Gutter.Items[Ed.GutterBandNum].Visible;
+  Ops.ShowUnprinted:= Ed.OptUnprintedVisible;
 end;
 
 procedure EditorRestoreTempOptions(Ed: TATSynEdit; const Ops: TATEditorTempOps);
@@ -963,7 +966,9 @@ begin
   Ed.OptWrapMode:= Ops.WrapMode;
   Ed.OptMinimapVisible:= Ops.ShowMinimap;
   Ed.OptMicromapVisible:= Ops.ShowMicromap;
-  Ed.OptUnprintedVisible:= Ops.Unprinted;
+  Ed.OptRulerVisible:= Ops.ShowRuler;
+  Ed.Gutter.Items[Ed.GutterBandNum].Visible:= Ops.ShowNumbers;
+  Ed.OptUnprintedVisible:= Ops.ShowUnprinted;
 end;
 
 end.
