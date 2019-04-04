@@ -1906,7 +1906,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_GUTTER_NUM: bool: show gutter column "line numbers".
 * PROP_GUTTER_FOLD: bool: show gutter column "folding".
 * PROP_GUTTER_BM: bool: show gutter column "bookmarks".
-* PROP_EOL: str: line-break chars. Currently always gets "\n" since it's ignored in "insert" method.
+* deprecated: PROP_EOL: str: line-break chars. Currently always gets "\n" since it's ignored in "insert" method.
+* PROP_NEWLINE: str: kind of line endings. One of values "lf", "crlf", "cr".
 * PROP_WRAP: int: word-wrap mode. One of WRAP_nnn values.
 * PROP_RO: bool: read-only mode.
 * PROP_MARGIN: int: position of fixed margin.
@@ -2022,6 +2023,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_GUTTER_BM: bool: show gutter column "bookmarks".
 * PROP_WRAP: int: word-wrap mode. One of WRAP_nnn values.
 * PROP_RO: bool: read-only mode.
+* PROP_NEWLINE: str: kind of line endings. One of values "lf", "crlf", "cr". Changing of this property converts all line endings to the chosen value.
 * PROP_MARGIN: int: position of fixed margin.
 * PROP_MARGIN_STRING: str: space-separated user-margins columns.
 * PROP_INSERT: bool: insert/overwrite mode.
@@ -3337,5 +3339,7 @@ def project_variables():
 * add: app_proc: PROC_CONFIG_NEWDOC_EOL_SET
 * add: app_proc: PROC_CONFIG_NEWDOC_ENC_GET
 * add: app_proc: PROC_CONFIG_NEWDOC_ENC_SET
+* add: Editor.get_prop/set_prop: PROP_NEWLINE
+* deprecated: Editor.get_prop/set_prop: PROP_EOL
 
 [[Category:CudaText]]
