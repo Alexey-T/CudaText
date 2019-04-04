@@ -3339,6 +3339,8 @@ def project_variables():
 * add: app_proc: PROC_CONFIG_NEWDOC_EOL_SET
 * add: app_proc: PROC_CONFIG_NEWDOC_ENC_GET
 * add: app_proc: PROC_CONFIG_NEWDOC_ENC_SET
+
+1.0.280 (app 1.77.6)
 * add: Editor.get_prop/set_prop: PROP_NEWLINE
 * deprecated: Editor.get_prop/set_prop: PROP_EOL
 
