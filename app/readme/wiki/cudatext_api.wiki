@@ -2023,7 +2023,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_GUTTER_BM: bool: show gutter column "bookmarks".
 * PROP_WRAP: int: word-wrap mode. One of WRAP_nnn values.
 * PROP_RO: bool: read-only mode.
-* PROP_NEWLINE: str: kind of line endings. One of values "lf", "crlf", "cr". Changing of this property converts all line endings to the chosen value.
+* PROP_NEWLINE: str: kind of line endings. One of values "lf", "crlf", "cr".
 * PROP_MARGIN: int: position of fixed margin.
 * PROP_MARGIN_STRING: str: space-separated user-margins columns.
 * PROP_INSERT: bool: insert/overwrite mode.
