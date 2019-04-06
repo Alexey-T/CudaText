@@ -97,7 +97,7 @@ def set_output(lines, is_all, line1, line2):
         ed_insert_to_lines(lines, line1, line2)
 
 
-def do_line_op(op):
+def do_line_op(op, keep_blanks=False):
 
     res = get_input()
     if not res: return
@@ -121,8 +121,9 @@ def do_line_op(op):
         for i in range(len(lines)-1, 0, -1):
             for j in range(i-1, -1, -1):
                 if lines[i]==lines[j]:
-                    del lines[i]
-                    break
+                    if lines[i] or not keep_blanks:
+                        del lines[i]
+                        break
 
     elif op=='delete_dups_origins':
         dups = get_dups(lines, False)
@@ -309,6 +310,8 @@ class Command:
 
     def del_dup(self):
         do_line_op('delete_dups')
+    def del_dup_keep_blanks(self):
+        do_line_op('delete_dups', True)
     def del_dup_orig(self):
         do_line_op('delete_dups_origins')
     def del_dup_adj(self):
