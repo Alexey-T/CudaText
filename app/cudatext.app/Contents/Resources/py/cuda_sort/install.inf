@@ -50,22 +50,27 @@ section=commands
 caption=Sort\Shuffle lines
 method=shuffle
 
-[item35]
+[item34]
 section=commands
 caption=Sort\-
 method=_
 
-[item36]
+[item35]
 section=commands
 caption=Sort\Remove duplicate lines
 method=del_dup
 
-[item37]
+[item36]
+section=commands
+caption=Sort\Remove duplicate lines, but keep blanks
+method=del_dup_keep_blanks
+
+[item38]
 section=commands
 caption=Sort\Remove duplicate lines + origins
 method=del_dup_orig
 
-[item38]
+[item39]
 section=commands
 caption=Sort\Remove adjacent duplicate lines
 method=del_dup_adj
