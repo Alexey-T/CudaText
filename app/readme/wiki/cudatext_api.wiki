@@ -170,10 +170,10 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_WINDOW_TOPMOST_SET: Sets bool flag: main window has "always on top" style.
 
 * PROC_CONFIG_READ: Reads param "text" as contents of CudaText JSON config file.
-* PROC_CONFIG_NEWDOC_EOL_GET: Gets str: newline kind of newly created documents (app option "newdoc_ends").
-* PROC_CONFIG_NEWDOC_EOL_SET: Sets str: newline kind of newly created documents.
-* PROC_CONFIG_NEWDOC_ENC_GET: Gets str: encoding name of newly created documents (app option "newdoc_encoding").
-* PROC_CONFIG_NEWDOC_ENC_SET: Sets str: encoding name of newly created documents.
+* PROC_CONFIG_NEWDOC_EOL_GET: Gets str: line endings of newly created documents (app option "newdoc_ends").
+* PROC_CONFIG_NEWDOC_EOL_SET: Sets str: line endings of newly created documents.
+* PROC_CONFIG_NEWDOC_ENC_GET: Gets str: encoding of newly created documents (app option "newdoc_encoding").
+* PROC_CONFIG_NEWDOC_ENC_SET: Sets str: encoding of newly created documents.
 
 ====Search properties====
 
