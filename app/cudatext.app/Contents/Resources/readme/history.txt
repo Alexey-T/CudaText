@@ -10,15 +10,15 @@
 + add: show tooltip over UI tabs with filenames (instead of showing filenames in statusbar)
 + add: plugin Sort: added command "Remove duplicate lines, but keep blanks"
 + add: option "newdoc_ends" allows value for CR endings
++ add: on plugin installation app now skips all hotkeys (from install.inf) which are busy in config
 * change: removed command "toggle menu bar"
 - fix: CSS auto-completion bugs
 - fix: option "saving_force_final_eol" behaviour
 - fix: Windows: on rare PCs app hangs with hidden main menu
 - fix: on switching tabs, word-wrap state was reset (with lexer-specific cfg)
 
-1.77.3 (2019/03)
+1.77.2 (2019/03)
 
-+ add: on plugin installation app now skips all hotkeys (from install.inf) which are busy in config
 - fix: critical bug when BkSp/Del/letter pressing is reverted by editor
 - fix: bugs with "ui_tab_disabled":true
 - fix: memory leak with lexer usage
