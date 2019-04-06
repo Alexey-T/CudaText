@@ -70,13 +70,13 @@ def dialog_config(op):
             'val='+bool_to_str(op.get('d_click', False)) ])]
 
         +[c1.join(['type=label', 'pos=6,330,130,0', 'cap=File type icons:'])]
-        +[c1.join(['type=combo_ro', 'pos=160,325,350,0',
+        +[c1.join(['type=combo_ro', 'pos=160,325,400,0',
             'items='+'\t'.join(themes),
             'val='+str(theme_index)
             ])]
 
         +[c1.join(['type=label', 'pos=6,360,130,0', 'cap=Toolbar icons:'])]
-        +[c1.join(['type=combo_ro', 'pos=160,355,350,0',
+        +[c1.join(['type=combo_ro', 'pos=160,355,400,0',
             'items='+'\t'.join(themes_tb),
             'val='+str(theme_index_tb)
             ])]
