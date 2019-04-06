@@ -674,10 +674,11 @@
   //New tabs: Encoding name. Possible names are listed in Wiki (utf8, utf8_bom, cp1250 etc).
   "newdoc_encoding": "utf8",
 
-  //New tabs: End-of-line sequence
-  //  0: Auto (CRLF on Windows, LF otherwise)
+  //New tabs: Line endings sequence
+  //  0: Auto: CRLF on Windows, LF otherwise
   //  1: LF
-  //  2: CRLF
+  //  2: CRLF (Windows)
+  //  3: CR
   "newdoc_ends": 0,
 
   //[File]
@@ -1038,6 +1039,7 @@
   "ui_toolbar_theme": "default_24x24",
 
   //Show main menu bar
+  //Note: this option takes effect only after program restart
   "ui_menu_show": true,
 
   //[Find/Hotkeys]

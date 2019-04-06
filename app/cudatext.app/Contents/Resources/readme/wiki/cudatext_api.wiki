@@ -169,6 +169,12 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_WINDOW_TOPMOST_GET: Gets bool flag: main window has "always on top" style.
 * PROC_WINDOW_TOPMOST_SET: Sets bool flag: main window has "always on top" style.
 
+* PROC_CONFIG_READ: Reads param "text" as contents of CudaText JSON config file.
+* PROC_CONFIG_NEWDOC_EOL_GET: Gets str: line endings of newly created documents (app option "newdoc_ends").
+* PROC_CONFIG_NEWDOC_EOL_SET: Sets str: line endings of newly created documents.
+* PROC_CONFIG_NEWDOC_ENC_GET: Gets str: encoding of newly created documents (app option "newdoc_encoding").
+* PROC_CONFIG_NEWDOC_ENC_SET: Sets str: encoding of newly created documents.
+
 ====Search properties====
 
 Actions work with props of Find/Replace dialog, and props of low-level search engine. When user runs some search command in the dialog, dialog applies its props to the search engine. So most of the time, props of dialog and search engine are sync'ed. But they aren't sync'ed if user just typed new text in the dialog. They also aren't sync'ed if user runs some search command via Command Palette or hotkey (e.g. "find current word, previous").
@@ -1900,7 +1906,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_GUTTER_NUM: bool: show gutter column "line numbers".
 * PROP_GUTTER_FOLD: bool: show gutter column "folding".
 * PROP_GUTTER_BM: bool: show gutter column "bookmarks".
-* PROP_EOL: str: line-break chars. Currently always gets "\n" since it's ignored in "insert" method.
+* deprecated: PROP_EOL: str: line-break chars. Currently always gets "\n" since it's ignored in "insert" method.
+* PROP_NEWLINE: str: kind of line endings. One of values "lf", "crlf", "cr".
 * PROP_WRAP: int: word-wrap mode. One of WRAP_nnn values.
 * PROP_RO: bool: read-only mode.
 * PROP_MARGIN: int: position of fixed margin.
@@ -1983,6 +1990,10 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 ** "split_kind": str: "-" (not splitted), "v" (splitted vertically), "h" (splitted horizontally). 
 ** "split_pos": int: part of entire size for secondary editor, multiplied by 1000 (e.g. 500 is half of size).
 
+* PROP_SAVING_FORCE_FINAL_EOL: bool: on saving file, ensure the newline at end of document.
+* PROP_SAVING_TRIM_SPACES: bool: on saving file, trim trailing whitespaces.
+* PROP_SAVING_TRIM_FINAL_EMPTY_LINES: bool: on saving file, trim redundant empty lines at end of document.
+
 * PROP_HANDLE_SELF: int: handle of editor object, for which get_prop is called. This handle is unique among all objects in program (it is memory address). Note that ed.h==0, it is virtual handle for the focused editor. This API gets the real handle.
 * PROP_HANDLE_PRIMARY: int: handle of editor object, which is primary editor in a file tab (always visible). None for separate editors.
 * PROP_HANDLE_SECONDARY: int: handle of editor object, which is secondary editor in a file tab (visible only when file tab is splitted). None for separate editors.
@@ -2012,6 +2023,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_GUTTER_BM: bool: show gutter column "bookmarks".
 * PROP_WRAP: int: word-wrap mode. One of WRAP_nnn values.
 * PROP_RO: bool: read-only mode.
+* PROP_NEWLINE: str: kind of line endings. One of values "lf", "crlf", "cr".
 * PROP_MARGIN: int: position of fixed margin.
 * PROP_MARGIN_STRING: str: space-separated user-margins columns.
 * PROP_INSERT: bool: insert/overwrite mode.
@@ -2073,6 +2085,10 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_SPLIT: 2-tuple: information about primary/secondary editors splitting as tuple (split_kind, split_pos).
 ** "split_kind": str: "-" (not splitted), "v" (splitted vertically), "h" (splitted horizontally). 
 ** "split_pos": int: part of entire size for secondary editor, multiplied by 1000 (e.g. 500 is half of size).
+
+* PROP_SAVING_FORCE_FINAL_EOL: bool: on saving file, ensure the newline at end of document.
+* PROP_SAVING_TRIM_SPACES: bool: on saving file, trim trailing whitespaces.
+* PROP_SAVING_TRIM_FINAL_EMPTY_LINES: bool: on saving file, trim redundant empty lines at end of document.
 
 * PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
 * PROP_V_POS: int: for binary viewer, scroll position.
@@ -3311,5 +3327,21 @@ def project_variables():
 1.0.277 (app 1.77.2)
 * change: dlg_proc: "memo" value must encode tab as chr(3) now (was chr(2))
 * add: get_prop: PROP_CODETREE_MODIFIED_VERSION
+
+1.0.278 (app 1.77.4)
+* add: Editor.get_prop/set_prop: PROP_SAVING_FORCE_FINAL_EOL
+* add: Editor.get_prop/set_prop: PROP_SAVING_TRIM_SPACES
+* add: Editor.get_prop/set_prop: PROP_SAVING_TRIM_FINAL_EMPTY_LINES
+
+1.0.279 (app 1.77.6)
+* add: app_proc: PROC_CONFIG_READ
+* add: app_proc: PROC_CONFIG_NEWDOC_EOL_GET
+* add: app_proc: PROC_CONFIG_NEWDOC_EOL_SET
+* add: app_proc: PROC_CONFIG_NEWDOC_ENC_GET
+* add: app_proc: PROC_CONFIG_NEWDOC_ENC_SET
+
+1.0.280 (app 1.77.6)
+* add: Editor.get_prop/set_prop: PROP_NEWLINE
+* deprecated: Editor.get_prop/set_prop: PROP_EOL
 
 [[Category:CudaText]]
