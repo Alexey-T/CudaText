@@ -4,6 +4,10 @@
   * changed
 
 
++ add: on mouse selection, editor draws dotted frame to show mouse rectangle
++ add: command "selection: deselect first selection"
++ add: command "selection: deselect last selection"
+
 1.78.0 (2019/04)
 
 + add: API for EditorConfig plugin
