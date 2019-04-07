@@ -71,7 +71,7 @@ procedure EditorSetColorById(Ed: TATSynEdit; const Id: string; AColor: TColor);
 function EditorGetColorById(Ed: TATSynEdit; const Id: string): TColor;
 
 function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boolean;
-function EditorAutoCloseBracket(Ed: TATSynEdit; SBegin: char): boolean;
+function EditorAutoCloseBracket(Ed: TATSynEdit; CharBegin: atChar): boolean;
 function EditorGetPairForCloseBracket(ch: char): char;
 
 procedure EditorCaretPropsFromString(Props: TATCaretProps; S: string);
@@ -751,50 +751,63 @@ begin
 end;
 
 
-function EditorAutoCloseBracket(Ed: TATSynEdit; SBegin: char): boolean;
+function EditorAutoCloseBracket(Ed: TATSynEdit; CharBegin: atChar): boolean;
 var
   Caret: TATCaretItem;
   X1, Y1, X2, Y2: integer;
-  NPos: integer;
+  NPos, NCaret: integer;
   bSel: boolean;
-  SEnd, SSel: atString;
+  CharEnd: atChar;
+  Str: atString;
+  Shift, PosAfter: TPoint;
 begin
   Result:= false;
-  Caret:= Ed.Carets[0];
-  if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
-  Caret.GetRange(X1, Y1, X2, Y2, bSel);
 
-  if not bSel then
-  begin
-    NPos:= Caret.PosX;
-    SEnd:= Ed.Strings.Lines[Caret.PosY];
-    //don't do, if before caret is \
-    if (NPos>=1) and (NPos<=Length(SEnd)) and (SEnd[NPos]='\') then exit;
-    //don't do, if caret before text
-    if (NPos<Length(SEnd)) and
-      not Editor_NextCharAllowed_AutoCloseBracket(SEnd[NPos+1]) then exit;
-  end;
-
-  if SBegin='(' then SEnd:= ')' else
-   if SBegin='[' then SEnd:= ']' else
-    if SBegin='{' then SEnd:= '}' else
-     if SBegin='"' then SEnd:= '"' else
-      if SBegin='''' then SEnd:= '''' else
-       if SBegin='`' then SEnd:= '`' else
+  if CharBegin='(' then CharEnd:= ')' else
+   if CharBegin='[' then CharEnd:= ']' else
+    if CharBegin='{' then CharEnd:= '}' else
+     if CharBegin='"' then CharEnd:= '"' else
+      if CharBegin='''' then CharEnd:= '''' else
+       if CharBegin='`' then CharEnd:= '`' else
         exit;
 
-  SSel:= '';
-  if Ed.Carets.Count=1 then
-    SSel:= Ed.TextSelected;
+  for NCaret:= Ed.Carets.Count-1 downto 0 do
+  begin
+    Caret:= Ed.Carets[NCaret];
+    if not Ed.Strings.IsIndexValid(Caret.PosY) then Continue;
+    Caret.GetRange(X1, Y1, X2, Y2, bSel);
 
-  Ed.DoCommand(cCommand_TextInsert, atString(SBegin)+SSel+SEnd);
-  if SSel='' then
-    Ed.DoCommand(cCommand_KeyLeft)
-  else
-    Ed.DoCaretSingle(X2+IfThen(Y1=Y2, 1), Y2, X1+1, Y1);
+    if not bSel then
+    begin
+      NPos:= Caret.PosX;
+      Str:= Ed.Strings.Lines[Caret.PosY];
+      //don't do, if before caret is \
+      if (NPos>=1) and (NPos<=Length(Str)) and (Str[NPos]='\') then Continue;
+      //don't do, if caret before text
+      if (NPos<Length(Str)) and
+        not Editor_NextCharAllowed_AutoCloseBracket(Str[NPos+1]) then Continue;
+    end;
 
-  Result:= true;
+    if not bSel then
+    begin
+      Ed.Strings.TextInsert(X1, Y1, CharBegin+CharEnd, false, Shift, PosAfter);
+      Caret.PosX:= Caret.PosX+1;
+    end
+    else
+    begin
+      Ed.Strings.TextInsert(X2, Y2, CharEnd, false, Shift, PosAfter);
+      Ed.Strings.TextInsert(X1, Y1, CharBegin, false, Shift, PosAfter);
+      Caret.EndX:= X1+1;
+      Caret.PosX:= X2+IfThen(Y1=Y2, 1);
+    end;
+
+    Result:= true;
+  end;
+
+  if Result then
+    Ed.Update(true);
 end;
+
 
 procedure EditorFocus(C: TWinControl);
 var

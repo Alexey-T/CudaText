@@ -7,6 +7,7 @@
 1.78.1
 
 + add: on mouse selection, editor draws dotted frame to show mouse rectangle
++ add: rework handling of ([{ brackets, now bracket typing surrounds selection with multi-selections too
 + add: command "selection: remove first caret"
 + add: command "selection: remove last caret"
 
