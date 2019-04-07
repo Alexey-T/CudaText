@@ -4,9 +4,11 @@
   * changed
 
 
+1.78.1
+
 + add: on mouse selection, editor draws dotted frame to show mouse rectangle
-+ add: command "selection: deselect first selection"
-+ add: command "selection: deselect last selection"
++ add: command "selection: remove first caret"
++ add: command "selection: remove last caret"
 
 1.78.0 (2019/04)
 
