@@ -1542,7 +1542,9 @@ begin
   mnuApple_CheckUpd:= TMenuItem.Create(Self);
   mnuApple_CheckUpd.Caption:= 'Check for updates';
   mnuApple.Add(mnuApple_CheckUpd);
-  mnuHelpCheckUpd.Visible:= false;
+
+  //"Check for Updates" sopported only on Windows
+  mnuHelpCheckUpd.Enabled:= false;
 
   //macOS adds Quit item in apple menu
   mnuFileExit.Visible:= false;
