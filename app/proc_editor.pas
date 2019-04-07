@@ -791,12 +791,17 @@ begin
     if not bSel then
     begin
       Ed.Strings.TextInsert(X1, Y1, CharBegin+CharEnd, false, Shift, PosAfter);
+      Ed.DoCaretsShift(X1, Y1, Shift.X, Shift.Y, PosAfter);
+
       Caret.PosX:= Caret.PosX+1;
     end
     else
     begin
       Ed.Strings.TextInsert(X2, Y2, CharEnd, false, Shift, PosAfter);
+      Ed.DoCaretsShift(X1, Y1, Shift.X, Shift.Y, PosAfter);
       Ed.Strings.TextInsert(X1, Y1, CharBegin, false, Shift, PosAfter);
+      Ed.DoCaretsShift(X1, Y1, Shift.X, Shift.Y, PosAfter);
+
       Caret.EndX:= X1+1;
       Caret.PosX:= X2+IfThen(Y1=Y2, 1);
     end;
