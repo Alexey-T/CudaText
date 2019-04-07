@@ -798,7 +798,8 @@ begin
     else
     begin
       Ed.Strings.TextInsert(X2, Y2, CharEnd, false, Shift, PosAfter);
-      Ed.DoCaretsShift(X1, Y1, Shift.X, Shift.Y, PosAfter);
+      Ed.DoCaretsShift(X2, Y2, Shift.X, Shift.Y, PosAfter);
+
       Ed.Strings.TextInsert(X1, Y1, CharBegin, false, Shift, PosAfter);
       Ed.DoCaretsShift(X1, Y1, Shift.X, Shift.Y, PosAfter);
 
