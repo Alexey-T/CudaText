@@ -763,6 +763,9 @@ var
 begin
   Result:= false;
 
+  //makes no sense to auto-close brackets in overwrite mode
+  if Ed.ModeOverwrite then exit;
+
   if CharBegin='(' then CharEnd:= ')' else
    if CharBegin='[' then CharEnd:= ']' else
     if CharBegin='{' then CharEnd:= '}' else
