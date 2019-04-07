@@ -1526,8 +1526,10 @@ var
   cAppleString: string;
 begin
   {$ifndef darwin}
+  //don't run this procedure on Win/Linux
   exit;
   {$endif}
+
   cAppleString:= UTF8Encode(WideChar($F8FF));
 
   mnuApple:= TMenuItem.Create(Self);
@@ -1544,9 +1546,10 @@ begin
   mnuApple.Add(mnuApple_CheckUpd);
 
   //"Check for Updates" sopported only on Windows
-  mnuHelpCheckUpd.Enabled:= false;
+  mnuHelpCheckUpd.Visible:= false;
+  mnuApple_CheckUpd.Enabled:= false;
 
-  //macOS adds Quit item in apple menu
+  //macOS adds "Quit" item in Apple menu, "Exit" not needed
   mnuFileExit.Visible:= false;
 end;
 
