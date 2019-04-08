@@ -4,12 +4,13 @@
   * changed
 
 
-1.78.1
+1.78.2
 
 + add: on mouse selection, editor draws dotted frame to show mouse rectangle
-+ add: rework handling of ([{ brackets, now bracket typing surrounds selection with multi-selections too
++ add: improve behaviour of option "auto_close_brackets":true, now bracket/quote typing surrounds selection with multi-selections too
 + add: command "selection: remove first caret"
 + add: command "selection: remove last caret"
+- fix: crash with plugin Config Menu and changed translation
 
 1.78.0 (2019/04)
 
