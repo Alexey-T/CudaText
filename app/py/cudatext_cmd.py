@@ -354,7 +354,8 @@ cmd_BookmarkCopyMarkedLines = 2668
 cmd_BookmarkDeleteMarkedLines = 2669
 cmd_BookmarkPlaceBookmarksOnCarets = 2670
 
-cmd_DuplicateLineEx              = 2676
+cmd_OptionsEditor     = 2675
+cmd_DuplicateLineEx   = 2676
 
 cmd_LineEndWin        = 2677
 cmd_LineEndUnix       = 2678

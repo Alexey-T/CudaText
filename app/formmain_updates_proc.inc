@@ -1222,6 +1222,7 @@ begin
   ToolbarMain.AddDropdown(12, PopupToolbarCase);
   ToolbarMain.AddDropdown(13, PopupToolbarSort);
   ToolbarMain.AddDropdown(14, PopupToolbarComment);
+  ToolbarMain.AddButton(15, @DoToolbarClick, '', 'Options Editor', IntToStr(cmd_OptionsEditor), false);
 
   ToolbarMain.UpdateControls;
 end;
@@ -1319,6 +1320,7 @@ begin
   UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'case.png');
   UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'sort.png');
   UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'comment.png');
+  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'opt.png');
 
   ToolbarMain.UpdateControls;
 end;
