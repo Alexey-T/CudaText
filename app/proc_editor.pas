@@ -206,6 +206,7 @@ begin
   Ed.OptLastLineOnTop:= Op.OpShowLastLineOnTop;
   Ed.OptShowFullWidthForSelection:= Op.OpShowFullBackgroundSel;
   Ed.OptShowFullWidthForSyntaxHilite:= Op.OpShowFullBackgroundSyntax;
+  Ed.OptShowMouseSelFrame:= Op.OpShowMouseSelFrame;
   Ed.OptCopyLinesIfNoSel:= Op.OpCopyLineIfNoSel;
   Ed.OptCutLinesIfNoSel:= Op.OpCutLineIfNoSel;
   Ed.OptCopyColumnBlockAlignedBySpaces:= Op.OpCopyColumnAlignedBySpaces;

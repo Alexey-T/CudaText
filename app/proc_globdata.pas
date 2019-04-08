@@ -407,6 +407,7 @@ type
     OpShowLastLineOnTop: boolean;
     OpShowFullBackgroundSel: boolean;
     OpShowFullBackgroundSyntax: boolean;
+    OpShowMouseSelFrame: boolean;
     OpCopyLineIfNoSel: boolean;
     OpCutLineIfNoSel: boolean;
     OpCopyColumnAlignedBySpaces: boolean;
@@ -1129,6 +1130,7 @@ begin
     OpShowLastLineOnTop:= true;
     OpShowFullBackgroundSel:= false;
     OpShowFullBackgroundSyntax:= true;
+    OpShowMouseSelFrame:= true;
     OpCopyLineIfNoSel:= true;
     OpCutLineIfNoSel:= false;
     OpCopyColumnAlignedBySpaces:= true;

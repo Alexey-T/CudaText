@@ -147,6 +147,9 @@
 
   //Show additional vertical lines at all caret(s) position(s)
   "show_cur_column": false,
+
+  //Show additional dotted frame on mouse selection of block
+  "show_mouse_sel_frame": true,
   
   //Use smooth (per-pixel) scrolling. Note, it increases CPU load.
   "smooth_scroll": true,
