@@ -4,11 +4,13 @@
   * changed
 
 
-1.78.2
+1.78.2 (2019/04)
 
 + add: on mouse selection, editor draws dotted frame to show mouse rectangle
 + add: option "show_mouse_sel_frame"
 + add: improve behaviour of option "auto_close_brackets":true, now bracket/quote typing surrounds selection with multi-selections too
++ add: toolbar button "Options Editor" (calls Options Editor plugin dialog)
++ add: toolbar theme icon "opt.png"
 + add: command "selection: remove first caret"
 + add: command "selection: remove last caret"
 - fix: crash with plugin Config Menu and changed translation
