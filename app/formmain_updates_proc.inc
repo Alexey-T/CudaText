@@ -1222,7 +1222,7 @@ begin
   ToolbarMain.AddDropdown(12, PopupToolbarCase);
   ToolbarMain.AddDropdown(13, PopupToolbarSort);
   ToolbarMain.AddDropdown(14, PopupToolbarComment);
-  ToolbarMain.AddButton(15, @DoToolbarClick, '', 'Options Editor', IntToStr(cmd_OptionsEditor), false);
+  ToolbarMain.AddButton(15, @DoToolbarClick, '', 'Options Editor', 'module=cuda_options_editor;cmd=dlg_cuda_options;', false);
 
   ToolbarMain.UpdateControls;
 end;

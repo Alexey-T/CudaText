@@ -171,7 +171,6 @@ begin
     cmd_CopyFilenameDir:  DoCopyFilenameDir;
     cmd_CopyFilenameName: DoCopyFilenameName;
 
-    cmd_OptionsEditor: DoPyCommand('cuda_options_editor', 'dlg_cuda_options', []);
     cmd_DuplicateLineEx: DoCudaLibAction('duplicate');
 
     cmd_AutoComplete: DoAutoComplete;

@@ -171,7 +171,6 @@ const
   cmd_BookmarkDeleteMarkedLines = 2669;
   cmd_BookmarkPlaceBookmarksOnCarets = 2670;
 
-  cmd_OptionsEditor     = 2675;
   cmd_DuplicateLineEx   = 2676;
 
   cmd_LineEndWin        = 2677;
