@@ -420,7 +420,7 @@ object fmMain: TfmMain
         Caption = '&Expand selection to line'
       end
       object mnuSelExtWord: TMenuItem
-        Caption = 'Expand selection to &word'
+        Caption = 'Add next occurrence of selected &word'
       end
       object MenuItem5: TMenuItem
         Caption = '-'
