@@ -13,6 +13,7 @@
 + add: toolbar theme icon "opt.png"
 + add: command "selection: remove first caret"
 + add: command "selection: remove last caret"
+* change: changed command name "expand selection to word" to more concrete "select next occurrence of selected word"
 - fix: crash with plugin Config Menu and changed translation
 
 1.78.0 (2019/04)
