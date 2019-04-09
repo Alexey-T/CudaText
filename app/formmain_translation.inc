@@ -509,6 +509,8 @@ begin
     DoLocString(msgCannotAutocompleteMultiCarets , ini, 'se', 'AutocompleteCarets');
 
     DoLocString(msgStatusChangedLinesCount       , ini, 'si', 'ChangedLineCount');
+    DoLocString(msgStatusPluginHotkeyBusy        , ini, 'si', 'PluginHotkeyBusy');
+    DoLocString(msgStatusSyntaxThemesOff         , ini, 'si', 'SyntaxThemesOff');
     DoLocString(msgStatusIncorrectInstallInfInZip, ini, 'si', 'IncorrectInstallInfInZip');
     DoLocString(msgStatusUnsupportedAddonType    , ini, 'si', 'UnsupportedAddonType');
     DoLocString(msgStatusPackageContains         , ini, 'si', 'PackageContains');
