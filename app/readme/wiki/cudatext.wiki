@@ -794,8 +794,9 @@ To record a macro:
 * call menu item "Macros - Start record", or use dialog "Macros - Macros..." which gives "Start record" button too
 * pefrorm some action(s) in CudaText:
 ** built-in commands, plugin commands (invoked by hotkey, by menu, by Command Palette)
+** some mouse actions (clicks/selections, they save/playback relative to caret position)
 ** calling of Find/Replace dialog, "Go to" dialog
-** pressing of buttons in Find/Replace dialog
+** actions in Find/Replace dialog
 * call menu item "Macros - Stop record" to save your macro, plugin will ask for macro name
 
 Macro saves action(s) performed inside its original editor tab (not other tabs). And it doesn't save actions inside plugin dialogs (e.g. FindInFiles).
