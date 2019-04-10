@@ -775,6 +775,7 @@ begin
        if CharBegin='`' then CharEnd:= '`' else
         exit;
 
+  Ed.Strings.BeginUndoGroup;
   for NCaret:= Ed.Carets.Count-1 downto 0 do
   begin
     Caret:= Ed.Carets[NCaret];
@@ -813,9 +814,13 @@ begin
 
     Result:= true;
   end;
+  Ed.Strings.EndUndoGroup;
 
   if Result then
+  begin
+    Ed.Modified:= true;
     Ed.Update(true);
+  end;
 end;
 
 
