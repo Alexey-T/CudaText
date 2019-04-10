@@ -237,6 +237,10 @@ begin
   //need to parse caption and create subitems, separated with '\'
   repeat
     strItem:= SGetItem(ACaption, '\');
+
+    //TODO:
+    //translate strItem using ini files, e.g. data/langmenu/cuda_macros.ru_RU.ini
+
     if strItem='' then Break;
     if strItem='-' then
       idx:= -1
