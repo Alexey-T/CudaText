@@ -775,6 +775,9 @@ begin
        if CharBegin='`' then CharEnd:= '`' else
         exit;
 
+  //cancel vertical selection
+  Ed.DoSelect_ClearColumnBlock;
+
   Ed.Strings.BeginUndoGroup;
   for NCaret:= Ed.Carets.Count-1 downto 0 do
   begin
