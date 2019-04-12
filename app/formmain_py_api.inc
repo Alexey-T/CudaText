@@ -6668,7 +6668,9 @@ begin
 
         DLG_SHOW_MODAL:
           begin
-            Form.DoEmulatedModalShow;
+            //don't do ShowModal for docked forms, this hangs the app
+            if Form.Parent=nil then
+              Form.DoEmulatedModalShow;
             Result:= ReturnNone;
           end;
 
