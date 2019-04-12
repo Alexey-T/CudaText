@@ -6670,7 +6670,9 @@ begin
           begin
             //don't do ShowModal for docked forms, this hangs the app
             if Form.Parent=nil then
-              Form.DoEmulatedModalShow;
+              Form.DoEmulatedModalShow
+            else
+              fmMain.MsgLogConsole('Error: DLG_SHOW_MODAL was called for docked form');
             Result:= ReturnNone;
           end;
 
