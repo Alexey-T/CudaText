@@ -2420,12 +2420,13 @@ begin
         begin
           Data:= Ed.WrapInfo[i];
           PyList_SetItem(Result, i,
-            Py_BuildValue('{sisisisisi}',
+            Py_BuildValue('{sisisisisisO}',
               'line', Data.NLineIndex,
               'char', Data.NCharIndex,
               'len', Data.NLength,
               'indent', Data.NIndent,
-              'final', Ord(Data.NFinal)
+              'final', Ord(Data.NFinal),
+              'initial', PyBool_FromLong(Ord(Data.bInitial))
               ));
         end;
       end
