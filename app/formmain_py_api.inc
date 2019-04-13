@@ -2437,6 +2437,23 @@ begin
 end;
 
 
+function Py_GetScrollInfo(const AInfo: TATSynScrollInfo): PPyObject;
+begin
+  with GetPythonEngine do
+  begin
+    Result:= Py_BuildValue('{sisisisisisisisi}',
+      'pos', AInfo.NPos,
+      'max', AInfo.NMax,
+      'page', AInfo.NPage,
+      'pixels', AInfo.NPixelOffset,
+      'char_size', AInfo.SmoothCharSize,
+      'smooth_pos', AInfo.SmoothPos,
+      'smooth_max', AInfo.SmoothMax,
+      'smooth_page', AInfo.SmoothPage
+      );
+  end;
+end;
+
 function Py_ed_get_prop(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
@@ -2691,6 +2708,16 @@ begin
           Result:= PyInt_FromLong(Ed.ScrollVert.NPos);
         PROP_SCROLL_HORZ:
           Result:= PyInt_FromLong(Ed.ScrollHorz.NPos);
+
+        PROP_SCROLL_VERT_SMOOTH:
+          Result:= PyInt_FromLong(Ed.ScrollVert.SmoothPos);
+        PROP_SCROLL_HORZ_SMOOTH:
+          Result:= PyInt_FromLong(Ed.ScrollHorz.SmoothPos);
+
+        PROP_SCROLL_VERT_INFO:
+          Result:= Py_GetScrollInfo(Ed.ScrollVert);
+        PROP_SCROLL_HORZ_INFO:
+          Result:= Py_GetScrollInfo(Ed.ScrollHorz);
 
         PROP_LAST_LINE_ON_TOP:
           Result:= PyBool_FromLong(Ord(Ed.OptLastLineOnTop));
@@ -3209,6 +3236,20 @@ begin
           begin
             ScrollInfo:= Ed.ScrollHorz;
             ScrollInfo.NPos:= ValueInt;
+            Ed.ScrollHorz:= ScrollInfo;
+          end;
+
+        PROP_SCROLL_VERT_SMOOTH:
+          begin
+            ScrollInfo:= Ed.ScrollVert;
+            Ed.UpdateScrollInfoFromSmoothPos(ScrollInfo, ValueInt);
+            Ed.ScrollVert:= ScrollInfo;
+          end;
+
+        PROP_SCROLL_HORZ_SMOOTH:
+          begin
+            ScrollInfo:= Ed.ScrollHorz;
+            Ed.UpdateScrollInfoFromSmoothPos(ScrollInfo, ValueInt);
             Ed.ScrollHorz:= ScrollInfo;
           end;
 
