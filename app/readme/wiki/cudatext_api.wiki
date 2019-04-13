@@ -1920,8 +1920,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_LINE_NUMBERS: int: style of line numbers. One of LINENUM_nnn values.
 * PROP_LINE_TOP: int: index of line visible at the top of editor.
 * PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word wrap).
-* PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
 
+* PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
 * PROP_SCROLL_VERT: int: approximate vertical scroll position. Index in WrapInfo list, you can read this list via get_wrapinfo().
 * PROP_SCROLL_HORZ: int: approximate horizontal scroll position. Same as PROP_COLUMN_LEFT.
 * PROP_SCROLL_VERT_SMOOTH: int: smooth vertical scroll position. In pixels.
@@ -2036,11 +2036,11 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_MODIFIED: bool: editor is modified.
 * PROP_RULER: bool: show ruler.
 * PROP_COLOR: color property, value must be 2-tuple (COLOR_ID_nnnn, int_color_value).
-* PROP_LINE_TOP: int: index of line visible at the top of editor (allows to scroll editor).
+* PROP_LINE_TOP: int: index of line visible at the editor top.
 * PROP_LINE_NUMBERS: int: style of line numbers. One of LINENUM_nnn values.
 * PROP_LINE_STATE: 2-tuple: state of the line with given index. 2-tuple (line_index, LINESTATE_nnn).
-* PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
 
+* PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
 * PROP_SCROLL_VERT: int: approximate vertical scroll position. Index in WrapInfo list, you can read this list via get_wrapinfo().
 * PROP_SCROLL_HORZ: int: approximate horizontal scroll position. Same as PROP_COLUMN_LEFT.
 * PROP_SCROLL_VERT_SMOOTH: int: smooth vertical scroll position. In pixels.
@@ -3352,10 +3352,11 @@ def project_variables():
 
 1.0.280 (app 1.77.6)
 * add: Editor.get_prop/set_prop: PROP_NEWLINE
-* deprecated: Editor.get_prop/set_prop: PROP_EOL
+* deprecated: PROP_EOL
 
 1.0.281 (app 1.78.5)
 * add: Editor.get_prop/set_prop: PROP_SCROLL_VERT_SMOOTH, PROP_SCROLL_HORZ_SMOOTH
 * add: Editor.get_prop: PROP_SCROLL_VERT_INFO, PROP_SCROLL_HORZ_INFO
+* deprecated: PROP_COLUMN_LEFT
 
 [[Category:CudaText]]
