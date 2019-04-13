@@ -1051,6 +1051,7 @@ type
     procedure UpdateEnabledAll(b: boolean);
     procedure InitFrameEvents(F: TEditorFrame);
     procedure UpdateInputForm(Form: TForm; AndHeight: boolean= true);
+    procedure UpdateFrameEx(F: TEditorFrame; AUpdatedText: boolean);
     procedure UpdateFrame(AUpdatedText: boolean= false);
     procedure UpdateAppForSearch(AStart, AEdLock, AFindMode: boolean);
     procedure UpdateStatus;

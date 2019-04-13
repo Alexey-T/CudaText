@@ -258,12 +258,14 @@ begin
 end;
 
 procedure TfmMain.UpdateFrame(AUpdatedText: boolean = false);
+begin
+  UpdateFrameEx(CurrentFrame, AUpdatedText);
+end;
+
+procedure TfmMain.UpdateFrameEx(F: TEditorFrame; AUpdatedText: boolean);
 var
-  F: TEditorFrame;
   Adapter: TATAdapterEControl;
 begin
-  F:= CurrentFrame;
-
   F.Ed1.UpdateIncorrectCaretPositions;
   F.Ed2.UpdateIncorrectCaretPositions;
 

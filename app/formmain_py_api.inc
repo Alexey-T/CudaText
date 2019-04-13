@@ -3402,8 +3402,12 @@ begin
           end;
       end;
 
-      fmMain.UpdateFrame;
-      fmMain.UpdateStatus;
+      if Assigned(F) then
+      begin
+        fmMain.UpdateFrameEx(F, false);
+        fmMain.UpdateStatus;
+      end;
+
       Result:= ReturnNone;
     end
   else
