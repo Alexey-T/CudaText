@@ -3591,7 +3591,7 @@ begin
   end;
 
   Frame.Editor.DoEventChange; //reanalyze all file
-  UpdateFrame;
+  UpdateFrameEx(Frame, false);
   UpdateStatus;
   MsgStatus(msgStatusEncChanged);
 end;
@@ -3615,7 +3615,7 @@ begin
 
   F.LexerName[F.Editor]:= SName;
 
-  UpdateFrame;
+  UpdateFrameEx(F, false);
   UpdateStatus;
 end;
 
@@ -4361,7 +4361,7 @@ begin
   if F=nil then exit;
   F.Ed1.Strings.LoadFromFile(fn);
   F.DoLexerFromFilename(F.Ed1, fn);
-  UpdateFrame(true);
+  UpdateFrameEx(F, true);
   UpdateStatus;
 end;
 
@@ -4524,7 +4524,7 @@ begin
   else
     F.Editor.DoCommand(NCommand);
 
-  UpdateFrame;
+  UpdateFrameEx(F, false);
   UpdateStatus;
 end;
 
@@ -4553,7 +4553,7 @@ begin
     F.LexerLite[Ed]:= nil;
   end;
 
-  UpdateFrame;
+  UpdateFrameEx(F, false);
   UpdateStatus;
 end;
 
@@ -4727,7 +4727,7 @@ begin
   Ed.DoCaretSingle(NX, NY);
   Ed.DoEventCarets;
   Ed.Update;
-  UpdateFrame(true);
+  UpdateFrameEx(F, true);
 
   if MsgBox(msgConfirmOpenCreatedDoc, MB_OKCANCEL or MB_ICONQUESTION)=ID_OK then
     OpenDocument(SFileName);

@@ -520,11 +520,13 @@ var
   Id, NCaret: Integer;
   X1, Y1, X2, Y2: Integer;
   Ed: TATSynEdit;
+  F: TEditorFrame;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liiiii:set_caret', @H, @X1, @Y1, @X2, @Y2, @Id)) then
     begin
       Ed:= PyEditor(H);
+      F:= GetEditorFrame(Ed);
 
       case Id of
         CARET_DELETE_ALL:
@@ -573,8 +575,11 @@ begin
           Result:= ReturnNone;
       end;
 
-      fmMain.UpdateFrame;
-      fmMain.UpdateStatus;
+      if Assigned(F) then
+      begin
+        fmMain.UpdateFrameEx(F, false);
+        fmMain.UpdateStatus;
+      end;
     end
   else
     Result:= ReturnNone;
@@ -962,15 +967,23 @@ var
   H: Int64;
   X1, Y1, X2, Y2: Integer;
   Ed: TATSynEdit;
+  F: TEditorFrame;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liiii:set_sel_rect', @H, @X1, @Y1, @X2, @Y2)) then
     begin
       Ed:= PyEditor(H);
+      F:= GetEditorFrame(Ed);
+
       Ed.DoSelect_None;
       Ed.DoSelect_ColumnBlock(Point(X1, Y1), Point(X2, Y2));
-      fmMain.UpdateFrame;
-      fmMain.UpdateStatus;
+
+      if Assigned(F) then
+      begin
+        fmMain.UpdateFrameEx(F, false);
+        fmMain.UpdateStatus;
+      end;
+
       Result:= ReturnNone;
     end
   else
@@ -983,6 +996,7 @@ var
   H: Int64;
   Ptr: PChar;
   Ed: TATSynEdit;
+  F: TEditorFrame;
   StrW: atString;
   Shift, PosAfter: TPoint;
   i: integer;
@@ -1011,9 +1025,10 @@ begin
         Ed.Strings.DoSaveLastEditPos(0, 0);
       end;
 
-      if Assigned(GetEditorFrame(Ed)) then
+      F:= GetEditorFrame(Ed);
+      if Assigned(F) then
       begin
-        fmMain.UpdateFrame(true);
+        fmMain.UpdateFrameEx(F, true);
         fmMain.UpdateStatus;
       end
       else
@@ -1029,6 +1044,7 @@ var
   N, i: Integer;
   Ptr: PChar;
   Ed: TATSynEdit;
+  F: TEditorFrame;
   Str: atString;
 begin
   with GetPythonEngine do
@@ -1054,9 +1070,10 @@ begin
       Ed.DoEventChange;
       Ed.Strings.DoSaveLastEditPos(0, N);
 
-      if Assigned(GetEditorFrame(Ed)) then
+      F:= GetEditorFrame(Ed);
+      if Assigned(F) then
       begin
-        fmMain.UpdateFrame(true);
+        fmMain.UpdateFrameEx(F, true);
         fmMain.UpdateStatus;
       end
       else
@@ -1074,6 +1091,7 @@ var
   H: Int64;
   X1, Y1, X2, Y2: Integer;
   Ed: TATSynEdit;
+  F: TEditorFrame;
   Shift, PosAfter: TPoint;
 begin
   with GetPythonEngine do
@@ -1084,9 +1102,10 @@ begin
 
       Ed.DoEventChange;
 
-      if Assigned(GetEditorFrame(Ed)) then
+      F:= GetEditorFrame(Ed);
+      if Assigned(F) then
       begin
-        fmMain.UpdateFrame(true);
+        fmMain.UpdateFrameEx(F, true);
         fmMain.UpdateStatus;
       end
       else
@@ -1105,6 +1124,7 @@ var
   Ptr: PChar;
   Str: atString;
   Ed: TATSynEdit;
+  F: TEditorFrame;
   Shift, PosAfter: TPoint;
 begin
   with GetPythonEngine do
@@ -1124,9 +1144,10 @@ begin
 
       Ed.DoEventChange;
 
-      if Assigned(GetEditorFrame(Ed)) then
+      F:= GetEditorFrame(Ed);
+      if Assigned(F) then
       begin
-        fmMain.UpdateFrame(true);
+        fmMain.UpdateFrameEx(F, true);
         fmMain.UpdateStatus;
       end
       else
@@ -1144,6 +1165,7 @@ var
   H: Int64;
   X1, Y1, X2, Y2: Integer;
   Ed: TATSynEdit;
+  F: TEditorFrame;
   Shift, PosAfter: TPoint;
   PtrText: PChar;
   StrText: string;
@@ -1159,9 +1181,10 @@ begin
 
       Ed.DoEventChange;
 
-      if Assigned(GetEditorFrame(Ed)) then
+      F:= GetEditorFrame(Ed);
+      if Assigned(F) then
       begin
-        fmMain.UpdateFrame(true);
+        fmMain.UpdateFrameEx(F, true);
         fmMain.UpdateStatus;
       end
       else
@@ -1179,6 +1202,7 @@ var
   H: Int64;
   Y1, Y2: Integer;
   Ed: TATSynEdit;
+  F: TEditorFrame;
   Lines: TStringList;
   ListPy: PPyObject;
   Res: boolean;
@@ -1198,9 +1222,10 @@ begin
         FreeAndNil(Lines);
       end;
 
-      if Assigned(GetEditorFrame(Ed)) then
+      F:= GetEditorFrame(Ed);
+      if Assigned(F) then
       begin
-        fmMain.UpdateFrame(true);
+        fmMain.UpdateFrameEx(F, true);
         fmMain.UpdateStatus;
       end
       else
@@ -1302,14 +1327,21 @@ function Py_ed_unlock(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
+  F: TEditorFrame;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'L:unlock', @H)) then
     begin
       Ed:= PyEditor(H);
+      F:= GetEditorFrame(Ed);
       Ed.EndUpdate;
-      fmMain.UpdateFrame();
-      fmMain.UpdateStatus;
+
+      if Assigned(F) then
+      begin
+        fmMain.UpdateFrameEx(F, false);
+        fmMain.UpdateStatus;
+      end;
+
       Result:= ReturnNone;
     end
   else
@@ -1331,10 +1363,10 @@ begin
       begin
         fmMain.SetFrame(F);
         F.SetFocus;
+        fmMain.UpdateFrameEx(F, false);
+        fmMain.UpdateStatus;
       end;
 
-      fmMain.UpdateFrame();
-      fmMain.UpdateStatus;
       Result:= ReturnNone;
     end
   else
@@ -1391,6 +1423,7 @@ var
   PtrText: PChar;
   StrText: string;
   Ed: TATSynEdit;
+  F: TEditorFrame;
   NId, NLine, NKind, NColor, NCount,
   NDeleteIfDelLine, NShowInList: integer;
   NTag: Int64;
@@ -1523,9 +1556,10 @@ begin
           Result:= ReturnNone;
       end;
 
-      if Assigned(GetEditorFrame(Ed)) then
+      F:= GetEditorFrame(Ed);
+      if Assigned(F) then
       begin
-        fmMain.UpdateFrame;
+        fmMain.UpdateFrameEx(F, false);
         fmMain.UpdateStatus;
       end
       else

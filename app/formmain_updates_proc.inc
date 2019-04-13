@@ -266,6 +266,8 @@ procedure TfmMain.UpdateFrameEx(F: TEditorFrame; AUpdatedText: boolean);
 var
   Adapter: TATAdapterEControl;
 begin
+  if F=nil then exit;
+
   F.Ed1.UpdateIncorrectCaretPositions;
   F.Ed2.UpdateIncorrectCaretPositions;
 
@@ -820,7 +822,7 @@ begin
 
   F.TabSizeChanged:= true;
 
-  UpdateFrame;
+  UpdateFrameEx(F, false);
   UpdateStatus;
 end;
 

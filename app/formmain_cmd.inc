@@ -374,21 +374,21 @@ begin
       begin
         if ed.Carets.Count>0 then
           ed.BookmarkToggleForLine(ed.Carets[0].PosY, 1, '', false, true, 0);
-        UpdateFrame;
+        UpdateFrameEx(Frame, false);
         AHandled:= true;
         exit
       end;
     cmd_BookmarkClearAll:
       begin
         ed.BookmarkDeleteAll;
-        UpdateFrame;
+        UpdateFrameEx(Frame, false);
         AHandled:= true;
         exit
       end;
     cmd_BookmarkInvertAll:
       begin
         ed.BookmarkInvertAll;
-        UpdateFrame;
+        UpdateFrameEx(Frame, false);
         AHandled:= true;
         exit
       end;
