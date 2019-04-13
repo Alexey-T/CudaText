@@ -3357,6 +3357,6 @@ def project_variables():
 1.0.281 (app 1.78.5)
 * add: Editor.get_prop/set_prop: PROP_SCROLL_VERT_SMOOTH, PROP_SCROLL_HORZ_SMOOTH
 * add: Editor.get_prop: PROP_SCROLL_VERT_INFO, PROP_SCROLL_HORZ_INFO
-* deprecated: PROP_COLUMN_LEFT
+* deprecated: PROP_COLUMN_LEFT; use PROP_SCROLL_HORZ instead
 
 [[Category:CudaText]]
