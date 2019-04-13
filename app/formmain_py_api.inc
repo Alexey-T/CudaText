@@ -2447,7 +2447,7 @@ begin
       'pos_last', AInfo.NPosLast,
       'max', AInfo.NMax,
       'page', AInfo.NPage,
-      'pixel_offset', AInfo.NPixelOffset,
+      'pixels', AInfo.NPixelOffset,
       'char_size', AInfo.SmoothCharSize,
       'smooth_pos', AInfo.SmoothPos,
       'smooth_max', AInfo.SmoothMax,
