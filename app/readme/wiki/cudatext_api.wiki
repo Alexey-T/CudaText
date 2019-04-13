@@ -2275,11 +2275,12 @@ Gets info about wrapped lines. It allows to calculate, at which positions long l
 
 Gets list of dict, or None. Dict items has keys:
 
-* "line": Original line index, for this part.
-* "char": Char index (1-based, for UTF-16 stream of chars), at which this part starts. It is >1, for next parts of long wrapped line.
-* "len": Length of this part. It equals to entire line length, if line is not wrapped.
-* "indent": Screen indent in spaces, for this part, it's used in rendering when option "Show wrapped parts indented" is on.
-* "final": Enum, state of this part. 0: final part of entire line; 1: folded (hidden) part; 2: first or middle part of entire line.
+* "line": int: Original line index, for this part.
+* "char": int: Char index (1-based, for UTF-16 stream of chars), at which this part starts. It is >1, for next parts of long wrapped line.
+* "len": int: Length of this part. It equals to entire line length, if line is not wrapped.
+* "indent": int: Screen indent in spaces, for this part, it's used in rendering when option "Show wrapped parts indented" is on.
+* "final": int: State of this part. 0: final part of the entire line; 1: partially folded part; 2: first or middle part of the entire line.
+* "initial": bool: True if part is initial for the entire (wrapped) line, False if it is continuation (ie, wrapped) part.
 
 ===markers===
 
@@ -3357,6 +3358,7 @@ def project_variables():
 1.0.281 (app 1.78.5)
 * add: Editor.get_prop/set_prop: PROP_SCROLL_VERT_SMOOTH, PROP_SCROLL_HORZ_SMOOTH
 * add: Editor.get_prop: PROP_SCROLL_VERT_INFO, PROP_SCROLL_HORZ_INFO
+* add: Editor.get_wrapinfo: dict result has additional "initial" field
 * deprecated: PROP_COLUMN_LEFT; use PROP_SCROLL_HORZ instead
 
 [[Category:CudaText]]
