@@ -414,7 +414,7 @@ begin
     begin
       AData:= Form.Data;
       DoApplyLexerStyleMaps(false);
-      UpdateFrame;
+      UpdateCurrentFrame;
     end;
   finally
     FreeAndNil(Form);

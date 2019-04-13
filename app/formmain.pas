@@ -1052,7 +1052,7 @@ type
     procedure InitFrameEvents(F: TEditorFrame);
     procedure UpdateInputForm(Form: TForm; AndHeight: boolean= true);
     procedure UpdateFrameEx(F: TEditorFrame; AUpdatedText: boolean);
-    procedure UpdateFrame(AUpdatedText: boolean= false);
+    procedure UpdateCurrentFrame(AUpdatedText: boolean= false);
     procedure UpdateAppForSearch(AStart, AEdLock, AFindMode: boolean);
     procedure UpdateStatus;
     procedure InitStatusbarControls;
@@ -2423,7 +2423,7 @@ begin
     //DoLexerExportFromLibToFile(an);
     UpdateMenuLexers;
     UpdateStatus;
-    UpdateFrame;
+    UpdateCurrentFrame;
   end;
 end;
 
@@ -2438,7 +2438,7 @@ begin
   begin
     UpdateMenuLexers;
     UpdateStatus;
-    UpdateFrame;
+    UpdateCurrentFrame;
   end;
 end;
 
@@ -3143,7 +3143,7 @@ begin
   begin
     FLastSelectedCommand:= NCmd;
     Ed.DoCommand(NCmd);
-    UpdateFrame;
+    UpdateCurrentFrame;
   end;
 end;
 
@@ -5149,7 +5149,7 @@ begin
   if Ed.Carets.Count=0 then exit;
   Ed.DoCommand(cCommand_TextInsert, Utf8Decode(AStr));
 
-  UpdateFrame(true);
+  UpdateCurrentFrame(true);
   UpdateStatus;
 end;
 
@@ -5265,7 +5265,7 @@ begin
   else
     DoPyCallbackFromAPI(SData, []);
 
-  UpdateFrame;
+  UpdateCurrentFrame;
   UpdateStatus;
 end;
 

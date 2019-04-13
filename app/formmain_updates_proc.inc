@@ -257,7 +257,7 @@ begin
   ButtonCancel.Hide;
 end;
 
-procedure TfmMain.UpdateFrame(AUpdatedText: boolean = false);
+procedure TfmMain.UpdateCurrentFrame(AUpdatedText: boolean = false); inline;
 begin
   UpdateFrameEx(CurrentFrame, AUpdatedText);
 end;
