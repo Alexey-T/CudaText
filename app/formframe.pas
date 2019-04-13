@@ -253,6 +253,7 @@ type
     property SaveHistory: boolean read FSaveHistory write FSaveHistory;
     procedure UpdateModified(Ed: TATSynEdit; AWithEvent: boolean= true);
     procedure UpdateReadOnlyFromFile(Ed: TATSynEdit);
+    procedure UpdateFrame(AUpdatedText: boolean);
     property NotifEnabled: boolean read GetNotifEnabled write SetNotifEnabled;
     property NotifTime: integer read GetNotifTime write SetNotifTime;
 
@@ -1905,6 +1906,30 @@ begin
   begin
     ReadOnly[Ed]:= true;
     ReadOnlyFromFile:= true;
+  end;
+end;
+
+procedure TEditorFrame.UpdateFrame(AUpdatedText: boolean);
+var
+  Ad: TATAdapterEControl;
+begin
+  Ed1.UpdateIncorrectCaretPositions;
+  Ed2.UpdateIncorrectCaretPositions;
+
+  Ed1.Update(AUpdatedText);
+  Ed2.Update(AUpdatedText);
+
+  if AUpdatedText then
+  begin
+    Ad:= Adapter[Ed1];
+    Ad.OnEditorChange(Ed1);
+
+    if not EditorsLinked then
+    begin
+      Ad:= Adapter[Ed2];
+      if Assigned(Ad) then
+        Ad.OnEditorChange(Ed2);
+    end;
   end;
 end;
 

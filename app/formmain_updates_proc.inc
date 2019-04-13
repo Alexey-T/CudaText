@@ -262,30 +262,10 @@ begin
   UpdateFrameEx(CurrentFrame, AUpdatedText);
 end;
 
-procedure TfmMain.UpdateFrameEx(F: TEditorFrame; AUpdatedText: boolean);
-var
-  Adapter: TATAdapterEControl;
+procedure TfmMain.UpdateFrameEx(F: TEditorFrame; AUpdatedText: boolean); inline;
 begin
-  if F=nil then exit;
-
-  F.Ed1.UpdateIncorrectCaretPositions;
-  F.Ed2.UpdateIncorrectCaretPositions;
-
-  F.Ed1.Update(AUpdatedText);
-  F.Ed2.Update(AUpdatedText);
-
-  if AUpdatedText then
-  begin
-    Adapter:= F.Adapter[F.Ed1];
-    Adapter.OnEditorChange(F.Ed1);
-
-    if not F.EditorsLinked then
-    begin
-      Adapter:= F.Adapter[F.Ed2];
-      if Assigned(Adapter) then
-        Adapter.OnEditorChange(F.Ed2);
-    end;
-  end;
+  if Assigned(F) then
+    F.UpdateFrame(AUpdatedText);
 end;
 
 procedure TfmMain.UpdateInputForm(Form: TForm; AndHeight: boolean=true);
