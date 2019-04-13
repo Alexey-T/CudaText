@@ -2441,11 +2441,12 @@ function Py_GetScrollInfo(const AInfo: TATSynScrollInfo): PPyObject;
 begin
   with GetPythonEngine do
   begin
-    Result:= Py_BuildValue('{sisisisisisisisi}',
+    Result:= Py_BuildValue('{sisisisisisisisisi}',
       'pos', AInfo.NPos,
+      'pos_last', AInfo.NPosLast,
       'max', AInfo.NMax,
       'page', AInfo.NPage,
-      'pixels', AInfo.NPixelOffset,
+      'pixel_offset', AInfo.NPixelOffset,
       'char_size', AInfo.SmoothCharSize,
       'smooth_pos', AInfo.SmoothPos,
       'smooth_max', AInfo.SmoothMax,
