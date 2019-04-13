@@ -2704,7 +2704,10 @@ begin
         PROP_LINE_BOTTOM:
           Result:= PyInt_FromLong(Ed.LineBottom);
         PROP_COLUMN_LEFT:
-          Result:= PyInt_FromLong(Ed.ColumnLeft);
+          begin
+            MsgOldApi('get_prop(PROP_COLUMN_LEFT)');
+            Result:= PyInt_FromLong(Ed.ColumnLeft);
+          end;
 
         PROP_SCROLL_VERT:
           Result:= PyInt_FromLong(Ed.ScrollVert.NPos);
@@ -3069,6 +3072,7 @@ begin
 
         PROP_COLUMN_LEFT:
           begin
+            MsgOldApi('set_prop(PROP_COLUMN_LEFT)');
             Ed.ColumnLeft:= ValueInt;
           end;
 
