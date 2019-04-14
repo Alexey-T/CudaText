@@ -41,7 +41,7 @@ method=do_show_links
 section=commands
 caption=Addons Manager\Config...
 method=do_config
-
+menu=o
 
 [item27]
 section=commands
