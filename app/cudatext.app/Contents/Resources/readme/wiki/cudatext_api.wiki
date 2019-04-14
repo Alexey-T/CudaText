@@ -1920,9 +1920,15 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_LINE_NUMBERS: int: style of line numbers. One of LINENUM_nnn values.
 * PROP_LINE_TOP: int: index of line visible at the top of editor.
 * PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word wrap).
+
 * PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
-* PROP_SCROLL_VERT: int: precise vert scroll position. It is index in WrapInfo list, which you can read via get_wrapinfo().
-* PROP_SCROLL_HORZ: int: precise horz scroll position. Same as PROP_COLUMN_LEFT.
+* PROP_SCROLL_VERT: int: approximate vertical scroll position. Index in WrapInfo list, you can read this list via get_wrapinfo().
+* PROP_SCROLL_HORZ: int: approximate horizontal scroll position. Same as PROP_COLUMN_LEFT.
+* PROP_SCROLL_VERT_SMOOTH: int: smooth vertical scroll position. In pixels.
+* PROP_SCROLL_HORZ_SMOOTH: int: smooth horizontal scroll position. In pixels.
+* PROP_SCROLL_VERT_INFO: int: dict with all available info about vertical scroll.
+* PROP_SCROLL_HORZ_INFO: int: dict with all available info about horizontal scroll.
+
 * PROP_COLOR: int: color property. Value must be one of COLOR_ID_nnn values. Gets None for incorrect id.
 * PROP_ENC: str: encoding name. Names are listed at [[CudaText#Encodings]].
 * PROP_LEXER_FILE: str: name of lexer for entire file (empty str if none is active).
@@ -2030,12 +2036,16 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_MODIFIED: bool: editor is modified.
 * PROP_RULER: bool: show ruler.
 * PROP_COLOR: color property, value must be 2-tuple (COLOR_ID_nnnn, int_color_value).
-* PROP_LINE_TOP: int: index of line visible at the top of editor (allows to scroll editor).
+* PROP_LINE_TOP: int: index of line visible at the editor top.
 * PROP_LINE_NUMBERS: int: style of line numbers. One of LINENUM_nnn values.
 * PROP_LINE_STATE: 2-tuple: state of the line with given index. 2-tuple (line_index, LINESTATE_nnn).
+
 * PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
-* PROP_SCROLL_VERT: int: precise vert scroll position. It is index in WrapInfo list, which you can read via get_wrapinfo().
-* PROP_SCROLL_HORZ: int: precise horz scroll position. Same as PROP_COLUMN_LEFT.
+* PROP_SCROLL_VERT: int: approximate vertical scroll position. Index in WrapInfo list, you can read this list via get_wrapinfo().
+* PROP_SCROLL_HORZ: int: approximate horizontal scroll position. Same as PROP_COLUMN_LEFT.
+* PROP_SCROLL_VERT_SMOOTH: int: smooth vertical scroll position. In pixels.
+* PROP_SCROLL_HORZ_SMOOTH: int: smooth horizontal scroll position. In pixels.
+
 * PROP_ENC: str: encoding name. Names listed at [[CudaText#Encodings]].
 * PROP_LEXER_FILE: str: name of lexer.
 * PROP_INDEX_GROUP: int: index of group with editor's tab, 0-based.
@@ -2265,11 +2275,12 @@ Gets info about wrapped lines. It allows to calculate, at which positions long l
 
 Gets list of dict, or None. Dict items has keys:
 
-* "line": Original line index, for this part.
-* "char": Char index (1-based, for UTF-16 stream of chars), at which this part starts. It is >1, for next parts of long wrapped line.
-* "len": Length of this part. It equals to entire line length, if line is not wrapped.
-* "indent": Screen indent in spaces, for this part, it's used in rendering when option "Show wrapped parts indented" is on.
-* "final": Enum, state of this part. 0: final part of entire line; 1: folded (hidden) part; 2: first or middle part of entire line.
+* "line": int: Original line index, for this part.
+* "char": int: Char index (1-based, for UTF-16 stream of chars), at which this part starts. It is >1, for next parts of long wrapped line.
+* "len": int: Length of this part. It equals to entire line length, if line is not wrapped.
+* "indent": int: Screen indent in spaces, for this part, it's used in rendering when option "Show wrapped parts indented" is on.
+* "final": int: State of this part. 0: final part of the entire line; 1: partially folded part; 2: first or middle part of the entire line.
+* "initial": bool: True if part is initial for the entire (wrapped) line, False if it is continuation (ie, wrapped) part.
 
 ===markers===
 
@@ -3342,6 +3353,12 @@ def project_variables():
 
 1.0.280 (app 1.77.6)
 * add: Editor.get_prop/set_prop: PROP_NEWLINE
-* deprecated: Editor.get_prop/set_prop: PROP_EOL
+* deprecated: PROP_EOL
+
+1.0.281 (app 1.78.5)
+* add: Editor.get_prop/set_prop: PROP_SCROLL_VERT_SMOOTH, PROP_SCROLL_HORZ_SMOOTH
+* add: Editor.get_prop: PROP_SCROLL_VERT_INFO, PROP_SCROLL_HORZ_INFO
+* add: Editor.get_wrapinfo: dict result has additional "initial" field
+* deprecated: PROP_COLUMN_LEFT; use PROP_SCROLL_HORZ instead
 
 [[Category:CudaText]]

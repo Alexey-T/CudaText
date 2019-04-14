@@ -776,6 +776,36 @@ CudaText suggests to use viewer for files of too big size (bigger than option ui
 
 Viewer has simple search support (without reg.ex.), and allows to use "Go to" dialog. In the "Go to" dialog, you can enter "2000" to jump to hex offset 0x2000 (in hex mode, rounded to 16 bytes). If you enter "50%", viewer will jump to the middle. Viewer supports selection of block by mouse, and hotkeys Ctrl+A, Ctrl+C. Viewer supports double-click to select whole word. Viewer allows to change encoding via statusbar click, but only in non-Unicode modes.
 
+==Macros==
+
+Macro is a sequence of CudaText actions, which can be saved to a file and invoked later by some command.
+To use macros, you must install plugin "Macros" from Addon Manager. It adds "Macros" menu to CudaText main menu bar. This menu gives items:
+
+* Macros...
+* Start record
+* Stop record
+* Cancel record
+* Export...
+* Import...
+* (items for saved macros)
+
+To record a macro:
+
+* call menu item "Macros - Start record", or use dialog "Macros - Macros..." which gives "Start record" button too
+* pefrorm some action(s) in CudaText:
+** built-in commands, plugin commands (invoked by hotkey, by menu, by Command Palette)
+** some mouse actions (clicks/selections, they save/playback relative to caret position)
+** calling of Find/Replace dialog, "Go to" dialog
+** actions in Find/Replace dialog
+* call menu item "Macros - Stop record" to save your macro, plugin will ask for macro name
+
+Macro saves action(s) performed inside its original editor tab (not other tabs). And it doesn't save actions inside plugin dialogs (e.g. FindInFiles).
+
+To playback macro:
+
+* call menu item "Macros - (macro name)", the end of this menu lists all available/saved macros
+* or call dialog "Macros - Macros..." which allows to run available macros: it can be simple running, running N times, or running in loop ([x] While text changes, [x] Until caret on last line)
+
 =External Tools=
 
 Several examples of external tools configs. Call dialog of External Tools plugin (menu Tools -- Config...). Add a new tool. Set dialog properties as shown below. This must add menu item, for new tool, under Tools menu.
