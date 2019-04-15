@@ -16,6 +16,7 @@
 * change: changed command name "expand selection to word" to more concrete "add next occurrence of selected word"
 - fix: crash with plugin Config Menu and changed translation
 - fix: bug in lexer engine for Unicode, which caused wrong tokenizing of Unicode names in Clojure lexer
+- fix: Linux: must not set dialogs (e.g. Command Palette) border-style to "none", this causes dialog to have "system always on top" style
 
 1.78.0 (2019/04)
 
