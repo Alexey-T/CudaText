@@ -247,6 +247,7 @@ type
     ReopenSession: boolean;
     AutoSaveSession: boolean;
     ShowFormsOnTop: boolean;
+    ShowMenuDialogsWithBorder: boolean;
     UndoPersistent: string;
 
     FloatGroupsInTaskbar: boolean;
@@ -1341,6 +1342,7 @@ begin
     ReopenSession:= true;
     AutoSaveSession:= false;
     ShowFormsOnTop:= false;
+    ShowMenuDialogsWithBorder:= {$ifdef linux} true {$else} false {$endif};
     UndoPersistent:= '';
 
     FloatGroupsInTaskbar:= true;

@@ -117,9 +117,8 @@ end;
 
 procedure TfmGotoList.FormCreate(Sender: TObject);
 begin
-  {$ifdef linux}
-  BorderStyle:= bsDialog;
-  {$endif}
+  if UiOps.ShowMenuDialogsWithBorder then
+    BorderStyle:= bsDialog;
 
   AutoAdjustLayout(lapAutoAdjustForDPI, 96, Screen.PixelsPerInch, Width, Width);
 
@@ -191,12 +190,15 @@ end;
 
 procedure TfmGotoList.SetListCaption(const AValue: string);
 begin
-  {$ifdef linux}
-  Caption:= AValue;
-  plCaption.Hide;
-  {$else}
-  plCaption.Caption:= AValue;
-  {$endif}
+  if UiOps.ShowMenuDialogsWithBorder then
+  begin
+    Caption:= AValue;
+    plCaption.Hide;
+  end
+  else
+  begin
+    plCaption.Caption:= AValue;
+  end;
 end;
 
 end.
