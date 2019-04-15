@@ -131,6 +131,23 @@ begin
   end;
 end;
 
+function Py_GetLineUpdatedList(Ed: TATSynEdit): PPyObject;
+var
+  Strs: TATStrings;
+  NLen, i: integer;
+begin
+  with GetPythonEngine do
+  begin
+    Strs:= Ed.Strings;
+    NLen:= Strs.Count;
+    Result:= PyList_New(NLen);
+    for i:= 0 to NLen-1 do
+    begin
+      PyList_SetItem(Result, i, PyBool_FromLong(Ord(Strs.LinesUpdated[i])));
+    end;
+  end;
+end;
+
 
 function Py_GetThemeData_Syntax: PPyObject;
 var
@@ -2571,6 +2588,9 @@ begin
         PROP_LINE_STATES:
           Result:= Py_GetLineStateList(Ed);
 
+        PROP_LINE_STATES_UPDATED:
+          Result:= Py_GetLineUpdatedList(Ed);
+
         PROP_COLOR:
           begin
             Num1:= EditorGetColorById(Ed, Str);
@@ -3145,6 +3165,13 @@ begin
             N2:= StrToIntDef(Str2, -1);
             if Ed.Strings.IsIndexValid(N1) and (N2>=0) then
               Ed.Strings.LinesState[N1]:= TATLineState(N2);
+          end;
+
+        PROP_LINE_STATES_UPDATED:
+          begin
+            if Str='' then
+              Ed.Strings.DoClearLineStatesUpdated;
+            Result:= ReturnNone;
           end;
 
         PROP_TAB_COLOR:
