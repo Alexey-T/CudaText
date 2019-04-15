@@ -1916,8 +1916,11 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_MODIFIED: bool: editor is modified.
 * PROP_MODIFIED_VERSION: int: counter which is incremented on each text change.
 * PROP_RULER: bool: horz ruler is shown.
+
 * PROP_LINE_STATE: int: state of the line with given index. One of LINESTATE_nnn values.
 * PROP_LINE_STATES: list of int: list of line states (LINESTATE_nnn values) for all lines.
+* PROP_LINE_STATES_UPDATED: list of bool: list of "updated" flags for all lines, each flag shows that its line was added/changed since the last clearing of this "updated" flag.
+
 * PROP_LINE_NUMBERS: int: style of line numbers. One of LINENUM_nnn values.
 * PROP_LINE_TOP: int: index of line visible at the top of editor.
 * PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word wrap).
@@ -2040,6 +2043,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_LINE_TOP: int: index of line visible at the editor top.
 * PROP_LINE_NUMBERS: int: style of line numbers. One of LINENUM_nnn values.
 * PROP_LINE_STATE: 2-tuple: state of the line with given index. 2-tuple (line_index, LINESTATE_nnn).
+* PROP_LINE_STATES_UPDATED: currently supports writing only empty string value, writing it means clearing of "updated" flags for all lines.
 
 * PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
 * PROP_SCROLL_VERT: int: approximate vertical scroll position. Index in WrapInfo list, you can read this list via get_wrapinfo().
@@ -3364,5 +3368,6 @@ def project_variables():
 
 1.0.282 (app 1.78.6)
 * add: Editor.get_prop: PROP_LINE_STATES
+* add: Editor.get_prop: PROP_LINE_STATES_UPDATED
 
 [[Category:CudaText]]
