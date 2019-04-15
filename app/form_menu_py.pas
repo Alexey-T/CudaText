@@ -95,6 +95,10 @@ end;
 
 procedure TfmMenuApi.FormCreate(Sender: TObject);
 begin
+  {$ifdef linux}
+  BorderStyle:= bsDialog;
+  {$endif}
+
   AutoAdjustLayout(lapAutoAdjustForDPI, 96, Screen.PixelsPerInch, Width, Width);
 
   edit.DoubleBuffered:= UiOps.DoubleBuffered;
@@ -349,8 +353,13 @@ end;
 
 procedure TfmMenuApi.SetListCaption(const AValue: string);
 begin
+  {$ifdef linux}
+  Caption:= AValue;
+  PanelCaption.Hide;
+  {$else}
   PanelCaption.Caption:= AValue;
   PanelCaption.Visible:= AValue<>'';
+  {$endif}
 end;
 
 end.

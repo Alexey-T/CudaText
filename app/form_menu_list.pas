@@ -37,6 +37,7 @@ type
       const ARect: TRect);
     procedure ListClick(Sender: TObject);
   private
+    procedure SetListCaption(const AValue: string);
     { private declarations }
   public
     { public declarations }
@@ -65,7 +66,7 @@ begin
   try
     S:= ReadString('m_sr', 'b_', 'Bookmarks');
     S:= StringReplace(S, '&', '', [rfReplaceAll]);
-    plCaption.Caption:= S;
+    SetListCaption(S);
   finally
     Free;
   end;
@@ -116,6 +117,10 @@ end;
 
 procedure TfmGotoList.FormCreate(Sender: TObject);
 begin
+  {$ifdef linux}
+  BorderStyle:= bsDialog;
+  {$endif}
+
   AutoAdjustLayout(lapAutoAdjustForDPI, 96, Screen.PixelsPerInch, Width, Width);
 
   List.DoubleBuffered:= UiOps.DoubleBuffered;
@@ -182,6 +187,16 @@ begin
     end;
     key:= 0;
   end;
+end;
+
+procedure TfmGotoList.SetListCaption(const AValue: string);
+begin
+  {$ifdef linux}
+  Caption:= AValue;
+  plCaption.Hide;
+  {$else}
+  plCaption.Caption:= AValue;
+  {$endif}
 end;
 
 end.
