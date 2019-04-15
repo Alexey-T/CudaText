@@ -2456,7 +2456,7 @@ begin
 
   //activate tab only if not X clicked
   if not IsX then
-    if TabIndex<>FTabIndexOver then
+    //if TabIndex<>FTabIndexOver then //with this check, CudaText cannot focus active tab in passive tab-group
       TabIndex:= FTabIndexOver;
 
   Invalidate;
