@@ -114,6 +114,23 @@ begin
   end;
 end;
 
+function Py_GetLineStateList(Ed: TATSynEdit): PPyObject;
+var
+  Strs: TATStrings;
+  NLen, i: integer;
+begin
+  with GetPythonEngine do
+  begin
+    Strs:= Ed.Strings;
+    NLen:= Strs.Count;
+    Result:= PyList_New(NLen);
+    for i:= 0 to NLen-1 do
+    begin
+      PyList_SetItem(Result, i, PyInt_FromLong(Ord(Strs.LinesState[i])));
+    end;
+  end;
+end;
+
 
 function Py_GetThemeData_Syntax: PPyObject;
 var
@@ -2541,6 +2558,7 @@ begin
           Result:= PyLong_FromLongLong(Ed.Strings.ModifiedVersion);
         PROP_RULER:
           Result:= PyBool_FromLong(Ord(Ed.OptRulerVisible));
+
         PROP_LINE_STATE:
           begin
             Num1:= StrToIntDef(Str, -1);
@@ -2549,6 +2567,9 @@ begin
             else
               Result:= ReturnNone;
           end;
+
+        PROP_LINE_STATES:
+          Result:= Py_GetLineStateList(Ed);
 
         PROP_COLOR:
           begin
