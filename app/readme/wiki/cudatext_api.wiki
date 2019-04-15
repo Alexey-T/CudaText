@@ -1917,6 +1917,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_MODIFIED_VERSION: int: counter which is incremented on each text change.
 * PROP_RULER: bool: horz ruler is shown.
 * PROP_LINE_STATE: int: state of the line with given index. One of LINESTATE_nnn values.
+* PROP_LINE_STATES: list of int: list of line states (LINESTATE_nnn values) for all lines.
 * PROP_LINE_NUMBERS: int: style of line numbers. One of LINENUM_nnn values.
 * PROP_LINE_TOP: int: index of line visible at the top of editor.
 * PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word wrap).
@@ -3360,5 +3361,8 @@ def project_variables():
 * add: Editor.get_prop: PROP_SCROLL_VERT_INFO, PROP_SCROLL_HORZ_INFO
 * add: Editor.get_wrapinfo: dict result has additional "initial" field
 * deprecated: PROP_COLUMN_LEFT; use PROP_SCROLL_HORZ instead
+
+1.0.282 (app 1.78.6)
+* add: Editor.get_prop: PROP_LINE_STATES
 
 [[Category:CudaText]]
