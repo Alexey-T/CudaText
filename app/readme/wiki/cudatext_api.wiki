@@ -1945,7 +1945,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_UNPRINTED_SPACES_TRAILING: bool: unprinted chars: show spaces/tabs only at end of lines.
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
-* PROP_TAG: str: some string attached to editor's tab. Value must be "key:defvalue" or simply "defvalue". Saved value for "key" is returned, or "defvalue" returned if value for key was not set. Empty key means key "_".
+* PROP_TAG: str: some string attached to editor. Value must be "key:defvalue" or simply "defvalue". Saved value for "key" is returned, or "defvalue" returned if value for key was not set. Empty key means key "_".
 * PROP_CARET_VIEW: 3-tuple: shape of caret, normal mode. Tuple contents is (int_width, int_height, bool_empty_inside). Width/height<0 means value in percents.
 * PROP_CARET_VIEW_OVR: 3-tuple: shape of caret, overwrite mode.
 * PROP_CARET_VIEW_RO: 3-tuple: shape of caret, read-only mode.
@@ -2060,7 +2060,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_UNPRINTED_SPACES_TRAILING: bool: unprinted chars: show spaces/tabs only at end of lines.
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
-* PROP_TAG: str: some string attached to editor's tab. Param text must be pair "key:value" or simply "value", this sets value for specified key (internally it is dictionary). Empty key means key "_".
+* PROP_TAG: str: some string attached to editor. Param text must be pair "key:value" or simply "value", this sets value for specified key (internally it is dictionary). Empty key means key "_".
 * PROP_CARET_VIEW: 3-tuple: shape of caret, normal mode. Tuple contents is (int_width, int_height, bool_empty_inside). Width/height<0 means value in percents.
 * PROP_CARET_VIEW_OVR: 3-tuple: shape of caret, overwrite mode.
 * PROP_CARET_VIEW_RO: 3-tuple: shape of caret, read-only mode.
@@ -3369,5 +3369,6 @@ def project_variables():
 1.0.282 (app 1.78.6)
 * add: Editor.get_prop: PROP_LINE_STATES
 * add: Editor.get_prop: PROP_LINE_STATES_UPDATED
+* change: PROP_TAG is now stored per Editor object, so primary and secondary editors (in the same tab) have different PROP_TAG values
 
 [[Category:CudaText]]
