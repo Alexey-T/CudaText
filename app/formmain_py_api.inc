@@ -2708,10 +2708,7 @@ begin
 
         PROP_TAG:
           begin
-            if Assigned(F) then
-              Result:= PyString_FromString(PChar(F.TagString))
-            else
-              Result:= ReturnNone;
+            Result:= PyString_FromString(PChar(Ed.TagString));
           end;
 
         PROP_UNPRINTED_SHOW:
@@ -3220,10 +3217,7 @@ begin
           end;
 
         PROP_TAG:
-          begin
-            if Assigned(F) then
-              F.TagString:= Str;
-          end;
+          Ed.TagString:= Str;
 
         PROP_UNPRINTED_SHOW:
           Ed.OptUnprintedVisible:= ValueBool;

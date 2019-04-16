@@ -119,7 +119,6 @@ type
     FFoldTodo: string;
     FTopLineTodo: integer;
     FTabKeyCollectMarkers: boolean;
-    FTagString: string;
     FNotInRecents: boolean;
     FMacroRecord: boolean;
     FMacroString: string;
@@ -272,7 +271,6 @@ type
     property TabColor: TColor read FTabColor write SetTabColor;
     property TabSizeChanged: boolean read FTabSizeChanged write FTabSizeChanged;
     property TabKeyCollectMarkers: boolean read GetTabKeyCollectMarkers write FTabKeyCollectMarkers;
-    property TagString: string read FTagString write FTagString;
     property NotInRecents: boolean read FNotInRecents write FNotInRecents;
     property TopLineTodo: integer read FTopLineTodo write FTopLineTodo; //always use it instead of Ed.LineTop
     property TextCharsTyped: integer read FTextCharsTyped write FTextCharsTyped;
