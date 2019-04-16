@@ -190,7 +190,10 @@ begin
             ObjLocals, //locals
             nil //globals
             );
-          DoCodetree_ApplyTreeHelperResults(Obj);
+
+          //value=False - don't refresh CodeTree
+          if PyObject_TypeCheck(Obj, PyList_Type) then
+            DoCodetree_ApplyTreeHelperResults(Obj);
         except
         end;
 
