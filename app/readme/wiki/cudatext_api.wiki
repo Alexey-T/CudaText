@@ -2562,6 +2562,8 @@ Getter must return list of tuples: (pos, level, caption, icon).
 ** 6: arrow1
 ** 7: arrow2
 
+Getter can also return value not of "list" type, in this case CudaText will not update the Code Tree.
+
 See examples of TreeHelpers: for Markdown, for MediaWiki. They are add-ons in the CudaText AddonManager.
 
 =Tech info=
@@ -3370,5 +3372,6 @@ def project_variables():
 * add: Editor.get_prop: PROP_LINE_STATES
 * add: Editor.get_prop: PROP_LINE_STATES_UPDATED
 * change: PROP_TAG is now stored per Editor object, so primary and secondary editors (in the same tab) have different PROP_TAG values
+* add: TreeHelper getter can return not "list" type, to not refresh code tree
 
 [[Category:CudaText]]
