@@ -6,6 +6,7 @@
 
 1.78.6 (2019/04)
 
++ add: option "zebra"
 + add: API
 - fix: few bugs with vertical scrolling with line gaps, visible in Differ plugin
 

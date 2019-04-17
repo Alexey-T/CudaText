@@ -849,6 +849,7 @@ begin
     Op.OpLexerDynamicHiliteEnabled:= c.GetValue('lexer_dynamic_hilite', Op.OpLexerDynamicHiliteEnabled);
     Op.OpLexerDynamicHiliteMaxLines:= c.GetValue('lexer_dynamic_hilite_max_lines', Op.OpLexerDynamicHiliteMaxLines);
     Op.OpLexerLineSeparators:= false; //c.GetValue('lexer_line_separators', Op.OpLexerLineSeparators);
+    Op.OpZebra:= c.GetValue('zebra', Op.OpZebra);
 
     Op.OpWordChars:= c.GetValue('word_chars', Op.OpWordChars);
     Op.OpHexChars:= c.GetValue('hex_chars', Op.OpHexChars);

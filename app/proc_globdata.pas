@@ -423,6 +423,7 @@ type
     OpLexerDynamicHiliteEnabled: boolean;
     OpLexerDynamicHiliteMaxLines: integer;
     OpLexerLineSeparators: boolean;
+    OpZebra: integer;
 
     OpWordChars: UnicodeString;
     OpHexChars: UnicodeString;
@@ -1146,6 +1147,7 @@ begin
     OpLexerDynamicHiliteEnabled:= false;
     OpLexerDynamicHiliteMaxLines:= 2000;
     OpLexerLineSeparators:= false;
+    OpZebra:= 0;
 
     OpWordChars:= '';
     OpHexChars:= '';

@@ -233,6 +233,10 @@ begin
     Ed.OptAutoIndentKind:= TATAutoIndentKind(Op.OpIndentAutoKind);
   Ed.OptAutoIndentBetterBracketsCurly:= Op.OpIndentAuto; //no separate option
 
+  Ed.OptZebraActive:= Op.OpZebra>0;
+  if Ed.OptZebraActive then
+    Ed.OptZebtaAlphaBlend:= Op.OpZebra;
+
   Ed.OptIndentSize:= Op.OpIndentSize;
   Ed.OptIndentKeepsAlign:= Op.OpUnIndentKeepsAlign;
   Ed.OptIndentMakesWholeLinesSelection:= Op.OpIndentMakesWholeLineSel;
