@@ -191,7 +191,7 @@ begin
             nil //globals
             );
 
-          //value=False - don't refresh CodeTree
+          //refresh CodeTree only if Obj is list
           if PyObject_TypeCheck(Obj, PyList_Type) then
             DoCodetree_ApplyTreeHelperResults(Obj);
         except
