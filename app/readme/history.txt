@@ -4,6 +4,11 @@
   * changed
 
 
+1.78.6 (2019/04)
+
++ add: API
+- fix: few bugs with vertical scrolling with line gaps, visible in Differ plugin
+
 1.78.5 (2019/04)
 
 + add: improve behaviour of option "auto_close_brackets":true, now it works with multi-selections too (brackets surround multi-selections)
