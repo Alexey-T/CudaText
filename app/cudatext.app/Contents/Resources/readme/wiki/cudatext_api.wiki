@@ -1916,7 +1916,11 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_MODIFIED: bool: editor is modified.
 * PROP_MODIFIED_VERSION: int: counter which is incremented on each text change.
 * PROP_RULER: bool: horz ruler is shown.
+
 * PROP_LINE_STATE: int: state of the line with given index. One of LINESTATE_nnn values.
+* PROP_LINE_STATES: list of int: list of line states (LINESTATE_nnn values) for all lines.
+* PROP_LINE_STATES_UPDATED: list of bool: list of "updated" flags for all lines, each flag shows that its line was added/changed since the last clearing of this "updated" flag.
+
 * PROP_LINE_NUMBERS: int: style of line numbers. One of LINENUM_nnn values.
 * PROP_LINE_TOP: int: index of line visible at the top of editor.
 * PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word wrap).
@@ -1941,7 +1945,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_UNPRINTED_SPACES_TRAILING: bool: unprinted chars: show spaces/tabs only at end of lines.
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
-* PROP_TAG: str: some string attached to editor's tab. Value must be "key:defvalue" or simply "defvalue". Saved value for "key" is returned, or "defvalue" returned if value for key was not set. Empty key means key "_".
+* PROP_TAG: str: some string attached to editor. Value must be "key:defvalue" or simply "defvalue". Saved value for "key" is returned, or "defvalue" returned if value for key was not set. Empty key means key "_".
 * PROP_CARET_VIEW: 3-tuple: shape of caret, normal mode. Tuple contents is (int_width, int_height, bool_empty_inside). Width/height<0 means value in percents.
 * PROP_CARET_VIEW_OVR: 3-tuple: shape of caret, overwrite mode.
 * PROP_CARET_VIEW_RO: 3-tuple: shape of caret, read-only mode.
@@ -2039,6 +2043,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_LINE_TOP: int: index of line visible at the editor top.
 * PROP_LINE_NUMBERS: int: style of line numbers. One of LINENUM_nnn values.
 * PROP_LINE_STATE: 2-tuple: state of the line with given index. 2-tuple (line_index, LINESTATE_nnn).
+* PROP_LINE_STATES_UPDATED: currently supports writing only empty string value, writing it means clearing of "updated" flags for all lines.
 
 * PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
 * PROP_SCROLL_VERT: int: approximate vertical scroll position. Index in WrapInfo list, you can read this list via get_wrapinfo().
@@ -2055,7 +2060,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_UNPRINTED_SPACES_TRAILING: bool: unprinted chars: show spaces/tabs only at end of lines.
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
-* PROP_TAG: str: some string attached to editor's tab. Param text must be pair "key:value" or simply "value", this sets value for specified key (internally it is dictionary). Empty key means key "_".
+* PROP_TAG: str: some string attached to editor. Param text must be pair "key:value" or simply "value", this sets value for specified key (internally it is dictionary). Empty key means key "_".
 * PROP_CARET_VIEW: 3-tuple: shape of caret, normal mode. Tuple contents is (int_width, int_height, bool_empty_inside). Width/height<0 means value in percents.
 * PROP_CARET_VIEW_OVR: 3-tuple: shape of caret, overwrite mode.
 * PROP_CARET_VIEW_RO: 3-tuple: shape of caret, read-only mode.
@@ -2556,6 +2561,8 @@ Getter must return list of tuples: (pos, level, caption, icon).
 ** 5: func
 ** 6: arrow1
 ** 7: arrow2
+
+Getter can also return value not of "list" type, in this case CudaText will not update the Code Tree.
 
 See examples of TreeHelpers: for Markdown, for MediaWiki. They are add-ons in the CudaText AddonManager.
 
@@ -3360,5 +3367,11 @@ def project_variables():
 * add: Editor.get_prop: PROP_SCROLL_VERT_INFO, PROP_SCROLL_HORZ_INFO
 * add: Editor.get_wrapinfo: dict result has additional "initial" field
 * deprecated: PROP_COLUMN_LEFT; use PROP_SCROLL_HORZ instead
+
+1.0.282 (app 1.78.6)
+* add: Editor.get_prop: PROP_LINE_STATES
+* add: Editor.get_prop: PROP_LINE_STATES_UPDATED
+* change: PROP_TAG is now stored per Editor object, so primary and secondary editors (in the same tab) have different PROP_TAG values
+* add: TreeHelper getter can return not "list" type, to not refresh code tree
 
 [[Category:CudaText]]
