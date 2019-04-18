@@ -1990,6 +1990,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_UNDO_LIMIT: int: max count of simple actions, which can be undone.
 * PROP_UNDO_DATA: str: string representation of Undo data.
 * PROP_REDO_DATA: str: string representation of Redo data.
+* PROP_ZEBRA: int: if 0, zebra mode is not active; if >0, it is alpha-blend value (1..255) of active zebra mode.
 * PROP_ACTIVATION_TIME: int: relative time (in OS timer ticks) when tab ("main" or "brother" editor in the same tab) was last focused. It's 0 for not yet focused tabs. It's None for editors created by dlg_proc().
 * PROP_KIND: str: kind of UI control in the tab.
 ** "text": normal editor
@@ -2096,6 +2097,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_UNDO_LIMIT: int: max count of simple actions, which can be undone.
 * PROP_UNDO_DATA: str: string representation of Undo data.
 * PROP_REDO_DATA: str: string representation of Redo data.
+* PROP_ZEBRA: int: if 0, zebra mode is not active; if >0, it is alpha-blend value (1..255) of active zebra mode.
 
 * PROP_SPLIT: 2-tuple: information about primary/secondary editors splitting as tuple (split_kind, split_pos).
 ** "split_kind": str: "-" (not splitted), "v" (splitted vertically), "h" (splitted horizontally). 
@@ -3373,5 +3375,8 @@ def project_variables():
 * add: Editor.get_prop: PROP_LINE_STATES_UPDATED
 * change: PROP_TAG is now stored per Editor object, so primary and secondary editors (in the same tab) have different PROP_TAG values
 * add: TreeHelper getter can return not "list" type, to not refresh code tree
+
+1.0.283 (app 1.78.7)
+* add: Editor.get_prop/set_prop: PROP_ZEBRA
 
 [[Category:CudaText]]
