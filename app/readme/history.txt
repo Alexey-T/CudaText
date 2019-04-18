@@ -9,6 +9,7 @@
 + add: option "zebra"
 + add: API
 - fix: few bugs with vertical sync-scrolling in Differ plugin
+- fix: scrollbars did scroll by 1 pixel on clicking arrows, must scroll faster by char size
 
 1.78.5 (2019/04)
 
