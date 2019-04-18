@@ -2591,6 +2591,15 @@ begin
         PROP_LINE_STATES_UPDATED:
           Result:= Py_GetLineUpdatedList(Ed);
 
+        PROP_ZEBRA:
+          begin
+            if Ed.OptZebraActive then
+              Num1:= Ed.OptZebraAlphaBlend
+            else
+              Num1:= 0;
+            Result:= PyInt_FromLong(Num1);
+          end;
+
         PROP_COLOR:
           begin
             Num1:= EditorGetColorById(Ed, Str);
@@ -3168,7 +3177,19 @@ begin
           begin
             if Str='' then
               Ed.Strings.DoClearLineStatesUpdated;
-            Result:= ReturnNone;
+          end;
+
+        PROP_ZEBRA:
+          begin
+            N1:= StrToIntDef(Str, -1);
+            if N1=0 then
+              Ed.OptZebraActive:= false
+            else
+            if N1>0 then
+            begin
+              Ed.OptZebraActive:= true;
+              Ed.OptZebraAlphaBlend:= N1;
+            end;
           end;
 
         PROP_TAB_COLOR:
