@@ -5970,6 +5970,7 @@ var
   Id, NColor, NSize: integer;
   Ed: TATSynEdit;
   Bmp: TBitmap;
+  ScrollInfo: TATSynScrollInfo;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'LiLLLii:gap', @H, @Id, @Num1, @Num2, @NTag, @NSize, @NColor)) then
@@ -6011,6 +6012,15 @@ begin
                 ////better to do always, to fix [v-scroll cannot reach end for many gaps at end]
                 //if Num1=Ed.Strings.Count-1 then
                   Ed.OptLastLineOnTop:= true;
+
+                //if added gap before 1st line, scroll editor upper
+                if Num1=-1 then
+                  if Ed.ScrollVert.SmoothPos=0 then
+                  begin
+                    ScrollInfo:= Ed.ScrollVert;
+                    ScrollInfo.NPos:= -1;
+                    Ed.ScrollVert:= ScrollInfo;
+                  end;
 
                 Ed.Update;
                 Result:= PyBool_FromLong(1);
