@@ -665,6 +665,7 @@ type
     FLastBottomPanel: string;
     FLastSelectedCommand: integer;
     FLastMousePos: TPoint;
+    FLexerProgress :integer;
     FOption_OpenReadOnly: boolean;
     FOption_OpenNewWindow: boolean;
     FOption_WindowPos: string;
@@ -696,6 +697,7 @@ type
     procedure DoFolderOpen(const ADirName: string; ANewProject: boolean);
     procedure DoGroupsChangeMode(Sender: TObject);
     procedure DoOnLexerParseProgress(Sender: TObject; AProgress: integer);
+    procedure DoOnLexerParseProgress_Sync();
     procedure DoOps_AddPluginMenuItem(ACaption: string; ASubMenu: TMenuItem; ATag: integer);
     procedure DoOps_LexersDisableInFrames(ListNames: TStringList);
     procedure DoOps_LexersRestoreInFrames(ListNames: TStringList);
@@ -5992,8 +5994,14 @@ end;
 
 procedure TfmMain.DoOnLexerParseProgress(Sender: TObject; AProgress: integer);
 begin
+  FLexerProgress := AProgress;
+  TThread.Queue(nil, @DoOnLexerParseProgress_Sync);
+end;
+
+procedure TfmMain.DoOnLexerParseProgress_Sync();
+begin
+  LexerProgress.Progress:= FLexerProgress;
   LexerProgress.Show;
-  LexerProgress.Progress:= AProgress;
 end;
 
 //----------------------------
