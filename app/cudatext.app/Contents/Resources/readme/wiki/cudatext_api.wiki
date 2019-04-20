@@ -328,33 +328,40 @@ Splitter id:
 
 * SPLITTER_SIDE: splitter near side panel.
 * SPLITTER_BOTTOM: splitter above bottom panel.
-* SPLITTER_G1, SPLITTER_G2, SPLITTER_G3: splitters between groups.
+* SPLITTER_G1 .. SPLITTER_G5: splitters between groups.
 
 Actions:
 
 * PROC_SPLITTER_GET: Gets info about splitter, as 4-tuple: (bool_vertical, bool_visible, int_pos, int_parent_panel_size). Param "text" is int splitter id.
 * PROC_SPLITTER_SET: Sets splitter pos. Param "text" is 2-tuple (int_splitter_id, int_splitter_pos).
 
-Positions of group splitters (G1, G2, G3) are determined by grouping view, in one view splitter may be horizontal with one parent panel, in other view - vertical with another parent panel. Detailed:
+Positions of group splitters (G1, G2, G3, G4, G5) are determined by grouping view, in one view splitter may be horizontal with one parent panel, in other view - vertical with another parent panel. Detailed:
 
 <pre>
 2VERT     t G1 t
+
 2HORZ     t
           G1
           t
+
 3VERT     t G1 t G2 t
+
 3HORZ     t
           G1
           t
           G2
           t
+
 1P2VERT    t G3 t
                G2
                 t
+
 1P2HORZ    t
            G3
            t G2 t
+
 4VERT     t G1 t G2 t G3 t
+
 4HORZ     t
           G1
           t
@@ -362,9 +369,25 @@ Positions of group splitters (G1, G2, G3) are determined by grouping view, in on
           t
           G3
           t
+
 4GRID     t G1 t
           G3
           t G2 t
+
+6VERT     t G1 t G2 t G3 t G4 t G5 t
+
+6HORZ     t
+          G1
+          t
+          G2
+          t
+          G3
+          t
+          G4
+          t
+          G5
+          t
+
 6GRID     t G1 t G2 t
           G3
           t G1 t G2 t
@@ -1990,6 +2013,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_UNDO_LIMIT: int: max count of simple actions, which can be undone.
 * PROP_UNDO_DATA: str: string representation of Undo data.
 * PROP_REDO_DATA: str: string representation of Redo data.
+* PROP_ZEBRA: int: if 0, zebra mode is not active; if >0, it is alpha-blend value (1..255) of active zebra mode.
 * PROP_ACTIVATION_TIME: int: relative time (in OS timer ticks) when tab ("main" or "brother" editor in the same tab) was last focused. It's 0 for not yet focused tabs. It's None for editors created by dlg_proc().
 * PROP_KIND: str: kind of UI control in the tab.
 ** "text": normal editor
@@ -2096,6 +2120,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_UNDO_LIMIT: int: max count of simple actions, which can be undone.
 * PROP_UNDO_DATA: str: string representation of Undo data.
 * PROP_REDO_DATA: str: string representation of Redo data.
+* PROP_ZEBRA: int: if 0, zebra mode is not active; if >0, it is alpha-blend value (1..255) of active zebra mode.
 
 * PROP_SPLIT: 2-tuple: information about primary/secondary editors splitting as tuple (split_kind, split_pos).
 ** "split_kind": str: "-" (not splitted), "v" (splitted vertically), "h" (splitted horizontally). 
@@ -3373,5 +3398,9 @@ def project_variables():
 * add: Editor.get_prop: PROP_LINE_STATES_UPDATED
 * change: PROP_TAG is now stored per Editor object, so primary and secondary editors (in the same tab) have different PROP_TAG values
 * add: TreeHelper getter can return not "list" type, to not refresh code tree
+
+1.0.283 (app 1.78.8)
+* add: Editor.get_prop/set_prop: PROP_ZEBRA
+* add: app_proc: ids SPLITTER_G4, SPLITTER_G5
 
 [[Category:CudaText]]

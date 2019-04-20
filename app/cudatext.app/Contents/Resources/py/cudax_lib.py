@@ -57,6 +57,7 @@ OPT2PROP            = dict(
     ,unprinted_spaces           = app.PROP_UNPRINTED_SPACES
     ,unprinted_spaces_trailing  = app.PROP_UNPRINTED_SPACES_TRAILING
     ,wrap_mode                  = app.PROP_WRAP
+    ,zebra                      = app.PROP_ZEBRA
     )
 
 # Localization
