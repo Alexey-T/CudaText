@@ -495,10 +495,11 @@ Performs application's message-processing. If wait=True, also waits for new UI e
 
  msg_box(text, flags)
 
-Shows modal message-box with given text.
+Shows modal message-box.
 
-Param flags is sum of button-value (OK, OK/Cancel, Yes/No etc) and icon-value (Info, Warning, Error, Question):
+Param "text" is message text. Multi-line text with "\n" is supported.
 
+Param "flags" is sum of button-value (OK, OK/Cancel, Yes/No etc):
 * MB_OK
 * MB_OKCANCEL
 * MB_ABORTRETRYIGNORE
@@ -506,12 +507,13 @@ Param flags is sum of button-value (OK, OK/Cancel, Yes/No etc) and icon-value (I
 * MB_YESNO
 * MB_RETRYCANCEL
 
+and icon-value:
 * MB_ICONERROR
 * MB_ICONQUESTION
 * MB_ICONWARNING
 * MB_ICONINFO
 
-Gets int code of button pressed:
+Gets int code of pressed button (gets ID_CANCEL if dialog cancelled):
 
 * ID_OK
 * ID_CANCEL
