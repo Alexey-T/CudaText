@@ -3399,9 +3399,11 @@ def project_variables():
 * change: PROP_TAG is now stored per Editor object, so primary and secondary editors (in the same tab) have different PROP_TAG values
 * add: TreeHelper getter can return not "list" type, to not refresh code tree
 
-1.0.283 (app 1.78.8)
+1.0.283 (app 1.78.7)
 * add: Editor.get_prop/set_prop: PROP_ZEBRA
-* add: Editor.get_prop/set_prop: ids COLOR_ID_BorderFocused, COLOR_ID_MinimapTooltipBg, COLOR_ID_MinimapTooltipBorder, COLOR_ID_BlockStapleActive
+
+1.0.284 (app 1.79.0)
+* add: Editor.get_prop/set_prop: COLOR_ID_BorderFocused, COLOR_ID_MinimapTooltipBg, COLOR_ID_MinimapTooltipBorder, COLOR_ID_BlockStapleActive
 * add: app_proc: ids SPLITTER_G4, SPLITTER_G5
 
 [[Category:CudaText]]
