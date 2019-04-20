@@ -5213,6 +5213,8 @@ begin
     SPLITTER_G1: GetSp(Groups.Splitter1);
     SPLITTER_G2: GetSp(Groups.Splitter2);
     SPLITTER_G3: GetSp(Groups.Splitter3);
+    SPLITTER_G4: GetSp(Groups.Splitter4);
+    SPLITTER_G5: GetSp(Groups.Splitter5);
   end;
 end;
 
@@ -5234,6 +5236,8 @@ begin
     SPLITTER_G1: SetSp(Groups.Splitter1);
     SPLITTER_G2: SetSp(Groups.Splitter2);
     SPLITTER_G3: SetSp(Groups.Splitter3);
+    SPLITTER_G4: SetSp(Groups.Splitter4);
+    SPLITTER_G5: SetSp(Groups.Splitter5);
   end;
 end;
 

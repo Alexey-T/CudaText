@@ -243,6 +243,8 @@ SPLITTER_BOTTOM  = 1
 SPLITTER_G1      = 5
 SPLITTER_G2      = 6
 SPLITTER_G3      = 7
+SPLITTER_G4      = 8
+SPLITTER_G5      = 9
 
 PROC_DUMP_CACHE          = -2 #for debugging
 PROC_SET_CLIP_ALT        = -1

@@ -485,6 +485,8 @@ const
   SPLITTER_G1      = 5;
   SPLITTER_G2      = 6;
   SPLITTER_G3      = 7;
+  SPLITTER_G4      = 8;
+  SPLITTER_G5      = 9;
 
   IMAGELIST_CREATE     = 0;
   IMAGELIST_COUNT      = 1;
