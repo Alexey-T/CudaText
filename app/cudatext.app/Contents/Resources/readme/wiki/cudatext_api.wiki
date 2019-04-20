@@ -521,13 +521,26 @@ Gets int code of button pressed:
 * ID_YES
 * ID_NO
 
+===msg_box_ex===
+
+ msg_box_ex(caption, text, buttons, icon)
+
+Shows modal message-box with any number of buttons.
+
+* Param "caption": str: caption of dialog.
+* Param "text": str: message text.
+* Param "buttons": list of str: non-empty list of button captions.
+* Param "icon": int: icon in dialog, one of constants: MB_ICONERROR, MB_ICONQUESTION, MB_ICONWARNING, MB_ICONINFO.
+
+Gets int index of pressed button (0-based), or None of cancelled.
+
 ===msg_status===
 
  msg_status(text, process_messages=False)
 
 Shows given text in statusbar.
 
-Param process_messages: if True, function also does UI messages processing. It takes some time, it is needed to refresh status of Esc-key pressed. After call msg_status(..., True) you can get state of Esc-key pressed via PROC_GET_ESCAPE, else plugin gets old state, until UI messages are processed.
+Param "process_messages": if True, function also does UI messages processing. It takes some time, it is needed to refresh status of Esc-key pressed. After call msg_status(..., True) you can get state of Esc-key pressed via PROC_GET_ESCAPE, else plugin gets old state, until UI messages are processed.
 
 ===msg_status_alt===
 
@@ -535,7 +548,7 @@ Param process_messages: if True, function also does UI messages processing. It t
 
 Shows given text in alternative statusbar; it has yellowish color and shows on the bottom of current editor.
 
-Time in seconds: 1..30; seconds<=0 hides statusbar (if shown before).
+Param "seconds": show pause in seconds, 1..30. Value<=0 hides statusbar.
 
 ===dlg_input===
 
@@ -3403,6 +3416,7 @@ def project_variables():
 * add: Editor.get_prop/set_prop: PROP_ZEBRA
 
 1.0.284 (app 1.79.0)
+* add: msg_box_ex()
 * add: Editor.get_prop/set_prop: COLOR_ID_BorderFocused, COLOR_ID_MinimapTooltipBg, COLOR_ID_MinimapTooltipBorder, COLOR_ID_BlockStapleActive
 * add: app_proc: ids SPLITTER_G4, SPLITTER_G5
 

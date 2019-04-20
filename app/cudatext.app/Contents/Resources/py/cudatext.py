@@ -773,6 +773,9 @@ def app_idle(wait=False):
 def msg_box(text, flags):
     return ct.msg_box(text, flags)
 
+def msg_box_ex(caption, text, buttons, icon):
+    return ct.msg_box_ex(caption, text, chr(1).join(buttons), icon)
+
 def msg_status(text, process_messages=False):
     return ct.msg_status(text, process_messages)
 
