@@ -3401,6 +3401,7 @@ def project_variables():
 
 1.0.283 (app 1.78.8)
 * add: Editor.get_prop/set_prop: PROP_ZEBRA
+* add: Editor.get_prop/set_prop: ids COLOR_ID_BorderFocused, COLOR_ID_MinimapTooltipBg, COLOR_ID_MinimapTooltipBorder, COLOR_ID_BlockStapleActive
 * add: app_proc: ids SPLITTER_G4, SPLITTER_G5
 
 [[Category:CudaText]]
