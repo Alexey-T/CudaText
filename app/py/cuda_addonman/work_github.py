@@ -69,14 +69,15 @@ def do_install_from_github():
 
     do_clone = False
     if not os.path.isdir(dir_plugin):
-        res = msg_box(
+        res = msg_box_ex(
+                'Addon Manager',
                 'GitHub repository can be cloned (using "git clone") or can be downloaded as zip file. '+
-                ' If you clone, Addon Manager\'s Update dialog will update add-on using "git pull", which is recommended.'+
-                '\n\nYes: clone.\nNo: download as zip.',
-                MB_YESNOCANCEL+MB_ICONQUESTION)
-        if res==ID_CANCEL:
+                ' If you clone, Addon Manager\'s Update dialog will update add-on using "git pull", which is recommended.',
+                ['Clone repo', 'Download as zip', 'Cancel'],
+                MB_ICONQUESTION)
+        if res==2 or res==None:
             return
-        if res==ID_YES:
+        if res==0:
             do_clone = True
 
     if do_clone:
