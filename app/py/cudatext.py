@@ -467,6 +467,8 @@ COLOR_ID_MarginFixed = 'EdMarginFixed'
 COLOR_ID_MarginCaret = 'EdMarginCaret'
 COLOR_ID_MarginUser = 'EdMarginUser'
 COLOR_ID_MarkedRangeBg = 'EdMarkedRangeBg'
+COLOR_ID_Border = 'EdBorder'
+COLOR_ID_BorderFocused = 'EdBorderFocused'
 
 CANVAS_SET_FONT      = 1
 CANVAS_SET_PEN       = 2
