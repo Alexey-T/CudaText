@@ -19,6 +19,7 @@ uses
   StdCtrls, Buttons, ComCtrls, ExtCtrls, Menus,
   Clipbrd, StrUtils, Variants, IniFiles,
   LclType, LclProc, LclIntf,
+  InterfaceBase,
   LazFileUtils, LazUTF8, FileUtil,
   LConvEncoding,
   TreeFilterEdit,

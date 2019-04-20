@@ -421,6 +421,70 @@ begin
 end;
 
 
+function ConvertButtonIcon_MB_to_ID(N: integer): integer;
+begin
+  case N of
+    MB_ICONWARNING:
+      Result:= idDialogWarning;
+    MB_ICONERROR:
+      Result:= idDialogError;
+    MB_ICONQUESTION:
+      Result:= idDialogConfirm;
+    else
+      Result:= idDialogInfo;
+  end;
+end;
+
+function Py_msg_box_ex(Self, Args: PPyObject): PPyObject; cdecl;
+const
+  cResultDelta = 100;
+var
+  PtrCaption, PtrText, PtrButtons: PChar;
+  StrCaption, StrText, StrButtons, StrBtn: string;
+  Icon: Longint;
+  Buttons: TDialogButtons;
+  Res: Longint;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'sssi:msg_box_ex', @PtrCaption, @PtrText, @PtrButtons, @Icon)) then
+    begin
+      StrCaption:= string(PtrCaption);
+      StrText:= string(PtrText);
+      StrButtons:= string(PtrButtons);
+
+      if StrButtons='' then
+        exit(ReturnNone);
+
+      Buttons:= TDialogButtons.Create(TDialogButton);
+
+      repeat
+        StrBtn:= SGetItem(StrButtons, #1);
+        if StrBtn='' then Break;
+        with Buttons.Add do
+        begin
+          Caption:= StrBtn;
+          ModalResult:= cResultDelta+Buttons.Count-1;
+        end;
+      until false;
+
+      Res:= AskUser(
+        StrCaption,
+        StrText,
+        ConvertButtonIcon_MB_to_ID(Icon),
+        Buttons,
+        0);
+      FreeAndNil(Buttons);
+
+      if Res=mrCancel then
+        Result:= ReturnNone
+      else
+        Result:= PyInt_FromLong(Res-cResultDelta);
+    end
+    else
+      Result:= ReturnNone;
+end;
+
+
 function Py_file_open(Self, Args: PPyObject): PPyObject; cdecl;
 var
   PtrFile, PtrFile2, PtrArgs: PChar;
@@ -7016,6 +7080,7 @@ begin
     AddMethod('msg_status', @Py_msg_status, '');
     AddMethod('msg_status_alt', @Py_msg_status_alt, '');
     AddMethod('msg_box', @Py_msg_box, '');
+    AddMethod('msg_box_ex', @Py_msg_box_ex, '');
     AddMethod('dlg_input', @Py_dlg_input, '');
     AddMethod('dlg_input_ex', @Py_dlg_input_ex, '');
     AddMethod('dlg_file', @Py_dlg_file, '');
