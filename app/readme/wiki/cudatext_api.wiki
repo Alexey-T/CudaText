@@ -530,9 +530,13 @@ Gets int code of pressed button (gets ID_CANCEL if dialog cancelled):
 Shows modal message-box with any number of buttons.
 
 * Param "caption": str: Caption of dialog.
-* Param "text": str: Message text. Can be multi-line with "\n". 
-* Param "buttons": list of str: Non-empty list of button captions. Multi-line captions with "\n" are not recommended, may be not supported on all OS.
-* Param "icon": int: Icon in dialog, one of constants: MB_ICONERROR, MB_ICONQUESTION, MB_ICONWARNING, MB_ICONINFO.
+* Param "text": str: Message text. Multi-line text with "\n" is supported.
+* Param "buttons": list of str: Non-empty list of button captions. Multi-line captions with "\n" are supported.
+* Param "icon": int: Icon in dialog, one of constants:
+** MB_ICONERROR
+** MB_ICONQUESTION
+** MB_ICONWARNING
+** MB_ICONINFO
 
 Gets int index of pressed button (0-based), or None of cancelled.
 
