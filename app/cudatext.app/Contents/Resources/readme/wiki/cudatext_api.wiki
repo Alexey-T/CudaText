@@ -531,7 +531,7 @@ Shows modal message-box with any number of buttons.
 
 * Param "caption": str: Caption of dialog.
 * Param "text": str: Message text. Multi-line text with "\n" is supported.
-* Param "buttons": list of str: Non-empty list of button captions. Multi-line captions with "\n" are supported.
+* Param "buttons": list of str: Non-empty list of button captions. Multi-line captions are not supported on Windows.
 * Param "icon": int: Icon in dialog, one of constants:
 ** MB_ICONERROR
 ** MB_ICONQUESTION
