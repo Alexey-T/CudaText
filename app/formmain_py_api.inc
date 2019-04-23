@@ -6000,7 +6000,7 @@ end;
 function Py_ed_gap_getlist(Ed: TATSynEdit): PPyObject; cdecl;
 var
   Item: TATGapItem;
-  NLen, i: Integer;
+  NLen, NSizeX, NSizeY, i: Integer;
 begin
   with GetPythonEngine do
   begin
@@ -6013,12 +6013,24 @@ begin
       for i:= 0 to NLen-1 do
       begin
         Item:= Ed.Gaps[i];
+
+        if Assigned(Item.Bitmap) then
+        begin
+          NSizeX:= Item.Bitmap.Width;
+          NSizeY:= Item.Bitmap.Height;
+        end
+        else
+        begin
+          NSizeX:= 0;
+          NSizeY:= 0;
+        end;
+
         PyList_SetItem(Result, i,
           Py_BuildValue('(iLii)',
             Item.LineIndex,
-            Item.Tag,
-            Item.Bitmap.Width,
-            Item.Bitmap.Height
+            Int64(Item.Tag),
+            NSizeX,
+            NSizeY
             ));
       end;
     end
