@@ -1185,7 +1185,7 @@ end;
 
 procedure TfmMain.InitToolbar;
 begin
-  ToolbarMain.AddButton(0, @DoToolbarClick, 'f_new', 'Create new tab', IntToStr(cmd_FileNew), false);
+  ToolbarMain.AddButton(0, @DoToolbarClick, 'f_new', 'New file', IntToStr(cmd_FileNew), false);
   ToolbarMain.AddDropdown(-1, nil, @DoFileNewMenu);
   ToolbarMain.AddButton(1, @DoToolbarClick, 'f_open', 'Open file', IntToStr(cmd_FileOpen), false);
   ToolbarMain.AddDropdown(-1, PopupRecents);

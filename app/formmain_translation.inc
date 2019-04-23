@@ -64,14 +64,18 @@ begin
 
   ini:= TIniFile.Create(fn);
   try
+    msgFileNew:= ini.ReadString('m_f', 'new', msgFileNew);
+    msgFileOpen:= ini.ReadString('m_f', 'op', msgFileOpen);
+    msgFileSave:= ini.ReadString('m_f', 's', msgFileSave);
+
     DoLocMenuitem(ini, mnuFile, 'm_f', '_');
-    DoLocMenuitem(ini, mnuFileNew, 'm_f', 'new');
+    DoLocMenuitem(mnuFileNew, msgFileNew);
     DoLocMenuitem(ini, mnuFileNewMenu, 'm_f', 'newm');
-    DoLocMenuitem(ini, mnuFileOpen, 'm_f', 'op');
+    DoLocMenuitem(mnuFileOpen, msgFileOpen);
     DoLocMenuitem(ini, mnuFileOpenSub, 'm_f', 'rec');
     DoLocMenuitem(ini, mnuFileOpenDir, 'm_f', 'op_dir');
     DoLocMenuitem(ini, mnuFileReopen, 'm_f', 'reop');
-    DoLocMenuitem(ini, mnuFileSave, 'm_f', 's');
+    DoLocMenuitem(mnuFileSave, msgFileSave);
     DoLocMenuitem(ini, mnuFileSaveAs, 'm_f', 's_as');
     DoLocMenuitem(ini, mnuFileSaveAll, 'm_f', 's_all');
     DoLocMenuitem(ini, mnuFileClose, 'm_f', 'cl');
@@ -331,13 +335,10 @@ begin
     DoLocToolbarButtonHint(ToolbarSideLow, msgPanelValidate_Init, ini.ReadString('ui', 't_val', msgPanelValidate_Init));
     //
     DoLocToolbarButtonHint(ToolbarSideMid, msgPanelSearch_Init, ini.ReadString('ui', 't_find', msgPanelSearch_Init));
-
-    if Assigned(mnuFileNew) then
-      DoLocToolbarButtonHint(ToolbarMain, 'f_new', mnuFileNew.Caption);
-    if Assigned(mnuFileOpen) then
-      DoLocToolbarButtonHint(ToolbarMain, 'f_open', mnuFileOpen.Caption);
-    if Assigned(mnuFileSave) then
-      DoLocToolbarButtonHint(ToolbarMain, 'f_save', mnuFileSave.Caption);
+    //
+    DoLocToolbarButtonHint(ToolbarMain, 'f_new', msgFileNew);
+    DoLocToolbarButtonHint(ToolbarMain, 'f_open', msgFileOpen);
+    DoLocToolbarButtonHint(ToolbarMain, 'f_save', msgFileSave);
     DoLocToolbarButtonHint(ToolbarMain, 'e_copy', msgEditCopy);
     DoLocToolbarButtonHint(ToolbarMain, 'e_cut', msgEditCut);
     DoLocToolbarButtonHint(ToolbarMain, 'e_paste', msgEditPaste);
