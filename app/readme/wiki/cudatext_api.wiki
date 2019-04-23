@@ -2498,7 +2498,13 @@ Function params:
 Performs action on inter-line gaps (they don't overlap text above/below).
 Possible values of "id":
 
-* GAP_GET_LIST: Gets list of gaps. List of 4-tuples (nline, ntag, bitmap_size_x, bitmap_size_y), or None.
+* GAP_GET_LIST: Gets list of gaps. List of 4-tuples (line, tag, bitmap_width, bitmap_height), or None.
+
+* GAP_GET_ALL: Gets list of gaps. List of dict, or None. Dict keys are:
+** "line": int: Line index
+** "tag": int: Tag
+** "size": int: Height in pixels
+** "bitmap": 2-tuple of int: Size of bitmap, or (0, 0) if no bitmap
 
 * GAP_MAKE_BITMAP: Action is needed only if you want to paint bitmap in gap, it's not needed for empty gaps. Makes new bitmap for future gap. Size of bitmap is (num1, num2). Gets 2-tuple (id_bitmap, id_canvas).
 ** "id_bitmap": bitmap handle, needed to later call GAP_ADD.
@@ -3425,5 +3431,8 @@ def project_variables():
 * add: msg_box_ex()
 * add: Editor.get_prop/set_prop: COLOR_ID_BorderFocused, COLOR_ID_MinimapTooltipBg, COLOR_ID_MinimapTooltipBorder, COLOR_ID_BlockStapleActive
 * add: app_proc: ids SPLITTER_G4, SPLITTER_G5
+
+1.0.285 (app 1.79.1)
+* add: Editor.gap: GAP_GET_ALL
 
 [[Category:CudaText]]
