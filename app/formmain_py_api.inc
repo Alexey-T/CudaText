@@ -6069,7 +6069,7 @@ begin
         end;
 
         PyList_SetItem(Result, i,
-          Py_BuildValue('{sisLsis(ii)}',
+          Py_BuildValue('{sisLsis(ii)si}',
             'line',
             Item.LineIndex,
             'tag',
@@ -6078,7 +6078,9 @@ begin
             Item.Size,
             'bitmap',
             NSizeX,
-            NSizeY
+            NSizeY,
+            'color',
+            Item.Color
             ));
       end;
     end
