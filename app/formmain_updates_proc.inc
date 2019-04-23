@@ -1156,8 +1156,8 @@ begin
   if sub=nil then exit;
   sub.Clear;
 
-  mi:= tmenuitem.create(Self);
-  mi.Caption:= 'English (built-in)';
+  mi:= TMenuItem.Create(Self);
+  mi.Caption:= 'en';
   mi.RadioItem:= true;
   mi.Tag:= -1;
   mi.OnClick:= @MenuLangClick;
@@ -1172,12 +1172,14 @@ begin
   begin
     cap:= ExtractFileNameOnly(FListLangs[i]);
     if sub.IndexOfCaption(cap)>=0 then Continue; //for Qt
+    if cap='translation template' then Continue;
+
     mi:= TMenuItem.Create(Self);
     mi.RadioItem:= true;
     mi.Caption:= cap;
     mi.Tag:= i;
     mi.OnClick:= @MenuLangClick;
-    mi.Checked:= LowerCase(AppLangName)=LowerCase(mi.Caption);
+    mi.Checked:= SameText(AppLangName, mi.Caption);
     sub.Add(mi);
   end;
 end;
