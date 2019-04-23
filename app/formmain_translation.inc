@@ -317,6 +317,21 @@ begin
     DoLocMenuitem(ini, mnuHelpAbout, 'm_h', 'ab');
     DoLocMenuitem(ini, mnuHelpCheckUpd, 'm_h', 'chk');
 
+    DoLocMenuitem(ini, mnuToolbarSortAsc, 'tb', 'sr_asc');
+    DoLocMenuitem(ini, mnuToolbarSortDesc, 'tb', 'sr_des');
+    DoLocMenuitem(ini, mnuToolbarSortAscNocase, 'tb', 'sr_asc_i');
+    DoLocMenuitem(ini, mnuToolbarSortDescNocase, 'tb', 'sr_des_i');
+    DoLocMenuitem(ini, mnuToolbarSortDialog, 'tb', 'sr_dl');
+    DoLocMenuitem(ini, mnuToolbarSortReverse, 'tb', 'sr_rev');
+    DoLocMenuitem(ini, mnuToolbarSortShuffle, 'tb', 'sr_shf');
+    DoLocMenuitem(ini, mnuToolbarSortRemoveDup, 'tb', 'sr_del_dp');
+    DoLocMenuitem(ini, mnuToolbarSortRemoveBlank, 'tb', 'sr_del_bl');
+
+    DoLocMenuitem(ini, mnuToolbarCommentLineAdd, 'tb', 'cm_ln_add');
+    DoLocMenuitem(ini, mnuToolbarCommentLineDel, 'tb', 'cm_ln_del');
+    DoLocMenuitem(ini, mnuToolbarCommentLineToggle, 'tb', 'cm_ln_tog');
+    DoLocMenuitem(ini, mnuToolbarCommentStream, 'tb', 'cm_st_tog');
+
     msgPanelMenu:= ini.ReadString('ui', 't_menu', msgPanelMenu_Init);
     msgPanelTree:= ini.ReadString('ui', 't_tre', msgPanelTree_Init);
     msgPanelProject:= ini.ReadString('ui', 't_proj', msgPanelProject_Init);
