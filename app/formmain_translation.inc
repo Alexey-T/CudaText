@@ -352,6 +352,7 @@ begin
       DoLocToolbarButtonHint(ToolbarMain, 'indent', mnuEditIndent.Caption);
     if Assigned(mnuEditUnindent) then
       DoLocToolbarButtonHint(ToolbarMain, 'unindent', mnuEditUnindent.Caption);
+    DoLocToolbarButtonHint(ToolbarMain, 'opt', ini.ReadString('tb', 'opt', 'Options Editor'));
 
     msgUntitledTab:= ini.ReadString('ui', 'unt', msgUntitledTab);
     msgAllFiles:= ini.ReadString('ui', 'allf', msgAllFiles);
