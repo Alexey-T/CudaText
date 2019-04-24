@@ -25,6 +25,7 @@ const
     {$ifdef linux} '__linux' {$endif}
     {$ifdef darwin} '__mac' {$endif}
     {$ifdef freebsd} '__freebsd' {$endif}
+    {$ifdef solaris} '__solaris' {$endif}
     ;
 
 const
