@@ -2498,18 +2498,25 @@ Function params:
 Performs action on inter-line gaps (they don't overlap text above/below).
 Possible values of "id":
 
-* GAP_GET_LIST: Gets list of gaps. List of 4-tuples (nline, ntag, bitmap_size_x, bitmap_size_y), or None.
+* deprecated: GAP_GET_LIST: Gets list of gaps. List of 4-tuples (line_index, tag, bitmap_width, bitmap_height), or None.
+
+* GAP_GET_ALL: Gets list of gaps. List of dict, or None. Dict keys are:
+** "line": int: Line index; or -1 for gap before the first line.
+** "tag": int: Tag.
+** "size": int: Height in pixels.
+** "color": int: Color.
+** "bitmap": 2-tuple of int: Size of bitmap, or (0, 0) if no bitmap.
 
 * GAP_MAKE_BITMAP: Action is needed only if you want to paint bitmap in gap, it's not needed for empty gaps. Makes new bitmap for future gap. Size of bitmap is (num1, num2). Gets 2-tuple (id_bitmap, id_canvas).
 ** "id_bitmap": bitmap handle, needed to later call GAP_ADD.
 ** "id_canvas": canvas handle, needed to paint on bitmap, by canvas_proc().
 
 * GAP_ADD: Adds gap to editor. Gets bool: params correct, gap added. Params:
-** "num1": int: line index; can be -1 for gap before the first line.
-** "num2": int: if 0, gap will be empty; otherwise it is bitmap handle id_bitmap, which you got from GAP_MAKE_BITMAP.
-** "tag": int: some value to separate gaps from several plugins.
-** "size": int: if >0, it is gap height in pixels; if 0, gap height is calculated from bitmap handle.
-** "color": int: if not COLOR_NONE, then it's gap background color.
+** "num1": int: Line index; can be -1 for gap before the first line.
+** "num2": int: If 0, gap will be empty; otherwise it is bitmap handle (id_bitmap), which you got from GAP_MAKE_BITMAP.
+** "tag": int: Some value, to separate gaps from several plugins.
+** "size": int: If >0, it is gap height in pixels. If 0, gap height is calculated from bitmap handle.
+** "color": int: If not COLOR_NONE, then it's gap background color.
 
 * GAP_DELETE: Deletes gaps, for line indexes from num1 to num2.
 * GAP_DELETE_ALL: Deletes all gaps.
@@ -3425,5 +3432,9 @@ def project_variables():
 * add: msg_box_ex()
 * add: Editor.get_prop/set_prop: COLOR_ID_BorderFocused, COLOR_ID_MinimapTooltipBg, COLOR_ID_MinimapTooltipBorder, COLOR_ID_BlockStapleActive
 * add: app_proc: ids SPLITTER_G4, SPLITTER_G5
+
+1.0.285 (app 1.79.1)
+* add: Editor.gap: GAP_GET_ALL
+* deprecated: GAP_GET_LIST
 
 [[Category:CudaText]]
