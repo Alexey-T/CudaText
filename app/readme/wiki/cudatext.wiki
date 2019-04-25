@@ -36,7 +36,7 @@ Screenshot on macOS Sierra:
 * SourceForge downloads: http://cudatext.sf.net
 * GitHub repository: https://github.com/Alexey-T/CudaText
 
-It has builds for Windows, Linux, Linux ARM (for Raspberry Pi 3), macOS, FreeBSD.
+It has builds for Windows, Linux, Linux ARM (for Raspberry Pi 3), macOS, FreeBSD, Solaris.
 
 = Configs =
 
@@ -320,11 +320,11 @@ When CudaText runs in portable mode (executable file is located near folder "dat
 
 In CudaText version 1.66 or older:
 * Windows: %AppData%\CudaText
-* Linux, macOS, FreeBSD: ~/.cudatext
+* Linux, macOS, FreeBSD, Solaris: ~/.cudatext
 
 In CudaText version 1.67 or newer:
 * Windows: %AppData%\CudaText
-* Linux, FreeBSD: ~/.config/cudatext, or $XDG_CONFIG_HOME/cudatext if variable set
+* Linux, FreeBSD, Solaris: ~/.config/cudatext, or $XDG_CONFIG_HOME/cudatext if variable set
 * macOS: ~/Library/Application Support/CudaText
 
 ==Encodings==
@@ -658,7 +658,7 @@ For old Windows XP, Python 3.4 or 3.3 must be used, you can get its files from S
  "pylib": "python33.dll",
 
 ===Python on Linux, FreeBSD, Solaris===
-Linux/FreeBSD/Solaris versions use Python library from OS. Install Python 3.x (usually already installed). Instruction, if Python library was not automatically used:
+Linux/FreeBSD/Solaris version uses Python library from OS. Install Python 3.x (usually already installed). Instruction, if Python library was not automatically used:
 
 * Open file manager, go to /usr
 * Search for "libpython3.*so*"
@@ -668,7 +668,7 @@ Or use the terminal command:
  $ find /usr -name 'libpython3.*so*' 2>/dev/null
 
 * If not found, install Python 3.x, and search again.
-* Set option "pylib__linux" (or "pylib__freebsd" or "pylib__solaris") in the "user.json" config, to one of the found filenames. Write option to the "user.json" or course, not "default.json".
+* Set option "pylib__linux" ("pylib__freebsd", "pylib__solaris") in the "user.json" config, to one of the found filenames. Write option to the "user.json" or course, not "default.json".
 
 Typical value for Solaris 11.4 x86:
 
@@ -1200,7 +1200,7 @@ To make such zip file, pack into zip also "install.inf" with meta-info.
 ** for lexers it should be "-"
 * "homepage" field, source code repository URL (usually on GitHub)
 * "api" field, optional, minimal required API version (3 numbers dot-separated)
-* "os" field, optional, comma-separated list of supported OS: win, win32, win64, linux, linux32, linux64, macos, freebsd, freebsd32, freebsd64
+* "os" field, optional, comma-separated list of supported OS: win, win32, win64, linux, linux32, linux64, macos, freebsd, freebsd32, freebsd64, solaris
 
 === Plugins ===
 
