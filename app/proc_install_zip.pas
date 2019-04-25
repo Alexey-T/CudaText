@@ -110,6 +110,10 @@ begin
   if Pos(',freebsd,', S)>0 then exit(true);
   if Pos(',freebsd'+bits+',', S)>0 then exit(true);
   {$endif}
+
+  {$ifdef solaris}
+  if Pos(',solaris,', S)>0 then exit(true);
+  {$endif}
 end;
 
 
