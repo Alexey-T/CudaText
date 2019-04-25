@@ -657,18 +657,22 @@ For old Windows XP, Python 3.4 or 3.3 must be used, you can get its files from S
 
  "pylib": "python33.dll",
 
-===Python on Linux===
-Linux version uses Python library from OS. Install Python 3.x into OS (usually already installed). Instruction for Linux, if Python engine not found:
+===Python on Linux, FreeBSD, Solaris===
+Linux/FreeBSD/Solaris versions use Python library from OS. Install Python 3.x (usually already installed). Instruction, if Python library was not automatically used:
 
 * Open file manager, go to /usr
-* Search for "libpython3.*so*",
+* Search for "libpython3.*so*"
 
-Terminal command:
+Or use the terminal command:
 
  $ find /usr -name 'libpython3.*so*' 2>/dev/null
 
-* If not found, install Python 3.x, go to search-step
-* Set "pylib__linux" in the "user.json" config, to one of the found filenames. Write option to the "user.json" or course - it is called by menu item "Options / Settings-user".
+* If not found, install Python 3.x, and search again.
+* Set option "pylib__linux" (or "pylib__freebsd" or "pylib__solaris") in the "user.json" config, to one of the found filenames. Write option to the "user.json" or course, not "default.json".
+
+Typical value for Solaris 11.4 x86:
+
+   "pylib__solaris" : "/usr/lib/amd64/libpython3.5m.so",
 
 ===Python on macOS===
 On macOS you must install Python 3.x, from official site python.org. Versions 3.6...3.9 are ok. CudaText will find Python then.
