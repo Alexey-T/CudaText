@@ -4,6 +4,11 @@
   * changed
 
 
+1.79.2 (2019/04)
+
+* change: plugin file "install.inf": CPU names for "os=" line changed to longer names like in Free Pascal: i386, x86_64, arm, sparc
+- fix: bug fixes
+
 1.79.0 (2019/04)
 
 + add: option "zebra"
