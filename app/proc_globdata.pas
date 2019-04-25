@@ -799,16 +799,10 @@ begin
 end;
 
 function InitPyLibraryPath: string;
-  //
-  function GetMacPath(NMinorVersion: integer): string;
-  begin
-    Result:= Format('/Library/Frameworks/Python.framework/Versions/3.%d/lib/libpython3.%d.dylib',
-      [NMinorVersion, NMinorVersion]);
-  end;
-  //
 {$ifdef darwin}
 var
   N: integer;
+  S: string;
 {$endif}
 begin
   Result:= '';
@@ -828,8 +822,9 @@ begin
   {$ifdef darwin}
   for N:= 4 to 9 do
   begin
-    Result:= GetMacPath(N);
-    if FileExists(Result) then exit;
+    S:= Format('/Library/Frameworks/Python.framework/Versions/3.%d/lib/libpython3.%d.dylib',
+      [N, N]);
+    if FileExists(S) then exit(S);
   end;
   {$endif}
 end;
