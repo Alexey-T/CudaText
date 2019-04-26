@@ -131,6 +131,7 @@ begin
   Ed.OptRulerFontSize:= Op.OpRulerFontSize;
   Ed.OptRulerSize:= Op.OpRulerSize;
   Ed.OptRulerTextIndent:= Op.OpRulerTextIndent;
+  Ed.OptRulerMarkSizeCaret:= Op.OpRulerMarkCaret;
 
   Ed.OptMinimapVisible:= Op.OpMinimapShow;
   Ed.OptMinimapShowSelAlways:= Op.OpMinimapShowSelAlways;

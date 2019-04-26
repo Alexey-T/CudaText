@@ -350,6 +350,7 @@ type
     OpRulerFontSize: integer;
     OpRulerSize: integer;
     OpRulerTextIndent: integer;
+    OpRulerMarkCaret: integer;
 
     OpMinimapShow: boolean;
     OpMinimapShowSelAlways: boolean;
@@ -1074,6 +1075,7 @@ begin
     OpRulerFontSize:= 8;
     OpRulerSize:= 20;
     OpRulerTextIndent:= 0;
+    OpRulerMarkCaret:= 1;
 
     OpMinimapShow:= false;
     OpMinimapShowSelAlways:= false;
