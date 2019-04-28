@@ -3054,6 +3054,14 @@ begin
               Result:= ReturnNone;
           end;
 
+        PROP_HANDLE_PARENTPANEL:
+          begin
+            if Assigned(F) then
+              Result:= PyLong_FromLongLong(PtrInt(F))
+            else
+              Result:= ReturnNone;
+          end;
+
         PROP_RECT_CLIENT:
           begin
             Result:= Py_rect(Ed.ClientRect);
