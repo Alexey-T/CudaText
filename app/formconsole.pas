@@ -222,6 +222,7 @@ begin
   memo.ModeReadOnly:= true;
   memo.OptMouseRightClickMovesCaret:= true;
   memo.OptMouseWheelZooms:= false;
+  memo.OptShowMouseSelFrame:= false;
 
   memo.OnClickDouble:= @MemoClickDbl;
   memo.OnCommand:= @MemoCommand;
