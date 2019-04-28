@@ -2050,7 +2050,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_HANDLE_SELF: int: handle of editor object, for which get_prop is called. This handle is unique among all objects in program (it is memory address). Note that ed.h==0, it is virtual handle for the focused editor. This API gets the real handle.
 * PROP_HANDLE_PRIMARY: int: handle of editor object, which is primary editor in a file tab (always visible). None for separate editors.
 * PROP_HANDLE_SECONDARY: int: handle of editor object, which is secondary editor in a file tab (visible only when file tab is splitted). None for separate editors.
-* PROP_HANDLE_PARENTPANEL: int: handle of parent of editor object. This handle is needed to dock forms into that panel.
+* PROP_HANDLE_PARENTPANEL: int: handle of parent of editor object, or None if no such parent. This handle is needed to dock forms near the editor.
 
 * PROP_COORDS: 4-tuple of int: rectangle of entire editor area, relative to screen.
 * PROP_RECT_CLIENT: 4-tuple of int: rectangle of entire editor area, relative to editor.
