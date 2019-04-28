@@ -51,7 +51,7 @@ end;
 
 
 procedure TfmMain.UpdateStatus_ToolButton(AToolbar: TATFlatToolbar;
-  ACmd: integer; AChecked: boolean);
+  ACmd: integer; AChecked, AEnabled: boolean);
 var
   Btn: TATButton;
   i: integer;
@@ -62,6 +62,7 @@ begin
     if Btn.DataString=IntToStr(ACmd) then
     begin
       Btn.Checked:= AChecked;
+      Btn.Enabled:= AEnabled;
       exit
     end;
   end;
@@ -88,9 +89,12 @@ begin
 
   ToolbarSideMid.Buttons[0].Checked:= Assigned(fmFind) and fmFind.Visible;
 
-  UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible);
-  UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleMicromap, Ed.OptMicromapVisible);
-  UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleUnprinted, Ed.OptUnprintedVisible);
+  UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible, true);
+  UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleUnprinted, Ed.OptUnprintedVisible, true);
+
+  ////Ed.UndoCount is 1 initially, but can be 0 too, so hard to check it
+  //UpdateStatus_ToolButton(ToolbarMain, cCommand_Undo, false, Ed.UndoCount>0);
+  //UpdateStatus_ToolButton(ToolbarMain, cCommand_Redo, false, Ed.RedoCount>0);
 
   UpdateStatus_ForFrame(Status, F);
 end;
