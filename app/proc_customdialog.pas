@@ -1652,7 +1652,6 @@ begin
   if AName='color' then
   begin
     C.Color:= StrToIntDef(AValue, C.Color);
-    TControlHack(C).ParentColor:= false;
     exit;
   end;
 
