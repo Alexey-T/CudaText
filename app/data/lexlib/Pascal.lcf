@@ -1146,19 +1146,7 @@ object SyntAnal18: TLibSyntAnalyzer
           TokenTypes = 8
         end
         item
-          TagList.Strings = (
-            'operator')
-          CondType = tcNotEqual
           TokenTypes = 4
-          IgnoreCase = True
-        end
-        item
-          TagList.Strings = (
-            ';'
-            '.'
-            'type')
-          CondType = tcMask
-          TokenTypes = 14
         end>
       IdentIndex = 2
       BlockOffset = 2
