@@ -4251,11 +4251,6 @@ begin
             Result:= Py_GetThemeData_Syntax;
           end;
 
-        APP_PROC_DUMP_CACHE:
-          begin
-            Result:= PyString_FromString(PChar(fmMain.CurrentEditor.GetCacheDump));
-          end;
-
         APP_PROC_CONFIG_NEWDOC_EOL_GET:
           begin
             Result:= PyInt_FromLong(Ord(UiOps.NewdocEnds));
