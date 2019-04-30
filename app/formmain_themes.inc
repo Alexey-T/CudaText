@@ -363,6 +363,19 @@ begin
   ThemeSyntax:= ExtractFileNameOnly(fn);
 end;
 
+procedure TfmMain.mnuEditClick(Sender: TObject);
+var
+  Ed: TATSynEdit;
+begin
+  Ed:= CurrentEditor;
+  if Ed=nil then exit;
+
+  if Assigned(mnuEditUndo) then
+    mnuEditUndo.Enabled:= not Ed.Strings.UndoEmpty;
+  if Assigned(mnuEditRedo) then
+    mnuEditRedo.Enabled:= not Ed.Strings.RedoEmpty;
+end;
+
 procedure TfmMain.DoDialogTheme(AThemeUI: boolean);
 var
   Str, StrName, StrExt: string;

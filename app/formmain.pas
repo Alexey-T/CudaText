@@ -461,6 +461,7 @@ type
     procedure ListboxOutKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure MenuThemesSyntaxClick(Sender: TObject);
+    procedure mnuEditClick(Sender: TObject);
     procedure mnuTabColorClick(Sender: TObject);
     procedure mnuTabCopyDirClick(Sender: TObject);
     procedure mnuTabCopyFullPathClick(Sender: TObject);
