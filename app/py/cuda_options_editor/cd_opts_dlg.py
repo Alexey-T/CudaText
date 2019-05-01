@@ -700,7 +700,9 @@ class OptEdD:
         
         pass;                  #LOG and log('m.cur_op, m.lexr={}',(m.cur_op, m.lexr))
         vis,ens,vas,its,bcl = {},{},{},{},{}
-        bcl['eded'] = bcl['dfvl'] = 0x20000000
+        vis['edcl'] = vis['dfcl'] = False
+        bcl['edcl'] = bcl['dfcl'] = 0x20000000
+#       bcl['eded'] = bcl['dfvl'] = 0x20000000
         
         ens['eded'] = ens['setd']                                                   = False # All un=F
         vis['eded'] = vis['edcb']=vis['edrf']=vis['edrt']=vis['brow']=vis['toop']   = False # All vi=F
@@ -755,8 +757,10 @@ class OptEdD:
                 vis['eded'] = True
                 vis['brow'] = True
                 vas['eded'] = str(ulfvl_va)
-                bcl['eded'] = apx.html_color_to_int(ulfvl_va    ) if frm in ('#rgb', '#rgb-e') and ulfvl_va     else 0x20000000
-                bcl['dfvl'] = apx.html_color_to_int(vas['dfvl'] ) if frm in ('#rgb', '#rgb-e') and vas['dfvl']  else 0x20000000
+                vis['edcl'] = frm in ('#rgb', '#rgb-e')
+                vis['dfcl'] = frm in ('#rgb', '#rgb-e')
+                bcl['edcl'] = apx.html_color_to_int(ulfvl_va    ) if frm in ('#rgb', '#rgb-e') and ulfvl_va     else 0x20000000
+                bcl['dfcl'] = apx.html_color_to_int(vas['dfvl'] ) if frm in ('#rgb', '#rgb-e') and vas['dfvl']  else 0x20000000
             elif frm in ('bool',):
                 vis['edrf'] = True
                 vis['edrt'] = True
@@ -823,6 +827,8 @@ class OptEdD:
                                     'gen_repro_to_file':repro_py,    #NOTE: repro
                                 } if repro_py else {})
         )
+        # Select on pre-show. Reason: linux skip selection event after show
+        m.ag._update_on_call(m.do_sele('lvls', m.ag))
 
         m.stbr  = app.dlg_proc(m.ag.id_dlg, app.DLG_CTL_HANDLE, name='stbr')
         app.statusbar_proc(m.stbr, app.STATUSBAR_ADD_CELL               , tag=M.STBR_ALL)
@@ -978,15 +984,18 @@ class OptEdD:
             ,('ed_s',d(cap=ed_s_c                       ,hint=m.cur_op      ))
 #           ,('eded',d(vis=vis['eded']                    ,sto=ens['eded']  ,color=bcl['eded']  ))
 #           ,('eded',d(vis=vis['eded'],ex0=not ens['eded'],sto=ens['eded']  ,color=bcl['eded']  ))
-            ,('eded',d(vis=vis['eded'],en=ens['eded']                       ,color=bcl['eded']  ))
+#           ,('eded',d(vis=vis['eded'],en=ens['eded']                       ,color=bcl['eded']  ))
+            ,('eded',d(vis=vis['eded'],en=ens['eded']                       ))
+            ,('edcl',d(vis=vis['edcl']                                      ,color=bcl['edcl']  ))
             ,('edcb',d(vis=vis['edcb']                  ,items=its['edcb']  ))
             ,('edrf',d(vis=vis['edrf']                                      ))
             ,('edrt',d(vis=vis['edrt']                                      ))
             ,('brow',d(vis=vis['brow']                                      ))
             ,('toop',d(vis=vis['toop']                                      ))
             ,('dfv_',d(                                  hint=m.cur_op      ))
-            ,('dfvl',d(                                                       color=bcl['dfvl']  ))
-#           ,('dfvl',d(                en=ens['dfvl']                       ,_color=bcl['dfvl']  ))
+            ,('dfvl',d(                                                     ))
+#           ,('dfvl',d(                en=ens['dfvl']                       ,color=bcl['dfvl']  ))
+            ,('dfcl',d(vis=vis['dfcl']                                      ,color=bcl['dfcl']  ))
             ,('setd',d(                en=ens['setd']                       ))
             ,('tofi',d(                en=tofi_en                           ))
             ][1:]
@@ -996,6 +1005,7 @@ class OptEdD:
             return cnts
 
         # Full dlg controls info    #NOTE: cnts
+        edit_h  = get_gui_height('edit')
         cmnt_t  = m.dlg_h-m.h_cmnt-5-M.STBR_H
         tofi_c  = m.ed.get_prop(app.PROP_TAB_TITLE)
         co_tp   = 'ed' if m.live_fltr else 'cb'
@@ -1032,6 +1042,7 @@ class OptEdD:
  ,('ed_s',d(tp='lb' ,t=210      ,l=   5 ,w=  70 ,p='ptop'   ,cap=ed_s_c             ,hint=m.cur_op                  ,a='TB'     ))  # &e 
  ,('eded',d(tp='ed' ,tid='ed_s' ,l=  78 ,r=-270 ,p='ptop'                           ,vis=vis['eded'],ex0=not ens['eded'],a='TBlR'   ))  #
 #,('eded',d(tp='ed' ,tid='ed_s' ,l=  78 ,r=-270 ,p='ptop'                           ,vis=vis['eded'],en=ens['eded'] ,a='TBlR'   ))  #
+ ,('edcl',d(tp='clr',t=210-2    ,l= 148 ,r=-271 ,p='ptop'   ,h=edit_h-4             ,vis=vis['edcl'],border=True    ,a='TBlR'   ))  #
  ,('edcb',d(tp='cbr',tid='ed_s' ,l=  78 ,r=-270 ,p='ptop'   ,items=its['edcb']      ,vis=vis['edcb']                ,a='TBlR'   ))  #
  ,('edrf',d(tp='ch' ,tid='ed_s' ,l=  78 ,w=  60 ,p='ptop'   ,cap=_('f&alse')        ,vis=vis['edrf']                ,a='TB'     ))  # &a
  ,('edrt',d(tp='ch' ,tid='ed_s' ,l= 140 ,w=  60 ,p='ptop'   ,cap=_('t&rue')         ,vis=vis['edrt']                ,a='TB'     ))  # &r
@@ -1039,9 +1050,10 @@ class OptEdD:
  ,('toop',d(tp='bt' ,tid='ed_s' ,l=-270 ,w=  90 ,p='ptop'   ,cap=_('&GoTo')         ,vis=vis['toop'],hint=M.TOOP_H  ,a='TBLR'   ))  # &g
     # View def-value                                                                                                            
  ,('dfv_',d(tp='lb' ,tid='dfvl' ,l=   5 ,w=  70 ,p='ptop'   ,cap=_('>Defa&ult:')    ,hint=m.cur_op                  ,a='TB'     ))  # &u
- ,('dfvl',d(tp='ed' ,t=235      ,l=  78 ,r=-270 ,p='ptop'   ,en=False               ,sto=False                      ,a='TBlR'   ))  #
-#,('dfvl',d(tp='ed' ,t=235      ,l=  78 ,r=-270 ,p='ptop'   ,ex0=True               ,sto=False                      ,a='TBlR'   ))  #
+#,('dfvl',d(tp='ed' ,t=235      ,l=  78 ,r=-270 ,p='ptop'   ,en=False               ,sto=False                      ,a='TBlR'   ))  #
+ ,('dfvl',d(tp='ed' ,t=235      ,l=  78 ,r=-270 ,p='ptop'   ,ex0=True               ,sto=False                      ,a='TBlR'   ))  #
 #,('dfvl',d(tp='ed' ,t=235      ,l=  78 ,r=-270 ,p='ptop'   ,ro_mono_brd='1,0,1'    ,sto=False                      ,a='TBlR'   ))  #
+ ,('dfcl',d(tp='clr',t=235+1    ,l= 148 ,r=-271 ,p='ptop'   ,h=edit_h-4             ,vis=vis['dfcl'],border=True    ,a='TBlR'   ))  #
  ,('setd',d(tp='bt' ,tid='dfvl' ,l=-270 ,w=  90 ,p='ptop'   ,cap=_('Rese&t')                        ,en=ens['setd'] ,a='TBLR'   ))  # &t
     # For lexer/file                                                                                                            
 #,('to__',d(tp='lb' ,tid='ed_s' ,l=-170 ,w=  30 ,p='ptop'   ,cap=_('>For:')                                         ,a='TBLR'   ))  # 
@@ -1552,7 +1564,7 @@ class OptEdD:
         pass;                  #LOG and log('data,m.cur_op,m.cur_in={}',(data,m.cur_op,m.cur_in))
         m.cur_op= m._prep_opt('ind2key')
         pass;                  #LOG and log('m.cur_op,m.cur_in={}',(m.cur_op,m.cur_in))
-        pass;                  #log(' m.get_cnts(+cur)={}',(m.get_cnts('+cur')))
+        pass;                  #log('###m.get_cnts(+cur)={}',(m.get_cnts('+cur')))
         return d(ctrls=odict(m.get_cnts('+cur'))
                 ,vals =      m.get_vals('cur')
                 )
