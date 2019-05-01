@@ -1042,7 +1042,7 @@ class OptEdD:
  ,('ed_s',d(tp='lb' ,t=210      ,l=   5 ,w=  70 ,p='ptop'   ,cap=ed_s_c             ,hint=m.cur_op                  ,a='TB'     ))  # &e 
  ,('eded',d(tp='ed' ,tid='ed_s' ,l=  78 ,r=-270 ,p='ptop'                           ,vis=vis['eded'],ex0=not ens['eded'],a='TBlR'   ))  #
 #,('eded',d(tp='ed' ,tid='ed_s' ,l=  78 ,r=-270 ,p='ptop'                           ,vis=vis['eded'],en=ens['eded'] ,a='TBlR'   ))  #
- ,('edcl',d(tp='clr',t=210-2    ,l= 148 ,r=-271 ,p='ptop'   ,h=edit_h-4             ,vis=vis['edcl'],border=True    ,a='TBlR'   ))  #
+ ,('edcl',d(tp='clr',t=210-2    ,l= 210 ,r=-271 ,p='ptop'   ,h=edit_h-4             ,vis=vis['edcl'],border=True    ,a='TBlR'   ))  #
  ,('edcb',d(tp='cbr',tid='ed_s' ,l=  78 ,r=-270 ,p='ptop'   ,items=its['edcb']      ,vis=vis['edcb']                ,a='TBlR'   ))  #
  ,('edrf',d(tp='ch' ,tid='ed_s' ,l=  78 ,w=  60 ,p='ptop'   ,cap=_('f&alse')        ,vis=vis['edrf']                ,a='TB'     ))  # &a
  ,('edrt',d(tp='ch' ,tid='ed_s' ,l= 140 ,w=  60 ,p='ptop'   ,cap=_('t&rue')         ,vis=vis['edrt']                ,a='TB'     ))  # &r
@@ -1053,7 +1053,7 @@ class OptEdD:
 #,('dfvl',d(tp='ed' ,t=235      ,l=  78 ,r=-270 ,p='ptop'   ,en=False               ,sto=False                      ,a='TBlR'   ))  #
  ,('dfvl',d(tp='ed' ,t=235      ,l=  78 ,r=-270 ,p='ptop'   ,ex0=True               ,sto=False                      ,a='TBlR'   ))  #
 #,('dfvl',d(tp='ed' ,t=235      ,l=  78 ,r=-270 ,p='ptop'   ,ro_mono_brd='1,0,1'    ,sto=False                      ,a='TBlR'   ))  #
- ,('dfcl',d(tp='clr',t=235+1    ,l= 148 ,r=-271 ,p='ptop'   ,h=edit_h-4             ,vis=vis['dfcl'],border=True    ,a='TBlR'   ))  #
+ ,('dfcl',d(tp='clr',t=235+1    ,l= 210 ,r=-271 ,p='ptop'   ,h=edit_h-4             ,vis=vis['dfcl'],border=True    ,a='TBlR'   ))  #
  ,('setd',d(tp='bt' ,tid='dfvl' ,l=-270 ,w=  90 ,p='ptop'   ,cap=_('Rese&t')                        ,en=ens['setd'] ,a='TBLR'   ))  # &t
     # For lexer/file                                                                                                            
 #,('to__',d(tp='lb' ,tid='ed_s' ,l=-170 ,w=  30 ,p='ptop'   ,cap=_('>For:')                                         ,a='TBLR'   ))  # 
