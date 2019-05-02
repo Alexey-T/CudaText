@@ -643,8 +643,8 @@ begin
                 Point(X2, Y2),
                 UiOps.FindIndentHorz,
                 UiOps.FindIndentVert,
-                true,
-                false
+                false,
+                (NOptions and CARET_OPTION_UNFOLD)<>0
                 );
 
             Result:= ReturnNone;
