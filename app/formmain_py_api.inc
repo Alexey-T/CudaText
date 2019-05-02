@@ -657,7 +657,7 @@ begin
             Result:= PyInt_FromLong(Ed.Carets.Count);
           end;
 
-        CARET_SET_INDEX..MaxInt:
+        CARET_SET_INDEX..CARET_DELETE_INDEX-1:
           begin
             NCaret:= Id-CARET_SET_INDEX;
             if Ed.Carets.IsIndexValid(NCaret) then
@@ -671,6 +671,17 @@ begin
               end;
             Result:= ReturnNone;
           end;
+
+        CARET_DELETE_INDEX..MaxLongint:
+          begin
+            NCaret:= Id-CARET_DELETE_INDEX;
+            if Ed.Carets.IsIndexValid(NCaret) then
+            begin
+              Ed.Carets.Delete(NCaret);
+              Ed.Carets.Sort;
+            end;
+            Result:= ReturnNone;
+          end
 
         else
           Result:= ReturnNone;
