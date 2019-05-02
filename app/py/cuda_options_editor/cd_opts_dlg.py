@@ -2,7 +2,7 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '2.3.09 2019-04-29'
+    '2.3.10 2019-05-02'
 ToDo: (see end of file)
 '''
 
@@ -53,7 +53,7 @@ FONT_LST    = ['default'] \
                 if not font.startswith('@')] 
 pass;                          #FONT_LST=FONT_LST[:3]
 
-def load_definitions(defn_path:Path)->list:
+def load_definitions(defn_path_or_json)->list:
     """ Return  
             [{  opt:'opt name'
             ,   def:<def val>
@@ -71,12 +71,17 @@ def load_definitions(defn_path:Path)->list:
             ,   tgs:['tag',]
             }]
     """
-    pass;                      #LOG and log('defn_path={}',(defn_path))
+    pass;                      #LOG and log('defn_path_or_json={}',(defn_path_or_json))
     kinfs   = []
-    lines   = defn_path.open(encoding='utf8').readlines()
+    lines   = defn_path_or_json \
+                if str==type(defn_path_or_json) else \
+              defn_path_or_json.open(encoding='utf8').readlines()
     if lines[0][0]=='[':
         # Data is ready - SKIP parsing
-        kinfs   = json.loads(defn_path.open(encoding='utf8').read(), object_pairs_hook=odict)
+        json_bd = defn_path_or_json \
+                    if str==type(defn_path_or_json) else \
+                  defn_path_or_json.open(encoding='utf8').read()
+        kinfs   = json.loads(json_bd, object_pairs_hook=odict)
         for kinf in kinfs:
             pass;              #LOG and log('opt in kinf={}',('opt' in kinf))
             if isinstance(kinf['cmt'], list):
@@ -219,7 +224,7 @@ def load_definitions(defn_path:Path)->list:
             pre_kinf= kinf.copy()
             cmnt    = ''
        #for line
-    pass;                      #open(str(defn_path)+'.p.json', 'w').write(json.dumps(kinfs,indent=2))
+    pass;                      #open(str(defn_path_or_json)+'.p.json', 'w').write(json.dumps(kinfs,indent=2))
     upd_cald_vals(kinfs, '+def')
     for kinf in kinfs:
         kinf['jdc'] = kinf.get('jdc', kinf.get('dct', []))
@@ -434,7 +439,9 @@ class OptEdD:
     COL_USR = 4
     COL_LXR = 5
     COL_FIL = 6
-    COL_NMS = (_('Section'), _('Option'), '!', _('Default'), ('User'), _('Lexer'), _('File "{}"'))
+    COL_LEXR= _('Lexer')
+    COL_FILE= _('File "{}"')
+    COL_NMS = (_('Section'), _('Option'), '!', _('Default'), ('User'), COL_LEXR, COL_FILE)
     COL_MWS = [   70,           210,       25,    120,         120,       70,         50]   # Min col widths
 #   COL_MWS = [   70,           150,       25,    120,         120,       70,         50]   # Min col widths
     COL_N   = len(COL_MWS)
@@ -481,7 +488,7 @@ class OptEdD:
         return sorts_dflt(len(M.COL_NMS))
 
     def __init__(self
-        , path_keys_info    =''             # default.json or parsed data
+        , path_keys_info    =''             # default.json or parsed data (file or list_of_dicts)
         , subset            =''             # To get/set from/to cuda_options_editor.json
         , how               ={}             # Details to work
         ):
@@ -490,7 +497,8 @@ class OptEdD:
         m.ed        = ed
         m.how       = how
         
-        m.defn_path = Path(path_keys_info)
+        m.defn_path = Path(path_keys_info)  if str==type(path_keys_info) else json.dumps(path_keys_info)
+
         m.subset    = subset
         m.stores    = get_hist('dlg'
                         , json.loads(open(CFG_JSON).read(), object_pairs_hook=odict)
@@ -894,9 +902,12 @@ class OptEdD:
                         ,mi=M.COL_MWS[c]
                         )   for c in range(M.COL_N)]
             cols[M.COL_OVR]['al']   = 'C'
+            if m.how.get('hide_fil', False):
+                pos_fil = M.COL_NMS.index(M.COL_FILE)
+                cols[pos_fil]['vi'] = False
             if m.how.get('hide_lex_fil', False):
-                pos_lex = M.COL_NMS.index(_('Lexer'))
-                pos_fil = M.COL_NMS.index(_('File "{}"'))
+                pos_lex = M.COL_NMS.index(M.COL_LEXR)
+                pos_fil = M.COL_NMS.index(M.COL_FILE)
                 cols[pos_lex]['vi'] = False
                 cols[pos_fil]['vi'] = False
             return cols
@@ -1071,8 +1082,11 @@ class OptEdD:
         if 'mac'==get_desktop_environment():
             cnts    = [(cid,cnt) for cid,cnt in cnts if cnt.get('cap', '')[:3]!='srt']
         cnts    = odict(cnts)
+        if m.how.get('hide_fil', False):
+            for cid in ('tofi',):
+                cnts[cid]['vis'] = False
         if m.how.get('hide_lex_fil', False):
-            for cid in ('to__', 'tolx', 'tofi', 'lexr'):
+            for cid in ('to__', 'tolx', 'lexr', 'tofi'):
                 cnts[cid]['vis'] = False
         for cnt in cnts.values():
             if 'l' in cnt:  cnt['l']    = m.dlg_w+cnt['l'] if cnt['l']<0 else cnt['l']
