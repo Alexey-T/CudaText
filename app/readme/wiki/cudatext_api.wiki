@@ -1777,7 +1777,7 @@ Example shows text of first caret's selection:
 
 ===set_caret===
 
- set_caret(posx, posy, endx=-1, endy=-1, id=CARET_SET_ONE)
+ set_caret(posx, posy, endx=-1, endy=-1, id=CARET_SET_ONE, options=0)
 
 Controls carets. Possible values of "id":
 
@@ -1785,6 +1785,11 @@ Controls carets. Possible values of "id":
 * CARET_ADD: Adds caret (multi-carets feature) with given coords. Also gets count of carets after that (same as len(get_carets()) ).
 * CARET_DELETE_ALL: Removes all carets. (Note: you must add caret then to enable text editing to user.)
 * CARET_SET_INDEX + N (any N>=0): Changes single caret with index N to given coords.
+
+Param "options" must be 0 or sum of the following flags:
+
+* CARET_OPTION_NO_SCROLL: Don't scroll to new caret position.
+* CARET_OPTION_UNFOLD: If caret placed into folded line, unfold that line.
 
 ==Text read/write==
 
@@ -3440,5 +3445,8 @@ def project_variables():
 
 1.0.286 (app 1.79.2)
 * add: Editor.get_prop: PROP_HANDLE_PARENT
+
+1.0.287 (app 1.79.3)
+* add: Editor.set_caret: param "options"
 
 [[Category:CudaText]]
