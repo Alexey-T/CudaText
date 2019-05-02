@@ -615,13 +615,13 @@ end;
 function Py_ed_set_caret(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
-  Id, NCaret: Integer;
+  Id, NCaret, NOptions: Integer;
   X1, Y1, X2, Y2: Integer;
   Ed: TATSynEdit;
   F: TEditorFrame;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Liiiii:set_caret', @H, @X1, @Y1, @X2, @Y2, @Id)) then
+    if Bool(PyArg_ParseTuple(Args, 'Liiiiii:set_caret', @H, @X1, @Y1, @X2, @Y2, @Id, @NOptions)) then
     begin
       Ed:= PyEditor(H);
       F:= GetEditorFrame(Ed);
@@ -635,15 +635,18 @@ begin
 
         CARET_SET_ONE:
           begin
-            Ed.DoSelect_None;
-            Ed.DoGotoPos(
-              Point(X1, Y1),
-              Point(X2, Y2),
-              UiOps.FindIndentHorz,
-              UiOps.FindIndentVert,
-              true,
-              false
-              );
+            Ed.DoCaretSingle(X1, Y1, X2, Y2);
+
+            if (NOptions and CARET_OPTION_NO_SCROLL)=0 then
+              Ed.DoGotoPos(
+                Point(X1, Y1),
+                Point(X2, Y2),
+                UiOps.FindIndentHorz,
+                UiOps.FindIndentVert,
+                true,
+                false
+                );
+
             Result:= ReturnNone;
           end;
 
