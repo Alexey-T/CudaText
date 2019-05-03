@@ -1079,8 +1079,8 @@ class Editor:
     def replace_lines(self, y1, y2, lines):
         return ct.ed_replace_lines(self.h, y1, y2, lines)
 
-    def get_filename(self):
-        return ct.ed_get_filename(self.h)
+    def get_filename(self, options=''):
+        return ct.ed_get_filename(self.h, options)
 
     def save(self, filename=''):
         return ct.ed_save(self.h, filename)
