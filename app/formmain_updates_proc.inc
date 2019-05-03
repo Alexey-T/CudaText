@@ -974,7 +974,7 @@ begin
   if AForceUpdateAll then
   begin
     Frame.Adapter[Ed].DoAnalize(Ed, true);
-    Ed.DoEventChange;
+    //Ed.DoEventChange; //why it was needed?
   end;
 
  if AFill then
