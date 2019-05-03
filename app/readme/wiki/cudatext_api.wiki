@@ -1934,12 +1934,14 @@ Gets number of lines.
 
 ===get_filename===
 
- get_filename()
+ get_filename(options="")
 
-Gets filename (str) of the editor's tab.
+Gets filename (str) of the editor.
 
-* Empty string for untitled tab.
-* String "?" if tab contains not normal text editor. See: get_prop(PROP_KIND).
+* Gets empty string for untitled tab.
+* Gets string "?" if tab contains not normal text editor. See: get_prop(PROP_KIND).
+
+If param "options" contains char "*", the real file name is always returned, even in hex/picture viewer mode.
 
 ===get_prop===
 
@@ -3450,5 +3452,6 @@ def project_variables():
 1.0.287 (app 1.79.3)
 * add: Editor.set_caret: param "options"
 * add: Editor.set_caret: CARET_DELETE_INDEX
+* add: Editor.get_filename: param "options"
 
 [[Category:CudaText]]
