@@ -667,7 +667,8 @@ type
     FLastBottomPanel: string;
     FLastSelectedCommand: integer;
     FLastMousePos: TPoint;
-    FLexerProgress :integer;
+    FLexerProgressIndex: integer;
+    FLexerProgressCount: integer;
     FOption_OpenReadOnly: boolean;
     FOption_OpenNewWindow: boolean;
     FOption_WindowPos: string;
@@ -698,7 +699,7 @@ type
     function DoFindOptions_GetDict: PPyObject;
     procedure DoFolderOpen(const ADirName: string; ANewProject: boolean);
     procedure DoGroupsChangeMode(Sender: TObject);
-    procedure DoOnLexerParseProgress(Sender: TObject; AProgress: integer);
+    procedure DoOnLexerParseProgress(Sender: TObject; ALineIndex, ALineCount: integer);
     procedure DoOnLexerParseProgress_Sync();
     procedure DoOps_AddPluginMenuItem(ACaption: string; ASubMenu: TMenuItem; ATag: integer);
     procedure DoOps_LexersDisableInFrames(ListNames: TStringList);
@@ -5999,16 +6000,18 @@ begin
   end;
 end;
 
-procedure TfmMain.DoOnLexerParseProgress(Sender: TObject; AProgress: integer);
+procedure TfmMain.DoOnLexerParseProgress(Sender: TObject; ALineIndex, ALineCount: integer);
 begin
-  FLexerProgress := AProgress;
+  if Application.Terminated then exit;
+  FLexerProgressIndex:= ALineIndex;
+  FLexerProgressCount:= ALineCount;
   TThread.Queue(nil, @DoOnLexerParseProgress_Sync);
 end;
 
 procedure TfmMain.DoOnLexerParseProgress_Sync();
 begin
   if Application.Terminated then exit;
-  LexerProgress.Progress:= FLexerProgress;
+  LexerProgress.Progress:= FLexerProgressIndex*100 div FLexerProgressCount;
   LexerProgress.Show;
 end;
 
