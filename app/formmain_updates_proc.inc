@@ -983,7 +983,7 @@ begin
   if not DoPyTreeHelper(Frame) then
   begin
     Tree:= Frame.CachedTreeview[Ed];
-    Frame.Adapter[Ed].TreeFill(Tree, true);
+    Frame.Adapter[Ed].TreeFill(Tree);
 
     //Lazarus dont sort new items
     if CodeTree.Tree.SortType<>stNone then
