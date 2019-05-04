@@ -26,6 +26,7 @@ uses
   ATBinHex,
   ec_LexerList,
   ec_SyntAnal,
+  ec_syntax_format,
   proc_globdata,
   proc_py_const,
   proc_colors;

@@ -33,6 +33,9 @@ uses
   UniqueInstance,
   ec_LexerList,
   ec_SyntAnal,
+  ec_SyntaxClient,
+  ec_syntax_format,
+  ec_rules,
   ATButtons,
   ATFlatToolbar,
   ATListbox,
@@ -699,7 +702,8 @@ type
     function DoFindOptions_GetDict: PPyObject;
     procedure DoFolderOpen(const ADirName: string; ANewProject: boolean);
     procedure DoGroupsChangeMode(Sender: TObject);
-    procedure DoOnLexerParseProgress(Sender: TObject; ALineIndex, ALineCount: integer);
+    procedure DoOnLexerParseProgress(Sender: TObject; AProgress: integer);
+    //procedure DoOnLexerParseProgress(Sender: TObject; ALineIndex, ALineCount: integer);
     procedure DoOnLexerParseProgress_Sync();
     procedure DoOps_AddPluginMenuItem(ACaption: string; ASubMenu: TMenuItem; ATag: integer);
     procedure DoOps_LexersDisableInFrames(ListNames: TStringList);
@@ -6000,6 +6004,21 @@ begin
   end;
 end;
 
+procedure TfmMain.DoOnLexerParseProgress(Sender: TObject; AProgress: integer);
+begin
+  if Application.Terminated then exit;
+  FLexerProgressIndex:= AProgress;
+  TThread.Queue(nil, @DoOnLexerParseProgress_Sync);
+end;
+
+procedure TfmMain.DoOnLexerParseProgress_Sync();
+begin
+  if Application.Terminated then exit;
+  LexerProgress.Progress:= FLexerProgressIndex;
+  LexerProgress.Show;
+end;
+
+(*
 procedure TfmMain.DoOnLexerParseProgress(Sender: TObject; ALineIndex, ALineCount: integer);
 begin
   if Application.Terminated then exit;
@@ -6014,6 +6033,7 @@ begin
   LexerProgress.Progress:= FLexerProgressIndex*100 div FLexerProgressCount;
   LexerProgress.Show;
 end;
+*)
 
 //----------------------------
 {$I formmain_loadsave.inc}

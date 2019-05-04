@@ -17,6 +17,7 @@ uses
   LazUTF8, LazFileUtils,
   LCLType,
   ec_SyntAnal,
+  ec_syntax_format,
   formlexerstyle,
   proc_msg,
   proc_globdata,
