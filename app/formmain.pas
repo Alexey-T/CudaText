@@ -2037,6 +2037,17 @@ begin
     ACanClose:= (UiOps.ReopenSession and UiOps.AutoSaveSession) or DoDialogSaveTabs
   else
     ACanClose:= true;
+
+  if ACanClose then
+  begin
+    TimerStatus.Enabled:= false;
+    TimerStatusBusy.Enabled:= false;
+    TimerStatusAlt.Enabled:= false;
+    TimerTreeFill.Enabled:= false;
+    TimerEdCaret.Enabled:= false;
+    TimerAppIdle.Enabled:= false;
+    TimerCmd.Enabled:= false;
+  end;
 end;
 
 procedure TfmMain.FormColorsApply(const AColors: TAppTheme);
