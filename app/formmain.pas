@@ -1003,6 +1003,7 @@ type
     procedure SetShowTabsMain(AValue: boolean);
     procedure SplitterOnPaint_Gr(Sender: TObject);
     procedure SplitterOnPaint_Main(Sender: TObject);
+    procedure StopAllTimers;
     procedure UpdateBottomPanels(const ACaption: string; AndFocus: boolean);
     procedure UpdateEditorTabsize(AValue: integer);
     procedure UpdateKeymapDynamicItems;
@@ -2039,15 +2040,18 @@ begin
     ACanClose:= true;
 
   if ACanClose then
-  begin
-    TimerStatus.Enabled:= false;
-    TimerStatusBusy.Enabled:= false;
-    TimerStatusAlt.Enabled:= false;
-    TimerTreeFill.Enabled:= false;
-    TimerEdCaret.Enabled:= false;
-    TimerAppIdle.Enabled:= false;
-    TimerCmd.Enabled:= false;
-  end;
+    StopAllTimers;
+end;
+
+procedure TfmMain.StopAllTimers;
+begin
+  TimerStatus.Enabled:= false;
+  TimerStatusBusy.Enabled:= false;
+  TimerStatusAlt.Enabled:= false;
+  TimerTreeFill.Enabled:= false;
+  TimerEdCaret.Enabled:= false;
+  TimerAppIdle.Enabled:= false;
+  TimerCmd.Enabled:= false;
 end;
 
 procedure TfmMain.FormColorsApply(const AColors: TAppTheme);
