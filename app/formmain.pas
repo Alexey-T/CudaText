@@ -2045,6 +2045,7 @@ end;
 
 procedure TfmMain.StopAllTimers;
 begin
+  TimerAppIdle.AutoEnabled:=false;
   TimerStatus.Enabled:= false;
   TimerStatusBusy.Enabled:= false;
   TimerStatusAlt.Enabled:= false;
