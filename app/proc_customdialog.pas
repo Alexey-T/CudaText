@@ -1033,13 +1033,10 @@ begin
   if (C is TEdit) or (C is TMemo) then
   begin
     case AIndex of
-      0: //RO
+      0: //Read-only
         begin
-          if AppStrToBool(S) then
-          begin
-            (C as TCustomEdit).ReadOnly:= true;
-            TCustomEditHack(C).ParentColor:= true;
-          end;
+          (C as TCustomEdit).ReadOnly:= AppStrToBool(S);
+          TCustomEditHack(C).ParentColor:= AppStrToBool(S);
         end;
       1: //Monospaced
         begin

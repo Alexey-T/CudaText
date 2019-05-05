@@ -1088,7 +1088,7 @@ begin
 
   if (Ed=Ed1) and Splitted and EditorsLinked then
   begin
-    Ed2.UpdateIncorrectCaretPositions;
+    Ed2.DoCaretsFixIncorrectPos(false);
     Ed2.Update(true);
   end;
 
@@ -1911,8 +1911,8 @@ procedure TEditorFrame.UpdateFrame(AUpdatedText: boolean);
 var
   Ad: TATAdapterEControl;
 begin
-  Ed1.UpdateIncorrectCaretPositions;
-  Ed2.UpdateIncorrectCaretPositions;
+  Ed1.DoCaretsFixIncorrectPos(false);
+  Ed2.DoCaretsFixIncorrectPos(false);
 
   Ed1.Update(AUpdatedText);
   Ed2.Update(AUpdatedText);
@@ -2747,7 +2747,7 @@ begin
     caret.PosY:= StrToIntDef(SGetItem(str), 0);
     caret.EndX:= StrToIntDef(SGetItem(str), -1);
     caret.EndY:= StrToIntDef(SGetItem(str), -1);
-    Ed.UpdateIncorrectCaretPositions;
+    Ed.DoCaretsFixIncorrectPos(true);
     Ed.DoEventCarets;
   end;
 

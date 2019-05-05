@@ -19,6 +19,7 @@ uses
   StdCtrls, Buttons, ComCtrls, ExtCtrls, Menus,
   Clipbrd, StrUtils, Variants, IniFiles,
   LclType, LclProc, LclIntf,
+  InterfaceBase,
   LazFileUtils, LazUTF8, FileUtil,
   LConvEncoding,
   TreeFilterEdit,
@@ -32,6 +33,9 @@ uses
   UniqueInstance,
   ec_LexerList,
   ec_SyntAnal,
+  ec_SyntaxClient,
+  ec_syntax_format,
+  ec_rules,
   ATButtons,
   ATFlatToolbar,
   ATListbox,
@@ -460,6 +464,7 @@ type
     procedure ListboxOutKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure MenuThemesSyntaxClick(Sender: TObject);
+    procedure mnuEditClick(Sender: TObject);
     procedure mnuTabColorClick(Sender: TObject);
     procedure mnuTabCopyDirClick(Sender: TObject);
     procedure mnuTabCopyFullPathClick(Sender: TObject);
@@ -665,7 +670,8 @@ type
     FLastBottomPanel: string;
     FLastSelectedCommand: integer;
     FLastMousePos: TPoint;
-    FLexerProgress :integer;
+    FLexerProgressIndex: integer;
+    FLexerProgressCount: integer;
     FOption_OpenReadOnly: boolean;
     FOption_OpenNewWindow: boolean;
     FOption_WindowPos: string;
@@ -697,6 +703,7 @@ type
     procedure DoFolderOpen(const ADirName: string; ANewProject: boolean);
     procedure DoGroupsChangeMode(Sender: TObject);
     procedure DoOnLexerParseProgress(Sender: TObject; AProgress: integer);
+    //procedure DoOnLexerParseProgress(Sender: TObject; ALineIndex, ALineCount: integer);
     procedure DoOnLexerParseProgress_Sync();
     procedure DoOps_AddPluginMenuItem(ACaption: string; ASubMenu: TMenuItem; ATag: integer);
     procedure DoOps_LexersDisableInFrames(ListNames: TStringList);
@@ -996,6 +1003,7 @@ type
     procedure SetShowTabsMain(AValue: boolean);
     procedure SplitterOnPaint_Gr(Sender: TObject);
     procedure SplitterOnPaint_Main(Sender: TObject);
+    procedure StopAllTimers;
     procedure UpdateBottomPanels(const ACaption: string; AndFocus: boolean);
     procedure UpdateEditorTabsize(AValue: integer);
     procedure UpdateKeymapDynamicItems;
@@ -1043,7 +1051,8 @@ type
     procedure UpdateBottomButtons;
     procedure UpdateStatus_ForFrame(AStatus: TATStatus; F: TEditorFrame);
     procedure UpdateStatus_RealWork;
-    procedure UpdateStatus_ToolButton(AToolbar: TATFlatToolbar; ACmd: integer; AChecked: boolean);
+    procedure UpdateStatus_ToolButton(AToolbar: TATFlatToolbar; ACmd: integer;
+      AChecked, AEnabled: boolean);
     procedure UpdateTabCaptionsFromFolders;
     procedure UpdateTabsActiveColor(F: TEditorFrame);
     procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true; AForceUpdateAll: boolean=false);
@@ -2029,6 +2038,20 @@ begin
     ACanClose:= (UiOps.ReopenSession and UiOps.AutoSaveSession) or DoDialogSaveTabs
   else
     ACanClose:= true;
+
+  if ACanClose then
+    StopAllTimers;
+end;
+
+procedure TfmMain.StopAllTimers;
+begin
+  TimerStatus.Enabled:= false;
+  TimerStatusBusy.Enabled:= false;
+  TimerStatusAlt.Enabled:= false;
+  TimerTreeFill.Enabled:= false;
+  TimerEdCaret.Enabled:= false;
+  TimerAppIdle.Enabled:= false;
+  TimerCmd.Enabled:= false;
 end;
 
 procedure TfmMain.FormColorsApply(const AColors: TAppTheme);
@@ -5215,6 +5238,8 @@ begin
     SPLITTER_G1: GetSp(Groups.Splitter1);
     SPLITTER_G2: GetSp(Groups.Splitter2);
     SPLITTER_G3: GetSp(Groups.Splitter3);
+    SPLITTER_G4: GetSp(Groups.Splitter4);
+    SPLITTER_G5: GetSp(Groups.Splitter5);
   end;
 end;
 
@@ -5236,6 +5261,8 @@ begin
     SPLITTER_G1: SetSp(Groups.Splitter1);
     SPLITTER_G2: SetSp(Groups.Splitter2);
     SPLITTER_G3: SetSp(Groups.Splitter3);
+    SPLITTER_G4: SetSp(Groups.Splitter4);
+    SPLITTER_G5: SetSp(Groups.Splitter5);
   end;
 end;
 
@@ -5994,15 +6021,34 @@ end;
 
 procedure TfmMain.DoOnLexerParseProgress(Sender: TObject; AProgress: integer);
 begin
-  FLexerProgress := AProgress;
+  if Application.Terminated then exit;
+  FLexerProgressIndex:= AProgress;
   TThread.Queue(nil, @DoOnLexerParseProgress_Sync);
 end;
 
 procedure TfmMain.DoOnLexerParseProgress_Sync();
 begin
-  LexerProgress.Progress:= FLexerProgress;
+  if Application.Terminated then exit;
+  LexerProgress.Progress:= FLexerProgressIndex;
   LexerProgress.Show;
 end;
+
+(*
+procedure TfmMain.DoOnLexerParseProgress(Sender: TObject; ALineIndex, ALineCount: integer);
+begin
+  if Application.Terminated then exit;
+  FLexerProgressIndex:= ALineIndex;
+  FLexerProgressCount:= ALineCount;
+  TThread.Queue(nil, @DoOnLexerParseProgress_Sync);
+end;
+
+procedure TfmMain.DoOnLexerParseProgress_Sync();
+begin
+  if Application.Terminated then exit;
+  LexerProgress.Progress:= FLexerProgressIndex*100 div FLexerProgressCount;
+  LexerProgress.Show;
+end;
+*)
 
 //----------------------------
 {$I formmain_loadsave.inc}

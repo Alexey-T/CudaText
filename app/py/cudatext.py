@@ -28,6 +28,10 @@ CARET_SET_ONE    = 0
 CARET_ADD        = 1
 CARET_DELETE_ALL = 2
 CARET_SET_INDEX  = 100
+CARET_DELETE_INDEX = 2000000
+
+CARET_OPTION_NO_SCROLL = 1
+CARET_OPTION_UNFOLD = 2
 
 APP_DIR_EXE             = 0
 APP_DIR_SETTINGS        = 1
@@ -59,6 +63,7 @@ LINENUM_EACH10 = 2
 LINENUM_EACH5  = 3
 
 COLOR_NONE = 0x1FFFFFFF
+COLOR_DEFAULT = 0x20000000
 
 WRAP_OFF       = 0
 WRAP_ON_WINDOW = 1
@@ -234,6 +239,7 @@ PROP_FOLD_ICONS                = 103
 PROP_HANDLE_SELF        = 110
 PROP_HANDLE_PRIMARY     = 111
 PROP_HANDLE_SECONDARY   = 112
+PROP_HANDLE_PARENT      = 113
 PROP_RECT_CLIENT        = 115
 PROP_RECT_TEXT          = 116
 PROP_CODETREE_MODIFIED_VERSION = 120
@@ -243,8 +249,9 @@ SPLITTER_BOTTOM  = 1
 SPLITTER_G1      = 5
 SPLITTER_G2      = 6
 SPLITTER_G3      = 7
+SPLITTER_G4      = 8
+SPLITTER_G5      = 9
 
-PROC_DUMP_CACHE          = -2 #for debugging
 PROC_SET_CLIP_ALT        = -1
 PROC_GET_CLIP            = 0
 PROC_SET_CLIP            = 1
@@ -434,11 +441,15 @@ COLOR_ID_UnprintBg = 'EdUnprintBg'
 COLOR_ID_UnprintHexFont = 'EdUnprintHexFont'
 COLOR_ID_MinimapBorder = 'EdMinimapBorder'
 COLOR_ID_MinimapSelBg = 'EdMinimapSelBg'
+COLOR_ID_MinimapTooltipBg = 'EdMinimapTooltipBg'
+COLOR_ID_MinimapTooltipBorder = 'EdMinimapTooltipBorder'
 COLOR_ID_StateChanged = 'EdStateChanged'
 COLOR_ID_StateAdded = 'EdStateAdded'
 COLOR_ID_StateSaved = 'EdStateSaved'
 COLOR_ID_BlockStaple = 'EdBlockStaple'
+COLOR_ID_BlockStapleActive = 'EdBlockStapleActive'
 COLOR_ID_BlockSepLine = 'EdBlockSepLine'
+COLOR_ID_Links = 'EdLinks'
 COLOR_ID_LockedBg = 'EdLockedBg'
 COLOR_ID_ComboArrow = 'EdComboArrow'
 COLOR_ID_ComboArrowBg = 'EdComboArrowBg'
@@ -461,8 +472,8 @@ COLOR_ID_MarginFixed = 'EdMarginFixed'
 COLOR_ID_MarginCaret = 'EdMarginCaret'
 COLOR_ID_MarginUser = 'EdMarginUser'
 COLOR_ID_MarkedRangeBg = 'EdMarkedRangeBg'
-COLOR_ID_Links = 'EdLinks'
 COLOR_ID_Border = 'EdBorder'
+COLOR_ID_BorderFocused = 'EdBorderFocused'
 
 CANVAS_SET_FONT      = 1
 CANVAS_SET_PEN       = 2
@@ -530,6 +541,7 @@ GAP_MAKE_BITMAP = 1
 GAP_ADD         = 2
 GAP_DELETE      = 3
 GAP_DELETE_ALL  = 4
+GAP_GET_ALL     = 5
 
 FOLDING_GET_LIST           = 0
 FOLDING_FOLD               = 1
@@ -766,6 +778,9 @@ def app_idle(wait=False):
 
 def msg_box(text, flags):
     return ct.msg_box(text, flags)
+
+def msg_box_ex(caption, text, buttons, icon):
+    return ct.msg_box_ex(caption, text, chr(1).join(buttons), icon)
 
 def msg_status(text, process_messages=False):
     return ct.msg_status(text, process_messages)
@@ -1016,8 +1031,8 @@ class Editor:
     def get_carets(self):
         return ct.ed_get_carets(self.h)
 
-    def set_caret(self, x1, y1, x2=-1, y2=-1, id=CARET_SET_ONE):
-        return ct.ed_set_caret(self.h, x1, y1, x2, y2, id)
+    def set_caret(self, x1, y1, x2=-1, y2=-1, id=CARET_SET_ONE, options=0):
+        return ct.ed_set_caret(self.h, x1, y1, x2, y2, id, options)
 
     def get_line_count(self):
         return ct.ed_get_line_count(self.h)
@@ -1064,8 +1079,8 @@ class Editor:
     def replace_lines(self, y1, y2, lines):
         return ct.ed_replace_lines(self.h, y1, y2, lines)
 
-    def get_filename(self):
-        return ct.ed_get_filename(self.h)
+    def get_filename(self, options=''):
+        return ct.ed_get_filename(self.h, options)
 
     def save(self, filename=''):
         return ct.ed_save(self.h, filename)

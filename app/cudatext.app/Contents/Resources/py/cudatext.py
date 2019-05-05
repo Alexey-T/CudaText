@@ -59,6 +59,7 @@ LINENUM_EACH10 = 2
 LINENUM_EACH5  = 3
 
 COLOR_NONE = 0x1FFFFFFF
+COLOR_DEFAULT = 0x20000000
 
 WRAP_OFF       = 0
 WRAP_ON_WINDOW = 1
@@ -225,6 +226,7 @@ PROP_SPLIT                     = 92
 PROP_SAVING_FORCE_FINAL_EOL    = 93
 PROP_SAVING_TRIM_SPACES        = 94
 PROP_SAVING_TRIM_FINAL_EMPTY_LINES = 95
+PROP_ZEBRA                     = 96
 PROP_LINE_STATES               = 99
 PROP_LINE_STATES_UPDATED       = 100
 PROP_FOLD_TOOLTIP_SHOW         = 101
@@ -233,6 +235,7 @@ PROP_FOLD_ICONS                = 103
 PROP_HANDLE_SELF        = 110
 PROP_HANDLE_PRIMARY     = 111
 PROP_HANDLE_SECONDARY   = 112
+PROP_HANDLE_PARENT      = 113
 PROP_RECT_CLIENT        = 115
 PROP_RECT_TEXT          = 116
 PROP_CODETREE_MODIFIED_VERSION = 120
@@ -242,8 +245,9 @@ SPLITTER_BOTTOM  = 1
 SPLITTER_G1      = 5
 SPLITTER_G2      = 6
 SPLITTER_G3      = 7
+SPLITTER_G4      = 8
+SPLITTER_G5      = 9
 
-PROC_DUMP_CACHE          = -2 #for debugging
 PROC_SET_CLIP_ALT        = -1
 PROC_GET_CLIP            = 0
 PROC_SET_CLIP            = 1
@@ -433,11 +437,15 @@ COLOR_ID_UnprintBg = 'EdUnprintBg'
 COLOR_ID_UnprintHexFont = 'EdUnprintHexFont'
 COLOR_ID_MinimapBorder = 'EdMinimapBorder'
 COLOR_ID_MinimapSelBg = 'EdMinimapSelBg'
+COLOR_ID_MinimapTooltipBg = 'EdMinimapTooltipBg'
+COLOR_ID_MinimapTooltipBorder = 'EdMinimapTooltipBorder'
 COLOR_ID_StateChanged = 'EdStateChanged'
 COLOR_ID_StateAdded = 'EdStateAdded'
 COLOR_ID_StateSaved = 'EdStateSaved'
 COLOR_ID_BlockStaple = 'EdBlockStaple'
+COLOR_ID_BlockStapleActive = 'EdBlockStapleActive'
 COLOR_ID_BlockSepLine = 'EdBlockSepLine'
+COLOR_ID_Links = 'EdLinks'
 COLOR_ID_LockedBg = 'EdLockedBg'
 COLOR_ID_ComboArrow = 'EdComboArrow'
 COLOR_ID_ComboArrowBg = 'EdComboArrowBg'
@@ -460,8 +468,8 @@ COLOR_ID_MarginFixed = 'EdMarginFixed'
 COLOR_ID_MarginCaret = 'EdMarginCaret'
 COLOR_ID_MarginUser = 'EdMarginUser'
 COLOR_ID_MarkedRangeBg = 'EdMarkedRangeBg'
-COLOR_ID_Links = 'EdLinks'
 COLOR_ID_Border = 'EdBorder'
+COLOR_ID_BorderFocused = 'EdBorderFocused'
 
 CANVAS_SET_FONT      = 1
 CANVAS_SET_PEN       = 2
@@ -529,6 +537,7 @@ GAP_MAKE_BITMAP = 1
 GAP_ADD         = 2
 GAP_DELETE      = 3
 GAP_DELETE_ALL  = 4
+GAP_GET_ALL     = 5
 
 FOLDING_GET_LIST           = 0
 FOLDING_FOLD               = 1
@@ -765,6 +774,9 @@ def app_idle(wait=False):
 
 def msg_box(text, flags):
     return ct.msg_box(text, flags)
+
+def msg_box_ex(caption, text, buttons, icon):
+    return ct.msg_box_ex(caption, text, chr(1).join(buttons), icon)
 
 def msg_status(text, process_messages=False):
     return ct.msg_status(text, process_messages)

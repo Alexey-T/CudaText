@@ -82,7 +82,9 @@ const
     {$ifdef windows} 'Consolas' {$endif}
     {$ifdef linux} 'Courier New' {$endif}
     {$ifdef freebsd} 'Courier New' {$endif}
-    {$ifdef darwin} 'Monaco' {$endif} ;
+    {$ifdef solaris} 'Courier New' {$endif}
+    {$ifdef darwin} 'Monaco' {$endif}
+    ;
 
 type
   TAppPathId = (
@@ -348,6 +350,7 @@ type
     OpRulerFontSize: integer;
     OpRulerSize: integer;
     OpRulerTextIndent: integer;
+    OpRulerMarkCaret: integer;
 
     OpMinimapShow: boolean;
     OpMinimapShowSelAlways: boolean;
@@ -797,16 +800,10 @@ begin
 end;
 
 function InitPyLibraryPath: string;
-  //
-  function GetMacPath(NMinorVersion: integer): string;
-  begin
-    Result:= Format('/Library/Frameworks/Python.framework/Versions/3.%d/lib/libpython3.%d.dylib',
-      [NMinorVersion, NMinorVersion]);
-  end;
-  //
 {$ifdef darwin}
 var
   N: integer;
+  S: string;
 {$endif}
 begin
   Result:= '';
@@ -826,8 +823,9 @@ begin
   {$ifdef darwin}
   for N:= 4 to 9 do
   begin
-    Result:= GetMacPath(N);
-    if FileExists(Result) then exit;
+    S:= Format('/Library/Frameworks/Python.framework/Versions/3.%d/lib/libpython3.%d.dylib',
+      [N, N]);
+    if FileExists(S) then exit(S);
   end;
   {$endif}
 end;
@@ -843,6 +841,7 @@ begin
   {$ifdef windows} '' {$endif}
   {$ifdef linux} '/usr/share/cudatext' {$endif}
   {$ifdef freebsd} '' {$endif}
+  {$ifdef solaris} '' {$endif}
   {$ifdef darwin} ExtractFileDir(OpDirExe)+'/Resources' {$endif}
 end;
 
@@ -1076,6 +1075,7 @@ begin
     OpRulerFontSize:= 8;
     OpRulerSize:= 20;
     OpRulerTextIndent:= 0;
+    OpRulerMarkCaret:= 1;
 
     OpMinimapShow:= false;
     OpMinimapShowSelAlways:= false;

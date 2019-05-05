@@ -112,7 +112,8 @@ begin
           n:= Ord(Buffer[i]);
 
           //If control chars present, then non-text
-          if (n < 32) and (n <> 09) and (n <> 13) and (n <> 10) then
+          if (n < 32) and (n <> 09) and (n <> 13) and (n <> 10)
+            and (n <> 27 {other editors allow ESC char}) then
             begin Result:= False; Break end;
 
           //Calculate freq table

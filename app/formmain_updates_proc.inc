@@ -51,7 +51,7 @@ end;
 
 
 procedure TfmMain.UpdateStatus_ToolButton(AToolbar: TATFlatToolbar;
-  ACmd: integer; AChecked: boolean);
+  ACmd: integer; AChecked, AEnabled: boolean);
 var
   Btn: TATButton;
   i: integer;
@@ -62,6 +62,7 @@ begin
     if Btn.DataString=IntToStr(ACmd) then
     begin
       Btn.Checked:= AChecked;
+      Btn.Enabled:= AEnabled;
       exit
     end;
   end;
@@ -88,9 +89,12 @@ begin
 
   ToolbarSideMid.Buttons[0].Checked:= Assigned(fmFind) and fmFind.Visible;
 
-  UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible);
-  UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleMicromap, Ed.OptMicromapVisible);
-  UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleUnprinted, Ed.OptUnprintedVisible);
+  UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible, true);
+  UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleUnprinted, Ed.OptUnprintedVisible, true);
+
+  ////Ed.UndoCount is 1 initially, but can be 0 too, so hard to check it
+  //UpdateStatus_ToolButton(ToolbarMain, cCommand_Undo, false, Ed.UndoCount>0);
+  //UpdateStatus_ToolButton(ToolbarMain, cCommand_Redo, false, Ed.RedoCount>0);
 
   UpdateStatus_ForFrame(Status, F);
 end;
@@ -970,7 +974,7 @@ begin
   if AForceUpdateAll then
   begin
     Frame.Adapter[Ed].DoAnalize(Ed, true);
-    Ed.DoEventChange;
+    //Ed.DoEventChange; //why it was needed?
   end;
 
  if AFill then
@@ -1156,8 +1160,8 @@ begin
   if sub=nil then exit;
   sub.Clear;
 
-  mi:= tmenuitem.create(Self);
-  mi.Caption:= 'English (built-in)';
+  mi:= TMenuItem.Create(Self);
+  mi.Caption:= 'en';
   mi.RadioItem:= true;
   mi.Tag:= -1;
   mi.OnClick:= @MenuLangClick;
@@ -1172,12 +1176,14 @@ begin
   begin
     cap:= ExtractFileNameOnly(FListLangs[i]);
     if sub.IndexOfCaption(cap)>=0 then Continue; //for Qt
+    if cap='translation template' then Continue;
+
     mi:= TMenuItem.Create(Self);
     mi.RadioItem:= true;
     mi.Caption:= cap;
     mi.Tag:= i;
     mi.OnClick:= @MenuLangClick;
-    mi.Checked:= LowerCase(AppLangName)=LowerCase(mi.Caption);
+    mi.Checked:= SameText(AppLangName, mi.Caption);
     sub.Add(mi);
   end;
 end;
@@ -1185,28 +1191,28 @@ end;
 
 procedure TfmMain.InitToolbar;
 begin
-  ToolbarMain.AddButton(0, @DoToolbarClick, '', 'Create new tab', IntToStr(cmd_FileNew), false);
+  ToolbarMain.AddButton(0, @DoToolbarClick, 'f_new', 'New file', IntToStr(cmd_FileNew), false);
   ToolbarMain.AddDropdown(-1, nil, @DoFileNewMenu);
-  ToolbarMain.AddButton(1, @DoToolbarClick, '', 'Open file', IntToStr(cmd_FileOpen), false);
+  ToolbarMain.AddButton(1, @DoToolbarClick, 'f_open', 'Open file', IntToStr(cmd_FileOpen), false);
   ToolbarMain.AddDropdown(-1, PopupRecents);
-  ToolbarMain.AddButton(2, @DoToolbarClick, '', 'Save file', IntToStr(cmd_FileSave), false);
+  ToolbarMain.AddButton(2, @DoToolbarClick, 'f_save', 'Save file', IntToStr(cmd_FileSave), false);
   ToolbarMain.AddSep;
-  ToolbarMain.AddButton(3, @DoToolbarClick, '', 'Cut', IntToStr(cCommand_ClipboardCut), false);
-  ToolbarMain.AddButton(4, @DoToolbarClick, '', 'Copy', IntToStr(cCommand_ClipboardCopy), false);
-  ToolbarMain.AddButton(5, @DoToolbarClick, '', 'Paste', IntToStr(cCommand_ClipboardPaste), false);
-  ToolbarMain.AddButton(6, @DoToolbarClick, '', 'Undo', IntToStr(cCommand_Undo), false);
-  ToolbarMain.AddButton(7, @DoToolbarClick, '', 'Redo', IntToStr(cCommand_Redo), false);
+  ToolbarMain.AddButton(3, @DoToolbarClick, 'e_cut', 'Cut', IntToStr(cCommand_ClipboardCut), false);
+  ToolbarMain.AddButton(4, @DoToolbarClick, 'e_copy', 'Copy', IntToStr(cCommand_ClipboardCopy), false);
+  ToolbarMain.AddButton(5, @DoToolbarClick, 'e_paste', 'Paste', IntToStr(cCommand_ClipboardPaste), false);
+  ToolbarMain.AddButton(6, @DoToolbarClick, 'e_undo', 'Undo', IntToStr(cCommand_Undo), false);
+  ToolbarMain.AddButton(7, @DoToolbarClick, 'e_redo', 'Redo', IntToStr(cCommand_Redo), false);
   ToolbarMain.AddSep;
-  ToolbarMain.AddButton(8, @DoToolbarClick, '', 'Toggle unprinted chars', IntToStr(cCommand_ToggleUnprinted), false);
-  ToolbarMain.AddButton(9, @DoToolbarClick, '', 'Toggle minimap', IntToStr(cCommand_ToggleMinimap), false);
+  ToolbarMain.AddButton(8, @DoToolbarClick, 'unpri', 'Toggle unprinted chars', IntToStr(cCommand_ToggleUnprinted), false);
+  ToolbarMain.AddButton(9, @DoToolbarClick, 'map', 'Toggle minimap', IntToStr(cCommand_ToggleMinimap), false);
   ToolbarMain.AddSep;
-  ToolbarMain.AddButton(10, @DoToolbarClick, '', 'Indent block', IntToStr(cCommand_TextIndent), false);
-  ToolbarMain.AddButton(11, @DoToolbarClick, '', 'Unindent block', IntToStr(cCommand_TextUnIndent), false);
+  ToolbarMain.AddButton(10, @DoToolbarClick, 'indent', 'Indent block', IntToStr(cCommand_TextIndent), false);
+  ToolbarMain.AddButton(11, @DoToolbarClick, 'unindent', 'Unindent block', IntToStr(cCommand_TextUnIndent), false);
 
   ToolbarMain.AddDropdown(12, PopupToolbarCase);
   ToolbarMain.AddDropdown(13, PopupToolbarSort);
   ToolbarMain.AddDropdown(14, PopupToolbarComment);
-  ToolbarMain.AddButton(15, @DoToolbarClick, '', 'Options Editor', 'module=cuda_options_editor;cmd=dlg_cuda_options;', false);
+  ToolbarMain.AddButton(15, @DoToolbarClick, 'opt', 'Options Editor', 'module=cuda_options_editor;cmd=dlg_cuda_options;', false);
 
   ToolbarMain.UpdateControls;
 end;

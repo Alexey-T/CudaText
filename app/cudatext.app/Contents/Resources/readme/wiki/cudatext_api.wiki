@@ -328,33 +328,40 @@ Splitter id:
 
 * SPLITTER_SIDE: splitter near side panel.
 * SPLITTER_BOTTOM: splitter above bottom panel.
-* SPLITTER_G1, SPLITTER_G2, SPLITTER_G3: splitters between groups.
+* SPLITTER_G1 .. SPLITTER_G5: splitters between groups.
 
 Actions:
 
 * PROC_SPLITTER_GET: Gets info about splitter, as 4-tuple: (bool_vertical, bool_visible, int_pos, int_parent_panel_size). Param "text" is int splitter id.
 * PROC_SPLITTER_SET: Sets splitter pos. Param "text" is 2-tuple (int_splitter_id, int_splitter_pos).
 
-Positions of group splitters (G1, G2, G3) are determined by grouping view, in one view splitter may be horizontal with one parent panel, in other view - vertical with another parent panel. Detailed:
+Positions of group splitters (G1, G2, G3, G4, G5) are determined by grouping view, in one view splitter may be horizontal with one parent panel, in other view - vertical with another parent panel. Detailed:
 
 <pre>
 2VERT     t G1 t
+
 2HORZ     t
           G1
           t
+
 3VERT     t G1 t G2 t
+
 3HORZ     t
           G1
           t
           G2
           t
+
 1P2VERT    t G3 t
                G2
                 t
+
 1P2HORZ    t
            G3
            t G2 t
+
 4VERT     t G1 t G2 t G3 t
+
 4HORZ     t
           G1
           t
@@ -362,9 +369,25 @@ Positions of group splitters (G1, G2, G3) are determined by grouping view, in on
           t
           G3
           t
+
 4GRID     t G1 t
           G3
           t G2 t
+
+6VERT     t G1 t G2 t G3 t G4 t G5 t
+
+6HORZ     t
+          G1
+          t
+          G2
+          t
+          G3
+          t
+          G4
+          t
+          G5
+          t
+
 6GRID     t G1 t G2 t
           G3
           t G1 t G2 t
@@ -472,10 +495,11 @@ Performs application's message-processing. If wait=True, also waits for new UI e
 
  msg_box(text, flags)
 
-Shows modal message-box with given text.
+Shows modal message-box.
 
-Param flags is sum of button-value (OK, OK/Cancel, Yes/No etc) and icon-value (Info, Warning, Error, Question):
+Param "text" is message text. Multi-line text with "\n" is supported.
 
+Param "flags" is sum of button-value (OK, OK/Cancel, Yes/No etc):
 * MB_OK
 * MB_OKCANCEL
 * MB_ABORTRETRYIGNORE
@@ -483,12 +507,13 @@ Param flags is sum of button-value (OK, OK/Cancel, Yes/No etc) and icon-value (I
 * MB_YESNO
 * MB_RETRYCANCEL
 
+and icon-value:
 * MB_ICONERROR
 * MB_ICONQUESTION
 * MB_ICONWARNING
 * MB_ICONINFO
 
-Gets int code of button pressed:
+Gets int code of pressed button (gets ID_CANCEL if dialog cancelled):
 
 * ID_OK
 * ID_CANCEL
@@ -498,13 +523,30 @@ Gets int code of button pressed:
 * ID_YES
 * ID_NO
 
+===msg_box_ex===
+
+ msg_box_ex(caption, text, buttons, icon)
+
+Shows modal message-box with any number of buttons.
+
+* Param "caption": str: Caption of dialog.
+* Param "text": str: Message text. Multi-line text with "\n" is supported.
+* Param "buttons": list of str: Non-empty list of button captions. Multi-line captions are not supported on Windows.
+* Param "icon": int: Icon in dialog, one of constants:
+** MB_ICONERROR
+** MB_ICONQUESTION
+** MB_ICONWARNING
+** MB_ICONINFO
+
+Gets int index of pressed button (0-based), or None of cancelled.
+
 ===msg_status===
 
  msg_status(text, process_messages=False)
 
 Shows given text in statusbar.
 
-Param process_messages: if True, function also does UI messages processing. It takes some time, it is needed to refresh status of Esc-key pressed. After call msg_status(..., True) you can get state of Esc-key pressed via PROC_GET_ESCAPE, else plugin gets old state, until UI messages are processed.
+Param "process_messages": if True, function also does UI messages processing. It takes some time, it is needed to refresh status of Esc-key pressed. After call msg_status(..., True) you can get state of Esc-key pressed via PROC_GET_ESCAPE, else plugin gets old state, until UI messages are processed.
 
 ===msg_status_alt===
 
@@ -512,7 +554,7 @@ Param process_messages: if True, function also does UI messages processing. It t
 
 Shows given text in alternative statusbar; it has yellowish color and shows on the bottom of current editor.
 
-Time in seconds: 1..30; seconds<=0 hides statusbar (if shown before).
+Param "seconds": show pause in seconds, 1..30. Value<=0 hides statusbar.
 
 ===dlg_input===
 
@@ -1990,6 +2032,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_UNDO_LIMIT: int: max count of simple actions, which can be undone.
 * PROP_UNDO_DATA: str: string representation of Undo data.
 * PROP_REDO_DATA: str: string representation of Redo data.
+* PROP_ZEBRA: int: if 0, zebra mode is not active; if >0, it is alpha-blend value (1..255) of active zebra mode.
 * PROP_ACTIVATION_TIME: int: relative time (in OS timer ticks) when tab ("main" or "brother" editor in the same tab) was last focused. It's 0 for not yet focused tabs. It's None for editors created by dlg_proc().
 * PROP_KIND: str: kind of UI control in the tab.
 ** "text": normal editor
@@ -2007,6 +2050,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_HANDLE_SELF: int: handle of editor object, for which get_prop is called. This handle is unique among all objects in program (it is memory address). Note that ed.h==0, it is virtual handle for the focused editor. This API gets the real handle.
 * PROP_HANDLE_PRIMARY: int: handle of editor object, which is primary editor in a file tab (always visible). None for separate editors.
 * PROP_HANDLE_SECONDARY: int: handle of editor object, which is secondary editor in a file tab (visible only when file tab is splitted). None for separate editors.
+* PROP_HANDLE_PARENT: int: handle of parent of editor object, or 0 if no such parent. This handle is needed to dock forms near the editor.
 
 * PROP_COORDS: 4-tuple of int: rectangle of entire editor area, relative to screen.
 * PROP_RECT_CLIENT: 4-tuple of int: rectangle of entire editor area, relative to editor.
@@ -2096,6 +2140,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_UNDO_LIMIT: int: max count of simple actions, which can be undone.
 * PROP_UNDO_DATA: str: string representation of Undo data.
 * PROP_REDO_DATA: str: string representation of Redo data.
+* PROP_ZEBRA: int: if 0, zebra mode is not active; if >0, it is alpha-blend value (1..255) of active zebra mode.
 
 * PROP_SPLIT: 2-tuple: information about primary/secondary editors splitting as tuple (split_kind, split_pos).
 ** "split_kind": str: "-" (not splitted), "v" (splitted vertically), "h" (splitted horizontally). 
@@ -2454,18 +2499,25 @@ Function params:
 Performs action on inter-line gaps (they don't overlap text above/below).
 Possible values of "id":
 
-* GAP_GET_LIST: Gets list of gaps. List of 4-tuples (nline, ntag, bitmap_size_x, bitmap_size_y), or None.
+* deprecated: GAP_GET_LIST: Gets list of gaps. List of 4-tuples (line_index, tag, bitmap_width, bitmap_height), or None.
+
+* GAP_GET_ALL: Gets list of gaps. List of dict, or None. Dict keys are:
+** "line": int: Line index; or -1 for gap before the first line.
+** "tag": int: Tag.
+** "size": int: Height in pixels.
+** "color": int: Color.
+** "bitmap": 2-tuple of int: Size of bitmap, or (0, 0) if no bitmap.
 
 * GAP_MAKE_BITMAP: Action is needed only if you want to paint bitmap in gap, it's not needed for empty gaps. Makes new bitmap for future gap. Size of bitmap is (num1, num2). Gets 2-tuple (id_bitmap, id_canvas).
 ** "id_bitmap": bitmap handle, needed to later call GAP_ADD.
 ** "id_canvas": canvas handle, needed to paint on bitmap, by canvas_proc().
 
 * GAP_ADD: Adds gap to editor. Gets bool: params correct, gap added. Params:
-** "num1": int: line index; can be -1 for gap before the first line.
-** "num2": int: if 0, gap will be empty; otherwise it is bitmap handle id_bitmap, which you got from GAP_MAKE_BITMAP.
-** "tag": int: some value to separate gaps from several plugins.
-** "size": int: if >0, it is gap height in pixels; if 0, gap height is calculated from bitmap handle.
-** "color": int: if not COLOR_NONE, then it's gap background color.
+** "num1": int: Line index; can be -1 for gap before the first line.
+** "num2": int: If 0, gap will be empty; otherwise it is bitmap handle (id_bitmap), which you got from GAP_MAKE_BITMAP.
+** "tag": int: Some value, to separate gaps from several plugins.
+** "size": int: If >0, it is gap height in pixels. If 0, gap height is calculated from bitmap handle.
+** "color": int: If not COLOR_NONE, then it's gap background color.
 
 * GAP_DELETE: Deletes gaps, for line indexes from num1 to num2.
 * GAP_DELETE_ALL: Deletes all gaps.
@@ -3373,5 +3425,20 @@ def project_variables():
 * add: Editor.get_prop: PROP_LINE_STATES_UPDATED
 * change: PROP_TAG is now stored per Editor object, so primary and secondary editors (in the same tab) have different PROP_TAG values
 * add: TreeHelper getter can return not "list" type, to not refresh code tree
+
+1.0.283 (app 1.78.7)
+* add: Editor.get_prop/set_prop: PROP_ZEBRA
+
+1.0.284 (app 1.79.0)
+* add: msg_box_ex()
+* add: Editor.get_prop/set_prop: COLOR_ID_BorderFocused, COLOR_ID_MinimapTooltipBg, COLOR_ID_MinimapTooltipBorder, COLOR_ID_BlockStapleActive
+* add: app_proc: ids SPLITTER_G4, SPLITTER_G5
+
+1.0.285 (app 1.79.1)
+* add: Editor.gap: GAP_GET_ALL
+* deprecated: GAP_GET_LIST
+
+1.0.286 (app 1.79.2)
+* add: Editor.get_prop: PROP_HANDLE_PARENT
 
 [[Category:CudaText]]

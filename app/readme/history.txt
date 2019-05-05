@@ -4,6 +4,18 @@
   * changed
 
 
+1.79.3 (2019/05)
+
++ add: menu items in "Edit" menu are auto disabled (Undo, Redo, Copy, Cut, Paste, Delete)
++ add: don't show warning "File is maybe not text" if text has char(27)
+- fix: bugs with vertical scrollbar, it wasn't auto moved
+
+1.79.2 (2019/04)
+
++ add: option "ruler_mark_caret"
+* change: plugin file "install.inf": CPU names for "os=" line changed to longer names like in Free Pascal: i386, x86_64, arm, sparc
+- fix: bug fixes
+
 1.79.0 (2019/04)
 
 + add: option "zebra"

@@ -4,11 +4,20 @@
   * changed
 
 
-1.78.7 (2019/04)
+1.79.2 (2019/04)
+
++ add: option "ruler_mark_caret"
+* change: plugin file "install.inf": CPU names for "os=" line changed to longer names like in Free Pascal: i386, x86_64, arm, sparc
+- fix: bug fixes
+
+1.79.0 (2019/04)
 
 + add: option "zebra"
 + add: API
++ add: lexers C/C++: improved rules for float/int/hex numbers
 - fix: few bugs with vertical sync-scrolling in Differ plugin
+- fix: scrollbars did scroll by 1 pixel on clicking arrows, must scroll faster by char size
+- fix: bug with wrong caret pos after pasting multiline block on empty line
 
 1.78.5 (2019/04)
 

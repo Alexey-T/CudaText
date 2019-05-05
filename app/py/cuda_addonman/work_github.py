@@ -12,14 +12,14 @@ def get_datetime_short():
     t = datetime.now()
     return t.strftime('%Y.%m.%d')
 
-def dialog_github_install(list_hist):
+def dialog_github_install(history):
     c1 = chr(1)
     id_edit = 1
     id_ok = 2
     id_cancel = 3
     res = dlg_custom('Install from Github', 456, 90, '\n'.join([]
       + [c1.join(['type=label', 'cap=&Github repo URL', 'pos=6,6,400,0'])]
-      + [c1.join(['type=combo', 'items='+'\t'.join(list_hist), 'pos=6,26,450,0', 'cap='+list_hist[0]])]
+      + [c1.join(['type=combo', 'items='+'\t'.join(history), 'pos=6,26,450,0', 'cap='+history[0]])]
       + [c1.join(['type=button', 'cap=OK', 'pos=246,60,346,0', 'props=1'])]
       + [c1.join(['type=button', 'cap=Cancel', 'pos=350,60,450,0'])]
       ))
@@ -32,15 +32,29 @@ def dialog_github_install(list_hist):
 
 
 fn_history = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman_github.ini')
+history = [
+    'https://github.com/kvichans/cuda_find_in_files',
+    ]
 
 
 def do_install_from_github():
 
-    list_hist = ['https://github.com/kvichans/cuda_find_in_files']
+    global history
     if os.path.isfile(fn_history):
-        list_hist = open(fn_history).read().splitlines()
+        history = open(fn_history).read().splitlines()
 
-    url = dialog_github_install(list_hist)
+    def save_history():
+
+        global history
+        #move new url to 1st item
+        if url in history:
+            history.remove(url)
+        history = [url]+history
+
+        with open(fn_history, 'w') as f:
+            f.write('\n'.join(history))
+
+    url = dialog_github_install(history)
     if not url: return
 
     fn = os.path.join(tempfile.gettempdir(), 'cudatext_addon.zip')
@@ -69,14 +83,15 @@ def do_install_from_github():
 
     do_clone = False
     if not os.path.isdir(dir_plugin):
-        res = msg_box(
+        res = msg_box_ex(
+                'Addon Manager',
                 'GitHub repository can be cloned (using "git clone") or can be downloaded as zip file. '+
-                ' If you clone, Addon Manager\'s Update dialog will update add-on using "git pull", which is recommended.'+
-                '\n\nYes: clone.\nNo: download as zip.',
-                MB_YESNOCANCEL+MB_ICONQUESTION)
-        if res==ID_CANCEL:
+                ' If you clone, Addon Manager\'s Update dialog will update add-on using "git pull", which is recommended.',
+                ['Clone repo', 'Download as zip', 'Cancel'],
+                MB_ICONQUESTION)
+        if res==2 or res==None:
             return
-        if res==ID_YES:
+        if res==0:
             do_clone = True
 
     if do_clone:
@@ -85,12 +100,14 @@ def do_install_from_github():
         except:
             msg_box('Error running Git command', MB_OK+MB_ICONERROR)
             return
-        
+
         if os.path.isdir(dir_plugin):
             after_install(module)
+            save_history()
             msg_box('Repo was cloned, restart CudaText to make this plugin visible', MB_OK+MB_ICONINFO)
         else:
             msg_box('Could not clone the repo', MB_OK+MB_ICONERROR)
+
         return
 
     get_url(url+'/zipball/master', fn, True)
@@ -99,17 +116,8 @@ def do_install_from_github():
         msg_status('Cannot download zip file')
         return
 
+    save_history()
+
     file_open(fn)
     os.remove(fn) #cleanup temp
     after_install(module)
-
-    #version = 'github '+ get_datetime_short()
-
-    #move new url to 1st item
-    if url in list_hist:
-        list_hist.remove(url)
-    list_hist = [url]+list_hist
-
-    #save history
-    with open(fn_history, 'w') as f:
-        f.write('\n'.join(list_hist))

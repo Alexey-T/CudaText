@@ -131,6 +131,7 @@ begin
   Ed.OptRulerFontSize:= Op.OpRulerFontSize;
   Ed.OptRulerSize:= Op.OpRulerSize;
   Ed.OptRulerTextIndent:= Op.OpRulerTextIndent;
+  Ed.OptRulerMarkSizeCaret:= Op.OpRulerMarkCaret;
 
   Ed.OptMinimapVisible:= Op.OpMinimapShow;
   Ed.OptMinimapShowSelAlways:= Op.OpMinimapShowSelAlways;
@@ -512,6 +513,8 @@ begin
   if Id='EdMarginCaret' then Ed.Colors.MarginCaret:= AColor else
   if Id='EdMarginUser' then Ed.Colors.MarginUser:= AColor else
   if Id='EdMarkedRangeBg' then Ed.Colors.MarkedLinesBG:= AColor else
+  if Id='EdBorder' then Ed.Colors.BorderLine:= AColor else
+  if Id='EdBorderFocused' then Ed.Colors.BorderLineFocused:= AColor else
   ;
 end;
 
@@ -565,6 +568,8 @@ begin
   if Id='EdMarginCaret' then exit(Ed.Colors.MarginCaret);
   if Id='EdMarginUser' then exit(Ed.Colors.MarginUser);
   if Id='EdMarkedRangeBg' then exit(Ed.Colors.MarkedLinesBG);
+  if Id='EdBorder' then exit(Ed.Colors.BorderLine);
+  if Id='EdBorderFocused' then exit(Ed.Colors.BorderLineFocused);
 end;
 
 procedure EditorClear(Ed: TATSynEdit);

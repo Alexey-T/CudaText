@@ -85,21 +85,23 @@ end;
 
 
 function CheckValue_OS(S: string): boolean;
-const
-  bits = {$ifdef cpu64} '64' {$else} '32' {$endif};
+var
+  CpuString: string;
 begin
   Result:= false;
   if S='' then exit(true);
   S:= ','+LowerCase(S)+',';
 
+  CpuString:= LowerCase({$I %FPCTARGETCPU%});
+
   {$ifdef windows}
   if Pos(',win,', S)>0 then exit(true);
-  if Pos(',win'+bits+',', S)>0 then exit(true);
+  if Pos(',win-'+CpuString+',', S)>0 then exit(true);
   {$endif}
 
   {$ifdef linux}
   if Pos(',linux,', S)>0 then exit(true);
-  if Pos(',linux'+bits+',', S)>0 then exit(true);
+  if Pos(',linux-'+CpuString+',', S)>0 then exit(true);
   {$endif}
 
   {$ifdef darwin}
@@ -108,7 +110,12 @@ begin
 
   {$ifdef freebsd}
   if Pos(',freebsd,', S)>0 then exit(true);
-  if Pos(',freebsd'+bits+',', S)>0 then exit(true);
+  if Pos(',freebsd-'+CpuString+',', S)>0 then exit(true);
+  {$endif}
+
+  {$ifdef solaris}
+  if Pos(',solaris,', S)>0 then exit(true);
+  if Pos(',solaris-'+CpuString+',', S)>0 then exit(true);
   {$endif}
 end;
 

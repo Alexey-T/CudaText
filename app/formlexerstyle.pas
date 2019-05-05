@@ -8,6 +8,7 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   ColorBox, StdCtrls, ButtonPanel, IniFiles,
   ec_SyntAnal,
+  ec_syntax_format,
   proc_colors,
   proc_globdata,
   proc_msg;

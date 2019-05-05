@@ -16,8 +16,8 @@ uses
   ATSynEdit;
 
 const
-  cAppExeVersion = '1.78.7.0';
-  cAppApiVersion = '1.0.283';
+  cAppExeVersion = '1.79.3.0';
+  cAppApiVersion = '1.0.287';
 
 const
   cOptionSystemSuffix =
@@ -25,6 +25,7 @@ const
     {$ifdef linux} '__linux' {$endif}
     {$ifdef darwin} '__mac' {$endif}
     {$ifdef freebsd} '__freebsd' {$endif}
+    {$ifdef solaris} '__solaris' {$endif}
     ;
 
 const
@@ -95,6 +96,9 @@ const
   msgEditSelectAll: string = 'Select all';
   msgEditUndo: string = 'Undo';
   msgEditRedo: string = 'Redo';
+  msgFileNew: string = 'New file';
+  msgFileOpen: string = 'Open file...';
+  msgFileSave: string = 'Save file';
   msgFileClearList: string = 'Clear list';
   msgCopySub: string = 'Copy to clipboard';
   msgCopyFilenameName: string = 'Copy filename only';
@@ -131,7 +135,7 @@ const
   msgCannotSaveFileWithEnc: string = 'Could not save file because encoding "%s" cannot handle Unicode text. Program has saved file in UTF-8 encoding.';
   msgCannotSaveUserConf: string = 'Cannot save user config (read only?)';
   msgCannotReadConf: string = 'Cannot read/parse config:';
-  msgCannotReloadUntitledTab: string = 'Cannot reload untitled tab';
+  msgCannotReloadUntitledTab: string = 'Cannot reopen untitled tab';
   msgCannotFindInMultiSel: string = 'Cannot find in multi-selections, yet';
   msgCannotFindMatch: string = 'Cannot find';
   msgCannotFindInstallInfInZip: string = 'Cannot find install.inf in zip file';
@@ -185,7 +189,7 @@ const
   msgStatusAddonInstalled: string = 'Package installed';
   msgStatusAddonsInstalled: string = 'Installed several packages (up to %d)';
   msgStatusOpened: string = 'Opened:';
-  msgStatusReopened: string = 'Re-opened:';
+  msgStatusReopened: string = 'Reopened:';
   msgStatusBadRegex: string = 'Incorrect regex passed:';
   msgStatusFoundNextMatch: string = 'Found next match';
   msgStatusTryingAutocomplete: string = 'Trying auto-complete for:';
@@ -217,14 +221,14 @@ const
   msgConfirmSyntaxThemeSameName: string = 'Syntax theme exists, with the same name as UI theme. Do you want to apply it too?';
   msgConfirmInstallIt: string = 'Do you want to install it?';
   msgConfirmFileChangedOutside: string = 'File was changed outside:';
-  msgConfirmReloadIt: string = 'Reload it?';
-  msgConfirmReloadItHotkeys: string = '(Yes: reload. No: don''t reload. Cancel [Esc]: no more notifications about this file.)';
-  msgConfirmReloadItHotkeysSess: string = '(Yes: reload. No: load text from previous session.)';
+  msgConfirmReloadIt: string = 'Reopen it?';
+  msgConfirmReloadItHotkeys: string = '(Yes: reopen. No: don''t reopen. Cancel [Esc]: no more notifications about this file.)';
+  msgConfirmReloadItHotkeysSess: string = '(Yes: reopen. No: open text from previous session.)';
   msgConfirmOpenCreatedDoc: string = 'Open created document?';
   msgConfirmSaveColorsToFile: string = 'Save theme to file?';
   msgConfirmSaveModifiedTab: string = 'Tab is modified:'#13'%s'#13#13'Save it first?';
-  msgConfirmReopenModifiedTab: string = 'Tab is modified:'#13'%s'#13#13'Reload it?';
-  msgConfirmReloadFileWithEnc: string = 'Encoding is changed in memory.'#13'Do you also want to reload file?';
+  msgConfirmReopenModifiedTab: string = 'Tab is modified:'#13'%s'#13#13'Reopen it?';
+  msgConfirmReloadFileWithEnc: string = 'Encoding is changed in memory.'#13'Do you also want to reopen file?';
   msgConfirmCreateNewFile: string = 'File not found:'#13'%s'#13#13'Create it?';
   msgConfirmCreateUserConf: string = 'User config not found. Create it?';
   msgConfirmCloseDelFile: string = 'Close tab and delete its file?';

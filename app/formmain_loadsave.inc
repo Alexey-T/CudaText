@@ -777,6 +777,7 @@ begin
     Op.OpRulerNumeration:= c.GetValue('ruler_numeration', Op.OpRulerNumeration);
     Op.OpRulerFontSize:= c.GetValue('ruler_font_size', Op.OpRulerFontSize);
     Op.OpRulerSize:= c.GetValue('ruler_size', Op.OpRulerSize);
+    Op.OpRulerMarkCaret:= c.GetValue('ruler_mark_caret', Op.OpRulerMarkCaret);
     //Op.OpRulerTextIndent:= c.GetValue('ruler_text_indent', Op.OpRulerTextIndent);
 
     Op.OpMinimapShow:= c.GetValue('minimap_show', Op.OpMinimapShow);

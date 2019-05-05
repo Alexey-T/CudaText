@@ -22,6 +22,10 @@ const
   CARET_ADD = 1;
   CARET_DELETE_ALL = 2;
   CARET_SET_INDEX = 100;
+  CARET_DELETE_INDEX = 2000000;
+
+  CARET_OPTION_NO_SCROLL = 1;
+  CARET_OPTION_UNFOLD = 2;
 
   MARKERS_GET = 0;
   MARKERS_ADD = 1;
@@ -202,11 +206,11 @@ const
   PROP_HANDLE_SELF        = 110;
   PROP_HANDLE_PRIMARY     = 111;
   PROP_HANDLE_SECONDARY   = 112;
+  PROP_HANDLE_PARENT = 113;
   PROP_RECT_CLIENT        = 115;
   PROP_RECT_TEXT          = 116;
   PROP_CODETREE_MODIFIED_VERSION = 120;
 
-  APP_PROC_DUMP_CACHE = -2; //for debugging
   APP_PROC_SET_CLIP_ALT = -1;
   APP_PROC_GET_CLIP = 0;
   APP_PROC_SET_CLIP = 1;
@@ -404,6 +408,7 @@ const
   GAP_ADD         = 2;
   GAP_DELETE      = 3;
   GAP_DELETE_ALL  = 4;
+  GAP_GET_ALL     = 5;
 
   FOLDING_GET_LIST           = 0;
   FOLDING_FOLD               = 1;
@@ -485,6 +490,8 @@ const
   SPLITTER_G1      = 5;
   SPLITTER_G2      = 6;
   SPLITTER_G3      = 7;
+  SPLITTER_G4      = 8;
+  SPLITTER_G5      = 9;
 
   IMAGELIST_CREATE     = 0;
   IMAGELIST_COUNT      = 1;

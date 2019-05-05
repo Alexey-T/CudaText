@@ -14,6 +14,7 @@ uses
   LazFileUtils,
   at__jsonconf,
   ec_SyntAnal,
+  ec_syntax_format,
   proc_globdata,
   ATStringProc,
   ATStringProc_HtmlColor;

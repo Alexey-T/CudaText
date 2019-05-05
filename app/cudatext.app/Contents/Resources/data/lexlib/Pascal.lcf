@@ -1,4 +1,4 @@
-object SyntAnal16: TLibSyntAnalyzer
+object SyntAnal18: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Default'
@@ -581,38 +581,6 @@ object SyntAnal16: TLibSyntAnalyzer
       AutoCloseText = 'end;'
     end
     item
-      DisplayName = '{$ifdef}'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '\{\$if[n]?def')
-          CondType = tcMask
-          TokenTypes = 512
-          IgnoreCase = True
-        end>
-      BlockEnd = '{$endif}'
-      DisplayInTree = False
-      HighlightPos = cpBound
-      CollapseFmt = '%s0'
-      IgnoreAsParent = True
-      AutoCloseMode = acmCloseNearest
-      AutoCloseText = '{$ENDIF}'
-    end
-    item
-      DisplayName = '{$endif}'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '\{\$endif')
-          CondType = tcMask
-          TokenTypes = 512
-          IgnoreCase = True
-        end>
-      HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
       DisplayName = 'until'
       BlockType = btRangeEnd
       ConditionList = <
@@ -1183,14 +1151,6 @@ object SyntAnal16: TLibSyntAnalyzer
           CondType = tcNotEqual
           TokenTypes = 4
           IgnoreCase = True
-        end
-        item
-          TagList.Strings = (
-            ';'
-            '.'
-            'type')
-          CondType = tcMask
-          TokenTypes = 14
         end>
       IdentIndex = 2
       BlockOffset = 2
@@ -1297,37 +1257,6 @@ object SyntAnal16: TLibSyntAnalyzer
           TokenTypes = 8
         end>
       HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'REGION'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '\{\$REGION')
-          CondType = tcMask
-          TokenTypes = 512
-          IgnoreCase = True
-        end>
-      BlockEnd = 'REGION END'
-      DisplayInTree = False
-      HighlightPos = cpAny
-      DrawStaple = True
-      CollapseFmt = '%s0'
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'REGION END'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '\{\$ENDREGION')
-          CondType = tcMask
-          TokenTypes = 512
-          IgnoreCase = True
-        end>
-      HighlightPos = cpAny
       IgnoreAsParent = False
     end
     item
@@ -1484,11 +1413,15 @@ object SyntAnal16: TLibSyntAnalyzer
     ''
     'uses aa.aa, bb, cc.cc.cc;                          '
     ''
+    '{$region zzz}'
+    '{$ifdef zz}'
     'const'
     '  cColorCodes: array[0..1] of TColorCode = ('
     '    (sName: '#39'ee'#39'; sVal: %100110),'
     '    (sName: '#39'ddd'#39'; sVal: &700),'
     '    );'
+    '{$endif}'
+    '{$endregion}'
     '    '
     'type                        '
     '  TForm1 = class(TForm)    '

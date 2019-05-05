@@ -16,6 +16,7 @@ uses
   Dialogs, ButtonPanel, ComCtrls, ExtCtrls, ColorBox, IniFiles,
   LazUTF8, LazFileUtils,
   ec_SyntAnal,
+  ec_syntax_format,
   ATSynEdit,
   ATSynEdit_Adapter_EControl,
   proc_msg,

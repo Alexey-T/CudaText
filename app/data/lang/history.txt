@@ -1,5 +1,8 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2019.04.23
++ [tb]
+* delete [ui] tb_*
 
 2019.04.09
 * change [m_se] ex_wo

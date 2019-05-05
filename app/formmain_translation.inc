@@ -1,21 +1,5 @@
 {$ifdef nn}begin end;{$endif}
 
-procedure DoTranslateToolbarButtonHint(AToolbar: TATFlatToolbar; const ACaption, AHintText: string);
-var
-  Btn: TATButton;
-  i: integer;
-begin
-  for i:= 0 to AToolbar.ButtonCount-1 do
-  begin
-    Btn:= AToolbar.Buttons[i];
-    if Btn.Caption=ACaption then
-    begin
-      Btn.Hint:= AHintText;
-      exit
-    end;
-  end;
-end;
-
 procedure DoLocMenuitem(ini: TIniFile; c: TMenuItem; const ASection, AKey: string);
 begin
   if Assigned(c) then
@@ -80,14 +64,18 @@ begin
 
   ini:= TIniFile.Create(fn);
   try
+    msgFileNew:= ini.ReadString('m_f', 'new', msgFileNew);
+    msgFileOpen:= ini.ReadString('m_f', 'op', msgFileOpen);
+    msgFileSave:= ini.ReadString('m_f', 's', msgFileSave);
+
     DoLocMenuitem(ini, mnuFile, 'm_f', '_');
-    DoLocMenuitem(ini, mnuFileNew, 'm_f', 'new');
+    DoLocMenuitem(mnuFileNew, msgFileNew);
     DoLocMenuitem(ini, mnuFileNewMenu, 'm_f', 'newm');
-    DoLocMenuitem(ini, mnuFileOpen, 'm_f', 'op');
+    DoLocMenuitem(mnuFileOpen, msgFileOpen);
     DoLocMenuitem(ini, mnuFileOpenSub, 'm_f', 'rec');
     DoLocMenuitem(ini, mnuFileOpenDir, 'm_f', 'op_dir');
     DoLocMenuitem(ini, mnuFileReopen, 'm_f', 'reop');
-    DoLocMenuitem(ini, mnuFileSave, 'm_f', 's');
+    DoLocMenuitem(mnuFileSave, msgFileSave);
     DoLocMenuitem(ini, mnuFileSaveAs, 'm_f', 's_as');
     DoLocMenuitem(ini, mnuFileSaveAll, 'm_f', 's_all');
     DoLocMenuitem(ini, mnuFileClose, 'm_f', 'cl');
@@ -317,21 +305,54 @@ begin
     DoLocMenuitem(ini, mnuHelpAbout, 'm_h', 'ab');
     DoLocMenuitem(ini, mnuHelpCheckUpd, 'm_h', 'chk');
 
+    DoLocMenuitem(ini, mnuToolbarSortAsc, 'tb', 'sr_asc');
+    DoLocMenuitem(ini, mnuToolbarSortDesc, 'tb', 'sr_des');
+    DoLocMenuitem(ini, mnuToolbarSortAscNocase, 'tb', 'sr_asc_i');
+    DoLocMenuitem(ini, mnuToolbarSortDescNocase, 'tb', 'sr_des_i');
+    DoLocMenuitem(ini, mnuToolbarSortDialog, 'tb', 'sr_dl');
+    DoLocMenuitem(ini, mnuToolbarSortReverse, 'tb', 'sr_rev');
+    DoLocMenuitem(ini, mnuToolbarSortShuffle, 'tb', 'sr_shf');
+    DoLocMenuitem(ini, mnuToolbarSortRemoveDup, 'tb', 'sr_del_dp');
+    DoLocMenuitem(ini, mnuToolbarSortRemoveBlank, 'tb', 'sr_del_bl');
+
+    DoLocMenuitem(ini, mnuToolbarCommentLineAdd, 'tb', 'cm_ln_add');
+    DoLocMenuitem(ini, mnuToolbarCommentLineDel, 'tb', 'cm_ln_del');
+    DoLocMenuitem(ini, mnuToolbarCommentLineToggle, 'tb', 'cm_ln_tog');
+    DoLocMenuitem(ini, mnuToolbarCommentStream, 'tb', 'cm_st_tog');
+
     msgPanelMenu:= ini.ReadString('ui', 't_menu', msgPanelMenu_Init);
     msgPanelTree:= ini.ReadString('ui', 't_tre', msgPanelTree_Init);
     msgPanelProject:= ini.ReadString('ui', 't_proj', msgPanelProject_Init);
     msgPanelTabs:= ini.ReadString('ui', 't_tabs', msgPanelTabs_Init);
     //
-    DoTranslateToolbarButtonHint(ToolbarSideTop, msgPanelMenu_Init, msgPanelMenu);
-    DoTranslateToolbarButtonHint(ToolbarSideTop, msgPanelTree_Init, msgPanelTree);
-    DoTranslateToolbarButtonHint(ToolbarSideTop, msgPanelProject_Init, msgPanelProject);
-    DoTranslateToolbarButtonHint(ToolbarSideTop, msgPanelTabs_Init, msgPanelTabs);
+    DoLocToolbarButtonHint(ToolbarSideTop, msgPanelMenu_Init, msgPanelMenu);
+    DoLocToolbarButtonHint(ToolbarSideTop, msgPanelTree_Init, msgPanelTree);
+    DoLocToolbarButtonHint(ToolbarSideTop, msgPanelProject_Init, msgPanelProject);
+    DoLocToolbarButtonHint(ToolbarSideTop, msgPanelTabs_Init, msgPanelTabs);
     //
-    DoTranslateToolbarButtonHint(ToolbarSideLow, msgPanelConsole_Init, ini.ReadString('ui', 't_con', msgPanelConsole_Init));
-    DoTranslateToolbarButtonHint(ToolbarSideLow, msgPanelOutput_Init, ini.ReadString('ui', 't_out', msgPanelOutput_Init));
-    DoTranslateToolbarButtonHint(ToolbarSideLow, msgPanelValidate_Init, ini.ReadString('ui', 't_val', msgPanelValidate_Init));
+    DoLocToolbarButtonHint(ToolbarSideLow, msgPanelConsole_Init, ini.ReadString('ui', 't_con', msgPanelConsole_Init));
+    DoLocToolbarButtonHint(ToolbarSideLow, msgPanelOutput_Init, ini.ReadString('ui', 't_out', msgPanelOutput_Init));
+    DoLocToolbarButtonHint(ToolbarSideLow, msgPanelValidate_Init, ini.ReadString('ui', 't_val', msgPanelValidate_Init));
     //
-    DoTranslateToolbarButtonHint(ToolbarSideMid, msgPanelSearch_Init, ini.ReadString('ui', 't_find', msgPanelSearch_Init));
+    DoLocToolbarButtonHint(ToolbarSideMid, msgPanelSearch_Init, ini.ReadString('ui', 't_find', msgPanelSearch_Init));
+    //
+    DoLocToolbarButtonHint(ToolbarMain, 'f_new', msgFileNew);
+    DoLocToolbarButtonHint(ToolbarMain, 'f_open', msgFileOpen);
+    DoLocToolbarButtonHint(ToolbarMain, 'f_save', msgFileSave);
+    DoLocToolbarButtonHint(ToolbarMain, 'e_copy', msgEditCopy);
+    DoLocToolbarButtonHint(ToolbarMain, 'e_cut', msgEditCut);
+    DoLocToolbarButtonHint(ToolbarMain, 'e_paste', msgEditPaste);
+    DoLocToolbarButtonHint(ToolbarMain, 'e_undo', msgEditUndo);
+    DoLocToolbarButtonHint(ToolbarMain, 'e_redo', msgEditRedo);
+    if Assigned(mnuViewUnpri) then
+      DoLocToolbarButtonHint(ToolbarMain, 'unpri', mnuViewUnpri.Caption);
+    if Assigned(mnuViewMinimap) then
+      DoLocToolbarButtonHint(ToolbarMain, 'map', mnuViewMinimap.Caption);
+    if Assigned(mnuEditIndent) then
+      DoLocToolbarButtonHint(ToolbarMain, 'indent', mnuEditIndent.Caption);
+    if Assigned(mnuEditUnindent) then
+      DoLocToolbarButtonHint(ToolbarMain, 'unindent', mnuEditUnindent.Caption);
+    DoLocToolbarButtonHint(ToolbarMain, 'opt', ini.ReadString('tb', 'opt', 'Options Editor'));
 
     msgUntitledTab:= ini.ReadString('ui', 'unt', msgUntitledTab);
     msgAllFiles:= ini.ReadString('ui', 'allf', msgAllFiles);
@@ -397,27 +418,6 @@ begin
     DoLocString(msgButtonAbort,  ini, 'ui', 'b_ab');
     DoLocString(msgButtonRetry,  ini, 'ui', 'b_re');
     DoLocString(msgButtonIgnore, ini, 'ui', 'b_ig');
-
-    DoLocToolbarButtonHint(ToolbarMain, 'f_new', ini.ReadString('ui', 'tb_new', ''));
-    DoLocToolbarButtonHint(ToolbarMain, 'f_open', ini.ReadString('ui', 'tb_op', ''));
-    DoLocToolbarButtonHint(ToolbarMain, 'f_save', ini.ReadString('ui', 'tb_sav', ''));
-    DoLocToolbarButtonHint(ToolbarMain, 'find', ini.ReadString('ui', 'tb_find', ''));
-    DoLocToolbarButtonHint(ToolbarMain, 'goto', ini.ReadString('ui', 'tb_go', ''));
-    DoLocToolbarButtonHint(ToolbarMain, 'e_cut', msgEditCut);
-    DoLocToolbarButtonHint(ToolbarMain, 'e_copy', msgEditCopy);
-    DoLocToolbarButtonHint(ToolbarMain, 'e_paste', msgEditPaste);
-    //DoLocToolbarButtonHint(ToolbarMain, 'e_del', msgEditDelete);
-    //DoLocToolbarButtonHint(ToolbarMain, 'e_sel', msgEditSelectAll);
-    DoLocToolbarButtonHint(ToolbarMain, 'e_undo', msgEditUndo);
-    DoLocToolbarButtonHint(ToolbarMain, 'e_redo', msgEditRedo);
-    if Assigned(mnuViewUnpri) then
-      DoLocToolbarButtonHint(ToolbarMain, 'unpri', mnuViewUnpri.Caption);
-    if Assigned(mnuViewSide) then
-      DoLocToolbarButtonHint(ToolbarMain, 'p_side', mnuViewSide.Caption);
-    if Assigned(mnuViewBottom) then
-      DoLocToolbarButtonHint(ToolbarMain, 'p_btm', mnuViewBottom.Caption);
-    if Assigned(mnuViewMinimap) then
-      DoLocToolbarButtonHint(ToolbarMain, 'map', mnuViewMinimap.Caption);
 
     DoLocMenuitem(mnuTextUndo, msgEditUndo);
     DoLocMenuitem(mnuTextRedo, msgEditRedo);

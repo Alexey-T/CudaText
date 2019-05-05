@@ -116,7 +116,7 @@ object SyntAnal5: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Hex float'
+      DisplayName = 'Hex Float'
       StyleName = 'Number'
       TokenType = 5
       Expression = 
@@ -129,7 +129,7 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'Hex'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '0x[\da-f'#39']+ |'#13#10'0b[01'#39']+'
+      Expression = '0x[0-9a-f'#39']+ [ul]* | 0b[01'#39']+ [ul]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -138,8 +138,8 @@ object SyntAnal5: TLibSyntAnalyzer
       StyleName = 'Number'
       TokenType = 5
       Expression = 
-        '(\d[\d'#39']* \.)? \d[\d'#39']* e [\+\-]? \d[\d'#39']* |'#13#10'\d[\d'#39']* \. \d[\d'#39 +
-        ']*f?'
+        '\d[\d'#39']* (\. [\d'#39']+)? e[\+\-]? \d+ f? |'#13#10'\. [\d'#39']+ e[\+\-]? \d+ ' +
+        'f? |'#13#10'\d[\d'#39']* \. (\d[\d'#39']*)? f? |'#13#10'\. \d[\d'#39']* f?'
       ColumnFrom = 0
       ColumnTo = 0
     end

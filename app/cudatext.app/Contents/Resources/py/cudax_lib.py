@@ -11,7 +11,7 @@ Duplicate:
 Authors:
     Andrey Kvichansky    (kvichans on github)
 Version:
-    '0.6.7 2018-12-10'
+    '0.6.8 2019-04-25'
 Wiki: github.com/kvichans/cudax_lib/wiki
 ToDo: (see end of file)
 """
@@ -57,6 +57,7 @@ OPT2PROP            = dict(
     ,unprinted_spaces           = app.PROP_UNPRINTED_SPACES
     ,unprinted_spaces_trailing  = app.PROP_UNPRINTED_SPACES_TRAILING
     ,wrap_mode                  = app.PROP_WRAP
+    ,zebra                      = app.PROP_ZEBRA
     )
 
 # Localization
@@ -156,7 +157,7 @@ def _get_file_opts(opts_json, def_opts={}, **kw):
     return opts
    #def _get_file_opts
 
-def get_opt(path, def_value=None, lev=CONFIG_LEV_ALL, ed_cfg=ed, lexer=''):
+def get_opt(path, def_value=None, lev=CONFIG_LEV_ALL, ed_cfg=ed, lexer='', user_json='user.json'):
     ''' Overridden options tool.
         Config pairs key:val are read from
             <root>/settings_default/default.json
@@ -183,7 +184,7 @@ def get_opt(path, def_value=None, lev=CONFIG_LEV_ALL, ed_cfg=ed, lexer=''):
         ans             = def_opts.get(path, def_value)   if not keys else _opt_for_keys(def_opts, keys, def_value)
         pass;                  #LOG and log('lev=DEF ans={}',(ans))
     else:
-        usr_json    = os.path.join(app.app_path(app.APP_DIR_SETTINGS), 'user.json')
+        usr_json    = os.path.join(app.app_path(app.APP_DIR_SETTINGS), user_json)
         usr_opts    = _get_file_opts(usr_json)
         if lev in (CONFIG_LEV_USER, CONFIG_LEV_USER_ONLY):
             pass;              #LOG and log('def_opts(), usr_opts()={}',(def_opts.get(path),usr_opts.get(path)))
@@ -222,7 +223,7 @@ def get_opt(path, def_value=None, lev=CONFIG_LEV_ALL, ed_cfg=ed, lexer=''):
     return ans if def_value is None else type(def_value)(ans)
    #def get_opt
 
-def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer=''):
+def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='user.json'):
     ''' Overridden options tool.
         Config pairs key:val are add/update/delete into
             <root>/settings/user.json
@@ -269,7 +270,7 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer=''):
                   ed_cfg.get_prop(app.PROP_LEXER_CARET) if ed_cfg   else ''
         if not lex: return None # Fail!
     cfg_json= os.path.join(app.app_path(app.APP_DIR_SETTINGS), icase(False,''
-              ,lev==CONFIG_LEV_USER                          , 'user.json'
+              ,lev==CONFIG_LEV_USER                          , user_json
               ,lev==CONFIG_LEV_LEX                           , 'lexer {}.json'.format(lex)
                                                              , ''))
     pass;                      #LOG and log('cfg_json={}',(cfg_json))

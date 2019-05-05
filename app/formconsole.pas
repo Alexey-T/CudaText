@@ -21,6 +21,7 @@ uses
   ATSynEdit_Adapter_Simple,
   ATStringProc,
   ec_SyntAnal,
+  ec_syntax_format,
   proc_str,
   proc_colors,
   proc_globdata;
@@ -222,6 +223,7 @@ begin
   memo.ModeReadOnly:= true;
   memo.OptMouseRightClickMovesCaret:= true;
   memo.OptMouseWheelZooms:= false;
+  memo.OptShowMouseSelFrame:= false;
 
   memo.OnClickDouble:= @MemoClickDbl;
   memo.OnCommand:= @MemoCommand;

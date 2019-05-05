@@ -421,6 +421,70 @@ begin
 end;
 
 
+function ConvertButtonIcon_MB_to_ID(N: integer): integer;
+begin
+  case N of
+    MB_ICONWARNING:
+      Result:= idDialogWarning;
+    MB_ICONERROR:
+      Result:= idDialogError;
+    MB_ICONQUESTION:
+      Result:= idDialogConfirm;
+    else
+      Result:= idDialogInfo;
+  end;
+end;
+
+function Py_msg_box_ex(Self, Args: PPyObject): PPyObject; cdecl;
+const
+  cResultDelta = 100;
+var
+  PtrCaption, PtrText, PtrButtons: PChar;
+  StrCaption, StrText, StrButtons, StrBtn: string;
+  Icon: Longint;
+  Buttons: TDialogButtons;
+  Res: Longint;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'sssi:msg_box_ex', @PtrCaption, @PtrText, @PtrButtons, @Icon)) then
+    begin
+      StrCaption:= string(PtrCaption);
+      StrText:= string(PtrText);
+      StrButtons:= string(PtrButtons);
+
+      if StrButtons='' then
+        exit(ReturnNone);
+
+      Buttons:= TDialogButtons.Create(TDialogButton);
+
+      repeat
+        StrBtn:= SGetItem(StrButtons, #1);
+        if StrBtn='' then Break;
+        with Buttons.Add do
+        begin
+          Caption:= StrBtn;
+          ModalResult:= cResultDelta+Buttons.Count-1;
+        end;
+      until false;
+
+      Res:= AskUser(
+        StrCaption,
+        StrText,
+        ConvertButtonIcon_MB_to_ID(Icon),
+        Buttons,
+        0);
+      FreeAndNil(Buttons);
+
+      if Res=mrCancel then
+        Result:= ReturnNone
+      else
+        Result:= PyInt_FromLong(Res-cResultDelta);
+    end
+    else
+      Result:= ReturnNone;
+end;
+
+
 function Py_file_open(Self, Args: PPyObject): PPyObject; cdecl;
 var
   PtrFile, PtrFile2, PtrArgs: PChar;
@@ -551,13 +615,13 @@ end;
 function Py_ed_set_caret(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
-  Id, NCaret: Integer;
+  Id, NCaret, NOptions: Integer;
   X1, Y1, X2, Y2: Integer;
   Ed: TATSynEdit;
   F: TEditorFrame;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Liiiii:set_caret', @H, @X1, @Y1, @X2, @Y2, @Id)) then
+    if Bool(PyArg_ParseTuple(Args, 'Liiiiii:set_caret', @H, @X1, @Y1, @X2, @Y2, @Id, @NOptions)) then
     begin
       Ed:= PyEditor(H);
       F:= GetEditorFrame(Ed);
@@ -571,15 +635,18 @@ begin
 
         CARET_SET_ONE:
           begin
-            Ed.DoSelect_None;
-            Ed.DoGotoPos(
-              Point(X1, Y1),
-              Point(X2, Y2),
-              UiOps.FindIndentHorz,
-              UiOps.FindIndentVert,
-              true,
-              false
-              );
+            Ed.DoCaretSingle(X1, Y1, X2, Y2);
+
+            if (NOptions and CARET_OPTION_NO_SCROLL)=0 then
+              Ed.DoGotoPos(
+                Point(X1, Y1),
+                Point(X2, Y2),
+                UiOps.FindIndentHorz,
+                UiOps.FindIndentVert,
+                false,
+                (NOptions and CARET_OPTION_UNFOLD)<>0
+                );
+
             Result:= ReturnNone;
           end;
 
@@ -590,7 +657,7 @@ begin
             Result:= PyInt_FromLong(Ed.Carets.Count);
           end;
 
-        CARET_SET_INDEX..MaxInt:
+        CARET_SET_INDEX..CARET_DELETE_INDEX-1:
           begin
             NCaret:= Id-CARET_SET_INDEX;
             if Ed.Carets.IsIndexValid(NCaret) then
@@ -604,6 +671,17 @@ begin
               end;
             Result:= ReturnNone;
           end;
+
+        CARET_DELETE_INDEX..MaxLongint:
+          begin
+            NCaret:= Id-CARET_DELETE_INDEX;
+            if Ed.Carets.IsIndexValid(NCaret) then
+            begin
+              Ed.Carets.Delete(NCaret);
+              Ed.Carets.Sort;
+            end;
+            Result:= ReturnNone;
+          end
 
         else
           Result:= ReturnNone;
@@ -1288,20 +1366,25 @@ function Py_ed_get_filename(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
+  PtrOps: PChar;
+  StrOps: string;
   F: TEditorFrame;
   Str: string;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'L:get_filename', @H)) then
+    if Bool(PyArg_ParseTuple(Args, 'Ls:get_filename', @H, @PtrOps)) then
     begin
       Ed:= PyEditor(H);
       F:= GetEditorFrame(Ed);
+      StrOps:= string(PtrOps);
+
       if F=nil then
         exit(ReturnNone);
-      if F.IsText then
+      if F.IsText or (Pos('*', StrOps)>0) then
         Str:= F.GetFileName(Ed)
       else
         Str:= '?';
+
       Result:= PyString_FromString(PChar(Str));
     end
   else
@@ -2990,6 +3073,11 @@ begin
               Result:= ReturnNone;
           end;
 
+        PROP_HANDLE_PARENT:
+          begin
+            Result:= PyLong_FromLongLong(PtrInt(Ed.Parent));
+          end;
+
         PROP_RECT_CLIENT:
           begin
             Result:= Py_rect(Ed.ClientRect);
@@ -4180,11 +4268,6 @@ begin
         APP_PROC_THEME_SYNTAX_DATA_GET:
           begin
             Result:= Py_GetThemeData_Syntax;
-          end;
-
-        APP_PROC_DUMP_CACHE:
-          begin
-            Result:= PyString_FromString(PChar(fmMain.CurrentEditor.GetCacheDump));
           end;
 
         APP_PROC_CONFIG_NEWDOC_EOL_GET:
@@ -5933,10 +6016,10 @@ begin
 end;
 
 
-function Py_ed_gap_getlist(Ed: TATSynEdit): PPyObject; cdecl;
+function Py_ed_gap_GetList(Ed: TATSynEdit): PPyObject; cdecl;
 var
   Item: TATGapItem;
-  NLen, i: Integer;
+  NLen, NSizeX, NSizeY, i: Integer;
 begin
   with GetPythonEngine do
   begin
@@ -5949,12 +6032,74 @@ begin
       for i:= 0 to NLen-1 do
       begin
         Item:= Ed.Gaps[i];
+
+        if Assigned(Item.Bitmap) then
+        begin
+          NSizeX:= Item.Bitmap.Width;
+          NSizeY:= Item.Bitmap.Height;
+        end
+        else
+        begin
+          NSizeX:= 0;
+          NSizeY:= 0;
+        end;
+
         PyList_SetItem(Result, i,
           Py_BuildValue('(iLii)',
             Item.LineIndex,
-            Item.Tag,
-            Item.Bitmap.Width,
-            Item.Bitmap.Height
+            Int64(Item.Tag),
+            NSizeX,
+            NSizeY
+            ));
+      end;
+    end
+    else
+      Result:= ReturnNone;
+  end;
+end;
+
+
+function Py_ed_gap_GetDict(Ed: TATSynEdit): PPyObject; cdecl;
+var
+  Item: TATGapItem;
+  NLen, NSizeX, NSizeY, i: Integer;
+begin
+  with GetPythonEngine do
+  begin
+    NLen:= Ed.Gaps.Count;
+    if NLen>0 then
+    begin
+      Result:= PyList_New(NLen);
+      if not Assigned(Result) then
+        raise EPythonError.Create(msgPythonListError);
+      for i:= 0 to NLen-1 do
+      begin
+        Item:= Ed.Gaps[i];
+
+        if Assigned(Item.Bitmap) then
+        begin
+          NSizeX:= Item.Bitmap.Width;
+          NSizeY:= Item.Bitmap.Height;
+        end
+        else
+        begin
+          NSizeX:= 0;
+          NSizeY:= 0;
+        end;
+
+        PyList_SetItem(Result, i,
+          Py_BuildValue('{sisLsis(ii)si}',
+            'line',
+            Item.LineIndex,
+            'tag',
+            Int64(Item.Tag),
+            'size',
+            Item.Size,
+            'bitmap',
+            NSizeX,
+            NSizeY,
+            'color',
+            Item.Color
             ));
       end;
     end
@@ -5980,7 +6125,12 @@ begin
       case Id of
         GAP_GET_LIST:
           begin
-            Result:= Py_ed_gap_getlist(Ed);
+            Result:= Py_ed_gap_GetList(Ed);
+          end;
+
+        GAP_GET_ALL:
+          begin
+            Result:= Py_ed_gap_GetDict(Ed);
           end;
 
         GAP_MAKE_BITMAP:
@@ -7016,6 +7166,7 @@ begin
     AddMethod('msg_status', @Py_msg_status, '');
     AddMethod('msg_status_alt', @Py_msg_status_alt, '');
     AddMethod('msg_box', @Py_msg_box, '');
+    AddMethod('msg_box_ex', @Py_msg_box_ex, '');
     AddMethod('dlg_input', @Py_dlg_input, '');
     AddMethod('dlg_input_ex', @Py_dlg_input_ex, '');
     AddMethod('dlg_file', @Py_dlg_file, '');

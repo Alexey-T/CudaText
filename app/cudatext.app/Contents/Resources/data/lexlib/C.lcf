@@ -118,10 +118,20 @@ object SyntAnal4: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Hex Float'
+      StyleName = 'Number'
+      TokenType = 5
+      Expression = 
+        '0x([\da-f][\da-f'#39']* \.)? [\da-f][\da-f'#39']* p [\+\-]? [\da-f][\da-' +
+        'f'#39']* |'#13#10'0x[\da-f][\da-f'#39']* \. [\da-f][\da-f'#39']*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Hex'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '0x[\da-f]*'
+      Expression = '0x[0-9a-f'#39']+ [ul]* | 0b[01'#39']+ [ul]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -130,8 +140,8 @@ object SyntAnal4: TLibSyntAnalyzer
       StyleName = 'Number'
       TokenType = 5
       Expression = 
-        '#with exp. dot is optional '#13#10'(\d+ \.)? \d+ e [\+\-]? \d+ |'#13#10'#wit' +
-        'hout exp. dot is required'#13#10'\d+ \. \d+'
+        '\d[\d'#39']* (\. [\d'#39']+)? e[\+\-]? \d+ f? |'#13#10'\. [\d'#39']+ e[\+\-]? \d+ ' +
+        'f? |'#13#10'\d[\d'#39']* \. (\d[\d'#39']*)? f? |'#13#10'\. \d[\d'#39']* f?'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -139,7 +149,7 @@ object SyntAnal4: TLibSyntAnalyzer
       DisplayName = 'Integer'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '\d+L?'
+      Expression = '\d[\d'#39']* [ul]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -510,17 +520,32 @@ object SyntAnal4: TLibSyntAnalyzer
     '#define sum(a, b) a+b '
     '#asm (" mov ax, F0h ")'
     ''
-    'void stdcall Init(void) {'
+    'double a = {'
+    '  20LU,              '
+    '  0xF'#39'FF'#39'FFu'
+    '  0xAC00,'
+    '  0.123,'
+    '  0b1010001,'
+    '  0xabc00ull,'
+    '  -0.1f,'
+    '  1'#39'000'#39'000.000'#39'001,'
+    '  24e-5,'
+    '  0.1E,'
+    '  58.,'
+    '  4e2,'
+    '  123.456e-67,'
+    '  .1E4f,'
+    '  0x10.1p0,'
+    '};                   '
+    ''
+    'char* stdcall Init(void) {'
     '  TestModDeinit(B64UTIL);'
     '  return 0;'
     '}'
     ''
-    'char* Small(int a) {'
-    '}'
-    '     '
     'void Test(char *Sender)'
     '{'
-    '  int Number = 10 + 1e2 + 0.12e-2 + 0xFF + '#39'D'#39' + "String\nEnd";'
+    '  int Number = 10 + '#39'D'#39' + "String\nEnd";'
     '  for (i=0; i<5; i++) { '
     '  } '
     '}'
@@ -542,8 +567,8 @@ object SyntAnal4: TLibSyntAnalyzer
   Extentions = 'c h ch'
   LexerName = 'C'
   Notes.Strings = (
-    'Based on original from EControl'
-    'Heavily redone by Alexey (CudaText)')
+    'Based on original C lexer from EControl'
+    'Heavily reworked by Alexey (CudaText)')
   LineComment = '//'
   Charset = DEFAULT_CHARSET
 end
