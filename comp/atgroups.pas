@@ -2055,15 +2055,17 @@ begin
 end;
 
 procedure TATGroups.SetSizes(const APanelSize: TPoint; const APageSize: TATGroupsPoints);
+const
+  cMaxSize = 8000; //to avoid SigFPE on Linux sometimes, when setting Height~~100K
 var
   i: integer;
 begin
-  Panel1.Width := APanelSize.x * Width div 100;
-  Panel1.Height:= APanelSize.y * Height div 100;
+  Panel1.Width := Min(cMaxSize, APanelSize.x * Width div 100);
+  Panel1.Height:= Min(cMaxSize, APanelSize.y * Height div 100);
   for i in TATGroupsNums do
   begin
-    Pages[i].Width:= Min(8000, APageSize[i].x * Width div 100);
-    Pages[i].Height:= Min(8000, APageSize[i].y * Height div 100);
+    Pages[i].Width:= Min(cMaxSize, APageSize[i].x * Width div 100);
+    Pages[i].Height:= Min(cMaxSize, APageSize[i].y * Height div 100);
   end;
 end;
 
