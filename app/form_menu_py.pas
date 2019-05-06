@@ -129,8 +129,7 @@ begin
   listItems:= TStringlist.Create;
   listFiltered:= TList.Create;
 
-  list.Scrollbar.WidthInitial:= UiOps_ScrollbarWidth;
-  list.Scrollbar.ScalePercents:= UiOps.Scale;
+  AppScaleScrollbar(list.Scrollbar);
 end;
 
 procedure TfmMenuApi.editChange(Sender: TObject);

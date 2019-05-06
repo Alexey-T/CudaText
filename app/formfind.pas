@@ -341,7 +341,7 @@ begin
   bSelectAll.Hint:= UiOps.HotkeySelectAll;
   bMarkAll.Hint:= UiOps.HotkeyMarkAll;
 
-  edFind.OptComboboxArrowSize:= AppScale(UiOps_ScrollbarArrowSize);
+  edFind.OptComboboxArrowSize:= UiOps_ScrollbarArrowSize;
   edRep.OptComboboxArrowSize:= edFind.OptComboboxArrowSize;
 end;
 
@@ -361,6 +361,7 @@ begin
     Font.Name:= EditorOps.OpFontName;
     Font.Size:= AppScale(EditorOps.OpFontSize);
     Font.Quality:= EditorOps.OpFontQuality;
+    OptScalePercents:= UiOps.Scale;
     OptBorderFocusedActive:= UiOps.ShowActiveBorder;
     EditorApplyTheme(edFind);
     Update;
@@ -371,6 +372,7 @@ begin
     Font.Name:= EditorOps.OpFontName;
     Font.Size:= EditorOps.OpFontSize;
     Font.Quality:= EditorOps.OpFontQuality;
+    OptScalePercents:= UiOps.Scale;
     OptBorderFocusedActive:= UiOps.ShowActiveBorder;
     EditorApplyTheme(edRep);
     Update;
