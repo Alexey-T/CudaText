@@ -702,7 +702,7 @@ begin
     UiOps.StatusColSel:= c.GetValue('ui_statusbar_col_sel', UiOps.StatusColSel);
     UiOps.StatusCarets:= c.GetValue('ui_statusbar_carets', UiOps.StatusCarets);
     UiOps.StatusPanels:= c.GetValue('ui_statusbar_panels', UiOps.StatusPanels);
-    UiOps.StatusHeight:= c.GetValue('ui_statusbar_height', UiOps.StatusHeight);
+    //UiOps.StatusHeight:= c.GetValue('ui_statusbar_height', UiOps.StatusHeight); //assigned from "ui_tab_size_y"
     UiOps.StatusTime:= Max(1, Min(60, c.GetValue('ui_statusbar_time', UiOps.StatusTime)));
 
     UiOps.ShowActiveBorder:= c.GetValue('ui_active_border', UiOps.ShowActiveBorder);
@@ -923,6 +923,7 @@ begin
     UiOps.TabWidthMin:= c.GetValue('ui_tab_size_x_min', UiOps.TabWidthMin);
     UiOps.TabWidthMax:= c.GetValue('ui_tab_size_x_max', UiOps.TabWidthMax);
     UiOps.TabHeight:= c.GetValue('ui_tab_size_y', UiOps.TabHeight);
+      UiOps.StatusHeight:= UiOps.TabHeight;
     UiOps.TabHeightInner:= UiOps.TabHeight-1;
     UiOps.TabPosition:= c.GetValue('ui_tab_position', UiOps.TabPosition);
     UiOps.TabColorFull:= c.GetValue('ui_tab_fullcolor', UiOps.TabColorFull);
