@@ -6459,6 +6459,8 @@ begin
       case NAction of
         TOOLBAR_UPDATE:
           begin
+            if Assigned(FToolbar.Images) then
+              FToolbar.ButtonWidth:= FToolbar.Images.Width+6;
             FToolbar.UpdateControls;
             Result:= ReturnNone;
           end;
