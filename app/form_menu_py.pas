@@ -343,12 +343,17 @@ begin
 end;
 
 procedure TfmMenuApi.SetMultiline(AValue: boolean);
+var
+  NSize: integer;
 begin
   if FMultiline=AValue then Exit;
   FMultiline:=AValue;
-  list.ItemHeight:= Trunc(
-    GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize) *
-    IfThen(FMultiline, 1.85, 1));
+
+  NSize:= AppScale(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
+  if FMultiline then
+    NSize:= Round(NSize*1.85);
+  list.ItemHeight:= NSize;
+
   list.Invalidate;
 end;
 
