@@ -759,13 +759,16 @@ begin
   if (S='treeview') then
   begin
     Ctl:= TAppTreeContainer.Create(AForm);
-    DoApplyThemeToTreeview((Ctl as TAppTreeContainer).Tree, false, true);
-    (Ctl as TAppTreeContainer).Tree.BorderStyle:= bsSingle;
-    (Ctl as TAppTreeContainer).Tree.Images:= TImageList.Create(Ctl);
-    (Ctl as TAppTreeContainer).Tree.OnChange:= @AForm.DoOnTreeviewChange;
-    (Ctl as TAppTreeContainer).Tree.OnSelectionChanged:= @AForm.DoOnTreeviewSelect;
-    (Ctl as TAppTreeContainer).Tree.OnCollapsing:= @AForm.DoOnTreeviewCollapsing;
-    (Ctl as TAppTreeContainer).Tree.OnExpanding:= @AForm.DoOnTreeviewExpanding;
+    DoApplyThemeToTreeview(TAppTreeContainer(Ctl).Tree, false, true);
+    TAppTreeContainer(Ctl).Tree.BorderStyle:= bsSingle;
+    TAppTreeContainer(Ctl).Tree.Images:= TImageList.Create(Ctl);
+    TAppTreeContainer(Ctl).Tree.OnChange:= @AForm.DoOnTreeviewChange;
+    TAppTreeContainer(Ctl).Tree.OnSelectionChanged:= @AForm.DoOnTreeviewSelect;
+    TAppTreeContainer(Ctl).Tree.OnCollapsing:= @AForm.DoOnTreeviewCollapsing;
+    TAppTreeContainer(Ctl).Tree.OnExpanding:= @AForm.DoOnTreeviewExpanding;
+    TAppTreeContainer(Ctl).Tree.DefaultItemHeight:= AppScale(DefaultTreeNodeHeight);
+    AppScaleScrollbar2(TAppTreeContainer(Ctl).ScrollHorz);
+    AppScaleScrollbar2(TAppTreeContainer(Ctl).ScrollVert);
     exit
   end;
 
@@ -773,10 +776,11 @@ begin
   begin
     Ctl:= TATListbox.Create(AForm);
     TATListbox(Ctl).VirtualMode:= false;
-    TATListbox(Ctl).ItemHeight:= AppScale(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));;
+    TATListbox(Ctl).ItemHeight:= AppScale(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
     TATListbox(Ctl).CanGetFocus:= true;
     TATListbox(Ctl).OnChangedSel:= @AForm.DoOnChange;
     TATListbox(Ctl).OnDrawItem:= @AForm.DoOnListboxDrawItem;
+    AppScaleScrollbar(TATListbox(Ctl).Scrollbar);
     exit;
   end;
 
