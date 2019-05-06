@@ -103,29 +103,29 @@ begin
 
   list.Font.Name:= UiOps.VarFontName;
   list.Font.Size:= AppScale(UiOps.VarFontSize);
+  list.Color:= GetAppColor('ListBg');
+  list.ItemHeight:= AppScale(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
+
   edit.Height:= AppScale(UiOps.InputHeight);
   edit.Font.Name:= EditorOps.OpFontName;
   edit.Font.Size:= AppScale(EditorOps.OpFontSize);
   edit.Font.Quality:= EditorOps.OpFontQuality;
-
-  PanelCaption.Height:= AppScale(26);
-  PanelCaption.Font.Name:= UiOps.VarFontName;
-  PanelCaption.Font.Size:= AppScale(UiOps.VarFontSize);
-
-  self.Color:= GetAppColor('ListBg');
   edit.Colors.TextFont:= GetAppColor('EdTextFont');
   edit.Colors.TextBG:= GetAppColor('EdTextBg');
   edit.Colors.TextSelFont:= GetAppColor('EdSelFont');
   edit.Colors.TextSelBG:= GetAppColor('EdSelBg');
   edit.Colors.BorderLine:= GetAppColor('EdBorder');
-  list.Color:= GetAppColor('ListBg');
-  panelCaption.Font.Color:= GetAppColor('ListFont');
 
-  ResultCode:= -1;
-  list.ItemHeight:= AppScale(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
+  PanelCaption.Height:= AppScale(26);
+  PanelCaption.Font.Name:= UiOps.VarFontName;
+  PanelCaption.Font.Size:= AppScale(UiOps.VarFontSize);
+  PanelCaption.Font.Color:= GetAppColor('ListFont');
+
+  self.Color:= GetAppColor('ListBg');
   self.Width:= AppScale(UiOps.ListboxSizeX);
   self.Height:= AppScale(UiOps.ListboxSizeY);
 
+  ResultCode:= -1;
   listItems:= TStringlist.Create;
   listFiltered:= TList.Create;
 
