@@ -993,6 +993,7 @@ begin
     CodeTree.SourceObject:= Ed;
 
     //force update scrollbar
+    CodeTree.Tree.Font.Size:= AppScale(UiOps.VarFontSize);
     CodeTree.Tree.Perform(CM_CHANGED, 0, 0);
   end;
  end;
