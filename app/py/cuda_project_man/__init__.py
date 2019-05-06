@@ -837,11 +837,11 @@ class Command:
 
 
     def get_open_options(self):
-    
+
         s = '/preview' if self.options.get('preview', True) else ''
         s += ' /nozip /nontext-view-text'
         return s
-    
+
     def tree_on_click(self, id_dlg, id_ctl, data='', info=''):
 
         if self.options.get('d_click', False):

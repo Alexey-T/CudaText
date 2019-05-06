@@ -6473,6 +6473,13 @@ begin
               Result:= ReturnNone;
           end;
 
+        TOOLBAR_GET_BUTTON_HANDLES:
+          begin
+            Result:= PyList_New(FToolbar.ButtonCount);
+            for NIndex1:= 0 to FToolbar.ButtonCount-1 do
+              PyList_SetItem(Result, NIndex1, PyLong_FromLongLong(Int64(PtrInt(FToolbar.Buttons[NIndex1]))));
+          end;
+
         TOOLBAR_GET_COUNT:
           begin
             Result:= PyInt_FromLong(FToolbar.ButtonCount);
