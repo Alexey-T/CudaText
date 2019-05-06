@@ -1691,8 +1691,6 @@ begin
   PopupToolbarSort.Items.Add(mnuToolbarSortRemoveBlank);
 
   {$ifdef windows}
-  UiOps.ScreenScale:= MulDiv(100, Screen.PixelsPerInch, 96);
-  
   if IsSetToOneInstance then
   begin
     FInstanceManage := TInstanceManage.Create(AppUniqueUID);
@@ -1706,19 +1704,12 @@ begin
     end;
   end;
   {$endif}
-  //UiOps.ScreenScale:= 200; ////test
-  //UiOps_ScreenScale:= UiOps.ScreenScale;
 
   FBoundsFloatSide:= Rect(650, 50, 900, 700);
   FBoundsFloatBottom:= Rect(50, 480, 900, 700);
   FBoundsFloatGroups1:= Rect(300, 100, 800, 700);
   FBoundsFloatGroups2:= Rect(320, 120, 820, 720);
   FBoundsFloatGroups3:= Rect(340, 140, 840, 740);
-
-  ToolbarMain.ScalePercents:= UiOps.Scale;
-  ToolbarSideTop.ScalePercents:= UiOps.Scale;
-  ToolbarSideLow.ScalePercents:= UiOps.Scale;
-  ToolbarSideMid.ScalePercents:= UiOps.Scale;
 
   InitAppleMenu;
   InitToolbar;
@@ -2628,6 +2619,11 @@ begin
   cAdapterIdleTextSize:= UiOps.LexerDelayedParsingSize;
   CompletionOps.AppendOpeningBracket:= UiOps.AutocompleteAddOpeningBracket;
   CompletionOps.UpDownAtEdge:= TATCompletionUpDownAtEdge(UiOps.AutocompleteUpDownAtEdge);
+
+  ToolbarMain.ScalePercents:= UiOps.Scale;
+  ToolbarSideTop.ScalePercents:= UiOps.Scale;
+  ToolbarSideLow.ScalePercents:= UiOps.Scale;
+  ToolbarSideMid.ScalePercents:= UiOps.Scale;
 
   //apply DoubleBuffered
   //no need for ToolbarMain and buttons

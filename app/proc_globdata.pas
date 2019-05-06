@@ -2126,7 +2126,7 @@ end;
 procedure AppScaleToolbar(C: TATFlatToolbar);
 begin
   if Assigned(C.Images) then
-    C.ButtonWidth:= AppScale(C.Images.Width+6);
+    C.ButtonWidth:= C.Images.Width+4;
 end;
 
 

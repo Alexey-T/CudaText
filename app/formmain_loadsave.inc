@@ -707,7 +707,10 @@ begin
 
     UiOps.ShowActiveBorder:= c.GetValue('ui_active_border', UiOps.ShowActiveBorder);
     UiOps.ShowTitlePath:= c.GetValue('ui_title_path', UiOps.ShowTitlePath);
+
     UiOps.Scale:= c.GetValue('ui_scale'+cOptionSystemSuffix, UiOps.Scale);
+    if UiOps.Scale<100 then
+      UiOps.Scale:= 100*Screen.PixelsPerInch div 96;
 
     UiOps.ReopenSession:= c.GetValue('ui_reopen_session', UiOps.ReopenSession);
     UiOps.AutoSaveSession:= c.GetValue('ui_auto_save_session', UiOps.AutoSaveSession);
