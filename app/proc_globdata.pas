@@ -32,6 +32,7 @@ uses
   ATSynEdit_ScrollBar,
   ATStringProc,
   ATButtons,
+  ATFlatToolbar,
   ATListbox,
   ATStatusBar,
   ATScrollBar,
@@ -495,6 +496,8 @@ procedure MsgBadConfig(const fn: string);
 procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
 
 function AppScale(Value: integer): integer;
+procedure AppScaleToolbar(C: TATFlatToolbar);
+
 function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
 function FixFontMonospaced(const AName: string): string;
 procedure FixFormPositionToDesktop(F: TForm);
@@ -2118,6 +2121,12 @@ end;
 function AppScale(Value: integer): integer;
 begin
   Result:= Value*UiOps.Scale div 100;
+end;
+
+procedure AppScaleToolbar(C: TATFlatToolbar);
+begin
+  if Assigned(C.Images) then
+    C.ButtonWidth:= AppScale(C.Images.Width+6);
 end;
 
 
