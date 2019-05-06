@@ -86,6 +86,8 @@ procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
 var
   S: string;
 begin
+  Ed.OptScalePercents:= UiOps.Scale;
+
   Ed.Font.Name:= Op.OpFontName;
   Ed.FontItalic.Name:= Op.OpFontName_i;
   Ed.FontBold.Name:= Op.OpFontName_b;
@@ -118,7 +120,7 @@ begin
   Ed.Gutter[Ed.GutterBandNum].Visible:= Op.OpNumbersShow;
   Ed.Gutter.Update;
 
-  Ed.OptNumbersFontSize:= AppScale(Op.OpNumbersFontSize);
+  Ed.OptNumbersFontSize:= Op.OpNumbersFontSize;
   if Op.OpNumbersStyle<=Ord(High(TATSynNumbersStyle)) then
     Ed.OptNumbersStyle:= TATSynNumbersStyle(Op.OpNumbersStyle);
   Ed.OptNumbersShowCarets:= Op.OpNumbersForCarets;
@@ -129,10 +131,10 @@ begin
 
   Ed.OptRulerVisible:= Op.OpRulerShow;
   Ed.OptRulerNumeration:= TATRulerNumeration(Op.OpRulerNumeration);
-  Ed.OptRulerFontSize:= AppScale(Op.OpRulerFontSize);
-  Ed.OptRulerSize:= AppScale(Op.OpRulerSize);
-  Ed.OptRulerTextIndent:= AppScale(Op.OpRulerTextIndent);
-  Ed.OptRulerMarkSizeCaret:= AppScale(Op.OpRulerMarkCaret);
+  Ed.OptRulerFontSize:= Op.OpRulerFontSize;
+  Ed.OptRulerSize:= Op.OpRulerSize;
+  Ed.OptRulerTextIndent:= Op.OpRulerTextIndent;
+  Ed.OptRulerMarkSizeCaret:= Op.OpRulerMarkCaret;
 
   Ed.OptMinimapVisible:= Op.OpMinimapShow;
   Ed.OptMinimapShowSelAlways:= Op.OpMinimapShowSelAlways;
@@ -144,7 +146,7 @@ begin
   Ed.OptMinimapTooltipWidthPercents:= Op.OpMinimapTooltipWidth;
 
   Ed.OptMicromapVisible:= Op.OpMicromapShow;
-  Ed.OptMicromapWidth:= AppScale(Op.OpMicromapWidth);
+  Ed.OptMicromapWidth:= Op.OpMicromapWidth;
 
   Ed.OptMarginRight:= Op.OpMarginFixed;
   Ed.OptMarginString:= Op.OpMarginString;
@@ -268,9 +270,6 @@ begin
   Ed.OptKeyUpDownNavigateWrapped:= Op.OpKeyUpDownNavigateWrapped;
   Ed.OptKeyLeftRightSwapSel:= Op.OpKeyLeftRightSwapSel;
   Ed.OptKeyLeftRightSwapSelAndSelect:= Op.OpKeyLeftRightSwapSelAndSelect;
-
-  if Ed is TATComboEdit then
-    TATComboEdit(Ed).OptComboboxArrowSize:= AppScale(UiOps_ScrollbarArrowSize);
 end;
 
 function EditorGetSelLines(ed: TATSynEdit): integer;

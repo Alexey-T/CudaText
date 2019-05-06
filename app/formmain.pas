@@ -2668,11 +2668,13 @@ begin
   CodeTreeFilterReset.Width:= AppScale(UiOps_ScrollbarWidth);
 
   EditorCaretPropsFromString(fmConsole.memo.CaretPropsReadonly, EditorOps.OpCaretViewReadonly);
+  fmConsole.memo.OptScalePercents:= UiOps.Scale;
   fmConsole.memo.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
+  fmConsole.ed.OptScalePercents:= UiOps.Scale;
   fmConsole.ed.Height:= AppScale(UiOps.InputHeight);
   fmConsole.ed.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   fmConsole.Wordwrap:= UiOps.ConsoleWordWrap;
-  fmConsole.ed.OptComboboxArrowSize:= AppScale(UiOps_ScrollbarArrowSize);
+  fmConsole.ed.OptComboboxArrowSize:= UiOps_ScrollbarArrowSize;
   fmConsole.ed.OptScalePercents:= UiOps.Scale;
 
   DoApplyUiOpsToGroups(Groups);

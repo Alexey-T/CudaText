@@ -183,16 +183,13 @@ begin
   ed:= TATComboEdit.Create(Self);
   ed.Parent:= Self;
   ed.Align:= alBottom;
-
-  ed.OnCommand:= @ComboCommand;
-
   ed.WantTabs:= false;
   ed.TabStop:= true;
+  ed.OnCommand:= @ComboCommand;
+
   ed.OptTabSize:= 4;
   ed.OptBorderWidth:= 1;
   ed.OptBorderWidthFocused:= 1;
-  //ed.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
-  //ed.OptComboboxArrowSize:= AppScale(UiOps_ScrollbarArrowSize);
 
   memo:= TATSynEdit.Create(Self);
   memo.Parent:= Self;
