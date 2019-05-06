@@ -58,10 +58,6 @@ procedure TfmGotoList.FormShow(Sender: TObject);
 var
   S: string;
 begin
-  plCaption.Font.Name:= UiOps.VarFontName;
-  plCaption.Font.Size:= UiOps.VarFontSize;
-  plCaption.Font.Color:= GetAppColor('ListFont');
-
   with TIniFile.Create(GetAppLangFilename) do
   try
     S:= ReadString('m_sr', 'b_', 'Bookmarks');
@@ -120,15 +116,18 @@ begin
   if UiOps.ShowMenuDialogsWithBorder then
     BorderStyle:= bsDialog;
 
-  AutoAdjustLayout(lapAutoAdjustForDPI, 96, Screen.PixelsPerInch, Width, Width);
-
   List.DoubleBuffered:= UiOps.DoubleBuffered;
+
+  self.Color:= GetAppColor('ListBg');
+  List.Color:= self.Color;
 
   List.Font.Name:= UiOps.VarFontName;
   List.Font.Size:= AppScale(UiOps.VarFontSize);
 
-  self.Color:= GetAppColor('ListBg');
-  List.Color:= self.Color;
+  plCaption.Height:= AppScale(26);
+  plCaption.Font.Name:= UiOps.VarFontName;
+  plCaption.Font.Size:= AppScale(UiOps.VarFontSize);
+  plCaption.Font.Color:= GetAppColor('ListFont');
 
   self.Width:= AppScale(UiOps.ListboxSizeX);
   self.Height:= AppScale(UiOps.ListboxSizeY);

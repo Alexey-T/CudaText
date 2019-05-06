@@ -70,6 +70,7 @@ object fmGoto: TfmGoto
     Colors.StateAdded = 2146336
     Colors.StateSaved = clMedGray
     Colors.BlockStaple = clMedGray
+    Colors.BlockStapleForCaret = clNone
     Colors.BlockSepLine = clMedGray
     Colors.Links = clBlue
     Colors.LockedBG = 14737632

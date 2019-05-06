@@ -1354,7 +1354,7 @@ begin
     ReopenSession:= true;
     AutoSaveSession:= false;
     ShowFormsOnTop:= false;
-    ShowMenuDialogsWithBorder:= {$ifdef linux} true {$else} false {$endif};
+    ShowMenuDialogsWithBorder:= {$ifdef LCLGTK2} true {$else} false {$endif};
     UndoPersistent:= '';
 
     FloatGroupsInTaskbar:= true;

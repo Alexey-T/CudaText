@@ -98,8 +98,6 @@ begin
   if UiOps.ShowMenuDialogsWithBorder then
     BorderStyle:= bsDialog;
 
-  AutoAdjustLayout(lapAutoAdjustForDPI, 96, Screen.PixelsPerInch, Width, Width);
-
   edit.DoubleBuffered:= UiOps.DoubleBuffered;
   list.DoubleBuffered:= UiOps.DoubleBuffered;
 
@@ -109,8 +107,10 @@ begin
   edit.Font.Name:= EditorOps.OpFontName;
   edit.Font.Size:= AppScale(EditorOps.OpFontSize);
   edit.Font.Quality:= EditorOps.OpFontQuality;
-  panelCaption.Font.Name:= UiOps.VarFontName;
-  panelCaption.Font.Size:= AppScale(UiOps.VarFontSize);
+
+  PanelCaption.Height:= AppScale(26);
+  PanelCaption.Font.Name:= UiOps.VarFontName;
+  PanelCaption.Font.Size:= AppScale(UiOps.VarFontSize);
 
   self.Color:= GetAppColor('ListBg');
   edit.Colors.TextFont:= GetAppColor('EdTextFont');

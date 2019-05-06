@@ -40,7 +40,6 @@ type
     procedure EditCheckInput(Sender: TObject; AChar: WideChar; var AllowInput: boolean);
   public
     { public declarations }
-    procedure UpdateFonts;
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
   end;
 
@@ -70,26 +69,51 @@ begin
 end;
 
 procedure TfmGoto.FormShow(Sender: TObject);
+var
+  STitle: string;
 begin
+  plCaption.Height:= AppScale(26);
+  edInput.Height:= AppScale(UiOps.InputHeight);
+  edInput.OptScalePercents:= UiOps.Scale;
+  edInput.Font.Name:= EditorOps.OpFontName;
+  edInput.Font.Size:= AppScale(EditorOps.OpFontSize);
+  edInput.Font.Quality:= EditorOps.OpFontQuality;
+
+  Color:= GetAppColor('ListBg');
+  EditorApplyTheme(edInput);
+
   plCaption.Font.Name:= UiOps.VarFontName;
-  plCaption.Font.Size:= UiOps.VarFontSize;
+  plCaption.Font.Size:= AppScale(UiOps.VarFontSize);
   plCaption.Font.Color:= GetAppColor('ListFont');
 
-  UpdateFonts;
   UpdateFormOnTop(Self);
-
-  Height:= plCaption.Height + edInput.BorderSpacing.Around*2 + edInput.Height;
-  edInput.Text:= '';
 
   with TIniFile.Create(GetAppLangFilename) do
   try
-    plCaption.Caption:= ReadString('d_f', 'go_', 'Go to');
+    STitle:= ReadString('d_f', 'go_', 'Go to');
   finally
     Free
   end;
 
-  plCaption.Caption:= plCaption.Caption+' '+
+  STitle:= STitle+' '+
     Format(msgGotoDialogTooltip, [msgGotoDialogInfoExt]);
+
+  if UiOps.ShowMenuDialogsWithBorder then
+  begin
+    BorderStyle:= bsDialog;
+    Caption:= STitle;
+    plCaption.Hide;
+  end
+  else
+  begin
+    plCaption.Caption:= STitle;
+  end;
+
+  ClientHeight:=
+    IfThen(plCaption.Visible, plCaption.Height) +
+    AppScale(2*edInput.BorderSpacing.Around) +
+    edInput.Height;
+  edInput.Text:= '';
 end;
 
 procedure TfmGoto.SetIsDoubleBuffered(AValue: boolean);
@@ -107,24 +131,12 @@ end;
 
 procedure TfmGoto.FormCreate(Sender: TObject);
 begin
-  edInput.Height:= UiOps.InputHeight;
   edInput.BorderStyle:= bsNone;
   edInput.OnCheckInput:= @EditCheckInput;
 
   IsDoubleBuffered:= UiOps.DoubleBuffered;
-
-  DoScalePanelControls(Self);
 end;
 
-procedure TfmGoto.UpdateFonts;
-begin
-  edInput.Font.Name:= EditorOps.OpFontName;
-  edInput.Font.Size:= EditorOps.OpFontSize;
-  edInput.Font.Quality:= EditorOps.OpFontQuality;
-
-  Color:= GetAppColor('ListBg');
-  EditorApplyTheme(edInput);
-end;
 
 end.
 
