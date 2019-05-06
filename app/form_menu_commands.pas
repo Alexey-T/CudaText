@@ -152,7 +152,8 @@ begin
   self.Height:= AppScale(UiOps.ListboxSizeY);
   keymapList:= TList.Create;
 
-  AppScaleScrollbar(list.Scrollbar);
+  list.Scrollbar.WidthInitial:= UiOps_ScrollbarWidth;
+  list.Scrollbar.ScalePercents:= UiOps.Scale;
 end;
 
 procedure TfmCommands.editChange(Sender: TObject);

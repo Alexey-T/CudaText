@@ -2662,8 +2662,8 @@ begin
   TimerEdCaret.Interval:= UiOps.TreeTimeCaret;
   CodeTree.Tree.ToolTips:= UiOps.TreeShowTooltips;
 
-  AppScaleScrollbar2(CodeTree.ScrollVert);
-  AppScaleScrollbar2(CodeTree.ScrollHorz);
+  CodeTree.ScrollVert.ScalePercents:= UiOps.Scale;
+  CodeTree.ScrollHorz.ScalePercents:= UiOps.Scale;
   CodeTreeFilterInput.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   CodeTreeFilterReset.Width:= AppScale(UiOps_ScrollbarWidth);
 

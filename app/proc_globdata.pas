@@ -494,14 +494,11 @@ function MsgBox(const Str: string; Flags: Longint): integer;
 procedure MsgBadConfig(const fn: string);
 procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
 
+function AppScale(Value: integer): integer;
 function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
 function FixFontMonospaced(const AName: string): string;
 procedure FixFormPositionToDesktop(F: TForm);
 procedure FixRectPositionToDesktop(var F: TRect);
-
-function AppScale(Value: integer): integer;
-procedure AppScaleScrollbar(C: TATScroll);
-procedure AppScaleScrollbar2(C: ATSynEdit_Scrollbar.TATScroll);
 
 function GetAppKeymap_LexerSpecificConfig(AName: string): string;
 function GetAppKeymapHotkey(const ACmdString: string): string;
@@ -2120,30 +2117,7 @@ end;
 
 function AppScale(Value: integer): integer;
 begin
-  if UiOps.Scale=100 then
-    Result:= Value
-  else
-    Result:= Value*UiOps.Scale div 100;
-end;
-
-procedure AppScaleScrollbar(C: TATScroll);
-begin
-  C.Height:= AppScale(UiOps_ScrollbarWidth);
-  C.Width:= AppScale(UiOps_ScrollbarWidth);
-  C.IndentBorder:= AppScale(UiOps_ScrollbarBorderSize);
-  C.IndentArrow:= AppScale(UiOps_ScrollbarArrowSize);
-  if C.IndentCorner>0 then
-    C.IndentCorner:= AppScale(UiOps_ScrollbarWidth);
-end;
-
-procedure AppScaleScrollbar2(C: ATSynEdit_Scrollbar.TATScroll);
-begin
-  C.Height:= AppScale(UiOps_ScrollbarWidth);
-  C.Width:= AppScale(UiOps_ScrollbarWidth);
-  C.IndentBorder:= AppScale(UiOps_ScrollbarBorderSize);
-  C.IndentArrow:= AppScale(UiOps_ScrollbarArrowSize);
-  if C.IndentCorner>0 then
-    C.IndentCorner:= AppScale(UiOps_ScrollbarWidth);
+  Result:= Value*UiOps.Scale div 100;
 end;
 
 

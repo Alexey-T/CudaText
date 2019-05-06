@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Controls, Graphics, StdCtrls, ComCtrls, Forms,
   LMessages, LCLType,
-  ATSynEdit_ScrollBar,
+  ATScrollBar,
   ATListbox,
   proc_colors,
   proc_globdata,
@@ -70,6 +70,7 @@ begin
   FScrollVert.Kind:= sbVertical;
   FScrollVert.Align:= alRight;
   FScrollVert.Width:= UiOps_ScrollbarWidth;
+  FScrollVert.WidthInitial:= UiOps_ScrollbarWidth;
   FScrollVert.IndentBorder:= UiOps_ScrollbarBorderSize;
   FScrollVert.OnChange:= @ScrollVertChange;
 
@@ -78,6 +79,7 @@ begin
   FScrollHorz.Kind:= sbHorizontal;
   FScrollHorz.Align:= alBottom;
   FScrollHorz.Height:= UiOps_ScrollbarWidth;
+  FScrollHorz.WidthInitial:= UiOps_ScrollbarWidth;
   FScrollHorz.IndentBorder:= UiOps_ScrollbarBorderSize;
   FScrollHorz.IndentCorner:= UiOps_ScrollbarWidth;
   FScrollHorz.OnChange:= @ScrollHorzChange;

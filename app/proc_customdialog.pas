@@ -767,8 +767,8 @@ begin
     TAppTreeContainer(Ctl).Tree.OnCollapsing:= @AForm.DoOnTreeviewCollapsing;
     TAppTreeContainer(Ctl).Tree.OnExpanding:= @AForm.DoOnTreeviewExpanding;
     TAppTreeContainer(Ctl).Tree.DefaultItemHeight:= AppScale(DefaultTreeNodeHeight);
-    AppScaleScrollbar2(TAppTreeContainer(Ctl).ScrollHorz);
-    AppScaleScrollbar2(TAppTreeContainer(Ctl).ScrollVert);
+    TAppTreeContainer(Ctl).ScrollHorz.ScalePercents:= UiOps.Scale;
+    TAppTreeContainer(Ctl).ScrollVert.ScalePercents:= UiOps.Scale;
     exit
   end;
 
@@ -780,7 +780,8 @@ begin
     TATListbox(Ctl).CanGetFocus:= true;
     TATListbox(Ctl).OnChangedSel:= @AForm.DoOnChange;
     TATListbox(Ctl).OnDrawItem:= @AForm.DoOnListboxDrawItem;
-    AppScaleScrollbar(TATListbox(Ctl).Scrollbar);
+    TATListbox(Ctl).Scrollbar.WidthInitial:= UiOps_ScrollbarWidth;
+    TATListbox(Ctl).Scrollbar.ScalePercents:= UiOps.Scale;
     exit;
   end;
 

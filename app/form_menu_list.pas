@@ -136,7 +136,8 @@ begin
   Items:= nil;
   ResultIndex:= -1;
 
-  AppScaleScrollbar(list.Scrollbar);
+  list.Scrollbar.WidthInitial:= UiOps_ScrollbarWidth;
+  list.Scrollbar.ScalePercents:= UiOps.Scale;
 end;
 
 procedure TfmGotoList.FormDestroy(Sender: TObject);
