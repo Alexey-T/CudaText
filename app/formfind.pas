@@ -340,6 +340,9 @@ begin
   bExtract.Hint:= UiOps.HotkeyExtractAll;
   bSelectAll.Hint:= UiOps.HotkeySelectAll;
   bMarkAll.Hint:= UiOps.HotkeyMarkAll;
+
+  edFind.OptComboboxArrowSize:= AppScale(UiOps_ScrollbarArrowSize);
+  edRep.OptComboboxArrowSize:= edFind.OptComboboxArrowSize;
 end;
 
 
@@ -348,7 +351,7 @@ begin
   with LabelFind do
   begin
     Font.Name:= UiOps.VarFontName;
-    Font.Size:= UiOps.VarFontSize;
+    Font.Size:= AppScale(UiOps.VarFontSize);
     Font.Color:= GetAppColor('TabFont');
   end;
   LabelRep.Font.Assign(LabelFind.Font);
@@ -356,7 +359,7 @@ begin
   with edFind do
   begin
     Font.Name:= EditorOps.OpFontName;
-    Font.Size:= EditorOps.OpFontSize;
+    Font.Size:= AppScale(EditorOps.OpFontSize);
     Font.Quality:= EditorOps.OpFontQuality;
     OptBorderFocusedActive:= UiOps.ShowActiveBorder;
     EditorApplyTheme(edFind);
