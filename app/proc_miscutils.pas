@@ -411,6 +411,8 @@ end;
 procedure DoApplyThemeToToolbar(C: TATFlatToolbar);
 begin
   C.Color:= GetAppColor('TabBg');
+  if Assigned(C.Images) then
+    C.ButtonWidth:= C.Images.Width+4;
   C.Invalidate;
 end;
 
