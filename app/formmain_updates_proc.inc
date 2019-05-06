@@ -1316,7 +1316,7 @@ begin
   UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'comment.png');
   UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'opt.png');
 
-  AppScaleToolbar(ToolbarMain);
+  AppScaleToolbar(ToolbarMain, true);
   ToolbarMain.UpdateControls;
 end;
 

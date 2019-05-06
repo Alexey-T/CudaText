@@ -6459,7 +6459,7 @@ begin
       case NAction of
         TOOLBAR_UPDATE:
           begin
-            AppScaleToolbar(FToolbar);
+            AppScaleToolbar(FToolbar, true);
             FToolbar.UpdateControls;
             Result:= ReturnNone;
           end;

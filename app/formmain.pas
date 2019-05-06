@@ -2620,10 +2620,10 @@ begin
   CompletionOps.AppendOpeningBracket:= UiOps.AutocompleteAddOpeningBracket;
   CompletionOps.UpDownAtEdge:= TATCompletionUpDownAtEdge(UiOps.AutocompleteUpDownAtEdge);
 
-  ToolbarMain.ScalePercents:= UiOps.Scale;
-  ToolbarSideTop.ScalePercents:= UiOps.Scale;
-  ToolbarSideLow.ScalePercents:= UiOps.Scale;
-  ToolbarSideMid.ScalePercents:= UiOps.Scale;
+  AppScaleToolbar(ToolbarMain, true);
+  AppScaleToolbar(ToolbarSideTop, false);
+  AppScaleToolbar(ToolbarSideLow, false);
+  AppScaleToolbar(ToolbarSideMid, false);
 
   //apply DoubleBuffered
   //no need for ToolbarMain and buttons

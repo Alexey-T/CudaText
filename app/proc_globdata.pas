@@ -496,7 +496,7 @@ procedure MsgBadConfig(const fn: string);
 procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
 
 function AppScale(Value: integer): integer;
-procedure AppScaleToolbar(C: TATFlatToolbar);
+procedure AppScaleToolbar(C: TATFlatToolbar; AndUpdateButtons: boolean);
 procedure AppScaleScrollbar(C: TATScroll);
 
 function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
@@ -2124,10 +2124,13 @@ begin
   Result:= Value*UiOps.Scale div 100;
 end;
 
-procedure AppScaleToolbar(C: TATFlatToolbar);
+procedure AppScaleToolbar(C: TATFlatToolbar; AndUpdateButtons: boolean);
 begin
   if Assigned(C.Images) then
     C.ButtonWidth:= C.Images.Width+4;
+  C.ScalePercents:= UiOps.Scale;
+  if AndUpdateButtons then
+    C.UpdateControls(true);
 end;
 
 procedure AppScaleScrollbar(C: TATScroll);
