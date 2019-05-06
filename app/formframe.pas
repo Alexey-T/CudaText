@@ -1392,7 +1392,7 @@ begin
   ed.Parent:= Self;
 
   ed.DoubleBuffered:= UiOps.DoubleBuffered;
-  ed.AutoAdjustLayout(lapDefault, 100, UiOps.ScreenScale, 1, 1);
+  ed.AutoAdjustLayout(lapDefault, 100, UiOps.Scale, 1, 1);
 
   ed.Font.Name:= EditorOps.OpFontName;
   ed.FontItalic.Name:= EditorOps.OpFontName_i;

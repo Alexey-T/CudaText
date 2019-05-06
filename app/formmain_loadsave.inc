@@ -707,6 +707,8 @@ begin
 
     UiOps.ShowActiveBorder:= c.GetValue('ui_active_border', UiOps.ShowActiveBorder);
     UiOps.ShowTitlePath:= c.GetValue('ui_title_path', UiOps.ShowTitlePath);
+    UiOps.Scale:= c.GetValue('ui_scale'+cOptionSystemSuffix, UiOps.Scale);
+
     UiOps.ReopenSession:= c.GetValue('ui_reopen_session', UiOps.ReopenSession);
     UiOps.AutoSaveSession:= c.GetValue('ui_auto_save_session', UiOps.AutoSaveSession);
     //UiOps.FloatGroupsInTaskbar:= c.GetValue('ui_float_groups_in_taskbar', UiOps.FloatGroupsInTaskbar);

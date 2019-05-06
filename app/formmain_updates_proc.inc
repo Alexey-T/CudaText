@@ -290,7 +290,7 @@ begin
   end;
 
   if AndHeight then
-    Form.Height:= MulDiv(UiOps.ListboxSizeY, UiOps.ScreenScale, 100);
+    Form.Height:= AppScale(UiOps.ListboxSizeY);
 end;
 
 
@@ -349,7 +349,7 @@ var
   i: integer;
 begin
   fmConsole.Font.Name:= EditorOps.OpFontName;
-  fmConsole.Font.Size:= EditorOps.OpFontSize;
+  fmConsole.Font.Size:= AppScale(EditorOps.OpFontSize);
   fmConsole.Font.Quality:= EditorOps.OpFontQuality;
   fmConsole.ed.Font:= fmConsole.Font;
   fmConsole.memo.Font:= fmConsole.Font;
@@ -389,7 +389,7 @@ end;
 procedure TfmMain.DoApplyFont_Ui;
 begin
   Self.Font.Name:= UiOps.VarFontName;
-  Self.Font.Size:= UiOps.VarFontSize;
+  Self.Font.Size:= AppScale(UiOps.VarFontSize);
   Self.Font.Color:= GetAppColor('TabFont');
 
   Groups.SetTabFont(Self.Font);
@@ -406,35 +406,35 @@ begin
 
   //dont set font for PanelLeft/PanelBottom, side effects
   CodeTree.Tree.Font.Name:= UiOps.VarFontName;
-  CodeTree.Tree.Font.Size:= UiOps.VarFontSize;
+  CodeTree.Tree.Font.Size:= AppScale(UiOps.VarFontSize);
   CodeTree.Tree.Font.PixelsPerInch:= Screen.PixelsPerInch;
 
   CodeTreeFilterInput.Font.Name:= EditorOps.OpFontName;
-  CodeTreeFilterInput.Font.Size:= EditorOps.OpFontSize;
+  CodeTreeFilterInput.Font.Size:= AppScale(EditorOps.OpFontSize);
   CodeTreeFilterInput.Font.PixelsPerInch:= Screen.PixelsPerInch;
 
   PanelLeftTitle.Font.Name:= UiOps.VarFontName;
-  PanelLeftTitle.Font.Size:= UiOps.VarFontSize;
+  PanelLeftTitle.Font.Size:= AppScale(UiOps.VarFontSize);
   PanelLeftTitle.Font.PixelsPerInch:= Screen.PixelsPerInch;
 
   ATButtonTheme.FontName:= UiOps.VarFontName;
-  ATButtonTheme.FontSize:= UiOps.VarFontSize;
+  ATButtonTheme.FontSize:= AppScale(UiOps.VarFontSize);
 
   if Assigned(fmFind) then fmFind.UpdateFonts;
 
   CompletionOps.FontName:= UiOps.VarFontName;
-  CompletionOps.FontSize:= UiOps.VarFontSize;
-  CompletionOps.ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);
+  CompletionOps.FontSize:= AppScale(UiOps.VarFontSize);
+  CompletionOps.ItemHeight:= AppScale(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
 end;
 
 
 procedure TfmMain.DoApplyFont_Output;
 begin
   ListboxOut.Font.Name:= UiOps.OutputFontName;
-  ListboxOut.Font.Size:= UiOps.OutputFontSize;
+  ListboxOut.Font.Size:= AppScale(UiOps.OutputFontSize);
   ListboxVal.Font.Name:= UiOps.OutputFontName;
-  ListboxVal.Font.Size:= UiOps.OutputFontSize;
-  ListboxOut.ItemHeight:= GetListboxItemHeight(UiOps.OutputFontName, UiOps.OutputFontSize);
+  ListboxVal.Font.Size:= AppScale(UiOps.OutputFontSize);
+  ListboxOut.ItemHeight:= AppScale(GetListboxItemHeight(UiOps.OutputFontName, UiOps.OutputFontSize));
   ListboxVal.ItemHeight:= ListboxOut.ItemHeight;
 end;
 
@@ -1122,7 +1122,7 @@ begin
       Al:= AppStringToAlignment(SItem);
 
     SItem:= SGetItem(SPanel);
-    NSize:= Max(16, StrToIntDef(SItem, 200));
+    NSize:= AppScale(Max(16, StrToIntDef(SItem, 200)));
 
     Status.AddPanel(-1, NSize, Al, '', -1, NTag, bAutoSize, bStretch);
   until false;
@@ -1238,7 +1238,7 @@ begin
   ImageListSide.Clear;
 
   //set ButtonWidth for vertical bars
-  ToolbarSideTop.ButtonWidth:= MulDiv(ImageListSide.Width+8, UiOps.ScreenScale, 100);
+  ToolbarSideTop.ButtonWidth:= AppScale(ImageListSide.Width+8);
   ToolbarSideLow.ButtonWidth:= ToolbarSideTop.ButtonWidth;
   ToolbarSideMid.ButtonWidth:= ToolbarSideTop.ButtonWidth;
 

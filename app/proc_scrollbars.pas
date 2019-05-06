@@ -10,6 +10,7 @@ uses
   ATSynEdit_ScrollBar,
   ATListbox,
   proc_colors,
+  proc_globdata,
   math;
 
 type
@@ -50,12 +51,9 @@ type
     property Themed: boolean read FThemed write SetThemed;
     procedure DoScaleScrollbar;
     procedure SetFocus; override;
+    property ScrollVert: TATScroll read FScrollVert;
+    property ScrollHorz: TATScroll read FScrollHorz;
   end;
-
-const
-  UiOps_ScrollbarWidth: integer = 14;
-  UiOps_ScrollbarBorderSize: integer = 0;
-
 
 implementation
 

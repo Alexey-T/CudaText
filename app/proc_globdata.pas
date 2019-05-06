@@ -29,10 +29,12 @@ uses
   ATSynEdit_Keymap,
   ATSynEdit_Keymap_Init,
   ATSynEdit_Adapter_litelexer,
+  ATSynEdit_ScrollBar,
   ATStringProc,
   ATButtons,
   ATListbox,
   ATStatusBar,
+  ATScrollBar,
   at__jsonconf,
   proc_cmd,
   proc_msg,
@@ -41,6 +43,11 @@ uses
   ec_LexerList,
   ec_proc_lexer,
   ec_SyntAnal;
+
+var
+  UiOps_ScrollbarWidth: integer = 14;
+  UiOps_ScrollbarBorderSize: integer = 0;
+  UiOps_ScrollbarArrowSize: integer = 3;
 
 var
   //ATSynEdit has range for bookmarks 0..63, 0=none
@@ -113,8 +120,6 @@ type
 
 type
   TUiOps = record
-    ScreenScale: integer;
-
     VarFontName: string;
     VarFontSize: integer;
     OutputFontName: string;
@@ -245,6 +250,7 @@ type
     ShowActiveBorder: boolean;
     ShowSidebarCaptions: boolean;
     ShowTitlePath: boolean;
+    Scale: integer;
 
     ReopenSession: boolean;
     AutoSaveSession: boolean;
@@ -492,6 +498,10 @@ function GetListboxItemHeight(const AFontName: string; AFontSize: integer): inte
 function FixFontMonospaced(const AName: string): string;
 procedure FixFormPositionToDesktop(F: TForm);
 procedure FixRectPositionToDesktop(var F: TRect);
+
+function AppScale(Value: integer): integer;
+procedure AppScaleScrollbar(C: TATScroll);
+procedure AppScaleScrollbar2(C: ATSynEdit_Scrollbar.TATScroll);
 
 function GetAppKeymap_LexerSpecificConfig(AName: string): string;
 function GetAppKeymapHotkey(const ACmdString: string): string;
@@ -1204,8 +1214,6 @@ procedure InitUiOps(var Op: TUiOps);
 begin
   with Op do
   begin
-    ScreenScale:= 100;
-
     VarFontName:= 'default';
     VarFontSize:= 9;
 
@@ -1340,6 +1348,7 @@ begin
     ShowActiveBorder:= true;
     ShowSidebarCaptions:= false;
     ShowTitlePath:= false;
+    Scale:= 100;
 
     ReopenSession:= true;
     AutoSaveSession:= false;
@@ -2108,6 +2117,35 @@ begin
   end;
   Result:= ADefValue;
 end;
+
+function AppScale(Value: integer): integer;
+begin
+  if UiOps.Scale=100 then
+    Result:= Value
+  else
+    Result:= Value*UiOps.Scale div 100;
+end;
+
+procedure AppScaleScrollbar(C: TATScroll);
+begin
+  C.Height:= AppScale(UiOps_ScrollbarWidth);
+  C.Width:= AppScale(UiOps_ScrollbarWidth);
+  C.IndentBorder:= AppScale(UiOps_ScrollbarBorderSize);
+  C.IndentArrow:= AppScale(UiOps_ScrollbarArrowSize);
+  if C.IndentCorner>0 then
+    C.IndentCorner:= AppScale(UiOps_ScrollbarWidth);
+end;
+
+procedure AppScaleScrollbar2(C: ATSynEdit_Scrollbar.TATScroll);
+begin
+  C.Height:= AppScale(UiOps_ScrollbarWidth);
+  C.Width:= AppScale(UiOps_ScrollbarWidth);
+  C.IndentBorder:= AppScale(UiOps_ScrollbarBorderSize);
+  C.IndentArrow:= AppScale(UiOps_ScrollbarArrowSize);
+  if C.IndentCorner>0 then
+    C.IndentCorner:= AppScale(UiOps_ScrollbarWidth);
+end;
+
 
 initialization
   InitDirs;

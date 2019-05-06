@@ -4,8 +4,9 @@
   * changed
 
 
-1.79.3 (2019/05)
+1.79.4 (2019/05)
 
++ add: option "ui_scale"
 + add: menu items in "Edit" menu are auto disabled (Undo, Redo, Copy, Cut, Paste, Delete)
 + add: don't show warning "File is maybe not text" if text has char(27)
 - fix: bugs with vertical scrollbar, it wasn't auto moved

@@ -104,13 +104,13 @@ begin
   list.DoubleBuffered:= UiOps.DoubleBuffered;
 
   list.Font.Name:= UiOps.VarFontName;
-  list.Font.Size:= UiOps.VarFontSize;
-  edit.Height:= UiOps.InputHeight;
+  list.Font.Size:= AppScale(UiOps.VarFontSize);
+  edit.Height:= AppScale(UiOps.InputHeight);
   edit.Font.Name:= EditorOps.OpFontName;
-  edit.Font.Size:= EditorOps.OpFontSize;
+  edit.Font.Size:= AppScale(EditorOps.OpFontSize);
   edit.Font.Quality:= EditorOps.OpFontQuality;
   panelCaption.Font.Name:= UiOps.VarFontName;
-  panelCaption.Font.Size:= UiOps.VarFontSize;
+  panelCaption.Font.Size:= AppScale(UiOps.VarFontSize);
 
   self.Color:= GetAppColor('ListBg');
   edit.Colors.TextFont:= GetAppColor('EdTextFont');
@@ -122,12 +122,14 @@ begin
   panelCaption.Font.Color:= GetAppColor('ListFont');
 
   ResultCode:= -1;
-  list.ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);;
-  self.Width:= MulDiv(UiOps.ListboxSizeX, UiOps.ScreenScale, 100);
-  self.Height:= MulDiv(UiOps.ListboxSizeY, UiOps.ScreenScale, 100);
+  list.ItemHeight:= AppScale(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
+  self.Width:= AppScale(UiOps.ListboxSizeX);
+  self.Height:= AppScale(UiOps.ListboxSizeY);
 
   listItems:= TStringlist.Create;
   listFiltered:= TList.Create;
+
+  AppScaleScrollbar(list.Scrollbar);
 end;
 
 procedure TfmMenuApi.editChange(Sender: TObject);

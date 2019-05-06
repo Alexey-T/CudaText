@@ -1715,10 +1715,10 @@ begin
   FBoundsFloatGroups2:= Rect(320, 120, 820, 720);
   FBoundsFloatGroups3:= Rect(340, 140, 840, 740);
 
-  ToolbarMain.ScalePercents:= UiOps.ScreenScale;
-  ToolbarSideTop.ScalePercents:= UiOps.ScreenScale;
-  ToolbarSideLow.ScalePercents:= UiOps.ScreenScale;
-  ToolbarSideMid.ScalePercents:= UiOps.ScreenScale;
+  ToolbarMain.ScalePercents:= UiOps.Scale;
+  ToolbarSideTop.ScalePercents:= UiOps.Scale;
+  ToolbarSideLow.ScalePercents:= UiOps.Scale;
+  ToolbarSideMid.ScalePercents:= UiOps.Scale;
 
   InitAppleMenu;
   InitToolbar;
@@ -1738,7 +1738,7 @@ begin
   PanelCodeTreeTop.Parent:= PanelLeft;
   PanelCodeTreeTop.Align:= alTop;
   PanelCodeTreeTop.Top:= PanelLeftTitle.Height; //fix pos relative to title
-  PanelCodeTreeTop.Height:= 28;
+  PanelCodeTreeTop.Height:= UiOps.InputHeight;
 
   CodeTreeFilter:= TTreeFilterEdit.Create(Self);
   CodeTreeFilter.Hide;
@@ -1842,7 +1842,7 @@ begin
 
   Status:= TATStatus.Create(Self);
   Status.Parent:= Self;
-  Status.ScalePercents:= UiOps.ScreenScale;
+  Status.ScalePercents:= UiOps.Scale;
   Status.Align:= alBottom;
   Status.Top:= Height;
   Status.Height:= 23;
@@ -1852,7 +1852,7 @@ begin
 
   StatusAlt:= TATStatus.Create(Self);
   StatusAlt.Parent:= Self;
-  StatusAlt.ScalePercents:= UiOps.ScreenScale;
+  StatusAlt.ScalePercents:= UiOps.Scale;
   StatusAlt.Align:= alBottom;
   StatusAlt.Height:= Status.Height;
   StatusAlt.Padding:= 0;
@@ -2573,7 +2573,7 @@ type
 procedure TfmMain.DoApplyUiOpsToGroups(G: TATGroups);
 begin
   G.SetTabFont(Self.Font);
-  G.ScalePercents:= UiOps.ScreenScale;
+  G.ScalePercents:= UiOps.Scale;
   G.SetTabOption(tabOptionAnimationEn, Ord(UiOps.TabAnimation));
   G.SetTabOption(tabOptionShowHint, 1);
   G.SetTabOption(tabOptionVarWidth, Ord(UiOps.TabVarWidth));
@@ -2661,12 +2661,15 @@ begin
   TimerTreeFill.Interval:= UiOps.TreeTimeFill;
   TimerEdCaret.Interval:= UiOps.TreeTimeCaret;
   CodeTree.Tree.ToolTips:= UiOps.TreeShowTooltips;
+
+  AppScaleScrollbar2(CodeTree.ScrollVert);
+  AppScaleScrollbar2(CodeTree.ScrollHorz);
   CodeTreeFilterInput.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
-  PanelCodeTreeTop.Height:= UiOps.InputHeight;
+  CodeTreeFilterReset.Width:= AppScale(UiOps_ScrollbarWidth);
 
   EditorCaretPropsFromString(fmConsole.memo.CaretPropsReadonly, EditorOps.OpCaretViewReadonly);
   fmConsole.memo.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
-  fmConsole.ed.Height:= UiOps.InputHeight;
+  fmConsole.ed.Height:= AppScale(UiOps.InputHeight);
   fmConsole.ed.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   fmConsole.Wordwrap:= UiOps.ConsoleWordWrap;
 
@@ -2706,14 +2709,15 @@ begin
       end;
   end;
 
-  Status.Height:= MulDiv(UiOps.StatusHeight, UiOps.ScreenScale, 100);
+  PanelCodeTreeTop.Height:= AppScale(UiOps.InputHeight);
+  Status.Height:= AppScale(UiOps.StatusHeight);
   TimerStatus.Interval:= UiOps.StatusTime*1000;
 
   ATButtonTheme.FontName:= UiOps.VarFontName;
-  ATButtonTheme.FontSize:= UiOps.VarFontSize;
+  ATButtonTheme.FontSize:= AppScale(UiOps.VarFontSize);
 
-  CompletionOps.FormSizeX:= UiOps.ListboxCompleteSizeX;
-  CompletionOps.FormSizeY:= UiOps.ListboxCompleteSizeY;
+  CompletionOps.FormSizeX:= AppScale(UiOps.ListboxCompleteSizeX);
+  CompletionOps.FormSizeY:= AppScale(UiOps.ListboxCompleteSizeY);
 
   if UiOps.OneInstance and not FOption_OpenNewWindow then
     if not UniqInstance.Enabled then
@@ -3245,7 +3249,7 @@ var
   Str: string;
 begin
   DoLocalize_FormGoto;
-  fmGoto.Width:= MulDiv(UiOps.ListboxSizeX, UiOps.ScreenScale, 100);
+  fmGoto.Width:= AppScale(UiOps.ListboxSizeX);
   UpdateInputForm(fmGoto, false);
 
   if fmGoto.ShowModal=mrOk then

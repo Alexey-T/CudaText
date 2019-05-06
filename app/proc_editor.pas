@@ -90,10 +90,10 @@ begin
   Ed.FontBold.Name:= Op.OpFontName_b;
   Ed.FontBoldItalic.Name:= Op.OpFontName_bi;
 
-  Ed.Font.Size:= Op.OpFontSize;
-  Ed.FontItalic.Size:= Op.OpFontSize_i;
-  Ed.FontBold.Size:= Op.OpFontSize_b;
-  Ed.FontBoldItalic.Size:= Op.OpFontSize_bi;
+  Ed.Font.Size:= AppScale(Op.OpFontSize);
+  Ed.FontItalic.Size:= AppScale(Op.OpFontSize_i);
+  Ed.FontBold.Size:= AppScale(Op.OpFontSize_b);
+  Ed.FontBoldItalic.Size:= AppScale(Op.OpFontSize_bi);
 
   Ed.Font.Quality:= Op.OpFontQuality;
   Ed.OptShowFontLigatures:= Op.OpFontLigatures;
@@ -117,7 +117,7 @@ begin
   Ed.Gutter[Ed.GutterBandNum].Visible:= Op.OpNumbersShow;
   Ed.Gutter.Update;
 
-  Ed.OptNumbersFontSize:= Op.OpNumbersFontSize;
+  Ed.OptNumbersFontSize:= AppScale(Op.OpNumbersFontSize);
   if Op.OpNumbersStyle<=Ord(High(TATSynNumbersStyle)) then
     Ed.OptNumbersStyle:= TATSynNumbersStyle(Op.OpNumbersStyle);
   Ed.OptNumbersShowCarets:= Op.OpNumbersForCarets;
@@ -128,10 +128,10 @@ begin
 
   Ed.OptRulerVisible:= Op.OpRulerShow;
   Ed.OptRulerNumeration:= TATRulerNumeration(Op.OpRulerNumeration);
-  Ed.OptRulerFontSize:= Op.OpRulerFontSize;
-  Ed.OptRulerSize:= Op.OpRulerSize;
-  Ed.OptRulerTextIndent:= Op.OpRulerTextIndent;
-  Ed.OptRulerMarkSizeCaret:= Op.OpRulerMarkCaret;
+  Ed.OptRulerFontSize:= AppScale(Op.OpRulerFontSize);
+  Ed.OptRulerSize:= AppScale(Op.OpRulerSize);
+  Ed.OptRulerTextIndent:= AppScale(Op.OpRulerTextIndent);
+  Ed.OptRulerMarkSizeCaret:= AppScale(Op.OpRulerMarkCaret);
 
   Ed.OptMinimapVisible:= Op.OpMinimapShow;
   Ed.OptMinimapShowSelAlways:= Op.OpMinimapShowSelAlways;
@@ -143,7 +143,7 @@ begin
   Ed.OptMinimapTooltipWidthPercents:= Op.OpMinimapTooltipWidth;
 
   Ed.OptMicromapVisible:= Op.OpMicromapShow;
-  Ed.OptMicromapWidth:= Op.OpMicromapWidth;
+  Ed.OptMicromapWidth:= AppScale(Op.OpMicromapWidth);
 
   Ed.OptMarginRight:= Op.OpMarginFixed;
   Ed.OptMarginString:= Op.OpMarginString;

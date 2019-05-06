@@ -533,6 +533,12 @@
   //scroll horizontally by N chars from new position. Value must be >=0.
   "find_indent_horz": 10,
 
+  //[Ui]
+  //UI scale factor (%), affects other size-options. 100 to 300. [has suffix]
+  "ui_scale": 100,
+  "ui_scale__linux": 100,
+  "ui_scale__mac": 100,
+
   //[Ui/Tabs]
   //UI tabs: Don't create tabs (except the first one), ie use Single Document Interface
   "ui_tab_disabled": false,
