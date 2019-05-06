@@ -530,6 +530,9 @@ begin
   F.Adapter[F.Ed2].DynamicHiliteEnabled:= Op.OpLexerDynamicHiliteEnabled;
   F.Adapter[F.Ed2].DynamicHiliteMaxLines:= Op.OpLexerDynamicHiliteMaxLines;
 
+  F.Ed1.OptScalePercents:= UiOps.Scale;
+  F.Ed2.OptScalePercents:= UiOps.Scale;
+
   F.Ed1.Update;
   if F.Splitted then
     F.Ed2.Update;

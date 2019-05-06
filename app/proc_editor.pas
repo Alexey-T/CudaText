@@ -23,6 +23,7 @@ uses
   ATSynEdit_Ranges,
   ATSynEdit_Commands,
   ATSynEdit_CharSizer,
+  ATSynEdit_Edits,
   ATStrings,
   ATStringProc,
   proc_globdata,
@@ -267,6 +268,9 @@ begin
   Ed.OptKeyUpDownNavigateWrapped:= Op.OpKeyUpDownNavigateWrapped;
   Ed.OptKeyLeftRightSwapSel:= Op.OpKeyLeftRightSwapSel;
   Ed.OptKeyLeftRightSwapSelAndSelect:= Op.OpKeyLeftRightSwapSelAndSelect;
+
+  if Ed is TATComboEdit then
+    TATComboEdit(Ed).OptComboboxArrowSize:= AppScale(UiOps_ScrollbarArrowSize);
 end;
 
 function EditorGetSelLines(ed: TATSynEdit): integer;
