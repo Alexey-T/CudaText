@@ -1848,8 +1848,6 @@ end;
 
 procedure DoForm_ScaleAuto(F: TForm);
 begin
-  if Screen.PixelsPerInch=96 then exit;
-
   {$ifdef darwin}
   exit;
   //macOS: gives bad result, toolbar big labels
@@ -1861,8 +1859,9 @@ begin
 
   F.AutoAdjustLayout(
     lapAutoAdjustForDPI ,
-    96, Screen.PixelsPerInch,
-    F.Width, F.Scale96ToForm(F.Width));
+    100, UiOps.Scale,
+    F.Width,
+    AppScale(F.Width));
 end;
 
 

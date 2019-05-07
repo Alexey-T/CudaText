@@ -407,15 +407,12 @@ begin
   //dont set font for PanelLeft/PanelBottom, side effects
   CodeTree.Tree.Font.Name:= UiOps.VarFontName;
   CodeTree.Tree.Font.Size:= AppScale(UiOps.VarFontSize);
-  CodeTree.Tree.Font.PixelsPerInch:= Screen.PixelsPerInch;
 
   CodeTreeFilterInput.Font.Name:= EditorOps.OpFontName;
   CodeTreeFilterInput.Font.Size:= AppScale(EditorOps.OpFontSize);
-  CodeTreeFilterInput.Font.PixelsPerInch:= Screen.PixelsPerInch;
 
   PanelLeftTitle.Font.Name:= UiOps.VarFontName;
   PanelLeftTitle.Font.Size:= AppScale(UiOps.VarFontSize);
-  PanelLeftTitle.Font.PixelsPerInch:= Screen.PixelsPerInch;
 
   ATButtonTheme.FontName:= UiOps.VarFontName;
   ATButtonTheme.FontSize:= AppScale(UiOps.VarFontSize);
