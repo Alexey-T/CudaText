@@ -774,7 +774,7 @@ begin
     Op.OpGutterBookmarks:= c.GetValue('gutter_bookmarks', Op.OpGutterBookmarks);
 
     Op.OpNumbersShow:= c.GetValue('numbers_show', Op.OpNumbersShow);
-    Op.OpNumbersFontSize:= c.GetValue('numbers_font_size', Op.OpNumbersFontSize);
+    //Op.OpNumbersFontSize:= c.GetValue('numbers_font_size', Op.OpNumbersFontSize);
     Op.OpNumbersStyle:= c.GetValue('numbers_style', Op.OpNumbersStyle);
     Op.OpNumbersForCarets:= c.GetValue('numbers_for_carets', Op.OpNumbersForCarets);
     Op.OpNumbersCenter:= c.GetValue('numbers_center', Op.OpNumbersCenter);

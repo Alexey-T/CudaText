@@ -294,9 +294,6 @@
   //Show gutter's "Line numbers" column
   "numbers_show": true,
 
-  //If not 0, special font size is used for numbers
-  "numbers_font_size": 0,
-
   //For which lines to show numbers
   //  0: show for all lines
   //  1: don't show
