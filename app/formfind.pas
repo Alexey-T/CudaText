@@ -351,7 +351,7 @@ begin
   with LabelFind do
   begin
     Font.Name:= UiOps.VarFontName;
-    Font.Size:= AppScale(UiOps.VarFontSize);
+    Font.Size:= (UiOps.VarFontSize);
     Font.Color:= GetAppColor('TabFont');
   end;
   LabelRep.Font.Assign(LabelFind.Font);
@@ -359,9 +359,8 @@ begin
   with edFind do
   begin
     Font.Name:= EditorOps.OpFontName;
-    Font.Size:= AppScale(EditorOps.OpFontSize);
+    Font.Size:= EditorOps.OpFontSize;
     Font.Quality:= EditorOps.OpFontQuality;
-    OptScalePercents:= UiOps.Scale;
     OptBorderFocusedActive:= UiOps.ShowActiveBorder;
     EditorApplyTheme(edFind);
     Update;
@@ -372,7 +371,6 @@ begin
     Font.Name:= EditorOps.OpFontName;
     Font.Size:= EditorOps.OpFontSize;
     Font.Quality:= EditorOps.OpFontQuality;
-    OptScalePercents:= UiOps.Scale;
     OptBorderFocusedActive:= UiOps.ShowActiveBorder;
     EditorApplyTheme(edRep);
     Update;

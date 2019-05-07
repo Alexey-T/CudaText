@@ -74,9 +74,8 @@ var
 begin
   plCaption.Height:= AppScale(26);
   edInput.Height:= AppScale(UiOps.InputHeight);
-  edInput.OptScalePercents:= UiOps.Scale;
   edInput.Font.Name:= EditorOps.OpFontName;
-  edInput.Font.Size:= AppScale(EditorOps.OpFontSize);
+  edInput.Font.Size:= EditorOps.OpFontSize;
   edInput.Font.Quality:= EditorOps.OpFontQuality;
 
   Color:= GetAppColor('ListBg');

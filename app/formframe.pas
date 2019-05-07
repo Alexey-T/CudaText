@@ -1405,7 +1405,6 @@ begin
 
   ed.Font.Quality:= EditorOps.OpFontQuality;
 
-  ed.OptScalePercents:= UiOps.Scale;
   ed.BorderStyle:= bsNone;
   ed.Keymap:= AppKeymap;
   ed.TabStop:= false;

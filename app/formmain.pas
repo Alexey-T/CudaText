@@ -2635,10 +2635,8 @@ begin
     begin
       Ed1.DoubleBuffered:= UiOps.DoubleBuffered;
       Ed2.DoubleBuffered:= UiOps.DoubleBuffered;
-      Ed1.Font.Size:= AppScale(EditorOps.OpFontSize);
-      Ed2.Font.Size:= AppScale(EditorOps.OpFontSize);
-      Ed1.OptScalePercents:= UiOps.Scale;
-      Ed2.OptScalePercents:= UiOps.Scale;
+      Ed1.Font.Size:= EditorOps.OpFontSize;
+      Ed2.Font.Size:= EditorOps.OpFontSize;
     end;
   Status.DoubleBuffered:= UiOps.DoubleBuffered;
   StatusAlt.DoubleBuffered:= UiOps.DoubleBuffered;
@@ -2672,14 +2670,11 @@ begin
   CodeTreeFilterReset.Width:= AppScale(UiOps.ScrollbarWidth);
 
   EditorCaretPropsFromString(fmConsole.memo.CaretPropsReadonly, EditorOps.OpCaretViewReadonly);
-  fmConsole.memo.OptScalePercents:= UiOps.Scale;
   fmConsole.memo.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
-  fmConsole.ed.OptScalePercents:= UiOps.Scale;
   fmConsole.ed.Height:= AppScale(UiOps.InputHeight);
   fmConsole.ed.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   fmConsole.Wordwrap:= UiOps.ConsoleWordWrap;
   fmConsole.ed.OptComboboxArrowSize:= UiOps.ScrollbarArrowSize;
-  fmConsole.ed.OptScalePercents:= UiOps.Scale;
 
   DoApplyUiOpsToGroups(Groups);
   if FloatGroups then

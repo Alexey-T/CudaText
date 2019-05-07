@@ -108,7 +108,7 @@ begin
 
   edit.Height:= AppScale(UiOps.InputHeight);
   edit.Font.Name:= EditorOps.OpFontName;
-  edit.Font.Size:= AppScale(EditorOps.OpFontSize);
+  edit.Font.Size:= EditorOps.OpFontSize;
   edit.Font.Quality:= EditorOps.OpFontQuality;
   edit.Colors.TextFont:= GetAppColor('EdTextFont');
   edit.Colors.TextBG:= GetAppColor('EdTextBg');

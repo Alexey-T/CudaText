@@ -91,7 +91,7 @@ begin
   list.Font.Size:= AppScale(UiOps.VarFontSize);
   edit.Height:= AppScale(UiOps.InputHeight);
   edit.Font.Name:= EditorOps.OpFontName;
-  edit.Font.Size:= AppScale(EditorOps.OpFontSize);
+  edit.Font.Size:= EditorOps.OpFontSize;
   edit.Font.Quality:= EditorOps.OpFontQuality;
   panelCaption.Font.Name:= UiOps.VarFontName;
   panelCaption.Font.Size:= AppScale(UiOps.VarFontSize);

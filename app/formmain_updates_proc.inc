@@ -349,7 +349,7 @@ var
   i: integer;
 begin
   fmConsole.Font.Name:= EditorOps.OpFontName;
-  fmConsole.Font.Size:= AppScale(EditorOps.OpFontSize);
+  fmConsole.Font.Size:= EditorOps.OpFontSize;
   fmConsole.Font.Quality:= EditorOps.OpFontQuality;
   fmConsole.ed.Font:= fmConsole.Font;
   fmConsole.memo.Font:= fmConsole.Font;
@@ -412,7 +412,7 @@ begin
   CodeTree.Tree.Font.Size:= AppScale(UiOps.VarFontSize);
 
   CodeTreeFilterInput.Font.Name:= EditorOps.OpFontName;
-  CodeTreeFilterInput.Font.Size:= AppScale(EditorOps.OpFontSize);
+  CodeTreeFilterInput.Font.Size:= EditorOps.OpFontSize;
 
   PanelLeftTitle.Font.Name:= UiOps.VarFontName;
   PanelLeftTitle.Font.Size:= AppScale(UiOps.VarFontSize);
@@ -529,9 +529,6 @@ begin
 
   F.Adapter[F.Ed2].DynamicHiliteEnabled:= Op.OpLexerDynamicHiliteEnabled;
   F.Adapter[F.Ed2].DynamicHiliteMaxLines:= Op.OpLexerDynamicHiliteMaxLines;
-
-  F.Ed1.OptScalePercents:= UiOps.Scale;
-  F.Ed2.OptScalePercents:= UiOps.Scale;
 
   F.Ed1.Update;
   if F.Splitted then
