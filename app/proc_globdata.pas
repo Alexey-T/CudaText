@@ -357,7 +357,6 @@ type
 
     OpRulerShow: boolean;
     OpRulerNumeration: integer;
-    OpRulerSize: integer;
     OpRulerTextIndent: integer;
     OpRulerMarkCaret: integer;
 
@@ -370,7 +369,6 @@ type
     OpMinimapTooltipLineCount: integer;
     OpMinimapTooltipWidth: integer;
     OpMicromapShow: boolean;
-    OpMicromapWidth: integer;
     OpMicromapWidthSmall: integer;
     OpMarginFixed: integer;
     OpMarginString: string;
@@ -1086,7 +1084,6 @@ begin
 
     OpRulerShow:= false;
     OpRulerNumeration:= 0;
-    OpRulerSize:= 20;
     OpRulerTextIndent:= 0;
     OpRulerMarkCaret:= 1;
 
@@ -1100,7 +1097,6 @@ begin
     OpMinimapTooltipWidth:= 60;
 
     OpMicromapShow:= false;
-    OpMicromapWidth:= 12;
     OpMicromapWidthSmall:= 4;
 
     OpMarginFixed:= 2000; //hide margin

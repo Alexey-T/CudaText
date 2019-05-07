@@ -781,7 +781,6 @@ begin
 
     Op.OpRulerShow:= c.GetValue('ruler_show', Op.OpRulerShow);
     Op.OpRulerNumeration:= c.GetValue('ruler_numeration', Op.OpRulerNumeration);
-    Op.OpRulerSize:= c.GetValue('ruler_size', Op.OpRulerSize);
     Op.OpRulerMarkCaret:= c.GetValue('ruler_mark_caret', Op.OpRulerMarkCaret);
     //Op.OpRulerTextIndent:= c.GetValue('ruler_text_indent', Op.OpRulerTextIndent);
 
@@ -795,7 +794,6 @@ begin
     Op.OpMinimapTooltipWidth:= c.GetValue('minimap_tooltip_width', Op.OpMinimapTooltipWidth);
 
     Op.OpMicromapShow:= c.GetValue('micromap_show', Op.OpMicromapShow);
-    Op.OpMicromapWidth:= c.GetValue('micromap_width', Op.OpMicromapWidth);
 
     Op.OpMarginFixed:= c.GetValue('margin', Op.OpMarginFixed);
     Op.OpMarginString:= c.GetValue('margin_string', Op.OpMarginString);

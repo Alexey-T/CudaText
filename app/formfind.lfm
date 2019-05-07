@@ -206,7 +206,6 @@ object fmFind: TfmFind
       OptBorderWidthFocused = 1
       OptRulerVisible = False
       OptMicromapVisible = True
-      OptMicromapWidth = 22
       OptMarginRight = 1000
       OptNumbersSkippedChar = '.'
       OptUnprintedVisible = False
@@ -305,7 +304,6 @@ object fmFind: TfmFind
       OptBorderWidthFocused = 1
       OptRulerVisible = False
       OptMicromapVisible = True
-      OptMicromapWidth = 22
       OptMarginRight = 1000
       OptNumbersSkippedChar = '.'
       OptUnprintedVisible = False

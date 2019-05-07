@@ -12,6 +12,8 @@
 * change: deleted option "ui_statusbar_height"
 * change: deleted option "numbers_font_size"
 * change: deleted option "ruler_font_size"
+* change: deleted option "ruler_size"
+* change: deleted option "micromap_width"
 - fix: bugs with vertical scrollbar, it wasn't auto moved
 
 1.79.2 (2019/04)

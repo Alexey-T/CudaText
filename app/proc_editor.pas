@@ -129,7 +129,6 @@ begin
 
   Ed.OptRulerVisible:= Op.OpRulerShow;
   Ed.OptRulerNumeration:= TATRulerNumeration(Op.OpRulerNumeration);
-  Ed.OptRulerSize:= Op.OpRulerSize;
   Ed.OptRulerTextIndent:= Op.OpRulerTextIndent;
   Ed.OptRulerMarkSizeCaret:= Op.OpRulerMarkCaret;
 
@@ -143,7 +142,6 @@ begin
   Ed.OptMinimapTooltipWidthPercents:= Op.OpMinimapTooltipWidth;
 
   Ed.OptMicromapVisible:= Op.OpMicromapShow;
-  Ed.OptMicromapWidth:= Op.OpMicromapWidth;
 
   Ed.OptMarginRight:= Op.OpMarginFixed;
   Ed.OptMarginString:= Op.OpMarginString;
