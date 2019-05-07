@@ -87,6 +87,29 @@ procedure TfmCommands.FormShow(Sender: TObject);
 var
   i: integer;
 begin
+  list.Font.Name:= UiOps.VarFontName;
+  list.Font.Size:= AppScale(UiOps.VarFontSize);
+  edit.Height:= AppScale(UiOps.InputHeight);
+  edit.Font.Name:= EditorOps.OpFontName;
+  edit.Font.Size:= AppScale(EditorOps.OpFontSize);
+  edit.Font.Quality:= EditorOps.OpFontQuality;
+  panelCaption.Font.Name:= UiOps.VarFontName;
+  panelCaption.Font.Size:= AppScale(UiOps.VarFontSize);
+
+  self.Color:= GetAppColor('ListBg');
+  edit.Colors.TextFont:= GetAppColor('EdTextFont');
+  edit.Colors.TextBG:= GetAppColor('EdTextBg');
+  edit.Colors.TextSelFont:= GetAppColor('EdSelFont');
+  edit.Colors.TextSelBG:= GetAppColor('EdSelBg');
+  edit.Colors.BorderLine:= GetAppColor('EdBorder');
+  list.Color:= GetAppColor('ListBg');
+  panelCaption.Font.Color:= GetAppColor('ListFont');
+
+  list.ItemHeight:= AppScale(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
+  self.Width:= AppScale(UiOps.ListboxSizeX);
+  self.Height:= AppScale(UiOps.ListboxSizeY);
+
+  AppScaleScrollbar(list.Scrollbar);
   UpdateFormOnTop(Self);
   FixFormPositionToDesktop(Self);
 
@@ -124,33 +147,10 @@ begin
   edit.DoubleBuffered:= UiOps.DoubleBuffered;
   list.DoubleBuffered:= UiOps.DoubleBuffered;
 
-  list.Font.Name:= UiOps.VarFontName;
-  list.Font.Size:= AppScale(UiOps.VarFontSize);
-  edit.Height:= AppScale(UiOps.InputHeight);
-  edit.Font.Name:= EditorOps.OpFontName;
-  edit.Font.Size:= AppScale(EditorOps.OpFontSize);
-  edit.Font.Quality:= EditorOps.OpFontQuality;
-  panelCaption.Font.Name:= UiOps.VarFontName;
-  panelCaption.Font.Size:= AppScale(UiOps.VarFontSize);
-
-  self.Color:= GetAppColor('ListBg');
-  edit.Colors.TextFont:= GetAppColor('EdTextFont');
-  edit.Colors.TextBG:= GetAppColor('EdTextBg');
-  edit.Colors.TextSelFont:= GetAppColor('EdSelFont');
-  edit.Colors.TextSelBG:= GetAppColor('EdSelBg');
-  edit.Colors.BorderLine:= GetAppColor('EdBorder');
-  list.Color:= GetAppColor('ListBg');
-  panelCaption.Font.Color:= GetAppColor('ListFont');
-
   ResultCommand:= 0;
   ResultHotkeysChanged:= false;
 
-  list.ItemHeight:= AppScale(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
-  self.Width:= AppScale(UiOps.ListboxSizeX);
-  self.Height:= AppScale(UiOps.ListboxSizeY);
   keymapList:= TList.Create;
-
-  AppScaleScrollbar(list.Scrollbar);
 end;
 
 procedure TfmCommands.editChange(Sender: TObject);
