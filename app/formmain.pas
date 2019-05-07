@@ -1737,7 +1737,7 @@ begin
   CodeTreeFilterReset:= TATButton.Create(Self);
   CodeTreeFilterReset.Parent:= PanelCodeTreeTop;
   CodeTreeFilterReset.Align:= alRight;
-  CodeTreeFilterReset.Width:= UiOps_ScrollbarWidth;
+  CodeTreeFilterReset.Width:= UiOps.ScrollbarWidth;
   CodeTreeFilterReset.Caption:= msgButtonX;
   CodeTreeFilterReset.Focusable:= false;
   CodeTreeFilterReset.Flat:= true;
@@ -2669,7 +2669,7 @@ begin
   AppScaleScrollbar(ListboxVal.Scrollbar);
 
   CodeTreeFilterInput.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
-  CodeTreeFilterReset.Width:= AppScale(UiOps_ScrollbarWidth);
+  CodeTreeFilterReset.Width:= AppScale(UiOps.ScrollbarWidth);
 
   EditorCaretPropsFromString(fmConsole.memo.CaretPropsReadonly, EditorOps.OpCaretViewReadonly);
   fmConsole.memo.OptScalePercents:= UiOps.Scale;
@@ -2678,7 +2678,7 @@ begin
   fmConsole.ed.Height:= AppScale(UiOps.InputHeight);
   fmConsole.ed.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   fmConsole.Wordwrap:= UiOps.ConsoleWordWrap;
-  fmConsole.ed.OptComboboxArrowSize:= UiOps_ScrollbarArrowSize;
+  fmConsole.ed.OptComboboxArrowSize:= UiOps.ScrollbarArrowSize;
   fmConsole.ed.OptScalePercents:= UiOps.Scale;
 
   DoApplyUiOpsToGroups(Groups);

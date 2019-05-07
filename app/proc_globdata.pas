@@ -46,11 +46,6 @@ uses
   ec_SyntAnal;
 
 var
-  UiOps_ScrollbarWidth: integer = 14;
-  UiOps_ScrollbarBorderSize: integer = 0;
-  UiOps_ScrollbarArrowSize: integer = 3;
-
-var
   //ATSynEdit has range for bookmarks 0..63, 0=none
   AppBookmarkSetup: array[1..63] of
     record
@@ -244,6 +239,10 @@ type
     StatusHeight: integer;
     StatusTime: integer;
     StatusAltTime: integer;
+
+    ScrollbarWidth: integer;
+    ScrollbarBorderSize: integer;
+    ScrollbarArrowSize: integer;
 
     ProgressbarWidth: integer;
     ProgressbarHeightSmall: integer;
@@ -1346,6 +1345,10 @@ begin
     StatusTime:= 5;
     StatusAltTime:= 7;
 
+    ScrollbarWidth:= 14;
+    ScrollbarBorderSize:= 0;
+    ScrollbarArrowSize:= 3;
+
     ProgressbarWidth:= 50;
     ProgressbarHeightSmall:= 6;
 
@@ -2140,7 +2143,7 @@ end;
 
 procedure AppScaleScrollbar(C: TATScroll);
 begin
-  C.WidthInitial:= UiOps_ScrollbarWidth;
+  C.WidthInitial:= UiOps.ScrollbarWidth;
   C.ScalePercents:= UiOps.Scale;
 end;
 

@@ -68,19 +68,19 @@ begin
   FScrollVert.Parent:= Self;
   FScrollVert.Kind:= sbVertical;
   FScrollVert.Align:= alRight;
-  FScrollVert.Width:= UiOps_ScrollbarWidth;
-  FScrollVert.WidthInitial:= UiOps_ScrollbarWidth;
-  FScrollVert.IndentBorder:= UiOps_ScrollbarBorderSize;
+  FScrollVert.Width:= UiOps.ScrollbarWidth;
+  FScrollVert.WidthInitial:= UiOps.ScrollbarWidth;
+  FScrollVert.IndentBorder:= UiOps.ScrollbarBorderSize;
   FScrollVert.OnChange:= @ScrollVertChange;
 
   FScrollHorz:= TATScroll.Create(Self);
   FScrollHorz.Parent:= Self;
   FScrollHorz.Kind:= sbHorizontal;
   FScrollHorz.Align:= alBottom;
-  FScrollHorz.Height:= UiOps_ScrollbarWidth;
-  FScrollHorz.WidthInitial:= UiOps_ScrollbarWidth;
-  FScrollHorz.IndentBorder:= UiOps_ScrollbarBorderSize;
-  FScrollHorz.IndentCorner:= UiOps_ScrollbarWidth;
+  FScrollHorz.Height:= UiOps.ScrollbarWidth;
+  FScrollHorz.WidthInitial:= UiOps.ScrollbarWidth;
+  FScrollHorz.IndentBorder:= UiOps.ScrollbarBorderSize;
+  FScrollHorz.IndentCorner:= UiOps.ScrollbarWidth;
   FScrollHorz.OnChange:= @ScrollHorzChange;
 
   SetThemed(false);

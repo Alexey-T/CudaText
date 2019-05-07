@@ -341,7 +341,7 @@ begin
   bSelectAll.Hint:= UiOps.HotkeySelectAll;
   bMarkAll.Hint:= UiOps.HotkeyMarkAll;
 
-  edFind.OptComboboxArrowSize:= UiOps_ScrollbarArrowSize;
+  edFind.OptComboboxArrowSize:= UiOps.ScrollbarArrowSize;
   edRep.OptComboboxArrowSize:= edFind.OptComboboxArrowSize;
 end;
 
