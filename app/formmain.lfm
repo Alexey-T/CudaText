@@ -47,7 +47,6 @@ object fmMain: TfmMain
       Top = 0
       Width = 75
       Align = alClient
-      AutoSize = True
       Color = clSilver
       ShowHint = True
       ParentColor = False

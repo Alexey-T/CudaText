@@ -2131,8 +2131,7 @@ begin
   if Assigned(C.Images) then
     C.ButtonWidth:= C.Images.Width+4;
   C.ScalePercents:= UiOps.Scale;
-  if AndUpdateButtons then
-    C.UpdateControls(true);
+  //C.UpdateControls();
 end;
 
 procedure AppScaleScrollbar(C: TATScroll);
