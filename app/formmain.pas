@@ -2624,6 +2624,11 @@ begin
   AppScaleToolbar(ToolbarSideLow, false);
   AppScaleToolbar(ToolbarSideMid, false);
 
+  LexerProgress.Width:= AppScale(UiOps_ProgressWidth);
+  LexerProgress.Height:= AppScale(UiOps_ProgressSmallHeight);
+  StatusProgress.Width:= AppScale(UiOps_ProgressWidth);
+  ButtonCancel.Width:= AppScale(UiOps_ProgressWidth);
+
   //apply DoubleBuffered
   //no need for ToolbarMain and buttons
   for i:= Low(TATGroupsNums) to High(TATGroupsNums) do

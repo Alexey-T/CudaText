@@ -224,6 +224,7 @@ begin
     AnchorSideTop.Side:= asrTop;
     Anchors:= [akRight, akTop, akBottom];
     BorderSpacing.Around:= 2;
+    Width:= UiOps_ProgressWidth;
   end;
 
   with LexerProgress do
@@ -233,16 +234,14 @@ begin
     AnchorSideRight.Side:= asrBottom;
     AnchorSideBottom.Control:= Status;
     AnchorSideBottom.Side:= asrBottom;
-    AnchorSideTop.Control:= Status;
-    AnchorSideTop.Side:= asrTop;
-    Anchors:= [akRight, akTop, akBottom];
+    Anchors:= [akRight, akBottom];
     BorderSpacing.Around:= 2;
-    BorderSpacing.Top:= Status.Height * 2 div 3;
     Kind:= gkHorizontalBar;
     ShowText:= false;
     MinValue:= 0;
     MaxValue:= 100;
-    Width:= 40;
+    Width:= UiOps_ProgressWidth;
+    Height:= UiOps_ProgressSmallHeight;
   end;
 
   with ButtonCancel do
@@ -253,7 +252,8 @@ begin
     AnchorSideBottom.Side:= asrBottom;
     AnchorSideTop.Control:= StatusProgress;
     Anchors:= [akRight, akTop, akBottom];
-    BorderSpacing.Around:= 2;
+    BorderSpacing.Right:= 2;
+    Width:= UiOps_ProgressWidth;
   end;
 
   LexerProgress.Hide;

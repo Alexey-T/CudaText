@@ -49,6 +49,8 @@ var
   UiOps_ScrollbarWidth: integer = 14;
   UiOps_ScrollbarBorderSize: integer = 0;
   UiOps_ScrollbarArrowSize: integer = 3;
+  UiOps_ProgressWidth: integer = 50;
+  UiOps_ProgressSmallHeight: integer = 6;
 
 var
   //ATSynEdit has range for bookmarks 0..63, 0=none
