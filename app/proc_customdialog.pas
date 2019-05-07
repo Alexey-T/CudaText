@@ -1860,9 +1860,9 @@ begin
   if UiOps.Scale<>100 then
     F.AutoAdjustLayout(
       lapAutoAdjustForDPI ,
-      96, 96*UiOps.Scale div 100,
-      F.Width,
-      AppScale(F.Width));
+      96, AppScale(96),
+      F.Width, AppScale(F.Width)
+      );
 end;
 
 
