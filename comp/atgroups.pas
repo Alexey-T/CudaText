@@ -232,7 +232,7 @@ type
     FOnTabGetTick: TATTabGetTickEvent;
     FPopupPages: TATPages;
     FPopupTabIndex: Integer;
-    function DoScale(N: integer): integer;
+    function DoScale(Value: integer): integer;
     function GetImages: TImageList;
     procedure SetImages(AValue: TImageList);
     procedure TabFocus(Sender: TObject);
@@ -1999,12 +1999,9 @@ begin
       end;
 end;
 
-function TATGroups.DoScale(N: integer): integer;
+function TATGroups.DoScale(Value: integer): integer; inline;
 begin
-  if ScalePercents<=100 then
-    Result:= N
-  else
-    Result:= MulDiv(N, ScalePercents, 100);
+  Result:= Value*FScalePercents div 100;
 end;
 
 function TATGroups.GetImages: TImageList;
