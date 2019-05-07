@@ -2727,7 +2727,9 @@ begin
   TimerStatus.Interval:= UiOps.StatusTime*1000;
 
   ATButtonTheme.FontName:= UiOps.VarFontName;
-  ATButtonTheme.FontSize:= AppScale(UiOps.VarFontSize);
+  ATButtonTheme.FontSize:= UiOps.VarFontSize;
+  ATButtonTheme.ScalePercents:= UiOps.Scale;
+  ATButtonTheme.ScaleFontPercents:= UiOps.ScaleFont;
 
   CompletionOps.FormSizeX:= AppScale(UiOps.ListboxCompleteSizeX);
   CompletionOps.FormSizeY:= AppScale(UiOps.ListboxCompleteSizeY);

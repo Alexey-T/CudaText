@@ -709,6 +709,7 @@ begin
     UiOps.ShowTitlePath:= c.GetValue('ui_title_path', UiOps.ShowTitlePath);
 
     UiOps.Scale:= c.GetValue('ui_scale'+cOptionSystemSuffix, UiOps.Scale);
+    UiOps.ScaleFont:= c.GetValue('ui_scale_f'+cOptionSystemSuffix, UiOps.ScaleFont);
     if UiOps.Scale<50 then
       UiOps.Scale:= 100*Screen.PixelsPerInch div 96;
 

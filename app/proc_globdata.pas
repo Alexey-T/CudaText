@@ -254,6 +254,7 @@ type
     ShowSidebarCaptions: boolean;
     ShowTitlePath: boolean;
     Scale: integer;
+    ScaleFont: integer;
 
     ReopenSession: boolean;
     AutoSaveSession: boolean;
@@ -1358,7 +1359,9 @@ begin
     ShowActiveBorder:= true;
     ShowSidebarCaptions:= false;
     ShowTitlePath:= false;
-    Scale:= 0;
+
+    Scale:= 100;
+    ScaleFont:= {$ifdef windows} 100 {$else} 0 {$endif};
 
     ReopenSession:= true;
     AutoSaveSession:= false;
@@ -2137,7 +2140,6 @@ procedure AppScaleToolbar(C: TATFlatToolbar; AndUpdateButtons: boolean);
 begin
   if Assigned(C.Images) then
     C.ButtonWidth:= C.Images.Width+4;
-  C.ScalePercents:= UiOps.Scale;
   //C.UpdateControls();
 end;
 
