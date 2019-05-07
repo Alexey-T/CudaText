@@ -350,7 +350,6 @@ type
     OpGutterBookmarks: boolean;
 
     OpNumbersShow: boolean;
-    OpNumbersFontSize: integer;
     OpNumbersStyle: integer;
     OpNumbersForCarets: boolean;
     OpNumbersCenter: boolean;
@@ -1077,7 +1076,6 @@ begin
     OpGutterFoldIcons:= 0;
 
     OpNumbersShow:= true;
-    OpNumbersFontSize:= 0;
     OpNumbersStyle:= Ord(cNumbersAll);
     OpNumbersForCarets:= false;
     OpNumbersCenter:= true;

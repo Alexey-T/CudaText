@@ -118,7 +118,6 @@ begin
   Ed.Gutter[Ed.GutterBandNum].Visible:= Op.OpNumbersShow;
   Ed.Gutter.Update;
 
-  Ed.OptNumbersFontSize:= Op.OpNumbersFontSize;
   if Op.OpNumbersStyle<=Ord(High(TATSynNumbersStyle)) then
     Ed.OptNumbersStyle:= TATSynNumbersStyle(Op.OpNumbersStyle);
   Ed.OptNumbersShowCarets:= Op.OpNumbersForCarets;
