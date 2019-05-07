@@ -1857,11 +1857,12 @@ begin
   ////fix it by F.ScaleFontsPPI
   //F.ScaleFontsPPI(96/Screen.PixelsPerInch);
 
-  F.AutoAdjustLayout(
-    lapAutoAdjustForDPI ,
-    100, UiOps.Scale,
-    F.Width,
-    AppScale(F.Width));
+  if UiOps.Scale<>100 then
+    F.AutoAdjustLayout(
+      lapAutoAdjustForDPI ,
+      96, 96*UiOps.Scale div 100,
+      F.Width,
+      AppScale(F.Width));
 end;
 
 
