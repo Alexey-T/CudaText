@@ -500,7 +500,7 @@ procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
 
 function AppScale(AValue: integer): integer;
 function AppScaleFont(AValue: integer): integer;
-procedure AppScaleToolbar(C: TATFlatToolbar; AndUpdateButtons: boolean);
+procedure AppScaleToolbar(C: TATFlatToolbar);
 procedure AppScaleScrollbar(C: TATScroll);
 
 function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
@@ -2145,12 +2145,11 @@ begin
     Result:= AValue * UiOps.ScaleFont div 100;
 end;
 
-procedure AppScaleToolbar(C: TATFlatToolbar; AndUpdateButtons: boolean);
+procedure AppScaleToolbar(C: TATFlatToolbar);
 begin
   if Assigned(C.Images) then
-    C.ButtonWidth:= C.Images.Width+4;
-  if AndUpdateButtons then
-    C.UpdateControls();
+    C.ButtonWidth:= C.Images.Width+6;
+  C.UpdateControls();
 end;
 
 procedure AppScaleScrollbar(C: TATScroll);

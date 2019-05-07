@@ -2616,10 +2616,10 @@ begin
   CompletionOps.AppendOpeningBracket:= UiOps.AutocompleteAddOpeningBracket;
   CompletionOps.UpDownAtEdge:= TATCompletionUpDownAtEdge(UiOps.AutocompleteUpDownAtEdge);
 
-  AppScaleToolbar(ToolbarMain, true);
-  AppScaleToolbar(ToolbarSideTop, true);
-  AppScaleToolbar(ToolbarSideLow, true);
-  AppScaleToolbar(ToolbarSideMid, true);
+  AppScaleToolbar(ToolbarMain);
+  AppScaleToolbar(ToolbarSideTop);
+  AppScaleToolbar(ToolbarSideLow);
+  AppScaleToolbar(ToolbarSideMid);
 
   LexerProgress.Width:= AppScale(UiOps.ProgressbarWidth);
   LexerProgress.Height:= AppScale(UiOps.ProgressbarHeightSmall);
