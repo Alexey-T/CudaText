@@ -240,8 +240,6 @@ begin
   mnuTextNav.Caption:= 'Navigate';
   mnuTextNav.OnClick:= @DoNavigate;
   memo.PopupTextDefault.Items.Add(mnuTextNav);
-
-  AutoAdjustLayout(lapAutoAdjustForDPI, 96, Screen.PixelsPerInch, 100, 100);
 end;
 
 procedure TfmConsole.ComboCommand(Sender: TObject; ACmd: integer;

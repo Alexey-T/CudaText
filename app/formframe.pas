@@ -1392,7 +1392,6 @@ begin
   ed.Parent:= Self;
 
   ed.DoubleBuffered:= UiOps.DoubleBuffered;
-  ed.AutoAdjustLayout(lapDefault, 100, UiOps.Scale, 1, 1);
 
   ed.Font.Name:= EditorOps.OpFontName;
   ed.FontItalic.Name:= EditorOps.OpFontName_i;
@@ -1406,6 +1405,7 @@ begin
 
   ed.Font.Quality:= EditorOps.OpFontQuality;
 
+  ed.OptScalePercents:= UiOps.Scale;
   ed.BorderStyle:= bsNone;
   ed.Keymap:= AppKeymap;
   ed.TabStop:= false;

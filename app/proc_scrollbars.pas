@@ -49,7 +49,6 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     property Themed: boolean read FThemed write SetThemed;
-    procedure DoScaleScrollbar;
     procedure SetFocus; override;
     property ScrollVert: TATScroll read FScrollVert;
     property ScrollHorz: TATScroll read FScrollHorz;
@@ -94,12 +93,6 @@ begin
   FreeAndNil(FScrollVert);
   FreeAndNil(FScrollHorz);
   inherited;
-end;
-
-procedure TAppTreeContainer.DoScaleScrollbar;
-begin
-  FScrollVert.AutoAdjustLayout(lapDefault, 96, Screen.PixelsPerInch, 100, 100);
-  FScrollHorz.AutoAdjustLayout(lapDefault, 96, Screen.PixelsPerInch, 100, 100);
 end;
 
 procedure TAppTreeContainer.SetFocus;

@@ -1793,7 +1793,6 @@ begin
   ListboxVal.OnDrawItem:= @ListboxOutDrawItem;
   ListboxVal.OnKeyDown:= @ListboxOutKeyDown;
 
-  CodeTree.DoScaleScrollbar;
   ListboxOut.DoScaleScrollbar;
   ListboxVal.DoScaleScrollbar;
 
