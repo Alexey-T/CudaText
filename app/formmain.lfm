@@ -30,11 +30,14 @@ object fmMain: TfmMain
     Align = alLeft
     AutoSize = True
     object ToolbarSideLow: TATFlatToolbar
+      AnchorSideLeft.Control = PanelSide
+      AnchorSideBottom.Control = PanelSide
+      AnchorSideBottom.Side = asrBottom
       Left = 0
       Height = 30
       Top = 116
       Width = 75
-      Align = alBottom
+      Anchors = [akLeft, akBottom]
       AutoSize = True
       Color = clOlive
       ParentColor = False
@@ -42,11 +45,15 @@ object fmMain: TfmMain
       Vertical = True
     end
     object ToolbarSideTop: TATFlatToolbar
+      AnchorSideLeft.Control = PanelSide
+      AnchorSideTop.Control = PanelSide
+      AnchorSideBottom.Control = ToolbarSideMid
       Left = 0
       Height = 86
       Top = 0
       Width = 75
-      Align = alClient
+      Anchors = [akTop, akLeft, akBottom]
+      AutoSize = True
       Color = clSilver
       ShowHint = True
       ParentColor = False
@@ -55,11 +62,15 @@ object fmMain: TfmMain
       Vertical = True
     end
     object ToolbarSideMid: TATFlatToolbar
+      AnchorSideLeft.Control = PanelSide
+      AnchorSideTop.Control = ToolbarSideLow
+      AnchorSideTop.Side = asrCenter
+      AnchorSideBottom.Control = ToolbarSideLow
       Left = 0
       Height = 30
       Top = 86
       Width = 75
-      Align = alBottom
+      Anchors = [akLeft, akBottom]
       AutoSize = True
       Color = clMoneyGreen
       ParentColor = False
