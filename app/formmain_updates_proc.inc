@@ -389,7 +389,7 @@ end;
 procedure TfmMain.DoApplyFont_Ui;
 begin
   Self.Font.Name:= UiOps.VarFontName;
-  Self.Font.Size:= AppScale(UiOps.VarFontSize);
+  Self.Font.Size:= AppScaleFont(UiOps.VarFontSize);
   Self.Font.Color:= GetAppColor('TabFont');
 
   Groups.SetTabFont(Self.Font);
@@ -409,32 +409,34 @@ begin
 
   //dont set font for PanelLeft/PanelBottom, side effects
   CodeTree.Tree.Font.Name:= UiOps.VarFontName;
-  CodeTree.Tree.Font.Size:= AppScale(UiOps.VarFontSize);
+  CodeTree.Tree.Font.Size:= AppScaleFont(UiOps.VarFontSize);
 
   CodeTreeFilterInput.Font.Name:= EditorOps.OpFontName;
   CodeTreeFilterInput.Font.Size:= EditorOps.OpFontSize;
 
   PanelLeftTitle.Font.Name:= UiOps.VarFontName;
-  PanelLeftTitle.Font.Size:= AppScale(UiOps.VarFontSize);
+  PanelLeftTitle.Font.Size:= AppScaleFont(UiOps.VarFontSize);
 
   ATButtonTheme.FontName:= UiOps.VarFontName;
-  ATButtonTheme.FontSize:= AppScale(UiOps.VarFontSize);
+  ATButtonTheme.FontSize:= UiOps.VarFontSize;
+  ATButtonTheme.ScalePercents:= UiOps.Scale;
+  ATButtonTheme.ScaleFontPercents:= UiOps.ScaleFont;
 
   if Assigned(fmFind) then fmFind.UpdateFonts;
 
   CompletionOps.FontName:= UiOps.VarFontName;
-  CompletionOps.FontSize:= AppScale(UiOps.VarFontSize);
-  CompletionOps.ItemHeight:= AppScale(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
+  CompletionOps.FontSize:= AppScaleFont(UiOps.VarFontSize);
+  CompletionOps.ItemHeight:= AppScaleFont(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
 end;
 
 
 procedure TfmMain.DoApplyFont_Output;
 begin
   ListboxOut.Font.Name:= UiOps.OutputFontName;
-  ListboxOut.Font.Size:= AppScale(UiOps.OutputFontSize);
+  ListboxOut.Font.Size:= AppScaleFont(UiOps.OutputFontSize);
   ListboxVal.Font.Name:= UiOps.OutputFontName;
-  ListboxVal.Font.Size:= AppScale(UiOps.OutputFontSize);
-  ListboxOut.ItemHeight:= AppScale(GetListboxItemHeight(UiOps.OutputFontName, UiOps.OutputFontSize));
+  ListboxVal.Font.Size:= AppScaleFont(UiOps.OutputFontSize);
+  ListboxOut.ItemHeight:= AppScaleFont(GetListboxItemHeight(UiOps.OutputFontName, UiOps.OutputFontSize));
   ListboxVal.ItemHeight:= ListboxOut.ItemHeight;
 end;
 
@@ -993,7 +995,7 @@ begin
     CodeTree.SourceObject:= Ed;
 
     //force update scrollbar
-    CodeTree.Tree.Font.Size:= AppScale(UiOps.VarFontSize);
+    CodeTree.Tree.Font.Size:= AppScaleFont(UiOps.VarFontSize);
     CodeTree.Tree.Perform(CM_CHANGED, 0, 0);
   end;
  end;

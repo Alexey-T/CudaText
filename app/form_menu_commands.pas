@@ -88,13 +88,13 @@ var
   i: integer;
 begin
   list.Font.Name:= UiOps.VarFontName;
-  list.Font.Size:= AppScale(UiOps.VarFontSize);
+  list.Font.Size:= AppScaleFont(UiOps.VarFontSize);
   edit.Height:= AppScale(UiOps.InputHeight);
   edit.Font.Name:= EditorOps.OpFontName;
   edit.Font.Size:= EditorOps.OpFontSize;
   edit.Font.Quality:= EditorOps.OpFontQuality;
   panelCaption.Font.Name:= UiOps.VarFontName;
-  panelCaption.Font.Size:= AppScale(UiOps.VarFontSize);
+  panelCaption.Font.Size:= AppScaleFont(UiOps.VarFontSize);
 
   self.Color:= GetAppColor('ListBg');
   edit.Colors.TextFont:= GetAppColor('EdTextFont');
@@ -105,7 +105,7 @@ begin
   list.Color:= GetAppColor('ListBg');
   panelCaption.Font.Color:= GetAppColor('ListFont');
 
-  list.ItemHeight:= AppScale(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
+  list.ItemHeight:= AppScaleFont(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
   self.Width:= AppScale(UiOps.ListboxSizeX);
   self.Height:= AppScale(UiOps.ListboxSizeY);
 

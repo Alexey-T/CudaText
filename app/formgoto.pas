@@ -82,7 +82,7 @@ begin
   EditorApplyTheme(edInput);
 
   plCaption.Font.Name:= UiOps.VarFontName;
-  plCaption.Font.Size:= AppScale(UiOps.VarFontSize);
+  plCaption.Font.Size:= AppScaleFont(UiOps.VarFontSize);
   plCaption.Font.Color:= GetAppColor('ListFont');
 
   UpdateFormOnTop(Self);

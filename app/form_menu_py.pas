@@ -102,9 +102,9 @@ begin
   list.DoubleBuffered:= UiOps.DoubleBuffered;
 
   list.Font.Name:= UiOps.VarFontName;
-  list.Font.Size:= AppScale(UiOps.VarFontSize);
+  list.Font.Size:= AppScaleFont(UiOps.VarFontSize);
   list.Color:= GetAppColor('ListBg');
-  list.ItemHeight:= AppScale(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
+  list.ItemHeight:= AppScaleFont(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
 
   edit.Height:= AppScale(UiOps.InputHeight);
   edit.Font.Name:= EditorOps.OpFontName;
@@ -118,7 +118,7 @@ begin
 
   PanelCaption.Height:= AppScale(26);
   PanelCaption.Font.Name:= UiOps.VarFontName;
-  PanelCaption.Font.Size:= AppScale(UiOps.VarFontSize);
+  PanelCaption.Font.Size:= AppScaleFont(UiOps.VarFontSize);
   PanelCaption.Font.Color:= GetAppColor('ListFont');
 
   self.Color:= GetAppColor('ListBg');
@@ -349,9 +349,9 @@ begin
   if FMultiline=AValue then Exit;
   FMultiline:=AValue;
 
-  NSize:= AppScale(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
+  NSize:= AppScaleFont(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
   if FMultiline then
-    NSize:= Round(NSize*1.85);
+    NSize:= NSize*185 div 100;
   list.ItemHeight:= NSize;
 
   list.Invalidate;

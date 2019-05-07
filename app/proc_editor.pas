@@ -92,9 +92,9 @@ begin
   Ed.FontBoldItalic.Name:= Op.OpFontName_bi;
 
   Ed.Font.Size:= Op.OpFontSize;
-  Ed.FontItalic.Size:= AppScale(Op.OpFontSize_i);
-  Ed.FontBold.Size:= AppScale(Op.OpFontSize_b);
-  Ed.FontBoldItalic.Size:= AppScale(Op.OpFontSize_bi);
+  Ed.FontItalic.Size:= Op.OpFontSize_i;
+  Ed.FontBold.Size:= Op.OpFontSize_b;
+  Ed.FontBoldItalic.Size:= Op.OpFontSize_bi;
 
   Ed.Font.Quality:= Op.OpFontQuality;
   Ed.OptShowFontLigatures:= Op.OpFontLigatures;

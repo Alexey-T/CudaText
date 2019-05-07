@@ -498,7 +498,8 @@ function MsgBox(const Str: string; Flags: Longint): integer;
 procedure MsgBadConfig(const fn: string);
 procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
 
-function AppScale(Value: integer): integer;
+function AppScale(AValue: integer): integer;
+function AppScaleFont(AValue: integer): integer;
 procedure AppScaleToolbar(C: TATFlatToolbar; AndUpdateButtons: boolean);
 procedure AppScaleScrollbar(C: TATScroll);
 
@@ -2131,9 +2132,17 @@ begin
   Result:= ADefValue;
 end;
 
-function AppScale(Value: integer): integer;
+function AppScale(AValue: integer): integer; inline;
 begin
-  Result:= Value*UiOps.Scale div 100;
+  Result:= AValue * UiOps.Scale div 100;
+end;
+
+function AppScaleFont(AValue: integer): integer;
+begin
+  if UiOps.ScaleFont=0 then
+    Result:= AppScale(AValue)
+  else
+    Result:= AValue * UiOps.ScaleFont div 100;
 end;
 
 procedure AppScaleToolbar(C: TATFlatToolbar; AndUpdateButtons: boolean);

@@ -122,16 +122,17 @@ begin
   List.Color:= self.Color;
 
   List.Font.Name:= UiOps.VarFontName;
-  List.Font.Size:= AppScale(UiOps.VarFontSize);
+  List.Font.Size:= AppScaleFont(UiOps.VarFontSize);
 
   plCaption.Height:= AppScale(26);
   plCaption.Font.Name:= UiOps.VarFontName;
-  plCaption.Font.Size:= AppScale(UiOps.VarFontSize);
+  plCaption.Font.Size:= AppScaleFont(UiOps.VarFontSize);
   plCaption.Font.Color:= GetAppColor('ListFont');
 
   self.Width:= AppScale(UiOps.ListboxSizeX);
   self.Height:= AppScale(UiOps.ListboxSizeY);
-  List.ItemHeight:= AppScale(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
+  List.ItemHeight:= AppScaleFont(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
+
   Items:= nil;
   ResultIndex:= -1;
 
