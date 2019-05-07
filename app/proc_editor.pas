@@ -86,8 +86,6 @@ procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
 var
   S: string;
 begin
-  EditorScalePercents:= UiOps.Scale;
-
   Ed.Font.Name:= Op.OpFontName;
   Ed.FontItalic.Name:= Op.OpFontName_i;
   Ed.FontBold.Name:= Op.OpFontName_b;

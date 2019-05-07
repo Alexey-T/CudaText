@@ -540,6 +540,13 @@
   "ui_scale__linux": 0,
   "ui_scale__mac": 0,
 
+  //All fonts scale factor in %, 100 to 300. [has suffix]
+  //If value=0, it follows the option "ui_scale".
+  //Note: don't set 0 for Windows, it causes too big fonts with High-DPI.
+  "ui_scale_f": 100,
+  "ui_scale_f__linux": 0,
+  "ui_scale_f__mac": 0,
+
   //[Ui/Tabs]
   //UI tabs: Don't create tabs (except the first one), ie use Single Document Interface
   "ui_tab_disabled": false,

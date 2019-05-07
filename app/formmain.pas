@@ -2726,6 +2726,9 @@ begin
   ATButtonTheme.ScalePercents:= UiOps.Scale;
   ATButtonTheme.ScaleFontPercents:= UiOps.ScaleFont;
 
+  EditorScalePercents:= UiOps.Scale;
+  EditorScaleFontPercents:= UiOps.ScaleFont;
+
   CompletionOps.FormSizeX:= AppScale(UiOps.ListboxCompleteSizeX);
   CompletionOps.FormSizeY:= AppScale(UiOps.ListboxCompleteSizeY);
 
