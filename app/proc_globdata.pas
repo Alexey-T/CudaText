@@ -357,7 +357,6 @@ type
 
     OpRulerShow: boolean;
     OpRulerNumeration: integer;
-    OpRulerFontSize: integer;
     OpRulerSize: integer;
     OpRulerTextIndent: integer;
     OpRulerMarkCaret: integer;
@@ -1087,7 +1086,6 @@ begin
 
     OpRulerShow:= false;
     OpRulerNumeration:= 0;
-    OpRulerFontSize:= 8;
     OpRulerSize:= 20;
     OpRulerTextIndent:= 0;
     OpRulerMarkCaret:= 1;
