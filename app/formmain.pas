@@ -2617,9 +2617,9 @@ begin
   CompletionOps.UpDownAtEdge:= TATCompletionUpDownAtEdge(UiOps.AutocompleteUpDownAtEdge);
 
   AppScaleToolbar(ToolbarMain, true);
-  AppScaleToolbar(ToolbarSideTop, false);
-  AppScaleToolbar(ToolbarSideLow, false);
-  AppScaleToolbar(ToolbarSideMid, false);
+  AppScaleToolbar(ToolbarSideTop, true);
+  AppScaleToolbar(ToolbarSideLow, true);
+  AppScaleToolbar(ToolbarSideMid, true);
 
   LexerProgress.Width:= AppScale(UiOps.ProgressbarWidth);
   LexerProgress.Height:= AppScale(UiOps.ProgressbarHeightSmall);

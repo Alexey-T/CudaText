@@ -2149,7 +2149,8 @@ procedure AppScaleToolbar(C: TATFlatToolbar; AndUpdateButtons: boolean);
 begin
   if Assigned(C.Images) then
     C.ButtonWidth:= C.Images.Width+4;
-  //C.UpdateControls();
+  if AndUpdateButtons then
+    C.UpdateControls();
 end;
 
 procedure AppScaleScrollbar(C: TATScroll);
