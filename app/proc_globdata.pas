@@ -356,7 +356,6 @@ type
 
     OpRulerShow: boolean;
     OpRulerNumeration: integer;
-    OpRulerTextIndent: integer;
     OpRulerMarkCaret: integer;
 
     OpMinimapShow: boolean;
@@ -1082,7 +1081,6 @@ begin
 
     OpRulerShow:= false;
     OpRulerNumeration:= 0;
-    OpRulerTextIndent:= 0;
     OpRulerMarkCaret:= 1;
 
     OpMinimapShow:= false;

@@ -128,7 +128,6 @@ begin
 
   Ed.OptRulerVisible:= Op.OpRulerShow;
   Ed.OptRulerNumeration:= TATRulerNumeration(Op.OpRulerNumeration);
-  Ed.OptRulerTextIndent:= Op.OpRulerTextIndent;
   Ed.OptRulerMarkSizeCaret:= Op.OpRulerMarkCaret;
 
   Ed.OptMinimapVisible:= Op.OpMinimapShow;
