@@ -140,6 +140,7 @@ class Command:
             'a_r':('',']'), #anchor to top: l,r,t
             'vis': show_toolbar,
             'h': 24,
+            'autosize': True,
             } )
 
         self.h_bar = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
