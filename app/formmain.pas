@@ -2621,10 +2621,10 @@ begin
   AppScaleToolbar(ToolbarSideLow, false);
   AppScaleToolbar(ToolbarSideMid, false);
 
-  LexerProgress.Width:= AppScale(UiOps_ProgressWidth);
-  LexerProgress.Height:= AppScale(UiOps_ProgressSmallHeight);
-  StatusProgress.Width:= AppScale(UiOps_ProgressWidth);
-  ButtonCancel.Width:= AppScale(UiOps_ProgressWidth);
+  LexerProgress.Width:= AppScale(UiOps.ProgressbarWidth);
+  LexerProgress.Height:= AppScale(UiOps.ProgressbarHeightSmall);
+  StatusProgress.Width:= AppScale(UiOps.ProgressbarWidth);
+  ButtonCancel.Width:= AppScale(UiOps.ProgressbarWidth);
 
   //apply DoubleBuffered
   //no need for ToolbarMain and buttons

@@ -49,8 +49,6 @@ var
   UiOps_ScrollbarWidth: integer = 14;
   UiOps_ScrollbarBorderSize: integer = 0;
   UiOps_ScrollbarArrowSize: integer = 3;
-  UiOps_ProgressWidth: integer = 50;
-  UiOps_ProgressSmallHeight: integer = 6;
 
 var
   //ATSynEdit has range for bookmarks 0..63, 0=none
@@ -246,6 +244,9 @@ type
     StatusHeight: integer;
     StatusTime: integer;
     StatusAltTime: integer;
+
+    ProgressbarWidth: integer;
+    ProgressbarHeightSmall: integer;
 
     ShowMenubar: boolean;
     ShowStatusbar: boolean;
@@ -1344,6 +1345,9 @@ begin
     StatusHeight:= TabHeight;
     StatusTime:= 5;
     StatusAltTime:= 7;
+
+    ProgressbarWidth:= 50;
+    ProgressbarHeightSmall:= 6;
 
     ShowMenubar:= true;
     ShowStatusbar:= true;

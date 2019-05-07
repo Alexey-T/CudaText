@@ -224,7 +224,7 @@ begin
     AnchorSideTop.Side:= asrTop;
     Anchors:= [akRight, akTop, akBottom];
     BorderSpacing.Around:= 2;
-    Width:= UiOps_ProgressWidth;
+    Width:= UiOps.ProgressbarWidth;
   end;
 
   with LexerProgress do
@@ -240,8 +240,8 @@ begin
     ShowText:= false;
     MinValue:= 0;
     MaxValue:= 100;
-    Width:= UiOps_ProgressWidth;
-    Height:= UiOps_ProgressSmallHeight;
+    Width:= UiOps.ProgressbarWidth;
+    Height:= UiOps.ProgressbarHeightSmall;
   end;
 
   with ButtonCancel do
@@ -253,7 +253,7 @@ begin
     AnchorSideTop.Control:= StatusProgress;
     Anchors:= [akRight, akTop, akBottom];
     BorderSpacing.Right:= 2;
-    Width:= UiOps_ProgressWidth;
+    Width:= UiOps.ProgressbarWidth;
   end;
 
   LexerProgress.Hide;
