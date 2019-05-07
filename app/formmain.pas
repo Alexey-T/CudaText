@@ -2716,8 +2716,10 @@ begin
 
   Status.HeightInitial:= UiOps.StatusHeight;
   Status.ScalePercents:= UiOps.Scale;
+  Status.ScaleFontPercents:= UiOps.ScaleFont;
   StatusAlt.HeightInitial:= UiOps.StatusHeight;
   StatusAlt.ScalePercents:= UiOps.Scale;
+  StatusAlt.ScaleFontPercents:= UiOps.ScaleFont;
 
   TimerStatus.Interval:= UiOps.StatusTime*1000;
 
