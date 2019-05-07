@@ -425,8 +425,8 @@ begin
   if Assigned(fmFind) then fmFind.UpdateFonts;
 
   CompletionOps.FontName:= UiOps.VarFontName;
-  CompletionOps.FontSize:= AppScaleFont(UiOps.VarFontSize);
-  CompletionOps.ItemHeight:= AppScaleFont(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
+  CompletionOps.FontSize:= UiOps.VarFontSize;
+  CompletionOps.ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);
 end;
 
 
