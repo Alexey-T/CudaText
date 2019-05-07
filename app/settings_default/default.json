@@ -535,7 +535,7 @@
 
   //[Ui]
   //UI scale factor in %, 100 to 300. [has suffix]
-  //If value<100, then OS scaling (High-DPI) is detected and used.
+  //If value<=100, then OS scaling (High-DPI) is detected and used.
   "ui_scale": 100,
   "ui_scale__linux": 100,
   "ui_scale__mac": 100,
