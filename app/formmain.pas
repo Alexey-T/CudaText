@@ -1793,9 +1793,6 @@ begin
   ListboxVal.OnDrawItem:= @ListboxOutDrawItem;
   ListboxVal.OnKeyDown:= @ListboxOutKeyDown;
 
-  ListboxOut.DoScaleScrollbar;
-  ListboxVal.DoScaleScrollbar;
-
   AppBookmarkImagelist.AddImages(ImageListBm);
   for i:= 2 to 9 do
   begin
@@ -2668,6 +2665,9 @@ begin
 
   AppScaleScrollbar(CodeTree.ScrollVert);
   AppScaleScrollbar(CodeTree.ScrollHorz);
+  AppScaleScrollbar(ListboxOut.Scrollbar);
+  AppScaleScrollbar(ListboxVal.Scrollbar);
+
   CodeTreeFilterInput.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   CodeTreeFilterReset.Width:= AppScale(UiOps_ScrollbarWidth);
 
