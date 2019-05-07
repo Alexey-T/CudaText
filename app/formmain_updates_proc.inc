@@ -400,9 +400,12 @@ begin
     GroupsF3.SetTabFont(Self.Font);
   end;
 
-  Status.Font:= Self.Font;
-  StatusAlt.Font:= Self.Font;
-  StatusProgress.Font:= Self.Font;
+  Status.Font.Name:= UiOps.VarFontName;
+  Status.Font.Size:= UiOps.VarFontSize; //dont scale
+  StatusAlt.Font.Name:= UiOps.VarFontName;
+  StatusAlt.Font.Size:= UiOps.VarFontSize; //dont scale
+
+  StatusProgress.Font.Assign(Self.Font);
 
   //dont set font for PanelLeft/PanelBottom, side effects
   CodeTree.Tree.Font.Name:= UiOps.VarFontName;
@@ -1123,7 +1126,7 @@ begin
       Al:= AppStringToAlignment(SItem);
 
     SItem:= SGetItem(SPanel);
-    NSize:= AppScale(Max(16, StrToIntDef(SItem, 200)));
+    NSize:= Max(16, StrToIntDef(SItem, 200));
 
     Status.AddPanel(-1, NSize, Al, '', -1, NTag, bAutoSize, bStretch);
   until false;

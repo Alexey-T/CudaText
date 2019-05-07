@@ -1829,19 +1829,19 @@ begin
 
   Status:= TATStatus.Create(Self);
   Status.Parent:= Self;
-  Status.ScalePercents:= UiOps.Scale;
   Status.Align:= alBottom;
   Status.Top:= Height;
-  Status.Height:= 23;
+  Status.Height:= UiOps.StatusHeight;
+  Status.HeightInitial:= Status.Height;
   Status.Padding:= 2;
   Status.OnPanelClick:= @StatusPanelClick;
   Status.ShowHint:= true;
 
   StatusAlt:= TATStatus.Create(Self);
   StatusAlt.Parent:= Self;
-  StatusAlt.ScalePercents:= UiOps.Scale;
   StatusAlt.Align:= alBottom;
   StatusAlt.Height:= Status.Height;
+  StatusAlt.HeightInitial:= Status.Height;
   StatusAlt.Padding:= 0;
   StatusAlt.AddPanel(-1, 5000, taLeftJustify, '?');
   StatusAlt.Hide;
@@ -2718,7 +2718,12 @@ begin
   end;
 
   PanelCodeTreeTop.Height:= AppScale(UiOps.InputHeight);
-  Status.Height:= AppScale(UiOps.StatusHeight);
+
+  Status.HeightInitial:= UiOps.StatusHeight;
+  Status.ScalePercents:= UiOps.Scale;
+  StatusAlt.HeightInitial:= UiOps.StatusHeight;
+  StatusAlt.ScalePercents:= UiOps.Scale;
+
   TimerStatus.Interval:= UiOps.StatusTime*1000;
 
   ATButtonTheme.FontName:= UiOps.VarFontName;
