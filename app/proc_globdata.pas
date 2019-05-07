@@ -1358,7 +1358,7 @@ begin
     ShowActiveBorder:= true;
     ShowSidebarCaptions:= false;
     ShowTitlePath:= false;
-    Scale:= 100;
+    Scale:= 0;
 
     ReopenSession:= true;
     AutoSaveSession:= false;
