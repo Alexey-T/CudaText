@@ -2633,6 +2633,10 @@ begin
     begin
       Ed1.DoubleBuffered:= UiOps.DoubleBuffered;
       Ed2.DoubleBuffered:= UiOps.DoubleBuffered;
+      Ed1.Font.Size:= AppScale(EditorOps.OpFontSize);
+      Ed2.Font.Size:= AppScale(EditorOps.OpFontSize);
+      Ed1.OptScalePercents:= UiOps.Scale;
+      Ed2.OptScalePercents:= UiOps.Scale;
     end;
   Status.DoubleBuffered:= UiOps.DoubleBuffered;
   StatusAlt.DoubleBuffered:= UiOps.DoubleBuffered;
