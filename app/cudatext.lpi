@@ -75,6 +75,9 @@
         </CompilerOptions>
       </Item2>
       <Item3 Name="linux x64 gtk2">
+        <MacroValues Count="1">
+          <Macro6 Name="FULLSPEED" Value="true"/>
+        </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -617,12 +620,13 @@
           </Other>
         </CompilerOptions>
       </Item14>
-      <SharedMatrixOptions Count="5">
+      <SharedMatrixOptions Count="6">
         <Item1 ID="768150883430" Modes="linux x64 qt4" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt"/>
         <Item2 ID="728289161338" Modes="macos x32 carbon" Type="IDEMacro" MacroName="LCLWidgetType" Value="carbon"/>
         <Item3 ID="308953563203" Modes="macos x64 cocoa" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
         <Item4 ID="619430612971" Modes="linux x64 qt5" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt5"/>
         <Item5 ID="028184365614" Modes="linux x64 gtk3" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk3"/>
+        <Item6 ID="263768771023" Modes="linux x64 gtk2" Type="IDEMacro" MacroName="FULLSPEED" Value="true"/>
       </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
