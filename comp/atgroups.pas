@@ -215,7 +215,7 @@ type
     FPos2,
     FPos3,
     FPos4,
-    FPos5: Real;
+    FPos5: Double;
     FPrevWidth,
     FPrevHeight: Integer;
     FScalePercents: integer;
@@ -713,11 +713,16 @@ end;
 
 procedure TATGroups.SetMode(Value: TATGroupsMode);
 var
-  NSplit: Real;
+  NSplit: Double;
   NPagesBefore, NPagesAfter: Integer;
-  i: Integer;
+  w, h, i: Integer;
 begin
   if Value=FMode then Exit;
+
+  w:= ClientWidth;
+  h:= ClientHeight;
+  if w<2 then exit;
+  if h<2 then exit;
 
   try
     DoControlLock(Self);
@@ -728,9 +733,9 @@ begin
 
     case FMode of
       gm2v:
-        NSplit:= Pages1.Width / ClientWidth;
+        NSplit:= Pages1.Width / w;
       gm2h:
-        NSplit:= Pages1.Height / ClientHeight;
+        NSplit:= Pages1.Height / h;
       else
         NSplit:= 0.5;
     end;
@@ -862,10 +867,10 @@ begin
           Pages2.Align:= alClient;
           FSplit1.Align:= alLeft;
           //size
-          UpdW(Pages1, Trunc(ClientWidth * NSplit));
+          UpdW(Pages1, Trunc(w * NSplit));
           //pos
-          FSplit1.Left:= ClientWidth;
-          Pages2.Left:= ClientWidth;
+          FSplit1.Left:= w;
+          Pages2.Left:= w;
         end;
       gm2h:
         begin
@@ -878,10 +883,10 @@ begin
           Pages2.Align:= alClient;
           FSplit1.Align:= alTop;
           //size
-          UpdH(Pages1, Trunc(ClientHeight * NSplit));
+          UpdH(Pages1, Trunc(h * NSplit));
           //pos
-          FSplit1.Top:= ClientHeight;
-          Pages2.Top:= ClientHeight;
+          FSplit1.Top:= h;
+          Pages2.Top:= h;
         end;
       gm3v:
         begin
@@ -896,13 +901,13 @@ begin
           FSplit1.Align:= alLeft;
           FSplit2.Align:= alLeft;
           //size
-          UpdW(Pages1, ClientWidth div 3);
-          UpdW(Pages2, ClientWidth div 3);
+          UpdW(Pages1, w div 3);
+          UpdW(Pages2, w div 3);
           //pos
-          FSplit1.Left:= ClientWidth;
-          Pages2.Left:= ClientWidth;
-          FSplit2.Left:= ClientWidth;
-          Pages3.Left:= ClientWidth;
+          FSplit1.Left:= w;
+          Pages2.Left:= w;
+          FSplit2.Left:= w;
+          Pages3.Left:= w;
         end;
       gm3h:
         begin
@@ -917,13 +922,13 @@ begin
           FSplit1.Align:= alTop;
           FSplit2.Align:= alTop;
           //size
-          UpdH(Pages1, ClientHeight div 3);
-          UpdH(Pages2, ClientHeight div 3);
+          UpdH(Pages1, h div 3);
+          UpdH(Pages2, h div 3);
           //pos
-          FSplit1.Top:= ClientHeight;
-          Pages2.Top:= ClientHeight;
-          FSplit2.Top:= ClientHeight;
-          Pages3.Top:= ClientHeight;
+          FSplit1.Top:= h;
+          Pages2.Top:= h;
+          FSplit2.Top:= h;
+          Pages3.Top:= h;
         end;
       gm4v:
         begin
@@ -940,16 +945,16 @@ begin
           FSplit2.Align:= alLeft;
           FSplit3.Align:= alLeft;
           //size
-          UpdW(Pages1, ClientWidth div 4);
-          UpdW(Pages2, ClientWidth div 4);
-          UpdW(Pages3, ClientWidth div 4);
+          UpdW(Pages1, w div 4);
+          UpdW(Pages2, w div 4);
+          UpdW(Pages3, w div 4);
           //pos
-          FSplit1.Left:= ClientWidth;
-          Pages2.Left:= ClientWidth;
-          FSplit2.Left:= ClientWidth;
-          Pages3.Left:= ClientWidth;
-          FSplit3.Left:= ClientWidth;
-          Pages4.Left:= ClientWidth;
+          FSplit1.Left:= w;
+          Pages2.Left:= w;
+          FSplit2.Left:= w;
+          Pages3.Left:= w;
+          FSplit3.Left:= w;
+          Pages4.Left:= w;
         end;
       gm4h:
         begin
@@ -966,16 +971,16 @@ begin
           FSplit2.Align:= alTop;
           FSplit3.Align:= alTop;
           //size
-          UpdH(Pages1, ClientHeight div 4);
-          UpdH(Pages2, ClientHeight div 4);
-          UpdH(Pages3, ClientHeight div 4);
+          UpdH(Pages1, h div 4);
+          UpdH(Pages2, h div 4);
+          UpdH(Pages3, h div 4);
           //pos
-          FSplit1.Top:= ClientHeight;
-          Pages2.Top:= ClientHeight;
-          FSplit2.Top:= ClientHeight;
-          Pages3.Top:= ClientHeight;
-          FSplit3.Top:= ClientHeight;
-          Pages4.Top:= ClientHeight;
+          FSplit1.Top:= h;
+          Pages2.Top:= h;
+          FSplit2.Top:= h;
+          Pages3.Top:= h;
+          FSplit3.Top:= h;
+          Pages4.Top:= h;
         end;
       gm4grid:
         begin
@@ -992,18 +997,18 @@ begin
           FSplit2.Align:= alLeft;
           FSplit3.Align:= alTop;
           //size
-          UpdW(Pages1, ClientWidth div 2);
-          UpdW(Pages3, ClientWidth div 2);
-          UpdH(FPanel1, ClientHeight div 2);
+          UpdW(Pages1, w div 2);
+          UpdW(Pages3, w div 2);
+          UpdH(FPanel1, h div 2);
           //pos-a
-          FSplit1.Left:= ClientWidth;
-          Pages2.Left:= ClientWidth;
+          FSplit1.Left:= w;
+          Pages2.Left:= w;
           //pos-b
-          FSplit2.Left:= ClientWidth;
-          Pages4.Left:= ClientWidth;
+          FSplit2.Left:= w;
+          Pages4.Left:= w;
           //pos-c
-          FSplit3.Top:= ClientHeight;
-          FPanel2.Top:= ClientHeight;
+          FSplit3.Top:= h;
+          FPanel2.Top:= h;
         end;
       gm1plus2v:
         begin
@@ -1020,14 +1025,14 @@ begin
           FSplit2.Align:= alTop;
           FSplit3.Align:= alLeft;
           //size
-          UpdH(Pages2, ClientHeight div 2);
-          UpdW(FPanel1, ClientWidth div 2);
+          UpdH(Pages2, h div 2);
+          UpdW(FPanel1, w div 2);
           //pos-b
-          FSplit2.Top:= ClientHeight;
-          Pages4.Top:= ClientHeight;
+          FSplit2.Top:= h;
+          Pages4.Top:= h;
           //pos-c
-          FSplit3.Left:= ClientWidth;
-          FPanel2.Left:= ClientWidth;
+          FSplit3.Left:= w;
+          FPanel2.Left:= w;
         end;
       gm1plus2h:
         begin
@@ -1044,14 +1049,14 @@ begin
           FSplit2.Align:= alLeft;
           FSplit3.Align:= alTop;
           //size
-          UpdW(Pages2, ClientWidth div 2);
-          UpdH(FPanel1, ClientHeight div 2);
+          UpdW(Pages2, w div 2);
+          UpdH(FPanel1, h div 2);
           //pos-b
-          FSplit2.Left:= ClientWidth;
-          Pages4.Left:= ClientWidth;
+          FSplit2.Left:= w;
+          Pages4.Left:= w;
           //pos-c
-          FSplit3.Top:= ClientHeight;
-          FPanel2.Top:= ClientHeight;
+          FSplit3.Top:= h;
+          FPanel2.Top:= h;
         end;
       gm6grid:
         begin
@@ -1072,24 +1077,24 @@ begin
           FSplit4.Align:= alLeft;
           FSplit5.Align:= alLeft;
           //size
-          UpdW(Pages1, ClientWidth div 3);
-          UpdW(Pages2, ClientWidth div 3);
-          UpdW(Pages4, ClientWidth div 3);
-          UpdW(Pages5, ClientWidth div 3);
-          UpdH(FPanel1, ClientHeight div 2);
+          UpdW(Pages1, w div 3);
+          UpdW(Pages2, w div 3);
+          UpdW(Pages4, w div 3);
+          UpdW(Pages5, w div 3);
+          UpdH(FPanel1, h div 2);
           //pos-a
-          FSplit1.Left:= ClientWidth;
-          Pages2.Left:= ClientWidth;
-          FSplit2.Left:= ClientWidth;
-          Pages3.Left:= ClientWidth;
+          FSplit1.Left:= w;
+          Pages2.Left:= w;
+          FSplit2.Left:= w;
+          Pages3.Left:= w;
           //pos-b
-          FSplit4.Left:= ClientWidth;
-          Pages5.Left:= ClientWidth;
-          FSplit5.Left:= ClientWidth;
-          Pages6.Left:= ClientWidth;
+          FSplit4.Left:= w;
+          Pages5.Left:= w;
+          FSplit5.Left:= w;
+          Pages6.Left:= w;
           //pos-c
-          FSplit3.Top:= ClientHeight;
-          FPanel2.Top:= ClientHeight;
+          FSplit3.Top:= h;
+          FPanel2.Top:= h;
         end;
       gm6v:
         begin
@@ -1110,22 +1115,22 @@ begin
           FSplit4.Align:= alLeft;
           FSplit5.Align:= alLeft;
           //size
-          UpdW(Pages1, ClientWidth div 6-3);
-          UpdW(Pages2, ClientWidth div 6-3);
-          UpdW(Pages3, ClientWidth div 6-3);
-          UpdW(Pages4, ClientWidth div 6-3);
-          UpdW(Pages5, ClientWidth div 6-3);
+          UpdW(Pages1, w div 6-3);
+          UpdW(Pages2, w div 6-3);
+          UpdW(Pages3, w div 6-3);
+          UpdW(Pages4, w div 6-3);
+          UpdW(Pages5, w div 6-3);
           //pos
-          FSplit1.Left:= ClientWidth;
-          Pages2.Left:= ClientWidth;
-          FSplit2.Left:= ClientWidth;
-          Pages3.Left:= ClientWidth;
-          FSplit3.Left:= ClientWidth;
-          Pages4.Left:= ClientWidth;
-          FSplit4.Left:= ClientWidth;
-          Pages5.Left:= ClientWidth;
-          FSplit5.Left:= ClientWidth;
-          Pages6.Left:= ClientWidth;
+          FSplit1.Left:= w;
+          Pages2.Left:= w;
+          FSplit2.Left:= w;
+          Pages3.Left:= w;
+          FSplit3.Left:= w;
+          Pages4.Left:= w;
+          FSplit4.Left:= w;
+          Pages5.Left:= w;
+          FSplit5.Left:= w;
+          Pages6.Left:= w;
         end;
       gm6h:
         begin
@@ -1146,22 +1151,22 @@ begin
           FSplit4.Align:= alTop;
           FSplit5.Align:= alTop;
           //size
-          UpdH(Pages1, ClientHeight div 6-3);
-          UpdH(Pages2, ClientHeight div 6-3);
-          UpdH(Pages3, ClientHeight div 6-3);
-          UpdH(Pages4, ClientHeight div 6-3);
-          UpdH(Pages5, ClientHeight div 6-3);
+          UpdH(Pages1, h div 6-3);
+          UpdH(Pages2, h div 6-3);
+          UpdH(Pages3, h div 6-3);
+          UpdH(Pages4, h div 6-3);
+          UpdH(Pages5, h div 6-3);
           //pos
-          FSplit1.Top:= ClientHeight;
-          Pages2.Top:= ClientHeight;
-          FSplit2.Top:= ClientHeight;
-          Pages3.Top:= ClientHeight;
-          FSplit3.Top:= ClientHeight;
-          Pages4.Top:= ClientHeight;
-          FSplit4.Top:= ClientHeight;
-          Pages5.Top:= ClientHeight;
-          FSplit5.Top:= ClientHeight;
-          Pages6.Top:= ClientHeight;
+          FSplit1.Top:= h;
+          Pages2.Top:= h;
+          FSplit2.Top:= h;
+          Pages3.Top:= h;
+          FSplit3.Top:= h;
+          Pages4.Top:= h;
+          FSplit4.Top:= h;
+          Pages5.Top:= h;
+          FSplit5.Top:= h;
+          Pages6.Top:= h;
         end;
     end;
 
@@ -1291,9 +1296,13 @@ begin
 end;
 
 procedure TATGroups.SaveSplitPos;
+var
+  w, h: integer;
 begin
-  if ClientWidth<=0 then Exit;
-  if ClientHeight<=0 then Exit;
+  w:= ClientWidth;
+  h:= ClientHeight;
+  if w<2 then Exit;
+  if h<2 then Exit;
 
   FPos1:= 0;
   FPos2:= 0;
@@ -1307,46 +1316,46 @@ begin
     gm4v,
     gm6v:
       begin
-        FPos1:= Pages1.Width / ClientWidth;
-        FPos2:= Pages2.Width / ClientWidth;
-        FPos3:= Pages3.Width / ClientWidth;
-        FPos4:= Pages4.Width / ClientWidth;
-        FPos5:= Pages5.Width / ClientWidth;
+        FPos1:= Pages1.Width / w;
+        FPos2:= Pages2.Width / w;
+        FPos3:= Pages3.Width / w;
+        FPos4:= Pages4.Width / w;
+        FPos5:= Pages5.Width / w;
       end;
     gm2h,
     gm3h,
     gm4h,
     gm6h:
       begin
-        FPos1:= Pages1.Height / ClientHeight;
-        FPos2:= Pages2.Height / ClientHeight;
-        FPos3:= Pages3.Height / ClientHeight;
-        FPos4:= Pages4.Height / ClientHeight;
-        FPos5:= Pages5.Height / ClientHeight;
+        FPos1:= Pages1.Height / h;
+        FPos2:= Pages2.Height / h;
+        FPos3:= Pages3.Height / h;
+        FPos4:= Pages4.Height / h;
+        FPos5:= Pages5.Height / h;
       end;
     gm1plus2v:
       begin
-        FPos1:= FPanel1.Width / ClientWidth;
-        FPos2:= Pages2.Height / ClientHeight;
+        FPos1:= FPanel1.Width / w;
+        FPos2:= Pages2.Height / h;
       end;
     gm1plus2h:
       begin
-        FPos1:= FPanel1.Height / ClientHeight;
-        FPos2:= Pages2.Width / ClientWidth;
+        FPos1:= FPanel1.Height / h;
+        FPos2:= Pages2.Width / w;
       end;
     gm4grid:
       begin
-        FPos1:= Pages1.Width / ClientWidth;
-        FPos2:= Pages3.Width / ClientWidth;
-        FPos3:= FPanel1.Height / ClientHeight;
+        FPos1:= Pages1.Width / w;
+        FPos2:= Pages3.Width / w;
+        FPos3:= FPanel1.Height / h;
       end;
     gm6grid:
       begin
-        FPos1:= Pages1.Width / ClientWidth;
-        FPos2:= Pages2.Width / ClientWidth;
-        FPos3:= FPanel1.Height / ClientHeight;
-        FPos4:= Pages4.Width / ClientWidth;
-        FPos5:= Pages5.Width / ClientWidth;
+        FPos1:= Pages1.Width / w;
+        FPos2:= Pages2.Width / w;
+        FPos3:= FPanel1.Height / h;
+        FPos4:= Pages4.Width / w;
+        FPos5:= Pages5.Width / w;
       end;
   end;
 end;
@@ -1357,8 +1366,8 @@ var
 begin
   w:= ClientWidth;
   h:= ClientHeight;
-  if w<=2 then Exit;
-  if h<=2 then Exit;
+  if w<2 then Exit;
+  if h<2 then Exit;
 
   case FMode of
     gm2v,
