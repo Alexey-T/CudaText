@@ -376,7 +376,7 @@ end;
 
 procedure DoControlLock(Ctl: TWinControl);
 begin
-  Ctl.DisableAutoSizing;
+  //Ctl.DisableAutoSizing;
 
   {$ifdef windows}
   Ctl.Perform(WM_SetRedraw, 0, 0);
@@ -385,7 +385,7 @@ end;
 
 procedure DoControlUnlock(Ctl: TWinControl);
 begin
-  Ctl.EnableAutoSizing;
+  //Ctl.EnableAutoSizing;
 
   {$ifdef windows}
   Ctl.Perform(WM_SetRedraw, 1, 0);
@@ -869,8 +869,8 @@ begin
           //size
           UpdW(Pages1, Trunc(w * NSplit));
           //pos
-          FSplit1.Left:= w;
           Pages2.Left:= w;
+          FSplit1.Left:= Pages2.Left;
         end;
       gm2h:
         begin
@@ -885,8 +885,8 @@ begin
           //size
           UpdH(Pages1, Trunc(h * NSplit));
           //pos
-          FSplit1.Top:= h;
           Pages2.Top:= h;
+          FSplit1.Top:= Pages2.Top;
         end;
       gm3v:
         begin
@@ -904,10 +904,10 @@ begin
           UpdW(Pages1, w div 3);
           UpdW(Pages2, w div 3);
           //pos
-          FSplit1.Left:= w;
           Pages2.Left:= w;
-          FSplit2.Left:= w;
           Pages3.Left:= w;
+          FSplit1.Left:= Pages2.Left;
+          FSplit2.Left:= Pages3.Left;
         end;
       gm3h:
         begin
@@ -925,10 +925,10 @@ begin
           UpdH(Pages1, h div 3);
           UpdH(Pages2, h div 3);
           //pos
-          FSplit1.Top:= h;
           Pages2.Top:= h;
-          FSplit2.Top:= h;
           Pages3.Top:= h;
+          FSplit1.Top:= Pages2.Top;
+          FSplit2.Top:= Pages3.Top;
         end;
       gm4v:
         begin
@@ -949,12 +949,12 @@ begin
           UpdW(Pages2, w div 4);
           UpdW(Pages3, w div 4);
           //pos
-          FSplit1.Left:= w;
           Pages2.Left:= w;
-          FSplit2.Left:= w;
           Pages3.Left:= w;
-          FSplit3.Left:= w;
           Pages4.Left:= w;
+          FSplit1.Left:= Pages2.Left;
+          FSplit2.Left:= Pages3.Left;
+          FSplit3.Left:= Pages4.Left;
         end;
       gm4h:
         begin
@@ -975,12 +975,12 @@ begin
           UpdH(Pages2, h div 4);
           UpdH(Pages3, h div 4);
           //pos
-          FSplit1.Top:= h;
           Pages2.Top:= h;
-          FSplit2.Top:= h;
           Pages3.Top:= h;
-          FSplit3.Top:= h;
           Pages4.Top:= h;
+          FSplit1.Top:= Pages2.Top;
+          FSplit2.Top:= Pages3.Top;
+          FSplit3.Top:= Pages4.Top;
         end;
       gm4grid:
         begin
@@ -1121,16 +1121,16 @@ begin
           UpdW(Pages4, w div 6-3);
           UpdW(Pages5, w div 6-3);
           //pos
-          FSplit1.Left:= w;
           Pages2.Left:= w;
-          FSplit2.Left:= w;
           Pages3.Left:= w;
-          FSplit3.Left:= w;
           Pages4.Left:= w;
-          FSplit4.Left:= w;
           Pages5.Left:= w;
-          FSplit5.Left:= w;
           Pages6.Left:= w;
+          FSplit1.Left:= Pages2.Left;
+          FSplit2.Left:= Pages3.Left;
+          FSplit3.Left:= Pages4.Left;
+          FSplit4.Left:= Pages5.Left;
+          FSplit5.Left:= Pages6.Left;
         end;
       gm6h:
         begin
@@ -1157,16 +1157,16 @@ begin
           UpdH(Pages4, h div 6-3);
           UpdH(Pages5, h div 6-3);
           //pos
-          FSplit1.Top:= h;
           Pages2.Top:= h;
-          FSplit2.Top:= h;
           Pages3.Top:= h;
-          FSplit3.Top:= h;
           Pages4.Top:= h;
-          FSplit4.Top:= h;
           Pages5.Top:= h;
-          FSplit5.Top:= h;
           Pages6.Top:= h;
+          FSplit1.Top:= Pages2.Top;
+          FSplit2.Top:= Pages3.Top;
+          FSplit3.Top:= Pages4.Top;
+          FSplit4.Top:= Pages5.Top;
+          FSplit5.Top:= Pages6.Top;
         end;
     end;
 
