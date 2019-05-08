@@ -376,6 +376,9 @@ end;
 
 procedure DoControlLock(Ctl: TWinControl);
 begin
+  ////If it's called, CudaText has bug: change group mode from 1 to 4Vert,
+  ////and splitters show on wrong positions
+
   //Ctl.DisableAutoSizing;
 
   {$ifdef windows}
