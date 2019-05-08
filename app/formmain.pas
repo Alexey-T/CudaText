@@ -3393,6 +3393,7 @@ end;
 procedure TfmMain.SetShowBottom(AValue: boolean);
 var
   bBottom: boolean;
+  Frame: TEditorFrame;
 begin
   if GetShowBottom<>AValue then
   begin
@@ -3411,7 +3412,11 @@ begin
 
     if not AValue then
       if bBottom then
-        CurrentFrame.SetFocus;
+      begin
+        Frame:= CurrentFrame;
+        if Assigned(Frame) then
+          Frame.SetFocus;
+      end;
   end;
 
   UpdateBottomButtons;

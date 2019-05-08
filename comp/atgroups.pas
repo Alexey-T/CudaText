@@ -717,7 +717,8 @@ var
   NPagesBefore, NPagesAfter: Integer;
   i: Integer;
 begin
-  if Value<>FMode then
+  if Value=FMode then Exit;
+
   try
     DoControlLock(Self);
 
