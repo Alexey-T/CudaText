@@ -7,9 +7,10 @@ interface
 uses
   Classes, SysUtils, Controls, Graphics, StdCtrls, ComCtrls, Forms,
   LMessages, LCLType,
-  ATSynEdit_ScrollBar,
+  ATScrollBar,
   ATListbox,
   proc_colors,
+  proc_globdata,
   math;
 
 type
@@ -48,14 +49,10 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     property Themed: boolean read FThemed write SetThemed;
-    procedure DoScaleScrollbar;
     procedure SetFocus; override;
+    property ScrollVert: TATScroll read FScrollVert;
+    property ScrollHorz: TATScroll read FScrollHorz;
   end;
-
-const
-  UiOps_ScrollbarWidth: integer = 14;
-  UiOps_ScrollbarBorderSize: integer = 0;
-
 
 implementation
 
@@ -71,17 +68,19 @@ begin
   FScrollVert.Parent:= Self;
   FScrollVert.Kind:= sbVertical;
   FScrollVert.Align:= alRight;
-  FScrollVert.Width:= UiOps_ScrollbarWidth;
-  FScrollVert.IndentBorder:= UiOps_ScrollbarBorderSize;
+  FScrollVert.Width:= UiOps.ScrollbarWidth;
+  FScrollVert.WidthInitial:= UiOps.ScrollbarWidth;
+  FScrollVert.IndentBorder:= UiOps.ScrollbarBorderSize;
   FScrollVert.OnChange:= @ScrollVertChange;
 
   FScrollHorz:= TATScroll.Create(Self);
   FScrollHorz.Parent:= Self;
   FScrollHorz.Kind:= sbHorizontal;
   FScrollHorz.Align:= alBottom;
-  FScrollHorz.Height:= UiOps_ScrollbarWidth;
-  FScrollHorz.IndentBorder:= UiOps_ScrollbarBorderSize;
-  FScrollHorz.IndentCorner:= UiOps_ScrollbarWidth;
+  FScrollHorz.Height:= UiOps.ScrollbarWidth;
+  FScrollHorz.WidthInitial:= UiOps.ScrollbarWidth;
+  FScrollHorz.IndentBorder:= UiOps.ScrollbarBorderSize;
+  FScrollHorz.IndentCorner:= UiOps.ScrollbarWidth;
   FScrollHorz.OnChange:= @ScrollHorzChange;
 
   SetThemed(false);
@@ -94,12 +93,6 @@ begin
   FreeAndNil(FScrollVert);
   FreeAndNil(FScrollHorz);
   inherited;
-end;
-
-procedure TAppTreeContainer.DoScaleScrollbar;
-begin
-  FScrollVert.AutoAdjustLayout(lapDefault, 96, Screen.PixelsPerInch, 100, 100);
-  FScrollHorz.AutoAdjustLayout(lapDefault, 96, Screen.PixelsPerInch, 100, 100);
 end;
 
 procedure TAppTreeContainer.SetFocus;

@@ -87,6 +87,29 @@ procedure TfmCommands.FormShow(Sender: TObject);
 var
   i: integer;
 begin
+  list.Font.Name:= UiOps.VarFontName;
+  list.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+  edit.Height:= AppScale(UiOps.InputHeight);
+  edit.Font.Name:= EditorOps.OpFontName;
+  edit.Font.Size:= EditorOps.OpFontSize;
+  edit.Font.Quality:= EditorOps.OpFontQuality;
+  panelCaption.Font.Name:= UiOps.VarFontName;
+  panelCaption.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+
+  self.Color:= GetAppColor('ListBg');
+  edit.Colors.TextFont:= GetAppColor('EdTextFont');
+  edit.Colors.TextBG:= GetAppColor('EdTextBg');
+  edit.Colors.TextSelFont:= GetAppColor('EdSelFont');
+  edit.Colors.TextSelBG:= GetAppColor('EdSelBg');
+  edit.Colors.BorderLine:= GetAppColor('EdBorder');
+  list.Color:= GetAppColor('ListBg');
+  panelCaption.Font.Color:= GetAppColor('ListFont');
+
+  list.ItemHeight:= AppScaleFont(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
+  self.Width:= AppScale(UiOps.ListboxSizeX);
+  self.Height:= AppScale(UiOps.ListboxSizeY);
+
+  AppScaleScrollbar(list.Scrollbar);
   UpdateFormOnTop(Self);
   FixFormPositionToDesktop(Self);
 
@@ -115,8 +138,6 @@ begin
   if UiOps.ShowMenuDialogsWithBorder then
     BorderStyle:= bsDialog;
 
-  AutoAdjustLayout(lapAutoAdjustForDPI, 96, Screen.PixelsPerInch, Width, Width);
-
   OptShowUsual:= true;
   OptShowPlugins:= true;
   OptShowLexers:= true;
@@ -126,30 +147,9 @@ begin
   edit.DoubleBuffered:= UiOps.DoubleBuffered;
   list.DoubleBuffered:= UiOps.DoubleBuffered;
 
-  list.Font.Name:= UiOps.VarFontName;
-  list.Font.Size:= UiOps.VarFontSize;
-  edit.Height:= UiOps.InputHeight;
-  edit.Font.Name:= EditorOps.OpFontName;
-  edit.Font.Size:= EditorOps.OpFontSize;
-  edit.Font.Quality:= EditorOps.OpFontQuality;
-  panelCaption.Font.Name:= UiOps.VarFontName;
-  panelCaption.Font.Size:= UiOps.VarFontSize;
-
-  self.Color:= GetAppColor('ListBg');
-  edit.Colors.TextFont:= GetAppColor('EdTextFont');
-  edit.Colors.TextBG:= GetAppColor('EdTextBg');
-  edit.Colors.TextSelFont:= GetAppColor('EdSelFont');
-  edit.Colors.TextSelBG:= GetAppColor('EdSelBg');
-  edit.Colors.BorderLine:= GetAppColor('EdBorder');
-  list.Color:= GetAppColor('ListBg');
-  panelCaption.Font.Color:= GetAppColor('ListFont');
-
   ResultCommand:= 0;
   ResultHotkeysChanged:= false;
 
-  list.ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);
-  self.Width:= MulDiv(UiOps.ListboxSizeX, UiOps.ScreenScale, 100);
-  self.Height:= MulDiv(UiOps.ListboxSizeY, UiOps.ScreenScale, 100);
   keymapList:= TList.Create;
 end;
 

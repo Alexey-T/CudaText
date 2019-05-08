@@ -426,8 +426,8 @@ begin
 
     if (Ctl is TATButton) or (Ctl is TATPanelSimple) then
     begin
-      Ctl.Width:= MulDiv(Ctl.Width, UiOps.ScreenScale, 100);
-      Ctl.Height:= MulDiv(Ctl.Height, UiOps.ScreenScale, 100);
+      Ctl.Width:= AppScale(Ctl.Width);
+      Ctl.Height:= AppScale(Ctl.Height);
     end;
 
     if Ctl is TATPanelSimple then

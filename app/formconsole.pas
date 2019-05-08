@@ -183,16 +183,13 @@ begin
   ed:= TATComboEdit.Create(Self);
   ed.Parent:= Self;
   ed.Align:= alBottom;
-  ed.Height:= UiOps.InputHeight;
-
-  ed.OnCommand:= @ComboCommand;
-
   ed.WantTabs:= false;
   ed.TabStop:= true;
+  ed.OnCommand:= @ComboCommand;
+
   ed.OptTabSize:= 4;
   ed.OptBorderWidth:= 1;
   ed.OptBorderWidthFocused:= 1;
-  ed.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
 
   memo:= TATSynEdit.Create(Self);
   memo.Parent:= Self;
@@ -243,8 +240,6 @@ begin
   mnuTextNav.Caption:= 'Navigate';
   mnuTextNav.OnClick:= @DoNavigate;
   memo.PopupTextDefault.Items.Add(mnuTextNav);
-
-  AutoAdjustLayout(lapAutoAdjustForDPI, 96, Screen.PixelsPerInch, 100, 100);
 end;
 
 procedure TfmConsole.ComboCommand(Sender: TObject; ACmd: integer;

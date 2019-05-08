@@ -759,13 +759,16 @@ begin
   if (S='treeview') then
   begin
     Ctl:= TAppTreeContainer.Create(AForm);
-    DoApplyThemeToTreeview((Ctl as TAppTreeContainer).Tree, false, true);
-    (Ctl as TAppTreeContainer).Tree.BorderStyle:= bsSingle;
-    (Ctl as TAppTreeContainer).Tree.Images:= TImageList.Create(Ctl);
-    (Ctl as TAppTreeContainer).Tree.OnChange:= @AForm.DoOnTreeviewChange;
-    (Ctl as TAppTreeContainer).Tree.OnSelectionChanged:= @AForm.DoOnTreeviewSelect;
-    (Ctl as TAppTreeContainer).Tree.OnCollapsing:= @AForm.DoOnTreeviewCollapsing;
-    (Ctl as TAppTreeContainer).Tree.OnExpanding:= @AForm.DoOnTreeviewExpanding;
+    DoApplyThemeToTreeview(TAppTreeContainer(Ctl).Tree, false, true);
+    TAppTreeContainer(Ctl).Tree.BorderStyle:= bsSingle;
+    TAppTreeContainer(Ctl).Tree.Images:= TImageList.Create(Ctl);
+    TAppTreeContainer(Ctl).Tree.OnChange:= @AForm.DoOnTreeviewChange;
+    TAppTreeContainer(Ctl).Tree.OnSelectionChanged:= @AForm.DoOnTreeviewSelect;
+    TAppTreeContainer(Ctl).Tree.OnCollapsing:= @AForm.DoOnTreeviewCollapsing;
+    TAppTreeContainer(Ctl).Tree.OnExpanding:= @AForm.DoOnTreeviewExpanding;
+    TAppTreeContainer(Ctl).Tree.DefaultItemHeight:= AppScale(DefaultTreeNodeHeight);
+    AppScaleScrollbar(TAppTreeContainer(Ctl).ScrollHorz);
+    AppScaleScrollbar(TAppTreeContainer(Ctl).ScrollVert);
     exit
   end;
 
@@ -773,10 +776,11 @@ begin
   begin
     Ctl:= TATListbox.Create(AForm);
     TATListbox(Ctl).VirtualMode:= false;
-    TATListbox(Ctl).ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);;
+    TATListbox(Ctl).ItemHeight:= AppScaleFont(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
     TATListbox(Ctl).CanGetFocus:= true;
     TATListbox(Ctl).OnChangedSel:= @AForm.DoOnChange;
     TATListbox(Ctl).OnDrawItem:= @AForm.DoOnListboxDrawItem;
+    AppScaleScrollbar(TATListbox(Ctl).Scrollbar);
     exit;
   end;
 
@@ -1844,8 +1848,6 @@ end;
 
 procedure DoForm_ScaleAuto(F: TForm);
 begin
-  if Screen.PixelsPerInch=96 then exit;
-
   {$ifdef darwin}
   exit;
   //macOS: gives bad result, toolbar big labels
@@ -1855,10 +1857,12 @@ begin
   ////fix it by F.ScaleFontsPPI
   //F.ScaleFontsPPI(96/Screen.PixelsPerInch);
 
-  F.AutoAdjustLayout(
-    lapAutoAdjustForDPI ,
-    96, Screen.PixelsPerInch,
-    F.Width, F.Scale96ToForm(F.Width));
+  if UiOps.Scale<>100 then
+    F.AutoAdjustLayout(
+      lapAutoAdjustForDPI ,
+      96, AppScale(96),
+      F.Width, AppScale(F.Width)
+      );
 end;
 
 

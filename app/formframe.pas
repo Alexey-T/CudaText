@@ -1392,7 +1392,6 @@ begin
   ed.Parent:= Self;
 
   ed.DoubleBuffered:= UiOps.DoubleBuffered;
-  ed.AutoAdjustLayout(lapDefault, 100, UiOps.ScreenScale, 1, 1);
 
   ed.Font.Name:= EditorOps.OpFontName;
   ed.FontItalic.Name:= EditorOps.OpFontName_i;
@@ -2398,12 +2397,12 @@ var
     if ALeft then
     begin
       Result.Left:= ARect.Left;
-      Result.Right:= Result.Left + EditorOps.OpMicromapWidthSmall;
+      Result.Right:= Result.Left + EditorScale(EditorOps.OpMicromapWidthSmall);
     end
     else
     begin
       Result.Right:= ARect.Right;
-      Result.Left:= Result.Right - EditorOps.OpMicromapWidthSmall;
+      Result.Left:= Result.Right - EditorScale(EditorOps.OpMicromapWidthSmall);
     end;
     Result.Top:= ARect.Top+Trunc(NLine1*NScale);
     Result.Bottom:= Max(Result.Top+2, ARect.Top+Trunc((NLine2+1)*NScale));

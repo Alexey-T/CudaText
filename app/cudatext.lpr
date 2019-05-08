@@ -29,6 +29,7 @@ begin
     Application.MainFormOnTaskBar:= True;
   {$IFEND}
   Application.Title:= 'CudaText';
+  Application.Scaled:= false;
   RequireDerivedFormResource:= True;
   Application.Initialize;
   Application.CreateForm(TfmMain, fmMain);

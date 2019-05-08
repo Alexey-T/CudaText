@@ -224,6 +224,7 @@ begin
     AnchorSideTop.Side:= asrTop;
     Anchors:= [akRight, akTop, akBottom];
     BorderSpacing.Around:= 2;
+    Width:= UiOps.ProgressbarWidth;
   end;
 
   with LexerProgress do
@@ -233,16 +234,14 @@ begin
     AnchorSideRight.Side:= asrBottom;
     AnchorSideBottom.Control:= Status;
     AnchorSideBottom.Side:= asrBottom;
-    AnchorSideTop.Control:= Status;
-    AnchorSideTop.Side:= asrTop;
-    Anchors:= [akRight, akTop, akBottom];
+    Anchors:= [akRight, akBottom];
     BorderSpacing.Around:= 2;
-    BorderSpacing.Top:= Status.Height * 2 div 3;
     Kind:= gkHorizontalBar;
     ShowText:= false;
     MinValue:= 0;
     MaxValue:= 100;
-    Width:= 40;
+    Width:= UiOps.ProgressbarWidth;
+    Height:= UiOps.ProgressbarHeightSmall;
   end;
 
   with ButtonCancel do
@@ -253,7 +252,8 @@ begin
     AnchorSideBottom.Side:= asrBottom;
     AnchorSideTop.Control:= StatusProgress;
     Anchors:= [akRight, akTop, akBottom];
-    BorderSpacing.Around:= 2;
+    BorderSpacing.Right:= 2;
+    Width:= UiOps.ProgressbarWidth;
   end;
 
   LexerProgress.Hide;
@@ -290,7 +290,7 @@ begin
   end;
 
   if AndHeight then
-    Form.Height:= MulDiv(UiOps.ListboxSizeY, UiOps.ScreenScale, 100);
+    Form.Height:= AppScale(UiOps.ListboxSizeY);
 end;
 
 
@@ -389,7 +389,7 @@ end;
 procedure TfmMain.DoApplyFont_Ui;
 begin
   Self.Font.Name:= UiOps.VarFontName;
-  Self.Font.Size:= UiOps.VarFontSize;
+  Self.Font.Size:= AppScaleFont(UiOps.VarFontSize);
   Self.Font.Color:= GetAppColor('TabFont');
 
   Groups.SetTabFont(Self.Font);
@@ -400,25 +400,27 @@ begin
     GroupsF3.SetTabFont(Self.Font);
   end;
 
-  Status.Font:= Self.Font;
-  StatusAlt.Font:= Self.Font;
-  StatusProgress.Font:= Self.Font;
+  Status.Font.Name:= UiOps.VarFontName;
+  Status.Font.Size:= UiOps.VarFontSize; //dont scale
+  StatusAlt.Font.Name:= UiOps.VarFontName;
+  StatusAlt.Font.Size:= UiOps.VarFontSize; //dont scale
+
+  StatusProgress.Font.Assign(Self.Font);
 
   //dont set font for PanelLeft/PanelBottom, side effects
   CodeTree.Tree.Font.Name:= UiOps.VarFontName;
-  CodeTree.Tree.Font.Size:= UiOps.VarFontSize;
-  CodeTree.Tree.Font.PixelsPerInch:= Screen.PixelsPerInch;
+  CodeTree.Tree.Font.Size:= AppScaleFont(UiOps.VarFontSize);
 
   CodeTreeFilterInput.Font.Name:= EditorOps.OpFontName;
   CodeTreeFilterInput.Font.Size:= EditorOps.OpFontSize;
-  CodeTreeFilterInput.Font.PixelsPerInch:= Screen.PixelsPerInch;
 
   PanelLeftTitle.Font.Name:= UiOps.VarFontName;
-  PanelLeftTitle.Font.Size:= UiOps.VarFontSize;
-  PanelLeftTitle.Font.PixelsPerInch:= Screen.PixelsPerInch;
+  PanelLeftTitle.Font.Size:= AppScaleFont(UiOps.VarFontSize);
 
   ATButtonTheme.FontName:= UiOps.VarFontName;
   ATButtonTheme.FontSize:= UiOps.VarFontSize;
+  ATButtonTheme.ScalePercents:= UiOps.Scale;
+  ATButtonTheme.ScaleFontPercents:= UiOps.ScaleFont;
 
   if Assigned(fmFind) then fmFind.UpdateFonts;
 
@@ -431,10 +433,10 @@ end;
 procedure TfmMain.DoApplyFont_Output;
 begin
   ListboxOut.Font.Name:= UiOps.OutputFontName;
-  ListboxOut.Font.Size:= UiOps.OutputFontSize;
+  ListboxOut.Font.Size:= AppScaleFont(UiOps.OutputFontSize);
   ListboxVal.Font.Name:= UiOps.OutputFontName;
-  ListboxVal.Font.Size:= UiOps.OutputFontSize;
-  ListboxOut.ItemHeight:= GetListboxItemHeight(UiOps.OutputFontName, UiOps.OutputFontSize);
+  ListboxVal.Font.Size:= AppScaleFont(UiOps.OutputFontSize);
+  ListboxOut.ItemHeight:= AppScaleFont(GetListboxItemHeight(UiOps.OutputFontName, UiOps.OutputFontSize));
   ListboxVal.ItemHeight:= ListboxOut.ItemHeight;
 end;
 
@@ -993,6 +995,7 @@ begin
     CodeTree.SourceObject:= Ed;
 
     //force update scrollbar
+    CodeTree.Tree.Font.Size:= AppScaleFont(UiOps.VarFontSize);
     CodeTree.Tree.Perform(CM_CHANGED, 0, 0);
   end;
  end;
@@ -1238,7 +1241,7 @@ begin
   ImageListSide.Clear;
 
   //set ButtonWidth for vertical bars
-  ToolbarSideTop.ButtonWidth:= MulDiv(ImageListSide.Width+8, UiOps.ScreenScale, 100);
+  ToolbarSideTop.ButtonWidth:= AppScale(ImageListSide.Width+8);
   ToolbarSideLow.ButtonWidth:= ToolbarSideTop.ButtonWidth;
   ToolbarSideMid.ButtonWidth:= ToolbarSideTop.ButtonWidth;
 
@@ -1312,6 +1315,7 @@ begin
   UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'comment.png');
   UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'opt.png');
 
+  AppScaleToolbar(ToolbarMain);
   ToolbarMain.UpdateControls;
 end;
 

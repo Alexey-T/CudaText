@@ -4,10 +4,16 @@
   * changed
 
 
-1.79.3 (2019/05)
+1.80.0 (2019/05)
 
++ add: UI can now be scaled freely, independing of OS high-DPI mode. Added options "ui_scale", "ui_scale_font".
 + add: menu items in "Edit" menu are auto disabled (Undo, Redo, Copy, Cut, Paste, Delete)
 + add: don't show warning "File is maybe not text" if text has char(27)
+* change: deleted option "ui_statusbar_height"
+* change: deleted option "numbers_font_size"
+* change: deleted option "ruler_font_size"
+* change: deleted option "ruler_size"
+* change: deleted option "micromap_width"
 - fix: bugs with vertical scrollbar, it wasn't auto moved
 
 1.79.2 (2019/04)

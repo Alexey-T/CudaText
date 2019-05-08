@@ -702,11 +702,17 @@ begin
     UiOps.StatusColSel:= c.GetValue('ui_statusbar_col_sel', UiOps.StatusColSel);
     UiOps.StatusCarets:= c.GetValue('ui_statusbar_carets', UiOps.StatusCarets);
     UiOps.StatusPanels:= c.GetValue('ui_statusbar_panels', UiOps.StatusPanels);
-    UiOps.StatusHeight:= c.GetValue('ui_statusbar_height', UiOps.StatusHeight);
+    //UiOps.StatusHeight:= c.GetValue('ui_statusbar_height', UiOps.StatusHeight); //assigned from "ui_tab_size_y"
     UiOps.StatusTime:= Max(1, Min(60, c.GetValue('ui_statusbar_time', UiOps.StatusTime)));
 
     UiOps.ShowActiveBorder:= c.GetValue('ui_active_border', UiOps.ShowActiveBorder);
     UiOps.ShowTitlePath:= c.GetValue('ui_title_path', UiOps.ShowTitlePath);
+
+    UiOps.Scale:= c.GetValue('ui_scale'+cOptionSystemSuffix, UiOps.Scale);
+    UiOps.ScaleFont:= c.GetValue('ui_scale_font'+cOptionSystemSuffix, UiOps.ScaleFont);
+    if UiOps.Scale<50 then
+      UiOps.Scale:= 100*Screen.PixelsPerInch div 96;
+
     UiOps.ReopenSession:= c.GetValue('ui_reopen_session', UiOps.ReopenSession);
     UiOps.AutoSaveSession:= c.GetValue('ui_auto_save_session', UiOps.AutoSaveSession);
     //UiOps.FloatGroupsInTaskbar:= c.GetValue('ui_float_groups_in_taskbar', UiOps.FloatGroupsInTaskbar);
@@ -768,15 +774,13 @@ begin
     Op.OpGutterBookmarks:= c.GetValue('gutter_bookmarks', Op.OpGutterBookmarks);
 
     Op.OpNumbersShow:= c.GetValue('numbers_show', Op.OpNumbersShow);
-    Op.OpNumbersFontSize:= c.GetValue('numbers_font_size', Op.OpNumbersFontSize);
+    //Op.OpNumbersFontSize:= c.GetValue('numbers_font_size', Op.OpNumbersFontSize);
     Op.OpNumbersStyle:= c.GetValue('numbers_style', Op.OpNumbersStyle);
     Op.OpNumbersForCarets:= c.GetValue('numbers_for_carets', Op.OpNumbersForCarets);
     Op.OpNumbersCenter:= c.GetValue('numbers_center', Op.OpNumbersCenter);
 
     Op.OpRulerShow:= c.GetValue('ruler_show', Op.OpRulerShow);
     Op.OpRulerNumeration:= c.GetValue('ruler_numeration', Op.OpRulerNumeration);
-    Op.OpRulerFontSize:= c.GetValue('ruler_font_size', Op.OpRulerFontSize);
-    Op.OpRulerSize:= c.GetValue('ruler_size', Op.OpRulerSize);
     Op.OpRulerMarkCaret:= c.GetValue('ruler_mark_caret', Op.OpRulerMarkCaret);
     //Op.OpRulerTextIndent:= c.GetValue('ruler_text_indent', Op.OpRulerTextIndent);
 
@@ -790,7 +794,6 @@ begin
     Op.OpMinimapTooltipWidth:= c.GetValue('minimap_tooltip_width', Op.OpMinimapTooltipWidth);
 
     Op.OpMicromapShow:= c.GetValue('micromap_show', Op.OpMicromapShow);
-    Op.OpMicromapWidth:= c.GetValue('micromap_width', Op.OpMicromapWidth);
 
     Op.OpMarginFixed:= c.GetValue('margin', Op.OpMarginFixed);
     Op.OpMarginString:= c.GetValue('margin_string', Op.OpMarginString);
@@ -918,6 +921,7 @@ begin
     UiOps.TabWidthMin:= c.GetValue('ui_tab_size_x_min', UiOps.TabWidthMin);
     UiOps.TabWidthMax:= c.GetValue('ui_tab_size_x_max', UiOps.TabWidthMax);
     UiOps.TabHeight:= c.GetValue('ui_tab_size_y', UiOps.TabHeight);
+      UiOps.StatusHeight:= UiOps.TabHeight;
     UiOps.TabHeightInner:= UiOps.TabHeight-1;
     UiOps.TabPosition:= c.GetValue('ui_tab_position', UiOps.TabPosition);
     UiOps.TabColorFull:= c.GetValue('ui_tab_fullcolor', UiOps.TabColorFull);

@@ -29,10 +29,13 @@ uses
   ATSynEdit_Keymap,
   ATSynEdit_Keymap_Init,
   ATSynEdit_Adapter_litelexer,
+  ATSynEdit_ScrollBar,
   ATStringProc,
   ATButtons,
+  ATFlatToolbar,
   ATListbox,
   ATStatusBar,
+  ATScrollBar,
   at__jsonconf,
   proc_cmd,
   proc_msg,
@@ -113,8 +116,6 @@ type
 
 type
   TUiOps = record
-    ScreenScale: integer;
-
     VarFontName: string;
     VarFontSize: integer;
     OutputFontName: string;
@@ -239,12 +240,21 @@ type
     StatusTime: integer;
     StatusAltTime: integer;
 
+    ScrollbarWidth: integer;
+    ScrollbarBorderSize: integer;
+    ScrollbarArrowSize: integer;
+
+    ProgressbarWidth: integer;
+    ProgressbarHeightSmall: integer;
+
     ShowMenubar: boolean;
     ShowStatusbar: boolean;
     ShowToolbar: boolean;
     ShowActiveBorder: boolean;
     ShowSidebarCaptions: boolean;
     ShowTitlePath: boolean;
+    Scale: integer;
+    ScaleFont: integer;
 
     ReopenSession: boolean;
     AutoSaveSession: boolean;
@@ -340,16 +350,12 @@ type
     OpGutterBookmarks: boolean;
 
     OpNumbersShow: boolean;
-    OpNumbersFontSize: integer;
     OpNumbersStyle: integer;
     OpNumbersForCarets: boolean;
     OpNumbersCenter: boolean;
 
     OpRulerShow: boolean;
     OpRulerNumeration: integer;
-    OpRulerFontSize: integer;
-    OpRulerSize: integer;
-    OpRulerTextIndent: integer;
     OpRulerMarkCaret: integer;
 
     OpMinimapShow: boolean;
@@ -361,7 +367,6 @@ type
     OpMinimapTooltipLineCount: integer;
     OpMinimapTooltipWidth: integer;
     OpMicromapShow: boolean;
-    OpMicromapWidth: integer;
     OpMicromapWidthSmall: integer;
     OpMarginFixed: integer;
     OpMarginString: string;
@@ -487,6 +492,11 @@ function IsLexerStyleCommentOrString(const ALexer, AStyle: string): boolean;
 function MsgBox(const Str: string; Flags: Longint): integer;
 procedure MsgBadConfig(const fn: string);
 procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
+
+function AppScale(AValue: integer): integer;
+function AppScaleFont(AValue: integer): integer;
+procedure AppScaleToolbar(C: TATFlatToolbar);
+procedure AppScaleScrollbar(C: TATScroll);
 
 function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
 function FixFontMonospaced(const AName: string): string;
@@ -1065,16 +1075,12 @@ begin
     OpGutterFoldIcons:= 0;
 
     OpNumbersShow:= true;
-    OpNumbersFontSize:= 0;
     OpNumbersStyle:= Ord(cNumbersAll);
     OpNumbersForCarets:= false;
     OpNumbersCenter:= true;
 
     OpRulerShow:= false;
     OpRulerNumeration:= 0;
-    OpRulerFontSize:= 8;
-    OpRulerSize:= 20;
-    OpRulerTextIndent:= 0;
     OpRulerMarkCaret:= 1;
 
     OpMinimapShow:= false;
@@ -1087,7 +1093,6 @@ begin
     OpMinimapTooltipWidth:= 60;
 
     OpMicromapShow:= false;
-    OpMicromapWidth:= 12;
     OpMicromapWidthSmall:= 4;
 
     OpMarginFixed:= 2000; //hide margin
@@ -1204,8 +1209,6 @@ procedure InitUiOps(var Op: TUiOps);
 begin
   with Op do
   begin
-    ScreenScale:= 100;
-
     VarFontName:= 'default';
     VarFontSize:= 9;
 
@@ -1334,6 +1337,13 @@ begin
     StatusTime:= 5;
     StatusAltTime:= 7;
 
+    ScrollbarWidth:= 14;
+    ScrollbarBorderSize:= 0;
+    ScrollbarArrowSize:= 3;
+
+    ProgressbarWidth:= 50;
+    ProgressbarHeightSmall:= 6;
+
     ShowMenubar:= true;
     ShowStatusbar:= true;
     ShowToolbar:= false;
@@ -1341,10 +1351,13 @@ begin
     ShowSidebarCaptions:= false;
     ShowTitlePath:= false;
 
+    Scale:= 100;
+    ScaleFont:= {$ifdef windows} 100 {$else} 0 {$endif};
+
     ReopenSession:= true;
     AutoSaveSession:= false;
     ShowFormsOnTop:= false;
-    ShowMenuDialogsWithBorder:= {$ifdef linux} true {$else} false {$endif};
+    ShowMenuDialogsWithBorder:= {$ifdef LCLGTK2} true {$else} false {$endif};
     UndoPersistent:= '';
 
     FloatGroupsInTaskbar:= true;
@@ -2108,6 +2121,33 @@ begin
   end;
   Result:= ADefValue;
 end;
+
+function AppScale(AValue: integer): integer; inline;
+begin
+  Result:= AValue * UiOps.Scale div 100;
+end;
+
+function AppScaleFont(AValue: integer): integer;
+begin
+  if UiOps.ScaleFont=0 then
+    Result:= AppScale(AValue)
+  else
+    Result:= AValue * UiOps.ScaleFont div 100;
+end;
+
+procedure AppScaleToolbar(C: TATFlatToolbar);
+begin
+  if Assigned(C.Images) then
+    C.ButtonWidth:= C.Images.Width+6;
+  C.UpdateControls();
+end;
+
+procedure AppScaleScrollbar(C: TATScroll);
+begin
+  C.WidthInitial:= UiOps.ScrollbarWidth;
+  C.ScalePercents:= UiOps.Scale;
+end;
+
 
 initialization
   InitDirs;

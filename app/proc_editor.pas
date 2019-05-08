@@ -23,6 +23,7 @@ uses
   ATSynEdit_Ranges,
   ATSynEdit_Commands,
   ATSynEdit_CharSizer,
+  ATSynEdit_Edits,
   ATStrings,
   ATStringProc,
   proc_globdata,
@@ -117,7 +118,6 @@ begin
   Ed.Gutter[Ed.GutterBandNum].Visible:= Op.OpNumbersShow;
   Ed.Gutter.Update;
 
-  Ed.OptNumbersFontSize:= Op.OpNumbersFontSize;
   if Op.OpNumbersStyle<=Ord(High(TATSynNumbersStyle)) then
     Ed.OptNumbersStyle:= TATSynNumbersStyle(Op.OpNumbersStyle);
   Ed.OptNumbersShowCarets:= Op.OpNumbersForCarets;
@@ -128,9 +128,6 @@ begin
 
   Ed.OptRulerVisible:= Op.OpRulerShow;
   Ed.OptRulerNumeration:= TATRulerNumeration(Op.OpRulerNumeration);
-  Ed.OptRulerFontSize:= Op.OpRulerFontSize;
-  Ed.OptRulerSize:= Op.OpRulerSize;
-  Ed.OptRulerTextIndent:= Op.OpRulerTextIndent;
   Ed.OptRulerMarkSizeCaret:= Op.OpRulerMarkCaret;
 
   Ed.OptMinimapVisible:= Op.OpMinimapShow;
@@ -143,7 +140,6 @@ begin
   Ed.OptMinimapTooltipWidthPercents:= Op.OpMinimapTooltipWidth;
 
   Ed.OptMicromapVisible:= Op.OpMicromapShow;
-  Ed.OptMicromapWidth:= Op.OpMicromapWidth;
 
   Ed.OptMarginRight:= Op.OpMarginFixed;
   Ed.OptMarginString:= Op.OpMarginString;

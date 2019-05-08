@@ -28,6 +28,10 @@ CARET_SET_ONE    = 0
 CARET_ADD        = 1
 CARET_DELETE_ALL = 2
 CARET_SET_INDEX  = 100
+CARET_DELETE_INDEX = 2000000
+
+CARET_OPTION_NO_SCROLL = 1
+CARET_OPTION_UNFOLD = 2
 
 APP_DIR_EXE             = 0
 APP_DIR_SETTINGS        = 1
@@ -1027,8 +1031,8 @@ class Editor:
     def get_carets(self):
         return ct.ed_get_carets(self.h)
 
-    def set_caret(self, x1, y1, x2=-1, y2=-1, id=CARET_SET_ONE):
-        return ct.ed_set_caret(self.h, x1, y1, x2, y2, id)
+    def set_caret(self, x1, y1, x2=-1, y2=-1, id=CARET_SET_ONE, options=0):
+        return ct.ed_set_caret(self.h, x1, y1, x2, y2, id, options)
 
     def get_line_count(self):
         return ct.ed_get_line_count(self.h)
@@ -1075,8 +1079,8 @@ class Editor:
     def replace_lines(self, y1, y2, lines):
         return ct.ed_replace_lines(self.h, y1, y2, lines)
 
-    def get_filename(self):
-        return ct.ed_get_filename(self.h)
+    def get_filename(self, options=''):
+        return ct.ed_get_filename(self.h, options)
 
     def save(self, filename=''):
         return ct.ed_save(self.h, filename)

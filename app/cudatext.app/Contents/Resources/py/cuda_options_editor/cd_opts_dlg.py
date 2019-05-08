@@ -2,7 +2,7 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '2.3.09 2019-04-29'
+    '2.3.10 2019-05-02'
 ToDo: (see end of file)
 '''
 
@@ -53,7 +53,7 @@ FONT_LST    = ['default'] \
                 if not font.startswith('@')] 
 pass;                          #FONT_LST=FONT_LST[:3]
 
-def load_definitions(defn_path:Path)->list:
+def load_definitions(defn_path_or_json)->list:
     """ Return  
             [{  opt:'opt name'
             ,   def:<def val>
@@ -71,12 +71,17 @@ def load_definitions(defn_path:Path)->list:
             ,   tgs:['tag',]
             }]
     """
-    pass;                      #LOG and log('defn_path={}',(defn_path))
+    pass;                      #LOG and log('defn_path_or_json={}',(defn_path_or_json))
     kinfs   = []
-    lines   = defn_path.open(encoding='utf8').readlines()
+    lines   = defn_path_or_json \
+                if str==type(defn_path_or_json) else \
+              defn_path_or_json.open(encoding='utf8').readlines()
     if lines[0][0]=='[':
         # Data is ready - SKIP parsing
-        kinfs   = json.loads(defn_path.open(encoding='utf8').read(), object_pairs_hook=odict)
+        json_bd = defn_path_or_json \
+                    if str==type(defn_path_or_json) else \
+                  defn_path_or_json.open(encoding='utf8').read()
+        kinfs   = json.loads(json_bd, object_pairs_hook=odict)
         for kinf in kinfs:
             pass;              #LOG and log('opt in kinf={}',('opt' in kinf))
             if isinstance(kinf['cmt'], list):
@@ -219,7 +224,7 @@ def load_definitions(defn_path:Path)->list:
             pre_kinf= kinf.copy()
             cmnt    = ''
        #for line
-    pass;                      #open(str(defn_path)+'.p.json', 'w').write(json.dumps(kinfs,indent=2))
+    pass;                      #open(str(defn_path_or_json)+'.p.json', 'w').write(json.dumps(kinfs,indent=2))
     upd_cald_vals(kinfs, '+def')
     for kinf in kinfs:
         kinf['jdc'] = kinf.get('jdc', kinf.get('dct', []))
@@ -434,7 +439,9 @@ class OptEdD:
     COL_USR = 4
     COL_LXR = 5
     COL_FIL = 6
-    COL_NMS = (_('Section'), _('Option'), '!', _('Default'), ('User'), _('Lexer'), _('File "{}"'))
+    COL_LEXR= _('Lexer')
+    COL_FILE= _('File "{}"')
+    COL_NMS = (_('Section'), _('Option'), '!', _('Default'), ('User'), COL_LEXR, COL_FILE)
     COL_MWS = [   70,           210,       25,    120,         120,       70,         50]   # Min col widths
 #   COL_MWS = [   70,           150,       25,    120,         120,       70,         50]   # Min col widths
     COL_N   = len(COL_MWS)
@@ -481,7 +488,7 @@ class OptEdD:
         return sorts_dflt(len(M.COL_NMS))
 
     def __init__(self
-        , path_keys_info    =''             # default.json or parsed data
+        , path_keys_info    =''             # default.json or parsed data (file or list_of_dicts)
         , subset            =''             # To get/set from/to cuda_options_editor.json
         , how               ={}             # Details to work
         ):
@@ -490,7 +497,8 @@ class OptEdD:
         m.ed        = ed
         m.how       = how
         
-        m.defn_path = Path(path_keys_info)
+        m.defn_path = Path(path_keys_info)  if str==type(path_keys_info) else json.dumps(path_keys_info)
+
         m.subset    = subset
         m.stores    = get_hist('dlg'
                         , json.loads(open(CFG_JSON).read(), object_pairs_hook=odict)
@@ -700,7 +708,9 @@ class OptEdD:
         
         pass;                  #LOG and log('m.cur_op, m.lexr={}',(m.cur_op, m.lexr))
         vis,ens,vas,its,bcl = {},{},{},{},{}
-        bcl['eded'] = bcl['dfvl'] = 0x20000000
+        vis['edcl'] = vis['dfcl'] = False
+        bcl['edcl'] = bcl['dfcl'] = 0x20000000
+#       bcl['eded'] = bcl['dfvl'] = 0x20000000
         
         ens['eded'] = ens['setd']                                                   = False # All un=F
         vis['eded'] = vis['edcb']=vis['edrf']=vis['edrt']=vis['brow']=vis['toop']   = False # All vi=F
@@ -755,8 +765,10 @@ class OptEdD:
                 vis['eded'] = True
                 vis['brow'] = True
                 vas['eded'] = str(ulfvl_va)
-                bcl['eded'] = apx.html_color_to_int(ulfvl_va    ) if frm in ('#rgb', '#rgb-e') and ulfvl_va     else 0x20000000
-                bcl['dfvl'] = apx.html_color_to_int(vas['dfvl'] ) if frm in ('#rgb', '#rgb-e') and vas['dfvl']  else 0x20000000
+                vis['edcl'] = frm in ('#rgb', '#rgb-e')
+                vis['dfcl'] = frm in ('#rgb', '#rgb-e')
+                bcl['edcl'] = apx.html_color_to_int(ulfvl_va    ) if frm in ('#rgb', '#rgb-e') and ulfvl_va     else 0x20000000
+                bcl['dfcl'] = apx.html_color_to_int(vas['dfvl'] ) if frm in ('#rgb', '#rgb-e') and vas['dfvl']  else 0x20000000
             elif frm in ('bool',):
                 vis['edrf'] = True
                 vis['edrt'] = True
@@ -823,6 +835,8 @@ class OptEdD:
                                     'gen_repro_to_file':repro_py,    #NOTE: repro
                                 } if repro_py else {})
         )
+        # Select on pre-show. Reason: linux skip selection event after show
+        m.ag._update_on_call(m.do_sele('lvls', m.ag))
 
         m.stbr  = app.dlg_proc(m.ag.id_dlg, app.DLG_CTL_HANDLE, name='stbr')
         app.statusbar_proc(m.stbr, app.STATUSBAR_ADD_CELL               , tag=M.STBR_ALL)
@@ -888,9 +902,12 @@ class OptEdD:
                         ,mi=M.COL_MWS[c]
                         )   for c in range(M.COL_N)]
             cols[M.COL_OVR]['al']   = 'C'
+            if m.how.get('hide_fil', False):
+                pos_fil = M.COL_NMS.index(M.COL_FILE)
+                cols[pos_fil]['vi'] = False
             if m.how.get('hide_lex_fil', False):
-                pos_lex = M.COL_NMS.index(_('Lexer'))
-                pos_fil = M.COL_NMS.index(_('File "{}"'))
+                pos_lex = M.COL_NMS.index(M.COL_LEXR)
+                pos_fil = M.COL_NMS.index(M.COL_FILE)
                 cols[pos_lex]['vi'] = False
                 cols[pos_fil]['vi'] = False
             return cols
@@ -978,15 +995,18 @@ class OptEdD:
             ,('ed_s',d(cap=ed_s_c                       ,hint=m.cur_op      ))
 #           ,('eded',d(vis=vis['eded']                    ,sto=ens['eded']  ,color=bcl['eded']  ))
 #           ,('eded',d(vis=vis['eded'],ex0=not ens['eded'],sto=ens['eded']  ,color=bcl['eded']  ))
-            ,('eded',d(vis=vis['eded'],en=ens['eded']                       ,color=bcl['eded']  ))
+#           ,('eded',d(vis=vis['eded'],en=ens['eded']                       ,color=bcl['eded']  ))
+            ,('eded',d(vis=vis['eded'],en=ens['eded']                       ))
+            ,('edcl',d(vis=vis['edcl']                                      ,color=bcl['edcl']  ))
             ,('edcb',d(vis=vis['edcb']                  ,items=its['edcb']  ))
             ,('edrf',d(vis=vis['edrf']                                      ))
             ,('edrt',d(vis=vis['edrt']                                      ))
             ,('brow',d(vis=vis['brow']                                      ))
             ,('toop',d(vis=vis['toop']                                      ))
             ,('dfv_',d(                                  hint=m.cur_op      ))
-            ,('dfvl',d(                                                       color=bcl['dfvl']  ))
-#           ,('dfvl',d(                en=ens['dfvl']                       ,_color=bcl['dfvl']  ))
+            ,('dfvl',d(                                                     ))
+#           ,('dfvl',d(                en=ens['dfvl']                       ,color=bcl['dfvl']  ))
+            ,('dfcl',d(vis=vis['dfcl']                                      ,color=bcl['dfcl']  ))
             ,('setd',d(                en=ens['setd']                       ))
             ,('tofi',d(                en=tofi_en                           ))
             ][1:]
@@ -996,6 +1016,7 @@ class OptEdD:
             return cnts
 
         # Full dlg controls info    #NOTE: cnts
+        edit_h  = get_gui_height('edit')
         cmnt_t  = m.dlg_h-m.h_cmnt-5-M.STBR_H
         tofi_c  = m.ed.get_prop(app.PROP_TAB_TITLE)
         co_tp   = 'ed' if m.live_fltr else 'cb'
@@ -1032,6 +1053,7 @@ class OptEdD:
  ,('ed_s',d(tp='lb' ,t=210      ,l=   5 ,w=  70 ,p='ptop'   ,cap=ed_s_c             ,hint=m.cur_op                  ,a='TB'     ))  # &e 
  ,('eded',d(tp='ed' ,tid='ed_s' ,l=  78 ,r=-270 ,p='ptop'                           ,vis=vis['eded'],ex0=not ens['eded'],a='TBlR'   ))  #
 #,('eded',d(tp='ed' ,tid='ed_s' ,l=  78 ,r=-270 ,p='ptop'                           ,vis=vis['eded'],en=ens['eded'] ,a='TBlR'   ))  #
+ ,('edcl',d(tp='clr',t=210-2    ,l= 210 ,r=-271 ,p='ptop'   ,h=edit_h-4             ,vis=vis['edcl'],border=True    ,a='TBlR'   ))  #
  ,('edcb',d(tp='cbr',tid='ed_s' ,l=  78 ,r=-270 ,p='ptop'   ,items=its['edcb']      ,vis=vis['edcb']                ,a='TBlR'   ))  #
  ,('edrf',d(tp='ch' ,tid='ed_s' ,l=  78 ,w=  60 ,p='ptop'   ,cap=_('f&alse')        ,vis=vis['edrf']                ,a='TB'     ))  # &a
  ,('edrt',d(tp='ch' ,tid='ed_s' ,l= 140 ,w=  60 ,p='ptop'   ,cap=_('t&rue')         ,vis=vis['edrt']                ,a='TB'     ))  # &r
@@ -1039,9 +1061,10 @@ class OptEdD:
  ,('toop',d(tp='bt' ,tid='ed_s' ,l=-270 ,w=  90 ,p='ptop'   ,cap=_('&GoTo')         ,vis=vis['toop'],hint=M.TOOP_H  ,a='TBLR'   ))  # &g
     # View def-value                                                                                                            
  ,('dfv_',d(tp='lb' ,tid='dfvl' ,l=   5 ,w=  70 ,p='ptop'   ,cap=_('>Defa&ult:')    ,hint=m.cur_op                  ,a='TB'     ))  # &u
- ,('dfvl',d(tp='ed' ,t=235      ,l=  78 ,r=-270 ,p='ptop'   ,en=False               ,sto=False                      ,a='TBlR'   ))  #
-#,('dfvl',d(tp='ed' ,t=235      ,l=  78 ,r=-270 ,p='ptop'   ,ex0=True               ,sto=False                      ,a='TBlR'   ))  #
+#,('dfvl',d(tp='ed' ,t=235      ,l=  78 ,r=-270 ,p='ptop'   ,en=False               ,sto=False                      ,a='TBlR'   ))  #
+ ,('dfvl',d(tp='ed' ,t=235      ,l=  78 ,r=-270 ,p='ptop'   ,ex0=True               ,sto=False                      ,a='TBlR'   ))  #
 #,('dfvl',d(tp='ed' ,t=235      ,l=  78 ,r=-270 ,p='ptop'   ,ro_mono_brd='1,0,1'    ,sto=False                      ,a='TBlR'   ))  #
+ ,('dfcl',d(tp='clr',t=235+1    ,l= 210 ,r=-271 ,p='ptop'   ,h=edit_h-4             ,vis=vis['dfcl'],border=True    ,a='TBlR'   ))  #
  ,('setd',d(tp='bt' ,tid='dfvl' ,l=-270 ,w=  90 ,p='ptop'   ,cap=_('Rese&t')                        ,en=ens['setd'] ,a='TBLR'   ))  # &t
     # For lexer/file                                                                                                            
 #,('to__',d(tp='lb' ,tid='ed_s' ,l=-170 ,w=  30 ,p='ptop'   ,cap=_('>For:')                                         ,a='TBLR'   ))  # 
@@ -1059,8 +1082,11 @@ class OptEdD:
         if 'mac'==get_desktop_environment():
             cnts    = [(cid,cnt) for cid,cnt in cnts if cnt.get('cap', '')[:3]!='srt']
         cnts    = odict(cnts)
+        if m.how.get('hide_fil', False):
+            for cid in ('tofi',):
+                cnts[cid]['vis'] = False
         if m.how.get('hide_lex_fil', False):
-            for cid in ('to__', 'tolx', 'tofi', 'lexr'):
+            for cid in ('to__', 'tolx', 'lexr', 'tofi'):
                 cnts[cid]['vis'] = False
         for cnt in cnts.values():
             if 'l' in cnt:  cnt['l']    = m.dlg_w+cnt['l'] if cnt['l']<0 else cnt['l']
@@ -1552,7 +1578,7 @@ class OptEdD:
         pass;                  #LOG and log('data,m.cur_op,m.cur_in={}',(data,m.cur_op,m.cur_in))
         m.cur_op= m._prep_opt('ind2key')
         pass;                  #LOG and log('m.cur_op,m.cur_in={}',(m.cur_op,m.cur_in))
-        pass;                  #log(' m.get_cnts(+cur)={}',(m.get_cnts('+cur')))
+        pass;                  #log('###m.get_cnts(+cur)={}',(m.get_cnts('+cur')))
         return d(ctrls=odict(m.get_cnts('+cur'))
                 ,vals =      m.get_vals('cur')
                 )

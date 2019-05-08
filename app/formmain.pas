@@ -1693,8 +1693,6 @@ begin
   PopupToolbarSort.Items.Add(mnuToolbarSortRemoveBlank);
 
   {$ifdef windows}
-  UiOps.ScreenScale:= MulDiv(100, Screen.PixelsPerInch, 96);
-  
   if IsSetToOneInstance then
   begin
     FInstanceManage := TInstanceManage.Create(AppUniqueUID);
@@ -1708,19 +1706,12 @@ begin
     end;
   end;
   {$endif}
-  //UiOps.ScreenScale:= 200; ////test
-  //UiOps_ScreenScale:= UiOps.ScreenScale;
 
   FBoundsFloatSide:= Rect(650, 50, 900, 700);
   FBoundsFloatBottom:= Rect(50, 480, 900, 700);
   FBoundsFloatGroups1:= Rect(300, 100, 800, 700);
   FBoundsFloatGroups2:= Rect(320, 120, 820, 720);
   FBoundsFloatGroups3:= Rect(340, 140, 840, 740);
-
-  ToolbarMain.ScalePercents:= UiOps.ScreenScale;
-  ToolbarSideTop.ScalePercents:= UiOps.ScreenScale;
-  ToolbarSideLow.ScalePercents:= UiOps.ScreenScale;
-  ToolbarSideMid.ScalePercents:= UiOps.ScreenScale;
 
   InitAppleMenu;
   InitToolbar;
@@ -1740,7 +1731,7 @@ begin
   PanelCodeTreeTop.Parent:= PanelLeft;
   PanelCodeTreeTop.Align:= alTop;
   PanelCodeTreeTop.Top:= PanelLeftTitle.Height; //fix pos relative to title
-  PanelCodeTreeTop.Height:= 28;
+  PanelCodeTreeTop.Height:= UiOps.InputHeight;
 
   CodeTreeFilter:= TTreeFilterEdit.Create(Self);
   CodeTreeFilter.Hide;
@@ -1748,7 +1739,7 @@ begin
   CodeTreeFilterReset:= TATButton.Create(Self);
   CodeTreeFilterReset.Parent:= PanelCodeTreeTop;
   CodeTreeFilterReset.Align:= alRight;
-  CodeTreeFilterReset.Width:= UiOps_ScrollbarWidth;
+  CodeTreeFilterReset.Width:= UiOps.ScrollbarWidth;
   CodeTreeFilterReset.Caption:= msgButtonX;
   CodeTreeFilterReset.Focusable:= false;
   CodeTreeFilterReset.Flat:= true;
@@ -1804,10 +1795,6 @@ begin
   ListboxVal.OnDrawItem:= @ListboxOutDrawItem;
   ListboxVal.OnKeyDown:= @ListboxOutKeyDown;
 
-  CodeTree.DoScaleScrollbar;
-  ListboxOut.DoScaleScrollbar;
-  ListboxVal.DoScaleScrollbar;
-
   AppBookmarkImagelist.AddImages(ImageListBm);
   for i:= 2 to 9 do
   begin
@@ -1844,19 +1831,19 @@ begin
 
   Status:= TATStatus.Create(Self);
   Status.Parent:= Self;
-  Status.ScalePercents:= UiOps.ScreenScale;
   Status.Align:= alBottom;
   Status.Top:= Height;
-  Status.Height:= 23;
+  Status.Height:= UiOps.StatusHeight;
+  Status.HeightInitial:= Status.Height;
   Status.Padding:= 2;
   Status.OnPanelClick:= @StatusPanelClick;
   Status.ShowHint:= true;
 
   StatusAlt:= TATStatus.Create(Self);
   StatusAlt.Parent:= Self;
-  StatusAlt.ScalePercents:= UiOps.ScreenScale;
   StatusAlt.Align:= alBottom;
   StatusAlt.Height:= Status.Height;
+  StatusAlt.HeightInitial:= Status.Height;
   StatusAlt.Padding:= 0;
   StatusAlt.AddPanel(-1, 5000, taLeftJustify, '?');
   StatusAlt.Hide;
@@ -2575,7 +2562,7 @@ type
 procedure TfmMain.DoApplyUiOpsToGroups(G: TATGroups);
 begin
   G.SetTabFont(Self.Font);
-  G.ScalePercents:= UiOps.ScreenScale;
+  G.ScalePercents:= UiOps.Scale;
   G.SetTabOption(tabOptionAnimationEn, Ord(UiOps.TabAnimation));
   G.SetTabOption(tabOptionShowHint, 1);
   G.SetTabOption(tabOptionVarWidth, Ord(UiOps.TabVarWidth));
@@ -2631,6 +2618,16 @@ begin
   CompletionOps.AppendOpeningBracket:= UiOps.AutocompleteAddOpeningBracket;
   CompletionOps.UpDownAtEdge:= TATCompletionUpDownAtEdge(UiOps.AutocompleteUpDownAtEdge);
 
+  AppScaleToolbar(ToolbarMain);
+  AppScaleToolbar(ToolbarSideTop);
+  AppScaleToolbar(ToolbarSideLow);
+  AppScaleToolbar(ToolbarSideMid);
+
+  LexerProgress.Width:= AppScale(UiOps.ProgressbarWidth);
+  LexerProgress.Height:= AppScale(UiOps.ProgressbarHeightSmall);
+  StatusProgress.Width:= AppScale(UiOps.ProgressbarWidth);
+  ButtonCancel.Width:= AppScale(UiOps.ProgressbarWidth);
+
   //apply DoubleBuffered
   //no need for ToolbarMain and buttons
   for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
@@ -2640,6 +2637,8 @@ begin
     begin
       Ed1.DoubleBuffered:= UiOps.DoubleBuffered;
       Ed2.DoubleBuffered:= UiOps.DoubleBuffered;
+      Ed1.Font.Size:= EditorOps.OpFontSize;
+      Ed2.Font.Size:= EditorOps.OpFontSize;
     end;
   Status.DoubleBuffered:= UiOps.DoubleBuffered;
   StatusAlt.DoubleBuffered:= UiOps.DoubleBuffered;
@@ -2663,14 +2662,21 @@ begin
   TimerTreeFill.Interval:= UiOps.TreeTimeFill;
   TimerEdCaret.Interval:= UiOps.TreeTimeCaret;
   CodeTree.Tree.ToolTips:= UiOps.TreeShowTooltips;
+
+  AppScaleScrollbar(CodeTree.ScrollVert);
+  AppScaleScrollbar(CodeTree.ScrollHorz);
+  AppScaleScrollbar(ListboxOut.Scrollbar);
+  AppScaleScrollbar(ListboxVal.Scrollbar);
+
   CodeTreeFilterInput.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
-  PanelCodeTreeTop.Height:= UiOps.InputHeight;
+  CodeTreeFilterReset.Width:= AppScale(UiOps.ScrollbarWidth);
 
   EditorCaretPropsFromString(fmConsole.memo.CaretPropsReadonly, EditorOps.OpCaretViewReadonly);
   fmConsole.memo.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
-  fmConsole.ed.Height:= UiOps.InputHeight;
+  fmConsole.ed.Height:= AppScale(UiOps.InputHeight);
   fmConsole.ed.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   fmConsole.Wordwrap:= UiOps.ConsoleWordWrap;
+  fmConsole.ed.OptComboboxArrowSize:= UiOps.ScrollbarArrowSize;
 
   DoApplyUiOpsToGroups(Groups);
   if FloatGroups then
@@ -2708,14 +2714,27 @@ begin
       end;
   end;
 
-  Status.Height:= MulDiv(UiOps.StatusHeight, UiOps.ScreenScale, 100);
+  PanelCodeTreeTop.Height:= AppScale(UiOps.InputHeight);
+
+  Status.HeightInitial:= UiOps.StatusHeight;
+  Status.ScalePercents:= UiOps.Scale;
+  Status.ScaleFontPercents:= UiOps.ScaleFont;
+  StatusAlt.HeightInitial:= UiOps.StatusHeight;
+  StatusAlt.ScalePercents:= UiOps.Scale;
+  StatusAlt.ScaleFontPercents:= UiOps.ScaleFont;
+
   TimerStatus.Interval:= UiOps.StatusTime*1000;
 
   ATButtonTheme.FontName:= UiOps.VarFontName;
   ATButtonTheme.FontSize:= UiOps.VarFontSize;
+  ATButtonTheme.ScalePercents:= UiOps.Scale;
+  ATButtonTheme.ScaleFontPercents:= UiOps.ScaleFont;
 
-  CompletionOps.FormSizeX:= UiOps.ListboxCompleteSizeX;
-  CompletionOps.FormSizeY:= UiOps.ListboxCompleteSizeY;
+  EditorScalePercents:= UiOps.Scale;
+  EditorScaleFontPercents:= UiOps.ScaleFont;
+
+  CompletionOps.FormSizeX:= AppScale(UiOps.ListboxCompleteSizeX);
+  CompletionOps.FormSizeY:= AppScale(UiOps.ListboxCompleteSizeY);
 
   if UiOps.OneInstance and not FOption_OpenNewWindow then
     if not UniqInstance.Enabled then
@@ -3247,7 +3266,7 @@ var
   Str: string;
 begin
   DoLocalize_FormGoto;
-  fmGoto.Width:= MulDiv(UiOps.ListboxSizeX, UiOps.ScreenScale, 100);
+  fmGoto.Width:= AppScale(UiOps.ListboxSizeX);
   UpdateInputForm(fmGoto, false);
 
   if fmGoto.ShowModal=mrOk then
@@ -3376,6 +3395,7 @@ end;
 procedure TfmMain.SetShowBottom(AValue: boolean);
 var
   bBottom: boolean;
+  Frame: TEditorFrame;
 begin
   if GetShowBottom<>AValue then
   begin
@@ -3394,7 +3414,11 @@ begin
 
     if not AValue then
       if bBottom then
-        CurrentFrame.SetFocus;
+      begin
+        Frame:= CurrentFrame;
+        if Assigned(Frame) then
+          Frame.SetFocus;
+      end;
   end;
 
   UpdateBottomButtons;

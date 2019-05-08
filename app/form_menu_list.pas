@@ -58,10 +58,6 @@ procedure TfmGotoList.FormShow(Sender: TObject);
 var
   S: string;
 begin
-  plCaption.Font.Name:= UiOps.VarFontName;
-  plCaption.Font.Size:= UiOps.VarFontSize;
-  plCaption.Font.Color:= GetAppColor('ListFont');
-
   with TIniFile.Create(GetAppLangFilename) do
   try
     S:= ReadString('m_sr', 'b_', 'Bookmarks');
@@ -120,21 +116,27 @@ begin
   if UiOps.ShowMenuDialogsWithBorder then
     BorderStyle:= bsDialog;
 
-  AutoAdjustLayout(lapAutoAdjustForDPI, 96, Screen.PixelsPerInch, Width, Width);
-
   List.DoubleBuffered:= UiOps.DoubleBuffered;
-
-  List.Font.Name:= UiOps.VarFontName;
-  List.Font.Size:= UiOps.VarFontSize;
 
   self.Color:= GetAppColor('ListBg');
   List.Color:= self.Color;
 
-  self.Width:= MulDiv(UiOps.ListboxSizeX, UiOps.ScreenScale, 100);
-  self.Height:= MulDiv(UiOps.ListboxSizeY, UiOps.ScreenScale, 100);
-  List.ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);;
+  List.Font.Name:= UiOps.VarFontName;
+  List.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+
+  plCaption.Height:= AppScale(26);
+  plCaption.Font.Name:= UiOps.VarFontName;
+  plCaption.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+  plCaption.Font.Color:= GetAppColor('ListFont');
+
+  self.Width:= AppScale(UiOps.ListboxSizeX);
+  self.Height:= AppScale(UiOps.ListboxSizeY);
+  List.ItemHeight:= AppScaleFont(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
+
   Items:= nil;
   ResultIndex:= -1;
+
+  AppScaleScrollbar(list.Scrollbar);
 end;
 
 procedure TfmGotoList.FormDestroy(Sender: TObject);

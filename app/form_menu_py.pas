@@ -98,36 +98,38 @@ begin
   if UiOps.ShowMenuDialogsWithBorder then
     BorderStyle:= bsDialog;
 
-  AutoAdjustLayout(lapAutoAdjustForDPI, 96, Screen.PixelsPerInch, Width, Width);
-
   edit.DoubleBuffered:= UiOps.DoubleBuffered;
   list.DoubleBuffered:= UiOps.DoubleBuffered;
 
   list.Font.Name:= UiOps.VarFontName;
-  list.Font.Size:= UiOps.VarFontSize;
-  edit.Height:= UiOps.InputHeight;
+  list.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+  list.Color:= GetAppColor('ListBg');
+  list.ItemHeight:= AppScaleFont(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
+
+  edit.Height:= AppScale(UiOps.InputHeight);
   edit.Font.Name:= EditorOps.OpFontName;
   edit.Font.Size:= EditorOps.OpFontSize;
   edit.Font.Quality:= EditorOps.OpFontQuality;
-  panelCaption.Font.Name:= UiOps.VarFontName;
-  panelCaption.Font.Size:= UiOps.VarFontSize;
-
-  self.Color:= GetAppColor('ListBg');
   edit.Colors.TextFont:= GetAppColor('EdTextFont');
   edit.Colors.TextBG:= GetAppColor('EdTextBg');
   edit.Colors.TextSelFont:= GetAppColor('EdSelFont');
   edit.Colors.TextSelBG:= GetAppColor('EdSelBg');
   edit.Colors.BorderLine:= GetAppColor('EdBorder');
-  list.Color:= GetAppColor('ListBg');
-  panelCaption.Font.Color:= GetAppColor('ListFont');
+
+  PanelCaption.Height:= AppScale(26);
+  PanelCaption.Font.Name:= UiOps.VarFontName;
+  PanelCaption.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+  PanelCaption.Font.Color:= GetAppColor('ListFont');
+
+  self.Color:= GetAppColor('ListBg');
+  self.Width:= AppScale(UiOps.ListboxSizeX);
+  self.Height:= AppScale(UiOps.ListboxSizeY);
 
   ResultCode:= -1;
-  list.ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);;
-  self.Width:= MulDiv(UiOps.ListboxSizeX, UiOps.ScreenScale, 100);
-  self.Height:= MulDiv(UiOps.ListboxSizeY, UiOps.ScreenScale, 100);
-
   listItems:= TStringlist.Create;
   listFiltered:= TList.Create;
+
+  AppScaleScrollbar(list.Scrollbar);
 end;
 
 procedure TfmMenuApi.editChange(Sender: TObject);
@@ -341,12 +343,17 @@ begin
 end;
 
 procedure TfmMenuApi.SetMultiline(AValue: boolean);
+var
+  NSize: integer;
 begin
   if FMultiline=AValue then Exit;
   FMultiline:=AValue;
-  list.ItemHeight:= Trunc(
-    GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize) *
-    IfThen(FMultiline, 1.85, 1));
+
+  NSize:= AppScaleFont(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
+  if FMultiline then
+    NSize:= NSize*185 div 100;
+  list.ItemHeight:= NSize;
+
   list.Invalidate;
 end;
 
