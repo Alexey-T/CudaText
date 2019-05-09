@@ -28,7 +28,7 @@
       <MinorVersionNr Value="60"/>
       <StringTable CompanyName="UVviewsoft" FileDescription="CudaText" InternalName="CudaText" LegalCopyright="(c) 2015-2018 Alexey Torgashin" OriginalFilename="cudatext.exe" ProductName="CudaText"/>
     </VersionInfo>
-    <BuildModes Count="14">
+    <BuildModes Count="16">
       <Item1 Name="default" Default="True"/>
       <Item2 Name="linux x32 gtk2">
         <MacroValues Count="1">
@@ -42,6 +42,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
+            <Libraries Value="..\..\..\cmp\mORMot"/>
             <OtherUnitFiles Value="..\comp"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
@@ -57,9 +58,6 @@
             </Checks>
             <TargetCPU Value="i386"/>
             <TargetOS Value="linux"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
@@ -78,8 +76,7 @@
         </CompilerOptions>
       </Item2>
       <Item3 Name="linux x64 gtk2">
-        <MacroValues Count="2">
-          <Macro6 Name="FULLSPEED" Value="true"/>
+        <MacroValues Count="1">
           <Macro7 Name="UseLogger" Value="true"/>
         </MacroValues>
         <CompilerOptions>
@@ -625,13 +622,103 @@
           </Other>
         </CompilerOptions>
       </Item14>
+      <Item15 Name="linux x32 gtk2 RLS">
+        <MacroValues Count="1">
+          <Macro6 Name="FULLSPEED" Value="true"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="builds\linux-x32-gtk2\cudatext"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="..\comp"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <Checks>
+              <RangeChecks Value="True"/>
+            </Checks>
+            <TargetCPU Value="i386"/>
+            <TargetOS Value="linux"/>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <UseValgrind Value="True"/>
+            </Debugging>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dcomplete_at_scroll"/>
+          </Other>
+        </CompilerOptions>
+      </Item15>
+      <Item16 Name="linux x64 gtk2 RLS">
+        <MacroValues Count="1">
+          <Macro6 Name="FULLSPEED" Value="true"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="builds\linux-x64-gtk2\cudatext"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <Libraries Value="..\..\..\cmp\mORMot"/>
+            <OtherUnitFiles Value="..\comp"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <Checks>
+              <RangeChecks Value="True"/>
+            </Checks>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="linux"/>
+            <Optimizations>
+              <OptimizationLevel Value="3"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <UseExternalDbgSyms Value="True"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dcomplete_at_scroll"/>
+          </Other>
+        </CompilerOptions>
+      </Item16>
       <SharedMatrixOptions Count="7">
         <Item1 ID="768150883430" Modes="linux x64 qt4" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt"/>
         <Item2 ID="728289161338" Modes="macos x32 carbon" Type="IDEMacro" MacroName="LCLWidgetType" Value="carbon"/>
         <Item3 ID="308953563203" Modes="macos x64 cocoa" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
         <Item4 ID="619430612971" Modes="linux x64 qt5" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt5"/>
         <Item5 ID="028184365614" Modes="linux x64 gtk3" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk3"/>
-        <Item6 ID="263768771023" Modes="linux x64 gtk2" Type="IDEMacro" MacroName="FULLSPEED" Value="true"/>
+        <Item6 ID="263768771023" Modes="linux x32 gtk2 RLS,linux x64 gtk2 RLS" Type="IDEMacro" MacroName="FULLSPEED" Value="true"/>
         <Item7 ID="199497105583" Modes="linux x64 gtk2,linux x32 gtk2" Type="IDEMacro" MacroName="UseLogger" Value="true"/>
       </SharedMatrixOptions>
     </BuildModes>
@@ -653,28 +740,28 @@
     </RunParams>
     <RequiredPackages Count="9">
       <Item1>
-        <PackageName Value="atbinhex_package"/>
+        <PackageName Value="atsynedit_package"/>
       </Item1>
       <Item2>
-        <PackageName Value="atflatcontrols_package"/>
+        <PackageName Value="atbinhex_package"/>
       </Item2>
       <Item3>
-        <PackageName Value="atsynedit_ex_package"/>
+        <PackageName Value="atflatcontrols_package"/>
       </Item3>
       <Item4>
-        <PackageName Value="python4lazarus_package"/>
+        <PackageName Value="atsynedit_ex_package"/>
       </Item4>
       <Item5>
-        <PackageName Value="LazControls"/>
+        <PackageName Value="python4lazarus_package"/>
       </Item5>
       <Item6>
-        <PackageName Value="uniqueinstance_package"/>
+        <PackageName Value="LazControls"/>
       </Item6>
       <Item7>
-        <PackageName Value="econtrol_package"/>
+        <PackageName Value="uniqueinstance_package"/>
       </Item7>
       <Item8>
-        <PackageName Value="atsynedit_package"/>
+        <PackageName Value="econtrol_package"/>
       </Item8>
       <Item9>
         <PackageName Value="LCL"/>
