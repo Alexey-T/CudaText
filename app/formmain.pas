@@ -8,7 +8,9 @@ Copyright (c) Alexey Torgashin
 unit FormMain;
 
 {$mode objfpc}{$H+}
-
+{$IFDEF DEBUG}
+{$INLINE OFF}
+{$ENDIF}
 interface
 
 uses
