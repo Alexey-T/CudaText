@@ -1560,6 +1560,7 @@ Param "id_action" possible values:
 * TOOLBAR_GET_COUNT: Gets number of buttons in toolbar.
 * TOOLBAR_GET_IMAGELIST: Gets int handle of image-list object.
 * TOOLBAR_GET_BUTTON_HANDLE: Gets int handle of button to use in button_proc(), or None if index not correct. Param "index": button index.
+* TOOLBAR_GET_BUTTON_HANDLES: Gets list of handles of all buttons.
 * TOOLBAR_DELETE_ALL: Deletes all buttons.
 * TOOLBAR_DELETE_BUTTON: Deletes one button. Param "index": button index.
 * TOOLBAR_ADD_ITEM: Adds one button, usual. Param "index": button index at which to insert, -1 to append. You need to get handle of this button, and customize button via button_proc().
@@ -3453,5 +3454,6 @@ def project_variables():
 * add: Editor.set_caret: param "options"
 * add: Editor.set_caret: CARET_DELETE_INDEX
 * add: Editor.get_filename: param "options"
+* add: toolbar_proc: TOOLBAR_GET_BUTTON_HANDLES
 
 [[Category:CudaText]]

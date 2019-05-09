@@ -294,9 +294,6 @@
   //Show gutter's "Line numbers" column
   "numbers_show": true,
 
-  //If not 0, special font size is used for numbers
-  "numbers_font_size": 0,
-
   //For which lines to show numbers
   //  0: show for all lines
   //  1: don't show
@@ -336,12 +333,6 @@
   //  2: numbers 1 - 10 - 20 - 30...
   "ruler_numeration": 0,
 
-  //Ruler: If not 0, special font size for ruler
-  "ruler_font_size": 8,
-
-  //Ruler: Height (pixels)
-  "ruler_size": 20,
-
   //Ruler: Size of caret's mark (pixels), 0: hide this mark
   "ruler_mark_caret": 1,
 
@@ -375,9 +366,6 @@
   //[View/Micromap]
   //Micromap: show (small vertical bar at the right edge)
   "micromap_show": false,
-
-  //Micromap: width, pixels
-  "micromap_width": 12,
 
   //[Text]
   //Fixed margin (vertical line) column.
@@ -532,6 +520,20 @@
   //When doing "Go to" or "Find", and new position is out of current screen,
   //scroll horizontally by N chars from new position. Value must be >=0.
   "find_indent_horz": 10,
+
+  //[Ui]
+  //UI scale factor in %, 50 to 400. [has suffix]
+  //If value=0, then OS scaling (High-DPI) is detected and used.
+  "ui_scale": 0,
+  "ui_scale__linux": 0,
+  "ui_scale__mac": 0,
+
+  //All fonts scale factor in %, 50 to 400. [has suffix]
+  //If value=0, it follows the option "ui_scale".
+  //Note: don't set 0 for Windows, it causes too big fonts with High-DPI.
+  "ui_scale_font": 100,
+  "ui_scale_font__linux": 0,
+  "ui_scale_font__mac": 0,
 
   //[Ui/Tabs]
   //UI tabs: Don't create tabs (except the first one), ie use Single Document Interface
@@ -861,9 +863,6 @@
   //    msg    : Message from CudaText or plugins (panel is auto-sized)
   //Panel alignment: C (center), L (left), R (right), A (auto-size)
   "ui_statusbar_panels": "caret,C,180|enc,C,125|ends,A,45|lexer,C,140|tabsize,A,75|selmode,A,15|msg,L,4000",
-
-  //Statusbar height
-  "ui_statusbar_height": 24,
 
   //Statusbar message (in the last panel): show time in seconds
   "ui_statusbar_time": 5,

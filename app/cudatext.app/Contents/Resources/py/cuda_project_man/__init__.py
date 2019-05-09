@@ -140,6 +140,7 @@ class Command:
             'a_r':('',']'), #anchor to top: l,r,t
             'vis': show_toolbar,
             'h': 24,
+            'autosize': True,
             } )
 
         self.h_bar = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
@@ -162,6 +163,7 @@ class Command:
         _toolbar_add_btn(self.h_bar, hint='Remove node', icon=icon_del, command='cuda_project_man.action_remove_node' )
         _toolbar_add_btn(self.h_bar, hint='-' )
         _toolbar_add_btn(self.h_bar, hint='Config', icon=icon_cfg, command='cuda_project_man.action_config' )
+        toolbar_proc(self.h_bar, TOOLBAR_UPDATE)
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
@@ -836,11 +838,11 @@ class Command:
 
 
     def get_open_options(self):
-    
+
         s = '/preview' if self.options.get('preview', True) else ''
         s += ' /nozip /nontext-view-text'
         return s
-    
+
     def tree_on_click(self, id_dlg, id_ctl, data='', info=''):
 
         if self.options.get('d_click', False):
