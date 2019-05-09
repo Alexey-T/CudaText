@@ -975,7 +975,7 @@ begin
 
   if AForceUpdateAll then
   begin
-    Frame.Adapter[Ed].DoAnalize(Ed, true);
+    Frame.Adapter[Ed].InvokeParser(Ed, true);
     //Ed.DoEventChange; //why it was needed?
   end;
 
