@@ -6056,8 +6056,13 @@ end;
 procedure TfmMain.DoOnLexerParseProgress_Sync();
 begin
   if Application.Terminated then exit;
-  LexerProgress.Progress:= FLexerProgressIndex;
-  LexerProgress.Show;
+  if FLexerProgressIndex>=0 then
+  begin
+    LexerProgress.Progress:= FLexerProgressIndex;
+    LexerProgress.Show;
+  end
+  else
+    LexerProgress.Hide;
 end;
 
 (*
