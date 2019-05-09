@@ -31,6 +31,9 @@
     <BuildModes Count="14">
       <Item1 Name="default" Default="True"/>
       <Item2 Name="linux x32 gtk2">
+        <MacroValues Count="1">
+          <Macro7 Name="UseLogger" Value="true"/>
+        </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -75,8 +78,9 @@
         </CompilerOptions>
       </Item2>
       <Item3 Name="linux x64 gtk2">
-        <MacroValues Count="1">
+        <MacroValues Count="2">
           <Macro6 Name="FULLSPEED" Value="true"/>
+          <Macro7 Name="UseLogger" Value="true"/>
         </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
@@ -86,6 +90,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
+            <Libraries Value="..\..\..\cmp\mORMot"/>
             <OtherUnitFiles Value="..\comp"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
@@ -620,13 +625,14 @@
           </Other>
         </CompilerOptions>
       </Item14>
-      <SharedMatrixOptions Count="6">
+      <SharedMatrixOptions Count="7">
         <Item1 ID="768150883430" Modes="linux x64 qt4" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt"/>
         <Item2 ID="728289161338" Modes="macos x32 carbon" Type="IDEMacro" MacroName="LCLWidgetType" Value="carbon"/>
         <Item3 ID="308953563203" Modes="macos x64 cocoa" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
         <Item4 ID="619430612971" Modes="linux x64 qt5" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt5"/>
         <Item5 ID="028184365614" Modes="linux x64 gtk3" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk3"/>
         <Item6 ID="263768771023" Modes="linux x64 gtk2" Type="IDEMacro" MacroName="FULLSPEED" Value="true"/>
+        <Item7 ID="199497105583" Modes="linux x64 gtk2,linux x32 gtk2" Type="IDEMacro" MacroName="UseLogger" Value="true"/>
       </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>

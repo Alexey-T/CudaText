@@ -240,6 +240,7 @@ begin
   LexerProgress.Hide;
   UpdateTreeContents;
 
+
   //restoring of folded state from history is here,
   //after parsing done
   Frame:= (Sender as TATAdapterEControl).Owner as TEditorFrame;
