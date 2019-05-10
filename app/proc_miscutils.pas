@@ -15,6 +15,7 @@ uses
   Classes, SysUtils, Controls, StdCtrls, ComCtrls, Graphics,
   ImgList, Dialogs, Forms, Menus,
   LclIntf, LclType, LazFileUtils, StrUtils,
+  jsonConf,
   ATSynEdit,
   ATSynEdit_Adapter_EControl,
   ATSynEdit_Export_HTML,
@@ -30,6 +31,9 @@ uses
   proc_globdata,
   proc_py_const,
   proc_colors;
+
+procedure FormHistorySave(F: TForm; const AConfigPath: string; AWithPos: boolean);
+procedure FormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean);
 
 function Canvas_NumberToFontStyles(Num: integer): TFontStyles;
 procedure Canvas_PaintPolygonFromSting(C: TCanvas; Str: string);
@@ -707,6 +711,57 @@ begin
     }
   end;
 end;
+
+procedure FormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean);
+var
+  c: TJSONConfig;
+begin
+  c:= TJSONConfig.Create(nil);
+  try
+    try
+      c.Filename:= GetAppPath(cFileOptionsHistory);
+    except
+      exit;
+    end;
+
+    F.Width:= c.GetValue(AConfigPath+'/sizex', F.Width);
+    F.Height:= c.GetValue(AConfigPath+'/sizey', F.Height);
+
+    if AWithPos then
+    begin
+      F.Left:= c.GetValue(AConfigPath+'/posx', F.Left);
+      F.Top:= c.GetValue(AConfigPath+'/posy', F.Top);
+    end;
+  finally
+    c.Free;
+  end;
+end;
+
+procedure FormHistorySave(F: TForm; const AConfigPath: string; AWithPos: boolean);
+var
+  c: TJSONConfig;
+begin
+  c:= TJSONConfig.Create(nil);
+  try
+    try
+      c.Filename:= GetAppPath(cFileOptionsHistory);
+    except
+      exit;
+    end;
+
+    c.SetValue(AConfigPath+'/sizex', F.Width);
+    c.SetValue(AConfigPath+'/sizey', F.Height);
+
+    if AWithPos then
+    begin
+      c.SetValue(AConfigPath+'/posx', F.Left);
+      c.SetValue(AConfigPath+'/posy', F.Top);
+    end;
+  finally
+    c.Free;
+  end;
+end;
+
 
 end.
 

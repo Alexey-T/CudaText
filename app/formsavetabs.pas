@@ -15,9 +15,9 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
   IniFiles, CheckLst, ExtCtrls, StdCtrls, StrUtils,
   LazUTF8, LazFileUtils, LCLType,
-  jsonConf,
   ATPanelSimple,
   proc_globdata,
+  proc_miscutils,
   proc_msg;
 
 type
@@ -89,41 +89,13 @@ begin
 end;
 
 procedure TfmSaveTabs.DoLoadSize;
-var
-  c: TJSONConfig;
 begin
-  c:= TJSONConfig.Create(nil);
-  try
-    try
-      c.Filename:= GetAppPath(cFileOptionsHistory);
-    except
-      exit;
-    end;
-
-    Width:= c.GetValue('/dlg_save_tabs/w', Width);
-    Height:= c.GetValue('/dlg_save_tabs/h', Height);
-  finally
-    c.Free;
-  end;
+  FormHistoryLoad(Self, '/dlg_savetabs', false);
 end;
 
 procedure TfmSaveTabs.DoSaveSize;
-var
-  c: TJSONConfig;
 begin
-  c:= TJSONConfig.Create(nil);
-  try
-    try
-      c.Filename:= GetAppPath(cFileOptionsHistory);
-    except
-      exit;
-    end;
-
-    c.SetValue('/dlg_save_tabs/w', Width);
-    c.SetValue('/dlg_save_tabs/h', Height);
-  finally
-    c.Free;
-  end;
+  FormHistorySave(Self, '/dlg_savetabs', false);
 end;
 
 procedure TfmSaveTabs.FormKeyDown(Sender: TObject; var Key: Word;
