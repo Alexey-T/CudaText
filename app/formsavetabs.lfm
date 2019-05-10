@@ -2,25 +2,27 @@ object fmSaveTabs: TfmSaveTabs
   Left = 437
   Height = 350
   Top = 232
-  Width = 635
+  Width = 720
   ActiveControl = btnSave
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Save tabs?'
   ClientHeight = 350
-  ClientWidth = 635
+  ClientWidth = 720
   Constraints.MinHeight = 150
   Constraints.MinWidth = 300
   KeyPreview = True
+  OnClose = FormClose
+  OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   Position = poScreenCenter
   ShowInTaskBar = stNever
-  LCLVersion = '1.9.0.0'
+  LCLVersion = '2.1.0.0'
   object List: TCheckListBox
     Left = 6
     Height = 303
     Top = 6
-    Width = 623
+    Width = 708
     Align = alClient
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
@@ -33,13 +35,13 @@ object fmSaveTabs: TfmSaveTabs
     Left = 0
     Height = 41
     Top = 309
-    Width = 635
+    Width = 720
     Align = alBottom
     AutoSize = True
     object btnSave: TButton
       AnchorSideTop.Control = btnDontSave
       AnchorSideRight.Control = btnDontSaveKeep
-      Left = 145
+      Left = 230
       Height = 29
       Top = 6
       Width = 90
@@ -55,7 +57,7 @@ object fmSaveTabs: TfmSaveTabs
     object btnDontSave: TButton
       AnchorSideTop.Control = btnCancel
       AnchorSideRight.Control = btnCancel
-      Left = 443
+      Left = 528
       Height = 29
       Top = 6
       Width = 90
@@ -71,7 +73,7 @@ object fmSaveTabs: TfmSaveTabs
       AnchorSideTop.Control = Panel1
       AnchorSideRight.Control = Panel1
       AnchorSideRight.Side = asrBottom
-      Left = 539
+      Left = 624
       Height = 29
       Top = 6
       Width = 90
@@ -87,7 +89,7 @@ object fmSaveTabs: TfmSaveTabs
     object btnDontSaveKeep: TButton
       AnchorSideTop.Control = btnCancel
       AnchorSideRight.Control = btnDontSave
-      Left = 241
+      Left = 326
       Height = 29
       Top = 6
       Width = 196

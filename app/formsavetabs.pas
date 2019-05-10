@@ -15,6 +15,7 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
   IniFiles, CheckLst, ExtCtrls, StdCtrls, StrUtils,
   LazUTF8, LazFileUtils, LCLType,
+  jsonConf,
   ATPanelSimple,
   proc_globdata,
   proc_msg;
@@ -29,10 +30,14 @@ type
     btnSave: TButton;
     List: TCheckListBox;
     Panel1: TATPanelSimple;
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
   private
     { private declarations }
+    procedure DoLoadSize;
+    procedure DoSaveSize;
   public
     { public declarations }
   end;
@@ -83,6 +88,44 @@ begin
   btnDontSaveKeep.Visible:= UiOps.ReopenSession;
 end;
 
+procedure TfmSaveTabs.DoLoadSize;
+var
+  c: TJSONConfig;
+begin
+  c:= TJSONConfig.Create(nil);
+  try
+    try
+      c.Filename:= GetAppPath(cFileOptionsHistory);
+    except
+      exit;
+    end;
+
+    Width:= c.GetValue('/dlg_save_tabs/w', Width);
+    Height:= c.GetValue('/dlg_save_tabs/h', Height);
+  finally
+    c.Free;
+  end;
+end;
+
+procedure TfmSaveTabs.DoSaveSize;
+var
+  c: TJSONConfig;
+begin
+  c:= TJSONConfig.Create(nil);
+  try
+    try
+      c.Filename:= GetAppPath(cFileOptionsHistory);
+    except
+      exit;
+    end;
+
+    c.SetValue('/dlg_save_tabs/w', Width);
+    c.SetValue('/dlg_save_tabs/h', Height);
+  finally
+    c.Free;
+  end;
+end;
+
 procedure TfmSaveTabs.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 var
@@ -97,6 +140,16 @@ begin
     key:= 0;
     exit
   end;
+end;
+
+procedure TfmSaveTabs.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  DoSaveSize;
+end;
+
+procedure TfmSaveTabs.FormCreate(Sender: TObject);
+begin
+  DoLoadSize;
 end;
 
 end.
