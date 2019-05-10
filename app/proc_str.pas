@@ -376,10 +376,9 @@ end;
 function IsPythonExpression(S: string): boolean;
 const
   cTest =
-    '(.*(assert|return|del|import|pass|raise|yield|def|for|with|while|if|print)\b.*)|(.*[^=><][=][^=><].*)';
+    '(.*(assert|return|del|import|pass|raise|yield|def|for|with|while|if|print)\b.*)|(.*[^=><][=][^=><].*)|(.+;.+)';
 begin
   S:= SDeletePythonStrings(S);
-  if Pos(';', S)>0 then exit(false); // file_open(fn); ed.set_prop(....)
   Result:= not SRegexMatchesString(S, cTest, false);
 end;
 
