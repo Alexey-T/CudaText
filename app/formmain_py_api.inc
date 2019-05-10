@@ -3289,8 +3289,8 @@ begin
           begin
             if Assigned(F) then
             begin
-              F.TabCaption:= Str;
               F.TabCaptionFromApi:= true;
+              F.TabCaption:= Str;
             end;
           end;
 

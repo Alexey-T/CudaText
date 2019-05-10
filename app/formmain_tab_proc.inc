@@ -522,7 +522,8 @@ begin
       begin
         Frame:= Frames[i];
         if Frame.TabCaption<>L_cap[i] then
-          Frame.TabCaption:= L_cap[i];
+          if not Frame.TabCaptionFromApi then
+            Frame.TabCaption:= L_cap[i];
       end;
   finally
     FreeAndNil(L_found);
