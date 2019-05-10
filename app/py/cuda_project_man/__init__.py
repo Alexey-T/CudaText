@@ -200,7 +200,7 @@ class Command:
 
         self.init_form_main()
 
-        dlg_proc(self.h_dlg, DLG_SCALE)
+        #dlg_proc(self.h_dlg, DLG_SCALE)
         tree_proc(self.tree, TREE_THEME) #TREE_THEME only after DLG_SCALE
 
         app_proc(PROC_SIDEPANEL_ADD_DIALOG, (self.title, self.h_dlg, 'project.png'))
