@@ -7,8 +7,10 @@
 1.80.0 (2019/05)
 
 + add: UI can now be scaled freely, independing of OS high-DPI mode. Added options "ui_scale", "ui_scale_font".
-+ add: menu items in "Edit" menu are auto disabled (Undo, Redo, Copy, Cut, Paste, Delete)
 + add: don't show warning "File is maybe not text" if text has char(27)
++ add: dialog "Save tabs?" saves its size
++ add: dialog "Char map" saves its size
++ add: menu items in "Edit" menu are auto disabled (Undo, Redo, Copy, Cut, Paste, Delete)
 * change: deleted option "ui_statusbar_height"
 * change: deleted option "numbers_font_size"
 * change: deleted option "ruler_font_size"
