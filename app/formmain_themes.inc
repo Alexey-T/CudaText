@@ -105,9 +105,9 @@ begin
   ToolbarSideLow.Color:= ToolbarSideTop.Color;
   ToolbarSideMid.Color:= ToolbarSideTop.Color;
 
-  Status.Color:= GetAppColor('StatusBg');
-  Status.ColorBorderTop:= GetAppColor('StatusLines');
-  Status.ColorBorderR:= GetAppColor('StatusLines');
+  Status.Color:= GetAppColor('TabBg');
+  Status.ColorBorderTop:= GetAppColor('ButtonBorderPassive');
+  Status.ColorBorderR:= GetAppColor('ButtonBorderPassive');
 
   StatusAlt.Color:= GetAppColor('StatusAltBg');
   StatusAlt.ColorBorderTop:= Status.ColorBorderTop;
