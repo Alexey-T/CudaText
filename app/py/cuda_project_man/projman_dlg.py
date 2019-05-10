@@ -34,7 +34,7 @@ def dialog_config(op):
     RES_D_CLICK = 8
     RES_ICONS = 10
     RES_ICONS_TB = 12
-    RES_OK = 13
+    RES_OK = 14
 
     themes = get_themes_filetype()
     try:
