@@ -253,9 +253,6 @@ begin
   Add($c05050, 'ListCompletePrefix', 'listbox, font, auto-complete prefix');
   Add(clGray, 'ListCompleteParams', 'listbox, font, auto-complete params');
 
-  Add($a0a0a0, 'GaugeFill', 'search progressbar, fill');
-  Add($e0e0e0, 'GaugeBg', 'search progressbar, BG');
-
   Add(nColorText, 'ButtonFont', 'buttons, font');
   Add($808088, 'ButtonFontDisabled', 'buttons, font, disabled state');
   Add(nColorBack, 'ButtonBgPassive', 'buttons, BG, passive');

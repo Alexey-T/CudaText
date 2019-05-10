@@ -114,8 +114,8 @@ begin
   StatusAlt.ColorBorderR:= Status.ColorBorderR;
 
   StatusProgress.Font.Color:= GetAppColor('ButtonFont');
-  StatusProgress.ForeColor:= GetAppColor('GaugeFill');
-  StatusProgress.BackColor:= GetAppColor('GaugeBg');
+  StatusProgress.ForeColor:= GetAppColor('ButtonBgOver');
+  StatusProgress.BackColor:= GetAppColor('ButtonBgPassive');
   StatusProgress.BorderColor:= GetAppColor('ButtonBorderPassive');
 
   LexerProgress.ForeColor:= StatusProgress.ForeColor;
