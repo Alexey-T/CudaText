@@ -9,12 +9,13 @@ object fmCharmaps: TfmCharmaps
   ClientHeight = 523
   ClientWidth = 516
   KeyPreview = True
+  OnClose = FormClose
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever
-  LCLVersion = '1.7'
+  LCLVersion = '2.1.0.0'
   object Grid: TStringGrid
     Left = 6
     Height = 430

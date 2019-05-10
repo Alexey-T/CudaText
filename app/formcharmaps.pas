@@ -20,6 +20,7 @@ uses
   {$ifdef windows} Windows, {$endif}
   ATPanelSimple,
   proc_msg,
+  proc_miscutils,
   proc_globdata;
 
 type
@@ -42,6 +43,7 @@ type
     procedure btnUnicodeClick(Sender: TObject);
     procedure comboAnsiChange(Sender: TObject);
     procedure comboUnicodeChange(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
@@ -330,6 +332,8 @@ begin
   comboUnicode.ItemIndex:= 0;
 
   DoShowAnsi;
+
+  FormHistoryLoad(Self, '/dlg_charmap', false);
 end;
 
 procedure TfmCharmaps.FormKeyDown(Sender: TObject; var Key: Word;
@@ -390,6 +394,11 @@ end;
 procedure TfmCharmaps.comboUnicodeChange(Sender: TObject);
 begin
   DoShowUnicode;
+end;
+
+procedure TfmCharmaps.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  FormHistorySave(Self, '/dlg_charmap', false);
 end;
 
 procedure TfmCharmaps.btnAnsiClick(Sender: TObject);
