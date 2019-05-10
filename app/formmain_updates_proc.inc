@@ -400,11 +400,6 @@ begin
     GroupsF3.SetTabFont(Self.Font);
   end;
 
-  Status.Font.Name:= UiOps.VarFontName;
-  Status.Font.Size:= UiOps.VarFontSize; //dont scale
-  StatusAlt.Font.Name:= UiOps.VarFontName;
-  StatusAlt.Font.Size:= UiOps.VarFontSize; //dont scale
-
   StatusProgress.Font.Assign(Self.Font);
 
   //dont set font for PanelLeft/PanelBottom, side effects

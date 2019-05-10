@@ -105,22 +105,19 @@ begin
   ToolbarSideLow.Color:= ToolbarSideTop.Color;
   ToolbarSideMid.Color:= ToolbarSideTop.Color;
 
-  Status.Font.Color:= GetAppColor('StatusFont');
   Status.Color:= GetAppColor('StatusBg');
   Status.ColorBorderTop:= GetAppColor('StatusLines');
   Status.ColorBorderR:= GetAppColor('StatusLines');
 
-  StatusAlt.Font.Color:= GetAppColor('StatusAltFont');
   StatusAlt.Color:= GetAppColor('StatusAltBg');
   StatusAlt.ColorBorderTop:= Status.ColorBorderTop;
   StatusAlt.ColorBorderR:= Status.ColorBorderR;
 
-  StatusProgress.Font.Color:= Status.Font.Color;
+  StatusProgress.Font.Color:= GetAppColor('ButtonFont');
   StatusProgress.ForeColor:= GetAppColor('GaugeFill');
   StatusProgress.BackColor:= GetAppColor('GaugeBg');
   StatusProgress.BorderColor:= GetAppColor('ButtonBorderPassive');
 
-  LexerProgress.Font.Color:= Status.Font.Color;
   LexerProgress.ForeColor:= StatusProgress.ForeColor;
   LexerProgress.BackColor:= StatusProgress.BackColor;
   LexerProgress.BorderColor:= StatusProgress.BorderColor;
