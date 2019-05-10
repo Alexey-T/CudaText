@@ -351,7 +351,7 @@ begin
   with LabelFind do
   begin
     Font.Name:= UiOps.VarFontName;
-    Font.Size:= (UiOps.VarFontSize);
+    Font.Size:= AppScaleFont(UiOps.VarFontSize);
     Font.Color:= GetAppColor('TabFont');
   end;
   LabelRep.Font.Assign(LabelFind.Font);
