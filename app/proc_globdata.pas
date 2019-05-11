@@ -2151,7 +2151,7 @@ procedure AppScaleSplitter(C: TSplitter);
 var
   NSize: integer;
 begin
-  NSize:= AppScale(5);
+  NSize:= AppScale(4);
   if C.Align in [alLeft, alRight] then
     C.Width:= NSize
   else
