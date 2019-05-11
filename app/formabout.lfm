@@ -15,28 +15,24 @@ object fmAbout: TfmAbout
   OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever
-  LCLVersion = '1.9.0.0'
+  LCLVersion = '2.1.0.0'
   Scaled = False
   object LabelName: TLabel
     Left = 152
-    Height = 28
+    Height = 17
     Top = 64
-    Width = 123
+    Width = 63
     Caption = 'CudaText'
-    Font.Height = -24
-    Font.Name = 'Sans'
-    Font.Style = [fsBold]
     ParentColor = False
-    ParentFont = False
   end
   object labelVer: TLabel
     AnchorSideLeft.Control = LabelName
     AnchorSideTop.Control = LabelName
     AnchorSideTop.Side = asrBottom
     Left = 152
-    Height = 14
-    Top = 104
-    Width = 43
+    Height = 17
+    Top = 93
+    Width = 51
     BorderSpacing.Top = 12
     Caption = 'Version'
     ParentColor = False
@@ -46,23 +42,22 @@ object fmAbout: TfmAbout
     AnchorSideTop.Control = labelVer
     AnchorSideTop.Side = asrBottom
     Left = 152
-    Height = 14
-    Top = 121
-    Width = 44
+    Height = 17
+    Top = 113
+    Width = 61
     BorderSpacing.Top = 3
-    Caption = 'labelInf'
+    Caption = 'Platform'
     ParentColor = False
   end
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 30
-    Top = 234
+    Height = 29
+    Top = 235
     Width = 453
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
     HelpButton.Name = 'HelpButton'
     HelpButton.Caption = '&Credits'
-    HelpButton.DefaultCaption = False
     HelpButton.OnClick = bCreditsClick
     CloseButton.Name = 'CloseButton'
     CloseButton.DefaultCaption = True
@@ -120,10 +115,13 @@ object fmAbout: TfmAbout
     Colors.UnprintedHexFont = clMedGray
     Colors.MinimapBorder = clSilver
     Colors.MinimapSelBG = 15658734
+    Colors.MinimapTooltipBG = clMoneyGreen
+    Colors.MinimapTooltipBorder = clGray
     Colors.StateChanged = 61680
     Colors.StateAdded = 2146336
     Colors.StateSaved = clMedGray
     Colors.BlockStaple = clMedGray
+    Colors.BlockStapleForCaret = clNone
     Colors.BlockSepLine = clMedGray
     Colors.Links = clBlue
     Colors.LockedBG = 14737632
@@ -140,8 +138,8 @@ object fmAbout: TfmAbout
     OptUnprintedVisible = False
   end
   object PopupText: TPopupMenu
-    left = 240
-    top = 144
+    Left = 240
+    Top = 144
     object mnuTextCopy: TMenuItem
       Caption = 'Copy'
       OnClick = mnuTextCopyClick

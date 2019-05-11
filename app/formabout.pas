@@ -131,6 +131,10 @@ begin
   DoForm_ScaleAuto(Self);
   UpdateFormOnTop(Self);
 
+  //big title
+  labelName.Font.Style:= [fsBold];
+  labelName.Font.Size:= 18;
+
   memo.Hide;
   memo.Align:= alClient;
   memo.Strings.Clear;
