@@ -2629,6 +2629,14 @@ begin
   StatusProgress.Width:= AppScale(UiOps.ProgressbarWidth);
   ButtonCancel.Width:= AppScale(UiOps.ProgressbarWidth);
 
+  AppScaleSplitter(SplitterVert);
+  AppScaleSplitter(SplitterHorz);
+  AppScaleSplitter(Groups.Splitter1);
+  AppScaleSplitter(Groups.Splitter2);
+  AppScaleSplitter(Groups.Splitter3);
+  AppScaleSplitter(Groups.Splitter4);
+  AppScaleSplitter(Groups.Splitter5);
+
   //apply DoubleBuffered
   //no need for ToolbarMain and buttons
   for i:= Low(TATGroupsNums) to High(TATGroupsNums) do

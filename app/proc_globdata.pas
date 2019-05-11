@@ -497,6 +497,7 @@ function AppScale(AValue: integer): integer;
 function AppScaleFont(AValue: integer): integer;
 procedure AppScaleToolbar(C: TATFlatToolbar);
 procedure AppScaleScrollbar(C: TATScroll);
+procedure AppScaleSplitter(C: TSplitter);
 
 function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
 function FixFontMonospaced(const AName: string): string;
@@ -2144,6 +2145,17 @@ procedure AppScaleScrollbar(C: TATScroll);
 begin
   C.WidthInitial:= UiOps.ScrollbarWidth;
   C.ScalePercents:= UiOps.Scale;
+end;
+
+procedure AppScaleSplitter(C: TSplitter);
+var
+  NSize: integer;
+begin
+  NSize:= AppScale(5);
+  if C.Align in [alLeft, alRight] then
+    C.Width:= NSize
+  else
+    C.Height:= NSize;
 end;
 
 
