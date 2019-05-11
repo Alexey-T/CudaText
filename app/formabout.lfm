@@ -25,7 +25,7 @@ object fmAbout: TfmAbout
     Caption = 'CudaText'
     ParentColor = False
   end
-  object labelVer: TLabel
+  object labelVersion: TLabel
     AnchorSideLeft.Control = LabelName
     AnchorSideTop.Control = LabelName
     AnchorSideTop.Side = asrBottom
@@ -37,9 +37,9 @@ object fmAbout: TfmAbout
     Caption = 'Version'
     ParentColor = False
   end
-  object labelInf: TLabel
+  object labelPlatform: TLabel
     AnchorSideLeft.Control = LabelName
-    AnchorSideTop.Control = labelVer
+    AnchorSideTop.Control = labelVersion
     AnchorSideTop.Side = asrBottom
     Left = 152
     Height = 17

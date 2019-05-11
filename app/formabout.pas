@@ -29,8 +29,8 @@ type
   TfmAbout = class(TForm)
     ButtonPanel1: TButtonPanel;
     LabelName: TLabel;
-    labelInf: TLabel;
-    labelVer: TLabel;
+    labelPlatform: TLabel;
+    labelVersion: TLabel;
     memo: TATSynEdit;
     MenuItem37: TMenuItem;
     mnuTextCopy: TMenuItem;
@@ -105,13 +105,13 @@ begin
   FLabelLink.Caption:= 'UVviewsoft.com';
   FLabelLink.Link:= 'http://uvviewsoft.com';
   FLabelLink.Left:= LabelName.Left;
-  FLabelLink.AnchorSideTop.Control:= labelInf;
+  FLabelLink.AnchorSideTop.Control:= labelPlatform;
   FLabelLink.AnchorSideTop.Side:= asrBottom;
-  FLabelLink.BorderSpacing.Top:= labelInf.BorderSpacing.Top;
+  FLabelLink.BorderSpacing.Top:= labelPlatform.BorderSpacing.Top;
 
   SWidget:= LCLPlatformDirNames[WidgetSet.LCLPlatform];
 
-  labelInf.Caption:= Format('%s-%s-%s, fpc %s', [
+  labelPlatform.Caption:= Format('%s-%s-%s, fpc %s', [
     Lowercase({$I %FPCTARGETOS%}),
     {$I %FPCTARGETCPU%},
     SWidget,
@@ -133,7 +133,7 @@ begin
 
   //big title
   labelName.Font.Style:= [fsBold];
-  labelName.Font.Size:= 18;
+  labelName.Font.Size:= 20;
 
   memo.Hide;
   memo.Align:= alClient;

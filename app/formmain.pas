@@ -2521,7 +2521,7 @@ begin
   with Form do
   try
     DoLocalize_FormAbout(Form);
-    labelVer.Caption:= cAppExeVersion;
+    labelVersion.Caption:= cAppExeVersion;
     ShowModal;
   finally
     Free
