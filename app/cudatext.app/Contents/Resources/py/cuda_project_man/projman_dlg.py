@@ -34,7 +34,7 @@ def dialog_config(op):
     RES_D_CLICK = 8
     RES_ICONS = 10
     RES_ICONS_TB = 12
-    RES_OK = 13
+    RES_OK = 14
 
     themes = get_themes_filetype()
     try:
@@ -81,11 +81,12 @@ def dialog_config(op):
             'val='+str(theme_index_tb)
             ])]
 
-        +[c1.join(['type=button', 'pos=300,400,400,0', 'cap=&OK', 'props=1'])]
-        +[c1.join(['type=button', 'pos=406,400,502,0', 'cap=Cancel'])]
+        +[c1.join(['type=label', 'pos=6,386,600,0', 'cap=To get other icons, get add-ons "filetypeicons", "projtoolbaricons"'])]
+        +[c1.join(['type=button', 'pos=300,410,400,0', 'cap=&OK', 'props=1'])]
+        +[c1.join(['type=button', 'pos=406,410,502,0', 'cap=Cancel'])]
     )
 
-    res = dlg_custom('Project Manager options', 508, 434, text, get_dict=True)
+    res = dlg_custom('Project Manager options', 508, 444, text, get_dict=True)
     if res is None:
         return
 

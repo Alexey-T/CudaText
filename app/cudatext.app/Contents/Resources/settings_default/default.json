@@ -522,18 +522,18 @@
   "find_indent_horz": 10,
 
   //[Ui]
-  //UI scale factor in %, 50 to 400. [has suffix]
-  //If value=0, then OS scaling (High-DPI) is detected and used.
+  //UI scale factor in %, 70 to 500. [has suffix]
+  //If value=0, then OS scaling is detected and used (currently only on Windows).
   "ui_scale": 0,
   "ui_scale__linux": 0,
   "ui_scale__mac": 0,
 
-  //All fonts scale factor in %, 50 to 400. [has suffix]
+  //All fonts scale factor in %, 70 to 500. [has suffix]
   //If value=0, it follows the option "ui_scale".
   //Note: don't set 0 for Windows, it causes too big fonts with High-DPI.
   "ui_scale_font": 100,
-  "ui_scale_font__linux": 0,
-  "ui_scale_font__mac": 0,
+  "ui_scale_font__linux": 100,
+  "ui_scale_font__mac": 100,
 
   //[Ui/Tabs]
   //UI tabs: Don't create tabs (except the first one), ie use Single Document Interface

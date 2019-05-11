@@ -145,6 +145,7 @@ class Command:
 
         self.h_bar = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
         self.toolbar_imglist = toolbar_proc(self.h_bar, TOOLBAR_GET_IMAGELIST)
+        self.set_imagelist_size(toolbar_theme, self.toolbar_imglist)
 
         dirname = os.path.join(app_path(APP_DIR_DATA), 'projtoolbaricons', toolbar_theme)
         icon_open = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'open.png'))
@@ -200,7 +201,7 @@ class Command:
 
         self.init_form_main()
 
-        dlg_proc(self.h_dlg, DLG_SCALE)
+        #dlg_proc(self.h_dlg, DLG_SCALE)
         tree_proc(self.tree, TREE_THEME) #TREE_THEME only after DLG_SCALE
 
         app_proc(PROC_SIDEPANEL_ADD_DIALOG, (self.title, self.h_dlg, 'project.png'))
@@ -657,6 +658,7 @@ class Command:
 
     def config(self):
         if dialog_config(self.options):
+            print('ProjectMan: saving options')
             self.save_options()
 
             if self.h_dlg:
@@ -856,15 +858,19 @@ class Command:
         self.do_open_current_file(self.get_open_options())
 
 
+    def set_imagelist_size(self, theme_name, imglist):
+
+        try:
+            nsize = int(re.match('^\w+x(\d+)$', theme_name).group(1))
+            imagelist_proc(imglist, IMAGELIST_SET_SIZE, (nsize, nsize))
+            print('ProjectMan icons "%s" size: %d'%(theme_name, nsize))
+        except:
+            print('Incorrect theme name, must be nnnnnn_NNxNN:', self.icon_theme)
+
     def icon_init(self):
 
         self.icon_theme = self.options.get('icon_theme', 'vscode_16x16')
-
-        try:
-            nsize = int(re.match('^\w+x(\d+)$', self.icon_theme).group(1))
-            imagelist_proc(self.tree_imglist, IMAGELIST_SET_SIZE, (nsize, nsize))
-        except:
-            print('Incorrect theme name, must be nnnnnn_NNxNN:', self.icon_theme)
+        self.set_imagelist_size(self.icon_theme, self.tree_imglist)
 
         self.icon_dir = os.path.join(app_path(APP_DIR_DATA), 'filetypeicons', self.icon_theme)
         if not os.path.isdir(self.icon_dir):
