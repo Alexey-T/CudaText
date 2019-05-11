@@ -377,51 +377,52 @@
   "margin_string": "",
 
   //[View/Unprinted]
-  //Unprinted: Global enable-flag for unprinted_ options below
+  //Unprinted symbols: Global enabled flag for other unprinted_ options
   "unprinted_show": false,
 
-  //Unprinted: What info to show for unprinted chars. Option is string.
+  //Unprinted symbols: What info to show for unprinted symbols. Option is string.
   //  if "s" in value: Show whitespace
-  //  if "l' in value: Whitespace only at begin/end of lines (overrides "t')
+  //  if "l" in value: Whitespace only at begin/end of lines (overrides "t")
   //  if "t" in value: Whitespace only at end of lines
   //  if "e" in value: Show end-of-lines marks
   //  if "d" in value: Detailed end-of-lines: "LF", "CRLF", "CR" (overrides ".")
   //  if "." in value: Instead of arrows at end-of-lines, show thick dots
   "unprinted_content": "se",
 
-  //Unprinted: Show control ASCII chars (codes 0..31) as replacement-char
-  //(else show them as "xNN" hex codes)
+  //Unprinted symbols: Replace control ASCII characters (codes 0..31) with replacement-char.
+  //Otherwuse, show them as "xNN" hex codes.
   "unprinted_replace_spec": false,
 
-  //Unprinted: Replacement-char hex code for control ASCII chars
+  //Unprinted symbols: Hex code of replacement-char, for control ASCII characters
   "unprinted_replace_to_code": "A4",
 
-  //Unprinted: Length of arrow for tab-char (1 is minimal, 0 means full size)
+  //Unprinted symbols: Length of arrow rendered for tab-char.
+  //Value=1 means minimal length, 0 means full size.
   "unprinted_tab_len": 1,
 
-  //Unprinted: Scale (% of char height) of space dot
+  //Unprinted symbols: Scale (% of char height) of whitespace "dot"
   "unprinted_space_dot_scale": 15,
 
-  //Unprinted: Scale of end-of-line text marks: "LF", "CRLF", "CR"
+  //Unprinted symbols: Scale (% of char height) of end-of-line marks: "LF", "CRLF", "CR"
   "unprinted_end_font_scale": 80,
 
-  //Unprinted: Scale of tab-arrow pointer (15..50)
+  //Unprinted symbols: Scale (% of char height) of tab-arrow pointer (15..50)
   "unprinted_tab_ptr_scale": 22,
 
   //[Text/Wrap]
-  //Wrap mode:
+  //Long lines wrap mode:
   //  0: no wrap (fastest)
-  //  1: wrap at window edge
+  //  1: wrap at window edge (exact value changes on window resize)
   //  2: wrap at "fixed margin"
   //  3: wrap at minimum of "window edge" and "fixed margin"
   "wrap_mode": 0,
 
-  //Show wrapped parts of long line indented, like line itself
-  //(if line begins with spaces/tabs)
+  //For lines beginning with whitespace, show wrapped parts indented, like line itself
   "wrap_indented": true,
 
-  //Enable word-wrap (by window edge, by margin) only if lines count < option
-  //Reason for option: disabled word-wrap (together with none-lexer) makes loading of huge files faster 1.5 times
+  //Enable word wrap (by window edge, by margin) only if lines count < option value.
+  //Reason for option: disabled word wrap (together with None lexer) makes loading
+  //of huge files faster 1.5 times.
   "wrap_enabled_max_lines": 60000,
 
   //[Text/Undo]
