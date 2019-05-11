@@ -658,7 +658,7 @@ class Command:
 
     def config(self):
         if dialog_config(self.options):
-            print('ProjectMan: saving options')
+            #print('ProjectManager: saving options')
             self.save_options()
 
             if self.h_dlg:
@@ -863,9 +863,8 @@ class Command:
         try:
             nsize = int(re.match('^\w+x(\d+)$', theme_name).group(1))
             imagelist_proc(imglist, IMAGELIST_SET_SIZE, (nsize, nsize))
-            print('ProjectMan icons "%s" size: %d'%(theme_name, nsize))
         except:
-            print('Incorrect theme name, must be nnnnnn_NNxNN:', self.icon_theme)
+            print('ProjectManager: incorrect theme name:', self.icon_theme)
 
     def icon_init(self):
 
@@ -896,7 +895,7 @@ class Command:
         fn = os.path.join(self.icon_dir, fn)
         n = imagelist_proc(self.tree_imglist, IMAGELIST_ADD, value=fn)
         if n is None:
-            print('Incorrect filetype icon:', fn)
+            print('ProjectManager: incorrect filetype icon:', fn)
             n = self.ICON_ALL
         self.icon_indexes[key] = n
         return n
