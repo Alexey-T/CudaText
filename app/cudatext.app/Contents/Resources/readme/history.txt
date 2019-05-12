@@ -7,10 +7,12 @@
 1.80.0 (2019/05)
 
 + add: UI can now be scaled freely, independing of OS high-DPI mode. Added options "ui_scale", "ui_scale_font".
-+ add: don't show warning "File is maybe not text" if text has char(27)
++ add: more UI elements support scaling (minimap, micromap, splitters etc)
++ add: Project Manager supports "toolbar icons" of any size (before: only 16x16). Icon set "Mui" (icon size: 20, 24, 32, 48) was added to add-ons.
++ add: menu items in "Edit" menu are auto disabled (Undo, Redo, Copy, Cut, Paste, Delete)
++ add: don't show warning "File is maybe not text" because of char(27)
 + add: dialog "Save tabs?" saves its size
 + add: dialog "Char map" saves its size
-+ add: menu items in "Edit" menu are auto disabled (Undo, Redo, Copy, Cut, Paste, Delete)
 * change: deleted option "ui_statusbar_height"
 * change: deleted option "numbers_font_size"
 * change: deleted option "ruler_font_size"
