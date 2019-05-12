@@ -739,7 +739,7 @@ begin
 
   if not bSel then
   begin
-    Ed.DoSelect_CharGroupAtPos(Point(X1, Y1), false);
+    Ed.DoSelect_CharGroupAtPos(Point(X1, Y1), false, true);
   end
   else
   begin
