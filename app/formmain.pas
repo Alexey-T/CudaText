@@ -2712,13 +2712,13 @@ begin
       PanelCodeTreeTop.Hide;
     1:
       begin
-        PanelCodeTreeTop.Show;
+        PanelCodeTreeTop.Visible:= CodeTree.Visible;
         PanelCodeTreeTop.Align:= alTop;
         PanelCodeTreeTop.Top:= PanelLeftTitle.Height; //fix pos relative to title
       end;
     2:
       begin
-        PanelCodeTreeTop.Show;
+        PanelCodeTreeTop.Visible:= CodeTree.Visible;
         PanelCodeTreeTop.Align:= alBottom;
       end;
   end;
