@@ -1,3 +1,6 @@
+2.3.11 (2019-05-13)
+added: allow to edit json values
+
 2.3.10 (2019-05-02)
 added: allow to pass meta-info as list (without file)
 
