@@ -1624,7 +1624,7 @@ begin
   end;
 end;
 
-
+{
 function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
 var
   bmp: TBitmap;
@@ -1641,6 +1641,16 @@ begin
   finally
     FreeAndNil(bmp);
   end;
+end;
+}
+
+function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
+begin
+  Result:= UiOps.VarFontSize*96 div 72 {like in TFont.Create} + 3;
+  if ADoubleHeight then
+    Result:= Result * 185 div 100;
+  if AScale then
+    Result:= AppScaleFont(Result);
 end;
 
 
