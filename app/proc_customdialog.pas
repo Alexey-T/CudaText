@@ -767,8 +767,8 @@ begin
     TAppTreeContainer(Ctl).Tree.OnCollapsing:= @AForm.DoOnTreeviewCollapsing;
     TAppTreeContainer(Ctl).Tree.OnExpanding:= @AForm.DoOnTreeviewExpanding;
     TAppTreeContainer(Ctl).Tree.DefaultItemHeight:= AppScale(DefaultTreeNodeHeight);
-    AppScaleScrollbar(TAppTreeContainer(Ctl).ScrollHorz);
-    AppScaleScrollbar(TAppTreeContainer(Ctl).ScrollVert);
+    AppScaleScrollbar(TAppTreeContainer(Ctl).ScrollbarHorz);
+    AppScaleScrollbar(TAppTreeContainer(Ctl).ScrollbarVert);
     exit
   end;
 
