@@ -113,15 +113,6 @@ begin
   StatusAlt.ColorBorderTop:= Status.ColorBorderTop;
   StatusAlt.ColorBorderR:= Status.ColorBorderR;
 
-  StatusProgress.Font.Color:= GetAppColor('ButtonFont');
-  StatusProgress.ForeColor:= GetAppColor('ButtonBgOver');
-  StatusProgress.BackColor:= GetAppColor('ButtonBgPassive');
-  StatusProgress.BorderColor:= GetAppColor('ButtonBorderPassive');
-
-  LexerProgress.ForeColor:= StatusProgress.ForeColor;
-  LexerProgress.BackColor:= StatusProgress.BackColor;
-  LexerProgress.BorderColor:= StatusProgress.BorderColor;
-
   ATFlatTheme.ColorFont:= GetAppColor('ButtonFont');
   ATFlatTheme.ColorFontDisabled:= GetAppColor('ButtonFontDisabled');
   ATFlatTheme.ColorBgPassive:= GetAppColor('ButtonBgPassive');

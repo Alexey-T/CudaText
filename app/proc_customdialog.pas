@@ -1144,13 +1144,10 @@ begin
   if (C is TATGauge) then
   begin
     case AIndex of
-      0: (C as TATGauge).Kind:= TATGaugeKind(StrToIntDef(S, 0));
-      1: (C as TATGauge).MinValue:= StrToIntDef(S, 0);
-      2: (C as TATGauge).MaxValue:= StrToIntDef(S, 100);
-      3: (C as TATGauge).ShowText:= AppStrToBool(S);
-      4: (C as TATGauge).BackColor:= StrToIntDef(S, clWhite);
-      5: (C as TATGauge).ForeColor:= StrToIntDef(S, clNavy);
-      6: (C as TATGauge).BorderColor:= StrToIntDef(S, clBlack);
+      0: TATGauge(C).Kind:= TATGaugeKind(StrToIntDef(S, 0));
+      1: TATGauge(C).MinValue:= StrToIntDef(S, 0);
+      2: TATGauge(C).MaxValue:= StrToIntDef(S, 100);
+      3: TATGauge(C).ShowText:= AppStrToBool(S);
     end;
     exit;
   end;
