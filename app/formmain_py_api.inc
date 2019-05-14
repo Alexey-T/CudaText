@@ -2629,13 +2629,13 @@ begin
         PROP_GUTTER_ALL:
           Result:= PyBool_FromLong(Ord(Ed.OptGutterVisible));
         PROP_GUTTER_STATES:
-          Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandState].Visible));
+          Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandStates].Visible));
         PROP_GUTTER_NUM:
-          Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandNum].Visible));
+          Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandNumbers].Visible));
         PROP_GUTTER_FOLD:
-          Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandFold].Visible));
+          Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandFolding].Visible));
         PROP_GUTTER_BM:
-          Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandBm].Visible));
+          Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandBookmarks].Visible));
         PROP_EOL:
           Result:= PyString_FromString(#10);
         PROP_WRAP:
@@ -3174,13 +3174,13 @@ begin
         PROP_GUTTER_ALL:
           Ed.OptGutterVisible:= ValueBool;
         PROP_GUTTER_STATES:
-          Ed.Gutter[Ed.GutterBandState].Visible:= ValueBool;
+          Ed.Gutter[Ed.GutterBandStates].Visible:= ValueBool;
         PROP_GUTTER_NUM:
-          Ed.Gutter[Ed.GutterBandNum].Visible:= ValueBool;
+          Ed.Gutter[Ed.GutterBandNumbers].Visible:= ValueBool;
         PROP_GUTTER_FOLD:
-          Ed.Gutter[Ed.GutterBandFold].Visible:= ValueBool;
+          Ed.Gutter[Ed.GutterBandFolding].Visible:= ValueBool;
         PROP_GUTTER_BM:
-          Ed.Gutter[Ed.GutterBandBm].Visible:= ValueBool;
+          Ed.Gutter[Ed.GutterBandBookmarks].Visible:= ValueBool;
         PROP_WRAP:
           Ed.OptWrapMode:= TATSynWrapMode(ValueInt);
         PROP_RO:

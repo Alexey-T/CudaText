@@ -113,9 +113,9 @@ begin
   Ed.OptGutterVisible:= Op.OpGutterShow;
   Ed.OptGutterShowFoldAlways:= Op.OpGutterFoldAlways;
   Ed.OptGutterIcons:= TATGutterIconsKind(Op.OpGutterFoldIcons);
-  Ed.Gutter[Ed.GutterBandBm].Visible:= Op.OpGutterBookmarks;
-  Ed.Gutter[Ed.GutterBandFold].Visible:= Op.OpGutterFold;
-  Ed.Gutter[Ed.GutterBandNum].Visible:= Op.OpNumbersShow;
+  Ed.Gutter[Ed.GutterBandBookmarks].Visible:= Op.OpGutterBookmarks;
+  Ed.Gutter[Ed.GutterBandFolding].Visible:= Op.OpGutterFold;
+  Ed.Gutter[Ed.GutterBandNumbers].Visible:= Op.OpNumbersShow;
   Ed.Gutter.Update;
 
   if Op.OpNumbersStyle<=Ord(High(TATSynNumbersStyle)) then
@@ -993,7 +993,7 @@ begin
   Ops.ShowMinimap:= Ed.OptMinimapVisible;
   Ops.ShowMicromap:= Ed.OptMicromapVisible;
   Ops.ShowRuler:= Ed.OptRulerVisible;
-  Ops.ShowNumbers:= Ed.Gutter.Items[Ed.GutterBandNum].Visible;
+  Ops.ShowNumbers:= Ed.Gutter.Items[Ed.GutterBandNumbers].Visible;
   Ops.ShowUnprinted:= Ed.OptUnprintedVisible;
 end;
 
@@ -1003,7 +1003,7 @@ begin
   Ed.OptMinimapVisible:= Ops.ShowMinimap;
   Ed.OptMicromapVisible:= Ops.ShowMicromap;
   Ed.OptRulerVisible:= Ops.ShowRuler;
-  Ed.Gutter.Items[Ed.GutterBandNum].Visible:= Ops.ShowNumbers;
+  Ed.Gutter.Items[Ed.GutterBandNumbers].Visible:= Ops.ShowNumbers;
   Ed.OptUnprintedVisible:= Ops.ShowUnprinted;
 end;
 

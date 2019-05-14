@@ -486,8 +486,8 @@ begin
 
     F.edSample.Font.Name:= AFontName;
     F.edSample.Font.Size:= AFontSize;
-    F.edSample.Gutter[F.edSample.GutterBandBm].Visible:= false;
-    F.edSample.Gutter[F.edSample.GutterBandNum].Visible:= false;
+    F.edSample.Gutter[F.edSample.GutterBandBookmarks].Visible:= false;
+    F.edSample.Gutter[F.edSample.GutterBandNumbers].Visible:= false;
     F.Adapter.Lexer:= an;
     if Assigned(an.SampleText) then
     begin

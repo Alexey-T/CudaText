@@ -2272,7 +2272,7 @@ begin
     IntToStr(ABand)
     ]) = cPyFalse then exit;
 
-  if ABand=Ed.GutterBandBm then
+  if ABand=Ed.GutterBandBookmarks then
     ed.BookmarkToggleForLine(ALine, 1, '', false, true, 0);
 end;
 
@@ -2568,7 +2568,7 @@ begin
   c.SetValue(path+cHistory_Unpri_Spaces, Ed.OptUnprintedSpaces);
   c.SetValue(path+cHistory_Unpri_Ends, Ed.OptUnprintedEnds);
   c.SetValue(path+cHistory_Unpri_Detail, Ed.OptUnprintedEndsDetails);
-  c.SetValue(path+cHistory_Nums, Ed.Gutter[Ed.GutterBandNum].Visible);
+  c.SetValue(path+cHistory_Nums, Ed.Gutter[Ed.GutterBandNumbers].Visible);
   c.SetValue(path+cHistory_Fold, EditorGetFoldString(Ed));
 
   if TabColor=clNone then
@@ -2734,7 +2734,7 @@ begin
     Ed.LineTop:= nTop;
   end;
 
-  with Ed.Gutter[Ed.GutterBandNum] do
+  with Ed.Gutter[Ed.GutterBandNumbers] do
     Visible:= c.GetValue(path+cHistory_Nums, Visible);
 
   //caret
