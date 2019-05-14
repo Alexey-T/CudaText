@@ -52,6 +52,7 @@ type
     procedure SetFocus; override;
     property ScrollbarVert: TATScroll read FScrollbarVert;
     property ScrollbarHorz: TATScroll read FScrollbarHorz;
+    procedure Invalidate; override;
   end;
 
 implementation
@@ -98,6 +99,17 @@ end;
 procedure TAppTreeContainer.SetFocus;
 begin
   Tree.SetFocus;
+end;
+
+procedure TAppTreeContainer.Invalidate;
+begin
+  FScrollbarHorz.WidthInitial:= UiOps.ScrollbarWidth;
+  FScrollbarHorz.ScalePercents:= UiOps.Scale;
+
+  FScrollbarVert.WidthInitial:= UiOps.ScrollbarWidth;
+  FScrollbarVert.ScalePercents:= UiOps.Scale;
+
+  inherited Invalidate;
 end;
 
 procedure TAppTreeContainer.ScrollVertChange(Sender: TObject);

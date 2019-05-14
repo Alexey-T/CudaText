@@ -496,7 +496,7 @@ procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
 function AppScale(AValue: integer): integer;
 function AppScaleFont(AValue: integer): integer;
 procedure AppScaleToolbar(C: TATFlatToolbar);
-procedure AppScaleScrollbar(C: TATScroll);
+//procedure AppScaleScrollbar(C: TATScroll);
 procedure AppScaleSplitter(C: TSplitter);
 
 function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
@@ -2141,11 +2141,13 @@ begin
   C.UpdateControls();
 end;
 
+{
 procedure AppScaleScrollbar(C: TATScroll);
 begin
   C.WidthInitial:= UiOps.ScrollbarWidth;
   C.ScalePercents:= UiOps.Scale;
 end;
+}
 
 procedure AppScaleSplitter(C: TSplitter);
 var
