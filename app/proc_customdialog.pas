@@ -161,66 +161,66 @@ begin
   Result:= '';
 
   if C is TEdit then
-    exit((C as TEdit).Text);
+    exit(TEdit(C).Text);
 
   if C is TCheckBox then
-    exit(DoControl_GetState_CheckBox(C as TCheckbox));
+    exit(DoControl_GetState_CheckBox(TCheckbox(C)));
 
   if C is TToggleBox then
-    exit(IntToStr(Ord((C as TToggleBox).Checked)));
+    exit(IntToStr(Ord(TToggleBox(C).Checked)));
 
   if C is TRadioButton then
-    exit(IntToStr(Ord((C as TRadioButton).Checked)));
+    exit(IntToStr(Ord(TRadioButton(C).Checked)));
 
   if C is TListBox then
-    exit(IntToStr((C as TListBox).ItemIndex));
+    exit(IntToStr(TListBox(C).ItemIndex));
 
   if C is TComboBox then
   begin
-    if (C as TComboBox).Style=csDropDownList then
-      exit(IntToStr((C as TComboBox).ItemIndex))
+    if TComboBox(C).Style=csDropDownList then
+      exit(IntToStr(TComboBox(C).ItemIndex))
     else
-      exit((C as TComboBox).Text);
+      exit(TComboBox(C).Text);
   end;
 
   if C is TMemo then
-    exit(DoControl_GetState_Memo(C as TMemo));
+    exit(DoControl_GetState_Memo(TMemo(C)));
 
   if C is TRadioGroup then
-    exit(IntToStr((C as TRadioGroup).ItemIndex));
+    exit(IntToStr(TRadioGroup(C).ItemIndex));
 
   if C is TCheckGroup then
-    exit(DoControl_GetState_CheckGroup(C as TCheckGroup));
+    exit(DoControl_GetState_CheckGroup(TCheckGroup(C)));
 
   if C is TCheckListBox then
-    exit(DoControl_GetState_CheckListBox(C as TCheckListBox));
+    exit(DoControl_GetState_CheckListBox(TCheckListBox(C)));
 
   if C is TSpinEdit then
-    exit(IntToStr((C as TSpinEdit).Value));
+    exit(IntToStr(TSpinEdit(C).Value));
 
   if C is TListView then
-    exit(DoControl_GetState_Listview(C as TListView));
+    exit(DoControl_GetState_Listview(TListView(C)));
 
   if C is TTabControl then
-    exit(IntToStr((C as TTabControl).TabIndex));
+    exit(IntToStr(TTabControl(C).TabIndex));
 
   if C is TPageControl then
-    exit(IntToStr((C as TPageControl).PageIndex));
+    exit(IntToStr(TPageControl(C).PageIndex));
 
   if C is TTrackBar then
-    exit(IntToStr((C as TTrackBar).Position));
+    exit(IntToStr(TTrackBar(C).Position));
 
   if C is TProgressBar then
-    exit(IntToStr((C as TProgressBar).Position));
+    exit(IntToStr(TProgressBar(C).Position));
 
   if C is TATGauge then
-    exit(IntToStr((C as TATGauge).Progress));
+    exit(IntToStr(TATGauge(C).Progress));
 
   if C is TListFilterEdit then
-    exit((C as TListFilterEdit).Text);
+    exit(TListFilterEdit(C).Text);
 
   if C is TListViewFilterEdit then
-    exit((C as TListViewFilterEdit).Text);
+    exit(TListViewFilterEdit(C).Text);
 end;
 
 
@@ -432,9 +432,9 @@ function DoControl_GetItems(C: TControl): string;
 begin
   Result:= '';
   if C is TCustomListbox then
-    exit(DoControl_GetItems_Listbox(C as TCustomListbox));
+    exit(DoControl_GetItems_Listbox(TCustomListbox(C)));
   if C is TListView then
-    exit(DoControl_GetItems_ListView(C as TListView));
+    exit(DoControl_GetItems_ListView(TListView(C)));
 end;
 
 
@@ -443,10 +443,10 @@ begin
   Result:= '';
 
   if C is TListView then
-    exit(DoControl_GetColumns_ListView(C as TListView));
+    exit(DoControl_GetColumns_ListView(TListView(C)));
 
   if C is TRadioGroup then
-    exit(IntToStr((C as TRadioGroup).Columns));
+    exit(IntToStr(TRadioGroup(C).Columns));
 end;
 
 
@@ -589,14 +589,14 @@ begin
   if S='check' then
   begin
     Ctl:= TCheckBox.Create(AForm);
-    (Ctl as TCheckBox).OnChange:= @AForm.DoOnChange;
+    TCheckBox(Ctl).OnChange:= @AForm.DoOnChange;
     exit;
   end;
 
   if S='edit' then
   begin
     Ctl:= TEdit.Create(AForm);
-    (Ctl as TEdit).OnChange:= @AForm.DoOnChange;
+    TEdit(Ctl).OnChange:= @AForm.DoOnChange;
     exit;
   end;
 
@@ -640,8 +640,8 @@ begin
   if S='memo' then
   begin
     Ctl:= TMemo.Create(AForm);
-    (Ctl as TMemo).WordWrap:= false;
-    (Ctl as TMemo).ScrollBars:= ssBoth;
+    TMemo(Ctl).WordWrap:= false;
+    TMemo(Ctl).ScrollBars:= ssBoth;
     exit;
   end;
 
@@ -654,24 +654,24 @@ begin
   if S='combo' then
   begin
     Ctl:= TComboBox.Create(AForm);
-    (Ctl as TComboBox).OnChange:= @AForm.DoOnChange;
-    (Ctl as TComboBox).DropDownCount:= 20;
+    TComboBox(Ctl).OnChange:= @AForm.DoOnChange;
+    TComboBox(Ctl).DropDownCount:= 20;
     exit;
   end;
 
   if S='combo_ro' then
   begin
     Ctl:= TComboBox.Create(AForm);
-    (Ctl as TComboBox).DropDownCount:= 20;
-    (Ctl as TComboBox).Style:= csDropDownList;
-    (Ctl as TComboBox).OnChange:= @AForm.DoOnChange;
+    TComboBox(Ctl).DropDownCount:= 20;
+    TComboBox(Ctl).Style:= csDropDownList;
+    TComboBox(Ctl).OnChange:= @AForm.DoOnChange;
     exit;
   end;
 
   if S='button' then
   begin
     Ctl:= TButton.Create(AForm);
-    (Ctl as TButton).OnClick:= @AForm.DoOnChange;
+    TButton(Ctl).OnClick:= @AForm.DoOnChange;
     DoControl_FixButtonHeight(Ctl);
     exit;
   end;
@@ -679,14 +679,14 @@ begin
   if S='button_ex' then
   begin
     Ctl:= TATButton.Create(AForm);
-    (Ctl as TATButton).OnClick:= @AForm.DoOnChange;
+    TATButton(Ctl).OnClick:= @AForm.DoOnChange;
     exit;
   end;
 
   if S='checkbutton' then
   begin
     Ctl:= TToggleBox.Create(AForm);
-    (Ctl as TToggleBox).OnChange:= @AForm.DoOnChange;
+    TToggleBox(Ctl).OnChange:= @AForm.DoOnChange;
     DoControl_FixButtonHeight(Ctl);
     exit;
   end;
@@ -694,14 +694,14 @@ begin
   if S='listbox' then
   begin
     Ctl:= TListBox.Create(AForm);
-    (Ctl as TListBox).OnSelectionChange:= @AForm.DoOnListboxSelect;
+    TListBox(Ctl).OnSelectionChange:= @AForm.DoOnListboxSelect;
     exit;
   end;
 
   if S='radio' then
   begin
     Ctl:= TRadioButton.Create(AForm);
-    (Ctl as TRadioButton).OnChange:= @AForm.DoOnChange;
+    TRadioButton(Ctl).OnChange:= @AForm.DoOnChange;
     exit;
   end;
 
@@ -720,9 +720,9 @@ begin
   if S='panel' then
   begin
     Ctl:= TPanel.Create(AForm);
-    (Ctl as TPanel).BevelInner:= bvNone;
-    (Ctl as TPanel).BevelOuter:= bvNone;
-    (Ctl as TPanel).BorderStyle:= bsNone;
+    TPanel(Ctl).BevelInner:= bvNone;
+    TPanel(Ctl).BevelOuter:= bvNone;
+    TPanel(Ctl).BorderStyle:= bsNone;
     exit;
   end;
 
@@ -735,8 +735,8 @@ begin
   if S='checklistbox' then
   begin
     Ctl:= TCheckListBox.Create(AForm);
-    (Ctl as TCheckListBox).OnSelectionChange:= @AForm.DoOnListboxSelect;
-    (Ctl as TCheckListBox).OnClickCheck:= @AForm.DoOnChange;
+    TCheckListBox(Ctl).OnSelectionChange:= @AForm.DoOnListboxSelect;
+    TCheckListBox(Ctl).OnClickCheck:= @AForm.DoOnChange;
     exit;
   end;
 
@@ -793,64 +793,64 @@ begin
   if S='tabs' then
   begin
     Ctl:= TTabControl.Create(AForm);
-    (Ctl as TTabControl).OnChange:= @AForm.DoOnChange;
+    TTabControl(Ctl).OnChange:= @AForm.DoOnChange;
     exit;
   end;
 
   if S='pages' then
   begin
     Ctl:= TPageControl.Create(AForm);
-    (Ctl as TPageControl).OnChange:= @AForm.DoOnChange;
+    TPageControl(Ctl).OnChange:= @AForm.DoOnChange;
     exit;
   end;
 
   if S='colorpanel' then
   begin
     Ctl:= TATPanelColor.Create(AForm);
-    (Ctl as TATPanelColor).OnClick:= @AForm.DoOnChange;
+    TATPanelColor(Ctl).OnClick:= @AForm.DoOnChange;
     exit;
   end;
 
   if S='bevel' then
   begin
     Ctl:= TBevel.Create(AForm);
-    (Ctl as TBevel).Shape:= bsFrame;
+    TBevel(Ctl).Shape:= bsFrame;
     exit;
   end;
 
   if S='image' then
   begin
     Ctl:= TImage.Create(AForm);
-    (Ctl as TImage).Proportional:= true;
-    (Ctl as TImage).AntialiasingMode:= amOn;
-    (Ctl as TImage).OnPaintBackground:= @AForm.DoOnImagePaintBackground;
+    TImage(Ctl).Proportional:= true;
+    TImage(Ctl).AntialiasingMode:= amOn;
+    TImage(Ctl).OnPaintBackground:= @AForm.DoOnImagePaintBackground;
     exit;
   end;
 
   if S='trackbar' then
   begin
     Ctl:= TTrackBar.Create(AForm);
-    (Ctl as TTrackBar).Min:= -1000000;
-    (Ctl as TTrackBar).Max:= 1000000;
-    (Ctl as TTrackBar).OnChange:= @AForm.DoOnChange;
+    TTrackBar(Ctl).Min:= -1000000;
+    TTrackBar(Ctl).Max:= 1000000;
+    TTrackBar(Ctl).OnChange:= @AForm.DoOnChange;
     exit;
   end;
 
   if S='splitter' then
   begin
     Ctl:= TSplitter.Create(AForm);
-    (Ctl as TSplitter).Beveled:= true;
-    (Ctl as TSplitter).ResizeStyle:= rsPattern;
-    (Ctl as TSplitter).AutoSnap:= false;
-    (Ctl as TSplitter).OnMoved:= @AForm.DoOnChange;
+    TSplitter(Ctl).Beveled:= true;
+    TSplitter(Ctl).ResizeStyle:= rsPattern;
+    TSplitter(Ctl).AutoSnap:= false;
+    TSplitter(Ctl).OnMoved:= @AForm.DoOnChange;
     exit;
   end;
 
   if S='progressbar' then
   begin
     Ctl:= TProgressBar.Create(AForm);
-    (Ctl as TProgressBar).Min:= -1000000;
-    (Ctl as TProgressBar).Max:= 1000000;
+    TProgressBar(Ctl).Min:= -1000000;
+    TProgressBar(Ctl).Max:= 1000000;
     exit;
   end;
 
@@ -952,7 +952,7 @@ begin
   end
   else
   if P is TWinControl then
-    C.Parent:= P as TWinControl;
+    C.Parent:= TWinControl(P);
 end;
 
 
@@ -996,7 +996,7 @@ begin
   if C is TButton then
   begin
     case AIndex of
-      0: (C as TButton).Default:= AppStrToBool(S);
+      0: TButton(C).Default:= AppStrToBool(S);
     end;
     exit
   end;
@@ -1004,9 +1004,9 @@ begin
   if C is TSpinEdit then
   begin
     case AIndex of
-      0: (C as TSpinEdit).MinValue:= StrToIntDef(S, 0);
-      1: (C as TSpinEdit).MaxValue:= StrToIntDef(S, 100);
-      2: (C as TSpinEdit).Increment:= StrToIntDef(S, 1);
+      0: TSpinEdit(C).MinValue:= StrToIntDef(S, 0);
+      1: TSpinEdit(C).MaxValue:= StrToIntDef(S, 100);
+      2: TSpinEdit(C).Increment:= StrToIntDef(S, 1);
     end;
     exit
   end;
@@ -1014,7 +1014,7 @@ begin
   if C is TATLabelLink then
   begin
     case AIndex of
-      0: (C as TATLabelLink).Link:= S;
+      0: TATLabelLink(C).Link:= S;
     end;
     exit
   end;
@@ -1026,8 +1026,8 @@ begin
         begin
           if AppStrToBool(S) then
           begin
-            (C as TLabel).AutoSize:= false;
-            (C as TLabel).Alignment:= taRightJustify;
+            TLabel(C).AutoSize:= false;
+            TLabel(C).Alignment:= taRightJustify;
           end;
         end;
     end;
@@ -1039,7 +1039,7 @@ begin
     case AIndex of
       0: //Read-only
         begin
-          (C as TCustomEdit).ReadOnly:= AppStrToBool(S);
+          TCustomEdit(C).ReadOnly:= AppStrToBool(S);
           TCustomEditHack(C).ParentColor:= AppStrToBool(S);
         end;
       1: //Monospaced
@@ -1054,7 +1054,7 @@ begin
         end;
       2: //Border
         begin
-          (C as TCustomEdit).BorderStyle:= cControlBorderStyles[AppStrToBool(S)];
+          TCustomEdit(C).BorderStyle:= cControlBorderStyles[AppStrToBool(S)];
         end;
     end;
     exit;
@@ -1063,7 +1063,7 @@ begin
   if (C is TListView) then
   begin
     case AIndex of
-      0: (C as TListView).GridLines:= AppStrToBool(S);
+      0: TListView(C).GridLines:= AppStrToBool(S);
     end;
     exit
   end;
@@ -1074,7 +1074,7 @@ begin
       0:
         begin
           if AppStrToBool(S) then
-            (C as TTabControl).TabPosition:= tpBottom;
+            TTabControl(C).TabPosition:= tpBottom;
         end;
     end;
     exit
@@ -1083,10 +1083,10 @@ begin
   if (C is TATPanelColor) then
   begin
     case AIndex of
-      0: (C as TATPanelColor).BorderWidth:= StrToIntDef(S, 0);
-      1: (C as TATPanelColor).Color:= StrToIntDef(S, clDefault);
-      2: (C as TATPanelColor).Font.Color:= StrToIntDef(S, clDefault);
-      3: (C as TATPanelColor).BorderColor:= StrToIntDef(S, clBlack);
+      0: TATPanelColor(C).BorderWidth:= StrToIntDef(S, 0);
+      1: TATPanelColor(C).Color:= StrToIntDef(S, clDefault);
+      2: TATPanelColor(C).Font.Color:= StrToIntDef(S, clDefault);
+      3: TATPanelColor(C).BorderColor:= StrToIntDef(S, clBlack);
     end;
     exit
   end;
@@ -1094,7 +1094,7 @@ begin
   if (C is TBevel) then
   begin
     case AIndex of
-      0: (C as TBevel).Shape:= TBevelShape(StrToIntDef(S, 1{bsFrame}));
+      0: TBevel(C).Shape:= TBevelShape(StrToIntDef(S, 1{bsFrame}));
     end;
     exit;
   end;
@@ -1102,12 +1102,12 @@ begin
   if (C is TImage) then
   begin
     case AIndex of
-      0: (C as TImage).Center:= AppStrToBool(S);
-      1: (C as TImage).Stretch:= AppStrToBool(S);
-      2: (C as TImage).StretchInEnabled:= AppStrToBool(S);
-      3: (C as TImage).StretchOutEnabled:= AppStrToBool(S);
-      4: (C as TImage).KeepOriginXWhenClipped:= AppStrToBool(S);
-      5: (C as TImage).KeepOriginYWhenClipped:= AppStrToBool(S);
+      0: TImage(C).Center:= AppStrToBool(S);
+      1: TImage(C).Stretch:= AppStrToBool(S);
+      2: TImage(C).StretchInEnabled:= AppStrToBool(S);
+      3: TImage(C).StretchOutEnabled:= AppStrToBool(S);
+      4: TImage(C).KeepOriginXWhenClipped:= AppStrToBool(S);
+      5: TImage(C).KeepOriginYWhenClipped:= AppStrToBool(S);
     end;
     exit
   end;
@@ -1115,14 +1115,14 @@ begin
   if (C is TTrackBar) then
   begin
     case AIndex of
-      0: (C as TTrackBar).Orientation:= TTrackBarOrientation(StrToIntDef(S, 0));
-      1: (C as TTrackBar).Min:= StrToIntDef(S, 0);
-      2: (C as TTrackBar).Max:= StrToIntDef(S, 100);
-      3: (C as TTrackBar).LineSize:= StrToIntDef(S, 1);
-      4: (C as TTrackBar).PageSize:= StrToIntDef(S, 10);
-      5: (C as TTrackBar).Reversed:= AppStrToBool(S);
-      6: (C as TTrackBar).TickMarks:= TTickMark(StrToIntDef(S, 0));
-      7: (C as TTrackBar).TickStyle:= TTickStyle(StrToIntDef(S, 0));
+      0: TTrackBar(C).Orientation:= TTrackBarOrientation(StrToIntDef(S, 0));
+      1: TTrackBar(C).Min:= StrToIntDef(S, 0);
+      2: TTrackBar(C).Max:= StrToIntDef(S, 100);
+      3: TTrackBar(C).LineSize:= StrToIntDef(S, 1);
+      4: TTrackBar(C).PageSize:= StrToIntDef(S, 10);
+      5: TTrackBar(C).Reversed:= AppStrToBool(S);
+      6: TTrackBar(C).TickMarks:= TTickMark(StrToIntDef(S, 0));
+      7: TTrackBar(C).TickStyle:= TTickStyle(StrToIntDef(S, 0));
     end;
     exit;
   end;
@@ -1130,13 +1130,13 @@ begin
   if (C is TProgressBar) then
   begin
     case AIndex of
-      0: (C as TProgressBar).Orientation:= TProgressBarOrientation(StrToIntDef(S, 0));
-      1: (C as TProgressBar).Min:= StrToIntDef(S, 0);
-      2: (C as TProgressBar).Max:= StrToIntDef(S, 100);
-      3: (C as TProgressBar).Smooth:= AppStrToBool(S);
-      4: (C as TProgressBar).Step:= StrToIntDef(S, 1);
-      5: (C as TProgressBar).Style:= TProgressBarStyle(StrToIntDef(S, 0));
-      6: (C as TProgressBar).BarShowText:= AppStrToBool(S);
+      0: TProgressBar(C).Orientation:= TProgressBarOrientation(StrToIntDef(S, 0));
+      1: TProgressBar(C).Min:= StrToIntDef(S, 0);
+      2: TProgressBar(C).Max:= StrToIntDef(S, 100);
+      3: TProgressBar(C).Smooth:= AppStrToBool(S);
+      4: TProgressBar(C).Step:= StrToIntDef(S, 1);
+      5: TProgressBar(C).Style:= TProgressBarStyle(StrToIntDef(S, 0));
+      6: TProgressBar(C).BarShowText:= AppStrToBool(S);
     end;
     exit;
   end;
@@ -1155,10 +1155,10 @@ begin
   if (C is TSplitter) then
   begin
     case AIndex of
-      0: (C as TSplitter).Beveled:= AppStrToBool(S);
-      1: (C as TSplitter).ResizeStyle:= cResizeStyle[AppStrToBool(S)];
-      2: (C as TSplitter).AutoSnap:= AppStrToBool(S);
-      3: (C as TSplitter).MinSize:= StrToIntDef(S, (C as TSplitter).MinSize);
+      0: TSplitter(C).Beveled:= AppStrToBool(S);
+      1: TSplitter(C).ResizeStyle:= cResizeStyle[AppStrToBool(S)];
+      2: TSplitter(C).AutoSnap:= AppStrToBool(S);
+      3: TSplitter(C).MinSize:= StrToIntDef(S, TSplitter(C).MinSize);
     end;
     exit;
   end;
@@ -1166,7 +1166,7 @@ begin
   if (C is TListViewFilterEdit) then
   begin
     case AIndex of
-      0: (C as TListViewFilterEdit).ByAllFields:= AppStrToBool(S);
+      0: TListViewFilterEdit(C).ByAllFields:= AppStrToBool(S);
     end;
     exit
   end;
@@ -1174,7 +1174,7 @@ begin
   if (C is TRadioGroup) then
   begin
     case AIndex of
-      0: (C as TRadioGroup).ColumnLayout:= TColumnLayout(StrToIntDef(S, 0));
+      0: TRadioGroup(C).ColumnLayout:= TColumnLayout(StrToIntDef(S, 0));
     end;
   end;
 end;
@@ -1200,13 +1200,13 @@ procedure DoControl_SetColumnsFromString(C: TControl; S: string);
 begin
   if C is TListView then
   begin
-    DoControl_SetColumns_ListView(C as TListView, S);
+    DoControl_SetColumns_ListView(TListView(C), S);
     exit
   end;
 
   if C is TRadioGroup then
   begin
-    (C as TRadioGroup).Columns:= StrToIntDef(S, 1);
+    TRadioGroup(C).Columns:= StrToIntDef(S, 1);
     exit
   end;
 end;
@@ -1218,21 +1218,21 @@ var
 begin
   if C is TImage then
   begin
-    DoControl_SetState_Image(C as TImage, S);
+    DoControl_SetState_Image(TImage(C), S);
     exit
   end;
 
-  if C is TListbox then (C as TListbox).Items.Clear;
-  if C is TComboBox then (C as TComboBox).Items.Clear;
-  if C is TCheckGroup then (C as TCheckGroup).Items.Clear;
-  if C is TRadioGroup then (C as TRadioGroup).Items.Clear;
-  if C is TCheckListBox then (C as TCheckListBox).Items.Clear;
-  if C is TTabControl then (C as TTabControl).Tabs.Clear;
+  if C is TListbox then TListbox(C).Items.Clear;
+  if C is TComboBox then TComboBox(C).Items.Clear;
+  if C is TCheckGroup then TCheckGroup(C).Items.Clear;
+  if C is TRadioGroup then TRadioGroup(C).Items.Clear;
+  if C is TCheckListBox then TCheckListBox(C).Items.Clear;
+  if C is TTabControl then TTabControl(C).Tabs.Clear;
 
   if C is TListView then
   begin
-    (C as TListView).Columns.Clear;
-    (C as TListView).Items.Clear;
+    TListView(C).Columns.Clear;
+    TListView(C).Items.Clear;
   end;
 
   if C is TPageControl then
@@ -1244,14 +1244,14 @@ begin
   while S<>'' do
   begin
     SItem:= SGetItem(S, #9);
-    if C is TListbox then (C as TListbox).Items.Add(SItem);
-    if C is TComboBox then (C as TComboBox).Items.Add(SItem);
-    if C is TCheckGroup then (C as TCheckGroup).Items.Add(SItem);
-    if C is TRadioGroup then (C as TRadioGroup).Items.Add(SItem);
-    if C is TCheckListBox then (C as TCheckListBox).Items.Add(SItem);
-    if C is TListView then DoControl_SetState_ListviewItem(C as TListView, SItem);
-    if C is TTabControl then (C as TTabControl).Tabs.Add(SItem);
-    if C is TPageControl then (C as TPageControl).AddTabSheet.Caption:= SItem;
+    if C is TListbox then TListbox(C).Items.Add(SItem);
+    if C is TComboBox then TComboBox(C).Items.Add(SItem);
+    if C is TCheckGroup then TCheckGroup(C).Items.Add(SItem);
+    if C is TRadioGroup then TRadioGroup(C).Items.Add(SItem);
+    if C is TCheckListBox then TCheckListBox(C).Items.Add(SItem);
+    if C is TListView then DoControl_SetState_ListviewItem(TListView(C), SItem);
+    if C is TTabControl then TTabControl(C).Tabs.Add(SItem);
+    if C is TPageControl then TPageControl(C).AddTabSheet.Caption:= SItem;
   end;
 end;
 
@@ -1287,97 +1287,97 @@ procedure DoControl_SetStateFromString(C: TControl; const S: string);
 begin
   if C is TCheckBox then
   begin
-    DoControl_SetState_Checkbox(C as TCheckbox, S);
+    DoControl_SetState_Checkbox(TCheckbox(C), S);
     exit
   end;
   if C is TToggleBox then
   begin
-    (C as TToggleBox).Checked:= AppStrToBool(S);
+    TToggleBox(C).Checked:= AppStrToBool(S);
     exit
   end;
   if C is TRadioButton then
   begin
-    (C as TRadioButton).Checked:= AppStrToBool(S);
+    TRadioButton(C).Checked:= AppStrToBool(S);
     exit
   end;
   if C is TEdit then
   begin
-    (C as TEdit).Text:= S;
+    TEdit(C).Text:= S;
     exit
   end;
   if C is TComboBox then
   begin
-    DoControl_SetState_Combobox(C as TCombobox, S);
+    DoControl_SetState_Combobox(TCombobox(C), S);
     exit
   end;
   if C is TListBox then
   begin
-    DoControl_SetState_Listbox(C as TListbox, S);
+    DoControl_SetState_Listbox(TListbox(C), S);
     exit
   end;
   if C is TRadioGroup then
   begin
-    DoControl_SetState_RadioGroup(C as TRadioGroup, S);
+    DoControl_SetState_RadioGroup(TRadioGroup(C), S);
     exit
   end;
   if C is TCheckGroup then
   begin
-    DoControl_SetState_CheckGroup(C as TCheckGroup, S);
+    DoControl_SetState_CheckGroup(TCheckGroup(C), S);
     exit
   end;
   if C is TCheckListBox then
   begin
-    DoControl_SetState_CheckListbox(C as TCheckListBox, S);
+    DoControl_SetState_CheckListbox(TCheckListBox(C), S);
     exit
   end;
   if C is TMemo then
   begin
-    DoControl_SetState_Memo(C as TMemo, S);
+    DoControl_SetState_Memo(TMemo(C), S);
     exit
   end;
   if C is TSpinEdit then
   begin
-    DoControl_SetState_SpinEdit(C as TSpinEdit, S);
+    DoControl_SetState_SpinEdit(TSpinEdit(C), S);
     exit
   end;
   if C is TListView then
   begin
-    DoControl_SetState_Listview(C as TListView, S);
+    DoControl_SetState_Listview(TListView(C), S);
     exit
   end;
   if C is TTabControl then
   begin
-    DoControl_SetState_TabControl(C as TTabControl, S);
+    DoControl_SetState_TabControl(TTabControl(C), S);
     exit
   end;
   if C is TPageControl then
   begin
-    DoControl_SetState_PageControl(C as TPageControl, S);
+    DoControl_SetState_PageControl(TPageControl(C), S);
     exit
   end;
   if C is TTrackBar then
   begin
-    (C as TTrackBar).Position:= StrToIntDef(S, 0);
+    TTrackBar(C).Position:= StrToIntDef(S, 0);
     exit
   end;
   if C is TProgressBar then
   begin
-    (C as TProgressBar).Position:= StrToIntDef(S, 0);
+    TProgressBar(C).Position:= StrToIntDef(S, 0);
     exit
   end;
   if C is TATGauge then
   begin
-    (C as TATGauge).Progress:= StrToIntDef(S, 0);
+    TATGauge(C).Progress:= StrToIntDef(S, 0);
     exit
   end;
   if C is TListFilterEdit then
   begin
-    (C as TListFilterEdit).Text:= S;
+    TListFilterEdit(C).Text:= S;
     exit
   end;
   if C is TListViewFilterEdit then
   begin
-    (C as TListViewFilterEdit).Text:= S;
+    TListViewFilterEdit(C).Text:= S;
     exit
   end;
 end;
@@ -1683,14 +1683,14 @@ begin
   if AName='tab_stop' then
   begin
     if C is TWinControl then
-      (C as TWinControl).TabStop:= AppStrToBool(AValue);
+      TWinControl(C).TabStop:= AppStrToBool(AValue);
     exit;
   end;
 
   if AName='tab_order' then
   begin
     if C is TWinControl then
-      (C as TWinControl).TabOrder:= StrToIntDef(AValue, -1);
+      TWinControl(C).TabOrder:= StrToIntDef(AValue, -1);
     exit;
   end;
 
@@ -1775,7 +1775,7 @@ begin
       C:= AForm.Components[i];
       if C=AForm.ActiveControl then NActive:= i;
       if C is TControl then
-        Str:= DoControl_GetState(C as TControl)
+        Str:= DoControl_GetState(TControl(C))
       else
         Str:= '';
       List.Add(Str);
@@ -1800,7 +1800,7 @@ begin
     begin
       CtlPrev:= F.Components[F.ComponentCount-2];
       if CtlPrev is TLabel then
-        (CtlPrev as TLabel).FocusControl:= Ctl as TWinControl;
+        TLabel(CtlPrev).FocusControl:= TWinControl(Ctl);
     end;
 end;
 
@@ -1840,7 +1840,7 @@ procedure DoForm_FocusControl(F: TForm; C: TControl);
 begin
   if C.Enabled and C.Visible then
     if C is TWinControl then
-      F.ActiveControl:= C as TWinControl;
+      F.ActiveControl:= TWinControl(C);
 end;
 
 procedure DoForm_ScaleAuto(F: TForm);
@@ -2153,9 +2153,9 @@ begin
 
   if C is TWinControl then
   begin
-    bFocused:= (C as TWinControl).Focused;
-    bTabStop:= (C as TWinControl).TabStop;
-    nTabOrder:= (C as TWinControl).TabOrder;
+    bFocused:= TWinControl(C).Focused;
+    bTabStop:= TWinControl(C).TabStop;
+    nTabOrder:= TWinControl(C).TabOrder;
   end;
 
   with GetPythonEngine do
@@ -2222,8 +2222,8 @@ begin
     if C is TForm then
     begin
       //ShowMessage(C.Caption); //dont run, so code not needed
-      (C as TForm).Parent:= nil;
-      (C as TForm).Close;
+      TForm(C).Parent:= nil;
+      TForm(C).Close;
     end;
   end;
 end;
