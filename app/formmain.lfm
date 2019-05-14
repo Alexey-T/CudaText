@@ -129,7 +129,7 @@ object fmMain: TfmMain
         Top = 0
         Width = 4
       end
-      object StatusProgress: TGauge
+      object StatusProgress: TATGauge
         Left = 752
         Height = 19
         Top = 50

@@ -168,7 +168,7 @@ type
     mnuViewMicromap: TMenuItem;
     mnuHelpCheckUpd: TMenuItem;
     PopupPicScale: TPopupMenu;
-    StatusProgress: TGauge;
+    StatusProgress: TATGauge;
     LabelSideTitle: TLabel;
     MenuItem4: TMenuItem;
     mnuViewDistFree: TMenuItem;
@@ -1081,7 +1081,7 @@ type
     PanelCodeTreeTop: TATPanelSimple;
     ListboxOut: TATListbox;
     ListboxVal: TATListbox;
-    LexerProgress: TGauge;
+    LexerProgress: TATGauge;
     function FrameCount: integer;
     property Frames[N: integer]: TEditorFrame read GetFrame;
     function CurrentFrame: TEditorFrame;
@@ -1580,7 +1580,7 @@ begin
   mnuHelpCheckUpd.Enabled:= false;
   {$endif}
 
-  LexerProgress:= TGauge.Create(Self);
+  LexerProgress:= TATGauge.Create(Self);
   LexerProgress.Parent:= Status;
 
   OnLexerParseProgress:= @DoOnLexerParseProgress;

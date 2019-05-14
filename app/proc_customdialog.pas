@@ -213,8 +213,8 @@ begin
   if C is TProgressBar then
     exit(IntToStr((C as TProgressBar).Position));
 
-  if C is TGauge then
-    exit(IntToStr((C as TGauge).Progress));
+  if C is TATGauge then
+    exit(IntToStr((C as TATGauge).Progress));
 
   if C is TListFilterEdit then
     exit((C as TListFilterEdit).Text);
@@ -856,9 +856,9 @@ begin
 
   if S='progressbar_ex' then
   begin
-    Ctl:= TGauge.Create(AForm);
-    (Ctl as TGauge).MinValue:= -1000000;
-    (Ctl as TGauge).MaxValue:= 1000000;
+    Ctl:= TATGauge.Create(AForm);
+    TATGauge(Ctl).MinValue:= -1000000;
+    TATGauge(Ctl).MaxValue:= 1000000;
     exit;
   end;
 
@@ -1141,16 +1141,16 @@ begin
     exit;
   end;
 
-  if (C is TGauge) then
+  if (C is TATGauge) then
   begin
     case AIndex of
-      0: (C as TGauge).Kind:= TGaugeKind(StrToIntDef(S, 0));
-      1: (C as TGauge).MinValue:= StrToIntDef(S, 0);
-      2: (C as TGauge).MaxValue:= StrToIntDef(S, 100);
-      3: (C as TGauge).ShowText:= AppStrToBool(S);
-      4: (C as TGauge).BackColor:= StrToIntDef(S, clWhite);
-      5: (C as TGauge).ForeColor:= StrToIntDef(S, clNavy);
-      6: (C as TGauge).BorderColor:= StrToIntDef(S, clBlack);
+      0: (C as TATGauge).Kind:= TATGaugeKind(StrToIntDef(S, 0));
+      1: (C as TATGauge).MinValue:= StrToIntDef(S, 0);
+      2: (C as TATGauge).MaxValue:= StrToIntDef(S, 100);
+      3: (C as TATGauge).ShowText:= AppStrToBool(S);
+      4: (C as TATGauge).BackColor:= StrToIntDef(S, clWhite);
+      5: (C as TATGauge).ForeColor:= StrToIntDef(S, clNavy);
+      6: (C as TATGauge).BorderColor:= StrToIntDef(S, clBlack);
     end;
     exit;
   end;
@@ -1368,9 +1368,9 @@ begin
     (C as TProgressBar).Position:= StrToIntDef(S, 0);
     exit
   end;
-  if C is TGauge then
+  if C is TATGauge then
   begin
-    (C as TGauge).Progress:= StrToIntDef(S, 0);
+    (C as TATGauge).Progress:= StrToIntDef(S, 0);
     exit
   end;
   if C is TListFilterEdit then
