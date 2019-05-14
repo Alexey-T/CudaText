@@ -128,8 +128,6 @@ begin
   ResultCode:= -1;
   listItems:= TStringlist.Create;
   listFiltered:= TList.Create;
-
-  AppScaleScrollbar(list.Scrollbar);
 end;
 
 procedure TfmMenuApi.editChange(Sender: TObject);

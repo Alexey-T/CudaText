@@ -2674,8 +2674,6 @@ begin
 
   AppScaleScrollbar(CodeTree.ScrollVert);
   AppScaleScrollbar(CodeTree.ScrollHorz);
-  AppScaleScrollbar(ListboxOut.Scrollbar);
-  AppScaleScrollbar(ListboxVal.Scrollbar);
 
   CodeTreeFilterInput.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   CodeTreeFilterReset.Width:= AppScale(UiOps.ScrollbarWidth);

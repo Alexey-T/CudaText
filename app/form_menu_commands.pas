@@ -109,7 +109,6 @@ begin
   self.Width:= AppScale(UiOps.ListboxSizeX);
   self.Height:= AppScale(UiOps.ListboxSizeY);
 
-  AppScaleScrollbar(list.Scrollbar);
   UpdateFormOnTop(Self);
   FixFormPositionToDesktop(Self);
 

@@ -135,8 +135,6 @@ begin
 
   Items:= nil;
   ResultIndex:= -1;
-
-  AppScaleScrollbar(list.Scrollbar);
 end;
 
 procedure TfmGotoList.FormDestroy(Sender: TObject);

@@ -780,7 +780,6 @@ begin
     TATListbox(Ctl).CanGetFocus:= true;
     TATListbox(Ctl).OnChangedSel:= @AForm.DoOnChange;
     TATListbox(Ctl).OnDrawItem:= @AForm.DoOnListboxDrawItem;
-    AppScaleScrollbar(TATListbox(Ctl).Scrollbar);
     exit;
   end;
 
