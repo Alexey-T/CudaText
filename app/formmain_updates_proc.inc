@@ -412,10 +412,10 @@ begin
   PanelLeftTitle.Font.Name:= UiOps.VarFontName;
   PanelLeftTitle.Font.Size:= AppScaleFont(UiOps.VarFontSize);
 
-  ATButtonTheme.FontName:= UiOps.VarFontName;
-  ATButtonTheme.FontSize:= UiOps.VarFontSize;
-  ATButtonTheme.ScalePercents:= UiOps.Scale;
-  ATButtonTheme.ScaleFontPercents:= UiOps.ScaleFont;
+  ATFlatTheme.FontName:= UiOps.VarFontName;
+  ATFlatTheme.FontSize:= UiOps.VarFontSize;
+  ATFlatTheme.ScalePercents:= UiOps.Scale;
+  ATFlatTheme.ScaleFontPercents:= UiOps.ScaleFont;
 
   if Assigned(fmFind) then fmFind.UpdateFonts;
 

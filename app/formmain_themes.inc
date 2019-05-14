@@ -122,17 +122,17 @@ begin
   LexerProgress.BackColor:= StatusProgress.BackColor;
   LexerProgress.BorderColor:= StatusProgress.BorderColor;
 
-  ATButtonTheme.ColorFont:= GetAppColor('ButtonFont');
-  ATButtonTheme.ColorFontDisabled:= GetAppColor('ButtonFontDisabled');
-  ATButtonTheme.ColorBgPassive:= GetAppColor('ButtonBgPassive');
-  ATButtonTheme.ColorBgOver:= GetAppColor('ButtonBgOver');
-  ATButtonTheme.ColorBgChecked:= GetAppColor('ButtonBgChecked');
-  ATButtonTheme.ColorBgDisabled:= GetAppColor('ButtonBgDisabled');
-  ATButtonTheme.ColorBorderPassive:= GetAppColor('ButtonBorderPassive');
-  ATButtonTheme.ColorArrows:= GetAppColor('TabArrow');
-  ATButtonTheme.ColorSeparators:= GetAppColor('TabBorderActive');
-  ATButtonTheme.ColorBorderOver:= GetAppColor('ButtonBorderOver');
-  ATButtonTheme.ColorBorderFocused:= GetAppColor('ButtonBorderFocused');
+  ATFlatTheme.ColorFont:= GetAppColor('ButtonFont');
+  ATFlatTheme.ColorFontDisabled:= GetAppColor('ButtonFontDisabled');
+  ATFlatTheme.ColorBgPassive:= GetAppColor('ButtonBgPassive');
+  ATFlatTheme.ColorBgOver:= GetAppColor('ButtonBgOver');
+  ATFlatTheme.ColorBgChecked:= GetAppColor('ButtonBgChecked');
+  ATFlatTheme.ColorBgDisabled:= GetAppColor('ButtonBgDisabled');
+  ATFlatTheme.ColorBorderPassive:= GetAppColor('ButtonBorderPassive');
+  ATFlatTheme.ColorArrows:= GetAppColor('TabArrow');
+  ATFlatTheme.ColorSeparators:= GetAppColor('TabBorderActive');
+  ATFlatTheme.ColorBorderOver:= GetAppColor('ButtonBorderOver');
+  ATFlatTheme.ColorBorderFocused:= GetAppColor('ButtonBorderFocused');
 
   DoApplyThemeToGroups(Groups);
   if FloatGroups then

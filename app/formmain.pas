@@ -2730,10 +2730,10 @@ begin
 
   TimerStatus.Interval:= UiOps.StatusTime*1000;
 
-  ATButtonTheme.FontName:= UiOps.VarFontName;
-  ATButtonTheme.FontSize:= UiOps.VarFontSize;
-  ATButtonTheme.ScalePercents:= UiOps.Scale;
-  ATButtonTheme.ScaleFontPercents:= UiOps.ScaleFont;
+  ATFlatTheme.FontName:= UiOps.VarFontName;
+  ATFlatTheme.FontSize:= UiOps.VarFontSize;
+  ATFlatTheme.ScalePercents:= UiOps.Scale;
+  ATFlatTheme.ScaleFontPercents:= UiOps.ScaleFont;
 
   EditorScalePercents:= UiOps.Scale;
   EditorScaleFontPercents:= UiOps.ScaleFont;
