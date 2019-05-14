@@ -131,7 +131,7 @@ begin
 
   self.Width:= AppScale(UiOps.ListboxSizeX);
   self.Height:= AppScale(UiOps.ListboxSizeY);
-  List.ItemHeight:= AppScaleFont(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
+  List.ItemHeight:= AppListboxItemHeight(true, false);
 
   Items:= nil;
   ResultIndex:= -1;

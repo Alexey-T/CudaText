@@ -775,7 +775,7 @@ begin
   begin
     Ctl:= TATListbox.Create(AForm);
     TATListbox(Ctl).VirtualMode:= false;
-    TATListbox(Ctl).ItemHeight:= AppScaleFont(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
+    TATListbox(Ctl).ItemHeight:= AppListboxItemHeight(true, false);
     TATListbox(Ctl).CanGetFocus:= true;
     TATListbox(Ctl).OnChangedSel:= @AForm.DoOnChange;
     TATListbox(Ctl).OnDrawItem:= @AForm.DoOnListboxDrawItem;

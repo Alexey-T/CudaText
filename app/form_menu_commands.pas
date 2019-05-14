@@ -105,7 +105,7 @@ begin
   list.Color:= GetAppColor('ListBg');
   panelCaption.Font.Color:= GetAppColor('ListFont');
 
-  list.ItemHeight:= AppScaleFont(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
+  list.ItemHeight:= AppListboxItemHeight(true, false);
   self.Width:= AppScale(UiOps.ListboxSizeX);
   self.Height:= AppScale(UiOps.ListboxSizeY);
 

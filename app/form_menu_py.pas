@@ -48,7 +48,6 @@ type
     procedure DoFilter;
     function GetResultCmd: integer;
     function IsFiltered(AOrigIndex: integer): boolean;
-    procedure SetMultiline(AValue: boolean);
     procedure SetListCaption(const AValue: string);
   public
     { public declarations }
@@ -57,7 +56,7 @@ type
     InitItemIndex: integer;
     DisableFuzzy: boolean;
     DisableFullFilter: boolean;
-    property Multiline: boolean read FMultiline write SetMultiline;
+    property Multiline: boolean read FMultiline write FMultiline;
     property ListCaption: string write SetListCaption;
   end;
 
@@ -71,6 +70,8 @@ procedure TfmMenuApi.FormShow(Sender: TObject);
 begin
   UpdateFormOnTop(Self);
   FixFormPositionToDesktop(Self);
+
+  list.ItemHeight:= AppListboxItemHeight(true, FMultiline);
 
   DoFilter;
 
@@ -104,7 +105,6 @@ begin
   list.Font.Name:= UiOps.VarFontName;
   list.Font.Size:= AppScaleFont(UiOps.VarFontSize);
   list.Color:= GetAppColor('ListBg');
-  list.ItemHeight:= AppScaleFont(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
 
   edit.Height:= AppScale(UiOps.InputHeight);
   edit.Font.Name:= EditorOps.OpFontName;
@@ -338,21 +338,6 @@ begin
     Result:= STextListsFuzzyInput(SText, SFind)
   else
     Result:= STextListsAllWords(SText, SFind);
-end;
-
-procedure TfmMenuApi.SetMultiline(AValue: boolean);
-var
-  NSize: integer;
-begin
-  if FMultiline=AValue then Exit;
-  FMultiline:=AValue;
-
-  NSize:= AppScaleFont(GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize));
-  if FMultiline then
-    NSize:= NSize*185 div 100;
-  list.ItemHeight:= NSize;
-
-  list.Invalidate;
 end;
 
 procedure TfmMenuApi.SetListCaption(const AValue: string);

@@ -421,7 +421,7 @@ begin
 
   CompletionOps.FontName:= UiOps.VarFontName;
   CompletionOps.FontSize:= UiOps.VarFontSize;
-  CompletionOps.ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);
+  CompletionOps.ItemHeight:= AppListboxItemHeight(false, false);
 end;
 
 
@@ -431,7 +431,7 @@ begin
   ListboxOut.Font.Size:= AppScaleFont(UiOps.OutputFontSize);
   ListboxVal.Font.Name:= UiOps.OutputFontName;
   ListboxVal.Font.Size:= AppScaleFont(UiOps.OutputFontSize);
-  ListboxOut.ItemHeight:= AppScaleFont(GetListboxItemHeight(UiOps.OutputFontName, UiOps.OutputFontSize));
+  ListboxOut.ItemHeight:= AppListboxItemHeight(true, false);
   ListboxVal.ItemHeight:= ListboxOut.ItemHeight;
 end;
 

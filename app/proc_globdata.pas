@@ -498,8 +498,8 @@ function AppScaleFont(AValue: integer): integer;
 procedure AppScaleToolbar(C: TATFlatToolbar);
 //procedure AppScaleScrollbar(C: TATScroll);
 procedure AppScaleSplitter(C: TSplitter);
+function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
 
-function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
 function FixFontMonospaced(const AName: string): string;
 procedure FixFormPositionToDesktop(F: TForm);
 procedure FixRectPositionToDesktop(var F: TRect);
@@ -1625,15 +1625,19 @@ begin
 end;
 
 
-function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
+function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
 var
   bmp: TBitmap;
 begin
   bmp:= TBitmap.Create;
   try
-    bmp.Canvas.Font.Name:= AFontName;
-    bmp.Canvas.Font.Size:= AFontSize;
+    bmp.Canvas.Font.Name:= UiOps.VarFontName;
+    bmp.Canvas.Font.Size:= UiOps.VarFontSize;
     Result:= bmp.Canvas.TextHeight('Pyj')+3;
+    if ADoubleHeight then
+      Result:= Result * 185 div 100;
+    if AScale then
+      Result:= AppScaleFont(Result);
   finally
     FreeAndNil(bmp);
   end;
