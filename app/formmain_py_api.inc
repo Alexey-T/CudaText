@@ -1140,7 +1140,7 @@ begin
       F:= GetEditorFrame(Ed);
       if Assigned(F) then
       begin
-        fmMain.UpdateFrameEx(F, true);
+        F.UpdateFrame(true);
         fmMain.UpdateStatus;
       end
       else

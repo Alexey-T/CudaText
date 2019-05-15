@@ -429,6 +429,9 @@ procedure TEditorFrame.UpdateCaptionFromFilename;
 var
   Name1, Name2: string;
 begin
+  //avoid updating caption if API already had set it
+  if FTabCaptionFromApi then exit;
+
   if EditorsLinked then
   begin
     if FFileName='' then
