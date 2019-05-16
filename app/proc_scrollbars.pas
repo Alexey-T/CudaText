@@ -36,8 +36,8 @@ type
 
   TAppTreeContainer = class(TCustomControl)
   private
-    FScrollbarVert: TATScroll;
-    FScrollbarHorz: TATScroll;
+    FScrollbarVert: TATScrollbar;
+    FScrollbarHorz: TATScrollbar;
     FThemed: boolean;
     procedure ScrollHorzChange(Sender: TObject);
     procedure ScrollVertChange(Sender: TObject);
@@ -50,8 +50,8 @@ type
     destructor Destroy; override;
     property Themed: boolean read FThemed write SetThemed;
     procedure SetFocus; override;
-    property ScrollbarVert: TATScroll read FScrollbarVert;
-    property ScrollbarHorz: TATScroll read FScrollbarHorz;
+    property ScrollbarVert: TATScrollbar read FScrollbarVert;
+    property ScrollbarHorz: TATScrollbar read FScrollbarHorz;
     procedure Invalidate; override;
   end;
 
@@ -65,23 +65,19 @@ begin
   Tree.Parent:= Self;
   Tree.Align:= alClient;
 
-  FScrollbarVert:= TATScroll.Create(Self);
+  FScrollbarVert:= TATScrollbar.Create(Self);
   FScrollbarVert.Parent:= Self;
   FScrollbarVert.Kind:= sbVertical;
   FScrollbarVert.Align:= alRight;
   FScrollbarVert.Width:= UiOps.ScrollbarWidth;
-  FScrollbarVert.WidthInitial:= UiOps.ScrollbarWidth;
-  FScrollbarVert.IndentBorder:= UiOps.ScrollbarBorderSize;
   FScrollbarVert.OnChange:= @ScrollVertChange;
 
-  FScrollbarHorz:= TATScroll.Create(Self);
+  FScrollbarHorz:= TATScrollbar.Create(Self);
   FScrollbarHorz.Parent:= Self;
   FScrollbarHorz.Kind:= sbHorizontal;
   FScrollbarHorz.Align:= alBottom;
   FScrollbarHorz.Height:= UiOps.ScrollbarWidth;
-  FScrollbarHorz.WidthInitial:= UiOps.ScrollbarWidth;
-  FScrollbarHorz.IndentBorder:= UiOps.ScrollbarBorderSize;
-  FScrollbarHorz.IndentCorner:= UiOps.ScrollbarWidth;
+  FScrollbarHorz.IndentCorner:= 100;
   FScrollbarHorz.OnChange:= @ScrollHorzChange;
 
   SetThemed(false);
@@ -103,12 +99,8 @@ end;
 
 procedure TAppTreeContainer.Invalidate;
 begin
-  FScrollbarHorz.WidthInitial:= UiOps.ScrollbarWidth;
-  FScrollbarHorz.ScalePercents:= UiOps.Scale;
-
-  FScrollbarVert.WidthInitial:= UiOps.ScrollbarWidth;
-  FScrollbarVert.ScalePercents:= UiOps.Scale;
-
+  FScrollbarHorz.Update;
+  FScrollbarVert.Update;
   inherited Invalidate;
 end;
 

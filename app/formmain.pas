@@ -2731,6 +2731,10 @@ begin
   ATFlatTheme.ScalePercents:= UiOps.Scale;
   ATFlatTheme.ScaleFontPercents:= UiOps.ScaleFont;
 
+  ATScrollbar.ATScrollbarTheme.InitialSize:= UiOps.ScrollbarWidth;
+  ATScrollbar.ATScrollbarTheme.BorderSize:= UiOps.ScrollbarBorderSize;
+  ATScrollbar.ATScrollbarTheme.ScalePercents:= UiOps.Scale;
+
   EditorScalePercents:= UiOps.Scale;
   EditorScaleFontPercents:= UiOps.ScaleFont;
 

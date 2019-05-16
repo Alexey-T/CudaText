@@ -55,8 +55,6 @@ begin
   UpdateMenuThemes(true);
   UpdateMenuThemes(false);
 
-  //we have 2 copies of ATScrollbar unit, need to update same 2 records
-  //unit#1:
   with ATSynEdit_ScrollBar.ATScrollbarTheme do
   begin
     ColorBG:= GetAppColor('ScrollBack');
@@ -68,14 +66,16 @@ begin
     ColorScrolled:= GetAppColor('ScrollScrolled');
   end;
 
-  //unit#2:
-  Assert(
-    SizeOf(ATSynEdit_Scrollbar.ATScrollbarTheme) =
-    SizeOf(ATScrollbar.ATScrollbarTheme), 'Not equal ATScrollbarTheme vars in 2 units');
-  Move(
-    ATSynEdit_Scrollbar.ATScrollbarTheme,
-    ATScrollbar.ATScrollbarTheme,
-    SizeOf(ATScrollbar.ATScrollbarTheme));
+  with ATScrollbar.ATScrollbarTheme do
+  begin
+    ColorBG:= GetAppColor('ScrollBack');
+    ColorThumbBorder:= GetAppColor('ScrollRect');
+    ColorThumbFill:= GetAppColor('ScrollFill');
+    ColorArrowBorder:= ATScrollbarTheme.ColorBG;
+    ColorArrowFill:= ATScrollbarTheme.ColorBG;
+    ColorArrowSign:= GetAppColor('ScrollArrow');
+    ColorScrolled:= GetAppColor('ScrollScrolled');
+  end;
 
   ListboxOut.Color:= GetAppColor('ListBg');
   ListboxOut.Invalidate;
