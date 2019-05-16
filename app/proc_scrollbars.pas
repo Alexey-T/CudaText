@@ -42,7 +42,7 @@ type
     procedure ScrollHorzChange(Sender: TObject);
     procedure ScrollVertChange(Sender: TObject);
     procedure SetThemed(AValue: boolean);
-    procedure UpdateScrolls;
+    procedure UpdateScrollbars;
   public
     Tree: TAppTreeView;
     SourceObject: TObject;
@@ -81,7 +81,7 @@ begin
   FScrollbarHorz.OnChange:= @ScrollHorzChange;
 
   SetThemed(false);
-  UpdateScrolls;
+  UpdateScrollbars;
 end;
 
 destructor TAppTreeContainer.Destroy;
@@ -125,7 +125,7 @@ begin
     Tree.ScrollBars:= ssAutoBoth;
 end;
 
-procedure TAppTreeContainer.UpdateScrolls;
+procedure TAppTreeContainer.UpdateScrollbars;
 begin
   if not Assigned(Tree) then exit;
   if not Assigned(FScrollbarVert) then exit;
@@ -140,31 +140,34 @@ begin
   FScrollbarHorz.PageSize:= Max(1, Tree.ClientWidth);
   FScrollbarHorz.Max:= Max(1, Tree.GetMaxScrollLeft+FScrollbarHorz.PageSize);
   FScrollbarHorz.Position:= Max(0, Tree.ScrolledLeft);
+
+  FScrollbarVert.Update;
+  FScrollbarHorz.Update;
 end;
 
 procedure TAppTreeView.DoSelectionChanged;
 begin
   inherited;
-  (Owner as TAppTreeContainer).UpdateScrolls;
+  (Owner as TAppTreeContainer).UpdateScrollbars;
 end;
 
 procedure TAppTreeView.Resize;
 begin
   inherited;
-  (Owner as TAppTreeContainer).UpdateScrolls;
+  (Owner as TAppTreeContainer).UpdateScrollbars;
 end;
 
 procedure TAppTreeView.CMChanged(var Message: TLMessage);
 begin
   inherited;
-  (Owner as TAppTreeContainer).UpdateScrolls;
+  (Owner as TAppTreeContainer).UpdateScrollbars;
 end;
 
 function TAppTreeView.DoMouseWheel(Shift: TShiftState; WheelDelta: Integer;
   MousePos: TPoint): Boolean;
 begin
   Result:= inherited;
-  (Owner as TAppTreeContainer).UpdateScrolls;
+  (Owner as TAppTreeContainer).UpdateScrollbars;
 end;
 
 procedure TAppTreeView.DoEnter;
@@ -182,13 +185,13 @@ end;
 procedure TAppTreeView.Collapse(Node: TTreeNode);
 begin
   inherited;
-  (Owner as TAppTreeContainer).UpdateScrolls;
+  (Owner as TAppTreeContainer).UpdateScrollbars;
 end;
 
 procedure TAppTreeView.Expand(Node: TTreeNode);
 begin
   inherited;
-  (Owner as TAppTreeContainer).UpdateScrolls;
+  (Owner as TAppTreeContainer).UpdateScrollbars;
 end;
 
 

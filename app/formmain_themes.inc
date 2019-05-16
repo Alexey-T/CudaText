@@ -55,17 +55,6 @@ begin
   UpdateMenuThemes(true);
   UpdateMenuThemes(false);
 
-  with ATSynEdit_ScrollBar.ATScrollbarTheme do
-  begin
-    ColorBG:= GetAppColor('ScrollBack');
-    ColorThumbBorder:= GetAppColor('ScrollRect');
-    ColorThumbFill:= GetAppColor('ScrollFill');
-    ColorArrowBorder:= ATScrollbarTheme.ColorBG;
-    ColorArrowFill:= ATScrollbarTheme.ColorBG;
-    ColorArrowSign:= GetAppColor('ScrollArrow');
-    ColorScrolled:= GetAppColor('ScrollScrolled');
-  end;
-
   with ATScrollbar.ATScrollbarTheme do
   begin
     ColorBG:= GetAppColor('ScrollBack');

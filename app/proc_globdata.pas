@@ -29,7 +29,6 @@ uses
   ATSynEdit_Keymap,
   ATSynEdit_Keymap_Init,
   ATSynEdit_Adapter_litelexer,
-  ATSynEdit_ScrollBar,
   ATStringProc,
   ATButtons,
   ATFlatToolbar,
