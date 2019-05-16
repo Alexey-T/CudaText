@@ -7,6 +7,7 @@
 1.80.1 (2019/05)
 
 + add: double-click now selects group of spaces, group of symbol chars (like EmEditor)
++ add: lexers C, C++: show "typedef .. {..} id" in code tree
 
 1.80.0 (2019/05)
 
