@@ -1623,29 +1623,9 @@ begin
   end;
 end;
 
-{
-function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
-var
-  bmp: TBitmap;
-begin
-  bmp:= TBitmap.Create;
-  try
-    bmp.Canvas.Font.Name:= UiOps.VarFontName;
-    bmp.Canvas.Font.Size:= UiOps.VarFontSize;
-    Result:= bmp.Canvas.TextHeight('Pyj')+3;
-    if ADoubleHeight then
-      Result:= Result * 185 div 100;
-    if AScale then
-      Result:= AppScaleFont(Result);
-  finally
-    FreeAndNil(bmp);
-  end;
-end;
-}
-
 function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
 begin
-  Result:= UiOps.VarFontSize*96 div 72 {like in TFont.Create} + 3;
+  Result:= UiOps.VarFontSize * 18 div 10 +1;
   if ADoubleHeight then
     Result:= Result * 185 div 100;
   if AScale then
