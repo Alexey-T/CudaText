@@ -42,10 +42,37 @@ object SyntAnal11: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Type mline begin'
+      StyleName = 'Type'
+      StatesAdd = 1
+      TokenType = 2
+      Expression = '\{\{'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Type mline end'
+      StyleName = 'Type'
+      StatesRemove = 1
+      TokenType = 2
+      Expression = '\}\}'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Type'
       StyleName = 'Type'
       TokenType = 2
       Expression = '\{.+?\}'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Typedef key'
+      StyleName = 'Name'
+      StatesPresent = 1
+      TokenType = 4
+      Expression = '(?<=^\x20*\*\x20*)\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -72,12 +99,24 @@ object SyntAnal11: TLibSyntAnalyzer
     ' * Assign the project to a list of employees.'
     ' * @param {string} $employees[].name - The name of an employee.'
     ' * @param {string} [somebody=John Doe] - Some name.'
+    ' */'
+    ''
+    '/**'
+    ' * @typedef {{'
+    ' *   measureTask: goog.dom.animationFrame.Task_,'
+    ' *   mutateTask: goog.dom.animationFrame.Task_,'
+    ' *   state: (!Object|undefined),'
+    ' *   args: (!Array|undefined),'
+    ' *   isScheduled: boolean'
+    ' * }}'
+    ' * @private'
     ' */')
   TokenTypeNames.Strings = (
     'Comment'
     'Param'
     'Type'
-    'Name')
+    'Name'
+    'Typedef key')
   LexerName = 'JSDoc'
   Notes.Strings = (
     'Alexey (CudaText)')

@@ -4,6 +4,10 @@
   * changed
 
 
+1.80.2 (2019/05)
+
++ add: lexer JSDoc: highlight multiline typedefs {{...}}
+
 1.80.1 (2019/05)
 
 + add: double-click now selects a) group of spaces, b) group of symbol chars (like EmEditor)
