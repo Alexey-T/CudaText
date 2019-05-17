@@ -1625,7 +1625,12 @@ end;
 
 function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
 begin
-  Result:= UiOps.VarFontSize * 18 div 10 +1;
+  Result:= UiOps.VarFontSize * 18 div 10 +2;
+
+  {$ifdef windows}
+  Result:= Result * Screen.PixelsPerInch div 96;
+  {$endif}
+
   if ADoubleHeight then
     Result:= Result * 185 div 100;
   if AScale then
