@@ -1147,19 +1147,16 @@ On Linux you can install program, not using installers, in such way:
 If program runs and cannot find "data/lexlib" near executable, it opens dirs from "~/.config/cudatext". This allows to install binary to PATH, and data dirs to homedir.
 
 === Linux Qt build ===
-For CudaText Qt version, library libQt4Pas needed.
+For CudaText Qt4 version, library libQt4Pas is required.
 
-* For Ubuntu: run
-
-  sudo apt-get install libqt4pas-dev
-
-* For all: [[Qt_Interface#Quick_start_guide_for_Linux]]. You need to download binary from libQt4Pas homepage.
+* For Ubuntu: get deb package from https://packages.ubuntu.com/xenial/libqt4pas-dev (page lists required packages too).
+* For others: [[Qt_Interface#Quick_start_guide_for_Linux]]. You need to download binary from libQt4Pas homepage.
 
 ===App cannot run on FreeBSD===
 
 If you run app in Terminal, you'll see an error about missing .so file. Reason of this error: FreeBSD version was compiled on Linux with different .so files. To fix error, run command in Terminal:
 
-  $ sudo ln -s /usr/local/lib/libiconv.so.2 /usr/local/lib/libiconv.so.3
+ $ sudo ln -s /usr/local/lib/libiconv.so.2 /usr/local/lib/libiconv.so.3
 
 ==More==
 

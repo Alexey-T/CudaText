@@ -2,7 +2,7 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '2.3.10 2019-05-02'
+    '2.3.11 2019-05-13'
 ToDo: (see end of file)
 '''
 
@@ -284,9 +284,11 @@ def load_vals(opt_dfns:list, lexr_json='', ed_=None, full=False, user_json='user
             return  ('bool'     if isinstance(val, bool)    else
                      'int'      if isinstance(val, int)     else
                      'float'    if isinstance(val, float)   else
-                     'json'     if isinstance(val, list)    else
+                     'json'     if isinstance(val, list)    or
+                                   isinstance(val, dict)    else
                      'hotk'     if '_hotkey_' in val        else
-                     'font'     if reFontNm.search(val)     else
+                     'font'     if isinstance(val, str)     and 
+                                   reFontNm.search(val)     else
                      'str')
         for uop,uval in user_vals.items():
             if uop in oinf_valed: continue
@@ -473,6 +475,7 @@ class OptEdD:
               '\r • Alt+L - Clear filter')
     LOCV_C  = _('Go to "{}" in user/lexer config file')
     LOCD_C  = _('Go to "{}" in default config file')
+    OPME_H  = _('Edit JSON value')
     TOOP_H  = f(_('Close dialog and open user/lexer settings file'
                   '\rto edit the current option.'
                   '\rSee also menu command'
@@ -701,7 +704,7 @@ class OptEdD:
                     'edcb'  if frm in ('int2s', 'str2s', 'strs', 'font', 'font-e')  else \
                     'edrf'  if frm in ('bool',)                                     else \
                     'brow'  if frm in ('hotk', 'file', '#rgb', '#rgb-e')            else \
-                    'toop'  if frm in ('json')                                      else \
+                    'opjs'  if frm in ('json')                                      else \
                     'lvls'
             pass;              #LOG and log('m.cur_op,frm,fid={}',(m.cur_op,frm,fid))
             return fid
@@ -712,9 +715,9 @@ class OptEdD:
         bcl['edcl'] = bcl['dfcl'] = 0x20000000
 #       bcl['eded'] = bcl['dfvl'] = 0x20000000
         
-        ens['eded'] = ens['setd']                                                   = False # All un=F
-        vis['eded'] = vis['edcb']=vis['edrf']=vis['edrt']=vis['brow']=vis['toop']   = False # All vi=F
-        vas['eded'] = vas['dfvl']=vas['cmnt']= ''                                           # All ed empty
+        ens['eded'] = ens['setd']                                                               = False # All un=F
+        vis['eded'] = vis['edcb']=vis['edrf']=vis['edrt']=vis['brow']=vis['toop']=vis['opjs']   = False # All vi=F
+        vas['eded'] = vas['dfvl']=vas['cmnt']= ''                                                       # All ed empty
         vas['edcb'] = -1
         vas['edrf'] = vas['edrt'] = False
         its['edcb'] = []
@@ -755,7 +758,8 @@ class OptEdD:
             ens['setd']     = frm not in ('json',) and ulfvl_va is not None
             if False:pass
             elif frm in ('json'):
-                vis['toop'] = True
+#               vis['toop'] = True
+                vis['opjs'] = True
                 vis['eded'] = True
                 vas['eded'] = str(ulfvl_va)
             elif frm in ('str', 'int', 'float'):
@@ -1003,6 +1007,7 @@ class OptEdD:
             ,('edrt',d(vis=vis['edrt']                                      ))
             ,('brow',d(vis=vis['brow']                                      ))
             ,('toop',d(vis=vis['toop']                                      ))
+            ,('opjs',d(vis=vis['opjs']                                      ))
             ,('dfv_',d(                                  hint=m.cur_op      ))
             ,('dfvl',d(                                                     ))
 #           ,('dfvl',d(                en=ens['dfvl']                       ,color=bcl['dfvl']  ))
@@ -1059,6 +1064,7 @@ class OptEdD:
  ,('edrt',d(tp='ch' ,tid='ed_s' ,l= 140 ,w=  60 ,p='ptop'   ,cap=_('t&rue')         ,vis=vis['edrt']                ,a='TB'     ))  # &r
  ,('brow',d(tp='bt' ,tid='ed_s' ,l=-270 ,w=  90 ,p='ptop'   ,cap=_('&...')          ,vis=vis['brow']                ,a='TBLR'   ))  # &.
  ,('toop',d(tp='bt' ,tid='ed_s' ,l=-270 ,w=  90 ,p='ptop'   ,cap=_('&GoTo')         ,vis=vis['toop'],hint=M.TOOP_H  ,a='TBLR'   ))  # &g
+ ,('opjs',d(tp='bt' ,tid='ed_s' ,l=-270 ,w=  90 ,p='ptop'   ,cap=_('E&dit')         ,vis=vis['opjs'],hint=M.OPME_H  ,a='TBLR'   ))  # &d
     # View def-value                                                                                                            
  ,('dfv_',d(tp='lb' ,tid='dfvl' ,l=   5 ,w=  70 ,p='ptop'   ,cap=_('>Defa&ult:')    ,hint=m.cur_op                  ,a='TB'     ))  # &u
 #,('dfvl',d(tp='ed' ,t=235      ,l=  78 ,r=-270 ,p='ptop'   ,en=False               ,sto=False                      ,a='TBlR'   ))  #
@@ -1124,6 +1130,7 @@ class OptEdD:
         cnts['edrt']['call']            = m.do_setv
         cnts['brow']['call']            = m.do_setv
         cnts['toop']['call']            = m.do_setv
+        cnts['opjs']['call']            = m.do_setv
         cnts['help']['call']            = m.do_help
         return cnts
        #def get_cnts
@@ -1742,6 +1749,10 @@ class OptEdD:
             m.stbr_act(M.STBR_MSG, '')
             if not newv:    return []
         
+        elif aid=='opjs':
+            newv    = edit_json_as_dict(op, ulfvl, dval, oi.get('cmt' , ''))
+            if newv is None:    return []
+        
         elif aid=='setv':                   # Add/Set opt for user/lexer/file
             # Enter from edit. Need parse some string
             newv    = m.ag.cval('eded')
@@ -1948,6 +1959,60 @@ class OptEdD:
     restart     = False
     restart_cond= None
    #class OptEdD
+
+
+def edit_json_as_dict(op, uval, dval, cmnt4v):
+    """ Allow user to edit JSON value
+    """
+    pass;                      #log("op, uval, dval={}",(op, uval, dval))
+    newv    = None
+    def acts(aid, ag, data=''):
+        nonlocal newv
+        if False:pass
+        elif aid=='defv':
+            return d(vals=d(meme=json.dumps(dval, indent=2)),fid='meme')
+        elif aid=='undo':
+            return d(vals=d(meme=json.dumps(uval, indent=2)),fid='meme')
+        elif aid in ('test', 'okok'):
+            mejs    = ag.cval('meme')
+            pass;              #log("mejs={!r}",(mejs))
+            try:
+                jsvl    = json.loads(mejs)
+            except Exception as ex:
+                warn    = str(ex) + c10 + (c10.join('{:>3}|{}'.format(n+1, s.replace(' ','·')) 
+                                                    for n,s in enumerate(mejs.split(c10))))
+                return d(vals=d(cmnt=warn),fid='meme')
+#               app.msg_box(str(ex)
+#                   +c10+(c10.join('{:>3}|{}'.format(n+1, s.replace(' ','·')) 
+#                                   for n,s in enumerate(mejs.split(c10))))
+#                   , app.MB_OK)
+#               return d(fid='meme')
+            if aid=='okok':
+                newv    = jsvl
+                return None     # Close
+            return d(vals=d(cmnt=cmnt4v),fid='meme')
+       #def acts
+    DlgAgent(
+        form =dict(cap     = f(_('Edit JSON option ({})'), op)
+                  ,resize  = True
+                  ,w       = 510
+                  ,h       = 400
+                  )
+    ,   ctrls=[0
+        ,('meme',d(tp='me'  ,l=  5  ,w=500  ,t=  5  ,h=150                         ,a='tBlR'))
+        ,('cmnt',d(tp='me'  ,l=  5  ,w=500  ,t=160  ,h=200 ,ro_mono_brd='1,1,1'    ,a='TBlR'))
+        ,('defv',d(tp='bt'  ,l=  5  ,w=110  ,t=370  ,cap=_('Set &default')  ,a='TB'     ,call=acts  ,en=(dval is not None)))
+        ,('undo',d(tp='bt'  ,l=120  ,w=110  ,t=370  ,cap=_('&Undo changes') ,a='TB'     ,call=acts))
+        ,('test',d(tp='bt'  ,l=285  ,w= 70  ,t=370  ,cap=_('Chec&k')        ,a='TBLR'   ,call=acts))
+        ,('okok',d(tp='bt'  ,l=360  ,w= 70  ,t=370  ,cap=_('OK')            ,a='TBLR'   ,call=acts  ,def_bt=True))
+        ,('cans',d(tp='bt'  ,l=435  ,w= 70  ,t=370  ,cap=_('Cancel')        ,a='TBLR'   ,call=acts))
+                ][1:]
+    ,   vals =dict(meme=json.dumps(uval, indent=2)
+                  ,cmnt=cmnt4v)
+    ,   fid  ='meme'
+    ).show()
+    return newv
+   #def edit_json_as_dict
 
 
 class Command:
