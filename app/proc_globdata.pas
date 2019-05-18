@@ -1352,7 +1352,7 @@ begin
     ShowTitlePath:= false;
 
     Scale:= 100;
-    ScaleFont:= {$ifdef windows} 100 {$else} 100 {$endif};
+    ScaleFont:= 100;
 
     ReopenSession:= true;
     AutoSaveSession:= false;

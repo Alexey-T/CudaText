@@ -708,9 +708,9 @@ begin
     UiOps.ShowActiveBorder:= c.GetValue('ui_active_border', UiOps.ShowActiveBorder);
     UiOps.ShowTitlePath:= c.GetValue('ui_title_path', UiOps.ShowTitlePath);
 
-    UiOps.Scale:= c.GetValue('ui_scale'+cOptionSystemSuffix, UiOps.Scale);
-    UiOps.ScaleFont:= c.GetValue('ui_scale_font'+cOptionSystemSuffix, UiOps.ScaleFont);
-    if UiOps.Scale<50 then
+    UiOps.Scale:= c.GetValue('ui_scale'+cOptionSystemSuffix, 0);
+    UiOps.ScaleFont:= c.GetValue('ui_scale_font'+cOptionSystemSuffix, 100);
+    if UiOps.Scale=0 then
       UiOps.Scale:= 100*Screen.PixelsPerInch div 96;
 
     UiOps.ReopenSession:= c.GetValue('ui_reopen_session', UiOps.ReopenSession);
