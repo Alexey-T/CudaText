@@ -6,7 +6,8 @@
 
 1.80.3 (2019/05)
 
-+ add: program can use _default_ lexer-specific configs from folder settings_default. Few such configs are added: for Pascal, for Python. 
++ add: program can use _default_ lexer-specific configs from folder settings_default
++ add: few default lexer-specific configs: C, C++ (indent: 4 spaces), CSS, Pascal (indent: 2 spaces), Python (indent: 4 spaces)
 
 1.80.2 (2019/05)
 
