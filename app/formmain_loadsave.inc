@@ -1049,15 +1049,14 @@ begin
     if bExistsDefault then
     begin
       DoOps_LoadOptions(FilenameDefault, Ops);
-      DoApplyFrameOps(F, Ops, true);
     end;
 
     if bExistsUser then
     begin
       DoOps_LoadOptions(FilenameUser, Ops);
-      DoApplyFrameOps(F, Ops, true);
     end;
 
+    DoApplyFrameOps(F, Ops, true);
     EditorRestoreTempOptions(Ed, TempOps);
   end;
 end;
