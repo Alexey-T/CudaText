@@ -154,7 +154,7 @@
 
   //Show additional dotted frame on mouse selection of block
   "show_mouse_sel_frame": true,
-  
+
   //Use smooth, per-pixel, scrolling. Otherwise, scrolling is per-line.
   "smooth_scroll": true,
 
@@ -505,7 +505,7 @@
 
   //Find dialog: show "Mark all" button
   "find_show_mark_all": true,
-  
+
   //Find dialog: show "Extract" button
   "find_show_extract": true,
 
@@ -724,11 +724,10 @@
   //  N=0: indent is from options "tab_size" and "tab_spaces"
   "indent_size": 2,
 
-  //Unindent command (Shift+Tab): if several lines (in block) have different indent,
-  //stop unindent if one line already at left edge (other lines wont be moved)
+  //Don't un-indent, if any line of the selected block already reached the left edge
   "unindent_keeps_align": true,
 
-  //When indenting several lines, stretch selection after, to entire affected lines.
+  //When indenting several lines, stretch selection after command, to entire affected lines.
   //Otherwise, selection will be like before, shifted.
   "indent_makes_whole_line_sel": false,
 
