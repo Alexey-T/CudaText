@@ -546,6 +546,7 @@ class Command:
                 if os.path.isdir(os.path.join(m_dir, '.git')):
                     msg_status('Running "git pull" in "%s"'%m_dir, True)
                     try:
+                        subprocess.call(['git', 'stash', 'save'], cwd=m_dir)
                         subprocess.call(['git', 'pull'], cwd=m_dir)
                     except:
                         msg_status('Error running Git', True)
