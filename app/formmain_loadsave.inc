@@ -1023,15 +1023,17 @@ end;
 
 procedure TfmMain.DoOps_LoadOptionsLexerSpecific(F: TEditorFrame);
 var
+  Ed: TATSynEdit;
+  Ops: TEditorOps;
   FilenameDefault, FilenameUser, CurLexer: string;
   bExistsDefault, bExistsUser: boolean;
-  Ops: TEditorOps;
   TempOps: TATEditorTempOps;
 begin
   if F=nil then exit;
+  Ed:= F.Editor;
   DoOps_ResetLexerSpecificOptions;
 
-  CurLexer:= F.LexerName[F.Editor];
+  CurLexer:= F.LexerName[Ed];
   Ops:= EditorOps;
 
   FilenameDefault:= GetAppLexerSpecificConfig(CurLexer, true);
@@ -1041,22 +1043,23 @@ begin
   bExistsUser:= FileExistsUTF8(FilenameUser);
 
   if bExistsDefault or bExistsUser then
-    EditorSaveTempOptions(F.Editor, TempOps);
-
-  if bExistsDefault then
   begin
-    DoOps_LoadOptions(FilenameDefault, Ops);
-    DoApplyFrameOps(F, Ops, true);
-  end;
+    EditorSaveTempOptions(Ed, TempOps);
 
-  if bExistsUser then
-  begin
-    DoOps_LoadOptions(FilenameUser, Ops);
-    DoApplyFrameOps(F, Ops, true);
-  end;
+    if bExistsDefault then
+    begin
+      DoOps_LoadOptions(FilenameDefault, Ops);
+      DoApplyFrameOps(F, Ops, true);
+    end;
 
-  if bExistsDefault or bExistsUser then
-    EditorRestoreTempOptions(F.Editor, TempOps);
+    if bExistsUser then
+    begin
+      DoOps_LoadOptions(FilenameUser, Ops);
+      DoApplyFrameOps(F, Ops, true);
+    end;
+
+    EditorRestoreTempOptions(Ed, TempOps);
+  end;
 end;
 
 
