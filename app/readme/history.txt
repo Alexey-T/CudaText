@@ -4,6 +4,10 @@
   * changed
 
 
+1.80.3 (2019/05)
+
++ add: program can use _default_ lexer-specific configs from folder settings_default. Few such configs are added: for Pascal, for Python. 
+
 1.80.2 (2019/05)
 
 + add: double-click now selects a) group of spaces, b) group of symbol chars (like EmEditor)
