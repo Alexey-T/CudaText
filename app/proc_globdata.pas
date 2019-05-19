@@ -484,7 +484,7 @@ function GetAppLexerFilename(const ALexName: string): string;
 function GetAppLexerMapFilename(const ALexName: string): string;
 function GetAppLexerOpsFilename(const ALexName: string): string;
 function GetAppLexerAcpFilename(const ALexName: string): string;
-function GetAppLexerSpecificConfig(AName: string): string;
+function GetAppLexerSpecificConfig(ALexer: string; ADefaultConfig: boolean=false): string;
 function GetAppLexerPropInCommentsSection(const ALexerName, AKey: string): string;
 function IsLexerStyleCommentOrString(const ALexer, AStyle: string): boolean;
 
@@ -1406,13 +1406,21 @@ begin
   S:= StringReplace(S, '>', '_', [rfReplaceAll]);
 end;
 
-function GetAppLexerSpecificConfig(AName: string): string;
+function GetAppLexerSpecificConfig(ALexer: string; ADefaultConfig: boolean=false): string;
+var
+  dir: string;
 begin
   //support none-lexer here
-  if AName='' then
-    AName:= '-';
-  SReplaceSpecialFilenameChars(AName);
-  Result:= GetAppPath(cDirSettings)+DirectorySeparator+'lexer '+AName+'.json';
+  if ALexer='' then
+    ALexer:= '-';
+  SReplaceSpecialFilenameChars(ALexer);
+
+  if ADefaultConfig then
+    dir:= GetAppPath(cDirSettingsDefault)
+  else
+    dir:= GetAppPath(cDirSettings);
+
+  Result:= dir+DirectorySeparator+'lexer '+ALexer+'.json';
 end;
 
 function GetAppKeymap_LexerSpecificConfig(AName: string): string;
