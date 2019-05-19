@@ -1034,8 +1034,6 @@ begin
   DoOps_ResetLexerSpecificOptions;
 
   CurLexer:= F.LexerName[Ed];
-  Ops:= EditorOps;
-
   FilenameDefault:= GetAppLexerSpecificConfig(CurLexer, true);
   FilenameUser:= GetAppLexerSpecificConfig(CurLexer, false);
 
@@ -1044,6 +1042,7 @@ begin
 
   if bExistsDefault or bExistsUser then
   begin
+    Ops:= EditorOps;
     EditorSaveTempOptions(Ed, TempOps);
 
     if bExistsDefault then
