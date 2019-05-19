@@ -6,13 +6,11 @@
 
 1.80.2 (2019/05)
 
-+ add: lexer JSDoc: highlight multiline typedefs {{...}}
-
-1.80.1 (2019/05)
-
 + add: double-click now selects a) group of spaces, b) group of symbol chars (like EmEditor)
 + add: lexers C, C++: show "typedef ...{...}" in code-tree
++ add: lexer JSDoc: highlight multiline typedefs {{...}}
 - fix: crash during code-tree filling
+- fix: macOS: bottom panel splitter moved bad
 
 1.80.0 (2019/05)
 
