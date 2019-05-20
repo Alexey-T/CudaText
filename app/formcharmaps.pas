@@ -151,8 +151,6 @@ var
   {$endif}
   i, j: integer;
 begin
-  Width:= AppScale(Width);
-  Height:= AppScale(Height);
   UpdateFormOnTop(Self);
 
   {$ifdef windows}

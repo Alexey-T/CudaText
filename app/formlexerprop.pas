@@ -23,6 +23,7 @@ uses
   proc_globdata,
   proc_lexer_styles,
   proc_editor,
+  proc_miscutils,
   formlexerstylemap;
 
 type
@@ -227,6 +228,8 @@ begin
   FFormats:= TecStylesCollection.Create;
 
   LabelInfoThemes.Visible:= UiOps.LexerThemes;
+
+  FormHistoryLoad(Self, '/dlg_lexer_prop', false);
 end;
 
 procedure TfmLexerProp.SaveChangedLexer;
@@ -279,6 +282,8 @@ end;
 
 procedure TfmLexerProp.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
+  FormHistorySave(Self, '/dlg_lexer_prop', false);
+
   if ModalResult=mrOk then
   begin
     //if IsChangedLexer then //save always, so user can open dlg and press OK
@@ -330,8 +335,6 @@ procedure TfmLexerProp.FormShow(Sender: TObject);
 var
   i: integer;
 begin
-  Width:= AppScale(Width);
-  Height:= AppScale(Height);
   UpdateFormOnTop(Self);
 
   Pages.PageIndex:= 0;

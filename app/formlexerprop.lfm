@@ -4,7 +4,6 @@ object fmLexerProp: TfmLexerProp
   Top = 114
   Width = 654
   BorderIcons = [biSystemMenu]
-  BorderStyle = bsDialog
   Caption = 'Lexer properties'
   ClientHeight = 601
   ClientWidth = 654
@@ -177,6 +176,7 @@ object fmLexerProp: TfmLexerProp
         Colors.StateAdded = 2146336
         Colors.StateSaved = clMedGray
         Colors.BlockStaple = clMedGray
+        Colors.BlockStapleForCaret = clNone
         Colors.BlockSepLine = clMedGray
         Colors.Links = clBlue
         Colors.LockedBG = 14737632
