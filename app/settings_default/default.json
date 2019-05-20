@@ -1092,5 +1092,4 @@
 
   //Log console contents to file settings/console.log
   "log_console": false,
-
 }
