@@ -1057,7 +1057,7 @@ begin
 
     OpSpacingY:= 1;
 
-    OpTabSize:= 8;
+    OpTabSize:= 4;
     OpTabSpaces:= false;
     OpTabMaxPosExpanded:= 500;
 

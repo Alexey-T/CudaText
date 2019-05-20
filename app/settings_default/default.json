@@ -260,13 +260,13 @@
   //  Note: config is read as utf8.
   "hex_chars": "",
 
-  //Additional pixels per each line, vertically
+  //Additional vertical spacing per each line (pixels), can be <0
   "spacing_y": 1,
 
   //Tab-char width
-  "tab_size": 8,
+  "tab_size": 4,
 
-  //Tab-key enters spaces, instead of tab-char
+  //Tab key inserts spaces, instead of tab-char
   "tab_spaces": false,
 
   //Max x-position, before which tab-chars expand to N spaces (after it to 1 space)
