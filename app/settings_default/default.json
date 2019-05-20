@@ -733,6 +733,9 @@
 
   //Auto-indent by Enter: if line matches this reg-ex, make additional indent (from option "tab_size").
   //Option is for lexer-specific configs, not for user.json config.
+  //Reg-ex should be something like ".+some_ending$". Reg-ex is case-sensitive.
+  //Note: you don't need this option for C-like lexers, because Enter inside {} brackets
+  //(brackets are auto closed by default) is handled specially.
   "indent_auto_rule": "",
 
   //[Mouse]
