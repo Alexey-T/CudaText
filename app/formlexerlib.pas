@@ -19,6 +19,7 @@ uses
   ec_SyntAnal,
   formlexerprop,
   proc_globdata,
+  proc_miscutils,
   proc_msg,
   math;
 
@@ -33,6 +34,8 @@ type
     PanelTop: TPanel;
     procedure btnDeleteClick(Sender: TObject);
     procedure btnConfigClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
   private
@@ -124,8 +127,6 @@ end;
 
 procedure TfmLexerLib.FormShow(Sender: TObject);
 begin
-  Width:= AppScale(Width);
-  Height:= AppScale(Height);
   UpdateFormOnTop(Self);
   UpdateList;
   if List.Items.Count>0 then
@@ -150,6 +151,16 @@ begin
     UpdateList;
     List.ItemIndex:= n;
   end;
+end;
+
+procedure TfmLexerLib.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  FormHistorySave(Self, '/dlg_lexer_lib', false);
+end;
+
+procedure TfmLexerLib.FormCreate(Sender: TObject);
+begin
+  FormHistoryLoad(Self, '/dlg_lexer_lib', false);
 end;
 
 procedure TfmLexerLib.FormKeyDown(Sender: TObject; var Key: Word;
