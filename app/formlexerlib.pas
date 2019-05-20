@@ -124,6 +124,8 @@ end;
 
 procedure TfmLexerLib.FormShow(Sender: TObject);
 begin
+  Width:= AppScale(Width);
+  Height:= AppScale(Height);
   UpdateFormOnTop(Self);
   UpdateList;
   if List.Items.Count>0 then

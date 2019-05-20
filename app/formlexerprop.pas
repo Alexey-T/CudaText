@@ -330,6 +330,8 @@ procedure TfmLexerProp.FormShow(Sender: TObject);
 var
   i: integer;
 begin
+  Width:= AppScale(Width);
+  Height:= AppScale(Height);
   UpdateFormOnTop(Self);
 
   Pages.PageIndex:= 0;

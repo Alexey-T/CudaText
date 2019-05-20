@@ -178,6 +178,10 @@ end;
 
 procedure TfmColorSetup.FormShow(Sender: TObject);
 begin
+  Width:= AppScale(Width);
+  Height:= AppScale(Height);
+  List.Width:= AppScale(List.Width);
+  ListStyles.Width:= AppScale(ListStyles.Width);
   UpdateFormOnTop(Self);
 
   PanelUi.Align:= alClient;
