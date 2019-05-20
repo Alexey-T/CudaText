@@ -441,7 +441,7 @@ type
     OpIndentAuto: boolean;
     OpIndentAutoKind: integer;
     OpIndentSize: integer;
-    OpIndentRule: string;
+    OpIndentAutoRule: string;
     OpUnIndentKeepsAlign: boolean;
     OpIndentMakesWholeLineSel: boolean;
 
@@ -1163,7 +1163,7 @@ begin
     OpIndentAuto:= true;
     OpIndentAutoKind:= Ord(cIndentAsPrevLine);
     OpIndentSize:= 2;
-    OpIndentRule:= '';
+    OpIndentAutoRule:= '';
     OpUnIndentKeepsAlign:= true;
     OpIndentMakesWholeLineSel:= false;
 

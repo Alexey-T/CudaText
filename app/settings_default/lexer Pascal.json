@@ -2,5 +2,5 @@
   "tab_spaces": true,
   "tab_size": 2,
   "indent_size": 2,
-  "indent_rule": "(?i).*\\bbegin\\s*$"  
+  "indent_auto_rule": "(?i).*\\bbegin\\s*$"  
 }

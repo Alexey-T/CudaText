@@ -978,7 +978,7 @@ begin
     Op.OpIndentAuto:= c.GetValue('indent_auto', Op.OpIndentAuto);
     Op.OpIndentAutoKind:= c.GetValue('indent_kind', Op.OpIndentAutoKind);
     Op.OpIndentSize:= c.GetValue('indent_size', Op.OpIndentSize);
-    Op.OpIndentRule:= c.GetValue('indent_rule', Op.OpIndentRule);
+    Op.OpIndentAutoRule:= c.GetValue('indent_auto_rule', Op.OpIndentAutoRule);
     Op.OpUnIndentKeepsAlign:= c.GetValue('unindent_keeps_align', Op.OpUnIndentKeepsAlign);
     Op.OpIndentMakesWholeLineSel:= c.GetValue('indent_makes_whole_line_sel', Op.OpIndentMakesWholeLineSel);
 

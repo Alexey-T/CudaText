@@ -229,7 +229,7 @@ begin
   if Op.OpIndentAutoKind<=Ord(High(TATAutoIndentKind)) then
     Ed.OptAutoIndentKind:= TATAutoIndentKind(Op.OpIndentAutoKind);
   Ed.OptAutoIndentBetterBracketsCurly:= Op.OpIndentAuto; //no separate option
-  Ed.OptAutoIndentRegexRule:= Op.OpIndentRule;
+  Ed.OptAutoIndentRegexRule:= Op.OpIndentAutoRule;
 
   Ed.OptZebraActive:= Op.OpZebra>0;
   if Ed.OptZebraActive then
