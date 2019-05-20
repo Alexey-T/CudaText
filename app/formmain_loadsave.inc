@@ -638,7 +638,8 @@ begin
   end;
 end;
 
-procedure TfmMain.DoOps_LoadOptions(const fn: string; var Op: TEditorOps);
+procedure TfmMain.DoOps_LoadOptions(const fn: string; var Op: TEditorOps;
+  AllowUiOps: boolean=true; AllowStartupOps: boolean=true);
 var
   List: TStringList;
   c: TJsonConfig;
@@ -656,6 +657,8 @@ begin
       end;
     end;
 
+   if AllowStartupOps then
+   begin
     List:= TStringList.Create;
 
     c.EnumValues('/plugin_groups', List);
@@ -671,6 +674,7 @@ begin
       AppConfig_DetectLine.Add(s, c.GetValue('/detect_line/'+s, ''));
 
     FreeAndNil(List);
+   end;
 
     Op.OpFontName:= FixFontMonospaced(UTF8Encode(c.GetValue(str_FontName, UTF8Decode(Op.OpFontName))));
     Op.OpFontName_i:= FixFontMonospaced(UTF8Encode(c.GetValue(str_FontName_i, UTF8Decode(Op.OpFontName_i))));
@@ -685,16 +689,18 @@ begin
     Op.OpFontQuality:= TFontQuality(c.GetValue(str_FontQuality, Ord(Op.OpFontQuality)));
     Op.OpFontLigatures:= c.GetValue(str_FontLigatures, Op.OpFontLigatures);
 
+    OptCharSizeProportional:= c.GetValue('unicode_proportional', OptCharSizeProportional);
+    OptCharSizeWideAllowed:= c.GetValue('unicode_wide_allowed', OptCharSizeWideAllowed);
+    OptCharScaleFullWidth:= c.GetValue('unicode_full_width', OptCharScaleFullWidth);
+
+   if AllowUiOps then
+   begin
     UiOps.VarFontName:= UTF8Encode(c.GetValue(str_UiFontName, UTF8Decode(UiOps.VarFontName)));
     UiOps.VarFontSize:= c.GetValue(str_UiFontSize, UiOps.VarFontSize);
     UiOps.OutputFontName:= UTF8Encode(c.GetValue(str_UiFontOutputName, UTF8Decode(UiOps.OutputFontName)));
     UiOps.OutputFontSize:= c.GetValue(str_UiFontOutputSize, UiOps.OutputFontSize);
 
     UiOps.DoubleBuffered:= c.GetValue(str_UiDoubleBuffered, UiOps.DoubleBuffered);
-
-    OptCharSizeProportional:= c.GetValue('unicode_proportional', OptCharSizeProportional);
-    OptCharSizeWideAllowed:= c.GetValue('unicode_wide_allowed', OptCharSizeWideAllowed);
-    OptCharScaleFullWidth:= c.GetValue('unicode_full_width', OptCharScaleFullWidth);
 
     UiOps.StatusNoSel:= c.GetValue('ui_statusbar_no_sel', UiOps.StatusNoSel);
     UiOps.StatusSmallSel:= c.GetValue('ui_statusbar_small_sel', UiOps.StatusSmallSel);
@@ -751,6 +757,7 @@ begin
     UiOps.HotkeyToggleInSelect:= c.GetValue('find_hotkey_op_in_sel', UiOps.HotkeyToggleInSelect);
     UiOps.HotkeyToggleMultiline:= c.GetValue('find_hotkey_op_multiline', UiOps.HotkeyToggleMultiline);
     UiOps.HotkeyToggleConfirmRep:= c.GetValue('find_hotkey_op_confirm_rep', UiOps.HotkeyToggleConfirmRep);
+   end;
 
     Op.OpSpacingY:= c.GetValue('spacing_y', Op.OpSpacingY);
 
@@ -860,6 +867,8 @@ begin
     Op.OpFoldStyle:= c.GetValue('fold_style', Op.OpFoldStyle);
     Op.OpFoldTooltipShow:= c.GetValue('fold_tooltip_show', Op.OpFoldTooltipShow);
 
+   if AllowUiOps then
+   begin
     UiOps.LexerThemes:= c.GetValue('ui_lexer_themes', UiOps.LexerThemes);
     UiOps.LexerMenuGrouped:= c.GetValue('ui_lexers_grouped', UiOps.LexerMenuGrouped);
     UiOps.LexerDelayedParsingPause:= c.GetValue('lexer_delayed_parsing_pause', UiOps.LexerDelayedParsingPause);
@@ -974,6 +983,7 @@ begin
 
     UiOps.DefaultEncUtf8:= c.GetValue(str_DefEncodingIsUtf8, UiOps.DefaultEncUtf8);
     UiOps.ViewerBinaryWidth:= c.GetValue('viewer_binary_width', UiOps.ViewerBinaryWidth);
+   end;
 
     Op.OpIndentAuto:= c.GetValue('indent_auto', Op.OpIndentAuto);
     Op.OpIndentAutoKind:= c.GetValue('indent_kind', Op.OpIndentAutoKind);
@@ -1048,12 +1058,12 @@ begin
 
     if bExistsDefault then
     begin
-      DoOps_LoadOptions(FilenameDefault, Ops);
+      DoOps_LoadOptions(FilenameDefault, Ops, false, false);
     end;
 
     if bExistsUser then
     begin
-      DoOps_LoadOptions(FilenameUser, Ops);
+      DoOps_LoadOptions(FilenameUser, Ops, false, false);
     end;
 
     DoApplyFrameOps(F, Ops, true);
