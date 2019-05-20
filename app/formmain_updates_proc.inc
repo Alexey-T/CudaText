@@ -208,6 +208,9 @@ begin
   //------
   DoStatusbarTextByTag(AStatus, StatusbarTag_SelMode, IfThen(Ed.OptMouseColumnSelectionWithoutKey, '||', '-'));
   DoStatusbarTextByTag(AStatus, StatusbarTag_WrapMode, msgStatusbarWrapStates[Ord(Ed.OptWrapMode)]);
+
+  //to update '[Read only]' in the message
+  DoStatusbarTextByTag(AStatus, StatusbarTag_Msg, GetStatusbarPrefix(F)+FLastStatusbarMessage);
 end;
 
 procedure TfmMain.InitStatusbarControls;

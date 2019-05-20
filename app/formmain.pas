@@ -670,6 +670,7 @@ type
     FLastLexerForPluginsMenu: string;
     FLastSidebarPanel: string;
     FLastBottomPanel: string;
+    FLastStatusbarMessage: string;
     FLastSelectedCommand: integer;
     FLastMousePos: TPoint;
     FLexerProgressIndex: integer;
@@ -863,6 +864,7 @@ type
     procedure MsgLogDebug(const AText: string);
     procedure MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
     procedure MsgStatusAlt(const AText: string; ASeconds: integer);
+    function GetStatusbarPrefix(Frame: TEditorFrame): string;
     procedure MsgStatusFileOpened(const AFileName1, AFileName2: string);
     procedure PopupListboxOutputCopyClick(Sender: TObject);
     procedure PopupListboxOutputClearClick(Sender: TObject);
@@ -1045,7 +1047,7 @@ type
     procedure MenuRecentsClick(Sender: TObject);
     procedure SetFrame(Frame: TEditorFrame);
     procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
-    procedure MsgStatus(const AText: string);
+    procedure MsgStatus(AText: string);
     procedure UpdateSidebarButtons;
     procedure UpdateSidebarPanels(const ACaption: string; AndFocus: boolean);
     procedure UpdateStatusbarPanelsFromString(AStr: string);
@@ -3874,29 +3876,28 @@ begin
   end;
 end;
 
-procedure TfmMain.MsgStatus(const AText: string);
-var
-  Frame: TEditorFrame;
-  S: string;
+function TfmMain.GetStatusbarPrefix(Frame: TEditorFrame): string;
 begin
-  Frame:= CurrentFrame;
+  Result:= '';
   if Frame=nil then exit;
-
-  S:= AText;
-  SReplaceAll(S, #10, ' ');
-  SReplaceAll(S, #13, ' ');
-
   if Frame.IsText then
   begin
     if Frame.ReadOnly[Frame.Editor] then
-      S:= msgStatusReadonly+' '+S;
+      Result+= msgStatusReadonly+' ';
     if Frame.MacroRecord then
-      S:= msgStatusMacroRec+' '+S;
+      Result+= msgStatusMacroRec+' ';
   end;
+end;
 
-  DoStatusbarTextByTag(Status, StatusbarTag_Msg, S);
+procedure TfmMain.MsgStatus(AText: string);
+begin
+  SReplaceAll(AText, #10, ' ');
+  SReplaceAll(AText, #13, ' ');
+  FLastStatusbarMessage:= AText;
 
-  if S='' then exit;
+  DoStatusbarTextByTag(Status, StatusbarTag_Msg, GetStatusbarPrefix(CurrentFrame)+AText);
+
+  if AText='' then exit;
   TimerStatus.Enabled:= false;
   TimerStatus.Enabled:= true;
 end;
