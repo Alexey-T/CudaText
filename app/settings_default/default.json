@@ -731,6 +731,10 @@
   //Otherwise, selection will be like before, shifted.
   "indent_makes_whole_line_sel": false,
 
+  //If line matches this reg-ex, Enter will make additional indent (from option "tab_size").
+  //Option is for lexer-specific configs, not for user.json config.
+  "indent_rule": "",
+
   //[Mouse]
   //Enable drag-drop of text blocks
   "mouse_drag_drop": true,

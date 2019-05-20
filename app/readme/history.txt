@@ -6,6 +6,7 @@
 
 1.80.3 (2019/05)
 
++ add: option "indent_rule": RegEx which allows to make additional indent on pressing Enter
 + add: program can use _default_ lexer-specific configs from folder settings_default
 + add: few default lexer-specific configs: C, C++ (indent: 4 spaces), CSS, JS, JSON, Pascal (indent: 2 spaces), Python (indent: 4 spaces)
 
