@@ -4545,20 +4545,26 @@ end;
 procedure TfmMain.DoOps_OpenFile_LexerSpecific;
 var
   F: TEditorFrame;
-  CurLexer, fn: string;
+  CurLexer, fn, fn_def: string;
 begin
   F:= CurrentFrame;
   if F=nil then exit;
 
   CurLexer:= F.LexerName[F.Editor];
-  fn:= GetAppLexerSpecificConfig(CurLexer);
+
+  fn:= GetAppLexerSpecificConfig(CurLexer, false);
+  fn_def:= GetAppLexerSpecificConfig(CurLexer, true);
+
   if not FileExistsUTF8(fn) then
   begin
     FCreateFile(fn, true);
     if not FileExistsUTF8(fn) then exit;
   end;
 
-  DoFileOpen(fn, '');
+  if FileExistsUTF8(fn_def) then
+    DoFileOpen(fn_def, fn)
+  else
+    DoFileOpen(fn, '');
 end;
 
 procedure TfmMain.MenuMainClick(Sender: TObject);
