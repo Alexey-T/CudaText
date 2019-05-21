@@ -87,8 +87,6 @@ procedure TfmCommands.FormShow(Sender: TObject);
 var
   i: integer;
 begin
-  list.Font.Name:= UiOps.VarFontName;
-  list.Font.Size:= AppScaleFont(UiOps.VarFontSize);
   edit.Height:= AppScale(UiOps.InputHeight);
   edit.Font.Name:= EditorOps.OpFontName;
   edit.Font.Size:= EditorOps.OpFontSize;
