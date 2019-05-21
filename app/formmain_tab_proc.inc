@@ -297,7 +297,7 @@ procedure TfmMain.DoMoveTabToGroup(AGroupIndex: Integer);
 var
   Pages, PagesTo: TATPages;
   NTabIndex: integer;
-  Form: TForm;
+  //Form: TForm;
 begin
   Pages:= GroupsCtx.PopupPages;
   NTabIndex:= GroupsCtx.PopupTabIndex;
@@ -312,24 +312,24 @@ begin
   case AGroupIndex of
     0..High(TATGroupsNums):
       begin
-        Form:= nil;
+        //Form:= nil;
         PagesTo:= Groups.Pages[AGroupIndex];
       end;
     6:
       begin
-        Form:= FFormFloatGroups1;
+        //Form:= FFormFloatGroups1;
         ShowFloatGroup1:= true;
         PagesTo:= GroupsF1.Pages1;
       end;
     7:
       begin
-        Form:= FFormFloatGroups2;
+        //Form:= FFormFloatGroups2;
         ShowFloatGroup2:= true;
         PagesTo:= GroupsF2.Pages1;
       end;
     8:
       begin
-        Form:= FFormFloatGroups3;
+        //Form:= FFormFloatGroups3;
         ShowFloatGroup3:= true;
         PagesTo:= GroupsF3.Pages1;
       end;

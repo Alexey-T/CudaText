@@ -1010,7 +1010,6 @@ procedure TfmMain.DoOps_LoadOptions(const fn: string; var Op: TEditorOps;
   AllowUiOps: boolean=true; AllowGlobalOps: boolean=true);
 var
   c: TJsonConfig;
-  s: string;
 begin
   c:= TJsonConfig.Create(nil);
   try
