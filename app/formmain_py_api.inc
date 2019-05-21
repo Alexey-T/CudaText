@@ -4942,7 +4942,7 @@ begin
 
         LISTBOX_SET_ITEM_H:
           begin
-            Listbox.ItemHeightPercents:= NIndex * 100 div Listbox.ItemHeightDefault;
+            Listbox.ItemHeight:= NIndex;
             Listbox.Invalidate;
             Result:= ReturnNone;
           end;
