@@ -3355,12 +3355,11 @@ var
   items: TStringList;
   bm: TATBookmarkItem;
   strInfo, strKind, strCaption: string;
-  NumMax, NLine, NKind, i: integer;
-  Obj: TObject;
+  NLineMax, NLine, NKind, i: integer;
 begin
   Ed:= CurrentEditor;
-  NumMax:= Ed.Strings.Count-1;
-  items:= TStringlist.Create;
+  NLineMax:= Ed.Strings.Count-1;
+  items:= TStringList.Create;
 
   with TIniFile.Create(GetAppLangFilename) do
   try
@@ -3405,8 +3404,8 @@ begin
     end;
 
     NLine:= PtrInt(items.Objects[NLine]);
-    if NLine>NumMax then
-      NLine:= NumMax;
+    if NLine>NLineMax then
+      NLine:= NLineMax;
 
   finally
     FreeAndNil(items);
