@@ -421,9 +421,6 @@ begin
   ATFlatTheme.ScaleFontPercents:= UiOps.ScaleFont;
 
   if Assigned(fmFind) then fmFind.UpdateFonts;
-
-  CompletionOps.FontName:= UiOps.VarFontName;
-  CompletionOps.FontSize:= UiOps.VarFontSize;
 end;
 
 

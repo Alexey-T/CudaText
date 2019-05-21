@@ -164,8 +164,6 @@ begin
   Groups.Splitter4.Invalidate;
   Groups.Splitter5.Invalidate;
 
-  CompletionOps.ColorBg:= GetAppColor('ListBg');
-  CompletionOps.ColorSelBg:= GetAppColor('ListSelBg');
   CompletionOps.ColorFont[0]:= GetAppColor('ListCompletePrefix');
   CompletionOps.ColorFont[1]:= GetAppColor('ListFont');
   CompletionOps.ColorFont[2]:= GetAppColor('ListCompleteParams');
