@@ -9,9 +9,11 @@ begin
   begin
     C:= F.Components[i];
 
+    {
     if C is TATListbox then
       if (C as TATListbox).ThemedColors then
         DoApplyThemeToListbox(C as ATListbox.TATListbox);
+        }
 
     if C is TAppTreeContainer then
       if (C as TAppTreeContainer).Themed then
@@ -55,7 +57,7 @@ begin
   UpdateMenuThemes(true);
   UpdateMenuThemes(false);
 
-  with ATScrollbar.ATScrollbarTheme do
+  with ATScrollbarTheme do
   begin
     ColorBG:= GetAppColor('ScrollBack');
     ColorThumbBorder:= GetAppColor('ScrollRect');
@@ -113,6 +115,10 @@ begin
   ATFlatTheme.ColorSeparators:= GetAppColor('TabBorderActive');
   ATFlatTheme.ColorBorderOver:= GetAppColor('ButtonBorderOver');
   ATFlatTheme.ColorBorderFocused:= GetAppColor('ButtonBorderFocused');
+  ATFlatTheme.ColorFontListbox:= GetAppColor('ListFont');
+  ATFlatTheme.ColorFontListboxSel:= GetAppColor('ListSelFont');
+  ATFlatTheme.ColorBgListbox:= GetAppColor('ListBg');
+  ATFlatTheme.ColorBgListboxSel:= GetAppColor('ListSelBg');
 
   DoApplyThemeToGroups(Groups);
   if FloatGroups then

@@ -59,7 +59,7 @@ procedure DoTreeviewFoldLevel(ATree: TTreeView; ALevel: integer);
 procedure DoTreeviewCopy(Src, Dst: TTreeView);
 
 procedure DoApplyThemeToTreeview(C: TTreeview; AThemed, AChangeShowRoot: boolean);
-procedure DoApplyThemeToListbox(C: ATListbox.TATListbox);
+procedure DoApplyThemeToListbox(C: TATListbox);
 procedure DoApplyThemeToToolbar(C: TATFlatToolbar);
 
 function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
@@ -401,14 +401,8 @@ begin
 end;
 
 
-procedure DoApplyThemeToListbox(C: ATListbox.TATListbox);
+procedure DoApplyThemeToListbox(C: TATListbox);
 begin
-  C.Font.Name:= UiOps.VarFontName;
-  C.Font.Size:= UiOps.VarFontSize;
-  C.Font.Color:= GetAppColor('ListFont');
-  C.Color:= GetAppColor('ListBg');
-  C.ColorSelFont:= GetAppColor('ListSelFont');
-  C.ColorSelBack:= GetAppColor('ListSelBg');
   C.Invalidate;
 end;
 

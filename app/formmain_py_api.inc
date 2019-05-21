@@ -4966,7 +4966,6 @@ begin
         LISTBOX_THEME:
           begin
             Listbox.ThemedScrollbar:= true;
-            Listbox.ThemedColors:= true;
             DoApplyThemeToListbox(Listbox);
             Result:= ReturnNone;
           end
