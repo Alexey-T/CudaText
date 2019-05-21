@@ -937,6 +937,8 @@ type
     function DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers,
       AAllowConfig, AShowCentered: boolean; ACaption: string): string;
     procedure DoDialogGoto;
+    function DoDialogMenuList(const ACaption: string; AItems: TStringList; out
+      AItemIndex: integer; out AItemObject: TObject): boolean;
     procedure DoDialogGotoBookmark;
     function DoDialogSaveTabs: boolean;
     procedure DoDialogLexerProp(an: TecSyntAnalyzer);
@@ -3301,6 +3303,31 @@ begin
   end;
 end;
 
+function TfmMain.DoDialogMenuList(const ACaption: string; AItems: TStringList; out AItemIndex: integer;
+  out AItemObject: TObject): boolean;
+var
+  Form: TfmMenuList;
+begin
+  AItemIndex:= -1;
+  AItemObject:= nil;
+  Form:= TfmMenuList.Create(Self);
+  try
+    UpdateInputForm(Form);
+    Form.Caption:= ACaption;
+    Form.Items:= AItems;
+    Form.ShowModal;
+    Result:= Form.ResultIndex>=0;
+    if Result then
+    begin
+      AItemIndex:= Form.ResultIndex;
+      AItemObject:= AItems.Objects[Form.ResultIndex];
+    end;
+  finally
+    FreeAndNil(Form);
+  end;
+end;
+
+
 procedure TfmMain.DoGotoFromInput(const AInput: string);
 var
   Frame: TEditorFrame;
@@ -3333,12 +3360,11 @@ const
   cMaxLen = 150;
 var
   Ed: TATSynEdit;
-  Form: TfmMenuList;
-  Num, NumMax: integer;
   items: TStringList;
   bm: TATBookmarkItem;
   strInfo, strKind, strCaption: string;
-  NLine, NKind, i: integer;
+  NumMax, NLine, NKind, i: integer;
+  Obj: TObject;
 begin
   Ed:= CurrentEditor;
   NumMax:= Ed.Strings.Count-1;
@@ -3379,29 +3405,21 @@ begin
       Exit;
     end;
 
-    Num:= -1;
-    Form:= TfmMenuList.Create(Self);
-    try
-      UpdateInputForm(Form);
-      Form.Caption:= strCaption;
-      Form.Items:= items;
-      Form.ShowModal;
-      if Form.ResultIndex>=0 then
-        Num:= PtrInt(items.Objects[Form.ResultIndex]);
-    finally
-      FreeAndNil(Form);
+    if not DoDialogMenuList(strCaption, items, NLine, Obj) then
+    begin
+      MsgStatus(msgStatusCancelled);
+      Exit
     end;
   finally
     FreeAndNil(items);
   end;
 
-  if Num<0 then
-    begin MsgStatus(msgStatusCancelled); Exit end;
-  if Num>NumMax then
-    Num:= NumMax;
+  NLine:= PtrInt(Obj);
+  if NLine>NumMax then
+    NLine:= NumMax;
 
   Ed.DoGotoPos(
-    Point(0, Num),
+    Point(0, NLine),
     Point(-1, -1),
     UiOps.FindIndentHorz,
     UiOps.FindIndentVert,
