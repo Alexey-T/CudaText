@@ -131,7 +131,6 @@ begin
 
   self.Width:= AppScale(UiOps.ListboxSizeX);
   self.Height:= AppScale(UiOps.ListboxSizeY);
-  List.ItemHeight:= AppListboxItemHeight(true, false);
 
   Items:= nil;
   ResultIndex:= -1;

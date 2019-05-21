@@ -22,9 +22,6 @@ object fmGotoList: TfmGotoList
     Width = 488
     Align = alClient
     BorderSpacing.Around = 6
-    Color = clWhite
-    DoubleBuffered = True
-    ItemHeight = 28
     OwnerDrawn = True
     ParentColor = False
     OnClick = ListClick

@@ -105,7 +105,6 @@ begin
   list.Color:= GetAppColor('ListBg');
   panelCaption.Font.Color:= GetAppColor('ListFont');
 
-  list.ItemHeight:= AppListboxItemHeight(true, false);
   self.Width:= AppScale(UiOps.ListboxSizeX);
   self.Height:= AppScale(UiOps.ListboxSizeY);
 
@@ -200,13 +199,13 @@ begin
 
   if key=VK_NEXT then
   begin
-    list.ItemIndex:= Min(list.ItemCount-1, list.ItemIndex+list.Height div list.ItemHeight);
+    list.ItemIndex:= Min(list.ItemCount-1, list.ItemIndex+list.VisibleItems);
     key:= 0;
     exit
   end;
   if key=VK_PRIOR then
   begin
-    list.ItemIndex:= Max(0, list.ItemIndex-list.Height div list.ItemHeight);
+    list.ItemIndex:= Max(0, list.ItemIndex-list.VisibleItems);
     key:= 0;
     exit
   end;

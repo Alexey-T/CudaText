@@ -424,18 +424,12 @@ begin
 
   CompletionOps.FontName:= UiOps.VarFontName;
   CompletionOps.FontSize:= UiOps.VarFontSize;
-  CompletionOps.ItemHeight:= AppListboxItemHeight(false, false);
 end;
 
 
 procedure TfmMain.DoApplyFont_Output;
 begin
-  ListboxOut.Font.Name:= UiOps.OutputFontName;
-  ListboxOut.Font.Size:= AppScaleFont(UiOps.OutputFontSize);
-  ListboxVal.Font.Name:= UiOps.OutputFontName;
-  ListboxVal.Font.Size:= AppScaleFont(UiOps.OutputFontSize);
-  ListboxOut.ItemHeight:= AppListboxItemHeight(true, false);
-  ListboxVal.ItemHeight:= ListboxOut.ItemHeight;
+  //empty now
 end;
 
 procedure TfmMain.UpdateMenuRecent(F: TEditorFrame; const AFileName: string);

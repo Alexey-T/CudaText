@@ -4941,12 +4941,12 @@ begin
 
         LISTBOX_GET_ITEM_H:
           begin
-            Result:= PyInt_FromLong(Listbox.ItemHeight);
+            Result:= PyInt_FromLong(Listbox.ItemHeightPercents);
           end;
 
         LISTBOX_SET_ITEM_H:
           begin
-            Listbox.ItemHeight:= NIndex;
+            Listbox.ItemHeightPercents:= NIndex;
             Listbox.Invalidate;
             Result:= ReturnNone;
           end;

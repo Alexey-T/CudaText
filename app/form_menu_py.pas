@@ -71,7 +71,10 @@ begin
   UpdateFormOnTop(Self);
   FixFormPositionToDesktop(Self);
 
-  list.ItemHeight:= AppListboxItemHeight(true, FMultiline);
+  if FMultiline then
+    list.ItemHeightPercents:= 185
+  else
+    list.ItemHeightPercents:= 100;
 
   DoFilter;
 
