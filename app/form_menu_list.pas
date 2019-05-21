@@ -15,7 +15,6 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
   LclType, LclProc,
   ExtCtrls,
-  IniFiles,
   ATStringProc,
   ATSynEdit,
   ATListbox,
@@ -60,18 +59,8 @@ implementation
 { TfmGotoList }
 
 procedure TfmGotoList.FormShow(Sender: TObject);
-var
-  S: string;
 begin
-  with TIniFile.Create(GetAppLangFilename) do
-  try
-    S:= ReadString('m_sr', 'b_', 'Bookmarks');
-    S:= StringReplace(S, '&', '', [rfReplaceAll]);
-    SetListCaption(S);
-  finally
-    Free;
-  end;
-
+  SetListCaption(Caption);
   UpdateFormOnTop(Self);
   List.VirtualItemCount:= Items.Count;
 end;

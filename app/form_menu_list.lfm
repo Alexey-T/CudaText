@@ -1,5 +1,5 @@
 object fmGotoList: TfmGotoList
-  Left = 266
+  Left = 252
   Height = 233
   Top = 482
   Width = 500
@@ -14,7 +14,7 @@ object fmGotoList: TfmGotoList
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   ShowInTaskBar = stNever
-  LCLVersion = '1.9.0.0'
+  LCLVersion = '2.1.0.0'
   object List: TATListbox
     Left = 6
     Height = 195

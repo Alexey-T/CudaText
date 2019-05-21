@@ -3337,12 +3337,20 @@ var
   Num, NumMax: integer;
   items: TStringList;
   bm: TATBookmarkItem;
-  strInfo, strKind: string;
+  strInfo, strKind, strCaption: string;
   NLine, NKind, i: integer;
 begin
   Ed:= CurrentEditor;
   NumMax:= Ed.Strings.Count-1;
   items:= TStringlist.Create;
+
+  with TIniFile.Create(GetAppLangFilename) do
+  try
+    strCaption:= ReadString('m_sr', 'b_', 'Bookmarks');
+    strCaption:= StringReplace(strCaption, '&', '', [rfReplaceAll]);
+  finally
+    Free;
+  end;
 
   try
     for i:= 0 to ed.Strings.Bookmarks.Count-1 do
@@ -3375,6 +3383,7 @@ begin
     Form:= TfmGotoList.Create(Self);
     try
       UpdateInputForm(Form);
+      Form.Caption:= strCaption;
       Form.Items:= items;
       Form.ShowModal;
       if Form.ResultIndex>=0 then
