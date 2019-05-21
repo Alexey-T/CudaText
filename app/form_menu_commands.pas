@@ -51,6 +51,12 @@ type
     { private declarations }
     keymapList: TList;
     FOnMsg: TStrEvent;
+    FColorBg: TColor;
+    FColorBgSel: TColor;
+    FColorFont: TColor;
+    FColorFontSel: TColor;
+    FColorFontHilite: TColor;
+    FColorFontHotkey: TColor;
     procedure DoConfigKey(Cmd: integer);
     procedure DoFilter;
     procedure DoResetKey(K: TATKeymapItem);
@@ -94,14 +100,14 @@ begin
   panelCaption.Font.Name:= UiOps.VarFontName;
   panelCaption.Font.Size:= AppScaleFont(UiOps.VarFontSize);
 
-  self.Color:= GetAppColor('ListBg');
+  self.Color:= FColorBg;
   edit.Colors.TextFont:= GetAppColor('EdTextFont');
   edit.Colors.TextBG:= GetAppColor('EdTextBg');
   edit.Colors.TextSelFont:= GetAppColor('EdSelFont');
   edit.Colors.TextSelBG:= GetAppColor('EdSelBg');
   edit.Colors.BorderLine:= GetAppColor('EdBorder');
-  list.Color:= GetAppColor('ListBg');
-  panelCaption.Font.Color:= GetAppColor('ListFont');
+  list.Color:= FColorBg;
+  panelCaption.Font.Color:= FColorFont;
 
   self.Width:= AppScale(UiOps.ListboxSizeX);
   self.Height:= AppScale(UiOps.ListboxSizeY);
@@ -131,6 +137,13 @@ end;
 
 procedure TfmCommands.FormCreate(Sender: TObject);
 begin
+  FColorBg:= GetAppColor('ListBg');
+  FColorBgSel:= GetAppColor('ListSelBg');
+  FColorFont:= GetAppColor('ListFont');
+  FColorFontSel:= GetAppColor('ListSelFont');
+  FColorFontHilite:= GetAppColor('ListFontHilite');
+  FColorFontHotkey:= GetAppColor('ListFontHotkey');
+
   if UiOps.ShowMenuDialogsWithBorder then
     BorderStyle:= bsDialog;
 
@@ -301,13 +314,13 @@ begin
   if AIndex<0 then exit;
   if AIndex=list.ItemIndex then
   begin
-    cl:= GetAppColor('ListSelBg');
-    c.Font.Color:= GetAppColor('ListSelFont');
+    cl:= FColorBgSel;
+    c.Font.Color:= FColorFontSel;
   end
   else
   begin
-    cl:= list.Color;
-    c.Font.Color:= GetAppColor('ListFont');
+    cl:= FColorBg;
+    c.Font.Color:= FColorFont;
   end;
   c.Brush.Color:= cl;
   c.Pen.Color:= cl;
@@ -325,7 +338,7 @@ begin
   pnt:= Point(ARect.Left+4, ARect.Top);
   c.TextOut(pnt.x, pnt.y, strname);
 
-  c.Font.Color:= GetAppColor('ListFontHilite');
+  c.Font.Color:= FColorFontHilite;
 
   if UiOps.ListboxFuzzySearch then
   begin
@@ -371,7 +384,7 @@ begin
     TextSize:= c.TextExtent(strkey);
     n:= list.ClientWidth-TextSize.cx-4;
     c.FillRect(n-2, pnt.y, list.ClientWidth, pnt.y+list.ItemHeight);
-    c.Font.Color:= GetAppColor('ListFontHotkey');
+    c.Font.Color:= FColorFontHotkey;
     c.TextOut(
       n,
       pnt.y + (list.ItemHeight-TextSize.cy) div 2,
