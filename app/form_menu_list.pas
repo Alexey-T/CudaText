@@ -37,6 +37,11 @@ type
       const ARect: TRect);
     procedure ListClick(Sender: TObject);
   private
+    FColorBg: TColor;
+    FColorBgSel: TColor;
+    FColorFont: TColor;
+    FColorFontSel: TColor;
+    FColorFontAlt: TColor;
     procedure SetListCaption(const AValue: string);
     { private declarations }
   public
@@ -74,9 +79,9 @@ end;
 procedure TfmGotoList.ListDrawItem(Sender: TObject; C: TCanvas; AIndex: integer;
   const ARect: TRect);
 var
-  NColorBack, NColorFont: TColor;
   pnt: TPoint;
   str0, str1, str2: string;
+  NColorFont, NColorBack: TColor;
 begin
   str0:= Items[AIndex];
   str1:= SGetItem(str0, #9);
@@ -84,13 +89,13 @@ begin
 
   if AIndex=List.ItemIndex then
   begin
-    NColorFont:= GetAppColor('ListSelFont');
-    NColorBack:= GetAppColor('ListSelBg');
+    NColorFont:= FColorFontSel;
+    NColorBack:= FColorBgSel;
   end
   else
   begin
-    NColorFont:= GetAppColor('ListFont');
-    NColorBack:= List.Color;
+    NColorFont:= FColorFont;
+    NColorBack:= FColorBg;
   end;
 
   c.Brush.Color:= NColorBack;
@@ -101,7 +106,7 @@ begin
   pnt:= Point(ARect.Left+4, ARect.Top+1);
   c.TextOut(pnt.x, pnt.y, str1);
 
-  c.Font.Color:= GetAppColor('ListFontHotkey');
+  c.Font.Color:= FColorFontAlt;
   c.TextOut(ARect.Right-c.TextWidth(str2)-4, pnt.y, str2);
 end;
 
@@ -118,11 +123,14 @@ begin
 
   List.DoubleBuffered:= UiOps.DoubleBuffered;
 
-  self.Color:= GetAppColor('ListBg');
-  List.Color:= self.Color;
+  FColorBg:= GetAppColor('ListBg');
+  FColorBgSel:= GetAppColor('ListSelBg');
+  FColorFont:= GetAppColor('ListFont');
+  FColorFontSel:= GetAppColor('ListSelFont');
+  FColorFontAlt:= GetAppColor('ListFontHotkey');
 
-  List.Font.Name:= UiOps.VarFontName;
-  List.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+  self.Color:= FColorBg;
+  List.Color:= FColorBg;
 
   plCaption.Height:= AppScale(26);
   plCaption.Font.Name:= UiOps.VarFontName;
