@@ -16,7 +16,8 @@ uses
   LazFileUtils,
   at__jsonconf,
   ATStringProc,
-  ATSynEdit_RegExpr;
+  ATSynEdit_RegExpr,
+  ec_RegExpr;
 
 type
   TStringReplacePart = record
@@ -27,7 +28,7 @@ function SFindFuzzyPositions(SText, SFind: UnicodeString): TATIntArray;
 function STextListsAllWords(SText, SWords: string): boolean;
 function STextListsFuzzyInput(const SText, SFind: string): boolean;
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
-function SRegexMatchesString(const AStr, AStrRegex: string; ACaseSensitive: boolean): boolean;
+function SRegexMatchesString(const ASubject, ARegex: string; ACaseSensitive: boolean): boolean;
 
 function IsLexerListed(const ALexer, ANameList: string): boolean;
 function IsFilenameListedInExtensionList(const AFilename, AExtList: string): boolean;
@@ -285,6 +286,8 @@ begin
   end;
 end;
 
+(*
+//it is slower that with ec_RegExpr
 function SRegexMatchesString(const AStr, AStrRegex: string; ACaseSensitive: boolean): boolean;
 var
   Obj: TRegExpr;
@@ -299,9 +302,29 @@ begin
       Obj.ModifierS:= false;
       Obj.ModifierI:= not ACaseSensitive;
       Obj.Expression:= AStrRegex;
-      Result:= Obj.Exec(AStr) and (Obj.MatchLen[0]=Length(AStr));
+      Result:= Obj.Exec(AStr) and (Obj.MatchPos[0]=1);
     except
     end;
+  finally
+    Obj.Free;
+  end;
+end;
+*)
+
+function SRegexMatchesString(const ASubject, ARegex: string; ACaseSensitive: boolean): boolean;
+var
+  Obj: TecRegExpr;
+  NPos: integer;
+begin
+  Obj:= TecRegExpr.Create;
+  try
+    Obj.Expression:= UTF8Decode(ARegex);
+    Obj.ModifierI:= not ACaseSensitive;
+    Obj.ModifierS:= false; //don't catch all text by .*
+    Obj.ModifierM:= true; //allow to work with ^$
+    Obj.ModifierX:= false; //don't ingore spaces
+    NPos:= 1;
+    Result:= Obj.Match(UTF8Decode(ASubject), NPos);
   finally
     Obj.Free;
   end;
