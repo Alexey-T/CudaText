@@ -937,8 +937,7 @@ type
     function DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers,
       AAllowConfig, AShowCentered: boolean; ACaption: string): string;
     procedure DoDialogGoto;
-    function DoDialogMenuList(const ACaption: string; AItems: TStringList; out
-      AItemIndex: integer; out AItemObject: TObject): boolean;
+    function DoDialogMenuList(const ACaption: string; AItems: TStringList): integer;
     procedure DoDialogGotoBookmark;
     function DoDialogSaveTabs: boolean;
     procedure DoDialogLexerProp(an: TecSyntAnalyzer);
@@ -3303,25 +3302,18 @@ begin
   end;
 end;
 
-function TfmMain.DoDialogMenuList(const ACaption: string; AItems: TStringList; out AItemIndex: integer;
-  out AItemObject: TObject): boolean;
+function TfmMain.DoDialogMenuList(const ACaption: string; AItems: TStringList): integer;
 var
   Form: TfmMenuList;
 begin
-  AItemIndex:= -1;
-  AItemObject:= nil;
+  Result:= -1;
   Form:= TfmMenuList.Create(Self);
   try
     UpdateInputForm(Form);
     Form.Caption:= ACaption;
     Form.Items:= AItems;
     Form.ShowModal;
-    Result:= Form.ResultIndex>=0;
-    if Result then
-    begin
-      AItemIndex:= Form.ResultIndex;
-      AItemObject:= AItems.Objects[Form.ResultIndex];
-    end;
+    Result:= Form.ResultIndex;
   finally
     FreeAndNil(Form);
   end;
@@ -3405,18 +3397,20 @@ begin
       Exit;
     end;
 
-    if not DoDialogMenuList(strCaption, items, NLine, Obj) then
+    NLine:= DoDialogMenuList(strCaption, items);
+    if NLine<0 then
     begin
       MsgStatus(msgStatusCancelled);
       Exit
     end;
+
+    NLine:= PtrInt(items.Objects[NLine]);
+    if NLine>NumMax then
+      NLine:= NumMax;
+
   finally
     FreeAndNil(items);
   end;
-
-  NLine:= PtrInt(Obj);
-  if NLine>NumMax then
-    NLine:= NumMax;
 
   Ed.DoGotoPos(
     Point(0, NLine),
