@@ -638,10 +638,377 @@ begin
   end;
 end;
 
-procedure TfmMain.DoOps_LoadOptions(const fn: string; var Op: TEditorOps;
-  AllowUiOps: boolean=true; AllowStartupOps: boolean=true);
+
+procedure TfmMain.DoOps_LoadOptions_Global(c: TJSONConfig);
 var
   List: TStringList;
+  s: string;
+begin
+  List:= TStringList.Create;
+  try
+    c.EnumValues('/plugin_groups', List);
+    for s in List do
+      AppConfig_PGroups.Add(s, c.GetValue('/plugin_groups/'+s, ''));
+
+    c.EnumValues('/detect', List);
+    for s in List do
+      AppConfig_Detect.Add(s, c.GetValue('/detect/'+s, ''));
+
+    c.EnumValues('/detect_line', List);
+    for s in List do
+      AppConfig_DetectLine.Add(s, c.GetValue('/detect_line/'+s, ''));
+  finally
+    FreeAndNil(List);
+  end;
+end;
+
+procedure TfmMain.DoOps_LoadOptions_Editor(c: TJSONConfig; var Op: TEditorOps);
+begin
+  Op.OpFontName:= FixFontMonospaced(UTF8Encode(c.GetValue(str_FontName, UTF8Decode(Op.OpFontName))));
+  Op.OpFontName_i:= FixFontMonospaced(UTF8Encode(c.GetValue(str_FontName_i, UTF8Decode(Op.OpFontName_i))));
+  Op.OpFontName_b:= FixFontMonospaced(UTF8Encode(c.GetValue(str_FontName_b, UTF8Decode(Op.OpFontName_b))));
+  Op.OpFontName_bi:= FixFontMonospaced(UTF8Encode(c.GetValue(str_FontName_bi, UTF8Decode(Op.OpFontName_bi))));
+
+  Op.OpFontSize:= c.GetValue(str_FontSize, Op.OpFontSize);
+  Op.OpFontSize_i:= c.GetValue(str_FontSize_i, Op.OpFontSize_i);
+  Op.OpFontSize_b:= c.GetValue(str_FontSize_b, Op.OpFontSize_b);
+  Op.OpFontSize_bi:= c.GetValue(str_FontSize_bi, Op.OpFontSize_bi);
+
+  Op.OpFontQuality:= TFontQuality(c.GetValue(str_FontQuality, Ord(Op.OpFontQuality)));
+  Op.OpFontLigatures:= c.GetValue(str_FontLigatures, Op.OpFontLigatures);
+
+  OptCharSizeProportional:= c.GetValue('unicode_proportional', OptCharSizeProportional);
+  OptCharSizeWideAllowed:= c.GetValue('unicode_wide_allowed', OptCharSizeWideAllowed);
+  OptCharScaleFullWidth:= c.GetValue('unicode_full_width', OptCharScaleFullWidth);
+
+  Op.OpSpacingY:= c.GetValue('spacing_y', Op.OpSpacingY);
+
+  Op.OpTabSize:= c.GetValue('tab_size', Op.OpTabSize);
+  Op.OpTabSpaces:= c.GetValue('tab_spaces', Op.OpTabSpaces);
+  Op.OpTabMaxPosExpanded:= c.GetValue('tab_max_pos_expanded', Op.OpTabMaxPosExpanded);
+
+  Op.OpOverwriteSel:= c.GetValue('ovr_sel', Op.OpOverwriteSel);
+  Op.OpOverwriteOnPaste:= c.GetValue('ovr_on_paste', Op.OpOverwriteOnPaste);
+
+  Op.OpUnderlineColorFiles:= c.GetValue('underline_color_files', Op.OpUnderlineColorFiles);
+  Op.OpUnderlineColorSize:= c.GetValue('underline_color_size', Op.OpUnderlineColorSize);
+
+  Op.OpLinks:= c.GetValue('links_hilite', Op.OpLinks);
+  Op.OpLinksRegex:= c.GetValue('links_regex', Op.OpLinksRegex);
+
+  Op.OpGutterShow:= c.GetValue('gutter_show', Op.OpGutterShow);
+  Op.OpGutterFold:= c.GetValue('gutter_fold', Op.OpGutterFold);
+  Op.OpGutterFoldAlways:= c.GetValue('gutter_fold_always', Op.OpGutterFoldAlways);
+  Op.OpGutterFoldIcons:= c.GetValue('gutter_fold_icons', Op.OpGutterFoldIcons);
+  Op.OpGutterBookmarks:= c.GetValue('gutter_bookmarks', Op.OpGutterBookmarks);
+
+  Op.OpNumbersShow:= c.GetValue('numbers_show', Op.OpNumbersShow);
+  //Op.OpNumbersFontSize:= c.GetValue('numbers_font_size', Op.OpNumbersFontSize);
+  Op.OpNumbersStyle:= c.GetValue('numbers_style', Op.OpNumbersStyle);
+  Op.OpNumbersForCarets:= c.GetValue('numbers_for_carets', Op.OpNumbersForCarets);
+  Op.OpNumbersCenter:= c.GetValue('numbers_center', Op.OpNumbersCenter);
+
+  Op.OpRulerShow:= c.GetValue('ruler_show', Op.OpRulerShow);
+  Op.OpRulerNumeration:= c.GetValue('ruler_numeration', Op.OpRulerNumeration);
+  Op.OpRulerMarkCaret:= c.GetValue('ruler_mark_caret', Op.OpRulerMarkCaret);
+  //Op.OpRulerTextIndent:= c.GetValue('ruler_text_indent', Op.OpRulerTextIndent);
+
+  Op.OpMinimapShow:= c.GetValue('minimap_show', Op.OpMinimapShow);
+  Op.OpMinimapShowSelAlways:= c.GetValue('minimap_sel_always', Op.OpMinimapShowSelAlways);
+  Op.OpMinimapShowSelBorder:= c.GetValue('minimap_sel_border', Op.OpMinimapShowSelBorder);
+  Op.OpMinimapCharWidth:= c.GetValue('minimap_char_width', Op.OpMinimapCharWidth);
+  Op.OpMinimapAtLeft:= c.GetValue('minimap_at_left', Op.OpMinimapAtLeft);
+  Op.OpMinimapTooltipShow:= c.GetValue('minimap_tooltip_show', Op.OpMinimapTooltipShow);
+  Op.OpMinimapTooltipLineCount:= c.GetValue('minimap_tooltip_line_count', Op.OpMinimapTooltipLineCount);
+  Op.OpMinimapTooltipWidth:= c.GetValue('minimap_tooltip_width', Op.OpMinimapTooltipWidth);
+
+  Op.OpMicromapShow:= c.GetValue('micromap_show', Op.OpMicromapShow);
+
+  Op.OpMarginFixed:= c.GetValue('margin', Op.OpMarginFixed);
+  Op.OpMarginString:= c.GetValue('margin_string', Op.OpMarginString);
+  Op.OpStaplesStyle:= c.GetValue('staples_style', Op.OpStaplesStyle);
+  Op.OpStaplesProps:= c.GetValue('staples_props', Op.OpStaplesProps);
+
+  Op.OpUnprintedShow:= c.GetValue('unprinted_show', Op.OpUnprintedShow);
+  Op.OpUnprintedContent:= c.GetValue('unprinted_content', Op.OpUnprintedContent);
+
+  Op.OpUnprintedReplaceSpec:= c.GetValue('unprinted_replace_spec', Op.OpUnprintedReplaceSpec);
+  Op.OpUnprintedReplaceToCode:= c.GetValue('unprinted_replace_to_code', Op.OpUnprintedReplaceToCode);
+
+  Op.OpUnprintedTabArrowLen:= c.GetValue('unprinted_tab_len', Op.OpUnprintedTabArrowLen);
+  Op.OpUnprintedSpaceDotScale:= c.GetValue('unprinted_space_dot_scale', Op.OpUnprintedSpaceDotScale);
+  //Op.OpUnprintedEndDotScale:= c.GetValue('unprinted_end_dot_scale', Op.OpUnprintedEndDotScale);
+  Op.OpUnprintedEndFontScale:= c.GetValue('unprinted_end_font_scale', Op.OpUnprintedEndFontScale);
+  Op.OpUnprintedTabPointerScale:= c.GetValue('unprinted_tab_ptr_scale', Op.OpUnprintedTabPointerScale);
+
+  Op.OpWrapMode:= c.GetValue('wrap_mode', Op.OpWrapMode);
+  Op.OpWrapIndented:= c.GetValue('wrap_indented', Op.OpWrapIndented);
+  Op.OpWrapEnabledMaxLines:= c.GetValue('wrap_enabled_max_lines', Op.OpWrapEnabledMaxLines);
+
+  Op.OpUndoLimit:= c.GetValue('undo_limit', Op.OpUndoLimit);
+  Op.OpUndoGrouped:= c.GetValue('undo_grouped', Op.OpUndoGrouped);
+  Op.OpUndoAfterSave:= c.GetValue('undo_after_save', Op.OpUndoAfterSave);
+
+  Op.OpCaretBlinkTime:= c.GetValue('caret_blink_time', Op.OpCaretBlinkTime);
+  Op.OpCaretBlinkEn:= c.GetValue('caret_blink_en', Op.OpCaretBlinkEn);
+  Op.OpCaretViewNormal:= c.GetValue('caret_view', Op.OpCaretViewNormal);
+  Op.OpCaretViewOverwrite:= c.GetValue('caret_view_ovr', Op.OpCaretViewOverwrite);
+  Op.OpCaretViewReadonly:= c.GetValue('caret_view_ro', Op.OpCaretViewReadonly);
+  Op.OpCaretVirtual:= c.GetValue('caret_after_end', Op.OpCaretVirtual);
+  Op.OpCaretMulti:= c.GetValue('caret_multi', Op.OpCaretMulti);
+  Op.OpCaretAfterPasteColumn:= c.GetValue('caret_after_paste_column', Op.OpCaretAfterPasteColumn);
+  Op.OpCaretsAddedToColumnSel:= c.GetValue('carets_with_column_sel', Op.OpCaretsAddedToColumnSel);
+
+  Op.OpShowCurLine:= c.GetValue('show_cur_line', Op.OpShowCurLine);
+  Op.OpShowCurLineMinimal:= c.GetValue('show_cur_line_minimal', Op.OpShowCurLineMinimal);
+  Op.OpShowCurLineOnlyFocused:= c.GetValue('show_cur_line_only_focused', Op.OpShowCurLineOnlyFocused);
+  Op.OpShowCurCol:= c.GetValue('show_cur_column', Op.OpShowCurCol);
+  Op.OpShowLastLineOnTop:= c.GetValue('show_last_line_on_top', Op.OpShowLastLineOnTop);
+  Op.OpShowFullBackgroundSel:= c.GetValue('show_full_sel_bg', Op.OpShowFullBackgroundSel);
+  Op.OpShowFullBackgroundSyntax:= c.GetValue('show_full_syntax_bg', Op.OpShowFullBackgroundSyntax);
+  Op.OpShowMouseSelFrame:= c.GetValue('show_mouse_sel_frame', Op.OpShowMouseSelFrame);
+  Op.OpCopyLineIfNoSel:= c.GetValue('copy_line_if_no_sel', Op.OpCopyLineIfNoSel);
+  Op.OpCutLineIfNoSel:= c.GetValue('cut_line_if_no_sel', Op.OpCutLineIfNoSel);
+  Op.OpCopyColumnAlignedBySpaces:= c.GetValue('copy_column_aligned_by_spaces', Op.OpCopyColumnAlignedBySpaces);
+  Op.OpSavingTrimSpaces:= c.GetValue('saving_trim_spaces', Op.OpSavingTrimSpaces);
+  Op.OpSavingTrimFinalEmptyLines:= c.GetValue('saving_trim_final_empty', Op.OpSavingTrimFinalEmptyLines);
+  Op.OpSavingForceFinalEol:= c.GetValue('saving_force_final_eol', Op.OpSavingForceFinalEol);
+  Op.OpShowHintOnVertScroll:= c.GetValue('show_hint_on_vert_scroll', Op.OpShowHintOnVertScroll);
+  Op.OpSmoothScroll:= c.GetValue('smooth_scroll', Op.OpSmoothScroll);
+  Op.OpCenteringWidth:= c.GetValue('centering_width', Op.OpCenteringWidth);
+  Op.OpCenteringForDistractionFree:= c.GetValue('centering_for_distraction_free', Op.OpCenteringForDistractionFree);
+  Op.OpHideHorizScrollbar:= c.GetValue('hide_horiz_scrollbar', Op.OpHideHorizScrollbar);
+
+  Op.OpLexerDynamicHiliteEnabled:= c.GetValue('lexer_dynamic_hilite', Op.OpLexerDynamicHiliteEnabled);
+  Op.OpLexerDynamicHiliteMaxLines:= c.GetValue('lexer_dynamic_hilite_max_lines', Op.OpLexerDynamicHiliteMaxLines);
+  Op.OpLexerLineSeparators:= false; //c.GetValue('lexer_line_separators', Op.OpLexerLineSeparators);
+  Op.OpZebra:= c.GetValue('zebra', Op.OpZebra);
+
+  Op.OpWordChars:= c.GetValue('word_chars', Op.OpWordChars);
+  Op.OpHexChars:= c.GetValue('hex_chars', Op.OpHexChars);
+  Op.OpFoldStyle:= c.GetValue('fold_style', Op.OpFoldStyle);
+  Op.OpFoldTooltipShow:= c.GetValue('fold_tooltip_show', Op.OpFoldTooltipShow);
+
+  Op.OpIndentAuto:= c.GetValue('indent_auto', Op.OpIndentAuto);
+  Op.OpIndentAutoKind:= c.GetValue('indent_kind', Op.OpIndentAutoKind);
+  Op.OpIndentSize:= c.GetValue('indent_size', Op.OpIndentSize);
+  Op.OpIndentAutoRule:= c.GetValue('indent_auto_rule', Op.OpIndentAutoRule);
+  Op.OpUnIndentKeepsAlign:= c.GetValue('unindent_keeps_align', Op.OpUnIndentKeepsAlign);
+  Op.OpIndentMakesWholeLineSel:= c.GetValue('indent_makes_whole_line_sel', Op.OpIndentMakesWholeLineSel);
+
+  Op.OpMouse2ClickDragSelectsWords:= c.GetValue('mouse_2click_drag_select_words', Op.OpMouse2ClickDragSelectsWords);
+  Op.OpMouseDragDrop:= c.GetValue('mouse_drag_drop', Op.OpMouseDragDrop);
+  Op.OpMouseDragDropFocusTarget:= c.GetValue('mouse_drag_drop_focus_target', Op.OpMouseDragDropFocusTarget);
+  Op.OpMouseMiddleClickNiceScroll:= c.GetValue('mouse_mid_click_scroll', Op.OpMouseMiddleClickNiceScroll);
+  Op.OpMouseMiddleClickPaste:= c.GetValue('mouse_mid_click_paste', Op.OpMouseMiddleClickPaste);
+  Op.OpMouseRightClickMovesCaret:= c.GetValue('mouse_rt_click_moves_caret', Op.OpMouseRightClickMovesCaret);
+  Op.OpMouseEnableColumnSelection:= c.GetValue('mouse_column_selection', Op.OpMouseEnableColumnSelection);
+  Op.OpMouseHideCursorOnType:= c.GetValue('mouse_hide_cursor', Op.OpMouseHideCursorOnType);
+  Op.OpMouseGutterClickSelectedLine:= c.GetValue('mouse_gutter_click_sel', Op.OpMouseGutterClickSelectedLine);
+  Op.OpMouseWheelZoom:= c.GetValue('mouse_wheel_zoom', Op.OpMouseWheelZoom);
+  Op.OpMouseWheelSpeedVert:= c.GetValue('mouse_wheel_speed_vert', Op.OpMouseWheelSpeedVert);
+  Op.OpMouseWheelSpeedHorz:= c.GetValue('mouse_wheel_speed_horz', Op.OpMouseWheelSpeedHorz);
+  Op.OpMouseClickNumberSelectsEol:= c.GetValue('mouse_click_number_selects_eol', Op.OpMouseClickNumberSelectsEol);
+
+  Op.OpKeyBackspaceUnindent:= c.GetValue('key_bksp_unindent', Op.OpKeyBackspaceUnindent);
+  Op.OpKeyTabIndents:= c.GetValue('key_tab_indents_sel', Op.OpKeyTabIndents);
+  Op.OpKeyHomeToNonSpace:= c.GetValue('key_home_to_nonspace', Op.OpKeyHomeToNonSpace);
+  Op.OpKeyHomeEndNavigateWrapped:= c.GetValue('key_home_end_nav_wrapped', Op.OpKeyHomeEndNavigateWrapped);
+  Op.OpKeyEndToNonSpace:= c.GetValue('key_end_to_nonspace', Op.OpKeyEndToNonSpace);
+  Op.OpKeyPageKeepsRelativePos:= c.GetValue('key_page_keeps_rel_pos', Op.OpKeyPageKeepsRelativePos);
+  Op.OpKeyPageUpDownSize:= c.GetValue('key_page_size', Op.OpKeyPageUpDownSize);
+  Op.OpKeyUpDownKeepColumn:= c.GetValue('key_up_down_keeps_column', Op.OpKeyUpDownKeepColumn);
+  Op.OpKeyUpDownNavigateWrapped:= c.GetValue('key_up_down_nav_wrapped', Op.OpKeyUpDownNavigateWrapped);
+  Op.OpKeyLeftRightSwapSel:= c.GetValue('key_left_right_swap_sel', Op.OpKeyLeftRightSwapSel);
+  Op.OpKeyLeftRightSwapSelAndSelect:= c.GetValue('key_left_right_swap_sel_and_select', Op.OpKeyLeftRightSwapSelAndSelect);
+end;
+
+
+procedure TfmMain.DoOps_LoadOptions_Ui(c: TJSONConfig);
+begin
+  UiOps.VarFontName:= UTF8Encode(c.GetValue(str_UiFontName, UTF8Decode(UiOps.VarFontName)));
+  UiOps.VarFontSize:= c.GetValue(str_UiFontSize, UiOps.VarFontSize);
+  UiOps.OutputFontName:= UTF8Encode(c.GetValue(str_UiFontOutputName, UTF8Decode(UiOps.OutputFontName)));
+  UiOps.OutputFontSize:= c.GetValue(str_UiFontOutputSize, UiOps.OutputFontSize);
+
+  UiOps.DoubleBuffered:= c.GetValue(str_UiDoubleBuffered, UiOps.DoubleBuffered);
+
+  UiOps.StatusNoSel:= c.GetValue('ui_statusbar_no_sel', UiOps.StatusNoSel);
+  UiOps.StatusSmallSel:= c.GetValue('ui_statusbar_small_sel', UiOps.StatusSmallSel);
+  UiOps.StatusStreamSel:= c.GetValue('ui_statusbar_str_sel', UiOps.StatusStreamSel);
+  UiOps.StatusColSel:= c.GetValue('ui_statusbar_col_sel', UiOps.StatusColSel);
+  UiOps.StatusCarets:= c.GetValue('ui_statusbar_carets', UiOps.StatusCarets);
+  UiOps.StatusPanels:= c.GetValue('ui_statusbar_panels', UiOps.StatusPanels);
+  //UiOps.StatusHeight:= c.GetValue('ui_statusbar_height', UiOps.StatusHeight); //assigned from "ui_tab_size_y"
+  UiOps.StatusTime:= Max(1, Min(60, c.GetValue('ui_statusbar_time', UiOps.StatusTime)));
+
+  UiOps.ShowActiveBorder:= c.GetValue('ui_active_border', UiOps.ShowActiveBorder);
+  UiOps.ShowTitlePath:= c.GetValue('ui_title_path', UiOps.ShowTitlePath);
+
+  UiOps.Scale:= c.GetValue('ui_scale'+cOptionSystemSuffix, 0);
+  UiOps.ScaleFont:= c.GetValue('ui_scale_font'+cOptionSystemSuffix, 100);
+  if UiOps.Scale=0 then
+   UiOps.Scale:= 100*Screen.PixelsPerInch div 96;
+
+  UiOps.ReopenSession:= c.GetValue('ui_reopen_session', UiOps.ReopenSession);
+  UiOps.AutoSaveSession:= c.GetValue('ui_auto_save_session', UiOps.AutoSaveSession);
+  //UiOps.FloatGroupsInTaskbar:= c.GetValue('ui_float_groups_in_taskbar', UiOps.FloatGroupsInTaskbar);
+  UiOps.OneInstance:= c.GetValue('ui_one_instance', UiOps.OneInstance);
+  UiOps.UndoPersistent:= c.GetValue('undo_persistent', UiOps.UndoPersistent);
+
+  UiOps.NotifEnabled:= c.GetValue('ui_notif', UiOps.NotifEnabled);
+  UiOps.NotifTimeSec:= Max(1, c.GetValue('ui_notif_time', UiOps.NotifTimeSec));
+
+  UiOps.NonTextFiles:= c.GetValue('ui_non_text', UiOps.NonTextFiles);
+  UiOps.NonTextFilesBufferKb:= Max(1, Min(1024, c.GetValue('ui_non_text_buffer', UiOps.NonTextFilesBufferKb)));
+  UiOps.ReloadFollowTail:= c.GetValue('ui_reload_tail', UiOps.ReloadFollowTail);
+  UiOps.ReloadUnsavedConfirm:= c.GetValue('ui_reload_unsaved_confirm', UiOps.ReloadUnsavedConfirm);
+  UiOps.FullScreen:= c.GetValue('ui_fullscreen', UiOps.FullScreen);
+
+  UiOps.MouseGotoDefinition:= c.GetValue('mouse_goto_definition', UiOps.MouseGotoDefinition);
+  //UiOps.LogDebug:= c.GetValue('log_debug', UiOps.LogDebug);
+  UiOps.LogConsole:= c.GetValue('log_console', UiOps.LogConsole);
+
+  UiOps.HotkeyFindDialog:= c.GetValue('find_hotkey_find_dlg', UiOps.HotkeyFindDialog);
+  UiOps.HotkeyReplaceDialog:= c.GetValue('find_hotkey_replace_dlg', UiOps.HotkeyReplaceDialog);
+  UiOps.HotkeyFindFirst:= c.GetValue('find_hotkey_find_first', UiOps.HotkeyFindFirst);
+  UiOps.HotkeyFindNext:= c.GetValue('find_hotkey_find_next', UiOps.HotkeyFindNext);
+  UiOps.HotkeyFindPrev:= c.GetValue('find_hotkey_find_prev', UiOps.HotkeyFindPrev);
+  UiOps.HotkeyReplaceAndFindNext:= c.GetValue('find_hotkey_replace', UiOps.HotkeyReplaceAndFindNext);
+  UiOps.HotkeyReplaceNoFindNext:= c.GetValue('find_hotkey_replace_no_next', UiOps.HotkeyReplaceNoFindNext);
+  UiOps.HotkeyReplaceAll:= c.GetValue('find_hotkey_replace_all', UiOps.HotkeyReplaceAll);
+  UiOps.HotkeyCountAll:= c.GetValue('find_hotkey_count_all', UiOps.HotkeyCountAll);
+  UiOps.HotkeyExtractAll:= c.GetValue('find_hotkey_extract', UiOps.HotkeyExtractAll);
+  UiOps.HotkeySelectAll:= c.GetValue('find_hotkey_select_all', UiOps.HotkeySelectAll);
+  UiOps.HotkeyMarkAll:= c.GetValue('find_hotkey_mark_all', UiOps.HotkeyMarkAll);
+  UiOps.HotkeyToggleRegex:= c.GetValue('find_hotkey_op_regex', UiOps.HotkeyToggleRegex);
+  UiOps.HotkeyToggleCaseSens:= c.GetValue('find_hotkey_op_case', UiOps.HotkeyToggleCaseSens);
+  UiOps.HotkeyToggleWords:= c.GetValue('find_hotkey_op_words', UiOps.HotkeyToggleWords);
+  UiOps.HotkeyToggleWrapped:= c.GetValue('find_hotkey_op_wrapped', UiOps.HotkeyToggleWrapped);
+  UiOps.HotkeyToggleInSelect:= c.GetValue('find_hotkey_op_in_sel', UiOps.HotkeyToggleInSelect);
+  UiOps.HotkeyToggleMultiline:= c.GetValue('find_hotkey_op_multiline', UiOps.HotkeyToggleMultiline);
+  UiOps.HotkeyToggleConfirmRep:= c.GetValue('find_hotkey_op_confirm_rep', UiOps.HotkeyToggleConfirmRep);
+
+  UiOps.LexerThemes:= c.GetValue('ui_lexer_themes', UiOps.LexerThemes);
+  UiOps.LexerMenuGrouped:= c.GetValue('ui_lexers_grouped', UiOps.LexerMenuGrouped);
+  UiOps.LexerDelayedParsingPause:= c.GetValue('lexer_delayed_parsing_pause', UiOps.LexerDelayedParsingPause);
+  UiOps.LexerDelayedParsingSize:= c.GetValue('lexer_delayed_parsing_size', UiOps.LexerDelayedParsingSize);
+  UiOps.LexerPostponeUntilShown:= c.GetValue('lexer_postpone_until_shown', UiOps.LexerPostponeUntilShown);
+  if not UiOps.LexerPostponeUntilShown then
+   AllowFrameParsing:= true;
+
+  UiOps.ShowMenubar:= c.GetValue('ui_menu_show', UiOps.ShowMenubar);
+  UiOps.ShowStatusbar:= c.GetValue('ui_statusbar_show', UiOps.ShowStatusbar);
+  UiOps.ShowToolbar:= c.GetValue('ui_toolbar_show', UiOps.ShowToolbar);
+
+  UiOps.SidebarShow:= c.GetValue('ui_sidebar_show', UiOps.SidebarShow);
+  UiOps.SidebarOnRight:= c.GetValue('ui_sidebar_on_right', UiOps.SidebarOnRight);
+  UiOps.SidebarTheme:= c.GetValue('ui_sidebar_theme', UiOps.SidebarTheme);
+  UiOps.TreeTheme:= c.GetValue('ui_tree_theme', UiOps.TreeTheme);
+  UiOps.ToolBarTheme:= c.GetValue('ui_toolbar_theme', UiOps.ToolBarTheme);
+
+  UiOps.PyLibrary:= c.GetValue('pylib'+cOptionSystemSuffix, UiOps.PyLibrary);
+  UiOps.PictureTypes:= c.GetValue('picture_types', UiOps.PictureTypes);
+  UiOps.MaxFileSizeToOpen:= c.GetValue('ui_max_size_open', UiOps.MaxFileSizeToOpen);
+  UiOps.MaxFileSizeForLexer:= c.GetValue('ui_max_size_lexer', UiOps.MaxFileSizeForLexer);
+  UiOps.MaxLinesForTree:= c.GetValue('ui_max_lines_codetree', UiOps.MaxLinesForTree);
+
+  UiOps.AutocompleteHtml:= c.GetValue('autocomplete_html', UiOps.AutocompleteHtml);
+  UiOps.AutocompleteCss:= c.GetValue('autocomplete_css', UiOps.AutocompleteCss);
+
+  UiOps.AutocompleteHtml_Lexers:= c.GetValue('autocomplete_html_lexers', UiOps.AutocompleteHtml_Lexers);
+  UiOps.AutocompleteCss_Lexers:= c.GetValue('autocomplete_css_lexers', UiOps.AutocompleteCss_Lexers);
+
+  UiOps.AutocompleteAutoshowCharCount:= c.GetValue('autocomplete_autoshow_chars', UiOps.AutocompleteAutoshowCharCount);
+  //UiOps.AutocompleteAutoshowLexers:= c.GetValue('autocomplete_autoshow_lexers', UiOps.AutocompleteAutoshowLexers);
+  UiOps.AutocompleteTriggerChars:= c.GetValue('autocomplete_trigger_chars', UiOps.AutocompleteTriggerChars);
+  UiOps.AutocompleteCommitChars:= c.GetValue('autocomplete_commit_chars', UiOps.AutocompleteCommitChars);
+  UiOps.AutocompleteCloseChars:= c.GetValue('autocomplete_close_chars', UiOps.AutocompleteCloseChars);
+  UiOps.AutocompleteAddOpeningBracket:= c.GetValue('autocomplete_add_opening_bracket', UiOps.AutocompleteAddOpeningBracket);
+  UiOps.AutocompleteUpDownAtEdge:= c.GetValue('autocomplete_up_down_at_edge', UiOps.AutocompleteUpDownAtEdge);
+  UiOps.AutoCloseBrackets:= c.GetValue('auto_close_brackets', UiOps.AutoCloseBrackets);
+
+  UiOps.FindSuggestSel:= c.GetValue('find_suggest_sel', UiOps.FindSuggestSel);
+  UiOps.FindSuggestWord:= c.GetValue('find_suggest_cur_word', UiOps.FindSuggestWord);
+  UiOps.FindSuggestInSelection:= c.GetValue('find_suggest_in_selection', UiOps.FindSuggestInSelection);
+  UiOps.FindSelCase:= c.GetValue('find_sel_case', UiOps.FindSelCase);
+  UiOps.FindShow_FindFirst:= c.GetValue('find_show_findfirst', UiOps.FindShow_FindFirst);
+  UiOps.FindShow_MarkALl:= c.GetValue('find_show_mark_all', UiOps.FindShow_MarkALl);
+  UiOps.FindShow_SelectAll:= c.GetValue('find_show_select_all', UiOps.FindShow_SelectAll);
+  UiOps.FindShow_Extract:= c.GetValue('find_show_extract', UiOps.FindShow_Extract);
+  UiOps.FindIndentVert:= c.GetValue('find_indent_vert', UiOps.FindIndentVert);
+  UiOps.FindIndentHorz:= c.GetValue('find_indent_horz', UiOps.FindIndentHorz);
+  UiOps.FindMultiLineScale:= c.GetValue('find_multiline_scale', UiOps.FindMultiLineScale);
+  UiOps.FindSeparateForm:= c.GetValue('find_separate_form', UiOps.FindSeparateForm);
+
+  UiOps.TabsDisabled:= c.GetValue('ui_tab_disabled', UiOps.TabsDisabled);
+  UiOps.TabVarWidth:= c.GetValue('ui_tab_variable_width', UiOps.TabVarWidth);
+  UiOps.TabMultiline:= c.GetValue('ui_tab_multiline', UiOps.TabMultiline);
+  UiOps.TabAngled:= c.GetValue('ui_tab_angled', UiOps.TabAngled);
+  UiOps.TabFlat:= c.GetValue('ui_tab_flat', UiOps.TabFlat);
+  UiOps.TabWidth:= c.GetValue('ui_tab_size_x', UiOps.TabWidth);
+  UiOps.TabWidthMin:= c.GetValue('ui_tab_size_x_min', UiOps.TabWidthMin);
+  UiOps.TabWidthMax:= c.GetValue('ui_tab_size_x_max', UiOps.TabWidthMax);
+  UiOps.TabHeight:= c.GetValue('ui_tab_size_y', UiOps.TabHeight);
+   UiOps.StatusHeight:= UiOps.TabHeight;
+  UiOps.TabHeightInner:= UiOps.TabHeight-1;
+  UiOps.TabPosition:= c.GetValue('ui_tab_position', UiOps.TabPosition);
+  UiOps.TabColorFull:= c.GetValue('ui_tab_fullcolor', UiOps.TabColorFull);
+  UiOps.TabShowX:= c.GetValue('ui_tab_show_x', UiOps.TabShowX);
+  UiOps.TabShowXSize:= c.GetValue('ui_tab_show_x_size', UiOps.TabShowXSize);
+  UiOps.TabShowPlus:= c.GetValue('ui_tab_show_plus', UiOps.TabShowPlus);
+  UiOps.TabDblClickClose:= c.GetValue('ui_tab_2click_closes', UiOps.TabDblClickClose);
+  UiOps.TabNumbers:= c.GetValue('ui_tab_numbers', UiOps.TabNumbers);
+  UiOps.TabNewNearCurrent:= c.GetValue('ui_tab_new_near_current', UiOps.TabNewNearCurrent);
+  UiOps.TabRecentOnClose:= c.GetValue('ui_tab_recent_on_close', UiOps.TabRecentOnClose);
+  UiOps.TabButtonLayout:= c.GetValue('ui_tab_button_layout', UiOps.TabButtonLayout);
+  UiOps.TabPreviewFontStyle:= c.GetValue('ui_tab_preview_font_style', UiOps.TabPreviewFontStyle);
+
+  UiOps.ListboxCentered:= c.GetValue('ui_listbox_centered', UiOps.ListboxCentered);
+  UiOps.ListboxSizeX:= c.GetValue('ui_listbox_size_x', UiOps.ListboxSizeX);
+  UiOps.ListboxSizeY:= c.GetValue('ui_listbox_size_y', UiOps.ListboxSizeY);
+  UiOps.ListboxCompleteSizeX:= c.GetValue('ui_listbox_complete_size_x', UiOps.ListboxCompleteSizeX);
+  UiOps.ListboxCompleteSizeY:= c.GetValue('ui_listbox_complete_size_y', UiOps.ListboxCompleteSizeY);
+  UiOps.ListboxFuzzySearch:= c.GetValue('ui_listbox_fuzzy', UiOps.ListboxFuzzySearch);
+
+  UiOps.MaxHistoryEdits:= Max(0, Min(200, c.GetValue('ui_max_history_edits', UiOps.MaxHistoryEdits)));
+  UiOps.MaxHistoryMenu:= Max(0, Min(50, c.GetValue('ui_max_history_menu', UiOps.MaxHistoryMenu)));
+  UiOps.MaxHistoryFiles:= Max(0, Min(400, c.GetValue('ui_max_history_files', UiOps.MaxHistoryFiles)));
+
+  UiOps.EscapeClose:= c.GetValue('ui_esc_close', UiOps.EscapeClose);
+  UiOps.EscapeCloseConsole:= c.GetValue('ui_esc_close_console', UiOps.EscapeCloseConsole);
+  UiOps.ConsoleWordWrap:= c.GetValue('ui_console_wrap', UiOps.ConsoleWordWrap);
+  UiOps.ConsoleCompact:= c.GetValue('ui_console_compact', UiOps.ConsoleCompact);
+  UiOps.InitialDir:= c.GetValue('ui_initial_dir', UiOps.InitialDir);
+
+  UiOps.ExportHtmlNumbers:= c.GetValue('export_html_numbers', UiOps.ExportHtmlNumbers);
+  UiOps.ExportHtmlFontName:= UTF8Encode(c.GetValue('export_html_font_name', UTF8Decode(UiOps.ExportHtmlFontName)));
+  UiOps.ExportHtmlFontSize:= c.GetValue('export_html_font_size', UiOps.ExportHtmlFontSize);
+
+  UiOps.TreeAutoSync:= c.GetValue('ui_tree_auto_sync', UiOps.TreeAutoSync);
+  UiOps.TreeTimeFill:= c.GetValue('ui_tree_time_fill', UiOps.TreeTimeFill);
+  UiOps.TreeTimeCaret:= c.GetValue('ui_tree_time_focus', UiOps.TreeTimeCaret);
+  //UiOps.TreeShowLines:= c.GetValue('ui_tree_show_lines', UiOps.TreeShowLines);
+  UiOps.TreeShowIcons:= c.GetValue('ui_tree_icons', UiOps.TreeShowIcons);
+  UiOps.TreeShowTooltips:= c.GetValue('ui_tree_show_tooltips', UiOps.TreeShowTooltips);
+  //UiOps.TreeCache:= c.GetValue('ui_tree_cache', UiOps.TreeCache);
+  UiOps.TreeFilterLayout:= c.GetValue('ui_tree_filter_layout', UiOps.TreeFilterLayout);
+
+  UiOps.PyChangeSlow:= c.GetValue('py_change_slow', UiOps.PyChangeSlow);
+  UiOps.PyInitLog:= c.GetValue('py_init_log', UiOps.PyInitLog);
+
+  UiOps.NewdocLexer:= c.GetValue('newdoc_lexer', UiOps.NewdocLexer);
+  UiOps.NewdocEnc:= c.GetValue('newdoc_encoding', UiOps.NewdocEnc);
+  UiOps.NewdocEnds:= c.GetValue('newdoc_ends', UiOps.NewdocEnds);
+
+  UiOps.DefaultEncUtf8:= c.GetValue(str_DefEncodingIsUtf8, UiOps.DefaultEncUtf8);
+  UiOps.ViewerBinaryWidth:= c.GetValue('viewer_binary_width', UiOps.ViewerBinaryWidth);
+end;
+
+
+procedure TfmMain.DoOps_LoadOptions(const fn: string; var Op: TEditorOps;
+  AllowUiOps: boolean=true; AllowGlobalOps: boolean=true);
+var
   c: TJsonConfig;
   s: string;
 begin
@@ -657,371 +1024,19 @@ begin
       end;
     end;
 
-   if AllowStartupOps then
-   begin
-    List:= TStringList.Create;
+    if AllowGlobalOps then
+      DoOps_LoadOptions_Global(c);
 
-    c.EnumValues('/plugin_groups', List);
-    for s in List do
-      AppConfig_PGroups.Add(s, c.GetValue('/plugin_groups/'+s, ''));
+    if AllowUiOps then
+      DoOps_LoadOptions_Ui(c);
 
-    c.EnumValues('/detect', List);
-    for s in List do
-      AppConfig_Detect.Add(s, c.GetValue('/detect/'+s, ''));
-
-    c.EnumValues('/detect_line', List);
-    for s in List do
-      AppConfig_DetectLine.Add(s, c.GetValue('/detect_line/'+s, ''));
-
-    FreeAndNil(List);
-   end;
-
-    Op.OpFontName:= FixFontMonospaced(UTF8Encode(c.GetValue(str_FontName, UTF8Decode(Op.OpFontName))));
-    Op.OpFontName_i:= FixFontMonospaced(UTF8Encode(c.GetValue(str_FontName_i, UTF8Decode(Op.OpFontName_i))));
-    Op.OpFontName_b:= FixFontMonospaced(UTF8Encode(c.GetValue(str_FontName_b, UTF8Decode(Op.OpFontName_b))));
-    Op.OpFontName_bi:= FixFontMonospaced(UTF8Encode(c.GetValue(str_FontName_bi, UTF8Decode(Op.OpFontName_bi))));
-
-    Op.OpFontSize:= c.GetValue(str_FontSize, Op.OpFontSize);
-    Op.OpFontSize_i:= c.GetValue(str_FontSize_i, Op.OpFontSize_i);
-    Op.OpFontSize_b:= c.GetValue(str_FontSize_b, Op.OpFontSize_b);
-    Op.OpFontSize_bi:= c.GetValue(str_FontSize_bi, Op.OpFontSize_bi);
-
-    Op.OpFontQuality:= TFontQuality(c.GetValue(str_FontQuality, Ord(Op.OpFontQuality)));
-    Op.OpFontLigatures:= c.GetValue(str_FontLigatures, Op.OpFontLigatures);
-
-    OptCharSizeProportional:= c.GetValue('unicode_proportional', OptCharSizeProportional);
-    OptCharSizeWideAllowed:= c.GetValue('unicode_wide_allowed', OptCharSizeWideAllowed);
-    OptCharScaleFullWidth:= c.GetValue('unicode_full_width', OptCharScaleFullWidth);
-
-   if AllowUiOps then
-   begin
-    UiOps.VarFontName:= UTF8Encode(c.GetValue(str_UiFontName, UTF8Decode(UiOps.VarFontName)));
-    UiOps.VarFontSize:= c.GetValue(str_UiFontSize, UiOps.VarFontSize);
-    UiOps.OutputFontName:= UTF8Encode(c.GetValue(str_UiFontOutputName, UTF8Decode(UiOps.OutputFontName)));
-    UiOps.OutputFontSize:= c.GetValue(str_UiFontOutputSize, UiOps.OutputFontSize);
-
-    UiOps.DoubleBuffered:= c.GetValue(str_UiDoubleBuffered, UiOps.DoubleBuffered);
-
-    UiOps.StatusNoSel:= c.GetValue('ui_statusbar_no_sel', UiOps.StatusNoSel);
-    UiOps.StatusSmallSel:= c.GetValue('ui_statusbar_small_sel', UiOps.StatusSmallSel);
-    UiOps.StatusStreamSel:= c.GetValue('ui_statusbar_str_sel', UiOps.StatusStreamSel);
-    UiOps.StatusColSel:= c.GetValue('ui_statusbar_col_sel', UiOps.StatusColSel);
-    UiOps.StatusCarets:= c.GetValue('ui_statusbar_carets', UiOps.StatusCarets);
-    UiOps.StatusPanels:= c.GetValue('ui_statusbar_panels', UiOps.StatusPanels);
-    //UiOps.StatusHeight:= c.GetValue('ui_statusbar_height', UiOps.StatusHeight); //assigned from "ui_tab_size_y"
-    UiOps.StatusTime:= Max(1, Min(60, c.GetValue('ui_statusbar_time', UiOps.StatusTime)));
-
-    UiOps.ShowActiveBorder:= c.GetValue('ui_active_border', UiOps.ShowActiveBorder);
-    UiOps.ShowTitlePath:= c.GetValue('ui_title_path', UiOps.ShowTitlePath);
-
-    UiOps.Scale:= c.GetValue('ui_scale'+cOptionSystemSuffix, 0);
-    UiOps.ScaleFont:= c.GetValue('ui_scale_font'+cOptionSystemSuffix, 100);
-    if UiOps.Scale=0 then
-      UiOps.Scale:= 100*Screen.PixelsPerInch div 96;
-
-    UiOps.ReopenSession:= c.GetValue('ui_reopen_session', UiOps.ReopenSession);
-    UiOps.AutoSaveSession:= c.GetValue('ui_auto_save_session', UiOps.AutoSaveSession);
-    //UiOps.FloatGroupsInTaskbar:= c.GetValue('ui_float_groups_in_taskbar', UiOps.FloatGroupsInTaskbar);
-    UiOps.OneInstance:= c.GetValue('ui_one_instance', UiOps.OneInstance);
-    UiOps.UndoPersistent:= c.GetValue('undo_persistent', UiOps.UndoPersistent);
-
-    UiOps.NotifEnabled:= c.GetValue('ui_notif', UiOps.NotifEnabled);
-    UiOps.NotifTimeSec:= Max(1, c.GetValue('ui_notif_time', UiOps.NotifTimeSec));
-
-    UiOps.NonTextFiles:= c.GetValue('ui_non_text', UiOps.NonTextFiles);
-    UiOps.NonTextFilesBufferKb:= Max(1, Min(1024, c.GetValue('ui_non_text_buffer', UiOps.NonTextFilesBufferKb)));
-    UiOps.ReloadFollowTail:= c.GetValue('ui_reload_tail', UiOps.ReloadFollowTail);
-    UiOps.ReloadUnsavedConfirm:= c.GetValue('ui_reload_unsaved_confirm', UiOps.ReloadUnsavedConfirm);
-    UiOps.FullScreen:= c.GetValue('ui_fullscreen', UiOps.FullScreen);
-
-    UiOps.MouseGotoDefinition:= c.GetValue('mouse_goto_definition', UiOps.MouseGotoDefinition);
-    //UiOps.LogDebug:= c.GetValue('log_debug', UiOps.LogDebug);
-    UiOps.LogConsole:= c.GetValue('log_console', UiOps.LogConsole);
-
-    UiOps.HotkeyFindDialog:= c.GetValue('find_hotkey_find_dlg', UiOps.HotkeyFindDialog);
-    UiOps.HotkeyReplaceDialog:= c.GetValue('find_hotkey_replace_dlg', UiOps.HotkeyReplaceDialog);
-    UiOps.HotkeyFindFirst:= c.GetValue('find_hotkey_find_first', UiOps.HotkeyFindFirst);
-    UiOps.HotkeyFindNext:= c.GetValue('find_hotkey_find_next', UiOps.HotkeyFindNext);
-    UiOps.HotkeyFindPrev:= c.GetValue('find_hotkey_find_prev', UiOps.HotkeyFindPrev);
-    UiOps.HotkeyReplaceAndFindNext:= c.GetValue('find_hotkey_replace', UiOps.HotkeyReplaceAndFindNext);
-    UiOps.HotkeyReplaceNoFindNext:= c.GetValue('find_hotkey_replace_no_next', UiOps.HotkeyReplaceNoFindNext);
-    UiOps.HotkeyReplaceAll:= c.GetValue('find_hotkey_replace_all', UiOps.HotkeyReplaceAll);
-    UiOps.HotkeyCountAll:= c.GetValue('find_hotkey_count_all', UiOps.HotkeyCountAll);
-    UiOps.HotkeyExtractAll:= c.GetValue('find_hotkey_extract', UiOps.HotkeyExtractAll);
-    UiOps.HotkeySelectAll:= c.GetValue('find_hotkey_select_all', UiOps.HotkeySelectAll);
-    UiOps.HotkeyMarkAll:= c.GetValue('find_hotkey_mark_all', UiOps.HotkeyMarkAll);
-    UiOps.HotkeyToggleRegex:= c.GetValue('find_hotkey_op_regex', UiOps.HotkeyToggleRegex);
-    UiOps.HotkeyToggleCaseSens:= c.GetValue('find_hotkey_op_case', UiOps.HotkeyToggleCaseSens);
-    UiOps.HotkeyToggleWords:= c.GetValue('find_hotkey_op_words', UiOps.HotkeyToggleWords);
-    UiOps.HotkeyToggleWrapped:= c.GetValue('find_hotkey_op_wrapped', UiOps.HotkeyToggleWrapped);
-    UiOps.HotkeyToggleInSelect:= c.GetValue('find_hotkey_op_in_sel', UiOps.HotkeyToggleInSelect);
-    UiOps.HotkeyToggleMultiline:= c.GetValue('find_hotkey_op_multiline', UiOps.HotkeyToggleMultiline);
-    UiOps.HotkeyToggleConfirmRep:= c.GetValue('find_hotkey_op_confirm_rep', UiOps.HotkeyToggleConfirmRep);
-   end;
-
-    Op.OpSpacingY:= c.GetValue('spacing_y', Op.OpSpacingY);
-
-    Op.OpTabSize:= c.GetValue('tab_size', Op.OpTabSize);
-    Op.OpTabSpaces:= c.GetValue('tab_spaces', Op.OpTabSpaces);
-    Op.OpTabMaxPosExpanded:= c.GetValue('tab_max_pos_expanded', Op.OpTabMaxPosExpanded);
-
-    Op.OpOverwriteSel:= c.GetValue('ovr_sel', Op.OpOverwriteSel);
-    Op.OpOverwriteOnPaste:= c.GetValue('ovr_on_paste', Op.OpOverwriteOnPaste);
-
-    Op.OpUnderlineColorFiles:= c.GetValue('underline_color_files', Op.OpUnderlineColorFiles);
-    Op.OpUnderlineColorSize:= c.GetValue('underline_color_size', Op.OpUnderlineColorSize);
-
-    Op.OpLinks:= c.GetValue('links_hilite', Op.OpLinks);
-    Op.OpLinksRegex:= c.GetValue('links_regex', Op.OpLinksRegex);
-
-    Op.OpGutterShow:= c.GetValue('gutter_show', Op.OpGutterShow);
-    Op.OpGutterFold:= c.GetValue('gutter_fold', Op.OpGutterFold);
-    Op.OpGutterFoldAlways:= c.GetValue('gutter_fold_always', Op.OpGutterFoldAlways);
-    Op.OpGutterFoldIcons:= c.GetValue('gutter_fold_icons', Op.OpGutterFoldIcons);
-    Op.OpGutterBookmarks:= c.GetValue('gutter_bookmarks', Op.OpGutterBookmarks);
-
-    Op.OpNumbersShow:= c.GetValue('numbers_show', Op.OpNumbersShow);
-    //Op.OpNumbersFontSize:= c.GetValue('numbers_font_size', Op.OpNumbersFontSize);
-    Op.OpNumbersStyle:= c.GetValue('numbers_style', Op.OpNumbersStyle);
-    Op.OpNumbersForCarets:= c.GetValue('numbers_for_carets', Op.OpNumbersForCarets);
-    Op.OpNumbersCenter:= c.GetValue('numbers_center', Op.OpNumbersCenter);
-
-    Op.OpRulerShow:= c.GetValue('ruler_show', Op.OpRulerShow);
-    Op.OpRulerNumeration:= c.GetValue('ruler_numeration', Op.OpRulerNumeration);
-    Op.OpRulerMarkCaret:= c.GetValue('ruler_mark_caret', Op.OpRulerMarkCaret);
-    //Op.OpRulerTextIndent:= c.GetValue('ruler_text_indent', Op.OpRulerTextIndent);
-
-    Op.OpMinimapShow:= c.GetValue('minimap_show', Op.OpMinimapShow);
-    Op.OpMinimapShowSelAlways:= c.GetValue('minimap_sel_always', Op.OpMinimapShowSelAlways);
-    Op.OpMinimapShowSelBorder:= c.GetValue('minimap_sel_border', Op.OpMinimapShowSelBorder);
-    Op.OpMinimapCharWidth:= c.GetValue('minimap_char_width', Op.OpMinimapCharWidth);
-    Op.OpMinimapAtLeft:= c.GetValue('minimap_at_left', Op.OpMinimapAtLeft);
-    Op.OpMinimapTooltipShow:= c.GetValue('minimap_tooltip_show', Op.OpMinimapTooltipShow);
-    Op.OpMinimapTooltipLineCount:= c.GetValue('minimap_tooltip_line_count', Op.OpMinimapTooltipLineCount);
-    Op.OpMinimapTooltipWidth:= c.GetValue('minimap_tooltip_width', Op.OpMinimapTooltipWidth);
-
-    Op.OpMicromapShow:= c.GetValue('micromap_show', Op.OpMicromapShow);
-
-    Op.OpMarginFixed:= c.GetValue('margin', Op.OpMarginFixed);
-    Op.OpMarginString:= c.GetValue('margin_string', Op.OpMarginString);
-    Op.OpStaplesStyle:= c.GetValue('staples_style', Op.OpStaplesStyle);
-    Op.OpStaplesProps:= c.GetValue('staples_props', Op.OpStaplesProps);
-
-    Op.OpUnprintedShow:= c.GetValue('unprinted_show', Op.OpUnprintedShow);
-    Op.OpUnprintedContent:= c.GetValue('unprinted_content', Op.OpUnprintedContent);
-
-    Op.OpUnprintedReplaceSpec:= c.GetValue('unprinted_replace_spec', Op.OpUnprintedReplaceSpec);
-    Op.OpUnprintedReplaceToCode:= c.GetValue('unprinted_replace_to_code', Op.OpUnprintedReplaceToCode);
-
-    Op.OpUnprintedTabArrowLen:= c.GetValue('unprinted_tab_len', Op.OpUnprintedTabArrowLen);
-    Op.OpUnprintedSpaceDotScale:= c.GetValue('unprinted_space_dot_scale', Op.OpUnprintedSpaceDotScale);
-    //Op.OpUnprintedEndDotScale:= c.GetValue('unprinted_end_dot_scale', Op.OpUnprintedEndDotScale);
-    Op.OpUnprintedEndFontScale:= c.GetValue('unprinted_end_font_scale', Op.OpUnprintedEndFontScale);
-    Op.OpUnprintedTabPointerScale:= c.GetValue('unprinted_tab_ptr_scale', Op.OpUnprintedTabPointerScale);
-
-    Op.OpWrapMode:= c.GetValue('wrap_mode', Op.OpWrapMode);
-    Op.OpWrapIndented:= c.GetValue('wrap_indented', Op.OpWrapIndented);
-    Op.OpWrapEnabledMaxLines:= c.GetValue('wrap_enabled_max_lines', Op.OpWrapEnabledMaxLines);
-
-    Op.OpUndoLimit:= c.GetValue('undo_limit', Op.OpUndoLimit);
-    Op.OpUndoGrouped:= c.GetValue('undo_grouped', Op.OpUndoGrouped);
-    Op.OpUndoAfterSave:= c.GetValue('undo_after_save', Op.OpUndoAfterSave);
-
-    Op.OpCaretBlinkTime:= c.GetValue('caret_blink_time', Op.OpCaretBlinkTime);
-    Op.OpCaretBlinkEn:= c.GetValue('caret_blink_en', Op.OpCaretBlinkEn);
-    Op.OpCaretViewNormal:= c.GetValue('caret_view', Op.OpCaretViewNormal);
-    Op.OpCaretViewOverwrite:= c.GetValue('caret_view_ovr', Op.OpCaretViewOverwrite);
-    Op.OpCaretViewReadonly:= c.GetValue('caret_view_ro', Op.OpCaretViewReadonly);
-    Op.OpCaretVirtual:= c.GetValue('caret_after_end', Op.OpCaretVirtual);
-    Op.OpCaretMulti:= c.GetValue('caret_multi', Op.OpCaretMulti);
-    Op.OpCaretAfterPasteColumn:= c.GetValue('caret_after_paste_column', Op.OpCaretAfterPasteColumn);
-    Op.OpCaretsAddedToColumnSel:= c.GetValue('carets_with_column_sel', Op.OpCaretsAddedToColumnSel);
-
-    Op.OpShowCurLine:= c.GetValue('show_cur_line', Op.OpShowCurLine);
-    Op.OpShowCurLineMinimal:= c.GetValue('show_cur_line_minimal', Op.OpShowCurLineMinimal);
-    Op.OpShowCurLineOnlyFocused:= c.GetValue('show_cur_line_only_focused', Op.OpShowCurLineOnlyFocused);
-    Op.OpShowCurCol:= c.GetValue('show_cur_column', Op.OpShowCurCol);
-    Op.OpShowLastLineOnTop:= c.GetValue('show_last_line_on_top', Op.OpShowLastLineOnTop);
-    Op.OpShowFullBackgroundSel:= c.GetValue('show_full_sel_bg', Op.OpShowFullBackgroundSel);
-    Op.OpShowFullBackgroundSyntax:= c.GetValue('show_full_syntax_bg', Op.OpShowFullBackgroundSyntax);
-    Op.OpShowMouseSelFrame:= c.GetValue('show_mouse_sel_frame', Op.OpShowMouseSelFrame);
-    Op.OpCopyLineIfNoSel:= c.GetValue('copy_line_if_no_sel', Op.OpCopyLineIfNoSel);
-    Op.OpCutLineIfNoSel:= c.GetValue('cut_line_if_no_sel', Op.OpCutLineIfNoSel);
-    Op.OpCopyColumnAlignedBySpaces:= c.GetValue('copy_column_aligned_by_spaces', Op.OpCopyColumnAlignedBySpaces);
-    Op.OpSavingTrimSpaces:= c.GetValue('saving_trim_spaces', Op.OpSavingTrimSpaces);
-    Op.OpSavingTrimFinalEmptyLines:= c.GetValue('saving_trim_final_empty', Op.OpSavingTrimFinalEmptyLines);
-    Op.OpSavingForceFinalEol:= c.GetValue('saving_force_final_eol', Op.OpSavingForceFinalEol);
-    Op.OpShowHintOnVertScroll:= c.GetValue('show_hint_on_vert_scroll', Op.OpShowHintOnVertScroll);
-    Op.OpSmoothScroll:= c.GetValue('smooth_scroll', Op.OpSmoothScroll);
-    Op.OpCenteringWidth:= c.GetValue('centering_width', Op.OpCenteringWidth);
-    Op.OpCenteringForDistractionFree:= c.GetValue('centering_for_distraction_free', Op.OpCenteringForDistractionFree);
-    Op.OpHideHorizScrollbar:= c.GetValue('hide_horiz_scrollbar', Op.OpHideHorizScrollbar);
-
-    Op.OpLexerDynamicHiliteEnabled:= c.GetValue('lexer_dynamic_hilite', Op.OpLexerDynamicHiliteEnabled);
-    Op.OpLexerDynamicHiliteMaxLines:= c.GetValue('lexer_dynamic_hilite_max_lines', Op.OpLexerDynamicHiliteMaxLines);
-    Op.OpLexerLineSeparators:= false; //c.GetValue('lexer_line_separators', Op.OpLexerLineSeparators);
-    Op.OpZebra:= c.GetValue('zebra', Op.OpZebra);
-
-    Op.OpWordChars:= c.GetValue('word_chars', Op.OpWordChars);
-    Op.OpHexChars:= c.GetValue('hex_chars', Op.OpHexChars);
-    Op.OpFoldStyle:= c.GetValue('fold_style', Op.OpFoldStyle);
-    Op.OpFoldTooltipShow:= c.GetValue('fold_tooltip_show', Op.OpFoldTooltipShow);
-
-   if AllowUiOps then
-   begin
-    UiOps.LexerThemes:= c.GetValue('ui_lexer_themes', UiOps.LexerThemes);
-    UiOps.LexerMenuGrouped:= c.GetValue('ui_lexers_grouped', UiOps.LexerMenuGrouped);
-    UiOps.LexerDelayedParsingPause:= c.GetValue('lexer_delayed_parsing_pause', UiOps.LexerDelayedParsingPause);
-    UiOps.LexerDelayedParsingSize:= c.GetValue('lexer_delayed_parsing_size', UiOps.LexerDelayedParsingSize);
-    UiOps.LexerPostponeUntilShown:= c.GetValue('lexer_postpone_until_shown', UiOps.LexerPostponeUntilShown);
-    if not UiOps.LexerPostponeUntilShown then
-      AllowFrameParsing:= true;
-
-    UiOps.ShowMenubar:= c.GetValue('ui_menu_show', UiOps.ShowMenubar);
-    UiOps.ShowStatusbar:= c.GetValue('ui_statusbar_show', UiOps.ShowStatusbar);
-    UiOps.ShowToolbar:= c.GetValue('ui_toolbar_show', UiOps.ShowToolbar);
-
-    UiOps.SidebarShow:= c.GetValue('ui_sidebar_show', UiOps.SidebarShow);
-    UiOps.SidebarOnRight:= c.GetValue('ui_sidebar_on_right', UiOps.SidebarOnRight);
-    UiOps.SidebarTheme:= c.GetValue('ui_sidebar_theme', UiOps.SidebarTheme);
-    UiOps.TreeTheme:= c.GetValue('ui_tree_theme', UiOps.TreeTheme);
-    UiOps.ToolBarTheme:= c.GetValue('ui_toolbar_theme', UiOps.ToolBarTheme);
-
-    UiOps.PyLibrary:= c.GetValue('pylib'+cOptionSystemSuffix, UiOps.PyLibrary);
-    UiOps.PictureTypes:= c.GetValue('picture_types', UiOps.PictureTypes);
-    UiOps.MaxFileSizeToOpen:= c.GetValue('ui_max_size_open', UiOps.MaxFileSizeToOpen);
-    UiOps.MaxFileSizeForLexer:= c.GetValue('ui_max_size_lexer', UiOps.MaxFileSizeForLexer);
-    UiOps.MaxLinesForTree:= c.GetValue('ui_max_lines_codetree', UiOps.MaxLinesForTree);
-
-    UiOps.AutocompleteHtml:= c.GetValue('autocomplete_html', UiOps.AutocompleteHtml);
-    UiOps.AutocompleteCss:= c.GetValue('autocomplete_css', UiOps.AutocompleteCss);
-
-    UiOps.AutocompleteHtml_Lexers:= c.GetValue('autocomplete_html_lexers', UiOps.AutocompleteHtml_Lexers);
-    UiOps.AutocompleteCss_Lexers:= c.GetValue('autocomplete_css_lexers', UiOps.AutocompleteCss_Lexers);
-
-    UiOps.AutocompleteAutoshowCharCount:= c.GetValue('autocomplete_autoshow_chars', UiOps.AutocompleteAutoshowCharCount);
-    //UiOps.AutocompleteAutoshowLexers:= c.GetValue('autocomplete_autoshow_lexers', UiOps.AutocompleteAutoshowLexers);
-    UiOps.AutocompleteTriggerChars:= c.GetValue('autocomplete_trigger_chars', UiOps.AutocompleteTriggerChars);
-    UiOps.AutocompleteCommitChars:= c.GetValue('autocomplete_commit_chars', UiOps.AutocompleteCommitChars);
-    UiOps.AutocompleteCloseChars:= c.GetValue('autocomplete_close_chars', UiOps.AutocompleteCloseChars);
-    UiOps.AutocompleteAddOpeningBracket:= c.GetValue('autocomplete_add_opening_bracket', UiOps.AutocompleteAddOpeningBracket);
-    UiOps.AutocompleteUpDownAtEdge:= c.GetValue('autocomplete_up_down_at_edge', UiOps.AutocompleteUpDownAtEdge);
-    UiOps.AutoCloseBrackets:= c.GetValue('auto_close_brackets', UiOps.AutoCloseBrackets);
-
-    UiOps.FindSuggestSel:= c.GetValue('find_suggest_sel', UiOps.FindSuggestSel);
-    UiOps.FindSuggestWord:= c.GetValue('find_suggest_cur_word', UiOps.FindSuggestWord);
-    UiOps.FindSuggestInSelection:= c.GetValue('find_suggest_in_selection', UiOps.FindSuggestInSelection);
-    UiOps.FindSelCase:= c.GetValue('find_sel_case', UiOps.FindSelCase);
-    UiOps.FindShow_FindFirst:= c.GetValue('find_show_findfirst', UiOps.FindShow_FindFirst);
-    UiOps.FindShow_MarkALl:= c.GetValue('find_show_mark_all', UiOps.FindShow_MarkALl);
-    UiOps.FindShow_SelectAll:= c.GetValue('find_show_select_all', UiOps.FindShow_SelectAll);
-    UiOps.FindShow_Extract:= c.GetValue('find_show_extract', UiOps.FindShow_Extract);
-    UiOps.FindIndentVert:= c.GetValue('find_indent_vert', UiOps.FindIndentVert);
-    UiOps.FindIndentHorz:= c.GetValue('find_indent_horz', UiOps.FindIndentHorz);
-    UiOps.FindMultiLineScale:= c.GetValue('find_multiline_scale', UiOps.FindMultiLineScale);
-    UiOps.FindSeparateForm:= c.GetValue('find_separate_form', UiOps.FindSeparateForm);
-
-    UiOps.TabsDisabled:= c.GetValue('ui_tab_disabled', UiOps.TabsDisabled);
-    UiOps.TabVarWidth:= c.GetValue('ui_tab_variable_width', UiOps.TabVarWidth);
-    UiOps.TabMultiline:= c.GetValue('ui_tab_multiline', UiOps.TabMultiline);
-    UiOps.TabAngled:= c.GetValue('ui_tab_angled', UiOps.TabAngled);
-    UiOps.TabFlat:= c.GetValue('ui_tab_flat', UiOps.TabFlat);
-    UiOps.TabWidth:= c.GetValue('ui_tab_size_x', UiOps.TabWidth);
-    UiOps.TabWidthMin:= c.GetValue('ui_tab_size_x_min', UiOps.TabWidthMin);
-    UiOps.TabWidthMax:= c.GetValue('ui_tab_size_x_max', UiOps.TabWidthMax);
-    UiOps.TabHeight:= c.GetValue('ui_tab_size_y', UiOps.TabHeight);
-      UiOps.StatusHeight:= UiOps.TabHeight;
-    UiOps.TabHeightInner:= UiOps.TabHeight-1;
-    UiOps.TabPosition:= c.GetValue('ui_tab_position', UiOps.TabPosition);
-    UiOps.TabColorFull:= c.GetValue('ui_tab_fullcolor', UiOps.TabColorFull);
-    UiOps.TabShowX:= c.GetValue('ui_tab_show_x', UiOps.TabShowX);
-    UiOps.TabShowXSize:= c.GetValue('ui_tab_show_x_size', UiOps.TabShowXSize);
-    UiOps.TabShowPlus:= c.GetValue('ui_tab_show_plus', UiOps.TabShowPlus);
-    UiOps.TabDblClickClose:= c.GetValue('ui_tab_2click_closes', UiOps.TabDblClickClose);
-    UiOps.TabNumbers:= c.GetValue('ui_tab_numbers', UiOps.TabNumbers);
-    UiOps.TabNewNearCurrent:= c.GetValue('ui_tab_new_near_current', UiOps.TabNewNearCurrent);
-    UiOps.TabRecentOnClose:= c.GetValue('ui_tab_recent_on_close', UiOps.TabRecentOnClose);
-    UiOps.TabButtonLayout:= c.GetValue('ui_tab_button_layout', UiOps.TabButtonLayout);
-    UiOps.TabPreviewFontStyle:= c.GetValue('ui_tab_preview_font_style', UiOps.TabPreviewFontStyle);
-
-    UiOps.ListboxCentered:= c.GetValue('ui_listbox_centered', UiOps.ListboxCentered);
-    UiOps.ListboxSizeX:= c.GetValue('ui_listbox_size_x', UiOps.ListboxSizeX);
-    UiOps.ListboxSizeY:= c.GetValue('ui_listbox_size_y', UiOps.ListboxSizeY);
-    UiOps.ListboxCompleteSizeX:= c.GetValue('ui_listbox_complete_size_x', UiOps.ListboxCompleteSizeX);
-    UiOps.ListboxCompleteSizeY:= c.GetValue('ui_listbox_complete_size_y', UiOps.ListboxCompleteSizeY);
-    UiOps.ListboxFuzzySearch:= c.GetValue('ui_listbox_fuzzy', UiOps.ListboxFuzzySearch);
-
-    UiOps.MaxHistoryEdits:= Max(0, Min(200, c.GetValue('ui_max_history_edits', UiOps.MaxHistoryEdits)));
-    UiOps.MaxHistoryMenu:= Max(0, Min(50, c.GetValue('ui_max_history_menu', UiOps.MaxHistoryMenu)));
-    UiOps.MaxHistoryFiles:= Max(0, Min(400, c.GetValue('ui_max_history_files', UiOps.MaxHistoryFiles)));
-
-    UiOps.EscapeClose:= c.GetValue('ui_esc_close', UiOps.EscapeClose);
-    UiOps.EscapeCloseConsole:= c.GetValue('ui_esc_close_console', UiOps.EscapeCloseConsole);
-    UiOps.ConsoleWordWrap:= c.GetValue('ui_console_wrap', UiOps.ConsoleWordWrap);
-    UiOps.ConsoleCompact:= c.GetValue('ui_console_compact', UiOps.ConsoleCompact);
-    UiOps.InitialDir:= c.GetValue('ui_initial_dir', UiOps.InitialDir);
-
-    UiOps.ExportHtmlNumbers:= c.GetValue('export_html_numbers', UiOps.ExportHtmlNumbers);
-    UiOps.ExportHtmlFontName:= UTF8Encode(c.GetValue('export_html_font_name', UTF8Decode(UiOps.ExportHtmlFontName)));
-    UiOps.ExportHtmlFontSize:= c.GetValue('export_html_font_size', UiOps.ExportHtmlFontSize);
-
-    UiOps.TreeAutoSync:= c.GetValue('ui_tree_auto_sync', UiOps.TreeAutoSync);
-    UiOps.TreeTimeFill:= c.GetValue('ui_tree_time_fill', UiOps.TreeTimeFill);
-    UiOps.TreeTimeCaret:= c.GetValue('ui_tree_time_focus', UiOps.TreeTimeCaret);
-    //UiOps.TreeShowLines:= c.GetValue('ui_tree_show_lines', UiOps.TreeShowLines);
-    UiOps.TreeShowIcons:= c.GetValue('ui_tree_icons', UiOps.TreeShowIcons);
-    UiOps.TreeShowTooltips:= c.GetValue('ui_tree_show_tooltips', UiOps.TreeShowTooltips);
-    //UiOps.TreeCache:= c.GetValue('ui_tree_cache', UiOps.TreeCache);
-    UiOps.TreeFilterLayout:= c.GetValue('ui_tree_filter_layout', UiOps.TreeFilterLayout);
-
-    UiOps.PyChangeSlow:= c.GetValue('py_change_slow', UiOps.PyChangeSlow);
-    UiOps.PyInitLog:= c.GetValue('py_init_log', UiOps.PyInitLog);
-
-    UiOps.NewdocLexer:= c.GetValue('newdoc_lexer', UiOps.NewdocLexer);
-    UiOps.NewdocEnc:= c.GetValue('newdoc_encoding', UiOps.NewdocEnc);
-    UiOps.NewdocEnds:= c.GetValue('newdoc_ends', UiOps.NewdocEnds);
-
-    UiOps.DefaultEncUtf8:= c.GetValue(str_DefEncodingIsUtf8, UiOps.DefaultEncUtf8);
-    UiOps.ViewerBinaryWidth:= c.GetValue('viewer_binary_width', UiOps.ViewerBinaryWidth);
-   end;
-
-    Op.OpIndentAuto:= c.GetValue('indent_auto', Op.OpIndentAuto);
-    Op.OpIndentAutoKind:= c.GetValue('indent_kind', Op.OpIndentAutoKind);
-    Op.OpIndentSize:= c.GetValue('indent_size', Op.OpIndentSize);
-    Op.OpIndentAutoRule:= c.GetValue('indent_auto_rule', Op.OpIndentAutoRule);
-    Op.OpUnIndentKeepsAlign:= c.GetValue('unindent_keeps_align', Op.OpUnIndentKeepsAlign);
-    Op.OpIndentMakesWholeLineSel:= c.GetValue('indent_makes_whole_line_sel', Op.OpIndentMakesWholeLineSel);
-
-    Op.OpMouse2ClickDragSelectsWords:= c.GetValue('mouse_2click_drag_select_words', Op.OpMouse2ClickDragSelectsWords);
-    Op.OpMouseDragDrop:= c.GetValue('mouse_drag_drop', Op.OpMouseDragDrop);
-    Op.OpMouseDragDropFocusTarget:= c.GetValue('mouse_drag_drop_focus_target', Op.OpMouseDragDropFocusTarget);
-    Op.OpMouseMiddleClickNiceScroll:= c.GetValue('mouse_mid_click_scroll', Op.OpMouseMiddleClickNiceScroll);
-    Op.OpMouseMiddleClickPaste:= c.GetValue('mouse_mid_click_paste', Op.OpMouseMiddleClickPaste);
-    Op.OpMouseRightClickMovesCaret:= c.GetValue('mouse_rt_click_moves_caret', Op.OpMouseRightClickMovesCaret);
-    Op.OpMouseEnableColumnSelection:= c.GetValue('mouse_column_selection', Op.OpMouseEnableColumnSelection);
-    Op.OpMouseHideCursorOnType:= c.GetValue('mouse_hide_cursor', Op.OpMouseHideCursorOnType);
-    Op.OpMouseGutterClickSelectedLine:= c.GetValue('mouse_gutter_click_sel', Op.OpMouseGutterClickSelectedLine);
-    Op.OpMouseWheelZoom:= c.GetValue('mouse_wheel_zoom', Op.OpMouseWheelZoom);
-    Op.OpMouseWheelSpeedVert:= c.GetValue('mouse_wheel_speed_vert', Op.OpMouseWheelSpeedVert);
-    Op.OpMouseWheelSpeedHorz:= c.GetValue('mouse_wheel_speed_horz', Op.OpMouseWheelSpeedHorz);
-    Op.OpMouseClickNumberSelectsEol:= c.GetValue('mouse_click_number_selects_eol', Op.OpMouseClickNumberSelectsEol);
-
-    Op.OpKeyBackspaceUnindent:= c.GetValue('key_bksp_unindent', Op.OpKeyBackspaceUnindent);
-    Op.OpKeyTabIndents:= c.GetValue('key_tab_indents_sel', Op.OpKeyTabIndents);
-    Op.OpKeyHomeToNonSpace:= c.GetValue('key_home_to_nonspace', Op.OpKeyHomeToNonSpace);
-    Op.OpKeyHomeEndNavigateWrapped:= c.GetValue('key_home_end_nav_wrapped', Op.OpKeyHomeEndNavigateWrapped);
-    Op.OpKeyEndToNonSpace:= c.GetValue('key_end_to_nonspace', Op.OpKeyEndToNonSpace);
-    Op.OpKeyPageKeepsRelativePos:= c.GetValue('key_page_keeps_rel_pos', Op.OpKeyPageKeepsRelativePos);
-    Op.OpKeyPageUpDownSize:= c.GetValue('key_page_size', Op.OpKeyPageUpDownSize);
-    Op.OpKeyUpDownKeepColumn:= c.GetValue('key_up_down_keeps_column', Op.OpKeyUpDownKeepColumn);
-    Op.OpKeyUpDownNavigateWrapped:= c.GetValue('key_up_down_nav_wrapped', Op.OpKeyUpDownNavigateWrapped);
-    Op.OpKeyLeftRightSwapSel:= c.GetValue('key_left_right_swap_sel', Op.OpKeyLeftRightSwapSel);
-    Op.OpKeyLeftRightSwapSelAndSelect:= c.GetValue('key_left_right_swap_sel_and_select', Op.OpKeyLeftRightSwapSelAndSelect);
+    DoOps_LoadOptions_Editor(c, Op);
 
   finally
     c.Free;
   end;
 end;
+
 
 procedure TfmMain.DoOps_ResetLexerSpecificOptions;
 begin

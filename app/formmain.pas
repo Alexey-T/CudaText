@@ -711,6 +711,9 @@ type
     procedure DoOps_AddPluginMenuItem(ACaption: string; ASubMenu: TMenuItem; ATag: integer);
     procedure DoOps_LexersDisableInFrames(ListNames: TStringList);
     procedure DoOps_LexersRestoreInFrames(ListNames: TStringList);
+    procedure DoOps_LoadOptions_Editor(c: TJSONConfig; var Op: TEditorOps);
+    procedure DoOps_LoadOptions_Global(c: TJSONConfig);
+    procedure DoOps_LoadOptions_Ui(c: TJSONConfig);
     procedure DoOps_MultiInstaller;
     procedure DoOps_OnCreate;
     procedure DoShowBottomPanel(const ATabCaption: string; AndFocus: boolean);
@@ -916,7 +919,7 @@ type
     procedure DoOps_OpenFile_User;
     procedure DoOps_OpenFile_DefaultAndUser;
     procedure DoOps_LoadOptions(const fn: string; var Op: TEditorOps;
-      AllowUiOps: boolean=true; AllowStartupOps: boolean=true);
+      AllowUiOps: boolean=true; AllowGlobalOps: boolean=true);
     procedure DoOps_LoadOptionsFromString(const AString: string);
     procedure DoOps_LoadKeymap;
     procedure DoOps_LoadKeymapFrom(const AFilenameKeymap: string; AUndoList: TATKeymapUndoList);
