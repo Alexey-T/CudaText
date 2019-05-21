@@ -1353,8 +1353,8 @@ Possible values of "id_action":
 * LISTBOX_DELETE_ALL: Deletes all items.
 * LISTBOX_GET_ITEM: Gets item with given index as 2-tuple (text, tag). Gets None if index incorrect.
 * LISTBOX_SET_ITEM: Sets item with given index, to given text and tag.
-* LISTBOX_GET_ITEM_H: Gets height of items (pixels).
-* LISTBOX_SET_ITEM_H: Sets height of items. Param index: size in pixels.
+* LISTBOX_GET_ITEM_H: Gets height of items in percents.
+* LISTBOX_SET_ITEM_H: Sets height of items in percents. Param index: size.
 * LISTBOX_GET_SEL: Gets selected index. -1 for none.
 * LISTBOX_SET_SEL: Sets selected index. -1 for none.
 * LISTBOX_GET_TOP: Gets index of top visible item.
@@ -3455,5 +3455,8 @@ def project_variables():
 * add: Editor.set_caret: CARET_DELETE_INDEX
 * add: Editor.get_filename: param "options"
 * add: toolbar_proc: TOOLBAR_GET_BUTTON_HANDLES
+
+1.0.288 (app 1.80.6)
+* change: listbox_proc: LISTBOX_GET_ITEM_H and LISTBOX_SET_ITEM_H now use values in percents
 
 [[Category:CudaText]]
