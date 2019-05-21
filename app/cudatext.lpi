@@ -851,7 +851,7 @@
       <Unit15>
         <Filename Value="form_menu_list.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="fmGotoList"/>
+        <ComponentName Value="fmMenuList"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit15>

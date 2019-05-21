@@ -1,4 +1,4 @@
-object fmGotoList: TfmGotoList
+object fmMenuList: TfmMenuList
   Left = 252
   Height = 233
   Top = 482

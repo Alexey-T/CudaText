@@ -3333,7 +3333,7 @@ const
   cMaxLen = 150;
 var
   Ed: TATSynEdit;
-  Form: TfmGotoList;
+  Form: TfmMenuList;
   Num, NumMax: integer;
   items: TStringList;
   bm: TATBookmarkItem;
@@ -3380,7 +3380,7 @@ begin
     end;
 
     Num:= -1;
-    Form:= TfmGotoList.Create(Self);
+    Form:= TfmMenuList.Create(Self);
     try
       UpdateInputForm(Form);
       Form.Caption:= strCaption;

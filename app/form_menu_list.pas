@@ -23,9 +23,9 @@ uses
   proc_scrollbars;
 
 type
-  { TfmGotoList }
+  { TfmMenuList }
 
-  TfmGotoList = class(TForm)
+  TfmMenuList = class(TForm)
     List: TATListbox;
     plCaption: TPanel;
     procedure FormCreate(Sender: TObject);
@@ -50,22 +50,22 @@ type
   end;
 
 var
-  fmGotoList: TfmGotoList;
+  fmMenuList: TfmMenuList;
 
 implementation
 
 {$R *.lfm}
 
-{ TfmGotoList }
+{ TfmMenuList }
 
-procedure TfmGotoList.FormShow(Sender: TObject);
+procedure TfmMenuList.FormShow(Sender: TObject);
 begin
   SetListCaption(Caption);
   UpdateFormOnTop(Self);
   List.VirtualItemCount:= Items.Count;
 end;
 
-procedure TfmGotoList.ListDrawItem(Sender: TObject; C: TCanvas; AIndex: integer;
+procedure TfmMenuList.ListDrawItem(Sender: TObject; C: TCanvas; AIndex: integer;
   const ARect: TRect);
 var
   pnt: TPoint;
@@ -99,13 +99,13 @@ begin
   c.TextOut(ARect.Right-c.TextWidth(str2)-4, pnt.y, str2);
 end;
 
-procedure TfmGotoList.ListClick(Sender: TObject);
+procedure TfmMenuList.ListClick(Sender: TObject);
 begin
   ResultIndex:= List.ItemIndex;
   Close;
 end;
 
-procedure TfmGotoList.FormCreate(Sender: TObject);
+procedure TfmMenuList.FormCreate(Sender: TObject);
 begin
   if UiOps.ShowMenuDialogsWithBorder then
     BorderStyle:= bsDialog;
@@ -133,11 +133,11 @@ begin
   ResultIndex:= -1;
 end;
 
-procedure TfmGotoList.FormDestroy(Sender: TObject);
+procedure TfmMenuList.FormDestroy(Sender: TObject);
 begin
 end;
 
-procedure TfmGotoList.FormKeyDown(Sender: TObject; var Key: Word;
+procedure TfmMenuList.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if key=vk_down then
@@ -184,7 +184,7 @@ begin
   end;
 end;
 
-procedure TfmGotoList.SetListCaption(const AValue: string);
+procedure TfmMenuList.SetListCaption(const AValue: string);
 begin
   if UiOps.ShowMenuDialogsWithBorder then
   begin
