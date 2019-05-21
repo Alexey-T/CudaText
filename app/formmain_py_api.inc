@@ -2002,15 +2002,11 @@ begin
   if Alt then
   begin
     //id|prefix|desc
-    CompletionOps.ColorFont[0]:= GetAppColor('ListFont');
-    CompletionOps.ColorFont[1]:= GetAppColor('ListCompletePrefix');
     CompletionOps.IndexOfText:= 0;
   end
   else
   begin
     //prefix|id|desc
-    CompletionOps.ColorFont[0]:= GetAppColor('ListCompletePrefix');
-    CompletionOps.ColorFont[1]:= GetAppColor('ListFont');
     CompletionOps.IndexOfText:= 1;
   end;
 end;
