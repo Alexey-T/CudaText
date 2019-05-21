@@ -738,34 +738,37 @@
         </Mode0>
       </Modes>
     </RunParams>
-    <RequiredPackages Count="9">
+    <RequiredPackages Count="10">
       <Item1>
-        <PackageName Value="atsynedit_package"/>
+        <PackageName Value="atsynedit_cmp_package"/>
       </Item1>
       <Item2>
-        <PackageName Value="atbinhex_package"/>
+        <PackageName Value="atsynedit_package"/>
       </Item2>
       <Item3>
-        <PackageName Value="atflatcontrols_package"/>
+        <PackageName Value="atbinhex_package"/>
       </Item3>
       <Item4>
-        <PackageName Value="atsynedit_ex_package"/>
+        <PackageName Value="atflatcontrols_package"/>
       </Item4>
       <Item5>
-        <PackageName Value="python4lazarus_package"/>
+        <PackageName Value="atsynedit_ex_package"/>
       </Item5>
       <Item6>
-        <PackageName Value="LazControls"/>
+        <PackageName Value="python4lazarus_package"/>
       </Item6>
       <Item7>
-        <PackageName Value="uniqueinstance_package"/>
+        <PackageName Value="LazControls"/>
       </Item7>
       <Item8>
-        <PackageName Value="econtrol_package"/>
+        <PackageName Value="uniqueinstance_package"/>
       </Item8>
       <Item9>
-        <PackageName Value="LCL"/>
+        <PackageName Value="econtrol_package"/>
       </Item9>
+      <Item10>
+        <PackageName Value="LCL"/>
+      </Item10>
     </RequiredPackages>
     <Units Count="55">
       <Unit0>
