@@ -3457,5 +3457,6 @@ def project_variables():
 * add: Editor.set_caret: CARET_DELETE_INDEX
 * add: Editor.get_filename: param "options"
 * add: toolbar_proc: TOOLBAR_GET_BUTTON_HANDLES
+* add: const COLOR_DEFAULT (used for BOOKMARK_SETUP)
 
 [[Category:CudaText]]
