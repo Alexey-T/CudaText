@@ -2363,8 +2363,9 @@ var
 begin
   Result:= 0;
   for i:= 0 to FrameCount-1 do
-    if Frames[i].Ed1.Modified then
-      Inc(Result);
+    with Frames[i] do
+      if Ed1.Modified or Ed2.Modified then
+        Inc(Result);
 end;
 
 function TfmMain.GetShowStatus: boolean;
