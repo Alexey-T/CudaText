@@ -12,6 +12,7 @@
 + add: few default lexer configs for "indent_auto_rule": Lua, Pascal, Python, Ruby (not needed for C-like lexers)
 + add: dialogs "Lexer library", "Lexer properties" made resizable, they save size
 - fix: plugin "Numbered Bookmarks" uses incorrect bookmark color on dark themes
+- fix: program didn't see "modified" state for 2nd file in pair-tab
 
 1.80.2 (2019/05)
 
