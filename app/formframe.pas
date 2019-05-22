@@ -579,7 +579,11 @@ procedure TEditorFrame.EditorOnCalcBookmarkColor(Sender: TObject;
   ABookmarkKind: integer; var AColor: TColor);
 begin
   if ABookmarkKind>1 then
+  begin
     AColor:= AppBookmarkSetup[ABookmarkKind].Color;
+    if AColor=clDefault then
+      AColor:= GetAppColor('EdBookmarkBg');
+  end;
 end;
 
 procedure TEditorFrame.EditorOnChangeCaretPos(Sender: TObject);

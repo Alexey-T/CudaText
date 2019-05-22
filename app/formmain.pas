@@ -1805,7 +1805,7 @@ begin
   AppBookmarkImagelist.AddImages(ImageListBm);
   for i:= 2 to 9 do
   begin
-    AppBookmarkSetup[i].Color:= clMoneyGreen;
+    AppBookmarkSetup[i].Color:= clDefault;
     AppBookmarkSetup[i].ImageIndex:= i-1;
   end;
 
