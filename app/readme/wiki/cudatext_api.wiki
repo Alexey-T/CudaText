@@ -3451,12 +3451,15 @@ def project_variables():
 
 1.0.286 (app 1.79.2)
 * add: Editor.get_prop: PROP_HANDLE_PARENT
-* add: const COLOR_DEFAULT (for BOOKMARK_SETUP)
+* add: const COLOR_DEFAULT
 
 1.0.287 (app 1.79.3)
 * add: Editor.set_caret: param "options"
 * add: Editor.set_caret: CARET_DELETE_INDEX
 * add: Editor.get_filename: param "options"
 * add: toolbar_proc: TOOLBAR_GET_BUTTON_HANDLES
+
+1.0.288 (app 1.80.6)
+* add: for BOOKMARK_SETUP it's allowed to use COLOR_DEFAULT
 
 [[Category:CudaText]]
