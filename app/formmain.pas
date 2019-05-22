@@ -4562,7 +4562,10 @@ begin
 
   F:= DoFileOpen(NameDef, NameUser);
   if Assigned(F) then
-    F.ReadOnly[F.Ed1]:= true
+  begin
+    F.ReadOnly[F.Ed1]:= true;
+    F.ReadOnly[F.Ed2]:= false;
+  end
   else
     MsgStatus(msgCannotOpenFile+' default.json/user.json');
 end;
