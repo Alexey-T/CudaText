@@ -174,10 +174,12 @@ begin
     c.SetValue('/tab_index/g_active', Groups.PagesIndexOf(Groups.PagesCurrent));
 
     c.SetValue('/panels/side_show', ShowSidePanel);
+    c.SetValue('/panels/side_panel', FLastSidebarPanel);
     if not FloatSide then
       c.SetValue('/panels/side_size', PanelLeft.Width);
 
     c.SetValue('/panels/bottom_show', ShowBottom);
+    c.SetValue('/panels/bottom_panel', FLastBottomPanel);
     if not FloatBottom then
       c.SetValue('/panels/bottom_size', PanelBottom.Height);
 
@@ -359,8 +361,17 @@ begin
     //restore panel sizes
     ShowSidePanel:= c.GetValue('/panels/side_show', ShowSidePanel);
     ShowBottom:= c.GetValue('/panels/bottom_show', ShowBottom);
+
     PanelLeft.Width:= Min(c.GetValue('/panels/side_size', PanelLeft.Width), ClientWidth div 2);
     PanelBottom.Height:= Min(c.GetValue('/panels/bottom_size', PanelBottom.Height), ClientHeight div 2);
+
+    SText:= c.GetValue('/panels/side_panel', '');
+    if ShowSidePanel and (SText<>'') then
+      DoShowSidePanel(SText, false);
+
+    SText:= c.GetValue('/panels/bottom_panel', '');
+    if ShowBottom and (SText<>'') then
+      DoShowBottomPanel(SText, false);
 
     Result:= true;
   finally
