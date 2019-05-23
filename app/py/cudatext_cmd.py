@@ -278,6 +278,10 @@ cmd_ShowPanelConsole_AndFocus  = 2561
 cmd_ShowPanelOutput_AndFocus   = 2562
 cmd_ShowPanelValidate_AndFocus = 2563
 
+cmd_ChooseTranslation = 2570
+cmd_ChooseThemeUI     = 2571
+cmd_ChooseThemeSyntax = 2572
+
 cmd_ToggleFocusSplitEditors = 2576
 cmd_FocusEditor = 2577
 cmd_SwitchActiveTabToNext = 2578

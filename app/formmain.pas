@@ -137,6 +137,7 @@ type
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
     ButtonCancel: TATButton;
+    mnuOpLangs: TMenuItem;
     mnuTabsizeSep: TMenuItem;
     mnuTabsizeConvTabs: TMenuItem;
     mnuTabsizeConvSpaces: TMenuItem;
@@ -200,8 +201,6 @@ type
     mnuLexers: TMenuItem;
     mnuHelpIssues: TMenuItem;
     mnuOpLexMap: TMenuItem;
-    mnuTst2: TMenuItem;
-    mnuLang: TMenuItem;
     mnuTextOpenUrl: TMenuItem;
     mnuFontOutput: TMenuItem;
     mnuGr1p2H: TMenuItem;
@@ -807,6 +806,7 @@ type
     function DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean): boolean;
     function DoDialogMenuApi(const AText, ACaption: string; AMultiline: boolean;
       AInitIndex: integer; ANoFuzzy, ANoFullFilter, AShowCentered: boolean): integer;
+    procedure DoDialogMenuTranslations;
     procedure DoFileExportHtml;
     function DoFileInstallZip(const fn: string; out DirTarget: string; ASilent: boolean): boolean;
     procedure DoFileCloseAndDelete;
@@ -856,7 +856,6 @@ type
     procedure MenuEncWithReloadClick(Sender: TObject);
     procedure MenuitemClick_CommandFromTag(Sender: TObject);
     procedure MenuitemClick_CommandFromHint(Sender: TObject);
-    procedure MenuLangClick(Sender: TObject);
     procedure MenuPicScaleClick(Sender: TObject);
     procedure MenuPluginClick(Sender: TObject);
     procedure MenuTabsizeClick(Sender: TObject);
@@ -1020,7 +1019,6 @@ type
     procedure UpdateMenuItemChecked(mi: TMenuItem; saved: TATMenuItemsAlt; AValue: boolean);
     procedure UpdateMenuItemHint(mi: TMenuItem; const AHint: string);
     procedure UpdateMenuItemHotkey(mi: TMenuItem; cmd: integer);
-    procedure UpdateMenuLangs(sub: TMenuItem);
     procedure UpdateMenuPicScale;
     procedure UpdateMenuTabsize;
     procedure UpdateMenuThemes(AThemeUI: boolean);
@@ -1927,7 +1925,6 @@ begin
   UpdateMenuItemHint(mnuThemesUI, '_themes-ui');
   UpdateMenuItemHint(mnuThemesSyntax, '_themes-syntax');
   UpdateMenuItemHint(mnuOpPlugins, '_oplugins');
-  UpdateMenuItemHint(mnuLang, '_langs');
 
   DoOps_OnCreate;
 
@@ -2227,7 +2224,6 @@ begin
   UpdateMenuPlugins_Shortcuts(true);
   UpdateMenuThemes(true);
   UpdateMenuThemes(false);
-  UpdateMenuLangs(mnuLang);
   UpdateMenuHotkeys;
   UpdateMenuTabsize;
   UpdateMenuPicScale;
@@ -2338,7 +2334,6 @@ begin
 
     if AddonType=cAddonTypeData then
     begin
-      UpdateMenuLangs(mnuLang);
       UpdateMenuThemes(true);
       UpdateMenuThemes(false);
     end;
@@ -4869,6 +4864,48 @@ begin
   end;
 end;
 
+procedure TfmMain.DoDialogMenuTranslations;
+const
+  cEnLang = 'en (built-in)';
+var
+  Items: TStringList;
+  NResult, i: integer;
+  S: string;
+begin
+  FFindFilesInDir(GetAppPath(cDirDataLangs), '*.ini', FListLangs);
+  if FListLangs.Count=0 then exit;
+  FListLangs.Sort;
+
+  Items:= TStringList.Create;
+  try
+    Items.Add(cEnLang);
+    for i:= 0 to FListLangs.Count-1 do
+    begin
+      S:= ExtractFileNameOnly(FListLangs[i]);
+      if S='translation template' then Continue;
+      Items.Add(S);
+    end;
+
+    NResult:= DoDialogMenuList(msgMenuTranslations, Items);
+    if NResult<0 then exit;
+
+    if Items[NResult]=cEnLang then
+    begin
+      AppLangName:= '';
+      MsgBox('English translation will be applied after program restart', MB_OK or MB_ICONINFORMATION);
+    end
+    else
+    begin
+      AppLangName:= Items[NResult];
+      DoLocalize;
+    end;
+
+    DoPyEvent(CurrentEditor, cEventOnState, [IntToStr(APPSTATE_LANG)]);
+  finally
+   FreeAndNil(Items);
+  end;
+end;
+
 procedure TfmMain.SplitterOnPaint_Gr(Sender: TObject);
 begin
   //empty, to disable themed paint
@@ -5001,26 +5038,6 @@ begin
 
     List.Invalidate;
   end;
-end;
-
-procedure TfmMain.MenuLangClick(Sender: TObject);
-var
-  NTag: integer;
-begin
-  NTag:= (Sender as TComponent).Tag;
-  if NTag>=0 then
-  begin
-    AppLangName:= ExtractFileNameOnly(FListLangs[NTag]);
-    UpdateMenuLangs(mnuLang);
-    DoLocalize;
-  end
-  else
-  begin
-    AppLangName:= '';
-    MsgBox('Built-in translation will be used after app restart', mb_ok or MB_ICONINFORMATION);
-  end;
-
-  DoPyEvent(CurrentEditor, cEventOnState, [IntToStr(APPSTATE_LANG)]);
 end;
 
 procedure TfmMain.MenuPicScaleClick(Sender: TObject);
@@ -5474,7 +5491,6 @@ begin
       mnuThemes:= nil;
       mnuThemesUI:= nil;
       mnuThemesSyntax:= nil;
-      mnuLang:= nil;
       mnuPlugins:= nil;
       mnuOpPlugins:= nil;
       mnuLexers:= nil;
@@ -5484,7 +5500,6 @@ begin
       mnuThemes:= nil;
       mnuThemesUI:= nil;
       mnuThemesSyntax:= nil;
-      mnuLang:= nil;
     end;
     if AMenuId=PyMenuId_TopFile then
     begin
@@ -5562,12 +5577,6 @@ begin
     begin
       mnuThemesSyntax:= mi;
       UpdateMenuThemes(false);
-    end
-    else
-    if AMenuCmd='_langs' then
-    begin
-      mnuLang:= mi;
-      UpdateMenuLangs(mi);
     end
     else
     if AMenuCmd='_plugins' then

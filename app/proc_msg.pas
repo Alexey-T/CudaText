@@ -55,6 +55,10 @@ const
   msgGotoDialogTooltip: string = '(10, 10:10, 10%%, d100, xFFF, %s)';
   msgGotoDialogInfoExt: string = 'with "+": select';
 
+  msgMenuTranslations: string = 'Translations';
+  msgMenuThemesUI: string = 'UI themes';
+  msgMenuThemesSyntax: string = 'Syntax themes';
+
   msgPanelMenu_Init = 'Menu';
   msgPanelTree_Init = 'Code tree';
   msgPanelProject_Init = 'Project';

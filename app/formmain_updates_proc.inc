@@ -765,6 +765,7 @@ begin
   UpdateMenuItemHotkey(mnuOpLexMap, cmd_DialogLexerStyleMap);
   UpdateMenuItemHotkey(mnuOpThemeUi, cmd_DialogThemeUi);
   UpdateMenuItemHotkey(mnuOpThemeSyntax, cmd_DialogThemeSyntax);
+  UpdateMenuItemHotkey(mnuOpLangs, cmd_ChooseTranslation);
 
   UpdateMenuItemHotkey(mnuHelpCmd, cmd_DialogCommands);
   UpdateMenuItemHotkey(mnuHelpForum, cmd_HelpForum);
@@ -1140,44 +1141,6 @@ begin
   Groups.Splitter3.Invalidate;
   Groups.Splitter4.Invalidate;
   Groups.Splitter5.Invalidate;
-end;
-
-
-procedure TfmMain.UpdateMenuLangs(sub: TMenuItem);
-var
-  mi: tmenuitem;
-  cap: string;
-  i: integer;
-begin
-  if sub=nil then exit;
-  sub.Clear;
-
-  mi:= TMenuItem.Create(Self);
-  mi.Caption:= 'en';
-  mi.RadioItem:= true;
-  mi.Tag:= -1;
-  mi.OnClick:= @MenuLangClick;
-  mi.Checked:= AppLangName='';
-  sub.Add(mi);
-
-  FFindFilesInDir(GetAppPath(cDirDataLangs), '*.ini', FListLangs);
-  if FListLangs.count=0 then exit;
-  FListLangs.Sort;
-
-  for i:= 0 to FListLangs.count-1 do
-  begin
-    cap:= ExtractFileNameOnly(FListLangs[i]);
-    if sub.IndexOfCaption(cap)>=0 then Continue; //for Qt
-    if cap='translation template' then Continue;
-
-    mi:= TMenuItem.Create(Self);
-    mi.RadioItem:= true;
-    mi.Caption:= cap;
-    mi.Tag:= i;
-    mi.OnClick:= @MenuLangClick;
-    mi.Checked:= SameText(AppLangName, mi.Caption);
-    sub.Add(mi);
-  end;
 end;
 
 

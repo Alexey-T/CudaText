@@ -719,11 +719,8 @@ object fmMain: TfmMain
           end
         end
       end
-      object mnuLang: TMenuItem
-        Caption = '&Translations'
-        object mnuTst2: TMenuItem
-          Caption = '--'
-        end
+      object mnuOpLangs: TMenuItem
+        Caption = 'Translations'
       end
     end
     object mnuHelp: TMenuItem

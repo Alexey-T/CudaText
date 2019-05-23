@@ -1474,7 +1474,6 @@ Value of "command" parameter for MENU_ADD can be:
 * to create standard special sub-menus, special values:
 ** "_recents": Recent-files submenu
 ** "_enc": Encodings submenu (has subitems "reload as", "convert to")
-** "_langs": Translations submenu
 ** "_lexers": Lexers submenu
 ** "_plugins": Plugins submenu
 ** "_themes-ui": UI-themes submenu
@@ -3459,7 +3458,8 @@ def project_variables():
 * add: Editor.get_filename: param "options"
 * add: toolbar_proc: TOOLBAR_GET_BUTTON_HANDLES
 
-1.0.288 (app 1.80.6)
+1.0.288 (app 1.81.0)
 * add: for BOOKMARK_SETUP it's allowed to use COLOR_DEFAULT
+* change: menu id "_langs" not supported
 
 [[Category:CudaText]]

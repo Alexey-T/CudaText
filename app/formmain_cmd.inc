@@ -182,16 +182,21 @@ begin
         P:= CurrentEditor.ClientToScreen(Point(0, 0));
         PopupEnc.Popup(P.X, P.Y);
       end;
+
     cmd_MenuEnds:
       begin
         P:= CurrentEditor.ClientToScreen(Point(0, 0));
         PopupEnds.Popup(P.X, P.Y);
       end;
+
     cmd_MenuLexers:
       begin
         P:= CurrentEditor.ClientToScreen(Point(0, 0));
         PopupLex.Popup(P.X, P.Y);
       end;
+
+    cmd_ChooseTranslation:
+      DoDialogMenuTranslations;
 
     cmd_Encoding_utf8bom_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf8_WithBom, false);
     cmd_Encoding_utf8nobom_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf8_NoBom, false);

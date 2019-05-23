@@ -294,7 +294,11 @@ begin
     DoLocMenuitem(ini, mnuThemes, 'm_o', 'co_');
     DoLocMenuitem(ini, mnuThemesUI, 'm_o', 'cou_');
     DoLocMenuitem(ini, mnuThemesSyntax, 'm_o', 'cos_');
-    DoLocMenuitem(ini, mnuLang, 'm_o', 'tr_');
+    DoLocMenuitem(ini, mnuOpLangs, 'm_o', 'tr_');
+
+    msgMenuTranslations:= StringReplace(
+      ini.ReadString('m_o', 'tr_', msgMenuTranslations),
+      '&', '', [rfReplaceAll]);
 
     DoLocMenuitem(ini, mnuHelp, 'm_h', '_');
     DoLocMenuitem(ini, mnuHelpCmd, 'm_h', 'co');

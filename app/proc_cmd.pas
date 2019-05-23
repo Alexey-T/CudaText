@@ -98,6 +98,10 @@ const
   cmd_ShowPanelOutput_AndFocus    = 2562;
   cmd_ShowPanelValidate_AndFocus  = 2563;
 
+  cmd_ChooseTranslation = 2570;
+  cmd_ChooseThemeUI     = 2571;
+  cmd_ChooseThemeSyntax = 2572;
+
   cmd_ToggleFocusSplitEditors = 2576;
   cmd_FocusEditor = 2577;
   cmd_SwitchActiveTabToNext = 2578;
@@ -459,6 +463,10 @@ begin
   M.Add(cmd_MenuEnds, 'menu: line ends', [], []);
   M.Add(cmd_MenuLexers, 'menu: lexers', [], []);
 
+  M.Add(cmd_ChooseTranslation, 'menu: translations', [], []);
+  M.Add(cmd_ChooseThemeUI, 'menu: ui-themes', [], []);
+  M.Add(cmd_ChooseThemeSyntax, 'menu: syntax-themes', [], []);
+
   M.Add(cmd_AutoComplete, 'code: auto-completion menu', ['Ctrl+Space'], []);
   M.Add(cmd_GotoDefinition, 'code: go to definition', [], []);
   M.Add(cmd_ShowFunctionHint, 'code: show function-hint', ['Ctrl+Shift+Space'], []);
@@ -654,6 +662,10 @@ begin
     cmd_MenuEnc,
     cmd_MenuEnds,
     cmd_MenuLexers,
+
+    cmd_ChooseTranslation,
+    cmd_ChooseThemeUI,
+    cmd_ChooseThemeSyntax,
 
     cmd_AutoComplete,
     cmd_GotoDefinition,
