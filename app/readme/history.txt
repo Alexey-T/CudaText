@@ -12,6 +12,7 @@
 + add: few default lexer configs for "indent_auto_rule": Lua, Pascal, Python, Ruby (not needed for C-like lexers)
 + add: dialogs "Lexer library", "Lexer properties" made resizable, they save size
 + add: program saves to session name of current side-panel and bottom-panel
+* change: 3 submenus in the Options menu - Themes-UI, Themes-Syntax, Translations - were replaced with menu-dialogs; added 3 commands to call them
 - fix: plugin "Numbered Bookmarks" had incorrect bookmark color on dark themes
 - fix: detection of "modified" state for 2nd file in pair-tab (e.g. default.json+user.json)
 
