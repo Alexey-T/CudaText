@@ -137,6 +137,8 @@ type
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
     ButtonCancel: TATButton;
+    mnuOpThemesUi: TMenuItem;
+    mnuOpThemesSyntax: TMenuItem;
     mnuOpLangs: TMenuItem;
     mnuTabsizeSep: TMenuItem;
     mnuTabsizeConvTabs: TMenuItem;
@@ -181,13 +183,10 @@ type
     ImageListBm: TImageList;
     ImageListTree: TImageList;
     MainMenu: TMainMenu;
-    MenuItem1: TMenuItem;
-    MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     mnuBmDeleteLines: TMenuItem;
     mnuBmCopyLines: TMenuItem;
     mnuOpThemeSyntax: TMenuItem;
-    mnuThemesSyntax: TMenuItem;
     mnuBmPlaceCarets: TMenuItem;
     PaintTest: TPaintBox;
     PanelAll: TATPanelSimple;
@@ -218,7 +217,6 @@ type
     MenuItem23: TMenuItem;
     MenuItem24: TMenuItem;
     MenuItem25: TMenuItem;
-    mnuThemesUI: TMenuItem;
     SepEd6: TMenuItem;
     mnuFileEndUn: TMenuItem;
     mnuFileEndMac: TMenuItem;
@@ -257,7 +255,6 @@ type
     mnuEditTrimR: TMenuItem;
     mnuEditTrim: TMenuItem;
     mnuTabColor: TMenuItem;
-    mnuThemes: TMenuItem;
     MenuItem29: TMenuItem;
     mnuTabsizeSpace: TMenuItem;
     mnuFind2Prev: TMenuItem;
@@ -464,7 +461,6 @@ type
       const ARect: TRect);
     procedure ListboxOutKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure MenuThemesSyntaxClick(Sender: TObject);
     procedure mnuEditClick(Sender: TObject);
     procedure mnuTabColorClick(Sender: TObject);
     procedure mnuTabCopyDirClick(Sender: TObject);
@@ -570,8 +566,6 @@ type
     FBoundsFloatGroups2: TRect;
     FBoundsFloatGroups3: TRect;
     FListRecents: TStringList;
-    FListThemesUI: TStringList;
-    FListThemesSyntax: TStringList;
     FListLangs: TStringList;
     FListTimers: TStringList;
     FConsoleQueue: TAppConsoleQueue;
@@ -807,6 +801,7 @@ type
     function DoDialogMenuApi(const AText, ACaption: string; AMultiline: boolean;
       AInitIndex: integer; ANoFuzzy, ANoFullFilter, AShowCentered: boolean): integer;
     procedure DoDialogMenuTranslations;
+    procedure DoDialogMenuThemes(AThemeUI: boolean);
     procedure DoFileExportHtml;
     function DoFileInstallZip(const fn: string; out DirTarget: string; ASilent: boolean): boolean;
     procedure DoFileCloseAndDelete;
@@ -859,9 +854,6 @@ type
     procedure MenuPicScaleClick(Sender: TObject);
     procedure MenuPluginClick(Sender: TObject);
     procedure MenuTabsizeClick(Sender: TObject);
-    procedure MenuThemeDefaultUiClick(Sender: TObject);
-    procedure MenuThemeDefaultSyntaxClick(Sender: TObject);
-    procedure MenuThemesUiClick(Sender: TObject);
     procedure MsgLogConsole(const AText: string);
     procedure MsgLogDebug(const AText: string);
     procedure MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
@@ -1021,7 +1013,6 @@ type
     procedure UpdateMenuItemHotkey(mi: TMenuItem; cmd: integer);
     procedure UpdateMenuPicScale;
     procedure UpdateMenuTabsize;
-    procedure UpdateMenuThemes(AThemeUI: boolean);
     procedure UpdateMenuLexersTo(AMenu: TMenuItem);
     procedure UpdateMenuRecent(F: TEditorFrame; const AFileName: string);
     procedure UpdateMenuHotkeys;
@@ -1818,8 +1809,6 @@ begin
   FMenuVisible:= true;
   FSessionName:= '';
   FListRecents:= TStringList.Create;
-  FListThemesUI:= TStringList.Create;
-  FListThemesSyntax:= TStringList.Create;
   FListLangs:= TStringList.Create;
   FListTimers:= TStringList.Create;
   FConsoleQueue:= TAppConsoleQueue.Create;
@@ -1922,8 +1911,6 @@ begin
   UpdateMenuItemHint(mnuFileEnc, '_enc');
   UpdateMenuItemHint(mnuFileEnds, '_ends');
   UpdateMenuItemHint(mnuLexers, '_lexers');
-  UpdateMenuItemHint(mnuThemesUI, '_themes-ui');
-  UpdateMenuItemHint(mnuThemesSyntax, '_themes-syntax');
   UpdateMenuItemHint(mnuOpPlugins, '_oplugins');
 
   DoOps_OnCreate;
@@ -2076,8 +2063,6 @@ begin
   FreeAndNil(FListTimers);
 
   FreeAndNil(FListRecents);
-  FreeAndNil(FListThemesUI);
-  FreeAndNil(FListThemesSyntax);
   FreeAndNil(FListLangs);
   FreeAndNil(FConsoleQueue);
   FreeAndNil(FKeymapUndoList);
@@ -2222,8 +2207,6 @@ begin
 
   UpdateMenuPlugins;
   UpdateMenuPlugins_Shortcuts(true);
-  UpdateMenuThemes(true);
-  UpdateMenuThemes(false);
   UpdateMenuHotkeys;
   UpdateMenuTabsize;
   UpdateMenuPicScale;
@@ -2330,12 +2313,6 @@ begin
     if AddonType in [cAddonTypeLexer, cAddonTypeLexerLite] then
     begin
       DoOps_LoadLexerLib;
-    end;
-
-    if AddonType=cAddonTypeData then
-    begin
-      UpdateMenuThemes(true);
-      UpdateMenuThemes(false);
     end;
 
     if AddonType=cAddonTypePlugin then
@@ -5488,18 +5465,12 @@ begin
     begin
       mnuFileOpenSub:= nil;
       mnuFileEnc:= nil;
-      mnuThemes:= nil;
-      mnuThemesUI:= nil;
-      mnuThemesSyntax:= nil;
       mnuPlugins:= nil;
       mnuOpPlugins:= nil;
       mnuLexers:= nil;
     end;
     if AMenuId=PyMenuId_TopOptions then
     begin
-      mnuThemes:= nil;
-      mnuThemesUI:= nil;
-      mnuThemesSyntax:= nil;
     end;
     if AMenuId=PyMenuId_TopFile then
     begin
@@ -5565,18 +5536,6 @@ begin
     begin
       mnuFileOpenSub:= mi;
       UpdateMenuRecent(nil, '');
-    end
-    else
-    if AMenuCmd='_themes-ui' then
-    begin
-      mnuThemesUI:= mi;
-      UpdateMenuThemes(true);
-    end
-    else
-    if AMenuCmd='_themes-syntax' then
-    begin
-      mnuThemesSyntax:= mi;
-      UpdateMenuThemes(false);
     end
     else
     if AMenuCmd='_plugins' then

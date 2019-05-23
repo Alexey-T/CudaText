@@ -54,9 +54,6 @@ var
   //PropObject: TAppPanelPropsClass;
   i: integer;
 begin
-  UpdateMenuThemes(true);
-  UpdateMenuThemes(false);
-
   with ATScrollbarTheme do
   begin
     ColorBG:= GetAppColor('ScrollBack');
@@ -164,70 +161,71 @@ begin
 end;
 
 
-procedure TfmMain.UpdateMenuThemes(AThemeUI: boolean);
+procedure TfmMain.DoDialogMenuThemes(AThemeUI: boolean);
 var
-  mi: TMenuItem;
-  cap, FileMask: string;
-  ListThemes: TStringList;
-  sub: TMenuItem;
-  i: integer;
+  SMask, SCaption: string;
+  ListFiles, ListItems: TStringList;
+  NResult, i: integer;
 begin
   if AThemeUI then
-    sub:= mnuThemesUI
-  else
-    sub:= mnuThemesSyntax;
-
-  if sub=nil then exit;
-  sub.Clear;
-
-  mi:= TMenuItem.Create(Self);
-  mi.Caption:= msgThemeDefault;
-  mi.RadioItem:= true;
-
-  if AThemeUI then
   begin
-    mi.OnClick:= @MenuThemeDefaultUiClick;
-    mi.Checked:= FThemeUi='';
-    ListThemes:= FListThemesUI;
-    FileMask:= '*'+AppExtensionThemeUi;
+    SMask:= '*'+AppExtensionThemeUi;
+    SCaption:= msgMenuThemesUI;
   end
   else
   begin
-    mi.OnClick:= @MenuThemeDefaultSyntaxClick;
-    mi.Checked:= FThemeSyntax='';
-    ListThemes:= FListThemesSyntax;
-    FileMask:= '*'+AppExtensionThemeSyntax;
+    SMask:= '*'+AppExtensionThemeSyntax;
+    SCaption:= msgMenuThemesSyntax;
   end;
-  sub.Add(mi);
 
-  FFindFilesInDir(GetAppPath(cDirDataThemes), FileMask, ListThemes);
-  if ListThemes.Count=0 then exit;
-  ListThemes.Sort;
+  ListItems:= TStringList.Create;
+  ListFiles:= TStringList.Create;
+  try
+    FFindFilesInDir(GetAppPath(cDirDataThemes), SMask, ListFiles);
+    if ListFiles.Count=0 then exit;
+    ListFiles.Sort;
 
-  for i:= 0 to ListThemes.Count-1 do
-  begin
-    cap:= LowerCase(ExtractFileNameOnly(ListThemes[i]));
-    if sub.IndexOfCaption(cap)>=0 then Continue; //for Qt
+    ListItems.Add(msgThemeDefault);
+    for i:= 0 to ListFiles.Count-1 do
+      ListItems.Add(LowerCase(ExtractFileNameOnly(ListFiles[i])));
 
-    mi:= TMenuItem.Create(Self);
-    mi.RadioItem:= true;
-    mi.Caption:= cap;
-    mi.Tag:= i;
+    NResult:= DoDialogMenuList(SCaption, ListItems);
+    if NResult<0 then exit;
 
     if AThemeUI then
     begin
-      mi.OnClick:= @MenuThemesUiClick;
-      mi.Checked:= LowerCase(FThemeUi)=LowerCase(mi.Caption);
+      if NResult=0 then
+      begin
+        ThemeUi:= '';
+        if MsgBox(msgConfirmSyntaxThemeSameName, MB_OKCANCEL+MB_ICONQUESTION)=ID_OK then
+          ThemeSyntax:= '';
+      end
+      else
+      begin
+        ThemeUi:= ListItems[NResult];
+        //find syntax-theme with the same name
+        if IsThemeNameExist(ThemeUi, false) then
+          if MsgBox(msgConfirmSyntaxThemeSameName, MB_OKCANCEL+MB_ICONQUESTION)=ID_OK then
+            ThemeSyntax:= ThemeUi;
+      end;
     end
     else
     begin
-      mi.OnClick:= @MenuThemesSyntaxClick;
-      mi.Checked:= LowerCase(FThemeSyntax)=LowerCase(mi.Caption);
+      if NResult=0 then
+      begin
+        ThemeSyntax:= '';
+      end
+      else
+      begin
+        ThemeSyntax:= ListItems[NResult];
+      end;
     end;
-
-    sub.Add(mi);
+  finally
+    FreeAndNil(ListItems);
+    FreeAndNil(ListFiles);
   end;
 end;
+
 
 procedure TfmMain.SetThemeUi(const AValue: string);
 var
@@ -283,59 +281,17 @@ begin
   DoPyEvent(CurrentEditor, cEventOnState, [IntToStr(APPSTATE_THEME_SYNTAX)]);
 end;
 
-procedure TfmMain.MenuThemeDefaultUiClick(Sender: TObject);
-begin
-  ThemeUi:= '';
-
-  if MsgBox(msgConfirmSyntaxThemeSameName, MB_OKCANCEL+MB_ICONQUESTION)=ID_OK then
-    ThemeSyntax:= '';
-end;
-
-procedure TfmMain.MenuThemeDefaultSyntaxClick(Sender: TObject);
-begin
-  ThemeSyntax:= '';
-end;
-
 
 function TfmMain.IsThemeNameExist(const AName: string; AThemeUI: boolean): boolean;
 var
-  List: TStringList;
-  StrName: string;
-  i: integer;
+  Ext: string;
 begin
-  Result:= false;
-
   if AThemeUI then
-    List:= FListThemesUI
+    Ext:= AppExtensionThemeUi
   else
-    List:= FListThemesSyntax;
+    Ext:= AppExtensionThemeSyntax;
 
-  for i:= 0 to List.Count-1 do
-  begin
-    StrName:= ExtractFileNameOnly(List[i]);
-    if StrName=AName then exit(true);
-  end;
-end;
-
-procedure TfmMain.MenuThemesUiClick(Sender: TObject);
-var
-  fn: string;
-begin
-  fn:= FListThemesUI[(Sender as TComponent).Tag];
-  ThemeUi:= ExtractFileNameOnly(fn);
-
-  //find syntax-theme with the same name
-  if IsThemeNameExist(ThemeUi, false) then
-    if MsgBox(msgConfirmSyntaxThemeSameName, MB_OKCANCEL+MB_ICONQUESTION)=ID_OK then
-      ThemeSyntax:= ThemeUi;
-end;
-
-procedure TfmMain.MenuThemesSyntaxClick(Sender: TObject);
-var
-  fn: string;
-begin
-  fn:= FListThemesSyntax[(Sender as TComponent).Tag];
-  ThemeSyntax:= ExtractFileNameOnly(fn);
+  Result:= FileExistsUTF8(GetAppPath(cDirDataThemes)+DirectorySeparator+AName+Ext);
 end;
 
 procedure TfmMain.mnuEditClick(Sender: TObject);
@@ -398,7 +354,6 @@ begin
       Str:= GetAppPath(cDirDataThemes)+DirectorySeparator+Str+StrExt;
 
       DoSaveTheme(Str, AppTheme, AThemeUI);
-      UpdateMenuThemes(AThemeUI);
     end;
   end;
 end;

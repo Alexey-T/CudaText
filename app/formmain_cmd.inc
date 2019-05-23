@@ -197,6 +197,10 @@ begin
 
     cmd_ChooseTranslation:
       DoDialogMenuTranslations;
+    cmd_ChooseThemeUI:
+      DoDialogMenuThemes(true);
+    cmd_ChooseThemeSyntax:
+      DoDialogMenuThemes(false);
 
     cmd_Encoding_utf8bom_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf8_WithBom, false);
     cmd_Encoding_utf8nobom_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf8_NoBom, false);

@@ -291,13 +291,18 @@ begin
     DoLocMenuitem(ini, mnuOpLexMap, 'm_o', 'l_map');
     DoLocMenuitem(ini, mnuOpPlugins, 'm_o', 'pl');
 
-    DoLocMenuitem(ini, mnuThemes, 'm_o', 'co_');
-    DoLocMenuitem(ini, mnuThemesUI, 'm_o', 'cou_');
-    DoLocMenuitem(ini, mnuThemesSyntax, 'm_o', 'cos_');
+    DoLocMenuitem(ini, mnuOpThemesUi, 'm_o', 'the_u');
+    DoLocMenuitem(ini, mnuOpThemesSyntax, 'm_o', 'the_s');
     DoLocMenuitem(ini, mnuOpLangs, 'm_o', 'tr_');
 
     msgMenuTranslations:= StringReplace(
       ini.ReadString('m_o', 'tr_', msgMenuTranslations),
+      '&', '', [rfReplaceAll]);
+    msgMenuThemesUI:= StringReplace(
+      ini.ReadString('m_o', 'the_u', msgMenuThemesUI),
+      '&', '', [rfReplaceAll]);
+    msgMenuThemesSyntax:= StringReplace(
+      ini.ReadString('m_o', 'the_s', msgMenuThemesSyntax),
       '&', '', [rfReplaceAll]);
 
     DoLocMenuitem(ini, mnuHelp, 'm_h', '_');

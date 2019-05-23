@@ -1476,8 +1476,6 @@ Value of "command" parameter for MENU_ADD can be:
 ** "_enc": Encodings submenu (has subitems "reload as", "convert to")
 ** "_lexers": Lexers submenu
 ** "_plugins": Plugins submenu
-** "_themes-ui": UI-themes submenu
-** "_themes-syntax": Syntax-themes submenu
 ** "_oplugins": Settings-plugins submenu
 
 * empty string, if item will be used as submenu (item is a submenu, if any subitems are added to it)
@@ -3460,6 +3458,8 @@ def project_variables():
 
 1.0.288 (app 1.81.0)
 * add: for BOOKMARK_SETUP it's allowed to use COLOR_DEFAULT
-* change: menu id "_langs" not supported
+* change: removed menu id "_langs"
+* change: removed menu id "_themes-ui"
+* change: removed menu id "_themes-syntax"
 
 [[Category:CudaText]]
