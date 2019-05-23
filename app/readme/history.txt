@@ -4,7 +4,7 @@
   * changed
 
 
-1.80.5 (2019/05)
+1.81.0 (2019/05)
 
 + add: option "indent_auto_rule": RegEx which allows to make additional indent on pressing Enter
 + add: program can use _default_ lexer-specific configs from folder settings_default
@@ -12,8 +12,8 @@
 + add: few default lexer configs for "indent_auto_rule": Lua, Pascal, Python, Ruby (not needed for C-like lexers)
 + add: dialogs "Lexer library", "Lexer properties" made resizable, they save size
 + add: program saves to session name of current side-panel and bottom-panel
-- fix: plugin "Numbered Bookmarks" uses incorrect bookmark color on dark themes
-- fix: program didn't see "modified" state for 2nd file in pair-tab
+- fix: plugin "Numbered Bookmarks" had incorrect bookmark color on dark themes
+- fix: detection of "modified" state for 2nd file in pair-tab (e.g. default.json+user.json)
 
 1.80.2 (2019/05)
 
