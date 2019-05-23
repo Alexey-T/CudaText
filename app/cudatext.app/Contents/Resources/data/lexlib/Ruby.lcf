@@ -1,4 +1,4 @@
-object SyntAnal27: TLibSyntAnalyzer
+object SyntAnal24: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -149,10 +149,9 @@ object SyntAnal27: TLibSyntAnalyzer
     end
     item
       DisplayName = 'String regex'
-      Enabled = False
       StyleName = 'String regex'
       TokenType = 4
-      Expression = '(?s) (?<![\w\]\)\.!]\x20*) / (\\/|\#\{.+?\}|.)+? /[igmx]*'
+      Expression = '(?<![\w\]\)\.!]\x20*) / (\\/|\#\{.+?\}|.)+? /[igmx]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -322,7 +321,7 @@ object SyntAnal27: TLibSyntAnalyzer
             'case'
             'class'
             'def'
-            'defined'
+            'defined?'
             'do'
             'each'
             'else'
@@ -359,7 +358,8 @@ object SyntAnal27: TLibSyntAnalyzer
             'unless'
             'until'
             'when'
-            'while')
+            'while'
+            'yield')
           TokenTypes = 4
         end>
       HighlightPos = cpBound
@@ -402,6 +402,7 @@ object SyntAnal27: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '__DIR__'
+            '__ENCODING__'
             '__END__'
             '__FILE__'
             '__LINE__'

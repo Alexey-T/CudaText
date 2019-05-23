@@ -260,13 +260,13 @@
   //  Note: config is read as utf8.
   "hex_chars": "",
 
-  //Additional pixels per each line, vertically
+  //Additional vertical spacing per each line (pixels), can be <0
   "spacing_y": 1,
 
   //Tab-char width
-  "tab_size": 8,
+  "tab_size": 4,
 
-  //Tab-key enters spaces, instead of tab-char
+  //Tab key inserts spaces, instead of tab-char
   "tab_spaces": false,
 
   //Max x-position, before which tab-chars expand to N spaces (after it to 1 space)
@@ -707,29 +707,36 @@
   "def_encoding_utf8__mac": true,
 
   //[Text/Indent]
-  //Auto-indent by Enter (makes new line indented)
+  //On pressing Enter, make new line indented (like in previous line)
   "indent_auto": true,
 
-  //Auto-indent kind
-  //  0: indent (spaces and/or tabs) like in previous line
-  //  1: by spaces
+  //How to compose whitespaces for auto-indented lines (on Enter)
+  //  0: indent (maybe mixed spaces/tabs) like in previous line
+  //  1: by spaces only
   //  2: by tabs+spaces
   //  3: by tabs only
   //  4: by spaces up to "(" last non-closed bracket in previous line
   "indent_kind": 0,
 
-  //Indent size for Indent/Unindent commands:
+  //Indentation for Indent/Unindent commands
   //  N>0: indent is N spaces
   //  N<0: indent is abs(N) tabs
   //  N=0: indent is from options "tab_size" and "tab_spaces"
   "indent_size": 2,
 
-  //Don't un-indent, if any line of the selected block already reached the left edge
+  //Don't Unindent, if any line of the selected block already reached the left edge
   "unindent_keeps_align": true,
 
   //When indenting several lines, stretch selection after command, to entire affected lines.
   //Otherwise, selection will be like before, shifted.
   "indent_makes_whole_line_sel": false,
+
+  //Auto-indent by Enter: if line matches this reg-ex, make additional indent (from option "tab_size").
+  //Option is for lexer-specific configs, not for user.json config.
+  //Reg-ex should be something like ".+some_ending$". Reg-ex is case-sensitive.
+  //Note: you don't need this option for C-like lexers, because Enter inside {} brackets
+  //(brackets are auto closed by default) is handled specially.
+  "indent_auto_rule": "",
 
   //[Mouse]
   //Enable drag-drop of text blocks
@@ -1088,5 +1095,4 @@
 
   //Log console contents to file settings/console.log
   "log_console": false,
-
 }
