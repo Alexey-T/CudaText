@@ -88,6 +88,7 @@ procedure DoFormFocus(F: TForm; AllowShow: boolean);
 
 procedure Menu_Copy(ASrc, ADest: TMenu);
 function Menu_GetIndexToInsert(AMenu: TMenuItem; ACaption: string): integer;
+procedure MenuShowAtEditorCorner(AMenu: TPopupMenu; Ed: TATSynEdit);
 
 
 implementation
@@ -756,6 +757,14 @@ begin
   end;
 end;
 
+
+procedure MenuShowAtEditorCorner(AMenu: TPopupMenu; Ed: TATSynEdit);
+var
+  P: TPoint;
+begin
+  P:= Ed.ClientToScreen(Point(0, 0));
+  AMenu.Popup(P.X, P.Y);
+end;
 
 end.
 

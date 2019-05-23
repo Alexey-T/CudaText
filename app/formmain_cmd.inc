@@ -178,22 +178,11 @@ begin
     cmd_ShowFunctionHint: DoShowFuncHint;
 
     cmd_MenuEnc:
-      begin
-        P:= CurrentEditor.ClientToScreen(Point(0, 0));
-        PopupEnc.Popup(P.X, P.Y);
-      end;
-
+      MenuShowAtEditorCorner(PopupEnc, CurrentEditor);
     cmd_MenuEnds:
-      begin
-        P:= CurrentEditor.ClientToScreen(Point(0, 0));
-        PopupEnds.Popup(P.X, P.Y);
-      end;
-
+      MenuShowAtEditorCorner(PopupEnds, CurrentEditor);
     cmd_MenuLexers:
-      begin
-        P:= CurrentEditor.ClientToScreen(Point(0, 0));
-        PopupLex.Popup(P.X, P.Y);
-      end;
+      MenuShowAtEditorCorner(PopupLex, CurrentEditor);
 
     cmd_ChooseTranslation:
       DoDialogMenuTranslations;
