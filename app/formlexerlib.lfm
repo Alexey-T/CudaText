@@ -8,6 +8,8 @@ object fmLexerLib: TfmLexerLib
   Caption = 'Lexer library'
   ClientHeight = 468
   ClientWidth = 459
+  Constraints.MinHeight = 250
+  Constraints.MinWidth = 300
   KeyPreview = True
   OnClose = FormClose
   OnCreate = FormCreate

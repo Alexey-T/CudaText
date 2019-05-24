@@ -7,6 +7,8 @@ object fmLexerProp: TfmLexerProp
   Caption = 'Lexer properties'
   ClientHeight = 601
   ClientWidth = 654
+  Constraints.MinHeight = 350
+  Constraints.MinWidth = 600
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
