@@ -1,3 +1,7 @@
+2.3.13 (2019-05-20)
+added: use "L" to mark defaults from "settings_default\lexer *.json" (in column "!")
+added: help information for "!" column
+
 2.3.12 (2019-05-20)
 added: show and use default values from "settings_default\lexer *.json"
 
