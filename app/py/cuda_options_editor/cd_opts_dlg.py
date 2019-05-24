@@ -2,7 +2,7 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '2.3.12 2019-05-20'
+    '2.3.13 2019-05-24'
 ToDo: (see end of file)
 '''
 
@@ -263,13 +263,14 @@ def load_vals(opt_dfns:list, lexr_json='', ed_=None, full=False, user_json='user
     lexr_vals       = apx._json_loads(open(lexr_json    , encoding='utf8').read(), object_pairs_hook=odict) \
                         if  os.path.isfile(lexr_json)     else {}
     pass;                      #LOG and log('lexr_vals={}',(lexr_vals))
-    pass;                       LOG and log('lexr_def_vals={}',(lexr_def_vals))
+    pass;                      #LOG and log('lexr_def_vals={}',(lexr_def_vals))
 
     # Fill vals for defined opt
     pass;                      #LOG and log('no opt={}',([oi for oi in opt_dfns if 'opt' not in oi]))
     oinf_valed  = odict([(oi['opt'], oi) for oi in opt_dfns])
     for opt, oinf in oinf_valed.items():
         if opt in lexr_def_vals:                                # Correct def-vals for lexer
+            oinf['dlx']     = True
             oinf['def']     = lexr_def_vals[opt]
             oinf['jdf']     = oinf['def']
         if opt in user_vals:                                    # Found user-val for defined opt
@@ -332,7 +333,8 @@ def upd_cald_vals(ois, what=''):
     # Fill calculated attrs
     if not what or '+clcd' in what:
         for op, oi in ois.items():
-            oi['!']     =( '+!!' if 'def' not in oi and 'lval' in oi   else
+            oi['!']     = ('L' if oi.get('dlx') else '') \
+                        + ('+!!' if 'def' not in oi and 'lval' in oi   else
                             '+!' if 'def' not in oi and 'uval' in oi   else
                            '!!!' if                     'fval' in oi 
                                     and oi['fval'] != oi.get('lval'
@@ -1947,6 +1949,12 @@ class OptEdD:
     '\r • Some plugins store their settings into user.json.'
     '\r   So after a while, user.json contains options not present in default.json.'
     '\r   To see all these keys, use option "{full}".'
+    '\r • Values in table column "!"'
+    '\r     !   option is set in "user.json",'
+    '\r     !!  option is set in "lexer NNN.json",'
+    '\r     !!! option is set for current file,'
+    '\r     L   default value is from "settings_default/lexer NNN.json",'
+    '\r     +   not CudaText standard option.'
    )             , c_usr=M.COL_NMS[M.COL_USR]
                  , c_lxr=M.COL_NMS[M.COL_LXR]
                  , c_fil=M.COL_NMS[M.COL_FIL].split()[0]
@@ -2313,9 +2321,9 @@ ToDo
 [ ][kv-kv][04jun18] Cannot select section @Ui after selected @Ui/Tabs
 [ ][kv-kv][16jun18] Have 2 filter control to instant and history. Switch by vis
 [+][kv-kv][18jun18] More then one chap in filter. Append from menu if Ctrl holds
-[ ][at-kv][24apr19] Add types: rgb
+[+][at-kv][24apr19] Add types: rgb
 [ ][at-kv][24apr19] Add type condition: int/float range
 [+][kv-kv][25apr19] Hide cols "Lexer" and "File", controls []For and lexer list (by init opt)
 [+][kv-kv][25apr19] Allow store other then user.json
-[ ][kv-kv][25apr19] Return 'was modified' from show()
+[+][kv-kv][25apr19] Return 'was modified' from show()
 '''
