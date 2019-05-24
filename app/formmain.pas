@@ -707,6 +707,7 @@ type
     procedure DoOps_LoadOptions_Editor(c: TJSONConfig; var Op: TEditorOps);
     procedure DoOps_LoadOptions_Global(c: TJSONConfig);
     procedure DoOps_LoadOptions_Ui(c: TJSONConfig);
+    procedure DoOps_LoadOptions_UiAutoCompletion(c: TJSONConfig);
     procedure DoOps_MultiInstaller;
     procedure DoOps_OnCreate;
     procedure DoShowBottomPanel(const ATabCaption: string; AndFocus: boolean);

@@ -835,6 +835,18 @@ begin
 end;
 
 
+procedure TfmMain.DoOps_LoadOptions_UiAutoCompletion(c: TJSONConfig);
+begin
+  UiOps.AutocompleteAutoshowCharCount:= c.GetValue('autocomplete_autoshow_chars', UiOps.AutocompleteAutoshowCharCount);
+  //UiOps.AutocompleteAutoshowLexers:= c.GetValue('autocomplete_autoshow_lexers', UiOps.AutocompleteAutoshowLexers);
+  UiOps.AutocompleteTriggerChars:= c.GetValue('autocomplete_trigger_chars', UiOps.AutocompleteTriggerChars);
+  UiOps.AutocompleteCommitChars:= c.GetValue('autocomplete_commit_chars', UiOps.AutocompleteCommitChars);
+  UiOps.AutocompleteCloseChars:= c.GetValue('autocomplete_close_chars', UiOps.AutocompleteCloseChars);
+  UiOps.AutocompleteAddOpeningBracket:= c.GetValue('autocomplete_add_opening_bracket', UiOps.AutocompleteAddOpeningBracket);
+  UiOps.AutocompleteUpDownAtEdge:= c.GetValue('autocomplete_up_down_at_edge', UiOps.AutocompleteUpDownAtEdge);
+  UiOps.AutoCloseBrackets:= c.GetValue('auto_close_brackets', UiOps.AutoCloseBrackets);
+end;
+
 procedure TfmMain.DoOps_LoadOptions_Ui(c: TJSONConfig);
 begin
   UiOps.VarFontName:= UTF8Encode(c.GetValue(str_UiFontName, UTF8Decode(UiOps.VarFontName)));
@@ -929,15 +941,6 @@ begin
 
   UiOps.AutocompleteHtml_Lexers:= c.GetValue('autocomplete_html_lexers', UiOps.AutocompleteHtml_Lexers);
   UiOps.AutocompleteCss_Lexers:= c.GetValue('autocomplete_css_lexers', UiOps.AutocompleteCss_Lexers);
-
-  UiOps.AutocompleteAutoshowCharCount:= c.GetValue('autocomplete_autoshow_chars', UiOps.AutocompleteAutoshowCharCount);
-  //UiOps.AutocompleteAutoshowLexers:= c.GetValue('autocomplete_autoshow_lexers', UiOps.AutocompleteAutoshowLexers);
-  UiOps.AutocompleteTriggerChars:= c.GetValue('autocomplete_trigger_chars', UiOps.AutocompleteTriggerChars);
-  UiOps.AutocompleteCommitChars:= c.GetValue('autocomplete_commit_chars', UiOps.AutocompleteCommitChars);
-  UiOps.AutocompleteCloseChars:= c.GetValue('autocomplete_close_chars', UiOps.AutocompleteCloseChars);
-  UiOps.AutocompleteAddOpeningBracket:= c.GetValue('autocomplete_add_opening_bracket', UiOps.AutocompleteAddOpeningBracket);
-  UiOps.AutocompleteUpDownAtEdge:= c.GetValue('autocomplete_up_down_at_edge', UiOps.AutocompleteUpDownAtEdge);
-  UiOps.AutoCloseBrackets:= c.GetValue('auto_close_brackets', UiOps.AutoCloseBrackets);
 
   UiOps.FindSuggestSel:= c.GetValue('find_suggest_sel', UiOps.FindSuggestSel);
   UiOps.FindSuggestWord:= c.GetValue('find_suggest_cur_word', UiOps.FindSuggestWord);
@@ -1040,6 +1043,7 @@ begin
     if AllowUiOps then
       DoOps_LoadOptions_Ui(c);
 
+    DoOps_LoadOptions_UiAutoCompletion(c);
     DoOps_LoadOptions_Editor(c, Op);
 
   finally
