@@ -577,6 +577,7 @@ end;
 
 procedure TfmFind.FormResize(Sender: TObject);
 begin
+  edFind.Left:= Max(LabelFind.Width, LabelRep.Width)+4;
   edFind.Width:= Max(45,
     ClientWidth
     - edFind.Left

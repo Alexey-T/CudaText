@@ -199,6 +199,7 @@ object fmFind: TfmFind
       OptScrollIndentCaretHorz = 0
       OptShowURLs = False
       OptShowURLsRegex = '\b(https?://|ftp://|magnet:\?|www\.)\w[^<>''"\s]+'
+      OptShowMouseSelFrame = False
       OptCaretManyAllowed = False
       OptCaretVirtual = False
       OptGutterVisible = False
@@ -206,6 +207,7 @@ object fmFind: TfmFind
       OptBorderWidthFocused = 1
       OptRulerVisible = False
       OptMicromapVisible = True
+      OptMicromapWidthPercents = 300
       OptMarginRight = 1000
       OptNumbersSkippedChar = '.'
       OptUnprintedVisible = False
@@ -297,6 +299,7 @@ object fmFind: TfmFind
       OptScrollIndentCaretHorz = 0
       OptShowURLs = False
       OptShowURLsRegex = '\b(https?://|ftp://|magnet:\?|www\.)\w[^<>''"\s]+'
+      OptShowMouseSelFrame = False
       OptCaretManyAllowed = False
       OptCaretVirtual = False
       OptGutterVisible = False
@@ -304,6 +307,7 @@ object fmFind: TfmFind
       OptBorderWidthFocused = 1
       OptRulerVisible = False
       OptMicromapVisible = True
+      OptMicromapWidthPercents = 300
       OptMarginRight = 1000
       OptNumbersSkippedChar = '.'
       OptUnprintedVisible = False
