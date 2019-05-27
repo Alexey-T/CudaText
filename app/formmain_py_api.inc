@@ -6201,6 +6201,36 @@ begin
 end;
 
 
+function Py_ed_codetree(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  HEditor, HTree: Int64;
+  Id: integer;
+  Ed: TATSynEdit;
+  TreeCont: TAppTreeContainer;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'LLi:codetree', @HEditor, @HTree, @Id)) then
+    begin
+      Ed:= PyEditor(HEditor);
+      TreeCont:= TAppTreeContainer(PtrInt(HTree));
+      case Id of
+        CODETREE_FILL:
+          begin
+            if Ed.AdapterForHilite is TATAdapterEControl then
+            begin
+              TATAdapterEControl(Ed.AdapterForHilite).TreeFill(TreeCont.Tree);
+              Result:= PyBool_FromLong(1);
+            end
+            else
+              Result:= PyBool_FromLong(0);
+          end;
+        else
+          Result:= ReturnNone;
+      end;
+    end;
+end;
+
+
 function Py_ed_folding(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
@@ -7226,6 +7256,7 @@ begin
     AddMethod('ed_hotspots', @Py_ed_hotspots, '');
     AddMethod('ed_lexer_scan', @Py_ed_lexer_scan, '');
     AddMethod('ed_export_html', @Py_ed_export_html, '');
+    AddMethod('ed_codetree', @Py_ed_codetree, '');
 
     AddMethod('file_open', @Py_file_open, '');
     AddMethod('ed_handles', @Py_ed_handles, '');

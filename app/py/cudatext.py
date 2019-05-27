@@ -379,6 +379,8 @@ TREE_LOCK                  = 31
 TREE_UNLOCK                = 32
 TREE_THEME                 = 33
 
+CODETREE_FILL  = 0
+
 LISTBOX_GET_COUNT    = 0
 LISTBOX_ADD          = 1
 LISTBOX_DELETE       = 2
@@ -1189,6 +1191,9 @@ class Editor:
 
     def get_wrapinfo(self):
         return ct.ed_get_wrapinfo(self.h)
+
+    def codetree(self, h_tree, id):
+        return ct.ed_codetree(self.h, h_tree, id)
 
     def export_html(self, file_name, title, font_name, font_size, with_nums, color_bg, color_nums):
         return ct.ed_export_html(self.h, file_name, title, font_name, font_size, with_nums, color_bg, color_nums)

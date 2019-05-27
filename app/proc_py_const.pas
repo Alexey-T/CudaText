@@ -335,6 +335,8 @@ const
   TREE_UNLOCK                = 32;
   TREE_THEME                 = 33;
 
+  CODETREE_FILL  = 0;
+
   LISTBOX_GET_COUNT    = 0;
   LISTBOX_ADD          = 1;
   LISTBOX_DELETE       = 2;
