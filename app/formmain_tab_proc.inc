@@ -488,7 +488,7 @@ begin
       SName:= Frame.FileName;
       L_fn.Add(SName);
       if (SName<>'') and Frame.EditorsLinked then
-        L_cap.Add(msgModified[Frame.Ed1.Modified]+ExtractFileName(SName))
+        L_cap.Add(ExtractFileName(SName))
       else
         L_cap.Add(Frame.TabCaption);
     end;
@@ -521,9 +521,10 @@ begin
       if L_fn[i]<>'' then
       begin
         Frame:= Frames[i];
-        if Frame.TabCaption<>L_cap[i] then
+        SName:= msgModified[Frame.Ed1.Modified] + L_cap[i];
+        if Frame.TabCaption<>SName then
           if not Frame.TabCaptionFromApi then
-            Frame.TabCaption:= L_cap[i];
+            Frame.TabCaption:= SName;
       end;
   finally
     FreeAndNil(L_found);
