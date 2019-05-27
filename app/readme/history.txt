@@ -4,6 +4,11 @@
   * changed
 
 
+1.81.1 (2019/05)
+
+- fix: very slow Unfold action in huge files
+- fix: block-staples painted incorrect in huge files
+
 1.81.0 (2019/05)
 
 + add: option "indent_auto_rule": RegEx which allows to make additional indent on pressing Enter
