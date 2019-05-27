@@ -546,7 +546,7 @@ Gets int index of pressed button (0-based), or None of cancelled.
 
 Shows given text in statusbar.
 
-Param "process_messages": if True, function also does UI messages processing. It takes some time, it is needed to refresh status of Esc-key pressed. After call msg_status(..., True) you can get state of Esc-key pressed via PROC_GET_ESCAPE, else plugin gets old state, until UI messages are processed.
+Param "process_messages": if True, function also does UI messages processing. It takes some time, it is needed to refresh status of Esc-key pressed. After call msg_status(..., True) you can get state of Esc-key pressed via PROC_GET_ESCAPE, otherwise plugin gets an old state, until UI messages are processed.
 
 ===msg_status_alt===
 
@@ -2287,7 +2287,7 @@ Performs action on folding ranges. Possible values of "id":
 ** "item_y2": line index of range end.
 ** "item_staple" (optional): bool, range has block staple.
 ** "item_hint" (optional): str, hint which is shown when range is folded.
-** "index": if it's valid range index (0-based), range inserts at this index, else range appends.
+** "index": if it's valid range index (0-based), range inserts at this index, otherwise range appends.
 
 * FOLDING_DELETE: Deletes folding range with given index (index in list, from FOLDING_GET_LIST). Params used: "index".
 * FOLDING_DELETE_ALL: Deletes all folding ranges. Params used: none except "id".
@@ -2565,13 +2565,23 @@ Possible values of "id":
 * DIM_DELETE_ALL: Deletes all ranges.
 * DIM_ENUM: Enumerates ranges. Gives list of 3-tuples (line_from, line_to, dim_value) or None.
 
+===codetree===
+
+ codetree(h_tree, id)
+
+Performs action with editor's code-tree information (not the current code-tree contents for the focused editor). Param "h_tree" must be valid TreeView handle to use with tree_proc().
+
+Possible values of "id":
+
+* CODETREE_FILL: Fill given treeview with the code-tree contents. Gets True if lexer is set and code-tree is read, otherwise False. 
+
 ===lexer_scan===
 
  lexer_scan(nline)
 
 Runs lexer analysis (if lexer active) from given line index. Waits until analysis finishes.
 
-Use case: plugin appends n lines to text (line by line), then lexer needs to rescan text from 1st added line, else folding won't appear for these lines.
+Use case: plugin appends n lines to text (line by line), then lexer needs to rescan text from 1st added line, otherwise folding won't appear for these lines.
 
 ===export_html===
 
@@ -3461,5 +3471,8 @@ def project_variables():
 * change: removed menu id "_langs"
 * change: removed menu id "_themes-ui"
 * change: removed menu id "_themes-syntax"
+
+1.0.289 (app 1.81.1)
+* add: Editor.codetree()
 
 [[Category:CudaText]]
