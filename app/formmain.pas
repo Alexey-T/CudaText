@@ -3122,8 +3122,9 @@ const
 var
   NCountZip, i: integer;
   fn: string;
-  bZip: boolean;
+  bZip, bZipAllowed: boolean;
 begin
+  bZipAllowed:= Pos('/nozip', AOptions)=0;
   with OpenDlg do
   begin
     FileName:= '';
@@ -3142,7 +3143,7 @@ begin
       begin
         fn:= Files[i];
         if not FileExistsUTF8(fn) then Continue;
-        bZip:= ExtractFileExt(fn)='.zip';
+        bZip:= bZipAllowed and (ExtractFileExt(fn)='.zip');
         if bZip then
         begin
           Inc(NCountZip);
