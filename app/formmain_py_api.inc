@@ -6202,6 +6202,61 @@ begin
 end;
 
 
+function Py_ed_action_ExportHtml(Ed: TATSynEdit; SParams: string): boolean;
+var
+  SItem, SKey, SValue: string;
+  SFileName, STitle, SFontName: string;
+  NFontSize: integer;
+  bWithNums: boolean;
+  NColorBg, NColorNums: TColor;
+begin
+  SFileName:= '';
+  STitle:= '';
+  SFontName:= '';
+  NFontSize:= 10;
+  bWithNums:= true;
+  NColorBg:= clWhite;
+  NColorNums:= clGray;
+
+  //text is '{key1:value1;key2:value2}' from to_str()
+  if SParams[1]='{' then
+    SParams:= Copy(SParams, 2, Length(SParams)-2);
+
+  repeat
+    SItem:= SGetItem(SParams, #1);
+    if SItem='' then Break;
+    SKey:= SGetItem(SItem, ':');
+    SValue:= SItem;
+    SValue:= StringReplace(SValue, #2, ',', [rfReplaceAll]);
+
+    case SKey of
+      'file_name': SFileName:= SValue;
+      'title': STitle:= SValue;
+      'font_name': SFontName:= SValue;
+      'font_size': NFontSize:= StrToIntDef(SValue, NFontSize);
+      'with_numbers': bWithNums:= AppStrToBool(SValue);
+      'color_back': NColorBg:= StrToIntDef(SValue, NColorBg);
+      'color_numbers': NColorNums:= StrToIntDef(SValue, NColorNums);
+    end;
+  until false;
+
+  if SFileName='' then exit(false);
+  DeleteFileUTF8(SFileName);
+
+  DoEditorExportToHTML(Ed,
+    SFileName,
+    STitle,
+    SFontName,
+    NFontSize,
+    bWithNums,
+    NColorBg,
+    NColorNums
+    );
+
+  Result:= FileExistsUTF8(SFileName);
+end;
+
+
 function Py_ed_action(Self, Args: PPyObject): PPyObject; cdecl;
 var
   HEditor: Int64;
@@ -6211,6 +6266,7 @@ var
   Ed: TATSynEdit;
   NValue: Int64;
   TreeContainer: TAppTreeContainer;
+  Ok: boolean;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lisss:action', @HEditor, @IdAction, @PtrText1, @PtrText2, @PtrText3)) then
@@ -6242,6 +6298,12 @@ begin
               if Ed.AdapterForHilite is TATAdapterEControl then
                 TATAdapterEControl(Ed.AdapterForHilite).DoAnalyzeFromLine(NValue, true{Wait});
             Result:= ReturnNone;
+          end;
+
+        EDACTION_EXPORT_HTML:
+          begin
+            Ok:= Py_ed_action_ExportHtml(Ed, StrText1);
+            Result:= PyBool_FromLong(Ord(Ok));
           end;
 
         else
