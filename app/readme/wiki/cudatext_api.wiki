@@ -2575,6 +2575,15 @@ Performs some action in editor. Possible values of "id":
 
 * EDACTION_LEXER_SCAN: Runs lexer parsing (if lexer is set) from line index, given by "param1". Waits until parsing finishes.
 
+* EDACTION_EXPORT_HTML: Creates HTML file from editor's text with syntax highlighting. Gets bool: file is created. Param "param1" must be dict with the following keys:
+** "file_name": str: Full path of file.
+** "title": str: HTML page title.
+** "font_name": str: Font name.
+** "font_size": int: Font size, in HTML points.
+** "with_numbers": bool: Show gutter with line numbers.
+** "color_back": int: RGB color of page background.
+** "color_numbers": int: RGB color of line numbers.
+
 ===Editor.lexer_scan===
 
  lexer_scan(nline)
@@ -2592,8 +2601,8 @@ Makes HTML file from source text with syntax highlighting. Gets bool: file is cr
 * "file_name": str: Path of file.
 * "title": str: HTML page title.
 * "font_name": str: Font name.
-* "int": Font size, in HTML points.
-* "with_nums": bool: Make column with line numbers.
+* "font_size": int: Font size, in HTML points.
+* "with_nums": bool: Show gutter with line numbers.
 * "color_bg": int: RGB color of page background.
 * "color_nums": int: RGB color of line numbers.
 
@@ -3470,8 +3479,9 @@ def project_variables():
 * change: removed menu id "_themes-ui"
 * change: removed menu id "_themes-syntax"
 
-1.0.289 (app 1.81.1)
+1.0.289 (app 1.81.2)
 * add: Editor.action()
 * deprecated: Editor.lexer_scan()
+* deprecated: Editor.export_html()
 
 [[Category:CudaText]]
