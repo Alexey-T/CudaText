@@ -165,7 +165,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_SET_GROUPING: Sets grouping mode in program, one of GROUPS_nnnn int contants.
 * PROC_PROGRESSBAR: Changes state of the progress-bar (hidden by default), which is located on the status-bar right corner. Int value<0: progressbar hides, value in 0..100: progressbar shows with the given value.
 * PROC_GET_TAB_IMAGELIST: Gets int handle of imagelist, for file-tabs. Use imagelist_proc() to work with it. Use PROP_TAB_ICON property to get/set file-tab icon index (index in this imagelist).
-* PROC_GET_CODETREE: Gets int handle of Code Tree UI control. Use tree_proc() to work with it.
+* PROC_GET_CODETREE: Gets int handle of code-tree UI control. Use tree_proc() to work with it.
 * PROC_WINDOW_TOPMOST_GET: Gets bool flag: main window has "always on top" style.
 * PROC_WINDOW_TOPMOST_SET: Sets bool flag: main window has "always on top" style.
 
@@ -1333,8 +1333,8 @@ Possible values of "id_action":
 * TREE_UNLOCK: Enables repainting of control.
 * TREE_THEME: Applies current color theme to control.
 
-* TREE_ITEM_GET_RANGE: Should be used only for Code Tree. Gets range, stored in tree-item, as 4-tuple (start_x, start_y, end_x, end_y). If range is not set, gets (-1,-1,-1,-1).
-* TREE_ITEM_SET_RANGE: Should be used only for Code Tree. Sets range for tree-item. Param "text" must be 4-tuple of int (start_x, start_y, end_x, end_y).
+* TREE_ITEM_GET_RANGE: Should be used only for code-tree. Gets range, stored in tree-item, as 4-tuple (start_x, start_y, end_x, end_y). If range is not set, gets (-1,-1,-1,-1).
+* TREE_ITEM_SET_RANGE: Should be used only for code-tree. Sets range for tree-item. Param "text" must be 4-tuple of int (start_x, start_y, end_x, end_y).
 
 ===listbox_proc===
 
@@ -2026,8 +2026,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_HILITE_CUR_LINE: bool: highlight current line.
 * PROP_HILITE_CUR_LINE_MINIMAL: bool: highlight current line, only minimal part of line.
 * PROP_HILITE_CUR_LINE_IF_FOCUS: bool: highlight current line, only when editor focused.
-* PROP_CODETREE: bool: enable standard Code Tree filling.
-* PROP_CODETREE_MODIFIED_VERSION: modification version of the editor for the moment of Code Tree filling. See PROP_MODIFIED_VERSION.
+* PROP_CODETREE: bool: enable standard code-tree filling.
+* PROP_CODETREE_MODIFIED_VERSION: modification version of the editor for the moment of code-tree filling. See PROP_MODIFIED_VERSION.
 * PROP_EDITORS_LINKED: bool: enable sharing of the same text by primary/secondary editors in file tab.
 * PROP_CELL_SIZE: 2-tuple of int: size in pixels of average char cell.
 * PROP_ONE_LINE: bool: editor has single-line mode. (Usual editors are multi-line.)
@@ -2137,7 +2137,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_HILITE_CUR_LINE: bool: highlight current line.
 * PROP_HILITE_CUR_LINE_MINIMAL: bool: highlight current line, only minimal part of line.
 * PROP_HILITE_CUR_LINE_IF_FOCUS: bool: highlight current line, only when editor focused.
-* PROP_CODETREE: bool: enable standard Code Tree filling.
+* PROP_CODETREE: bool: enable standard code-tree filling.
 * PROP_EDITORS_LINKED: bool: enable sharing of the same text by primary/secondary editors in file tab.
 * PROP_ONE_LINE: bool: editor has single-line mode.
 * PROP_MODERN_SCROLLBAR: bool: use custom-drawn themed scrollbars.
@@ -2608,7 +2608,7 @@ Makes HTML file from source text with syntax highlighting. Gets bool: file is cr
 
 =TreeHelpers=
 
-CudaText contains built-in support for TreeHelpers. They build Code Tree for additional lexers. TreeHelpers must be plugins, which have special install.inf file.
+CudaText contains built-in support for TreeHelpers. They build code-tree for additional lexers. TreeHelpers must be plugins, which have special install.inf file.
 
 Section [info]:
 * key "subdir" must begin with "cuda_tree_"
@@ -2639,7 +2639,7 @@ Getter must return list of tuples: (pos, level, caption, icon).
 ** 6: arrow1
 ** 7: arrow2
 
-Getter can also return value not of "list" type, in this case CudaText will not update the Code Tree.
+Getter can also return value not of "list" type, in this case CudaText will not update the code-tree.
 
 See examples of TreeHelpers: for Markdown, for MediaWiki. They are add-ons in the CudaText AddonManager.
 
@@ -2790,10 +2790,10 @@ def project_variables():
 
 =FAQ=
 
-==How plugin can fill Code Tree?==
+==How plugin can fill code-tree?==
 
 * Handle events on_open, on_focus, on_change_slow (better don't use on_change, it slows down the app)
-* Get handle of Code Tree: h_tree = app_proc(PROC_GET_CODETREE, "")
+* Get handle of code-tree: h_tree = app_proc(PROC_GET_CODETREE, "")
 * Fill tree via tree_proc(h_tree, ...)
 ** Disable standard tree filling via ed.set_prop(PROP_CODETREE, False)
 ** Clear tree via tree_proc(h_tree, TREE_ITEM_DELETE, id_item=0)
