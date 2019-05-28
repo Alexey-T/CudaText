@@ -6204,7 +6204,7 @@ end;
 function Py_ed_action(Self, Args: PPyObject): PPyObject; cdecl;
 var
   HEditor: Int64;
-  Id: integer;
+  IdAction: integer;
   PtrText1, PtrText2, PtrText3: PChar;
   StrText1, StrText2, StrText3: string;
   Ed: TATSynEdit;
@@ -6212,17 +6212,17 @@ var
   TreeContainer: TAppTreeContainer;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Lisss:action', @HEditor, @Id, @PtrText1, @PtrText2, @PtrText3)) then
+    if Bool(PyArg_ParseTuple(Args, 'Lisss:action', @HEditor, @IdAction, @PtrText1, @PtrText2, @PtrText3)) then
     begin
       Ed:= PyEditor(HEditor);
       StrText1:= string(PtrText1);
       StrText2:= string(PtrText2);
       StrText3:= string(PtrText3);
+      NValue:= StrToInt64Def(StrText1, 0);
 
-      case Id of
+      case IdAction of
         EDACTION_CODETREE_FILL:
           begin
-            NValue:= StrToInt64Def(StrText1, 0);
             if NValue=0 then
               exit(PyBool_FromLong(0));
             TreeContainer:= TAppTreeContainer(PtrInt(NValue));
@@ -6234,6 +6234,15 @@ begin
             else
               Result:= PyBool_FromLong(0);
           end;
+
+        EDACTION_LEXER_SCAN:
+          begin
+            if Ed.Strings.IsIndexValid(NValue) then
+              if Ed.AdapterForHilite is TATAdapterEControl then
+                TATAdapterEControl(Ed.AdapterForHilite).DoAnalyzeFromLine(NValue, true{Wait});
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;

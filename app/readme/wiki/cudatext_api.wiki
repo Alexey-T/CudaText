@@ -2573,6 +2573,8 @@ Performs some action in editor. Possible values of "id":
 
 * EDACTION_CODETREE_FILL: Fill some visual TreeView control (it can be standard code-tree control, or TreeView control in some form) with editor's code-tree information. Param "param1" must be TreeView handle (to use with tree_proc()). Gets True if lexer is set and information is read, otherwise False. 
 
+* EDACTION_LEXER_SCAN: Runs lexer parsing (if lexer is set) from line index, given by "param1". Waits until parsing finishes.
+
 ===Editor.lexer_scan===
 
  lexer_scan(nline)
@@ -3470,5 +3472,6 @@ def project_variables():
 
 1.0.289 (app 1.81.1)
 * add: Editor.action()
+* deprecated: Editor.lexer_scan()
 
 [[Category:CudaText]]

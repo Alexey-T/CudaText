@@ -338,6 +338,7 @@ const
   EDACTION_LOCK           = 0;
   EDACTION_UNLOCK         = 1;
   EDACTION_CODETREE_FILL  = 10;
+  EDACTION_LEXER_SCAN     = 11;
 
   LISTBOX_GET_COUNT    = 0;
   LISTBOX_ADD          = 1;
