@@ -5996,6 +5996,7 @@ var
   Ed: TATSynEdit;
   F: TEditorFrame;
 begin
+  MsgOldApi('Editor.lexer_scan');
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Li:lexer_scan', @H, @Num)) then
     begin
