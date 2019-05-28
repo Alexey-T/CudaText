@@ -5659,6 +5659,7 @@ var
   NColorBg, NColorNums: TColor;
   ok: boolean;
 begin
+  MsgOldApi('Editor.export_html');
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lsssiiii:export_html',
       @H, @SFileName, @STitle, @SFontName,
