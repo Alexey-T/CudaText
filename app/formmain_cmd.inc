@@ -47,6 +47,9 @@ begin
     cmd_FileNew:             DoFileNew;
     cmd_FileNewMenu:         DoFileNewMenu(nil);
     cmd_FileOpen:            DoFileOpenDialog;
+    cmd_FileOpen_TextViewer:    DoFileOpenDialog('/view-text');
+    cmd_FileOpen_HexViewer:     DoFileOpenDialog('/view-hex');
+    cmd_FileOpen_UnicodeViewer: DoFileOpenDialog('/view-unicode');
     cmd_FileOpenFolder:      DoPyCommand('cuda_project_man', 'new_project_open_dir', []);
     cmd_FileOpen_NoPlugins:  DoFileOpenDialog_NoPlugins;
     cmd_FileReopen:          DoFileReopen;

@@ -6,8 +6,11 @@
 
 1.81.1 (2019/05)
 
-- fix: very slow Unfold action in huge files
-- fix: block-staples painted incorrect in huge files
++ add: command "open file, in text viewer"
++ add: command "open file, in hex viewer"
++ add: command "open file, in unicode viewer"
+- fix: very slow unfold action in huge files
+- fix: block-staples can paint incorrectly in huge files
 
 1.81.0 (2019/05)
 

@@ -307,6 +307,10 @@ cmd_FindAllAndBookmarks = 2598
 cmd_FindMarkAll      = cmd_FindAllAndMarkers
 cmd_SelectExpandToWord = 2600
 
+cmd_FileOpen_TextViewer    = 2603
+cmd_FileOpen_HexViewer     = 2604
+cmd_FileOpen_UnicodeViewer = 2605
+
 cmd_SplitTabToggle   = 2620
 cmd_SplitTabHorzVert = 2621
 cmd_SplitTab3070     = 2622

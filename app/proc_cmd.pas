@@ -127,6 +127,10 @@ const
 
   cmd_SelectExpandToWord = 2600; //like Ctrl+D in Sublime
 
+  cmd_FileOpen_TextViewer    = 2603;
+  cmd_FileOpen_HexViewer     = 2604;
+  cmd_FileOpen_UnicodeViewer = 2605;
+
   cmd_SplitTabToggle   = 2620;
   cmd_SplitTabHorzVert = 2621;
   cmd_SplitTab3070     = 2622;
@@ -304,6 +308,9 @@ begin
   M.Add(cmd_FileNewMenu, 'file: new file, from template', [], []);
   M.Add(cmd_FileOpen, 'file: open file', [cXControl+'+O'], []);
   M.Add(cmd_FileOpen_NoPlugins, 'file: open file, ignore plugins', [], []);
+  M.Add(cmd_FileOpen_TextViewer, 'file: open file, in text viewer', [], []);
+  M.Add(cmd_FileOpen_HexViewer, 'file: open file, in hex viewer', [], []);
+  M.Add(cmd_FileOpen_UnicodeViewer, 'file: open file, in unicode viewer', [], []);
   M.Add(cmd_FileSave, 'file: save file', [cXControl+'+S'], []);
   M.Add(cmd_FileSaveAs, 'file: save file as', [], []);
   M.Add(cmd_FileSaveAll, 'file: save all tabs', [], []);
@@ -577,6 +584,9 @@ begin
     cmd_FileNewMenu,
     cmd_FileOpen,
     cmd_FileOpen_NoPlugins,
+    cmd_FileOpen_TextViewer,
+    cmd_FileOpen_HexViewer,
+    cmd_FileOpen_UnicodeViewer,
     cmd_FileReopen,
     cmd_FileExit,
     cmd_FileClose,
@@ -708,6 +718,9 @@ begin
     cmd_FileNew,
     cmd_FileNewMenu,
     cmd_FileOpen,
+    cmd_FileOpen_TextViewer,
+    cmd_FileOpen_HexViewer,
+    cmd_FileOpen_UnicodeViewer,
     cmd_FileOpen_NoPlugins,
     cmd_FileOpenFolder,
     cmd_FileSaveAs,
