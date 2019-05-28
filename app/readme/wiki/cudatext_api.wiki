@@ -2565,15 +2565,13 @@ Possible values of "id":
 * DIM_DELETE_ALL: Deletes all ranges.
 * DIM_ENUM: Enumerates ranges. Gives list of 3-tuples (line_from, line_to, dim_value) or None.
 
-===Editor.codetree===
+===Editor.action===
 
- codetree(h_tree, id)
+ action(id, param1="", param2="", param3="")
 
-Performs action with editor's code-tree information (not the current code-tree contents for the focused editor). Param "h_tree" must be valid TreeView handle to use with tree_proc().
+Performs some action in editor. Possible values of "id":
 
-Possible values of "id":
-
-* CODETREE_FILL: Fill given treeview with the code-tree contents. Gets True if lexer is set and code-tree is read, otherwise False. 
+* EDACTION_CODETREE_FILL: Fill some visual TreeView control (it can be standard code-tree control, or TreeView control in some form) with editor's code-tree information. Param "param1" must be TreeView handle (to use with tree_proc()). Gets True if lexer is set and information is read, otherwise False. 
 
 ===Editor.lexer_scan===
 
@@ -3471,6 +3469,6 @@ def project_variables():
 * change: removed menu id "_themes-syntax"
 
 1.0.289 (app 1.81.1)
-* add: Editor.codetree()
+* add: Editor.action()
 
 [[Category:CudaText]]

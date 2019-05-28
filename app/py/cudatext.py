@@ -379,8 +379,6 @@ TREE_LOCK                  = 31
 TREE_UNLOCK                = 32
 TREE_THEME                 = 33
 
-CODETREE_FILL  = 0
-
 LISTBOX_GET_COUNT    = 0
 LISTBOX_ADD          = 1
 LISTBOX_DELETE       = 2
@@ -420,6 +418,10 @@ GROUPS_6GRID   = 13
 #EDSTATE_WORDWRAP = 1
 EDSTATE_TAB_TITLE = 2
 EDSTATE_MODIFIED  = 3
+
+EDACTION_LOCK           = 0
+EDACTION_UNLOCK         = 1
+EDACTION_CODETREE_FILL  = 10
 
 APPSTATE_LANG          = 20
 APPSTATE_THEME_UI      = 21
@@ -1192,8 +1194,8 @@ class Editor:
     def get_wrapinfo(self):
         return ct.ed_get_wrapinfo(self.h)
 
-    def codetree(self, h_tree, id):
-        return ct.ed_codetree(self.h, h_tree, id)
+    def action(self, id, param1='', param2='', param3=''):
+        return ct.ed_action(self.h, id, to_str(param1), to_str(param2), to_str(param3))
 
     def export_html(self, file_name, title, font_name, font_size, with_nums, color_bg, color_nums):
         return ct.ed_export_html(self.h, file_name, title, font_name, font_size, with_nums, color_bg, color_nums)

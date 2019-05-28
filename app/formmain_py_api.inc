@@ -6201,24 +6201,34 @@ begin
 end;
 
 
-function Py_ed_codetree(Self, Args: PPyObject): PPyObject; cdecl;
+function Py_ed_action(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  HEditor, HTree: Int64;
+  HEditor: Int64;
   Id: integer;
+  PtrText1, PtrText2, PtrText3: PChar;
+  StrText1, StrText2, StrText3: string;
   Ed: TATSynEdit;
-  TreeCont: TAppTreeContainer;
+  NValue: Int64;
+  TreeContainer: TAppTreeContainer;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'LLi:codetree', @HEditor, @HTree, @Id)) then
+    if Bool(PyArg_ParseTuple(Args, 'Lisss:action', @HEditor, @Id, @PtrText1, @PtrText2, @PtrText3)) then
     begin
       Ed:= PyEditor(HEditor);
-      TreeCont:= TAppTreeContainer(PtrInt(HTree));
+      StrText1:= string(PtrText1);
+      StrText2:= string(PtrText2);
+      StrText3:= string(PtrText3);
+
       case Id of
-        CODETREE_FILL:
+        EDACTION_CODETREE_FILL:
           begin
+            NValue:= StrToInt64Def(StrText1, 0);
+            if NValue=0 then
+              exit(PyBool_FromLong(0));
+            TreeContainer:= TAppTreeContainer(PtrInt(NValue));
             if Ed.AdapterForHilite is TATAdapterEControl then
             begin
-              TATAdapterEControl(Ed.AdapterForHilite).TreeFill(TreeCont.Tree);
+              TATAdapterEControl(Ed.AdapterForHilite).TreeFill(TreeContainer.Tree);
               Result:= PyBool_FromLong(1);
             end
             else
@@ -7254,9 +7264,9 @@ begin
     AddMethod('ed_gap', @Py_ed_gap, '');
     AddMethod('ed_dim', @Py_ed_dim, '');
     AddMethod('ed_hotspots', @Py_ed_hotspots, '');
+    AddMethod('ed_action', @Py_ed_action, '');
     AddMethod('ed_lexer_scan', @Py_ed_lexer_scan, '');
     AddMethod('ed_export_html', @Py_ed_export_html, '');
-    AddMethod('ed_codetree', @Py_ed_codetree, '');
 
     AddMethod('file_open', @Py_file_open, '');
     AddMethod('ed_handles', @Py_ed_handles, '');

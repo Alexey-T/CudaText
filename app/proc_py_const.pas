@@ -335,7 +335,9 @@ const
   TREE_UNLOCK                = 32;
   TREE_THEME                 = 33;
 
-  CODETREE_FILL  = 0;
+  EDACTION_LOCK           = 0;
+  EDACTION_UNLOCK         = 1;
+  EDACTION_CODETREE_FILL  = 10;
 
   LISTBOX_GET_COUNT    = 0;
   LISTBOX_ADD          = 1;
