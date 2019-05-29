@@ -682,7 +682,7 @@
   //  2: field is shown on bottom
   "ui_tree_filter_layout": 1,
 
-  //Maximal number of lines in text, for which code-tree is enabled (0: always disabled)
+  //Maximal number of folding ranges, for which code-tree fill be filled
   "ui_max_ranges_codetree": 13000,
 
   //[Text/NewDoc]

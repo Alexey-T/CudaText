@@ -682,8 +682,8 @@
   //  2: field is shown on bottom
   "ui_tree_filter_layout": 1,
 
-  //Maximal number of lines in text, for which code-tree is enabled (0: always disabled)
-  "ui_max_lines_codetree": 8000,
+  //Maximal number of folding ranges, for which code-tree fill be filled
+  "ui_max_ranges_codetree": 13000,
 
   //[Text/NewDoc]
   //New tabs: Lexer name
@@ -917,18 +917,17 @@
   //  Instruction for Linux/FreeBSD/Solaris, if Python engine not auto-detected:
   //  1) open file manager, go to /usr
   //  2) search for "libpython3.*so*"
-  //
   //     Terminal command:
   //     $ find /usr -name 'libpython3.*so*' 2>/dev/null
   //
   //  3) if not found, install Python 3, goto step 2
   //  4) in user.json, set "pylib__linux" (or "pylib__freebsd" etc) to one 
   //     of the found filenames. for example:
-  //     "pylib__linux": "/usr/lib/x86_64-linux-gnu/libpython3.7m.so.1.0",
+  //     "pylib__linux" : "/usr/lib/x86_64-linux-gnu/libpython3.7m.so.1.0",
   //
-  //  Info for macOS:
-  //  Homebrew is not OK, it don't install 32-bit .dylib file.
-  //  So you must install Python from www.python.org (any 3.x is ok).
+  //  macOS:
+  //  Python installed via Homebrew is not OK, it doesn't install 32-bit .dylib file.
+  //  So you must install Python from www.python.org
   //  CudaText will find Python then (any version until 3.9).
   //
   "pylib": "python35.dll",
