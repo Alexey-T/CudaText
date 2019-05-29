@@ -923,11 +923,11 @@
   //  3) if not found, install Python 3, goto step 2
   //  4) in user.json, set "pylib__linux" (or "pylib__freebsd" etc) to one 
   //     of the found filenames. for example:
-  //     "pylib__linux": "/usr/lib/x86_64-linux-gnu/libpython3.7m.so.1.0",
+  //     "pylib__linux" : "/usr/lib/x86_64-linux-gnu/libpython3.7m.so.1.0",
   //
-  //  Info for macOS:
-  //  Homebrew is not OK, it don't install 32-bit .dylib file.
-  //  So you must install Python from www.python.org (any 3.x is ok).
+  //  macOS:
+  //  Python installed via Homebrew is not OK, it doesn't install 32-bit .dylib file.
+  //  So you must install Python from www.python.org
   //  CudaText will find Python then (any version until 3.9).
   //
   "pylib": "python35.dll",
