@@ -1239,7 +1239,7 @@ begin
 
     MaxFileSizeToOpen:= 1000;
     MaxFileSizeForLexer:= 2;
-    MaxRangesForCodeTree:= 13000;
+    MaxRangesForCodeTree:= 9000;
 
     AutocompleteCss:= true;
     AutocompleteHtml:= true;

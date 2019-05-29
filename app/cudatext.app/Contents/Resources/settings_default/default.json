@@ -682,8 +682,8 @@
   //  2: field is shown on bottom
   "ui_tree_filter_layout": 1,
 
-  //Maximal number of folding ranges, for which code-tree fill be filled
-  "ui_max_ranges_codetree": 13000,
+  //Maximal number of folding ranges in file, for which code-tree fill be filled
+  "ui_max_ranges_codetree": 9000,
 
   //[Text/NewDoc]
   //New tabs: Lexer name
