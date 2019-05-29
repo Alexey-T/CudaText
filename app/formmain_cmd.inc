@@ -10,7 +10,6 @@ Copyright (c) Alexey Torgashin
 procedure TfmMain.TimerCmdTimer(Sender: TObject);
 var
   Cmd: integer;
-  P: TPoint;
   F: TEditorFrame;
 begin
   TimerCmd.Enabled:= false;
