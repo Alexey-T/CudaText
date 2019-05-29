@@ -139,7 +139,7 @@ type
     PictureTypes: string;
     MaxFileSizeToOpen: integer;
     MaxFileSizeForLexer: integer;
-    MaxLinesForTree: integer;
+    MaxRangesForCodeTree: integer;
 
     AutocompleteHtml: boolean;
     AutocompleteCss: boolean;
@@ -1239,7 +1239,7 @@ begin
 
     MaxFileSizeToOpen:= 1000;
     MaxFileSizeForLexer:= 2;
-    MaxLinesForTree:= 8000;
+    MaxRangesForCodeTree:= 13000;
 
     AutocompleteCss:= true;
     AutocompleteHtml:= true;

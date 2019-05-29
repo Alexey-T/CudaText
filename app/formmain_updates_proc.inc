@@ -932,6 +932,8 @@ var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
   Tree: TTreeView;
+  Ada: TATAdapterEControl;
+  NRanges: integer;
 begin
   if UiOps.TreeShowIcons then
     CodeTree.Tree.Images:= ImageListTree
@@ -945,6 +947,10 @@ begin
   if Frame=nil then exit;
   Ed:= Frame.Editor;
 
+  Ada:= Frame.Adapter[Ed];
+  if Ada=nil then exit;
+  if Ada.AnClient=nil then exit;
+
   if not Frame.EnabledCodeTree[Ed] then
   begin
     //don't clear tree, it may be filled by plugin
@@ -952,14 +958,14 @@ begin
     exit;
   end;
 
-  if (Ed.Strings.Count=0) or
-    (Ed.Strings.Count>UiOps.MaxLinesForTree) then
+  NRanges:= Ada.AnClient.RangeCount;
+  if (NRanges=0) or (NRanges>UiOps.MaxRangesForCodeTree) then
   begin
     ClearTreeviewWithData(CodeTree.Tree);
     exit;
   end;
 
-  while Frame.Adapter[Ed].TreeBusy do
+  while Ada.TreeBusy do
   begin
     Application.ProcessMessages;
     if Application.Terminated then exit;
@@ -967,7 +973,7 @@ begin
 
   if AForceUpdateAll then
   begin
-    Frame.Adapter[Ed].InvokeParser(Ed, true);
+    Ada.InvokeParser(Ed, true);
     //Ed.DoEventChange; //why it was needed?
   end;
 
@@ -977,7 +983,7 @@ begin
   if not DoPyTreeHelper(Frame) then
   begin
     Tree:= Frame.CachedTreeview[Ed];
-    Frame.Adapter[Ed].TreeFill(Tree);
+    Ada.TreeFill(Tree);
 
     //Lazarus dont sort new items
     if CodeTree.Tree.SortType<>stNone then

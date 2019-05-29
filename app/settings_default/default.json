@@ -683,7 +683,7 @@
   "ui_tree_filter_layout": 1,
 
   //Maximal number of lines in text, for which code-tree is enabled (0: always disabled)
-  "ui_max_lines_codetree": 8000,
+  "ui_max_ranges_codetree": 13000,
 
   //[Text/NewDoc]
   //New tabs: Lexer name
@@ -917,7 +917,6 @@
   //  Instruction for Linux/FreeBSD/Solaris, if Python engine not auto-detected:
   //  1) open file manager, go to /usr
   //  2) search for "libpython3.*so*"
-  //
   //     Terminal command:
   //     $ find /usr -name 'libpython3.*so*' 2>/dev/null
   //

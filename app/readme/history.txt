@@ -9,6 +9,7 @@
 + add: command "open file, in text viewer"
 + add: command "open file, in hex viewer"
 + add: command "open file, in unicode viewer"
+* change: replaced option "ui_max_lines_codetree" to "ui_max_ranges_codetree" (which is more accurate limit)
 - fix: multi-selection by mouse was broken in last few releases
 - fix: very slow unfold action in huge files
 - fix: block staples can paint incorrectly in huge files
