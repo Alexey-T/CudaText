@@ -419,6 +419,10 @@ GROUPS_6GRID   = 13
 EDSTATE_TAB_TITLE = 2
 EDSTATE_MODIFIED  = 3
 
+EDACTION_CODETREE_FILL  = 10
+EDACTION_LEXER_SCAN     = 11
+EDACTION_EXPORT_HTML    = 15
+
 APPSTATE_LANG          = 20
 APPSTATE_THEME_UI      = 21
 APPSTATE_THEME_SYNTAX  = 22
@@ -1189,6 +1193,9 @@ class Editor:
 
     def get_wrapinfo(self):
         return ct.ed_get_wrapinfo(self.h)
+
+    def action(self, id, param1='', param2='', param3=''):
+        return ct.ed_action(self.h, id, to_str(param1), to_str(param2), to_str(param3))
 
     def export_html(self, file_name, title, font_name, font_size, with_nums, color_bg, color_nums):
         return ct.ed_export_html(self.h, file_name, title, font_name, font_size, with_nums, color_bg, color_nums)

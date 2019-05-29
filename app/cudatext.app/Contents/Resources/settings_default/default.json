@@ -910,17 +910,21 @@
   "export_html_font_size": 12,
 
   //[Python]
-  //Sets Python3 engine [has suffix]
-  //  If correct, you must see Python version in console panel (Ctrl+`)
+  //Sets Python engine [has suffix]
+  //  If option is correct, you must see Python version in console panel (Ctrl+`)
   //  and command "=sys.path" must work in console.
   //
-  //  Instruction for Linux, if Py engine not found:
+  //  Instruction for Linux/FreeBSD/Solaris, if Python engine not auto-detected:
   //  1) open file manager, go to /usr
-  //  2) search for "libpython3.*so*",
+  //  2) search for "libpython3.*so*"
+  //
   //     Terminal command:
   //     $ find /usr -name 'libpython3.*so*' 2>/dev/null
-  //  3) if not found, install Python 3, goto 2)
-  //  4) set "pylib__linux" to one of the found filenames
+  //
+  //  3) if not found, install Python 3, goto step 2
+  //  4) in user.json, set "pylib__linux" (or "pylib__freebsd" etc) to one 
+  //     of the found filenames. for example:
+  //     "pylib__linux": "/usr/lib/x86_64-linux-gnu/libpython3.7m.so.1.0",
   //
   //  Info for macOS:
   //  Homebrew is not OK, it don't install 32-bit .dylib file.

@@ -165,7 +165,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_SET_GROUPING: Sets grouping mode in program, one of GROUPS_nnnn int contants.
 * PROC_PROGRESSBAR: Changes state of the progress-bar (hidden by default), which is located on the status-bar right corner. Int value<0: progressbar hides, value in 0..100: progressbar shows with the given value.
 * PROC_GET_TAB_IMAGELIST: Gets int handle of imagelist, for file-tabs. Use imagelist_proc() to work with it. Use PROP_TAB_ICON property to get/set file-tab icon index (index in this imagelist).
-* PROC_GET_CODETREE: Gets int handle of Code Tree UI control. Use tree_proc() to work with it.
+* PROC_GET_CODETREE: Gets int handle of code-tree UI control. Use tree_proc() to work with it.
 * PROC_WINDOW_TOPMOST_GET: Gets bool flag: main window has "always on top" style.
 * PROC_WINDOW_TOPMOST_SET: Sets bool flag: main window has "always on top" style.
 
@@ -546,7 +546,7 @@ Gets int index of pressed button (0-based), or None of cancelled.
 
 Shows given text in statusbar.
 
-Param "process_messages": if True, function also does UI messages processing. It takes some time, it is needed to refresh status of Esc-key pressed. After call msg_status(..., True) you can get state of Esc-key pressed via PROC_GET_ESCAPE, else plugin gets old state, until UI messages are processed.
+Param "process_messages": if True, function also does UI messages processing. It takes some time, it is needed to refresh status of Esc-key pressed. After call msg_status(..., True) you can get state of Esc-key pressed via PROC_GET_ESCAPE, otherwise plugin gets an old state, until UI messages are processed.
 
 ===msg_status_alt===
 
@@ -1333,8 +1333,8 @@ Possible values of "id_action":
 * TREE_UNLOCK: Enables repainting of control.
 * TREE_THEME: Applies current color theme to control.
 
-* TREE_ITEM_GET_RANGE: Should be used only for Code Tree. Gets range, stored in tree-item, as 4-tuple (start_x, start_y, end_x, end_y). If range is not set, gets (-1,-1,-1,-1).
-* TREE_ITEM_SET_RANGE: Should be used only for Code Tree. Sets range for tree-item. Param "text" must be 4-tuple of int (start_x, start_y, end_x, end_y).
+* TREE_ITEM_GET_RANGE: Should be used only for code-tree. Gets range, stored in tree-item, as 4-tuple (start_x, start_y, end_x, end_y). If range is not set, gets (-1,-1,-1,-1).
+* TREE_ITEM_SET_RANGE: Should be used only for code-tree. Sets range for tree-item. Param "text" must be 4-tuple of int (start_x, start_y, end_x, end_y).
 
 ===listbox_proc===
 
@@ -1750,7 +1750,7 @@ Editor class has methods to work with editor. Global objects of Editor exist:
 * "ed_con_in": refers to input field (single line) in the "Console" panel.
 
 ==Carets==
-===get_carets===
+===Editor.get_carets===
 
  get_carets()
 
@@ -1773,7 +1773,7 @@ Example shows text of first caret's selection:
         msg_status('Selection: '+s)
 </syntaxhighlight>
 
-===set_caret===
+===Editor.set_caret===
 
  set_caret(posx, posy, endx=-1, endy=-1, id=CARET_SET_ONE, options=0)
 
@@ -1792,14 +1792,14 @@ Param "options" must be 0 or sum of the following flags:
 
 ==Text read/write==
 
-===get_text_all===
+===Editor.get_text_all===
 
  get_text_all()
 
 Gets entire text in the editor, as str.
 Gives "\n" as line-breaks.
 
-===set_text_all===
+===Editor.set_text_all===
 
  set_text_all(text)
 
@@ -1807,7 +1807,7 @@ Sets entire text in the editor, to given str.
 Text can have any line-breaks, they will be converted to currently used line-breaks.
 It cannot work with read-only editor (see get_prop/set_prop and PROP_RO).
 
-===get_text_line===
+===Editor.get_text_line===
 
  get_text_line(index, max_len=0)
 
@@ -1816,7 +1816,7 @@ Gets None if index incorrect.
 
 If param "max_len" is non-zero, and UTF-8 length of given line is greater than "max_len", function returns empty str. This allows to skip huge lines.
 
-===set_text_line===
+===Editor.set_text_line===
 
  set_text_line(index, text)
 
@@ -1824,13 +1824,13 @@ Sets single line (str) with given index (0-based).
 Text must be without line-breaks.
 To add new line, pass index=-1.
 
-===get_text_substr===
+===Editor.get_text_substr===
 
  get_text_substr(x1, y1, x2, y2)
 
 Gets substring from position (x1, y1) to bigger position (x2, y2).
 
-===delete===
+===Editor.delete===
 
  delete(x1, y1, x2, y2)
 
@@ -1853,7 +1853,7 @@ Example replaces selection of 1st caret with text:
         ed.insert(x0, y0, text)
 </syntaxhighlight>
 
-===insert===
+===Editor.insert===
 
  insert(x, y, text)
 
@@ -1862,7 +1862,7 @@ Text can be multi-line, all CR LF are converted to currently used line-breaks.
 
 Gets 2-tuple (x, y) of position after inserted text. It is on the same line, if text is single line. Gets None if cannot insert.
 
-===replace===
+===Editor.replace===
 
  replace(x1, y1, x2, y2, text)
 
@@ -1878,7 +1878,7 @@ Function does the same as delete+insert, but
 
 Gets 2-tuple (x, y) of position after inserted text.
 
-===replace_lines===
+===Editor.replace_lines===
 
  replace_lines(y1, y2, lines)
 
@@ -1892,13 +1892,13 @@ Gets bool: index y1 correct, replace done.
 
 ==Selection==
 
-===get_text_sel===
+===Editor.get_text_sel===
 
  get_text_sel()
 
 Returns selected text for 1st caret (empty, if no selection).
 
-===get_sel_mode===
+===Editor.get_sel_mode===
 
  get_sel_mode()
 
@@ -1907,13 +1907,13 @@ Gets current selection mode:
 * SEL_NORMAL: normal (stream) selection; it doesn't mean that selection exists.
 * SEL_COLUMN: column (vertical) selection.
 
-===get_sel_lines===
+===Editor.get_sel_lines===
 
  get_sel_lines()
 
 Gets 2-tuple, indexes of first and last lines affected by first caret selection. Gets (-1,-1) if no selection.
 
-===get_sel_rect/set_sel_rect===
+===Editor.get_sel_rect, Editor.set_sel_rect===
 
  get_sel_rect()
  set_sel_rect(x1, y1, x2, y2)
@@ -1924,13 +1924,13 @@ Gets 4-tuple (x1, y1, x2, y2). All 0 if no column selection.
 
 ==Properties==
 
-===get_line_count===
+===Editor.get_line_count===
 
  get_line_count()
 
 Gets number of lines.
 
-===get_filename===
+===Editor.get_filename===
 
  get_filename(options="")
 
@@ -1941,7 +1941,7 @@ Gets filename (str) of the editor.
 
 If param "options" contains char "*", the real file name is always returned, even in hex/picture viewer mode.
 
-===get_prop===
+===Editor.get_prop===
 
  get_prop(id, value="")
 
@@ -2026,8 +2026,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_HILITE_CUR_LINE: bool: highlight current line.
 * PROP_HILITE_CUR_LINE_MINIMAL: bool: highlight current line, only minimal part of line.
 * PROP_HILITE_CUR_LINE_IF_FOCUS: bool: highlight current line, only when editor focused.
-* PROP_CODETREE: bool: enable standard Code Tree filling.
-* PROP_CODETREE_MODIFIED_VERSION: modification version of the editor for the moment of Code Tree filling. See PROP_MODIFIED_VERSION.
+* PROP_CODETREE: bool: enable standard code-tree filling.
+* PROP_CODETREE_MODIFIED_VERSION: modification version of the editor for the moment of code-tree filling. See PROP_MODIFIED_VERSION.
 * PROP_EDITORS_LINKED: bool: enable sharing of the same text by primary/secondary editors in file tab.
 * PROP_CELL_SIZE: 2-tuple of int: size in pixels of average char cell.
 * PROP_ONE_LINE: bool: editor has single-line mode. (Usual editors are multi-line.)
@@ -2068,7 +2068,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_V_SEL_LEN: int: for binary viewer, selection length.
 * PROP_V_WIDTH: int: for binary viewer, width of text in mode VMODE_BINARY.
 
-===set_prop===
+===Editor.set_prop===
 
  set_prop(id, value)
 
@@ -2137,7 +2137,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_HILITE_CUR_LINE: bool: highlight current line.
 * PROP_HILITE_CUR_LINE_MINIMAL: bool: highlight current line, only minimal part of line.
 * PROP_HILITE_CUR_LINE_IF_FOCUS: bool: highlight current line, only when editor focused.
-* PROP_CODETREE: bool: enable standard Code Tree filling.
+* PROP_CODETREE: bool: enable standard code-tree filling.
 * PROP_EDITORS_LINKED: bool: enable sharing of the same text by primary/secondary editors in file tab.
 * PROP_ONE_LINE: bool: editor has single-line mode.
 * PROP_MODERN_SCROLLBAR: bool: use custom-drawn themed scrollbars.
@@ -2193,7 +2193,7 @@ Many get_prop/set_prop ids correspond to CudaText options. List of correspoding 
 * PROP_UNPRINTED_SPACES_TRAILING - unprinted_spaces_trailing
 * PROP_WRAP - wrap_mode
 
-===bookmark===
+===Editor.bookmark===
 
  bookmark(id, nline, nkind=1, ncolor=-1, text="", auto_del=True, show=True, tag=0)
 
@@ -2235,7 +2235,7 @@ Notes:
 * Param "nkind" must be in the range 1..63.
 * Param "nkind" values 2..9 have setup by default: they have blue icons "1" to "8".
 
-===decor===
+===Editor.decor===
 
  decor(id, line=-1, tag=0, text="", color=0, bold=False, italic=False, image=-1, auto_del=True)
 
@@ -2258,7 +2258,7 @@ Controls decorations on gutter. It is used to show some visual marks, which look
 * DECOR_DELETE_ALL: Deletes all decorations.
 * DECOR_GET_IMAGELIST: Gets int handle of decoration image-list (default size is 16x16).
 
-===folding===
+===Editor.folding===
 
  folding(id, index=-1, item_x=-1, item_y=-1, item_y2=-1, item_staple=False, item_hint="")
 
@@ -2287,7 +2287,7 @@ Performs action on folding ranges. Possible values of "id":
 ** "item_y2": line index of range end.
 ** "item_staple" (optional): bool, range has block staple.
 ** "item_hint" (optional): str, hint which is shown when range is folded.
-** "index": if it's valid range index (0-based), range inserts at this index, else range appends.
+** "index": if it's valid range index (0-based), range inserts at this index, otherwise range appends.
 
 * FOLDING_DELETE: Deletes folding range with given index (index in list, from FOLDING_GET_LIST). Params used: "index".
 * FOLDING_DELETE_ALL: Deletes all folding ranges. Params used: none except "id".
@@ -2295,7 +2295,7 @@ Performs action on folding ranges. Possible values of "id":
 * FOLDING_CHECK_RANGE_INSIDE: For 2 ranges, which indexes given by "index" and "item_x", detects: 1st range is inside 2nd range. Gets bool. Gets False if indexes incorrect.
 * FOLDING_CHECK_RANGES_SAME: For 2 ranges, which indexes given by "index" and "item_x", detects: ranges are "equal" (x, y, y2 in ranges may differ). Gets bool. Gets False if indexes incorrect.
 
-===get_sublexer_ranges===
+===Editor.get_sublexer_ranges===
 
  get_sublexer_ranges()
 
@@ -2307,7 +2307,7 @@ Gets list of ranges which belong to nested lexers (sublexers of current lexer fo
 * int: end column
 * int: end line
 
-===get_token===
+===Editor.get_token===
 
  get_token(id, index1=0, index2=0)
 
@@ -2325,7 +2325,7 @@ Possible values of "id":
 
 * TOKEN_LIST_SUB: Like TOKEN_LIST, but gets tokens only for given lines range, from "index1" to "index2" inclusive.
 
-===get_wrapinfo===
+===Editor.get_wrapinfo===
 
  get_wrapinfo()
 
@@ -2340,7 +2340,7 @@ Gets list of dict, or None. Dict items has keys:
 * "final": int: State of this part. 0: final part of the entire line; 1: partially folded part; 2: first or middle part of the entire line.
 * "initial": bool: True if part is initial for the entire (wrapped) line, False if it is continuation (ie, wrapped) part.
 
-===markers===
+===Editor.markers===
 
  markers(id, x=0, y=0, tag=0, len_x=0, len_y=0)
 
@@ -2359,7 +2359,7 @@ Controls markers (used e.g. in Snippets plugin). Possible values of "id":
 * MARKERS_DELETE_LAST: Deletes last added marker.
 * MARKERS_DELETE_BY_TAG: Deletes all markers for specified "tag".
 
-===attr===
+===Editor.attr===
 
  attr(id, tag=0, x=0, y=0, len=0,
       color_font=COLOR_NONE, color_bg=COLOR_NONE, color_border=COLOR_NONE,
@@ -2388,7 +2388,7 @@ Note:
 * "color_bg" value can be COLOR_NONE: it uses usual back-color.
 * "color_font", "color_border" value can be COLOR_NONE: it uses usual text-color.
 
-===hotspots===
+===Editor.hotspots===
 
  hotspots(id, tag=0, tag_str="", pos="")
 
@@ -2412,7 +2412,7 @@ Possible values of "id":
 
 ==Misc==
 
-===save===
+===Editor.save===
 
  save(filename="")
 
@@ -2422,7 +2422,7 @@ Shows save-as dialog for untitled tab.
 If param filename not empty, uses it (untitled tab becomes titled).
 Gets bool: file was saved.
 
-===cmd===
+===Editor.cmd===
 
  cmd(code, text="")
 
@@ -2430,13 +2430,13 @@ Command runner, it runs any command in editor by its int code.
 
 See codes in module cudatext_cmd. Param text is needed for rare commands (e.g. by cCommand_TextInsert).
 
-===focus===
+===Editor.focus===
 
  focus()
 
 Activates editor's tab and focuses editor itself. It's needed when you want to activate inactive tab. You can get Editor objects of inactive tabs using ed_handles().
 
-===lock/unlock===
+===Editor.lock, Editor.unlock===
 
  lock()
  unlock()
@@ -2445,7 +2445,7 @@ Functions lock, then unlock editor. "Locked" editor is not painted and shows onl
 
 Call "lock" increases counter, "unlock" decreases this counter (it's safe to call "unlock" more times, counter will be 0). When counter is >0, editor is locked.
 
-===convert===
+===Editor.convert===
 
  convert(id, x, y, text="")
 
@@ -2461,7 +2461,7 @@ Converts something in editor. Possible values of "id":
 
 Gets None if params incorrect, or cannot calc result.
 
-===complete===
+===Editor.complete===
 
  complete(text, len1, len2, selected=0, alt_order=False)
 
@@ -2479,7 +2479,7 @@ Function gets None and listbox stays open. When user chooses listbox item, its d
 
 Note: listbox disappears if you move caret or type text, unlike usual auto-completion listboxes (they can recalculate items for new caret pos).
 
-===complete_alt===
+===Editor.complete_alt===
 
  complete_alt(text, snippet_id, len_chars, selected=0)
 
@@ -2500,7 +2500,7 @@ Function params:
 * Param "len_chars": listbox shows lefter than caret, by this count of chars.
 * Param "selected": index of initially selected listbox item (0-based).
 
-===gap===
+===Editor.gap===
 
  gap(id, num1, num2, tag=-1, size=0, color=COLOR_NONE)
 
@@ -2549,7 +2549,7 @@ class Command:
         ed.gap(GAP_ADD, num, id_bitmap)
 </syntaxhighlight>
 
-===dim===
+===Editor.dim===
 
  dim(id, index=0, index2=0, value=100)
 
@@ -2565,15 +2565,34 @@ Possible values of "id":
 * DIM_DELETE_ALL: Deletes all ranges.
 * DIM_ENUM: Enumerates ranges. Gives list of 3-tuples (line_from, line_to, dim_value) or None.
 
-===lexer_scan===
+===Editor.action===
+
+ action(id, param1="", param2="", param3="")
+
+Performs some action in editor. Possible values of "id":
+
+* EDACTION_CODETREE_FILL: Fill some visual TreeView control (it can be standard code-tree control, or TreeView control in some form) with editor's code-tree information. Param "param1" must be TreeView handle (to use with tree_proc()). Gets True if lexer is set and information is read, otherwise False. 
+
+* EDACTION_LEXER_SCAN: Runs lexer parsing (if lexer is set) from line index, given by "param1". Waits until parsing finishes.
+
+* EDACTION_EXPORT_HTML: Creates HTML file from editor's text with syntax highlighting. Gets bool: file is created. Param "param1" must be dict with the following keys:
+** "file_name": str: Full path of file.
+** "title": str: HTML page title.
+** "font_name": str: Font name.
+** "font_size": int: Font size, in HTML points.
+** "with_numbers": bool: Show gutter with line numbers.
+** "color_back": int: RGB color of page background.
+** "color_numbers": int: RGB color of line numbers.
+
+===Editor.lexer_scan===
 
  lexer_scan(nline)
 
 Runs lexer analysis (if lexer active) from given line index. Waits until analysis finishes.
 
-Use case: plugin appends n lines to text (line by line), then lexer needs to rescan text from 1st added line, else folding won't appear for these lines.
+Use case: plugin appends n lines to text (line by line), then lexer needs to rescan text from 1st added line, otherwise folding won't appear for these lines.
 
-===export_html===
+===Editor.export_html===
 
  export_html(file_name, title, font_name, font_size, with_nums, color_bg, color_nums)
 
@@ -2582,16 +2601,14 @@ Makes HTML file from source text with syntax highlighting. Gets bool: file is cr
 * "file_name": str: Path of file.
 * "title": str: HTML page title.
 * "font_name": str: Font name.
-* "int": Font size, in HTML points.
-* "with_nums": bool: Make column with line numbers.
+* "font_size": int: Font size, in HTML points.
+* "with_nums": bool: Show gutter with line numbers.
 * "color_bg": int: RGB color of page background.
 * "color_nums": int: RGB color of line numbers.
 
-===more===
-
 =TreeHelpers=
 
-CudaText contains built-in support for TreeHelpers. They build Code Tree for additional lexers. TreeHelpers must be plugins, which have special install.inf file.
+CudaText contains built-in support for TreeHelpers. They build code-tree for additional lexers. TreeHelpers must be plugins, which have special install.inf file.
 
 Section [info]:
 * key "subdir" must begin with "cuda_tree_"
@@ -2622,7 +2639,7 @@ Getter must return list of tuples: (pos, level, caption, icon).
 ** 6: arrow1
 ** 7: arrow2
 
-Getter can also return value not of "list" type, in this case CudaText will not update the Code Tree.
+Getter can also return value not of "list" type, in this case CudaText will not update the code-tree.
 
 See examples of TreeHelpers: for Markdown, for MediaWiki. They are add-ons in the CudaText AddonManager.
 
@@ -2773,10 +2790,10 @@ def project_variables():
 
 =FAQ=
 
-==How plugin can fill Code Tree?==
+==How plugin can fill code-tree?==
 
 * Handle events on_open, on_focus, on_change_slow (better don't use on_change, it slows down the app)
-* Get handle of Code Tree: h_tree = app_proc(PROC_GET_CODETREE, "")
+* Get handle of code-tree: h_tree = app_proc(PROC_GET_CODETREE, "")
 * Fill tree via tree_proc(h_tree, ...)
 ** Disable standard tree filling via ed.set_prop(PROP_CODETREE, False)
 ** Clear tree via tree_proc(h_tree, TREE_ITEM_DELETE, id_item=0)
@@ -3461,5 +3478,10 @@ def project_variables():
 * change: removed menu id "_langs"
 * change: removed menu id "_themes-ui"
 * change: removed menu id "_themes-syntax"
+
+1.0.289 (app 1.81.2)
+* add: Editor.action()
+* deprecated: Editor.lexer_scan()
+* deprecated: Editor.export_html()
 
 [[Category:CudaText]]

@@ -4,6 +4,16 @@
   * changed
 
 
+1.81.2 (2019/05)
+
++ add: command "open file, in text viewer"
++ add: command "open file, in hex viewer"
++ add: command "open file, in unicode viewer"
+- fix: multi-selection by mouse was broken in last few releases
+- fix: very slow unfold action in huge files
+- fix: block-staples can paint incorrectly in huge files
+- fix: changed tab titles can sometimes show without "*" mark
+
 1.81.0 (2019/05)
 
 + add: option "indent_auto_rule": RegEx which allows to make additional indent on pressing Enter
