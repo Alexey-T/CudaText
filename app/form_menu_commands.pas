@@ -123,7 +123,6 @@ begin
       begin
         list.ItemIndex:= i;
         list.ItemTop:= Max(0, i-2);
-        list.Invalidate;
       end;
 end;
 

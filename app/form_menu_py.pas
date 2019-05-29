@@ -84,11 +84,7 @@ begin
 
   DoFilter;
 
-  if (InitItemIndex>=0) and (InitItemIndex<List.ItemCount) then
-  begin
-    List.ItemIndex:= InitItemIndex;
-    List.Invalidate;
-  end;
+  List.ItemIndex:= InitItemIndex; //check of index not needed
 end;
 
 procedure TfmMenuApi.listClick(Sender: TObject);

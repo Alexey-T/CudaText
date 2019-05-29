@@ -4915,7 +4915,6 @@ begin
             if IndexOk then
             begin
               Listbox.ItemIndex:= NIndex;
-              Listbox.Invalidate;
             end;
             Result:= ReturnNone;
           end;
