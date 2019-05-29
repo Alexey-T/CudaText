@@ -11,8 +11,9 @@
 + add: command "open file, in unicode viewer"
 - fix: multi-selection by mouse was broken in last few releases
 - fix: very slow unfold action in huge files
-- fix: block-staples can paint incorrectly in huge files
-- fix: changed tab titles can sometimes show without "*" mark
+- fix: block staples can paint incorrectly in huge files
+- fix: changed tab's title can sometimes show without "*" mark
+- fix: Find dialog: popup position with Alt+Down
 
 1.81.0 (2019/05)
 
