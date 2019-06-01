@@ -4828,11 +4828,24 @@ begin
 end;
 
 
+function _StringToIntArray(S: string): TATIntArray;
+var
+  SItem: string;
+begin
+  SetLength(Result, 0);
+  repeat
+    SItem:= SGetItem(S);
+    if SItem='' then Break;
+    SetLength(Result, Length(Result)+1);
+    Result[Length(Result)-1]:= StrToIntDef(SItem, 0);
+  until false;
+end;
+
 //listbox_proc(id_listbox, id_action, index, text)
 function Py_listbox_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   IdList, NTag: Int64;
-  IdAction, NIndex: integer;
+  IdAction, NIndex, i: integer;
   PtrText: PChar;
   StrText: string;
   Listbox: TATListbox;
@@ -4954,6 +4967,35 @@ begin
         LISTBOX_SET_DRAWN:
           begin
             Listbox.OwnerDrawn:= (NIndex=1);
+            Listbox.Invalidate;
+            Result:= ReturnNone;
+          end;
+
+        LISTBOX_GET_COLUMN_SEP:
+          begin
+            Result:= PyString_FromString(PChar(string(Listbox.ColumnSeparator)));
+          end;
+
+        LISTBOX_SET_COLUMN_SEP:
+          begin
+            if StrText<>'' then
+            begin
+              Listbox.ColumnSeparator:= StrText[1];
+              Listbox.Invalidate;
+            end;
+            Result:= ReturnNone;
+          end;
+
+        LISTBOX_GET_COLUMNS:
+          begin
+            Result:= PyList_New(Length(Listbox.ColumnSizes));
+            for i:= 0 to Length(Listbox.ColumnSizes)-1 do
+              PyList_SetItem(Result, i, PyInt_FromLong(Listbox.ColumnSizes[i]));
+          end;
+
+        LISTBOX_SET_COLUMNS:
+          begin
+            Listbox.ColumnSizes:= _StringToIntArray(StrText);
             Listbox.Invalidate;
             Result:= ReturnNone;
           end;

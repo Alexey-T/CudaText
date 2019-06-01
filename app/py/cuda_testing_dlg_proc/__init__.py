@@ -164,6 +164,13 @@ class Command:
 
         listbox_proc(self.id_listbox, LISTBOX_SET_DRAWN, index=(1 if chk else 0))
 
+    def callback_listbox_columns(self, id_dlg, id_ctl, data='', info=''):
+
+        print('listbox columns click')
+
+        listbox_proc(self.id_listbox, LISTBOX_SET_COLUMN_SEP, text='|')
+        listbox_proc(self.id_listbox, LISTBOX_SET_COLUMNS, text=[-50,30,0])
+
 
     def callback_editor_on_change(self, id_dlg, id_ctl, data='', info=''):
 
@@ -599,7 +606,7 @@ class Command:
         self.id_listbox = h_list
 
         for i in range(40):
-            listbox_proc(h_list, LISTBOX_ADD, index=-1, text='item-%d'%i)
+            listbox_proc(h_list, LISTBOX_ADD, index=-1, text='item-%d|%d|...'%(i,i))
         listbox_proc(h_list, LISTBOX_SET_SEL, index=2)
         listbox_proc(h_list, LISTBOX_SET_ITEM_H, index=28)
         listbox_proc(h_list, LISTBOX_SET_DRAWN, index=1)
@@ -614,6 +621,16 @@ class Command:
             'val': True,
             'act': True,
             'on_change': self.callback_listbox_check,
+            })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_columns',
+            'cap': 'Make columns',
+            'x': 10,
+            'y': 250,
+            'w': 120,
+            'on_change': self.callback_listbox_columns,
             })
 
         return h

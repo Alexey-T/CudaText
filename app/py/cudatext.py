@@ -394,6 +394,10 @@ LISTBOX_SET_ITEM_H   = 17
 LISTBOX_GET_DRAWN    = 18
 LISTBOX_SET_DRAWN    = 19
 LISTBOX_THEME        = 20
+LISTBOX_GET_COLUMN_SEP = 22
+LISTBOX_SET_COLUMN_SEP = 23
+LISTBOX_GET_COLUMNS = 24
+LISTBOX_SET_COLUMNS = 25
 
 LEXER_GET_LEXERS     = 0
 LEXER_GET_PROP       = 1
@@ -918,7 +922,7 @@ def button_proc(id_button, id_action, value=''):
     return ct.button_proc(id_button, id_action, to_str(value))
 
 def listbox_proc(id_listbox, id_action, index=0, text="", tag=0):
-    return ct.listbox_proc(id_listbox, id_action, index, text, tag)
+    return ct.listbox_proc(id_listbox, id_action, index, to_str(text), tag)
 
 def toolbar_proc(id_toolbar, id_action, text="", text2="", command=0, index=-1, index2=-1):
     if callable(command):
