@@ -1361,14 +1361,18 @@ Possible values of "id_action":
 * LISTBOX_SET_TOP: Sets index of top visible item.
 * LISTBOX_GET_DRAWN: Gets bool: listbox is owner-drawn, ie it don't paint itself, but plugin must paint it via event on_draw_item.
 * LISTBOX_SET_DRAWN: Sets owner-drawn state. Param "index" should be 0 or 1 (off/on).
+
+Listbox can have columns. It works only if listbox is not owner-drawn, and if column list is not empty. You must add separator-chars inside items to split items into columns. Column sizes are passed as list of int. Each list item can be:
+* value>0: Column width in pixels.
+* value<0: Column width in percents of listbox width.
+* 0: Column is auto-sized. Auto-sized column width is calculated as listbox width minus width of fixed columns. Several auto-sized columns are allowed.
+
+Actions for columns:
+
 * LISTBOX_GET_COLUMN_SEP: Gets column separator char.
 * LISTBOX_SET_COLUMN_SEP: Sets column separator char. Param "text" must be single-char string.
-
 * LISTBOX_GET_COLUMNS: Gets list of column sizes.
-* LISTBOX_SET_COLUMNS: Sets list of column sizes. Param "text" must be list of int. Empty list: columns are not used. Each list item can be:
-** value>0: Column width in pixels.
-** value<0: Column width in percents of listbox width.
-** 0: Column is auto-sized. Auto-sized column width is calculated as listbox width minus width of fixed columns. Several auto-sized columns are allowed.
+* LISTBOX_SET_COLUMNS: Sets list of column sizes. Param "text" must be list of int. 
 
 ===canvas_proc===
 

@@ -169,7 +169,12 @@ class Command:
         print('listbox columns click')
 
         listbox_proc(self.id_listbox, LISTBOX_SET_COLUMN_SEP, text='|')
-        listbox_proc(self.id_listbox, LISTBOX_SET_COLUMNS, text=[-50,30,0])
+        cols = listbox_proc(self.id_listbox, LISTBOX_GET_COLUMNS)
+        print('listbox columns:', cols)
+        if not cols:
+            listbox_proc(self.id_listbox, LISTBOX_SET_COLUMNS, text=[-50,30,0])
+        else:
+            listbox_proc(self.id_listbox, LISTBOX_SET_COLUMNS, text=[])
 
 
     def callback_editor_on_change(self, id_dlg, id_ctl, data='', info=''):

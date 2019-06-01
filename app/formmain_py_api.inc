@@ -4990,7 +4990,7 @@ begin
           begin
             Result:= PyList_New(Length(Listbox.ColumnSizes));
             for i:= 0 to Length(Listbox.ColumnSizes)-1 do
-              PyList_SetItem(Result, i, PyInt_FromLong(Listbox.ColumnSizes[i]));
+              PyList_SetItem(Result, i, PyLong_FromLongLong(Int64(Listbox.ColumnSizes[i])));
           end;
 
         LISTBOX_SET_COLUMNS:
