@@ -1362,7 +1362,7 @@ Possible values of "id_action":
 * LISTBOX_GET_DRAWN: Gets bool: listbox is owner-drawn, ie it don't paint itself, but plugin must paint it via event on_draw_item.
 * LISTBOX_SET_DRAWN: Sets owner-drawn state. Param "index" should be 0 or 1 (off/on).
 
-Listbox can have columns. It works only if listbox is not owner-drawn, and if column list is not empty. You must add separator-chars inside items to split items into columns. Column sizes are passed as list of int. Each list item can be:
+Listbox can have columns. It works only if listbox is not owner-drawn, and column sizes were set via LISTBOX_SET_COLUMNS. You must add separator-chars inside items to split items into columns. Column sizes are passed as list of int. Each list item can be:
 * value>0: Column width in pixels.
 * value<0: Column width in percents of listbox width.
 * 0: Column is auto-sized. Auto-sized column width is calculated as listbox width minus width of fixed columns. Several auto-sized columns are allowed.
