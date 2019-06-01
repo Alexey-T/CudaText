@@ -6132,6 +6132,7 @@ var
   Frame, F: TEditorFrame;
   NLocalGroupIndex, NGlobalGroupIndex, NTabIndex: integer;
   FrameList: TStringList;
+  SFilename: string;
   i: integer;
 begin
   Frame:= CurrentFrame;
@@ -6143,8 +6144,14 @@ begin
     for i:= 0 to Pages.Tabs.TabCount-1 do
     begin
       F:= Pages.Tabs.GetTabData(i).TabObject as TEditorFrame;
-      if F<>Frame then
-        FrameList.AddObject(F.TabCaption, F);
+      if F=Frame then Continue;
+
+      if F.EditorsLinked and (F.FileName<>'') then
+        SFilename:= ' ('+F.FileName+')'
+      else
+        SFilename:= '';
+
+      FrameList.AddObject('['+IntToStr(i+1)+']  ' + F.TabCaption + SFilename, F);
     end;
 
     FrameList.CustomSort(@_FrameListCompare);
