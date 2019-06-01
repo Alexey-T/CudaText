@@ -1348,20 +1348,31 @@ Perform action on listbox UI-control.
 Possible values of "id_action":
 
 * LISTBOX_GET_COUNT: Gets number if items.
-* LISTBOX_ADD: Adds item (str) with associated tag (int). Param index: at which index to add, -1 to append.
+* LISTBOX_ADD: Adds item (str) with associated tag (int). Param "index": at which index to add, -1 to append.
 * LISTBOX_DELETE: Deletes item with given index.
 * LISTBOX_DELETE_ALL: Deletes all items.
 * LISTBOX_GET_ITEM: Gets item with given index as 2-tuple (text, tag). Gets None if index incorrect.
 * LISTBOX_SET_ITEM: Sets item with given index, to given text and tag.
 * LISTBOX_GET_ITEM_H: Gets height of items in pixels.
-* LISTBOX_SET_ITEM_H: Sets height of items in pixels. Param index: size.
+* LISTBOX_SET_ITEM_H: Sets height of items in pixels. Param "index": size.
 * LISTBOX_GET_SEL: Gets selected index. -1 for none.
 * LISTBOX_SET_SEL: Sets selected index. -1 for none.
 * LISTBOX_GET_TOP: Gets index of top visible item.
 * LISTBOX_SET_TOP: Sets index of top visible item.
 * LISTBOX_GET_DRAWN: Gets bool: listbox is owner-drawn, ie it don't paint itself, but plugin must paint it via event on_draw_item.
-* LISTBOX_SET_DRAWN: Sets owner-drawn state. Param index should be 0 or 1 (off/on).
-* LISTBOX_THEME: Applies current color theme to control.
+* LISTBOX_SET_DRAWN: Sets owner-drawn state. Param "index" should be 0 or 1 (off/on).
+
+Listbox can have columns. It works only if listbox is not owner-drawn, and if column list is not empty. You must add separator-chars inside items to split items into columns. Column sizes are passed as list of int. Each list item can be:
+* value>0: Column width in pixels.
+* value<0: Column width in percents of listbox width.
+* 0: Column is auto-sized. Auto-sized column width is calculated as listbox width minus width of fixed columns. Several auto-sized columns are allowed.
+
+Actions for columns:
+
+* LISTBOX_GET_COLUMN_SEP: Gets column separator char.
+* LISTBOX_SET_COLUMN_SEP: Sets column separator char. Param "text" must be single-char string.
+* LISTBOX_GET_COLUMNS: Gets list of column sizes.
+* LISTBOX_SET_COLUMNS: Sets list of column sizes. Param "text" must be list of int. 
 
 ===canvas_proc===
 
@@ -3483,5 +3494,10 @@ def project_variables():
 * add: Editor.action()
 * deprecated: Editor.lexer_scan()
 * deprecated: Editor.export_html()
+
+1.0.290 (app 1.81.3)
+* add: listbox_proc: LISTBOX_GET_COLUMN_SEP, LISTBOX_SET_COLUMN_SEP
+* add: listbox_proc: LISTBOX_GET_COLUMNS, LISTBOX_SET_COLUMNS
+* removed: LISTBOX_THEME
 
 [[Category:CudaText]]

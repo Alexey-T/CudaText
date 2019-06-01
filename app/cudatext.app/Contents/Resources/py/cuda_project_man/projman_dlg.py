@@ -81,7 +81,7 @@ def dialog_config(op):
             'val='+str(theme_index_tb)
             ])]
 
-        +[c1.join(['type=label', 'pos=6,386,600,0', 'cap=To get other icons, get add-ons "filetypeicons", "projtoolbaricons"'])]
+        +[c1.join(['type=label', 'pos=6,386,600,0', 'cap=For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"'])]
         +[c1.join(['type=button', 'pos=300,410,400,0', 'cap=&OK', 'props=1'])]
         +[c1.join(['type=button', 'pos=406,410,502,0', 'cap=Cancel'])]
     )
