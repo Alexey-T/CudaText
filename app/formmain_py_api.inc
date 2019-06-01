@@ -4958,13 +4958,6 @@ begin
             Result:= ReturnNone;
           end;
 
-        LISTBOX_THEME:
-          begin
-            Listbox.ThemedScrollbar:= true;
-            DoApplyThemeToListbox(Listbox);
-            Result:= ReturnNone;
-          end
-
         else
           Result:= ReturnNone;
       end;

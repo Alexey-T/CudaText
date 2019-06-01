@@ -59,7 +59,6 @@ procedure DoTreeviewFoldLevel(ATree: TTreeView; ALevel: integer);
 procedure DoTreeviewCopy(Src, Dst: TTreeView);
 
 procedure DoApplyThemeToTreeview(C: TTreeview; AThemed, AChangeShowRoot: boolean);
-procedure DoApplyThemeToListbox(C: TATListbox);
 procedure DoApplyThemeToToolbar(C: TATFlatToolbar);
 
 function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
@@ -402,10 +401,6 @@ begin
 end;
 
 
-procedure DoApplyThemeToListbox(C: TATListbox);
-begin
-  C.Invalidate;
-end;
 
 procedure DoApplyThemeToToolbar(C: TATFlatToolbar);
 begin

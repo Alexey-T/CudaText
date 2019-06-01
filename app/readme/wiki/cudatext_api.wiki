@@ -3484,4 +3484,7 @@ def project_variables():
 * deprecated: Editor.lexer_scan()
 * deprecated: Editor.export_html()
 
+1.0.290 (app 1.81.3)
+* removed: LISTBOX_THEME
+
 [[Category:CudaText]]

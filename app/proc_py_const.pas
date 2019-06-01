@@ -353,7 +353,6 @@ const
   LISTBOX_SET_ITEM_H   = 17;
   LISTBOX_GET_DRAWN    = 18;
   LISTBOX_SET_DRAWN    = 19;
-  LISTBOX_THEME        = 20;
 
   LEXER_GET_LEXERS     = 0;
   LEXER_GET_PROP       = 1;
