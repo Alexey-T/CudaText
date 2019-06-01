@@ -31,6 +31,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure ListDrawItem(Sender: TObject; C: TCanvas; AIndex: integer;
       const ARect: TRect);
@@ -47,6 +48,7 @@ type
     { public declarations }
     ResultIndex: integer;
     Items: TStringlist;
+    CloseOnCtrlRelease: boolean;
   end;
 
 var
@@ -181,6 +183,16 @@ begin
       Close;
     end;
     key:= 0;
+  end;
+end;
+
+procedure TfmMenuList.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if CloseOnCtrlRelease and (Key=VK_CONTROL) then
+  begin
+    Key:= 0;
+    ResultIndex:= List.ItemIndex;
+    Close;
   end;
 end;
 

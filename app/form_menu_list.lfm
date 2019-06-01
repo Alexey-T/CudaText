@@ -12,6 +12,7 @@ object fmMenuList: TfmMenuList
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
+  OnKeyUp = FormKeyUp
   OnShow = FormShow
   ShowInTaskBar = stNever
   LCLVersion = '2.1.0.0'

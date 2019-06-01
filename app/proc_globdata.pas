@@ -185,6 +185,7 @@ type
     TabRecentOnClose: boolean;
     TabButtonLayout: string;
     TabPreviewFontStyle: string;
+    TabSwitcherDialog: boolean;
 
     MaxHistoryEdits: integer;
     MaxHistoryMenu: integer;
@@ -1282,6 +1283,7 @@ begin
     TabRecentOnClose:= false;
     TabButtonLayout:= '<>,v';
     TabPreviewFontStyle:= 'iu';
+    TabSwitcherDialog:= true;
 
     MaxHistoryEdits:= 20;
     MaxHistoryMenu:= 10;

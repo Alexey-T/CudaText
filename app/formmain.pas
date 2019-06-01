@@ -929,7 +929,9 @@ type
     function DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers,
       AAllowConfig, AShowCentered: boolean; ACaption: string): string;
     procedure DoDialogGoto;
-    function DoDialogMenuList(const ACaption: string; AItems: TStringList): integer;
+    function DoDialogMenuList(const ACaption: string; AItems: TStringList; ACloseOnCtrlRelease: boolean=
+      false): integer;
+    procedure DoDialogMenuTabSwitcher(ANext: boolean);
     procedure DoDialogGotoBookmark;
     function DoDialogSaveTabs: boolean;
     procedure DoDialogLexerProp(an: TecSyntAnalyzer);
@@ -3277,7 +3279,8 @@ begin
   end;
 end;
 
-function TfmMain.DoDialogMenuList(const ACaption: string; AItems: TStringList): integer;
+function TfmMain.DoDialogMenuList(const ACaption: string; AItems: TStringList;
+  ACloseOnCtrlRelease: boolean=false): integer;
 var
   Form: TfmMenuList;
 begin
@@ -3287,13 +3290,13 @@ begin
     UpdateInputForm(Form);
     Form.Caption:= ACaption;
     Form.Items:= AItems;
+    Form.CloseOnCtrlRelease:= ACloseOnCtrlRelease;
     Form.ShowModal;
     Result:= Form.ResultIndex;
   finally
     FreeAndNil(Form);
   end;
 end;
-
 
 procedure TfmMain.DoGotoFromInput(const AInput: string);
 var
@@ -4467,12 +4470,17 @@ procedure TfmMain.DoSwitchActiveTab(ANext: boolean);
 const
   StrBool: array[boolean] of string = (cPyFalse, cPyTrue);
 begin
+  {
   if DoPyEvent(CurrentEditor, cEventOnTabSwitch, [
     StrBool[ANext],
     '"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"'
     ] ) = cPyTrue then exit;
+    }
 
-  Groups.PagesCurrent.Tabs.SwitchTab(ANext);
+  if UiOps.TabSwitcherDialog then
+    DoDialogMenuTabSwitcher(ANext)
+  else
+    Groups.PagesCurrent.Tabs.SwitchTab(ANext);
 end;
 
 function TfmMain.FindFrameOfFilename(const AName: string): TEditorFrame;
@@ -6101,6 +6109,55 @@ begin
   LexerProgress.Show;
 end;
 *)
+
+function _FrameListCompare(List: TStringList; Index1, Index2: Integer): Integer;
+var
+  t1, t2: Int64;
+begin
+  t1:= TEditorFrame(List.Objects[Index1]).ActivationTime;
+  t2:= TEditorFrame(List.Objects[Index2]).ActivationTime;
+  if t1>t2 then
+    Result:= -1
+  else
+  if t1<t2 then
+    Result:= 1
+  else
+    Result:= 0;
+end;
+
+procedure TfmMain.DoDialogMenuTabSwitcher(ANext: boolean);
+var
+  Gr: TATGroups;
+  Pages: TATPages;
+  Frame, F: TEditorFrame;
+  NLocalGroupIndex, NGlobalGroupIndex, NTabIndex: integer;
+  FrameList: TStringList;
+  i: integer;
+begin
+  Frame:= CurrentFrame;
+  if Frame=nil then exit;
+  GetFrameLocation(Frame, Gr, Pages, NLocalGroupIndex, NGlobalGroupIndex, NTabIndex);
+
+  FrameList:= TStringList.Create;
+  try
+    for i:= 0 to Pages.Tabs.TabCount-1 do
+    begin
+      F:= Pages.Tabs.GetTabData(i).TabObject as TEditorFrame;
+      if F<>Frame then
+        FrameList.AddObject(F.TabCaption, F);
+    end;
+
+    FrameList.CustomSort(@_FrameListCompare);
+
+    i:= DoDialogMenuList('', FrameList, true);
+    if i<0 then exit;
+
+    F:= FrameList.Objects[i] as TEditorFrame;
+    SetFrame(F);
+  finally
+    FreeAndNil(FrameList);
+  end;
+end;
 
 //----------------------------
 {$I formmain_loadsave.inc}
