@@ -977,6 +977,7 @@ begin
   UiOps.TabRecentOnClose:= c.GetValue('ui_tab_recent_on_close', UiOps.TabRecentOnClose);
   UiOps.TabButtonLayout:= c.GetValue('ui_tab_button_layout', UiOps.TabButtonLayout);
   UiOps.TabPreviewFontStyle:= c.GetValue('ui_tab_preview_font_style', UiOps.TabPreviewFontStyle);
+  UiOps.TabSwitcherDialog:= c.GetValue('ui_tab_switcher_dialog', UiOps.TabSwitcherDialog);
 
   UiOps.ListboxCentered:= c.GetValue('ui_listbox_centered', UiOps.ListboxCentered);
   UiOps.ListboxSizeX:= c.GetValue('ui_listbox_size_x', UiOps.ListboxSizeX);

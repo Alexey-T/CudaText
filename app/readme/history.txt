@@ -4,6 +4,12 @@
   * changed
 
 
+1.82.0 (2019/06)
+
++ add: Ctrl+Tab cycles through tabs in recently used order
++ add: option "ui_tab_switcher_dialog"
+- fix: High-DPI on Linux
+
 1.81.2 (2019/05)
 
 + add: command "open file, in text viewer"
