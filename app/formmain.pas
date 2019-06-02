@@ -6163,7 +6163,7 @@ begin
     if FrameList.Count=0 then exit;
     FrameList.CustomSort(@_FrameListCompare);
 
-    iTab:= DoDialogMenuList('', FrameList, true);
+    iTab:= DoDialogMenuList(msgPanelTabs, FrameList, true);
     if iTab<0 then exit;
 
     F:= FrameList.Objects[iTab] as TEditorFrame;
