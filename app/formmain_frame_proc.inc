@@ -52,7 +52,7 @@ begin
 
   //set Groups.PagesCurrent only for main (0..5) groups
   FPages:= F.Parent as TATPages;
-  if FPages.Parent=Groups then
+  if FPages.Owner=Groups then
     Groups.PagesCurrent:= FPages;
 
   UpdateCaption;
