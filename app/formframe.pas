@@ -2951,9 +2951,16 @@ begin
 end;
 
 procedure TEditorFrame.SetFocus;
+var
+  Form: TCustomForm;
 begin
   DoOnChangeCaption;
   DoShow;
+
+  Form:= GetParentForm(Self);
+  if not Form.Focused then
+    if Form.CanFocus then
+      Form.SetFocus;
 
   if Assigned(FBin) then
     if FBin.Visible and FBin.CanFocus then
