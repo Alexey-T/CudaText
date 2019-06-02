@@ -6145,12 +6145,10 @@ begin
         F:= Pages.Tabs.GetTabData(iTab).TabObject as TEditorFrame;
         if F=CurFrame then Continue;
 
-        case iGroup of
-          6..8:
-            SGroup:= 'f'+IntToStr(iGroup-6+1);
-          else
-            SGroup:= IntToStr(iGroup+1);
-        end;
+        if iGroup>=6 then
+          SGroup:= 'f'+IntToStr(iGroup-6+1)
+        else
+          SGroup:= IntToStr(iGroup+1);
         SPrefix:= Format('[%s-%d]  ', [SGroup, iTab+1]);
 
         if F.EditorsLinked and (F.FileName<>'') then
