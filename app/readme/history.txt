@@ -9,6 +9,7 @@
 + add: Ctrl+Tab cycles through tabs in recently used order
 + add: option "ui_tab_switcher_dialog"
 - fix: High-DPI on Linux
+- fix: focused groups 2..6 not detected for statusbar update
 
 1.81.2 (2019/05)
 

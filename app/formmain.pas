@@ -3283,6 +3283,7 @@ var
   Form: TfmMenuList;
 begin
   Result:= -1;
+  if AItems.Count=0 then exit;
   Form:= TfmMenuList.Create(Self);
   try
     UpdateInputForm(Form);
