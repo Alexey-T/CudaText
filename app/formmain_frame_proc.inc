@@ -44,15 +44,14 @@ procedure TfmMain.FrameOnFocus(Sender: TObject);
 var
   F: TEditorFrame;
   Ed: TATSynEdit;
-  FPages: TATPages;
+  Pages: TATPages;
   Tree: TTreeView;
 begin
   Ed:= Sender as TATSynEdit;
   F:= Ed.Parent as TEditorFrame;
+  Pages:= F.Parent as TATPages;
 
-  //set Groups.PagesCurrent only for main (0..5) groups
-  FPages:= F.Parent as TATPages;
-  (FPages.Owner as TATGroups).PagesCurrent:= FPages;
+  (Pages.Owner as TATGroups).PagesCurrent:= Pages;
 
   UpdateCaption;
   UpdateTabsActiveColor(F);
