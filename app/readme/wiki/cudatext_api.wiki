@@ -30,7 +30,6 @@ Usually methods returns None, sometimes they can return True or False to block t
 
 * on_tab_change(self, ed_self): Called after active tab is changed.
 * on_tab_move(self, ed_self): Called after closing a tab (another tab is already activated), or moving a tab (by drag-n-drop, or UI command).
-* on_tab_switch(self, ed_self, next, state): Called on running commands "switch active tab to next" (with next=True) and "switch active tab to prev" (with next=False). Param "state": same as in "on_key". Method must return True to skip default tab-switcher code.
 
 ==Editor==
 
@@ -3499,5 +3498,6 @@ def project_variables():
 * add: listbox_proc: LISTBOX_GET_COLUMN_SEP, LISTBOX_SET_COLUMN_SEP
 * add: listbox_proc: LISTBOX_GET_COLUMNS, LISTBOX_SET_COLUMNS
 * removed: LISTBOX_THEME
+* removed: event "on_tab_switch"
 
 [[Category:CudaText]]
