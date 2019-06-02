@@ -1165,40 +1165,38 @@ begin
 end;
 
 
+function GetTabPagesIndex(AIndex: integer): TATPages;
+begin
+  Result:= nil;
+  case AIndex of
+    0..5:
+      Result:= fmMain.Groups.Pages[AIndex];
+    6:
+      begin
+        if Assigned(fmMain.GroupsF1) then
+          Result:= fmMain.GroupsF1.Pages[0]
+      end;
+    7:
+      begin
+        if Assigned(fmMain.GroupsF2) then
+          Result:= fmMain.GroupsF2.Pages[0]
+      end;
+    8:
+      begin
+        if Assigned(fmMain.GroupsF3) then
+          Result:= fmMain.GroupsF3.Pages[0]
+      end;
+  end;
+end;
+
 function GetEditorActiveInGroup(AIndex: integer): TATSynEdit;
 var
   Pages: TATPages;
   Data: TATTabData;
 begin
   Result:= nil;
-  case AIndex of
-    0..5:
-      Pages:= fmMain.Groups.Pages[AIndex];
-    6:
-      begin
-        if Assigned(fmMain.GroupsF1) then
-          Pages:= fmMain.GroupsF1.Pages[0]
-        else
-          exit;
-      end;
-    7:
-      begin
-        if Assigned(fmMain.GroupsF2) then
-          Pages:= fmMain.GroupsF2.Pages[0]
-        else
-          exit;
-      end;
-    8:
-      begin
-        if Assigned(fmMain.GroupsF3) then
-          Pages:= fmMain.GroupsF3.Pages[0]
-        else
-          exit;
-      end;
-    else
-      exit;
-  end;
-
+  Pages:= GetTabPagesIndex(AIndex);
+  if Pages=nil then exit;
   Data:= Pages.Tabs.GetTabData(Pages.Tabs.TabIndex);
   if Assigned(Data) then
     Result:= (Data.TabObject as TEditorFrame).Editor;
@@ -6127,41 +6125,45 @@ end;
 
 procedure TfmMain.DoDialogMenuTabSwitcher(ANext: boolean);
 var
-  Gr: TATGroups;
   Pages: TATPages;
-  Frame, F: TEditorFrame;
-  NLocalGroupIndex, NGlobalGroupIndex, NTabIndex: integer;
+  CurFrame, F: TEditorFrame;
   FrameList: TStringList;
-  SFilename: string;
-  i: integer;
+  SPrefix, SFilename: string;
+  iGroup, iTab: integer;
 begin
-  Frame:= CurrentFrame;
-  if Frame=nil then exit;
-  GetFrameLocation(Frame, Gr, Pages, NLocalGroupIndex, NGlobalGroupIndex, NTabIndex);
+  CurFrame:= CurrentFrame;
+  if CurFrame=nil then exit;
 
   FrameList:= TStringList.Create;
   try
-    for i:= 0 to Pages.Tabs.TabCount-1 do
+    for iGroup:= 0 to 8 do
     begin
-      F:= Pages.Tabs.GetTabData(i).TabObject as TEditorFrame;
-      if F=Frame then Continue;
+      Pages:= GetTabPagesIndex(iGroup);
+      if Pages=nil then Continue;
+      for iTab:= 0 to Pages.Tabs.TabCount-1 do
+      begin
+        F:= Pages.Tabs.GetTabData(iTab).TabObject as TEditorFrame;
+        if F=CurFrame then Continue;
 
-      if F.EditorsLinked and (F.FileName<>'') then
-        SFilename:= ' ('+F.FileName+')'
-      else
-        SFilename:= '';
+        SPrefix:= Format('[%d-%d]  ', [iGroup+1, iTab+1]);
 
-      FrameList.AddObject('['+IntToStr(i+1)+']  ' + F.TabCaption + SFilename, F);
+        if F.EditorsLinked and (F.FileName<>'') then
+          SFilename:= ' ('+F.FileName+')'
+        else
+          SFilename:= '';
+
+        FrameList.AddObject(SPrefix + F.TabCaption + SFilename, F);
+      end;
     end;
 
     if FrameList.Count=0 then exit;
     FrameList.CustomSort(@_FrameListCompare);
 
-    i:= DoDialogMenuList('', FrameList, true);
-    if i<0 then exit;
+    iTab:= DoDialogMenuList('', FrameList, true);
+    if iTab<0 then exit;
 
-    F:= FrameList.Objects[i] as TEditorFrame;
-    SetFrame(F);
+    F:= FrameList.Objects[iTab] as TEditorFrame;
+    F.SetFocus;
   finally
     FreeAndNil(FrameList);
   end;
