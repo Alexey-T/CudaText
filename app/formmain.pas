@@ -6154,6 +6154,7 @@ begin
       FrameList.AddObject('['+IntToStr(i+1)+']  ' + F.TabCaption + SFilename, F);
     end;
 
+    if FrameList.Count=0 then exit;
     FrameList.CustomSort(@_FrameListCompare);
 
     i:= DoDialogMenuList('', FrameList, true);
