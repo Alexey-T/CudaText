@@ -52,8 +52,7 @@ begin
 
   //set Groups.PagesCurrent only for main (0..5) groups
   FPages:= F.Parent as TATPages;
-  if FPages.Owner=Groups then
-    Groups.PagesCurrent:= FPages;
+  (FPages.Owner as TATGroups).PagesCurrent:= FPages;
 
   UpdateCaption;
   UpdateTabsActiveColor(F);
