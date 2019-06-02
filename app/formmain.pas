@@ -6147,8 +6147,10 @@ begin
         if F=CurFrame then Continue;
 
         if iGroup>=6 then
+          //floating groups
           SGroup:= 'f'+IntToStr(iGroup-6+1)
         else
+          //normal groups
           SGroup:= IntToStr(iGroup+1);
         SPrefix:= Format('[%s-%d]  ', [SGroup, iTab+1]);
 
