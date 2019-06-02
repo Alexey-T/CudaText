@@ -1165,7 +1165,7 @@ begin
 end;
 
 
-function GetTabPagesIndex(AIndex: integer): TATPages;
+function GetPagesOfGroupIndex(AIndex: integer): TATPages;
 begin
   Result:= nil;
   case AIndex of
@@ -1195,7 +1195,7 @@ var
   Data: TATTabData;
 begin
   Result:= nil;
-  Pages:= GetTabPagesIndex(AIndex);
+  Pages:= GetPagesOfGroupIndex(AIndex);
   if Pages=nil then exit;
   Data:= Pages.Tabs.GetTabData(Pages.Tabs.TabIndex);
   if Assigned(Data) then
@@ -6138,7 +6138,7 @@ begin
   try
     for iGroup:= 0 to 8 do
     begin
-      Pages:= GetTabPagesIndex(iGroup);
+      Pages:= GetPagesOfGroupIndex(iGroup);
       if Pages=nil then Continue;
       for iTab:= 0 to Pages.Tabs.TabCount-1 do
       begin
