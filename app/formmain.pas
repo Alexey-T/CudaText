@@ -6128,7 +6128,7 @@ var
   Pages: TATPages;
   CurFrame, F: TEditorFrame;
   FrameList: TStringList;
-  SPrefix, SFilename: string;
+  SGroup, SPrefix, SFilename: string;
   iGroup, iTab: integer;
 begin
   CurFrame:= CurrentFrame;
@@ -6145,7 +6145,13 @@ begin
         F:= Pages.Tabs.GetTabData(iTab).TabObject as TEditorFrame;
         if F=CurFrame then Continue;
 
-        SPrefix:= Format('[%d-%d]  ', [iGroup+1, iTab+1]);
+        case iGroup of
+          6..8:
+            SGroup:= 'f'+IntToStr(iGroup-6+1);
+          else
+            SGroup:= IntToStr(iGroup+1);
+        end;
+        SPrefix:= Format('[%s-%d]  ', [SGroup, iTab+1]);
 
         if F.EditorsLinked and (F.FileName<>'') then
           SFilename:= ' ('+F.FileName+')'
@@ -6163,6 +6169,7 @@ begin
     if iTab<0 then exit;
 
     F:= FrameList.Objects[iTab] as TEditorFrame;
+    SetFrame(F);
     F.SetFocus;
   finally
     FreeAndNil(FrameList);
