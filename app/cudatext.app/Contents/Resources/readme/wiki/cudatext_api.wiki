@@ -30,7 +30,6 @@ Usually methods returns None, sometimes they can return True or False to block t
 
 * on_tab_change(self, ed_self): Called after active tab is changed.
 * on_tab_move(self, ed_self): Called after closing a tab (another tab is already activated), or moving a tab (by drag-n-drop, or UI command).
-* on_tab_switch(self, ed_self, next, state): Called on running commands "switch active tab to next" (with next=True) and "switch active tab to prev" (with next=False). Param "state": same as in "on_key". Method must return True to skip default tab-switcher code.
 
 ==Editor==
 
@@ -910,9 +909,9 @@ Possible types of UI controls are described in dlg_custom, see [[#Types]]. Addit
 * "p": int: Handle of parent form, or 0 if no parent.
 * "tag": str: Any string, set by plugin.
 * "border": int: Sets border of form, DBORDER_nnn constants. Don't specify it together with deprecated "resize".
-** DBORDER_NONE: No visible border, not resizable 
+** DBORDER_NONE: No visible border, not resizable
 ** DBORDER_SIZE: Standard resizable border (on Windows: with Minimize/Maximize buttons)
-** DBORDER_SINGLE: Single-line border, not resizable (on Windows: form has icon and Minimize button) 
+** DBORDER_SINGLE: Single-line border, not resizable (on Windows: form has icon and Minimize button)
 ** DBORDER_DIALOG: Standard dialog box border, not resizable (on Windows: form has no icon nor Minimize button)
 ** DBORDER_TOOL: Like DBORDER_SINGLE but with a smaller caption
 ** DBORDER_TOOLSIZE: Like DBORDER_SIZE but with a smaller caption
@@ -1362,17 +1361,17 @@ Possible values of "id_action":
 * LISTBOX_GET_DRAWN: Gets bool: listbox is owner-drawn, ie it don't paint itself, but plugin must paint it via event on_draw_item.
 * LISTBOX_SET_DRAWN: Sets owner-drawn state. Param "index" should be 0 or 1 (off/on).
 
-Listbox can have columns. It works only if listbox is not owner-drawn, and if column list is not empty. You must add separator-chars inside items to split items into columns. Column sizes are passed as list of int. Each list item can be:
+Listbox can have columns. It works only if listbox is not owner-drawn, and column sizes were set via LISTBOX_SET_COLUMNS. You must add separator-chars inside items to split items into columns. Column sizes are passed as list of int. Each list item can be:
 * value>0: Column width in pixels.
 * value<0: Column width in percents of listbox width.
-* 0: Column is auto-sized. Auto-sized column width is calculated as listbox width minus width of fixed columns. Several auto-sized columns are allowed.
+* value=0: Column is auto-stretched to fill the entire width. Several auto-stretched columns are allowed.
 
 Actions for columns:
 
 * LISTBOX_GET_COLUMN_SEP: Gets column separator char.
 * LISTBOX_SET_COLUMN_SEP: Sets column separator char. Param "text" must be single-char string.
 * LISTBOX_GET_COLUMNS: Gets list of column sizes.
-* LISTBOX_SET_COLUMNS: Sets list of column sizes. Param "text" must be list of int. 
+* LISTBOX_SET_COLUMNS: Sets list of column sizes. Param "text" must be list of int.
 
 ===canvas_proc===
 
@@ -2057,7 +2056,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 ** "pic": picture
 
 * PROP_SPLIT: 2-tuple: information about primary/secondary editors splitting as tuple (split_kind, split_pos).
-** "split_kind": str: "-" (not splitted), "v" (splitted vertically), "h" (splitted horizontally). 
+** "split_kind": str: "-" (not splitted), "v" (splitted vertically), "h" (splitted horizontally).
 ** "split_pos": int: part of entire size for secondary editor, multiplied by 1000 (e.g. 500 is half of size).
 
 * PROP_SAVING_FORCE_FINAL_EOL: bool: on saving file, ensure the newline at end of document.
@@ -2160,7 +2159,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_ZEBRA: int: if 0, zebra mode is not active; if >0, it is alpha-blend value (1..255) of active zebra mode.
 
 * PROP_SPLIT: 2-tuple: information about primary/secondary editors splitting as tuple (split_kind, split_pos).
-** "split_kind": str: "-" (not splitted), "v" (splitted vertically), "h" (splitted horizontally). 
+** "split_kind": str: "-" (not splitted), "v" (splitted vertically), "h" (splitted horizontally).
 ** "split_pos": int: part of entire size for secondary editor, multiplied by 1000 (e.g. 500 is half of size).
 
 * PROP_SAVING_FORCE_FINAL_EOL: bool: on saving file, ensure the newline at end of document.
@@ -2582,7 +2581,7 @@ Possible values of "id":
 
 Performs some action in editor. Possible values of "id":
 
-* EDACTION_CODETREE_FILL: Fill some visual TreeView control (it can be standard code-tree control, or TreeView control in some form) with editor's code-tree information. Param "param1" must be TreeView handle (to use with tree_proc()). Gets True if lexer is set and information is read, otherwise False. 
+* EDACTION_CODETREE_FILL: Fill some visual TreeView control (it can be standard code-tree control, or TreeView control in some form) with editor's code-tree information. Param "param1" must be TreeView handle (to use with tree_proc()). Gets True if lexer is set and information is read, otherwise False.
 
 * EDACTION_LEXER_SCAN: Runs lexer parsing (if lexer is set) from line index, given by "param1". Waits until parsing finishes.
 
@@ -2637,7 +2636,7 @@ File __init__.py must contain getter method(s), referenced by install.inf. Gette
 
 Getter must return list of tuples: (pos, level, caption, icon).
 
-* field "pos": tuple of int (x1, y1, x2, y2): range for tree node. 
+* field "pos": tuple of int (x1, y1, x2, y2): range for tree node.
 * field "level": 1-based level of node, node of level K+1 is nested into (nearest upper) node of level K.
 * field "caption": caption of node.
 * field "icon": 0-based index of icon from standard image-list, or -1 if icon not used.
@@ -2653,6 +2652,16 @@ Getter must return list of tuples: (pos, level, caption, icon).
 Getter can also return value not of "list" type, in this case CudaText will not update the code-tree.
 
 See examples of TreeHelpers: for Markdown, for MediaWiki. They are add-ons in the CudaText AddonManager.
+
+=Linters=
+
+Linters are 2nd-level plugins for CudaLint plugin. CudaLint was ported from SublimeLinter 3, and its linters should be ported from SublimeLinter linters.
+Here is example:
+
+* Original linter: https://github.com/SublimeLinter/SublimeLinter-javac
+* Ported linter: https://github.com/cudatext-addons/cuda_lint_javac
+
+To see how to port, compare files "linter.py". Other files must be added like in other CudaLint linters.
 
 =Tech info=
 
@@ -3499,5 +3508,6 @@ def project_variables():
 * add: listbox_proc: LISTBOX_GET_COLUMN_SEP, LISTBOX_SET_COLUMN_SEP
 * add: listbox_proc: LISTBOX_GET_COLUMNS, LISTBOX_SET_COLUMNS
 * removed: LISTBOX_THEME
+* removed: event "on_tab_switch"
 
 [[Category:CudaText]]

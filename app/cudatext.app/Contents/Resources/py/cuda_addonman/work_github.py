@@ -56,6 +56,7 @@ def do_install_from_github():
 
     url = dialog_github_install(history)
     if not url: return
+    module_from_url = os.path.basename(url)
 
     fn = os.path.join(tempfile.gettempdir(), 'cudatext_addon.zip')
     fn_inf = os.path.join(tempfile.gettempdir(), 'cudatext_addon.inf')
@@ -71,7 +72,10 @@ def do_install_from_github():
 
     if valid:
         module = ini_read(fn_inf, 'info', 'subdir', '')
-        valid = bool(module)
+        if module!=module_from_url:
+            msg_box('Mismatch:\ninstall.inf "module": '+module+'\nrepo name: '+module_from_url, MB_OK+MB_ICONERROR)
+            valid = False
+            return
         dir_plugin = os.path.join(dir_py, module)
     else:
         msg_box('GitHub repository doesn\'t contain valid "install.inf" file. Cannot proceed.', MB_OK+MB_ICONERROR)
