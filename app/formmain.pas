@@ -440,6 +440,8 @@ type
     ToolbarSideTop: TATFlatToolbar;
     UniqInstance: TUniqueInstance;
     procedure AppPropsActivate(Sender: TObject);
+    procedure AppPropsEndSession(Sender: TObject);
+    procedure AppPropsQueryEndSession(var Cancel: Boolean);
     procedure ButtonCancelClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCloseQuery(Sender: TObject; var ACanClose: boolean);
@@ -2000,6 +2002,18 @@ begin
     if F=nil then exit;
     F.Editor.Update;
   end;
+end;
+
+procedure TfmMain.AppPropsEndSession(Sender: TObject);
+begin
+  //
+end;
+
+procedure TfmMain.AppPropsQueryEndSession(var Cancel: Boolean);
+var
+  FAction: TCloseAction;
+begin
+  FormClose(Self, FAction);
 end;
 
 procedure TfmMain.FormCloseQuery(Sender: TObject; var ACanClose: boolean);
@@ -6176,6 +6190,8 @@ begin
     FreeAndNil(FrameList);
   end;
 end;
+
+
 
 //----------------------------
 {$I formmain_loadsave.inc}

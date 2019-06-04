@@ -8,9 +8,11 @@
 
 + add: Ctrl+Tab cycles through tabs in recently used order
 + add: option "ui_tab_switcher_dialog"
-+ add: better support Emoji symbols (at least on Windows)
++ add: Emojis are rendered better (Windows/Linux)
++ add: Windows: place IME window near caret, close IME window on click in text
++ add: Windows: system log off is handled (current session is saved)
 - fix: High-DPI on Linux
-- fix: focused groups 2..6 not detected for statusbar update
+- fix: focused groups 2..6 were not detected for statusbar/title update
 
 1.81.2 (2019/05)
 
