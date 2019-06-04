@@ -8,6 +8,7 @@
 
 + add: Ctrl+Tab cycles through tabs in recently used order
 + add: option "ui_tab_switcher_dialog"
++ add: better support Emoji symbols (at least on Windows)
 - fix: High-DPI on Linux
 - fix: focused groups 2..6 not detected for statusbar update
 
