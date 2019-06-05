@@ -816,6 +816,7 @@ type
     procedure DoFocusEditor;
     procedure DoSwitchTab(ANext: boolean);
     procedure DoSwitchTabSimply(ANext: boolean);
+    procedure DoSwitchTabToRecent;
     procedure DoPyTimerTick(Sender: TObject);
     procedure DoPyRunLastPlugin;
     procedure DoPyResetPlugins;
@@ -4500,6 +4501,36 @@ begin
   else
     DoSwitchTabSimply(ANext);
 end;
+
+procedure TfmMain.DoSwitchTabToRecent;
+var
+  Frame, CurFrame, NewFrame: TEditorFrame;
+  Time: Int64;
+  i: integer;
+begin
+  CurFrame:= CurrentFrame;
+  if CurFrame=nil then exit;
+  NewFrame:= nil;
+  Time:= 0;
+
+  for i:= 0 to FrameCount-1 do
+  begin
+    Frame:= Frames[i];
+    if Frame=CurFrame then Continue;
+    if Frame.ActivationTime>Time then
+    begin
+      Time:= Frame.ActivationTime;
+      NewFrame:= Frame;
+    end;
+  end;
+
+  if Assigned(NewFrame) then
+  begin
+    SetFrame(NewFrame);
+    NewFrame.SetFocus;
+  end;
+end;
+
 
 function TfmMain.FindFrameOfFilename(const AName: string): TEditorFrame;
 var

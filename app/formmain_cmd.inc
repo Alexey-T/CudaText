@@ -67,6 +67,7 @@ begin
     cmd_SwitchTab_SimpleNext: DoSwitchTabSimply(true);
     cmd_SwitchTab_SimplePrev: DoSwitchTabSimply(false);
     cmd_SwitchTab_Dialog:     DoDialogMenuTabSwitcher;
+    cmd_SwitchTab_RecentPrev: DoSwitchTabToRecent;
 
     cmd_DialogCommands:    DoDialogCommands;
     cmd_DialogGoto:        DoDialogGoto;
