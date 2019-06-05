@@ -320,7 +320,7 @@ When CudaText runs in portable mode (executable file is located near folder "dat
 
 In CudaText version 1.66 or older:
 * Windows: %AppData%\CudaText
-* Linux, macOS, FreeBSD, Solaris: ~/.cudatext
+* Linux, macOS, FreeBSD: ~/.cudatext
 
 In CudaText version 1.67 or newer:
 * Windows: %AppData%\CudaText
@@ -329,14 +329,12 @@ In CudaText version 1.67 or newer:
 
 ==Encodings==
 
-You can change encoding of file using click on statusbar item. Menu will give list of encodings. Also menu gives 2 choices:
+You can change encoding of document by clicking on statusbar item, or by using menu "File / Encoding". Menu will give list of encodings. Menu gives 2 sub-menus:
 
-* reload file in given encoding from disk
-* change encoding in memory only (this doesn't save file)
+* "Reload as": Reload file in given encoding from disk.
+* "Convert to": Change encoding in memory only (this doesn't save the file).
 
-If you change enc for untitled tab, then enc is changed only in-memory (next file save will use this encoding). If you change enc for named tab, then additional confirmation shows: "Do you also want to reload file?". Choose Ok to reload file from disk; choose Cancel to change encoding in memory.
-
-Encoding names for command-line:
+Possible encoding names for command-line usage:
 
 * utf8
 * utf8_bom
@@ -393,6 +391,8 @@ First group cannot be empty, at last one tab exists in it. Other groups can be e
 * You can drag-drop tabs from any group to any other visible group (drop only on tabs area).
 * You can move tabs to other groups (by group number or to the next/previous), using commands in tab headers context menu.
 * In grouping modes "2 groups" and "1+2" there's a context menu for splitter, to choose splitting 50/50, 40/60 etc.
+
+Few "floating" groups are available, besides "fixed" 6 groups, they are inside separate windows (so can be moved to separate monitor). To place some tab to a floating group (1, 2, 3), call context menu over a tab title, "Move tab to group / Floating n" (n=1, 2, 3).
 
 ==Auto-completion==
 
