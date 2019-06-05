@@ -2850,6 +2850,7 @@ var
   bAllowZip, bAllowPics, bDetectedPics,
   bAndActivate, bAllowNear: boolean;
   OpenMode, NonTextMode: TAppOpenMode;
+  CurGroups: TATGroups;
   //tick: QWord;
   //msg: string;
   i: integer;
@@ -2857,6 +2858,8 @@ begin
   Result:= nil;
   AppFolderOfLastInstalledAddon:= '';
   if Application.Terminated then exit;
+
+  CurGroups:= CurrentGroups;
 
   bSilent:= Pos('/silent', AOptions)>0;
   bPreviewTab:= Pos('/preview', AOptions)>0;
@@ -2899,7 +2902,7 @@ begin
     NonTextMode:= cOpenModeEditor;
 
   if APages=nil then
-    APages:= Groups.PagesCurrent;
+    APages:= CurGroups.PagesCurrent;
 
   if AFileName='' then
   begin
@@ -3053,7 +3056,7 @@ begin
   end;
 
   //is current frame empty? use it
-  if APages=Groups.PagesCurrent then
+  if APages=CurGroups.PagesCurrent then
   begin
     F:= CurrentFrame;
     if Assigned(F) then
