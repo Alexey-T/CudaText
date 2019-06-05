@@ -1086,6 +1086,7 @@ type
     LexerProgress: TATGauge;
     function FrameCount: integer;
     property Frames[N: integer]: TEditorFrame read GetFrame;
+    function CurrentGroups: TATGroups;
     function CurrentFrame: TEditorFrame;
     function CurrentEditor: TATSynEdit;
     property FloatSide: boolean read GetFloatSide write SetFloatSide;

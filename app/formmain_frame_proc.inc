@@ -133,42 +133,35 @@ begin
   end;
 end;
 
-function TfmMain.CurrentFrame: TEditorFrame;
+function TfmMain.CurrentGroups: TATGroups;
 var
-  Gr: TATGroups;
-  Pages: TATPages;
-  D: TATTabData;
   CurForm: TForm;
 begin
-  Result:= nil;
-
-  Gr:= Groups;
-  Pages:= Gr.PagesCurrent;
+  Result:= Groups;
 
   CurForm:= Screen.ActiveForm;
   if (CurForm<>Self) and FloatGroups then
   begin
     if CurForm=FFormFloatGroups1 then
-    begin
-      Gr:= GroupsF1;
-      Pages:= Gr.Pages1;
-    end
+      Result:= GroupsF1
     else
     if CurForm=FFormFloatGroups2 then
-    begin
-      Gr:= GroupsF2;
-      Pages:= Gr.Pages1;
-    end
+      Result:= GroupsF2
     else
     if CurForm=FFormFloatGroups3 then
-    begin
-      Gr:= GroupsF3;
-      Pages:= Gr.Pages1;
-    end;
+      Result:= GroupsF3
   end;
+end;
 
-  //if Pages.Tabs.TabIndex<0 then
-  //  Pages.Tabs.TabIndex:= 0;
+function TfmMain.CurrentFrame: TEditorFrame;
+var
+  Gr: TATGroups;
+  Pages: TATPages;
+  D: TATTabData;
+begin
+  Result:= nil;
+  Gr:= CurrentGroups;
+  Pages:= Gr.PagesCurrent;
 
   D:= Pages.Tabs.GetTabData(Pages.Tabs.TabIndex);
   if D=nil then Exit;
