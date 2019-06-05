@@ -302,6 +302,8 @@ type
     property EditorsLinked: boolean read FEditorsLinked write SetEditorsLinked;
     property EnabledFolding: boolean read GetEnabledFolding write SetEnabledFolding;
     property SaveDialog: TSaveDialog read FSaveDialog write FSaveDialog;
+    function GetTabPages: TATPages;
+    function GetTabGroups: TATGroups;
     //file
     procedure DoFileClose;
     procedure DoFileOpen(const AFileName, AFileName2: string; AAllowLoadHistory,
@@ -390,17 +392,9 @@ var
 procedure GetFrameLocation(Frame: TEditorFrame;
   out AGroups: TATGroups; out APages: TATPages;
   out ALocalGroupIndex, AGlobalGroupIndex, ATabIndex: integer);
-var
-  C: TWinControl;
 begin
-  APages:= Frame.Parent as TATPages;
-
-  C:= APages;
-  repeat
-    C:= C.Parent;
-  until C is TATGroups;
-
-  AGroups:= C as TATGroups;
+  APages:= Frame.GetTabPages;
+  AGroups:= Frame.GetTabGroups;
   AGroups.PagesAndTabIndexOfControl(Frame, ALocalGroupIndex, ATabIndex);
 
   AGlobalGroupIndex:= ALocalGroupIndex;
@@ -532,6 +526,16 @@ end;
 procedure TEditorFrame.EditorOnScroll(Sender: TObject);
 begin
   DoPyEvent(Sender as TATSynEdit, cEventOnScroll, []);
+end;
+
+function TEditorFrame.GetTabPages: TATPages;
+begin
+  Result:= Parent as TATPages;
+end;
+
+function TEditorFrame.GetTabGroups: TATGroups;
+begin
+  Result:= (Parent as TATPages).Owner as TATGroups;
 end;
 
 procedure TEditorFrame.EditorOnKeyUp(Sender: TObject; var Key: Word;
