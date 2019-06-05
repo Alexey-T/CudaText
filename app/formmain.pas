@@ -4486,16 +4486,8 @@ begin
 end;
 
 procedure TfmMain.DoSwitchTabSimply(ANext: boolean);
-var
-  Frame: TEditorFrame;
-  Gr: TATGroups;
-  Pages: TATPages;
-  NLocalGroupIndex, NGlobalGroupIndex, NTabIndex: integer;
 begin
-  Frame:= CurrentFrame;
-  if Frame=nil then exit;
-  GetFrameLocation(Frame, Gr, Pages, NLocalGroupIndex, NGlobalGroupIndex, NTabIndex);
-  Gr.PagesCurrent.Tabs.SwitchTab(ANext);
+  CurrentGroups.PagesCurrent.Tabs.SwitchTab(ANext);
 end;
 
 procedure TfmMain.DoSwitchTab(ANext: boolean);
