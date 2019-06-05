@@ -6,9 +6,8 @@
 
 1.82.0 (2019/06)
 
-+ add: Ctrl+Tab cycles through tabs in recently used order
-+ add: option "ui_tab_switcher_dialog"
-+ add: Emojis are rendered better (Windows/Linux)
++ add: Ctrl+Tab shows new dialog, which cycles through tabs in recently used order; it's controlled by new option "ui_tab_switcher_dialog"
++ add: Emojis are rendered better
 + add: Windows: place IME window near caret, close IME window on click in text
 + add: Windows: system log off is handled (current session is saved)
 - fix: High-DPI on Linux
