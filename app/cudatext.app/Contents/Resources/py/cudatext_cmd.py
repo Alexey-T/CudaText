@@ -284,8 +284,6 @@ cmd_ChooseThemeSyntax = 2572
 
 cmd_ToggleFocusSplitEditors = 2576
 cmd_FocusEditor = 2577
-cmd_SwitchActiveTabToNext = 2578
-cmd_SwitchActiveTabToPrev = 2579
 
 cmd_DialogGoto       = 2580
 cmd_DialogGotoBookmark = 2581
@@ -310,6 +308,13 @@ cmd_SelectExpandToWord = 2600
 cmd_FileOpen_TextViewer    = 2603
 cmd_FileOpen_HexViewer     = 2604
 cmd_FileOpen_UnicodeViewer = 2605
+
+cmd_SwitchTab_HotkeyNext = 2610
+cmd_SwitchTab_HotkeyPrev = 2611
+cmd_SwitchTab_SimpleNext = 2612
+cmd_SwitchTab_SimplePrev = 2613
+cmd_SwitchTab_Dialog     = 2614
+cmd_SwitchTab_RecentPrev = 2615
 
 cmd_SplitTabToggle   = 2620
 cmd_SplitTabHorzVert = 2621
