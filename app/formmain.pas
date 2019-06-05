@@ -815,6 +815,7 @@ type
     procedure DoFileSaveAs;
     procedure DoFocusEditor;
     procedure DoSwitchTab(ANext: boolean);
+    procedure DoSwitchTabSimply(ANext: boolean);
     procedure DoPyTimerTick(Sender: TObject);
     procedure DoPyRunLastPlugin;
     procedure DoPyResetPlugins;
@@ -4479,12 +4480,25 @@ begin
     Ed.SetFocus;
 end;
 
+procedure TfmMain.DoSwitchTabSimply(ANext: boolean);
+var
+  Frame: TEditorFrame;
+  Gr: TATGroups;
+  Pages: TATPages;
+  NLocalGroupIndex, NGlobalGroupIndex, NTabIndex: integer;
+begin
+  Frame:= CurrentFrame;
+  if Frame=nil then exit;
+  GetFrameLocation(Frame, Gr, Pages, NLocalGroupIndex, NGlobalGroupIndex, NTabIndex);
+  Gr.PagesCurrent.Tabs.SwitchTab(ANext);
+end;
+
 procedure TfmMain.DoSwitchTab(ANext: boolean);
 begin
   if UiOps.TabSwitcherDialog then
     DoDialogMenuTabSwitcher
   else
-    Groups.PagesCurrent.Tabs.SwitchTab(ANext);
+    DoSwitchTabSimply(ANext);
 end;
 
 function TfmMain.FindFrameOfFilename(const AName: string): TEditorFrame;

@@ -64,8 +64,8 @@ begin
 
     cmd_SwitchTab_HotkeyNext: DoSwitchTab(true);
     cmd_SwitchTab_HotkeyPrev: DoSwitchTab(false);
-    cmd_SwitchTab_SimpleNext: Groups.PagesCurrent.Tabs.SwitchTab(true);
-    cmd_SwitchTab_SimplePrev: Groups.PagesCurrent.Tabs.SwitchTab(false);
+    cmd_SwitchTab_SimpleNext: DoSwitchTabSimply(true);
+    cmd_SwitchTab_SimplePrev: DoSwitchTabSimply(false);
     cmd_SwitchTab_Dialog:     DoDialogMenuTabSwitcher;
 
     cmd_DialogCommands:    DoDialogCommands;
