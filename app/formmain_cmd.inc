@@ -61,8 +61,12 @@ begin
 
     cmd_ToggleFocusSplitEditors: CurrentFrame.DoToggleFocusSplitEditors;
     cmd_FocusEditor:           DoFocusEditor;
-    cmd_SwitchActiveTabToNext: DoSwitchActiveTab(true);
-    cmd_SwitchActiveTabToPrev: DoSwitchActiveTab(false);
+
+    cmd_SwitchTab_HotkeyNext: DoSwitchTab(true);
+    cmd_SwitchTab_HotkeyPrev: DoSwitchTab(false);
+    cmd_SwitchTab_SimpleNext: Groups.PagesCurrent.Tabs.SwitchTab(true);
+    cmd_SwitchTab_SimplePrev: Groups.PagesCurrent.Tabs.SwitchTab(false);
+    cmd_SwitchTab_Dialog:     DoDialogMenuTabSwitcher;
 
     cmd_DialogCommands:    DoDialogCommands;
     cmd_DialogGoto:        DoDialogGoto;

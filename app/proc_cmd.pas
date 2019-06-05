@@ -104,8 +104,6 @@ const
 
   cmd_ToggleFocusSplitEditors = 2576;
   cmd_FocusEditor = 2577;
-  cmd_SwitchActiveTabToNext = 2578;
-  cmd_SwitchActiveTabToPrev = 2579;
 
   cmd_DialogGoto       = 2580;
   cmd_DialogGotoBookmark = 2581;
@@ -130,6 +128,13 @@ const
   cmd_FileOpen_TextViewer    = 2603;
   cmd_FileOpen_HexViewer     = 2604;
   cmd_FileOpen_UnicodeViewer = 2605;
+
+  cmd_SwitchTab_HotkeyNext = 2610;
+  cmd_SwitchTab_HotkeyPrev = 2611;
+  cmd_SwitchTab_SimpleNext = 2612;
+  cmd_SwitchTab_SimplePrev = 2613;
+  cmd_SwitchTab_Dialog     = 2614;
+  cmd_SwitchTab_RecentPrev = 2615;
 
   cmd_SplitTabToggle   = 2620;
   cmd_SplitTabHorzVert = 2621;
@@ -368,8 +373,13 @@ begin
 
   M.Add(cmd_ToggleFocusSplitEditors, 'ui: toggle focus between split 1st/2nd editors', [], []);
   M.Add(cmd_FocusEditor, 'ui: focus editor', [], []);
-  M.Add(cmd_SwitchActiveTabToNext, 'ui: switch active tab, to next', ['Ctrl+Tab'], []);
-  M.Add(cmd_SwitchActiveTabToPrev, 'ui: switch active tab, to previous', ['Ctrl+Shift+Tab'], []);
+
+  M.Add(cmd_SwitchTab_HotkeyNext, 'ui: switch tab, to next', ['Ctrl+Tab'], []);
+  M.Add(cmd_SwitchTab_HotkeyPrev, 'ui: switch tab, to previous', ['Ctrl+Shift+Tab'], []);
+  M.Add(cmd_SwitchTab_SimpleNext, 'ui: switch tab, simply to next', [], []);
+  M.Add(cmd_SwitchTab_SimplePrev, 'ui: switch tab, simply to previous', [], []);
+  M.Add(cmd_SwitchTab_Dialog, 'ui: switch tab, dialog', [], []);
+  M.Add(cmd_SwitchTab_RecentPrev, 'ui: switch tab, to recent previous', [], []);
 
   M.Add(cmd_ShowMainMenuAsPopup, 'ui: show main menu as popup', [], []);
   M.Add(cmd_DialogSaveTabs, 'dialog: save tabs', [], []);

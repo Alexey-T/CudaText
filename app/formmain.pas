@@ -814,7 +814,7 @@ type
     procedure DoFileSave;
     procedure DoFileSaveAs;
     procedure DoFocusEditor;
-    procedure DoSwitchActiveTab(ANext: boolean);
+    procedure DoSwitchTab(ANext: boolean);
     procedure DoPyTimerTick(Sender: TObject);
     procedure DoPyRunLastPlugin;
     procedure DoPyResetPlugins;
@@ -933,7 +933,7 @@ type
     procedure DoDialogGoto;
     function DoDialogMenuList(const ACaption: string; AItems: TStringList; ACloseOnCtrlRelease: boolean=
       false): integer;
-    procedure DoDialogMenuTabSwitcher(ANext: boolean);
+    procedure DoDialogMenuTabSwitcher;
     procedure DoDialogGotoBookmark;
     function DoDialogSaveTabs: boolean;
     procedure DoDialogLexerProp(an: TecSyntAnalyzer);
@@ -4479,19 +4479,10 @@ begin
     Ed.SetFocus;
 end;
 
-procedure TfmMain.DoSwitchActiveTab(ANext: boolean);
-const
-  StrBool: array[boolean] of string = (cPyFalse, cPyTrue);
+procedure TfmMain.DoSwitchTab(ANext: boolean);
 begin
-  {
-  if DoPyEvent(CurrentEditor, cEventOnTabSwitch, [
-    StrBool[ANext],
-    '"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"'
-    ] ) = cPyTrue then exit;
-    }
-
   if UiOps.TabSwitcherDialog then
-    DoDialogMenuTabSwitcher(ANext)
+    DoDialogMenuTabSwitcher
   else
     Groups.PagesCurrent.Tabs.SwitchTab(ANext);
 end;
@@ -6138,7 +6129,7 @@ begin
     Result:= 0;
 end;
 
-procedure TfmMain.DoDialogMenuTabSwitcher(ANext: boolean);
+procedure TfmMain.DoDialogMenuTabSwitcher;
 var
   Pages: TATPages;
   CurFrame, F: TEditorFrame;
