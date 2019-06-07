@@ -379,7 +379,7 @@ begin
   M.Add(cmd_SwitchTab_SimpleNext, 'ui: switch tab, simply to next', [], []);
   M.Add(cmd_SwitchTab_SimplePrev, 'ui: switch tab, simply to previous', [], []);
   M.Add(cmd_SwitchTab_Dialog, 'ui: switch tab, dialog', [], []);
-  M.Add(cmd_SwitchTab_Recent, 'ui: switch tab, to recent previous', [], []);
+  M.Add(cmd_SwitchTab_Recent, 'ui: switch tab, to recent', [], []);
 
   M.Add(cmd_ShowMainMenuAsPopup, 'ui: show main menu as popup', [], []);
   M.Add(cmd_DialogSaveTabs, 'dialog: save tabs', [], []);

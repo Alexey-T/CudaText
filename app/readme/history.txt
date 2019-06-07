@@ -3,14 +3,18 @@
   - fixed
   * changed
 
-
 1.82.0 (2019/06)
 
 + add: Ctrl+Tab shows new dialog, which cycles through tabs in recently used order; it's controlled by new option "ui_tab_switcher_dialog"
 + add: Emojis are rendered better
 + add: Windows: place IME window near caret, close IME window on click in text
 + add: Windows: system log off is handled (current session is saved)
-+ add: few commands to switch tabs
++ add: command "switch tab, to next"
++ add: command "switch tab, to previous"
++ add: command "switch tab, simply to next"
++ add: command "switch tab, simply to previous"
++ add: command "switch tab, dialog"
++ add: command "switch tab, to recent"
 - fix: High-DPI on Linux
 - fix: focused groups 2..6 were not detected for statusbar/title update
 - fix: Ctrl+Tab didn't work in floating groups
