@@ -3989,6 +3989,7 @@ begin
   ListboxOut.ItemIndex:= -1;
   ListboxOut.ItemTop:= 0;
   ListboxOut.Invalidate;
+  UpdateSidebarButtonOverlay;
 end;
 
 procedure TfmMain.PopupListboxValidateCopyClick(Sender: TObject);
@@ -4002,6 +4003,7 @@ begin
   ListboxVal.ItemIndex:= -1;
   ListboxVal.ItemTop:= 0;
   ListboxVal.Invalidate;
+  UpdateSidebarButtonOverlay;
 end;
 
 procedure TfmMain.SetShowMenu(AValue: boolean);
