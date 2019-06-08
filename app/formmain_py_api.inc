@@ -2425,8 +2425,7 @@ begin
           Result:= ReturnNone;
       end;
 
-      if Prop=@AppPanelProp_Val then
-        fmMain.UpdateSidebarButtonOverlay;
+      fmMain.UpdateSidebarButtonOverlay;
     end;
 end;
 

@@ -2057,16 +2057,27 @@ end;
 procedure TfmMain.UpdateSidebarButtonOverlay;
 var
   Btn: TATButton;
-  i: integer;
+  NCount, i: integer;
 begin
   for i:= 0 to ToolbarSideLow.ButtonCount-1 do
   begin
     Btn:= ToolbarSideLow.Buttons[i];
     if Btn.Caption=msgPanelValidate_Init then
     begin
-      Btn.TextOverlay:= Format('%d', [ListboxVal.Items.Count+1]);
-      Btn.Invalidate;
-      Break
+      NCount:= ListboxVal.Items.Count;
+      if NCount>0 then
+        Btn.TextOverlay:= IntToStr(NCount)
+      else
+        Btn.TextOverlay:= '';
+    end
+    else
+    if Btn.Caption=msgPanelOutput_Init then
+    begin
+      NCount:= ListboxOut.Items.Count;
+      if NCount>0 then
+        Btn.TextOverlay:= IntToStr(NCount)
+      else
+        Btn.TextOverlay:= '';
     end;
   end;
 end;
