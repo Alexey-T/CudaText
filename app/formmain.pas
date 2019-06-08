@@ -1011,6 +1011,7 @@ type
     procedure SplitterOnPaint_Gr(Sender: TObject);
     procedure SplitterOnPaint_Main(Sender: TObject);
     procedure StopAllTimers;
+    procedure UpdateSidebarButtonOverlay;
     procedure UpdateBottomPanels(const ACaption: string; AndFocus: boolean);
     procedure UpdateEditorTabsize(AValue: integer);
     procedure UpdateKeymapDynamicItems;
@@ -2051,6 +2052,23 @@ begin
   TimerEdCaret.Enabled:= false;
   TimerAppIdle.Enabled:= false;
   TimerCmd.Enabled:= false;
+end;
+
+procedure TfmMain.UpdateSidebarButtonOverlay;
+var
+  Btn: TATButton;
+  i: integer;
+begin
+  for i:= 0 to ToolbarSideLow.ButtonCount-1 do
+  begin
+    Btn:= ToolbarSideLow.Buttons[i];
+    if Btn.Caption=msgPanelValidate_Init then
+    begin
+      Btn.TextOverlay:= Format('%d', [ListboxVal.Items.Count+1]);
+      Btn.Invalidate;
+      Break
+    end;
+  end;
 end;
 
 procedure TfmMain.FormColorsApply(const AColors: TAppTheme);

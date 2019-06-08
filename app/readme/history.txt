@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.82.1 (2019/06)
+
++ add: sidebar button "Validate" shows (red) badge with number of items in Validate panel
+
 1.82.0 (2019/06)
 
 + add: Ctrl+Tab shows new dialog, which cycles through tabs in recently used order; it's controlled by new option "ui_tab_switcher_dialog"
