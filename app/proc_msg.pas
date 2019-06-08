@@ -16,7 +16,7 @@ uses
   ATSynEdit;
 
 const
-  cAppExeVersion = '1.82.0.2';
+  cAppExeVersion = '1.82.1.0';
   cAppApiVersion = '1.0.290';
 
 const
@@ -213,7 +213,7 @@ const
   msgStatusEndsChanged: string = 'Line ends changed';
   msgStatusEncChanged: string = 'Encoding changed';
   msgStatusGotoFileLineCol: string = 'File "%s", Line %d Col %d';
-  msgStatusHelpOnKeysConfig: string = 'To customize hotkeys, call Help/Commands dialog, focus needed command, and press F9, you''ll see additional dialog';
+  msgStatusHelpOnKeysConfig: string = 'To customize hotkeys, call "Help - Command palette", focus needed command, and press F9, you''ll see additional dialog';
   msgStatusClickingLogLine: string = 'Clicking log line';
   msgStatusNoGotoDefinitionPlugins: string = 'No goto-definition plugins installed for this lexer';
   msgStatusFilenameAlreadyOpened: string = 'File name is already opened in another tab:';
