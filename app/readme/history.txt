@@ -5,7 +5,8 @@
 
 1.82.1 (2019/06)
 
-+ add: sidebar shows (red) badges with number of items in Output and Validate panels
++ add: sidebar shows badges with number of items in Output and Validate panels
++ add: ui-theme colors for sidebar button badges
 
 1.82.0 (2019/06)
 

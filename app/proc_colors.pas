@@ -218,6 +218,8 @@ begin
 
   Add(nColorBack2, 'TabBg', 'main-toolbar, tabs BG');
   Add($808080, 'SideBg', 'side-toolbar BG');
+  Add(clNavy, 'SideBadgeBg', 'side-toolbar, button badges BG');
+  Add(clWhite, 'SideBadgeFont', 'side-toolbar, button badges font');
   Add(nColorText, 'TabFont', 'tabs, font');
   Add($a00000, 'TabFontMod', 'tabs, font, modified tab');
   Add(nColorBack, 'TabActive', 'tabs, active tab BG');

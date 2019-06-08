@@ -98,6 +98,7 @@ begin
 
   ATFlatTheme.ColorFont:= GetAppColor('ButtonFont');
   ATFlatTheme.ColorFontDisabled:= GetAppColor('ButtonFontDisabled');
+  ATFlatTheme.ColorFontOverlay:= GetAppColor('SideBadgeFont');
   ATFlatTheme.ColorBgPassive:= GetAppColor('ButtonBgPassive');
   ATFlatTheme.ColorBgOver:= GetAppColor('ButtonBgOver');
   ATFlatTheme.ColorBgChecked:= GetAppColor('ButtonBgChecked');
@@ -111,6 +112,7 @@ begin
   ATFlatTheme.ColorFontListboxSel:= GetAppColor('ListSelFont');
   ATFlatTheme.ColorBgListbox:= GetAppColor('ListBg');
   ATFlatTheme.ColorBgListboxSel:= GetAppColor('ListSelBg');
+  ATFlatTheme.ColorBgOverlay:= GetAppColor('SideBadgeBg');
 
   DoApplyThemeToGroups(Groups);
   if FloatGroups then
