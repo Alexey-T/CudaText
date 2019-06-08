@@ -656,23 +656,20 @@ object fmMain: TfmMain
       object mnuOpDefaultUser: TMenuItem
         Caption = 'Settings - default/user'
       end
-      object mnuOpMore: TMenuItem
-        Caption = 'Settings - &more'
-        object mnuOpLexer: TMenuItem
-          Caption = 'Settings - le&xer specific'
-        end
-        object mnuOpKeys: TMenuItem
-          Caption = 'Settings - &hotkeys'
-        end
-        object MenuItem3: TMenuItem
-          Caption = '-'
-        end
-        object mnuOpThemeUi: TMenuItem
-          Caption = 'Settings - theme - &ui'
-        end
-        object mnuOpThemeSyntax: TMenuItem
-          Caption = 'Settings - theme - &syntax'
-        end
+      object mnuOpLexer: TMenuItem
+        Caption = 'Settings - le&xer specific'
+      end
+      object SepOp2: TMenuItem
+        Caption = '-'
+      end
+      object mnuOpKeys: TMenuItem
+        Caption = 'Settings - &hotkeys'
+      end
+      object mnuOpThemeUi: TMenuItem
+        Caption = 'Settings - theme - &ui'
+      end
+      object mnuOpThemeSyntax: TMenuItem
+        Caption = 'Settings - theme - &syntax'
       end
       object mnuOpPlugins: TMenuItem
         Caption = 'Settings - &plugins'

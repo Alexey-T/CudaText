@@ -183,7 +183,7 @@ type
     ImageListBm: TImageList;
     ImageListTree: TImageList;
     MainMenu: TMainMenu;
-    MenuItem3: TMenuItem;
+    SepOp2: TMenuItem;
     mnuBmDeleteLines: TMenuItem;
     mnuBmCopyLines: TMenuItem;
     mnuOpThemeSyntax: TMenuItem;
@@ -266,7 +266,6 @@ type
     mnuOpLexProp: TMenuItem;
     mnuFileCloseDel: TMenuItem;
     mnuOpLexer: TMenuItem;
-    mnuOpMore: TMenuItem;
     mnuViewStatus: TMenuItem;
     mnuViewFullscr: TMenuItem;
     mnuFindWordNext: TMenuItem;
