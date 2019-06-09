@@ -13,6 +13,7 @@ curl -L https://github.com/Alexey-T/ATTabs/archive/master.zip >ATTabs.zip
 curl -L https://github.com/Alexey-T/CudaText/archive/master.zip >CudaText.zip
 curl -L https://github.com/Alexey-T/EControl_v1/archive/master.zip >EControl_v1.zip
 curl -L https://github.com/Alexey-T/Python-for-Lazarus/archive/master.zip >Python.zip
+curl -L https://github.com/Alexey-T/Emmet-Pascal/archive/master.zip >Emmet.zip
 
 cd ..
 zip -r cudatext-src-$cuda_ver.zip src/
