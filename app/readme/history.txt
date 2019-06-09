@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.82.1 (2019/06)
+1.82.2 (2019/06)
 
++ add: embedded Emmet engine (written by Rickard Johansson); it will be used in new plugin "Emmet RJ"
 + add: sidebar shows badges with number of items in Output and Validate panels
 + add: ui-theme colors for sidebar button badges
 * change: menu items from "Settings / Settings-more" moved up one level
