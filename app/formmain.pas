@@ -1124,6 +1124,9 @@ var
 
 implementation
 
+uses
+  emmet;
+
 const
   StatusbarTag_Caret = 10;
   StatusbarTag_Enc = 11;

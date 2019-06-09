@@ -357,6 +357,9 @@ PROC_CONFIG_NEWDOC_EOL_SET = 171
 PROC_CONFIG_NEWDOC_ENC_GET = 172
 PROC_CONFIG_NEWDOC_ENC_SET = 173
 
+PROC_EMMET_EXPAND   = 200
+PROC_EMMET_WRAP     = 201
+
 TREE_ITEM_ENUM             = 1
 TREE_ITEM_ADD              = 2
 TREE_ITEM_DELETE           = 3
@@ -777,7 +780,11 @@ def app_path(id):
     return ct.app_path(id)
 
 def app_proc(id, text):
-    return ct.app_proc(id, to_str(text))
+    if id in (PROC_EMMET_EXPAND, PROC_EMMET_WRAP):
+        s = chr(1).join(text)
+    else:
+        s = to_str(text)
+    return ct.app_proc(id, s)
 
 def app_log(id, text, tag=0, panel=''):
     return ct.app_log(id, text, tag, panel)

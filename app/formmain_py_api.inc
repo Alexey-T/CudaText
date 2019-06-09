@@ -19,6 +19,9 @@ var
   PyEscapeFlag: boolean = false;
   PyEditorMaybeDeleted: boolean = false;
 
+var
+  AppEmmet: TEmmet = nil;
+
 procedure MsgOldApi(const s: string);
 begin
   fmMain.MsgLogConsole(Format(msgApiDeprecated, [s]));
@@ -145,6 +148,49 @@ begin
     begin
       PyList_SetItem(Result, i, PyBool_FromLong(Ord(Strs.LinesUpdated[i])));
     end;
+  end;
+end;
+
+
+function Py_EmmetAction(Id: integer; SParams: string): PPyObject;
+const
+  Sep = chr(1);
+var
+  dir, filenameSnips, filenameLorem,
+  SAbrev, SSyntax, SSel, SSection, SResult: string;
+  bMulLine: boolean;
+begin
+  SAbrev:= SGetItem(SParams, Sep);
+  SSyntax:= SGetItem(SParams, Sep);
+  SSel:= SGetItem(SParams, Sep);
+
+  with GetPythonEngine do
+  begin
+    if AppEmmet=nil then
+    begin
+      dir:= GetAppPath(cDirDataAutocompleteSpec);
+      filenameSnips:= dir+DirectorySeparator+'emmet_snippets.ini';
+      filenameLorem:= dir+DirectorySeparator+'emmet_lorem.txt';
+      if not FileExistsUTF8(filenameSnips) then exit(ReturnNone);
+      if not FileExistsUTF8(filenameLorem) then exit(ReturnNone);
+      AppEmmet:= TEmmet.Create(filenameSnips, filenameLorem);
+    end;
+
+    case Id of
+      APP_PROC_EMMET_EXPAND:
+        SResult:= AppEmmet.ExpandAbbreviation(SAbrev, SSyntax, '', SSection, bMulLine);
+      APP_PROC_EMMET_WRAP:
+        SResult:= AppEmmet.ExpandAbbreviation(SAbrev, SSyntax, SSel, SSection, bMulLine);
+      else
+        SResult:= '';
+    end;
+
+    SResult:= StringReplace(SResult, #13#10, #10, [rfReplaceAll]);
+
+    Result:= Py_BuildValue('(sO)',
+      PChar(SResult),
+      PyBool_FromLong(Ord(bMulLine))
+      );
   end;
 end;
 
@@ -4286,7 +4332,13 @@ begin
           begin
             UiOps.NewdocEnc:= Str;
             Result:= ReturnNone;
-          end
+          end;
+
+        APP_PROC_EMMET_EXPAND,
+        APP_PROC_EMMET_WRAP:
+          begin
+            Result:= Py_EmmetAction(Id, Str);
+          end;
 
         else
           Result:= ReturnNone;
