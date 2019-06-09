@@ -3,6 +3,12 @@
   - fixed
   * changed
 
+1.82.1 (2019/06)
+
++ add: sidebar shows badges with number of items in Output and Validate panels
++ add: ui-theme colors for sidebar button badges
+* change: menu items from "Settings / Settings-more" moved up one level
+
 1.82.0 (2019/06)
 
 + add: Ctrl+Tab shows new dialog, which cycles through tabs in recently used order; it's controlled by new option "ui_tab_switcher_dialog"

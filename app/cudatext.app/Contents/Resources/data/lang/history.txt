@@ -1,5 +1,8 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2019.06.09
+* delete [m_o] mr
+
 2019.05.23
 * delete [m_o] co_ cou_ cos_
 + [m_o] the_u the_s
