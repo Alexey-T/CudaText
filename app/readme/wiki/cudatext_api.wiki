@@ -174,12 +174,6 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_CONFIG_NEWDOC_ENC_GET: Gets str: encoding of newly created documents (app option "newdoc_encoding").
 * PROC_CONFIG_NEWDOC_ENC_SET: Sets str: encoding of newly created documents.
 
-====Emmet====
-
-* PROC_EMMET_EXPAND: Action "Expand abbreviation". Param "text" must be tuple (str_abbreviation, str_syntax). Gets 2-tuple (str_result, bool_multi_caret) or None.
-* PROC_EMMET_WRAP: Action "Wrap with abbreviation". Param "text" must be tuple (str_abbreviation, str_syntax, str_selection). Gets 2-tuple (str_result, bool_multi_caret) or None.
-* PROC_EMMET_GET_POS: Finds beginning of abbreviation in a given string. Param "text" must be tuple (str_line, int_initial_offset). Gets offset of abbreviation beginning, or None. Offsets are 0-based. 
-
 ====Search properties====
 
 Actions work with props of Find/Replace dialog, and props of low-level search engine. When user runs some search command in the dialog, dialog applies its props to the search engine. So most of the time, props of dialog and search engine are sync'ed. But they aren't sync'ed if user just typed new text in the dialog. They also aren't sync'ed if user runs some search command via Command Palette or hotkey (e.g. "find current word, previous").
@@ -495,6 +489,25 @@ For line "line 10 column 20: text message here" the following regex and indexes 
  app_idle(wait=False)
 
 Performs application's message-processing. If wait=True, also waits for new UI event.
+
+===emmet===
+
+ emmet(id, text, p1="", p2="")
+
+Performs action with embedded Emmet engine. Possible values of "id":
+
+* EMMET_EXPAND: Expand abbreviation. Gets 2-tuple (str_result, bool_multi_caret) or None.
+** Param "text": Emmet abbreviation.
+** Param "p1": Emmet syntax. Possible values: "html", "xml", "xsl", "css", "svg", "sass", "less". 
+
+* EMMET_WRAP: Wrap text with abbreviation. Gets 2-tuple (str_result, bool_multi_caret) or None.
+** Param "text": Emmet abbreviation.
+** Param "p1": Emmet syntax.
+** Param "p2": Text to wrap. Can be multi-line with LF line breaks.
+
+* EMMET_GET_POS: Find beginning of abbreviation in given string. Gets offset in string (0-based), or None.
+** Param "text": Text string (can include unneeded text after caret position, can include HTML tags before abbreviation).
+** Param "p1": Caret offset (0-based) to search abbreviation to the left of it. 
 
 ===msg_box===
 
@@ -3516,7 +3529,7 @@ def project_variables():
 * removed: LISTBOX_THEME
 * removed: event "on_tab_switch"
 
-1.0.291 (app 1.82.1)
-* add: app_proc: PROC_EMMET_EXPAND, PROC_EMMET_WRAP, PROC_EMMET_GET_POS
+1.0.291 (app 1.82.2)
+* add: emmet()
 
 [[Category:CudaText]]
