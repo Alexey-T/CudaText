@@ -315,6 +315,7 @@ const
 
   APP_PROC_EMMET_EXPAND   = 200;
   APP_PROC_EMMET_WRAP     = 201;
+  APP_PROC_EMMET_GET_POS = 202;
 
   TREE_ITEM_ENUM             = 1;
   TREE_ITEM_ADD              = 2;

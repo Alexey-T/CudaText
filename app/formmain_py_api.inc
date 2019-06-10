@@ -159,6 +159,7 @@ var
   dir, filenameSnips, filenameLorem,
   SAbrev, SSyntax, SSel, SSection, SResult: string;
   bMulLine: boolean;
+  NPos, NRes: integer;
 begin
   SAbrev:= SGetItem(SParams, Sep);
   SSyntax:= SGetItem(SParams, Sep);
@@ -178,19 +179,37 @@ begin
 
     case Id of
       APP_PROC_EMMET_EXPAND:
-        SResult:= AppEmmet.ExpandAbbreviation(SAbrev, SSyntax, '', SSection, bMulLine);
+        begin
+          SResult:= AppEmmet.ExpandAbbreviation(SAbrev, SSyntax, '', SSection, bMulLine);
+          SResult:= StringReplace(SResult, #13#10, #10, [rfReplaceAll]);
+          Result:= Py_BuildValue('(sO)',
+            PChar(SResult),
+            PyBool_FromLong(Ord(bMulLine))
+            );
+        end;
+
       APP_PROC_EMMET_WRAP:
-        SResult:= AppEmmet.ExpandAbbreviation(SAbrev, SSyntax, SSel, SSection, bMulLine);
+        begin
+          SResult:= AppEmmet.ExpandAbbreviation(SAbrev, SSyntax, SSel, SSection, bMulLine);
+          SResult:= StringReplace(SResult, #13#10, #10, [rfReplaceAll]);
+          Result:= Py_BuildValue('(sO)',
+            PChar(SResult),
+            PyBool_FromLong(Ord(bMulLine))
+            );
+        end;
+
+      APP_PROC_EMMET_GET_POS:
+        begin
+          NPos:= StrToIntDef(SSyntax, -1);
+          if NPos<=0 then
+            exit(ReturnNone);
+          EmmetHelper.EmmetFindAbbrev(SAbrev, NPos, NRes, SSel);
+          Result:= PyInt_FromLong(NRes);
+        end;
+
       else
-        SResult:= '';
+        Result:= ReturnNone;
     end;
-
-    SResult:= StringReplace(SResult, #13#10, #10, [rfReplaceAll]);
-
-    Result:= Py_BuildValue('(sO)',
-      PChar(SResult),
-      PyBool_FromLong(Ord(bMulLine))
-      );
   end;
 end;
 
@@ -4335,7 +4354,8 @@ begin
           end;
 
         APP_PROC_EMMET_EXPAND,
-        APP_PROC_EMMET_WRAP:
+        APP_PROC_EMMET_WRAP,
+        APP_PROC_EMMET_GET_POS:
           begin
             Result:= Py_EmmetAction(Id, Str);
           end;

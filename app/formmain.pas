@@ -1125,7 +1125,8 @@ var
 implementation
 
 uses
-  emmet;
+  Emmet,
+  EmmetHelper;
 
 const
   StatusbarTag_Caret = 10;
