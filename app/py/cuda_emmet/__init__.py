@@ -94,7 +94,7 @@ class Command:
         if (y0, x0)>(y1, x1):
             x0, y0, x1, y1 = x1, y1, x0, y0
 
-        text_sel = ed.get_text_sel().replace('\n', '\r\n')
+        text_sel = ed.get_text_sel()
         if not text_sel:
             msg_status('Text not selected')
             return

@@ -192,6 +192,7 @@ begin
 
       APP_PROC_EMMET_WRAP:
         begin
+          SParam3:= StringReplace(SParam3, #10, #13#10, [rfReplaceAll]);
           SResult:= AppEmmet.ExpandAbbreviation(SText, SParam2, SParam3, SSection, bMulLine);
           SResult:= StringReplace(SResult, #13#10, #10, [rfReplaceAll]);
           if SResult='' then
