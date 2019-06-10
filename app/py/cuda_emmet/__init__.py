@@ -31,7 +31,7 @@ def find_abr():
     text = text[:x]
     if not text: return
 
-    n = app_proc(PROC_EMMET_GET_POS, (text, len(text)))
+    n = emmet(EMMET_GET_POS, text, len(text))
     text = text[n:]
     return text
 
@@ -56,7 +56,7 @@ def tabstop(cnt):
 
 def do_expand_abbrev(abr):
 
-    res = app_proc(PROC_EMMET_EXPAND, (abr, get_syntax()))
+    res = emmet(EMMET_EXPAND, abr, get_syntax())
     if res and res[0]:
         s = res[0]
         cnt = 0
@@ -103,7 +103,7 @@ class Command:
         if not abr:
             return
 
-        res = app_proc(PROC_EMMET_WRAP, (abr, get_syntax(), text_sel))
+        res = emmet(EMMET_WRAP, abr, get_syntax(), text_sel)
         if res and res[0]:
             do_insert_result(x0, y0, x1, y1, res[0])
 
