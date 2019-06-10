@@ -185,8 +185,6 @@ begin
         begin
           StrText:= AppEmmet.ExpandAbbreviation(StrText, Str1, '', SSection, bMulLine);
           StrText:= StringReplace(StrText, #13#10, #10, [rfReplaceAll]);
-          if StrText='' then
-            exit(ReturnNone);
           Result:= Py_BuildValue('(sO)',
             PChar(StrText),
             PyBool_FromLong(Ord(bMulLine))
@@ -198,8 +196,6 @@ begin
           Str2:= StringReplace(Str2, #10, #13#10, [rfReplaceAll]);
           StrText:= AppEmmet.ExpandAbbreviation(StrText, Str1, Str2, SSection, bMulLine);
           StrText:= StringReplace(StrText, #13#10, #10, [rfReplaceAll]);
-          if StrText='' then
-            exit(ReturnNone);
           Result:= PyString_FromString(PChar(StrText));
         end;
 
