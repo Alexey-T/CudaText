@@ -182,7 +182,7 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 4
-      Expression = '[\+\*\{&:%\#\?\\\$\-!\^~]+'
+      Expression = '[\+\*\{&:%\#\?\\\-!\^~]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
