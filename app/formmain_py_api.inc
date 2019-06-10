@@ -759,6 +759,8 @@ begin
           Result:= ReturnNone;
       end;
 
+      Ed.DoEventCarets;
+
       if Assigned(F) then
       begin
         fmMain.UpdateFrameEx(F, false);
