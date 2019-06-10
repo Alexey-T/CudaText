@@ -174,8 +174,11 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_CONFIG_NEWDOC_ENC_GET: Gets str: encoding of newly created documents (app option "newdoc_encoding").
 * PROC_CONFIG_NEWDOC_ENC_SET: Sets str: encoding of newly created documents.
 
-* PROC_EMMET_EXPAND: Emmet engine: action "Expand abbreviation". Param "text" must be tuple (str_abbreviation, str_syntax). Gets 2-tuple (str_result, bool_multi_caret) or None.
-* PROC_EMMET_WRAP: Emmet engine: action "Wrap with abbreviation". Param "text" must be tuple (str_abbreviation, str_syntax, str_selection). Gets 2-tuple (str_result, bool_multi_caret) or None.
+====Emmet====
+
+* PROC_EMMET_EXPAND: Action "Expand abbreviation". Param "text" must be tuple (str_abbreviation, str_syntax). Gets 2-tuple (str_result, bool_multi_caret) or None.
+* PROC_EMMET_WRAP: Action "Wrap with abbreviation". Param "text" must be tuple (str_abbreviation, str_syntax, str_selection). Gets 2-tuple (str_result, bool_multi_caret) or None.
+* PROC_EMMET_GET_POS: Finds beginning of abbreviation in a given string. Param "text" must be tuple (str_line, int_initial_offset). Gets offset of abbreviation beginning, or None. Offsets are 0-based. 
 
 ====Search properties====
 
@@ -3514,6 +3517,6 @@ def project_variables():
 * removed: event "on_tab_switch"
 
 1.0.291 (app 1.82.1)
-* add: app_proc: PROC_EMMET_EXPAND, PROC_EMMET_WRAP
+* add: app_proc: PROC_EMMET_EXPAND, PROC_EMMET_WRAP, PROC_EMMET_GET_POS
 
 [[Category:CudaText]]
