@@ -3,7 +3,7 @@ import webbrowser
 from cudatext import *
 from .proc_snip_insert import *
 
-lexers_xml = ['XML', 'XSL', 'XSLT']
+lexers_xml = ['XML', 'XML ^', 'XSL', 'XSLT']
 lexers_css = ['CSS', 'SCSS', 'SASS', 'Sass', 'Stylus', 'LESS']
 
 help_url = 'https://www.rj-texted.se/Help/Emmetcheatsheet.html'
@@ -23,7 +23,7 @@ def get_profile():
     return ''
 
 
-def do_find_expand():
+def find_abr():
 
     x, y, x1, y1 = ed.get_carets()[0]
     text = ed.get_text_line(y)
@@ -36,17 +36,10 @@ def do_find_expand():
     return text
 
 
-def do_insert_result(x0, y0, x1, y1, text, text_insert):
+def do_insert_result(x0, y0, x1, y1, text):
 
-    if text_insert:
-        for i in [1,2,3,4,5,6,7,8,9,0]:
-            text_rep = '${'+str(i)+'}'
-            if text_rep in text:
-                text = text.replace(text_rep, '${'+str(i)+':'+text_insert+'}', 1)
-                break
-
-    ed.delete(x0, y0, x1, y1)
     ed.set_caret(x0, y0)
+    ed.delete(x0, y0, x1, y1)
 
     lines = text.splitlines()
     insert_snip_into_editor(ed, lines)
@@ -88,21 +81,20 @@ class Command:
         item = profiles[n]
         ini_write(fn_ini, ini_section, ini_key_profile, item)
 
+
     def help(self):
 
         webbrowser.open_new_tab(help_url)
         msg_status('Opened browser')
 
+
     def wrap_abbrev(self):
 
         x0, y0, x1, y1 = ed.get_carets()[0]
-        #sort coords
-        if (y1>y0) or ((y1==y0) and (x1>x0)):
-            pass
-        else:
+        if (y0, x0)>(y1, x1):
             x0, y0, x1, y1 = x1, y1, x0, y0
 
-        text_sel = ed.get_text_sel()
+        text_sel = ed.get_text_sel().replace('\n', '\r\n')
         if not text_sel:
             msg_status('Text not selected')
             return
@@ -111,15 +103,14 @@ class Command:
         if not abr:
             return
 
-        text = do_expand_abbrev(abr)
-        if not text: return
-
-        do_insert_result(x0, y0, x1, y1, text, text_sel)
+        res = app_proc(PROC_EMMET_WRAP, (abr, get_syntax(), text_sel))
+        if res and res[0]:
+            do_insert_result(x0, y0, x1, y1, res[0])
 
 
     def expand_abbrev(self):
 
-        abr = do_find_expand()
+        abr = find_abr()
         if not abr:
             msg_status('Cannot find Emmet abbreviation')
             return
@@ -131,4 +122,4 @@ class Command:
         x0, y0, x1, y1 = ed.get_carets()[0]
         xstart = max(0, x0-len(abr))
 
-        do_insert_result(xstart, y0, x0, y0, text, '')
+        do_insert_result(xstart, y0, x0, y0, text)
