@@ -357,10 +357,6 @@ PROC_CONFIG_NEWDOC_EOL_SET = 171
 PROC_CONFIG_NEWDOC_ENC_GET = 172
 PROC_CONFIG_NEWDOC_ENC_SET = 173
 
-PROC_EMMET_EXPAND   = 200
-PROC_EMMET_WRAP     = 201
-PROC_EMMET_GET_POS  = 202
-
 TREE_ITEM_ENUM             = 1
 TREE_ITEM_ADD              = 2
 TREE_ITEM_DELETE           = 3
@@ -422,6 +418,10 @@ GROUPS_4GRID   = 10
 GROUPS_6VERT   = 11
 GROUPS_6HORZ   = 12
 GROUPS_6GRID   = 13
+
+EMMET_EXPAND   = 0
+EMMET_WRAP     = 1
+EMMET_GET_POS  = 2
 
 #EDSTATE_WORDWRAP = 1
 EDSTATE_TAB_TITLE = 2
@@ -781,17 +781,16 @@ def app_path(id):
     return ct.app_path(id)
 
 def app_proc(id, text):
-    if id in (PROC_EMMET_EXPAND, PROC_EMMET_WRAP, PROC_EMMET_GET_POS):
-        s = chr(1).join(map(str, text))
-    else:
-        s = to_str(text)
-    return ct.app_proc(id, s)
+    return ct.app_proc(id, to_str(text))
 
 def app_log(id, text, tag=0, panel=''):
     return ct.app_log(id, text, tag, panel)
 
 def app_idle(wait=False):
     return ct.app_idle(wait)
+
+def emmet(id, text, par1='', par2=''):
+    return ct.emmet(id, text, str(par1), str(par2))
 
 def msg_box(text, flags):
     return ct.msg_box(text, flags)

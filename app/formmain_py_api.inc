@@ -152,21 +152,24 @@ begin
 end;
 
 
-function Py_EmmetAction(Id: integer; SParams: string): PPyObject;
-const
-  Sep = chr(1);
+function Py_emmet(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  Id: integer;
+  PtrText, Ptr1, Ptr2: PChar;
+  StrText, Str1, Str2: string;
 var
   dir, filenameSnips, filenameLorem,
-  SText, SParam2, SParam3, SSection, SResult: string;
+  SSection, SResult: string;
   bMulLine: boolean;
   NPos, NRes: integer;
 begin
-  SText:= SGetItem(SParams, Sep);
-  SParam2:= SGetItem(SParams, Sep);
-  SParam3:= SGetItem(SParams, Sep);
-
   with GetPythonEngine do
+  if Bool(PyArg_ParseTuple(Args, 'isss:emmet', @Id, @PtrText, @Ptr1, @Ptr2)) then
   begin
+    StrText:= string(PtrText);
+    Str1:= string(Ptr1);
+    Str2:= string(Ptr2);
+
     if AppEmmet=nil then
     begin
       dir:= GetAppPath(cDirDataAutocompleteSpec);
@@ -178,9 +181,9 @@ begin
     end;
 
     case Id of
-      APP_PROC_EMMET_EXPAND:
+      EMMET_EXPAND:
         begin
-          SResult:= AppEmmet.ExpandAbbreviation(SText, SParam2, '', SSection, bMulLine);
+          SResult:= AppEmmet.ExpandAbbreviation(StrText, Str1, '', SSection, bMulLine);
           SResult:= StringReplace(SResult, #13#10, #10, [rfReplaceAll]);
           if SResult='' then
             exit(ReturnNone);
@@ -190,10 +193,10 @@ begin
             );
         end;
 
-      APP_PROC_EMMET_WRAP:
+      EMMET_WRAP:
         begin
-          SParam3:= StringReplace(SParam3, #10, #13#10, [rfReplaceAll]);
-          SResult:= AppEmmet.ExpandAbbreviation(SText, SParam2, SParam3, SSection, bMulLine);
+          Str2:= StringReplace(Str2, #10, #13#10, [rfReplaceAll]);
+          SResult:= AppEmmet.ExpandAbbreviation(StrText, Str1, Str2, SSection, bMulLine);
           SResult:= StringReplace(SResult, #13#10, #10, [rfReplaceAll]);
           if SResult='' then
             exit(ReturnNone);
@@ -203,14 +206,14 @@ begin
             );
         end;
 
-      APP_PROC_EMMET_GET_POS:
+      EMMET_GET_POS:
         begin
-          NPos:= StrToIntDef(SParam2, -1);
-          if SText='' then
+          NPos:= StrToIntDef(Str1, -1);
+          if StrText='' then
             exit(ReturnNone);
           if NPos<=0 then
             exit(ReturnNone);
-          EmmetHelper.EmmetFindAbbrev(SText, NPos, NRes, SParam3);
+          EmmetHelper.EmmetFindAbbrev(StrText, NPos, NRes, Str2);
           Result:= PyInt_FromLong(NRes);
         end;
 
@@ -4362,13 +4365,6 @@ begin
             Result:= ReturnNone;
           end;
 
-        APP_PROC_EMMET_EXPAND,
-        APP_PROC_EMMET_WRAP,
-        APP_PROC_EMMET_GET_POS:
-          begin
-            Result:= Py_EmmetAction(Id, Str);
-          end;
-
         else
           Result:= ReturnNone;
       end;
@@ -7395,6 +7391,7 @@ begin
     AddMethod('app_proc', @Py_app_proc, '');
     AddMethod('app_log', @Py_app_log, '');
     AddMethod('app_idle', @Py_app_idle, '');
+    AddMethod('emmet', @Py_emmet, '');
 
     AddMethod('msg_status', @Py_msg_status, '');
     AddMethod('msg_status_alt', @Py_msg_status_alt, '');
