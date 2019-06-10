@@ -25,6 +25,7 @@ mkdir $app/Contents/Resources/py/cuda_sort
 mkdir $app/Contents/Resources/py/cuda_tabs_list
 mkdir $app/Contents/Resources/py/cuda_tree_markdown
 mkdir $app/Contents/Resources/py/cuda_show_unsaved
+mkdir $app/Contents/Resources/py/cuda_emmet
 mkdir $app/Contents/Resources/py/sys
 
 cp $from/py/*.py $app/Contents/Resources/py
@@ -54,6 +55,8 @@ rm -rf $from/py/cuda_tree_markdown/__pycache__
 cp -rf $from/py/cuda_tree_markdown/* $app/Contents/Resources/py/cuda_tree_markdown
 rm -rf $from/py/cuda_show_unsaved/__pycache__
 cp -rf $from/py/cuda_show_unsaved/* $app/Contents/Resources/py/cuda_show_unsaved
+rm -rf $from/py/cuda_emmet/__pycache__
+cp -rf $from/py/cuda_emmet/* $app/Contents/Resources/py/cuda_emmet
 cp -rf $from/py/cuda_palette/* $app/Contents/Resources/py/cuda_palette
 cp -rf $from/py/sys $app/Contents/Resources/py
 
