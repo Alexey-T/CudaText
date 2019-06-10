@@ -213,7 +213,9 @@ begin
       else
         Result:= ReturnNone;
     end;
-  end;
+  end
+  else
+    Result:= ReturnNone;
 end;
 
 
