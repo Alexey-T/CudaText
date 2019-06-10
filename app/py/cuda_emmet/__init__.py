@@ -6,7 +6,8 @@ from .proc_snip_insert import *
 lexers_xml = ['XML', 'XML ^', 'XSL', 'XSLT']
 lexers_css = ['CSS', 'SCSS', 'SASS', 'Sass', 'Stylus', 'LESS']
 
-help_url = 'https://www.rj-texted.se/Help/Emmetcheatsheet.html'
+filename_help = os.path.join(os.path.dirname(__file__), 'help.html')
+
 
 def get_syntax():
 
@@ -84,7 +85,7 @@ class Command:
 
     def help(self):
 
-        webbrowser.open_new_tab(help_url)
+        webbrowser.open_new_tab('file://'+filename_help)
         msg_status('Opened browser')
 
 

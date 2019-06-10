@@ -17,5 +17,5 @@ method=wrap_abbrev
 
 [item5]
 section=commands
-caption=Emmet\Show online help
+caption=Emmet\Show HTML help
 method=help
