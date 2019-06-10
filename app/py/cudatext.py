@@ -789,8 +789,8 @@ def app_log(id, text, tag=0, panel=''):
 def app_idle(wait=False):
     return ct.app_idle(wait)
 
-def emmet(id, text, par1='', par2=''):
-    return ct.emmet(id, text, str(par1), str(par2))
+def emmet(id, text, p1='', p2=''):
+    return ct.emmet(id, text, str(p1), str(p2))
 
 def msg_box(text, flags):
     return ct.msg_box(text, flags)
