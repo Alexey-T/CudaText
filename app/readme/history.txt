@@ -3,12 +3,12 @@
   - fixed
   * changed
 
-1.82.2 (2019/06)
+1.82.5 (2019/06)
 
 + add: embedded Emmet engine (written by Rickard Johansson); preinstalled plugin Emmet which uses this engine (old plugin "Emmet Lite" is now almost not needed, remove it).
-+ add: sidebar shows badges with number of items in Output and Validate panels
-+ add: ui-theme colors for sidebar button badges
-* change: menu items from "Settings / Settings-more" moved up one level
++ add: sidebar shows "badges" with number of items in Output and Validate panels
++ add: ui-theme colors for sidebar "badges"
+* change: menu items in "Options / Settings-more" moved one level up
 
 1.82.0 (2019/06)
 
