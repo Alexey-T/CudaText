@@ -52,8 +52,7 @@ cp -r ../app/py/cuda_addonman/*.py $dd/usr/share/cudatext/py/cuda_addonman
 cp -r ../app/py/cuda_addonman/*.inf $dd/usr/share/cudatext/py/cuda_addonman
 cp -r ../app/py/cuda_comments/*.py $dd/usr/share/cudatext/py/cuda_comments
 cp -r ../app/py/cuda_comments/*.inf $dd/usr/share/cudatext/py/cuda_comments
-cp -r ../app/py/cuda_emmet/*.py $dd/usr/share/cudatext/py/cuda_emmet
-cp -r ../app/py/cuda_emmet/*.inf $dd/usr/share/cudatext/py/cuda_emmet
+cp -r ../app/py/cuda_emmet/* $dd/usr/share/cudatext/py/cuda_emmet
 cp -r ../app/py/cuda_make_plugin/*.py $dd/usr/share/cudatext/py/cuda_make_plugin
 cp -r ../app/py/cuda_make_plugin/*.inf $dd/usr/share/cudatext/py/cuda_make_plugin
 cp -r ../app/py/cuda_multi_installer/*.py $dd/usr/share/cudatext/py/cuda_multi_installer
