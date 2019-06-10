@@ -159,7 +159,7 @@ var
   StrText, Str1, Str2: string;
 var
   dir, filenameSnips, filenameLorem,
-  SSection, SResult: string;
+  SSection: string;
   bMulLine: boolean;
   NPos, NRes: integer;
 begin
@@ -183,12 +183,12 @@ begin
     case Id of
       EMMET_EXPAND:
         begin
-          SResult:= AppEmmet.ExpandAbbreviation(StrText, Str1, '', SSection, bMulLine);
-          SResult:= StringReplace(SResult, #13#10, #10, [rfReplaceAll]);
-          if SResult='' then
+          StrText:= AppEmmet.ExpandAbbreviation(StrText, Str1, '', SSection, bMulLine);
+          StrText:= StringReplace(StrText, #13#10, #10, [rfReplaceAll]);
+          if StrText='' then
             exit(ReturnNone);
           Result:= Py_BuildValue('(sO)',
-            PChar(SResult),
+            PChar(StrText),
             PyBool_FromLong(Ord(bMulLine))
             );
         end;
@@ -196,14 +196,11 @@ begin
       EMMET_WRAP:
         begin
           Str2:= StringReplace(Str2, #10, #13#10, [rfReplaceAll]);
-          SResult:= AppEmmet.ExpandAbbreviation(StrText, Str1, Str2, SSection, bMulLine);
-          SResult:= StringReplace(SResult, #13#10, #10, [rfReplaceAll]);
-          if SResult='' then
+          StrText:= AppEmmet.ExpandAbbreviation(StrText, Str1, Str2, SSection, bMulLine);
+          StrText:= StringReplace(StrText, #13#10, #10, [rfReplaceAll]);
+          if StrText='' then
             exit(ReturnNone);
-          Result:= Py_BuildValue('(sO)',
-            PChar(SResult),
-            PyBool_FromLong(Ord(bMulLine))
-            );
+          Result:= PyString_FromString(PChar(StrText));
         end;
 
       EMMET_GET_POS:

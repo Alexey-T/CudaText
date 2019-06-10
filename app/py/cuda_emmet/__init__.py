@@ -104,8 +104,8 @@ class Command:
             return
 
         res = emmet(EMMET_WRAP, abr, get_syntax(), text_sel)
-        if res and res[0]:
-            do_insert_result(x0, y0, x1, y1, res[0])
+        if res:
+            do_insert_result(x0, y0, x1, y1, res)
 
 
     def expand_abbrev(self):

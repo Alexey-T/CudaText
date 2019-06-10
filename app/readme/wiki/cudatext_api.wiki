@@ -500,7 +500,7 @@ Performs action with embedded Emmet engine. Possible values of "id":
 ** Param "text": Emmet abbreviation.
 ** Param "p1": Emmet syntax. Possible values: "html", "xml", "xsl", "css", "svg", "sass", "less". 
 
-* EMMET_WRAP: Wrap text with abbreviation. Gets 2-tuple (str_result, bool_multi_caret) or None.
+* EMMET_WRAP: Wrap text with abbreviation. Gets str result or None.
 ** Param "text": Emmet abbreviation.
 ** Param "p1": Emmet syntax.
 ** Param "p2": Text to wrap. Can be multi-line with LF line breaks.
