@@ -1,0 +1,21 @@
+[info]
+title=Emmet
+desc=Implements commands of Emmet engine
+type=cudatext-plugin
+subdir=cuda_emmet
+homepage=
+
+[item1]
+section=commands
+caption=Emmet\Expand abbreviation
+method=expand_abbrev
+
+[item2]
+section=commands
+caption=Emmet\Wrap with abbreviation...
+method=wrap_abbrev
+
+[item5]
+section=commands
+caption=Emmet\Show online help
+method=help
