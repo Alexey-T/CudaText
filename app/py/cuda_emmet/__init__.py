@@ -13,15 +13,15 @@ def get_syntax():
     lexer = ed.get_prop(PROP_LEXER_CARET)
     if lexer in lexers_xml:
         return 'xml'
-    elif lexer in lexers_css: 
+    elif lexer in lexers_css:
         return 'css'
     else:
         return 'html'
-    
+
 def get_profile():
 
     return ''
-    
+
 
 def do_find_expand():
 
@@ -30,12 +30,12 @@ def do_find_expand():
     if not text: return
     text = text[:x]
     if not text: return
-    
+
     n = app_proc(PROC_EMMET_GET_POS, (text, len(text)))
     text = text[n:]
     return text
-    
-    
+
+
 def do_insert_result(x0, y0, x1, y1, text, text_insert):
 
     if text_insert:
@@ -44,21 +44,39 @@ def do_insert_result(x0, y0, x1, y1, text, text_insert):
             if text_rep in text:
                 text = text.replace(text_rep, '${'+str(i)+':'+text_insert+'}', 1)
                 break
-    
+
     ed.delete(x0, y0, x1, y1)
     ed.set_caret(x0, y0)
-    
+
     lines = text.splitlines()
     insert_snip_into_editor(ed, lines)
 
 
-def do_expand_abbrev(text_ab):
+def tabstop(cnt):
 
-    msg_status('Expanding: %s' % text_ab)
-    res = app_proc(PROC_EMMET_EXPAND, (text_ab, get_syntax()))
+    if cnt<9:
+        return '${%d}'%(cnt+1)
+    if cnt==9:
+        return '${0}'
+    return ''
+
+
+def do_expand_abbrev(abr):
+
+    res = app_proc(PROC_EMMET_EXPAND, (abr, get_syntax()))
     if res and res[0]:
-        return res[0]
-    msg_status('Cannot expand Emmet abbreviation: '+text_ab)
+        s = res[0]
+        cnt = 0
+        while True:
+            n = s.find('|')
+            if n<0:
+                break
+            s = s[:n] + tabstop(cnt) + s[n+1:]
+            cnt += 1
+
+        return s
+
+    msg_status('Cannot expand Emmet abbreviation: '+abr)
 
 
 class Command:
@@ -83,21 +101,21 @@ class Command:
             pass
         else:
             x0, y0, x1, y1 = x1, y1, x0, y0
-        
+
         text_sel = ed.get_text_sel()
         if not text_sel:
             msg_status('Text not selected')
             return
-            
-        text_ab = dlg_input('Emmet abbreviation:', 'div')
-        if not text_ab:
+
+        abr = dlg_input('Emmet abbreviation:', 'div')
+        if not abr:
             return
-        
-        text = do_expand_abbrev(text_ab)
+
+        text = do_expand_abbrev(abr)
         if not text: return
-                                               
+
         do_insert_result(x0, y0, x1, y1, text, text_sel)
-        
+
 
     def expand_abbrev(self):
 
@@ -109,7 +127,7 @@ class Command:
         text = do_expand_abbrev(abr)
         if not text:
             return
-            
+
         x0, y0, x1, y1 = ed.get_carets()[0]
         xstart = max(0, x0-len(abr))
 
