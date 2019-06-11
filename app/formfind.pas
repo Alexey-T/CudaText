@@ -375,6 +375,7 @@ begin
     bTokens.ItemsShort.Add(cTokensShorts[kind]);
   end;
 
+  bTokens.Arrow:= true;
   bTokens.ShowShortItems:= true;
   bTokens.TextAlign:= taCenter;
   bTokens.ItemIndex:= 0;
@@ -718,6 +719,7 @@ begin
     chkWrap.Parent:= PanelTopOps;
     chkInSel.Parent:= PanelTopOps;
     chkMulLine.Parent:= PanelTopOps;
+    bTokens.Parent:= PanelTopOps;
     chkConfirm.Parent:= PanelTopOps;
     chkConfirm.Left:= 400; //to right
   end;

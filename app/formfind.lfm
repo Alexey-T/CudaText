@@ -123,9 +123,9 @@ object fmFind: TfmFind
         Top = 0
         Width = 30
         Align = alLeft
+        Caption = '*'
         TabStop = True
         TabOrder = 6
-        Arrow = True
         Kind = abuTextChoice
       end
     end
