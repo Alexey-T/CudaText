@@ -38,7 +38,7 @@ object fmFind: TfmFind
         Left = 0
         Height = 25
         Top = 0
-        Width = 32
+        Width = 30
         Align = alLeft
         Caption = '?!'
         TabStop = True
@@ -55,7 +55,7 @@ object fmFind: TfmFind
         Left = 0
         Height = 25
         Top = 0
-        Width = 32
+        Width = 30
         Align = alLeft
         Caption = '.*'
         TabStop = True
@@ -63,10 +63,10 @@ object fmFind: TfmFind
         OnClick = chkRegexClick
       end
       object chkCase: TATButton
-        Left = 32
+        Left = 30
         Height = 25
         Top = 0
-        Width = 32
+        Width = 30
         Align = alLeft
         Caption = 'aA'
         TabStop = True
@@ -74,10 +74,10 @@ object fmFind: TfmFind
         OnClick = chkCaseClick
       end
       object chkWords: TATButton
-        Left = 64
+        Left = 60
         Height = 25
         Top = 0
-        Width = 32
+        Width = 30
         Align = alLeft
         Caption = '“w”'
         TabStop = True
@@ -85,10 +85,10 @@ object fmFind: TfmFind
         OnClick = chkWordsClick
       end
       object chkWrap: TATButton
-        Left = 96
+        Left = 90
         Height = 25
         Top = 0
-        Width = 32
+        Width = 30
         Align = alLeft
         Caption = 'O'
         TabStop = True
@@ -96,10 +96,10 @@ object fmFind: TfmFind
         OnClick = chkWrapClick
       end
       object chkMulLine: TATButton
-        Left = 160
+        Left = 150
         Height = 25
         Top = 0
-        Width = 32
+        Width = 30
         Align = alLeft
         Caption = '+'
         TabStop = True
@@ -107,10 +107,10 @@ object fmFind: TfmFind
         OnClick = chkMulLineClick
       end
       object chkInSel: TATButton
-        Left = 128
+        Left = 120
         Height = 25
         Top = 0
-        Width = 32
+        Width = 30
         Align = alLeft
         Caption = '[..]'
         TabStop = True
