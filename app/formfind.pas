@@ -20,6 +20,7 @@ uses
   ATSynEdit,
   ATSynEdit_Edits,
   ATSynEdit_Commands,
+  ATSynEdit_Finder,
   proc_globdata,
   proc_miscutils,
   proc_colors,
@@ -55,6 +56,7 @@ type
     chkConfirm: TATButton;
     chkInSel: TATButton;
     chkMulLine: TATButton;
+    bTokens: TATButton;
     chkRegex: TATButton;
     chkWords: TATButton;
     chkWrap: TATButton;
@@ -139,6 +141,27 @@ var
 implementation
 
 {$R *.lfm}
+
+const
+  cTokensDesc: array[TATFinderTokens] of string = (
+    'entire text',
+    'only comments',
+    'only strings',
+    'only comments/strings',
+    'except comments',
+    'except strings',
+    'except comments/strings'
+    );
+
+  cTokensShorts: array[TATFinderTokens] of string = (
+    '*',
+    '+c',
+    '+s',
+    '+cs',
+    '-c',
+    '-s',
+    '-cs'
+    );
 
 { TfmFind }
 
@@ -310,6 +333,8 @@ begin
 end;
 
 procedure TfmFind.FormCreate(Sender: TObject);
+var
+  kind: TATFinderTokens;
 begin
   FCaptionFind:= 'Find';
   FCaptionReplace:= 'Replace';
@@ -343,6 +368,16 @@ begin
 
   edFind.OptComboboxArrowSize:= UiOps.ScrollbarArrowSize;
   edRep.OptComboboxArrowSize:= edFind.OptComboboxArrowSize;
+
+  for kind in TATFinderTokens do
+  begin
+    bTokens.Items.Add(cTokensDesc[kind]);
+    bTokens.ItemsShort.Add(cTokensShorts[kind]);
+  end;
+
+  bTokens.ShowShortItems:= true;
+  bTokens.TextAlign:= taCenter;
+  bTokens.ItemIndex:= 0;
 end;
 
 

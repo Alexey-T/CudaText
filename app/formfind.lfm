@@ -23,7 +23,7 @@ object fmFind: TfmFind
     Left = 0
     Height = 118
     Top = 30
-    Width = 190
+    Width = 225
     Align = alLeft
     object PanelOps2: TATPanelSimple
       AnchorSideLeft.Control = PanelOps1
@@ -50,7 +50,7 @@ object fmFind: TfmFind
       Left = 8
       Height = 25
       Top = 4
-      Width = 200
+      Width = 216
       object chkRegex: TATButton
         Left = 0
         Height = 25
@@ -117,10 +117,21 @@ object fmFind: TfmFind
         TabOrder = 4
         OnClick = chkInSelClick
       end
+      object bTokens: TATButton
+        Left = 180
+        Height = 25
+        Top = 0
+        Width = 30
+        Align = alLeft
+        TabStop = True
+        TabOrder = 6
+        Arrow = True
+        Kind = abuTextChoice
+      end
     end
   end
   object PanelAll: TATPanelSimple
-    Left = 190
+    Left = 225
     Height = 118
     Top = 30
     Width = 2272
