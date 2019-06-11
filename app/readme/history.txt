@@ -8,6 +8,7 @@
 + add: embedded Emmet engine (written by Rickard Johansson); preinstalled plugin Emmet which uses this engine (old plugin "Emmet Lite" is now almost not needed, remove it).
 + add: sidebar shows "badges" with number of items in Output and Validate panels
 + add: ui-theme colors for sidebar "badges"
++ add: plugin "Insert Time": if text selected, replace it on insertion
 * change: menu items in "Options / Settings-more" moved one level up
 
 1.82.0 (2019/06)
