@@ -23,7 +23,7 @@ object fmFind: TfmFind
     Left = 0
     Height = 118
     Top = 30
-    Width = 200
+    Width = 190
     Align = alLeft
     object PanelOps2: TATPanelSimple
       AnchorSideLeft.Control = PanelOps1
@@ -120,10 +120,10 @@ object fmFind: TfmFind
     end
   end
   object PanelAll: TATPanelSimple
-    Left = 200
+    Left = 190
     Height = 118
     Top = 30
-    Width = 2248
+    Width = 2272
     Align = alLeft
     object edFind: TATComboEdit
       AnchorSideTop.Control = PanelBtn
