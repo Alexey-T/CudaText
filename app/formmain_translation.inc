@@ -609,6 +609,7 @@ const
   init_HintConfRep = 'Confirm on replace';
   init_HintMulLine = 'Multi-line inputs (Ctrl+Enter for new-line)';
   init_HintInSelect = 'Search in selection';
+  init_HintTokens = 'Allowed syntax elements';
 var
   fn: string;
   ini: TIniFile;
@@ -622,6 +623,7 @@ begin
   with fmFind.chkConfirm do Hint:= init_HintConfRep +' - '+UiOps.HotkeyToggleConfirmRep;
   with fmFind.chkInSel do Hint:= init_HintInSelect  +' - '+UiOps.HotkeyToggleInSelect;
   with fmFind.chkMulLine do Hint:= init_HintMulLine +' - '+UiOps.HotkeyToggleMultiline;
+  with fmFind.bTokens do Hint:= init_HintTokens;
 
   fn:= GetAppLangFilename;
   if FileExists(fn) then
@@ -649,6 +651,7 @@ begin
       with fmFind.chkConfirm do Hint:= ini.ReadString(section, 'h_cf', init_HintConfRep)  +' - '+UiOps.HotkeyToggleConfirmRep;
       with fmFind.chkInSel do Hint:= ini.ReadString(section, 'h_sel', init_HintInSelect)  +' - '+UiOps.HotkeyToggleInSelect;
       with fmFind.chkMulLine do Hint:= ini.ReadString(section, 'h_mul', init_HintMulLine) +' - '+UiOps.HotkeyToggleMultiline;
+      with fmFind.bTokens do Hint:= ini.ReadString(section, 'h_tok', init_HintTokens);
 
       with fmFind.edFind do
       begin
