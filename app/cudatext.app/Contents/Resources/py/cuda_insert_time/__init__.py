@@ -48,8 +48,10 @@ class Command:
     def do_insert(self, s):
 
         x, y, x1, y1 = ed.get_carets()[0]
-        x, y = ed.insert(x, y, s)
+        if (y, x)>(y1, x1):
+            x, y, x1, y1 = x1, y1, x, y
         ed.set_caret(x, y)
+        ed.replace(x, y, x1, y1, s)
         msg_status('Date/time inserted')
 
 
