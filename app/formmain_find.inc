@@ -806,10 +806,13 @@ begin
     IfThen(FFinder.OptFromCaret, 'f')+
     IfThen(FFinder.OptInSelection, 's')+
     IfThen(FFinder.OptConfirmReplace, 'o')+
-    IfThen(FFinder.OptWrapped, 'a');
+    IfThen(FFinder.OptWrapped, 'a')+
+    IfThen(FFinder.OptTokens<>cTokensAll, 'T'+IntToStr(Ord(FFinder.OptTokens)));
 end;
 
 procedure TfmMain.DoFindOptionsFromString(const S: string);
+var
+  N: integer;
 begin
   FFinder.OptBack:= false; //ignore OptBack
   FFinder.OptCase:= Pos('c', S)>0;
@@ -819,6 +822,14 @@ begin
   FFinder.OptInSelection:= Pos('s', S)>0;
   FFinder.OptConfirmReplace:= Pos('o', S)>0;
   FFinder.OptWrapped:= Pos('a', S)>0;
+  FFinder.OptTokens:= cTokensAll;
+
+  N:= Pos('T', S);
+  if (N>0) and (N<Length(S)) then
+  begin
+    N:= StrToIntDef(S[N+1], 0);
+    FFinder.OptTokens:= TATFinderTokensAllowed(N);
+  end;
 end;
 
 function TfmMain.DoFindOptions_GetDict: PPyObject;
