@@ -137,7 +137,6 @@ type
 var
   fmFind: TfmFind;
 
-
 implementation
 
 {$R *.lfm}

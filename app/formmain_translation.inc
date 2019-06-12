@@ -653,6 +653,17 @@ begin
       with fmFind.chkMulLine do Hint:= ini.ReadString(section, 'h_mul', init_HintMulLine) +' - '+UiOps.HotkeyToggleMultiline;
       with fmFind.bTokens do Hint:= ini.ReadString(section, 'h_tok', init_HintTokens);
 
+      with fmFind.bTokens do
+      begin
+        Items[0]:= ini.ReadString(section, 'tk_a', Items[0]);
+        Items[1]:= ini.ReadString(section, 'tk_y_c', Items[1]);
+        Items[2]:= ini.ReadString(section, 'tk_y_s', Items[2]);
+        Items[3]:= ini.ReadString(section, 'tk_y_cs', Items[3]);
+        Items[4]:= ini.ReadString(section, 'tk_n_c', Items[4]);
+        Items[5]:= ini.ReadString(section, 'tk_n_s', Items[5]);
+        Items[6]:= ini.ReadString(section, 'tk_n_cs', Items[6]);
+      end;
+
       with fmFind.edFind do
       begin
         MenuitemTextCut.Caption:= msgEditCut;
