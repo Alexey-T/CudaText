@@ -134,6 +134,9 @@ type
     FSaveHistory: boolean;
     FEditorsLinked: boolean;
     FCachedTreeview: array[0..1] of TTreeView;
+    FLastLexer: string;
+    FLastLexerCommentStyles: string;
+    FLastLexerStringStyles: string;
 
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BinaryOnScroll(Sender: TObject);
@@ -225,6 +228,7 @@ type
     procedure SetLexer(Ed: TATSynEdit; an: TecSyntAnalyzer);
     procedure SetLexerLite(Ed: TATSynEdit; an: TATLiteLexer);
     procedure SetLexerName(Ed: TATSynEdit; const AValue: string);
+    procedure UpdateLexerCache;
     procedure UpdateTabTooltip;
   protected
     procedure DoOnResize; override;
@@ -3088,17 +3092,39 @@ begin
   end;
 end;
 
+procedure TEditorFrame.UpdateLexerCache;
+var
+  SLexer: string;
+begin
+  SLexer:= LexerName[Editor];
+  if SLexer<>FLastLexer then
+  begin
+    FLastLexer:= SLexer;
+    if FLastLexer='' then
+    begin
+      FLastLexerCommentStyles:= '';
+      FLastLexerStringStyles:= '';
+    end
+    else
+    begin
+      FLastLexerCommentStyles:= GetAppLexerPropInCommentsSection(FLastLexer, 'styles_cmt');
+      FLastLexerStringStyles:= GetAppLexerPropInCommentsSection(FLastLexer, 'styles_str');
+    end;
+  end;
+end;
+
 function TEditorFrame.IsCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integer): boolean;
 var
   Pnt1, Pnt2: TPoint;
-  SLexer, STokenText, STokenStyle: string;
+  STokenText, STokenStyle: string;
 begin
   Result:= false;
 
   //lite lexer not supported here
   if not (Ed.AdapterForHilite is TATAdapterEControl) then exit;
-  SLexer:= LexerName[Ed];
-  if SLexer='' then exit;
+
+  UpdateLexerCache;
+  if FLastLexer='' then exit;
 
   TATAdapterEControl(Ed.AdapterForHilite).GetTokenAtPos(
     Point(AX, AY),
@@ -3107,7 +3133,10 @@ begin
     STokenText,
     STokenStyle
     );
-  Result:= IsLexerStyleCommentOrString(SLexer, STokenStyle);
+  if STokenStyle='' then exit;
+
+  Result:=
+    Pos(','+STokenStyle+',', ','+FLastLexerCommentStyles+','+FLastLexerStringStyles+',')>0;
 end;
 
 end.
