@@ -2715,6 +2715,7 @@ Text is chr(1) separated items:
 ** 'o': confirm replaces
 ** 'a': wrapped search
 ** 's': search in selection
+** 'T1', 'T2'...: allowed syntax elements. Number after 'T' is 0-based, it is index of choice in the Find dialog.
 
 ==Format of serialized Undo/Redo==
 
