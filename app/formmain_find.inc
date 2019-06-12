@@ -115,6 +115,7 @@ begin
     FFinder.OptInSelection:= chkInSel.Checked;
     FFinder.OptFromCaret:= (Res=cOpFindNext) or (Res=cOpFindPrev) or (Res=cOpFindRep);
     FFinder.OptConfirmReplace:= chkConfirm.Checked;
+    FFinder.OptTokens:= TATFinderTokensAllowed(bTokens.ItemIndex);
   end;
 
   if Frame.IsBinary then
@@ -390,6 +391,7 @@ begin
     chkRegex.Checked:= FFinder.OptRegex;
     chkConfirm.Checked:= FFinder.OptConfirmReplace;
     chkWrap.Checked:= FFinder.OptWrapped;
+    bTokens.ItemIndex:= Ord(FFinder.OptTokens);
 
     if UiOps.FindSuggestInSelection and bMultiLineSel then
       chkInSel.Checked:= true
@@ -663,6 +665,7 @@ var
   Ed: TATSynEdit;
   ok, bFlag: boolean;
   bSavedWords, bSavedRegex, bSavedCase: boolean;
+  SavedTokens: TATFinderTokensAllowed;
 begin
   Ed:= CurrentEditor;
   if Ed.Carets.Count>1 then exit;
@@ -687,6 +690,7 @@ begin
   bSavedWords:= FFinder.OptWords;
   bSavedRegex:= FFinder.OptRegex;
   bSavedCase:= FFinder.OptCase;
+  SavedTokens:= FFinder.OptTokens;
 
   FFinder.StrFind:= Str;
   FFinder.StrReplace:= '';
@@ -697,6 +701,7 @@ begin
   FFinder.OptFromCaret:= true;
   FFinder.OptBack:= not ANext;
   FFinder.OptInSelection:= false;
+  FFinder.OptTokens:= cTokensAll;
 
   case UiOps.FindSelCase of
     0: FFinder.OptCase:= false;
@@ -716,6 +721,7 @@ begin
   FFinder.OptWords:= bSavedWords;
   FFinder.OptRegex:= bSavedRegex;
   FFinder.OptCase:= bSavedCase;
+  FFinder.OptTokens:= SavedTokens;
 end;
 
 procedure TfmMain.DoFind_ExpandSelectionToWord;
@@ -729,6 +735,7 @@ var
   bSavedRegex,
   bSavedCase,
   bSavedFromCaret: boolean;
+  SavedTokens: TATFinderTokensAllowed;
   ResBegin, ResEnd: TPoint;
 begin
   Ed:= CurrentEditor;
@@ -748,6 +755,7 @@ begin
     bSavedRegex:= FFinder.OptRegex;
     bSavedCase:= FFinder.OptCase;
     bSavedFromCaret:= FFinder.OptFromCaret;
+    SavedTokens:= FFinder.OptTokens;
 
     FFinder.StrFind:= Ed.Strings.TextSubstring(X1, Y1, X2, Y2);
     FFinder.StrReplace:= '';
@@ -759,6 +767,7 @@ begin
     FFinder.OptBack:= false;
     FFinder.OptFromCaret:= false;
     FFinder.OptInSelection:= false;
+    FFinder.OptTokens:= cTokensAll;
 
     bFound:= FFinder.DoAction_FindSimple(
       Point(X2, Y2),
@@ -782,6 +791,7 @@ begin
     FFinder.OptRegex:= bSavedRegex;
     FFinder.OptCase:= bSavedCase;
     FFinder.OptFromCaret:= bSavedFromCaret;
+    FFinder.OptTokens:= SavedTokens;
   end;
 end;
 
@@ -1029,6 +1039,7 @@ begin
     FFinder.OptWrapped:= chkWrap.Checked;
     FFinder.OptInSelection:= chkInSel.Checked;
     FFinder.OptConfirmReplace:= chkConfirm.Checked;
+    FFinder.OptTokens:= TATFinderTokensAllowed(bTokens.ItemIndex);
   end;
 end;
 

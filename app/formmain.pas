@@ -6263,8 +6263,16 @@ end;
 procedure TfmMain.FinderOnGetToken(Sender: TObject;
   AX, AY: integer;
   out AKind: TATFinderTokenKind);
+var
+  Ed: TATSynEdit;
+  Frame: TEditorFrame;
 begin
-  AKind:= cTokenKindOther;
+  Ed:= Sender as TATSynEdit;
+  Frame:= GetEditorFrame(Ed);
+  if Assigned(Frame) then
+    Frame.GetEditorToken(Ed, AX, AY, AKind)
+  else
+    AKind:= cTokenKindOther;
 end;
 
 //----------------------------
