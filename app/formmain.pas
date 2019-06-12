@@ -1594,6 +1594,13 @@ begin
   FFileNameLogDebug:= GetAppPath(cDirSettings)+DirectorySeparator+'app.log';
   FFileNameLogConsole:= GetAppPath(cDirSettings)+DirectorySeparator+'console.log';
 
+  DoMenuitemEllipsis(mnuOpThemeUi);
+  DoMenuitemEllipsis(mnuOpThemeSyntax);
+  DoMenuitemEllipsis(mnuOpKeys);
+  DoMenuitemEllipsis(mnuOpThemesUi);
+  DoMenuitemEllipsis(mnuOpThemesSyntax);
+  DoMenuitemEllipsis(mnuOpLangs);
+
   mnuToolbarCaseLow:= TMenuItem.Create(Self);
   mnuToolbarCaseLow.Caption:= mnuCaseLow.Caption;
   mnuToolbarCaseLow.Tag:= cCommand_TextCaseLower;

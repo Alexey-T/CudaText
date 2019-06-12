@@ -304,6 +304,13 @@ begin
       ini.ReadString('m_o', 'the_s', msgMenuThemesSyntax),
       '&', '', [rfReplaceAll]);
 
+    DoMenuitemEllipsis(mnuOpThemeUi);
+    DoMenuitemEllipsis(mnuOpThemeSyntax);
+    DoMenuitemEllipsis(mnuOpKeys);
+    DoMenuitemEllipsis(mnuOpThemesUi);
+    DoMenuitemEllipsis(mnuOpThemesSyntax);
+    DoMenuitemEllipsis(mnuOpLangs);
+
     DoLocMenuitem(ini, mnuHelp, 'm_h', '_');
     DoLocMenuitem(ini, mnuHelpCmd, 'm_h', 'co');
     DoLocMenuitem(ini, mnuHelpForum, 'm_h', 'fo');

@@ -763,6 +763,7 @@ procedure DoLexerDetect(const AFilename: string;
   out Lexer: TecSyntAnalyzer;
   out LexerLite: TATLiteLexer;
   out LexerName: string);
+procedure DoMenuitemEllipsis(c: TMenuItem);
 
 type
   TATSynCaretShape = (
@@ -2154,6 +2155,17 @@ begin
     C.Width:= NSize
   else
     C.Height:= NSize;
+end;
+
+procedure DoMenuitemEllipsis(c: TMenuItem);
+var
+  s: string;
+begin
+  if c=nil then exit;
+  s:= c.Caption;
+  while (s<>'') and (s[Length(s)]='.') do
+    SetLength(s, Length(s)-1);
+  c.Caption:= s+'...';
 end;
 
 
