@@ -178,7 +178,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 
 Actions work with props of Find/Replace dialog, and props of low-level search engine. When user runs some search command in the dialog, dialog applies its props to the search engine. So most of the time, props of dialog and search engine are sync'ed. But they aren't sync'ed if user just typed new text in the dialog. They also aren't sync'ed if user runs some search command via Command Palette or hotkey (e.g. "find current word, previous").
 
-* PROC_GET_FINDER_PROP: Gets props of Find/Replace dialog and search engine. Gets dict with keys:
+* PROC_GET_FINDER_PROP: Gets properties of Find/Replace dialog and search engine. Gets dict with keys:
 ** "find": string "what to find" of search engine
 ** "rep": string "replace with" of search engine
 ** "find_d": string "what to find" of dialog, None if dialog not inited
@@ -191,6 +191,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** "op_wrap": option "wrapped search" of search engine
 ** "op_back": option "backward search" (low level) of search engine
 ** "op_fromcaret": option "search from caret" (low level) of search engine
+** "op_tokens": option "allowed syntax elements" of search engine (int)
 ** "op_case_d": option "case sensitive" of dialog, None if dialog not inited
 ** "op_word_d": option "whole words" of dialog, None if dialog not inited
 ** "op_regex_d": option "reg.ex." of dialog, None if dialog not inited
@@ -198,8 +199,9 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** "op_insel_d": option "in selection" of dialog, None if dialog not inited
 ** "op_wrap_d": option "wrapped search" of dialog, None if dialog not inited
 ** "op_mulline_d": option "multi-line input fields" of dialog, None if dialog not inited
+** "op_tokens_d": option "allowed syntax elements" of dialog (int), None if dialog not inited
 
-* PROC_SET_FINDER_PROP: Sets props of Find/Replace dialog and search engine. Param "text" must be dict, with some keys listed in PROC_GET_FINDER_PROP. Values of keys must be str (for text fields) or bool.
+* PROC_SET_FINDER_PROP: Sets properties of Find/Replace dialog and search engine. Param "text" must be dict, with all or some keys listed in PROC_GET_FINDER_PROP. Values types: str (for text fields), bool (for flags), int (for choices).
 
 ====System====
 
@@ -3529,7 +3531,8 @@ def project_variables():
 * removed: LISTBOX_THEME
 * removed: event "on_tab_switch"
 
-1.0.291 (app 1.82.2)
+1.0.291 (app 1.83.0)
 * add: emmet()
+* add: app_proc: PROC_GET_FINDER_PROP dict has keys for option "Allowed syntax elements"
 
 [[Category:CudaText]]
