@@ -143,13 +143,13 @@ implementation
 
 const
   cTokensDesc: array[TATFinderTokensAllowed] of string = (
-    'entire text',
-    'only comments',
-    'only strings',
-    'only comments/strings',
-    'except comments',
-    'except strings',
-    'except comments/strings'
+    'Any',
+    'Only comments',
+    'Only strings',
+    'Only comments/strings',
+    'Except comments',
+    'Except strings',
+    'Except comments/strings'
     );
 
   cTokensShorts: array[TATFinderTokensAllowed] of string = (
