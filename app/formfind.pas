@@ -143,7 +143,7 @@ implementation
 {$R *.lfm}
 
 const
-  cTokensDesc: array[TATFinderTokens] of string = (
+  cTokensDesc: array[TATFinderTokensAllowed] of string = (
     'entire text',
     'only comments',
     'only strings',
@@ -153,7 +153,7 @@ const
     'except comments/strings'
     );
 
-  cTokensShorts: array[TATFinderTokens] of string = (
+  cTokensShorts: array[TATFinderTokensAllowed] of string = (
     '*',
     '+c',
     '+s',
@@ -334,7 +334,7 @@ end;
 
 procedure TfmFind.FormCreate(Sender: TObject);
 var
-  kind: TATFinderTokens;
+  kind: TATFinderTokensAllowed;
 begin
   FCaptionFind:= 'Find';
   FCaptionReplace:= 'Replace';
@@ -369,7 +369,7 @@ begin
   edFind.OptComboboxArrowSize:= UiOps.ScrollbarArrowSize;
   edRep.OptComboboxArrowSize:= edFind.OptComboboxArrowSize;
 
-  for kind in TATFinderTokens do
+  for kind in TATFinderTokensAllowed do
   begin
     bTokens.Items.Add(cTokensDesc[kind]);
     bTokens.ItemsShort.Add(cTokensShorts[kind]);

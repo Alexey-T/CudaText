@@ -975,6 +975,7 @@ type
     procedure DoToggleToolbar;
     procedure DoToggleStatusbar;
     procedure FindDialogDone(Sender: TObject; const Res: string);
+    procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATFinderTokenKind);
     procedure FinderOnFound(Sender: TObject; APos1, APos2: TPoint);
     procedure FinderOnBadRegex(Sender: TObject);
     procedure FinderOnConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
@@ -1887,6 +1888,7 @@ begin
   FFinder.OnProgress:= @FinderOnProgress;
   FFinder.OnBadRegex:= @FinderOnBadRegex;
   FFinder.OnFound:=@FinderOnFound;
+  FFinder.OnGetToken:= @FinderOnGetToken;
 
   UpdateMenuEnc(PopupEnc.Items);
   UpdateMenuEnc(mnuFileEnc);
@@ -6258,6 +6260,12 @@ begin
 end;
 
 
+procedure TfmMain.FinderOnGetToken(Sender: TObject;
+  AX, AY: integer;
+  out AKind: TATFinderTokenKind);
+begin
+  AKind:= cTokenKindOther;
+end;
 
 //----------------------------
 {$I formmain_loadsave.inc}
