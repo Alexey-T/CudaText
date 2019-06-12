@@ -825,7 +825,7 @@ function TfmMain.DoFindOptions_GetDict: PPyObject;
 var
   oFind, oRep,
   bCase, bWord, bRegex, bCfm,
-  bInSel, bWrap, bMulLine: PPyObject;
+  bInSel, bWrap, bMulLine, oTokens: PPyObject;
 begin
   with GetPythonEngine do
   begin
@@ -841,6 +841,7 @@ begin
     bInSel:= ReturnNone;
     bWrap:= ReturnNone;
     bMulLine:= ReturnNone;
+    oTokens:= ReturnNone;
 
     if Assigned(fmFind) then
     begin
@@ -853,9 +854,10 @@ begin
       bInSel:= PyBool_FromLong(Ord(fmFind.chkInSel.Checked));
       bWrap:= PyBool_FromLong(Ord(fmFind.chkWrap.Checked));
       bMulLine:= PyBool_FromLong(Ord(fmFind.chkMulLine.Checked));
+      oTokens:= PyInt_FromLong(Ord(fmFind.bTokens.ItemIndex));
     end;
 
-    Result:= Py_BuildValue('{sOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsO}',
+    Result:= Py_BuildValue('{sOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsO}',
       'find', PyUnicode_FromWideString(FFinder.StrFind),
       'rep', PyUnicode_FromWideString(FFinder.StrReplace),
 
@@ -870,6 +872,7 @@ begin
       'op_fromcaret', PyBool_FromLong(Ord(FFinder.OptFromCaret)),
       'op_insel', PyBool_FromLong(Ord(FFinder.OptInSelection)),
       'op_wrap', PyBool_FromLong(Ord(FFinder.OptWrapped)),
+      'op_tokens', PyInt_FromLong(Ord(FFinder.OptTokens)),
 
       'op_case_d', bCase,
       'op_word_d', bWord,
@@ -877,7 +880,8 @@ begin
       'op_cfm_d', bCfm,
       'op_insel_d', bInSel,
       'op_wrap_d', bWrap,
-      'op_mulline_d', bMulLine
+      'op_mulline_d', bMulLine,
+      'op_tokens_d', oTokens
       );
   end;
 end;
@@ -939,6 +943,8 @@ begin
         FFinder.OptInSelection:= AppStrToBool(SValue);
       'op_wrap':
         FFinder.OptWrapped:= AppStrToBool(SValue);
+      'op_tokens':
+        FFinder.OptTokens:= TATFinderTokensAllowed(StrToIntDef(SValue, 0));
 
       'op_case_d':
         begin
@@ -1000,6 +1006,14 @@ begin
           begin
             fmFind.IsMultiLine:= AppStrToBool(SValue);
             fmFind.DoOnChange;
+          end;
+        end;
+      'op_tokens_d':
+        begin
+          if Assigned(fmFind) then
+          begin
+            fmFind.bTokens.ItemIndex:= StrToIntDef(SValue, 0);
+            fmFind.bTokens.Invalidate;
           end;
         end;
     end;
