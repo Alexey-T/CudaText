@@ -228,7 +228,7 @@ type
     procedure SetLexer(Ed: TATSynEdit; an: TecSyntAnalyzer);
     procedure SetLexerLite(Ed: TATSynEdit; an: TATLiteLexer);
     procedure SetLexerName(Ed: TATSynEdit; const AValue: string);
-    procedure UpdateLexerCache;
+    procedure UpdateLexerCache(Ed: TATSynEdit);
     procedure UpdateTabTooltip;
   protected
     procedure DoOnResize; override;
@@ -308,6 +308,7 @@ type
     property SaveDialog: TSaveDialog read FSaveDialog write FSaveDialog;
     function GetTabPages: TATPages;
     function GetTabGroups: TATGroups;
+    procedure GetEditorToken(Ed: TATSynEdit; AX, AY: integer; out AKind: TATFinderTokenKind);
     //file
     procedure DoFileClose;
     procedure DoFileOpen(const AFileName, AFileName2: string; AAllowLoadHistory,
@@ -3092,11 +3093,19 @@ begin
   end;
 end;
 
-procedure TEditorFrame.UpdateLexerCache;
+procedure TEditorFrame.UpdateLexerCache(Ed: TATSynEdit);
 var
+  Lex: TecSyntAnalyzer;
   SLexer: string;
 begin
-  SLexer:= LexerName[Editor];
+  SLexer:= '';
+  if Ed.AdapterForHilite is TATAdapterEControl then
+  begin
+    Lex:= TATAdapterEControl(Ed.AdapterForHilite).Lexer;
+    if Assigned(Lex) then
+      SLexer:= Lex.LexerName;
+  end;
+
   if SLexer<>FLastLexer then
   begin
     FLastLexer:= SLexer;
@@ -3115,15 +3124,22 @@ end;
 
 function TEditorFrame.IsCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integer): boolean;
 var
+  Kind: TATFinderTokenKind;
+begin
+  GetEditorToken(Editor, AX, AY, Kind);
+  Result:= (Kind=cTokenKindComment) or (Kind=cTokenKindString);
+end;
+
+procedure TEditorFrame.GetEditorToken(Ed: TATSynEdit;
+  AX, AY: integer;
+  out AKind: TATFinderTokenKind);
+var
   Pnt1, Pnt2: TPoint;
   STokenText, STokenStyle: string;
 begin
-  Result:= false;
+  AKind:= cTokenKindOther;
 
-  //lite lexer not supported here
-  if not (Ed.AdapterForHilite is TATAdapterEControl) then exit;
-
-  UpdateLexerCache;
+  UpdateLexerCache(Ed);
   if FLastLexer='' then exit;
 
   TATAdapterEControl(Ed.AdapterForHilite).GetTokenAtPos(
@@ -3135,8 +3151,19 @@ begin
     );
   if STokenStyle='' then exit;
 
-  Result:=
-    Pos(','+STokenStyle+',', ','+FLastLexerCommentStyles+','+FLastLexerStringStyles+',')>0;
+  if FLastLexerCommentStyles<>'' then
+    if Pos(','+STokenStyle+',', ','+FLastLexerCommentStyles+',')>0 then
+    begin
+      AKind:= cTokenKindComment;
+      exit;
+    end;
+
+  if FLastLexerStringStyles<>'' then
+    if Pos(','+STokenStyle+',', ','+FLastLexerStringStyles+',')>0 then
+    begin
+      AKind:= cTokenKindString;
+      exit;
+    end;
 end;
 
 end.
