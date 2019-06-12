@@ -375,7 +375,7 @@ begin
     bTokens.ItemsShort.Add(cTokensShorts[kind]);
   end;
 
-  bTokens.Arrow:= true;
+  //bTokens.Arrow:= true;
   bTokens.ShowShortItems:= true;
   bTokens.TextAlign:= taCenter;
   bTokens.ItemIndex:= 0;
