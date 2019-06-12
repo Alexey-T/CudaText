@@ -5,7 +5,7 @@
 
 1.83.0 (2019/06)
 
-+ add: dialog Find/Replace has option button to choose "syntax elemens": any/ comments/ strings/ except comments/ except strings/ ...
++ add: dialog Find/Replace has option button to choose "syntax elements" (like SynWrite): any, only comments, only strings, only comments+strings, except comments, except strings, except comments+strings
 + add: embedded Emmet engine (written by Rickard Johansson); preinstalled plugin Emmet which uses this engine (old plugin "Emmet Lite" is now almost not needed, remove it).
 + add: sidebar shows "badges" with number of items in Output and Validate panels
 + add: ui-theme colors for sidebar "badges"
