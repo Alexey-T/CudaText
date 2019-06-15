@@ -502,26 +502,53 @@ Modifiers affect only element after them, element is:
 
 To use snippets you need:
 
-* plugin Snippets
-* snippets for particular lexer: install them in Addon Manager
+* plugin "Snippets" (install from Addon Manager)
+* snippet package for needed lexer (install from Addon Manager)
 
-Each snippet has name (shown in menu dialog) and short id (letters, digits, '_', dot). You can type id in text and press Tab key: snippet for this id will be inserted into text. You can insert snippets also from dialog: call "Plugins - Snippets".
+Each snippet has a name (shown in the dialog when Snippets plugin is called) and short id (letters, digits, '_', dot). You can type id in editor and press Tab key: snippet for this id will be inserted into text. You can insert snippets also by choosing in dialog: call menu item "Plugins - Snippets".
 
-Only those snippets are inserted and shown in dialog, which are for current lexer. E.g. snippet may be for lexers "C,C++,Objective C"-- it will be used only when these lexers are active. Rare snippets have no lexer field, they are used always.
+Only those snippets are enabled, which are suitable for the current lexer. For example, a snippet may be for lexers "C,C++,Objective C" - it is enabled only when these lexers are active. If a snippet has no lexer property, it is always enabled.
 
-Menu of Snippets plugin:
+Dialog of Snippets plugin:
 
-[[File:cudatext_snippets_menu.png‎]]
+[[File:cudatext_snippets_menu.png]]
 
-Snippets have markers in them. Markers placed in editor (small red/blue triangles), and caret jumps to 1st marker, then you type text at this marker and press Tab key - caret jumps to next marker. Markers may give multi-carets too (if same text is needed at several places of snippet). While markers are shown, Tab key works special (jumps to next marker). After you collect all markers by Tab, Tab key will work as usual.
+Snippets have markers in them. Markers are placed in editor (small colored triangles), and caret jumps to the first marker. Then you type text at this marker and press Tab key, caret jumps to the next marker. Markers may give multi-carets too (if exactly the same text is needed at several places, for example "class name"). While markers are shown, Tab key works specially (it jumps to next marker). After you collect all markers by Tab, Tab key will work as usual.
 
 ===Snippets for HTML tags===
 
-CudaText has preinstalled 120+ snippets for HTML tags. (You also need to install Snippets plugin.) They work in lexers HTML, HTML_ (alternate HTML lexer in Addon Manager). Just type tag name without a bracket, press Tab, and snippet is inserted. E.g. "a"[Tab] will give:
+CudaText has preinstalled 120+ snippets for HTML tags. (You still need to install Snippets plugin.) They are enabled with HTML lexer. Just type tag name without a bracket, press Tab, and snippet is inserted. E.g. "a"<Tab> will insert:
 
   <a href="http" title="Title" target="_blank"></a>
 
-These snippets have markers and Tab-key jumps to next marker, ie next parameter/value of tag. Last marker is usually after entire tag, after ">" bracket.
+These snippets have markers, so Tab key jumps to the next marker. Last marker is usually placed after the entire tag, ie after ">" bracket.
+
+===Snippet Panel===
+
+Plugin "Snippet Panel" is preinstalled in CudaText. It gives an alternative way to use short text fragments (only simple ones) in editor. It adds button to sidebar, and command "Plugins - Snippet Panel". When called, plugin shows panel in the sidebar, with a drop-down list of folders, which contain several "snippets". You can double-click snippets to insert them into text (multi-carets are supported).
+
+Preinstalled folders:
+ 
+* Arrows
+* Currency symbols
+* Greek alphabet (lower)
+* Greek alphabet (upper)
+* HTML - Arrows
+* HTML - Color names
+* HTML - Color names+values
+* HTML - Letters
+* HTML - Math symbols
+* HTML - Special characters
+* Math symbols
+* Quote selection
+* Special characters
+
+Plugin looks for its folders in two places:
+
+* Folder "clips" in the plugin folder.
+* Folder CudaText/data/clips, which is absent by default, for custom user folders.
+
+Each snippet folder can contain one or more .txt files, in UTF-8 (no BOM) or UTF-16 (with BOM) encoding. Files have snippet per line, in the form "name=value" or simply "name" (if value missed, it equals to name). Each snippet can be simple short string, or string with ${sel} macro to replace selected text. This allows to quote currently selected text by calling snippets from "Quote selection" folder.
 
 ==Output/Validate panels==
 
