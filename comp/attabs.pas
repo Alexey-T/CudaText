@@ -247,6 +247,7 @@ const
   _InitOptSpaceBetweenTabs = 0;
   _InitOptSpaceBetweenLines = 4;
   _InitOptSpaceBetweenIconCaption = 0;
+  _InitOptSpaceSeparator = 2;
   _InitOptSpacer = 4;
   _InitOptSpacer2 = 10;
   _InitOptSpaceXRight = 10;
@@ -357,6 +358,7 @@ type
     FOptSpaceBetweenIconCaption: integer;
     FOptSpaceInitial: integer; //space between first tab and left control edge
     FOptSpaceBeforeText: integer; //space between text and tab left edge
+    FOptSpaceSeparator: integer;
     FOptSpacer: integer; //height of top empty space (colored with bg)
     FOptSpacer2: integer;
     FOptSpaceXRight: integer; //space from "x" btn to right tab edge
@@ -693,6 +695,7 @@ type
     property OptSpaceBetweenIconCaption: integer read FOptSpaceBetweenIconCaption write FOptSpaceBetweenIconCaption default _InitOptSpaceBetweenIconCaption;
     property OptSpaceInitial: integer read FOptSpaceInitial write FOptSpaceInitial default _InitOptSpaceInitial;
     property OptSpaceBeforeText: integer read FOptSpaceBeforeText write FOptSpaceBeforeText default _InitOptSpaceBeforeText;
+    property OptSpaceSeparator: integer read FOptSpaceSeparator write FOptSpaceSeparator default _InitOptSpaceSeparator;
     property OptSpacer: integer read FOptSpacer write FOptSpacer default _InitOptSpacer;
     property OptSpacer2: integer read FOptSpacer2 write FOptSpacer2 default _InitOptSpacer2;
     property OptSpaceXRight: integer read FOptSpaceXRight write FOptSpaceXRight default _InitOptSpaceXRight;
@@ -1173,6 +1176,7 @@ begin
   FOptSpaceBetweenTabs:= _InitOptSpaceBetweenTabs;
   FOptSpaceBetweenLines:= _InitOptSpaceBetweenLines;
   FOptSpaceBetweenIconCaption:= _InitOptSpaceBetweenIconCaption;
+  FOptSpaceSeparator:= _InitOptSpaceSeparator;
   FOptSpacer:= _InitOptSpacer;
   FOptSpacer2:= _InitOptSpacer2;
   FOptSpaceXRight:= _InitOptSpaceXRight;
@@ -3625,13 +3629,11 @@ begin
 end;
 
 procedure TATTabs.DoPaintSeparator(C: TCanvas; const R: TRect);
-const
-  cSpace=2;
 begin
   DoPaintBgTo(C, R);
   C.Pen.Color:= FColorSeparator;
-  C.MoveTo((R.Left+R.Right) div 2, R.Top+cSpace);
-  C.LineTo((R.Left+R.Right) div 2, R.Bottom-1-cSpace);
+  C.MoveTo((R.Left+R.Right) div 2, R.Top+FOptSpaceSeparator);
+  C.LineTo((R.Left+R.Right) div 2, R.Bottom-FOptSpaceSeparator);
 end;
 
 function TATTabs.ConvertButtonIdToTabIndex(Id: TATTabButton): integer;
