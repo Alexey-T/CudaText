@@ -2146,6 +2146,9 @@ begin
 
   if not IsAllowedToOpenFileNow then exit;
 
+  //MS WordPad, Notepad++ - they get focus on drag-drop from Explorer
+  Application.BringToFront;
+
   //set group according to mouse cursor
   Pages:= nil;
   for i in [Low(TATGroupsNums)..High(TATGroupsNums)] do
