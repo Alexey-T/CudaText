@@ -634,9 +634,9 @@ Click any cell in the grid to insert this char at caret position. Or select a ce
 
 == Tab switcher ==
 
-SynWrite has the option "Use modern Tab-switcher" which makes special mode for Ctrl+Tab keys (switch to next tab). This mode shows special dialog which allows to switch tab using visit-history; ie press Ctrl, Tab+Tab+Tab, release Ctrl: this goes 3 steps back in visit-history. Visit-history is updated on activation of tabs (activated tab moves to the top of history).
+Since version 1.83, CudaText has option "ui_tab_switcher_dialog", which activates modern tab switcher for Ctrl+Tab hotkey. This is dialog which allows to switch tab using visit history. For example: press Ctrl, Tab, Tab, Tab, release Ctrl: this goes 3 steps back in visit history. Visit history is updated on tabs activation (activated tab moves to the top of history).
 
-CudaText can do this via plugin CudaExt. It gives command "Choose tab to switch to" which shows dialog. You need to assign hotkey Ctrl+Tab to this command (hotkey will be removed from CudaText command).
+Alternative way is plugin CudaExt. Plugin gives command "Choose tab to switch to". You need to assign hotkey Ctrl+Tab to this command (hotkey will be removed from CudaText command). Plugin's dialog is richer than CudaText's dialog - it allows to switch to Console/Output/Validate panels, it allows to cancel the operation.
 
 ==Minimap, Micromap==
 
