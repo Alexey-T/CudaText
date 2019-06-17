@@ -637,7 +637,7 @@ type
     function GetMaxScrollPos: integer;
     property ScrollPos: integer read FScrollPos write SetScrollPos;
     procedure SetTheme(const Data: TATTabTheme);
-    property IsThemed: boolean read FThemed;
+    property IsThemed: boolean read FThemed write FThemed;
 
   protected
     procedure Paint; override;
@@ -1422,6 +1422,8 @@ begin
   PR1:= Point(ARect.Right-1, ARect.Top);
   PR2:= Point(ARect.Right-1, ARect.Bottom-1);
 
+  UpdateCanvasAntialiasMode(C);
+
   //center shape
   DoPaintTabShape_C(C, ATabActive,
     ARect,
@@ -1431,7 +1433,6 @@ begin
   //left/right edges
   if FOptShowAngled then
   begin
-    UpdateCanvasAntialiasMode(C);
     DoPaintTabShape_L(C, ARect, ATabActive, AColorBg, AColorBorder);
     DoPaintTabShape_R(C, ARect, ATabActive, AColorBg, AColorBorder);
   end;
