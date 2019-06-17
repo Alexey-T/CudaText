@@ -553,6 +553,14 @@ begin
     exit
   end;
 
+  if Str=UiOps.HotkeyToggleTokens then
+  begin
+    bTokens.Click;
+    UpdateState;
+    key:= 0;
+    exit
+  end;
+
   if Str=UiOps.HotkeyToggleMultiline then
   begin
     chkMulLineClick(Self);

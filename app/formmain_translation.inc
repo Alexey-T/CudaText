@@ -630,7 +630,7 @@ begin
   with fmFind.chkConfirm do Hint:= init_HintConfRep +' - '+UiOps.HotkeyToggleConfirmRep;
   with fmFind.chkInSel do Hint:= init_HintInSelect  +' - '+UiOps.HotkeyToggleInSelect;
   with fmFind.chkMulLine do Hint:= init_HintMulLine +' - '+UiOps.HotkeyToggleMultiline;
-  with fmFind.bTokens do Hint:= init_HintTokens;
+  with fmFind.bTokens do Hint:= init_HintTokens     +' - '+UiOps.HotkeyToggleTokens;
 
   fn:= GetAppLangFilename;
   if FileExists(fn) then
@@ -658,7 +658,7 @@ begin
       with fmFind.chkConfirm do Hint:= ini.ReadString(section, 'h_cf', init_HintConfRep)  +' - '+UiOps.HotkeyToggleConfirmRep;
       with fmFind.chkInSel do Hint:= ini.ReadString(section, 'h_sel', init_HintInSelect)  +' - '+UiOps.HotkeyToggleInSelect;
       with fmFind.chkMulLine do Hint:= ini.ReadString(section, 'h_mul', init_HintMulLine) +' - '+UiOps.HotkeyToggleMultiline;
-      with fmFind.bTokens do Hint:= ini.ReadString(section, 'h_tok', init_HintTokens);
+      with fmFind.bTokens do Hint:= ini.ReadString(section, 'h_tok', init_HintTokens)     +' - '+UiOps.HotkeyToggleTokens;
 
       with fmFind.bTokens do
       begin

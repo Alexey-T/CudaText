@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.83.1 (2019/06)
+
++ add: option "find_hotkey_op_tokens"
+- fix: plugin "Insert Time" bug
+
 1.83.0 (2019/06)
 
 + add: dialog Find/Replace has option button to choose "syntax elements" (like SynWrite): any, only comments, only strings, only comments+strings, except comments, except strings, except comments+strings

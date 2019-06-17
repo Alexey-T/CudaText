@@ -911,6 +911,7 @@ begin
   UiOps.HotkeyToggleInSelect:= c.GetValue('find_hotkey_op_in_sel', UiOps.HotkeyToggleInSelect);
   UiOps.HotkeyToggleMultiline:= c.GetValue('find_hotkey_op_multiline', UiOps.HotkeyToggleMultiline);
   UiOps.HotkeyToggleConfirmRep:= c.GetValue('find_hotkey_op_confirm_rep', UiOps.HotkeyToggleConfirmRep);
+  UiOps.HotkeyToggleTokens:= c.GetValue('find_hotkey_op_tokens', UiOps.HotkeyToggleTokens);
 
   UiOps.LexerThemes:= c.GetValue('ui_lexer_themes', UiOps.LexerThemes);
   UiOps.LexerMenuGrouped:= c.GetValue('ui_lexers_grouped', UiOps.LexerMenuGrouped);

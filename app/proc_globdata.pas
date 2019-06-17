@@ -293,7 +293,8 @@ type
     HotkeyToggleWrapped,
     HotkeyToggleInSelect,
     HotkeyToggleMultiline,
-    HotkeyToggleConfirmRep
+    HotkeyToggleConfirmRep,
+    HotkeyToggleTokens
       : string;
   end;
 var
@@ -1394,6 +1395,7 @@ begin
     HotkeyToggleInSelect:= 'Alt+X';
     HotkeyToggleMultiline:= 'Alt+M';
     HotkeyToggleConfirmRep:= 'Alt+Y';
+    HotkeyToggleTokens:= 'Alt+T';
   end;
 end;
 
