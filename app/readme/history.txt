@@ -5,7 +5,8 @@
 
 1.83.1 (2019/06)
 
-+ add: option "find_hotkey_op_tokens"
++ add: Find dialog: option "find_hotkey_op_tokens", hotkey for 'syntax elements'
++ add: Find dialog: 'syntax elements' has checkable style
 - fix: plugin "Insert Time" bug
 
 1.83.0 (2019/06)
