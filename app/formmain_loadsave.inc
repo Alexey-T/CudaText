@@ -125,6 +125,7 @@ begin
     c.SetValue('/finder/confirm', FFinder.OptConfirmReplace);
     c.SetValue('/finder/wrap', FFinder.OptWrapped);
     c.SetValue('/finder/insel', FFinder.OptInSelection);
+    c.SetValue('/finder/tokens', Ord(FFinder.OptTokens));
 
     ////state
     c.SetValue('theme_ui', FThemeUi);
@@ -473,6 +474,7 @@ begin
     FFinder.OptConfirmReplace:= c.GetValue('/finder/confirm', false);
     FFinder.OptWrapped:= c.GetValue('/finder/wrap', false);
     FFinder.OptInSelection:= c.GetValue('/finder/insel', false);
+    FFinder.OptTokens:= TATFinderTokensAllowed(c.GetValue('/finder/tokens', 0));
 
     ////state
     ShowSidePanel:= c.GetValue('show_sidepanel', true);
