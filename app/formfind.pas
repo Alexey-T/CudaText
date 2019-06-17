@@ -378,6 +378,7 @@ begin
   bTokens.ShowShortItems:= true;
   bTokens.TextAlign:= taCenter;
   bTokens.ItemIndex:= 0;
+  bTokens.Checkable:= true;
 end;
 
 
