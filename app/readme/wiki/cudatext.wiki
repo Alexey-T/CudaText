@@ -440,7 +440,7 @@ Panel is called by key Ctrl+tilde (Ctrl+`). It has read-only memo with output an
 
 Can enter commands from CudaText API. Example clears all bookmarks and sets bookmark on line 11 (these are several commands, run one by one):
 
-<syntaxhighlight>
+<syntaxhighlight lang="python">
 ed.bookmark(BOOKMARK_CLEAR_ALL, 0)
 ed.bookmark(BOOKMARK_SET, 10)
 </syntaxhighlight>
@@ -1094,11 +1094,11 @@ Don't configure custom lexer styles in Lexer Properties dialog, if option "ui_le
 ===How to see all UI theme items===
 
 * "editor, font" - color of font when no lexer is active. Click statusbar field with lexer-name, call "none".
-* "editor, disabled state, font/bg" - editor shown with this bg-color when Replace dialog runs action, with option "confirm on replace" (during confirm message editor is disabled), if none lexer active
-* "statusbar alt" - shown on 2nd statusbar, run in console: <syntaxhighlight>msg_status_alt('dd', 8)</syntaxhighlight>
+* "editor, disabled state, font/bg" - editor shown with this bg-color when Replace dialog runs action, with option "confirm on replace" (during confirm message editor is disabled), if no lexer active
+* "statusbar alt" - shown on 2nd statusbar, run in console: <syntaxhighlight lang="python">msg_status_alt('dd', 8)</syntaxhighlight>
 * "search progressbar" - to see it, call Replace dlg, with regex, with confirmation (2 options in Replace dlg), replace "." (any char) to "www"
 
-* "editor, marked range bg" - shows for marked-range, to set marked range from line 5 to 10 use console: <syntaxhighlight>ed.set_prop(PROP_MARKED_RANGE, '5,10')</syntaxhighlight>
+* "editor, marked range bg" - shows for marked-range, to set marked range from line 5 to 10 use console: <syntaxhighlight lang="python">ed.set_prop(PROP_MARKED_RANGE, '5,10')</syntaxhighlight>
 
 * "editor, markers" - to see markers, call Commands dlg (F1), command "drop marker at caret".
 * "editor, separator lines" - lines show eg for lexer Pascal, above "function"/"procedure".
