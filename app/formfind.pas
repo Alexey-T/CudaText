@@ -81,6 +81,7 @@ type
     procedure bCountClick(Sender: TObject);
     procedure bCancelClick(Sender: TObject);
     procedure bSelectAllClick(Sender: TObject);
+    procedure bTokensClick(Sender: TObject);
     procedure chkCaseClick(Sender: TObject);
     procedure chkConfirmClick(Sender: TObject);
     procedure chkInSelClick(Sender: TObject);
@@ -217,6 +218,11 @@ end;
 procedure TfmFind.bSelectAllClick(Sender: TObject);
 begin
   DoResult(cOpFindSelectAll);
+end;
+
+procedure TfmFind.bTokensClick(Sender: TObject);
+begin
+  DoOnChange;
 end;
 
 procedure TfmFind.chkCaseClick(Sender: TObject);
