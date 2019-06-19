@@ -1059,12 +1059,6 @@ How to make translation zip package:
 * publish zip at CudaText forum or https://github.com/Alexey-T/CudaText/issues
 * if package ok, it will be at SF.net downloads, and in Addon Manager
 
-===Translation notes===
-
-* Translation file, section "m_se", key "sp". Description in template: "split selection into lines". Actual function: Create multiple cursors at end of all selected lines.
-* Titles of Windows file selector dialogs (Open file, Save file, Save as, ...) are not translatable.
-* Confirmation message boxes for closing and reloading unsaved tabs contain untranslatable buttons.
-
 ==Color themes==
 Two kinds of themes exist:
 
