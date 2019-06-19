@@ -504,6 +504,11 @@ begin
 
     ButtonCancel.Caption:= msgButtonCancel;
 
+    mnuContextOutputCopy.Caption:= msgEditCopy;
+    mnuContextOutputClear.Caption:= msgFileClearList;
+    mnuContextValidateCopy.Caption:= msgEditCopy;
+    mnuContextValidateClear.Caption:= msgFileClearList;
+
     //----------------strings
     DoLocString(msgCannotOpenFile                , ini, 'se', 'OpenFile');
     DoLocString(msgCannotFindFile                , ini, 'se', 'FindFile');

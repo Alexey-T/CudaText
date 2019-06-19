@@ -553,6 +553,10 @@ type
     mnuToolbarSortRemoveBlank: TMenuItem;
     mnuToolbarSortSep1: TMenuItem;
     mnuToolbarSortSep2: TMenuItem;
+    mnuContextOutputCopy: TMenuItem;
+    mnuContextOutputClear: TMenuItem;
+    mnuContextValidateCopy: TMenuItem;
+    mnuContextValidateClear: TMenuItem;
     PopupToolbarCase: TPopupMenu;
     PopupToolbarComment: TPopupMenu;
     PopupToolbarSort: TPopupMenu;
@@ -1578,7 +1582,6 @@ end;
 procedure TfmMain.FormCreate(Sender: TObject);
 var
   Panel: TAppSidePanel;
-  mi: TMenuItem;
   i: integer;
 begin
   //"Check for Updates" sopported only on Windows
@@ -1768,24 +1771,26 @@ begin
   CodeTreeFilterInput.OnCommand:= @CodeTreeFilter_OnCommand;
 
   FPopupListboxOutput:= TPopupMenu.Create(Self);
-  mi:= TMenuItem.Create(Self);
-  mi.Caption:= msgFileClearList;
-  mi.OnClick:= @PopupListboxOutputClearClick;
-  FPopupListboxOutput.Items.Add(mi);
-  mi:= TMenuItem.Create(Self);
-  mi.Caption:= msgEditCopy;
-  mi.OnClick:= @PopupListboxOutputCopyClick;
-  FPopupListboxOutput.Items.Add(mi);
+  mnuContextOutputClear:= TMenuItem.Create(Self);
+  mnuContextOutputClear.Caption:= msgFileClearList;
+  mnuContextOutputClear.OnClick:= @PopupListboxOutputClearClick;
+  FPopupListboxOutput.Items.Add(mnuContextOutputClear);
+
+  mnuContextOutputCopy:= TMenuItem.Create(Self);
+  mnuContextOutputCopy.Caption:= msgEditCopy;
+  mnuContextOutputCopy.OnClick:= @PopupListboxOutputCopyClick;
+  FPopupListboxOutput.Items.Add(mnuContextOutputCopy);
 
   FPopupListboxValidate:= TPopupMenu.Create(Self);
-  mi:= TMenuItem.Create(Self);
-  mi.Caption:= msgFileClearList;
-  mi.OnClick:= @PopupListboxValidateClearClick;
-  FPopupListboxValidate.Items.Add(mi);
-  mi:= TMenuItem.Create(Self);
-  mi.Caption:= msgEditCopy;
-  mi.OnClick:= @PopupListboxValidateCopyClick;
-  FPopupListboxValidate.Items.Add(mi);
+  mnuContextValidateClear:= TMenuItem.Create(Self);
+  mnuContextValidateClear.Caption:= msgFileClearList;
+  mnuContextValidateClear.OnClick:= @PopupListboxValidateClearClick;
+  FPopupListboxValidate.Items.Add(mnuContextValidateClear);
+
+  mnuContextValidateCopy:= TMenuItem.Create(Self);
+  mnuContextValidateCopy.Caption:= msgEditCopy;
+  mnuContextValidateCopy.OnClick:= @PopupListboxValidateCopyClick;
+  FPopupListboxValidate.Items.Add(mnuContextValidateCopy);
 
   ListboxOut:= TATListbox.Create(Self);
   ListboxOut.VirtualMode:= false;
