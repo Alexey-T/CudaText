@@ -28,7 +28,7 @@
       <MinorVersionNr Value="80"/>
       <StringTable CompanyName="UVviewsoft" FileDescription="CudaText" InternalName="CudaText" LegalCopyright="(c) 2015-2019 Alexey Torgashin" OriginalFilename="cudatext.exe" ProductName="CudaText"/>
     </VersionInfo>
-    <BuildModes Count="16">
+    <BuildModes Count="17">
       <Item1 Name="default" Default="True"/>
       <Item2 Name="linux x32 gtk2">
         <MacroValues Count="1">
@@ -308,7 +308,51 @@
           </Other>
         </CompilerOptions>
       </Item7>
-      <Item8 Name="windows x64">
+      <Item8 Name="linux aarch64">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="builds\linux-aarch64\cudatext"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="..\comp"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <Checks>
+              <RangeChecks Value="True"/>
+            </Checks>
+            <TargetCPU Value="aarch64"/>
+            <TargetOS Value="linux"/>
+            <Optimizations>
+              <OptimizationLevel Value="3"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <UseExternalDbgSyms Value="True"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dcomplete_at_scroll"/>
+          </Other>
+        </CompilerOptions>
+      </Item8>
+      <Item9 Name="windows x64">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -351,8 +395,8 @@
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
-      </Item8>
-      <Item9 Name="windows x32">
+      </Item9>
+      <Item10 Name="windows x32">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -395,8 +439,8 @@
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
-      </Item9>
-      <Item10 Name="macos x32 carbon">
+      </Item10>
+      <Item11 Name="macos x32 carbon">
         <MacroValues Count="1">
           <Macro2 Name="LCLWidgetType" Value="carbon"/>
         </MacroValues>
@@ -442,8 +486,8 @@
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
-      </Item10>
-      <Item11 Name="macos x64 cocoa">
+      </Item11>
+      <Item12 Name="macos x64 cocoa">
         <MacroValues Count="1">
           <Macro3 Name="LCLWidgetType" Value="cocoa"/>
         </MacroValues>
@@ -489,8 +533,8 @@
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
-      </Item11>
-      <Item12 Name="freebsd x32 gtk2">
+      </Item12>
+      <Item13 Name="freebsd x32 gtk2">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -533,8 +577,8 @@
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
-      </Item12>
-      <Item13 Name="freebsd x64 gtk2">
+      </Item13>
+      <Item14 Name="freebsd x64 gtk2">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -577,8 +621,8 @@
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
-      </Item13>
-      <Item14 Name="solaris x64">
+      </Item14>
+      <Item15 Name="solaris x64">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -621,8 +665,8 @@
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
-      </Item14>
-      <Item15 Name="linux x32 gtk2 RLS">
+      </Item15>
+      <Item16 Name="linux x32 gtk2 RLS">
         <MacroValues Count="1">
           <Macro6 Name="FULLSPEED" Value="true"/>
         </MacroValues>
@@ -663,8 +707,8 @@
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
-      </Item15>
-      <Item16 Name="linux x64 gtk2 RLS">
+      </Item16>
+      <Item17 Name="linux x64 gtk2 RLS">
         <MacroValues Count="1">
           <Macro6 Name="FULLSPEED" Value="true"/>
         </MacroValues>
@@ -711,7 +755,7 @@
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
-      </Item16>
+      </Item17>
       <SharedMatrixOptions Count="7">
         <Item1 ID="768150883430" Modes="linux x64 qt4" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt"/>
         <Item2 ID="728289161338" Modes="macos x32 carbon" Type="IDEMacro" MacroName="LCLWidgetType" Value="carbon"/>
