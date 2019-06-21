@@ -53,7 +53,7 @@
   "EdBookmarkIcon" : "#808080",
   "EdMarkedRangeBg" : "#004A00",
   "TabBg" : "#171814",
-  "SideBg" : "#404040",
+  "SideBg" : "#171814",
   "SideBadgeBg" : "#000080",
   "SideBadgeFont" : "#FFFFFF",
   "TabFont" : "#A0A0A4",
