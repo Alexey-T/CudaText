@@ -81,12 +81,15 @@ const
 
 const
   AppDefaultMonospacedFont =
-    {$ifdef windows} 'Consolas' {$endif}
-    {$ifdef linux} 'Courier New' {$endif}
-    {$ifdef freebsd} 'Courier New' {$endif}
-    {$ifdef netbsd} 'Courier New' {$endif}
-    {$ifdef solaris} 'Courier New' {$endif}
-    {$ifdef darwin} 'Monaco' {$endif}
+    {$ifdef windows} 
+    'Consolas' 
+    {$else}
+      {$ifdef darwin}
+      'Monaco'
+      {$else}
+      'Courier New'
+      {$endif}
+    {$endif}
     ;
 
 type
@@ -854,6 +857,7 @@ begin
   {$ifdef linux} '/usr/share/cudatext' {$endif}
   {$ifdef freebsd} '' {$endif}
   {$ifdef netbsd} '' {$endif}
+  {$ifdef openbsd} '' {$endif}
   {$ifdef solaris} '' {$endif}
   {$ifdef darwin} ExtractFileDir(OpDirExe)+'/Resources' {$endif}
 end;

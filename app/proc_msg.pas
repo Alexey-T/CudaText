@@ -26,6 +26,7 @@ const
     {$ifdef darwin} '__mac' {$endif}
     {$ifdef freebsd} '__freebsd' {$endif}
     {$ifdef netbsd} '__netbsd' {$endif}
+    {$ifdef openbsd} '__openbsd' {$endif}
     {$ifdef solaris} '__solaris' {$endif}
     ;
 
