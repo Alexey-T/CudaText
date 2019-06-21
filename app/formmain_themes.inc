@@ -51,7 +51,6 @@ end;
 
 procedure TfmMain.DoApplyTheme;
 var
-  //PropObject: TAppPanelPropsClass;
   i: integer;
 begin
   with ATScrollbarTheme do
@@ -61,8 +60,8 @@ begin
     ColorThumbFill:= GetAppColor('ScrollFill');
     ColorThumbFillOver:= ColorThumbFill;
     ColorThumbFillPressed:= ColorThumbFill;
-    ColorArrowBorder:= ATScrollbarTheme.ColorBG;
-    ColorArrowFill:= ATScrollbarTheme.ColorBG;
+    ColorArrowBorder:= ColorBG;
+    ColorArrowFill:= ColorBG;
     ColorArrowFillOver:= ColorArrowFill;
     ColorArrowFillPressed:= ColorArrowFill;
     ColorArrowSign:= GetAppColor('ScrollArrow');
