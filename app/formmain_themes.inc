@@ -59,8 +59,12 @@ begin
     ColorBG:= GetAppColor('ScrollBack');
     ColorThumbBorder:= GetAppColor('ScrollRect');
     ColorThumbFill:= GetAppColor('ScrollFill');
+    ColorThumbFillOver:= ColorThumbFill;
+    ColorThumbFillPressed:= ColorThumbFill;
     ColorArrowBorder:= ATScrollbarTheme.ColorBG;
     ColorArrowFill:= ATScrollbarTheme.ColorBG;
+    ColorArrowFillOver:= ColorArrowFill;
+    ColorArrowFillPressed:= ColorArrowFill;
     ColorArrowSign:= GetAppColor('ScrollArrow');
     ColorScrolled:= GetAppColor('ScrollScrolled');
   end;
