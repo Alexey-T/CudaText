@@ -853,13 +853,15 @@ var
 function GetDirPrecopy: string;
 begin
   Result:=
-  {$ifdef windows} '' {$endif}
-  {$ifdef linux} '/usr/share/cudatext' {$endif}
-  {$ifdef freebsd} '' {$endif}
-  {$ifdef netbsd} '' {$endif}
-  {$ifdef openbsd} '' {$endif}
-  {$ifdef solaris} '' {$endif}
-  {$ifdef darwin} ExtractFileDir(OpDirExe)+'/Resources' {$endif}
+    {$ifdef linux} 
+    '/usr/share/cudatext'
+    {$else} 
+      {$ifdef darwin} 
+      ExtractFileDir(OpDirExe)+'/Resources'
+      {$else}
+      '' 
+      {$endif}
+    {$endif}
 end;
 
 function GetAppPath(id: TAppPathId): string;

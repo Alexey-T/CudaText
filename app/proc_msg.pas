@@ -27,6 +27,7 @@ const
     {$ifdef freebsd} '__freebsd' {$endif}
     {$ifdef netbsd} '__netbsd' {$endif}
     {$ifdef openbsd} '__openbsd' {$endif}
+    {$ifdef dragonflybsd} '__dragonflybsd' {$endif}
     {$ifdef solaris} '__solaris' {$endif}
     ;
 
