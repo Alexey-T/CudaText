@@ -951,7 +951,7 @@ These are also properties of forms.
 
 * "on_resize": Called after form is resized.
 * "on_close": Called after form is closed.
-* "on_close_query": Called to ask plugin, it is allowed to close form (in any way: x-icon, Alt+F4, Esc etc). If plugin returns False: not allowed, other value: allowed.
+* "on_close_query": Called to ask plugin, is it allowed to close form (in any way: pressing Esc key, clicking X icon, pressing Alt+F4 or similar hotkey). Plugin must return bool, if True then form will be closed.
 
 * "on_show": Called after form shows.
 * "on_hide": Called after form hides.
