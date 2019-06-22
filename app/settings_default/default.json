@@ -2,10 +2,13 @@
 //it's not read as actual config. Config user.json is read.
 //
 //Some options have suffix for OS:
-//  Windows: (none)
+//  Windows: empty
 //  Linux:   "__linux"
 //  macOS:   "__mac"
 //  FreeBSD: "__freebsd"
+//  OpenBSD: "__openbsd"
+//  NetBSD: "__netbsd"
+//  DragonFlyBSD: "__dragonflybsd"
 //  Solaris: "__solaris"
 {
   //[Font]
