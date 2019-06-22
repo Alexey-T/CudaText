@@ -347,7 +347,8 @@ begin
         if (LangFN<>'') and FileExists(LangFN) then
         begin
           //ShowMessage('create ini: '+LangFN);
-          LangFile:= TMemIniFile.Create(LangFN, TEncoding.UTF8);
+          LangFile:= TMemIniFile.Create(LangFN
+            {$if FPC_FULLVERSION>=30200}, TEncoding.UTF8 {$endif});
         end;
       end;
 
