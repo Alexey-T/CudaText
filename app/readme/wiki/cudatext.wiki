@@ -702,7 +702,9 @@ Typical value for Solaris 11.4 x86:
    "pylib__solaris" : "/usr/lib/amd64/libpython3.5m.so",
 
 ===Python on macOS===
-On macOS you must install Python 3.x, from official site python.org. Versions 3.6...3.9 are ok. CudaText will find Python then.
+On macOS you must install Python 3, from official site python.org. Versions 3.6...3.9 are ok. CudaText will detect this Python. CudaText has option "pylib__mac" with such default value (actual version number is auto-detected):
+
+   "pylib__mac": "/Library/Frameworks/Python.framework/Versions/3.5/lib/libpython3.5.dylib",
 
 If you use "virtualenv" from "conda" with isolated Python, CudaText cannot detect it, so you need to write to the user.json option "pylib__mac" by hands. Example:
 
