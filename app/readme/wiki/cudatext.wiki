@@ -704,7 +704,9 @@ Typical value for Solaris 11.4 x86:
 ===Python on macOS===
 On macOS you must install Python 3.x, from official site python.org. Versions 3.6...3.9 are ok. CudaText will find Python then.
 
-Python installed from Homebrew cannot be used by CudaText: it misses 32-bit .dylib file.
+If you use "virtualenv" from "conda" with isolated Python, CudaText cannot detect it, so you need to write to the user.json option "pylib__mac" by hands. Example:
+
+   "pylib__mac": "/miniconda2/envs/py3/lib/libpython3.7m.dylib",
 
 ==Line states==
 
