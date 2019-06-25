@@ -226,17 +226,22 @@ end;
 
 procedure DoControl_SetState_Memo(C: TMemo; AValue: string);
 var
-  SItem: string;
+  L: TStringList;
 begin
-  C.Lines.BeginUpdate;
-  C.Lines.Clear;
-  repeat
-    SItem:= SGetItem(AValue, #9);
-    if SItem='' then break;
-    SItem:= StringReplace(SItem, #3, #9, [rfReplaceAll]);
-    C.Lines.Add(SItem);
-  until false;
-  C.Lines.EndUpdate;
+  AValue:= StringReplace(AValue, #9, #10, [rfReplaceAll]);
+  AValue:= StringReplace(AValue, #3, #9, [rfReplaceAll]);
+
+  L:= TStringList.Create;
+  try
+    L.TextLineBreakStyle:= tlbsLF;
+    L.Text:= AValue;
+    C.Lines.BeginUpdate;
+    C.Lines.Clear;
+    C.Lines.AddStrings(L);
+    C.Lines.EndUpdate;
+  finally
+    FreeAndNil(L);
+  end;
 end;
 
 procedure DoControl_SetState_Checkgroup(C: TCheckGroup; AValue: string);
