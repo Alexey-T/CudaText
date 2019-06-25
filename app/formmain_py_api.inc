@@ -6376,6 +6376,7 @@ var
   NValue: Int64;
   TreeContainer: TAppTreeContainer;
   Ok: boolean;
+  NX, NY, N1, N2: integer;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lisss:action', @HEditor, @IdAction, @PtrText1, @PtrText2, @PtrText3)) then
@@ -6387,6 +6388,21 @@ begin
       NValue:= StrToInt64Def(StrText1, 0);
 
       case IdAction of
+        EDACTION_SHOW_POS:
+          begin
+            NX:= StrToIntDef(SGetItem(StrText1), -1);
+            NY:= StrToIntDef(SGetItem(StrText1), -1);
+            N1:= StrToIntDef(SGetItem(StrText2), 0);
+            N2:= StrToIntDef(SGetItem(StrText2), 0);
+            if (NX>=0) and Ed.Strings.IsIndexValid(NY) then
+            begin
+              ok:= Ed.DoShowPos(Point(NX, NY), N1, N2, true);
+              Result:= PyBool_FromLong(Ord(ok));
+            end
+            else
+              Result:= ReturnNone;
+          end;
+
         EDACTION_CODETREE_FILL:
           begin
             if NValue=0 then

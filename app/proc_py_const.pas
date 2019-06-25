@@ -339,6 +339,7 @@ const
   TREE_UNLOCK                = 32;
   TREE_THEME                 = 33;
 
+  EDACTION_SHOW_POS       = 1;
   EDACTION_CODETREE_FILL  = 10;
   EDACTION_LEXER_SCAN     = 11;
   EDACTION_EXPORT_HTML    = 15;
