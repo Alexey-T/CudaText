@@ -2602,6 +2602,11 @@ Possible values of "id":
 
 Performs some action in editor. Possible values of "id":
 
+* EDACTION_UPDATE: Repaints editor.
+* EDACTION_LOCK: Disables repainting of editor, shows "wait" icon instead of text.
+"Lock" action increases internal counter, "unlock" action decreases this counter. It's safe to call "unlock" more times, counter will be 0. When counter>0, editor is locked.
+* EDACTION_UNLOCK: Enables repainting of editor.
+
 * EDACTION_SHOW_POS: Makes text position visible without caret moving. Gets True if params correct and scrolling occured, gets False if params correct and no scrolling occured, gets None if params not correct.
 ** "param1": Text position as 2-tuple (x, y).
 ** "param2": Indentation of text position from edges as 2-tuple (indent_horz, indent_vert). Values meaning is like for CudaText options "find_indent_horz", "find_indent_vert". 
@@ -3540,7 +3545,10 @@ def project_variables():
 * add: emmet()
 * add: app_proc: PROC_GET_FINDER_PROP dict has keys for option "Allowed syntax elements"
 
-1.0.292 (app 1.82.2)
+1.0.292 (app 1.83.2)
+* add: Editor.action: EDACTION_UPDATE
+* add: Editor.action: EDACTION_LOCK
+* add: Editor.action: EDACTION_UNLOCK
 * add: Editor.action: EDACTION_SHOW_POS
 
 [[Category:CudaText]]
