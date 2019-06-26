@@ -6395,24 +6395,6 @@ begin
             Result:= ReturnNone;
           end;
 
-        EDACTION_LOCK:
-          begin
-            Ed.BeginUpdate;
-            Result:= ReturnNone;
-          end;
-
-        EDACTION_UNLOCK:
-          begin
-            Ed.EndUpdate;
-            Frame:= GetEditorFrame(Ed);
-            if Assigned(Frame) then
-            begin
-              fmMain.UpdateFrameEx(Frame, false);
-              fmMain.UpdateStatus;
-            end;
-            Result:= ReturnNone;
-          end;
-
         EDACTION_SHOW_POS:
           begin
             NX:= StrToIntDef(SGetItem(StrText1), -1);
@@ -6459,7 +6441,9 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end;
+    end
+    else
+      Result:= ReturnNone;
 end;
 
 
