@@ -3403,7 +3403,7 @@ var
   items: TStringList;
   bm: TATBookmarkItem;
   strInfo, strKind, strCaption: string;
-  NLineMax, NLine, NKind, i: integer;
+  NLineMax, NLine, NKind, NItemIndex, i: integer;
 begin
   Ed:= CurrentEditor;
   NLineMax:= Ed.Strings.Count-1;
@@ -3444,7 +3444,17 @@ begin
       Exit;
     end;
 
-    NLine:= DoDialogMenuList(strCaption, items, 0);
+    NItemIndex:= 0;
+    for i:= items.Count-1 downto 0 do
+      if PtrInt(items.Objects[i])<=ed.Carets[0].PosY then
+      begin
+        NItemIndex:= i;
+        Break;
+      end;
+    if NItemIndex<0 then
+      NItemIndex:= 0;
+
+    NLine:= DoDialogMenuList(strCaption, items, NItemIndex);
     if NLine<0 then
     begin
       MsgStatus(msgStatusCancelled);
