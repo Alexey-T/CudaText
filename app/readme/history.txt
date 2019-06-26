@@ -5,7 +5,8 @@
 
 1.83.3
 
-+ add: menu dialogs Translation/Themes/Bookmarks place initial selection in listbox
++ add: menu dialogs Translations/Themes/Bookmarks place initial selection in listbox
++ add: Project Manager: command "Open all files" (like SynWrite)
 + add: lexer Bash: support base-N numbers
 
 1.83.1 (2019/06)

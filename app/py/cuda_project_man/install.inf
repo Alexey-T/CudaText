@@ -49,6 +49,11 @@ section=commands
 caption=&Project Manager\Open main &file
 method=open_main
 
+[item30]
+section=commands
+caption=&Project Manager\Open all files...
+method=open_all
+
 
 [item50]
 section=commands
