@@ -170,7 +170,7 @@ procedure TfmMain.DoDialogMenuThemes(AThemeUI: boolean);
 var
   SMask, SCaption: string;
   ListFiles, ListItems: TStringList;
-  NResult, i: integer;
+  NResult, NItemIndex, i: integer;
 begin
   if AThemeUI then
   begin
@@ -194,7 +194,14 @@ begin
     for i:= 0 to ListFiles.Count-1 do
       ListItems.Add(LowerCase(ExtractFileNameOnly(ListFiles[i])));
 
-    NResult:= DoDialogMenuList(SCaption, ListItems, 0);
+    if AThemeUI then
+      NItemIndex:= ListItems.IndexOf(ThemeUi)
+    else
+      NItemIndex:= ListItems.IndexOf(ThemeSyntax);
+    if NItemIndex<0 then
+      NItemIndex:= 0;
+
+    NResult:= DoDialogMenuList(SCaption, ListItems, NItemIndex);
     if NResult<0 then exit;
 
     if AThemeUI then
