@@ -51,7 +51,7 @@ method=open_main
 
 [item30]
 section=commands
-caption=&Project Manager\Open all files...
+caption=&Project Manager\Open &all project files...
 method=open_all
 
 

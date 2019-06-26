@@ -757,17 +757,7 @@ class Command:
             msg_status('Project not opened')
             return
 
-        #workaround: unfold all tree, coz tree loading is lazy
-        #todo: dont unfold all, but allow enum_all() to work
-        tree_proc(self.tree, TREE_ITEM_UNFOLD_DEEP, 0)
-
-        files = []
-        def callback_collect(fn, item):
-            if os.path.isfile(fn):
-                files.append(fn)
-            return True
-
-        self.enum_all(callback_collect)
+        files = self.enum_all_files()
         if not files:
             msg_status('Project is empty')
             return
@@ -949,11 +939,7 @@ class Command:
         else:
             msg_status('Project main file is not set')
 
-    def open_all(self):
-        if not self.tree:
-            msg_status('Project not opened')
-            return
-
+    def enum_all_files(self):
         #workaround: unfold all tree, coz tree loading is lazy
         #todo: dont unfold all, but allow enum_all() to work
         tree_proc(self.tree, TREE_ITEM_UNFOLD_DEEP, 0)
@@ -965,6 +951,14 @@ class Command:
             return True
 
         self.enum_all(callback_collect)
+        return files
+        
+    def open_all(self):
+        if not self.tree:
+            msg_status('Project not opened')
+            return
+
+        files = self.enum_all_files()
         if not files:
             msg_status('Project is empty')
             return
