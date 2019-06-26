@@ -936,8 +936,8 @@ type
     function DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers,
       AAllowConfig, AShowCentered: boolean; ACaption: string): string;
     procedure DoDialogGoto;
-    function DoDialogMenuList(const ACaption: string; AItems: TStringList; ACloseOnCtrlRelease: boolean=
-      false): integer;
+    function DoDialogMenuList(const ACaption: string; AItems: TStringList; AInitItemIndex: integer;
+      ACloseOnCtrlRelease: boolean= false): integer;
     procedure DoDialogMenuTabSwitcher;
     procedure DoDialogGotoBookmark;
     function DoDialogSaveTabs: boolean;
@@ -3347,6 +3347,7 @@ begin
 end;
 
 function TfmMain.DoDialogMenuList(const ACaption: string; AItems: TStringList;
+  AInitItemIndex: integer;
   ACloseOnCtrlRelease: boolean=false): integer;
 var
   Form: TfmMenuList;
@@ -3359,6 +3360,7 @@ begin
     Form.Caption:= ACaption;
     Form.Items:= AItems;
     Form.CloseOnCtrlRelease:= ACloseOnCtrlRelease;
+    Form.InitialItemIndex:= AInitItemIndex;
     Form.ShowModal;
     Result:= Form.ResultIndex;
   finally
@@ -3442,7 +3444,7 @@ begin
       Exit;
     end;
 
-    NLine:= DoDialogMenuList(strCaption, items);
+    NLine:= DoDialogMenuList(strCaption, items, 0);
     if NLine<0 then
     begin
       MsgStatus(msgStatusCancelled);
@@ -4952,7 +4954,7 @@ const
   cEnLang = 'en (built-in)';
 var
   Items: TStringList;
-  NResult, i: integer;
+  NResult, NItemIndex, i: integer;
   S: string;
 begin
   FFindFilesInDir(GetAppPath(cDirDataLangs), '*.ini', FListLangs);
@@ -4969,7 +4971,11 @@ begin
       Items.Add(S);
     end;
 
-    NResult:= DoDialogMenuList(msgMenuTranslations, Items);
+    NItemIndex:= Items.IndexOf(AppLangName);
+    if NItemIndex<0 then
+      NItemIndex:= 0;
+
+    NResult:= DoDialogMenuList(msgMenuTranslations, Items, NItemIndex);
     if NResult<0 then exit;
 
     if Items[NResult]=cEnLang then
@@ -6263,7 +6269,7 @@ begin
     if FrameList.Count=0 then exit;
     FrameList.CustomSort(@_FrameListCompare);
 
-    iTab:= DoDialogMenuList(msgPanelTabs, FrameList, true);
+    iTab:= DoDialogMenuList(msgPanelTabs, FrameList, 0, true);
     if iTab<0 then exit;
 
     F:= FrameList.Objects[iTab] as TEditorFrame;

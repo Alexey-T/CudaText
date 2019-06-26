@@ -46,6 +46,7 @@ type
     { private declarations }
   public
     { public declarations }
+    InitialItemIndex: integer;
     ResultIndex: integer;
     Items: TStringlist;
     CloseOnCtrlRelease: boolean;
@@ -65,6 +66,7 @@ begin
   SetListCaption(Caption);
   UpdateFormOnTop(Self);
   List.VirtualItemCount:= Items.Count;
+  List.ItemIndex:= InitialItemIndex;
 end;
 
 procedure TfmMenuList.ListDrawItem(Sender: TObject; C: TCanvas; AIndex: integer;

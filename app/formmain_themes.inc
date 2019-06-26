@@ -194,7 +194,7 @@ begin
     for i:= 0 to ListFiles.Count-1 do
       ListItems.Add(LowerCase(ExtractFileNameOnly(ListFiles[i])));
 
-    NResult:= DoDialogMenuList(SCaption, ListItems);
+    NResult:= DoDialogMenuList(SCaption, ListItems, 0);
     if NResult<0 then exit;
 
     if AThemeUI then
