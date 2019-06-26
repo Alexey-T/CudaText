@@ -6373,6 +6373,7 @@ var
   PtrText1, PtrText2, PtrText3: PChar;
   StrText1, StrText2, StrText3: string;
   Ed: TATSynEdit;
+  Frame: TEditorFrame;
   NValue: Int64;
   TreeContainer: TAppTreeContainer;
   Ok: boolean;
@@ -6388,6 +6389,30 @@ begin
       NValue:= StrToInt64Def(StrText1, 0);
 
       case IdAction of
+        EDACTION_UPDATE:
+          begin
+            Ed.Update;
+            Result:= ReturnNone;
+          end;
+
+        EDACTION_LOCK:
+          begin
+            Ed.BeginUpdate;
+            Result:= ReturnNone;
+          end;
+
+        EDACTION_UNLOCK:
+          begin
+            Ed.EndUpdate;
+            Frame:= GetEditorFrame(Ed);
+            if Assigned(Frame) then
+            begin
+              fmMain.UpdateFrameEx(Frame, false);
+              fmMain.UpdateStatus;
+            end;
+            Result:= ReturnNone;
+          end;
+
         EDACTION_SHOW_POS:
           begin
             NX:= StrToIntDef(SGetItem(StrText1), -1);
