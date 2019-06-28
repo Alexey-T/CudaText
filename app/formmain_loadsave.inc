@@ -256,7 +256,8 @@ begin
 
     MsgLogConsole('Loading session: '+ExtractFileName(fn_session));
 
-    DoOps_LoadHistory_GroupView(c);
+    DoOps_LoadHistory_GroupView(c); //reads to variables
+    DoApplyInitialGroupSizes; //applies that variables
 
     c.EnumSubKeys('/', list);
     list.Sort;
