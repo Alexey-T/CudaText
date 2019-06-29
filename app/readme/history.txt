@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.83.3
+1.83.5
 
 + add: menu dialogs Translations/Themes/Bookmarks place initial selection in listbox
 + add: command "folding: fold selected lines" (makes persistent fold range, which stays after lexer parsing)
