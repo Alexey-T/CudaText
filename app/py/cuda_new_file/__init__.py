@@ -16,7 +16,7 @@ class Command:
         lexers = sorted(list(set([item[1] for item in files if item[1]])))
         if not lexers: return
         
-        res = dlg_menu(MENU_LIST, lexers, caption='New from template')
+        res = dlg_menu(MENU_LIST, lexers, caption='Templates')
         if res is None: return
         
         lexer = lexers[res]
