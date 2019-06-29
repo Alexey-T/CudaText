@@ -16,7 +16,7 @@ class Command:
         lexers = sorted(list(set([item[1] for item in files if item[1]])))
         if not lexers: return
         
-        res = dlg_menu(MENU_LIST, '\n'.join(lexers))
+        res = dlg_menu(MENU_LIST, lexers, caption='New from template')
         if res is None: return
         
         lexer = lexers[res]
@@ -26,7 +26,7 @@ class Command:
         if len(files)==1:
             fn = files[0]
         else:
-            res = dlg_menu(MENU_LIST, '\n'.join(files))
+            res = dlg_menu(MENU_LIST, files, caption='Templates: %s'%lexer)
             if res is None: return
             fn = files[res]
             
