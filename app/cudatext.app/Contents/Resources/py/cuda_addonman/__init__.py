@@ -22,6 +22,7 @@ PREINST = 'preinstalled'
 STD_MODULES = (
   'cuda_addonman',
   'cuda_comments',
+  'cuda_emmet',
   'cuda_insert_time',
   'cuda_make_plugin',
   'cuda_multi_installer',

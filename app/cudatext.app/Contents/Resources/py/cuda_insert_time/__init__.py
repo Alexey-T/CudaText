@@ -64,7 +64,7 @@ class Command:
         lines = get_format_lines()
         lines = [do_format(s) for s in lines]
 
-        res = dlg_menu(MENU_LIST, '\n'.join(lines))
+        res = dlg_menu(MENU_LIST, lines, caption='Insert Time')
         if res is None: return
         self.do_insert(lines[res])
 

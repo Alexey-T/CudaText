@@ -101,7 +101,7 @@
   "ScrollFill" : "#303030",
   "ScrollArrow" : "#505050",
   "ScrollScrolled" : "#808080",
-  "StatusAltBg" : "#80A0D0",
+  "StatusAltBg" : "#303050",
   "SplitMain" : "#171814",
   "SplitGroups" : "#171814",
   "ExportHtmlBg" : "#FFFFFF",

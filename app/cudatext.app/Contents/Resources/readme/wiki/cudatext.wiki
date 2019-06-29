@@ -702,9 +702,13 @@ Typical value for Solaris 11.4 x86:
    "pylib__solaris" : "/usr/lib/amd64/libpython3.5m.so",
 
 ===Python on macOS===
-On macOS you must install Python 3.x, from official site python.org. Versions 3.6...3.9 are ok. CudaText will find Python then.
+On macOS you must install Python 3, from official site python.org. Versions 3.6...3.9 are ok. CudaText will detect this Python. CudaText has option "pylib__mac" with such default value (actual version number is auto-detected):
 
-Python installed from Homebrew cannot be used by CudaText: it misses 32-bit .dylib file.
+   "pylib__mac": "/Library/Frameworks/Python.framework/Versions/3.5/lib/libpython3.5.dylib",
+
+If you use "virtualenv" from "conda" with isolated Python, CudaText cannot detect it, so you need to write to the user.json option "pylib__mac" by hands. Example:
+
+   "pylib__mac": "/miniconda2/envs/py3/lib/libpython3.7m.dylib",
 
 ==Line states==
 
@@ -793,6 +797,11 @@ Screenshot with icons of main toolbar, sidebar, Project Manager toolbar:
 ** (Optional) Install add-on(s) of kind "file type icons".
 ** Change option in the dialog: Options/ Settings-plugins/ Project Manager/ Config.
 ** Restart CudaText.
+
+==Toolbar==
+CudaText has toolbar on the top, which can be shown by menu item "View / Toggle toolbar". To customize it, install plugin "Config Toolbar" from Addon Manager. Plugin gives command (menu "Plugins / Config Toolbar / Customize buttons") to customize toolbar contents: simple buttons, buttons with dropdown menus, separators,  icons for buttons.
+
+Plugin also gives command "Hide standard buttons" which allows to hide default CudaText buttons from toolbar. This command shows input box for space-separated indexes of buttons. What are these indexes? Indexes are 0-based numbers of all toolbar items: first button (New File) is index 0, next item (dropdown near New File) is index 1, next item (Open File) is index 2, etc (all separators also have index). So for example, to hide 3rd + 10th items, enter "2 9" into that input box.
 
 ==File viewer==
 CudaText has internal file viewer, for files on unlimited size. Only visible portion of file is loaded into memory, so viewer is fast for all files. Viewer has several modes:

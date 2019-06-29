@@ -8,7 +8,7 @@
 //  FreeBSD: "__freebsd"
 //  OpenBSD: "__openbsd"
 //  NetBSD: "__netbsd"
-//  DragonFlyBSD: "__dragonflybsd"
+//  DragonFlyBSD: "__dragonfly"
 //  Solaris: "__solaris"
 {
   //[Font]
