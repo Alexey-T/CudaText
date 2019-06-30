@@ -6569,7 +6569,7 @@ begin
           begin
             Ok:= Ed.Fold.IsIndexValid(NItem) and
                  Ed.Fold.IsIndexValid(NX) and
-                 Ed.Fold.IsRangeInsideOther(Ed.Fold.Items[NItem], Ed.Fold.Items[NX]);
+                 Ed.Fold.IsRangeInsideOther(Ed.Fold.ItemPtr(NItem), Ed.Fold.ItemPtr(NX));
             Result:= PyBool_FromLong(Ord(Ok));
           end;
 
@@ -6577,7 +6577,7 @@ begin
           begin
             Ok:= Ed.Fold.IsIndexValid(NItem) and
                  Ed.Fold.IsIndexValid(NX) and
-                 Ed.Fold.IsRangesSame(Ed.Fold.Items[NItem], Ed.Fold.Items[NX]);
+                 Ed.Fold.IsRangesSame(Ed.Fold.ItemPtr(NItem), Ed.Fold.ItemPtr(NX));
             Result:= PyBool_FromLong(Ord(Ok));
           end;
 

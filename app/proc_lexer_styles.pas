@@ -264,10 +264,10 @@ begin
         if s<>'' then
           st.BorderColorBottom:= StringToColor(s);
 
-        st.BorderTypeLeft:= TecBorderLineType(conf.GetValue(path+'brd_t_l', 0));
-        st.BorderTypeRight:= TecBorderLineType(conf.GetValue(path+'brd_t_r', 0));
-        st.BorderTypeTop:= TecBorderLineType(conf.GetValue(path+'brd_t_t', 0));
-        st.BorderTypeBottom:= TecBorderLineType(conf.GetValue(path+'brd_t_b', 0));
+        st.BorderTypeLeft:= TecBorderLineType(conf.GetValue(path+'brd_t_l', Ord(st.BorderTypeLeft)));
+        st.BorderTypeRight:= TecBorderLineType(conf.GetValue(path+'brd_t_r', Ord(st.BorderTypeRight)));
+        st.BorderTypeTop:= TecBorderLineType(conf.GetValue(path+'brd_t_t', Ord(st.BorderTypeTop)));
+        st.BorderTypeBottom:= TecBorderLineType(conf.GetValue(path+'brd_t_b', Ord(st.BorderTypeBottom)));
       end;
     except
     end;
