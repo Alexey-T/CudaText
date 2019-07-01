@@ -11,8 +11,8 @@
 + add: lexer Bash: support base-N numbers
 - fix: session loading did not restore group mode
 - fix: various issues with lexer dynamic highlight (visible when dynamic highlight is on)
-- fix: lexer border styles saving to .cuda-lexops files
-- fix: treehelper crash with XML file with Windows filename
+- fix: lexer border styles save/load to .cuda-lexops files
+- fix: treehelper crash with Windows filename
 
 1.83.1 (2019/06)
 
