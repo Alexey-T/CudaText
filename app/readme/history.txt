@@ -12,6 +12,7 @@
 - fix: session loading did not restore group mode
 - fix: various issues with lexer dynamic highlight (visible when dynamic highlight is on)
 - fix: lexer border styles saving to .cuda-lexops files
+- fix: treehelper crash with XML file with Windows filename
 
 1.83.1 (2019/06)
 
