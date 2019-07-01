@@ -186,7 +186,7 @@ begin
         try
           ExecString('import '+ItemModule);
           Obj:= EvalString(
-            Format('%s.%s("%s", text)', [ItemModule, ItemProc, Frame.GetFileName(Ed)]),
+            Format('%s.%s("%s", text)', [ItemModule, ItemProc, Frame.GetFileName(Ed).Replace('\','/')]),
             ObjLocals, //locals
             nil //globals
             );
