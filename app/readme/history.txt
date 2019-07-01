@@ -3,14 +3,15 @@
   - fixed
   * changed
 
-1.83.6
+1.83.6 (2019/07)
 
 + add: menu dialogs Translations/Themes/Bookmarks place initial selection in listbox
 + add: command "folding: fold selected lines" (makes persistent fold range, which stays after lexer parsing)
 + add: Project Manager: command "Open all project files" (like SynWrite)
 + add: lexer Bash: support base-N numbers
-- fix: various issues with lexer dynamic highlight (visible when dynamic highlight is on)
 - fix: session loading did not restore group mode
+- fix: various issues with lexer dynamic highlight (visible when dynamic highlight is on)
+- fix: lexer border styles saving to .cuda-lexops files
 
 1.83.1 (2019/06)
 
