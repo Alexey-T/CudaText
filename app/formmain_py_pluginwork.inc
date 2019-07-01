@@ -224,10 +224,11 @@ begin
 end;
 
 
-procedure TfmMain.DoOps_AddPluginMenuItem(ACaption: string; ASubMenu: TMenuItem; ATag: integer);
+procedure TfmMain.DoOps_AddPluginMenuItem(ACaption: string;
+  ASubMenu: TMenuItem; ALangFile: TIniFile; ATag: integer);
 var
   mi: TMenuItem;
-  strItem: string;
+  strItem, strLocal: string;
   idx, NInsert: integer;
   bRoot: boolean;
 begin
@@ -237,11 +238,17 @@ begin
   //need to parse caption and create subitems, separated with '\'
   repeat
     strItem:= SGetItem(ACaption, '\');
-
-    //TODO:
-    //translate strItem using ini files, e.g. data/langmenu/cuda_macros.ru_RU.ini
-
     if strItem='' then Break;
+
+    //translate items using files data/langmenu/cuda_nnnnn/ru_RU.ini
+    if strItem<>'-' then
+      if Assigned(ALangFile) then
+      begin
+        strLocal:= ALangFile.ReadString('menu', strItem, '');
+        if strLocal<>'' then
+          strItem:= strLocal;
+      end;
+
     if strItem='-' then
       idx:= -1
     else
@@ -297,11 +304,16 @@ procedure TfmMain.UpdateMenuPlugins;
   //
 var
   SCaption, SInMenu: string;
+  LangFN, LastModule: string;
   CmdItem: TAppCommand;
+  LangFile: TIniFile;
   i: integer;
 begin
   if not PythonOK then exit;
   if mnuPlugins=nil then exit;
+
+  LastModule:= '';
+  LangFile:= nil;
 
   mnuPlugins.Clear;
   if Assigned(mnuOpPlugins) then
@@ -317,14 +329,36 @@ begin
       SInMenu:= CmdItem.ItemInMenu;
       if SInMenu='0' then Continue;
 
+      //translate menu items using files data/langmenu/cuda_nnnnn/ru_RU.ini
+      if LastModule<>CmdItem.ItemModule then
+      begin
+        LastModule:= CmdItem.ItemModule;
+
+        LangFN:= '';
+        if AppLangName<>'' then
+          LangFN:= GetAppPath(cDirData)+DirectorySeparator+
+                   'langmenu'+DirectorySeparator+
+                   CmdItem.ItemModule+DirectorySeparator+
+                   AppLangName+'.ini';
+
+        if Assigned(LangFile) then
+          FreeAndNil(LangFile);
+
+        if (LangFN<>'') and FileExists(LangFN) then
+        begin
+          //ShowMessage('create ini: '+LangFN);
+          LangFile:= TIniFile.Create(LangFN);
+        end;
+      end;
+
       //add to Plugins
       if (SInMenu='') or (Pos('p', SInMenu)>0) then
-        DoOps_AddPluginMenuItem(GroupValue(SCaption)+SCaption, mnuPlugins, i);
+        DoOps_AddPluginMenuItem(GroupValue(SCaption)+SCaption, mnuPlugins, LangFile, i);
 
       //add to Settings-plugins
       if Assigned(mnuOpPlugins) then
       if Pos('o', SInMenu)>0 then
-        DoOps_AddPluginMenuItem(SCaption, mnuOpPlugins, i);
+        DoOps_AddPluginMenuItem(SCaption, mnuOpPlugins, LangFile, i);
     end;
 end;
 
