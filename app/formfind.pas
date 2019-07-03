@@ -480,7 +480,7 @@ begin
     exit
   end;
 
-  if Str=UiOps.HotkeyReplaceAndFindNext then
+  if (Str=UiOps.HotkeyReplaceAndFindNext) and IsReplace then
   begin
     if IsReplace then
       DoResult(cOpFindRep);
@@ -488,7 +488,7 @@ begin
     exit
   end;
 
-  if Str=UiOps.HotkeyReplaceNoFindNext then
+  if (Str=UiOps.HotkeyReplaceNoFindNext) and IsReplace then
   begin
     if IsReplace then
       DoResult(cOpFindRepAndStop);
@@ -576,7 +576,7 @@ begin
     exit
   end;
 
-  if Str=UiOps.HotkeyReplaceAll then
+  if (Str=UiOps.HotkeyReplaceAll) and IsReplace then
   begin
     bRepAllClick(Self);
     UpdateState;
@@ -592,7 +592,7 @@ begin
     exit
   end;
 
-  if Str=UiOps.HotkeyExtractAll then
+  if (Str=UiOps.HotkeyExtractAll) and bExtract.Enabled then
   begin
     bExtractClick(Self);
     UpdateState;
