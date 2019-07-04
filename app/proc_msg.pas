@@ -61,6 +61,7 @@ const
   msgMenuTranslations: string = 'Translations';
   msgMenuThemesUI: string = 'UI themes';
   msgMenuThemesSyntax: string = 'Syntax themes';
+  msgMenuLexersForFile: string = 'Lexers for "%s"';
 
   msgPanelMenu_Init = 'Menu';
   msgPanelTree_Init = 'Code tree';

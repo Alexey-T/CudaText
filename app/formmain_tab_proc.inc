@@ -26,6 +26,7 @@ begin
 
   F.Groups:= Groups;
   F.SaveDialog:= SaveDlg;
+  F.LexerChooseFunc:= @DoDialogMenuLexerChoose;
   F.OnInitAdapter(F.Adapter[F.Ed1]);
 
   F.Ed1.PopupText:= PopupText;

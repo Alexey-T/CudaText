@@ -526,7 +526,8 @@ procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string; AL
 procedure DoOps_SaveKey_ForPluginModuleAndMethod(AOverwriteKey: boolean;
   const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string);
 
-function DoLexerDetectByFilenameOrContent(const AFilename: string): TecSyntAnalyzer;
+function DoLexerDetectByFilenameOrContent(const AFilename: string;
+  AChooseFunc: TecLexerChooseFunc): TecSyntAnalyzer;
 procedure DoLexerEnum(L: TStringList; AlsoDisabled: boolean = false);
 
 function DoReadOneStringFromFile(const AFilename: string): string;
@@ -767,7 +768,8 @@ function IsFileTooBigForLexer(const AFilename: string): boolean;
 procedure DoLexerDetect(const AFilename: string;
   out Lexer: TecSyntAnalyzer;
   out LexerLite: TATLiteLexer;
-  out LexerName: string);
+  out LexerName: string;
+  AChooseFunc: TecLexerChooseFunc);
 procedure DoMenuitemEllipsis(c: TMenuItem);
 
 type
@@ -1507,7 +1509,8 @@ begin
 end;
 
 
-function DoLexerDetectByFilenameOrContent(const AFilename: string): TecSyntAnalyzer;
+function DoLexerDetectByFilenameOrContent(const AFilename: string;
+  AChooseFunc: TecLexerChooseFunc): TecSyntAnalyzer;
 var
   Item: TAppKeyValue;
   ext, sLine, res: string;
@@ -1542,7 +1545,7 @@ begin
     end;
   end;
 
-  Result:= AppManager.FindLexerByFilename(AFilename);
+  Result:= AppManager.FindLexerByFilename(AFilename, AChooseFunc);
 end;
 
 function DoOps_CommandCode_To_HotkeyStringId(ACmd: integer): string;
@@ -2033,7 +2036,8 @@ end;
 procedure DoLexerDetect(const AFilename: string;
   out Lexer: TecSyntAnalyzer;
   out LexerLite: TATLiteLexer;
-  out LexerName: string);
+  out LexerName: string;
+  AChooseFunc: TecLexerChooseFunc);
 begin
   LexerName:= '';
   Lexer:= nil;
@@ -2046,7 +2050,7 @@ begin
   end
   else
   begin
-    Lexer:= DoLexerDetectByFilenameOrContent(AFilename);
+    Lexer:= DoLexerDetectByFilenameOrContent(AFilename, AChooseFunc);
     if Lexer=nil then
       LexerLite:= AppManagerLite.FindLexerByFilename(AFilename);
   end;

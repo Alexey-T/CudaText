@@ -52,6 +52,7 @@ uses
   proc_miscutils,
   ec_SyntAnal,
   ec_proc_lexer,
+  ec_lexerlist,
   formlexerstylemap,
   at__jsonconf,
   math,
@@ -137,6 +138,7 @@ type
     FLastLexer: string;
     FLastLexerCommentStyles: string;
     FLastLexerStringStyles: string;
+    FLexerChooseFunc: TecLexerChooseFunc;
 
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BinaryOnScroll(Sender: TObject);
@@ -262,6 +264,7 @@ type
 
     property FileName: string read FFileName write SetFileName;
     property FileWasBig: boolean read FFileWasBig write SetFileWasBig;
+    property LexerChooseFunc: TecLexerChooseFunc read FLexerChooseFunc write FLexerChooseFunc;
     function GetFileName(Ed: TATSynEdit): string;
     procedure SetFileName(Ed: TATSynEdit; const AFileName: string);
 
@@ -2951,7 +2954,7 @@ var
   SName: string;
 begin
   if AFileName='' then exit;
-  DoLexerDetect(AFileName, TempLexer, TempLexerLite, SName);
+  DoLexerDetect(AFileName, TempLexer, TempLexerLite, SName, FLexerChooseFunc);
   if Assigned(TempLexer) then
     Lexer[Ed]:= TempLexer
   else

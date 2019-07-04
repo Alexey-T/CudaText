@@ -939,6 +939,7 @@ type
     function DoDialogMenuList(const ACaption: string; AItems: TStringList; AInitItemIndex: integer;
       ACloseOnCtrlRelease: boolean= false): integer;
     procedure DoDialogMenuTabSwitcher;
+    function DoDialogMenuLexerChoose(const AFilename: string; ANames: TStringList): integer;
     procedure DoDialogGotoBookmark;
     function DoDialogSaveTabs: boolean;
     procedure DoDialogLexerProp(an: TecSyntAnalyzer);
@@ -3366,6 +3367,13 @@ begin
   finally
     FreeAndNil(Form);
   end;
+end;
+
+function TfmMain.DoDialogMenuLexerChoose(const AFilename: string; ANames: TStringList): integer;
+begin
+  Result:= DoDialogMenuList(
+    Format(msgMenuLexersForFile, [ExtractFileName(AFilename)]),
+    ANames, 0);
 end;
 
 procedure TfmMain.DoGotoFromInput(const AInput: string);

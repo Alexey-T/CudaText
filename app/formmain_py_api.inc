@@ -4542,7 +4542,7 @@ begin
 
         LEXER_DETECT:
           begin
-            DoLexerDetect(StrValue, Lexer, LexerLite, SName);
+            DoLexerDetect(StrValue, Lexer, LexerLite, SName, nil);
             if SName<>'' then
               Result:= PyString_FromString(PChar(SName))
             else
