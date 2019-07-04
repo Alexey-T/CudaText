@@ -1905,12 +1905,15 @@ begin
   //turn off opts for huge files
   FileWasBig:= Ed.Strings.Count>EditorOps.OpWrapEnabledMaxLines;
 
-  DoLexerFromFilename(Ed, AFileName);
   if AAllowLoadHistory then
   begin
     DoLoadUndo(Ed);
     DoLoadHistory(Ed);
   end;
+
+  if Lexer[Ed]=nil then
+    DoLexerFromFilename(Ed, AFileName);
+
   UpdateReadOnlyFromFile(Ed);
 
   NotifEnabled:= UiOps.NotifEnabled;
