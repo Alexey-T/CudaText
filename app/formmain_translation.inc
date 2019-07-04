@@ -377,6 +377,7 @@ begin
     cHintScrollPrefix:= ini.ReadString('ui', 'line', cHintScrollPrefix);
     msgTooltipClearFilter:= ini.ReadString('ui', 'clr_f', msgTooltipClearFilter);
     CodeTreeFilterReset.Hint:= msgTooltipClearFilter;
+    msgMenuLexersForFile:= ini.ReadString('ui', 'lex_dlg', msgMenuLexersForFile);
 
     msgTooltipCloseTab:= ini.ReadString('ui', 'ti_x', msgTooltipCloseTab);
     msgTooltipAddTab:= ini.ReadString('ui', 'ti_p', msgTooltipAddTab);
