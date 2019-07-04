@@ -5,6 +5,7 @@
 
 1.83.7 (2019/07)
 
++ add: on detecting lexer by file extention, if several lexers are Ok, menu-dialog will show to choose lexer
 + add: menu Plugins is translatable: use files "data/langmenu/cuda_nnnnnn/ru_RU.ini" with section [menu] to translate
 + add: menu dialogs Translations/Themes/Bookmarks place initial selection in listbox
 + add: command "folding: fold selected lines" (makes persistent fold range, which stays after lexer parsing)
