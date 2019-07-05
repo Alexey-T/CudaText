@@ -156,7 +156,8 @@ begin
   Result:= false;
   if fn_session='' then exit;
   DeleteFile(fn_session);
-  MsgLogConsole('Saving session: '+ExtractFileName(fn_session));
+
+  //MsgLogConsole('Saving session: '+ExtractFileName(fn_session));
 
   c:= TJSONConfig.Create(nil);
   try
@@ -254,7 +255,7 @@ begin
       exit;
     end;
 
-    MsgLogConsole('Loading session: '+ExtractFileName(fn_session));
+    //MsgLogConsole('Loading session: '+ExtractFileName(fn_session));
 
     DoOps_LoadHistory_GroupView(c); //reads to variables
     DoApplyInitialGroupSizes; //applies that variables
