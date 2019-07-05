@@ -1068,6 +1068,34 @@ How to make translation zip package:
 * publish zip at CudaText forum or https://github.com/Alexey-T/CudaText/issues
 * if package ok, it will be at SF.net downloads, and in Addon Manager
 
+==How to make translation of Plugins menu==
+CudaText 1.84+ supports translation of Plugins menu items. For example, you have plugin with module cuda_nnn, which has "install.inf" with such menu items:
+
+ [item5]
+ ...
+ caption=MyPlugin\MenuItemOne
+ ...
+ [item6]
+ caption=MyPlugin\SubMenu\MenuItemTwo
+ ...
+
+Then you need to create files like "ru_RU.ini" in the folder "data/langmenu/cuda_nnn". Create folder "langmenu" inside "data" if it's absent. Files must be in UTF-8 no BOM encoding. They must have section "menu". All items in the ini-file are optional.
+
+ [menu]
+ MyPlugin=local name
+ MenuItemOne=local name of item
+ MenuItemTwo=local name of item
+ SubMenu=local name of menu
+
+To distribute those translation(s), make zip file like "menutranslation.MyPlugin.zip", which must have: "install.inf" and folder "cuda_nnn" (you can put more folders, for several plugins). Install.inf contents: 
+
+ [info]
+ title=Translation of menu items of MyPlugin
+ type=cudatext-data
+ subdir=langmenu
+
+Submit that zip file to CudaText GutHub page, or post it to the forum.
+
 ==Color themes==
 Two kinds of themes exist:
 
