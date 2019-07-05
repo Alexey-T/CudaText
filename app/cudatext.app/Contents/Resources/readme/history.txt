@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.83.7 (2019/07)
+1.84.0 (2019/07)
 
 + add: on detecting lexer by file extention, if several lexers are Ok, menu dialog appears to choose lexer
 + add: menu Plugins is translatable: use files "data/langmenu/cuda_nnnnnn/ru_RU.ini" with section [menu] to translate
