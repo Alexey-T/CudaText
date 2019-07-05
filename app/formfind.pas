@@ -642,6 +642,8 @@ begin
     - 12
     );
   edRep.Width:= edFind.Width;
+
+  PanelTopOps.Left:= edFind.Left;
 end;
 
 
@@ -650,6 +652,7 @@ begin
   UpdateSize;
   UpdateFonts;
   FixFormPositionToDesktop(Self);
+  OnResize(Self);
 end;
 
 procedure TfmFind.DoResult(const Str: string);
