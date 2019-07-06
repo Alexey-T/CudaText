@@ -528,7 +528,7 @@ These snippets have markers, so Tab key jumps to the next marker. Last marker is
 Plugin "Snippet Panel" is preinstalled in CudaText. It gives an alternative way to use short text fragments (only simple ones) in editor. It adds button to sidebar, and command "Plugins - Snippet Panel". When called, plugin shows panel in the sidebar, with a drop-down list of folders, which contain several "snippets". You can double-click snippets to insert them into text (multi-carets are supported).
 
 Preinstalled folders:
- 
+
 * Arrows
 * Currency symbols
 * Greek alphabet (lower)
@@ -1088,7 +1088,7 @@ Then you need to create files like "ru_RU.ini" in the folder "data/langmenu/cuda
  ItemTwo=local name of item
  SubMenu=local name of menu
 
-To distribute those translation(s), make zip file like "langmenu.MyPlugin.zip", which must have "install.inf" and folder "cuda_nnn" (you can put more folders, for several plugins, if you want so). Install.inf contents: 
+To distribute those translation(s), make zip file like "langmenu.MyPlugin.zip", which must have "install.inf" and folder "cuda_nnn" (you can put more folders, for several plugins, if you want so). Install.inf contents:
 
  [info]
  title=Translation of menu items of MyPlugin
