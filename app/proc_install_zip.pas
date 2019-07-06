@@ -113,6 +113,21 @@ begin
   if Pos(',freebsd-'+CpuString+',', S)>0 then exit(true);
   {$endif}
 
+  {$ifdef openbsd}
+  if Pos(',openbsd,', S)>0 then exit(true);
+  if Pos(',openbsd-'+CpuString+',', S)>0 then exit(true);
+  {$endif}
+
+  {$ifdef netbsd}
+  if Pos(',netbsd,', S)>0 then exit(true);
+  if Pos(',netbsd-'+CpuString+',', S)>0 then exit(true);
+  {$endif}
+
+  {$ifdef dragonfly}
+  if Pos(',dragonfly,', S)>0 then exit(true);
+  if Pos(',dragonfly-'+CpuString+',', S)>0 then exit(true);
+  {$endif}
+
   {$ifdef solaris}
   if Pos(',solaris,', S)>0 then exit(true);
   if Pos(',solaris-'+CpuString+',', S)>0 then exit(true);
