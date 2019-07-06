@@ -1071,23 +1071,24 @@ How to make translation zip package:
 ==How to make translation of Plugins menu==
 CudaText 1.84+ supports translation of Plugins menu items. For example, you have plugin with module cuda_nnn, which has "install.inf" with such menu items:
 
- [item5]
+ [item1]
  ...
- caption=MyPlugin\MenuItemOne
+ caption=MyPlugin\ItemOne
  ...
- [item6]
- caption=MyPlugin\SubMenu\MenuItemTwo
+ [item2]
+ ...
+ caption=MyPlugin\SubMenu\ItemTwo
  ...
 
 Then you need to create files like "ru_RU.ini" in the folder "data/langmenu/cuda_nnn". Create folder "langmenu" inside "data" if it's absent. Files must be in UTF-8 no BOM encoding. They must have section "menu". All items in the ini-file are optional.
 
  [menu]
  MyPlugin=local name
- MenuItemOne=local name of item
- MenuItemTwo=local name of item
+ ItemOne=local name of item
+ ItemTwo=local name of item
  SubMenu=local name of menu
 
-To distribute those translation(s), make zip file like "menutranslation.MyPlugin.zip", which must have: "install.inf" and folder "cuda_nnn" (you can put more folders, for several plugins). Install.inf contents: 
+To distribute those translation(s), make zip file like "langmenu.MyPlugin.zip", which must have "install.inf" and folder "cuda_nnn" (you can put more folders, for several plugins, if you want so). Install.inf contents: 
 
  [info]
  title=Translation of menu items of MyPlugin
