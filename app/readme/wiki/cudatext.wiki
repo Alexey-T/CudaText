@@ -36,7 +36,7 @@ Screenshot on macOS Sierra:
 * SourceForge downloads: http://cudatext.sf.net
 * GitHub repository: https://github.com/Alexey-T/CudaText
 
-It has builds for Windows, Linux, Linux ARM (for Raspberry Pi 3), macOS, FreeBSD, Solaris.
+It has builds for Windows, Linux (x32, x64, ARM, AArch64), macOS, FreeBSD, NetBSD, Solaris.
 
 = Configs =
 
@@ -318,13 +318,8 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 
 When CudaText runs in portable mode (executable file is located near folder "data"), then portable folders are used. Otherwise:
 
-In CudaText version 1.66 or older:
 * Windows: %AppData%\CudaText
-* Linux, macOS, FreeBSD: ~/.cudatext
-
-In CudaText version 1.67 or newer:
-* Windows: %AppData%\CudaText
-* Linux, FreeBSD, Solaris: ~/.config/cudatext, or $XDG_CONFIG_HOME/cudatext if variable set
+* Linux, *BSD, Solaris: ~/.config/cudatext, or $XDG_CONFIG_HOME/cudatext if variable set
 * macOS: ~/Library/Application Support/CudaText
 
 ==Encodings==
@@ -684,8 +679,8 @@ For old Windows XP, Python 3.4 or 3.3 must be used, you can get its files from S
 
  "pylib": "python33.dll",
 
-===Python on Linux, FreeBSD, Solaris===
-Linux/FreeBSD/Solaris version uses Python library from OS. Install Python 3.x (usually already installed). Instruction, if Python library was not automatically used:
+===Python on Linux, BSD, Solaris===
+Linux/*BSD/Solaris version uses Python library from OS. Install Python 3.x (usually already installed). Instruction, if Python library was not automatically used:
 
 * Open file manager, go to /usr
 * Search for "libpython3.*so*"
@@ -1267,9 +1262,12 @@ To make such zip file, pack into zip also "install.inf" with meta-info.
 ** "linux", with optional CPU suffix
 ** "macos"
 ** "freebsd", with optional CPU suffix
+** "openbsd", with optional CPU suffix
+** "netbsd", with optional CPU suffix
+** "dragonfly", with optional CPU suffix
 ** "solaris", with optional CPU suffix
 
-CPU suffix is "-" char with one of the following names: i386, x86_64, arm, sparc. So for example Linux/x86 allows values "linux" and "linux-i386", Solaris/AMD64 allows values "solaris" and "solaris-x86_64".
+CPU suffix is "-" char followed by names: i386, x86_64, arm, aarch64, sparc. So for example Linux/x86 allows values "linux" and "linux-i386", Solaris/AMD64 allows values "solaris" and "solaris-x86_64".
 
 === Plugins ===
 
