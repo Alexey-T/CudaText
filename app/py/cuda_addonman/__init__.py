@@ -290,6 +290,12 @@ class Command:
                 msg_box('This is linter, it requires CudaLint plugin installed', MB_OK+MB_ICONWARNING)
                 return
 
+        #check for CudaFormatter
+        if 'formatter.' in url:
+            if not 'cuda_fmt' in get_installed_modules():
+                msg_box('This is formatter, it requires CudaFormatter plugin installed', MB_OK+MB_ICONWARNING)
+                return
+
         #download
         fn = get_plugin_zip(url)
         if not os.path.isfile(fn):
@@ -445,7 +451,7 @@ class Command:
         langs = [fix_name(i['name'], False) for i in installed if i['kind']=='translation']
         themes = [fix_name(i['name'], True) for i in installed if i['kind']=='theme']
 
-        addons = [a for a in addons if a['kind'] in ('plugin', 'treehelper', 'linter') and a.get('module', '') in modules] \
+        addons = [a for a in addons if a['kind'] in ('plugin', 'treehelper', 'linter', 'formatter') and a.get('module', '') in modules] \
                + [a for a in addons if a['kind']=='lexer' and a['name'] in lexers] \
                + [a for a in addons if a['kind']=='translation' and a['name'] in langs] \
                + [a for a in addons if a['kind']=='theme' and a['name'].lower() in themes]
