@@ -60,6 +60,7 @@ begin
     ColorThumbFill:= GetAppColor('ScrollFill');
     ColorThumbFillOver:= ColorThumbFill;
     ColorThumbFillPressed:= ColorThumbFill;
+    ColorThumbDecor:= ColorThumbBorder;
     ColorArrowBorder:= ColorBG;
     ColorArrowFill:= ColorBG;
     ColorArrowFillOver:= ColorArrowFill;
