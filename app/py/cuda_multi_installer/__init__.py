@@ -235,26 +235,28 @@ class Command:
             self.init_progress()
             dlg_proc(self.h_pro, DLG_SHOW_NONMODAL)
 
+            def do_req(kind):
+                req = REQS.get(kind)
+                if req:
+                    if not self.is_installed(T_OTHER,req):
+                        self.install(T_OTHER,req)
+
             for i in to_install[T_LEXER]:
                 self.install(T_LEXER,i)
             if to_install[T_LINTER]:
-                if not self.is_installed(T_OTHER,'CudaLint'):
-                    self.install(T_OTHER,'CudaLint')
+                do_req(T_LINTER)
                 for i in to_install[T_LINTER]:
                     self.install(T_LINTER,i)
             if to_install[T_FMT]:
-                if not self.is_installed(T_OTHER,'CudaFormatter'):
-                    self.install(T_OTHER,'CudaFormatter')
+                do_req(T_FMT)
                 for i in to_install[T_FMT]:
                     self.install(T_FMT,i)
             if to_install[T_TREE]:
-                #if not self.is_installed(T_OTHER,'CudaTree'):
-                #    self.install(T_OTHER,'CudaTree')
+                do_req(T_TREE)
                 for i in to_install[T_TREE]:
                     self.install(T_TREE,i)
             if to_install[T_SNIP]:
-                if not self.is_installed(T_OTHER,'Snippets'):
-                    self.install(T_OTHER,'Snippets')
+                do_req(T_SNIP)
                 for i in to_install[T_SNIP]:
                     self.install(T_SNIP,i)
             for i in to_install[T_INTEL]:
