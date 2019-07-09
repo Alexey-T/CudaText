@@ -242,6 +242,11 @@ class Command:
                     self.install(T_OTHER,'CudaLint')
                 for i in to_install[T_LINTER]:
                     self.install(T_LINTER,i)
+            if to_install[T_FMT]:
+                if not self.is_installed(T_OTHER,'CudaFormatter'):
+                    self.install(T_OTHER,'CudaFormatter')
+                for i in to_install[T_FMT]:
+                    self.install(T_FMT,i)
             if to_install[T_TREE]:
                 #if not self.is_installed(T_OTHER,'CudaTree'):
                 #    self.install(T_OTHER,'CudaTree')
