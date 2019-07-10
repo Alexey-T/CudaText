@@ -323,7 +323,16 @@ object SyntAnal31: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'function'
+            'property'
             'sub')
+          TokenTypes = 4
+          IgnoreCase = True
+        end
+        item
+          TagList.Strings = (
+            'end'
+            'exit')
+          CondType = tcNotEqual
           TokenTypes = 4
           IgnoreCase = True
         end>
@@ -338,6 +347,7 @@ object SyntAnal31: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'function'
+            'property'
             'sub')
           TokenTypes = 4
           IgnoreCase = True
@@ -429,8 +439,8 @@ object SyntAnal31: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'get'
-            'set'
-            'let')
+            'let'
+            'set')
           TokenTypes = 4
           IgnoreCase = True
         end
@@ -455,7 +465,7 @@ object SyntAnal31: TLibSyntAnalyzer
       DynSelectMin = True
       CollapseFmt = '%s0 %s-1'
       TreeItemStyle = 'Reserved word'
-      TreeItemImage = 5
+      TreeItemImage = 6
       IgnoreAsParent = False
     end
     item
@@ -702,31 +712,43 @@ object SyntAnal31: TLibSyntAnalyzer
     #39'Comment'
     'Test rem - comment'
     ''
-    'Function PrintNumber'
-    '  Dim Number'
+    'Class Printer'
+    '  Private intEolFormat'
+    '  '
+    '  Public Property Let EolFormat(intValue)'
+    
+      '    If intValue <> vbCrLf And intValue <> vbLf Then Exit Propert' +
+      'y'
+    '    intEolFormat = intValue'
+    '  End Property'
     ''
-    '  Number = 12 + 12.2 + 1.2e3 + 1.2e-3'
-    '  Response.Write "The number is " & number'
+    '  Public Function PrintNumber'
+    '    Dim Number'
     ''
-    '  If Number = 0 Then Exit Function'
+    '    Number = 12 + 12.2 + 1.2e3 + 1.2e-3'
+    '    Response.Write "The number is " & number'
     ''
-    '  '#39'folded'
-    '  If nnn Then'
-    '    '#39'not folded'
-    '    If True Then name '
-    '  End If'
+    '    If Number = 0 Then Exit Function'
     ''
-    '  For I = 0 To Number'
-    '    X = X + &hFF'
-    '    X = X - &o7'
-    '  Next'
+    '    '#39'folded'
+    '    If nnn Then'
+    '      '#39'not folded'
+    '      If True Then name '
+    '    End If'
     ''
-    '  Do'
-    '    If X > 100 Then Exit Do'
-    '  Loop While X = 0'
+    '    For I = 0 To Number'
+    '      X = X + &hFF'
+    '      X = X - &o7'
+    '      If X = 0 Then Exit For'
+    '    Next'
     ''
-    '  I = I + @;'
-    'End Function')
+    '    Do'
+    '      If X > 100 Then Exit Do'
+    '    Loop While X = 0'
+    ''
+    '    I = I + @;  '
+    '  End Function'
+    'End Class')
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
