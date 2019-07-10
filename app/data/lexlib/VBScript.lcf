@@ -708,7 +708,7 @@ object SyntAnal31: TLibSyntAnalyzer
     '  Number = 12 + 12.2 + 1.2e3 + 1.2e-3'
     '  Response.Write "The number is " & number'
     ''
-    '  If Number = 0 Then Exit Function
+    '  If Number = 0 Then Exit Function'
     ''
     '  '#39'folded'
     '  If nnn Then'
@@ -721,11 +721,11 @@ object SyntAnal31: TLibSyntAnalyzer
     '    X = X - &o7'
     '  Next'
     ''
-    '  Do
-    '    If X > 100 Then Exit Do
-    '  Loop While X = 0
+    '  Do'
+    '    If X > 100 Then Exit Do'
+    '  Loop While X = 0'
     ''
-    '  I = I + @;  '
+    '  I = I + @;'
     'End Function')
   TokenTypeNames.Strings = (
     'Unknown'
