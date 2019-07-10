@@ -323,7 +323,16 @@ object SyntAnal31: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'function'
+            'property'
             'sub')
+          TokenTypes = 4
+          IgnoreCase = True
+        end
+        item
+          TagList.Strings = (
+            'end'
+            'exit')
+          CondType = tcNotEqual
           TokenTypes = 4
           IgnoreCase = True
         end>
@@ -338,6 +347,7 @@ object SyntAnal31: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'function'
+            'property'
             'sub')
           TokenTypes = 4
           IgnoreCase = True
@@ -383,6 +393,13 @@ object SyntAnal31: TLibSyntAnalyzer
             'sub')
           TokenTypes = 4
           IgnoreCase = True
+        end
+        item
+          TagList.Strings = (
+            'exit')
+          CondType = tcNotEqual
+          TokenTypes = 4
+          IgnoreCase = True
         end>
       BlockEnd = 'Func end'
       Highlight = True
@@ -393,6 +410,62 @@ object SyntAnal31: TLibSyntAnalyzer
       CollapseFmt = '%s0 %s-1'
       TreeItemStyle = 'Reserved word'
       TreeItemImage = 5
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Prop end'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'property')
+          TokenTypes = 4
+          IgnoreCase = True
+        end
+        item
+          TagList.Strings = (
+            'end')
+          TokenTypes = 4
+          IgnoreCase = True
+        end>
+      HighlightPos = cpBound
+      CancelNextRules = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Prop'
+      StyleName = 'Function background'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'get'
+            'let'
+            'set')
+          TokenTypes = 4
+          IgnoreCase = True
+        end
+        item
+          TagList.Strings = (
+            'property')
+          TokenTypes = 4
+          IgnoreCase = True
+        end
+        item
+          TagList.Strings = (
+            'exit')
+          CondType = tcNotEqual
+          TokenTypes = 4
+          IgnoreCase = True
+        end>
+      BlockEnd = 'Prop end'
+      Highlight = True
+      NameFmt = '%s0 %s-1'
+      DynHighlight = dhRange
+      HighlightPos = cpRange
+      DynSelectMin = True
+      CollapseFmt = '%s0 %s-1'
+      TreeItemStyle = 'Reserved word'
+      TreeItemImage = 6
       IgnoreAsParent = False
     end
     item
@@ -412,7 +485,6 @@ object SyntAnal31: TLibSyntAnalyzer
             'enum'
             'get'
             'module'
-            'property'
             'select'
             'set'
             'try'
@@ -583,6 +655,13 @@ object SyntAnal31: TLibSyntAnalyzer
             'do')
           TokenTypes = 4
           IgnoreCase = True
+        end
+        item
+          TagList.Strings = (
+            'exit')
+          CondType = tcNotEqual
+          TokenTypes = 4
+          IgnoreCase = True
         end>
       BlockEnd = 'End do'
       DisplayInTree = False
@@ -633,24 +712,43 @@ object SyntAnal31: TLibSyntAnalyzer
     #39'Comment'
     'Test rem - comment'
     ''
-    'Function PrintNumber'
-    '  Dim Number'
-    '  Number = 12 + 12.2 + 1.2e3 + 1.2e-3'
-    '  Response.Write "The number is " & number'
+    'Class Printer'
+    '  Private intEolFormat'
     '  '
-    '  '#39'folded'
-    '  If nnn Then'
-    '    '#39'not folded'
-    '    If True Then name '
-    '  End If'
-    '           '
-    '  For I = 0 To Number'
-    '    X = X + &hFF'
-    '    X = X - &o7'
-    '  Next'
+    '  Public Property Let EolFormat(intValue)'
+    
+      '    If intValue <> vbCrLf And intValue <> vbLf Then Exit Propert' +
+      'y'
+    '    intEolFormat = intValue'
+    '  End Property'
     ''
-    '  I = I + @;  '
-    'End Function')
+    '  Public Function PrintNumber'
+    '    Dim Number'
+    ''
+    '    Number = 12 + 12.2 + 1.2e3 + 1.2e-3'
+    '    Response.Write "The number is " & number'
+    ''
+    '    If Number = 0 Then Exit Function'
+    ''
+    '    '#39'folded'
+    '    If nnn Then'
+    '      '#39'not folded'
+    '      If True Then name '
+    '    End If'
+    ''
+    '    For I = 0 To Number'
+    '      X = X + &hFF'
+    '      X = X - &o7'
+    '      If X = 0 Then Exit For'
+    '    Next'
+    ''
+    '    Do'
+    '      If X > 100 Then Exit Do'
+    '    Loop While X = 0'
+    ''
+    '    I = I + @;  '
+    '  End Function'
+    'End Class')
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
