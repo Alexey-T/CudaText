@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: lexer VBScript improved (better highlight keywords)
+
 1.84.1 (2019/07)
 
 + add: new framework appeared in add-ons: CudaFormatter. Addon Manager and Multi Installer support it.
