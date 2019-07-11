@@ -296,6 +296,8 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 
 * "linters". Sub-plugins for CudaLint plugin. Each supports some lexer (or several similar lexers). To use them, install CudaLint plugin, open your work file, and call CudaLint commands: it calls appropriate linter and shows colored bookmarks on error/warning lines.
 
+* "formatters". Sub-plugins for CudaFormatter plugin. Each supports one or several lexers and can reformat source code for these lexers. Examples: Python ReIndent, JS Sort Imports, AStyle Format.
+
 * "tree helpers": Plugins which show Code Tree structure for some lexer (useful if language is complex, and lexer cannot handle all language complexity).
 
 * "snippets". Collections of text fragments, for Snippets plugin. Install Snippets plugin first. Each addon supports some lexer(s). See details in the [[#Snippets]] topic.
