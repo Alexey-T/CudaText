@@ -109,7 +109,7 @@ def do_remove_dir(dir):
     move folder to py/__trash
     (make copy with _ suffix if nessesary)
     """
-    print('Deleting folder:', dir)
+    #print('Deleting folder:', dir)
     if not os.path.isdir(dir):
         return
 
