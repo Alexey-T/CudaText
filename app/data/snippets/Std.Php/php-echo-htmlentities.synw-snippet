@@ -1,5 +1,0 @@
-name=<?php echo htmlentities(...) ?>
-id=echoh
-lex=PHP
-text=
-<?php echo htmlentities(${1:$var}, ENT_QUOTES, 'utf-8') ?>

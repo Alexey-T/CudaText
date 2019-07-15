@@ -1,5 +1,0 @@
-name=<?php echo ... ?>
-id=echo
-lex=PHP
-text=
-<?php echo ${1:$var} ?>

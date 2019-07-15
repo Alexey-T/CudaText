@@ -1,5 +1,0 @@
-name=include ...
-id=inc
-lex=PHP_
-text=
-include '${1:file}';${0}

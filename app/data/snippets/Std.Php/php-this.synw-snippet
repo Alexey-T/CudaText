@@ -1,5 +1,0 @@
-name=<?php this->... ?>
-id=this
-lex=PHP
-text=
-<?php this->${0} ?>

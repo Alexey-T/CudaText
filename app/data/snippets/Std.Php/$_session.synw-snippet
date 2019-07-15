@@ -1,5 +1,0 @@
-name=SESSION['...']
-id=$_
-lex=PHP_
-text=
-$_SESSION['${1:variable}']
