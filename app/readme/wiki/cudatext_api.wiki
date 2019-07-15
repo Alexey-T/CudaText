@@ -2540,8 +2540,6 @@ Function params:
 Performs action on inter-line gaps (they don't overlap text above/below).
 Possible values of "id":
 
-* deprecated: GAP_GET_LIST: Gets list of gaps. List of 4-tuples (line_index, tag, bitmap_width, bitmap_height), or None.
-
 * GAP_GET_ALL: Gets list of gaps. List of dict, or None. Dict keys are:
 ** "line": int: Line index; or -1 for gap before the first line.
 ** "tag": int: Tag.
@@ -3530,5 +3528,6 @@ def project_variables():
 * removed deprecated: Editor.lexer_scan
 * removed deprecated: Editor.export_html
 * removed deprecated: PROP_COLUMN_LEFT
+* removed deprecated: GAP_GET_LIST
 
 [[Category:CudaText]]
