@@ -22,7 +22,8 @@ type
     cAddonTypePlugin,
     cAddonTypeLexer,
     cAddonTypeLexerLite,
-    cAddonTypeData
+    cAddonTypeData,
+    cAddonTypePackage
     );
 
 procedure DoInstallAddonFromZip(
@@ -52,6 +53,7 @@ const
   cTypeLexerLite = 'lexer-lite';
   cTypePlugin = 'cudatext-plugin';
   cTypeData = 'cudatext-data';
+  cTypePackage = 'cudatext-package';
 
 
 function CheckValue_ReqPlugin(S: string): boolean;
@@ -161,6 +163,21 @@ begin
   FCopyDir(SDirFrom, ADirTarget);
 
   AReport:= 'data files: '+ADirTarget;
+end;
+
+procedure DoInstallPackage(
+  const AFilenameInf: string;
+  out AReport: string;
+  out ADirTarget: string);
+var
+  SDirFrom: string;
+begin
+  DeleteFile(AFilenameInf);
+  SDirFrom:= ExtractFileDir(AFilenameInf);
+  ADirTarget:= ExtractFileDir(GetAppPath(cDirData));
+  FCopyDir(SDirFrom, ADirTarget);
+
+  AReport:= 'package: '+ADirTarget;
 end;
 
 procedure DoInstallLexerLite(
@@ -524,7 +541,8 @@ begin
   if (s_type<>cTypeLexer) and
     (s_type<>cTypeLexerLite) and
     (s_type<>cTypePlugin) and
-    (s_type<>cTypeData) then
+    (s_type<>cTypeData) and
+    (s_type<>cTypePackage) then
   begin
     MsgBox(msgStatusUnsupportedAddonType+' '+s_type, MB_OK or MB_ICONERROR);
     exit
@@ -563,6 +581,12 @@ begin
   begin
     AAddonType:= cAddonTypeData;
     DoInstallData(fn_inf, AStrReport, ADirTarget)
+  end
+  else
+  if s_type=cTypePackage then
+  begin
+    AAddonType:= cAddonTypePackage;
+    DoInstallPackage(fn_inf, AStrReport, ADirTarget);
   end;
 
  finally
