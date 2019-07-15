@@ -3,7 +3,10 @@
   - fixed
   * changed
 
+1.84.2 (2019/07)
+
 + add: lexer VBScript improved (better highlight keywords)
++ add: allowed zipped data add-ons with _empty_ "subdir" field
 
 1.84.1 (2019/07)
 
