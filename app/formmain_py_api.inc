@@ -5758,41 +5758,6 @@ begin
 end;
 
 
-function Py_ed_export_html(Self, Args: PPyObject): PPyObject; cdecl;
-var
-  H: Int64;
-  Ed: TATSynEdit;
-  SFileName, STitle, SFontName: PChar;
-  NFontSize, NWithNums: integer;
-  NColorBg, NColorNums: TColor;
-  ok: boolean;
-begin
-  MsgOldApi('Editor.export_html');
-  with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Lsssiiii:export_html',
-      @H, @SFileName, @STitle, @SFontName,
-      @NFontSize, @NWithNums, @NColorBg, @NColorNums
-      )) then
-    begin
-      Ed:= PyEditor(H);
-      DoEditorExportToHTML(Ed,
-        string(SFileName),
-        string(STitle),
-        string(SFontName),
-        NFontSize,
-        Bool(NWithNums),
-        NColorBg,
-        NColorNums
-        );
-
-      ok:= FileExistsUTF8(string(SFileName));
-      Result:= PyBool_FromLong(Ord(ok));
-    end
-  else
-    Result:= ReturnNone;
-end;
-
-
 function Py_GetTokenList(Adapter: TATAdapterEControl; ALineFrom, ALineTo: integer): PPyObject;
 var
   An: TecClientSyntAnalyzer;
@@ -6092,29 +6057,6 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end
-  else
-    Result:= ReturnNone;
-end;
-
-
-function Py_ed_lexer_scan(Self, Args: PPyObject): PPyObject; cdecl;
-var
-  H: Int64;
-  Num: integer;
-  Ed: TATSynEdit;
-  F: TEditorFrame;
-begin
-  MsgOldApi('Editor.lexer_scan');
-  with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Li:lexer_scan', @H, @Num)) then
-    begin
-      Ed:= PyEditor(H);
-      F:= GetEditorFrame(Ed);
-      if Assigned(F) and Assigned(F.Lexer[Ed]) then
-        if Ed.Strings.IsIndexValid(Num) then
-           TATAdapterEControl(Ed.AdapterForHilite).DoAnalyzeFromLine(Num, true);
-      Result:= ReturnNone;
     end
   else
     Result:= ReturnNone;
@@ -7472,8 +7414,6 @@ begin
     AddMethod('ed_dim', @Py_ed_dim, '');
     AddMethod('ed_hotspots', @Py_ed_hotspots, '');
     AddMethod('ed_action', @Py_ed_action, '');
-    AddMethod('ed_lexer_scan', @Py_ed_lexer_scan, '');
-    AddMethod('ed_export_html', @Py_ed_export_html, '');
 
     AddMethod('file_open', @Py_file_open, '');
     AddMethod('ed_handles', @Py_ed_handles, '');
