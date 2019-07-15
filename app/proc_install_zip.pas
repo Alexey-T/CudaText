@@ -149,14 +149,15 @@ begin
   ini:= TIniFile.Create(AFilenameInf);
   try
     SSubDir:= ini.ReadString('info', 'subdir', '');
-    if SSubDir='' then exit;
   finally
     FreeAndNil(ini);
   end;
 
   DeleteFile(AFilenameInf);
   SDirFrom:= ExtractFileDir(AFilenameInf);
-  ADirTarget:= GetAppPath(cDirData)+DirectorySeparator+SSubDir;
+  ADirTarget:= GetAppPath(cDirData);
+  if SSubDir<>'' then
+    ADirTarget+= DirectorySeparator+SSubDir;
   FCopyDir(SDirFrom, ADirTarget);
 
   AReport:= 'data files: '+ADirTarget;
