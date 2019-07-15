@@ -26,6 +26,18 @@ type
     cAddonTypePackage
     );
 
+const
+  cAppAddonTypeString: array[TAppAddonType] of string = (
+    '',
+    'cudatext-plugin',
+    'lexer',
+    'lexer-lite',
+    'cudatext-data',
+    'cudatext-package'
+    );
+
+function AppAddonKindFromString(const AId: string): TAppAddonType;
+
 procedure DoInstallAddonFromZip(
   const AFilenameZip: string;
   const ADirAcp: string;
@@ -47,13 +59,6 @@ uses
   proc_globdata,
   proc_msg,
   proc_lexer_styles;
-
-const
-  cTypeLexer = 'lexer';
-  cTypeLexerLite = 'lexer-lite';
-  cTypePlugin = 'cudatext-plugin';
-  cTypeData = 'cudatext-data';
-  cTypePackage = 'cudatext-package';
 
 
 function CheckValue_ReqPlugin(S: string): boolean;
@@ -422,6 +427,16 @@ begin
     end;
 end;
 
+function AppAddonKindFromString(const AId: string): TAppAddonType;
+var
+  kind: TAppAddonType;
+begin
+  Result:= cAddonTypeUnknown;
+  for kind:= Succ(Low(TAppAddonType)) to High(TAppAddonType) do
+    if cAppAddonTypeString[kind]=AId then
+      exit(kind);
+end;
+
 procedure DoInstallAddonFromZip(
   const AFilenameZip: string;
   const ADirAcp: string;
@@ -538,11 +553,8 @@ begin
     exit
   end;
 
-  if (s_type<>cTypeLexer) and
-    (s_type<>cTypeLexerLite) and
-    (s_type<>cTypePlugin) and
-    (s_type<>cTypeData) and
-    (s_type<>cTypePackage) then
+  AAddonType:= AppAddonKindFromString(s_type);
+  if AAddonType=cAddonTypeUnknown then
   begin
     MsgBox(msgStatusUnsupportedAddonType+' '+s_type, MB_OK or MB_ICONERROR);
     exit
@@ -552,41 +564,34 @@ begin
   if MsgBox(msgStatusPackageContains+#10#10+
     msgStatusPackageName+' '+s_title+#10+
     IfThen(s_desc<>'', msgStatusPackageDesc+' '+s_desc+#10)+
-    msgStatusPackageType+' '+s_type+ IfThen(s_type=cTypeData, ' / '+s_subdir)+ #10+
+    msgStatusPackageType+' '+s_type+ IfThen(AAddonType=cAddonTypeData, ' / '+s_subdir)+ #10+
     #10+
     msgConfirmInstallIt,
     MB_OKCANCEL or MB_ICONQUESTION)<>ID_OK then exit;
 
   AStrReport:= '';
-  if s_type=cTypeLexer then
-  begin
-    AAddonType:= cAddonTypeLexer;
-    DoInstallLexer(fn_inf, ADirAcp, AStrReport, ADirTarget)
-  end
-  else
-  if s_type=cTypeLexerLite then
-  begin
-    AAddonType:= cAddonTypeLexerLite;
-    DoInstallLexerLite(fn_inf, AStrReport);
-  end
-  else
-  if s_type=cTypePlugin then
-  begin
-    AAddonType:= cAddonTypePlugin;
-    AStrMessage:= msgStatusInstalledNeedRestart;
-    DoInstallPlugin(fn_inf, AStrReport, ADirTarget)
-  end
-  else
-  if s_type=cTypeData then
-  begin
-    AAddonType:= cAddonTypeData;
-    DoInstallData(fn_inf, AStrReport, ADirTarget)
-  end
-  else
-  if s_type=cTypePackage then
-  begin
-    AAddonType:= cAddonTypePackage;
-    DoInstallPackage(fn_inf, AStrReport, ADirTarget);
+  case AAddonType of
+    cAddonTypeLexer:
+      begin
+        DoInstallLexer(fn_inf, ADirAcp, AStrReport, ADirTarget)
+      end;
+    cAddonTypeLexerLite:
+      begin
+        DoInstallLexerLite(fn_inf, AStrReport);
+      end;
+    cAddonTypePlugin:
+      begin
+        AStrMessage:= msgStatusInstalledNeedRestart;
+        DoInstallPlugin(fn_inf, AStrReport, ADirTarget)
+      end;
+    cAddonTypeData:
+      begin
+        DoInstallData(fn_inf, AStrReport, ADirTarget)
+      end;
+    cAddonTypePackage:
+      begin
+        DoInstallPackage(fn_inf, AStrReport, ADirTarget);
+      end;
   end;
 
  finally
