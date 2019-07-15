@@ -2623,28 +2623,6 @@ Performs some action in editor. Possible values of "id":
 ** "color_back": int: RGB color of page background.
 ** "color_numbers": int: RGB color of line numbers.
 
-===Editor.lexer_scan===
-
- lexer_scan(nline)
-
-Runs lexer analysis (if lexer active) from given line index. Waits until analysis finishes.
-
-Use case: plugin appends n lines to text (line by line), then lexer needs to rescan text from 1st added line, otherwise folding won't appear for these lines.
-
-===Editor.export_html===
-
- export_html(file_name, title, font_name, font_size, with_nums, color_bg, color_nums)
-
-Makes HTML file from source text with syntax highlighting. Gets bool: file is created. Params:
-
-* "file_name": str: Path of file.
-* "title": str: HTML page title.
-* "font_name": str: Font name.
-* "font_size": int: Font size, in HTML points.
-* "with_nums": bool: Show gutter with line numbers.
-* "color_bg": int: RGB color of page background.
-* "color_nums": int: RGB color of line numbers.
-
 =TreeHelpers=
 
 CudaText contains built-in support for TreeHelpers. They build code-tree for additional lexers. TreeHelpers must be plugins, which have special install.inf file.
@@ -3547,5 +3525,9 @@ def project_variables():
 1.0.292 (app 1.83.2)
 * add: Editor.action: EDACTION_UPDATE
 * add: Editor.action: EDACTION_SHOW_POS
+
+1.0.293 (app 1.84.2)
+* removed deprecated: Editor.lexer_scan
+* removed deprecated: Editor.export_html
 
 [[Category:CudaText]]
