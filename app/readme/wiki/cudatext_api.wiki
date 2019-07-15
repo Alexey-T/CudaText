@@ -3529,5 +3529,6 @@ def project_variables():
 1.0.293 (app 1.84.2)
 * removed deprecated: Editor.lexer_scan
 * removed deprecated: Editor.export_html
+* removed deprecated: PROP_COLUMN_LEFT
 
 [[Category:CudaText]]

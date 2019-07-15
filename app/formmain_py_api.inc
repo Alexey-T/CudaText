@@ -2938,11 +2938,6 @@ begin
           Result:= PyInt_FromLong(Ed.GetVisibleColumns);
         PROP_LINE_BOTTOM:
           Result:= PyInt_FromLong(Ed.LineBottom);
-        PROP_COLUMN_LEFT:
-          begin
-            MsgOldApi('get_prop(PROP_COLUMN_LEFT)');
-            Result:= PyInt_FromLong(Ed.ColumnLeft);
-          end;
 
         PROP_SCROLL_VERT:
           Result:= PyInt_FromLong(Ed.ScrollVert.NPos);
@@ -3308,12 +3303,6 @@ begin
             if Assigned(F) then
               F.TopLineTodo:= ValueInt;
             Ed.LineTop:= ValueInt;
-          end;
-
-        PROP_COLUMN_LEFT:
-          begin
-            MsgOldApi('set_prop(PROP_COLUMN_LEFT)');
-            Ed.ColumnLeft:= ValueInt;
           end;
 
         PROP_LINE_NUMBERS:
