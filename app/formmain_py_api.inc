@@ -6052,49 +6052,6 @@ begin
 end;
 
 
-function Py_ed_gap_GetList(Ed: TATSynEdit): PPyObject; cdecl;
-var
-  Item: TATGapItem;
-  NLen, NSizeX, NSizeY, i: Integer;
-begin
-  with GetPythonEngine do
-  begin
-    NLen:= Ed.Gaps.Count;
-    if NLen>0 then
-    begin
-      Result:= PyList_New(NLen);
-      if not Assigned(Result) then
-        raise EPythonError.Create(msgPythonListError);
-      for i:= 0 to NLen-1 do
-      begin
-        Item:= Ed.Gaps[i];
-
-        if Assigned(Item.Bitmap) then
-        begin
-          NSizeX:= Item.Bitmap.Width;
-          NSizeY:= Item.Bitmap.Height;
-        end
-        else
-        begin
-          NSizeX:= 0;
-          NSizeY:= 0;
-        end;
-
-        PyList_SetItem(Result, i,
-          Py_BuildValue('(iLii)',
-            Item.LineIndex,
-            Int64(Item.Tag),
-            NSizeX,
-            NSizeY
-            ));
-      end;
-    end
-    else
-      Result:= ReturnNone;
-  end;
-end;
-
-
 function Py_ed_gap_GetDict(Ed: TATSynEdit): PPyObject; cdecl;
 var
   Item: TATGapItem;
@@ -6159,11 +6116,6 @@ begin
       Ed:= PyEditor(H);
 
       case Id of
-        GAP_GET_LIST:
-          begin
-            Result:= Py_ed_gap_GetList(Ed);
-          end;
-
         GAP_GET_ALL:
           begin
             Result:= Py_ed_gap_GetDict(Ed);
