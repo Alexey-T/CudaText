@@ -4975,7 +4975,7 @@ var
   NResult, NItemIndex, i: integer;
   S: string;
 begin
-  FFindFilesInDir(GetAppPath(cDirDataLangs), '*.ini', FListLangs);
+  FindAllFiles(FListLangs, GetAppPath(cDirDataLangs), '*.ini', false);
   if FListLangs.Count=0 then exit;
   FListLangs.Sort;
 

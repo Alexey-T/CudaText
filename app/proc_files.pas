@@ -19,7 +19,6 @@ uses
   CopyDir;
 
 function FCreateFile(const fn: string; AsJson: boolean = false): boolean;
-procedure FFindFilesInDir(const dir, mask: string; L: TStringList; AlsoDirs: boolean=false);
 procedure FCopyDir(const d1, d2: string);
 
 function IsFileContentText(const fn: string;
@@ -153,30 +152,6 @@ begin
   Result:= not FileIsWritable(fn);
   {$endif}
 end;
-
-
-procedure FFindFilesInDir(const dir, mask: string; L: TStringList; AlsoDirs: boolean);
-var
-  attr: Longint;
-  rec: TSearchRec;
-begin
-  if AlsoDirs then
-    attr:= faAnyFile or faDirectory
-  else
-    attr:= faAnyFile and not faDirectory;
-
-  L.Clear;
-  if FindFirstUTF8(dir+DirectorySeparator+mask, attr, rec)=0 then
-  begin
-    if (rec.Name<>'.') and (rec.Name<>'..') then
-      L.Add(dir+DirectorySeparator+rec.Name);
-    while FindNextUTF8(rec)=0 do
-      if (rec.Name<>'.') and (rec.Name<>'..') then
-        L.Add(dir+DirectorySeparator+rec.Name);
-  end;
-  FindCloseUTF8(rec);
-end;
-
 
 {$ifdef windows}
 procedure FFileAttrPrepare(const fn: string; out attr: Longint);

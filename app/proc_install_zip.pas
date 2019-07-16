@@ -12,7 +12,7 @@ unit proc_install_zip;
 interface
 
 uses
-  Classes, SysUtils, Forms, FileUtil, Dialogs,
+  Classes, SysUtils, Forms, FileUtil,
   proc_str,
   ec_SyntAnal;
 
@@ -187,8 +187,8 @@ begin
 
   List:= TStringList.Create;
   try
-    //just report "data" folders
-    FFindFilesInDir(SDirFrom+DirectorySeparator+'data', '*', List, true);
+    //report "data" folders
+    FindAllDirectories(List, SDirFrom+DirectorySeparator+'data', false);
     for i:= 0 to List.Count-1 do
     begin
       S:= ExtractFileName(List[i]);
@@ -196,7 +196,7 @@ begin
     end;
 
     //delete plugins, if already installed in CudaText/py
-    FFindFilesInDir(SDirFrom+DirectorySeparator+'py', 'cuda_*', List, true);
+    FindAllDirectories(List, SDirFrom+DirectorySeparator+'py', false);
     for i:= 0 to List.Count-1 do
     begin
       S:= ExtractFileName(List[i]);

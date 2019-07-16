@@ -187,7 +187,7 @@ begin
   ListItems:= TStringList.Create;
   ListFiles:= TStringList.Create;
   try
-    FFindFilesInDir(GetAppPath(cDirDataThemes), SMask, ListFiles);
+    FindAllFiles(ListFiles, GetAppPath(cDirDataThemes), SMask, false);
     if ListFiles.Count=0 then exit;
     ListFiles.Sort;
 
