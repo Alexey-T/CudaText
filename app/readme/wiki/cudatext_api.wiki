@@ -1987,7 +1987,6 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_GUTTER_NUM: bool: show gutter column "line numbers".
 * PROP_GUTTER_FOLD: bool: show gutter column "folding".
 * PROP_GUTTER_BM: bool: show gutter column "bookmarks".
-* deprecated: PROP_EOL: str: line-break chars. Currently always gets "\n" since it's ignored in "insert" method.
 * PROP_NEWLINE: str: kind of line endings. One of values "lf", "crlf", "cr".
 * PROP_WRAP: int: word-wrap mode. One of WRAP_nnn values.
 * PROP_RO: bool: read-only mode.
@@ -2006,9 +2005,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_LINE_TOP: int: index of line visible at the top of editor.
 * PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word wrap).
 
-* PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
 * PROP_SCROLL_VERT: int: approximate vertical scroll position. Index in WrapInfo list, you can read this list via get_wrapinfo().
-* PROP_SCROLL_HORZ: int: approximate horizontal scroll position. Same as PROP_COLUMN_LEFT.
+* PROP_SCROLL_HORZ: int: approximate horizontal scroll position.
 * PROP_SCROLL_VERT_SMOOTH: int: smooth vertical scroll position. In pixels.
 * PROP_SCROLL_HORZ_SMOOTH: int: smooth horizontal scroll position. In pixels.
 * PROP_SCROLL_VERT_INFO: int: dict with all available info about vertical scroll.
@@ -2128,9 +2126,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_LINE_STATE: 2-tuple: state of the line with given index. 2-tuple (line_index, LINESTATE_nnn).
 * PROP_LINE_STATES_UPDATED: currently supports writing only empty string value, writing it means clearing of "updated" flags for all lines.
 
-* PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
 * PROP_SCROLL_VERT: int: approximate vertical scroll position. Index in WrapInfo list, you can read this list via get_wrapinfo().
-* PROP_SCROLL_HORZ: int: approximate horizontal scroll position. Same as PROP_COLUMN_LEFT.
+* PROP_SCROLL_HORZ: int: approximate horizontal scroll position.
 * PROP_SCROLL_VERT_SMOOTH: int: smooth vertical scroll position. In pixels.
 * PROP_SCROLL_HORZ_SMOOTH: int: smooth horizontal scroll position. In pixels.
 
@@ -3529,5 +3526,8 @@ def project_variables():
 * removed deprecated: Editor.export_html
 * removed deprecated: PROP_COLUMN_LEFT
 * removed deprecated: GAP_GET_LIST
+* removed deprecated: PROP_EOL
+* add: install.inf support for data with empty "subdir"
+* add: install.inf support for "type=cudatext-package"
 
 [[Category:CudaText]]
