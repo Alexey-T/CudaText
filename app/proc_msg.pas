@@ -190,7 +190,7 @@ const
   msgStatusPackageLexer: string = 'lexer:';
   msgStatusPackageAutoCompletion: string = 'static auto-completion:';
   msgStatusPackageMissedLexerMap: string = 'lexer misses themes support (.cuda-lexmap file)';
-  msgStatusInstalledNeedRestart: string = 'Program should be restarted to see new plugin';
+  msgStatusInstalledNeedRestart: string = 'Package will take effect after program restart';
   msgStatusCommandOnlyForLexers: string = 'Command is only for lexers:';
   msgStatusOpenedBrowser: string = 'Opened browser';
   msgStatusCopiedLink: string = 'Copied link';
