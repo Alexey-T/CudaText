@@ -12,7 +12,7 @@ unit proc_install_zip;
 interface
 
 uses
-  Classes, SysUtils, Forms, FileUtil,
+  Classes, SysUtils, Forms, FileUtil, Dialogs,
   proc_str,
   ec_SyntAnal;
 
@@ -175,14 +175,43 @@ procedure DoInstallPackage(
   out AReport: string;
   out ADirTarget: string);
 var
-  SDirFrom: string;
+  SDirPy, SDirFrom, S: string;
+  List: TStringList;
+  i: integer;
 begin
+  AReport:= '';
   DeleteFile(AFilenameInf);
+  SDirPy:= GetAppPath(cDirPy);
   SDirFrom:= ExtractFileDir(AFilenameInf);
   ADirTarget:= ExtractFileDir(GetAppPath(cDirData));
+
+  List:= TStringList.Create;
+  try
+    //just report "data" folders
+    FFindFilesInDir(SDirFrom+DirectorySeparator+'data', '*', List, true);
+    for i:= 0 to List.Count-1 do
+    begin
+      S:= ExtractFileName(List[i]);
+      AReport+= 'folder: data/'+S+#10;
+    end;
+
+    //delete plugins, if already installed in CudaText/py
+    FFindFilesInDir(SDirFrom+DirectorySeparator+'py', 'cuda_*', List, true);
+    for i:= 0 to List.Count-1 do
+    begin
+      S:= ExtractFileName(List[i]);
+      AReport+= 'folder: py/'+S+#10;
+      S:= SDirPy+DirectorySeparator+S;
+      if DirectoryExists(S) then
+        DeleteDirectory(S, false);
+    end;
+  finally
+    FreeAndNil(List);
+  end;
+
   FCopyDir(SDirFrom, ADirTarget);
 
-  AReport:= 'package: '+ADirTarget;
+  AReport+= 'package: '+ADirTarget;
 end;
 
 procedure DoInstallLexerLite(
