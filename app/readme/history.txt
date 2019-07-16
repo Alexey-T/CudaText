@@ -5,9 +5,9 @@
 
 1.84.2 (2019/07)
 
++ add: allow zip packages with "type=cudatext-package": installs all files+folders into root of CudaText, including any number of data/* and py/* subfolders
++ add: allow zip packages with data with _empty_ "subdir" field
 + add: lexer VBScript improved (better highlight keywords)
-+ add: allow zipped add-ons with data with _empty_ "subdir" field
-+ add: allow zipped add-ons with "type=cudatext-package" (installs all folders into root of CudaText)
 
 1.84.1 (2019/07)
 
