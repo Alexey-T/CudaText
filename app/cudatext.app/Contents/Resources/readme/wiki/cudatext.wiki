@@ -36,7 +36,7 @@ Screenshot on macOS Sierra:
 * SourceForge downloads: http://cudatext.sf.net
 * GitHub repository: https://github.com/Alexey-T/CudaText
 
-It has builds for Windows, Linux, Linux ARM (for Raspberry Pi 3), macOS, FreeBSD, Solaris.
+It has builds for Windows, Linux (x32, x64, ARM, AArch64), macOS, FreeBSD, NetBSD, Solaris.
 
 = Configs =
 
@@ -296,6 +296,8 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 
 * "linters". Sub-plugins for CudaLint plugin. Each supports some lexer (or several similar lexers). To use them, install CudaLint plugin, open your work file, and call CudaLint commands: it calls appropriate linter and shows colored bookmarks on error/warning lines.
 
+* "formatters". Sub-plugins for CudaFormatter plugin. Each supports one or several lexers and can reformat source code for these lexers. Examples: Python ReIndent, JS Sort Imports, AStyle Format.
+
 * "tree helpers": Plugins which show Code Tree structure for some lexer (useful if language is complex, and lexer cannot handle all language complexity).
 
 * "snippets". Collections of text fragments, for Snippets plugin. Install Snippets plugin first. Each addon supports some lexer(s). See details in the [[#Snippets]] topic.
@@ -318,13 +320,8 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 
 When CudaText runs in portable mode (executable file is located near folder "data"), then portable folders are used. Otherwise:
 
-In CudaText version 1.66 or older:
 * Windows: %AppData%\CudaText
-* Linux, macOS, FreeBSD: ~/.cudatext
-
-In CudaText version 1.67 or newer:
-* Windows: %AppData%\CudaText
-* Linux, FreeBSD, Solaris: ~/.config/cudatext, or $XDG_CONFIG_HOME/cudatext if variable set
+* Linux, *BSD, Solaris: ~/.config/cudatext, or $XDG_CONFIG_HOME/cudatext if variable set
 * macOS: ~/Library/Application Support/CudaText
 
 ==Encodings==
@@ -528,7 +525,7 @@ These snippets have markers, so Tab key jumps to the next marker. Last marker is
 Plugin "Snippet Panel" is preinstalled in CudaText. It gives an alternative way to use short text fragments (only simple ones) in editor. It adds button to sidebar, and command "Plugins - Snippet Panel". When called, plugin shows panel in the sidebar, with a drop-down list of folders, which contain several "snippets". You can double-click snippets to insert them into text (multi-carets are supported).
 
 Preinstalled folders:
- 
+
 * Arrows
 * Currency symbols
 * Greek alphabet (lower)
@@ -684,8 +681,8 @@ For old Windows XP, Python 3.4 or 3.3 must be used, you can get its files from S
 
  "pylib": "python33.dll",
 
-===Python on Linux, FreeBSD, Solaris===
-Linux/FreeBSD/Solaris version uses Python library from OS. Install Python 3.x (usually already installed). Instruction, if Python library was not automatically used:
+===Python on Linux, BSD, Solaris===
+Linux/*BSD/Solaris version uses Python library from OS. Install Python 3.x (usually already installed). Instruction, if Python library was not automatically used:
 
 * Open file manager, go to /usr
 * Search for "libpython3.*so*"
@@ -1068,6 +1065,35 @@ How to make translation zip package:
 * publish zip at CudaText forum or https://github.com/Alexey-T/CudaText/issues
 * if package ok, it will be at SF.net downloads, and in Addon Manager
 
+==How to make translation of Plugins menu==
+CudaText 1.84+ supports translation of Plugins menu items. For example, you have plugin with module cuda_nnn, which has "install.inf" with such menu items:
+
+ [item1]
+ ...
+ caption=MyPlugin\ItemOne
+ ...
+ [item2]
+ ...
+ caption=MyPlugin\SubMenu\ItemTwo
+ ...
+
+Then you need to create files like "ru_RU.ini" in the folder "data/langmenu/cuda_nnn". Create folder "langmenu" inside "data" if it's absent. Files must be in UTF-8 no BOM encoding. They must have section "menu". All items in the ini-file are optional.
+
+ [menu]
+ MyPlugin=local name
+ ItemOne=local name of item
+ ItemTwo=local name of item
+ SubMenu=local name of menu
+
+To distribute those translation(s), make zip file like "langmenu.MyPlugin.zip", which must have "install.inf" and folder "cuda_nnn" (you can put more folders, for several plugins, if you want so). Install.inf contents:
+
+ [info]
+ title=Translation of menu items of MyPlugin
+ type=cudatext-data
+ subdir=langmenu
+
+Submit that zip file to CudaText GutHub page, or post it to the forum.
+
 ==Color themes==
 Two kinds of themes exist:
 
@@ -1238,9 +1264,12 @@ To make such zip file, pack into zip also "install.inf" with meta-info.
 ** "linux", with optional CPU suffix
 ** "macos"
 ** "freebsd", with optional CPU suffix
+** "openbsd", with optional CPU suffix
+** "netbsd", with optional CPU suffix
+** "dragonfly", with optional CPU suffix
 ** "solaris", with optional CPU suffix
 
-CPU suffix is "-" char with one of the following names: i386, x86_64, arm, sparc. So for example Linux/x86 allows values "linux" and "linux-i386", Solaris/AMD64 allows values "solaris" and "solaris-x86_64".
+CPU suffix is "-" char followed by names: i386, x86_64, arm, aarch64, sparc. So for example Linux/x86 allows values "linux" and "linux-i386", Solaris/AMD64 allows values "solaris" and "solaris-x86_64".
 
 === Plugins ===
 

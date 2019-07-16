@@ -1,5 +1,0 @@
-name=include_once ...
-id=inc1
-lex=PHP_
-text=
-include_once '${1:file}';${0}

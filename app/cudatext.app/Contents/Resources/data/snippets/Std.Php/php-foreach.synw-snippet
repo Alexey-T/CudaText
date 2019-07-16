@@ -1,8 +1,0 @@
-name=<?php foreach (...) endforeach ?>
-id=foreach
-lex=PHP
-text=
-<?php foreach ($${1:variable} as $${2:key} => $${3:value}): ?>
-	${0}
-<?php endforeach ?>
-

@@ -1,5 +1,0 @@
-name=FILES['...']
-id=$_
-lex=PHP_
-text=
-$_FILES['${1:variable}']

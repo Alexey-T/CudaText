@@ -1,5 +1,0 @@
-name=SERVER['...']
-id=$_
-lex=PHP_
-text=
-$_SERVER['${1:variable}']

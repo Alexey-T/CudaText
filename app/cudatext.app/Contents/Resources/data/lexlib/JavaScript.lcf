@@ -1,4 +1,4 @@
-object SyntAnal10: TLibSyntAnalyzer
+object SyntAnal14: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -207,7 +207,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'HTML tag name'
       StyleName = 'HTML tag name'
       TokenType = 2
-      Expression = '(?<=</?\x20*)\w+(?=[\x20/>\n])'
+      Expression = '(?<=</?)\w+(?=[\x20/>\n])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -239,7 +239,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'Float'
       StyleName = 'Number'
       TokenType = 5
-      Expression =
+      Expression = 
         '\d[\d_]* (\.[\d_]*)? e [\+\-]? \d[\d_]*\b |'#13#10'\d[\d_]*\.[\d_]*\b ' +
         '|'#13#10'\.\d[\d_]*\b'
       ColumnFrom = 0
@@ -705,13 +705,13 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal17
+      SyntAnalyzer = SyntAnal22
     end
     item
       DisplayName = 'JSDoc'
       StartExpression = '/\*\*'
       EndExpression = '\*/'
-      SyntAnalyzer = SyntAnal27
+      SyntAnalyzer = SyntAnal15
       IncludeBounds = True
     end>
   SampleText.Strings = (
@@ -759,7 +759,7 @@ object SyntAnal10: TLibSyntAnalyzer
     ''
     'function css_in_js() {'
     '  return ('
-
+    
       '    <JssProvider jss={jss} generateClassName={generateClassName}' +
       '>'
     '      ...'

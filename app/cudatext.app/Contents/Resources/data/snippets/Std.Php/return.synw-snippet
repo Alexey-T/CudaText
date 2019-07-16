@@ -1,5 +1,0 @@
-name=return
-id=ret
-lex=PHP_
-text=
-return${1};${0}

@@ -3,6 +3,16 @@
   - fixed
   * changed
 
+1.84.2 (2019/07)
+
++ add: allow zip packages with "type=cudatext-package": installs all files+folders into root of CudaText, including any number of data/* and py/* subfolders
++ add: allow zip packages with data with _empty_ "subdir" field
++ add: lexer VBScript improved (better highlight keywords)
+
+1.84.1 (2019/07)
+
++ add: new framework appeared in add-ons: CudaFormatter. Addon Manager and Multi Installer support it.
+
 1.84.0 (2019/07)
 
 + add: on detecting lexer by file extention, if several lexers are Ok, menu dialog appears to choose lexer

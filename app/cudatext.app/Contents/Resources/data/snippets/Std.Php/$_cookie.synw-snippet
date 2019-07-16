@@ -1,5 +1,0 @@
-name=COOKIE['...']
-id=$_
-lex=PHP_
-text=
-$_COOKIE['${1:variable}']

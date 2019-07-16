@@ -144,7 +144,6 @@ PROP_GUTTER_STATES  = 0
 PROP_GUTTER_NUM     = 1
 PROP_GUTTER_FOLD    = 2
 PROP_GUTTER_BM      = 3
-PROP_EOL            = 4
 PROP_WRAP           = 5
 PROP_RO             = 6
 PROP_TAB_SPACES     = 7
@@ -188,7 +187,6 @@ PROP_MICROMAP              = 45
 PROP_LINK_AT_POS           = 46
 PROP_MODIFIED_VERSION      = 47
 PROP_TAB_ID                = 48
-PROP_COLUMN_LEFT           = 49
 PROP_COORDS                = 50
 PROP_ONE_LINE              = 51
 PROP_SCROLL_VERT           = 52
@@ -550,7 +548,6 @@ ANTIALIAS_NONE = 0
 ANTIALIAS_ON   = 1
 ANTIALIAS_OFF  = 2
 
-GAP_GET_LIST    = 0
 GAP_MAKE_BITMAP = 1
 GAP_ADD         = 2
 GAP_DELETE      = 3
@@ -1201,17 +1198,11 @@ class Editor:
     def folding(self, id, index=-1, item_x=-1, item_y=-1, item_y2=-1, item_staple=False, item_hint=''):
         return ct.ed_folding(self.h, id, index, item_x, item_y, item_y2, item_staple, item_hint)
 
-    def lexer_scan(self, num):
-        return ct.ed_lexer_scan(self.h, num)
-
     def get_wrapinfo(self):
         return ct.ed_get_wrapinfo(self.h)
 
     def action(self, id, param1='', param2='', param3=''):
         return ct.ed_action(self.h, id, to_str(param1), to_str(param2), to_str(param3))
-
-    def export_html(self, file_name, title, font_name, font_size, with_nums, color_bg, color_nums):
-        return ct.ed_export_html(self.h, file_name, title, font_name, font_size, with_nums, color_bg, color_nums)
 
     def __str__(self):
         return '<Editor id:{} title:"{}" gr:{} tab:{}>'.format(

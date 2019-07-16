@@ -9,9 +9,11 @@ This is API for [[CudaText]] in Python.
 
 =Event plugins=
 
-To make plugin react to events, add method to class Command (like methods of command plugin). E.g. method "on_save" will be called by editor event "on_save". Event methods have param "ed_self": Editor object in which event occured (this object is the same as "ed" in 99% cases, but in some cases event occurs in inactive editor, e.g. "Save all tabs" calls "on_save" for inactive tabs).
+To make plugin react to some program event, add method to class Command, and register this event in "install.inf" file of plugin. For example, method "on_save" will be called by program event "on_save" (plus install.inf must register "on_save"). Event methods have param "ed_self": this is Editor object in which event occured. This object is the same as object "ed" in most cases, but in some cases event occurs in inactive editor, e.g. command "Save all tabs" calls event "on_save" for inactive tabs.
 
-Usually methods returns None, sometimes they can return True or False to block the default  handler. The False result blocks propagation of event to other plugins, so don't return False if not nessesary.
+Another way to react to program events is dynamic subscribing to events in runtime. This way you don't need to register methods in install.inf. See description of PROC_SET_EVENTS in app_proc(). 
+
+Method return value is ignored is many cases, but sometimes return value True or False has special meaning. Usually the False return value blocks propagation of event to other plugins, so don't return False if not nessesary.
 
 ==General==
 
@@ -1985,7 +1987,6 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_GUTTER_NUM: bool: show gutter column "line numbers".
 * PROP_GUTTER_FOLD: bool: show gutter column "folding".
 * PROP_GUTTER_BM: bool: show gutter column "bookmarks".
-* deprecated: PROP_EOL: str: line-break chars. Currently always gets "\n" since it's ignored in "insert" method.
 * PROP_NEWLINE: str: kind of line endings. One of values "lf", "crlf", "cr".
 * PROP_WRAP: int: word-wrap mode. One of WRAP_nnn values.
 * PROP_RO: bool: read-only mode.
@@ -2004,9 +2005,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_LINE_TOP: int: index of line visible at the top of editor.
 * PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word wrap).
 
-* PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
 * PROP_SCROLL_VERT: int: approximate vertical scroll position. Index in WrapInfo list, you can read this list via get_wrapinfo().
-* PROP_SCROLL_HORZ: int: approximate horizontal scroll position. Same as PROP_COLUMN_LEFT.
+* PROP_SCROLL_HORZ: int: approximate horizontal scroll position.
 * PROP_SCROLL_VERT_SMOOTH: int: smooth vertical scroll position. In pixels.
 * PROP_SCROLL_HORZ_SMOOTH: int: smooth horizontal scroll position. In pixels.
 * PROP_SCROLL_VERT_INFO: int: dict with all available info about vertical scroll.
@@ -2126,9 +2126,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_LINE_STATE: 2-tuple: state of the line with given index. 2-tuple (line_index, LINESTATE_nnn).
 * PROP_LINE_STATES_UPDATED: currently supports writing only empty string value, writing it means clearing of "updated" flags for all lines.
 
-* PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
 * PROP_SCROLL_VERT: int: approximate vertical scroll position. Index in WrapInfo list, you can read this list via get_wrapinfo().
-* PROP_SCROLL_HORZ: int: approximate horizontal scroll position. Same as PROP_COLUMN_LEFT.
+* PROP_SCROLL_HORZ: int: approximate horizontal scroll position.
 * PROP_SCROLL_VERT_SMOOTH: int: smooth vertical scroll position. In pixels.
 * PROP_SCROLL_HORZ_SMOOTH: int: smooth horizontal scroll position. In pixels.
 
@@ -2538,8 +2537,6 @@ Function params:
 Performs action on inter-line gaps (they don't overlap text above/below).
 Possible values of "id":
 
-* deprecated: GAP_GET_LIST: Gets list of gaps. List of 4-tuples (line_index, tag, bitmap_width, bitmap_height), or None.
-
 * GAP_GET_ALL: Gets list of gaps. List of dict, or None. Dict keys are:
 ** "line": int: Line index; or -1 for gap before the first line.
 ** "tag": int: Tag.
@@ -2620,28 +2617,6 @@ Performs some action in editor. Possible values of "id":
 ** "with_numbers": bool: Show gutter with line numbers.
 ** "color_back": int: RGB color of page background.
 ** "color_numbers": int: RGB color of line numbers.
-
-===Editor.lexer_scan===
-
- lexer_scan(nline)
-
-Runs lexer analysis (if lexer active) from given line index. Waits until analysis finishes.
-
-Use case: plugin appends n lines to text (line by line), then lexer needs to rescan text from 1st added line, otherwise folding won't appear for these lines.
-
-===Editor.export_html===
-
- export_html(file_name, title, font_name, font_size, with_nums, color_bg, color_nums)
-
-Makes HTML file from source text with syntax highlighting. Gets bool: file is created. Params:
-
-* "file_name": str: Path of file.
-* "title": str: HTML page title.
-* "font_name": str: Font name.
-* "font_size": int: Font size, in HTML points.
-* "with_nums": bool: Show gutter with line numbers.
-* "color_bg": int: RGB color of page background.
-* "color_nums": int: RGB color of line numbers.
 
 =TreeHelpers=
 
@@ -3545,5 +3520,14 @@ def project_variables():
 1.0.292 (app 1.83.2)
 * add: Editor.action: EDACTION_UPDATE
 * add: Editor.action: EDACTION_SHOW_POS
+
+1.0.293 (app 1.84.2)
+* removed deprecated: Editor.lexer_scan
+* removed deprecated: Editor.export_html
+* removed deprecated: PROP_COLUMN_LEFT
+* removed deprecated: GAP_GET_LIST
+* removed deprecated: PROP_EOL
+* add: install.inf support for data with empty "subdir"
+* add: install.inf support for "type=cudatext-package"
 
 [[Category:CudaText]]

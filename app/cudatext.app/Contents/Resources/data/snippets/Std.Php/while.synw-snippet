@@ -1,8 +1,0 @@
-name=while ...
-id=while
-lex=PHP_
-text=
-while ($${1:var} <= ${2}) {
-	${0:# code...}
-}
-

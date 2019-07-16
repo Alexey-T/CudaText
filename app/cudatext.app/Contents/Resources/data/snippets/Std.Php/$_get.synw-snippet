@@ -1,5 +1,0 @@
-name=GET['...']
-id=$_
-lex=PHP_
-text=
-$_GET['${1:variable}']

@@ -1,5 +1,0 @@
-name=echo "..."
-id=echo
-lex=PHP_
-text=
-echo "${1:string}"${0};
