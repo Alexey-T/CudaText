@@ -2706,8 +2706,6 @@ begin
           Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandFolding].Visible));
         PROP_GUTTER_BM:
           Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandBookmarks].Visible));
-        PROP_EOL:
-          Result:= PyString_FromString(#10);
         PROP_WRAP:
           Result:= PyInt_FromLong(Ord(Ed.OptWrapMode));
         PROP_RO:

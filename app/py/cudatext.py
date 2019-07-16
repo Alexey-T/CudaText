@@ -144,7 +144,6 @@ PROP_GUTTER_STATES  = 0
 PROP_GUTTER_NUM     = 1
 PROP_GUTTER_FOLD    = 2
 PROP_GUTTER_BM      = 3
-PROP_EOL            = 4
 PROP_WRAP           = 5
 PROP_RO             = 6
 PROP_TAB_SPACES     = 7
