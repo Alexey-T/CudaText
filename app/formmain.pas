@@ -5005,6 +5005,9 @@ begin
     begin
       AppLangName:= Items[NResult];
       DoLocalize;
+
+      if DirectoryExists(GetAppPath(cDirData)+DirectorySeparator+'langmenu') then
+        MsgBox('Translation of Plugins menu will be applied after program restart', MB_OK or MB_ICONINFORMATION);
     end;
 
     DoPyEvent(CurrentEditor, cEventOnState, [IntToStr(APPSTATE_LANG)]);
