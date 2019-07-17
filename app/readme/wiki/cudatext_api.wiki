@@ -153,7 +153,7 @@ Note: to get path of dir "settings_default", use base dir of "settings".
 
 ===app_proc===
 
- app_proc(id, text)
+ app_proc(id, text="")
 
 Performs application-wide action.
 
@@ -3522,6 +3522,7 @@ def project_variables():
 * add: Editor.action: EDACTION_SHOW_POS
 
 1.0.293 (app 1.84.2)
+* change: app_proc: param "text" is now optional
 * removed deprecated: Editor.lexer_scan
 * removed deprecated: Editor.export_html
 * removed deprecated: PROP_COLUMN_LEFT
