@@ -1,4 +1,7 @@
 
+2019.07.17
++ added config file with few options: show_index_group, show_index_tab, font_name, font_size
+
 2017.06.08
 + command "Config" which shows dialog
 
@@ -11,7 +14,7 @@
 
 2016.04.21
 + auto-load on start
-- fix for "Find in files"
+- fix for "Find in Files"
 
 2016.02
-init
+initial version
