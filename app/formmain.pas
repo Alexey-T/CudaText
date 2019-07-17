@@ -2218,15 +2218,8 @@ begin
 end;
 
 procedure TfmMain.FormResize(Sender: TObject);
-var
-  i: integer;
 begin
   FixMainLayout;
-
-  for i:= 0 to High(TATGroupsNums) do
-    with Groups.Pages[i] do
-      if Tabs.TabIndex>=0 then
-        Tabs.MakeVisible(Tabs.TabIndex);
 end;
 
 procedure TfmMain.FixMainLayout;
