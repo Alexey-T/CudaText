@@ -7,7 +7,7 @@
 
 + add: allow zip packages with "type=cudatext-package": installs all files+folders into root of CudaText, including any number of data/* and py/* subfolders
 + add: allow zip packages with data with _empty_ "subdir" field
-+ add: plugin Tabs List have config file with options "show_index_group", "show_index_tab"
++ add: Tabs List: added config file with few options: show_index_group, show_index_tab, font_name, font_size
 + add: lexer VBScript improved (better highlight keywords)
 
 1.84.1 (2019/07)
