@@ -121,7 +121,6 @@ type
     tabOptionMultiline,
     tabOptionAnimationEn,
     tabOptionAnimationPause,
-    tabOptionAngled,
     tabOptionFontSize,
     tabOptionPosition,
     tabOptionShowFlat,
@@ -1754,7 +1753,6 @@ begin
         tabOptionMultiline:        OptMultiline:= Boolean(N);
         tabOptionAnimationEn:      OptAnimationEnabled:= Boolean(N);
         tabOptionAnimationPause:   OptAnimationPause:= N;
-        tabOptionAngled:           OptShowAngled:= Boolean(N);
         tabOptionShowFlat:         OptShowFlat:= Boolean(N);
         tabOptionShowTabs:         Visible:= Boolean(N);
         tabOptionShowXButtons:     OptShowXButtons:= TATTabShowClose(N);
