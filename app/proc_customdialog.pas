@@ -73,6 +73,14 @@ const
   cControlBorderStyles: array[boolean] of TBorderStyle = (bsNone, bsSingle);
 
 
+function DoControl_Target(C: TControl): TControl; inline;
+begin
+  if C is TAppTreeContainer then
+    Result:= TAppTreeContainer(C).Tree
+  else
+    Result:= C;
+end;
+
 function DoControl_IsAutoHeight(C: TControl): boolean;
 begin
   Result:=
@@ -1654,40 +1662,36 @@ begin
 
   if AName='color' then
   begin
-    if C is TAppTreeContainer then
-      TAppTreeContainer(C).Tree.Color:= StrToIntDef(AValue, C.Color)
-    else
-      C.Color:= StrToIntDef(AValue, C.Color);
+    with DoControl_Target(C) do
+      Color:= StrToIntDef(AValue, Color);
     exit;
   end;
 
   if AName='font_name' then
   begin
-    if C is TAppTreeContainer then
-      TAppTreeContainer(C).Tree.Font.Name:= AValue
-    else
-      C.Font.Name:= AValue;
+    with DoControl_Target(C) do
+      Font.Name:= AValue;
     exit;
   end;
 
   if AName='font_size' then
   begin
-    if C is TAppTreeContainer then
-      TAppTreeContainer(C).Tree.Font.Size:= StrToIntDef(AValue, C.Font.Size)
-    else
-      C.Font.Size:= StrToIntDef(AValue, C.Font.Size);
+    with DoControl_Target(C) do
+      Font.Size:= StrToIntDef(AValue, Font.Size);
     exit;
   end;
 
   if AName='font_color' then
   begin
-    C.Font.Color:= StrToIntDef(AValue, C.Font.Color);
+    with DoControl_Target(C) do
+      Font.Color:= StrToIntDef(AValue, Font.Color);
     exit;
   end;
 
   if AName='font_style' then
   begin
-    C.Font.Style:= StringToFontStyles(AValue);
+    with DoControl_Target(C) do
+      Font.Style:= StringToFontStyles(AValue);
     exit;
   end;
 

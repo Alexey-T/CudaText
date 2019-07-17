@@ -49,6 +49,10 @@ class Command:
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
 
+        self.h_tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
+        tree_proc(self.h_tree, TREE_PROP_SHOW_ROOT, 0, 0, '0')
+        tree_proc(self.h_tree, TREE_THEME)
+
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
             'name':'tree',
             'a_r':('',']'), #anchor to entire form: l,r,t,b
@@ -60,10 +64,6 @@ class Command:
             #'font_color': self.get_color_font(),
             #'color': self.get_color_back(),
             } )
-
-        self.h_tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
-        tree_proc(self.h_tree, TREE_PROP_SHOW_ROOT, 0, 0, '0')
-        tree_proc(self.h_tree, TREE_THEME)
 
         app_proc(PROC_SIDEPANEL_ADD_DIALOG, (self.title, self.h_dlg, fn_icon))
 
