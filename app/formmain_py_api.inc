@@ -3452,7 +3452,10 @@ begin
               NIndexNew:= ValueInt;
               GetFrameLocation(F, Gr, Pages, NLocalGroup, NGlobalGroup, NTab);
               if NTab>=0 then
+              begin
                 Pages.Tabs.MoveTab(NTab, NIndexNew, true);
+                fmMain.DoPyEvent(Ed, cEventOnTabMove, []);
+              end;
             end;
           end;
 
