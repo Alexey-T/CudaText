@@ -8,6 +8,8 @@ fn_icon = 'tabs.png'
 def bool_to_str(v): return '1' if v else '0'
 def str_to_bool(s): return s=='1'
 
+THEME = app_proc(PROC_THEME_UI_DATA_GET, '')
+
 class Command:
     title = 'Tabs'
     h_dlg = None
@@ -16,6 +18,8 @@ class Command:
     busy_update = False
     show_index_group = False
     show_index_tab = False
+    font_name = 'default'
+    font_size = 10
 
     def __init__(self):
         self.load_ops()
@@ -23,10 +27,14 @@ class Command:
     def load_ops(self):
         self.show_index_group = str_to_bool(ini_read(fn_config, 'op', 'show_index_group', '0'))
         self.show_index_tab = str_to_bool(ini_read(fn_config, 'op', 'show_index_tab', '0'))
+        self.font_name = ini_read(fn_config, 'op', 'font_name', self.font_name)
+        self.font_size = int(ini_read(fn_config, 'op', 'font_size', str(self.font_size)))
 
     def save_ops(self):
         ini_write(fn_config, 'op', 'show_index_group', bool_to_str(self.show_index_group))
         ini_write(fn_config, 'op', 'show_index_tab', bool_to_str(self.show_index_tab))
+        ini_write(fn_config, 'op', 'font_name', self.font_name)
+        ini_write(fn_config, 'op', 'font_size', str(self.font_size))
 
     def open(self):
 
@@ -40,17 +48,22 @@ class Command:
         self.h_dlg = dlg_proc(0, DLG_CREATE)
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
+
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
             'name':'tree',
             'a_r':('',']'), #anchor to entire form: l,r,t,b
             'a_b':('',']'),
             'on_select': 'cuda_tabs_list.tree_on_sel',
             'on_menu': 'cuda_tabs_list.tree_on_menu',
+            'font_name': self.font_name,
+            'font_size': self.font_size,
+            #'font_color': self.get_color_font(),
+            #'color': self.get_color_back(),
             } )
 
         self.h_tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
-        tree_proc(self.h_tree, TREE_THEME)
         tree_proc(self.h_tree, TREE_PROP_SHOW_ROOT, 0, 0, '0')
+        tree_proc(self.h_tree, TREE_THEME)
 
         app_proc(PROC_SIDEPANEL_ADD_DIALOG, (self.title, self.h_dlg, fn_icon))
 
@@ -154,3 +167,13 @@ class Command:
     def config(self):
         self.save_ops()
         file_open(fn_config)
+
+    def get_color_font(self):
+        for i in THEME:
+            if i['name']=='ListFont':
+                return i['color']
+
+    def get_color_back(self):
+        for i in THEME:
+            if i['name']=='ListBg':
+                return i['color']
