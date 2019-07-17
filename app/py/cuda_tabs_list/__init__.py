@@ -2,7 +2,11 @@ import os
 from cudatext import *
 import cudatext_cmd
 
+fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_tabs_list.ini')
 fn_icon = 'tabs.png'
+
+def bool_to_str(v): return '1' if v else '0'
+def str_to_bool(s): return s=='1'
 
 class Command:
     title = 'Tabs'
@@ -10,9 +14,19 @@ class Command:
     h_tree = None
     h_menu = None
     busy_update = False
+    show_index_group = False
+    show_index_tab = False
 
     def __init__(self):
-        pass
+        self.load_ops()
+
+    def load_ops(self):
+        self.show_index_group = str_to_bool(ini_read(fn_config, 'op', 'show_index_group', '0'))
+        self.show_index_tab = str_to_bool(ini_read(fn_config, 'op', 'show_index_tab', '0'))
+
+    def save_ops(self):
+        ini_write(fn_config, 'op', 'show_index_group', bool_to_str(self.show_index_group))
+        ini_write(fn_config, 'op', 'show_index_tab', bool_to_str(self.show_index_tab))
 
     def open(self):
 
@@ -70,8 +84,24 @@ class Command:
         for h in handles:
             edit = Editor(h)
             image_index = h-handles[0]
+
             #prefix_mod = '*' if edit.get_prop(PROP_MODIFIED) else ''
-            name = edit.get_prop(PROP_TAB_TITLE)
+
+            prefix = ''
+            show_g = self.show_index_group and app_proc(PROC_GET_GROUPING, '')>GROUPS_ONE
+            show_t = self.show_index_tab
+
+            if show_g or show_t:
+                n_group = edit.get_prop(PROP_INDEX_GROUP)+1
+                n_tab = edit.get_prop(PROP_INDEX_TAB)+1
+                if show_g and show_t:
+                    prefix = '[g%d/%d] '%(n_group, n_tab)
+                elif show_g:
+                    prefix = '[g%d] '%n_group
+                elif show_t:
+                    prefix = '[%d] '%n_tab
+
+            name = prefix+edit.get_prop(PROP_TAB_TITLE)
             h_item = tree_proc(self.h_tree, TREE_ITEM_ADD, 0, -1, name, image_index)
             if edit.get_prop(PROP_TAG)=='tag':
                 tree_proc(self.h_tree, TREE_ITEM_SELECT, h_item)
@@ -120,3 +150,7 @@ class Command:
     def tree_on_menu(self, id_dlg, id_ctl, data='', info=''):
         if self.h_menu is None: return
         menu_proc(self.h_menu, MENU_SHOW, command='')
+
+    def config(self):
+        self.save_ops()
+        file_open(fn_config)
