@@ -1663,13 +1663,19 @@ begin
 
   if AName='font_name' then
   begin
-    C.Font.Name:= AValue;
+    if C is TAppTreeContainer then
+      TAppTreeContainer(C).Tree.Font.Name:= AValue
+    else
+      C.Font.Name:= AValue;
     exit;
   end;
 
   if AName='font_size' then
   begin
-    C.Font.Size:= StrToIntDef(AValue, C.Font.Size);
+    if C is TAppTreeContainer then
+      TAppTreeContainer(C).Tree.Font.Size:= StrToIntDef(AValue, C.Font.Size)
+    else
+      C.Font.Size:= StrToIntDef(AValue, C.Font.Size);
     exit;
   end;
 
