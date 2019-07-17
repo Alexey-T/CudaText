@@ -779,7 +779,7 @@ def app_api_version():
 def app_path(id):
     return ct.app_path(id)
 
-def app_proc(id, text=''):
+def app_proc(id, text):
     return ct.app_proc(id, to_str(text))
 
 def app_log(id, text, tag=0, panel=''):
