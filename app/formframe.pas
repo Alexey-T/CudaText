@@ -401,6 +401,7 @@ procedure GetFrameLocation(Frame: TEditorFrame;
   out AGroups: TATGroups; out APages: TATPages;
   out ALocalGroupIndex, AGlobalGroupIndex, ATabIndex: integer);
 begin
+  Assert(Assigned(Frame.Parent));
   APages:= Frame.GetTabPages;
   AGroups:= Frame.GetTabGroups;
   AGroups.PagesAndTabIndexOfControl(Frame, ALocalGroupIndex, ATabIndex);

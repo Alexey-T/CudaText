@@ -5035,7 +5035,7 @@ var
   NLocalGroup: integer;
 begin
   Frame:= GetEditorFrame(Ed);
-  if Assigned(Frame) then
+  if Assigned(Frame) and Assigned(Frame.Parent) then
     GetFrameLocation(Frame, Gr, Pages, NLocalGroup, AGroupIndex, ATabIndex)
   else
   begin
