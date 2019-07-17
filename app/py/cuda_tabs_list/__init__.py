@@ -108,11 +108,11 @@ class Command:
                 n_group = edit.get_prop(PROP_INDEX_GROUP)+1
                 n_tab = edit.get_prop(PROP_INDEX_TAB)+1
                 if show_g and show_t:
-                    prefix = '[g%d/%d] '%(n_group, n_tab)
+                    prefix = '%d:%d. '%(n_group, n_tab)
                 elif show_g:
-                    prefix = '[g%d] '%n_group
+                    prefix = '%d: '%n_group
                 elif show_t:
-                    prefix = '[%d] '%n_tab
+                    prefix = '%d. '%n_tab
 
             name = prefix+edit.get_prop(PROP_TAB_TITLE)
             h_item = tree_proc(self.h_tree, TREE_ITEM_ADD, 0, -1, name, image_index)
