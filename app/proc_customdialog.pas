@@ -1654,7 +1654,10 @@ begin
 
   if AName='color' then
   begin
-    C.Color:= StrToIntDef(AValue, C.Color);
+    if C is TAppTreeContainer then
+      TAppTreeContainer(C).Tree.Color:= StrToIntDef(AValue, C.Color)
+    else
+      C.Color:= StrToIntDef(AValue, C.Color);
     exit;
   end;
 
