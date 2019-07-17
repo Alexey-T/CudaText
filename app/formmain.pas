@@ -2626,7 +2626,7 @@ begin
   G.SetTabOption(tabOptionShowHint, 1);
   G.SetTabOption(tabOptionVarWidth, Ord(UiOps.TabVarWidth));
   G.SetTabOption(tabOptionMultiline, Ord(UiOps.TabMultiline));
-  G.SetTabOption(tabOptionAngled, Ord(UiOps.TabAngled));
+  G.SetTabOption(tabOptionSpaceSide, IfThen(UiOps.TabAngled, 10, 0));
   G.SetTabOption(tabOptionSpaceInitial, IfThen(UiOps.TabAngled, 10, 4));
   G.SetTabOption(tabOptionSpaceBetweenTabs, IfThen(UiOps.TabAngled, 4, 0));
   G.SetTabOption(tabOptionShowFlat, Ord(UiOps.TabFlat));
