@@ -101,16 +101,20 @@ class Command:
             #prefix_mod = '*' if edit.get_prop(PROP_MODIFIED) else ''
 
             prefix = ''
-            show_g = self.show_index_group and app_proc(PROC_GET_GROUPING, '')>GROUPS_ONE
+            show_g = self.show_index_group
             show_t = self.show_index_tab
 
             if show_g or show_t:
                 n_group = edit.get_prop(PROP_INDEX_GROUP)+1
+                if n_group<=6:
+                    s_group = str(n_group)
+                else:
+                    s_group = 'f'+str(n_group-6) 
                 n_tab = edit.get_prop(PROP_INDEX_TAB)+1
                 if show_g and show_t:
-                    prefix = '%d:%d. '%(n_group, n_tab)
+                    prefix = '%s:%d. '%(s_group, n_tab)
                 elif show_g:
-                    prefix = '%d: '%n_group
+                    prefix = '%s: '%s_group
                 elif show_t:
                     prefix = '%d. '%n_tab
 
