@@ -18,6 +18,7 @@ class Command:
     busy_update = False
     show_index_group = False
     show_index_tab = False
+    show_index_aligned = False
     font_name = 'default'
     font_size = 10
 
@@ -27,12 +28,14 @@ class Command:
     def load_ops(self):
         self.show_index_group = str_to_bool(ini_read(fn_config, 'op', 'show_index_group', '0'))
         self.show_index_tab = str_to_bool(ini_read(fn_config, 'op', 'show_index_tab', '0'))
+        self.show_index_aligned = str_to_bool(ini_read(fn_config, 'op', 'show_index_aligned', '0'))
         self.font_name = ini_read(fn_config, 'op', 'font_name', self.font_name)
         self.font_size = int(ini_read(fn_config, 'op', 'font_size', str(self.font_size)))
 
     def save_ops(self):
         ini_write(fn_config, 'op', 'show_index_group', bool_to_str(self.show_index_group))
         ini_write(fn_config, 'op', 'show_index_tab', bool_to_str(self.show_index_tab))
+        ini_write(fn_config, 'op', 'show_index_aligned', bool_to_str(self.show_index_aligned))
         ini_write(fn_config, 'op', 'font_name', self.font_name)
         ini_write(fn_config, 'op', 'font_size', str(self.font_size))
 
@@ -94,6 +97,11 @@ class Command:
 
         ed.set_prop(PROP_TAG, 'tag')
         handles = ed_handles()
+
+        hh = list(handles)
+        count = hh[-1]-hh[0]+1
+        format_len = 1 if count<10 else 2 if count<100 else 3 if count<1000 else 4
+
         for h in handles:
             edit = Editor(h)
             image_index = h-handles[0]
@@ -109,14 +117,19 @@ class Command:
                 if n_group<=6:
                     s_group = str(n_group)
                 else:
-                    s_group = 'f'+str(n_group-6) 
+                    s_group = 'f'+str(n_group-6)
                 n_tab = edit.get_prop(PROP_INDEX_TAB)+1
+                s_tab = str(n_tab)
+                if self.show_index_aligned:
+                    if len(s_tab)<format_len:
+                        s_tab = ' '*(format_len-len(s_tab))+s_tab
+
                 if show_g and show_t:
-                    prefix = '%s:%d. '%(s_group, n_tab)
+                    prefix = '%s:%s. '%(s_group, s_tab)
                 elif show_g:
                     prefix = '%s: '%s_group
                 elif show_t:
-                    prefix = '%d. '%n_tab
+                    prefix = '%s. '%s_tab
 
             name = prefix+edit.get_prop(PROP_TAB_TITLE)
             h_item = tree_proc(self.h_tree, TREE_ITEM_ADD, 0, -1, name, image_index)
