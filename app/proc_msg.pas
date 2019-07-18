@@ -177,6 +177,9 @@ const
   msgStatusbarHintInsOvr: string = 'Insert/Overwrite mode';
   msgStatusbarHintWrap: string = 'Word wrap (off, by window, by fixed margin)';
 
+  msgStatusI18nEnglishAfterRestart: string = 'English translation will be applied after program restart';
+  msgStatusI18nPluginsMenuAfterRestart: string = 'Translation of Plugins menu will be applied after program restart';
+
   msgStatusPluginHotkeyBusy: string = 'Warning: hotkey [%s] is busy, it was not set';
   msgStatusSyntaxThemesOff: string = 'Syntax themes are turned off by option "ui_lexer_themes": false. So the following dialog will have no effect. To customize styles, use "Lexer properties" dialog.';
   msgStatusIncorrectInstallInfInZip: string = 'Incorrect install.inf in zip';

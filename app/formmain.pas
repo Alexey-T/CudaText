@@ -5000,7 +5000,7 @@ begin
     if Items[NResult]=cEnLang then
     begin
       AppLangName:= '';
-      MsgBox('English translation will be applied after program restart', MB_OK or MB_ICONINFORMATION);
+      MsgBox(msgStatusI18nEnglishAfterRestart, MB_OK or MB_ICONINFORMATION);
     end
     else
     begin
@@ -5008,7 +5008,7 @@ begin
       DoLocalize;
 
       if DirectoryExists(GetAppPath(cDirData)+DirectorySeparator+'langmenu') then
-        MsgBox('Translation of Plugins menu will be applied after program restart', MB_OK or MB_ICONINFORMATION);
+        MsgBox(msgStatusI18nPluginsMenuAfterRestart, MB_OK or MB_ICONINFORMATION);
     end;
 
     DoPyEvent(CurrentEditor, cEventOnState, [IntToStr(APPSTATE_LANG)]);
