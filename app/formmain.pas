@@ -571,7 +571,6 @@ type
     FBoundsFloatGroups2: TRect;
     FBoundsFloatGroups3: TRect;
     FListRecents: TStringList;
-    FListLangs: TStringList;
     FListTimers: TStringList;
     FConsoleQueue: TAppConsoleQueue;
     FKeymapUndoList: TATKeymapUndoList;
@@ -1833,7 +1832,6 @@ begin
   FMenuVisible:= true;
   FSessionName:= '';
   FListRecents:= TStringList.Create;
-  FListLangs:= TStringList.Create;
   FListTimers:= TStringList.Create;
   FConsoleQueue:= TAppConsoleQueue.Create;
 
@@ -2128,7 +2126,6 @@ begin
   FreeAndNil(FListTimers);
 
   FreeAndNil(FListRecents);
-  FreeAndNil(FListLangs);
   FreeAndNil(FConsoleQueue);
   FreeAndNil(FKeymapUndoList);
 end;
@@ -4971,40 +4968,40 @@ procedure TfmMain.DoDialogMenuTranslations;
 const
   cEnLang = 'en (built-in)';
 var
-  Items: TStringList;
+  ListFiles, ListNames: TStringList;
   NResult, NItemIndex, i: integer;
   S: string;
 begin
-  FListLangs.Clear;
-  FindAllFiles(FListLangs, GetAppPath(cDirDataLangs), '*.ini', false);
-  if FListLangs.Count=0 then exit;
-  FListLangs.Sort;
-
-  Items:= TStringList.Create;
+  ListFiles:= TStringList.Create;
+  ListNames:= TStringList.Create;
   try
-    Items.Add(cEnLang);
-    for i:= 0 to FListLangs.Count-1 do
+    FindAllFiles(ListFiles, GetAppPath(cDirDataLangs), '*.ini', false);
+    if ListFiles.Count=0 then exit;
+    ListFiles.Sort;
+
+    ListNames.Add(cEnLang);
+    for i:= 0 to ListFiles.Count-1 do
     begin
-      S:= ExtractFileNameOnly(FListLangs[i]);
+      S:= ExtractFileNameOnly(ListFiles[i]);
       if S='translation template' then Continue;
-      Items.Add(S);
+      ListNames.Add(S);
     end;
 
-    NItemIndex:= Items.IndexOf(AppLangName);
+    NItemIndex:= ListNames.IndexOf(AppLangName);
     if NItemIndex<0 then
       NItemIndex:= 0;
 
-    NResult:= DoDialogMenuList(msgMenuTranslations, Items, NItemIndex);
+    NResult:= DoDialogMenuList(msgMenuTranslations, ListNames, NItemIndex);
     if NResult<0 then exit;
 
-    if Items[NResult]=cEnLang then
+    if ListNames[NResult]=cEnLang then
     begin
       AppLangName:= '';
       MsgBox(msgStatusI18nEnglishAfterRestart, MB_OK or MB_ICONINFORMATION);
     end
     else
     begin
-      AppLangName:= Items[NResult];
+      AppLangName:= ListNames[NResult];
       DoLocalize;
 
       if DirectoryExists(GetAppPath(cDirData)+DirectorySeparator+'langmenu') then
@@ -5013,7 +5010,8 @@ begin
 
     DoPyEvent(CurrentEditor, cEventOnState, [IntToStr(APPSTATE_LANG)]);
   finally
-   FreeAndNil(Items);
+    FreeAndNil(ListNames);
+    FreeAndNil(ListFiles);
   end;
 end;
 
