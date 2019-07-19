@@ -11,8 +11,14 @@ events=on_focus~,on_open~,on_tab_move~,on_state~
 
 [item2]
 section=commands
-caption=Tabs List
+caption=Tabs List\Open
 method=open
+
+[item10]
+section=commands
+caption=Tabs List\Config
+method=config
+menu=o
 
 [sidebar1]
 hint=Tabs

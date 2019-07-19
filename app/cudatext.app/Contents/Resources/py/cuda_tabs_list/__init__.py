@@ -2,7 +2,13 @@ import os
 from cudatext import *
 import cudatext_cmd
 
+fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_tabs_list.ini')
 fn_icon = 'tabs.png'
+
+def bool_to_str(v): return '1' if v else '0'
+def str_to_bool(s): return s=='1'
+
+THEME = app_proc(PROC_THEME_UI_DATA_GET, '')
 
 class Command:
     title = 'Tabs'
@@ -10,9 +16,28 @@ class Command:
     h_tree = None
     h_menu = None
     busy_update = False
+    show_index_group = False
+    show_index_tab = False
+    show_index_aligned = False
+    font_name = 'default'
+    font_size = 10
 
     def __init__(self):
-        pass
+        self.load_ops()
+
+    def load_ops(self):
+        self.show_index_group = str_to_bool(ini_read(fn_config, 'op', 'show_index_group', '0'))
+        self.show_index_tab = str_to_bool(ini_read(fn_config, 'op', 'show_index_tab', '0'))
+        self.show_index_aligned = str_to_bool(ini_read(fn_config, 'op', 'show_index_aligned', '0'))
+        self.font_name = ini_read(fn_config, 'op', 'font_name', self.font_name)
+        self.font_size = int(ini_read(fn_config, 'op', 'font_size', str(self.font_size)))
+
+    def save_ops(self):
+        ini_write(fn_config, 'op', 'show_index_group', bool_to_str(self.show_index_group))
+        ini_write(fn_config, 'op', 'show_index_tab', bool_to_str(self.show_index_tab))
+        ini_write(fn_config, 'op', 'show_index_aligned', bool_to_str(self.show_index_aligned))
+        ini_write(fn_config, 'op', 'font_name', self.font_name)
+        ini_write(fn_config, 'op', 'font_size', str(self.font_size))
 
     def open(self):
 
@@ -26,17 +51,22 @@ class Command:
         self.h_dlg = dlg_proc(0, DLG_CREATE)
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
+
+        self.h_tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
+        tree_proc(self.h_tree, TREE_PROP_SHOW_ROOT, 0, 0, '0')
+        tree_proc(self.h_tree, TREE_THEME)
+
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
             'name':'tree',
             'a_r':('',']'), #anchor to entire form: l,r,t,b
             'a_b':('',']'),
             'on_select': 'cuda_tabs_list.tree_on_sel',
             'on_menu': 'cuda_tabs_list.tree_on_menu',
+            'font_name': self.font_name,
+            'font_size': self.font_size,
+            #'font_color': self.get_color_font(),
+            #'color': self.get_color_back(),
             } )
-
-        self.h_tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
-        tree_proc(self.h_tree, TREE_THEME)
-        tree_proc(self.h_tree, TREE_PROP_SHOW_ROOT, 0, 0, '0')
 
         app_proc(PROC_SIDEPANEL_ADD_DIALOG, (self.title, self.h_dlg, fn_icon))
 
@@ -67,11 +97,41 @@ class Command:
 
         ed.set_prop(PROP_TAG, 'tag')
         handles = ed_handles()
+
+        hh = list(handles)
+        count = hh[-1]-hh[0]+1
+        format_len = 1 if count<10 else 2 if count<100 else 3 if count<1000 else 4
+
         for h in handles:
             edit = Editor(h)
             image_index = h-handles[0]
+
             #prefix_mod = '*' if edit.get_prop(PROP_MODIFIED) else ''
-            name = edit.get_prop(PROP_TAB_TITLE)
+
+            prefix = ''
+            show_g = self.show_index_group
+            show_t = self.show_index_tab
+
+            if show_g or show_t:
+                n_group = edit.get_prop(PROP_INDEX_GROUP)+1
+                if n_group<=6:
+                    s_group = str(n_group)
+                else:
+                    s_group = 'f'+str(n_group-6)
+                n_tab = edit.get_prop(PROP_INDEX_TAB)+1
+                s_tab = str(n_tab)
+                if self.show_index_aligned:
+                    if len(s_tab)<format_len:
+                        s_tab = ' '*(format_len-len(s_tab))+s_tab
+
+                if show_g and show_t:
+                    prefix = '%s:%s. '%(s_group, s_tab)
+                elif show_g:
+                    prefix = '%s: '%s_group
+                elif show_t:
+                    prefix = '%s. '%s_tab
+
+            name = prefix+edit.get_prop(PROP_TAB_TITLE)
             h_item = tree_proc(self.h_tree, TREE_ITEM_ADD, 0, -1, name, image_index)
             if edit.get_prop(PROP_TAG)=='tag':
                 tree_proc(self.h_tree, TREE_ITEM_SELECT, h_item)
@@ -120,3 +180,17 @@ class Command:
     def tree_on_menu(self, id_dlg, id_ctl, data='', info=''):
         if self.h_menu is None: return
         menu_proc(self.h_menu, MENU_SHOW, command='')
+
+    def config(self):
+        self.save_ops()
+        file_open(fn_config)
+
+    def get_color_font(self):
+        for i in THEME:
+            if i['name']=='ListFont':
+                return i['color']
+
+    def get_color_back(self):
+        for i in THEME:
+            if i['name']=='ListBg':
+                return i['color']
