@@ -1711,17 +1711,14 @@ begin
 
   {$ifdef windows}
   if IsSetToOneInstance then
-  begin
-    FInstanceManage := TInstanceManage.Create(AppUniqueUID);
-    FInstanceManage.Check;
-    case FInstanceManage.Status of
-      isFirst:
-        begin
-          FInstanceManage.SetFormHandleForActivate(Self.Handle);
-          FInstanceManage.OnSecondInstanceStarted := @SecondInstance;
-        end;
-    end;
-  end;
+    with TInstanceManage.GetInstance do
+      case Status of
+        isFirst:
+          begin
+            SetFormHandleForActivate(Self.Handle);
+            OnSecondInstanceSentData := @SecondInstance;
+          end;
+      end;
   {$endif}
 
   FBoundsFloatSide:= Rect(650, 50, 900, 700);
@@ -2115,11 +2112,6 @@ begin
   //ImageListTabs.Clear;
   //ImageListTree.Clear;
   //ImageListToolbar.Clear;
-
-  {$ifdef windows}
-  if Assigned(FInstanceManage) then
-    FInstanceManage.Free;
-  {$ifend}
 
   for i:= 0 to FListTimers.Count-1 do
     TTimer(FListTimers.Objects[i]).Enabled:= false;
