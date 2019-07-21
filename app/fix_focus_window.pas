@@ -48,37 +48,43 @@ type
 
   { TInstanceManager }
   TInstanceStatus = (isNotChecked, isFirst, isSecond);
-  TSecondInstanceStartedEvent = procedure(const SentFromSecondInstance: TBytes) of object;
+  TSecondInstanceSentDataEvent = procedure(const SentFromSecondInstance: TBytes) of object;
   TInstanceManage = class(TObject)
+  strict private
+    class var FInstance: TInstanceManage;
+    class var FSingletonCreate: boolean;
+    class constructor Create;
+    class destructor Destroy;
   strict private
     FDataPFS: TPageFileStream;
     FDataPFSName: UnicodeString;
     FEventHandler: PEventHandler;
-    FOnSecondInstanceStarted: TSecondInstanceStartedEvent;
+    FOnSecondInstanceSentData: TSecondInstanceSentDataEvent;
     FStatus: TInstanceStatus;
     FUniqueAppId: String;
-    FWakeupEvent: THandle;
-    FWakeupEventName: UnicodeString;
+    FSyncMutex: THandle;
+    FSyncMutexName: UnicodeString;
+    FDataSentEvent: THandle;
+    FDataSentEventName: UnicodeString;
+    FDataProcessedEvent: THandle;
+    FDataProcessedEventName: UnicodeString;
     FWndHandlePFS: TPageFileStream;
     FWndHandlePFSName: UnicodeString;
     procedure ClearEventHandler;
-    procedure OtherInstanceStarted(Unused1: PtrInt; Unused2: DWORD);
-    procedure SetOnSecondInstanceStarted(const AValue: TSecondInstanceStartedEvent);
+    procedure SecondInstanceSentData(Unused1: PtrInt; Unused2: DWORD);
+    procedure SetOnSecondInstanceSentData(const AValue: TSecondInstanceSentDataEvent);
   public
     constructor Create(const UniqueAppId: String);
     destructor Destroy; override;
+    class function GetInstance: TInstanceManage;
     procedure Check;
     function ActivateFirstInstance(const DataForFirstInstance: TBytes = nil): Boolean;
     function SetFormHandleForActivate(Handle: HWND): Boolean;
-    property OnSecondInstanceStarted: TSecondInstanceStartedEvent read
-        FOnSecondInstanceStarted write SetOnSecondInstanceStarted;
+    property OnSecondInstanceSentData: TSecondInstanceSentDataEvent read
+        FOnSecondInstanceSentData write SetOnSecondInstanceSentData;
     property Status: TInstanceStatus read FStatus;
     property UniqueAppId: string read FUniqueAppId;
   end;
-
-var
-  // For handling response from our existing window on FormMain
-  FInstanceManage: TInstanceManage;
 
 //Read ui_one_instance option from user config file and get result
 function IsSetToOneInstance: boolean;
@@ -140,11 +146,11 @@ end;
 
 {$PUSH}
 {$WARN 5024 OFF : Parameter "$1" not used}
-procedure TInstanceManage.OtherInstanceStarted(Unused1: PtrInt; Unused2: DWORD);
+procedure TInstanceManage.SecondInstanceSentData(Unused1: PtrInt; Unused2: DWORD);
 var
   Bytes: TBytes;
 begin
-  if (FStatus = isFirst) and Assigned(FOnSecondInstanceStarted) then
+  if (FStatus = isFirst) and Assigned(FOnSecondInstanceSentData) then
   begin
     with TPageFileStream.CreateForRead(FDataPFSName) do
       try
@@ -156,66 +162,125 @@ begin
       finally
         Free;
       end;
-    FOnSecondInstanceStarted(Bytes);
+
+    // Process data read from other instance
+    FOnSecondInstanceSentData(Bytes);
+
+    // Signal other instance that data has been processed
+    SetEvent(FDataProcessedEvent);
   end;
 end;
 {$POP}
 
-procedure TInstanceManage.SetOnSecondInstanceStarted(
-  const AValue: TSecondInstanceStartedEvent);
+procedure TInstanceManage.SetOnSecondInstanceSentData(const AValue: TSecondInstanceSentDataEvent);
 begin
   if FStatus <> isNotChecked then
   begin
-    FOnSecondInstanceStarted := AValue;
+    FOnSecondInstanceSentData := AValue;
     ClearEventHandler;
-    if Assigned(FOnSecondInstanceStarted) then
-      FEventHandler := WidgetSet.AddEventHandler(FWakeupEvent, 0,
-        @OtherInstanceStarted, 0);
+
+    if Assigned(FOnSecondInstanceSentData) then
+      FEventHandler := WidgetSet.AddEventHandler(FDataSentEvent, 0,
+        @SecondInstanceSentData, 0);
+
+    // First instance signals to be ready for receiving data.
+    // This unblocks one of the subsequent instances that may wait for that.
+    ReleaseMutex(FSyncMutex);
   end;
 end;
 
 constructor TInstanceManage.Create(const UniqueAppId: String);
 begin
   inherited Create;
+
+  if not FSingletonCreate then
+    raise Exception.Create('Do not create instances of ' + Self.ClassName);
+
   FUniqueAppId := UniqueAppId;
   FDataPFSName := UTF8Decode(FUniqueAppId + '_MapData');
-  FWakeupEventName := UTF8Decode(FUniqueAppId + '_Event');
+  FSyncMutexName := UTF8Decode(FUniqueAppId + '_SyncMutex');
+  FDataSentEventName := UTF8Decode(FUniqueAppId + '_DataSentEvent');
+  FDataProcessedEventName := UTF8Decode(FUniqueAppId + '_DataProcessedEvent');
   FWndHandlePFSName := UTF8Decode(FUniqueAppId + '_MapWnd');
 end;
 
 destructor TInstanceManage.Destroy;
 begin
   ClearEventHandler;
-  if FWakeupEvent <> 0 then
+
+  if FDataSentEvent <> 0 then
   begin
-    CloseHandle(FWakeupEvent);
-    FWakeupEvent := 0;
+    CloseHandle(FDataSentEvent);
+    FDataSentEvent := 0;
   end;
+
+  if FDataProcessedEvent <> 0 then
+  begin
+    CloseHandle(FDataProcessedEvent);
+    FDataProcessedEvent := 0;
+  end;
+
+  if FSyncMutex <> 0 then
+  begin
+    CloseHandle(FSyncMutex);
+    FSyncMutex := 0;
+  end;
+
   FreeAndNil(FWndHandlePFS);
   FreeAndNil(FDataPFS);
+
   inherited;
+end;
+
+class constructor TInstanceManage.Create;
+begin
+  FSingletonCreate := true;
+
+  try
+    FInstance := Create(AppUniqueUID);
+  finally
+    FSingletonCreate := false;
+  end;
+end;
+
+class destructor TInstanceManage.Destroy;
+begin
+  FInstance.Free;
+end;
+
+class function TInstanceManage.GetInstance: TInstanceManage;
+begin
+  Result := FInstance;
 end;
 
 procedure TInstanceManage.Check;
 begin
   if FStatus = isNotChecked then
   begin
-    FWakeupEvent := CreateEventW(nil, False, False, PWideChar(FWakeupEventName));
-    if FWakeupEvent = 0 then
-        RaiseLastOSError();
+    FSyncMutex := CreateMutexW(nil, false, PWideChar(FSyncMutexName));
+    if FSyncMutex = 0 then RaiseLastOSError();
+
+    FDataSentEvent := CreateEventW(nil, False, False, PWideChar(FDataSentEventName));
+    if FDataSentEvent = 0 then RaiseLastOSError();
+
+    FDataProcessedEvent := CreateEventW(nil, False, False, PWideChar(FDataProcessedEventName));
+    if FDataProcessedEvent = 0 then RaiseLastOSError();
+
     case GetLastError of
-        ERROR_SUCCESS:
-          FStatus := isFirst;
-        ERROR_ALREADY_EXISTS:
-          FStatus := isSecond;
-    else
-      RaiseLastOSError();
+      ERROR_SUCCESS:        FStatus := isFirst;
+      ERROR_ALREADY_EXISTS: FStatus := isSecond;
+      else                  RaiseLastOSError();
     end;
+
+    // Wait for being allowed to send data.
+    // The first instance doesn't block. Subsequent instances perform a
+    // blocking wait. When the function returns the current instance is
+    // owner of the mutex.
+    WaitForSingleObject(FSyncMutex, INFINITE);
   end;
 end;
 
-function TInstanceManage.ActivateFirstInstance(
-  const DataForFirstInstance: TBytes): Boolean;
+function TInstanceManage.ActivateFirstInstance(const DataForFirstInstance: TBytes): Boolean;
 
   procedure PrepareData(const ShareName: UnicodeString;
     var PFS: TPageFileStream; const Data; DataSize: DWORD);
@@ -228,12 +293,15 @@ function TInstanceManage.ActivateFirstInstance(
       PFS.WriteBuffer(Data, DataSize);
     end;
   end;
+
 var
   WndToActivate: HWND;
 begin
   if Status = isNotChecked then
     Exit(False);
+
   WndToActivate := 0;
+
   with TPageFileStream.CreateForRead(FWndHandlePFSName) do
     try
       if pfsValid in States then
@@ -241,24 +309,38 @@ begin
     finally
       Free;
     end;
+
   if Assigned(DataForFirstInstance) then
     PrepareData(FDataPFSName, FDataPFS, DataForFirstInstance[0],
         Length(DataForFirstInstance));
+
   if WndToActivate <> 0 then
   begin
     if Assigned(SwitchFunc) then
         SwitchFunc(WndToActivate, True);
   end;
-  SetEvent(FWakeupEvent);
+
+  // Request first instance to read data
+  SetEvent(FDataSentEvent);
+
+  // Perform blocking wait until data has been processed
+  WaitForSingleObject(FDataProcessedEvent, INFINITE);
+
+  // Unblock other subsequent instance that may wait
+  // for being allowed to send data
+  ReleaseMutex(FSyncMutex);
 end;
 
 function TInstanceManage.SetFormHandleForActivate(Handle: HWND): Boolean;
 begin
   if FStatus = isNotChecked then
     Exit(False);
+
   FreeAndNil(FWndHandlePFS);
   FWndHandlePFS := TPageFileStream.Create(SizeOf(Handle), FWndHandlePFSName);
+
   Result := pfsValid in FWndHandlePFS.States;
+
   if Result then
     FWndHandlePFS.WriteBuffer(Handle, SizeOf(Handle));
 end;
@@ -345,43 +427,41 @@ var
   cli: String;
   workDir: String;
   parameter: String;
+  InstanceManage: TInstanceManage;
 begin
-
   Result := False;
 
   if IsSetToOneInstance then
   begin
-    FInstanceManage := TInstanceManage.Create(AppUniqueUID);
-    FInstanceManage.Check;
-    case FInstanceManage.Status of
+    InstanceManage := TInstanceManage.GetInstance();
+    InstanceManage.Check;
+
+    case InstanceManage.Status of
       isSecond:
         begin
+          cli := '';
           workDir := GetCurrentDirUTF8;
+
           if LowerCase(ExtractFileDir(ParamStrUTF8(0))) = LowerCase(workDir) then
             workDir := '';
-          cli := '';
+
           for i := 1 to ParamCount do
           begin
             parameter := ParamStrUTF8(i);
-            // flags (-) won't be processed since instance is already running
-            if workDir <> '' then
-            begin
-              if (Pos(':', parameter) = 2) or (Pos('\\', parameter) = 1) then
-                cli := cli + parameter + ParamsSeparator
-              else
-                cli := cli + workDir + '\' + parameter + ParamsSeparator;
-            end
+
+            if workDir = '' then
+              cli := cli + parameter + ParamsSeparator
+            else if (Pos(':', parameter) = 2) or (Pos('\\', parameter) = 1) then
+              cli := cli + parameter + ParamsSeparator
             else
-              cli := cli + parameter + ParamsSeparator;
+              cli := cli + workDir + '\' + parameter + ParamsSeparator;
           end;
-          FInstanceManage.ActivateFirstInstance(BytesOf(cli));
-          Sleep(100);
+
+          InstanceManage.ActivateFirstInstance(BytesOf(cli));
           Result := True;
         end;
     end;
-    FInstanceManage.Free;
   end;
-
 end;
 
 procedure debug(const text: String);
@@ -408,3 +488,4 @@ end;
 {$endif}
 
 end.
+
