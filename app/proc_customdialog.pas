@@ -52,7 +52,7 @@ function DoForm_GetPropsAsStringDict(F: TFormDummy): PPyObject;
 procedure DoForm_SetPropsFromStringDict(F: TFormDummy; AText: string);
 procedure DoForm_AdjustLabelForNewControl(F: TForm; Ctl: TControl);
 procedure DoForm_FocusControl(F: TForm; C: TControl);
-procedure DoForm_ScaleAuto(F: TForm; AOnlyFormResize: boolean=false);
+procedure DoForm_ScaleAuto(F: TForm; ASimpleResize: boolean=false);
 procedure DoForm_CloseDockedForms(F: TForm);
 
 
@@ -1858,21 +1858,29 @@ begin
       F.ActiveControl:= TWinControl(C);
 end;
 
-procedure DoForm_ScaleAuto(F: TForm; AOnlyFormResize: boolean=false);
+procedure DoForm_ScaleAuto(F: TForm; ASimpleResize: boolean=false);
+var
+  i: integer;
 begin
   {$ifdef darwin}
   exit;
   //macOS: gives bad result, toolbar big labels
   {$endif}
 
-  if Screen.PixelsPerInch=96 then
-    AOnlyFormResize:= false;
+  //if Screen.PixelsPerInch=96 then
+  //  ASimpleResize:= false;
 
   if UiOps.Scale<>100 then
-    if AOnlyFormResize then
+    if ASimpleResize then
     begin
       F.Width:= AppScale(F.Width);
       F.Height:= AppScale(F.Height);
+      for i:= 0 to F.ControlCount-1 do
+        with F.Controls[i] do
+        begin
+          Left:= AppScale(Left);
+          Top:= AppScale(Top);
+        end;
     end
     else
       F.AutoAdjustLayout(
