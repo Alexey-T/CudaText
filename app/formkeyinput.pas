@@ -9,6 +9,7 @@ uses
   ButtonPanel, ExtCtrls, Menus, IniFiles,
   LCLProc, LCLType,
   proc_globdata,
+  proc_customdialog,
   proc_msg;
 
 type
@@ -106,6 +107,7 @@ end;
 
 procedure TfmKeyInput.FormShow(Sender: TObject);
 begin
+  DoForm_ScaleAuto(Self);
   UpdateFormOnTop(Self);
 end;
 

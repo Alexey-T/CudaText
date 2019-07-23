@@ -17,6 +17,7 @@ uses
   LclType, LclProc, LazUTF8, LazFileUtils,
   ATSynEdit_Keymap,
   proc_globdata,
+  proc_customdialog,
   proc_msg;
 
 type
@@ -96,6 +97,7 @@ end;
 
 procedure TfmKeys.FormShow(Sender: TObject);
 begin
+  DoForm_ScaleAuto(Self);
   UpdateFormOnTop(Self);
 
   //OK btn needs confirmtion

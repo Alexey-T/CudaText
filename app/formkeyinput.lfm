@@ -13,11 +13,11 @@ object fmKeyInput: TfmKeyInput
   OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever
-  LCLVersion = '1.9.0.0'
+  LCLVersion = '2.1.0.0'
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 38
-    Top = 144
+    Height = 29
+    Top = 153
     Width = 308
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -33,7 +33,7 @@ object fmKeyInput: TfmKeyInput
   end
   object PanelPress: TPanel
     Left = 0
-    Height = 138
+    Height = 147
     Top = 0
     Width = 320
     Align = alClient
