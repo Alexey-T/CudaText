@@ -3833,7 +3833,7 @@ begin
     begin
       R:= FRectArrowLeft;
       if FOptShowArrowsNear then
-        R.Left:= (R.Left+R.Right) div 2;
+        R.Left:= R.Left * 2 div 3 + R.Right div 3;
 
       DoPaintBgTo(C, FRectArrowLeft);
       DoPaintArrowTo(C, atriLeft, R, bOver);
@@ -3857,7 +3857,7 @@ begin
     begin
       R:= FRectArrowRight;
       if FOptShowArrowsNear then
-        R.Right:= (R.Left+R.Right) div 2;
+        R.Right:= R.Left div 3 + R.Right * 2 div 3;
 
       DoPaintBgTo(C, FRectArrowRight);
       DoPaintArrowTo(C, atriRight, R, bOver);
