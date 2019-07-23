@@ -128,7 +128,7 @@ end;
 
 procedure TfmAbout.FormShow(Sender: TObject);
 begin
-  DoForm_ScaleAuto(Self);
+  DoForm_ScaleAuto(Self, true);
   UpdateFormOnTop(Self);
 
   //big title

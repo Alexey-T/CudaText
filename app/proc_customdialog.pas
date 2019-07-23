@@ -52,7 +52,7 @@ function DoForm_GetPropsAsStringDict(F: TFormDummy): PPyObject;
 procedure DoForm_SetPropsFromStringDict(F: TFormDummy; AText: string);
 procedure DoForm_AdjustLabelForNewControl(F: TForm; Ctl: TControl);
 procedure DoForm_FocusControl(F: TForm; C: TControl);
-procedure DoForm_ScaleAuto(F: TForm);
+procedure DoForm_ScaleAuto(F: TForm; AOnlyFormResize: boolean=false);
 procedure DoForm_CloseDockedForms(F: TForm);
 
 
@@ -1858,23 +1858,28 @@ begin
       F.ActiveControl:= TWinControl(C);
 end;
 
-procedure DoForm_ScaleAuto(F: TForm);
+procedure DoForm_ScaleAuto(F: TForm; AOnlyFormResize: boolean=false);
 begin
   {$ifdef darwin}
   exit;
   //macOS: gives bad result, toolbar big labels
   {$endif}
 
-  ////F.AutoAdjustLayout gives reduntant scaling on Win10, fonts too big
-  ////fix it by F.ScaleFontsPPI
-  //F.ScaleFontsPPI(96/Screen.PixelsPerInch);
+  if Screen.PixelsPerInch=96 then
+    AOnlyFormResize:= false;
 
   if UiOps.Scale<>100 then
-    F.AutoAdjustLayout(
-      lapAutoAdjustForDPI ,
-      96, AppScale(96),
-      F.Width, AppScale(F.Width)
-      );
+    if AOnlyFormResize then
+    begin
+      F.Width:= AppScale(F.Width);
+      F.Height:= AppScale(F.Height);
+    end
+    else
+      F.AutoAdjustLayout(
+        lapAutoAdjustForDPI ,
+        96, AppScale(96),
+        F.Width, AppScale(F.Width)
+        );
 end;
 
 

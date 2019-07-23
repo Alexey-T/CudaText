@@ -97,7 +97,7 @@ end;
 
 procedure TfmKeys.FormShow(Sender: TObject);
 begin
-  DoForm_ScaleAuto(Self);
+  DoForm_ScaleAuto(Self, true);
   UpdateFormOnTop(Self);
 
   //OK btn needs confirmtion
