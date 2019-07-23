@@ -2645,7 +2645,7 @@ end;
 
 procedure TATTabs.SetOptButtonLayout(const AValue: string);
 begin
-  if FOptButtonLayout=AValue then Exit;
+  //if FOptButtonLayout=AValue then Exit;
   FOptButtonLayout:= AValue;
   ApplyButtonLayout;
   Invalidate;
