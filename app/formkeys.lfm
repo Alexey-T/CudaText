@@ -15,6 +15,7 @@ object fmKeys: TfmKeys
   Position = poMainFormCenter
   ShowInTaskBar = stNever
   LCLVersion = '2.1.0.0'
+  Scaled = False
   object panelBtn: TButtonPanel
     Left = 6
     Height = 29
