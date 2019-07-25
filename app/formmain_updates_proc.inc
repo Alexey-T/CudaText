@@ -281,7 +281,13 @@ var
   P: TPoint;
 begin
   if UiOps.ListboxCentered then
-    Form.Position:= poScreenCenter
+  begin
+    Form.Position:= poDesigned;
+    P:= Groups.ClientToScreen(Point(0, 0));
+    Form.Left:= Left + Width div 2 - Form.Width div 2;
+    Form.Top:= P.Y;
+    FixFormPositionToDesktop(Form);
+  end
   else
   begin
     Form.Position:= poDesigned;
