@@ -132,6 +132,7 @@ begin
     c.SetValue('theme_syntax', FThemeSyntax);
     c.SetValue('lang', AppLangName);
     c.SetValue('session', UTF8Decode(IfThen(UiOps.ReopenSession, FSessionName, '')));
+    c.SetValue('last_cmd', FLastSelectedCommand);
 
     DoOps_SaveHistory_GroupView(c);
   finally
@@ -496,6 +497,7 @@ begin
     ThemeSyntax:= c.GetValue('theme_syntax', '');
     AppLangName:= c.GetValue('lang', '');
     FSessionName:= UTF8Encode(c.GetValue('session', UTF8Decode(FSessionName)));
+    FLastSelectedCommand:= c.GetValue('last_cmd', FLastSelectedCommand);
 
     if AppLangName<>'' then
       DoLocalize;
