@@ -1,4 +1,4 @@
-object SyntAnal31: TLibSyntAnalyzer
+object SyntAnal28: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Default'
@@ -102,6 +102,14 @@ object SyntAnal31: TLibSyntAnalyzer
       Font.Name = 'Courier New'
       Font.Style = []
       FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
+    end
+    item
+      DisplayName = 'Label'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -117,6 +125,14 @@ object SyntAnal31: TLibSyntAnalyzer
       StyleName = 'String'
       TokenType = 4
       Expression = '".*?("|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Label'
+      StyleName = 'Label'
+      TokenType = 8
+      Expression = '^\x20*\w+:'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -267,6 +283,7 @@ object SyntAnal31: TLibSyntAnalyzer
             'loop'
             'lset'
             'module'
+            'namespace'
             'new'
             'next'
             'not'
@@ -279,7 +296,6 @@ object SyntAnal31: TLibSyntAnalyzer
             'paramarray'
             'private'
             'property'
-            'public'
             'redim'
             'resume'
             'return'
@@ -485,6 +501,7 @@ object SyntAnal31: TLibSyntAnalyzer
             'enum'
             'get'
             'module'
+            'namespace'
             'select'
             'set'
             'try'
@@ -589,9 +606,11 @@ object SyntAnal31: TLibSyntAnalyzer
             'Inherits'
             'Overloads'
             'Overrides'
+            'partial'
             'private'
             'protected'
-            'public')
+            'public'
+            'shared')
           TokenTypes = 4
           IgnoreCase = True
         end>
@@ -757,7 +776,8 @@ object SyntAnal31: TLibSyntAnalyzer
     'String'
     'Number'
     'Id_spec_Then'
-    'Id_spec_EndIf')
+    'Id_spec_EndIf'
+    'Label')
   Extentions = 'vb vbs'
   LexerName = 'VBScript'
   Notes.Strings = (
