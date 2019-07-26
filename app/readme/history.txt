@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.84.5
+
+* change: deleted option "ui_listbox_centered" (now it's always "on"), corrected position for its default
+
 1.84.4 (2019/07)
 
 + add: allow zip packages with "type=cudatext-package": installs all files+folders into root of CudaText, including any number of data/* and py/* subfolders

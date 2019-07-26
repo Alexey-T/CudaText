@@ -1261,7 +1261,7 @@ begin
     AutocompleteUpDownAtEdge:= 1; //cudWrap
     AutoCloseBrackets:= '([{';
 
-    ListboxCentered:= false;
+    ListboxCentered:= true;
     ListboxSizeX:= 450;
     ListboxSizeY:= 300;
     ListboxCompleteSizeX:= 550;
