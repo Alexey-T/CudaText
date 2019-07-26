@@ -1,4 +1,4 @@
-object SyntAnal28: TLibSyntAnalyzer
+object SyntAnal37: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Default'
@@ -131,7 +131,7 @@ object SyntAnal28: TLibSyntAnalyzer
     item
       DisplayName = 'Label'
       StyleName = 'Label'
-      TokenType = 8
+      TokenType = 10
       Expression = '^\x20*\w+:'
       ColumnFrom = 0
       ColumnTo = 0
@@ -149,6 +149,22 @@ object SyntAnal28: TLibSyntAnalyzer
       StyleName = 'Reserved word'
       TokenType = 7
       Expression = '\b end \x20+ if \b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Id_spec_elseif'
+      StyleName = 'Reserved word'
+      TokenType = 8
+      Expression = '\b elseif \x20+ .*? \x20+ then \b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Id_spec_next'
+      StyleName = 'Reserved word'
+      TokenType = 9
+      Expression = '\b next \x20* $'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -536,6 +552,7 @@ object SyntAnal28: TLibSyntAnalyzer
       ConditionList = <
         item
           TokenTypes = 4
+          IgnoreCase = True
         end
         item
           TagList.Strings = (
@@ -554,6 +571,7 @@ object SyntAnal28: TLibSyntAnalyzer
       ConditionList = <
         item
           TokenTypes = 2
+          IgnoreCase = True
         end>
       BlockEnd = 'Block comment end'
       DisplayInTree = False
@@ -566,9 +584,11 @@ object SyntAnal28: TLibSyntAnalyzer
       ConditionList = <
         item
           TokenTypes = 509
+          IgnoreCase = True
         end
         item
           TokenTypes = 2
+          IgnoreCase = True
         end>
       BlockOffset = 1
       HighlightPos = cpBound
@@ -579,6 +599,7 @@ object SyntAnal28: TLibSyntAnalyzer
       ConditionList = <
         item
           TokenTypes = 4
+          IgnoreCase = True
         end
         item
           TagList.Strings = (
@@ -603,9 +624,9 @@ object SyntAnal28: TLibSyntAnalyzer
           TagList.Strings = (
             'default'
             'imports'
-            'Inherits'
-            'Overloads'
-            'Overrides'
+            'inherits'
+            'overloads'
+            'overrides'
             'partial'
             'private'
             'protected'
@@ -618,18 +639,48 @@ object SyntAnal28: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = 'Begin if'
+      ConditionList = <
+        item
+          TokenTypes = 64
+          IgnoreCase = True
+        end
+        item
+          CondType = tcNotEqual
+          TokenTypes = 256
+          IgnoreCase = True
+        end>
+      BlockEnd = 'End if'
+      DisplayInTree = False
+      HighlightPos = cpAny
+      DrawStaple = True
+      CollapseFmt = '%sz0'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'End if'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TokenTypes = 128
+          IgnoreCase = True
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = 'Begin For'
       StyleName = 'Current block bound'
       ConditionList = <
         item
           TagList.Strings = (
-            'For')
+            'for')
           TokenTypes = 4
           IgnoreCase = True
         end
         item
           TagList.Strings = (
-            'Exit')
+            'exit')
           CondType = tcNotEqual
           TokenTypes = 4
           IgnoreCase = True
@@ -649,14 +700,12 @@ object SyntAnal28: TLibSyntAnalyzer
       BlockType = btRangeEnd
       ConditionList = <
         item
-          TagList.Strings = (
-            'Next')
-          TokenTypes = 4
+          TokenTypes = 512
           IgnoreCase = True
         end
         item
           TagList.Strings = (
-            'Resume')
+            'resume')
           CondType = tcNotEqual
           TokenTypes = 4
           IgnoreCase = True
@@ -667,7 +716,7 @@ object SyntAnal28: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'Begin do'
+      DisplayName = 'Begin Do'
       ConditionList = <
         item
           TagList.Strings = (
@@ -682,7 +731,7 @@ object SyntAnal28: TLibSyntAnalyzer
           TokenTypes = 4
           IgnoreCase = True
         end>
-      BlockEnd = 'End do'
+      BlockEnd = 'End Do'
       DisplayInTree = False
       HighlightPos = cpAny
       DrawStaple = True
@@ -690,7 +739,7 @@ object SyntAnal28: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'End do'
+      DisplayName = 'End Do'
       BlockType = btRangeEnd
       ConditionList = <
         item
@@ -703,24 +752,29 @@ object SyntAnal28: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'Begin if'
+      DisplayName = 'Begin While'
       ConditionList = <
         item
-          TokenTypes = 64
+          TagList.Strings = (
+            'while')
+          TokenTypes = 4
+          IgnoreCase = True
         end>
-      BlockEnd = 'End if'
+      BlockEnd = 'End While'
       DisplayInTree = False
       HighlightPos = cpAny
       DrawStaple = True
-      CollapseFmt = '%sz0'
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'End if'
+      DisplayName = 'End While'
       BlockType = btRangeEnd
       ConditionList = <
         item
-          TokenTypes = 128
+          TagList.Strings = (
+            'wend')
+          TokenTypes = 4
+          IgnoreCase = True
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
@@ -735,12 +789,61 @@ object SyntAnal28: TLibSyntAnalyzer
     '  Private intEolFormat'
     '  '
     '  Public Property Let EolFormat(intValue)'
+    '    For i As Integer = 1 To 16'
+    '      Dim idx As Integer = r.Next(0, 35)'
+    '      '
+    '      With sb '
+    '        .Append(.Substring(idx, 1))'
+    '      End With'
+    '    Next'
+    '    '
+    '    While X = 0'
+    '      X = x + 1'
+    '    Wend'
+    '    '
     
       '    If intValue <> vbCrLf And intValue <> vbLf Then Exit Propert' +
       'y'
     '    intEolFormat = intValue'
     '  End Property'
     ''
+    '  Public Sub PrintString(I)'
+    '    Dim X'
+    '    '
+    '    If I = 0 Then'
+    '      I = -1'
+    '    ElseIf I = 1 Then'
+    '      I = 0'
+    '    Else'
+    '      I = 1'
+    '    End If'
+    '    '
+    '    Select Case I'
+    '      Case 0'
+    '        X = 1'
+    '      Case 1'
+    '        X = 3'
+    '      Case Else'
+    '        X = 5'
+    '    End Select'
+    '    '
+    '    Do'
+    '      X = x + 1'
+    '    Loop Until X = 10'
+    '    '
+    '    Do Until X = 0'
+    '      X = x - 1'
+    '    Loop'
+    '    '
+    '    Do While X < 10'
+    '      X = X + 1'
+    '    Loop'
+    '    '
+    '    Do'
+    '      X = x - 1'
+    '    Loop While X > 0'
+    '  End Sub'
+    '  '
     '  Public Function PrintNumber'
     '    Dim Number'
     ''
@@ -777,6 +880,8 @@ object SyntAnal28: TLibSyntAnalyzer
     'Number'
     'Id_spec_Then'
     'Id_spec_EndIf'
+    'Id_spec_ElseIf'
+    'Id_spec_Next'
     'Label')
   Extentions = 'vb vbs'
   LexerName = 'VBScript'
