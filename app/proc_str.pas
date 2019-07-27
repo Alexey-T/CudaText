@@ -383,9 +383,12 @@ begin
     if status=#0 then
     begin
       if (s[i]=#$27) or (s[i]='"') then
-        status:= s[i]
+      begin
+        status:= s[i];
+        Result+= '_';
+      end
       else
-        Result:= Result+s[i]
+        Result+= s[i]
     end
     else
     begin
@@ -399,7 +402,7 @@ end;
 function IsPythonExpression(S: string): boolean;
 const
   cTest =
-    '(.*(assert|return|del|import|pass|raise|yield|def|for|with|while|if|print)\b.*)|(.*[^=><!]=$)|(.*[^=><!][=][^=><].*)|(.+;.+)';
+    '(.*(assert|return|del|import|pass|raise|yield|def|for|with|while|if|print)\b.*)|(.*[^=><!][=][^=><].*)|(.+;.+)';
 begin
   S:= SDeletePythonStrings(S);
   Result:= not SRegexMatchesString(S, cTest, false);
