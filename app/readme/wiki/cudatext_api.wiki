@@ -1450,8 +1450,8 @@ Perform action on timers. Many different timers allowed, they work at the same t
 
 Possible values of "id":
 
-* TIMER_START - Create (if needed) and start timer, infinite ticks. If timer already created, then it's restated.
-* TIMER_START_ONE - Create (if needed) and start timer, for single tick.
+* TIMER_START - Create and start timer, for infinite ticks. If timer for such callback is already created, then it's restated.
+* TIMER_START_ONE - Create and start timer, for single tick. If timer for such callback is already created, then it's restated.
 * TIMER_STOP - Stop timer (timer must be created before).
 * TIMER_DELETE - Stop timer, and delete it from list of timers. Usually don't use it, use only to save memory if created lot of timers.
 
