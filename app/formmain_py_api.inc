@@ -6501,6 +6501,8 @@ begin
         if SItem=StrCallback then
         begin
           Timer:= TTimer(fmMain.FListTimers.Objects[N]);
+          //timer already exists? update its tag to new value StrTag
+          fmMain.FListTimers[N]:= StrCallback+'|'+StrTag;
           Break
         end;
       end;
