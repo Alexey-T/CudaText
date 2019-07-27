@@ -310,7 +310,6 @@ object SyntAnal37: TLibSyntAnalyzer
             'optional'
             'or'
             'paramarray'
-            'private'
             'property'
             'redim'
             'resume'
