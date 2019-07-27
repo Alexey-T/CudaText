@@ -5,9 +5,9 @@
 
 1.84.5
 
-* change: deleted option "ui_listbox_centered" (now it's always "on"), corrected position for its default
-+ add: program saves to history the last selected command in Command Palette
-+ add: lexer VBScript improved
+* change: deleted option "ui_listbox_centered", changed behaviour for its default
++ add: program saves to history the last selected item in Command Palette
++ add: lexer VBScript improved (by @dinkumoil)
 
 1.84.4 (2019/07)
 
