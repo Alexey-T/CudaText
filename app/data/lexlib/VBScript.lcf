@@ -763,6 +763,7 @@ object SyntAnal37: TLibSyntAnalyzer
       DisplayInTree = False
       HighlightPos = cpAny
       DrawStaple = True
+      CollapseFmt = '%sz0'
       IgnoreAsParent = False
     end
     item
