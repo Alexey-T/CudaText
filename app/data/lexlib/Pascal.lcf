@@ -595,6 +595,7 @@ object SyntAnal18: TLibSyntAnalyzer
     end
     item
       DisplayName = 'repeat'
+      StyleName = 'Current block'
       ConditionList = <
         item
           TagList.Strings = (
@@ -604,7 +605,9 @@ object SyntAnal18: TLibSyntAnalyzer
         end>
       BlockEnd = 'until'
       DisplayInTree = False
-      HighlightPos = cpBound
+      DynHighlight = dhBound
+      HighlightPos = cpRange
+      DynSelectMin = True
       DrawStaple = True
       CollapseFmt = 'repeat ...'
       IgnoreAsParent = False
