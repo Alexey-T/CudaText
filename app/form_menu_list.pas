@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-  LclType, LclProc,
+  LclType, LclProc, StrUtils,
   ExtCtrls,
   ATStringProc,
   ATSynEdit,
@@ -23,7 +23,7 @@ uses
   proc_scrollbars;
 
 type
-  TAppIntegerEvent = procedure(AValue: integer) of object;
+  TAppListSelectEvent = procedure(AIndex: integer; const AStr: string) of object;
 
 type
   { TfmMenuList }
@@ -45,9 +45,10 @@ type
     FColorFont: TColor;
     FColorFontSel: TColor;
     FColorFontAlt: TColor;
-    FOnListSelect: TAppIntegerEvent;
+    FOnListSelect: TAppListSelectEvent;
     procedure SetListCaption(const AValue: string);
     procedure DoListChangedSel(Sender: TObject);
+    procedure UpdateColors;
     { private declarations }
   public
     { public declarations }
@@ -55,7 +56,7 @@ type
     ResultIndex: integer;
     Items: TStringlist;
     CloseOnCtrlRelease: boolean;
-    property OnListSelect: TAppIntegerEvent read FOnListSelect write FOnListSelect;
+    property OnListSelect: TAppListSelectEvent read FOnListSelect write FOnListSelect;
   end;
 
 var
@@ -115,13 +116,8 @@ begin
   Close;
 end;
 
-procedure TfmMenuList.FormCreate(Sender: TObject);
+procedure TfmMenuList.UpdateColors;
 begin
-  if UiOps.ShowMenuDialogsWithBorder then
-    BorderStyle:= bsDialog;
-
-  List.DoubleBuffered:= UiOps.DoubleBuffered;
-
   FColorBg:= GetAppColor('ListBg');
   FColorBgSel:= GetAppColor('ListSelBg');
   FColorFont:= GetAppColor('ListFont');
@@ -130,6 +126,16 @@ begin
 
   self.Color:= FColorBg;
   List.Color:= FColorBg;
+end;
+
+procedure TfmMenuList.FormCreate(Sender: TObject);
+begin
+  if UiOps.ShowMenuDialogsWithBorder then
+    BorderStyle:= bsDialog;
+
+  List.DoubleBuffered:= UiOps.DoubleBuffered;
+
+  UpdateColors;
 
   plCaption.Height:= AppScale(26);
   plCaption.Font.Name:= UiOps.VarFontName;
@@ -224,8 +230,13 @@ end;
 
 procedure TfmMenuList.DoListChangedSel(Sender: TObject);
 begin
-  if Assigned(FOnListSelect) then
-    FOnListSelect(List.ItemIndex);
+  if List.ItemIndex>=0 then
+    if Assigned(FOnListSelect) then
+    begin
+      FOnListSelect(List.ItemIndex, IfThen(List.ItemIndex>0, Items[List.ItemIndex], ''));
+      UpdateColors;
+      List.Invalidate;
+    end;
 end;
 
 end.

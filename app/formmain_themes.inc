@@ -166,22 +166,37 @@ begin
   CompletionOps.ColorFontParams:= GetAppColor('ListCompleteParams');
 end;
 
+procedure TfmMain.DoDialogMenuThemes_ThemeUiSelect(AIndex: integer; const AStr: string);
+begin
+  ThemeUi:= AStr;
+end;
+
+procedure TfmMain.DoDialogMenuThemes_ThemeSyntaxSelect(AIndex: integer; const AStr: string);
+begin
+  ThemeSyntax:= AStr;
+end;
 
 procedure TfmMain.DoDialogMenuThemes(AThemeUI: boolean);
 var
   SMask, SCaption: string;
   ListFiles, ListItems: TStringList;
   NResult, NItemIndex, i: integer;
+  SelectEvent: TAppListSelectEvent;
+  OldTheme: string;
 begin
   if AThemeUI then
   begin
     SMask:= '*'+AppExtensionThemeUi;
     SCaption:= msgMenuThemesUI;
+    SelectEvent:= @DoDialogMenuThemes_ThemeUiSelect;
+    OldTheme:= ThemeUi;
   end
   else
   begin
     SMask:= '*'+AppExtensionThemeSyntax;
     SCaption:= msgMenuThemesSyntax;
+    SelectEvent:= @DoDialogMenuThemes_ThemeSyntaxSelect;
+    OldTheme:= ThemeSyntax;
   end;
 
   ListItems:= TStringList.Create;
@@ -202,8 +217,15 @@ begin
     if NItemIndex<0 then
       NItemIndex:= 0;
 
-    NResult:= DoDialogMenuList(SCaption, ListItems, NItemIndex);
-    if NResult<0 then exit;
+    NResult:= DoDialogMenuList(SCaption, ListItems, NItemIndex, false, SelectEvent);
+    if NResult<0 then
+    begin
+      if AThemeUI then
+        ThemeUi:= OldTheme
+      else
+        ThemeSyntax:= OldTheme;
+      exit;
+    end;
 
     if AThemeUI then
     begin

@@ -692,6 +692,8 @@ type
     procedure DoApplyTranslationToGroups(G: TATGroups);
     procedure DoClearSingleFirstTab;
     procedure DoCloseAllTabs;
+    procedure DoDialogMenuThemes_ThemeSyntaxSelect(AIndex: integer; const AStr: string);
+    procedure DoDialogMenuThemes_ThemeUiSelect(AIndex: integer; const AStr: string);
     procedure DoFileDialog_PrepareDir(Dlg: TFileDialog);
     procedure DoFileDialog_SaveDir(Dlg: TFileDialog);
     procedure DoCommandsMsgStatus(Sender: TObject; const ARes: string);
@@ -936,7 +938,7 @@ type
       AAllowConfig, AShowCentered: boolean; ACaption: string): string;
     procedure DoDialogGoto;
     function DoDialogMenuList(const ACaption: string; AItems: TStringList; AInitItemIndex: integer;
-      ACloseOnCtrlRelease: boolean= false; AOnListSelect: TAppIntegerEvent=nil): integer;
+      ACloseOnCtrlRelease: boolean= false; AOnListSelect: TAppListSelectEvent=nil): integer;
     procedure DoDialogMenuTabSwitcher;
     function DoDialogMenuLexerChoose(const AFilename: string; ANames: TStringList): integer;
     procedure DoDialogGotoBookmark;
@@ -3339,7 +3341,7 @@ end;
 function TfmMain.DoDialogMenuList(const ACaption: string; AItems: TStringList;
   AInitItemIndex: integer;
   ACloseOnCtrlRelease: boolean=false;
-  AOnListSelect: TAppIntegerEvent=nil): integer;
+  AOnListSelect: TAppListSelectEvent=nil): integer;
 var
   Form: TfmMenuList;
 begin
