@@ -936,7 +936,7 @@ type
       AAllowConfig, AShowCentered: boolean; ACaption: string): string;
     procedure DoDialogGoto;
     function DoDialogMenuList(const ACaption: string; AItems: TStringList; AInitItemIndex: integer;
-      ACloseOnCtrlRelease: boolean= false): integer;
+      ACloseOnCtrlRelease: boolean= false; AOnListSelect: TAppIntegerEvent=nil): integer;
     procedure DoDialogMenuTabSwitcher;
     function DoDialogMenuLexerChoose(const AFilename: string; ANames: TStringList): integer;
     procedure DoDialogGotoBookmark;
@@ -3338,7 +3338,8 @@ end;
 
 function TfmMain.DoDialogMenuList(const ACaption: string; AItems: TStringList;
   AInitItemIndex: integer;
-  ACloseOnCtrlRelease: boolean=false): integer;
+  ACloseOnCtrlRelease: boolean=false;
+  AOnListSelect: TAppIntegerEvent=nil): integer;
 var
   Form: TfmMenuList;
 begin
@@ -3351,6 +3352,7 @@ begin
     Form.Items:= AItems;
     Form.CloseOnCtrlRelease:= ACloseOnCtrlRelease;
     Form.InitialItemIndex:= AInitItemIndex;
+    Form.OnListSelect:= AOnListSelect;
     Form.ShowModal;
     Result:= Form.ResultIndex;
   finally

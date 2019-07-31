@@ -23,6 +23,9 @@ uses
   proc_scrollbars;
 
 type
+  TAppIntegerEvent = procedure(AValue: integer) of object;
+
+type
   { TfmMenuList }
 
   TfmMenuList = class(TForm)
@@ -42,7 +45,9 @@ type
     FColorFont: TColor;
     FColorFontSel: TColor;
     FColorFontAlt: TColor;
+    FOnListSelect: TAppIntegerEvent;
     procedure SetListCaption(const AValue: string);
+    procedure DoListChangedSel(Sender: TObject);
     { private declarations }
   public
     { public declarations }
@@ -50,6 +55,7 @@ type
     ResultIndex: integer;
     Items: TStringlist;
     CloseOnCtrlRelease: boolean;
+    property OnListSelect: TAppIntegerEvent read FOnListSelect write FOnListSelect;
   end;
 
 var
@@ -133,6 +139,8 @@ begin
   self.Width:= AppScale(UiOps.ListboxSizeX);
   self.Height:= AppScale(UiOps.ListboxSizeY);
 
+  List.OnChangedSel:= @DoListChangedSel;
+
   Items:= nil;
   ResultIndex:= -1;
 end;
@@ -212,6 +220,12 @@ begin
   begin
     plCaption.Caption:= AValue;
   end;
+end;
+
+procedure TfmMenuList.DoListChangedSel(Sender: TObject);
+begin
+  if Assigned(FOnListSelect) then
+    FOnListSelect(List.ItemIndex);
 end;
 
 end.
