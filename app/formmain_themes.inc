@@ -210,10 +210,7 @@ begin
     for i:= 0 to ListFiles.Count-1 do
       ListItems.Add(LowerCase(ExtractFileNameOnly(ListFiles[i])));
 
-    if AThemeUI then
-      NItemIndex:= ListItems.IndexOf(ThemeUi)
-    else
-      NItemIndex:= ListItems.IndexOf(ThemeSyntax);
+    NItemIndex:= ListItems.IndexOf(OldTheme);
     if NItemIndex<0 then
       NItemIndex:= 0;
 
