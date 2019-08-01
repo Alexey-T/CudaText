@@ -3981,7 +3981,6 @@ const
   cSpacing = 3;
 var
   P: TPoint;
-  RectAll: TRect;
 begin
   if StatusForm=nil then
   begin
@@ -4013,11 +4012,10 @@ begin
   if ASeconds>cMaxSeconds then
     ASeconds:= cMaxSeconds;
 
-  RectAll:= Self.BoundsRect;
   P:= Self.ClientToScreen(Point(0, 0));
   StatusForm.Top:= P.Y;
-  StatusForm.Left:= RectAll.Left;
-  StatusForm.Width:= RectAll.Width;
+  StatusForm.Left:= Self.Left;
+  StatusForm.Width:= Self.Width;
   StatusFormLabel.Caption:= AText;
   StatusForm.Show;
   StatusForm.Height:=
