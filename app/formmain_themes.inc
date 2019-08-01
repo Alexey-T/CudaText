@@ -96,10 +96,6 @@ begin
   Status.ColorBorderTop:= GetAppColor('ButtonBorderPassive');
   Status.ColorBorderR:= GetAppColor('ButtonBorderPassive');
 
-  StatusAlt.Color:= GetAppColor('StatusAltBg');
-  StatusAlt.ColorBorderTop:= Status.ColorBorderTop;
-  StatusAlt.ColorBorderR:= Status.ColorBorderR;
-
   ATFlatTheme.ColorFont:= GetAppColor('ButtonFont');
   ATFlatTheme.ColorFontDisabled:= GetAppColor('ButtonFontDisabled');
   ATFlatTheme.ColorFontOverlay:= GetAppColor('SideBadgeFont');

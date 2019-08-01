@@ -581,7 +581,6 @@ type
     FSessionName: string;
     FColorDialog: TColorDialog;
     Status: TATStatus;
-    StatusAlt: TATStatus;
     StatusForm: TForm;
     StatusFormLabel: TLabel;
     Groups: TATGroups;
@@ -1856,15 +1855,6 @@ begin
   Status.OnPanelClick:= @StatusPanelClick;
   Status.ShowHint:= true;
 
-  StatusAlt:= TATStatus.Create(Self);
-  StatusAlt.Parent:= Self;
-  StatusAlt.Align:= alBottom;
-  StatusAlt.Height:= Status.Height;
-  StatusAlt.HeightInitial:= Status.Height;
-  StatusAlt.Padding:= 0;
-  StatusAlt.AddPanel(-1, 5000, taLeftJustify, '?');
-  StatusAlt.Hide;
-
   fmConsole:= TfmConsole.Create(Self);
   fmConsole.Parent:= PanelBottom;
   fmConsole.Align:= alClient;
@@ -2701,7 +2691,6 @@ begin
       Ed2.Font.Size:= EditorOps.OpFontSize;
     end;
   Status.DoubleBuffered:= UiOps.DoubleBuffered;
-  StatusAlt.DoubleBuffered:= UiOps.DoubleBuffered;
   ButtonCancel.DoubleBuffered:= UiOps.DoubleBuffered;
   StatusProgress.DoubleBuffered:= UiOps.DoubleBuffered;
   LexerProgress.DoubleBuffered:= UiOps.DoubleBuffered;
@@ -2773,7 +2762,6 @@ begin
   PanelCodeTreeTop.Height:= AppScale(UiOps.InputHeight);
 
   Status.HeightInitial:= UiOps.StatusHeight;
-  StatusAlt.HeightInitial:= UiOps.StatusHeight;
 
   TimerStatus.Interval:= UiOps.StatusTime*1000;
 
