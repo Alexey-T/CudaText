@@ -271,8 +271,6 @@ begin
   Add(nColorArrow, 'ScrollArrow', 'scrollbar, arrows');
   Add($c0c0a0, 'ScrollScrolled', 'scrollbar, scrolling area');
 
-  Add(clCream, 'StatusAltBg', 'statusbar alternative, BG');
-
   Add(nColorBack2, 'SplitMain', 'splitters, main');
   Add(nColorBack2, 'SplitGroups', 'splitters, groups');
 
