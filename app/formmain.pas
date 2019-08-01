@@ -3981,6 +3981,7 @@ const
   cSpacing = 3;
 var
   P: TPoint;
+  RectAll: TRect;
 begin
   if StatusForm=nil then
   begin
@@ -3991,14 +3992,16 @@ begin
     StatusFormLabel:= TLabel.Create(StatusForm);
     StatusFormLabel.Parent:= StatusForm;
     StatusFormLabel.Align:= alClient;
+    StatusFormLabel.AutoSize:= true;
     StatusFormLabel.Alignment:= taCenter;
     StatusFormLabel.BorderSpacing.Around:= cSpacing;
+    StatusFormLabel.ParentFont:= true;
   end;
 
   StatusForm.Color:= GetAppColor('ListBg');
-  StatusFormLabel.Font.Name:= UiOps.VarFontName;
-  StatusFormLabel.Font.Size:= AppScaleFont(UiOps.VarFontSize);
-  StatusFormLabel.Font.Color:= GetAppColor('ListFont');
+  StatusForm.Font.Name:= UiOps.VarFontName;
+  StatusForm.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+  StatusForm.Font.Color:= GetAppColor('ListFont');
 
   if ASeconds<=0 then
   begin
@@ -4010,15 +4013,18 @@ begin
   if ASeconds>cMaxSeconds then
     ASeconds:= cMaxSeconds;
 
-  P:= PanelAll.ClientToScreen(Point(0, 0));
-  StatusForm.Left:= P.X;
+  RectAll:= Self.BoundsRect;
+  P:= Self.ClientToScreen(Point(0, 0));
   StatusForm.Top:= P.Y;
+  StatusForm.Left:= RectAll.Left;
+  StatusForm.Width:= RectAll.Width;
   StatusFormLabel.Caption:= AText;
-  StatusForm.Width:= PanelMain.Width;
-  StatusForm.Height:= StatusFormLabel.Canvas.TextHeight('W') * (SFindCharCount(AText, #10)+1) + 2*cSpacing;
   StatusForm.Show;
+  StatusForm.Height:=
+    //StatusFormLabel.Height + 2*cSpacing;
+    StatusFormLabel.Canvas.TextHeight('W') * (SFindCharCount(AText, #10)+1) + 2*cSpacing;
 
-  //StatusForm gets focus
+  //get focus back from StatusForm
   Self.SetFocus;
   Self.BringToFront;
 
