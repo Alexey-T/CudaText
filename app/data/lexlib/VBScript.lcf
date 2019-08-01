@@ -145,17 +145,9 @@ object SyntAnal37: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Id_spec_endif'
-      StyleName = 'Reserved word'
-      TokenType = 8
-      Expression = '\b end \x20+ if \b'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Id_spec_next'
       StyleName = 'Reserved word'
-      TokenType = 9
+      TokenType = 8
       Expression = '\b next \x20* $'
       ColumnFrom = 0
       ColumnTo = 0
@@ -338,6 +330,29 @@ object SyntAnal37: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = 'Keywords modifiers'
+      StyleName = 'Operator Keywords'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'default'
+            'imports'
+            'inherits'
+            'overloads'
+            'overrides'
+            'partial'
+            'private'
+            'protected'
+            'public'
+            'shared')
+          TokenTypes = 4
+          IgnoreCase = True
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = 'Sub begin line break'
       StyleName = 'Function separator'
       BlockName = 'Func'
@@ -384,6 +399,57 @@ object SyntAnal37: TLibSyntAnalyzer
         end>
       LinePos = lbBottom
       HighlightPos = cpBound
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Block comment'
+      BlockName = 'Block comment'
+      NotParent = True
+      ConditionList = <
+        item
+          TokenTypes = 2
+          IgnoreCase = True
+        end>
+      BlockEnd = 'Block comment end'
+      DisplayInTree = False
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Block comment end'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TokenTypes = 1021
+          IgnoreCase = True
+        end
+        item
+          TokenTypes = 2
+          IgnoreCase = True
+        end>
+      BlockOffset = 1
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Dim'
+      ConditionList = <
+        item
+          TokenTypes = 4
+          IgnoreCase = True
+        end
+        item
+          TagList.Strings = (
+            'dim')
+          TokenTypes = 4
+          IgnoreCase = True
+        end>
+      NotCollapsed = True
+      GroupFmt = 'Variables'
+      HighlightPos = cpBound
+      NoEndRule = True
+      TreeItemImage = 4
+      TreeGroupImage = 0
       IgnoreAsParent = False
     end
     item
@@ -553,109 +619,34 @@ object SyntAnal37: TLibSyntAnalyzer
           TokenTypes = 4
           IgnoreCase = True
         end>
+      IdentIndex = -1
       SameIdent = True
+      RefToCondEnd = True
       HighlightPos = cpBound
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'Block comment'
-      BlockName = 'Block comment'
-      NotParent = True
-      ConditionList = <
-        item
-          TokenTypes = 2
-          IgnoreCase = True
-        end>
-      BlockEnd = 'Block comment end'
-      DisplayInTree = False
-      HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Block comment end'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TokenTypes = 1021
-          IgnoreCase = True
-        end
-        item
-          TokenTypes = 2
-          IgnoreCase = True
-        end>
-      BlockOffset = 1
-      HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Dim'
-      ConditionList = <
-        item
-          TokenTypes = 4
-          IgnoreCase = True
-        end
-        item
-          TagList.Strings = (
-            'dim')
-          TokenTypes = 4
-          IgnoreCase = True
-        end>
-      NotCollapsed = True
-      GroupFmt = 'Variables'
-      HighlightPos = cpBound
-      NoEndRule = True
-      TreeItemImage = 4
-      TreeGroupImage = 0
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Keywords modifiers'
-      StyleName = 'Operator Keywords'
-      BlockType = btTagDetect
-      ConditionList = <
-        item
-          TagList.Strings = (
-            'default'
-            'imports'
-            'inherits'
-            'overloads'
-            'overrides'
-            'partial'
-            'private'
-            'protected'
-            'public'
-            'shared')
-          TokenTypes = 4
-          IgnoreCase = True
-        end>
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Begin if'
+      DisplayName = 'Begin If'
       StyleName = 'Current block bound'
       ConditionList = <
         item
           TokenTypes = 128
           IgnoreCase = True
+        end
+        item
+          TagList.Strings = (
+            'case'
+            'end')
+          CondType = tcNotEqual
+          TokenTypes = 4
+          IgnoreCase = True
         end>
-      BlockEnd = 'End if'
+      BlockEnd = 'End'
       DisplayInTree = False
       DynHighlight = dhBound
       HighlightPos = cpRange
       DrawStaple = True
       CollapseFmt = '%sz0'
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'End if'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TokenTypes = 256
-          IgnoreCase = True
-        end>
-      HighlightPos = cpAny
       IgnoreAsParent = False
     end
     item
@@ -690,7 +681,7 @@ object SyntAnal37: TLibSyntAnalyzer
       BlockType = btRangeEnd
       ConditionList = <
         item
-          TokenTypes = 512
+          TokenTypes = 256
           IgnoreCase = True
         end
         item
@@ -700,8 +691,6 @@ object SyntAnal37: TLibSyntAnalyzer
           TokenTypes = 4
           IgnoreCase = True
         end>
-      BlockOffset = -1
-      RefToCondEnd = True
       HighlightPos = cpAny
       IgnoreAsParent = False
     end
@@ -799,10 +788,10 @@ object SyntAnal37: TLibSyntAnalyzer
     '    Wend'
     ''
     '    '#39'don'#39't fold If'
-
+    
       '    '#39'don'#39't interpret Exit Property as beginning of property gett' +
       '/setter'
-
+    
       '    If intValue <> vbCrLf And intValue <> vbLf Then Exit Propert' +
       'y'
     ''
@@ -862,6 +851,10 @@ object SyntAnal37: TLibSyntAnalyzer
     '    '#39'more variants of If'
     '    If I = 0 Then'
     '      I = -1'
+    '    End If'
+    ''
+    '    If I = 0 Then'
+    '      I = -1'
     '    Else'
     '      I = 1'
     '    End If'
@@ -881,7 +874,7 @@ object SyntAnal37: TLibSyntAnalyzer
     '    End If'
     ''
     '   '#39'if with multi-line condition and one-line if...then'
-    '    If I = 0 Or_'
+    '    If I = 0 Or _'
     '       I = 2 Then'
     '      I = -1'
     '      If X = 4 Then I = -2'
@@ -919,7 +912,6 @@ object SyntAnal37: TLibSyntAnalyzer
     'Number'
     'Label'
     'Id_spec_BeginIf'
-    'Id_spec_EndIf'
     'Id_spec_Next')
   Extentions = 'vb vbs'
   LexerName = 'VBScript'
