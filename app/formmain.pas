@@ -582,6 +582,8 @@ type
     FColorDialog: TColorDialog;
     Status: TATStatus;
     StatusAlt: TATStatus;
+    StatusForm: TForm;
+    StatusFormLabel: TLabel;
     Groups: TATGroups;
     GroupsCtx: TATGroups;
     GroupsF1: TATGroups;
@@ -1356,7 +1358,7 @@ end;
 procedure TfmMain.TimerStatusAltTimer(Sender: TObject);
 begin
   TimerStatusAlt.Enabled:= false;
-  StatusAlt.Hide;
+  StatusForm.Hide;
 end;
 
 procedure TfmMain.TimerStatusBusyTimer(Sender: TObject);
@@ -3987,24 +3989,50 @@ end;
 
 procedure TfmMain.MsgStatusAlt(const AText: string; ASeconds: integer);
 const
-  cMax=30;
+  cMaxSeconds = 30;
+  cSpacing = 3;
+var
+  P: TPoint;
 begin
+  if StatusForm=nil then
+  begin
+    StatusForm:= TForm.CreateNew(nil);
+    StatusForm.BorderStyle:= bsNone;
+    StatusForm.FormStyle:= fsStayOnTop;
+    StatusForm.ShowInTaskBar:= stNever;
+    StatusFormLabel:= TLabel.Create(StatusForm);
+    StatusFormLabel.Parent:= StatusForm;
+    StatusFormLabel.Align:= alClient;
+    StatusFormLabel.Alignment:= taCenter;
+    StatusFormLabel.BorderSpacing.Around:= cSpacing;
+  end;
+
+  StatusForm.Color:= GetAppColor('ListBg');
+  StatusFormLabel.Font.Name:= UiOps.VarFontName;
+  StatusFormLabel.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+  StatusFormLabel.Font.Color:= GetAppColor('ListFont');
+
   if ASeconds<=0 then
   begin
     TimerStatusAlt.Enabled:= false;
-    StatusAlt.Hide;
+    StatusForm.Hide;
     Exit
   end;
 
-  if ASeconds>cMax then
-    ASeconds:= cMax;
+  if ASeconds>cMaxSeconds then
+    ASeconds:= cMaxSeconds;
 
-  //StatusAlt.Parent:= Status; //place hint on statusbar
-  //StatusAlt.Align:= alClient;
-  StatusAlt.Top:= Status.Top-4;
+  P:= PanelAll.ClientToScreen(Point(0, 0));
+  StatusForm.Left:= P.X;
+  StatusForm.Top:= P.Y;
+  StatusFormLabel.Caption:= AText;
+  StatusForm.Width:= PanelMain.Width;
+  StatusForm.Height:= StatusFormLabel.Canvas.TextHeight('W') * (SFindCharCount(AText, #10)+1) + 2*cSpacing;
+  StatusForm.Show;
 
-  StatusAlt.Captions[0]:= AText;
-  StatusAlt.Show;
+  //StatusForm gets focus
+  Self.SetFocus;
+  Self.BringToFront;
 
   TimerStatusAlt.Interval:= ASeconds*1000;
   TimerStatusAlt.Enabled:= false;
