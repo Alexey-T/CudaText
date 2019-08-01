@@ -574,9 +574,9 @@ Param "process_messages": if True, function also does UI messages processing. It
 
  msg_status_alt(text, seconds)
 
-Shows given text in alternative statusbar; it has yellowish color and shows on the bottom of current editor.
+Shows given text in the floating tooptip on the top. Multi-line text (with "\n") is supported.
 
-Param "seconds": show pause in seconds, 1..30. Value<=0 hides statusbar.
+Param "seconds": show pause in seconds, 1..30. Value<=0 hides the tooltip.
 
 ===dlg_input===
 
@@ -3532,5 +3532,8 @@ def project_variables():
 
 1.0.294 (app 1.84.5)
 * add: timer_proc: behaviour when TIMER_START* restarts existing timer: now action updates old timer's tag to new value
+
+1.0.295 (app 1.84.6)
+* change: msg_status_alt now shows floating tooltip on the top (before: was statusbar on the bottom)
 
 [[Category:CudaText]]
