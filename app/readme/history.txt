@@ -5,10 +5,11 @@
 
 1.85.0 (2019/08)
 
-* change: deleted option "ui_listbox_centered", changed behaviour for its default
 + add: on moving selection in Theme menu dialog, program previews selected theme (like Sublime) 
 + add: program saves to history the last selected item in Command Palette
 + add: lexer VBScript improved (by @dinkumoil)
+* change: deleted option "ui_listbox_centered", changed behaviour for its default
+* change: function call-tip in plugin "Python IntelliSense" has different look and position
 
 1.84.4 (2019/07)
 
