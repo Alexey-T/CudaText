@@ -1,3 +1,7 @@
+[comments]
+styles_cmt=Comment
+styles_str=String
+
 [map]
 Default=-
 Comment=Comment
@@ -10,7 +14,4 @@ Function separator=SeparLine
 Function background=CurBlockBG
 Current block bound=BracketBG
 Operator Keywords=Id1
-
-[comments]
-styles_cmt=Comment
-styles_str=String
+Label=Label

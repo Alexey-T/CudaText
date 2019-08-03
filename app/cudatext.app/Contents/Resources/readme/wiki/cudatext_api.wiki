@@ -574,9 +574,9 @@ Param "process_messages": if True, function also does UI messages processing. It
 
  msg_status_alt(text, seconds)
 
-Shows given text in alternative statusbar; it has yellowish color and shows on the bottom of current editor.
+Shows given text in the floating tooptip on the top. Multi-line text (with "\n") is supported.
 
-Param "seconds": show pause in seconds, 1..30. Value<=0 hides statusbar.
+Param "seconds": show pause in seconds, 1..30. Value<=0 hides the tooltip.
 
 ===dlg_input===
 
@@ -1296,7 +1296,7 @@ Perform some lexer-related action.
 Possible values of "id":
 
 * LEXER_GET_LEXERS: Gets list of lexers. Param "value" must be bool: allow to include also hidden lexers (not visible in the lexers menu).
-* LEXER_GET_PROP: For given lexer name, gets its properties as dict. For incorrect lexer name, gets None. Keys of dict:
+* LEXER_GET_PROP: For lexer name (param "value"), gets its properties as dict. For incorrect lexer name, gets None. Keys of dict:
 ** "en": bool: lexer is visible in the lexers menu.
 ** "typ": list of str: list of file-types (they detect lexer when file loads; "ext" is simple extension, "ext1.ext2" is double extension, "/fullname" is name w/o path).
 ** "st": list of str: list of all styles.
@@ -1307,7 +1307,7 @@ Possible values of "id":
 ** "c_str": 2-tuple or None: stream comment (for any range).
 ** "c_lined": 2-tuple or None: comment for full lines.
 
-* LEXER_DETECT: Detects lexer name by given file name. Gets None if cannot detect. Function sees file extension, or even filename before extension (e.g. "/path/makefile.gcc" gives "Makefile").
+* LEXER_DETECT: Detects lexer name by file name (param "value" is file name). Gets None if cannot detect. Function sees file extension, or even filename before extension (e.g. "/path/makefile.gcc" gives "Makefile").
 * LEXER_REREAD_LIB: Re-reads lexer library from disk, updates lexer menu. Make sure that plugins' dialogs don't use editor with lexer, which may crash.
 
 ===tree_proc===
@@ -1450,8 +1450,8 @@ Perform action on timers. Many different timers allowed, they work at the same t
 
 Possible values of "id":
 
-* TIMER_START - Create (if needed) and start timer, infinite ticks. If timer already created, then it's restated.
-* TIMER_START_ONE - Create (if needed) and start timer, for single tick.
+* TIMER_START - Create and start timer, for infinite ticks. If timer for such callback is already created, then it's restated.
+* TIMER_START_ONE - Create and start timer, for single tick. If timer for such callback is already created, then it's restated.
 * TIMER_STOP - Stop timer (timer must be created before).
 * TIMER_DELETE - Stop timer, and delete it from list of timers. Usually don't use it, use only to save memory if created lot of timers.
 
@@ -2015,7 +2015,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_COLOR: int: color property. Value must be one of COLOR_ID_nnn values. Gets None for incorrect id.
 * PROP_ENC: str: encoding name. Names are listed at [[CudaText#Encodings]].
 * PROP_LEXER_FILE: str: name of lexer for entire file (empty str if none is active).
-* PROP_LEXER_POS: str: name of lexer at specified position: value must be str(column)+","+str(line), column/line 0-based.
+* PROP_LEXER_POS: str: name of lexer at specified position. Param "value" must be 2-tuple (column, line), or string str(column)+','+str(line), with 0-based indexes.
 * PROP_LEXER_CARET: str: name of lexer at the position of 1st caret.
 * PROP_INDEX_GROUP: int: index of group with editor's tab, 0-based.
 * PROP_INDEX_TAB: int: index of editor's tab in group, 0-based.
@@ -3529,5 +3529,11 @@ def project_variables():
 * removed deprecated: PROP_EOL
 * add: install.inf support for data with empty "subdir"
 * add: install.inf support for "type=cudatext-package"
+
+1.0.294 (app 1.84.5)
+* add: timer_proc: behaviour when TIMER_START* restarts existing timer: now action updates old timer's tag to new value
+
+1.0.295 (app 1.84.6)
+* change: msg_status_alt now shows floating tooltip on the top (before: was statusbar on the bottom)
 
 [[Category:CudaText]]
