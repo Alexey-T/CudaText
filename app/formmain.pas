@@ -3986,7 +3986,6 @@ begin
   begin
     StatusForm:= TForm.CreateNew(nil);
     StatusForm.BorderStyle:= bsNone;
-    StatusForm.FormStyle:= fsStayOnTop;
     StatusForm.ShowInTaskBar:= stNever;
     StatusFormLabel:= TLabel.Create(StatusForm);
     StatusFormLabel.Parent:= StatusForm;
@@ -3997,6 +3996,7 @@ begin
     StatusFormLabel.ParentFont:= true;
   end;
 
+  StatusForm.FormStyle:= fsSystemStayOnTop;
   StatusForm.Color:= GetAppColor('ListBg');
   StatusForm.Font.Name:= UiOps.VarFontName;
   StatusForm.Font.Size:= AppScaleFont(UiOps.VarFontSize);
