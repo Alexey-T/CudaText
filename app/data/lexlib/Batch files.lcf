@@ -428,6 +428,7 @@ object SyntAnal5: TLibSyntAnalyzer
             'wusa'
             'xcopy')
           TokenTypes = 4
+          IgnoreCase = True
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
