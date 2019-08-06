@@ -1,11 +1,14 @@
 [comments]
 styles_cmt=Comment
 styles_str=
+str1=
+str2=
 
 [map]
 Label=Label
 Comment=Comment
 Keywords=IdKeyword
+Commands=Id1
 Text=Id
 String=String
 Symbol=Symbol
