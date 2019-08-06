@@ -4023,8 +4023,7 @@ begin
     StatusFormLabel.Canvas.TextHeight('W') * (SFindCharCount(AText, #10)+1) + 2*cSpacing;
 
   //get focus back from StatusForm
-  Self.SetFocus;
-  Self.BringToFront;
+  LCLIntf.SetForegroundWindow(Self.Handle);
 
   TimerStatusAlt.Interval:= ASeconds*1000;
   TimerStatusAlt.Enabled:= false;
