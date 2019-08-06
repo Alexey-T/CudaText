@@ -24,6 +24,7 @@ uses
   LazFileUtils,
   {$endif}
   SysUtils,
+  LCLType,
   LCLIntf;
 
 {$ifdef windows}
@@ -94,7 +95,7 @@ procedure debug(const text: String);
 {$ifend}
 
 {$ifndef windows}
-procedure DoFocusWindow(h: THandle);
+procedure DoFocusWindow(h: HWND);
 {$ifend}
 
 implementation
@@ -481,7 +482,7 @@ finalization
      FreeLibrary(hLib);
 
 {$else}
-procedure DoFocusWindow(h: THandle);
+procedure DoFocusWindow(h: HWND);
 begin
   LCLIntf.SetForegroundWindow(h);
 end;
