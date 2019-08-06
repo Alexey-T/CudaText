@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+
+1.85.1 (2019/08)
+
++ add: lexer "Batch files" improved (by @dinkumoil)) 
+
 1.85.0 (2019/08)
 
 + add: on moving selection in Theme menu dialog, program previews selected theme (like Sublime) 
