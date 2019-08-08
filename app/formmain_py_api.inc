@@ -5808,7 +5808,6 @@ function Py_ed_get_token(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
-  F: TEditorFrame;
   Id, NIndex1, NIndex2: integer;
   Adapter: TATAdapterEControl;
 begin
@@ -5816,25 +5815,18 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Liii:get_token', @H, @Id, @NIndex1, @NIndex2)) then
     begin
       Ed:= PyEditor(H);
-      F:= GetEditorFrame(Ed);
-      if F=nil then exit(ReturnNone);
+      if not (Ed.AdapterForHilite is TATAdapterEControl) then
+        exit(ReturnNone);
+      Adapter:= Ed.AdapterForHilite as TATAdapterEControl;
 
       case Id of
         TOKEN_LIST:
           begin
-            Adapter:= F.Adapter[Ed];
-            if Assigned(Adapter) then
-              Result:= Py_GetTokenList(Adapter, 0, MaxInt)
-            else
-              Result:= ReturnNone;
+            Result:= Py_GetTokenList(Adapter, 0, MaxInt)
           end;
         TOKEN_LIST_SUB:
           begin
-            Adapter:= F.Adapter[Ed];
-            if Assigned(Adapter) then
-              Result:= Py_GetTokenList(Adapter, NIndex1, NIndex2)
-            else
-              Result:= ReturnNone;
+            Result:= Py_GetTokenList(Adapter, NIndex1, NIndex2)
           end;
         else
           Result:= ReturnNone;
