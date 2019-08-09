@@ -745,6 +745,7 @@ Parameter "text" is "\n"-separated items, one item per control. Each item is chr
 * "en": enabled state, bool
 * "vis": visible state, bool
 * "hint": hint string for mouse-over. Can be multiline, "\r"-separated.
+* "texthint": text, shown with italic+pale font when value of control is empty. For "edit", "memo", "combobox", "editor". Cannot be multi-line.
 * "color": background color
 * "autosize": control is auto-sized (by width and/or height, it's control-specific)
 * "font_name": font name
@@ -3535,5 +3536,8 @@ def project_variables():
 
 1.0.295 (app 1.84.6)
 * change: msg_status_alt now shows floating tooltip on the top (before: was statusbar on the bottom)
+
+1.0.296 (app 1.85.1)
+* add: dlg_proc: control property "texthint"
 
 [[Category:CudaText]]
