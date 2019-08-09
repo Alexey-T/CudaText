@@ -1281,6 +1281,15 @@ begin
   C.Hint:= StringReplace(S, #13, #10, [rfReplaceAll]);
 end;
 
+procedure DoControl_SetTextHintFromString(C: TControl; const S: string);
+begin
+  if C is TCustomEdit then
+    (C as TCustomEdit).TextHint:= S
+  else
+  if C is TATSynEdit then
+    (C as TATSynEdit).OptTextHint:= S;
+end;
+
 
 procedure DoControl_SetStateFromString(C: TControl; const S: string);
 begin
@@ -1419,6 +1428,12 @@ begin
   if AName='hint' then
   begin
     DoControl_SetHintFromString(C, AValue);
+    exit;
+  end;
+
+  if AName='texthint' then
+  begin
+    DoControl_SetTextHintFromString(C, AValue);
     exit;
   end;
 
