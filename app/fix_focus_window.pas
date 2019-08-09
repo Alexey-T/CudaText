@@ -16,7 +16,6 @@ uses
   Windows,
   Classes,
   InterfaceBase,
-  LCLType,
   LazUTF8,
   proc_globdata,
   proc_msg,
