@@ -745,7 +745,7 @@ Parameter "text" is "\n"-separated items, one item per control. Each item is chr
 * "en": enabled state, bool
 * "vis": visible state, bool
 * "hint": hint string for mouse-over. Can be multiline, "\r"-separated.
-* "texthint": text, shown with italic+pale font when value of control is empty. For "edit", "memo", "combobox", "editor". Cannot be multi-line.
+* "texthint": text, shown with italic+pale font when value of control is empty. For "edit", "memo", "editor". Cannot be multi-line.
 * "color": background color
 * "autosize": control is auto-sized (by width and/or height, it's control-specific)
 * "font_name": font name
