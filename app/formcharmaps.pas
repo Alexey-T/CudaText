@@ -367,6 +367,22 @@ begin
     Key:= 0;
     exit
   end;
+
+  if (Key=VK_DOWN) and (Shift=[ssCtrl]) then
+  begin
+    if comboAnsi.ItemIndex<comboAnsi.Items.Count-1 then
+      comboAnsi.ItemIndex:= comboAnsi.ItemIndex+1;
+    Key:= 0;
+    exit
+  end;
+
+  if (Key=VK_UP) and (Shift=[ssCtrl]) then
+  begin
+    if comboAnsi.ItemIndex>0 then
+      comboAnsi.ItemIndex:= comboAnsi.ItemIndex-1;
+    Key:= 0;
+    exit
+  end;
 end;
 
 procedure TfmCharmaps.DoFormAutosize;
