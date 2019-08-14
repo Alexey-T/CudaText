@@ -1982,16 +1982,18 @@ end;
 
 function Py_dlg_dir(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  PtrFolder: PChar;
-  StrFolder: string;
+  PtrFolder, PtrCaption: PChar;
+  StrFolder, StrCaption: string;
   Dlg: TSelectDirectoryDialog;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 's:dlg_dir', @PtrFolder)) then
+    if Bool(PyArg_ParseTuple(Args, 'ss:dlg_dir', @PtrFolder, @PtrCaption)) then
     begin
       StrFolder:= string(PtrFolder);
+      StrCaption:= string(PtrCaption);
       Dlg:= TSelectDirectoryDialog.Create(nil);
       try
+        Dlg.Title:= StrCaption;
         Dlg.InitialDir:= StrFolder;
         if Dlg.Execute then
           Result:= PyUnicode_FromWideString(Utf8Decode(Dlg.FileName))

@@ -832,8 +832,8 @@ def dlg_menu(id, items, focused=0, caption=''):
 def dlg_file(is_open, init_filename, init_dir, filters):
     return ct.dlg_file(is_open, init_filename, init_dir, filters)
 
-def dlg_dir(init_dir):
-    return ct.dlg_dir(init_dir)
+def dlg_dir(init_dir, caption='Select folder'):
+    return ct.dlg_dir(init_dir, caption)
 
 def dlg_hotkey(title=''):
     return ct.dlg_hotkey(title)
