@@ -1923,19 +1923,20 @@ end;
 
 function Py_dlg_file(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  PtrFilename, PtrFolder, PtrFilter: PChar;
-  StrFilename, StrFolder, StrFilter: string;
+  PtrFilename, PtrFolder, PtrFilter, PtrCaption: PChar;
+  StrFilename, StrFolder, StrFilter, StrCaption: string;
   IsOpen: LongBool;
   IsAllowAny: boolean;
   Dlg: TOpenDialog;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'isss:dlg_file',
-      @IsOpen, @PtrFilename, @PtrFolder, @PtrFilter)) then
+    if Bool(PyArg_ParseTuple(Args, 'issss:dlg_file',
+      @IsOpen, @PtrFilename, @PtrFolder, @PtrFilter, @PtrCaption)) then
     begin
       StrFilename:= string(PtrFilename);
       StrFolder:= string(PtrFolder);
       StrFilter:= string(PtrFilter);
+      StrCaption:= string(PtrCaption);
 
       IsAllowAny:= SBeginsWith(StrFilename, '!');
       if IsAllowAny then Delete(StrFilename, 1, 1);
@@ -1960,6 +1961,7 @@ begin
           Dlg.Options:= Dlg.Options+[ofAllowMultiSelect];
         end;
 
+        Dlg.Title:= StrCaption;
         Dlg.FileName:= StrFilename;
         Dlg.InitialDir:= StrFolder;
         Dlg.Filter:= StrFilter;
