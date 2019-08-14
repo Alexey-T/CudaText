@@ -8,8 +8,8 @@ object fmCharmaps: TfmCharmaps
   Caption = 'Char map'
   ClientHeight = 523
   ClientWidth = 516
-  Constraints.MinHeight = 400
-  Constraints.MinWidth = 400
+  Constraints.MinHeight = 440
+  Constraints.MinWidth = 450
   KeyPreview = True
   OnClose = FormClose
   OnCreate = FormCreate
@@ -92,6 +92,21 @@ object fmCharmaps: TfmCharmaps
       Style = csDropDownList
       TabOrder = 1
       Text = 'cp1250 - Central and East European Latin'
+    end
+    object chkHexTitle: TCheckBox
+      AnchorSideTop.Control = PanelInfo
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = PanelInfo
+      AnchorSideRight.Side = asrBottom
+      Left = 420
+      Height = 24
+      Top = 7
+      Width = 90
+      Anchors = [akTop, akRight]
+      BorderSpacing.Right = 6
+      Caption = 'Hex titles'
+      OnChange = chkHexTitleChange
+      TabOrder = 2
     end
   end
   object PanelBtm: TATPanelSimple

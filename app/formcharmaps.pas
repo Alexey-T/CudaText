@@ -32,6 +32,7 @@ type
     btnAnsi: TButton;
     btnClose: TButton;
     btnUnicode: TButton;
+    chkHexTitle: TCheckBox;
     comboAnsi: TComboBox;
     comboUnicode: TComboBox;
     LabelInfo: TLabel;
@@ -41,6 +42,7 @@ type
     procedure btnAnsiClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure btnUnicodeClick(Sender: TObject);
+    procedure chkHexTitleChange(Sender: TObject);
     procedure comboAnsiChange(Sender: TObject);
     procedure comboUnicodeChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -52,9 +54,11 @@ type
     procedure GridMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure GridSelectCell(Sender: TObject; aCol, aRow: Integer; var CanSelect: Boolean);
   private
+    { private declarations }
     FOnInsert: TCharmapInsertEvent;
     FUnicode: boolean;
     FUnicodeBegin: integer;
+    FHexTitles: boolean;
     function CodeToString(code: integer): string;
     function DoGetCode(aCol, aRow: integer): integer;
     procedure DoShowAnsi;
@@ -63,7 +67,8 @@ type
     procedure DoInsert(aCol, aRow: integer);
     procedure DoShowStatus(aCol, aRow: integer);
     function GetCodepage: string;
-    { private declarations }
+    procedure SetHexTitles(Value: boolean);
+    procedure UpdateTitles;
   public
     { public declarations }
     AllowUnicodeAfterFFFF: boolean;
@@ -71,6 +76,7 @@ type
     MsgStatusUnicode: string;
     InitialStr: string;
     property OnInsert: TCharmapInsertEvent read FOnInsert write FOnInsert;
+    property HexTitles: boolean read FHexTitles write SetHexTitles;
   end;
 
 var
@@ -252,6 +258,29 @@ begin
   if n>0 then SetLength(Result, n-1);
 end;
 
+procedure TfmCharmaps.SetHexTitles(Value: boolean);
+begin
+  FHexTitles:= Value;
+  UpdateTitles;
+end;
+
+procedure TfmCharmaps.UpdateTitles;
+var
+  i: integer;
+begin
+  for i:= 1 to 16 do
+    if HexTitles then
+    begin
+      Grid.Cells[i, 0]:= Format('%2.2x', [Pred(i)]);
+      Grid.Cells[0, i]:= Format('%2.2x+', [Pred(i)*16]);
+    end
+    else
+    begin
+      Grid.Cells[i, 0]:= Format('%2.2d', [Pred(i)]);
+      Grid.Cells[0, i]:= Format('%3.3d+', [Pred(i)*16]);
+    end;
+end;
+
 procedure TfmCharmaps.DoShowAnsi;
 var
   Str: string;
@@ -268,12 +297,6 @@ begin
   Grid.FixedRows:= 1;
 
   for i:= 1 to 16 do
-  begin
-    Grid.Cells[i, 0]:= Format('%2.2d', [Pred(i)]);
-    Grid.Cells[0, i]:= Format('%3.3d+', [Pred(i)*16]);
-  end;
-
-  for i:= 1 to 16 do
     for j:= 1 to 16 do
     begin
       code:= i-1 + (j-1)*16;
@@ -281,6 +304,8 @@ begin
       Str:= CodeToString(code);
       Grid.Cells[i, j]:= Str;
     end;
+
+  UpdateTitles;
 
   DoShowStatus(Grid.Col, Grid.Row);
   DoFormAutosize;
@@ -399,6 +424,11 @@ end;
 procedure TfmCharmaps.btnUnicodeClick(Sender: TObject);
 begin
   DoShowUnicode;
+end;
+
+procedure TfmCharmaps.chkHexTitleChange(Sender: TObject);
+begin
+  HexTitles:= chkHexTitle.Checked;
 end;
 
 procedure TfmCharmaps.comboAnsiChange(Sender: TObject);
