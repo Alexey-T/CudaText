@@ -619,11 +619,12 @@ Features:
 
 ===dlg_dir===
 
- dlg_dir(init_dir)
+ dlg_dir(init_dir, caption="Select folder")
 
-Shows dialog to select folder. Gets folder path, or None if cancelled.
+Shows dialog to select folder path. Gets path (str), or None if cancelled.
 
-Param "init_dir": Initial folder.
+* Param "init_dir": Initial folder.
+* Param "caption": Dialog caption.
 
 ===dlg_menu===
 
@@ -3539,5 +3540,8 @@ def project_variables():
 
 1.0.296 (app 1.85.1)
 * add: dlg_proc: control property "texthint"
+
+1.0.297 (app 1.85.1)
+* add: dlg_dir: param "caption"
 
 [[Category:CudaText]]
