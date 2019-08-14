@@ -56,7 +56,7 @@ type
   private
     { private declarations }
     FOnInsert: TCharmapInsertEvent;
-    FUnicode: boolean;
+    FUnicodeMode: boolean;
     FUnicodeBegin: integer;
     FHexTitles: boolean;
     function CodeToString(code: integer): string;
@@ -175,7 +175,7 @@ begin
     end;
   {$endif}
 
-  if not FUnicode then
+  if not FUnicodeMode then
     if InitialStr<>'' then
       for i:= 1 to 16 do
         for j:= 1 to 16 do
@@ -211,7 +211,7 @@ end;
 
 function TfmCharmaps.DoGetCode(aCol, aRow: integer): integer;
 begin
-  if not FUnicode then
+  if not FUnicodeMode then
     Result:= aCol-1 + (aRow-1)*16
   else
     Result:= aCol + aRow*16 + FUnicodeBegin;
@@ -219,7 +219,7 @@ end;
 
 function TfmCharmaps.CodeToString(code: integer): string;
 begin
-  if FUnicode then
+  if FUnicodeMode then
     Result:= UnicodeToUTF8(code)
   else
   if code>=0 then
@@ -237,7 +237,7 @@ begin
   str:= CodeToString(code);
   if code=0 then str:= '';
 
-  if not FUnicode then
+  if not FUnicodeMode then
     LabelInfo.Caption:= Format(MsgStatusAnsi, [code, IntToHex(code, 2), str])
   else
     LabelInfo.Caption:= Format(MsgStatusUnicode, [IntToHex(code, 4), str]);
@@ -268,6 +268,7 @@ procedure TfmCharmaps.UpdateTitles;
 var
   i: integer;
 begin
+  if not FUnicodeMode then
   for i:= 1 to 16 do
     if HexTitles then
     begin
@@ -286,9 +287,10 @@ var
   Str: string;
   i, j, code: integer;
 begin
-  FUnicode:= false;
-  comboAnsi.Visible:= not FUnicode;
-  comboUnicode.Visible:= FUnicode;
+  FUnicodeMode:= false;
+  comboAnsi.Visible:= not FUnicodeMode;
+  comboUnicode.Visible:= FUnicodeMode;
+  chkHexTitle.Enabled:= true;
 
   Grid.Clear;
   Grid.RowCount:= 17;
@@ -317,9 +319,10 @@ const
 var
   nBegin, nEnd, i: integer;
 begin
-  FUnicode:= true;
-  comboAnsi.Visible:= not FUnicode;
-  comboUnicode.Visible:= FUnicode;
+  FUnicodeMode:= true;
+  comboAnsi.Visible:= not FUnicodeMode;
+  comboUnicode.Visible:= FUnicodeMode;
+  chkHexTitle.Enabled:= false;
 
   PanelInfo.Top:= 10;
   Grid.Clear;
@@ -433,7 +436,7 @@ end;
 
 procedure TfmCharmaps.comboAnsiChange(Sender: TObject);
 begin
-  if not FUnicode then
+  if not FUnicodeMode then
     DoShowAnsi;
 end;
 
