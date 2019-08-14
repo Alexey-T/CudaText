@@ -1,13 +1,15 @@
 object fmCharmaps: TfmCharmaps
-  Left = 478
+  Left = 481
   Height = 523
-  Top = 215
+  Top = 210
   Width = 516
   ActiveControl = Grid
   BorderIcons = [biSystemMenu]
   Caption = 'Char map'
   ClientHeight = 523
   ClientWidth = 516
+  Constraints.MinHeight = 400
+  Constraints.MinWidth = 400
   KeyPreview = True
   OnClose = FormClose
   OnCreate = FormCreate
@@ -78,7 +80,7 @@ object fmCharmaps: TfmCharmaps
       Anchors = [akRight, akBottom]
       AutoSize = True
       BorderSpacing.Around = 6
-      Caption = '1: ANSI'
+      Caption = '&1: ANSI'
       OnClick = btnAnsiClick
       TabOrder = 0
     end
@@ -93,7 +95,7 @@ object fmCharmaps: TfmCharmaps
       Anchors = [akRight, akBottom]
       AutoSize = True
       BorderSpacing.Around = 6
-      Caption = '2: Unicode'
+      Caption = '&2: Unicode'
       OnClick = btnUnicodeClick
       TabOrder = 1
     end
