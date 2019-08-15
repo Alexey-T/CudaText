@@ -1001,6 +1001,22 @@ This is URL, not tool. In the External Tools dialog, press URL button, then pres
 http://google.com/search?q={SelectedText|q}
 </syntaxhighlight>
 
+==Tool to open folder of current file in Windows Explorer==
+Tool properties:
+
+* Name: Open cur dir in Explorer
+* File name: explorer.exe
+* Shell command: unchecked
+* Parameters: {FileDir}
+* Initial folder: {FileDir}
+
+==Tool to go to current file in FreeCommander==
+* Name: Go to file in FreeCommander
+* File name: path\to\FreeCommander.exe
+* Shell command: unchecked
+* Parameters: "/L={FileName}" /C
+* Initial folder: {FileDir}
+
 =Tech topics=
 == Python API ==
 
