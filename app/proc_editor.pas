@@ -33,6 +33,7 @@ uses
 
 type
   TATEditorTempOps = record
+    FontSize: integer;
     WrapMode: TATSynWrapMode;
     ShowMinimap: boolean;
     ShowMicromap: boolean;
@@ -990,6 +991,7 @@ end;
 
 procedure EditorSaveTempOptions(Ed: TATSynEdit; var Ops: TATEditorTempOps);
 begin
+  Ops.FontSize:= Ed.Font.Size;
   Ops.WrapMode:= Ed.OptWrapMode;
   Ops.ShowMinimap:= Ed.OptMinimapVisible;
   Ops.ShowMicromap:= Ed.OptMicromapVisible;
@@ -1000,6 +1002,7 @@ end;
 
 procedure EditorRestoreTempOptions(Ed: TATSynEdit; const Ops: TATEditorTempOps);
 begin
+  Ed.Font.Size:= Ops.FontSize;
   Ed.OptWrapMode:= Ops.WrapMode;
   Ed.OptMinimapVisible:= Ops.ShowMinimap;
   Ed.OptMicromapVisible:= Ops.ShowMicromap;
