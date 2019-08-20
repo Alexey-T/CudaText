@@ -907,6 +907,12 @@ begin
        TAppTreeContainer(Ctl).Tree.OnClick:= @AForm.DoOnClick;
        TAppTreeContainer(Ctl).Tree.OnDblClick:= @AForm.DoOnDblClick;
        TAppTreeContainer(Ctl).Tree.OnContextPopup:= @AForm.DoOnControlMenu;
+       TAppTreeContainer(Ctl).Tree.OnEnter:= @AForm.DoOnControlFocusEnter;
+       TAppTreeContainer(Ctl).Tree.OnExit:= @AForm.DoOnControlFocusExit;
+       TAppTreeContainer(Ctl).Tree.OnMouseEnter:= @AForm.DoOnControlMouseEnter;
+       TAppTreeContainer(Ctl).Tree.OnMouseLeave:= @AForm.DoOnControlMouseLeave;
+       TAppTreeContainer(Ctl).Tree.OnMouseDown:= @AForm.DoOnControlMouseDown;
+       TAppTreeContainer(Ctl).Tree.OnMouseUp:= @AForm.DoOnControlMouseUp;
      end
      else
      begin
