@@ -915,10 +915,17 @@ begin
          Ctl.OnClick:= @AForm.DoOnClick;
        TControlHack(Ctl).OnDblClick:= @AForm.DoOnDblClick;
        TControlHack(Ctl).OnContextPopup:= @AForm.DoOnControlMenu;
+
        TControlHack(Ctl).OnMouseEnter:= @AForm.DoOnControlMouseEnter;
        TControlHack(Ctl).OnMouseLeave:= @AForm.DoOnControlMouseLeave;
        TControlHack(Ctl).OnMouseDown:= @AForm.DoOnControlMouseDown;
        TControlHack(Ctl).OnMouseUp:= @AForm.DoOnControlMouseUp;
+
+       if Ctl is TWinControl then
+       begin
+         TWinControl(Ctl).OnEnter:= @AForm.DoOnControlFocusEnter;
+         TWinControl(Ctl).OnExit:= @AForm.DoOnControlFocusExit;
+       end;
      end;
    end;
  end;
@@ -1588,6 +1595,18 @@ begin
   if AName='on_click_header' then
   begin
     TAppControlProps(C.Tag).FEventOnClickHeader:= AValue;
+    exit;
+  end;
+
+  if AName='on_focus_enter' then
+  begin
+    TAppControlProps(C.Tag).FEventOnFocusEnter:= AValue;
+    exit;
+  end;
+
+  if AName='on_focus_exit' then
+  begin
+    TAppControlProps(C.Tag).FEventOnFocusExit:= AValue;
     exit;
   end;
 
