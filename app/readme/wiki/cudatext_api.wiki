@@ -1033,8 +1033,8 @@ These are also properties of controls.
 * "on_mouse_up": Called when mouse button depressed (released). Param "data": like in "on_mouse_down".
 * "on_mouse_enter": Called when mouse cursor enters control area.
 * "on_mouse_exit": Called when mouse cursor leaves control area.
-* "on_focus_enter": Called when control gets focus. Supported only for "windowed" controls (e.g. "button" and "label" are not windowed controls).
-* "on_focus_exit": Called when control looses focus. Supported only for "windowed" controls.
+* "on_focus_enter": Called when control gets focus. Not supported for controls (they don't have OS window handle): label, button, button_ex, panel, linklabel, colorpanel, bevel, image, progressbar_ex, paintbox, statusbar.
+* "on_focus_exit": Called when control looses focus. Supported for the same controls as "on_focus_enter". 
 * "on_menu": Called before showing context menu, after right click or ContextMenu hotkey. Param "data": like in "on_mouse_down". Method can return False to disable default menu (if any).
 
 Events for control "listview"/"checklistview":
