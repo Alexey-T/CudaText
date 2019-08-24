@@ -731,6 +731,7 @@ type
     procedure FormFloatGroups1_OnEmpty(Sender: TObject);
     procedure FormFloatGroups2_OnEmpty(Sender: TObject);
     procedure FormFloatGroups3_OnEmpty(Sender: TObject);
+    procedure FormFloatGroups_OnDropFiles(Sender: TObject; const FileNames: array of String);
     procedure FormFloatSideOnClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormFloatGroups1_OnClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormFloatGroups2_OnClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -2156,6 +2157,48 @@ begin
     else
     if FileExistsUTF8(SName) then
       DoFileOpen(SName, '', Pages);
+  end;
+end;
+
+procedure TfmMain.FormFloatGroups_OnDropFiles(Sender: TObject;
+  const FileNames: array of String);
+var
+  SName: string;
+  CurForm: TCustomForm;
+  Gr: TATGroups;
+  i: integer;
+begin
+  if not IsAllowedToOpenFileNow then exit;
+
+  //MS WordPad, Notepad++ - they get focus on drag-drop from Explorer
+  Application.BringToFront;
+
+  CurForm:= Sender as TForm;
+  if CurForm=FFormFloatGroups1 then
+  begin
+    Gr:= GroupsF1;
+  end
+  else
+  if CurForm=FFormFloatGroups2 then
+  begin
+    Gr:= GroupsF2;
+  end
+  else
+  if CurForm=FFormFloatGroups3 then
+  begin
+    Gr:= GroupsF3;
+  end
+  else
+  raise Exception.Create('Unknown floating group form');
+
+  for i:= 0 to Length(Filenames)-1 do
+  begin
+    SName:= FileNames[i];
+    if DirectoryExistsUTF8(SName) then
+      DoFolderOpen(SName, False)
+    else
+    if FileExistsUTF8(SName) then
+      DoFileOpen(SName, '', Gr.Pages[0]);
   end;
 end;
 
@@ -6036,6 +6079,9 @@ begin
     F.BorderIcons:= [biSystemMenu, biMaximize, biMinimize];
     F.OnClose:= AOnClose;
     F.Caption:= msgTitle + Format(' [f%d]', [ATag]);
+
+    F.AllowDropFiles:= true;
+    F.OnDropFiles:= @FormFloatGroups_OnDropFiles;
 
     if UiOps.FloatGroupsInTaskbar then
       F.ShowInTaskBar:= stAlways
