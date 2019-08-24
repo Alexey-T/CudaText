@@ -3639,7 +3639,7 @@ begin
   PathAppend:= false;
   dir:= ExtractFileDir(Application.ExeName)+DirectorySeparator;
   SetLength(Str, 2);
-  Str[0]:= dir+'dlls';
+  Str[0]:= dir+ChangeFileExt(UiOps.PyLibrary, 'dlls');
   Str[1]:= dir+ChangeFileExt(UiOps.PyLibrary, '.zip');
   {$endif}
 
