@@ -826,7 +826,7 @@ begin
   Result:= '';
 
   {$ifdef windows}
-  exit('python35.dll');
+  exit('python36.dll');
   {$endif}
 
   {$ifdef linux}

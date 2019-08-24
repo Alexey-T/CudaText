@@ -937,7 +937,11 @@ begin
   UiOps.TreeTheme:= c.GetValue('ui_tree_theme', UiOps.TreeTheme);
   UiOps.ToolBarTheme:= c.GetValue('ui_toolbar_theme', UiOps.ToolBarTheme);
 
+  {$ifndef windows}
+  //option is ignored on win
   UiOps.PyLibrary:= c.GetValue('pylib'+cOptionSystemSuffix, UiOps.PyLibrary);
+  {$endif}
+
   UiOps.PictureTypes:= c.GetValue('picture_types', UiOps.PictureTypes);
   UiOps.MaxFileSizeToOpen:= c.GetValue('ui_max_size_open', UiOps.MaxFileSizeToOpen);
   UiOps.MaxFileSizeForLexer:= c.GetValue('ui_max_size_lexer', UiOps.MaxFileSizeForLexer);
