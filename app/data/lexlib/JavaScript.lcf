@@ -1,4 +1,4 @@
-object SyntAnal14: TLibSyntAnalyzer
+object SyntAnal10: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -199,7 +199,9 @@ object SyntAnal14: TLibSyntAnalyzer
       DisplayName = 'Id func name'
       StyleName = 'Id func name'
       TokenType = 2
-      Expression = '(?<=\bfunction\x20+)[a-z_]\w* | (?<=\bclass\x20+)[a-z_]\w*'
+      Expression = 
+        '(?r)(?<=\bfunction\x20+)[\$\w\x{200C}\x{200D}]+ | (?<=\bclass\x2' +
+        '0+)[\$\w\x{200C}\x{200D}]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -374,9 +376,9 @@ object SyntAnal14: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
+            '$export'
             '__dirname'
             '__filename'
-            '$export'
             'Array'
             'constructor'
             'Date'
@@ -705,13 +707,13 @@ object SyntAnal14: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal22
+      SyntAnalyzer = SyntAnal18
     end
     item
       DisplayName = 'JSDoc'
       StartExpression = '/\*\*'
       EndExpression = '\*/'
-      SyntAnalyzer = SyntAnal15
+      SyntAnalyzer = SyntAnal11
       IncludeBounds = True
     end>
   SampleText.Strings = (
