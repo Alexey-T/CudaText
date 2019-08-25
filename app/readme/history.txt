@@ -4,10 +4,12 @@
   * changed
 
 
-1.85.1 (2019/08)
+1.85.2 (2019/08)
 
++ add: supported drag&drop from Explorer to floating groups (f1, f2, f3)
 + add: Char Map dialog: hotkeys Ctrl+Up/ Ctrl+Down to change charset
 + add: lexer "Batch files" improved (by @dinkumoil)) 
+* change: Windows build upgraded to Python 3.6, option "pylib" (on Windows) is now ignored
 
 1.85.0 (2019/08)
 

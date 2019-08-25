@@ -934,9 +934,9 @@
   //  So you must install Python from www.python.org
   //  CudaText will find Python then (any version until 3.9).
   //
-  "pylib": "python35.dll",
   "pylib__linux": "libpython3.so",
-  "pylib__mac": "/Library/Frameworks/Python.framework/Versions/3.5/lib/libpython3.5.dylib",
+  "pylib__mac": "/Library/Frameworks/Python.framework/Versions/3.6/lib/libpython3.6.dylib",
+  "pylib__freebsd": "libpython3.6m.so",
 
   //API: delay for event on_change_slow in msec (used in CudaLint)
   "py_change_slow": 2000,

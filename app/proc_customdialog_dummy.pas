@@ -52,6 +52,8 @@ type
     FEventOnClick: string;
     FEventOnClickDbl: string;
     FEventOnClickHeader: string;
+    FEventOnFocusEnter: string;
+    FEventOnFocusExit: string;
     FEventOnMenu: string;
     FEventOnSelect: string;
     FEventOnFold: string;
@@ -132,6 +134,8 @@ type
     procedure DoOnTreeviewExpanding(Sender: TObject; Node: TTreeNode; var AllowExpansion: Boolean);
     procedure DoOnTreeviewCollapsing(Sender: TObject; Node: TTreeNode; var AllowCollapse: Boolean);
     procedure DoOnControlSelect(Sender: TObject);
+    procedure DoOnControlFocusEnter(Sender: TObject);
+    procedure DoOnControlFocusExit(Sender: TObject);
     procedure DoOnControlMenu(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure DoOnControlMouseEnter(Sender: TObject);
     procedure DoOnControlMouseLeave(Sender: TObject);
@@ -788,6 +792,26 @@ begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
   DoEvent(IdControl, Props.FEventOnSelect, '');
+end;
+
+procedure TFormDummy.DoOnControlFocusEnter(Sender: TObject);
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  IdControl:= FindControlIndexByOurObject(Sender);
+  DoEvent(IdControl, Props.FEventOnFocusEnter, '');
+end;
+
+procedure TFormDummy.DoOnControlFocusExit(Sender: TObject);
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  IdControl:= FindControlIndexByOurObject(Sender);
+  DoEvent(IdControl, Props.FEventOnFocusExit, '');
 end;
 
 
