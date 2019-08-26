@@ -127,9 +127,12 @@ const
   {$ifdef darwin}
   msgCannotInitPython2: string = 'install Python 3.x from www.python.org, it should be found by CudaText then.';
   {$else}
-  msgCannotInitPython2: string = 'write option "pylib'+
-                                 {$ifdef unix}cOptionSystemSuffix+{$endif}
-                                 '" to user.json. See info in default config: Options / Settings-default.';
+    {$ifdef windows}
+    msgCannotInitPython2: string = 'place near cudatext.exe: python36.dll, python36.zip, vcruntime140.dll, dir python36dlls.';
+    {$else}
+    msgCannotInitPython2: string = 'write option "pylib'+cOptionSystemSuffix+
+                                   '" to user.json. See info in default config: Options / Settings-default.';
+    {$endif}
   {$endif}
 
   msgCannotOpenFile: string = 'Cannot open file:';
