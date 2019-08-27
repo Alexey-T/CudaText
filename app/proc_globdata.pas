@@ -818,9 +818,12 @@ end;
 
 {$ifdef windows}
 const
-  cPythonWindowsDLLs: array[0..1] of string = (
+  cPythonWindowsDLLs: array[0..4] of string = (
     'python38.dll',
-    'python37.dll'
+    'python37.dll',
+    'python36.dll',
+    'python35.dll',
+    'python34.dll'
     );
 {$endif}
 
@@ -837,7 +840,7 @@ begin
   for N:= 0 to High(cPythonWindowsDLLs) do
     if FileExists(S+cPythonWindowsDLLs[N]) then
       exit(cPythonWindowsDLLs[N]);
-  exit('python36.dll');
+  exit('');
   {$endif}
 
   {$ifdef linux}
