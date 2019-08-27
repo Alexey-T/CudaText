@@ -128,7 +128,7 @@ const
   msgCannotInitPython2: string = 'install Python 3.x from www.python.org, it should be found by CudaText then.';
   {$else}
     {$ifdef windows}
-    msgCannotInitPython2: string = 'place near cudatext.exe: python36.dll, python36.zip, vcruntime140.dll, dir python36dlls.';
+    msgCannotInitPython2: string = 'place near cudatext.exe: python3x.dll, python3x.zip, python3xdlls\*.pyd, MS VS Runtime.';
     {$else}
     msgCannotInitPython2: string = 'write option "pylib'+cOptionSystemSuffix+
                                    '" to user.json. See info in default config: Options / Settings-default.';
