@@ -3551,4 +3551,7 @@ def project_variables():
 1.0.298 (app 1.85.2)
 * add: dlg_proc: control events "on_focus_enter", "on_focus_exit"
 
+1.0.299 (app 1.85.2)
+* Windows embedded Python updated to 3.6
+
 [[Category:CudaText]]
