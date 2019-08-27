@@ -816,16 +816,27 @@ begin
   MsgBox(msgCannotReadConf+#10+fn, MB_OK+MB_ICONERROR);
 end;
 
+{$ifdef windows}
+const
+  cPythonWindowsDLLs: array[0..1] of string = (
+    'python38.dll',
+    'python37.dll'
+    );
+{$endif}
+
 function InitPyLibraryPath: string;
-{$ifdef darwin}
 var
   N: integer;
   S: string;
-{$endif}
 begin
   Result:= '';
 
   {$ifdef windows}
+  //detect latest existing file python3x.dll in app folder
+  S:= ExtractFilePath(Application.ExeName);
+  for N:= 0 to High(cPythonWindowsDLLs) do
+    if FileExists(S+cPythonWindowsDLLs[N]) then
+      exit(cPythonWindowsDLLs[N]);
   exit('python36.dll');
   {$endif}
 
