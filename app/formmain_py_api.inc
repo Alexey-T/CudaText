@@ -4728,7 +4728,6 @@ function Py_ed_get_sublexer_ranges(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
-  Frame: TEditorFrame;
   NLen, i: Integer;
   PntStart, PntEnd: TPoint;
   LexName, Str: string;
@@ -4738,10 +4737,11 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'L:get_sublexer_ranges', @H)) then
     begin
       Ed:= PyEditor(H);
-      Frame:= GetEditorFrame(Ed);
-      if Frame=nil then exit(ReturnNone);
 
-      Adapter:= Frame.Adapter[Ed];
+      if not (Ed.AdapterForHilite is TATAdapterEControl) then
+        exit(ReturnNone);
+      Adapter:= (Ed.AdapterForHilite as TATAdapterEControl);
+
       NLen:= Adapter.SublexerRangeCount;
       if NLen>0 then
       begin
