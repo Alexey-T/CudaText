@@ -3020,8 +3020,10 @@ begin
     if ExtractFileExt(AFileName)='.zip' then
     begin
       if DoFileInstallZip(AFileName, AppFolderOfLastInstalledAddon, bSilent) then
+      begin
         Result:= CurrentFrame;
-      exit
+        exit
+      end
     end;
 
     //py event
