@@ -2691,6 +2691,8 @@ var
   Ed: TATSynEdit;
   F: TEditorFrame;
   Pnt: TPoint;
+  Ada: TATAdapterEControl;
+  Lex: TecSyntAnalyzer;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:get_prop', @H, @Id, @Ptr)) then
@@ -2772,30 +2774,54 @@ begin
 
         PROP_LEXER_FILE:
           begin
-            if Assigned(F) then
-              Result:= PyString_FromString(PChar(F.LexerName[Ed]))
+            if Ed.AdapterForHilite is TATAdapterEControl then
+            begin
+              Ada:= Ed.AdapterForHilite as TATAdapterEControl;
+              Lex:= Ada.Lexer;
+              if Assigned(Lex) then
+                Result:= PyString_FromString(PChar(Lex.LexerName))
+              else
+                Result:= PyString_FromString('');
+            end
             else
-              Result:= ReturnNone;
+              Result:= PyString_FromString('');
           end;
 
         PROP_LEXER_POS:
           begin
             Pnt.X:= StrToIntDef(SGetItem(Str, ','), 0);
             Pnt.Y:= StrToIntDef(SGetItem(Str, ','), 0);
-            if Assigned(F) then
-              Result:= PyString_FromString(PChar(F.LexerNameAtPos(Ed, Pnt)))
+            if Ed.AdapterForHilite is TATAdapterEControl then
+            begin
+              Ada:= Ed.AdapterForHilite as TATAdapterEControl;
+              Lex:= Ada.LexerAtPos(Pnt);
+              if Assigned(Lex) then
+                Result:= PyString_FromString(PChar(Lex.LexerName))
+              else
+                Result:= PyString_FromString('');
+            end
             else
-              Result:= ReturnNone;
+              Result:= PyString_FromString('');
           end;
 
         PROP_LEXER_CARET:
           begin
-            Pnt.X:= Ed.Carets[0].PosX;
-            Pnt.Y:= Ed.Carets[0].PosY;
-            if Assigned(F) then
-              Result:= PyString_FromString(PChar(F.LexerNameAtPos(Ed, Pnt)))
+            with Ed.Carets[0] do
+            begin
+              Pnt.X:= PosX;
+              Pnt.Y:= PosY;
+            end;
+            if Ed.AdapterForHilite is TATAdapterEControl then
+            begin
+              Ada:= Ed.AdapterForHilite as TATAdapterEControl;
+              Lex:= Ada.LexerAtPos(Pnt);
+              if Assigned(Lex) then
+                Result:= PyString_FromString(PChar(Lex.LexerName))
+              else
+                Result:= PyString_FromString('');
+            end
             else
-              Result:= ReturnNone;
+              Result:= PyString_FromString('');
           end;
 
         PROP_TAB_COLOR:
