@@ -615,6 +615,13 @@ begin
     TATSynEdit(Ctl).OnScroll:= @AForm.DoOnEditorScroll;
     TATSynEdit(Ctl).OnPaste:= @AForm.DoOnEditorPaste;
 
+    TATSynEdit(Ctl).OptBorderFocusedActive:= UiOps.ShowActiveBorder;
+    if UiOps.ShowActiveBorder then
+    begin
+      TATSynEdit(Ctl).OptBorderWidth:= 1;
+      TATSynEdit(Ctl).OptBorderWidthFocused:= 1;
+    end;
+
     EditorApplyTheme(TATSynEdit(Ctl));
     EditorApplyOps(TATSynEdit(Ctl), EditorOps, true, true, false);
 
