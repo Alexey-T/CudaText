@@ -13,6 +13,7 @@
 + add: plugins "Terminal", "Find in Files": input fields considered option "ui_active_border": true
 + add: lexer JavaScript: code-tree supported function/class names with Unicode and $ char
 + add: lexer "Batch files" improved (by @dinkumoil))
+- fix: macOS: wrong display of menu-dialogs (caused by nagative font size in user.json)
 
 1.85.0 (2019/08)
 
