@@ -618,7 +618,7 @@ begin
     TATSynEdit(Ctl).OptBorderFocusedActive:= UiOps.ShowActiveBorder;
     if UiOps.ShowActiveBorder then
     begin
-      TATSynEdit(Ctl).OptBorderWidth:= 1;
+      //TATSynEdit(Ctl).OptBorderWidth:= 1;
       TATSynEdit(Ctl).OptBorderWidthFocused:= 1;
     end;
 
