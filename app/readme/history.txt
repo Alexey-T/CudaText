@@ -10,8 +10,8 @@
 + add: Windows build: added support for Python 3.4...3.8; the existing python3x.dll with latest number from app folder is used
 + add: supported drag&drop from Explorer to floating groups (f1, f2, f3)
 + add: Char Map dialog: hotkeys Ctrl+Up, Ctrl+Down to change charset
-+ add: plugins "Terminal", "Find in Files": input fields must consider option "ui_active_border": true
-+ add: lexer JavaScript: code tree supported function/class names with Unicode and $ char
++ add: plugins "Terminal", "Find in Files": input fields considered option "ui_active_border": true
++ add: lexer JavaScript: code-tree supported function/class names with Unicode and $ char
 + add: lexer "Batch files" improved (by @dinkumoil))
 
 1.85.0 (2019/08)
