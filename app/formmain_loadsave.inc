@@ -686,7 +686,7 @@ begin
   Op.OpFontName_b:= FixFontMonospaced(UTF8Encode(c.GetValue(str_FontName_b, UTF8Decode(Op.OpFontName_b))));
   Op.OpFontName_bi:= FixFontMonospaced(UTF8Encode(c.GetValue(str_FontName_bi, UTF8Decode(Op.OpFontName_bi))));
 
-  Op.OpFontSize:= c.GetValue(str_FontSize, Op.OpFontSize);
+  Op.OpFontSize:= Abs(c.GetValue(str_FontSize, Op.OpFontSize)); //Abs for macOS
   Op.OpFontSize_i:= c.GetValue(str_FontSize_i, Op.OpFontSize_i);
   Op.OpFontSize_b:= c.GetValue(str_FontSize_b, Op.OpFontSize_b);
   Op.OpFontSize_bi:= c.GetValue(str_FontSize_bi, Op.OpFontSize_bi);
@@ -856,9 +856,9 @@ end;
 procedure TfmMain.DoOps_LoadOptions_Ui(c: TJSONConfig);
 begin
   UiOps.VarFontName:= UTF8Encode(c.GetValue(str_UiFontName, UTF8Decode(UiOps.VarFontName)));
-  UiOps.VarFontSize:= c.GetValue(str_UiFontSize, UiOps.VarFontSize);
+  UiOps.VarFontSize:= Abs(c.GetValue(str_UiFontSize, UiOps.VarFontSize)); //Abs for macOS
   UiOps.OutputFontName:= UTF8Encode(c.GetValue(str_UiFontOutputName, UTF8Decode(UiOps.OutputFontName)));
-  UiOps.OutputFontSize:= c.GetValue(str_UiFontOutputSize, UiOps.OutputFontSize);
+  UiOps.OutputFontSize:= Abs(c.GetValue(str_UiFontOutputSize, UiOps.OutputFontSize)); //Abs for macOS
 
   UiOps.DoubleBuffered:= c.GetValue(str_UiDoubleBuffered, UiOps.DoubleBuffered);
 
@@ -1009,7 +1009,7 @@ begin
 
   UiOps.ExportHtmlNumbers:= c.GetValue('export_html_numbers', UiOps.ExportHtmlNumbers);
   UiOps.ExportHtmlFontName:= UTF8Encode(c.GetValue('export_html_font_name', UTF8Decode(UiOps.ExportHtmlFontName)));
-  UiOps.ExportHtmlFontSize:= c.GetValue('export_html_font_size', UiOps.ExportHtmlFontSize);
+  UiOps.ExportHtmlFontSize:= Abs(c.GetValue('export_html_font_size', UiOps.ExportHtmlFontSize));
 
   UiOps.TreeAutoSync:= c.GetValue('ui_tree_auto_sync', UiOps.TreeAutoSync);
   UiOps.TreeTimeFill:= c.GetValue('ui_tree_time_fill', UiOps.TreeTimeFill);
