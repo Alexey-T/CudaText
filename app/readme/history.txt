@@ -8,6 +8,7 @@
 
 * change: Windows build upgraded to Python 3.6, option "pylib" (on Windows) is now ignored
 + add: Windows build: added support for Python 3.4...3.8; the existing python3x.dll with latest number from app folder is used
++ add: Windows build: Addon Manager has packages "Windows Python37 32-bit" and "... 64-bit"; after installing one of them, and app restart, app will use Python 3.7
 + add: supported drag&drop from Explorer to floating groups (f1, f2, f3)
 + add: Char Map dialog: hotkeys Ctrl+Up, Ctrl+Down to change charset
 + add: plugins "Terminal", "Find in Files": input fields considered option "ui_active_border": true
