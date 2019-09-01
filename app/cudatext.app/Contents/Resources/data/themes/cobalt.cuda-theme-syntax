@@ -50,7 +50,7 @@
   "Lex_IdVar" : {
     "Type" : 1,
     "Styles" : "",
-    "CFont" : "#F8F8F2",
+    "CFont" : "#008000",
     "CBack" : "",
     "CBorder" : "",
     "Border" : "0,0,0,0"

@@ -603,7 +603,7 @@ Shows modal dialog to enter 1 to 10 string fields at once. Gets list of strings 
 
 ===dlg_file===
 
- dlg_file(is_open, init_filename, init_dir, filters)
+ dlg_file(is_open, init_filename, init_dir, filters, caption="")
 
 Shows file-open or file-save-as modal dialog. Gets filename (str) or None if cancelled.
 
@@ -611,6 +611,7 @@ Shows file-open or file-save-as modal dialog. Gets filename (str) or None if can
 * Param "init_filename": Initial filename for save-as dialog. Can be empty.
 * Param "init_dir": Initial folder. Can be empty.
 * Param "filters": File filters string. Can be empty. Example for 2 filters: "Source codes|*.pas;*.inc|Text files|*.txt"
+* Param "caption": Dialog caption. If empty, default value is used: "Open file", "Save file".
 
 Features:
 
@@ -619,11 +620,12 @@ Features:
 
 ===dlg_dir===
 
- dlg_dir(init_dir)
+ dlg_dir(init_dir, caption="Select folder")
 
-Shows dialog to select folder. Gets folder path, or None if cancelled.
+Shows dialog to select folder path. Gets path (str), or None if cancelled.
 
-Param "init_dir": Initial folder.
+* Param "init_dir": Initial folder.
+* Param "caption": Dialog caption.
 
 ===dlg_menu===
 
@@ -745,6 +747,7 @@ Parameter "text" is "\n"-separated items, one item per control. Each item is chr
 * "en": enabled state, bool
 * "vis": visible state, bool
 * "hint": hint string for mouse-over. Can be multiline, "\r"-separated.
+* "texthint": text, shown with italic+pale font when value of control is empty. For "edit", "memo", "editor". Cannot be multi-line.
 * "color": background color
 * "autosize": control is auto-sized (by width and/or height, it's control-specific)
 * "font_name": font name
@@ -1030,6 +1033,8 @@ These are also properties of controls.
 * "on_mouse_up": Called when mouse button depressed (released). Param "data": like in "on_mouse_down".
 * "on_mouse_enter": Called when mouse cursor enters control area.
 * "on_mouse_exit": Called when mouse cursor leaves control area.
+* "on_focus_enter": Called when control gets focus. Not supported for controls (they don't have OS window handle): label, button, button_ex, panel, linklabel, colorpanel, bevel, image, progressbar_ex, paintbox, statusbar.
+* "on_focus_exit": Called when control looses focus. Supported for the same controls as "on_focus_enter". 
 * "on_menu": Called before showing context menu, after right click or ContextMenu hotkey. Param "data": like in "on_mouse_down". Method can return False to disable default menu (if any).
 
 Events for control "listview"/"checklistview":
@@ -3535,5 +3540,18 @@ def project_variables():
 
 1.0.295 (app 1.84.6)
 * change: msg_status_alt now shows floating tooltip on the top (before: was statusbar on the bottom)
+
+1.0.296 (app 1.85.1)
+* add: dlg_proc: control property "texthint"
+
+1.0.297 (app 1.85.1)
+* add: dlg_dir: param "caption"
+* add: dlg_file: param "caption"
+
+1.0.298 (app 1.85.2)
+* add: dlg_proc: control events "on_focus_enter", "on_focus_exit"
+
+1.0.299 (app 1.85.2)
+* Windows embedded Python updated to 3.6
 
 [[Category:CudaText]]

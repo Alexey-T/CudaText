@@ -3,9 +3,22 @@
   - fixed
   * changed
 
+
+1.86.0 (2019/09)
+
+* change: Windows build upgraded to Python 3.6, option "pylib" (on Windows) is now ignored
++ add: Windows build: added support for Python 3.4...3.8; the existing python3x.dll with latest number from app folder is used
++ add: Windows build: Addon Manager has packages "Windows Python37 32-bit" and "... 64-bit"; after installing one of them, and app restart, app will use Python 3.7
++ add: supported drag&drop from Explorer to floating groups (f1, f2, f3)
++ add: Char Map dialog: hotkeys Ctrl+Up, Ctrl+Down to change charset
++ add: plugins "Terminal", "Find in Files": input fields considered option "ui_active_border": true
++ add: lexer JavaScript: code-tree supported function/class names with Unicode and $ char
++ add: lexer "Batch files" improved (by @dinkumoil))
+- fix: macOS: wrong display of menu-dialogs (caused by nagative font size in user.json)
+
 1.85.0 (2019/08)
 
-+ add: on moving selection in Theme menu dialog, program previews selected theme (like Sublime) 
++ add: on moving selection in Theme menu dialog, program previews selected theme (like Sublime)
 + add: program saves to history the last selected item in Command Palette
 + add: lexer VBScript improved (by @dinkumoil)
 * change: deleted option "ui_listbox_centered", changed behaviour for its default
@@ -16,7 +29,7 @@
 + add: allow zip packages with "type=cudatext-package": installs all files+folders into root of CudaText, including any number of data/* and py/* subfolders
 + add: allow zip packages with data with _empty_ "subdir" field
 + add: Tabs List: added config file with few options: show_index_group, show_index_tab, show_index_aligned, font_name, font_size
-+ add: improved "single instance" code, so now it's possible to open N selected files from Windows Explorer (patch by Andreas Heim @dinkumoil) 
++ add: improved "single instance" code, so now it's possible to open N selected files from Windows Explorer (patch by Andreas Heim @dinkumoil)
 + add: new framework appeared in add-ons: CudaFormatter. Addon Manager and Multi Installer support it.
 + add: lexer VBScript improved (by @dinkumoil)
 
@@ -242,7 +255,7 @@
 + add: API (gaps improved)
 * change: deleted 3 commands "folding: fold range....", because they were duplicated by commands "folding: fold block...."
 - fix: caret pos after commands "scroll line up/down" was wrong sometimes
-- fix: trying to fix Linux/Mac issue when caret stops blinking sometimes 
+- fix: trying to fix Linux/Mac issue when caret stops blinking sometimes
 
 * change: lexer removed to addons: C#
 * change: lexer removed to addons: Perl
@@ -270,7 +283,7 @@
 + add: lexer C improved: highlight more keyword groups
 + add: lexer C++ improved: more std words; support hex&floating numbers
 + add: lexer CSS improved: more std words; better highlight @media; highlight units after number
-+ add: lexer XML improved: handle incorrect comment endings 
++ add: lexer XML improved: handle incorrect comment endings
 
 1.70.0 (2019/01)
 
@@ -310,7 +323,7 @@
 + add: command "Close and delete file" also works in picture viewer and binary/hex viewer
 * change: removed menu items "Help - Mouse usage", "Help - Lexers"
 - fix: most of app hotkeys didn't work in picture viewer (e.g. F1, Ctrl+Tab)
-- fix: Windows: dialog positions on 2 monitors configuration 
+- fix: Windows: dialog positions on 2 monitors configuration
 - fix: macOS: Ctrl+click didn't call context menu in all places
 - fix: macOS: minimap didn't paint
 
@@ -450,7 +463,7 @@
 + add: detection of UTF16 LE/BE without BOM
 + add: grouping modes "6 vert" and "6 horz"
 + add: Code Tree filter: each tab has its own filter text (initially empty)
-+ add: Code Tree filter: input is combobox now; use Enter to add current text to dropdown 
++ add: Code Tree filter: input is combobox now; use Enter to add current text to dropdown
 + add: tab context menu items: "Copy filename only", "Copy filepath only", "Copy full filepath"
 + add: Project Manager option "Open files by double-click"
 + add: improved lexer HTML: highlight <tag style="..."> content with CSS lexer
@@ -545,7 +558,7 @@
 1.54.0 (2018/05)
 
 + announce:
-  new plugin CudaTree with sub-plugins, TreeHelpers. 
+  new plugin CudaTree with sub-plugins, TreeHelpers.
   Most useful TreeHelpers: for Markdown, for PHP.
 + add: API
 * change: lexer PHP code tree simplified (hidden $vars, HTML tags, JS items)
@@ -596,7 +609,7 @@
 
 1.51.0 (2018/04)
 
-+ add: lite-lexers speed increased on very long lines     
++ add: lite-lexers speed increased on very long lines
 + add: file tab captions show folder specifier, if they have same file name (e.g. 2 tabs with index.js will show as "index.js - dir1", "index.js - dir2")
 + add: AddonManager: menu item "Download: show links" (to paste to download manager)
 + add: Find/Replace dialog:
@@ -650,9 +663,9 @@
 + AddonManager/Install:
   + add: full list is sorted by caregory+name
   + add: allows to choose kind of addons, first item <Category>
-  * change: disabled fuzzy search 
+  * change: disabled fuzzy search
   * change: filter only by addon name (not by description)
-  
+
 + add: API
 - fix: "lexer dynamic hiliting" was broken after text editing
 - fix: command File/Reopen must keep bookmarks
@@ -846,7 +859,7 @@
 1.24.0 (2017/11)
 
 + added: non-RegEx search engine is rewritten. It now finds text in big (10Mb+) files 10-15 times faster. RegEx search is still slow, it builds string buffer from entire file.
-+ added: lexer Bash: reworked to hilite ${complex vars} and `complex backtick commands`, now don't hilite "echo" command 
++ added: lexer Bash: reworked to hilite ${complex vars} and `complex backtick commands`, now don't hilite "echo" command
 + added: lexer Pascal: support keyword "operator" (hilite, show in code tree)
 * change: dialog Find: Select-all don't join adjacent selections to bigger selection
 * change: dialog Find: disable option "words" for multi-line input
@@ -997,7 +1010,7 @@ lexers:
 + added syntax-theme color for php-tag (<?php ?>)
 + added hilite of php-tag in lexers: HTML, CSS, JS
 + added hilite of standard color names in CSS
-* changed link chain of lexers. Was before: PHP includes HTML, HTML includes CSS/JS, CSS/JS includes nothing. Now: HTML includes PHP/CSS/JS, CSS/JS includes PHP, PHP includes nothing. File type *.php is now handled by HTML lexer. 
+* changed link chain of lexers. Was before: PHP includes HTML, HTML includes CSS/JS, CSS/JS includes nothing. Now: HTML includes PHP/CSS/JS, CSS/JS includes PHP, PHP includes nothing. File type *.php is now handled by HTML lexer.
 
 fixes:
 - fixed case-insensitive search in menu dialogs for non-En chars
@@ -1111,7 +1124,7 @@ fixes:
 + command line: added key --enclist
 + API
 - fix: wrong minimap view color
-- fix: minimap click scrolled editor to right 
+- fix: minimap click scrolled editor to right
 
 1.7.8
 + macOS: horiz scroll by trackpad should work now
@@ -1148,7 +1161,7 @@ fixes:
 * different UI of sidebar tabs (I find it more useful)
 + theme color "side-toolbar BG"
 + Ctrl+[drag-drop] does copying of block
-- Alt+[drag-drop] fixed if scrolls editor up/down 
+- Alt+[drag-drop] fixed if scrolls editor up/down
 
 1.7.2
 + command-line key --help (Linux users angry)
