@@ -4,7 +4,7 @@
   * changed
 
 
-1.85.5 (2019/08)
+1.86.0 (2019/09)
 
 * change: Windows build upgraded to Python 3.6, option "pylib" (on Windows) is now ignored
 + add: Windows build: added support for Python 3.4...3.8; the existing python3x.dll with latest number from app folder is used
