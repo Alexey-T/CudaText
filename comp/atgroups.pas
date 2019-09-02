@@ -119,6 +119,7 @@ type
     tabOptionShowHint,
     tabOptionVarWidth,
     tabOptionMultiline,
+    tabOptionScalePercents,
     tabOptionAnimationEn,
     tabOptionAnimationPause,
     tabOptionFontSize,
@@ -218,7 +219,6 @@ type
     FPos5: Double;
     FPrevWidth,
     FPrevHeight: Integer;
-    FScalePercents: integer;
     FSplitPopup: TMyPopupMenu;
     FMode: TATGroupsMode;
     FOnChangeMode: TNotifyEvent;
@@ -232,7 +232,6 @@ type
     FOnTabGetTick: TATTabGetTickEvent;
     FPopupPages: TATPages;
     FPopupTabIndex: Integer;
-    function DoScale(Value: integer): integer;
     function GetImages: TImageList;
     procedure SetImages(AValue: TImageList);
     procedure TabFocus(Sender: TObject);
@@ -274,7 +273,6 @@ type
     property Splitter3: TMySplitter read FSplit3;
     property Splitter4: TMySplitter read FSplit4;
     property Splitter5: TMySplitter read FSplit5;
-    property ScalePercents: integer read FScalePercents write FScalePercents default 100;
     //
     constructor Create(AOwner: TComponent); override;
     //
@@ -562,7 +560,6 @@ begin
   BorderStyle:= bsNone;
   BevelInner:= bvNone;
   BevelOuter:= bvNone;
-  FScalePercents:= 100;
 
   Pages1:= TATPages.Create(Self);
   Pages2:= TATPages.Create(Self);
@@ -1752,6 +1749,7 @@ begin
         tabOptionShowHint:         ShowHint:= Boolean(N);
         tabOptionVarWidth:         OptVarWidth:= Boolean(N);
         tabOptionMultiline:        OptMultiline:= Boolean(N);
+        tabOptionScalePercents:    OptScalePercents:= N;
         tabOptionAnimationEn:      OptAnimationEnabled:= Boolean(N);
         tabOptionAnimationPause:   OptAnimationPause:= N;
         tabOptionShowFlat:         OptShowFlat:= Boolean(N);
@@ -1765,28 +1763,28 @@ begin
         tabOptionMiddleClickClose: OptMouseMiddleClickClose:= Boolean(N);
         tabOptionDragDrop:         OptMouseDragEnabled:= Boolean(N);
         tabOptionHeight:           Height:= DoScale(N);
-        tabOptionHeightInner:      OptTabHeight:= DoScale(N);
-        tabOptionWidthMin:         OptTabWidthMinimal:= DoScale(N);
-        tabOptionWidthMax:         OptTabWidthMaximal:= DoScale(N);
+        tabOptionHeightInner:      OptTabHeight:= N;
+        tabOptionWidthMin:         OptTabWidthMinimal:= N;
+        tabOptionWidthMax:         OptTabWidthMaximal:= N;
         tabOptionWidthNormal:
           begin
-            OptTabWidthNormal:= DoScale(N);
+            OptTabWidthNormal:= N;
             if OptPosition in [atpLeft, atpRight] then
               Width:= OptTabWidthNormal;
           end;
-        tabOptionSpacer:           OptSpacer:= DoScale(N);
-        tabOptionSpacer2:          OptSpacer2:= DoScale(N);
-        tabOptionSpaceInitial:     OptSpaceInitial:= DoScale(N);
-        tabOptionSpaceBetweenTabs: OptSpaceBetweenTabs:= DoScale(N);
-        tabOptionSpaceSide:        OptSpaceSide:= DoScale(N);
-        tabOptionColoredBandSize:  OptColoredBandSize:= DoScale(N);
-        tabOptionActiveMarkSize:   OptActiveMarkSize:= DoScale(N);
-        tabOptionScrollMarkSizeX:  OptScrollMarkSizeX:= DoScale(N);
-        tabOptionScrollMarkSizeY:  OptScrollMarkSizeY:= DoScale(N);
-        tabOptionSpaceXRight:      OptSpaceXRight:= DoScale(N);
-        tabOptionSpaceXSize:       OptSpaceXSize:= DoScale(N);
-        tabOptionArrowSize:        OptArrowSize:= DoScale(N);
-        tabOptionButtonSize:       OptButtonSize:= DoScale(N);
+        tabOptionSpacer:           OptSpacer:= N;
+        tabOptionSpacer2:          OptSpacer2:= N;
+        tabOptionSpaceInitial:     OptSpaceInitial:= N;
+        tabOptionSpaceBetweenTabs: OptSpaceBetweenTabs:= N;
+        tabOptionSpaceSide:        OptSpaceSide:= N;
+        tabOptionColoredBandSize:  OptColoredBandSize:= N;
+        tabOptionActiveMarkSize:   OptActiveMarkSize:= N;
+        tabOptionScrollMarkSizeX:  OptScrollMarkSizeX:= N;
+        tabOptionScrollMarkSizeY:  OptScrollMarkSizeY:= N;
+        tabOptionSpaceXRight:      OptSpaceXRight:= N;
+        tabOptionSpaceXSize:       OptSpaceXSize:= N;
+        tabOptionArrowSize:        OptArrowSize:= N;
+        tabOptionButtonSize:       OptButtonSize:= N;
         tabOptionWhichActivateOnClose: OptWhichActivateOnClose:= TATTabActionOnClose(N);
       end;
 end;
@@ -2010,11 +2008,6 @@ begin
             Exit
           end;
       end;
-end;
-
-function TATGroups.DoScale(Value: integer): integer; inline;
-begin
-  Result:= Value*FScalePercents div 100;
 end;
 
 function TATGroups.GetImages: TImageList;
