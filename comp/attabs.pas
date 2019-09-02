@@ -567,6 +567,7 @@ type
     function GetScrollPageSize: integer;
     procedure SetOptButtonLayout(const AValue: string);
     procedure SetOptMouseDragEnabled(AValue: boolean);
+    procedure SetOptScalePercents(AValue: integer);
     procedure SetOptVarWidth(AValue: boolean);
     procedure SetScrollPos(AValue: integer);
     procedure SetTabIndex(AIndex: integer);
@@ -732,7 +733,7 @@ type
     property OptButtonSize: integer read FOptButtonSize write FOptButtonSize default _InitOptButtonSize;
     property OptButtonSizeSpace: integer read FOptButtonSizeSpace write FOptButtonSizeSpace default _InitOptButtonSizeSpace;
     property OptButtonSizeSeparator: integer read FOptButtonSizeSeparator write FOptButtonSizeSeparator default _InitOptButtonSizeSeparator;
-    property OptScalePercents: integer read FOptScalePercents write FOptScalePercents default 100;
+    property OptScalePercents: integer read FOptScalePercents write SetOptScalePercents default 100;
     property OptVarWidth: boolean read FOptVarWidth write SetOptVarWidth default false;
     property OptMultiline: boolean read FOptMultiline write FOptMultiline default false;
     property OptFillWidth: boolean read FOptFillWidth write FOptFillWidth default _InitOptFillWidth;
@@ -2665,6 +2666,14 @@ begin
   ShowMessage('Dragging of tabs is not yet implemented under Delphi, sorry');
   FOptMouseDragEnabled:= false;
   {$endif}
+end;
+
+procedure TATTabs.SetOptScalePercents(AValue: integer);
+begin
+  if FOptScalePercents=AValue then Exit;
+  FOptScalePercents:= AValue;
+  ApplyButtonLayout;
+  Invalidate;
 end;
 
 procedure TATTabs.SetOptVarWidth(AValue: boolean);
