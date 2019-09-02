@@ -365,6 +365,7 @@ type
     FOptAnimationStepH: integer;
     FOptAnimationPause: integer;
 
+    FOptScalePercents: integer;
     FOptVarWidth: boolean;
     FOptMultiline: boolean;
     FOptTruncateCaption: TATTabTruncateCaption;
@@ -510,7 +511,6 @@ type
     FOnTabGetTick: TATTabGetTickEvent;
     FOnTabGetCloseAction: TATTabGetCloseActionEvent;
 
-    procedure ApplyButtonLayout;
     function ConvertButtonIdToTabIndex(Id: TATTabButton): integer; inline;
     procedure DoAnimationTabAdd(AIndex: integer);
     procedure DoAnimationTabClose(AIndex: integer);
@@ -600,6 +600,7 @@ type
     destructor Destroy; override;
     procedure DragDrop(Source: TObject; X, Y: integer); override;
 
+    procedure ApplyButtonLayout;
     function GetTabRectWidth(APlusBtn: boolean): integer;
     function GetTabRect(AIndex: integer; AWithScroll: boolean=true;
       AWithAnimation: boolean=true): TRect;
@@ -633,6 +634,7 @@ type
     property ScrollPos: integer read FScrollPos write SetScrollPos;
     procedure SetTheme(const Data: TATTabTheme);
     property IsThemed: boolean read FThemed write FThemed;
+    function DoScale(AValue: integer): integer; inline;
 
   protected
     procedure Paint; override;
@@ -730,6 +732,7 @@ type
     property OptButtonSize: integer read FOptButtonSize write FOptButtonSize default _InitOptButtonSize;
     property OptButtonSizeSpace: integer read FOptButtonSizeSpace write FOptButtonSizeSpace default _InitOptButtonSizeSpace;
     property OptButtonSizeSeparator: integer read FOptButtonSizeSeparator write FOptButtonSizeSeparator default _InitOptButtonSizeSeparator;
+    property OptScalePercents: integer read FOptScalePercents write FOptScalePercents default 100; //scaling not working yet
     property OptVarWidth: boolean read FOptVarWidth write SetOptVarWidth default false;
     property OptMultiline: boolean read FOptMultiline write FOptMultiline default false;
     property OptFillWidth: boolean read FOptFillWidth write FOptFillWidth default _InitOptFillWidth;
@@ -1206,6 +1209,7 @@ begin
   FOptAnimationStepH:= _InitOptAnimationStepH;
   FOptAnimationPause:= _InitOptAnimationPause;
 
+  FOptScalePercents:= 100;
   FOptButtonSize:= _InitOptButtonSize;
   FOptButtonSizeSpace:= _InitOptButtonSizeSpace;
   FOptButtonSizeSeparator:= _InitOptButtonSizeSeparator;
@@ -1406,9 +1410,9 @@ begin
 
   DoPaintTabShape(C,
     Rect(
-      ARect.Left-FOptSpaceSide,
+      ARect.Left-DoScale(FOptSpaceSide),
       ARect.Top,
-      ARect.Right+FOptSpaceSide,
+      ARect.Right+DoScale(FOptSpaceSide),
       ARect.Bottom),
     ATabActive,
     ATabIndex
@@ -1428,14 +1432,14 @@ begin
 
   RectText:= Rect(ARect.Left, ARect.Top, ARect.Right, ARect.Bottom);
   bNeedMoreSpace:= (RectText.Right-RectText.Left<=30) and (ACaption<>'');
-  NIndentL:= IfThen(not bNeedMoreSpace, FOptSpaceBeforeText, 2);
-  NIndentR:= NIndentL+IfThen(IsShowX(ATabIndex), FOptSpaceXRight);
+  NIndentL:= IfThen(not bNeedMoreSpace, DoScale(FOptSpaceBeforeText), 2);
+  NIndentR:= NIndentL+IfThen(IsShowX(ATabIndex), DoScale(FOptSpaceXRight));
   RectText:= Rect(ARect.Left+NIndentL, ARect.Top, ARect.Right-NIndentR, ARect.Bottom);
 
   if not FThemed then
   if FOptShowFlat and FOptShowFlatSepar then
   begin
-    i:= ARect.Left - FOptSpaceBetweenTabs div 2;
+    i:= ARect.Left - DoScale(FOptSpaceBetweenTabs) div 2;
     DrawLine(C, i, ARect.Top+cIndentSep, i, ARect.Bottom-cIndentSep, FColorSeparator);
   end;
 
@@ -1444,7 +1448,7 @@ begin
     if (AImageIndex>=0) and (AImageIndex<FImages.Count) then
     begin
       NIndentTop:=
-        (RectText.Top + RectText.Bottom - FImages.Height + FOptColoredBandSize) div 2;
+        (RectText.Top + RectText.Bottom - FImages.Height + DoScale(FOptColoredBandSize)) div 2;
       case FOptIconPosition of
         aipIconLefterThanText:
           begin
@@ -1452,7 +1456,7 @@ begin
               RectText.Left - 2,
               NIndentTop,
               AImageIndex);
-            Inc(RectText.Left, FImages.Width+FOptSpaceBetweenIconCaption);
+            Inc(RectText.Left, FImages.Width+DoScale(FOptSpaceBetweenIconCaption));
           end;
         aipIconRighterThanText:
           begin
@@ -1460,7 +1464,7 @@ begin
               RectText.Right - FImages.Width + 2,
               NIndentTop,
               AImageIndex);
-            Dec(RectText.Right, FImages.Width+FOptSpaceBetweenIconCaption);
+            Dec(RectText.Right, FImages.Width+DoScale(FOptSpaceBetweenIconCaption));
           end;
         aipIconCentered:
           begin
@@ -1473,9 +1477,9 @@ begin
           begin
             FImages.Draw(C,
               (RectText.Left + RectText.Right - FImages.Width) div 2,
-              RectText.Top + FOptColoredBandSize,
+              RectText.Top + DoScale(FOptColoredBandSize),
               AImageIndex);
-            Inc(RectText.Top, FImages.Height+FOptSpaceBetweenIconCaption);
+            Inc(RectText.Top, FImages.Height+DoScale(FOptSpaceBetweenIconCaption));
           end;
         aipIconBelowTextCentered:
           begin
@@ -1483,7 +1487,7 @@ begin
               (RectText.Left + RectText.Right - FImages.Width) div 2,
               RectText.Bottom - FImages.Height,
               AImageIndex);
-            Dec(RectText.Bottom, FImages.Height+FOptSpaceBetweenIconCaption);
+            Dec(RectText.Bottom, FImages.Height+DoScale(FOptSpaceBetweenIconCaption));
           end;
       end;
     end;
@@ -1606,7 +1610,7 @@ begin
       exit;
     end
     else
-      DrawPlusSign(C, ARect, FOptArrowSize, FColorFont);
+      DrawPlusSign(C, ARect, DoScale(FOptArrowSize), FColorFont);
 
     DoPaintAfter(ElemType, -1, C, ARect);
   end;
@@ -1622,8 +1626,8 @@ var
 begin
   R.Top:= ATabRect.Top;
   R.Bottom:= ATabRect.Bottom;
-  R.Left:= ATabRect.Left+FOptSpaceSide;
-  R.Right:= ATabRect.Right-FOptSpaceSide;
+  R.Left:= ATabRect.Left+DoScale(FOptSpaceSide);
+  R.Right:= ATabRect.Right-DoScale(FOptSpaceSide);
 
   if not FThemed then
   begin
@@ -1706,8 +1710,8 @@ begin
           DrawLine(C, PR1.X, PR1.Y, PR2.X, PR2.Y+1, AColorBorder);
         DrawLine(C, PL1.X, PL1.Y, PR1.X, PL1.Y, AColorBorder);
         if AColorBorderLow<>clNone then
-          DrawLine(C, PL2.X-FOptSpaceSide, ARect.Bottom,
-                      PR2.X+FOptSpaceSide, ARect.Bottom, AColorBorderLow)
+          DrawLine(C, PL2.X-DoScale(FOptSpaceSide), ARect.Bottom,
+                      PR2.X+DoScale(FOptSpaceSide), ARect.Bottom, AColorBorderLow)
         else
           DrawLine(C, PL2.X+1, ARect.Bottom, PR2.X-1, ARect.Bottom, AColorBg);
       end;
@@ -1717,8 +1721,8 @@ begin
         DrawLine(C, PR1.X, PR1.Y, PR2.X, PR2.Y+1, AColorBorder);
         DrawLine(C, PL2.X, PL2.Y+1, PR2.X, PL2.Y+1, AColorBorder);
         if AColorBorderLow<>clNone then
-          DrawLine(C, PL1.X-FOptSpaceSide, ARect.Top,
-                      PR1.X+FOptSpaceSide, ARect.Top, AColorBorderLow)
+          DrawLine(C, PL1.X-DoScale(FOptSpaceSide), ARect.Top,
+                      PR1.X+DoScale(FOptSpaceSide), ARect.Top, AColorBorderLow)
       end;
     atpLeft:
       begin
@@ -1749,7 +1753,7 @@ begin
       Pic:= FPic_Side_L_a
     else
       Pic:= FPic_Side_L;
-    Pic.Draw(C, ARect.Left-FOptSpaceSide, ARect.Top);
+    Pic.Draw(C, ARect.Left-DoScale(FOptSpaceSide), ARect.Top);
     exit;
   end;
 
@@ -1769,10 +1773,10 @@ begin
       atpTop:
         begin
           DrawTriangleRectFramed(C,
-            ARect.Left-FOptSpaceSide+1,
+            ARect.Left-DoScale(FOptSpaceSide)+1,
             ARect.Top,
-            FOptSpaceSide,
-            FOptTabHeight+IfThen(ATabActive, 1),
+            DoScale(FOptSpaceSide),
+            DoScale(FOptTabHeight)+IfThen(ATabActive, 1),
             cSmoothScale,
             ampnTopLeft,
             AColorBg,
@@ -1782,10 +1786,10 @@ begin
       atpBottom:
         begin
           DrawTriangleRectFramed(C,
-            ARect.Left-FOptSpaceSide+1,
+            ARect.Left-DoScale(FOptSpaceSide)+1,
             ARect.Top+IfThen(not ATabActive, 1),
-            FOptSpaceSide,
-            FOptTabHeight,
+            DoScale(FOptSpaceSide),
+            DoScale(FOptTabHeight),
             cSmoothScale,
             ampnBottomLeft,
             AColorBg,
@@ -1829,8 +1833,8 @@ begin
           DrawTriangleRectFramed(C,
             ARect.Right-1,
             ARect.Top,
-            FOptSpaceSide,
-            FOptTabHeight+IfThen(ATabActive, 1),
+            DoScale(FOptSpaceSide),
+            DoScale(FOptTabHeight)+IfThen(ATabActive, 1),
             cSmoothScale,
             ampnTopRight,
             AColorBg,
@@ -1842,8 +1846,8 @@ begin
           DrawTriangleRectFramed(C,
             ARect.Right-1,
             ARect.Top+IfThen(not ATabActive, 1),
-            FOptSpaceSide,
-            FOptTabHeight,
+            DoScale(FOptSpaceSide),
+            DoScale(FOptTabHeight),
             cSmoothScale,
             ampnBottomRight,
             AColorBg,
@@ -1900,7 +1904,7 @@ begin
     if NColorXBg<>clNone then
     begin
       RectRound:= R;
-      InflateRect(RectRound, FOptSpaceXIncrementRound, FOptSpaceXIncrementRound);
+      InflateRect(RectRound, DoScale(FOptSpaceXIncrementRound), DoScale(FOptSpaceXIncrementRound));
 
       RectBitmap.Left:= 0;
       RectBitmap.Top:= 0;
@@ -1934,16 +1938,16 @@ begin
   C.Brush.Color:= NColorXMark;
   C.Pen.Color:= NColorXMark;
 
-  PXX1:= Point(R.Left+FOptSpaceXInner, R.Top+FOptSpaceXInner);
-  PXX2:= Point(R.Right-FOptSpaceXInner-1, R.Bottom-FOptSpaceXInner-1);
+  PXX1:= Point(R.Left+DoScale(FOptSpaceXInner), R.Top+DoScale(FOptSpaceXInner));
+  PXX2:= Point(R.Right-DoScale(FOptSpaceXInner)-1, R.Bottom-DoScale(FOptSpaceXInner)-1);
   PX1:= Point(PXX1.X+1, PXX1.Y);
   PX2:= Point(PXX1.X, PXX1.Y+1);
   PX3:= Point(PXX2.X-1, PXX2.Y);
   PX4:= Point(PXX2.X, PXX2.Y-1);
   C.Polygon([PX1, PXX1, PX2, PX3, PXX2, PX4]);
 
-  PXX1:= Point(R.Right-FOptSpaceXInner-1, R.Top+FOptSpaceXInner);
-  PXX2:= Point(R.Left+FOptSpaceXInner, R.Bottom-FOptSpaceXInner-1);
+  PXX1:= Point(R.Right-DoScale(FOptSpaceXInner)-1, R.Top+DoScale(FOptSpaceXInner));
+  PXX2:= Point(R.Left+DoScale(FOptSpaceXInner), R.Bottom-DoScale(FOptSpaceXInner)-1);
   PX1:= Point(PXX1.X-1, PXX1.Y);
   PX2:= Point(PXX1.X, PXX1.Y+1);
   PX3:= Point(PXX2.X+1, PXX2.Y);
@@ -1955,7 +1959,7 @@ end;
 
 function TATTabs.GetTabWidth_Plus_Raw: integer;
 begin
-  Result:= FOptArrowSize*4;
+  Result:= DoScale(FOptArrowSize)*4;
 end;
 
 function TATTabs.GetTabRectWidth(APlusBtn: boolean): integer;
@@ -1964,15 +1968,15 @@ begin
     atpLeft,
     atpRight:
       begin
-        Result:= ClientWidth-FOptSpacer;
+        Result:= ClientWidth-DoScale(FOptSpacer);
       end;
     else
       begin
         if APlusBtn then
           Result:= GetTabWidth_Plus_Raw
         else
-          Result:= FOptTabWidthNormal;
-        Inc(Result, 2*FOptSpaceBeforeText);
+          Result:= DoScale(FOptTabWidthNormal);
+        Inc(Result, 2*DoScale(FOptSpaceBeforeText));
       end;
   end;
 end;
@@ -2029,8 +2033,8 @@ begin
   //left/right tabs
   if FOptPosition in [atpLeft, atpRight] then
   begin
-    R.Left:= IfThen(FOptPosition=atpLeft, FOptSpacer, FOptSpacer2+1);
-    R.Right:= IfThen(FOptPosition=atpLeft, ClientWidth-FOptSpacer2, ClientWidth-FOptSpacer);
+    R.Left:= IfThen(FOptPosition=atpLeft, DoScale(FOptSpacer), DoScale(FOptSpacer2)+1);
+    R.Right:= IfThen(FOptPosition=atpLeft, ClientWidth-DoScale(FOptSpacer2), ClientWidth-DoScale(FOptSpacer));
     R.Bottom:= GetInitialVerticalIndent;
     R.Top:= R.Bottom;
 
@@ -2041,7 +2045,7 @@ begin
 
       R.Top:= R.Bottom;
       if i>0 then
-        Inc(R.Top, FOptSpaceBetweenTabs);
+        Inc(R.Top, DoScale(FOptSpaceBetweenTabs));
 
       if Data.TabSpecialHeight>0 then
         NLineHeight:= Data.TabSpecialHeight
@@ -2049,10 +2053,10 @@ begin
       if FOptVarWidth then
       begin
         UpdateCaptionProps(C, Data.TabCaption, NLineHeight, Extent);
-        NLineHeight:= 2*FOptSpaceBeforeText + Extent.CY;
+        NLineHeight:= 2*DoScale(FOptSpaceBeforeText) + Extent.CY;
       end
       else
-        NLineHeight:= FOptTabHeight;
+        NLineHeight:= DoScale(FOptTabHeight);
 
       R.Bottom:= R.Top + NLineHeight;
       Data.TabRect:= R;
@@ -2067,13 +2071,13 @@ begin
   if FOptShowPlusTab then
     NWidthPlus:= GetTabRectWidth(true);
   if FOptMultiline then
-    FTabWidth:= FOptTabWidthNormal;
+    FTabWidth:= DoScale(FOptTabWidthNormal);
   NWidthSaved:= FTabWidth;
 
-  R.Left:= FRealIndentLeft+FOptSpaceSide;
+  R.Left:= FRealIndentLeft+DoScale(FOptSpaceSide);
   R.Right:= R.Left;
-  R.Top:= FOptSpacer;
-  R.Bottom:= R.Top+FOptTabHeight;
+  R.Top:= DoScale(FOptSpacer);
+  R.Bottom:= R.Top+DoScale(FOptTabHeight);
   NIndexLineStart:= 0;
 
   for i:= 0 to TabCount-1 do
@@ -2084,7 +2088,7 @@ begin
 
     R.Left:= R.Right;
     if i>0 then
-      Inc(R.Left, FOptSpaceBetweenTabs);
+      Inc(R.Left, DoScale(FOptSpaceBetweenTabs));
 
     if Data.TabSpecialWidth>0 then
       FTabWidth:= Data.TabSpecialWidth
@@ -2103,7 +2107,7 @@ begin
         Data.TabCaption;
 
       UpdateCaptionProps(C, TempCaption, NLineHeight, Extent);
-      FTabWidth:= Extent.CX + 2*FOptSpaceBeforeText;
+      FTabWidth:= Extent.CX + 2*DoScale(FOptSpaceBeforeText);
 
       if not Assigned(FImages) then //no imagelist
         Data.TabImageIndex := -1;
@@ -2114,12 +2118,12 @@ begin
 
       if FOptShowXButtons<>atbxShowNone then
         if not Data.TabHideXButton then
-          Inc(FTabWidth, FOptSpaceXSize);
+          Inc(FTabWidth, DoScale(FOptSpaceXSize));
 
-      if FTabWidth<FOptTabWidthMinimal then
-        FTabWidth:= FOptTabWidthMinimal;
-      if FTabWidth>FOptTabWidthMaximal then
-        FTabWidth:= FOptTabWidthMaximal;
+      if FTabWidth<DoScale(FOptTabWidthMinimal) then
+        FTabWidth:= DoScale(FOptTabWidthMinimal);
+      if FTabWidth>DoScale(FOptTabWidthMaximal) then
+        FTabWidth:= DoScale(FOptTabWidthMaximal);
     end;
 
     if FOptMultiline and (i>0) then
@@ -2129,8 +2133,8 @@ begin
         FMultilineActive:= true;
 
         R.Left:= FRealIndentLeft;
-        R.Top:= R.Bottom+FOptSpaceBetweenLines;
-        R.Bottom:= R.Top+FOptTabHeight;
+        R.Top:= R.Bottom+DoScale(FOptSpaceBetweenLines);
+        R.Bottom:= R.Top+DoScale(FOptTabHeight);
 
         if FOptFillWidth then
           UpdateTabRectsToFillLine(NIndexLineStart, i-1, false);
@@ -2145,7 +2149,7 @@ begin
     UpdateTabRectsToFillLine(NIndexLineStart, TabCount-1, true);
 
   if FOptMultiline then
-    Height:= R.Bottom+FOptSpacer2;
+    Height:= R.Bottom+DoScale(FOptSpacer2);
 
   //restore FTabWidth for other methods
   if not FOptVarWidth then
@@ -2161,13 +2165,13 @@ begin
         if TabCount>0 then
         begin
           Result:= GetTabRect(TabCount-1, AWithScroll, false);
-          Result.Left:= Result.Right + FOptSpaceBetweenTabs;
+          Result.Left:= Result.Right + DoScale(FOptSpaceBetweenTabs);
           Result.Right:= Result.Left + GetTabRectWidth(true);
         end
         else
         begin
-          Result.Top:= FOptSpacer;
-          Result.Bottom:= Result.Top + FOptTabHeight;
+          Result.Top:= DoScale(FOptSpacer);
+          Result.Bottom:= Result.Top + DoScale(FOptTabHeight);
           Result.Left:= FRealIndentLeft;
           Result.Right:= Result.Left + GetTabRectWidth(true);
         end;
@@ -2177,15 +2181,15 @@ begin
         if TabCount>0 then
         begin
           Result:= GetTabRect(TabCount-1, AWithScroll, false);
-          Result.Top:= Result.Bottom + FOptSpaceBetweenTabs;
-          Result.Bottom:= Result.Top + FOptTabHeight;
+          Result.Top:= Result.Bottom + DoScale(FOptSpaceBetweenTabs);
+          Result.Bottom:= Result.Top + DoScale(FOptTabHeight);
         end
         else
         begin
-          Result.Left:= IfThen(FOptPosition=atpLeft, FOptSpacer, FOptSpacer2);
-          Result.Right:= IfThen(FOptPosition=atpLeft, ClientWidth-FOptSpacer2, ClientWidth-FOptSpacer);
+          Result.Left:= IfThen(FOptPosition=atpLeft, DoScale(FOptSpacer), DoScale(FOptSpacer2));
+          Result.Right:= IfThen(FOptPosition=atpLeft, ClientWidth-DoScale(FOptSpacer2), ClientWidth-DoScale(FOptSpacer));
           Result.Top:= GetInitialVerticalIndent;
-          Result.Bottom:= Result.Top + FOptTabHeight;
+          Result.Bottom:= Result.Top + DoScale(FOptTabHeight);
         end;
       end;
   end;
@@ -2196,15 +2200,15 @@ var
   P: TPoint;
 begin
   P:= Point(
-    ARect.Right-FOptSpaceXRight,
+    ARect.Right-DoScale(FOptSpaceXRight),
     (ARect.Top+ARect.Bottom) div 2 + 1);
-  Dec(P.X, FOptSpaceXSize div 2);
-  Dec(P.Y, FOptSpaceXSize div 2);
+  Dec(P.X, DoScale(FOptSpaceXSize) div 2);
+  Dec(P.Y, DoScale(FOptSpaceXSize) div 2);
   Result:= Rect(
     P.X,
     P.Y,
-    P.X+FOptSpaceXSize,
-    P.Y+FOptSpaceXSize);
+    P.X+DoScale(FOptSpaceXSize),
+    P.Y+DoScale(FOptSpaceXSize));
 end;
 
 function TATTabs._IsDrag: boolean;
@@ -2302,8 +2306,8 @@ begin
   FLastOverIndex:= FTabIndexOver;
   FLastOverX:= bMouseOverX;
 
-  FRealIndentLeft:= FOptSpaceInitial + GetButtonsWidth(FButtonsLeft);
-  FRealIndentRight:= FOptSpaceInitial + GetButtonsWidth(FButtonsRight);
+  FRealIndentLeft:= DoScale(FOptSpaceInitial) + GetButtonsWidth(FButtonsLeft);
+  FRealIndentRight:= DoScale(FOptSpaceInitial) + GetButtonsWidth(FButtonsRight);
 
   FRectArrowLeft:= GetRectOfButton(atbScrollLeft);
   FRectArrowRight:= GetRectOfButton(atbScrollRight);
@@ -2339,9 +2343,9 @@ begin
       atpTop:
         begin
           if FOptMultiline then
-            RBottom:= Rect(0, ClientHeight-FOptSpacer2, ClientWidth, ClientHeight)
+            RBottom:= Rect(0, ClientHeight-DoScale(FOptSpacer2), ClientWidth, ClientHeight)
           else
-            RBottom:= Rect(0, FOptSpacer+FOptTabHeight, ClientWidth, ClientHeight);
+            RBottom:= Rect(0, DoScale(FOptSpacer)+DoScale(FOptTabHeight), ClientWidth, ClientHeight);
           NLineX1:= RBottom.Left;
           NLineY1:= RBottom.Top;
           NLineX2:= RBottom.Right;
@@ -2349,7 +2353,7 @@ begin
         end;
       atpBottom:
         begin
-          RBottom:= Rect(0, 0, ClientWidth, FOptSpacer);
+          RBottom:= Rect(0, 0, ClientWidth, DoScale(FOptSpacer));
           NLineX1:= RBottom.Left;
           NLineY1:= RBottom.Bottom;
           NLineX2:= RBottom.Right;
@@ -2357,7 +2361,7 @@ begin
         end;
       atpLeft:
         begin
-          RBottom:= Rect(ClientWidth-FOptSpacer2, 0, ClientWidth, ClientHeight);
+          RBottom:= Rect(ClientWidth-DoScale(FOptSpacer2), 0, ClientWidth, ClientHeight);
           NLineX1:= RBottom.Left;
           NLineY1:= RBottom.Top;
           NLineX2:= RBottom.Left;
@@ -2365,7 +2369,7 @@ begin
         end;
       atpRight:
         begin
-          RBottom:= Rect(0, 0, FOptSpacer2, ClientHeight);
+          RBottom:= Rect(0, 0, DoScale(FOptSpacer2), ClientHeight);
           NLineX1:= RBottom.Right;
           NLineY1:= RBottom.Top;
           NLineX2:= RBottom.Right;
@@ -2536,14 +2540,14 @@ begin
       atpBottom:
         begin
           R.Left:= IfThen(i<=FTabIndex, R.Left, R.Right);
-          R.Left:= R.Left - FOptDropMarkSize div 2;
-          R.Right:= R.Left + FOptDropMarkSize;
+          R.Left:= R.Left - DoScale(FOptDropMarkSize) div 2;
+          R.Right:= R.Left + DoScale(FOptDropMarkSize);
         end;
       else
         begin
           R.Top:= IfThen(i<=FTabIndex, R.Top, R.Bottom);
-          R.Top:= R.Top  - FOptDropMarkSize div 2;
-          R.Bottom:= R.Top + FOptDropMarkSize;
+          R.Top:= R.Top  - DoScale(FOptDropMarkSize) div 2;
+          R.Bottom:= R.Top + DoScale(FOptDropMarkSize);
         end;
     end;
 
@@ -2569,7 +2573,7 @@ begin
     atpBottom:
       begin
         if not FOptVarWidth then
-          Result:= FTabWidth<=FOptTabWidthMinimal
+          Result:= FTabWidth<=DoScale(FOptTabWidthMinimal)
         else
           Result:= GetMaxScrollPos>0;
       end;
@@ -2596,15 +2600,15 @@ begin
 
         if NPos>0 then
         begin
-          R.Top:= IfThen(FOptPosition=atpBottom, FOptTabHeight + FOptSpacer, 0);
-          R.Bottom:= R.Top + FOptScrollMarkSizeY;
+          R.Top:= IfThen(FOptPosition=atpBottom, DoScale(FOptTabHeight) + DoScale(FOptSpacer), 0);
+          R.Bottom:= R.Top + DoScale(FOptScrollMarkSizeY);
 
           R.Left:= FRealIndentLeft +
             Max(0, Min(
-              NSize-FOptScrollMarkSizeX,
-              Int64(FScrollPos) * (NSize-FOptScrollMarkSizeX) div NPos
+              NSize-DoScale(FOptScrollMarkSizeX),
+              Int64(FScrollPos) * (NSize-DoScale(FOptScrollMarkSizeX)) div NPos
             ));
-          R.Right:= R.Left + FOptScrollMarkSizeX;
+          R.Right:= R.Left + DoScale(FOptScrollMarkSizeX);
 
           C.Brush.Color:= FColorScrollMark;
           C.FillRect(R);
@@ -2620,20 +2624,20 @@ begin
         begin
           R.Top:= NIndent +
             Max(0, Min(
-              NSize - FOptScrollMarkSizeX,
-              Int64(FScrollPos) * (NSize-FOptScrollMarkSizeX) div NPos
+              NSize - DoScale(FOptScrollMarkSizeX),
+              Int64(FScrollPos) * (NSize-DoScale(FOptScrollMarkSizeX)) div NPos
               ));
-          R.Bottom:= R.Top + FOptScrollMarkSizeX;
+          R.Bottom:= R.Top + DoScale(FOptScrollMarkSizeX);
 
           if FOptPosition=atpLeft then
           begin
             R.Left:= 0;
-            R.Right:= R.Left + FOptScrollMarkSizeY;
+            R.Right:= R.Left + DoScale(FOptScrollMarkSizeY);
           end
           else
           begin
             R.Right:= ClientWidth;
-            R.Left:= R.Right - FOptScrollMarkSizeY;
+            R.Left:= R.Right - DoScale(FOptScrollMarkSizeY);
           end;
 
           C.Brush.Color:= FColorScrollMark;
@@ -3237,7 +3241,7 @@ begin
   else
     NColor:= FColorArrow;
 
-  DrawTriangleType(C, ATyp, ARect, NColor, FOptArrowSize div 2);
+  DrawTriangleType(C, ATyp, ARect, NColor, DoScale(FOptArrowSize) div 2);
 end;
 
 
@@ -3255,12 +3259,12 @@ function TATTabs.GetButtonsEdgeCoord(AtLeft: boolean): integer;
 begin
   if AtLeft then
   begin
-    Result:= FOptSpaceInitial;
+    Result:= DoScale(FOptSpaceInitial);
     case FOptPosition of
       atpLeft:
-        Inc(Result, FOptSpacer);
+        Inc(Result, DoScale(FOptSpacer));
       atpRight:
-        Inc(Result, FOptSpacer2);
+        Inc(Result, DoScale(FOptSpacer2));
     end;
   end
   else
@@ -3268,9 +3272,9 @@ begin
     Result:= ClientWidth;
     case FOptPosition of
       atpLeft:
-        Dec(Result, FOptSpacer2);
+        Dec(Result, DoScale(FOptSpacer2));
       atpRight:
-        Dec(Result, FOptSpacer);
+        Dec(Result, DoScale(FOptSpacer));
     end;
   end;
 end;
@@ -3300,11 +3304,11 @@ begin
   end;
 
   if FOptPosition in [atpTop, atpBottom] then
-    Result.Top:= FOptSpacer
+    Result.Top:= DoScale(FOptSpacer)
   else
     Result.Top:= 0;
 
-  Result.Bottom:= Result.Top+FOptTabHeight;
+  Result.Bottom:= Result.Top+DoScale(FOptTabHeight);
 
   if FOptPosition=atpBottom then Inc(Result.Top);
 end;
@@ -3385,22 +3389,22 @@ begin
 
   if FOptPosition in [atpLeft, atpRight] then
   begin
-    FTabWidth:= ClientWidth-FOptSpacer;
+    FTabWidth:= ClientWidth-DoScale(FOptSpacer);
     exit
   end;
 
   //tricky formula: calculate auto-width
   Value:= (ClientWidth
-    - IfThen(FOptShowPlusTab, GetTabWidth_Plus_Raw + 2*FOptSpaceBeforeText)
+    - IfThen(FOptShowPlusTab, GetTabWidth_Plus_Raw + 2*DoScale(FOptSpaceBeforeText))
     - FRealIndentLeft
     - FRealIndentRight) div Count
-      - FOptSpaceBetweenTabs;
+      - DoScale(FOptSpaceBetweenTabs);
 
-  if Value<FOptTabWidthMinimal then
-    Value:= FOptTabWidthMinimal
+  if Value<DoScale(FOptTabWidthMinimal) then
+    Value:= DoScale(FOptTabWidthMinimal)
   else
-  if Value>FOptTabWidthNormal then
-    Value:= FOptTabWidthNormal;
+  if Value>DoScale(FOptTabWidthNormal) then
+    Value:= DoScale(FOptTabWidthNormal);
 
   FTabWidth:= Value;
 end;
@@ -3435,7 +3439,7 @@ begin
 
     if not FOptVarWidth then
       if FOptPosition in [atpTop, atpBottom] then
-        if FTabWidth<FOptTabWidthMinimalHidesX then
+        if FTabWidth<DoScale(FOptTabWidthMinimalHidesX) then
         begin
           Result:= false;
           Exit
@@ -3634,6 +3638,13 @@ begin
   end;
 end;
 
+function TATTabs.DoScale(AValue: integer): integer;
+begin
+  if FOptScalePercents=100 then
+    Result:= AValue
+  else
+    Result:= AValue * FOptScalePercents div 100;
+end;
 
 function TATTabs.GetScrollPageSize: integer;
 const
@@ -3764,7 +3775,7 @@ begin
         FColorArrow);
 
       DoPaintBgTo(C, R);
-      DrawPlusSign(C, R, FOptArrowSize, NColor);
+      DrawPlusSign(C, R, DoScale(FOptArrowSize), NColor);
       DoPaintAfter(ElemType, -1, C, R);
     end;
 end;
@@ -3792,7 +3803,7 @@ begin
         FColorArrow);
 
       DoPaintBgTo(C, R);
-      DrawCrossSign(C, R, FOptArrowSize, NColor);
+      DrawCrossSign(C, R, DoScale(FOptArrowSize), NColor);
       DoPaintAfter(ElemType, -1, C, R);
     end;
 end;
@@ -3885,18 +3896,18 @@ procedure TATTabs.ApplyButtonLayout;
     SetLength(Btns, 0);
     for i:= 1 to Length(S) do
       case S[i] of
-        '<': AddTabButton(Btns, atbScrollLeft,   FOptButtonSize);
-        '>': AddTabButton(Btns, atbScrollRight,  FOptButtonSize);
-        'v': AddTabButton(Btns, atbDropdownMenu, FOptButtonSize);
-        '+': AddTabButton(Btns, atbPlus,         FOptButtonSize);
-        'x': AddTabButton(Btns, atbClose,        FOptButtonSize);
-        '0': AddTabButton(Btns, atbUser0,        FOptButtonSize);
-        '1': AddTabButton(Btns, atbUser1,        FOptButtonSize);
-        '2': AddTabButton(Btns, atbUser2,        FOptButtonSize);
-        '3': AddTabButton(Btns, atbUser3,        FOptButtonSize);
-        '4': AddTabButton(Btns, atbUser4,        FOptButtonSize);
-        '_': AddTabButton(Btns, atbSpace,        FOptButtonSizeSpace);
-        '|': AddTabButton(Btns, atbSeparator,    FOptButtonSizeSeparator);
+        '<': AddTabButton(Btns, atbScrollLeft,   DoScale(FOptButtonSize));
+        '>': AddTabButton(Btns, atbScrollRight,  DoScale(FOptButtonSize));
+        'v': AddTabButton(Btns, atbDropdownMenu, DoScale(FOptButtonSize));
+        '+': AddTabButton(Btns, atbPlus,         DoScale(FOptButtonSize));
+        'x': AddTabButton(Btns, atbClose,        DoScale(FOptButtonSize));
+        '0': AddTabButton(Btns, atbUser0,        DoScale(FOptButtonSize));
+        '1': AddTabButton(Btns, atbUser1,        DoScale(FOptButtonSize));
+        '2': AddTabButton(Btns, atbUser2,        DoScale(FOptButtonSize));
+        '3': AddTabButton(Btns, atbUser3,        DoScale(FOptButtonSize));
+        '4': AddTabButton(Btns, atbUser4,        DoScale(FOptButtonSize));
+        '_': AddTabButton(Btns, atbSpace,        DoScale(FOptButtonSizeSpace));
+        '|': AddTabButton(Btns, atbSeparator,    DoScale(FOptButtonSizeSeparator));
       end;
   end;
   //
@@ -3924,8 +3935,8 @@ procedure TATTabs.DoPaintSeparator(C: TCanvas; const R: TRect);
 begin
   DoPaintBgTo(C, R);
   C.Pen.Color:= FColorSeparator;
-  C.MoveTo(R.Left, R.Top+FOptSpaceSeparator);
-  C.LineTo(R.Left, R.Bottom-FOptSpaceSeparator);
+  C.MoveTo(R.Left, R.Top+DoScale(FOptSpaceSeparator));
+  C.LineTo(R.Left, R.Bottom-DoScale(FOptSpaceSeparator));
 end;
 
 
@@ -3954,7 +3965,7 @@ begin
   if FOptPosition in [atpTop, atpBottom] then
     if FOptSpaceInitial>0 then
     begin
-      R:= Rect(0, 0, FOptSpaceInitial, FOptTabHeight+FOptSpacer);
+      R:= Rect(0, 0, DoScale(FOptSpaceInitial), DoScale(FOptTabHeight)+DoScale(FOptSpacer));
       DoPaintBgTo(C, R);
     end;
 
@@ -4023,9 +4034,9 @@ end;
 function TATTabs.GetInitialVerticalIndent: integer;
 begin
   if GetButtonsEmpty then
-    Result:= FOptSpaceInitial
+    Result:= DoScale(FOptSpaceInitial)
   else
-    Result:= FOptTabHeight;
+    Result:= DoScale(FOptTabHeight);
 end;
 
 procedure TATTabs.DoPaintColoredBand(C: TCanvas; const ARect: TRect; AColor: TColor;
@@ -4040,26 +4051,26 @@ begin
         R.Left:= ARect.Left+1;
         R.Right:= ARect.Right-1;
         R.Top:= ARect.Top+1-Ord(FOptShowFlat);
-        R.Bottom:= R.Top+FOptColoredBandSize;
+        R.Bottom:= R.Top+DoScale(FOptColoredBandSize);
       end;
     atpBottom:
       begin
         R.Left:= ARect.Left+1;
         R.Right:= ARect.Right-1;
         R.Bottom:= ARect.Bottom;
-        R.Top:= R.Bottom-FOptColoredBandSize;
+        R.Top:= R.Bottom-DoScale(FOptColoredBandSize);
       end;
     atpLeft:
       begin
         R.Left:= ARect.Left+1-Ord(FOptShowFlat);
-        R.Right:= R.Left+FOptColoredBandSize;
+        R.Right:= R.Left+DoScale(FOptColoredBandSize);
         R.Top:= ARect.Top+1;
         R.Bottom:= ARect.Bottom-1;
       end;
     atpRight:
       begin
         R.Right:= ARect.Right-1+Ord(FOptShowFlat);
-        R.Left:= R.Right-FOptColoredBandSize;
+        R.Left:= R.Right-DoScale(FOptColoredBandSize);
         R.Top:= ARect.Top+1;
         R.Bottom:= ARect.Bottom-1;
       end;
@@ -4080,7 +4091,7 @@ begin
     begin
       X1:= GetButtonsEdgeCoord(true);
       X2:= GetButtonsEdgeCoord(false);
-      DoPaintBgTo(C, Rect(X1, 0, X2, FOptTabHeight));
+      DoPaintBgTo(C, Rect(X1, 0, X2, DoScale(FOptTabHeight)));
     end;
 end;
 
@@ -4252,7 +4263,7 @@ begin
     atpTop,
     atpBottom:
       begin
-        for i:= 0 to FOptTabHeight div FOptAnimationStepV-1 do
+        for i:= 0 to DoScale(FOptTabHeight) div FOptAnimationStepV-1 do
         begin
           FAnimationOffset:= i*FOptAnimationStepV;
           Invalidate;
@@ -4262,7 +4273,7 @@ begin
       end;
     else
       begin
-        for i:= 0 to FOptTabWidthNormal div FOptAnimationStepH-1 do
+        for i:= 0 to DoScale(FOptTabWidthNormal) div FOptAnimationStepH-1 do
         begin
           FAnimationOffset:= i*FOptAnimationStepH;
           Invalidate;
@@ -4294,7 +4305,7 @@ begin
     atpTop,
     atpBottom:
       begin
-        for i:= FOptTabHeight div FOptAnimationStepV-1 downto 0 do
+        for i:= DoScale(FOptTabHeight) div FOptAnimationStepV-1 downto 0 do
         begin
           FAnimationOffset:= i*FOptAnimationStepV;
           Invalidate;
@@ -4304,7 +4315,7 @@ begin
       end;
     else
       begin
-        for i:= FOptTabWidthNormal div FOptAnimationStepH-1 downto 0 do
+        for i:= DoScale(FOptTabWidthNormal) div FOptAnimationStepH-1 downto 0 do
         begin
           FAnimationOffset:= i*FOptAnimationStepH;
           Invalidate;
