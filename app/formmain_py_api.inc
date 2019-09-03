@@ -1194,20 +1194,12 @@ begin
 
       StrW:= UTF8Decode(string(Ptr));
 
-      ////not used, because Undo is lost:
-      //Ed.Strings.LoadFromString(StrW);
+      //don't keep Undo, not needed in set_text_all
+      Ed.DoCaretSingle(0, 0);
+      Ed.Strings.LoadFromString(StrW);
 
-      Ed.Strings.BeginUndoGroup;
-      try
-        Ed.DoCaretSingle(0, 0);
-        for i:= Ed.Strings.Count-1 downto 0 do
-          Ed.Strings.TextDeleteLine(0, i, Shift, PosAfter);
-        Ed.Strings.TextInsert(0, 0, StrW, false, Shift, PosAfter);
-      finally
-        Ed.Strings.EndUndoGroup;
-        Ed.DoEventChange;
-        Ed.Strings.DoSaveLastEditPos(0, 0);
-      end;
+      Ed.DoEventChange;
+      Ed.Strings.DoSaveLastEditPos(0, 0);
 
       F:= GetEditorFrame(Ed);
       if Assigned(F) then
