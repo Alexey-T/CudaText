@@ -277,6 +277,7 @@ const
   _InitOptSpaceSide = 10;
   _InitOptSpaceInitial = 5;
   _InitOptSpaceBeforeText = 6;
+  _InitOptSpaceBeforeTextForMinWidth = 30;
   _InitOptSpaceBetweenTabs = 0;
   _InitOptSpaceBetweenLines = 4;
   _InitOptSpaceBetweenIconCaption = 0;
@@ -389,6 +390,7 @@ type
     FOptSpaceBetweenIconCaption: integer;
     FOptSpaceInitial: integer; //space between first tab and left control edge
     FOptSpaceBeforeText: integer; //space between text and tab left edge
+    FOptSpaceBeforeTextForMinWidth: integer;
     FOptSpaceSeparator: integer;
     FOptSpacer: integer; //height of top empty space (colored with bg)
     FOptSpacer2: integer;
@@ -697,6 +699,7 @@ type
     {$endif}
     //
     property OnMouseMove;
+    property OnMouseDown;
     property OnMouseUp;
     property OnMouseWheel;
     property OnMouseWheelDown;
@@ -758,6 +761,7 @@ type
     property OptSpaceBetweenIconCaption: integer read FOptSpaceBetweenIconCaption write FOptSpaceBetweenIconCaption default _InitOptSpaceBetweenIconCaption;
     property OptSpaceInitial: integer read FOptSpaceInitial write FOptSpaceInitial default _InitOptSpaceInitial;
     property OptSpaceBeforeText: integer read FOptSpaceBeforeText write FOptSpaceBeforeText default _InitOptSpaceBeforeText;
+    property OptSpaceBeforeTextForMinWidth: integer read FOptSpaceBeforeTextForMinWidth write FOptSpaceBeforeTextForMinWidth default _InitOptSpaceBeforeTextForMinWidth;
     property OptSpaceSeparator: integer read FOptSpaceSeparator write FOptSpaceSeparator default _InitOptSpaceSeparator;
     property OptSpacer: integer read FOptSpacer write FOptSpacer default _InitOptSpacer;
     property OptSpacer2: integer read FOptSpacer2 write FOptSpacer2 default _InitOptSpacer2;
@@ -1254,6 +1258,7 @@ begin
   FOptSpaceSide:= _InitOptSpaceSide;
   FOptSpaceInitial:= _InitOptSpaceInitial;
   FOptSpaceBeforeText:= _InitOptSpaceBeforeText;
+  FOptSpaceBeforeTextForMinWidth:= _InitOptSpaceBeforeTextForMinWidth;
   FOptSpaceBetweenTabs:= _InitOptSpaceBetweenTabs;
   FOptSpaceBetweenLines:= _InitOptSpaceBetweenLines;
   FOptSpaceBetweenIconCaption:= _InitOptSpaceBetweenIconCaption;
@@ -1455,7 +1460,7 @@ begin
   end;
 
   RectText:= Rect(ARect.Left, ARect.Top, ARect.Right, ARect.Bottom);
-  bNeedMoreSpace:= (RectText.Right-RectText.Left<=30) and (ACaption<>'');
+  bNeedMoreSpace:= (RectText.Right-RectText.Left<=DoScale(FOptSpaceBeforeTextForMinWidth)) and (ACaption<>'');
   NIndentL:= IfThen(not bNeedMoreSpace, DoScale(FOptSpaceBeforeText), 2);
   NIndentR:= NIndentL+IfThen(IsShowX(ATabIndex), DoScale(FOptSpaceXRight));
   RectText:= Rect(ARect.Left+NIndentL, ARect.Top, ARect.Right-NIndentR, ARect.Bottom);
@@ -2137,7 +2142,7 @@ begin
 
       TempCaption:=
         Format(FOptShowNumberPrefix, [i+1]) +
-        FOptShowModifiedText +
+        IfThen(Data.TabModified, FOptShowModifiedText) +
         Data.TabCaption;
 
       UpdateCaptionProps(C, TempCaption, NLineHeight, Extent);
@@ -3266,12 +3271,14 @@ begin
         atriLeft: Pic:= FPic_Arrow_L_a;
         atriRight: Pic:= FPic_Arrow_R_a;
         atriDown: Pic:= FPic_Arrow_D_a;
+        else exit;
       end
     else
       case ATyp of
         atriLeft: Pic:= FPic_Arrow_L;
         atriRight: Pic:= FPic_Arrow_R;
         atriDown: Pic:= FPic_Arrow_D;
+        else exit;
       end;
     Pic.Draw(C,
       (ARect.Left+ARect.Right-Pic.Width) div 2,
@@ -3623,6 +3630,7 @@ end;
 
 procedure TATTabs.DblClick;
 begin
+  inherited;
   FMouseDownDbl:= true;
 end;
 
