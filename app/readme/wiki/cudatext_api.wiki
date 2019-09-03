@@ -3551,7 +3551,8 @@ def project_variables():
 1.0.298 (app 1.85.2)
 * add: dlg_proc: control events "on_focus_enter", "on_focus_exit"
 
-1.0.299 (app 1.85.2)
-* Windows embedded Python updated to 3.6
+1.0.299 (app 1.86.0)
+* change: Windows embedded Python updated to 3.6
++ change: Editor.set_text_all now doesn't keep Undo information
 
 [[Category:CudaText]]
