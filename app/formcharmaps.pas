@@ -398,16 +398,40 @@ begin
 
   if (Key=VK_DOWN) and (Shift=[ssCtrl]) then
   begin
-    if comboAnsi.ItemIndex<comboAnsi.Items.Count-1 then
-      comboAnsi.ItemIndex:= comboAnsi.ItemIndex+1;
+    if FUnicodeMode then
+    begin
+      with comboUnicode do
+        if ItemIndex<Items.Count-1 then
+          ItemIndex:= ItemIndex+1;
+      DoShowUnicode;
+    end
+    else
+    begin
+      with comboAnsi do
+        if ItemIndex<Items.Count-1 then
+          ItemIndex:= ItemIndex+1;
+      DoShowAnsi;
+    end;
     Key:= 0;
     exit
   end;
 
   if (Key=VK_UP) and (Shift=[ssCtrl]) then
   begin
-    if comboAnsi.ItemIndex>0 then
-      comboAnsi.ItemIndex:= comboAnsi.ItemIndex-1;
+    if FUnicodeMode then
+    begin
+      with comboUnicode do
+        if ItemIndex>0 then
+          ItemIndex:= ItemIndex-1;
+      DoShowUnicode;
+    end
+    else
+    begin
+      with comboAnsi do
+        if ItemIndex>0 then
+          ItemIndex:= ItemIndex-1;
+      DoShowAnsi;
+    end;
     Key:= 0;
     exit
   end;
