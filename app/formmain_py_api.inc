@@ -2766,6 +2766,10 @@ begin
 
         PROP_LEXER_FILE:
           begin
+            //if editor in frame, use frame's prop
+            if Assigned(F) then
+              Result:= PyString_FromString(PChar(F.LexerName[Ed]))
+            else
             if Ed.AdapterForHilite is TATAdapterEControl then
             begin
               Ada:= Ed.AdapterForHilite as TATAdapterEControl;
@@ -2783,6 +2787,10 @@ begin
           begin
             Pnt.X:= StrToIntDef(SGetItem(Str, ','), 0);
             Pnt.Y:= StrToIntDef(SGetItem(Str, ','), 0);
+            //if editor in frame, use frame's prop
+            if Assigned(F) then
+              Result:= PyString_FromString(PChar(F.LexerNameAtPos(Ed, Pnt)))
+            else
             if Ed.AdapterForHilite is TATAdapterEControl then
             begin
               Ada:= Ed.AdapterForHilite as TATAdapterEControl;
@@ -2803,6 +2811,10 @@ begin
               Pnt.X:= PosX;
               Pnt.Y:= PosY;
             end;
+            //if editor in frame, use frame's prop
+            if Assigned(F) then
+              Result:= PyString_FromString(PChar(F.LexerNameAtPos(Ed, Pnt)))
+            else
             if Ed.AdapterForHilite is TATAdapterEControl then
             begin
               Ada:= Ed.AdapterForHilite as TATAdapterEControl;
