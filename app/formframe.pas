@@ -309,6 +309,7 @@ type
     property EditorsLinked: boolean read FEditorsLinked write SetEditorsLinked;
     property EnabledFolding: boolean read GetEnabledFolding write SetEnabledFolding;
     property SaveDialog: TSaveDialog read FSaveDialog write FSaveDialog;
+    property WasVisible: boolean read FWasVisible;
     function GetTabPages: TATPages;
     function GetTabGroups: TATGroups;
     procedure GetEditorToken(Ed: TATSynEdit; AX, AY: integer; out AKind: TATFinderTokenKind);

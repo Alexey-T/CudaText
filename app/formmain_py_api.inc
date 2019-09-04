@@ -6343,14 +6343,13 @@ begin
               if Ed.AdapterForHilite is TATAdapterEControl then
                 Ada:= TATAdapterEControl(Ed.AdapterForHilite);
 
-              //if editor in frame, use frame's prop
               if Ada=nil then
               begin
                 Frame:= GetEditorFrame(Ed);
-                if Assigned(Frame) then
+                //maybe frame was not yet shown-> its FInitialLexer is not yet used-> force using it
+                if Assigned(Frame) and not Frame.WasVisible then
                 begin
                   Ada:= Frame.Adapter[Ed];
-                  //maybe frame was not yet shown-> its FInitialLexer is not yet used-> force using it
                   if Ada=nil then
                   begin
                     AllowFrameParsing:= true;
