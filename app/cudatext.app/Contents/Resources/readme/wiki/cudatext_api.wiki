@@ -1834,16 +1834,19 @@ Param "options" must be 0 or sum of the following flags:
 
  get_text_all()
 
-Gets entire text in the editor, as str.
-Gives "\n" as line-breaks.
+Gets the entire editor text, as string.
+Gets "\n" as line-breaks.
 
 ===Editor.set_text_all===
 
  set_text_all(text)
 
-Sets entire text in the editor, to given str.
-Text can have any line-breaks, they will be converted to currently used line-breaks.
-It cannot work with read-only editor (see get_prop/set_prop and PROP_RO).
+Sets the entire editor text, from given string.
+Text can have any line-breaks (LF, CRLF, CR, mixed).
+
+Notes:
+* Function cannot work with read-only editor (see Editor.get_prop, Editor.set_prop and PROP_RO).
+* Function looses Undo information. To support Undo, use another API to set text, e.g. Editor.replace().
 
 ===Editor.get_text_line===
 
@@ -3551,7 +3554,8 @@ def project_variables():
 1.0.298 (app 1.85.2)
 * add: dlg_proc: control events "on_focus_enter", "on_focus_exit"
 
-1.0.299 (app 1.85.2)
-* Windows embedded Python updated to 3.6
+1.0.299 (app 1.86.0)
+* change: Windows: embedded Python updated to 3.6
+* change: Editor.set_text_all now looses Undo information
 
 [[Category:CudaText]]
