@@ -179,12 +179,14 @@ type
   TATTabDrawEvent = procedure (Sender: TObject;
     AElemType: TATTabElemType; ATabIndex: integer;
     ACanvas: TCanvas; const ARect: TRect; var ACanDraw: boolean) of object;
-  TATTabMoveEvent = procedure (Sender: TObject; NFrom, NTo: integer) of object;  
+  TATTabMoveEvent = procedure (Sender: TObject; AIndexFrom, AIndexTo: integer) of object;
   TATTabChangeQueryEvent = procedure (Sender: TObject; ANewTabIndex: integer;
     var ACanChange: boolean) of object;
   TATTabClickUserButton = procedure (Sender: TObject; AIndex: integer) of object;
   TATTabGetTickEvent = function (Sender: TObject; ATabObject: TObject): Int64 of object;
   TATTabGetCloseActionEvent = procedure (Sender: TObject; var AAction: TATTabActionOnClose) of object;
+  TATTabDblClickEvent = procedure (Sender: TObject; AIndex: integer) of object;
+  TATTabDropQueryEvent = procedure (Sender: TObject; AIndexFrom, AIndexTo: integer; var ACanDrop: boolean) of object;
 
 type
   TATTabTriangle = (
@@ -520,6 +522,8 @@ type
     FOnTabChangeQuery: TATTabChangeQueryEvent;
     FOnTabGetTick: TATTabGetTickEvent;
     FOnTabGetCloseAction: TATTabGetCloseActionEvent;
+    FOnTabDblClick: TATTabDblClickEvent;
+    FOnTabDropQuery: TATTabDropQueryEvent;
 
     function ConvertButtonIdToTabIndex(Id: TATTabButton): integer; inline;
     procedure DoAnimationTabAdd(AIndex: integer);
@@ -834,6 +838,8 @@ type
     property OnTabChangeQuery: TATTabChangeQueryEvent read FOnTabChangeQuery write FOnTabChangeQuery;
     property OnTabGetTick: TATTabGetTickEvent read FOnTabGetTick write FOnTabGetTick;
     property OnTabGetCloseAction: TATTabGetCloseActionEvent read FOnTabGetCloseAction write FOnTabGetCloseAction;
+    property OnTabDblClick: TATTabDblClickEvent read FOnTabDblClick write FOnTabDblClick;
+    property OnTabDropQuery: TATTabDropQueryEvent read FOnTabDropQuery write FOnTabDropQuery;
   end;
 
 var
@@ -2841,6 +2847,9 @@ begin
   
   if IsDblClick then
   begin
+    if Assigned(FOnTabDblClick) and (FTabIndexOver>=0) then
+      FOnTabDblClick(Self, FTabIndexOver);
+
     if FOptMouseDoubleClickClose and (FTabIndexOver>=0) then
       DeleteTab(FTabIndexOver, true, true)
     else
@@ -3501,13 +3510,19 @@ end;
 procedure TATTabs.DoTabDrop;
 var
   NFrom, NTo: integer;
+  ACanDrop: boolean;
 begin
   NFrom:= FTabIndex;
   if not IsIndexOk(NFrom) then Exit;
   NTo:= FTabIndexDrop;
   if not IsIndexOk(NTo) then
     NTo:= TabCount-1;
-  if NFrom=NTo then Exit;  
+  if NFrom=NTo then Exit;
+
+  ACanDrop:= true;
+  if Assigned(FOnTabDropQuery) then
+    FOnTabDropQuery(Self, NFrom, NTo, ACanDrop);
+  if not ACanDrop then Exit;
 
   FTabList.Items[NFrom].Index:= NTo;
   SetTabIndex(NTo);
