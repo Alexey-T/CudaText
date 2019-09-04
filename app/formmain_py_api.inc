@@ -6284,6 +6284,7 @@ var
   StrText1, StrText2, StrText3: string;
   Ed: TATSynEdit;
   Frame: TEditorFrame;
+  Ada: TATAdapterEControl;
   NValue: Int64;
   TreeContainer: TAppTreeContainer;
   Ok: boolean;
@@ -6337,8 +6338,31 @@ begin
         EDACTION_LEXER_SCAN:
           begin
             if Ed.Strings.IsIndexValid(NValue) then
+            begin
+              Ada:= nil;
               if Ed.AdapterForHilite is TATAdapterEControl then
-                TATAdapterEControl(Ed.AdapterForHilite).DoAnalyzeFromLine(NValue, true{Wait});
+                Ada:= TATAdapterEControl(Ed.AdapterForHilite);
+
+              //if editor in frame, use frame's prop
+              if Ada=nil then
+              begin
+                Frame:= GetEditorFrame(Ed);
+                if Assigned(Frame) then
+                begin
+                  Ada:= Frame.Adapter[Ed];
+                  //maybe frame was not yet shown-> its FInitialLexer is not yet used-> force using it
+                  if Ada=nil then
+                  begin
+                    AllowFrameParsing:= true;
+                    Frame.DoShow;
+                    Ada:= Frame.Adapter[Ed];
+                  end;
+                end
+              end;
+
+              if Assigned(Ada) then
+                Ada.DoAnalyzeFromLine(NValue, true{Wait});
+            end;
             Result:= ReturnNone;
           end;
 
