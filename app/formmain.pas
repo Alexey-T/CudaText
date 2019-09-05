@@ -670,7 +670,6 @@ type
     FLastSelectedCommand: integer;
     FLastMousePos: TPoint;
     FLexerProgressIndex: integer;
-    FLexerProgressCount: integer;
     FOption_OpenReadOnly: boolean;
     FOption_OpenNewWindow: boolean;
     FOption_WindowPos: string;
@@ -6273,23 +6272,6 @@ begin
   else
     LexerProgress.Hide;
 end;
-
-(*
-procedure TfmMain.DoOnLexerParseProgress(Sender: TObject; ALineIndex, ALineCount: integer);
-begin
-  if Application.Terminated then exit;
-  FLexerProgressIndex:= ALineIndex;
-  FLexerProgressCount:= ALineCount;
-  TThread.Queue(nil, @DoOnLexerParseProgress_Sync);
-end;
-
-procedure TfmMain.DoOnLexerParseProgress_Sync();
-begin
-  if Application.Terminated then exit;
-  LexerProgress.Progress:= FLexerProgressIndex*100 div FLexerProgressCount;
-  LexerProgress.Show;
-end;
-*)
 
 function _FrameListCompare(List: TStringList; Index1, Index2: Integer): Integer;
 var
