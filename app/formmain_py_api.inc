@@ -7015,11 +7015,6 @@ begin
             Result:= PyInt_FromLong(FBar.Color);
           end;
 
-        STATUSBAR_GET_COLOR_FONT:
-          begin
-            Result:= PyInt_FromLong(FBar.Font.Color);
-          end;
-
         STATUSBAR_GET_COLOR_BORDER_TOP:
           begin
             Result:= PyInt_FromLong(FBar.ColorBorderTop);
@@ -7049,13 +7044,6 @@ begin
         STATUSBAR_SET_COLOR_BACK:
           begin
             FBar.Color:= StrToIntDef(StrValue, FBar.Color);
-            FBar.Invalidate;
-            Result:= ReturnNone;
-          end;
-
-        STATUSBAR_SET_COLOR_FONT:
-          begin
-            FBar.Font.Color:= StrToIntDef(StrValue, FBar.Font.Color);
             FBar.Invalidate;
             Result:= ReturnNone;
           end;
