@@ -1667,6 +1667,8 @@ Param "id_action" can be:
 * STATUSBAR_GET_CELL_IMAGEINDEX: Gets icon index (inside image-list) of cell, -1 for none.
 * STATUSBAR_GET_CELL_COLOR_FONT: Gets font color of cell, COLOR_NONE if not set.
 * STATUSBAR_GET_CELL_COLOR_BACK: Gets background color of cell, COLOR_NONE if not set.
+* STATUSBAR_GET_CELL_FONT_NAME: Gets special font name of cell (if empty str, not used).
+* STATUSBAR_GET_CELL_FONT_SIZE: Gets special font size of cell (if <=0, not used).
 * STATUSBAR_GET_CELL_TAG: Gets int tag of cell.
 
 * STATUSBAR_SET_CELL_SIZE: Sets width of cell. Param "value": int.
@@ -1678,6 +1680,8 @@ Param "id_action" can be:
 * STATUSBAR_SET_CELL_IMAGEINDEX: Sets icon index (inside image-list) of cell, -1 for none. Param "value": int.
 * STATUSBAR_SET_CELL_COLOR_FONT: Sets font color of cell. Param "value": int color or COLOR_NONE.
 * STATUSBAR_SET_CELL_COLOR_BACK: Sets background color of cell. Param "value": int color or COLOR_NONE.
+* STATUSBAR_SET_CELL_FONT_NAME: Sets special font name of cell (if empty str, not used). Param "value": str.
+* STATUSBAR_SET_CELL_FONT_SIZE: Sets special font size of cell (if <=0, not used). Param "value": int.
 * STATUSBAR_SET_CELL_TAG: Sets tag of cell. Param "value": int.
 
 Notes:
@@ -3560,5 +3564,7 @@ def project_variables():
 
 1.0.300 (app 1.86.1)
 * deleted: STATUSBAR_GET_COLOR_FONT, STATUSBAR_SET_COLOR_FONT (other actions allow to get/set it)
+* add: statusbar_proc: STATUSBAR_SET_CELL_FONT_NAME, STATUSBAR_GET_CELL_FONT_NAME
+* add: statusbar_proc: STATUSBAR_SET_CELL_FONT_SIZE, STATUSBAR_GET_CELL_FONT_SIZE
 
 [[Category:CudaText]]
