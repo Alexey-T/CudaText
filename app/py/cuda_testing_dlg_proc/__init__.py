@@ -952,6 +952,8 @@ end;
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_TEXT, tag=11, value='cell-a')
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_HINT, tag=11, value='hint for cell-a')
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_IMAGEINDEX, tag=11, value=icon1)
+        statusbar_proc(sb_id, STATUSBAR_SET_CELL_FONT_NAME, tag=11, value='Courier')
+        statusbar_proc(sb_id, STATUSBAR_SET_CELL_FONT_SIZE, tag=11, value=18)
 
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_SIZE, tag=22, value=50)
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_COLOR_BACK, tag=22, value=0xffff)

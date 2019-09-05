@@ -6918,6 +6918,28 @@ begin
             Result:= ReturnNone;
           end;
 
+        STATUSBAR_SET_CELL_FONT_NAME:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+            begin
+              Data.FontName:= StrValue;
+              FBar.Invalidate;
+            end;
+            Result:= ReturnNone;
+          end;
+
+        STATUSBAR_SET_CELL_FONT_SIZE:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+            begin
+              Data.FontSize:= StrToIntDef(StrValue, 0);
+              FBar.Invalidate;
+            end;
+            Result:= ReturnNone;
+          end;
+
 
         STATUSBAR_GET_CELL_SIZE:
           begin
@@ -7008,6 +7030,25 @@ begin
             else
               Result:= ReturnNone;
           end;
+
+        STATUSBAR_GET_CELL_FONT_NAME:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+              Result:= PyString_FromString(PChar(Data.FontName))
+            else
+              Result:= ReturnNone;
+          end;
+
+        STATUSBAR_GET_CELL_FONT_SIZE:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+              Result:= PyInt_FromLong(Data.FontSize)
+            else
+              Result:= ReturnNone;
+          end;
+
 
         //get color
         STATUSBAR_GET_COLOR_BACK:
