@@ -6267,7 +6267,8 @@ begin
   if FLexerProgressIndex>=0 then
   begin
     LexerProgress.Progress:= FLexerProgressIndex;
-    LexerProgress.Show;
+    if FLexerProgressIndex>0 then
+      LexerProgress.Show;
   end
   else
     LexerProgress.Hide;
