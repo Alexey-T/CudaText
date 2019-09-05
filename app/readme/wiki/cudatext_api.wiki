@@ -3558,4 +3558,7 @@ def project_variables():
 * change: Windows: embedded Python updated to 3.6
 * change: Editor.set_text_all now looses Undo information
 
+1.0.300 (app 1.86.1)
+* deleted: STATUSBAR_GET_COLOR_FONT, STATUSBAR_SET_COLOR_FONT (other actions allow to get/set it)
+
 [[Category:CudaText]]
