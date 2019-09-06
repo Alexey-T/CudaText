@@ -1304,7 +1304,7 @@ Perform some lexer-related action.
 Possible values of "id":
 
 * LEXER_GET_LEXERS: Gets list of lexers. Param "value" must be bool: allow to include also hidden lexers (not visible in the lexers menu).
-* LEXER_GET_PROP: For lexer name (param "value"), gets its properties as dict. For incorrect lexer name, gets None. Keys of dict:
+* LEXER_GET_PROP: For lexer name (param "value"), gets general properties, as dict. For incorrect lexer name, gets None. Keys of dict:
 ** "en": bool: lexer is visible in the lexers menu.
 ** "typ": list of str: list of file-types (they detect lexer when file loads; "ext" is simple extension, "ext1.ext2" is double extension, "/fullname" is name w/o path).
 ** "st": list of str: list of all styles.
@@ -1314,6 +1314,8 @@ Possible values of "id":
 ** "c_line": str or None: line comment (until end-of-line).
 ** "c_str": 2-tuple or None: stream comment (for any range).
 ** "c_lined": 2-tuple or None: comment for full lines.
+
+* LEXER_GET_STYLES: For lexer name (param "value"), gets lexer styles properties, as dict. This works even if CudaText lexer themes are disabled (option "ui_lexer_themes": false).
 
 * LEXER_DETECT: Detects lexer name by file name (param "value" is file name). Gets None if cannot detect. Function sees file extension, or even filename before extension (e.g. "/path/makefile.gcc" gives "Makefile").
 * LEXER_REREAD_LIB: Re-reads lexer library from disk, updates lexer menu. Make sure that plugins' dialogs don't use editor with lexer, which may crash.
@@ -3570,5 +3572,8 @@ def project_variables():
 * add: statusbar_proc: STATUSBAR_SET_CELL_FONT_NAME, STATUSBAR_GET_CELL_FONT_NAME
 * add: statusbar_proc: STATUSBAR_SET_CELL_FONT_SIZE, STATUSBAR_GET_CELL_FONT_SIZE
 * add: dlg_proc: DLG_LOCK, DLG_UNLOCK
+
+1.0.301 (app 1.86.2)
+* add: lexer_proc: LEXER_GET_STYLES
 
 [[Category:CudaText]]
