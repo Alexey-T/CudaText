@@ -7211,6 +7211,18 @@ begin
             Result:= ReturnNone;
           end;
 
+        DLG_LOCK:
+          begin
+            Form.DisableAutoSizing;
+            Result:= ReturnNone;
+          end;
+
+        DLG_UNLOCK:
+          begin
+            Form.EnableAutoSizing;
+            Result:= ReturnNone;
+          end;
+
         DLG_PROP_GET:
           begin
             Result:= DoForm_GetPropsAsStringDict(Form);

@@ -592,6 +592,8 @@ TOOLBAR_THEME          = 20
 
 DLG_CREATE         = 0
 DLG_FREE           = 1
+DLG_LOCK           = 2
+DLG_UNLOCK         = 3
 DLG_SHOW_MODAL     = 5
 DLG_SHOW_NONMODAL  = 6
 DLG_HIDE           = 7
