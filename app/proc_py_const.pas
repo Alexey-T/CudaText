@@ -366,6 +366,7 @@ const
   LEXER_GET_PROP       = 1;
   LEXER_DETECT         = 2;
   LEXER_REREAD_LIB     = 3;
+  LEXER_GET_STYLES     = 4;
 
   GROUPS_ONE    = 1;
   GROUPS_2VERT  = 2;

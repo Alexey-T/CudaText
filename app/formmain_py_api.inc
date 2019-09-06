@@ -4528,6 +4528,43 @@ begin
 end;
 
 
+function Py_GetLexerStylesProps(An: TecSyntAnalyzer): PPyObject;
+var
+  Fmt: TecSyntaxFormat;
+  i: integer;
+begin
+  with GetPythonEngine do
+  begin
+    Result:= PyDict_New();
+    for i:= 0 to An.Formats.Count-1 do
+    begin
+      Fmt:= An.Formats[i];
+      PyDict_SetItem(Result,
+        PyString_FromString(PChar(Fmt.DisplayName)),
+        Py_BuildValue('{sisisisisisisisiss}',
+          'type',
+          Ord(Fmt.FormatType),
+          'color_font',
+          Fmt.Font.Color,
+          'color_back',
+          Fmt.BgColor,
+          'color_border',
+          Fmt.BorderColorBottom,
+          'border_left',
+          Ord(Fmt.BorderTypeLeft),
+          'border_right',
+          Ord(Fmt.BorderTypeRight),
+          'border_top',
+          Ord(Fmt.BorderTypeTop),
+          'border_bottom',
+          Ord(Fmt.BorderTypeBottom),
+          'styles',
+          PChar(FontStylesToString(Fmt.Font.Style))
+          ));
+    end;
+  end;
+end;
+
 function Py_lexer_proc(Self, Args : PPyObject): PPyObject; cdecl;
 var
   Id: integer;
@@ -4559,6 +4596,20 @@ begin
               Lexer:= AppManager.FindLexerByName(StrValue);
               if Assigned(Lexer) then
                 Result:= Py_GetLexerProps(Lexer)
+              else
+                Result:= ReturnNone;
+            end;
+          end;
+
+        LEXER_GET_STYLES:
+          begin
+            if SEndsWith(StrValue, msgLiteLexerSuffix) then
+              Result:= ReturnNone
+            else
+            begin
+              Lexer:= AppManager.FindLexerByName(StrValue);
+              if Assigned(Lexer) then
+                Result:= Py_GetLexerStylesProps(Lexer)
               else
                 Result:= ReturnNone;
             end;
