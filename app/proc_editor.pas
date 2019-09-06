@@ -875,19 +875,25 @@ end;
 
 function EditorGotoFromString(Ed: TATSynEdit; SInput: string): boolean;
 var
-  NumLine, NumCol: integer;
+  NumCount, NumLine, NumCol: integer;
   Pnt: TPoint;
   bExtend: boolean;
   Caret: TATCaretItem;
 begin
+  NumCount:= Ed.Strings.Count;
+  if NumCount<2 then exit(false);
+
   bExtend:= SEndsWith(SInput, '+');
   if bExtend then
     SetLength(SInput, Length(SInput)-1);
 
   if SEndsWith(SInput, '%') then
   begin
-    NumLine:= StrToIntDef(Copy(SInput, 1, Length(SInput)-1), -1);
-    NumLine:= Ed.Strings.Count * NumLine div 100 - 1;
+    NumLine:= StrToIntDef(Copy(SInput, 1, Length(SInput)-1), 0);
+    if NumLine<0 then
+      NumLine:= NumCount-1 + (NumCount * NumLine div 100)
+    else
+      NumLine:= NumCount * NumLine div 100;
     NumCol:= 0;
   end
   else
@@ -908,14 +914,18 @@ begin
   end
   else
   begin
-    NumLine:= StrToIntDef(SGetItem(SInput, ':'), -1) - 1;
+    NumLine:= StrToIntDef(SGetItem(SInput, ':'), 0);
+    if NumLine<0 then
+      NumLine:= NumCount+NumLine
+    else
+      Dec(NumLine);
     NumCol:= StrToIntDef(SInput, 0) - 1;
   end;
 
   Result:= NumLine>=0;
   if not Result then exit;
 
-  NumLine:= Min(NumLine, Ed.Strings.Count-1);
+  NumLine:= Min(NumLine, NumCount-1);
   NumCol:= Max(0, NumCol);
 
   Pnt:= Point(-1, -1);

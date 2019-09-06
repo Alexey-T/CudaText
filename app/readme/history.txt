@@ -4,6 +4,10 @@
   * changed
 
 
+1.86.1 (2019/09)
+
++ add: dialog Go To allows negative line numbers and negative values in %, this goes relative to file end
+
 1.86.0 (2019/09)
 
 * change: Windows build upgraded to Python 3.6, option "pylib" (on Windows) is now ignored
