@@ -4,7 +4,7 @@
   * changed
 
 
-1.86.1 (2019/09)
+1.86.2 (2019/09)
 
 + add: dialog Go To allows negative line numbers and negative values in %, this goes relative to file end
 
