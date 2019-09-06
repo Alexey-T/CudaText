@@ -1107,6 +1107,9 @@ Possible values of "id_action":
 * DLG_DOCK: Docks (inserts) form into another form. Param "index" is handle of another form, and 0 means main CudaText form. Param "prop" can be: "L", "R", "T", "B" for sides left/right/top/bottom (default is bottom).
 * DLG_UNDOCK: Undocks form from it's current parent form.
 
+* DLG_LOCK: Disables updating of the form. This can be used before adding many controls at once, to remove flickering of these controls.
+* DLG_UNLOCK: Enables updating of the form. This must be used in pair with DLG_LOCK.
+
 * DLG_CTL_COUNT: Gets count of controls on form.
 * DLG_CTL_ADD: Adds new control to form, gets its index, or None if cannot add. Param "prop" is type of control. See description in dlg_custom.
 * DLG_CTL_PROP_GET: Gets control props, as dict. Control must be specified by name or index.
@@ -3562,9 +3565,10 @@ def project_variables():
 * change: Windows: embedded Python updated to 3.6
 * change: Editor.set_text_all now looses Undo information
 
-1.0.300 (app 1.86.1)
+1.0.300 (app 1.86.2)
 * deleted: STATUSBAR_GET_COLOR_FONT, STATUSBAR_SET_COLOR_FONT (other actions allow to get/set it)
 * add: statusbar_proc: STATUSBAR_SET_CELL_FONT_NAME, STATUSBAR_GET_CELL_FONT_NAME
 * add: statusbar_proc: STATUSBAR_SET_CELL_FONT_SIZE, STATUSBAR_GET_CELL_FONT_SIZE
+* add: dlg_proc: DLG_LOCK, DLG_UNLOCK
 
 [[Category:CudaText]]
