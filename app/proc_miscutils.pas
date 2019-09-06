@@ -15,7 +15,7 @@ uses
   Classes, SysUtils, Controls, StdCtrls, ComCtrls, Graphics,
   ImgList, Dialogs, Forms, Menus,
   LclIntf, LclType, LazFileUtils, StrUtils,
-  jsonConf,
+  at__jsonConf,
   ATSynEdit,
   ATSynEdit_Adapter_EControl,
   ATSynEdit_Export_HTML,
