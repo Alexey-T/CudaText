@@ -870,6 +870,8 @@ Optionally, configure "Pattern", so double click in the Output panel will put ca
 
 Tool is for Linux, so "File name" don't have an extension. For Windows, change "File name" field to "{FileNameNoExt}.exe".
 
+Tool will catch the program output in the Output panel, program text input will not work.
+
 * Name: C - run
 * File name: "./{FileNameNoExt}"
 * Shell command: checked
