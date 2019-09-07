@@ -580,7 +580,6 @@ type
     function GetRectOfButtonIndex(AIndex: integer; AtLeft: boolean): TRect;
     function GetScrollPageSize: integer;
     procedure SetOptButtonLayout(const AValue: string);
-    procedure SetOptMouseDragEnabled(AValue: boolean);
     procedure SetOptScalePercents(AValue: integer);
     procedure SetOptVarWidth(AValue: boolean);
     procedure SetScrollPos(AValue: integer);
@@ -673,8 +672,6 @@ type
     {$ifdef fpc}
     property BorderSpacing;
     {$endif}
-    property ClientHeight;
-    property ClientWidth;
     property Constraints;
     property DragCursor;
     property DragKind;
@@ -810,7 +807,7 @@ type
     property OptMouseMiddleClickClose: boolean read FOptMouseMiddleClickClose write FOptMouseMiddleClickClose default _InitOptMouseMiddleClickClose;
     property OptMouseDoubleClickClose: boolean read FOptMouseDoubleClickClose write FOptMouseDoubleClickClose default _InitOptMouseDoubleClickClose;
     property OptMouseDoubleClickPlus: boolean read FOptMouseDoubleClickPlus write FOptMouseDoubleClickPlus default _InitOptMouseDoubleClickPlus;
-    property OptMouseDragEnabled: boolean read FOptMouseDragEnabled write SetOptMouseDragEnabled default _InitOptMouseDragEnabled;
+    property OptMouseDragEnabled: boolean read FOptMouseDragEnabled write FOptMouseDragEnabled default _InitOptMouseDragEnabled;
     property OptMouseDragOutEnabled: boolean read FOptMouseDragOutEnabled write FOptMouseDragOutEnabled default _InitOptMouseDragOutEnabled;
 
     property OptHintForX: string read FHintForX write FHintForX;
@@ -1437,7 +1434,7 @@ var
   i: integer;
 begin
   //optimize for 200 tabs
-  if ARect.Left>=ClientWidth then exit;
+  if ARect.Left>=Width then exit;
   //skip tabs scrolled lefter
   if ARect.Right<=0 then exit;
 
@@ -2013,7 +2010,7 @@ begin
     atpLeft,
     atpRight:
       begin
-        Result:= ClientWidth-DoScale(FOptSpacer);
+        Result:= Width-DoScale(FOptSpacer);
       end;
     else
       begin
@@ -2079,7 +2076,7 @@ begin
   if FOptPosition in [atpLeft, atpRight] then
   begin
     R.Left:= IfThen(FOptPosition=atpLeft, DoScale(FOptSpacer), DoScale(FOptSpacer2)+1);
-    R.Right:= IfThen(FOptPosition=atpLeft, ClientWidth-DoScale(FOptSpacer2), ClientWidth-DoScale(FOptSpacer));
+    R.Right:= IfThen(FOptPosition=atpLeft, Width-DoScale(FOptSpacer2), Width-DoScale(FOptSpacer));
     R.Bottom:= GetInitialVerticalIndent;
     R.Top:= R.Bottom;
 
@@ -2172,7 +2169,7 @@ begin
     end;
 
     if FOptMultiline and (i>0) then
-      if R.Left+FTabWidth+FRealIndentRight+NWidthPlus >= ClientWidth then
+      if R.Left+FTabWidth+FRealIndentRight+NWidthPlus >= Width then
       begin
         Data.TabStartsNewLine:= true;
         FMultilineActive:= true;
@@ -2232,7 +2229,7 @@ begin
         else
         begin
           Result.Left:= IfThen(FOptPosition=atpLeft, DoScale(FOptSpacer), DoScale(FOptSpacer2));
-          Result.Right:= IfThen(FOptPosition=atpLeft, ClientWidth-DoScale(FOptSpacer2), ClientWidth-DoScale(FOptSpacer));
+          Result.Right:= IfThen(FOptPosition=atpLeft, Width-DoScale(FOptSpacer2), Width-DoScale(FOptSpacer));
           Result.Top:= GetInitialVerticalIndent;
           Result.Bottom:= Result.Top + DoScale(FOptTabHeight);
         end;
@@ -2388,9 +2385,9 @@ begin
       atpTop:
         begin
           if FOptMultiline then
-            RBottom:= Rect(0, ClientHeight-DoScale(FOptSpacer2), ClientWidth, ClientHeight)
+            RBottom:= Rect(0, Height-DoScale(FOptSpacer2), Width, Height)
           else
-            RBottom:= Rect(0, DoScale(FOptSpacer)+DoScale(FOptTabHeight), ClientWidth, ClientHeight);
+            RBottom:= Rect(0, DoScale(FOptSpacer)+DoScale(FOptTabHeight), Width, Height);
           NLineX1:= RBottom.Left;
           NLineY1:= RBottom.Top;
           NLineX2:= RBottom.Right;
@@ -2398,7 +2395,7 @@ begin
         end;
       atpBottom:
         begin
-          RBottom:= Rect(0, 0, ClientWidth, DoScale(FOptSpacer));
+          RBottom:= Rect(0, 0, Width, DoScale(FOptSpacer));
           NLineX1:= RBottom.Left;
           NLineY1:= RBottom.Bottom;
           NLineX2:= RBottom.Right;
@@ -2406,7 +2403,7 @@ begin
         end;
       atpLeft:
         begin
-          RBottom:= Rect(ClientWidth-DoScale(FOptSpacer2), 0, ClientWidth, ClientHeight);
+          RBottom:= Rect(Width-DoScale(FOptSpacer2), 0, Width, Height);
           NLineX1:= RBottom.Left;
           NLineY1:= RBottom.Top;
           NLineX2:= RBottom.Left;
@@ -2414,7 +2411,7 @@ begin
         end;
       atpRight:
         begin
-          RBottom:= Rect(0, 0, DoScale(FOptSpacer2), ClientHeight);
+          RBottom:= Rect(0, 0, DoScale(FOptSpacer2), Height);
           NLineX1:= RBottom.Right;
           NLineY1:= RBottom.Top;
           NLineX2:= RBottom.Right;
@@ -2641,7 +2638,7 @@ begin
     atpBottom:
       begin
         NPos:= GetMaxScrollPos;
-        NSize:= ClientWidth - FRealIndentLeft - FRealIndentRight;
+        NSize:= Width - FRealIndentLeft - FRealIndentRight;
 
         if NPos>0 then
         begin
@@ -2663,7 +2660,7 @@ begin
       begin
         NIndent:= GetInitialVerticalIndent;
         NPos:= GetMaxScrollPos;
-        NSize:= ClientHeight-NIndent;
+        NSize:= Height-NIndent;
 
         if NPos>0 then
         begin
@@ -2681,7 +2678,7 @@ begin
           end
           else
           begin
-            R.Right:= ClientWidth;
+            R.Right:= Width;
             R.Left:= R.Right - DoScale(FOptScrollMarkSizeY);
           end;
 
@@ -2698,18 +2695,6 @@ begin
   FOptButtonLayout:= AValue;
   ApplyButtonLayout;
   Invalidate;
-end;
-
-procedure TATTabs.SetOptMouseDragEnabled(AValue: boolean);
-begin
-  if FOptMouseDragEnabled=AValue then Exit;
-
-  {$ifdef FPC}
-  FOptMouseDragEnabled:= AValue;
-  {$else}
-  ShowMessage('Dragging of tabs is not yet implemented under Delphi, sorry');
-  FOptMouseDragEnabled:= false;
-  {$endif}
 end;
 
 procedure TATTabs.SetOptScalePercents(AValue: integer);
@@ -3329,7 +3314,7 @@ begin
   end
   else
   begin
-    Result:= ClientWidth;
+    Result:= Width;
     case FOptPosition of
       atpLeft:
         Dec(Result, DoScale(FOptSpacer2));
@@ -3449,12 +3434,12 @@ begin
 
   if FOptPosition in [atpLeft, atpRight] then
   begin
-    FTabWidth:= ClientWidth-DoScale(FOptSpacer);
+    FTabWidth:= Width-DoScale(FOptSpacer);
     exit
   end;
 
   //tricky formula: calculate auto-width
-  Value:= (ClientWidth
+  Value:= (Width
     - IfThen(FOptShowPlusTab, GetTabWidth_Plus_Raw + 2*DoScale(FOptSpaceBeforeText))
     - FRealIndentLeft
     - FRealIndentRight) div Count
@@ -3720,9 +3705,9 @@ begin
   case FOptPosition of
     atpTop,
     atpBottom:
-      Result:= ClientWidth * cPercents div 100;
+      Result:= Width * cPercents div 100;
     else
-      Result:= ClientHeight * cPercents div 100;
+      Result:= Height * cPercents div 100;
   end;
 end;
 
@@ -3755,9 +3740,9 @@ begin
   case FOptPosition of
     atpTop,
     atpBottom:
-      Result:= Max(0, Result - ClientWidth + FRealIndentRight);
+      Result:= Max(0, Result - Width + FRealIndentRight);
     else
-      Result:= Max(0, Result - ClientHeight);
+      Result:= Max(0, Result - Height);
   end;
 end;
 
@@ -4192,7 +4177,7 @@ begin
     NWidthOfPlus:= 0;
 
   NDelta:=
-    (ClientWidth - FRealIndentRight - D.TabRect.Right - NWidthOfPlus)
+    (Width - FRealIndentRight - D.TabRect.Right - NWidthOfPlus)
     div (AIndexTo-AIndexFrom+1);
 
   for i:= AIndexFrom to AIndexTo do
@@ -4205,7 +4190,7 @@ begin
 
     //width of last tab is not precise (+-2pixels). fix it.
     if i=AIndexTo then
-      R.Right:= ClientWidth - FRealIndentRight - NWidthOfPlus;
+      R.Right:= Width - FRealIndentRight - NWidthOfPlus;
 
     D.TabRect:= R;
   end;
@@ -4260,11 +4245,11 @@ begin
     atpBottom:
       Result:=
         (R.Left-FScrollPos >= FRealIndentLeft) and
-        (R.Right-FScrollPos < ClientWidth-FRealIndentRight);
+        (R.Right-FScrollPos < Width-FRealIndentRight);
     else
       Result:=
         (R.Top-FScrollPos >= FRealIndentLeft) and
-        (R.Bottom-FScrollPos < ClientHeight-FRealIndentRight);
+        (R.Bottom-FScrollPos < Height-FRealIndentRight);
   end;
 end;
 
@@ -4289,13 +4274,13 @@ begin
     atpBottom:
       begin
         FScrollPos:= Min(GetMaxScrollPos, Max(0,
-          R.Left - ClientWidth div 2
+          R.Left - Width div 2
           ));
       end
     else
       begin
         FScrollPos:= Min(GetMaxScrollPos, Max(0,
-          R.Top - ClientHeight div 2
+          R.Top - Height div 2
           ));
       end;
   end;
