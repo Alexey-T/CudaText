@@ -880,6 +880,66 @@ Tool is for Linux, so "File name" don't have an extension. For Windows, change "
 * Encoding: utf_8
 * Pattern: (empty)
 
+==Tool to run C program, on Windows, with input in terminal==
+
+Tool is for Windows, it allows to run compiled C/C++ program in new console window. Text input will work in this console.
+
+Example C++ program:
+<syntaxhighlight lang="C++">
+#include <stdio.h>
+int main ()
+{
+  int c;
+  puts ("Enter text. Include a dot ('.') in a sentence to exit:");
+  do {
+    c=getchar();
+    putchar (c);
+  } while (c != '.');
+  return 0;
+}
+</syntaxhighlight>
+
+Tool props:
+* Name: C - run
+* File name: cmd
+* Shell command: unchecked
+* Parameters: /k "{FileNameNoExt}.exe" && pause
+* Initial folder: {FileDir}
+* Lexers: C,C++
+* Capture output: Ignore
+* Encoding: utf_8
+* Pattern: (empty)
+
+==Tool to run C program, on Linux, with input in terminal==
+
+Tool is for Linux, it allows to run compiled C/C++ program in new terminal window (using "xterm" program). Text input will work in this terminal window.
+
+Example C++ program:
+<syntaxhighlight lang="C++">
+#include <stdio.h>
+int main ()
+{
+  int c;
+  puts ("Enter text. Include a dot ('.') in a sentence to exit:");
+  do {
+    c=getchar();
+    putchar (c);
+  } while (c != '.');
+  return 0;
+}
+</syntaxhighlight>
+
+Tool props:
+* Name: C - run
+* File name: xterm
+* Shell command: unchecked
+* Parameters: -hold -e "./{FileNameNoExt}"
+* Initial folder: {FileDir}
+* Lexers: C,C++
+* Capture output: Ignore
+* Encoding: utf_8
+* Pattern: (empty)
+
 ==Tool to compile+run C program==
 
 In the External Tools dialog, press Join button, to join 2 tools created in above steps. Properties of joined tool:
