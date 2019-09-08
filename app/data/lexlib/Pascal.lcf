@@ -1410,7 +1410,8 @@ object SyntAnal16: TLibSyntAnalyzer
   Extentions = 'pas inc dpr lpr p pp'
   LexerName = 'Pascal'
   Notes.Strings = (
-    'Changed by Alexey (SynWrite)')
+    'Based on original lexer from EControl'
+    'Many changes by Alexey (CudaText)')
   LineComment = '//'
   AlwaysSyncBlockAnal = True
   Charset = DEFAULT_CHARSET
