@@ -4,9 +4,11 @@
   * changed
 
 
-1.86.2 (2019/09)
+1.86.3 (2019/09)
 
 + add: dialog Go To allows negative line numbers and negative values in %, this goes relative to file end
++ add: optimizations, now lexer parsing of big files is ~30% faster
+- fix: on big files with e.g. JSON lexer, program had big slowdown on editing text
 
 1.86.0 (2019/09)
 
