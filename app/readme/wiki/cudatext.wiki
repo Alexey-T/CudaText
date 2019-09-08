@@ -905,7 +905,8 @@ Tool props:
 * Name: C - run
 * File name: cmd
 * Shell command: unchecked
-* Parameters: /k "{FileNameNoExt}.exe" && pause
+* Parameters: /K "{FileNameNoExt}.exe"
+** Alternative value: /C "{FileNameNoExt}.exe" && pause
 * Initial folder: {FileDir}
 * Lexers: C,C++
 * Capture output: Ignore
@@ -914,7 +915,7 @@ Tool props:
 
 ==Tool to run C program, on Linux, with input in terminal==
 
-Tool is for Linux, it allows to run compiled C/C++ program in new terminal window (using "xterm" program). Text input will work in this terminal window.
+Tool is for Linux, it allows to run compiled C/C++ program in new terminal window. Text input will work in this terminal window.
 
 Example C++ program:
 <syntaxhighlight lang="C++">
@@ -933,9 +934,13 @@ int main ()
 
 Tool props:
 * Name: C - run
-* File name: xterm
+* Variant for xterm:
+** File name: xterm
+** Parameters: -hold -e "./{FileNameNoExt}"
+* Variant for gnome-terminal:
+** File name: gnome-terminal
+** Parameters: -- bash -c "./{FileNameNoExt}; read -s -n1 -r -p 'Press any key... '; echo"
 * Shell command: unchecked
-* Parameters: -hold -e "./{FileNameNoExt}"
 * Initial folder: {FileDir}
 * Lexers: C,C++
 * Capture output: Ignore
