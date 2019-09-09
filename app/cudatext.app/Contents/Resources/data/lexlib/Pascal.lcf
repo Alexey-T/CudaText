@@ -1,4 +1,4 @@
-object SyntAnal18: TLibSyntAnalyzer
+object SyntAnal16: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Default'
@@ -1263,66 +1263,6 @@ object SyntAnal18: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = '('
-      StyleName = 'Current block'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '(')
-          TokenTypes = 8
-        end>
-      BlockEnd = ')'
-      NotCollapsed = True
-      DisplayInTree = False
-      DynHighlight = dhBound
-      HighlightPos = cpBoundTagBegin
-      DynSelectMin = True
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = ')'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            ')')
-          TokenTypes = 8
-        end>
-      HighlightPos = cpBound
-      CancelNextRules = True
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = '['
-      StyleName = 'Current block'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '[')
-          TokenTypes = 8
-        end>
-      BlockEnd = ']'
-      NotCollapsed = True
-      DisplayInTree = False
-      DynHighlight = dhBound
-      HighlightPos = cpBoundTagBegin
-      DynSelectMin = True
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = ']'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            ']')
-          TokenTypes = 8
-        end>
-      HighlightPos = cpBound
-      CancelNextRules = True
-      IgnoreAsParent = False
-    end
-    item
       DisplayName = 'Function out of all'
       StrictParent = True
       ConditionList = <
@@ -1360,20 +1300,6 @@ object SyntAnal18: TLibSyntAnalyzer
           TagList.Strings = (
             'end')
           TokenTypes = 4
-        end>
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Invalid close bracket'
-      StyleName = 'Invalid symbol'
-      BlockType = btTagDetect
-      ConditionList = <
-        item
-          TagList.Strings = (
-            ')'
-            ']')
-          TokenTypes = 8
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
@@ -1484,7 +1410,8 @@ object SyntAnal18: TLibSyntAnalyzer
   Extentions = 'pas inc dpr lpr p pp'
   LexerName = 'Pascal'
   Notes.Strings = (
-    'Changed by Alexey (SynWrite)')
+    'Based on original lexer from EControl'
+    'Many changes by Alexey (CudaText)')
   LineComment = '//'
   AlwaysSyncBlockAnal = True
   Charset = DEFAULT_CHARSET

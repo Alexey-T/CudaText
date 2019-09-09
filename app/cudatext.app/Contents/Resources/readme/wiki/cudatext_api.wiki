@@ -287,7 +287,7 @@ Actions:
 * PROC_THEME_SYNTAX_SET: Sets name of syntax-theme.
 
 * PROC_THEME_UI_DATA_GET: Gets contents of current UI-theme, as list of dict.
-* PROC_THEME_SYNTAX_DATA_GET: Gets contents of current syntax-theme, as list of dict.
+* PROC_THEME_SYNTAX_DATA_GET: Gets contents of current syntax-theme, as list of dict. For description of keys of result, see LEXER_GET_STYLES.
 
 ====Sessions====
 
@@ -1107,6 +1107,9 @@ Possible values of "id_action":
 * DLG_DOCK: Docks (inserts) form into another form. Param "index" is handle of another form, and 0 means main CudaText form. Param "prop" can be: "L", "R", "T", "B" for sides left/right/top/bottom (default is bottom).
 * DLG_UNDOCK: Undocks form from it's current parent form.
 
+* DLG_LOCK: Disables updating of the form. This can be used before adding many controls at once, to remove flickering of these controls.
+* DLG_UNLOCK: Enables updating of the form. This must be used in pair with DLG_LOCK.
+
 * DLG_CTL_COUNT: Gets count of controls on form.
 * DLG_CTL_ADD: Adds new control to form, gets its index, or None if cannot add. Param "prop" is type of control. See description in dlg_custom.
 * DLG_CTL_PROP_GET: Gets control props, as dict. Control must be specified by name or index.
@@ -1301,7 +1304,7 @@ Perform some lexer-related action.
 Possible values of "id":
 
 * LEXER_GET_LEXERS: Gets list of lexers. Param "value" must be bool: allow to include also hidden lexers (not visible in the lexers menu).
-* LEXER_GET_PROP: For lexer name (param "value"), gets its properties as dict. For incorrect lexer name, gets None. Keys of dict:
+* LEXER_GET_PROP: For lexer name (param "value"), gets lexer general properties, as dict. Supported for "lite" lexers too (lexer name must end with ^ suffix). For incorrect lexer name, gets None. Keys of dict:
 ** "en": bool: lexer is visible in the lexers menu.
 ** "typ": list of str: list of file-types (they detect lexer when file loads; "ext" is simple extension, "ext1.ext2" is double extension, "/fullname" is name w/o path).
 ** "st": list of str: list of all styles.
@@ -1311,6 +1314,14 @@ Possible values of "id":
 ** "c_line": str or None: line comment (until end-of-line).
 ** "c_str": 2-tuple or None: stream comment (for any range).
 ** "c_lined": 2-tuple or None: comment for full lines.
+
+* LEXER_GET_STYLES: For lexer name (param "value"), gets lexer styles properties, as dict. This works even if CudaText lexer themes are disabled (option "ui_lexer_themes": false). Not supported for "lite" lexers. Dict keys:
+** "type": Kind of style. Enum. 0: reserved value, 1: colors and font styles, 2: colors only, 3: background color only.
+** "color_font": RGB color of font.
+** "color_back": RGB color of background. Can be COLOR_NONE if not used.
+** "color_border": RGB color of border.
+** "border_left", "border_right", "border_top", "border_bottom": Kind of border at one side. Enum. Values from 0: none, solid, dash, dot, dash dot, dash dot dot, solid2, solid3, wave, double.
+** "styles": Font styles, as string. If empty, no styles. If "b" in value, bold. If "i" in value, italic. If "u" in value, underline. If "s" in value, strikeout.
 
 * LEXER_DETECT: Detects lexer name by file name (param "value" is file name). Gets None if cannot detect. Function sees file extension, or even filename before extension (e.g. "/path/makefile.gcc" gives "Makefile").
 * LEXER_REREAD_LIB: Re-reads lexer library from disk, updates lexer menu. Make sure that plugins' dialogs don't use editor with lexer, which may crash.
@@ -1667,6 +1678,8 @@ Param "id_action" can be:
 * STATUSBAR_GET_CELL_IMAGEINDEX: Gets icon index (inside image-list) of cell, -1 for none.
 * STATUSBAR_GET_CELL_COLOR_FONT: Gets font color of cell, COLOR_NONE if not set.
 * STATUSBAR_GET_CELL_COLOR_BACK: Gets background color of cell, COLOR_NONE if not set.
+* STATUSBAR_GET_CELL_FONT_NAME: Gets special font name of cell (if empty str, not used).
+* STATUSBAR_GET_CELL_FONT_SIZE: Gets special font size of cell (if <=0, not used).
 * STATUSBAR_GET_CELL_TAG: Gets int tag of cell.
 
 * STATUSBAR_SET_CELL_SIZE: Sets width of cell. Param "value": int.
@@ -1678,6 +1691,8 @@ Param "id_action" can be:
 * STATUSBAR_SET_CELL_IMAGEINDEX: Sets icon index (inside image-list) of cell, -1 for none. Param "value": int.
 * STATUSBAR_SET_CELL_COLOR_FONT: Sets font color of cell. Param "value": int color or COLOR_NONE.
 * STATUSBAR_SET_CELL_COLOR_BACK: Sets background color of cell. Param "value": int color or COLOR_NONE.
+* STATUSBAR_SET_CELL_FONT_NAME: Sets special font name of cell (if empty str, not used). Param "value": str.
+* STATUSBAR_SET_CELL_FONT_SIZE: Sets special font size of cell (if <=0, not used). Param "value": int.
 * STATUSBAR_SET_CELL_TAG: Sets tag of cell. Param "value": int.
 
 Notes:
@@ -3557,5 +3572,14 @@ def project_variables():
 1.0.299 (app 1.86.0)
 * change: Windows: embedded Python updated to 3.6
 * change: Editor.set_text_all now looses Undo information
+
+1.0.300 (app 1.86.2)
+* deleted: STATUSBAR_GET_COLOR_FONT, STATUSBAR_SET_COLOR_FONT (other actions allow to get/set it)
+* add: statusbar_proc: STATUSBAR_SET_CELL_FONT_NAME, STATUSBAR_GET_CELL_FONT_NAME
+* add: statusbar_proc: STATUSBAR_SET_CELL_FONT_SIZE, STATUSBAR_GET_CELL_FONT_SIZE
+* add: dlg_proc: DLG_LOCK, DLG_UNLOCK
+
+1.0.301 (app 1.86.2)
+* add: lexer_proc: LEXER_GET_STYLES
 
 [[Category:CudaText]]
