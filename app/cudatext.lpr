@@ -28,7 +28,7 @@ begin
   if Screen.MonitorCount>1 then
     Application.MainFormOnTaskBar:= True;
   {$IFEND}
-  Application.Title:='CudaText';
+  Application.Title:= 'CudaText';
   Application.Scaled:= false;
   RequireDerivedFormResource:= True;
   Application.Initialize;
