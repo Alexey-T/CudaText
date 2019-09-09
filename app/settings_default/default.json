@@ -276,7 +276,7 @@
   "tab_max_pos_expanded": 500,
 
   //[View/Gutter]
-  //Gutter: Enable gutter (all columns at the left side)
+  //Gutter: If false, all gutter columns hide (bookmarks, folding, numbers, line states)
   "gutter_show": true,
 
   //Gutter: Show gutter's folding column
