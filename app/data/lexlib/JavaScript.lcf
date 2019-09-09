@@ -132,10 +132,26 @@ object SyntAnal10: TLibSyntAnalyzer
     end>
   TokenRules = <
     item
+      DisplayName = 'Comment empty'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '/\*\*/'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Comment doc'
       StyleName = 'Comment doc'
       TokenType = 1
-      Expression = '(?s)/\*\* .*?(\*/|\Z)'
+      Expression = '(?s)/\*\*.+?\*/'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Comment doc end-only'
+      StyleName = 'Comment doc'
+      TokenType = 1
+      Expression = '\*/'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -376,9 +392,9 @@ object SyntAnal10: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
-            '$export'
             '__dirname'
             '__filename'
+            '$export'
             'Array'
             'constructor'
             'Date'
@@ -707,14 +723,13 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal18
+      SyntAnalyzer = SyntAnal17
     end
     item
       DisplayName = 'JSDoc'
-      StartExpression = '/\*\*'
+      StartExpression = '/\*\*[^/]'
       EndExpression = '\*/'
       SyntAnalyzer = SyntAnal11
-      IncludeBounds = True
     end>
   SampleText.Strings = (
     '#!/bin/bash                         '
