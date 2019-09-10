@@ -3581,8 +3581,10 @@ def project_variables():
 * add: statusbar_proc: STATUSBAR_SET_CELL_FONT_SIZE, STATUSBAR_GET_CELL_FONT_SIZE
 * add: dlg_proc: DLG_LOCK, DLG_UNLOCK
 
-1.0.301 (app 1.86.3)
+1.0.301 (app 1.86.2)
 * add: lexer_proc: LEXER_GET_STYLES
+
+1.0.302 (app 1.86.3)
 * add: app_proc: PROC_THEME_UI_DICT_GET
 * add: app_proc: PROC_THEME_SYNTAX_DICT_GET
 * deprecated: PROC_THEME_UI_DATA_GET
