@@ -286,8 +286,10 @@ Actions:
 * PROC_THEME_SYNTAX_GET: Gets name of syntax-theme.
 * PROC_THEME_SYNTAX_SET: Sets name of syntax-theme.
 
-* PROC_THEME_UI_DATA_GET: Gets contents of current UI-theme, as list of dict.
-* PROC_THEME_SYNTAX_DATA_GET: Gets contents of current syntax-theme, as list of dict. For description of keys of result, see LEXER_GET_STYLES.
+* (deprecated) PROC_THEME_UI_DATA_GET: Gets contents of current UI-theme, as list of dict.
+* (deprecated) PROC_THEME_SYNTAX_DATA_GET: Gets contents of current syntax-theme, as list of dict. For description of keys of result, see LEXER_GET_STYLES.
+* PROC_THEME_UI_DICT_GET: Gets contents of current UI-theme, as dict.
+* PROC_THEME_SYNTAX_DICT_GET: Gets contents of current syntax-theme, as dict. For description of keys of result, see LEXER_GET_STYLES.
 
 ====Sessions====
 
@@ -3581,5 +3583,11 @@ def project_variables():
 
 1.0.301 (app 1.86.2)
 * add: lexer_proc: LEXER_GET_STYLES
+
+1.0.302 (app 1.86.3)
+* add: app_proc: PROC_THEME_UI_DICT_GET
+* add: app_proc: PROC_THEME_SYNTAX_DICT_GET
+* deprecated: PROC_THEME_UI_DATA_GET
+* deprecated: PROC_THEME_SYNTAX_DATA_GET
 
 [[Category:CudaText]]

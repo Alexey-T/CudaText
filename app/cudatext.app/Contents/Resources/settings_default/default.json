@@ -276,7 +276,7 @@
   "tab_max_pos_expanded": 500,
 
   //[View/Gutter]
-  //Gutter: Enable gutter (all columns at the left side)
+  //Gutter: If false, all gutter columns hide (bookmarks, folding, numbers, line states)
   "gutter_show": true,
 
   //Gutter: Show gutter's folding column
@@ -764,7 +764,7 @@
   //Enable selection of vertical blocks (Alt+drag)
   "mouse_column_selection": true,
 
-  //Select entire line if clicked line number
+  //Select entire line, when line number on gutter is clicked
   "mouse_gutter_click_sel": true,
 
   //Allow to zoom text using Ctrl+wheel
