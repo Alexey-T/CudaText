@@ -117,6 +117,31 @@ begin
   end;
 end;
 
+function Py_GetThemeDict_UI: PPyObject;
+var
+  NLen, i: integer;
+begin
+  with GetPythonEngine do
+  begin
+    NLen:= Length(AppTheme.Colors);
+    Result:= PyDict_New();
+    if not Assigned(Result) then
+      raise EPythonError.Create(msgPythonListError);
+    for i:= 0 to NLen-1 do
+    begin
+      PyDict_SetItem(Result,
+        PyString_FromString(PChar(AppTheme.Colors[i].name)),
+        Py_BuildValue('{sssi}',
+          'desc',
+          PChar(AppTheme.Colors[i].desc),
+          'color',
+          AppTheme.Colors[i].color
+          ));
+    end;
+  end;
+end;
+
+
 function Py_GetLineStateList(Ed: TATSynEdit): PPyObject;
 var
   Strs: TATStrings;
@@ -237,6 +262,46 @@ begin
         Py_BuildValue('{sssisisisisisisisiss}',
           'name',
           PChar(St.DisplayName),
+          'type',
+          Ord(St.FormatType),
+          'color_font',
+          St.Font.Color,
+          'color_back',
+          St.BgColor,
+          'color_border',
+          St.BorderColorBottom,
+          'border_left',
+          Ord(St.BorderTypeLeft),
+          'border_right',
+          Ord(St.BorderTypeRight),
+          'border_top',
+          Ord(St.BorderTypeTop),
+          'border_bottom',
+          Ord(St.BorderTypeBottom),
+          'styles',
+          PChar(FontStylesToString(St.Font.Style))
+          ));
+    end;
+  end;
+end;
+
+function Py_GetThemeDict_Syntax: PPyObject;
+var
+  NLen, i: integer;
+  St: TecSyntaxFormat;
+begin
+  with GetPythonEngine do
+  begin
+    NLen:= AppTheme.Styles.Count;
+    Result:= PyDict_New();
+    if not Assigned(Result) then
+      raise EPythonError.Create(msgPythonListError);
+    for i:= 0 to NLen-1 do
+    begin
+      St:= TecSyntaxFormat(AppTheme.Styles[i]);
+      PyDict_SetItem(Result,
+        PyString_FromString(PChar(St.DisplayName)),
+        Py_BuildValue('{sisisisisisisisiss}',
           'type',
           Ord(St.FormatType),
           'color_font',
@@ -4362,6 +4427,16 @@ begin
         APP_PROC_THEME_SYNTAX_DATA_GET:
           begin
             Result:= Py_GetThemeData_Syntax;
+          end;
+
+        APP_PROC_THEME_UI_DICT_GET:
+          begin
+            Result:= Py_GetThemeDict_UI;
+          end;
+
+        APP_PROC_THEME_SYNTAX_DICT_GET:
+          begin
+            Result:= Py_GetThemeDict_Syntax;
           end;
 
         APP_PROC_CONFIG_NEWDOC_EOL_GET:
