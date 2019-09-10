@@ -4,12 +4,12 @@
   * changed
 
 
-1.86.3 (2019/09)
+1.86.5 (2019/09)
 
-+ add: dialog Go To allows negative line numbers and negative values in %, this goes relative to file end
-+ add: optimizations, now lexer parsing of big files is ~30% faster
-+ add: minimap highlightes line(s) with selection(s), with theme color "current line BG" (like VS Code)
-- fix: on big files with e.g. JSON lexer, program had big slowdown on editing text
++ add: dialog Go To allows negative line numbers and negative values in %, this goes relative to file end (like VS Code)
++ add: lexer parser optimizations: now parsing of big files is ~30% faster
++ add: minimap highlightes entire lines with selections, with theme color "current line BG" (similar to VS Code)
+- fix: on big files (lot of folding ranges), program had big slowdown on text editing
 
 1.86.0 (2019/09)
 
