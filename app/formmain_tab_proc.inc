@@ -188,6 +188,12 @@ begin
     Exit
   end;
 
+  if Frame.IsParsingBusy then
+  begin
+    ACanClose:= false;
+    Exit
+  end;
+
   if Frame.IsEmpty then
     if FrameCount=1 then
     begin
