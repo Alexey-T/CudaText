@@ -313,6 +313,7 @@ type
     function GetTabPages: TATPages;
     function GetTabGroups: TATGroups;
     procedure GetEditorToken(Ed: TATSynEdit; AX, AY: integer; out AKind: TATFinderTokenKind);
+    function IsParsingBusy: boolean;
     //file
     procedure DoFileClose;
     procedure DoFileOpen(const AFileName, AFileName2: string; AAllowLoadHistory,
@@ -3172,6 +3173,17 @@ begin
       AKind:= cTokenKindString;
       exit;
     end;
+end;
+
+function TEditorFrame.IsParsingBusy: boolean;
+begin
+  if EditorsLinked then
+    Result:=
+      Assigned(Adapter1) and Adapter1.IsParsingBusy
+  else
+    Result:=
+      (Assigned(Adapter1) and Adapter1.IsParsingBusy) or
+      (Assigned(Adapter2) and Adapter2.IsParsingBusy);
 end;
 
 end.

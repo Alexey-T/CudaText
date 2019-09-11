@@ -18,6 +18,7 @@ begin
 
     cmd_FileClose:
       begin
+        if CurrentFrame.IsParsingBusy then exit;
         Groups.CloseTabs(tabCloseCurrent, false);
         CurrentFrame.SetFocus;
       end;
