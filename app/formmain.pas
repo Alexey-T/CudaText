@@ -2809,6 +2809,9 @@ begin
   ATFlatTheme.FontSize:= UiOps.VarFontSize;
   ATFlatTheme.ScalePercents:= UiOps.Scale;
   ATFlatTheme.ScaleFontPercents:= UiOps.ScaleFont;
+  {$ifdef linux}
+  ATFlatTheme.EnableColorBgOver:= false;
+  {$endif}
 
   ATScrollbar.ATScrollbarTheme.InitialSize:= UiOps.ScrollbarWidth;
   ATScrollbar.ATScrollbarTheme.BorderSize:= UiOps.ScrollbarBorderSize;

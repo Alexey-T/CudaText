@@ -2233,10 +2233,6 @@ initialization
   //detection of XML
   AppConfig_DetectLine.Add('<\?xml .+', 'XML');
 
-  {$ifdef linux}
-  ATFlatControlsEnableButtonsColorBgOver:= false;
-  {$endif}
-
 finalization
   FreeAndNil(AppConfig_PGroups);
   FreeAndNil(AppConfig_DetectLine);
