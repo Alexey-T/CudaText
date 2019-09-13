@@ -793,6 +793,8 @@ begin
     FFinder.OptFromCaret:= bSavedFromCaret;
     FFinder.OptTokens:= SavedTokens;
   end;
+
+  Ed.Update;
 end;
 
 
