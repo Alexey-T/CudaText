@@ -97,6 +97,7 @@ const
   cmd_ShowPanelConsole_AndFocus   = 2561;
   cmd_ShowPanelOutput_AndFocus    = 2562;
   cmd_ShowPanelValidate_AndFocus  = 2563;
+  cmd_ToggleSidePanelAndSyntaxTree = 2565;
 
   cmd_ChooseTranslation = 2570;
   cmd_ChooseThemeUI     = 2571;
@@ -349,6 +350,7 @@ begin
   M.Add(cmd_ToggleFullScreen, 'ui: toggle full-screen mode', [{$ifndef darwin}'F11'{$else}'Ctrl+Meta+F'{$endif}], []);
   M.Add(cmd_ToggleDistractionFree, 'ui: toggle distraction-free mode', [{$ifndef darwin}'Alt+F11'{$else}'Ctrl+Meta+G'{$endif}], []);
   M.Add(cmd_ToggleSidePanel, 'ui: toggle side panel', [{$ifndef darwin}'F12'{$endif}], []);
+  M.Add(cmd_ToggleSidePanelAndSyntaxTree, 'ui: toggle side panel / code tree', [], []);
   M.Add(cmd_ToggleBottomPanel, 'ui: toggle bottom panel', [], []);
   M.Add(cmd_ToggleFindDialog, 'ui: toggle find/replace dialog', [], []);
   M.Add(cmd_ToggleSidebar, 'ui: toggle sidebar', [], []);

@@ -111,6 +111,8 @@ begin
 
     cmd_ShowSidePanelAsIs: DoShowSidePanel('', false);
     cmd_ShowSidePanelAndSyntaxTree: DoShowSidePanel(msgPanelTree_Init, false);
+    cmd_ToggleSidePanelAndSyntaxTree: DoShowSidePanel(IfThen(ShowSidePanel, '-', msgPanelTree_Init), false);
+
     cmd_HideSidePanel: DoShowSidePanel('-', false);
     cmd_HideBottomPanel: DoShowBottomPanel('-', false);
 

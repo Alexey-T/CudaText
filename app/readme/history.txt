@@ -7,6 +7,7 @@
 1.86.6 (2019/09)
 
 + add: selecting words by double-click: allow clicking after line end too
++ add: command "Toggle side panel / code tree" (same as "Show side panel / code tree" but it toggles)
 + add: command "Add next occurrence of selected word": must find not whole words, if not whole word was initially selected (like Sublime)
 - fix: command "Add next occurrence of selected word": bug when no selection (didn't repaint editor)
 - fix: program should not crash if file-tab is closed during lexer parsing
