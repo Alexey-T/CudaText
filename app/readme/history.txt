@@ -7,9 +7,10 @@
 1.86.6 (2019/09)
 
 + add: selecting words by double-click: allow clicking after line end too
++ add: command "Add next occurrence of selected word": must find not whole words, if not whole word was initially selected (like Sublime)
+- fix: command "Add next occurrence of selected word": bug when no selection (didn't repaint editor)
 - fix: program should not crash if file-tab is closed during lexer parsing
 - fix: to hide Lazarus/GTK2 bug when mouse-over buttons remain highlighted, program disables this button highlighting on Linux
-- fix: command "Add next occurrence of selected word" bug when no selection (didn't repaint editor)
 
 1.86.5 (2019/09)
 
