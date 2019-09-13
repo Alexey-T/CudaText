@@ -6,6 +6,7 @@
 
 1.86.6 (2019/09)
 
++ add: selecting words by double-click: allow clicking after line end too
 - fix: program should not crash if file-tab is closed during lexer parsing
 - fix: to hide Lazarus/GTK2 bug when mouse-over buttons remain highlighted, program disables this button highlighting on Linux
 
