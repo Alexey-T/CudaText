@@ -761,7 +761,12 @@ begin
     FFinder.StrReplace:= '';
     FFinder.Editor:= Ed;
 
-    FFinder.OptWords:= true;
+    FFinder.OptWords:= STextWholeWordSelection(
+      Ed.Strings.Lines[Y1],
+      X1,
+      X2,
+      EditorOps.OpWordChars
+      );
     FFinder.OptRegex:= false;
     FFinder.OptCase:= true;
     FFinder.OptBack:= false;
