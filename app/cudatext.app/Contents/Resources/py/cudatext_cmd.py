@@ -269,7 +269,7 @@ cmd_RescanPythonPluginsInfFiles = 2551
 cmd_DialogThemeUi       = 2552
 cmd_DialogThemeSyntax   = 2553
 cmd_ShowMainMenuAsPopup = 2554
-cmd_ToggleMenu = 2555
+#cmd_ToggleMenu = 2555
 cmd_ToggleFloatSide = 2556
 cmd_ToggleFloatBottom = 2557
 cmd_HideBottomPanel = 2558
@@ -278,6 +278,7 @@ cmd_OpsFontSizeSmaller = 2560
 cmd_ShowPanelConsole_AndFocus  = 2561
 cmd_ShowPanelOutput_AndFocus   = 2562
 cmd_ShowPanelValidate_AndFocus = 2563
+cmd_ToggleSidePanelAndSyntaxTree = 2565
 
 cmd_ChooseTranslation = 2570
 cmd_ChooseThemeUI     = 2571
