@@ -12,6 +12,7 @@
 - fix: command "Add next occurrence of selected word": bug when no selection (didn't repaint editor)
 - fix: program should not crash if file-tab is closed during lexer parsing
 - fix: to hide Lazarus/GTK2 bug when mouse-over buttons remain highlighted, program disables this button highlighting on Linux
+- fix: slow response of scrollbars on Windows
 
 1.86.5 (2019/09)
 
