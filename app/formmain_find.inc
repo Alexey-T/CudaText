@@ -453,7 +453,8 @@ begin
   //  FFinder.StrFind:= fmFind.edFind.Text;
   InitFormFind;
 
-  if FFinder.StrFind='' then
+  ////always update Finder string when "Find next" called. issue #2182
+  //if FFinder.StrFind='' then
   begin
     if fmFind.edFind.Text<>'' then
       FFinder.StrFind:= fmFind.edFind.Text
