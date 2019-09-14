@@ -4,7 +4,7 @@
   * changed
 
 
-1.86.6 (2019/09)
+1.87.0 (2019/09)
 
 + add: selecting words by double-click: allow clicking after line end too
 + add: command "Toggle side panel / code tree" (same as "Show side panel / code tree" but it toggles)
