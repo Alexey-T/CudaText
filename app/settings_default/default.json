@@ -385,6 +385,7 @@
 
   //Unprinted symbols: What info to show for unprinted symbols. Option is string.
   //  if "s" in value: Show whitespace
+  //  if "x" in value: Whitespace only in selection (overrides "l" and "t")
   //  if "l" in value: Whitespace only at begin/end of lines (overrides "t")
   //  if "t" in value: Whitespace only at end of lines
   //  if "e" in value: Show end-of-lines marks

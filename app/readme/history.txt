@@ -6,6 +6,7 @@
 
 1.87.0 (2019/09)
 
++ add: can show unprinted characters only in selection (like Sublime). To do this, add char "x" to the option "unprinted_content"
 + add: selecting words by double-click: allow clicking after line end too
 + add: command "Toggle side panel / code tree" (same as "Show side panel / code tree" but it toggles)
 + add: command "Add next occurrence of selected word": must find not whole words, if not whole word was initially selected (like Sublime)

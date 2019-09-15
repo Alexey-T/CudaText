@@ -154,6 +154,7 @@ begin
     Ed.OptUnprintedSpaces:=         Pos('s', Op.OpUnprintedContent)>0;
     Ed.OptUnprintedSpacesTrailing:= Pos('t', Op.OpUnprintedContent)>0;
     Ed.OptUnprintedSpacesBothEnds:= Pos('l', Op.OpUnprintedContent)>0;
+    Ed.OptUnprintedSpacesOnlyInSelection:= Pos('x', Op.OpUnprintedContent)>0;
     Ed.OptUnprintedEnds:=           Pos('e', Op.OpUnprintedContent)>0;
     Ed.OptUnprintedEndsDetails:=    Pos('d', Op.OpUnprintedContent)>0;
   end;
