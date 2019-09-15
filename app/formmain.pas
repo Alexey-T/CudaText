@@ -2809,7 +2809,8 @@ begin
   ATFlatTheme.FontSize:= UiOps.VarFontSize;
   ATFlatTheme.ScalePercents:= UiOps.Scale;
   ATFlatTheme.ScaleFontPercents:= UiOps.ScaleFont;
-  {$ifdef linux}
+
+  {$if defined(linux) or defined(darwin)}
   ATFlatTheme.EnableColorBgOver:= false;
   {$endif}
 
