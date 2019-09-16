@@ -76,6 +76,12 @@ begin
   InitFormFind;
   Frame:= CurrentFrame;
 
+  if Frame.Editor.Carets.Count=0 then
+  begin
+    MsgStatus('Cannot find/replace without caret');
+    exit;
+  end;
+
   //keep focus in Find field, else focus find or rep field
   if fmFind.edFind.Focused then
     bFindMode:= true
