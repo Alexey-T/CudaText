@@ -36,6 +36,7 @@ type
     LexerName: string;
     procedure DoLoad;
     procedure DoSave;
+    procedure Localize;
     procedure UpdateList;
   public
     { public declarations }
@@ -90,30 +91,6 @@ begin
   s.BorderTypeRight:= s2.BorderTypeRight;
   s.BorderTypeTop:= s2.BorderTypeTop;
   s.BorderTypeBottom:= s2.BorderTypeBottom;
-end;
-
-procedure DoLocalize_FormLexerStylesMap(F: TfmLexerStyleMap);
-const
-  section = 'd_lex_map';
-var
-  ini: TIniFile;
-  fn: string;
-begin
-  fn:= GetAppLangFilename;
-  if not FileExists(fn) then exit;
-  ini:= TIniFile.Create(fn);
-  try
-    with F do Caption:= ini.ReadString(section, '_', Caption);
-    with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;
-    with F.ButtonPanel1.CancelButton do Caption:= msgButtonCancel;
-    with F.LabelLex do Caption:= ini.ReadString(section, 'st_lex', Caption);
-    with F.LabelTh do Caption:= ini.ReadString(section, 'st_th', Caption);
-    with F.btnSet do Caption:= ini.ReadString(section, 'set_sel', Caption);
-    with F.btnSetNone do Caption:= ini.ReadString(section, 'set_non', Caption);
-    with F.btnClear do Caption:= ini.ReadString(section, 'set_un', Caption);
-  finally
-    FreeAndNil(ini);
-  end;
 end;
 
 
@@ -174,7 +151,6 @@ begin
 
   F:= TfmLexerStyleMap.Create(nil);
   try
-    DoLocalize_FormLexerStylesMap(F);
     F.LexerName:= an.LexerName;
     F.Caption:= F.Caption + ' - ' + F.LexerName;
 
@@ -209,6 +185,7 @@ end;
 
 procedure TfmLexerStyleMap.FormCreate(Sender: TObject);
 begin
+  Localize;
   ItemsLex:= TStringlist.Create;
   ItemsTh:= TStringlist.Create;
   ItemsVal:= TStringlist.Create;
@@ -283,6 +260,30 @@ begin
   for i:= 0 to ItemsLex.Count-1 do
     ListLex.Items[i]:= ItemsLex[i] + cArrow + IfThen(ItemsVal[i]<>'', ItemsVal[i], '?');
   ListLex.Items.EndUpdate;
+end;
+
+procedure TfmLexerStyleMap.Localize;
+const
+  section = 'd_lex_map';
+var
+  ini: TIniFile;
+  fn: string;
+begin
+  fn:= GetAppLangFilename;
+  if not FileExists(fn) then exit;
+  ini:= TIniFile.Create(fn);
+  try
+    Caption:= ini.ReadString(section, '_', Caption);
+    with ButtonPanel1.OKButton do Caption:= msgButtonOk;
+    with ButtonPanel1.CancelButton do Caption:= msgButtonCancel;
+    with LabelLex do Caption:= ini.ReadString(section, 'st_lex', Caption);
+    with LabelTh do Caption:= ini.ReadString(section, 'st_th', Caption);
+    with btnSet do Caption:= ini.ReadString(section, 'set_sel', Caption);
+    with btnSetNone do Caption:= ini.ReadString(section, 'set_non', Caption);
+    with btnClear do Caption:= ini.ReadString(section, 'set_un', Caption);
+  finally
+    FreeAndNil(ini);
+  end;
 end;
 
 
