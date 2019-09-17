@@ -6,6 +6,7 @@ cd ~/cudatext_build/src
 curl -L https://github.com/Alexey-T/ATBinHex-Lazarus/archive/master.zip >ATBinHex.zip
 curl -L https://github.com/Alexey-T/ATFileNotif-Lazarus/archive/master.zip >ATFileNotif.zip
 curl -L https://github.com/Alexey-T/ATFlatControls/archive/master.zip >ATFlatControls.zip
+curl -L https://github.com/Alexey-T/EncConv/archive/master.zip >EncConv.zip
 curl -L https://github.com/Alexey-T/ATSynEdit/archive/master.zip >ATSynEdit.zip
 curl -L https://github.com/Alexey-T/ATSynEdit_Cmp/archive/master.zip >ATSynEdit_Cmp.zip
 curl -L https://github.com/Alexey-T/ATSynEdit_Ex/archive/master.zip >ATSynEdit_Ex.zip
