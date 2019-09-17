@@ -455,20 +455,16 @@ procedure TfmMain.DoFindNext(ANext: boolean);
 var
   ok, bChanged: boolean;
 begin
-  //if Assigned(fmFind) then
-  //  FFinder.StrFind:= fmFind.edFind.Text;
   InitFormFind;
 
   ////always update Finder string when "Find next" called. issue #2182
-  //if FFinder.StrFind='' then
+  if fmFind.edFind.Text<>'' then
+    FFinder.StrFind:= fmFind.edFind.Text
+  else
+  if FFinder.StrFind='' then
   begin
-    if fmFind.edFind.Text<>'' then
-      FFinder.StrFind:= fmFind.edFind.Text
-    else
-    begin
-      DoDialogFind(false);
-      Exit
-    end;
+    DoDialogFind(false);
+    Exit
   end;
 
   FFinder.Editor:= CurrentEditor;
