@@ -162,98 +162,44 @@ begin
   CompletionOps.ColorFontParams:= GetAppColor('ListCompleteParams');
 end;
 
-procedure TfmMain.DoDialogMenuThemes_ThemeUiSelect(AIndex: integer; const AStr: string);
+procedure TfmMain.DoDialogMenuThemes_ThemeUiSelect(const AStr: string);
 begin
   ThemeUi:= AStr;
 end;
 
-procedure TfmMain.DoDialogMenuThemes_ThemeSyntaxSelect(AIndex: integer; const AStr: string);
+procedure TfmMain.DoDialogMenuThemes_ThemeSyntaxSelect(const AStr: string);
 begin
   ThemeSyntax:= AStr;
 end;
 
-procedure TfmMain.DoDialogMenuThemes(AThemeUI: boolean);
+procedure TfmMain.DoDialogMenuThemes;
 var
-  SMask, SCaption: string;
-  ListFiles, ListItems: TStringList;
-  NResult, NItemIndex, i: integer;
-  SelectEvent: TAppListSelectEvent;
-  OldTheme: string;
+  Form: TfmChooseTheme;
+  OldThemeUi, OldThemeSyntax: string;
 begin
-  if AThemeUI then
-  begin
-    SMask:= '*'+AppExtensionThemeUi;
-    SCaption:= msgMenuThemesUI;
-    SelectEvent:= @DoDialogMenuThemes_ThemeUiSelect;
-    OldTheme:= ThemeUi;
-  end
-  else
-  begin
-    SMask:= '*'+AppExtensionThemeSyntax;
-    SCaption:= msgMenuThemesSyntax;
-    SelectEvent:= @DoDialogMenuThemes_ThemeSyntaxSelect;
-    OldTheme:= ThemeSyntax;
-  end;
-
-  ListItems:= TStringList.Create;
-  ListFiles:= TStringList.Create;
+  Form:= TfmChooseTheme.Create(Self);
   try
-    FindAllFiles(ListFiles, GetAppPath(cDirDataThemes), SMask, false);
-    if ListFiles.Count=0 then exit;
-    ListFiles.Sort;
+    OldThemeUi:= ThemeUi;
+    OldThemeSyntax:= ThemeSyntax;
+    Form.ThemeUi:= ThemeUi;
+    Form.ThemeSyntax:= ThemeSyntax;
+    Form.ThemeUiSetter:= @DoDialogMenuThemes_ThemeUiSelect;
+    Form.ThemeSyntaxSetter:= @DoDialogMenuThemes_ThemeSyntaxSelect;
 
-    ListItems.Add(msgThemeDefault);
-    for i:= 0 to ListFiles.Count-1 do
-      ListItems.Add(LowerCase(ExtractFileNameOnly(ListFiles[i])));
-
-    NItemIndex:= ListItems.IndexOf(OldTheme);
-    if NItemIndex<0 then
-      NItemIndex:= 0;
-
-    NResult:= DoDialogMenuList(SCaption, ListItems, NItemIndex, false, SelectEvent);
-    if NResult<0 then
+    if Form.ShowModal=mrOK then
     begin
-      if AThemeUI then
-        ThemeUi:= OldTheme
-      else
-        ThemeSyntax:= OldTheme;
-      exit;
-    end;
-
-    if AThemeUI then
-    begin
-      if NResult=0 then
-      begin
-        ThemeUi:= '';
-        if MsgBox(msgConfirmSyntaxThemeSameName, MB_OKCANCEL+MB_ICONQUESTION)=ID_OK then
-          ThemeSyntax:= '';
-      end
-      else
-      begin
-        ThemeUi:= ListItems[NResult];
-        //find syntax-theme with the same name
-        if IsThemeNameExist(ThemeUi, false) then
-          if MsgBox(msgConfirmSyntaxThemeSameName, MB_OKCANCEL+MB_ICONQUESTION)=ID_OK then
-            ThemeSyntax:= ThemeUi;
-      end;
+      ThemeUi:= Form.ThemeUi;
+      ThemeSyntax:= Form.ThemeSyntax;
     end
     else
     begin
-      if NResult=0 then
-      begin
-        ThemeSyntax:= '';
-      end
-      else
-      begin
-        ThemeSyntax:= ListItems[NResult];
-      end;
+      ThemeUi:= OldThemeUi;
+      ThemeSyntax:= OldThemeSyntax;
     end;
   finally
-    FreeAndNil(ListItems);
-    FreeAndNil(ListFiles);
+    Form.Free;
   end;
 end;
-
 
 procedure TfmMain.SetThemeUi(const AValue: string);
 var

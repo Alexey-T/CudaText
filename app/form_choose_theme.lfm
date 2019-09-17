@@ -1,0 +1,88 @@
+object fmChooseTheme: TfmChooseTheme
+  Left = 1819
+  Height = 580
+  Top = 219
+  Width = 554
+  BorderStyle = bsDialog
+  Caption = 'Themes'
+  ClientHeight = 580
+  ClientWidth = 554
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  LCLVersion = '2.1.0.0'
+  object GroupUI: TGroupBox
+    Left = 6
+    Height = 495
+    Top = 6
+    Width = 274
+    Align = alLeft
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    BorderSpacing.Bottom = 6
+    Caption = 'UI themes'
+    ClientHeight = 476
+    ClientWidth = 270
+    TabOrder = 0
+    object ListboxUI: TListBox
+      Left = 0
+      Height = 476
+      Top = 0
+      Width = 270
+      Align = alClient
+      ItemHeight = 0
+      OnClick = ListboxUIClick
+      ScrollWidth = 268
+      TabOrder = 0
+      TopIndex = -1
+    end
+  end
+  object GroupSyntax: TGroupBox
+    Left = 286
+    Height = 495
+    Top = 6
+    Width = 262
+    Align = alClient
+    BorderSpacing.Around = 6
+    Caption = 'Syntax themes'
+    ClientHeight = 476
+    ClientWidth = 258
+    TabOrder = 1
+    object ListboxSyntax: TListBox
+      Left = 0
+      Height = 476
+      Top = 0
+      Width = 258
+      Align = alClient
+      ItemHeight = 0
+      OnClick = ListboxSyntaxClick
+      ScrollWidth = 256
+      TabOrder = 0
+      TopIndex = -1
+    end
+  end
+  object ButtonPanel1: TButtonPanel
+    Left = 6
+    Height = 37
+    Top = 537
+    Width = 542
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 3
+    ShowButtons = [pbOK, pbCancel]
+  end
+  object chkSync: TCheckBox
+    Left = 0
+    Height = 24
+    Top = 507
+    Width = 554
+    Align = alBottom
+    Caption = 'Sync change of UI+syntax themes with the same names'
+    TabOrder = 2
+  end
+end

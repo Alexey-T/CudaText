@@ -771,7 +771,7 @@
         <PackageName Value="LCL"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="55">
+    <Units Count="56">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1057,6 +1057,13 @@
         <Filename Value="proc_lexer_styles.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit54>
+      <Unit55>
+        <Filename Value="form_choose_theme.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fmChooseTheme"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit55>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

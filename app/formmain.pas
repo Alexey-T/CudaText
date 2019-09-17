@@ -107,7 +107,7 @@ uses
   formcharmaps,
   formkeyinput,
   form_addon_report,
-  formconfirmbinary,
+  formconfirmbinary, form_choose_theme,
   math;
 
 type
@@ -690,8 +690,8 @@ type
     procedure DoApplyTranslationToGroups(G: TATGroups);
     procedure DoClearSingleFirstTab;
     procedure DoCloseAllTabs;
-    procedure DoDialogMenuThemes_ThemeSyntaxSelect(AIndex: integer; const AStr: string);
-    procedure DoDialogMenuThemes_ThemeUiSelect(AIndex: integer; const AStr: string);
+    procedure DoDialogMenuThemes_ThemeSyntaxSelect(const AStr: string);
+    procedure DoDialogMenuThemes_ThemeUiSelect(const AStr: string);
     procedure DoFileDialog_PrepareDir(Dlg: TFileDialog);
     procedure DoFileDialog_SaveDir(Dlg: TFileDialog);
     procedure DoCommandsMsgStatus(Sender: TObject; const ARes: string);
@@ -807,7 +807,7 @@ type
     function DoDialogMenuApi(const AText, ACaption: string; AMultiline: boolean;
       AInitIndex: integer; ANoFuzzy, ANoFullFilter, AShowCentered: boolean): integer;
     procedure DoDialogMenuTranslations;
-    procedure DoDialogMenuThemes(AThemeUI: boolean);
+    procedure DoDialogMenuThemes;
     procedure DoFileExportHtml;
     function DoFileInstallZip(const fn: string; out DirTarget: string; ASilent: boolean): boolean;
     procedure DoFileCloseAndDelete;

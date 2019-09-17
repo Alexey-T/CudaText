@@ -17,7 +17,7 @@ uses
   proc_customdialog, proc_miscutils, ATLinkLabel, formlexerstyle,
   formlexerstylemap, formkeyinput, proc_scrollbars, proc_keymap_undolist,
   proc_customdialog_dummy, form_addon_report, fix_focus_window,
-  formconfirmbinary, proc_lexer_styles;
+  formconfirmbinary, proc_lexer_styles, form_choose_theme;
 
 {$R *.res}
 
