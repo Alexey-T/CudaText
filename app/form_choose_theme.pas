@@ -81,21 +81,38 @@ end;
 
 procedure TfmChooseTheme.ListboxUIClick(Sender: TObject);
 var
+  N: integer;
   S: string;
 begin
-  if ListboxUi.ItemIndex>0 then
-    S:= ListboxUi.Items[ListboxUi.ItemIndex]
+  N:=ListboxUi.ItemIndex;
+  if N>0 then
+    S:= ListboxUi.Items[N]
   else
     S:= '';
   ThemeUiSetter(S);
+
+  if chkSync.Checked then
+  begin
+    if S='' then
+      N:= 0
+    else
+      N:= ListboxSyntax.Items.IndexOf(S);
+    if N>=0 then
+    begin
+      ListboxSyntax.ItemIndex:= N;
+      ListboxSyntaxClick(Self);
+    end;
+  end;
 end;
 
 procedure TfmChooseTheme.ListboxSyntaxClick(Sender: TObject);
 var
+  N: integer;
   S: string;
 begin
-  if ListboxSyntax.ItemIndex>0 then
-    S:= ListboxSyntax.Items[ListboxSyntax.ItemIndex]
+  N:= ListboxSyntax.ItemIndex;
+  if N>0 then
+    S:= ListboxSyntax.Items[N]
   else
     S:= '';
   ThemeSyntaxSetter(S);

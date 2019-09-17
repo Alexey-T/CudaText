@@ -77,12 +77,14 @@ object fmChooseTheme: TfmChooseTheme
     ShowButtons = [pbOK, pbCancel]
   end
   object chkSync: TCheckBox
-    Left = 0
+    Left = 6
     Height = 24
     Top = 507
-    Width = 554
+    Width = 542
     Align = alBottom
-    Caption = 'Sync change of UI+syntax themes with the same names'
+    BorderSpacing.Left = 6
+    BorderSpacing.Right = 6
+    Caption = 'Synchronized change of UI+syntax themes'
     TabOrder = 2
   end
 end
