@@ -76,6 +76,12 @@ var
   st: TecSyntaxFormat;
   i: integer;
 begin
+  if not FileExists(fn) then
+  begin
+    LogProc('Theme file not found: '+fn);
+    exit;
+  end;
+
   c:= TJsonConfig.Create(nil);
   try
     try
