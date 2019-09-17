@@ -46,6 +46,7 @@ type
     procedure FormShow(Sender: TObject);
   private
     procedure InitBorder(cb: TCombobox);
+    procedure Localize;
     procedure UpdateStyleEn;
     { private declarations }
   public
@@ -54,9 +55,6 @@ type
 
 var
   fmLexerStyle: TfmLexerStyle;
-
-procedure DoLocalize_FormLexerStyle(F: TfmLexerStyle);
-
 
 implementation
 
@@ -79,7 +77,7 @@ begin
   AStr:= ini.ReadString(ASection, AKey, AStr);
 end;
 
-procedure DoLocalize_FormLexerStyle(F: TfmLexerStyle);
+procedure TfmLexerStyle.Localize;
 const
   section = 'd_lex_prop';
 var
@@ -90,31 +88,31 @@ begin
   if not FileExists(fn) then exit;
   ini:= TIniFile.Create(fn);
   try
-    with F do Caption:= ini.ReadString(section, '_style', Caption);
-    with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;
-    with F.ButtonPanel1.CancelButton do Caption:= msgButtonCancel;
+    Caption:= ini.ReadString(section, '_style', Caption);
+    with ButtonPanel1.OKButton do Caption:= msgButtonOk;
+    with ButtonPanel1.CancelButton do Caption:= msgButtonCancel;
 
-    with F.LabelColorBg do Caption:= ini.ReadString(section, 'col_bg', Caption);
-    with F.LabelColorFont do Caption:= ini.ReadString(section, 'col_fon', Caption);
-    with F.LabelColorBorder do Caption:= ini.ReadString(section, 'col_bor', Caption);
+    with LabelColorBg do Caption:= ini.ReadString(section, 'col_bg', Caption);
+    with LabelColorFont do Caption:= ini.ReadString(section, 'col_fon', Caption);
+    with LabelColorBorder do Caption:= ini.ReadString(section, 'col_bor', Caption);
 
-    with F.LabelBorder do Caption:= ini.ReadString(section, 'bor', Caption);
-    with F.LabelBorderL do Caption:= ini.ReadString(section, 'bor_l', Caption);
-    with F.LabelBorderR do Caption:= ini.ReadString(section, 'bor_r', Caption);
-    with F.LabelBorderT do Caption:= ini.ReadString(section, 'bor_t', Caption);
-    with F.LabelBorderB do Caption:= ini.ReadString(section, 'bor_b', Caption);
+    with LabelBorder do Caption:= ini.ReadString(section, 'bor', Caption);
+    with LabelBorderL do Caption:= ini.ReadString(section, 'bor_l', Caption);
+    with LabelBorderR do Caption:= ini.ReadString(section, 'bor_r', Caption);
+    with LabelBorderT do Caption:= ini.ReadString(section, 'bor_t', Caption);
+    with LabelBorderB do Caption:= ini.ReadString(section, 'bor_b', Caption);
 
-    with F.LabelFontStyles do Caption:= ini.ReadString(section, 'fon_st', Caption);
-    with F.chkBold do Caption:= ini.ReadString(section, 'fon_b', Caption);
-    with F.chkItalic do Caption:= ini.ReadString(section, 'fon_i', Caption);
-    with F.chkUnder do Caption:= ini.ReadString(section, 'fon_u', Caption);
-    with F.chkStrik do Caption:= ini.ReadString(section, 'fon_s', Caption);
+    with LabelFontStyles do Caption:= ini.ReadString(section, 'fon_st', Caption);
+    with chkBold do Caption:= ini.ReadString(section, 'fon_b', Caption);
+    with chkItalic do Caption:= ini.ReadString(section, 'fon_i', Caption);
+    with chkUnder do Caption:= ini.ReadString(section, 'fon_u', Caption);
+    with chkStrik do Caption:= ini.ReadString(section, 'fon_s', Caption);
 
-    with F.LabelStyleType do Caption:= ini.ReadString(section, 'typ_', Caption);
-    with F.edStyleType do Items[0]:= ini.ReadString(section, 'typ_mi', Items[0]);
-    with F.edStyleType do Items[1]:= ini.ReadString(section, 'typ_col_st', Items[1]);
-    with F.edStyleType do Items[2]:= ini.ReadString(section, 'typ_col', Items[2]);
-    with F.edStyleType do Items[3]:= ini.ReadString(section, 'typ_col_bg', Items[3]);
+    with LabelStyleType do Caption:= ini.ReadString(section, 'typ_', Caption);
+    with edStyleType do Items[0]:= ini.ReadString(section, 'typ_mi', Items[0]);
+    with edStyleType do Items[1]:= ini.ReadString(section, 'typ_col_st', Items[1]);
+    with edStyleType do Items[2]:= ini.ReadString(section, 'typ_col', Items[2]);
+    with edStyleType do Items[3]:= ini.ReadString(section, 'typ_col_bg', Items[3]);
 
     DoLocString(msgBorderTypeNone, ini, section, 'bty_none');
     DoLocString(msgBorderTypeSolid, ini, section, 'bty_solid');
@@ -133,6 +131,7 @@ end;
 
 procedure TfmLexerStyle.FormCreate(Sender: TObject);
 begin
+  Localize;
   InitBorder(cbBorderL);
   InitBorder(cbBorderT);
   InitBorder(cbBorderR);

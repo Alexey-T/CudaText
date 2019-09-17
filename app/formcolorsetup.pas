@@ -152,7 +152,6 @@ begin
     cbBorderT.ItemIndex:= Ord(st.BorderTypeTop);
     cbBorderB.ItemIndex:= Ord(st.BorderTypeBottom);
 
-    DoLocalize_FormLexerStyle(Form);
     if ShowModal=mrOk then
     begin
       st.Font.Color:= edColorFont.Selected;
