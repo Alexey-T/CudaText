@@ -28,6 +28,7 @@ type
     procedure ListboxSyntaxClick(Sender: TObject);
     procedure ListboxUIClick(Sender: TObject);
   private
+    procedure Localize;
   public
     ThemeUi: string;
     ThemeSyntax: string;
@@ -42,29 +43,6 @@ implementation
 
 {$R *.lfm}
 
-procedure DoLocalize_FormChooseTheme(F: TfmChooseTheme);
-const
-  section = 'd_theme';
-var
-  ini: TIniFile;
-  fn: string;
-begin
-  fn:= GetAppLangFilename;
-  if not FileExists(fn) then exit;
-  ini:= TIniFile.Create(fn);
-  try
-    with F do Caption:= ini.ReadString(section, '_', Caption);
-    with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;
-    with F.ButtonPanel1.CancelButton do Caption:= msgButtonCancel;
-
-    with F.chkSync do Caption:= ini.ReadString(section, 'syn', Caption);
-    with F.GroupUI do Caption:= ini.ReadString(section, 'ty_ui', Caption);
-    with F.GroupSyntax do Caption:= ini.ReadString(section, 'ty_sy', Caption);
-  finally
-    FreeAndNil(ini);
-  end;
-end;
-
 { TfmChooseTheme }
 
 procedure TfmChooseTheme.FormCreate(Sender: TObject);
@@ -73,7 +51,7 @@ var
   Files_sy: TStringList;
   s: string;
 begin
-  DoLocalize_FormChooseTheme(Self);
+  Localize;
 
   ListboxUI.Items.Clear;
   ListboxSyntax.Items.Clear;
@@ -145,6 +123,30 @@ begin
     S:= '';
   ThemeSyntaxSetter(S);
 end;
+
+procedure TfmChooseTheme.Localize;
+const
+  section = 'd_theme';
+var
+  ini: TIniFile;
+  fn: string;
+begin
+  fn:= GetAppLangFilename;
+  if not FileExists(fn) then exit;
+  ini:= TIniFile.Create(fn);
+  try
+    Caption:= ini.ReadString(section, '_', Caption);
+    with ButtonPanel1.OKButton do Caption:= msgButtonOk;
+    with ButtonPanel1.CancelButton do Caption:= msgButtonCancel;
+
+    with chkSync do Caption:= ini.ReadString(section, 'syn', Caption);
+    with GroupUI do Caption:= ini.ReadString(section, 'ty_ui', Caption);
+    with GroupSyntax do Caption:= ini.ReadString(section, 'ty_sy', Caption);
+  finally
+    FreeAndNil(ini);
+  end;
+end;
+
 
 end.
 
