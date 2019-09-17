@@ -3,6 +3,7 @@ See http://wiki.freepascal.org/CudaText#How_to_make_translation
 2019.09.17
 + [m_o] thm
 + [d_theme] syn ty_ui ty_sy
++ [d_charmap] hex
 * delete [m_o] the_u, the_s
 
 2019.07.04

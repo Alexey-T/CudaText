@@ -105,6 +105,7 @@ begin
     with btnClose do Caption:= msgButtonClose;
     with btnAnsi do Caption:= ini.ReadString(section, 'mod1', Caption);
     with btnUnicode do Caption:= ini.ReadString(section, 'mod2', Caption);
+    with chkHexTitle do Caption:= ini.ReadString(section, 'hex', Caption);
     MsgStatusAnsi:= ini.ReadString(section, 'stat1', MsgStatusAnsi);
     MsgStatusUnicode:= ini.ReadString(section, 'stat2', MsgStatusUnicode);
   finally
