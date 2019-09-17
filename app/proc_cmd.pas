@@ -483,8 +483,7 @@ begin
   M.Add(cmd_MenuLexers, 'menu: lexers', [], []);
 
   M.Add(cmd_ChooseTranslation, 'menu: translations', [], []);
-  M.Add(cmd_ChooseThemeUI, 'menu: ui-themes', [], []);
-  M.Add(cmd_ChooseThemeSyntax, 'menu: syntax-themes', [], []);
+  M.Add(cmd_ChooseThemeUI, 'menu: themes', [], []);
 
   M.Add(cmd_AutoComplete, 'code: auto-completion menu', ['Ctrl+Space'], []);
   M.Add(cmd_GotoDefinition, 'code: go to definition', [], []);
