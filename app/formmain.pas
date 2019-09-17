@@ -135,8 +135,7 @@ type
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
     ButtonCancel: TATButton;
-    mnuOpThemesUi: TMenuItem;
-    mnuOpThemesSyntax: TMenuItem;
+    mnuOpThemes: TMenuItem;
     mnuOpLangs: TMenuItem;
     mnuTabsizeSep: TMenuItem;
     mnuTabsizeConvTabs: TMenuItem;
@@ -1601,8 +1600,7 @@ begin
   DoMenuitemEllipsis(mnuOpThemeUi);
   DoMenuitemEllipsis(mnuOpThemeSyntax);
   DoMenuitemEllipsis(mnuOpKeys);
-  DoMenuitemEllipsis(mnuOpThemesUi);
-  DoMenuitemEllipsis(mnuOpThemesSyntax);
+  DoMenuitemEllipsis(mnuOpThemes);
   DoMenuitemEllipsis(mnuOpLangs);
 
   mnuToolbarCaseLow:= TMenuItem.Create(Self);

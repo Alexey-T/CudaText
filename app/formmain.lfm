@@ -701,11 +701,8 @@ object fmMain: TfmMain
           Caption = 'Lexer styles &mapping...'
         end
       end
-      object mnuOpThemesUi: TMenuItem
-        Caption = 'Themes - UI'
-      end
-      object mnuOpThemesSyntax: TMenuItem
-        Caption = 'Themes - Syntax'
+      object mnuOpThemes: TMenuItem
+        Caption = 'Themes'
       end
       object mnuOpLangs: TMenuItem
         Caption = 'Translations'

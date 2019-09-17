@@ -775,8 +775,7 @@ begin
   UpdateMenuItemHotkey(mnuOpLexMap, cmd_DialogLexerStyleMap);
   UpdateMenuItemHotkey(mnuOpThemeUi, cmd_DialogThemeUi);
   UpdateMenuItemHotkey(mnuOpThemeSyntax, cmd_DialogThemeSyntax);
-  UpdateMenuItemHotkey(mnuOpThemesUi, cmd_ChooseThemeUI);
-  UpdateMenuItemHotkey(mnuOpThemesSyntax, cmd_ChooseThemeSyntax);
+  UpdateMenuItemHotkey(mnuOpThemes, cmd_ChooseThemeUI);
   UpdateMenuItemHotkey(mnuOpLangs, cmd_ChooseTranslation);
 
   UpdateMenuItemHotkey(mnuHelpCmd, cmd_DialogCommands);

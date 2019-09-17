@@ -290,8 +290,8 @@ begin
     DoLocMenuitem(ini, mnuOpLexMap, 'm_o', 'l_map');
     DoLocMenuitem(ini, mnuOpPlugins, 'm_o', 'pl');
 
-    DoLocMenuitem(ini, mnuOpThemesUi, 'm_o', 'the_u');
-    DoLocMenuitem(ini, mnuOpThemesSyntax, 'm_o', 'the_s');
+    DoLocMenuitem(ini, mnuOpThemes, 'm_o', 'the_u');
+    //DoLocMenuitem(ini, mnuOpThemesSyntax, 'm_o', 'the_s');
     DoLocMenuitem(ini, mnuOpLangs, 'm_o', 'tr_');
 
     msgMenuTranslations:= StringReplace(
@@ -307,8 +307,7 @@ begin
     DoMenuitemEllipsis(mnuOpThemeUi);
     DoMenuitemEllipsis(mnuOpThemeSyntax);
     DoMenuitemEllipsis(mnuOpKeys);
-    DoMenuitemEllipsis(mnuOpThemesUi);
-    DoMenuitemEllipsis(mnuOpThemesSyntax);
+    DoMenuitemEllipsis(mnuOpThemes);
     DoMenuitemEllipsis(mnuOpLangs);
 
     DoLocMenuitem(ini, mnuHelp, 'm_h', '_');
