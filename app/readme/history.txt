@@ -4,6 +4,10 @@
   * changed
 
 
+1.87.1
+
+* change: new dialog to choose UI+syntax themes "Options / Themes...", instead of old menu-dialogs
+
 1.87.0 (2019/09)
 
 + add: can show unprinted characters only in selection (like Sublime). To do this, add char "x" to the option "unprinted_content"
