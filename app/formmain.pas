@@ -2471,7 +2471,6 @@ begin
   Result:= false;
   Form:= TfmSaveTabs.Create(nil);
   try
-    DoLocalize_FormSaveTabs(Form);
     Form.List.Clear;
     for i:= 0 to FrameCount-1 do
     begin

@@ -38,6 +38,7 @@ type
     { private declarations }
     procedure DoLoadSize;
     procedure DoSaveSize;
+    procedure Localize;
   public
     { public declarations }
   end;
@@ -45,14 +46,13 @@ type
 var
   fmSaveTabs: TfmSaveTabs;
 
-procedure DoLocalize_FormSaveTabs(F: TfmSaveTabs);
-
-
 implementation
 
 {$R *.lfm}
 
-procedure DoLocalize_FormSaveTabs(F: TfmSaveTabs);
+{ TfmSaveTabs }
+
+procedure TfmSaveTabs.Localize;
 const
   section = 'd_save_tabs';
 var
@@ -63,18 +63,15 @@ begin
   if not FileExists(fn) then exit;
   ini:= TIniFile.Create(fn);
   try
-    with F do Caption:= ini.ReadString(section, '_', Caption);
-    with F.btnSave do Caption:= ini.ReadString(section, 'sav', Caption);
-    with F.btnDontSave do Caption:= ini.ReadString(section, 'no', Caption);
-    with F.btnDontSaveKeep do Caption:= ini.ReadString(section, 'no_ses', Caption);
-    with F.btnCancel do Caption:= msgButtonCancel;
+    Caption:= ini.ReadString(section, '_', Caption);
+    with btnSave do Caption:= ini.ReadString(section, 'sav', Caption);
+    with btnDontSave do Caption:= ini.ReadString(section, 'no', Caption);
+    with btnDontSaveKeep do Caption:= ini.ReadString(section, 'no_ses', Caption);
+    with btnCancel do Caption:= msgButtonCancel;
   finally
     FreeAndNil(ini);
   end;
 end;
-
-
-{ TfmSaveTabs }
 
 procedure TfmSaveTabs.FormShow(Sender: TObject);
 begin
@@ -121,6 +118,7 @@ end;
 
 procedure TfmSaveTabs.FormCreate(Sender: TObject);
 begin
+  Localize;
   DoLoadSize;
 end;
 
