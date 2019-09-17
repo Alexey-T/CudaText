@@ -675,7 +675,7 @@ var
   SavedTokens: TATFinderTokensAllowed;
 begin
   Ed:= CurrentEditor;
-  if Ed.Carets.Count>1 then exit;
+  if Ed.Carets.Count<>1 then exit;
 
   if AWordOrSel then
   begin
