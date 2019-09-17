@@ -600,7 +600,7 @@ begin
   DoLocalize_FormFind;
   DoLocalize_FormGoto;
   if Assigned(fmCharmaps) then
-    DoLocalize_FormCharmap(fmCharmaps);
+    fmCharmaps.Localize;
 
   //hack to localize already opened tab title
   if FrameCount>0 then

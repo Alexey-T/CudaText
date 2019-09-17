@@ -5444,7 +5444,7 @@ begin
   begin
     fmCharmaps:= TfmCharmaps.Create(Self);
     fmCharmaps.OnInsert:= @CharmapOnInsert;
-    DoLocalize_FormCharmap(fmCharmaps);
+    fmCharmaps.Localize;
   end;
 
   fmCharmaps.InitialStr:= Utf8Encode(Widestring(EditorGetCurrentChar(CurrentEditor)));

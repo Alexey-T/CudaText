@@ -75,6 +75,7 @@ type
     MsgStatusAnsi: string;
     MsgStatusUnicode: string;
     InitialStr: string;
+    procedure Localize;
     property OnInsert: TCharmapInsertEvent read FOnInsert write FOnInsert;
     property HexTitles: boolean read FHexTitles write SetHexTitles;
   end;
@@ -83,14 +84,13 @@ var
   fmCharmaps: TfmCharmaps;
 
 function DoDialogCharmapModal(const ALangFilename: string): string;
-procedure DoLocalize_FormCharmap(F: TfmCharmaps);
 
 
 implementation
 
 {$R *.lfm}
 
-procedure DoLocalize_FormCharmap(F: TfmCharmaps);
+procedure TfmCharmaps.Localize;
 const
   section = 'd_charmap';
 var
@@ -101,12 +101,12 @@ begin
   if not FileExists(fn) then exit;
   ini:= TIniFile.Create(fn);
   try
-    with F do Caption:= ini.ReadString(section, '_', Caption);
-    with F.btnClose do Caption:= msgButtonClose;
-    with F.btnAnsi do Caption:= ini.ReadString(section, 'mod1', Caption);
-    with F.btnUnicode do Caption:= ini.ReadString(section, 'mod2', Caption);
-    F.MsgStatusAnsi:= ini.ReadString(section, 'stat1', F.MsgStatusAnsi);
-    F.MsgStatusUnicode:= ini.ReadString(section, 'stat2', F.MsgStatusUnicode);
+    Caption:= ini.ReadString(section, '_', Caption);
+    with btnClose do Caption:= msgButtonClose;
+    with btnAnsi do Caption:= ini.ReadString(section, 'mod1', Caption);
+    with btnUnicode do Caption:= ini.ReadString(section, 'mod2', Caption);
+    MsgStatusAnsi:= ini.ReadString(section, 'stat1', MsgStatusAnsi);
+    MsgStatusUnicode:= ini.ReadString(section, 'stat2', MsgStatusUnicode);
   finally
     FreeAndNil(ini);
   end;
@@ -137,7 +137,7 @@ begin
   Dummy.Form:= F;
 
   try
-    DoLocalize_FormCharmap(F);
+    F.Localize;
     F.OnInsert:= @Dummy.OnInsert;
     F.ShowModal;
     Result:= Dummy.StrVal;
