@@ -699,6 +699,10 @@ begin
   bSavedCase:= FFinder.OptCase;
   SavedTokens:= FFinder.OptTokens;
 
+  //sync Find dialog with this text
+  if Assigned(fmFind) then
+    fmFind.edFind.Text:= Str;
+
   FFinder.StrFind:= Str;
   FFinder.StrReplace:= '';
   FFinder.Editor:= Ed;
