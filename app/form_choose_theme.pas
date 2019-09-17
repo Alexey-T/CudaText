@@ -26,6 +26,7 @@ type
     ListboxSyntax: TListBox;
     ListboxUI: TListBox;
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure ListboxSyntaxClick(Sender: TObject);
     procedure ListboxUIClick(Sender: TObject);
   private
@@ -66,17 +67,21 @@ begin
     ListboxUI.Items.Add(msgThemeDefault);
     for s in Files_ui do
       ListboxUI.Items.Add(LowerCase(ExtractFileNameOnly(s)));
-    ListboxUI.ItemIndex:= Max(0, ListboxUI.Items.IndexOf(ThemeUI));
 
     ListboxSyntax.Items.Add(msgThemeDefault);
     for s in Files_sy do
       ListboxSyntax.Items.Add(LowerCase(ExtractFileNameOnly(s)));
-    ListboxSyntax.ItemIndex:= Max(0, ListboxSyntax.Items.IndexOf(ThemeSyntax));
 
   finally
     FreeAndNil(Files_ui);
     FreeAndNil(Files_sy);
   end;
+end;
+
+procedure TfmChooseTheme.FormShow(Sender: TObject);
+begin
+  ListboxUI.ItemIndex:= Max(0, ListboxUI.Items.IndexOf(ThemeUI));
+  ListboxSyntax.ItemIndex:= Max(0, ListboxSyntax.Items.IndexOf(ThemeSyntax));
 end;
 
 procedure TfmChooseTheme.ListboxUIClick(Sender: TObject);

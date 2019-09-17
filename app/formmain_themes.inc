@@ -186,12 +186,7 @@ begin
     Form.ThemeUiSetter:= @DoDialogMenuThemes_ThemeUiSelect;
     Form.ThemeSyntaxSetter:= @DoDialogMenuThemes_ThemeSyntaxSelect;
 
-    if Form.ShowModal=mrOK then
-    begin
-      ThemeUi:= Form.ThemeUi;
-      ThemeSyntax:= Form.ThemeSyntax;
-    end
-    else
+    if Form.ShowModal<>mrOK then
     begin
       ThemeUi:= OldThemeUi;
       ThemeSyntax:= OldThemeSyntax;

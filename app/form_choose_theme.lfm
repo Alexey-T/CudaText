@@ -8,6 +8,7 @@ object fmChooseTheme: TfmChooseTheme
   ClientHeight = 580
   ClientWidth = 554
   OnCreate = FormCreate
+  OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '2.1.0.0'
   object GroupUI: TGroupBox
