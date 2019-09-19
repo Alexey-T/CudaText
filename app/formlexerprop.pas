@@ -97,6 +97,7 @@ type
     FChangedLexer: boolean;
     FChangedComments: boolean;
     procedure InitBorder(cb: TCombobox);
+    procedure Localize;
     procedure SaveChangedComments;
     procedure SaveChangedLexer;
     procedure SetChangedComments(AValue: boolean);
@@ -141,7 +142,9 @@ begin
   AStr:= ini.ReadString(ASection, AKey, AStr);
 end;
 
-procedure DoLocalize_FormLexerProp(F: TfmLexerProp);
+{ TfmLexerProp }
+
+procedure TfmLexerProp.Localize;
 const
   section = 'd_lex_prop';
 var
@@ -152,51 +155,51 @@ begin
   if not FileExists(fn) then exit;
   ini:= TIniFile.Create(fn);
   try
-    with F do Caption:= ini.ReadString(section, '_', Caption);
-    with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;
-    with F.ButtonPanel1.CancelButton do Caption:= msgButtonCancel;
+    Caption:= ini.ReadString(section, '_', Caption);
+    with ButtonPanel1.OKButton do Caption:= msgButtonOk;
+    with ButtonPanel1.CancelButton do Caption:= msgButtonCancel;
 
-    with F.TabSheetGeneral do Caption:= ini.ReadString(section, 'tab_gen', Caption);
-    with F.TabSheetComments do Caption:= ini.ReadString(section, 'tab_cmt', Caption);
-    with F.TabSheetStyles do Caption:= ini.ReadString(section, 'tab_st', Caption);
-    with F.TabSheetNotes do Caption:= ini.ReadString(section, 'tab_not', Caption);
+    with TabSheetGeneral do Caption:= ini.ReadString(section, 'tab_gen', Caption);
+    with TabSheetComments do Caption:= ini.ReadString(section, 'tab_cmt', Caption);
+    with TabSheetStyles do Caption:= ini.ReadString(section, 'tab_st', Caption);
+    with TabSheetNotes do Caption:= ini.ReadString(section, 'tab_not', Caption);
 
-    with F.LabelLexerName do Caption:= ini.ReadString(section, 'gen_nam', Caption);
-    with F.LabelFileTypes do Caption:= ini.ReadString(section, 'gen_typ', Caption);
-    with F.LabelSample do Caption:= ini.ReadString(section, 'gen_smp', Caption);
+    with LabelLexerName do Caption:= ini.ReadString(section, 'gen_nam', Caption);
+    with LabelFileTypes do Caption:= ini.ReadString(section, 'gen_typ', Caption);
+    with LabelSample do Caption:= ini.ReadString(section, 'gen_smp', Caption);
 
-    with F.LabelCmtLine do Caption:= ini.ReadString(section, 'cmt_line', Caption);
-    with F.LabelCmtStream do Caption:= ini.ReadString(section, 'cmt_str', Caption);
-    with F.LabelCmtFull do Caption:= ini.ReadString(section, 'cmt_full', Caption);
+    with LabelCmtLine do Caption:= ini.ReadString(section, 'cmt_line', Caption);
+    with LabelCmtStream do Caption:= ini.ReadString(section, 'cmt_str', Caption);
+    with LabelCmtFull do Caption:= ini.ReadString(section, 'cmt_full', Caption);
 
-    with F.LabelStylesCmt do Caption:= ini.ReadString(section, 'styles_cmt', Caption);
-    with F.LabelStylesStrings do Caption:= ini.ReadString(section, 'styles_str', Caption);
+    with LabelStylesCmt do Caption:= ini.ReadString(section, 'styles_cmt', Caption);
+    with LabelStylesStrings do Caption:= ini.ReadString(section, 'styles_str', Caption);
 
-    with F.LabelColorBg do Caption:= ini.ReadString(section, 'col_bg', Caption);
-    with F.LabelColorFont do Caption:= ini.ReadString(section, 'col_fon', Caption);
-    with F.LabelColorBorder do Caption:= ini.ReadString(section, 'col_bor', Caption);
+    with LabelColorBg do Caption:= ini.ReadString(section, 'col_bg', Caption);
+    with LabelColorFont do Caption:= ini.ReadString(section, 'col_fon', Caption);
+    with LabelColorBorder do Caption:= ini.ReadString(section, 'col_bor', Caption);
 
-    with F.LabelBorder do Caption:= ini.ReadString(section, 'bor', Caption);
-    with F.LabelBorderL do Caption:= ini.ReadString(section, 'bor_l', Caption);
-    with F.LabelBorderR do Caption:= ini.ReadString(section, 'bor_r', Caption);
-    with F.LabelBorderT do Caption:= ini.ReadString(section, 'bor_t', Caption);
-    with F.LabelBorderB do Caption:= ini.ReadString(section, 'bor_b', Caption);
+    with LabelBorder do Caption:= ini.ReadString(section, 'bor', Caption);
+    with LabelBorderL do Caption:= ini.ReadString(section, 'bor_l', Caption);
+    with LabelBorderR do Caption:= ini.ReadString(section, 'bor_r', Caption);
+    with LabelBorderT do Caption:= ini.ReadString(section, 'bor_t', Caption);
+    with LabelBorderB do Caption:= ini.ReadString(section, 'bor_b', Caption);
 
-    with F.LabelFontStyles do Caption:= ini.ReadString(section, 'fon_st', Caption);
-    with F.chkBold do Caption:= ini.ReadString(section, 'fon_b', Caption);
-    with F.chkItalic do Caption:= ini.ReadString(section, 'fon_i', Caption);
-    with F.chkUnder do Caption:= ini.ReadString(section, 'fon_u', Caption);
-    with F.chkStrik do Caption:= ini.ReadString(section, 'fon_s', Caption);
+    with LabelFontStyles do Caption:= ini.ReadString(section, 'fon_st', Caption);
+    with chkBold do Caption:= ini.ReadString(section, 'fon_b', Caption);
+    with chkItalic do Caption:= ini.ReadString(section, 'fon_i', Caption);
+    with chkUnder do Caption:= ini.ReadString(section, 'fon_u', Caption);
+    with chkStrik do Caption:= ini.ReadString(section, 'fon_s', Caption);
 
     {
-    with F.LabelStyleType do Caption:= ini.ReadString(section, 'typ_', Caption);
-    with F.edStyleType do Items[0]:= ini.ReadString(section, 'typ_mi', Items[0]);
-    with F.edStyleType do Items[1]:= ini.ReadString(section, 'typ_col_st', Items[1]);
-    with F.edStyleType do Items[2]:= ini.ReadString(section, 'typ_col', Items[2]);
-    with F.edStyleType do Items[3]:= ini.ReadString(section, 'typ_col_bg', Items[3]);
+    with LabelStyleType do Caption:= ini.ReadString(section, 'typ_', Caption);
+    with edStyleType do Items[0]:= ini.ReadString(section, 'typ_mi', Items[0]);
+    with edStyleType do Items[1]:= ini.ReadString(section, 'typ_col_st', Items[1]);
+    with edStyleType do Items[2]:= ini.ReadString(section, 'typ_col', Items[2]);
+    with edStyleType do Items[3]:= ini.ReadString(section, 'typ_col_bg', Items[3]);
     }
 
-    with F.LabelInfoThemes do Caption:= ini.ReadString(section, 'info_theme', Caption);
+    with LabelInfoThemes do Caption:= ini.ReadString(section, 'info_theme', Caption);
 
     DoLocString(msgBorderTypeNone, ini, section, 'bty_none');
     DoLocString(msgBorderTypeSolid, ini, section, 'bty_solid');
@@ -215,10 +218,10 @@ begin
 end;
 
 
-{ TfmLexerProp }
-
 procedure TfmLexerProp.FormCreate(Sender: TObject);
 begin
+  Localize;
+
   Adapter:= TATAdapterEControl.Create(Self);
   Adapter.AddEditor(edSample);
 
@@ -478,8 +481,6 @@ begin
 
   F:= TfmLexerProp.Create(nil);
   try
-    DoLocalize_FormLexerProp(F);
-
     DoApplyLexerStylesMap(an, an2);
     EditorApplyTheme(F.edSample);
 
