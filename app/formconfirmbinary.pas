@@ -28,6 +28,7 @@ type
     procedure btnViewHexClick(Sender: TObject);
     procedure btnViewTextClick(Sender: TObject);
     procedure btnViewUnicodeClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
     procedure Localize;
@@ -115,9 +116,13 @@ begin
   ModalResult:= 203;
 end;
 
-procedure TfmConfirmBinary.FormShow(Sender: TObject);
+procedure TfmConfirmBinary.FormCreate(Sender: TObject);
 begin
   Localize;
+end;
+
+procedure TfmConfirmBinary.FormShow(Sender: TObject);
+begin
   ClientHeight:= btnCancel.Top+btnCancel.Height+10;
 end;
 
