@@ -7,6 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ButtonPanel,
   FileUtil, LazFileUtils, IniFiles, Math,
+  at__jsonConf,
   proc_msg,
   proc_globdata;
 
@@ -18,22 +19,27 @@ type
 
   TfmChooseTheme = class(TForm)
     ButtonPanel1: TButtonPanel;
+    chkEnableLex: TCheckBox;
     chkSync: TCheckBox;
     GroupUI: TGroupBox;
     GroupSyntax: TGroupBox;
     ListboxSyntax: TListBox;
     ListboxUI: TListBox;
+    procedure chkEnableLexChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ListboxSyntaxClick(Sender: TObject);
     procedure ListboxUIClick(Sender: TObject);
   private
     procedure Localize;
+    procedure SetEnableLexerThemes(AValue: boolean);
+    function GetEnableLexerThemes: boolean;
   public
     ThemeUi: string;
     ThemeSyntax: string;
     ThemeUiSetter: TAppThemeSetter;
     ThemeSyntaxSetter: TAppThemeSetter;
+    property EnableLexerThemes: boolean read GetEnableLexerThemes write SetEnableLexerThemes;
   end;
 
 var
@@ -79,10 +85,18 @@ begin
   end;
 end;
 
+procedure TfmChooseTheme.chkEnableLexChange(Sender: TObject);
+begin
+  EnableLexerThemes:= chkEnableLex.Checked;
+  ListboxSyntax.Enabled:= chkEnableLex.Checked;
+end;
+
 procedure TfmChooseTheme.FormShow(Sender: TObject);
 begin
   ListboxUI.ItemIndex:= Max(0, ListboxUI.Items.IndexOf(ThemeUI));
   ListboxSyntax.ItemIndex:= Max(0, ListboxSyntax.Items.IndexOf(ThemeSyntax));
+  chkEnableLex.Checked:= EnableLexerThemes;
+  ListboxSyntax.Enabled:= chkEnableLex.Checked;
 end;
 
 procedure TfmChooseTheme.ListboxUIClick(Sender: TObject);
@@ -97,7 +111,7 @@ begin
     S:= '';
   ThemeUiSetter(S);
 
-  if chkSync.Checked then
+  if chkSync.Checked and chkEnableLex.Checked then
   begin
     if S='' then
       N:= 0
@@ -144,6 +158,33 @@ begin
     with GroupSyntax do Caption:= ini.ReadString(section, 'ty_sy', Caption);
   finally
     FreeAndNil(ini);
+  end;
+end;
+
+function TfmChooseTheme.GetEnableLexerThemes: boolean;
+var
+  c: TJSONConfig;
+begin
+  c:= TJSONConfig.Create(nil);
+  try
+    c.FileName:= GetAppPath(cFileOptionsUser);
+    Result:= c.GetValue('/ui_lexer_themes', true);
+  finally
+    c.Free;
+  end;
+end;
+
+procedure TfmChooseTheme.SetEnableLexerThemes(AValue: boolean);
+var
+  c: TJSONConfig;
+begin
+  c:= TJSONConfig.Create(nil);
+  try
+    c.Formatted:= true;
+    c.FileName:= GetAppPath(cFileOptionsUser);
+    c.SetDeleteValue('/ui_lexer_themes', AValue, true);
+  finally
+    c.Free;
   end;
 end;
 

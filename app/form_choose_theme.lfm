@@ -13,7 +13,7 @@ object fmChooseTheme: TfmChooseTheme
   LCLVersion = '2.1.0.0'
   object GroupUI: TGroupBox
     Left = 6
-    Height = 495
+    Height = 471
     Top = 6
     Width = 274
     Align = alLeft
@@ -21,12 +21,12 @@ object fmChooseTheme: TfmChooseTheme
     BorderSpacing.Top = 6
     BorderSpacing.Bottom = 6
     Caption = 'UI themes'
-    ClientHeight = 476
+    ClientHeight = 452
     ClientWidth = 270
     TabOrder = 0
     object ListboxUI: TListBox
       Left = 0
-      Height = 476
+      Height = 452
       Top = 0
       Width = 270
       Align = alClient
@@ -39,18 +39,18 @@ object fmChooseTheme: TfmChooseTheme
   end
   object GroupSyntax: TGroupBox
     Left = 286
-    Height = 495
+    Height = 471
     Top = 6
     Width = 262
     Align = alClient
     BorderSpacing.Around = 6
     Caption = 'Syntax themes'
-    ClientHeight = 476
+    ClientHeight = 452
     ClientWidth = 258
     TabOrder = 1
     object ListboxSyntax: TListBox
       Left = 0
-      Height = 476
+      Height = 452
       Top = 0
       Width = 258
       Align = alClient
@@ -74,7 +74,7 @@ object fmChooseTheme: TfmChooseTheme
     CloseButton.DefaultCaption = True
     CancelButton.Name = 'CancelButton'
     CancelButton.DefaultCaption = True
-    TabOrder = 3
+    TabOrder = 4
     ShowButtons = [pbOK, pbCancel]
   end
   object chkSync: TCheckBox
@@ -86,6 +86,18 @@ object fmChooseTheme: TfmChooseTheme
     BorderSpacing.Left = 6
     BorderSpacing.Right = 6
     Caption = 'Synchronized change of UI+syntax themes'
+    TabOrder = 3
+  end
+  object chkEnableLex: TCheckBox
+    Left = 6
+    Height = 24
+    Top = 483
+    Width = 542
+    Align = alBottom
+    BorderSpacing.Left = 6
+    BorderSpacing.Right = 6
+    Caption = 'Enable lexer themes (option "ui_lexer_themes":true)'
+    OnChange = chkEnableLexChange
     TabOrder = 2
   end
 end
