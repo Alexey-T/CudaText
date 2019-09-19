@@ -47,14 +47,12 @@ type
     procedure mnuTextSelClick(Sender: TObject);
   private
     { private declarations }
+    procedure Localize;
   public
     { public declarations }
     FLabelLink: TATLabelLink;
     FCredits: string;
   end;
-
-procedure DoLocalize_FormAbout(F: TfmAbout);
-
 
 implementation
 
@@ -62,7 +60,9 @@ uses InterfaceBase;
 
 {$R *.lfm}
 
-procedure DoLocalize_FormAbout(F: TfmAbout);
+{ TfmAbout }
+
+procedure TfmAbout.Localize;
 const
   section = 'd_about';
 var
@@ -73,19 +73,17 @@ begin
   if not FileExists(fn) then exit;
   ini:= TIniFile.Create(fn);
   try
-    with F do Caption:= ini.ReadString(section, '_', Caption);
-    with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;
-    with F.ButtonPanel1.HelpButton do Caption:= ini.ReadString(section, 'cre', Caption);
+    Caption:= ini.ReadString(section, '_', Caption);
+    with ButtonPanel1.OKButton do Caption:= msgButtonOk;
+    with ButtonPanel1.HelpButton do Caption:= ini.ReadString(section, 'cre', Caption);
 
-    with F.mnuTextCopy do Caption:= ini.ReadString('m_e', 'cp', Caption);
-    with F.mnuTextSel do Caption:= ini.ReadString('m_se', 'al', Caption);
-    with F.mnuTextOpenUrl do Caption:= ini.ReadString('ct', 'url', Caption);
+    with mnuTextCopy do Caption:= ini.ReadString('m_e', 'cp', Caption);
+    with mnuTextSel do Caption:= ini.ReadString('m_se', 'al', Caption);
+    with mnuTextOpenUrl do Caption:= ini.ReadString('ct', 'url', Caption);
   finally
     FreeAndNil(ini);
   end;
 end;
-
-{ TfmAbout }
 
 procedure TfmAbout.bOkClick(Sender: TObject);
 begin
@@ -96,6 +94,8 @@ procedure TfmAbout.FormCreate(Sender: TObject);
 var
   SWidget: string;
 begin
+  Localize;
+
   memo.DoubleBuffered:= UiOps.DoubleBuffered;
   memo.Font.Name:= EditorOps.OpFontName;
   memo.Font.Size:= EditorOps.OpFontSize;

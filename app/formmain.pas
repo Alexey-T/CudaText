@@ -2598,7 +2598,6 @@ begin
   Form:= TfmAbout.Create(Self);
   with Form do
   try
-    DoLocalize_FormAbout(Form);
     labelVersion.Caption:= cAppExeVersion;
     ShowModal;
   finally
