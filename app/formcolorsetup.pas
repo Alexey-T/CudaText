@@ -48,21 +48,21 @@ type
     procedure ListStylesDrawItem(Control: TWinControl; Index: Integer; ARect: TRect; State: TOwnerDrawState);
   private
     { private declarations }
-    procedure Updatelist;
+    procedure UpdateList;
+    procedure Localize;
   public
     { public declarations }
     Data: TAppTheme;
     OnApply: TApplyThemeEvent;
   end;
 
-procedure DoLocalize_FormColorSetup(F: TfmColorSetup);
-
-
 implementation
 
 {$R *.lfm}
 
-procedure DoLocalize_FormColorSetup(F: TfmColorSetup);
+{ TfmColorSetup }
+
+procedure TfmColorSetup.Localize;
 const
   section = 'd_theme';
 var
@@ -73,23 +73,21 @@ begin
   if not FileExists(fn) then exit;
   ini:= TIniFile.Create(fn);
   try
-    with F do Caption:= ini.ReadString(section, '_', Caption);
-    with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;
-    with F.ButtonPanel1.CancelButton do Caption:= msgButtonCancel;
-    with F.ButtonPanel1.HelpButton do Caption:= msgButtonApply;
+    Caption:= ini.ReadString(section, '_', Caption);
+    with ButtonPanel1.OKButton do Caption:= msgButtonOk;
+    with ButtonPanel1.CancelButton do Caption:= msgButtonCancel;
+    with ButtonPanel1.HelpButton do Caption:= msgButtonApply;
 
-    with F.bChange do Caption:= ini.ReadString(section, 'ch', Caption);
-    with F.bNone do Caption:= ini.ReadString(section, 'non', Caption);
-    with F.bStyle do Caption:= ini.ReadString(section, 'sty', Caption);
+    with bChange do Caption:= ini.ReadString(section, 'ch', Caption);
+    with bNone do Caption:= ini.ReadString(section, 'non', Caption);
+    with bStyle do Caption:= ini.ReadString(section, 'sty', Caption);
   finally
     FreeAndNil(ini);
   end;
 end;
 
 
-{ TfmColorSetup }
-
-procedure TfmColorSetup.Updatelist;
+procedure TfmColorSetup.UpdateList;
 var
   st: TecSyntaxFormat;
   i, n: integer;
@@ -118,14 +116,14 @@ begin
   if ColorDialog1.Execute then
   begin
     Data.Colors[List.Itemindex].color:= ColorDialog1.Color;
-    Updatelist;
+    UpdateList;
   end;
 end;
 
 procedure TfmColorSetup.bNoneClick(Sender: TObject);
 begin
   Data.Colors[List.Itemindex].color:= clNone;
-  Updatelist;
+  UpdateList;
 end;
 
 procedure TfmColorSetup.bStyleClick(Sender: TObject);
@@ -177,6 +175,8 @@ end;
 
 procedure TfmColorSetup.FormShow(Sender: TObject);
 begin
+  Localize;
+
   Width:= AppScale(Width);
   Height:= AppScale(Height);
   List.Width:= AppScale(List.Width);
@@ -186,7 +186,7 @@ begin
   PanelUi.Align:= alClient;
   PanelSyntax.Align:= alClient;
 
-  Updatelist;
+  UpdateList;
   List.ItemIndex:= 0;
   ListStyles.ItemIndex:= 0;
 

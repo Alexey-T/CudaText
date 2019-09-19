@@ -336,7 +336,6 @@ begin
     Form.PanelUi.Visible:= AThemeUI;
     Form.PanelSyntax.Visible:= not AThemeUI;
 
-    DoLocalize_FormColorSetup(Form);
     Form.OnApply:= @FormColorsApply;
     Form.Data:= AData;
     Result:= Form.ShowModal=mrOk;
