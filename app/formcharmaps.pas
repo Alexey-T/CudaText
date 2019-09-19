@@ -59,6 +59,7 @@ type
     FUnicodeMode: boolean;
     FUnicodeBegin: integer;
     FHexTitles: boolean;
+    FEncodingId: TEncConvId;
     function CodeToString(code: integer): string;
     function DoGetCode(aCol, aRow: integer): integer;
     procedure DoShowAnsi;
@@ -224,7 +225,7 @@ begin
     Result:= UnicodeToUTF8(code)
   else
   if code>=0 then
-    Result:= EncConvertToUTF8(Chr(code), EncConvFindEncodingByName(GetCodepage))
+    Result:= EncConvertToUTF8(Chr(code), FEncodingId)
   else
     Result:= '';
 end;
@@ -289,6 +290,7 @@ var
   i, j, code: integer;
 begin
   FUnicodeMode:= false;
+  FEncodingId:= EncConvFindEncodingByName(GetCodepage);
   comboAnsi.Visible:= not FUnicodeMode;
   comboUnicode.Visible:= FUnicodeMode;
   chkHexTitle.Enabled:= true;
