@@ -41,6 +41,7 @@ type
   private
     { private declarations }
     FOnDeleteLexer: TStrEvent;
+    procedure Localize;
     procedure UpdateList;
   public
     { public declarations }
@@ -67,7 +68,7 @@ const
   cHiddenSuffix: string = '(hidden)';
   cLexerLinks: string = 'links:';
 
-procedure DoLocalize_FormLexerLib(F: TfmLexerLib);
+procedure TfmLexerLib.Localize;
 const
   section = 'd_lex_lib';
 var
@@ -78,10 +79,10 @@ begin
   if not FileExists(fn) then exit;
   ini:= TIniFile.Create(fn);
   try
-    with F do Caption:= ini.ReadString(section, '_', Caption);
-    with F.PanelBtn.CloseButton do Caption:= msgButtonClose;
-    with F.btnConfig do Caption:= ini.ReadString(section, 'cfg', Caption);
-    with F.btnDelete do Caption:= ini.ReadString(section, 'del', Caption);
+    Caption:= ini.ReadString(section, '_', Caption);
+    with PanelBtn.CloseButton do Caption:= msgButtonClose;
+    with btnConfig do Caption:= ini.ReadString(section, 'cfg', Caption);
+    with btnDelete do Caption:= ini.ReadString(section, 'del', Caption);
     //with F.btnShowHide do Caption:= ini.ReadString(section, 'hid', Caption);
     cHiddenSuffix:= ini.ReadString(section, 'hidmk', cHiddenSuffix);
     cLexerLinks:= ini.ReadString(section, 'lns', cLexerLinks);
@@ -98,7 +99,6 @@ var
 begin
   F:= TfmLexerLib.Create(nil);
   try
-    DoLocalize_FormLexerLib(F);
     F.OnDeleteLexer:= AOnDeleteLexer;
     F.FFontName:= AFontName;
     F.FFontSize:= AFontSize;
@@ -160,6 +160,7 @@ end;
 
 procedure TfmLexerLib.FormCreate(Sender: TObject);
 begin
+  Localize;
   FormHistoryLoad(Self, '/dlg_lexer_lib', false);
 end;
 
