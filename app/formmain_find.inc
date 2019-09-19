@@ -344,7 +344,7 @@ begin
     end;
   end;
 
-  DoLocalize_FormFind;
+  fmFind.Localize;
 end;
 
 procedure TfmMain.DoDialogFind(AReplaceMode: boolean);

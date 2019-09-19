@@ -735,7 +735,6 @@ type
     function GetSessionFilename: string;
     procedure CharmapOnInsert(const AStr: string);
     procedure DoLocalize;
-    procedure DoLocalize_FormFind;
     procedure DoLocalize_FormGoto;
     function DoCheckFilenameOpened(const AName: string): boolean;
     procedure DoInvalidateEditors;

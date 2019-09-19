@@ -14,13 +14,14 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
   StdCtrls, ExtCtrls,
-  LclType, LclProc, Math,
+  LclType, LclProc, IniFiles, Math,
   ATButtons, ATPanelSimple,
   ATStringProc,
   ATSynEdit,
   ATSynEdit_Edits,
   ATSynEdit_Commands,
   ATSynEdit_Finder,
+  proc_msg,
   proc_globdata,
   proc_miscutils,
   proc_colors,
@@ -122,6 +123,7 @@ type
     FCaptionFind,
     FCaptionReplace: string;
     FBinaryMode: boolean;
+    procedure Localize;
     procedure DoOnChange;
     procedure UpdateSize;
     procedure UpdateState;
@@ -827,6 +829,107 @@ procedure TfmFind.DoOnChange;
 begin
   if Assigned(FOnChangeOptions) then
     FOnChangeOptions(nil);
+end;
+
+procedure TfmFind.Localize;
+const
+  section = 'd_f';
+const
+  init_HintRegex = 'Regular expressions';
+  init_HintCase = 'Case sensitive';
+  init_HintWords = 'Whole words';
+  init_HintWrapped = 'Wrapped search';
+  init_HintConfRep = 'Confirm on replace';
+  init_HintMulLine = 'Multi-line inputs (Ctrl+Enter for new-line)';
+  init_HintInSelect = 'Search in selection';
+  init_HintTokens = 'Allowed syntax elements';
+var
+  fn: string;
+  ini: TIniFile;
+begin
+  with chkRegex do Hint:= init_HintRegex     +' - '+UiOps.HotkeyToggleRegex;
+  with chkCase do Hint:= init_HintCase       +' - '+UiOps.HotkeyToggleCaseSens;
+  with chkWords do Hint:= init_HintWords     +' - '+UiOps.HotkeyToggleWords;
+  with chkWrap do Hint:= init_HintWrapped    +' - '+UiOps.HotkeyToggleWrapped;
+  with chkConfirm do Hint:= init_HintConfRep +' - '+UiOps.HotkeyToggleConfirmRep;
+  with chkInSel do Hint:= init_HintInSelect  +' - '+UiOps.HotkeyToggleInSelect;
+  with chkMulLine do Hint:= init_HintMulLine +' - '+UiOps.HotkeyToggleMultiline;
+  with bTokens do Hint:= init_HintTokens     +' - '+UiOps.HotkeyToggleTokens;
+
+  fn:= GetAppLangFilename;
+  if FileExists(fn) then
+  begin
+    ini:= TIniFile.Create(fn);
+    try
+      FCaptionFind:= ini.ReadString(section, '_f', FCaptionFind);
+      FCaptionReplace:= ini.ReadString(section, '_r', FCaptionReplace);
+      with bFindFirst do Caption:= ini.ReadString(section, 'f_f', Caption);
+      with bFindNext do Caption:= ini.ReadString(section, 'f_n', Caption);
+      with bFindPrev do Caption:= ini.ReadString(section, 'f_p', Caption);
+      with bCount do Caption:= ini.ReadString(section, 'cnt', Caption);
+      with bExtract do Caption:= ini.ReadString(section, 'get', Caption);
+      with bSelectAll do Caption:= ini.ReadString(section, 'sel', Caption);
+      with bMarkAll do Caption:= ini.ReadString(section, 'mk', Caption);
+      with bRep do Caption:= ini.ReadString(section, 'r_c', Caption);
+      with bRepAll do Caption:= ini.ReadString(section, 'r_a', Caption);
+      with LabelFind do Caption:= ini.ReadString(section, 'f_tx', Caption);
+      with LabelRep do Caption:= ini.ReadString(section, 'r_tx', Caption);
+
+      with chkRegex do Hint:= ini.ReadString(section, 'h_re', init_HintRegex)      +' - '+UiOps.HotkeyToggleRegex;
+      with chkCase do Hint:= ini.ReadString(section, 'h_ca', init_HintCase)        +' - '+UiOps.HotkeyToggleCaseSens;
+      with chkWords do Hint:= ini.ReadString(section, 'h_wo', init_HintWords)      +' - '+UiOps.HotkeyToggleWords;
+      with chkWrap do Hint:= ini.ReadString(section, 'h_wr', init_HintWrapped)     +' - '+UiOps.HotkeyToggleWrapped;
+      with chkConfirm do Hint:= ini.ReadString(section, 'h_cf', init_HintConfRep)  +' - '+UiOps.HotkeyToggleConfirmRep;
+      with chkInSel do Hint:= ini.ReadString(section, 'h_sel', init_HintInSelect)  +' - '+UiOps.HotkeyToggleInSelect;
+      with chkMulLine do Hint:= ini.ReadString(section, 'h_mul', init_HintMulLine) +' - '+UiOps.HotkeyToggleMultiline;
+      with bTokens do Hint:= ini.ReadString(section, 'h_tok', init_HintTokens)     +' - '+UiOps.HotkeyToggleTokens;
+
+      with bTokens do
+      begin
+        Items[0]:= ini.ReadString(section, 'tk_a', Items[0]);
+        Items[1]:= ini.ReadString(section, 'tk_y_c', Items[1]);
+        Items[2]:= ini.ReadString(section, 'tk_y_s', Items[2]);
+        Items[3]:= ini.ReadString(section, 'tk_y_cs', Items[3]);
+        Items[4]:= ini.ReadString(section, 'tk_n_c', Items[4]);
+        Items[5]:= ini.ReadString(section, 'tk_n_s', Items[5]);
+        Items[6]:= ini.ReadString(section, 'tk_n_cs', Items[6]);
+      end;
+
+      with edFind do
+      begin
+        MenuitemTextCut.Caption:= msgEditCut;
+        MenuitemTextCopy.Caption:= msgEditCopy;
+        MenuitemTextPaste.Caption:= msgEditPaste;
+        MenuitemTextDelete.Caption:= msgEditDelete;
+        MenuitemTextSelAll.Caption:= msgEditSelectAll;
+        MenuitemTextUndo.Caption:= msgEditUndo;
+        MenuitemTextRedo.Caption:= msgEditRedo;
+      end;
+      with edRep do
+      begin
+        MenuitemTextCut.Caption:= msgEditCut;
+        MenuitemTextCopy.Caption:= msgEditCopy;
+        MenuitemTextPaste.Caption:= msgEditPaste;
+        MenuitemTextDelete.Caption:= msgEditDelete;
+        MenuitemTextSelAll.Caption:= msgEditSelectAll;
+        MenuitemTextUndo.Caption:= msgEditUndo;
+        MenuitemTextRedo.Caption:= msgEditRedo;
+      end;
+
+    finally
+      FreeAndNil(ini);
+    end;
+  end;
+
+  bFindFirst.AutoSize:= true;
+  bFindNext.AutoSize:= true;
+  bFindPrev.AutoSize:= true;
+  bCount.AutoSize:= true;
+  bExtract.AutoSize:= true;
+  bSelectAll.AutoSize:= true;
+  bMarkAll.AutoSize:= true;
+  bRep.AutoSize:= true;
+  bRepAll.AutoSize:= true;
 end;
 
 end.

@@ -597,7 +597,8 @@ begin
     FreeAndNil(ini);
   end;
 
-  DoLocalize_FormFind;
+  if Assigned(fmFind) then
+    fmFind.Localize;
   DoLocalize_FormGoto;
   if Assigned(fmCharmaps) then
     fmCharmaps.Localize;
@@ -607,109 +608,6 @@ begin
     with Frames[0] do
       if TabCaption='Untitled1' then
         TabCaption:= msgUntitledTab+'1';
-end;
-
-procedure TfmMain.DoLocalize_FormFind;
-const
-  section = 'd_f';
-const
-  init_HintRegex = 'Regular expressions';
-  init_HintCase = 'Case sensitive';
-  init_HintWords = 'Whole words';
-  init_HintWrapped = 'Wrapped search';
-  init_HintConfRep = 'Confirm on replace';
-  init_HintMulLine = 'Multi-line inputs (Ctrl+Enter for new-line)';
-  init_HintInSelect = 'Search in selection';
-  init_HintTokens = 'Allowed syntax elements';
-var
-  fn: string;
-  ini: TIniFile;
-begin
-  if not Assigned(fmFind) then exit;
-
-  with fmFind.chkRegex do Hint:= init_HintRegex     +' - '+UiOps.HotkeyToggleRegex;
-  with fmFind.chkCase do Hint:= init_HintCase       +' - '+UiOps.HotkeyToggleCaseSens;
-  with fmFind.chkWords do Hint:= init_HintWords     +' - '+UiOps.HotkeyToggleWords;
-  with fmFind.chkWrap do Hint:= init_HintWrapped    +' - '+UiOps.HotkeyToggleWrapped;
-  with fmFind.chkConfirm do Hint:= init_HintConfRep +' - '+UiOps.HotkeyToggleConfirmRep;
-  with fmFind.chkInSel do Hint:= init_HintInSelect  +' - '+UiOps.HotkeyToggleInSelect;
-  with fmFind.chkMulLine do Hint:= init_HintMulLine +' - '+UiOps.HotkeyToggleMultiline;
-  with fmFind.bTokens do Hint:= init_HintTokens     +' - '+UiOps.HotkeyToggleTokens;
-
-  fn:= GetAppLangFilename;
-  if FileExists(fn) then
-  begin
-    ini:= TIniFile.Create(fn);
-    try
-      with fmFind do FCaptionFind:= ini.ReadString(section, '_f', FCaptionFind);
-      with fmFind do FCaptionReplace:= ini.ReadString(section, '_r', FCaptionReplace);
-      with fmFind.bFindFirst do Caption:= ini.ReadString(section, 'f_f', Caption);
-      with fmFind.bFindNext do Caption:= ini.ReadString(section, 'f_n', Caption);
-      with fmFind.bFindPrev do Caption:= ini.ReadString(section, 'f_p', Caption);
-      with fmFind.bCount do Caption:= ini.ReadString(section, 'cnt', Caption);
-      with fmFind.bExtract do Caption:= ini.ReadString(section, 'get', Caption);
-      with fmFind.bSelectAll do Caption:= ini.ReadString(section, 'sel', Caption);
-      with fmFind.bMarkAll do Caption:= ini.ReadString(section, 'mk', Caption);
-      with fmFind.bRep do Caption:= ini.ReadString(section, 'r_c', Caption);
-      with fmFind.bRepAll do Caption:= ini.ReadString(section, 'r_a', Caption);
-      with fmFind.LabelFind do Caption:= ini.ReadString(section, 'f_tx', Caption);
-      with fmFind.LabelRep do Caption:= ini.ReadString(section, 'r_tx', Caption);
-
-      with fmFind.chkRegex do Hint:= ini.ReadString(section, 'h_re', init_HintRegex)      +' - '+UiOps.HotkeyToggleRegex;
-      with fmFind.chkCase do Hint:= ini.ReadString(section, 'h_ca', init_HintCase)        +' - '+UiOps.HotkeyToggleCaseSens;
-      with fmFind.chkWords do Hint:= ini.ReadString(section, 'h_wo', init_HintWords)      +' - '+UiOps.HotkeyToggleWords;
-      with fmFind.chkWrap do Hint:= ini.ReadString(section, 'h_wr', init_HintWrapped)     +' - '+UiOps.HotkeyToggleWrapped;
-      with fmFind.chkConfirm do Hint:= ini.ReadString(section, 'h_cf', init_HintConfRep)  +' - '+UiOps.HotkeyToggleConfirmRep;
-      with fmFind.chkInSel do Hint:= ini.ReadString(section, 'h_sel', init_HintInSelect)  +' - '+UiOps.HotkeyToggleInSelect;
-      with fmFind.chkMulLine do Hint:= ini.ReadString(section, 'h_mul', init_HintMulLine) +' - '+UiOps.HotkeyToggleMultiline;
-      with fmFind.bTokens do Hint:= ini.ReadString(section, 'h_tok', init_HintTokens)     +' - '+UiOps.HotkeyToggleTokens;
-
-      with fmFind.bTokens do
-      begin
-        Items[0]:= ini.ReadString(section, 'tk_a', Items[0]);
-        Items[1]:= ini.ReadString(section, 'tk_y_c', Items[1]);
-        Items[2]:= ini.ReadString(section, 'tk_y_s', Items[2]);
-        Items[3]:= ini.ReadString(section, 'tk_y_cs', Items[3]);
-        Items[4]:= ini.ReadString(section, 'tk_n_c', Items[4]);
-        Items[5]:= ini.ReadString(section, 'tk_n_s', Items[5]);
-        Items[6]:= ini.ReadString(section, 'tk_n_cs', Items[6]);
-      end;
-
-      with fmFind.edFind do
-      begin
-        MenuitemTextCut.Caption:= msgEditCut;
-        MenuitemTextCopy.Caption:= msgEditCopy;
-        MenuitemTextPaste.Caption:= msgEditPaste;
-        MenuitemTextDelete.Caption:= msgEditDelete;
-        MenuitemTextSelAll.Caption:= msgEditSelectAll;
-        MenuitemTextUndo.Caption:= msgEditUndo;
-        MenuitemTextRedo.Caption:= msgEditRedo;
-      end;
-      with fmFind.edRep do
-      begin
-        MenuitemTextCut.Caption:= msgEditCut;
-        MenuitemTextCopy.Caption:= msgEditCopy;
-        MenuitemTextPaste.Caption:= msgEditPaste;
-        MenuitemTextDelete.Caption:= msgEditDelete;
-        MenuitemTextSelAll.Caption:= msgEditSelectAll;
-        MenuitemTextUndo.Caption:= msgEditUndo;
-        MenuitemTextRedo.Caption:= msgEditRedo;
-      end;
-
-    finally
-      FreeAndNil(ini);
-    end;
-  end;
-
-  fmFind.bFindFirst.AutoSize:= true;
-  fmFind.bFindNext.AutoSize:= true;
-  fmFind.bFindPrev.AutoSize:= true;
-  fmFind.bCount.AutoSize:= true;
-  fmFind.bExtract.AutoSize:= true;
-  fmFind.bSelectAll.AutoSize:= true;
-  fmFind.bMarkAll.AutoSize:= true;
-  fmFind.bRep.AutoSize:= true;
-  fmFind.bRepAll.AutoSize:= true;
 end;
 
 procedure TfmMain.DoLocalize_FormGoto;
