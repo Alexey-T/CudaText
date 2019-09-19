@@ -15,7 +15,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   StdCtrls, Grids, IniFiles,
-  LclType, LclProc, LCLUnicodeData, LConvEncoding,
+  LclType, LclProc, LCLUnicodeData, EncConv,
   LazUTF8, LazFileUtils,
   {$ifdef windows} Windows, {$endif}
   ATPanelSimple,
@@ -224,7 +224,7 @@ begin
     Result:= UnicodeToUTF8(code)
   else
   if code>=0 then
-    Result:= ConvertEncoding(Chr(code), GetCodepage, 'utf8')
+    Result:= EncConvertToUTF8(Chr(code), EncConvFindEncodingByName(GetCodepage))
   else
     Result:= '';
 end;

@@ -23,7 +23,7 @@ uses
   LclType, LclProc, LclIntf,
   InterfaceBase,
   LazFileUtils, LazUTF8, FileUtil,
-  LConvEncoding,
+  EncConv,
   TreeFilterEdit,
   gqueue,
   {$ifdef LCLGTK2}

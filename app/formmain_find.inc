@@ -501,6 +501,8 @@ begin
       begin
         Ed.DoCommand(cmd_BookmarkClearAll);
       end;
+    else
+      begin end;
   end;
 end;
 
