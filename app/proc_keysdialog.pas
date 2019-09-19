@@ -41,7 +41,6 @@ begin
 
   Form:= TfmKeys.Create(nil);
   try
-    DoLocalize_FormKeys(Form);
     Form.Caption:= Form.Caption+' - '+AppKeymap[n].Name;
     Form.LexerName:= ALexerName;
     Form.CommandCode:= ACmd;

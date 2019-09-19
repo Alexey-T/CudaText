@@ -49,6 +49,7 @@ type
     procedure DoAddKey(var K: TATKeyArray);
     procedure DoUpdate;
     function GetHotkey: integer;
+    procedure Localize;
   public
     { public declarations }
     LexerName: string;
@@ -59,14 +60,13 @@ type
 var
   fmKeys: TfmKeys;
 
-procedure DoLocalize_FormKeys(F: TfmKeys);
-
-
 implementation
 
 {$R *.lfm}
 
-procedure DoLocalize_FormKeys(F: TfmKeys);
+{ TfmKeys }
+
+procedure TfmKeys.Localize;
 const
   section = 'd_keys';
 var
@@ -77,26 +77,25 @@ begin
   if not FileExists(fn) then exit;
   ini:= TIniFile.Create(fn);
   try
-    with F do Caption:= ini.ReadString(section, '_', Caption);
-    with F.panelBtn.OKButton do Caption:= msgButtonOk;
-    with F.panelBtn.CancelButton do Caption:= msgButtonCancel;
+    Caption:= ini.ReadString(section, '_', Caption);
+    with panelBtn.OKButton do Caption:= msgButtonOk;
+    with panelBtn.CancelButton do Caption:= msgButtonCancel;
 
-    with F.bClear1 do Caption:= ini.ReadString(section, 'clr', Caption);
-    with F.bAdd1 do Caption:= ini.ReadString(section, 'add', Caption);
-    F.bClear2.Caption:= F.bClear1.Caption;
-    F.bAdd2.Caption:= F.bAdd1.Caption;
+    with bClear1 do Caption:= ini.ReadString(section, 'clr', Caption);
+    with bAdd1 do Caption:= ini.ReadString(section, 'add', Caption);
+    bClear2.Caption:= bClear1.Caption;
+    bAdd2.Caption:= bAdd1.Caption;
 
-    with F.panelPress do Caption:= ini.ReadString(section, 'wait', Caption);
-    with F.chkForLexer do Caption:= ini.ReadString(section, 'lex', Caption);
+    with panelPress do Caption:= ini.ReadString(section, 'wait', Caption);
+    with chkForLexer do Caption:= ini.ReadString(section, 'lex', Caption);
   finally
     FreeAndNil(ini);
   end;
 end;
 
-{ TfmKeys }
-
 procedure TfmKeys.FormShow(Sender: TObject);
 begin
+  Localize;
   DoForm_ScaleAuto(Self, true);
   UpdateFormOnTop(Self);
 
