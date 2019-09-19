@@ -97,7 +97,7 @@ object fmChooseTheme: TfmChooseTheme
     Align = alBottom
     BorderSpacing.Left = 6
     BorderSpacing.Right = 6
-    Caption = 'Enable lexer themes'
+    Caption = 'Enable lexer themes (requires restart)'
     OnChange = chkEnableLexChange
     TabOrder = 2
   end
