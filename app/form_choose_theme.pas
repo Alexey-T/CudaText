@@ -174,9 +174,11 @@ begin
     with ButtonPanel1.OKButton do Caption:= msgButtonOk;
     with ButtonPanel1.CancelButton do Caption:= msgButtonCancel;
 
-    with chkSync do Caption:= ini.ReadString(section, 'syn', Caption);
     with GroupUI do Caption:= ini.ReadString(section, 'ty_ui', Caption);
     with GroupSyntax do Caption:= ini.ReadString(section, 'ty_sy', Caption);
+
+    with chkEnableLex do Caption:= ini.ReadString(section, 'ele', Caption);
+    with chkSync do Caption:= ini.ReadString(section, 'syn', Caption);
   finally
     FreeAndNil(ini);
   end;
