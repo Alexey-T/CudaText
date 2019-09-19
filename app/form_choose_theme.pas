@@ -26,6 +26,7 @@ type
     ListboxSyntax: TListBox;
     ListboxUI: TListBox;
     procedure chkEnableLexChange(Sender: TObject);
+    procedure chkSyncChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ListboxSyntaxClick(Sender: TObject);
@@ -89,6 +90,12 @@ procedure TfmChooseTheme.chkEnableLexChange(Sender: TObject);
 begin
   EnableLexerThemes:= chkEnableLex.Checked;
   ListboxSyntax.Enabled:= chkEnableLex.Checked;
+end;
+
+procedure TfmChooseTheme.chkSyncChange(Sender: TObject);
+begin
+  if chkSync.Checked and chkEnableLex.Checked then
+    ListboxUIClick(Self);
 end;
 
 procedure TfmChooseTheme.FormShow(Sender: TObject);
