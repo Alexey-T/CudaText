@@ -111,7 +111,8 @@ begin
     S:= '';
   ThemeUiSetter(S);
 
-  if chkSync.Checked and chkEnableLex.Checked then
+  if chkSync.Checked and chkEnableLex.Checked
+    and Assigned(Sender) then //check Sender to not do recursion
   begin
     if S='' then
       N:= 0
@@ -136,6 +137,19 @@ begin
   else
     S:= '';
   ThemeSyntaxSetter(S);
+
+  if chkSync.Checked then
+  begin
+    if S='' then
+      N:= 0
+    else
+      N:= ListboxUI.Items.IndexOf(S);
+    if N>=0 then
+    begin
+      ListboxUI.ItemIndex:= N;
+      ListboxUIClick(nil); //nil: don't do recursion
+    end;
+  end;
 end;
 
 procedure TfmChooseTheme.Localize;
