@@ -22,6 +22,7 @@ type
     procedure FormShow(Sender: TObject);
   private
     { private declarations }
+    procedure Localize;
   public
     { public declarations }
     FHotkey: string;
@@ -32,27 +33,6 @@ function DoDialogHotkeyInput(ATitle: string): string;
 
 implementation
 
-procedure DoLocalize_FormKeyInput(F: TfmKeyInput);
-const
-  section = 'd_keys';
-var
-  ini: TIniFile;
-  fn: string;
-begin
-  fn:= GetAppLangFilename;
-  if not FileExists(fn) then exit;
-  ini:= TIniFile.Create(fn);
-  try
-    with F do Caption:= ini.ReadString(section, '_', Caption);
-    with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;
-    with F.ButtonPanel1.CancelButton do Caption:= msgButtonCancel;
-    with F.PanelPress do Caption:= ini.ReadString(section, 'wait', Caption);
-  finally
-    FreeAndNil(ini);
-  end;
-end;
-
-
 {$R *.lfm}
 
 function DoDialogHotkeyInput(ATitle: string): string;
@@ -62,7 +42,6 @@ begin
   Result:= '';
   Form:= TfmKeyInput.Create(nil);
   try
-    DoLocalize_FormKeyInput(Form);
     if ATitle<>'' then
       Form.Caption:= ATitle;
     if Form.ShowModal=mrOk then
@@ -73,6 +52,26 @@ begin
 end;
 
 { TfmKeyInput }
+
+procedure TfmKeyInput.Localize;
+const
+  section = 'd_keys';
+var
+  ini: TIniFile;
+  fn: string;
+begin
+  fn:= GetAppLangFilename;
+  if not FileExists(fn) then exit;
+  ini:= TIniFile.Create(fn);
+  try
+    Caption:= ini.ReadString(section, '_', Caption);
+    with ButtonPanel1.OKButton do Caption:= msgButtonOk;
+    with ButtonPanel1.CancelButton do Caption:= msgButtonCancel;
+    with PanelPress do Caption:= ini.ReadString(section, 'wait', Caption);
+  finally
+    FreeAndNil(ini);
+  end;
+end;
 
 procedure TfmKeyInput.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
@@ -107,6 +106,7 @@ end;
 
 procedure TfmKeyInput.FormShow(Sender: TObject);
 begin
+  Localize;
   DoForm_ScaleAuto(Self);
   UpdateFormOnTop(Self);
 end;
