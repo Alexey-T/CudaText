@@ -1100,8 +1100,9 @@ And here is the old way:
 ** in FpcUpDeluxe, choose FPC 3.0.2 (3.0.4) and Lazarus "trunk", install them both.
 * download GitHub repos:
 ** https://github.com/Alexey-T/Python-for-Lazarus (install first)
-** https://github.com/Alexey-T/ATFlatControls (install next)
-** https://github.com/Alexey-T/ATSynEdit (install next)
+** https://github.com/Alexey-T/ATFlatControls
+** https://github.com/Alexey-T/EncConv
+** https://github.com/Alexey-T/ATSynEdit (install after ATFlatControls and EncConv)
 ** https://github.com/Alexey-T/EControl (install after ATSynEdit)
 ** https://github.com/Alexey-T/ATSynEdit_Ex (install after EControl)
 ** https://github.com/Alexey-T/ATSynEdit_Cmp

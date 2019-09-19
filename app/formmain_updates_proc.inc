@@ -132,8 +132,7 @@ begin
 
     if F.IsBinary then
     begin
-      S:= F.Binary.TextEncoding;
-      if S='' then S:= '?';
+      S:= cEncConvNames[F.Binary.TextEncoding];
     end
     else
       S:= '';
