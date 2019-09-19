@@ -33,14 +33,17 @@ type
     procedure ListboxUIClick(Sender: TObject);
   private
     procedure Localize;
-    procedure SetEnableLexerThemes(AValue: boolean);
     function GetEnableLexerThemes: boolean;
+    function GetEnableSync: boolean;
+    procedure SetEnableLexerThemes(AValue: boolean);
+    procedure SetEnableSync(AValue: boolean);
   public
     ThemeUi: string;
     ThemeSyntax: string;
     ThemeUiSetter: TAppThemeSetter;
     ThemeSyntaxSetter: TAppThemeSetter;
     property EnableLexerThemes: boolean read GetEnableLexerThemes write SetEnableLexerThemes;
+    property EnableSync: boolean read GetEnableSync write SetEnableSync;
   end;
 
 var
@@ -94,6 +97,7 @@ end;
 
 procedure TfmChooseTheme.chkSyncChange(Sender: TObject);
 begin
+  EnableSync:= chkSync.Checked;
   if chkSync.Checked and chkEnableLex.Checked then
     ListboxUIClick(Self);
 end;
@@ -102,6 +106,7 @@ procedure TfmChooseTheme.FormShow(Sender: TObject);
 begin
   ListboxUI.ItemIndex:= Max(0, ListboxUI.Items.IndexOf(ThemeUI));
   ListboxSyntax.ItemIndex:= Max(0, ListboxSyntax.Items.IndexOf(ThemeSyntax));
+  chkSync.Checked:= EnableSync;
   chkEnableLex.Checked:= EnableLexerThemes;
   ListboxSyntax.Enabled:= chkEnableLex.Checked;
 end;
@@ -197,6 +202,19 @@ begin
   end;
 end;
 
+function TfmChooseTheme.GetEnableSync: boolean;
+var
+  c: TJSONConfig;
+begin
+  c:= TJSONConfig.Create(nil);
+  try
+    c.FileName:= GetAppPath(cFileOptionsHistory);
+    Result:= c.GetValue('/sync_choose_themes', false);
+  finally
+    c.Free;
+  end;
+end;
+
 procedure TfmChooseTheme.SetEnableLexerThemes(AValue: boolean);
 var
   c: TJSONConfig;
@@ -206,6 +224,20 @@ begin
     c.Formatted:= true;
     c.FileName:= GetAppPath(cFileOptionsUser);
     c.SetDeleteValue('/ui_lexer_themes', AValue, true);
+  finally
+    c.Free;
+  end;
+end;
+
+procedure TfmChooseTheme.SetEnableSync(AValue: boolean);
+var
+  c: TJSONConfig;
+begin
+  c:= TJSONConfig.Create(nil);
+  try
+    c.Formatted:= true;
+    c.FileName:= GetAppPath(cFileOptionsHistory);
+    c.SetDeleteValue('/sync_choose_themes', AValue, false);
   finally
     c.Free;
   end;
