@@ -735,7 +735,6 @@ type
     function GetSessionFilename: string;
     procedure CharmapOnInsert(const AStr: string);
     procedure DoLocalize;
-    procedure DoLocalize_FormGoto;
     function DoCheckFilenameOpened(const AName: string): boolean;
     procedure DoInvalidateEditors;
     function DoMenuAdd_Params(
@@ -3352,7 +3351,7 @@ procedure TfmMain.DoDialogGoto;
 var
   Str: string;
 begin
-  DoLocalize_FormGoto;
+  fmGoto.Localize;
   fmGoto.Width:= AppScale(UiOps.ListboxSizeX);
   UpdateInputForm(fmGoto, false);
 

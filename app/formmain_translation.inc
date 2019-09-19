@@ -599,7 +599,8 @@ begin
 
   if Assigned(fmFind) then
     fmFind.Localize;
-  DoLocalize_FormGoto;
+  if Assigned(fmGoto) then
+    fmGoto.Localize;
   if Assigned(fmCharmaps) then
     fmCharmaps.Localize;
 
@@ -608,34 +609,5 @@ begin
     with Frames[0] do
       if TabCaption='Untitled1' then
         TabCaption:= msgUntitledTab+'1';
-end;
-
-procedure TfmMain.DoLocalize_FormGoto;
-const
-  section = 'd_f';
-var
-  fn: string;
-  ini: TIniFile;
-begin
-  if not Assigned(fmGoto) then exit;
-
-  fn:= GetAppLangFilename;
-  if not FileExistsUTF8(fn) then exit;
-
-  ini:= TIniFile.Create(fn);
-  try
-    with fmGoto.edInput do
-    begin
-      MenuitemTextCut.Caption:= msgEditCut;
-      MenuitemTextCopy.Caption:= msgEditCopy;
-      MenuitemTextPaste.Caption:= msgEditPaste;
-      MenuitemTextDelete.Caption:= msgEditDelete;
-      MenuitemTextSelAll.Caption:= msgEditSelectAll;
-      MenuitemTextUndo.Caption:= msgEditUndo;
-      MenuitemTextRedo.Caption:= msgEditRedo;
-    end;
-  finally
-    FreeAndNil(ini);
-  end;
 end;
 
