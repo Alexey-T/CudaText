@@ -38,6 +38,7 @@ type
     procedure FormShow(Sender: TObject);
   private
     { private declarations }
+    procedure Localize;
   public
     { public declarations }
     MsgReplaceMatch: string;
@@ -47,14 +48,13 @@ type
 var
   fmConfirmReplace: TfmConfirmReplace;
 
-procedure DoLocalize_FormConfirmReplace(F: TfmConfirmReplace);
-
-
 implementation
 
 {$R *.lfm}
 
-procedure DoLocalize_FormConfirmReplace(F: TfmConfirmReplace);
+{ TfmConfirmReplace }
+
+procedure TfmConfirmReplace.Localize;
 const
   section = 'd_cfm_rep';
 var
@@ -65,24 +65,22 @@ begin
   if not FileExists(fn) then exit;
   ini:= TIniFile.Create(fn);
   try
-    with F do Caption:= ini.ReadString(section, '_', Caption);
-    with F.bYes do Caption:= ini.ReadString(section, 'yes', Caption);
-    with F.bYesAll do Caption:= ini.ReadString(section, 'yes_a', Caption);
-    with F.bNo do Caption:= ini.ReadString(section, 'no', Caption);
-    with F.bNoAll do Caption:= ini.ReadString(section, 'no_a', Caption);
-    F.MsgReplaceMatch:= ini.ReadString(section, 'msg', F.MsgReplaceMatch);
+    Caption:= ini.ReadString(section, '_', Caption);
+    with bYes do Caption:= ini.ReadString(section, 'yes', Caption);
+    with bYesAll do Caption:= ini.ReadString(section, 'yes_a', Caption);
+    with bNo do Caption:= ini.ReadString(section, 'no', Caption);
+    with bNoAll do Caption:= ini.ReadString(section, 'no_a', Caption);
+    MsgReplaceMatch:= ini.ReadString(section, 'msg', MsgReplaceMatch);
   finally
     FreeAndNil(ini);
   end;
 end;
 
-
-{ TfmConfirmReplace }
-
 procedure TfmConfirmReplace.FormCreate(Sender: TObject);
 begin
   MsgReplaceMatch:= 'Replace match at line %d ?';
   MsgLineNumber:= 0;
+  Localize;
 
   LabelInfo.Font.Name:= UiOps.VarFontName;
   LabelInfo.Font.Size:= UiOps.VarFontSize;
