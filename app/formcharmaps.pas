@@ -290,7 +290,7 @@ var
   i, j, code: integer;
 begin
   FUnicodeMode:= false;
-  FEncodingId:= EncConvFindEncodingByName(GetCodepage);
+  FEncodingId:= EncConvFindEncoding(GetCodepage);
   comboAnsi.Visible:= not FUnicodeMode;
   comboUnicode.Visible:= FUnicodeMode;
   chkHexTitle.Enabled:= true;
