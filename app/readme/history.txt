@@ -7,6 +7,8 @@
 1.87.1
 
 * change: new dialog to choose UI+syntax themes "Options / Themes...", instead of old menu-dialogs
+- fix: command "find current word next" minor issue
+- fix: logic on file saving with write-error (did stop the file watcher)
 
 1.87.0 (2019/09)
 
