@@ -1997,7 +1997,7 @@ var
   NameCounter: integer;
   SFileName, NameTemp, NameInitial: string;
 begin
-  Result:= false;
+  Result:= true;
   if not IsText then exit(true); //disable saving, but close
   if DoPyEvent(Ed, cEventOnSaveBefore, [])=cPyFalse then exit(true); //disable saving, but close
 
@@ -2098,7 +2098,10 @@ begin
   except
     if MsgBox(msgCannotSaveFile+#10+SFileName,
       MB_RETRYCANCEL or MB_ICONERROR) = IDCANCEL then
-      Exit(false);
+    begin
+      Result:= false;
+      Break;
+    end;
   end;
 
   if bNameChanged then
@@ -2109,12 +2112,13 @@ begin
   if not TabCaptionFromApi then
     UpdateCaptionFromFilename;
 
-  DoSaveUndo(Ed, SFileName);
-
-  DoPyEvent(Ed, cEventOnSaveAfter, []);
-  if Assigned(FOnSaveFile) then
-    FOnSaveFile(Self);
-  Result:= true;
+  if Result then
+  begin
+    DoSaveUndo(Ed, SFileName);
+    DoPyEvent(Ed, cEventOnSaveAfter, []);
+    if Assigned(FOnSaveFile) then
+      FOnSaveFile(Self);
+  end;
 end;
 
 procedure TEditorFrame.DoFileReload_DisableDetectEncoding;
