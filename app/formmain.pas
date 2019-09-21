@@ -2879,6 +2879,11 @@ var
   S: string;
 begin
   S:= UTF8Encode(CodeTreeFilterInput.Text);
+
+  F:= CurrentFrame;
+  if Assigned(F) then
+    F.CodetreeFilter:= S;
+
   if S='' then
   begin
     CodeTreeFilter.ForceFilter('');
@@ -2888,10 +2893,6 @@ begin
 
   CodeTreeFilter.FilteredTreeview:= CodeTree.Tree;
   CodeTreeFilter.Text:= S;
-
-  F:= CurrentFrame;
-  if Assigned(F) then
-    F.CodetreeFilter:= S;
 end;
 
 procedure TfmMain.CodeTreeFilter_ResetOnClick(Sender: TObject);
