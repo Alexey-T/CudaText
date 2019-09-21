@@ -113,10 +113,8 @@
   "ui_one_instance": false,
 
   //[File]
-  //File-change notification: enabled
-  "ui_notif": true,
-
-  //File-change notification: watch timer interval, seconds
+  //Notifications about file change/deletion in external programs: timer interval (seconds).
+  //If 0, notifications are disabled.
   "ui_notif_time": 2,
 
   //[File/NonText]
