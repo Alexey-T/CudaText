@@ -777,6 +777,9 @@
   //Mouse wheel scrolling speed, horizontal (in chars)
   "mouse_wheel_speed_horz": 10,
 
+  //Mouse scrolling speed, when selection is dragged out of editor top/bottom edge
+  "mouse_scroll_speed_vert": 1,
+
   //Call "Go to definition" command, by click with modifier key
   //  "": disabled
   //  "a": by Alt+click

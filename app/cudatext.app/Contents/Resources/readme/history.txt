@@ -4,6 +4,15 @@
   * changed
 
 
+1.87.2 (2019/09)
+
++ add: option "mouse_scroll_speed_vert"
+* change: command "Select all" now doesn't scroll to document end; it's like in Sublime & EmEditor & GEdit
+* change: new dialog to choose UI+syntax themes "Options / Themes...", instead of two menu-dialogs
+- fix: show unprinted symbols "only in selection" was wrong with wrapped text
+- fix: file saving with write-error stops file auto-reloading
+- fix: issue with command "find current word next"
+
 1.87.0 (2019/09)
 
 + add: can show unprinted characters only in selection (like Sublime). To do this, add char "x" to the option "unprinted_content"
