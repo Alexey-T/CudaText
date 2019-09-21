@@ -2804,7 +2804,7 @@ begin
   ATFlatTheme.ScalePercents:= UiOps.Scale;
   ATFlatTheme.ScaleFontPercents:= UiOps.ScaleFont;
 
-  {$if defined(linux) or defined(darwin)}
+  {$ifndef windows}
   ATFlatTheme.EnableColorBgOver:= false;
   {$endif}
 
