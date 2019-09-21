@@ -826,6 +826,7 @@ begin
   Op.OpMouseWheelSpeedVert:= c.GetValue('mouse_wheel_speed_vert', Op.OpMouseWheelSpeedVert);
   Op.OpMouseWheelSpeedHorz:= c.GetValue('mouse_wheel_speed_horz', Op.OpMouseWheelSpeedHorz);
   Op.OpMouseClickNumberSelectsEol:= c.GetValue('mouse_click_number_selects_eol', Op.OpMouseClickNumberSelectsEol);
+  cSpeedScrollAutoVert:= c.GetValue('mouse_scroll_speed_vert', cSpeedScrollAutoVert);
 
   Op.OpKeyBackspaceUnindent:= c.GetValue('key_bksp_unindent', Op.OpKeyBackspaceUnindent);
   Op.OpKeyTabIndents:= c.GetValue('key_tab_indents_sel', Op.OpKeyTabIndents);
