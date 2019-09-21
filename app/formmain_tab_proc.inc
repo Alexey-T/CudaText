@@ -33,7 +33,7 @@ begin
   F.Ed2.PopupText:= PopupText;
 
   F.NotifEnabled:= false;
-  F.NotifTime:= UiOps.NotifTimeSec*1000;
+  F.NotifTime:= Max(1, UiOps.NotificationsTime)*1000;
 
   F.Splitter.OnPaint:= @SplitterOnPaint_Gr;
 end;

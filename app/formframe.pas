@@ -1918,7 +1918,7 @@ begin
 
   UpdateReadOnlyFromFile(Ed);
 
-  NotifEnabled:= UiOps.NotifTimeSec>0;
+  NotifEnabled:= UiOps.NotificationsTime>0;
 end;
 
 procedure TEditorFrame.UpdateReadOnlyFromFile(Ed: TATSynEdit);
