@@ -1526,6 +1526,14 @@ begin
   //passing lite lexer - crashes (can't solve), so disabled
   if not SEndsWith(UiOps.NewdocLexer, msgLiteLexerSuffix) then
     LexerName[Ed1]:= UiOps.NewdocLexer;
+
+  with btnReload do Width:= AppScale(Width);
+  with btnReload do Height:= AppScale(Height);
+  with btnIgnore do Width:= AppScale(Width);
+  with btnIgnore do Height:= AppScale(Height);
+  with btnIgnoreAll do Width:= AppScale(Width);
+  with btnIgnoreAll do Height:= AppScale(Height);
+  with PanelReload do Height:= AppScale(Height);
 end;
 
 destructor TEditorFrame.Destroy;
