@@ -1237,6 +1237,8 @@ begin
 end;
 
 procedure TAppFrameThread.Execute;
+const
+  cSleepTime = 500;
 var
   NewProps: TAppFileProps;
   bChanged: boolean;
@@ -1245,7 +1247,7 @@ begin
   repeat
     if Application.Terminated then exit;
     if Terminated then exit;
-    Sleep(600);
+    Sleep(cSleepTime);
     if not UiOps.NotificationEnabled then Continue;
 
     EnterCriticalSection(AppFrameCriSec);
