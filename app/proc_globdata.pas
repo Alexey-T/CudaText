@@ -279,7 +279,7 @@ type
 
     FloatGroupsInTaskbar: boolean;
     OneInstance: boolean;
-    NotificationsTime: integer;
+    NotificationEnabled: boolean;
     NonTextFiles: integer; //0: prompt, 1: open, 2: don't open
     NonTextFilesBufferKb: integer;
     ReloadUnsavedConfirm: boolean;
@@ -1400,7 +1400,7 @@ begin
 
     FloatGroupsInTaskbar:= true;
     OneInstance:= false;
-    NotificationsTime:= 2;
+    NotificationEnabled:= true;
     NonTextFiles:= 0;
     NonTextFilesBufferKb:= 64;
     ReloadFollowTail:= true;

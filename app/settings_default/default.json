@@ -113,9 +113,8 @@
   "ui_one_instance": false,
 
   //[File]
-  //Notifications about file change/deletion in external programs: timer interval (seconds).
-  //If 0, notifications are disabled.
-  "ui_notif_time": 2,
+  //Enable notifications about file change/deletion in external programs
+  "ui_notif": true,
 
   //[File/NonText]
   //Non-text files: allow to open

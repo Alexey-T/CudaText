@@ -1245,8 +1245,8 @@ begin
   repeat
     if Application.Terminated then exit;
     if Terminated then exit;
-    Sleep(500);
-    if UiOps.NotificationsTime<=0 then Continue;
+    Sleep(600);
+    if not UiOps.NotificationEnabled then Continue;
 
     EnterCriticalSection(AppFrameCriSec);
 
@@ -2394,7 +2394,7 @@ begin
   MsgLogDebug('start');
   DoOps_MultiInstaller;
 
-  if UiOps.NotificationsTime>0 then
+  if UiOps.NotificationEnabled then
   begin
     AppFrameThread:= TAppFrameThread.Create(false);
     AppFrameThread.Priority:= tpLower;
