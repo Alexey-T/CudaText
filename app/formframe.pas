@@ -2900,6 +2900,10 @@ begin
   PanelReload.Font.Size:= AppScaleFont(UiOps.VarFontSize);
   PanelReload.Font.Color:= GetAppColor('ListFont');
 
+  btnReload.Caption:= msgConfirmReloadYes;
+  btnIgnore.Caption:= msgButtonCancel;
+  btnIgnoreAll.Caption:= msgConfirmReloadNoMore;
+
   FEditorToReload:= Ed;
   LabelReload.Caption:= msgConfirmFileChangedOutside+' '+ExtractFileName(GetFileName(Ed));
   PanelReload.Show;
