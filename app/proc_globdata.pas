@@ -9,6 +9,7 @@ unit proc_globdata;
 
 {$mode objfpc}{$H+}
 {$IOChecks off}
+{$ModeSwitch advancedrecords}
 
 interface
 
@@ -44,11 +45,15 @@ uses
   ec_SyntAnal;
 
 type
+
+  { TAppFileProps }
+
   TAppFileProps = record
     Inited: boolean;
     Exists: boolean;
     Size: Int64;
     Age: LongInt;
+    class operator =(const a, b: TAppFileProps): boolean;
   end;
 
 var
@@ -2129,6 +2134,16 @@ begin
 
   F.Right:= F.Left+w;
   F.Bottom:= F.Top+h;
+end;
+
+{ TAppFileProps }
+
+class operator TAppFileProps.= (const a, b: TAppFileProps): boolean;
+begin
+  Result:=
+    (a.Exists=b.Exists) and
+    (a.Size=b.Size) and
+    (a.Age=b.Age);
 end;
 
 

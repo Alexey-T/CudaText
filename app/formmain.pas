@@ -1247,7 +1247,6 @@ const
   cSleepTime = 500;
 var
   NewProps: TAppFileProps;
-  bChanged: boolean;
   i: integer;
 begin
   repeat
@@ -1265,19 +1264,12 @@ begin
       if not CurFrame.NotifEnabled then Continue;
 
       AppGetFileProps(CurFrame.FileName, NewProps);
-
       if not CurFrame.FileProps.Inited then
       begin
         Move(NewProps, CurFrame.FileProps, SizeOf(NewProps));
-        Continue;
-      end;
-
-      bChanged:=
-        (NewProps.Exists <> CurFrame.FileProps.Exists) or
-        (NewProps.Size <> CurFrame.FileProps.Size) or
-        (NewProps.Age <> CurFrame.FileProps.Age);
-
-      if bChanged then
+      end
+      else
+      if NewProps<>CurFrame.FileProps then
       begin
         Move(NewProps, CurFrame.FileProps, SizeOf(NewProps));
         Synchronize(@NotifyFrame1);
@@ -1287,19 +1279,12 @@ begin
         if CurFrame.FileName2<>'' then
         begin
           AppGetFileProps(CurFrame.FileName2, NewProps);
-
           if not CurFrame.FileProps2.Inited then
           begin
             Move(NewProps, CurFrame.FileProps2, SizeOf(NewProps));
-            Continue;
-          end;
-
-          bChanged:=
-            (NewProps.Exists <> CurFrame.FileProps2.Exists) or
-            (NewProps.Size <> CurFrame.FileProps2.Size) or
-            (NewProps.Age <> CurFrame.FileProps2.Age);
-
-          if bChanged then
+          end
+          else
+          if NewProps<>CurFrame.FileProps2 then
           begin
             Move(NewProps, CurFrame.FileProps2, SizeOf(NewProps));
             Synchronize(@NotifyFrame2);
