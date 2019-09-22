@@ -256,7 +256,7 @@ type
     procedure UpdateFrame(AUpdatedText: boolean);
 
     property NotifEnabled: boolean read FNotifEnabled write FNotifEnabled;
-    procedure NotifyAboutChange;
+    procedure NotifyAboutChange(Ed: TATSynEdit);
 
     property FileName: string read FFileName write SetFileName;
     property FileWasBig: boolean read FFileWasBig write SetFileWasBig;
@@ -317,7 +317,7 @@ type
     function DoFileSave(ASaveAs, AAllEditors: boolean): boolean;
     function DoFileSave_Ex(Ed: TATSynEdit; ASaveAs: boolean): boolean;
     procedure DoFileReload_DisableDetectEncoding;
-    procedure DoFileReload;
+    procedure DoFileReload(Ed: TATSynEdit);
     procedure DoLexerFromFilename(Ed: TATSynEdit; const AFileName: string);
     procedure DoSaveHistory(Ed: TATSynEdit);
     procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
@@ -2104,15 +2104,13 @@ begin
   UpdateEds(true);
 end;
 
-procedure TEditorFrame.DoFileReload;
+procedure TEditorFrame.DoFileReload(Ed: TATSynEdit);
 var
   PrevCaretX, PrevCaretY: integer;
   PrevTail: boolean;
   Mode: TAppOpenMode;
-  Ed: TATSynEdit;
 begin
-  if FileName='' then exit;
-  Ed:= Ed1;
+  if GetFileName(Ed)='' then exit;
 
   //remember props
   PrevCaretX:= 0;
@@ -2146,7 +2144,7 @@ begin
 
   //reopen
   DoSaveHistory(Ed);
-  DoFileOpen(FileName, '', true{AllowLoadHistory}, false, Mode);
+  DoFileOpen_Ex(Ed, GetFileName(Ed), true{AllowLoadHistory}, false, Mode);
   if Ed.Strings.Count=0 then exit;
 
   //restore props
@@ -2859,20 +2857,21 @@ begin
   end;
 end;
 
-procedure TEditorFrame.NotifyAboutChange;
+procedure TEditorFrame.NotifyAboutChange(Ed: TATSynEdit);
 begin
   //silent reload if: not modified, and undo empty
-  if (not Ed1.Modified) and (Ed1.UndoCount<=1) then
+  if (not Ed.Modified) and (Ed.UndoCount<=1) then
   begin
-    DoFileReload;
+    DoFileReload(Ed);
     exit
   end;
 
-  case MsgBox(msgConfirmFileChangedOutside+#10+FileName+
+  case MsgBox(msgConfirmFileChangedOutside+#10+
+         GetFileName(Ed)+
          #10#10+msgConfirmReloadIt+#10+msgConfirmReloadItHotkeys,
          MB_YESNOCANCEL or MB_ICONQUESTION) of
     ID_YES:
-      DoFileReload;
+      DoFileReload(Ed);
     ID_CANCEL:
       NotifEnabled:= false;
   end;

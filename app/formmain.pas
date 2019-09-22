@@ -1233,7 +1233,7 @@ end;
 
 procedure TAppFrameThread.NotifyFrame;
 begin
-  CurFrame.NotifyAboutChange;
+  CurFrame.NotifyAboutChange(CurFrame.Ed1);
 end;
 
 procedure TAppFrameThread.Execute;
@@ -4276,7 +4276,7 @@ begin
   PrevRO:= F.ReadOnly[F.Ed1];
   PrevLexer:= F.LexerName[F.Ed1];
   F.ReadOnly[F.Ed1]:= false;
-  F.DoFileReload;
+  F.DoFileReload(F.Ed1);
   F.LexerName[F.Ed1]:= PrevLexer;
   F.ReadOnly[F.Ed1]:= PrevRO;
   F.Ed1.Modified:= false;
