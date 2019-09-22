@@ -114,6 +114,7 @@
 
   //[File]
   //Enable notifications about file change/deletion in external programs
+  //(changing to "true" requires app restart)
   "ui_notif": true,
 
   //[File/NonText]
