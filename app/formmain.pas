@@ -3834,7 +3834,7 @@ begin
   if AAlsoReloadFile then
   begin
     if Frame.FileName<>'' then
-      Frame.DoFileReload_DisableDetectEncoding
+      Frame.DoFileReload_DisableDetectEncoding(Frame.Ed1)
     else
       MsgBox(msgCannotReloadUntitledTab, MB_OK or MB_ICONWARNING);
   end

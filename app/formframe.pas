@@ -316,7 +316,7 @@ type
       AAllowErrorMsgBox: boolean; AOpenMode: TAppOpenMode);
     function DoFileSave(ASaveAs, AAllEditors: boolean): boolean;
     function DoFileSave_Ex(Ed: TATSynEdit; ASaveAs: boolean): boolean;
-    procedure DoFileReload_DisableDetectEncoding;
+    procedure DoFileReload_DisableDetectEncoding(Ed: TATSynEdit);
     procedure DoFileReload(Ed: TATSynEdit);
     procedure DoLexerFromFilename(Ed: TATSynEdit; const AFileName: string);
     procedure DoSaveHistory(Ed: TATSynEdit);
@@ -2089,18 +2089,21 @@ begin
   end;
 end;
 
-procedure TEditorFrame.DoFileReload_DisableDetectEncoding;
+procedure TEditorFrame.DoFileReload_DisableDetectEncoding(Ed: TATSynEdit);
+var
+  SFileName: string;
 begin
-  if FileName='' then exit;
-  if Ed1.Modified then
+  SFileName:= GetFileName(Ed);
+  if SFileName='' then exit;
+  if Ed.Modified then
     if MsgBox(
-      Format(msgConfirmReopenModifiedTab, [ExtractFileName(FileName)]),
+      Format(msgConfirmReopenModifiedTab, [ExtractFileName(SFileName)]),
       MB_OKCANCEL or MB_ICONWARNING
       ) <> ID_OK then exit;
 
-  Ed1.Strings.EncodingDetect:= false;
-  Ed1.Strings.LoadFromFile(FileName);
-  Ed1.Strings.EncodingDetect:= true;
+  Ed.Strings.EncodingDetect:= false;
+  Ed.Strings.LoadFromFile(SFileName);
+  Ed.Strings.EncodingDetect:= true;
   UpdateEds(true);
 end;
 
