@@ -33,7 +33,6 @@ uses
   ATStrings,
   ATStringProc,
   ATStringProc_HtmlColor,
-  ATFileNotif,
   ATButtons,
   ATPanelSimple,
   ATBinHex,
@@ -92,12 +91,12 @@ type
     FFileName: string;
     FFileName2: string;
     FFileWasBig: boolean;
-    FNotif: TATFileNotif;
     FTextCharsTyped: integer;
     FActivationTime: Int64;
     FCodetreeFilter: string;
     FCodetreeFilterHistory: TStringList;
     FEnabledCodeTree: array[0..1] of boolean;
+    FNotifEnabled: boolean;
     FOnChangeCaption: TNotifyEvent;
     FOnProgress: TATFinderProgress;
     FOnUpdateStatus: TNotifyEvent;
@@ -184,8 +183,6 @@ type
     function GetEnabledCodeTree(Ed: TATSynEdit): boolean;
     function GetEnabledFolding: boolean;
     function GetLineEnds(Ed: TATSynEdit): TATLineEnds;
-    function GetNotifEnabled: boolean;
-    function GetNotifTime: integer;
     function GetPictureScale: integer;
     function GetReadOnly(Ed: TATSynEdit): boolean;
     function GetSplitPosCurrent: double;
@@ -197,15 +194,12 @@ type
     function GetUnprintedSpaces: boolean;
     procedure InitEditor(var ed: TATSynEdit);
     function IsCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integer): boolean;
-    procedure NotifChanged(Sender: TObject);
     procedure SetEnabledCodeTree(Ed: TATSynEdit; AValue: boolean);
     procedure SetEnabledFolding(AValue: boolean);
     procedure SetFileName(const AValue: string);
     procedure SetFileName2(AValue: string);
     procedure SetFileWasBig(AValue: boolean);
     procedure SetLocked(AValue: boolean);
-    procedure SetNotifEnabled(AValue: boolean);
-    procedure SetNotifTime(AValue: integer);
     procedure SetPictureScale(AValue: integer);
     procedure SetReadOnly(Ed: TATSynEdit; AValue: boolean);
     procedure SetTabColor(AColor: TColor);
@@ -260,8 +254,9 @@ type
     procedure UpdateModified(Ed: TATSynEdit; AWithEvent: boolean= true);
     procedure UpdateReadOnlyFromFile(Ed: TATSynEdit);
     procedure UpdateFrame(AUpdatedText: boolean);
-    property NotifEnabled: boolean read GetNotifEnabled write SetNotifEnabled;
-    property NotifTime: integer read GetNotifTime write SetNotifTime;
+
+    property NotifEnabled: boolean read FNotifEnabled write FNotifEnabled;
+    procedure NotifChanged;
 
     property FileName: string read FFileName write SetFileName;
     property FileWasBig: boolean read FFileWasBig write SetFileWasBig;
@@ -755,16 +750,6 @@ begin
   Result:= Ed.Strings.Endings;
 end;
 
-function TEditorFrame.GetNotifEnabled: boolean;
-begin
-  Result:= FNotif.Timer.Enabled;
-end;
-
-function TEditorFrame.GetNotifTime: integer;
-begin
-  Result:= FNotif.Timer.Interval;
-end;
-
 function TEditorFrame.GetPictureScale: integer;
 begin
   if Assigned(FImageBox) then
@@ -807,9 +792,6 @@ procedure TEditorFrame.SetFileName(const AValue: string);
 begin
   if SameFileName(FFileName, AValue) then Exit;
   FFileName:= AValue;
-
-  //update Notif obj
-  NotifEnabled:= NotifEnabled;
 end;
 
 procedure TEditorFrame.UpdateTabTooltip;
@@ -877,23 +859,6 @@ begin
     Ed1.EndUpdate;
     Ed2.EndUpdate;
   end;
-end;
-
-procedure TEditorFrame.SetNotifEnabled(AValue: boolean);
-begin
-  FNotif.Timer.Enabled:= false;
-  FNotif.FileName:= '';
-
-  if AValue and IsText and FileExistsUTF8(FileName) then
-  begin
-    FNotif.FileName:= FileName;
-    FNotif.Timer.Enabled:= true;
-  end;
-end;
-
-procedure TEditorFrame.SetNotifTime(AValue: integer);
-begin
-  FNotif.Timer.Interval:= AValue;
 end;
 
 procedure TEditorFrame.SetPictureScale(AValue: integer);
@@ -1531,11 +1496,6 @@ begin
   //passing lite lexer - crashes (can't solve), so disabled
   if not SEndsWith(UiOps.NewdocLexer, msgLiteLexerSuffix) then
     LexerName[Ed1]:= UiOps.NewdocLexer;
-
-  FNotif:= TATFileNotif.Create(Self);
-  FNotif.Timer.Interval:= 1000;
-  FNotif.Timer.Enabled:= false;
-  FNotif.OnChanged:= @NotifChanged;
 end;
 
 destructor TEditorFrame.Destroy;
@@ -2893,7 +2853,7 @@ begin
   end;
 end;
 
-procedure TEditorFrame.NotifChanged(Sender: TObject);
+procedure TEditorFrame.NotifChanged;
 begin
   //silent reload if: not modified, and undo empty
   if (not Ed1.Modified) and (Ed1.UndoCount<=1) then

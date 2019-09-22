@@ -116,7 +116,7 @@ type
   TAppFrameThread = class(TThread)
   private
     CurFrame: TEditorFrame;
-    procedure ShowInfo;
+    procedure NotifyFrame;
   protected
     procedure Execute; override;
   end;
@@ -1231,9 +1231,9 @@ end;
 
 { TAppFrameThread }
 
-procedure TAppFrameThread.ShowInfo;
+procedure TAppFrameThread.NotifyFrame;
 begin
-  fmMain.MsgStatus('changed: '+CurFrame.FileName);
+  CurFrame.NotifChanged;
 end;
 
 procedure TAppFrameThread.Execute;
@@ -1254,6 +1254,7 @@ begin
     begin
       CurFrame:= TEditorFrame(AppFrameList[i]);
       if CurFrame.FileName='' then Continue;
+      if not CurFrame.NotifEnabled then Continue;
 
       AppGetFileProps(CurFrame.FileName, NewProps);
 
@@ -1271,7 +1272,7 @@ begin
       if bChanged then
       begin
         Move(NewProps, CurFrame.FileProps, SizeOf(NewProps));
-        Synchronize(@ShowInfo);
+        Synchronize(@NotifyFrame);
       end;
     end;
 
