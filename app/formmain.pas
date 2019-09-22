@@ -116,7 +116,8 @@ type
   TAppFrameThread = class(TThread)
   private
     CurFrame: TEditorFrame;
-    procedure NotifyFrame;
+    procedure NotifyFrame1;
+    procedure NotifyFrame2;
   protected
     procedure Execute; override;
   end;
@@ -1231,9 +1232,14 @@ end;
 
 { TAppFrameThread }
 
-procedure TAppFrameThread.NotifyFrame;
+procedure TAppFrameThread.NotifyFrame1;
 begin
   CurFrame.NotifyAboutChange(CurFrame.Ed1);
+end;
+
+procedure TAppFrameThread.NotifyFrame2;
+begin
+  CurFrame.NotifyAboutChange(CurFrame.Ed2);
 end;
 
 procedure TAppFrameThread.Execute;
@@ -1274,8 +1280,31 @@ begin
       if bChanged then
       begin
         Move(NewProps, CurFrame.FileProps, SizeOf(NewProps));
-        Synchronize(@NotifyFrame);
+        Synchronize(@NotifyFrame1);
       end;
+
+      if not CurFrame.EditorsLinked then
+        if CurFrame.FileName2<>'' then
+        begin
+          AppGetFileProps(CurFrame.FileName2, NewProps);
+
+          if not CurFrame.FileProps2.Inited then
+          begin
+            Move(NewProps, CurFrame.FileProps2, SizeOf(NewProps));
+            Continue;
+          end;
+
+          bChanged:=
+            (NewProps.Exists <> CurFrame.FileProps2.Exists) or
+            (NewProps.Size <> CurFrame.FileProps2.Size) or
+            (NewProps.Age <> CurFrame.FileProps2.Age);
+
+          if bChanged then
+          begin
+            Move(NewProps, CurFrame.FileProps2, SizeOf(NewProps));
+            Synchronize(@NotifyFrame2);
+          end;
+        end;
     end;
 
     LeaveCriticalSection(AppFrameCriSec);

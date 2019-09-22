@@ -259,6 +259,7 @@ type
     procedure NotifyAboutChange(Ed: TATSynEdit);
 
     property FileName: string read FFileName write SetFileName;
+    property FileName2: string read FFileName2;
     property FileWasBig: boolean read FFileWasBig write SetFileWasBig;
     property LexerChooseFunc: TecLexerChooseFunc read FLexerChooseFunc write FLexerChooseFunc;
     function GetFileName(Ed: TATSynEdit): string;
