@@ -2223,13 +2223,16 @@ end;
 
 
 procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
+var
+  Rec: TSearchRec;
 begin
   P.Inited:= true;
-  P.Exists:= FileExistsUTF8(FileName);
+  P.Exists:= FindFirst(FileName, faAnyFile, Rec)=0;
   if P.Exists then
   begin
-    P.Size:= FileSizeUtf8(FileName);
-    P.Age:= FileAgeUTF8(FileName);
+    P.Size:= Rec.Size;
+    P.Age:= Rec.Time;
+    FindClose(Rec);
   end
   else
   begin
