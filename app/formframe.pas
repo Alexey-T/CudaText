@@ -792,6 +792,7 @@ procedure TEditorFrame.SetFileName(const AValue: string);
 begin
   if SameFileName(FFileName, AValue) then Exit;
   FFileName:= AValue;
+  AppGetFileProps(FFileName, FileProps);
 end;
 
 procedure TEditorFrame.UpdateTabTooltip;
@@ -828,6 +829,7 @@ procedure TEditorFrame.SetFileName2(AValue: string);
 begin
   if SameFileName(FFileName2, AValue) then Exit;
   FFileName2:= AValue;
+  AppGetFileProps(FFileName2, FileProps2);
 end;
 
 procedure TEditorFrame.SetFileWasBig(AValue: boolean);
@@ -2068,6 +2070,11 @@ begin
 
   if bNameChanged then
     DoLexerFromFilename(Ed, GetFileName(Ed));
+
+  if EditorsLinked or (Ed=Ed1) then
+    AppGetFileProps(GetFileName(Ed), FileProps)
+  else
+    AppGetFileProps(GetFileName(Ed), FileProps2);
 
   NotifEnabled:= PrevEnabled;
 
