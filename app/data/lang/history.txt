@@ -1,5 +1,8 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2019.09.22
+* delete [sc] ReloadItHotkeys
+
 2019.09.17
 + [m_o] thm
 + [d_theme] syn ty_ui ty_sy ele
