@@ -111,6 +111,20 @@ uses
   math;
 
 type
+  { TAppFrameThread }
+
+  TAppFrameThread = class(TThread)
+  private
+    CurFrame: TEditorFrame;
+    procedure ShowInfo;
+  protected
+    procedure Execute; override;
+  end;
+
+var
+  AppFrameThread: TAppFrameThread;
+
+type
   TATFindMarkingMode = (
     markingNone,
     markingSelections,
@@ -1214,6 +1228,56 @@ begin
     Result:= (Data.TabObject as TEditorFrame).Editor;
 end;
 
+
+{ TAppFrameThread }
+
+procedure TAppFrameThread.ShowInfo;
+begin
+  fmMain.MsgStatus('changed: '+CurFrame.FileName);
+end;
+
+procedure TAppFrameThread.Execute;
+var
+  NewProps: TAppFileProps;
+  bChanged: boolean;
+  i: integer;
+begin
+  repeat
+    if Application.Terminated then exit;
+    if Terminated then exit;
+    Sleep(500);
+    if UiOps.NotificationsTime<=0 then Continue;
+
+    EnterCriticalSection(AppFrameCriSec);
+
+    for i:= 0 to AppFrameList.Count-1 do
+    begin
+      CurFrame:= TEditorFrame(AppFrameList[i]);
+      if CurFrame.FileName='' then Continue;
+
+      AppGetFileProps(CurFrame.FileName, NewProps);
+
+      if not CurFrame.FileProps.Inited then
+      begin
+        Move(NewProps, CurFrame.FileProps, SizeOf(NewProps));
+        Continue;
+      end;
+
+      bChanged:=
+        (NewProps.Exists <> CurFrame.FileProps.Exists) or
+        (NewProps.Size <> CurFrame.FileProps.Size) or
+        (NewProps.Age <> CurFrame.FileProps.Age);
+
+      if bChanged then
+      begin
+        Move(NewProps, CurFrame.FileProps, SizeOf(NewProps));
+        Synchronize(@ShowInfo);
+      end;
+    end;
+
+    LeaveCriticalSection(AppFrameCriSec);
+  until false;
+end;
 
 { TfmMain }
 
@@ -2328,6 +2392,12 @@ begin
 
   MsgLogDebug('start');
   DoOps_MultiInstaller;
+
+  if UiOps.NotificationsTime>0 then
+  begin
+    AppFrameThread:= TAppFrameThread.Create(false);
+    AppFrameThread.Priority:= tpLower;
+  end;
 end;
 
 procedure TfmMain.DoOps_MultiInstaller;

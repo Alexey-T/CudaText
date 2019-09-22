@@ -43,6 +43,14 @@ uses
   ec_proc_lexer,
   ec_SyntAnal;
 
+type
+  TAppFileProps = record
+    Inited: boolean;
+    Exists: boolean;
+    Size: Int64;
+    Age: LongInt;
+  end;
+
 var
   //ATSynEdit has range for bookmarks 0..63, 0=none
   AppBookmarkSetup: array[1..63] of
@@ -53,6 +61,10 @@ var
 var
   AppBookmarkImagelist: TImageList = nil;
   AppFolderOfLastInstalledAddon: string = '';
+
+var
+  AppFrameList: TList;
+  AppFrameCriSec: TRTLCriticalSection;
 
 type
   TAppKeyValue = class
@@ -502,6 +514,7 @@ procedure AppScaleToolbar(C: TATFlatToolbar);
 //procedure AppScaleScrollbar(C: TATScroll);
 procedure AppScaleSplitter(C: TSplitter);
 function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
+procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
 
 function FixFontMonospaced(const AName: string): string;
 procedure FixFormPositionToDesktop(F: TForm);
@@ -2194,6 +2207,23 @@ begin
 end;
 
 
+procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
+begin
+  P.Inited:= true;
+  P.Exists:= FileExistsUTF8(FileName);
+  if P.Exists then
+  begin
+    P.Size:= FileSizeUtf8(FileName);
+    P.Age:= FileAgeUTF8(FileName);
+  end
+  else
+  begin
+    P.Size:= 0;
+    P.Age:= 0;
+  end;
+end;
+
+
 initialization
   InitDirs;
   InitEditorOps(EditorOps);
@@ -2230,7 +2260,13 @@ initialization
   //detection of XML
   AppConfig_DetectLine.Add('<\?xml .+', 'XML');
 
+  AppFrameList:= TList.Create;
+  InitCriticalSection(AppFrameCriSec);
+
 finalization
+  DoneCriticalSection(AppFrameCriSec);
+  FreeAndNil(AppFrameList);
+
   FreeAndNil(AppConfig_PGroups);
   FreeAndNil(AppConfig_DetectLine);
   FreeAndNil(AppConfig_Detect);
