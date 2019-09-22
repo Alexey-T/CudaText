@@ -1536,18 +1536,10 @@ begin
   FNotif.Timer.Interval:= 1000;
   FNotif.Timer.Enabled:= false;
   FNotif.OnChanged:= @NotifChanged;
-
-  EnterCriticalSection(AppFrameCriSec);
-  AppFrameList.Add(Self);
-  LeaveCriticalSection(AppFrameCriSec);
 end;
 
 destructor TEditorFrame.Destroy;
 begin
-  EnterCriticalSection(AppFrameCriSec);
-  AppFrameList.Remove(Self);
-  LeaveCriticalSection(AppFrameCriSec);
-
   if Assigned(FBin) then
   begin
     FBin.OpenStream(nil);
