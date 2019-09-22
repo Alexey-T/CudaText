@@ -2075,7 +2075,7 @@ begin
   else
     AppGetFileProps(GetFileName(Ed), FileProps2);
 
-  NotifEnabled:= PrevEnabled;
+  NotifEnabled:= PrevEnabled or bNameChanged;
 
   if not TabCaptionFromApi then
     UpdateCaptionFromFilename;
