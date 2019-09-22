@@ -1233,7 +1233,7 @@ end;
 
 procedure TAppFrameThread.NotifyFrame;
 begin
-  CurFrame.NotifChanged;
+  CurFrame.NotifyAboutChange;
 end;
 
 procedure TAppFrameThread.Execute;

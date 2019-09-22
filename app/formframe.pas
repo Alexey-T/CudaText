@@ -256,7 +256,7 @@ type
     procedure UpdateFrame(AUpdatedText: boolean);
 
     property NotifEnabled: boolean read FNotifEnabled write FNotifEnabled;
-    procedure NotifChanged;
+    procedure NotifyAboutChange;
 
     property FileName: string read FFileName write SetFileName;
     property FileWasBig: boolean read FFileWasBig write SetFileWasBig;
@@ -2859,7 +2859,7 @@ begin
   end;
 end;
 
-procedure TEditorFrame.NotifChanged;
+procedure TEditorFrame.NotifyAboutChange;
 begin
   //silent reload if: not modified, and undo empty
   if (not Ed1.Modified) and (Ed1.UndoCount<=1) then
