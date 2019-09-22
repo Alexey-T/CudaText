@@ -1881,8 +1881,7 @@ begin
     DoLexerFromFilename(Ed, AFileName);
 
   UpdateReadOnlyFromFile(Ed);
-
-  NotifEnabled:= UiOps.NotificationEnabled;
+  NotifEnabled:= true;
 end;
 
 procedure TEditorFrame.UpdateReadOnlyFromFile(Ed: TATSynEdit);
