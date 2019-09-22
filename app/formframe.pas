@@ -73,23 +73,23 @@ type
   { TEditorFrame }
 
   TEditorFrame = class(TFrame)
-    btnIgnoreAll: TATButton;
-    btnIgnore: TATButton;
-    btnReload: TATButton;
-    LabelReload: TLabel;
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
-    PanelReload: TPanel;
     Splitter: TSplitter;
     TimerChange: TTimer;
-    procedure btnIgnoreAllClick(Sender: TObject);
-    procedure btnIgnoreClick(Sender: TObject);
-    procedure btnReloadClick(Sender: TObject);
+    procedure btnReloadNoneClick(Sender: TObject);
+    procedure btnReloadNoClick(Sender: TObject);
+    procedure btnReloadYesClick(Sender: TObject);
     procedure TimerChangeTimer(Sender: TObject);
   private
     { private declarations }
     Adapter1: TATAdapterEControl;
     Adapter2: TATAdapterEControl;
+    PanelReload: TPanel;
+    LabelReload: TLabel;
+    btnReloadYes: TATButton;
+    btnReloadNo: TATButton;
+    btnReloadNone: TATButton;
     FTabCaption: string;
     FTabCaptionUntitled: string;
     FTabCaptionFromApi: boolean;
@@ -201,6 +201,7 @@ type
     function GetUnprintedShow: boolean;
     function GetUnprintedSpaces: boolean;
     procedure InitEditor(var ed: TATSynEdit);
+    procedure InitPanelReload;
     function IsCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integer): boolean;
     procedure SetEnabledCodeTree(Ed: TATSynEdit; AValue: boolean);
     procedure SetEnabledFolding(AValue: boolean);
@@ -595,19 +596,19 @@ begin
   DoPyEvent(Editor, cEventOnChangeSlow, []);
 end;
 
-procedure TEditorFrame.btnIgnoreClick(Sender: TObject);
+procedure TEditorFrame.btnReloadNoClick(Sender: TObject);
 begin
   PanelReload.Hide;
   EditorFocus(Editor);
 end;
 
-procedure TEditorFrame.btnReloadClick(Sender: TObject);
+procedure TEditorFrame.btnReloadYesClick(Sender: TObject);
 begin
   DoFileReload(FEditorToReload);
   EditorFocus(Editor);
 end;
 
-procedure TEditorFrame.btnIgnoreAllClick(Sender: TObject);
+procedure TEditorFrame.btnReloadNoneClick(Sender: TObject);
 begin
   NotifEnabled:= false;
   PanelReload.Hide;
@@ -1526,11 +1527,6 @@ begin
   //passing lite lexer - crashes (can't solve), so disabled
   if not SEndsWith(UiOps.NewdocLexer, msgLiteLexerSuffix) then
     LexerName[Ed1]:= UiOps.NewdocLexer;
-
-  with btnReload do Height:= AppScale(Height);
-  with btnIgnore do Height:= btnReload.Height;
-  with btnIgnoreAll do Height:= btnReload.Height;
-  with PanelReload do Height:= AppScale(Height);
 end;
 
 destructor TEditorFrame.Destroy;
@@ -2894,6 +2890,55 @@ begin
   end;
 end;
 
+procedure TEditorFrame.InitPanelReload;
+begin
+  if Assigned(PanelReload) then exit;
+
+  PanelReload:= TPanel.Create(Self);
+  PanelReload.Parent:= Self;
+  PanelReload.Align:= alTop;
+  PanelReload.Visible:= false;
+  PanelReload.Height:= AppScale(45);
+  PanelReload.BevelOuter:= bvNone;
+
+  LabelReload:= TLabel.Create(Self);
+  LabelReload.Parent:= PanelReload;
+  LabelReload.BorderSpacing.Left:= 6;
+  LabelReload.ParentColor:= false;
+  LabelReload.AnchorSideLeft.Control:= PanelReload;
+  LabelReload.AnchorSideTop.Control:= PanelReload;
+  LabelReload.AnchorSideTop.Side:= asrCenter;
+
+  btnReloadNone:= TATButton.Create(Self);
+  btnReloadNone.Parent:= PanelReload;
+  btnReloadNone.AnchorSideTop.Control:= PanelReload;
+  btnReloadNone.AnchorSideTop.Side:= asrCenter;
+  btnReloadNone.AnchorSideRight.Control:= PanelReload;
+  btnReloadNone.AnchorSideRight.Side:= asrBottom;
+  btnReloadNone.Anchors:= [akTop, akRight];
+  btnReloadNone.Height:= AppScale(25);
+  btnReloadNone.BorderSpacing.Right:= 6;
+  btnReloadNone.OnClick:= @btnReloadNoneClick;
+
+  btnReloadNo:= TATButton.Create(Self);
+  btnReloadNo.Parent:= PanelReload;
+  btnReloadNo.AnchorSideTop.Control:= btnReloadNone;
+  btnReloadNo.AnchorSideRight.Control:= btnReloadNone;
+  btnReloadNo.Anchors:= [akTop, akRight];
+  btnReloadNo.Height:= btnReloadNone.Height;
+  btnReloadNo.BorderSpacing.Right:= 1;
+  btnReloadNo.OnClick:= @btnReloadNoClick;
+
+  btnReloadYes:= TATButton.Create(Self);
+  btnReloadYes.Parent:= PanelReload;
+  btnReloadYes.AnchorSideTop.Control:= btnReloadNone;
+  btnReloadYes.AnchorSideRight.Control:= btnReloadNo;
+  btnReloadYes.Anchors:= [akTop, akRight];
+  btnReloadYes.Height:= btnReloadNone.Height;
+  btnReloadYes.BorderSpacing.Right:= 1;
+  btnReloadYes.OnClick:= @btnReloadYesClick;
+end;
+
 procedure TEditorFrame.NotifyAboutChange(Ed: TATSynEdit);
 begin
   //silent reload if: not modified, and undo empty
@@ -2903,18 +2948,20 @@ begin
     exit
   end;
 
+  InitPanelReload;
+
   PanelReload.Color:= GetAppColor('ListBg');
   PanelReload.Font.Name:= UiOps.VarFontName;
   PanelReload.Font.Size:= AppScaleFont(UiOps.VarFontSize);
   PanelReload.Font.Color:= GetAppColor('ListFont');
 
-  btnReload.Caption:= msgConfirmReloadYes;
-  btnIgnore.Caption:= msgButtonCancel;
-  btnIgnoreAll.Caption:= msgConfirmReloadNoMore;
+  btnReloadYes.Caption:= msgConfirmReloadYes;
+  btnReloadNo.Caption:= msgButtonCancel;
+  btnReloadNone.Caption:= msgConfirmReloadNoMore;
 
-  btnReload.AutoSize:= true;
-  btnIgnore.AutoSize:= true;
-  btnIgnoreAll.AutoSize:= true;
+  btnReloadYes.AutoSize:= true;
+  btnReloadNo.AutoSize:= true;
+  btnReloadNone.AutoSize:= true;
 
   FEditorToReload:= Ed;
   LabelReload.Caption:= msgConfirmFileChangedOutside+' '+ExtractFileName(GetFileName(Ed));
