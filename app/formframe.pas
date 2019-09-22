@@ -598,17 +598,20 @@ end;
 procedure TEditorFrame.btnIgnoreClick(Sender: TObject);
 begin
   PanelReload.Hide;
+  EditorFocus(Editor);
 end;
 
 procedure TEditorFrame.btnReloadClick(Sender: TObject);
 begin
   DoFileReload(FEditorToReload);
+  EditorFocus(Editor);
 end;
 
 procedure TEditorFrame.btnIgnoreAllClick(Sender: TObject);
 begin
-  PanelReload.Hide;
   NotifEnabled:= false;
+  PanelReload.Hide;
+  EditorFocus(Editor);
 end;
 
 procedure TEditorFrame.EditorOnCalcBookmarkColor(Sender: TObject;
