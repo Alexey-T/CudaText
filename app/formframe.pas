@@ -34,7 +34,6 @@ uses
   ATStringProc,
   ATStringProc_HtmlColor,
   ATButtons,
-  ATPanelSimple,
   ATBinHex,
   ATStreamSearch,
   ATImageBox,
@@ -74,10 +73,18 @@ type
   { TEditorFrame }
 
   TEditorFrame = class(TFrame)
+    btnIgnoreAll: TATButton;
+    btnIgnore: TATButton;
+    btnReload: TATButton;
+    LabelReload: TLabel;
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
+    PanelReload: TPanel;
     Splitter: TSplitter;
     TimerChange: TTimer;
+    procedure btnIgnoreAllClick(Sender: TObject);
+    procedure btnIgnoreClick(Sender: TObject);
+    procedure btnReloadClick(Sender: TObject);
     procedure TimerChangeTimer(Sender: TObject);
   private
     { private declarations }
@@ -137,6 +144,7 @@ type
     FLastLexerCommentStyles: string;
     FLastLexerStringStyles: string;
     FLexerChooseFunc: TecLexerChooseFunc;
+    FEditorToReload: TATSynEdit;
 
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BinaryOnScroll(Sender: TObject);
@@ -585,6 +593,22 @@ procedure TEditorFrame.TimerChangeTimer(Sender: TObject);
 begin
   TimerChange.Enabled:= false;
   DoPyEvent(Editor, cEventOnChangeSlow, []);
+end;
+
+procedure TEditorFrame.btnIgnoreClick(Sender: TObject);
+begin
+  PanelReload.Hide;
+end;
+
+procedure TEditorFrame.btnReloadClick(Sender: TObject);
+begin
+  DoFileReload(FEditorToReload);
+end;
+
+procedure TEditorFrame.btnIgnoreAllClick(Sender: TObject);
+begin
+  PanelReload.Hide;
+  NotifEnabled:= false;
 end;
 
 procedure TEditorFrame.EditorOnCalcBookmarkColor(Sender: TObject;
@@ -2114,6 +2138,7 @@ var
   PrevTail: boolean;
   Mode: TAppOpenMode;
 begin
+  PanelReload.Hide;
   if GetFileName(Ed)='' then exit;
 
   //remember props
@@ -2870,15 +2895,9 @@ begin
     exit
   end;
 
-  case MsgBox(msgConfirmFileChangedOutside+#10+
-         GetFileName(Ed)+
-         #10#10+msgConfirmReloadIt+#10+msgConfirmReloadItHotkeys,
-         MB_YESNOCANCEL or MB_ICONQUESTION) of
-    ID_YES:
-      DoFileReload(Ed);
-    ID_CANCEL:
-      NotifEnabled:= false;
-  end;
+  FEditorToReload:= Ed;
+  LabelReload.Caption:= msgConfirmFileChangedOutside+' '+ExtractFileName(GetFileName(Ed));
+  PanelReload.Show;
 end;
 
 procedure TEditorFrame.SetEnabledCodeTree(Ed: TATSynEdit; AValue: boolean);

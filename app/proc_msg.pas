@@ -236,7 +236,6 @@ const
   msgConfirmInstallIt: string = 'Do you want to install it?';
   msgConfirmFileChangedOutside: string = 'File was changed outside:';
   msgConfirmReloadIt: string = 'Reopen it?';
-  msgConfirmReloadItHotkeys: string = '(Yes: reopen. No: don''t reopen. Cancel [Esc]: no more notifications about this file.)';
   msgConfirmReloadItHotkeysSess: string = '(Yes: reopen. No: open text from previous session.)';
   msgConfirmOpenCreatedDoc: string = 'Open created document?';
   msgConfirmSaveColorsToFile: string = 'Save theme to file?';

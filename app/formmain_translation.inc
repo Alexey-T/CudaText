@@ -579,7 +579,6 @@ begin
     DoLocString(msgConfirmInstallIt              , ini, 'sc', 'InstallIt');
     DoLocString(msgConfirmFileChangedOutside     , ini, 'sc', 'FileChangedOutside');
     DoLocString(msgConfirmReloadIt               , ini, 'sc', 'ReloadIt');
-    DoLocString(msgConfirmReloadItHotkeys        , ini, 'sc', 'ReloadItHotkeys');
     DoLocString(msgConfirmReloadItHotkeysSess    , ini, 'sc', 'ReloadItHotkeysSess');
     DoLocString(msgConfirmOpenCreatedDoc         , ini, 'sc', 'OpenCreatedDoc');
     DoLocString(msgConfirmSaveColorsToFile       , ini, 'sc', 'SaveColorsToFile');
