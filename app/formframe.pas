@@ -2895,6 +2895,11 @@ begin
     exit
   end;
 
+  PanelReload.Color:= GetAppColor('ListBg');
+  PanelReload.Font.Name:= UiOps.VarFontName;
+  PanelReload.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+  PanelReload.Font.Color:= GetAppColor('ListFont');
+
   FEditorToReload:= Ed;
   LabelReload.Caption:= msgConfirmFileChangedOutside+' '+ExtractFileName(GetFileName(Ed));
   PanelReload.Show;

@@ -43,9 +43,7 @@ object EditorFrame: TEditorFrame
       Width = 8
       BorderSpacing.Left = 6
       Caption = '--'
-      Font.Color = clBlack
       ParentColor = False
-      ParentFont = False
     end
     object btnIgnoreAll: TATButton
       AnchorSideTop.Control = PanelReload
