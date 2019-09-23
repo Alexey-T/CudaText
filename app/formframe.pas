@@ -2146,9 +2146,13 @@ var
   PrevCaretX, PrevCaretY: integer;
   PrevTail: boolean;
   Mode: TAppOpenMode;
+  Index: integer;
 begin
-  PanelReload[EditorObjToIndex(Ed)].Hide;
   if GetFileName(Ed)='' then exit;
+
+  Index:= EditorObjToIndex(Ed);
+  if Index>=0 then
+    PanelReload[Index].Hide;
 
   //remember props
   PrevCaretX:= 0;
@@ -2903,7 +2907,7 @@ begin
   PanelReload[Index].Parent:= Self;
   PanelReload[Index].Align:= alTop;
   PanelReload[Index].Visible:= false;
-  PanelReload[Index].Height:= AppScale(45);
+  PanelReload[Index].Height:= AppScale(42);
   PanelReload[Index].BevelOuter:= bvNone;
 
   LabelReload[Index]:= TLabel.Create(Self);
