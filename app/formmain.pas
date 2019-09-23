@@ -4281,6 +4281,12 @@ begin
   F:= CurrentFrame;
   if F.FileName='' then exit;
 
+  if not FileExistsUTF8(F.FileName) then
+  begin
+    MsgStatus(msgCannotFindFile+' '+ExtractFileName(F.FileName));
+    exit;
+  end;
+
   if F.Ed1.Modified and UiOps.ReloadUnsavedConfirm then
     if MsgBox(
       Format(msgConfirmReopenModifiedTab, [F.FileName]),
@@ -4296,7 +4302,7 @@ begin
   F.Ed1.Modified:= false;
 
   UpdateStatus;
-  MsgStatus(msgStatusReopened+' '+ExtractFileName(F.Filename));
+  MsgStatus(msgStatusReopened+' '+ExtractFileName(F.FileName));
 end;
 
 

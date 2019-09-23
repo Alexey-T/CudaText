@@ -328,7 +328,7 @@ type
     function DoFileSave(ASaveAs, AAllEditors: boolean): boolean;
     function DoFileSave_Ex(Ed: TATSynEdit; ASaveAs: boolean): boolean;
     procedure DoFileReload_DisableDetectEncoding(Ed: TATSynEdit);
-    procedure DoFileReload(Ed: TATSynEdit);
+    function DoFileReload(Ed: TATSynEdit): boolean;
     procedure DoLexerFromFilename(Ed: TATSynEdit; const AFileName: string);
     procedure DoSaveHistory(Ed: TATSynEdit);
     procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
@@ -2141,14 +2141,23 @@ begin
   UpdateEds(true);
 end;
 
-procedure TEditorFrame.DoFileReload(Ed: TATSynEdit);
+function TEditorFrame.DoFileReload(Ed: TATSynEdit): boolean;
 var
   PrevCaretX, PrevCaretY: integer;
   PrevTail: boolean;
   Mode: TAppOpenMode;
   Index: integer;
+  SFileName: string;
 begin
-  if GetFileName(Ed)='' then exit;
+  Result:= true;
+  SFileName:= GetFileName(Ed);
+  if SFileName='' then exit(false);
+
+  if not FileExistsUTF8(SFileName) then
+  begin
+    OnMsgStatus(Self, msgCannotFindFile+' '+ExtractFileName(SFileName));
+    exit(false);
+  end;
 
   Index:= EditorObjToIndex(Ed);
   if Index>=0 then
@@ -2187,7 +2196,7 @@ begin
 
   //reopen
   DoSaveHistory(Ed);
-  DoFileOpen_Ex(Ed, GetFileName(Ed), true{AllowLoadHistory}, false, Mode);
+  DoFileOpen_Ex(Ed, SFileName, true{AllowLoadHistory}, false, Mode);
   if Ed.Strings.Count=0 then exit;
 
   //restore props
