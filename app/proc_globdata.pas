@@ -453,7 +453,6 @@ type
     OpLexerLineSeparators: boolean;
     OpZebra: integer;
 
-    OpWordChars: UnicodeString;
     OpNonWordChars: UnicodeString;
     OpHexChars: UnicodeString;
     OpFoldStyle: integer;
@@ -1196,8 +1195,7 @@ begin
     OpLexerLineSeparators:= false;
     OpZebra:= 0;
 
-    OpWordChars:= '';
-    OpNonWordChars:= '-+*=/\()[]{}<>"''.,:;~?!@#$%^&|`…';
+    OpNonWordChars:= cDefaultNonWordChars;
     OpHexChars:= '';
     OpFoldStyle:= 1;
     OpFoldTooltipShow:= false;

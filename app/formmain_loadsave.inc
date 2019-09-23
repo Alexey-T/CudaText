@@ -801,7 +801,6 @@ begin
   Op.OpLexerLineSeparators:= false; //c.GetValue('lexer_line_separators', Op.OpLexerLineSeparators);
   Op.OpZebra:= c.GetValue('zebra', Op.OpZebra);
 
-  Op.OpWordChars:= c.GetValue('word_chars', Op.OpWordChars);
   Op.OpNonWordChars:= c.GetValue('nonword_chars', Op.OpNonWordChars);
   Op.OpHexChars:= c.GetValue('hex_chars', Op.OpHexChars);
   Op.OpFoldStyle:= c.GetValue('fold_style', Op.OpFoldStyle);

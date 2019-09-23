@@ -216,7 +216,7 @@ begin
   Ed.OptScrollSmooth:= Op.OpSmoothScroll;
   Ed.OptScrollbarHorizontalHidden:= Op.OpHideHorizScrollbar;
   Ed.OptTextCenteringCharWidth:= IfThen(AApplyCentering, Op.OpCenteringWidth, 0);
-  Ed.OptWordChars:= Op.OpWordChars;
+  Ed.OptNonWordChars:= Op.OpNonWordChars;
   Ed.OptFoldStyle:= TATFoldStyle(Op.OpFoldStyle);
   Ed.OptFoldTooltipVisible:= Op.OpFoldTooltipShow;
 

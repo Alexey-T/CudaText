@@ -24,7 +24,8 @@ type
     SFrom, STo: string;
   end;
 
-function STextWholeWordSelection(const S: UnicodeString; OffsetBegin, OffsetEnd: integer; const AWordChars: UnicodeString): boolean;
+function STextWholeWordSelection(const S: UnicodeString; OffsetBegin, OffsetEnd: integer;
+  const ANonWordChars: UnicodeString): boolean;
 function SFindFuzzyPositions(SText, SFind: UnicodeString): TATIntArray;
 function STextListsAllWords(SText, SWords: string): boolean;
 function STextListsFuzzyInput(const SText, SFind: string): boolean;
@@ -409,7 +410,8 @@ begin
   Result:= not SRegexMatchesString(S, cTest, false);
 end;
 
-function STextWholeWordSelection(const S: UnicodeString; OffsetBegin, OffsetEnd: integer; const AWordChars: UnicodeString): boolean;
+function STextWholeWordSelection(const S: UnicodeString; OffsetBegin, OffsetEnd: integer;
+  const ANonWordChars: UnicodeString): boolean;
 var
   ok1, ok2: boolean;
 begin
@@ -417,8 +419,8 @@ begin
   if OffsetEnd>Length(S) then exit(false);
   if OffsetBegin>=OffsetEnd then exit(false);
 
-  ok1:= (OffsetBegin=0) or not IsCharWord(S[OffsetBegin], AWordChars);
-  ok2:= (OffsetEnd=Length(S)) or not IsCharWord(S[OffsetEnd+1], AWordChars);
+  ok1:= (OffsetBegin=0) or not IsCharWord(S[OffsetBegin], ANonWordChars);
+  ok2:= (OffsetEnd=Length(S)) or not IsCharWord(S[OffsetEnd+1], ANonWordChars);
   Result:= ok1 and ok2;
 end;
 
