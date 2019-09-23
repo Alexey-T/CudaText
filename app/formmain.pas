@@ -1255,8 +1255,8 @@ begin
     Sleep(cSleepTime);
     if not UiOps.NotificationEnabled then Continue;
 
-    EnterCriticalSection(AppFrameCriSec);
-
+   EnterCriticalSection(AppFrameCriSec);
+   try
     for i:= 0 to AppFrameList.Count-1 do
     begin
       CurFrame:= TEditorFrame(AppFrameList[i]);
@@ -1292,7 +1292,9 @@ begin
         end;
     end;
 
+   finally
     LeaveCriticalSection(AppFrameCriSec);
+   end;
   until false;
 end;
 
