@@ -2152,7 +2152,8 @@ begin
 
   Index:= EditorObjToIndex(Ed);
   if Index>=0 then
-    PanelReload[Index].Hide;
+    if Assigned(PanelReload[Index]) then
+      PanelReload[Index].Hide;
 
   //remember props
   PrevCaretX:= 0;
