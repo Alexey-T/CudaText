@@ -454,6 +454,7 @@ type
     OpZebra: integer;
 
     OpWordChars: UnicodeString;
+    OpNonWordChars: UnicodeString;
     OpHexChars: UnicodeString;
     OpFoldStyle: integer;
     OpFoldTooltipShow: boolean;
@@ -1196,6 +1197,7 @@ begin
     OpZebra:= 0;
 
     OpWordChars:= '';
+    OpNonWordChars:= '-+*=/\()[]{}<>"''.,:;~?!@#$%^&|`…';
     OpHexChars:= '';
     OpFoldStyle:= 1;
     OpFoldTooltipShow:= false;

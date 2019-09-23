@@ -250,15 +250,11 @@
   "saving_force_final_eol": false,
 
   //[Text]
-  //Commands Jump-next-word, Jump-previous-word, Select-word (double-click) will
-  //see these chars as "letters" and select them like letters.
-  //  Don't enter here: Latin/Rus/Greek/German letters, "0".."9", "_".
-  //  Note: config read as utf8.
-  "word_chars": "",
+  //String of non-word characters, they define word boundaries
+  "nonword_chars": "-+*=/\\()[]{}<>\"'.,:;~?!@#$%^&|`…",
 
-  //Show these unicode chars as "xNNNN" hex strings.
-  //  Some chars are here by default: http://unicode.org/reports/tr9/#Directional_Formatting_Characters
-  //  Note: config is read as utf8.
+  //Show these Unicode characters as "xNNNN" hex strings.
+  //Some chars are here by default: http://unicode.org/reports/tr9/#Directional_Formatting_Characters
   "hex_chars": "",
 
   //Additional vertical spacing per each line (pixels), can be <0

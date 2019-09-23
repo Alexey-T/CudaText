@@ -802,6 +802,7 @@ begin
   Op.OpZebra:= c.GetValue('zebra', Op.OpZebra);
 
   Op.OpWordChars:= c.GetValue('word_chars', Op.OpWordChars);
+  Op.OpNonWordChars:= c.GetValue('nonword_chars', Op.OpNonWordChars);
   Op.OpHexChars:= c.GetValue('hex_chars', Op.OpHexChars);
   Op.OpFoldStyle:= c.GetValue('fold_style', Op.OpFoldStyle);
   Op.OpFoldTooltipShow:= c.GetValue('fold_tooltip_show', Op.OpFoldTooltipShow);
