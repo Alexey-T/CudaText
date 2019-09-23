@@ -535,7 +535,10 @@ begin
       if L_fn[i]<>'' then
       begin
         Frame:= Frames[i];
-        SName:= msgModified[Frame.Ed1.Modified] + L_cap[i];
+        if Frame.EditorsLinked then
+          SName:= msgModified[Frame.Ed1.Modified] + L_cap[i]
+        else
+          SName:= L_cap[i];
         if Frame.TabCaption<>SName then
           if not Frame.TabCaptionFromApi then
             Frame.TabCaption:= SName;
