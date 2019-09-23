@@ -3083,7 +3083,7 @@ begin
     AFileName:= ExpandFileName(AFileName);
     if not FileExistsUTF8(AFileName) then
     begin
-      MsgBox(msgCannotFindFile+#13+AFileName, MB_OK or MB_ICONERROR);
+      MsgBox(msgCannotFindFile+#10+AFileName, MB_OK or MB_ICONERROR);
       Exit
     end;
   end;
@@ -3093,7 +3093,7 @@ begin
     AFileName2:= ExpandFileName(AFileName2);
     if not FileExistsUTF8(AFileName2) then
     begin
-      MsgBox(msgCannotFindFile+#13+AFileName2, MB_OK or MB_ICONERROR);
+      MsgBox(msgCannotFindFile+#10+AFileName2, MB_OK or MB_ICONERROR);
       Exit
     end;
   end;
@@ -4364,7 +4364,7 @@ begin
   if fn='' then exit;
 
   if MsgBox(
-       msgConfirmCloseDelFile+#13+fn,
+       msgConfirmCloseDelFile+#10+fn,
        MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
     if Groups.CloseTabs(tabCloseCurrent, false) then
       DeleteFileUTF8(fn);
@@ -4387,7 +4387,7 @@ begin
     DoFileOpen(fn, '')
   else
   begin
-    MsgBox(msgCannotFindFile+#13+fn, MB_OK or MB_ICONERROR);
+    MsgBox(msgCannotFindFile+#10+fn, MB_OK or MB_ICONERROR);
     FListRecents.Delete(n);
     UpdateMenuRecent(nil, '');
   end;
