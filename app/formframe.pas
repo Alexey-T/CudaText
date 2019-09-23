@@ -85,11 +85,11 @@ type
     { private declarations }
     Adapter1: TATAdapterEControl;
     Adapter2: TATAdapterEControl;
-    PanelReload: TPanel;
-    LabelReload: TLabel;
-    btnReloadYes: TATButton;
-    btnReloadNo: TATButton;
-    btnReloadNone: TATButton;
+    PanelReload: array[0..1] of TPanel;
+    LabelReload: array[0..1] of TLabel;
+    btnReloadYes: array[0..1] of TATButton;
+    btnReloadNo: array[0..1] of TATButton;
+    btnReloadNone: array[0..1] of TATButton;
     FTabCaption: string;
     FTabCaptionUntitled: string;
     FTabCaptionFromApi: boolean;
@@ -144,7 +144,6 @@ type
     FLastLexerCommentStyles: string;
     FLastLexerStringStyles: string;
     FLexerChooseFunc: TecLexerChooseFunc;
-    FEditorToReload: TATSynEdit;
 
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BinaryOnScroll(Sender: TObject);
@@ -162,6 +161,8 @@ type
     procedure EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorDrawMicromap(Sender: TObject; C: TCanvas; const ARect: TRect);
+    function EditorIndexToObj(N: integer): TATSynEdit;
+    function EditorObjToIndex(Ed: TATSynEdit): integer;
     procedure EditorOnChange(Sender: TObject);
     procedure EditorOnChangeModified(Sender: TObject);
     procedure EditorOnChangeState(Sender: TObject);
@@ -201,7 +202,7 @@ type
     function GetUnprintedShow: boolean;
     function GetUnprintedSpaces: boolean;
     procedure InitEditor(var ed: TATSynEdit);
-    procedure InitPanelReload;
+    procedure InitPanelReload(Index: integer);
     function IsCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integer): boolean;
     procedure SetEnabledCodeTree(Ed: TATSynEdit; AValue: boolean);
     procedure SetEnabledFolding(AValue: boolean);
@@ -598,20 +599,24 @@ end;
 
 procedure TEditorFrame.btnReloadNoClick(Sender: TObject);
 begin
-  PanelReload.Hide;
+  PanelReload[(Sender as TComponent).Tag].Hide;
   EditorFocus(Editor);
 end;
 
 procedure TEditorFrame.btnReloadYesClick(Sender: TObject);
+var
+  Ed: TATSynEdit;
 begin
-  DoFileReload(FEditorToReload);
-  EditorFocus(Editor);
+  Ed:= EditorIndexToObj((Sender as TComponent).Tag);
+  if Ed=nil then exit;
+  DoFileReload(Ed);
+  EditorFocus(Ed);
 end;
 
 procedure TEditorFrame.btnReloadNoneClick(Sender: TObject);
 begin
   NotifEnabled:= false;
-  PanelReload.Hide;
+  PanelReload[(Sender as TComponent).Tag].Hide;
   EditorFocus(Editor);
 end;
 
@@ -2142,7 +2147,7 @@ var
   PrevTail: boolean;
   Mode: TAppOpenMode;
 begin
-  PanelReload.Hide;
+  PanelReload[EditorObjToIndex(Ed)].Hide;
   if GetFileName(Ed)='' then exit;
 
   //remember props
@@ -2890,56 +2895,61 @@ begin
   end;
 end;
 
-procedure TEditorFrame.InitPanelReload;
+procedure TEditorFrame.InitPanelReload(Index: integer);
 begin
-  if Assigned(PanelReload) then exit;
+  if Assigned(PanelReload[Index]) then exit;
 
-  PanelReload:= TPanel.Create(Self);
-  PanelReload.Parent:= Self;
-  PanelReload.Align:= alTop;
-  PanelReload.Visible:= false;
-  PanelReload.Height:= AppScale(45);
-  PanelReload.BevelOuter:= bvNone;
+  PanelReload[Index]:= TPanel.Create(Self);
+  PanelReload[Index].Parent:= Self;
+  PanelReload[Index].Align:= alTop;
+  PanelReload[Index].Visible:= false;
+  PanelReload[Index].Height:= AppScale(45);
+  PanelReload[Index].BevelOuter:= bvNone;
 
-  LabelReload:= TLabel.Create(Self);
-  LabelReload.Parent:= PanelReload;
-  LabelReload.BorderSpacing.Left:= 6;
-  LabelReload.ParentColor:= false;
-  LabelReload.AnchorSideLeft.Control:= PanelReload;
-  LabelReload.AnchorSideTop.Control:= PanelReload;
-  LabelReload.AnchorSideTop.Side:= asrCenter;
+  LabelReload[Index]:= TLabel.Create(Self);
+  LabelReload[Index].Parent:= PanelReload[Index];
+  LabelReload[Index].BorderSpacing.Left:= 6;
+  LabelReload[Index].ParentColor:= false;
+  LabelReload[Index].AnchorSideLeft.Control:= PanelReload[Index];
+  LabelReload[Index].AnchorSideTop.Control:= PanelReload[Index];
+  LabelReload[Index].AnchorSideTop.Side:= asrCenter;
 
-  btnReloadNone:= TATButton.Create(Self);
-  btnReloadNone.Parent:= PanelReload;
-  btnReloadNone.AnchorSideTop.Control:= PanelReload;
-  btnReloadNone.AnchorSideTop.Side:= asrCenter;
-  btnReloadNone.AnchorSideRight.Control:= PanelReload;
-  btnReloadNone.AnchorSideRight.Side:= asrBottom;
-  btnReloadNone.Anchors:= [akTop, akRight];
-  btnReloadNone.Height:= AppScale(25);
-  btnReloadNone.BorderSpacing.Right:= 6;
-  btnReloadNone.OnClick:= @btnReloadNoneClick;
+  btnReloadNone[Index]:= TATButton.Create(Self);
+  btnReloadNone[Index].Tag:= Index;
+  btnReloadNone[Index].Parent:= PanelReload[Index];
+  btnReloadNone[Index].AnchorSideTop.Control:= PanelReload[Index];
+  btnReloadNone[Index].AnchorSideTop.Side:= asrCenter;
+  btnReloadNone[Index].AnchorSideRight.Control:= PanelReload[Index];
+  btnReloadNone[Index].AnchorSideRight.Side:= asrBottom;
+  btnReloadNone[Index].Anchors:= [akTop, akRight];
+  btnReloadNone[Index].Height:= AppScale(25);
+  btnReloadNone[Index].BorderSpacing.Right:= 6;
+  btnReloadNone[Index].OnClick:= @btnReloadNoneClick;
 
-  btnReloadNo:= TATButton.Create(Self);
-  btnReloadNo.Parent:= PanelReload;
-  btnReloadNo.AnchorSideTop.Control:= btnReloadNone;
-  btnReloadNo.AnchorSideRight.Control:= btnReloadNone;
-  btnReloadNo.Anchors:= [akTop, akRight];
-  btnReloadNo.Height:= btnReloadNone.Height;
-  btnReloadNo.BorderSpacing.Right:= 1;
-  btnReloadNo.OnClick:= @btnReloadNoClick;
+  btnReloadNo[Index]:= TATButton.Create(Self);
+  btnReloadNo[Index].Tag:= Index;
+  btnReloadNo[Index].Parent:= PanelReload[Index];
+  btnReloadNo[Index].AnchorSideTop.Control:= btnReloadNone[Index];
+  btnReloadNo[Index].AnchorSideRight.Control:= btnReloadNone[Index];
+  btnReloadNo[Index].Anchors:= [akTop, akRight];
+  btnReloadNo[Index].Height:= btnReloadNone[Index].Height;
+  btnReloadNo[Index].BorderSpacing.Right:= 1;
+  btnReloadNo[Index].OnClick:= @btnReloadNoClick;
 
-  btnReloadYes:= TATButton.Create(Self);
-  btnReloadYes.Parent:= PanelReload;
-  btnReloadYes.AnchorSideTop.Control:= btnReloadNone;
-  btnReloadYes.AnchorSideRight.Control:= btnReloadNo;
-  btnReloadYes.Anchors:= [akTop, akRight];
-  btnReloadYes.Height:= btnReloadNone.Height;
-  btnReloadYes.BorderSpacing.Right:= 1;
-  btnReloadYes.OnClick:= @btnReloadYesClick;
+  btnReloadYes[Index]:= TATButton.Create(Self);
+  btnReloadYes[Index].Tag:= Index;
+  btnReloadYes[Index].Parent:= PanelReload[Index];
+  btnReloadYes[Index].AnchorSideTop.Control:= btnReloadNone[Index];
+  btnReloadYes[Index].AnchorSideRight.Control:= btnReloadNo[Index];
+  btnReloadYes[Index].Anchors:= [akTop, akRight];
+  btnReloadYes[Index].Height:= btnReloadNone[Index].Height;
+  btnReloadYes[Index].BorderSpacing.Right:= 1;
+  btnReloadYes[Index].OnClick:= @btnReloadYesClick;
 end;
 
 procedure TEditorFrame.NotifyAboutChange(Ed: TATSynEdit);
+var
+  Index: integer;
 begin
   //silent reload if: not modified, and undo empty
   if (not Ed.Modified) and (Ed.UndoCount<=1) then
@@ -2948,24 +2958,25 @@ begin
     exit
   end;
 
-  InitPanelReload;
+  Index:= EditorObjToIndex(Ed);
+  if Index<0 then exit;
+  InitPanelReload(Index);
 
-  PanelReload.Color:= GetAppColor('ListBg');
-  PanelReload.Font.Name:= UiOps.VarFontName;
-  PanelReload.Font.Size:= AppScaleFont(UiOps.VarFontSize);
-  PanelReload.Font.Color:= GetAppColor('ListFont');
+  PanelReload[Index].Color:= GetAppColor('ListBg');
+  PanelReload[Index].Font.Name:= UiOps.VarFontName;
+  PanelReload[Index].Font.Size:= AppScaleFont(UiOps.VarFontSize);
+  PanelReload[Index].Font.Color:= GetAppColor('ListFont');
 
-  btnReloadYes.Caption:= msgConfirmReloadYes;
-  btnReloadNo.Caption:= msgButtonCancel;
-  btnReloadNone.Caption:= msgConfirmReloadNoMore;
+  btnReloadYes[Index].Caption:= msgConfirmReloadYes;
+  btnReloadNo[Index].Caption:= msgButtonCancel;
+  btnReloadNone[Index].Caption:= msgConfirmReloadNoMore;
 
-  btnReloadYes.AutoSize:= true;
-  btnReloadNo.AutoSize:= true;
-  btnReloadNone.AutoSize:= true;
+  btnReloadYes[Index].AutoSize:= true;
+  btnReloadNo[Index].AutoSize:= true;
+  btnReloadNone[Index].AutoSize:= true;
 
-  FEditorToReload:= Ed;
-  LabelReload.Caption:= msgConfirmFileChangedOutside+' '+ExtractFileName(GetFileName(Ed));
-  PanelReload.Show;
+  LabelReload[Index].Caption:= msgConfirmFileChangedOutside+' '+ExtractFileName(GetFileName(Ed));
+  PanelReload[Index].Show;
 end;
 
 procedure TEditorFrame.SetEnabledCodeTree(Ed: TATSynEdit; AValue: boolean);
@@ -3245,6 +3256,28 @@ begin
     Result:=
       (Assigned(Adapter1) and Adapter1.IsParsingBusy) or
       (Assigned(Adapter2) and Adapter2.IsParsingBusy);
+end;
+
+function TEditorFrame.EditorObjToIndex(Ed: TATSynEdit): integer;
+begin
+  if Ed=Ed1 then
+    Result:= 0
+  else
+  if Ed=Ed2 then
+    Result:= 1
+  else
+    Result:= -1;
+end;
+
+function TEditorFrame.EditorIndexToObj(N: integer): TATSynEdit;
+begin
+  if N=0 then
+    Result:= Ed1
+  else
+  if N=1 then
+    Result:= Ed2
+  else
+    Result:= nil;
 end;
 
 end.
