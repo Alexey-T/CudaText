@@ -10,6 +10,7 @@
 * change: option "ui_notif" was returned back, and "ui_notif_time" was removed
 * change: confirmation "File was changed outside. Reload?" changed from messagebox to modalless panel inside file-tab
 + add: paired file-tab: auto-reloading works for second file; if both files were changed outside, 2 "Reload?" prompts appear at the same time
++ add: don't allow to reload file, which was deleted outside
 
 1.87.2 (2019/09)
 
