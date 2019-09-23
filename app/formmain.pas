@@ -116,6 +116,7 @@ type
   TAppFrameThread = class(TThread)
   private
     CurFrame: TEditorFrame;
+    procedure HandleOneFrame;
     procedure NotifyFrame1;
     procedure NotifyFrame2;
   protected
@@ -1242,11 +1243,43 @@ begin
   CurFrame.NotifyAboutChange(CurFrame.Ed2);
 end;
 
+procedure TAppFrameThread.HandleOneFrame;
+var
+  NewProps: TAppFileProps;
+begin
+  AppGetFileProps(CurFrame.FileName, NewProps);
+  if not CurFrame.FileProps.Inited then
+  begin
+    Move(NewProps, CurFrame.FileProps, SizeOf(NewProps));
+  end
+  else
+  if NewProps<>CurFrame.FileProps then
+  begin
+    Move(NewProps, CurFrame.FileProps, SizeOf(NewProps));
+    Synchronize(@NotifyFrame1);
+  end;
+
+  if not CurFrame.EditorsLinked then
+    if CurFrame.FileName2<>'' then
+    begin
+      AppGetFileProps(CurFrame.FileName2, NewProps);
+      if not CurFrame.FileProps2.Inited then
+      begin
+        Move(NewProps, CurFrame.FileProps2, SizeOf(NewProps));
+      end
+      else
+      if NewProps<>CurFrame.FileProps2 then
+      begin
+        Move(NewProps, CurFrame.FileProps2, SizeOf(NewProps));
+        Synchronize(@NotifyFrame2);
+      end;
+    end;
+end;
+
 procedure TAppFrameThread.Execute;
 const
   cSleepTime = 500;
 var
-  NewProps: TAppFileProps;
   i: integer;
 begin
   repeat
@@ -1255,46 +1288,18 @@ begin
     Sleep(cSleepTime);
     if not UiOps.NotificationEnabled then Continue;
 
-   EnterCriticalSection(AppFrameCriSec);
-   try
-    for i:= 0 to AppFrameList.Count-1 do
-    begin
-      CurFrame:= TEditorFrame(AppFrameList[i]);
-      if CurFrame.FileName='' then Continue;
-      if not CurFrame.NotifEnabled then Continue;
-
-      AppGetFileProps(CurFrame.FileName, NewProps);
-      if not CurFrame.FileProps.Inited then
+    EnterCriticalSection(AppFrameCriSec);
+    try
+      for i:= 0 to AppFrameList.Count-1 do
       begin
-        Move(NewProps, CurFrame.FileProps, SizeOf(NewProps));
-      end
-      else
-      if NewProps<>CurFrame.FileProps then
-      begin
-        Move(NewProps, CurFrame.FileProps, SizeOf(NewProps));
-        Synchronize(@NotifyFrame1);
+        CurFrame:= TEditorFrame(AppFrameList[i]);
+        if CurFrame.FileName='' then Continue;
+        if not CurFrame.NotifEnabled then Continue;
+        HandleOneFrame;
       end;
-
-      if not CurFrame.EditorsLinked then
-        if CurFrame.FileName2<>'' then
-        begin
-          AppGetFileProps(CurFrame.FileName2, NewProps);
-          if not CurFrame.FileProps2.Inited then
-          begin
-            Move(NewProps, CurFrame.FileProps2, SizeOf(NewProps));
-          end
-          else
-          if NewProps<>CurFrame.FileProps2 then
-          begin
-            Move(NewProps, CurFrame.FileProps2, SizeOf(NewProps));
-            Synchronize(@NotifyFrame2);
-          end;
-        end;
+    finally
+      LeaveCriticalSection(AppFrameCriSec);
     end;
-
-   finally
-    LeaveCriticalSection(AppFrameCriSec);
-   end;
   until false;
 end;
 
