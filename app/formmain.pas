@@ -111,9 +111,9 @@ uses
   math;
 
 type
-  { TAppFrameThread }
+  { TAppNotifThread }
 
-  TAppFrameThread = class(TThread)
+  TAppNotifThread = class(TThread)
   private
     CurFrame: TEditorFrame;
     procedure HandleOneFrame;
@@ -124,7 +124,7 @@ type
   end;
 
 var
-  AppFrameThread: TAppFrameThread;
+  AppNotifThread: TAppNotifThread;
 
 type
   TATFindMarkingMode = (
@@ -1231,19 +1231,19 @@ begin
 end;
 
 
-{ TAppFrameThread }
+{ TAppNotifThread }
 
-procedure TAppFrameThread.NotifyFrame1;
+procedure TAppNotifThread.NotifyFrame1;
 begin
   CurFrame.NotifyAboutChange(CurFrame.Ed1);
 end;
 
-procedure TAppFrameThread.NotifyFrame2;
+procedure TAppNotifThread.NotifyFrame2;
 begin
   CurFrame.NotifyAboutChange(CurFrame.Ed2);
 end;
 
-procedure TAppFrameThread.HandleOneFrame;
+procedure TAppNotifThread.HandleOneFrame;
 var
   NewProps: TAppFileProps;
 begin
@@ -1276,7 +1276,7 @@ begin
     end;
 end;
 
-procedure TAppFrameThread.Execute;
+procedure TAppNotifThread.Execute;
 const
   cSleepTime = 500;
 var
@@ -2419,8 +2419,8 @@ begin
 
   if UiOps.NotificationEnabled then
   begin
-    AppFrameThread:= TAppFrameThread.Create(false);
-    AppFrameThread.Priority:= tpLower;
+    AppNotifThread:= TAppNotifThread.Create(false);
+    AppNotifThread.Priority:= tpLower;
   end;
 end;
 
