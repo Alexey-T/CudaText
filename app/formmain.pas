@@ -4363,7 +4363,9 @@ begin
   fn:= CurrentFrame.FileName;
   if fn='' then exit;
 
-  if MsgBox(msgConfirmCloseDelFile+#13+fn, MB_OKCANCEL or MB_ICONWARNING)=id_ok then
+  if MsgBox(
+       msgConfirmCloseDelFile+#13+fn,
+       MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
     if Groups.CloseTabs(tabCloseCurrent, false) then
       DeleteFileUTF8(fn);
 end;
