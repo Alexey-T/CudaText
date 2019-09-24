@@ -1355,15 +1355,13 @@ var
   Ed: TATSynEdit;
 begin
   Ed:= Sender as TATSynEdit;
-
   AY:= AY * Ed.Strings.Count div Ed.ClientHeight;
-
   Ed.DoGotoPos(
     Point(0, AY),
     Point(-1, -1),
     UiOps.FindIndentHorz,
     UiOps.FindIndentVert,
-    true,
+    false{APlaceCaret}, //user asked to not move caret on micromap click
     true
     );
 end;
