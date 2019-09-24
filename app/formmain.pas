@@ -124,7 +124,7 @@ type
   end;
 
 var
-  AppNotifThread: TAppNotifThread;
+  AppNotifThread: TAppNotifThread = nil;
 
 type
   TATFindMarkingMode = (
