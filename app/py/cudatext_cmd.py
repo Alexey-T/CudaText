@@ -286,6 +286,8 @@ cmd_ChooseThemeSyntax = 2572
 
 cmd_ToggleFocusSplitEditors = 2576
 cmd_FocusEditor = 2577
+cmd_FocusNotificationPanel = 2578
+cmd_HideNotificationPanels = 2579
 
 cmd_DialogGoto       = 2580
 cmd_DialogGotoBookmark = 2581

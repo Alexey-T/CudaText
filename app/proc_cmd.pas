@@ -105,6 +105,8 @@ const
 
   cmd_ToggleFocusSplitEditors = 2576;
   cmd_FocusEditor = 2577;
+  cmd_FocusNotificationPanel = 2578;
+  cmd_HideNotificationPanels = 2579;
 
   cmd_DialogGoto       = 2580;
   cmd_DialogGotoBookmark = 2581;
@@ -375,6 +377,8 @@ begin
 
   M.Add(cmd_ToggleFocusSplitEditors, 'ui: toggle focus between split 1st/2nd editors', [], []);
   M.Add(cmd_FocusEditor, 'ui: focus editor', [], []);
+  M.Add(cmd_FocusNotificationPanel, 'ui: focus editor notification panel', [], []);
+  M.Add(cmd_HideNotificationPanels, 'ui: hide editor notification panel(s)', [], []);
 
   M.Add(cmd_SwitchTab_HotkeyNext, 'ui: switch tab, to next', ['Ctrl+Tab'], []);
   M.Add(cmd_SwitchTab_HotkeyPrev, 'ui: switch tab, to previous', ['Ctrl+Shift+Tab'], []);
@@ -608,6 +612,8 @@ begin
     cmd_FileExportHtml,
     cmd_ToggleFocusSplitEditors,
     cmd_FocusEditor,
+    cmd_FocusNotificationPanel,
+    cmd_HideNotificationPanels,
 
     cmd_OpsClearRecent,
     cmd_OpsOpenDefault,

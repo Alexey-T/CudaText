@@ -61,6 +61,8 @@ begin
 
     cmd_ToggleFocusSplitEditors: CurrentFrame.DoToggleFocusSplitEditors;
     cmd_FocusEditor:           DoFocusEditor;
+    cmd_FocusNotificationPanel: CurrentFrame.DoFocusNotificationPanel;
+    cmd_HideNotificationPanels: CurrentFrame.DoHideNotificationPanels;
 
     cmd_SwitchTab_HotkeyNext: DoSwitchTab(true);
     cmd_SwitchTab_HotkeyPrev: DoSwitchTab(false);

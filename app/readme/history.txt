@@ -4,7 +4,7 @@
   * changed
 
 
-1.87.4 (2019/09)
+1.88.0 (2019/09)
 
 * change: option "word_chars" replaced with "nonword_chars" (to be like Sublime & Atom)
 * change: detection of file changes in external programs is rewritten. Now it uses thread, not timers (per each file-tab) as before. It should work more reliable and fast.
@@ -12,6 +12,8 @@
 * change: confirmation "File was changed outside. Reload?" changed from messagebox to modalless panel inside file-tab
 + add: paired file-tab: auto-reloading works for second file; if both files were changed outside, 2 "Reload?" prompts appear at the same time
 + add: don't allow to reload file, which was deleted outside
++ add: command "ui: focus editor notification panel"
++ add: command "ui: hide editor notification panels"
 
 1.87.2 (2019/09)
 

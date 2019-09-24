@@ -342,6 +342,8 @@ type
     procedure DoRestoreFolding;
     procedure DoRemovePreviewStyle;
     procedure DoToggleFocusSplitEditors;
+    procedure DoFocusNotificationPanel;
+    procedure DoHideNotificationPanels;
     //macro
     procedure DoMacroStart;
     procedure DoMacroStop(ACancel: boolean);
@@ -3169,6 +3171,33 @@ begin
       Ed.SetFocus;
     end;
   end;
+end;
+
+procedure TEditorFrame.DoFocusNotificationPanel;
+var
+  i: integer;
+begin
+  if not Visible then exit;
+  for i:= Low(PanelReload) to High(PanelReload) do
+    if Assigned(PanelReload[i]) then
+      if PanelReload[i].Visible then
+        btnReloadYes[i].SetFocus;
+end;
+
+procedure TEditorFrame.DoHideNotificationPanels;
+var
+  i: integer;
+begin
+  for i:= Low(PanelReload) to High(PanelReload) do
+    if Assigned(PanelReload[i]) then
+      if PanelReload[i].Visible then
+      begin
+        if btnReloadYes[i].Focused or
+           btnReloadNo[i].Focused or
+           btnReloadNone[i].Focused then
+          EditorFocus(EditorIndexToObj(i));
+        PanelReload[i].Hide;
+      end;
 end;
 
 function TEditorFrame.IsPreview: boolean;
