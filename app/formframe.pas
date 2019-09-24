@@ -600,12 +600,6 @@ begin
   DoPyEvent(Editor, cEventOnChangeSlow, []);
 end;
 
-procedure TEditorFrame.btnReloadNoClick(Sender: TObject);
-begin
-  PanelReload[(Sender as TComponent).Tag].Hide;
-  EditorFocus(Editor);
-end;
-
 procedure TEditorFrame.btnReloadYesClick(Sender: TObject);
 var
   Ed: TATSynEdit;
@@ -616,11 +610,16 @@ begin
   EditorFocus(Ed);
 end;
 
+procedure TEditorFrame.btnReloadNoClick(Sender: TObject);
+begin
+  DoHideNotificationPanel((Sender as TComponent).Tag);
+  EditorFocus(Editor);
+end;
+
 procedure TEditorFrame.btnReloadNoneClick(Sender: TObject);
 begin
   NotifEnabled:= false;
-  PanelReload[(Sender as TComponent).Tag].Hide;
-  EditorFocus(Editor);
+  btnReloadNoClick(Sender);
 end;
 
 procedure TEditorFrame.EditorOnCalcBookmarkColor(Sender: TObject;
