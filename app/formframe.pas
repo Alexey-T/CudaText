@@ -602,18 +602,26 @@ end;
 
 procedure TEditorFrame.btnReloadYesClick(Sender: TObject);
 var
+  Index: integer;
   Ed: TATSynEdit;
 begin
-  Ed:= EditorIndexToObj((Sender as TComponent).Tag);
+  Index:= (Sender as TComponent).Tag;
+  Ed:= EditorIndexToObj(Index);
   if Ed=nil then exit;
   DoFileReload(Ed);
   EditorFocus(Ed);
 end;
 
 procedure TEditorFrame.btnReloadNoClick(Sender: TObject);
+var
+  Index: integer;
+  Ed: TATSynEdit;
 begin
-  DoHideNotificationPanel((Sender as TComponent).Tag);
-  EditorFocus(Editor);
+  Index:= (Sender as TComponent).Tag;
+  Ed:= EditorIndexToObj(Index);
+  if Ed=nil then exit;
+  DoHideNotificationPanel(Index);
+  EditorFocus(Ed);
 end;
 
 procedure TEditorFrame.btnReloadNoneClick(Sender: TObject);
