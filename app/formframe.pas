@@ -2961,6 +2961,10 @@ begin
   btnReloadYes[Index].Height:= btnReloadNone[Index].Height;
   btnReloadYes[Index].BorderSpacing.Right:= 1;
   btnReloadYes[Index].OnClick:= @btnReloadYesClick;
+
+  btnReloadYes[Index].TabOrder:= 0;
+  btnReloadNo[Index].TabOrder:= 1;
+  btnReloadNone[Index].TabOrder:= 2;
 end;
 
 procedure TEditorFrame.NotifyAboutChange(Ed: TATSynEdit);
