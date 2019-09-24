@@ -775,6 +775,7 @@ begin
   Op.OpCaretMulti:= c.GetValue('caret_multi', Op.OpCaretMulti);
   Op.OpCaretAfterPasteColumn:= c.GetValue('caret_after_paste_column', Op.OpCaretAfterPasteColumn);
   Op.OpCaretsAddedToColumnSel:= c.GetValue('carets_with_column_sel', Op.OpCaretsAddedToColumnSel);
+  Op.OpCaretKeepVisibleOnScroll:= c.GetValue('caret_keep_visible_on_scroll', Op.OpCaretKeepVisibleOnScroll);
 
   Op.OpShowCurLine:= c.GetValue('show_cur_line', Op.OpShowCurLine);
   Op.OpShowCurLineMinimal:= c.GetValue('show_cur_line_minimal', Op.OpShowCurLineMinimal);
