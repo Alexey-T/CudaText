@@ -1148,8 +1148,8 @@ uses
   EmmetHelper;
 
 const
-  cThreadSleepTime = 80;
-  cThreadSleepCount = 15;
+  cThreadSleepTime = 60;
+  cThreadSleepCount = 22;
   //total sleep time = SleepTime*SleepCount ~= 1sec
 
 const
