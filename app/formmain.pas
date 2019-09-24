@@ -1148,6 +1148,11 @@ uses
   EmmetHelper;
 
 const
+  cThreadSleepTime = 80;
+  cThreadSleepCount = 15;
+  //total sleep time = SleepTime*SleepCount ~= 1sec
+
+const
   StatusbarTag_Caret = 10;
   StatusbarTag_Enc = 11;
   StatusbarTag_LineEnds = 12;
@@ -1277,15 +1282,17 @@ begin
 end;
 
 procedure TAppNotifThread.Execute;
-const
-  cSleepTime = 500;
 var
   i: integer;
 begin
   repeat
-    if Application.Terminated then exit;
-    if Terminated then exit;
-    Sleep(cSleepTime);
+    for i:= 1 to cThreadSleepCount do
+    begin
+      if Application.Terminated then exit;
+      if Terminated then exit;
+      Sleep(cThreadSleepTime);
+    end;
+
     if not UiOps.NotificationEnabled then Continue;
 
     EnterCriticalSection(AppFrameCriSec);
@@ -2052,6 +2059,12 @@ var
   F: TEditorFrame;
   i: integer;
 begin
+  if Assigned(AppNotifThread) then
+  begin
+    AppNotifThread.Terminate;
+    Sleep(cThreadSleepTime+10);
+  end;
+
   //maybe no need too? done in DoCloseAllTabs
   for i:= 0 to FrameCount-1 do
   begin
