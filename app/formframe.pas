@@ -344,6 +344,7 @@ type
     procedure DoToggleFocusSplitEditors;
     procedure DoFocusNotificationPanel;
     procedure DoHideNotificationPanels;
+    procedure DoHideNotificationPanel(Index: integer);
     //macro
     procedure DoMacroStart;
     procedure DoMacroStop(ACancel: boolean);
@@ -2148,7 +2149,6 @@ var
   PrevCaretX, PrevCaretY: integer;
   PrevTail: boolean;
   Mode: TAppOpenMode;
-  Index: integer;
   SFileName: string;
 begin
   Result:= true;
@@ -2161,10 +2161,7 @@ begin
     exit(false);
   end;
 
-  Index:= EditorObjToIndex(Ed);
-  if Index>=0 then
-    if Assigned(PanelReload[Index]) then
-      PanelReload[Index].Hide;
+  DoHideNotificationPanel(EditorObjToIndex(Ed));
 
   //remember props
   PrevCaretX:= 0;
@@ -3188,20 +3185,27 @@ begin
         btnReloadYes[i].SetFocus;
 end;
 
+procedure TEditorFrame.DoHideNotificationPanel(Index: integer);
+begin
+  if Index<0 then exit;
+  if Assigned(PanelReload[Index]) then
+    if PanelReload[Index].Visible then
+    begin
+      if Visible then
+        if btnReloadYes[Index].Focused or
+           btnReloadNo[Index].Focused or
+           btnReloadNone[Index].Focused then
+          EditorFocus(EditorIndexToObj(Index));
+      PanelReload[Index].Hide;
+    end;
+end;
+
 procedure TEditorFrame.DoHideNotificationPanels;
 var
   i: integer;
 begin
   for i:= Low(PanelReload) to High(PanelReload) do
-    if Assigned(PanelReload[i]) then
-      if PanelReload[i].Visible then
-      begin
-        if btnReloadYes[i].Focused or
-           btnReloadNo[i].Focused or
-           btnReloadNone[i].Focused then
-          EditorFocus(EditorIndexToObj(i));
-        PanelReload[i].Hide;
-      end;
+    DoHideNotificationPanel(i);
 end;
 
 function TEditorFrame.IsPreview: boolean;
