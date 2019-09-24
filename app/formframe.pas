@@ -2001,6 +2001,8 @@ begin
   if not IsText then exit(true); //disable saving, but close
   if DoPyEvent(Ed, cEventOnSaveBefore, [])=cPyFalse then exit(true); //disable saving, but close
 
+  DoHideNotificationPanel(EditorObjToIndex(Ed));
+
   SFileName:= GetFileName(Ed);
   bNameChanged:= false;
 
