@@ -250,11 +250,12 @@
   "saving_force_final_eol": false,
 
   //[Text]
-  //String of non-word characters, they define word boundaries
+  //String of non-word characters, which define word boundaries
   "nonword_chars": "-+*=/\\()[]{}<>\"'.,:;~?!@#$%^&|`…",
 
-  //Show these Unicode characters as "xNNNN" hex strings.
-  //Some chars are here by default: http://unicode.org/reports/tr9/#Directional_Formatting_Characters
+  //Show these Unicode characters in long hex form: xNNNN
+  //Some chars are shown in hex form by default:
+  // http://unicode.org/reports/tr9/#Directional_Formatting_Characters
   "hex_chars": "",
 
   //Additional vertical spacing per each line (pixels), can be <0
