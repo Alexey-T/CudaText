@@ -105,6 +105,7 @@ begin
   ATFlatTheme.ColorBgDisabled:= GetAppColor('ButtonBgDisabled');
   ATFlatTheme.ColorBorderPassive:= GetAppColor('ButtonBorderPassive');
   ATFlatTheme.ColorArrows:= GetAppColor('TabArrow');
+  ATFlatTheme.ColorArrowsOver:= GetAppColor('TabArrowOver');
   ATFlatTheme.ColorSeparators:= GetAppColor('TabBorderActive');
   ATFlatTheme.ColorBorderOver:= GetAppColor('ButtonBorderOver');
   ATFlatTheme.ColorBorderFocused:= GetAppColor('ButtonBorderFocused');
