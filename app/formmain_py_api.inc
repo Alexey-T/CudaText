@@ -5074,6 +5074,7 @@ var
   StrText: string;
   Listbox: TATListbox;
   IndexOk: boolean;
+  Obj: TObject;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'LiisL:listbox_proc', @IdList, @IdAction, @NIndex, @PtrText, @NTag)) then
@@ -5092,10 +5093,10 @@ begin
         LISTBOX_ADD:
           begin
             if NIndex=-1 then
-              Listbox.Items.AddObject(StrText, TObject(PtrInt(NTag)))
+              Listbox.Items.AddObject(StrText, TATListboxItemProp.Create(NTag, false, ''))
             else
             if IndexOk then
-              Listbox.Items.InsertObject(NIndex, StrText, TObject(PtrInt(NTag)));
+              Listbox.Items.InsertObject(NIndex, StrText, TATListboxItemProp.Create(NTag, false, ''));
             Listbox.Invalidate;
             Result:= ReturnNone;
           end;
@@ -5104,6 +5105,9 @@ begin
           begin
             if IndexOk then
             begin
+              Obj:= Listbox.Items.Objects[NIndex];
+              if Assigned(Obj) then
+                Obj.Free;
               Listbox.Items.Delete(NIndex);
               if Listbox.ItemIndex>=Listbox.ItemCount then
                 Listbox.ItemIndex:= Listbox.ItemCount-1;
@@ -5114,6 +5118,12 @@ begin
 
         LISTBOX_DELETE_ALL:
           begin
+            for i:= Listbox.Items.Count-1 downto 0 do
+            begin
+              Obj:= Listbox.Items.Objects[i];
+              if Assigned(Obj) then
+                Obj.Free;
+            end;
             Listbox.Items.Clear;
             Listbox.ItemIndex:= -1;
             Listbox.ItemTop:= 0;
@@ -5136,7 +5146,8 @@ begin
             if IndexOk then
             begin
               Listbox.Items[NIndex]:= StrText;
-              Listbox.Items.Objects[NIndex]:= TObject(PtrInt(NTag));
+              Obj:= Listbox.Items.Objects[NIndex];
+              (Obj as TATListboxItemProp).Tag:= NTag;
               Listbox.Invalidate;
             end;
             Result:= ReturnNone;
