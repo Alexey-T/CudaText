@@ -55,6 +55,8 @@ class Command:
         self.h_list = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
         listbox_proc(self.h_list, LISTBOX_SET_SHOW_X, index=2)
         listbox_proc(self.h_list, LISTBOX_SET_HOTTRACK, index=1)
+        listbox_proc(self.h_list, LISTBOX_SET_COLUMN_SEP, text='|')
+        listbox_proc(self.h_list, LISTBOX_SET_COLUMNS, text=[170,0])
 
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
             'name':'list',
@@ -130,7 +132,8 @@ class Command:
                 elif show_t:
                     prefix = '%s. '%s_tab
 
-            name = prefix+edit.get_prop(PROP_TAB_TITLE).lstrip('*')
+            name = prefix+edit.get_prop(PROP_TAB_TITLE).lstrip('*') \
+                + '|' + os.path.dirname(edit.get_filename())
             mod = edit.get_prop(PROP_MODIFIED)
             cnt = listbox_proc(self.h_list, LISTBOX_ADD, index=-1, text='?')
             listbox_proc(self.h_list, LISTBOX_SET_ITEM_PROP, index=cnt-1, text=name, 
