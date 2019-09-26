@@ -113,6 +113,7 @@ begin
   ATFlatTheme.ColorFontListboxSel:= GetAppColor('ListSelFont');
   ATFlatTheme.ColorBgListbox:= GetAppColor('ListBg');
   ATFlatTheme.ColorBgListboxSel:= GetAppColor('ListSelBg');
+  ATFlatTheme.ColorBgListboxHottrack:= ColorBlendHalf(ATFlatTheme.ColorBgListbox, ATFlatTheme.ColorBgListboxSel);
   ATFlatTheme.ColorBgOverlay:= GetAppColor('SideBadgeBg');
 
   DoApplyThemeToGroups(Groups);
