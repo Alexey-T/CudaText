@@ -126,6 +126,9 @@ class Command:
         rect = data['rect']
         index_sel = listbox_proc(self.id_listbox, LISTBOX_GET_SEL)
 
+        show_x = listbox_proc(self.id_listbox, LISTBOX_GET_SHOW_X)>0
+        inc_x = 14 if show_x else 0
+
         #set bold for each 5th
         if index%5==0:
             style = FONT_B + FONT_I
@@ -148,21 +151,27 @@ class Command:
 
         canvas_proc(id_canvas, CANVAS_TEXT,
             text='item index %d'%index,
-            x=rect[0] + 20 + index*4,
+            x=rect[0] + 20 + index*4 + inc_x,
             y=rect[1] + 2 )
 
         #this imagelist has 2 test icons: 0, 1
         img_list = app_proc(PROC_GET_TAB_IMAGELIST, '')
-        imagelist_proc(img_list, IMAGELIST_PAINT, (id_canvas, rect[0], rect[1], index%2))
+        imagelist_proc(img_list, IMAGELIST_PAINT, (id_canvas, rect[0]+inc_x, rect[1], index%2))
 
 
     def callback_listbox_check(self, id_dlg, id_ctl, data='', info=''):
 
-        print('listbox option click')
-        prop = dlg_proc(id_dlg, DLG_CTL_PROP_GET, name='chk1')
+        print('listbox option "owner" click')
+        prop = dlg_proc(id_dlg, DLG_CTL_PROP_GET, name='chk_owner')
         chk = prop['val'] == '1'
 
         listbox_proc(self.id_listbox, LISTBOX_SET_DRAWN, index=(1 if chk else 0))
+
+    def callback_listbox_check_x(self, id_dlg, id_ctl, data='', info=''):
+
+        val = listbox_proc(self.id_listbox, LISTBOX_GET_SHOW_X)
+        val = (val+1)%3 # possible values: 0..2
+        listbox_proc(self.id_listbox, LISTBOX_SET_SHOW_X, index=val)
 
     def callback_listbox_columns(self, id_dlg, id_ctl, data='', info=''):
 
@@ -618,11 +627,11 @@ class Command:
 
         n=dlg_proc(h, DLG_CTL_ADD, 'check')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
-            'name': 'chk1',
+            'name': 'chk_owner',
             'cap': 'Owner-drawn listbox',
             'x': 10,
             'y': 220,
-            'w': 400,
+            'w': 200,
             'val': True,
             'act': True,
             'on_change': self.callback_listbox_check,
@@ -636,6 +645,16 @@ class Command:
             'y': 250,
             'w': 120,
             'on_change': self.callback_listbox_columns,
+            })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_x',
+            'cap': 'Toggle x marks',
+            'x': 130,
+            'y': 250,
+            'w': 140,
+            'on_change': self.callback_listbox_check_x,
             })
 
         return h
