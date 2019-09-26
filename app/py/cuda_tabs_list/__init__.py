@@ -53,7 +53,7 @@ class Command:
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='listbox_ex')
 
         self.h_list = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
-        listbox_proc(self.h_list, LISTBOX_SET_SHOW_X, index=1)
+        listbox_proc(self.h_list, LISTBOX_SET_SHOW_X, index=2)
         listbox_proc(self.h_list, LISTBOX_SET_HOTTRACK, index=1)
 
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
@@ -146,25 +146,30 @@ class Command:
             self.update()
 
     def ed_of_sel(self):
-        h_item = listbox_proc(self.h_list, LISTBOX_GET_SEL)
-        h = ed_handles()[h_item]
+        sel = listbox_proc(self.h_list, LISTBOX_GET_SEL)
+        if sel<0: return
+        h = ed_handles()[sel]
         return Editor(h)
 
     def menu_close_sel(self):
         e = self.ed_of_sel()
-        e.cmd(cudatext_cmd.cmd_FileClose)
+        if e:
+            e.cmd(cudatext_cmd.cmd_FileClose)
 
     def menu_close_others(self):
         e = self.ed_of_sel()
-        e.cmd(cudatext_cmd.cmd_FileCloseOtherAll)
+        if e:
+            e.cmd(cudatext_cmd.cmd_FileCloseOtherAll)
 
     def menu_copy_file_path(self):
         e = self.ed_of_sel()
-        e.cmd(cudatext_cmd.cmd_CopyFilenameFull)
+        if e:
+            e.cmd(cudatext_cmd.cmd_CopyFilenameFull)
 
     def menu_copy_file_name(self):
         e = self.ed_of_sel()
-        e.cmd(cudatext_cmd.cmd_CopyFilenameName)
+        if e:
+            e.cmd(cudatext_cmd.cmd_CopyFilenameName)
 
 
     def list_on_sel(self, id_dlg, id_ctl, data='', info=''):
@@ -172,10 +177,14 @@ class Command:
         if self.busy_update: return
 
         e = self.ed_of_sel()
-        e.focus()
+        if e:
+            e.focus()
 
     def list_on_menu(self, id_dlg, id_ctl, data='', info=''):
         if self.h_menu is None: return
+        e = self.ed_of_sel()
+        if e:
+            e.focus()
         menu_proc(self.h_menu, MENU_SHOW, command='')
 
     def config(self):
