@@ -1400,9 +1400,11 @@ Possible values of "id_action":
 * LISTBOX_GET_TOP: Gets index of top visible item.
 * LISTBOX_SET_TOP: Sets index of top visible item. Param "index": int value
 * LISTBOX_GET_DRAWN: Gets owner-drawn state (bool). Owner-drawn state means that listbox doesn't paint itself, but plugin must paint it via event "on_draw_item".
-* LISTBOX_SET_DRAWN: Sets owner-drawn state. Param "index" should be 0 or 1 (off/on).
+* LISTBOX_SET_DRAWN: Sets owner-drawn state. Param "index": 0 or 1 (off/on).
 * LISTBOX_GET_SHOW_X: Gets state of X marks. Int value: 0: don't show, 1: show for all items, 2: show for mouse-over item.
 * LISTBOX_SET_SHOW_X: Sets state of X marks. Param "index": int value.
+* LISTBOX_GET_HOTTRACK: Gets HotTrack state (bool). HotTrack means that listbox highlights item under mouse cursor.
+* LISTBOX_SET_HOTTRACK: Sets HotTrack state. Param "index": 0 or 1 (off/on).
 
 Listbox can have columns. It works only if listbox is not owner-drawn, and column sizes were set via LISTBOX_SET_COLUMNS. You must add separator-chars inside items to split items into columns. Column sizes are passed as list of int. Each list item can be:
 * value>0: Column width in pixels.
@@ -3594,5 +3596,6 @@ def project_variables():
 
 1.0.303 (app 1.87.4)
 * add: listbox_proc: LISTBOX_GET_SHOW_X, LISTBOX_SET_SHOW_X
+* add: listbox_proc: LISTBOX_GET_HOTTRACK, LISTBOX_SET_HOTTRACK
 
 [[Category:CudaText]]
