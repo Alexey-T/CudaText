@@ -5065,6 +5065,32 @@ begin
   until false;
 end;
 
+procedure ListboxItem_SetFromString(AItem: TATListboxItemProp; AText: string);
+var
+  SItem, SKey, SValue: string;
+begin
+  //text is '{key1:value1;key2:value2}' from to_str()
+  if AText[1]='{' then
+    AText:= Copy(AText, 2, Length(AText)-2);
+  repeat
+    SItem:= SGetItem(AText, #1);
+    if SItem='' then Break;
+    SKey:= SGetItem(SItem, ':');
+    SValue:= SItem;
+    SValue:= StringReplace(SValue, #2, ',', [rfReplaceAll]);
+
+    if SKey='datatext' then
+      AItem.DataText:= SValue
+    else
+    if SKey='tag' then
+      AItem.Tag:= StrToInt64Def(SValue, 0)
+    else
+    if SKey='modified' then
+      AItem.Modified:= SValue='1';
+  until false;
+end;
+
+
 //listbox_proc(id_listbox, id_action, index, text)
 function Py_listbox_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
@@ -5198,7 +5224,7 @@ begin
             begin
               Listbox.Items[NIndex]:= StrText;
               Obj:= Listbox.Items.Objects[NIndex];
-              (Obj as TATListboxItemProp).SetFromString(StrTag);
+              ListboxItem_SetFromString(Obj as TATListboxItemProp, StrTag);
               Listbox.Invalidate;
             end;
             Result:= ReturnNone;
