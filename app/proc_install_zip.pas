@@ -219,7 +219,8 @@ procedure DoInstallLexerLite(
   out AReport: string);
 var
   ini: TIniFile;
-  STitle, SLexerName,
+  sections: TStringList;
+  ini_section, STitle, SLexer,
   DirFrom, DirLexersLite, DirSettings: string;
   fn_lexer, fn_json: string;
 begin
@@ -229,28 +230,37 @@ begin
   DirSettings:= GetAppPath(cDirSettings);
 
   ini:= TIniFile.Create(AFilenameInf);
+  sections:= TStringList.Create;
   try
     STitle:= ini.ReadString('info', 'title', '');
     if STitle='' then exit;
-    SLexerName:= ini.ReadString('lexer1', 'file', '');
-    if SLexerName='' then exit;
+
+    ini.ReadSections(sections);
+    for ini_section in sections do
+    begin
+      if not SRegexMatchesString(ini_section, 'lexer\d+', true) then Continue;
+
+      SLexer:= ini.ReadString(ini_section, 'file', '');
+      if SLexer='' then Break;
+
+      fn_lexer:= DirFrom+DirectorySeparator+SLexer+'.cuda-litelexer';
+      fn_json:= DirFrom+DirectorySeparator+'lexer '+SLexer+'.json';
+
+      if FileExists(fn_lexer) then
+      begin
+        CopyFile(fn_lexer, DirLexersLite+DirectorySeparator+ExtractFileName(fn_lexer));
+        AReport:= AReport+msgStatusPackageLexer+' '+SLexer+#10;
+      end;
+
+      if FileExists(fn_json) then
+      begin
+        CopyFile(fn_json, DirSettings+DirectorySeparator+ExtractFileName(fn_json));
+        AReport:= AReport+msgStatusPackageLexerSettings+' '+SLexer+#10;
+      end;
+    end;
   finally
+    FreeAndNil(sections);
     FreeAndNil(ini);
-  end;
-
-  fn_lexer:= DirFrom+DirectorySeparator+SLexerName+'.cuda-litelexer';
-  fn_json:= DirFrom+DirectorySeparator+'lexer '+SLexerName+'.json';
-
-  if FileExists(fn_lexer) then
-  begin
-    CopyFile(fn_lexer, DirLexersLite+DirectorySeparator+ExtractFileName(fn_lexer));
-    AReport:= AReport+msgStatusPackageLexer+' '+SLexerName+#10;
-  end;
-
-  if FileExists(fn_json) then
-  begin
-    CopyFile(fn_json, DirSettings+DirectorySeparator+ExtractFileName(fn_json));
-    AReport:= AReport+msgStatusPackageLexerSettings+' '+SLexerName+#10;
   end;
 end;
 
