@@ -118,6 +118,11 @@ class Command:
                 dlg_proc(hh, DLG_SHOW_MODAL)
 
 
+    def callback_listbox_click_x(self, id_dlg, id_ctl, data='', info=''):
+        
+        index_sel = listbox_proc(self.id_listbox, LISTBOX_GET_SEL)
+        print('listbox: x clicked for item %d'%index_sel)
+        
     def callback_listbox_drawitem(self, id_dlg, id_ctl, data='', info=''):
 
         #print('listbox on_draw_item, data:', data)
@@ -615,6 +620,7 @@ class Command:
             'y': 10,
             'w': 400,
             'h': 200,
+            'on_click_x': self.callback_listbox_click_x,
             'on_draw_item': self.callback_listbox_drawitem,
             })
 

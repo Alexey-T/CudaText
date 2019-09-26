@@ -50,6 +50,7 @@ type
     FTagString: string;
     FEventOnChange: string;
     FEventOnClick: string;
+    FEventOnClickX: string;
     FEventOnClickDbl: string;
     FEventOnClickHeader: string;
     FEventOnFocusEnter: string;
@@ -122,6 +123,7 @@ type
     destructor Destroy; override;
     procedure DoOnResize; override;
     procedure DoOnClick(Sender: TObject);
+    procedure DoOnClickX(Sender: TObject);
     procedure DoOnDblClick(Sender: TObject);
     procedure DoOnChange(Sender: TObject);
     procedure DoOnListboxSelect(Sender: TObject; User: boolean);
@@ -399,6 +401,16 @@ end;
 procedure TFormDummy.DoOnClick(Sender: TObject);
 begin
   _HandleClickEvent(Sender, false);
+end;
+
+procedure TFormDummy.DoOnClickX(Sender: TObject);
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  IdControl:= FindControlIndexByOurObject(Sender);
+  DoEvent(IdControl, Props.FEventOnClickX, '');
 end;
 
 procedure TFormDummy.DoOnDblClick(Sender: TObject);

@@ -785,6 +785,7 @@ begin
     Ctl:= TATListbox.Create(AForm);
     TATListbox(Ctl).VirtualMode:= false;
     TATListbox(Ctl).CanGetFocus:= true;
+    TATListbox(Ctl).OnClickXMark:= @AForm.DoOnClickX;
     TATListbox(Ctl).OnChangedSel:= @AForm.DoOnChange;
     TATListbox(Ctl).OnDrawItem:= @AForm.DoOnListboxDrawItem;
     exit;
@@ -1596,6 +1597,12 @@ begin
   if AName='on_click' then
   begin
     TAppControlProps(C.Tag).FEventOnClick:= AValue;
+    exit;
+  end;
+
+  if AName='on_click_x' then
+  begin
+    TAppControlProps(C.Tag).FEventOnClickX:= AValue;
     exit;
   end;
 
