@@ -17,7 +17,8 @@
 + add: command "ui: focus editor notification panel"
 + add: command "ui: hide editor notification panels"
 + add: zip file installer: for lexers and lite-lexers, support to install lexer-override settings in "lexer*.json"
-+ add: plugin Tabs List reworked, using listbox with x and circle marks
++ add: plugin Tabs List: reworked, using listbox with x and circle marks
++ add: plugin Tabs List: option "column_name_size"
 + add: file with ASCII char 07 is still considered as text
 
 1.87.2 (2019/09)
