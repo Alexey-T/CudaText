@@ -5224,6 +5224,18 @@ begin
             Result:= ReturnNone;
           end;
 
+        LISTBOX_GET_SHOW_X:
+          begin
+            Result:= PyInt_FromLong(Ord(Listbox.ShowXMark));
+          end;
+
+        LISTBOX_SET_SHOW_X:
+          begin
+            Listbox.ShowXMark:= TATListboxShowX(NIndex);
+            Listbox.Invalidate;
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
