@@ -1046,6 +1046,7 @@ Events for control "listview"/"checklistview":
 
 Events for control "listbox_ex":
 
+* "on_click_x": Called when listbox has X marks shown and X mark is clicked.
 * "on_draw_item": Called if listbox is owner-drawn. Param "data" is dict: { "canvas": canvas_id, "index": int_item_index, "rect": item_rectangle_4_tuple }.
 
 Events for control "treeview":
@@ -3597,5 +3598,6 @@ def project_variables():
 1.0.303 (app 1.87.4)
 * add: listbox_proc: LISTBOX_GET_SHOW_X, LISTBOX_SET_SHOW_X
 * add: listbox_proc: LISTBOX_GET_HOTTRACK, LISTBOX_SET_HOTTRACK
+* add: dlg_proc: added event "on_click_x" for control "listbox_ex"
 
 [[Category:CudaText]]
