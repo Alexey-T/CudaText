@@ -348,8 +348,7 @@ end;
 
 procedure DoInstallLexer(
   const AFilenameInf, ADirAcp: string;
-  out AReport: string;
-  out ADirLexlib: string);
+  out AReport: string);
 var
   i_sub: integer;
   ini_section,
@@ -357,10 +356,10 @@ var
   an, an_sub: TecSyntAnalyzer;
   ini_file, ini_lexmap: TIniFile;
   sections: TStringList;
-  DirSettings: string;
+  DirLexers, DirSettings: string;
 begin
   AReport:= '';
-  ADirLexlib:= GetAppPath(cDirDataLexers);
+  DirLexers:= GetAppPath(cDirDataLexers);
   DirSettings:= GetAppPath(cDirSettings);
 
   ini_file:= TIniFile.Create(AFilenameInf);
@@ -389,12 +388,12 @@ begin
 
       if FileExists(fn_lexer) then
       begin
-        CopyFile(fn_lexer, ADirLexlib+DirectorySeparator+ExtractFileName(fn_lexer));
+        CopyFile(fn_lexer, DirLexers+DirectorySeparator+ExtractFileName(fn_lexer));
         AReport:= AReport+msgStatusPackageLexer+' '+s_lexer+#10;
       end;
 
       if FileExists(fn_lexmap) then
-        CopyFile(fn_lexmap, ADirLexlib+DirectorySeparator+ExtractFileName(fn_lexmap))
+        CopyFile(fn_lexmap, DirLexers+DirectorySeparator+ExtractFileName(fn_lexmap))
       else
         AReport:= AReport+msgStatusPackageMissedLexerMap+#10;
 
@@ -432,7 +431,7 @@ begin
         if s_lexer='Assembler' then s_lexer:= 'Assembly';
 
         //write [ref] section in cuda-lexmap
-        ini_lexmap:= TIniFile.Create(ADirLexlib+DirectorySeparator+ExtractFileName(fn_lexmap));
+        ini_lexmap:= TIniFile.Create(DirLexers+DirectorySeparator+ExtractFileName(fn_lexmap));
         try
           ini_lexmap.WriteString('ref', IntToStr(i_sub), s_lexer);
         finally
@@ -636,11 +635,13 @@ begin
   case AAddonType of
     cAddonTypeLexer:
       begin
-        DoInstallLexer(fn_inf, ADirAcp, AStrReport, ADirTarget)
+        DoInstallLexer(fn_inf, ADirAcp, AStrReport);
+        ADirTarget:= GetAppPath(cDirDataLexers);
       end;
     cAddonTypeLexerLite:
       begin
         DoInstallLexerLite(fn_inf, AStrReport);
+        ADirTarget:= GetAppPath(cDirDataLexersLite);
       end;
     cAddonTypePlugin:
       begin
