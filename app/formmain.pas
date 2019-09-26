@@ -4890,7 +4890,12 @@ begin
   else
     F.Editor.DoCommand(NCommand);
 
-  UpdateFrameEx(F, false);
+  if (NCommand<>-1)
+    and (NCommand<>cmd_FileClose)
+    and (NCommand<>cmd_FileCloseAndDelete)
+    and (NCommand<>cmd_FileCloseAll) then
+    UpdateFrameEx(F, false);
+
   UpdateStatus;
 end;
 
