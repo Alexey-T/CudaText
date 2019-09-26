@@ -386,6 +386,8 @@ LISTBOX_GET_ITEM     = 4
 LISTBOX_SET_ITEM     = 5
 LISTBOX_GET_HOTTRACK = 6
 LISTBOX_SET_HOTTRACK = 7
+LISTBOX_GET_ITEM_PROP = 8
+LISTBOX_SET_ITEM_PROP = 9
 LISTBOX_GET_SEL      = 10
 LISTBOX_SET_SEL      = 11
 LISTBOX_GET_TOP      = 14
@@ -940,7 +942,7 @@ def button_proc(id_button, id_action, value=''):
     return ct.button_proc(id_button, id_action, to_str(value))
 
 def listbox_proc(id_listbox, id_action, index=0, text="", tag=0):
-    return ct.listbox_proc(id_listbox, id_action, index, to_str(text), tag)
+    return ct.listbox_proc(id_listbox, id_action, index, to_str(text), to_str(tag))
 
 def toolbar_proc(id_toolbar, id_action, text="", text2="", command=0, index=-1, index2=-1):
     if callable(command):

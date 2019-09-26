@@ -132,9 +132,10 @@ class Command:
 
             name = prefix+edit.get_prop(PROP_TAB_TITLE).lstrip('*')
             mod = edit.get_prop(PROP_MODIFIED)
-            h_item = listbox_proc(self.h_list, LISTBOX_ADD, index=-1, text=name, tag=(1 if mod else 0))
+            cnt = listbox_proc(self.h_list, LISTBOX_ADD, index=-1, text='?')
+            listbox_proc(self.h_list, LISTBOX_SET_ITEM_PROP, index=cnt-1, text=name, 
+                tag={'modified': mod} )
             if edit.get_prop(PROP_TAG)=='tag':
-                cnt = listbox_proc(self.h_list, LISTBOX_GET_COUNT)
                 listbox_proc(self.h_list, LISTBOX_SET_SEL, index=cnt-1)
 
         ed.set_prop(PROP_TAG, '')

@@ -5070,18 +5070,20 @@ function Py_listbox_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   IdList, NTag: Int64;
   IdAction, NIndex, i: integer;
-  PtrText: PChar;
-  StrText: string;
+  PtrText, PtrTag: PChar;
+  StrText, StrTag: string;
   Listbox: TATListbox;
   IndexOk: boolean;
   Obj: TObject;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'LiisL:listbox_proc', @IdList, @IdAction, @NIndex, @PtrText, @NTag)) then
+    if Bool(PyArg_ParseTuple(Args, 'Liiss:listbox_proc', @IdList, @IdAction, @NIndex, @PtrText, @PtrTag)) then
     begin
       if IdList=0 then exit(ReturnNone);
       Listbox:= TATListbox(PtrInt(IdList));
       StrText:= string(PtrText);
+      StrTag:= string(PtrTag);
+      NTag:= StrToInt64Def(StrTag, 0);
       IndexOk:= (NIndex>=0) and (NIndex<Listbox.Items.Count);
 
       case IdAction of
@@ -5098,7 +5100,7 @@ begin
             if IndexOk then
               Listbox.Items.InsertObject(NIndex, StrText, TATListboxItemProp.Create(NTag, false, ''));
             Listbox.Invalidate;
-            Result:= ReturnNone;
+            Result:= PyInt_FromLong(Listbox.Items.Count);
           end;
 
         LISTBOX_DELETE:
@@ -5163,6 +5165,41 @@ begin
             if IndexOk then
             begin
               Listbox.ItemIndex:= NIndex;
+            end;
+            Result:= ReturnNone;
+          end;
+
+        LISTBOX_GET_ITEM_PROP:
+          begin
+            if IndexOk then
+            begin
+              Obj:= Listbox.Items.Objects[NIndex];
+              if Assigned(Obj) then
+                Result:= Py_BuildValue('{sssOsOss}',
+                  'text',
+                  PChar(Listbox.Items[NIndex]),
+                  'tag',
+                  PyLong_FromLongLong(TATListboxItemProp(Obj).Tag),
+                  'modified',
+                  PyBool_FromLong(Ord(TATListboxItemProp(Obj).Modified)),
+                  'datatext',
+                  PChar(TATListboxItemProp(Obj).DataText)
+                  )
+              else
+                Result:= ReturnNone;
+            end
+            else
+              Result:= ReturnNone;
+          end;
+
+        LISTBOX_SET_ITEM_PROP:
+          begin
+            if IndexOk then
+            begin
+              Listbox.Items[NIndex]:= StrText;
+              Obj:= Listbox.Items.Objects[NIndex];
+              (Obj as TATListboxItemProp).SetFromString(StrTag);
+              Listbox.Invalidate;
             end;
             Result:= ReturnNone;
           end;
