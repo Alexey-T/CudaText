@@ -209,7 +209,7 @@ begin
   c:= TJSONConfig.Create(nil);
   try
     c.FileName:= GetAppPath(cFileOptionsHistory);
-    Result:= c.GetValue('/sync_choose_themes', false);
+    Result:= c.GetValue('/sync_choose_themes', true);
   finally
     c.Free;
   end;
