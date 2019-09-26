@@ -62,6 +62,7 @@ class Command:
             'a_b':('',']'),
             'on_select': 'cuda_tabs_list.list_on_sel',
             'on_menu': 'cuda_tabs_list.list_on_menu',
+            'on_click_x': 'cuda_tabs_list.list_on_click_x',
             'font_name': self.font_name,
             'font_size': self.font_size,
             #'font_color': self.get_color_font(),
@@ -186,6 +187,12 @@ class Command:
         if e:
             e.focus()
         menu_proc(self.h_menu, MENU_SHOW, command='')
+
+    def list_on_click_x(self, id_dlg, id_ctl, data='', info=''):
+        e = self.ed_of_sel()
+        if e:
+            e.focus()
+        self.menu_close_sel()
 
     def config(self):
         self.save_ops()
