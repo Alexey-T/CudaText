@@ -622,7 +622,7 @@ class Command:
         self.id_listbox = h_list
 
         for i in range(40):
-            listbox_proc(h_list, LISTBOX_ADD, index=-1, text='item-%d|%d|...'%(i,i))
+            listbox_proc(h_list, LISTBOX_ADD, index=-1, text='first-%d|2-%d|3-%d'%(i,i,i))
         listbox_proc(h_list, LISTBOX_SET_SEL, index=2)
         listbox_proc(h_list, LISTBOX_SET_ITEM_H, index=28)
         listbox_proc(h_list, LISTBOX_SET_DRAWN, index=1)
