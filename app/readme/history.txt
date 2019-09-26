@@ -16,6 +16,7 @@
 + add: don't reload file, which was deleted outside
 + add: command "ui: focus editor notification panel"
 + add: command "ui: hide editor notification panels"
++ add: file with ASCII char 07 is still considered as text
 
 1.87.2 (2019/09)
 
