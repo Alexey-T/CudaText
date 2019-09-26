@@ -67,6 +67,7 @@ class Command:
             'a_b':('',']'),
             'on_select': 'cuda_tabs_list.list_on_sel',
             'on_menu': 'cuda_tabs_list.list_on_menu',
+            'on_click': 'cuda_tabs_list.list_on_click',
             'on_click_x': 'cuda_tabs_list.list_on_click_x',
             'font_name': self.font_name,
             'font_size': self.font_size,
@@ -200,6 +201,11 @@ class Command:
         if e:
             e.focus()
         self.menu_close_sel()
+
+    def list_on_click(self, id_dlg, id_ctl, data='', info=''):
+        e = self.ed_of_sel()
+        if e:
+            e.focus()
 
     def config(self):
         self.save_ops()
