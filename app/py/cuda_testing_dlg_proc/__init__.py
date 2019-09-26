@@ -172,6 +172,8 @@ class Command:
         val = listbox_proc(self.id_listbox, LISTBOX_GET_SHOW_X)
         val = (val+1)%3 # possible values: 0..2
         listbox_proc(self.id_listbox, LISTBOX_SET_SHOW_X, index=val)
+        listbox_proc(self.id_listbox, LISTBOX_SET_HOTTRACK, index=(1 if val>0 else 0))
+        
 
     def callback_listbox_columns(self, id_dlg, id_ctl, data='', info=''):
 

@@ -5183,6 +5183,18 @@ begin
             Result:= ReturnNone;
           end;
 
+        LISTBOX_GET_HOTTRACK:
+          begin
+            Result:= PyBool_FromLong(Ord(Listbox.HotTrack));
+          end;
+
+        LISTBOX_SET_HOTTRACK:
+          begin
+            Listbox.HotTrack:= (NIndex=1);
+            Listbox.Invalidate;
+            Result:= ReturnNone;
+          end;
+
         LISTBOX_GET_DRAWN:
           begin
             Result:= PyBool_FromLong(Ord(Listbox.OwnerDrawn));
