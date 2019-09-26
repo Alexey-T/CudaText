@@ -194,6 +194,7 @@ const
   msgStatusPackageCommand: string = 'command:';
   msgStatusPackageEvents: string = 'events:';
   msgStatusPackageLexer: string = 'lexer:';
+  msgStatusPackageLexerSettings: string = 'lexer settings:';
   msgStatusPackageAutoCompletion: string = 'static auto-completion:';
   msgStatusPackageMissedLexerMap: string = 'lexer misses themes support (.cuda-lexmap file)';
   msgStatusInstalledNeedRestart: string = 'Package will take effect after program restart';

@@ -328,13 +328,15 @@ procedure DoInstallLexer(
 var
   i_sub: integer;
   ini_section,
-  s_lexer, fn_lexer, fn_acp, fn_lexmap: string;
+  s_lexer, fn_lexer, fn_acp, fn_lexmap, fn_json: string;
   an, an_sub: TecSyntAnalyzer;
   ini_file, ini_lexmap: TIniFile;
   sections: TStringList;
+  DirSettings: string;
 begin
   AReport:= '';
   ADirLexlib:= GetAppPath(cDirDataLexers);
+  DirSettings:= GetAppPath(cDirSettings);
 
   ini_file:= TIniFile.Create(AFilenameInf);
   sections:= TStringList.Create;
@@ -351,6 +353,7 @@ begin
       //copy lexer file
       fn_lexer:= ExtractFileDir(AFilenameInf)+DirectorySeparator+s_lexer+'.lcf';
       fn_lexmap:= ExtractFileDir(AFilenameInf)+DirectorySeparator+s_lexer+'.cuda-lexmap';
+      fn_json:= ExtractFileDir(AFilenameInf)+DirectorySeparator+'lexer '+s_lexer+'.json';
       fn_acp:= ExtractFileDir(AFilenameInf)+DirectorySeparator+s_lexer+'.acp';
 
       if not FileExists(fn_lexer) then
@@ -369,6 +372,12 @@ begin
         CopyFile(fn_lexmap, ADirLexlib+DirectorySeparator+ExtractFileName(fn_lexmap))
       else
         AReport:= AReport+msgStatusPackageMissedLexerMap+#10;
+
+      if FileExists(fn_json) then
+      begin
+        CopyFile(fn_json, DirSettings+DirectorySeparator+ExtractFileName(fn_json));
+        AReport:= AReport+msgStatusPackageLexerSettings+' '+s_lexer+#10;
+      end;
 
       if FileExists(fn_acp) then
       begin
