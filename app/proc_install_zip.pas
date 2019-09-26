@@ -219,24 +219,39 @@ procedure DoInstallLexerLite(
   out AReport: string);
 var
   ini: TIniFile;
-  SName, SDirFrom, SDirTo: string;
+  STitle, SLexerName,
+  DirFrom, DirLexersLite, DirSettings: string;
+  fn_lexer, fn_json: string;
 begin
   AReport:= '';
+  DirFrom:= ExtractFileDir(AFilenameInf);
+  DirLexersLite:= GetAppPath(cDirDataLexersLite);
+  DirSettings:= GetAppPath(cDirSettings);
 
   ini:= TIniFile.Create(AFilenameInf);
   try
-    SName:= ini.ReadString('info', 'title', '');
-    if SName='' then exit;
+    STitle:= ini.ReadString('info', 'title', '');
+    if STitle='' then exit;
+    SLexerName:= ini.ReadString('lexer1', 'file', '');
+    if SLexerName='' then exit;
   finally
     FreeAndNil(ini);
   end;
 
-  DeleteFile(AFilenameInf);
-  SDirFrom:= ExtractFileDir(AFilenameInf);
-  SDirTo:= GetAppPath(cDirDataLexersLite);
-  FCopyDir(SDirFrom, SDirTo);
+  fn_lexer:= DirFrom+DirectorySeparator+SLexerName+'.cuda-litelexer';
+  fn_json:= DirFrom+DirectorySeparator+'lexer '+SLexerName+'.json';
 
-  AReport:= 'lite lexer: '+SName;
+  if FileExists(fn_lexer) then
+  begin
+    CopyFile(fn_lexer, DirLexersLite+DirectorySeparator+ExtractFileName(fn_lexer));
+    AReport:= AReport+msgStatusPackageLexer+' '+SLexerName+#10;
+  end;
+
+  if FileExists(fn_json) then
+  begin
+    CopyFile(fn_json, DirSettings+DirectorySeparator+ExtractFileName(fn_json));
+    AReport:= AReport+msgStatusPackageLexerSettings+' '+SLexerName+#10;
+  end;
 end;
 
 
