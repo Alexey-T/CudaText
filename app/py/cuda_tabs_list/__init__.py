@@ -13,7 +13,7 @@ THEME = app_proc(PROC_THEME_UI_DATA_GET, '')
 class Command:
     title = 'Tabs'
     h_dlg = None
-    h_tree = None
+    h_list = None
     h_menu = None
     busy_update = False
     show_index_group = False
@@ -50,18 +50,18 @@ class Command:
 
         self.h_dlg = dlg_proc(0, DLG_CREATE)
 
-        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
+        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='listbox_ex')
 
-        self.h_tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
-        tree_proc(self.h_tree, TREE_PROP_SHOW_ROOT, 0, 0, '0')
-        tree_proc(self.h_tree, TREE_THEME)
+        self.h_list = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
+        listbox_proc(self.h_list, LISTBOX_SET_SHOW_X, index=1)
+        listbox_proc(self.h_list, LISTBOX_SET_HOTTRACK, index=1)
 
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
-            'name':'tree',
+            'name':'list',
             'a_r':('',']'), #anchor to entire form: l,r,t,b
             'a_b':('',']'),
-            'on_select': 'cuda_tabs_list.tree_on_sel',
-            'on_menu': 'cuda_tabs_list.tree_on_menu',
+            'on_select': 'cuda_tabs_list.list_on_sel',
+            'on_menu': 'cuda_tabs_list.list_on_menu',
             'font_name': self.font_name,
             'font_size': self.font_size,
             #'font_color': self.get_color_font(),
@@ -87,13 +87,13 @@ class Command:
     def on_tab_move(self, ed_self):
         self.update()
 
-    def clear_tree(self):
-        tree_proc(self.h_tree, TREE_ITEM_DELETE, 0)
+    def clear_list(self):
+        listbox_proc(self.h_list, LISTBOX_DELETE_ALL)
 
     def update(self):
-        if self.h_tree is None: return
+        if self.h_list is None: return
         self.busy_update = True
-        self.clear_tree()
+        self.clear_list()
 
         ed.set_prop(PROP_TAG, 'tag')
         handles = ed_handles()
@@ -105,8 +105,6 @@ class Command:
         for h in handles:
             edit = Editor(h)
             image_index = h-handles[0]
-
-            #prefix_mod = '*' if edit.get_prop(PROP_MODIFIED) else ''
 
             prefix = ''
             show_g = self.show_index_group
@@ -131,10 +129,13 @@ class Command:
                 elif show_t:
                     prefix = '%s. '%s_tab
 
-            name = prefix+edit.get_prop(PROP_TAB_TITLE)
-            h_item = tree_proc(self.h_tree, TREE_ITEM_ADD, 0, -1, name, image_index)
+            name = prefix+edit.get_prop(PROP_TAB_TITLE).lstrip('*')
+            mod = edit.get_prop(PROP_MODIFIED)
+            h_item = listbox_proc(self.h_list, LISTBOX_ADD, index=-1, text=name, tag=(1 if mod else 0))
             if edit.get_prop(PROP_TAG)=='tag':
-                tree_proc(self.h_tree, TREE_ITEM_SELECT, h_item)
+                cnt = listbox_proc(self.h_list, LISTBOX_GET_COUNT)
+                listbox_proc(self.h_list, LISTBOX_SET_SEL, index=cnt-1)
+
         ed.set_prop(PROP_TAG, '')
 
         self.busy_update = False
@@ -145,13 +146,9 @@ class Command:
             self.update()
 
     def ed_of_sel(self):
-        h_item = tree_proc(self.h_tree, TREE_ITEM_GET_SELECTED)
-        prop = tree_proc(self.h_tree, TREE_ITEM_GET_PROPS, h_item)
-        if prop is None: return
-        index = prop['icon'] #image_index
-        h = ed_handles()[index]
-        e = Editor(h)
-        return e
+        h_item = listbox_proc(self.h_list, LISTBOX_GET_SEL)
+        h = ed_handles()[h_item]
+        return Editor(h)
 
     def menu_close_sel(self):
         e = self.ed_of_sel()
@@ -170,14 +167,14 @@ class Command:
         e.cmd(cudatext_cmd.cmd_CopyFilenameName)
 
 
-    def tree_on_sel(self, id_dlg, id_ctl, data='', info=''):
-        if self.h_tree is None: return
+    def list_on_sel(self, id_dlg, id_ctl, data='', info=''):
+        if self.h_list is None: return
         if self.busy_update: return
 
         e = self.ed_of_sel()
         e.focus()
 
-    def tree_on_menu(self, id_dlg, id_ctl, data='', info=''):
+    def list_on_menu(self, id_dlg, id_ctl, data='', info=''):
         if self.h_menu is None: return
         menu_proc(self.h_menu, MENU_SHOW, command='')
 
