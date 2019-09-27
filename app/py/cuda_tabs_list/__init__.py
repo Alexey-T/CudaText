@@ -142,9 +142,8 @@ class Command:
             name = prefix+edit.get_prop(PROP_TAB_TITLE).lstrip('*') \
                 + '|' + os.path.dirname(edit.get_filename())
             mod = edit.get_prop(PROP_MODIFIED)
-            cnt = listbox_proc(self.h_list, LISTBOX_ADD, index=-1, text='?')
-            listbox_proc(self.h_list, LISTBOX_SET_ITEM_PROP, index=cnt-1, text=name, 
-                tag={'modified': mod} )
+            cnt = listbox_proc(self.h_list, LISTBOX_ADD_PROP, index=-1, 
+                text=name, tag={'modified': mod} )
             if edit.get_prop(PROP_TAG)=='tag':
                 listbox_proc(self.h_list, LISTBOX_SET_SEL, index=cnt-1)
 
