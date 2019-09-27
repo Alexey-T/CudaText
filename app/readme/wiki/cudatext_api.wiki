@@ -1389,7 +1389,8 @@ Perform action on listbox UI-control.
 Possible values of "id_action":
 
 * LISTBOX_GET_COUNT: Gets number if items.
-* LISTBOX_ADD: Adds item with given text (str) and tag (int). Gets count of items. Param "index": index of new item, or -1 to append.
+* LISTBOX_ADD: Adds item with given text and tag. Gets new count of items. Param "index": index of new item, or -1 to append. Param "text": text of item. Param "tag": int tag.
+* LISTBOX_ADD_PROP: Adds item with given text and other properties. Gets new count of items. Param "index": index of new item, or -1 to append. Param "text": text of item. Param "tag": dict with keys "tag", "modified", "datatext". 
 * LISTBOX_DELETE: Deletes item with given index.
 * LISTBOX_DELETE_ALL: Deletes all items.
 * LISTBOX_GET_ITEM: Gets text/tag of item with given index. Gets 2-tuple (text, tag) or None if index incorrect.
@@ -3603,5 +3604,8 @@ def project_variables():
 * add: listbox_proc: LISTBOX_GET_ITEM_PROP, LISTBOX_SET_ITEM_PROP
 * add: listbox_proc: LISTBOX_ADD returns count of items
 * add: dlg_proc: control "listbox_ex" has new event "on_click_x"
+
+1.0.304 (app 1.87.5)
+* add: listbox_proc: LISTBOX_ADD_PROP
 
 [[Category:CudaText]]
