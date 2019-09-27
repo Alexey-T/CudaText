@@ -511,12 +511,12 @@ begin
 
     //note: reading 'theme_ui', 'theme_syntax' from history is deprecated in 2019.09
     //now it's read from user.json
-    if UiOps.ThemeUi<>'' then
+    if UiOps.ThemeUi_Loaded then
       ThemeUi:= UiOps.ThemeUi
     else
       ThemeUi:= c.GetValue('theme_ui', '');
 
-    if UiOps.ThemeSyntax<>'' then
+    if UiOps.ThemeSyntax_Loaded then
       ThemeSyntax:= UiOps.ThemeSyntax
     else
       ThemeSyntax:= c.GetValue('theme_syntax', '');
@@ -882,6 +882,8 @@ begin
 end;
 
 procedure TfmMain.DoOps_LoadOptions_Ui(c: TJSONConfig);
+var
+  S: string;
 begin
   UiOps.VarFontName:= UTF8Encode(c.GetValue(str_UiFontName, UTF8Decode(UiOps.VarFontName)));
   UiOps.VarFontSize:= Abs(c.GetValue(str_UiFontSize, UiOps.VarFontSize)); //Abs for macOS
@@ -1057,8 +1059,15 @@ begin
   UiOps.DefaultEncUtf8:= c.GetValue(str_DefEncodingIsUtf8, UiOps.DefaultEncUtf8);
   UiOps.ViewerBinaryWidth:= c.GetValue('viewer_binary_width', UiOps.ViewerBinaryWidth);
 
-  UiOps.ThemeUi:= c.GetValue('ui_theme', UiOps.ThemeUi);;
-  UiOps.ThemeSyntax:= c.GetValue('ui_theme_syntax', UiOps.ThemeSyntax);;
+  S:= c.GetValue('ui_theme', '?');
+  UiOps.ThemeUi_Loaded:= S<>'?';
+  if UiOps.ThemeUi_Loaded then
+    UiOps.ThemeUi:= S;
+
+  S:= c.GetValue('ui_theme_syntax', '?');
+  UiOps.ThemeSyntax_Loaded:= S<>'?';
+  if UiOps.ThemeSyntax_Loaded then
+    UiOps.ThemeSyntax:= S;
 end;
 
 

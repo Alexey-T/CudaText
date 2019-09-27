@@ -153,8 +153,11 @@ type
 
     ToolBarTheme: string;
     LangName: string;
+
     ThemeUi: string;
     ThemeSyntax: string;
+    ThemeUi_Loaded: boolean;
+    ThemeSyntax_Loaded: boolean;
 
     SidebarShow: boolean;
     SidebarOnRight: boolean;
@@ -1278,6 +1281,8 @@ begin
     LangName:= '';
     ThemeUi:= '';
     ThemeSyntax:= '';
+    ThemeUi_Loaded:= false;
+    ThemeSyntax_Loaded:= false;
 
     AutocompleteHtml_Lexers:= '.*HTML.*|PHP';
     AutocompleteCss_Lexers:= 'CSS';
