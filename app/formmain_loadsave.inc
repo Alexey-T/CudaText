@@ -26,6 +26,25 @@ begin
   end;
 end;
 
+procedure TfmMain.DoOps_SaveThemes;
+var
+  c: TJSONConfig;
+begin
+  c:= TJSONConfig.Create(nil);
+  try
+    try
+      c.Formatted:= true;
+      c.FileName:= GetAppPath(cFileOptionsUser);
+    except
+      exit
+    end;
+    c.SetValue('/ui_theme', UiOps.ThemeUi);
+    c.SetValue('/ui_theme_syntax', UiOps.ThemeSyntax);
+  finally
+    c.Free;
+  end;
+end;
+
 procedure TfmMain.DoOps_SaveHistory;
 var
   c: TJSONConfig;

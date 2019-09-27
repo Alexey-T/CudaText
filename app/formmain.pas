@@ -911,6 +911,7 @@ type
     procedure DoOps_SaveHistory;
     procedure DoOps_SaveHistory_GroupView(c: TJsonConfig);
     procedure DoOps_SaveOptionBool(const APath: string; AValue: boolean);
+    procedure DoOps_SaveThemes;
     procedure DoOps_LoadHistory;
     procedure DoOps_LoadHistory_GroupView(c: TJsonConfig);
     function DoOps_SaveSession(fn_session: string): boolean;

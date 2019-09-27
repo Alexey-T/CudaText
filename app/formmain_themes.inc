@@ -186,7 +186,9 @@ begin
     Form.ThemeUiSetter:= @DoDialogMenuThemes_ThemeUiSelect;
     Form.ThemeSyntaxSetter:= @DoDialogMenuThemes_ThemeSyntaxSelect;
 
-    if Form.ShowModal<>mrOK then
+    if Form.ShowModal=mrOK then
+      DoOps_SaveThemes
+    else
     begin
       ThemeUi:= OldThemeUi;
       ThemeSyntax:= OldThemeSyntax;
