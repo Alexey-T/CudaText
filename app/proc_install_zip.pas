@@ -221,12 +221,12 @@ var
   ini: TIniFile;
   sections: TStringList;
   ini_section, STitle, SLexer,
-  DirFrom, DirLexersLite, DirSettings: string;
+  DirFrom, DirLexers, DirSettings: string;
   fn_lexer, fn_json: string;
 begin
   AReport:= '';
   DirFrom:= ExtractFileDir(AFilenameInf);
-  DirLexersLite:= GetAppPath(cDirDataLexersLite);
+  DirLexers:= GetAppPath(cDirDataLexersLite);
   DirSettings:= GetAppPath(cDirSettingsDefault);
 
   ini:= TIniFile.Create(AFilenameInf);
@@ -248,7 +248,7 @@ begin
 
       if FileExists(fn_lexer) then
       begin
-        CopyFile(fn_lexer, DirLexersLite+DirectorySeparator+ExtractFileName(fn_lexer));
+        CopyFile(fn_lexer, DirLexers+DirectorySeparator+ExtractFileName(fn_lexer));
         AReport:= AReport+msgStatusPackageLexer+' '+SLexer+#10;
       end;
 
