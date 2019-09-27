@@ -1046,6 +1046,7 @@ Events for control "listview"/"checklistview":
 
 Events for control "listbox_ex":
 
+* "on_click_x": Called when listbox has X marks shown and X mark is clicked.
 * "on_draw_item": Called if listbox is owner-drawn. Param "data" is dict: { "canvas": canvas_id, "index": int_item_index, "rect": item_rectangle_4_tuple }.
 
 Events for control "treeview":
@@ -1388,19 +1389,25 @@ Perform action on listbox UI-control.
 Possible values of "id_action":
 
 * LISTBOX_GET_COUNT: Gets number if items.
-* LISTBOX_ADD: Adds item (str) with associated tag (int). Param "index": at which index to add, -1 to append.
+* LISTBOX_ADD: Adds item with given text (str) and tag (int). Gets count of items. Param "index": index of new item, or -1 to append.
 * LISTBOX_DELETE: Deletes item with given index.
 * LISTBOX_DELETE_ALL: Deletes all items.
-* LISTBOX_GET_ITEM: Gets item with given index as 2-tuple (text, tag). Gets None if index incorrect.
-* LISTBOX_SET_ITEM: Sets item with given index, to given text and tag.
+* LISTBOX_GET_ITEM: Gets text/tag of item with given index. Gets 2-tuple (text, tag) or None if index incorrect.
+* LISTBOX_SET_ITEM: Sets text/tag of item with given index. Params used: "index", "text", "tag".
+* LISTBOX_GET_ITEM_PROP: Gets properties of item with given index, as dict or None. Dict keys are: "text", "tag", "modified", "datatext". 
+* LISTBOX_SET_ITEM_PROP: Sets properties of item with given index. Param "index": int value. Param "text": new text of item. Param "tag": dict with keys "tag", "modified", "datatext".
 * LISTBOX_GET_ITEM_H: Gets height of items in pixels.
-* LISTBOX_SET_ITEM_H: Sets height of items in pixels. Param "index": size.
+* LISTBOX_SET_ITEM_H: Sets height of items in pixels. Param "index": int value
 * LISTBOX_GET_SEL: Gets selected index. -1 for none.
-* LISTBOX_SET_SEL: Sets selected index. -1 for none.
+* LISTBOX_SET_SEL: Sets selected index. Param "index": int value
 * LISTBOX_GET_TOP: Gets index of top visible item.
-* LISTBOX_SET_TOP: Sets index of top visible item.
-* LISTBOX_GET_DRAWN: Gets bool: listbox is owner-drawn, ie it don't paint itself, but plugin must paint it via event on_draw_item.
-* LISTBOX_SET_DRAWN: Sets owner-drawn state. Param "index" should be 0 or 1 (off/on).
+* LISTBOX_SET_TOP: Sets index of top visible item. Param "index": int value
+* LISTBOX_GET_DRAWN: Gets owner-drawn state (bool). Owner-drawn state means that listbox doesn't paint itself, but plugin must paint it via event "on_draw_item".
+* LISTBOX_SET_DRAWN: Sets owner-drawn state. Param "index": 0 or 1 (off/on).
+* LISTBOX_GET_SHOW_X: Gets state of X marks. Int value: 0: don't show, 1: show for all items, 2: show for mouse-over item.
+* LISTBOX_SET_SHOW_X: Sets state of X marks. Param "index": int value.
+* LISTBOX_GET_HOTTRACK: Gets HotTrack state (bool). HotTrack means that listbox highlights item under mouse cursor.
+* LISTBOX_SET_HOTTRACK: Sets HotTrack state. Param "index": 0 or 1 (off/on).
 
 Listbox can have columns. It works only if listbox is not owner-drawn, and column sizes were set via LISTBOX_SET_COLUMNS. You must add separator-chars inside items to split items into columns. Column sizes are passed as list of int. Each list item can be:
 * value>0: Column width in pixels.
@@ -3589,5 +3596,12 @@ def project_variables():
 * add: app_proc: PROC_THEME_SYNTAX_DICT_GET
 * deprecated: PROC_THEME_UI_DATA_GET
 * deprecated: PROC_THEME_SYNTAX_DATA_GET
+
+1.0.303 (app 1.87.5)
+* add: listbox_proc: LISTBOX_GET_SHOW_X, LISTBOX_SET_SHOW_X
+* add: listbox_proc: LISTBOX_GET_HOTTRACK, LISTBOX_SET_HOTTRACK
+* add: listbox_proc: LISTBOX_GET_ITEM_PROP, LISTBOX_SET_ITEM_PROP
+* add: listbox_proc: LISTBOX_ADD returns count of items
+* add: dlg_proc: control "listbox_ex" has new event "on_click_x"
 
 [[Category:CudaText]]

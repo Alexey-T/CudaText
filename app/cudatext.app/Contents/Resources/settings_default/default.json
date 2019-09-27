@@ -113,9 +113,9 @@
   "ui_one_instance": false,
 
   //[File]
-  //Notifications about file change/deletion in external programs: timer interval (seconds).
-  //If 0, notifications are disabled.
-  "ui_notif_time": 2,
+  //Enable notifications about file change/deletion in external programs
+  //(changing to "true" requires app restart)
+  "ui_notif": true,
 
   //[File/NonText]
   //Non-text files: allow to open
@@ -250,15 +250,12 @@
   "saving_force_final_eol": false,
 
   //[Text]
-  //Commands Jump-next-word, Jump-previous-word, Select-word (double-click) will
-  //see these chars as "letters" and select them like letters.
-  //  Don't enter here: Latin/Rus/Greek/German letters, "0".."9", "_".
-  //  Note: config read as utf8.
-  "word_chars": "",
+  //String of non-word characters, which define word boundaries
+  "nonword_chars": "-+*=/\\()[]{}<>\"'.,:;~?!@#$%^&|`…",
 
-  //Show these unicode chars as "xNNNN" hex strings.
-  //  Some chars are here by default: http://unicode.org/reports/tr9/#Directional_Formatting_Characters
-  //  Note: config is read as utf8.
+  //Show these Unicode characters in long hex form: xNNNN
+  //Some chars are shown in hex form by default:
+  // http://unicode.org/reports/tr9/#Directional_Formatting_Characters
   "hex_chars": "",
 
   //Additional vertical spacing per each line (pixels), can be <0
@@ -479,6 +476,9 @@
   //  4: carets column on left
   //  5: carets column on right
   "caret_after_paste_column": 5,
+
+  //Keep caret on visible screen area, on commands "Scroll line up/down"
+  "caret_keep_visible_on_scroll": true,
 
   //[Find]
   //Find dialog: show window, not docked to app bottom (applied after restart)

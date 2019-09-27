@@ -13,7 +13,7 @@ THEME = app_proc(PROC_THEME_UI_DATA_GET, '')
 class Command:
     title = 'Tabs'
     h_dlg = None
-    h_tree = None
+    h_list = None
     h_menu = None
     busy_update = False
     show_index_group = False
@@ -21,6 +21,8 @@ class Command:
     show_index_aligned = False
     font_name = 'default'
     font_size = 10
+    column_name = 170
+    column_folder = 0
 
     def __init__(self):
         self.load_ops()
@@ -31,6 +33,8 @@ class Command:
         self.show_index_aligned = str_to_bool(ini_read(fn_config, 'op', 'show_index_aligned', '0'))
         self.font_name = ini_read(fn_config, 'op', 'font_name', self.font_name)
         self.font_size = int(ini_read(fn_config, 'op', 'font_size', str(self.font_size)))
+        self.column_name = int(ini_read(fn_config, 'op', 'column_name', str(self.column_name)))
+        self.column_folder = int(ini_read(fn_config, 'op', 'column_folder', str(self.column_folder)))
 
     def save_ops(self):
         ini_write(fn_config, 'op', 'show_index_group', bool_to_str(self.show_index_group))
@@ -38,6 +42,8 @@ class Command:
         ini_write(fn_config, 'op', 'show_index_aligned', bool_to_str(self.show_index_aligned))
         ini_write(fn_config, 'op', 'font_name', self.font_name)
         ini_write(fn_config, 'op', 'font_size', str(self.font_size))
+        ini_write(fn_config, 'op', 'column_name', str(self.column_name))
+        ini_write(fn_config, 'op', 'column_folder', str(self.column_folder))
 
     def open(self):
 
@@ -50,18 +56,22 @@ class Command:
 
         self.h_dlg = dlg_proc(0, DLG_CREATE)
 
-        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
+        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='listbox_ex')
 
-        self.h_tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
-        tree_proc(self.h_tree, TREE_PROP_SHOW_ROOT, 0, 0, '0')
-        tree_proc(self.h_tree, TREE_THEME)
+        self.h_list = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
+        listbox_proc(self.h_list, LISTBOX_SET_SHOW_X, index=2)
+        listbox_proc(self.h_list, LISTBOX_SET_HOTTRACK, index=1)
+        listbox_proc(self.h_list, LISTBOX_SET_COLUMN_SEP, text='|')
+        listbox_proc(self.h_list, LISTBOX_SET_COLUMNS, text=[self.column_name, self.column_folder])
 
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
-            'name':'tree',
+            'name':'list',
             'a_r':('',']'), #anchor to entire form: l,r,t,b
             'a_b':('',']'),
-            'on_select': 'cuda_tabs_list.tree_on_sel',
-            'on_menu': 'cuda_tabs_list.tree_on_menu',
+            'on_select': 'cuda_tabs_list.list_on_sel',
+            'on_menu': 'cuda_tabs_list.list_on_menu',
+            'on_click': 'cuda_tabs_list.list_on_click',
+            'on_click_x': 'cuda_tabs_list.list_on_click_x',
             'font_name': self.font_name,
             'font_size': self.font_size,
             #'font_color': self.get_color_font(),
@@ -87,13 +97,13 @@ class Command:
     def on_tab_move(self, ed_self):
         self.update()
 
-    def clear_tree(self):
-        tree_proc(self.h_tree, TREE_ITEM_DELETE, 0)
+    def clear_list(self):
+        listbox_proc(self.h_list, LISTBOX_DELETE_ALL)
 
     def update(self):
-        if self.h_tree is None: return
+        if self.h_list is None: return
         self.busy_update = True
-        self.clear_tree()
+        self.clear_list()
 
         ed.set_prop(PROP_TAG, 'tag')
         handles = ed_handles()
@@ -105,8 +115,6 @@ class Command:
         for h in handles:
             edit = Editor(h)
             image_index = h-handles[0]
-
-            #prefix_mod = '*' if edit.get_prop(PROP_MODIFIED) else ''
 
             prefix = ''
             show_g = self.show_index_group
@@ -131,10 +139,15 @@ class Command:
                 elif show_t:
                     prefix = '%s. '%s_tab
 
-            name = prefix+edit.get_prop(PROP_TAB_TITLE)
-            h_item = tree_proc(self.h_tree, TREE_ITEM_ADD, 0, -1, name, image_index)
+            name = prefix+edit.get_prop(PROP_TAB_TITLE).lstrip('*') \
+                + '|' + os.path.dirname(edit.get_filename())
+            mod = edit.get_prop(PROP_MODIFIED)
+            cnt = listbox_proc(self.h_list, LISTBOX_ADD, index=-1, text='?')
+            listbox_proc(self.h_list, LISTBOX_SET_ITEM_PROP, index=cnt-1, text=name, 
+                tag={'modified': mod} )
             if edit.get_prop(PROP_TAG)=='tag':
-                tree_proc(self.h_tree, TREE_ITEM_SELECT, h_item)
+                listbox_proc(self.h_list, LISTBOX_SET_SEL, index=cnt-1)
+
         ed.set_prop(PROP_TAG, '')
 
         self.busy_update = False
@@ -145,41 +158,57 @@ class Command:
             self.update()
 
     def ed_of_sel(self):
-        h_item = tree_proc(self.h_tree, TREE_ITEM_GET_SELECTED)
-        prop = tree_proc(self.h_tree, TREE_ITEM_GET_PROPS, h_item)
-        if prop is None: return
-        index = prop['icon'] #image_index
-        h = ed_handles()[index]
-        e = Editor(h)
-        return e
+        sel = listbox_proc(self.h_list, LISTBOX_GET_SEL)
+        if sel<0: return
+        h = ed_handles()[sel]
+        return Editor(h)
 
     def menu_close_sel(self):
         e = self.ed_of_sel()
-        e.cmd(cudatext_cmd.cmd_FileClose)
+        if e:
+            e.cmd(cudatext_cmd.cmd_FileClose)
 
     def menu_close_others(self):
         e = self.ed_of_sel()
-        e.cmd(cudatext_cmd.cmd_FileCloseOtherAll)
+        if e:
+            e.cmd(cudatext_cmd.cmd_FileCloseOtherAll)
 
     def menu_copy_file_path(self):
         e = self.ed_of_sel()
-        e.cmd(cudatext_cmd.cmd_CopyFilenameFull)
+        if e:
+            e.cmd(cudatext_cmd.cmd_CopyFilenameFull)
 
     def menu_copy_file_name(self):
         e = self.ed_of_sel()
-        e.cmd(cudatext_cmd.cmd_CopyFilenameName)
+        if e:
+            e.cmd(cudatext_cmd.cmd_CopyFilenameName)
 
 
-    def tree_on_sel(self, id_dlg, id_ctl, data='', info=''):
-        if self.h_tree is None: return
+    def list_on_sel(self, id_dlg, id_ctl, data='', info=''):
+        if self.h_list is None: return
         if self.busy_update: return
 
         e = self.ed_of_sel()
-        e.focus()
+        if e:
+            e.focus()
 
-    def tree_on_menu(self, id_dlg, id_ctl, data='', info=''):
+    def list_on_menu(self, id_dlg, id_ctl, data='', info=''):
         if self.h_menu is None: return
+        e = self.ed_of_sel()
+        if e:
+            e.focus()
         menu_proc(self.h_menu, MENU_SHOW, command='')
+
+    def list_on_click_x(self, id_dlg, id_ctl, data='', info=''):
+        e = self.ed_of_sel()
+        if e:
+            e.focus()
+        self.menu_close_sel()
+
+    def list_on_click(self, id_dlg, id_ctl, data='', info=''):
+        e = self.ed_of_sel()
+        if e:
+            e.focus()
 
     def config(self):
         self.save_ops()

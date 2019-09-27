@@ -316,7 +316,7 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 
 * "code tree icons": Icon sets for the Code Tree (icons are visible in the Code Tree with some lexers, e.g. C#).
 
-==Location of settings/data files==
+==Location of 'settings' and 'data' folders==
 
 When CudaText runs in portable mode (executable file is located near folder "data"), then portable folders are used. Otherwise:
 
