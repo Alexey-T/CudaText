@@ -40,8 +40,6 @@ type
     procedure SetEnableLexerThemes(AValue: boolean);
     procedure SetEnableSync(AValue: boolean);
   public
-    ThemeUi: string;
-    ThemeSyntax: string;
     ThemeUiSetter: TAppThemeSetter;
     ThemeSyntaxSetter: TAppThemeSetter;
     property EnableLexerThemes: boolean read GetEnableLexerThemes write SetEnableLexerThemes;
@@ -113,8 +111,8 @@ end;
 
 procedure TfmChooseTheme.FormShow(Sender: TObject);
 begin
-  ListboxUI.ItemIndex:= Max(0, ListboxUI.Items.IndexOf(ThemeUI));
-  ListboxSyntax.ItemIndex:= Max(0, ListboxSyntax.Items.IndexOf(ThemeSyntax));
+  ListboxUI.ItemIndex:= Max(0, ListboxUI.Items.IndexOf(UiOps.ThemeUi));
+  ListboxSyntax.ItemIndex:= Max(0, ListboxSyntax.Items.IndexOf(UiOps.ThemeSyntax));
   chkSync.Checked:= EnableSync;
   chkEnableLex.Checked:= EnableLexerThemes;
   ListboxSyntax.Enabled:= chkEnableLex.Checked;

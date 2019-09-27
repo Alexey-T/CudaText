@@ -183,8 +183,6 @@ begin
   try
     OldThemeUi:= UiOps.ThemeUi;
     OldThemeSyntax:= UiOps.ThemeSyntax;
-    Form.ThemeUi:= UiOps.ThemeUi;
-    Form.ThemeSyntax:= UiOps.ThemeSyntax;
     Form.ThemeUiSetter:= @DoDialogMenuThemes_ThemeUiSelect;
     Form.ThemeSyntaxSetter:= @DoDialogMenuThemes_ThemeSyntaxSelect;
 
