@@ -1422,6 +1422,13 @@ Actions for columns:
 * LISTBOX_GET_COLUMNS: Gets list of column sizes.
 * LISTBOX_SET_COLUMNS: Sets list of column sizes. Param "text" must be list of int.
 
+Example adds 3 columns:
+<syntaxhighlight lang="python">
+  listbox_proc(h_list, LISTBOX_SET_COLUMN_SEP, text='|')
+  listbox_proc(h_list, LISTBOX_SET_COLUMNS, text=[-50,0,-20]) # width<0 means value in %
+  listbox_proc(h_list, LISTBOX_ADD, index=-1, text='first|second|third')
+</syntaxhighlight>
+
 ===canvas_proc===
 
  canvas_proc(id_canvas, id_action,
