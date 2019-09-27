@@ -151,8 +151,8 @@ type
     LexerDelayedParsingSize: integer;
     LexerPostponeUntilShown: boolean;
 
-    LangName: string;
     ToolBarTheme: string;
+    LangName: string;
     ThemeUi: string;
     ThemeSyntax: string;
 
@@ -1274,6 +1274,10 @@ begin
     SidebarTheme:= 'common_20x20';
     TreeTheme:= 'default_16x16';
     ToolBarTheme:= 'default_24x24';
+
+    LangName:= '';
+    ThemeUi:= '';
+    ThemeSyntax:= '';
 
     AutocompleteHtml_Lexers:= '.*HTML.*|PHP';
     AutocompleteCss_Lexers:= 'CSS';

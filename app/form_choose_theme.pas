@@ -27,6 +27,7 @@ type
     ListboxUI: TListBox;
     procedure chkEnableLexChange(Sender: TObject);
     procedure chkSyncChange(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ListboxSyntaxClick(Sender: TObject);
@@ -35,6 +36,7 @@ type
     procedure Localize;
     function GetEnableLexerThemes: boolean;
     function GetEnableSync: boolean;
+    procedure SaveThemes;
     procedure SetEnableLexerThemes(AValue: boolean);
     procedure SetEnableSync(AValue: boolean);
   public
@@ -100,6 +102,13 @@ begin
   EnableSync:= chkSync.Checked;
   if chkSync.Checked and chkEnableLex.Checked then
     ListboxUIClick(Self);
+end;
+
+procedure TfmChooseTheme.FormClose(Sender: TObject;
+  var CloseAction: TCloseAction);
+begin
+  if ModalResult=mrOk then
+    SaveThemes;
 end;
 
 procedure TfmChooseTheme.FormShow(Sender: TObject);
@@ -242,6 +251,22 @@ begin
     c.Free;
   end;
 end;
+
+procedure TfmChooseTheme.SaveThemes;
+var
+  c: TJSONConfig;
+begin
+  c:= TJSONConfig.Create(nil);
+  try
+    c.Formatted:= true;
+    c.FileName:= GetAppPath(cFileOptionsUser);
+    c.SetValue('/ui_theme', UiOps.ThemeUi);
+    c.SetValue('/ui_theme_syntax', UiOps.ThemeSyntax);
+  finally
+    c.Free;
+  end;
+end;
+
 
 
 end.

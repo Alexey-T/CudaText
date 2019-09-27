@@ -7,6 +7,7 @@ object fmChooseTheme: TfmChooseTheme
   Caption = 'Themes'
   ClientHeight = 580
   ClientWidth = 554
+  OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter

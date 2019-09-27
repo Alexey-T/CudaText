@@ -128,8 +128,6 @@ begin
     c.SetValue('/finder/tokens', Ord(FFinder.OptTokens));
 
     ////state
-    c.SetValue('theme_ui', UiOps.ThemeUi);
-    c.SetValue('theme_syntax', UiOps.ThemeSyntax);
     c.SetValue('lang', UiOps.LangName);
     c.SetValue('session', UTF8Decode(IfThen(UiOps.ReopenSession, FSessionName, '')));
     c.SetValue('last_cmd', FLastSelectedCommand);
@@ -492,8 +490,18 @@ begin
     if ShowBottom or FConsoleMustShow then
       DoShowConsole(false);
 
-    ThemeUi:= c.GetValue('theme_ui', '');
-    ThemeSyntax:= c.GetValue('theme_syntax', '');
+    //note: reading 'theme_ui', 'theme_syntax' from history is deprecated in 2019.09
+    //now it's read from user.json
+    if UiOps.ThemeUi<>'' then
+      ThemeUi:= UiOps.ThemeUi
+    else
+      ThemeUi:= c.GetValue('theme_ui', '');
+
+    if UiOps.ThemeSyntax<>'' then
+      ThemeSyntax:= UiOps.ThemeSyntax
+    else
+      ThemeSyntax:= c.GetValue('theme_syntax', '');
+
     UiOps.LangName:= c.GetValue('lang', '');
     FSessionName:= UTF8Encode(c.GetValue('session', UTF8Decode(FSessionName)));
     FLastSelectedCommand:= c.GetValue('last_cmd', FLastSelectedCommand);
@@ -1029,6 +1037,9 @@ begin
 
   UiOps.DefaultEncUtf8:= c.GetValue(str_DefEncodingIsUtf8, UiOps.DefaultEncUtf8);
   UiOps.ViewerBinaryWidth:= c.GetValue('viewer_binary_width', UiOps.ViewerBinaryWidth);
+
+  UiOps.ThemeUi:= c.GetValue('ui_theme', UiOps.ThemeUi);;
+  UiOps.ThemeSyntax:= c.GetValue('ui_theme_syntax', UiOps.ThemeSyntax);;
 end;
 
 
