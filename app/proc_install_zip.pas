@@ -220,7 +220,7 @@ procedure DoInstallLexerLite(
 var
   ini: TIniFile;
   sections: TStringList;
-  ini_section, STitle, SLexer,
+  section, STitle, SLexer,
   DirFrom, DirLexers, DirSettings: string;
   fn_lexer, fn_json: string;
 begin
@@ -236,11 +236,11 @@ begin
     if STitle='' then exit;
 
     ini.ReadSections(sections);
-    for ini_section in sections do
+    for section in sections do
     begin
-      if not SRegexMatchesString(ini_section, 'lexer\d+', true) then Continue;
+      if not SRegexMatchesString(section, 'lexer\d+', true) then Continue;
 
-      SLexer:= ini.ReadString(ini_section, 'file', '');
+      SLexer:= ini.ReadString(section, 'file', '');
       if SLexer='' then Break;
 
       fn_lexer:= DirFrom+DirectorySeparator+SLexer+'.cuda-litelexer';
