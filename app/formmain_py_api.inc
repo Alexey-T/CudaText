@@ -5230,6 +5230,22 @@ begin
             Result:= ReturnNone;
           end;
 
+        LISTBOX_ADD_PROP:
+          begin
+            if (NIndex=-1) or IndexOk then
+            begin
+              Obj:= TATListboxItemProp.Create(0, false, '');
+              ListboxItem_SetFromString(Obj as TATListboxItemProp, StrTag);
+              if NIndex=-1 then
+                Listbox.Items.AddObject(StrText, Obj)
+              else
+              if IndexOk then
+                Listbox.Items.InsertObject(NIndex, StrText, Obj);
+              Listbox.Invalidate;
+            end;
+            Result:= PyInt_FromLong(Listbox.Items.Count);
+          end;
+
         LISTBOX_GET_TOP:
           begin
             Result:= PyInt_FromLong(Listbox.ItemTop);
