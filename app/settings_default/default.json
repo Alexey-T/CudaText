@@ -113,9 +113,12 @@
   "ui_one_instance": false,
 
   //[File]
-  //Enable notifications about file change/deletion in external programs
+  //Enable notifications about file change in external programs
   //(changing to "true" requires app restart)
   "ui_notif": true,
+
+  //Notifications about file change in external programs: wait time in seconds
+  "ui_notif_time": 2,
 
   //[File/NonText]
   //Non-text files: allow to open

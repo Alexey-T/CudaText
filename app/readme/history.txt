@@ -8,11 +8,11 @@
 
 * change: option "word_chars" replaced with "nonword_chars" (to be like Sublime & Atom)
 * change: detection of file changes in external programs is rewritten. Now it uses thread, not timers (per each file-tab) as before. It should work more reliable and fast.
-* change: option "ui_notif" was returned back, and "ui_notif_time" was removed
 * change: confirmation "File was changed outside. Reload?" changed from messagebox to modalless panel inside file-tab
 * change: clicking micromap doesn't move caret
 * change: names of color themes now stores to user.json (reading of old setting from history.json is supported)
 + add: option "caret_keep_visible_on_scroll"
++ add: option "ui_notif" was returned back
 + add: paired file-tab: auto-reloading works for second file; if both files were changed outside, 2 "Reload?" prompts appear at the same time
 + add: don't reload file, which was deleted outside
 + add: during drag-drop of text fragment, editor shows red marker for drop position

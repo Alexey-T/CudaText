@@ -916,6 +916,7 @@ begin
   UiOps.UndoPersistent:= c.GetValue('undo_persistent', UiOps.UndoPersistent);
 
   UiOps.NotificationEnabled:= c.GetValue('ui_notif', UiOps.NotificationEnabled);
+  UiOps.NotificationTimeSeconds:= Max(1, c.GetValue('ui_notif_time', UiOps.NotificationTimeSeconds)); //don't allow 0
 
   UiOps.NonTextFiles:= c.GetValue('ui_non_text', UiOps.NonTextFiles);
   UiOps.NonTextFilesBufferKb:= Max(1, Min(1024, c.GetValue('ui_non_text_buffer', UiOps.NonTextFilesBufferKb)));

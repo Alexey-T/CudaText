@@ -1147,9 +1147,9 @@ uses
   EmmetHelper;
 
 const
-  cThreadSleepTime = 60;
-  cThreadSleepCount = 22;
-  //total sleep time = SleepTime*SleepCount ~= 1sec
+  cThreadSleepTime = 50;
+  cThreadSleepCount = 20;
+  //SleepTime*SleepCount ~= 1 sec
 
 const
   StatusbarTag_Caret = 10;
@@ -1285,7 +1285,7 @@ var
   i: integer;
 begin
   repeat
-    for i:= 1 to cThreadSleepCount do
+    for i:= 1 to cThreadSleepCount*UiOps.NotificationTimeSeconds do
     begin
       if Application.Terminated then exit;
       if Terminated then exit;
