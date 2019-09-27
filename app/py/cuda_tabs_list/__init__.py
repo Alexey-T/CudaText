@@ -71,7 +71,7 @@ class Command:
         listbox_proc(self.h_list, LISTBOX_SET_SHOW_X, index=2)
         listbox_proc(self.h_list, LISTBOX_SET_HOTTRACK, index=1)
         listbox_proc(self.h_list, LISTBOX_SET_COLUMN_SEP, text='|')
-        
+
         sizes = [self.column_name]
         if self.show_column_folder:
             sizes.append(self.column_folder)
@@ -159,9 +159,9 @@ class Command:
                 name += '|' + os.path.dirname(edit.get_filename())
             if self.show_column_lexer:
                 name += '|' + edit.get_prop(PROP_LEXER_FILE)
-                
+
             mod = edit.get_prop(PROP_MODIFIED)
-            cnt = listbox_proc(self.h_list, LISTBOX_ADD_PROP, index=-1, 
+            cnt = listbox_proc(self.h_list, LISTBOX_ADD_PROP, index=-1,
                 text=name, tag={'modified': mod} )
             if edit.get_prop(PROP_TAG)=='tag':
                 listbox_proc(self.h_list, LISTBOX_SET_SEL, index=cnt-1)
