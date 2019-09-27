@@ -167,7 +167,7 @@ begin
     ADirTarget+= DirectorySeparator+SSubDir;
   FCopyDir(SDirFrom, ADirTarget);
 
-  AReport:= 'data files: '+ADirTarget;
+  AReport:= msgStatusPackageData+' '+ADirTarget;
 end;
 
 procedure DoInstallPackage(
@@ -211,7 +211,7 @@ begin
 
   FCopyDir(SDirFrom, ADirTarget);
 
-  AReport+= 'package: '+ADirTarget;
+  AReport+= msgStatusPackagePackage+' '+ADirTarget;
 end;
 
 procedure DoInstallLexerLite(

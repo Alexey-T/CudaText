@@ -196,6 +196,8 @@ const
   msgStatusPackageLexer: string = 'lexer:';
   msgStatusPackageLexerSettings: string = 'lexer settings:';
   msgStatusPackageAutoCompletion: string = 'static auto-completion:';
+  msgStatusPackageData: string = 'data:';
+  msgStatusPackagePackage: string = 'package:';
   msgStatusPackageMissedLexerMap: string = 'lexer misses themes support (.cuda-lexmap file)';
   msgStatusInstalledNeedRestart: string = 'Package will take effect after program restart';
   msgStatusCommandOnlyForLexers: string = 'Command is only for lexers:';
