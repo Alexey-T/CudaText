@@ -4180,7 +4180,7 @@ begin
         //-------------------
         APP_PROC_GET_LANG:
           begin
-            Result:= PyString_FromString(PChar(AppLangName));
+            Result:= PyString_FromString(PChar(UiOps.LangName));
           end;
 
         APP_PROC_GET_HOTKEY:

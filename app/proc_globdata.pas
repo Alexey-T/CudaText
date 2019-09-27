@@ -151,6 +151,7 @@ type
     LexerDelayedParsingSize: integer;
     LexerPostponeUntilShown: boolean;
 
+    LangName: string;
     ToolBarTheme: string;
     ThemeUi: string;
     ThemeSyntax: string;
@@ -563,7 +564,6 @@ var
   AppKeymapInitial: TATKeymap = nil;
   AppShortcutEscape: TShortcut = 0;
   AppShortcutShiftTab: TShortcut = 0;
-  AppLangName: string = '';
 
 type
   TStrEvent = procedure(Sender: TObject; const ARes: string) of object;
@@ -1781,10 +1781,10 @@ end;
 
 function GetAppLangFilename: string;
 begin
-  if AppLangName='' then
+  if UiOps.LangName='' then
     Result:= ''
   else
-    Result:= GetAppPath(cDirDataLangs)+DirectorySeparator+AppLangName+'.ini';
+    Result:= GetAppPath(cDirDataLangs)+DirectorySeparator+UiOps.LangName+'.ini';
 end;
 
 function EscapeLexerFilename(const ALexName: string): string;

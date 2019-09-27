@@ -335,11 +335,11 @@ begin
         LastModule:= CmdItem.ItemModule;
 
         LangFN:= '';
-        if AppLangName<>'' then
+        if UiOps.LangName<>'' then
           LangFN:= GetAppPath(cDirData)+DirectorySeparator+
                    'langmenu'+DirectorySeparator+
                    CmdItem.ItemModule+DirectorySeparator+
-                   AppLangName+'.ini';
+                   UiOps.LangName+'.ini';
 
         if Assigned(LangFile) then
           FreeAndNil(LangFile);

@@ -5159,7 +5159,7 @@ begin
       ListNames.Add(S);
     end;
 
-    NItemIndex:= ListNames.IndexOf(AppLangName);
+    NItemIndex:= ListNames.IndexOf(UiOps.LangName);
     if NItemIndex<0 then
       NItemIndex:= 0;
 
@@ -5168,12 +5168,12 @@ begin
 
     if ListNames[NResult]=cEnLang then
     begin
-      AppLangName:= '';
+      UiOps.LangName:= '';
       MsgBox(msgStatusI18nEnglishAfterRestart, MB_OK or MB_ICONINFORMATION);
     end
     else
     begin
-      AppLangName:= ListNames[NResult];
+      UiOps.LangName:= ListNames[NResult];
       DoLocalize;
 
       if DirectoryExists(GetAppPath(cDirData)+DirectorySeparator+'langmenu') then

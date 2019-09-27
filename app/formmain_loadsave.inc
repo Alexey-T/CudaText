@@ -130,7 +130,7 @@ begin
     ////state
     c.SetValue('theme_ui', UiOps.ThemeUi);
     c.SetValue('theme_syntax', UiOps.ThemeSyntax);
-    c.SetValue('lang', AppLangName);
+    c.SetValue('lang', UiOps.LangName);
     c.SetValue('session', UTF8Decode(IfThen(UiOps.ReopenSession, FSessionName, '')));
     c.SetValue('last_cmd', FLastSelectedCommand);
 
@@ -494,11 +494,11 @@ begin
 
     ThemeUi:= c.GetValue('theme_ui', '');
     ThemeSyntax:= c.GetValue('theme_syntax', '');
-    AppLangName:= c.GetValue('lang', '');
+    UiOps.LangName:= c.GetValue('lang', '');
     FSessionName:= UTF8Encode(c.GetValue('session', UTF8Decode(FSessionName)));
     FLastSelectedCommand:= c.GetValue('last_cmd', FLastSelectedCommand);
 
-    if AppLangName<>'' then
+    if UiOps.LangName<>'' then
       DoLocalize;
 
     DoOps_LoadHistory_GroupView(c);
