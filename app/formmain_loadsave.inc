@@ -128,8 +128,8 @@ begin
     c.SetValue('/finder/tokens', Ord(FFinder.OptTokens));
 
     ////state
-    c.SetValue('theme_ui', FThemeUi);
-    c.SetValue('theme_syntax', FThemeSyntax);
+    c.SetValue('theme_ui', UiOps.ThemeUi);
+    c.SetValue('theme_syntax', UiOps.ThemeSyntax);
     c.SetValue('lang', AppLangName);
     c.SetValue('session', UTF8Decode(IfThen(UiOps.ReopenSession, FSessionName, '')));
     c.SetValue('last_cmd', FLastSelectedCommand);
@@ -492,7 +492,6 @@ begin
     if ShowBottom or FConsoleMustShow then
       DoShowConsole(false);
 
-    ////AppTheme
     ThemeUi:= c.GetValue('theme_ui', '');
     ThemeSyntax:= c.GetValue('theme_syntax', '');
     AppLangName:= c.GetValue('lang', '');

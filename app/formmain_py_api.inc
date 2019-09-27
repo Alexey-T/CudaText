@@ -4200,7 +4200,7 @@ begin
 
         APP_PROC_THEME_UI_GET:
           begin
-            Result:= PyString_FromString(PChar(fmMain.ThemeUi));
+            Result:= PyString_FromString(PChar(UiOps.ThemeUi));
           end;
         APP_PROC_THEME_UI_SET:
           begin
@@ -4209,7 +4209,7 @@ begin
           end;
         APP_PROC_THEME_SYNTAX_GET:
           begin
-            Result:= PyString_FromString(PChar(fmMain.ThemeSyntax));
+            Result:= PyString_FromString(PChar(UiOps.ThemeSyntax));
           end;
         APP_PROC_THEME_SYNTAX_SET:
           begin

@@ -152,6 +152,8 @@ type
     LexerPostponeUntilShown: boolean;
 
     ToolBarTheme: string;
+    ThemeUi: string;
+    ThemeSyntax: string;
 
     SidebarShow: boolean;
     SidebarOnRight: boolean;

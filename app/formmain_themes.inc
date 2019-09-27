@@ -181,10 +181,10 @@ var
 begin
   Form:= TfmChooseTheme.Create(Self);
   try
-    OldThemeUi:= ThemeUi;
-    OldThemeSyntax:= ThemeSyntax;
-    Form.ThemeUi:= ThemeUi;
-    Form.ThemeSyntax:= ThemeSyntax;
+    OldThemeUi:= UiOps.ThemeUi;
+    OldThemeSyntax:= UiOps.ThemeSyntax;
+    Form.ThemeUi:= UiOps.ThemeUi;
+    Form.ThemeSyntax:= UiOps.ThemeSyntax;
     Form.ThemeUiSetter:= @DoDialogMenuThemes_ThemeUiSelect;
     Form.ThemeSyntaxSetter:= @DoDialogMenuThemes_ThemeSyntaxSelect;
 
@@ -202,18 +202,18 @@ procedure TfmMain.SetThemeUi(const AValue: string);
 var
   SName: string;
 begin
-  FThemeUi:= AValue;
+  UiOps.ThemeUi:= AValue;
 
-  if FThemeUi='' then
+  if UiOps.ThemeUi='' then
   begin
-    SName:= FThemeSyntax;
+    SName:= UiOps.ThemeSyntax;
     DoInitTheme(AppTheme); //resets UI+Syntax
     if SName<>'' then
       SetThemeSyntax(SName);
   end
   else
     DoLoadTheme(
-      GetAppPath(cDirDataThemes)+DirectorySeparator+FThemeUi+AppExtensionThemeUi,
+      GetAppPath(cDirDataThemes)+DirectorySeparator+UiOps.ThemeUi+AppExtensionThemeUi,
       AppTheme,
       true,
       @MsgLogConsole
@@ -229,18 +229,18 @@ procedure TfmMain.SetThemeSyntax(const AValue: string);
 var
   SName: string;
 begin
-  FThemeSyntax:= AValue;
+  UiOps.ThemeSyntax:= AValue;
 
-  if FThemeSyntax='' then
+  if UiOps.ThemeSyntax='' then
   begin
-    SName:= FThemeUi;
+    SName:= UiOps.ThemeUi;
     DoInitTheme(AppTheme); //resets UI+Syntax
     if SName<>'' then
       SetThemeUi(SName);
   end
   else
     DoLoadTheme(
-      GetAppPath(cDirDataThemes)+DirectorySeparator+FThemeSyntax+AppExtensionThemeSyntax,
+      GetAppPath(cDirDataThemes)+DirectorySeparator+UiOps.ThemeSyntax+AppExtensionThemeSyntax,
       AppTheme,
       false,
       @MsgLogConsole
@@ -303,7 +303,7 @@ var
 begin
   if AThemeUI then
   begin
-    StrName:= ThemeUi;
+    StrName:= UiOps.ThemeUi;
     StrExt:= AppExtensionThemeUi;
   end
   else
@@ -311,7 +311,7 @@ begin
     if not UiOps.LexerThemes then
       MsgBox(msgStatusSyntaxThemesOff, MB_OK or MB_ICONWARNING);
 
-    StrName:= ThemeSyntax;
+    StrName:= UiOps.ThemeSyntax;
     StrExt:= AppExtensionThemeSyntax;
   end;
 

@@ -589,8 +589,6 @@ type
     FKeymapUndoList: TATKeymapUndoList;
     FKeymapLastLexer: string;
     FConsoleMustShow: boolean;
-    FThemeUi: string;
-    FThemeSyntax: string;
     FSessionName: string;
     FColorDialog: TColorDialog;
     Status: TATStatus;
@@ -1125,8 +1123,8 @@ type
     property ShowStatus: boolean read GetShowStatus write SetShowStatus;
     property ShowBottom: boolean read GetShowBottom write SetShowBottom;
     property ShowTabsMain: boolean read GetShowTabsMain write SetShowTabsMain;
-    property ThemeUi: string read FThemeUi write SetThemeUi;
-    property ThemeSyntax: string read FThemeSyntax write SetThemeSyntax;
+    property ThemeUi: string write SetThemeUi;
+    property ThemeSyntax: string write SetThemeSyntax;
     property SidebarPanel: string read FLastSidebarPanel write SetSidebarPanel;
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
     procedure DoPyCommand(const AModule, AMethod: string; const AParams: array of string);
