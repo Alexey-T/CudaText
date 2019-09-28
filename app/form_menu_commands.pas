@@ -122,7 +122,8 @@ begin
       if TATKeymapItem(keymapList.Items[i]).Command = OptFocusedCommand then
       begin
         list.ItemIndex:= i;
-        list.ItemTop:= Max(0, i-2);
+        list.ItemTop:= Max(0, i-4);
+        Break
       end;
 end;
 
