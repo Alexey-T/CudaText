@@ -673,13 +673,11 @@ Notes:
 
 ==Python integration==
 ===Python on Windows===
-On Windows, Python engine (currently version 3.5) is preinstalled. Option "pylib" has default value like this: "python35.dll".
+On Windows, Python engine (currently 3.6) is preinstalled. CudaText finds files "python3*.dll" in its folder, and uses file with the latest version number. No options are used to configure this.
 
-For Python 3.5, you need Visual C++ Redistributable for Visual Studio 2015 (32-bit or 64-bit, same as CudaText). Download it from Microsoft site.
+You can use not only version 3.6. From CudaText's Addon Manager, install appropriate package, e.g. "Windows_Python37_64bit", and restart the program.
 
-For old Windows XP, Python 3.4 or 3.3 must be used, you can get its files from SynWrite.SF.net, from archived versions of SynWrite. Before copying these files, first delete current Python files (*.dll, python*.zip, folder DLLs). And write option "pylib" in the user.json:
-
- "pylib": "python33.dll",
+Python engine requires Visual C++ Redistributable for Visual Studio 2015 (32-bit or 64-bit, same as CudaText). Download it from Microsoft site.
 
 ===Python on Linux, BSD, Solaris===
 Linux/*BSD/Solaris version uses Python library from OS. Install Python 3.x (usually already installed). Instruction, if Python library was not automatically used:
