@@ -3619,5 +3619,6 @@ def project_variables():
 
 1.0.305 (app 1.87.6)
 * add: Editor.markers, Editor.attr: MARKERS_DELETE_BY_INDEX
+* add: Editor.markers, Editor.attr: list allows "duplicate" items with the same x:y pos; attr list applies all "duplicate" items, left to right
 
 [[Category:CudaText]]
