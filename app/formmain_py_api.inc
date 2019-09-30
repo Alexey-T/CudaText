@@ -5184,9 +5184,15 @@ begin
         LISTBOX_GET_ITEM:
           begin
             if IndexOk then
-              Result:= Py_BuildValue('(sL)',
-                PChar(Listbox.Items[NIndex]),
-                PtrInt(Listbox.Items.Objects[NIndex]) )
+            begin
+              Obj:= Listbox.Items.Objects[NIndex];
+              if Assigned(Obj) then
+                Result:= Py_BuildValue('(sL)',
+                  PChar(Listbox.Items[NIndex]),
+                  PtrInt((Obj as TATListboxItemProp).Tag) )
+              else
+                Result:= ReturnNone;
+            end
             else
               Result:= ReturnNone;
           end;
@@ -5197,7 +5203,8 @@ begin
             begin
               Listbox.Items[NIndex]:= StrText;
               Obj:= Listbox.Items.Objects[NIndex];
-              (Obj as TATListboxItemProp).Tag:= NTag;
+              if Assigned(Obj) then
+                (Obj as TATListboxItemProp).Tag:= NTag;
               Listbox.Invalidate;
             end;
             Result:= ReturnNone;
