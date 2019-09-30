@@ -5132,7 +5132,7 @@ begin
       StrText:= string(PtrText);
       StrTag:= string(PtrTag);
       NTag:= StrToInt64Def(StrTag, 0);
-      IndexOk:= (NIndex>=0) and (NIndex<Listbox.Items.Count);
+      IndexOk:= Listbox.IsIndexValid(NIndex);
 
       case IdAction of
         LISTBOX_GET_COUNT:
