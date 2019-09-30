@@ -2435,12 +2435,14 @@ function Py_app_log(Self, Args: PPyObject): PPyObject; cdecl;
 var
   PtrText, PtrPanel: PChar;
   StrText, StrPanel: string;
-  Id, NTag, NLen, i: integer;
+  Id, NLen, i: integer;
+  NTag: Int64;
   Prop: PAppPanelProps;
   List: TStringList;
+  Obj: TObject;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'isis:app_log', @Id, @PtrText, @NTag, @PtrPanel)) then
+    if Bool(PyArg_ParseTuple(Args, 'isLs:app_log', @Id, @PtrText, @NTag, @PtrPanel)) then
     begin
       StrText:= string(PtrText);
       StrPanel:= string(PtrPanel);
@@ -2455,6 +2457,12 @@ begin
       case Id of
         LOG_CLEAR:
           begin
+            for i:= Prop^.Listbox.ItemCount-1 downto 0 do
+            begin
+              Obj:= Prop^.Listbox.Items.Objects[i];
+              if Assigned(Obj) then
+                Obj.Free;
+            end;
             Prop^.Listbox.Items.Clear;
             Prop^.Listbox.Invalidate;
             Result:= ReturnNone;
@@ -2462,7 +2470,7 @@ begin
 
         LOG_ADD:
           begin
-            Prop^.Listbox.Items.AddObject(StrText, TObject(PtrInt(NTag)));
+            Prop^.Listbox.Items.AddObject(StrText, TATListboxItemProp.Create(NTag, false, ''));
             Prop^.Listbox.Invalidate;
             Result:= ReturnNone;
           end;
@@ -2508,10 +2516,13 @@ begin
             NLen:= Prop^.Listbox.Items.Count;
             Result:= PyList_New(NLen);
             for i:= 0 to NLen-1 do
+            begin
+              Obj:= Prop^.Listbox.Items.Objects[i];
               PyList_SetItem(Result, i, Py_BuildValue('(sL)',
                   PChar(Prop^.Listbox.Items[i]),
-                  Int64(PtrInt(Prop^.Listbox.Items.Objects[i]))
+                  Int64((Obj as TATListboxItemProp).Tag)
                   ));
+            end;
           end;
 
         LOG_GET_LINEINDEX:
