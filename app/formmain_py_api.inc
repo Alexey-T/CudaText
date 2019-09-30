@@ -939,6 +939,17 @@ begin
             Result:= ReturnNone;
           end;
 
+        MARKERS_DELETE_BY_INDEX:
+          begin
+            if Ed.Markers.IsIndexValid(NTag) then
+            begin
+              Ed.Markers.Delete(NTag);
+              Ed.Update;
+              fmMain.UpdateStatus;
+            end;
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
@@ -1053,6 +1064,17 @@ begin
             Ed.Attribs.DeleteWithTag(NTag);
             Ed.Update;
             fmMain.UpdateStatus;
+            Result:= ReturnNone;
+          end;
+
+        MARKERS_DELETE_BY_INDEX:
+          begin
+            if Ed.Attribs.IsIndexValid(NTag) then
+            begin
+              Ed.Attribs.Delete(NTag);
+              Ed.Update;
+              fmMain.UpdateStatus;
+            end;
             Result:= ReturnNone;
           end;
 
