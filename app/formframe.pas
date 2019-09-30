@@ -2923,12 +2923,12 @@ begin
   PanelReload[Index].Parent:= Self;
   PanelReload[Index].Align:= alTop;
   PanelReload[Index].Visible:= false;
-  PanelReload[Index].Height:= AppScale(42);
+  PanelReload[Index].Height:= AppScale(31);
   PanelReload[Index].BevelOuter:= bvNone;
 
   LabelReload[Index]:= TLabel.Create(Self);
   LabelReload[Index].Parent:= PanelReload[Index];
-  LabelReload[Index].BorderSpacing.Left:= 6;
+  LabelReload[Index].BorderSpacing.Left:= 4;
   LabelReload[Index].ParentColor:= false;
   LabelReload[Index].AnchorSideLeft.Control:= PanelReload[Index];
   LabelReload[Index].AnchorSideTop.Control:= PanelReload[Index];
@@ -2943,7 +2943,7 @@ begin
   btnReloadNone[Index].AnchorSideRight.Side:= asrBottom;
   btnReloadNone[Index].Anchors:= [akTop, akRight];
   btnReloadNone[Index].Height:= AppScale(25);
-  btnReloadNone[Index].BorderSpacing.Right:= 6;
+  btnReloadNone[Index].BorderSpacing.Right:= 4;
   btnReloadNone[Index].OnClick:= @btnReloadNoneClick;
 
   btnReloadNo[Index]:= TATButton.Create(Self);
@@ -2953,7 +2953,7 @@ begin
   btnReloadNo[Index].AnchorSideRight.Control:= btnReloadNone[Index];
   btnReloadNo[Index].Anchors:= [akTop, akRight];
   btnReloadNo[Index].Height:= btnReloadNone[Index].Height;
-  btnReloadNo[Index].BorderSpacing.Right:= 1;
+  btnReloadNo[Index].BorderSpacing.Right:= 0;
   btnReloadNo[Index].OnClick:= @btnReloadNoClick;
 
   btnReloadYes[Index]:= TATButton.Create(Self);
@@ -2963,7 +2963,7 @@ begin
   btnReloadYes[Index].AnchorSideRight.Control:= btnReloadNo[Index];
   btnReloadYes[Index].Anchors:= [akTop, akRight];
   btnReloadYes[Index].Height:= btnReloadNone[Index].Height;
-  btnReloadYes[Index].BorderSpacing.Right:= 1;
+  btnReloadYes[Index].BorderSpacing.Right:= 0;
   btnReloadYes[Index].OnClick:= @btnReloadYesClick;
 
   btnReloadYes[Index].TabOrder:= 0;
