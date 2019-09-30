@@ -97,7 +97,7 @@ object fmChooseTheme: TfmChooseTheme
     Align = alBottom
     BorderSpacing.Left = 6
     BorderSpacing.Right = 6
-    Caption = 'Enable lexer themes (requires restart)'
+    Caption = 'Enable lexer themes (requires CudaText restart)'
     OnChange = chkEnableLexChange
     TabOrder = 2
   end
