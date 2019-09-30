@@ -2440,7 +2440,7 @@ Controls markers (used e.g. in Snippets plugin). Possible values of "id":
 
 Controls additional color attributes. Possible values of "id":
 
-* MARKERS_ADD: Adds fragment with specified properties. Also gets number of fragments. Props:
+* MARKERS_ADD: Adds fragment with specified properties. Also gets number of fragments. Parameters:
 ** "tag": any int value attached to fragment (several plugins must add fragments with different tags, to be able to remove only fragments for them)
 ** "x", "y": position of fragment start (like caret).
 ** "len": length of fragment.
@@ -2455,10 +2455,12 @@ Controls additional color attributes. Possible values of "id":
 * MARKERS_DELETE_BY_TAG: Deletes all fragments with the given tag. Param "tag": tag value.
 * MARKERS_DELETE_BY_INDEX: Deletes fragment by its index in the list. Param "tag": index (0-based).
 
-Note:
+Notes:
 
-* "color_bg" value can be COLOR_NONE: it uses usual back-color.
-* "color_font", "color_border" value can be COLOR_NONE: it uses usual text-color.
+* Fragment list is sorted by (x, y) pair.
+* Duplicate fragments, ie with the same (x, y) pair, are allowed. Last added fragments go to the later indexes, and all fragments are painted in their order in the fragment list, so last added fragments are painted over previous ones.
+* Param "color_bg" can be COLOR_NONE: it uses usual back-color.
+* Params "color_font", "color_border" can be COLOR_NONE: it uses usual text-color.
 
 ===Editor.hotspots===
 
