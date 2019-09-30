@@ -8,18 +8,20 @@
 
 * change: option "word_chars" replaced with "nonword_chars" (to be like Sublime & Atom)
 * change: detection of file changes in external programs is rewritten. Now it uses thread, not timers (per each file-tab) as before. It should work more reliable and fast.
-* change: option "ui_notif" was returned back, and "ui_notif_time" was removed
 * change: confirmation "File was changed outside. Reload?" changed from messagebox to modalless panel inside file-tab
 * change: clicking micromap doesn't move caret
+* change: names of color themes now stores to user.json (reading of old setting from history.json is supported)
 + add: option "caret_keep_visible_on_scroll"
++ add: option "ui_notif" was returned back
 + add: paired file-tab: auto-reloading works for second file; if both files were changed outside, 2 "Reload?" prompts appear at the same time
 + add: don't reload file, which was deleted outside
-+ add: command "ui: focus editor notification panel"
-+ add: command "ui: hide editor notification panels"
++ add: during drag-drop of text fragment, editor shows red marker for drop position
 + add: zip file installer: for lexers and lite-lexers, support to install lexer-override settings in "lexer*.json"
 + add: plugin Tabs List: reworked, using listbox with x and circle marks
-+ add: plugin Tabs List: options "column_name", "column_folder" (value>0: in pixels; value<0: in percents; value=0: auto-stretch)
++ add: plugin Tabs List: added options in [columns] section to specify additional listbox columns (width values: >0 - in pixels, <0 - in percents, =0 - auto-stretch; show values: 0 or 1)
 + add: file with ASCII char 07 is still considered as text
++ add: command "ui: focus editor notification panel"
++ add: command "ui: hide editor notification panels"
 
 1.87.2 (2019/09)
 

@@ -94,7 +94,7 @@
   //Allows to use width of Unicode characters proportional to font
   "unicode_proportional": true,
 
-  //If "unicode_proportional":false, allows to use bigger width of full-width Unicode characters (else use 100%)
+  //If "unicode_proportional":false, allows to use bigger width of full-width characters
   "unicode_wide_allowed": true,
 
   //If "unicode_proportional":false, sets width (in percents) of full-width characters
@@ -113,9 +113,12 @@
   "ui_one_instance": false,
 
   //[File]
-  //Enable notifications about file change/deletion in external programs
+  //Enable notifications about file change in external programs
   //(changing to "true" requires app restart)
   "ui_notif": true,
+
+  //Notifications about file change in external programs: wait time in seconds
+  "ui_notif_time": 2,
 
   //[File/NonText]
   //Non-text files: allow to open
@@ -209,15 +212,15 @@
   "lexer_postpone_until_shown": true,
 
   //[Text]
-  //Style of folding
-  //  0: if fold-hint empty: [...] from fold-pos, else hint
-  //  1: if fold-hint empty: [line...] from fold-pos, else hint
-  //  2: if fold-hint empty: [...] after line, else hint
+  //Style of folded blocks
+  //  0: if fold-hint empty: [...] from fold position, otherwise hint
+  //  1: if fold-hint empty: [line...] from fold position, otherwise hint
+  //  2: if fold-hint empty: [...] after line, otherwise hint
   //  3: always [...] after line
-  //  4: horiz colored line below line text
+  //  4: horizontal line below the text line
   "fold_style": 1,
 
-  //Show tooltip when mouse hovers over [...] folded marks
+  //Show tooltip when mouse hovers over [...] folded blocks
   "fold_tooltip_show": false,
 
   //[Text/Commands]

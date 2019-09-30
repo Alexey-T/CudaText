@@ -23,6 +23,9 @@ class Command:
     font_size = 10
     column_name = 170
     column_folder = 0
+    column_lexer = 80
+    show_column_folder = False
+    show_column_lexer = False
 
     def __init__(self):
         self.load_ops()
@@ -33,8 +36,11 @@ class Command:
         self.show_index_aligned = str_to_bool(ini_read(fn_config, 'op', 'show_index_aligned', '0'))
         self.font_name = ini_read(fn_config, 'op', 'font_name', self.font_name)
         self.font_size = int(ini_read(fn_config, 'op', 'font_size', str(self.font_size)))
-        self.column_name = int(ini_read(fn_config, 'op', 'column_name', str(self.column_name)))
-        self.column_folder = int(ini_read(fn_config, 'op', 'column_folder', str(self.column_folder)))
+        self.column_name = int(ini_read(fn_config, 'columns', 'width_name', str(self.column_name)))
+        self.column_folder = int(ini_read(fn_config, 'columns', 'width_folder', str(self.column_folder)))
+        self.column_lexer = int(ini_read(fn_config, 'columns', 'width_lexer', str(self.column_lexer)))
+        self.show_column_folder = str_to_bool(ini_read(fn_config, 'columns', 'show_folder', bool_to_str(self.show_column_folder)))
+        self.show_column_lexer = str_to_bool(ini_read(fn_config, 'columns', 'show_lexer', bool_to_str(self.show_column_lexer)))
 
     def save_ops(self):
         ini_write(fn_config, 'op', 'show_index_group', bool_to_str(self.show_index_group))
@@ -42,8 +48,14 @@ class Command:
         ini_write(fn_config, 'op', 'show_index_aligned', bool_to_str(self.show_index_aligned))
         ini_write(fn_config, 'op', 'font_name', self.font_name)
         ini_write(fn_config, 'op', 'font_size', str(self.font_size))
-        ini_write(fn_config, 'op', 'column_name', str(self.column_name))
-        ini_write(fn_config, 'op', 'column_folder', str(self.column_folder))
+        
+        ini_write(fn_config, 'columns', '; width_ values: >0 - in pixels, <0 - in percents, =0 - auto-stretched', '')
+        ini_write(fn_config, 'columns', '; show_ values: boolean, 0 or 1', '')
+        ini_write(fn_config, 'columns', 'width_name', str(self.column_name))
+        ini_write(fn_config, 'columns', 'width_folder', str(self.column_folder))
+        ini_write(fn_config, 'columns', 'width_lexer', str(self.column_lexer))
+        ini_write(fn_config, 'columns', 'show_folder', bool_to_str(self.show_column_folder))
+        ini_write(fn_config, 'columns', 'show_lexer', bool_to_str(self.show_column_lexer))
 
     def open(self):
 
@@ -62,7 +74,13 @@ class Command:
         listbox_proc(self.h_list, LISTBOX_SET_SHOW_X, index=2)
         listbox_proc(self.h_list, LISTBOX_SET_HOTTRACK, index=1)
         listbox_proc(self.h_list, LISTBOX_SET_COLUMN_SEP, text='|')
-        listbox_proc(self.h_list, LISTBOX_SET_COLUMNS, text=[self.column_name, self.column_folder])
+
+        sizes = [self.column_name]
+        if self.show_column_folder:
+            sizes.append(self.column_folder)
+        if self.show_column_lexer:
+            sizes.append(self.column_lexer)
+        listbox_proc(self.h_list, LISTBOX_SET_COLUMNS, text=sizes)
 
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
             'name':'list',
@@ -139,12 +157,15 @@ class Command:
                 elif show_t:
                     prefix = '%s. '%s_tab
 
-            name = prefix+edit.get_prop(PROP_TAB_TITLE).lstrip('*') \
-                + '|' + os.path.dirname(edit.get_filename())
+            name = prefix + edit.get_prop(PROP_TAB_TITLE).lstrip('*')
+            if self.show_column_folder:
+                name += '|' + os.path.dirname(edit.get_filename())
+            if self.show_column_lexer:
+                name += '|' + edit.get_prop(PROP_LEXER_FILE)
+
             mod = edit.get_prop(PROP_MODIFIED)
-            cnt = listbox_proc(self.h_list, LISTBOX_ADD, index=-1, text='?')
-            listbox_proc(self.h_list, LISTBOX_SET_ITEM_PROP, index=cnt-1, text=name, 
-                tag={'modified': mod} )
+            cnt = listbox_proc(self.h_list, LISTBOX_ADD_PROP, index=-1,
+                text=name, tag={'modified': mod} )
             if edit.get_prop(PROP_TAG)=='tag':
                 listbox_proc(self.h_list, LISTBOX_SET_SEL, index=cnt-1)
 
