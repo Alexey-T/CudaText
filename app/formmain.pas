@@ -1845,7 +1845,9 @@ begin
   CodeTreeFilterReset.Parent:= PanelCodeTreeTop;
   CodeTreeFilterReset.Align:= alRight;
   CodeTreeFilterReset.Width:= UiOps.ScrollbarWidth;
-  CodeTreeFilterReset.Caption:= msgButtonX;
+  CodeTreeFilterReset.Caption:= ''; //msgButtonX;
+  CodeTreeFilterReset.Arrow:= true;
+  CodeTreeFilterReset.ArrowKind:= abakCross;
   CodeTreeFilterReset.Focusable:= false;
   CodeTreeFilterReset.Flat:= true;
   CodeTreeFilterReset.ShowHint:= true;
