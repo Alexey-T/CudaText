@@ -1933,7 +1933,7 @@ begin
   Dec(RectRound.Right);
   Dec(RectRound.Bottom);
   NSize:= DoScale(FOptSpaceXInner);
-  CanvasPaintXMark(C, RectRound, NColorXMark, NSize, NSize, 1);
+  CanvasPaintXMark(C, RectRound, NColorXMark, NSize, NSize, DoScale(1));
   C.Brush.Color:= NColorBg;
 end;
 
