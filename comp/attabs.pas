@@ -33,6 +33,7 @@ uses
   {$else}
   System.UITypes,
   {$endif}
+  ATCanvasPrimitives,
   ATTabs_Picture,
   Menus;
 
@@ -955,39 +956,6 @@ begin
   C.LineTo(X2, Y2);
 end;
 
-procedure CanvasPaintTriangleDown(C: TCanvas; AColor: TColor; ACoord: TPoint; ASize: integer);
-begin
-  C.Brush.Color:= AColor;
-  C.Pen.Color:= AColor;
-  C.Polygon([
-    Point(ACoord.X - ASize*2, ACoord.Y - ASize),
-    Point(ACoord.X + ASize*2, ACoord.Y - ASize),
-    Point(ACoord.X, ACoord.Y + ASize)
-    ]);
-end;
-
-procedure CanvasPaintTriangleRight(C: TCanvas; AColor: TColor; ACoord: TPoint; ASize: integer);
-begin
-  C.Brush.Color:= AColor;
-  C.Pen.Color:= AColor;
-  C.Polygon([
-    Point(ACoord.X - ASize, ACoord.Y - ASize*2),
-    Point(ACoord.X + ASize, ACoord.Y),
-    Point(ACoord.X - ASize, ACoord.Y + ASize*2)
-    ]);
-end;
-
-procedure CanvasPaintTriangleLeft(C: TCanvas; AColor: TColor; ACoord: TPoint; ASize: integer);
-begin
-  C.Brush.Color:= AColor;
-  C.Pen.Color:= AColor;
-  C.Polygon([
-    Point(ACoord.X + ASize, ACoord.Y - ASize*2),
-    Point(ACoord.X - ASize, ACoord.Y),
-    Point(ACoord.X + ASize, ACoord.Y + ASize*2)
-    ]);
-end;
-
 procedure DrawTriangleType(C: TCanvas; AType: TATTabTriangle; const ARect: TRect; AColor: TColor; ASize: integer);
 begin
   case AType of
@@ -1009,22 +977,6 @@ begin
   CY:= (R.Top+R.Bottom) div 2;
   DrawLine(C, CX-ASize, CY, CX+ASize, CY, AColor);
   DrawLine(C, CX, CY-ASize, CX, CY+ASize, AColor);
-end;
-
-
-procedure DrawCrossSign(C: TCanvas; const R: TRect; ASize: integer; AColor: TColor);
-var
-  CX, CY: integer;
-begin
-  C.Pen.Color:= AColor;
-  CX:= (R.Left+R.Right) div 2;
-  CY:= (R.Top+R.Bottom) div 2;
-
-  C.MoveTo(CX - ASize+1, CY - ASize+1);
-  C.LineTo(CX + ASize+1, CY + ASize+1);
-
-  C.MoveTo(CX + ASize, CY - ASize+1);
-  C.LineTo(CX - ASize, CY + ASize+1);
 end;
 
 
@@ -1921,9 +1873,9 @@ procedure TATTabs.DoPaintXTo(C: TCanvas; const R: TRect;
   ATabIndex: integer; ATabActive, AMouseOverX: boolean);
 var
   Pic: TATTabsPicture;
-  PX1, PX2, PX3, PX4, PXX1, PXX2: TPoint;
   RectRound, RectBitmap: TRect;
   NColorBg, NColorXBg, NColorXBorder, NColorXMark: TColor;
+  NSize: integer;
 begin
   if FThemed then
   begin
@@ -1946,7 +1898,8 @@ begin
     if NColorXBg<>clNone then
     begin
       RectRound:= R;
-      InflateRect(RectRound, DoScale(FOptSpaceXIncrementRound), DoScale(FOptSpaceXIncrementRound));
+      NSize:= DoScale(FOptSpaceXIncrementRound);
+      InflateRect(RectRound, NSize, NSize);
 
       RectBitmap.Left:= 0;
       RectBitmap.Top:= 0;
@@ -1976,26 +1929,11 @@ begin
     C.Rectangle(R);
   end;
 
-  //paint cross by 2 polygons, each has 6 points (3 points at line edge)
-  C.Brush.Color:= NColorXMark;
-  C.Pen.Color:= NColorXMark;
-
-  PXX1:= Point(R.Left+DoScale(FOptSpaceXInner), R.Top+DoScale(FOptSpaceXInner));
-  PXX2:= Point(R.Right-DoScale(FOptSpaceXInner)-1, R.Bottom-DoScale(FOptSpaceXInner)-1);
-  PX1:= Point(PXX1.X+1, PXX1.Y);
-  PX2:= Point(PXX1.X, PXX1.Y+1);
-  PX3:= Point(PXX2.X-1, PXX2.Y);
-  PX4:= Point(PXX2.X, PXX2.Y-1);
-  C.Polygon([PX1, PXX1, PX2, PX3, PXX2, PX4]);
-
-  PXX1:= Point(R.Right-DoScale(FOptSpaceXInner)-1, R.Top+DoScale(FOptSpaceXInner));
-  PXX2:= Point(R.Left+DoScale(FOptSpaceXInner), R.Bottom-DoScale(FOptSpaceXInner)-1);
-  PX1:= Point(PXX1.X-1, PXX1.Y);
-  PX2:= Point(PXX1.X, PXX1.Y+1);
-  PX3:= Point(PXX2.X+1, PXX2.Y);
-  PX4:= Point(PXX2.X, PXX2.Y-1);
-  C.Polygon([PX1, PXX1, PX2, PX3, PXX2, PX4]);
-
+  RectRound:= R;
+  Dec(RectRound.Right);
+  Dec(RectRound.Bottom);
+  NSize:= DoScale(FOptSpaceXInner);
+  CanvasPaintXMark(C, RectRound, NColorXMark, NSize, NSize, 1);
   C.Brush.Color:= NColorBg;
 end;
 
@@ -3838,6 +3776,7 @@ var
   ElemType: TATTabElemType;
   R: TRect;
   NColor: TColor;
+  NIndent: integer;
 begin
   bOver:= FTabIndexOver=cTabIndexCloseBtn;
   if bOver then
@@ -3854,8 +3793,10 @@ begin
         FColorArrowOver,
         FColorArrow);
 
+      NIndent:= (R.Right-R.Left) div 2 - DoScale(FOptArrowSize);
+
       DoPaintBgTo(C, R);
-      DrawCrossSign(C, R, DoScale(FOptArrowSize), NColor);
+      CanvasPaintXMark(C, R, NColor, NIndent, NIndent, 1);
       DoPaintAfter(ElemType, -1, C, R);
     end;
 end;
