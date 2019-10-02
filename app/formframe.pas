@@ -97,7 +97,7 @@ type
     FTabId: integer;
     FFileName: string;
     FFileName2: string;
-    FFileWasBig: boolean;
+    FFileWasBig: array[0..1] of boolean;
     FTextCharsTyped: integer;
     FActivationTime: Int64;
     FCodetreeFilter: string;
@@ -191,6 +191,7 @@ type
     function GetCommentString(Ed: TATSynEdit): string;
     function GetEnabledCodeTree(Ed: TATSynEdit): boolean;
     function GetEnabledFolding: boolean;
+    function GetFileWasBig(Ed: TATSynEdit): boolean;
     function GetLineEnds(Ed: TATSynEdit): TATLineEnds;
     function GetPictureScale: integer;
     function GetReadOnly(Ed: TATSynEdit): boolean;
@@ -208,7 +209,7 @@ type
     procedure SetEnabledFolding(AValue: boolean);
     procedure SetFileName(const AValue: string);
     procedure SetFileName2(AValue: string);
-    procedure SetFileWasBig(AValue: boolean);
+    procedure SetFileWasBig(Ed: TATSynEdit; AValue: boolean);
     procedure SetLocked(AValue: boolean);
     procedure SetPictureScale(AValue: integer);
     procedure SetReadOnly(Ed: TATSynEdit; AValue: boolean);
@@ -270,10 +271,10 @@ type
 
     property FileName: string read FFileName write SetFileName;
     property FileName2: string read FFileName2;
-    property FileWasBig: boolean read FFileWasBig write SetFileWasBig;
     property LexerChooseFunc: TecLexerChooseFunc read FLexerChooseFunc write FLexerChooseFunc;
     function GetFileName(Ed: TATSynEdit): string;
     procedure SetFileName(Ed: TATSynEdit; const AFileName: string);
+    property FileWasBig[Ed: TATSynEdit]: boolean read GetFileWasBig write SetFileWasBig;
 
     property Lexer[Ed: TATSynEdit]: TecSyntAnalyzer read GetLexer write SetLexer;
     property LexerLite[Ed: TATSynEdit]: TATLiteLexer read GetLexerLite write SetLexerLite;
@@ -876,17 +877,35 @@ begin
   AppGetFileProps(FFileName2, FileProps2);
 end;
 
-procedure TEditorFrame.SetFileWasBig(AValue: boolean);
+procedure TEditorFrame.SetFileWasBig(Ed: TATSynEdit; AValue: boolean);
+var
+  Index: integer;
 begin
-  FFileWasBig:= AValue;
-  if AValue then
+  if EditorsLinked then
   begin
-    Ed1.OptWrapMode:= cWrapOff;
-    Ed2.OptWrapMode:= cWrapOff;
-    Ed1.OptMicromapVisible:= false;
-    Ed2.OptMicromapVisible:= false;
-    Ed1.OptMinimapVisible:= false;
-    Ed2.OptMinimapVisible:= false;
+    FFileWasBig[0]:= AValue;
+    FFileWasBig[1]:= AValue;
+    if AValue then
+    begin
+      Ed1.OptWrapMode:= cWrapOff;
+      Ed1.OptMicromapVisible:= false;
+      Ed1.OptMinimapVisible:= false;
+      Ed2.OptWrapMode:= cWrapOff;
+      Ed2.OptMicromapVisible:= false;
+      Ed2.OptMinimapVisible:= false;
+    end;
+  end
+  else
+  begin
+    Index:= EditorObjToIndex(Ed);
+    if Index<0 then exit;
+    FFileWasBig[Index]:= AValue;
+    if AValue then
+    begin
+      Ed.OptWrapMode:= cWrapOff;
+      Ed.OptMicromapVisible:= false;
+      Ed.OptMinimapVisible:= false;
+    end;
   end;
 end;
 
@@ -1911,7 +1930,7 @@ begin
   end;
 
   //turn off opts for huge files
-  FileWasBig:= Ed.Strings.Count>EditorOps.OpWrapEnabledMaxLines;
+  FileWasBig[Ed]:= Ed.Strings.Count>EditorOps.OpWrapEnabledMaxLines;
 
   if AAllowLoadHistory then
   begin
@@ -2385,6 +2404,17 @@ begin
   Result:= Editor.OptFoldEnabled;
 end;
 
+function TEditorFrame.GetFileWasBig(Ed: TATSynEdit): boolean;
+var
+  Index: integer;
+begin
+  Index:= EditorObjToIndex(Ed);
+  if Index>=0 then
+    Result:= FFileWasBig[Index]
+  else
+    Result:= false;
+end;
+
 procedure TEditorFrame.DoOnChangeCaption;
 begin
   if Assigned(FOnChangeCaption) then
@@ -2755,7 +2785,7 @@ begin
   TabColor:= StringToColorDef(c.GetValue(path+cHistory_TabColor, ''), clNone);
 
   ReadOnly[Ed]:= c.GetValue(path+cHistory_RO, ReadOnly[Ed]);
-  if not FileWasBig then
+  if not FileWasBig[Ed] then
   begin
     Ed.OptWrapMode:= TATSynWrapMode(c.GetValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode)));
     Ed.OptMinimapVisible:= c.GetValue(path+cHistory_Minimap, Ed.OptMinimapVisible);
