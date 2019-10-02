@@ -154,7 +154,7 @@ type
     procedure DoFileOpen_AsBinary(const AFileName: string; AMode: TATBinHexMode);
     procedure DoFileOpen_AsPicture(const AFileName: string);
     procedure DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string;
-      AAllowLoadHistory, AAllowErrorMsgBox: boolean; AOpenMode: TAppOpenMode);
+      AAllowLoadHistory, AAllowErrorMsgBox, AKeepScroll: boolean; AOpenMode: TAppOpenMode);
     procedure DoImageboxScroll(Sender: TObject);
     procedure DoOnChangeCaption;
     procedure DoOnUpdateStatus;
@@ -1881,22 +1881,22 @@ begin
   DoDeactivatePictureMode;
   DoDeactivateViewerMode;
 
-  DoFileOpen_Ex(Ed1, AFileName, AAllowLoadHistory, AAllowErrorMsgBox, AOpenMode);
+  DoFileOpen_Ex(Ed1, AFileName, AAllowLoadHistory, AAllowErrorMsgBox, false, AOpenMode);
 
   if AFileName2<>'' then
   begin
     EditorsLinked:= false;
     SplitHorz:= false;
     Splitted:= true;
-    DoFileOpen_Ex(Ed2, AFileName2, AAllowLoadHistory, AAllowErrorMsgBox, AOpenMode);
+    DoFileOpen_Ex(Ed2, AFileName2, AAllowLoadHistory, AAllowErrorMsgBox, false, AOpenMode);
   end;
 end;
 
-procedure TEditorFrame.DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string; AAllowLoadHistory, AAllowErrorMsgBox: boolean;
+procedure TEditorFrame.DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string; AAllowLoadHistory, AAllowErrorMsgBox, AKeepScroll: boolean;
   AOpenMode: TAppOpenMode);
 begin
   try
-    Ed.LoadFromFile(AFileName);
+    Ed.LoadFromFile(AFileName, AKeepScroll);
     SetFileName(Ed, AFileName);
     UpdateCaptionFromFilename;
   except
@@ -2202,7 +2202,7 @@ begin
 
   //reopen
   DoSaveHistory(Ed);
-  DoFileOpen_Ex(Ed, SFileName, true{AllowLoadHistory}, false, Mode);
+  DoFileOpen_Ex(Ed, SFileName, true{AllowLoadHistory}, false{AllowMsgBox}, true{KeepScroll}, Mode);
   if Ed.Strings.Count=0 then exit;
 
   //restore props
