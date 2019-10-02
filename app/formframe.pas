@@ -226,6 +226,7 @@ type
     procedure SetUnprintedSpaces(AValue: boolean);
     procedure SetEditorsLinked(AValue: boolean);
     procedure SplitterMoved(Sender: TObject);
+    procedure UpdateEditorForBigFilesize(Ed: TATSynEdit);
     procedure UpdateEds(AUpdateWrapInfo: boolean=false);
     procedure UpdateCaptionFromFilename;
     function GetLexer(Ed: TATSynEdit): TecSyntAnalyzer;
@@ -877,6 +878,13 @@ begin
   AppGetFileProps(FFileName2, FileProps2);
 end;
 
+procedure TEditorFrame.UpdateEditorForBigFilesize(Ed: TATSynEdit);
+begin
+  Ed.OptWrapMode:= cWrapOff;
+  Ed.OptMicromapVisible:= false;
+  Ed.OptMinimapVisible:= false;
+end;
+
 procedure TEditorFrame.SetFileWasBig(Ed: TATSynEdit; AValue: boolean);
 var
   Index: integer;
@@ -887,12 +895,8 @@ begin
     FFileWasBig[1]:= AValue;
     if AValue then
     begin
-      Ed1.OptWrapMode:= cWrapOff;
-      Ed1.OptMicromapVisible:= false;
-      Ed1.OptMinimapVisible:= false;
-      Ed2.OptWrapMode:= cWrapOff;
-      Ed2.OptMicromapVisible:= false;
-      Ed2.OptMinimapVisible:= false;
+      UpdateEditorForBigFilesize(Ed1);
+      UpdateEditorForBigFilesize(Ed2);
     end;
   end
   else
@@ -901,11 +905,7 @@ begin
     if Index<0 then exit;
     FFileWasBig[Index]:= AValue;
     if AValue then
-    begin
-      Ed.OptWrapMode:= cWrapOff;
-      Ed.OptMicromapVisible:= false;
-      Ed.OptMinimapVisible:= false;
-    end;
+      UpdateEditorForBigFilesize(Ed);
   end;
 end;
 
