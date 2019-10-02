@@ -679,6 +679,10 @@ You can use not only version 3.6. From CudaText's Addon Manager, install appropr
 
 Python engine requires Visual C++ Redistributable for Visual Studio 2015 (32-bit or 64-bit, same as CudaText). Download it from Microsoft site.
 
+Note for Windows 7. You need the Update for Universal C Runtime in Windows (KB2999226). Download and install with Windows Update. If you don't have Windows Update, extract the file with 7-Zip and run
+
+ dism /Online /Add-Package /PackagePath:C:\...\Windows6.1-KB2999226-x64.cab
+
 ===Python on Linux, BSD, Solaris===
 Linux/*BSD/Solaris version uses Python library from OS. Install Python 3.x (usually already installed). Instruction, if Python library was not automatically used:
 
