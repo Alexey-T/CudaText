@@ -373,9 +373,6 @@ begin
   bSelectAll.Hint:= UiOps.HotkeySelectAll;
   bMarkAll.Hint:= UiOps.HotkeyMarkAll;
 
-  edFind.OptComboboxArrowSize:= UiOps.ScrollbarArrowSize;
-  edRep.OptComboboxArrowSize:= edFind.OptComboboxArrowSize;
-
   for kind in TATFinderTokensAllowed do
   begin
     bTokens.Items.Add(cTokensDesc[kind]);

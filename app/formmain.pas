@@ -2863,7 +2863,6 @@ begin
   fmConsole.ed.Height:= AppScale(UiOps.InputHeight);
   fmConsole.ed.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   fmConsole.Wordwrap:= UiOps.ConsoleWordWrap;
-  fmConsole.ed.OptComboboxArrowSize:= UiOps.ScrollbarArrowSize;
 
   DoApplyUiOpsToGroups(Groups);
   if FloatGroups then
