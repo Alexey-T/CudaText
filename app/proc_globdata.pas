@@ -1050,7 +1050,8 @@ begin
         '/usr/share/cudatext/settings_default'
         ], S);
   end;
-  {$elseif darwin}
+  {$else}
+  {$ifdef darwin}
   OpDirLocal:= _GetHomeDir+'Library/Application Support/CudaText';
   CreateDirUTF8(OpDirLocal);
   if DirectoryExistsUTF8(OpDirPrecopy) then
@@ -1062,6 +1063,7 @@ begin
       OpDirPrecopy+'/',
       OpDirLocal
       ], S);
+  {$endif}
   {$endif}
 end;
 
