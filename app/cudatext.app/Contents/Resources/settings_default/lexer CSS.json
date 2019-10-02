@@ -1,5 +1,3 @@
 {
-  "tab_spaces": true,
-  "tab_size": 2,
-  "indent_size": 2  
+  "nonword_chars": "+*=/\\()[]{}<>\"'.,:;~?!@#$%^&|`…"
 }
