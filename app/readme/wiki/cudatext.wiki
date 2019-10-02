@@ -679,9 +679,7 @@ You can use not only version 3.6. From CudaText's Addon Manager, install appropr
 
 Python engine requires Visual C++ Redistributable for Visual Studio 2015 (32-bit or 64-bit, same as CudaText). Download it from Microsoft site.
 
-Note for Windows 7. You need the Update for Universal C Runtime in Windows (KB2999226). Download and install with Windows Update. If you don't have Windows Update, extract the file with 7-Zip and run
-
- dism /Online /Add-Package /PackagePath:C:\...\Windows6.1-KB2999226-x64.cab
+Note for Windows 7. You also need the Update for Universal C Runtime in Windows (KB2999226). Download it from the Microsoft site.
 
 ===Python on Linux, BSD, Solaris===
 Linux/*BSD/Solaris version uses Python library from OS. Install Python 3.x (usually already installed). Instruction, if Python library was not automatically used:
@@ -1308,6 +1306,20 @@ For CudaText Qt4 version, library libQt4Pas is required.
 If you run app in Terminal, you'll see an error about missing .so file. Reason of this error: FreeBSD version was compiled on Linux with different .so files. To fix error, run command in Terminal:
 
  $ sudo ln -s /usr/local/lib/libiconv.so.2 /usr/local/lib/libiconv.so.3
+
+==How to select extra symbols by double-click==
+
+Some languages consider special symbols as word-chars. For example, in PHP, "$" symbol is part of a variable name, so double-click should select "$" together with other word-chars. Follow these steps to add extra symbols (e.g. "$") to word-chars.
+
+* Open new file-tab, activate your lexer (click the lexer-cell in the statusbar)
+* Call menu item "Plugins / Options Editor"
+* In the Options Editor dialog:
+** Select item of option "nonword_chars", read the description about this option in the bottom
+** Your lexer name must be pre-selected in the combobox on the dialog bottom
+** Check the checkmark "For: lexer", so that your option will go to the lexer-specific config
+** Enter new value of the option "nonword_chars" now. Copy/paste the value from the "Default" field, and remove some special symbols from that value.
+** Press Enter-key in the input field. Value must appear in the list of options in the "Lexer" column.
+* Close Options Editor, restart the program
 
 ==More==
 
