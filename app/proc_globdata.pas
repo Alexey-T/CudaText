@@ -863,25 +863,20 @@ begin
   for N:= 0 to High(cPythonWindowsDLLs) do
     if FileExists(S+cPythonWindowsDLLs[N]) then
       exit(cPythonWindowsDLLs[N]);
-  exit('');
-  {$endif}
-
-  {$ifdef linux}
-  exit('libpython3.so');
-  {$endif}
-
-  {$ifdef freebsd}
-  exit('libpython3.6m.so');
+  exit;
   {$endif}
 
   {$ifdef darwin}
-  for N:= 4 to 9 do
+  for N:= 5 to 9 do
   begin
     S:= Format('/Library/Frameworks/Python.framework/Versions/3.%d/lib/libpython3.%d.dylib',
       [N, N]);
     if FileExists(S) then exit(S);
   end;
+  exit;
   {$endif}
+
+  exit('libpython3.so');
 end;
 
 var
