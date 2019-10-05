@@ -29,6 +29,7 @@ const
     {$ifdef openbsd} '__openbsd' {$endif}
     {$ifdef dragonfly} '__dragonfly' {$endif}
     {$ifdef solaris} '__solaris' {$endif}
+    {$ifdef haiku} '__haiku' {$endif}
     ;
 
 const

@@ -139,6 +139,11 @@ begin
   if Pos(',solaris,', S)>0 then exit(true);
   if Pos(',solaris-'+CpuString+',', S)>0 then exit(true);
   {$endif}
+
+  {$ifdef haiku}
+  if Pos(',haiku,', S)>0 then exit(true);
+  if Pos(',haiku-'+CpuString+',', S)>0 then exit(true);
+  {$endif}
 end;
 
 
