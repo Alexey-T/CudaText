@@ -11,7 +11,7 @@ Duplicate:
 Authors:
     Andrey Kvichansky    (kvichans on github)
 Version:
-    '0.6.8 2019-04-25'
+    '0.6.9 2019-10-07'
 Wiki: github.com/kvichans/cudax_lib/wiki
 ToDo: (see end of file)
 """
@@ -74,6 +74,7 @@ pass;                           pfrm15=lambda d:pformat(d,width=15)
 pass;                           LOG = (-2==-2)  # Do or dont logging.
 pass;                           log_gap = ''    # use only into log()
 
+APP_DEF_LEX_OPTS    = {}
 APP_DEFAULT_OPTS    = {}
 LAST_FILE_OPTS      = {}
 class Command:
@@ -126,15 +127,29 @@ def _check_API(ver):
         return False
     return True
 
-def get_app_default_opts(**kw):
+def get_app_default_opts(lexer='', **kw):
     pass;                      #LOG and log('kw={}',kw)
-    global APP_DEFAULT_OPTS
+    global APP_DEFAULT_OPTS, APP_DEF_LEX_OPTS
     if not APP_DEFAULT_OPTS:
         # Once load def-opts
         def_json    = os.path.join(get_def_setting_dir(), 'default.json')
-        APP_DEFAULT_OPTS = _json_loads(open(def_json, encoding='utf8').read(), object_pairs_hook=collections.OrderedDict, **kw)
+        APP_DEFAULT_OPTS = _json_loads(open(def_json, encoding='utf8').read(), **kw)
+#       APP_DEFAULT_OPTS = _json_loads(open(def_json, encoding='utf8').read(), object_pairs_hook=collections.OrderedDict, **kw)
 #       APP_DEFAULT_OPTS = _json_loads(open(def_json).read(), **kw)
-    return APP_DEFAULT_OPTS
+    if not lexer:
+        return APP_DEFAULT_OPTS
+    lex_json        = os.path.join(get_def_setting_dir(), 'lexer {}.json'.format(lexer))
+    if not os.path.exists(lex_json):
+        return APP_DEFAULT_OPTS
+    lex_opts    = APP_DEF_LEX_OPTS.get(lexer)
+    if not lex_opts:
+        lex_opts    = _json_loads(open(lex_json, encoding='utf8').read(), **kw)
+        def_opts    = APP_DEFAULT_OPTS.copy()
+        def_opts.update(lex_opts)
+        lex_opts    = def_opts
+#       lex_opts    = {**APP_DEFAULT_OPTS, **lex_opts}
+        APP_DEF_LEX_OPTS[lexer] = lex_opts
+    return lex_opts
    #def get_app_default_opts
 
 def _get_file_opts(opts_json, def_opts={}, **kw):
@@ -179,7 +194,7 @@ def get_opt(path, def_value=None, lev=CONFIG_LEV_ALL, ed_cfg=ed, lexer='', user_
     keys            = path.split('/') if '/' in path else ()
     ans             = def_value
 
-    def_opts        = get_app_default_opts()
+    def_opts        = get_app_default_opts(lexer=lexer)
     if lev==CONFIG_LEV_DEF:
         ans             = def_opts.get(path, def_value)   if not keys else _opt_for_keys(def_opts, keys, def_value)
         pass;                  #LOG and log('lev=DEF ans={}',(ans))
@@ -252,7 +267,7 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='us
     if lev==CONFIG_LEV_FILE:
         if value is None:
             # Del! Cannot del from file-lev -- can set as default
-            def_opts    = get_app_default_opts()
+            def_opts    = get_app_default_opts(lexer=lexer)
             value       = def_opts.get(path)
         else:
             value       = str(value)
