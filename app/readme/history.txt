@@ -3,9 +3,10 @@
   - fixed
   * changed
 
-1.88.1 (2019/10)
+1.88.2 (2019/10)
 
-- fix: API sometimes changed file encoding to UTF16
++ add: Linux: program can open (but not save) special files like /proc/version, /proc/meminfo
+- fix: plugin API sometimes changed file encoding to UTF16
 - fix: Linux: dialog labels with CJK text were clipped
 
 1.88.0 (2019/10)
