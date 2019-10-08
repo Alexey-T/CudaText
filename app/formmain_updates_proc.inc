@@ -758,6 +758,7 @@ begin
   UpdateMenuItemHotkey(mnuViewToolbar, cmd_ToggleToolbar);
   UpdateMenuItemHotkey(mnuViewStatus, cmd_ToggleStatusbar);
   UpdateMenuItemHotkey(mnuViewOnTop, cmd_ToggleOnTop);
+  UpdateMenuItemHotkey(mnuLexers, cmd_DialogLexerMenu);
 
   UpdateMenuItemHotkey(mnuOpDefault, cmd_OpsOpenDefault);
   UpdateMenuItemHotkey(mnuOpUser, cmd_OpsOpenUser);

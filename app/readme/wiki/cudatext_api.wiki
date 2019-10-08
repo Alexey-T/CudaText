@@ -1540,7 +1540,6 @@ Value of "command" parameter for MENU_ADD can be:
 * to create standard special sub-menus, special values:
 ** "_recents": Recent-files submenu
 ** "_enc": Encodings submenu (has subitems "reload as", "convert to")
-** "_lexers": Lexers submenu
 ** "_plugins": Plugins submenu
 ** "_oplugins": Settings-plugins submenu
 
@@ -3622,5 +3621,8 @@ def project_variables():
 1.0.305 (app 1.87.6)
 * add: Editor.markers, Editor.attr: MARKERS_DELETE_BY_INDEX
 * add: Editor.markers, Editor.attr: list allows "duplicate" items with the same x:y pos; attr list applies all "duplicate" items, left to right
+
+1.0.306 (app 1.88.2)
+* change: menu_proc: removed special menu id "_lexers"
 
 [[Category:CudaText]]

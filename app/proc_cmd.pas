@@ -88,7 +88,7 @@ const
   cmd_DialogThemeUi       = 2552;
   cmd_DialogThemeSyntax   = 2553;
   cmd_ShowMainMenuAsPopup = 2554;
-  //cmd_ToggleMenu = 2555;
+  cmd_DialogLexerMenu = 2555;
   cmd_ToggleFloatSide = 2556;
   cmd_ToggleFloatBottom = 2557;
   cmd_HideBottomPanel = 2558;

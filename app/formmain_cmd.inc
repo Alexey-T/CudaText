@@ -87,6 +87,7 @@ begin
     cmd_DialogLexerStyleMap: DoDialogLexerMap;
     cmd_DialogThemeUi:     DoDialogTheme(true);
     cmd_DialogThemeSyntax: DoDialogTheme(false);
+    cmd_DialogLexerMenu:   DoDialogLexerMenu;
     cmd_DialogCharMap:     DoDialogCharMap;
     cmd_ShowMainMenuAsPopup: DoSidebar_MainMenuClick(nil);
 

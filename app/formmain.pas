@@ -958,6 +958,7 @@ type
     procedure DoDialogLexerLib;
     procedure DoDialogLexerMap;
     procedure DoDialogTheme(AThemeUI: boolean);
+    procedure DoDialogLexerMenu;
     procedure DoShowConsole(AndFocus: boolean);
     procedure DoShowOutput(AndFocus: boolean);
     procedure DoShowValidate(AndFocus: boolean);
@@ -2014,7 +2015,6 @@ begin
   UpdateMenuItemHint(mnuFileOpenSub, '_recents');
   UpdateMenuItemHint(mnuFileEnc, '_enc');
   UpdateMenuItemHint(mnuFileEnds, '_ends');
-  UpdateMenuItemHint(mnuLexers, '_lexers');
   UpdateMenuItemHint(mnuOpPlugins, '_oplugins');
 
   DoOps_OnCreate;
@@ -4014,7 +4014,6 @@ begin
   UpdateKeymapDynamicItems;
   DoOps_LoadKeymap;
   UpdateMenuLexersTo(PopupLex.Items);
-  UpdateMenuLexersTo(mnuLexers);
 end;
 
 procedure TfmMain.UpdateMenuLexersTo(AMenu: TMenuItem);
@@ -5851,12 +5850,6 @@ begin
       UpdateMenuPlugins;
     end
     else
-    if AMenuCmd='_lexers' then
-    begin
-      mnuLexers:= mi;
-      UpdateMenuLexers;
-    end
-    else
     if AMenuCmd='_oplugins' then
     begin
       mnuOpPlugins:= mi;
@@ -6476,6 +6469,58 @@ begin
   else
     AKind:= cTokenKindOther;
 end;
+
+procedure TfmMain.DoDialogLexerMenu;
+var
+  List: TStringList;
+  NIndex, i: integer;
+  Lexer: TecSyntAnalyzer;
+  LexerLite: TATLiteLexer;
+  Obj: TObject;
+  Frame: TEditorFrame;
+begin
+  Frame:= CurrentFrame;
+  if Frame=nil then exit;
+
+  List:= TStringList.Create;
+  try
+    for i:= 0 to AppManager.LexerCount-1 do
+    begin
+      Lexer:= AppManager.Lexers[i];
+      if Lexer.Internal then Continue;
+      List.AddObject(Lexer.LexerName, Lexer);
+    end;
+
+    for i:= 0 to AppManagerLite.LexerCount-1 do
+    begin
+      LexerLite:= AppManagerLite.Lexers[i];
+      List.AddObject(LexerLite.LexerName+msgLiteLexerSuffix, LexerLite);
+    end;
+
+    List.Sort;
+
+    NIndex:= 0;
+    NIndex:= DoDialogMenuApi(
+      List.Text,
+      '',
+      false,
+      NIndex,
+      not UiOps.ListboxFuzzySearch,
+      false,
+      false);
+    if NIndex<0 then exit;
+
+    Obj:= List.Objects[NIndex];
+    if Obj is TecSyntAnalyzer then
+      Frame.Lexer[Frame.Editor]:= Obj as TecSyntAnalyzer
+    else
+    if Obj is TATLiteLexer then
+      Frame.LexerLite[Frame.Editor]:= Obj as TATLiteLexer;
+  finally
+    FreeAndNil(List);
+  end;
+end;
+
 
 //----------------------------
 {$I formmain_loadsave.inc}

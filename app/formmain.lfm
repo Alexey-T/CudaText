@@ -635,7 +635,7 @@ object fmMain: TfmMain
         Caption = '-'
       end
       object mnuLexers: TMenuItem
-        Caption = 'Le&xers'
+        Caption = 'Le&xers...'
       end
     end
     object mnuPlugins: TMenuItem
