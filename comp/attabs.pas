@@ -1286,6 +1286,7 @@ begin
   FTabIndex:= 0;
   FTabIndexOver:= -1;
   FTabIndexHinted:= -1;
+  FTabIndexHintedPrev:= -1;
   FTabIndexAnimated:= -1;
   FAnimationOffset:= 0;
   //FTabList:= TCollection.Create(TATTabData);
