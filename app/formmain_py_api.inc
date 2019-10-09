@@ -3431,7 +3431,8 @@ begin
         PROP_LINE_TOP:
           begin
             if Assigned(F) then
-              F.TopLineTodo:= ValueInt;
+              if F.IsParsingBusy then
+                F.TopLineTodo:= ValueInt;
             Ed.LineTop:= ValueInt;
           end;
 
