@@ -1231,21 +1231,50 @@ Don't configure custom lexer styles in Lexer Properties dialog, if option "ui_le
 * "splitters, main" - shown near Sidebar (vertical) and above Bottom panel (horizontal)
 * "splitters, groups" - shown between groups (vert/horz), activate 2-3 groups using "View" menu
 
+===Meaning of syntax-theme elements===
+ 
+* Id: Normal id (identifier) or text. 
+* Id1: Special id, used e.g. for class names.
+* Id2: Special id, used mainly for syntax constants (true, false, null...) and standard functions (sin, abs, max...).
+* Id3: Special id, used e.g. for units (mm, cm, Kb, sec)
+* Id4: Special id, one more kind, rarely used.
+* IdKeyword: Keywords, ie special id often highlighted in bold. 
+* IdVar: Variables, e.g. $name in PHP and Bash.
+* IdBad: Incorrect/misslepped id.
+* String: String literals.
+* String2: String literals, used e.g. for RegEx constants.
+* String3: String literals, one more kind, rarely used.
+* Symbol: Non-word symbols, ie brackets/punctuation/etc.
+* Symbol2: Non-word symbols, used when syntax needs another style for e.g. assignment/math operators.
+* SymbolBad: Incorrect non-word symbols.
+* Comment: Comments.
+* Comment2: Comments, used when syntax needs another style of comments, e.g. shebang in Bash.
+* CommentDoc: Documentation comments, ie comments which are parsed by special tools.
+* Number: Numbers (decimal, hex, octal, floating...).
+* Label: GoTo operator labels, or another special id.
+* Color: Color constants, like #RRGGBB in HTML/CSS.
+* IncludeBG#, SectionBG#: Styles which have background color set, and foreground color unset (none). Used to highlight function blocks, sub-lexer blocks, parts of a file, etc. 
+* BracketBG: Style with background+foreground colors. Used to highlight paired brackets, begin/end keywords, repeat/until keywords (when "dynamic highlighting" option is on) etc. 
+* CurBlockBG: Style with background color set, foreground color unset. Used to highlight block under caret, when "dynamic highlighting" option is on.
+* SeparLine: Color of horizontal 1-pixel separator lines. Was used before in Pascal, for lines above functions.
+* TagBound: HTML tags: angled brackets.
+* TagId: HTML tags: tag names.
+* TagIdBad: HTML tags: incorrect tag names.
+* TagProp: HTML tags: properties/attributes of tags, before "=" char.
+* TagPropBad: HTML tags: incorrect props/attrs of tags.
+* TagInclude: Tags used for inclusion of sub-lexer blocks. Used e.g. in PHP, <? ?>.
+* LightBG#: Styles with bright background color, and normal foreground. Used e.g. in Diff to highlight deleted (LightBG1) / changed (LightBG2) / added (LightBG3) text blocks.
+* Pale#: Styles with pale (barely visible) foreground color. Rarely used. 
+* TextBold: Style with bold font.
+* TextItalic: Style with italic font.
+* TextBoldItalic: Style with bold+italic font.
+* TextCross: Style with crossed/strikeout font.
+
 ==How to use on Windows XP==
 
-Q: I have Windows XP, what version of CudaText (SynWrite) and Python should I have to have plugins working?
+Q: I have Windows XP, what version of CudaText and Python should I have?
 
-A: You need any version of CudaText (after 1.7), but older Python 3.4 DLLs. You must replace these Python files:
-
-* *.dll
-* *.zip
-* folder DLLs
-
-With Python files from this WinXP build: https://sourceforge.net/projects/cudatextbuildlinuxi386/files/release/
-
-Then open config "user.json" and write option:
-
-  "pylib": "python34.dll",
+A: You need CudaText 1.86 or newer, and older Python 3.4 files. Currently Addon Manager contains packages for Python 3.5 and 3.7, but not for 3.4. Make the package using examples: https://sourceforge.net/projects/cudatext/files/addons/packages/ . No option is needed to configure CudaText for Python 3.4, but you need to delete all newer Pythons from CudaText folder.
 
 ==How to copy to clipboard word under caret==
 
