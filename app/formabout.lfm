@@ -131,6 +131,7 @@ object fmAbout: TfmAbout
     Colors.BorderLineFocused = clNavy
     Colors.ComboboxArrow = clGray
     Colors.ComboboxArrowBG = 15790320
+    OptNonWordChars = '-+*=/\()[]{}<>"''.,:;~?!@#$%^&|`'#8230
     OptShowURLsRegex = '\b(https?://|ftp://|magnet:\?|www\.)\w[^<>''"\s\(\)]+'
     OptGutterVisible = False
     OptRulerVisible = False

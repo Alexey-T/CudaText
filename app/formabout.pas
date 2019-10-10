@@ -14,7 +14,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
   Menus, ButtonPanel, IniFiles,
-  LCLProc, LCLType, LCLIntf, LCLPlatformDef,
+  LCLProc, LCLType, LCLIntf,
   proc_msg,
   proc_globdata,
   proc_editor,
@@ -91,8 +91,6 @@ begin
 end;
 
 procedure TfmAbout.FormCreate(Sender: TObject);
-var
-  SWidget: string;
 begin
   Localize;
 
@@ -109,12 +107,10 @@ begin
   FLabelLink.AnchorSideTop.Side:= asrBottom;
   FLabelLink.BorderSpacing.Top:= labelPlatform.BorderSpacing.Top;
 
-  SWidget:= LCLPlatformDirNames[WidgetSet.LCLPlatform];
-
   labelPlatform.Caption:= Format('%s-%s-%s, fpc %s', [
-    Lowercase({$I %FPCTARGETOS%}),
+    LowerCase({$I %FPCTARGETOS%}),
     {$I %FPCTARGETCPU%},
-    SWidget,
+    GetLCLWidgetTypeName,
     {$I %FPCVersion%}
     ]);
 end;
