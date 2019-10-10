@@ -702,7 +702,7 @@ begin
       if Ed.Strings.IsIndexValid(Index) then
       begin
         if (MaxLen=0) or (Ed.Strings.LinesLenRaw[Index]<=MaxLen) then
-          Result:= PyUnicode_FromWideString(Ed.Strings.Lines[Index])
+          Result:= PyString_FromString(PChar(Ed.Strings.LinesUTF8[Index]))
         else
           Result:= PyString_FromString('');
       end
