@@ -40,11 +40,15 @@ It has builds for Windows, Linux (x32, x64, ARM, AArch64), macOS, FreeBSD, NetBS
 
 = Configs =
 
-Editor has config system in JSON files: call menu item "Settings-default" and you'll see '''default config''' (file default.json). Copy any lines to config called by "Settings-user" and edit lines in this '''user config''' (file user.json) - it's actial config file. You can copy comments near options too, they will be ignored. Default config is not read by program, it's only to show possible options.
+CudaText has configuration system in JSON files: call menu item "Settings-default" and you'll see '''default config'''. Copy any lines to config called by "Settings-user" and edit this '''user config''' - it's actial config file. You can copy JSON comments too. Default config is not read by CudaText, it's only to show possible options.
 
-'''Lexer-specific config''': settings which are read when some lexer activates. E.g. if you open Pascal file, config for Pascal is read after user config (file "lexer Pascal.json"). You should not write "ui_" options to lexer-specific configs (it may give weird effects on changing lexer), and some other global options.
-
-'''Hotkey config'''. Special dialog allows to change all hotkeys in the app. You should not edit config file here. Dialog is called from "Help - Commands" list by key F9. Dialog allows to set hotkey-1 and hotkey-2 for any command (except dynamically added commands to change lexer).
+* '''User config'''. File "settings/user.json". Can be opened via menu item "Options / Settings-user".
+* '''Default config'''. File "settings_default/default.json". Can be opened via menu item "Options / Settings-default". CudaText doesn't read this config, but it's parsed by plugin "Options Editor".
+* '''Lexer specific configs'''. Files "settings/lexer NNN.json". It is layer which is read after user config, when user activates some lexer. E.g. if you open C file, config file "lexer C.json" is read. You should not write "ui_" options to lexer specific configs (it may give weird effects on changing lexer), and some other global options.
+* '''Default lexer specific configs'''. Files "settings_default/lexer NNN.json". It is layer which is read after user config, but before lexer specific config. CudaText provides several such files, with useful defaults.
+* '''Hotkeys config'''. File "settings/keys.json". Special dialog allows to change all hotkeys in CudaText. You should not edit this config file. Dialog is called from "Help / Command palette" by F9. Dialog allows to set 1st and 2nd hotkeys for any command (except dynamically added commands to change lexer).
+* '''Plugin configs'''. Files "settings/cuda_*". Plugins store their settings in there, and files can be in any format (most used are JSON and INI). Good quality plugins provide menu items in "Options / Settings-plugins" to open their config file, or to show configuration dialog.
+* '''History files'''. Files "settings/history*.json". Don't edit them. Mentioned here because sometimes users need to delete their history files (dialog positions, recent files list etc, recent search strings etc).
 
 == File types config ==
 
