@@ -2854,9 +2854,9 @@ def project_variables():
     return res
 </syntaxhighlight>
 
-=FAQ=
+=Questions=
 
-==How plugin can fill code-tree?==
+==How plugin can fill code-tree==
 
 * Handle events on_open, on_focus, on_change_slow (better don't use on_change, it slows down the app)
 * Get handle of code-tree: h_tree = app_proc(PROC_GET_CODETREE, "")
@@ -2865,7 +2865,7 @@ def project_variables():
 ** Clear tree via tree_proc(h_tree, TREE_ITEM_DELETE, id_item=0)
 ** On adding tree items, set range for them via tree_proc(h_tree, TREE_ITEM_SET_RANGE...)
 
-==How plugin can show tooltips on mouse-over?==
+==How plugin can show tooltips on mouse-over==
 
 * Create dialog for tooltip, via dlg_proc()
 
@@ -2882,12 +2882,22 @@ def project_variables():
 ** Show dialog via dlg_proc(..., DLG_SHOW_NONMODAL)
 * On exiting hotspot, hide dialog
 
-==How to make formatter plugin?==
+==How to make formatter plugin==
 
 * Fork plugin CSS Format (or JS Format). It has most of code done. It has 3 commands done: Format, Config global, Config local.
 * Replace/delete its CSS (JS) modules
 * Change options filename, change loading of options
 * Change contents of func do_format()
+
+==How to make auto-completion plugin==
+
+* Use CudaText menu item "Plugins / Make Plugin" to create empty plugin. In the "Make Plugin" dialog, check event "on_complete", so method Command.on_complete is called when user pressed Ctrl+Space.
+
+* Plugin files are located in the "py/cuda_nnnn" folder. In install.inf, add line "lexers=NNNN" for the event on_complete, so event is called only for lexer NNN. See example: https://github.com/CudaText-addons/cuda_html_class_complete
+
+* In plugin .py file, in method on_complete, read editor text via Editor.get_text_all() or Editor.get_text_line(), read caret position via Editor.get_caret(), make the completions list.
+
+* Call Editor.complete() or Editor.complete_alt() to show list to user.
 
 =History=
 
