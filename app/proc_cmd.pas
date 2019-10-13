@@ -557,8 +557,8 @@ begin
   M.Add(cmd_Markers_GotoLastAndDelete , 'markers: collect last marker (delete)', [], []);
   M.Add(cmd_Markers_ClearAll          , 'markers: remove all', [], []);
   M.Add(cmd_Markers_SwapCaretAndMarker, 'markers: swap caret and last marker', [], []);
-  M.Add(cmd_Markers_SelectToCaret,      'markers: select from caret to marker', [], []);
-  M.Add(cmd_Markers_DeleteToCaret,      'markers: delete from caret to marker', [], []);
+  M.Add(cmd_Markers_SelectToCaret,      'markers: select to last marker', [], []);
+  M.Add(cmd_Markers_DeleteToCaret,      'markers: delete to last marker', [], []);
 
   M.Add(cmd_MacroStart, 'macros: start recording', [], []);
   M.Add(cmd_MacroStop, 'macros: stop recording', [], []);
