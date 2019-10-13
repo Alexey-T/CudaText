@@ -5,10 +5,10 @@
 
 1.88.3 (2019/10)
 
-+ add: command "markers: select from caret to marker"
-+ add: command "markers: delete from caret to marker"
 + add: Linux: program can open virtual files like /proc/version, /proc/meminfo
-+ add: arrow keys should skip positions inside Unicode surrogate pairs
++ add: command "markers: select to last marker"
++ add: command "markers: delete to last marker"
++ add: arrow keys skip position inside Unicode surrogate pairs
 * change: menu item "View / Lexers" now shows dialog, like Command Palette
 - fix: tree-helpers did not work (when no folding ranges)
 - fix: Unicode surrogate pairs gave crash in Python plugins
