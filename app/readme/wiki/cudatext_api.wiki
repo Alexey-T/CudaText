@@ -2882,13 +2882,6 @@ def project_variables():
 ** Show dialog via dlg_proc(..., DLG_SHOW_NONMODAL)
 * On exiting hotspot, hide dialog
 
-==How to make formatter plugin==
-
-* Fork plugin CSS Format (or JS Format). It has most of code done. It has 3 commands done: Format, Config global, Config local.
-* Replace/delete its CSS (JS) modules
-* Change options filename, change loading of options
-* Change contents of func do_format()
-
 ==How to make auto-completion plugin==
 
 * Use CudaText menu item "Plugins / Make Plugin" to create empty plugin. In the "Make Plugin" dialog, check event "on_complete", so method Command.on_complete is called when user pressed Ctrl+Space.
