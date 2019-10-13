@@ -40,11 +40,15 @@ It has builds for Windows, Linux (x32, x64, ARM, AArch64), macOS, FreeBSD, NetBS
 
 = Configs =
 
-Editor has config system in JSON files: call menu item "Settings-default" and you'll see '''default config''' (file default.json). Copy any lines to config called by "Settings-user" and edit lines in this '''user config''' (file user.json) - it's actial config file. You can copy comments near options too, they will be ignored. Default config is not read by program, it's only to show possible options.
+CudaText has configuration system in JSON files: call menu item "Settings-default" and you'll see '''default config'''. Copy any lines to config called by "Settings-user" and edit this '''user config''' - it's actial config file. You can copy JSON comments too. Default config is not read by CudaText, it's only to show possible options.
 
-'''Lexer-specific config''': settings which are read when some lexer activates. E.g. if you open Pascal file, config for Pascal is read after user config (file "lexer Pascal.json"). You should not write "ui_" options to lexer-specific configs (it may give weird effects on changing lexer), and some other global options.
-
-'''Hotkey config'''. Special dialog allows to change all hotkeys in the app. You should not edit config file here. Dialog is called from "Help - Commands" list by key F9. Dialog allows to set hotkey-1 and hotkey-2 for any command (except dynamically added commands to change lexer).
+* '''User config'''. File "settings/user.json". Can be opened via menu item "Options / Settings-user".
+* '''Default config'''. File "settings_default/default.json". Can be opened via menu item "Options / Settings-default". CudaText doesn't read this config, but it's parsed by plugin "Options Editor".
+* '''Lexer specific configs'''. Files "settings/lexer NNN.json". It is layer which is read after user config, when user activates some lexer. E.g. if you open C file, config file "lexer C.json" is read. You should not write "ui_" options to lexer specific configs (it may give weird effects on changing lexer), and some other global options.
+* '''Default lexer specific configs'''. Files "settings_default/lexer NNN.json". It is layer which is read after user config, but before lexer specific config. CudaText provides several such files, with useful defaults.
+* '''Hotkeys config'''. File "settings/keys.json". Special dialog allows to change all hotkeys in CudaText. You should not edit this config file. Dialog is called from "Help / Command palette" by F9. Dialog allows to set 1st and 2nd hotkeys for any command (except dynamically added commands to change lexer).
+* '''Plugin configs'''. Files "settings/cuda_*". Plugins store their settings in there, and files can be in any format (most used are JSON and INI). Good quality plugins provide menu items in "Options / Settings-plugins" to open their config file, or to show configuration dialog.
+* '''History files'''. Files "settings/history*.json". Don't edit them. Mentioned here because sometimes users need to delete their history files (dialog positions, recent files list etc, recent search strings etc).
 
 == File types config ==
 
@@ -1231,21 +1235,50 @@ Don't configure custom lexer styles in Lexer Properties dialog, if option "ui_le
 * "splitters, main" - shown near Sidebar (vertical) and above Bottom panel (horizontal)
 * "splitters, groups" - shown between groups (vert/horz), activate 2-3 groups using "View" menu
 
+===Meaning of syntax-theme elements===
+
+* Id: Normal id (identifier) or text.
+* Id1: Special id, used e.g. for class names (when it is mixed-case id) or const names (when it is upper-case id).
+* Id2: Special id, used e.g. for syntax constants (true, false, null...) and standard functions (sin, abs, max...).
+* Id3: Special id, used e.g. for measurement units (mm, Kb, px...) and preprocessor directives.
+* Id4: Special id, rarely used, e.g. Python uses it for function names after "def".
+* IdKeyword: Special id, used for syntax keywords.
+* IdVar: Variables, e.g. $name in PHP and Bash.
+* IdBad: Incorrect/misslepped id.
+* String: String literals.
+* String2: String literals, used e.g. for RegEx constants.
+* String3: String literals, one more kind, rarely used.
+* Symbol: Non-word symbols, ie brackets/punctuation/etc.
+* Symbol2: Non-word symbols, used when syntax needs another style for e.g. assignment/math operators.
+* SymbolBad: Incorrect non-word symbols.
+* Comment: Comments.
+* Comment2: Comments, used when syntax needs another style of comments, e.g. shebang in Bash.
+* CommentDoc: Documentation comments, ie comments which are parsed by special tools.
+* Number: Numbers (decimal, hex, octal, floating...).
+* Label: GoTo operator labels, or another special id.
+* Color: Color constants, like #RRGGBB in HTML/CSS.
+* IncludeBG#, SectionBG#: Styles which have background color set, and foreground color unset (none). Used to highlight function blocks, sub-lexer blocks, parts of a file, etc.
+* BracketBG: Style with background+foreground colors. Used to highlight paired brackets, begin/end keywords, repeat/until keywords (when "dynamic highlighting" option is on) etc.
+* CurBlockBG: Style with background color set, foreground color unset. Used to highlight block under caret, when "dynamic highlighting" option is on.
+* SeparLine: Color of horizontal 1-pixel separator lines. Was used before in Pascal, for lines above functions.
+* TagBound: HTML tags: angled brackets.
+* TagId: HTML tags: tag names.
+* TagIdBad: HTML tags: incorrect tag names.
+* TagProp: HTML tags: properties/attributes of tags, before "=" char.
+* TagPropBad: HTML tags: incorrect props/attrs of tags.
+* TagInclude: Tags used for inclusion of sub-lexer blocks. Used e.g. in PHP, <? ?>.
+* LightBG#: Styles with bright background color, and normal foreground. Used e.g. in Diff to highlight deleted (LightBG1) / changed (LightBG2) / added (LightBG3) text blocks.
+* Pale#: Styles with pale (barely visible) foreground color. Rarely used.
+* TextBold: Style with bold font.
+* TextItalic: Style with italic font.
+* TextBoldItalic: Style with bold+italic font.
+* TextCross: Style with crossed/strikeout font.
+
 ==How to use on Windows XP==
 
-Q: I have Windows XP, what version of CudaText (SynWrite) and Python should I have to have plugins working?
+Q: I have Windows XP, what version of CudaText and Python should I have?
 
-A: You need any version of CudaText (after 1.7), but older Python 3.4 DLLs. You must replace these Python files:
-
-* *.dll
-* *.zip
-* folder DLLs
-
-With Python files from this WinXP build: https://sourceforge.net/projects/cudatextbuildlinuxi386/files/release/
-
-Then open config "user.json" and write option:
-
-  "pylib": "python34.dll",
+A: You need CudaText 1.86 or newer, and older Python 3.4 files. Currently Addon Manager contains packages for Python 3.5 and 3.7, but not for 3.4. Make the package using examples: https://sourceforge.net/projects/cudatext/files/addons/packages/ . No option is needed to configure CudaText for Python 3.4, but you need to delete all newer Pythons from CudaText folder.
 
 ==How to copy to clipboard word under caret==
 
@@ -1325,7 +1358,7 @@ What does this procedure do? It creates (or modifies) file "[CudaText]/settings/
 
 <syntaxhighlight lang="JSON">
 {
-  "nonword_chars": "-+*=/\\()[]{}<>\"'.,:;~?!@#%^&|`…"
+  "nonword_chars": "-+*=/\\()[]{}<>\"'.,:;~?!@#%^&|`"
 }
 </syntaxhighlight>
 

@@ -3,9 +3,17 @@
   - fixed
   * changed
 
-1.88.1 (2019/10)
+1.88.3 (2019/10)
 
-- fix: API sometimes changed file encoding to UTF16
++ add: Linux: program can open virtual files like /proc/version, /proc/meminfo
++ add: command "markers: select to last marker"
++ add: command "markers: delete to last marker"
++ add: arrow keys skip position inside Unicode surrogate pairs
+* change: menu item "View / Lexers" now shows dialog, like Command Palette
+- fix: tree-helpers did not work (when no folding ranges)
+- fix: Unicode surrogate pairs gave crash in Python plugins
+- fix: rendering of Unicode surrogate pairs (when lexer sees surrogates as symbols)
+- fix: plugin API sometimes changed file encoding to UTF16
 - fix: Linux: dialog labels with CJK text were clipped
 
 1.88.0 (2019/10)

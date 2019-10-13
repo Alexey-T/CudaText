@@ -269,7 +269,7 @@ cmd_RescanPythonPluginsInfFiles = 2551
 cmd_DialogThemeUi       = 2552
 cmd_DialogThemeSyntax   = 2553
 cmd_ShowMainMenuAsPopup = 2554
-#cmd_ToggleMenu = 2555
+cmd_DialogLexerMenu = 2555
 cmd_ToggleFloatSide = 2556
 cmd_ToggleFloatBottom = 2557
 cmd_HideBottomPanel = 2558
@@ -453,6 +453,8 @@ cmd_Encoding_cp936_Reload     = 2776
 cmd_Encoding_cp949_Reload     = 2777
 cmd_Encoding_cp950_Reload     = 2778
 
+cmd_Markers_SelectToCaret      = 2798
+cmd_Markers_DeleteToCaret      = 2799
 cmd_Markers_DropAtCaret        = 2800
 cmd_Markers_GotoLastNoDelete   = 2801
 cmd_Markers_GotoLastAndDelete  = 2802
