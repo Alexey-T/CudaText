@@ -2884,13 +2884,15 @@ def project_variables():
 
 ==How to make auto-completion plugin==
 
+Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_html_class_complete
+
 * Use CudaText menu item "Plugins / Make Plugin" to create empty plugin. In the "Make Plugin" dialog, check event "on_complete", so method Command.on_complete is called when user pressed Ctrl+Space.
 
-* Plugin files are located in the "py/cuda_nnnn" folder. In install.inf, add line "lexers=NNNN" for the event on_complete, so event is called only for lexer NNN. See example: https://github.com/CudaText-addons/cuda_html_class_complete
+* Plugin files are located in the "py/cuda_nnnn" folder. In install.inf, add line "lexers=NNNN" for the event on_complete, so event is called only for lexer NNN.
 
-* In plugin .py file, in method on_complete, read editor text via Editor.get_text_all() or Editor.get_text_line(), read caret position via Editor.get_caret(), make the completions list.
+* In plugin .py file, in method on_complete, read editor text via ed.get_text_all() or ed.get_text_line(), read caret position via ed.get_carets(), make the completions list.
 
-* Call Editor.complete() or Editor.complete_alt() to show list to user.
+* Call ed.complete() or ed.complete_alt() to show completions list.
 
 =History=
 
