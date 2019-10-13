@@ -440,6 +440,7 @@ begin
         AHandled:= true;
         exit
       end;
+
     cmd_Markers_GotoLastAndDelete:
       begin
         Ed.MarkerGotoLast(true,
@@ -451,6 +452,7 @@ begin
         AHandled:= true;
         exit
       end;
+
     cmd_Markers_GotoLastNoDelete:
       begin
         Ed.MarkerGotoLast(false,
@@ -461,6 +463,7 @@ begin
         AHandled:= true;
         exit
       end;
+
     cmd_Markers_ClearAll:
       begin
         Ed.MarkerClearAll;
@@ -469,9 +472,26 @@ begin
         AHandled:= true;
         exit
       end;
+
     cmd_Markers_SwapCaretAndMarker:
       begin
         Ed.MarkerSwap;
+        UpdateStatus;
+        AHandled:= true;
+        exit
+      end;
+
+    cmd_Markers_SelectToCaret:
+      begin
+        Ed.MarkerSelectToCaret;
+        UpdateStatus;
+        AHandled:= true;
+        exit
+      end;
+
+    cmd_Markers_DeleteToCaret:
+      begin
+        Ed.MarkerDeleteToCaret;
         UpdateStatus;
         AHandled:= true;
         exit

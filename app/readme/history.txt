@@ -5,7 +5,9 @@
 
 1.88.2 (2019/10)
 
-+ add: Linux: program can open (but not save) special files like /proc/version, /proc/meminfo
++ add: command "markers: select from caret to marker"
++ add: command "markers: delete from caret to marker"
++ add: Linux: program can open virtual files like /proc/version, /proc/meminfo
 + add: arrow keys should skip positions inside Unicode surrogate pairs
 * change: menu item "View / Lexers" now shows dialog, like Command Palette
 - fix: tree-helpers did not work (when no folding ranges)

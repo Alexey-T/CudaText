@@ -267,6 +267,8 @@ const
   cmd_Encoding_cp949_Reload     = 2777;
   cmd_Encoding_cp950_Reload     = 2778;
 
+  cmd_Markers_SelectToCaret      = 2798;
+  cmd_Markers_DeleteToCaret      = 2799;
   cmd_Markers_DropAtCaret        = 2800;
   cmd_Markers_GotoLastNoDelete   = 2801;
   cmd_Markers_GotoLastAndDelete  = 2802;
@@ -555,6 +557,8 @@ begin
   M.Add(cmd_Markers_GotoLastAndDelete , 'markers: collect last marker (delete)', [], []);
   M.Add(cmd_Markers_ClearAll          , 'markers: remove all', [], []);
   M.Add(cmd_Markers_SwapCaretAndMarker, 'markers: swap caret and last marker', [], []);
+  M.Add(cmd_Markers_SelectToCaret,      'markers: select from caret to marker', [], []);
+  M.Add(cmd_Markers_DeleteToCaret,      'markers: delete from caret to marker', [], []);
 
   M.Add(cmd_MacroStart, 'macros: start recording', [], []);
   M.Add(cmd_MacroStop, 'macros: stop recording', [], []);

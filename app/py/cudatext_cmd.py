@@ -453,6 +453,8 @@ cmd_Encoding_cp936_Reload     = 2776
 cmd_Encoding_cp949_Reload     = 2777
 cmd_Encoding_cp950_Reload     = 2778
 
+cmd_Markers_SelectToCaret      = 2798
+cmd_Markers_DeleteToCaret      = 2799
 cmd_Markers_DropAtCaret        = 2800
 cmd_Markers_GotoLastNoDelete   = 2801
 cmd_Markers_GotoLastAndDelete  = 2802
