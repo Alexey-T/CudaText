@@ -1033,31 +1033,15 @@ var
 begin
   OpDirExe:= ExtractFileDir(ParamStrUTF8(0));
   OpDirPrecopy:= GetDirPrecopy;
+  OpDirLocal:= OpDirExe;
 
-  //portable folder of app
-  if DirectoryExistsUTF8(
-      OpDirExe+
-      DirectorySeparator+'data'+
-      DirectorySeparator+'lexlib') then
-    OpDirLocal:= OpDirExe
-  else
-  //not portable folder, use Home dir
+  {$ifdef linux}
+  //not portable folder of app
+  if not DirectoryExistsUTF8(OpDirExe+DirectorySeparator+'data'+DirectorySeparator+'lexlib') then
   begin
-    {$ifdef windows}
-    OpDirLocal:= GetEnvironmentVariableUTF8('appdata')+'\CudaText';
-    {$else}
-      {$ifdef darwin}
-      OpDirLocal:= _GetHomeDir+'Library/Application Support/CudaText';
-      {$else}
-      OpDirLocal:= _XdgConfigHome+'cudatext';
-      {$endif}
-    {$endif}
-
+    OpDirLocal:= _XdgConfigHome+'cudatext';
     CreateDirUTF8(OpDirLocal);
-
     if DirectoryExistsUTF8(OpDirPrecopy) then
-    begin
-      {$ifdef linux}
       RunCommand('cp', ['-R', '-u', '-t',
         OpDirLocal,
         '/usr/share/cudatext/py',
@@ -1065,19 +1049,20 @@ begin
         '/usr/share/cudatext/readme',
         '/usr/share/cudatext/settings_default'
         ], S);
-      {$endif}
-      {$ifdef darwin}
-      //see rsync help. need options:
-      // -u (update)
-      // -r (recursive)
-      // -t (preserve times)
-      RunCommand('rsync', ['-urt',
-        OpDirPrecopy+'/',
-        OpDirLocal
-        ], S);
-      {$endif}
-    end;
   end;
+  {$elseif darwin}
+  OpDirLocal:= _GetHomeDir+'Library/Application Support/CudaText';
+  CreateDirUTF8(OpDirLocal);
+  if DirectoryExistsUTF8(OpDirPrecopy) then
+    //see rsync help. need options:
+    // -u (update)
+    // -r (recursive)
+    // -t (preserve times)
+    RunCommand('rsync', ['-urt',
+      OpDirPrecopy+'/',
+      OpDirLocal
+      ], S);
+  {$endif}
 end;
 
 procedure InitEditorOps(var Op: TEditorOps);
