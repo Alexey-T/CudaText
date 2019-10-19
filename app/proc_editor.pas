@@ -1110,18 +1110,19 @@ var
   CharFrom, CharTo: atChar;
   Kind: TATEditorBracketKind;
   PartObj: TATLinePartClass;
-  PosX, FoundX, FoundY: integer;
+  PosX, PosY, FoundX, FoundY: integer;
 begin
   Ed.Attribs.DeleteWithTag(cEditorTagForBracket);
   if Ed.Carets.Count<>1 then exit;
   Caret:= Ed.Carets[0];
+  PosX:= Caret.PosX;
+  PosY:= Caret.PosY;
   St:= Ed.Strings;
   if Caret.EndY>=0 then exit; //don't work if selection
-  if not St.IsIndexValid(Caret.PosY) then exit;
+  if not St.IsIndexValid(PosY) then exit;
 
-  S:= St.Lines[Caret.PosY];
+  S:= St.Lines[PosY];
   if S='' then exit;
-  PosX:= Caret.PosX;
   if PosX<0 then exit;
   if PosX>Length(S) then exit;
   if PosX=Length(S) then Dec(PosX);
@@ -1139,13 +1140,13 @@ begin
     else
       exit;
 
-  EditorBracket_FindPair(Ed, CharFrom, CharTo, Kind, PosX, Caret.PosY, FoundX, FoundY);
+  EditorBracket_FindPair(Ed, CharFrom, CharTo, Kind, PosX, PosY, FoundX, FoundY);
   if FoundY<0 then exit;
 
   PartObj:= TATLinePartClass.Create;
   PartObj.Data.ColorBG:= AppStyleBrackets.BgColor;
   PartObj.Data.ColorFont:= AppStyleBrackets.Font.Color;
-  Ed.Attribs.Add(PosX, Caret.PosY, cEditorTagForBracket, 1, 0, PartObj);
+  Ed.Attribs.Add(PosX, PosY, cEditorTagForBracket, 1, 0, PartObj);
 
   PartObj:= TATLinePartClass.Create;
   PartObj.Data.ColorBG:= AppStyleBrackets.BgColor;
