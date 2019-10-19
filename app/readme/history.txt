@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.88.4 (2019/10)
+
++ add: built-in bracket highlighting, no more need in plugin Bracket Helper, and it works much faster than plugin. It supports most of plugin's features, including show brackets on gutter.
+
 1.88.3 (2019/10)
 
 + add: Linux: program can open virtual files like /proc/version, /proc/meminfo
