@@ -1045,7 +1045,7 @@ begin
 
   if Kind=bracketOpening then
   begin
-    for IndexY:= FromY to Min(St.Count-1, FromY+MaxDistance) do
+    for IndexY:= FromY to Min(Int64(St.Count-1), Int64(FromY)+MaxDistance) do
     begin
       S:= St.Lines[IndexY];
       if S='' then Continue;
@@ -1076,7 +1076,7 @@ begin
   end
   else
   begin
-    for IndexY:= FromY downto Max(0, FromY-MaxDistance) do
+    for IndexY:= FromY downto Max(0, Int64(FromY)-MaxDistance) do
     begin
       S:= St.Lines[IndexY];
       if S='' then Continue;
