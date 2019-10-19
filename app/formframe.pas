@@ -145,6 +145,7 @@ type
     FLastLexerStringStyles: string;
     FLexerChooseFunc: TecLexerChooseFunc;
     FBracketHilite: boolean;
+    FBracketMaxDistance: integer;
 
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BinaryOnScroll(Sender: TObject);
@@ -658,7 +659,7 @@ begin
   DoOnUpdateStatus;
 
   if FBracketHilite then
-    EditorBracket_Highlight(Ed);
+    EditorBracket_Highlight(Ed, FBracketMaxDistance);
 
   //support Primary Selection on Linux
   {$ifdef linux}
@@ -1507,7 +1508,9 @@ begin
   FCodetreeFilterHistory:= TStringList.Create;
   FCachedTreeview[0]:= TTreeView.Create(Self);
   FCachedTreeview[1]:= nil;
+
   FBracketHilite:= true;
+  FBracketMaxDistance:= MaxInt div 2;
 
   InitEditor(Ed1);
   InitEditor(Ed2);

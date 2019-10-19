@@ -91,7 +91,7 @@ const
   cEditorTagForBracket = 1;
 
 function EditorBracket_GetPairForClosingBracketOrQuote(ch: char): char;
-procedure EditorBracket_Highlight(Ed: TATSynEdit);
+procedure EditorBracket_Highlight(Ed: TATSynEdit; MaxDistance: integer);
 
 
 implementation
@@ -1024,6 +1024,7 @@ procedure EditorBracket_FindPair(
   Ed: TATSynEdit;
   CharFrom, CharTo: atChar;
   Kind: TATEditorBracketKind;
+  MaxDistance: integer;
   FromX, FromY: integer;
   out FoundX, FoundY: integer);
 var
@@ -1040,7 +1041,7 @@ begin
 
   if Kind=bracketOpening then
   begin
-    for IndexY:= FromY to St.Count-1 do
+    for IndexY:= FromY to Min(St.Count-1, FromY+MaxDistance) do
     begin
       S:= St.Lines[IndexY];
       if S='' then Continue;
@@ -1071,7 +1072,7 @@ begin
   end
   else
   begin
-    for IndexY:= FromY downto 0 do
+    for IndexY:= FromY downto Max(0, FromY-MaxDistance) do
     begin
       S:= St.Lines[IndexY];
       if S='' then Continue;
@@ -1102,7 +1103,7 @@ begin
   end;
 end;
 
-procedure EditorBracket_Highlight(Ed: TATSynEdit);
+procedure EditorBracket_Highlight(Ed: TATSynEdit; MaxDistance: integer);
 var
   Caret: TATCaretItem;
   St: TATStrings;
@@ -1140,7 +1141,8 @@ begin
     else
       exit;
 
-  EditorBracket_FindPair(Ed, CharFrom, CharTo, Kind, PosX, PosY, FoundX, FoundY);
+  EditorBracket_FindPair(Ed, CharFrom, CharTo, Kind,
+    MaxDistance, PosX, PosY, FoundX, FoundY);
   if FoundY<0 then exit;
 
   PartObj:= TATLinePartClass.Create;
