@@ -1030,12 +1030,12 @@ var
   St: TATStrings;
   S: atString;
   IndexX, IndexY, IndexXBegin, IndexXEnd: integer;
-  CharCur: atChar;
-  DeepLevel: integer;
+  Level: integer;
+  ch: atChar;
 begin
   FoundX:= -1;
   FoundY:= -1;
-  DeepLevel:= 0;
+  Level:= 0;
   St:= Ed.Strings;
 
   if Kind=bracketOpening then
@@ -1051,14 +1051,14 @@ begin
       IndexXEnd:= Length(S)-1;
       for IndexX:= IndexXBegin to IndexXEnd do
       begin
-        CharCur:= S[IndexX+1];
-        if CharCur=CharFrom then
-          Inc(DeepLevel)
+        ch:= S[IndexX+1];
+        if ch=CharFrom then
+          Inc(Level)
         else
-        if CharCur=CharTo then
+        if ch=CharTo then
         begin
-          if DeepLevel>0 then
-            Dec(DeepLevel)
+          if Level>0 then
+            Dec(Level)
           else
           begin
             FoundX:= IndexX;
@@ -1082,14 +1082,14 @@ begin
       IndexXBegin:= 0;
       for IndexX:= IndexXEnd downto IndexXBegin do
       begin
-        CharCur:= S[IndexX+1];
-        if CharCur=CharFrom then
-          Inc(DeepLevel)
+        ch:= S[IndexX+1];
+        if ch=CharFrom then
+          Inc(Level)
         else
-        if CharCur=CharTo then
+        if ch=CharTo then
         begin
-          if DeepLevel>0 then
-            Dec(DeepLevel)
+          if Level>0 then
+            Dec(Level)
           else
           begin
             FoundX:= IndexX;
@@ -1110,7 +1110,6 @@ var
   CharFrom, CharTo: atChar;
   Kind: TATEditorBracketKind;
   PartObj: TATLinePartClass;
-  Style: TecSyntaxFormat;
   PosX, FoundX, FoundY: integer;
 begin
   Ed.Attribs.DeleteWithTag(cEditorTagForBracket);
@@ -1143,16 +1142,14 @@ begin
   EditorBracket_FindPair(Ed, CharFrom, CharTo, Kind, PosX, Caret.PosY, FoundX, FoundY);
   if FoundY<0 then exit;
 
-  Style:= GetAppStyleFromName('BracketBG');
-
   PartObj:= TATLinePartClass.Create;
-  PartObj.Data.ColorBG:= Style.BgColor;
-  PartObj.Data.ColorFont:= Style.Font.Color;
+  PartObj.Data.ColorBG:= AppStyleBrackets.BgColor;
+  PartObj.Data.ColorFont:= AppStyleBrackets.Font.Color;
   Ed.Attribs.Add(PosX, Caret.PosY, cEditorTagForBracket, 1, 0, PartObj);
 
   PartObj:= TATLinePartClass.Create;
-  PartObj.Data.ColorBG:= Style.BgColor;
-  PartObj.Data.ColorFont:= Style.Font.Color;
+  PartObj.Data.ColorBG:= AppStyleBrackets.BgColor;
+  PartObj.Data.ColorFont:= AppStyleBrackets.Font.Color;
   Ed.Attribs.Add(FoundX, FoundY, cEditorTagForBracket, 1, 0, PartObj);
 end;
 
