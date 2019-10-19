@@ -93,7 +93,7 @@ const
   cEditorTagForBracket = 1;
 
 function EditorBracket_GetPairForClosingBracketOrQuote(ch: char): char;
-procedure EditorBracket_Highlight(Ed: TATSynEdit; AllowSymbols: string; MaxDistance: integer);
+procedure EditorBracket_Highlight(Ed: TATSynEdit; AllowedSymbols: string; MaxDistance: integer);
 
 
 implementation
@@ -1107,7 +1107,7 @@ begin
   end;
 end;
 
-procedure EditorBracket_Highlight(Ed: TATSynEdit; AllowSymbols: string;
+procedure EditorBracket_Highlight(Ed: TATSynEdit; AllowedSymbols: string;
   MaxDistance: integer);
 var
   Caret: TATCaretItem;
@@ -1137,15 +1137,20 @@ begin
   if PosX=Length(S) then Dec(PosX);
 
   CharFrom:= S[PosX+1];
-  if Pos(CharFrom, AllowSymbols)=0 then exit;
+  if Pos(CharFrom, AllowedSymbols)>0 then
+    EditorBracket_GetCharKind(CharFrom, Kind, CharTo)
+  else
+    Kind:= bracketUnknown;
 
-  EditorBracket_GetCharKind(CharFrom, Kind, CharTo);
   if Kind=bracketUnknown then //allow caret after bracket too
     if PosX>0 then
     begin
       Dec(PosX);
       CharFrom:= S[PosX+1];
-      EditorBracket_GetCharKind(CharFrom, Kind, CharTo);
+      if Pos(CharFrom, AllowedSymbols)>0 then
+        EditorBracket_GetCharKind(CharFrom, Kind, CharTo)
+      else
+        Kind:= bracketUnknown;
       if Kind=bracketUnknown then exit;
     end
     else
