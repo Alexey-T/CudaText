@@ -144,6 +144,7 @@ type
     FLastLexerCommentStyles: string;
     FLastLexerStringStyles: string;
     FLexerChooseFunc: TecLexerChooseFunc;
+    FBracketHilite: boolean;
 
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BinaryOnScroll(Sender: TObject);
@@ -283,6 +284,7 @@ type
     function LexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
 
     property Locked: boolean read FLocked write SetLocked;
+    property BracketHilite: boolean read FBracketHilite write FBracketHilite;
     property CommentString[Ed: TATSynEdit]: string read GetCommentString;
     property TabColor: TColor read FTabColor write SetTabColor;
     property TabSizeChanged: boolean read FTabSizeChanged write FTabSizeChanged;
@@ -655,7 +657,8 @@ begin
 
   DoOnUpdateStatus;
 
-  //EditorBracket_Highlight(Ed);
+  if FBracketHilite then
+    EditorBracket_Highlight(Ed);
 
   //support Primary Selection on Linux
   {$ifdef linux}
@@ -1504,6 +1507,7 @@ begin
   FCodetreeFilterHistory:= TStringList.Create;
   FCachedTreeview[0]:= TTreeView.Create(Self);
   FCachedTreeview[1]:= nil;
+  FBracketHilite:= true;
 
   InitEditor(Ed1);
   InitEditor(Ed2);

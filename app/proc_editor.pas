@@ -1020,6 +1020,88 @@ begin
   end;
 end;
 
+procedure EditorBracket_FindPair(
+  Ed: TATSynEdit;
+  CharFrom, CharTo: atChar;
+  Kind: TATEditorBracketKind;
+  FromX, FromY: integer;
+  out FoundX, FoundY: integer);
+var
+  St: TATStrings;
+  S: atString;
+  IndexX, IndexY, IndexXBegin, IndexXEnd: integer;
+  CharCur: atChar;
+  DeepLevel: integer;
+begin
+  FoundX:= -1;
+  FoundY:= -1;
+  DeepLevel:= 0;
+  St:= Ed.Strings;
+
+  if Kind=bracketOpening then
+  begin
+    for IndexY:= FromY to St.Count-1 do
+    begin
+      S:= St.Lines[IndexY];
+      if S='' then Continue;
+      if IndexY=FromY then
+        IndexXBegin:= FromX+1
+      else
+        IndexXBegin:= 0;
+      IndexXEnd:= Length(S)-1;
+      for IndexX:= IndexXBegin to IndexXEnd do
+      begin
+        CharCur:= S[IndexX+1];
+        if CharCur=CharFrom then
+          Inc(DeepLevel)
+        else
+        if CharCur=CharTo then
+        begin
+          if DeepLevel>0 then
+            Dec(DeepLevel)
+          else
+          begin
+            FoundX:= IndexX;
+            FoundY:= IndexY;
+            Exit
+          end;
+        end;
+      end;
+    end;
+  end
+  else
+  begin
+    for IndexY:= FromY downto 0 do
+    begin
+      S:= St.Lines[IndexY];
+      if S='' then Continue;
+      if IndexY=FromY then
+        IndexXEnd:= FromX-1
+      else
+        IndexXEnd:= Length(S)-1;
+      IndexXBegin:= 0;
+      for IndexX:= IndexXEnd downto IndexXBegin do
+      begin
+        CharCur:= S[IndexX+1];
+        if CharCur=CharFrom then
+          Inc(DeepLevel)
+        else
+        if CharCur=CharTo then
+        begin
+          if DeepLevel>0 then
+            Dec(DeepLevel)
+          else
+          begin
+            FoundX:= IndexX;
+            FoundY:= IndexY;
+            Exit
+          end;
+        end;
+      end;
+    end;
+  end;
+end;
+
 procedure EditorBracket_Highlight(Ed: TATSynEdit);
 var
   Caret: TATCaretItem;
@@ -1027,9 +1109,9 @@ var
   S: atString;
   CharFrom, CharTo: atChar;
   Kind: TATEditorBracketKind;
-  PosX: integer;
   PartObj: TATLinePartClass;
   Style: TecSyntaxFormat;
+  PosX, FoundX, FoundY: integer;
 begin
   Ed.Attribs.DeleteWithTag(cEditorTagForBracket);
   if Ed.Carets.Count<>1 then exit;
@@ -1058,12 +1140,20 @@ begin
     else
       exit;
 
+  EditorBracket_FindPair(Ed, CharFrom, CharTo, Kind, PosX, Caret.PosY, FoundX, FoundY);
+  if FoundY<0 then exit;
+
   Style:= GetAppStyleFromName('BracketBG');
+
   PartObj:= TATLinePartClass.Create;
   PartObj.Data.ColorBG:= Style.BgColor;
   PartObj.Data.ColorFont:= Style.Font.Color;
-
   Ed.Attribs.Add(PosX, Caret.PosY, cEditorTagForBracket, 1, 0, PartObj);
+
+  PartObj:= TATLinePartClass.Create;
+  PartObj.Data.ColorBG:= Style.BgColor;
+  PartObj.Data.ColorFont:= Style.Font.Color;
+  Ed.Attribs.Add(FoundX, FoundY, cEditorTagForBracket, 1, 0, PartObj);
 end;
 
 function _StringToPython(const S: string): string; inline;
