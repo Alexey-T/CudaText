@@ -24,6 +24,7 @@ uses
   ATSynEdit_Commands,
   ATSynEdit_CharSizer,
   ATSynEdit_Edits,
+  ATSynEdit_Adapter_EControl,
   ATStrings,
   ATStringProc,
   proc_globdata,
@@ -1151,13 +1152,11 @@ begin
   if FoundY<0 then exit;
 
   PartObj:= TATLinePartClass.Create;
-  PartObj.Data.ColorBG:= AppStyleBrackets.BgColor;
-  PartObj.Data.ColorFont:= AppStyleBrackets.Font.Color;
+  ApplyPartStyleFromEcontrolStyle(PartObj.Data, AppStyleBrackets);
   Ed.Attribs.Add(PosX, PosY, cEditorTagForBracket, 1, 0, PartObj);
 
   PartObj:= TATLinePartClass.Create;
-  PartObj.Data.ColorBG:= AppStyleBrackets.BgColor;
-  PartObj.Data.ColorFont:= AppStyleBrackets.Font.Color;
+  ApplyPartStyleFromEcontrolStyle(PartObj.Data, AppStyleBrackets);
   Ed.Attribs.Add(FoundX, FoundY, cEditorTagForBracket, 1, 0, PartObj);
 end;
 
