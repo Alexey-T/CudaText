@@ -1168,6 +1168,7 @@ begin
   Decor.ImageIndex:= -1;
   Decor.Tag:= cEditorTagForBracket;
   Decor.TextBold:= fsBold in AppStyleSymbols.Font.Style;
+  Decor.TextItalic:= fsItalic in AppStyleSymbols.Font.Style;
   Decor.TextColor:= AppStyleSymbols.Font.Color;
 
   if PosY<>FoundY then
