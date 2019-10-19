@@ -1208,7 +1208,7 @@ begin
         if Ed.Strings.IsIndexValid(Caret.PosY) then
           if Length(AText)=1 then
           begin
-            ch:= EditorGetPairForCloseBracket(AText[1]);
+            ch:= EditorBracket_GetPairForClosingBracketOrQuote(AText[1]);
             if (ch<>#0) and (Pos(ch, UiOps.AutoCloseBrackets)>0) then
             begin
               Str:= Ed.Strings.Lines[Caret.PosY];

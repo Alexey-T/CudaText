@@ -74,11 +74,12 @@ function EditorGetColorById(Ed: TATSynEdit; const Id: string): TColor;
 
 function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boolean;
 function EditorAutoCloseBracket(Ed: TATSynEdit; CharBegin: atChar): boolean;
-function EditorGetPairForCloseBracket(ch: char): char;
 procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer);
 
 procedure EditorCaretPropsFromString(Props: TATCaretProps; S: string);
 procedure EditorCaretPropsFromPyTuple(Props: TATCaretProps; S: string);
+
+function EditorBracket_GetPairForClosingBracketOrQuote(ch: char): char;
 
 
 implementation
@@ -981,7 +982,7 @@ begin
   Props.EmptyInside:= SGetItem(S)='1';
 end;
 
-function EditorGetPairForCloseBracket(ch: char): char;
+function EditorBracket_GetPairForClosingBracketOrQuote(ch: char): char;
 begin
   case ch of
     ')': Result:= '(';
