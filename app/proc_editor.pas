@@ -75,6 +75,7 @@ function EditorGetColorById(Ed: TATSynEdit; const Id: string): TColor;
 function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boolean;
 function EditorAutoCloseBracket(Ed: TATSynEdit; CharBegin: atChar): boolean;
 function EditorGetPairForCloseBracket(ch: char): char;
+procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer);
 
 procedure EditorCaretPropsFromString(Props: TATCaretProps; S: string);
 procedure EditorCaretPropsFromPyTuple(Props: TATCaretProps; S: string);
@@ -1021,6 +1022,19 @@ begin
   Ed.OptRulerVisible:= Ops.ShowRuler;
   Ed.Gutter.Items[Ed.GutterBandNumbers].Visible:= Ops.ShowNumbers;
   Ed.OptUnprintedVisible:= Ops.ShowUnprinted;
+end;
+
+procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer);
+var
+  Caret: TATCaretItem;
+  NFrom, NTo: integer;
+begin
+  if Ed.Carets.Count<>1 then exit;
+  Caret:= Ed.Carets[0];
+  if Caret.EndY<0 then exit;
+  Caret.GetSelLines(NFrom, NTo, false);
+  if NTo-NFrom<=AMaxLineCount then
+    SClipboardCopy(Ed.TextSelected, PrimarySelection);
 end;
 
 end.

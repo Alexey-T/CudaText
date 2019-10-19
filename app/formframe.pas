@@ -648,23 +648,16 @@ const
   cMaxSelectedLinesForAutoCopy = 200;
 var
   Ed: TATSynEdit;
-  NFrom, NTo: integer;
 begin
+  Ed:= Sender as TATSynEdit;
   if Assigned(FOnEditorChangeCaretPos) then
     FOnEditorChangeCaretPos(Sender);
 
   DoOnUpdateStatus;
 
-  Ed:= Sender as TATSynEdit;
-
   //support Primary Selection on Linux
   {$ifdef linux}
-  if Ed.Carets.Count=1 then
-  begin
-    Ed.Carets[0].GetSelLines(NFrom, NTo, false);
-    if (NTo-NFrom)<=cMaxSelectedLinesForAutoCopy then
-      SClipboardCopy(Ed.TextSelected, PrimarySelection);
-  end;
+  EditorCopySelToPrimarySelection(Ed, cMaxSelectedLinesForAutoCopy);
   {$endif}
 
   DoPyEvent(Ed, cEventOnCaret, []);
