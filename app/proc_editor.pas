@@ -24,6 +24,7 @@ uses
   ATSynEdit_Commands,
   ATSynEdit_CharSizer,
   ATSynEdit_Edits,
+  ATSynEdit_Gutter_Decor,
   ATSynEdit_Adapter_EControl,
   ATStrings,
   ATStringProc,
@@ -1115,9 +1116,12 @@ var
   CharFrom, CharTo: atChar;
   Kind: TATEditorBracketKind;
   PartObj: TATLinePartClass;
+  Decor: TATGutterDecorData;
   PosX, PosY, FoundX, FoundY: integer;
 begin
   Ed.Attribs.DeleteWithTag(cEditorTagForBracket);
+  Ed.GutterDecor.DeleteByTag(cEditorTagForBracket);
+
   if Ed.Carets.Count<>1 then exit;
   Caret:= Ed.Carets[0];
   PosX:= Caret.PosX;
@@ -1158,6 +1162,33 @@ begin
   PartObj:= TATLinePartClass.Create;
   ApplyPartStyleFromEcontrolStyle(PartObj.Data, AppStyleBrackets);
   Ed.Attribs.Add(FoundX, FoundY, cEditorTagForBracket, 1, 0, PartObj);
+
+  FillChar(Decor, SizeOf(Decor), 0);
+  Decor.DeleteOnDelLine:= true;
+  Decor.ImageIndex:= -1;
+  Decor.Tag:= cEditorTagForBracket;
+  Decor.TextBold:= fsBold in AppStyleSymbols.Font.Style;
+  Decor.TextColor:= AppStyleSymbols.Font.Color;
+
+  if PosY<>FoundY then
+  begin
+    Decor.LineNum:= PosY;
+    Decor.Text:= CharFrom;
+    Ed.GutterDecor.Add(Decor);
+
+    Decor.LineNum:= FoundY;
+    Decor.Text:= CharTo;
+    Ed.GutterDecor.Add(Decor);
+  end
+  else
+  begin
+    Decor.LineNum:= PosY;
+    if Kind=bracketOpening then
+      Decor.Text:= CharFrom+CharTo
+    else
+      Decor.Text:= CharTo+CharFrom;
+    Ed.GutterDecor.Add(Decor);
+  end;
 end;
 
 function _StringToPython(const S: string): string; inline;

@@ -35,6 +35,7 @@ type
 var
   AppTheme: TAppTheme;
   AppStyleBrackets: TecSyntaxFormat = nil;
+  AppStyleSymbols: TecSyntaxFormat = nil;
 
 type
   TAppColorMessageProcedure = procedure(const S: string) of object;
@@ -349,6 +350,7 @@ begin
   AddStyle('TextCross', clBlack, clNone, clNone, [fsStrikeOut], blNone, blNone, blNone, blNone, ftFontAttr);
 
   AppStyleBrackets:= GetAppStyleFromName('BracketBG');
+  AppStyleSymbols:= GetAppStyleFromName('Symbol');
 end;
 
 procedure DoSaveTheme(const fn: string; const D: TAppTheme; IsThemeUI: boolean);
