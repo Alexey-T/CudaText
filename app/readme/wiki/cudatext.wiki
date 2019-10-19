@@ -1115,11 +1115,11 @@ And here is the old way to compile:
 ** https://github.com/Alexey-T/UniqueInstance
 ** https://github.com/Alexey-T/CudaText (no package here, only project)
 
-* install .lpk packages into Lazarus IDE (find all .lpk files, open them in IDE, install from Packages dialog)
-* in IDE, in the component palette, you must see:
-** in Misc tab: TATButton, TATButtonsToolbar, TATListbox, TATFileNotif, TATScroll, TATSynEdit, TATLabelLink, TGauge
+* install .lpk packages into Lazarus (find all .lpk files, open them in IDE, install from Packages dialog)
+* in the Lazarus component palette, you should see:
+** in Misc tab: TATButton, TATButtonsToolbar, TATListbox, TATScroll, TATSynEdit, TATLabelLink, TGauge
 ** in System tab: TUniqueInstance
-* in IDE, open "cudatext.lpi" Lazarus project, compile it
+* in Lazarus, open "cudatext.lpi" project, compile it
 
 ==How to install plugins from GitHub==
 
