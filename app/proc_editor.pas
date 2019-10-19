@@ -29,6 +29,7 @@ uses
   proc_globdata,
   proc_colors,
   proc_msg,
+  ec_syntax_format,
   math;
 
 type
@@ -79,7 +80,18 @@ procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer
 procedure EditorCaretPropsFromString(Props: TATCaretProps; S: string);
 procedure EditorCaretPropsFromPyTuple(Props: TATCaretProps; S: string);
 
+type
+  TATEditorBracketKind = (
+    bracketUnknown,
+    bracketOpening,
+    bracketClosing
+    );
+
+const
+  cEditorTagForBracket = 1;
+
 function EditorBracket_GetPairForClosingBracketOrQuote(ch: char): char;
+procedure EditorBracket_Highlight(Ed: TATSynEdit);
 
 
 implementation
@@ -995,6 +1007,64 @@ begin
   end;
 end;
 
+procedure EditorBracket_GetCharKind(ch: atChar; out Kind: TATEditorBracketKind; out PairChar: atChar);
+begin
+  case ch of
+    '(': begin Kind:= bracketOpening; PairChar:= ')'; end;
+    '[': begin Kind:= bracketOpening; PairChar:= ']'; end;
+    '{': begin Kind:= bracketOpening; PairChar:= '}'; end;
+    ')': begin Kind:= bracketClosing; PairChar:= '('; end;
+    ']': begin Kind:= bracketClosing; PairChar:= '['; end;
+    '}': begin Kind:= bracketClosing; PairChar:= '{'; end;
+    else begin Kind:= bracketUnknown; PairChar:= #0; end;
+  end;
+end;
+
+procedure EditorBracket_Highlight(Ed: TATSynEdit);
+var
+  Caret: TATCaretItem;
+  St: TATStrings;
+  S: atString;
+  CharFrom, CharTo: atChar;
+  Kind: TATEditorBracketKind;
+  PosX: integer;
+  PartObj: TATLinePartClass;
+  Style: TecSyntaxFormat;
+begin
+  Ed.Attribs.DeleteWithTag(cEditorTagForBracket);
+  if Ed.Carets.Count<>1 then exit;
+  Caret:= Ed.Carets[0];
+  St:= Ed.Strings;
+  if Caret.EndY>=0 then exit; //don't work if selection
+  if not St.IsIndexValid(Caret.PosY) then exit;
+
+  S:= St.Lines[Caret.PosY];
+  if S='' then exit;
+  PosX:= Caret.PosX;
+  if PosX<0 then exit;
+  if PosX>Length(S) then exit;
+  if PosX=Length(S) then Dec(PosX);
+
+  CharFrom:= S[PosX+1];
+  EditorBracket_GetCharKind(CharFrom, Kind, CharTo);
+  if Kind=bracketUnknown then //allow caret after bracket too
+    if PosX>0 then
+    begin
+      Dec(PosX);
+      CharFrom:= S[PosX+1];
+      EditorBracket_GetCharKind(CharFrom, Kind, CharTo);
+      if Kind=bracketUnknown then exit;
+    end
+    else
+      exit;
+
+  Style:= GetAppStyleFromName('BracketBG');
+  PartObj:= TATLinePartClass.Create;
+  PartObj.Data.ColorBG:= Style.BgColor;
+  PartObj.Data.ColorFont:= Style.Font.Color;
+
+  Ed.Attribs.Add(PosX, Caret.PosY, cEditorTagForBracket, 1, 0, PartObj);
+end;
 
 function _StringToPython(const S: string): string; inline;
 begin

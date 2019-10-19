@@ -655,6 +655,8 @@ begin
 
   DoOnUpdateStatus;
 
+  //EditorBracket_Highlight(Ed);
+
   //support Primary Selection on Linux
   {$ifdef linux}
   EditorCopySelToPrimarySelection(Ed, cMaxSelectedLinesForAutoCopy);
