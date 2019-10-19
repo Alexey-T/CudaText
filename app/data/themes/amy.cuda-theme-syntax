@@ -227,7 +227,7 @@
     "Type" : 1,
     "Styles" : "",
     "CFont" : "#F0F0F1",
-    "CBack" : "#372E4B",
+    "CBack" : "#000080",
     "CBorder" : "#542D5E",
     "Border" : "1,1,1,1"
   },
