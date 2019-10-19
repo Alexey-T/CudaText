@@ -146,6 +146,7 @@ type
     FLexerChooseFunc: TecLexerChooseFunc;
     FBracketHilite: boolean;
     FBracketMaxDistance: integer;
+    FBracketSymbols: string;
 
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BinaryOnScroll(Sender: TObject);
@@ -659,7 +660,7 @@ begin
   DoOnUpdateStatus;
 
   if FBracketHilite then
-    EditorBracket_Highlight(Ed, FBracketMaxDistance);
+    EditorBracket_Highlight(Ed, FBracketSymbols, FBracketMaxDistance);
 
   //support Primary Selection on Linux
   {$ifdef linux}
@@ -1511,6 +1512,7 @@ begin
 
   FBracketHilite:= true;
   FBracketMaxDistance:= MaxInt div 2;
+  FBracketSymbols:= '()[]{}';
 
   InitEditor(Ed1);
   InitEditor(Ed2);
