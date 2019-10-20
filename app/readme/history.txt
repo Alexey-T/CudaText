@@ -9,6 +9,12 @@
 + add: option "bracket_highlight"
 + add: option "bracket_symbols"
 + add: option "bracket_distance"
++ add: command "brackets: pair highlight: on"
++ add: command "brackets: pair highlight: off"
++ add: command "brackets: pair highlight: toggle"
++ add: command "brackets: jump to pair"
++ add: command "brackets: select to pair"
++ add: command "brackets: select to pair, inside"
 
 1.88.3 (2019/10)
 

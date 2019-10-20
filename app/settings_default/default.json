@@ -916,7 +916,8 @@
   //Supports these pairs: () [] {} <>
   "bracket_symbols": "()[]{}",
 
-  //Max distance, in lines, from the first caret, to search for pair bracket
+  //Max distance, in lines, from the caret, to search for pair bracket
+  //(used only for bracket highlighting, but not for bracket jumps)
   "bracket_distance": 150,
 
   //[File/Export]
