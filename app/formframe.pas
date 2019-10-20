@@ -667,7 +667,12 @@ begin
   DoOnUpdateStatus;
 
   if FBracketHilite then
-    EditorBracket_Action(Ed, bracketActionHilite, FBracketSymbols, FBracketMaxDistance);
+    EditorBracket_Action(Ed,
+      bracketActionHilite,
+      FBracketSymbols,
+      FBracketMaxDistance,
+      @GetEditorTokenKind
+      );
 
   //support Primary Selection on Linux
   {$ifdef linux}
@@ -3379,17 +3384,32 @@ end;
 
 procedure TEditorFrame.BracketJump(Ed: TATSynEdit);
 begin
-  EditorBracket_Action(Ed, bracketActionJump, FBracketSymbols, MaxInt);
+  EditorBracket_Action(Ed,
+    bracketActionJump,
+    FBracketSymbols,
+    MaxInt,
+    @GetEditorTokenKind
+    );
 end;
 
 procedure TEditorFrame.BracketSelect(Ed: TATSynEdit);
 begin
-  EditorBracket_Action(Ed, bracketActionSelect, FBracketSymbols, MaxInt);
+  EditorBracket_Action(Ed,
+    bracketActionSelect,
+    FBracketSymbols,
+    MaxInt,
+    @GetEditorTokenKind
+    );
 end;
 
 procedure TEditorFrame.BracketSelectInside(Ed: TATSynEdit);
 begin
-  EditorBracket_Action(Ed, bracketActionSelectInside, FBracketSymbols, MaxInt);
+  EditorBracket_Action(Ed,
+    bracketActionSelectInside,
+    FBracketSymbols,
+    MaxInt,
+    @GetEditorTokenKind
+    );
 end;
 
 procedure TEditorFrame.SetBracketHilite(AValue: boolean);

@@ -26,6 +26,7 @@ uses
   ATSynEdit_Edits,
   ATSynEdit_Gutter_Decor,
   ATSynEdit_Adapter_EControl,
+  ATSynEdit_Finder,
   ATStrings,
   ATStringProc,
   proc_globdata,
@@ -99,10 +100,16 @@ type
 const
   cEditorTagForBracket = 1;
 
+type
+  TATEditorGetTokenKind = function(Ed: TATSynEdit; AX, AY: integer): TATFinderTokenKind of object;
+
 function EditorBracket_GetPairForClosingBracketOrQuote(ch: char): char;
 procedure EditorBracket_ClearHilite(Ed: TATSynEdit);
 procedure EditorBracket_Action(Ed: TATSynEdit;
-  Action: TATEditorBracketAction; AllowedSymbols: string; MaxDistance: integer);
+  Action: TATEditorBracketAction;
+  AllowedSymbols: string;
+  MaxDistance: integer;
+  GetTokenKind: TATEditorGetTokenKind);
 
 
 implementation
@@ -1122,9 +1129,8 @@ begin
   Ed.GutterDecor.DeleteByTag(cEditorTagForBracket);
 end;
 
-procedure EditorBracket_Action(Ed: TATSynEdit;
-  Action: TATEditorBracketAction; AllowedSymbols: string;
-  MaxDistance: integer);
+procedure EditorBracket_Action(Ed: TATSynEdit; Action: TATEditorBracketAction; AllowedSymbols: string;
+  MaxDistance: integer; GetTokenKind: TATEditorGetTokenKind);
 var
   Caret: TATCaretItem;
   St: TATStrings;
