@@ -3336,17 +3336,11 @@ begin
 
   if FLastLexerCommentStyles<>'' then
     if Pos(','+STokenStyle+',', ','+FLastLexerCommentStyles+',')>0 then
-    begin
-      Result:= cTokenKindComment;
-      exit;
-    end;
+      exit(cTokenKindComment);
 
   if FLastLexerStringStyles<>'' then
     if Pos(','+STokenStyle+',', ','+FLastLexerStringStyles+',')>0 then
-    begin
-      Result:= cTokenKindString;
-      exit;
-    end;
+      exit(cTokenKindString);
 end;
 
 function TEditorFrame.IsParsingBusy: boolean;
