@@ -1151,6 +1151,9 @@ var
 begin
   Ed:= Sender as TATSynEdit;
 
+  if FBracketHilite then
+    EditorBracket_ClearHilite(Ed);
+
   if (Ed=Ed1) and Splitted and EditorsLinked then
   begin
     Ed2.DoCaretsFixIncorrectPos(false);
