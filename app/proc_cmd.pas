@@ -296,6 +296,13 @@ const
   cmd_TreeFilterFocus            = 2824;
   cmd_TreeFocus                  = 2825;
 
+  cmd_BracketHighlightOn         = 2840;
+  cmd_BracketHighlightOff        = 2841;
+  cmd_BracketHighlightToggle     = 2842;
+  cmd_BracketJump                = 2845;
+  cmd_BracketSelect              = 2846;
+  cmd_BracketSelectInside        = 2847;
+
   cmd_GroupActivate1             = 2901;
   cmd_GroupActivate2             = 2902;
   cmd_GroupActivate3             = 2903;
@@ -580,6 +587,13 @@ begin
   M.Add(cmd_TreeFilterClear, 'code tree: clear filter', [], []);
   M.Add(cmd_TreeFilterFocus, 'code tree: focus filter', [], []);
   M.Add(cmd_TreeFocus, 'code tree: focus treeview', [], []);
+
+  M.Add(cmd_BracketHighlightOn, 'brackets: pair highlight: on', [], []);
+  M.Add(cmd_BracketHighlightOff, 'brackets: pair highlight: off', [], []);
+  M.Add(cmd_BracketHighlightToggle, 'brackets: pair highlight: toggle', [], []);
+  M.Add(cmd_BracketJump, 'brackets: jump to pair', [], []);
+  M.Add(cmd_BracketSelect, 'brackets: select to pair', [], []);
+  M.Add(cmd_BracketSelectInside, 'brackets: select to pair, inside', [], []);
 
   M.Add(cmd_HelpAbout, 'help: about', [], []);
   M.Add(cmd_HelpForum, 'help: forum', [], []);

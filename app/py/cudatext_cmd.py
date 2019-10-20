@@ -482,6 +482,13 @@ cmd_TreeFilterClear            = 2823
 cmd_TreeFilterFocus            = 2824
 cmd_TreeFocus                  = 2825
 
+cmd_BracketHighlightOn         = 2840
+cmd_BracketHighlightOff        = 2841
+cmd_BracketHighlightToggle     = 2842
+cmd_BracketJump                = 2845
+cmd_BracketSelect              = 2846
+cmd_BracketSelectInside        = 2847
+
 cmd_GroupActivate1             = 2901
 cmd_GroupActivate2             = 2902
 cmd_GroupActivate3             = 2903

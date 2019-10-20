@@ -168,6 +168,7 @@ type
     function EditorObjToIndex(Ed: TATSynEdit): integer;
     procedure EditorOnChange(Sender: TObject);
     procedure EditorOnChangeModified(Sender: TObject);
+    procedure EditorOnChangeCaretPos(Sender: TObject);
     procedure EditorOnChangeState(Sender: TObject);
     procedure EditorOnClick(Sender: TObject);
     procedure EditorOnClickGap(Sender: TObject; AGapItem: TATGapItem; APos: TPoint);
@@ -182,7 +183,6 @@ type
     procedure EditorOnDrawLine(Sender: TObject; C: TCanvas; AX, AY: integer;
       const AStr: atString; ACharSize: TPoint; const AExtent: TATIntArray);
     procedure EditorOnCalcBookmarkColor(Sender: TObject; ABookmarkKind: integer; var AColor: TColor);
-    procedure EditorOnChangeCaretPos(Sender: TObject);
     procedure EditorOnHotspotEnter(Sender: TObject; AHotspotIndex: integer);
     procedure EditorOnHotspotExit(Sender: TObject; AHotspotIndex: integer);
     procedure EditorOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -309,10 +309,13 @@ type
     property Binary: TATBinHex read FBin;
     function BinaryFindFirst(AFinder: TATEditorFinder; AShowAll: boolean): boolean;
     function BinaryFindNext(ABack: boolean): boolean;
-
+    //
     property BracketHilite: boolean read FBracketHilite write FBracketHilite;
     property BracketSymbols: string read FBracketSymbols write FBracketSymbols;
     property BracketDistance: integer read FBracketMaxDistance write FBracketMaxDistance;
+    procedure BracketJump(Ed: TATSynEdit);
+    procedure BracketSelect(Ed: TATSynEdit);
+    procedure BracketSelectInside(Ed: TATSynEdit);
     //
     property LineEnds[Ed: TATSynEdit]: TATLineEnds read GetLineEnds write SetLineEnds;
     property UnprintedShow: boolean read GetUnprintedShow write SetUnprintedShow;
@@ -663,7 +666,7 @@ begin
   DoOnUpdateStatus;
 
   if FBracketHilite then
-    EditorBracket_Highlight(Ed, FBracketSymbols, FBracketMaxDistance);
+    EditorBracket_Action(Ed, bracketActionHilite, FBracketSymbols, FBracketMaxDistance);
 
   //support Primary Selection on Linux
   {$ifdef linux}
@@ -3373,6 +3376,21 @@ begin
     Result:= Ed2
   else
     Result:= nil;
+end;
+
+procedure TEditorFrame.BracketJump(Ed: TATSynEdit);
+begin
+  EditorBracket_Action(Ed, bracketActionJump, FBracketSymbols, MaxInt);
+end;
+
+procedure TEditorFrame.BracketSelect(Ed: TATSynEdit);
+begin
+  EditorBracket_Action(Ed, bracketActionSelect, FBracketSymbols, MaxInt);
+end;
+
+procedure TEditorFrame.BracketSelectInside(Ed: TATSynEdit);
+begin
+  EditorBracket_Action(Ed, bracketActionSelectInside, FBracketSymbols, MaxInt);
 end;
 
 end.

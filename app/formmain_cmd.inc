@@ -278,6 +278,19 @@ begin
     cmd_TreeFilterFocus: DoSidebar_FocusCodetreeFilter;
     cmd_TreeFocus: DoSidebar_FocusCodetree;
 
+    cmd_BracketHighlightOn:
+      CurrentFrame.BracketHilite:= true;
+    cmd_BracketHighlightOff:
+      CurrentFrame.BracketHilite:= false;
+    cmd_BracketHighlightToggle:
+      with CurrentFrame do BracketHilite:= not BracketHilite;
+    cmd_BracketJump:
+      with CurrentFrame do BracketJump(Editor);
+    cmd_BracketSelect:
+      with CurrentFrame do BracketSelect(Editor);
+    cmd_BracketSelectInside:
+      with CurrentFrame do BracketSelectInside(Editor);
+
     cmd_HelpAbout: DoHelpAbout;
     cmd_HelpForum: DoHelpForum;
     cmd_HelpWiki: DoHelpWiki;

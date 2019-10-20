@@ -89,11 +89,19 @@ type
     bracketClosing
     );
 
+  TATEditorBracketAction = (
+    bracketActionHilite,
+    bracketActionJump,
+    bracketActionSelect,
+    bracketActionSelectInside
+    );
+
 const
   cEditorTagForBracket = 1;
 
 function EditorBracket_GetPairForClosingBracketOrQuote(ch: char): char;
-procedure EditorBracket_Highlight(Ed: TATSynEdit; AllowedSymbols: string; MaxDistance: integer);
+procedure EditorBracket_Action(Ed: TATSynEdit;
+  Action: TATEditorBracketAction; AllowedSymbols: string; MaxDistance: integer);
 
 
 implementation
@@ -1107,7 +1115,8 @@ begin
   end;
 end;
 
-procedure EditorBracket_Highlight(Ed: TATSynEdit; AllowedSymbols: string;
+procedure EditorBracket_Action(Ed: TATSynEdit;
+  Action: TATEditorBracketAction; AllowedSymbols: string;
   MaxDistance: integer);
 var
   Caret: TATCaretItem;
@@ -1118,6 +1127,7 @@ var
   PartObj: TATLinePartClass;
   Decor: TATGutterDecorData;
   PosX, PosY, FoundX, FoundY: integer;
+  Pnt1, Pnt2: TPoint;
 begin
   Ed.Attribs.DeleteWithTag(cEditorTagForBracket);
   Ed.GutterDecor.DeleteByTag(cEditorTagForBracket);
@@ -1160,40 +1170,103 @@ begin
     MaxDistance, PosX, PosY, FoundX, FoundY);
   if FoundY<0 then exit;
 
-  PartObj:= TATLinePartClass.Create;
-  ApplyPartStyleFromEcontrolStyle(PartObj.Data, AppStyleBrackets);
-  Ed.Attribs.Add(PosX, PosY, cEditorTagForBracket, 1, 0, PartObj);
+  case Action of
+    bracketActionHilite:
+      begin
+        PartObj:= TATLinePartClass.Create;
+        ApplyPartStyleFromEcontrolStyle(PartObj.Data, AppStyleBrackets);
+        Ed.Attribs.Add(PosX, PosY, cEditorTagForBracket, 1, 0, PartObj);
 
-  PartObj:= TATLinePartClass.Create;
-  ApplyPartStyleFromEcontrolStyle(PartObj.Data, AppStyleBrackets);
-  Ed.Attribs.Add(FoundX, FoundY, cEditorTagForBracket, 1, 0, PartObj);
+        PartObj:= TATLinePartClass.Create;
+        ApplyPartStyleFromEcontrolStyle(PartObj.Data, AppStyleBrackets);
+        Ed.Attribs.Add(FoundX, FoundY, cEditorTagForBracket, 1, 0, PartObj);
 
-  FillChar(Decor, SizeOf(Decor), 0);
-  Decor.DeleteOnDelLine:= true;
-  Decor.ImageIndex:= -1;
-  Decor.Tag:= cEditorTagForBracket;
-  Decor.TextBold:= fsBold in AppStyleSymbols.Font.Style;
-  Decor.TextItalic:= fsItalic in AppStyleSymbols.Font.Style;
-  Decor.TextColor:= AppStyleSymbols.Font.Color;
+        FillChar(Decor, SizeOf(Decor), 0);
+        Decor.DeleteOnDelLine:= true;
+        Decor.ImageIndex:= -1;
+        Decor.Tag:= cEditorTagForBracket;
+        Decor.TextBold:= fsBold in AppStyleSymbols.Font.Style;
+        Decor.TextItalic:= fsItalic in AppStyleSymbols.Font.Style;
+        Decor.TextColor:= AppStyleSymbols.Font.Color;
 
-  if PosY<>FoundY then
-  begin
-    Decor.LineNum:= PosY;
-    Decor.Text:= CharFrom;
-    Ed.GutterDecor.Add(Decor);
+        if PosY<>FoundY then
+        begin
+          Decor.LineNum:= PosY;
+          Decor.Text:= CharFrom;
+          Ed.GutterDecor.Add(Decor);
 
-    Decor.LineNum:= FoundY;
-    Decor.Text:= CharTo;
-    Ed.GutterDecor.Add(Decor);
-  end
-  else
-  begin
-    Decor.LineNum:= PosY;
-    if Kind=bracketOpening then
-      Decor.Text:= CharFrom+CharTo
-    else
-      Decor.Text:= CharTo+CharFrom;
-    Ed.GutterDecor.Add(Decor);
+          Decor.LineNum:= FoundY;
+          Decor.Text:= CharTo;
+          Ed.GutterDecor.Add(Decor);
+        end
+        else
+        begin
+          Decor.LineNum:= PosY;
+          if Kind=bracketOpening then
+            Decor.Text:= CharFrom+CharTo
+          else
+            Decor.Text:= CharTo+CharFrom;
+          Ed.GutterDecor.Add(Decor);
+        end;
+      end;
+
+    bracketActionJump:
+      begin
+        Ed.DoGotoPos(
+          Point(FoundX, FoundY),
+          Point(-1, -1),
+          UiOps.FindIndentHorz,
+          UiOps.FindIndentVert,
+          true,
+          true
+          );
+      end;
+
+    bracketActionSelect:
+      begin
+        if IsPosSorted(PosX, PosY, FoundX, FoundY, true) then
+        begin
+          Pnt1:= Point(FoundX+1, FoundY);
+          Pnt2:= Point(PosX, PosY);
+        end
+        else
+        begin
+          Pnt1:= Point(FoundX, FoundY);
+          Pnt2:= Point(PosX+1, PosY);
+        end;
+        if Pnt1<>Pnt2 then
+          Ed.DoGotoPos(
+            Pnt1,
+            Pnt2,
+            UiOps.FindIndentHorz,
+            UiOps.FindIndentVert,
+            true,
+            true
+            )
+      end;
+
+    bracketActionSelectInside:
+      begin
+        if IsPosSorted(PosX, PosY, FoundX, FoundY, true) then
+        begin
+          Pnt1:= Point(FoundX, FoundY);
+          Pnt2:= Point(PosX+1, PosY);
+        end
+        else
+        begin
+          Pnt1:= Point(FoundX+1, FoundY);
+          Pnt2:= Point(PosX, PosY);
+        end;
+        if Pnt1<>Pnt2 then
+          Ed.DoGotoPos(
+            Pnt1,
+            Pnt2,
+            UiOps.FindIndentHorz,
+            UiOps.FindIndentVert,
+            true,
+            true
+            )
+      end;
   end;
 end;
 
