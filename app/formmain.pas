@@ -2436,6 +2436,9 @@ begin
     AppNotifThread:= TAppNotifThread.Create(false);
     AppNotifThread.Priority:= tpLower;
   end;
+
+  if DirectoryExists(GetAppPath(cDirPy)+DirectorySeparator+'cuda_brackets_hilite') then
+    MsgLogConsole('WARNING: plugin Bracket Helper is not needed anymore, remove it and use option "bracket_highlight"');
 end;
 
 procedure TfmMain.DoOps_MultiInstaller;
