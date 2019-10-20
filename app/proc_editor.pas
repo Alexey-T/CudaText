@@ -1046,18 +1046,21 @@ procedure EditorBracket_FindPair(
   Kind: TATEditorBracketKind;
   MaxDistance: integer;
   FromX, FromY: integer;
-  out FoundX, FoundY: integer);
+  out FoundX, FoundY: integer;
+  GetTokenKind: TATEditorGetTokenKind);
 var
   St: TATStrings;
   S: atString;
   IndexX, IndexY, IndexXBegin, IndexXEnd: integer;
   Level: integer;
+  TokenKind: TATFinderTokenKind;
   ch: atChar;
 begin
   FoundX:= -1;
   FoundY:= -1;
   Level:= 0;
   St:= Ed.Strings;
+  TokenKind:= GetTokenKind(Ed, FromX, FromY);
 
   if Kind=bracketOpening then
   begin
@@ -1073,10 +1076,10 @@ begin
       for IndexX:= IndexXBegin to IndexXEnd do
       begin
         ch:= S[IndexX+1];
-        if ch=CharFrom then
+        if (ch=CharFrom) and (GetTokenKind(Ed, IndexX, IndexY)=TokenKind) then
           Inc(Level)
         else
-        if ch=CharTo then
+        if (ch=CharTo) and (GetTokenKind(Ed, IndexX, IndexY)=TokenKind) then
         begin
           if Level>0 then
             Dec(Level)
@@ -1104,10 +1107,10 @@ begin
       for IndexX:= IndexXEnd downto IndexXBegin do
       begin
         ch:= S[IndexX+1];
-        if ch=CharFrom then
+        if (ch=CharFrom) and (GetTokenKind(Ed, IndexX, IndexY)=TokenKind) then
           Inc(Level)
         else
-        if ch=CharTo then
+        if (ch=CharTo) and (GetTokenKind(Ed, IndexX, IndexY)=TokenKind) then
         begin
           if Level>0 then
             Dec(Level)
@@ -1179,7 +1182,7 @@ begin
       exit;
 
   EditorBracket_FindPair(Ed, CharFrom, CharTo, Kind,
-    MaxDistance, PosX, PosY, FoundX, FoundY);
+    MaxDistance, PosX, PosY, FoundX, FoundY, GetTokenKind);
   if FoundY<0 then exit;
 
   case Action of
