@@ -332,7 +332,7 @@ type
     property WasVisible: boolean read FWasVisible;
     function GetTabPages: TATPages;
     function GetTabGroups: TATGroups;
-    procedure GetEditorToken(Ed: TATSynEdit; AX, AY: integer; out AKind: TATFinderTokenKind);
+    function GetEditorTokenKind(Ed: TATSynEdit; AX, AY: integer): TATFinderTokenKind;
     function IsParsingBusy: boolean;
     //file
     procedure DoFileClose;
@@ -3306,18 +3306,16 @@ function TEditorFrame.IsCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integ
 var
   Kind: TATFinderTokenKind;
 begin
-  GetEditorToken(Editor, AX, AY, Kind);
+  Kind:= GetEditorTokenKind(Editor, AX, AY);
   Result:= (Kind=cTokenKindComment) or (Kind=cTokenKindString);
 end;
 
-procedure TEditorFrame.GetEditorToken(Ed: TATSynEdit;
-  AX, AY: integer;
-  out AKind: TATFinderTokenKind);
+function TEditorFrame.GetEditorTokenKind(Ed: TATSynEdit; AX, AY: integer): TATFinderTokenKind;
 var
   Pnt1, Pnt2: TPoint;
   STokenText, STokenStyle: string;
 begin
-  AKind:= cTokenKindOther;
+  Result:= cTokenKindOther;
 
   UpdateLexerCache(Ed);
   if FLastLexer='' then exit;
@@ -3334,14 +3332,14 @@ begin
   if FLastLexerCommentStyles<>'' then
     if Pos(','+STokenStyle+',', ','+FLastLexerCommentStyles+',')>0 then
     begin
-      AKind:= cTokenKindComment;
+      Result:= cTokenKindComment;
       exit;
     end;
 
   if FLastLexerStringStyles<>'' then
     if Pos(','+STokenStyle+',', ','+FLastLexerStringStyles+',')>0 then
     begin
-      AKind:= cTokenKindString;
+      Result:= cTokenKindString;
       exit;
     end;
 end;

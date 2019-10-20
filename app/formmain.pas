@@ -6465,7 +6465,7 @@ begin
   Ed:= Sender as TATSynEdit;
   Frame:= GetEditorFrame(Ed);
   if Assigned(Frame) then
-    Frame.GetEditorToken(Ed, AX, AY, AKind)
+    AKind:= Frame.GetEditorTokenKind(Ed, AX, AY)
   else
     AKind:= cTokenKindOther;
 end;
