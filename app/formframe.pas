@@ -208,6 +208,7 @@ type
     procedure InitEditor(var ed: TATSynEdit);
     procedure InitPanelReload(Index: integer);
     function IsCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integer): boolean;
+    procedure SetBracketHilite(AValue: boolean);
     procedure SetEnabledCodeTree(Ed: TATSynEdit; AValue: boolean);
     procedure SetEnabledFolding(AValue: boolean);
     procedure SetFileName(const AValue: string);
@@ -310,7 +311,7 @@ type
     function BinaryFindFirst(AFinder: TATEditorFinder; AShowAll: boolean): boolean;
     function BinaryFindNext(ABack: boolean): boolean;
     //
-    property BracketHilite: boolean read FBracketHilite write FBracketHilite;
+    property BracketHilite: boolean read FBracketHilite write SetBracketHilite;
     property BracketSymbols: string read FBracketSymbols write FBracketSymbols;
     property BracketDistance: integer read FBracketMaxDistance write FBracketMaxDistance;
     procedure BracketJump(Ed: TATSynEdit);
@@ -3391,6 +3392,21 @@ end;
 procedure TEditorFrame.BracketSelectInside(Ed: TATSynEdit);
 begin
   EditorBracket_Action(Ed, bracketActionSelectInside, FBracketSymbols, MaxInt);
+end;
+
+procedure TEditorFrame.SetBracketHilite(AValue: boolean);
+begin
+  if FBracketHilite=AValue then Exit;
+  FBracketHilite:= AValue;
+
+  EditorBracket_ClearHilite(Ed1);
+  EditorBracket_ClearHilite(Ed2);
+
+  if FBracketHilite then
+  begin
+    EditorOnChangeCaretPos(Ed1);
+    EditorOnChangeCaretPos(Ed2);
+  end;
 end;
 
 end.

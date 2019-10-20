@@ -100,6 +100,7 @@ const
   cEditorTagForBracket = 1;
 
 function EditorBracket_GetPairForClosingBracketOrQuote(ch: char): char;
+procedure EditorBracket_ClearHilite(Ed: TATSynEdit);
 procedure EditorBracket_Action(Ed: TATSynEdit;
   Action: TATEditorBracketAction; AllowedSymbols: string; MaxDistance: integer);
 
@@ -1115,6 +1116,12 @@ begin
   end;
 end;
 
+procedure EditorBracket_ClearHilite(Ed: TATSynEdit);
+begin
+  Ed.Attribs.DeleteWithTag(cEditorTagForBracket);
+  Ed.GutterDecor.DeleteByTag(cEditorTagForBracket);
+end;
+
 procedure EditorBracket_Action(Ed: TATSynEdit;
   Action: TATEditorBracketAction; AllowedSymbols: string;
   MaxDistance: integer);
@@ -1129,8 +1136,7 @@ var
   PosX, PosY, FoundX, FoundY: integer;
   Pnt1, Pnt2: TPoint;
 begin
-  Ed.Attribs.DeleteWithTag(cEditorTagForBracket);
-  Ed.GutterDecor.DeleteByTag(cEditorTagForBracket);
+  EditorBracket_ClearHilite(Ed);
 
   if Ed.Carets.Count<>1 then exit;
   Caret:= Ed.Carets[0];
