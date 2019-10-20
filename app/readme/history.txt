@@ -3,9 +3,9 @@
   - fixed
   * changed
 
-1.88.4 (2019/10)
+1.89.0 (2019/10)
 
-+ add: built-in bracket highlighting, no more need in plugin Bracket Helper, and it works much faster than plugin. It supports most of plugin's features, including show brackets on gutter.
++ add: built-in bracket highlighting, no more need in plugin Bracket Helper, and it works much faster than plugin. It supports most of plugin's features, including show brackets on gutter, including checks for syntax elements.
 + add: option "bracket_highlight"
 + add: option "bracket_symbols"
 + add: option "bracket_distance"
