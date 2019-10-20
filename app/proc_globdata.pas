@@ -501,6 +501,10 @@ type
     OpKeyUpDownNavigateWrapped: boolean;
     OpKeyLeftRightSwapSel: boolean;
     OpKeyLeftRightSwapSelAndSelect: boolean;
+
+    OpBracketHilite: boolean;
+    OpBracketSymbols: string;
+    OpBracketDistance: integer;
   end;
 var
   EditorOps: TEditorOps;
@@ -1222,6 +1226,10 @@ begin
     OpKeyUpDownNavigateWrapped:= true;
     OpKeyLeftRightSwapSel:= true;
     OpKeyLeftRightSwapSelAndSelect:= false;
+
+    OpBracketHilite:= false;
+    OpBracketSymbols:= '()[]{}';
+    OpBracketDistance:= 150;
   end;
 end;
 

@@ -530,6 +530,10 @@ begin
   F.Adapter[F.Ed2].DynamicHiliteEnabled:= Op.OpLexerDynamicHiliteEnabled;
   F.Adapter[F.Ed2].DynamicHiliteMaxLines:= Op.OpLexerDynamicHiliteMaxLines;
 
+  F.BracketHilite:= Op.OpBracketHilite;
+  F.BracketSymbols:= Op.OpBracketSymbols;
+  F.BracketDistance:= Op.OpBracketDistance;
+
   F.Ed1.Update;
   if F.Splitted then
     F.Ed2.Update;

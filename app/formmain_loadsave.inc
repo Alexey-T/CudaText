@@ -784,6 +784,10 @@ begin
   Op.OpUnprintedEndFontScale:= c.GetValue('unprinted_end_font_scale', Op.OpUnprintedEndFontScale);
   Op.OpUnprintedTabPointerScale:= c.GetValue('unprinted_tab_ptr_scale', Op.OpUnprintedTabPointerScale);
 
+  Op.OpBracketHilite:= c.GetValue('bracket_highlight', Op.OpBracketHilite);
+  Op.OpBracketSymbols:= c.GetValue('bracket_symbols', op.OpBracketSymbols);
+  Op.OpBracketDistance:= c.GetValue('bracket_distance', op.OpBracketDistance);
+
   Op.OpWrapMode:= c.GetValue('wrap_mode', Op.OpWrapMode);
   Op.OpWrapIndented:= c.GetValue('wrap_indented', Op.OpWrapIndented);
   Op.OpWrapEnabledMaxLines:= c.GetValue('wrap_enabled_max_lines', Op.OpWrapEnabledMaxLines);

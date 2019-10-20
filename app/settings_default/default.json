@@ -908,6 +908,17 @@
   //Width of line, pixels
   "underline_color_size": 3,
 
+  //[View/Brackets]
+  //Enable to highlight pair brackets
+  "bracket_highlight": false,
+
+  //String containing pairs of brackets to highlight, in any order
+  //Supports these pairs: () [] {} <>
+  "bracket_symbols": "()[]{}",
+
+  //Max distance, in lines, from the first caret, to search for pair bracket
+  "bracket_distance": 150,
+
   //[File/Export]
   //Export to HTML: show line numbers in output
   "export_html_numbers": false,
