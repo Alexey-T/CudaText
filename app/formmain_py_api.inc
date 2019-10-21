@@ -6120,11 +6120,15 @@ begin
 end;
 
 function Py_ed_get_token(Self, Args: PPyObject): PPyObject; cdecl;
+const
+  cTokenChar: array[TATFinderTokenKind] of string = ('a', 'c', 's');
 var
   H: Int64;
   Ed: TATSynEdit;
+  Frame: TEditorFrame;
   Id, NIndex1, NIndex2: integer;
   Adapter: TATAdapterEControl;
+  TokenKind: TATFinderTokenKind;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liii:get_token', @H, @Id, @NIndex1, @NIndex2)) then
@@ -6135,14 +6139,24 @@ begin
       Adapter:= Ed.AdapterForHilite as TATAdapterEControl;
 
       case Id of
+        TOKEN_GET_KIND:
+          begin
+            Frame:= GetEditorFrame(Ed);
+            if Frame=nil then exit(ReturnNone);
+            TokenKind:= Frame.GetEditorTokenKind(Ed, NIndex1, NIndex2);
+            Result:= PyString_FromString(PChar(cTokenChar[TokenKind]));
+          end;
+
         TOKEN_LIST:
           begin
             Result:= Py_GetTokenList(Adapter, 0, MaxInt)
           end;
+
         TOKEN_LIST_SUB:
           begin
             Result:= Py_GetTokenList(Adapter, NIndex1, NIndex2)
           end;
+
         else
           Result:= ReturnNone;
       end;
