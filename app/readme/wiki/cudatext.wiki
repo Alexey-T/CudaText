@@ -847,6 +847,23 @@ To playback macro:
 * call menu item "Macros - (macro name)", the end of this menu lists all available/saved macros
 * or call dialog "Macros - Macros..." which allows to run available macros: it can be simple running, running N times, or running in loop ([x] While text changes, [x] Until caret on last line)
 
+==Pair brackets==
+Since version 1.89, CudaText has built-in pair bracket finder. Before that you needed the plugin Bracket Helper, and now plugin should not be used - it is much slower that built-in code. Bracket finder can highlight pair brackets, when there is only single caret, no selection, and caret is placed on (or after) bracket symbol (one of "()[]{}<>"). Bracket finder respects lexer context, so it finds pair bracket only in the same context as the source bracket has: if source bracket is inside a "string", pair bracket will be found only inside a "string"; the same is for "comments"; the same is for "outside comment/string".
+
+There are several options:
+* "bracket_highlight"
+* "bracket_symbols" (includes only symbols ()[]{} by default, but you can enable symbols <> for example in HTML lexer specific config)
+* "bracket_distance"
+* "auto_close_brackets"
+
+There are several commands in the Command Palette:
+* brackets: pair highlight: on
+* brackets: pair highlight: off
+* brackets: pair highlight: toggle
+* brackets: jump to pair
+* brackets: select to pair
+* brackets: select to pair, inside (it makes selection smaller by 2 characters)
+
 =External Tools=
 
 Several examples of external tools configs. Call dialog of External Tools plugin (menu Tools -- Config...). Add a new tool. Set dialog properties as shown below. This must add menu item, for new tool, under Tools menu.
