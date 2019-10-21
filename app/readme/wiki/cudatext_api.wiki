@@ -2380,9 +2380,14 @@ Gets list of ranges which belong to nested lexers (sublexers of current lexer fo
 
  get_token(id, index1=0, index2=0)
 
-Gets info about lexer "tokens". "Token" is minimal text fragment for lexer, e.g. one indentifier, one operator, one whole comment, one whole string. Each token has its color from lexer properties or color theme.
+Gets info about lexer "tokens". "Token" is minimal text fragment for lexer, e.g. one indentifier, one operator, one whole comment, one whole string. Each token has its color from lexer properties or color theme. Function returns None if no lexer is active in editor.
 
 Possible values of "id":
+
+* TOKEN_GET_KIND: For text position given by "index1" (column) and "index2" (line), gets kind of lexer token:
+** "c": syntax comment
+** "s": syntax string
+** "a": any other kind
 
 * TOKEN_LIST: Gets all tokens, as list of dict. Params "index1", "index2" are ignored. Gets None if no lexer active. Dict keys are:
 ** "x1": start column (0-based)
@@ -3629,5 +3634,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.306 (app 1.88.2)
 * change: menu_proc: removed special menu id "_lexers"
+
+1.0.307 (app 1.88.6)
+* add: Editor.get_token: add TOKEN_GET_KIND
 
 [[Category:CudaText]]
