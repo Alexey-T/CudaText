@@ -287,15 +287,6 @@ object SyntAnal16: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Image'
-      Enabled = False
-      StyleName = 'Image'
-      TokenType = 12
-      Expression = '!\[[^\]]+\]\([^\)]+\)'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'List'
       StyleName = 'List'
       TokenType = 13
@@ -326,8 +317,8 @@ object SyntAnal16: TLibSyntAnalyzer
       StyleName = 'Reference'
       TokenType = 6
       Expression = 
-        '^\[[^\]\^]+\]:.*?($|\z) |'#13#10'(?<=\]\x20?)\[.+?\] |'#13#10'\(@.+?\) #pand' +
-        'oc list reference'
+        '^\x20{0,3}\[[^\]\^]+\]:.*?($|\z) |'#13#10'(?<=\]\x20?)\[.*?\] |'#13#10'\(@.+' +
+        '?\) #pandoc list reference'
       ColumnFrom = 0
       ColumnTo = 0
     end
