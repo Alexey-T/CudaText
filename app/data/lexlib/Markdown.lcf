@@ -280,14 +280,15 @@ object SyntAnal16: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Link usual'
-      StyleName = 'Link'
+      StyleName = 'Image'
       TokenType = 11
-      Expression = '\[[^\]]+\]\([^\)]+\)'
+      Expression = '(?<=\])\(.+?\)'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'Image'
+      Enabled = False
       StyleName = 'Image'
       TokenType = 12
       Expression = '!\[[^\]]+\]\([^\)]+\)'
@@ -366,7 +367,7 @@ object SyntAnal16: TLibSyntAnalyzer
       DisplayName = 'Link wiki'
       StyleName = 'Link'
       TokenType = 11
-      Expression = '\[.+?\] '
+      Expression = '!?\[.+?\] '
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -522,6 +523,6 @@ object SyntAnal16: TLibSyntAnalyzer
   SkipSpaces = False
   Notes.Strings = (
     'Author: NoSi (v1.0 2014-01-20)'
-    'Fixes: Alex (Synwrite) ')
+    'Changes: Alexey (CudaText)')
   Charset = DEFAULT_CHARSET
 end
