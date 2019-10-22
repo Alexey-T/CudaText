@@ -118,24 +118,19 @@ begin
         Result:= false; //not exit
       end;
 
-  with TIniFile.Create(GetAppLexerMapFilename(an.LexerName)) do
-  try
-    for i:= 0 to an.Formats.Count-1 do
+  for i:= 0 to an.Formats.Count-1 do
+  begin
+    value:= an.ThemeMappingOfStyle(an.Formats[i].DisplayName);
+    if value='-' then Continue;
+    if value='' then
     begin
-      value:= ReadString(cSectionMap, an.Formats[i].DisplayName, '');
-      if value='-' then Continue;
-      if value='' then
-      begin
-        anNotCorrect:= an;
-        Result:= false; //not exit
-      end;
-
-      st:= GetAppStyleFromName(value);
-      if Assigned(st) then
-        DoStyleAssign(an.Formats[i], st);
+      anNotCorrect:= an;
+      Result:= false; //not exit
     end;
-  finally
-    Free
+
+    st:= GetAppStyleFromName(value);
+    if Assigned(st) then
+      DoStyleAssign(an.Formats[i], st);
   end;
 end;
 
