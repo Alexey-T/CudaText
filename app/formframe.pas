@@ -328,7 +328,6 @@ type
     property WasVisible: boolean read FWasVisible;
     function GetTabPages: TATPages;
     function GetTabGroups: TATGroups;
-    function GetEditorTokenKind(Ed: TATSynEdit; AX, AY: integer): TATFinderTokenKind;
     function IsParsingBusy: boolean;
     //file
     procedure DoFileClose;
@@ -666,8 +665,7 @@ begin
     EditorBracket_Action(Ed,
       bracketActionHilite,
       FBracketSymbols,
-      FBracketMaxDistance,
-      @GetEditorTokenKind
+      FBracketMaxDistance
       );
 
   //support Primary Selection on Linux
@@ -3281,38 +3279,8 @@ function TEditorFrame.IsCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integ
 var
   Kind: TATFinderTokenKind;
 begin
-  Kind:= GetEditorTokenKind(Editor, AX, AY);
+  Kind:= EditorGetTokenKind(Ed, AX, AY);
   Result:= (Kind=cTokenKindComment) or (Kind=cTokenKindString);
-end;
-
-function TEditorFrame.GetEditorTokenKind(Ed: TATSynEdit; AX, AY: integer): TATFinderTokenKind;
-var
-  Pnt1, Pnt2: TPoint;
-  STokenText, STokenStyle: string;
-  An: TecSyntAnalyzer;
-begin
-  Result:= cTokenKindOther;
-
-  if not (Ed.AdapterForHilite is TATAdapterEControl) then exit;
-  TATAdapterEControl(Ed.AdapterForHilite).GetTokenAtPos(
-    Point(AX, AY),
-    Pnt1,
-    Pnt2,
-    STokenText,
-    STokenStyle
-    );
-  if STokenStyle='' then exit;
-
-  An:= TATAdapterEControl(Ed.AdapterForHilite).Lexer;
-  if An=nil then exit;
-
-  if An.StylesOfComments<>'' then
-    if Pos(','+STokenStyle+',', ','+An.StylesOfComments+',')>0 then
-      exit(cTokenKindComment);
-
-  if An.StylesOfStrings<>'' then
-    if Pos(','+STokenStyle+',', ','+An.StylesOfStrings+',')>0 then
-      exit(cTokenKindString);
 end;
 
 function TEditorFrame.IsParsingBusy: boolean;
@@ -3353,8 +3321,7 @@ begin
   EditorBracket_Action(Ed,
     bracketActionJump,
     FBracketSymbols,
-    MaxInt,
-    @GetEditorTokenKind
+    MaxInt
     );
 end;
 
@@ -3363,8 +3330,7 @@ begin
   EditorBracket_Action(Ed,
     bracketActionSelect,
     FBracketSymbols,
-    MaxInt,
-    @GetEditorTokenKind
+    MaxInt
     );
 end;
 
@@ -3373,8 +3339,7 @@ begin
   EditorBracket_Action(Ed,
     bracketActionSelectInside,
     FBracketSymbols,
-    MaxInt,
-    @GetEditorTokenKind
+    MaxInt
     );
 end;
 

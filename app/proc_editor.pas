@@ -32,6 +32,7 @@ uses
   proc_globdata,
   proc_colors,
   proc_msg,
+  ec_SyntAnal,
   ec_syntax_format,
   math;
 
@@ -108,8 +109,9 @@ procedure EditorBracket_ClearHilite(Ed: TATSynEdit);
 procedure EditorBracket_Action(Ed: TATSynEdit;
   Action: TATEditorBracketAction;
   AllowedSymbols: string;
-  MaxDistance: integer;
-  GetTokenKind: TATEditorGetTokenKind);
+  MaxDistance: integer);
+
+function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer): TATFinderTokenKind;
 
 
 implementation
@@ -1046,8 +1048,7 @@ procedure EditorBracket_FindPair(
   Kind: TATEditorBracketKind;
   MaxDistance: integer;
   FromX, FromY: integer;
-  out FoundX, FoundY: integer;
-  GetTokenKind: TATEditorGetTokenKind);
+  out FoundX, FoundY: integer);
 var
   St: TATStrings;
   S: atString;
@@ -1060,7 +1061,7 @@ begin
   FoundY:= -1;
   Level:= 0;
   St:= Ed.Strings;
-  TokenKind:= GetTokenKind(Ed, FromX, FromY);
+  TokenKind:= EditorGetTokenKind(Ed, FromX, FromY);
 
   if Kind=bracketOpening then
   begin
@@ -1076,10 +1077,10 @@ begin
       for IndexX:= IndexXBegin to IndexXEnd do
       begin
         ch:= S[IndexX+1];
-        if (ch=CharFrom) and (GetTokenKind(Ed, IndexX, IndexY)=TokenKind) then
+        if (ch=CharFrom) and (EditorGetTokenKind(Ed, IndexX, IndexY)=TokenKind) then
           Inc(Level)
         else
-        if (ch=CharTo) and (GetTokenKind(Ed, IndexX, IndexY)=TokenKind) then
+        if (ch=CharTo) and (EditorGetTokenKind(Ed, IndexX, IndexY)=TokenKind) then
         begin
           if Level>0 then
             Dec(Level)
@@ -1107,10 +1108,10 @@ begin
       for IndexX:= IndexXEnd downto IndexXBegin do
       begin
         ch:= S[IndexX+1];
-        if (ch=CharFrom) and (GetTokenKind(Ed, IndexX, IndexY)=TokenKind) then
+        if (ch=CharFrom) and (EditorGetTokenKind(Ed, IndexX, IndexY)=TokenKind) then
           Inc(Level)
         else
-        if (ch=CharTo) and (GetTokenKind(Ed, IndexX, IndexY)=TokenKind) then
+        if (ch=CharTo) and (EditorGetTokenKind(Ed, IndexX, IndexY)=TokenKind) then
         begin
           if Level>0 then
             Dec(Level)
@@ -1133,7 +1134,7 @@ begin
 end;
 
 procedure EditorBracket_Action(Ed: TATSynEdit; Action: TATEditorBracketAction; AllowedSymbols: string;
-  MaxDistance: integer; GetTokenKind: TATEditorGetTokenKind);
+  MaxDistance: integer);
 var
   Caret: TATCaretItem;
   St: TATStrings;
@@ -1182,7 +1183,7 @@ begin
       exit;
 
   EditorBracket_FindPair(Ed, CharFrom, CharTo, Kind,
-    MaxDistance, PosX, PosY, FoundX, FoundY, GetTokenKind);
+    MaxDistance, PosX, PosY, FoundX, FoundY);
   if FoundY<0 then exit;
 
   case Action of
@@ -1325,6 +1326,36 @@ begin
   Caret.GetSelLines(NFrom, NTo, false);
   if NTo-NFrom<=AMaxLineCount then
     SClipboardCopy(Ed.TextSelected, PrimarySelection);
+end;
+
+function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer): TATFinderTokenKind;
+var
+  Pnt1, Pnt2: TPoint;
+  STokenText, STokenStyle: string;
+  An: TecSyntAnalyzer;
+begin
+  Result:= cTokenKindOther;
+
+  if not (Ed.AdapterForHilite is TATAdapterEControl) then exit;
+  TATAdapterEControl(Ed.AdapterForHilite).GetTokenAtPos(
+    Point(AX, AY),
+    Pnt1,
+    Pnt2,
+    STokenText,
+    STokenStyle
+    );
+  if STokenStyle='' then exit;
+
+  An:= TATAdapterEControl(Ed.AdapterForHilite).Lexer;
+  if An=nil then exit;
+
+  if An.StylesOfComments<>'' then
+    if Pos(','+STokenStyle+',', ','+An.StylesOfComments+',')>0 then
+      exit(cTokenKindComment);
+
+  if An.StylesOfStrings<>'' then
+    if Pos(','+STokenStyle+',', ','+An.StylesOfStrings+',')>0 then
+      exit(cTokenKindString);
 end;
 
 end.

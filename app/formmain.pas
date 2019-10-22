@@ -6451,16 +6451,8 @@ end;
 procedure TfmMain.FinderOnGetToken(Sender: TObject;
   AX, AY: integer;
   out AKind: TATFinderTokenKind);
-var
-  Ed: TATSynEdit;
-  Frame: TEditorFrame;
 begin
-  Ed:= Sender as TATSynEdit;
-  Frame:= GetEditorFrame(Ed);
-  if Assigned(Frame) then
-    AKind:= Frame.GetEditorTokenKind(Ed, AX, AY)
-  else
-    AKind:= cTokenKindOther;
+  AKind:= EditorGetTokenKind(Sender as TATSynEdit, AX, AY)
 end;
 
 procedure TfmMain.DoDialogLexerMenu;

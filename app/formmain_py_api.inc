@@ -6125,7 +6125,6 @@ const
 var
   H: Int64;
   Ed: TATSynEdit;
-  Frame: TEditorFrame;
   Id, NIndex1, NIndex2: integer;
   Adapter: TATAdapterEControl;
   TokenKind: TATFinderTokenKind;
@@ -6141,9 +6140,7 @@ begin
       case Id of
         TOKEN_GET_KIND:
           begin
-            Frame:= GetEditorFrame(Ed);
-            if Frame=nil then exit(ReturnNone);
-            TokenKind:= Frame.GetEditorTokenKind(Ed, NIndex1, NIndex2);
+            TokenKind:= EditorGetTokenKind(Ed, NIndex1, NIndex2);
             Result:= PyString_FromString(PChar(cTokenChar[TokenKind]));
           end;
 
