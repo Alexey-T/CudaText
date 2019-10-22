@@ -3984,9 +3984,9 @@ begin
     for i:= 0 to AppManager.LexerCount-1 do
     begin
       an:= AppManager.Lexers[i];
-      for j:= 0 to Min(an.SubAnalyzers.Count-1, High(an.SubLexerNames)) do
+      for j:= 0 to an.SubAnalyzers.Count-1 do
       begin
-        LexName:= an.SubLexerNames[j];
+        LexName:= an.SubLexerName(j);
         if LexName<>'' then
           an.SubAnalyzers[j].SyntAnalyzer:= AppManager.FindLexerByName(LexName);
       end;
