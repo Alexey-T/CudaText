@@ -6448,13 +6448,6 @@ begin
 end;
 
 
-procedure TfmMain.FinderOnGetToken(Sender: TObject;
-  AX, AY: integer;
-  out AKind: TATFinderTokenKind);
-begin
-  AKind:= EditorGetTokenKind(Sender as TATSynEdit, AX, AY)
-end;
-
 procedure TfmMain.DoDialogLexerMenu;
 var
   List: TStringList;

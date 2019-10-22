@@ -638,6 +638,11 @@ begin
     MB_OK or MB_ICONERROR);
 end;
 
+procedure TfmMain.FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATFinderTokenKind);
+begin
+  AKind:= EditorGetTokenKind(Sender as TATSynEdit, AX, AY)
+end;
+
 procedure TfmMain.FinderUpdateEditor(AUpdateText: boolean);
 var
   Pnt: TPoint;
