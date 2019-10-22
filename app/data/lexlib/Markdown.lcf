@@ -12,7 +12,7 @@ object SyntAnal16: TLibSyntAnalyzer
     item
       DisplayName = 'Comment'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGreen
+      Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -71,7 +71,7 @@ object SyntAnal16: TLibSyntAnalyzer
     item
       DisplayName = 'Reference'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = 13030
+      Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -326,8 +326,8 @@ object SyntAnal16: TLibSyntAnalyzer
       StyleName = 'Reference'
       TokenType = 6
       Expression = 
-        '^\[[^\]\^]+\]:.*?($|\z) |'#13#10'!? \[[^\]]+\]\[[^\]]*\] |'#13#10'\(@[^\)]*\' +
-        ') #pandoc list reference'
+        '^\[[^\]\^]+\]:.*?($|\z) |'#13#10'(?<=\]\x20?)\[.+?\] |'#13#10'\(@.+?\) #pand' +
+        'oc list reference'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -455,7 +455,9 @@ object SyntAnal16: TLibSyntAnalyzer
     ''
     '`Inline Code` inside a paragraph with *italic*, '
     '**bold** and ***bold italic***, [^footnote] and + '
-    '[reference][ref]. <HTML> syntax and special &harr; '
+    
+      '[reference][ref] and [reference] [ref]. <HTML> syntax and specia' +
+      'l &harr; '
     'chars are highlighted, [Hyperlink text](url "title") '
     'and ![alternative text](image adress "title"). '
     '~~Crossed out~~ is supported, too. '
