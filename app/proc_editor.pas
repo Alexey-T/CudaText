@@ -106,6 +106,9 @@ type
 
 function EditorBracket_GetPairForClosingBracketOrQuote(ch: char): char;
 procedure EditorBracket_ClearHilite(Ed: TATSynEdit);
+function EditorBracket_FindPairEx(Ed: TATSynEdit; PosX, PosY: integer;
+  AllowedSymbols: string;
+  MaxDistance: integer): TPoint;
 procedure EditorBracket_Action(Ed: TATSynEdit;
   Action: TATEditorBracketAction;
   AllowedSymbols: string;
@@ -1131,6 +1134,40 @@ procedure EditorBracket_ClearHilite(Ed: TATSynEdit);
 begin
   Ed.Attribs.DeleteWithTag(cEditorTagForBracket);
   Ed.GutterDecor.DeleteByTag(cEditorTagForBracket);
+end;
+
+function EditorBracket_FindPairEx(Ed: TATSynEdit; PosX, PosY: integer;
+  AllowedSymbols: string;
+  MaxDistance: integer): TPoint;
+var
+  St: TATStrings;
+  Kind: TATEditorBracketKind;
+  CharFrom, CharTo: atChar;
+  S: atString;
+  FoundX, FoundY: integer;
+begin
+  Result.X:= -1;
+  Result.Y:= -1;
+
+  St:= Ed.Strings;
+  if not St.IsIndexValid(PosY) then exit;
+
+  S:= St.Lines[PosY];
+  if S='' then exit;
+  if PosX<0 then exit;
+  if PosX>Length(S) then exit;
+  if PosX=Length(S) then Dec(PosX);
+
+  CharFrom:= S[PosX+1];
+  if Pos(CharFrom, AllowedSymbols)=0 then exit;
+
+  EditorBracket_GetCharKind(CharFrom, Kind, CharTo);
+  if Kind=bracketUnknown then exit;
+
+  EditorBracket_FindPair(Ed, CharFrom, CharTo, Kind,
+    MaxDistance, PosX, PosY, FoundX, FoundY);
+  Result.X:= FoundX;
+  Result.Y:= FoundY;
 end;
 
 procedure EditorBracket_Action(Ed: TATSynEdit; Action: TATEditorBracketAction; AllowedSymbols: string;
