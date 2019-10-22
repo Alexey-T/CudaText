@@ -3946,7 +3946,6 @@ var
   fn, fn_ops, DirLexers, LexName: string;
   ListFiles, ListBackup: TStringlist;
   an: TecSyntAnalyzer;
-  ini: TIniFile;
   i, j: integer;
 begin
   ListFiles:= TStringList.Create;
@@ -3985,20 +3984,11 @@ begin
     for i:= 0 to AppManager.LexerCount-1 do
     begin
       an:= AppManager.Lexers[i];
-      fn:= GetAppLexerMapFilename(an.LexerName);
-      if FileExists(fn) then
+      for j:= 0 to Min(an.SubAnalyzers.Count-1, High(an.SubLexerNames)) do
       begin
-        ini:= TIniFile.Create(fn);
-        try
-          for j:= 0 to an.SubAnalyzers.Count-1 do
-          begin
-            LexName:= ini.ReadString('ref', IntToStr(j), '');
-            if LexName<>'' then
-              an.SubAnalyzers[j].SyntAnalyzer:= AppManager.FindLexerByName(LexName);
-          end;
-        finally
-          FreeAndNil(ini);
-        end;
+        LexName:= an.SubLexerNames[j];
+        if LexName<>'' then
+          an.SubAnalyzers[j].SyntAnalyzer:= AppManager.FindLexerByName(LexName);
       end;
     end;
 

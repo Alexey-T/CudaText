@@ -354,17 +354,12 @@ begin
     FFormats[FFormats.Count-1].Assign(FAnalyzer.Formats[i]);
   end;
 
-  with TIniFile.Create(GetAppLexerMapFilename(FAnalyzer.LexerName)) do
-  try
-    edCmtStream1.Text:= ReadString('comments', 'str1', '');
-    edCmtStream2.Text:= ReadString('comments', 'str2', '');
-    edCmtFull1.Text:= ReadString('comments', 'full1', '');
-    edCmtFull2.Text:= ReadString('comments', 'full2', '');
-    edStylesCmt.Text:= ReadString('comments', 'styles_cmt', '');
-    edStylesStrings.Text:= ReadString('comments', 'styles_str', '');
-  finally
-    Free
-  end;
+  edCmtStream1.Text:= FAnalyzer.CommentRangeBegin;
+  edCmtStream2.Text:= FAnalyzer.CommentRangeEnd;
+  edCmtFull1.Text:= FAnalyzer.CommentFullLinesBegin;
+  edCmtFull2.Text:= FAnalyzer.CommentFullLinesEnd;
+  edStylesCmt.Text:= FAnalyzer.StylesOfComments;
+  edStylesStrings.Text:= FAnalyzer.StylesOfStrings;
 
   UpdateListboxStyles;
   FChangedAllowed:= true;
