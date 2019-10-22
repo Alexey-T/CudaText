@@ -1,4 +1,4 @@
-object SyntAnal15: TLibSyntAnalyzer
+object SyntAnal16: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Heading'
@@ -415,6 +415,14 @@ object SyntAnal15: TLibSyntAnalyzer
       StyleName = 'Mark-edited'
       TokenType = 14
       Expression = '\{~~[^~\}]+~~\}'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Text'
+      StyleName = 'Text'
+      TokenType = 1
+      Expression = '[a-z]\w*'
       ColumnFrom = 0
       ColumnTo = 0
     end>
