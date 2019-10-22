@@ -519,7 +519,6 @@ function GetAppLexerMapFilename(const ALexName: string): string;
 function GetAppLexerOpsFilename(const ALexName: string): string;
 function GetAppLexerAcpFilename(const ALexName: string): string;
 function GetAppLexerSpecificConfig(ALexer: string; ADefaultConfig: boolean=false): string;
-function GetAppLexerPropInCommentsSection(const ALexerName, AKey: string): string;
 
 function MsgBox(const Str: string; Flags: Longint): integer;
 procedure MsgBadConfig(const fn: string);
@@ -1970,16 +1969,6 @@ begin
 
     AppKeymap.Items[nitem].Keys1:= UndoItem.KeyArray1;
     AppKeymap.Items[nitem].Keys2:= UndoItem.KeyArray2;
-  end;
-end;
-
-function GetAppLexerPropInCommentsSection(const ALexerName, AKey: string): string;
-begin
-  with TIniFile.Create(GetAppLexerMapFilename(ALexerName)) do
-  try
-    Result:= Trim(ReadString('comments', AKey, ''));
-  finally
-    Free
   end;
 end;
 

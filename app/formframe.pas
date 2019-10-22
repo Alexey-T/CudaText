@@ -140,9 +140,6 @@ type
     FSaveHistory: boolean;
     FEditorsLinked: boolean;
     FCachedTreeview: array[0..1] of TTreeView;
-    FLastLexer: string;
-    FLastLexerCommentStyles: string;
-    FLastLexerStringStyles: string;
     FLexerChooseFunc: TecLexerChooseFunc;
     FBracketHilite: boolean;
     FBracketSymbols: string;
@@ -239,7 +236,6 @@ type
     procedure SetLexer(Ed: TATSynEdit; an: TecSyntAnalyzer);
     procedure SetLexerLite(Ed: TATSynEdit; an: TATLiteLexer);
     procedure SetLexerName(Ed: TATSynEdit; const AValue: string);
-    procedure UpdateLexerCache(Ed: TATSynEdit);
     procedure UpdateTabTooltip;
   protected
     procedure DoOnResize; override;
@@ -3281,35 +3277,6 @@ begin
   end;
 end;
 
-procedure TEditorFrame.UpdateLexerCache(Ed: TATSynEdit);
-var
-  Lex: TecSyntAnalyzer;
-  SLexer: string;
-begin
-  SLexer:= '';
-  if Ed.AdapterForHilite is TATAdapterEControl then
-  begin
-    Lex:= TATAdapterEControl(Ed.AdapterForHilite).Lexer;
-    if Assigned(Lex) then
-      SLexer:= Lex.LexerName;
-  end;
-
-  if SLexer<>FLastLexer then
-  begin
-    FLastLexer:= SLexer;
-    if FLastLexer='' then
-    begin
-      FLastLexerCommentStyles:= '';
-      FLastLexerStringStyles:= '';
-    end
-    else
-    begin
-      FLastLexerCommentStyles:= GetAppLexerPropInCommentsSection(FLastLexer, 'styles_cmt');
-      FLastLexerStringStyles:= GetAppLexerPropInCommentsSection(FLastLexer, 'styles_str');
-    end;
-  end;
-end;
-
 function TEditorFrame.IsCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integer): boolean;
 var
   Kind: TATFinderTokenKind;
@@ -3322,12 +3289,11 @@ function TEditorFrame.GetEditorTokenKind(Ed: TATSynEdit; AX, AY: integer): TATFi
 var
   Pnt1, Pnt2: TPoint;
   STokenText, STokenStyle: string;
+  An: TecSyntAnalyzer;
 begin
   Result:= cTokenKindOther;
 
-  UpdateLexerCache(Ed);
-  if FLastLexer='' then exit;
-
+  if not (Ed.AdapterForHilite is TATAdapterEControl) then exit;
   TATAdapterEControl(Ed.AdapterForHilite).GetTokenAtPos(
     Point(AX, AY),
     Pnt1,
@@ -3337,12 +3303,15 @@ begin
     );
   if STokenStyle='' then exit;
 
-  if FLastLexerCommentStyles<>'' then
-    if Pos(','+STokenStyle+',', ','+FLastLexerCommentStyles+',')>0 then
+  An:= TATAdapterEControl(Ed.AdapterForHilite).Lexer;
+  if An=nil then exit;
+
+  if An.StylesOfComments<>'' then
+    if Pos(','+STokenStyle+',', ','+An.StylesOfComments+',')>0 then
       exit(cTokenKindComment);
 
-  if FLastLexerStringStyles<>'' then
-    if Pos(','+STokenStyle+',', ','+FLastLexerStringStyles+',')>0 then
+  if An.StylesOfStrings<>'' then
+    if Pos(','+STokenStyle+',', ','+An.StylesOfStrings+',')>0 then
       exit(cTokenKindString);
 end;
 

@@ -4516,15 +4516,15 @@ var
 begin
   with GetPythonEngine do
   begin
-    Str1:= GetAppLexerPropInCommentsSection(An.LexerName, 'str1');
-    Str2:= GetAppLexerPropInCommentsSection(An.LexerName, 'str2');
+    Str1:= An.CommentRangeBegin;
+    Str2:= An.CommentRangeEnd;
     if (Str1<>'') and (Str2<>'') then
       ObjCommentStr:= Py_BuildValue('(ss)', PChar(Str1), PChar(Str2))
     else
       ObjCommentStr:= ReturnNone;
 
-    Str1:= GetAppLexerPropInCommentsSection(An.LexerName, 'full1');
-    Str2:= GetAppLexerPropInCommentsSection(An.LexerName, 'full2');
+    Str1:= An.CommentFullLinesBegin;
+    Str2:= An.CommentFullLinesEnd;
     if (Str1<>'') and (Str2<>'') then
       ObjCommentLined:= Py_BuildValue('(ss)', PChar(Str1), PChar(Str2))
     else
@@ -4537,10 +4537,10 @@ begin
       ObjTypes:= StringsToPyList(List);
 
       List.LineBreak:= ',';
-      List.Text:= GetAppLexerPropInCommentsSection(An.LexerName, 'styles_cmt');
+      List.Text:= An.StylesOfComments;
       ObjStylesCmt:= StringsToPyList(List);
 
-      List.Text:= GetAppLexerPropInCommentsSection(An.LexerName, 'styles_str');
+      List.Text:= An.StylesOfStrings;
       ObjStylesStr:= StringsToPyList(List);
 
       List.LineBreak:= #10;
