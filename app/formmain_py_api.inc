@@ -6581,7 +6581,6 @@ var
   TreeContainer: TAppTreeContainer;
   Ok: boolean;
   NX, NY, N1, N2: integer;
-  Pnt: TPoint;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lisss:action', @HEditor, @IdAction, @PtrText1, @PtrText2, @PtrText3)) then
@@ -6603,9 +6602,12 @@ begin
           begin
             NX:= StrToIntDef(SGetItem(StrText1), -1);
             NY:= StrToIntDef(SGetItem(StrText1), -1);
-            N1:= StrToIntDef(StrText3, MaxInt);
-            Pnt:= EditorBracket_FindPairEx(Ed, NX, NY, StrText2, N1);
-            Result:= Py_BuildValue('(ii)', Pnt.X, Pnt.Y);
+            EditorBracket_FindPairEx(Ed,
+              NX, NY,
+              StrText2,
+              StrToIntDef(StrText3, MaxInt),
+              N1, N2);
+            Result:= Py_BuildValue('(ii)', N1, N2);
           end;
 
         EDACTION_SHOW_POS:
