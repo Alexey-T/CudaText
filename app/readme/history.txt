@@ -15,6 +15,7 @@
 + add: command "brackets: jump to pair"
 + add: command "brackets: select to pair"
 + add: command "brackets: select to pair, inside"
++ add: lexer Markdown is adapted for Spell Checker plugin
 - fix: macOS: crash on copying vertical block to clipboard
 
 1.88.3 (2019/10)
