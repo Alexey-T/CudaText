@@ -910,32 +910,36 @@ begin
           begin
             Ed.Markers.Add(X, Y, NTag, NLenX, NLenY);
             Ed.Update;
-            fmMain.UpdateStatus;
             Result:= PyInt_FromLong(Ed.Markers.Count);
           end;
 
         MARKERS_DELETE_ALL:
           begin
-            Ed.Markers.Clear;
-            Ed.Update;
-            fmMain.UpdateStatus;
+            if Ed.Markers.Count>0 then
+            begin
+              Ed.Markers.Clear;
+              Ed.Update;
+            end;
             Result:= ReturnNone;
           end;
 
         MARKERS_DELETE_LAST:
           begin
             if Ed.Markers.Count>0 then
+            begin
               Ed.Markers.Delete(Ed.Markers.Count-1);
-            Ed.Update;
-            fmMain.UpdateStatus;
+              Ed.Update;
+            end;
             Result:= ReturnNone;
           end;
 
         MARKERS_DELETE_BY_TAG:
           begin
-            Ed.Markers.DeleteWithTag(NTag);
-            Ed.Update;
-            fmMain.UpdateStatus;
+            if Ed.Markers.Count>0 then
+            begin
+              Ed.Markers.DeleteWithTag(NTag);
+              Ed.Update;
+            end;
             Result:= ReturnNone;
           end;
 
@@ -945,7 +949,6 @@ begin
             begin
               Ed.Markers.Delete(NTag);
               Ed.Update;
-              fmMain.UpdateStatus;
             end;
             Result:= ReturnNone;
           end;
