@@ -1035,16 +1035,17 @@ begin
             //Ed.InvalidateHilitingCache;
             Ed.Attribs.Add(X, Y, NTag, NLen, 0, Obj);
             Ed.Update;
-            //fmMain.UpdateStatus;
             Result:= PyInt_FromLong(Ed.Attribs.Count);
           end;
 
         MARKERS_DELETE_ALL:
           begin
             //Ed.InvalidateHilitingCache;
-            Ed.Attribs.Clear;
-            Ed.Update;
-            //fmMain.UpdateStatus;
+            if Ed.Attribs.Count>0 then
+            begin
+              Ed.Attribs.Clear;
+              Ed.Update;
+            end;
             Result:= ReturnNone;
           end;
 
@@ -1052,18 +1053,21 @@ begin
           begin
             //Ed.InvalidateHilitingCache;
             if Ed.Attribs.Count>0 then
+            begin
               Ed.Attribs.Delete(Ed.Attribs.Count-1);
-            Ed.Update;
-            //fmMain.UpdateStatus;
+              Ed.Update;
+            end;
             Result:= ReturnNone;
           end;
 
         MARKERS_DELETE_BY_TAG:
           begin
             //Ed.InvalidateHilitingCache;
-            Ed.Attribs.DeleteWithTag(NTag);
-            Ed.Update;
-            //fmMain.UpdateStatus;
+            if Ed.Attribs.Count>0 then
+            begin
+              Ed.Attribs.DeleteWithTag(NTag);
+              Ed.Update;
+            end;
             Result:= ReturnNone;
           end;
 
@@ -1073,7 +1077,6 @@ begin
             begin
               Ed.Attribs.Delete(NTag);
               Ed.Update;
-              //fmMain.UpdateStatus;
             end;
             Result:= ReturnNone;
           end;
