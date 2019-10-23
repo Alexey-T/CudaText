@@ -1349,7 +1349,6 @@ var
   Ptr: PChar;
   Str: atString;
   Ed: TATSynEdit;
-  F: TEditorFrame;
   Shift, PosAfter: TPoint;
 begin
   with GetPythonEngine do
@@ -1368,15 +1367,7 @@ begin
         Ed.Strings.TextInsert(X1, Y1, Str, false, Shift, PosAfter);
 
       Ed.DoEventChange;
-
-      F:= GetEditorFrame(Ed);
-      if Assigned(F) then
-      begin
-        fmMain.UpdateFrameEx(F, true);
-        fmMain.UpdateStatus;
-      end
-      else
-        Ed.Update(true);
+      Ed.Update(true);
 
       Result:= Py_BuildValue('(ii)', PosAfter.X, PosAfter.Y);
     end
