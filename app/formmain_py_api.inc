@@ -1618,12 +1618,11 @@ var
   PtrText: PChar;
   StrText: string;
   Ed: TATSynEdit;
-  F: TEditorFrame;
   NId, NLine, NKind, NColor, NCount,
   NDeleteIfDelLine, NShowInList: integer;
   NTag: Int64;
   BmItem: TATBookmarkItem;
-  i: Integer;
+  i: integer;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'LiiiisiiL:bookmark',
@@ -1751,14 +1750,7 @@ begin
           Result:= ReturnNone;
       end;
 
-      F:= GetEditorFrame(Ed);
-      if Assigned(F) then
-      begin
-        fmMain.UpdateFrameEx(F, false);
-        fmMain.UpdateStatus;
-      end
-      else
-        Ed.Update;
+      Ed.Update;
     end
   else
     Result:= ReturnNone;
