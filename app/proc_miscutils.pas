@@ -89,6 +89,8 @@ procedure Menu_Copy(ASrc, ADest: TMenu);
 function Menu_GetIndexToInsert(AMenu: TMenuItem; ACaption: string): integer;
 procedure MenuShowAtEditorCorner(AMenu: TPopupMenu; Ed: TATSynEdit);
 
+function StringToIntArray(S: string): TATIntArray;
+function IntArrayToString(const A: TATIntArray): string;
 
 implementation
 
@@ -760,6 +762,30 @@ begin
   P:= Ed.ClientToScreen(Point(0, 0));
   AMenu.Popup(P.X, P.Y);
 end;
+
+function StringToIntArray(S: string): TATIntArray;
+var
+  SItem: string;
+begin
+  SetLength(Result, 0);
+  repeat
+    SItem:= SGetItem(S);
+    if SItem='' then Break;
+    SetLength(Result, Length(Result)+1);
+    Result[Length(Result)-1]:= StrToIntDef(SItem, 0);
+  until false;
+end;
+
+function IntArrayToString(const A: TATIntArray): string;
+var
+  i: integer;
+begin
+  Result:= '';
+  for i:= 0 to Length(A)-1 do
+    Result+= IntToStr(A[i])+',';
+  SetLength(Result, Length(Result)-1);
+end;
+
 
 end.
 

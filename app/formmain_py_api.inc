@@ -3062,6 +3062,9 @@ begin
         PROP_MICROMAP:
           Result:= PyBool_FromLong(Ord(Ed.OptMicromapVisible));
 
+        PROP_MICROMAP_COLUMNS:
+          Result:= PyString_FromString(PChar(IntArrayToString(Ed.OptMicromapColumnWidths)));
+
         PROP_VISIBLE_LINES:
           Result:= PyInt_FromLong(Ed.GetVisibleLines);
         PROP_VISIBLE_COLUMNS:
@@ -3609,6 +3612,9 @@ begin
           Ed.OptMinimapVisible:= ValueBool;
         PROP_MICROMAP:
           Ed.OptMicromapVisible:= ValueBool;
+
+        PROP_MICROMAP_COLUMNS:
+          Ed.OptMicromapColumnWidths:= StringToIntArray(Str);
 
         PROP_SCROLL_VERT:
           begin
@@ -5086,19 +5092,6 @@ begin
 end;
 
 
-function _StringToIntArray(S: string): TATIntArray;
-var
-  SItem: string;
-begin
-  SetLength(Result, 0);
-  repeat
-    SItem:= SGetItem(S);
-    if SItem='' then Break;
-    SetLength(Result, Length(Result)+1);
-    Result[Length(Result)-1]:= StrToIntDef(SItem, 0);
-  until false;
-end;
-
 procedure ListboxItem_SetFromString(AItem: TATListboxItemProp; AText: string);
 var
   SItem, SKey, SValue: string;
@@ -5362,7 +5355,7 @@ begin
 
         LISTBOX_SET_COLUMNS:
           begin
-            Listbox.ColumnSizes:= _StringToIntArray(StrText);
+            Listbox.ColumnSizes:= StringToIntArray(StrText);
             Listbox.Invalidate;
             Result:= ReturnNone;
           end;
