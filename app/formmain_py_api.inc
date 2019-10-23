@@ -1409,7 +1409,6 @@ var
   H: Int64;
   Y1, Y2: Integer;
   Ed: TATSynEdit;
-  F: TEditorFrame;
   Lines: TStringList;
   ListPy: PPyObject;
   Res: boolean;
@@ -1429,14 +1428,7 @@ begin
         FreeAndNil(Lines);
       end;
 
-      F:= GetEditorFrame(Ed);
-      if Assigned(F) then
-      begin
-        fmMain.UpdateFrameEx(F, true);
-        fmMain.UpdateStatus;
-      end
-      else
-        Ed.Update(true);
+      Ed.Update(true);
 
       Result:= PyBool_FromLong(Ord(Res));
     end;
