@@ -1471,6 +1471,7 @@ begin
   ed.OptUnprintedVisible:= EditorOps.OpUnprintedShow;
   ed.OptRulerVisible:= EditorOps.OpRulerShow;
   ed.OptScrollbarsNew:= true;
+  ed.OptMicromapCustomColumns:= '40'; //for marks from Spell Checker, Highlight Occur
 
   ed.OnClick:= @EditorOnClick;
   ed.OnClickDouble:= @EditorOnClickDouble;
@@ -2480,21 +2481,26 @@ end;
 
 procedure TEditorFrame.EditorDrawMicromap(Sender: TObject; C: TCanvas;
   const ARect: TRect);
+type
+  TAppMicromapMark = (markFull, markLeft, markRight);
 const
   cTagOccurrences = 101; //see plugin Hilite Occurrences
   cTagSpellChecker = 105; //see plugin SpellChecker
+  cMarkColumn = 1;
 var
   Ed: TATSynEdit;
   NPixelOffset: integer;
   NWidthSmall: integer;
 //
-  function GetItemRect(NLine1, NLine2: integer; ALeft: boolean): TRect; inline;
+  function GetItemRect(AColumn, NLine1, NLine2: integer; APos: TAppMicromapMark): TRect; inline;
   begin
-    Result:= Ed.RectMicromapMark(0, NLine1, NLine2);
-    if ALeft then
-      Result.Right:= Result.Left + NWidthSmall
-    else
-      Result.Left:= Result.Right - NWidthSmall;
+    Result:= Ed.RectMicromapMark(AColumn, NLine1, NLine2);
+    case APos of
+      markLeft:
+        Result.Right:= Result.Left + NWidthSmall;
+      markRight:
+        Result.Left:= Result.Right - NWidthSmall;
+    end;
   end;
 //
 var
@@ -2516,8 +2522,7 @@ begin
   C.FillRect(ARect);
 
   //paint full-width area of current view
-  R1:= GetItemRect(Ed.LineTop, Ed.LineBottom, true);
-  R1.Right:= ARect.Right;
+  R1:= GetItemRect(0, Ed.LineTop, Ed.LineBottom, markFull);
 
   C.Brush.Color:= GetAppColor('EdMicromapViewBg');
   C.FillRect(R1);
@@ -2538,7 +2543,7 @@ begin
       else Continue;
     end;
     C.Brush.Color:= NColor;
-    C.FillRect(GetItemRect(i, i, true));
+    C.FillRect(GetItemRect(0, i, i, markLeft));
   end;
 
   //paint selections
@@ -2548,7 +2553,7 @@ begin
     Caret:= Ed.Carets[i];
     Caret.GetSelLines(NLine1, NLine2, false);
     if NLine1<0 then Continue;
-    R1:= GetItemRect(NLine1, NLine2, false);
+    R1:= GetItemRect(0, NLine1, NLine2, markRight);
     C.FillRect(R1);
   end;
 
@@ -2562,19 +2567,22 @@ begin
       cTagSpellChecker:
         begin
           C.Brush.Color:= NColorSpell;
-          C.FillRect(GetItemRect(Mark.PosY, Mark.PosY, false));
+          R1:= GetItemRect(cMarkColumn, Mark.PosY, Mark.PosY, markFull);
+          C.FillRect(R1);
         end;
       cTagOccurrences:
         begin
           C.Brush.Color:= NColorOccur;
-          C.FillRect(GetItemRect(Mark.PosY, Mark.PosY, false));
+          R1:= GetItemRect(cMarkColumn, Mark.PosY, Mark.PosY, markFull);
+          C.FillRect(R1);
         end;
       else
         begin
           if Obj.ShowOnMap then
           begin
             C.Brush.Color:= Obj.Data.ColorBG;
-            C.FillRect(GetItemRect(Mark.PosY, Mark.PosY, false));
+            R1:= GetItemRect(cMarkColumn, Mark.PosY, Mark.PosY, markFull);
+            C.FillRect(R1);
           end;
         end;
       end;
