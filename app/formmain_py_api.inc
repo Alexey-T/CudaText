@@ -1288,7 +1288,6 @@ var
   N, i: Integer;
   Ptr: PChar;
   Ed: TATSynEdit;
-  F: TEditorFrame;
   Str: atString;
 begin
   with GetPythonEngine do
@@ -1313,15 +1312,7 @@ begin
 
       Ed.DoEventChange;
       Ed.Strings.DoSaveLastEditPos(0, N);
-
-      F:= GetEditorFrame(Ed);
-      if Assigned(F) then
-      begin
-        fmMain.UpdateFrameEx(F, true);
-        fmMain.UpdateStatus;
-      end
-      else
-        Ed.Update(true);
+      Ed.Update(true);
 
       Result:= ReturnNone;
     end
