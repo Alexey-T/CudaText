@@ -1381,7 +1381,6 @@ var
   H: Int64;
   X1, Y1, X2, Y2: Integer;
   Ed: TATSynEdit;
-  F: TEditorFrame;
   Shift, PosAfter: TPoint;
   PtrText: PChar;
   StrText: string;
@@ -1396,15 +1395,7 @@ begin
         UTF8Decode(StrText), Shift, PosAfter, true);
 
       Ed.DoEventChange;
-
-      F:= GetEditorFrame(Ed);
-      if Assigned(F) then
-      begin
-        fmMain.UpdateFrameEx(F, true);
-        fmMain.UpdateStatus;
-      end
-      else
-        Ed.Update(true);
+      Ed.Update(true);
 
       Result:= Py_BuildValue('(ii)', PosAfter.X, PosAfter.Y);
     end
