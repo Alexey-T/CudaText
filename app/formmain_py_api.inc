@@ -1326,7 +1326,6 @@ var
   H: Int64;
   X1, Y1, X2, Y2: Integer;
   Ed: TATSynEdit;
-  F: TEditorFrame;
   Shift, PosAfter: TPoint;
 begin
   with GetPythonEngine do
@@ -1334,17 +1333,8 @@ begin
     begin
       Ed:= PyEditor(H);
       Ed.Strings.TextDeleteRange(X1, Y1, X2, Y2, Shift, PosAfter);
-
       Ed.DoEventChange;
-
-      F:= GetEditorFrame(Ed);
-      if Assigned(F) then
-      begin
-        fmMain.UpdateFrameEx(F, true);
-        fmMain.UpdateStatus;
-      end
-      else
-        Ed.Update(true);
+      Ed.Update(true);
 
       Result:= ReturnNone;
     end
