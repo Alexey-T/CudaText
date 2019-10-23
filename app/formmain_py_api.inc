@@ -1531,21 +1531,12 @@ function Py_ed_unlock(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
-  F: TEditorFrame;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'L:unlock', @H)) then
     begin
       Ed:= PyEditor(H);
-      F:= GetEditorFrame(Ed);
       Ed.EndUpdate;
-
-      if Assigned(F) then
-      begin
-        fmMain.UpdateFrameEx(F, false);
-        fmMain.UpdateStatus;
-      end;
-
       Result:= ReturnNone;
     end
   else
