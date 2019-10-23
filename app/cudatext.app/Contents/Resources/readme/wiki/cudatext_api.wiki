@@ -2076,6 +2076,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_PICTURE: properties of picture file as 3-tuple: (picture_filename, size_x, size_y), or None if not picture loaded in tab. For picture ed.get_filename() gets "?".
 * PROP_MINIMAP: bool: minimap is visible.
 * PROP_MICROMAP: bool: micromap is visible.
+* PROP_MICROMAP_COLUMNS: str: comma-separated values of micromap columns widths, in percents of average char width.
 * PROP_LINK_AT_POS: str: URL in the document, at given position. Value must be str(pos_x)+","+str(pos_y).
 * PROP_TAB_SPACES: bool: tab-key inserts spaces (not tab-char).
 * PROP_TAB_SIZE: int: size of tab-char.
@@ -2188,6 +2189,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_MARKED_RANGE: line indexes of "marked range", value is 2-tuple (index1, index2) or (-1, -1) to remove this range.
 * PROP_MINIMAP: bool: minimap is visible.
 * PROP_MICROMAP: bool: micromap is visible.
+* PROP_MICROMAP_COLUMNS: str: comma-separated values of micromap columns widths, in percents of average char width.
 * PROP_TAB_SPACES: bool: tab-key inserts spaces.
 * PROP_TAB_SIZE: int: size of tab-char.
 * PROP_TAB_COLLECT_MARKERS: bool: tab-key collects (jumps to and deletes) markers.
@@ -2451,7 +2453,11 @@ Controls additional color attributes. Possible values of "id":
 ** "color_nnnn": RGB color values for font, background, borders. E.g. 0x0000FF is red, 0x00FF00 is green.
 ** "font_nnnn": font attributes: 0 - off, 1 - on.
 ** "border_nnnn": border types for edges, int value 0..6: none, solid, dash, solid 2pixel, dotted, rounded, wave.
-** "show_on_map": paint this item on CudaText micromap.
+** "show_on_map": how to show this fragment on micromap:
+*** int value>=0: show in column with given index (micromap column 0 shows "line states" so don't use it)
+*** int value=-1: don't show
+*** True: show in column 1
+*** False: don't show
 
 * MARKERS_GET: Gets list of fragments, or None. Each item is list with int fields, in the same order as function params.
 * MARKERS_DELETE_ALL: Deletes all fragments.
@@ -3643,5 +3649,9 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.307 (app 1.88.6)
 * add: Editor.get_token: add TOKEN_GET_KIND
 * add: Editor.action: add EDACTION_FIND_BRACKET
+
+1.0.308 (app 1.88.7)
+* add: Editor.get_prop/set_prop: PROP_MICROMAP_COLUMNS
+* add: Editor.attr: param "show_on_map" can be int
 
 [[Category:CudaText]]

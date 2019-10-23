@@ -1,4 +1,4 @@
-object SyntAnal15: TLibSyntAnalyzer
+object SyntAnal16: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Heading'
@@ -12,7 +12,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Comment'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGreen
+      Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -71,7 +71,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Reference'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = 13030
+      Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -280,17 +280,9 @@ object SyntAnal15: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Link usual'
-      StyleName = 'Link'
-      TokenType = 11
-      Expression = '\[[^\]]+\]\([^\)]+\)'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Image'
       StyleName = 'Image'
-      TokenType = 12
-      Expression = '!\[[^\]]+\]\([^\)]+\)'
+      TokenType = 11
+      Expression = '(?<=\])\(.+?\)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -325,8 +317,8 @@ object SyntAnal15: TLibSyntAnalyzer
       StyleName = 'Reference'
       TokenType = 6
       Expression = 
-        '^\[[^\]\^]+\]:.*?($|\z) |'#13#10'!? \[[^\]]+\]\[[^\]]*\] |'#13#10'\(@[^\)]*\' +
-        ') #pandoc list reference'
+        '^\x20{0,3}\[[^\]\^]+\]:.*?($|\z) |'#13#10'(?<=\]\x20?)\[.*?\] |'#13#10'\(@.+' +
+        '?\) #pandoc list reference'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -366,7 +358,7 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = 'Link wiki'
       StyleName = 'Link'
       TokenType = 11
-      Expression = '\[.+?\] '
+      Expression = '!?\[.+?\] '
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -417,6 +409,14 @@ object SyntAnal15: TLibSyntAnalyzer
       Expression = '\{~~[^~\}]+~~\}'
       ColumnFrom = 0
       ColumnTo = 0
+    end
+    item
+      DisplayName = 'Text'
+      StyleName = 'Text'
+      TokenType = 1
+      Expression = '[a-z]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
     end>
   BlockRules = <
     item
@@ -446,7 +446,9 @@ object SyntAnal15: TLibSyntAnalyzer
     ''
     '`Inline Code` inside a paragraph with *italic*, '
     '**bold** and ***bold italic***, [^footnote] and + '
-    '[reference][ref]. <HTML> syntax and special &harr; '
+    
+      '[reference][ref] and [reference] [ref]. <HTML> syntax and specia' +
+      'l &harr; '
     'chars are highlighted, [Hyperlink text](url "title") '
     'and ![alternative text](image adress "title"). '
     '~~Crossed out~~ is supported, too. '
@@ -514,6 +516,6 @@ object SyntAnal15: TLibSyntAnalyzer
   SkipSpaces = False
   Notes.Strings = (
     'Author: NoSi (v1.0 2014-01-20)'
-    'Fixes: Alex (Synwrite) ')
+    'Changes: Alexey (CudaText)')
   Charset = DEFAULT_CHARSET
 end
