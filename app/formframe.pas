@@ -1471,7 +1471,7 @@ begin
   ed.OptUnprintedVisible:= EditorOps.OpUnprintedShow;
   ed.OptRulerVisible:= EditorOps.OpRulerShow;
   ed.OptScrollbarsNew:= true;
-  ed.OptMicromapCustomColumns:= '40'; //for marks from Spell Checker, Highlight Occur
+  ed.OptMicromapColumnWidths:= [100, 40]; //for marks from Spell Checker, Highlight Occur
 
   ed.OnClick:= @EditorOnClick;
   ed.OnClickDouble:= @EditorOnClickDouble;
