@@ -1195,11 +1195,12 @@ class Editor:
             color_font = self.get_prop(PROP_COLOR, COLOR_ID_TextFont)
         if color_border==COLOR_NONE:
             color_border = self.get_prop(PROP_COLOR, COLOR_ID_TextFont)
+        column = 1 if show_on_map==True else -1 if show_on_map==False else show_on_map
         return ct.ed_attr(self.h, id, tag, x, y, len,
                           color_font, color_bg, color_border,
                           font_bold, font_italic, font_strikeout,
                           border_left, border_right, border_down, border_up,
-                          show_on_map
+                          column
                           )
 
     def dim(self, id, index=0, index2=0, value=100):

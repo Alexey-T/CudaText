@@ -2486,10 +2486,8 @@ type
 const
   cTagOccurrences = 101; //see plugin Hilite Occurrences
   cTagSpellChecker = 105; //see plugin SpellChecker
-  cMarkColumn = 1;
 var
   Ed: TATSynEdit;
-  NPixelOffset: integer;
   NWidthSmall: integer;
 //
   function GetItemRect(AColumn, NLine1, NLine2: integer; APos: TAppMicromapMark): TRect; inline;
@@ -2500,6 +2498,8 @@ var
         Result.Right:= Result.Left + NWidthSmall;
       markRight:
         Result.Left:= Result.Right - NWidthSmall;
+      markFull:
+        begin end;
     end;
   end;
 //
@@ -2515,7 +2515,7 @@ var
 begin
   Ed:= Sender as TATSynEdit;
   if Ed.Strings.Count=0 then exit;
-  NPixelOffset:= Ed.ScrollVert.NPixelOffset;
+  //NPixelOffset:= Ed.ScrollVert.NPixelOffset;
   NWidthSmall:= EditorScale(EditorOps.OpMicromapWidthSmall);
 
   C.Brush.Color:= GetAppColor('EdMicromapBg');
@@ -2567,21 +2567,21 @@ begin
       cTagSpellChecker:
         begin
           C.Brush.Color:= NColorSpell;
-          R1:= GetItemRect(cMarkColumn, Mark.PosY, Mark.PosY, markFull);
+          R1:= GetItemRect(1{column-1}, Mark.PosY, Mark.PosY, markFull);
           C.FillRect(R1);
         end;
       cTagOccurrences:
         begin
           C.Brush.Color:= NColorOccur;
-          R1:= GetItemRect(cMarkColumn, Mark.PosY, Mark.PosY, markFull);
+          R1:= GetItemRect(1{column-1}, Mark.PosY, Mark.PosY, markFull);
           C.FillRect(R1);
         end;
       else
         begin
-          if Obj.ShowOnMap then
+          if Obj.Column>=0 then
           begin
             C.Brush.Color:= Obj.Data.ColorBG;
-            R1:= GetItemRect(cMarkColumn, Mark.PosY, Mark.PosY, markFull);
+            R1:= GetItemRect(Obj.Column, Mark.PosY, Mark.PosY, markFull);
             C.FillRect(R1);
           end;
         end;
