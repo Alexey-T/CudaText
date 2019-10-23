@@ -2484,29 +2484,20 @@ const
   cTagOccurrences = 101; //see plugin Hilite Occurrences
   cTagSpellChecker = 105; //see plugin SpellChecker
 var
-  NScale: double;
+  Ed: TATSynEdit;
   NPixelOffset: integer;
+  NWidthSmall: integer;
 //
-  function GetItemRect(NLine1, NLine2: integer; ALeft: boolean): TRect;
+  function GetItemRect(NLine1, NLine2: integer; ALeft: boolean): TRect; inline;
   begin
+    Result:= Ed.RectMicromapMark(0, NLine1, NLine2);
     if ALeft then
-    begin
-      Result.Left:= ARect.Left;
-      Result.Right:= Result.Left + EditorScale(EditorOps.OpMicromapWidthSmall);
-    end
+      Result.Right:= Result.Left + NWidthSmall
     else
-    begin
-      Result.Right:= ARect.Right;
-      Result.Left:= Result.Right - EditorScale(EditorOps.OpMicromapWidthSmall);
-    end;
-    Result.Top:= ARect.Top+Trunc(NLine1*NScale);
-    Result.Bottom:= Max(Result.Top+2, ARect.Top+Trunc((NLine2+1)*NScale));
-    //Inc(Result.Top, NPixelOffset);
-    //Inc(Result.Bottom, NPixelOffset);
+      Result.Left:= Result.Right - NWidthSmall;
   end;
 //
 var
-  Ed: TATSynEdit;
   NColor: TColor;
   Caret: TATCaretItem;
   State: TATLineState;
@@ -2518,12 +2509,13 @@ var
 begin
   Ed:= Sender as TATSynEdit;
   if Ed.Strings.Count=0 then exit;
-  NScale:= ARect.Height / Ed.Strings.Count;
   NPixelOffset:= Ed.ScrollVert.NPixelOffset;
+  NWidthSmall:= EditorScale(EditorOps.OpMicromapWidthSmall);
 
   C.Brush.Color:= GetAppColor('EdMicromapBg');
   C.FillRect(ARect);
 
+  //paint full-width area of current view
   R1:= GetItemRect(Ed.LineTop, Ed.LineBottom, true);
   R1.Right:= ARect.Right;
 
