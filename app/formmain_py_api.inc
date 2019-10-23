@@ -753,13 +753,11 @@ var
   Id, NCaret, NOptions: Integer;
   X1, Y1, X2, Y2: Integer;
   Ed: TATSynEdit;
-  F: TEditorFrame;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liiiiii:set_caret', @H, @X1, @Y1, @X2, @Y2, @Id, @NOptions)) then
     begin
       Ed:= PyEditor(H);
-      F:= GetEditorFrame(Ed);
 
       case Id of
         CARET_DELETE_ALL:
@@ -823,12 +821,6 @@ begin
       end;
 
       Ed.DoEventCarets;
-
-      if Assigned(F) then
-      begin
-        fmMain.UpdateFrameEx(F, false);
-        fmMain.UpdateStatus;
-      end;
     end
   else
     Result:= ReturnNone;
