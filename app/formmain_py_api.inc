@@ -1244,22 +1244,16 @@ var
   H: Int64;
   X1, Y1, X2, Y2: Integer;
   Ed: TATSynEdit;
-  F: TEditorFrame;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liiii:set_sel_rect', @H, @X1, @Y1, @X2, @Y2)) then
     begin
       Ed:= PyEditor(H);
-      F:= GetEditorFrame(Ed);
 
       Ed.DoSelect_None;
       Ed.DoSelect_ColumnBlock(Point(X1, Y1), Point(X2, Y2));
-
-      if Assigned(F) then
-      begin
-        fmMain.UpdateFrameEx(F, false);
-        fmMain.UpdateStatus;
-      end;
+      Ed.DoEventCarets;
+      Ed.Update;
 
       Result:= ReturnNone;
     end
@@ -1271,21 +1265,18 @@ end;
 function Py_ed_set_text_all(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
-  Ptr: PChar;
   Ed: TATSynEdit;
-  F: TEditorFrame;
+  PtrText: PChar;
   StrW: atString;
-  Shift, PosAfter: TPoint;
-  i: integer;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Ls:set_text_all', @H, @Ptr)) then
+    if Bool(PyArg_ParseTuple(Args, 'Ls:set_text_all', @H, @PtrText)) then
     begin
       Ed:= PyEditor(H);
       if Ed.ModeReadOnly then
         exit(ReturnNone);
 
-      StrW:= UTF8Decode(string(Ptr));
+      StrW:= UTF8Decode(string(PtrText));
 
       //don't keep Undo, not needed in set_text_all
       Ed.DoCaretSingle(0, 0);
@@ -1293,15 +1284,7 @@ begin
 
       Ed.DoEventChange;
       Ed.Strings.DoSaveLastEditPos(0, 0);
-
-      F:= GetEditorFrame(Ed);
-      if Assigned(F) then
-      begin
-        F.UpdateFrame(true);
-        fmMain.UpdateStatus;
-      end
-      else
-        Ed.Update(true);
+      Ed.Update(true);
 
       Result:= ReturnNone;
     end;
