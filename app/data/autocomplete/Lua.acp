@@ -1,5 +1,26 @@
 #chars .:
-#lua 5.0
+keyword and
+keyword break
+keyword do
+keyword else
+keyword elseif
+keyword end
+keyword false
+keyword for
+keyword function
+keyword if
+keyword in
+keyword local
+keyword nil
+keyword not
+keyword or
+keyword repeat
+keyword return
+keyword then
+keyword true
+keyword until
+keyword while
+
 function assert(v [, message]) |error if v nil or false, otherwise returns v
 function bit.arshift(x, n) |arithmetic right-shift
 function bit.band(x1 [,x2...]) |bitwise 'and' of arguments
