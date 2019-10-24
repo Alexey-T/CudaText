@@ -546,7 +546,9 @@ begin
   if DoSidebar_CaptionToTabIndex(S)<0 then
     S:= msgPanelTree_Init;
 
-  SidebarPanel:= S;
+  if (S<>'-') and (S<>'') then
+    if ShowSidePanel then
+      DoShowSidePanel(S, false);
 end;
 
 procedure TfmMain.DoApplyInitialWindowPos;

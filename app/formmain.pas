@@ -2416,10 +2416,14 @@ begin
   end;
 
   FAllowOnFocus:= true;
-  Frame:= CurrentFrame;
-  if Assigned(Frame) then Frame.SetFocus;
-
   DoControlUnlock(Self);
+
+  Frame:= CurrentFrame;
+  if Assigned(Frame) then
+  begin
+    //Frame.SetFocus;
+    ActiveControl:= Frame.Editor; //Frame.SetFocus cannot focus ed on start (Win10)
+  end;
 
   NTickShowEnd:= GetTickCount64;
   MsgLogConsole(Format(
