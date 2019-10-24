@@ -883,9 +883,10 @@ begin
     if Form.CanFocus then
       Form.SetFocus;
 
-  {$ifdef windows}
-  Form.ActiveControl:= C;
-  {$endif}
+  try
+    Form.ActiveControl:= C;
+  except
+  end;
 
   if C.CanFocus then
     C.SetFocus;
