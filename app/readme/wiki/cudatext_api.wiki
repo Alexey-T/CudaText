@@ -2452,7 +2452,7 @@ Controls additional color attributes. Possible values of "id":
 ** "font_nnnn": font attributes: 0 - off, 1 - on.
 ** "border_nnnn": border types for edges, int value 0..6: none, solid, dash, solid 2pixel, dotted, rounded, wave.
 ** "show_on_map": how to show this fragment on micromap:
-*** int value>=0: show in column with given index (micromap column 0 shows "line states" so don't use it)
+*** int value>=0: show in column with given tag (don't pass tag value=0, it is reserved first column)
 *** int value=-1: don't show
 *** True: show in column 1
 *** False: don't show
