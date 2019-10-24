@@ -2076,7 +2076,6 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_PICTURE: properties of picture file as 3-tuple: (picture_filename, size_x, size_y), or None if not picture loaded in tab. For picture ed.get_filename() gets "?".
 * PROP_MINIMAP: bool: minimap is visible.
 * PROP_MICROMAP: bool: micromap is visible.
-* PROP_MICROMAP_COLUMNS: str: comma-separated values of micromap columns widths, in percents of average char width.
 * PROP_LINK_AT_POS: str: URL in the document, at given position. Value must be str(pos_x)+","+str(pos_y).
 * PROP_TAB_SPACES: bool: tab-key inserts spaces (not tab-char).
 * PROP_TAB_SIZE: int: size of tab-char.
@@ -2189,7 +2188,6 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_MARKED_RANGE: line indexes of "marked range", value is 2-tuple (index1, index2) or (-1, -1) to remove this range.
 * PROP_MINIMAP: bool: minimap is visible.
 * PROP_MICROMAP: bool: micromap is visible.
-* PROP_MICROMAP_COLUMNS: str: comma-separated values of micromap columns widths, in percents of average char width.
 * PROP_TAB_SPACES: bool: tab-key inserts spaces.
 * PROP_TAB_SIZE: int: size of tab-char.
 * PROP_TAB_COLLECT_MARKERS: bool: tab-key collects (jumps to and deletes) markers.
@@ -2454,7 +2452,7 @@ Controls additional color attributes. Possible values of "id":
 ** "font_nnnn": font attributes: 0 - off, 1 - on.
 ** "border_nnnn": border types for edges, int value 0..6: none, solid, dash, solid 2pixel, dotted, rounded, wave.
 ** "show_on_map": how to show this fragment on micromap:
-*** int value>=0: show in column with given index (micromap column 0 shows "line states" so don't use it)
+*** int value>=0: show in column with given tag (don't pass tag value=0, it is reserved first column)
 *** int value=-1: don't show
 *** True: show in column 1
 *** False: don't show
@@ -2676,6 +2674,17 @@ Performs some action in editor. Possible values of "id":
 ** "with_numbers": bool: Show gutter with line numbers.
 ** "color_back": int: RGB color of page background.
 ** "color_numbers": int: RGB color of line numbers.
+
+* EDACTION_MICROMAPCOL_GET: Get list of micromap columns, as list of dict. Dict keys are:
+** "size_perc": Width of column in percents of average char width.
+** "size_px": Width of column in pixels.
+** "tag": Int tag of column. CudaText has 2 default columns with tag 0 and 1.
+
+* EDACTION_MICROMAPCOL_ADD: Add micromap column. Params:
+** "param1": Int (64 bit) tag of column.
+** "param2": Width of column in percents of average char width.
+
+* EDACTION_MICROMAPCOL_DELETE: Delete micromap column by its tag. Param "param1": tag. Gets bool: column was found and deleted.
 
 =TreeHelpers=
 
@@ -3650,8 +3659,10 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.get_token: add TOKEN_GET_KIND
 * add: Editor.action: add EDACTION_FIND_BRACKET
 
-1.0.308 (app 1.88.7)
-* add: Editor.get_prop/set_prop: PROP_MICROMAP_COLUMNS
+1.0.309 (app 1.88.7)
 * add: Editor.attr: param "show_on_map" can be int
+* add: Editor.action: EDACTION_MICROMAPCOL_GET
+* add: Editor.action: EDACTION_MICROMAPCOL_ADD
+* add: Editor.action: EDACTION_MICROMAPCOL_DELETE
 
 [[Category:CudaText]]
