@@ -6586,10 +6586,10 @@ begin
 
         EDACTION_MICROMAPCOL_GET:
           begin
-            NX:= Length(Ed.OptMicromapColumns);
+            NX:= Length(Ed.MicromapColumns);
             Result:= PyList_New(NX);
             for N1:= 0 to NX-1 do
-              with Ed.OptMicromapColumns[N1] do
+              with Ed.MicromapColumns[N1] do
                 PyList_SetItem(Result, N1,
                   Py_BuildValue('{sisisL}',
                     'size_perc',
@@ -6603,9 +6603,9 @@ begin
 
         EDACTION_MICROMAPCOL_ADD:
           begin
-            NX:= Length(Ed.OptMicromapColumns);
-            SetLength(Ed.OptMicromapColumns, NX+1);
-            with Ed.OptMicromapColumns[NX] do
+            NX:= Length(Ed.MicromapColumns);
+            SetLength(Ed.MicromapColumns, NX+1);
+            with Ed.MicromapColumns[NX] do
             begin
               NTag:= StrToInt64Def(StrText1, 0);
               NWidthPercents:= StrToIntDef(StrText2, 100);
@@ -6616,18 +6616,8 @@ begin
 
         EDACTION_MICROMAPCOL_DELETE:
           begin
-            NX:= EditorMicromapColumnFindByTag(Ed, StrToInt64Def(StrText1, 0));
-            NY:= Length(Ed.OptMicromapColumns);
-            if (NX>0) and (NX<NY) then
-            begin
-              for N1:= NX to NY-2 do
-                Ed.OptMicromapColumns[N1]:= Ed.OptMicromapColumns[N1+1];
-              SetLength(Ed.OptMicromapColumns, NY-1);
-              Ed.Update;
-              Result:= PyBool_FromLong(1);
-            end
-            else
-              Result:= PyBool_FromLong(0);
+            Ok:= Ed.MicromapDeleteColumn(StrToInt64Def(StrText1, 0));
+            Result:= PyBool_FromLong(Ord(Ok));
           end;
 
         else

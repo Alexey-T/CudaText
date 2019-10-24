@@ -1472,9 +1472,9 @@ begin
   ed.OptRulerVisible:= EditorOps.OpRulerShow;
   ed.OptScrollbarsNew:= true;
 
-  SetLength(ed.OptMicromapColumns, 2);
-  ed.OptMicromapColumns[1].NWidthPercents:= 40; //for marks from Spell Checker, Highlight Occur
-  ed.OptMicromapColumns[1].NTag:= 1;
+  SetLength(ed.MicromapColumns, 2);
+  ed.MicromapColumns[1].NWidthPercents:= 40; //for marks from Spell Checker, Highlight Occur
+  ed.MicromapColumns[1].NTag:= 1;
 
   ed.OnClick:= @EditorOnClick;
   ed.OnClickDouble:= @EditorOnClickDouble;
@@ -2585,7 +2585,7 @@ begin
         begin
           if Obj.ColumnTag>0 then
           begin
-            NIndex:= EditorMicromapColumnFindByTag(Ed, Obj.ColumnTag);
+            NIndex:= Ed.MicromapGetColumnFromTag(Obj.ColumnTag);
             if NIndex>=0 then
             begin
               C.Brush.Color:= Obj.Data.ColorBG;
