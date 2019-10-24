@@ -6607,8 +6607,6 @@ begin
               StrToInt64Def(StrText1, 0),
               StrToIntDef(StrText2, 100)
               );
-            if Ok then
-              Ed.Update;
             Result:= PyBool_FromLong(Ord(Ok));
           end;
 
