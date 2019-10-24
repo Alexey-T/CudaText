@@ -2513,7 +2513,7 @@ var
   Mark: TATMarkerItem;
   NColorSelected, NColorOccur, NColorSpell: TColor;
   R1: TRect;
-  NLine1, NLine2, i: integer;
+  NLine1, NLine2, NIndex, i: integer;
   Obj: TATLinePartClass;
 begin
   Ed:= Sender as TATSynEdit;
@@ -2581,11 +2581,15 @@ begin
         end;
       else
         begin
-          if Obj.Column>=0 then
+          if Obj.ColumnTag>0 then
           begin
-            C.Brush.Color:= Obj.Data.ColorBG;
-            R1:= GetItemRect(Obj.Column, Mark.PosY, Mark.PosY, markFull);
-            C.FillRect(R1);
+            NIndex:= EditorMicromapColumnFindByTag(Ed, Obj.ColumnTag);
+            if NIndex>=0 then
+            begin
+              C.Brush.Color:= Obj.Data.ColorBG;
+              R1:= GetItemRect(NIndex, Mark.PosY, Mark.PosY, markFull);
+              C.FillRect(R1);
+            end;
           end;
         end;
       end;

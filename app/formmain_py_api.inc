@@ -1025,7 +1025,7 @@ begin
             Obj.Data.BorderRight:= TATLineStyle(NBorderR);
             Obj.Data.BorderDown:= TATLineStyle(NBorderD);
             Obj.Data.BorderUp:= TATLineStyle(NBorderU);
-            Obj.Column:= NColumn;
+            Obj.ColumnTag:= NColumn;
 
             //Ed.InvalidateHilitingCache;
             Ed.Attribs.Add(X, Y, NTag, NLen, 0, Obj);
