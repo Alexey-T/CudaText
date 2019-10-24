@@ -190,7 +190,7 @@ begin
   Add(clMoneyGreen, 'EdMinimapTooltipBg', 'editor, minimap, tooltip BG');
   Add(clMedGray, 'EdMinimapTooltipBorder', 'editor, minimap, tooltip border');
   Add($e0e0e0, 'EdMicromapBg', 'editor, micromap, BG');
-  Add($c0c0c0, 'EdMicromapViewBg', 'editor, micromap, current view area');
+  Add($d0d0d0, 'EdMicromapViewBg', 'editor, micromap, current view area');
   Add($c05050, 'EdMicromapOccur', 'editor, micromap, word occurrences');
   Add($6060d0, 'EdMicromapSpell', 'editor, micromap, misspelled marks');
   Add($70b0b0, 'EdStateChanged', 'editor, line states, changed');
