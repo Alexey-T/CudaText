@@ -8,7 +8,6 @@ uses
   Classes, SysUtils, Controls, Graphics, StdCtrls, ComCtrls, Forms,
   LMessages, LCLType,
   ATScrollBar,
-  ATListbox,
   proc_colors,
   proc_globdata,
   math;
@@ -94,7 +93,9 @@ end;
 
 procedure TAppTreeContainer.SetFocus;
 begin
-  Tree.SetFocus;
+  if GetParentForm(Self).CanFocus then
+    if Tree.CanFocus then
+      Tree.SetFocus;
 end;
 
 procedure TAppTreeContainer.Invalidate;
