@@ -2981,9 +2981,6 @@ begin
         PROP_MICROMAP:
           Result:= PyBool_FromLong(Ord(Ed.OptMicromapVisible));
 
-        PROP_MICROMAP_COLUMNS:
-          Result:= PyString_FromString(PChar(IntArrayToString(Ed.OptMicromapColumnWidths)));
-
         PROP_VISIBLE_LINES:
           Result:= PyInt_FromLong(Ed.GetVisibleLines);
         PROP_VISIBLE_COLUMNS:
@@ -3531,9 +3528,6 @@ begin
           Ed.OptMinimapVisible:= ValueBool;
         PROP_MICROMAP:
           Ed.OptMicromapVisible:= ValueBool;
-
-        PROP_MICROMAP_COLUMNS:
-          Ed.OptMicromapColumnWidths:= StringToIntArray(Str);
 
         PROP_SCROLL_VERT:
           begin

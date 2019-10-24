@@ -2076,7 +2076,6 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_PICTURE: properties of picture file as 3-tuple: (picture_filename, size_x, size_y), or None if not picture loaded in tab. For picture ed.get_filename() gets "?".
 * PROP_MINIMAP: bool: minimap is visible.
 * PROP_MICROMAP: bool: micromap is visible.
-* PROP_MICROMAP_COLUMNS: str: comma-separated values of micromap columns widths, in percents of average char width.
 * PROP_LINK_AT_POS: str: URL in the document, at given position. Value must be str(pos_x)+","+str(pos_y).
 * PROP_TAB_SPACES: bool: tab-key inserts spaces (not tab-char).
 * PROP_TAB_SIZE: int: size of tab-char.
@@ -2189,7 +2188,6 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_MARKED_RANGE: line indexes of "marked range", value is 2-tuple (index1, index2) or (-1, -1) to remove this range.
 * PROP_MINIMAP: bool: minimap is visible.
 * PROP_MICROMAP: bool: micromap is visible.
-* PROP_MICROMAP_COLUMNS: str: comma-separated values of micromap columns widths, in percents of average char width.
 * PROP_TAB_SPACES: bool: tab-key inserts spaces.
 * PROP_TAB_SIZE: int: size of tab-char.
 * PROP_TAB_COLLECT_MARKERS: bool: tab-key collects (jumps to and deletes) markers.
@@ -3651,7 +3649,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.action: add EDACTION_FIND_BRACKET
 
 1.0.308 (app 1.88.7)
-* add: Editor.get_prop/set_prop: PROP_MICROMAP_COLUMNS
 * add: Editor.attr: param "show_on_map" can be int
 
 [[Category:CudaText]]
