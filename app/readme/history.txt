@@ -18,6 +18,7 @@
 + add: plugin Spell Checker keeps font color of highlighted words
 + add: lexer Markdown: minor fixes, adapted for Spell Checker plugin
 - fix: macOS: crash on copying vertical block to clipboard
+- fix: crash with non-English text after showing Command Palette
 
 1.88.3 (2019/10)
 
