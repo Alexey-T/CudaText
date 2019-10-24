@@ -2675,6 +2675,17 @@ Performs some action in editor. Possible values of "id":
 ** "color_back": int: RGB color of page background.
 ** "color_numbers": int: RGB color of line numbers.
 
+* EDACTION_MICROMAPCOL_GET: Get list of micromap columns, as list of dict. Dict keys are:
+** "size_perc": Width of column in percents of average char width.
+** "size_px": Width of column in pixels.
+** "tag": Int tag of column. CudaText has 2 default columns with tag 0 and 1.
+
+* EDACTION_MICROMAPCOL_ADD: Add micromap column. Params:
+** "param1": Int (64 bit) tag of column.
+** "param2": Width of column in percents of average char width.
+
+* EDACTION_MICROMAPCOL_DELETE: Delete micromap column by its tag. Param "param1": tag. Gets bool: column was found and deleted.
+
 =TreeHelpers=
 
 CudaText contains built-in support for TreeHelpers. They build code-tree for additional lexers. TreeHelpers must be plugins, which have special install.inf file.
@@ -3648,7 +3659,10 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.get_token: add TOKEN_GET_KIND
 * add: Editor.action: add EDACTION_FIND_BRACKET
 
-1.0.308 (app 1.88.7)
+1.0.309 (app 1.88.7)
 * add: Editor.attr: param "show_on_map" can be int
+* add: Editor.action: EDACTION_MICROMAPCOL_GET
+* add: Editor.action: EDACTION_MICROMAPCOL_ADD
+* add: Editor.action: EDACTION_MICROMAPCOL_DELETE
 
 [[Category:CudaText]]
