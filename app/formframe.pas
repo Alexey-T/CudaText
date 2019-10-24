@@ -2526,6 +2526,8 @@ begin
 
   //paint full-width area of current view
   R1:= GetItemRect(0, Ed.LineTop, Ed.LineBottom, markFull);
+  R1.Left:= ARect.Left;
+  R1.Right:= ARect.Right;
 
   C.Brush.Color:= GetAppColor('EdMicromapViewBg');
   C.FillRect(R1);
