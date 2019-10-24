@@ -2420,10 +2420,7 @@ begin
 
   Frame:= CurrentFrame;
   if Assigned(Frame) then
-  begin
-    //Frame.SetFocus;
-    ActiveControl:= Frame.Editor; //Frame.SetFocus cannot focus ed on start (Win10)
-  end;
+    Frame.SetFocus;
 
   NTickShowEnd:= GetTickCount64;
   MsgLogConsole(Format(

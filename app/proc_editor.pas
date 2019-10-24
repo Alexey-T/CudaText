@@ -876,19 +876,17 @@ end;
 
 procedure EditorFocus(C: TWinControl);
 var
-  CParent: TControl;
+  Form: TCustomForm;
 begin
-  if C.CanSetFocus then
-  begin
-    C.SetFocus;
+  Form:= GetParentForm(C);
+  if not Form.Focused then
+    if Form.CanFocus then
+      Form.SetFocus;
 
-    //this fixes Linux gtk2 issue, if added to handling of cmd_FileClose,
-    //(focus goes to console, after closing tab),
-    //so added here too
-    CParent:= C.GetTopParent;
-    if CParent is TForm then
-      (CParent as TForm).ActiveControl:= C;
-  end;
+  Form.ActiveControl:= C;
+
+  if C.CanFocus then
+    C.SetFocus;
 end;
 
 
