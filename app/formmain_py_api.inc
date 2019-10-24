@@ -6603,15 +6603,13 @@ begin
 
         EDACTION_MICROMAPCOL_ADD:
           begin
-            NX:= Length(Ed.MicromapColumns);
-            SetLength(Ed.MicromapColumns, NX+1);
-            with Ed.MicromapColumns[NX] do
-            begin
-              NTag:= StrToInt64Def(StrText1, 0);
-              NWidthPercents:= StrToIntDef(StrText2, 100);
-            end;
-            Ed.Update;
-            Result:= ReturnNone;
+            Ok:= Ed.MicromapAddColumn(
+              StrToInt64Def(StrText1, 0),
+              StrToIntDef(StrText2, 100)
+              );
+            if Ok then
+              Ed.Update;
+            Result:= PyBool_FromLong(Ord(Ok));
           end;
 
         EDACTION_MICROMAPCOL_DELETE:

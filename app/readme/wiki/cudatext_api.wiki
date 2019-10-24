@@ -2680,7 +2680,7 @@ Performs some action in editor. Possible values of "id":
 ** "size_px": Width of column in pixels.
 ** "tag": Int tag of column. CudaText has 2 default columns with tag 0 and 1.
 
-* EDACTION_MICROMAPCOL_ADD: Add micromap column. Params:
+* EDACTION_MICROMAPCOL_ADD: Add micromap column. Gets bool: tag was not used, column was added.
 ** "param1": Int (64 bit) tag of column.
 ** "param2": Width of column in percents of average char width.
 
