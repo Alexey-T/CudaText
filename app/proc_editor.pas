@@ -116,6 +116,7 @@ procedure EditorBracket_Action(Ed: TATSynEdit;
   MaxDistance: integer);
 
 function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer): TATFinderTokenKind;
+function EditorMicromapColumnFindByTag(Ed: TATSynEdit; const ATag: Int64): integer;
 
 
 implementation
@@ -1392,6 +1393,17 @@ begin
   if An.StylesOfStrings<>'' then
     if Pos(','+STokenStyle+',', ','+An.StylesOfStrings+',')>0 then
       exit(cTokenKindString);
+end;
+
+function EditorMicromapColumnFindByTag(Ed: TATSynEdit; const ATag: Int64): integer;
+var
+  i: integer;
+begin
+  for i:= 0 to Length(Ed.OptMicromapColumns)-1 do
+    with Ed.OptMicromapColumns[i] do
+      if NTag=ATag then
+        exit(i);
+  Result:= -1;
 end;
 
 end.

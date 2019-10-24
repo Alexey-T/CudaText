@@ -6584,7 +6584,7 @@ begin
             Result:= PyBool_FromLong(Ord(Ok));
           end;
 
-        EDACTION_MAPCOLUMN_GET:
+        EDACTION_MICROMAPCOL_GET:
           begin
             NX:= Length(Ed.OptMicromapColumns);
             Result:= PyList_New(NX);
@@ -6601,12 +6601,33 @@ begin
                     ));
           end;
 
-        EDACTION_MAPCOLUMN_ADD:
+        EDACTION_MICROMAPCOL_ADD:
           begin
+            NX:= Length(Ed.OptMicromapColumns);
+            SetLength(Ed.OptMicromapColumns, NX+1);
+            with Ed.OptMicromapColumns[NX] do
+            begin
+              NTag:= StrToInt64Def(StrText1, 0);
+              NWidthPercents:= StrToIntDef(StrText2, 100);
+            end;
+            Ed.Update;
+            Result:= ReturnNone;
           end;
 
-        EDACTION_MAPCOLUMN_DELETE:
+        EDACTION_MICROMAPCOL_DELETE:
           begin
+            NX:= EditorMicromapColumnFindByTag(Ed, StrToInt64Def(StrText1, 0));
+            NY:= Length(Ed.OptMicromapColumns);
+            if (NX>0) and (NX<NY) then
+            begin
+              for N1:= NX to NY-2 do
+                Ed.OptMicromapColumns[N1]:= Ed.OptMicromapColumns[N1+1];
+              SetLength(Ed.OptMicromapColumns, NY-1);
+              Ed.Update;
+              Result:= PyBool_FromLong(1);
+            end
+            else
+              Result:= PyBool_FromLong(0);
           end;
 
         else
