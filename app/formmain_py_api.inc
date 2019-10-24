@@ -6584,6 +6584,31 @@ begin
             Result:= PyBool_FromLong(Ord(Ok));
           end;
 
+        EDACTION_MAPCOLUMN_GET:
+          begin
+            NX:= Length(Ed.OptMicromapColumns);
+            Result:= PyList_New(NX);
+            for N1:= 0 to NX-1 do
+              with Ed.OptMicromapColumns[N1] do
+                PyList_SetItem(Result, N1,
+                  Py_BuildValue('{sisisL}',
+                    'size_perc',
+                    NWidthPercents,
+                    'size_px',
+                    NWidthPixels,
+                    'tag',
+                    NTag
+                    ));
+          end;
+
+        EDACTION_MAPCOLUMN_ADD:
+          begin
+          end;
+
+        EDACTION_MAPCOLUMN_DELETE:
+          begin
+          end;
+
         else
           Result:= ReturnNone;
       end;
