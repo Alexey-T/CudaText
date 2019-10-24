@@ -6586,10 +6586,10 @@ begin
 
         EDACTION_MICROMAPCOL_GET:
           begin
-            NX:= Length(Ed.MicromapColumns);
+            NX:= Length(Ed.Micromap.Columns);
             Result:= PyList_New(NX);
             for N1:= 0 to NX-1 do
-              with Ed.MicromapColumns[N1] do
+              with Ed.Micromap.Columns[N1] do
                 PyList_SetItem(Result, N1,
                   Py_BuildValue('{sisisL}',
                     'size_perc',
@@ -6603,16 +6603,20 @@ begin
 
         EDACTION_MICROMAPCOL_ADD:
           begin
-            Ok:= Ed.MicromapAddColumn(
+            Ok:= Ed.Micromap.ColumnAdd(
               StrToInt64Def(StrText1, 0),
               StrToIntDef(StrText2, 100)
               );
+            if Ok then
+              Ed.Update;
             Result:= PyBool_FromLong(Ord(Ok));
           end;
 
         EDACTION_MICROMAPCOL_DELETE:
           begin
-            Ok:= Ed.MicromapDeleteColumn(StrToInt64Def(StrText1, 0));
+            Ok:= Ed.Micromap.ColumnDelete(StrToInt64Def(StrText1, 0));
+            if Ok then
+              Ed.Update;
             Result:= PyBool_FromLong(Ord(Ok));
           end;
 
