@@ -2507,6 +2507,7 @@ var
   end;
 //
 var
+  St: TATStrings;
   NColor: TColor;
   Caret: TATCaretItem;
   State: TATLineState;
@@ -2517,8 +2518,8 @@ var
   Obj: TATLinePartClass;
 begin
   Ed:= Sender as TATSynEdit;
-  if Ed.Strings.Count=0 then exit;
-  //NPixelOffset:= Ed.ScrollVert.NPixelOffset;
+  St:= Ed.Strings;
+  if St.Count=0 then exit;
   NWidthSmall:= EditorScale(EditorOps.OpMicromapWidthSmall);
 
   C.Brush.Color:= GetAppColor('EdMicromapBg');
@@ -2537,9 +2538,9 @@ begin
   NColorSpell:= GetAppColor('EdMicromapSpell');
 
   //paint line states
-  for i:= 0 to Ed.Strings.Count-1 do
+  for i:= 0 to St.Count-1 do
   begin
-    State:= Ed.Strings.LinesState[i];
+    State:= St.LinesState[i];
     case State of
       cLineStateNone: Continue;
       cLineStateAdded: NColor:= Ed.Colors.StateAdded;
