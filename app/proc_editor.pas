@@ -885,6 +885,7 @@ begin
 
   try
     Form.ActiveControl:= C;
+    //gives "cannot focus a disabled or invisible window" on Linux gtk2
   except
   end;
 
