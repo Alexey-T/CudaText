@@ -1351,6 +1351,12 @@ For CudaText Qt4 version, library libQt4Pas is required.
 * For Ubuntu: get deb package from https://packages.ubuntu.com/xenial/libqt4pas-dev (page lists required packages too).
 * For others: [[Qt_Interface#Quick_start_guide_for_Linux]]. You need to download binary from libQt4Pas homepage.
 
+For CudaText Qt5 version, library libQt5Pas is required.
+
+* For Ubuntu:
+
+ $ sudo apt install libqt5pas-dev
+
 ===App cannot run on FreeBSD===
 
 If you run app in Terminal, you'll see an error about missing .so file. Reason of this error: FreeBSD version was compiled on Linux with different .so files. To fix error, run command in Terminal:
