@@ -171,15 +171,15 @@
           </Other>
         </CompilerOptions>
       </Item4>
-      <Item5 Name="linux x64 qt4">
+      <Item5 Name="linux x32 qt5">
         <MacroValues Count="1">
-          <Macro1 Name="LCLWidgetType" Value="qt"/>
+          <Macro4 Name="LCLWidgetType" Value="qt5"/>
         </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\linux-x64-qt\cudatext"/>
+            <Filename Value="builds\linux-x32-qt5\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -196,7 +196,7 @@
             <Checks>
               <RangeChecks Value="True"/>
             </Checks>
-            <TargetCPU Value="x86_64"/>
+            <TargetCPU Value="i386"/>
             <TargetOS Value="linux"/>
             <Optimizations>
               <OptimizationLevel Value="3"/>
@@ -756,10 +756,10 @@
         </CompilerOptions>
       </Item17>
       <SharedMatrixOptions Count="7">
-        <Item1 ID="768150883430" Modes="linux x64 qt4" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt"/>
+        <Item1 ID="768150883430" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt"/>
         <Item2 ID="728289161338" Modes="macos x32 carbon" Type="IDEMacro" MacroName="LCLWidgetType" Value="carbon"/>
         <Item3 ID="308953563203" Modes="macos x64 cocoa" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
-        <Item4 ID="619430612971" Modes="linux x64 qt5" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt5"/>
+        <Item4 ID="619430612971" Modes="linux x64 qt5,linux x32 qt5" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt5"/>
         <Item5 ID="028184365614" Modes="linux x64 gtk3" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk3"/>
         <Item6 ID="263768771023" Type="IDEMacro" MacroName="FULLSPEED" Value="true"/>
         <Item7 ID="199497105583" Modes="linux x64 gtk2,linux x32 gtk2" Type="IDEMacro" MacroName="UseLogger" Value="true"/>
