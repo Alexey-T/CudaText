@@ -1714,6 +1714,8 @@ begin
   begin
     with DoControl_Target(C) do
       Font.Name:= AValue;
+    if C is TATListbox then
+      TATListbox(C).ThemedFont:= false;
     exit;
   end;
 
@@ -1721,6 +1723,8 @@ begin
   begin
     with DoControl_Target(C) do
       Font.Size:= StrToIntDef(AValue, Font.Size);
+    if C is TATListbox then
+      TATListbox(C).ThemedFont:= false;
     exit;
   end;
 
@@ -1728,6 +1732,8 @@ begin
   begin
     with DoControl_Target(C) do
       Font.Color:= StrToIntDef(AValue, Font.Color);
+    if C is TATListbox then
+      TATListbox(C).ThemedFont:= false;
     exit;
   end;
 
