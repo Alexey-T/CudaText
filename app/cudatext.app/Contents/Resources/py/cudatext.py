@@ -1193,10 +1193,6 @@ class Editor:
              border_left=0, border_right=0, border_down=0, border_up=0,
              show_on_map=False
              ):
-        if color_font==COLOR_NONE:
-            color_font = self.get_prop(PROP_COLOR, COLOR_ID_TextFont)
-        if color_border==COLOR_NONE:
-            color_border = self.get_prop(PROP_COLOR, COLOR_ID_TextFont)
         column = 1 if show_on_map==True else -1 if show_on_map==False else show_on_map
         return ct.ed_attr(self.h, id, tag, x, y, len,
                           color_font, color_bg, color_border,
