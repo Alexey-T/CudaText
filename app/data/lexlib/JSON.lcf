@@ -1,4 +1,4 @@
-object SyntAnal11: TLibSyntAnalyzer
+object SyntAnal12: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -106,10 +106,18 @@ object SyntAnal11: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Symbol {}'
+      StyleName = 'Symbol'
+      TokenType = 6
+      Expression = '[\{\}]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Symbol single'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\{\}\[\]\(\)]'
+      Expression = '[\[\]\(\)]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -123,7 +131,7 @@ object SyntAnal11: TLibSyntAnalyzer
     end>
   BlockRules = <
     item
-      DisplayName = 'Keyw'
+      DisplayName = 'keywords'
       StyleName = 'Id keyword'
       BlockType = btTagDetect
       ConditionList = <
@@ -133,18 +141,17 @@ object SyntAnal11: TLibSyntAnalyzer
             'null'
             'true')
           TokenTypes = 4
-          IgnoreCase = True
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
     end
     item
-      DisplayName = '{ with key'
+      DisplayName = 'dict key {'
       ConditionList = <
         item
           TagList.Strings = (
             '{')
-          TokenTypes = 8
+          TokenTypes = 64
         end
         item
           TagList.Strings = (
@@ -152,7 +159,7 @@ object SyntAnal11: TLibSyntAnalyzer
           TokenTypes = 8
         end
         item
-          TokenTypes = 48
+          TokenTypes = 52
         end>
       BlockEnd = '}'
       EndOfTextClose = True
@@ -165,12 +172,38 @@ object SyntAnal11: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = '{ no key'
+      DisplayName = 'dict key ['
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '[')
+          TokenTypes = 8
+        end
+        item
+          TagList.Strings = (
+            ':')
+          TokenTypes = 8
+        end
+        item
+          TokenTypes = 52
+        end>
+      BlockEnd = ']'
+      EndOfTextClose = True
+      NameFmt = '%s0'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      DrawStaple = True
+      CollapseFmt = '%s0: [ ... ]'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '{'
       ConditionList = <
         item
           TagList.Strings = (
             '{')
-          TokenTypes = 8
+          TokenTypes = 64
         end>
       BlockEnd = '}'
       DisplayInTree = False
@@ -186,9 +219,35 @@ object SyntAnal11: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '}')
+          TokenTypes = 64
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '['
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '[')
           TokenTypes = 8
         end>
-      BlockEnd = '{ with key'
+      BlockEnd = ']'
+      DisplayInTree = False
+      HighlightPos = cpAny
+      DrawStaple = True
+      CollapseFmt = '[ ... ]'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = ']'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            ']')
+          TokenTypes = 8
+        end>
       HighlightPos = cpAny
       IgnoreAsParent = False
     end>
@@ -226,7 +285,8 @@ object SyntAnal11: TLibSyntAnalyzer
     'Identifier'
     'Symbol'
     'String'
-    'Number')
+    'Number'
+    'Symbol {}')
   Extentions = 
     'avsc babelrc bowerrc geojson gltf ipynb jscsrc jshintrc jslintrc' +
     ' json jsonl jsonld ldj ldjson schema template topojson webapp'
