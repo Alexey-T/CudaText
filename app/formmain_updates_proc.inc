@@ -560,7 +560,15 @@ begin
 
   TAppMenuProps(mi.Tag).CommandCode:= cmd;
   mi.OnClick:= @MenuMainClick;
-  mi.ShortCut:= AppKeymap.GetShortcutFromCommand(cmd);
+
+  //if Copy/Paste/SelectAll hotkeys set in MainMenu, Qt5 version cannot handle them in Console/Find/Replace
+  if (cmd<>cCommand_ClipboardCopy) and
+    (cmd<>cCommand_ClipboardPaste) and
+    (cmd<>cCommand_ClipboardCut) and
+    (cmd<>cCommand_Undo) and
+    (cmd<>cCommand_Redo) and
+    (cmd<>cCommand_SelectAll) then
+    mi.ShortCut:= AppKeymap.GetShortcutFromCommand(cmd);
 
   //don't set Esc here: for OSX/ Qt, else Esc blocked in Find/ Goto/ closing app
   if mi.Shortcut=AppShortcutEscape then
