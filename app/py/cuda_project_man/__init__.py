@@ -973,7 +973,7 @@ class Command:
     def on_open(self, ed_self):
 
         if not self.project_file_path:
-            self.action_project_for_git(ed_self.get_filename())
+            self.action_project_for_git(ed_self.get_filename('*'))
 
     def action_project_for_git(self, filename):
 
