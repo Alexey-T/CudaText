@@ -12,7 +12,7 @@ method=show_panel
 
 [item1]
 section=events
-events=on_open_pre,on_start
+events=on_open,on_open_pre,on_start
 
 [item2]
 section=commands

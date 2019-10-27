@@ -18,8 +18,10 @@
 + add: plugin Spell Checker keeps font color of highlighted words
 + add: lexer JSON: reworked code tree
 + add: lexer Markdown: minor fixes, adapted for Spell Checker
++ add: Project Manager: "Go to file" command reworked, much faster now on big projects
++ add: Project Manager: feature from Kate editor: on opening a file from Git/SVN repo, project is created and file is focused in that project (if no named project was opened before); added option in the plugin dialog
 - fix: macOS: crash on copying vertical block to clipboard
-- fix: crash with non-English text after showing Command Palette
+- fix: crash with non-ASCII text after showing Command Palette
 
 1.88.3 (2019/10)
 

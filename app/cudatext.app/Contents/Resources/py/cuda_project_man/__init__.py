@@ -2,7 +2,8 @@ import os
 import re
 import collections
 import json
-from .pathlib import Path, PurePosixPath
+import glob
+from pathlib import Path, PurePosixPath
 from .projman_dlg import *
 
 from cudatext import *
@@ -75,10 +76,6 @@ class Command:
         ("Open project..."      , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
         ("Recent projects"      , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
         ("Save project as..."   , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
-        ("-"                    , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
-        ("Go to file..."        , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
-        ("Project properties...", "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
-        ("Config..."            , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
 
         ("Add folder..."        , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
         ("Add file..."          , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
@@ -97,6 +94,10 @@ class Command:
 
         ("-"                    , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
         ("Refresh"              , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("-"                    , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Go to file..."        , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Project properties...", "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Config..."            , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
     )
 
     options = {
@@ -610,7 +611,7 @@ class Command:
             return
 
         items_nice = [os.path.basename(fn)+'\t'+os.path.dirname(fn) for fn in items]
-        res = dlg_menu(MENU_LIST, '\n'.join(items_nice))
+        res = dlg_menu(MENU_LIST, '\n'.join(items_nice), caption='Recent projects')
         if res is None:
             return
 
@@ -753,6 +754,7 @@ class Command:
         return True
 
     def menu_goto(self):
+        '''Show menu-dialog with all files in project, and jump to chosen file'''
         if not self.tree:
             msg_status('Project not opened')
             return
@@ -763,34 +765,36 @@ class Command:
             return
 
         files_nice = [os.path.basename(fn)+'\t'+os.path.dirname(fn) for fn in files]
-        res = dlg_menu(MENU_LIST_ALT, '\n'.join(files_nice))
+        res = dlg_menu(MENU_LIST_ALT, '\n'.join(files_nice), caption='Go to file')
         if res is None:
             return
 
-        self.jump_to_filename(files[res])
+        and_open = self.options.get('goto_open', False)
+        self.jump_to_filename(files[res], and_open)
 
-    def jump_to_filename(self, filename):
-        filename_to_find = filename
+    def jump_to_filename(self, filename, and_open=False):
+        '''Find filename in entire project and focus its tree node'''
+        dir_need = os.path.dirname(filename)
 
         def callback_find(fn, item):
-            if fn==filename_to_find:
+            if fn==filename:
                 tree_proc(self.tree, TREE_ITEM_SELECT, item)
                 tree_proc(self.tree, TREE_ITEM_SHOW, item)
-
-                #this focusing dont help, seems CudaText steals focus later
-                self.focus_panel()
-                #dlg_proc(self.h_dlg, DLG_FOCUS)
-
-                if self.options.get('goto_open', False):
+                if and_open:
                     file_open(fn)
-
                 return False
+
+            # unfold only required tree nodes
+            if os.path.isdir(fn) and (fn+os.sep in dir_need+os.sep):
+                tree_proc(self.tree, TREE_ITEM_UNFOLD, item)
+
             return True
 
         msg_status('Jumping to: '+filename)
         return self.enum_all(callback_find)
 
     def sync_to_ed(self):
+        '''Jump to active editor file, if it's in project'''
         if not self.tree:
             msg_status('Project not loaded')
             return
@@ -922,10 +926,6 @@ class Command:
             msg_status('Project not opened')
             return
 
-        #workaround: unfold all tree, coz tree loading is lazy
-        #todo: dont unfold all, but allow enum_all() to work
-        tree_proc(self.tree, TREE_ITEM_UNFOLD_DEEP, 0)
-
         fn = self.project.get('mainfile', '')
         if not fn:
             msg_status('Project main file is not set')
@@ -940,19 +940,18 @@ class Command:
             msg_status('Project main file is not set')
 
     def enum_all_files(self):
-        #workaround: unfold all tree, coz tree loading is lazy
-        #todo: dont unfold all, but allow enum_all() to work
-        tree_proc(self.tree, TREE_ITEM_UNFOLD_DEEP, 0)
-
         files = []
-        def callback_collect(fn, item):
-            if os.path.isfile(fn):
-                files.append(fn)
-            return True
 
-        self.enum_all(callback_collect)
+        for root in self.project['nodes']:
+            if os.path.isdir(root):
+                f = glob.glob(os.path.join(root, '**', '*'), recursive=True)
+                f = [fn for fn in f if os.path.isfile(fn)]
+                files.extend(f)
+            else:
+                files.append(root)
+
         return files
-        
+
     def open_all(self):
         if not self.tree:
             msg_status('Project not opened')
@@ -970,3 +969,29 @@ class Command:
             file_open(fn, options="/nontext-cancel")
             if i%10==0:
                 app_idle(False)
+
+    def on_open(self, ed_self):
+
+        if self.options.get('check_git', True):
+            if not self.project_file_path:
+                self.action_project_for_git(ed_self.get_filename('*'))
+
+    def action_project_for_git(self, filename):
+
+        dir = os.path.dirname(filename)
+        while True:
+            fn = os.path.join(dir, '.git')
+            fn2 = os.path.join(dir, '.svn')
+            if os.path.isdir(fn) or os.path.isdir(fn2):
+                self.init_panel()
+                self.new_project()
+                self.add_node(lambda: dir)
+                self.jump_to_filename(filename)
+                return
+
+            d = os.path.dirname(dir)
+            if d=='/':
+                return
+            if d==dir:
+                return
+            dir = d

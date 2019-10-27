@@ -32,9 +32,10 @@ def dialog_config(op):
     RES_GOTO_OPEN = 6
     RES_PREVIEW = 7
     RES_D_CLICK = 8
-    RES_ICONS = 10
-    RES_ICONS_TB = 12
-    RES_OK = 14
+    RES_CHECK_GIT = 9
+    RES_ICONS = 11
+    RES_ICONS_TB = 13
+    RES_OK = 15
 
     themes = get_themes_filetype()
     try:
@@ -68,25 +69,27 @@ def dialog_config(op):
             'val='+bool_to_str(op.get('preview', True)) ])]
         +[c1.join(['type=check', 'pos=6,288,400,0', 'cap=Open files by &double-click',
             'val='+bool_to_str(op.get('d_click', False)) ])]
+        +[c1.join(['type=check', 'pos=6,314,400,0', 'cap=On opening file in Git/SVN repo, create project from repo',
+            'val='+bool_to_str(op.get('check_git', True)) ])]
 
-        +[c1.join(['type=label', 'pos=6,330,130,0', 'cap=File type icons:'])]
-        +[c1.join(['type=combo_ro', 'pos=160,325,400,0',
+        +[c1.join(['type=label', 'pos=6,360,130,0', 'cap=File type icons:'])]
+        +[c1.join(['type=combo_ro', 'pos=160,355,400,0',
             'items='+'\t'.join(themes),
             'val='+str(theme_index)
             ])]
 
-        +[c1.join(['type=label', 'pos=6,360,130,0', 'cap=Toolbar icons:'])]
-        +[c1.join(['type=combo_ro', 'pos=160,355,400,0',
+        +[c1.join(['type=label', 'pos=6,390,130,0', 'cap=Toolbar icons:'])]
+        +[c1.join(['type=combo_ro', 'pos=160,385,400,0',
             'items='+'\t'.join(themes_tb),
             'val='+str(theme_index_tb)
             ])]
 
-        +[c1.join(['type=label', 'pos=6,386,600,0', 'cap=For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"'])]
-        +[c1.join(['type=button', 'pos=300,410,400,0', 'cap=&OK', 'props=1'])]
-        +[c1.join(['type=button', 'pos=406,410,502,0', 'cap=Cancel'])]
+        +[c1.join(['type=label', 'pos=6,416,600,0', 'cap=For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"'])]
+        +[c1.join(['type=button', 'pos=300,440,400,0', 'cap=&OK', 'props=1'])]
+        +[c1.join(['type=button', 'pos=406,440,502,0', 'cap=Cancel'])]
     )
 
-    res = dlg_custom('Project Manager options', 508, 444, text, get_dict=True)
+    res = dlg_custom('Project Manager options', 508, 474, text, get_dict=True)
     if res is None:
         return
 
@@ -106,6 +109,7 @@ def dialog_config(op):
     op['goto_open'] = str_to_bool(res[RES_GOTO_OPEN])
     op['preview'] = str_to_bool(res[RES_PREVIEW])
     op['d_click'] = str_to_bool(res[RES_D_CLICK])
+    op['check_git'] = str_to_bool(res[RES_CHECK_GIT])
 
     index = int(res[RES_ICONS])
     if index>=0:
