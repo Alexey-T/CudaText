@@ -60,6 +60,7 @@ class Command:
         self.show_wait()
         fn = os.path.join(tempfile.gettempdir(), 'cuda_multi_installer_db.py')
         cuda_addonman.work_remote.get_url(URL_DB, fn, True)
+        self.hide_wait()
 
         if not os.path.exists(fn):
             self.packets = []
@@ -71,8 +72,6 @@ class Command:
 
         self.packets = cuda_addonman.work_remote.get_remote_addons_list(cuda_addonman.opt.ch_def+cuda_addonman.opt.ch_user)
         self.installed_list = cuda_addonman.work_local.get_installed_modules()
-
-        self.hide_wait()
 
     def get_module(self,kind,name):
 
