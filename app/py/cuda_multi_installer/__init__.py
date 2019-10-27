@@ -29,8 +29,35 @@ def make_plugin_group(regex, name):
 
 class Command:
 
+    def show_wait(self):
+
+        self.h_wait = dlg_proc(0, DLG_CREATE)
+        dlg_proc(self.h_wait, DLG_PROP_SET, prop={
+            'cap':'CudaText Multi Installer',
+            'w': 360,
+            'h': 410,
+            })
+
+        n = dlg_proc(self.h_wait, DLG_CTL_ADD, prop='label')
+        dlg_proc(self.h_wait, DLG_CTL_PROP_SET, index=n, prop={
+            'x': 100,
+            'y': 190,
+            'w': 300,
+            'cap': 'Downloading data...',
+        })
+
+        dlg_proc(self.h_wait, DLG_SHOW_NONMODAL)
+        app_idle(True)
+
+    def hide_wait(self):
+
+        dlg_proc(self.h_wait, DLG_HIDE)
+        dlg_proc(self.h_wait, DLG_FREE)
+        self.h_wait = None
+
     def load_repo(self):
 
+        self.show_wait()
         fn = os.path.join(tempfile.gettempdir(), 'cuda_multi_installer_db.py')
         cuda_addonman.work_remote.get_url(URL_DB, fn, True)
 
@@ -44,6 +71,8 @@ class Command:
 
         self.packets = cuda_addonman.work_remote.get_remote_addons_list(cuda_addonman.opt.ch_def+cuda_addonman.opt.ch_user)
         self.installed_list = cuda_addonman.work_local.get_installed_modules()
+
+        self.hide_wait()
 
     def get_module(self,kind,name):
 
@@ -126,7 +155,7 @@ class Command:
 
         RES_LIST = 2
         RES_NEXT = 4
-        
+
         res = dlg_custom('CudaText Multi Installer', 360, 410, '\n'.join([
             '\1'.join(['type=label','pos=5,5,350,0','cap=Select groups of add-ons needed for you.']),
             '\1'.join(['type=label','pos=5,25,350,0','cap=Next steps will suggest group items.']),
@@ -148,10 +177,10 @@ class Command:
         #    make_plugin_group('CSS.+', 'Web')
         #    make_plugin_group('JS.+', 'Web')
         #    make_plugin_group('PHP.+', 'Web')
-        #    
+        #
         #if res[RES_GR_PY]=='1':
         #    make_plugin_group('Python.+', 'Python')
-        #    
+        #
         #if res[RES_GR_XML]=='1':
         #    make_plugin_group('XML.+', 'XML')
 
