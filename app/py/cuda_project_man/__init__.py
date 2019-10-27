@@ -767,9 +767,10 @@ class Command:
         if res is None:
             return
 
-        self.jump_to_filename(files[res])
+        and_open = self.options.get('goto_open', False)
+        self.jump_to_filename(files[res], and_open)
 
-    def jump_to_filename(self, filename):
+    def jump_to_filename(self, filename, and_open=False):
         filename_to_find = filename
 
         def callback_find(fn, item):
@@ -777,11 +778,7 @@ class Command:
                 tree_proc(self.tree, TREE_ITEM_SELECT, item)
                 tree_proc(self.tree, TREE_ITEM_SHOW, item)
 
-                #this focusing dont help, seems CudaText steals focus later
-                self.focus_panel()
-                #dlg_proc(self.h_dlg, DLG_FOCUS)
-
-                if self.options.get('goto_open', False):
+                if and_open:
                     file_open(fn)
 
                 return False
@@ -952,7 +949,7 @@ class Command:
 
         self.enum_all(callback_collect)
         return files
-        
+
     def open_all(self):
         if not self.tree:
             msg_status('Project not opened')
@@ -970,3 +967,28 @@ class Command:
             file_open(fn, options="/nontext-cancel")
             if i%10==0:
                 app_idle(False)
+
+    def on_open(self, ed_self):
+
+        if not self.project_file_path:
+            self.action_project_for_git(ed_self.get_filename())
+
+    def action_project_for_git(self, filename):
+
+        dir = os.path.dirname(filename)
+        while True:
+            fn = os.path.join(dir, '.git')
+            if os.path.isdir(fn):
+                self.init_panel()
+                self.new_project() # this slows down if many files will add many proj dirs
+                self.add_node(lambda: dir)
+                self.action_refresh()
+                self.jump_to_filename(filename)
+                return
+
+            d = os.path.dirname(dir)
+            if d=='/':
+                return
+            if d==dir:
+                return
+            dir = d
