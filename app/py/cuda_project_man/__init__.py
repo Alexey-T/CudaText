@@ -768,8 +768,6 @@ class Command:
         if res is None:
             return
 
-        tree_proc(self.tree, TREE_ITEM_UNFOLD_DEEP, 0) # required for jump, but slow
-
         and_open = self.options.get('goto_open', False)
         self.jump_to_filename(files[res], and_open)
 
@@ -788,6 +786,7 @@ class Command:
             return True
 
         msg_status('Jumping to: '+filename)
+        tree_proc(self.tree, TREE_ITEM_UNFOLD_DEEP, 0)
         return self.enum_all(callback_find)
 
     def sync_to_ed(self):
@@ -922,10 +921,6 @@ class Command:
             msg_status('Project not opened')
             return
 
-        #workaround: unfold all tree, coz tree loading is lazy
-        #todo: dont unfold all, but allow enum_all() to work
-        tree_proc(self.tree, TREE_ITEM_UNFOLD_DEEP, 0)
-
         fn = self.project.get('mainfile', '')
         if not fn:
             msg_status('Project main file is not set')
@@ -984,11 +979,7 @@ class Command:
                 self.init_panel()
                 self.new_project()
                 self.add_node(lambda: dir)
-
-                ### this is very slow on big Git repos, to-fix
-                #tree_proc(self.tree, TREE_ITEM_UNFOLD_DEEP, 0)
-                #self.jump_to_filename(filename)
-
+                self.jump_to_filename(filename)
                 return
 
             d = os.path.dirname(dir)
