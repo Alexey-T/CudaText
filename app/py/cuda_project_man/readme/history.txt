@@ -3,6 +3,7 @@
 + make super-fast Go To command, not unfolding the entire project
 + make super-fast listing of all files in project
 + delete pathlib.py
+* move items in context menu
 
 2018.03.06
 + option in Config dialog "Toolbar icons"
@@ -96,9 +97,9 @@
 + option dialog reworked
 
 2016.07.18
-+ allow to open prj from Open dlg
-+ more menuitems in Plugins
-+ filter in Open/Save dlg
++ allow to open project from Open dialog
++ more menu items in Plugins
++ filter in Open/Save dialog
 
 2016.07.14
 init version
