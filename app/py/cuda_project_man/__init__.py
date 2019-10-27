@@ -980,10 +980,13 @@ class Command:
             fn = os.path.join(dir, '.git')
             if os.path.isdir(fn):
                 self.init_panel()
-                self.new_project() # this slows down if many files will add many proj dirs
+                self.new_project()
                 self.add_node(lambda: dir)
-                tree_proc(self.tree, TREE_ITEM_UNFOLD_DEEP, 0)
-                self.jump_to_filename(filename)
+
+                ### this is very slow on big Git repos, to-fix
+                #tree_proc(self.tree, TREE_ITEM_UNFOLD_DEEP, 0)
+                #self.jump_to_filename(filename)
+
                 return
 
             d = os.path.dirname(dir)
