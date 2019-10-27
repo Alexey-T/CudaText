@@ -2,6 +2,7 @@ import os
 import re
 import collections
 import json
+import glob
 from pathlib import Path, PurePosixPath
 from .projman_dlg import *
 
@@ -937,17 +938,15 @@ class Command:
             msg_status('Project main file is not set')
 
     def enum_all_files(self):
-        #workaround: unfold all tree, coz tree loading is lazy
-        #todo: dont unfold all, but allow enum_all() to work
-        tree_proc(self.tree, TREE_ITEM_UNFOLD_DEEP, 0)
-
         files = []
-        def callback_collect(fn, item):
-            if os.path.isfile(fn):
-                files.append(fn)
-            return True
 
-        self.enum_all(callback_collect)
+        for root in self.project['nodes']:
+            if os.path.isdir(root):
+                f = glob.glob(os.path.join(root, '**', '*'), recursive=True)
+                files.extend(f)
+            else:
+                files.append(root)
+
         return files
 
     def open_all(self):
