@@ -2,7 +2,7 @@ import os
 import re
 import collections
 import json
-from .pathlib import Path, PurePosixPath
+from pathlib import Path, PurePosixPath
 from .projman_dlg import *
 
 from cudatext import *
@@ -982,7 +982,7 @@ class Command:
                 self.init_panel()
                 self.new_project() # this slows down if many files will add many proj dirs
                 self.add_node(lambda: dir)
-                self.action_refresh()
+                tree_proc(self.tree, TREE_ITEM_UNFOLD_DEEP, 0)
                 self.jump_to_filename(filename)
                 return
 

@@ -12,7 +12,8 @@ method=show_panel
 
 [item1]
 section=events
-events=on_open,on_open_pre,on_start
+events=on_open_pre,on_start
+;on_open is disabled: it gives slowdown on opening file from Git repo, enum_all is SLOW
 
 [item2]
 section=commands
