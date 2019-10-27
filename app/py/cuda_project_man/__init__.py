@@ -972,15 +972,17 @@ class Command:
 
     def on_open(self, ed_self):
 
-        if not self.project_file_path:
-            self.action_project_for_git(ed_self.get_filename('*'))
+        if self.options.get('check_git', True):
+            if not self.project_file_path:
+                self.action_project_for_git(ed_self.get_filename('*'))
 
     def action_project_for_git(self, filename):
 
         dir = os.path.dirname(filename)
         while True:
             fn = os.path.join(dir, '.git')
-            if os.path.isdir(fn):
+            fn2 = os.path.join(dir, '.svn')
+            if os.path.isdir(fn) or os.path.isdir(fn2):
                 self.init_panel()
                 self.new_project()
                 self.add_node(lambda: dir)
