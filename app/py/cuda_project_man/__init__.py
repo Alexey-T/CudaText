@@ -754,6 +754,7 @@ class Command:
         return True
 
     def menu_goto(self):
+        '''Show menu-dialog with all files in project, and jump to chosen file'''
         if not self.tree:
             msg_status('Project not opened')
             return
@@ -772,24 +773,28 @@ class Command:
         self.jump_to_filename(files[res], and_open)
 
     def jump_to_filename(self, filename, and_open=False):
-        filename_to_find = filename
+        '''Find filename in entire project and focus its tree node'''
+        dir_need = os.path.dirname(filename)
 
         def callback_find(fn, item):
-            if fn==filename_to_find:
+            if fn==filename:
                 tree_proc(self.tree, TREE_ITEM_SELECT, item)
                 tree_proc(self.tree, TREE_ITEM_SHOW, item)
-
                 if and_open:
                     file_open(fn)
-
                 return False
+
+            # unfold only required tree nodes
+            if os.path.isdir(fn) and (fn+os.sep in dir_need+os.sep):
+                tree_proc(self.tree, TREE_ITEM_UNFOLD, item)
+
             return True
 
         msg_status('Jumping to: '+filename)
-        tree_proc(self.tree, TREE_ITEM_UNFOLD_DEEP, 0)
         return self.enum_all(callback_find)
 
     def sync_to_ed(self):
+        '''Jump to active editor file, if it's in project'''
         if not self.tree:
             msg_status('Project not loaded')
             return
