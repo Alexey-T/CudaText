@@ -1,5 +1,6 @@
 
 2019.10.27
++ feature of Kate editor: on opening a file from Git repo, new project is created and target file is focused in the project
 + make super-fast Go To command, not unfolding the entire project
 + make super-fast listing of all files in project
 + delete pathlib.py

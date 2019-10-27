@@ -19,6 +19,7 @@
 + add: lexer JSON: reworked code tree
 + add: lexer Markdown: minor fixes, adapted for Spell Checker
 + add: Project Manager: "Go to file" command reworked, much faster now on big projects
++ add: Project Manager: feature from Kate editor: if a file from Git repo is opened, empty project is created and file is focused in the project (if no named project was opened)
 - fix: macOS: crash on copying vertical block to clipboard
 - fix: crash with non-English text after showing Command Palette
 
