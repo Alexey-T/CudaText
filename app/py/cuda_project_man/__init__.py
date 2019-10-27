@@ -943,6 +943,7 @@ class Command:
         for root in self.project['nodes']:
             if os.path.isdir(root):
                 f = glob.glob(os.path.join(root, '**', '*'), recursive=True)
+                f = [fn for fn in f if os.path.isfile(fn)]
                 files.extend(f)
             else:
                 files.append(root)
