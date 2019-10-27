@@ -76,10 +76,6 @@ class Command:
         ("Open project..."      , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
         ("Recent projects"      , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
         ("Save project as..."   , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
-        ("-"                    , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
-        ("Go to file..."        , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
-        ("Project properties...", "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
-        ("Config..."            , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
 
         ("Add folder..."        , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
         ("Add file..."          , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
@@ -98,6 +94,10 @@ class Command:
 
         ("-"                    , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
         ("Refresh"              , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("-"                    , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Go to file..."        , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Project properties...", "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Config..."            , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
     )
 
     options = {
@@ -767,6 +767,8 @@ class Command:
         res = dlg_menu(MENU_LIST_ALT, '\n'.join(files_nice))
         if res is None:
             return
+
+        tree_proc(self.tree, TREE_ITEM_UNFOLD_DEEP, 0) # required for jump, but slow
 
         and_open = self.options.get('goto_open', False)
         self.jump_to_filename(files[res], and_open)
