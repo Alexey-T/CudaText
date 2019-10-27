@@ -611,7 +611,7 @@ class Command:
             return
 
         items_nice = [os.path.basename(fn)+'\t'+os.path.dirname(fn) for fn in items]
-        res = dlg_menu(MENU_LIST, '\n'.join(items_nice))
+        res = dlg_menu(MENU_LIST, '\n'.join(items_nice), caption='Recent projects')
         if res is None:
             return
 
@@ -764,7 +764,7 @@ class Command:
             return
 
         files_nice = [os.path.basename(fn)+'\t'+os.path.dirname(fn) for fn in files]
-        res = dlg_menu(MENU_LIST_ALT, '\n'.join(files_nice))
+        res = dlg_menu(MENU_LIST_ALT, '\n'.join(files_nice), caption='Go to file')
         if res is None:
             return
 
