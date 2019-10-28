@@ -3662,11 +3662,11 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.get_token: add TOKEN_GET_KIND
 * add: Editor.action: add EDACTION_FIND_BRACKET
 
-1.0.309 (app 1.88.7)
+1.0.310 (app 1.88.7)
 * add: Editor.attr: param "show_on_map" can be int
+* add: Editor.attr: added param "map_only"
 * add: Editor.action: EDACTION_MICROMAPCOL_GET
 * add: Editor.action: EDACTION_MICROMAPCOL_ADD
 * add: Editor.action: EDACTION_MICROMAPCOL_DELETE
-* add: Editor.attr: parameter "map_only"
 
 [[Category:CudaText]]
