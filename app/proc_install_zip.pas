@@ -224,12 +224,11 @@ var
   ini: TIniFile;
   sections: TStringList;
   section, STitle, SLexer,
-  DirFrom, DirLexers, DirSettings: string;
+  DirFrom, DirSettings: string;
   fn_lexer, fn_json: string;
 begin
   AReport:= '';
   DirFrom:= ExtractFileDir(AFilenameInf);
-  DirLexers:= GetAppPath(cDirDataLexersLite);
   DirSettings:= AppDir_SettingsDefault;
 
   ini:= TIniFile.Create(AFilenameInf);
@@ -251,7 +250,7 @@ begin
 
       if FileExists(fn_lexer) then
       begin
-        CopyFile(fn_lexer, DirLexers+DirectorySeparator+ExtractFileName(fn_lexer));
+        CopyFile(fn_lexer, AppDir_LexersLite+DirectorySeparator+ExtractFileName(fn_lexer));
         AReport:= AReport+msgStatusPackageLexer+' '+SLexer+#10;
       end;
 
@@ -362,7 +361,7 @@ var
   DirLexers, DirSettings: string;
 begin
   AReport:= '';
-  DirLexers:= GetAppPath(cDirDataLexers);
+  DirLexers:= AppDir_Lexers;
   DirSettings:= AppDir_SettingsDefault;
 
   ini_file:= TIniFile.Create(AFilenameInf);
@@ -639,12 +638,12 @@ begin
     cAddonTypeLexer:
       begin
         DoInstallLexer(fn_inf, ADirAcp, AStrReport);
-        ADirTarget:= GetAppPath(cDirDataLexers);
+        ADirTarget:= AppDir_Lexers;
       end;
     cAddonTypeLexerLite:
       begin
         DoInstallLexerLite(fn_inf, AStrReport);
-        ADirTarget:= GetAppPath(cDirDataLexersLite);
+        ADirTarget:= AppDir_LexersLite;
       end;
     cAddonTypePlugin:
       begin

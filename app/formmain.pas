@@ -3958,11 +3958,11 @@ begin
     AppManagerLite.Clear;
 
     //load lite lexers
-    DirLexers:= GetAppPath(cDirDataLexersLite);
+    DirLexers:= AppDir_LexersLite;
     AppManagerLite.LoadFromDir(DirLexers);
 
     //load EControl lexers
-    DirLexers:= GetAppPath(cDirDataLexers);
+    DirLexers:= AppDir_Lexers;
     FindAllFiles(ListFiles, DirLexers, '*.lcf', false);
     ListFiles.Sort;
 

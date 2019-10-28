@@ -110,8 +110,6 @@ const
 
 type
   TAppPathId = (
-    cDirDataLexers,
-    cDirDataLexersLite,
     cDirDataNewdoc,
     cDirDataThemes,
     cDirDataAutocomplete,
@@ -510,6 +508,8 @@ var
   AppDir_SettingsDefault: string;
   AppDir_Py: string;
   AppDir_Data: string;
+  AppDir_Lexers: string;
+  AppDir_LexersLite: string;
 
 function GetAppPath(id: TAppPathId): string;
 function GetAppLangFilename: string;
@@ -906,14 +906,6 @@ end;
 function GetAppPath(id: TAppPathId): string;
 begin
   case id of
-    cDirDataLexers:
-      begin
-        Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'lexlib';
-      end;
-    cDirDataLexersLite:
-      begin
-        Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'lexliblite';
-      end;
     cDirDataNewdoc:
       begin
         Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'newdoc';
@@ -1058,6 +1050,8 @@ begin
   AppDir_SettingsDefault:= OpDirLocal+DirectorySeparator+'settings_default';
   AppDir_Py:= OpDirLocal+DirectorySeparator+'py';
   AppDir_Data:= OpDirLocal+DirectorySeparator+'data';
+  AppDir_Lexers:= AppDir_Data+DirectorySeparator+'lexlib';
+  AppDir_LexersLite:= AppDir_Data+DirectorySeparator+'lexliblite';
 end;
 
 procedure InitEditorOps(var Op: TEditorOps);
@@ -1792,7 +1786,7 @@ end;
 function GetLexerFilenameWithExt(ALexName, AExt: string): string;
 begin
   if ALexName<>'' then
-    Result:= GetAppPath(cDirDataLexers)+DirectorySeparator+EscapeLexerFilename(ALexName)+AExt
+    Result:= AppDir_Lexers+DirectorySeparator+EscapeLexerFilename(ALexName)+AExt
   else
     Result:= '';
 end;
