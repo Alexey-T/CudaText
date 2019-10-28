@@ -110,7 +110,6 @@ const
 
 type
   TAppPathId = (
-    cDirSettingsDefault,
     cDirPy,
     cDirData,
     cDirDataLexers,
@@ -510,6 +509,7 @@ var
 
 var
   AppDir_Settings: string;
+  AppDir_SettingsDefault: string;
 
 function GetAppPath(id: TAppPathId): string;
 function GetAppLangFilename: string;
@@ -906,10 +906,6 @@ end;
 function GetAppPath(id: TAppPathId): string;
 begin
   case id of
-    cDirSettingsDefault:
-      begin
-        Result:= OpDirLocal+DirectorySeparator+'settings_default';
-      end;
     cDirPy:
       begin
         Result:= OpDirLocal+DirectorySeparator+'py';
@@ -970,7 +966,7 @@ begin
       end;
     cFileOptionsDefault:
       begin
-        Result:= GetAppPath(cDirSettingsDefault)+DirectorySeparator+'default.json';
+        Result:= AppDir_SettingsDefault+DirectorySeparator+'default.json';
       end;
     cFileOptionsHistory:
       begin
@@ -1068,6 +1064,7 @@ begin
 
   AppDir_Settings:= OpDirLocal+DirectorySeparator+'settings';
   CreateDirUTF8(AppDir_Settings);
+  AppDir_SettingsDefault:= OpDirLocal+DirectorySeparator+'settings_default';
 end;
 
 procedure InitEditorOps(var Op: TEditorOps);
@@ -1463,7 +1460,7 @@ begin
   SReplaceSpecialFilenameChars(ALexer);
 
   if ADefaultConfig then
-    dir:= GetAppPath(cDirSettingsDefault)
+    dir:= AppDir_SettingsDefault
   else
     dir:= AppDir_Settings;
 

@@ -232,7 +232,7 @@ begin
   AReport:= '';
   DirFrom:= ExtractFileDir(AFilenameInf);
   DirLexers:= GetAppPath(cDirDataLexersLite);
-  DirSettings:= GetAppPath(cDirSettingsDefault);
+  DirSettings:= AppDir_SettingsDefault;
 
   ini:= TIniFile.Create(AFilenameInf);
   sections:= TStringList.Create;
@@ -365,7 +365,7 @@ var
 begin
   AReport:= '';
   DirLexers:= GetAppPath(cDirDataLexers);
-  DirSettings:= GetAppPath(cDirSettingsDefault);
+  DirSettings:= AppDir_SettingsDefault;
 
   ini_file:= TIniFile.Create(AFilenameInf);
   sections:= TStringList.Create;
