@@ -2624,9 +2624,9 @@ begin
   try
     try
       c.Formatted:= true;
-      c.Filename:= GetAppPath(cFileOptionsHistoryFiles);
+      c.Filename:= AppFile_HistoryFiles;
     except
-      MsgBadConfig(GetAppPath(cFileOptionsHistoryFiles));
+      MsgBadConfig(AppFile_HistoryFiles);
       exit
     end;
 
@@ -2757,9 +2757,9 @@ begin
   try
     try
       c.Formatted:= true;
-      c.Filename:= GetAppPath(cFileOptionsHistoryFiles);
+      c.Filename:= AppFile_HistoryFiles;
     except
-      MsgBadConfig(GetAppPath(cFileOptionsHistoryFiles));
+      MsgBadConfig(AppFile_HistoryFiles);
       exit
     end;
 

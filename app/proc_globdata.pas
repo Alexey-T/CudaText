@@ -108,11 +108,6 @@ const
     ;
 
 type
-  TAppPathId = (
-    cFileOptionsHistoryFiles
-    );
-
-type
   TUiOps = record
     VarFontName: string;
     VarFontSize: integer;
@@ -507,9 +502,9 @@ var
   AppFile_OptionsDefault: string;
   AppFile_OptionsUser: string;
   AppFile_History: string;
+  AppFile_HistoryFiles: string;
   AppFile_Hotkeys: string;
 
-function GetAppPath(id: TAppPathId): string;
 function GetAppLangFilename: string;
 function GetAppUndoFilename(const fn: string; IsRedo: boolean): string;
 
@@ -901,16 +896,6 @@ begin
     {$endif}
 end;
 
-function GetAppPath(id: TAppPathId): string;
-begin
-  case id of
-    cFileOptionsHistoryFiles:
-      begin
-        Result:= AppDir_Settings+DirectorySeparator+'history files.json';
-      end;
-  end;
-end;
-
 //from https://github.com/graemeg/freepascal/blob/master/rtl/unix/sysutils.pp
 function _GetHomeDir: String;
 begin
@@ -1004,6 +989,7 @@ begin
   AppFile_OptionsDefault:= AppDir_SettingsDefault+DirectorySeparator+'default.json';
   AppFile_OptionsUser:= AppDir_Settings+DirectorySeparator+'user.json';
   AppFile_History:= AppDir_Settings+DirectorySeparator+'history.json';
+  AppFile_HistoryFiles:= AppDir_Settings+DirectorySeparator+'history files.json';
   AppFile_Hotkeys:= AppDir_Settings+DirectorySeparator+'keys.json';
 end;
 

@@ -2495,7 +2495,7 @@ begin
   FListRecents.Clear;
   UpdateMenuRecent(nil, '');
   //
-  DeleteFileUTF8(GetAppPath(cFileOptionsHistoryFiles));
+  DeleteFileUTF8(AppFile_HistoryFiles);
 end;
 
 function TfmMain.DoFileInstallZip(const fn: string; out DirTarget: string;
