@@ -962,16 +962,16 @@ var
   Id, X, Y, NTag, NLen, i: integer;
   NColorFont, NColorBg, NColorBorder: integer;
   NBorderL, NBorderR, NBorderD, NBorderU: integer;
-  NFontBold, NFontItalic, NFontStrike, NColumn: integer;
+  NFontBold, NFontItalic, NFontStrike, NColumn, NMapOnly: integer;
   Obj: TATLinePartClass;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Liiiiiiiiiiiiiiii:attr',
+    if Bool(PyArg_ParseTuple(Args, 'Liiiiiiiiiiiiiiiii:attr',
       @H, @Id, @NTag, @X, @Y, @NLen,
       @NColorFont, @NColorBg, @NColorBorder,
       @NFontBold, @NFontItalic, @NFontStrike,
       @NBorderL, @NBorderR, @NBorderD, @NBorderU,
-      @NColumn
+      @NColumn, @NMapOnly
       )) then
     begin
       Ed:= PyEditor(H);
@@ -1028,7 +1028,7 @@ begin
             Obj.ColumnTag:= NColumn;
 
             //Ed.InvalidateHilitingCache;
-            Ed.Attribs.Add(X, Y, NTag, NLen, 0, Obj);
+            Ed.Attribs.Add(X, Y, NTag, NLen, 0, Obj, 0, Bool(NMapOnly));
             Ed.Update;
             Result:= PyInt_FromLong(Ed.Attribs.Count);
           end;

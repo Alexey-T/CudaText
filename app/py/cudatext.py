@@ -1191,14 +1191,14 @@ class Editor:
              color_font=COLOR_NONE, color_bg=COLOR_NONE, color_border=COLOR_NONE,
              font_bold=0, font_italic=0, font_strikeout=0,
              border_left=0, border_right=0, border_down=0, border_up=0,
-             show_on_map=False
+             show_on_map=False, map_only=False
              ):
         column = 1 if show_on_map==True else -1 if show_on_map==False else show_on_map
         return ct.ed_attr(self.h, id, tag, x, y, len,
                           color_font, color_bg, color_border,
                           font_bold, font_italic, font_strikeout,
                           border_left, border_right, border_down, border_up,
-                          column
+                          column, map_only
                           )
 
     def dim(self, id, index=0, index2=0, value=100):
