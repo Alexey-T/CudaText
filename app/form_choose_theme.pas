@@ -193,7 +193,7 @@ var
 begin
   c:= TJSONConfig.Create(nil);
   try
-    c.FileName:= GetAppPath(cFileOptionsUser);
+    c.FileName:= AppFile_OptionsUser;
     Result:= c.GetValue('/ui_lexer_themes', true);
   finally
     c.Free;
@@ -220,7 +220,7 @@ begin
   c:= TJSONConfig.Create(nil);
   try
     c.Formatted:= true;
-    c.FileName:= GetAppPath(cFileOptionsUser);
+    c.FileName:= AppFile_OptionsUser;
     c.SetDeleteValue('/ui_lexer_themes', AValue, true);
   finally
     c.Free;

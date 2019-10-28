@@ -110,8 +110,6 @@ const
 type
   TAppPathId = (
     cFileOptionsHistory,
-    cFileOptionsDefault,
-    cFileOptionsUser,
     cFileOptionsKeymap,
     cFileOptionsHistoryFiles
     );
@@ -508,6 +506,8 @@ var
   AppDir_DataToolbarIcons: string;
   AppDir_Readme: string;
   AppDir_LastInstalledAddon: string = '';
+  AppFile_OptionsDefault: string;
+  AppFile_OptionsUser: string;
 
 function GetAppPath(id: TAppPathId): string;
 function GetAppLangFilename: string;
@@ -904,17 +904,9 @@ end;
 function GetAppPath(id: TAppPathId): string;
 begin
   case id of
-    cFileOptionsDefault:
-      begin
-        Result:= AppDir_SettingsDefault+DirectorySeparator+'default.json';
-      end;
     cFileOptionsHistory:
       begin
         Result:= AppDir_Settings+DirectorySeparator+'history.json';
-      end;
-    cFileOptionsUser:
-      begin
-        Result:= AppDir_Settings+DirectorySeparator+'user.json';
       end;
     cFileOptionsKeymap:
       begin
@@ -1017,6 +1009,8 @@ begin
   AppDir_DataCodetreeIcons:= AppDir_Data+DirectorySeparator+'codetreeicons';
   AppDir_DataToolbarIcons:= AppDir_Data+DirectorySeparator+'toolbaricons';
   AppDir_Readme:= OpDirLocal+DirectorySeparator+'readme';
+  AppFile_OptionsDefault:= AppDir_SettingsDefault+DirectorySeparator+'default.json';
+  AppFile_OptionsUser:= AppDir_Settings+DirectorySeparator+'user.json';
 end;
 
 procedure InitEditorOps(var Op: TEditorOps);

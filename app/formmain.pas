@@ -2028,7 +2028,7 @@ procedure TfmMain.DoOps_OnCreate;
 begin
   //must load window position in OnCreate to fix flickering with maximized window, Win10
   DoOps_LoadCommandLineOptions;
-  DoOps_LoadOptions(GetAppPath(cFileOptionsUser), EditorOps); //before LoadHistory
+  DoOps_LoadOptions(AppFile_OptionsUser, EditorOps); //before LoadHistory
   DoOps_LoadLexerLib; //before LoadHistory
   DoFileOpen('', ''); //before LoadHistory
 
@@ -4781,11 +4781,9 @@ end;
 
 procedure TfmMain.DoOps_OpenFile_Default;
 var
-  fn: string;
   F: TEditorFrame;
 begin
-  fn:= GetAppPath(cFileOptionsDefault);
-  F:= DoFileOpen(fn, '');
+  F:= DoFileOpen(AppFile_OptionsDefault, '');
   if Assigned(F) then
     F.ReadOnly[F.Ed1]:= true;
 end;
@@ -4794,7 +4792,7 @@ procedure TfmMain.DoOps_OpenFile_User;
 var
   fn: string;
 begin
-  fn:= GetAppPath(cFileOptionsUser);
+  fn:= AppFile_OptionsUser;
   if not FileExistsUTF8(fn) then
   begin
     FCreateFile(fn, true);
@@ -4809,8 +4807,8 @@ var
   NameDef, NameUser: string;
   F: TEditorFrame;
 begin
-  NameDef:= GetAppPath(cFileOptionsDefault);
-  NameUser:= GetAppPath(cFileOptionsUser);
+  NameDef:= AppFile_OptionsDefault;
+  NameUser:= AppFile_OptionsUser;
 
   if not FileExistsUTF8(NameUser) then
   begin

@@ -15,7 +15,7 @@ begin
   try
     try
       c.Formatted:= true; //needs last at__jsonconf.pp
-      c.Filename:= GetAppPath(cFileOptionsUser);
+      c.Filename:= AppFile_OptionsUser;
     except
       exit;
     end;
@@ -34,7 +34,7 @@ begin
   try
     try
       c.Formatted:= true;
-      c.FileName:= GetAppPath(cFileOptionsUser);
+      c.FileName:= AppFile_OptionsUser;
     except
       exit
     end;
@@ -1205,7 +1205,7 @@ var
   cfg: TJsonConfig;
   fn: string;
 begin
-  fn:= GetAppPath(cFileOptionsUser);
+  fn:= AppFile_OptionsUser;
   if not FileExistsUTF8(fn) then
   begin
     FCreateFile(fn, true);
@@ -1238,7 +1238,7 @@ end;
 
 procedure TfmMain.DoOps_LoadOptionsAndApplyAll;
 begin
-  DoOps_LoadOptions(GetAppPath(cFileOptionsUser), EditorOps);
+  DoOps_LoadOptions(AppFile_OptionsUser, EditorOps);
   DoApplyAllOps;
   MsgStatus(msgStatusReadingOps);
   DoPyEvent(CurrentEditor, cEventOnState, [IntToStr(APPSTATE_CONFIG_REREAD)]);

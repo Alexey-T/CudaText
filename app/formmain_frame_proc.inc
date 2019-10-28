@@ -202,7 +202,7 @@ begin
     ExtractFileName_Fixed(fn)+
     ' ('+ExtractFileDir_Fixed(fn)+')');
 
-  if fn=GetAppPath(cFileOptionsUser) then
+  if fn=AppFile_OptionsUser then
     //must use timer
     CurrentEditor.DoCommand(cmd_OpsReloadAndApply);
 end;
