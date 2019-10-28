@@ -1226,7 +1226,7 @@ begin
   ToolbarSideLow.ButtonWidth:= ToolbarSideTop.ButtonWidth;
   ToolbarSideMid.ButtonWidth:= ToolbarSideTop.ButtonWidth;
 
-  Str:= GetAppPath(cDirDataSideIcons)+DirectorySeparator;
+  Str:= AppDir_DataSideIcons+DirectorySeparator+UiOps.SidebarTheme+DirectorySeparator;
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'tree.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'console.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'output.png');

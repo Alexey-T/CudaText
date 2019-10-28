@@ -193,7 +193,7 @@ begin
   if AFilename='' then
     AFilename:= LowerCase(ATabCaption)+'.png';
   if ExtractFileDir(AFilename)='' then
-    AFilename:= GetAppPath(cDirDataSideIcons)+DirectorySeparator+AFilename;
+    AFilename:= AppDir_DataSideIcons+DirectorySeparator+UiOps.SidebarTheme+DirectorySeparator+AFilename;
 
   Result:= UpdateImagelistWithIconFromFile(ImageListSide, AFilename);
 end;
