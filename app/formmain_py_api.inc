@@ -959,6 +959,8 @@ var
   H: Int64;
   Ed: TATSynEdit;
   Mark: TATMarkerItem;
+  PtrX, PtrY, PtrLen: PChar;
+  StrX, StrY, StrLen: string;
   Id, X, Y, NTag, NLen, i: integer;
   NColorFont, NColorBg, NColorBorder: integer;
   NBorderL, NBorderR, NBorderD, NBorderU: integer;
@@ -966,8 +968,8 @@ var
   Obj: TATLinePartClass;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Liiiiiiiiiiiiiiiii:attr',
-      @H, @Id, @NTag, @X, @Y, @NLen,
+    if Bool(PyArg_ParseTuple(Args, 'Liisssiiiiiiiiiiii:attr',
+      @H, @Id, @NTag, @PtrX, @PtrY, @PtrLen,
       @NColorFont, @NColorBg, @NColorBorder,
       @NFontBold, @NFontItalic, @NFontStrike,
       @NBorderL, @NBorderR, @NBorderD, @NBorderU,
@@ -975,6 +977,9 @@ begin
       )) then
     begin
       Ed:= PyEditor(H);
+      StrX:= string(PtrX);
+      StrY:= string(PtrY);
+      StrLen:= string(PtrLen);
 
       case Id of
         MARKERS_GET:
@@ -1027,8 +1032,40 @@ begin
             Obj.Data.BorderUp:= TATLineStyle(NBorderU);
             Obj.ColumnTag:= NColumn;
 
-            //Ed.InvalidateHilitingCache;
+            X:= StrToIntDef(StrX, 0);
+            Y:= StrToIntDef(StrY, 0);
+            NLen:= StrToIntDef(StrLen, 1);
             Ed.Attribs.Add(X, Y, NTag, NLen, 0, Obj, 0, Bool(NMapOnly));
+            Ed.Update;
+            Result:= PyInt_FromLong(Ed.Attribs.Count);
+          end;
+
+        MARKERS_ADD_MANY:
+          begin
+            repeat
+              X:= StrToIntDef(SGetItem(StrX), -1);
+              if X<0 then Break;
+              Y:= StrToIntDef(SGetItem(StrY), -1);
+              if Y<0 then Break;
+              NLen:= StrToIntDef(SGetItem(StrLen), 0);
+              if NLen=0 then Break;
+
+              Obj:= TATLinePartClass.Create;
+              Obj.Data.ColorFont:= NColorFont;
+              Obj.Data.ColorBG:= NColorBg;
+              Obj.Data.ColorBorder:= NColorBorder;
+              Obj.Data.FontBold:= Bool(NFontBold);
+              Obj.Data.FontItalic:= Bool(NFontItalic);
+              Obj.Data.FontStrikeOut:= Bool(NFontStrike);
+              Obj.Data.BorderLeft:= TATLineStyle(NBorderL);
+              Obj.Data.BorderRight:= TATLineStyle(NBorderR);
+              Obj.Data.BorderDown:= TATLineStyle(NBorderD);
+              Obj.Data.BorderUp:= TATLineStyle(NBorderU);
+              Obj.ColumnTag:= NColumn;
+
+              Ed.Attribs.Add(X, Y, NTag, NLen, 0, Obj, 0, Bool(NMapOnly));
+            until false;
+
             Ed.Update;
             Result:= PyInt_FromLong(Ed.Attribs.Count);
           end;

@@ -116,6 +116,7 @@ MARKERS_DELETE_ALL    = 2
 MARKERS_DELETE_LAST   = 3
 MARKERS_DELETE_BY_TAG = 4
 MARKERS_DELETE_BY_INDEX = 5
+MARKERS_ADD_MANY      = 6
 
 TIMER_START     = 0
 TIMER_START_ONE = 1
@@ -1194,7 +1195,10 @@ class Editor:
              show_on_map=False, map_only=False
              ):
         column = 1 if show_on_map==True else -1 if show_on_map==False else show_on_map
-        return ct.ed_attr(self.h, id, tag, x, y, len,
+        return ct.ed_attr(self.h, id, tag, 
+                          to_str(x), 
+                          to_str(y), 
+                          to_str(len),
                           color_font, color_bg, color_border,
                           font_bold, font_italic, font_strikeout,
                           border_left, border_right, border_down, border_up,
