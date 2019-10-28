@@ -2447,7 +2447,8 @@ Controls additional color attributes. Possible values of "id":
 * MARKERS_ADD: Adds fragment with specified properties. Also gets number of fragments. Parameters:
 ** "tag": any int value attached to fragment (several plugins must add fragments with different tags, to be able to remove only fragments for them)
 ** "x", "y": position of fragment start (like caret).
-** "len": length of fragment.
+** "len": length of fragment in chars.
+*** If len<0, and "show_on_map" is set, it will be multiline micromap fragment with specified height=-len.
 ** "color_nnnn": RGB color values for font, background, borders. E.g. 0x0000FF is red, 0x00FF00 is green.
 ** "font_nnnn": font attributes: 0 - off, 1 - on.
 ** "border_nnnn": border types for edges, int value 0..6: none, solid, dash, solid 2pixel, dotted, rounded, wave.
@@ -3664,6 +3665,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.310 (app 1.88.7)
 * add: Editor.attr: param "show_on_map" can be int
+* add: Editor.attr: param "len" can be <0 to paint multiline micromap mark
 * add: Editor.attr: added param "map_only"
 * add: Editor.action: EDACTION_MICROMAPCOL_GET
 * add: Editor.action: EDACTION_MICROMAPCOL_ADD
