@@ -112,18 +112,16 @@ var
 function IsSetToOneInstance: boolean;
 var
   c: TJSONConfig;
-  fn: String;
 begin
   Result := False;
-  fn := GetAppPath(cFileOptionsUser);
   c := TJSONConfig.Create(nil);
   try
     try
-      c.Filename := fn;
+      c.Filename := AppFile_OptionsUser;
     except
       on E: Exception do
       begin
-        MsgBadConfig(fn+#10#10+E.Message);
+        MsgBadConfig(AppFile_OptionsUser+#10#10+E.Message);
         Exit;
       end;
     end;
