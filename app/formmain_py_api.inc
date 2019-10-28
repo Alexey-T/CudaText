@@ -995,7 +995,7 @@ begin
                 Mark:= Ed.Attribs[i];
                 Obj:= TATLinePartClass(Mark.Ptr);
                 PyList_SetItem(Result, i,
-                  Py_BuildValue('(Liiiiiiiiiiiiii)',
+                  Py_BuildValue('(Liiiiiiiiiiiiiii)',
                     Mark.Tag,
                     Mark.PosX,
                     Mark.PosY,
@@ -1010,6 +1010,7 @@ begin
                     Ord(Obj.Data.BorderRight),
                     Ord(Obj.Data.BorderDown),
                     Ord(Obj.Data.BorderUp),
+                    Ord(Obj.ColumnTag),
                     Ord(Mark.MicromapOnly)
                     ));
               end;
