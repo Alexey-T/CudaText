@@ -394,7 +394,7 @@ begin
         APP_FILE_SESSION:
           Result:= PyString_FromString(PChar(fmMain.GetSessionFilename));
         APP_DIR_INSTALLED_ADDON:
-          Result:= PyString_FromString(PChar(GetAppPath(cDirLastInstalledAddon)));
+          Result:= PyString_FromString(PChar(AppDir_LastInstalledAddon));
         APP_FILE_RECENTS:
           Result:= PyString_FromString(PChar(fmMain.FListRecents.Text));
 

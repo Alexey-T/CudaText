@@ -65,7 +65,6 @@ var
     end;
 var
   AppBookmarkImagelist: TImageList = nil;
-  AppFolderOfLastInstalledAddon: string = '';
 
 var
   AppFrameList: TList;
@@ -110,7 +109,6 @@ const
 
 type
   TAppPathId = (
-    cDirLastInstalledAddon,
     cFileOptionsHistory,
     cFileOptionsDefault,
     cFileOptionsUser,
@@ -509,6 +507,7 @@ var
   AppDir_DataCodetreeIcons: string;
   AppDir_DataToolbarIcons: string;
   AppDir_Readme: string;
+  AppDir_LastInstalledAddon: string = '';
 
 function GetAppPath(id: TAppPathId): string;
 function GetAppLangFilename: string;
@@ -905,10 +904,6 @@ end;
 function GetAppPath(id: TAppPathId): string;
 begin
   case id of
-    cDirLastInstalledAddon:
-      begin
-        Result:= AppFolderOfLastInstalledAddon;
-      end;
     cFileOptionsDefault:
       begin
         Result:= AppDir_SettingsDefault+DirectorySeparator+'default.json';

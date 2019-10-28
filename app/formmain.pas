@@ -3037,7 +3037,7 @@ var
   i: integer;
 begin
   Result:= nil;
-  AppFolderOfLastInstalledAddon:= '';
+  AppDir_LastInstalledAddon:= '';
   if Application.Terminated then exit;
 
   CurGroups:= CurrentGroups;
@@ -3126,7 +3126,7 @@ begin
     if bAllowZip then
     if ExtractFileExt(AFileName)='.zip' then
     begin
-      if DoFileInstallZip(AFileName, AppFolderOfLastInstalledAddon, bSilent) then
+      if DoFileInstallZip(AFileName, AppDir_LastInstalledAddon, bSilent) then
         Result:= CurrentFrame;
       exit
     end;
