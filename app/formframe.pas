@@ -2581,17 +2581,23 @@ begin
     Mark:= Ed.Attribs[i];
     Obj:= TATLinePartClass(Mark.Ptr);
 
+    NLine1:= Mark.PosY;
+    NLine2:= NLine1;
+    //negative LenX means we need multiline mark, its height is abs(LenX)
+    if Mark.LenX<0 then
+      Inc(NLine2, -Mark.LenX-1);
+
     case Mark.Tag of
       cTagSpellChecker:
         begin
           C.Brush.Color:= NColorSpell;
-          R1:= GetItemRect(1{column-1}, Mark.PosY, Mark.PosY, markFull);
+          R1:= GetItemRect(1{column-1}, NLine1, NLine2, markFull);
           C.FillRect(R1);
         end;
       cTagOccurrences:
         begin
           C.Brush.Color:= NColorOccur;
-          R1:= GetItemRect(1{column-1}, Mark.PosY, Mark.PosY, markFull);
+          R1:= GetItemRect(1{column-1}, NLine1, NLine2, markFull);
           C.FillRect(R1);
         end;
       else
@@ -2602,7 +2608,7 @@ begin
             if NIndex>=0 then
             begin
               C.Brush.Color:= Obj.Data.ColorBG;
-              R1:= GetItemRect(NIndex, Mark.PosY, Mark.PosY, markFull);
+              R1:= GetItemRect(NIndex, NLine1, NLine2, markFull);
               C.FillRect(R1);
             end;
           end;
