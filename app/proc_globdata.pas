@@ -110,7 +110,6 @@ const
 
 type
   TAppPathId = (
-    cDirDataAutocomplete,
     cDirDataAutocompleteSpec,
     cDirDataLangs,
     cDirDataSideIcons,
@@ -509,6 +508,7 @@ var
   AppDir_Lexers: string;
   AppDir_LexersLite: string;
   AppDir_DataThemes: string;
+  AppDir_DataAutocomplete: string;
 
 function GetAppPath(id: TAppPathId): string;
 function GetAppLangFilename: string;
@@ -905,10 +905,6 @@ end;
 function GetAppPath(id: TAppPathId): string;
 begin
   case id of
-    cDirDataAutocomplete:
-      begin
-        Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'autocomplete';
-      end;
     cDirDataAutocompleteSpec:
       begin
         Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'autocompletespec';
@@ -1044,6 +1040,7 @@ begin
   AppDir_Lexers:= AppDir_Data+DirectorySeparator+'lexlib';
   AppDir_LexersLite:= AppDir_Data+DirectorySeparator+'lexliblite';
   AppDir_DataThemes:= AppDir_Data+DirectorySeparator+'themes';
+  AppDir_DataAutocomplete:= AppDir_Data+DirectorySeparator+'autocomplete';
 end;
 
 procedure InitEditorOps(var Op: TEditorOps);
@@ -1800,7 +1797,7 @@ end;
 
 function GetAppLexerAcpFilename(const ALexName: string): string;
 begin
-  Result:= GetAppPath(cDirDataAutocomplete)+DirectorySeparator+EscapeLexerFilename(ALexName)+'.acp';
+  Result:= AppDir_DataAutocomplete+DirectorySeparator+EscapeLexerFilename(ALexName)+'.acp';
 end;
 
 function GetAppUndoFilename(const fn: string; IsRedo: boolean): string;

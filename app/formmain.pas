@@ -2504,7 +2504,7 @@ var
   msg, msg2: string;
   AddonType: TAppAddonType;
 begin
-  DoInstallAddonFromZip(fn, GetAppPath(cDirDataAutocomplete), msg, msg2,
+  DoInstallAddonFromZip(fn, AppDir_DataAutocomplete, msg, msg2,
     Result, AddonType, DirTarget, ASilent);
 
   if Result then
@@ -2634,7 +2634,7 @@ end;
 procedure TfmMain.DoDialogLexerLib;
 begin
   if DoShowDialogLexerLib(
-    GetAppPath(cDirDataAutocomplete),
+    AppDir_DataAutocomplete,
     EditorOps.OpFontName,
     EditorOps.OpFontSize,
     @DoOnDeleteLexer
