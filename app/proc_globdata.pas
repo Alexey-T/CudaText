@@ -484,6 +484,7 @@ var
   EditorOps: TEditorOps;
 
 var
+  AppDir_Home: string;
   AppDir_Settings: string;
   AppDir_SettingsDefault: string;
   AppDir_Py: string;
@@ -896,30 +897,12 @@ begin
     {$endif}
 end;
 
-//from https://github.com/graemeg/freepascal/blob/master/rtl/unix/sysutils.pp
-function _GetHomeDir: String;
-begin
-  Result:=GetEnvironmentVariable('HOME');
-  If (Result<>'') then
-    Result:=IncludeTrailingPathDelimiter(Result);
-end;
-
-function _XdgConfigHome: String;
-begin
-  Result:=GetEnvironmentVariable('XDG_CONFIG_HOME');
-  if (Result='') then
-    Result:= _GetHomeDir + '.config/'
-  else
-    Result:= IncludeTrailingPathDelimiter(Result);
-end;
-
-
 function SCollapseHomeDirInFilename(const AFilename: string): string;
 var
   S: string;
 begin
   Result:= AFilename;
-  S:= _GetHomeDir;
+  S:= AppDir_Home;
   if SBeginsWith(Result, S) then
     Result:= '~'+DirectorySeparator+Copy(Result, Length(S)+1, MaxInt);
 end;
@@ -928,23 +911,34 @@ function SExpandHomeDirInFilename(const AFilename: string): string;
 begin
   Result:= AFilename;
   if SBeginsWith(Result, '~'+DirectorySeparator) then
-    Result:= _GetHomeDir+Copy(Result, 3, MaxInt);
+    Result:= AppDir_Home+Copy(Result, 3, MaxInt);
 end;
 
 
 procedure InitDirs;
 var
-  S: string;
+  S, HomeConfig: string;
 begin
   OpDirExe:= ExtractFileDir(ParamStrUTF8(0));
   OpDirPrecopy:= GetDirPrecopy;
   OpDirLocal:= OpDirExe;
 
+  //from https://github.com/graemeg/freepascal/blob/master/rtl/unix/sysutils.pp
+  AppDir_Home:= GetEnvironmentVariable('HOME');
+  If AppDir_Home<>'' then
+    AppDir_Home:= IncludeTrailingPathDelimiter(AppDir_Home);
+
   {$ifdef linux}
   //not portable folder of app
   if not DirectoryExistsUTF8(OpDirExe+DirectorySeparator+'data'+DirectorySeparator+'lexlib') then
   begin
-    OpDirLocal:= _XdgConfigHome+'cudatext';
+    HomeConfig:= GetEnvironmentVariable('XDG_CONFIG_HOME');
+    if HomeConfig='' then
+      HomeConfig:= AppDir_Home + '.config/'
+    else
+      HomeConfig:= IncludeTrailingPathDelimiter(HomeConfig);
+
+    OpDirLocal:= HomeConfig+'cudatext';
     CreateDirUTF8(OpDirLocal);
     if DirectoryExistsUTF8(OpDirPrecopy) then
       RunCommand('cp', ['-R', '-u', '-t',
@@ -957,7 +951,7 @@ begin
   end;
   {$else}
   {$ifdef darwin}
-  OpDirLocal:= _GetHomeDir+'Library/Application Support/CudaText';
+  OpDirLocal:= AppDir_Home+'Library/Application Support/CudaText';
   CreateDirUTF8(OpDirLocal);
   if DirectoryExistsUTF8(OpDirPrecopy) then
     //see rsync help. need options:
