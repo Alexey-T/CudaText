@@ -2444,7 +2444,7 @@ end;
 
 procedure TfmMain.DoOps_MultiInstaller;
 begin
-  if not FileExistsUTF8(GetAppPath(cFileOptionsHistory)) then
+  if not FileExistsUTF8(AppFile_History) then
     DoPyCommand('cuda_multi_installer', 'open_menu', []);
 end;
 

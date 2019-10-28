@@ -711,7 +711,7 @@ begin
   c:= TJSONConfig.Create(nil);
   try
     try
-      c.Filename:= GetAppPath(cFileOptionsHistory);
+      c.Filename:= AppFile_History;
     except
       exit;
     end;
@@ -736,7 +736,7 @@ begin
   c:= TJSONConfig.Create(nil);
   try
     try
-      c.Filename:= GetAppPath(cFileOptionsHistory);
+      c.Filename:= AppFile_History;
     except
       exit;
     end;

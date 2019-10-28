@@ -326,7 +326,7 @@ begin
     cfg:= TJSONConfig.Create(nil);
     try
       try
-        cfg.Filename:= GetAppPath(cFileOptionsHistory);
+        cfg.Filename:= AppFile_History;
 
         SLoadStringsFromFile(cfg, '/list_find', fmFind.edFind.Items, UiOps.MaxHistoryEdits);
         SLoadStringsFromFile(cfg, '/list_replace', fmFind.edRep.Items, UiOps.MaxHistoryEdits);

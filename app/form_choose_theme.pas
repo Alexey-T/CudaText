@@ -206,7 +206,7 @@ var
 begin
   c:= TJSONConfig.Create(nil);
   try
-    c.FileName:= GetAppPath(cFileOptionsHistory);
+    c.FileName:= AppFile_History;
     Result:= c.GetValue('/sync_choose_themes', true);
   finally
     c.Free;
@@ -234,7 +234,7 @@ begin
   c:= TJSONConfig.Create(nil);
   try
     c.Formatted:= true;
-    c.FileName:= GetAppPath(cFileOptionsHistory);
+    c.FileName:= AppFile_History;
     c.SetDeleteValue('/sync_choose_themes', AValue, false);
   finally
     c.Free;
