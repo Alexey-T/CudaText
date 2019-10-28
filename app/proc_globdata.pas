@@ -110,7 +110,6 @@ const
 
 type
   TAppPathId = (
-    cDirDataToolBarIcons,
     cDirReadme,
     cDirLastInstalledAddon,
     cFileOptionsHistory,
@@ -509,6 +508,7 @@ var
   AppDir_DataLang: string;
   AppDir_DataSidebarIcons: string;
   AppDir_DataCodetreeIcons: string;
+  AppDir_DataToolbarIcons: string;
 
 function GetAppPath(id: TAppPathId): string;
 function GetAppLangFilename: string;
@@ -905,11 +905,6 @@ end;
 function GetAppPath(id: TAppPathId): string;
 begin
   case id of
-    cDirDataToolBarIcons:
-      begin
-        Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'toolbaricons'+DirectorySeparator+UiOps.ToolBarTheme;
-      end;
-
     cDirReadme:
       begin
         Result:= OpDirLocal+DirectorySeparator+'readme';
@@ -1029,6 +1024,7 @@ begin
   AppDir_DataLang:= AppDir_Data+DirectorySeparator+'lang';
   AppDir_DataSidebarIcons:= AppDir_Data+DirectorySeparator+'sideicons';
   AppDir_DataCodetreeIcons:= AppDir_Data+DirectorySeparator+'codetreeicons';
+  AppDir_DataToolbarIcons:= AppDir_Data+DirectorySeparator+'toolbaricons';
 end;
 
 procedure InitEditorOps(var Op: TEditorOps);

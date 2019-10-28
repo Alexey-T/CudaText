@@ -1271,7 +1271,7 @@ var
 begin
   SRegexFindParts('.+_(\d+)x(\d+)', UiOps.ToolBarTheme, Parts);
 
-  Str:= GetAppPath(cDirDataToolBarIcons)+DirectorySeparator;
+  Str:= AppDir_DataToolbarIcons+DirectorySeparator+UiOps.ToolBarTheme+DirectorySeparator;
 
   if not DirectoryExists(Str) then Exit;
 
