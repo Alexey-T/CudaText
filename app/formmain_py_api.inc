@@ -6591,13 +6591,15 @@ begin
             for N1:= 0 to NX-1 do
               with Ed.Micromap.Columns[N1] do
                 PyList_SetItem(Result, N1,
-                  Py_BuildValue('{sisisL}',
+                  Py_BuildValue('{sisisLsi}',
                     'size_perc',
                     NWidthPercents,
                     'size_px',
                     NWidthPixels,
                     'tag',
-                    NTag
+                    NTag,
+                    'color',
+                    NColor
                     ));
           end;
 
