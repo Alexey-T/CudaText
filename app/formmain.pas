@@ -2438,7 +2438,7 @@ begin
     AppNotifThread.Priority:= tpLower;
   end;
 
-  if DirectoryExists(GetAppPath(cDirPy)+DirectorySeparator+'cuda_brackets_hilite') then
+  if DirectoryExists(AppDir_Py+DirectorySeparator+'cuda_brackets_hilite') then
     MsgLogConsole('WARNING: plugin Bracket Helper is not needed anymore, remove it and use option "bracket_highlight"');
 end;
 
@@ -3795,12 +3795,12 @@ begin
 
   //add to sys.path folders py/, py/sys/
   SetLength(Str, Length(Str)+2);
-  Str[Length(Str)-2]:= GetAppPath(cDirPy);
-  Str[Length(Str)-1]:= GetAppPath(cDirPy)+DirectorySeparator+'sys';
+  Str[Length(Str)-2]:= AppDir_Py;
+  Str[Length(Str)-1]:= AppDir_Py+DirectorySeparator+'sys';
 
   Py_SetSysPath(Str, PathAppend);
 
-  InitPy:= GetAppPath(cDirPy)+DirectorySeparator+'cudatext_init.py';
+  InitPy:= AppDir_Py+DirectorySeparator+'cudatext_init.py';
   if not FileExists(InitPy) then exit;
 
   InitList:= TStringList.Create;

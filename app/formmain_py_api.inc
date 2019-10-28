@@ -390,7 +390,7 @@ begin
         APP_DIR_DATA:
           Result:= PyString_FromString(PChar(GetAppPath(cDirData)));
         APP_DIR_PY:
-          Result:= PyString_FromString(PChar(GetAppPath(cDirPy)));
+          Result:= PyString_FromString(PChar(AppDir_Py));
         APP_FILE_SESSION:
           Result:= PyString_FromString(PChar(fmMain.GetSessionFilename));
         APP_DIR_INSTALLED_ADDON:

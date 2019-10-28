@@ -63,15 +63,14 @@ uses
 
 function CheckValue_ReqPlugin(S: string): boolean;
 var
-  SItem, DirPy: string;
+  SItem: string;
 begin
   Result:= true;
-  DirPy:= GetAppPath(cDirPy);
 
   repeat
     SItem:= SGetItem(S);
     if SItem='' then Break;
-    if not DirectoryExists(DirPy+DirectorySeparator+SItem) then
+    if not DirectoryExists(AppDir_Py+DirectorySeparator+SItem) then
       exit(false);
   until false;
 end;
@@ -180,13 +179,12 @@ procedure DoInstallPackage(
   out AReport: string;
   out ADirTarget: string);
 var
-  SDirPy, SDirFrom, S: string;
+  SDirFrom, S: string;
   List: TStringList;
   i: integer;
 begin
   AReport:= '';
   DeleteFile(AFilenameInf);
-  SDirPy:= GetAppPath(cDirPy);
   SDirFrom:= ExtractFileDir(AFilenameInf);
   ADirTarget:= ExtractFileDir(GetAppPath(cDirData));
 
@@ -206,7 +204,7 @@ begin
     begin
       S:= ExtractFileName(List[i]);
       AReport+= 'folder: py/'+S+#10;
-      S:= SDirPy+DirectorySeparator+S;
+      S:= AppDir_Py+DirectorySeparator+S;
       if DirectoryExists(S) then
         DeleteDirectory(S, false);
     end;
@@ -291,7 +289,7 @@ begin
     if s_module='' then exit;
     ini.ReadSections(sections);
 
-    ADirTarget:= GetAppPath(cDirPy)+DirectorySeparator+s_module;
+    ADirTarget:= AppDir_Py+DirectorySeparator+s_module;
     FCopyDir(ExtractFileDir(AFilenameInf), ADirTarget);
 
     for ini_section in sections do

@@ -61,7 +61,7 @@ begin
 
   list:= TStringlist.Create;
   try
-    FindAllDirectories(list, GetAppPath(cDirPy), false);
+    FindAllDirectories(list, AppDir_Py, false);
     list.Sort;
     for SItem in list do
     begin
