@@ -33,6 +33,7 @@ uses
   ATStrings,
   ATStringProc,
   ATStringProc_HtmlColor,
+  ATCanvasPrimitives,
   ATButtons,
   ATBinHex,
   ATStreamSearch,
@@ -2489,6 +2490,7 @@ type
 const
   cTagOccurrences = 101; //see plugin Hilite Occurrences
   cTagSpellChecker = 105; //see plugin SpellChecker
+  cTagColumnFullsized = -2;
 var
   Ed: TATSynEdit;
   NWidthSmall: integer;
@@ -2611,6 +2613,15 @@ begin
               R1:= GetItemRect(NIndex, NLine1, NLine2, markFull);
               C.FillRect(R1);
             end;
+          end
+          else
+          if Obj.ColumnTag=cTagColumnFullsized then
+          begin
+            R1:= GetItemRect(0, NLine1, NLine2, markFull);
+            R1.Left:= ARect.Left;
+            R1.Right:= ARect.Right;
+            NColor:= Obj.Data.ColorBG;
+            CanvasInvertRect(C, R1, NColor);
           end;
         end;
       end;
