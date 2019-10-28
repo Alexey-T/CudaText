@@ -561,6 +561,9 @@ begin
   TAppMenuProps(mi.Tag).CommandCode:= cmd;
   mi.OnClick:= @MenuMainClick;
 
+  {$ifndef LCLQT5}
+  //seems Qt5 version has slowdown because of MainMenu hotkeys?
+
   //if Copy/Paste/SelectAll hotkeys set in MainMenu, Qt5 version cannot handle them in Console/Find/Replace
   if (cmd<>cCommand_ClipboardCopy) and
     (cmd<>cCommand_ClipboardPaste) and
@@ -576,6 +579,7 @@ begin
   //don't allow Shift+Tab in menu: it blocks tabbing in Find/Replace
   if mi.Shortcut=AppShortcutShiftTab then
     mi.ShortCut:= 0;
+  {$endif}
 end;
 
 procedure TfmMain.UpdateMenuItemAltObject(mi: TMenuItem; cmd: integer);
