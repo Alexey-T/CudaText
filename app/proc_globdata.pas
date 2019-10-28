@@ -110,7 +110,6 @@ const
 
 type
   TAppPathId = (
-    cDirDataTreeIcons,
     cDirDataToolBarIcons,
     cDirReadme,
     cDirLastInstalledAddon,
@@ -508,7 +507,8 @@ var
   AppDir_DataAutocomplete: string;
   AppDir_DataAutocompleteSpec: string;
   AppDir_DataLang: string;
-  AppDir_DataSideIcons: string;
+  AppDir_DataSidebarIcons: string;
+  AppDir_DataCodetreeIcons: string;
 
 function GetAppPath(id: TAppPathId): string;
 function GetAppLangFilename: string;
@@ -905,10 +905,6 @@ end;
 function GetAppPath(id: TAppPathId): string;
 begin
   case id of
-    cDirDataTreeIcons:
-      begin
-        Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'codetreeicons'+DirectorySeparator+UiOps.TreeTheme;
-      end;
     cDirDataToolBarIcons:
       begin
         Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'toolbaricons'+DirectorySeparator+UiOps.ToolBarTheme;
@@ -1031,7 +1027,8 @@ begin
   AppDir_DataAutocomplete:= AppDir_Data+DirectorySeparator+'autocomplete';
   AppDir_DataAutocompleteSpec:= AppDir_Data+DirectorySeparator+'autocompletespec';
   AppDir_DataLang:= AppDir_Data+DirectorySeparator+'lang';
-  AppDir_DataSideIcons:= AppDir_Data+DirectorySeparator+'sideicons';
+  AppDir_DataSidebarIcons:= AppDir_Data+DirectorySeparator+'sideicons';
+  AppDir_DataCodetreeIcons:= AppDir_Data+DirectorySeparator+'codetreeicons';
 end;
 
 procedure InitEditorOps(var Op: TEditorOps);

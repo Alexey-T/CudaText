@@ -1226,7 +1226,7 @@ begin
   ToolbarSideLow.ButtonWidth:= ToolbarSideTop.ButtonWidth;
   ToolbarSideMid.ButtonWidth:= ToolbarSideTop.ButtonWidth;
 
-  Str:= AppDir_DataSideIcons+DirectorySeparator+UiOps.SidebarTheme+DirectorySeparator;
+  Str:= AppDir_DataSidebarIcons+DirectorySeparator+UiOps.SidebarTheme+DirectorySeparator;
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'tree.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'console.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'output.png');
@@ -1251,7 +1251,7 @@ begin
   ImageListTree.Height:= StrToIntDef(Parts[2].Str, ImageListTree.Height);
   ImageListTree.Clear;
 
-  Str:= GetAppPath(cDirDataTreeIcons)+DirectorySeparator;
+  Str:= AppDir_DataCodetreeIcons+DirectorySeparator+UiOps.TreeTheme+DirectorySeparator;
   UpdateImagelistWithIconFromFile(ImageListTree, Str+'dir.png');
   UpdateImagelistWithIconFromFile(ImageListTree, Str+'st1.png');
   UpdateImagelistWithIconFromFile(ImageListTree, Str+'st2.png');
