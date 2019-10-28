@@ -386,7 +386,7 @@ begin
         APP_DIR_EXE:
           Result:= PyString_FromString(PChar(ExtractFileDir(Application.ExeName)));
         APP_DIR_SETTINGS:
-          Result:= PyString_FromString(PChar(GetAppPath(cDirSettings)));
+          Result:= PyString_FromString(PChar(AppDir_Settings));
         APP_DIR_DATA:
           Result:= PyString_FromString(PChar(GetAppPath(cDirData)));
         APP_DIR_PY:
@@ -2165,7 +2165,7 @@ begin
 
       fn:= StrFN;
       if ExtractFileDir(fn)='' then
-        fn:= GetAppPath(cDirSettings)+DirectorySeparator+fn;
+        fn:= AppDir_Settings+DirectorySeparator+fn;
 
       with TIniFile.Create(fn) do
       try
@@ -2215,7 +2215,7 @@ begin
       StrKey:= string(PtrKey);
 
       if ExtractFileDir(StrFN)='' then
-        StrFN:= GetAppPath(cDirSettings)+DirectorySeparator+StrFN;
+        StrFN:= AppDir_Settings+DirectorySeparator+StrFN;
 
       Ini:= TIniFile.Create(StrFN);
       try

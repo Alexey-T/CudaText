@@ -110,7 +110,6 @@ const
 
 type
   TAppPathId = (
-    cDirSettings,
     cDirSettingsDefault,
     cDirPy,
     cDirData,
@@ -509,6 +508,9 @@ type
 var
   EditorOps: TEditorOps;
 
+var
+  AppDir_Settings: string;
+
 function GetAppPath(id: TAppPathId): string;
 function GetAppLangFilename: string;
 function GetAppUndoFilename(const fn: string; IsRedo: boolean): string;
@@ -904,11 +906,6 @@ end;
 function GetAppPath(id: TAppPathId): string;
 begin
   case id of
-    cDirSettings:
-      begin
-        Result:= OpDirLocal+DirectorySeparator+'settings';
-        CreateDirUTF8(Result);
-      end;
     cDirSettingsDefault:
       begin
         Result:= OpDirLocal+DirectorySeparator+'settings_default';
@@ -977,19 +974,19 @@ begin
       end;
     cFileOptionsHistory:
       begin
-        Result:= GetAppPath(cDirSettings)+DirectorySeparator+'history.json';
+        Result:= AppDir_Settings+DirectorySeparator+'history.json';
       end;
     cFileOptionsUser:
       begin
-        Result:= GetAppPath(cDirSettings)+DirectorySeparator+'user.json';
+        Result:= AppDir_Settings+DirectorySeparator+'user.json';
       end;
     cFileOptionsKeymap:
       begin
-        Result:= GetAppPath(cDirSettings)+DirectorySeparator+'keys.json';
+        Result:= AppDir_Settings+DirectorySeparator+'keys.json';
       end;
     cFileOptionsHistoryFiles:
       begin
-        Result:= GetAppPath(cDirSettings)+DirectorySeparator+'history files.json';
+        Result:= AppDir_Settings+DirectorySeparator+'history files.json';
       end;
   end;
 end;
@@ -1068,6 +1065,9 @@ begin
       ], S);
   {$endif}
   {$endif}
+
+  AppDir_Settings:= OpDirLocal+DirectorySeparator+'settings';
+  CreateDirUTF8(AppDir_Settings);
 end;
 
 procedure InitEditorOps(var Op: TEditorOps);
@@ -1465,7 +1465,7 @@ begin
   if ADefaultConfig then
     dir:= GetAppPath(cDirSettingsDefault)
   else
-    dir:= GetAppPath(cDirSettings);
+    dir:= AppDir_Settings;
 
   Result:= dir+DirectorySeparator+'lexer '+ALexer+'.json';
 end;
@@ -1476,7 +1476,7 @@ begin
   if AName='' then
     AName:= '-';
   SReplaceSpecialFilenameChars(AName);
-  Result:= GetAppPath(cDirSettings)+DirectorySeparator+'keys lexer '+AName+'.json';
+  Result:= AppDir_Settings+DirectorySeparator+'keys lexer '+AName+'.json';
 end;
 
 
@@ -1819,7 +1819,7 @@ end;
 
 function GetAppLexerOpsFilename(const ALexName: string): string;
 begin
-  Result:= GetAppPath(cDirSettings)+DirectorySeparator+EscapeLexerFilename(ALexName)+'.cuda-lexops';
+  Result:= AppDir_Settings+DirectorySeparator+EscapeLexerFilename(ALexName)+'.cuda-lexops';
 end;
 
 function GetAppLexerAcpFilename(const ALexName: string): string;

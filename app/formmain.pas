@@ -1635,7 +1635,7 @@ begin
   if Result='' then
     Result:= 'history session.json';
   if ExtractFileDir(Result)='' then
-    Result:= GetAppPath(cDirSettings)+DirectorySeparator+Result;
+    Result:= AppDir_Settings+DirectorySeparator+Result;
 end;
 
 
@@ -1687,8 +1687,8 @@ begin
 
   OnLexerParseProgress:= @DoOnLexerParseProgress;
   CustomDialog_DoPyCallback:= @DoPyCallbackFromAPI;
-  FFileNameLogDebug:= GetAppPath(cDirSettings)+DirectorySeparator+'app.log';
-  FFileNameLogConsole:= GetAppPath(cDirSettings)+DirectorySeparator+'console.log';
+  FFileNameLogDebug:= AppDir_Settings+DirectorySeparator+'app.log';
+  FFileNameLogConsole:= AppDir_Settings+DirectorySeparator+'console.log';
 
   DoMenuitemEllipsis(mnuOpThemeUi);
   DoMenuitemEllipsis(mnuOpThemeSyntax);
