@@ -285,7 +285,7 @@ begin
   try
     try
       c.Formatted:= true;
-      c.Filename:= GetAppPath(cFileOptionsKeymap);
+      c.Filename:= AppFile_Hotkeys;
       c.DeletePath(IntToStr(K.Command));
     except
     end;

@@ -579,7 +579,7 @@ begin
   if not FAllowLoadKeymap then exit;
 
   AppKeymap_ApplyUndoList(FKeymapUndoList);
-  DoOps_LoadKeymapFrom(GetAppPath(cFileOptionsKeymap), nil);
+  DoOps_LoadKeymapFrom(AppFile_Hotkeys, nil);
   FKeymapUndoList.Clear;
 
   F:= CurrentFrame;

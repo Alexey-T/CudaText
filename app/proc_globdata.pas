@@ -109,7 +109,6 @@ const
 
 type
   TAppPathId = (
-    cFileOptionsKeymap,
     cFileOptionsHistoryFiles
     );
 
@@ -508,6 +507,7 @@ var
   AppFile_OptionsDefault: string;
   AppFile_OptionsUser: string;
   AppFile_History: string;
+  AppFile_Hotkeys: string;
 
 function GetAppPath(id: TAppPathId): string;
 function GetAppLangFilename: string;
@@ -904,10 +904,6 @@ end;
 function GetAppPath(id: TAppPathId): string;
 begin
   case id of
-    cFileOptionsKeymap:
-      begin
-        Result:= AppDir_Settings+DirectorySeparator+'keys.json';
-      end;
     cFileOptionsHistoryFiles:
       begin
         Result:= AppDir_Settings+DirectorySeparator+'history files.json';
@@ -1008,6 +1004,7 @@ begin
   AppFile_OptionsDefault:= AppDir_SettingsDefault+DirectorySeparator+'default.json';
   AppFile_OptionsUser:= AppDir_Settings+DirectorySeparator+'user.json';
   AppFile_History:= AppDir_Settings+DirectorySeparator+'history.json';
+  AppFile_Hotkeys:= AppDir_Settings+DirectorySeparator+'keys.json';
 end;
 
 procedure InitEditorOps(var Op: TEditorOps);
@@ -1546,7 +1543,7 @@ begin
       if ALexerSpecific then
         c.Filename:= GetAppKeymap_LexerSpecificConfig(ALexerName)
       else
-        c.Filename:= GetAppPath(cFileOptionsKeymap);
+        c.Filename:= AppFile_Hotkeys;
     except
       exit;
     end;
@@ -1592,7 +1589,7 @@ begin
       if ALexerName<>'' then
         c.Filename:= GetAppKeymap_LexerSpecificConfig(ALexerName)
       else
-        c.Filename:= GetAppPath(cFileOptionsKeymap);
+        c.Filename:= AppFile_Hotkeys;
     except
       exit;
     end;
