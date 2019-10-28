@@ -2463,7 +2463,7 @@ Controls additional color attributes. Possible values of "id":
 * "x", "y", "len": the same as for MARKERS_ADD, but can be also list/tuple of int. Lists/tuples must contain the equal number of elements (otherwise the minimal number of elements will be used).
 * other parameters: the same as for MARKERS_ADD.
 
-* MARKERS_GET: Gets list of fragments, or None. Each item is list with int fields, in the same order as function params.
+* MARKERS_GET: Gets list of fragments, or None. Each item is list of int, corresponding to Editor.attr() params (bool values will be 0 or 1).
 * MARKERS_DELETE_ALL: Deletes all fragments.
 * MARKERS_DELETE_LAST: Deletes last added fragment.
 * MARKERS_DELETE_BY_TAG: Deletes all fragments with the given tag. Param "tag": tag value.
