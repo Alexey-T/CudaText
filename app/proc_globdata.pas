@@ -110,7 +110,6 @@ const
 
 type
   TAppPathId = (
-    cDirDataNewdoc,
     cDirDataThemes,
     cDirDataAutocomplete,
     cDirDataAutocompleteSpec,
@@ -906,10 +905,6 @@ end;
 function GetAppPath(id: TAppPathId): string;
 begin
   case id of
-    cDirDataNewdoc:
-      begin
-        Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'newdoc';
-      end;
     cDirDataThemes:
       begin
         Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'themes';
