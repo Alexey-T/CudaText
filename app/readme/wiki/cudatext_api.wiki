@@ -2459,6 +2459,10 @@ Controls additional color attributes. Possible values of "id":
 *** False: don't show
 ** "map_only": bool: fragment will be painted only on micromap.
 
+* MARKERS_ADD_MANY: Adds one or multiple fragments at once. Also gets number of fragments. Parameters:
+* "x", "y", "len": the same as for MARKERS_ADD, but can be also list/tuple of int. Lists/tuples must contain the equal number of elements (otherwise the minimal number of elements will be used).
+* other parameters: the same as for MARKERS_ADD.
+
 * MARKERS_GET: Gets list of fragments, or None. Each item is list with int fields, in the same order as function params.
 * MARKERS_DELETE_ALL: Deletes all fragments.
 * MARKERS_DELETE_LAST: Deletes last added fragment.
@@ -3667,6 +3671,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.attr: param "show_on_map" can be int
 * add: Editor.attr: param "len" can be <0 to paint multiline micromap mark
 * add: Editor.attr: added param "map_only"
+* add: Editor.attr: MARKERS_ADD_MANY
 * add: Editor.action: EDACTION_MICROMAPCOL_GET
 * add: Editor.action: EDACTION_MICROMAPCOL_ADD
 * add: Editor.action: EDACTION_MICROMAPCOL_DELETE
