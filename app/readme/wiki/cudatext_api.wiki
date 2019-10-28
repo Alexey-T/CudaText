@@ -2679,10 +2679,12 @@ Performs some action in editor. Possible values of "id":
 ** "size_perc": Width of column in percents of average char width.
 ** "size_px": Width of column in pixels.
 ** "tag": Int tag of column. CudaText has 2 default columns with tag 0 and 1.
+** "color": RGB color of column background. Can be COLOR_NONE.
 
 * EDACTION_MICROMAPCOL_ADD: Add micromap column. Gets bool: tag was not used, column was added.
 ** "param1": Int (64 bit) tag of column.
 ** "param2": Width of column in percents of average char width.
+** "param3": RGB color of column background, or COLOR_NONE for default themed color.
 
 * EDACTION_MICROMAPCOL_DELETE: Delete micromap column by its tag. Param "param1": tag. Gets bool: column was found and deleted.
 
