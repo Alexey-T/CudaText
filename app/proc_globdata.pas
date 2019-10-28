@@ -110,7 +110,6 @@ const
 
 type
   TAppPathId = (
-    cDirReadme,
     cDirLastInstalledAddon,
     cFileOptionsHistory,
     cFileOptionsDefault,
@@ -509,6 +508,7 @@ var
   AppDir_DataSidebarIcons: string;
   AppDir_DataCodetreeIcons: string;
   AppDir_DataToolbarIcons: string;
+  AppDir_Readme: string;
 
 function GetAppPath(id: TAppPathId): string;
 function GetAppLangFilename: string;
@@ -905,10 +905,6 @@ end;
 function GetAppPath(id: TAppPathId): string;
 begin
   case id of
-    cDirReadme:
-      begin
-        Result:= OpDirLocal+DirectorySeparator+'readme';
-      end;
     cDirLastInstalledAddon:
       begin
         Result:= AppFolderOfLastInstalledAddon;
@@ -1025,6 +1021,7 @@ begin
   AppDir_DataSidebarIcons:= AppDir_Data+DirectorySeparator+'sideicons';
   AppDir_DataCodetreeIcons:= AppDir_Data+DirectorySeparator+'codetreeicons';
   AppDir_DataToolbarIcons:= AppDir_Data+DirectorySeparator+'toolbaricons';
+  AppDir_Readme:= OpDirLocal+DirectorySeparator+'readme';
 end;
 
 procedure InitEditorOps(var Op: TEditorOps);

@@ -2724,7 +2724,7 @@ procedure TfmMain.DoHelpChangelog;
 var
   fn: string;
 begin
-  fn:= GetAppPath(cDirReadme)+DirectorySeparator+'history.txt';
+  fn:= AppDir_Readme+DirectorySeparator+'history.txt';
   if FileExistsUTF8(fn) then
     DoFileOpen(fn, '');
 end;
