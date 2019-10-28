@@ -67,10 +67,10 @@ begin
   Files_ui:= TStringList.Create;
   Files_sy:= TStringList.Create;
   try
-    FindAllFiles(Files_ui, GetAppPath(cDirDataThemes), '*'+AppExtensionThemeUi, false);
+    FindAllFiles(Files_ui, AppDir_DataThemes, '*'+AppExtensionThemeUi, false);
     Files_ui.Sort;
 
-    FindAllFiles(Files_sy, GetAppPath(cDirDataThemes), '*'+AppExtensionThemeSyntax, false);
+    FindAllFiles(Files_sy, AppDir_DataThemes, '*'+AppExtensionThemeSyntax, false);
     Files_sy.Sort;
 
     ListboxUI.Items.Add(msgThemeDefault);

@@ -213,7 +213,7 @@ begin
   end
   else
     DoLoadTheme(
-      GetAppPath(cDirDataThemes)+DirectorySeparator+UiOps.ThemeUi+AppExtensionThemeUi,
+      AppDir_DataThemes+DirectorySeparator+UiOps.ThemeUi+AppExtensionThemeUi,
       AppTheme,
       true,
       @MsgLogConsole
@@ -240,7 +240,7 @@ begin
   end
   else
     DoLoadTheme(
-      GetAppPath(cDirDataThemes)+DirectorySeparator+UiOps.ThemeSyntax+AppExtensionThemeSyntax,
+      AppDir_DataThemes+DirectorySeparator+UiOps.ThemeSyntax+AppExtensionThemeSyntax,
       AppTheme,
       false,
       @MsgLogConsole
@@ -262,7 +262,7 @@ begin
   else
     Ext:= AppExtensionThemeSyntax;
 
-  Result:= FileExistsUTF8(GetAppPath(cDirDataThemes)+DirectorySeparator+AName+Ext);
+  Result:= FileExistsUTF8(AppDir_DataThemes+DirectorySeparator+AName+Ext);
 end;
 
 procedure TfmMain.mnuEditClick(Sender: TObject);
@@ -322,7 +322,7 @@ begin
     begin
       Str:= Trim(InputBox(msgTitle, msgThemeName, StrName));
       if Str='' then exit;
-      Str:= GetAppPath(cDirDataThemes)+DirectorySeparator+Str+StrExt;
+      Str:= AppDir_DataThemes+DirectorySeparator+Str+StrExt;
 
       DoSaveTheme(Str, AppTheme, AThemeUI);
     end;
