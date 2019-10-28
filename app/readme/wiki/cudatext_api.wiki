@@ -2436,7 +2436,7 @@ Controls markers (used e.g. in Snippets plugin). Possible values of "id":
 
 ===Editor.attr===
 
- attr(id, tag=0, x=0, y=0, len=0,
+ attr(id, tag=0, x=0, y=0, len=1,
       color_font=COLOR_NONE, color_bg=COLOR_NONE, color_border=COLOR_NONE,
       font_bold=0, font_italic=0, font_strikeout=0,
       border_left=0, border_right=0, border_down=0, border_up=0,
