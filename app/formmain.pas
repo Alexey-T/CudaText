@@ -4949,8 +4949,8 @@ begin
   IsHtml:= UiOps.AutocompleteHtml and SRegexMatchesString(LexName, UiOps.AutocompleteHtml_Lexers, false);
   IsCss:= UiOps.AutocompleteCss and SRegexMatchesString(LexName, UiOps.AutocompleteCss_Lexers, false);
   IsCaseSens:= false; //cannot detect it yet
-  FileCss:= GetAppPath(cDirDataAutocompleteSpec)+DirectorySeparator+'css_list.ini';
-  FileHtml:= GetAppPath(cDirDataAutocompleteSpec)+DirectorySeparator+'html_list.ini';
+  FileCss:= AppDir_DataAutocompleteSpec+DirectorySeparator+'css_list.ini';
+  FileHtml:= AppDir_DataAutocompleteSpec+DirectorySeparator+'html_list.ini';
   FileAcp:= GetAppLexerAcpFilename(LexName);
 
   //allow autocompletion with carets, only in HTML

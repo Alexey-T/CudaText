@@ -110,7 +110,6 @@ const
 
 type
   TAppPathId = (
-    cDirDataAutocompleteSpec,
     cDirDataLangs,
     cDirDataSideIcons,
     cDirDataTreeIcons,
@@ -509,6 +508,7 @@ var
   AppDir_LexersLite: string;
   AppDir_DataThemes: string;
   AppDir_DataAutocomplete: string;
+  AppDir_DataAutocompleteSpec: string;
 
 function GetAppPath(id: TAppPathId): string;
 function GetAppLangFilename: string;
@@ -905,10 +905,6 @@ end;
 function GetAppPath(id: TAppPathId): string;
 begin
   case id of
-    cDirDataAutocompleteSpec:
-      begin
-        Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'autocompletespec';
-      end;
     cDirDataLangs:
       begin
         Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'lang';
@@ -1041,6 +1037,7 @@ begin
   AppDir_LexersLite:= AppDir_Data+DirectorySeparator+'lexliblite';
   AppDir_DataThemes:= AppDir_Data+DirectorySeparator+'themes';
   AppDir_DataAutocomplete:= AppDir_Data+DirectorySeparator+'autocomplete';
+  AppDir_DataAutocompleteSpec:= AppDir_Data+DirectorySeparator+'autocompletespec';
 end;
 
 procedure InitEditorOps(var Op: TEditorOps);

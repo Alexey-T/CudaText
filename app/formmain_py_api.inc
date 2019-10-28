@@ -197,7 +197,7 @@ begin
 
     if AppEmmet=nil then
     begin
-      dir:= GetAppPath(cDirDataAutocompleteSpec);
+      dir:= AppDir_DataAutocompleteSpec;
       filenameSnips:= dir+DirectorySeparator+'emmet_snippets.ini';
       filenameLorem:= dir+DirectorySeparator+'emmet_lorem.txt';
       if not FileExistsUTF8(filenameSnips) then exit(ReturnNone);
