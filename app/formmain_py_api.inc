@@ -6605,7 +6605,8 @@ begin
           begin
             Ok:= Ed.Micromap.ColumnAdd(
               StrToInt64Def(StrText1, 0),
-              StrToIntDef(StrText2, 100)
+              StrToIntDef(StrText2, 100),
+              StrToIntDef(StrText3, clNone)
               );
             if Ok then
               Ed.Update;

@@ -2563,6 +2563,18 @@ begin
     C.FillRect(R1);
   end;
 
+  //paint background of columns
+  for i:= 2{after default columns} to Length(Ed.Micromap.Columns)-1 do
+  begin
+    NColor:= Ed.Micromap.Columns[i].NColor;
+    if NColor<>clNone then
+    begin
+      C.Brush.Color:= NColor;
+      R1:= Ed.RectMicromapMark(i, -1, -1);
+      C.FillRect(R1);
+    end;
+  end;
+
   //paint marks for plugins
   for i:= 0 to Ed.Attribs.Count-1 do
   begin
