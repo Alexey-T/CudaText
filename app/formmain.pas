@@ -5142,7 +5142,7 @@ begin
   ListFiles:= TStringList.Create;
   ListNames:= TStringList.Create;
   try
-    FindAllFiles(ListFiles, GetAppPath(cDirDataLangs), '*.ini', false);
+    FindAllFiles(ListFiles, AppDir_DataLang, '*.ini', false);
     if ListFiles.Count=0 then exit;
     ListFiles.Sort;
 

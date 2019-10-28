@@ -110,7 +110,6 @@ const
 
 type
   TAppPathId = (
-    cDirDataLangs,
     cDirDataSideIcons,
     cDirDataTreeIcons,
     cDirDataToolBarIcons,
@@ -509,6 +508,7 @@ var
   AppDir_DataThemes: string;
   AppDir_DataAutocomplete: string;
   AppDir_DataAutocompleteSpec: string;
+  AppDir_DataLang: string;
 
 function GetAppPath(id: TAppPathId): string;
 function GetAppLangFilename: string;
@@ -905,10 +905,6 @@ end;
 function GetAppPath(id: TAppPathId): string;
 begin
   case id of
-    cDirDataLangs:
-      begin
-        Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'lang';
-      end;
     cDirDataSideIcons:
       begin
         Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'sideicons'+DirectorySeparator+UiOps.SidebarTheme;
@@ -1038,6 +1034,7 @@ begin
   AppDir_DataThemes:= AppDir_Data+DirectorySeparator+'themes';
   AppDir_DataAutocomplete:= AppDir_Data+DirectorySeparator+'autocomplete';
   AppDir_DataAutocompleteSpec:= AppDir_Data+DirectorySeparator+'autocompletespec';
+  AppDir_DataLang:= AppDir_Data+DirectorySeparator+'lang';
 end;
 
 procedure InitEditorOps(var Op: TEditorOps);
@@ -1754,7 +1751,7 @@ begin
   if UiOps.LangName='' then
     Result:= ''
   else
-    Result:= GetAppPath(cDirDataLangs)+DirectorySeparator+UiOps.LangName+'.ini';
+    Result:= AppDir_DataLang+DirectorySeparator+UiOps.LangName+'.ini';
 end;
 
 function EscapeLexerFilename(const ALexName: string): string;
