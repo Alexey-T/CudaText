@@ -336,7 +336,7 @@ begin
 
         LangFN:= '';
         if UiOps.LangName<>'' then
-          LangFN:= GetAppPath(cDirData)+DirectorySeparator+
+          LangFN:= AppDir_Data+DirectorySeparator+
                    'langmenu'+DirectorySeparator+
                    CmdItem.ItemModule+DirectorySeparator+
                    UiOps.LangName+'.ini';

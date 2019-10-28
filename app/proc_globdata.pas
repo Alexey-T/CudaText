@@ -110,7 +110,6 @@ const
 
 type
   TAppPathId = (
-    cDirData,
     cDirDataLexers,
     cDirDataLexersLite,
     cDirDataNewdoc,
@@ -510,6 +509,7 @@ var
   AppDir_Settings: string;
   AppDir_SettingsDefault: string;
   AppDir_Py: string;
+  AppDir_Data: string;
 
 function GetAppPath(id: TAppPathId): string;
 function GetAppLangFilename: string;
@@ -906,10 +906,6 @@ end;
 function GetAppPath(id: TAppPathId): string;
 begin
   case id of
-    cDirData:
-      begin
-        Result:= OpDirLocal+DirectorySeparator+'data';
-      end;
     cDirDataLexers:
       begin
         Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'lexlib';
@@ -1061,6 +1057,7 @@ begin
   CreateDirUTF8(AppDir_Settings);
   AppDir_SettingsDefault:= OpDirLocal+DirectorySeparator+'settings_default';
   AppDir_Py:= OpDirLocal+DirectorySeparator+'py';
+  AppDir_Data:= OpDirLocal+DirectorySeparator+'data';
 end;
 
 procedure InitEditorOps(var Op: TEditorOps);

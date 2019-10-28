@@ -5171,7 +5171,7 @@ begin
       UiOps.LangName:= ListNames[NResult];
       DoLocalize;
 
-      if DirectoryExists(GetAppPath(cDirData)+DirectorySeparator+'langmenu') then
+      if DirectoryExists(AppDir_Data+DirectorySeparator+'langmenu') then
         MsgBox(msgStatusI18nPluginsMenuAfterRestart, MB_OK or MB_ICONINFORMATION);
     end;
 

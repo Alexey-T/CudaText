@@ -388,7 +388,7 @@ begin
         APP_DIR_SETTINGS:
           Result:= PyString_FromString(PChar(AppDir_Settings));
         APP_DIR_DATA:
-          Result:= PyString_FromString(PChar(GetAppPath(cDirData)));
+          Result:= PyString_FromString(PChar(AppDir_Data));
         APP_DIR_PY:
           Result:= PyString_FromString(PChar(AppDir_Py));
         APP_FILE_SESSION:

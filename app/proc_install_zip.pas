@@ -166,7 +166,7 @@ begin
 
   DeleteFile(AFilenameInf);
   SDirFrom:= ExtractFileDir(AFilenameInf);
-  ADirTarget:= GetAppPath(cDirData);
+  ADirTarget:= AppDir_Data;
   if SSubDir<>'' then
     ADirTarget+= DirectorySeparator+SSubDir;
   FCopyDir(SDirFrom, ADirTarget);
@@ -186,7 +186,7 @@ begin
   AReport:= '';
   DeleteFile(AFilenameInf);
   SDirFrom:= ExtractFileDir(AFilenameInf);
-  ADirTarget:= ExtractFileDir(GetAppPath(cDirData));
+  ADirTarget:= ExtractFileDir(AppDir_Data);
 
   List:= TStringList.Create;
   try
