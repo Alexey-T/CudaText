@@ -2455,7 +2455,7 @@ Controls additional color attributes. Possible values of "id":
 ** "show_on_map": how to show this fragment on micromap:
 *** int value>=0: show in column with given tag (don't pass tag value=0, it is reserved first column)
 *** int value=-1: don't show
-*** int value=-2: show full-width mark (over entire micromap width), with alpha-blended background color
+*** int value=-2: show full-width fragment (over entire micromap width), fragment color XOR's with columns.
 *** True: show in column 1
 *** False: don't show
 ** "map_only": bool: fragment will be painted only on micromap.
