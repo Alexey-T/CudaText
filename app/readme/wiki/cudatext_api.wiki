@@ -2440,7 +2440,7 @@ Controls markers (used e.g. in Snippets plugin). Possible values of "id":
       color_font=COLOR_NONE, color_bg=COLOR_NONE, color_border=COLOR_NONE,
       font_bold=0, font_italic=0, font_strikeout=0,
       border_left=0, border_right=0, border_down=0, border_up=0,
-      show_on_map=False )
+      show_on_map=False, map_only=False )
 
 Controls additional color attributes. Possible values of "id":
 
@@ -2456,6 +2456,7 @@ Controls additional color attributes. Possible values of "id":
 *** int value=-1: don't show
 *** True: show in column 1
 *** False: don't show
+** "map_only": bool: fragment will be painted only on micromap.
 
 * MARKERS_GET: Gets list of fragments, or None. Each item is list with int fields, in the same order as function params.
 * MARKERS_DELETE_ALL: Deletes all fragments.
@@ -3666,5 +3667,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.action: EDACTION_MICROMAPCOL_GET
 * add: Editor.action: EDACTION_MICROMAPCOL_ADD
 * add: Editor.action: EDACTION_MICROMAPCOL_DELETE
+* add: Editor.attr: parameter "map_only"
 
 [[Category:CudaText]]
