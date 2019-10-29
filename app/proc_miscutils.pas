@@ -92,6 +92,7 @@ procedure MenuShowAtEditorCorner(AMenu: TPopupMenu; Ed: TATSynEdit);
 
 function StringToIntArray(S: string): TATIntArray;
 function IntArrayToString(const A: TATIntArray): string;
+procedure StringSplitByChar(const S: string; Sep: char; out S1, S2: string);
 
 type
   { TAppStringSeparator }
@@ -799,6 +800,23 @@ begin
   for i:= 0 to Length(A)-1 do
     Result+= IntToStr(A[i])+',';
   SetLength(Result, Length(Result)-1);
+end;
+
+procedure StringSplitByChar(const S: string; Sep: char; out S1, S2: string);
+var
+  N: integer;
+begin
+  N:= Pos(Sep, S);
+  if N=0 then
+  begin
+    S1:= '';
+    S2:= '';
+  end
+  else
+  begin
+    S1:= Copy(S, 1, N-1);
+    S2:= Copy(S, N+1, Length(S));
+  end;
 end;
 
 
