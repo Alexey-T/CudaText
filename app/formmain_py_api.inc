@@ -955,16 +955,27 @@ end;
 
 
 function Py_ed_attr(Self, Args: PPyObject): PPyObject; cdecl;
+  //
+  function _GetListItem(const S: string; var N1, N2: integer): string; inline;
+  begin
+    N2:= PosEx(',', S, N1+1);
+    if N2=0 then
+      N2:= Length(S)+1;
+    Result:= Copy(S, N1+1, N2-N1-1);
+    N1:= N2;
+  end;
+  //
 var
   H: Int64;
   Ed: TATSynEdit;
   Mark: TATMarkerItem;
   PtrX, PtrY, PtrLen: PChar;
-  StrX, StrY, StrLen: string;
+  StrX, StrY, StrLen, S: string;
   Id, X, Y, NTag, NLen, i: integer;
   NColorFont, NColorBg, NColorBorder: integer;
   NBorderL, NBorderR, NBorderD, NBorderU: integer;
   NFontBold, NFontItalic, NFontStrike, NColumn, NMapOnly: integer;
+  SepX1, SepX2, SepY1, SepY2, SepL1, SepL2: integer;
   Obj: TATLinePartClass;
 begin
   with GetPythonEngine do
@@ -1047,13 +1058,21 @@ begin
 
         MARKERS_ADD_MANY:
           begin
+            SepX1:= 0;
+            SepY1:= 0;
+            SepL1:= 0;
             repeat
-              X:= StrToIntDef(SGetItem(StrX), -1);
-              if X<0 then Break;
-              Y:= StrToIntDef(SGetItem(StrY), -1);
-              if Y<0 then Break;
-              NLen:= StrToIntDef(SGetItem(StrLen), 0);
-              if NLen=0 then Break;
+              S:= _GetListItem(StrX, SepX1, SepX2);
+              if S='' then Break;
+              X:= StrToIntDef(S, -1);
+
+              S:= _GetListItem(StrY, SepY1, SepY2);
+              if S='' then Break;
+              Y:= StrToIntDef(S, -1);
+
+              S:= _GetListItem(StrLen, SepL1, SepL2);
+              if S='' then Break;
+              NLen:= StrToIntDef(S, -1);
 
               Obj:= TATLinePartClass.Create;
               Obj.Data.ColorFont:= NColorFont;
