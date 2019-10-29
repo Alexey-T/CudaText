@@ -1024,7 +1024,10 @@ begin
             Obj:= TATLinePartClass.Create;
             Obj.Data.ColorFont:= NColorFont;
             Obj.Data.ColorBG:= NColorBg;
-            Obj.Data.ColorBorder:= NColorBorder;
+            if NColorBorder<>clNone then
+              Obj.Data.ColorBorder:= NColorBorder
+            else
+              Obj.Data.ColorBorder:= Ed.Colors.TextFont;
             Obj.Data.FontBold:= Bool(NFontBold);
             Obj.Data.FontItalic:= Bool(NFontItalic);
             Obj.Data.FontStrikeOut:= Bool(NFontStrike);
@@ -1055,7 +1058,10 @@ begin
               Obj:= TATLinePartClass.Create;
               Obj.Data.ColorFont:= NColorFont;
               Obj.Data.ColorBG:= NColorBg;
-              Obj.Data.ColorBorder:= NColorBorder;
+              if NColorBorder<>clNone then
+                Obj.Data.ColorBorder:= NColorBorder
+              else
+                Obj.Data.ColorBorder:= Ed.Colors.TextFont;
               Obj.Data.FontBold:= Bool(NFontBold);
               Obj.Data.FontItalic:= Bool(NFontItalic);
               Obj.Data.FontStrikeOut:= Bool(NFontStrike);
