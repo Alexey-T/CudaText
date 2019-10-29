@@ -241,16 +241,17 @@ begin
   C.Lines.Text:= AValue;
 end;
 
-procedure DoControl_SetState_Checkgroup(C: TCheckGroup; AValue: string);
+procedure DoControl_SetState_Checkgroup(C: TCheckGroup; const AValue: string);
 var
+  Sep: TAppStringSeparator;
   SItem: string;
   N: integer;
 begin
   N:= 0;
+  Sep.Init(AValue);
   repeat
     if N>=C.Items.Count then exit;
-    SItem:= SGetItem(AValue);
-    if SItem='' then break;
+    if not Sep.GetItemStr(SItem) then Break;
     C.Checked[N]:= AppStrToBool(SItem);
     Inc(N);
   until false;
