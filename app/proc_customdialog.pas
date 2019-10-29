@@ -1233,7 +1233,7 @@ begin
 end;
 
 
-procedure DoControl_SetColumnsFromString(C: TControl; S: string);
+procedure DoControl_SetColumnsFromString(C: TControl; const S: string);
 begin
   if C is TListView then
   begin
