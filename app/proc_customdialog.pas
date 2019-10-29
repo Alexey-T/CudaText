@@ -1424,7 +1424,7 @@ begin
 end;
 
 
-procedure DoControl_SetPropFromPair(C: TControl; AName, AValue: string);
+procedure DoControl_SetPropFromPair(C: TControl; const AName, AValue: string);
 var
   Num: integer;
 begin
