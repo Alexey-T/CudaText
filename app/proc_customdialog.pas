@@ -279,35 +279,37 @@ begin
 end;
 
 
-procedure DoControl_SetState_ListviewItem(C: TListView; SListItem: string);
+procedure DoControl_SetState_ListviewItem(C: TListView; const AListItem: string);
 var
-  SItem: string;
+  Sep: TAppStringSeparator;
+  SItem, SKey, SVal: string;
   Col: TListColumn;
   i: integer;
 begin
+  Sep.Init(AListItem, #13);
   if C.Columns.Count=0 then
   begin
     repeat
-      SItem:= SGetItem(SListItem, #13);
-      if SItem='' then break;
+      if not Sep.GetItemStr(SItem) then Break;
       Col:= C.Columns.Add;
-      Col.Caption:= SGetItem(SItem, '=');
-      if SItem<>'' then
+      StringSplitByChar(SItem, '=', SKey, SVal);
+      Col.Caption:= SKey;
+      if SVal<>'' then
       begin
-        if SItem[1]='L' then begin Delete(SItem, 1, 1); Col.Alignment:= taLeftJustify; end;
-        if SItem[1]='R' then begin Delete(SItem, 1, 1); Col.Alignment:= taRightJustify; end;
-        if SItem[1]='C' then begin Delete(SItem, 1, 1); Col.Alignment:= taCenter; end;
-        Col.Width:= StrToIntDef(SItem, 80);
+        if SVal[1]='L' then begin Delete(SVal, 1, 1); Col.Alignment:= taLeftJustify; end;
+        if SVal[1]='R' then begin Delete(SVal, 1, 1); Col.Alignment:= taRightJustify; end;
+        if SVal[1]='C' then begin Delete(SVal, 1, 1); Col.Alignment:= taCenter; end;
+        Col.Width:= StrToIntDef(SVal, 80);
       end;
     until false;
   end
   else
   begin
-    SItem:= SGetItem(SListItem, #13);
+    Sep.GetItemStr(SItem);
     C.Items.Add.Caption:= SItem;
     for i:= 1 to C.ColumnCount do
     begin
-      SItem:= SGetItem(SListItem, #13);
+      Sep.GetItemStr(SItem);
       C.Items[C.Items.Count-1].SubItems.Add(SItem);
     end;
   end;
