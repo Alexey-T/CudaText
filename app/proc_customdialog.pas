@@ -958,22 +958,27 @@ begin
 end;
 
 
-procedure DoControl_SetParentFromString(C: TControl; AValue: string);
+procedure DoControl_SetParentFromString(C: TControl; const AValue: string);
 var
   P: TControl;
   Form: TFormDummy;
   NPage: integer;
-  SItem1, SItem2: string;
+  SName, SVal: string;
 begin
   Form:= C.Owner as TFormDummy;
 
   //handle "name.N"
-  SItem1:= SGetItem(AValue, '.');
-  SItem2:= AValue;
-  AValue:= SItem1;
-  NPage:= StrToIntDef(SItem2, -1);
+  if Pos('.', AValue)=0 then
+  begin
+    SName:= AValue;
+    NPage:= -1;
+  end;
+  begin
+    StringSplitByChar(AValue, '.', SName, SVal);
+    NPage:= StrToIntDef(SVal, -1);
+  end;
 
-  P:= Form.FindControlByOurName(AValue);
+  P:= Form.FindControlByOurName(SName);
   if P=nil then
     C.Parent:= Form
   else
