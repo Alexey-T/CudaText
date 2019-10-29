@@ -1194,9 +1194,21 @@ class Editor:
              border_left=0, border_right=0, border_down=0, border_up=0,
              show_on_map=False, map_only=False
              ):
+
+        if id==MARKERS_ADD_MANY:
+            if not isinstance(x, int):
+                x = ','.join(map(str, x))
+                y = ','.join(map(str, y))
+                len = ','.join(map(str, len))
+        else:
+            x = str(x)
+            y = str(y)
+            len = str(len)
+
         column = 1 if show_on_map==True else -1 if show_on_map==False else show_on_map
+
         return ct.ed_attr(self.h, id, tag,
-                          to_str(x), to_str(y), to_str(len),
+                          x, y, len,
                           color_font, color_bg, color_border,
                           font_bold, font_italic, font_strikeout,
                           border_left, border_right, border_down, border_up,
