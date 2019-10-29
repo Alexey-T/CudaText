@@ -1293,18 +1293,16 @@ begin
 end;
 
 
-procedure DoControl_SetPosFromString(C: TControl; S: string);
+procedure DoControl_SetPosFromString(C: TControl; const AValue: string);
 var
+  Sep: TAppStringSeparator;
   NX1, NY1, NX2, NY2: integer;
 begin
-  NX1:= StrToIntDef(SGetItem(S, ','), -1);
-  NY1:= StrToIntDef(SGetItem(S, ','), -1);
-  NX2:= StrToIntDef(SGetItem(S, ','), -1);
-  NY2:= StrToIntDef(SGetItem(S, ','), -1);
-  if NX1<0 then exit;
-  if NX2<0 then exit;
-  if NY1<0 then exit;
-  if NY2<0 then exit;
+  Sep.Init(AValue);
+  Sep.GetItemInt(NX1, -1);
+  Sep.GetItemInt(NY1, -1);
+  Sep.GetItemInt(NX2, -1);
+  Sep.GetItemInt(NY2, -1);
   C.Left:= NX1;
   C.Width:= NX2-NX1;
   C.Top:= NY1;
