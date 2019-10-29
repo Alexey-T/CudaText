@@ -2273,16 +2273,17 @@ end;
 
 procedure DoControl_SetPropsFromStringDict(C: TControl; AText: string);
 var
+  Sep: TAppStringSeparator;
   SItem, SKey, SValue: string;
 begin
   //text is '{key1:value1;key2:value2}' from to_str()
   if AText[1]='{' then
     AText:= Copy(AText, 2, Length(AText)-2);
+
+  Sep.Init(AText, #1);
   repeat
-    SItem:= SGetItem(AText, #1);
-    if SItem='' then Break;
-    SKey:= SGetItem(SItem, ':');
-    SValue:= SItem;
+    if not Sep.GetItemStr(SItem) then Break;
+    StringSplitByChar(SItem, ':', SKey, SValue);
     SValue:= StringReplace(SValue, #2, ',', [rfReplaceAll]);
     DoControl_SetPropFromPair(C, SKey, SValue);
   until false;
