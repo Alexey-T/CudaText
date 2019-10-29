@@ -1211,18 +1211,18 @@ begin
 end;
 
 
-procedure DoControl_SetPropsFromString_Adv(C: TControl; S: string);
+procedure DoControl_SetPropsFromString_Adv(C: TControl; const AValue: string);
 var
+  Sep: TAppStringSeparator;
   SItem: string;
   NIndex: integer;
 begin
+  Sep.Init(AValue);
   NIndex:= 0;
   repeat
-    SItem:= SGetItem(S);
-    if SItem<>'' then
-      DoControl_SetEx(C, SItem, NIndex);
+    if not Sep.GetItemStr(SItem) then Break;
+    DoControl_SetEx(C, SItem, NIndex);
     Inc(NIndex);
-    if S='' then Break;
   until false;
 end;
 
