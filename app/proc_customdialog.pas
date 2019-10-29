@@ -972,7 +972,8 @@ begin
   begin
     SName:= AValue;
     NPage:= -1;
-  end;
+  end
+  else
   begin
     StringSplitByChar(AValue, '.', SName, SVal);
     NPage:= StrToIntDef(SVal, -1);
