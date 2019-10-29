@@ -8,6 +8,7 @@ Copyright (c) Alexey Torgashin
 unit proc_miscutils;
 
 {$mode objfpc}{$H+}
+{$ModeSwitch advancedrecords}
 
 interface
 
@@ -91,6 +92,20 @@ procedure MenuShowAtEditorCorner(AMenu: TPopupMenu; Ed: TATSynEdit);
 
 function StringToIntArray(S: string): TATIntArray;
 function IntArrayToString(const A: TATIntArray): string;
+
+type
+  { TAppStringSeparator }
+
+  TAppStringSeparator = record
+  private
+    Sep: char;
+    Str: string;
+    N1, N2: integer;
+  public
+    procedure Init(const AStr: string; ASep: char=',');
+    function GetItemStr(out AValue: string): boolean;
+    function GetItemInt(out AValue: integer; const ADefault: integer): boolean;
+  end;
 
 implementation
 
@@ -784,6 +799,38 @@ begin
   for i:= 0 to Length(A)-1 do
     Result+= IntToStr(A[i])+',';
   SetLength(Result, Length(Result)-1);
+end;
+
+
+{ TAppStringSeparator }
+
+procedure TAppStringSeparator.Init(const AStr: string; ASep: char);
+begin
+  Str:= AStr;
+  Sep:= ASep;
+  N1:= 0;
+  N2:= 0;
+end;
+
+function TAppStringSeparator.GetItemStr(out AValue: string): boolean;
+begin
+  N2:= PosEx(Sep, Str, N1+1);
+  if N2=0 then
+    N2:= Length(Str)+1;
+  AValue:= Copy(Str, N1+1, N2-N1-1);
+  N1:= N2;
+  Result:= AValue<>'';
+end;
+
+function TAppStringSeparator.GetItemInt(out AValue: integer; const ADefault: integer): boolean;
+var
+  SVal: string;
+begin
+  Result:= GetItemStr(SVal);
+  if Result then
+    AValue:= StrToIntDef(SVal, ADefault)
+  else
+    AValue:= ADefault;
 end;
 
 
