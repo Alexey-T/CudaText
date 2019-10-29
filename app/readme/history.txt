@@ -22,6 +22,7 @@
 + add: Project Manager: feature from Kate editor: on opening a file from Git/SVN repo, project is created and file is focused in that project (if no named project was opened before); added option in the plugin dialog
 - fix: macOS: crash on copying vertical block to clipboard
 - fix: crash with non-ASCII text after showing Command Palette
+- fix: plugin Tabs List: font options didn't work
 
 1.88.3 (2019/10)
 
