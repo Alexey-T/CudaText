@@ -257,22 +257,23 @@ begin
   until false;
 end;
 
-procedure DoControl_SetState_CheckListbox(C: TCheckListBox; AValue: string);
+procedure DoControl_SetState_CheckListbox(C: TCheckListBox; const AValue: string);
 var
   Sep: TAppStringSeparator;
-  SItem: string;
+  S, S2: string;
   N: integer;
 begin
-  N:= StrToIntDef(SGetItem(AValue, ';'), -1);
+  StringSplitByChar(AValue, ';', S, S2);
+  N:= StrToIntDef(S, -1);
   if (N>=0) and (N<C.Items.Count) then
     C.ItemIndex:= N;
 
   N:= 0;
-  Sep.Init(AValue);
+  Sep.Init(S2);
   repeat
     if N>=C.Items.Count then exit;
-    if not Sep.GetItemStr(SItem) then Break;
-    C.Checked[N]:= AppStrToBool(SItem);
+    if not Sep.GetItemStr(S) then Break;
+    C.Checked[N]:= AppStrToBool(S);
     Inc(N);
   until false;
 end;
