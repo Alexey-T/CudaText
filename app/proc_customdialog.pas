@@ -539,14 +539,16 @@ begin
   C.Value:= N;
 end;
 
-procedure DoControl_SetState_Listview(C: TListView; SValue: string);
+procedure DoControl_SetState_Listview(C: TListView; const AValue: string);
 var
+  Sep: TAppStringSeparator;
+  S, S2: string;
   N: integer;
-  SItem: string;
 begin
+  StringSplitByChar(AValue, ';', S, S2);
+
   //index
-  SItem:= SGetItem(SValue, ';');
-  N:= StrToIntDef(SItem, 0);
+  N:= StrToIntDef(S, 0);
   if (N>=0) and (N<C.Items.Count) then
   begin
     C.ItemFocused:= C.Items[N];
@@ -556,14 +558,14 @@ begin
   end;
 
   //check0,check1,..
+  Sep.Init(S2);
   if C.Checkboxes then
   begin
     N:= 0;
     repeat
       if N>=C.Items.Count then break;
-      SItem:= SGetItem(SValue);
-      if SItem='' then break;
-      C.Items[N].Checked:= AppStrToBool(SItem);
+      if not Sep.GetItemStr(S) then Break;
+      C.Items[N].Checked:= AppStrToBool(S);
       Inc(N);
     until false;
   end;
