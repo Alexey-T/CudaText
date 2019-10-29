@@ -1885,18 +1885,17 @@ begin
 end;
 
 
-procedure DoForm_AddControl(AForm: TFormDummy; ATextItems: string);
+procedure DoForm_AddControl(AForm: TFormDummy; const ATextItems: string);
 var
+  Sep: TAppStringSeparator;
   SNameValue, SName, SValue: string;
   Ctl: TControl;
 begin
   Ctl:= nil;
-
+  Sep.Init(ATextItems, #1);
   repeat
-    SNameValue:= SGetItem(ATextItems, #1);
-    if SNameValue='' then break;
-    SName:= SGetItem(SNameValue, '=');
-    SValue:= SNameValue;
+    if not Sep.GetItemStr(SNameValue) then Break;
+    StringSplitByChar(SNameValue, '=', SName, SValue);
     if SName='' then Continue;
 
     //type
@@ -1911,7 +1910,6 @@ begin
     if not Assigned(Ctl) then exit;
     DoForm_AdjustLabelForNewControl(AForm, Ctl);
     DoControl_SetPropFromPair(Ctl, SName, SValue);
-
   until false;
 end;
 
