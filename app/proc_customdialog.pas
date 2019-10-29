@@ -1242,14 +1242,15 @@ begin
   end;
 end;
 
-procedure DoControl_SetItemsFromString(C: TControl; S: string);
+procedure DoControl_SetItemsFromString(C: TControl; const AValue: string);
 var
+  Sep: TAppStringSeparator;
   SItem: string;
   i: integer;
 begin
   if C is TImage then
   begin
-    DoControl_SetState_Image(TImage(C), S);
+    DoControl_SetState_Image(TImage(C), AValue);
     exit
   end;
 
@@ -1272,9 +1273,9 @@ begin
       TPageControl(C).Pages[i].Free;
   end;
 
-  while S<>'' do
+  Sep.Init(AValue, #9);
+  while Sep.GetItemStr(SItem) do
   begin
-    SItem:= SGetItem(S, #9);
     if C is TListbox then TListbox(C).Items.Add(SItem);
     if C is TComboBox then TComboBox(C).Items.Add(SItem);
     if C is TCheckGroup then TCheckGroup(C).Items.Add(SItem);
