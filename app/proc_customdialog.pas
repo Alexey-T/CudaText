@@ -396,42 +396,47 @@ begin
     if S[i]=ch then Inc(Result);
 end;
 
-procedure DoControl_SetColumns_ListView(C: TListView; AValue: string);
+procedure DoControl_SetColumns_ListView(C: TListView; const AValue: string);
 var
+  SepColumns, SepProps: TAppStringSeparator;
   Column: TListColumn;
   SCol, SItem: string;
-  NCount, i: integer;
+  Num, NIndex: integer;
 begin
-  NCount:= SGetCharCount(AValue, #9)+1;
-  for i:= 0 to NCount-1 do
-  begin
-    SCol:= SGetItem(AValue, #9);
-    if i<C.Columns.Count then
-      Column:= C.Columns[i]
+  SepColumns.Init(AValue, #9);
+  NIndex:= 0;
+  repeat
+    if not SepColumns.GetItemStr(SCol) then Break;
+    if NIndex<C.Columns.Count then
+      Column:= C.Columns[NIndex]
     else
       Column:= C.Columns.Add;
+    Inc(NIndex);
 
-    Column.Caption:= SGetItem(SCol, #13);
-    Column.Width:= StrToIntDef(SGetItem(SCol, #13), 100);
-    Column.MinWidth:= StrToIntDef(SGetItem(SCol, #13), 0);
-    Column.MaxWidth:= StrToIntDef(SGetItem(SCol, #13), 0);
+    SepProps.Init(SCol, #13);
 
-    SItem:= SGetItem(SCol, #13);
-    if SItem<>'' then
+    SepProps.GetItemStr(SItem);
+    Column.Caption:= SItem;
+    SepProps.GetItemInt(Num, 100);
+    Column.Width:= Num;
+    SepProps.GetItemInt(Num, 0);
+    Column.MinWidth:= Num;
+    SepProps.GetItemInt(Num, 0);
+    Column.MaxWidth:= Num;
+
+    if SepProps.GetItemStr(SItem) then
       case SItem of
         'L': Column.Alignment:= taLeftJustify;
         'R': Column.Alignment:= taRightJustify;
         'C': Column.Alignment:= taCenter;
       end;
 
-    SItem:= SGetItem(SCol, #13);
-    if SItem<>'' then
+    if SepProps.GetItemStr(SItem) then
       Column.AutoSize:= AppStrToBool(SItem);
 
-    SItem:= SGetItem(SCol, #13);
-    if SItem<>'' then
+    if SepProps.GetItemStr(SItem) then
       Column.Visible:= AppStrToBool(SItem);
-  end;
+  until false;
 end;
 
 
