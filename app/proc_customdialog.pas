@@ -988,7 +988,7 @@ begin
 end;
 
 
-procedure DoControl_SetAnchorFromString(C: TControl; AKind: TAnchorKind; AValue: string);
+procedure DoControl_SetAnchorFromString(C: TControl; AKind: TAnchorKind; const AValue: string);
 var
   CTo: TControl;
   SName, SSide: string;
@@ -1002,8 +1002,7 @@ begin
     exit;
   end;
 
-  SName:= SGetItem(AValue);
-  SSide:= SGetItem(AValue);
+  StringSplitByChar(AValue, ',', SName, SSide);
 
   Form:= C.Owner as TFormDummy;
   if SName='' then
