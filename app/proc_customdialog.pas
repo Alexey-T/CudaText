@@ -259,6 +259,7 @@ end;
 
 procedure DoControl_SetState_CheckListbox(C: TCheckListBox; AValue: string);
 var
+  Sep: TAppStringSeparator;
   SItem: string;
   N: integer;
 begin
@@ -267,10 +268,10 @@ begin
     C.ItemIndex:= N;
 
   N:= 0;
+  Sep.Init(AValue);
   repeat
     if N>=C.Items.Count then exit;
-    SItem:= SGetItem(AValue);
-    if SItem='' then break;
+    if not Sep.GetItemStr(SItem) then Break;
     C.Checked[N]:= AppStrToBool(SItem);
     Inc(N);
   until false;
