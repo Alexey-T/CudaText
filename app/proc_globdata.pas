@@ -1555,7 +1555,8 @@ const
 var
   c: TJSONConfig;
   sl: TStringList;
-  path, s_items, s_item: string;
+  path, s_item: string;
+  Sep: TATStringSeparator;
 begin
   //check-1: is key registered for any other command?
   if not AOverwriteKey then
@@ -1583,10 +1584,9 @@ begin
     c.SetValue(path+'/name', Utf8Decode(AMenuitemCaption));
 
     sl.Clear;
-    s_items:= AHotkey;
+    Sep.Init(AHotkey, cKeyComboSeparator);
     repeat
-      s_item:= SGetItem(s_items, cKeyComboSeparator);
-      if s_item='' then Break;
+      if not Sep.GetItemStr(s_item) then Break;
       sl.Add(s_item);
     until false;
     c.SetValue(path+'/s1', sl);
