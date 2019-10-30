@@ -582,6 +582,7 @@ var
   Icon: Longint;
   Buttons: TDialogButtons;
   Res: Longint;
+  Sep: TATStringSeparator;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'sssi:msg_box_ex', @PtrCaption, @PtrText, @PtrButtons, @Icon)) then
@@ -595,9 +596,9 @@ begin
 
       Buttons:= TDialogButtons.Create(TDialogButton);
 
+      Sep.Init(StrButtons, #1);
       repeat
-        StrBtn:= SGetItem(StrButtons, #1);
-        if StrBtn='' then Break;
+        if not Sep.GetItemStr(StrBtn) then Break;
         with Buttons.Add do
         begin
           Caption:= StrBtn;
