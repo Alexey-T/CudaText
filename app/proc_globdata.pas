@@ -1679,22 +1679,18 @@ begin
         AppCommandList.Delete(N);
 
   //add items for SParams
+  Sep.Init(SParams, cSepParams);
   repeat
-    SItem:= SGetItem(SParams, cSepParams);
-    if SItem='' then break;
-
-    SItemCaption:= SGetItem(SItem, cSepNameParam);
-    SItemParam:= SItem;
+    if not Sep.GetItemStr(SItem) then Break;
+    SSplitByChar(SItem, cSepNameParam, SItemCaption, SItemParam);
 
     CmdItem:= TAppCommand.Create;
-    with CmdItem do
-    begin
-      ItemModule:= SModule;
-      ItemProc:= SProc;
-      ItemProcParam:= SItemParam;
-      ItemCaption:= SItemCaption;
-      ItemFromApi:= true;
-    end;
+    CmdItem.ItemModule:= SModule;
+    CmdItem.ItemProc:= SProc;
+    CmdItem.ItemProcParam:= SItemParam;
+    CmdItem.ItemCaption:= SItemCaption;
+    CmdItem.ItemFromApi:= true;
+
     AppCommandList.Add(CmdItem);
   until false;
 end;
