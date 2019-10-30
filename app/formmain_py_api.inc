@@ -5689,11 +5689,12 @@ begin
 
         IMAGELIST_PAINT:
           begin
-            Num64:= StrToInt64Def(SGetItem(StrValue), 0);
+            Sep.Init(StrValue);
+            Sep.GetItemInt64(Num64, 0);
             Canvas:= Py_CanvasId_to_CanvasObject(Num64);
-            NX:= StrToIntDef(SGetItem(StrValue), 0);
-            NY:= StrToIntDef(SGetItem(StrValue), 0);
-            NIndex:= StrToIntDef(SGetItem(StrValue), 0);
+            Sep.GetItemInt(NX, 0);
+            Sep.GetItemInt(NY, 0);
+            Sep.GetItemInt(NIndex, 0);
             if (NIndex>=0) and (NIndex<List.Count) then
               List.Draw(Canvas, NX, NY, NIndex);
             Result:= ReturnNone;
