@@ -4426,8 +4426,7 @@ begin
 
         APP_PROC_SPLITTER_SET:
           begin
-            Str1:= SGetItem(Str, ',');
-            Str2:= SGetItem(Str, ',');
+            SSplitByChar(Str, ',', Str1, Str2);
             fmMain.DoSplitter_SetInfo(
               StrToIntDef(Str1, -1),
               StrToIntDef(Str2, -1)
