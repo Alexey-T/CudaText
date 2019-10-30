@@ -776,7 +776,7 @@ type
   end;
 
 function CommandPlugins_GetIndexFromModuleAndMethod(const AText: string): integer;
-procedure CommandPlugins_UpdateSubcommands(AStr: string);
+procedure CommandPlugins_UpdateSubcommands(const AText: string);
 
 function AppEncodingShortnameToFullname(const S: string): string;
 function AppEncodingFullnameToShortname(const S: string): string;
@@ -1656,19 +1656,21 @@ begin
 end;
 
 
-procedure CommandPlugins_UpdateSubcommands(AStr: string);
+procedure CommandPlugins_UpdateSubcommands(const AText: string);
 const
   cSepRoot=';';
   cSepParams=#10;
   cSepNameParam=#9;
 var
+  Sep: TATStringSeparator;
   SModule, SProc, SParams, SItem, SItemParam, SItemCaption: string;
   CmdItem: TAppCommand;
   N: integer;
 begin
-  SModule:= SGetItem(AStr, cSepRoot);
-  SProc:= SGetItem(AStr, cSepRoot);
-  SParams:= AStr;
+  Sep.Init(AText, cSepRoot);
+  Sep.GetItemStr(SModule);
+  Sep.GetItemStr(SProc);
+  Sep.GetRest(SParams);
 
   //del items for module/method
   for N:= AppCommandList.Count-1 downto 0 do
