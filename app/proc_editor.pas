@@ -59,7 +59,7 @@ procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
   AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering: boolean);
 
 function EditorGetFoldString(Ed: TATSynEdit): string;
-procedure EditorSetFoldString(Ed: TATSynEdit; S: string);
+procedure EditorSetFoldString(Ed: TATSynEdit; const AText: string);
 
 function EditorGetLinkAtScreenCoord(Ed: TATSynEdit; P: TPoint): atString;
 function EditorGetLinkAtCaret(Ed: TATSynEdit): atString;
@@ -655,19 +655,18 @@ begin
   end;
 end;
 
-procedure EditorSetFoldString(Ed: TATSynEdit; S: string);
+procedure EditorSetFoldString(Ed: TATSynEdit; const AText: string);
 var
-  SItem: string;
+  Sep: TATStringSeparator;
   ScrollInfo: TATSynScrollInfo;
   n: integer;
 begin
   Ed.DoCommand(cCommand_UnfoldAll);
 
+  Sep.Init(AText);
   repeat
-    SItem:= SGetItem(S);
-    if SItem='' then Break;
+    if not Sep.GetItemInt(n, -1) then Break;
 
-    n:= StrToIntDef(SItem, -1);
     if not Ed.Strings.IsIndexValid(n) then Continue;
 
     n:= Ed.Fold.FindRangeWithPlusAtLine(n);
