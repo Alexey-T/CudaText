@@ -48,7 +48,7 @@ end;
 procedure TfmMain.DoSidebar_OnTabClick(Sender: TObject);
 var
   Btn: TATButton;
-  SCaption, S, SModule, SMethod: string;
+  SCaption, SModule, SMethod: string;
   i: integer;
 begin
   //toggle side panel?
@@ -71,9 +71,7 @@ begin
       //button has no form? detect by DataString.
       if Btn.DataString<>'' then
       begin
-        S:= Btn.DataString;
-        SModule:= SGetItem(S, '.');
-        SMethod:= S;
+        SSplitByChar(Btn.DataString, '.', SModule, SMethod);
         //MsgLogConsole(Format('sidebar click: caption "%s", py %s.%s',
         //  [SCaption, SModule, SMethod]));
         DoPyCommand(SModule, SMethod, []);
