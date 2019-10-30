@@ -280,6 +280,7 @@ end;
 
 function DoLoadLexerStyleFromFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string): boolean;
 var
+  Sep: TATStringSeparator;
   N, Len: integer;
   s: string;
 begin
@@ -302,10 +303,15 @@ begin
   s:= cfg.GetValue(skey+'Border', '');
   if s<>'' then
   begin
-    st.BorderTypeLeft:= TecBorderLineType(StrToIntDef(SGetItem(s), 0));
-    st.BorderTypeRight:= TecBorderLineType(StrToIntDef(SGetItem(s), 0));
-    st.BorderTypeTop:= TecBorderLineType(StrToIntDef(SGetItem(s), 0));
-    st.BorderTypeBottom:= TecBorderLineType(StrToIntDef(SGetItem(s), 0));
+    Sep.Init(s);
+    Sep.GetItemInt(N, 0);
+    st.BorderTypeLeft:= TecBorderLineType(N);
+    Sep.GetItemInt(N, 0);
+    st.BorderTypeRight:= TecBorderLineType(N);
+    Sep.GetItemInt(N, 0);
+    st.BorderTypeTop:= TecBorderLineType(N);
+    Sep.GetItemInt(N, 0);
+    st.BorderTypeBottom:= TecBorderLineType(N);
   end;
 end;
 
