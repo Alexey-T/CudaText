@@ -4003,9 +4003,10 @@ begin
 
         APP_PROC_EXEC_PLUGIN:
           begin
-            Str1:= SGetItem(Str);
-            Str2:= SGetItem(Str);
-            Str3:= Str;
+            Sep.Init(Str);
+            Sep.GetItemStr(Str1);
+            Sep.GetItemStr(Str2);
+            Sep.GetItemStr(Str3);
             fmMain.DoPyCommand(Str1, Str2, Str3);
             Result:= ReturnNone;
           end;
