@@ -775,7 +775,7 @@ type
     TagString: string;
   end;
 
-function CommandPlugins_GetIndexFromModuleAndMethod(AStr: string): integer;
+function CommandPlugins_GetIndexFromModuleAndMethod(const AText: string): integer;
 procedure CommandPlugins_UpdateSubcommands(AStr: string);
 
 function AppEncodingShortnameToFullname(const S: string): string;
@@ -1633,16 +1633,18 @@ begin
 end;
 }
 
-function CommandPlugins_GetIndexFromModuleAndMethod(AStr: string): integer;
+function CommandPlugins_GetIndexFromModuleAndMethod(const AText: string): integer;
 var
-  i: integer;
+  Sep: TATStringSeparator;
   SModule, SProc, SProcParam: string;
+  i: integer;
 begin
   Result:= -1;
 
-  SModule:= SGetItem(AStr);
-  SProc:= SGetItem(AStr);
-  SProcParam:= SGetItem(AStr);
+  Sep.Init(AText);
+  Sep.GetItemStr(SModule);
+  Sep.GetItemStr(SProc);
+  Sep.GetItemStr(SProcParam);
 
   if SModule='' then exit;
   if SProc='' then exit;
