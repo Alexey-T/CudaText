@@ -5621,6 +5621,7 @@ var
   List: TImageList;
   NX, NY, NIndex: integer;
   Canvas: TCanvas;
+  Sep: TATStringSeparator;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:imagelist_proc', @IdList, @IdAction, @PtrValue)) then
@@ -5655,8 +5656,9 @@ begin
 
         IMAGELIST_SET_SIZE:
           begin
-            NX:= StrToIntDef(SGetItem(StrValue), 0);
-            NY:= StrToIntDef(SGetItem(StrValue), 0);
+            Sep.Init(StrValue);
+            Sep.GetItemInt(NX, 0);
+            Sep.GetItemInt(NY, 0);
             List.Width:= Min(500, Max(4, NX));
             List.Height:= Min(500, Max(4, NY));
             Result:= Py_BuildValue('(ii)', List.Width, List.Height);
