@@ -1070,7 +1070,7 @@ type
     procedure MsgStatus(AText: string);
     procedure UpdateSidebarButtons;
     procedure UpdateSidebarPanels(const ACaption: string; AndFocus: boolean);
-    procedure UpdateStatusbarPanelsFromString(AStr: string);
+    procedure UpdateStatusbarPanelsFromString(const AText: string);
     procedure UpdateStatusbarHints;
     procedure UpdateBottomButtons;
     procedure UpdateStatus_ForFrame(AStatus: TATStatus; F: TEditorFrame);

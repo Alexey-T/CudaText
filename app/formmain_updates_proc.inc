@@ -1104,11 +1104,12 @@ begin
 end;
 
 
-procedure TfmMain.UpdateStatusbarPanelsFromString(AStr: string);
+procedure TfmMain.UpdateStatusbarPanelsFromString(const AText: string);
 var
   SPanel, SItem: string;
   NIndex, NSize, NTag: integer;
   Al: TAlignment;
+  SepAll, SepItem: TATStringSeparator;
   bAutoSize, bStretch: boolean;
 begin
   //complex deletion of panels, touch only CudaText std panels
@@ -1118,15 +1119,16 @@ begin
     Status.DeletePanel(NIndex);
   end;
 
+  SepAll.Init(AText, '|');
   repeat
-    SPanel:= SGetItem(AStr, '|');
-    if SPanel='' then Break;
+    if not SepAll.GetItemStr(SPanel) then Break;
 
+    SepItem.Init(SPanel);
     NTag:= 0;
     NIndex:= Status.PanelCount;
     bStretch:= false;
 
-    SItem:= SGetItem(SPanel);
+    SepItem.GetItemStr(SItem);
     case SItem of
       'caret':   begin NTag:= StatusbarTag_Caret; end;
       'enc':     begin NTag:= StatusbarTag_Enc; end;
@@ -1140,14 +1142,14 @@ begin
       else Continue;
     end;
 
-    SItem:= SGetItem(SPanel);
+    SepItem.GetItemStr(SItem);
     bAutoSize:= SItem='A';
     if bAutoSize then
       Al:= taLeftJustify
     else
       Al:= AppStringToAlignment(SItem);
 
-    SItem:= SGetItem(SPanel);
+    SepItem.GetItemStr(SItem);
     NSize:= Max(16, StrToIntDef(SItem, 200));
 
     Status.AddPanel(-1, NSize, Al, '', -1, NTag, bAutoSize, bStretch);
