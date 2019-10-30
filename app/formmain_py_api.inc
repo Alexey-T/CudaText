@@ -6328,12 +6328,13 @@ begin
 
         APP_IMAGE_PAINT_SIZED:
           begin
-            Num64:= StrToInt64Def(SGetItem(StrValue), 0);
+            Sep.Init(StrValue);
+            Sep.GetItemInt64(Num64, 0);
             Canvas:= Py_CanvasId_to_CanvasObject(Num64);
-            NX:= StrToIntDef(SGetItem(StrValue), 0);
-            NY:= StrToIntDef(SGetItem(StrValue), 0);
-            NX2:= StrToIntDef(SGetItem(StrValue), 0);
-            NY2:= StrToIntDef(SGetItem(StrValue), 0);
+            Sep.GetItemInt(NX, 0);
+            Sep.GetItemInt(NY, 0);
+            Sep.GetItemInt(NX2, 0);
+            Sep.GetItemInt(NY2, 0);
             Canvas_PaintImageInRect(Canvas,
               Image.Picture.Graphic,
               Rect(NX, NY, NX2, NY2));
