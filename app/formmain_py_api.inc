@@ -3421,8 +3421,7 @@ begin
 
         PROP_LINE_STATE:
           begin
-            Str1:= SGetItem(Str);
-            Str2:= SGetItem(Str);
+            SSplitByChar(Str, ',', Str1, Str2);
             N1:= StrToIntDef(Str1, -1);
             N2:= StrToIntDef(Str2, -1);
             if Ed.Strings.IsIndexValid(N1) and (N2>=0) then
