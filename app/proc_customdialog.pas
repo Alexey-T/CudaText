@@ -243,7 +243,7 @@ end;
 
 procedure DoControl_SetState_Checkgroup(C: TCheckGroup; const AValue: string);
 var
-  Sep: TAppStringSeparator;
+  Sep: TATStringSeparator;
   SItem: string;
   N: integer;
 begin
@@ -259,11 +259,11 @@ end;
 
 procedure DoControl_SetState_CheckListbox(C: TCheckListBox; const AValue: string);
 var
-  Sep: TAppStringSeparator;
+  Sep: TATStringSeparator;
   S, S2: string;
   N: integer;
 begin
-  StringSplitByChar(AValue, ';', S, S2);
+  SSplitByChar(AValue, ';', S, S2);
   N:= StrToIntDef(S, -1);
   if (N>=0) and (N<C.Items.Count) then
     C.ItemIndex:= N;
@@ -281,7 +281,7 @@ end;
 
 procedure DoControl_SetState_ListviewItem(C: TListView; const AListItem: string);
 var
-  Sep: TAppStringSeparator;
+  Sep: TATStringSeparator;
   SItem, SKey, SVal: string;
   Col: TListColumn;
   i: integer;
@@ -292,7 +292,7 @@ begin
     repeat
       if not Sep.GetItemStr(SItem) then Break;
       Col:= C.Columns.Add;
-      StringSplitByChar(SItem, '=', SKey, SVal);
+      SSplitByChar(SItem, '=', SKey, SVal);
       Col.Caption:= SKey;
       if SVal<>'' then
       begin
@@ -398,7 +398,7 @@ end;
 
 procedure DoControl_SetColumns_ListView(C: TListView; const AValue: string);
 var
-  SepColumns, SepProps: TAppStringSeparator;
+  SepColumns, SepProps: TATStringSeparator;
   Column: TListColumn;
   SCol, SItem: string;
   Num, NIndex: integer;
@@ -541,11 +541,11 @@ end;
 
 procedure DoControl_SetState_Listview(C: TListView; const AValue: string);
 var
-  Sep: TAppStringSeparator;
+  Sep: TATStringSeparator;
   S, S2: string;
   N: integer;
 begin
-  StringSplitByChar(AValue, ';', S, S2);
+  SSplitByChar(AValue, ';', S, S2);
 
   //index
   N:= StrToIntDef(S, 0);
@@ -975,7 +975,7 @@ begin
   end
   else
   begin
-    StringSplitByChar(AValue, '.', SName, SVal);
+    SSplitByChar(AValue, '.', SName, SVal);
     NPage:= StrToIntDef(SVal, -1);
   end;
 
@@ -1008,7 +1008,7 @@ begin
     exit;
   end;
 
-  StringSplitByChar(AValue, ',', SName, SSide);
+  SSplitByChar(AValue, ',', SName, SSide);
 
   Form:= C.Owner as TFormDummy;
   if SName='' then
@@ -1219,7 +1219,7 @@ end;
 
 procedure DoControl_SetPropsFromString_Adv(C: TControl; const AValue: string);
 var
-  Sep: TAppStringSeparator;
+  Sep: TATStringSeparator;
   SItem: string;
   NIndex: integer;
 begin
@@ -1250,7 +1250,7 @@ end;
 
 procedure DoControl_SetItemsFromString(C: TControl; const AValue: string);
 var
-  Sep: TAppStringSeparator;
+  Sep: TATStringSeparator;
   SItem: string;
   i: integer;
 begin
@@ -1296,7 +1296,7 @@ end;
 
 procedure DoControl_SetPosFromString(C: TControl; const AValue: string);
 var
-  Sep: TAppStringSeparator;
+  Sep: TATStringSeparator;
   NX1, NY1, NX2, NY2: integer;
 begin
   Sep.Init(AValue);
@@ -1887,7 +1887,7 @@ end;
 
 procedure DoForm_AddControl(AForm: TFormDummy; const ATextItems: string);
 var
-  Sep: TAppStringSeparator;
+  Sep: TATStringSeparator;
   SNameValue, SName, SValue: string;
   Ctl: TControl;
 begin
@@ -1895,7 +1895,7 @@ begin
   Sep.Init(ATextItems, #1);
   repeat
     if not Sep.GetItemStr(SNameValue) then Break;
-    StringSplitByChar(SNameValue, '=', SName, SValue);
+    SSplitByChar(SNameValue, '=', SName, SValue);
     if SName='' then Continue;
 
     //type
@@ -2214,7 +2214,7 @@ end;
 
 procedure DoForm_SetPropsFromStringDict(F: TFormDummy; AText: string);
 var
-  Sep: TAppStringSeparator;
+  Sep: TATStringSeparator;
   SItem, SKey, SValue: string;
 begin
   //text is '{key1:value1;key2:value2}' from to_str()
@@ -2224,7 +2224,7 @@ begin
   Sep.Init(AText, #1);
   repeat
     if not Sep.GetItemStr(SItem) then Break;
-    StringSplitByChar(SItem, ':', SKey, SValue);
+    SSplitByChar(SItem, ':', SKey, SValue);
     SValue:= StringReplace(SValue, #2, ',', [rfReplaceAll]);
     DoForm_SetPropFromPair(F, SKey, SValue);
   until false;
@@ -2287,7 +2287,7 @@ end;
 
 procedure DoControl_SetPropsFromStringDict(C: TControl; AText: string);
 var
-  Sep: TAppStringSeparator;
+  Sep: TATStringSeparator;
   SItem, SKey, SValue: string;
 begin
   //text is '{key1:value1;key2:value2}' from to_str()
@@ -2297,7 +2297,7 @@ begin
   Sep.Init(AText, #1);
   repeat
     if not Sep.GetItemStr(SItem) then Break;
-    StringSplitByChar(SItem, ':', SKey, SValue);
+    SSplitByChar(SItem, ':', SKey, SValue);
     SValue:= StringReplace(SValue, #2, ',', [rfReplaceAll]);
     DoControl_SetPropFromPair(C, SKey, SValue);
   until false;

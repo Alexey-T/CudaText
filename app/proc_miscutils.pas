@@ -8,7 +8,6 @@ Copyright (c) Alexey Torgashin
 unit proc_miscutils;
 
 {$mode objfpc}{$H+}
-{$ModeSwitch advancedrecords}
 
 interface
 
@@ -92,23 +91,6 @@ procedure MenuShowAtEditorCorner(AMenu: TPopupMenu; Ed: TATSynEdit);
 
 function StringToIntArray(S: string): TATIntArray;
 function IntArrayToString(const A: TATIntArray): string;
-procedure StringSplitByChar(const S: string; Sep: char; out S1, S2: string);
-
-type
-  { TAppStringSeparator }
-
-  TAppStringSeparator = record
-  private
-    FSep: char;
-    FStr: string;
-    FPos: integer;
-  public
-    procedure Init(const AStr: string; ASep: char=',');
-    function GetItemStr(out AValue: string): boolean;
-    function GetItemInt(out AValue: integer; const ADefault: integer): boolean;
-  end;
-
-procedure TestStringSeparator;
 
 implementation
 
@@ -804,72 +786,6 @@ begin
   SetLength(Result, Length(Result)-1);
 end;
 
-procedure StringSplitByChar(const S: string; Sep: char; out S1, S2: string);
-var
-  N: integer;
-begin
-  N:= Pos(Sep, S);
-  if N=0 then
-  begin
-    S1:= '';
-    S2:= '';
-  end
-  else
-  begin
-    S1:= Copy(S, 1, N-1);
-    S2:= Copy(S, N+1, Length(S));
-  end;
-end;
-
-
-{ TAppStringSeparator }
-
-procedure TAppStringSeparator.Init(const AStr: string; ASep: char);
-begin
-  FStr:= AStr;
-  FSep:= ASep;
-  FPos:= 1;
-end;
-
-function TAppStringSeparator.GetItemStr(out AValue: string): boolean;
-var
-  N: integer;
-begin
-  if FPos>Length(FStr) then
-  begin
-    AValue:= '';
-    exit(false);
-  end;
-  N:= PosEx(FSep, FStr, FPos);
-  if N=0 then
-    N:= Length(FStr)+1;
-  AValue:= Copy(FStr, FPos, N-FPos);
-  FPos:= N+1;
-  Result:= true;
-end;
-
-function TAppStringSeparator.GetItemInt(out AValue: integer; const ADefault: integer): boolean;
-var
-  SVal: string;
-begin
-  Result:= GetItemStr(SVal);
-  if Result then
-    AValue:= StrToIntDef(SVal, ADefault)
-  else
-    AValue:= ADefault;
-end;
-
-procedure TestStringSeparator;
-var
-  sep: TAppStringSeparator;
-  res, item: string;
-begin
-  sep.init(',,1,,,4', ',');
-  res:= '';
-  while sep.GetItemStr(item) do
-    res+= item+','#10;
-  ShowMessage(res);
-end;
 
 end.
 

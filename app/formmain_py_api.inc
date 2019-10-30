@@ -966,7 +966,7 @@ var
   NBorderL, NBorderR, NBorderD, NBorderU: integer;
   NFontBold, NFontItalic, NFontStrike, NColumn, NMapOnly: integer;
   Obj: TATLinePartClass;
-  SepX, SepY, SepLen: TAppStringSeparator;
+  SepX, SepY, SepLen: TATStringSeparator;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liisssiiiiiiiiiiii:attr',
