@@ -405,21 +405,20 @@ end;
 
 procedure TfmMain.DoOps_LoadHistory_GroupView(c: TJsonConfig);
 var
-  SPanel, SPages: string;
+  Sep: TATStringSeparator;
   i: integer;
 begin
   FOption_GroupMode:= TATGroupsMode(c.GetValue('groups', Ord(gmOne)));
 
-  SPanel:= c.GetValue('/gr/panel', '');
-  SPages:= c.GetValue('/gr/pages', '');
+  Sep.Init(c.GetValue('/gr/panel', ''));
+  Sep.GetItemInt(FOption_GroupPanelSize.x, 50);
+  Sep.GetItemInt(FOption_GroupPanelSize.y, 50);
 
-  FOption_GroupPanelSize.x:= StrToIntDef(SGetItem(SPanel), 50);
-  FOption_GroupPanelSize.y:= StrToIntDef(SGetItem(SPanel), 50);
-
+  Sep.Init(c.GetValue('/gr/pages', ''));
   for i in TATGroupsNums do
   begin
-    FOption_GroupSizes[i].x:= StrToIntDef(SGetItem(SPages), 50);
-    FOption_GroupSizes[i].y:= StrToIntDef(SGetItem(SPages), 50);
+    Sep.GetItemInt(FOption_GroupSizes[i].x, 50);
+    Sep.GetItemInt(FOption_GroupSizes[i].y, 50);
   end;
 end;
 
