@@ -3100,8 +3100,9 @@ begin
 
         PROP_LINK_AT_POS:
           begin
-            Pnt.X:= StrToIntDef(SGetItem(Str), -1);
-            Pnt.Y:= StrToIntDef(SGetItem(Str), -1);
+            Sep.Init(Str);
+            Sep.GetItemInt(Pnt.X, -1);
+            Sep.GetItemInt(Pnt.Y, -1);
             Str:= Ed.DoGetLinkAtPos(Pnt.X, Pnt.Y);
             Result:= PyString_FromString(PChar(Str));
           end;
