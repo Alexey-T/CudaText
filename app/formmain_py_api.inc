@@ -28,18 +28,21 @@ begin
 end;
 
 
-function AppSendMessageFromString(Str: string): integer;
+function AppSendMessageFromString(const AText: string): integer;
 var
-  H: HWND;
-  Msg: Cardinal;
-  Param1, Param2: Longint;
+  H: Int64;
+  Msg: DWord;
+  Param1, Param2: integer;
+  Sep: TATStringSeparator;
 begin
-  H:= StrToInt64Def(SGetItem(Str), 0);
+  Sep.Init(AText);
+  Sep.GetItemInt64(H, 0);
   if H=0 then exit(0);
-  Msg:= StrToIntDef(SGetItem(Str), 0);
-  Param1:= StrToIntDef(SGetItem(Str), 0);
-  Param2:= StrToIntDef(SGetItem(Str), 0);
-  Result:= SendMessage(H, Msg, Param1, Param2);
+  Sep.GetItemDWord(Msg, 0);
+  if Msg=0 then exit(0);
+  Sep.GetItemInt(Param1, 0);
+  Sep.GetItemInt(Param2, 0);
+  Result:= SendMessage(HWND(H), Cardinal(Msg), Param1, Param2);
 end;
 
 //func at begin
@@ -1145,6 +1148,7 @@ var
   StrTag, StrPos: string;
   NLen, i: integer;
   FItem: TATHotspotItem;
+  Sep: TATStringSeparator;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'LiLss:hotspots', @H, @Id, @NTag, @PtrTag, @PtrPos)) then
@@ -1175,10 +1179,11 @@ begin
 
         HOTSPOT_ADD:
           begin
-            FItem.PosX:= StrToIntDef(SGetItem(StrPos), -1);
-            FItem.PosY:= StrToIntDef(SGetItem(StrPos), -1);
-            FItem.EndX:= StrToIntDef(SGetItem(StrPos), -1);
-            FItem.EndY:= StrToIntDef(SGetItem(StrPos), -1);
+            Sep.Init(StrPos);
+            Sep.GetItemInt(FItem.PosX, -1);
+            Sep.GetItemInt(FItem.PosY, -1);
+            Sep.GetItemInt(FItem.EndX, -1);
+            Sep.GetItemInt(FItem.EndY, -1);
             if (FItem.PosX<0) or
                (FItem.PosY<0) or
                (FItem.EndX<0) or
