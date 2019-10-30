@@ -6871,8 +6871,7 @@ begin
       Timer:= nil;
       for N:= 0 to fmMain.FListTimers.Count-1 do
       begin
-        SAll:= fmMain.FListTimers[N];
-        SItem:= SGetItem(SAll, '|');
+        SSplitByChar(fmMain.FListTimers[N], '|', SItem, SAll);
         if SItem=StrCallback then
         begin
           Timer:= TTimer(fmMain.FListTimers.Objects[N]);
