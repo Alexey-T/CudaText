@@ -6558,6 +6558,7 @@ var
   Ada: TATAdapterEControl;
   NValue: Int64;
   TreeContainer: TAppTreeContainer;
+  Sep: TATStringSeparator;
   Ok: boolean;
   NX, NY, N1, N2: integer;
 begin
@@ -6579,8 +6580,9 @@ begin
 
         EDACTION_FIND_BRACKET:
           begin
-            NX:= StrToIntDef(SGetItem(StrText1), -1);
-            NY:= StrToIntDef(SGetItem(StrText1), -1);
+            Sep.Init(StrText1);
+            Sep.GetItemInt(NX, -1);
+            Sep.GetItemInt(NY, -1);
             EditorBracket_FindPairEx(Ed,
               NX, NY,
               StrText2,
@@ -6591,10 +6593,12 @@ begin
 
         EDACTION_SHOW_POS:
           begin
-            NX:= StrToIntDef(SGetItem(StrText1), -1);
-            NY:= StrToIntDef(SGetItem(StrText1), -1);
-            N1:= StrToIntDef(SGetItem(StrText2), 0);
-            N2:= StrToIntDef(SGetItem(StrText2), 0);
+            Sep.Init(StrText1);
+            Sep.GetItemInt(NX, -1);
+            Sep.GetItemInt(NY, -1);
+            Sep.Init(StrText2);
+            Sep.GetItemInt(N1, 0);
+            Sep.GetItemInt(N2, 0);
             if (NX>=0) and Ed.Strings.IsIndexValid(NY) then
             begin
               ok:= Ed.DoShowPos(Point(NX, NY), N1, N2, true);
