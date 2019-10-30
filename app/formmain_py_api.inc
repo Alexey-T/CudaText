@@ -3687,8 +3687,7 @@ begin
           begin
             if Assigned(F) then
             begin
-              Str1:= SGetItem(Str);
-              Str2:= SGetItem(Str);
+              SSplitByChar(Str, ',', Str1, Str2);
               F.Splitted:= Str1<>'-';
               F.SplitHorz:= Str1='h';
               F.SplitPos:= StrToIntDef(Str2, 500)/1000;
