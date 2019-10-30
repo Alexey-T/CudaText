@@ -3656,8 +3656,9 @@ begin
 
         PROP_MARKED_RANGE:
           begin
-            N1:= StrToIntDef(SGetItem(Str), -1);
-            N2:= StrToIntDef(SGetItem(Str), -1);
+            SSplitByChar(Str, ',', Str1, Str2);
+            N1:= StrToIntDef(Str1, -1);
+            N2:= StrToIntDef(Str2, -1);
             Ed.DoSetMarkedLines(N1, N2);
           end;
 
