@@ -797,7 +797,7 @@ type
     procedure DoAutoComplete;
     procedure DoCudaLibAction(const AMethod: string);
     procedure DoDialogCharMap;
-    procedure DoFindActionFromString(AStr: string);
+    procedure DoFindActionFromString(const AStr: string);
     procedure DoFindOptionsFromString(const S: string);
     function DoFindOptionsToString: string;
     procedure DoGotoFromInput(const AInput: string);

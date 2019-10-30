@@ -1052,14 +1052,16 @@ begin
 end;
 
 
-procedure TfmMain.DoFindActionFromString(AStr: string);
+procedure TfmMain.DoFindActionFromString(const AStr: string);
 var
+  Sep: TATStringSeparator;
   SAction, SFind, SRep, SOpt: string;
 begin
-  SAction:= SGetItem(AStr, #1);
-  SFind:= SGetItem(AStr, #1);
-  SRep:= SGetItem(AStr, #1);
-  SOpt:= SGetItem(AStr, #1);
+  Sep.Init(AStr, #1);
+  Sep.GetItemStr(SAction);
+  Sep.GetItemStr(SFind);
+  Sep.GetItemStr(SRep);
+  Sep.GetItemStr(SOpt);
 
   //CR LF -> LF
   SFind:= StringReplace(SFind, #13#10, #10, [rfReplaceAll]);
