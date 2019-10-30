@@ -356,7 +356,7 @@ end;
 procedure TfmMain.DoPyTimerTick(Sender: TObject);
 var
   Timer: TTimer;
-  SAll, SCallback, STag: string;
+  SCallback, STag: string;
   N: integer;
 begin
   Timer:= Sender as TTimer;
@@ -367,9 +367,8 @@ begin
   if Timer.Tag=1 then
     Timer.Enabled:= false;
 
-  SAll:= FListTimers[N];
-  SCallback:= SGetItem(SAll, '|');
-  STag:= 'tag="'+SAll+'"';
+  SSplitByChar(FListTimers[N], '|', SCallback, STag);
+  STag:= 'tag="'+STag+'"';
 
   DoPyCallbackFromAPI(SCallback, [STag]);
 end;
