@@ -33,14 +33,14 @@ implementation
 procedure DoDialogAddonInstalledReport(const SItems, SMsg: string);
 var
   F: TfmAddonReport;
-  SAll, S: string;
+  Sep: TATStringSeparator;
+  S: string;
 begin
   F:= TfmAddonReport.Create(nil);
   try
-    SAll:= SItems;
+    Sep.Init(SItems, #10);
     repeat
-      S:= SGetItem(SAll, #10);
-      if S='' then Break;
+      if not Sep.GetItemStr(S) then Break;
       F.ListBox1.Items.Add(S);
     until false;
 
