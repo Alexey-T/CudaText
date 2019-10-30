@@ -278,6 +278,7 @@ var
   sections: TStringList;
   ini_section, s_section, s_caption, s_module, s_method, s_events,
   s_lexers, s_hotkey, s_lexer_item, s_caption_nice: string;
+  Sep: TATStringSeparator;
 begin
   AReport:= '';
   ADirTarget:= '';
@@ -328,13 +329,15 @@ begin
             DoOps_SaveKey_ForPluginModuleAndMethod(false,
               'plugin: '+s_caption_nice, s_module, s_method, '', s_hotkey)
           else
-          repeat
+          begin
             //set in "keys lexer nnnn.json" for all items in s_lexers
-            s_lexer_item:= SGetItem(s_lexers);
-            if s_lexer_item='' then Break;
-            DoOps_SaveKey_ForPluginModuleAndMethod(false,
-              'plugin: '+s_caption_nice, s_module, s_method, s_lexer_item, s_hotkey);
-          until false;
+            Sep.Init(s_lexers);
+            repeat
+              if not Sep.GetItemStr(s_lexer_item) then Break;
+              DoOps_SaveKey_ForPluginModuleAndMethod(false,
+                'plugin: '+s_caption_nice, s_module, s_method, s_lexer_item, s_hotkey);
+            until false;
+          end;
         end;
       end;
 
