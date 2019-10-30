@@ -51,7 +51,7 @@ procedure EditorSaveTempOptions(Ed: TATSynEdit; var Ops: TATEditorTempOps);
 procedure EditorRestoreTempOptions(Ed: TATSynEdit; const Ops: TATEditorTempOps);
 procedure EditorFocus(C: TWinControl);
 procedure EditorMouseClick_AtCursor(Ed: TATSynEdit; AAndSelect: boolean);
-procedure EditorMouseClick_NearCaret(Ed: TATSynEdit; AParams: string; AAndSelect: boolean);
+procedure EditorMouseClick_NearCaret(Ed: TATSynEdit; const AParams: string; AAndSelect: boolean);
 
 procedure EditorClear(Ed: TATSynEdit);
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
@@ -706,13 +706,15 @@ begin
   Ed.Update;
 end;
 
-procedure EditorMouseClick_NearCaret(Ed: TATSynEdit; AParams: string; AAndSelect: boolean);
+procedure EditorMouseClick_NearCaret(Ed: TATSynEdit; const AParams: string; AAndSelect: boolean);
 var
   X, Y: integer;
   Caret: TATCaretItem;
+  Sep: TATStringSeparator;
 begin
-  X:= StrToIntDef(SGetItem(AParams), MaxInt);
-  Y:= StrToIntDef(SGetItem(AParams), MaxInt);
+  Sep.Init(AParams);
+  Sep.GetItemInt(X, MaxInt);
+  Sep.GetItemInt(Y, MaxInt);
   if X=MaxInt then exit;
   if Y=MaxInt then exit;
 
@@ -926,6 +928,7 @@ var
   Pnt: TPoint;
   bExtend: boolean;
   Caret: TATCaretItem;
+  Sep: TATStringSeparator;
 begin
   NumCount:= Ed.Strings.Count;
   if NumCount<2 then exit(false);
@@ -961,12 +964,14 @@ begin
   end
   else
   begin
-    NumLine:= StrToIntDef(SGetItem(SInput, ':'), 0);
+    Sep.Init(SInput, ':');
+    Sep.GetItemInt(NumLine, 0);
+    Sep.GetItemInt(NumCol, 0);
     if NumLine<0 then
       NumLine:= NumCount+NumLine
     else
       Dec(NumLine);
-    NumCol:= StrToIntDef(SInput, 0) - 1;
+    Dec(NumCol);
   end;
 
   Result:= NumLine>=0;
