@@ -2807,6 +2807,7 @@ var
   nTop, nKind, i: integer;
   items, items2: TStringlist;
   BmData: TATBookmarkData;
+  Sep: TATStringSeparator;
 begin
   FillChar(BmData, SizeOf(BmData), 0);
   BmData.ShowInBookmarkList:= true;
@@ -2876,10 +2877,11 @@ begin
   begin
     caret:= Ed.Carets[0];
     str:= c.GetValue(path+cHistory_Caret, '');
-    caret.PosX:= StrToIntDef(SGetItem(str), 0);
-    caret.PosY:= StrToIntDef(SGetItem(str), 0);
-    caret.EndX:= StrToIntDef(SGetItem(str), -1);
-    caret.EndY:= StrToIntDef(SGetItem(str), -1);
+    Sep.Init(str);
+    Sep.GetItemInt(caret.PosX, 0);
+    Sep.GetItemInt(caret.PosY, 0);
+    Sep.GetItemInt(caret.EndX, -1);
+    Sep.GetItemInt(caret.EndY, -1);
     Ed.DoCaretsFixIncorrectPos(true);
     Ed.DoEventCarets;
   end;
