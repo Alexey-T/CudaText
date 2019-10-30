@@ -5,7 +5,8 @@ procedure TfmMain.DoPyStringToEvents(const AEventStr: string;
   out AEventsPrior: TAppPyEventsPrior;
   out AEventsLazy: TAppPyEventsLazy);
 var
-  str, strItem: string;
+  Sep: TATStringSeparator;
+  strItem: string;
   event: TAppPyEvent;
   nPrior: byte;
   bLazy: boolean;
@@ -13,10 +14,9 @@ begin
   AEvents:= [];
   FillChar(AEventsPrior, SizeOf(AEventsPrior), 0);
   FillChar(AEventsLazy, SizeOf(AEventsLazy), 0);
-  str:= AEventStr;
+  Sep.Init(AEventStr);
   repeat
-    strItem:= SGetItem(str);
-    if strItem='' then Break;
+    if not Sep.GetItemStr(strItem) then Break;
 
     nPrior:= 0;
     while SEndsWith(strItem, '+') do
