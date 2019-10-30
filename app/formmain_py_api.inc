@@ -4087,9 +4087,10 @@ begin
         //-------------------
         APP_PROC_SIDEPANEL_ADD_DIALOG:
           begin
-            StrCaption:= SGetItem(Str); //caption
-            StrIndex:= SGetItem(Str); //handle
-            StrFilename:= SGetItem(Str); //icon filename
+            Sep.Init(Str);
+            Sep.GetItemStr(StrCaption); //caption
+            Sep.GetItemStr(StrIndex); //handle
+            Sep.GetItemStr(StrFilename); //icon filename
 
             ok:= fmMain.DoSidebar_AddTab(
               StrCaption,
