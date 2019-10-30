@@ -5101,14 +5101,14 @@ function TfmMain.DoDialogMenuApi(const AText, ACaption: string;
   AShowCentered: boolean): integer;
 var
   Form: TfmMenuApi;
-  S, SItem: string;
+  Sep: TATStringSeparator;
+  SItem: string;
 begin
   Form:= TfmMenuApi.Create(nil);
   try
-    S:= AText;
+    Sep.Init(AText, #10);
     repeat
-      SItem:= SGetItem(S, #10);
-      if SItem='' then Break;
+      if not Sep.GetItemStr(SItem) then Break;
       Form.listItems.Add(SItem);
     until false;
 
