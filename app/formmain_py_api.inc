@@ -2759,6 +2759,7 @@ var
   Pnt: TPoint;
   Ada: TATAdapterEControl;
   Lex: TecSyntAnalyzer;
+  Sep: TATStringSeparator;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:get_prop', @H, @Id, @Ptr)) then
@@ -2859,8 +2860,9 @@ begin
 
         PROP_LEXER_POS:
           begin
-            Pnt.X:= StrToIntDef(SGetItem(Str, ','), 0);
-            Pnt.Y:= StrToIntDef(SGetItem(Str, ','), 0);
+            Sep.Init(Str, ',');
+            Sep.GetItemInt(Pnt.X, 0);
+            Sep.GetItemInt(Pnt.Y, 0);
             //if editor in frame, use frame's prop
             if Assigned(F) then
               Result:= PyString_FromString(PChar(F.LexerNameAtPos(Ed, Pnt)))
