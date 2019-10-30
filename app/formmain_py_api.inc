@@ -2105,21 +2105,22 @@ end;
 procedure TfmMain.PyCompletionOnResult(Sender: TObject;
   const ASnippetId: string; ASnippetIndex: integer);
 var
+  Sep: TATStringSeparator;
+  StrLine, StrSnippet: string;
   i: integer;
-  Str0, Str1, StrSnippet: string;
 begin
   //find index-th line
-  Str0:= FPyComplete_Text;
-  Str1:= '';
+  Sep.Init(FPyComplete_Text, #10);
   for i:= 0 to ASnippetIndex do
-    Str1:= SGetItem(Str0, #10);
-  //in line snippet is 3rd column, skip 2 columns
-  Str0:= Str1;
-  Str1:= SGetItem(Str0, #9);
-  Str1:= SGetItem(Str0, #9);
-  StrSnippet:= Str0;
+    Sep.GetItemStr(StrLine);
+
+  //in line: snippet is 3rd column, skip 2 columns
+  Sep.Init(StrLine, #9);
+  for i:= 1 to 3 do
+    Sep.GetItemStr(StrSnippet);
 
   //ShowMessage('id: '+ASnippetId+#10+'text:'#10+StrSnippet);
+
   DoPyEvent(FPyComplete_Editor, cEventOnSnippet, [
     SStringToPythonString(ASnippetId),
     SStringToPythonString(StrSnippet)
