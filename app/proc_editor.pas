@@ -1017,8 +1017,8 @@ var
   S: string;
 begin
   Sep.Init(AText);
-  Sep.GetItemInt(Props.Width, 0);
-  Sep.GetItemInt(Props.Height, 0);
+  Sep.GetItemInt(Props.Width, 1);
+  Sep.GetItemInt(Props.Height, -100);
   Sep.GetItemStr(S);
   Props.EmptyInside:= S='_';
 end;
@@ -1030,8 +1030,8 @@ var
   S: string;
 begin
   Sep.Init(AText);
-  Sep.GetItemInt(Props.Width, 0);
-  Sep.GetItemInt(Props.Height, 0);
+  Sep.GetItemInt(Props.Width, 1);
+  Sep.GetItemInt(Props.Height, -100);
   Sep.GetItemStr(S);
   Props.EmptyInside:= S='1';
 end;
