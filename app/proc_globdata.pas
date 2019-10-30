@@ -534,7 +534,7 @@ procedure FixRectPositionToDesktop(var F: TRect);
 
 function GetAppKeymap_LexerSpecificConfig(AName: string): string;
 function GetAppKeymapHotkey(const ACmdString: string): string;
-function SetAppKeymapHotkey(AParams: string): boolean;
+function SetAppKeymapHotkey(const AParams: string): boolean;
 
 function AppKeymapCheckDuplicateForCommand(
   AKeymapItem: TATKeymapItem;
@@ -1774,15 +1774,18 @@ begin
 end;
 
 
-function SetAppKeymapHotkey(AParams: string): boolean;
+function SetAppKeymapHotkey(const AParams: string): boolean;
 var
+  Sep: TATStringSeparator;
   NCode, NIndex: integer;
   SCmd, SKey1, SKey2: string;
 begin
   Result:= false;
-  SCmd:= SGetItem(AParams, '|');
-  SKey1:= SGetItem(AParams, '|');
-  SKey2:= SGetItem(AParams, '|');
+
+  Sep.Init(AParams, '|');
+  Sep.GetItemStr(SCmd);
+  Sep.GetItemStr(SKey1);
+  Sep.GetItemStr(SKey2);
 
   if Pos(',', SCmd)=0 then
     NCode:= StrToIntDef(SCmd, 0)
