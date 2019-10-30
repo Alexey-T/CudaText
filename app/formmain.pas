@@ -6241,11 +6241,12 @@ end;
 
 procedure TfmMain.MenuitemClick_CommandFromHint(Sender: TObject);
 var
-  SCmd, SModule, SProc: string;
+  Sep: TATStringSeparator;
+  SModule, SProc: string;
 begin
-  SCmd:= (Sender as TMenuItem).Hint;
-  SModule:= SGetItem(SCmd);
-  SProc:= SGetItem(SCmd);
+  Sep.Init((Sender as TMenuItem).Hint);
+  Sep.GetItemStr(SModule);
+  Sep.GetItemStr(SProc);
   DoPyCommand(SModule, SProc, []);
 end;
 
