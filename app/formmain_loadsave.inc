@@ -552,13 +552,18 @@ begin
 end;
 
 procedure TfmMain.DoApplyInitialWindowPos;
+var
+  Sep: TATStringSeparator;
+  NLeft, NTop, NWidth, NHeight: integer;
 begin
   if FOption_WindowPos<>'' then
   begin
-    Left:= StrToIntDef(SGetItem(FOption_WindowPos), Left);
-    Top:= StrToIntDef(SGetItem(FOption_WindowPos), Top);
-    Width:= StrToIntDef(SGetItem(FOption_WindowPos), Width);
-    Height:= StrToIntDef(SGetItem(FOption_WindowPos), Height);
+    Sep.Init(FOption_WindowPos);
+    Sep.GetItemInt(NLeft, Left);
+    Sep.GetItemInt(NTop, Top);
+    Sep.GetItemInt(NWidth, Width);
+    Sep.GetItemInt(NHeight, Height);
+    SetBounds(NLeft, NTop, NWidth, NHeight);
   end;
 end;
 
