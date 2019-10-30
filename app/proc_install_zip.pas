@@ -77,14 +77,15 @@ begin
 end;
 
 
-function CheckValue_ReqLexer(S: string): boolean;
+function CheckValue_ReqLexer(const AText: string): boolean;
 var
+  Sep: TATStringSeparator;
   SItem: string;
 begin
   Result:= true;
+  Sep.Init(AText);
   repeat
-    SItem:= SGetItem(S);
-    if SItem='' then Break;
+    if not Sep.GetItemStr(SItem) then Break;
     if AppManager.FindLexerByName(SItem)=nil then
       exit(false);
   until false;
