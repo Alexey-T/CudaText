@@ -27,6 +27,7 @@ type
 function STextWholeWordSelection(const S: UnicodeString; OffsetBegin, OffsetEnd: integer;
   const ANonWordChars: UnicodeString): boolean;
 function SFindFuzzyPositions(SText, SFind: UnicodeString): TATIntArray;
+procedure SDeleteDuplicateSpaces(var S: string);
 function STextListsAllWords(SText, SWords: string): boolean;
 function STextListsFuzzyInput(const SText, SFind: string): boolean;
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
@@ -202,21 +203,32 @@ begin
   end;
 end;
 
+procedure SDeleteDuplicateSpaces(var S: string);
+var
+  N: integer;
+begin
+  repeat
+    N:= Pos('  ', S);
+    if N=0 then Break;
+    Delete(S, N, 1);
+  until false;
+end;
+
 function STextListsAllWords(SText, SWords: string): boolean;
 var
+  Sep: TATStringSeparator;
   SItem: string;
 begin
+  SDeleteDuplicateSpaces(SWords);
   SText:= Trim(AnsiLowerCase(SText));
   SWords:= Trim(AnsiLowerCase(SWords));
 
   if SText='' then exit(false);
   if SWords='' then exit(false);
 
+  Sep.Init(SWords, ' ');
   repeat
-    SItem:= Trim(SGetItem(SWords, ' '));
-    SWords:= Trim(SWords);
-
-    if SItem='' then exit(true);
+    if not Sep.GetItemStr(SItem) then exit(true);
     if Pos(SItem, SText)=0 then exit(false);
   until false;
 end;
