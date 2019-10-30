@@ -235,7 +235,7 @@ const
 var
   cl: TColor;
   n, i: integer;
-  str, buf: string;
+  buf, temp1, temp2: string;
   strname, strkey, strfind: UnicodeString;
   ar: TATIntArray;
   pnt: TPoint;
@@ -256,9 +256,9 @@ begin
   c.Pen.Color:= cl;
   c.FillRect(ARect);
 
-  str:= listItems[PtrInt(listFiltered[AIndex])]; //ansi
-  strname:= Utf8Decode(SGetItem(str, #9)); //uni
-  strkey:= Utf8Decode(SGetItem(str, #9)); //uni
+  SSplitByChar(listItems[PtrInt(listFiltered[AIndex])], #9, temp1, temp2);
+  strname:= Utf8Decode(temp1); //uni
+  strkey:= Utf8Decode(temp2); //uni
   strfind:= Trim(edit.Text); //uni
 
   pnt:= Point(ARect.Left+cIndent, ARect.Top+1);
