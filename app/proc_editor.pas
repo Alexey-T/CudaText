@@ -123,7 +123,8 @@ implementation
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
   AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering: boolean);
 var
-  S: string;
+  Sep: TATStringSeparator;
+  N: integer;
 begin
   Ed.Font.Name:= Op.OpFontName;
   Ed.FontItalic.Name:= Op.OpFontName_i;
@@ -260,11 +261,16 @@ begin
   Ed.OptFoldTooltipVisible:= Op.OpFoldTooltipShow;
 
   Ed.OptStapleStyle:= TATLineStyle(Op.OpStaplesStyle);
-  S:= Op.OpStaplesProps;
-  Ed.OptStapleIndent:= StrToIntDef(SGetItem(S), 0);
-  Ed.OptStapleWidthPercent:= StrToIntDef(SGetItem(S), 40);
-  Ed.OptStapleEdge1:= TATStapleEdge(StrToIntDef(SGetItem(S), 1));
-  Ed.OptStapleEdge2:= TATStapleEdge(StrToIntDef(SGetItem(S), 1));
+
+  Sep.Init(Op.OpStaplesProps);
+  Sep.GetItemInt(N, 0);
+  Ed.OptStapleIndent:= N;
+  Sep.GetItemInt(N, 40);
+  Ed.OptStapleWidthPercent:= N;
+  Sep.GetItemInt(N, 1);
+  Ed.OptStapleEdge1:= TATStapleEdge(N);
+  Sep.GetItemInt(N, 1);
+  Ed.OptStapleEdge2:= TATStapleEdge(N);
 
   Ed.OptAutoIndent:= Op.OpIndentAuto;
   if Op.OpIndentAutoKind<=Ord(High(TATAutoIndentKind)) then
