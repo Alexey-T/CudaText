@@ -4375,10 +4375,11 @@ begin
           end;
         APP_PROC_COORD_WINDOW_SET:
           begin
-            ParamRect.Left:= StrToIntDef(SGetItem(Str), 0);
-            ParamRect.Top:= StrToIntDef(SGetItem(Str), 0);
-            ParamRect.Right:= StrToIntDef(SGetItem(Str), 0);
-            ParamRect.Bottom:= StrToIntDef(SGetItem(Str), 0);
+            Sep.Init(Str);
+            Sep.GetItemInt(ParamRect.Left, 0);
+            Sep.GetItemInt(ParamRect.Top, 0);
+            Sep.GetItemInt(ParamRect.Right, 0);
+            Sep.GetItemInt(ParamRect.Bottom, 0);
             Application.MainForm.BoundsRect:= ParamRect;
             Result:= ReturnNone;
           end;
