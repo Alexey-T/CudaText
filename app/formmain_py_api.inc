@@ -3904,6 +3904,7 @@ var
   ParamRect: TRect;
   Num64: Int64;
   Pnt: TPoint;
+  Sep: TATStringSeparator;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'is:app_proc', @Id, @Ptr)) then
@@ -3954,10 +3955,11 @@ begin
 
         APP_PROC_SET_EVENTS:
           begin
-            StrId:= SGetItem(Str, ';'); //module
-            StrCmd:= SGetItem(Str, ';'); //events
-            StrCaption:= SGetItem(Str, ';'); //lexers
-            StrIndex:= SGetItem(Str, ';'); //keys
+            Sep.Init(Str, ';');
+            Sep.GetItemStr(StrId); //module
+            Sep.GetItemStr(StrCmd); //events
+            Sep.GetItemStr(StrCaption); //lexers
+            Sep.GetItemStr(StrIndex); //keys
             fmMain.DoPyUpdateEvents(StrId, StrCmd, StrCaption, StrIndex);
             Result:= ReturnNone;
           end;
