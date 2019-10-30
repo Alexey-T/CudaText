@@ -4173,9 +4173,7 @@ begin
 
         APP_PROC_BOTTOMPANEL_ACTIVATE:
           begin
-            Str1:= SGetItem(Str); //tab_caption
-            Str2:= SGetItem(Str); //set_focus, default false (empty str ok)
-
+            SSplitByChar(Str, ',', Str1, Str2);
             ok:= fmMain.DoBottom_ActivateTab(Str1, AppStrToBool(Str2));
             Result:= PyBool_FromLong(Ord(ok));
           end;
