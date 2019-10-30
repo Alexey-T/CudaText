@@ -6278,6 +6278,7 @@ var
   Gr: TGraphic;
   NX, NY, NX2, NY2: integer;
   Canvas: TCanvas;
+  Sep: TATStringSeparator;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:image_proc', @IdImage, @IdAction, @PtrValue)) then
@@ -6316,10 +6317,11 @@ begin
 
         APP_IMAGE_PAINT:
           begin
-            Num64:= StrToInt64Def(SGetItem(StrValue), 0);
+            Sep.Init(StrValue);
+            Sep.GetItemInt64(Num64, 0);
             Canvas:= Py_CanvasId_to_CanvasObject(Num64);
-            NX:= StrToIntDef(SGetItem(StrValue), 0);
-            NY:= StrToIntDef(SGetItem(StrValue), 0);
+            Sep.GetItemInt(NX, 0);
+            Sep.GetItemInt(NY, 0);
             Canvas.Draw(NX, NY, Image.Picture.Graphic);
             Result:= ReturnNone;
           end;
