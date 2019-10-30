@@ -6499,6 +6499,7 @@ var
   NFontSize: integer;
   bWithNums: boolean;
   NColorBg, NColorNums: TColor;
+  Sep: TATStringSeparator;
 begin
   SFileName:= '';
   STitle:= '';
@@ -6512,11 +6513,10 @@ begin
   if SParams[1]='{' then
     SParams:= Copy(SParams, 2, Length(SParams)-2);
 
+  Sep.Init(SParams, #1);
   repeat
-    SItem:= SGetItem(SParams, #1);
-    if SItem='' then Break;
-    SKey:= SGetItem(SItem, ':');
-    SValue:= SItem;
+    if not Sep.GetItemStr(SItem) then Break;
+    SSplitByChar(SItem, ':', SKey, SValue);
     SValue:= StringReplace(SValue, #2, ',', [rfReplaceAll]);
 
     case SKey of
