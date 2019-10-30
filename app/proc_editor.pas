@@ -81,8 +81,8 @@ function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boole
 function EditorAutoCloseBracket(Ed: TATSynEdit; CharBegin: atChar): boolean;
 procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer);
 
-procedure EditorCaretPropsFromString(Props: TATCaretProps; S: string);
-procedure EditorCaretPropsFromPyTuple(Props: TATCaretProps; S: string);
+procedure EditorCaretPropsFromString(Props: TATCaretProps; const AText: string);
+procedure EditorCaretPropsFromPyTuple(Props: TATCaretProps; const AText: string);
 
 type
   TATEditorBracketKind = (
@@ -1011,19 +1011,29 @@ begin
 end;
 
 
-procedure EditorCaretPropsFromString(Props: TATCaretProps; S: string);
+procedure EditorCaretPropsFromString(Props: TATCaretProps; const AText: string);
+var
+  Sep: TATStringSeparator;
+  S: string;
 begin
-  Props.Width:= StrToIntDef(SGetItem(S), 0);
-  Props.Height:= StrToIntDef(SGetItem(S), 0);
-  Props.EmptyInside:= SGetItem(S)='_';
+  Sep.Init(AText);
+  Sep.GetItemInt(Props.Width, 0);
+  Sep.GetItemInt(Props.Height, 0);
+  Sep.GetItemStr(S);
+  Props.EmptyInside:= S='_';
 end;
 
 
-procedure EditorCaretPropsFromPyTuple(Props: TATCaretProps; S: string);
+procedure EditorCaretPropsFromPyTuple(Props: TATCaretProps; const AText: string);
+var
+  Sep: TATStringSeparator;
+  S: string;
 begin
-  Props.Width:= StrToIntDef(SGetItem(S), 0);
-  Props.Height:= StrToIntDef(SGetItem(S), 0);
-  Props.EmptyInside:= SGetItem(S)='1';
+  Sep.Init(AText);
+  Sep.GetItemInt(Props.Width, 0);
+  Sep.GetItemInt(Props.Height, 0);
+  Sep.GetItemStr(S);
+  Props.EmptyInside:= S='1';
 end;
 
 function EditorBracket_GetPairForClosingBracketOrQuote(ch: char): char;
