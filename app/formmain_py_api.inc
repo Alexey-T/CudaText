@@ -4917,6 +4917,7 @@ var
   PopupItem: TMenuItem;
   NX, NY: integer;
   ImgList: TImageList;
+  Sep: TATStringSeparator;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'sississ:menu_proc',
@@ -5015,8 +5016,9 @@ begin
               Popup.PopUp //at cursor position
             else
             begin
-              NX:= StrToIntDef(SGetItem(StrCmd), 0);
-              NY:= StrToIntDef(SGetItem(StrCmd), 0);
+              Sep.Init(StrCmd);
+              Sep.GetItemInt(NX, 0);
+              Sep.GetItemInt(NY, 0);
               Popup.PopUp(NX, NY);
             end;
             Result:= ReturnNone;
