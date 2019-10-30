@@ -80,12 +80,10 @@ procedure TfmMenuList.ListDrawItem(Sender: TObject; C: TCanvas; AIndex: integer;
   const ARect: TRect);
 var
   pnt: TPoint;
-  str0, str1, str2: string;
+  str1, str2: string;
   NColorFont, NColorBack: TColor;
 begin
-  str0:= Items[AIndex];
-  str1:= SGetItem(str0, #9);
-  str2:= str0;
+  SSplitByChar(Items[AIndex], #9, str1, str2);
 
   if AIndex=List.ItemIndex then
   begin
