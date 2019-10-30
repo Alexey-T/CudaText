@@ -5722,6 +5722,7 @@ var
   TreeCont: TAppTreeContainer;
   TreeNode, Node1: TTreeNode;
   ItemList: TList;
+  Sep: TATStringSeparator;
   i: integer;
 begin
   with GetPythonEngine do
@@ -5913,10 +5914,11 @@ begin
 
         TREE_ITEM_SET_RANGE:
           begin
-            Pnt1.X:= StrToIntDef(SGetItem(StrText), 0);
-            Pnt1.Y:= StrToIntDef(SGetItem(StrText), 0);
-            Pnt2.X:= StrToIntDef(SGetItem(StrText), 0);
-            Pnt2.Y:= StrToIntDef(SGetItem(StrText), 0);
+            Sep.Init(StrText);
+            Sep.GetItemInt(Pnt1.X, 0);
+            Sep.GetItemInt(Pnt1.Y, 0);
+            Sep.GetItemInt(Pnt2.X, 0);
+            Sep.GetItemInt(Pnt2.Y, 0);
             fmMain.DoCodetree_SetSyntaxRange(TreeNode, Pnt1, Pnt2);
             Result:= ReturnNone;
           end;
