@@ -3400,8 +3400,7 @@ begin
 
         PROP_COLOR:
           begin
-            Str1:= SGetItem(Str);
-            Str2:= SGetItem(Str);
+            SSplitByChar(Str, ',', Str1, Str2);
             N1:= StrToIntDef(Str2, -1);
             if N1<>-1 then
               EditorSetColorById(Ed, Str1, N1);
