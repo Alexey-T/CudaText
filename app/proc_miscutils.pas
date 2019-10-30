@@ -36,7 +36,7 @@ procedure FormHistorySave(F: TForm; const AConfigPath: string; AWithPos: boolean
 procedure FormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean);
 
 function Canvas_NumberToFontStyles(Num: integer): TFontStyles;
-procedure Canvas_PaintPolygonFromSting(C: TCanvas; Str: string);
+procedure Canvas_PaintPolygonFromSting(C: TCanvas; const AText: string);
 procedure Canvas_PaintImageInRect(C: TCanvas; APic: TGraphic; const ARect: TRect);
 function DoPictureLoadFromFile(const AFilename: string): TGraphic;
 procedure DoScalePanelControls(APanel: TWinControl);
@@ -248,20 +248,19 @@ begin
   if (Num and FONT_S)<>0 then Include(Result, fsStrikeOut);
 end;
 
-procedure Canvas_PaintPolygonFromSting(C: TCanvas; Str: string);
+procedure Canvas_PaintPolygonFromSting(C: TCanvas; const AText: string);
 var
-  S1, S2: string;
+  Sep: TATStringSeparator;
   P: TPoint;
   Pnt: array of TPoint;
 begin
   SetLength(Pnt, 0);
+  Sep.Init(AText);
   repeat
-    S1:= SGetItem(Str, ',');
-    S2:= SGetItem(Str, ',');
-    if (S1='') or (S2='') then Break;
-    P.X:= StrToIntDef(S1, MaxInt);
-    P.Y:= StrToIntDef(S2, MaxInt);
-    if (P.X=MaxInt) or (P.Y=MaxInt) then Exit;
+    if not Sep.GetItemInt(P.X, MaxInt) then Break;
+    if not Sep.GetItemInt(P.Y, MaxInt) then Break;
+    if (P.X=MaxInt) then Exit;
+    if (P.Y=MaxInt) then Exit;
     SetLength(Pnt, Length(Pnt)+1);
     Pnt[Length(Pnt)-1]:= P;
   until false;
