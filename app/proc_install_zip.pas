@@ -61,15 +61,16 @@ uses
   proc_lexer_styles;
 
 
-function CheckValue_ReqPlugin(S: string): boolean;
+function CheckValue_ReqPlugin(const AText: string): boolean;
 var
+  Sep: TATStringSeparator;
   SItem: string;
 begin
   Result:= true;
 
+  Sep.Init(AText);
   repeat
-    SItem:= SGetItem(S);
-    if SItem='' then Break;
+    if not Sep.GetItemStr(SItem) then Break;
     if not DirectoryExists(AppDir_Py+DirectorySeparator+SItem) then
       exit(false);
   until false;
