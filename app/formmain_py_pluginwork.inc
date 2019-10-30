@@ -224,10 +224,11 @@ begin
 end;
 
 
-procedure TfmMain.DoOps_AddPluginMenuItem(ACaption: string;
+procedure TfmMain.DoOps_AddPluginMenuItem(const ACaption: string;
   ASubMenu: TMenuItem; ALangFile: TIniFile; ATag: integer);
 var
   mi: TMenuItem;
+  Sep: TATStringSeparator;
   strItem, strLocal: string;
   idx, NInsert: integer;
   bRoot: boolean;
@@ -236,9 +237,9 @@ begin
   bRoot:= true;
 
   //need to parse caption and create subitems, separated with '\'
+  Sep.Init(ACaption, '\');
   repeat
-    strItem:= SGetItem(ACaption, '\');
-    if strItem='' then Break;
+    if not Sep.GetItemStr(strItem) then Break;
 
     //translate items using files data/langmenu/cuda_nnnnn/ru_RU.ini
     if strItem<>'-' then
