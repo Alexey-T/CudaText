@@ -6456,9 +6456,18 @@ var
   LexerLite: TATLiteLexer;
   Obj: TObject;
   Frame: TEditorFrame;
+  SCaption: string;
 begin
   Frame:= CurrentFrame;
   if Frame=nil then exit;
+
+  with TIniFile.Create(GetAppLangFilename) do
+  try
+    SCaption:= ReadString('m_o', 'l_', 'Lexers');
+    SCaption:= StringReplace(SCaption, '&', '', [rfReplaceAll]);
+  finally
+    Free;
+  end;
 
   List:= TStringList.Create;
   try
@@ -6481,7 +6490,7 @@ begin
     NIndex:= 0;
     NIndex:= DoDialogMenuApi(
       List.Text,
-      '',
+      SCaption,
       false,
       NIndex,
       not UiOps.ListboxFuzzySearch,
