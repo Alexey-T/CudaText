@@ -471,10 +471,8 @@ type
     procedure FrameOnInitAdapter(Sender: TObject);
     procedure FrameParseDone(Sender: TObject);
     procedure ListboxOutClick(Sender: TObject);
-    procedure ListboxOutDrawItem(Sender: TObject; C: TCanvas; AIndex: integer;
-      const ARect: TRect);
-    procedure ListboxOutKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure ListboxOutDrawItem(Sender: TObject; C: TCanvas; AIndex: integer; const ARect: TRect);
+    procedure ListboxOutKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure mnuEditClick(Sender: TObject);
     procedure mnuTabColorClick(Sender: TObject);
     procedure mnuTabCopyDirClick(Sender: TObject);
@@ -1890,6 +1888,7 @@ begin
   ListboxOut.CanGetFocus:= true;
   ListboxOut.OwnerDrawn:= true;
   ListboxOut.PopupMenu:= FPopupListboxOutput;
+  ListboxOut.ShowHorzScrollbar:= true;
   ListboxOut.OnDblClick:= @ListboxOutClick;
   ListboxOut.OnDrawItem:= @ListboxOutDrawItem;
   ListboxOut.OnKeyDown:= @ListboxOutKeyDown;
@@ -1901,6 +1900,7 @@ begin
   ListboxVal.CanGetFocus:= true;
   ListboxVal.OwnerDrawn:= true;
   ListboxVal.PopupMenu:= FPopupListboxValidate;
+  ListboxVal.ShowHorzScrollbar:= true;
   ListboxVal.OnDblClick:= @ListboxOutClick;
   ListboxVal.OnDrawItem:= @ListboxOutDrawItem;
   ListboxVal.OnKeyDown:= @ListboxOutKeyDown;
@@ -5463,15 +5463,17 @@ procedure TfmMain.ListboxOutDrawItem(Sender: TObject; C: TCanvas;
 const
   cDx=4; cDy=1;
 var
+  Listbox: TATListbox;
   Prop: PAppPanelProps;
   ResFilename: string;
   ResLine, ResCol: integer;
 begin
-  Prop:= GetAppPanelProps_ByListbox(Sender as TATListbox);
+  Listbox:= Sender as TATListbox;
+  Prop:= GetAppPanelProps_ByListbox(Listbox);
   if Prop=nil then exit;
   if AIndex<0 then exit;
 
-  DoParseOutputLine(Prop^, Prop^.Listbox.Items[AIndex], ResFilename, ResLine, ResCol);
+  DoParseOutputLine(Prop^, Listbox.Items[AIndex], ResFilename, ResLine, ResCol);
   if (ResFilename<>'') and (ResLine>=0) then
   begin
     C.Font.Color:= GetAppColor('ListFontHotkey');
@@ -5483,14 +5485,18 @@ begin
     C.Brush.Color:= GetAppColor('ListBg');
   end;
 
-  if AIndex=Prop^.Listbox.ItemIndex then
+  if AIndex=Listbox.ItemIndex then
   begin
     C.Font.Color:= GetAppColor('ListSelFont');
     C.Brush.Color:= GetAppColor('ListSelBg');
     C.FillRect(ARect);
   end;
 
-  C.TextOut(ARect.Left+cDx, ARect.Top+cDy, Prop^.Listbox.Items[AIndex]);
+  C.TextOut(
+    ARect.Left+cDx-Listbox.ScrollbarHorz.Position,
+    ARect.Top+cDy,
+    Listbox.Items[AIndex]
+    );
 end;
 
 
