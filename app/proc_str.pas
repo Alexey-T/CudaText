@@ -28,6 +28,7 @@ function STextWholeWordSelection(const S: UnicodeString; OffsetBegin, OffsetEnd:
   const ANonWordChars: UnicodeString): boolean;
 function SFindFuzzyPositions(SText, SFind: UnicodeString): TATIntArray;
 procedure SDeleteDuplicateSpaces(var S: string);
+function SDeleteCurlyBrackets(const S: string): string;
 function STextListsAllWords(SText, SWords: string): boolean;
 function STextListsFuzzyInput(const SText, SFind: string): boolean;
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
@@ -434,6 +435,14 @@ begin
   ok1:= (OffsetBegin=0) or not IsCharWord(S[OffsetBegin], ANonWordChars);
   ok2:= (OffsetEnd=Length(S)) or not IsCharWord(S[OffsetEnd+1], ANonWordChars);
   Result:= ok1 and ok2;
+end;
+
+function SDeleteCurlyBrackets(const S: string): string;
+begin
+  if (S<>'') and (S[1]='{') then
+    Result:= Copy(S, 2, Length(S)-2)
+  else
+    Result:= S;
 end;
 
 initialization

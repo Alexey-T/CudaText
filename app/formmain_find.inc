@@ -918,16 +918,13 @@ begin
 end;
 
 
-procedure TfmMain.DoFindOptions_ApplyDict(AText: string);
+procedure TfmMain.DoFindOptions_ApplyDict(const AText: string);
 var
   Sep: TATStringSeparator;
   SItem, SKey, SValue: string;
 begin
   //text is '{key1:value1;key2:value2}' from to_str()
-  if AText[1]='{' then
-    AText:= Copy(AText, 2, Length(AText)-2);
-
-  Sep.Init(AText, #1);
+  Sep.Init(SDeleteCurlyBrackets(AText), #1);
   repeat
     if not Sep.GetItemStr(SItem) then Break;
     SSplitByChar(SItem, ':', SKey, SValue);

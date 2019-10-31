@@ -710,7 +710,7 @@ type
     procedure DoCommandsMsgStatus(Sender: TObject; const ARes: string);
     procedure DoFindMarkingInit(AMode: TATFindMarkingMode);
     procedure DoFindOptions_OnChange(Sender: TObject);
-    procedure DoFindOptions_ApplyDict(AText: string);
+    procedure DoFindOptions_ApplyDict(const AText: string);
     procedure DoFindOptions_ResetInSelection;
     function DoFindOptions_GetDict: PPyObject;
     procedure DoFolderOpen(const ADirName: string; ANewProject: boolean);

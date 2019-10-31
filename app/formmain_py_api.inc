@@ -5069,16 +5069,13 @@ begin
 end;
 
 
-procedure ListboxItem_SetFromString(AItem: TATListboxItemProp; AText: string);
+procedure ListboxItem_SetFromString(AItem: TATListboxItemProp; const AText: string);
 var
   Sep: TATStringSeparator;
   SItem, SKey, SValue: string;
 begin
   //text is '{key1:value1;key2:value2}' from to_str()
-  if AText[1]='{' then
-    AText:= Copy(AText, 2, Length(AText)-2);
-
-  Sep.Init(AText, #1);
+  Sep.Init(SDeleteCurlyBrackets(AText), #1);
   repeat
     if not Sep.GetItemStr(SItem) then Break;
     SSplitByChar(SItem, ':', SKey, SValue);
@@ -6492,7 +6489,7 @@ begin
 end;
 
 
-function Py_ed_action_ExportHtml(Ed: TATSynEdit; SParams: string): boolean;
+function Py_ed_action_ExportHtml(Ed: TATSynEdit; const SParams: string): boolean;
 var
   SItem, SKey, SValue: string;
   SFileName, STitle, SFontName: string;
@@ -6510,10 +6507,7 @@ begin
   NColorNums:= clGray;
 
   //text is '{key1:value1;key2:value2}' from to_str()
-  if SParams[1]='{' then
-    SParams:= Copy(SParams, 2, Length(SParams)-2);
-
-  Sep.Init(SParams, #1);
+  Sep.Init(SDeleteCurlyBrackets(SParams), #1);
   repeat
     if not Sep.GetItemStr(SItem) then Break;
     SSplitByChar(SItem, ':', SKey, SValue);

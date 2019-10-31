@@ -33,6 +33,7 @@ uses
   proc_editor,
   proc_scrollbars,
   proc_lexer_styles,
+  proc_str,
   formconsole,
   PythonEngine;
 
@@ -47,9 +48,9 @@ function IsDialogCustomShown: boolean;
 function DoControl_GetAutoHeight(const Id: string): integer;
 procedure DoControl_CreateNew(const S: string; AForm: TFormDummy; out Ctl: TControl);
 function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
-procedure DoControl_SetPropsFromStringDict(C: TControl; AText: string);
+procedure DoControl_SetPropsFromStringDict(C: TControl; const AText: string);
 function DoForm_GetPropsAsStringDict(F: TFormDummy): PPyObject;
-procedure DoForm_SetPropsFromStringDict(F: TFormDummy; AText: string);
+procedure DoForm_SetPropsFromStringDict(F: TFormDummy; const AText: string);
 procedure DoForm_AdjustLabelForNewControl(F: TForm; Ctl: TControl);
 procedure DoForm_FocusControl(F: TForm; C: TControl);
 procedure DoForm_ScaleAuto(F: TForm; ASimpleResize: boolean=false);
@@ -2212,16 +2213,13 @@ begin
 end;
 
 
-procedure DoForm_SetPropsFromStringDict(F: TFormDummy; AText: string);
+procedure DoForm_SetPropsFromStringDict(F: TFormDummy; const AText: string);
 var
   Sep: TATStringSeparator;
   SItem, SKey, SValue: string;
 begin
   //text is '{key1:value1;key2:value2}' from to_str()
-  if AText[1]='{' then
-    AText:= Copy(AText, 2, Length(AText)-2);
-
-  Sep.Init(AText, #1);
+  Sep.Init(SDeleteCurlyBrackets(AText), #1);
   repeat
     if not Sep.GetItemStr(SItem) then Break;
     SSplitByChar(SItem, ':', SKey, SValue);
@@ -2285,16 +2283,13 @@ begin
 end;
 
 
-procedure DoControl_SetPropsFromStringDict(C: TControl; AText: string);
+procedure DoControl_SetPropsFromStringDict(C: TControl; const AText: string);
 var
   Sep: TATStringSeparator;
   SItem, SKey, SValue: string;
 begin
   //text is '{key1:value1;key2:value2}' from to_str()
-  if AText[1]='{' then
-    AText:= Copy(AText, 2, Length(AText)-2);
-
-  Sep.Init(AText, #1);
+  Sep.Init(SDeleteCurlyBrackets(AText), #1);
   repeat
     if not Sep.GetItemStr(SItem) then Break;
     SSplitByChar(SItem, ':', SKey, SValue);
