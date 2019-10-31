@@ -98,6 +98,8 @@ begin
       Result:= msgPanelProject;
     msgPanelTabs_Init:
       Result:= msgPanelTabs;
+    msgPanelSnippet_Init:
+      Result:= msgPanelSnippet;
     else
       Result:= ACaption;
   end;

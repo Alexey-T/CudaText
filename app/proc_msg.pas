@@ -68,6 +68,7 @@ const
   msgPanelTree_Init = 'Code tree';
   msgPanelProject_Init = 'Project';
   msgPanelTabs_Init = 'Tabs';
+  msgPanelSnippet_Init = 'Snippet Panel';
   msgPanelConsole_Init = 'Console';
   msgPanelOutput_Init = 'Output';
   msgPanelValidate_Init = 'Validate';
@@ -77,6 +78,7 @@ const
   msgPanelTree: string = msgPanelTree_Init;
   msgPanelProject: string = msgPanelProject_Init;
   msgPanelTabs: string = msgPanelTabs_Init;
+  msgPanelSnippet: string = msgPanelSnippet_Init;
 
   msgFinderHintRegex: string = 'regex';
   msgFinderHintCase: string = 'case';

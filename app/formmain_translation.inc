@@ -338,11 +338,13 @@ begin
     msgPanelTree:= ini.ReadString('ui', 't_tre', msgPanelTree_Init);
     msgPanelProject:= ini.ReadString('ui', 't_proj', msgPanelProject_Init);
     msgPanelTabs:= ini.ReadString('ui', 't_tabs', msgPanelTabs_Init);
+    msgPanelSnippet:= ini.ReadString('ui', 't_snip', msgPanelSnippet_Init);
     //
     DoLocToolbarButtonHint(ToolbarSideTop, msgPanelMenu_Init, msgPanelMenu);
     DoLocToolbarButtonHint(ToolbarSideTop, msgPanelTree_Init, msgPanelTree);
     DoLocToolbarButtonHint(ToolbarSideTop, msgPanelProject_Init, msgPanelProject);
     DoLocToolbarButtonHint(ToolbarSideTop, msgPanelTabs_Init, msgPanelTabs);
+    DoLocToolbarButtonHint(ToolbarSideTop, msgPanelSnippet_Init, msgPanelSnippet);
     //
     DoLocToolbarButtonHint(ToolbarSideLow, msgPanelConsole_Init, ini.ReadString('ui', 't_con', msgPanelConsole_Init));
     DoLocToolbarButtonHint(ToolbarSideLow, msgPanelOutput_Init, ini.ReadString('ui', 't_out', msgPanelOutput_Init));
