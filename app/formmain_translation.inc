@@ -339,18 +339,22 @@ begin
     msgPanelProject:= ini.ReadString('ui', 't_proj', msgPanelProject_Init);
     msgPanelTabs:= ini.ReadString('ui', 't_tabs', msgPanelTabs_Init);
     msgPanelSnippet:= ini.ReadString('ui', 't_snip', msgPanelSnippet_Init);
+
+    msgPanelConsole:= ini.ReadString('ui', 't_con', msgPanelConsole_Init);
+    msgPanelOutput:= ini.ReadString('ui', 't_out', msgPanelOutput_Init);
+    msgPanelValidate:= ini.ReadString('ui', 't_val', msgPanelValidate_Init);
+    msgPanelSearch:= ini.ReadString('ui', 't_find', msgPanelSearch_Init);
     //
     DoLocToolbarButtonHint(ToolbarSideTop, msgPanelMenu_Init, msgPanelMenu);
     DoLocToolbarButtonHint(ToolbarSideTop, msgPanelTree_Init, msgPanelTree);
     DoLocToolbarButtonHint(ToolbarSideTop, msgPanelProject_Init, msgPanelProject);
     DoLocToolbarButtonHint(ToolbarSideTop, msgPanelTabs_Init, msgPanelTabs);
     DoLocToolbarButtonHint(ToolbarSideTop, msgPanelSnippet_Init, msgPanelSnippet);
-    //
-    DoLocToolbarButtonHint(ToolbarSideLow, msgPanelConsole_Init, ini.ReadString('ui', 't_con', msgPanelConsole_Init));
-    DoLocToolbarButtonHint(ToolbarSideLow, msgPanelOutput_Init, ini.ReadString('ui', 't_out', msgPanelOutput_Init));
-    DoLocToolbarButtonHint(ToolbarSideLow, msgPanelValidate_Init, ini.ReadString('ui', 't_val', msgPanelValidate_Init));
-    //
-    DoLocToolbarButtonHint(ToolbarSideMid, msgPanelSearch_Init, ini.ReadString('ui', 't_find', msgPanelSearch_Init));
+
+    DoLocToolbarButtonHint(ToolbarSideLow, msgPanelConsole_Init, msgPanelConsole);
+    DoLocToolbarButtonHint(ToolbarSideLow, msgPanelOutput_Init, msgPanelOutput);
+    DoLocToolbarButtonHint(ToolbarSideLow, msgPanelValidate_Init, msgPanelValidate);
+    DoLocToolbarButtonHint(ToolbarSideMid, msgPanelSearch_Init, msgPanelSearch);
     //
     DoLocToolbarButtonHint(ToolbarMain, 'f_new', msgFileNew);
     DoLocToolbarButtonHint(ToolbarMain, 'f_open', msgFileOpen);

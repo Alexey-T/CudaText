@@ -69,6 +69,7 @@ const
   msgPanelProject_Init = 'Project';
   msgPanelTabs_Init = 'Tabs';
   msgPanelSnippet_Init = 'Snippet Panel';
+
   msgPanelConsole_Init = 'Console';
   msgPanelOutput_Init = 'Output';
   msgPanelValidate_Init = 'Validate';
@@ -79,6 +80,11 @@ const
   msgPanelProject: string = msgPanelProject_Init;
   msgPanelTabs: string = msgPanelTabs_Init;
   msgPanelSnippet: string = msgPanelSnippet_Init;
+
+  msgPanelConsole: string = msgPanelConsole_Init;
+  msgPanelOutput: string = msgPanelOutput_Init;
+  msgPanelValidate: string = msgPanelValidate_Init;
+  msgPanelSearch: string = msgPanelSearch_Init;
 
   msgFinderHintRegex: string = 'regex';
   msgFinderHintCase: string = 'case';
