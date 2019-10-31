@@ -6456,17 +6456,9 @@ var
   LexerLite: TATLiteLexer;
   Obj: TObject;
   Frame: TEditorFrame;
-  STitle: string;
 begin
   Frame:= CurrentFrame;
   if Frame=nil then exit;
-
-  STitle:= mnuLexers.Caption;
-  while STitle[Length(STitle)]='.' do
-    SetLength(STitle, Length(STitle)-1);
-  NIndex:= Pos('&', STitle);
-  if NIndex>0 then
-    Delete(STitle, NIndex, 1);
 
   List:= TStringList.Create;
   try
@@ -6489,7 +6481,7 @@ begin
     NIndex:= 0;
     NIndex:= DoDialogMenuApi(
       List.Text,
-      STitle,
+      '',
       false,
       NIndex,
       not UiOps.ListboxFuzzySearch,
