@@ -5354,7 +5354,7 @@ begin
 
         LISTBOX_SET_SCROLLSTYLE:
           begin
-            Listbox.ScrollBars:= TScrollStyle(NIndex);
+            Listbox.ScrollBars:= TATListboxScrollStyle(NIndex);
             Listbox.Invalidate;
             Result:= ReturnNone;
           end;
