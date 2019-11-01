@@ -5347,14 +5347,14 @@ begin
             Result:= ReturnNone;
           end;
 
-        LISTBOX_GET_SHOW_HORZBAR:
+        LISTBOX_GET_SCROLLSTYLE:
           begin
-            Result:= PyBool_FromLong(Ord(Listbox.ShowHorzScrollbar));
+            Result:= PyBool_FromLong(Ord(Listbox.ScrollBars));
           end;
 
-        LISTBOX_SET_SHOW_HORZBAR:
+        LISTBOX_SET_SCROLLSTYLE:
           begin
-            Listbox.ShowHorzScrollbar:= (NIndex=1);
+            Listbox.ScrollBars:= TScrollStyle(NIndex);
             Listbox.Invalidate;
             Result:= ReturnNone;
           end;

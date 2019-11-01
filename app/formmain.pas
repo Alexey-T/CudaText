@@ -1888,7 +1888,7 @@ begin
   ListboxOut.CanGetFocus:= true;
   ListboxOut.OwnerDrawn:= true;
   ListboxOut.PopupMenu:= FPopupListboxOutput;
-  ListboxOut.ShowHorzScrollbar:= true;
+  ListboxOut.ScrollBars:= ssAutoBoth;
   ListboxOut.OnDblClick:= @ListboxOutClick;
   ListboxOut.OnDrawItem:= @ListboxOutDrawItem;
   ListboxOut.OnKeyDown:= @ListboxOutKeyDown;
@@ -1900,7 +1900,7 @@ begin
   ListboxVal.CanGetFocus:= true;
   ListboxVal.OwnerDrawn:= true;
   ListboxVal.PopupMenu:= FPopupListboxValidate;
-  ListboxVal.ShowHorzScrollbar:= true;
+  ListboxVal.ScrollBars:= ssAutoBoth;
   ListboxVal.OnDblClick:= @ListboxOutClick;
   ListboxVal.OnDrawItem:= @ListboxOutDrawItem;
   ListboxVal.OnKeyDown:= @ListboxOutKeyDown;
