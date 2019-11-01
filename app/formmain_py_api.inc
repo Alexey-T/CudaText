@@ -5347,6 +5347,29 @@ begin
             Result:= ReturnNone;
           end;
 
+        LISTBOX_GET_SHOW_HORZBAR:
+          begin
+            Result:= PyBool_FromLong(Ord(Listbox.ShowHorzScrollbar));
+          end;
+
+        LISTBOX_SET_SHOW_HORZBAR:
+          begin
+            Listbox.ShowHorzScrollbar:= (NIndex=1);
+            Listbox.Invalidate;
+            Result:= ReturnNone;
+          end;
+
+        LISTBOX_GET_HSCROLL:
+          begin
+            Result:= PyInt_FromLong(Listbox.ScrollHorz);
+          end;
+
+        LISTBOX_SET_HSCROLL:
+          begin
+            Listbox.ScrollHorz:= NIndex;
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
