@@ -5461,7 +5461,8 @@ end;
 procedure TfmMain.ListboxOutDrawItem(Sender: TObject; C: TCanvas;
   AIndex: integer; const ARect: TRect);
 const
-  cDx=4; cDy=1;
+  cDx=4;
+  cDy=1;
 var
   Listbox: TATListbox;
   Prop: PAppPanelProps;
@@ -5493,7 +5494,7 @@ begin
   end;
 
   C.TextOut(
-    ARect.Left+cDx-Listbox.ScrollbarHorz.Position,
+    ARect.Left+cDx-Listbox.ScrollHorz,
     ARect.Top+cDy,
     Listbox.Items[AIndex]
     );
