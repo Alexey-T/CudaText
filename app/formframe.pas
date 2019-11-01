@@ -1941,7 +1941,7 @@ begin
     UpdateCaptionFromFilename;
   except
     if AAllowErrorMsgBox then
-      MsgBox(msgCannotOpenFile+#13+AFileName, MB_OK or MB_ICONERROR);
+      MsgBox(msgCannotOpenFile+#10+AFileName, MB_OK or MB_ICONERROR);
 
     SetFileName(Ed, '');
     UpdateCaptionFromFilename;
