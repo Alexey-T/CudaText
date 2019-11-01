@@ -574,6 +574,10 @@ begin
   Groups.SaveSplitPos; //apply current sizes to internal Groups vars
 end;
 
+const
+  cDefaultKeymapFile: string =
+    '{ "cuda_comments,cmt_toggle_line_body": {"name": "plugin: Comments: Toggle line comment, at non-space char", "s1": ["Ctrl+/"], "s2": [] } }';
+
 procedure TfmMain.DoOps_LoadKeymap;
 var
   F: TEditorFrame;
@@ -581,6 +585,9 @@ var
 begin
   //func called few times before OnShow because of OnTabFocus, disable these
   if not FAllowLoadKeymap then exit;
+
+  if not FileExists(AppFile_Hotkeys) then
+    DoWriteStringToFile(AppFile_Hotkeys, cDefaultKeymapFile);
 
   AppKeymap_ApplyUndoList(FKeymapUndoList);
   DoOps_LoadKeymapFrom(AppFile_Hotkeys, nil);
