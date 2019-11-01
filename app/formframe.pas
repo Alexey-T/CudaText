@@ -1933,7 +1933,10 @@ procedure TEditorFrame.DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string; AA
   AOpenMode: TAppOpenMode);
 begin
   try
+    if AKeepScroll then
+      Ed.Strings.EncodingDetect:= false;
     Ed.LoadFromFile(AFileName, AKeepScroll);
+    Ed.Strings.EncodingDetect:= true;
     SetFileName(Ed, AFileName);
     UpdateCaptionFromFilename;
   except
