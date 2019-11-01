@@ -1409,8 +1409,8 @@ Possible values of "id_action":
 * LISTBOX_SET_SHOW_X: Sets state of X marks. Param "index": int value.
 * LISTBOX_GET_HOTTRACK: Gets HotTrack state (bool). HotTrack means that listbox highlights item under mouse cursor.
 * LISTBOX_SET_HOTTRACK: Sets HotTrack state. Param "index": 0 or 1 (off/on).
-* LISTBOX_GET_SHOW_HORZBAR: Gets visible state of horizontal scrollbar.
-* LISTBOX_SET_SHOW_HORZBAR: Sets visible state of horizontal scrollbar. Param "index": 0 or 1 (off/on).
+* LISTBOX_GET_SCROLLSTYLE: Gets style of scrollbars. One of SCROLLSTYLE_ constants.
+* LISTBOX_SET_SCROLLSTYLE: Sets style of scrollbars. Param "index": int value, one of SCROLLSTYLE_ constants.
 * LISTBOX_GET_HSCROLL: Gets horizontal scroll position.
 * LISTBOX_SET_HSCROLL: Sets horizontal scroll position. Param "index": int value.
 
@@ -3683,8 +3683,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.action: EDACTION_MICROMAPCOL_DELETE
 
 1.0.311 (app 1.89.1)
-* add: listbox_proc: LISTBOX_GET_SHOW_HORZBAR
-* add: listbox_proc: LISTBOX_SET_SHOW_HORZBAR
+* add: listbox_proc: LISTBOX_GET_SCROLLSTYLE
+* add: listbox_proc: LISTBOX_SET_SCROLLSTYLE
 * add: listbox_proc: LISTBOX_GET_HSCROLL
 * add: listbox_proc: LISTBOX_SET_HSCROLL
 
