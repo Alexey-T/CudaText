@@ -3,6 +3,14 @@
   - fixed
   * changed
 
+1.89.1 (2019/11)
+
++ add: horizontal scrollbar in Output/Validate panels
++ add: don't run Multi Installer on first start, just show info message
+- fix: incorrect multi-caret positions after Del on complex selections
+- fix: slow start of plugin Config Toolbar
+- fix: resetting of file encoding on File Reopen
+
 1.89.0 (2019/10)
 
 + add: built-in bracket highlighting, no more need in plugin Bracket Helper, and it works much faster than plugin. It supports most of plugin's features, including show brackets on gutter, including checks for syntax elements.

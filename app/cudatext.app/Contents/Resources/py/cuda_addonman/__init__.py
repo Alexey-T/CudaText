@@ -34,10 +34,6 @@ STD_MODULES = (
   'cuda_snippet_panel',
   'cuda_sort',
   'cuda_tabs_list',
-  'cuda_testing_code_tree',
-  'cuda_testing_dlg_proc',
-  'cuda_testing_gaps',
-  'cudax_lib',
   )
 STD_LEXERS = (
   'Assembly',
