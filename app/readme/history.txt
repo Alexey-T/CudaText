@@ -5,7 +5,7 @@
 
 1.89.1 (2019/11)
 
-+ add: horizontal scrollbar in Output/Validate panels
++ add: horizontal scrollbar in Output/Validate panels (both scrollbars auto hide)
 + add: don't run Multi Installer on first start, just show info message
 - fix: incorrect multi-caret positions after Del on complex selections
 - fix: slow start of plugin Config Toolbar
