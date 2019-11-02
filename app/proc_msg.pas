@@ -316,6 +316,10 @@ const
   msgCommandLineVersion =
       'CudaText version %s';
 
+  msgFirstStartInfo =
+      'This is the first CudaText start (file history.json not found). '+
+      'You can easily install popular add-ons (Unix: if Python engine is already configured), using menu item "Plugins / Multi Installer".';
+
 
 function GetUntitledCaption: string;
 
