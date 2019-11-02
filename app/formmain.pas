@@ -2445,7 +2445,9 @@ end;
 procedure TfmMain.DoOps_MultiInstaller;
 begin
   if not FileExistsUTF8(AppFile_History) then
-    DoPyCommand('cuda_multi_installer', 'open_menu', []);
+  begin
+    MsgBox(msgFirstStartInfo, MB_OK or MB_ICONINFORMATION);
+  end;
 end;
 
 procedure TfmMain.FrameAddRecent(Sender: TObject; const AFileName: string);
