@@ -93,7 +93,8 @@ begin
       AToolbar.Controls[AToolbar.ControlCount-1],
       AButtonIndex);
 
-  AToolbar.UpdateControls;
+  //AToolbar.UpdateControls;
+  //API must call TOOLBAR_UPDATE
 end;
 
 
