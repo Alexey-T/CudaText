@@ -723,7 +723,7 @@ type
     procedure DoOps_LoadOptions_Global(c: TJSONConfig);
     procedure DoOps_LoadOptions_Ui(c: TJSONConfig);
     procedure DoOps_LoadOptions_UiAutoCompletion(c: TJSONConfig);
-    procedure DoOps_MultiInstaller;
+    procedure DoShowFirstStartInfo;
     procedure DoOps_OnCreate;
     procedure DoShowBottomPanel(const ATabCaption: string; AndFocus: boolean);
     function DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
@@ -2430,7 +2430,7 @@ begin
     ]));
 
   MsgLogDebug('start');
-  DoOps_MultiInstaller;
+  DoShowFirstStartInfo;
 
   if UiOps.NotificationEnabled then
   begin
@@ -2442,7 +2442,7 @@ begin
     MsgLogConsole('WARNING: plugin Bracket Helper is not needed anymore, remove it and use option "bracket_highlight"');
 end;
 
-procedure TfmMain.DoOps_MultiInstaller;
+procedure TfmMain.DoShowFirstStartInfo;
 begin
   if not FileExistsUTF8(AppFile_History) then
   begin
