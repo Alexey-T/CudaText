@@ -224,8 +224,6 @@ object fmFind: TfmFind
       OptUnprintedVisible = False
       OptMouseDragDrop = False
       OptMouseNiceScroll = False
-      OptAllowScrollbarVert = False
-      OptAllowScrollbarHorz = False
       OptAllowZooming = False
       OptAllowReadOnly = False
       OptUndoLimit = 200
@@ -323,8 +321,6 @@ object fmFind: TfmFind
       OptUnprintedVisible = False
       OptMouseDragDrop = False
       OptMouseNiceScroll = False
-      OptAllowScrollbarVert = False
-      OptAllowScrollbarHorz = False
       OptAllowZooming = False
       OptAllowReadOnly = False
       OptUndoLimit = 200

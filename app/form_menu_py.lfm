@@ -95,8 +95,6 @@ object fmMenuApi: TfmMenuApi
     OptUnprintedVisible = False
     OptMouseDragDrop = False
     OptMouseNiceScroll = False
-    OptAllowScrollbarVert = False
-    OptAllowScrollbarHorz = False
     OptAllowZooming = False
     OptAllowReadOnly = False
     OptUndoLimit = 200

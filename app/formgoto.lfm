@@ -98,8 +98,6 @@ object fmGoto: TfmGoto
     OptUnprintedVisible = False
     OptMouseDragDrop = False
     OptMouseNiceScroll = False
-    OptAllowScrollbarVert = False
-    OptAllowScrollbarHorz = False
     OptAllowZooming = False
     OptAllowReadOnly = False
     OptUndoLimit = 200
