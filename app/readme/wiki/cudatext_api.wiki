@@ -1409,10 +1409,12 @@ Possible values of "id_action":
 * LISTBOX_SET_SHOW_X: Sets state of X marks. Param "index": int value.
 * LISTBOX_GET_HOTTRACK: Gets HotTrack state (bool). HotTrack means that listbox highlights item under mouse cursor.
 * LISTBOX_SET_HOTTRACK: Sets HotTrack state. Param "index": 0 or 1 (off/on).
-* LISTBOX_GET_SCROLLSTYLE: Gets style of scrollbars. One of SCROLLSTYLE_ constants.
-* LISTBOX_SET_SCROLLSTYLE: Sets style of scrollbars. Param "index": int value, one of SCROLLSTYLE_ constants.
-* LISTBOX_GET_HSCROLL: Gets horizontal scroll position.
-* LISTBOX_SET_HSCROLL: Sets horizontal scroll position. Param "index": int value.
+* LISTBOX_GET_SCROLLSTYLE_HORZ: Gets style of horizontal scrollbar. One of SCROLLSTYLE_ constants.
+* LISTBOX_SET_SCROLLSTYLE_HORZ: Sets style of horizontal scrollbar. Param "index": int value, one of SCROLLSTYLE_ constants.
+* LISTBOX_GET_SCROLLSTYLE_VERT: Gets style of vertical scrollbar. One of SCROLLSTYLE_ constants.
+* LISTBOX_SET_SCROLLSTYLE_VERT: Sets style of vertical scrollbar. Param "index": int value, one of SCROLLSTYLE_ constants.
+* LISTBOX_GET_SCROLLPOS_HORZ: Gets horizontal scroll position.
+* LISTBOX_SET_SCROLLPOS_HORZ: Sets horizontal scroll position. Param "index": int value.
 
 Listbox can have columns. It works only if listbox is not owner-drawn, and column sizes were set via LISTBOX_SET_COLUMNS. You must add separator-chars inside items to split items into columns. Column sizes are passed as list of int. Each list item can be:
 * value>0: Column width in pixels.
@@ -3682,10 +3684,12 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.action: EDACTION_MICROMAPCOL_ADD
 * add: Editor.action: EDACTION_MICROMAPCOL_DELETE
 
-1.0.311 (app 1.89.1)
-* add: listbox_proc: LISTBOX_GET_SCROLLSTYLE
-* add: listbox_proc: LISTBOX_SET_SCROLLSTYLE
-* add: listbox_proc: LISTBOX_GET_HSCROLL
-* add: listbox_proc: LISTBOX_SET_HSCROLL
+1.0.312 (app 1.89.1)
+* add: listbox_proc: LISTBOX_GET_SCROLLPOS_HORZ
+* add: listbox_proc: LISTBOX_SET_SCROLLPOS_HORZ
+* add: listbox_proc: LISTBOX_GET_SCROLLSTYLE_HORZ
+* add: listbox_proc: LISTBOX_SET_SCROLLSTYLE_HORZ
+* add: listbox_proc: LISTBOX_GET_SCROLLSTYLE_VERT
+* add: listbox_proc: LISTBOX_SET_SCROLLSTYLE_VERT
 
 [[Category:CudaText]]
