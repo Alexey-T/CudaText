@@ -5347,24 +5347,36 @@ begin
             Result:= ReturnNone;
           end;
 
-        LISTBOX_GET_SCROLLSTYLE:
+        LISTBOX_GET_SCROLLSTYLE_HORZ:
           begin
-            Result:= PyBool_FromLong(Ord(Listbox.ScrollBars));
+            Result:= PyBool_FromLong(Ord(Listbox.ScrollStyleHorz));
           end;
 
-        LISTBOX_SET_SCROLLSTYLE:
+        LISTBOX_GET_SCROLLSTYLE_VERT:
           begin
-            Listbox.ScrollBars:= TATListboxScrollStyle(NIndex);
+            Result:= PyBool_FromLong(Ord(Listbox.ScrollStyleVert));
+          end;
+
+        LISTBOX_SET_SCROLLSTYLE_HORZ:
+          begin
+            Listbox.ScrollStyleHorz:= TATListboxScrollStyle(NIndex);
             Listbox.Invalidate;
             Result:= ReturnNone;
           end;
 
-        LISTBOX_GET_HSCROLL:
+        LISTBOX_SET_SCROLLSTYLE_VERT:
+          begin
+            Listbox.ScrollStyleVert:= TATListboxScrollStyle(NIndex);
+            Listbox.Invalidate;
+            Result:= ReturnNone;
+          end;
+
+        LISTBOX_GET_SCROLLPOS_HORZ:
           begin
             Result:= PyInt_FromLong(Listbox.ScrollHorz);
           end;
 
-        LISTBOX_SET_HSCROLL:
+        LISTBOX_SET_SCROLLPOS_HORZ:
           begin
             Listbox.ScrollHorz:= NIndex;
             Result:= ReturnNone;

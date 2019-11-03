@@ -254,7 +254,10 @@ begin
   Ed.OptSavingForceFinalEol:= Op.OpSavingForceFinalEol;
   Ed.OptShowScrollHint:= Op.OpShowHintOnVertScroll;
   Ed.OptScrollSmooth:= Op.OpSmoothScroll;
-  Ed.OptScrollbarHorizontalHidden:= Op.OpHideHorizScrollbar;
+  if Op.OpHideHorizScrollbar then
+    Ed.OptScrollStyleHorz:= aessHide
+  else
+    Ed.OptScrollStyleHorz:= aessAuto;
   Ed.OptTextCenteringCharWidth:= IfThen(AApplyCentering, Op.OpCenteringWidth, 0);
   Ed.OptNonWordChars:= Op.OpNonWordChars;
   Ed.OptFoldStyle:= TATFoldStyle(Op.OpFoldStyle);
