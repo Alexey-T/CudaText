@@ -2056,6 +2056,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_SCROLL_HORZ_SMOOTH: int: smooth horizontal scroll position. In pixels.
 * PROP_SCROLL_VERT_INFO: int: dict with all available info about vertical scroll.
 * PROP_SCROLL_HORZ_INFO: int: dict with all available info about horizontal scroll.
+* PROP_SCROLLSTYLE_HORZ: int: style of horizontal scrollbar, one of SCROLLSTYLE_ constants.
+* PROP_SCROLLSTYLE_VERT: int: style of vertical scrollbar, one of SCROLLSTYLE_ constants.
 
 * PROP_COLOR: int: color property. Value must be one of COLOR_ID_nnn values. Gets None for incorrect id.
 * PROP_ENC: str: encoding name. Names are listed at [[CudaText#Encodings]].
@@ -2175,6 +2177,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_SCROLL_HORZ: int: approximate horizontal scroll position.
 * PROP_SCROLL_VERT_SMOOTH: int: smooth vertical scroll position. In pixels.
 * PROP_SCROLL_HORZ_SMOOTH: int: smooth horizontal scroll position. In pixels.
+* PROP_SCROLLSTYLE_HORZ: int: style of horizontal scrollbar, one of SCROLLSTYLE_ constants.
+* PROP_SCROLLSTYLE_VERT: int: style of vertical scrollbar, one of SCROLLSTYLE_ constants.
 
 * PROP_ENC: str: encoding name. Names listed at [[CudaText#Encodings]].
 * PROP_LEXER_FILE: str: name of lexer.
@@ -3691,5 +3695,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: listbox_proc: LISTBOX_SET_SCROLLSTYLE_HORZ
 * add: listbox_proc: LISTBOX_GET_SCROLLSTYLE_VERT
 * add: listbox_proc: LISTBOX_SET_SCROLLSTYLE_VERT
+
+1.0.313 (app 1.89.1)
+* add: Editor.get_prop/set_prop: PROP_SCROLLSTYLE_HORZ, PROP_SCROLLSTYLE_VERT
 
 [[Category:CudaText]]
