@@ -3291,7 +3291,7 @@ begin
   if AFileName2<>'' then
     DoPyEvent(F.Ed2, cEventOnOpen, []);
 
-  if FHandledOnShow then
+  if Visible and Result.Visible and Result.Enabled then
     Result.SetFocus;
 end;
 
