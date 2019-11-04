@@ -3698,7 +3698,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: listbox_proc: LISTBOX_GET_SCROLLSTYLE_VERT
 * add: listbox_proc: LISTBOX_SET_SCROLLSTYLE_VERT
 
-1.0.313 (app 1.89.1)
+1.0.313 (app 1.89.2)
 * add: Editor.get_prop/set_prop: PROP_SCROLLSTYLE_HORZ, PROP_SCROLLSTYLE_VERT
 * add: Editor.attr: MARKERS_GET_DICT
 
