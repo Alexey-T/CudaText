@@ -11,7 +11,7 @@ This is API for [[CudaText]] in Python.
 
 To make plugin react to some program event, add method to class Command, and register this event in "install.inf" file of plugin. For example, method "on_save" will be called by program event "on_save" (plus install.inf must register "on_save"). Event methods have param "ed_self": this is Editor object in which event occured. This object is the same as object "ed" in most cases, but in some cases event occurs in inactive editor, e.g. command "Save all tabs" calls event "on_save" for inactive tabs.
 
-Another way to react to program events is dynamic subscribing to events in runtime. This way you don't need to register methods in install.inf. See description of PROC_SET_EVENTS in app_proc(). 
+Another way to react to program events is dynamic subscribing to events in runtime. This way you don't need to register methods in install.inf. See description of PROC_SET_EVENTS in app_proc().
 
 Method return value is ignored is many cases, but sometimes return value True or False has special meaning. Usually the False return value blocks propagation of event to other plugins, so don't return False if not nessesary.
 
@@ -504,7 +504,7 @@ Performs action with embedded Emmet engine. Possible values of "id":
 
 * EMMET_EXPAND: Expand abbreviation. Gets 2-tuple (str_result, bool_multi_caret) or None.
 ** Param "text": Emmet abbreviation.
-** Param "p1": Emmet syntax. Possible values: "html", "xml", "xsl", "css", "svg", "sass", "less". 
+** Param "p1": Emmet syntax. Possible values: "html", "xml", "xsl", "css", "svg", "sass", "less".
 
 * EMMET_WRAP: Wrap text with abbreviation. Gets str result or None.
 ** Param "text": Emmet abbreviation.
@@ -513,7 +513,7 @@ Performs action with embedded Emmet engine. Possible values of "id":
 
 * EMMET_GET_POS: Find beginning of abbreviation in given string. Gets offset in string (0-based), or None.
 ** Param "text": Text string (can include unneeded text after caret position, can include HTML tags before abbreviation).
-** Param "p1": Caret offset (0-based) to search abbreviation to the left of it. 
+** Param "p1": Caret offset (0-based) to search abbreviation to the left of it.
 
 ===msg_box===
 
@@ -1036,7 +1036,7 @@ These are also properties of controls.
 * "on_mouse_enter": Called when mouse cursor enters control area.
 * "on_mouse_exit": Called when mouse cursor leaves control area.
 * "on_focus_enter": Called when control gets focus. Not supported for controls (they don't have OS window handle): label, button, button_ex, panel, linklabel, colorpanel, bevel, image, progressbar_ex, paintbox, statusbar.
-* "on_focus_exit": Called when control looses focus. Supported for the same controls as "on_focus_enter". 
+* "on_focus_exit": Called when control looses focus. Supported for the same controls as "on_focus_enter".
 * "on_menu": Called before showing context menu, after right click or ContextMenu hotkey. Param "data": like in "on_mouse_down". Method can return False to disable default menu (if any).
 
 Events for control "listview"/"checklistview":
@@ -1390,12 +1390,12 @@ Possible values of "id_action":
 
 * LISTBOX_GET_COUNT: Gets number if items.
 * LISTBOX_ADD: Adds item with given text and tag. Gets new count of items. Param "index": index of new item, or -1 to append. Param "text": text of item. Param "tag": int tag.
-* LISTBOX_ADD_PROP: Adds item with given text and other properties. Gets new count of items. Param "index": index of new item, or -1 to append. Param "text": text of item. Param "tag": dict with keys "tag", "modified", "datatext". 
+* LISTBOX_ADD_PROP: Adds item with given text and other properties. Gets new count of items. Param "index": index of new item, or -1 to append. Param "text": text of item. Param "tag": dict with keys "tag", "modified", "datatext".
 * LISTBOX_DELETE: Deletes item with given index.
 * LISTBOX_DELETE_ALL: Deletes all items.
 * LISTBOX_GET_ITEM: Gets text/tag of item with given index. Gets 2-tuple (text, tag) or None if index incorrect.
 * LISTBOX_SET_ITEM: Sets text/tag of item with given index. Params used: "index", "text", "tag".
-* LISTBOX_GET_ITEM_PROP: Gets properties of item with given index, as dict or None. Dict keys are: "text", "tag", "modified", "datatext". 
+* LISTBOX_GET_ITEM_PROP: Gets properties of item with given index, as dict or None. Dict keys are: "text", "tag", "modified", "datatext".
 * LISTBOX_SET_ITEM_PROP: Sets properties of item with given index. Param "index": int value. Param "text": new text of item. Param "tag": dict with keys "tag", "modified", "datatext".
 * LISTBOX_GET_ITEM_H: Gets height of items in pixels.
 * LISTBOX_SET_ITEM_H: Sets height of items in pixels. Param "index": int value
@@ -2475,6 +2475,8 @@ Controls additional color attributes. Possible values of "id":
 * other parameters: the same as for MARKERS_ADD.
 
 * MARKERS_GET: Gets list of fragments, or None. Each item is list of int, corresponding to Editor.attr() params (bool values will be 0 or 1).
+* MARKERS_GET_DICT: Gets list of fragments. Each item is dict, with keys named like parameters of Editor.attr.
+
 * MARKERS_DELETE_ALL: Deletes all fragments.
 * MARKERS_DELETE_LAST: Deletes last added fragment.
 * MARKERS_DELETE_BY_TAG: Deletes all fragments with the given tag. Param "tag": tag value.
@@ -2677,7 +2679,7 @@ Performs some action in editor. Possible values of "id":
 
 * EDACTION_SHOW_POS: Make text position visible without caret moving. Gets True if params correct and scrolling occured, gets False if params correct and no scrolling occured, gets None if params not correct.
 ** "param1": Text position as 2-tuple (column, line).
-** "param2": Indentation of text position from edges as 2-tuple (indent_horz, indent_vert). Values meaning is like for CudaText options "find_indent_horz", "find_indent_vert". 
+** "param2": Indentation of text position from edges as 2-tuple (indent_horz, indent_vert). Values meaning is like for CudaText options "find_indent_horz", "find_indent_vert".
 
 * EDACTION_CODETREE_FILL: Fill some visual TreeView control (it can be standard code-tree control, or TreeView control in some form) with editor's code-tree information. Param "param1" must be TreeView handle (to use with tree_proc()). Gets True if lexer is set and information is read, otherwise False.
 
@@ -3698,5 +3700,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.313 (app 1.89.1)
 * add: Editor.get_prop/set_prop: PROP_SCROLLSTYLE_HORZ, PROP_SCROLLSTYLE_VERT
+* add: Editor.attr: MARKERS_GET_DICT
 
 [[Category:CudaText]]
