@@ -1024,6 +1024,54 @@ begin
               Result:= ReturnNone;
           end;
 
+        MARKERS_GET_DICT:
+          begin
+            NLen:= Ed.Attribs.Count;
+            Result:= PyList_New(NLen);
+            if not Assigned(Result) then
+              raise EPythonError.Create(msgPythonListError);
+            for i:= 0 to NLen-1 do
+            begin
+              Mark:= Ed.Attribs[i];
+              Obj:= TATLinePartClass(Mark.Ptr);
+              PyList_SetItem(Result, i,
+                Py_BuildValue('{sLsisisisisisisOsOsOsisisisisisO}',
+                  'tag',
+                  Mark.Tag,
+                  PChar(string('x')),
+                  Mark.PosX,
+                  PChar(string('y')),
+                  Mark.PosY,
+                  'len',
+                  Mark.LenX,
+                  'color_font',
+                  Obj.Data.ColorFont,
+                  'color_bg',
+                  Obj.Data.ColorBG,
+                  'color_border',
+                  Obj.Data.ColorBorder,
+                  'font_bold',
+                  PyBool_FromLong(Ord(Obj.Data.FontBold)),
+                  'font_italic',
+                  PyBool_FromLong(Ord(Obj.Data.FontItalic)),
+                  'font_strikeout',
+                  PyBool_FromLong(Ord(Obj.Data.FontStrikeOut)),
+                  'border_left',
+                  Ord(Obj.Data.BorderLeft),
+                  'border_right',
+                  Ord(Obj.Data.BorderRight),
+                  'border_down',
+                  Ord(Obj.Data.BorderDown),
+                  'border_up',
+                  Ord(Obj.Data.BorderUp),
+                  'show_on_map',
+                  Ord(Obj.ColumnTag),
+                  'map_only',
+                  PyBool_FromLong(Ord(Mark.MicromapOnly))
+                  ));
+            end;
+          end;
+
         MARKERS_ADD:
           begin
             Obj:= TATLinePartClass.Create;
