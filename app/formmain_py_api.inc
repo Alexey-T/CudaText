@@ -3252,6 +3252,16 @@ begin
             Result:= PyLong_FromLongLong(PtrInt(Ed.Parent));
           end;
 
+        PROP_SCROLLSTYLE_HORZ:
+          begin
+            Result:= PyLong_FromLong(Ord(Ed.OptScrollStyleHorz));
+          end;
+
+        PROP_SCROLLSTYLE_VERT:
+          begin
+            Result:= PyLong_FromLong(Ord(Ed.OptScrollStyleVert));
+          end;
+
         PROP_RECT_CLIENT:
           begin
             Result:= Py_rect(Ed.ClientRect);
@@ -3711,6 +3721,12 @@ begin
 
         PROP_FOLD_ICONS:
           Ed.OptGutterIcons:= TATGutterIconsKind(ValueInt);
+
+        PROP_SCROLLSTYLE_HORZ:
+          Ed.OptScrollStyleHorz:= TATSynEditScrollStyle(ValueInt);
+
+        PROP_SCROLLSTYLE_VERT:
+          Ed.OptScrollStyleVert:= TATSynEditScrollStyle(ValueInt);
 
         PROP_V_MODE:
           begin
