@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.89.1 (2019/11)
+1.89.2 (2019/11)
 
 + add: horizontal scrollbar in Output/Validate panels (it auto shows for long lines)
 + add: don't run Multi Installer on first start, just show info message
