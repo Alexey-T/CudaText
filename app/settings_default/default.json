@@ -174,8 +174,11 @@
   //On dragging vertical scrollbar, show line number tooltip in the top-right corner
   "show_hint_on_vert_scroll": false,
 
-  //Always hide horizontal scrollbar in editor
-  "hide_horiz_scrollbar": false,
+  //Style of editor's horizontal scrollbar
+  //  0: Always hide
+  //  1: Always show
+  //  2: Show automatically
+  "scroll_style_horz": 2,
 
   //Shift text area to the right, so part of text will look "centered".
   //  If value=0: no shifting.

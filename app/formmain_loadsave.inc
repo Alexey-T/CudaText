@@ -838,7 +838,7 @@ begin
   Op.OpSmoothScroll:= c.GetValue('smooth_scroll', Op.OpSmoothScroll);
   Op.OpCenteringWidth:= c.GetValue('centering_width', Op.OpCenteringWidth);
   Op.OpCenteringForDistractionFree:= c.GetValue('centering_for_distraction_free', Op.OpCenteringForDistractionFree);
-  Op.OpHideHorizScrollbar:= c.GetValue('hide_horiz_scrollbar', Op.OpHideHorizScrollbar);
+  Op.OpScrollStyleHorz:= c.GetValue('scroll_style_horz', Op.OpScrollStyleHorz);
 
   Op.OpLexerDynamicHiliteEnabled:= c.GetValue('lexer_dynamic_hilite', Op.OpLexerDynamicHiliteEnabled);
   Op.OpLexerDynamicHiliteMaxLines:= c.GetValue('lexer_dynamic_hilite_max_lines', Op.OpLexerDynamicHiliteMaxLines);

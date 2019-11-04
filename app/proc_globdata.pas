@@ -429,7 +429,7 @@ type
     OpSmoothScroll: boolean;
     OpCenteringWidth: integer;
     OpCenteringForDistractionFree: integer;
-    OpHideHorizScrollbar: boolean;
+    OpScrollStyleHorz: integer;
     OpLexerDynamicHiliteEnabled: boolean;
     OpLexerDynamicHiliteMaxLines: integer;
     OpLexerLineSeparators: boolean;
@@ -1099,7 +1099,7 @@ begin
     OpSmoothScroll:= true;
     OpCenteringWidth:= 0;
     OpCenteringForDistractionFree:= 100;
-    OpHideHorizScrollbar:= false;
+    OpScrollStyleHorz:= 2; //hide, show, auto
     OpLexerDynamicHiliteEnabled:= false;
     OpLexerDynamicHiliteMaxLines:= 2000;
     OpLexerLineSeparators:= false;
