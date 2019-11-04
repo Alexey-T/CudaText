@@ -3152,8 +3152,6 @@ begin
 end;
 
 procedure TEditorFrame.SetFocus;
-var
-  Form: TCustomForm;
 begin
   DoOnChangeCaption;
   DoShow;
@@ -3172,7 +3170,8 @@ begin
       exit;
     end;
 
-  EditorFocus(Editor);
+  if Visible and Enabled then
+    EditorFocus(Editor);
 end;
 
 type

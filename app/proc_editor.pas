@@ -891,13 +891,14 @@ begin
       Form.SetFocus;
 
   try
-    Form.ActiveControl:= C;
-    //gives "cannot focus a disabled or invisible window" on Linux gtk2
+    if Form.Visible and Form.Enabled then
+    begin
+      Form.ActiveControl:= C;
+      if C.CanFocus then
+        C.SetFocus;
+    end;
   except
   end;
-
-  if C.CanFocus then
-    C.SetFocus;
 end;
 
 
