@@ -2835,7 +2835,11 @@ begin
     //but only if not modified (modified means other text is loaded)
     if AFileName<>'' then
       if not Ed.Modified then
+      begin
+        Ed.Strings.EncodingDetect:= false;
         Ed.LoadFromFile(AFileName);
+        Ed.Strings.EncodingDetect:= true;
+      end;
   end;
 
   TabColor:= StringToColorDef(c.GetValue(path+cHistory_TabColor, ''), clNone);
