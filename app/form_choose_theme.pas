@@ -75,11 +75,11 @@ begin
 
     ListboxUI.Items.Add(msgThemeDefault);
     for s in Files_ui do
-      ListboxUI.Items.Add(LowerCase(ExtractFileNameOnly(s)));
+      ListboxUI.Items.Add(ExtractFileNameOnly(s));
 
     ListboxSyntax.Items.Add(msgThemeDefault);
     for s in Files_sy do
-      ListboxSyntax.Items.Add(LowerCase(ExtractFileNameOnly(s)));
+      ListboxSyntax.Items.Add(ExtractFileNameOnly(s));
 
   finally
     FreeAndNil(Files_ui);
