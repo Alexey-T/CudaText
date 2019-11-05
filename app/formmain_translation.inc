@@ -440,6 +440,10 @@ begin
     DoLocString(msgButtonRetry,  ini, 'ui', 'b_re');
     DoLocString(msgButtonIgnore, ini, 'ui', 'b_ig');
 
+    DoLocString(cAutocompleteStringTag, ini, 'ui', 'html_tag');
+    DoLocString(cAutocompleteStringAttrib, ini, 'ui', 'html_atr');
+    DoLocString(cAutocompleteStringValue, ini, 'ui', 'html_val');
+
     DoLocMenuitem(mnuTextUndo, msgEditUndo);
     DoLocMenuitem(mnuTextRedo, msgEditRedo);
     DoLocMenuitem(mnuTextCut, msgEditCut);
