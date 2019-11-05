@@ -427,6 +427,7 @@ object SyntAnal16: TLibSyntAnalyzer
             'until'
             'uses'
             'var'
+            'varargs'
             'virtual'
             'while'
             'with'
