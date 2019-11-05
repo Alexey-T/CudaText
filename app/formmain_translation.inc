@@ -440,9 +440,9 @@ begin
     DoLocString(msgButtonRetry,  ini, 'ui', 'b_re');
     DoLocString(msgButtonIgnore, ini, 'ui', 'b_ig');
 
-    DoLocString(cAutocompleteStringTag, ini, 'ui', 'html_tag');
-    DoLocString(cAutocompleteStringAttrib, ini, 'ui', 'html_atr');
-    DoLocString(cAutocompleteStringValue, ini, 'ui', 'html_val');
+    DoLocString(cHtmlAutocompleteTag, ini, 'ui', 'html_tag');
+    DoLocString(cHtmlAutocompleteAttrib, ini, 'ui', 'html_atr');
+    DoLocString(cHtmlAutocompleteValue, ini, 'ui', 'html_val');
 
     DoLocMenuitem(mnuTextUndo, msgEditUndo);
     DoLocMenuitem(mnuTextRedo, msgEditRedo);
