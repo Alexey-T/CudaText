@@ -1,7 +1,7 @@
 import os
 from cudatext import *
 from random import randint
-
+from .repro_labels import *
 
 def callback_main_close(id_dlg, id_ctl, data='', info=''):
     print('callback_main_close')
@@ -1144,3 +1144,6 @@ end;
 
         dlg_proc(id, DLG_SHOW_MODAL)
         dlg_proc(id, DLG_FREE)
+
+    def test_labels_render(self):
+        test_labels_render()

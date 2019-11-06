@@ -69,3 +69,8 @@ method=test_combo
 section=commands
 caption=Testing of dialog API\test side-panel
 method=test_sidepanel
+
+[item52]
+section=commands
+caption=Testing of dialog API\test label rendering
+method=test_labels_render
