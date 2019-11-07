@@ -1394,6 +1394,20 @@ What does this procedure do? It creates (or modifies) file "[CudaText]/settings/
 * Q: CudaText for Windows. How can I upgrade but keep all the settings the way I have configured them - including themes, icon sets, etc that I've downloaded (basic settings I could just copy the settings file over - but I'm not sure what to do for the icons and the rest...)
 * A: Copy all files from the zip package, overwriting old files. All user settings are located in different files. (I suppose you don't modify CudaText preinstalled plugins and files.)
 
+==How to customize top menu and context menu==
+
+Plugin "Configure Menu" (in Addon Manager) allows to change top menu and context menu. It can even change context menu depending on current lexer. Plugin creates file (with name "menu.json") with default menu configuration, which you edit to customize all menus. File has items like:
+
+ ,{"cap":"&Save", "cmd":"cmd_FileSave"}
+
+How to add here built-in commands? See identifiers of CudaText commands in the file "py/cudatext_cmd.py", they have prefixes cCommand_ (low level commands) and cmd_ (high level commands). For example, cmd_FileSave is the command to save current file.
+
+How to add here plugin commands? For example, you have plugin "Comments", it is in the folder "py/cuda_comments". See plugin's file install.inf, and there find needed Python functions names. Then write  item like this:
+
+ ,{"cap":"Toggle line comment", "cmd":"module=cuda_comments;cmd=cmt_toggle_line_body;"}
+
+Here "cuda_comments" is folder name, and "cmt_toggle_line_body" is Python function from install.inf.
+
 ==More==
 
 =Formats of files=
