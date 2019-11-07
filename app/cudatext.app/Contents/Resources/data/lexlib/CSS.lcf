@@ -123,6 +123,16 @@ object SyntAnal6: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'Value unit incorrect'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BorderTypeBottom = blWavyLine
+      BorderColorBottom = clRed
     end>
   TokenRules = <
     item
@@ -218,9 +228,9 @@ object SyntAnal6: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Value unit'
-      StyleName = 'Value unit'
-      TokenType = 2
-      Expression = '(?<=\b\d+)[a-z]+'
+      StyleName = 'Value unit incorrect'
+      TokenType = 10
+      Expression = '(?<=\b\d+)[a-z%]+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -1928,6 +1938,47 @@ object SyntAnal6: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = 'Id units'
+      StyleName = 'Value unit'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '%'
+            'ch'
+            'cm'
+            'deg'
+            'dpcm'
+            'dpi'
+            'dppx'
+            'em'
+            'ex'
+            'fr'
+            'grad'
+            'Hz'
+            'in'
+            'kHz'
+            'mm'
+            'mozmm'
+            'ms'
+            'pc'
+            'pt'
+            'px'
+            'q'
+            'rad'
+            'rem'
+            's'
+            'turn'
+            'vh'
+            'vmax'
+            'vmin'
+            'vw')
+          TokenTypes = 1024
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = '{'
       StyleName = 'Current block'
       ConditionList = <
@@ -2105,7 +2156,8 @@ object SyntAnal6: TLibSyntAnalyzer
     'Color'
     'Number'
     'PHP tag'
-    'Prop')
+    'Prop'
+    'ValueUnit')
   Extentions = 'css'
   LexerName = 'CSS'
   Notes.Strings = (
