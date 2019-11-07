@@ -23,3 +23,4 @@ Prop user=IdVar
 PHP tag=TagInclude
 Media=Id1
 Value unit=Id3
+Value unit incorrect=IdBad
