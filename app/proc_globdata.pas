@@ -883,6 +883,10 @@ begin
   exit('/usr/pkg/lib/libpython3.7.so');
   {$endif}
 
+  {$ifdef solaris}
+  exit('/usr/lib/amd64/libpython3.5m.so');
+  {$endif}
+
   exit('libpython3.so');
 end;
 
