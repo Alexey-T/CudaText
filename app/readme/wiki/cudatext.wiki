@@ -1382,8 +1382,9 @@ What does this procedure do? It creates (or modifies) file "[CudaText]/settings/
 
 ==How to upgrade but keep all the settings==
 
-* Q: CudaText for Windows. How can I upgrade but keep all the settings the way I have configured them - including themes, icon sets, etc that I've downloaded (basic settings I could just copy the settings file over - but I'm not sure what to do for the icons and the rest...)
-* A: Copy all files from the zip package, overwriting old files. All user settings are located in different files. (I suppose you don't modify CudaText preinstalled plugins and files.)
+* Q: CudaText for Windows. How can I upgrade but keep all the settings the way I have configured them - including themes, icon sets, etc (basic settings I could just copy the settings file over - but I'm not sure what to do for the icons and the rest...)
+
+* A: Copy all files from the zip package, overwriting old files. All user settings are located in "settings" (which is absent in the zip package) and "data" (in different files). If you did not modify CudaText preinstalled files, you will not loose any settings.
 
 ==How to customize top menu and context menu==
 
