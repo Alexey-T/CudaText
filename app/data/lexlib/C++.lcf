@@ -219,7 +219,7 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'Symbol single'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\[\],\*/]'
+      Expression = '[\[\],~]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -227,7 +227,7 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\+\-=<>&\|\^\.!\?%\\:]+'
+      Expression = '[\+\-=<>&\|\^\.!\?%\\:\*/]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -248,6 +248,8 @@ object SyntAnal5: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '_Pragma'
+            'alignas'
+            'alignof'
             'and'
             'and_eq'
             'bitand'
@@ -266,6 +268,7 @@ object SyntAnal5: TLibSyntAnalyzer
             'for'
             'goto'
             'if'
+            'namespace'
             'new'
             'not'
             'not_eq'
@@ -273,11 +276,17 @@ object SyntAnal5: TLibSyntAnalyzer
             'or'
             'or_eq'
             'return'
+            'sizeof'
             'struct'
             'switch'
+            'template'
             'throw'
             'try'
+            'typedef'
+            'typeid'
+            'typename'
             'union'
+            'using'
             'while'
             'xor'
             'xor_eq')
@@ -304,8 +313,6 @@ object SyntAnal5: TLibSyntAnalyzer
             '__restrict__'
             '__stdcall'
             '__thiscall'
-            'alignas'
-            'alignof'
             'const'
             'const_cast'
             'constexpr'
@@ -318,9 +325,7 @@ object SyntAnal5: TLibSyntAnalyzer
             'friend'
             'inline'
             'mutable'
-            'namespace'
             'noexcept'
-            'nullptr'
             'override'
             'private'
             'protected'
@@ -328,17 +333,11 @@ object SyntAnal5: TLibSyntAnalyzer
             'register'
             'reinterpret_cast'
             'restrict'
-            'sizeof'
             'static'
             'static_assert'
             'static_cast'
-            'template'
             'this'
             'thread_local'
-            'typedef'
-            'typeid'
-            'typename'
-            'using'
             'virtual'
             'volatile')
           TokenTypes = 4
@@ -371,7 +370,9 @@ object SyntAnal5: TLibSyntAnalyzer
             'float'
             'int'
             'long'
+            'null'
             'NULL'
+            'nullptr'
             'nullptr_t'
             'short'
             'signed'
