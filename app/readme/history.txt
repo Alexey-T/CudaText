@@ -3,7 +3,9 @@
   - fixed
   * changed
 
+1.89.3 (2019/11)
 
++ add: lexer C: fix keywords, fix ligatures
 + add: lexer C++: fix keywords, fix ligatures
 + add: lexer Ruby: fix keywords, fix ligatures
 
