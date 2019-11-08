@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+
++ add: lexer C++: fix keywords, fix ligatures
++ add: lexer Ruby: fix keywords, fix ligatures
+
 1.89.2 (2019/11)
 
 + add: horizontal scrollbar in Output/Validate panels (it auto shows for long lines)
