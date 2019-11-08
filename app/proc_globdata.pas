@@ -879,6 +879,10 @@ begin
   exit('/usr/local/lib/libpython3.6m.so');
   {$endif}
 
+  {$ifdef netbsd}
+  exit('/usr/pkg/lib/libpython3.7.so');
+  {$endif}
+
   exit('libpython3.so');
 end;
 
