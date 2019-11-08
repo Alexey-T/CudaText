@@ -1,4 +1,4 @@
-object SyntAnal24: TLibSyntAnalyzer
+object SyntAnal26: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -101,7 +101,7 @@ object SyntAnal24: TLibSyntAnalyzer
     item
       DisplayName = 'Id :param'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlue
+      Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -293,7 +293,7 @@ object SyntAnal24: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[,;\+\-\*\\!=\^\$\.>\|:~\#&]+'
+      Expression = '[,;\+\-\*\\!=\^\$\.<>\|:~\#&%/]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -301,7 +301,7 @@ object SyntAnal24: TLibSyntAnalyzer
       DisplayName = 'Single symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\{\}\(\)\[\]\?/%<]'
+      Expression = '[\{\}\(\)\[\]\?]'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -314,9 +314,11 @@ object SyntAnal24: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'alias'
+            'alias_method'
             'and'
             'begin'
             'BEGIN'
+            'block_given?'
             'break'
             'case'
             'class'
@@ -336,6 +338,7 @@ object SyntAnal24: TLibSyntAnalyzer
             'if'
             'in'
             'include'
+            'iterator?'
             'loop'
             'module'
             'module_function'
@@ -346,6 +349,7 @@ object SyntAnal24: TLibSyntAnalyzer
             'prepend'
             'private'
             'protected'
+            'public'
             'raise'
             'redo'
             'require'
@@ -587,7 +591,7 @@ object SyntAnal24: TLibSyntAnalyzer
     'String'
     'Number'
     'If_begin')
-  Extentions = 'rb rbw'
+  Extentions = 'rb rake Podfile Brewfile Rakefile Gemfile'
   LexerName = 'Ruby'
   SkipSpaces = False
   Notes.Strings = (
