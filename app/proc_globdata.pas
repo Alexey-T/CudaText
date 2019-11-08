@@ -876,7 +876,7 @@ begin
   {$endif}
 
   {$ifdef freebsd}
-  exit('/usr/local/lib/libpython3.6m.so.1.0');
+  exit('/usr/local/lib/libpython3.6m.so');
   {$endif}
 
   exit('libpython3.so');
