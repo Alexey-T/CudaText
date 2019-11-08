@@ -1,16 +1,6 @@
 object SyntAnal4: TLibSyntAnalyzer
   Formats = <
     item
-      DisplayName = 'Default'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-      VertAlignment = vaTop
-      FormatType = ftCustomFont
-    end
-    item
       DisplayName = 'Symbol'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clMaroon
@@ -197,7 +187,7 @@ object SyntAnal4: TLibSyntAnalyzer
       DisplayName = 'Symbol single'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\[\],;:/]'
+      Expression = '[\[\],;:]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -205,7 +195,7 @@ object SyntAnal4: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\+\-\*=<>&\|\^\.!\\\?%]+'
+      Expression = '[\+\-\*=<>&\|\^\.!\\\?%~/]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -226,7 +216,6 @@ object SyntAnal4: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'asm'
-            'auto'
             'break'
             'case'
             'catch'
@@ -243,6 +232,7 @@ object SyntAnal4: TLibSyntAnalyzer
             'new'
             'operator'
             'return'
+            'sizeof'
             'struct'
             'switch'
             'throw'
@@ -290,12 +280,14 @@ object SyntAnal4: TLibSyntAnalyzer
             '__try'
             '__uuidof'
             '_asm'
+            '_Atomic'
             '_cdecl'
             '_export'
             '_fastcall'
             '_import'
             '_pascal'
             '_stdcall'
+            'auto'
             'cdecl'
             'const'
             'explicit'
@@ -309,7 +301,7 @@ object SyntAnal4: TLibSyntAnalyzer
             'protected'
             'public'
             'register'
-            'sizeof'
+            'restrict'
             'static'
             'this'
             'typedef'
@@ -336,6 +328,7 @@ object SyntAnal4: TLibSyntAnalyzer
             'float'
             'int'
             'long'
+            'null'
             'short'
             'signed'
             'true'
