@@ -1297,26 +1297,22 @@ Q: I have Windows XP, what version of CudaText and Python should I have?
 
 A: You need CudaText 1.86 or newer, and older Python 3.4 files. Currently Addon Manager contains packages for Python 3.5 and 3.7, but not for 3.4. Make the package using examples: https://sourceforge.net/projects/cudatext/files/addons/packages/ . No option is needed to configure CudaText for Python 3.4, but you need to delete all newer Pythons from CudaText folder.
 
-==How to copy to clipboard word under caret==
+==How to copy word under caret to clipboard==
 
-A1: Install "Macros" plugin. In its dialog start recording a macro, and call these commands (in F1-Commands dialog), later assign to this macro a hotkey:
+A1: Install "Macros" plugin. In its dialog start recording a macro, and call these commands using "Command Palette":
 
-* command "select words at carets"
-* command "copy to clipboard"
-* command "cancel carets", i.e. unselect
+* command "selection: select words at carets"
+* command "clipboard: copy"
+* command "selection: cancel selection"
 
-A2: Plugin CudaExt has commands:
+Then assign a hotkey to this macro (in the "Command Palette", find your new macro and press F9).
+
+A2: Plugin "CudaExt" has commands:
 
 * plugin: CudaExt: Copy word or [expression] or 'expression' without selection
 * plugin: CudaExt: Replace word or [expression] or 'expression' with clip
 
-I use these commands with hotkeys Alt+Left and Alt+Right.
-
-==What SynWrite features not implemented==
-
-* Sync-Editing, ie auto editing of name (identifier) in all places of selected block (sync range), w/o clicking each place of name
-* Panel "Clips" from right side (CudaText has snippets w/o panel)
-* Panel "Clipboard" from right side, which monitors copying to clipboard
+It's good to use these commands with hotkeys Alt+Left and Alt+Right (assign it in the "Command Palette").
 
 ==Unix specific topics==
 
@@ -1346,11 +1342,6 @@ On Linux you can install program, not using installers, in such way:
 If program runs and cannot find "data/lexlib" near executable, it opens dirs from "~/.config/cudatext". This allows to install binary to PATH, and data dirs to homedir.
 
 === Linux Qt build ===
-For CudaText Qt4 version, library libQt4Pas is required.
-
-* For Ubuntu: get deb package from https://packages.ubuntu.com/xenial/libqt4pas-dev (page lists required packages too).
-* For others: [[Qt_Interface#Quick_start_guide_for_Linux]]. You need to download binary from libQt4Pas homepage.
-
 For CudaText Qt5 version, library libQt5Pas is required.
 
 * For Ubuntu:
@@ -1396,7 +1387,7 @@ What does this procedure do? It creates (or modifies) file "[CudaText]/settings/
 
 ==How to customize top menu and context menu==
 
-Plugin "Configure Menu" (in Addon Manager) allows to change top menu and context menu. It can even change context menu depending on current lexer. Plugin creates file (with name "menu.json") with default menu configuration, which you edit to customize all menus. File has items like:
+Plugin "Configure Menu" (in Addon Manager) allows to change top menu and context menu. Plugin can create file (settings/menu.json) with default menu configuration, which you edit to customize all menus. File has items like:
 
  ,{"cap":"&Save", "cmd":"cmd_FileSave"}
 
