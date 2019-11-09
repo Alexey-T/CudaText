@@ -379,7 +379,7 @@ To change line-ends for all lines in the current document, click statusbar cell 
 
 ==Groups of tabs==
 
-Groups are tab-sets, each tab with an editor control. By default only the first group is shown. Totally 6 groups can be shown at once, see menu item "=" (on top menu level), which allows to choose the grouping mode:
+"Groups" are tab sets, each tab has attached editor control. By default only the first group is shown. Totally 6 groups can be shown at once. Menu item "=" (rightmost item in the top menu) allows to choose grouping mode:
 
 * one group
 * 2 groups: vertically or horizontally
@@ -387,13 +387,14 @@ Groups are tab-sets, each tab with an editor control. By default only the first 
 * 4 groups: vertically, horizontally or grid
 * 6 groups: vertically, horizontally or grid
 
-First group cannot be empty, at last one tab exists in it. Other groups can be empty: on closing last tab, if it's active, the first group activates.
+First group cannot be empty, at least one tab exists in it. Other groups can be empty: on closing last tab, if it's active, the first group activates.
 
 * You can drag-drop tabs from any group to any other visible group (drop only on tabs area).
 * You can move tabs to other groups (by group number or to the next/previous), using commands in tab headers context menu.
 * In grouping modes "2 groups" and "1+2" there's a context menu for splitter, to choose splitting 50/50, 40/60 etc.
+* On changing grouping mode, tabs from disappearing group(s) are moved to still visible group.
 
-Few "floating" groups are available, besides "fixed" 6 groups, they are inside separate windows (so can be moved to separate monitor). To place some tab to a floating group (1, 2, 3), call context menu over a tab title, "Move tab to group / Floating n" (n=1, 2, 3).
+"Floating" groups are available, besides "fixed" 6 groups, they are inside separate windows (so can be moved to separate monitor). To place some tab to a floating group (1, 2, 3), call context menu over a tab title, "Move tab to group / Floating n" (n=1, 2, 3).
 
 ==Auto-completion==
 
