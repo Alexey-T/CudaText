@@ -106,14 +106,19 @@ type
 
 function EditorBracket_GetPairForClosingBracketOrQuote(ch: char): char;
 procedure EditorBracket_ClearHilite(Ed: TATSynEdit);
-procedure EditorBracket_FindPairEx(Ed: TATSynEdit; PosX, PosY: integer;
-  AllowedSymbols: string;
+procedure EditorBracket_FindPairEx(Ed: TATSynEdit;
+  PosX, PosY: integer;
+  const AllowedSymbols: string;
   MaxDistance: integer;
   out FoundX, FoundY: integer);
 procedure EditorBracket_Action(Ed: TATSynEdit;
   Action: TATEditorBracketAction;
-  AllowedSymbols: string;
+  const AllowedSymbols: string;
   MaxDistance: integer);
+procedure EditorBracket_FindOpeningBracketBackward(Ed: TATSynEdit;
+  PosX, PosY: integer;
+  const AllowedSymbols: string;
+  out FoundX, FoundY: integer);
 
 function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer): TATFinderTokenKind;
 
@@ -1069,6 +1074,55 @@ begin
   end;
 end;
 
+procedure EditorBracket_FindOpeningBracketBackward(Ed: TATSynEdit;
+  PosX, PosY: integer;
+  const AllowedSymbols: string;
+  out FoundX, FoundY: integer);
+var
+  TokenKind: TATFinderTokenKind;
+  Level: integer;
+  Kind: TATEditorBracketKind;
+  PairChar: atChar;
+  iLine, iChar, nChar: integer;
+  S: atString;
+begin
+  FoundX:= -1;
+  FoundY:= -1;
+  TokenKind:= EditorGetTokenKind(Ed, PosX, PosY);
+  Level:= 0;
+
+  for iLine:= PosY downto 0 do
+  begin
+    S:= Ed.Strings.Lines[iLine];
+    if S='' then Continue;
+    if iLine=PosY then
+      nChar:= Min(PosX, Length(S)-1)
+    else
+      nChar:= Length(S)-1;
+    for iChar:= nChar downto 0 do
+    begin
+      EditorBracket_GetCharKind(S[iChar+1], Kind, PairChar);
+      if Kind=bracketUnknown then Continue;
+      if TokenKind<>EditorGetTokenKind(Ed, iChar, iLine) then Continue;
+      if Kind=bracketClosing then
+      begin
+        Dec(Level);
+      end
+      else
+      if Kind=bracketOpening then
+      begin
+        Inc(Level);
+        if Level>0 then
+        begin
+          FoundX:= iChar;
+          FoundY:= iLine;
+          exit;
+        end;
+      end;
+    end;
+  end;
+end;
+
 procedure EditorBracket_FindPair(
   Ed: TATSynEdit;
   CharFrom, CharTo: atChar;
@@ -1161,7 +1215,7 @@ begin
 end;
 
 procedure EditorBracket_FindPairEx(Ed: TATSynEdit; PosX, PosY: integer;
-  AllowedSymbols: string;
+  const AllowedSymbols: string;
   MaxDistance: integer;
   out FoundX, FoundY: integer);
 var
@@ -1192,7 +1246,9 @@ begin
     MaxDistance, PosX, PosY, FoundX, FoundY);
 end;
 
-procedure EditorBracket_Action(Ed: TATSynEdit; Action: TATEditorBracketAction; AllowedSymbols: string;
+procedure EditorBracket_Action(Ed: TATSynEdit;
+  Action: TATEditorBracketAction;
+  const AllowedSymbols: string;
   MaxDistance: integer);
 var
   Caret: TATCaretItem;
@@ -1227,7 +1283,9 @@ begin
   else
     Kind:= bracketUnknown;
 
-  if Kind=bracketUnknown then //allow caret after bracket too
+  if Kind=bracketUnknown then
+  begin
+    //test char before caret
     if PosX>0 then
     begin
       Dec(PosX);
@@ -1236,10 +1294,22 @@ begin
         EditorBracket_GetCharKind(CharFrom, Kind, CharTo)
       else
         Kind:= bracketUnknown;
-      if Kind=bracketUnknown then exit;
-    end
-    else
-      exit;
+    end;
+
+    //find opening bracket backwards
+    if Kind=bracketUnknown then
+    begin
+      EditorBracket_FindOpeningBracketBackward(Ed, PosX, PosY, AllowedSymbols, FoundX, FoundY);
+      if FoundY<0 then exit;
+      PosX:= FoundX;
+      PosY:= FoundY;
+      S:= Ed.Strings.Lines[PosY];
+      CharFrom:= S[PosX+1];
+      EditorBracket_GetCharKind(CharFrom, Kind, CharTo);
+    end;
+
+    if Kind=bracketUnknown then exit;
+  end;
 
   EditorBracket_FindPair(Ed, CharFrom, CharTo, Kind,
     MaxDistance, PosX, PosY, FoundX, FoundY);
