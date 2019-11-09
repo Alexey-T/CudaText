@@ -1254,7 +1254,6 @@ procedure EditorBracket_Action(Ed: TATSynEdit;
   MaxDistance: integer);
 var
   Caret: TATCaretItem;
-  St: TATStrings;
   S: atString;
   CharFrom, CharTo: atChar;
   Kind: TATEditorBracketKind;
@@ -1269,12 +1268,12 @@ begin
   Caret:= Ed.Carets[0];
   PosX:= Caret.PosX;
   PosY:= Caret.PosY;
-  St:= Ed.Strings;
   if Caret.EndY>=0 then exit; //don't work if selection
-  if not St.IsIndexValid(PosY) then exit;
 
-  S:= St.Lines[PosY];
   if PosX<0 then exit;
+  if not Ed.Strings.IsIndexValid(PosY) then exit;
+
+  S:= Ed.Strings.Lines[PosY];
   if (PosX=Length(S)) and (PosX>0) then
     Dec(PosX);
 
