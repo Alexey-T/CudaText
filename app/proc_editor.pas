@@ -1090,7 +1090,6 @@ var
 begin
   FoundX:= -1;
   FoundY:= -1;
-  TokenKind:= EditorGetTokenKind(Ed, PosX, PosY);
   Level:= 0;
 
   for iLine:= PosY downto Max(0, PosY-MaxDistance) do
@@ -1105,7 +1104,11 @@ begin
     begin
       EditorBracket_GetCharKind(S[iChar+1], Kind, PairChar);
       if Kind=bracketUnknown then Continue;
-      if TokenKind<>EditorGetTokenKind(Ed, iChar, iLine) then Continue;
+
+      //ignore brackets found in comments/strings, because of constants '{', '(' etc
+      TokenKind:= EditorGetTokenKind(Ed, iChar, iLine);
+      if TokenKind in [cTokenKindComment, cTokenKindString] then Continue;
+
       if Kind=bracketClosing then
       begin
         Dec(Level);
