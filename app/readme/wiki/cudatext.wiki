@@ -224,13 +224,13 @@ Dialog "Lexer library" has hotkeys:
 * Space: same as "Hide/Show" button
 * Esc: close dialog
 
-=== Lexers at sf.net ===
+=== Lexers on SourceForge ===
 
-Lexer library file has only subset of lexers.
-Other lexers, from SynWrite, are here:
+Preinstalled lexer library has limited set of lexers.
+Other lexers, which are compatiable with SynWrite editor, are hosted on SF.net:
 http://sourceforge.net/projects/synwrite-addons/files/Lexers/
 
-These zip packages can be installed in CudaText: open any zip file via "File--Open" and confirm installation.
+These zip packages can be installed in CudaText: open any zip file via "File / Open" and confirm installation.
 
 === Lexers editing ===
 
