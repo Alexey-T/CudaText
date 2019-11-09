@@ -118,6 +118,7 @@ procedure EditorBracket_Action(Ed: TATSynEdit;
 procedure EditorBracket_FindOpeningBracketBackward(Ed: TATSynEdit;
   PosX, PosY: integer;
   const AllowedSymbols: string;
+  MaxDistance: integer;
   out FoundX, FoundY: integer);
 
 function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer): TATFinderTokenKind;
@@ -1077,6 +1078,7 @@ end;
 procedure EditorBracket_FindOpeningBracketBackward(Ed: TATSynEdit;
   PosX, PosY: integer;
   const AllowedSymbols: string;
+  MaxDistance: integer;
   out FoundX, FoundY: integer);
 var
   TokenKind: TATFinderTokenKind;
@@ -1091,7 +1093,7 @@ begin
   TokenKind:= EditorGetTokenKind(Ed, PosX, PosY);
   Level:= 0;
 
-  for iLine:= PosY downto 0 do
+  for iLine:= PosY downto Max(0, PosY-MaxDistance) do
   begin
     S:= Ed.Strings.Lines[iLine];
     if S='' then Continue;
@@ -1299,7 +1301,7 @@ begin
     //find opening bracket backwards
     if Kind=bracketUnknown then
     begin
-      EditorBracket_FindOpeningBracketBackward(Ed, PosX, PosY, AllowedSymbols, FoundX, FoundY);
+      EditorBracket_FindOpeningBracketBackward(Ed, PosX, PosY, AllowedSymbols, MaxDistance, FoundX, FoundY);
       if FoundY<0 then exit;
       PosX:= FoundX;
       PosY:= FoundY;
