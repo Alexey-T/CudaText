@@ -1274,21 +1274,22 @@ begin
   if not St.IsIndexValid(PosY) then exit;
 
   S:= St.Lines[PosY];
-  if S='' then exit;
   if PosX<0 then exit;
-  if PosX>Length(S) then exit;
-  if PosX=Length(S) then Dec(PosX);
+  if (PosX=Length(S)) and (PosX>0) then
+    Dec(PosX);
 
-  CharFrom:= S[PosX+1];
-  if Pos(CharFrom, AllowedSymbols)>0 then
-    EditorBracket_GetCharKind(CharFrom, Kind, CharTo)
-  else
-    Kind:= bracketUnknown;
+  Kind:= bracketUnknown;
+  if PosX<Length(S) then
+  begin
+    CharFrom:= S[PosX+1];
+    if Pos(CharFrom, AllowedSymbols)>0 then
+      EditorBracket_GetCharKind(CharFrom, Kind, CharTo)
+  end;
 
   if Kind=bracketUnknown then
   begin
     //test char before caret
-    if PosX>0 then
+    if (PosX>0) and (PosX<Length(S)) then
     begin
       Dec(PosX);
       CharFrom:= S[PosX+1];
