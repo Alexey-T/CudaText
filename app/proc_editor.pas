@@ -1084,7 +1084,7 @@ var
   TokenKind: TATFinderTokenKind;
   Level: integer;
   Kind: TATEditorBracketKind;
-  PairChar: atChar;
+  ch, ch2: atChar;
   iLine, iChar, nChar: integer;
   S: atString;
 begin
@@ -1102,7 +1102,9 @@ begin
       nChar:= Length(S)-1;
     for iChar:= nChar downto 0 do
     begin
-      EditorBracket_GetCharKind(S[iChar+1], Kind, PairChar);
+      ch:= S[iChar+1];
+      if Pos(ch, AllowedSymbols)=0 then Continue;
+      EditorBracket_GetCharKind(ch, Kind, ch2);
       if Kind=bracketUnknown then Continue;
 
       //ignore brackets found in comments/strings, because of constants '{', '(' etc
