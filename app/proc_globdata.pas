@@ -926,6 +926,18 @@ begin
 end;
 
 
+function IsDistroUpdateNeeded: boolean;
+begin
+  with TIniFile.Create(AppDir_Settings+DirectorySeparator+'packages.ini') do
+  try
+    Result:= ReadString('app', 'ver', '')<>cAppExeVersion;
+    if Result then
+      WriteString('app', 'ver', cAppExeVersion);
+  finally
+    Free
+  end;
+end;
+
 procedure InitDirs;
 var
   S, HomeConfig: string;
@@ -951,33 +963,41 @@ begin
 
     OpDirLocal:= HomeConfig+'cudatext';
     CreateDirUTF8(OpDirLocal);
-    if DirectoryExistsUTF8(OpDirPrecopy) then
-      RunCommand('cp', ['-R', '-u', '-t',
-        OpDirLocal,
-        '/usr/share/cudatext/py',
-        '/usr/share/cudatext/data',
-        '/usr/share/cudatext/settings_default'
-        ], S);
   end;
-  {$else}
+  {$endif}
   {$ifdef darwin}
   OpDirLocal:= AppDir_Home+'Library/Application Support/CudaText';
   CreateDirUTF8(OpDirLocal);
-  if DirectoryExistsUTF8(OpDirPrecopy) then
-    //see rsync help. need options:
-    // -u (update)
-    // -r (recursive)
-    // -t (preserve times)
-    RunCommand('rsync', ['-urt',
-      OpDirPrecopy+'/',
-      OpDirLocal
-      ], S);
-  {$endif}
   {$endif}
 
   AppDir_Settings:= OpDirLocal+DirectorySeparator+'settings';
   CreateDirUTF8(AppDir_Settings);
   AppDir_SettingsDefault:= OpDirLocal+DirectorySeparator+'settings_default';
+
+  {$ifdef linux}
+  if OpDirLocal<>OpDirExe then
+    if IsDistroUpdateNeeded then
+      if DirectoryExistsUTF8(OpDirPrecopy) then
+        RunCommand('cp', ['-R', '-u', '-t',
+          OpDirLocal,
+          '/usr/share/cudatext/py',
+          '/usr/share/cudatext/data',
+          '/usr/share/cudatext/settings_default'
+          ], S);
+  {$endif}
+  {$ifdef darwin}
+  if IsDistroUpdateNeeded then
+    if DirectoryExistsUTF8(OpDirPrecopy) then
+      //see rsync help. need options:
+      // -u (update)
+      // -r (recursive)
+      // -t (preserve times)
+      RunCommand('rsync', ['-urt',
+        OpDirPrecopy+'/',
+        OpDirLocal
+        ], S);
+  {$endif}
+
   AppDir_Py:= OpDirLocal+DirectorySeparator+'py';
   AppDir_Data:= OpDirLocal+DirectorySeparator+'data';
   AppDir_Lexers:= AppDir_Data+DirectorySeparator+'lexlib';
