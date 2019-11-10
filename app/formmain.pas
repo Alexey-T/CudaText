@@ -288,7 +288,6 @@ type
     MenuItem20: TMenuItem;
     mnuFind2WordNext: TMenuItem;
     mnuFind2WordPrev: TMenuItem;
-    mnuHelpChangelog: TMenuItem;
     mnuHelpForum: TMenuItem;
     mnuViewToolbar: TMenuItem;
     mnuFontText: TMenuItem;
@@ -487,7 +486,6 @@ type
     procedure mnuFind2WordPrevClick(Sender: TObject);
     procedure DoHelpAbout;
     procedure DoHelpForum;
-    procedure DoHelpChangelog;
     procedure DoHelpWiki;
     procedure DoHelpIssues;
     procedure DoHelpHotkeys;
@@ -2720,15 +2718,6 @@ end;
 procedure TfmMain.DoHelpForum;
 begin
   OpenURL('http://synwrite.sourceforge.net/forums/viewforum.php?f=20');
-end;
-
-procedure TfmMain.DoHelpChangelog;
-var
-  fn: string;
-begin
-  fn:= AppDir_Readme+DirectorySeparator+'history.txt';
-  if FileExistsUTF8(fn) then
-    DoFileOpen(fn, '');
 end;
 
 procedure TfmMain.MenuWindowClick(Sender: TObject);

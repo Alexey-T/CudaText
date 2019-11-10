@@ -722,9 +722,6 @@ object fmMain: TfmMain
       object mnuHelpWiki: TMenuItem
         Caption = '&Wiki'
       end
-      object mnuHelpChangelog: TMenuItem
-        Caption = 'C&hangelog'
-      end
       object mnuHelpIssues: TMenuItem
         Caption = '&Report an issue'
       end

@@ -498,7 +498,6 @@ var
   AppDir_DataSidebarIcons: string;
   AppDir_DataCodetreeIcons: string;
   AppDir_DataToolbarIcons: string;
-  AppDir_Readme: string;
   AppDir_LastInstalledAddon: string = '';
   AppFile_OptionsDefault: string;
   AppFile_OptionsUser: string;
@@ -990,7 +989,6 @@ begin
   AppDir_DataSidebarIcons:= AppDir_Data+DirectorySeparator+'sideicons';
   AppDir_DataCodetreeIcons:= AppDir_Data+DirectorySeparator+'codetreeicons';
   AppDir_DataToolbarIcons:= AppDir_Data+DirectorySeparator+'toolbaricons';
-  AppDir_Readme:= OpDirLocal+DirectorySeparator+'readme';
   AppFile_OptionsDefault:= AppDir_SettingsDefault+DirectorySeparator+'default.json';
   AppFile_OptionsUser:= AppDir_Settings+DirectorySeparator+'user.json';
   AppFile_History:= AppDir_Settings+DirectorySeparator+'history.json';

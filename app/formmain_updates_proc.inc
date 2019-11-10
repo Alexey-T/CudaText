@@ -798,7 +798,6 @@ begin
   UpdateMenuItemHotkey(mnuHelpForum, cmd_HelpForum);
   UpdateMenuItemHotkey(mnuHelpWiki, cmd_HelpWiki);
   UpdateMenuItemHotkey(mnuHelpIssues, cmd_HelpIssues);
-  UpdateMenuItemHotkey(mnuHelpChangelog, cmd_HelpChangelog);
   UpdateMenuItemHotkey(mnuHelpCheckUpd, cmd_HelpCheckUpdates);
   UpdateMenuItemHotkey(mnuHelpAbout, cmd_HelpAbout);
 end;
