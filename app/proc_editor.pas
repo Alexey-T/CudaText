@@ -106,11 +106,13 @@ type
 
 function EditorBracket_GetPairForClosingBracketOrQuote(ch: char): char;
 procedure EditorBracket_ClearHilite(Ed: TATSynEdit);
-procedure EditorBracket_FindPairEx(Ed: TATSynEdit;
-  PosX, PosY: integer;
+procedure EditorBracket_FindBoth(Ed: TATSynEdit;
+  var PosX, PosY: integer;
   const AllowedSymbols: string;
   MaxDistance: integer;
-  out FoundX, FoundY: integer);
+  out FoundX, FoundY: integer;
+  out CharFrom, CharTo: atChar;
+  out Kind: TATEditorBracketKind);
 procedure EditorBracket_Action(Ed: TATSynEdit;
   Action: TATEditorBracketAction;
   const AllowedSymbols: string;
@@ -1217,57 +1219,18 @@ begin
   Ed.GutterDecor.DeleteByTag(cEditorTagForBracket);
 end;
 
-procedure EditorBracket_FindPairEx(Ed: TATSynEdit; PosX, PosY: integer;
+procedure EditorBracket_FindBoth(Ed: TATSynEdit;
+  var PosX, PosY: integer;
   const AllowedSymbols: string;
   MaxDistance: integer;
-  out FoundX, FoundY: integer);
+  out FoundX, FoundY: integer;
+  out CharFrom, CharTo: atChar;
+  out Kind: TATEditorBracketKind);
 var
-  Kind: TATEditorBracketKind;
-  CharFrom, CharTo: atChar;
   S: atString;
 begin
   FoundX:= -1;
   FoundY:= -1;
-
-  if PosX<0 then exit;
-  if not Ed.Strings.IsIndexValid(PosY) then exit;
-
-  S:= Ed.Strings.Lines[PosY];
-  if S='' then exit;
-  if PosX>Length(S) then exit;
-  if PosX=Length(S) then Dec(PosX);
-
-  CharFrom:= S[PosX+1];
-  if Pos(CharFrom, AllowedSymbols)=0 then exit;
-
-  EditorBracket_GetCharKind(CharFrom, Kind, CharTo);
-  if Kind=bracketUnknown then exit;
-
-  EditorBracket_FindPair(Ed, CharFrom, CharTo, Kind,
-    MaxDistance, PosX, PosY, FoundX, FoundY);
-end;
-
-procedure EditorBracket_Action(Ed: TATSynEdit;
-  Action: TATEditorBracketAction;
-  const AllowedSymbols: string;
-  MaxDistance: integer);
-var
-  Caret: TATCaretItem;
-  S: atString;
-  CharFrom, CharTo: atChar;
-  Kind: TATEditorBracketKind;
-  PartObj: TATLinePartClass;
-  Decor: TATGutterDecorData;
-  PosX, PosY, FoundX, FoundY: integer;
-  Pnt1, Pnt2: TPoint;
-begin
-  EditorBracket_ClearHilite(Ed);
-
-  if Ed.Carets.Count<>1 then exit;
-  Caret:= Ed.Carets[0];
-  PosX:= Caret.PosX;
-  PosY:= Caret.PosY;
-  if Caret.EndY>=0 then exit; //don't work if selection
 
   if PosX<0 then exit;
   if not Ed.Strings.IsIndexValid(PosY) then exit;
@@ -1318,6 +1281,38 @@ begin
 
   EditorBracket_FindPair(Ed, CharFrom, CharTo, Kind,
     MaxDistance, PosX, PosY, FoundX, FoundY);
+end;
+
+
+procedure EditorBracket_Action(Ed: TATSynEdit;
+  Action: TATEditorBracketAction;
+  const AllowedSymbols: string;
+  MaxDistance: integer);
+var
+  Caret: TATCaretItem;
+  CharFrom, CharTo: atChar;
+  Kind: TATEditorBracketKind;
+  PartObj: TATLinePartClass;
+  Decor: TATGutterDecorData;
+  PosX, PosY, FoundX, FoundY: integer;
+  Pnt1, Pnt2: TPoint;
+begin
+  EditorBracket_ClearHilite(Ed);
+
+  if Ed.Carets.Count<>1 then exit;
+  Caret:= Ed.Carets[0];
+  PosX:= Caret.PosX;
+  PosY:= Caret.PosY;
+  //don't work if selection
+  if Caret.EndY>=0 then exit;
+
+  EditorBracket_FindBoth(Ed,
+    PosX, PosY,
+    AllowedSymbols,
+    MaxDistance,
+    FoundX, FoundY,
+    CharFrom, CharTo,
+    Kind);
   if FoundY<0 then exit;
 
   case Action of

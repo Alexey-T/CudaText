@@ -6652,6 +6652,10 @@ var
   NValue: Int64;
   TreeContainer: TAppTreeContainer;
   Sep: TATStringSeparator;
+  CharFrom, CharTo: atChar;
+  Kind: TATEditorBracketKind;
+  AllowedSymbols: string;
+  Distance: integer;
   Ok: boolean;
   NX, NY, N1, N2: integer;
 begin
@@ -6676,12 +6680,15 @@ begin
             Sep.Init(StrText1);
             Sep.GetItemInt(NX, -1);
             Sep.GetItemInt(NY, -1);
-            EditorBracket_FindPairEx(Ed,
+            AllowedSymbols:= StrText2;
+            Distance:= StrToIntDef(StrText3, MaxInt);
+            EditorBracket_FindBoth(Ed,
               NX, NY,
-              StrText2,
-              StrToIntDef(StrText3, MaxInt),
-              N1, N2);
-            Result:= Py_BuildValue('(ii)', N1, N2);
+              AllowedSymbols,
+              Distance,
+              N1, N2,
+              CharFrom, CharTo, Kind);
+            Result:= Py_BuildValue('((ii)(ii))', NX, NY, N1, N2);
           end;
 
         EDACTION_SHOW_POS:
