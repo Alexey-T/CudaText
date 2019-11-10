@@ -43,7 +43,6 @@ cp ../app/cudatext $dd/usr/bin
 cp debfiles/cudatext.desktop $dd/usr/share/applications
 cp debfiles/cudatext-512.png $dd/usr/share/pixmaps
 cp -r ../app/data $dd/usr/share/cudatext
-cp -r ../app/readme $dd/usr/share/cudatext
 cp -r ../app/settings_default $dd/usr/share/cudatext
 
 ###py
