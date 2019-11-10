@@ -749,7 +749,6 @@ var
   bSavedCase,
   bSavedFromCaret: boolean;
   SavedTokens: TATFinderTokensAllowed;
-  ResBegin, ResEnd: TPoint;
 begin
   Ed:= CurrentEditor;
   Caret:= Ed.Carets[Ed.Carets.Count-1];
@@ -787,19 +786,16 @@ begin
     FFinder.OptInSelection:= false;
     FFinder.OptTokens:= cTokensAll;
 
-    bFound:= FFinder.DoAction_FindSimple(
-      Point(X2, Y2),
-      Point(Ed.Strings.LinesLen[Ed.Strings.Count-1], Ed.Strings.Count-1),
-      ResBegin,
-      ResEnd
-      );
+    bFound:= FFinder.DoAction_FindSimple(Point(X2, Y2));
     DoFindResult(bFound);
 
     if bFound then
     begin
       Ed.Carets.Add(
-        ResEnd.X, ResEnd.Y,
-        ResBegin.X, ResBegin.Y
+        FFinder.MatchEdEnd.X,
+        FFinder.MatchEdEnd.Y,
+        FFinder.MatchEdPos.X,
+        FFinder.MatchEdPos.Y
         );
       Ed.DoCommand(cCommand_ScrollToCaretBottom);
     end;
