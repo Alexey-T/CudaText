@@ -1222,7 +1222,6 @@ procedure EditorBracket_FindPairEx(Ed: TATSynEdit; PosX, PosY: integer;
   MaxDistance: integer;
   out FoundX, FoundY: integer);
 var
-  St: TATStrings;
   Kind: TATEditorBracketKind;
   CharFrom, CharTo: atChar;
   S: atString;
@@ -1230,12 +1229,11 @@ begin
   FoundX:= -1;
   FoundY:= -1;
 
-  St:= Ed.Strings;
-  if not St.IsIndexValid(PosY) then exit;
-
-  S:= St.Lines[PosY];
-  if S='' then exit;
   if PosX<0 then exit;
+  if not Ed.Strings.IsIndexValid(PosY) then exit;
+
+  S:= Ed.Strings.Lines[PosY];
+  if S='' then exit;
   if PosX>Length(S) then exit;
   if PosX=Length(S) then Dec(PosX);
 
