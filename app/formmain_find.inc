@@ -157,7 +157,7 @@ begin
   //    MsgBox(msgCannotFindInMultiSel, MB_OK+MB_ICONWARNING);
   if Frame.MacroRecord then
     Frame.MacroString:= Frame.MacroString+(Format('%d,%s'#1'%s'#1'%s'#1'%s',
-      [cmd_FinderAction, Res, FFinder.StrFind, FFinder.StrReplace, DoFindOptionsToString])+#10);
+      [cmd_FinderAction, Res, FFinder.StrFind, FFinder.StrReplace, FinderOptionsToString(FFinder)])+#10);
 
   bDoLock:=
     //(Res=cOpFindRep) or //don't lock for single replace, issue #1216
@@ -812,42 +812,6 @@ begin
 end;
 
 
-function TfmMain.DoFindOptionsToString: string;
-begin
-  Result:=
-    //ignore OptBack
-    IfThen(FFinder.OptCase, 'c')+
-    IfThen(FFinder.OptRegex, 'r')+
-    IfThen(FFinder.OptWords, 'w')+
-    IfThen(FFinder.OptFromCaret, 'f')+
-    IfThen(FFinder.OptInSelection, 's')+
-    IfThen(FFinder.OptConfirmReplace, 'o')+
-    IfThen(FFinder.OptWrapped, 'a')+
-    IfThen(FFinder.OptTokens<>cTokensAll, 'T'+IntToStr(Ord(FFinder.OptTokens)));
-end;
-
-procedure TfmMain.DoFindOptionsFromString(const S: string);
-var
-  N: integer;
-begin
-  FFinder.OptBack:= false; //ignore OptBack
-  FFinder.OptCase:= Pos('c', S)>0;
-  FFinder.OptRegex:= Pos('r', S)>0;
-  FFinder.OptWords:= Pos('w', S)>0;
-  FFinder.OptFromCaret:= Pos('f', S)>0;
-  FFinder.OptInSelection:= Pos('s', S)>0;
-  FFinder.OptConfirmReplace:= Pos('o', S)>0;
-  FFinder.OptWrapped:= Pos('a', S)>0;
-  FFinder.OptTokens:= cTokensAll;
-
-  N:= Pos('T', S);
-  if (N>0) and (N<Length(S)) then
-  begin
-    N:= StrToIntDef(S[N+1], 0);
-    FFinder.OptTokens:= TATFinderTokensAllowed(N);
-  end;
-end;
-
 function TfmMain.DoFindOptions_GetDict: PPyObject;
 var
   oFind, oRep,
@@ -1063,7 +1027,7 @@ begin
   FFinder.Editor:= CurrentEditor;
   FFinder.StrFind:= UTF8Decode(SFind);
   FFinder.StrReplace:= UTF8Decode(SRep);
-  DoFindOptionsFromString(SOpt);
+  FinderOptionsFromString(FFinder, SOpt);
   FindDialogDone(nil{skip dialog}, SAction);
 end;
 

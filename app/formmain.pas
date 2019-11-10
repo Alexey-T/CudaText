@@ -796,8 +796,6 @@ type
     procedure DoCudaLibAction(const AMethod: string);
     procedure DoDialogCharMap;
     procedure DoFindActionFromString(const AStr: string);
-    procedure DoFindOptionsFromString(const S: string);
-    function DoFindOptionsToString: string;
     procedure DoGotoFromInput(const AInput: string);
     procedure DoGotoDefinition;
     procedure DoShowFuncHint;

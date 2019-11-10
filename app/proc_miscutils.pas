@@ -19,6 +19,7 @@ uses
   ATSynEdit,
   ATSynEdit_Adapter_EControl,
   ATSynEdit_Export_HTML,
+  ATSynEdit_Finder,
   ATStringProc,
   ATListbox,
   ATPanelSimple,
@@ -91,6 +92,9 @@ procedure MenuShowAtEditorCorner(AMenu: TPopupMenu; Ed: TATSynEdit);
 
 function StringToIntArray(const AText: string): TATIntArray;
 function IntArrayToString(const A: TATIntArray): string;
+
+function FinderOptionsToString(F: TATEditorFinder): string;
+procedure FinderOptionsFromString(F: TATEditorFinder; const S: string);
 
 implementation
 
@@ -786,6 +790,42 @@ begin
   SetLength(Result, Length(Result)-1);
 end;
 
+
+function FinderOptionsToString(F: TATEditorFinder): string;
+begin
+  Result:=
+    //ignore OptBack
+    IfThen(F.OptCase, 'c')+
+    IfThen(F.OptRegex, 'r')+
+    IfThen(F.OptWords, 'w')+
+    IfThen(F.OptFromCaret, 'f')+
+    IfThen(F.OptInSelection, 's')+
+    IfThen(F.OptConfirmReplace, 'o')+
+    IfThen(F.OptWrapped, 'a')+
+    IfThen(F.OptTokens<>cTokensAll, 'T'+IntToStr(Ord(F.OptTokens)));
+end;
+
+procedure FinderOptionsFromString(F: TATEditorFinder; const S: string);
+var
+  N: integer;
+begin
+  F.OptBack:= false; //ignore OptBack
+  F.OptCase:= Pos('c', S)>0;
+  F.OptRegex:= Pos('r', S)>0;
+  F.OptWords:= Pos('w', S)>0;
+  F.OptFromCaret:= Pos('f', S)>0;
+  F.OptInSelection:= Pos('s', S)>0;
+  F.OptConfirmReplace:= Pos('o', S)>0;
+  F.OptWrapped:= Pos('a', S)>0;
+  F.OptTokens:= cTokensAll;
+
+  N:= Pos('T', S);
+  if (N>0) and (N<Length(S)) then
+  begin
+    N:= StrToIntDef(S[N+1], 0);
+    F.OptTokens:= TATFinderTokensAllowed(N);
+  end;
+end;
 
 end.
 
