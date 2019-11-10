@@ -2672,7 +2672,7 @@ Performs some action in editor. Possible values of "id":
 
 * EDACTION_UPDATE: Repaint editor.
 
-* EDACTION_FIND_BRACKET: Find position of nearest opening bracket with its pair bracket. Gets ((column_start, line_start), (column_end, line_end)), where line_end<0 if brackets not found.
+* EDACTION_FIND_BRACKETS: Find position of nearest opening bracket with its pair bracket. Gets ((column_start, line_start), (column_end, line_end)), where line_end<0 if brackets not found.
 ** "param1": Text position as 2-tuple (column, line).
 ** "param2": String with allowed bracket pairs. Can have these pairs: () [] {} <>.
 ** "param3": Max distance, in lines, to the pair bracket. Must be 32-bit signed int.
@@ -3703,6 +3703,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.attr: MARKERS_GET_DICT
 
 1.0.314 (app 1.89.4)
-* change: Editor.action: changed result of EDACTION_FIND_BRACKET
+* deleted: Editor.action: EDACTION_FIND_BRACKET
+* add: Editor.action: EDACTION_FIND_BRACKETS
 
 [[Category:CudaText]]

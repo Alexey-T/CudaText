@@ -6675,7 +6675,7 @@ begin
             Result:= ReturnNone;
           end;
 
-        EDACTION_FIND_BRACKET:
+        EDACTION_FIND_BRACKETS:
           begin
             Sep.Init(StrText1);
             Sep.GetItemInt(NX, -1);
