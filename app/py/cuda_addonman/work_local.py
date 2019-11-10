@@ -3,6 +3,7 @@ import os
 import collections
 import zipfile
 import tempfile
+import configparser
 from cudatext import *
 
 README_NAMES = (
@@ -273,12 +274,12 @@ def get_addon_version(url):
 
 def do_remove_version_of_plugin(mod):
 
-    import configparser
     fn = get_packages_ini()
     config = configparser.ConfigParser()
     config.read(fn)
     for sec in config.sections():
-        if config[sec]['d'] == 'py' and config[sec]['f'] == mod+'/':
+        cfg = config[sec]
+        if cfg.get('d')=='py' and cfg.get('f')==mod+'/':
             del config[sec]
             with open(fn, 'w') as f:
                 config.write(f, False)
