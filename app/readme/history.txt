@@ -5,11 +5,12 @@
 
 1.89.4 (2019/11)
 
-* change: delete menu item "Help / Changelog"
 + add: bracket highlighting now also finds nearest surrounding brackets (like VS Code)
 + add: lexer C: fix keywords, fix ligatures
 + add: lexer C++: fix keywords, fix ligatures
 + add: lexer Ruby: fix keywords, fix ligatures
+* change: deleted menu item "Help / Changelog"
+* change: deleted folder "readme" from Linux/macOS installers
 
 1.89.2 (2019/11)
 
