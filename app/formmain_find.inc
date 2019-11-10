@@ -777,7 +777,7 @@ begin
       Ed.Strings.Lines[Y1],
       X1,
       X2,
-      EditorOps.OpNonWordChars
+      Ed.OptNonWordChars
       );
     FFinder.OptRegex:= false;
     FFinder.OptCase:= true;
