@@ -1081,7 +1081,6 @@ procedure EditorBracket_FindOpeningBracketBackward(Ed: TATSynEdit;
   MaxDistance: integer;
   out FoundX, FoundY: integer);
 var
-  TokenKind: TATFinderTokenKind;
   Level: integer;
   Kind: TATEditorBracketKind;
   ch, ch2: atChar;
@@ -1107,9 +1106,8 @@ begin
       EditorBracket_GetCharKind(ch, Kind, ch2);
       if Kind=bracketUnknown then Continue;
 
-      //ignore brackets found in comments/strings, because of constants '{', '(' etc
-      TokenKind:= EditorGetTokenKind(Ed, iChar, iLine);
-      if TokenKind in [cTokenKindComment, cTokenKindString] then Continue;
+      //ignore brackets in comments/strings, because of constants '{', '(' etc
+      if EditorGetTokenKind(Ed, iChar, iLine)<>cTokenKindOther then Continue;
 
       if Kind=bracketClosing then
       begin
@@ -1142,14 +1140,12 @@ var
   S: atString;
   IndexX, IndexY, IndexXBegin, IndexXEnd: integer;
   Level: integer;
-  TokenKind: TATFinderTokenKind;
   ch: atChar;
 begin
   FoundX:= -1;
   FoundY:= -1;
   Level:= 0;
   St:= Ed.Strings;
-  TokenKind:= EditorGetTokenKind(Ed, FromX, FromY);
 
   if Kind=bracketOpening then
   begin
@@ -1165,10 +1161,10 @@ begin
       for IndexX:= IndexXBegin to IndexXEnd do
       begin
         ch:= S[IndexX+1];
-        if (ch=CharFrom) and (EditorGetTokenKind(Ed, IndexX, IndexY)=TokenKind) then
+        if (ch=CharFrom) and (EditorGetTokenKind(Ed, IndexX, IndexY)=cTokenKindOther) then
           Inc(Level)
         else
-        if (ch=CharTo) and (EditorGetTokenKind(Ed, IndexX, IndexY)=TokenKind) then
+        if (ch=CharTo) and (EditorGetTokenKind(Ed, IndexX, IndexY)=cTokenKindOther) then
         begin
           if Level>0 then
             Dec(Level)
@@ -1196,10 +1192,10 @@ begin
       for IndexX:= IndexXEnd downto IndexXBegin do
       begin
         ch:= S[IndexX+1];
-        if (ch=CharFrom) and (EditorGetTokenKind(Ed, IndexX, IndexY)=TokenKind) then
+        if (ch=CharFrom) and (EditorGetTokenKind(Ed, IndexX, IndexY)=cTokenKindOther) then
           Inc(Level)
         else
-        if (ch=CharTo) and (EditorGetTokenKind(Ed, IndexX, IndexY)=TokenKind) then
+        if (ch=CharTo) and (EditorGetTokenKind(Ed, IndexX, IndexY)=cTokenKindOther) then
         begin
           if Level>0 then
             Dec(Level)
@@ -1306,7 +1302,11 @@ begin
     //find opening bracket backwards
     if Kind=bracketUnknown then
     begin
-      EditorBracket_FindOpeningBracketBackward(Ed, PosX, PosY, AllowedSymbols, MaxDistance, FoundX, FoundY);
+      EditorBracket_FindOpeningBracketBackward(Ed,
+        PosX, PosY,
+        AllowedSymbols,
+        MaxDistance,
+        FoundX, FoundY);
       if FoundY<0 then exit;
       PosX:= FoundX;
       PosY:= FoundY;
