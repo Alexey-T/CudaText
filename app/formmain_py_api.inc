@@ -6688,7 +6688,7 @@ begin
               Distance,
               N1, N2,
               CharFrom, CharTo, Kind);
-            Result:= Py_BuildValue('((ii)(ii))', NX, NY, N1, N2);
+            Result:= Py_BuildValue('(iiii)', NX, NY, N1, N2);
           end;
 
         EDACTION_SHOW_POS:
