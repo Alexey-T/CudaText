@@ -957,7 +957,6 @@ begin
         OpDirLocal,
         '/usr/share/cudatext/py',
         '/usr/share/cudatext/data',
-        '/usr/share/cudatext/readme',
         '/usr/share/cudatext/settings_default'
         ], S);
   end;
