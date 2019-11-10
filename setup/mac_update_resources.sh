@@ -7,7 +7,6 @@ rm -rf $app/Contents/Resources/readme
 rm -rf $app/Contents/Resources/sett*
 
 cp -rf $from/data $app/Contents/Resources
-cp -rf $from/readme $app/Contents/Resources
 cp -rf $from/settings_default $app/Contents/Resources
 
 mkdir $app/Contents/Resources/py
