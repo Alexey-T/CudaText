@@ -91,14 +91,14 @@ begin
   Str:= Ed.Strings.LinesUTF8[ALineIndex];
   if SBeginsWith(Str, cPyConsolePrompt) then
   begin
-    fmt:= GetAppStyleFromName('Id2');
+    fmt:= AppStyleId2;
     AColorFont:= fmt.Font.Color
   end
   else
   if (Str='Traceback (most recent call last):') or
     SRegexMatchesString(Str, '^[a-zA-Z][\w\.]*Error: .+', true) then
   begin
-    fmt:= GetAppStyleFromName('LightBG1');
+    fmt:= AppStyleError;
     AColorFont:= fmt.Font.Color;
     AColorBg:= fmt.BgColor;
   end;

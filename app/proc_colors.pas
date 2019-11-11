@@ -36,6 +36,8 @@ var
   AppTheme: TAppTheme;
   AppStyleBrackets: TecSyntaxFormat = nil;
   AppStyleSymbols: TecSyntaxFormat = nil;
+  AppStyleId2: TecSyntaxFormat = nil;
+  AppStyleError: TecSyntaxFormat = nil;
 
 type
   TAppColorMessageProcedure = procedure(const S: string) of object;
@@ -351,6 +353,8 @@ begin
 
   AppStyleBrackets:= GetAppStyleFromName('BracketBG');
   AppStyleSymbols:= GetAppStyleFromName('Symbol');
+  AppStyleId2:= GetAppStyleFromName('Id2');
+  AppStyleError:= GetAppStyleFromName('LightBG1');
 end;
 
 procedure DoSaveTheme(const fn: string; const D: TAppTheme; IsThemeUI: boolean);
