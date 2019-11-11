@@ -1241,11 +1241,12 @@ begin
 
   Kind:= bracketUnknown;
   if PosX<Length(S) then
-  begin
-    CharFrom:= S[PosX+1];
-    if Pos(CharFrom, AllowedSymbols)>0 then
-      EditorBracket_GetCharKind(CharFrom, Kind, CharTo)
-  end;
+    if EditorGetTokenKind(Ed, PosX, PosY)=cTokenKindOther then
+    begin
+      CharFrom:= S[PosX+1];
+      if Pos(CharFrom, AllowedSymbols)>0 then
+        EditorBracket_GetCharKind(CharFrom, Kind, CharTo)
+    end;
 
   if Kind=bracketUnknown then
   begin
@@ -1253,11 +1254,14 @@ begin
     if (PosX>0) and (PosX<Length(S)) then
     begin
       Dec(PosX);
-      CharFrom:= S[PosX+1];
-      if Pos(CharFrom, AllowedSymbols)>0 then
-        EditorBracket_GetCharKind(CharFrom, Kind, CharTo)
-      else
-        Kind:= bracketUnknown;
+      if EditorGetTokenKind(Ed, PosX, PosY)=cTokenKindOther then
+      begin
+        CharFrom:= S[PosX+1];
+        if Pos(CharFrom, AllowedSymbols)>0 then
+          EditorBracket_GetCharKind(CharFrom, Kind, CharTo)
+        else
+          Kind:= bracketUnknown;
+      end;
     end;
 
     //find opening bracket backwards
