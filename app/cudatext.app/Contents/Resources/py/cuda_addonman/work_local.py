@@ -8,19 +8,13 @@ from cudatext import *
 
 README_NAMES = (
     'readme.txt',
-    'readme.html',
-    'readme.htm',
     'readme.md',
     'README.md',
-    'readme.rst',
-    'README.rst',
     )
 
 HISTORY_NAMES = (
     'history.txt',
     'history.md',
-    'history.rst',
-    'history',
 )
 
 DATA_DIRS = (
