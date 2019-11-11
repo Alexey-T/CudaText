@@ -9,6 +9,7 @@
 + add: lexer C: fix keywords, fix ligatures
 + add: lexer C++: fix keywords, fix ligatures
 + add: lexer Ruby: fix keywords, fix ligatures
+* change: bracket highlighting now ignores brackets in comments/strings (to show surrounding brackets in real code)
 * change: deleted menu item "Help / Changelog"
 * change: deleted folder "readme" from Linux/macOS installers
 
