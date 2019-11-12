@@ -2471,8 +2471,8 @@ Controls additional color attributes. Possible values of "id":
 ** "map_only": bool: fragment will be painted only on micromap.
 
 * MARKERS_ADD_MANY: Adds one or multiple fragments at once. Also gets number of fragments. Parameters:
-* "x", "y", "len": the same as for MARKERS_ADD, but can be also list/tuple of int. Lists/tuples must contain the equal number of elements (otherwise the minimal number of elements will be used).
-* other parameters: the same as for MARKERS_ADD.
+** "x", "y", "len": the same as for MARKERS_ADD, but can be also list/tuple of int. Lists/tuples must contain the equal number of elements (otherwise the minimal number of elements will be used).
+** other parameters: the same as for MARKERS_ADD.
 
 * MARKERS_GET: Gets list of fragments, or None. Each item is list of int, corresponding to Editor.attr() params (bool values will be 0 or 1).
 * MARKERS_GET_DICT: Gets list of fragments. Each item is dict, with keys named like parameters of Editor.attr.
