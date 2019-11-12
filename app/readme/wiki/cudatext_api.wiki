@@ -286,8 +286,6 @@ Actions:
 * PROC_THEME_SYNTAX_GET: Gets name of syntax-theme.
 * PROC_THEME_SYNTAX_SET: Sets name of syntax-theme.
 
-* (deprecated) PROC_THEME_UI_DATA_GET: Gets contents of current UI-theme, as list of dict.
-* (deprecated) PROC_THEME_SYNTAX_DATA_GET: Gets contents of current syntax-theme, as list of dict. For description of keys of result, see LEXER_GET_STYLES.
 * PROC_THEME_UI_DICT_GET: Gets contents of current UI-theme, as dict.
 * PROC_THEME_SYNTAX_DICT_GET: Gets contents of current syntax-theme, as dict. For description of keys of result, see LEXER_GET_STYLES.
 
@@ -3703,7 +3701,9 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.attr: MARKERS_GET_DICT
 
 1.0.314 (app 1.89.4)
-* deleted: Editor.action: EDACTION_FIND_BRACKET
 * add: Editor.action: EDACTION_FIND_BRACKETS
+* deleted: EDACTION_FIND_BRACKET
+* deleted deprecated: PROC_THEME_UI_DATA_GET
+* deleted deprecated: PROC_THEME_SYNTAX_DATA_GET
 
 [[Category:CudaText]]

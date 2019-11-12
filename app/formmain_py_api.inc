@@ -95,31 +95,6 @@ begin
 end;
 
 
-function Py_GetThemeData_UI: PPyObject;
-var
-  NLen, i: integer;
-begin
-  with GetPythonEngine do
-  begin
-    NLen:= Length(AppTheme.Colors);
-    Result:= PyList_New(NLen);
-    if not Assigned(Result) then
-      raise EPythonError.Create(msgPythonListError);
-    for i:= 0 to NLen-1 do
-    begin
-      PyList_SetItem(Result, i,
-        Py_BuildValue('{sssssi}',
-          'name',
-          PChar(AppTheme.Colors[i].name),
-          'desc',
-          PChar(AppTheme.Colors[i].desc),
-          'color',
-          AppTheme.Colors[i].color
-          ));
-    end;
-  end;
-end;
-
 function Py_GetThemeDict_UI: PPyObject;
 var
   NLen, i: integer;
@@ -246,47 +221,6 @@ begin
     Result:= ReturnNone;
 end;
 
-
-function Py_GetThemeData_Syntax: PPyObject;
-var
-  NLen, i: integer;
-  St: TecSyntaxFormat;
-begin
-  with GetPythonEngine do
-  begin
-    NLen:= AppTheme.Styles.Count;
-    Result:= PyList_New(NLen);
-    if not Assigned(Result) then
-      raise EPythonError.Create(msgPythonListError);
-    for i:= 0 to NLen-1 do
-    begin
-      St:= TecSyntaxFormat(AppTheme.Styles[i]);
-      PyList_SetItem(Result, i,
-        Py_BuildValue('{sssisisisisisisisiss}',
-          'name',
-          PChar(St.DisplayName),
-          'type',
-          Ord(St.FormatType),
-          'color_font',
-          St.Font.Color,
-          'color_back',
-          St.BgColor,
-          'color_border',
-          St.BorderColorBottom,
-          'border_left',
-          Ord(St.BorderTypeLeft),
-          'border_right',
-          Ord(St.BorderTypeRight),
-          'border_top',
-          Ord(St.BorderTypeTop),
-          'border_bottom',
-          Ord(St.BorderTypeBottom),
-          'styles',
-          PChar(FontStylesToString(St.Font.Style))
-          ));
-    end;
-  end;
-end;
 
 function Py_GetThemeDict_Syntax: PPyObject;
 var
@@ -4496,16 +4430,6 @@ begin
               StrToIntDef(Str2, -1)
               );
             Result:= ReturnNone;
-          end;
-
-        APP_PROC_THEME_UI_DATA_GET:
-          begin
-            Result:= Py_GetThemeData_UI;
-          end;
-
-        APP_PROC_THEME_SYNTAX_DATA_GET:
-          begin
-            Result:= Py_GetThemeData_Syntax;
           end;
 
         APP_PROC_THEME_UI_DICT_GET:
