@@ -589,7 +589,6 @@ begin
   end;
 end;
 
-
 procedure DoControl_CreateNew(
   const S: string;
   AForm: TFormDummy;
@@ -796,6 +795,7 @@ begin
   if (S='listbox_ex') then
   begin
     Ctl:= TATListbox.Create(AForm);
+    TATListbox(Ctl).Theme:= @AppApiFlatTheme;
     TATListbox(Ctl).VirtualMode:= false;
     TATListbox(Ctl).CanGetFocus:= true;
     TATListbox(Ctl).OnClickXMark:= @AForm.DoOnClickX;
@@ -2315,7 +2315,6 @@ begin
     end;
   end;
 end;
-
 
 end.
 

@@ -32,6 +32,7 @@ uses
   ATStringProc,
   ATButtons,
   ATFlatToolbar,
+  ATFlatThemes,
   ATListbox,
   ATStatusBar,
   ATScrollBar,
@@ -65,6 +66,7 @@ var
     end;
 var
   AppBookmarkImagelist: TImageList = nil;
+  AppApiFlatTheme: TATFlatTheme;
 
 var
   AppFrameList: TList;
@@ -2223,6 +2225,8 @@ initialization
 
   AppFrameList:= TList.Create;
   InitCriticalSection(AppFrameCriSec);
+
+  AppApiFlatTheme:= ATFlatTheme;
 
 finalization
   DoneCriticalSection(AppFrameCriSec);

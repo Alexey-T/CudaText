@@ -116,6 +116,10 @@ begin
   ATFlatTheme.ColorBgListboxHottrack:= ColorBlendHalf(ATFlatTheme.ColorBgListbox, ATFlatTheme.ColorBgListboxSel);
   ATFlatTheme.ColorBgOverlay:= GetAppColor('SideBadgeBg');
 
+  AppApiFlatTheme:= ATFlatTheme;
+  AppApiFlatTheme.ColorBgListbox:= GetAppColor('TreeBg');
+  AppApiFlatTheme.ColorBgListboxSel:= GetAppColor('TreeSelBg');
+
   DoApplyThemeToGroups(Groups);
   if FloatGroups then
   begin
