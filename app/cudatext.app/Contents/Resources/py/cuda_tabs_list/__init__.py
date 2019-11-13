@@ -8,7 +8,7 @@ fn_icon = 'tabs.png'
 def bool_to_str(v): return '1' if v else '0'
 def str_to_bool(s): return s=='1'
 
-THEME = app_proc(PROC_THEME_UI_DATA_GET, '')
+THEME = app_proc(PROC_THEME_UI_DICT_GET, '')
 
 class Command:
     title = 'Tabs'
@@ -236,11 +236,7 @@ class Command:
         file_open(fn_config)
 
     def get_color_font(self):
-        for i in THEME:
-            if i['name']=='ListFont':
-                return i['color']
+        return THEME['ListFont']['color']
 
     def get_color_back(self):
-        for i in THEME:
-            if i['name']=='ListBg':
-                return i['color']
+        return THEME['ListBg']['color']
