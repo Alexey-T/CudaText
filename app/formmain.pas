@@ -678,6 +678,7 @@ type
     FLastStatusbarMessage: string;
     FLastSelectedCommand: integer;
     FLastMousePos: TPoint;
+    FLexerLibMissed: boolean;
     FLexerProgressIndex: integer;
     FOption_OpenReadOnly: boolean;
     FOption_OpenNewWindow: boolean;
@@ -2369,6 +2370,9 @@ begin
   Groups.Splitter5.ResizeStyle:= rsUpdate;
   {$endif}
 
+  if FLexerLibMissed then
+    MsgLogConsole(msgCannotFindLexersAll);
+
   if FHandledOnShow then exit;
   DoControlLock(Self);
 
@@ -3957,9 +3961,7 @@ begin
     DirLexers:= AppDir_Lexers;
     FindAllFiles(ListFiles, DirLexers, '*.lcf', false);
     ListFiles.Sort;
-
-    if ListFiles.Count=0 then
-      MsgStatusAlt(msgCannotFindLexersAll, 3);
+    FLexerLibMissed:= ListFiles.Count=0;
 
     for i:= 0 to ListFiles.Count-1 do
     begin
