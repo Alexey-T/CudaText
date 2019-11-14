@@ -2803,15 +2803,12 @@ Options Editor plugin (preinstalled in CudaText) has API which allows to call it
 
 <syntaxhighlight lang="Python">
 import os
-import json
+import cudax_lib as appx
 import cuda_options_editor as op_ed
 
-class Command:
-    def config(self):
-        info_file = os.path.dirname(__file__)+os.sep+'my plugin options.json'
-
-        open(info_file, 'w').write(json.dumps([
-        {   "opt": "my_opt_1",
+fn_config = 'cuda_my_plugin.json' # without path!
+meta_info = {
+            "opt": "my_opt_1",
             "cmt": ["Comment line 1",
                     "Comment line 2",
                     "Comment line 3"],
@@ -2845,16 +2842,29 @@ class Command:
             "frm": "int2s",
             "dct": [["a", "value for a"], ["b", "value for b"]]
         }
-        ]))
 
-        subset ='my plugin.' # Key for isolated storage on plugin settings
-        title = 'My Options' # Dialog caption
-        op_ed.OptEdD(path_keys_info=info_file, subset=subset).show(title)
+
+class Command:
+    def get_opt(path, val):
+        return appx.get_opt(path, val, user_json=fn_config)
+
+    def config(self):
+        subset = '' # section in user.json, if user.json is used
+        title = 'My Plugin Options'
+        how = {'hide_lex_fil': True, 'stor_json': fn_config}
+        op_ed.OptEdD(
+            path_keys_info = meta_info,
+            subset = subset,
+            how = how
+            ).show(title)
+        do_load_plugin_options() # some plugin function to reread options
 </syntaxhighlight>
 
 This will show:
 
 [[File:cudatext_options_editor.png]]
+
+Options Editor stores values in JSON with trailing comma, so to read these options, plugin must use cudax_lib.get_opt() instead of json.load().
 
 ==Project Manager==
 Project Manager plugin (preinstalled in CudaText) gives API to read properties of currently opened project. It has global variable '''global_project_info''', which is dict with keys:
