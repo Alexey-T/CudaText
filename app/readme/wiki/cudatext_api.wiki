@@ -2807,7 +2807,8 @@ import cudax_lib as appx
 import cuda_options_editor as op_ed
 
 fn_config = 'cuda_my_plugin.json' # without path!
-meta_info = {
+meta_info = [
+        {
             "opt": "my_opt_1",
             "cmt": ["Comment line 1",
                     "Comment line 2",
@@ -2842,7 +2843,7 @@ meta_info = {
             "frm": "int2s",
             "dct": [["a", "value for a"], ["b", "value for b"]]
         }
-
+        ]
 
 class Command:
     def get_opt(path, val):
