@@ -119,6 +119,8 @@ begin
   AppApiFlatTheme:= ATFlatTheme;
   AppApiFlatTheme.ColorBgListbox:= GetAppColor('TreeBg');
   AppApiFlatTheme.ColorBgListboxSel:= GetAppColor('TreeSelBg');
+  AppApiFlatTheme.ColorFontListbox:= GetAppColor('TreeFont');
+  AppApiFlatTheme.ColorFontListboxSel:= GetAppColor('TreeSelFont');
 
   DoApplyThemeToGroups(Groups);
   if FloatGroups then
