@@ -1394,11 +1394,12 @@ var
   S: string;
   NCnt, i: integer;
 begin
+  //flush saved Python "print" results to console
   if not FConsoleQueue.IsEmpty() then
   begin
     //avoid output of huge items count at once
     NCnt:= 0;
-    while not FConsoleQueue.IsEmpty() and (NCnt<500) do
+    while not FConsoleQueue.IsEmpty() and (NCnt<300) do
     begin
       S:= FConsoleQueue.Front();
       FConsoleQueue.Pop();
@@ -1411,6 +1412,7 @@ begin
     fmConsole.DoUpdate;
   end;
 
+  //call API event on_mouse_stop
   PntScreen:= Mouse.CursorPos;
   if PntScreen<>FLastMousePos then
   begin
