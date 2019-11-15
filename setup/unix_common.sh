@@ -24,7 +24,7 @@ tar -rf $zipfile cudatext
 if [ "$1"=="haiku" ]
   then
     cd $outdir/lib_haiku_$3
-    tar -rf $zipfile libQt5Pas.so.1
+    tar -rf $zipfile libQt*
 fi
 
 xz -z $zipfile
