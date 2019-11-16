@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+
+- fix: trying to fix rare program freezing with "ui_notif" option
+- fix: typing bracket with _backward_ multiline selection
+- fix: re-opening UTF8-BOM file could show the BOM
+
 1.89.4 (2019/11)
 
 + add: bracket highlighting now also finds nearest surrounding brackets (like VS Code)
