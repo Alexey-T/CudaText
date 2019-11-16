@@ -75,12 +75,7 @@ begin
     );
   APages.Tabs.MakeVisible(NToIndex);
 
-  EnterCriticalSection(AppFrameCriSec);
-  try
-    AppFrameList.Add(F);
-  finally
-    LeaveCriticalSection(AppFrameCriSec);
-  end;
+  AppFrameList1.Add(F);
 
   Result:= APages.Tabs.GetTabData(NToIndex);
 end;
@@ -236,12 +231,8 @@ begin
 
   if ACanClose then
   begin
-    EnterCriticalSection(AppFrameCriSec);
-    try
-      AppFrameList.Remove(Frame);
-    finally
-      LeaveCriticalSection(AppFrameCriSec);
-    end;
+    AppFrameList1.Remove(Frame);
+    AppFrameListDeleting.Add(Frame);
 
     UpdateMenuRecent(Frame, Frame.FileName);
     if not Frame.EditorsLinked then
@@ -263,8 +254,6 @@ begin
         Adapter.Stop;
       end;
     end;
-
-    Frame.Free;
   end;
 
   if not Application.Terminated then

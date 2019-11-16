@@ -19,6 +19,7 @@ uses
   {$endif}
   Classes, SysUtils, Forms, Controls, Menus,
   Dialogs, Graphics, ExtCtrls, ComCtrls,
+  syncobjs,
   Math,
   InterfaceBase,
   LclProc, LclType, LazFileUtils,
@@ -69,8 +70,13 @@ var
   AppApiFlatTheme: TATFlatTheme;
 
 var
-  AppFrameList: TList;
-  AppFrameCriSec: TRTLCriticalSection;
+  AppFrameList1: TList; //all frames - for main thread
+  AppFrameList2: TList; //all frames - for file watcher thread
+  AppFrameListDeleting: TList; //frames which need to be Free'd
+                              //we don't free frames instantly, because watcher thread can access them
+
+  AppEventLister: TEvent; //event set to signaled, when main thread has done AppFrameList2 updating
+  AppEventWatcher: TEvent; //event set to signaled, when watcher thread is not busy
 
 type
   TAppKeyValue = class
@@ -528,6 +534,7 @@ procedure AppScaleToolbar(C: TATFlatToolbar);
 procedure AppScaleSplitter(C: TSplitter);
 function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
 procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
+procedure AppUpdateWatcherFrames;
 
 function FixFontMonospaced(const AName: string): string;
 procedure FixFormPositionToDesktop(F: TForm);
@@ -2186,6 +2193,25 @@ begin
   end;
 end;
 
+procedure AppUpdateWatcherFrames;
+var
+  i: integer;
+begin
+  //function is called in IdleTimer, so just exit if watcher thread is busy,
+  //we will try this again on next timer tick
+  if AppEventWatcher.WaitFor(1)<>wrSignaled then exit;
+
+  AppEventLister.ResetEvent;
+  try
+    for i:= 0 to AppFrameListDeleting.Count-1 do
+      TObject(AppFrameListDeleting[i]).Free;
+    AppFrameListDeleting.Clear;
+
+    AppFrameList2.Assign(AppFrameList1);
+  finally
+    AppEventLister.SetEvent;
+  end;
+end;
 
 initialization
   InitDirs;
@@ -2223,14 +2249,20 @@ initialization
   //detection of XML
   AppConfig_DetectLine.Add('<\?xml .+', 'XML');
 
-  AppFrameList:= TList.Create;
-  InitCriticalSection(AppFrameCriSec);
+  AppFrameList1:= TList.Create;
+  AppFrameList2:= TList.Create;
+  AppFrameListDeleting:= TList.Create;
+  AppEventLister:= TEvent.Create(nil, true, true, '');
+  AppEventWatcher:= TEvent.Create(nil, true, true, '');
 
   AppApiFlatTheme:= ATFlatTheme;
 
 finalization
-  DoneCriticalSection(AppFrameCriSec);
-  FreeAndNil(AppFrameList);
+  FreeAndNil(AppEventWatcher);
+  FreeAndNil(AppEventLister);
+  FreeAndNil(AppFrameListDeleting);
+  FreeAndNil(AppFrameList2);
+  FreeAndNil(AppFrameList1);
 
   FreeAndNil(AppConfig_PGroups);
   FreeAndNil(AppConfig_DetectLine);

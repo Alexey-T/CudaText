@@ -23,6 +23,7 @@ uses
   LclType, LclProc, LclIntf,
   InterfaceBase,
   LazFileUtils, LazUTF8, FileUtil,
+  syncobjs,
   EncConv,
   TreeFilterEdit,
   gqueue,
@@ -1289,17 +1290,19 @@ begin
 
     if not UiOps.NotificationEnabled then Continue;
 
-    EnterCriticalSection(AppFrameCriSec);
+    AppEventLister.WaitFor(INFINITE);
+    AppEventWatcher.ResetEvent;
+
     try
-      for i:= 0 to AppFrameList.Count-1 do
+      for i:= 0 to AppFrameList2.Count-1 do
       begin
-        CurFrame:= TEditorFrame(AppFrameList[i]);
+        CurFrame:= TEditorFrame(AppFrameList2[i]);
         if CurFrame.FileName='' then Continue;
         if not CurFrame.NotifEnabled then Continue;
         HandleOneFrame;
       end;
     finally
-      LeaveCriticalSection(AppFrameCriSec);
+      AppEventWatcher.SetEvent;
     end;
   until false;
 end;
@@ -1432,6 +1435,8 @@ begin
       end;
     end;
   end;
+
+  AppUpdateWatcherFrames;
 end;
 
 procedure TfmMain.TimerStatusTimer(Sender: TObject);
