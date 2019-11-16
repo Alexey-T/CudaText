@@ -3,10 +3,13 @@
   - fixed
   * changed
 
+1.89.6 (2019/11)
 
 - fix: trying to fix rare program freezing with "ui_notif" option
+- fix: listbox in sidebar plugins (Tabs List, etc) should use color of Code Tree, not of Command Palette 
 - fix: typing bracket with _backward_ multiline selection
 - fix: re-opening UTF8-BOM file could show the BOM
+- fix: horizontal scrollbar could hide even with scroll offset present
 
 1.89.4 (2019/11)
 
