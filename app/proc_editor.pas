@@ -874,7 +874,9 @@ begin
       Ed.DoCaretsShift(NCaret, X1, Y1, Shift.X, Shift.Y, PosAfter);
 
       Caret.EndX:= X1+1;
+      Caret.EndY:= Y1;
       Caret.PosX:= X2+IfThen(Y1=Y2, 1);
+      Caret.PosY:= Y2;
     end;
 
     Result:= true;
