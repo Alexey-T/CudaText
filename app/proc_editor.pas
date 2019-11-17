@@ -1007,13 +1007,13 @@ begin
       if IsPosSorted(Caret.PosX, Caret.PosY, NumCol, NumLine, true) then
       begin
         //jump below
-        if IsPosSorted(Caret.EndX, Caret.EndY, Caret.PosX, Caret.PosY, false) then
+        if Caret.IsForwardSelection then
           Pnt:= Point(Caret.EndX, Caret.EndY);
       end
       else
       begin
         //jump above
-        if not IsPosSorted(Caret.EndX, Caret.EndY, Caret.PosX, Caret.PosY, false) then
+        if not Caret.IsForwardSelection then
           Pnt:= Point(Caret.EndX, Caret.EndY);
       end;
   end;
