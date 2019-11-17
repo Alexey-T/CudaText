@@ -2104,6 +2104,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_HILITE_CUR_LINE_IF_FOCUS: bool: highlight current line, only when editor focused.
 * PROP_CODETREE: bool: enable standard code-tree filling.
 * PROP_CODETREE_MODIFIED_VERSION: modification version of the editor for the moment of code-tree filling. See PROP_MODIFIED_VERSION.
+* PROP_CODETREE_SUBLEXER: bool: enable code-tree to show nodes from sublexer(s) of current lexer.
 * PROP_EDITORS_LINKED: bool: enable sharing of the same text by primary/secondary editors in file tab.
 * PROP_CELL_SIZE: 2-tuple of int: size in pixels of average char cell.
 * PROP_ONE_LINE: bool: editor has single-line mode. (Usual editors are multi-line.)
@@ -2224,6 +2225,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_UNDO_DATA: str: string representation of Undo data.
 * PROP_REDO_DATA: str: string representation of Redo data.
 * PROP_ZEBRA: int: if 0, zebra mode is not active; if >0, it is alpha-blend value (1..255) of active zebra mode.
+* PROP_CODETREE_SUBLEXER: bool: enable code-tree to show nodes from sublexer(s) of current lexer.
 
 * PROP_SPLIT: 2-tuple: information about primary/secondary editors splitting as tuple (split_kind, split_pos).
 ** "split_kind": str: "-" (not splitted), "v" (splitted vertically), "h" (splitted horizontally).
@@ -3716,5 +3718,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * deleted: EDACTION_FIND_BRACKET
 * deleted deprecated: PROC_THEME_UI_DATA_GET
 * deleted deprecated: PROC_THEME_SYNTAX_DATA_GET
+
+1.0.315 (app 1.89.6)
+* add: Editor.get_prop/set_prop: PROP_CODETREE_SUBLEXER
 
 [[Category:CudaText]]
