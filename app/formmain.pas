@@ -5417,9 +5417,10 @@ var
   Prop: ^TAppPanelProps;
   ResFilename: string;
   ResLine, ResCol: integer;
-  NIndex, NTag: integer;
+  NIndex: integer;
   SText: string;
   Ed: TATSynEdit;
+  ItemProp: TATListboxItemProp;
 begin
   Ed:= CurrentEditor;
 
@@ -5433,7 +5434,7 @@ begin
   if NIndex>=Prop^.Listbox.Items.Count then exit;
 
   SText:= Prop^.Listbox.Items[NIndex];
-  NTag:= PtrInt(Prop^.Listbox.Items.Objects[NIndex]);
+  ItemProp:= TATListboxItemProp(Prop^.Listbox.Items.Objects[NIndex]);
 
   DoParseOutputLine(Prop^, SText, ResFilename, ResLine, ResCol);
   if (ResFilename<>'') and (ResLine>=0) then
@@ -5452,7 +5453,7 @@ begin
   begin
     MsgStatus(msgStatusClickingLogLine);
     DoPyEvent(Ed, cEventOnOutputNav,
-      [SStringToPythonString(SText), IntToStr(NTag)] );
+      [SStringToPythonString(SText), IntToStr(ItemProp.Tag)] );
   end;
 end;
 
