@@ -3256,6 +3256,14 @@ begin
         PROP_CODETREE_MODIFIED_VERSION:
           Result:= PyInt_FromLong(fmMain.FCodetreeModifiedVersion);
 
+        PROP_CODETREE_SUBLEXER:
+          begin
+            if Ed.AdapterForHilite is TATAdapterEControl then
+              Result:= PyBool_FromLong(Ord((Ed.AdapterForHilite as TATAdapterEControl).EnabledSublexerTreeNodes))
+            else
+              Result:= PyBool_FromLong(0);
+          end;
+
         PROP_V_MODE:
           begin
             if not Assigned(F) then exit(ReturnNone);
@@ -3709,6 +3717,12 @@ begin
 
         PROP_SCROLLSTYLE_VERT:
           Ed.OptScrollStyleVert:= TATSynEditScrollStyle(ValueInt);
+
+        PROP_CODETREE_SUBLEXER:
+          begin
+            if Ed.AdapterForHilite is TATAdapterEControl then
+              (Ed.AdapterForHilite as TATAdapterEControl).EnabledSublexerTreeNodes:= ValueBool;
+          end;
 
         PROP_V_MODE:
           begin
