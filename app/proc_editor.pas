@@ -846,7 +846,7 @@ begin
     Caret:= Ed.Carets[NCaret];
     if not Ed.Strings.IsIndexValid(Caret.PosY) then Continue;
     Caret.GetRange(X1, Y1, X2, Y2, bSel);
-    bBackwardSel:= IsPosSorted(Caret.PosX, Caret.PosY, Caret.EndX, Caret.EndY, false);
+    bBackwardSel:= not Caret.IsForwardSelection;
 
     if not bSel then
     begin
