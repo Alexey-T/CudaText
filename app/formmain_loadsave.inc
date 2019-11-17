@@ -346,7 +346,7 @@ begin
       begin
         //F.ActivationTime:= GetTickCount64;
         F.NotInRecents:= true;
-        F.DoLoadHistoryEx(F.Ed1, F.FileName, c, '/'+list[i]);
+        F.DoLoadHistoryEx(F.Ed1, F.FileName, c, '/'+list[i], true);
       end;
     end;
 

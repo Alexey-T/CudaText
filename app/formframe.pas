@@ -155,7 +155,7 @@ type
     procedure DoFileOpen_AsBinary(const AFileName: string; AMode: TATBinHexMode);
     procedure DoFileOpen_AsPicture(const AFileName: string);
     procedure DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string;
-      AAllowLoadHistory, AAllowErrorMsgBox, AKeepScroll: boolean; AOpenMode: TAppOpenMode);
+      AAllowLoadHistory, AAllowLoadHistoryEnc, AAllowErrorMsgBox, AKeepScroll: boolean; AOpenMode: TAppOpenMode);
     procedure DoImageboxScroll(Sender: TObject);
     procedure DoOnChangeCaption;
     procedure DoOnUpdateStatus;
@@ -342,8 +342,8 @@ type
     procedure DoSaveHistory(Ed: TATSynEdit);
     procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
     procedure DoSaveUndo(Ed: TATSynEdit; const AFileName: string);
-    procedure DoLoadHistory(Ed: TATSynEdit);
-    procedure DoLoadHistoryEx(Ed: TATSynEdit; const AFileName: string; c: TJsonConfig; const path: UnicodeString);
+    procedure DoLoadHistory(Ed: TATSynEdit; AllowEnc: boolean);
+    procedure DoLoadHistoryEx(Ed: TATSynEdit; const AFileName: string; c: TJsonConfig; const path: UnicodeString; AllowEnc: boolean);
     procedure DoLoadUndo(Ed: TATSynEdit);
     //misc
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
@@ -1918,18 +1918,19 @@ begin
   DoDeactivatePictureMode;
   DoDeactivateViewerMode;
 
-  DoFileOpen_Ex(Ed1, AFileName, AAllowLoadHistory, AAllowErrorMsgBox, false, AOpenMode);
+  DoFileOpen_Ex(Ed1, AFileName, AAllowLoadHistory, AAllowLoadHistory, AAllowErrorMsgBox, false, AOpenMode);
 
   if AFileName2<>'' then
   begin
     EditorsLinked:= false;
     SplitHorz:= false;
     Splitted:= true;
-    DoFileOpen_Ex(Ed2, AFileName2, AAllowLoadHistory, AAllowErrorMsgBox, false, AOpenMode);
+    DoFileOpen_Ex(Ed2, AFileName2, AAllowLoadHistory, AAllowLoadHistory, AAllowErrorMsgBox, false, AOpenMode);
   end;
 end;
 
-procedure TEditorFrame.DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string; AAllowLoadHistory, AAllowErrorMsgBox, AKeepScroll: boolean;
+procedure TEditorFrame.DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string;
+  AAllowLoadHistory, AAllowLoadHistoryEnc, AAllowErrorMsgBox, AKeepScroll: boolean;
   AOpenMode: TAppOpenMode);
 begin
   try
@@ -1956,7 +1957,7 @@ begin
   if AAllowLoadHistory then
   begin
     DoLoadUndo(Ed);
-    DoLoadHistory(Ed);
+    DoLoadHistory(Ed, AAllowLoadHistoryEnc);
   end;
 
   if Lexer[Ed]=nil then
@@ -2242,7 +2243,12 @@ begin
 
   //reopen
   DoSaveHistory(Ed);
-  DoFileOpen_Ex(Ed, SFileName, true{AllowLoadHistory}, false{AllowMsgBox}, true{KeepScroll}, Mode);
+  DoFileOpen_Ex(Ed, SFileName,
+    true{AllowLoadHistory},
+    false{AllowLoadHistoryEnc},
+    false{AllowMsgBox},
+    true{KeepScroll},
+    Mode);
   if Ed.Strings.Count=0 then exit;
 
   //restore props
@@ -2775,7 +2781,7 @@ begin
   end;
 end;
 
-procedure TEditorFrame.DoLoadHistory(Ed: TATSynEdit);
+procedure TEditorFrame.DoLoadHistory(Ed: TATSynEdit; AllowEnc: boolean);
 var
   c: TJSONConfig;
   SFileName: string;
@@ -2796,14 +2802,15 @@ begin
     end;
 
     path:= UTF8Decode(SMaskFilenameSlashes(SFileName));
-    DoLoadHistoryEx(Ed, SFileName, c, path);
+    DoLoadHistoryEx(Ed, SFileName, c, path, AllowEnc);
   finally
     c.Free;
   end;
 end;
 
 
-procedure TEditorFrame.DoLoadHistoryEx(Ed: TATSynEdit; const AFileName: string; c: TJsonConfig; const path: UnicodeString);
+procedure TEditorFrame.DoLoadHistoryEx(Ed: TATSynEdit; const AFileName: string;
+  c: TJsonConfig; const path: UnicodeString; AllowEnc: boolean);
 var
   str, str0: string;
   Caret: TATCaretItem;
@@ -2826,6 +2833,8 @@ begin
     LexerName[Ed]:= str;
 
   //enc
+ if AllowEnc then
+ begin
   str0:= Ed.EncodingName;
   str:= c.GetValue(path+cHistory_Enc, str0);
   if str<>str0 then
@@ -2841,6 +2850,7 @@ begin
         Ed.Strings.EncodingDetect:= true;
       end;
   end;
+ end;
 
   TabColor:= StringToColorDef(c.GetValue(path+cHistory_TabColor, ''), clNone);
 
