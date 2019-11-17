@@ -819,7 +819,7 @@ var
   Caret: TATCaretItem;
   X1, Y1, X2, Y2: integer;
   NPos, NCaret: integer;
-  bSel: boolean;
+  bSel, bBackwardSel: boolean;
   CharEnd: atChar;
   Str: atString;
   Shift, PosAfter: TPoint;
@@ -846,6 +846,7 @@ begin
     Caret:= Ed.Carets[NCaret];
     if not Ed.Strings.IsIndexValid(Caret.PosY) then Continue;
     Caret.GetRange(X1, Y1, X2, Y2, bSel);
+    bBackwardSel:= IsPosSorted(Caret.PosX, Caret.PosY, Caret.EndX, Caret.EndY, false);
 
     if not bSel then
     begin
@@ -877,6 +878,9 @@ begin
       Caret.EndY:= Y1;
       Caret.PosX:= X2+IfThen(Y1=Y2, 1);
       Caret.PosY:= Y2;
+
+      if bBackwardSel then
+        Caret.SwapSelection;
     end;
 
     Result:= true;
