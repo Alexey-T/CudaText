@@ -324,6 +324,7 @@ begin
   if DoDialogConfigTheme(AppTheme, AThemeUI) then
   begin
     DoApplyTheme;
+
     if Msgbox(msgConfirmSaveColorsToFile, MB_OKCANCEL or MB_ICONQUESTION)=ID_OK then
     begin
       Str:= Trim(InputBox(msgTitle, msgThemeName, StrName));
@@ -332,6 +333,11 @@ begin
 
       DoSaveTheme(Str, AppTheme, AThemeUI);
     end;
+
+    if AThemeUI then
+      DoPyEvent(CurrentEditor, cEventOnState, [IntToStr(APPSTATE_THEME_UI)])
+    else
+      DoPyEvent(CurrentEditor, cEventOnState, [IntToStr(APPSTATE_THEME_SYNTAX)]);
   end;
 end;
 
