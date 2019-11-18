@@ -3389,6 +3389,7 @@ var
 begin
   Ed:= CurrentEditor;
   MsgStatus(msgStatusHelpOnShowCommands);
+  UpdateKeymapDynamicItems;
   NCmd:= DoDialogCommands_Custom(true, true, true, true, true, false, '', FLastSelectedCommand);
   if NCmd>0 then
   begin
