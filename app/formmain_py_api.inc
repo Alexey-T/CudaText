@@ -2608,6 +2608,8 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'is:dlg_commands', @NOps, @PtrTitle)) then
     begin
       StrTitle:= string(PtrTitle);
+
+      fmMain.UpdateKeymapDynamicItems;
       Str:= fmMain.DoDialogCommands_Py(
         (NOps and COMMANDS_USUAL)<>0,
         (NOps and COMMANDS_PLUGINS)<>0,
@@ -2617,6 +2619,7 @@ begin
         (NOps and COMMANDS_CENTERED)<>0,
         StrTitle
         );
+
       if Str='' then
         Result:= ReturnNone
       else
