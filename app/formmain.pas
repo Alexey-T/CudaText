@@ -679,6 +679,7 @@ type
     FLastStatusbarMessage: string;
     FLastSelectedCommand: integer;
     FLastMousePos: TPoint;
+    FLastMaximized: boolean;
     FLexerProgressIndex: integer;
     FOption_OpenReadOnly: boolean;
     FOption_OpenNewWindow: boolean;
@@ -2378,6 +2379,12 @@ begin
 
   if FHandledOnShow then exit;
   DoControlLock(Self);
+
+  if FLastMaximized then
+  begin
+    FLastMaximized:= false;
+    WindowState:= wsMaximized;
+  end;
 
   DoApplyInitialGroupSizes;
   DoApplyFont_Text;

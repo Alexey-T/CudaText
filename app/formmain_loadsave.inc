@@ -477,8 +477,7 @@ begin
     DoOps_LoadFormRect(c, '/dialog/fl_g3', FBoundsFloatGroups3);
     BoundsRect:= RectMain;
 
-    if c.GetValue('/dialog/max', false) then
-      WindowState:= wsMaximized;
+    FLastMaximized:= c.GetValue('/dialog/max', false);
 
     ////recents
     SLoadStringsFromFile(c, '/recent_files', FListRecents, UiOps.MaxHistoryMenu);
