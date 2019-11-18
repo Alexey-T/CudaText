@@ -349,7 +349,11 @@ begin
     (Pos(AText[1], UiOps.AutoCloseBrackets)>0) then
   begin
     if EditorAutoCloseBracket(Ed, AText[1]) then
-      begin AHandled:= true; exit end;
+    begin
+      AHandled:= true;
+      Ed.DoEventCarets; //to highlight pair brackets after typing bracket
+      exit
+    end;
   end;
 
   //handle commands cmd_
