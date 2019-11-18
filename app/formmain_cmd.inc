@@ -656,7 +656,7 @@ begin
 
   //handle other cmd_ commands
   if (ACommand>=cmdFirstAppCommand) and
-     (ACommand<cmdLastFileCommand) then
+     (ACommand<=cmdLastAppCommand) then
     if IsCommandNeedTimer(ACommand) then
     begin
       TimerCmd.Tag:= ACommand;

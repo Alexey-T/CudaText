@@ -27,6 +27,7 @@ const
   cmdLastPluginCommand = 8000-1;
   cmdFirstFileCommand = 8000;
   cmdLastFileCommand = 9000-1;
+  cmdLastAppCommand = cmdLastFileCommand;
 
   //for macros
   cmd_MouseClickAtCursor = 2480;
