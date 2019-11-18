@@ -223,6 +223,7 @@ begin
   Localize;
 
   Adapter:= TATAdapterEControl.Create(Self);
+  Adapter.EnabledSublexerTreeNodes:= UiOps.TreeSublexers;
   Adapter.AddEditor(edSample);
 
   edSample.DoubleBuffered:= UiOps.DoubleBuffered;

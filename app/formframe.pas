@@ -1548,6 +1548,7 @@ begin
   Splitted:= false;
 
   Adapter1:= TATAdapterEControl.Create(Self);
+  Adapter1.EnabledSublexerTreeNodes:= UiOps.TreeSublexers;
   Adapter1.AddEditor(Ed1);
   Adapter1.AddEditor(Ed2);
 
@@ -1723,6 +1724,7 @@ begin
           if Adapter2=nil then
           begin
             Adapter2:= TATAdapterEControl.Create(Self);
+            Adapter2.EnabledSublexerTreeNodes:= UiOps.TreeSublexers;
             OnInitAdapter(Adapter2);
           end;
           Ed2.AdapterForHilite:= Adapter2;
@@ -2331,6 +2333,7 @@ begin
     if Adapter2=nil then
     begin
       Adapter2:= TATAdapterEControl.Create(Self);
+      Adapter2.EnabledSublexerTreeNodes:= UiOps.TreeSublexers;
       OnInitAdapter(Adapter2);
     end;
     Adapter1.AddEditor(Ed1);

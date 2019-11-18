@@ -638,6 +638,7 @@ begin
     EditorApplyOps(TATSynEdit(Ctl), EditorOps, true, true, false);
 
     Adapter:= TATAdapterEControl.Create(Ctl);
+    Adapter.EnabledSublexerTreeNodes:= UiOps.TreeSublexers;
     Adapter.DynamicHiliteEnabled:= EditorOps.OpLexerDynamicHiliteEnabled;
     Adapter.DynamicHiliteMaxLines:= EditorOps.OpLexerDynamicHiliteMaxLines;
     Adapter.AddEditor(TATSynEdit(Ctl));

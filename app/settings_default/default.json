@@ -691,6 +691,10 @@
   //  2: field is shown on bottom
   "ui_tree_filter_layout": 1,
 
+  //Show nodes of sublexer(s) in code-tree
+  //Used for example for JavaScript inside PHP. Requires program restart.
+  "ui_tree_sublexers": false,
+
   //Maximal number of folding ranges in file, for which code-tree fill be filled
   "ui_max_ranges_codetree": 9000,
 

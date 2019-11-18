@@ -230,6 +230,7 @@ type
     TreeShowIcons: boolean;
     TreeShowTooltips: boolean;
     TreeFilterLayout: integer;
+    TreeSublexers: boolean;
 
     NewdocLexer: string;
     NewdocEnc: string;
@@ -1316,6 +1317,7 @@ begin
     TreeShowIcons:= true;
     TreeShowTooltips:= true;
     TreeFilterLayout:= 1;
+    TreeSublexers:= false;
 
     PyChangeSlow:= 2000;
     PyInitLog:= true;

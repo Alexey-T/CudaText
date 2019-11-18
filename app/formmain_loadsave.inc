@@ -1065,6 +1065,7 @@ begin
   UiOps.TreeShowTooltips:= c.GetValue('ui_tree_show_tooltips', UiOps.TreeShowTooltips);
   //UiOps.TreeCache:= c.GetValue('ui_tree_cache', UiOps.TreeCache);
   UiOps.TreeFilterLayout:= c.GetValue('ui_tree_filter_layout', UiOps.TreeFilterLayout);
+  UiOps.TreeSublexers:= c.GetValue('ui_tree_sublexers', UiOps.TreeSublexers);
 
   UiOps.PyChangeSlow:= c.GetValue('py_change_slow', UiOps.PyChangeSlow);
   UiOps.PyInitLog:= c.GetValue('py_init_log', UiOps.PyInitLog);
