@@ -3425,7 +3425,7 @@ begin
   else
   if (NCmd>=cmdFirstFileCommand) and (NCmd<cmdLastFileCommand) then
   begin
-    Result:= 'o:'+TEditorFrame(AppFrameList1[NCmd-cmdFirstFileCommand]).FileName;
+    Result:= 'f:'+TEditorFrame(AppFrameList1[NCmd-cmdFirstFileCommand]).FileName;
   end
   else
     Result:= 'c:'+IntToStr(NCmd);

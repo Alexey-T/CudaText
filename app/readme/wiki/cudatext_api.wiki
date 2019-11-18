@@ -1199,7 +1199,7 @@ Param "options" should be 0 or sum of int flags:
 * COMMANDS_USUAL: Show usual commands, which have int codes. Function gets "c:"+str(int_command) for them.
 * COMMANDS_PLUGINS: Show plugins commands. Function gets "p:"+callback_string for them.
 * COMMANDS_LEXERS: Show lexers pseudo-commands. Function gets "l:"+lexer_name for them.
-* COMMANDS_FILES: Show opened files pseudo-commands. Function gets "o:"+file_name for them.
+* COMMANDS_FILES: Show opened files pseudo-commands. Function gets "f:"+file_name for them.
 * COMMANDS_CONFIG: Allow to call Configure Hotkeys dialog by F9 key.
 * COMMANDS_CENTERED: Set dialog position to the center of desktop. Otherwise, position depends on CudaText option.
 
