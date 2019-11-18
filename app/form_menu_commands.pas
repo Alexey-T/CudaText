@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Types,
-  ExtCtrls, Dialogs,
+  StdCtrls, ExtCtrls, Dialogs,
   ATSynEdit,
   ATSynEdit_Edits,
   ATSynEdit_Keymap,
@@ -57,6 +57,7 @@ type
     FColorFontSel: TColor;
     FColorFontHilite: TColor;
     FColorFontHotkey: TColor;
+    PanelInfo: TLabel;
     procedure DoConfigKey(Cmd: integer);
     procedure DoFilter;
     procedure DoResetKey(K: TATKeymapItem);
@@ -162,11 +163,26 @@ begin
   ResultHotkeysChanged:= false;
 
   keymapList:= TList.Create;
+
+  PanelInfo:= TLabel.Create(Self);
+  PanelInfo.Hide;
+  PanelInfo.Parent:= Self;
+  PanelInfo.Align:= alClient;
+  PanelInfo.Font.Name:= UiOps.VarFontName;
+  PanelInfo.Font.Size:= UiOps.VarFontSize;
+  PanelInfo.BorderSpacing.Around:= 20;
+  PanelInfo.Caption:= '#p – plugins'#10'#l – lexers'#10'#f – opened files';
 end;
 
 procedure TfmCommands.editChange(Sender: TObject);
+var
+  bHelp: boolean;
 begin
-  DoFilter;
+  bHelp:= edit.Text='#';
+  PanelInfo.Visible:= bHelp;
+  list.Visible:= not bHelp;
+  if not bHelp then
+    DoFilter;
 end;
 
 procedure TfmCommands.FormDestroy(Sender: TObject);
