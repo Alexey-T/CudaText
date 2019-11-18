@@ -231,6 +231,7 @@ begin
 
   if ACanClose then
   begin
+    Frame.Hide;
     AppFrameList1.Remove(Frame);
     AppFrameListDeleting.Add(Frame);
 
