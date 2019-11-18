@@ -308,7 +308,11 @@ begin
 
     cmdFirstFileCommand..
     cmdLastFileCommand:
-      SetFrame(TEditorFrame(AppFrameList1[Cmd-cmdFirstFileCommand]));
+      begin
+        F:= TEditorFrame(AppFrameList1[Cmd-cmdFirstFileCommand]);
+        SetFrame(F);
+        F.SetFocus;
+      end;
   end;
 
   UpdateStatus;
@@ -652,7 +656,7 @@ begin
 
   //handle other cmd_ commands
   if (ACommand>=cmdFirstAppCommand) and
-     (ACommand<cmdLastPluginCommand) then
+     (ACommand<cmdLastFileCommand) then
     if IsCommandNeedTimer(ACommand) then
     begin
       TimerCmd.Tag:= ACommand;
