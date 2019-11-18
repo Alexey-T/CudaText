@@ -6,6 +6,7 @@
 1.89.6 (2019/11)
 
 + add: Command Palette shows dynamically added items for opened files
++ add: Command Palette: support prefixes/suffixes to filter items by category: #p (plugins), #l (lexers), #f (opened files)
 + add: option "ui_tree_sublexers"
 * change: in menu-dialogs (e.g. Command Palette) keys Home/End are used for input box, Ctrl+Home/Ctrl+End for listbox
 - fix: trying to fix rare program freezing with "ui_notif" option
