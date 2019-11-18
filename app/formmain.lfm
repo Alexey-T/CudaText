@@ -107,6 +107,7 @@ object fmMain: TfmMain
       Color = clSilver
       ParentColor = False
       Images = ImageListToolbar
+      Visible = False
       Wrapable = True
     end
     object PaintTest: TPaintBox
