@@ -419,33 +419,40 @@ end;
 
 function TfmCommands.IsFiltered(Item: TATKeymapItem): boolean;
 var
+  NCmd: integer;
   StrFind: string;
+  bItemLexer, bItemPlugin, bItemFile: boolean;
+  bPrefixLexer, bPrefixPlugin, bPrefixFile: boolean;
 begin
   Result:= false;
 
+  NCmd:= Item.Command;
+  bItemLexer:= (NCmd>=cmdFirstLexerCommand) and (NCmd<=cmdLastLexerCommand);
+  bItemPlugin:= (NCmd>=cmdFirstPluginCommand) and (NCmd<=cmdLastPluginCommand);
+  bItemFile:= (NCmd>=cmdFirstFileCommand) and (NCmd<=cmdLastFileCommand);
+
   //filter by options
-  if (Item.Command>=cmdFirstPluginCommand) and (Item.Command<=cmdLastPluginCommand) then
-  begin
-    if not OptShowPlugins then exit(false);
-  end
-  else
-  if (Item.Command>=cmdFirstLexerCommand) and (Item.Command<=cmdLastLexerCommand) then
-  begin
-    if not OptShowLexers then exit(false);
-  end
-  else
-  if (Item.Command>=cmdFirstFileCommand) and (Item.Command<=cmdLastFileCommand) then
-  begin
-    if not OptShowFiles then exit(false);
-  end
-  else
-  if (Item.Command>0) then
-  begin
-    if not OptShowUsual then exit(false);
-  end;
+  if bItemPlugin and not OptShowPlugins then exit(false);
+  if bItemLexer and not OptShowLexers then exit(false);
+  if bItemFile and not OptShowFiles then exit(false);
+  if (NCmd>0) and not OptShowUsual then exit(false);
 
   //filter by input field
-  StrFind:= Trim(UTF8Encode(edit.Text));
+  StrFind:= Trim(edit.Text);
+  if StrFind='' then exit(true);
+
+  bPrefixLexer:= Pos('#l', StrFind)>0;
+  bPrefixPlugin:= Pos('#p', StrFind)>0;
+  bPrefixFile:= Pos('#f', StrFind)>0;
+
+  if bPrefixLexer and not bItemLexer then exit(false);
+  if bPrefixPlugin and not bItemPlugin then exit(false);
+  if bPrefixFile and not bItemFile then exit(false);
+
+  StrFind:= StringReplace(StrFind, '#l', '', []);
+  StrFind:= StringReplace(StrFind, '#p', '', []);
+  StrFind:= StringReplace(StrFind, '#f', '', []);
+  StrFind:= Trim(StrFind);
   if StrFind='' then exit(true);
 
   //first @ char means search in hotkey
