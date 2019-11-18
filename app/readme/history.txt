@@ -5,6 +5,7 @@
 
 1.89.6 (2019/11)
 
++ add: Command Palette shows dynamically added items for opened files
 + add: option "ui_tree_sublexers"
 - fix: trying to fix rare program freezing with "ui_notif" option
 - fix: listbox in sidebar plugins (Tabs List, etc) should use color of Code Tree, not of Command Palette 
