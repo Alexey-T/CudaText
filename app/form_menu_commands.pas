@@ -74,6 +74,7 @@ type
     OptShowUsual: boolean;
     OptShowPlugins: boolean;
     OptShowLexers: boolean;
+    OptShowFiles: boolean;
     OptAllowConfig: boolean;
     OptFocusedCommand: integer;
     property OnMsg: TStrEvent read FOnMsg write FOnMsg;
@@ -150,6 +151,7 @@ begin
   OptShowUsual:= true;
   OptShowPlugins:= true;
   OptShowLexers:= true;
+  OptShowFiles:= true;
   OptAllowConfig:= true;
   OptFocusedCommand:= 0;
 
@@ -264,6 +266,13 @@ begin
 
   if (Cmd>=cmdFirstLexerCommand) and
      (Cmd<=cmdLastLexerCommand) then
+  begin
+    DoMsgStatus(msgCannotSetHotkey);
+    exit
+  end;
+
+  if (Cmd>=cmdFirstFileCommand) and
+     (Cmd<=cmdLastFileCommand) then
   begin
     DoMsgStatus(msgCannotSetHotkey);
     exit
@@ -423,6 +432,11 @@ begin
   if (Item.Command>=cmdFirstLexerCommand) and (Item.Command<=cmdLastLexerCommand) then
   begin
     if not OptShowLexers then exit(false);
+  end
+  else
+  if (Item.Command>=cmdFirstFileCommand) and (Item.Command<=cmdLastFileCommand) then
+  begin
+    if not OptShowFiles then exit(false);
   end
   else
   if (Item.Command>0) then

@@ -305,6 +305,10 @@ begin
     cmdFirstPluginCommand..
     cmdLastPluginCommand:
       DoPyCommand_ByPluginIndex(Cmd-cmdFirstPluginCommand);
+
+    cmdFirstFileCommand..
+    cmdLastFileCommand:
+      SetFrame(TEditorFrame(AppFrameList1[Cmd-cmdFirstFileCommand]));
   end;
 
   UpdateStatus;

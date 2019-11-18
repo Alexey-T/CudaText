@@ -25,6 +25,8 @@ const
   cmdLastLexerCommand = 6400-1;
   cmdFirstPluginCommand = 6400;
   cmdLastPluginCommand = 8000-1;
+  cmdFirstFileCommand = 8000;
+  cmdLastFileCommand = 9000-1;
 
   //for macros
   cmd_MouseClickAtCursor = 2480;
@@ -606,7 +608,8 @@ begin
       Result:= false;
 
     cmdFirstLexerCommand..cmdLastLexerCommand,
-    cmdFirstPluginCommand..cmdLastPluginCommand:
+    cmdFirstPluginCommand..cmdLastPluginCommand,
+    cmdFirstFileCommand..cmdLastFileCommand:
       Result:= true;
 
     cmd_FileNew,
@@ -731,6 +734,7 @@ begin
 
     cmdFirstLexerCommand..cmdLastLexerCommand,
     cmdFirstPluginCommand..cmdLastPluginCommand,
+    cmdFirstFileCommand..cmdLastFileCommand,
     cmd_MacroStart,
     cmd_MacroStop,
     cmd_MacroCancel,

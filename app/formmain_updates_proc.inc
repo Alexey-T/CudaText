@@ -831,6 +831,7 @@ end;
 procedure TfmMain.UpdateKeymapDynamicItems;
 var
   CmdItem: TAppCommand;
+  Frame: TEditorFrame;
   sl: TStringList;
   str: string;
   i: integer;
@@ -877,6 +878,17 @@ begin
       cmdFirstPluginCommand+i,
       'plugin: '+Str,
       [], []);
+  end;
+
+  //dynamic file items
+  for i:= 0 to AppFrameList1.Count-1 do
+  begin
+    Frame:= TEditorFrame(AppFrameList1[i]);
+    if Frame.FileName<>'' then
+      AppKeymap.Add(
+        cmdFirstFileCommand+i,
+        'opened file: '+Frame.FileName,
+        [], []);
   end;
 end;
 
