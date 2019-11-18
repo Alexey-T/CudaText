@@ -174,13 +174,13 @@ begin
     key:= 0;
   end;
 
-  if key=VK_HOME then
+  if (key=VK_HOME) and (Shift=[ssCtrl]) then
   begin
     List.ItemIndex:= 0;
     key:= 0;
   end;
 
-  if key=VK_END then
+  if (key=VK_END) and (Shift=[ssCtrl]) then
   begin
     List.ItemIndex:= List.ItemCount-1;
     key:= 0;
