@@ -459,16 +459,24 @@ Example of 3 entered lines and their log in console:
   >>> =100/5+2
   22.0
 
-== Search in Commands dialog ==
+== Command Palette ==
 
-Commands dialog (and menu dialog in Python API) has filter field. Filter has fuzzy search, if option (search for "fuzzy") is on. Fuzzy means that filter leaves only those listbox items, which contain all filter chars in ascending order. Example of fuzzy matches:
+Command Palette (and menu-like dialog in Python API) has filter field. Filter supports fuzzy search, if the option "ui_listbox_fuzzy" is on. "Fuzzy" means that filter leaves only those listbox items, which contain all filter chars in ascending order. Example of fuzzy matches:
 
 * "fop" matches "<font color=red>f</font>ile: <font color=red>op</font>en file"
 * "gttb" matches "<font color=red>g</font>o<font color=red>t</font>o <font color=red>t</font>ext <font color=red>b</font>egin"
 
-If option is off, filter has normal search. Normal means that filter leaves only those listbox items, which contain all words from the filter (in any order).
+If option is off, filter uses normal search. "Normal" means that filter leaves only those listbox items, which contain all words from the filter (in any order).
 
 Filter field can find hotkeys too. Enter only hotkey substring, with first "@" char. E.g. "@ho" finds "Ctrl+Home". This search is not fuzzy.
+
+Command Palette lists all internal CudaText commands, all plugin commands (prefixed with "plugin:"), all lexers (prefixed with "lexer:"), and currently opened files (prefixed with "opened file:"). Filter field allows to type hash symbol "#" followed a letter, to make filtering by category:
+
+* #p - plugins
+* #l - lexers
+* #f - opened files
+
+You can type those "hash tags" in any place of the filter field, at begin or end of the field, even without separating space. E.g. "bar#p" will show only plugin commands containing "bar".
 
 [[File:cudatext cmd dlg.png]]
 
