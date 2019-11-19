@@ -433,6 +433,19 @@ begin
   list.Invalidate;
 end;
 
+function _GetPrefix(var S: string; Letter: char): boolean;
+var
+  N: integer;
+begin
+  N:= Pos('#'+Letter, S);
+  Result:= N>0;
+  if Result then
+  begin
+    Delete(S, N, 2);
+    S:= Trim(S);
+  end;
+end;
+
 function TfmCommands.IsFiltered(Item: TATKeymapItem): boolean;
 var
   NCmd: integer;
@@ -457,18 +470,14 @@ begin
   StrFind:= Trim(edit.Text);
   if StrFind='' then exit(true);
 
-  bPrefixLexer:= Pos('#l', StrFind)>0;
-  bPrefixPlugin:= Pos('#p', StrFind)>0;
-  bPrefixFile:= Pos('#f', StrFind)>0;
+  bPrefixLexer:= _GetPrefix(StrFind, 'l');
+  bPrefixPlugin:= _GetPrefix(StrFind, 'p');
+  bPrefixFile:= _GetPrefix(StrFind, 'f');
 
   if bPrefixLexer and not bItemLexer then exit(false);
   if bPrefixPlugin and not bItemPlugin then exit(false);
   if bPrefixFile and not bItemFile then exit(false);
 
-  StrFind:= StringReplace(StrFind, '#l', '', []);
-  StrFind:= StringReplace(StrFind, '#p', '', []);
-  StrFind:= StringReplace(StrFind, '#f', '', []);
-  StrFind:= Trim(StrFind);
   if StrFind='' then exit(true);
 
   //first @ char means search in hotkey
