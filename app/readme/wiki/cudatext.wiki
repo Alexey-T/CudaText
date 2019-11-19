@@ -479,7 +479,7 @@ Command Palette lists all internal CudaText commands, all plugin commands (prefi
 * #f - opened files
 * #r - recently used files
 
-You can type those "hash tags" in any place of the filter field, at begin or end of the field, even without separating space. E.g. "bar#p" will show only plugin commands containing "bar", "#f.md" will show only Markdown files.
+You can type those "hash tags" at begin or end of the field, even without separating space. E.g. "bar#p" will show only plugin commands containing "bar", "#f.md" will show only Markdown files.
 
 ==Regular expressions==
 
