@@ -887,7 +887,7 @@ begin
     if Frame.FileName<>'' then
       AppKeymap.Add(
         cmdFirstFileCommand+i,
-        'opened file: '+Frame.FileName,
+        'opened file: '+ExtractFileName(Frame.FileName)+' ('+ExtractFileDir(Frame.FileName)+')',
         [], []);
   end;
 end;
