@@ -195,7 +195,7 @@ end;
 procedure TfmCommands.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if key=vk_down then
+  if key=VK_DOWN then
   begin
     if list.ItemIndex=list.ItemCount-1 then
       list.ItemIndex:= 0
@@ -205,7 +205,7 @@ begin
     exit
   end;
 
-  if key=vk_up then
+  if key=VK_UP then
   begin
     if list.ItemIndex=0 then
       list.ItemIndex:= list.ItemCount-1
@@ -221,6 +221,7 @@ begin
     key:= 0;
     exit
   end;
+
   if (key=VK_END) and (Shift=[ssCtrl]) then
   begin
     list.ItemIndex:= list.ItemCount-1;
@@ -234,6 +235,7 @@ begin
     key:= 0;
     exit
   end;
+
   if key=VK_PRIOR then
   begin
     list.ItemIndex:= Max(0, list.ItemIndex-list.VisibleItems);
