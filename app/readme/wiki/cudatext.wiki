@@ -470,13 +470,13 @@ If option is off, filter uses normal search. "Normal" means that filter leaves o
 
 Filter field can find hotkeys too. Enter only hotkey substring, with first "@" char. E.g. "@ho" finds "Ctrl+Home". This search is not fuzzy.
 
-Command Palette lists all internal CudaText commands, all plugin commands (prefixed with "plugin:"), all lexers (prefixed with "lexer:"), and currently opened files (prefixed with "opened file:"). Filter field allows to type hash symbol "#" followed a letter, to make filtering by category:
+Command Palette lists all internal CudaText commands, all plugin commands (prefixed with "plugin:"), all lexers (prefixed with "lexer:"), and currently opened files (prefixed with "opened file:"). Filter field allows to type hash symbol "#" followed by a letter, to make filtering by category:
 
 * #p - plugins
 * #l - lexers
 * #f - opened files
 
-You can type those "hash tags" in any place of the filter field, at begin or end of the field, even without separating space. E.g. "bar#p" will show only plugin commands containing "bar".
+You can type those "hash tags" in any place of the filter field, at begin or end of the field, even without separating space. E.g. "bar#p" will show only plugin commands containing "bar", "#f.md" will show only Markdown files.
 
 [[File:cudatext cmd dlg.png]]
 
