@@ -434,15 +434,19 @@ begin
 end;
 
 function _GetPrefix(var S: string; Letter: char): boolean;
-var
-  N: integer;
 begin
-  N:= Pos('#'+Letter, S);
-  Result:= N>0;
-  if Result then
+  Result:= false;
+  if SBeginsWith(S, '#'+Letter) then
   begin
-    Delete(S, N, 2);
+    Delete(S, 1, 2);
     S:= Trim(S);
+    exit(true);
+  end;
+  if SEndsWith(S, '#'+Letter) then
+  begin
+    Delete(S, Length(S)-1, 2);
+    S:= Trim(S);
+    exit(true);
   end;
 end;
 
