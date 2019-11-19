@@ -463,7 +463,7 @@ function TfmCommands.IsFiltered(Item: TATKeymapItem): boolean;
 var
   NCmd: integer;
   StrFind: string;
-  bItemLexer, bItemPlugin, bItemFile, bItemRecent: boolean;
+  bItemUsual, bItemLexer, bItemPlugin, bItemFile, bItemRecent: boolean;
   bPrefixLexer, bPrefixPlugin, bPrefixFile, bPrefixRecent: boolean;
 begin
   Result:= false;
@@ -473,13 +473,14 @@ begin
   bItemPlugin:= (NCmd>=cmdFirstPluginCommand) and (NCmd<=cmdLastPluginCommand);
   bItemFile:= (NCmd>=cmdFirstFileCommand) and (NCmd<=cmdLastFileCommand);
   bItemRecent:= (NCmd>=cmdFirstRecentCommand) and (NCmd<=cmdLastRecentCommand);
+  bItemUsual:= (NCmd>0) and not bItemLexer and not bItemPlugin and not bItemFile and not bItemRecent;
 
   //filter by options
   if bItemPlugin and not OptShowPlugins then exit(false);
   if bItemLexer and not OptShowLexers then exit(false);
   if bItemFile and not OptShowFiles then exit(false);
   if bItemRecent and not OptShowRecents then exit(false);
-  if (NCmd>0) and not OptShowUsual then exit(false);
+  if bItemUsual and not OptShowUsual then exit(false);
 
   //filter by input field
   StrFind:= Trim(edit.Text);

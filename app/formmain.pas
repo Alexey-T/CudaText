@@ -938,11 +938,11 @@ type
     procedure DoCopyFilenameName;
     procedure DoCopyLine;
     procedure DoDialogCommands;
-    function DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers, AShowFiles,
-      AAllowConfig, AShowCentered: boolean; ACaption: string;
-      AFocusedCommand: integer): integer;
+    function DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers,
+      AShowFiles, AShowRecents, AAllowConfig, AShowCentered: boolean;
+      ACaption: string; AFocusedCommand: integer): integer;
     function DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers, AShowFiles,
-      AAllowConfig, AShowCentered: boolean; ACaption: string): string;
+      AShowRecents, AAllowConfig, AShowCentered: boolean; ACaption: string): string;
     procedure DoDialogGoto;
     function DoDialogMenuList(const ACaption: string; AItems: TStringList; AInitItemIndex: integer;
       ACloseOnCtrlRelease: boolean= false; AOnListSelect: TAppListSelectEvent=nil): integer;
@@ -3390,7 +3390,7 @@ begin
   Ed:= CurrentEditor;
   MsgStatus(msgStatusHelpOnShowCommands);
   UpdateKeymapDynamicItems;
-  NCmd:= DoDialogCommands_Custom(true, true, true, true, true, false, '', FLastSelectedCommand);
+  NCmd:= DoDialogCommands_Custom(true, true, true, true, true, true, false, '', FLastSelectedCommand);
   if NCmd>0 then
   begin
     FLastSelectedCommand:= NCmd;
@@ -3400,13 +3400,22 @@ begin
 end;
 
 
-function TfmMain.DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers, AShowFiles,
+function TfmMain.DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers, AShowFiles, AShowRecents,
   AAllowConfig, AShowCentered: boolean; ACaption: string): string;
 var
   NCmd, NIndex: integer;
 begin
   Result:= '';
-  NCmd:= DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers, AShowFiles, AAllowConfig, AShowCentered, ACaption, 0);
+  NCmd:= DoDialogCommands_Custom(
+    AShowUsual,
+    AShowPlugins,
+    AShowLexers,
+    AShowFiles,
+    AShowRecents,
+    AAllowConfig,
+    AShowCentered,
+    ACaption,
+    0);
   if NCmd<=0 then exit;
 
   if (NCmd>=cmdFirstPluginCommand) and (NCmd<=cmdLastPluginCommand) then
@@ -3442,7 +3451,7 @@ end;
 
 
 function TfmMain.DoDialogCommands_Custom(
-  AShowUsual, AShowPlugins, AShowLexers, AShowFiles, AAllowConfig, AShowCentered: boolean;
+  AShowUsual, AShowPlugins, AShowLexers, AShowFiles, AShowRecents, AAllowConfig, AShowCentered: boolean;
   ACaption: string; AFocusedCommand: integer): integer;
 var
   F: TEditorFrame;
@@ -3461,6 +3470,7 @@ begin
     fmCommands.OptShowPlugins:= AShowPlugins;
     fmCommands.OptShowLexers:= AShowLexers;
     fmCommands.OptShowFiles:= AShowFiles;
+    fmCommands.OptShowRecents:= AShowRecents;
     fmCommands.OptAllowConfig:= AAllowConfig;
     fmCommands.OptFocusedCommand:= AFocusedCommand;
     fmCommands.OnMsg:= @DoCommandsMsgStatus;
