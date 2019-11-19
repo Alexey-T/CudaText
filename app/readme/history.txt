@@ -8,8 +8,9 @@
 + add: Command Palette shows items "opened files: ..."
 + add: Command Palette shows items "recent files: ..."
 + add: Command Palette: support filtering by category: #p (plugins), #l (lexers), #f (opened files), #r (recent files)
++ add: Command Palette: Ctrl+J means "move down", Ctrl+K means "move up"
 + add: option "ui_tree_sublexers"
-* change: in menu-dialogs (e.g. Command Palette) keys Home/End are used for input box, Ctrl+Home/Ctrl+End for listbox
+* change: Command Palette and other menu-dialogs: keys Home/End are used for input box, Ctrl+Home/Ctrl+End for listbox
 - fix: trying to fix rare program freezing with "ui_notif" option
 - fix: listbox in sidebar plugins (Tabs List, etc) should use color of Code Tree, not of Command Palette 
 - fix: typing bracket with _backward_ multiline selection
