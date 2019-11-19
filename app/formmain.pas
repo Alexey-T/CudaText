@@ -3403,7 +3403,7 @@ end;
 function TfmMain.DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers, AShowFiles,
   AAllowConfig, AShowCentered: boolean; ACaption: string): string;
 var
-  NCmd: integer;
+  NCmd, NIndex: integer;
 begin
   Result:= '';
   NCmd:= DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers, AShowFiles, AAllowConfig, AShowCentered, ACaption, 0);
@@ -3425,7 +3425,16 @@ begin
   else
   if (NCmd>=cmdFirstFileCommand) and (NCmd<cmdLastFileCommand) then
   begin
-    Result:= 'f:'+TEditorFrame(AppFrameList1[NCmd-cmdFirstFileCommand]).FileName;
+    NIndex:= NCmd-cmdFirstFileCommand;
+    if NIndex<AppFrameList1.Count then
+      Result:= 'f:'+TEditorFrame(AppFrameList1[NIndex]).FileName;
+  end
+  else
+  if (NCmd>=cmdFirstRecentCommand) and (NCmd<cmdLastRecentCommand) then
+  begin
+    NIndex:= NCmd-cmdFirstRecentCommand;
+    if NIndex<FListRecents.Count then
+      Result:= 'r:'+FListRecents[NIndex];
   end
   else
     Result:= 'c:'+IntToStr(NCmd);

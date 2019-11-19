@@ -11,6 +11,7 @@ procedure TfmMain.TimerCmdTimer(Sender: TObject);
 var
   Cmd: integer;
   F: TEditorFrame;
+  NIndex: integer;
 begin
   TimerCmd.Enabled:= false;
   Cmd:= TimerCmd.Tag;
@@ -309,9 +310,21 @@ begin
     cmdFirstFileCommand..
     cmdLastFileCommand:
       begin
-        F:= TEditorFrame(AppFrameList1[Cmd-cmdFirstFileCommand]);
-        SetFrame(F);
-        F.SetFocus;
+        NIndex:= Cmd-cmdFirstFileCommand;
+        if NIndex<AppFrameList1.Count then
+        begin
+          F:= TEditorFrame(AppFrameList1[NIndex]);
+          SetFrame(F);
+          F.SetFocus;
+        end;
+      end;
+
+    cmdFirstRecentCommand..
+    cmdLastRecentCommand:
+      begin
+        NIndex:= Cmd-cmdFirstRecentCommand;
+        if NIndex<FListRecents.Count then
+          DoFileOpen(FListRecents[NIndex], '');
       end;
   end;
 

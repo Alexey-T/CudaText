@@ -887,8 +887,17 @@ begin
     if Frame.FileName<>'' then
       AppKeymap.Add(
         cmdFirstFileCommand+i,
-        'opened file: '+ExtractFileName(Frame.FileName)+' ('+ExtractFileDir(Frame.FileName)+')',
+        'opened file: '+FormatFilenameForMenu(Frame.FileName),
         [], []);
+  end;
+
+  //dynamic recent items
+  for i:= 0 to FListRecents.Count-1 do
+  begin
+    AppKeymap.Add(
+      cmdFirstRecentCommand+i,
+      'recent file: '+FormatFilenameForMenu(FListRecents[i]),
+      [], []);
   end;
 end;
 

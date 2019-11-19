@@ -76,6 +76,7 @@ type
     OptShowPlugins: boolean;
     OptShowLexers: boolean;
     OptShowFiles: boolean;
+    OptShowRecents: boolean;
     OptAllowConfig: boolean;
     OptFocusedCommand: integer;
     property OnMsg: TStrEvent read FOnMsg write FOnMsg;
@@ -153,6 +154,7 @@ begin
   OptShowPlugins:= true;
   OptShowLexers:= true;
   OptShowFiles:= true;
+  OptShowRecents:= true;
   OptAllowConfig:= true;
   OptFocusedCommand:= 0;
 
@@ -171,7 +173,7 @@ begin
   PanelInfo.Font.Name:= UiOps.VarFontName;
   PanelInfo.Font.Size:= UiOps.VarFontSize;
   PanelInfo.BorderSpacing.Around:= 20;
-  PanelInfo.Caption:= '#p – plugins'#10'#l – lexers'#10'#f – opened files';
+  PanelInfo.Caption:= '#p – plugins'#10'#l – lexers'#10'#f – opened files'#10'#r – recent files';
 end;
 
 procedure TfmCommands.editChange(Sender: TObject);
@@ -289,6 +291,13 @@ begin
 
   if (Cmd>=cmdFirstFileCommand) and
      (Cmd<=cmdLastFileCommand) then
+  begin
+    DoMsgStatus(msgCannotSetHotkey);
+    exit
+  end;
+
+  if (Cmd>=cmdFirstRecentCommand) and
+     (Cmd<=cmdLastRecentCommand) then
   begin
     DoMsgStatus(msgCannotSetHotkey);
     exit
@@ -454,8 +463,8 @@ function TfmCommands.IsFiltered(Item: TATKeymapItem): boolean;
 var
   NCmd: integer;
   StrFind: string;
-  bItemLexer, bItemPlugin, bItemFile: boolean;
-  bPrefixLexer, bPrefixPlugin, bPrefixFile: boolean;
+  bItemLexer, bItemPlugin, bItemFile, bItemRecent: boolean;
+  bPrefixLexer, bPrefixPlugin, bPrefixFile, bPrefixRecent: boolean;
 begin
   Result:= false;
 
@@ -463,11 +472,13 @@ begin
   bItemLexer:= (NCmd>=cmdFirstLexerCommand) and (NCmd<=cmdLastLexerCommand);
   bItemPlugin:= (NCmd>=cmdFirstPluginCommand) and (NCmd<=cmdLastPluginCommand);
   bItemFile:= (NCmd>=cmdFirstFileCommand) and (NCmd<=cmdLastFileCommand);
+  bItemRecent:= (NCmd>=cmdFirstRecentCommand) and (NCmd<=cmdLastRecentCommand);
 
   //filter by options
   if bItemPlugin and not OptShowPlugins then exit(false);
   if bItemLexer and not OptShowLexers then exit(false);
   if bItemFile and not OptShowFiles then exit(false);
+  if bItemRecent and not OptShowRecents then exit(false);
   if (NCmd>0) and not OptShowUsual then exit(false);
 
   //filter by input field
@@ -477,10 +488,12 @@ begin
   bPrefixLexer:= _GetPrefix(StrFind, 'l');
   bPrefixPlugin:= _GetPrefix(StrFind, 'p');
   bPrefixFile:= _GetPrefix(StrFind, 'f');
+  bPrefixRecent:= _GetPrefix(StrFind, 'r');
 
   if bPrefixLexer and not bItemLexer then exit(false);
   if bPrefixPlugin and not bItemPlugin then exit(false);
   if bPrefixFile and not bItemFile then exit(false);
+  if bPrefixRecent and not bItemRecent then exit(false);
 
   if StrFind='' then exit(true);
 

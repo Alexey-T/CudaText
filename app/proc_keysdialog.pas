@@ -35,6 +35,8 @@ begin
      (ACmd<=cmdLastLexerCommand) then exit;
   if (ACmd>=cmdFirstFileCommand) and
      (ACmd<=cmdLastFileCommand) then exit;
+  if (ACmd>=cmdFirstRecentCommand) and
+     (ACmd<=cmdLastRecentCommand) then exit;
 
   n:= AppKeymap.IndexOf(ACmd);
   if n<0 then exit;

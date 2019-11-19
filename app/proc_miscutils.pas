@@ -68,6 +68,7 @@ function KeyboardStateToShiftState: TShiftState; //like VCL
 function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist;
          const AFilename: string; const AIndex: integer = -1): integer;
 function FormatFileDateAsNiceString(const AFilename: string): string;
+function FormatFilenameForMenu(const fn: string): string;
 
 function AppStrToBool(const S: string): boolean; inline;
 function AppStringToAlignment(const S: string): TAlignment;
@@ -825,6 +826,11 @@ begin
     N:= StrToIntDef(S[N+1], 0);
     F.OptTokens:= TATFinderTokensAllowed(N);
   end;
+end;
+
+function FormatFilenameForMenu(const fn: string): string;
+begin
+  Result:= ExtractFileName(fn)+' ('+ExtractFileDir(fn)+')';
 end;
 
 end.
