@@ -180,9 +180,9 @@ begin
     cmd_MoveTabToGroupPrev: Groups.MoveCurrentTabToNext(false);
 
     cmd_CopyLine:         EditorCopyLine(Ed);
-    cmd_CopyFilenameFull: DoCopyFilenameFull;
-    cmd_CopyFilenameDir:  DoCopyFilenameDir;
-    cmd_CopyFilenameName: DoCopyFilenameName;
+    cmd_CopyFilenameFull: begin if Assigned(Frame) then SClipboardCopy(Frame.FileName); end;
+    cmd_CopyFilenameDir:  begin if Assigned(Frame) then SClipboardCopy(ExtractFileDir(Frame.FileName)); end;
+    cmd_CopyFilenameName: begin if Assigned(Frame) then SClipboardCopy(ExtractFileName(Frame.FileName)); end;
 
     cmd_DuplicateLineEx: DoCudaLibAction('duplicate');
 

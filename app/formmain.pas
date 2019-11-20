@@ -936,9 +936,6 @@ type
     procedure DoEditorsLock(ALock: boolean);
     procedure DoFindCurrentWordOrSel(ANext: boolean; AWordOrSel: boolean);
     procedure DoFind_ExpandSelectionToWord;
-    procedure DoCopyFilenameDir;
-    procedure DoCopyFilenameFull;
-    procedure DoCopyFilenameName;
     procedure DoDialogCommands;
     function DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers,
       AShowFiles, AShowRecents, AAllowConfig, AShowCentered: boolean;
@@ -2687,22 +2684,6 @@ begin
   if DoDialogLexerStylesMap(F.Lexer[F.Editor]) then
     DoApplyLexerStyleMaps(false);
 end;
-
-procedure TfmMain.DoCopyFilenameFull;
-begin
-  SClipboardCopy(CurrentFrame.FileName);
-end;
-
-procedure TfmMain.DoCopyFilenameDir;
-begin
-  SClipboardCopy(ExtractFileDir(CurrentFrame.FileName));
-end;
-
-procedure TfmMain.DoCopyFilenameName;
-begin
-  SClipboardCopy(ExtractFileName(CurrentFrame.FileName));
-end;
-
 
 procedure TfmMain.DoHelpAbout;
 var
