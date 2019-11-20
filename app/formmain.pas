@@ -818,7 +818,7 @@ type
       AInitIndex: integer; ANoFuzzy, ANoFullFilter, AShowCentered: boolean): integer;
     procedure DoDialogMenuTranslations;
     procedure DoDialogMenuThemes;
-    procedure DoFileExportHtml;
+    procedure DoFileExportHtml(F: TEditorFrame);
     function DoFileInstallZip(const fn: string; out DirTarget: string; ASilent: boolean): boolean;
     procedure DoFileCloseAndDelete;
     procedure DoFileNew;
@@ -5063,16 +5063,13 @@ begin
 end;
 
 
-procedure TfmMain.DoFileExportHtml;
+procedure TfmMain.DoFileExportHtml(F: TEditorFrame);
 var
-  F: TEditorFrame;
   Ed: TATSynEdit;
   Dlg: TSaveDialog;
   SFileName, STitle: string;
   NX, NY: integer;
 begin
-  F:= CurrentFrame;
-  if F=nil then exit;
   Ed:= F.Editor;
 
   STitle:= ExtractFileName(F.GetFileName(Ed));

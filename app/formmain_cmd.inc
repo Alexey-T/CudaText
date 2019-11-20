@@ -57,12 +57,12 @@ begin
     cmd_FileOpenFolder:      DoPyCommand('cuda_project_man', 'new_project_open_dir', []);
     cmd_FileOpen_NoPlugins:  DoFileOpenDialog_NoPlugins;
     cmd_FileReopen:          DoFileReopen;
-    cmd_FileSave:            DoFileSave(Frame);
-    cmd_FileSaveAs:          DoFileSaveAs(Frame);
+    cmd_FileSave:            begin if Assigned(Frame) then DoFileSave(Frame); end;
+    cmd_FileSaveAs:          begin if Assigned(Frame) then DoFileSaveAs(Frame); end;
     cmd_FileSaveAll:         DoFileSaveAll;
 
     cmd_FileExit:            Close;
-    cmd_FileExportHtml:      DoFileExportHtml;
+    cmd_FileExportHtml:      begin if Assigned(Frame) then DoFileExportHtml(Frame); end;
 
     cmd_ToggleFocusSplitEditors: begin if Assigned(Frame) then Frame.DoToggleFocusSplitEditors; end;
     cmd_FocusEditor:           DoFocusEditor(CurrentEditor);
