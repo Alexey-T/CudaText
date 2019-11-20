@@ -11,6 +11,7 @@
 + add: Command Palette: Ctrl+J means "move down", Ctrl+K means "move up"
 + add: option "ui_tree_sublexers"
 * change: Command Palette and other menu-dialogs: keys Home/End are used for input box, Ctrl+Home/Ctrl+End for listbox
+- fix: some APIs worked only for active editor, it gave issues in "File Type Profile" plugin
 - fix: command "go to screen top" was broken
 - fix: trying to fix rare program freezing with "ui_notif" option
 - fix: listbox in sidebar plugins (Tabs List, etc) should use color of Code Tree, not of Command Palette 
