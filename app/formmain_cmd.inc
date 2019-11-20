@@ -48,155 +48,373 @@ begin
         DoFileCloseAndDelete;
       end;
 
-    cmd_FileNew:             DoFileNew;
-    cmd_FileNewMenu:         DoFileNewMenu(nil);
-    cmd_FileOpen:            DoFileOpenDialog;
-    cmd_FileOpen_TextViewer:    DoFileOpenDialog('/view-text /nozip /nopictures');
-    cmd_FileOpen_HexViewer:     DoFileOpenDialog('/view-hex /nozip /nopictures');
-    cmd_FileOpen_UnicodeViewer: DoFileOpenDialog('/view-unicode /nozip /nopictures');
-    cmd_FileOpenFolder:      DoPyCommand('cuda_project_man', 'new_project_open_dir', []);
-    cmd_FileOpen_NoPlugins:  DoFileOpenDialog_NoPlugins;
-    cmd_FileReopen:          DoFileReopen;
-    cmd_FileSave:            begin if Assigned(Frame) then DoFileSave(Frame); end;
-    cmd_FileSaveAs:          begin if Assigned(Frame) then DoFileSaveAs(Frame); end;
-    cmd_FileSaveAll:         DoFileSaveAll;
+    cmd_FileNew:
+      DoFileNew;
 
-    cmd_FileExit:            Close;
-    cmd_FileExportHtml:      begin if Assigned(Frame) then DoFileExportHtml(Frame); end;
+    cmd_FileNewMenu:
+      DoFileNewMenu(nil);
 
-    cmd_ToggleFocusSplitEditors: begin if Assigned(Frame) then Frame.DoToggleFocusSplitEditors; end;
-    cmd_FocusEditor:           DoFocusEditor(CurrentEditor);
-    cmd_FocusNotificationPanel: begin if Assigned(Frame) then Frame.DoFocusNotificationPanel; end;
-    cmd_HideNotificationPanels: begin if Assigned(Frame) then Frame.DoHideNotificationPanels; end;
+    cmd_FileOpen:
+      DoFileOpenDialog;
 
-    cmd_SwitchTab_HotkeyNext: DoSwitchTab(true);
-    cmd_SwitchTab_HotkeyPrev: DoSwitchTab(false);
-    cmd_SwitchTab_SimpleNext: DoSwitchTabSimply(true);
-    cmd_SwitchTab_SimplePrev: DoSwitchTabSimply(false);
-    cmd_SwitchTab_Dialog:     DoDialogMenuTabSwitcher;
-    cmd_SwitchTab_Recent:     DoSwitchTabToRecent;
+    cmd_FileOpen_TextViewer:
+      DoFileOpenDialog('/view-text /nozip /nopictures');
 
-    cmd_DialogCommands:    DoDialogCommands;
-    cmd_DialogGoto:        DoDialogGoto;
-    cmd_DialogGotoBookmark: DoDialogGotoBookmark;
-    cmd_DialogFind:        DoDialogFind(false);
-    cmd_DialogFind_Hide:   DoDialogFind_Hide;
-    cmd_DialogReplace:     DoDialogFind(true);
-    cmd_DialogSaveTabs:    DoDialogSaveTabs;
-    cmd_DialogLexerProp:   begin if Assigned(Frame) then DoDialogLexerProp(Frame.Lexer[Frame.Editor]); end;
-    cmd_DialogLexerLib:    DoDialogLexerLib;
-    cmd_DialogLexerStyleMap: DoDialogLexerMap;
-    cmd_DialogThemeUi:     DoDialogTheme(true);
-    cmd_DialogThemeSyntax: DoDialogTheme(false);
-    cmd_DialogLexerMenu:   DoDialogLexerMenu;
-    cmd_DialogCharMap:     DoDialogCharMap;
-    cmd_ShowMainMenuAsPopup: DoSidebar_MainMenuClick(nil);
+    cmd_FileOpen_HexViewer:
+      DoFileOpenDialog('/view-hex /nozip /nopictures');
 
-    cmd_ToggleFullScreen:  DoToggleFullScreen;
-    cmd_ToggleDistractionFree: DoToggleDistractionFree;
-    cmd_ToggleSidePanel:   DoToggleSidePanel;
-    cmd_ToggleBottomPanel: DoToggleBottomPanel;
-    cmd_ToggleFindDialog:  DoToggleFindDialog;
-    cmd_ToggleSidebar:     DoToggleSidebar;
-    cmd_ToggleToolbar:     DoToggleToolbar;
-    cmd_ToggleStatusbar:   DoToggleStatusbar;
-    cmd_ToggleOnTop:       DoToggleOnTop;
-    //cmd_ToggleMenu:        DoToggleMenu;
-    cmd_ToggleFloatSide:   DoToggleFloatSide;
-    cmd_ToggleFloatBottom: DoToggleFloatBottom;
+    cmd_FileOpen_UnicodeViewer:
+      DoFileOpenDialog('/view-unicode /nozip /nopictures');
 
-    cmd_OpsReloadAndApply: DoOps_LoadOptionsAndApplyAll;
-    cmd_ShowPanelConsole:  DoShowConsole(false);
-    cmd_ShowPanelOutput:   DoShowOutput(false);
-    cmd_ShowPanelValidate: DoShowValidate(false);
-    cmd_ShowPanelConsole_AndFocus:  DoShowConsole(true);
-    cmd_ShowPanelOutput_AndFocus:   DoShowOutput(true);
-    cmd_ShowPanelValidate_AndFocus: DoShowValidate(true);
+    cmd_FileOpenFolder:
+      DoPyCommand('cuda_project_man', 'new_project_open_dir', []);
 
-    cmd_ShowSidePanelAsIs: DoShowSidePanel('', false);
-    cmd_ShowSidePanelAndSyntaxTree: DoShowSidePanel(msgPanelTree_Init, false);
-    cmd_ToggleSidePanelAndSyntaxTree: DoShowSidePanel(IfThen(ShowSidePanel, '-', msgPanelTree_Init), false);
+    cmd_FileOpen_NoPlugins:
+      DoFileOpenDialog_NoPlugins;
 
-    cmd_HideSidePanel: DoShowSidePanel('-', false);
-    cmd_HideBottomPanel: DoShowBottomPanel('-', false);
+    cmd_FileReopen:
+      DoFileReopen;
 
-    cmd_FindFirst:       DoFindFirst;
-    cmd_FindNext:        DoFindNext(true);
-    cmd_FindPrev:        DoFindNext(false);
-    cmd_FindAllAndSelect:     DoFindMarkAll(markingSelections);
-    cmd_FindAllAndMarkers:    DoFindMarkAll(markingMarkers);
-    cmd_FindAllAndBookmarks:  DoFindMarkAll(markingBookmarks);
-    cmd_FindCurWordNext: DoFindCurrentWordOrSel(true, true);
-    cmd_FindCurWordPrev: DoFindCurrentWordOrSel(false, true);
-    cmd_FindCurSelNext:  DoFindCurrentWordOrSel(true, false);
-    cmd_FindCurSelPrev:  DoFindCurrentWordOrSel(false, false);
-    cmd_SelectExpandToWord: DoFind_ExpandSelectionToWord;
+    cmd_FileSave:
+      begin
+        if Assigned(Frame) then
+          DoFileSave(Frame);
+      end;
 
-    cmd_OpsClearRecent:     DoClearRecentFileHistory;
-    cmd_OpsOpenDefault:     DoOps_OpenFile_Default;
-    cmd_OpsOpenUser:        DoOps_OpenFile_User;
-    cmd_OpsOpenDefaultAndUser: DoOps_OpenFile_DefaultAndUser;
-    cmd_OpsOpenLexerSpecific:  DoOps_OpenFile_LexerSpecific;
+    cmd_FileSaveAs:
+      begin
+        if Assigned(Frame) then
+          DoFileSaveAs(Frame);
+      end;
 
-    cmd_OpsFontText:        DoOps_DialogFont_Text;
-    cmd_OpsFontUi:          DoOps_DialogFont_Ui;
-    cmd_OpsFontOutput:      DoOps_DialogFont_Output;
-    cmd_OpsFontSizeBigger:  DoOps_FontSizeChange(1);
-    cmd_OpsFontSizeSmaller: DoOps_FontSizeChange(-1);
+    cmd_FileSaveAll:
+      DoFileSaveAll;
 
-    cmd_ResetPythonPlugins: DoPyResetPlugins;
-    cmd_RunLastCommandPlugin: DoPyRunLastPlugin;
-    cmd_RescanPythonPluginsInfFiles: DoPyRescanPlugins;
+    cmd_FileExit:
+      Close;
 
-    cmd_Groups1:     Groups.Mode:= gmOne;
-    cmd_Groups2horz: Groups.Mode:= gm2h;
-    cmd_Groups2vert: Groups.Mode:= gm2v;
-    cmd_Groups3horz: Groups.Mode:= gm3h;
-    cmd_Groups3vert: Groups.Mode:= gm3v;
-    cmd_Groups3plus: Groups.Mode:= gm1plus2v;
-    cmd_Groups3plushorz: Groups.Mode:= gm1plus2h;
-    cmd_Groups4horz: Groups.Mode:= gm4h;
-    cmd_Groups4vert: Groups.Mode:= gm4v;
-    cmd_Groups4grid: Groups.Mode:= gm4grid;
-    cmd_Groups6horz: Groups.Mode:= gm6h;
-    cmd_Groups6vert: Groups.Mode:= gm6v;
-    cmd_Groups6grid: Groups.Mode:= gm6grid;
+    cmd_FileExportHtml:
+      begin
+        if Assigned(Frame) then
+          DoFileExportHtml(Frame);
+      end;
 
-    cmd_GroupActivateNext: Groups.PagesSetNext(true);
-    cmd_GroupActivatePrev: Groups.PagesSetNext(false);
+    cmd_ToggleFocusSplitEditors:
+      begin
+        if Assigned(Frame) then
+          Frame.DoToggleFocusSplitEditors;
+      end;
 
-    cmd_GroupActivate1: Groups.PagesSetIndex(0);
-    cmd_GroupActivate2: Groups.PagesSetIndex(1);
-    cmd_GroupActivate3: Groups.PagesSetIndex(2);
-    cmd_GroupActivate4: Groups.PagesSetIndex(3);
-    cmd_GroupActivate5: Groups.PagesSetIndex(4);
-    cmd_GroupActivate6: Groups.PagesSetIndex(5);
+    cmd_FocusEditor:
+      DoFocusEditor(CurrentEditor);
 
-    cmd_GroupActivateFloat1: DoFormFocus(FFormFloatGroups1, true);
-    cmd_GroupActivateFloat2: DoFormFocus(FFormFloatGroups2, true);
-    cmd_GroupActivateFloat3: DoFormFocus(FFormFloatGroups3, true);
+    cmd_FocusNotificationPanel:
+      begin
+        if Assigned(Frame) then
+          Frame.DoFocusNotificationPanel;
+      end;
 
-    cmd_MoveTabToGroupNext: Groups.MoveCurrentTabToNext(true);
-    cmd_MoveTabToGroupPrev: Groups.MoveCurrentTabToNext(false);
+    cmd_HideNotificationPanels:
+      begin
+        if Assigned(Frame) then
+          Frame.DoHideNotificationPanels;
+      end;
 
-    cmd_CopyLine:         EditorCopyLine(Ed);
-    cmd_CopyFilenameFull: begin if Assigned(Frame) then SClipboardCopy(Frame.FileName); end;
-    cmd_CopyFilenameDir:  begin if Assigned(Frame) then SClipboardCopy(ExtractFileDir(Frame.FileName)); end;
-    cmd_CopyFilenameName: begin if Assigned(Frame) then SClipboardCopy(ExtractFileName(Frame.FileName)); end;
+    cmd_SwitchTab_HotkeyNext:
+      DoSwitchTab(true);
+    cmd_SwitchTab_HotkeyPrev:
+      DoSwitchTab(false);
+    cmd_SwitchTab_SimpleNext:
+      DoSwitchTabSimply(true);
+    cmd_SwitchTab_SimplePrev:
+      DoSwitchTabSimply(false);
+    cmd_SwitchTab_Dialog:
+      DoDialogMenuTabSwitcher;
+    cmd_SwitchTab_Recent:
+      DoSwitchTabToRecent;
 
-    cmd_DuplicateLineEx: DoCudaLibAction('duplicate');
+    cmd_DialogCommands:
+      DoDialogCommands;
 
-    cmd_AutoComplete: DoAutoComplete;
-    cmd_GotoDefinition: DoGotoDefinition;
-    cmd_ShowFunctionHint: DoShowFuncHint;
+    cmd_DialogGoto:
+      DoDialogGoto;
 
-    cmd_MenuEnc:    MenuShowAtEditorCorner(PopupEnc, CurrentEditor);
-    cmd_MenuEnds:   MenuShowAtEditorCorner(PopupEnds, CurrentEditor);
-    cmd_MenuLexers: MenuShowAtEditorCorner(PopupLex, CurrentEditor);
+    cmd_DialogGotoBookmark:
+      DoDialogGotoBookmark;
 
-    cmd_ChooseTranslation: DoDialogMenuTranslations;
-    cmd_ChooseThemeUI:     DoDialogMenuThemes;
-    cmd_ChooseThemeSyntax: DoDialogMenuThemes;
+    cmd_DialogFind:
+      DoDialogFind(false);
+
+    cmd_DialogFind_Hide:
+      DoDialogFind_Hide;
+
+    cmd_DialogReplace:
+      DoDialogFind(true);
+
+    cmd_DialogSaveTabs:
+      DoDialogSaveTabs;
+
+    cmd_DialogLexerProp:
+      begin
+        if Assigned(Frame) then
+          DoDialogLexerProp(Frame.Lexer[Frame.Editor]);
+      end;
+
+    cmd_DialogLexerLib:
+      DoDialogLexerLib;
+
+    cmd_DialogLexerStyleMap:
+      DoDialogLexerMap;
+
+    cmd_DialogThemeUi:
+      DoDialogTheme(true);
+
+    cmd_DialogThemeSyntax:
+      DoDialogTheme(false);
+
+    cmd_DialogLexerMenu:
+      DoDialogLexerMenu;
+
+    cmd_DialogCharMap:
+      DoDialogCharMap;
+
+    cmd_ShowMainMenuAsPopup:
+      DoSidebar_MainMenuClick(nil);
+
+    cmd_ToggleFullScreen:
+      DoToggleFullScreen;
+
+    cmd_ToggleDistractionFree:
+      DoToggleDistractionFree;
+
+    cmd_ToggleSidePanel:
+      DoToggleSidePanel;
+
+    cmd_ToggleBottomPanel:
+      DoToggleBottomPanel;
+
+    cmd_ToggleFindDialog:
+      DoToggleFindDialog;
+
+    cmd_ToggleSidebar:
+      DoToggleSidebar;
+
+    cmd_ToggleToolbar:
+      DoToggleToolbar;
+
+    cmd_ToggleStatusbar:
+      DoToggleStatusbar;
+
+    cmd_ToggleOnTop:
+      DoToggleOnTop;
+
+    //cmd_ToggleMenu:
+    //  DoToggleMenu;
+
+    cmd_ToggleFloatSide:
+      DoToggleFloatSide;
+
+    cmd_ToggleFloatBottom:
+      DoToggleFloatBottom;
+
+    cmd_OpsReloadAndApply:
+      DoOps_LoadOptionsAndApplyAll;
+
+    cmd_ShowPanelConsole:
+      DoShowConsole(false);
+
+    cmd_ShowPanelOutput:
+      DoShowOutput(false);
+
+    cmd_ShowPanelValidate:
+      DoShowValidate(false);
+
+    cmd_ShowPanelConsole_AndFocus:
+      DoShowConsole(true);
+
+    cmd_ShowPanelOutput_AndFocus:
+      DoShowOutput(true);
+
+    cmd_ShowPanelValidate_AndFocus:
+      DoShowValidate(true);
+
+    cmd_ShowSidePanelAsIs:
+      DoShowSidePanel('', false);
+
+    cmd_ShowSidePanelAndSyntaxTree:
+      DoShowSidePanel(msgPanelTree_Init, false);
+
+    cmd_ToggleSidePanelAndSyntaxTree:
+      DoShowSidePanel(IfThen(ShowSidePanel, '-', msgPanelTree_Init), false);
+
+    cmd_HideSidePanel:
+      DoShowSidePanel('-', false);
+
+    cmd_HideBottomPanel:
+      DoShowBottomPanel('-', false);
+
+    cmd_FindFirst:
+      DoFindFirst;
+
+    cmd_FindNext:
+      DoFindNext(true);
+
+    cmd_FindPrev:
+      DoFindNext(false);
+
+    cmd_FindAllAndSelect:
+      DoFindMarkAll(markingSelections);
+
+    cmd_FindAllAndMarkers:
+      DoFindMarkAll(markingMarkers);
+
+    cmd_FindAllAndBookmarks:
+      DoFindMarkAll(markingBookmarks);
+
+    cmd_FindCurWordNext:
+      DoFindCurrentWordOrSel(true, true);
+
+    cmd_FindCurWordPrev:
+      DoFindCurrentWordOrSel(false, true);
+
+    cmd_FindCurSelNext:
+      DoFindCurrentWordOrSel(true, false);
+
+    cmd_FindCurSelPrev:
+      DoFindCurrentWordOrSel(false, false);
+
+    cmd_SelectExpandToWord:
+      DoFind_ExpandSelectionToWord;
+
+    cmd_OpsClearRecent:
+      DoClearRecentFileHistory;
+
+    cmd_OpsOpenDefault:
+      DoOps_OpenFile_Default;
+    cmd_OpsOpenUser:
+      DoOps_OpenFile_User;
+    cmd_OpsOpenDefaultAndUser:
+      DoOps_OpenFile_DefaultAndUser;
+    cmd_OpsOpenLexerSpecific:
+      DoOps_OpenFile_LexerSpecific;
+
+    cmd_OpsFontText:
+      DoOps_DialogFont_Text;
+    cmd_OpsFontUi:
+      DoOps_DialogFont_Ui;
+    cmd_OpsFontOutput:
+      DoOps_DialogFont_Output;
+    cmd_OpsFontSizeBigger:
+      DoOps_FontSizeChange(1);
+    cmd_OpsFontSizeSmaller:
+      DoOps_FontSizeChange(-1);
+
+    cmd_ResetPythonPlugins:
+      DoPyResetPlugins;
+    cmd_RunLastCommandPlugin:
+      DoPyRunLastPlugin;
+    cmd_RescanPythonPluginsInfFiles:
+      DoPyRescanPlugins;
+
+    cmd_Groups1:
+      Groups.Mode:= gmOne;
+    cmd_Groups2horz:
+      Groups.Mode:= gm2h;
+    cmd_Groups2vert:
+      Groups.Mode:= gm2v;
+    cmd_Groups3horz:
+      Groups.Mode:= gm3h;
+    cmd_Groups3vert:
+      Groups.Mode:= gm3v;
+    cmd_Groups3plus:
+      Groups.Mode:= gm1plus2v;
+    cmd_Groups3plushorz:
+      Groups.Mode:= gm1plus2h;
+    cmd_Groups4horz:
+      Groups.Mode:= gm4h;
+    cmd_Groups4vert:
+      Groups.Mode:= gm4v;
+    cmd_Groups4grid:
+      Groups.Mode:= gm4grid;
+    cmd_Groups6horz:
+      Groups.Mode:= gm6h;
+    cmd_Groups6vert:
+      Groups.Mode:= gm6v;
+    cmd_Groups6grid:
+      Groups.Mode:= gm6grid;
+
+    cmd_GroupActivateNext:
+      Groups.PagesSetNext(true);
+    cmd_GroupActivatePrev:
+      Groups.PagesSetNext(false);
+
+    cmd_GroupActivate1:
+      Groups.PagesSetIndex(0);
+    cmd_GroupActivate2:
+      Groups.PagesSetIndex(1);
+    cmd_GroupActivate3:
+      Groups.PagesSetIndex(2);
+    cmd_GroupActivate4:
+      Groups.PagesSetIndex(3);
+    cmd_GroupActivate5:
+      Groups.PagesSetIndex(4);
+    cmd_GroupActivate6:
+      Groups.PagesSetIndex(5);
+
+    cmd_GroupActivateFloat1:
+      DoFormFocus(FFormFloatGroups1, true);
+    cmd_GroupActivateFloat2:
+      DoFormFocus(FFormFloatGroups2, true);
+    cmd_GroupActivateFloat3:
+      DoFormFocus(FFormFloatGroups3, true);
+
+    cmd_MoveTabToGroupNext:
+      Groups.MoveCurrentTabToNext(true);
+    cmd_MoveTabToGroupPrev:
+      Groups.MoveCurrentTabToNext(false);
+
+    cmd_CopyLine:
+      EditorCopyLine(Ed);
+
+    cmd_CopyFilenameFull:
+      begin
+        if Assigned(Frame) then
+          SClipboardCopy(Frame.FileName);
+      end;
+    cmd_CopyFilenameDir:
+      begin
+        if Assigned(Frame) then
+          SClipboardCopy(ExtractFileDir(Frame.FileName));
+      end;
+    cmd_CopyFilenameName:
+      begin
+        if Assigned(Frame) then
+          SClipboardCopy(ExtractFileName(Frame.FileName));
+      end;
+
+    cmd_DuplicateLineEx:
+      DoCudaLibAction('duplicate');
+
+    cmd_AutoComplete:
+      DoAutoComplete;
+    cmd_GotoDefinition:
+      DoGotoDefinition;
+    cmd_ShowFunctionHint:
+      DoShowFuncHint;
+
+    cmd_MenuEnc:
+      MenuShowAtEditorCorner(PopupEnc, CurrentEditor);
+    cmd_MenuEnds:
+      MenuShowAtEditorCorner(PopupEnds, CurrentEditor);
+    cmd_MenuLexers:
+      MenuShowAtEditorCorner(PopupLex, CurrentEditor);
+
+    cmd_ChooseTranslation:
+      DoDialogMenuTranslations;
+    cmd_ChooseThemeUI:
+      DoDialogMenuThemes;
+    cmd_ChooseThemeSyntax:
+      DoDialogMenuThemes;
 
     cmd_MacroStart:
       begin
@@ -224,17 +442,28 @@ begin
         end;
       end;
 
-    cmd_TreeGotoNext: DoTreeviewJump(CodeTree.Tree, treeGoNext);
-    cmd_TreeGotoPrev: DoTreeviewJump(CodeTree.Tree, treeGoPrev);
-    cmd_TreeGotoParent: DoTreeviewJump(CodeTree.Tree, treeGoParent);
-    cmd_TreeGotoNextBrother: DoTreeviewJump(CodeTree.Tree, treeGoNextBro);
-    cmd_TreeGotoPrevBrother: DoTreeviewJump(CodeTree.Tree, treeGoPrevBro);
-    cmd_TreeUpdate: UpdateTree(true, false{ignore visible}, true{ForceUpdateAll});
-    cmd_TreeSelectBlockForCurNode: DoCodetree_GotoBlockForCurrentNode(true);
-    cmd_TreeGotoBlockForCurNode: DoCodetree_GotoBlockForCurrentNode(false);
-    cmd_TreeFilterClear: CodeTreeFilter_ResetOnClick(nil);
-    cmd_TreeFilterFocus: DoSidebar_FocusCodetreeFilter;
-    cmd_TreeFocus: DoSidebar_FocusCodetree;
+    cmd_TreeGotoNext:
+      DoTreeviewJump(CodeTree.Tree, treeGoNext);
+    cmd_TreeGotoPrev:
+      DoTreeviewJump(CodeTree.Tree, treeGoPrev);
+    cmd_TreeGotoParent:
+      DoTreeviewJump(CodeTree.Tree, treeGoParent);
+    cmd_TreeGotoNextBrother:
+      DoTreeviewJump(CodeTree.Tree, treeGoNextBro);
+    cmd_TreeGotoPrevBrother:
+      DoTreeviewJump(CodeTree.Tree, treeGoPrevBro);
+    cmd_TreeUpdate:
+      UpdateTree(true, false{ignore visible}, true{ForceUpdateAll});
+    cmd_TreeSelectBlockForCurNode:
+      DoCodetree_GotoBlockForCurrentNode(true);
+    cmd_TreeGotoBlockForCurNode:
+      DoCodetree_GotoBlockForCurrentNode(false);
+    cmd_TreeFilterClear:
+      CodeTreeFilter_ResetOnClick(nil);
+    cmd_TreeFilterFocus:
+      DoSidebar_FocusCodetreeFilter;
+    cmd_TreeFocus:
+      DoSidebar_FocusCodetree;
 
     cmd_BracketHighlightOn:
       begin
@@ -267,12 +496,18 @@ begin
           Frame.BracketSelectInside(Ed);
       end;
 
-    cmd_HelpAbout: DoHelpAbout;
-    cmd_HelpForum: DoHelpForum;
-    cmd_HelpWiki: DoHelpWiki;
-    cmd_HelpIssues: DoHelpIssues;
-    cmd_HelpHotkeys: DoHelpHotkeys;
-    cmd_HelpCheckUpdates: DoPyCommand('cuda_addonman', 'check_cudatext_updates', []);
+    cmd_HelpAbout:
+      DoHelpAbout;
+    cmd_HelpForum:
+      DoHelpForum;
+    cmd_HelpWiki:
+      DoHelpWiki;
+    cmd_HelpIssues:
+      DoHelpIssues;
+    cmd_HelpHotkeys:
+      DoHelpHotkeys;
+    cmd_HelpCheckUpdates:
+      DoPyCommand('cuda_addonman', 'check_cudatext_updates', []);
 
     cmdFirstLexerCommand..
     cmdLastLexerCommand:
