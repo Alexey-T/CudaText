@@ -43,7 +43,6 @@ const
   msgTitle = 'CudaText'; //no i18n
   msgModified: array[boolean] of string = ('', '*'); //no i18n
   msgLiteLexerSuffix = ' ^'; //no i18n
-  msgButtonX = '×'; //no i18n
 
   msgTooltipClearFilter: string = 'Clear filter';
   msgTooltipCloseTab: string = 'Close tab';
