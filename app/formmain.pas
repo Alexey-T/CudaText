@@ -672,6 +672,9 @@ type
     FPyComplete_CharsLeft: integer;
     FPyComplete_CharsRight: integer;
     FPyComplete_CaretPos: TPoint;
+    FCmdTimer_Code: integer;
+    FCmdTimer_Ed: TATSynEdit;
+    FCmdTimer_Frame: TEditorFrame;
     FLastDirOfOpenDlg: string;
     FLastLexerForPluginsMenu: string;
     FLastSidebarPanel: string;

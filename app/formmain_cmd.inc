@@ -10,11 +10,15 @@ Copyright (c) Alexey Torgashin
 procedure TfmMain.TimerCmdTimer(Sender: TObject);
 var
   Cmd: integer;
-  F: TEditorFrame;
+  Frame: TEditorFrame;
+  Ed: TATSynEdit;
   NIndex: integer;
 begin
   TimerCmd.Enabled:= false;
-  Cmd:= TimerCmd.Tag;
+  Cmd:= FCmdTimer_Code;
+  Ed:= FCmdTimer_Ed;
+  Frame:= FCmdTimer_Frame;
+
   case Cmd of
 
     cmd_FileClose:
@@ -60,10 +64,10 @@ begin
     cmd_FileExit:            Close;
     cmd_FileExportHtml:      DoFileExportHtml;
 
-    cmd_ToggleFocusSplitEditors: CurrentFrame.DoToggleFocusSplitEditors;
+    cmd_ToggleFocusSplitEditors: Frame.DoToggleFocusSplitEditors;
     cmd_FocusEditor:           DoFocusEditor;
-    cmd_FocusNotificationPanel: CurrentFrame.DoFocusNotificationPanel;
-    cmd_HideNotificationPanels: CurrentFrame.DoHideNotificationPanels;
+    cmd_FocusNotificationPanel: Frame.DoFocusNotificationPanel;
+    cmd_HideNotificationPanels: Frame.DoHideNotificationPanels;
 
     cmd_SwitchTab_HotkeyNext: DoSwitchTab(true);
     cmd_SwitchTab_HotkeyPrev: DoSwitchTab(false);
@@ -79,11 +83,7 @@ begin
     cmd_DialogFind_Hide:   DoDialogFind_Hide;
     cmd_DialogReplace:     DoDialogFind(true);
     cmd_DialogSaveTabs:    DoDialogSaveTabs;
-    cmd_DialogLexerProp:
-      begin
-        F:= CurrentFrame;
-        DoDialogLexerProp(F.Lexer[F.Editor]);
-      end;
+    cmd_DialogLexerProp:   DoDialogLexerProp(Frame.Lexer[Frame.Editor]);
     cmd_DialogLexerLib:    DoDialogLexerLib;
     cmd_DialogLexerStyleMap: DoDialogLexerMap;
     cmd_DialogThemeUi:     DoDialogTheme(true);
@@ -200,18 +200,18 @@ begin
 
     cmd_MacroStart:
       begin
-        CurrentFrame.DoMacroStart;
+        Frame.DoMacroStart;
         MsgStatus('');
       end;
     cmd_MacroStop:
       begin
-        CurrentFrame.DoMacroStop(false);
-        DoOnMacro(CurrentFrame.MacroString);
+        Frame.DoMacroStop(false);
+        DoOnMacro(Frame.MacroString);
         MsgStatus('');
       end;
     cmd_MacroCancel:
       begin
-        CurrentFrame.DoMacroStop(true);
+        Frame.DoMacroStop(true);
         MsgStatus('');
       end;
 
@@ -228,17 +228,17 @@ begin
     cmd_TreeFocus: DoSidebar_FocusCodetree;
 
     cmd_BracketHighlightOn:
-      CurrentFrame.BracketHilite:= true;
+      Frame.BracketHilite:= true;
     cmd_BracketHighlightOff:
-      CurrentFrame.BracketHilite:= false;
+      Frame.BracketHilite:= false;
     cmd_BracketHighlightToggle:
-      with CurrentFrame do BracketHilite:= not BracketHilite;
+      Frame.BracketHilite:= not Frame.BracketHilite;
     cmd_BracketJump:
-      with CurrentFrame do BracketJump(Editor);
+      Frame.BracketJump(Ed);
     cmd_BracketSelect:
-      with CurrentFrame do BracketSelect(Editor);
+      Frame.BracketSelect(Ed);
     cmd_BracketSelectInside:
-      with CurrentFrame do BracketSelectInside(Editor);
+      Frame.BracketSelectInside(Ed);
 
     cmd_HelpAbout: DoHelpAbout;
     cmd_HelpForum: DoHelpForum;
@@ -261,9 +261,9 @@ begin
         NIndex:= Cmd-cmdFirstFileCommand;
         if NIndex<AppFrameList1.Count then
         begin
-          F:= TEditorFrame(AppFrameList1[NIndex]);
-          SetFrame(F);
-          F.SetFocus;
+          Frame:= TEditorFrame(AppFrameList1[NIndex]);
+          SetFrame(Frame);
+          Frame.SetFocus;
         end;
       end;
 
@@ -668,17 +668,20 @@ begin
   end;
 
   //handle other cmd_ commands
+  FCmdTimer_Code:= ACommand;
+  FCmdTimer_Ed:= Ed;
+  FCmdTimer_Frame:= Frame;
+
   if (ACommand>=cmdFirstAppCommand) and
      (ACommand<=cmdLastAppCommand) then
     if IsCommandNeedTimer(ACommand) then
     begin
-      TimerCmd.Tag:= ACommand;
       TimerCmd.Enabled:= true;
       exit
     end
     else
     begin
-      TimerCmd.Tag:= ACommand;
+      TimerCmd.Enabled:= false;
       TimerCmdTimer(nil);
       exit
     end;

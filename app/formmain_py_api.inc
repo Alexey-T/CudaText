@@ -1533,16 +1533,18 @@ begin
 
       if IsCommandNeedTimer(NCode) then
       begin
-        fmMain.TimerCmd.Tag:= NCode;
+        fmMain.FCmdTimer_Code:= NCode;
+        fmMain.FCmdTimer_Ed:= Ed;
+        fmMain.FCmdTimer_Frame:= GetEditorFrame(Ed);
         fmMain.TimerCmdTimer(nil);
       end
       else
       begin
-        Ed.DoCommand(NCode, Utf8Decode(Str));
+        Ed.DoCommand(NCode, Str);
         Ed.Update();
       end;
 
-      fmMain.UpdateStatus;
+      //fmMain.UpdateStatus;
       Result:= ReturnNone;
     end
   else
