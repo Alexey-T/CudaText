@@ -90,6 +90,23 @@ implementation
 
 {$R *.lfm}
 
+function _GetPrefix(var S: string; Letter: char): boolean;
+begin
+  Result:= false;
+  if SBeginsWith(S, '#'+Letter) then
+  begin
+    Delete(S, 1, 2);
+    S:= Trim(S);
+    exit(true);
+  end;
+  if SEndsWith(S, '#'+Letter) then
+  begin
+    Delete(S, Length(S)-1, 2);
+    S:= Trim(S);
+    exit(true);
+  end;
+end;
+
 { TfmCommands }
 
 procedure TfmCommands.FormShow(Sender: TObject);
@@ -367,9 +384,14 @@ begin
   strkey:= TATKeymapItem(keymapList[AIndex]).Keys1.ToString;
   //add key2
   strfind:= TATKeymapItem(keymapList[AIndex]).Keys2.ToString;
-  if strfind<>'' then strkey:= strkey+' / '+strfind;
+  if strfind<>'' then
+    strkey:= strkey+' / '+strfind;
 
-  strfind:= Utf8Encode(Trim(edit.Text));
+  strfind:= Trim(edit.Text);
+  _GetPrefix(strfind, 'p');
+  _GetPrefix(strfind, 'l');
+  _GetPrefix(strfind, 'f');
+  _GetPrefix(strfind, 'r');
 
   pnt:= Point(ARect.Left+4, ARect.Top);
   c.TextOut(pnt.x, pnt.y, strname);
@@ -442,23 +464,6 @@ begin
   list.ItemTop:= 0;
   list.VirtualItemCount:= keymapList.Count;
   list.Invalidate;
-end;
-
-function _GetPrefix(var S: string; Letter: char): boolean;
-begin
-  Result:= false;
-  if SBeginsWith(S, '#'+Letter) then
-  begin
-    Delete(S, 1, 2);
-    S:= Trim(S);
-    exit(true);
-  end;
-  if SEndsWith(S, '#'+Letter) then
-  begin
-    Delete(S, Length(S)-1, 2);
-    S:= Trim(S);
-    exit(true);
-  end;
 end;
 
 function TfmCommands.IsFiltered(Item: TATKeymapItem): boolean;
