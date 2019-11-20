@@ -2273,6 +2273,7 @@ begin
     );
 
   OnUpdateStatus(Self);
+  DoPyEvent(Ed, cEventOnChangeSlow, []);
 end;
 
 procedure TEditorFrame.SetLineEnds(Ed: TATSynEdit; AValue: TATLineEnds);
