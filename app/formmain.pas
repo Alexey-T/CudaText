@@ -939,7 +939,6 @@ type
     procedure DoCopyFilenameDir;
     procedure DoCopyFilenameFull;
     procedure DoCopyFilenameName;
-    procedure DoCopyLine;
     procedure DoDialogCommands;
     function DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers,
       AShowFiles, AShowRecents, AAllowConfig, AShowCentered: boolean;
@@ -2704,21 +2703,6 @@ begin
   SClipboardCopy(ExtractFileName(CurrentFrame.FileName));
 end;
 
-
-procedure TfmMain.DoCopyLine;
-var
-  S: string;
-  Ed: TATSynEdit;
-  N: integer;
-begin
-  Ed:= CurrentEditor;
-  N:= Ed.Carets[0].PosY;
-  if Ed.Strings.IsIndexValid(N) then
-  begin
-    S:= Ed.Strings.LinesUTF8[N];
-    SClipboardCopy(S);
-  end;
-end;
 
 procedure TfmMain.DoHelpAbout;
 var

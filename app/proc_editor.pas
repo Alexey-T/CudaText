@@ -80,6 +80,7 @@ function EditorGetColorById(Ed: TATSynEdit; const Id: string): TColor;
 function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boolean;
 function EditorAutoCloseBracket(Ed: TATSynEdit; CharBegin: atChar): boolean;
 procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer);
+procedure EditorCopyLine(Ed: TATSynEdit);
 
 procedure EditorCaretPropsFromString(Props: TATCaretProps; const AText: string);
 procedure EditorCaretPropsFromPyTuple(Props: TATCaretProps; const AText: string);
@@ -1497,6 +1498,19 @@ begin
       exit(cTokenKindString);
 end;
 
+
+procedure EditorCopyLine(Ed: TATSynEdit);
+var
+  S: string;
+  N: integer;
+begin
+  N:= Ed.Carets[0].PosY;
+  if Ed.Strings.IsIndexValid(N) then
+  begin
+    S:= Ed.Strings.LinesUTF8[N];
+    SClipboardCopy(S);
+  end;
+end;
 
 end.
 

@@ -179,7 +179,7 @@ begin
     cmd_MoveTabToGroupNext: Groups.MoveCurrentTabToNext(true);
     cmd_MoveTabToGroupPrev: Groups.MoveCurrentTabToNext(false);
 
-    cmd_CopyLine:         DoCopyLine;
+    cmd_CopyLine:         EditorCopyLine(Ed);
     cmd_CopyFilenameFull: DoCopyFilenameFull;
     cmd_CopyFilenameDir:  DoCopyFilenameDir;
     cmd_CopyFilenameName: DoCopyFilenameName;
