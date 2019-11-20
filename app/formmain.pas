@@ -824,9 +824,9 @@ type
     procedure DoFileNew;
     procedure DoFileNewMenu(Sender: TObject);
     procedure DoFileNewFrom(const fn: string);
-    procedure DoFileSave;
-    procedure DoFileSaveAs;
-    procedure DoFocusEditor;
+    procedure DoFileSave(F: TEditorFrame);
+    procedure DoFileSaveAs(F: TEditorFrame);
+    procedure DoFocusEditor(Ed: TATSynEdit);
     procedure DoSwitchTab(ANext: boolean);
     procedure DoSwitchTabSimply(ANext: boolean);
     procedure DoSwitchTabToRecent;
@@ -1475,12 +1475,14 @@ end;
 
 procedure TfmMain.DoCodetree_OnDblClick(Sender: TObject);
 var
+  Ed: TATSynEdit;
   PntBegin, PntEnd: TPoint;
 begin
   DoCodetree_GetSyntaxRange(CodeTree.Tree.Selected, PntBegin, PntEnd);
 
+  Ed:= CurrentEditor;
   FCodetreeDblClicking:= true;
-  CurrentEditor.DoGotoPos(
+  Ed.DoGotoPos(
     PntBegin,
     Point(-1, -1),
     UiOps.FindIndentHorz,
@@ -1488,7 +1490,7 @@ begin
     true,
     true
     );
-  DoFocusEditor;
+  DoFocusEditor(Ed);
   FCodetreeDblClicking:= false;
 end;
 
@@ -2329,7 +2331,7 @@ begin
 
     if not bEditorActive then
     begin
-      DoFocusEditor;
+      DoFocusEditor(CurrentEditor);
 
       if bConsoleActive then
         if UiOps.EscapeCloseConsole then
@@ -4719,32 +4721,23 @@ begin
   UpdateStatus;
 end;
 
-procedure TfmMain.DoFileSave;
-var
-  F: TEditorFrame;
+procedure TfmMain.DoFileSave(F: TEditorFrame);
 begin
-  F:= CurrentFrame;
   DoFileDialog_PrepareDir(SaveDlg);
   if F.Editor.Modified or (F.GetFileName(F.Editor)='') then
     if F.DoFileSave(false, false) then
       DoFileDialog_SaveDir(SaveDlg);
 end;
 
-procedure TfmMain.DoFileSaveAs;
-var
-  F: TEditorFrame;
+procedure TfmMain.DoFileSaveAs(F: TEditorFrame);
 begin
-  F:= CurrentFrame;
   DoFileDialog_PrepareDir(SaveDlg);
   if F.DoFileSave(true, false) then
     DoFileDialog_SaveDir(SaveDlg);
 end;
 
-procedure TfmMain.DoFocusEditor;
-var
-  Ed: TATSynEdit;
+procedure TfmMain.DoFocusEditor(Ed: TATSynEdit);
 begin
-  Ed:= CurrentEditor;
   if Ed=nil then exit;
   if Ed.Visible and Ed.Enabled then
     Ed.SetFocus;
