@@ -73,7 +73,7 @@ begin
       DoFileOpenDialog_NoPlugins;
 
     cmd_FileReopen:
-      DoFileReopen;
+      DoFileReopen(Frame);
 
     cmd_FileSave:
       begin

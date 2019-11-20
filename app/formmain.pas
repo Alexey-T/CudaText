@@ -973,7 +973,7 @@ type
     procedure DoFileOpenDialog(AOptions: string= '');
     procedure DoFileOpenDialog_NoPlugins;
     function DoFileSaveAll: boolean;
-    procedure DoFileReopen;
+    procedure DoFileReopen(F: TEditorFrame);
     procedure DoLoadCommandLine;
     //procedure DoToggleMenu;
     procedure DoToggleFloatSide;
@@ -4287,13 +4287,11 @@ begin
   end;
 end;
 
-procedure TfmMain.DoFileReopen;
+procedure TfmMain.DoFileReopen(F: TEditorFrame);
 var
-  F: TEditorFrame;
   PrevRO: boolean;
   PrevLexer: string;
 begin
-  F:= CurrentFrame;
   if F.FileName='' then exit;
 
   if not FileExistsUTF8(F.FileName) then
