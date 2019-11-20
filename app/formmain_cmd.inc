@@ -64,10 +64,10 @@ begin
     cmd_FileExit:            Close;
     cmd_FileExportHtml:      DoFileExportHtml;
 
-    cmd_ToggleFocusSplitEditors: Frame.DoToggleFocusSplitEditors;
+    cmd_ToggleFocusSplitEditors: begin if Assigned(Frame) then Frame.DoToggleFocusSplitEditors; end;
     cmd_FocusEditor:           DoFocusEditor;
-    cmd_FocusNotificationPanel: Frame.DoFocusNotificationPanel;
-    cmd_HideNotificationPanels: Frame.DoHideNotificationPanels;
+    cmd_FocusNotificationPanel: begin if Assigned(Frame) then Frame.DoFocusNotificationPanel; end;
+    cmd_HideNotificationPanels: begin if Assigned(Frame) then Frame.DoHideNotificationPanels; end;
 
     cmd_SwitchTab_HotkeyNext: DoSwitchTab(true);
     cmd_SwitchTab_HotkeyPrev: DoSwitchTab(false);
@@ -83,7 +83,7 @@ begin
     cmd_DialogFind_Hide:   DoDialogFind_Hide;
     cmd_DialogReplace:     DoDialogFind(true);
     cmd_DialogSaveTabs:    DoDialogSaveTabs;
-    cmd_DialogLexerProp:   DoDialogLexerProp(Frame.Lexer[Frame.Editor]);
+    cmd_DialogLexerProp:   begin if Assigned(Frame) then DoDialogLexerProp(Frame.Lexer[Frame.Editor]); end;
     cmd_DialogLexerLib:    DoDialogLexerLib;
     cmd_DialogLexerStyleMap: DoDialogLexerMap;
     cmd_DialogThemeUi:     DoDialogTheme(true);
@@ -200,19 +200,28 @@ begin
 
     cmd_MacroStart:
       begin
-        Frame.DoMacroStart;
-        MsgStatus('');
+        if Assigned(Frame) then
+        begin
+          Frame.DoMacroStart;
+          MsgStatus('');
+        end;
       end;
     cmd_MacroStop:
       begin
-        Frame.DoMacroStop(false);
-        DoOnMacro(Frame.MacroString);
-        MsgStatus('');
+        if Assigned(Frame) then
+        begin
+          Frame.DoMacroStop(false);
+          DoOnMacro(Frame.MacroString);
+          MsgStatus('');
+        end;
       end;
     cmd_MacroCancel:
       begin
-        Frame.DoMacroStop(true);
-        MsgStatus('');
+        if Assigned(Frame) then
+        begin
+          Frame.DoMacroStop(true);
+          MsgStatus('');
+        end;
       end;
 
     cmd_TreeGotoNext: DoTreeviewJump(CodeTree.Tree, treeGoNext);
@@ -228,17 +237,35 @@ begin
     cmd_TreeFocus: DoSidebar_FocusCodetree;
 
     cmd_BracketHighlightOn:
-      Frame.BracketHilite:= true;
+      begin
+        if Assigned(Frame) then
+          Frame.BracketHilite:= true;
+      end;
     cmd_BracketHighlightOff:
-      Frame.BracketHilite:= false;
+      begin
+        if Assigned(Frame) then
+          Frame.BracketHilite:= false;
+      end;
     cmd_BracketHighlightToggle:
-      Frame.BracketHilite:= not Frame.BracketHilite;
+      begin
+        if Assigned(Frame) then
+          Frame.BracketHilite:= not Frame.BracketHilite;
+      end;
     cmd_BracketJump:
-      Frame.BracketJump(Ed);
+      begin
+        if Assigned(Frame) then
+          Frame.BracketJump(Ed);
+      end;
     cmd_BracketSelect:
-      Frame.BracketSelect(Ed);
+      begin
+        if Assigned(Frame) then
+          Frame.BracketSelect(Ed);
+      end;
     cmd_BracketSelectInside:
-      Frame.BracketSelectInside(Ed);
+      begin
+        if Assigned(Frame) then
+          Frame.BracketSelectInside(Ed);
+      end;
 
     cmd_HelpAbout: DoHelpAbout;
     cmd_HelpForum: DoHelpForum;
