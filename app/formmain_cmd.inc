@@ -198,58 +198,6 @@ begin
     cmd_ChooseThemeUI:     DoDialogMenuThemes;
     cmd_ChooseThemeSyntax: DoDialogMenuThemes;
 
-    cmd_Encoding_utf8bom_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf8_WithBom, false);
-    cmd_Encoding_utf8nobom_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf8_NoBom, false);
-    cmd_Encoding_utf16le_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf16LE_WithBom, false);
-    cmd_Encoding_utf16be_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf16BE_WithBom, false);
-    cmd_Encoding_cp1250_NoReload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP1250], false);
-    cmd_Encoding_cp1251_NoReload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP1251], false);
-    cmd_Encoding_cp1252_NoReload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP1252], false);
-    cmd_Encoding_cp1253_NoReload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP1253], false);
-    cmd_Encoding_cp1254_NoReload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP1254], false);
-    cmd_Encoding_cp1255_NoReload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP1255], false);
-    cmd_Encoding_cp1256_NoReload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP1256], false);
-    cmd_Encoding_cp1257_NoReload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP1257], false);
-    cmd_Encoding_cp1258_NoReload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP1258], false);
-    cmd_Encoding_mac_NoReload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCPMac], false);
-    cmd_Encoding_iso1_NoReload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidISO1], false);
-    cmd_Encoding_iso2_NoReload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidISO2], false);
-    cmd_Encoding_cp437_NoReload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP437], false);
-    cmd_Encoding_cp850_NoReload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP850], false);
-    cmd_Encoding_cp852_NoReload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP852], false);
-    cmd_Encoding_cp866_NoReload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP866], false);
-    cmd_Encoding_cp874_NoReload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP874], false);
-    cmd_Encoding_cp932_NoReload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP932], false);
-    cmd_Encoding_cp936_NoReload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP936], false);
-    cmd_Encoding_cp949_NoReload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP949], false);
-    cmd_Encoding_cp950_NoReload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP950], false);
-
-    cmd_Encoding_utf8bom_Reload: SetFrameEncoding(CurrentFrame, cEncNameUtf8_WithBom, true);
-    cmd_Encoding_utf8nobom_Reload: SetFrameEncoding(CurrentFrame, cEncNameUtf8_NoBom, true);
-    cmd_Encoding_utf16le_Reload: SetFrameEncoding(CurrentFrame, cEncNameUtf16LE_WithBom, true);
-    cmd_Encoding_utf16be_Reload: SetFrameEncoding(CurrentFrame, cEncNameUtf16BE_WithBom, true);
-    cmd_Encoding_cp1250_Reload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP1250], true);
-    cmd_Encoding_cp1251_Reload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP1251], true);
-    cmd_Encoding_cp1252_Reload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP1252], true);
-    cmd_Encoding_cp1253_Reload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP1253], true);
-    cmd_Encoding_cp1254_Reload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP1254], true);
-    cmd_Encoding_cp1255_Reload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP1255], true);
-    cmd_Encoding_cp1256_Reload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP1256], true);
-    cmd_Encoding_cp1257_Reload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP1257], true);
-    cmd_Encoding_cp1258_Reload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP1258], true);
-    cmd_Encoding_mac_Reload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCPMac], true);
-    cmd_Encoding_iso1_Reload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidISO1], true);
-    cmd_Encoding_iso2_Reload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidISO2], true);
-    cmd_Encoding_cp437_Reload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP437], true);
-    cmd_Encoding_cp850_Reload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP850], true);
-    cmd_Encoding_cp852_Reload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP852], true);
-    cmd_Encoding_cp866_Reload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP866], true);
-    cmd_Encoding_cp874_Reload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP874], true);
-    cmd_Encoding_cp932_Reload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP932], true);
-    cmd_Encoding_cp936_Reload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP936], true);
-    cmd_Encoding_cp949_Reload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP949], true);
-    cmd_Encoding_cp950_Reload: SetFrameEncoding(CurrentFrame, cEncConvNames[eidCP950], true);
-
     cmd_MacroStart:
       begin
         CurrentFrame.DoMacroStart;
@@ -665,6 +613,58 @@ begin
         AHandled:= true;
         exit
       end;
+
+    cmd_Encoding_utf8bom_NoReload:   begin SetFrameEncoding(Frame, cEncNameUtf8_WithBom, false); AHandled:= true; exit end;
+    cmd_Encoding_utf8nobom_NoReload: begin SetFrameEncoding(Frame, cEncNameUtf8_NoBom, false); AHandled:= true; exit end;
+    cmd_Encoding_utf16le_NoReload:   begin SetFrameEncoding(Frame, cEncNameUtf16LE_WithBom, false); AHandled:= true; exit end;
+    cmd_Encoding_utf16be_NoReload:   begin SetFrameEncoding(Frame, cEncNameUtf16BE_WithBom, false); AHandled:= true; exit end;
+    cmd_Encoding_cp1250_NoReload:    begin SetFrameEncoding(Frame, cEncConvNames[eidCP1250], false); AHandled:= true; exit end;
+    cmd_Encoding_cp1251_NoReload:    begin SetFrameEncoding(Frame, cEncConvNames[eidCP1251], false); AHandled:= true; exit end;
+    cmd_Encoding_cp1252_NoReload:    begin SetFrameEncoding(Frame, cEncConvNames[eidCP1252], false); AHandled:= true; exit end;
+    cmd_Encoding_cp1253_NoReload:    begin SetFrameEncoding(Frame, cEncConvNames[eidCP1253], false); AHandled:= true; exit end;
+    cmd_Encoding_cp1254_NoReload:    begin SetFrameEncoding(Frame, cEncConvNames[eidCP1254], false); AHandled:= true; exit end;
+    cmd_Encoding_cp1255_NoReload:    begin SetFrameEncoding(Frame, cEncConvNames[eidCP1255], false); AHandled:= true; exit end;
+    cmd_Encoding_cp1256_NoReload:    begin SetFrameEncoding(Frame, cEncConvNames[eidCP1256], false); AHandled:= true; exit end;
+    cmd_Encoding_cp1257_NoReload:    begin SetFrameEncoding(Frame, cEncConvNames[eidCP1257], false); AHandled:= true; exit end;
+    cmd_Encoding_cp1258_NoReload:    begin SetFrameEncoding(Frame, cEncConvNames[eidCP1258], false); AHandled:= true; exit end;
+    cmd_Encoding_mac_NoReload:       begin SetFrameEncoding(Frame, cEncConvNames[eidCPMac], false); AHandled:= true; exit end;
+    cmd_Encoding_iso1_NoReload:      begin SetFrameEncoding(Frame, cEncConvNames[eidISO1], false); AHandled:= true; exit end;
+    cmd_Encoding_iso2_NoReload:      begin SetFrameEncoding(Frame, cEncConvNames[eidISO2], false); AHandled:= true; exit end;
+    cmd_Encoding_cp437_NoReload:     begin SetFrameEncoding(Frame, cEncConvNames[eidCP437], false); AHandled:= true; exit end;
+    cmd_Encoding_cp850_NoReload:     begin SetFrameEncoding(Frame, cEncConvNames[eidCP850], false); AHandled:= true; exit end;
+    cmd_Encoding_cp852_NoReload:     begin SetFrameEncoding(Frame, cEncConvNames[eidCP852], false); AHandled:= true; exit end;
+    cmd_Encoding_cp866_NoReload:     begin SetFrameEncoding(Frame, cEncConvNames[eidCP866], false); AHandled:= true; exit end;
+    cmd_Encoding_cp874_NoReload:     begin SetFrameEncoding(Frame, cEncConvNames[eidCP874], false); AHandled:= true; exit end;
+    cmd_Encoding_cp932_NoReload:     begin SetFrameEncoding(Frame, cEncConvNames[eidCP932], false); AHandled:= true; exit end;
+    cmd_Encoding_cp936_NoReload:     begin SetFrameEncoding(Frame, cEncConvNames[eidCP936], false); AHandled:= true; exit end;
+    cmd_Encoding_cp949_NoReload:     begin SetFrameEncoding(Frame, cEncConvNames[eidCP949], false); AHandled:= true; exit end;
+    cmd_Encoding_cp950_NoReload:     begin SetFrameEncoding(Frame, cEncConvNames[eidCP950], false); AHandled:= true; exit end;
+
+    cmd_Encoding_utf8bom_Reload:     begin SetFrameEncoding(Frame, cEncNameUtf8_WithBom, true); AHandled:= true; exit end;
+    cmd_Encoding_utf8nobom_Reload:   begin SetFrameEncoding(Frame, cEncNameUtf8_NoBom, true); AHandled:= true; exit end;
+    cmd_Encoding_utf16le_Reload:     begin SetFrameEncoding(Frame, cEncNameUtf16LE_WithBom, true); AHandled:= true; exit end;
+    cmd_Encoding_utf16be_Reload:     begin SetFrameEncoding(Frame, cEncNameUtf16BE_WithBom, true); AHandled:= true; exit end;
+    cmd_Encoding_cp1250_Reload:      begin SetFrameEncoding(Frame, cEncConvNames[eidCP1250], true); AHandled:= true; exit end;
+    cmd_Encoding_cp1251_Reload:      begin SetFrameEncoding(Frame, cEncConvNames[eidCP1251], true); AHandled:= true; exit end;
+    cmd_Encoding_cp1252_Reload:      begin SetFrameEncoding(Frame, cEncConvNames[eidCP1252], true); AHandled:= true; exit end;
+    cmd_Encoding_cp1253_Reload:      begin SetFrameEncoding(Frame, cEncConvNames[eidCP1253], true); AHandled:= true; exit end;
+    cmd_Encoding_cp1254_Reload:      begin SetFrameEncoding(Frame, cEncConvNames[eidCP1254], true); AHandled:= true; exit end;
+    cmd_Encoding_cp1255_Reload:      begin SetFrameEncoding(Frame, cEncConvNames[eidCP1255], true); AHandled:= true; exit end;
+    cmd_Encoding_cp1256_Reload:      begin SetFrameEncoding(Frame, cEncConvNames[eidCP1256], true); AHandled:= true; exit end;
+    cmd_Encoding_cp1257_Reload:      begin SetFrameEncoding(Frame, cEncConvNames[eidCP1257], true); AHandled:= true; exit end;
+    cmd_Encoding_cp1258_Reload:      begin SetFrameEncoding(Frame, cEncConvNames[eidCP1258], true); AHandled:= true; exit end;
+    cmd_Encoding_mac_Reload:         begin SetFrameEncoding(Frame, cEncConvNames[eidCPMac], true); AHandled:= true; exit end;
+    cmd_Encoding_iso1_Reload:        begin SetFrameEncoding(Frame, cEncConvNames[eidISO1], true); AHandled:= true; exit end;
+    cmd_Encoding_iso2_Reload:        begin SetFrameEncoding(Frame, cEncConvNames[eidISO2], true); AHandled:= true; exit end;
+    cmd_Encoding_cp437_Reload:       begin SetFrameEncoding(Frame, cEncConvNames[eidCP437], true); AHandled:= true; exit end;
+    cmd_Encoding_cp850_Reload:       begin SetFrameEncoding(Frame, cEncConvNames[eidCP850], true); AHandled:= true; exit end;
+    cmd_Encoding_cp852_Reload:       begin SetFrameEncoding(Frame, cEncConvNames[eidCP852], true); AHandled:= true; exit end;
+    cmd_Encoding_cp866_Reload:       begin SetFrameEncoding(Frame, cEncConvNames[eidCP866], true); AHandled:= true; exit end;
+    cmd_Encoding_cp874_Reload:       begin SetFrameEncoding(Frame, cEncConvNames[eidCP874], true); AHandled:= true; exit end;
+    cmd_Encoding_cp932_Reload:       begin SetFrameEncoding(Frame, cEncConvNames[eidCP932], true); AHandled:= true; exit end;
+    cmd_Encoding_cp936_Reload:       begin SetFrameEncoding(Frame, cEncConvNames[eidCP936], true); AHandled:= true; exit end;
+    cmd_Encoding_cp949_Reload:       begin SetFrameEncoding(Frame, cEncConvNames[eidCP949], true); AHandled:= true; exit end;
+    cmd_Encoding_cp950_Reload:       begin SetFrameEncoding(Frame, cEncConvNames[eidCP950], true); AHandled:= true; exit end;
   end;
 
   //handle other cmd_ commands
