@@ -183,37 +183,24 @@ begin
 
     cmd_ToggleFullScreen:
       DoToggleFullScreen;
-
     cmd_ToggleDistractionFree:
       DoToggleDistractionFree;
-
     cmd_ToggleSidePanel:
       DoToggleSidePanel;
-
     cmd_ToggleBottomPanel:
       DoToggleBottomPanel;
-
     cmd_ToggleFindDialog:
       DoToggleFindDialog;
-
     cmd_ToggleSidebar:
       DoToggleSidebar;
-
     cmd_ToggleToolbar:
       DoToggleToolbar;
-
     cmd_ToggleStatusbar:
       DoToggleStatusbar;
-
     cmd_ToggleOnTop:
       DoToggleOnTop;
-
-    //cmd_ToggleMenu:
-    //  DoToggleMenu;
-
     cmd_ToggleFloatSide:
       DoToggleFloatSide;
-
     cmd_ToggleFloatBottom:
       DoToggleFloatBottom;
 
@@ -222,34 +209,24 @@ begin
 
     cmd_ShowPanelConsole:
       DoShowConsole(false);
-
     cmd_ShowPanelOutput:
       DoShowOutput(false);
-
     cmd_ShowPanelValidate:
       DoShowValidate(false);
-
     cmd_ShowPanelConsole_AndFocus:
       DoShowConsole(true);
-
     cmd_ShowPanelOutput_AndFocus:
       DoShowOutput(true);
-
     cmd_ShowPanelValidate_AndFocus:
       DoShowValidate(true);
-
     cmd_ShowSidePanelAsIs:
       DoShowSidePanel('', false);
-
     cmd_ShowSidePanelAndSyntaxTree:
       DoShowSidePanel(msgPanelTree_Init, false);
-
     cmd_ToggleSidePanelAndSyntaxTree:
       DoShowSidePanel(IfThen(ShowSidePanel, '-', msgPanelTree_Init), false);
-
     cmd_HideSidePanel:
       DoShowSidePanel('-', false);
-
     cmd_HideBottomPanel:
       DoShowBottomPanel('-', false);
 
