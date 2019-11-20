@@ -606,10 +606,10 @@ end;
 
 function IsCommandNeedTimer(Cmd: integer): boolean;
 begin
-  case Cmd of
-    0..Pred(cmdFirstAppCommand):
-      Result:= false;
+  if Cmd<cmdFirstAppCommand then exit(false);
+  if Cmd>cmdLastAppCommand then exit(false);
 
+  case Cmd of
     cmdFirstLexerCommand..cmdLastLexerCommand,
     cmdFirstPluginCommand..cmdLastPluginCommand,
     cmdFirstFileCommand..cmdLastFileCommand,
