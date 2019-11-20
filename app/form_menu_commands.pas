@@ -188,7 +188,7 @@ begin
   PanelInfo.Parent:= Self;
   PanelInfo.Align:= alClient;
   PanelInfo.Font.Name:= UiOps.VarFontName;
-  PanelInfo.Font.Size:= UiOps.VarFontSize;
+  PanelInfo.Font.Size:= AppScaleFont(UiOps.VarFontSize);
   PanelInfo.BorderSpacing.Around:= 20;
   PanelInfo.Caption:= '#p – plugins'#10'#l – lexers'#10'#f – opened files'#10'#r – recent files';
 end;
