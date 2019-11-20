@@ -16,7 +16,7 @@ uses
   ATSynEdit;
 
 const
-  cAppExeVersion = '1.89.5.4';
+  cAppExeVersion = '1.89.6.0';
   cAppApiVersion = '1.0.315';
 
 const
@@ -38,6 +38,7 @@ const
   msgCallbackDeprecated = 'Deprecated API callback, report to plugin author: %s'; //no i18n
   msgApiDeprecated = 'Deprecated API usage: %s'; //no i18n
   msgErrorInTheme = 'Warning for theme "%s": missed item "%s"';
+  msgCmdPalettePrefixHelp = '#p – plugins'#10'#l – lexers'#10'#f – opened files'#10'#r – recent files';
 
   msgTitle = 'CudaText'; //no i18n
   msgModified: array[boolean] of string = ('', '*'); //no i18n
