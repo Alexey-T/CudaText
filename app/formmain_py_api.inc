@@ -2917,13 +2917,8 @@ begin
 
         PROP_ENC:
           begin
-            if Assigned(F) then
-            begin
-              Str:= AppEncodingFullnameToShortname(F.Ed1.EncodingName);
-              Result:= PyUnicode_FromWideString(Utf8Decode(Str));
-            end
-            else
-              Result:= ReturnNone;
+            Str:= AppEncodingFullnameToShortname(Ed.EncodingName);
+            Result:= PyUnicode_FromWideString(Utf8Decode(Str));
           end;
 
         PROP_NEWLINE:
@@ -3468,8 +3463,7 @@ begin
 
         PROP_ENC:
           begin
-            if Assigned(F) then
-              F.Ed1.EncodingName:= AppEncodingShortnameToFullname(Str);
+            Ed.EncodingName:= AppEncodingShortnameToFullname(Str);
           end;
 
         PROP_NEWLINE:
