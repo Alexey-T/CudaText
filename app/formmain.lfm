@@ -105,9 +105,9 @@ object fmMain: TfmMain
       Align = alTop
       AutoSize = True
       Color = clSilver
+      Visible = False
       ParentColor = False
       Images = ImageListToolbar
-      Visible = False
       Wrapable = True
     end
     object PaintTest: TPaintBox

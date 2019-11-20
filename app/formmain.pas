@@ -4336,7 +4336,7 @@ begin
     for i:= 0 to FrameCount-1 do
     begin
       F:= Frames[i];
-      if F.Ed1.Modified then
+      if F.Ed1.Modified or F.Ed2.Modified then
         case MsgBox(
                Format(msgConfirmSaveModifiedTab, [F.TabCaption]),
                Flags) of
@@ -4357,6 +4357,8 @@ begin
     begin
       F:= TEditorFrame(ListNoSave[i]);
       F.Ed1.Modified:= false;
+      if not F.EditorsLinked then
+        F.Ed2.Modified:= false;
     end;
   finally
     FreeAndNil(ListNoSave);
