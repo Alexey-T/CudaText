@@ -834,11 +834,18 @@ var
   Frame: TEditorFrame;
   sl: TStringList;
   str: string;
-  i: integer;
+  Cmd, i: integer;
 begin
-  //del all dynamic items
-  while AppKeymap[AppKeymap.Count-1].Command>=cmdFirstLexerCommand do
-    AppKeymap.Delete(AppKeymap.Count-1);
+  //del dynamic items for lexer+file+recents (but not plugins)
+  for i:= AppKeymap.Count-1 downto 0 do
+  begin
+    Cmd:= AppKeymap[i].Command;
+    if Cmd<cmdFirstAppCommand then Break;
+    if ((Cmd>=cmdFirstLexerCommand) and (Cmd<=cmdLastLexerCommand)) or
+       ((Cmd>=cmdFirstFileCommand) and (Cmd<=cmdLastFileCommand)) or
+       ((Cmd>=cmdFirstRecentCommand) and (Cmd<=cmdLastRecentCommand)) then
+     AppKeymap.Delete(i);
+  end;
 
   //dynamic lexer items
   sl:= TStringList.Create;

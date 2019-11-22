@@ -31,7 +31,7 @@ const
   cmdLastRecentCommand = 9000-1;
   cmdLastAppCommand = cmdLastRecentCommand;
 
-  //for macros
+  //for macros, must be before cmdFirstAppCommand
   cmd_MouseClickAtCursor = 2480;
   cmd_MouseClickAtCursorAndSelect = 2481;
   cmd_MouseClickNearCaret = 2490;
