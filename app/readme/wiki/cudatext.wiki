@@ -145,6 +145,7 @@ Dragging:
 * Alt+drag - select column of text. (Note: it may look weird if word-wrap on, because wrap is not considered here at all. Simple rectangle of coordinates [x1,y1]-[x2,y2] is always selected, even if this gives bad looking screen.)
 * drag on gutter's line numbers - select by entire lines.
 * double-click and immediately drag - select text by words.
+* drag-drop of selected text block is supported. If Ctrl is pressed during the drop (you should press Ctrl after drag is started), block will be copied (not moved) to pointed position.
 
 Clicks:
 
@@ -162,7 +163,6 @@ Misc:
 * Shift+ scroll mouse wheel - scroll text horizontally.
 * Ctrl+ scroll mouse wheel (with option mouse_wheel_zoom) - zoom text in/out.
 * Ctrl+ scroll mouse wheel (on picture preview panel) - zoom picture in/out.
-* Ctrl+ drag-drop selected block - copy this block, instead of moving it.
 
 == Multi-carets ==
 
