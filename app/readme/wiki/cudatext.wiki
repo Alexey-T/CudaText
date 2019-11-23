@@ -134,6 +134,8 @@ This allows to open in Terminal commands like "cudatext ~/filename.html".
 
 == Mouse shortcuts ==
 
+Note for macOS: use Cmd key instead of Ctrl key, in all commands listed here.
+
 Multi-carets:
 
 * Ctrl+click - add/remove caret.
