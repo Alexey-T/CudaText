@@ -3555,109 +3555,144 @@ begin
   Frame.SetFocus;
 end;
 
+type
+  TAppBookmarkProp = class
+  public
+    Frame: TEditorFrame;
+    Ed: TATSynEdit;
+    LineIndex: integer;
+    MenuCaption: string;
+  end;
+
 procedure TfmMain.DoDialogGotoBookmark;
-const
-  cMaxLen = 150;
+var
+  ListItems: TStringList;
+  //
+  procedure AddItemsOfFrame(Frame: TEditorFrame);
+  var
+    Ed: TATSynEdit;
+    Prop: TAppBookmarkProp;
+    Mark: TATBookmarkItem;
+    SKind: string;
+    NLine, NKind, i: integer;
+  const
+    cMaxLen = 150;
+  begin
+    Ed:= Frame.Editor;
+    for i:= 0 to Ed.Strings.Bookmarks.Count-1 do
+    begin
+      Mark:= Ed.Strings.Bookmarks[i];
+      if not Mark.Data.ShowInBookmarkList then Continue;
+
+      NLine:= Mark.Data.LineNum;
+      if not Ed.Strings.IsIndexValid(NLine) then Continue;
+
+      //paint prefix [N] for numbered bookmarks (kind=2..10)
+      NKind:= Mark.Data.Kind;
+      if (NKind>=2) and (NKind<=10) then
+        SKind:= '['+IntToStr(NKind-1)+'] '
+      else
+        SKind:= '';
+
+      Prop:= TAppBookmarkProp.Create;
+      Prop.Frame:= Frame;
+      Prop.Ed:= Ed;
+      Prop.LineIndex:= NLine;
+      Prop.MenuCaption:=
+        Copy(Ed.Strings.LinesUTF8[NLine], 1, cMaxLen)+
+        #9+
+        Frame.TabCaption+': '+
+        SKind+IntToStr(NLine+1);;
+
+      ListItems.AddObject(Prop.MenuCaption, Prop);
+    end;
+  end;
+  //
 var
   Form: TfmMenuApi;
-  Ed: TATSynEdit;
-  items: TStringList;
-  bm: TATBookmarkItem;
-  strInfo, strKind, strCaption: string;
-  NLineMax, NLine, NKind, NItemIndex, i: integer;
+  CurFrame, Frame: TEditorFrame;
+  Prop: TAppBookmarkProp;
+  MenuCaption: string;
+  CurLineIndex, SelIndex, i: integer;
 begin
-  Ed:= CurrentEditor;
-  NLineMax:= Ed.Strings.Count-1;
-  items:= TStringList.Create;
+  CurFrame:= CurrentFrame;
+  CurLineIndex:= CurFrame.Editor.Carets[0].PosY;
+  SelIndex:= 0;
 
   with TIniFile.Create(GetAppLangFilename) do
   try
-    strCaption:= ReadString('m_sr', 'b_', 'Bookmarks');
-    strCaption:= StringReplace(strCaption, '&', '', [rfReplaceAll]);
+    MenuCaption:= ReadString('m_sr', 'b_', 'Bookmarks');
+    MenuCaption:= StringReplace(MenuCaption, '&', '', [rfReplaceAll]);
   finally
     Free;
   end;
 
+  ListItems:= TStringList.Create;
   try
-    for i:= 0 to ed.Strings.Bookmarks.Count-1 do
-    begin
-      bm:= ed.Strings.Bookmarks[i];
-      if not bm.Data.ShowInBookmarkList then Continue;
+    ListItems.OwnsObjects:= true;
 
-      NLine:= bm.Data.LineNum;
-      if not ed.Strings.IsIndexValid(NLine) then Continue;
-
-      //paint prefix [N] for numbered bookmarks (kind=2..10)
-      NKind:= bm.Data.Kind;
-      if (NKind>=2) and (NKind<=10) then
-        strKind:= '['+IntToStr(NKind-1)+'] '
-      else
-        strKind:= '';
-
-      strInfo:= ed.Strings.LinesUTF8[NLine];
-      strInfo:= Copy(strInfo, 1, cMaxLen) + #9 + strKind + IntToStr(NLine+1);
-      items.AddObject(strInfo, TObject(PtrInt(NLine)));
-    end;
-
-    if items.Count=0 then
+    AddItemsOfFrame(CurFrame);
+    if ListItems.Count=0 then
     begin
       MsgStatus(msgCannotFindBookmarks);
       Exit;
     end;
 
-    NItemIndex:= 0;
-    for i:= items.Count-1 downto 0 do
-      if PtrInt(items.Objects[i])<=ed.Carets[0].PosY then
+    for i:= ListItems.Count-1 downto 0 do
+      if TAppBookmarkProp(ListItems.Objects[i]).LineIndex <= CurLineIndex then
       begin
-        NItemIndex:= i;
+        SelIndex:= i;
         Break;
       end;
-    if NItemIndex<0 then
-      NItemIndex:= 0;
+
+    //add bookmarks of all other frames
+    for i:= 0 to FrameCount-1 do
+    begin
+      Frame:= Frames[i];
+      if Frame<>CurFrame then
+        AddItemsOfFrame(Frame);
+    end;
 
     Form:= TfmMenuApi.Create(nil);
     try
-      for i:= 0 to items.Count-1 do
-        Form.listItems.Add(items[i]);
+      for i:= 0 to ListItems.Count-1 do
+        Form.listItems.Add(ListItems[i]);
 
       UpdateInputForm(Form);
       if UiOps.ListboxCentered then
         Form.Position:= poScreenCenter;
 
-      Form.ListCaption:= strCaption;
+      Form.ListCaption:= MenuCaption;
       Form.Multiline:= false;
-      Form.InitItemIndex:= NItemIndex;
+      Form.InitItemIndex:= SelIndex;
       Form.DisableFuzzy:= not UiOps.ListboxFuzzySearch;
       Form.DisableFullFilter:= true;
 
       Form.ShowModal;
-      NLine:= Form.ResultCode;
+      SelIndex:= Form.ResultCode;
     finally
       Form.Free;
     end;
 
-    if NLine<0 then
+    if SelIndex<0 then
     begin
       MsgStatus(msgStatusCancelled);
       Exit
     end;
 
-    NLine:= PtrInt(items.Objects[NLine]);
-    if NLine>NLineMax then
-      NLine:= NLineMax;
-
+    Prop:= TAppBookmarkProp(ListItems.Objects[SelIndex]);
+    SetFrame(Prop.Frame);
+    Prop.Ed.DoGotoPos(
+      Point(0, Prop.LineIndex),
+      Point(-1, -1),
+      UiOps.FindIndentHorz,
+      UiOps.FindIndentVert,
+      true,
+      true
+      );
   finally
-    FreeAndNil(items);
+    FreeAndNil(ListItems);
   end;
-
-  Ed.DoGotoPos(
-    Point(0, NLine),
-    Point(-1, -1),
-    UiOps.FindIndentHorz,
-    UiOps.FindIndentVert,
-    true,
-    true
-    );
 end;
 
 
