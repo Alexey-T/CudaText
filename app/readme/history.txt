@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.90.1 (2019/11)
+
++ add: dialog "Go to bookmark" reworked: it shows bookmarks in all opened documents; it shows tab titles; it has filter inputbox
+
 1.90.0 (2019/11)
 
 + add: Command Palette shows items "opened files: ..."
