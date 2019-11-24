@@ -232,31 +232,25 @@ begin
 
     cmd_FindFirst:
       DoFindFirst;
-
     cmd_FindNext:
       DoFindNext(true);
-
     cmd_FindPrev:
       DoFindNext(false);
 
     cmd_FindAllAndSelect:
       DoFindMarkAll(markingSelections);
-
     cmd_FindAllAndMarkers:
       DoFindMarkAll(markingMarkers);
-
     cmd_FindAllAndBookmarks:
       DoFindMarkAll(markingBookmarks);
 
     cmd_FindCurWordNext:
       DoFindCurrentWordOrSel(true, true);
-
     cmd_FindCurWordPrev:
       DoFindCurrentWordOrSel(false, true);
 
     cmd_FindCurSelNext:
       DoFindCurrentWordOrSel(true, false);
-
     cmd_FindCurSelPrev:
       DoFindCurrentWordOrSel(false, false);
 
