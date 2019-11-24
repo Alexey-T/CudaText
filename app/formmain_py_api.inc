@@ -3835,7 +3835,8 @@ begin
                   ));
             end;
 
-          cmdCat_Plugin:
+          cmdCat_Plugin,
+          cmdCat_PluginSub:
             begin
               ItemPlugin:= TAppCommand(AppCommandList[Item.Command-cmdFirstPluginCommand]);
               PyList_SetItem(Result, i,
