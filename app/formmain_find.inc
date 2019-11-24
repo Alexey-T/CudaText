@@ -510,7 +510,7 @@ procedure TfmMain.DoFindMarkAll(AMode: TATFindMarkingMode);
 var
   cnt: integer;
 begin
-  if Assigned(fmFind) and (fmFind.edFind.Text<>'') then
+  if Assigned(fmFind) {and (fmFind.edFind.Text<>'')} then
     FFinder.StrFind:= fmFind.edFind.Text;
 
   if FFinder.StrFind='' then
