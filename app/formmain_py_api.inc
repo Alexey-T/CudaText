@@ -3815,9 +3815,8 @@ begin
       for i:= 0 to NLen-1 do
       begin
         Item:= AppKeymap[i];
-        case Item.Command of
-          cmdFirstLexerCommand..
-          cmdLastLexerCommand:
+        case AppCommandCategory(Item.Command) of
+          cmdCat_Lexer:
             begin
               PyList_SetItem(Result, i,
                 Py_BuildValue('{sssissssss}',
@@ -3834,8 +3833,7 @@ begin
                   ));
             end;
 
-          cmdFirstPluginCommand..
-          cmdLastPluginCommand:
+          cmdCat_Plugin:
             begin
               ItemPlugin:= TAppCommand(AppCommandList[Item.Command-cmdFirstPluginCommand]);
               PyList_SetItem(Result, i,
@@ -3867,7 +3865,7 @@ begin
                   ));
             end;
 
-          else
+          cmdCat_Normal:
             begin
               SKeyInit1:= '';
               SKeyInit2:= '';
@@ -3896,7 +3894,33 @@ begin
                   PChar(SKeyInit2)
                   ));
             end;
-      end;
+
+          cmdCat_OpenedFile:
+            begin
+              PyList_SetItem(Result, i,
+                Py_BuildValue('{sssiss}',
+                  'type',
+                  'openedfile',
+                  'cmd',
+                  Item.Command,
+                  'name',
+                  PChar(Item.Name)
+                  ));
+            end;
+
+          cmdCat_RecentFile:
+            begin
+              PyList_SetItem(Result, i,
+                Py_BuildValue('{sssiss}',
+                  'type',
+                  'recentfile',
+                  'cmd',
+                  Item.Command,
+                  'name',
+                  PChar(Item.Name)
+                  ));
+            end;
+        end;
     end
     end
     else
