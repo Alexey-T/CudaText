@@ -3559,6 +3559,7 @@ procedure TfmMain.DoDialogGotoBookmark;
 const
   cMaxLen = 150;
 var
+  Form: TfmMenuApi;
   Ed: TATSynEdit;
   items: TStringList;
   bm: TATBookmarkItem;
@@ -3614,7 +3615,27 @@ begin
     if NItemIndex<0 then
       NItemIndex:= 0;
 
-    NLine:= DoDialogMenuList(strCaption, items, NItemIndex);
+    Form:= TfmMenuApi.Create(nil);
+    try
+      for i:= 0 to items.Count-1 do
+        Form.listItems.Add(items[i]);
+
+      UpdateInputForm(Form);
+      if UiOps.ListboxCentered then
+        Form.Position:= poScreenCenter;
+
+      Form.ListCaption:= strCaption;
+      Form.Multiline:= false;
+      Form.InitItemIndex:= NItemIndex;
+      Form.DisableFuzzy:= not UiOps.ListboxFuzzySearch;
+      Form.DisableFullFilter:= true;
+
+      Form.ShowModal;
+      NLine:= Form.ResultCode;
+    finally
+      Form.Free;
+    end;
+
     if NLine<0 then
     begin
       MsgStatus(msgStatusCancelled);
