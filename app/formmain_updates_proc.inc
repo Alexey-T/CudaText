@@ -828,26 +828,37 @@ begin
   UpdateStatus;
 end;
 
-procedure TfmMain.UpdateKeymapDynamicItems;
+procedure TfmMain.UpdateKeymapDynamicItems(AUpdatePlugins, AUpdateLexers, AUpdateFiles: boolean);
 var
   CmdItem: TAppCommand;
   Frame: TEditorFrame;
   sl: TStringList;
   str: string;
   Cmd, i: integer;
+  bPlugin, bLexer, bFile: boolean;
 begin
-  //del dynamic items for lexer+file+recents (but not plugins)
   for i:= AppKeymap.Count-1 downto 0 do
   begin
     Cmd:= AppKeymap[i].Command;
     if Cmd<cmdFirstAppCommand then Break;
-    if ((Cmd>=cmdFirstLexerCommand) and (Cmd<=cmdLastLexerCommand)) or
-       ((Cmd>=cmdFirstFileCommand) and (Cmd<=cmdLastFileCommand)) or
-       ((Cmd>=cmdFirstRecentCommand) and (Cmd<=cmdLastRecentCommand)) then
-     AppKeymap.Delete(i);
+
+    bPlugin:=
+      (Cmd>=cmdFirstPluginCommand) and (Cmd<=cmdLastPluginCommand);
+    bLexer:=
+      (Cmd>=cmdFirstLexerCommand) and (Cmd<=cmdLastLexerCommand);
+    bFile:=
+      ((Cmd>=cmdFirstFileCommand) and (Cmd<=cmdLastFileCommand)) or
+      ((Cmd>=cmdFirstRecentCommand) and (Cmd<=cmdLastRecentCommand));
+
+    if (AUpdatePlugins and bPlugin) or
+       (AUpdateLexers and bLexer) or
+       (AUpdateFiles and bFile) then
+      AppKeymap.Delete(i);
   end;
 
   //dynamic lexer items
+ if AUpdateLexers then
+ begin
   sl:= TStringList.Create;
   try
     //usual lexers
@@ -869,8 +880,10 @@ begin
   finally
     FreeAndNil(sl);
   end;
+ end;
 
   //dynamic plugin items
+ if AUpdatePlugins then
   for i:= 0 to AppCommandList.Count-1 do
   begin
     CmdItem:= TAppCommand(AppCommandList[i]);
@@ -887,7 +900,9 @@ begin
       [], []);
   end;
 
-  //dynamic file items
+ if AUpdateFiles then
+ begin
+  //dynamic opened-files items
   for i:= 0 to AppFrameList1.Count-1 do
   begin
     Frame:= TEditorFrame(AppFrameList1[i]);
@@ -898,7 +913,7 @@ begin
         [], []);
   end;
 
-  //dynamic recent items
+  //dynamic recent-files items
   for i:= 0 to FListRecents.Count-1 do
   begin
     AppKeymap.Add(
@@ -906,6 +921,7 @@ begin
       'recent file: '+FormatFilenameForMenu(FListRecents[i]),
       [], []);
   end;
+ end;
 end;
 
 

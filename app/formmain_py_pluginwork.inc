@@ -73,7 +73,7 @@ begin
     FreeAndNil(list);
   end;
 
-  UpdateKeymapDynamicItems;
+  UpdateKeymapDynamicItems(true, false, false);
 end;
 
 

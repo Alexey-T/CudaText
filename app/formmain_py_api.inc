@@ -2611,7 +2611,7 @@ begin
     begin
       StrTitle:= string(PtrTitle);
 
-      fmMain.UpdateKeymapDynamicItems;
+      fmMain.UpdateKeymapDynamicItems(false, false, true);
       Str:= fmMain.DoDialogCommands_Py(
         (NOps and COMMANDS_USUAL)<>0,
         (NOps and COMMANDS_PLUGINS)<>0,
@@ -3980,7 +3980,7 @@ begin
         APP_PROC_SET_SUBCOMMANDS:
           begin
             CommandPlugins_UpdateSubcommands(Str);
-            fmMain.UpdateKeymapDynamicItems;
+            fmMain.UpdateKeymapDynamicItems(true, false, false);
 
             fmMain.FKeymapLastLexer:= '??'; //this allows to load lexer-specific keymap
             fmMain.DoOps_LoadKeymap;
