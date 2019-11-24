@@ -835,9 +835,8 @@ begin
   Result:= StringReplace(Result, '&', '', [rfReplaceAll]);
 end;
 
-procedure TfmMain.UpdateKeymapDynamicItems(AUpdatePlugins, AUpdateLexers, AUpdateFiles: boolean);
+procedure TfmMain.UpdateKeymapDynamicItems(ACategory: TAppCommandCategory);
 var
-  Category: TAppCommandCategory;
   CmdItem: TAppCommand;
   Frame: TEditorFrame;
   sl: TStringList;
@@ -848,74 +847,82 @@ begin
   begin
     Cmd:= AppKeymap[i].Command;
     if Cmd<cmdFirstAppCommand then Break;
-    Category:= AppCommandCategory(Cmd);
-    if (AUpdatePlugins and (Category=cmdCat_Plugin)) or
-       (AUpdateLexers and (Category=cmdCat_Lexer)) or
-       (AUpdateFiles and (Category in [cmdCat_OpenedFile, cmdCat_RecentFile])) then
+    if AppCommandCategory(Cmd)=ACategory then
       AppKeymap.Delete(i);
   end;
 
-  //dynamic lexer items
- if AUpdateLexers then
- begin
-  sl:= TStringList.Create;
-  try
-    //usual lexers
-    for i:= 0 to AppManager.LexerCount-1 do
-      sl.AddObject('lexer: '+AppManager.Lexers[i].LexerName,
-                   TObject(cmdFirstLexerCommand+i));
-    //lite lexers
-    for i:= 0 to AppManagerLite.LexerCount-1 do
-      sl.AddObject('lexer: '+AppManagerLite.Lexers[i].LexerName+msgLiteLexerSuffix,
-                   TObject(cmdFirstLexerCommand+i+AppManager.LexerCount));
+  case ACategory of
+    cmdCat_Lexer:
+      begin
+        sl:= TStringList.Create;
+        try
+          //usual lexers
+          for i:= 0 to AppManager.LexerCount-1 do
+            sl.AddObject('lexer: '+AppManager.Lexers[i].LexerName,
+                         TObject(cmdFirstLexerCommand+i));
+          //lite lexers
+          for i:= 0 to AppManagerLite.LexerCount-1 do
+            sl.AddObject('lexer: '+AppManagerLite.Lexers[i].LexerName+msgLiteLexerSuffix,
+                         TObject(cmdFirstLexerCommand+i+AppManager.LexerCount));
 
-    sl.Sort;
+          sl.Sort;
 
-    //insert "none" at list begin
-    sl.InsertObject(0, 'lexer: '+msgNoLexer, TObject(cmdLastLexerCommand));
+          //insert "none" at list begin
+          sl.InsertObject(0, 'lexer: '+msgNoLexer, TObject(cmdLastLexerCommand));
 
-    for i:= 0 to sl.count-1 do
-      AppKeymap.Add(PtrInt(sl.Objects[i]), sl[i], [], []);
-  finally
-    FreeAndNil(sl);
+          for i:= 0 to sl.count-1 do
+            AppKeymap.Add(PtrInt(sl.Objects[i]), sl[i], [], []);
+        finally
+          FreeAndNil(sl);
+        end;
+      end;
+
+    cmdCat_Plugin:
+      for i:= 0 to AppCommandList.Count-1 do
+      begin
+        CmdItem:= TAppCommand(AppCommandList[i]);
+        if CmdItem.ItemFromApi then Continue;
+        if CmdItem.ItemModule='' then Break;
+        if SEndsWith(CmdItem.ItemCaption, '-') then Continue;
+        AppKeymap.Add(
+          cmdFirstPluginCommand+i,
+          'plugin: '+_NicePluginCaption(CmdItem.ItemCaption),
+          [], []);
+      end;
+
+    cmdCat_PluginSub:
+      for i:= 0 to AppCommandList.Count-1 do
+      begin
+        CmdItem:= TAppCommand(AppCommandList[i]);
+        if not CmdItem.ItemFromApi then Continue;
+        if CmdItem.ItemModule='' then Break;
+        if SEndsWith(CmdItem.ItemCaption, '-') then Continue;
+        AppKeymap.Add(
+          cmdFirstPluginCommand+i,
+          'plugin: '+_NicePluginCaption(CmdItem.ItemCaption),
+          [], []);
+      end;
+
+    cmdCat_OpenedFile:
+      for i:= 0 to AppFrameList1.Count-1 do
+      begin
+        Frame:= TEditorFrame(AppFrameList1[i]);
+        if Frame.FileName<>'' then
+          AppKeymap.Add(
+            cmdFirstFileCommand+i,
+            'opened file: '+FormatFilenameForMenu(Frame.FileName),
+            [], []);
+      end;
+
+    cmdCat_RecentFile:
+      for i:= 0 to FListRecents.Count-1 do
+      begin
+        AppKeymap.Add(
+          cmdFirstRecentCommand+i,
+          'recent file: '+FormatFilenameForMenu(FListRecents[i]),
+          [], []);
+      end;
   end;
- end;
-
-  //dynamic plugin items
-  if AUpdatePlugins then
-    for i:= 0 to AppCommandList.Count-1 do
-    begin
-      CmdItem:= TAppCommand(AppCommandList[i]);
-      if CmdItem.ItemModule='' then Break;
-      if SEndsWith(CmdItem.ItemCaption, '-') then Continue;
-      AppKeymap.Add(
-        cmdFirstPluginCommand+i,
-        'plugin: '+_NicePluginCaption(CmdItem.ItemCaption),
-        [], []);
-    end;
-
- if AUpdateFiles then
- begin
-  //dynamic opened-files items
-  for i:= 0 to AppFrameList1.Count-1 do
-  begin
-    Frame:= TEditorFrame(AppFrameList1[i]);
-    if Frame.FileName<>'' then
-      AppKeymap.Add(
-        cmdFirstFileCommand+i,
-        'opened file: '+FormatFilenameForMenu(Frame.FileName),
-        [], []);
-  end;
-
-  //dynamic recent-files items
-  for i:= 0 to FListRecents.Count-1 do
-  begin
-    AppKeymap.Add(
-      cmdFirstRecentCommand+i,
-      'recent file: '+FormatFilenameForMenu(FListRecents[i]),
-      [], []);
-  end;
- end;
 end;
 
 

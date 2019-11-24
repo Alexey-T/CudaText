@@ -1027,7 +1027,7 @@ type
     procedure UpdateSidebarButtonOverlay;
     procedure UpdateBottomPanels(const ACaption: string; AndFocus: boolean);
     procedure UpdateEditorTabsize(AValue: integer);
-    procedure UpdateKeymapDynamicItems(AUpdatePlugins, AUpdateLexers, AUpdateFiles: boolean);
+    procedure UpdateKeymapDynamicItems(ACategory: TAppCommandCategory);
     procedure UpdateMenuItemAltObject(mi: TMenuItem; cmd: integer);
     procedure UpdateMenuItemChecked(mi: TMenuItem; saved: TATMenuItemsAlt; AValue: boolean);
     procedure UpdateMenuItemHint(mi: TMenuItem; const AHint: string);
@@ -3359,7 +3359,10 @@ var
 begin
   Ed:= CurrentEditor;
   MsgStatus(msgStatusHelpOnShowCommands);
-  UpdateKeymapDynamicItems(false, false, true);
+
+  UpdateKeymapDynamicItems(cmdCat_OpenedFile);
+  UpdateKeymapDynamicItems(cmdCat_RecentFile);
+
   NCmd:= DoDialogCommands_Custom(true, true, true, true, true, true, false, '', FLastSelectedCommand);
   if NCmd>0 then
   begin
@@ -4021,7 +4024,7 @@ end;
 
 procedure TfmMain.UpdateMenuLexers;
 begin
-  UpdateKeymapDynamicItems(false, true, false);
+  UpdateKeymapDynamicItems(cmdCat_Lexer);
   DoOps_LoadKeymap;
   UpdateMenuLexersTo(PopupLex.Items);
 end;
