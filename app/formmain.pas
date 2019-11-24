@@ -3360,8 +3360,8 @@ begin
   Ed:= CurrentEditor;
   MsgStatus(msgStatusHelpOnShowCommands);
 
-  UpdateKeymapDynamicItems(cmdCat_OpenedFile);
-  UpdateKeymapDynamicItems(cmdCat_RecentFile);
+  UpdateKeymapDynamicItems(categ_OpenedFile);
+  UpdateKeymapDynamicItems(categ_RecentFile);
 
   NCmd:= DoDialogCommands_Custom(true, true, true, true, true, true, false, '', FLastSelectedCommand);
   if NCmd>0 then
@@ -3392,7 +3392,7 @@ begin
   if NCmd<=0 then exit;
 
   case AppCommandCategory(NCmd) of
-    cmdCat_Plugin:
+    categ_Plugin:
       begin
         NIndex:= NCmd-cmdFirstPluginCommand;
         with TAppCommand(AppCommandList[NIndex]) do
@@ -3401,7 +3401,7 @@ begin
           else
             Result:= Format('p:%s.%s', [ItemModule, ItemProc]);
       end;
-    cmdCat_Lexer:
+    categ_Lexer:
       begin
         NIndex:= NCmd-cmdFirstLexerCommand;
         if NIndex<AppManager.LexerCount then
@@ -3415,7 +3415,7 @@ begin
             Result:= 'c:'+IntToStr(NCmd);
         end;
       end;
-    cmdCat_OpenedFile:
+    categ_OpenedFile:
       begin
         NIndex:= NCmd-cmdFirstFileCommand;
         if NIndex<AppFrameList1.Count then
@@ -3423,7 +3423,7 @@ begin
         else
           Result:= 'c:'+IntToStr(NCmd);
       end;
-    cmdCat_RecentFile:
+    categ_RecentFile:
       begin
         NIndex:= NCmd-cmdFirstRecentCommand;
         if NIndex<FListRecents.Count then
@@ -4024,7 +4024,7 @@ end;
 
 procedure TfmMain.UpdateMenuLexers;
 begin
-  UpdateKeymapDynamicItems(cmdCat_Lexer);
+  UpdateKeymapDynamicItems(categ_Lexer);
   DoOps_LoadKeymap;
   UpdateMenuLexersTo(PopupLex.Items);
 end;

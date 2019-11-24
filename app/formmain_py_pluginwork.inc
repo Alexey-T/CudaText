@@ -73,8 +73,8 @@ begin
     FreeAndNil(list);
   end;
 
-  UpdateKeymapDynamicItems(cmdCat_Plugin);
-  UpdateKeymapDynamicItems(cmdCat_PluginSub);
+  UpdateKeymapDynamicItems(categ_Plugin);
+  UpdateKeymapDynamicItems(categ_PluginSub);
 end;
 
 

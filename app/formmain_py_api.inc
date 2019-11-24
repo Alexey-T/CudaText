@@ -2611,8 +2611,8 @@ begin
     begin
       StrTitle:= string(PtrTitle);
 
-      fmMain.UpdateKeymapDynamicItems(cmdCat_OpenedFile);
-      fmMain.UpdateKeymapDynamicItems(cmdCat_RecentFile);
+      fmMain.UpdateKeymapDynamicItems(categ_OpenedFile);
+      fmMain.UpdateKeymapDynamicItems(categ_RecentFile);
 
       Str:= fmMain.DoDialogCommands_Py(
         (NOps and COMMANDS_USUAL)<>0,
@@ -3818,7 +3818,7 @@ begin
       begin
         Item:= AppKeymap[i];
         case AppCommandCategory(Item.Command) of
-          cmdCat_Lexer:
+          categ_Lexer:
             begin
               PyList_SetItem(Result, i,
                 Py_BuildValue('{sssissssss}',
@@ -3835,8 +3835,8 @@ begin
                   ));
             end;
 
-          cmdCat_Plugin,
-          cmdCat_PluginSub:
+          categ_Plugin,
+          categ_PluginSub:
             begin
               ItemPlugin:= TAppCommand(AppCommandList[Item.Command-cmdFirstPluginCommand]);
               PyList_SetItem(Result, i,
@@ -3868,7 +3868,7 @@ begin
                   ));
             end;
 
-          cmdCat_Normal:
+          categ_Normal:
             begin
               SKeyInit1:= '';
               SKeyInit2:= '';
@@ -3898,7 +3898,7 @@ begin
                   ));
             end;
 
-          cmdCat_OpenedFile:
+          categ_OpenedFile:
             begin
               PyList_SetItem(Result, i,
                 Py_BuildValue('{sssiss}',
@@ -3911,7 +3911,7 @@ begin
                   ));
             end;
 
-          cmdCat_RecentFile:
+          categ_RecentFile:
             begin
               PyList_SetItem(Result, i,
                 Py_BuildValue('{sssiss}',
@@ -4007,7 +4007,7 @@ begin
         APP_PROC_SET_SUBCOMMANDS:
           begin
             CommandPlugins_UpdateSubcommands(Str);
-            fmMain.UpdateKeymapDynamicItems(cmdCat_PluginSub);
+            fmMain.UpdateKeymapDynamicItems(categ_PluginSub);
             Result:= ReturnNone;
           end;
 

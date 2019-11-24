@@ -464,11 +464,11 @@ begin
   Category:= AppCommandCategory(NCmd);
 
   //filter by options
-  if (Category=cmdCat_Plugin) and not OptShowPlugins then exit(false);
-  if (Category=cmdCat_Lexer) and not OptShowLexers then exit(false);
-  if (Category=cmdCat_OpenedFile) and not OptShowFiles then exit(false);
-  if (Category=cmdCat_RecentFile) and not OptShowRecents then exit(false);
-  if (Category=cmdCat_Normal) and not OptShowUsual then exit(false);
+  if (Category=categ_Plugin) and not OptShowPlugins then exit(false);
+  if (Category=categ_Lexer) and not OptShowLexers then exit(false);
+  if (Category=categ_OpenedFile) and not OptShowFiles then exit(false);
+  if (Category=categ_RecentFile) and not OptShowRecents then exit(false);
+  if (Category=categ_Normal) and not OptShowUsual then exit(false);
 
   //filter by input field
   StrFind:= Trim(edit.Text);
@@ -479,10 +479,10 @@ begin
   bPrefixFile:= _GetPrefix(StrFind, 'f');
   bPrefixRecent:= _GetPrefix(StrFind, 'r');
 
-  if bPrefixLexer and (Category<>cmdCat_Lexer) then exit(false);
-  if bPrefixPlugin and (Category<>cmdCat_Plugin) then exit(false);
-  if bPrefixFile and (Category<>cmdCat_OpenedFile) then exit(false);
-  if bPrefixRecent and (Category<>cmdCat_RecentFile) then exit(false);
+  if bPrefixLexer and (Category<>categ_Lexer) then exit(false);
+  if bPrefixPlugin and (Category<>categ_Plugin) then exit(false);
+  if bPrefixFile and (Category<>categ_OpenedFile) then exit(false);
+  if bPrefixRecent and (Category<>categ_RecentFile) then exit(false);
 
   if StrFind='' then exit(true);
 

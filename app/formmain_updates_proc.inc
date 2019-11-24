@@ -852,7 +852,7 @@ begin
   end;
 
   case ACategory of
-    cmdCat_Lexer:
+    categ_Lexer:
       begin
         sl:= TStringList.Create;
         try
@@ -880,7 +880,7 @@ begin
         end;
       end;
 
-    cmdCat_Plugin:
+    categ_Plugin:
       for i:= 0 to AppCommandList.Count-1 do
       begin
         CmdItem:= TAppCommand(AppCommandList[i]);
@@ -893,7 +893,7 @@ begin
           [], []);
       end;
 
-    cmdCat_PluginSub:
+    categ_PluginSub:
       for i:= 0 to AppCommandList.Count-1 do
       begin
         CmdItem:= TAppCommand(AppCommandList[i]);
@@ -906,7 +906,7 @@ begin
           [], []);
       end;
 
-    cmdCat_OpenedFile:
+    categ_OpenedFile:
       for i:= 0 to AppFrameList1.Count-1 do
       begin
         Frame:= TEditorFrame(AppFrameList1[i]);
@@ -917,7 +917,7 @@ begin
             [], []);
       end;
 
-    cmdCat_RecentFile:
+    categ_RecentFile:
       for i:= 0 to FListRecents.Count-1 do
       begin
         AppKeymap.Add(

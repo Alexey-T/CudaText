@@ -1543,7 +1543,7 @@ end;
 
 function DoOps_CommandCode_To_HotkeyStringId(ACmd: integer): string;
 begin
-  if AppCommandCategory(ACmd)=cmdCat_Plugin then
+  if AppCommandCategory(ACmd)=categ_Plugin then
     with TAppCommand(AppCommandList[ACmd-cmdFirstPluginCommand]) do
       Result:= ItemModule+','+ItemProc+IfThen(ItemProcParam<>'', ','+ItemProcParam)
   else
@@ -2226,26 +2226,26 @@ begin
   case Cmd of
     cmdFirstPluginCommand..cmdLastPluginCommand:
       begin
-        Result:= cmdCat_Plugin;
+        Result:= categ_Plugin;
         N:= Cmd-cmdFirstPluginCommand;
         if N<AppCommandList.Count then
           if TAppCommand(AppCommandList[N]).ItemFromApi then
-            Result:= cmdCat_PluginSub;
+            Result:= categ_PluginSub;
       end;
     cmdFirstLexerCommand..cmdLastLexerCommand:
-      Result:= cmdCat_Lexer;
+      Result:= categ_Lexer;
     cmdFirstFileCommand..cmdLastFileCommand:
-      Result:= cmdCat_OpenedFile;
+      Result:= categ_OpenedFile;
     cmdFirstRecentCommand..cmdLastRecentCommand:
-      Result:= cmdCat_RecentFile;
+      Result:= categ_RecentFile;
     else
-      Result:= cmdCat_Normal;
+      Result:= categ_Normal;
   end;
 end;
 
 function AppCommandHasConfigurableHotkey(Cmd: integer): boolean;
 begin
-  Result:= AppCommandCategory(Cmd) in [cmdCat_Normal, cmdCat_Plugin];
+  Result:= AppCommandCategory(Cmd) in [categ_Normal, categ_Plugin];
 end;
 
 
