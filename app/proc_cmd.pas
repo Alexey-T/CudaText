@@ -22,8 +22,8 @@ function IsCommandNeedTimer(Cmd: integer): boolean;
 type
   TAppCommandCategory = (
     cmdCat_Normal,
-    cmdCat_Plugin,
-    cmdCat_PluginSub,
+    cmdCat_Plugin, //command from plugin's install.inf
+    cmdCat_PluginSub, //command added via plugin API app_proc
     cmdCat_Lexer,
     cmdCat_OpenedFile,
     cmdCat_RecentFile
