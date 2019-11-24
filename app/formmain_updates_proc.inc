@@ -858,20 +858,23 @@ begin
         try
           //usual lexers
           for i:= 0 to AppManager.LexerCount-1 do
-            sl.AddObject('lexer: '+AppManager.Lexers[i].LexerName,
+            sl.AddObject(AppManager.Lexers[i].LexerName,
                          TObject(cmdFirstLexerCommand+i));
           //lite lexers
           for i:= 0 to AppManagerLite.LexerCount-1 do
-            sl.AddObject('lexer: '+AppManagerLite.Lexers[i].LexerName+msgLiteLexerSuffix,
+            sl.AddObject(AppManagerLite.Lexers[i].LexerName+msgLiteLexerSuffix,
                          TObject(cmdFirstLexerCommand+i+AppManager.LexerCount));
 
           sl.Sort;
 
           //insert "none" at list begin
-          sl.InsertObject(0, 'lexer: '+msgNoLexer, TObject(cmdLastLexerCommand));
+          sl.InsertObject(0, msgNoLexer, TObject(cmdLastLexerCommand));
 
           for i:= 0 to sl.count-1 do
-            AppKeymap.Add(PtrInt(sl.Objects[i]), sl[i], [], []);
+            AppKeymap.Add(
+              PtrInt(sl.Objects[i]),
+              'lexer: '+sl[i],
+              [], []);
         finally
           FreeAndNil(sl);
         end;
