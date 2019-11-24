@@ -301,22 +301,7 @@ var
 begin
   DoMsgStatus('');
 
-  if (Cmd>=cmdFirstLexerCommand) and
-     (Cmd<=cmdLastLexerCommand) then
-  begin
-    DoMsgStatus(msgCannotSetHotkey);
-    exit
-  end;
-
-  if (Cmd>=cmdFirstFileCommand) and
-     (Cmd<=cmdLastFileCommand) then
-  begin
-    DoMsgStatus(msgCannotSetHotkey);
-    exit
-  end;
-
-  if (Cmd>=cmdFirstRecentCommand) and
-     (Cmd<=cmdLastRecentCommand) then
+  if AppCommandCategory(Cmd) in [cmdCat_Lexer, cmdCat_OpenedFile, cmdCat_RecentFile] then
   begin
     DoMsgStatus(msgCannotSetHotkey);
     exit

@@ -31,12 +31,9 @@ var
   n: integer;
 begin
   Result:= false;
-  if (ACmd>=cmdFirstLexerCommand) and
-     (ACmd<=cmdLastLexerCommand) then exit;
-  if (ACmd>=cmdFirstFileCommand) and
-     (ACmd<=cmdLastFileCommand) then exit;
-  if (ACmd>=cmdFirstRecentCommand) and
-     (ACmd<=cmdLastRecentCommand) then exit;
+
+  if AppCommandCategory(ACmd) in [cmdCat_Lexer, cmdCat_OpenedFile, cmdCat_RecentFile] then
+    exit;
 
   n:= AppKeymap.IndexOf(ACmd);
   if n<0 then exit;
