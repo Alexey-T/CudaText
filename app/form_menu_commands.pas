@@ -455,24 +455,20 @@ function TfmCommands.IsFiltered(Item: TATKeymapItem): boolean;
 var
   NCmd: integer;
   StrFind: string;
-  bItemUsual, bItemLexer, bItemPlugin, bItemFile, bItemRecent: boolean;
+  Category: TAppCommandCategory;
   bPrefixLexer, bPrefixPlugin, bPrefixFile, bPrefixRecent: boolean;
 begin
   Result:= false;
 
   NCmd:= Item.Command;
-  bItemLexer:= (NCmd>=cmdFirstLexerCommand) and (NCmd<=cmdLastLexerCommand);
-  bItemPlugin:= (NCmd>=cmdFirstPluginCommand) and (NCmd<=cmdLastPluginCommand);
-  bItemFile:= (NCmd>=cmdFirstFileCommand) and (NCmd<=cmdLastFileCommand);
-  bItemRecent:= (NCmd>=cmdFirstRecentCommand) and (NCmd<=cmdLastRecentCommand);
-  bItemUsual:= (NCmd>0) and not bItemLexer and not bItemPlugin and not bItemFile and not bItemRecent;
+  Category:= AppCommandCategory(NCmd);
 
   //filter by options
-  if bItemPlugin and not OptShowPlugins then exit(false);
-  if bItemLexer and not OptShowLexers then exit(false);
-  if bItemFile and not OptShowFiles then exit(false);
-  if bItemRecent and not OptShowRecents then exit(false);
-  if bItemUsual and not OptShowUsual then exit(false);
+  if (Category=cmdCat_Plugin) and not OptShowPlugins then exit(false);
+  if (Category=cmdCat_Lexer) and not OptShowLexers then exit(false);
+  if (Category=cmdCat_OpenedFile) and not OptShowFiles then exit(false);
+  if (Category=cmdCat_RecentFile) and not OptShowRecents then exit(false);
+  if (Category=cmdCat_Normal) and not OptShowUsual then exit(false);
 
   //filter by input field
   StrFind:= Trim(edit.Text);
@@ -483,10 +479,10 @@ begin
   bPrefixFile:= _GetPrefix(StrFind, 'f');
   bPrefixRecent:= _GetPrefix(StrFind, 'r');
 
-  if bPrefixLexer and not bItemLexer then exit(false);
-  if bPrefixPlugin and not bItemPlugin then exit(false);
-  if bPrefixFile and not bItemFile then exit(false);
-  if bPrefixRecent and not bItemRecent then exit(false);
+  if bPrefixLexer and (Category<>cmdCat_Lexer) then exit(false);
+  if bPrefixPlugin and (Category<>cmdCat_Plugin) then exit(false);
+  if bPrefixFile and (Category<>cmdCat_OpenedFile) then exit(false);
+  if bPrefixRecent and (Category<>cmdCat_RecentFile) then exit(false);
 
   if StrFind='' then exit(true);
 
