@@ -510,13 +510,15 @@ procedure TfmMain.DoFindMarkAll(AMode: TATFindMarkingMode);
 var
   cnt: integer;
 begin
-  //if Assigned(fmFind) then
-  //  FFinder.StrFind:= fmFind.edFind.Text;
-
   if FFinder.StrFind='' then
   begin
-    DoDialogFind(false);
-    Exit
+    if Assigned(fmFind) and fmFind.Visible and (fmFind.edFind.Text<>'') then
+      FFinder.StrFind:= fmFind.edFind.Text
+    else
+    begin
+      DoDialogFind(false);
+      Exit
+    end;
   end;
 
   FFinder.Editor:= CurrentEditor;
