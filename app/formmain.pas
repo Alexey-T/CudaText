@@ -3666,8 +3666,6 @@ begin
         Form.listItems.Add(ListItems[i]);
 
       UpdateInputForm(Form);
-      if UiOps.ListboxCentered then
-        Form.Position:= poScreenCenter;
 
       Form.ListCaption:= MenuCaption;
       Form.Multiline:= false;
