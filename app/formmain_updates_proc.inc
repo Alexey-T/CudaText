@@ -828,6 +828,13 @@ begin
   UpdateStatus;
 end;
 
+function _NicePluginCaption(const S: string): string;
+begin
+  Result:= S;
+  Result:= StringReplace(Result, '\', ': ', [rfReplaceAll]);
+  Result:= StringReplace(Result, '&', '', [rfReplaceAll]);
+end;
+
 procedure TfmMain.UpdateKeymapDynamicItems(AUpdatePlugins, AUpdateLexers, AUpdateFiles: boolean);
 var
   CmdItem: TAppCommand;
@@ -883,22 +890,17 @@ begin
  end;
 
   //dynamic plugin items
- if AUpdatePlugins then
-  for i:= 0 to AppCommandList.Count-1 do
-  begin
-    CmdItem:= TAppCommand(AppCommandList[i]);
-    if CmdItem.ItemModule='' then Break;
-    if SEndsWith(CmdItem.ItemCaption, '-') then Continue;
-
-    Str:= CmdItem.ItemCaption;
-    Str:= StringReplace(Str, '\', ': ', [rfReplaceAll]);
-    Str:= StringReplace(Str, '&', '', [rfReplaceAll]);
-
-    AppKeymap.Add(
-      cmdFirstPluginCommand+i,
-      'plugin: '+Str,
-      [], []);
-  end;
+  if AUpdatePlugins then
+    for i:= 0 to AppCommandList.Count-1 do
+    begin
+      CmdItem:= TAppCommand(AppCommandList[i]);
+      if CmdItem.ItemModule='' then Break;
+      if SEndsWith(CmdItem.ItemCaption, '-') then Continue;
+      AppKeymap.Add(
+        cmdFirstPluginCommand+i,
+        'plugin: '+_NicePluginCaption(CmdItem.ItemCaption),
+        [], []);
+    end;
 
  if AUpdateFiles then
  begin
