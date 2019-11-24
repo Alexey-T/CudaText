@@ -837,29 +837,21 @@ end;
 
 procedure TfmMain.UpdateKeymapDynamicItems(AUpdatePlugins, AUpdateLexers, AUpdateFiles: boolean);
 var
+  Category: TAppCommandCategory;
   CmdItem: TAppCommand;
   Frame: TEditorFrame;
   sl: TStringList;
   str: string;
   Cmd, i: integer;
-  bPlugin, bLexer, bFile: boolean;
 begin
   for i:= AppKeymap.Count-1 downto 0 do
   begin
     Cmd:= AppKeymap[i].Command;
     if Cmd<cmdFirstAppCommand then Break;
-
-    bPlugin:=
-      (Cmd>=cmdFirstPluginCommand) and (Cmd<=cmdLastPluginCommand);
-    bLexer:=
-      (Cmd>=cmdFirstLexerCommand) and (Cmd<=cmdLastLexerCommand);
-    bFile:=
-      ((Cmd>=cmdFirstFileCommand) and (Cmd<=cmdLastFileCommand)) or
-      ((Cmd>=cmdFirstRecentCommand) and (Cmd<=cmdLastRecentCommand));
-
-    if (AUpdatePlugins and bPlugin) or
-       (AUpdateLexers and bLexer) or
-       (AUpdateFiles and bFile) then
+    Category:= AppCommandCategory(Cmd);
+    if (AUpdatePlugins and (Category=cmdCat_Plugin)) or
+       (AUpdateLexers and (Category=cmdCat_Lexer)) or
+       (AUpdateFiles and (Category in [cmdCat_OpenedFile, cmdCat_RecentFile])) then
       AppKeymap.Delete(i);
   end;
 
