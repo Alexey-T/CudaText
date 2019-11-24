@@ -3568,13 +3568,21 @@ procedure TfmMain.DoDialogGotoBookmark;
 var
   ListItems: TStringList;
   //
+  function NiceBookmarkKind(NKind: integer): string;
+  begin
+    //paint prefix [N] for numbered bookmarks (kind=2..10)
+    if (NKind>=2) and (NKind<=10) then
+      Result:= '['+IntToStr(NKind-1)+'] '
+    else
+      Result:= '';
+  end;
+  //
   procedure AddItemsOfFrame(Frame: TEditorFrame);
   var
     Ed: TATSynEdit;
     Prop: TAppBookmarkProp;
     Mark: TATBookmarkItem;
-    SKind: string;
-    NLine, NKind, i: integer;
+    NLine, i: integer;
   const
     cMaxLen = 150;
   begin
@@ -3587,13 +3595,6 @@ var
       NLine:= Mark.Data.LineNum;
       if not Ed.Strings.IsIndexValid(NLine) then Continue;
 
-      //paint prefix [N] for numbered bookmarks (kind=2..10)
-      NKind:= Mark.Data.Kind;
-      if (NKind>=2) and (NKind<=10) then
-        SKind:= '['+IntToStr(NKind-1)+'] '
-      else
-        SKind:= '';
-
       Prop:= TAppBookmarkProp.Create;
       Prop.Frame:= Frame;
       Prop.Ed:= Ed;
@@ -3602,7 +3603,8 @@ var
         Copy(Ed.Strings.LinesUTF8[NLine], 1, cMaxLen)+
         #9+
         Frame.TabCaption+': '+
-        SKind+IntToStr(NLine+1);;
+        NiceBookmarkKind(Mark.Data.Kind)+
+        IntToStr(NLine+1);
 
       ListItems.AddObject(Prop.MenuCaption, Prop);
     end;
