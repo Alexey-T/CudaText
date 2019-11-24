@@ -31,9 +31,7 @@ var
   n: integer;
 begin
   Result:= false;
-
-  if AppCommandCategory(ACmd) in [cmdCat_Lexer, cmdCat_OpenedFile, cmdCat_RecentFile] then
-    exit;
+  if not AppCommandHasConfigurableHotkey(ACmd) then exit;
 
   n:= AppKeymap.IndexOf(ACmd);
   if n<0 then exit;

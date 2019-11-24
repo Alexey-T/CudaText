@@ -23,12 +23,11 @@ type
   TAppCommandCategory = (
     cmdCat_Normal,
     cmdCat_Plugin,
+    cmdCat_PluginSub,
     cmdCat_Lexer,
     cmdCat_OpenedFile,
     cmdCat_RecentFile
     );
-
-function AppCommandCategory(Cmd: integer): TAppCommandCategory;
 
 const
   cmdFirstAppCommand = 2500;
@@ -738,22 +737,6 @@ begin
 
     else
       Result:= false;
-  end;
-end;
-
-function AppCommandCategory(Cmd: integer): TAppCommandCategory;
-begin
-  case Cmd of
-    cmdFirstPluginCommand..cmdLastPluginCommand:
-      Result:= cmdCat_Plugin;
-    cmdFirstLexerCommand..cmdLastLexerCommand:
-      Result:= cmdCat_Lexer;
-    cmdFirstFileCommand..cmdLastFileCommand:
-      Result:= cmdCat_OpenedFile;
-    cmdFirstRecentCommand..cmdLastRecentCommand:
-      Result:= cmdCat_RecentFile;
-    else
-      Result:= cmdCat_Normal;
   end;
 end;
 

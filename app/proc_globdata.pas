@@ -784,6 +784,9 @@ type
     TagString: string;
   end;
 
+function AppCommandCategory(Cmd: integer): TAppCommandCategory;
+function AppCommandHasConfigurableHotkey(Cmd: integer): boolean;
+
 function CommandPlugins_GetIndexFromModuleAndMethod(const AText: string): integer;
 procedure CommandPlugins_UpdateSubcommands(const AText: string);
 
@@ -2213,6 +2216,38 @@ begin
     AppEventLister.SetEvent;
   end;
 end;
+
+
+function AppCommandCategory(Cmd: integer): TAppCommandCategory;
+var
+  CmdItem: TAppCommand;
+  N: integer;
+begin
+  case Cmd of
+    cmdFirstPluginCommand..cmdLastPluginCommand:
+      begin
+        Result:= cmdCat_Plugin;
+        N:= Cmd-cmdFirstPluginCommand;
+        if N<AppCommandList.Count then
+          if TAppCommand(AppCommandList[N]).ItemFromApi then
+            Result:= cmdCat_PluginSub;
+      end;
+    cmdFirstLexerCommand..cmdLastLexerCommand:
+      Result:= cmdCat_Lexer;
+    cmdFirstFileCommand..cmdLastFileCommand:
+      Result:= cmdCat_OpenedFile;
+    cmdFirstRecentCommand..cmdLastRecentCommand:
+      Result:= cmdCat_RecentFile;
+    else
+      Result:= cmdCat_Normal;
+  end;
+end;
+
+function AppCommandHasConfigurableHotkey(Cmd: integer): boolean;
+begin
+  Result:= AppCommandCategory(Cmd) in [cmdCat_Normal, cmdCat_Plugin];
+end;
+
 
 initialization
   InitDirs;

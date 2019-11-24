@@ -301,7 +301,7 @@ var
 begin
   DoMsgStatus('');
 
-  if AppCommandCategory(Cmd) in [cmdCat_Lexer, cmdCat_OpenedFile, cmdCat_RecentFile] then
+  if not AppCommandHasConfigurableHotkey(Cmd) then
   begin
     DoMsgStatus(msgCannotSetHotkey);
     exit
