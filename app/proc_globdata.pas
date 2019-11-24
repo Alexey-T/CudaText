@@ -1540,12 +1540,11 @@ end;
 
 function DoOps_CommandCode_To_HotkeyStringId(ACmd: integer): string;
 begin
-  Result:= IntToStr(ACmd);
-
-  if (ACmd>=cmdFirstPluginCommand) and
-     (ACmd<=cmdLastPluginCommand) then
+  if AppCommandCategory(ACmd)=cmdCat_Plugin then
     with TAppCommand(AppCommandList[ACmd-cmdFirstPluginCommand]) do
-      Result:= ItemModule+','+ItemProc+IfThen(ItemProcParam<>'', ','+ItemProcParam);
+      Result:= ItemModule+','+ItemProc+IfThen(ItemProcParam<>'', ','+ItemProcParam)
+  else
+    Result:= IntToStr(ACmd);
 end;
 
 procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string;
