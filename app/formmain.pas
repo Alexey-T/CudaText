@@ -3638,11 +3638,6 @@ begin
     ListItems.OwnsObjects:= true;
 
     AddItemsOfFrame(CurFrame);
-    if ListItems.Count=0 then
-    begin
-      MsgStatus(msgCannotFindBookmarks);
-      Exit;
-    end;
 
     for i:= ListItems.Count-1 downto 0 do
       if TAppBookmarkProp(ListItems.Objects[i]).LineIndex <= CurLineIndex then
@@ -3657,6 +3652,12 @@ begin
       Frame:= Frames[i];
       if Frame<>CurFrame then
         AddItemsOfFrame(Frame);
+    end;
+
+    if ListItems.Count=0 then
+    begin
+      MsgStatus(msgCannotFindBookmarks);
+      Exit;
     end;
 
     Form:= TfmMenuApi.Create(nil);
