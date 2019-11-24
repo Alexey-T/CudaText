@@ -3388,35 +3388,49 @@ begin
     0);
   if NCmd<=0 then exit;
 
-  if (NCmd>=cmdFirstPluginCommand) and (NCmd<=cmdLastPluginCommand) then
-  begin
-    with TAppCommand(AppCommandList[NCmd-cmdFirstPluginCommand]) do
-      if ItemProcParam<>'' then
-        Result:= Format('p:module=%s;cmd=%s;info=%s;', [ItemModule, ItemProc, ItemProcParam])
-      else
-        Result:= Format('p:%s.%s', [ItemModule, ItemProc]);
-  end
-  else
-  if (NCmd>=cmdFirstLexerCommand) and (NCmd<cmdFirstLexerCommand+AppManager.LexerCount) then
-  begin
-    Result:= 'l:'+AppManager.Lexers[NCmd-cmdFirstLexerCommand].LexerName
-  end
-  else
-  if (NCmd>=cmdFirstFileCommand) and (NCmd<cmdLastFileCommand) then
-  begin
-    NIndex:= NCmd-cmdFirstFileCommand;
-    if NIndex<AppFrameList1.Count then
-      Result:= 'f:'+TEditorFrame(AppFrameList1[NIndex]).FileName;
-  end
-  else
-  if (NCmd>=cmdFirstRecentCommand) and (NCmd<cmdLastRecentCommand) then
-  begin
-    NIndex:= NCmd-cmdFirstRecentCommand;
-    if NIndex<FListRecents.Count then
-      Result:= 'r:'+FListRecents[NIndex];
-  end
-  else
-    Result:= 'c:'+IntToStr(NCmd);
+  case AppCommandCategory(NCmd) of
+    cmdCat_Plugin:
+      begin
+        NIndex:= NCmd-cmdFirstPluginCommand;
+        with TAppCommand(AppCommandList[NIndex]) do
+          if ItemProcParam<>'' then
+            Result:= Format('p:module=%s;cmd=%s;info=%s;', [ItemModule, ItemProc, ItemProcParam])
+          else
+            Result:= Format('p:%s.%s', [ItemModule, ItemProc]);
+      end;
+    cmdCat_Lexer:
+      begin
+        NIndex:= NCmd-cmdFirstLexerCommand;
+        if NIndex<AppManager.LexerCount then
+          Result:= 'l:'+AppManager.Lexers[NIndex].LexerName
+        else
+        begin
+          Dec(NIndex, AppManager.LexerCount);
+          if NIndex<AppManagerLite.LexerCount then
+            Result:= 'l:'+AppManagerLite.Lexers[NIndex].LexerName+msgLiteLexerSuffix
+          else
+            Result:= 'c:'+IntToStr(NCmd);
+        end;
+      end;
+    cmdCat_OpenedFile:
+      begin
+        NIndex:= NCmd-cmdFirstFileCommand;
+        if NIndex<AppFrameList1.Count then
+          Result:= 'f:'+TEditorFrame(AppFrameList1[NIndex]).FileName
+        else
+          Result:= 'c:'+IntToStr(NCmd);
+      end;
+    cmdCat_RecentFile:
+      begin
+        NIndex:= NCmd-cmdFirstRecentCommand;
+        if NIndex<FListRecents.Count then
+          Result:= 'r:'+FListRecents[NIndex]
+        else
+          Result:= 'c:'+IntToStr(NCmd);
+      end;
+    else
+      Result:= 'c:'+IntToStr(NCmd);
+  end;
 end;
 
 
