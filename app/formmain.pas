@@ -3580,6 +3580,7 @@ var
   procedure AddItemsOfFrame(Frame: TEditorFrame);
   var
     Ed: TATSynEdit;
+    SCaption: string;
     Prop: TAppBookmarkProp;
     Mark: TATBookmarkItem;
     NLine, i: integer;
@@ -3595,12 +3596,15 @@ var
       NLine:= Mark.Data.LineNum;
       if not Ed.Strings.IsIndexValid(NLine) then Continue;
 
+      SCaption:= Copy(Ed.Strings.LinesUTF8[NLine], 1, cMaxLen);
+      SCaption:= StringReplace(SCaption, #9, '  ', [rfReplaceAll]);
+
       Prop:= TAppBookmarkProp.Create;
       Prop.Frame:= Frame;
       Prop.Ed:= Ed;
       Prop.LineIndex:= NLine;
       Prop.MenuCaption:=
-        Copy(Ed.Strings.LinesUTF8[NLine], 1, cMaxLen)+
+        SCaption+
         #9+
         Frame.TabCaption+': '+
         NiceBookmarkKind(Mark.Data.Kind)+
