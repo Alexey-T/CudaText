@@ -6,6 +6,8 @@
 1.90.1 (2019/11)
 
 + add: dialog "Go to bookmark" reworked: it shows bookmarks in all opened documents; it shows tab titles; it has filter inputbox
+- fix: must not clear code-tree on closing passive (lefter) tab
+- fix: must not clear code-tree on clicking active tab
 
 1.90.0 (2019/11)
 
