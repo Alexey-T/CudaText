@@ -298,6 +298,7 @@ type
     function IsEmpty: boolean;
     function IsPreview: boolean;
     procedure ApplyTheme;
+    function IsEditorFocused: boolean;
     procedure SetFocus; reintroduce;
     function IsText: boolean;
     function IsPicture: boolean;
@@ -1667,6 +1668,11 @@ begin
     ViewerApplyTheme(FBin);
     FBin.Redraw();
   end;
+end;
+
+function TEditorFrame.IsEditorFocused: boolean;
+begin
+  Result:= Ed1.Focused or Ed2.Focused;
 end;
 
 function TEditorFrame.IsText: boolean;

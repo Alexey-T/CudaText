@@ -98,12 +98,15 @@ begin
   D:= Tabs.GetTabData(Tabs.TabIndex);
   if D=nil then exit;
 
-  //prevent ListIndexError on file_open(..)
-  ClearTreeviewWithData(CodeTree.Tree);
-
   F:= D.TabObject as TEditorFrame;
-  if F.CanFocus and F.CanSetFocus then
-    F.SetFocus;
+  if not F.IsEditorFocused then
+  begin
+    //prevent ListIndexError on file_open(..)
+    ClearTreeviewWithData(CodeTree.Tree);
+
+    if F.CanFocus and F.CanSetFocus then
+      F.SetFocus;
+  end;
 
   CodeTreeFilterInput.Text:= UTF8Decode(F.CodetreeFilter);
   CodeTreeFilter_OnChange(nil);
