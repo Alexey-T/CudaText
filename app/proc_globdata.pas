@@ -474,6 +474,7 @@ type
 
     //keys
     OpKeyBackspaceUnindent: boolean;
+    OpKeyBackspaceWrap: boolean;
     OpKeyTabIndents: boolean;
     OpKeyHomeToNonSpace: boolean;
     OpKeyHomeEndNavigateWrapped: boolean;
@@ -1174,6 +1175,7 @@ begin
     OpMouseClickNumberSelectsEol:= true;
 
     OpKeyBackspaceUnindent:= true;
+    OpKeyBackspaceWrap:= true;
     OpKeyTabIndents:= true;
     OpKeyHomeToNonSpace:= true;
     OpKeyHomeEndNavigateWrapped:= true;

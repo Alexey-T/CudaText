@@ -872,6 +872,7 @@ begin
   cSpeedScrollAutoVert:= c.GetValue('mouse_scroll_speed_vert', cSpeedScrollAutoVert);
 
   Op.OpKeyBackspaceUnindent:= c.GetValue('key_bksp_unindent', Op.OpKeyBackspaceUnindent);
+  Op.OpKeyBackspaceWrap:= c.GetValue('key_bksp_wrap', Op.OpKeyBackspaceWrap);
   Op.OpKeyTabIndents:= c.GetValue('key_tab_indents_sel', Op.OpKeyTabIndents);
   Op.OpKeyHomeToNonSpace:= c.GetValue('key_home_to_nonspace', Op.OpKeyHomeToNonSpace);
   Op.OpKeyHomeEndNavigateWrapped:= c.GetValue('key_home_end_nav_wrapped', Op.OpKeyHomeEndNavigateWrapped);

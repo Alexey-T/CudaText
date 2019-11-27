@@ -309,6 +309,7 @@ begin
   Ed.OptMouseClickNumberSelectsLineWithEOL:= Op.OpMouseClickNumberSelectsEol;
 
   Ed.OptKeyBackspaceUnindent:= Op.OpKeyBackspaceUnindent;
+  Ed.OptKeyBackspaceGoesToPrevLine:= Op.OpKeyBackspaceWrap;
   Ed.OptKeyTabIndents:= Op.OpKeyTabIndents;
   Ed.OptKeyHomeToNonSpace:= Op.OpKeyHomeToNonSpace;
   Ed.OptKeyHomeEndNavigateWrapped:= Op.OpKeyHomeEndNavigateWrapped;
