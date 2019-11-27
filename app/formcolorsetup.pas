@@ -46,6 +46,7 @@ type
     procedure HelpButtonClick(Sender: TObject);
     procedure ListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure ListStylesDrawItem(Control: TWinControl; Index: Integer; ARect: TRect; State: TOwnerDrawState);
+    procedure OKButtonClick(Sender: TObject);
   private
     { private declarations }
     procedure UpdateList;
@@ -257,6 +258,13 @@ begin
   C.Font.Color:= clBlack;
   C.Font.Style:= [];
   C.TextOut(ARect.Left+cIndent, ARect.Top, S);
+end;
+
+procedure TfmColorSetup.OKButtonClick(Sender: TObject);
+begin
+  if Assigned(OnApply) then
+    OnApply(Data);
+  ModalResult:= mrOk;
 end;
 
 end.

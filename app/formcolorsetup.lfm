@@ -19,6 +19,7 @@ object fmColorSetup: TfmColorSetup
     Width = 546
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
+    OKButton.OnClick = OKButtonClick
     HelpButton.Name = 'HelpButton'
     HelpButton.Caption = '&Apply'
     HelpButton.OnClick = HelpButtonClick

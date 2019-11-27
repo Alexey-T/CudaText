@@ -358,7 +358,6 @@ begin
     begin
       AData:= Form.Data;
       DoApplyLexerStyleMaps(false);
-      UpdateCurrentFrame;
     end;
   finally
     FreeAndNil(Form);
