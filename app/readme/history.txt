@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.90.2 (2019/11)
+
++ add: option "key_bksp_wrap" (allows BackSpace to go to previous line)
+
 1.90.1 (2019/11)
 
 + add: dialog "Go to bookmark" reworked: it shows bookmarks in all opened documents; it shows tab titles; it has filter inputbox
