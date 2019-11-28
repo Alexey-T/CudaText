@@ -840,7 +840,6 @@ var
   CmdItem: TAppCommand;
   Frame: TEditorFrame;
   sl: TStringList;
-  str: string;
   Cmd, i: integer;
 begin
   for i:= AppKeymap.Count-1 downto 0 do

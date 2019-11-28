@@ -3901,26 +3901,34 @@ begin
           categ_OpenedFile:
             begin
               PyList_SetItem(Result, i,
-                Py_BuildValue('{sssiss}',
+                Py_BuildValue('{sssissssss}',
                   'type',
                   'openedfile',
                   'cmd',
                   Item.Command,
                   'name',
-                  PChar(Item.Name)
+                  PChar(Item.Name),
+                  'key1',
+                  PChar(Item.Keys1.ToString),
+                  'key2',
+                  PChar(Item.Keys2.ToString)
                   ));
             end;
 
           categ_RecentFile:
             begin
               PyList_SetItem(Result, i,
-                Py_BuildValue('{sssiss}',
+                Py_BuildValue('{sssissssss}',
                   'type',
                   'recentfile',
                   'cmd',
                   Item.Command,
                   'name',
-                  PChar(Item.Name)
+                  PChar(Item.Name),
+                  'key1',
+                  PChar(Item.Keys1.ToString),
+                  'key2',
+                  PChar(Item.Keys2.ToString)
                   ));
             end;
         end;
@@ -3971,6 +3979,8 @@ begin
 
         APP_PROC_GET_COMMANDS:
           begin
+            fmMain.UpdateKeymapDynamicItems(categ_OpenedFile);
+            fmMain.UpdateKeymapDynamicItems(categ_RecentFile);
             Result:= Py_CommandList;
           end;
 
