@@ -3821,7 +3821,7 @@ begin
           categ_Lexer:
             begin
               PyList_SetItem(Result, i,
-                Py_BuildValue('{sssissssss}',
+                Py_BuildValue('{sssissssssssss}',
                   'type',
                   'lexer',
                   'cmd',
@@ -3829,9 +3829,13 @@ begin
                   'name',
                   PChar(Item.Name),
                   'key1',
-                  PChar(Item.Keys1.ToString),
+                  '',
                   'key2',
-                  PChar(Item.Keys2.ToString)
+                  '',
+                  'key1_init',
+                  '',
+                  'key2_init',
+                  ''
                   ));
             end;
 
@@ -3901,7 +3905,7 @@ begin
           categ_OpenedFile:
             begin
               PyList_SetItem(Result, i,
-                Py_BuildValue('{sssissssss}',
+                Py_BuildValue('{sssissssssssss}',
                   'type',
                   'openedfile',
                   'cmd',
@@ -3909,16 +3913,20 @@ begin
                   'name',
                   PChar(Item.Name),
                   'key1',
-                  PChar(Item.Keys1.ToString),
+                  '',
                   'key2',
-                  PChar(Item.Keys2.ToString)
+                  '',
+                  'key1_init',
+                  '',
+                  'key2_init',
+                  ''
                   ));
             end;
 
           categ_RecentFile:
             begin
               PyList_SetItem(Result, i,
-                Py_BuildValue('{sssissssss}',
+                Py_BuildValue('{sssissssssssss}',
                   'type',
                   'recentfile',
                   'cmd',
@@ -3926,9 +3934,13 @@ begin
                   'name',
                   PChar(Item.Name),
                   'key1',
-                  PChar(Item.Keys1.ToString),
+                  '',
                   'key2',
-                  PChar(Item.Keys2.ToString)
+                  '',
+                  'key1_init',
+                  '',
+                  'key2_init',
+                  ''
                   ));
             end;
         end;
