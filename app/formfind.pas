@@ -129,6 +129,8 @@ type
     procedure UpdateState;
     procedure UpdateFonts;
     procedure UpdateFocus(AFindMode: boolean);
+    procedure UpdateInputFind(const AText: UnicodeString);
+    procedure UpdateInputReplace(const AText: UnicodeString);
     property OnResult: TStrEvent read FOnResult write FOnResult;
     property OnChangeOptions: TNotifyEvent read FOnChangeOptions write FOnChangeOptions;
     property IsReplace: boolean read FReplace write SetReplace;
@@ -432,6 +434,17 @@ begin
   else
   if edRep.Visible and edRep.Enabled and edRep.CanFocus then
     edRep.SetFocus;
+end;
+
+procedure TfmFind.UpdateInputFind(const AText: UnicodeString);
+begin
+  IsMultiLine:= Pos(#10, AText)>0;
+  edFind.Text:= AText;
+end;
+
+procedure TfmFind.UpdateInputReplace(const AText: UnicodeString);
+begin
+  edRep.Text:= AText;
 end;
 
 procedure TfmFind.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

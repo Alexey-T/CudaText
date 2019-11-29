@@ -360,8 +360,8 @@ begin
   StrSel:= Ed.TextSelected;
 
   //ignore multi-line sel
-  if Pos(#10, StrSel)>0 then StrSel:= '';
-  if Pos(#13, StrSel)>0 then StrSel:= '';
+  //if Pos(#10, StrSel)>0 then StrSel:= '';
+
   if not Ed.IsSelRectEmpty then StrSel:= '';
 
   bMultiLineSel:= false;
@@ -383,10 +383,10 @@ begin
     //change Find field only if options SuggestSel/SuggestWord on,
     //else dont touch Find field
     if UiOps.FindSuggestSel and (StrSel<>'') then
-      edFind.Text:= StrSel
+      UpdateInputFind(StrSel)
     else
     if UiOps.FindSuggestWord and (StrWord<>'') then
-      edFind.Text:= StrWord;
+      UpdateInputFind(StrWord);
 
     MsgLogDebug('find dlg: select all in input');
     edFind.DoCommand(cCommand_SelectAll);
@@ -703,7 +703,7 @@ begin
 
   //sync Find dialog with this text
   if Assigned(fmFind) then
-    fmFind.edFind.Text:= Str;
+    fmFind.UpdateInputFind(Str);
 
   FFinder.StrFind:= Str;
   FFinder.StrReplace:= '';
@@ -900,7 +900,7 @@ begin
         begin
           if Assigned(fmFind) then
           begin
-            fmFind.edFind.Text:= UTF8Decode(SValue);
+            fmFind.UpdateInputFind(UTF8Decode(SValue));
             fmFind.UpdateState;
             fmFind.DoOnChange;
           end;
@@ -909,7 +909,7 @@ begin
         begin
           if Assigned(fmFind) then
           begin
-            fmFind.edRep.Text:= UTF8Decode(SValue);
+            fmFind.UpdateInputReplace(UTF8Decode(SValue));
             fmFind.UpdateState;
             fmFind.DoOnChange;
           end;
