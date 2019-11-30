@@ -776,6 +776,7 @@ object SyntAnal6: TLibSyntAnalyzer
             'outside'
             'over'
             'overflow'
+            'overflow-anchor'
             'overflow-wrap'
             'overflow-x'
             'overflow-y'
