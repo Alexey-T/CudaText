@@ -804,6 +804,9 @@
   //Key BackSpace: do Unindent command, if caret is inside indented area
   "key_bksp_unindent": true,
 
+  //Key BackSpace: if caret at line start, BkSp goes to end of previous line
+  "key_bksp_wrap": true,
+
   //Key Tab: do Indent command, if text is selected
   "key_tab_indents_sel": true,
 
