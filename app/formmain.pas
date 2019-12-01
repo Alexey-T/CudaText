@@ -4024,7 +4024,7 @@ end;
 
 procedure TfmMain.DoOps_LoadLexerLib;
 var
-  fn, fn_ops, DirLexers, LexName: string;
+  fn_ops, DirLexers, LexName: string;
   ListFiles, ListBackup: TStringlist;
   an: TecSyntAnalyzer;
   i, j: integer;
