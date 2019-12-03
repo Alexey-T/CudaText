@@ -112,7 +112,7 @@ var
   ListFound: TStringList;
   Frame, FrameNew, FramePrev: TEditorFrame;
   Ed: TATSynEdit;
-  ok, bChanged, bDoLock, bFindMode: boolean;
+  ok, bChanged, bDoLock, bFindMode, bChangeFrame: boolean;
   NCounter, IndexFrame: integer;
   NTime: integer;
   NTick: QWord;
@@ -258,19 +258,24 @@ begin
     NCounter:= 0;
     NTick:= GetTickCount64;
     FramePrev:= Frame;
+    bChangeFrame:= FFinder.OptConfirmReplace;
 
     for IndexFrame:= 0 to FrameCount-1 do
     begin
       FrameNew:= Frames[IndexFrame];
       if not FrameNew.IsText then Continue;
-      SetFrame(FrameNew);
+
+      if bChangeFrame then
+        SetFrame(FrameNew);
+
       NCounter+= FinderReplaceAll(FrameNew.Ed1, true);
       if not FrameNew.EditorsLinked then
         NCounter+= FinderReplaceAll(FrameNew.Ed2, true);
     end;
 
     NTime:= (GetTickCount64-NTick) div 1000;
-    SetFrame(FramePrev);
+    if bChangeFrame then
+      SetFrame(FramePrev);
     UpdateStatus;
     MsgStatus(
       Format(msgStatusReplaceCount, [NCounter])+
