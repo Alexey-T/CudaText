@@ -106,6 +106,13 @@ begin
   Ed.ColumnLeft:= NLeft;
 end;
 
+procedure TfmMain.FinderReplaceStatusbarReport(ACounter, ATime: integer);
+begin
+  MsgStatus(
+    Format(msgStatusReplaceCount, [ACounter])+
+    Format(' (%d s)', [ATime]) );
+end;
+
 
 procedure TfmMain.FindDialogDone(Sender: TObject; const Res: string);
 var
@@ -248,9 +255,7 @@ begin
     NCounter:= FinderReplaceAll(FFinder.Editor, false);
     NTime:= (GetTickCount64-NTick) div 1000;
     UpdateStatus;
-    MsgStatus(
-      Format(msgStatusReplaceCount, [NCounter])+
-      Format(' (%d s)', [NTime]) );
+    FinderReplaceStatusbarReport(NCounter, NTime);
   end;
 
   if Res=cOpFindRepGlobal then
@@ -277,9 +282,7 @@ begin
     if bChangeFrame then
       SetFrame(FramePrev);
     UpdateStatus;
-    MsgStatus(
-      Format(msgStatusReplaceCount, [NCounter])+
-      Format(' (%d s)', [NTime]) );
+    FinderReplaceStatusbarReport(NCounter, NTime);
   end;
 
   if Res=cOpFindCount then
