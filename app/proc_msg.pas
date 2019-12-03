@@ -262,6 +262,7 @@ const
   msgConfirmCloseDelFile: string = 'Close tab and delete its file?';
   msgConfirmDeleteLexer: string = 'Delete lexer "%s"?';
   msgConfirmRemoveStylesFromBackup: string = 'Remove checked styles from backup file?';
+  msgConfirmReplaceGlobal: string = 'This will perform mass replace in all opened documents. Continue?';
 
   msgAboutCredits =
       'Lazarus IDE'+sLineBreak+

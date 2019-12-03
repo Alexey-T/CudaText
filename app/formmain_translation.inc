@@ -604,6 +604,7 @@ begin
     DoLocString(msgConfirmDeleteLexer            , ini, 'sc', 'DeleteLexer');
     DoLocString(msgConfirmRemoveStylesFromBackup , ini, 'sc', 'RemoveStylesFromBackup');
     DoLocString(msgConfirmHotkeyBusy             , ini, 'sc', 'HotkeyBusy');
+    DoLocString(msgConfirmReplaceGlobal          , ini, 'sc', 'ReplaceGlobal');
 
   finally
     FreeAndNil(ini);

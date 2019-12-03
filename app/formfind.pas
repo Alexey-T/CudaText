@@ -225,7 +225,8 @@ end;
 procedure TfmFind.bRepGlobalClick(Sender: TObject);
 begin
   if IsReplace then
-    DoResult(cOpFindRepGlobal);
+    if MsgBox(msgConfirmReplaceGlobal, MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
+      DoResult(cOpFindRepGlobal);
 end;
 
 procedure TfmFind.bSelectAllClick(Sender: TObject);

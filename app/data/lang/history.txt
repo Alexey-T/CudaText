@@ -2,6 +2,7 @@ See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 2019.12.03
 + [d_f] r_gl
++ [sc] ReplaceGlobal
 
 2019.11.05
 + [ui] html_tag, html_atr, html_val
