@@ -987,7 +987,7 @@ type
     procedure DoToggleSidebar;
     procedure DoToggleToolbar;
     procedure DoToggleStatusbar;
-    function FinderReplaceAll(Ed: TATSynEdit; AUpdateStatusbar: boolean): integer;
+    function FinderReplaceAll(Ed: TATSynEdit): integer;
     procedure FindDialogDone(Sender: TObject; const Res: string);
     procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATFinderTokenKind);
     procedure FinderOnFound(Sender: TObject; APos1, APos2: TPoint);

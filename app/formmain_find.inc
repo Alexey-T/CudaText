@@ -64,7 +64,7 @@ begin
 end;
 
 
-function TfmMain.FinderReplaceAll(Ed: TATSynEdit; AUpdateStatusbar: boolean): integer;
+function TfmMain.FinderReplaceAll(Ed: TATSynEdit): integer;
 var
   NTop, NLeft: integer;
   NCaretX, NCaretY: integer;
@@ -97,7 +97,7 @@ begin
     Ed.EndUpdate; //editor can be locked during replace confirmation
   end;
 
-  FinderUpdateEditor(Result>0, AUpdateStatusbar);
+  FinderUpdateEditor(Result>0, false);
 
   Ed.DoCaretSingle(NCaretX, NCaretY);
   Ed.LineTop:= NTop;
@@ -243,8 +243,9 @@ begin
   if Res=cOpFindRepAll then
   begin
     NTick:= GetTickCount64;
-    NCounter:= FinderReplaceAll(FFinder.Editor, true);
+    NCounter:= FinderReplaceAll(FFinder.Editor);
     NTime:= (GetTickCount64-NTick) div 1000;
+    UpdateStatus;
     MsgStatus(
       Format(msgStatusReplaceCount, [NCounter])+
       Format(' (%d s)', [NTime]) );
@@ -260,9 +261,9 @@ begin
     begin
       FrameNew:= Frames[IndexFrame];
       SetFrame(FrameNew);
-      NCounter+= FinderReplaceAll(FrameNew.Ed1, false);
+      NCounter+= FinderReplaceAll(FrameNew.Ed1);
       if not FrameNew.EditorsLinked then
-        NCounter+= FinderReplaceAll(FrameNew.Ed2, false);
+        NCounter+= FinderReplaceAll(FrameNew.Ed2);
     end;
 
     NTime:= (GetTickCount64-NTick) div 1000;
