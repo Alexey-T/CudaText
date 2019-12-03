@@ -64,12 +64,10 @@ begin
 end;
 
 
-procedure TfmMain.FinderReplaceAll(Ed: TATSynEdit; out ACounter: integer;
-  out ATime: integer; AUpdateStatusbar: boolean);
+function TfmMain.FinderReplaceAll(Ed: TATSynEdit; AUpdateStatusbar: boolean): integer;
 var
   NTop, NLeft: integer;
   NCaretX, NCaretY: integer;
-  NTick: QWord;
 begin
   NTop:= Ed.LineTop;
   NLeft:= Ed.ColumnLeft;
@@ -85,21 +83,21 @@ begin
     NCaretY:= 0;
   end;
 
+  //not sure we must reset selection, maybe "replace all in selection" needed?
   Ed.DoCaretSingle(0, 0);
+
   Ed.Strings.BeginUndoGroup;
-  NTick:= GetTickCount64;
   try
     FFinder.Editor:= Ed;
-    ACounter:= FFinder.DoAction_ReplaceAll;
+    Result:= FFinder.DoAction_ReplaceAll;
   finally
     Ed.Strings.EndUndoGroup;
   end;
 
   Ed.Enabled:= true;
   Ed.EndUpdate; //to unlock editor locked during replace confirmation
-  FinderUpdateEditor(ACounter>0, AUpdateStatusbar);
+  FinderUpdateEditor(Result>0, AUpdateStatusbar);
 
-  ATime:= (GetTickCount64-NTick) div 1000;
   Ed.DoCaretSingle(NCaretX, NCaretY);
   Ed.LineTop:= NTop;
   Ed.ColumnLeft:= NLeft;
@@ -112,8 +110,9 @@ var
   Frame, FrameNew, FramePrev: TEditorFrame;
   Ed: TATSynEdit;
   ok, bChanged, bDoLock, bFindMode: boolean;
-  NCounter, NCounter1, IndexFrame: integer;
-  NTime, NTime1: integer;
+  NCounter, IndexFrame: integer;
+  NTime: integer;
+  NTick: QWord;
 begin
   InitFormFind;
   Frame:= CurrentFrame;
@@ -242,7 +241,9 @@ begin
 
   if Res=cOpFindRepAll then
   begin
-    FinderReplaceAll(FFinder.Editor, NCounter, NTime, true);
+    NTick:= GetTickCount64;
+    NCounter:= FinderReplaceAll(FFinder.Editor, true);
+    NTime:= (GetTickCount64-NTick) div 1000;
     MsgStatus(
       Format(msgStatusReplaceCount, [NCounter])+
       Format(' (%d s)', [NTime]) );
@@ -251,25 +252,19 @@ begin
   if Res=cOpFindRepGlobal then
   begin
     NCounter:= 0;
-    NTime:= 0;
+    NTick:= GetTickCount64;
     FramePrev:= Frame;
+
     for IndexFrame:= 0 to FrameCount-1 do
     begin
       FrameNew:= Frames[IndexFrame];
       SetFrame(FrameNew);
-
-      FinderReplaceAll(FrameNew.Ed1, NCounter1, NTime1, false);
-      NCounter+= NCounter1;
-      NTime+= NTime1;
-
+      NCounter+= FinderReplaceAll(FrameNew.Ed1, false);
       if not FrameNew.EditorsLinked then
-      begin
-        FinderReplaceAll(FrameNew.Ed2, NCounter1, NTime1, false);
-        NCounter+= NCounter1;
-        NTime+= NTime1;
-      end;
+        NCounter+= FinderReplaceAll(FrameNew.Ed2, false);
     end;
 
+    NTime:= (GetTickCount64-NTick) div 1000;
     SetFrame(FramePrev);
     UpdateStatus;
     MsgStatus(
