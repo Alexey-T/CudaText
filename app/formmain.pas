@@ -987,6 +987,7 @@ type
     procedure DoToggleSidebar;
     procedure DoToggleToolbar;
     procedure DoToggleStatusbar;
+    procedure FinderReplaceAll(Ed: TATSynEdit; out ACounter: integer; out ATime: integer; AUpdateStatusbar: boolean);
     procedure FindDialogDone(Sender: TObject; const Res: string);
     procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATFinderTokenKind);
     procedure FinderOnFound(Sender: TObject; APos1, APos2: TPoint);
@@ -994,7 +995,8 @@ type
     procedure FinderOnConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
       AForMany: boolean; var AConfirm, AContinue: boolean);
     procedure FinderOnProgress(Sender: TObject; const ACurPos, AMaxPos: Int64; var AContinue: boolean);
-    procedure FinderUpdateEditor(AUpdateText: boolean);
+    procedure FinderUpdateEditor(AUpdateText: boolean; AUpdateStatusbar: boolean=
+      true);
     procedure FrameOnSaveFile(Sender: TObject);
     procedure GetEditorIndexes(Ed: TATSynEdit; out AGroupIndex, ATabIndex: Integer);
     function GetModifiedCount: integer;

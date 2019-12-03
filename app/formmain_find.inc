@@ -63,15 +63,57 @@ begin
     fmFind.chkInSel.Checked:= false;
 end;
 
+
+procedure TfmMain.FinderReplaceAll(Ed: TATSynEdit; out ACounter: integer;
+  out ATime: integer; AUpdateStatusbar: boolean);
+var
+  NTop, NLeft: integer;
+  NCaretX, NCaretY: integer;
+  NTick: QWord;
+begin
+  NTop:= Ed.LineTop;
+  NLeft:= Ed.ColumnLeft;
+  if Ed.Carets.Count>0 then
+    with Ed.Carets[0] do
+    begin
+      NCaretX:= PosX;
+      NCaretY:= PosY;
+    end
+  else
+  begin
+    NCaretX:= 0;
+    NCaretY:= 0;
+  end;
+
+  Ed.DoCaretSingle(0, 0);
+  Ed.Strings.BeginUndoGroup;
+  NTick:= GetTickCount64;
+  try
+    FFinder.Editor:= Ed;
+    ACounter:= FFinder.DoAction_ReplaceAll;
+  finally
+    Ed.Strings.EndUndoGroup;
+  end;
+
+  Ed.Enabled:= true;
+  Ed.EndUpdate; //to unlock editor locked during replace confirmation
+  FinderUpdateEditor(ACounter>0, AUpdateStatusbar);
+
+  ATime:= (GetTickCount64-NTick) div 1000;
+  Ed.DoCaretSingle(NCaretX, NCaretY);
+  Ed.LineTop:= NTop;
+  Ed.ColumnLeft:= NLeft;
+end;
+
+
 procedure TfmMain.FindDialogDone(Sender: TObject; const Res: string);
 var
   ListFound: TStringList;
-  ok, bChanged, bDoLock, bFindMode: boolean;
-  cnt, NTop, NLeft,
-  NCaretX, NCaretY: integer;
-  NTick, NTime: QWord;
-  Frame, FrameNew: TEditorFrame;
+  Frame, FrameNew, FramePrev: TEditorFrame;
   Ed: TATSynEdit;
+  ok, bChanged, bDoLock, bFindMode: boolean;
+  NCounter, NCounter1, IndexFrame: integer;
+  NTime, NTime1: integer;
 begin
   InitFormFind;
   Frame:= CurrentFrame;
@@ -92,6 +134,7 @@ begin
     bFindMode:=
       (Res<>cOpFindRep) and
       (Res<>cOpFindRepAll) and
+      (Res<>cOpFindRepGlobal) and
       (Res<>cOpFindRepAndStop);
 
   if Res=cOpFindClose then
@@ -162,7 +205,8 @@ begin
   bDoLock:=
     //(Res=cOpFindRep) or //don't lock for single replace, issue #1216
     //(Res=cOpFindRepAndStop) or
-    (Res=cOpFindRepAll);
+    (Res=cOpFindRepAll) or
+    (Res=cOpFindRepGlobal);
   UpdateAppForSearch(true, bDoLock, bFindMode);
 
   if bDoLock then
@@ -198,41 +242,46 @@ begin
 
   if Res=cOpFindRepAll then
   begin
-    NTop:= FFinder.Editor.LineTop;
-    NLeft:= FFinder.Editor.ColumnLeft;
-    with FFinder.Editor do
-      if Carets.Count>0 then
-        with Carets[0] do
-        begin
-          NCaretX:= PosX;
-          NCaretY:= PosY;
-        end
-      else
-      begin
-        NCaretX:= 0;
-        NCaretY:= 0;
-      end;
-
-    NTick:= GetTickCount64;
-    FFinder.Editor.Strings.BeginUndoGroup;
-    cnt:= FFinder.DoAction_ReplaceAll;
-    FFinder.Editor.Strings.EndUndoGroup;
-    FinderUpdateEditor(true);
-    NTime:= (GetTickCount64-NTick) div 1000;
-
-    FFinder.Editor.DoCaretSingle(NCaretX, NCaretY);
-    FFinder.Editor.LineTop:= NTop;
-    FFinder.Editor.ColumnLeft:= NLeft;
+    FinderReplaceAll(FFinder.Editor, NCounter, NTime, true);
     MsgStatus(
-      Format(msgStatusReplaceCount, [cnt])+
+      Format(msgStatusReplaceCount, [NCounter])+
+      Format(' (%d s)', [NTime]) );
+  end;
+
+  if Res=cOpFindRepGlobal then
+  begin
+    NCounter:= 0;
+    NTime:= 0;
+    FramePrev:= Frame;
+    for IndexFrame:= 0 to FrameCount-1 do
+    begin
+      FrameNew:= Frames[IndexFrame];
+      SetFrame(FrameNew);
+
+      FinderReplaceAll(FrameNew.Ed1, NCounter1, NTime1, false);
+      NCounter+= NCounter1;
+      NTime+= NTime1;
+
+      if not FrameNew.EditorsLinked then
+      begin
+        FinderReplaceAll(FrameNew.Ed2, NCounter1, NTime1, false);
+        NCounter+= NCounter1;
+        NTime+= NTime1;
+      end;
+    end;
+
+    SetFrame(FramePrev);
+    UpdateStatus;
+    MsgStatus(
+      Format(msgStatusReplaceCount, [NCounter])+
       Format(' (%d s)', [NTime]) );
   end;
 
   if Res=cOpFindCount then
   begin
     DoFindMarkingInit(markingNone);
-    cnt:= FFinder.DoAction_CountAll(false);
-    MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt]));
+    NCounter:= FFinder.DoAction_CountAll(false);
+    MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]));
   end;
 
   if Res=cOpFindExtract then
@@ -262,11 +311,11 @@ begin
   if Res=cOpFindSelectAll then
   begin
     DoFindMarkingInit(markingSelections);
-    cnt:= FFinder.DoAction_CountAll(true);
+    NCounter:= FFinder.DoAction_CountAll(true);
     DoFindMarkingInit(markingNone);
     FinderUpdateEditor(false);
     MsgStatus(
-      Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt]) +
+      Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]) +
       ' ('+SFindOptionsToTextHint+')');
     DoFindOptions_ResetInSelection;
   end;
@@ -274,11 +323,11 @@ begin
   if Res=cOpFindMarkAll then
   begin
     DoFindMarkingInit(markingMarkers);
-    cnt:= FFinder.DoAction_CountAll(true);
+    NCounter:= FFinder.DoAction_CountAll(true);
     DoFindMarkingInit(markingNone);
     FinderUpdateEditor(false);
     MsgStatus(
-      Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt]) +
+      Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]) +
       ' ('+SFindOptionsToTextHint+')');
   end;
 
@@ -287,7 +336,8 @@ begin
   {$ifdef LCLgtk2}
   //Linux gtk2: UpdateAppForSearch don't put focus anywhere (Laz bug?) after "confirmation" form
   //make workaround
-  if Res=cOpFindRepAll then
+  if (Res=cOpFindRepAll) or
+     (Res=cOpFindRepGlobal) then
     CurrentFrame.SetFocus;
   {$endif}
 end;
@@ -643,21 +693,23 @@ begin
   AKind:= EditorGetTokenKind(Sender as TATSynEdit, AX, AY)
 end;
 
-procedure TfmMain.FinderUpdateEditor(AUpdateText: boolean);
+procedure TfmMain.FinderUpdateEditor(AUpdateText: boolean; AUpdateStatusbar: boolean=true);
 var
+  Ed: TATSynEdit;
   Pnt: TPoint;
 begin
+  Ed:= FFinder.Editor;
   if AUpdateText then
-    FFinder.Editor.DoEventChange;
+    Ed.DoEventChange;
 
-  with FFinder.Editor.Carets[0] do
+  with Ed.Carets[0] do
   begin
     Pnt.X:= PosX;
     Pnt.Y:= PosY;
   end;
 
-  FFinder.Editor.Update(AUpdateText);
-  FFinder.Editor.DoGotoPos(
+  Ed.Update(AUpdateText);
+  Ed.DoGotoPos(
     Pnt,
     Point(-1, -1),
     UiOps.FindIndentHorz,
@@ -665,7 +717,9 @@ begin
     false,
     true
     );
-  UpdateStatus;
+
+  if AUpdateStatusbar then
+    UpdateStatus;
 end;
 
 procedure TfmMain.DoFindCurrentWordOrSel(ANext: boolean; AWordOrSel: boolean);
