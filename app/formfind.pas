@@ -34,6 +34,7 @@ const
   cOpFindRep='rep';
   cOpFindRepAndStop='repstop';
   cOpFindRepAll='repall';
+  cOpFindRepGlobal='repglobal';
   cOpFindCount='findcnt';
   cOpFindExtract='findget';
   cOpFindSelectAll='findsel';
@@ -52,6 +53,7 @@ type
     bMarkAll: TATButton;
     bRep: TATButton;
     bRepAll: TATButton;
+    bRepGlobal: TATButton;
     bSelectAll: TATButton;
     chkCase: TATButton;
     chkConfirm: TATButton;
@@ -81,6 +83,7 @@ type
     procedure bRepAllClick(Sender: TObject);
     procedure bCountClick(Sender: TObject);
     procedure bCancelClick(Sender: TObject);
+    procedure bRepGlobalClick(Sender: TObject);
     procedure bSelectAllClick(Sender: TObject);
     procedure bTokensClick(Sender: TObject);
     procedure chkCaseClick(Sender: TObject);
@@ -217,6 +220,12 @@ end;
 procedure TfmFind.bCancelClick(Sender: TObject);
 begin
   DoResult(cOpFindClose);
+end;
+
+procedure TfmFind.bRepGlobalClick(Sender: TObject);
+begin
+  if IsReplace then
+    DoResult(cOpFindRepGlobal);
 end;
 
 procedure TfmFind.bSelectAllClick(Sender: TObject);
@@ -817,6 +826,7 @@ begin
   edRep.Enabled:= IsReplace;
   bRep.Enabled:= IsReplace;
   bRepAll.Enabled:= IsReplace;
+  bRepGlobal.Enabled:= IsReplace;
 
   if FBinaryMode then
   begin
@@ -882,6 +892,7 @@ begin
       with bMarkAll do Caption:= ini.ReadString(section, 'mk', Caption);
       with bRep do Caption:= ini.ReadString(section, 'r_c', Caption);
       with bRepAll do Caption:= ini.ReadString(section, 'r_a', Caption);
+      with bRepGlobal do Caption:= ini.ReadString(section, 'r_gl', Caption);
       with LabelFind do Caption:= ini.ReadString(section, 'f_tx', Caption);
       with LabelRep do Caption:= ini.ReadString(section, 'r_tx', Caption);
 
@@ -940,6 +951,7 @@ begin
   bMarkAll.AutoSize:= true;
   bRep.AutoSize:= true;
   bRepAll.AutoSize:= true;
+  bRepGlobal.AutoSize:= true;
 end;
 
 end.

@@ -206,8 +206,11 @@ object fmFind: TfmFind
       Colors.ComboboxArrow = clGray
       Colors.ComboboxArrowBG = 15790320
       WantTabs = False
+      OptNonWordChars = '-+*=/\()[]{}<>"''.,:;~?!@#$%^&|`'#8230
       OptTextOffsetLeft = 2
       OptTextOffsetTop = 5
+      OptScrollStyleHorz = aessHide
+      OptScrollStyleVert = aessHide
       OptScrollIndentCaretHorz = 0
       OptShowURLs = False
       OptShowURLsRegex = '\b(https?://|ftp://|magnet:\?|www\.)\w[^<>''"\s]+'
@@ -303,8 +306,11 @@ object fmFind: TfmFind
       Colors.ComboboxArrow = clGray
       Colors.ComboboxArrowBG = 15790320
       WantTabs = False
+      OptNonWordChars = '-+*=/\()[]{}<>"''.,:;~?!@#$%^&|`'#8230
       OptTextOffsetLeft = 2
       OptTextOffsetTop = 5
+      OptScrollStyleHorz = aessHide
+      OptScrollStyleVert = aessHide
       OptScrollIndentCaretHorz = 0
       OptShowURLs = False
       OptShowURLsRegex = '\b(https?://|ftp://|magnet:\?|www\.)\w[^<>''"\s]+'
@@ -439,6 +445,17 @@ object fmFind: TfmFind
         TabStop = True
         TabOrder = 1
         OnClick = bRepAllClick
+      end
+      object bRepGlobal: TATButton
+        Left = 180
+        Height = 25
+        Top = 0
+        Width = 90
+        Align = alLeft
+        Caption = 'Replace global'
+        TabStop = True
+        TabOrder = 2
+        OnClick = bRepGlobalClick
       end
     end
     object LabelFind: TLabel
