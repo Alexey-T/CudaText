@@ -69,6 +69,8 @@ var
   NTop, NLeft: integer;
   NCaretX, NCaretY: integer;
 begin
+  if Ed.ModeReadOnly then exit;
+
   NTop:= Ed.LineTop;
   NLeft:= Ed.ColumnLeft;
   if Ed.Carets.Count>0 then
@@ -260,6 +262,7 @@ begin
     for IndexFrame:= 0 to FrameCount-1 do
     begin
       FrameNew:= Frames[IndexFrame];
+      if not FrameNew.IsText then Continue;
       SetFrame(FrameNew);
       NCounter+= FinderReplaceAll(FrameNew.Ed1, true);
       if not FrameNew.EditorsLinked then
