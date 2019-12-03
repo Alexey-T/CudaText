@@ -83,19 +83,20 @@ begin
     NCaretY:= 0;
   end;
 
-  //not sure we must reset selection, maybe "replace all in selection" needed?
+  //reset selection? maybe "replace all in selection" is needed?
   Ed.DoCaretSingle(0, 0);
 
+  Ed.Enabled:= false;
   Ed.Strings.BeginUndoGroup;
   try
     FFinder.Editor:= Ed;
     Result:= FFinder.DoAction_ReplaceAll;
   finally
     Ed.Strings.EndUndoGroup;
+    Ed.Enabled:= true;
+    Ed.EndUpdate; //editor can be locked during replace confirmation
   end;
 
-  Ed.Enabled:= true;
-  Ed.EndUpdate; //to unlock editor locked during replace confirmation
   FinderUpdateEditor(Result>0, AUpdateStatusbar);
 
   Ed.DoCaretSingle(NCaretX, NCaretY);
