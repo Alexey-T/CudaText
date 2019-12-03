@@ -150,6 +150,7 @@ const
   msgCannotFindLexerFile: string = 'Cannot find lexer file:';
   msgCannotFindLexersAll: string = 'Cannot find lexers in data/lexlib/';
   msgCannotFindSublexerInLibrary: string = 'Cannot find linked sublexer:';
+  msgCannotFindWithoutCaret: string = 'Cannot find/replace without caret';
   msgCannotCreateDir: string = 'Cannot create dir:';
   msgCannotSaveFile: string = 'Cannot save file:';
   msgCannotSaveFileWithEnc: string = 'Could not save file because encoding "%s" cannot handle Unicode text. Program has saved file in UTF-8 encoding.';

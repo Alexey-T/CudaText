@@ -995,8 +995,7 @@ type
     procedure FinderOnConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
       AForMany: boolean; var AConfirm, AContinue: boolean);
     procedure FinderOnProgress(Sender: TObject; const ACurPos, AMaxPos: Int64; var AContinue: boolean);
-    procedure FinderUpdateEditor(AUpdateText: boolean; AUpdateStatusbar: boolean=
-      true);
+    procedure FinderUpdateEditor(AUpdateText: boolean; AUpdateStatusbar: boolean=true);
     procedure FrameOnSaveFile(Sender: TObject);
     procedure GetEditorIndexes(Ed: TATSynEdit; out AGroupIndex, ATabIndex: Integer);
     function GetModifiedCount: integer;

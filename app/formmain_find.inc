@@ -120,7 +120,7 @@ begin
 
   if Frame.Editor.Carets.Count=0 then
   begin
-    MsgStatus('Cannot find/replace without caret');
+    MsgStatus(msgCannotFindWithoutCaret);
     exit;
   end;
 
