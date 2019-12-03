@@ -64,7 +64,7 @@ begin
 end;
 
 
-function TfmMain.FinderReplaceAll(Ed: TATSynEdit): integer;
+function TfmMain.FinderReplaceAll(Ed: TATSynEdit; AResetCaret: boolean): integer;
 var
   NTop, NLeft: integer;
   NCaretX, NCaretY: integer;
@@ -83,8 +83,8 @@ begin
     NCaretY:= 0;
   end;
 
-  //reset selection? maybe "replace all in selection" is needed?
-  Ed.DoCaretSingle(0, 0);
+  if AResetCaret then
+    Ed.DoCaretSingle(0, 0);
 
   Ed.Enabled:= false;
   Ed.Strings.BeginUndoGroup;
@@ -243,7 +243,7 @@ begin
   if Res=cOpFindRepAll then
   begin
     NTick:= GetTickCount64;
-    NCounter:= FinderReplaceAll(FFinder.Editor);
+    NCounter:= FinderReplaceAll(FFinder.Editor, false);
     NTime:= (GetTickCount64-NTick) div 1000;
     UpdateStatus;
     MsgStatus(
@@ -261,9 +261,9 @@ begin
     begin
       FrameNew:= Frames[IndexFrame];
       SetFrame(FrameNew);
-      NCounter+= FinderReplaceAll(FrameNew.Ed1);
+      NCounter+= FinderReplaceAll(FrameNew.Ed1, true);
       if not FrameNew.EditorsLinked then
-        NCounter+= FinderReplaceAll(FrameNew.Ed2);
+        NCounter+= FinderReplaceAll(FrameNew.Ed2, true);
     end;
 
     NTime:= (GetTickCount64-NTick) div 1000;
