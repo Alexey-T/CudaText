@@ -3,11 +3,12 @@
   - fixed
   * changed
 
-1.90.2 (2019/11)
+1.90.3 (2019/12)
 
++ add: Replace dialog has new button "Replace global", to replace all in all opened documents
 + add: option "key_bksp_wrap": allows BackSpace to go to previous line
-* change: Command Palette commands "find first", "find next", "find all ..." now search for current text of Find dialog input
 + add: dialog "Go to bookmark" reworked: it shows bookmarks in all opened documents; it shows tab titles; it has filter inputbox
+* change: Command Palette commands "find first", "find next", "find all ..." now search for current text of Find dialog input
 - fix: must not clear code-tree on closing passive (lefter) tab
 - fix: must not clear code-tree on clicking active tab
 
