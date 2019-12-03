@@ -69,6 +69,7 @@ var
   NTop, NLeft: integer;
   NCaretX, NCaretY: integer;
 begin
+  Result:= 0;
   if Ed.ModeReadOnly then exit;
 
   NTop:= Ed.LineTop;
