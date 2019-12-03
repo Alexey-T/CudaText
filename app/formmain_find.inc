@@ -107,7 +107,7 @@ begin
   Ed.ColumnLeft:= NLeft;
 end;
 
-procedure TfmMain.FinderReplaceStatusbarReport(ACounter, ATime: integer);
+procedure TfmMain.FinderShowReplaceReport(ACounter, ATime: integer);
 begin
   MsgStatus(
     Format(msgStatusReplaceCount, [ACounter])+
@@ -256,7 +256,7 @@ begin
     NCounter:= FinderReplaceAll(FFinder.Editor, false);
     NTime:= (GetTickCount64-NTick) div 1000;
     UpdateStatus;
-    FinderReplaceStatusbarReport(NCounter, NTime);
+    FinderShowReplaceReport(NCounter, NTime);
   end;
 
   if Res=cOpFindRepGlobal then
@@ -283,7 +283,7 @@ begin
     if bChangeFrame then
       SetFrame(FramePrev);
     UpdateStatus;
-    FinderReplaceStatusbarReport(NCounter, NTime);
+    FinderShowReplaceReport(NCounter, NTime);
   end;
 
   if Res=cOpFindCount then
