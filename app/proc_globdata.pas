@@ -207,6 +207,7 @@ type
     FindShow_MarkALl: boolean;
     FindShow_SelectAll: boolean;
     FindShow_Extract: boolean;
+    FindShow_ReplaceGlobal: boolean;
     FindIndentVert: integer;
     FindIndentHorz: integer;
     FindMultiLineScale: double;
@@ -1300,6 +1301,7 @@ begin
     FindShow_MarkALl:= true;
     FindShow_SelectAll:= true;
     FindShow_Extract:= true;
+    FindShow_ReplaceGlobal:= true;
     FindIndentVert:= -5;
     FindIndentHorz:= 10;
     FindMultiLineScale:= 2.5;

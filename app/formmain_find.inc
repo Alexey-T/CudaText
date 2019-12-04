@@ -438,6 +438,7 @@ begin
     bExtract.Visible:= UiOps.FindShow_Extract;
     bSelectAll.Visible:= UiOps.FindShow_SelectAll;
     bMarkAll.Visible:= UiOps.FindShow_MarkALl;
+    bRepGlobal.Visible:= UiOps.FindShow_ReplaceGlobal;
 
     //change Find field only if options SuggestSel/SuggestWord on,
     //else dont touch Find field
