@@ -380,6 +380,7 @@ begin
   bFindPrev.Hint:= UiOps.HotkeyFindPrev;
   bRep.Hint:= UiOps.HotkeyReplaceAndFindNext;
   bRepAll.Hint:= UiOps.HotkeyReplaceAll;
+  bRepGlobal.Hint:= UiOps.HotkeyReplaceGlobal;
   bCount.Hint:= UiOps.HotkeyCountAll;
   bExtract.Hint:= UiOps.HotkeyExtractAll;
   bSelectAll.Hint:= UiOps.HotkeySelectAll;
@@ -601,6 +602,14 @@ begin
   if (Str=UiOps.HotkeyReplaceAll) and IsReplace then
   begin
     bRepAllClick(Self);
+    UpdateState;
+    key:= 0;
+    exit
+  end;
+
+  if (Str=UiOps.HotkeyReplaceGlobal) and IsReplace then
+  begin
+    bRepGlobalClick(Self);
     UpdateState;
     key:= 0;
     exit

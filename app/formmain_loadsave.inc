@@ -953,6 +953,7 @@ begin
   UiOps.HotkeyReplaceAndFindNext:= c.GetValue('find_hotkey_replace', UiOps.HotkeyReplaceAndFindNext);
   UiOps.HotkeyReplaceNoFindNext:= c.GetValue('find_hotkey_replace_no_next', UiOps.HotkeyReplaceNoFindNext);
   UiOps.HotkeyReplaceAll:= c.GetValue('find_hotkey_replace_all', UiOps.HotkeyReplaceAll);
+  UiOps.HotkeyReplaceGlobal:= c.GetValue('find_hotkey_replace_global', UiOps.HotkeyReplaceGlobal);
   UiOps.HotkeyCountAll:= c.GetValue('find_hotkey_count_all', UiOps.HotkeyCountAll);
   UiOps.HotkeyExtractAll:= c.GetValue('find_hotkey_extract', UiOps.HotkeyExtractAll);
   UiOps.HotkeySelectAll:= c.GetValue('find_hotkey_select_all', UiOps.HotkeySelectAll);

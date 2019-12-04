@@ -293,6 +293,7 @@ type
     HotkeyReplaceAndFindNext,
     HotkeyReplaceNoFindNext,
     HotkeyReplaceAll,
+    HotkeyReplaceGlobal,
     HotkeyCountAll,
     HotkeyExtractAll,
     HotkeySelectAll,
@@ -1391,6 +1392,7 @@ begin
     HotkeyReplaceAndFindNext:= 'Alt+Z';
     HotkeyReplaceNoFindNext:= 'Ctrl+Alt+Z';
     HotkeyReplaceAll:= 'Alt+A';
+    HotkeyReplaceGlobal:= '';
     HotkeyCountAll:= 'Alt+O';
     HotkeyExtractAll:= 'Alt+Q';
     HotkeySelectAll:= 'Alt+E';

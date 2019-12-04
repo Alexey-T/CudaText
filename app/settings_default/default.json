@@ -1110,6 +1110,7 @@
   "find_hotkey_replace": "Alt+Z",
   "find_hotkey_replace_no_next": "Ctrl+Alt+Z",
   "find_hotkey_replace_all": "Alt+A",
+  "find_hotkey_replace_global": "",
   "find_hotkey_count_all": "Alt+O",
   "find_hotkey_extract": "Alt+Q",
   "find_hotkey_select_all": "Alt+E",
