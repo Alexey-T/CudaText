@@ -648,18 +648,27 @@ begin
 end;
 
 procedure TfmFind.FormResize(Sender: TObject);
+var
+  Size1, Size2: integer;
 begin
+  Size1:=
+    BtnSize(bFindFirst)+
+    BtnSize(bFindNext)+
+    BtnSize(bFindPrev)+
+    BtnSize(bCount)+
+    BtnSize(bExtract)+
+    BtnSize(bSelectAll)+
+    BtnSize(bMarkAll);
+  Size2:=
+    BtnSize(bRep)+
+    BtnSize(bRepAll)+
+    BtnSize(bRepGlobal);
+
   edFind.Left:= Max(LabelFind.Width, LabelRep.Width)+4;
   edFind.Width:= Max(45,
     ClientWidth
     - edFind.Left
-    - BtnSize(bFindFirst)
-    - BtnSize(bFindNext)
-    - BtnSize(bFindPrev)
-    - BtnSize(bCount)
-    - BtnSize(bExtract)
-    - BtnSize(bSelectAll)
-    - BtnSize(bMarkAll)
+    - Max(Size1, Size2)
     - IfThen(not IsNarrow, PanelOps.Width)
     - 12
     );
