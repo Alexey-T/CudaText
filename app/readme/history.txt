@@ -5,7 +5,8 @@
 
 1.90.3 (2019/12)
 
-+ add: Replace dialog has new button "Replace global", to replace all in all opened documents
++ add: Find/Replace dialog has new button "Replace global", to replace all matches in all opened documents
++ add: Ctrl+click on selection was ignored before, now it can start drag-drop with copying
 + add: option "key_bksp_wrap": allows BackSpace to go to previous line
 + add: dialog "Go to bookmark" reworked: it shows bookmarks in all opened documents; it shows tab titles; it has filter inputbox
 * change: Command Palette commands "find first", "find next", "find all ..." now search for current text of Find dialog input
