@@ -27,19 +27,37 @@ uses
   proc_colors,
   proc_editor;
 
+type
+  TAppFinderOperation = (
+    cOpFindClose,
+    cOpFindFirst,
+    cOpFindNext,
+    cOpFindPrev,
+    cOpFindCount,
+    cOpFindExtract,
+    cOpFindSelectAll,
+    cOpFindMarkAll,
+    cOpFindRep,
+    cOpFindRepAndStop,
+    cOpFindRepAll,
+    cOpFindRepGlobal
+    );
+
 const
-  cOpFindFirst='findfirst';
-  cOpFindNext='findnext';
-  cOpFindPrev='findprev';
-  cOpFindRep='rep';
-  cOpFindRepAndStop='repstop';
-  cOpFindRepAll='repall';
-  cOpFindRepGlobal='repglobal';
-  cOpFindCount='findcnt';
-  cOpFindExtract='findget';
-  cOpFindSelectAll='findsel';
-  cOpFindMarkAll='findmark';
-  cOpFindClose='x';
+  cAppFinderOperationString: array[TAppFinderOperation] of string = (
+    'x',
+    'findfirst',
+    'findnext',
+    'findprev',
+    'findcnt',
+    'findget',
+    'findsel',
+    'findmark',
+    'rep',
+    'repstop',
+    'repall',
+    'repglobal'
+    );
 
 type
   TAppFinderCategory = (
@@ -49,7 +67,26 @@ type
     afcReplaceGlobal
     );
 
-function AppFinderCategory(const Op: string): TAppFinderCategory;
+const
+  cAppFinderOperationCategory: array[TAppFinderOperation] of TAppFinderCategory = (
+    afcCancel,
+    afcFind,
+    afcFind,
+    afcFind,
+    afcFind,
+    afcFind,
+    afcFind,
+    afcFind,
+    afcReplaceOne,
+    afcReplaceOne,
+    afcReplaceOne,
+    afcReplaceGlobal
+    );
+
+type
+  TAppFinderOperationEvent = procedure(Sender: TObject; Op: TAppFinderOperation) of object;
+
+function AppFinderOperationFromString(const Str: string): TAppFinderOperation;
 
 type
   { TfmFind }
@@ -123,9 +160,9 @@ type
     FReplace: boolean;
     FMultiLine: boolean;
     FNarrow: boolean;
-    FOnResult: TStrEvent;
+    FOnResult: TAppFinderOperationEvent;
     FOnChangeOptions: TNotifyEvent;
-    procedure DoResult(const Str: string);
+    procedure DoResult(Str: TAppFinderOperation);
     procedure SetIsDoubleBuffered(AValue: boolean);
     procedure SetMultiLine(AValue: boolean);
     procedure SetNarrow(AValue: boolean);
@@ -144,7 +181,7 @@ type
     procedure UpdateFocus(AFindMode: boolean);
     procedure UpdateInputFind(const AText: UnicodeString);
     procedure UpdateInputReplace(const AText: UnicodeString);
-    property OnResult: TStrEvent read FOnResult write FOnResult;
+    property OnResult: TAppFinderOperationEvent read FOnResult write FOnResult;
     property OnChangeOptions: TNotifyEvent read FOnChangeOptions write FOnChangeOptions;
     property IsReplace: boolean read FReplace write SetReplace;
     property IsMultiLine: boolean read FMultiLine write SetMultiLine;
@@ -180,28 +217,14 @@ const
     '-cs'
     );
 
-function AppFinderCategory(const Op: string): TAppFinderCategory;
+function AppFinderOperationFromString(const Str: string): TAppFinderOperation;
+var
+  op: TAppFinderOperation;
 begin
-  case Op of
-    cOpFindFirst,
-    cOpFindNext,
-    cOpFindPrev,
-    cOpFindCount,
-    cOpFindExtract,
-    cOpFindSelectAll,
-    cOpFindMarkAll:
-      Result:= afcFind;
-    cOpFindRep,
-    cOpFindRepAndStop,
-    cOpFindRepAll:
-      Result:= afcReplaceOne;
-    cOpFindRepGlobal:
-      Result:= afcReplaceGlobal;
-    cOpFindClose:
-      Result:= afcCancel;
-    else
-      raise Exception.Create('Unknown value in AppFinderCategory');
-  end;
+  for op:= Low(TAppFinderOperation) to High(TAppFinderOperation) do
+    if Str=cAppFinderOperationString[op] then
+      exit(op);
+  Result:= cOpFindClose;
 end;
 
 { TfmFind }
@@ -730,7 +753,7 @@ begin
   OnResize(Self);
 end;
 
-procedure TfmFind.DoResult(const Str: string);
+procedure TfmFind.DoResult(Str: TAppFinderOperation);
 begin
   if Str=cOpFindPrev then
     if chkRegex.Checked then exit;

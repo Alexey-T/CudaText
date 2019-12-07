@@ -115,7 +115,7 @@ begin
 end;
 
 
-procedure TfmMain.FindDialogDone(Sender: TObject; const Res: string);
+procedure TfmMain.FindDialogDone(Sender: TObject; Res: TAppFinderOperation);
 var
   Category: TAppFinderCategory;
   ListFound: TStringList;
@@ -128,7 +128,7 @@ var
 begin
   InitFormFind;
   Frame:= CurrentFrame;
-  Category:= AppFinderCategory(Res);
+  Category:= cAppFinderOperationCategory[Res];
 
   if Category in [afcFind, afcReplaceOne] then
   begin
@@ -1100,7 +1100,7 @@ begin
   FFinder.StrFind:= UTF8Decode(SFind);
   FFinder.StrReplace:= UTF8Decode(SRep);
   FinderOptionsFromString(FFinder, SOpt);
-  FindDialogDone(nil{skip dialog}, SAction);
+  FindDialogDone(nil{skip dialog}, AppFinderOperationFromString(SAction));
 end;
 
 procedure TfmMain.DoFindOptions_OnChange(Sender: TObject);
