@@ -517,6 +517,9 @@
   //Find dialog: show "Extract" button
   "find_show_extract": true,
 
+  //Find dialog: show "Replace global" button
+  "find_show_replace_global": true,
+
   //Find dialog: multi-line mode: how height of inputs is increased
   "find_multiline_scale": 2.5,
 
@@ -1107,6 +1110,7 @@
   "find_hotkey_replace": "Alt+Z",
   "find_hotkey_replace_no_next": "Ctrl+Alt+Z",
   "find_hotkey_replace_all": "Alt+A",
+  "find_hotkey_replace_global": "",
   "find_hotkey_count_all": "Alt+O",
   "find_hotkey_extract": "Alt+Q",
   "find_hotkey_select_all": "Alt+E",
