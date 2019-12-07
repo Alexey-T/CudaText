@@ -117,6 +117,7 @@ end;
 
 procedure TfmMain.FindDialogDone(Sender: TObject; const Res: string);
 var
+  Category: TAppFinderCategory;
   ListFound: TStringList;
   Frame, FrameNew, FramePrev: TEditorFrame;
   Ed: TATSynEdit;
@@ -127,11 +128,22 @@ var
 begin
   InitFormFind;
   Frame:= CurrentFrame;
+  Category:= AppFinderCategory(Res);
 
-  if Frame.Editor.Carets.Count=0 then
+  if Category in [afcFind, afcReplaceOne] then
   begin
-    MsgStatus(msgCannotFindWithoutCaret);
-    exit;
+    if Frame.IsPicture then exit;
+    if Frame.Editor.Carets.Count=0 then
+    begin
+      MsgStatus(msgCannotFindWithoutCaret);
+      exit;
+    end;
+  end;
+
+  if Category=afcReplaceOne then
+  begin
+    if not Frame.IsText then exit;
+    if Frame.Editor.ModeReadOnly then exit;
   end;
 
   //keep focus in Find field, else focus find or rep field
@@ -141,13 +153,9 @@ begin
   if fmFind.edRep.Focused then
     bFindMode:= false
   else
-    bFindMode:=
-      (Res<>cOpFindRep) and
-      (Res<>cOpFindRepAll) and
-      (Res<>cOpFindRepGlobal) and
-      (Res<>cOpFindRepAndStop);
+    bFindMode:= Category=afcFind;
 
-  if Res=cOpFindClose then
+  if Category=afcCancel then
   begin
     //handy to reset in-sel, on closing dialog
     FFinder.OptInSelection:= false;

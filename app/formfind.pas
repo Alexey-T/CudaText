@@ -42,6 +42,16 @@ const
   cOpFindClose='x';
 
 type
+  TAppFinderCategory = (
+    afcCancel,
+    afcFind,
+    afcReplaceOne,
+    afcReplaceGlobal
+    );
+
+function AppFinderCategory(const Op: string): TAppFinderCategory;
+
+type
   { TfmFind }
 
   TfmFind = class(TForm)
@@ -169,6 +179,30 @@ const
     '-s',
     '-cs'
     );
+
+function AppFinderCategory(const Op: string): TAppFinderCategory;
+begin
+  case Op of
+    cOpFindFirst,
+    cOpFindNext,
+    cOpFindPrev,
+    cOpFindCount,
+    cOpFindExtract,
+    cOpFindSelectAll,
+    cOpFindMarkAll:
+      Result:= afcFind;
+    cOpFindRep,
+    cOpFindRepAndStop,
+    cOpFindRepAll:
+      Result:= afcReplaceOne;
+    cOpFindRepGlobal:
+      Result:= afcReplaceGlobal;
+    cOpFindClose:
+      Result:= afcCancel;
+    else
+      raise Exception.Create('Unknown value in AppFinderCategory');
+  end;
+end;
 
 { TfmFind }
 
