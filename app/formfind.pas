@@ -463,6 +463,7 @@ var
   Str: string;
 begin
   Str:= ShortcutToText(KeyToShortCut(Key, Shift));
+  if Str='' then exit; //only Shift is pressed
 
   if Key=VK_ESCAPE then
   begin
@@ -478,7 +479,7 @@ begin
     exit
   end;
 
-  if (Str=UiOps.HotkeyFindNext) and (Str<>'Enter') and (Str<>'') then
+  if (Str=UiOps.HotkeyFindNext) and (Str<>'Enter') then
   begin
     DoResult(cOpFindNext);
     key:= 0;
