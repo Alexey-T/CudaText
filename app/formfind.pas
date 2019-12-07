@@ -29,6 +29,7 @@ uses
 
 type
   TAppFinderOperation = (
+    afoNone,
     afoCloseDlg,
     afoFindFirst,
     afoFindNext,
@@ -45,6 +46,7 @@ type
 
 const
   cAppFinderOperationString: array[TAppFinderOperation] of string = (
+    '-',
     'x',
     'findfirst',
     'findnext',
@@ -61,7 +63,8 @@ const
 
 type
   TAppFinderOperationCategory = (
-    afcCancel,
+    afcNone,
+    afcCloseDlg,
     afcFind,
     afcReplaceOne,
     afcReplaceGlobal
@@ -69,7 +72,8 @@ type
 
 const
   cAppFinderOperationCategory: array[TAppFinderOperation] of TAppFinderOperationCategory = (
-    afcCancel,
+    afcNone,
+    afcCloseDlg,
     afcFind,
     afcFind,
     afcFind,
@@ -224,7 +228,7 @@ begin
   for op:= Low(TAppFinderOperation) to High(TAppFinderOperation) do
     if Str=cAppFinderOperationString[op] then
       exit(op);
-  Result:= afoCloseDlg;
+  Result:= afoNone;
 end;
 
 { TfmFind }

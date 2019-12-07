@@ -155,7 +155,7 @@ begin
   else
     bFindMode:= Category=afcFind;
 
-  if Category=afcCancel then
+  if Category=afcCloseDlg then
   begin
     //handy to reset in-sel, on closing dialog
     FFinder.OptInSelection:= false;
