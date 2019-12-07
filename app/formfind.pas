@@ -60,7 +60,7 @@ const
     );
 
 type
-  TAppFinderCategory = (
+  TAppFinderOperationCategory = (
     afcCancel,
     afcFind,
     afcReplaceOne,
@@ -68,7 +68,7 @@ type
     );
 
 const
-  cAppFinderOperationCategory: array[TAppFinderOperation] of TAppFinderCategory = (
+  cAppFinderOperationCategory: array[TAppFinderOperation] of TAppFinderOperationCategory = (
     afcCancel,
     afcFind,
     afcFind,
