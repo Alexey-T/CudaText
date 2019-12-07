@@ -29,18 +29,18 @@ uses
 
 type
   TAppFinderOperation = (
-    cOpFindClose,
-    cOpFindFirst,
-    cOpFindNext,
-    cOpFindPrev,
-    cOpFindCount,
-    cOpFindExtract,
-    cOpFindSelectAll,
-    cOpFindMarkAll,
-    cOpFindRep,
-    cOpFindRepAndStop,
-    cOpFindRepAll,
-    cOpFindRepGlobal
+    afoCloseDlg,
+    afoFindFirst,
+    afoFindNext,
+    afoFindPrev,
+    afoCountAll,
+    afoExtractAll,
+    afoFindSelectAll,
+    afoFindMarkAll,
+    afoReplace,
+    afoReplaceStop,
+    afoReplaceAll,
+    afoReplaceGlobal
     );
 
 const
@@ -224,7 +224,7 @@ begin
   for op:= Low(TAppFinderOperation) to High(TAppFinderOperation) do
     if Str=cAppFinderOperationString[op] then
       exit(op);
-  Result:= cOpFindClose;
+  Result:= afoCloseDlg;
 end;
 
 { TfmFind }
@@ -240,55 +240,55 @@ end;
 procedure TfmFind.bRepClick(Sender: TObject);
 begin
   if IsReplace then
-    DoResult(cOpFindRep);
+    DoResult(afoReplace);
 end;
 
 procedure TfmFind.bFindNextClick(Sender: TObject);
 begin
-  DoResult(cOpFindNext);
+  DoResult(afoFindNext);
 end;
 
 procedure TfmFind.bExtractClick(Sender: TObject);
 begin
-  DoResult(cOpFindExtract);
+  DoResult(afoExtractAll);
 end;
 
 procedure TfmFind.bFindPrevClick(Sender: TObject);
 begin
-  DoResult(cOpFindPrev);
+  DoResult(afoFindPrev);
 end;
 
 procedure TfmFind.bMarkAllClick(Sender: TObject);
 begin
-  DoResult(cOpFindMarkAll);
+  DoResult(afoFindMarkAll);
 end;
 
 procedure TfmFind.bRepAllClick(Sender: TObject);
 begin
   if IsReplace then
-    DoResult(cOpFindRepAll);
+    DoResult(afoReplaceAll);
 end;
 
 procedure TfmFind.bCountClick(Sender: TObject);
 begin
-  DoResult(cOpFindCount);
+  DoResult(afoCountAll);
 end;
 
 procedure TfmFind.bCancelClick(Sender: TObject);
 begin
-  DoResult(cOpFindClose);
+  DoResult(afoCloseDlg);
 end;
 
 procedure TfmFind.bRepGlobalClick(Sender: TObject);
 begin
   if IsReplace then
     if MsgBox(msgConfirmReplaceGlobal, MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
-      DoResult(cOpFindRepGlobal);
+      DoResult(afoReplaceGlobal);
 end;
 
 procedure TfmFind.bSelectAllClick(Sender: TObject);
 begin
-  DoResult(cOpFindSelectAll);
+  DoResult(afoFindSelectAll);
 end;
 
 procedure TfmFind.bTokensClick(Sender: TObject);
@@ -333,7 +333,7 @@ end;
 
 procedure TfmFind.bFindFirstClick(Sender: TObject);
 begin
-  DoResult(cOpFindFirst);
+  DoResult(afoFindFirst);
 end;
 
 procedure TfmFind.chkRepClick(Sender: TObject);
@@ -524,21 +524,21 @@ begin
 
   if Key=VK_ESCAPE then
   begin
-    DoResult(cOpFindClose);
+    DoResult(afoCloseDlg);
     key:= 0;
     exit;
   end;
 
   if Str=UiOps.HotkeyFindFirst then
   begin
-    DoResult(cOpFindFirst);
+    DoResult(afoFindFirst);
     key:= 0;
     exit
   end;
 
   if (Str=UiOps.HotkeyFindNext) and (Str<>'Enter') then
   begin
-    DoResult(cOpFindNext);
+    DoResult(afoFindNext);
     key:= 0;
     exit
   end;
@@ -547,16 +547,16 @@ begin
   begin
     //Enter: action depends on focus
     if IsReplace and edRep.Focused then
-      DoResult(cOpFindRep)
+      DoResult(afoReplace)
     else
-      DoResult(cOpFindNext);
+      DoResult(afoFindNext);
     key:= 0;
     exit
   end;
 
   if Str=UiOps.HotkeyFindPrev then
   begin
-    DoResult(cOpFindPrev);
+    DoResult(afoFindPrev);
     key:= 0;
     exit
   end;
@@ -564,7 +564,7 @@ begin
   if (Str=UiOps.HotkeyReplaceAndFindNext) and IsReplace then
   begin
     if IsReplace then
-      DoResult(cOpFindRep);
+      DoResult(afoReplace);
     key:= 0;
     exit
   end;
@@ -572,7 +572,7 @@ begin
   if (Str=UiOps.HotkeyReplaceNoFindNext) and IsReplace then
   begin
     if IsReplace then
-      DoResult(cOpFindRepAndStop);
+      DoResult(afoReplaceStop);
     key:= 0;
     exit
   end;
@@ -755,16 +755,16 @@ end;
 
 procedure TfmFind.DoResult(Str: TAppFinderOperation);
 begin
-  if Str=cOpFindPrev then
+  if Str=afoFindPrev then
     if chkRegex.Checked then exit;
 
   if edFind.Text='' then
-    if Str<>cOpFindClose then exit;
+    if Str<>afoCloseDlg then exit;
 
   if Assigned(FOnResult) then
     FOnResult(Self, Str);
 
-  if Str<>cOpFindClose then
+  if Str<>afoCloseDlg then
   begin
     edFind.DoAddLineToHistory(edFind.Text, UiOps.MaxHistoryEdits);
     edRep.DoAddLineToHistory(edRep.Text, UiOps.MaxHistoryEdits);

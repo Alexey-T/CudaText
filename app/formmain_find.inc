@@ -180,7 +180,7 @@ begin
     FFinder.OptRegex:= chkRegex.Checked;
     FFinder.OptWrapped:= chkWrap.Checked;
     FFinder.OptInSelection:= chkInSel.Checked;
-    FFinder.OptFromCaret:= (Res=cOpFindNext) or (Res=cOpFindPrev) or (Res=cOpFindRep);
+    FFinder.OptFromCaret:= (Res=afoFindNext) or (Res=afoFindPrev) or (Res=afoReplace);
     FFinder.OptConfirmReplace:= chkConfirm.Checked;
     FFinder.OptTokens:= TATFinderTokensAllowed(bTokens.ItemIndex);
   end;
@@ -191,7 +191,7 @@ begin
     Application.ProcessMessages;
 
     case Res of
-      cOpFindFirst:
+      afoFindFirst:
         begin
           if Frame.BinaryFindFirst(FFinder, false) then
             MsgStatus(msgStatusFoundNextMatch)
@@ -199,10 +199,10 @@ begin
             MsgStatus(msgCannotFindMatch);
         end;
 
-      cOpFindNext,
-      cOpFindPrev:
+      afoFindNext,
+      afoFindPrev:
         begin
-          if Frame.BinaryFindNext(Res=cOpFindPrev) then
+          if Frame.BinaryFindNext(Res=afoFindPrev) then
             MsgStatus(msgStatusFoundNextMatch)
           else
             MsgStatus(msgCannotFindMatch);
@@ -221,10 +221,10 @@ begin
       [cmd_FinderAction, Res, FFinder.StrFind, FFinder.StrReplace, FinderOptionsToString(FFinder)])+#10);
 
   bDoLock:=
-    //(Res=cOpFindRep) or //don't lock for single replace, issue #1216
-    //(Res=cOpFindRepAndStop) or
-    (Res=cOpFindRepAll) or
-    (Res=cOpFindRepGlobal);
+    //(Res=afoReplace) or //don't lock for single replace, issue #1216
+    //(Res=afoReplaceStop) or
+    (Res=afoReplaceAll) or
+    (Res=afoReplaceGlobal);
   UpdateAppForSearch(true, bDoLock, bFindMode);
 
   if bDoLock then
@@ -234,9 +234,9 @@ begin
     FFinder.Editor.Strings.EndUndoGroup;
   end;
 
-  if (Res=cOpFindFirst) or (Res=cOpFindNext) or (Res=cOpFindPrev) then
+  if (Res=afoFindFirst) or (Res=afoFindNext) or (Res=afoFindPrev) then
   begin
-    FFinder.OptBack:= (Res=cOpFindPrev);
+    FFinder.OptBack:= (Res=afoFindPrev);
     ok:= FFinder.DoAction_FindOrReplace(false, false, false, bChanged);
     FinderUpdateEditor(false);
     DoFindResult(ok);
@@ -244,12 +244,12 @@ begin
       DoFindOptions_ResetInSelection;
   end;
 
-  if (Res=cOpFindRep) or (Res=cOpFindRepAndStop) then
+  if (Res=afoReplace) or (Res=afoReplaceStop) then
   begin
     //replace match
     ok:= FFinder.DoAction_ReplaceSelected;
     //after match is replaced, do find-next
-    if Res=cOpFindRep then
+    if Res=afoReplace then
       if ok then
         ok:= FFinder.DoAction_FindOrReplace(false, false, false, bChanged);
     FinderUpdateEditor(true);
@@ -258,7 +258,7 @@ begin
       DoFindOptions_ResetInSelection;
   end;
 
-  if Res=cOpFindRepAll then
+  if Res=afoReplaceAll then
   begin
     NTick:= GetTickCount64;
     NCounter:= FinderReplaceAll(FFinder.Editor, false);
@@ -267,7 +267,7 @@ begin
     FinderShowReplaceReport(NCounter, NTime);
   end;
 
-  if Res=cOpFindRepGlobal then
+  if Res=afoReplaceGlobal then
   begin
     NCounter:= 0;
     NTick:= GetTickCount64;
@@ -294,14 +294,14 @@ begin
     FinderShowReplaceReport(NCounter, NTime);
   end;
 
-  if Res=cOpFindCount then
+  if Res=afoCountAll then
   begin
     DoFindMarkingInit(markingNone);
     NCounter:= FFinder.DoAction_CountAll(false);
     MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]));
   end;
 
-  if Res=cOpFindExtract then
+  if Res=afoExtractAll then
   begin
     ListFound:= TStringList.Create;
     try
@@ -325,7 +325,7 @@ begin
     end;
   end;
 
-  if Res=cOpFindSelectAll then
+  if Res=afoFindSelectAll then
   begin
     DoFindMarkingInit(markingSelections);
     NCounter:= FFinder.DoAction_CountAll(true);
@@ -337,7 +337,7 @@ begin
     DoFindOptions_ResetInSelection;
   end;
 
-  if Res=cOpFindMarkAll then
+  if Res=afoFindMarkAll then
   begin
     DoFindMarkingInit(markingMarkers);
     NCounter:= FFinder.DoAction_CountAll(true);
@@ -353,8 +353,8 @@ begin
   {$ifdef LCLgtk2}
   //Linux gtk2: UpdateAppForSearch don't put focus anywhere (Laz bug?) after "confirmation" form
   //make workaround
-  if (Res=cOpFindRepAll) or
-     (Res=cOpFindRepGlobal) then
+  if (Res=afoReplaceAll) or
+     (Res=afoReplaceGlobal) then
     CurrentFrame.SetFocus;
   {$endif}
 end;
