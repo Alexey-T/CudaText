@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.90.5 (2019/12)
+1.91.0 (2019/12)
 
++ add: Windows: shell extension DLL (x32, x64) were written by Andreas Heim (@dinkumoil), run Cmd scripts to install/uninstall them
 + add: Find/Replace dialog has new button "Replace global", to replace all matches in all opened documents
 + add: Ctrl+click on selection was ignored before, now it can start drag-drop with copying
 + add: option "key_bksp_wrap": allows BackSpace to go to previous line
