@@ -129,6 +129,7 @@ begin
   InitFormFind;
   Frame:= CurrentFrame;
   Category:= cAppFinderOperationCategory[Res];
+  if Category=afcNone then exit;
 
   if Category in [afcFind, afcReplaceOne] then
   begin
