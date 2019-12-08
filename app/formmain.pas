@@ -4007,6 +4007,7 @@ begin
     F.Lexer[F.Ed1]:= nil;
     if not F.EditorsLinked then
       F.Lexer[F.Ed2]:= nil;
+    F.ClearInitialLexer;
   end;
 end;
 

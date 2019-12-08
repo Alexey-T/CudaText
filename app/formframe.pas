@@ -267,6 +267,7 @@ type
     procedure UpdateModified(Ed: TATSynEdit; AWithEvent: boolean= true);
     procedure UpdateReadOnlyFromFile(Ed: TATSynEdit);
     procedure UpdateFrame(AUpdatedText: boolean);
+    procedure ClearInitialLexer;
 
     property NotifEnabled: boolean read FNotifEnabled write FNotifEnabled;
     procedure NotifyAboutChange(Ed: TATSynEdit);
@@ -602,6 +603,11 @@ begin
       FInitialLexer:= nil;
     end;
   end;
+end;
+
+procedure TEditorFrame.ClearInitialLexer;
+begin
+  FInitialLexer:= nil;
 end;
 
 procedure TEditorFrame.TimerChangeTimer(Sender: TObject);
