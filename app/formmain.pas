@@ -6052,6 +6052,8 @@ begin
     if not F.EditorsLinked then
       if F.LexerName[F.Ed2]=ALexerName then
         F.Lexer[F.Ed2]:= nil;
+
+    F.ClearInitialLexer;
   end;
 end;
 
