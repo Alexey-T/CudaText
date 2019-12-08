@@ -856,8 +856,11 @@ class Command:
 
         res = re.match('^\S+x(\d+)$', theme_name)
         if not res:
-            return msg_box('Project Manager: bad icons folder name "'+theme_name+'"', MB_OK+MB_ICONERROR)
+            return msg_box('Project Manager: bad icons folder name: "%s"'%theme_name, MB_OK+MB_ICONERROR)
         n = int(res.group(1))
+        if not 8<=n<=64:
+            return msg_box('Project Manager: bad icons size: "%s"'%theme_name, MB_OK+MB_ICONERROR)
+
         imagelist_proc(imglist, IMAGELIST_SET_SIZE, (n, n))
 
     def icon_init(self):
