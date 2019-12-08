@@ -855,7 +855,7 @@ class Command:
     def set_imagelist_size(self, theme_name, imglist):
 
         try:
-            nsize = int(re.match('^\w+x(\d+)$', theme_name).group(1))
+            nsize = int(re.match('^\S+x(\d+)$', theme_name).group(1))
             imagelist_proc(imglist, IMAGELIST_SET_SIZE, (nsize, nsize))
         except:
             print('ProjectManager: incorrect theme name:', self.icon_theme)
