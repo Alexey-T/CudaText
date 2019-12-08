@@ -854,14 +854,14 @@ class Command:
 
     def set_imagelist_size(self, theme_name, imglist):
 
-        try:
-            res = re.match('^\S+x(\d+)$', theme_name)
-            if not res:
-                return msg_box('Project Manager: incorrect icon set filename: '+theme_name, MB_OK+MB_ICONERROR)
-            nsize = int(res.group(1))
-            imagelist_proc(imglist, IMAGELIST_SET_SIZE, (nsize, nsize))
-        except:
-            print('ProjectManager: incorrect theme name:', self.icon_theme)
+        res = re.match('^\S+x(\d+)$', theme_name)
+        if not res:
+            return msg_box('Project Manager: bad icons folder name: "%s"'%theme_name, MB_OK+MB_ICONERROR)
+        n = int(res.group(1))
+        if not 8<=n<=64:
+            return msg_box('Project Manager: bad icons size: "%s"'%theme_name, MB_OK+MB_ICONERROR)
+
+        imagelist_proc(imglist, IMAGELIST_SET_SIZE, (n, n))
 
     def icon_init(self):
 
