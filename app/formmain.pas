@@ -4010,7 +4010,7 @@ begin
       F.Lexer[F.Ed2]:= nil;
 
     //fix crash: lexer is active in passive tab, LoadLexerLib deletes all lexers, user switches tab
-    F.ClearInitialLexer;
+    F.LexerInitial:= nil;
   end;
 end;
 
@@ -6057,7 +6057,8 @@ begin
         F.Lexer[F.Ed2]:= nil;
 
     //fix crash: F.InitialLexer is C#, user deletes C# in lexer lib, and switches tab
-    F.ClearInitialLexer;
+    if Assigned(F.LexerInitial) and (F.LexerInitial.LexerName=ALexerName) then
+      F.LexerInitial:= nil;
   end;
 end;
 
