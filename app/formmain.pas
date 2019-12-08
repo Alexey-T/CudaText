@@ -4004,9 +4004,12 @@ begin
   begin
     F:= Frames[i];
     ListNames.Add(F.LexerName[F.Ed1]);
+
     F.Lexer[F.Ed1]:= nil;
     if not F.EditorsLinked then
       F.Lexer[F.Ed2]:= nil;
+
+    //fix crash: lexer is active in passive tab, LoadLexerLib deletes all lexers, user switches tab
     F.ClearInitialLexer;
   end;
 end;
@@ -6053,6 +6056,7 @@ begin
       if F.LexerName[F.Ed2]=ALexerName then
         F.Lexer[F.Ed2]:= nil;
 
+    //fix crash: F.InitialLexer is C#, user deletes C# in lexer lib, and switches tab
     F.ClearInitialLexer;
   end;
 end;
