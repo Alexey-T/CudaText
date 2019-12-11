@@ -3734,4 +3734,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.316 (app 1.90.0)
 * add: app_proc: PROC_GET_COMMANDS gets new kinds "openedfile", "recentfile"
 
+1.0.317 (app 1.90.1)
+* add: supported encodings UTF-32 (LE and BE, with and without BOM)
+
 [[Category:CudaText]]
