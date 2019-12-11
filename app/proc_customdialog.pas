@@ -1918,9 +1918,14 @@ end;
 
 procedure DoForm_FocusControl(F: TForm; C: TControl);
 begin
-  if C.Enabled and C.Visible then
+  if F.Enabled and C.Enabled and C.Visible then
     if C is TWinControl then
-      F.ActiveControl:= TWinControl(C);
+      if (C as TWinControl).CanFocus then
+      try
+        F.ActiveControl:= TWinControl(C);
+      except
+        //supress Pascal exception in Py API
+      end;
 end;
 
 procedure DoForm_ScaleAuto(F: TForm; ASimpleResize: boolean=false);
