@@ -1918,9 +1918,9 @@ end;
 
 procedure DoForm_FocusControl(F: TForm; C: TControl);
 begin
-  if F.Enabled and C.Enabled and C.Visible then
+  if F.Enabled and F.Visible and C.Enabled and C.Visible then
     if C is TWinControl then
-      if (C as TWinControl).CanFocus then
+      if TWinControl(C).CanFocus then
       try
         F.ActiveControl:= TWinControl(C);
       except
