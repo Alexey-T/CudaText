@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+
++ add: support encodings UTF-32LE, UTF-32BE (without BOM)
+
 1.91.0 (2019/12)
 
 + add: Windows: shell extension DLL (x32, x64), it was written by Andreas Heim (@dinkumoil). Run Cmd script from Explorer to install/uninstall the DLL.
