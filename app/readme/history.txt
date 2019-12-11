@@ -3,8 +3,9 @@
   - fixed
   * changed
 
+1.91.1 (2019/12)
 
-+ add: support encodings UTF-32LE, UTF-32BE (without BOM)
++ add: support encodings UTF-32 LE, UTF-32 BE, with and without BOM
 
 1.91.0 (2019/12)
 
