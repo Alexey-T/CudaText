@@ -901,16 +901,12 @@ procedure EditorFocus(C: TWinControl);
 var
   Form: TCustomForm;
 begin
-  Form:= GetParentForm(C);
-  if not Form.Focused then
-    if Form.CanFocus then
-    try
-      Form.SetFocus;
-    except
-      exit
-    end;
-
   try
+    Form:= GetParentForm(C);
+    if not Form.Focused then
+      if Form.CanFocus then
+        Form.SetFocus;
+
     if Form.Visible and Form.Enabled then
     begin
       Form.ActiveControl:= C;
