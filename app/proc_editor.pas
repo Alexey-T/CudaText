@@ -904,7 +904,11 @@ begin
   Form:= GetParentForm(C);
   if not Form.Focused then
     if Form.CanFocus then
+    try
       Form.SetFocus;
+    except
+      exit
+    end;
 
   try
     if Form.Visible and Form.Enabled then
