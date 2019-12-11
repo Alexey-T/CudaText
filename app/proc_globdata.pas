@@ -584,14 +584,6 @@ type
   TStrEvent = procedure(Sender: TObject; const ARes: string) of object;
   TStrFunction = function(const AStr: string): boolean of object;
 
-const
-  cEncNameUtf8_WithBom = 'UTF-8 with BOM';
-  cEncNameUtf8_NoBom = 'UTF-8';
-  cEncNameUtf16LE_WithBom = 'UTF-16 LE with BOM';
-  cEncNameUtf16LE_NoBom = 'UTF-16 LE';
-  cEncNameUtf16BE_WithBom = 'UTF-16 BE with BOM';
-  cEncNameUtf16BE_NoBom = 'UTF-16 BE';
-
 type
   TAppEncodingRecord = record
     Sub,
