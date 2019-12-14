@@ -934,7 +934,7 @@ type
     procedure DoOps_LoadKeymap;
     procedure DoOps_LoadKeymapFrom(const AFilenameKeymap: string; AUndoList: TATKeymapUndoList);
     procedure DoEditorsLock(ALock: boolean);
-    procedure DoFindCurrentWordOrSel(Ed: TATSynEdit; ANext: boolean; AWordOrSel: boolean);
+    procedure DoFindCurrentWordOrSel(Ed: TATSynEdit; ANext, AWordOrSel: boolean);
     procedure DoDialogCommands;
     function DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers,
       AShowFiles, AShowRecents, AAllowConfig, AShowCentered: boolean;
@@ -964,6 +964,7 @@ type
     procedure DoDialogFind(AReplaceMode: boolean);
     procedure DoDialogFind_Hide;
     procedure DoFindResult(ok: boolean);
+    procedure DoFindResultSimple(ok: boolean);
     procedure DoFindFirst;
     procedure DoFindNext(ANext: boolean);
     procedure DoFindMarkAll(AMode: TATFindMarkingMode);

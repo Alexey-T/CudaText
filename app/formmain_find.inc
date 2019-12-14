@@ -650,6 +650,14 @@ begin
     MsgStatus(msgCannotFindMatch+' ('+SOptions+'): '+Utf8Encode(FFinder.StrFind));
 end;
 
+procedure TfmMain.DoFindResultSimple(ok: boolean);
+begin
+  if ok then
+    MsgStatus(msgStatusFoundNextMatch)
+  else
+    MsgStatus(msgCannotFindMatch);
+end;
+
 procedure TfmMain.FinderOnConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
   AForMany: boolean; var AConfirm, AContinue: boolean);
 var
@@ -741,71 +749,28 @@ begin
     UpdateStatus;
 end;
 
-procedure TfmMain.DoFindCurrentWordOrSel(Ed: TATSynEdit; ANext: boolean; AWordOrSel: boolean);
+procedure TfmMain.DoFindCurrentWordOrSel(Ed: TATSynEdit; ANext, AWordOrSel: boolean);
 var
-  Str: atString;
-  ok, bFlag: boolean;
-  bSavedWords, bSavedRegex, bSavedCase: boolean;
-  SavedTokens: TATFinderTokensAllowed;
+  Str: UnicodeString;
+  ok, bCase: boolean;
 begin
-  if Ed.Carets.Count<>1 then exit;
-
-  if AWordOrSel then
-  begin
-    Str:= Ed.TextCurrentWord;
-    Ed.DoCommand(cCommand_SelectWords);
-  end
-  else
-  begin
-    Str:= Ed.TextSelected;
-    if Str='' then
-    begin
-      Str:= Ed.TextCurrentWord;
-      Ed.DoCommand(cCommand_SelectWords);
-    end;
-  end;
-  if Str='' then exit;
-
-  //SavedFind:= FFinder.StrFind; //don't save/restore
-  bSavedWords:= FFinder.OptWords;
-  bSavedRegex:= FFinder.OptRegex;
-  bSavedCase:= FFinder.OptCase;
-  SavedTokens:= FFinder.OptTokens;
-
-  //sync Find dialog with this text
-  if Assigned(fmFind) then
-    fmFind.UpdateInputFind(Str);
-
-  FFinder.StrFind:= Str;
-  FFinder.StrReplace:= '';
-  FFinder.Editor:= Ed;
-
-  FFinder.OptRegex:= false;
-  FFinder.OptWords:= AWordOrSel;
-  FFinder.OptFromCaret:= true;
-  FFinder.OptBack:= not ANext;
-  FFinder.OptInSelection:= false;
-  FFinder.OptTokens:= cTokensAll;
-
+  bCase:= true;
   case UiOps.FindSelCase of
-    0: FFinder.OptCase:= false;
-    1: FFinder.OptCase:= true;
+    0: bCase:= false;
+    1: bCase:= true;
     2:
       begin
         if Assigned(fmFind) then
-          FFinder.OptCase:= fmFind.chkCase.Checked;
+          bCase:= fmFind.chkCase.Checked;
       end;
   end;
 
-  ok:= FFinder.DoAction_FindOrReplace(false, false, false, bFlag);
-  FinderUpdateEditor(false);
-  DoFindResult(ok);
+  ok:= EditorFindCurrentWordOrSel(Ed, ANext, AWordOrSel, bCase, Str);
+  DoFindResultSimple(ok);
 
-  //FFinder.StrFind:= SavedFind;
-  FFinder.OptWords:= bSavedWords;
-  FFinder.OptRegex:= bSavedRegex;
-  FFinder.OptCase:= bSavedCase;
-  FFinder.OptTokens:= SavedTokens;
+  //sync Find dialog with text
+  if Assigned(fmFind) then
+    fmFind.UpdateInputFind(Str);
 end;
 
 

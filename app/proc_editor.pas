@@ -127,6 +127,7 @@ procedure EditorBracket_FindOpeningBracketBackward(Ed: TATSynEdit;
 
 function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer): TATFinderTokenKind;
 function EditorExpandSelectionToWord(Ed: TATSynEdit): boolean;
+function EditorFindCurrentWordOrSel(Ed: TATSynEdit; ANext, AWordOrSel, AOptCase: boolean; out Str: UnicodeString): boolean;
 
 
 implementation
@@ -1583,6 +1584,53 @@ begin
   Ed.Update;
 end;
 
+
+function EditorFindCurrentWordOrSel(Ed: TATSynEdit; ANext, AWordOrSel, AOptCase: boolean; out
+  Str: UnicodeString): boolean;
+var
+  Finder: TATEditorFinder;
+  bFlag: boolean;
+begin
+  Str:= '';
+  if Ed.Carets.Count<>1 then exit;
+
+  if AWordOrSel then
+  begin
+    Str:= Ed.TextCurrentWord;
+    Ed.DoCommand(cCommand_SelectWords);
+  end
+  else
+  begin
+    Str:= Ed.TextSelected;
+    if Str='' then
+    begin
+      Str:= Ed.TextCurrentWord;
+      Ed.DoCommand(cCommand_SelectWords);
+    end;
+  end;
+  if Str='' then exit;
+
+  Finder:= TATEditorFinder.Create;
+  try
+    Finder.StrFind:= Str;
+    Finder.StrReplace:= '';
+    Finder.Editor:= Ed;
+
+    Finder.OptRegex:= false;
+    Finder.OptCase:= AOptCase;
+    Finder.OptWords:= AWordOrSel;
+    Finder.OptFromCaret:= true;
+    Finder.OptBack:= not ANext;
+    Finder.OptInSelection:= false;
+    Finder.OptTokens:= cTokensAll;
+
+    Result:= Finder.DoAction_FindOrReplace(false, false, false, bFlag);
+    if Result then
+      Ed.DoGotoCaret(cEdgeBottom);
+  finally
+    FreeAndNil(Finder);
+  end;
+end;
 
 end.
 
