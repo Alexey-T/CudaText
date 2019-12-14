@@ -815,7 +815,7 @@ var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
   X1, Y1, X2, Y2: integer;
-  bSel, bFound: boolean;
+  bSel, bFound, bForwardSel: boolean;
   SavedFind: UnicodeString;
   bSavedWords,
   bSavedRegex,
@@ -831,10 +831,12 @@ begin
 
   if not bSel then
   begin
+    bForwardSel:= true;
     Ed.DoSelect_CharGroupAtPos(Point(X1, Y1), false, true);
   end
   else
   begin
+    bForwardSel:= Caret.IsForwardSelection;
     SavedFind:= FFinder.StrFind;
     bSavedWords:= FFinder.OptWords;
     bSavedRegex:= FFinder.OptRegex;
@@ -864,12 +866,20 @@ begin
 
     if bFound then
     begin
-      Ed.Carets.Add(
-        FFinder.MatchEdEnd.X,
-        FFinder.MatchEdEnd.Y,
-        FFinder.MatchEdPos.X,
-        FFinder.MatchEdPos.Y
-        );
+      if bForwardSel then
+        Ed.Carets.Add(
+          FFinder.MatchEdEnd.X,
+          FFinder.MatchEdEnd.Y,
+          FFinder.MatchEdPos.X,
+          FFinder.MatchEdPos.Y
+          )
+      else
+        Ed.Carets.Add(
+          FFinder.MatchEdPos.X,
+          FFinder.MatchEdPos.Y,
+          FFinder.MatchEdEnd.X,
+          FFinder.MatchEdEnd.Y
+          );
       Ed.DoCommand(cCommand_ScrollToCaretBottom);
     end;
 
