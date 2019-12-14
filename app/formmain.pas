@@ -934,7 +934,7 @@ type
     procedure DoOps_LoadKeymap;
     procedure DoOps_LoadKeymapFrom(const AFilenameKeymap: string; AUndoList: TATKeymapUndoList);
     procedure DoEditorsLock(ALock: boolean);
-    procedure DoFindCurrentWordOrSel(ANext: boolean; AWordOrSel: boolean);
+    procedure DoFindCurrentWordOrSel(Ed: TATSynEdit; ANext: boolean; AWordOrSel: boolean);
     procedure DoDialogCommands;
     function DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers,
       AShowFiles, AShowRecents, AAllowConfig, AShowCentered: boolean;

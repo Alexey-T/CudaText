@@ -741,15 +741,13 @@ begin
     UpdateStatus;
 end;
 
-procedure TfmMain.DoFindCurrentWordOrSel(ANext: boolean; AWordOrSel: boolean);
+procedure TfmMain.DoFindCurrentWordOrSel(Ed: TATSynEdit; ANext: boolean; AWordOrSel: boolean);
 var
   Str: atString;
-  Ed: TATSynEdit;
   ok, bFlag: boolean;
   bSavedWords, bSavedRegex, bSavedCase: boolean;
   SavedTokens: TATFinderTokensAllowed;
 begin
-  Ed:= CurrentEditor;
   if Ed.Carets.Count<>1 then exit;
 
   if AWordOrSel then

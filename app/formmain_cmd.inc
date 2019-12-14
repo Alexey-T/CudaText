@@ -245,14 +245,14 @@ begin
       DoFindMarkAll(markingBookmarks);
 
     cmd_FindCurWordNext:
-      DoFindCurrentWordOrSel(true, true);
+      DoFindCurrentWordOrSel(Ed, true, true);
     cmd_FindCurWordPrev:
-      DoFindCurrentWordOrSel(false, true);
+      DoFindCurrentWordOrSel(Ed, false, true);
 
     cmd_FindCurSelNext:
-      DoFindCurrentWordOrSel(true, false);
+      DoFindCurrentWordOrSel(Ed, true, false);
     cmd_FindCurSelPrev:
-      DoFindCurrentWordOrSel(false, false);
+      DoFindCurrentWordOrSel(Ed, false, false);
 
     cmd_SelectExpandToWord:
       begin
