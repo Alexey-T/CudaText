@@ -810,9 +810,8 @@ begin
   FFinder.OptTokens:= SavedTokens;
 end;
 
-procedure TfmMain.DoFind_ExpandSelectionToWord;
+procedure TfmMain.DoFind_ExpandSelectionToWord(Ed: TATSynEdit);
 var
-  Ed: TATSynEdit;
   Caret: TATCaretItem;
   X1, Y1, X2, Y2: integer;
   bSel, bFound, bForwardSel: boolean;
@@ -823,9 +822,7 @@ var
   bSavedFromCaret: boolean;
   SavedTokens: TATFinderTokensAllowed;
 begin
-  Ed:= CurrentEditor;
   Caret:= Ed.Carets[Ed.Carets.Count-1];
-
   Caret.GetRange(X1, Y1, X2, Y2, bSel);
   //pos are sorted: (X1,Y1) <= (X2,Y2)
 

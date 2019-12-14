@@ -255,7 +255,7 @@ begin
       DoFindCurrentWordOrSel(false, false);
 
     cmd_SelectExpandToWord:
-      DoFind_ExpandSelectionToWord;
+      DoFind_ExpandSelectionToWord(Ed);
 
     cmd_OpsClearRecent:
       DoClearRecentFileHistory;
