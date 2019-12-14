@@ -193,21 +193,11 @@ begin
 
     case Res of
       afoFindFirst:
-        begin
-          if Frame.BinaryFindFirst(FFinder, false) then
-            MsgStatus(msgStatusFoundNextMatch)
-          else
-            MsgStatus(msgCannotFindMatch);
-        end;
+        DoFindResultSimple(Frame.BinaryFindFirst(FFinder, false));
 
       afoFindNext,
       afoFindPrev:
-        begin
-          if Frame.BinaryFindNext(Res=afoFindPrev) then
-            MsgStatus(msgStatusFoundNextMatch)
-          else
-            MsgStatus(msgCannotFindMatch);
-        end;
+        DoFindResultSimple(Frame.BinaryFindNext(Res=afoFindPrev));
     end;
 
     UpdateAppForSearch(false, false, true);
