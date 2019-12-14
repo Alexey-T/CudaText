@@ -255,7 +255,12 @@ begin
       DoFindCurrentWordOrSel(false, false);
 
     cmd_SelectExpandToWord:
-      DoFind_ExpandSelectionToWord(Ed);
+      begin
+        if EditorExpandSelectionToWord(Ed) then
+          MsgStatus(msgStatusFoundNextMatch)
+        else
+          MsgStatus(msgCannotFindMatch);
+      end;
 
     cmd_OpsClearRecent:
       DoClearRecentFileHistory;

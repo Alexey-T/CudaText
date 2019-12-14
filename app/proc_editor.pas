@@ -32,6 +32,7 @@ uses
   proc_globdata,
   proc_colors,
   proc_msg,
+  proc_str,
   ec_SyntAnal,
   ec_syntax_format,
   math;
@@ -125,6 +126,7 @@ procedure EditorBracket_FindOpeningBracketBackward(Ed: TATSynEdit;
   out FoundX, FoundY: integer);
 
 function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer): TATFinderTokenKind;
+function EditorExpandSelectionToWord(Ed: TATSynEdit): boolean;
 
 
 implementation
@@ -1512,6 +1514,75 @@ begin
     SClipboardCopy(S);
   end;
 end;
+
+function EditorExpandSelectionToWord(Ed: TATSynEdit): boolean;
+var
+  Caret: TATCaretItem;
+  Finder: TATEditorFinder;
+  X1, Y1, X2, Y2: integer;
+  bSel, bForwardSel: boolean;
+begin
+  Result:= true;
+  Caret:= Ed.Carets[Ed.Carets.Count-1];
+  Caret.GetRange(X1, Y1, X2, Y2, bSel);
+  //pos are sorted: (X1,Y1) <= (X2,Y2)
+
+  if not bSel then
+  begin
+    bForwardSel:= true;
+    Ed.DoSelect_CharGroupAtPos(Point(X1, Y1), false, true);
+  end
+  else
+  begin
+    Finder:= TATEditorFinder.Create;
+    try
+      bForwardSel:= Caret.IsForwardSelection;
+
+      Finder.StrFind:= Ed.Strings.TextSubstring(X1, Y1, X2, Y2);
+      Finder.StrReplace:= '';
+      Finder.Editor:= Ed;
+
+      Finder.OptWords:= STextWholeWordSelection(
+        Ed.Strings.Lines[Y1],
+        X1,
+        X2,
+        Ed.OptNonWordChars
+        );
+      Finder.OptRegex:= false;
+      Finder.OptCase:= true;
+      Finder.OptBack:= false;
+      Finder.OptFromCaret:= false;
+      Finder.OptInSelection:= false;
+      Finder.OptTokens:= cTokensAll;
+
+      Result:= Finder.DoAction_FindSimple(Point(X2, Y2));
+
+      if Result then
+      begin
+        if bForwardSel then
+          Ed.Carets.Add(
+            Finder.MatchEdEnd.X,
+            Finder.MatchEdEnd.Y,
+            Finder.MatchEdPos.X,
+            Finder.MatchEdPos.Y
+            )
+        else
+          Ed.Carets.Add(
+            Finder.MatchEdPos.X,
+            Finder.MatchEdPos.Y,
+            Finder.MatchEdEnd.X,
+            Finder.MatchEdEnd.Y
+            );
+        Ed.DoCommand(cCommand_ScrollToCaretBottom);
+      end;
+    finally
+      FreeAndNil(Finder);
+    end;
+  end;
+
+  Ed.Update;
+end;
+
 
 end.
 
