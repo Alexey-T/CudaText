@@ -724,10 +724,11 @@ begin
   Op.OpFontName_b:= FixFontMonospaced(UTF8Encode(c.GetValue(str_FontName_b, UTF8Decode(Op.OpFontName_b))));
   Op.OpFontName_bi:= FixFontMonospaced(UTF8Encode(c.GetValue(str_FontName_bi, UTF8Decode(Op.OpFontName_bi))));
 
-  Op.OpFontSize:= Abs(c.GetValue(str_FontSize, Op.OpFontSize)); //Abs for macOS
-  Op.OpFontSize_i:= c.GetValue(str_FontSize_i, Op.OpFontSize_i);
-  Op.OpFontSize_b:= c.GetValue(str_FontSize_b, Op.OpFontSize_b);
-  Op.OpFontSize_bi:= c.GetValue(str_FontSize_bi, Op.OpFontSize_bi);
+  Op.OpFontSize:= Abs(c.GetValue(str_FontSize, Op.OpFontSize)); //Abs() for macOS
+  Op.OpFontSize_i:= Abs(c.GetValue(str_FontSize_i, Op.OpFontSize_i));
+  Op.OpFontSize_b:= Abs(c.GetValue(str_FontSize_b, Op.OpFontSize_b));
+  Op.OpFontSize_bi:= Abs(c.GetValue(str_FontSize_bi, Op.OpFontSize_bi));
+  Op.OpFontSizeOriginal:= Op.OpFontSize;
 
   Op.OpFontQuality:= TFontQuality(c.GetValue(str_FontQuality, Ord(Op.OpFontQuality)));
   Op.OpFontLigatures:= c.GetValue(str_FontLigatures, Op.OpFontLigatures);
@@ -1208,6 +1209,12 @@ const
   cMinSize = 5;
 begin
   EditorOps.OpFontSize:= Max(cMinSize, EditorOps.OpFontSize+AIncrement);
+  DoApplyFont_Text;
+end;
+
+procedure TfmMain.DoOps_FontSizeReset;
+begin
+  EditorOps.OpFontSize:= EditorOps.OpFontSizeOriginal;
   DoApplyFont_Text;
 end;
 

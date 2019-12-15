@@ -275,10 +275,13 @@ begin
       DoOps_DialogFont_Ui;
     cmd_OpsFontOutput:
       DoOps_DialogFont_Output;
+
     cmd_OpsFontSizeBigger:
       DoOps_FontSizeChange(1);
     cmd_OpsFontSizeSmaller:
       DoOps_FontSizeChange(-1);
+    cmd_OpsFontSizeReset:
+      DoOps_FontSizeReset;
 
     cmd_ResetPythonPlugins:
       DoPyResetPlugins;

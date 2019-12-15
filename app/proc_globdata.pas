@@ -335,6 +335,7 @@ type
     OpFontName_i: string;
     OpFontName_b: string;
     OpFontName_bi: string;
+    OpFontSizeOriginal: integer;
     OpFontSize: integer;
     OpFontSize_i: integer;
     OpFontSize_b: integer;

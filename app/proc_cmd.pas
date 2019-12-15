@@ -113,6 +113,7 @@ const
   cmd_ShowPanelOutput_AndFocus    = 2562;
   cmd_ShowPanelValidate_AndFocus  = 2563;
   cmd_ToggleSidePanelAndSyntaxTree = 2565;
+  cmd_OpsFontSizeReset = 2566;
 
   cmd_ChooseTranslation = 2570;
   cmd_ChooseThemeUI     = 2571;
@@ -365,6 +366,7 @@ begin
 
   M.Add(cmd_OpsFontSizeBigger, 'settings: font size: bigger', [], []);
   M.Add(cmd_OpsFontSizeSmaller, 'settings: font size: smaller', [], []);
+  M.Add(cmd_OpsFontSizeReset, 'settings: font size: reset', [], []);
 
   M.Add(cmd_ResetPythonPlugins, 'plugins: reset python plugins', [], []);
   M.Add(cmd_RunLastCommandPlugin, 'plugins: run last command plugin', [], []);
