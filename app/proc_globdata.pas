@@ -335,11 +335,14 @@ type
     OpFontName_i: string;
     OpFontName_b: string;
     OpFontName_bi: string;
-    OpFontSizeOriginal: integer;
     OpFontSize: integer;
     OpFontSize_i: integer;
     OpFontSize_b: integer;
     OpFontSize_bi: integer;
+    OpFontSize_original: integer;
+    OpFontSize_original_i: integer;
+    OpFontSize_original_b: integer;
+    OpFontSize_original_bi: integer;
     OpFontQuality: TFontQuality;
     OpFontLigatures: boolean;
 
@@ -1039,10 +1042,14 @@ begin
     OpFontName_b:= '';
     OpFontName_bi:= '';
 
-    OpFontSize:= 9; //now Win, Carbon and Cocoa use the same font size
+    OpFontSize:= 9;
     OpFontSize_i:= OpFontSize;
     OpFontSize_b:= OpFontSize;
     OpFontSize_bi:= OpFontSize;
+    OpFontSize_original:= OpFontSize;
+    OpFontSize_original_i:= OpFontSize;
+    OpFontSize_original_b:= OpFontSize;
+    OpFontSize_original_bi:= OpFontSize;
 
     OpFontQuality:= fqDefault;
     OpFontLigatures:= true;

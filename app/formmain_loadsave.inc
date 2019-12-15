@@ -728,7 +728,10 @@ begin
   Op.OpFontSize_i:= Abs(c.GetValue(str_FontSize_i, Op.OpFontSize_i));
   Op.OpFontSize_b:= Abs(c.GetValue(str_FontSize_b, Op.OpFontSize_b));
   Op.OpFontSize_bi:= Abs(c.GetValue(str_FontSize_bi, Op.OpFontSize_bi));
-  Op.OpFontSizeOriginal:= Op.OpFontSize;
+  Op.OpFontSize_original:= Op.OpFontSize;
+  Op.OpFontSize_original_i:= Op.OpFontSize_i;
+  Op.OpFontSize_original_b:= Op.OpFontSize_b;
+  Op.OpFontSize_original_bi:= Op.OpFontSize_bi;
 
   Op.OpFontQuality:= TFontQuality(c.GetValue(str_FontQuality, Ord(Op.OpFontQuality)));
   Op.OpFontLigatures:= c.GetValue(str_FontLigatures, Op.OpFontLigatures);
@@ -1206,15 +1209,21 @@ end;
 
 procedure TfmMain.DoOps_FontSizeChange(AIncrement: integer);
 const
-  cMinSize = 5;
+  cMinSize = 6;
 begin
-  EditorOps.OpFontSize:= Max(cMinSize, EditorOps.OpFontSize+AIncrement);
+  EditorOps.OpFontSize   := Max(cMinSize, EditorOps.OpFontSize   +AIncrement);
+  EditorOps.OpFontSize_i := Max(cMinSize, EditorOps.OpFontSize_i +AIncrement);
+  EditorOps.OpFontSize_b := Max(cMinSize, EditorOps.OpFontSize_b +AIncrement);
+  EditorOps.OpFontSize_bi:= Max(cMinSize, EditorOps.OpFontSize_bi+AIncrement);
   DoApplyFont_Text;
 end;
 
 procedure TfmMain.DoOps_FontSizeReset;
 begin
-  EditorOps.OpFontSize:= EditorOps.OpFontSizeOriginal;
+  EditorOps.OpFontSize:= EditorOps.OpFontSize_original;
+  EditorOps.OpFontSize_i:= EditorOps.OpFontSize_original_i;
+  EditorOps.OpFontSize_b:= EditorOps.OpFontSize_original_b;
+  EditorOps.OpFontSize_bi:= EditorOps.OpFontSize_original_bi;
   DoApplyFont_Text;
 end;
 
