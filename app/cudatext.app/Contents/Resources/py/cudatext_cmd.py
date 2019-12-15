@@ -279,6 +279,7 @@ cmd_ShowPanelConsole_AndFocus  = 2561
 cmd_ShowPanelOutput_AndFocus   = 2562
 cmd_ShowPanelValidate_AndFocus = 2563
 cmd_ToggleSidePanelAndSyntaxTree = 2565
+cmd_OpsFontSizeReset = 2566
 
 cmd_ChooseTranslation = 2570
 cmd_ChooseThemeUI     = 2571
