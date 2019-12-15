@@ -854,6 +854,8 @@ begin
     cmd_Encoding_utf8nobom_NoReload: begin SetFrameEncoding(Frame, cEncNameUtf8_NoBom, false); AHandled:= true; exit end;
     cmd_Encoding_utf16le_NoReload:   begin SetFrameEncoding(Frame, cEncNameUtf16LE_WithBom, false); AHandled:= true; exit end;
     cmd_Encoding_utf16be_NoReload:   begin SetFrameEncoding(Frame, cEncNameUtf16BE_WithBom, false); AHandled:= true; exit end;
+    cmd_Encoding_utf32le_NoReload:   begin SetFrameEncoding(Frame, cEncNameUtf32LE_WithBom, false); AHandled:= true; exit end;
+    cmd_Encoding_utf32be_NoReload:   begin SetFrameEncoding(Frame, cEncNameUtf32BE_WithBom, false); AHandled:= true; exit end;
     cmd_Encoding_cp1250_NoReload:    begin SetFrameEncoding(Frame, cEncConvNames[eidCP1250], false); AHandled:= true; exit end;
     cmd_Encoding_cp1251_NoReload:    begin SetFrameEncoding(Frame, cEncConvNames[eidCP1251], false); AHandled:= true; exit end;
     cmd_Encoding_cp1252_NoReload:    begin SetFrameEncoding(Frame, cEncConvNames[eidCP1252], false); AHandled:= true; exit end;
@@ -880,6 +882,8 @@ begin
     cmd_Encoding_utf8nobom_Reload:   begin SetFrameEncoding(Frame, cEncNameUtf8_NoBom, true); AHandled:= true; exit end;
     cmd_Encoding_utf16le_Reload:     begin SetFrameEncoding(Frame, cEncNameUtf16LE_WithBom, true); AHandled:= true; exit end;
     cmd_Encoding_utf16be_Reload:     begin SetFrameEncoding(Frame, cEncNameUtf16BE_WithBom, true); AHandled:= true; exit end;
+    cmd_Encoding_utf32le_Reload:     begin SetFrameEncoding(Frame, cEncNameUtf32LE_WithBom, true); AHandled:= true; exit end;
+    cmd_Encoding_utf32be_Reload:     begin SetFrameEncoding(Frame, cEncNameUtf32BE_WithBom, true); AHandled:= true; exit end;
     cmd_Encoding_cp1250_Reload:      begin SetFrameEncoding(Frame, cEncConvNames[eidCP1250], true); AHandled:= true; exit end;
     cmd_Encoding_cp1251_Reload:      begin SetFrameEncoding(Frame, cEncConvNames[eidCP1251], true); AHandled:= true; exit end;
     cmd_Encoding_cp1252_Reload:      begin SetFrameEncoding(Frame, cEncConvNames[eidCP1252], true); AHandled:= true; exit end;

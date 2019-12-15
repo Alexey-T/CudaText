@@ -253,6 +253,8 @@ const
   cmd_Encoding_cp936_NoReload     = 2736;
   cmd_Encoding_cp949_NoReload     = 2737;
   cmd_Encoding_cp950_NoReload     = 2738;
+  cmd_Encoding_utf32le_NoReload   = 2739;
+  cmd_Encoding_utf32be_NoReload   = 2740;
 
   cmd_Encoding_utf8bom_Reload   = 2751;
   cmd_Encoding_utf8nobom_Reload = 2752;
@@ -279,6 +281,8 @@ const
   cmd_Encoding_cp936_Reload     = 2776;
   cmd_Encoding_cp949_Reload     = 2777;
   cmd_Encoding_cp950_Reload     = 2778;
+  cmd_Encoding_utf32le_Reload   = 2779;
+  cmd_Encoding_utf32be_Reload   = 2780;
 
   cmd_Markers_SelectToCaret      = 2798;
   cmd_Markers_DeleteToCaret      = 2799;
@@ -525,6 +529,8 @@ begin
   M.Add(cmd_Encoding_utf8nobom_NoReload, 'change encoding, no reload: utf8 no bom', [], []);
   M.Add(cmd_Encoding_utf16le_NoReload, 'change encoding, no reload: utf16 le', [], []);
   M.Add(cmd_Encoding_utf16be_NoReload, 'change encoding, no reload: utf16 be', [], []);
+  M.Add(cmd_Encoding_utf32le_NoReload, 'change encoding, no reload: utf32 le', [], []);
+  M.Add(cmd_Encoding_utf32be_NoReload, 'change encoding, no reload: utf32 be', [], []);
   M.Add(cmd_Encoding_cp1250_NoReload, 'change encoding, no reload: cp1250', [], []);
   M.Add(cmd_Encoding_cp1251_NoReload, 'change encoding, no reload: cp1251', [], []);
   M.Add(cmd_Encoding_cp1252_NoReload, 'change encoding, no reload: cp1252', [], []);
@@ -551,6 +557,8 @@ begin
   M.Add(cmd_Encoding_utf8nobom_Reload, 'change encoding, reload: utf8 no bom', [], []);
   M.Add(cmd_Encoding_utf16le_Reload, 'change encoding, reload: utf16 le', [], []);
   M.Add(cmd_Encoding_utf16be_Reload, 'change encoding, reload: utf16 be', [], []);
+  M.Add(cmd_Encoding_utf32le_Reload, 'change encoding, reload: utf32 le', [], []);
+  M.Add(cmd_Encoding_utf32be_Reload, 'change encoding, reload: utf32 be', [], []);
   M.Add(cmd_Encoding_cp1250_Reload, 'change encoding, reload: cp1250', [], []);
   M.Add(cmd_Encoding_cp1251_Reload, 'change encoding, reload: cp1251', [], []);
   M.Add(cmd_Encoding_cp1252_Reload, 'change encoding, reload: cp1252', [], []);
