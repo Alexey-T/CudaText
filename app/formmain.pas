@@ -6013,12 +6013,8 @@ procedure TfmMain.MsgLogConsole(const AText: string);
 begin
   if UiOps.LogConsole then
     MsgLogToFilename(AText, FFileNameLogConsole, false);
-
-  //if DoOnConsolePrint(AText) then //disabled on_console_print, later will delete it
-    begin
-      fmConsole.DoAddLine(AText);
-      fmConsole.DoUpdate;;
-    end;
+  fmConsole.DoAddLine(AText);
+  fmConsole.DoUpdate;
 end;
 
 

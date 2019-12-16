@@ -126,15 +126,17 @@ procedure TfmConsole.DoUpdate;
 begin
   with memo do
   begin
-    ModeReadOnly:= false;
-    while Strings.Count>cPyConsoleMaxLines do
-      Strings.LineDelete(0);
-    //if Strings.LinesUTF8[0]='' then
-    //  Strings.LineDelete(0);
-    ModeReadOnly:= true;
+    if Strings.Count>cPyConsoleMaxLines then
+    begin
+      ModeReadOnly:= false;
+      while Strings.Count>cPyConsoleMaxLines do
+        Strings.LineDelete(0);
+      //if Strings.LinesUTF8[0]='' then
+      //  Strings.LineDelete(0);
+      ModeReadOnly:= true;
+    end;
 
     Update(true);
-    Application.ProcessMessages;
     DoCommand(cCommand_GotoTextEnd);
     ColumnLeft:= 0;
     Update;
