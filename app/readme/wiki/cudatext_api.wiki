@@ -2685,7 +2685,6 @@ Performs some action in editor. Possible values of "id":
 *** "c": Case sensitive.
 *** "r": Regular expression.
 *** "w": Whole words.
-*** "s": Search in selection.
 *** "T" followed by number: Allowed syntax elements. Number is 0-based, it is index of "Allowed syntax elements" choice in the Find dialog.
 
 * EDACTION_FIND_BRACKETS: Find position of nearest opening bracket with its pair bracket. Gets 4-tuple (col_start, line_start, col_end, line_end), where line_end<0 if brackets not found.
