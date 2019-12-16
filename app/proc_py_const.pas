@@ -344,6 +344,7 @@ const
   TREE_THEME                 = 33;
 
   EDACTION_UPDATE         = 0;
+  EDACTION_FIND_ALL       = 7;
   EDACTION_FIND_BRACKETS  = 8;
   EDACTION_SHOW_POS       = 9;
   EDACTION_CODETREE_FILL  = 10;

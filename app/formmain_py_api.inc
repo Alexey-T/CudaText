@@ -6624,6 +6624,37 @@ begin
 end;
 
 
+function Py_FindAllMatches(Ed: TATSynEdit; const AText, AOptions: string): PPyObject;
+var
+  Finder: TATEditorFinder;
+  ResList: TATFinderResults;
+  Res: TATFinderResult;
+  i: integer;
+begin
+  Finder:= TATEditorFinder.Create;
+  ResList:= TATFinderResults.Create;
+  try
+    Finder.Editor:= Ed;
+    Finder.StrFind:= UTF8Decode(AText);
+    FinderOptionsFromString(Finder, AOptions);
+    Finder.DoAction_FindAll(ResList, false);
+    with GetPythonEngine do
+    begin
+      Result:= PyList_New(ResList.Count);
+      for i:= 0 to ResList.Count-1 do
+      begin
+        Res:= ResList[i];
+        PyList_SetItem(Result, i,
+          Py_BuildValue('(iiii)', Res.FPos.X, Res.FPos.Y, Res.FEnd.X, Res.FEnd.Y));
+      end;
+    end;
+  finally
+    FreeAndNil(ResList);
+    FreeAndNil(Finder);
+  end;
+end;
+
+
 function Py_ed_action(Self, Args: PPyObject): PPyObject; cdecl;
 var
   HEditor: Int64;
@@ -6657,6 +6688,11 @@ begin
           begin
             Ed.Update;
             Result:= ReturnNone;
+          end;
+
+        EDACTION_FIND_ALL:
+          begin
+            Result:= Py_FindAllMatches(Ed, StrText1, StrText2);
           end;
 
         EDACTION_FIND_BRACKETS:
