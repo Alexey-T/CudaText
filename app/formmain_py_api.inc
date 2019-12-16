@@ -6637,7 +6637,10 @@ begin
     Finder.Editor:= Ed;
     Finder.StrFind:= UTF8Decode(AText);
     FinderOptionsFromString(Finder, AOptions);
+    Finder.OnGetToken:= @fmMain.FinderOnGetToken;
+
     Finder.DoAction_FindAll(ResList, false);
+
     with GetPythonEngine do
     begin
       Result:= PyList_New(ResList.Count);

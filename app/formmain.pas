@@ -991,7 +991,6 @@ type
     function FinderReplaceAll(Ed: TATSynEdit; AResetCaret: boolean): integer;
     procedure FinderShowReplaceReport(ACounter, ATime: integer);
     procedure FindDialogDone(Sender: TObject; Res: TAppFinderOperation);
-    procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATFinderTokenKind);
     procedure FinderOnFound(Sender: TObject; APos1, APos2: TPoint);
     procedure FinderOnBadRegex(Sender: TObject);
     procedure FinderOnConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
@@ -1130,6 +1129,7 @@ type
     procedure DoPyCommand(const AModule, AMethod: string; const AParams: array of string);
     function DoPyTreeHelper(Frame: TEditorFrame): boolean;
     //function DoPyCallbackFromAPI(const ACallback: string; const AParams: array of string): string;
+    procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATFinderTokenKind);
   end;
 
 var
