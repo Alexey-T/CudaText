@@ -21,9 +21,9 @@ cd ../../app
 cd $exedir
 tar -rf $zipfile cudatext
 
-if [ "$1"=="haiku" ]
-  then
-    cd $outdir/lib_haiku_$3
+if [ "$os" = "haiku" ]; then
+    echo OS: $os
+    cd $outdir/lib_haiku_$cpu
     tar -rf $zipfile libQt*
 fi
 
