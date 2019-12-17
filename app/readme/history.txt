@@ -3,13 +3,15 @@
   - fixed
   * changed
 
-1.91.3 (2019/12)
+1.92.0 (2019/12)
 
 + add: support encoding UTF-32, LE and BE, with and without BOM
 + add: support encoding ISO-8859-15
-+ add: command "font size: reset" (reset to the value from config)
 + add: plugin API for mass search, e.g. to speedup "Highlight Occurrences" plugin
++ add: command "font size: reset"
++ add: command "add next occurrence of selected word" must keep selection direction
 - fix: backward search for multi-line blocks with empty lines
+- fix: lost editor focus with old color theme
 
 1.91.0 (2019/12)
 
