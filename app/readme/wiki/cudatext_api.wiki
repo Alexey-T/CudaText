@@ -2679,14 +2679,19 @@ Performs some action in editor. Possible values of "id":
 
 * EDACTION_UPDATE: Repaint editor.
 
-* EDACTION_FIND_ALL: Perform text search and get all matches in a list. This uses finder independent from CudaText Find/Replace dialog, you must configure this finder via options string. Result list items are 4-tuples of int: (start_x, start_y, end_x, end_y).
+* EDACTION_FIND_ONE: Perform text search, get match as 4-tuple of int (start_x, start_y, end_x, end_y) or None if not found. This uses finder independent from CudaText Find/Replace dialog, you must configure this finder via options string.
 ** "param1": Search string.
-** "param2": Search options, string of several chars:
+** "param2": Search options, string of chars:
 *** "c": Case sensitive.
 *** "r": Regular expression.
 *** "w": Whole words.
-*** "s": Search in selection.
+*** "s": In selection.
+*** "f": From caret.
 *** "T" followed by number: Allowed syntax elements. Number is 0-based, it is index of "Allowed syntax elements" choice in the Find dialog.
+
+* EDACTION_FIND_ALL: Perform text search and get all matches in a list. Result list items are 4-tuples of int: (start_x, start_y, end_x, end_y). This uses finder independent from CudaText Find/Replace dialog, you must configure this finder via options string.
+** "param1": Search string.
+** "param2": Search options, like in EDACTION_FIND_ONE.
 
 * EDACTION_FIND_BRACKETS: Find position of nearest opening bracket with its pair bracket. Gets 4-tuple (col_start, line_start, col_end, line_end), where line_end<0 if brackets not found.
 ** "param1": Text position as 2-tuple (column, line).
@@ -3747,6 +3752,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: supported encodings UTF-32 (LE and BE, with and without BOM)
 
 1.0.318 (app 1.90.3)
+* add: Editor.action: EDACTION_FIND_ONE
 * add: Editor.action: EDACTION_FIND_ALL
 
 [[Category:CudaText]]
