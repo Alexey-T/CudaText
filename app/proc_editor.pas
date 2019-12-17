@@ -1624,7 +1624,7 @@ begin
     Finder.OptInSelection:= false;
     Finder.OptTokens:= cTokensAll;
 
-    Result:= Finder.DoAction_FindOrReplace(false, false, false, bFlag);
+    Result:= Finder.DoAction_FindOrReplace(false, false, false, bFlag, true);
     if Result then
       Ed.DoGotoCaret(cEdgeBottom);
   finally

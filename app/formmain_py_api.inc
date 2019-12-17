@@ -6638,7 +6638,7 @@ begin
     Finder.OnGetToken:= @fmMain.FinderOnGetToken;
 
     with GetPythonEngine do
-      if Finder.DoAction_FindOrReplace(false, false, false, bChange) then
+      if Finder.DoAction_FindOrReplace(false, false, false, bChange, false) then
       begin
         Result:= Py_BuildValue('(iiii)',
           Finder.MatchEdPos.X,

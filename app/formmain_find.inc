@@ -228,7 +228,7 @@ begin
   if (Res=afoFindFirst) or (Res=afoFindNext) or (Res=afoFindPrev) then
   begin
     FFinder.OptBack:= (Res=afoFindPrev);
-    ok:= FFinder.DoAction_FindOrReplace(false, false, false, bChanged);
+    ok:= FFinder.DoAction_FindOrReplace(false, false, false, bChanged, true);
     FinderUpdateEditor(false);
     DoFindResult(ok);
     if ok then
@@ -238,11 +238,11 @@ begin
   if (Res=afoReplace) or (Res=afoReplaceStop) then
   begin
     //replace match
-    ok:= FFinder.DoAction_ReplaceSelected;
+    ok:= FFinder.DoAction_ReplaceSelected(true);
     //after match is replaced, do find-next
     if Res=afoReplace then
       if ok then
-        ok:= FFinder.DoAction_FindOrReplace(false, false, false, bChanged);
+        ok:= FFinder.DoAction_FindOrReplace(false, false, false, bChanged, true);
     FinderUpdateEditor(true);
     DoFindResult(ok);
     if ok then
@@ -505,7 +505,7 @@ begin
   FFinder.OptBack:= false;
   FFinder.OptFromCaret:= false;
 
-  ok:= FFinder.DoAction_FindOrReplace(false, false, false, bChanged);
+  ok:= FFinder.DoAction_FindOrReplace(false, false, false, bChanged, true);
   FinderUpdateEditor(false);
   DoFindResult(ok);
 end;
@@ -532,7 +532,7 @@ begin
     FFinder.OptRegex:= false;
   FFinder.OptBack:= not ANext;
 
-  ok:= FFinder.DoAction_FindOrReplace(false, false, false, bChanged);
+  ok:= FFinder.DoAction_FindOrReplace(false, false, false, bChanged, true);
   FinderUpdateEditor(false);
   DoFindResult(ok);
 end;
