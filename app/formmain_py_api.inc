@@ -6727,7 +6727,7 @@ begin
 
         EDACTION_FIND_ONE:
           begin
-            Result:= Py_FindOneMatch(Ed, StrText1, StrText2, AppStrToBool(StrText3));
+            Result:= Py_FindOneMatch(Ed, StrText1, StrText2, false);
           end;
 
         EDACTION_FIND_ALL:
