@@ -6624,7 +6624,7 @@ begin
 end;
 
 
-function Py_FindOneMatch(Ed: TATSynEdit; const AText, AOptions: string): PPyObject;
+function Py_FindOneMatch(Ed: TATSynEdit; const AText, AOptions: string; AUpdateCaret: boolean): PPyObject;
 var
   Finder: TATEditorFinder;
   bChange: boolean;
@@ -6638,14 +6638,15 @@ begin
     Finder.OnGetToken:= @fmMain.FinderOnGetToken;
 
     with GetPythonEngine do
-      if Finder.DoAction_FindOrReplace(false, false, false, bChange, false) then
+      if Finder.DoAction_FindOrReplace(false, false, false, bChange, AUpdateCaret) then
       begin
         Result:= Py_BuildValue('(iiii)',
           Finder.MatchEdPos.X,
           Finder.MatchEdPos.Y,
           Finder.MatchEdEnd.X,
           Finder.MatchEdEnd.Y);
-        Ed.Update; //action changes caret
+        if AUpdateCaret then
+          Ed.Update;
       end
       else
         Result:= ReturnNone;
@@ -6726,7 +6727,7 @@ begin
 
         EDACTION_FIND_ONE:
           begin
-            Result:= Py_FindOneMatch(Ed, StrText1, StrText2);
+            Result:= Py_FindOneMatch(Ed, StrText1, StrText2, AppStrToBool(StrText3));
           end;
 
         EDACTION_FIND_ALL:
