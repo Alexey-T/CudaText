@@ -7779,7 +7779,8 @@ begin
 
         DLG_FOCUS:
           begin
-            Form.SetFocus;
+            if Form.Visible and Form.Enabled then
+              Form.SetFocus;
             Result:= ReturnNone;
           end;
 
