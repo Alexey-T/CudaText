@@ -1690,6 +1690,7 @@ function CommandPlugins_GetIndexFromModuleAndMethod(const AText: string): intege
 var
   Sep: TATStringSeparator;
   SModule, SProc, SProcParam: string;
+  AppCmd: TAppCommand;
   i: integer;
 begin
   Result:= -1;
@@ -1703,9 +1704,13 @@ begin
   if SProc='' then exit;
 
   for i:= 0 to AppCommandList.Count-1 do
-    with TAppCommand(AppCommandList[i]) do
-      if (ItemModule=SModule) and (ItemProc=SProc) and (ItemProcParam=SProcParam) then
-        exit(i);
+  begin
+    AppCmd:= TAppCommand(AppCommandList[i]);
+    if (AppCmd.ItemModule=SModule) and
+      (AppCmd.ItemProc=SProc) and
+      (AppCmd.ItemProcParam=SProcParam) then
+      exit(i);
+  end;
 end;
 
 
@@ -2256,7 +2261,7 @@ end;
 
 function AppCommandHasConfigurableHotkey(Cmd: integer): boolean;
 begin
-  Result:= AppCommandCategory(Cmd) in [categ_Normal, categ_Plugin];
+  Result:= AppCommandCategory(Cmd) in [categ_Normal, categ_Plugin, categ_PluginSub];
 end;
 
 
