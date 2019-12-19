@@ -677,12 +677,12 @@ Gets str of hotkey (e.g. "F1", "Ctrl+Alt+B") or None if cancelled.
 
 Shows dialog to configure hotkeys of internal command or plugin. Gets bool: OK pressed and hotkeys saved (to keys.json).
 
-Param command can be:
+Param "command" can be:
 
 * str(int_command): for internal command codes (module cudatext_cmd).
 * "module_name,method_name" or "module_name,method_name,method_param": for command plugin.
 
-Param lexer is optional lexer name. If not empty, dialog enables checkbox "For current lexer" and (if checkbox checked) can save hotkey to "keys lexer NNNN.json".
+Param "lexer" is optional lexer name. If not empty, dialog enables checkbox "For current lexer" and, if checkbox checked, saves hotkey to lexer-specific config "keys lexer NNNN.json".
 
 ===dlg_custom===
 
