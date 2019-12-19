@@ -1918,7 +1918,10 @@ end;
 
 procedure DoForm_FocusControl(F: TForm; C: TControl);
 begin
-  if F.Enabled and F.Visible and C.Enabled and C.Visible then
+  if F.Enabled
+    //and F.Visible //don't check Visible, DLG_CTL_FOCUS is called for modal form before form is shown
+    and C.Enabled
+    and C.Visible then
     if C is TWinControl then
       if TWinControl(C).CanFocus then
       try
