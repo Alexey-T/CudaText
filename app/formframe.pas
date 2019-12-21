@@ -1223,7 +1223,8 @@ begin
   case ACmd of
     cCommand_TextInsert:
       begin
-        //improve auto-closing brackets, avoid duplicate ')' after '('
+        //improve auto-closing brackets, avoid duplicate )]}
+        //when closing bracket is typed over itself
         if Ed.Strings.IsIndexValid(Caret.PosY) then
           if Length(AText)=1 then
           begin
@@ -1231,8 +1232,8 @@ begin
             if (ch<>#0) and (Pos(ch, UiOps.AutoCloseBrackets)>0) then
             begin
               Str:= Ed.Strings.Lines[Caret.PosY];
-              if (Caret.PosX>0) and (Caret.PosX<Length(Str)) then
-                if Copy(Str, Caret.PosX, 2) = ch+AText then
+              if (Caret.PosX<Length(Str)) then
+                if Str[Caret.PosX+1] = AText[1] then
                 begin
                   Ed.DoCommand(cCommand_KeyRight);
                   AHandled:= true;
