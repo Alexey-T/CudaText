@@ -2029,19 +2029,14 @@ end;
 function TEditorFrame.DoFileSave(ASaveAs, AAllEditors: boolean): boolean;
 begin
   Result:= true;
-
   if not EditorsLinked and AAllEditors then
   begin
-    if Ed1.Modified or ASaveAs then
-      Result:= DoFileSave_Ex(Ed1, ASaveAs);
-
-    if Ed2.Modified or ASaveAs then
-      Result:= DoFileSave_Ex(Ed2, ASaveAs);
+    Result:= DoFileSave_Ex(Ed1, ASaveAs);
+    Result:= DoFileSave_Ex(Ed2, ASaveAs);
   end
   else
   begin
-    if Editor.Modified or ASaveAs then
-      Result:= DoFileSave_Ex(Editor, ASaveAs);
+    Result:= DoFileSave_Ex(Editor, ASaveAs);
   end;
 end;
 

@@ -4778,11 +4778,21 @@ begin
 end;
 
 procedure TfmMain.DoFileSave(F: TEditorFrame);
+var
+  bNoName, bSaveAs: boolean;
 begin
   DoFileDialog_PrepareDir(SaveDlg);
-  if F.Editor.Modified or (F.GetFileName(F.Editor)='') then
-    if F.DoFileSave(false, false) then
+
+  bSaveAs:= false;
+  bNoName:= F.GetFileName(F.Editor)='';
+  if bNoName then
+    bSaveAs:= true;
+
+  if F.Editor.Modified or bNoName then
+  begin
+    if F.DoFileSave(bSaveAs, false) then
       DoFileDialog_SaveDir(SaveDlg);
+  end;
 end;
 
 procedure TfmMain.DoFileSaveAs(F: TEditorFrame);
