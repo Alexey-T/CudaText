@@ -20,7 +20,7 @@ object fmConsole: TfmConsole
     TabOrder = 0
   end
   object PopupMenu1: TPopupMenu
-    left = 75
-    top = 58
+    Left = 75
+    Top = 58
   end
 end

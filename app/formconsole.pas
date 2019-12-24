@@ -123,6 +123,9 @@ end;
 procedure TfmConsole.DoUpdate;
 //DoUpdate must be called after 1+ DoAddLine calls
 //It's called after N calls in main form
+//
+//Note: don't call Application.ProcessMessages here!
+// https://github.com/Alexey-T/CudaText/issues/2326
 begin
   with memo do
   begin
@@ -136,10 +139,9 @@ begin
       ModeReadOnly:= true;
     end;
 
-    Update(true);
     DoCommand(cCommand_GotoTextEnd);
     ColumnLeft:= 0;
-    Update;
+    Update(true);
   end;
 end;
 

@@ -1416,6 +1416,12 @@ begin
     end;
 
     fmConsole.DoUpdate;
+
+    //following is to fix https://github.com/Alexey-T/CudaText/issues/2341
+    //App.ProcessMsg must be here, not in fmConsole.Update
+    Application.ProcessMessages;
+    fmConsole.memo.DoScrollToBeginOrEnd(false);
+    fmConsole.memo.Update;
   end;
 
   //call API event on_mouse_stop
