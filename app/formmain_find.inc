@@ -755,7 +755,7 @@ begin
       end;
   end;
 
-  ok:= EditorFindCurrentWordOrSel(Ed, ANext, AWordOrSel, bCase, Str);
+  ok:= EditorFindCurrentWordOrSel(Ed, ANext, AWordOrSel, bCase, FFinder.OptWrapped, Str);
   DoFindResultSimple(ok);
 
   //sync Find dialog with text

@@ -127,7 +127,9 @@ procedure EditorBracket_FindOpeningBracketBackward(Ed: TATSynEdit;
 
 function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer): TATFinderTokenKind;
 function EditorExpandSelectionToWord(Ed: TATSynEdit): boolean;
-function EditorFindCurrentWordOrSel(Ed: TATSynEdit; ANext, AWordOrSel, AOptCase: boolean; out Str: UnicodeString): boolean;
+function EditorFindCurrentWordOrSel(Ed: TATSynEdit;
+  ANext, AWordOrSel, AOptCase, AOptWrapped: boolean;
+  out Str: UnicodeString): boolean;
 
 
 implementation
@@ -1585,8 +1587,9 @@ begin
 end;
 
 
-function EditorFindCurrentWordOrSel(Ed: TATSynEdit; ANext, AWordOrSel, AOptCase: boolean; out
-  Str: UnicodeString): boolean;
+function EditorFindCurrentWordOrSel(Ed: TATSynEdit;
+  ANext, AWordOrSel, AOptCase, AOptWrapped: boolean;
+  out Str: UnicodeString): boolean;
 var
   Finder: TATEditorFinder;
   bFlag: boolean;
@@ -1619,6 +1622,7 @@ begin
     Finder.OptRegex:= false;
     Finder.OptCase:= AOptCase;
     Finder.OptWords:= AWordOrSel;
+    Finder.OptWrapped:= AOptWrapped;
     Finder.OptFromCaret:= true;
     Finder.OptBack:= not ANext;
     Finder.OptInSelection:= false;
