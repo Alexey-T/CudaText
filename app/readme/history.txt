@@ -10,6 +10,7 @@
 + add: plugin API for mass search, e.g. to speedup "Highlight Occurrences" plugin
 + add: command "font size: reset"
 + add: command "add next occurrence of selected word" must keep selection direction
++ add: must allow to save untitled+unchanged documents (do "Save as" for them)
 - fix: backward search for multi-line blocks with empty lines
 - fix: lost editor focus with old color theme
 
