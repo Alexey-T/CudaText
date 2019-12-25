@@ -345,6 +345,10 @@ Possible encoding names for command-line usage:
 * utf16le_bom
 * utf16be
 * utf16be_bom
+* utf32le
+* utf32le_bom
+* utf32be
+* utf32be_bom
 * cp1250
 * cp1251
 * cp1252
@@ -365,6 +369,7 @@ Possible encoding names for command-line usage:
 * cp950
 * iso88591
 * iso88592
+* iso885915
 * mac
 
 ==Line ends==
