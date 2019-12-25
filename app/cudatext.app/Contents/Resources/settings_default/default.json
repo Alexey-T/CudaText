@@ -738,7 +738,7 @@
   //  N>0: indent is N spaces
   //  N<0: indent is abs(N) tabs
   //  N=0: indent is from options "tab_size" and "tab_spaces"
-  "indent_size": 2,
+  "indent_size": 0,
 
   //Don't Unindent, if any line of the selected block already reached the left edge
   "unindent_keeps_align": true,
