@@ -1146,8 +1146,9 @@ And here is the old way to compile:
 
 * install .lpk packages into Lazarus (find all .lpk files, open them in IDE, install from Packages dialog)
 * in the Lazarus component palette, you should see:
-** in Misc tab: TATButton, TATButtonsToolbar, TATListbox, TATScroll, TATSynEdit, TATLabelLink, TGauge
-** in System tab: TUniqueInstance
+** "AT Controls" tab: TATButton, TATButtonsToolbar, TATListbox, TATScroll, TATSynEdit, TATLabelLink, TATGauge
+** "Python" tab: several items
+** "System" tab: TUniqueInstance
 * in Lazarus, open "cudatext.lpi" project, compile it
 
 ==How to install plugins from GitHub==
