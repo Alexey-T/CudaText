@@ -11,6 +11,7 @@
 + add: command "font size: reset"
 + add: command "add next occurrence of selected word" must keep selection direction
 + add: must allow to save untitled+unchanged documents (do "Save as" for them)
+* change: changed default of "indent_size" to 0 (auto-detect from tab_size/tab_spaces)
 - fix: backward search for multi-line blocks with empty lines
 - fix: lost editor focus with old color theme
 
