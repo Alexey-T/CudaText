@@ -266,10 +266,10 @@ Now you need to create .zip installation of lexer, for both editors: SynWrite, C
 
 * In lexer file, replace system colors to usual colors: replace "clWindowText" to "clBlack" (clWindowText may be light on CudaText on Linux); replace "clInfoText" and "clInfoBk" too.
 * In SynWrite, in Addon Manager, install plugin "ExLexer".
-* In SynWrite, run menu item "Plugins - ExLexer", to create .zip for your lexer.
+* In SynWrite, run menu item "Plugins / ExLexer", to create .zip for your lexer.
 * In CudaText, open this new zip file, this installs lexer to CudaText.
 * In CudaText, activate your lexer, dialog should show: "Lexer style mapping". Fill items in this dialog.
-* In CudaText, test this "lexer style map" in action: open file with your lexer active, and activate "default" UI theme, then activate "sub" UI theme. Main themes must show nice colors in your syntax file. Call dialog "Options - Lexers - Lexer style mapping" to fix colors.
+* In CudaText, test this "lexer style map" in action: open file with your lexer active, and activate "default" UI theme, then activate "sub" UI theme. Main themes must show nice colors in your syntax file. Call dialog "Options / Lexers / Lexer style mapping" to fix colors.
 * In prev step, you configured .cuda-lexmap file, in folder CudaText/data/lexlib. Copy this file to zip installation of your lexer.
 * Zip must contain: install.inf, .lcf file(s), .cuda-lexmap file per each lexer.
 
@@ -310,7 +310,7 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 
 * "translations". CudaText UI translations. For ex, JP translation changes all menuitems + dialogs to JP language. Dialogs of plugins are not affected (but authors can support translation in their plugins).
 
-* "themes". UI/syntax themes for the "Options - Color themes" menu. UI themes change colors of CudaText interface. Syntax themes change colors of words in syntax highlighted files.
+* "themes". UI/syntax themes for the "Options / Color themes" menu. UI themes change colors of CudaText interface. Syntax themes change colors of words in syntax highlighted files.
 
 * "sidebar themes": Icon sets for the sidebar (vertical row of buttons on the left side).
 
@@ -523,7 +523,7 @@ To use snippets you need:
 * plugin "Snippets" (install from Addon Manager)
 * snippet package for needed lexer (install from Addon Manager)
 
-Each snippet has a name (shown in the dialog when Snippets plugin is called) and short id (letters, digits, '_', dot). You can type id in editor and press Tab key: snippet for this id will be inserted into text. You can insert snippets also by choosing in dialog: call menu item "Plugins - Snippets".
+Each snippet has a name (shown in the dialog when Snippets plugin is called) and short id (letters, digits, '_', dot). You can type id in editor and press Tab key: snippet for this id will be inserted into text. You can insert snippets also by choosing in dialog: call menu item "Plugins / Snippets".
 
 Only those snippets are enabled, which are suitable for the current lexer. For example, a snippet may be for lexers "C,C++,Objective C" - it is enabled only when these lexers are active. If a snippet has no lexer property, it is always enabled.
 
@@ -543,7 +543,7 @@ These snippets have markers, so Tab key jumps to the next marker. Last marker is
 
 ===Snippet Panel===
 
-Plugin "Snippet Panel" is preinstalled in CudaText. It gives an alternative way to use short text fragments (only simple ones) in editor. It adds button to sidebar, and command "Plugins - Snippet Panel". When called, plugin shows panel in the sidebar, with a drop-down list of folders, which contain several "snippets". You can double-click snippets to insert them into text (multi-carets are supported).
+Plugin "Snippet Panel" is preinstalled in CudaText. It gives an alternative way to use short text fragments (only simple ones) in editor. It adds button to sidebar, and command "Plugins / Snippet Panel". When called, plugin shows panel in the sidebar, with a drop-down list of folders, which contain several "snippets". You can double-click snippets to insert them into text (multi-carets are supported).
 
 Preinstalled folders:
 
@@ -622,7 +622,7 @@ Dialog allows to enter text in formats:
 
 ==Comments==
 
-You can add/remove code comments, via "Comments" plugin. Plugin is preinstalled in CudaText. It gives about 6 commands in menu "Plugins - Comments". Plugin supports only adding/removing of comments, not syntax highlighting for them (highlighting is lexer's work).
+You can add/remove code comments, via "Comments" plugin. Plugin is preinstalled in CudaText. It gives about 6 commands in menu "Plugins / Comments". Plugin supports only adding/removing of comments, not syntax highlighting for them (highlighting is lexer's work).
 
 * '''Line comments''': from some position to line-end. E.g. in C lexer: "//text here", in Python lexer: "# text here".
 * '''Comments for range''' ('''Stream comments'''): from offset to another offset. E.g. in C lexer: "/* text here */".
@@ -658,7 +658,7 @@ Alternative way is plugin CudaExt. Plugin gives command "Choose tab to switch to
 
 ==Minimap, Micromap==
 
-Minimap is wide vertical bar near editor's right (default) or left side. To show it, set option "minimap_show", or use menu item "View - Toggle minimap".
+Minimap is wide vertical bar near editor's right (default) or left side. To show it, set option "minimap_show", or use menu item "View / Toggle minimap".
 If you drag mouse over minimap, editor will scroll entirely from top to bottom, even for huge files (it's made like in Sublime).
 Text in minimap is painted by 1-2 pixels per char, not by font rendering, so scale of minimap cannot change.
 
@@ -762,12 +762,12 @@ Plugin has context menu on its panel, with items:
 * Selected directory - it's shown only for folders
 * Refresh - it re-reads state of files/folders from disk
 
-Any project can have "main file", you can choose it in the context menu: "Selected file - Set as main file". Main file's path is used by plugin External Tools, when some tool is configured with macro {ProjMainFile}. This allows tools to run compilation of the main file.
+Any project can have "main file", you can choose it in the context menu: "Selected file / Set as main file". Main file's path is used by plugin External Tools, when some tool is configured with macro {ProjMainFile}. This allows tools to run compilation of the main file.
 
 Project Manager shows file/folder icons, using default file-type-icons theme. You can change this theme in the plugin's Config dialog. But first, you must install additional file-type-icons theme from Addons Manager. Example of such theme: VSCode Material 24x24.
 
 ===Preview tab===
-To see preview tab, call "File - Open folder" and choose a folder with text files. Folder will open in the side panel "Project". Make single click on files in this panel, they will open in "preview tab". Single preview tab is shared by all clicked files in "Project". It has italic caption. When you begin to edit file in this preview tab, tab becomes "normal".
+To see preview tab, call "File / Open folder" and choose a folder with text files. Folder will open in the side panel "Project". Make single click on files in this panel, they will open in "preview tab". Single preview tab is shared by all clicked files in "Project". It has italic caption. When you begin to edit file in this preview tab, tab becomes "normal".
 
 ==CudaLint plugin==
 CudaLint allows to check syntax of source code files. It was initially ported from SublimeLinter 2.x plugin for Sublime Text. It requires sub-plugins, "linters", for each lexer. When a linter works, it adds output lines to the "Validate" panel of CudaText, and puts yellow/red bookmarks on warning/error lines.
@@ -849,20 +849,20 @@ To use macros, you must install plugin "Macros" from Addon Manager. It adds "Mac
 
 To record a macro:
 
-* call menu item "Macros - Start record", or use dialog "Macros - Macros..." which gives "Start record" button too
+* call menu item "Macros / Start record", or use dialog "Macros / Macros..." which gives "Start record" button too
 * pefrorm some action(s) in CudaText:
 ** built-in commands, plugin commands (invoked by hotkey, by menu, by Command Palette)
 ** some mouse actions (clicks/selections, they save/playback relative to caret position)
 ** calling of Find/Replace dialog, "Go to" dialog
 ** actions in Find/Replace dialog
-* call menu item "Macros - Stop record" to save your macro, plugin will ask for macro name
+* call menu item "Macros / Stop record" to save your macro, plugin will ask for macro name
 
 Macro saves action(s) performed inside its original editor tab (not other tabs). And it doesn't save actions inside plugin dialogs (e.g. FindInFiles).
 
 To playback macro:
 
-* call menu item "Macros - (macro name)", the end of this menu lists all available/saved macros
-* or call dialog "Macros - Macros..." which allows to run available macros: it can be simple running, running N times, or running in loop ([x] While text changes, [x] Until caret on last line)
+* call menu item "Macros / (macro name)", the end of this menu lists all available/saved macros
+* or call dialog "Macros / Macros..." which allows to run available macros: it can be simple running, running N times, or running in loop ([x] While text changes, [x] Until caret on last line)
 
 ==Pair brackets==
 Since version 1.89, CudaText has built-in pair bracket finder. Before that you needed the plugin Bracket Helper, and now plugin should not be used - it is much slower that built-in code. Bracket finder can highlight pair brackets, when there is only single caret, no selection, and caret is placed on (or after) bracket symbol (one of "()[]{}<>"). Bracket finder respects lexer context, so it finds pair bracket only in the same context as the source bracket has: if source bracket is inside a "string", pair bracket will be found only inside a "string"; the same is for "comments"; the same is for "outside comment/string".
@@ -887,7 +887,7 @@ Several examples of external tools configs. Call dialog of External Tools plugin
 
 ==Tool to compile by GCC==
 
-You can test how this tool works on any Linux, because GCC is preinstalled. Test the tool on C++ example, which is created from CudaText by menu "File -- New from template -- C++".
+You can test how this tool works on any Linux, because GCC is preinstalled. Test the tool on C++ example, which is created from CudaText by menu "File / New from template / C++".
 
 Properties:
 
@@ -1160,12 +1160,12 @@ And here is the old way to compile:
 
 First, you need to know GitHub repository (repo) URL of plugin. For example, https://github.com/kvichans/cuda_find_in_files . If you have plugin already, then you can see this URL in the plugin's install.inf (line "homepage=").
 
-Next, call CudaText menu item "Plugins - Addons Manager - Install from GitHub". Enter URL in the suggested dialog. Addons Manager will install latest version from GitHub "master" branch.
+Next, call CudaText menu item "Plugins / Addons Manager / Install from GitHub". Enter URL in the suggested dialog. Addons Manager will install latest version from GitHub "master" branch.
 
 ==How to simply install many add-ons==
 
-* In the dialog "File - Open file", you can multi-select files in list - with Ctrl+click (on Windows) or Shift+arrows.
-* Use command "Plugins - Addons Manager - Download all", which saves all addons zip files to some folder. When done, install many addons from this folder using "File - Open file" multi-selection.
+* In the dialog "File / Open file", you can multi-select files in list - with Ctrl+click (on Windows) or Shift+arrows.
+* Use command "Plugins / Addons Manager / Download all", which saves all addons zip files to some folder. When done, install many addons from this folder using "File / Open file" multi-selection.
 * To download without SourceForge lags, use this page: http://totalcmd.net/plugring/CudaText_addons.html , but page is updated not often.
 
 ==How to make translation==
