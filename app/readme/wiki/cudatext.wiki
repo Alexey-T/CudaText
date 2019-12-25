@@ -238,7 +238,7 @@ These zip packages can be installed in CudaText: open any zip file via "File / O
 
 You can modify/create lexers. But not in CudaText. Install SynWrite (needed Wine on Linux) and in it you have lexer editor dialog.
 
-* In SynWrite call menu "Options--Addons manager--Install", install needed lexer from web. SynWrite lexer-library must have lexer before you edit it.
+* In SynWrite call menu "Options / Addons manager / Install", install needed lexer from web. SynWrite lexer-library must have lexer before you edit it.
 * In SynWrite call "Lexer prop" dialog and edit all you need. Or make new lexer.
 * In SynWrite install "ExLexer" addon. Call it in "Plugins" menu, select needed lexer. You have exported zip file.
 * In CudaText open this zip file. Confirm installation of lexer.
@@ -883,7 +883,7 @@ There are several commands in the Command Palette:
 
 =External Tools=
 
-Several examples of external tools configs. Call dialog of External Tools plugin (menu Tools -- Config...). Add a new tool. Set dialog properties as shown below. This must add menu item, for new tool, under Tools menu.
+Several examples of external tools configs. Call dialog of External Tools plugin (menu "Tools / Config..."). Add a new tool. Set dialog properties as shown below. This must add menu item, for new tool, under Tools menu.
 
 ==Tool to compile by GCC==
 
