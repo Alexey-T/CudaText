@@ -51,6 +51,7 @@ type
     procedure DoToggleWrap(Sender: TObject);
     procedure SetIsDoubleBuffered(AValue: boolean);
     procedure SetWrap(AValue: boolean);
+    procedure DoRunLine(Str: string);
   public
     { public declarations }
     ed: TATComboEdit;
@@ -62,7 +63,7 @@ type
     property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
     procedure DoAddLine(const Str: string);
     procedure DoUpdate;
-    procedure DoRunLine(Str: string);
+    procedure DoScrollToEnd(AllowProcessMsg: boolean);
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
     property Wordwrap: boolean read GetWrap write SetWrap;
   end;
@@ -145,6 +146,14 @@ begin
   end;
 end;
 
+procedure TfmConsole.DoScrollToEnd(AllowProcessMsg: boolean);
+begin
+  if AllowProcessMsg then
+    Application.ProcessMessages;
+  memo.DoScrollToBeginOrEnd(false);
+  memo.Update;
+end;
+
 {$define py_always_eval}
 procedure TfmConsole.DoRunLine(Str: string);
 var
@@ -158,6 +167,7 @@ begin
 
   DoAddLine(cPyConsolePrompt+Str);
   DoUpdate;
+  DoScrollToEnd(true);
 
   try
     {$ifdef PY_ALWAYS_EVAL}
