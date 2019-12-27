@@ -49,6 +49,7 @@ type
     procedure OKButtonClick(Sender: TObject);
   private
     { private declarations }
+    FColorBg: TColor;
     procedure UpdateList;
     procedure Localize;
   public
@@ -175,6 +176,8 @@ begin
 end;
 
 procedure TfmColorSetup.FormShow(Sender: TObject);
+var
+  i: integer;
 begin
   Localize;
 
@@ -190,6 +193,14 @@ begin
   UpdateList;
   List.ItemIndex:= 0;
   ListStyles.ItemIndex:= 0;
+
+  FColorBg:= clWhite;
+  for i:= Low(Data.Colors) to High(Data.Colors) do
+    if Data.Colors[i].name='EdTextBg' then
+    begin
+      FColorBg:= Data.Colors[i].color;
+      Break
+    end;
 
   if PanelUi.Visible then
     ActiveControl:= List
@@ -235,6 +246,8 @@ begin
   C.Font.Color:= st.Font.Color;
   C.Font.Style:= st.Font.Style;
   C.Brush.Color:= st.BgColor;
+  if st.BgColor=clNone then
+    C.Brush.Color:= FColorBg;
 
   S:= cExample;
   NWidth:= C.TextWidth(S);
