@@ -5801,7 +5801,7 @@ var
   StrText: string;
   TreeCont: TAppTreeContainer;
   TreeNode, Node1: TTreeNode;
-  ItemList: TList;
+  ItemList: TFPList;
   Sep: TATStringSeparator;
   i: integer;
 begin
@@ -5821,7 +5821,7 @@ begin
               Node1:= TreeCont.Tree.Items.GetFirstNode;
             if Node1=nil then exit(ReturnNone);
 
-            ItemList:= TList.Create;
+            ItemList:= TFPList.Create;
             try
               repeat
                 ItemList.Add(Node1);

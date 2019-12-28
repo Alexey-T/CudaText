@@ -60,7 +60,7 @@ implementation
 const
   cSectionMap = 'map';
 var
-  LexersAsked: TList = nil;
+  LexersAsked: TFPList = nil;
 
 procedure DoClearLexersAskedList(an: TecSyntAnalyzer = nil);
 var
@@ -283,7 +283,7 @@ end;
 
 
 initialization
-  LexersAsked:= TList.Create;
+  LexersAsked:= TFPList.Create;
 
 finalization
   if Assigned(LexersAsked) then

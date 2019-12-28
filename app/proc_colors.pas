@@ -29,7 +29,7 @@ type
   end;
   TAppTheme = record
     Colors: array of TAppColor;
-    Styles: TList;
+    Styles: TFPList;
   end;
 
 var
@@ -169,7 +169,7 @@ begin
   if Assigned(D.Styles) then
     D.Styles.Clear
   else
-    D.Styles:= TList.Create;
+    D.Styles:= TFPList.Create;
 
   //add colors
   Add(nColorText, 'EdTextFont', 'editor, font');

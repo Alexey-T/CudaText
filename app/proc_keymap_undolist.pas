@@ -20,7 +20,7 @@ type
 
   TATKeymapUndoList = class
   private
-    FList: TList;
+    FList: TFPList;
     function GetItem(AIndex: integer): TATKeymapUndoItem;
   public
     constructor Create; virtual;
@@ -38,7 +38,7 @@ implementation
 constructor TATKeymapUndoList.Create;
 begin
   inherited;
-  FList:= TList.Create;
+  FList:= TFPList.Create;
 end;
 
 destructor TATKeymapUndoList.Destroy;

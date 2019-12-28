@@ -4410,7 +4410,7 @@ function TfmMain.DoFileCloseAll(AWithCancel: boolean): boolean;
 var
   Flags: integer;
   F: TEditorFrame;
-  ListNoSave: TList;
+  ListNoSave: TFPList;
   i: integer;
 begin
   if AWithCancel then
@@ -4418,7 +4418,7 @@ begin
   else
     Flags:= MB_YESNO or MB_ICONQUESTION;
 
-  ListNoSave:= TList.Create;
+  ListNoSave:= TFPList.Create;
   try
     for i:= 0 to FrameCount-1 do
     begin

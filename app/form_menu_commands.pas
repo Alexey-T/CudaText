@@ -49,7 +49,7 @@ type
       const ARect: TRect);
   private
     { private declarations }
-    keymapList: TList;
+    keymapList: TFPList;
     FOnMsg: TStrEvent;
     FColorBg: TColor;
     FColorBgSel: TColor;
@@ -181,7 +181,7 @@ begin
   ResultCommand:= 0;
   ResultHotkeysChanged:= false;
 
-  keymapList:= TList.Create;
+  keymapList:= TFPList.Create;
 
   PanelInfo:= TLabel.Create(Self);
   PanelInfo.Hide;

@@ -487,12 +487,12 @@ var
   SName: string;
   Frame: TEditorFrame;
   L_fn, L_cap: TStringList;
-  L_found: TList;
+  L_found: TFPList;
   NLevel, i, j: integer;
 begin
   L_fn:= TStringList.Create;
   L_cap:= TStringList.Create;
-  L_found:= TList.Create;
+  L_found:= TFPList.Create;
 
   try
     for i:= 0 to FrameCount-1 do

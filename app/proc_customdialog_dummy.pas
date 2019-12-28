@@ -37,7 +37,7 @@ type
 
 var
   CustomDialog_DoPyCallback: TAppPyCommonCallback = nil;
-  CustomDialogs: TList;
+  CustomDialogs: TFPList;
 
 type
   { TAppControlProps }
@@ -111,7 +111,7 @@ type
     FEventOnShow: string;
     FEventOnHide: string;
     TagString: string;
-    PrevForms: TList;
+    PrevForms: TFPList;
     PrevBorderStyle: TFormBorderStyle;
     BlockedOnChange: boolean;
     BlockedOnSelect_Listview: boolean;
@@ -265,7 +265,7 @@ begin
   OnMouseLeave:= @DoOnFormMouseLeave;
 
   PrevBorderStyle:= BorderStyle;
-  PrevForms:= TList.Create;
+  PrevForms:= TFPList.Create;
 
   CustomDialogs.Add(Self);
 end;
@@ -938,7 +938,7 @@ end;
 
 
 initialization
-  CustomDialogs:= TList.Create;
+  CustomDialogs:= TFPList.Create;
 
 finalization
   CustomDialogs.Free;

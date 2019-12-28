@@ -70,9 +70,9 @@ var
   AppApiFlatTheme: TATFlatTheme;
 
 var
-  AppFrameList1: TList; //all frames - for main thread
-  AppFrameList2: TList; //all frames - for file watcher thread
-  AppFrameListDeleting: TList; //frames which need to be Free'd
+  AppFrameList1: TFPList; //all frames - for main thread
+  AppFrameList2: TFPList; //all frames - for file watcher thread
+  AppFrameListDeleting: TFPList; //frames which need to be Free'd
                               //we don't free frames instantly, because watcher thread can access them
 
   AppEventLister: TEvent; //event set to signaled, when main thread has done AppFrameList2 updating
@@ -87,7 +87,7 @@ type
 type
   { TAppKeyValues }
 
-  TAppKeyValues = class(TList)
+  TAppKeyValues = class(TFPList)
   public
     procedure Add(const AKey, AValue: string);
     function GetValue(const AKey, ADefValue: string): string;
@@ -761,11 +761,11 @@ type
   end;
 
 var
-  AppCommandList: TList;
-  AppEventList: TList;
-  AppSidePanels: TList;
-  AppBottomPanels: TList;
-  AppTreeHelpers: TList;
+  AppCommandList: TFPList;
+  AppEventList: TFPList;
+  AppSidePanels: TFPList;
+  AppBottomPanels: TFPList;
+  AppTreeHelpers: TFPList;
 
 type
   PAppPanelProps = ^TAppPanelProps;
@@ -2270,11 +2270,11 @@ initialization
   InitEditorOps(EditorOps);
   InitUiOps(UiOps);
 
-  AppCommandList:= TList.Create;
-  AppEventList:= TList.Create;
-  AppSidePanels:= TList.Create;
-  AppBottomPanels:= TList.Create;
-  AppTreeHelpers:= TList.Create;
+  AppCommandList:= TFPList.Create;
+  AppEventList:= TFPList.Create;
+  AppSidePanels:= TFPList.Create;
+  AppBottomPanels:= TFPList.Create;
+  AppTreeHelpers:= TFPList.Create;
 
   AppKeymap:= TATKeymap.Create;
   InitKeymapFull(AppKeymap);
@@ -2301,9 +2301,9 @@ initialization
   //detection of XML
   AppConfig_DetectLine.Add('<\?xml .+', 'XML');
 
-  AppFrameList1:= TList.Create;
-  AppFrameList2:= TList.Create;
-  AppFrameListDeleting:= TList.Create;
+  AppFrameList1:= TFPList.Create;
+  AppFrameList2:= TFPList.Create;
+  AppFrameListDeleting:= TFPList.Create;
   AppEventLister:= TEvent.Create(nil, true, true, '');
   AppEventWatcher:= TEvent.Create(nil, true, true, '');
 

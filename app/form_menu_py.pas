@@ -44,7 +44,7 @@ type
   private
     { private declarations }
     FMultiline: boolean;
-    listFiltered: TList;
+    listFiltered: TFPList;
     FColorBg: TColor;
     FColorBgSel: TColor;
     FColorFont: TColor;
@@ -137,7 +137,7 @@ begin
 
   ResultCode:= -1;
   listItems:= TStringlist.Create;
-  listFiltered:= TList.Create;
+  listFiltered:= TFPList.Create;
 end;
 
 procedure TfmMenuApi.editChange(Sender: TObject);
