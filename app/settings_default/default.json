@@ -1139,9 +1139,6 @@
   //Add a slash to empty tags e.g. <img src="" />
   "emmet_add_slash_to_empty_tags": true,
 
-  //Comment important tags (containing class or id attributes)
-  "emmet_comment_tags": false,
-
   //Indent child tags: if false, no indention will be used
   "emmet_indent_childs": true,
 
