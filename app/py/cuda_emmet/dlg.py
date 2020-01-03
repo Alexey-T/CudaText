@@ -17,6 +17,8 @@ class DialogEmmet:
             'h': H_all,
             'cap': 'Emmet preview dialog',
             'border': DBORDER_SIZE,
+            'w_min': 300,
+            'h_min': 150,
         })
 
         n = dlg_proc(self.h, DLG_CTL_ADD, prop='label')
