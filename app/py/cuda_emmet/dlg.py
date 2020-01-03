@@ -1,7 +1,7 @@
 from cudatext import *
 import cudatext_cmd as cmds
 
-W_all = 600
+W_all = 650
 H_all = 500
 
 class DialogEmmet:
@@ -40,6 +40,17 @@ class DialogEmmet:
             'on_change': self.on_ok_click,
         })
 
+        n = dlg_proc(self.h, DLG_CTL_ADD, prop='button')
+        dlg_proc(self.h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_copy',
+            'a_l': ('btn_ok', '['),
+            'a_r': ('btn_ok', ']'),
+            'a_t': ('btn_ok', ']'),
+            'sp_t': 6,
+            'cap': 'Copy',
+            'on_change': self.on_copy_click,
+        })
+
         n = dlg_proc(self.h, DLG_CTL_ADD, prop='edit')
         dlg_proc(self.h, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'input',
@@ -58,9 +69,11 @@ class DialogEmmet:
             'ex0': True, #read only
             'a_l': ('', '['),
             'a_t': ('input', ']'),
-            'a_r': ('', ']'),
+            'a_r': ('input', ']'),
             'a_b': ('', ']'),
-            'sp_a': 6,
+            'sp_t': 6,
+            'sp_b': 6,
+            'sp_l': 6,
         })
 
 
@@ -84,6 +97,13 @@ class DialogEmmet:
         text = self.do_expand(text)
         if text:
             self.do_insert(text)
+
+    def on_copy_click(self, id_dlg, id_ctl, data='', info=''):
+
+        text = dlg_proc(self.h, DLG_CTL_PROP_GET, name='input')['val']
+        text = self.do_expand(text)
+        if text:
+            app_proc(PROC_SET_CLIP, text)
 
     def show(self):
 
