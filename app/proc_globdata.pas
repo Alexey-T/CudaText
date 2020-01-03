@@ -285,6 +285,13 @@ type
     LogDebug: boolean;
     LogConsole: boolean;
 
+    Emmet_AddSlashToEmptyTags: boolean;
+    Emmet_CommentTags: boolean;
+    Emmet_IndentChilds: boolean;
+    Emmet_SingleLine: boolean;
+    Emmet_TrimLineMarkers: boolean;
+    Emmet_WordWrap: boolean;
+
     HotkeyFindDialog,
     HotkeyReplaceDialog,
     HotkeyFindFirst,
@@ -1388,6 +1395,13 @@ begin
     MouseGotoDefinition:= 'a';
     LogDebug:= false;
     LogConsole:= false;
+
+    Emmet_AddSlashToEmptyTags:= true;
+    Emmet_CommentTags:= false;
+    Emmet_IndentChilds:= true;
+    Emmet_SingleLine:= false;
+    Emmet_TrimLineMarkers:= true;
+    Emmet_WordWrap:= false;
 
     HotkeyFindDialog:= 'Ctrl+F';
     HotkeyReplaceDialog:= 'Ctrl+R';

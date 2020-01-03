@@ -155,6 +155,20 @@ begin
 end;
 
 
+function AppEmmetOptions(const ASyntax: string): TExpandOptions;
+begin
+  FillChar(Result, SizeOf(Result), 0);
+  Result.AlwaysAddNewLine:= ASyntax = 'xml';
+  Result.AddSlashToEmptyTags:= UiOps.Emmet_AddSlashToEmptyTags;
+  Result.CommentTags:= UiOps.Emmet_CommentTags;
+  Result.IndentChilds:= UiOps.Emmet_IndentChilds;
+  Result.SingleLine:= UiOps.Emmet_SingleLine;
+  Result.TabSize:= EditorOps.OpTabSize;
+  Result.TrimLineMarkers:= UiOps.Emmet_TrimLineMarkers;
+  Result.Wordwrap:= UiOps.Emmet_WordWrap;
+  Result.WordwrapAt:= EditorOps.OpMarginFixed;
+end;
+
 function Py_emmet(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Id: integer;
@@ -186,7 +200,14 @@ begin
     case Id of
       EMMET_EXPAND:
         begin
-          StrText:= AppEmmet.ExpandAbbreviation(StrText, Str1, '', SSection, bMulLine);
+          StrText:= AppEmmet.ExpandAbbreviation(
+            StrText,
+            Str1,
+            '',
+            SSection,
+            bMulLine,
+            AppEmmetOptions(Str1)
+            );
           StrText:= StringReplace(StrText, #13#10, #10, [rfReplaceAll]);
           Result:= Py_BuildValue('(sO)',
             PChar(StrText),
@@ -197,7 +218,14 @@ begin
       EMMET_WRAP:
         begin
           Str2:= StringReplace(Str2, #10, #13#10, [rfReplaceAll]);
-          StrText:= AppEmmet.ExpandAbbreviation(StrText, Str1, Str2, SSection, bMulLine);
+          StrText:= AppEmmet.ExpandAbbreviation(
+            StrText,
+            Str1,
+            Str2,
+            SSection,
+            bMulLine,
+            AppEmmetOptions(Str1)
+            );
           StrText:= StringReplace(StrText, #13#10, #10, [rfReplaceAll]);
           Result:= PyString_FromString(PChar(StrText));
         end;

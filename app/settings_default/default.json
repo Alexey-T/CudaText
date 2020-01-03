@@ -1134,4 +1134,24 @@
 
   //Log console contents to file settings/console.log
   "log_console": false,
+
+  //[Emmet]
+  //Add a slash to empty tags e.g. <img src="" />
+  "emmet_add_slash_to_empty_tags": true,
+
+  //Comment important tags (containing class or id attributes)
+  "emmet_comment_tags": false,
+
+  //Indent child tags: if false, no indention will be used
+  "emmet_indent_childs": true,
+
+  //Expand everything to a single line of code
+  "emmet_single_line": false,
+
+  //Trim line markers from wrapped lines e.g. "* ", "- " or "1."
+  "emmet_trim_line_markers": true,
+
+  //Word wrap selected or lorem generated text
+  "emmet_word_wrap": false,
+
 }
