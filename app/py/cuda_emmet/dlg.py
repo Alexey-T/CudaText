@@ -1,11 +1,15 @@
 from cudatext import *
+import cudatext_cmd as cmds
 
 W_all = 600
 H_all = 500
 
 class DialogEmmet:
 
-    def __init__(self):
+    def __init__(self, do_expand, do_insert):
+
+        self.do_expand = do_expand
+        self.do_insert = do_insert
 
         self.h = dlg_proc(0, DLG_CREATE)
         dlg_proc(self.h, DLG_PROP_SET, prop={
@@ -32,7 +36,8 @@ class DialogEmmet:
             'a_l': None,
             'sp_r': 6,
             'cap': 'Insert',
-            'on_click': self.on_ok_click,
+            'ex0': True, #default for Enter
+            'on_change': self.on_ok_click,
         })
 
         n = dlg_proc(self.h, DLG_CTL_ADD, prop='edit')
@@ -61,11 +66,24 @@ class DialogEmmet:
 
     def on_edit_change(self, id_dlg, id_ctl, data='', info=''):
 
-        pass
+        text = dlg_proc(self.h, DLG_CTL_PROP_GET, name='input')['val']
+        text = self.do_expand(text)
+        if text:
+            s = text.replace('\t', '    ')
+            s = s.split('\n')
+            s = '\t'.join(s)
+            dlg_proc(self.h, DLG_CTL_PROP_SET, name='preview', prop={
+                'val': s,
+            })
 
     def on_ok_click(self, id_dlg, id_ctl, data='', info=''):
 
+        text = dlg_proc(self.h, DLG_CTL_PROP_GET, name='input')['val']
         dlg_proc(self.h, DLG_HIDE)
+
+        text = self.do_expand(text)
+        if text:
+            self.do_insert(text)
 
     def show(self):
 

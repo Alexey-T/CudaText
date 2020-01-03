@@ -128,8 +128,14 @@ class Command:
 
         do_insert_result(xstart, y0, x0, y0, text)
 
+    def insert_text_at_caret(self, text):
+
+        x0, y0, x1, y1 = ed.get_carets()[0]
+        xstart = x0
+        do_insert_result(xstart, y0, x0, y0, text)
+
     def dialog(self):
 
         if not self.dlg:
-            self.dlg = DialogEmmet()
+            self.dlg = DialogEmmet(do_expand_abbrev, self.insert_text_at_caret)
         self.dlg.show()
