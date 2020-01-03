@@ -79,10 +79,19 @@ class DialogEmmet:
         })
 
 
+    def result(self, no_stops):
+        
+        text = dlg_proc(self.h, DLG_CTL_PROP_GET, name='input')['val']
+        if text:
+            text = self.do_expand(text)
+            if text and no_stops:
+                for i in range(10):
+                    text = text.replace('${%d}'%i, '')
+        return text
+
     def on_edit_change(self, id_dlg, id_ctl, data='', info=''):
 
-        text = dlg_proc(self.h, DLG_CTL_PROP_GET, name='input')['val']
-        text = self.do_expand(text)
+        text = self.result(True)
         if text:
             s = text.replace('\t', '    ')
             s = s.split('\n')
@@ -93,17 +102,14 @@ class DialogEmmet:
 
     def on_ok_click(self, id_dlg, id_ctl, data='', info=''):
 
-        text = dlg_proc(self.h, DLG_CTL_PROP_GET, name='input')['val']
+        text = self.result(False)
         dlg_proc(self.h, DLG_HIDE)
-
-        text = self.do_expand(text)
         if text:
             self.do_insert(text)
 
     def on_copy_click(self, id_dlg, id_ctl, data='', info=''):
 
-        text = dlg_proc(self.h, DLG_CTL_PROP_GET, name='input')['val']
-        text = self.do_expand(text)
+        text = self.result(True)
         if text:
             app_proc(PROC_SET_CLIP, text)
 
