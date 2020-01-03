@@ -2,6 +2,7 @@ import os
 import webbrowser
 from cudatext import *
 from .proc_snip_insert import *
+from .dlg import *
 
 lexers_xml = ['XML', 'XML ^', 'XSL', 'XSLT']
 lexers_css = ['CSS', 'SCSS', 'SASS', 'Sass', 'Stylus', 'LESS']
@@ -75,6 +76,8 @@ def do_expand_abbrev(abr):
 
 class Command:
 
+    dlg = None
+
     def profiles(self):
 
         n = dlg_menu(MENU_LIST, '\n'.join(profiles))
@@ -124,3 +127,9 @@ class Command:
         xstart = max(0, x0-len(abr))
 
         do_insert_result(xstart, y0, x0, y0, text)
+
+    def dialog(self):
+
+        if not self.dlg:
+            self.dlg = DialogEmmet()
+        self.dlg.show()

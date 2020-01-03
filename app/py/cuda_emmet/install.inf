@@ -15,7 +15,12 @@ section=commands
 caption=Emmet\Wrap with abbreviation...
 method=wrap_abbrev
 
-[item5]
+[item3]
+section=commands
+caption=Emmet\Dialog...
+method=dialog
+
+[item10]
 section=commands
 caption=Emmet\Show HTML help
 method=help
