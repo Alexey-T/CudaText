@@ -3,8 +3,11 @@
   - fixed
   * changed
 
+1.93.0 (2020/01)
+
++ add: Emmet plugin: added command "Dialog" to show interactive preview dialog for abbreviations
 + add: show ? marks when DBCS (Asian) codepages cannot convert chars
-+ add: lexer PHP: support new heredoc syntax of PHP 7.3
++ add: lexer PHP: support new heredoc syntax (of PHP 7.3)
 * change: renamed commands "zoom in" / "zoom out" to "current document font size: bigger" / "... smaller"
 
 1.92.0 (2019/12)
