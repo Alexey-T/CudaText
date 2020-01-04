@@ -119,6 +119,7 @@ class DialogEmmet:
 
         dlg_proc(self.h, DLG_CTL_FOCUS, name='input')
         self.pos_load()
+        self.on_edit_change(0, 0)
         dlg_proc(self.h, DLG_SHOW_MODAL)
         self.pos_save()
 
