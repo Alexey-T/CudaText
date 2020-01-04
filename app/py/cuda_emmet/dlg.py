@@ -1,6 +1,8 @@
+import os
 from cudatext import *
 import cudatext_cmd as cmds
 
+fn_ini = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
 W_all = 650
 H_all = 500
 
@@ -116,8 +118,34 @@ class DialogEmmet:
     def show(self):
 
         dlg_proc(self.h, DLG_CTL_FOCUS, name='input')
+        self.pos_load()
         dlg_proc(self.h, DLG_SHOW_MODAL)
+        self.pos_save()
 
     def close(self):
 
         dlg_proc(self.h, DLG_HIDE)
+
+    def pos_load(self):
+
+        x = int(ini_read(fn_ini, 'emmet', 'x', '-1'))
+        y = int(ini_read(fn_ini, 'emmet', 'y', '-1'))
+        w = int(ini_read(fn_ini, 'emmet', 'w', '-1'))
+        h = int(ini_read(fn_ini, 'emmet', 'h', '-1'))
+        if x<0: return
+
+        dlg_proc(self.h, DLG_PROP_SET, prop={'x':x, 'y':y, 'w':w, 'h':h, })
+
+    def pos_save(self):
+
+        prop = dlg_proc(self.h, DLG_PROP_GET)
+        if not prop: return
+        x = prop['x']
+        y = prop['y']
+        w = prop['w']
+        h = prop['h']
+
+        ini_write(fn_ini, 'emmet', 'x', str(x))
+        ini_write(fn_ini, 'emmet', 'y', str(y))
+        ini_write(fn_ini, 'emmet', 'w', str(w))
+        ini_write(fn_ini, 'emmet', 'h', str(h))

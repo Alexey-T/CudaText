@@ -139,3 +139,4 @@ class Command:
         if not self.dlg:
             self.dlg = DialogEmmet(do_expand_abbrev, self.insert_text_at_caret)
         self.dlg.show()
+
