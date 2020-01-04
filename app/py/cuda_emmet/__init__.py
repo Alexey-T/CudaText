@@ -2,7 +2,7 @@ import os
 import webbrowser
 from cudatext import *
 from .proc_snip_insert import *
-from .dlg import *
+from .dlg_emmet import DialogEmmet
 
 lexers_xml = ['XML', 'XML ^', 'XSL', 'XSLT']
 lexers_css = ['CSS', 'SCSS', 'SASS', 'Sass', 'Stylus', 'LESS']
