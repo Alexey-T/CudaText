@@ -6,7 +6,7 @@
 1.93.0 (2020/01)
 
 + add: Emmet plugin: added command "Dialog" to show interactive preview dialog for abbreviations
-+ add: several "emmet_" options for Emmet engine
++ add: Emmet engine now has several "emmet_" options (to replace "Emmet profiles" from SynWrite)
 + add: show ? marks when DBCS (Asian) codepages cannot convert chars
 + add: lexer PHP: support new heredoc syntax (of PHP 7.3)
 * change: renamed commands "zoom in" / "zoom out" to "current document font size: bigger" / "... smaller"
