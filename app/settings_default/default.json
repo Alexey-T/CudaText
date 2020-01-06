@@ -1136,13 +1136,13 @@
   "log_console": false,
 
   //[Emmet]
-  //Add a slash to empty tags e.g. <img src="" />
+  //Add slash to empty tags (example of result: <img src="" />)
   "emmet_add_slash_to_empty_tags": true,
 
-  //Indent child tags: if false, no indention will be used
-  "emmet_indent_childs": true,
+  //Add indentation to nested tags (example: ul>li*6)
+  "emmet_indent_nested": true,
 
-  //Comment important tags, containing class or id attributes
+  //Comment tags, containing class/id attributes (example: .name)
   "emmet_comment_tags": false,
 
   //Expand everything to a single line of code
@@ -1151,7 +1151,7 @@
   //Trim line markers from wrapped lines e.g. "* ", "- " or "1."
   "emmet_trim_line_markers": true,
 
-  //Wrap selected or @lorem text (abbreviation p{@lorem}),
+  //Wrap selected or Lorem Ipsum text (abbreviation p{@lorem}),
   //at the column defined by "margin" option
   "emmet_word_wrap": false,
 

@@ -951,7 +951,7 @@ begin
 
   UiOps.Emmet_AddSlashToEmptyTags:= c.GetValue('emmet_add_slash_to_empty_tags', UiOps.Emmet_AddSlashToEmptyTags);
   UiOps.Emmet_CommentTags:= c.GetValue('emmet_comment_tags', UiOps.Emmet_CommentTags);
-  UiOps.Emmet_IndentChilds:= c.GetValue('emmet_indent_childs', UiOps.Emmet_IndentChilds);
+  UiOps.Emmet_IndentChilds:= c.GetValue('emmet_indent_nested', UiOps.Emmet_IndentChilds);
   UiOps.Emmet_SingleLine:= c.GetValue('emmet_single_line', UiOps.Emmet_SingleLine);
   UiOps.Emmet_TrimLineMarkers:= c.GetValue('emmet_trim_line_markers', UiOps.Emmet_TrimLineMarkers);
   UiOps.Emmet_WordWrap:= c.GetValue('emmet_word_wrap', UiOps.Emmet_WordWrap);
