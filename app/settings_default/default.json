@@ -1151,7 +1151,8 @@
   //Trim line markers from wrapped lines e.g. "* ", "- " or "1."
   "emmet_trim_line_markers": true,
 
-  //Word wrap selected or lorem generated text
+  //Wrap selected or @lorem text (abbreviation p{@lorem}),
+  //at the column defined by "margin" option
   "emmet_word_wrap": false,
 
 }
