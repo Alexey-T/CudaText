@@ -287,7 +287,7 @@ type
 
     Emmet_AddSlashToEmptyTags: boolean;
     Emmet_CommentTags: boolean;
-    Emmet_IndentChilds: boolean;
+    Emmet_IndentNested: boolean;
     Emmet_SingleLine: boolean;
     Emmet_TrimLineMarkers: boolean;
     Emmet_WordWrap: boolean;
@@ -1398,7 +1398,7 @@ begin
 
     Emmet_AddSlashToEmptyTags:= true;
     Emmet_CommentTags:= false;
-    Emmet_IndentChilds:= true;
+    Emmet_IndentNested:= true;
     Emmet_SingleLine:= false;
     Emmet_TrimLineMarkers:= true;
     Emmet_WordWrap:= false;

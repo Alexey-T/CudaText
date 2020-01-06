@@ -161,7 +161,7 @@ begin
   Result.AlwaysAddNewLine:= ASyntax = 'xml';
   Result.AddSlashToEmptyTags:= UiOps.Emmet_AddSlashToEmptyTags;
   Result.CommentTags:= UiOps.Emmet_CommentTags;
-  Result.IndentChilds:= UiOps.Emmet_IndentChilds;
+  Result.IndentChilds:= UiOps.Emmet_IndentNested;
   Result.SingleLine:= UiOps.Emmet_SingleLine;
   Result.TabSize:= EditorOps.OpTabSize;
   Result.TrimLineMarkers:= UiOps.Emmet_TrimLineMarkers;
