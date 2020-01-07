@@ -2396,7 +2396,6 @@ begin
   DoApplyFont_Text;
   DoApplyFont_Ui;
   DoApplyFont_Output;
-  DoApplyUiOps;
 
   if UiOps.ReopenSession then
     DoOps_LoadSession(GetSessionFilename);
@@ -2410,6 +2409,7 @@ begin
   DoPyEvent(CurrentEditor, cEventOnStart, []);
   NTickPluginEnd:= GetTickCount64;
 
+  DoApplyUiOps; //after plugin on_start, ConfigToolbar is slow with visible toolbar
   DoApplyInitialSidebarPanel;
 
   UpdateMenuPlugins;
