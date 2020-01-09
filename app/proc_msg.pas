@@ -13,6 +13,7 @@ interface
 
 uses
   Classes, SysUtils,
+  ATBinHex,
   ATSynEdit;
 
 const
@@ -322,6 +323,14 @@ const
       'This is the first CudaText start (file history.json not found). '+
       'You can easily install popular add-ons (Unix: if Python engine is already configured), using menu item "Plugins / Multi Installer".';
 
+const
+  msgViewerModeNames: array[TATBinHexMode] of string = (
+    'Text',
+    'Binary',
+    'Hex',
+    'Unicode',
+    'Unicode/Hex'
+    );
 
 function GetUntitledCaption: string;
 

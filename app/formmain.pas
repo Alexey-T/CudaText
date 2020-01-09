@@ -543,6 +543,7 @@ type
     {$endif}
   private
     { private declarations }
+    PopupViewerMode: TPopupMenu;
     mnuToolbarCaseLow: TMenuItem;
     mnuToolbarCaseUp: TMenuItem;
     mnuToolbarCaseTitle: TMenuItem;
@@ -859,6 +860,7 @@ type
     procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer;
       const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
     procedure InitFloatGroups;
+    procedure InitPopupViewerMode;
     procedure InitSidebar;
     procedure InitToolbar;
     function IsWindowMaximizedOrFullscreen: boolean;
@@ -872,6 +874,7 @@ type
     procedure MenuPicScaleClick(Sender: TObject);
     procedure MenuPluginClick(Sender: TObject);
     procedure MenuTabsizeClick(Sender: TObject);
+    procedure MenuViewerModeClick(Sender: TObject);
     procedure MsgLogConsole(const AText: string);
     procedure MsgLogDebug(const AText: string);
     procedure MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
@@ -1318,6 +1321,35 @@ end;
 {$I formmain_py_helpers.inc}
 {$I formmain_py_pluginwork.inc}
 
+procedure TfmMain.MenuViewerModeClick(Sender: TObject);
+var
+  F: TEditorFrame;
+begin
+  F:= CurrentFrame;
+  if F=nil then exit;
+  if not F.IsBinary then exit;
+  F.Binary.Mode:= TATBinHexMode((Sender as TComponent).Tag);
+  UpdateStatus;
+end;
+
+procedure TfmMain.InitPopupViewerMode;
+var
+  mi: TMenuItem;
+  mode: TATBinHexMode;
+begin
+  if PopupViewerMode=nil then
+  begin
+    PopupViewerMode:= TPopupMenu.Create(Self);
+    for mode:= Low(mode) to High(mode) do
+    begin
+      mi:= TMenuItem.Create(Self);
+      mi.Caption:= 'Viewer: '+msgViewerModeNames[mode];
+      mi.OnClick:= @MenuViewerModeClick;
+      mi.Tag:= Ord(mode);
+      PopupViewerMode.Items.Add(mi);
+    end;
+  end;
+end;
 
 procedure TfmMain.StatusPanelClick(Sender: TObject; AIndex: Integer);
 var
@@ -1347,6 +1379,11 @@ begin
       StatusbarTag_Enc:
         with Mouse.CursorPos do
           Frame.Binary.TextEncodingsMenu(X, Y);
+      StatusbarTag_Lexer:
+        begin
+          InitPopupViewerMode;
+          PopupViewerMode.PopUp;
+        end;
     end;
     exit;
   end;
