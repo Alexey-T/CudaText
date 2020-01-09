@@ -1550,7 +1550,6 @@ Value of "command" parameter for MENU_ADD can be:
 
 * to create standard special sub-menus, special values:
 ** "_recents": Recent-files submenu
-** "_enc": Encodings submenu (has subitems "reload as", "convert to")
 ** "_plugins": Plugins submenu
 ** "_oplugins": Settings-plugins submenu
 
@@ -3754,5 +3753,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.318 (app 1.92.0)
 * add: Editor.action: EDACTION_FIND_ONE
 * add: Editor.action: EDACTION_FIND_ALL
+
+1.0.319 (app 1.92.5)
+* removed: menu_proc special constant "_enc"
 
 [[Category:CudaText]]
