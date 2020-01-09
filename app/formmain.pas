@@ -2101,7 +2101,6 @@ begin
   UpdateMenuItemHint(mnuGroups, 'top-groups');
   UpdateMenuItemHint(mnuPlugins, 'plugins');
   UpdateMenuItemHint(mnuFileOpenSub, '_recents');
-  UpdateMenuItemHint(mnuFileEnc, '_enc');
   UpdateMenuItemHint(mnuFileEnds, '_ends');
   UpdateMenuItemHint(mnuOpPlugins, '_oplugins');
 
