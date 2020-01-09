@@ -199,11 +199,6 @@ begin
     DoLocMenuitem(ini, mnuFindWordNext, 'm_sr', 'w_n');
     DoLocMenuitem(ini, mnuFindWordPrev, 'm_sr', 'w_p');
 
-    DoLocMenuitem(mnuFind2Next, mnuFindNext);
-    DoLocMenuitem(mnuFind2Prev, mnuFindPrev);
-    DoLocMenuitem(mnuFind2WordNext, mnuFindWordNext);
-    DoLocMenuitem(mnuFind2WordPrev, mnuFindWordPrev);
-
     DoLocMenuitem(ini, mnuGotoLine, 'm_sr', 'g_l');
     DoLocMenuitem(ini, mnuGotoBm, 'm_sr', 'g_b');
 

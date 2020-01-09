@@ -269,7 +269,6 @@ type
     mnuTabColor: TMenuItem;
     MenuItem29: TMenuItem;
     mnuTabsizeSpace: TMenuItem;
-    mnuFind2Prev: TMenuItem;
     mnuTabSaveAs: TMenuItem;
     mnuTabSave: TMenuItem;
     mnuFindPrev: TMenuItem;
@@ -283,10 +282,6 @@ type
     mnuFindWordNext: TMenuItem;
     mnuFindWordPrev: TMenuItem;
     SepSr2: TMenuItem;
-    mnuFind2Next: TMenuItem;
-    MenuItem20: TMenuItem;
-    mnuFind2WordNext: TMenuItem;
-    mnuFind2WordPrev: TMenuItem;
     mnuHelpForum: TMenuItem;
     mnuViewToolbar: TMenuItem;
     mnuFontText: TMenuItem;
@@ -421,7 +416,6 @@ type
     mnuFileSaveAs: TMenuItem;
     mnuFileClose: TMenuItem;
     OpenDlg: TOpenDialog;
-    PopupFind: TPopupMenu;
     PopupText: TPopupMenu;
     PopupTree: TPopupMenu;
     PopupTabSize: TPopupMenu;
@@ -473,10 +467,6 @@ type
     procedure mnuTabMoveF2Click(Sender: TObject);
     procedure mnuTabMoveF3Click(Sender: TObject);
     procedure MenuRecentsClear(Sender: TObject);
-    procedure mnuFind2NextClick(Sender: TObject);
-    procedure mnuFind2PrevClick(Sender: TObject);
-    procedure mnuFind2WordNextClick(Sender: TObject);
-    procedure mnuFind2WordPrevClick(Sender: TObject);
     procedure DoHelpAbout;
     procedure DoHelpForum;
     procedure DoHelpWiki;
@@ -2575,26 +2565,6 @@ end;
 procedure TfmMain.MenuRecentsClear(Sender: TObject);
 begin
   DoClearRecentFileHistory;
-end;
-
-procedure TfmMain.mnuFind2NextClick(Sender: TObject);
-begin
-  CurrentEditor.DoCommand(cmd_FindNext);
-end;
-
-procedure TfmMain.mnuFind2PrevClick(Sender: TObject);
-begin
-  CurrentEditor.DoCommand(cmd_FindPrev);
-end;
-
-procedure TfmMain.mnuFind2WordNextClick(Sender: TObject);
-begin
-  CurrentEditor.DoCommand(cmd_FindCurWordNext);
-end;
-
-procedure TfmMain.mnuFind2WordPrevClick(Sender: TObject);
-begin
-  CurrentEditor.DoCommand(cmd_FindCurWordPrev);
 end;
 
 procedure TfmMain.DoClearRecentFileHistory;
@@ -6027,12 +5997,6 @@ begin
     begin
       mnuOpPlugins:= mi;
       UpdateMenuPlugins;
-    end
-    else
-    if AMenuCmd='_enc' then
-    begin
-      mnuFileEnc:= mi;
-      UpdateMenuEnc(mi);
     end
     else
     begin

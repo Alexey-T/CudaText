@@ -964,29 +964,6 @@ object fmMain: TfmMain
     Left = 656
     Top = 88
   end
-  object PopupFind: TPopupMenu
-    Left = 744
-    Top = 88
-    object mnuFind2Next: TMenuItem
-      Caption = 'Find next'
-      OnClick = mnuFind2NextClick
-    end
-    object mnuFind2Prev: TMenuItem
-      Caption = 'Find previous'
-      OnClick = mnuFind2PrevClick
-    end
-    object MenuItem20: TMenuItem
-      Caption = '-'
-    end
-    object mnuFind2WordNext: TMenuItem
-      Caption = 'Find current word next'
-      OnClick = mnuFind2WordNextClick
-    end
-    object mnuFind2WordPrev: TMenuItem
-      Caption = 'Find current word previous'
-      OnClick = mnuFind2WordPrevClick
-    end
-  end
   object PopupTabSize: TPopupMenu
     OnPopup = PopupTabSizePopup
     Left = 568
