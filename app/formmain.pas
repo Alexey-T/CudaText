@@ -498,6 +498,7 @@ type
     procedure mnuTreeFoldAllClick(Sender: TObject);
     procedure mnuTreeSortedClick(Sender: TObject);
     procedure mnuTreeUnfoldAllClick(Sender: TObject);
+    procedure PopupRecentsPopup(Sender: TObject);
     procedure PopupTabPopup(Sender: TObject);
     procedure PopupTextPopup(Sender: TObject);
     procedure PythonEngineAfterInit(Sender: TObject);
@@ -1020,6 +1021,7 @@ type
     procedure SplitterOnPaint_Gr(Sender: TObject);
     procedure SplitterOnPaint_Main(Sender: TObject);
     procedure StopAllTimers;
+    procedure UpdateMenuRecents(sub: TMenuItem);
     procedure UpdateSidebarButtonOverlay;
     procedure UpdateBottomPanels(const ACaption: string; AndFocus: boolean);
     procedure UpdateEditorTabsize(AValue: integer);
@@ -5153,7 +5155,6 @@ procedure TfmMain.mnuTreeUnfoldAllClick(Sender: TObject);
 begin
   CodeTree.Tree.FullExpand;
 end;
-
 
 procedure TfmMain.DoFileExportHtml(F: TEditorFrame);
 var

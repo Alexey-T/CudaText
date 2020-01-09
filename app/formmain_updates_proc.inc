@@ -438,30 +438,12 @@ begin
   //empty now
 end;
 
-procedure TfmMain.UpdateMenuRecent(F: TEditorFrame; const AFileName: string);
+procedure TfmMain.UpdateMenuRecents(sub: TMenuItem);
 var
-  sub: TMenuItem;
   mi: TMenuItem;
-  i: integer;
   SName: string;
+  i: integer;
 begin
-  if F=nil then
-    SAddStringToHistory('', FListRecents, UiOps.MaxHistoryMenu)
-  else
-  begin
-    if not F.IsText then exit;
-    if AFileName='' then exit;
-    if F.NotInRecents then exit;
-    SAddStringToHistory(
-      SCollapseHomeDirInFilename(AFileName),
-      FListRecents,
-      UiOps.MaxHistoryMenu);
-    F.DoSaveHistory(F.Ed1);
-    if not F.EditorsLinked then
-      F.DoSaveHistory(F.Ed2);
-  end;
-
-  sub:= mnuFileOpenSub;
   if sub=nil then exit;
   sub.Clear;
 
@@ -485,18 +467,34 @@ begin
   mi.Caption:= msgFileClearList;
   mi.OnClick:= @MenuRecentsClear;
   sub.Add(mi);
-
-  //----------
-  PopupRecents.Items.Clear;
-  for i:= 0 to sub.Count-1 do
-  begin
-    mi:= TMenuItem.Create(Self);
-    mi.Caption:= sub.Items[i].Caption;
-    mi.Tag:= sub.Items[i].Tag;
-    mi.OnClick:= sub.Items[i].OnClick;
-    PopupRecents.Items.Add(mi);
-  end;
 end;
+
+procedure TfmMain.UpdateMenuRecent(F: TEditorFrame; const AFileName: string);
+begin
+  if F=nil then
+    SAddStringToHistory('', FListRecents, UiOps.MaxHistoryMenu)
+  else
+  begin
+    if not F.IsText then exit;
+    if AFileName='' then exit;
+    if F.NotInRecents then exit;
+    SAddStringToHistory(
+      SCollapseHomeDirInFilename(AFileName),
+      FListRecents,
+      UiOps.MaxHistoryMenu);
+    F.DoSaveHistory(F.Ed1);
+    if not F.EditorsLinked then
+      F.DoSaveHistory(F.Ed2);
+  end;
+
+  UpdateMenuRecents(mnuFileOpenSub);
+end;
+
+procedure TfmMain.PopupRecentsPopup(Sender: TObject);
+begin
+  UpdateMenuRecents(PopupRecents.Items);
+end;
+
 
 procedure TfmMain.DoApplyAllOps;
 var

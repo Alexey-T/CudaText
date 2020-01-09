@@ -961,6 +961,7 @@ object fmMain: TfmMain
     Top = 424
   end
   object PopupRecents: TPopupMenu
+    OnPopup = PopupRecentsPopup
     Left = 656
     Top = 88
   end
