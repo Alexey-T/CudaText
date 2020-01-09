@@ -12,6 +12,7 @@
 + add: lexer PHP: support new heredoc syntax (of PHP 7.3)
 - fix: Find/Replace: find-next for reg.ex. "\b" stopped at found position forever
 - fix: Find/Replace: could not mass replace reg.ex. "\b" to for example "__"
+* change: submenu "File / Encoding / ..." replaced with simple menu item "File / Encoding..." which calls popup menu
 * change: renamed commands "zoom in" / "zoom out" to "current document font size: bigger" / "... smaller"
 
 1.92.0 (2019/12)
