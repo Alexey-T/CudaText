@@ -970,60 +970,6 @@ object fmMain: TfmMain
     Left = 600
     Top = 216
   end
-  object PopupTree: TPopupMenu
-    Left = 656
-    Top = 144
-    object mnuTreeFoldAll: TMenuItem
-      Caption = 'Fold all'
-      OnClick = mnuTreeFoldAllClick
-    end
-    object mnuTreeUnfoldAll: TMenuItem
-      Caption = 'Unfold all'
-      OnClick = mnuTreeUnfoldAllClick
-    end
-    object mnuTreeFoldLevel: TMenuItem
-      Caption = 'Fold level'
-      object mnuTreeFold2: TMenuItem
-        Caption = '2'
-        OnClick = mnuTreeFold2Click
-      end
-      object mnuTreeFold3: TMenuItem
-        Caption = '3'
-        OnClick = mnuTreeFold3Click
-      end
-      object mnuTreeFold4: TMenuItem
-        Caption = '4'
-        OnClick = mnuTreeFold4Click
-      end
-      object mnuTreeFold5: TMenuItem
-        Caption = '5'
-        OnClick = mnuTreeFold5Click
-      end
-      object mnuTreeFold6: TMenuItem
-        Caption = '6'
-        OnClick = mnuTreeFold6Click
-      end
-      object mnuTreeFold7: TMenuItem
-        Caption = '7'
-        OnClick = mnuTreeFold7Click
-      end
-      object mnuTreeFold8: TMenuItem
-        Caption = '8'
-        OnClick = mnuTreeFold8Click
-      end
-      object mnuTreeFold9: TMenuItem
-        Caption = '9'
-        OnClick = mnuTreeFold9Click
-      end
-    end
-    object mnuTreeSep1: TMenuItem
-      Caption = '-'
-    end
-    object mnuTreeSorted: TMenuItem
-      Caption = 'Sorted'
-      OnClick = mnuTreeSortedClick
-    end
-  end
   object TimerTreeFill: TTimer
     Enabled = False
     Interval = 2000

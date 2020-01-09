@@ -1424,6 +1424,82 @@ begin
 end;
 
 
+procedure TfmMain.InitPopupTree;
+var
+  mi: TMenuItem;
+begin
+  if PopupTree=nil then
+  begin
+    PopupTree:= TPopupMenu.Create(Self);
+
+    mnuTreeFoldAll:= TMenuItem.Create(Self);
+    mnuTreeFoldAll.OnClick:= @mnuTreeFoldAllClick;
+    PopupTree.Items.Add(mnuTreeFoldAll);
+
+    mnuTreeUnfoldAll:= TMenuItem.Create(Self);
+    mnuTreeUnfoldAll.OnClick:= @mnuTreeUnfoldAllClick;
+    PopupTree.Items.Add(mnuTreeUnfoldAll);
+
+    mnuTreeFoldLevel:= TMenuItem.Create(Self);
+    PopupTree.Items.Add(mnuTreeFoldLevel);
+
+    mnuTreeFold2:= TMenuItem.Create(Self);
+    mnuTreeFold2.Caption:= '2';
+    mnuTreeFold2.OnClick:= @mnuTreeFold2Click;
+    mnuTreeFoldLevel.Add(mnuTreeFold2);
+
+    mnuTreeFold3:= TMenuItem.Create(Self);
+    mnuTreeFold3.Caption:= '3';
+    mnuTreeFold3.OnClick:= @mnuTreeFold3Click;
+    mnuTreeFoldLevel.Add(mnuTreeFold3);
+
+    mnuTreeFold4:= TMenuItem.Create(Self);
+    mnuTreeFold4.Caption:= '4';
+    mnuTreeFold4.OnClick:= @mnuTreeFold4Click;
+    mnuTreeFoldLevel.Add(mnuTreeFold4);
+
+    mnuTreeFold5:= TMenuItem.Create(Self);
+    mnuTreeFold5.Caption:= '5';
+    mnuTreeFold5.OnClick:= @mnuTreeFold5Click;
+    mnuTreeFoldLevel.Add(mnuTreeFold5);
+
+    mnuTreeFold6:= TMenuItem.Create(Self);
+    mnuTreeFold6.Caption:= '6';
+    mnuTreeFold6.OnClick:= @mnuTreeFold6Click;
+    mnuTreeFoldLevel.Add(mnuTreeFold6);
+
+    mnuTreeFold7:= TMenuItem.Create(Self);
+    mnuTreeFold7.Caption:= '7';
+    mnuTreeFold7.OnClick:= @mnuTreeFold7Click;
+    mnuTreeFoldLevel.Add(mnuTreeFold7);
+
+    mnuTreeFold8:= TMenuItem.Create(Self);
+    mnuTreeFold8.Caption:= '8';
+    mnuTreeFold8.OnClick:= @mnuTreeFold8Click;
+    mnuTreeFoldLevel.Add(mnuTreeFold8);
+
+    mnuTreeFold9:= TMenuItem.Create(Self);
+    mnuTreeFold9.Caption:= '9';
+    mnuTreeFold9.OnClick:= @mnuTreeFold9Click;
+    mnuTreeFoldLevel.Add(mnuTreeFold9);
+
+    mi:= TMenuItem.Create(Self);
+    mi.Caption:= '-';
+    PopupTree.Items.Add(mi);
+
+    mnuTreeSorted:= TMenuItem.Create(Self);
+    mnuTreeSorted.OnClick:= @mnuTreeSortedClick;
+    PopupTree.Items.Add(mnuTreeSorted);
+  end;
+
+  mnuTreeFoldAll.Caption:= cStrMenuitemFoldAll;
+  mnuTreeUnfoldAll.Caption:= cStrMenuitemUnfoldAll;
+  mnuTreeFoldLevel.Caption:= cStrMenuitemFoldLevel;
+  mnuTreeSorted.Caption:= msgTreeSorted;
+
+  mnuTreeSorted.Checked:= CodeTree.Tree.SortType<>stNone;
+end;
+
 procedure TfmMain.InitPopupPicScale;
 const
   cSizes: array[0..8] of integer =

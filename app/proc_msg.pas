@@ -328,7 +328,9 @@ const
       'You can easily install popular add-ons (Unix: if Python engine is already configured), using menu item "Plugins / Multi Installer".';
 
 const
-  msgScaleDefault: string = 'default';
+  msgScaleDefault: string = 'Default';
+  msgTreeSorted: string = 'Sorted';
+
   msgViewer: string = 'Viewer';
   msgViewerModes: array[TATBinHexMode] of string = (
     'Text',

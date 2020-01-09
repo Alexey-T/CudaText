@@ -175,8 +175,6 @@ type
     mnuSelExtWord: TMenuItem;
     mnuViewOnTop: TMenuItem;
     mnuOpPlugins: TMenuItem;
-    mnuTreeSep1: TMenuItem;
-    mnuTreeSorted: TMenuItem;
     mnuViewUnpriSpacesTail: TMenuItem;
     mnuViewMicromap: TMenuItem;
     mnuHelpCheckUpd: TMenuItem;
@@ -245,17 +243,6 @@ type
     mnuTextGotoDef: TMenuItem;
     mnuPlugins: TMenuItem;
     mnuFileHtml: TMenuItem;
-    mnuTreeFold9: TMenuItem;
-    mnuTreeFold7: TMenuItem;
-    mnuTreeFold8: TMenuItem;
-    mnuTreeFold2: TMenuItem;
-    mnuTreeFold5: TMenuItem;
-    mnuTreeFold6: TMenuItem;
-    mnuTreeFold3: TMenuItem;
-    mnuTreeFold4: TMenuItem;
-    mnuTreeUnfoldAll: TMenuItem;
-    mnuTreeFoldAll: TMenuItem;
-    mnuTreeFoldLevel: TMenuItem;
     mnuViewSide: TMenuItem;
     mnuOpKeys: TMenuItem;
     mnuHelpWiki: TMenuItem;
@@ -412,7 +399,6 @@ type
     mnuFileClose: TMenuItem;
     OpenDlg: TOpenDialog;
     PopupText: TPopupMenu;
-    PopupTree: TPopupMenu;
     PopupRecents: TPopupMenu;
     PopupTab: TPopupMenu;
     PythonEngine: TPythonEngine;
@@ -519,12 +505,25 @@ type
     {$endif}
   private
     { private declarations }
+    PopupTree: TPopupMenu;
     PopupEnds: TPopupMenu;
     PopupEnc: TPopupMenu;
     PopupLex: TPopupMenu;
     PopupTabSize: TPopupMenu;
     PopupViewerMode: TPopupMenu;
     PopupPicScale: TPopupMenu;
+    mnuTreeFoldAll: TMenuItem;
+    mnuTreeUnfoldAll: TMenuItem;
+    mnuTreeFoldLevel: TMenuItem;
+    mnuTreeFold2: TMenuItem;
+    mnuTreeFold3: TMenuItem;
+    mnuTreeFold4: TMenuItem;
+    mnuTreeFold5: TMenuItem;
+    mnuTreeFold6: TMenuItem;
+    mnuTreeFold7: TMenuItem;
+    mnuTreeFold8: TMenuItem;
+    mnuTreeFold9: TMenuItem;
+    mnuTreeSorted: TMenuItem;
     mnuEndsWin: TMenuItem;
     mnuEndsUnix: TMenuItem;
     mnuEndsMac: TMenuItem;
@@ -692,6 +691,8 @@ type
     procedure DoApplyTranslationToGroups(G: TATGroups);
     procedure DoClearSingleFirstTab;
     procedure DoCloseAllTabs;
+    procedure DoCodetree_OnContextPopup(Sender: TObject; MousePos: TPoint;
+      var Handled: Boolean);
     procedure DoDialogMenuThemes_ThemeSyntaxSelect(const AStr: string);
     procedure DoDialogMenuThemes_ThemeUiSelect(const AStr: string);
     procedure DoFileDialog_PrepareDir(Dlg: TFileDialog);
@@ -844,6 +845,7 @@ type
     function GetShowOnTop: boolean;
     function GetShowSidebarOnRight: boolean;
     procedure InitAppleMenu;
+    procedure InitPopupTree;
     procedure InitPopupPicScale;
     procedure InitPopupViewerMode;
     procedure InitPopupEnc;
@@ -1919,7 +1921,7 @@ begin
   CodeTree.Tree.OnDblClick:= @DoCodetree_OnDblClick;
   CodeTree.Tree.OnMouseMove:= @DoCodetree_OnMouseMove;
   CodeTree.Tree.OnKeyDown:= @DoCodetree_OnKeyDown;
-  CodeTree.Tree.PopupMenu:= PopupTree;
+  CodeTree.Tree.OnContextPopup:= @DoCodetree_OnContextPopup;
 
   PanelCodeTreeTop:= TATPanelSimple.Create(Self);
   PanelCodeTreeTop.Parent:= PanelLeft;
@@ -5147,8 +5149,6 @@ begin
     CodeTree.Tree.SortType:= stText
   else
     CodeTree.Tree.SortType:= stNone;
-
-  mnuTreeSorted.Checked:= CodeTree.Tree.SortType<>stNone;
 end;
 
 procedure TfmMain.mnuTreeUnfoldAllClick(Sender: TObject);
@@ -5348,6 +5348,15 @@ begin
     exit
   end;
 end;
+
+procedure TfmMain.DoCodetree_OnContextPopup(Sender: TObject; MousePos: TPoint;
+  var Handled: Boolean);
+begin
+  InitPopupTree;
+  PopupTree.Popup;
+  Handled:= true;
+end;
+
 
 procedure TfmMain.DoCodetree_GotoBlockForCurrentNode(AndSelect: boolean);
 var

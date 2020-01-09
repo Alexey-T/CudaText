@@ -490,14 +490,10 @@ begin
     DoLocMenuitem(ini, mnuTabMoveNext, 'ct', 'mov_n');
     DoLocMenuitem(ini, mnuTabMovePrev, 'ct', 'mov_p');
 
-    DoLocMenuitem(ini, mnuTreeFoldAll, 'ct', 'fld_a');
-    DoLocMenuitem(ini, mnuTreeUnfoldAll, 'ct', 'fld_un');
-    DoLocMenuitem(ini, mnuTreeFoldLevel, 'ct', 'fld_lv');
-    DoLocMenuitem(ini, mnuTreeSorted, 'ct', 'tr_sr');
-
-    cStrMenuitemFoldAll:= mnuTreeFoldAll.Caption;
-    cStrMenuitemUnfoldAll:= mnuTreeUnfoldAll.Caption;
-    cStrMenuitemFoldLevel:= mnuTreeFoldLevel.Caption;
+    DoLocString(cStrMenuitemFoldAll, ini, 'ct', 'fld_a');
+    DoLocString(cStrMenuitemUnfoldAll, ini, 'ct', 'fld_un');
+    DoLocString(cStrMenuitemFoldLevel, ini, 'ct', 'fld_lv');
+    DoLocString(msgTreeSorted, ini, 'ct', 'tr_sr');
 
     DoLocString(msgTabsizeUseSpaces, ini, 'ct', 'ussp');
     DoLocString(msgTabsizeConvSpaces, ini, 'ct', 'cnv_t');
