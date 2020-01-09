@@ -228,7 +228,9 @@ begin
   if (Res=afoFindFirst) or (Res=afoFindNext) or (Res=afoFindPrev) then
   begin
     FFinder.OptBack:= (Res=afoFindPrev);
-    ok:= FFinder.DoAction_FindOrReplace(false, false, false, bChanged, true);
+    ok:= FFinder.DoAction_FindOrReplace(
+      FFinder.OptRegex and (Res=afoFindNext), //ANext should be used for regex
+      false, false, bChanged, true);
     FinderUpdateEditor(false);
     DoFindResult(ok);
     if ok then
