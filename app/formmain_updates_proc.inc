@@ -1400,7 +1400,7 @@ begin
     begin
       mi:= TMenuItem.Create(Self);
       if cSizes[i]=-1 then
-        mi.Caption:= 'default'
+        mi.Caption:= msgScaleDefault
       else
         mi.Caption:= IntToStr(cSizes[i])+'%';
       mi.Tag:= cSizes[i];
