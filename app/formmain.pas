@@ -227,7 +227,6 @@ type
     SepHelp1: TMenuItem;
     SepHelp2: TMenuItem;
     SepFile1: TMenuItem;
-    MenuItem23: TMenuItem;
     MenuItem24: TMenuItem;
     MenuItem25: TMenuItem;
     SepEd6: TMenuItem;
@@ -425,7 +424,6 @@ type
     mnuFileSaveAs: TMenuItem;
     mnuFileClose: TMenuItem;
     OpenDlg: TOpenDialog;
-    PopupEnc: TPopupMenu;
     PopupEnds: TPopupMenu;
     PopupLex: TPopupMenu;
     PopupFind: TPopupMenu;
@@ -542,6 +540,7 @@ type
     {$endif}
   private
     { private declarations }
+    PopupEnc: TPopupMenu;
     PopupViewerMode: TPopupMenu;
     PopupPicScale: TPopupMenu;
     mnuToolbarCaseLow: TMenuItem;
@@ -859,6 +858,7 @@ type
     procedure InitAppleMenu;
     procedure InitPopupPicScale;
     procedure InitPopupViewerMode;
+    procedure InitPopupEnc;
     procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer;
       const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
     procedure InitFloatGroups;
@@ -1351,6 +1351,15 @@ begin
   end;
 end;
 
+procedure TfmMain.InitPopupEnc;
+begin
+  if PopupEnc=nil then
+  begin
+    PopupEnc:= TPopupMenu.Create(Self);
+  end;
+  UpdateMenuEnc(PopupEnc.Items);
+end;
+
 procedure TfmMain.StatusPanelClick(Sender: TObject; AIndex: Integer);
 var
   Frame: TEditorFrame;
@@ -1395,7 +1404,10 @@ begin
     StatusbarTag_Enc:
       begin
         if not Frame.ReadOnly[Frame.Editor] then
+        begin
+          InitPopupEnc;
           PopupEnc.PopUp;
+        end;
       end;
     StatusbarTag_LineEnds:
       begin
@@ -2035,7 +2047,6 @@ begin
   FFinder.OnFound:=@FinderOnFound;
   FFinder.OnGetToken:= @FinderOnGetToken;
 
-  UpdateMenuEnc(PopupEnc.Items);
   UpdateMenuEnc(mnuFileEnc);
   InitStatusbarControls;
 

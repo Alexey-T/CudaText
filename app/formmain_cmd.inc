@@ -377,7 +377,10 @@ begin
       DoShowFuncHint;
 
     cmd_MenuEnc:
-      MenuShowAtEditorCorner(PopupEnc, CurrentEditor);
+      begin
+        InitPopupEnc;
+        MenuShowAtEditorCorner(PopupEnc, CurrentEditor);
+      end;
     cmd_MenuEnds:
       MenuShowAtEditorCorner(PopupEnds, CurrentEditor);
     cmd_MenuLexers:

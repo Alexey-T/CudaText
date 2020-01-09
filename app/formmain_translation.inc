@@ -93,7 +93,6 @@ begin
     msgEncAsian:= ini.ReadString('m_f', 'e_as', msgEncAsian);
     msgEncMisc:= ini.ReadString('m_f', 'e_mi', msgEncMisc);
     UpdateMenuEnc(mnuFileEnc);
-    UpdateMenuEnc(PopupEnc.Items);
 
     DoLocMenuItem(mnuFileEndWin, msgEndWin);
     DoLocMenuItem(mnuFileEndUn, msgEndUnix);

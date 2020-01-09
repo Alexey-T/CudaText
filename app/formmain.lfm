@@ -798,13 +798,6 @@ object fmMain: TfmMain
     Left = 344
     Top = 424
   end
-  object PopupEnc: TPopupMenu
-    Left = 656
-    Top = 32
-    object MenuItem23: TMenuItem
-      Caption = 'New Item1'
-    end
-  end
   object PopupEnds: TPopupMenu
     Left = 744
     Top = 32
