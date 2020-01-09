@@ -141,7 +141,7 @@ begin
     DoStatusbarTextByTag(AStatus, StatusbarTag_LineEnds, '');
 
     if F.IsBinary then
-      S:= 'Viewer: '+msgViewerModeNames[F.Binary.Mode]
+      S:= msgViewer+': '+msgViewerModes[F.Binary.Mode]
     else
     if F.IsPicture then
     begin

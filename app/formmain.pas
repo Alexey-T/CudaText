@@ -1343,7 +1343,7 @@ begin
     for mode:= Low(mode) to High(mode) do
     begin
       mi:= TMenuItem.Create(Self);
-      mi.Caption:= 'Viewer: '+msgViewerModeNames[mode];
+      mi.Caption:= msgViewer+': '+msgViewerModes[mode];
       mi.OnClick:= @MenuViewerModeClick;
       mi.Tag:= Ord(mode);
       PopupViewerMode.Items.Add(mi);

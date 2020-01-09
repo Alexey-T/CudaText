@@ -324,7 +324,8 @@ const
       'You can easily install popular add-ons (Unix: if Python engine is already configured), using menu item "Plugins / Multi Installer".';
 
 const
-  msgViewerModeNames: array[TATBinHexMode] of string = (
+  msgViewer: string = 'Viewer';
+  msgViewerModes: array[TATBinHexMode] of string = (
     'Text',
     'Binary',
     'Hex',
