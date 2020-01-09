@@ -499,9 +499,9 @@ begin
     cStrMenuitemUnfoldAll:= mnuTreeUnfoldAll.Caption;
     cStrMenuitemFoldLevel:= mnuTreeFoldLevel.Caption;
 
-    DoLocMenuitem(ini, mnuTabsizeSpace, 'ct', 'ussp');
-    DoLocMenuitem(ini, mnuTabsizeConvSpaces, 'ct', 'cnv_t');
-    DoLocMenuitem(ini, mnuTabsizeConvTabs, 'ct', 'cnv_s');
+    DoLocString(msgTabsizeUseSpaces, ini, 'ct', 'ussp');
+    DoLocString(msgTabsizeConvSpaces, ini, 'ct', 'cnv_t');
+    DoLocString(msgTabsizeConvTabs, ini, 'ct', 'cnv_s');
 
     ButtonCancel.Caption:= msgButtonCancel;
 

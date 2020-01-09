@@ -636,9 +636,6 @@ end;
 
 procedure TfmMain.UpdateMenuHotkeys;
 begin
-  UpdateMenuItemHotkey(mnuTabsizeConvSpaces, cmd_ConvertSpacesToTabsLeading);
-  UpdateMenuItemHotkey(mnuTabsizeConvTabs, cmd_ConvertTabsToSpacesLeading);
-
   UpdateMenuItemHotkey(mnuApple_About, cmd_HelpAbout);
   UpdateMenuItemHotkey(mnuApple_CheckUpd, cmd_HelpCheckUpdates);
 
@@ -1365,20 +1362,67 @@ begin
 end;
 
 
-procedure TfmMain.UpdateMenuTabsize;
+procedure TfmMain.InitPopupTabSize;
 var
+  Ed: TATSynEdit;
+  Msg: string;
+  NTab, i: integer;
   mi: TMenuItem;
-  i: integer;
 begin
-  for i:= cMenuTabsizeMax downto cMenuTabsizeMin do
+  if PopupTabSize=nil then
   begin
+    PopupTabSize:= TPopupMenu.Create(Self);
+
     mi:= TMenuItem.Create(Self);
-    mi.Caption:= 'tab: '+IntToStr(i);
-    mi.Tag:= i;
-    mi.OnClick:= @MenuTabsizeClick;
-    FMenuItemTabSize[i]:= mi;
-    PopupTabSize.Items.Insert(0, mi);
+    mi.Caption:= '-';
+    PopupTabSize.Items.Add(mi);
+
+    mnuTabsizeSpace:= TMenuItem.Create(Self);
+    mnuTabsizeSpace.OnClick:= @mnuTabsizeSpaceClick;
+    PopupTabSize.Items.Add(mnuTabsizeSpace);
+
+    mi:= TMenuItem.Create(Self);
+    mi.Caption:= '-';
+    PopupTabSize.Items.Add(mi);
+
+    mnuTabsizeConvTabs:= TMenuItem.Create(Self);
+    PopupTabSize.Items.Add(mnuTabsizeConvTabs);
+
+    mnuTabsizeConvSpaces:= TMenuItem.Create(Self);
+    PopupTabSize.Items.Add(mnuTabsizeConvSpaces);
+
+    for i:= cMenuTabsizeMax downto cMenuTabsizeMin do
+    begin
+      mi:= TMenuItem.Create(Self);
+      mi.Caption:= IntToStr(i);
+      mi.Tag:= i;
+      mi.OnClick:= @MenuTabsizeClick;
+      mnuTabsizesValue[i]:= mi;
+      PopupTabSize.Items.Insert(0, mi);
+    end;
   end;
+
+  mnuTabsizeSpace.Caption:= msgTabsizeUseSpaces;
+  mnuTabsizeConvSpaces.Caption:= msgTabsizeConvSpaces;
+  mnuTabsizeConvTabs.Caption:= msgTabsizeConvTabs;
+
+  UpdateMenuItemHotkey(mnuTabsizeConvSpaces, cmd_ConvertSpacesToTabsLeading);
+  UpdateMenuItemHotkey(mnuTabsizeConvTabs, cmd_ConvertTabsToSpacesLeading);
+
+  Ed:= CurrentEditor;
+  if Ed.OptTabSpaces then
+    Msg:= msgStatusbarTextSpaces
+  else
+    Msg:= msgStatusbarTextTab;
+  NTab:= Ed.OptTabSize;
+
+  for i:= cMenuTabsizeMin to cMenuTabsizeMax do
+  begin
+    mnuTabsizesValue[i].Caption:= Msg+': '+IntToStr(i);
+    mnuTabsizesValue[i].Checked:= NTab=i;
+  end;
+
+  mnuTabsizeSpace.Checked:= Ed.OptTabSpaces;
 end;
 
 

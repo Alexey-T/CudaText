@@ -154,9 +154,6 @@ type
     ButtonCancel: TATButton;
     mnuOpThemes: TMenuItem;
     mnuOpLangs: TMenuItem;
-    mnuTabsizeSep: TMenuItem;
-    mnuTabsizeConvTabs: TMenuItem;
-    mnuTabsizeConvSpaces: TMenuItem;
     mnuViewSidebar: TMenuItem;
     mnuTabCopyName: TMenuItem;
     mnuTabCopyDir: TMenuItem;
@@ -267,8 +264,6 @@ type
     mnuEditTrimR: TMenuItem;
     mnuEditTrim: TMenuItem;
     mnuTabColor: TMenuItem;
-    MenuItem29: TMenuItem;
-    mnuTabsizeSpace: TMenuItem;
     mnuTabSaveAs: TMenuItem;
     mnuTabSave: TMenuItem;
     mnuFindPrev: TMenuItem;
@@ -418,7 +413,6 @@ type
     OpenDlg: TOpenDialog;
     PopupText: TPopupMenu;
     PopupTree: TPopupMenu;
-    PopupTabSize: TPopupMenu;
     PopupRecents: TPopupMenu;
     PopupTab: TPopupMenu;
     PythonEngine: TPythonEngine;
@@ -505,7 +499,6 @@ type
     procedure mnuTreeSortedClick(Sender: TObject);
     procedure mnuTreeUnfoldAllClick(Sender: TObject);
     procedure PopupTabPopup(Sender: TObject);
-    procedure PopupTabSizePopup(Sender: TObject);
     procedure PopupTextPopup(Sender: TObject);
     procedure PythonEngineAfterInit(Sender: TObject);
     procedure PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
@@ -528,11 +521,16 @@ type
     PopupEnds: TPopupMenu;
     PopupEnc: TPopupMenu;
     PopupLex: TPopupMenu;
+    PopupTabSize: TPopupMenu;
     PopupViewerMode: TPopupMenu;
     PopupPicScale: TPopupMenu;
     mnuEndsWin: TMenuItem;
     mnuEndsUnix: TMenuItem;
     mnuEndsMac: TMenuItem;
+    mnuTabsizeSpace: TMenuItem;
+    mnuTabsizeConvTabs: TMenuItem;
+    mnuTabsizeConvSpaces: TMenuItem;
+    mnuTabsizesValue: array[cMenuTabsizeMin..cMenuTabsizeMax] of TMenuItem;
     mnuToolbarCaseLow: TMenuItem;
     mnuToolbarCaseUp: TMenuItem;
     mnuToolbarCaseTitle: TMenuItem;
@@ -652,7 +650,6 @@ type
     FCodetreeDblClicking: boolean;
     FCodetreeModifiedVersion: integer;
     FMenuCopy: TPopupMenu;
-    FMenuItemTabSize: array[cMenuTabsizeMin..cMenuTabsizeMax] of TMenuItem;
     FMenuVisible: boolean;
     FPopupListboxOutput: TPopupMenu;
     FPopupListboxValidate: TPopupMenu;
@@ -851,6 +848,7 @@ type
     procedure InitPopupEnc;
     procedure InitPopupEnds;
     procedure InitPopupLex;
+    procedure InitPopupTabSize;
     procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer;
       const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
     procedure InitFloatGroups;
@@ -1030,7 +1028,6 @@ type
     procedure UpdateMenuItemChecked(mi: TMenuItem; saved: TATMenuItemsAlt; AValue: boolean);
     procedure UpdateMenuItemHint(mi: TMenuItem; const AHint: string);
     procedure UpdateMenuItemHotkey(mi: TMenuItem; cmd: integer);
-    procedure UpdateMenuTabsize;
     procedure UpdateMenuLexersTo(AMenu: TMenuItem);
     procedure UpdateMenuRecent(F: TEditorFrame; const AFileName: string);
     procedure UpdateMenuHotkeys;
@@ -1448,6 +1445,7 @@ begin
       end;
     StatusbarTag_TabSize:
       begin
+        InitPopupTabSize;
         PopupTabSize.Popup;
       end;
     StatusbarTag_SelMode:
@@ -2493,7 +2491,6 @@ begin
   UpdateMenuPlugins;
   UpdateMenuPlugins_Shortcuts(true);
   UpdateMenuHotkeys;
-  UpdateMenuTabsize;
 
   UpdateSidebarButtons;
   UpdateBottomButtons;
@@ -3888,28 +3885,6 @@ begin
   UpdateMenuEnabled(mnuTabMoveF3, (NCur<>8));
   UpdateMenuEnabled(mnuTabMoveNext, (NVis>=2) and (NCur<6));
   UpdateMenuEnabled(mnuTabMovePrev, (NVis>=2) and (NCur<6));
-end;
-
-procedure TfmMain.PopupTabSizePopup(Sender: TObject);
-var
-  Ed: TATSynEdit;
-  Msg: string;
-  NTab, i: integer;
-begin
-  Ed:= CurrentEditor;
-  if Ed.OptTabSpaces then
-    Msg:= msgStatusbarTextSpaces
-  else
-    Msg:= msgStatusbarTextTab;
-  NTab:= Ed.OptTabSize;
-
-  for i:= cMenuTabsizeMin to cMenuTabsizeMax do
-  begin
-    FMenuItemTabSize[i].Caption:= Msg+': '+IntToStr(i);
-    FMenuItemTabSize[i].Checked:= NTab=i;
-  end;
-
-  mnuTabsizeSpace.Checked:= Ed.OptTabSpaces;
 end;
 
 procedure TfmMain.PythonEngineAfterInit(Sender: TObject);

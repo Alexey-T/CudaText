@@ -964,27 +964,6 @@ object fmMain: TfmMain
     Left = 656
     Top = 88
   end
-  object PopupTabSize: TPopupMenu
-    OnPopup = PopupTabSizePopup
-    Left = 568
-    Top = 144
-    object MenuItem29: TMenuItem
-      Caption = '-'
-    end
-    object mnuTabsizeSpace: TMenuItem
-      Caption = 'Use spaces'
-      OnClick = mnuTabsizeSpaceClick
-    end
-    object mnuTabsizeSep: TMenuItem
-      Caption = '-'
-    end
-    object mnuTabsizeConvTabs: TMenuItem
-      Caption = 'Convert indentation to spaces'
-    end
-    object mnuTabsizeConvSpaces: TMenuItem
-      Caption = 'Convert indentation to tabs'
-    end
-  end
   object ImageListTree: TImageList
     AllocBy = 10
     Left = 600
