@@ -7,6 +7,7 @@
 
 + add: Emmet plugin: added command "Dialog" to show interactive preview dialog for abbreviations
 + add: Emmet engine now has several "emmet_" options (to replace "Emmet profiles" from SynWrite)
++ add: file viewer ( https://wiki.freepascal.org/CudaText#File_viewer ) gives popup menu on statusbar "mode" cell, to change viewer mode (text, binary, hex, unicode)
 + add: show ? marks when DBCS (Asian) codepages cannot convert chars
 + add: lexer PHP: support new heredoc syntax (of PHP 7.3)
 - fix: Find/Replace: find-next for reg.ex. "\b" stopped at found position forever
