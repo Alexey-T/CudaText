@@ -646,10 +646,6 @@ begin
   UpdateMenuItemHotkey(mnuFileEndUn, cmd_LineEndUnix);
   UpdateMenuItemHotkey(mnuFileEndMac, cmd_LineEndMac);
 
-  UpdateMenuItemHotkey(mnuEndsWin, cmd_LineEndWin);
-  UpdateMenuItemHotkey(mnuEndsUnix, cmd_LineEndUnix);
-  UpdateMenuItemHotkey(mnuEndsMac, cmd_LineEndMac);
-
   UpdateMenuItemHotkey(mnuFileNew, cmd_FileNew);
   UpdateMenuItemHotkey(mnuFileNewMenu, cmd_FileNewMenu);
   UpdateMenuItemHotkey(mnuFileOpen, cmd_FileOpen);

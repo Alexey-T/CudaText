@@ -98,10 +98,6 @@ begin
     DoLocMenuItem(mnuFileEndUn, msgEndUnix);
     DoLocMenuItem(mnuFileEndMac, msgEndMac);
 
-    DoLocMenuItem(mnuEndsWin, msgEndWin);
-    DoLocMenuItem(mnuEndsUnix, msgEndUnix);
-    DoLocMenuItem(mnuEndsMac, msgEndMac);
-
     msgEditUndo:= ini.ReadString('m_e', 'undo', msgEditUndo);
     msgEditRedo:= ini.ReadString('m_e', 'redo', msgEditRedo);
     msgEditCut:= ini.ReadString('m_e', 'cut', msgEditCut);

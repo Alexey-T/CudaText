@@ -390,9 +390,6 @@ type
     mnuViewUnpriEnds: TMenuItem;
     mnuViewUnpriEndsDet: TMenuItem;
     mnuViewUnpri: TMenuItem;
-    mnuEndsWin: TMenuItem;
-    mnuEndsUnix: TMenuItem;
-    mnuEndsMac: TMenuItem;
     mnuViewSplitDo: TMenuItem;
     mnuViewSplitHorz: TMenuItem;
     mnuHelp: TMenuItem;
@@ -424,7 +421,6 @@ type
     mnuFileSaveAs: TMenuItem;
     mnuFileClose: TMenuItem;
     OpenDlg: TOpenDialog;
-    PopupEnds: TPopupMenu;
     PopupLex: TPopupMenu;
     PopupFind: TPopupMenu;
     PopupText: TPopupMenu;
@@ -540,9 +536,13 @@ type
     {$endif}
   private
     { private declarations }
+    PopupEnds: TPopupMenu;
     PopupEnc: TPopupMenu;
     PopupViewerMode: TPopupMenu;
     PopupPicScale: TPopupMenu;
+    mnuEndsWin: TMenuItem;
+    mnuEndsUnix: TMenuItem;
+    mnuEndsMac: TMenuItem;
     mnuToolbarCaseLow: TMenuItem;
     mnuToolbarCaseUp: TMenuItem;
     mnuToolbarCaseTitle: TMenuItem;
@@ -859,6 +859,7 @@ type
     procedure InitPopupPicScale;
     procedure InitPopupViewerMode;
     procedure InitPopupEnc;
+    procedure InitPopupEnds;
     procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer;
       const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
     procedure InitFloatGroups;
@@ -1360,6 +1361,29 @@ begin
   UpdateMenuEnc(PopupEnc.Items);
 end;
 
+procedure TfmMain.InitPopupEnds;
+begin
+  if PopupEnds=nil then
+  begin
+    PopupEnds:= TPopupMenu.Create(Self);
+    mnuEndsWin:= TMenuItem.Create(Self);
+    mnuEndsUnix:= TMenuItem.Create(Self);
+    mnuEndsMac:= TMenuItem.Create(Self);
+
+    UpdateMenuItemHotkey(mnuEndsWin, cmd_LineEndWin);
+    UpdateMenuItemHotkey(mnuEndsUnix, cmd_LineEndUnix);
+    UpdateMenuItemHotkey(mnuEndsMac, cmd_LineEndMac);
+
+    PopupEnds.Items.Add(mnuEndsWin);
+    PopupEnds.Items.Add(mnuEndsUnix);
+    PopupEnds.Items.Add(mnuEndsMac);
+  end;
+
+  mnuEndsWin.Caption:= msgEndWin;
+  mnuEndsUnix.Caption:= msgEndUnix;
+  mnuEndsMac.Caption:= msgEndMac;
+end;
+
 procedure TfmMain.StatusPanelClick(Sender: TObject; AIndex: Integer);
 var
   Frame: TEditorFrame;
@@ -1412,7 +1436,10 @@ begin
     StatusbarTag_LineEnds:
       begin
         if not Frame.ReadOnly[Frame.Editor] then
+        begin
+          InitPopupEnds;
           PopupEnds.PopUp;
+        end;
       end;
     StatusbarTag_Lexer:
       begin

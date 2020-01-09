@@ -382,9 +382,14 @@ begin
         MenuShowAtEditorCorner(PopupEnc, CurrentEditor);
       end;
     cmd_MenuEnds:
-      MenuShowAtEditorCorner(PopupEnds, CurrentEditor);
+      begin
+        InitPopupEnds;
+        MenuShowAtEditorCorner(PopupEnds, CurrentEditor);
+      end;
     cmd_MenuLexers:
-      MenuShowAtEditorCorner(PopupLex, CurrentEditor);
+      begin
+        MenuShowAtEditorCorner(PopupLex, CurrentEditor);
+      end;
 
     cmd_ChooseTranslation:
       DoDialogMenuTranslations;

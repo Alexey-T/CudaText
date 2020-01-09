@@ -798,19 +798,6 @@ object fmMain: TfmMain
     Left = 344
     Top = 424
   end
-  object PopupEnds: TPopupMenu
-    Left = 744
-    Top = 32
-    object mnuEndsWin: TMenuItem
-      Caption = 'CRLF'
-    end
-    object mnuEndsUnix: TMenuItem
-      Caption = 'LF'
-    end
-    object mnuEndsMac: TMenuItem
-      Caption = 'CR'
-    end
-  end
   object SaveDlg: TSaveDialog
     Options = [ofOverwritePrompt, ofHideReadOnly, ofPathMustExist, ofEnableSizing, ofDontAddToRecent, ofViewDetail]
     Left = 400
