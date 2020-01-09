@@ -1385,7 +1385,7 @@ begin
 end;
 
 
-procedure TfmMain.UpdateMenuPicScale;
+procedure TfmMain.InitPopupPicScale;
 const
   cSizes: array[0..8] of integer =
     (-1, 33, 50, 100, 150, 200, 500, 1000, 1500);
@@ -1393,16 +1393,20 @@ var
   mi: TMenuItem;
   i: integer;
 begin
-  for i:= Low(cSizes) to High(cSizes) do
+  if PopupPicScale=nil then
   begin
-    mi:= TMenuItem.Create(Self);
-    if cSizes[i]=-1 then
-      mi.Caption:= 'default'
-    else
-      mi.Caption:= IntToStr(cSizes[i])+'%';
-    mi.Tag:= cSizes[i];
-    mi.OnClick:= @MenuPicScaleClick;
-    PopupPicScale.Items.Add(mi);
+    PopupPicScale:= TPopupMenu.Create(Self);
+    for i:= Low(cSizes) to High(cSizes) do
+    begin
+      mi:= TMenuItem.Create(Self);
+      if cSizes[i]=-1 then
+        mi.Caption:= 'default'
+      else
+        mi.Caption:= IntToStr(cSizes[i])+'%';
+      mi.Tag:= cSizes[i];
+      mi.OnClick:= @MenuPicScaleClick;
+      PopupPicScale.Items.Add(mi);
+    end;
   end;
 end;
 

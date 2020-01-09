@@ -183,7 +183,6 @@ type
     mnuViewUnpriSpacesTail: TMenuItem;
     mnuViewMicromap: TMenuItem;
     mnuHelpCheckUpd: TMenuItem;
-    PopupPicScale: TPopupMenu;
     StatusProgress: TATGauge;
     LabelSideTitle: TLabel;
     MenuItem4: TMenuItem;
@@ -544,6 +543,7 @@ type
   private
     { private declarations }
     PopupViewerMode: TPopupMenu;
+    PopupPicScale: TPopupMenu;
     mnuToolbarCaseLow: TMenuItem;
     mnuToolbarCaseUp: TMenuItem;
     mnuToolbarCaseTitle: TMenuItem;
@@ -857,10 +857,11 @@ type
     function GetShowOnTop: boolean;
     function GetShowSidebarOnRight: boolean;
     procedure InitAppleMenu;
+    procedure InitPopupPicScale;
+    procedure InitPopupViewerMode;
     procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer;
       const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
     procedure InitFloatGroups;
-    procedure InitPopupViewerMode;
     procedure InitSidebar;
     procedure InitToolbar;
     function IsWindowMaximizedOrFullscreen: boolean;
@@ -1037,7 +1038,6 @@ type
     procedure UpdateMenuItemChecked(mi: TMenuItem; saved: TATMenuItemsAlt; AValue: boolean);
     procedure UpdateMenuItemHint(mi: TMenuItem; const AHint: string);
     procedure UpdateMenuItemHotkey(mi: TMenuItem; cmd: integer);
-    procedure UpdateMenuPicScale;
     procedure UpdateMenuTabsize;
     procedure UpdateMenuLexersTo(AMenu: TMenuItem);
     procedure UpdateMenuRecent(F: TEditorFrame; const AFileName: string);
@@ -1367,6 +1367,7 @@ begin
     case Data.Tag of
       StatusbarTag_TabSize:
         begin
+          InitPopupPicScale;
           PopupPicScale.Popup;
         end;
     end;
@@ -2455,7 +2456,6 @@ begin
   UpdateMenuPlugins_Shortcuts(true);
   UpdateMenuHotkeys;
   UpdateMenuTabsize;
-  UpdateMenuPicScale;
 
   UpdateSidebarButtons;
   UpdateBottomButtons;

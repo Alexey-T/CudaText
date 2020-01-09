@@ -1570,10 +1570,6 @@ object fmMain: TfmMain
       0000000000000000000000000000
     }
   end
-  object PopupPicScale: TPopupMenu
-    Left = 813
-    Top = 88
-  end
   object TimerAppIdle: TIdleTimer
     AutoEnabled = True
     Interval = 300
