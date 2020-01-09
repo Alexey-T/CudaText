@@ -388,6 +388,7 @@ begin
       end;
     cmd_MenuLexers:
       begin
+        InitPopupLex;
         MenuShowAtEditorCorner(PopupLex, CurrentEditor);
       end;
 

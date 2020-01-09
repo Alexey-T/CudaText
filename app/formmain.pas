@@ -421,7 +421,6 @@ type
     mnuFileSaveAs: TMenuItem;
     mnuFileClose: TMenuItem;
     OpenDlg: TOpenDialog;
-    PopupLex: TPopupMenu;
     PopupFind: TPopupMenu;
     PopupText: TPopupMenu;
     PopupTree: TPopupMenu;
@@ -538,6 +537,7 @@ type
     { private declarations }
     PopupEnds: TPopupMenu;
     PopupEnc: TPopupMenu;
+    PopupLex: TPopupMenu;
     PopupViewerMode: TPopupMenu;
     PopupPicScale: TPopupMenu;
     mnuEndsWin: TMenuItem;
@@ -860,6 +860,7 @@ type
     procedure InitPopupViewerMode;
     procedure InitPopupEnc;
     procedure InitPopupEnds;
+    procedure InitPopupLex;
     procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer;
       const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
     procedure InitFloatGroups;
@@ -1384,6 +1385,15 @@ begin
   mnuEndsMac.Caption:= msgEndMac;
 end;
 
+procedure TfmMain.InitPopupLex;
+begin
+  if PopupLex=nil then
+  begin
+    PopupLex:= TPopupMenu.Create(Self);
+  end;
+  UpdateMenuLexersTo(PopupLex.Items);
+end;
+
 procedure TfmMain.StatusPanelClick(Sender: TObject; AIndex: Integer);
 var
   Frame: TEditorFrame;
@@ -1443,6 +1453,7 @@ begin
       end;
     StatusbarTag_Lexer:
       begin
+        InitPopupLex;
         PopupLex.PopUp;
       end;
     StatusbarTag_TabSize:
@@ -4173,7 +4184,6 @@ procedure TfmMain.UpdateMenuLexers;
 begin
   UpdateKeymapDynamicItems(categ_Lexer);
   DoOps_LoadKeymap;
-  UpdateMenuLexersTo(PopupLex.Items);
 end;
 
 procedure TfmMain.UpdateMenuLexersTo(AMenu: TMenuItem);

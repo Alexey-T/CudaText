@@ -803,10 +803,6 @@ object fmMain: TfmMain
     Left = 400
     Top = 424
   end
-  object PopupLex: TPopupMenu
-    Left = 808
-    Top = 32
-  end
   object TimerStatus: TTimer
     Enabled = False
     Interval = 3500
