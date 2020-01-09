@@ -1377,8 +1377,10 @@ begin
   begin
     case Data.Tag of
       StatusbarTag_Enc:
-        with Mouse.CursorPos do
-          Frame.Binary.TextEncodingsMenu(X, Y);
+        begin
+          with Mouse.CursorPos do
+            Frame.Binary.TextEncodingsMenu(X, Y);
+        end;
       StatusbarTag_Lexer:
         begin
           InitPopupViewerMode;
