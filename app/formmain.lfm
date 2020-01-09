@@ -281,7 +281,7 @@ object fmMain: TfmMain
         Caption = '-'
       end
       object mnuFileEnc: TMenuItem
-        Caption = '&Encoding'
+        Caption = '&Encoding...'
       end
       object mnuFileEnds: TMenuItem
         Caption = 'L&ine ends'

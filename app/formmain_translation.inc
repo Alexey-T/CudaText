@@ -87,12 +87,13 @@ begin
     DoLocMenuitem(ini, mnuFileHtml, 'm_f', 'html');
     DoLocMenuitem(ini, mnuFileExit, 'm_f', 'q');
 
+    DoMenuitemEllipsis(mnuFileEnc);
+
     msgEncReloadAs:= ini.ReadString('m_f', 'e_r', msgEncReloadAs);
     msgEncConvertTo:= ini.ReadString('m_f', 'e_t', msgEncConvertTo);
     msgEncEuropean:= ini.ReadString('m_f', 'e_eu', msgEncEuropean);
     msgEncAsian:= ini.ReadString('m_f', 'e_as', msgEncAsian);
     msgEncMisc:= ini.ReadString('m_f', 'e_mi', msgEncMisc);
-    UpdateMenuEnc(mnuFileEnc);
 
     DoLocMenuItem(mnuFileEndWin, msgEndWin);
     DoLocMenuItem(mnuFileEndUn, msgEndUnix);

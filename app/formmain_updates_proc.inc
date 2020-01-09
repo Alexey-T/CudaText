@@ -642,6 +642,7 @@ begin
   UpdateMenuItemHotkey(mnuApple_About, cmd_HelpAbout);
   UpdateMenuItemHotkey(mnuApple_CheckUpd, cmd_HelpCheckUpdates);
 
+  UpdateMenuItemHotkey(mnuFileEnc, cmd_MenuEnc);
   UpdateMenuItemHotkey(mnuFileEndWin, cmd_LineEndWin);
   UpdateMenuItemHotkey(mnuFileEndUn, cmd_LineEndUnix);
   UpdateMenuItemHotkey(mnuFileEndMac, cmd_LineEndMac);

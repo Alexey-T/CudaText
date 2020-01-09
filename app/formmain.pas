@@ -2085,7 +2085,6 @@ begin
   FFinder.OnFound:=@FinderOnFound;
   FFinder.OnGetToken:= @FinderOnGetToken;
 
-  UpdateMenuEnc(mnuFileEnc);
   InitStatusbarControls;
 
   FFindStop:= false;
