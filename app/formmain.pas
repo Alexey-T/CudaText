@@ -1035,7 +1035,6 @@ type
     procedure UpdateMenuLexersTo(AMenu: TMenuItem);
     procedure UpdateMenuRecent(F: TEditorFrame; const AFileName: string);
     procedure UpdateMenuHotkeys;
-    procedure UpdateMenuLexers;
     procedure UpdateMenuPlugins;
     procedure UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean=false);
     procedure UpdateMenuChecks;
@@ -2715,7 +2714,6 @@ begin
     @DoOnDeleteLexer
     ) then
   begin
-    UpdateMenuLexers;
     UpdateStatus;
     UpdateCurrentFrame;
   end;
@@ -3420,6 +3418,7 @@ begin
   Ed:= CurrentEditor;
   MsgStatus(msgStatusHelpOnShowCommands);
 
+  UpdateKeymapDynamicItems(categ_Lexer);
   UpdateKeymapDynamicItems(categ_OpenedFile);
   UpdateKeymapDynamicItems(categ_RecentFile);
 
@@ -4115,8 +4114,6 @@ begin
       end;
     end;
 
-    UpdateMenuLexers;
-
     DoOps_LexersRestoreInFrames(ListBackup);
   finally
     FreeAndNil(ListFiles);
@@ -4124,12 +4121,6 @@ begin
   end;
 end;
 
-
-procedure TfmMain.UpdateMenuLexers;
-begin
-  UpdateKeymapDynamicItems(categ_Lexer);
-  DoOps_LoadKeymap;
-end;
 
 procedure TfmMain.UpdateMenuLexersTo(AMenu: TMenuItem);
 var

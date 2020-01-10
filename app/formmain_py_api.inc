@@ -2639,6 +2639,7 @@ begin
     begin
       StrTitle:= string(PtrTitle);
 
+      fmMain.UpdateKeymapDynamicItems(categ_Lexer);
       fmMain.UpdateKeymapDynamicItems(categ_OpenedFile);
       fmMain.UpdateKeymapDynamicItems(categ_RecentFile);
 
@@ -4019,6 +4020,7 @@ begin
 
         APP_PROC_GET_COMMANDS:
           begin
+            fmMain.UpdateKeymapDynamicItems(categ_Lexer);
             fmMain.UpdateKeymapDynamicItems(categ_OpenedFile);
             fmMain.UpdateKeymapDynamicItems(categ_RecentFile);
             Result:= Py_CommandList;
