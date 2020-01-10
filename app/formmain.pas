@@ -446,7 +446,6 @@ type
     procedure mnuTabCopyNameClick(Sender: TObject);
     procedure mnuTabMoveF2Click(Sender: TObject);
     procedure mnuTabMoveF3Click(Sender: TObject);
-    procedure MenuRecentsClear(Sender: TObject);
     procedure DoHelpAbout;
     procedure DoHelpForum;
     procedure DoHelpWiki;
@@ -705,7 +704,6 @@ type
     function DoFindOptions_GetDict: PPyObject;
     procedure DoFolderOpen(const ADirName: string; ANewProject: boolean);
     procedure DoGroupsChangeMode(Sender: TObject);
-    procedure MenuRecentItemClick(Sender: TObject);
     procedure DoOnLexerParseProgress(Sender: TObject; AProgress: integer);
     //procedure DoOnLexerParseProgress(Sender: TObject; ALineIndex, ALineCount: integer);
     procedure DoOnLexerParseProgress_Sync();
@@ -863,6 +861,9 @@ type
     function IsThemeNameExist(const AName: string; AThemeUI: boolean): boolean;
     procedure LiteLexer_ApplyStyle(Sender: TObject; AStyleHash: integer; var APart: TATLinePart);
     function LiteLexer_GetStyleHash(Sender: TObject; const AStyleName: string): integer;
+    procedure MenuRecentsClear(Sender: TObject);
+    procedure MenuRecentsPopup(Sender: TObject);
+    procedure MenuRecentItemClick(Sender: TObject);
     procedure MenuEncWithReloadClick(Sender: TObject);
     procedure MenuitemClick_CommandFromTag(Sender: TObject);
     procedure MenuitemClick_CommandFromHint(Sender: TObject);
@@ -870,6 +871,9 @@ type
     procedure MenuPluginClick(Sender: TObject);
     procedure MenuTabsizeClick(Sender: TObject);
     procedure MenuViewerModeClick(Sender: TObject);
+    procedure MenuEncNoReloadClick(Sender: TObject);
+    procedure MenuLexerClick(Sender: TObject);
+    procedure MenuMainClick(Sender: TObject);
     procedure MsgLogConsole(const AText: string);
     procedure MsgLogDebug(const AText: string);
     procedure MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
@@ -1054,10 +1058,6 @@ type
       AAllowNearCurrent: boolean=true): TATTabData;
     procedure FrameOnFocus(Sender: TObject);
     function GetFrame(AIndex: integer): TEditorFrame;
-    procedure MenuEncNoReloadClick(Sender: TObject);
-    procedure MenuLexerClick(Sender: TObject);
-    procedure MenuMainClick(Sender: TObject);
-    procedure MenuRecentsPopup(Sender: TObject);
     procedure SetFrame(Frame: TEditorFrame);
     procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
     procedure MsgStatus(AText: string);
