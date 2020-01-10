@@ -903,7 +903,7 @@ type
     procedure DoOps_LoadTreeIcons;
     procedure DoOps_LoadToolBarIcons;
     procedure DoOps_LoadCommandLineOptions;
-    procedure DoOps_LoadLexerLib;
+    procedure DoOps_LoadLexerLib(AOnCreate: boolean);
     procedure DoOps_SaveHistory;
     procedure DoOps_SaveHistory_GroupView(c: TJsonConfig);
     procedure DoOps_SaveOptionBool(const APath: string; AValue: boolean);
@@ -2119,7 +2119,7 @@ begin
   //must load window position in OnCreate to fix flickering with maximized window, Win10
   DoOps_LoadCommandLineOptions;
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps); //before LoadHistory
-  DoOps_LoadLexerLib; //before LoadHistory
+  DoOps_LoadLexerLib(true); //before LoadHistory
   DoFileOpen('', ''); //before LoadHistory
 
   DoOps_LoadSidebarIcons; //before LoadPlugins (for sidebar icons)
@@ -2587,7 +2587,7 @@ begin
   begin
     if AddonType in [cAddonTypeLexer, cAddonTypeLexerLite] then
     begin
-      DoOps_LoadLexerLib;
+      DoOps_LoadLexerLib(false);
     end;
 
     if AddonType=cAddonTypePlugin then
@@ -4063,7 +4063,7 @@ begin
 end;
 
 
-procedure TfmMain.DoOps_LoadLexerLib;
+procedure TfmMain.DoOps_LoadLexerLib(AOnCreate: boolean);
 var
   fn_ops, DirLexers, LexName: string;
   ListFiles, ListBackup: TStringlist;
@@ -4073,7 +4073,8 @@ begin
   ListFiles:= TStringList.Create;
   ListBackup:= TStringList.Create;
   try
-    DoOps_LexersDisableInFrames(ListBackup);
+    if not AOnCreate then
+      DoOps_LexersDisableInFrames(ListBackup);
 
     AppManager.Clear;
     AppManagerLite.Clear;
@@ -4114,7 +4115,8 @@ begin
       end;
     end;
 
-    DoOps_LexersRestoreInFrames(ListBackup);
+    if not AOnCreate then
+      DoOps_LexersRestoreInFrames(ListBackup);
   finally
     FreeAndNil(ListFiles);
     FreeAndNil(ListBackup);

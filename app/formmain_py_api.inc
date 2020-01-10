@@ -4806,7 +4806,7 @@ begin
 
         LEXER_REREAD_LIB:
           begin
-            fmMain.DoOps_LoadLexerLib;
+            fmMain.DoOps_LoadLexerLib(false);
             Result:= ReturnNone;
           end;
 
