@@ -455,7 +455,7 @@ begin
       ExtractFileDir(FListRecents[i])+')';
     mi.Caption:= StringReplace(SName, '&', '&&', [rfReplaceAll]);
     mi.Tag:= i;
-    mi.OnClick:= @MenuRecentsClick;
+    mi.OnClick:= @MenuRecentItemClick;
     sub.Add(mi);
   end;
 
@@ -486,13 +486,16 @@ begin
     if not F.EditorsLinked then
       F.DoSaveHistory(F.Ed2);
   end;
-
-  UpdateMenuRecents(mnuFileOpenSub);
 end;
 
 procedure TfmMain.PopupRecentsPopup(Sender: TObject);
 begin
   UpdateMenuRecents(PopupRecents.Items);
+end;
+
+procedure TfmMain.MenuRecentsPopup(Sender: TObject);
+begin
+  UpdateMenuRecents(mnuFileOpenSub);
 end;
 
 

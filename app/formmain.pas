@@ -705,6 +705,7 @@ type
     function DoFindOptions_GetDict: PPyObject;
     procedure DoFolderOpen(const ADirName: string; ANewProject: boolean);
     procedure DoGroupsChangeMode(Sender: TObject);
+    procedure MenuRecentItemClick(Sender: TObject);
     procedure DoOnLexerParseProgress(Sender: TObject; AProgress: integer);
     //procedure DoOnLexerParseProgress(Sender: TObject; ALineIndex, ALineCount: integer);
     procedure DoOnLexerParseProgress_Sync();
@@ -1056,7 +1057,7 @@ type
     procedure MenuEncNoReloadClick(Sender: TObject);
     procedure MenuLexerClick(Sender: TObject);
     procedure MenuMainClick(Sender: TObject);
-    procedure MenuRecentsClick(Sender: TObject);
+    procedure MenuRecentsPopup(Sender: TObject);
     procedure SetFrame(Frame: TEditorFrame);
     procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
     procedure MsgStatus(AText: string);
@@ -2106,6 +2107,7 @@ begin
   UpdateMenuItemHint(mnuFileOpenSub, '_recents');
   UpdateMenuItemHint(mnuFileEnds, '_ends');
   UpdateMenuItemHint(mnuOpPlugins, '_oplugins');
+  mnuFileOpenSub.Parent.OnClick:= @MenuRecentsPopup;
 
   DoOps_OnCreate;
 
@@ -4501,7 +4503,7 @@ begin
 end;
 
 
-procedure TfmMain.MenuRecentsClick(Sender: TObject);
+procedure TfmMain.MenuRecentItemClick(Sender: TObject);
 var
   fn: string;
   n: integer;
@@ -5958,7 +5960,6 @@ begin
     if AMenuCmd='_recents' then
     begin
       mnuFileOpenSub:= mi;
-      UpdateMenuRecent(nil, '');
     end
     else
     if AMenuCmd='_plugins' then
@@ -5988,6 +5989,9 @@ begin
       miMain.Insert(AIndex, mi)
     else
       miMain.Add(mi);
+
+    if Assigned(mnuFileOpenSub) and Assigned(mnuFileOpenSub.Parent) then
+      mnuFileOpenSub.Parent.OnClick:= @MenuRecentsPopup;
 
     Result:= IntToStr(PtrInt(mi));
   end;
