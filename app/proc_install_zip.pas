@@ -361,7 +361,7 @@ var
   ini_section,
   s_lexer, fn_lexer, fn_acp, fn_lexmap, fn_lexmap_final, fn_json: string;
   an, an_sub: TecSyntAnalyzer;
-  ini_file, ini_lexmap: TIniFile;
+  ini_file: TIniFile;
   sections: TStringList;
   DirLexers, DirSettings: string;
 begin
