@@ -452,7 +452,6 @@ type
     procedure DoHelpIssues;
     procedure DoHelpHotkeys;
 
-    procedure MenuWindowClick(Sender: TObject);
     procedure mnuTabCloseAllAllClick(Sender: TObject);
     procedure mnuTabCloseAllSameClick(Sender: TObject);
     procedure mnuTabCloseLeftClick(Sender: TObject);
@@ -2763,12 +2762,6 @@ procedure TfmMain.DoHelpForum;
 begin
   OpenURL('http://synwrite.sourceforge.net/forums/viewforum.php?f=20');
 end;
-
-procedure TfmMain.MenuWindowClick(Sender: TObject);
-begin
-  SetFrame(Frames[(Sender as TMenuItem).Tag]);
-end;
-
 
 procedure TfmMain.UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
 begin
