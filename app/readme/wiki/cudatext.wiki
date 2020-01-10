@@ -865,7 +865,7 @@ To playback macro:
 * or call dialog "Macros / Macros..." which allows to run available macros: it can be simple running, running N times, or running in loop ([x] While text changes, [x] Until caret on last line)
 
 ==Pair brackets==
-Since version 1.89, CudaText has built-in pair bracket finder. Before that you needed the plugin Bracket Helper, and now plugin should not be used - it is much slower that built-in code. Bracket finder can highlight pair brackets, when there is only single caret, no selection, and caret is placed on (or after) bracket symbol (one of "()[]{}<>"). Bracket finder respects lexer context, so it finds pair bracket only in the same context as the source bracket has: if source bracket is inside a "string", pair bracket will be found only inside a "string"; the same is for "comments"; the same is for "outside comment/string".
+CudaText has built-in pair bracket finder. Before that you needed the plugin Bracket Helper, and now plugin should not be used - it is much slower that built-in code. Bracket finder can highlight pair brackets, when there is only single caret, no selection. It finds symbols "()[]{}<>" (configurable per lexer). Bracket finder respects lexer context, it skips symbols inside syntax comments/strings. If caret is placed not directly on/after a bracket, program will find nearest surrounding brackets.
 
 There are several options:
 * "bracket_highlight"
@@ -880,6 +880,26 @@ There are several commands in the Command Palette:
 * brackets: jump to pair
 * brackets: select to pair
 * brackets: select to pair, inside (it makes selection smaller by 2 characters)
+
+==Word jump commands==
+CudaText provides several word-jump commands, see them in the Command Palette by entering "go to word":
+
+* go to word next
+* go to word next + select
+* go to word next, simple
+* go to word next, simple + select
+* go to word previous
+* go to word previous + select
+* go to word previous, simple
+* go to word previous, simple + select
+* go to word end
+* go to word end + select
+
+"Go to word next" vs "Go to word end"? "...end" first jumps to the end of the current word (right word boundary), only after that it jumps to the next word start. "...next" always jumps to the next word start.
+
+For example, Windows 7 Notepad performs "...next" on pressing Ctrl+Right, while Sublime Text 3 performs "...end" on pressing Ctrl+Right. To configure Ctrl+Right (and Shift+Ctrl+Right) behaviour, re-assign this hotkey from one command to another - press F9 in the Command Palette dialog.
+
+"Go to word next" vs "Go to word next, simple"? "...simple" command performs simplified jump, it treats all alpha-numerical characters and symbols (#$%^&@ etc) as one group, so it makes single jump over "test@#some!" string. "Go to word next" treats alpha-numericals and symbols as different char groups, and stops at the beginning of each group.
 
 =External Tools=
 
