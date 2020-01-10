@@ -415,6 +415,7 @@ begin
     Sep.GetItemStr(msgViewerModes[vbmodeUnicode]);
     Sep.GetItemStr(msgViewerModes[vbmodeUHex]);
 
+    msgDefault:= ini.ReadString('sta', 'def', msgDefault);
     msgNoLexer:= ini.ReadString('ui', 'nlex', msgNoLexer);
     UpdateMenuLexers;
     msgFileClearList:= ini.ReadString('ui', 'clr', msgFileClearList);
