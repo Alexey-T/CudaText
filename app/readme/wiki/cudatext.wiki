@@ -901,6 +901,11 @@ For example, Windows 7 Notepad performs "...next" on pressing Ctrl+Right, while 
 
 "Go to word next" vs "Go to word next, simple"? "...simple" command performs simplified jump, it treats all alpha-numerical characters and symbols (#$%^&@ etc) as one group, so it makes single jump over "test@#some!" string. "Go to word next" treats alpha-numericals and symbols as different char groups, and stops at the beginning of each group.
 
+Plugin CudaExt provides such related commands:
+
+* Cuda-Ext: Jump: Left into CamelCase/snake_case
+* Cuda-Ext: Jump: Right into CamelCase/snake_case
+
 =External Tools=
 
 Several examples of external tools configs. Call dialog of External Tools plugin (menu "Tools / Config..."). Add a new tool. Set dialog properties as shown below. This must add menu item, for new tool, under Tools menu.
