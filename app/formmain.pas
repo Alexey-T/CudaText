@@ -2701,8 +2701,6 @@ begin
     EditorOps.OpFontName,
     EditorOps.OpFontSize) then
   begin
-    //DoLexerExportFromLibToFile(an);
-    UpdateMenuLexers;
     UpdateStatus;
     UpdateCurrentFrame;
   end;
