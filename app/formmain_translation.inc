@@ -58,6 +58,7 @@ procedure TfmMain.DoLocalize;
 var
   fn: string;
   ini: TIniFile;
+  Sep: TATStringSeparator;
 begin
   fn:= GetAppLangFilename;
   if not FileExistsUTF8(fn) then exit;
@@ -405,6 +406,14 @@ begin
     msgStatusbarHintInsOvr:= ini.ReadString('sta', 'ins', msgStatusbarHintInsOvr);
     msgStatusbarHintWrap:= ini.ReadString('sta', 'wrp', msgStatusbarHintWrap);
     UpdateStatusbarHints;
+
+    Sep.Init(ini.ReadString('sta', 'view', 'Viewer,Text,Binary,Hex,Unicode,Unicode/Hex'));
+    Sep.GetItemStr(msgViewer);
+    Sep.GetItemStr(msgViewerModes[vbmodeText]);
+    Sep.GetItemStr(msgViewerModes[vbmodeBinary]);
+    Sep.GetItemStr(msgViewerModes[vbmodeHex]);
+    Sep.GetItemStr(msgViewerModes[vbmodeUnicode]);
+    Sep.GetItemStr(msgViewerModes[vbmodeUHex]);
 
     msgNoLexer:= ini.ReadString('ui', 'nlex', msgNoLexer);
     UpdateMenuLexers;
