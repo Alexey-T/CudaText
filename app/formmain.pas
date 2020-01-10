@@ -2749,12 +2749,11 @@ var
   Form: TfmAbout;
 begin
   Form:= TfmAbout.Create(Self);
-  with Form do
   try
-    labelVersion.Caption:= cAppExeVersion;
-    ShowModal;
+    Form.labelVersion.Caption:= cAppExeVersion;
+    Form.ShowModal;
   finally
-    Free
+    Form.Free;
   end;
 end;
 
