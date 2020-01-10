@@ -359,7 +359,7 @@ procedure DoInstallLexer(
 var
   i_sub: integer;
   ini_section,
-  s_lexer, fn_lexer, fn_acp, fn_lexmap, fn_json: string;
+  s_lexer, fn_lexer, fn_acp, fn_lexmap, fn_lexmap_final, fn_json: string;
   an, an_sub: TecSyntAnalyzer;
   ini_file, ini_lexmap: TIniFile;
   sections: TStringList;
@@ -400,7 +400,10 @@ begin
       end;
 
       if FileExists(fn_lexmap) then
-        CopyFile(fn_lexmap, DirLexers+DirectorySeparator+ExtractFileName(fn_lexmap))
+      begin
+        fn_lexmap_final:= DirLexers+DirectorySeparator+ExtractFileName(fn_lexmap);
+        CopyFile(fn_lexmap, fn_lexmap_final);
+      end
       else
         AReport:= AReport+msgStatusPackageMissedLexerMap+#10;
 
@@ -434,16 +437,16 @@ begin
       begin
         s_lexer:= ini_file.ReadString(ini_section, 'link'+Inttostr(i_sub+1), '');
         if s_lexer='' then Continue;
-        if s_lexer='Style sheets' then s_lexer:= 'CSS';
-        if s_lexer='Assembler' then s_lexer:= 'Assembly';
 
+        {
         //write [ref] section in cuda-lexmap
-        ini_lexmap:= TIniFile.Create(DirLexers+DirectorySeparator+ExtractFileName(fn_lexmap));
+        ini_lexmap:= TIniFile.Create(fn_lexmap_final);
         try
           ini_lexmap.WriteString('ref', IntToStr(i_sub), s_lexer);
         finally
           FreeAndNil(ini_lexmap);
         end;
+        }
 
         an_sub:= AppManager.FindLexerByName(s_lexer);
         if an_sub<>nil then
