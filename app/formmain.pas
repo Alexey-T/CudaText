@@ -1964,9 +1964,6 @@ begin
   fmConsole.Align:= alClient;
   fmConsole.OnConsoleNav:= @DoOnConsoleNav;
 
-  ListboxOut.Align:= alClient;
-  ListboxVal.Align:= alClient;
-
   Groups:= TATGroups.Create(Self);
   Groups.Parent:= PanelEditors;
   Groups.Align:= alClient;
