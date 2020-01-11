@@ -5328,6 +5328,8 @@ end;
 
 procedure TfmMain.PopupToolbarCommentOnPopup(Sender: TObject);
 begin
+  if not PythonOK then exit;
+
   if mnuToolbarCommentLineAdd=nil then
   begin
     mnuToolbarCommentLineAdd:= TMenuItem.Create(Self);
@@ -5360,6 +5362,8 @@ end;
 
 procedure TfmMain.PopupToolbarSortOnPopup(Sender: TObject);
 begin
+  if not PythonOK then exit;
+
   if mnuToolbarSortDialog=nil then
   begin
     mnuToolbarSortAsc:= TMenuItem.Create(Self);
