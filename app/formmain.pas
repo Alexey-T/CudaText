@@ -2366,6 +2366,7 @@ var
   Frame: TEditorFrame;
   i: integer;
 begin
+  (*
   {$ifdef darwin}
   // https://bugs.freepascal.org/view.php?id=35599
   SplitterHorz.ResizeStyle:= rsUpdate;
@@ -2376,6 +2377,7 @@ begin
   Groups.Splitter4.ResizeStyle:= rsUpdate;
   Groups.Splitter5.ResizeStyle:= rsUpdate;
   {$endif}
+  *)
 
   if FHandledOnShow then exit;
   DoControlLock(Self);
