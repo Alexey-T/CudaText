@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.92.6 (2020/01)
+1.93.0 (2020/01)
 
 + add: Emmet plugin: added command "Dialog" to show interactive preview dialog for abbreviations
 + add: Emmet engine now has several "emmet_" options (to replace "Emmet profiles" from SynWrite)
