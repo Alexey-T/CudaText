@@ -504,9 +504,6 @@ begin
     FloatSide:= c.GetValue('float_side', false);
     FloatBottom:= c.GetValue('float_bottom', false);
 
-    if ShowBottom or FConsoleMustShow then
-      DoShowConsole(false);
-
     //note: reading 'theme_ui', 'theme_syntax' from history is deprecated in 2019.09
     //now it's read from user.json
     if UiOps.ThemeUi_Loaded then

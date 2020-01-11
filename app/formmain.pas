@@ -2393,6 +2393,8 @@ begin
 
   if UiOps.ReopenSession then
     DoOps_LoadSession(GetSessionFilename);
+  if FConsoleMustShow then
+    DoShowConsole(false);
 
   FHandledOnShow:= true;
 
