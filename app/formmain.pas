@@ -4511,10 +4511,12 @@ procedure TfmMain.DoShowConsole(AndFocus: boolean);
 var
   tick: QWord;
 begin
-  tick:= GetTickCount64;
+  //tick:= GetTickCount64;
+
   DoShowBottomPanel(msgPanelConsole_Init, AndFocus);
-  tick:= GetTickCount64-tick;
-  MsgLogConsole(Format('Showing console (%dms)', [tick]));
+
+  //tick:= GetTickCount64-tick;
+  //Caption:= Format('Showing console (%dms)', [tick]);
 end;
 
 procedure TfmMain.DoShowOutput(AndFocus: boolean);
