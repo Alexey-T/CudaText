@@ -24,7 +24,8 @@ uses
   ec_syntax_format,
   proc_str,
   proc_colors,
-  proc_globdata;
+  proc_globdata,
+  proc_msg;
 
 type
   TAppStrEvent = procedure(const Str: string) of object;
@@ -42,6 +43,9 @@ type
     { private declarations }
     FAdapter: TATAdapterSimple;
     FOnNavigate: TAppConsoleEvent;
+    mnuTextClear: TMenuItem;
+    mnuTextNav: TMenuItem;
+    mnuTextWrap: TMenuItem;
     procedure ComboCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
     procedure DoGetLineColor(Ed: TATSynEdit; ALineIndex: integer; var AColorFont, AColorBg: TColor);
     function GetWrap: boolean;
@@ -49,6 +53,7 @@ type
     procedure DoClearMemo(Sender: TObject);
     procedure DoNavigate(Sender: TObject);
     procedure DoToggleWrap(Sender: TObject);
+    procedure MemoContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure SetIsDoubleBuffered(AValue: boolean);
     procedure SetWrap(AValue: boolean);
     procedure DoRunLine(Str: string);
@@ -56,9 +61,6 @@ type
     { public declarations }
     ed: TATComboEdit;
     memo: TATSynEdit;
-    mnuTextClear: TMenuItem;
-    mnuTextNav: TMenuItem;
-    mnuTextWrap: TMenuItem;
     ShowError: boolean;
     property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
     procedure DoAddLine(const Str: string);
@@ -238,22 +240,7 @@ begin
 
   memo.OnClickDouble:= @MemoClickDbl;
   memo.OnCommand:= @MemoCommand;
-
-  //menu items
-  mnuTextClear:= TMenuItem.Create(Self);
-  mnuTextClear.Caption:= 'Clear';
-  mnuTextClear.OnClick:= @DoClearMemo;
-  memo.PopupTextDefault.Items.Add(mnuTextClear);
-
-  mnuTextWrap:= TMenuItem.Create(Self);
-  mnuTextWrap.Caption:= 'Toggle word wrap';
-  mnuTextWrap.OnClick:= @DoToggleWrap;
-  memo.PopupTextDefault.Items.Add(mnuTextWrap);
-
-  mnuTextNav:= TMenuItem.Create(Self);
-  mnuTextNav.Caption:= 'Navigate';
-  mnuTextNav.OnClick:= @DoNavigate;
-  memo.PopupTextDefault.Items.Add(mnuTextNav);
+  memo.OnContextPopup:= @MemoContextPopup;
 end;
 
 procedure TfmConsole.ComboCommand(Sender: TObject; ACmd: integer;
@@ -309,6 +296,31 @@ begin
   WordWrap:= not WordWrap;
 end;
 
+procedure TfmConsole.MemoContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+begin
+  if mnuTextClear=nil then
+  begin
+    mnuTextClear:= TMenuItem.Create(Self);
+    mnuTextClear.OnClick:= @DoClearMemo;
+    memo.PopupTextDefault.Items.Add(mnuTextClear);
+
+    mnuTextWrap:= TMenuItem.Create(Self);
+    mnuTextWrap.OnClick:= @DoToggleWrap;
+    memo.PopupTextDefault.Items.Add(mnuTextWrap);
+
+    mnuTextNav:= TMenuItem.Create(Self);
+    mnuTextNav.OnClick:= @DoNavigate;
+    memo.PopupTextDefault.Items.Add(mnuTextNav);
+  end;
+
+  mnuTextClear.Caption:= msgConsoleClear;
+  mnuTextWrap.Caption:= msgConsoleToggleWrap;
+  mnuTextNav.Caption:= msgConsoleNavigate;
+  mnuTextWrap.Checked:= memo.OptWrapMode<>cWrapOff;
+
+  Handled:= false;
+end;
+
 procedure TfmConsole.SetIsDoubleBuffered(AValue: boolean);
 begin
   ed.DoubleBuffered:= AValue;
@@ -323,8 +335,6 @@ begin
     fmConsole.memo.OptWrapMode:= cWrapOff;
   //fmConsole.memo.OptAllowScrollbarHorz:= not AValue;
   fmConsole.memo.Update;
-
-  mnuTextWrap.Checked:= AValue;
 end;
 
 procedure TfmConsole.MemoCommand(Sender: TObject; ACmd: integer;

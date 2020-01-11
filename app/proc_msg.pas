@@ -362,6 +362,9 @@ const
   msgSortRemoveDup: string = 'Remove duplicate lines';
   msgSortRemoveBlank: string = 'Remove blank lines';
 
+  msgConsoleClear: string = 'Clear';
+  msgConsoleToggleWrap: string = 'Toggle word wrap';
+  msgConsoleNavigate: string = 'Navigate';
 
 function GetUntitledCaption: string;
 

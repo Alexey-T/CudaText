@@ -454,9 +454,9 @@ begin
     DoLocMenuitem(ini, mnuTextGotoDef, 'ct', 'godef');
     DoLocMenuitem(ini, mnuTextOpenUrl, 'ct', 'url');
 
-    DoLocMenuitem(ini, fmConsole.mnuTextClear, 'ct', 'clr');
-    DoLocMenuitem(ini, fmConsole.mnuTextNav, 'ct', 'nav');
-    DoLocMenuitem(ini, fmConsole.mnuTextWrap, 'ct', 'wr');
+    DoLocString(msgConsoleClear, ini, 'ct', 'clr');
+    DoLocString(msgConsoleNavigate, ini, 'ct', 'nav');
+    DoLocString(msgConsoleToggleWrap, ini, 'ct', 'wr');
 
     with fmConsole.ed do
     begin
