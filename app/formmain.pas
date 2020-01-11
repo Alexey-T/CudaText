@@ -668,6 +668,7 @@ type
     FLastMousePos: TPoint;
     FLastMaximized: boolean;
     FLexerProgressIndex: integer;
+    FShowPassed: boolean;
     FOption_OpenReadOnly: boolean;
     FOption_OpenNewWindow: boolean;
     FOption_WindowPos: string;
@@ -2449,6 +2450,8 @@ begin
 
   if DirectoryExists(AppDir_Py+DirectorySeparator+'cuda_brackets_hilite') then
     MsgLogConsole('WARNING: plugin Bracket Helper is not needed anymore, remove it and use option "bracket_highlight"');
+
+  FShowPassed:= true;
 end;
 
 procedure TfmMain.DoShowFirstStartInfo;
@@ -6106,10 +6109,7 @@ end;
 
 procedure TfmMain.MsgLogConsole(const AText: string);
 begin
-  if UiOps.LogConsole then
-    MsgLogToFilename(AText, FFileNameLogConsole, false);
-  fmConsole.DoAddLine(AText);
-  fmConsole.DoUpdate;
+  FConsoleQueue.Push(AText);
 end;
 
 
