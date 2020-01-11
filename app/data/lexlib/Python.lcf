@@ -566,7 +566,7 @@ object SyntAnal23: TLibSyntAnalyzer
   LexerName = 'Python'
   SkipSpaces = False
   Notes.Strings = (
-    'New Python lexer, by Alexey (SynWrite)'
+    'Python lexer by Alexey (CudaText)'
     'For indent-based folding lexer was tweaked:'
     'see SynWrite lexer documentation about these tweaks.')
   LineComment = '#'

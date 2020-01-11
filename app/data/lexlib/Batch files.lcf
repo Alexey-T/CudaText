@@ -462,7 +462,7 @@ object SyntAnal5: TLibSyntAnalyzer
   LexerName = 'Batch files'
   SkipSpaces = False
   Notes.Strings = (
-    'Alexey (SynWrite)')
+    'Alexey (CudaText)')
   RestartFromLineStart = True
   LineComment = '::'
   Charset = DEFAULT_CHARSET

@@ -916,7 +916,7 @@ object SyntAnal37: TLibSyntAnalyzer
   Extentions = 'vb vbs'
   LexerName = 'VBScript'
   Notes.Strings = (
-    'Changed by Alex (SynWrite): '
+    'Changed by Alexey (CudaText):'
     '- folded For-Next'
     '- folded If-EndIf, but only multi-line If'
     '- less token names'
