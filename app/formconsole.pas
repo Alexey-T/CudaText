@@ -66,7 +66,7 @@ type
     procedure DoUpdate;
     procedure DoScrollToEnd(AllowProcessMsg: boolean);
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
-    property Wordwrap: boolean read GetWrap write SetWrap;
+    property MemoWordWrap: boolean read GetWrap write SetWrap;
   end;
 
 var
@@ -292,7 +292,7 @@ end;
 
 procedure TfmConsole.DoToggleWrap(Sender: TObject);
 begin
-  WordWrap:= not WordWrap;
+  MemoWordWrap:= not MemoWordWrap;
 end;
 
 procedure TfmConsole.MemoContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
@@ -315,7 +315,7 @@ begin
   mnuTextClear.Caption:= msgConsoleClear;
   mnuTextWrap.Caption:= msgConsoleToggleWrap;
   mnuTextNav.Caption:= msgConsoleNavigate;
-  mnuTextWrap.Checked:= memo.OptWrapMode<>cWrapOff;
+  mnuTextWrap.Checked:= MemoWordWrap;
 
   Handled:= false;
 end;

@@ -2806,7 +2806,7 @@ begin
   fmConsole.memo.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   fmConsole.ed.Height:= AppScale(UiOps.InputHeight);
   fmConsole.ed.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
-  fmConsole.Wordwrap:= UiOps.ConsoleWordWrap;
+  fmConsole.MemoWordWrap:= UiOps.ConsoleWordWrap;
 
   DoApplyUiOpsToGroups(Groups);
   if FloatGroups then
