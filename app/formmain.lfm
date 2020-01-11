@@ -804,10 +804,9 @@ object fmMain: TfmMain
     Left = 400
     Top = 424
   end
-  object TimerStatus: TTimer
+  object TimerStatusClear: TTimer
     Enabled = False
-    Interval = 3500
-    OnTimer = TimerStatusTimer
+    OnTimer = TimerStatusClearTimer
     Left = 240
     Top = 32
   end
@@ -1450,10 +1449,10 @@ object fmMain: TfmMain
     Left = 392
     Top = 88
   end
-  object TimerStatusBusy: TTimer
+  object TimerStatusWork: TTimer
     Enabled = False
     Interval = 300
-    OnTimer = TimerStatusBusyTimer
+    OnTimer = TimerStatusWorkTimer
     Left = 392
     Top = 32
   end

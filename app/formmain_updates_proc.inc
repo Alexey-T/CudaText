@@ -71,8 +71,8 @@ end;
 
 procedure TfmMain.UpdateStatus;
 begin
-  TimerStatusBusy.Enabled:= false;
-  TimerStatusBusy.Enabled:= true;
+  TimerStatusWork.Enabled:= false;
+  TimerStatusWork.Enabled:= true;
 end;
 
 procedure TfmMain.UpdateStatus_RealWork;

@@ -167,7 +167,7 @@ type
     mnuViewFloatSide: TMenuItem;
     mnuViewFloatBottom: TMenuItem;
     mnuOpDefaultUser: TMenuItem;
-    TimerStatusBusy: TTimer;
+    TimerStatusWork: TTimer;
     TimerAppIdle: TIdleTimer;
     ImageListTabs: TImageList;
     ImageListToolbar: TImageList;
@@ -410,7 +410,7 @@ type
     TimerStatusAlt: TTimer;
     TimerTreeFill: TTimer;
     TimerCmd: TTimer;
-    TimerStatus: TTimer;
+    TimerStatusClear: TTimer;
     ToolbarMain: TATFlatToolbar;
     ToolbarSideMid: TATFlatToolbar;
     ToolbarSideLow: TATFlatToolbar;
@@ -491,8 +491,8 @@ type
     procedure TimerAppIdleTimer(Sender: TObject);
     procedure TimerCmdTimer(Sender: TObject);
     procedure TimerStatusAltTimer(Sender: TObject);
-    procedure TimerStatusBusyTimer(Sender: TObject);
-    procedure TimerStatusTimer(Sender: TObject);
+    procedure TimerStatusWorkTimer(Sender: TObject);
+    procedure TimerStatusClearTimer(Sender: TObject);
     procedure TimerTreeFillTimer(Sender: TObject);
     procedure UniqInstanceOtherInstance(Sender: TObject; ParamCount: Integer;
       Parameters: array of String);
@@ -1530,10 +1530,10 @@ begin
   end;
 end;
 
-procedure TfmMain.TimerStatusTimer(Sender: TObject);
+procedure TfmMain.TimerStatusClearTimer(Sender: TObject);
 begin
   MsgStatus('');
-  TimerStatus.Enabled:= false;
+  TimerStatusClear.Enabled:= false;
 end;
 
 procedure TfmMain.TimerStatusAltTimer(Sender: TObject);
@@ -1542,9 +1542,9 @@ begin
   StatusForm.Hide;
 end;
 
-procedure TfmMain.TimerStatusBusyTimer(Sender: TObject);
+procedure TfmMain.TimerStatusWorkTimer(Sender: TObject);
 begin
-  TimerStatusBusy.Enabled:= false;
+  TimerStatusWork.Enabled:= false;
   UpdateStatus_RealWork;
 end;
 
@@ -2238,8 +2238,8 @@ end;
 procedure TfmMain.StopAllTimers;
 begin
   TimerAppIdle.AutoEnabled:=false;
-  TimerStatus.Enabled:= false;
-  TimerStatusBusy.Enabled:= false;
+  TimerStatusClear.Enabled:= false;
+  TimerStatusWork.Enabled:= false;
   TimerStatusAlt.Enabled:= false;
   TimerTreeFill.Enabled:= false;
   TimerAppIdle.Enabled:= false;
@@ -2931,7 +2931,7 @@ begin
 
   Status.HeightInitial:= UiOps.StatusHeight;
 
-  TimerStatus.Interval:= UiOps.StatusTime*1000;
+  TimerStatusClear.Interval:= UiOps.StatusTime*1000;
 
   ATFlatTheme.FontName:= UiOps.VarFontName;
   ATFlatTheme.FontSize:= UiOps.VarFontSize;
@@ -4214,8 +4214,8 @@ begin
   DoStatusbarTextByTag(Status, StatusbarTag_Msg, GetStatusbarPrefix(CurrentFrame)+AText);
 
   if AText='' then exit;
-  TimerStatus.Enabled:= false;
-  TimerStatus.Enabled:= true;
+  TimerStatusClear.Enabled:= false;
+  TimerStatusClear.Enabled:= true;
 end;
 
 procedure TfmMain.MsgStatusAlt(const AText: string; ASeconds: integer);
