@@ -107,13 +107,6 @@ const
   msgButtonRetry: string = 'Retry';
   msgButtonIgnore: string = 'Ignore';
 
-  msgEditCut: string = 'Cut';
-  msgEditCopy: string = 'Copy';
-  msgEditPaste: string = 'Paste';
-  msgEditDelete: string = 'Delete';
-  msgEditSelectAll: string = 'Select all';
-  msgEditUndo: string = 'Undo';
-  msgEditRedo: string = 'Redo';
   msgFileNew: string = 'New file';
   msgFileOpen: string = 'Open file...';
   msgFileSave: string = 'Save file';

@@ -996,28 +996,6 @@ begin
         Items[5]:= ini.ReadString(section, 'tk_n_s', Items[5]);
         Items[6]:= ini.ReadString(section, 'tk_n_cs', Items[6]);
       end;
-
-      with edFind do
-      begin
-        MenuitemTextCut.Caption:= msgEditCut;
-        MenuitemTextCopy.Caption:= msgEditCopy;
-        MenuitemTextPaste.Caption:= msgEditPaste;
-        MenuitemTextDelete.Caption:= msgEditDelete;
-        MenuitemTextSelAll.Caption:= msgEditSelectAll;
-        MenuitemTextUndo.Caption:= msgEditUndo;
-        MenuitemTextRedo.Caption:= msgEditRedo;
-      end;
-      with edRep do
-      begin
-        MenuitemTextCut.Caption:= msgEditCut;
-        MenuitemTextCopy.Caption:= msgEditCopy;
-        MenuitemTextPaste.Caption:= msgEditPaste;
-        MenuitemTextDelete.Caption:= msgEditDelete;
-        MenuitemTextSelAll.Caption:= msgEditSelectAll;
-        MenuitemTextUndo.Caption:= msgEditUndo;
-        MenuitemTextRedo.Caption:= msgEditRedo;
-      end;
-
     finally
       FreeAndNil(ini);
     end;

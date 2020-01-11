@@ -138,30 +138,7 @@ begin
 end;
 
 procedure TfmGoto.Localize;
-const
-  section = 'd_f';
-var
-  fn: string;
-  ini: TIniFile;
 begin
-  fn:= GetAppLangFilename;
-  if not FileExists(fn) then exit;
-
-  ini:= TIniFile.Create(fn);
-  try
-    with edInput do
-    begin
-      MenuitemTextCut.Caption:= msgEditCut;
-      MenuitemTextCopy.Caption:= msgEditCopy;
-      MenuitemTextPaste.Caption:= msgEditPaste;
-      MenuitemTextDelete.Caption:= msgEditDelete;
-      MenuitemTextSelAll.Caption:= msgEditSelectAll;
-      MenuitemTextUndo.Caption:= msgEditUndo;
-      MenuitemTextRedo.Caption:= msgEditRedo;
-    end;
-  finally
-    FreeAndNil(ini);
-  end;
 end;
 
 end.

@@ -100,20 +100,20 @@ begin
     DoLocMenuItem(mnuFileEndUn, msgEndUnix);
     DoLocMenuItem(mnuFileEndMac, msgEndMac);
 
-    msgEditUndo:= ini.ReadString('m_e', 'undo', msgEditUndo);
-    msgEditRedo:= ini.ReadString('m_e', 'redo', msgEditRedo);
-    msgEditCut:= ini.ReadString('m_e', 'cut', msgEditCut);
-    msgEditCopy:= ini.ReadString('m_e', 'cp', msgEditCopy);
-    msgEditPaste:= ini.ReadString('m_e', 'pst', msgEditPaste);
-    msgEditDelete:= ini.ReadString('m_e', 'del', msgEditDelete);
-    msgEditSelectAll:= ini.ReadString('m_se', 'al', msgEditSelectAll);
+    DoLocString(cStrMenuitemUndo, ini, 'm_e', 'undo');
+    DoLocString(cStrMenuitemRedo, ini, 'm_e', 'redo');
+    DoLocString(cStrMenuitemCut, ini, 'm_e', 'cut');
+    DoLocString(cStrMenuitemCopy, ini, 'm_e', 'cp');
+    DoLocString(cStrMenuitemPaste, ini, 'm_e', 'pst');
+    DoLocString(cStrMenuitemDelete, ini, 'm_e', 'del');
+    DoLocString(cStrMenuitemSelectAll, ini, 'm_se', 'al');
 
-    DoLocMenuitem(mnuEditUndo, msgEditUndo);
-    DoLocMenuitem(mnuEditRedo, msgEditRedo);
-    DoLocMenuitem(mnuEditCut, msgEditCut);
-    DoLocMenuitem(mnuEditCopy, msgEditCopy);
-    DoLocMenuitem(mnuEditPaste, msgEditPaste);
-    DoLocMenuitem(mnuEditDel, msgEditDelete);
+    DoLocMenuitem(mnuEditUndo, cStrMenuitemUndo);
+    DoLocMenuitem(mnuEditRedo, cStrMenuitemRedo);
+    DoLocMenuitem(mnuEditCut, cStrMenuitemCut);
+    DoLocMenuitem(mnuEditCopy, cStrMenuitemCopy);
+    DoLocMenuitem(mnuEditPaste, cStrMenuitemPaste);
+    DoLocMenuitem(mnuEditDel, cStrMenuitemDelete);
 
     DoLocMenuitem(ini, mnuEdit, 'm_e', '_');
     DoLocMenuitem(ini, mnuEditUndo, 'm_e', 'undo');
@@ -176,7 +176,7 @@ begin
     DoLocMenuitem(ini, mnuEditCharmap, 'm_e', 'map');
 
     DoLocMenuitem(ini, mnuSel, 'm_se', '_');
-    DoLocMenuitem(mnuSelAll, msgEditSelectAll);
+    DoLocMenuitem(mnuSelAll, cStrMenuitemSelectAll);
     DoLocMenuitem(ini, mnuSelSplit, 'm_se', 'sp');
     DoLocMenuitem(ini, mnuSelExtLine, 'm_se', 'ex');
     DoLocMenuitem(ini, mnuSelExtWord, 'm_se', 'ex_wo');
@@ -351,11 +351,11 @@ begin
     DoLocToolbarButtonHint(ToolbarMain, 'f_new', msgFileNew);
     DoLocToolbarButtonHint(ToolbarMain, 'f_open', msgFileOpen);
     DoLocToolbarButtonHint(ToolbarMain, 'f_save', msgFileSave);
-    DoLocToolbarButtonHint(ToolbarMain, 'e_copy', msgEditCopy);
-    DoLocToolbarButtonHint(ToolbarMain, 'e_cut', msgEditCut);
-    DoLocToolbarButtonHint(ToolbarMain, 'e_paste', msgEditPaste);
-    DoLocToolbarButtonHint(ToolbarMain, 'e_undo', msgEditUndo);
-    DoLocToolbarButtonHint(ToolbarMain, 'e_redo', msgEditRedo);
+    DoLocToolbarButtonHint(ToolbarMain, 'e_copy', cStrMenuitemCopy);
+    DoLocToolbarButtonHint(ToolbarMain, 'e_cut', cStrMenuitemCut);
+    DoLocToolbarButtonHint(ToolbarMain, 'e_paste', cStrMenuitemPaste);
+    DoLocToolbarButtonHint(ToolbarMain, 'e_undo', cStrMenuitemUndo);
+    DoLocToolbarButtonHint(ToolbarMain, 'e_redo', cStrMenuitemRedo);
     if Assigned(mnuViewUnpri) then
       DoLocToolbarButtonHint(ToolbarMain, 'unpri', mnuViewUnpri.Caption);
     if Assigned(mnuViewMinimap) then
@@ -444,40 +444,19 @@ begin
     DoLocString(cHtmlAutocompleteAttrib, ini, 'ui', 'html_atr');
     DoLocString(cHtmlAutocompleteValue, ini, 'ui', 'html_val');
 
-    DoLocMenuitem(mnuTextUndo, msgEditUndo);
-    DoLocMenuitem(mnuTextRedo, msgEditRedo);
-    DoLocMenuitem(mnuTextCut, msgEditCut);
-    DoLocMenuitem(mnuTextCopy, msgEditCopy);
-    DoLocMenuitem(mnuTextPaste, msgEditPaste);
-    DoLocMenuitem(mnuTextDelete, msgEditDelete);
-    DoLocMenuitem(mnuTextSel, msgEditSelectAll);
+    DoLocMenuitem(mnuTextUndo, cStrMenuitemUndo);
+    DoLocMenuitem(mnuTextRedo, cStrMenuitemRedo);
+    DoLocMenuitem(mnuTextCut, cStrMenuitemCut);
+    DoLocMenuitem(mnuTextCopy, cStrMenuitemCopy);
+    DoLocMenuitem(mnuTextPaste, cStrMenuitemPaste);
+    DoLocMenuitem(mnuTextDelete, cStrMenuitemDelete);
+    DoLocMenuitem(mnuTextSel, cStrMenuitemSelectAll);
     DoLocMenuitem(ini, mnuTextGotoDef, 'ct', 'godef');
     DoLocMenuitem(ini, mnuTextOpenUrl, 'ct', 'url');
 
     DoLocString(msgConsoleClear, ini, 'ct', 'clr');
     DoLocString(msgConsoleNavigate, ini, 'ct', 'nav');
     DoLocString(msgConsoleToggleWrap, ini, 'ct', 'wr');
-
-    with fmConsole.ed do
-    begin
-      MenuitemTextCut.Caption:= msgEditCut;
-      MenuitemTextCopy.Caption:= msgEditCopy;
-      MenuitemTextPaste.Caption:= msgEditPaste;
-      MenuitemTextDelete.Caption:= msgEditDelete;
-      MenuitemTextSelAll.Caption:= msgEditSelectAll;
-      MenuitemTextUndo.Caption:= msgEditUndo;
-      MenuitemTextRedo.Caption:= msgEditRedo;
-    end;
-    with fmConsole.memo do
-    begin
-      MenuitemTextCut.Caption:= msgEditCut;
-      MenuitemTextCopy.Caption:= msgEditCopy;
-      MenuitemTextPaste.Caption:= msgEditPaste;
-      MenuitemTextDelete.Caption:= msgEditDelete;
-      MenuitemTextSelAll.Caption:= msgEditSelectAll;
-      MenuitemTextUndo.Caption:= msgEditUndo;
-      MenuitemTextRedo.Caption:= msgEditRedo;
-    end;
 
     DoLocMenuitem(ini, mnuTabCloseThis, 'ct', 'c_tab');
     DoLocMenuitem(ini, mnuTabCloseSub, 'ct', 'c_');

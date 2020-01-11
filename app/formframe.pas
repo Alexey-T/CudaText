@@ -1816,9 +1816,9 @@ begin
     FBin.TextGutter:= true;
     FBin.TextWidth:= UiOps.ViewerBinaryWidth;
     FBin.TextPopupCommands:= [vpCmdCopy, vpCmdCopyHex, vpCmdSelectAll];
-    FBin.TextPopupCaption[vpCmdCopy]:= msgEditCopy;
-    FBin.TextPopupCaption[vpCmdCopyHex]:= msgEditCopy+' (hex)';
-    FBin.TextPopupCaption[vpCmdSelectAll]:= msgEditSelectAll;
+    FBin.TextPopupCaption[vpCmdCopy]:= cStrMenuitemCopy;
+    FBin.TextPopupCaption[vpCmdCopyHex]:= cStrMenuitemCopy+' (hex)';
+    FBin.TextPopupCaption[vpCmdSelectAll]:= cStrMenuitemSelectAll;
   end;
 
   ViewerApplyTheme(FBin);
