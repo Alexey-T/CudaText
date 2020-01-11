@@ -352,6 +352,16 @@ const
   msgCommentLineToggle: string = 'Line comment: toggle';
   msgCommentStreamToggle: string = 'Stream comment: toggle';
 
+  msgSortAsc: string = 'Sort ascending';
+  msgSortDesc: string = 'Sort descending';
+  msgSortAscNocase: string = 'Sort ascending, ignore case';
+  msgSortDescNocase: string = 'Sort descending, ignore case';
+  msgSortDialog: string = 'Sort dialog...';
+  msgSortReverse: string = 'Reverse lines';
+  msgSortShuffle: string = 'Shuffle lines';
+  msgSortRemoveDup: string = 'Remove duplicate lines';
+  msgSortRemoveBlank: string = 'Remove blank lines';
+
 
 function GetUntitledCaption: string;
 

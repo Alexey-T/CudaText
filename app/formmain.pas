@@ -863,6 +863,7 @@ type
     procedure ListboxValidateContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure PopupToolbarCaseOnPopup(Sender: TObject);
     procedure PopupToolbarCommentOnPopup(Sender: TObject);
+    procedure PopupToolbarSortOnPopup(Sender: TObject);
     procedure LiteLexer_ApplyStyle(Sender: TObject; AStyleHash: integer; var APart: TATLinePart);
     function LiteLexer_GetStyleHash(Sender: TObject; const AStyleName: string): integer;
     procedure MenuRecentsClear(Sender: TObject);
@@ -1828,59 +1829,8 @@ begin
   PopupToolbarComment:= TPopupMenu.Create(Self);
   PopupToolbarComment.OnPopup:= @PopupToolbarCommentOnPopup;
 
-  mnuToolbarSortAsc:= TMenuItem.Create(Self);
-  mnuToolbarSortAsc.Caption:= 'Sort ascending';
-  mnuToolbarSortAsc.Hint:= 'cuda_sort,sort_asc';
-  mnuToolbarSortAsc.OnClick:= @MenuitemClick_CommandFromHint;
-  mnuToolbarSortDesc:= TMenuItem.Create(Self);
-  mnuToolbarSortDesc.Caption:= 'Sort descending';
-  mnuToolbarSortDesc.Hint:= 'cuda_sort,sort_desc';
-  mnuToolbarSortDesc.OnClick:= @MenuitemClick_CommandFromHint;
-  mnuToolbarSortAscNocase:= TMenuItem.Create(Self);
-  mnuToolbarSortAscNocase.Caption:= 'Sort ascending, ignore case';
-  mnuToolbarSortAscNocase.Hint:= 'cuda_sort,sort_asc_nocase';
-  mnuToolbarSortAscNocase.OnClick:= @MenuitemClick_CommandFromHint;
-  mnuToolbarSortDescNocase:= TMenuItem.Create(Self);
-  mnuToolbarSortDescNocase.Caption:= 'Sort descending, ignore case';
-  mnuToolbarSortDescNocase.Hint:= 'cuda_sort,sort_desc_nocase';
-  mnuToolbarSortDescNocase.OnClick:= @MenuitemClick_CommandFromHint;
-  mnuToolbarSortSep1:= TMenuItem.Create(Self);
-  mnuToolbarSortSep1.Caption:= '-';
-  mnuToolbarSortDialog:= TMenuItem.Create(Self);
-  mnuToolbarSortDialog.Caption:= 'Sort dialog...';
-  mnuToolbarSortDialog.Hint:= 'cuda_sort,sort_dlg';
-  mnuToolbarSortDialog.OnClick:= @MenuitemClick_CommandFromHint;
-  mnuToolbarSortSep2:= TMenuItem.Create(Self);
-  mnuToolbarSortSep2.Caption:= '-';
-  mnuToolbarSortReverse:= TMenuItem.Create(Self);
-  mnuToolbarSortReverse.Caption:= 'Reverse lines';
-  mnuToolbarSortReverse.Hint:= 'cuda_sort,reverse';
-  mnuToolbarSortReverse.OnClick:= @MenuitemClick_CommandFromHint;
-  mnuToolbarSortShuffle:= TMenuItem.Create(Self);
-  mnuToolbarSortShuffle.Caption:= 'Shuffle lines';
-  mnuToolbarSortShuffle.Hint:= 'cuda_sort,shuffle';
-  mnuToolbarSortShuffle.OnClick:= @MenuitemClick_CommandFromHint;
-  mnuToolbarSortRemoveDup:= TMenuItem.Create(Self);
-  mnuToolbarSortRemoveDup.Caption:= 'Remove duplicate lines';
-  mnuToolbarSortRemoveDup.Hint:= 'cuda_sort,del_dup';
-  mnuToolbarSortRemoveDup.OnClick:= @MenuitemClick_CommandFromHint;
-  mnuToolbarSortRemoveBlank:= TMenuItem.Create(Self);
-  mnuToolbarSortRemoveBlank.Caption:= 'Remove blank lines';
-  mnuToolbarSortRemoveBlank.Hint:= 'cuda_sort,del_blank';
-  mnuToolbarSortRemoveBlank.OnClick:= @MenuitemClick_CommandFromHint;
-
   PopupToolbarSort:= TPopupMenu.Create(Self);
-  PopupToolbarSort.Items.Add(mnuToolbarSortAsc);
-  PopupToolbarSort.Items.Add(mnuToolbarSortDesc);
-  PopupToolbarSort.Items.Add(mnuToolbarSortAscNocase);
-  PopupToolbarSort.Items.Add(mnuToolbarSortDescNocase);
-  PopupToolbarSort.Items.Add(mnuToolbarSortSep1);
-  PopupToolbarSort.Items.Add(mnuToolbarSortDialog);
-  PopupToolbarSort.Items.Add(mnuToolbarSortSep2);
-  PopupToolbarSort.Items.Add(mnuToolbarSortReverse);
-  PopupToolbarSort.Items.Add(mnuToolbarSortShuffle);
-  PopupToolbarSort.Items.Add(mnuToolbarSortRemoveDup);
-  PopupToolbarSort.Items.Add(mnuToolbarSortRemoveBlank);
+  PopupToolbarSort.OnPopup:= @PopupToolbarSortOnPopup;
 
   {$ifdef windows}
   if IsSetToOneInstance then
@@ -3913,17 +3863,8 @@ end;
 
 procedure TfmMain.DisablePluginMenuItems;
 begin
-  mnuPlugins.Enabled:= false;
-
-  mnuToolbarSortAsc.Enabled:= false;
-  mnuToolbarSortDesc.Enabled:= false;
-  mnuToolbarSortAscNocase.Enabled:= false;
-  mnuToolbarSortDescNocase.Enabled:= false;
-  mnuToolbarSortDialog.Enabled:= false;
-  mnuToolbarSortShuffle.Enabled:= false;
-  mnuToolbarSortReverse.Enabled:= false;
-  mnuToolbarSortRemoveBlank.Enabled:= false;
-  mnuToolbarSortRemoveDup.Enabled:= false;
+  if Assigned(mnuPlugins) then
+    mnuPlugins.Enabled:= false;
 end;
 
 procedure TfmMain.MenuEncNoReloadClick(Sender: TObject);
@@ -5415,6 +5356,76 @@ begin
   mnuToolbarCommentLineDel.Caption:= msgCommentLineDel;
   mnuToolbarCommentLineToggle.Caption:= msgCommentLineToggle;
   mnuToolbarCommentStream.Caption:= msgCommentStreamToggle;
+end;
+
+procedure TfmMain.PopupToolbarSortOnPopup(Sender: TObject);
+begin
+  if mnuToolbarSortDialog=nil then
+  begin
+    mnuToolbarSortAsc:= TMenuItem.Create(Self);
+    mnuToolbarSortAsc.Hint:= 'cuda_sort,sort_asc';
+    mnuToolbarSortAsc.OnClick:= @MenuitemClick_CommandFromHint;
+
+    mnuToolbarSortDesc:= TMenuItem.Create(Self);
+    mnuToolbarSortDesc.Hint:= 'cuda_sort,sort_desc';
+    mnuToolbarSortDesc.OnClick:= @MenuitemClick_CommandFromHint;
+
+    mnuToolbarSortAscNocase:= TMenuItem.Create(Self);
+    mnuToolbarSortAscNocase.Hint:= 'cuda_sort,sort_asc_nocase';
+    mnuToolbarSortAscNocase.OnClick:= @MenuitemClick_CommandFromHint;
+
+    mnuToolbarSortDescNocase:= TMenuItem.Create(Self);
+    mnuToolbarSortDescNocase.Hint:= 'cuda_sort,sort_desc_nocase';
+    mnuToolbarSortDescNocase.OnClick:= @MenuitemClick_CommandFromHint;
+
+    mnuToolbarSortSep1:= TMenuItem.Create(Self);
+    mnuToolbarSortSep1.Caption:= '-';
+
+    mnuToolbarSortDialog:= TMenuItem.Create(Self);
+    mnuToolbarSortDialog.Hint:= 'cuda_sort,sort_dlg';
+    mnuToolbarSortDialog.OnClick:= @MenuitemClick_CommandFromHint;
+
+    mnuToolbarSortSep2:= TMenuItem.Create(Self);
+    mnuToolbarSortSep2.Caption:= '-';
+
+    mnuToolbarSortReverse:= TMenuItem.Create(Self);
+    mnuToolbarSortReverse.Hint:= 'cuda_sort,reverse';
+    mnuToolbarSortReverse.OnClick:= @MenuitemClick_CommandFromHint;
+
+    mnuToolbarSortShuffle:= TMenuItem.Create(Self);
+    mnuToolbarSortShuffle.Hint:= 'cuda_sort,shuffle';
+    mnuToolbarSortShuffle.OnClick:= @MenuitemClick_CommandFromHint;
+
+    mnuToolbarSortRemoveDup:= TMenuItem.Create(Self);
+    mnuToolbarSortRemoveDup.Hint:= 'cuda_sort,del_dup';
+    mnuToolbarSortRemoveDup.OnClick:= @MenuitemClick_CommandFromHint;
+
+    mnuToolbarSortRemoveBlank:= TMenuItem.Create(Self);
+    mnuToolbarSortRemoveBlank.Hint:= 'cuda_sort,del_blank';
+    mnuToolbarSortRemoveBlank.OnClick:= @MenuitemClick_CommandFromHint;
+
+    PopupToolbarSort.Items.Add(mnuToolbarSortAsc);
+    PopupToolbarSort.Items.Add(mnuToolbarSortDesc);
+    PopupToolbarSort.Items.Add(mnuToolbarSortAscNocase);
+    PopupToolbarSort.Items.Add(mnuToolbarSortDescNocase);
+    PopupToolbarSort.Items.Add(mnuToolbarSortSep1);
+    PopupToolbarSort.Items.Add(mnuToolbarSortDialog);
+    PopupToolbarSort.Items.Add(mnuToolbarSortSep2);
+    PopupToolbarSort.Items.Add(mnuToolbarSortReverse);
+    PopupToolbarSort.Items.Add(mnuToolbarSortShuffle);
+    PopupToolbarSort.Items.Add(mnuToolbarSortRemoveDup);
+    PopupToolbarSort.Items.Add(mnuToolbarSortRemoveBlank);
+  end;
+
+  mnuToolbarSortAsc.Caption:= msgSortAsc;
+  mnuToolbarSortDesc.Caption:= msgSortDesc;
+  mnuToolbarSortAscNocase.Caption:= msgSortAscNocase;
+  mnuToolbarSortDescNocase.Caption:= msgSortDescNocase;
+  mnuToolbarSortDialog.Caption:= msgSortDialog;
+  mnuToolbarSortReverse.Caption:= msgSortReverse;
+  mnuToolbarSortShuffle.Caption:= msgSortShuffle;
+  mnuToolbarSortRemoveDup.Caption:= msgSortRemoveDup;
+  mnuToolbarSortRemoveBlank.Caption:= msgSortRemoveBlank;
 end;
 
 procedure TfmMain.ListboxOutKeyDown(Sender: TObject; var Key: Word;

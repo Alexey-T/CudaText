@@ -311,15 +311,15 @@ begin
     DoLocMenuitem(ini, mnuHelpAbout, 'm_h', 'ab');
     DoLocMenuitem(ini, mnuHelpCheckUpd, 'm_h', 'chk');
 
-    DoLocMenuitem(ini, mnuToolbarSortAsc, 'tb', 'sr_asc');
-    DoLocMenuitem(ini, mnuToolbarSortDesc, 'tb', 'sr_des');
-    DoLocMenuitem(ini, mnuToolbarSortAscNocase, 'tb', 'sr_asc_i');
-    DoLocMenuitem(ini, mnuToolbarSortDescNocase, 'tb', 'sr_des_i');
-    DoLocMenuitem(ini, mnuToolbarSortDialog, 'tb', 'sr_dl');
-    DoLocMenuitem(ini, mnuToolbarSortReverse, 'tb', 'sr_rev');
-    DoLocMenuitem(ini, mnuToolbarSortShuffle, 'tb', 'sr_shf');
-    DoLocMenuitem(ini, mnuToolbarSortRemoveDup, 'tb', 'sr_del_dp');
-    DoLocMenuitem(ini, mnuToolbarSortRemoveBlank, 'tb', 'sr_del_bl');
+    DoLocString(msgSortAsc, ini, 'tb', 'sr_asc');
+    DoLocString(msgSortDesc, ini, 'tb', 'sr_des');
+    DoLocString(msgSortAscNocase, ini, 'tb', 'sr_asc_i');
+    DoLocString(msgSortDescNocase, ini, 'tb', 'sr_des_i');
+    DoLocString(msgSortDialog, ini, 'tb', 'sr_dl');
+    DoLocString(msgSortReverse, ini, 'tb', 'sr_rev');
+    DoLocString(msgSortShuffle, ini, 'tb', 'sr_shf');
+    DoLocString(msgSortRemoveDup, ini, 'tb', 'sr_del_dp');
+    DoLocString(msgSortRemoveBlank, ini, 'tb', 'sr_del_bl');
 
     DoLocString(msgCommentLineAdd, ini, 'tb', 'cm_ln_add');
     DoLocString(msgCommentLineDel, ini, 'tb', 'cm_ln_del');
