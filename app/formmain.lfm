@@ -209,27 +209,28 @@ object fmMain: TfmMain
     IO = PythonIO
     PyFlags = [pfIgnoreEnvironmentFlag]
     OnAfterInit = PythonEngineAfterInit
-    Left = 352
+    Left = 688
+    Top = 8
   end
   object PythonIO: TPythonInputOutput
     MaxLineLength = 2000
     OnSendUniData = PythonIOSendUniData
     UnicodeIO = True
     RawOutput = False
-    Left = 400
-    Top = 8
+    Left = 736
+    Top = 24
   end
   object PythonMod: TPythonModule
     Engine = PythonEngine
     OnInitialization = PythonModInitialization
     ModuleName = 'cudatext_api'
     Errors = <>
-    Left = 448
-    Top = 24
+    Left = 784
+    Top = 40
   end
   object MainMenu: TMainMenu
-    Left = 568
-    Top = 32
+    Left = 496
+    Top = 16
     object mnuFile: TMenuItem
       Caption = '&File'
       object mnuFileNew: TMenuItem
@@ -807,13 +808,13 @@ object fmMain: TfmMain
     Enabled = False
     Interval = 3500
     OnTimer = TimerStatusTimer
-    Left = 280
-    Top = 48
+    Left = 240
+    Top = 32
   end
   object PopupTab: TPopupMenu
     OnPopup = PopupTabPopup
-    Left = 568
-    Top = 88
+    Left = 496
+    Top = 80
     object mnuTabCloseThis: TMenuItem
       Caption = 'Close tab'
       OnClick = mnuTabCloseThisClick
@@ -942,8 +943,8 @@ object fmMain: TfmMain
     Enabled = False
     Interval = 150
     OnTimer = TimerCmdTimer
-    Left = 328
-    Top = 56
+    Left = 320
+    Top = 16
   end
   object AppProps: TApplicationProperties
     ShowButtonGlyphs = sbgNever
@@ -962,8 +963,8 @@ object fmMain: TfmMain
   end
   object PopupRecents: TPopupMenu
     OnPopup = PopupRecentsPopup
-    Left = 656
-    Top = 88
+    Left = 560
+    Top = 32
   end
   object ImageListTree: TImageList
     AllocBy = 10
@@ -974,8 +975,8 @@ object fmMain: TfmMain
     Enabled = False
     Interval = 2000
     OnTimer = TimerTreeFillTimer
-    Left = 376
-    Top = 80
+    Left = 320
+    Top = 72
   end
   object ImageListBm: TImageList
     AllocBy = 10
@@ -1313,8 +1314,8 @@ object fmMain: TfmMain
   end
   object PopupText: TPopupMenu
     OnPopup = PopupTextPopup
-    Left = 744
-    Top = 146
+    Left = 560
+    Top = 96
     object mnuTextUndo: TMenuItem
       Caption = 'Undo'
     end
@@ -1353,8 +1354,8 @@ object fmMain: TfmMain
     Enabled = False
     Interval = 6000
     OnTimer = TimerStatusAltTimer
-    Left = 328
-    Top = 144
+    Left = 240
+    Top = 88
   end
   object ImageListSide: TImageList
     AllocBy = 8
@@ -1446,14 +1447,14 @@ object fmMain: TfmMain
     AutoEnabled = True
     Interval = 300
     OnTimer = TimerAppIdleTimer
-    Left = 441
-    Top = 92
+    Left = 392
+    Top = 88
   end
   object TimerStatusBusy: TTimer
     Enabled = False
     Interval = 300
     OnTimer = TimerStatusBusyTimer
-    Left = 378
-    Top = 234
+    Left = 392
+    Top = 32
   end
 end
