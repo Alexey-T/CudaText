@@ -977,13 +977,6 @@ object fmMain: TfmMain
     Left = 376
     Top = 80
   end
-  object TimerEdCaret: TTimer
-    Enabled = False
-    Interval = 2000
-    OnTimer = TimerEdCaretTimer
-    Left = 280
-    Top = 120
-  end
   object ImageListBm: TImageList
     AllocBy = 10
     Left = 664

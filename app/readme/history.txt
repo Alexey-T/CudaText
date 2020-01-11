@@ -14,6 +14,7 @@
 - fix: Find/Replace: could not mass replace reg.ex. "\b" to for example "__"
 * change: submenu "File / Encoding / ..." replaced with simple menu item "File / Encoding..." which calls popup menu
 * change: renamed commands "zoom in" / "zoom out" to "current document font size: bigger" / "... smaller"
+* change: deleted option "ui_tree_time_focus"
 
 1.92.0 (2019/12)
 

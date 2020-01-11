@@ -411,7 +411,6 @@ type
     TimerTreeFill: TTimer;
     TimerCmd: TTimer;
     TimerStatus: TTimer;
-    TimerEdCaret: TTimer;
     ToolbarMain: TATFlatToolbar;
     ToolbarSideMid: TATFlatToolbar;
     ToolbarSideLow: TATFlatToolbar;
@@ -495,7 +494,6 @@ type
     procedure TimerStatusBusyTimer(Sender: TObject);
     procedure TimerStatusTimer(Sender: TObject);
     procedure TimerTreeFillTimer(Sender: TObject);
-    procedure TimerEdCaretTimer(Sender: TObject);
     procedure UniqInstanceOtherInstance(Sender: TObject; ParamCount: Integer;
       Parameters: array of String);
     {$ifdef windows}
@@ -647,6 +645,7 @@ type
     FFileNameLogConsole: string;
     FCodetreeDblClicking: boolean;
     FCodetreeModifiedVersion: integer;
+    FCodetreeNeedsSelJump: boolean;
     FMenuCopy: TPopupMenu;
     FMenuVisible: boolean;
     FPopupListboxOutput: TPopupMenu;
@@ -1523,6 +1522,12 @@ begin
   end;
 
   AppUpdateWatcherFrames;
+
+  if FCodetreeNeedsSelJump then
+  begin
+    FCodetreeNeedsSelJump:= false;
+    UpdateTree(false);
+  end;
 end;
 
 procedure TfmMain.TimerStatusTimer(Sender: TObject);
@@ -1547,12 +1552,6 @@ procedure TfmMain.TimerTreeFillTimer(Sender: TObject);
 begin
   TimerTreeFill.Enabled:= false;
   UpdateTree(true);
-end;
-
-procedure TfmMain.TimerEdCaretTimer(Sender: TObject);
-begin
-  TimerEdCaret.Enabled:= false;
-  UpdateTree(false);
 end;
 
 procedure TfmMain.DoCodetree_OnDblClick(Sender: TObject);
@@ -2243,7 +2242,6 @@ begin
   TimerStatusBusy.Enabled:= false;
   TimerStatusAlt.Enabled:= false;
   TimerTreeFill.Enabled:= false;
-  TimerEdCaret.Enabled:= false;
   TimerAppIdle.Enabled:= false;
   TimerCmd.Enabled:= false;
 end;
@@ -2553,8 +2551,7 @@ end;
 procedure TfmMain.FrameOnChangeCaretPos(Sender: TObject);
 begin
   if FCodetreeDblClicking then exit;
-  TimerEdCaret.Enabled:= false;
-  TimerEdCaret.Enabled:= true;
+  FCodetreeNeedsSelJump:= true;
 end;
 
 procedure TfmMain.FrameOnMsgStatus(Sender: TObject; const AStr: string);
@@ -2882,7 +2879,6 @@ begin
   UpdateStatusbarHints;
 
   TimerTreeFill.Interval:= UiOps.TreeTimeFill;
-  TimerEdCaret.Interval:= UiOps.TreeTimeCaret;
   CodeTree.Tree.ToolTips:= UiOps.TreeShowTooltips;
   CodeTree.Invalidate;
 

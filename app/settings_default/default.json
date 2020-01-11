@@ -672,9 +672,6 @@
   //After caret moves, select code-tree node for new caret position
   "ui_tree_auto_sync": true,
 
-  //Delay (in msec) after caret movement, after which code-tree changes (syncs) selection
-  "ui_tree_time_focus": 300,
-
   //Delay (in msec) after text change, after which code-tree contents is filled
   "ui_tree_time_fill": 2000,
 
