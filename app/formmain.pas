@@ -508,6 +508,8 @@ type
     PopupTabSize: TPopupMenu;
     PopupViewerMode: TPopupMenu;
     PopupPicScale: TPopupMenu;
+    PopupListboxOutput: TPopupMenu;
+    PopupListboxValidate: TPopupMenu;
     mnuTreeFoldAll: TMenuItem;
     mnuTreeUnfoldAll: TMenuItem;
     mnuTreeFoldLevel: TMenuItem;
@@ -648,8 +650,6 @@ type
     FCodetreeNeedsSelJump: boolean;
     FMenuCopy: TPopupMenu;
     FMenuVisible: boolean;
-    FPopupListboxOutput: TPopupMenu;
-    FPopupListboxValidate: TPopupMenu;
     FNewClickedEditor: TATSynEdit;
     FPyComplete_Editor: TATSynEdit;
     FPyComplete_Text: string;
@@ -844,6 +844,8 @@ type
     procedure InitAppleMenu;
     procedure InitPopupTree;
     procedure InitPopupPicScale;
+    procedure InitPopupListboxOutput;
+    procedure InitPopupListboxValidate;
     procedure InitPopupViewerMode;
     procedure InitPopupEnc;
     procedure InitPopupEnds;
@@ -857,6 +859,8 @@ type
     function IsWindowMaximizedOrFullscreen: boolean;
     function IsAllowedToOpenFileNow: boolean;
     function IsThemeNameExist(const AName: string; AThemeUI: boolean): boolean;
+    procedure ListboxOutContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+    procedure ListboxValidateContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure LiteLexer_ApplyStyle(Sender: TObject; AStyleHash: integer; var APart: TATLinePart);
     function LiteLexer_GetStyleHash(Sender: TObject; const AStyleName: string): integer;
     procedure MenuRecentsClear(Sender: TObject);
@@ -1321,6 +1325,38 @@ begin
   if not F.IsBinary then exit;
   F.Binary.Mode:= TATBinHexMode((Sender as TComponent).Tag);
   UpdateStatus;
+end;
+
+procedure TfmMain.InitPopupListboxOutput;
+begin
+  if PopupListboxOutput=nil then
+  begin
+    PopupListboxOutput:= TPopupMenu.Create(Self);
+
+    mnuContextOutputClear:= TMenuItem.Create(Self);
+    mnuContextOutputClear.OnClick:= @PopupListboxOutputClearClick;
+    PopupListboxOutput.Items.Add(mnuContextOutputClear);
+
+    mnuContextOutputCopy:= TMenuItem.Create(Self);
+    mnuContextOutputCopy.OnClick:= @PopupListboxOutputCopyClick;
+    PopupListboxOutput.Items.Add(mnuContextOutputCopy);
+  end;
+end;
+
+procedure TfmMain.InitPopupListboxValidate;
+begin
+  if PopupListboxValidate=nil then
+  begin
+    PopupListboxValidate:= TPopupMenu.Create(Self);
+
+    mnuContextValidateClear:= TMenuItem.Create(Self);
+    mnuContextValidateClear.OnClick:= @PopupListboxValidateClearClick;
+    PopupListboxValidate.Items.Add(mnuContextValidateClear);
+
+    mnuContextValidateCopy:= TMenuItem.Create(Self);
+    mnuContextValidateCopy.OnClick:= @PopupListboxValidateCopyClick;
+    PopupListboxValidate.Items.Add(mnuContextValidateCopy);
+  end;
 end;
 
 procedure TfmMain.InitPopupViewerMode;
@@ -1949,40 +1985,18 @@ begin
   CodeTreeFilterInput.OnChange:= @CodeTreeFilter_OnChange;
   CodeTreeFilterInput.OnCommand:= @CodeTreeFilter_OnCommand;
 
-  FPopupListboxOutput:= TPopupMenu.Create(Self);
-  mnuContextOutputClear:= TMenuItem.Create(Self);
-  mnuContextOutputClear.Caption:= msgFileClearList;
-  mnuContextOutputClear.OnClick:= @PopupListboxOutputClearClick;
-  FPopupListboxOutput.Items.Add(mnuContextOutputClear);
-
-  mnuContextOutputCopy:= TMenuItem.Create(Self);
-  mnuContextOutputCopy.Caption:= msgEditCopy;
-  mnuContextOutputCopy.OnClick:= @PopupListboxOutputCopyClick;
-  FPopupListboxOutput.Items.Add(mnuContextOutputCopy);
-
-  FPopupListboxValidate:= TPopupMenu.Create(Self);
-  mnuContextValidateClear:= TMenuItem.Create(Self);
-  mnuContextValidateClear.Caption:= msgFileClearList;
-  mnuContextValidateClear.OnClick:= @PopupListboxValidateClearClick;
-  FPopupListboxValidate.Items.Add(mnuContextValidateClear);
-
-  mnuContextValidateCopy:= TMenuItem.Create(Self);
-  mnuContextValidateCopy.Caption:= msgEditCopy;
-  mnuContextValidateCopy.OnClick:= @PopupListboxValidateCopyClick;
-  FPopupListboxValidate.Items.Add(mnuContextValidateCopy);
-
   ListboxOut:= TATListbox.Create(Self);
   ListboxOut.VirtualMode:= false;
   ListboxOut.Parent:= PanelBottom;
   ListboxOut.Align:= alClient;
   ListboxOut.CanGetFocus:= true;
   ListboxOut.OwnerDrawn:= true;
-  ListboxOut.PopupMenu:= FPopupListboxOutput;
   ListboxOut.ScrollStyleVert:= alssShow;
   ListboxOut.ScrollStyleHorz:= alssAuto;
   ListboxOut.OnDblClick:= @ListboxOutClick;
   ListboxOut.OnDrawItem:= @ListboxOutDrawItem;
   ListboxOut.OnKeyDown:= @ListboxOutKeyDown;
+  ListboxOut.OnContextPopup:= @ListboxOutContextPopup;
 
   ListboxVal:= TATListbox.Create(Self);
   ListboxVal.VirtualMode:= false;
@@ -1990,12 +2004,12 @@ begin
   ListboxVal.Align:= alClient;
   ListboxVal.CanGetFocus:= true;
   ListboxVal.OwnerDrawn:= true;
-  ListboxVal.PopupMenu:= FPopupListboxValidate;
   ListboxVal.ScrollStyleVert:= alssShow;
   ListboxVal.ScrollStyleHorz:= alssAuto;
   ListboxVal.OnDblClick:= @ListboxOutClick;
   ListboxVal.OnDrawItem:= @ListboxOutDrawItem;
   ListboxVal.OnKeyDown:= @ListboxOutKeyDown;
+  ListboxVal.OnContextPopup:= @ListboxValidateContextPopup;
 
   AppBookmarkImagelist.AddImages(ImageListBm);
   for i:= 2 to 9 do
@@ -5362,6 +5376,25 @@ begin
     true
     );
 end;
+
+procedure TfmMain.ListboxOutContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+begin
+  InitPopupListboxOutput;
+  mnuContextOutputCopy.Caption:= msgEditCopy;
+  mnuContextOutputClear.Caption:= msgFileClearList;
+  PopupListboxOutput.Popup;
+  Handled:= true;
+end;
+
+procedure TfmMain.ListboxValidateContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+begin
+  InitPopupListboxValidate;
+  mnuContextValidateCopy.Caption:= msgEditCopy;
+  mnuContextValidateClear.Caption:= msgFileClearList;
+  PopupListboxValidate.Popup;
+  Handled:= true;
+end;
+
 
 procedure TfmMain.ListboxOutKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
