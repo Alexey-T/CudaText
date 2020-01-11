@@ -67,6 +67,7 @@ end;
 
 procedure TfmMain.UpdateBottomPanels(const ACaption: string; AndFocus: boolean);
 var
+  bConsole, bListboxOut, bListboxVal: boolean;
   Ctl: TWinControl;
   i: integer;
 begin
@@ -74,11 +75,6 @@ begin
   ShowBottom:= true;
   if FloatBottom then
     FFormFloatBottom.Caption:= ACaption + ' - ' + msgTitle;
-
-  //hide std panels
-  fmConsole.Hide;
-  ListboxOut.Hide;
-  ListboxVal.Hide;
 
   //hide panels from proc_bottompanel_add
   for i:= 0 to AppBottomPanels.Count-1 do
@@ -88,23 +84,28 @@ begin
       Ctl.Hide;
   end;
 
-  if SameText(ACaption, msgPanelConsole_Init) then
+  bConsole:= SameText(ACaption, msgPanelConsole_Init);
+  bListboxOut:= SameText(ACaption, msgPanelOutput_Init);
+  bListboxVal:= SameText(ACaption, msgPanelValidate_Init);
+
+  fmConsole.Visible:= bConsole;
+  ListboxOut.Visible:= bListboxOut;
+  ListboxVal.Visible:= bListboxVal;
+
+  if bConsole then
   begin
-    fmConsole.Show;
     if AndFocus then
       fmConsole.Ed.SetFocus;
   end
   else
-  if SameText(ACaption, msgPanelOutput_Init) then
+  if bListboxOut then
   begin
-    ListboxOut.Show;
     if AndFocus then
       ListboxOut.SetFocus;
   end
   else
-  if SameText(ACaption, msgPanelValidate_Init) then
+  if bListboxVal then
   begin
-    ListboxVal.Show;
     if AndFocus then
       ListboxVal.SetFocus;
   end
