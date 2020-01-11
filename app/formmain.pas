@@ -3527,7 +3527,7 @@ procedure TfmMain.DoDialogGoto;
 var
   Str: string;
 begin
-  if fmGoto=nil then
+  if not Assigned(fmGoto) then
     fmGoto:= TfmGoto.Create(Self);
 
   fmGoto.Localize;

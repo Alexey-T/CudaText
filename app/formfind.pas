@@ -194,7 +194,7 @@ type
   end;
 
 var
-  fmFind: TfmFind;
+  fmFind: TfmFind = nil;
 
 implementation
 
