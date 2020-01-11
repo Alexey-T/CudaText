@@ -19,8 +19,4 @@ object fmConsole: TfmConsole
     BevelOuter = bvNone
     TabOrder = 0
   end
-  object PopupMenu1: TPopupMenu
-    Left = 75
-    Top = 58
-  end
 end

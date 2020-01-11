@@ -36,9 +36,7 @@ type
   { TfmConsole }
   TfmConsole = class(TForm)
     panelConsole: TPanel;
-    PopupMenu1: TPopupMenu;
     procedure FormCreate(Sender: TObject);
-    procedure MemoClickDbl(Sender: TObject; var AHandled: boolean);
   private
     { private declarations }
     FAdapter: TATAdapterSimple;
@@ -48,13 +46,14 @@ type
     mnuTextWrap: TMenuItem;
     procedure ComboCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
     procedure DoGetLineColor(Ed: TATSynEdit; ALineIndex: integer; var AColorFont, AColorBg: TColor);
-    function GetWrap: boolean;
+    procedure MemoClickDbl(Sender: TObject; var AHandled: boolean);
     procedure MemoCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
+    procedure MemoContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure DoClearMemo(Sender: TObject);
     procedure DoNavigate(Sender: TObject);
     procedure DoToggleWrap(Sender: TObject);
-    procedure MemoContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure SetIsDoubleBuffered(AValue: boolean);
+    function GetWrap: boolean;
     procedure SetWrap(AValue: boolean);
     procedure DoRunLine(Str: string);
   public
