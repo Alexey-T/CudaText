@@ -321,10 +321,10 @@ begin
     DoLocMenuitem(ini, mnuToolbarSortRemoveDup, 'tb', 'sr_del_dp');
     DoLocMenuitem(ini, mnuToolbarSortRemoveBlank, 'tb', 'sr_del_bl');
 
-    DoLocMenuitem(ini, mnuToolbarCommentLineAdd, 'tb', 'cm_ln_add');
-    DoLocMenuitem(ini, mnuToolbarCommentLineDel, 'tb', 'cm_ln_del');
-    DoLocMenuitem(ini, mnuToolbarCommentLineToggle, 'tb', 'cm_ln_tog');
-    DoLocMenuitem(ini, mnuToolbarCommentStream, 'tb', 'cm_st_tog');
+    DoLocString(msgCommentLineAdd, ini, 'tb', 'cm_ln_add');
+    DoLocString(msgCommentLineDel, ini, 'tb', 'cm_ln_del');
+    DoLocString(msgCommentLineToggle, ini, 'tb', 'cm_ln_tog');
+    DoLocString(msgCommentStreamToggle, ini, 'tb', 'cm_st_tog');
 
     msgPanelMenu:= ini.ReadString('ui', 't_menu', msgPanelMenu_Init);
     msgPanelTree:= ini.ReadString('ui', 't_tre', msgPanelTree_Init);

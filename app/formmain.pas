@@ -862,6 +862,7 @@ type
     procedure ListboxOutContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure ListboxValidateContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure PopupToolbarCaseOnPopup(Sender: TObject);
+    procedure PopupToolbarCommentOnPopup(Sender: TObject);
     procedure LiteLexer_ApplyStyle(Sender: TObject; AStyleHash: integer; var APart: TATLinePart);
     function LiteLexer_GetStyleHash(Sender: TObject; const AStyleName: string): integer;
     procedure MenuRecentsClear(Sender: TObject);
@@ -1824,28 +1825,8 @@ begin
   PopupToolbarCase:= TPopupMenu.Create(Self);
   PopupToolbarCase.OnPopup:= @PopupToolbarCaseOnPopup;
 
-  mnuToolbarCommentLineToggle:= TMenuItem.Create(Self);
-  mnuToolbarCommentLineToggle.Caption:= 'Line comment: toggle';
-  mnuToolbarCommentLineToggle.Hint:= 'cuda_comments,cmt_toggle_line_body';
-  mnuToolbarCommentLineToggle.OnClick:= @MenuitemClick_CommandFromHint;
-  mnuToolbarCommentLineAdd:= TMenuItem.Create(Self);
-  mnuToolbarCommentLineAdd.Caption:= 'Line comment: add';
-  mnuToolbarCommentLineAdd.Hint:= 'cuda_comments,cmt_add_line_body';
-  mnuToolbarCommentLineAdd.OnClick:= @MenuitemClick_CommandFromHint;
-  mnuToolbarCommentLineDel:= TMenuItem.Create(Self);
-  mnuToolbarCommentLineDel.Caption:= 'Line comment: remove';
-  mnuToolbarCommentLineDel.Hint:= 'cuda_comments,cmt_del_line';
-  mnuToolbarCommentLineDel.OnClick:= @MenuitemClick_CommandFromHint;
-  mnuToolbarCommentStream:= TMenuItem.Create(Self);
-  mnuToolbarCommentStream.Caption:= 'Stream comment: toggle';
-  mnuToolbarCommentStream.Hint:= 'cuda_comments,cmt_toggle_stream';
-  mnuToolbarCommentStream.OnClick:= @MenuitemClick_CommandFromHint;
-
   PopupToolbarComment:= TPopupMenu.Create(Self);
-  PopupToolbarComment.Items.Add(mnuToolbarCommentLineToggle);
-  PopupToolbarComment.Items.Add(mnuToolbarCommentLineAdd);
-  PopupToolbarComment.Items.Add(mnuToolbarCommentLineDel);
-  PopupToolbarComment.Items.Add(mnuToolbarCommentStream);
+  PopupToolbarComment.OnPopup:= @PopupToolbarCommentOnPopup;
 
   mnuToolbarSortAsc:= TMenuItem.Create(Self);
   mnuToolbarSortAsc.Caption:= 'Sort ascending';
@@ -3934,11 +3915,6 @@ procedure TfmMain.DisablePluginMenuItems;
 begin
   mnuPlugins.Enabled:= false;
 
-  mnuToolbarCommentLineAdd.Enabled:= false;
-  mnuToolbarCommentLineDel.Enabled:= false;
-  mnuToolbarCommentLineToggle.Enabled:= false;
-  mnuToolbarCommentStream.Enabled:= false;
-
   mnuToolbarSortAsc.Enabled:= false;
   mnuToolbarSortDesc.Enabled:= false;
   mnuToolbarSortAscNocase.Enabled:= false;
@@ -5409,6 +5385,37 @@ begin
   mnuToolbarCaseSent.Caption:= msgTextCaseSentence;
 end;
 
+procedure TfmMain.PopupToolbarCommentOnPopup(Sender: TObject);
+begin
+  if mnuToolbarCommentLineAdd=nil then
+  begin
+    mnuToolbarCommentLineAdd:= TMenuItem.Create(Self);
+    mnuToolbarCommentLineAdd.Hint:= 'cuda_comments,cmt_add_line_body';
+    mnuToolbarCommentLineAdd.OnClick:= @MenuitemClick_CommandFromHint;
+
+    mnuToolbarCommentLineDel:= TMenuItem.Create(Self);
+    mnuToolbarCommentLineDel.Hint:= 'cuda_comments,cmt_del_line';
+    mnuToolbarCommentLineDel.OnClick:= @MenuitemClick_CommandFromHint;
+
+    mnuToolbarCommentLineToggle:= TMenuItem.Create(Self);
+    mnuToolbarCommentLineToggle.Hint:= 'cuda_comments,cmt_toggle_line_body';
+    mnuToolbarCommentLineToggle.OnClick:= @MenuitemClick_CommandFromHint;
+
+    mnuToolbarCommentStream:= TMenuItem.Create(Self);
+    mnuToolbarCommentStream.Hint:= 'cuda_comments,cmt_toggle_stream';
+    mnuToolbarCommentStream.OnClick:= @MenuitemClick_CommandFromHint;
+
+    PopupToolbarComment.Items.Add(mnuToolbarCommentLineToggle);
+    PopupToolbarComment.Items.Add(mnuToolbarCommentLineAdd);
+    PopupToolbarComment.Items.Add(mnuToolbarCommentLineDel);
+    PopupToolbarComment.Items.Add(mnuToolbarCommentStream);
+  end;
+
+  mnuToolbarCommentLineAdd.Caption:= msgCommentLineAdd;
+  mnuToolbarCommentLineDel.Caption:= msgCommentLineDel;
+  mnuToolbarCommentLineToggle.Caption:= msgCommentLineToggle;
+  mnuToolbarCommentStream.Caption:= msgCommentStreamToggle;
+end;
 
 procedure TfmMain.ListboxOutKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);

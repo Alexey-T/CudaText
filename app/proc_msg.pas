@@ -347,6 +347,12 @@ const
   msgTextCaseInvert: string = 'Invert case';
   msgTextCaseSentence: string = 'Sentence case';
 
+  msgCommentLineAdd: string = 'Line comment: add';
+  msgCommentLineDel: string = 'Line comment: remove';
+  msgCommentLineToggle: string = 'Line comment: toggle';
+  msgCommentStreamToggle: string = 'Stream comment: toggle';
+
+
 function GetUntitledCaption: string;
 
 
