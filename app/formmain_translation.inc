@@ -155,23 +155,23 @@ begin
     DoLocMenuitem(ini, mnuEditTabToSp, 'm_e', 'con_t');
     DoLocMenuitem(ini, mnuEditSpToTab, 'm_e', 'con_s');
 
-    DoLocMenuitem(ini, mnuCaseSub, 'm_e', 'cas_');
-    DoLocMenuitem(ini, mnuCaseUp, 'm_e', 'cas_u');
-    DoLocMenuitem(ini, mnuCaseLow, 'm_e', 'cas_l');
-    DoLocMenuitem(ini, mnuCaseTitle, 'm_e', 'cas_t');
-    DoLocMenuitem(ini, mnuCaseInvert, 'm_e', 'cas_i');
-    DoLocMenuitem(ini, mnuCaseSent, 'm_e', 'cas_s');
+    DoLocString(msgTextCaseMenu, ini, 'm_e', 'cas_');
+    DoLocString(msgTextCaseUpper, ini, 'm_e', 'cas_u');
+    DoLocString(msgTextCaseLower, ini, 'm_e', 'cas_l');
+    DoLocString(msgTextCaseTitle, ini, 'm_e', 'cas_t');
+    DoLocString(msgTextCaseInvert, ini, 'm_e', 'cas_i');
+    DoLocString(msgTextCaseSentence, ini, 'm_e', 'cas_s');
 
+    if Assigned(mnuCaseSub) then
+      mnuCaseSub.Caption:= msgTextCaseMenu;
     if Assigned(mnuCaseUp) then
-      mnuToolbarCaseUp.Caption:= mnuCaseUp.Caption;
+      mnuCaseUp.Caption:= msgTextCaseUpper;
     if Assigned(mnuCaseLow) then
-      mnuToolbarCaseLow.Caption:= mnuCaseLow.Caption;
+      mnuCaseLow.Caption:= msgTextCaseLower;
     if Assigned(mnuCaseTitle) then
-      mnuToolbarCaseTitle.Caption:= mnuCaseTitle.Caption;
-    if Assigned(mnuCaseInvert) then
-      mnuToolbarCaseInvert.Caption:= mnuCaseInvert.Caption;
+      mnuCaseTitle.Caption:= msgTextCaseTitle;
     if Assigned(mnuCaseSent) then
-      mnuToolbarCaseSent.Caption:= mnuCaseSent.Caption;
+      mnuCaseSent.Caption:= msgTextCaseSentence;
 
     DoLocMenuitem(ini, mnuEditCharmap, 'm_e', 'map');
 

@@ -340,6 +340,13 @@ const
     'Unicode/Hex'
     );
 
+  msgTextCaseMenu: string = 'Convert case';
+  msgTextCaseUpper: string = 'Upper case';
+  msgTextCaseLower: string = 'Lower case';
+  msgTextCaseTitle: string = 'Title case';
+  msgTextCaseInvert: string = 'Invert case';
+  msgTextCaseSentence: string = 'Sentence case';
+
 function GetUntitledCaption: string;
 
 

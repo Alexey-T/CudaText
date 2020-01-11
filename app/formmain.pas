@@ -861,6 +861,7 @@ type
     function IsThemeNameExist(const AName: string; AThemeUI: boolean): boolean;
     procedure ListboxOutContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure ListboxValidateContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+    procedure PopupToolbarCaseOnPopup(Sender: TObject);
     procedure LiteLexer_ApplyStyle(Sender: TObject; AStyleHash: integer; var APart: TATLinePart);
     function LiteLexer_GetStyleHash(Sender: TObject; const AStyleName: string): integer;
     procedure MenuRecentsClear(Sender: TObject);
@@ -1820,33 +1821,8 @@ begin
   DoMenuitemEllipsis(mnuOpThemes);
   DoMenuitemEllipsis(mnuOpLangs);
 
-  mnuToolbarCaseLow:= TMenuItem.Create(Self);
-  mnuToolbarCaseLow.Caption:= mnuCaseLow.Caption;
-  mnuToolbarCaseLow.Tag:= cCommand_TextCaseLower;
-  mnuToolbarCaseLow.OnClick:= @MenuitemClick_CommandFromTag;
-  mnuToolbarCaseUp:= TMenuItem.Create(Self);
-  mnuToolbarCaseUp.Caption:= mnuCaseUp.Caption;
-  mnuToolbarCaseUp.Tag:= cCommand_TextCaseUpper;
-  mnuToolbarCaseUp.OnClick:= @MenuitemClick_CommandFromTag;
-  mnuToolbarCaseTitle:= TMenuItem.Create(Self);
-  mnuToolbarCaseTitle.Caption:= mnuCaseTitle.Caption;
-  mnuToolbarCaseTitle.Tag:= cCommand_TextCaseTitle;
-  mnuToolbarCaseTitle.OnClick:= @MenuitemClick_CommandFromTag;
-  mnuToolbarCaseInvert:= TMenuItem.Create(Self);
-  mnuToolbarCaseInvert.Caption:= mnuCaseInvert.Caption;
-  mnuToolbarCaseInvert.Tag:= cCommand_TextCaseInvert;
-  mnuToolbarCaseInvert.OnClick:= @MenuitemClick_CommandFromTag;
-  mnuToolbarCaseSent:= TMenuItem.Create(Self);
-  mnuToolbarCaseSent.Caption:= mnuCaseSent.Caption;
-  mnuToolbarCaseSent.Tag:= cCommand_TextCaseSentence;
-  mnuToolbarCaseSent.OnClick:= @MenuitemClick_CommandFromTag;
-
   PopupToolbarCase:= TPopupMenu.Create(Self);
-  PopupToolbarCase.Items.Add(mnuToolbarCaseUp);
-  PopupToolbarCase.Items.Add(mnuToolbarCaseLow);
-  PopupToolbarCase.Items.Add(mnuToolbarCaseTitle);
-  PopupToolbarCase.Items.Add(mnuToolbarCaseInvert);
-  PopupToolbarCase.Items.Add(mnuToolbarCaseSent);
+  PopupToolbarCase.OnPopup:= @PopupToolbarCaseOnPopup;
 
   mnuToolbarCommentLineToggle:= TMenuItem.Create(Self);
   mnuToolbarCommentLineToggle.Caption:= 'Line comment: toggle';
@@ -5393,6 +5369,44 @@ begin
   mnuContextValidateClear.Caption:= msgFileClearList;
   PopupListboxValidate.Popup;
   Handled:= true;
+end;
+
+procedure TfmMain.PopupToolbarCaseOnPopup(Sender: TObject);
+begin
+  if mnuToolbarCaseLow=nil then
+  begin
+    mnuToolbarCaseLow:= TMenuItem.Create(Self);
+    mnuToolbarCaseLow.Tag:= cCommand_TextCaseLower;
+    mnuToolbarCaseLow.OnClick:= @MenuitemClick_CommandFromTag;
+
+    mnuToolbarCaseUp:= TMenuItem.Create(Self);
+    mnuToolbarCaseUp.Tag:= cCommand_TextCaseUpper;
+    mnuToolbarCaseUp.OnClick:= @MenuitemClick_CommandFromTag;
+
+    mnuToolbarCaseTitle:= TMenuItem.Create(Self);
+    mnuToolbarCaseTitle.Tag:= cCommand_TextCaseTitle;
+    mnuToolbarCaseTitle.OnClick:= @MenuitemClick_CommandFromTag;
+
+    mnuToolbarCaseInvert:= TMenuItem.Create(Self);
+    mnuToolbarCaseInvert.Tag:= cCommand_TextCaseInvert;
+    mnuToolbarCaseInvert.OnClick:= @MenuitemClick_CommandFromTag;
+
+    mnuToolbarCaseSent:= TMenuItem.Create(Self);
+    mnuToolbarCaseSent.Tag:= cCommand_TextCaseSentence;
+    mnuToolbarCaseSent.OnClick:= @MenuitemClick_CommandFromTag;
+
+    PopupToolbarCase.Items.Add(mnuToolbarCaseUp);
+    PopupToolbarCase.Items.Add(mnuToolbarCaseLow);
+    PopupToolbarCase.Items.Add(mnuToolbarCaseTitle);
+    PopupToolbarCase.Items.Add(mnuToolbarCaseInvert);
+    PopupToolbarCase.Items.Add(mnuToolbarCaseSent);
+  end;
+
+  mnuToolbarCaseLow.Caption:= msgTextCaseLower;
+  mnuToolbarCaseUp.Caption:= msgTextCaseUpper;
+  mnuToolbarCaseTitle.Caption:= msgTextCaseTitle;
+  mnuToolbarCaseInvert.Caption:= msgTextCaseInvert;
+  mnuToolbarCaseSent.Caption:= msgTextCaseSentence;
 end;
 
 
