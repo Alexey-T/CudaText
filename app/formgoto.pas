@@ -45,7 +45,7 @@ type
   end;
 
 var
-  fmGoto: TfmGoto;
+  fmGoto: TfmGoto = nil;
 
 implementation
 

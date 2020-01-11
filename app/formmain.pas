@@ -2043,8 +2043,6 @@ begin
   fmConsole.Align:= alClient;
   fmConsole.OnConsoleNav:= @DoOnConsoleNav;
 
-  fmGoto:= TfmGoto.Create(Self);
-
   ListboxOut.Align:= alClient;
   ListboxVal.Align:= alClient;
 
@@ -2870,8 +2868,6 @@ begin
     fmConsole.IsDoubleBuffered:= UiOps.DoubleBuffered;
   if Assigned(fmFind) then
     fmFind.IsDoubleBuffered:= UiOps.DoubleBuffered;
-  if Assigned(fmGoto) then
-    fmGoto.IsDoubleBuffered:= UiOps.DoubleBuffered;
   //end apply DoubleBuffered
 
   UpdateBottomLayout(FloatBottom);
@@ -3531,7 +3527,11 @@ procedure TfmMain.DoDialogGoto;
 var
   Str: string;
 begin
+  if fmGoto=nil then
+    fmGoto:= TfmGoto.Create(Self);
+
   fmGoto.Localize;
+  fmGoto.IsDoubleBuffered:= UiOps.DoubleBuffered;
   fmGoto.Width:= AppScale(UiOps.ListboxSizeX);
   UpdateInputForm(fmGoto, false);
 

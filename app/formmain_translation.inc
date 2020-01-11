@@ -608,8 +608,6 @@ begin
 
   if Assigned(fmFind) then
     fmFind.Localize;
-  if Assigned(fmGoto) then
-    fmGoto.Localize;
   if Assigned(fmCharmaps) then
     fmCharmaps.Localize;
 
