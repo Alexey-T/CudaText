@@ -130,7 +130,7 @@ const
   msgTabsizeConvTabs: string = 'Convert indentation to spaces';
   msgTabsizeConvSpaces: string = 'Convert indentation to tabs';
 
-  msgCannotInitPython1: string = 'No Python 3 engine found. Python plugins don''t work now. To fix this:';
+  msgCannotInitPython1: string = 'NOTE: No Python 3 engine found. Python plugins don''t work now. To fix this:';
   {$ifdef darwin}
   msgCannotInitPython2: string = 'install Python 3.x from www.python.org, it should be found by CudaText then.';
   {$else}

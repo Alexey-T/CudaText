@@ -60,7 +60,6 @@ type
     { public declarations }
     ed: TATComboEdit;
     memo: TATSynEdit;
-    ShowError: boolean;
     property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
     procedure DoAddLine(const Str: string);
     procedure DoUpdate;
@@ -97,7 +96,8 @@ begin
     AColorFont:= fmt.Font.Color
   end
   else
-  if (Str='Traceback (most recent call last):') or
+  if SBeginsWith(Str, 'NOTE: ') or
+    (Str='Traceback (most recent call last):') or
     SRegexMatchesString(Str, '^[a-zA-Z][\w\.]*Error: .+', true) then
   begin
     fmt:= AppStyleError;

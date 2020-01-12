@@ -77,11 +77,6 @@ begin
   EditorApplyTheme(CodeTreeFilterInput);
   EditorApplyTheme(fmConsole.ed);
   EditorApplyTheme(fmConsole.memo);
-  if fmConsole.ShowError then
-  begin
-    fmConsole.memo.Colors.TextFont:= clRed;
-    fmConsole.memo.Update;
-  end;
 
   ToolbarMain.Color:= GetAppColor('TabBg');
   Self.Color:= ToolbarMain.Color;

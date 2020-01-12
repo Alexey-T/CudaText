@@ -3864,7 +3864,6 @@ begin
     FConsoleMustShow:= true;
     MsgLogConsole(msgCannotInitPython1);
     MsgLogConsole(msgCannotInitPython2);
-    fmConsole.ShowError:= true;
     DisablePluginMenuItems;
   end;
 end;
