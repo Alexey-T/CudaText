@@ -1464,6 +1464,10 @@ begin
   end;
 
   case Data.Tag of
+    StatusbarTag_Caret:
+      begin
+        DoDialogGoto;
+      end;
     StatusbarTag_Enc:
       begin
         if not Frame.ReadOnly[Frame.Editor] then
