@@ -53,8 +53,8 @@ type
     procedure DoNavigate(Sender: TObject);
     procedure DoToggleWrap(Sender: TObject);
     procedure SetIsDoubleBuffered(AValue: boolean);
-    function GetWrap: boolean;
-    procedure SetWrap(AValue: boolean);
+    function GetWordWrap: boolean;
+    procedure SetWordWrap(AValue: boolean);
     procedure DoRunLine(Str: string);
   public
     { public declarations }
@@ -65,7 +65,7 @@ type
     procedure DoUpdate;
     procedure DoScrollToEnd(AllowProcessMsg: boolean);
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
-    property MemoWordWrap: boolean read GetWrap write SetWrap;
+    property MemoWordWrap: boolean read GetWordWrap write SetWordWrap;
   end;
 
 var
@@ -263,7 +263,7 @@ begin
   //  FOnEditCommand(ACmd, AText, AHandled);
 end;
 
-function TfmConsole.GetWrap: boolean;
+function TfmConsole.GetWordWrap: boolean;
 begin
   Result:= memo.OptWrapMode=cWrapOn;
 end;
@@ -326,7 +326,7 @@ begin
   memo.DoubleBuffered:= AValue;
 end;
 
-procedure TfmConsole.SetWrap(AValue: boolean);
+procedure TfmConsole.SetWordWrap(AValue: boolean);
 begin
   if AValue then
     fmConsole.memo.OptWrapMode:= cWrapOn
