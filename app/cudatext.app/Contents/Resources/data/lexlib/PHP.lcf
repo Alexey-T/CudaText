@@ -849,6 +849,6 @@ object SyntAnal23: TLibSyntAnalyzer
   LexerName = 'PHP'
   Notes.Strings = (
     'Created by 480499497 from forum.wincmd.ru (named HTML_dev)'
-    'Heavily changed by Alexey (SynWrite)')
+    'Heavily changed by Alexey (CudaText)')
   Charset = DEFAULT_CHARSET
 end

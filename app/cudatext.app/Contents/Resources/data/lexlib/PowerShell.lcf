@@ -485,7 +485,7 @@ object SyntAnal27: TLibSyntAnalyzer
   Extentions = 'ps1'
   LexerName = 'PowerShell'
   Notes.Strings = (
-    'Alexey (SynWrite)'
+    'Alexey (CudaText)'
     'Test: http://www.robvanderwoude.com/powershellexamples.php')
   LineComment = '# '
   Charset = DEFAULT_CHARSET

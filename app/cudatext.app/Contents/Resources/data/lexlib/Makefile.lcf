@@ -235,7 +235,7 @@ object SyntAnal20: TLibSyntAnalyzer
     'e.msc /makefile.vc /makefile.dm /makefile.bcc /makefile.fpc'
   LexerName = 'Makefile'
   Notes.Strings = (
-    'Alex (Synwrite)'
+    'Alexey (CudaText)'
     'Sample: makefile in Lazarus')
   LineComment = '#'
   Charset = DEFAULT_CHARSET

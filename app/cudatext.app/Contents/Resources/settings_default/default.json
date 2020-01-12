@@ -672,9 +672,6 @@
   //After caret moves, select code-tree node for new caret position
   "ui_tree_auto_sync": true,
 
-  //Delay (in msec) after caret movement, after which code-tree changes (syncs) selection
-  "ui_tree_time_focus": 300,
-
   //Delay (in msec) after text change, after which code-tree contents is filled
   "ui_tree_time_fill": 2000,
 
@@ -1134,4 +1131,25 @@
 
   //Log console contents to file settings/console.log
   "log_console": false,
+
+  //[Emmet]
+  //Add slash to empty tags (example of result: <img src="" />)
+  "emmet_add_slash_to_empty_tags": true,
+
+  //Add indentation to nested tags (example: ul>li*6)
+  "emmet_indent_nested": true,
+
+  //Comment tags, containing class/id attributes (example: .name)
+  "emmet_comment_tags": false,
+
+  //Expand everything to a single line of code
+  "emmet_single_line": false,
+
+  //Trim line markers from wrapped lines e.g. "* ", "- " or "1."
+  "emmet_trim_line_markers": true,
+
+  //Wrap selected or Lorem Ipsum text (abbreviation p{@lorem}),
+  //at the column defined by "margin" option
+  "emmet_word_wrap": false,
+
 }

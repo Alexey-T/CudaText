@@ -41,6 +41,15 @@ def project_variables():
 
 NodeInfo = collections.namedtuple("NodeInfo", "caption image")
 
+_homedir = os.path.expanduser('~')
+
+def nice_filename(path):
+
+    dir = os.path.dirname(path)
+    if dir == _homedir or dir.startswith(_homedir+'/'):
+        dir = dir.replace(_homedir, '~')
+    return os.path.basename(path) + ' ('+ dir + ')'
+
 
 def is_filename_mask_listed(name, mask_list):
     #s = os.path.basename(name)
@@ -285,7 +294,7 @@ class Command:
             if item_caption == "Recent projects":
                 for path in self.options["recent_projects"]:
                     action = str.format("module=cuda_project_man;cmd=action_open_project;info=r'{}';", path)
-                    self.add_context_menu_node(menu_added, action, path)
+                    self.add_context_menu_node(menu_added, action, nice_filename(path))
 
     @staticmethod
     def node_ordering(node):

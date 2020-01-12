@@ -289,7 +289,7 @@ object SyntAnal12: TLibSyntAnalyzer
     'Symbol {}')
   Extentions = 
     'avsc babelrc bowerrc geojson gltf ipynb jscsrc jshintrc jslintrc' +
-    ' json jsonl jsonld ldj ldjson schema template topojson webapp'
+    ' json jsonl jsonld ldj ldjson schema topojson webapp'
   LexerName = 'JSON'
   Notes.Strings = (
     'Alexey (CudaText)'

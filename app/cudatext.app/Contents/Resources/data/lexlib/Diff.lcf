@@ -148,7 +148,7 @@ object SyntAnal33: TLibSyntAnalyzer
   SkipSpaces = False
   Notes.Strings = (
     'Author: WhiteWind'
-    'Improved: Alexey (Synwrite)'
+    'Improvements: Alexey (CudaText)'
   )
   Charset = DEFAULT_CHARSET
 end

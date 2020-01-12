@@ -506,7 +506,7 @@ object SyntAnal19: TLibSyntAnalyzer
   Extentions = 'lua'
   LexerName = 'Lua'
   Notes.Strings = (
-    'Alex (Synwrite)'
+    'Alexey (CudaText)'
     'Ref: http://www.lua.org/manual/5.1/manual.html')
   LineComment = '--'
   Charset = DEFAULT_CHARSET
