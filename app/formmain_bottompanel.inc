@@ -71,7 +71,6 @@ var
   Ctl: TWinControl;
   i: integer;
 begin
-  if (FLastBottomPanel=ACaption) and (not AndFocus) then exit;
   FLastBottomPanel:= ACaption;
 
   ShowBottom:= true;
