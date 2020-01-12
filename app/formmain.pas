@@ -782,6 +782,7 @@ type
     function DoBottom_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
     function DoBottom_CaptionToTabIndex(const ACaption: string): integer;
     function DoBottom_RemoveTab(const ACaption: string): boolean;
+    function DoBottom_TranslatedCaption(const ACaption: string): string;
     procedure DoAutoComplete;
     procedure DoCudaLibAction(const AMethod: string);
     procedure DoDialogCharMap;
