@@ -2420,6 +2420,10 @@ begin
   DoLoadCommandLine;
   DoApplyInitialWindowPos;
 
+  if ShowBottom then
+    if FLastBottomPanel='' then
+      DoShowConsole(false);
+
   //postpone parsing until frames are shown
   AllowFrameParsing:= true;
   for i:= 0 to FrameCount-1 do

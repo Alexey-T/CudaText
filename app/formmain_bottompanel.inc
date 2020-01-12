@@ -38,6 +38,7 @@ begin
     if Btn.Checked then
     begin
       SCaption:= Btn.Caption;
+      Break;
     end;
   end;
 
