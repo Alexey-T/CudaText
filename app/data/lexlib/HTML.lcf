@@ -236,7 +236,7 @@ object SyntAnal8: TLibSyntAnalyzer
       StyleName = 'Tag prop'
       BlockName = 'Tag begin'
       TokenType = 2
-      Expression = '\b(defer|async)\b'
+      Expression = '\b(defer|async|readonly)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
