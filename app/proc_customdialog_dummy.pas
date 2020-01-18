@@ -923,6 +923,15 @@ begin
   DoEvent(IdControl, Props.FEventOnEditorCaret, nil);
 end;
 
+function Py_KeyAndShift(Key: word; Shift: TShiftState): PPyObject; inline;
+begin
+  with GetPythonEngine do
+  begin
+    Result:= PyTuple_New(2);
+    PyTuple_SetItem(Result, 0, PyInt_FromLong(Key));
+    PyTuple_SetItem(Result, 1, PyString_FromString(PChar(ConvertShiftStateToString(Shift))));
+  end;
+end;
 
 procedure TFormDummy.DoOnEditorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
@@ -930,21 +939,11 @@ var
   IdControl: integer;
   Data: PPyObject;
 begin
-  with GetPythonEngine do
-  begin
-    Data:= PyTuple_New(2);
-    PyTuple_SetItem(Data, 0, PyInt_FromLong(Key));
-    PyTuple_SetItem(Data, 1, PyString_FromString(PChar(ConvertShiftStateToString(Shift))));
-  end;
-
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
-  if DoEvent(IdControl, Props.FEventOnEditorKeyDown, Data)
-    {
-    Format('(%d, "%s")', [Key, ConvertShiftStateToString(Shift)])
-    }
-    = cPyFalse then
-   Key:= 0;
+  Data:= Py_KeyAndShift(Key, Shift);
+  if DoEvent(IdControl, Props.FEventOnEditorKeyDown, Data) = cPyFalse then
+    Key:= 0;
 end;
 
 procedure TFormDummy.DoOnEditorKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -953,21 +952,11 @@ var
   IdControl: integer;
   Data: PPyObject;
 begin
-  with GetPythonEngine do
-  begin
-    Data:= PyTuple_New(2);
-    PyTuple_SetItem(Data, 0, PyInt_FromLong(Key));
-    PyTuple_SetItem(Data, 1, PyString_FromString(PChar(ConvertShiftStateToString(Shift))));
-  end;
-
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
-  if DoEvent(IdControl, Props.FEventOnEditorKeyUp, Data)
-    {
-    Format('(%d, "%s")', [Key, ConvertShiftStateToString(Shift)])
-    }
-    = cPyFalse then
-   Key:= 0;
+  Data:= Py_KeyAndShift(Key, Shift);
+  if DoEvent(IdControl, Props.FEventOnEditorKeyUp, Data) = cPyFalse then
+    Key:= 0;
 end;
 
 
