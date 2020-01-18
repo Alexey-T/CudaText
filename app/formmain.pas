@@ -4900,7 +4900,7 @@ begin
   if NCommand=-1 then
   begin
     if SCallback<>'' then
-      DoPyCallbackFromAPI(SCallback, []);
+      DoPyCallbackFromAPI(SCallback, [], []);
   end
   else
     F.Editor.DoCommand(NCommand);
@@ -5857,7 +5857,7 @@ begin
   if NCmd>0 then
     CurrentEditor.DoCommand(NCmd)
   else
-    DoPyCallbackFromAPI(SData, []);
+    DoPyCallbackFromAPI(SData, [], []);
 
   UpdateCurrentFrame;
   UpdateStatus;

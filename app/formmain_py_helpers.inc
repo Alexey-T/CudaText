@@ -212,18 +212,19 @@ end;
 
 
 function DoPyCallbackFromAPI(const ACallback: string;
-  const AParams: array of string): string;
+  const AParams: array of PPyObject;
+  const AParamNames: array of string): string;
 const
   cRegex_DotCommand = '([a-z_]\w*)\.([a-z_]\w*)$';
-  cRegex_SignCommand = 'module=(.+?);cmd=(.+?);(info=(.+?);)?$';
-  cRegex_SignFunc = 'module=(.+?);func=(.+?);(info=(.+?);)?$';
+  cRegex_SignCommand = 'module=(.+?);cmd=(.+?);(info="(.+?)";)?$';
+  cRegex_SignFunc = 'module=(.+?);func=(.+?);(info="(.+?)";)?$';
   cRegex_CommaCommand = '([a-z_]\w*),([a-z_]\w*)(,(.+))?$'; //compatible with menu_proc, with 3rd param
 var
-  Parts: TRegexParts;
-  ParamList: array of string;
-  ParamListObj: array of PPyObject;
-  ParamNames: array of string;
+  FParams: array of PPyObject;
+  FParamsStr: array of string;
+  FParamNames: array of string;
   SModule, SFunc, SParam, SInfo: string;
+  Parts: TRegexParts;
   Obj: PPyObject;
   i: integer;
 begin
@@ -232,16 +233,25 @@ begin
   //avoid log error on standard ids
   if SBeginsWith(ACallback, 'top-') then exit;
 
-  //ParamList: same as AParams, with additional item 'info=...'
-  SetLength(ParamList, Length(AParams));
-  for i:= 0 to Length(AParams)-1 do
-    ParamList[i]:= AParams[i];
+  with GetPythonEngine do
+  begin
+    SetLength(FParams, Length(AParams));
+    SetLength(FParamsStr, Length(AParams));
+    for i:= 0 to Length(AParams)-1 do
+    begin
+      FParams[i]:= AParams[i];
+      FParamsStr[i]:= PyObjectAsString(AParams[i]);
+    end;
+    SetLength(FParamNames, Length(AParamNames));
+    for i:= 0 to Length(AParamNames)-1 do
+      FParamNames[i]:= AParamNames[i];
+  end;
 
   if SRegexFindParts(cRegex_DotCommand, ACallback, Parts) then
   begin
     SModule:= Parts[1].Str;
     SFunc:= Parts[2].Str;
-    Result:= Py_RunPlugin_Command(SModule, SFunc, AParams);
+    Result:= Py_RunPlugin_Command(SModule, SFunc, FParamsStr);
     exit;
   end;
 
@@ -253,11 +263,13 @@ begin
 
     if SInfo<>'' then
     begin
-      SetLength(ParamList, Length(ParamList)+1);
-      ParamList[Length(ParamList)-1]:= 'info='+SInfo;
+      SetLength(FParamsStr, Length(FParamsStr)+1);
+      FParamsStr[Length(FParamsStr)-1]:= SInfo;
+      SetLength(FParamNames, Length(FParamNames)+1);
+      FParamNames[Length(FParamNames)-1]:= 'info';
     end;
 
-    Result:= Py_RunPlugin_Command(SModule, SFunc, ParamList);
+    Result:= Py_RunPlugin_Command(SModule, SFunc, FParamsStr);
     exit;
   end;
 
@@ -266,22 +278,16 @@ begin
     SModule:= Parts[1].Str;
     SFunc:= Parts[2].Str;
     SInfo:= Parts[4].Str;
-    SetLength(ParamNames, 0);
 
     if SInfo<>'' then
     begin
-      SetLength(ParamList, Length(ParamList)+1);
-      ParamList[Length(ParamList)-1]:= SInfo;
-      SetLength(ParamNames, 1);
-      ParamNames[0]:= 'info';
+      SetLength(FParams, Length(FParams)+1);
+      FParams[Length(FParams)-1]:= GetPythonEngine.PyString_FromString(PChar(SInfo));
+      SetLength(FParamNames, Length(FParamNames)+1);
+      FParamNames[Length(FParamNames)-1]:= 'info';
     end;
 
-    SetLength(ParamListObj, Length(ParamList));
-    with GetPythonEngine do
-      for i:= 0 to Length(ParamList)-1 do
-        ParamListObj[i]:= PyString_FromString(PChar(ParamList[i]));
-
-    Obj:= Py_RunModuleFunction(SModule, SFunc, ParamListObj, ParamNames);
+    Obj:= Py_RunModuleFunction(SModule, SFunc, FParams, FParamNames);
     if Assigned(Obj) then
       with GetPythonEngine do
       try
@@ -388,6 +394,8 @@ procedure TfmMain.DoPyTimerTick(Sender: TObject);
 var
   Timer: TTimer;
   SCallback, STag: string;
+  Params: array[0..0] of PPyObject;
+  ParamNames: array[0..0] of string;
   N: integer;
 begin
   Timer:= Sender as TTimer;
@@ -399,9 +407,12 @@ begin
     Timer.Enabled:= false;
 
   SSplitByChar(FListTimers[N], '|', SCallback, STag);
-  STag:= 'tag="'+STag+'"';
 
-  DoPyCallbackFromAPI(SCallback, [STag]);
+  with GetPythonEngine do
+    Params[0]:= PyLong_FromLongLong(StrToInt64Def(STag, 0));
+  ParamNames[0]:= 'tag';
+
+  DoPyCallbackFromAPI(SCallback, Params, ParamNames);
 end;
 
 

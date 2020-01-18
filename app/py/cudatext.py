@@ -1042,6 +1042,7 @@ def _dlg_proc_wait(id_dialog):
 
 
 def _dlg_proc_callback_proxy(id_dlg, id_ctl, data='', info=''):
+    #print('dlg_proc_proxy: data:', data, ' info:', info)
     if info in _live:
         return _live[info](id_dlg, id_ctl, data=data)
 
