@@ -160,7 +160,7 @@ function TfmMain.DoPyTreeHelper(Frame: TEditorFrame): boolean;
 var
   Ed: TATSynEdit;
   CurLexer: string;
-  Obj, ObjLocals: PPyObject;
+  Obj, ObjLocals, TreeData: PPyObject;
   iHelper: integer;
 begin
   Result:= false;
@@ -178,24 +178,33 @@ begin
 
         Obj:= EditorTextToPyObject(Ed);
         ObjLocals:= PyDict_New();
-        PyDict_SetItem(
-          ObjLocals,
-          PyString_FromString('text'),
-          Obj);
+        if Assigned(ObjLocals) then
+        begin
+          PyDict_SetItem(
+            ObjLocals,
+            PyString_FromString('text'),
+            Obj);
 
-        try
-          ExecString('import '+ItemModule);
-          Obj:= EvalString(
-            Format('%s.%s(r"%s", text)', [ItemModule, ItemProc, Frame.GetFileName(Ed)]),
-            ObjLocals, //locals
-            nil //globals
-            );
+          try
+            ExecString('import '+ItemModule);
+            TreeData:= EvalString(
+              Format('%s.%s(r"%s", text)', [ItemModule, ItemProc, Frame.GetFileName(Ed)]),
+              ObjLocals, //locals
+              nil //globals
+              );
 
-          //refresh CodeTree only if Obj is list
-          if PyObject_TypeCheck(Obj, PyList_Type) then
-            DoCodetree_ApplyTreeHelperResults(Obj);
-        except
+            try
+              //refresh CodeTree only if TreeData is list
+              if PyObject_TypeCheck(TreeData, PyList_Type) then
+                DoCodetree_ApplyTreeHelperResults(TreeData);
+            finally
+              Py_DECREF(TreeData);
+            end;
+          except
+          end;
+          Py_DECREF(ObjLocals);
         end;
+        Py_DECREF(Obj);
 
         exit(true);
       end;
