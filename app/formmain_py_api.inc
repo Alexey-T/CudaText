@@ -7990,7 +7990,8 @@ end;
 
 function Py_DialogColorPicker(AColor: integer): integer;
 var
-  SCaption, SRes: string;
+  SCaption: string;
+  Par1, Par2, Obj: PPyObject;
 begin
   Result:= -1;
 
@@ -8001,11 +8002,19 @@ begin
     Free
   end;
 
-  SRes:= Py_RunModuleFunction('cuda_palette', 'dlg_color_palette', [
-    '"'+SCaption+'"',
-    IntToStr(AColor)
-    ]);
-  if SRes<>cPyNone then
-    Result:= StrToIntDef(SRes, Result);
+  with GetPythonEngine do
+  begin
+    Par1:= PyString_FromString(PChar(SCaption));
+    Par2:= PyInt_FromLong(AColor);
+
+    Obj:= Py_RunModuleFunction2('cuda_palette', 'dlg_color_palette', [Par1, Par2]);
+    if Assigned(Obj) then
+    try
+      if PyInt_Check(Obj) then
+        Result:= PyInt_AsLong(Obj);
+    finally
+      Py_DECREF(Obj);
+    end;
+  end;
 end;
 

@@ -222,6 +222,7 @@ var
   Parts: TRegexParts;
   ParamList: array of string;
   SModule, SFunc, SParam, SInfo: string;
+  Obj: PPyObject;
   i: integer;
 begin
   Result:= '';
@@ -270,7 +271,18 @@ begin
       ParamList[Length(ParamList)-1]:= 'info='+SInfo;
     end;
 
-    Result:= Py_RunModuleFunction(SModule, SFunc, ParamList);
+    Obj:= Py_RunModuleFunction(SModule, SFunc, ParamList);
+    if Assigned(Obj) then
+      with GetPythonEngine do
+      try
+        if Obj=Py_None then
+          Result:= 'None'
+        else
+          Result:= PyObjectAsString(Obj);
+      finally
+        Py_DECREF(Obj);
+      end;
+
     exit;
   end;
 

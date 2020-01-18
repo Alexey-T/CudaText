@@ -22,8 +22,8 @@ procedure Py_SetSysPath(const Dirs: array of string; DoAdd: boolean);
 function Py_RunPlugin_Command(const AModule, AMethod: string; const AParams: array of string): string;
 function Py_RunPlugin_Event(const AModule, ACmd: string;
   AEd: TATSynEdit; const AParams: array of string; ALazy: boolean): string;
-function Py_RunModuleFunction(const AModule, AFunc: string; AParams: array of string): string;
-function Py_RunModuleFunction_GetObject(const AModule, AFunc: string; AParams: array of PPyObject): PPyObject;
+function Py_RunModuleFunction(const AModule, AFunc: string; AParams: array of string): PPyObject;
+function Py_RunModuleFunction2(const AModule, AFunc: string; AParams: array of PPyObject): PPyObject;
 
 function Py_rect(const R: TRect): PPyObject; cdecl;
 function Py_rect_monitor(N: Integer): PPyObject; cdecl;
@@ -180,7 +180,7 @@ begin
 end;
 
 
-function Py_RunModuleFunction(const AModule, AFunc: string; AParams: array of string): string;
+function Py_RunModuleFunction(const AModule, AFunc: string; AParams: array of string): PPyObject;
 var
   SCmd1, SCmd2: string;
 begin
@@ -188,22 +188,47 @@ begin
   SCmd2:= Format('%s.%s(%s)', [AModule, AFunc, Py_ArgListToString(AParams)]);
 
   try
-    GetPythonEngine.ExecString(SCmd1);
-    Result:= GetPythonEngine.EvalStringAsStr(SCmd2);
+    with GetPythonEngine do
+    begin
+      ExecString(SCmd1);
+      Result:= EvalString(SCmd2);
+    end;
   except
   end;
 end;
 
+(*
+// bug: it dont return result, always gets Py_None
+function Py_RunModuleFunction(const AModule, AFunc: string; AParams: array of string): PPyObject;
+var
+  ObjParams: array of PPyObject;
+  i: integer;
+begin
+  with GetPythonEngine do
+  begin
+    SetLength(ObjParams, Length(AParams));
+    for i:= 0 to Length(AParams)-1 do
+      ObjParams[i]:= PyString_FromString(PChar(AParams[i]));
+
+    Result:= Py_RunModuleFunction2(AModule, AFunc, ObjParams);
+
+    ////no need:
+    //for i:= Length(AParams)-1 downto 0 do
+    //  Py_DECREF(ObjParams[i]);
+  end;
+end;
+*)
+
 // By Artem:
 // https://github.com/Alexey-T/CudaText/issues/2366
-function Py_RunModuleFunction_GetObject(const AModule, AFunc: string; AParams: array of PPyObject): PPyObject;
+function Py_RunModuleFunction2(const AModule, AFunc: string; AParams: array of PPyObject): PPyObject;
 var
   Module,ModuleDic,Func,Params:PPyObject;
   i:integer;
 begin
   Result:=nil;
   with GetPythonEngine do
-  try
+  begin
     Module:=PyImport_ImportModule(PChar(AModule));
     if Assigned(Module) then
     try
@@ -227,7 +252,6 @@ begin
     finally
       Py_DECREF(Module);
     end;
-  except
   end;
 end;
 
