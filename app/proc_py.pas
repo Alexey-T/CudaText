@@ -202,7 +202,7 @@ end;
 function Py_RunModuleFunction(const AModule,AFunc:string;AParams:array of PPyObject;const AParamNames:array of string):PPyObject;
 var
   Module,ModuleDic,Func,Params,ParamsDic:PPyObject;
-  i,FirstNamed:integer;
+  i,UnnamedCount:integer;
 begin
   Result:=nil;
   with GetPythonEngine do
@@ -216,18 +216,18 @@ begin
         Func:=PyDict_GetItemString(ModuleDic,PChar(AFunc));
         if Assigned(Func) then
         begin
-          Params:=PyTuple_New(Length(AParams));
+          UnnamedCount:=Length(AParams)-Length(AParamNames);
+          Params:=PyTuple_New(UnnamedCount);
           if Assigned(Params) then
             try
               ParamsDic:=PyDict_New();
               if Assigned(ParamsDic) then
                 try
-                  FirstNamed:=Length(AParams)-Length(AParamNames);
-                  for i:=0 to FirstNamed-1 do
+                  for i:=0 to UnnamedCount-1 do
                     if PyTuple_SetItem(Params,i,AParams[i])<>0 then
                       RaiseError;
                   for i:=0 to Length(AParamNames)-1 do
-                    if PyDict_SetItemString(ParamsDic,PChar(AParamNames[i]),AParams[FirstNamed+i])<>0 then
+                    if PyDict_SetItemString(ParamsDic,PChar(AParamNames[i]),AParams[UnnamedCount+i])<>0 then
                       RaiseError;
                   Result:=PyObject_Call(Func,Params,ParamsDic);
                 finally
