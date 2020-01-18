@@ -23,7 +23,7 @@ function Py_RunPlugin_Command(const AModule, AMethod: string; const AParams: arr
 function Py_RunPlugin_Event(const AModule, ACmd: string;
   AEd: TATSynEdit; const AParams: array of string; ALazy: boolean): string;
 function Py_RunModuleFunction(const AModule, AFunc: string; AParams: array of string): string;
-function Py_RunModuleFunction_GetObject(const AModule, AFunc: string; AParams: array of string): PPyObject;
+function Py_RunModuleFunction_GetObject(const AModule, AFunc: string; AParams: array of PPyObject): PPyObject;
 
 function Py_rect(const R: TRect): PPyObject; cdecl;
 function Py_rect_monitor(N: Integer): PPyObject; cdecl;
@@ -194,16 +194,39 @@ begin
   end;
 end;
 
-function Py_RunModuleFunction_GetObject(const AModule, AFunc: string; AParams: array of string): PPyObject;
+// By Artem:
+// https://github.com/Alexey-T/CudaText/issues/2366
+function Py_RunModuleFunction_GetObject(const AModule, AFunc: string; AParams: array of PPyObject): PPyObject;
 var
-  SCmd1, SCmd2: string;
+  Module,ModuleDic,Func,Params:PPyObject;
+  i:integer;
 begin
-  SCmd1:= Format('import %s', [AModule]);
-  SCmd2:= Format('%s.%s(%s)', [AModule, AFunc, Py_ArgListToString(AParams)]);
-
+  Result:=nil;
+  with GetPythonEngine do
   try
-    GetPythonEngine.ExecString(SCmd1);
-    Result:= GetPythonEngine.EvalString(SCmd2);
+    Module:=PyImport_ImportModule(PChar(AModule));
+    if Assigned(Module) then
+    try
+      ModuleDic:=PyModule_GetDict(Module);
+      if Assigned(ModuleDic) then
+      begin
+        Func:=PyDict_GetItemString(ModuleDic,PChar(AFunc));
+        if Assigned(Func) then
+        begin
+          Params:=PyTuple_New(Length(AParams));
+          try
+            for i:=0 to Length(AParams)-1 do
+              if PyTuple_SetItem(Params,i,AParams[i])<>0 then
+                RaiseError;
+            Result:=PyObject_Call(Func,Params,nil);
+          finally
+            Py_DECREF(Params);
+          end;
+        end;
+      end;
+    finally
+      Py_DECREF(Module);
+    end;
   except
   end;
 end;
