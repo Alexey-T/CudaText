@@ -28,6 +28,7 @@ function Py_RunModuleFunction(const AModule, AFunc: string; AParams: array of PP
 function Py_rect(const R: TRect): PPyObject; cdecl;
 function Py_rect_monitor(N: Integer): PPyObject; cdecl;
 function Py_rect_control(C: TControl): PPyObject; cdecl;
+function Py_SimpleValueFromString(const S: string): PPyObject;
 
 const
   cPyTrue = 'True';
@@ -278,6 +279,33 @@ begin
     end;
   end;
 end;
+
+
+function Py_SimpleValueFromString(const S: string): PPyObject;
+var
+  Num: Int64;
+begin
+  with GetPythonEngine do
+  begin
+    if S='' then
+      Result:= ReturnNone
+    else
+    if (S[1]='"') or (S[1]='''') then
+      Result:= PyString_FromString(PChar( Copy(S, 2, Length(S)-2) ))
+    else
+    if S=cPyFalse then
+      Result:= PyBool_FromLong(0)
+    else
+    if S=cPyTrue then
+      Result:= PyBool_FromLong(1)
+    else
+    if TryStrToInt64(S, Num) then
+      Result:= PyLong_FromLongLong(Num)
+    else
+      Result:= ReturnNone;
+  end;
+end;
+
 
 end.
 

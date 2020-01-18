@@ -216,8 +216,8 @@ function DoPyCallbackFromAPI(const ACallback: string;
   const AParamNames: array of string): string;
 const
   cRegex_DotCommand = '([a-z_]\w*)\.([a-z_]\w*)$';
-  cRegex_SignCommand = 'module=(.+?);cmd=(.+?);(info="(.+?)";)?$';
-  cRegex_SignFunc = 'module=(.+?);func=(.+?);(info="(.+?)";)?$';
+  cRegex_SignCommand = 'module=(.+?);cmd=(.+?);(info=(.+?);)?$';
+  cRegex_SignFunc = 'module=(.+?);func=(.+?);(info=(.+?);)?$';
   cRegex_CommaCommand = '([a-z_]\w*),([a-z_]\w*)(,(.+))?$'; //compatible with menu_proc, with 3rd param
 var
   FParams: array of PPyObject;
@@ -281,8 +281,9 @@ begin
 
     if SInfo<>'' then
     begin
+      // SInfo may have simple type values: string, int, bool...
       SetLength(FParams, Length(FParams)+1);
-      FParams[Length(FParams)-1]:= GetPythonEngine.PyString_FromString(PChar(SInfo));
+      FParams[Length(FParams)-1]:= Py_SimpleValueFromString(SInfo);
       SetLength(FParamNames, Length(FParamNames)+1);
       FParamNames[Length(FParamNames)-1]:= 'info';
     end;
