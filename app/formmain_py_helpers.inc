@@ -221,6 +221,8 @@ const
 var
   Parts: TRegexParts;
   ParamList: array of string;
+  ParamListObj: array of PPyObject;
+  ParamNames: array of string;
   SModule, SFunc, SParam, SInfo: string;
   Obj: PPyObject;
   i: integer;
@@ -264,14 +266,22 @@ begin
     SModule:= Parts[1].Str;
     SFunc:= Parts[2].Str;
     SInfo:= Parts[4].Str;
+    SetLength(ParamNames, 0);
 
     if SInfo<>'' then
     begin
       SetLength(ParamList, Length(ParamList)+1);
-      ParamList[Length(ParamList)-1]:= 'info='+SInfo;
+      ParamList[Length(ParamList)-1]:= SInfo;
+      SetLength(ParamNames, 1);
+      ParamNames[0]:= 'info';
     end;
 
-    Obj:= Py_RunModuleFunction(SModule, SFunc, ParamList);
+    SetLength(ParamListObj, Length(ParamList));
+    with GetPythonEngine do
+      for i:= 0 to Length(ParamList)-1 do
+        ParamListObj[i]:= PyString_FromString(PChar(ParamList[i]));
+
+    Obj:= Py_RunModuleFunction(SModule, SFunc, ParamListObj, ParamNames);
     if Assigned(Obj) then
       with GetPythonEngine do
       try

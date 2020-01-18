@@ -8007,7 +8007,7 @@ begin
     Par1:= PyString_FromString(PChar(SCaption));
     Par2:= PyInt_FromLong(AColor);
 
-    Obj:= Py_RunModuleFunction2('cuda_palette', 'dlg_color_palette', [Par1, Par2]);
+    Obj:= Py_RunModuleFunction('cuda_palette', 'dlg_color_palette', [Par1, Par2]);
     if Assigned(Obj) then
     try
       if PyInt_Check(Obj) then
