@@ -19,6 +19,7 @@ uses
   ListViewFilterEdit,
   proc_globdata,
   proc_miscutils,
+  proc_py,
   PythonEngine,
   ATSynEdit,
   ATSynEdit_Gaps;
@@ -667,12 +668,7 @@ var
 begin
   with GetPythonEngine do
   begin
-    DataRect:= PyTuple_New(4);
-    PyTuple_SetItem(DataRect, 0, PyInt_FromLong(ARect.Left));
-    PyTuple_SetItem(DataRect, 1, PyInt_FromLong(ARect.Top));
-    PyTuple_SetItem(DataRect, 2, PyInt_FromLong(ARect.Right));
-    PyTuple_SetItem(DataRect, 3, PyInt_FromLong(ARect.Bottom));
-
+    DataRect:= Py_rect(ARect);
     Data:= PyDict_New();
     PyDict_SetItemString(Data, 'canvas', PyLong_FromLongLong(PtrInt(ACanvas)));
     PyDict_SetItemString(Data, 'index', PyInt_FromLong(AIndex));
