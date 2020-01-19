@@ -1876,6 +1876,11 @@ begin
   mnuHelpCheckUpd.Enabled:= false;
   {$endif}
 
+  {$ifdef darwin}
+  //Cocoa WS has a bug - PanelSide.AutoSize works bad
+  PanelSide.Width:= ToolbarSideTop.Images.Width;
+  {$endif}
+
   LexerProgress:= TATGauge.Create(Self);
   LexerProgress.Parent:= Status;
 
