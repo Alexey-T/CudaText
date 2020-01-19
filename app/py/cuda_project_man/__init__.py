@@ -817,6 +817,14 @@ class Command:
     def tree_on_unfold(self, id_dlg, id_ctl, data='', info=''):
         info = self.get_info(data)
         path = self.get_location_by_index(data)
+
+        if not path.is_dir():
+            tree_proc(self.tree, TREE_ITEM_DELETE, data)
+            i = self.project["nodes"].index(str(path))
+            if i >= 0:
+                self.project["nodes"].pop(i)
+            return
+
         if info.image != self.ICON_DIR:
             return
         items = tree_proc(self.tree, TREE_ITEM_ENUM, data)
