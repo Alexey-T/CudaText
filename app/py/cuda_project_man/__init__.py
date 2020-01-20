@@ -820,9 +820,8 @@ class Command:
 
         if not path.is_dir():
             tree_proc(self.tree, TREE_ITEM_DELETE, data)
-            i = self.project["nodes"].index(str(path))
-            if i >= 0:
-                self.project["nodes"].pop(i)
+            if str(path) in self.project["nodes"]:
+                self.project["nodes"].remove(str(path))
             return
 
         if info.image != self.ICON_DIR:
