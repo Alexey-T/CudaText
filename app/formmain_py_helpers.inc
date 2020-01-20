@@ -240,7 +240,7 @@ begin
     for i:= 0 to Length(AParams)-1 do
     begin
       FParams[i]:= AParams[i];
-      FParamsStr[i]:= Py_SimpleValueToString(AParams[i]);
+      FParamsStr[i]:= Py_SimpleValueToString(AParams[i], true);
     end;
     SetLength(FParamNames, Length(AParamNames));
     for i:= 0 to Length(AParamNames)-1 do

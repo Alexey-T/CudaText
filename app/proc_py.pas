@@ -29,7 +29,7 @@ function Py_rect(const R: TRect): PPyObject; cdecl;
 function Py_rect_monitor(N: Integer): PPyObject; cdecl;
 function Py_rect_control(C: TControl): PPyObject; cdecl;
 function Py_SimpleValueFromString(const S: string): PPyObject;
-function Py_SimpleValueToString(Obj: PPyObject): string;
+function Py_SimpleValueToString(Obj: PPyObject; QuoteStrings: boolean): string;
 
 const
   cPyTrue = 'True';
@@ -307,7 +307,7 @@ begin
   end;
 end;
 
-function Py_SimpleValueToString(Obj: PPyObject): string;
+function Py_SimpleValueToString(Obj: PPyObject; QuoteStrings: boolean): string;
 // the same as TPythonEngine.PyObjectAsString but also quotes str values
 var
   s: PPyObject;
@@ -321,7 +321,9 @@ begin
   begin
     if PyUnicode_Check(Obj) then
     begin
-      w:= '"'+PyUnicode_AsWideString(Obj)+'"';
+      w:= PyUnicode_AsWideString(Obj);
+      if QuoteStrings then
+        w:= '"'+w+'"';
       Result:= w;
       Exit;
     end;
