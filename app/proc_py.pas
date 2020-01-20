@@ -29,6 +29,7 @@ function Py_rect(const R: TRect): PPyObject; cdecl;
 function Py_rect_monitor(N: Integer): PPyObject; cdecl;
 function Py_rect_control(C: TControl): PPyObject; cdecl;
 function Py_SimpleValueFromString(const S: string): PPyObject;
+function Py_SimpleValueToString(Obj: PPyObject): string;
 
 const
   cPyTrue = 'True';
@@ -303,6 +304,32 @@ begin
       Result:= PyLong_FromLongLong(Num)
     else
       Result:= ReturnNone;
+  end;
+end;
+
+function Py_SimpleValueToString(Obj: PPyObject): string;
+// the same as TPythonEngine.PyObjectAsString but also quotes str values
+var
+  s: PPyObject;
+  w: UnicodeString;
+begin
+  Result:= '';
+  if not Assigned(Obj) then
+    Exit;
+
+  with GetPythonEngine do
+  begin
+    if PyUnicode_Check(Obj) then
+    begin
+      w:= '"'+PyUnicode_AsWideString(Obj)+'"';
+      Result:= w;
+      Exit;
+    end;
+
+    s:= PyObject_Str(Obj);
+    if Assigned(s) and PyString_Check(s) then
+      Result:= PyString_AsDelphiString(s);
+    Py_XDECREF(s);
   end;
 end;
 
