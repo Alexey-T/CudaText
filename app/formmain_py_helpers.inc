@@ -233,19 +233,16 @@ begin
   //avoid log error on standard ids
   if SBeginsWith(ACallback, 'top-') then exit;
 
-  with GetPythonEngine do
+  SetLength(FParams, Length(AParams));
+  SetLength(FParamsStr, Length(AParams));
+  for i:= 0 to Length(AParams)-1 do
   begin
-    SetLength(FParams, Length(AParams));
-    SetLength(FParamsStr, Length(AParams));
-    for i:= 0 to Length(AParams)-1 do
-    begin
-      FParams[i]:= AParams[i];
-      FParamsStr[i]:= Py_SimpleValueToString(AParams[i], true);
-    end;
-    SetLength(FParamNames, Length(AParamNames));
-    for i:= 0 to Length(AParamNames)-1 do
-      FParamNames[i]:= AParamNames[i];
+    FParams[i]:= AParams[i];
+    FParamsStr[i]:= Py_SimpleValueToString(AParams[i], true);
   end;
+  SetLength(FParamNames, Length(AParamNames));
+  for i:= 0 to Length(AParamNames)-1 do
+    FParamNames[i]:= AParamNames[i];
 
   if SRegexFindParts(cRegex_DotCommand, ACallback, Parts) then
   begin
