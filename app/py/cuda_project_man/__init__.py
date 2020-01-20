@@ -530,8 +530,8 @@ class Command:
         if index in self.top_nodes:
             tree_proc(self.tree, TREE_ITEM_DELETE, index)
             path = self.top_nodes.pop(index)
-            i = self.project["nodes"].index(str(path))
-            self.project["nodes"].pop(i)
+            if str(path) in self.project["nodes"]:
+                self.project["nodes"].remove(str(path))
             if self.project_file_path:
                 self.action_save_project_as(self.project_file_path)
 
