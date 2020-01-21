@@ -981,13 +981,13 @@ begin
   UpdateMenuItemChecked(mnuGr6, mnuGr6_Alt, Groups.Mode= gm6Grid);
 end;
 
-procedure TfmMain.UpdateTreeContents; inline;
+procedure TfmMain.UpdateTreeContents;
 begin
   TimerTreeFill.Enabled:= false;
   TimerTreeFill.Enabled:= true;
 end;
 
-procedure TfmMain.UpdateTreeFilter; inline;
+procedure TfmMain.UpdateTreeFilter;
 begin
   CodeTreeFilter.InvalidateFilter;
 end;
@@ -1295,8 +1295,8 @@ var
 begin
   SRegexFindParts('.+_(\d+)x(\d+)', UiOps.TreeTheme, Parts);
 
-  ImageListTree.Width:= StrToIntDef(Parts[1].Str, ImageListTree.Width);
-  ImageListTree.Height:= StrToIntDef(Parts[2].Str, ImageListTree.Height);
+  ImageListTree.Width:= StrToIntDef(Parts[1].Str, 16);
+  ImageListTree.Height:= StrToIntDef(Parts[2].Str, 16);
   ImageListTree.Clear;
 
   Str:= AppDir_DataCodetreeIcons+DirectorySeparator+UiOps.TreeTheme+DirectorySeparator;
