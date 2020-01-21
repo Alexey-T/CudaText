@@ -196,7 +196,6 @@ type
     mnuBmCopyLines: TMenuItem;
     mnuOpThemeSyntax: TMenuItem;
     mnuBmPlaceCarets: TMenuItem;
-    PaintTest: TPaintBox;
     PanelAll: TATPanelSimple;
     PanelBottom: TATPanelSimple;
     PanelLeft: TATPanelSimple;
@@ -556,6 +555,7 @@ type
     PopupToolbarCase: TPopupMenu;
     PopupToolbarComment: TPopupMenu;
     PopupToolbarSort: TPopupMenu;
+    PaintTest: TPaintBox;
     FFormFloatSide: TForm;
     FFormFloatBottom: TForm;
     FFormFloatGroups1: TForm;
@@ -844,6 +844,7 @@ type
     function GetShowOnTop: boolean;
     function GetShowSidebarOnRight: boolean;
     procedure InitAppleMenu;
+    procedure InitPaintTest;
     procedure InitPopupTree;
     procedure InitPopupPicScale;
     procedure InitPopupListboxOutput;
@@ -1933,7 +1934,6 @@ begin
   end;
 
   PanelAll.Align:= alClient;
-  PaintTest.Height:= 150;
 
   AppManager:= TecLexerList.Create(Self);
   AppManagerLite:= TATLiteLexers.Create(Self);
@@ -6703,6 +6703,18 @@ begin
   end;
 end;
 
+
+procedure TfmMain.InitPaintTest;
+begin
+  if not Assigned(PaintTest) then
+  begin
+    PaintTest:= TPaintBox.Create(Self);
+    PaintTest.Height:= 150;
+    PaintTest.Align:= alTop;
+    PaintTest.Parent:= PanelAll;
+    PaintTest.Top:= ToolbarMain.Height;
+  end;
+end;
 
 //----------------------------
 {$I formmain_loadsave.inc}

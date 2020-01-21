@@ -5710,8 +5710,9 @@ end;
 
 function Py_CanvasId_to_CanvasObject(const IdCanvas: Int64): TCanvas;
 begin
-  if IdCanvas=0 then //support debug
+  if IdCanvas=0 then //support PaintBox for plugins debugging
   begin
+    fmMain.InitPaintTest;
     fmMain.PaintTest.Show;
     Application.ProcessMessages;
     Result:= fmMain.PaintTest.Canvas;
@@ -6357,6 +6358,7 @@ begin
 
         CANVAS_SET_TESTPANEL:
           begin
+            fmMain.InitPaintTest;
             if NSize<20 then
               fmMain.PaintTest.Hide
             else

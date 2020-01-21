@@ -110,23 +110,15 @@ object fmMain: TfmMain
       Images = ImageListToolbar
       Wrapable = True
     end
-    object PaintTest: TPaintBox
-      Left = 0
-      Height = 40
-      Top = 24
-      Width = 872
-      Align = alTop
-      Visible = False
-    end
     object PanelMain: TATPanelSimple
       Left = 0
-      Height = 176
-      Top = 64
+      Height = 216
+      Top = 24
       Width = 872
       Align = alClient
       object SplitterVert: TSplitter
         Left = 202
-        Height = 176
+        Height = 216
         Top = 0
         Width = 4
       end
@@ -151,7 +143,7 @@ object fmMain: TfmMain
       end
       object PanelLeft: TATPanelSimple
         Left = 0
-        Height = 176
+        Height = 216
         Top = 0
         Width = 202
         Align = alLeft
@@ -182,7 +174,7 @@ object fmMain: TfmMain
       end
       object PanelEditors: TATPanelSimple
         Left = 206
-        Height = 176
+        Height = 216
         Top = 0
         Width = 666
         Align = alClient
