@@ -916,7 +916,7 @@ class Command:
     def form_key_down(self, id_dlg, id_ctl, data):
 
         if id_ctl==13: #Enter
-            self.tree_on_click_dbl(id_dlg, id_ctl)
+            self.do_open_current_file(self.get_open_options())
             return False #block key
 
     def add_current_file(self):
