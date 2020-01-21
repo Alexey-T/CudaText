@@ -401,7 +401,6 @@ type
     PythonEngine: TPythonEngine;
     PythonIO: TPythonInputOutput;
     PythonMod: TPythonModule;
-    SaveDlg: TSaveDialog;
     SplitterHorz: TSplitter;
     SplitterVert: TSplitter;
     TimerStatusAlt: TTimer;
@@ -498,6 +497,7 @@ type
     {$endif}
   private
     { private declarations }
+    SaveDlg: TSaveDialog;
     PopupTree: TPopupMenu;
     PopupEnds: TPopupMenu;
     PopupEnc: TPopupMenu;
@@ -700,6 +700,7 @@ type
     procedure DoFindOptions_ResetInSelection;
     function DoFindOptions_GetDict: PPyObject;
     procedure DoFolderOpen(const ADirName: string; ANewProject: boolean);
+    procedure DoGetSaveDialog(var ASaveDlg: TSaveDialog);
     procedure DoGroupsChangeMode(Sender: TObject);
     procedure DoOnLexerParseProgress(Sender: TObject; AProgress: integer);
     //procedure DoOnLexerParseProgress(Sender: TObject; ALineIndex, ALineCount: integer);
@@ -855,6 +856,7 @@ type
     procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer;
       const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
     procedure InitFloatGroups;
+    procedure InitSaveDlg;
     procedure InitSidebar;
     procedure InitToolbar;
     function IsWindowMaximizedOrFullscreen: boolean;
@@ -4718,6 +4720,7 @@ procedure TfmMain.DoFileSave(F: TEditorFrame);
 var
   bNoName, bSaveAs: boolean;
 begin
+  InitSaveDlg;
   DoFileDialog_PrepareDir(SaveDlg);
 
   bSaveAs:= false;
@@ -4734,6 +4737,7 @@ end;
 
 procedure TfmMain.DoFileSaveAs(F: TEditorFrame);
 begin
+  InitSaveDlg;
   DoFileDialog_PrepareDir(SaveDlg);
   if F.DoFileSave(true, false) then
     DoFileDialog_SaveDir(SaveDlg);
@@ -6721,6 +6725,22 @@ begin
     PaintTest.Top:= ToolbarMain.Height;
   end;
 end;
+
+procedure TfmMain.InitSaveDlg;
+begin
+  if not Assigned(SaveDlg) then
+  begin
+    SaveDlg:= TSaveDialog.Create(Self);
+    SaveDlg.Options:= [ofOverwritePrompt,ofPathMustExist,ofEnableSizing,ofDontAddToRecent,ofViewDetail];
+  end;
+end;
+
+procedure TfmMain.DoGetSaveDialog(var ASaveDlg: TSaveDialog);
+begin
+  InitSaveDlg;
+  ASaveDlg:= SaveDlg;
+end;
+
 
 //----------------------------
 {$I formmain_loadsave.inc}

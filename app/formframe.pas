@@ -71,6 +71,9 @@ type
     );
 
 type
+  TFrameGetSaveDialog = procedure(var ASaveDlg: TSaveDialog) of object;
+
+type
   { TEditorFrame }
 
   TEditorFrame = class(TFrame)
@@ -145,6 +148,7 @@ type
     FBracketHilite: boolean;
     FBracketSymbols: string;
     FBracketMaxDistance: integer;
+    FOnGetSaveDialog: TFrameGetSaveDialog;
 
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BinaryOnScroll(Sender: TObject);
@@ -196,6 +200,7 @@ type
     function GetLineEnds(Ed: TATSynEdit): TATLineEnds;
     function GetPictureScale: integer;
     function GetReadOnly(Ed: TATSynEdit): boolean;
+    function GetSaveDialog: TSaveDialog;
     function GetSplitPosCurrent: double;
     function GetSplitted: boolean;
     function GetTabKeyCollectMarkers: boolean;
@@ -327,7 +332,7 @@ type
     property SplitPos: double read FSplitPos write SetSplitPos;
     property EditorsLinked: boolean read FEditorsLinked write SetEditorsLinked;
     property EnabledFolding: boolean read GetEnabledFolding write SetEnabledFolding;
-    property SaveDialog: TSaveDialog read FSaveDialog write FSaveDialog;
+    property SaveDialog: TSaveDialog read GetSaveDialog;
     property WasVisible: boolean read FWasVisible;
     function GetTabPages: TATPages;
     function GetTabGroups: TATGroups;
@@ -363,6 +368,7 @@ type
     property MacroString: string read FMacroString write FMacroString;
 
     //events
+    property OnGetSaveDialog: TFrameGetSaveDialog read FOnGetSaveDialog write FOnGetSaveDialog;
     property OnProgress: TATFinderProgress read FOnProgress write FOnProgress;
     property OnCheckFilenameOpened: TStrFunction read FCheckFilenameOpened write FCheckFilenameOpened;
     property OnMsgStatus: TStrEvent read FOnMsgStatus write FOnMsgStatus;
@@ -816,6 +822,14 @@ end;
 function TEditorFrame.GetReadOnly(Ed: TATSynEdit): boolean;
 begin
   Result:= Ed.ModeReadOnly;
+end;
+
+function TEditorFrame.GetSaveDialog: TSaveDialog;
+begin
+  if not Assigned(FSaveDialog) then
+    if Assigned(FOnGetSaveDialog) then
+      FOnGetSaveDialog(FSaveDialog);
+  Result:= FSaveDialog;
 end;
 
 function TEditorFrame.GetTabKeyCollectMarkers: boolean;
