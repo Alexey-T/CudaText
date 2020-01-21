@@ -187,7 +187,6 @@ type
     mnuPluginsEmpty: TMenuItem;
     ImageListSide: TImageList;
     ImageListBm: TImageList;
-    ImageListTree: TImageList;
     MainMenu: TMainMenu;
     SepOp2: TMenuItem;
     mnuBmDeleteLines: TMenuItem;
@@ -497,6 +496,7 @@ type
   private
     { private declarations }
     SaveDlg: TSaveDialog;
+    ImageListTree: TImageList;
     PopupTree: TPopupMenu;
     PopupEnds: TPopupMenu;
     PopupEnc: TPopupMenu;
@@ -843,6 +843,7 @@ type
     function GetShowOnTop: boolean;
     function GetShowSidebarOnRight: boolean;
     procedure InitAppleMenu;
+    procedure InitImageListCodetree;
     procedure InitPaintTest;
     procedure InitPopupTree;
     procedure InitPopupPicScale;
@@ -913,8 +914,8 @@ type
     procedure DoOps_ResetLexerSpecificOptions;
     procedure DoOps_LoadPluginFromInf(const fn_inf: string);
     procedure DoOps_LoadSidebarIcons;
-    procedure DoOps_LoadTreeIcons;
-    procedure DoOps_LoadToolBarIcons;
+    procedure DoOps_LoadCodetreeIcons;
+    procedure DoOps_LoadToolbarIcons;
     procedure DoOps_LoadCommandLineOptions;
     procedure DoOps_LoadCommandLineOptionsEx(const AItems: array of string;
       AHaltOnBadParam: boolean);
@@ -1865,7 +1866,6 @@ begin
   CodeTree:= TAppTreeContainer.Create(Self);
   CodeTree.Parent:= PanelLeft;
   CodeTree.Align:= alClient;
-  CodeTree.Tree.Images:= ImageListTree;
   CodeTree.Themed:= true;
   CodeTree.Tree.OnDblClick:= @DoCodetree_OnDblClick;
   CodeTree.Tree.OnMouseMove:= @DoCodetree_OnMouseMove;
@@ -2046,7 +2046,6 @@ begin
   DoFileOpen('', ''); //before LoadHistory
 
   DoOps_LoadSidebarIcons; //before LoadPlugins (for sidebar icons)
-  DoOps_LoadTreeIcons;
 
   InitPyEngine; //before LoadPlugins
   DoOps_LoadPlugins; //before LoadHistory (for on_open for restored session)
@@ -4298,7 +4297,7 @@ begin
     if not FToolbarIconsLoaded then
     begin
       FToolbarIconsLoaded:= true;
-      DoOps_LoadToolBarIcons;
+      DoOps_LoadToolbarIcons;
     end;
     ToolbarMain.UpdateControls;
   end;
@@ -6745,6 +6744,16 @@ begin
   ASaveDlg:= SaveDlg;
 end;
 
+procedure TfmMain.InitImageListCodetree;
+begin
+  if not Assigned(ImageListTree) then
+  begin
+    ImageListTree:= TImageList.Create(Self);
+    ImageListTree.AllocBy:= 10;
+    CodeTree.Tree.Images:= ImageListTree;
+    DoOps_LoadCodetreeIcons;
+  end;
+end;
 
 //----------------------------
 {$I formmain_loadsave.inc}

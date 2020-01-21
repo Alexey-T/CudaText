@@ -1001,11 +1001,6 @@ var
   Ada: TATAdapterEControl;
   NRanges: integer;
 begin
-  if UiOps.TreeShowIcons then
-    CodeTree.Tree.Images:= ImageListTree
-  else
-    CodeTree.Tree.Images:= nil;
-
   if AConsiderTreeVisible then
     if not ShowSidePanel then exit;
 
@@ -1045,6 +1040,13 @@ begin
 
  if AFill then
  begin
+   InitImageListCodetree;
+
+   if UiOps.TreeShowIcons then
+     CodeTree.Tree.Images:= ImageListTree
+   else
+     CodeTree.Tree.Images:= nil;
+
   FCodetreeModifiedVersion:= Ed.Strings.ModifiedVersion;
   if not DoPyTreeHelper(Frame) then
   begin
@@ -1288,7 +1290,7 @@ begin
 end;
 
 
-procedure TfmMain.DoOps_LoadTreeIcons;
+procedure TfmMain.DoOps_LoadCodetreeIcons;
 var
   Parts: TRegexParts;
   Str: string;
@@ -1312,7 +1314,7 @@ begin
   CodeTree.Tree.Invalidate;
 end;
 
-procedure TfmMain.DoOps_LoadToolBarIcons;
+procedure TfmMain.DoOps_LoadToolbarIcons;
 var
   Parts: TRegexParts;
   Str: string;

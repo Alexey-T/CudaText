@@ -939,11 +939,6 @@ object fmMain: TfmMain
     Left = 560
     Top = 32
   end
-  object ImageListTree: TImageList
-    AllocBy = 10
-    Left = 600
-    Top = 216
-  end
   object TimerTreeFill: TTimer
     Enabled = False
     Interval = 2000
