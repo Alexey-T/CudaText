@@ -785,12 +785,6 @@ object fmMain: TfmMain
       end
     end
   end
-  object OpenDlg: TOpenDialog
-    Title = 'Open file'
-    Options = [ofHideReadOnly, ofAllowMultiSelect, ofPathMustExist, ofEnableSizing]
-    Left = 344
-    Top = 424
-  end
   object SaveDlg: TSaveDialog
     Options = [ofOverwritePrompt, ofHideReadOnly, ofPathMustExist, ofEnableSizing, ofDontAddToRecent, ofViewDetail]
     Left = 400

@@ -395,7 +395,6 @@ type
     mnuFileSave: TMenuItem;
     mnuFileSaveAs: TMenuItem;
     mnuFileClose: TMenuItem;
-    OpenDlg: TOpenDialog;
     PopupText: TPopupMenu;
     PopupRecents: TPopupMenu;
     PopupTab: TPopupMenu;
@@ -3275,28 +3274,34 @@ const
   SOptionPassive = '/passive /nonear';
   SOptionSilent = '/silent';
 var
-  NCountZip, i: integer;
+  dlg: TOpenDialog;
+  NFileCount, NCountZip, i: integer;
   fn: string;
   bZip, bZipAllowed: boolean;
 begin
   bZipAllowed:= Pos('/nozip', AOptions)=0;
-  with OpenDlg do
-  begin
-    FileName:= '';
-    DoFileDialog_PrepareDir(OpenDlg);
-    if not Execute then exit;
-    DoFileDialog_SaveDir(OpenDlg);
 
-    if Files.Count>1 then
+  dlg:= TOpenDialog.Create(nil);
+  try
+    dlg.Options:= [ofAllowMultiSelect, ofPathMustExist, ofEnableSizing];
+    dlg.FileName:= '';
+
+    DoFileDialog_PrepareDir(dlg);
+    if not dlg.Execute then exit;
+    DoFileDialog_SaveDir(dlg);
+
+    NFileCount:= dlg.Files.Count;
+    NCountZip:= 0;
+
+    if NFileCount>1 then
     begin
-      NCountZip:= 0;
       StatusProgress.Progress:= 0;
-      StatusProgress.MaxValue:= Files.Count;
+      StatusProgress.MaxValue:= NFileCount;
       StatusProgress.Show;
 
-      for i:= 0 to Files.Count-1 do
+      for i:= 0 to NFileCount-1 do
       begin
-        fn:= Files[i];
+        fn:= dlg.Files[i];
         if not FileExistsUTF8(fn) then Continue;
         bZip:= bZipAllowed and (ExtractFileExt(fn)='.zip');
         if bZip then
@@ -3316,17 +3321,19 @@ begin
     end
     else
     begin
-      if FileExistsUTF8(FileName) then
-        DoFileOpen(FileName, '', nil, AOptions)
+      if FileExistsUTF8(dlg.FileName) then
+        DoFileOpen(dlg.FileName, '', nil, AOptions)
       else
       if MsgBox(
-        Format(msgConfirmCreateNewFile, [FileName]),
+        Format(msgConfirmCreateNewFile, [dlg.FileName]),
         MB_OKCANCEL or MB_ICONQUESTION)=ID_OK then
       begin
-        FCreateFile(FileName);
-        DoFileOpen(FileName, '', nil, AOptions);
+        FCreateFile(dlg.FileName);
+        DoFileOpen(dlg.FileName, '', nil, AOptions);
       end;
     end;
+  finally
+    FreeAndNil(dlg);
   end;
 end;
 
