@@ -187,7 +187,6 @@ type
     mnuFileNewMenu: TMenuItem;
     mnuPluginsEmpty: TMenuItem;
     ImageListSide: TImageList;
-    FontDlg: TFontDialog;
     ImageListBm: TImageList;
     ImageListTree: TImageList;
     MainMenu: TMainMenu;

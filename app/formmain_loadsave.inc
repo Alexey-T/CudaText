@@ -1236,6 +1236,7 @@ procedure TfmMain.DoOps_DialogFont(
   var OpName: string; var OpSize: integer;
   const AConfigStrName, AConfigStrSize: string);
 var
+  dlg: TFontDialog;
   cfg: TJsonConfig;
   fn: string;
 begin
@@ -1246,11 +1247,16 @@ begin
     if not FileExistsUTF8(fn) then exit;
   end;
 
-  FontDlg.Font.Name:= OpName;
-  FontDlg.Font.Size:= OpSize;
-  if not FontDlg.Execute then exit;
-  OpName:= FontDlg.Font.Name;
-  OpSize:= FontDlg.Font.Size;
+  dlg:= TFontDialog.Create(nil);
+  try
+    dlg.Font.Name:= OpName;
+    dlg.Font.Size:= OpSize;
+    if not dlg.Execute then exit;
+    OpName:= dlg.Font.Name;
+    OpSize:= dlg.Font.Size;
+  finally
+    FreeAndNil(dlg);
+  end;
 
   cfg:= TJSONConfig.Create(nil);
   try

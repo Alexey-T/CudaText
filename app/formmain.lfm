@@ -946,12 +946,6 @@ object fmMain: TfmMain
     Left = 520
     Top = 424
   end
-  object FontDlg: TFontDialog
-    MinFontSize = 0
-    MaxFontSize = 0
-    Left = 456
-    Top = 424
-  end
   object PopupRecents: TPopupMenu
     OnPopup = PopupRecentsPopup
     Left = 560
