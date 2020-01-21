@@ -9,6 +9,17 @@ Copyright (c) Alexey Torgashin
 
 procedure TfmMain.DoOps_LoadCommandLineOptions;
 var
+  Items: array of string;
+  i: integer;
+begin
+  SetLength(Items, ParamCount);
+  for i:= 0 to Length(Items)-1 do
+    Items[i]:= ParamStrUTF8(i+1);
+  DoOps_LoadCommandLineOptionsEx(Items, true);
+end;
+
+procedure TfmMain.DoOps_LoadCommandLineOptionsEx(const AItems: array of string; AHaltOnBadParam: boolean);
+var
   SParam: string;
   i: integer;
 begin
@@ -18,9 +29,9 @@ begin
   FOption_Encoding:= '';
   FOption_FileOpenOptions:= '';
 
-  for i:= 1 to ParamCount do
+  for i:= 0 to Length(AItems)-1 do
   begin
-    SParam:= ParamStrUTF8(i);
+    SParam:= AItems[i];
     if not SBeginsWith(SParam, '-') then Continue;
 
     if (SParam='-r') then
@@ -28,16 +39,19 @@ begin
       FOption_OpenReadOnly:= true;
       Continue;
     end;
+
     if (SParam='-n') then
     begin
       FOption_OpenNewWindow:= true;
       Continue;
     end;
+
     if (SParam='--version') or (SParam='-v') then
     begin
       MsgStdout(Format(msgCommandLineVersion, [cAppExeVersion]), true);
       Halt;
     end;
+
     if (SParam='--help') or (SParam='-h') or (SParam='-?') then
     begin
       MsgStdout(msgCommandLineHelp, true);
@@ -89,8 +103,11 @@ begin
     if SBeginsWith(SParam, '-psn') then Continue;
     {$endif}
 
-    MsgStdout(Format(msgCommandLineUnknownOption, [SParam]));
-    Halt;
+    if AHaltOnBadParam then
+    begin
+      MsgStdout(Format(msgCommandLineUnknownOption, [SParam]));
+      Halt;
+    end;
   end;
 end;
 

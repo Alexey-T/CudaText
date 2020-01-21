@@ -915,6 +915,8 @@ type
     procedure DoOps_LoadTreeIcons;
     procedure DoOps_LoadToolBarIcons;
     procedure DoOps_LoadCommandLineOptions;
+    procedure DoOps_LoadCommandLineOptionsEx(const AItems: array of string;
+      AHaltOnBadParam: boolean);
     procedure DoOps_LoadLexerLib(AOnCreate: boolean);
     procedure DoOps_SaveHistory;
     procedure DoOps_SaveHistory_GroupView(c: TJsonConfig);
