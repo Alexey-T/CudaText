@@ -2047,7 +2047,6 @@ begin
 
   DoOps_LoadSidebarIcons; //before LoadPlugins (for sidebar icons)
   DoOps_LoadTreeIcons;
-  DoOps_LoadToolBarIcons;
 
   InitPyEngine; //before LoadPlugins
   DoOps_LoadPlugins; //before LoadHistory (for on_open for restored session)
@@ -4299,6 +4298,10 @@ end;
 
 procedure TfmMain.SetShowToolbar(AValue: boolean);
 begin
+  if AValue then
+    if ImageListToolbar.Count=0 then
+      DoOps_LoadToolBarIcons;
+
   ToolbarMain.Visible:= AValue;
 end;
 
