@@ -107,7 +107,6 @@ object fmMain: TfmMain
       Color = clSilver
       Visible = False
       ParentColor = False
-      Images = ImageListToolbar
       Wrapable = True
     end
     object PanelMain: TATPanelSimple
@@ -1337,13 +1336,6 @@ object fmMain: TfmMain
     Width = 20
     Left = 721
     Top = 263
-  end
-  object ImageListToolbar: TImageList
-    AllocBy = 20
-    Height = 24
-    Width = 24
-    Left = 520
-    Top = 232
   end
   object ImageListTabs: TImageList
     AllocBy = 20

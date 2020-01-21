@@ -170,7 +170,6 @@ type
     TimerStatusWork: TTimer;
     TimerAppIdle: TIdleTimer;
     ImageListTabs: TImageList;
-    ImageListToolbar: TImageList;
     MenuItem5: TMenuItem;
     mnuSelExtWord: TMenuItem;
     mnuViewOnTop: TMenuItem;
@@ -564,6 +563,7 @@ type
     FBoundsFloatGroups1: TRect;
     FBoundsFloatGroups2: TRect;
     FBoundsFloatGroups3: TRect;
+    FToolbarIconsLoaded: boolean;
     FListRecents: TStringList;
     FListTimers: TStringList;
     FConsoleQueue: TAppConsoleQueue;
@@ -4291,9 +4291,17 @@ end;
 
 procedure TfmMain.SetShowToolbar(AValue: boolean);
 begin
+  if AValue=GetShowToolbar then exit;
+
   if AValue then
-    if ImageListToolbar.Count=0 then
+  begin
+    if not FToolbarIconsLoaded then
+    begin
+      FToolbarIconsLoaded:= true;
       DoOps_LoadToolBarIcons;
+    end;
+    ToolbarMain.UpdateControls;
+  end;
 
   ToolbarMain.Visible:= AValue;
 end;

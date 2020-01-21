@@ -1222,6 +1222,9 @@ end;
 
 procedure TfmMain.InitToolbar;
 begin
+  ToolbarMain.Images:= TImageList.Create(Self);
+  ToolbarMain.Images.AllocBy:= 20;
+
   ToolbarMain.AddButton(0, @DoToolbarClick, 'f_new', 'New file', IntToStr(cmd_FileNew), false);
   ToolbarMain.AddDropdown(-1, nil, @DoFileNewMenu);
   ToolbarMain.AddButton(1, @DoToolbarClick, 'f_open', 'Open file', IntToStr(cmd_FileOpen), false);
@@ -1244,8 +1247,6 @@ begin
   ToolbarMain.AddDropdown(13, PopupToolbarSort);
   ToolbarMain.AddDropdown(14, PopupToolbarComment);
   ToolbarMain.AddButton(15, @DoToolbarClick, 'opt', 'Options Editor', 'module=cuda_options_editor;cmd=dlg_cuda_options;', false);
-
-  ToolbarMain.UpdateControls;
 end;
 
 
@@ -1315,6 +1316,7 @@ procedure TfmMain.DoOps_LoadToolBarIcons;
 var
   Parts: TRegexParts;
   Str: string;
+  Img: TImageList;
 begin
   SRegexFindParts('.+_(\d+)x(\d+)', UiOps.ToolBarTheme, Parts);
 
@@ -1322,26 +1324,27 @@ begin
 
   if not DirectoryExists(Str) then Exit;
 
-  ImageListToolbar.Width:= StrToIntDef(Parts[1].Str, ImageListToolbar.Width);
-  ImageListToolbar.Height:= StrToIntDef(Parts[2].Str, ImageListToolbar.Height);
-  ImageListToolbar.Clear;
+  Img:= ToolbarMain.Images;
+  Img.Width:= StrToIntDef(Parts[1].Str, 24);
+  Img.Height:= StrToIntDef(Parts[2].Str, 24);
+  Img.Clear;
 
-  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'f_new.png');
-  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'f_open.png');
-  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'f_save.png');
-  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'e_cut.png');
-  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'e_copy.png');
-  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'e_paste.png');
-  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'e_undo.png');
-  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'e_redo.png');
-  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'unpri.png');
-  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'map.png');
-  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'indent.png');
-  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'unindent.png');
-  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'case.png');
-  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'sort.png');
-  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'comment.png');
-  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'opt.png');
+  UpdateImagelistWithIconFromFile(Img, Str+'f_new.png');
+  UpdateImagelistWithIconFromFile(Img, Str+'f_open.png');
+  UpdateImagelistWithIconFromFile(Img, Str+'f_save.png');
+  UpdateImagelistWithIconFromFile(Img, Str+'e_cut.png');
+  UpdateImagelistWithIconFromFile(Img, Str+'e_copy.png');
+  UpdateImagelistWithIconFromFile(Img, Str+'e_paste.png');
+  UpdateImagelistWithIconFromFile(Img, Str+'e_undo.png');
+  UpdateImagelistWithIconFromFile(Img, Str+'e_redo.png');
+  UpdateImagelistWithIconFromFile(Img, Str+'unpri.png');
+  UpdateImagelistWithIconFromFile(Img, Str+'map.png');
+  UpdateImagelistWithIconFromFile(Img, Str+'indent.png');
+  UpdateImagelistWithIconFromFile(Img, Str+'unindent.png');
+  UpdateImagelistWithIconFromFile(Img, Str+'case.png');
+  UpdateImagelistWithIconFromFile(Img, Str+'sort.png');
+  UpdateImagelistWithIconFromFile(Img, Str+'comment.png');
+  UpdateImagelistWithIconFromFile(Img, Str+'opt.png');
 
   AppScaleToolbar(ToolbarMain);
   ToolbarMain.UpdateControls;
