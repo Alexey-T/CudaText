@@ -299,7 +299,7 @@ class Command:
     @staticmethod
     def node_ordering(node):
         path = Path(node)
-        return path.is_file(), path.name
+        return path.is_file(), path.name.upper()
 
     def add_node(self, dialog):
         path = dialog()
