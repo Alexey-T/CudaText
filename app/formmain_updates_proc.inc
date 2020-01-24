@@ -1297,6 +1297,8 @@ var
 begin
   SRegexFindParts('.+_(\d+)x(\d+)', UiOps.TreeTheme, Parts);
 
+  if not Assigned(ImageListTree) then
+    raise Exception.Create('ImageListTree nil');
   ImageListTree.Width:= StrToIntDef(Parts[1].Str, 16);
   ImageListTree.Height:= StrToIntDef(Parts[2].Str, 16);
   ImageListTree.Clear;
@@ -1310,8 +1312,6 @@ begin
   UpdateImagelistWithIconFromFile(ImageListTree, Str+'fx.png');
   UpdateImagelistWithIconFromFile(ImageListTree, Str+'ar1.png');
   UpdateImagelistWithIconFromFile(ImageListTree, Str+'ar2.png');
-
-  CodeTree.Tree.Invalidate;
 end;
 
 procedure TfmMain.DoOps_LoadToolbarIcons;
