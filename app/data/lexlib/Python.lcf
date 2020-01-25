@@ -184,7 +184,7 @@ object SyntAnal23: TLibSyntAnalyzer
       DisplayName = 'Int hex'
       StyleName = 'Number'
       TokenType = 7
-      Expression = '\b0x[_0-9a-f]+\b'
+      Expression = '\b0x(_?[0-9a-f])+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -192,7 +192,7 @@ object SyntAnal23: TLibSyntAnalyzer
       DisplayName = 'Int octal'
       StyleName = 'Number'
       TokenType = 7
-      Expression = '\b 0o(_?[0-7])+'
+      Expression = '\b0o(_?[0-7])+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -200,7 +200,7 @@ object SyntAnal23: TLibSyntAnalyzer
       DisplayName = 'Int bin'
       StyleName = 'Number'
       TokenType = 7
-      Expression = '\b 0b(_?[01])+'
+      Expression = '\b0b(_?[01])+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
