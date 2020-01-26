@@ -3983,20 +3983,16 @@ var
   dir: string;
   {$endif}
   PathAppend: boolean;
-  InitList: TStringList;
-  InitPy: string;
 begin
-  if not PythonOK then exit;
-
-  PathAppend:= true;
-  SetLength(Str, 0);
-
   {$ifdef windows}
   PathAppend:= false;
   dir:= ExtractFileDir(Application.ExeName)+DirectorySeparator;
   SetLength(Str, 2);
   Str[0]:= dir+ChangeFileExt(UiOps.PyLibrary, 'dlls');
   Str[1]:= dir+ChangeFileExt(UiOps.PyLibrary, '.zip');
+  {$else}
+  PathAppend:= true;
+  SetLength(Str, 0);
   {$endif}
 
   //add to sys.path folders py/, py/sys/
