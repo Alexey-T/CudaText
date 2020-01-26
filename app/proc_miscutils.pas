@@ -65,7 +65,7 @@ procedure DoApplyThemeToToolbar(C: TATFlatToolbar);
 function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
 function ConvertShiftStateToString(const Shift: TShiftState): string;
 function KeyboardStateToShiftState: TShiftState; //like VCL
-function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist; const AFilename: string): integer;
+function UpdateImagelistWithIconFromFile(AList: TCustomImagelist; const AFilename: string): integer;
 function FormatFileDateAsNiceString(const AFilename: string): string;
 function FormatFilenameForMenu(const fn: string): string;
 
@@ -208,13 +208,12 @@ var
   _bmp: TBitmap = nil;
   _png: TPortableNetworkGraphic = nil;
 
-function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist;
-  const AFilename: string): integer;
+function UpdateImagelistWithIconFromFile(AList: TCustomImagelist; const AFilename: string): integer;
 var
   ext: string;
 begin
   Result:= -1;
-  if not FileExistsUtf8(AFilename) then exit;
+  if not FileExists(AFilename) then exit;
   ext:= ExtractFileExt(AFilename);
 
   try
@@ -224,7 +223,7 @@ begin
         _bmp:= TBitmap.Create;
       _bmp.LoadFromFile(AFilename);
       _bmp.Transparent:= true;
-      AImagelist.Add(_bmp, nil);
+      AList.Add(_bmp, nil);
     end
     else
     if ext='.png' then
@@ -232,13 +231,12 @@ begin
       if _png=nil then
         _png:= TPortableNetworkGraphic.Create;
       _png.LoadFromFile(AFilename);
-      _png.Transparent:= true;
-      AImagelist.Add(_png, nil);
+      AList.Add(_png, nil);
     end
     else
       exit;
 
-    Result:= AImageList.Count-1;
+    Result:= AList.Count-1;
   except
   end;
 end;
