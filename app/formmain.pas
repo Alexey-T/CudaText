@@ -3978,7 +3978,7 @@ end;
 
 procedure TfmMain.PythonEngineAfterInit(Sender: TObject);
 var
-  Str: array of string;
+  Dirs: array of string;
   {$ifdef windows}
   dir: string;
   {$endif}
@@ -3987,20 +3987,20 @@ begin
   {$ifdef windows}
   PathAppend:= false;
   dir:= ExtractFileDir(Application.ExeName)+DirectorySeparator;
-  SetLength(Str, 2);
-  Str[0]:= dir+ChangeFileExt(UiOps.PyLibrary, 'dlls');
-  Str[1]:= dir+ChangeFileExt(UiOps.PyLibrary, '.zip');
+  SetLength(Dirs, 2);
+  Dirs[0]:= dir+ChangeFileExt(UiOps.PyLibrary, 'dlls');
+  Dirs[1]:= dir+ChangeFileExt(UiOps.PyLibrary, '.zip');
   {$else}
   PathAppend:= true;
-  SetLength(Str, 0);
+  SetLength(Dirs, 0);
   {$endif}
 
   //add to sys.path folders py/, py/sys/
-  SetLength(Str, Length(Str)+2);
-  Str[Length(Str)-2]:= AppDir_Py;
-  Str[Length(Str)-1]:= AppDir_Py+DirectorySeparator+'sys';
+  SetLength(Dirs, Length(Dirs)+2);
+  Dirs[Length(Dirs)-2]:= AppDir_Py;
+  Dirs[Length(Dirs)-1]:= AppDir_Py+DirectorySeparator+'sys';
 
-  Py_SetSysPath(Str, PathAppend);
+  Py_SetSysPath(Dirs, PathAppend);
 end;
 
 procedure TfmMain.InitPyEngine;
