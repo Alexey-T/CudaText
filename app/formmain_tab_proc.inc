@@ -268,7 +268,10 @@ end;
 procedure TfmMain.DoOnTabPopup(Sender: TObject; APages: TATPages; ATabIndex: integer);
 begin
   if Assigned(APages) and (ATabIndex>=0) then
+  begin
+    InitPopupTab;
     PopupTab.Popup;
+  end;
 end;
 
 procedure TfmMain.mnuTabCloseAllAllClick(Sender: TObject);

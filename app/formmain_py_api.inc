@@ -313,7 +313,11 @@ begin
   if Str=PyMenuId_TopGroups then exit(fmMain.mnuGroups);
 
   if Str=PyMenuId_Text then exit(fmMain.PopupText.Items);
-  if Str=PyMenuId_Tab then exit(fmMain.PopupTab.Items);
+  if Str=PyMenuId_Tab then
+  begin
+    fmMain.InitPopupTab;
+    exit(fmMain.PopupTab.Items);
+  end;
 
   if SBeginsWith(Str, cPrefixToolmenu) then
   begin

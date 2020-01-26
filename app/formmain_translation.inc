@@ -54,6 +54,41 @@ begin
   end;
 end;
 
+procedure TfmMain.DoLocalizePopupTab;
+var
+  fn: string;
+  ini: TIniFile;
+begin
+  fn:= GetAppLangFilename;
+  if FileExistsUTF8(fn) then
+  begin
+    ini:= TIniFile.Create(fn);
+    try
+      DoLocMenuitem(ini, mnuTabCloseThis, 'ct', 'c_tab');
+      DoLocMenuitem(ini, mnuTabCloseSub, 'ct', 'c_');
+      DoLocMenuitem(ini, mnuTabCloseOtherSame, 'ct', 'c_oth_s');
+      DoLocMenuitem(ini, mnuTabCloseOtherAll, 'ct', 'c_oth_a');
+      DoLocMenuitem(ini, mnuTabCloseAllSame, 'ct', 'c_all_s');
+      DoLocMenuitem(ini, mnuTabCloseAllAll, 'ct', 'c_all_a');
+      DoLocMenuitem(ini, mnuTabCloseLeft, 'ct', 'c_lt_s');
+      DoLocMenuitem(ini, mnuTabCloseRight, 'ct', 'c_rt_s');
+
+      DoLocMenuitem(ini, mnuTabSave, 'ct', 'sv');
+      DoLocMenuitem(ini, mnuTabSaveAs, 'ct', 'sv_as');
+      DoLocMenuitem(ini, mnuTabColor, 'ct', 'col_t');
+
+      DoLocMenuitem(ini, mnuTabMoveSub, 'ct', 'mov_');
+      DoLocMenuitem(ini, mnuTabMoveF1, 'ct', 'mov_f1');
+      DoLocMenuitem(ini, mnuTabMoveF2, 'ct', 'mov_f2');
+      DoLocMenuitem(ini, mnuTabMoveF3, 'ct', 'mov_f3');
+      DoLocMenuitem(ini, mnuTabMoveNext, 'ct', 'mov_n');
+      DoLocMenuitem(ini, mnuTabMovePrev, 'ct', 'mov_p');
+    finally
+      FreeAndNil(ini);
+    end;
+  end;
+end;
+
 procedure TfmMain.DoLocalize;
 var
   fn: string;
@@ -457,26 +492,6 @@ begin
     DoLocString(msgConsoleClear, ini, 'ct', 'clr');
     DoLocString(msgConsoleNavigate, ini, 'ct', 'nav');
     DoLocString(msgConsoleToggleWrap, ini, 'ct', 'wr');
-
-    DoLocMenuitem(ini, mnuTabCloseThis, 'ct', 'c_tab');
-    DoLocMenuitem(ini, mnuTabCloseSub, 'ct', 'c_');
-    DoLocMenuitem(ini, mnuTabCloseOtherSame, 'ct', 'c_oth_s');
-    DoLocMenuitem(ini, mnuTabCloseOtherAll, 'ct', 'c_oth_a');
-    DoLocMenuitem(ini, mnuTabCloseAllSame, 'ct', 'c_all_s');
-    DoLocMenuitem(ini, mnuTabCloseAllAll, 'ct', 'c_all_a');
-    DoLocMenuitem(ini, mnuTabCloseLeft, 'ct', 'c_lt_s');
-    DoLocMenuitem(ini, mnuTabCloseRight, 'ct', 'c_rt_s');
-
-    DoLocMenuitem(ini, mnuTabSave, 'ct', 'sv');
-    DoLocMenuitem(ini, mnuTabSaveAs, 'ct', 'sv_as');
-    DoLocMenuitem(ini, mnuTabColor, 'ct', 'col_t');
-
-    DoLocMenuitem(ini, mnuTabMoveSub, 'ct', 'mov_');
-    DoLocMenuitem(ini, mnuTabMoveF1, 'ct', 'mov_f1');
-    DoLocMenuitem(ini, mnuTabMoveF2, 'ct', 'mov_f2');
-    DoLocMenuitem(ini, mnuTabMoveF3, 'ct', 'mov_f3');
-    DoLocMenuitem(ini, mnuTabMoveNext, 'ct', 'mov_n');
-    DoLocMenuitem(ini, mnuTabMovePrev, 'ct', 'mov_p');
 
     DoLocString(cStrMenuitemFoldAll, ini, 'ct', 'fld_a');
     DoLocString(cStrMenuitemUnfoldAll, ini, 'ct', 'fld_un');

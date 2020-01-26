@@ -155,15 +155,8 @@ type
     mnuOpThemes: TMenuItem;
     mnuOpLangs: TMenuItem;
     mnuViewSidebar: TMenuItem;
-    mnuTabCopyName: TMenuItem;
-    mnuTabCopyDir: TMenuItem;
-    mnuTabCopyFullPath: TMenuItem;
-    mnuTabCopySub: TMenuItem;
     mnuGr6H: TMenuItem;
     mnuGr6V: TMenuItem;
-    mnuTabMoveF2: TMenuItem;
-    mnuTabMoveF3: TMenuItem;
-    mnuSepT2: TMenuItem;
     mnuViewFloatSide: TMenuItem;
     mnuViewFloatBottom: TMenuItem;
     mnuOpDefaultUser: TMenuItem;
@@ -212,14 +205,11 @@ type
     mnuEditTabToSp: TMenuItem;
     mnuEditCharmap: TMenuItem;
     SepV2: TMenuItem;
-    MenuItem11: TMenuItem;
     MenuItem12: TMenuItem;
     MenuItem14: TMenuItem;
     SepHelp1: TMenuItem;
     SepHelp2: TMenuItem;
     SepFile1: TMenuItem;
-    MenuItem24: TMenuItem;
-    MenuItem25: TMenuItem;
     SepEd6: TMenuItem;
     mnuFileEndUn: TMenuItem;
     mnuFileEndMac: TMenuItem;
@@ -246,9 +236,6 @@ type
     mnuEditTrimL: TMenuItem;
     mnuEditTrimR: TMenuItem;
     mnuEditTrim: TMenuItem;
-    mnuTabColor: TMenuItem;
-    mnuTabSaveAs: TMenuItem;
-    mnuTabSave: TMenuItem;
     mnuFindPrev: TMenuItem;
     mnuOpLexLib: TMenuItem;
     mnuOpLexSub: TMenuItem;
@@ -303,26 +290,6 @@ type
     mnuEditCopySub: TMenuItem;
     mnuGotoLine: TMenuItem;
     mnuSr: TMenuItem;
-    mnuTabMove1: TMenuItem;
-    mnuTabMove2: TMenuItem;
-    mnuTabMove3: TMenuItem;
-    mnuTabMove4: TMenuItem;
-    mnuTabMove5: TMenuItem;
-    mnuTabMove6: TMenuItem;
-    mnuTabMoveF1: TMenuItem;
-    mnuSepT1: TMenuItem;
-    mnuTabMoveNext: TMenuItem;
-    mnuTabMovePrev: TMenuItem;
-    mnuTabMoveSub: TMenuItem;
-    mnuTabCloseSub: TMenuItem;
-    MenuItem9: TMenuItem;
-    mnuTabCloseOtherAll: TMenuItem;
-    mnuTabCloseAllAll: TMenuItem;
-    mnuTabCloseAllSame: TMenuItem;
-    mnuTabCloseLeft: TMenuItem;
-    mnuTabCloseRight: TMenuItem;
-    mnuTabCloseThis: TMenuItem;
-    mnuTabCloseOtherSame: TMenuItem;
     mnuCaretsUp1Page: TMenuItem;
     mnuCaretsUpBegin: TMenuItem;
     mnuCaretsDown1Line: TMenuItem;
@@ -395,7 +362,6 @@ type
     mnuFileClose: TMenuItem;
     PopupText: TPopupMenu;
     PopupRecents: TPopupMenu;
-    PopupTab: TPopupMenu;
     PythonEngine: TPythonEngine;
     PythonIO: TPythonInputOutput;
     PythonMod: TPythonModule;
@@ -497,6 +463,7 @@ type
     { private declarations }
     SaveDlg: TSaveDialog;
     ImageListTree: TImageList;
+    PopupTab: TPopupMenu;
     PopupTree: TPopupMenu;
     PopupEnds: TPopupMenu;
     PopupEnc: TPopupMenu;
@@ -506,6 +473,33 @@ type
     PopupPicScale: TPopupMenu;
     PopupListboxOutput: TPopupMenu;
     PopupListboxValidate: TPopupMenu;
+    mnuTabCloseAllAll: TMenuItem;
+    mnuTabCloseAllSame: TMenuItem;
+    mnuTabCloseLeft: TMenuItem;
+    mnuTabCloseOtherAll: TMenuItem;
+    mnuTabCloseOtherSame: TMenuItem;
+    mnuTabCloseRight: TMenuItem;
+    mnuTabCloseSub: TMenuItem;
+    mnuTabCloseThis: TMenuItem;
+    mnuTabColor: TMenuItem;
+    mnuTabCopyDir: TMenuItem;
+    mnuTabCopyFullPath: TMenuItem;
+    mnuTabCopyName: TMenuItem;
+    mnuTabCopySub: TMenuItem;
+    mnuTabMove1: TMenuItem;
+    mnuTabMove2: TMenuItem;
+    mnuTabMove3: TMenuItem;
+    mnuTabMove4: TMenuItem;
+    mnuTabMove5: TMenuItem;
+    mnuTabMove6: TMenuItem;
+    mnuTabMoveF1: TMenuItem;
+    mnuTabMoveF2: TMenuItem;
+    mnuTabMoveF3: TMenuItem;
+    mnuTabMoveNext: TMenuItem;
+    mnuTabMovePrev: TMenuItem;
+    mnuTabMoveSub: TMenuItem;
+    mnuTabSave: TMenuItem;
+    mnuTabSaveAs: TMenuItem;
     mnuTreeFoldAll: TMenuItem;
     mnuTreeUnfoldAll: TMenuItem;
     mnuTreeFoldLevel: TMenuItem;
@@ -736,6 +730,7 @@ type
     function GetSessionFilename: string;
     procedure CharmapOnInsert(const AStr: string);
     procedure DoLocalize;
+    procedure DoLocalizePopupTab;
     function DoCheckFilenameOpened(const AName: string): boolean;
     procedure DoInvalidateEditors;
     function DoMenuAdd_Params(
@@ -853,6 +848,7 @@ type
     procedure InitPopupEnc;
     procedure InitPopupEnds;
     procedure InitPopupLex;
+    procedure InitPopupTab;
     procedure InitPopupTabSize;
     procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer;
       const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
@@ -1423,6 +1419,175 @@ begin
     PopupLex:= TPopupMenu.Create(Self);
   end;
   UpdateMenuLexersTo(PopupLex.Items);
+end;
+
+procedure TfmMain.InitPopupTab;
+var
+  mi: TMenuItem;
+begin
+  if PopupTab=nil then
+  begin
+    PopupTab:= TPopupMenu.Create(Self);
+    PopupTab.OnPopup:= @PopupTabPopup;
+
+    mnuTabCloseThis:= TMenuItem.Create(Self);
+    mnuTabCloseThis.Caption:= 'Close tab';
+    mnuTabCloseThis.OnClick:= @mnuTabCloseThisClick;
+    PopupTab.Items.Add(mnuTabCloseThis);
+
+    mnuTabCloseSub:= TMenuItem.Create(Self);
+    mnuTabCloseSub.Caption:= 'Close';
+    PopupTab.Items.Add(mnuTabCloseSub);
+
+    mnuTabCloseOtherSame:= TMenuItem.Create(Self);
+    mnuTabCloseOtherSame.Caption:= 'Others (same group)';
+    mnuTabCloseOtherSame.OnClick:= @mnuTabCloseOtherSameClick;
+    mnuTabCloseSub.Add(mnuTabCloseOtherSame);
+
+    mnuTabCloseOtherAll:= TMenuItem.Create(Self);
+    mnuTabCloseOtherAll.Caption:= 'Others (all groups)';
+    mnuTabCloseOtherAll.OnClick:= @mnuTabCloseOtherAllClick;
+    mnuTabCloseSub.Add(mnuTabCloseOtherAll);
+
+    mi:= TMenuItem.Create(Self);
+    mi.Caption:= '-';
+    mnuTabCloseSub.Add(mi);
+
+    mnuTabCloseAllSame:= TMenuItem.Create(Self);
+    mnuTabCloseAllSame.Caption:= 'All (same group)';
+    mnuTabCloseAllSame.OnClick:= @mnuTabCloseAllSameClick;
+    mnuTabCloseSub.Add(mnuTabCloseAllSame);
+
+    mnuTabCloseAllAll:= TMenuItem.Create(Self);
+    mnuTabCloseAllAll.Caption:= 'All (all groups)';
+    mnuTabCloseAllAll.OnClick:= @mnuTabCloseAllAllClick;
+    mnuTabCloseSub.Add(mnuTabCloseAllAll);
+
+    mi:= TMenuItem.Create(Self);
+    mi.Caption:= '-';
+    mnuTabCloseSub.Add(mi);
+
+    mnuTabCloseLeft:= TMenuItem.Create(Self);
+    mnuTabCloseLeft.Caption:= 'Left tabs (same group)';
+    mnuTabCloseLeft.OnClick:= @mnuTabCloseLeftClick;
+    mnuTabCloseSub.Add(mnuTabCloseLeft);
+
+    mnuTabCloseRight:= TMenuItem.Create(Self);
+    mnuTabCloseRight.Caption:= 'Right tabs (same group)';
+    mnuTabCloseRight.OnClick:= @mnuTabCloseRightClick;
+    mnuTabCloseSub.Add(mnuTabCloseRight);
+
+    mi:= TMenuItem.Create(Self);
+    mi.Caption:= '-';
+    PopupTab.Items.Add(mi);
+
+    mnuTabSave:= TMenuItem.Create(Self);
+    mnuTabSave.Caption:= 'Save';
+    mnuTabSave.OnClick:= @mnuTabSaveClick;
+    PopupTab.Items.Add(mnuTabSave);
+
+    mnuTabSaveAs:= TMenuItem.Create(Self);
+    mnuTabSaveAs.Caption:= 'Save as...';
+    mnuTabSaveAs.OnClick:= @mnuTabSaveAsClick;
+    PopupTab.Items.Add(mnuTabSaveAs);
+
+    mi:= TMenuItem.Create(Self);
+    mi.Caption:= '-';
+    PopupTab.Items.Add(mi);
+
+    mnuTabCopySub:= TMenuItem.Create(Self);
+    mnuTabCopySub.Caption:= 'Copy to clipboard';
+    PopupTab.Items.Add(mnuTabCopySub);
+
+    mnuTabCopyFullPath:= TMenuItem.Create(Self);
+    mnuTabCopyFullPath.Caption:= 'Copy full filepath';
+    mnuTabCopyFullPath.OnClick:= @mnuTabCopyFullPathClick;
+    mnuTabCopySub.Add(mnuTabCopyFullPath);
+
+    mnuTabCopyDir:= TMenuItem.Create(Self);
+    mnuTabCopyDir.Caption:= 'Copy filepath only';
+    mnuTabCopyDir.OnClick:= @mnuTabCopyDirClick;
+    mnuTabCopySub.Add(mnuTabCopyDir);
+
+    mnuTabCopyName:= TMenuItem.Create(Self);
+    mnuTabCopyName.Caption:= 'Copy filename only';
+    mnuTabCopyName.OnClick:= @mnuTabCopyNameClick;
+    mnuTabCopySub.Add(mnuTabCopyName);
+
+    mnuTabMoveSub:= TMenuItem.Create(Self);
+    mnuTabMoveSub.Caption:= 'Move tab to group';
+    PopupTab.Items.Add(mnuTabMoveSub);
+
+    mnuTabMove1:= TMenuItem.Create(Self);
+    mnuTabMove1.Caption:= '1';
+    mnuTabMove1.OnClick:= @mnuTabMove1Click;
+    mnuTabMoveSub.Add(mnuTabMove1);
+
+    mnuTabMove2:= TMenuItem.Create(Self);
+    mnuTabMove2.Caption:= '2';
+    mnuTabMove2.OnClick:= @mnuTabMove2Click;
+    mnuTabMoveSub.Add(mnuTabMove2);
+
+    mnuTabMove3:= TMenuItem.Create(Self);
+    mnuTabMove3.Caption:= '3';
+    mnuTabMove3.OnClick:= @mnuTabMove3Click;
+    mnuTabMoveSub.Add(mnuTabMove3);
+
+    mnuTabMove4:= TMenuItem.Create(Self);
+    mnuTabMove4.Caption:= '4';
+    mnuTabMove4.OnClick:= @mnuTabMove4Click;
+    mnuTabMoveSub.Add(mnuTabMove4);
+
+    mnuTabMove5:= TMenuItem.Create(Self);
+    mnuTabMove5.Caption:= '5';
+    mnuTabMove5.OnClick:= @mnuTabMove5Click;
+    mnuTabMoveSub.Add(mnuTabMove5);
+
+    mnuTabMove6:= TMenuItem.Create(Self);
+    mnuTabMove6.Caption:= '6';
+    mnuTabMove6.OnClick:= @mnuTabMove6Click;
+    mnuTabMoveSub.Add(mnuTabMove6);
+
+    mi:= TMenuItem.Create(Self);
+    mi.Caption:= '-';
+    mnuTabMoveSub.Add(mi);
+
+    mnuTabMoveF1:= TMenuItem.Create(Self);
+    mnuTabMoveF1.Caption:= 'Floating 1';
+    mnuTabMoveF1.OnClick:= @mnuTabMoveF1Click;
+    mnuTabMoveSub.Add(mnuTabMoveF1);
+
+    mnuTabMoveF2:= TMenuItem.Create(Self);
+    mnuTabMoveF2.Caption:= 'Floating 2';
+    mnuTabMoveF2.OnClick:= @mnuTabMoveF2Click;
+    mnuTabMoveSub.Add(mnuTabMoveF2);
+
+    mnuTabMoveF3:= TMenuItem.Create(Self);
+    mnuTabMoveF3.Caption:= 'Floating 3';
+    mnuTabMoveF3.OnClick:= @mnuTabMoveF3Click;
+    mnuTabMoveSub.Add(mnuTabMoveF3);
+
+    mi:= TMenuItem.Create(Self);
+    mi.Caption:= '-';
+    mnuTabMoveSub.Add(mi);
+
+    mnuTabMoveNext:= TMenuItem.Create(Self);
+    mnuTabMoveNext.Caption:= 'Next';
+    mnuTabMoveNext.OnClick:= @mnuTabMoveNextClick;
+    mnuTabMoveSub.Add(mnuTabMoveNext);
+
+    mnuTabMovePrev:= TMenuItem.Create(Self);
+    mnuTabMovePrev.Caption:= 'Previous';
+    mnuTabMovePrev.OnClick:= @mnuTabMovePrevClick;
+    mnuTabMoveSub.Add(mnuTabMovePrev);
+
+    mnuTabColor:= TMenuItem.Create(Self);
+    mnuTabColor.Caption:= 'Set tab color...';
+    mnuTabColor.OnClick:= @mnuTabColorClick;
+    PopupTab.Items.Add(mnuTabColor);
+  end;
+
+  DoLocalizePopupTab;
 end;
 
 procedure TfmMain.StatusPanelClick(Sender: TObject; AIndex: Integer);
@@ -3763,6 +3928,7 @@ var
   CurForm: TForm;
   NVis, NCur: Integer;
 begin
+
   CurForm:= Screen.ActiveForm;
   GroupsCtx:= nil;
   NCur:= -1;
