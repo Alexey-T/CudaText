@@ -146,21 +146,23 @@ class Command:
             msg_status('Cannot download list')
             return
 
+        self.init_progress()
+        self.stop_progress = False
+        self.stopped_progress = False
+        dlg_proc(self.h_pro, DLG_SHOW_NONMODAL)
+
         err = 0
-        stopped = False
-        app_proc(PROC_SET_ESCAPE, False)
 
         for (i, item) in enumerate(items):
             url = item['url']
 
-            if app_proc(PROC_GET_ESCAPE, '')==True:
-                app_proc(PROC_SET_ESCAPE, False)
-                if msg_box('Stop downloading?', MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
-                    stopped = True
-                    break
+            if self.stop_progress:
+                self.stopped_progress = True
+                break
 
-            app_proc(PROC_PROGRESSBAR, (i+1)*100//len(items))
-            msg_status('Downloading: %d/%d'%(i+1, len(items)), True) #must be with True
+            percent = (i+1)*100//len(items)
+            text = 'Downloading: %d/%d'%(i+1, len(items))
+            self.show_progress(percent, text)
 
             name = unquote(url.split('/')[-1])
             dir = os.path.join(dir_for_all, name.split('.')[0])
@@ -175,10 +177,9 @@ class Command:
                 print('Cannot download file: '+url)
                 continue
 
-        app_proc(PROC_PROGRESSBAR, 0)
-        app_proc(PROC_PROGRESSBAR, -1)
+        self.hide_progress()
 
-        text = 'Download done' if not stopped else 'Download stopped'
+        text = 'Download done' if not self.stop_progress else 'Download stopped'
         if err>0:
             text += '\nErrors occured, see Python console'
         msg_box(text, MB_OK+MB_ICONINFO)
@@ -274,7 +275,7 @@ class Command:
             for item in req_items:
                 self.do_install_single(item['name'], item['url'], item['v'], item['kind'], True, False)
 
-        self.do_install_single(name, url, version, kind, 
+        self.do_install_single(name, url, version, kind,
             not opt.install_confirm,
             opt.suggest_readme)
 
@@ -315,7 +316,7 @@ class Command:
             m = props[2]
             if m:
                 after_install(m)
-            
+
             if m and suggest_readme:
                 names = []
                 fn = get_readme_of_module(m)
@@ -584,3 +585,64 @@ class Command:
     def install_from_github(self):
 
         do_install_from_github()
+
+    def init_progress(self):
+
+        self.h_pro = dlg_proc(0, DLG_CREATE)
+        dlg_proc(self.h_pro, DLG_PROP_SET, prop={
+            'cap': 'Download add-ons',
+            'w': 400,
+            'h': 110,
+            'topmost': True,
+            'on_close': self.progress_close,
+            })
+
+        n = dlg_proc(self.h_pro, DLG_CTL_ADD, prop='label')
+        dlg_proc(self.h_pro, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'inf',
+            'cap': 'Downloading...',
+            'x': 10,
+            'y': 25,
+            })
+
+        n = dlg_proc(self.h_pro, DLG_CTL_ADD, prop='progressbar')
+        dlg_proc(self.h_pro, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'pro',
+            'x': 10,
+            'y': 50,
+            'w': 380,
+            'h': 15,
+            'ex1': 0, #min
+            'ex2': 100, #max
+            'ex3': True, #smooth
+            })
+
+        n = dlg_proc(self.h_pro, DLG_CTL_ADD, prop='button')
+        dlg_proc(self.h_pro, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn',
+            'cap': 'Cancel',
+            'x': 150,
+            'w': 100,
+            'y': 80,
+            'on_change': self.progress_btn_click,
+            })
+
+    def show_progress(self, percent, text):
+
+        dlg_proc(self.h_pro, DLG_CTL_PROP_SET, name='pro', prop={'val': percent,})
+        dlg_proc(self.h_pro, DLG_CTL_PROP_SET, name='inf', prop={'cap': text,})
+        app_idle(False)
+
+    def hide_progress(self):
+
+        dlg_proc(self.h_pro, DLG_HIDE)
+        dlg_proc(self.h_pro, DLG_FREE)
+        self.h_pro = None
+
+    def progress_btn_click(self, id_dlg, id_ctl, data='', info=''):
+
+        self.stop_progress = True
+
+    def progress_close(self, id_dlg, id_ctl, data='', info=''):
+
+        self.stop_progress = True
