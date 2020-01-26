@@ -50,8 +50,13 @@ begin
     Sign:= '+='
   else
     Sign:= '=';
-  Str:= Format('import sys; sys.path %s [%s]', [Sign, Str]);
-  GetPythonEngine.ExecString(Str);
+  Str:= Format('sys.path %s [%s]', [Sign, Str]);
+
+  with GetPythonEngine do
+  begin
+    ExecString('import sys; print("Python %d.%d.%d" % sys.version_info[:3])');
+    ExecString(Str);
+  end;
 end;
 
 

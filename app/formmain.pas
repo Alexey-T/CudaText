@@ -4005,6 +4005,7 @@ begin
 
   Py_SetSysPath(Str, PathAppend);
 
+  (*
   InitPy:= AppDir_Py+DirectorySeparator+'cudatext_init.py';
   if not FileExists(InitPy) then exit;
 
@@ -4018,6 +4019,7 @@ begin
   finally
     FreeAndNil(InitList);
   end;
+  *)
 end;
 
 procedure TfmMain.InitPyEngine;
