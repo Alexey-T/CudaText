@@ -441,9 +441,6 @@ type
     procedure PopupRecentsPopup(Sender: TObject);
     procedure PopupTabPopup(Sender: TObject);
     procedure PopupTextPopup(Sender: TObject);
-    procedure PythonEngineAfterInit(Sender: TObject);
-    procedure PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
-    procedure PythonModInitialization(Sender: TObject);
     procedure StatusPanelClick(Sender: TObject; AIndex: Integer);
     procedure TimerAppIdleTimer(Sender: TObject);
     procedure TimerCmdTimer(Sender: TObject);
@@ -668,10 +665,12 @@ type
     FOption_GroupPanelSize: TPoint;
     FOption_SidebarTab: string;
 
+    procedure PythonEngineAfterInit(Sender: TObject);
+    procedure PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
+    procedure PythonModuleInitialization(Sender: TObject);
     procedure CodeTreeFilter_OnChange(Sender: TObject);
     procedure CodeTreeFilter_ResetOnClick(Sender: TObject);
-    procedure CodeTreeFilter_OnCommand(Sender: TObject; ACmd: integer;
-      const AText: string; var AHandled: boolean);
+    procedure CodeTreeFilter_OnCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
     procedure DisablePluginMenuItems;
     procedure DoApplyCenteringOption;
     procedure DoApplyLexerStyleMaps(AndApplyTheme: boolean);
@@ -4042,7 +4041,7 @@ begin
   PythonModule:= TPythonModule.Create(Self);
   PythonModule.Engine:= PythonEng;
   PythonModule.ModuleName:= 'cudatext_api';
-  PythonModule.OnInitialization:= @PythonModInitialization;
+  PythonModule.OnInitialization:= @PythonModuleInitialization;
 
   PythonEng.DllPath:= ExtractFileDir(UiOps.PyLibrary);
   PythonEng.DllName:= ExtractFileName(UiOps.PyLibrary);

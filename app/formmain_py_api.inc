@@ -7899,7 +7899,7 @@ end;
 
 
 //func at end (uses funcs above)
-procedure TfmMain.PythonModInitialization(Sender: TObject);
+procedure TfmMain.PythonModuleInitialization(Sender: TObject);
 begin
   with Sender as TPythonModule do
   begin
