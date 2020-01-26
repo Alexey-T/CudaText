@@ -50,7 +50,7 @@ begin
     Sign:= '+='
   else
     Sign:= '=';
-  Str:= Format('sys.path %s [%s]', [Sign, Str]);
+  Str:= Format('import sys; sys.path %s [%s]', [Sign, Str]);
   GetPythonEngine.ExecString(Str);
 end;
 
