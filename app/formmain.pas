@@ -363,7 +363,6 @@ type
     PopupText: TPopupMenu;
     PopupRecents: TPopupMenu;
     PythonEngine: TPythonEngine;
-    PythonIO: TPythonInputOutput;
     SplitterHorz: TSplitter;
     SplitterVert: TSplitter;
     TimerStatusAlt: TTimer;
@@ -1146,6 +1145,7 @@ uses
 
 var
   PythonModule: TPythonModule = nil;
+  PythonIO: TPythonInputOutput = nil;
 
 const
   cThreadSleepTime = 50;
@@ -4029,6 +4029,13 @@ begin
   {$ifdef windows}
   Windows.SetEnvironmentVariable('PYTHONIOENCODING', 'UTF-8');
   {$endif}
+
+  PythonIO:= TPythonInputOutput.Create(Self);
+  PythonIO.MaxLineLength:= 2000;
+  PythonIO.OnSendUniData:= @PythonIOSendUniData;
+  PythonIO.UnicodeIO:= True;
+  PythonIO.RawOutput:= False;
+  PythonEngine.IO:= PythonIO;
 
   PythonModule:= TPythonModule.Create(Self);
   PythonModule.Engine:= PythonEngine;

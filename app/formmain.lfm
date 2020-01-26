@@ -197,19 +197,10 @@ object fmMain: TfmMain
     FatalAbort = False
     FatalMsgDlg = False
     UseLastKnownVersion = False
-    IO = PythonIO
     PyFlags = [pfIgnoreEnvironmentFlag]
     OnAfterInit = PythonEngineAfterInit
     Left = 688
     Top = 8
-  end
-  object PythonIO: TPythonInputOutput
-    MaxLineLength = 2000
-    OnSendUniData = PythonIOSendUniData
-    UnicodeIO = True
-    RawOutput = False
-    Left = 736
-    Top = 24
   end
   object MainMenu: TMainMenu
     Left = 496
