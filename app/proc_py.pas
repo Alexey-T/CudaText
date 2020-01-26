@@ -184,15 +184,14 @@ end;
 
 function Py_rect_control(C: TControl): PPyObject; cdecl;
 var
-  P1, P2: TPoint;
+  Pnt: TPoint;
   R: TRect;
 begin
-  P1:= C.ClientToScreen(Point(0, 0));
-  P2:= C.ClientToScreen(Point(C.Width, C.Height));
-  R.Left:= P1.X;
-  R.Top:= P1.Y;
-  R.Right:= P2.X;
-  R.Bottom:= P2.Y;
+  Pnt:= C.ClientToScreen(Point(0, 0));
+  R.Left:= Pnt.X;
+  R.Top:= Pnt.Y;
+  R.Right:= Pnt.X + C.Width;
+  R.Bottom:= Pnt.Y + C.Height;
   Result:= Py_rect(R);
 end;
 
