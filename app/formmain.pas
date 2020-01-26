@@ -4000,22 +4000,6 @@ begin
   Str[Length(Str)-1]:= AppDir_Py+DirectorySeparator+'sys';
 
   Py_SetSysPath(Str, PathAppend);
-
-  (*
-  InitPy:= AppDir_Py+DirectorySeparator+'cudatext_init.py';
-  if not FileExists(InitPy) then exit;
-
-  InitList:= TStringList.Create;
-  try
-    InitList.LoadFromFile(InitPy);
-    try
-      GetPythonEngine.ExecStrings(InitList);
-    except
-    end;
-  finally
-    FreeAndNil(InitList);
-  end;
-  *)
 end;
 
 procedure TfmMain.InitPyEngine;
