@@ -1,4 +1,3 @@
-from time import sleep
 import cudatext_api as ct
 
 MB_OK               = 0x00
@@ -1034,7 +1033,9 @@ def to_str(v, escape=False):
 def _dlg_proc_wait(id_dialog):
     while True:
         app_idle()
-        sleep(0.01) #10 msec seems ok for CPU load
+        from time import sleep
+        sleep(0.03) # 30 msec seems ok for CPU load
+
         d = ct.dlg_proc(id_dialog, DLG_PROP_GET, '', -1, -1, '')
         if isinstance(d, dict) and not d['vis']:
             return
