@@ -1,4 +1,3 @@
-import json
 from time import sleep
 import cudatext_api as ct
 
@@ -1165,6 +1164,7 @@ class Editor:
         key,dfv = value.split(':', 1) if ':' in value else ('_', value)
         if not js_s:
             return dfv
+        import json
         js = json.loads(js_s)
         return js.get(key, dfv)
 
@@ -1175,6 +1175,7 @@ class Editor:
         key,val = value.split(':', 1) if ':' in value else ('_', value)
         js_s = ct.ed_get_prop(self.h, PROP_TAG, '')
         js_s = js_s if js_s else '{}'
+        import json
         js = json.loads(js_s)
         js[key] = val
         js_s = json.dumps(js)
