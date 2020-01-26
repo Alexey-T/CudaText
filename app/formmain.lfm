@@ -189,19 +189,6 @@ object fmMain: TfmMain
       ParentColor = False
     end
   end
-  object PythonEngine: TPythonEngine
-    AutoLoad = False
-    DllName = 'python25.dll'
-    APIVersion = 1013
-    RegVersion = '3.0'
-    FatalAbort = False
-    FatalMsgDlg = False
-    UseLastKnownVersion = False
-    PyFlags = [pfIgnoreEnvironmentFlag]
-    OnAfterInit = PythonEngineAfterInit
-    Left = 688
-    Top = 8
-  end
   object MainMenu: TMainMenu
     Left = 496
     Top = 16

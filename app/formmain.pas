@@ -362,7 +362,6 @@ type
     mnuFileClose: TMenuItem;
     PopupText: TPopupMenu;
     PopupRecents: TPopupMenu;
-    PythonEngine: TPythonEngine;
     SplitterHorz: TSplitter;
     SplitterVert: TSplitter;
     TimerStatusAlt: TTimer;
@@ -1142,10 +1141,6 @@ implementation
 uses
   Emmet,
   EmmetHelper;
-
-var
-  PythonModule: TPythonModule = nil;
-  PythonIO: TPythonInputOutput = nil;
 
 const
   cThreadSleepTime = 50;
@@ -4035,16 +4030,23 @@ begin
   PythonIO.OnSendUniData:= @PythonIOSendUniData;
   PythonIO.UnicodeIO:= True;
   PythonIO.RawOutput:= False;
-  PythonEngine.IO:= PythonIO;
+
+  PythonEng:= TPythonEngine.Create(Self);
+  PythonEng.AutoLoad:= false;
+  PythonEng.FatalAbort:= false;
+  PythonEng.FatalMsgDlg:= false;
+  PythonEng.PyFlags:= [pfIgnoreEnvironmentFlag];
+  PythonEng.OnAfterInit:= @PythonEngineAfterInit;
+  PythonEng.IO:= PythonIO;
 
   PythonModule:= TPythonModule.Create(Self);
-  PythonModule.Engine:= PythonEngine;
+  PythonModule.Engine:= PythonEng;
   PythonModule.ModuleName:= 'cudatext_api';
   PythonModule.OnInitialization:= @PythonModInitialization;
 
-  PythonEngine.DllPath:= ExtractFileDir(UiOps.PyLibrary);
-  PythonEngine.DllName:= ExtractFileName(UiOps.PyLibrary);
-  PythonEngine.LoadDll;
+  PythonEng.DllPath:= ExtractFileDir(UiOps.PyLibrary);
+  PythonEng.DllName:= ExtractFileName(UiOps.PyLibrary);
+  PythonEng.LoadDll;
 
   if PythonOK then
   begin
