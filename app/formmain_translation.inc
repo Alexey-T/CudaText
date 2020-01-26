@@ -77,6 +77,11 @@ begin
       DoLocMenuitem(ini, mnuTabSaveAs, 'ct', 'sv_as');
       DoLocMenuitem(ini, mnuTabColor, 'ct', 'col_t');
 
+      DoLocMenuitem(mnuTabCopySub, msgCopySub);
+      DoLocMenuitem(mnuTabCopyFullPath, msgCopyFilenameFull);
+      DoLocMenuitem(mnuTabCopyName, msgCopyFilenameName);
+      DoLocMenuitem(mnuTabCopyDir, msgCopyFilenameDir);
+
       DoLocMenuitem(ini, mnuTabMoveSub, 'ct', 'mov_');
       DoLocMenuitem(ini, mnuTabMoveF1, 'ct', 'mov_f1');
       DoLocMenuitem(ini, mnuTabMoveF2, 'ct', 'mov_f2');
@@ -169,11 +174,6 @@ begin
     DoLocMenuitem(mnuEditCopyFFull, msgCopyFilenameFull);
     DoLocMenuitem(mnuEditCopyFName, msgCopyFilenameName);
     DoLocMenuitem(mnuEditCopyFDir, msgCopyFilenameDir);
-
-    DoLocMenuitem(mnuTabCopySub, msgCopySub);
-    DoLocMenuitem(mnuTabCopyFullPath, msgCopyFilenameFull);
-    DoLocMenuitem(mnuTabCopyName, msgCopyFilenameName);
-    DoLocMenuitem(mnuTabCopyDir, msgCopyFilenameDir);
 
     DoLocMenuitem(ini, mnuEditLineOp, 'm_e', 'ln_');
     DoLocMenuitem(ini, mnuEditLineDel, 'm_e', 'ln_del');
