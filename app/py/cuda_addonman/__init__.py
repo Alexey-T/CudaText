@@ -147,8 +147,7 @@ class Command:
             return
 
         self.init_progress()
-        self.stop_progress = False
-        self.stopped_progress = False
+        self.stopped = False
         dlg_proc(self.h_pro, DLG_SHOW_NONMODAL)
 
         err = 0
@@ -156,8 +155,7 @@ class Command:
         for (i, item) in enumerate(items):
             url = item['url']
 
-            if self.stop_progress:
-                self.stopped_progress = True
+            if self.stopped:
                 break
 
             percent = (i+1)*100//len(items)
@@ -179,7 +177,7 @@ class Command:
 
         self.hide_progress()
 
-        text = 'Download done' if not self.stop_progress else 'Download stopped'
+        text = 'Download done' if not self.stopped else 'Download stopped'
         if err>0:
             text += '\nErrors occured, see Python console'
         msg_box(text, MB_OK+MB_ICONINFO)
@@ -641,8 +639,8 @@ class Command:
 
     def progress_btn_click(self, id_dlg, id_ctl, data='', info=''):
 
-        self.stop_progress = True
+        self.stopped = True
 
     def progress_close(self, id_dlg, id_ctl, data='', info=''):
 
-        self.stop_progress = True
+        self.stopped = True
