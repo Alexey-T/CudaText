@@ -54,7 +54,8 @@ begin
 
   with GetPythonEngine do
   begin
-    ExecString('import sys; print("Python %d.%d.%d" % sys.version_info[:3])');
+    PyImport_ImportModule('sys');
+    ExecString('print("Python %d.%d.%d" % sys.version_info[:3])');
     ExecString(Str);
   end;
 end;
@@ -94,8 +95,11 @@ begin
     Format('%s.%s(%s)', [SObj, AMethod, Py_ArgListToString(AParams)]);
 
   try
-    GetPythonEngine.ExecString(SCmd1);
-    Result:= GetPythonEngine.EvalStringAsStr(SCmd2);
+    with GetPythonEngine do
+    begin
+      ExecString(SCmd1);
+      Result:= EvalStringAsStr(SCmd2);
+    end;
   except
   end;
 end;
@@ -136,8 +140,11 @@ begin
       Format('%s.%s(%s)', [SObj, ACmd, SParams]);
 
     try
-      GetPythonEngine.ExecString(Str1);
-      Result:= Py_EvalStringAsString(Str2);
+      with GetPythonEngine do
+      begin
+        ExecString(Str1);
+        Result:= Py_EvalStringAsString(Str2);
+      end;
     except
     end;
   end
@@ -150,8 +157,11 @@ begin
       Format('    _ = %s.%s(%s)',    [SObj, ACmd, SParams]);
 
     try
-      GetPythonEngine.ExecString(Str1);
-      Result:= Py_EvalStringAsString('_');
+      with GetPythonEngine do
+      begin
+        ExecString(Str1);
+        Result:= Py_EvalStringAsString('_');
+      end;
     except
     end;
   end;
