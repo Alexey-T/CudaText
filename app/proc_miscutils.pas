@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, StdCtrls, ComCtrls, Graphics,
-  ImgList, Dialogs, Forms, Menus,
+  ImgList, Dialogs, Forms, Menus, ExtCtrls,
   LclIntf, LclType, LazFileUtils, StrUtils,
   at__jsonConf,
   ATSynEdit,
@@ -41,6 +41,7 @@ procedure Canvas_PaintPolygonFromSting(C: TCanvas; const AText: string);
 procedure Canvas_PaintImageInRect(C: TCanvas; APic: TGraphic; const ARect: TRect);
 function DoPictureLoadFromFile(const AFilename: string): TGraphic;
 procedure DoScalePanelControls(APanel: TWinControl);
+procedure AppScaleSplitter(C: TSplitter);
 
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
 procedure LexerEnumStyles(An: TecSyntAnalyzer; List: TStringList);
@@ -820,6 +821,18 @@ function FormatFilenameForMenu(const fn: string): string;
 begin
   Result:= ExtractFileName(fn)+' ('+ExtractFileDir(fn)+')';
 end;
+
+procedure AppScaleSplitter(C: TSplitter);
+var
+  NSize: integer;
+begin
+  NSize:= AppScale(4);
+  if C.Align in [alLeft, alRight] then
+    C.Width:= NSize
+  else
+    C.Height:= NSize;
+end;
+
 
 end.
 

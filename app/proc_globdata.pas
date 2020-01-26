@@ -18,7 +18,7 @@ uses
   Windows,
   {$endif}
   Classes, SysUtils, Forms, Controls, Menus,
-  Dialogs, Graphics, ExtCtrls, ComCtrls,
+  Dialogs, Graphics,
   syncobjs,
   Math,
   InterfaceBase,
@@ -546,7 +546,6 @@ function AppScale(AValue: integer): integer;
 function AppScaleFont(AValue: integer): integer;
 procedure AppScaleToolbar(C: TATFlatToolbar);
 //procedure AppScaleScrollbar(C: TATScroll);
-procedure AppScaleSplitter(C: TSplitter);
 function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
 procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
 procedure AppUpdateWatcherFrames;
@@ -2184,17 +2183,6 @@ begin
   C.ScalePercents:= UiOps.Scale;
 end;
 }
-
-procedure AppScaleSplitter(C: TSplitter);
-var
-  NSize: integer;
-begin
-  NSize:= AppScale(4);
-  if C.Align in [alLeft, alRight] then
-    C.Width:= NSize
-  else
-    C.Height:= NSize;
-end;
 
 procedure DoMenuitemEllipsis(c: TMenuItem);
 var
