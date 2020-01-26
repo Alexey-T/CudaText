@@ -4031,7 +4031,9 @@ begin
   PythonEngine.LoadDll;
 
   if PythonOK then
-    GetPythonEngine.ExecString('import sys')
+  begin
+    //GetPythonEngine.ExecString('import sys')
+  end
   else
   begin
     FConsoleMustShow:= true;
