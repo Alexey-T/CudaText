@@ -203,13 +203,11 @@ begin
   if ssMiddle in Shift then Result+= 'M';
 end;
 
-// UpdateImagelistWithIconFromFile is called many times, don't recreate objects
-var
-  _bmp: TBitmap = nil;
-  _png: TPortableNetworkGraphic = nil;
 
 function UpdateImagelistWithIconFromFile(AList: TCustomImagelist; const AFilename: string): integer;
 var
+  bmp: TBitmap;
+  png: TPortableNetworkGraphic;
   ext: string;
 begin
   Result:= -1;
@@ -219,19 +217,25 @@ begin
   try
     if ext='.bmp' then
     begin
-      if _bmp=nil then
-        _bmp:= TBitmap.Create;
-      _bmp.LoadFromFile(AFilename);
-      _bmp.Transparent:= true;
-      AList.Add(_bmp, nil);
+      bmp:= TBitmap.Create;
+      try
+        bmp.LoadFromFile(AFilename);
+        bmp.Transparent:= true;
+        AList.Add(bmp, nil);
+      finally
+        FreeAndNil(bmp);
+      end;
     end
     else
     if ext='.png' then
     begin
-      if _png=nil then
-        _png:= TPortableNetworkGraphic.Create;
-      _png.LoadFromFile(AFilename);
-      AList.Add(_png, nil);
+      png:= TPortableNetworkGraphic.Create;
+      try
+        png.LoadFromFile(AFilename);
+        AList.Add(png, nil);
+      finally
+        FreeAndNil(png);
+      end;
     end
     else
       exit;
