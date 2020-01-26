@@ -54,7 +54,6 @@ begin
 
   with GetPythonEngine do
   begin
-    PyImport_ImportModule('sys');
     ExecString('print("Python %d.%d.%d" % sys.version_info[:3])');
     ExecString(Str);
   end;
