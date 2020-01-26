@@ -26,7 +26,6 @@ uses
   LazUTF8,
   FileUtil, IniFiles, StrUtils,
   Process,
-  PythonEngine,
   ATSynEdit,
   ATSynEdit_Keymap,
   ATSynEdit_Keymap_Init,
@@ -506,11 +505,6 @@ type
   end;
 var
   EditorOps: TEditorOps;
-
-var
-  PythonEng: TPythonEngine = nil;
-  PythonModule: TPythonModule = nil;
-  PythonIO: TPythonInputOutput = nil;
 
 var
   AppDir_Home: string;

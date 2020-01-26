@@ -1141,6 +1141,11 @@ uses
   Emmet,
   EmmetHelper;
 
+var
+  PythonEng: TPythonEngine = nil;
+  PythonModule: TPythonModule = nil;
+  PythonIO: TPythonInputOutput = nil;
+
 const
   cThreadSleepTime = 50;
   cThreadSleepCount = 20;
