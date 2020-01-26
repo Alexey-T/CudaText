@@ -4022,6 +4022,10 @@ end;
 
 procedure TfmMain.InitPyEngine;
 begin
+  {$ifdef windows}
+  Windows.SetEnvironmentString('PYTHONIOENCODING', 'UTF-8');
+  {$endif}
+
   PythonEngine.DllPath:= ExtractFileDir(UiOps.PyLibrary);
   PythonEngine.DllName:= ExtractFileName(UiOps.PyLibrary);
   PythonEngine.LoadDll;
