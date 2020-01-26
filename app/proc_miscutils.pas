@@ -65,8 +65,7 @@ procedure DoApplyThemeToToolbar(C: TATFlatToolbar);
 function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
 function ConvertShiftStateToString(const Shift: TShiftState): string;
 function KeyboardStateToShiftState: TShiftState; //like VCL
-function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist;
-         const AFilename: string; const AIndex: integer = -1): integer;
+function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist; const AFilename: string): integer;
 function FormatFileDateAsNiceString(const AFilename: string): string;
 function FormatFilenameForMenu(const fn: string): string;
 
@@ -205,7 +204,7 @@ begin
 end;
 
 function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist;
-  const AFilename: string; const AIndex: integer = -1): integer;
+  const AFilename: string): integer;
 var
   bmp: TCustomBitmap;
 begin
@@ -226,16 +225,8 @@ begin
       bmp.LoadFromFile(AFilename);
       bmp.Transparent:= true;
 
-      if AIndex >= 0 then
-      begin
-        AImagelist.Replace(AIndex, bmp, nil);
-        Result:= AIndex;
-      end
-      else
-      begin
-        AImagelist.Add(bmp, nil);
-        Result:= AImageList.Count-1;
-      end;
+      AImagelist.Add(bmp, nil);
+      Result:= AImageList.Count-1;
     finally
       FreeAndNil(bmp);
     end;
