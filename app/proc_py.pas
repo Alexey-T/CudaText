@@ -104,14 +104,6 @@ begin
   end;
 end;
 
-function Py_EvalStringAsString(const command: string): string;
-begin
-  Result:= GetPythonEngine.EvalStringAsStr(command);
-end;
-
-//var
-//  _EventBusy: boolean = false;
-
 function Py_RunPlugin_Event(const AModule, ACmd: string;
   AEd: TATSynEdit; const AParams: array of string;
   ALazy: boolean): string;
@@ -143,7 +135,7 @@ begin
       with GetPythonEngine do
       begin
         ExecString(Str1);
-        Result:= Py_EvalStringAsString(Str2);
+        Result:= EvalStringAsStr(Str2);
       end;
     except
     end;
@@ -160,7 +152,7 @@ begin
       with GetPythonEngine do
       begin
         ExecString(Str1);
-        Result:= Py_EvalStringAsString('_');
+        Result:= EvalStringAsStr('_');
       end;
     except
     end;
