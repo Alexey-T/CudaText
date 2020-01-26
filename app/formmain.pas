@@ -364,7 +364,6 @@ type
     PopupRecents: TPopupMenu;
     PythonEngine: TPythonEngine;
     PythonIO: TPythonInputOutput;
-    PythonMod: TPythonModule;
     SplitterHorz: TSplitter;
     SplitterVert: TSplitter;
     TimerStatusAlt: TTimer;
@@ -1144,6 +1143,9 @@ implementation
 uses
   Emmet,
   EmmetHelper;
+
+var
+  PythonModule: TPythonModule = nil;
 
 const
   cThreadSleepTime = 50;
@@ -4028,13 +4030,17 @@ begin
   Windows.SetEnvironmentVariable('PYTHONIOENCODING', 'UTF-8');
   {$endif}
 
+  PythonModule:= TPythonModule.Create(Self);
+  PythonModule.Engine:= PythonEngine;
+  PythonModule.ModuleName:= 'cudatext_api';
+  PythonModule.OnInitialization:= @PythonModInitialization;
+
   PythonEngine.DllPath:= ExtractFileDir(UiOps.PyLibrary);
   PythonEngine.DllName:= ExtractFileName(UiOps.PyLibrary);
   PythonEngine.LoadDll;
 
   if PythonOK then
   begin
-    //GetPythonEngine.ExecString('import sys')
   end
   else
   begin

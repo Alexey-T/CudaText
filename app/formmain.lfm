@@ -211,14 +211,6 @@ object fmMain: TfmMain
     Left = 736
     Top = 24
   end
-  object PythonMod: TPythonModule
-    Engine = PythonEngine
-    OnInitialization = PythonModInitialization
-    ModuleName = 'cudatext_api'
-    Errors = <>
-    Left = 784
-    Top = 40
-  end
   object MainMenu: TMainMenu
     Left = 496
     Top = 16
