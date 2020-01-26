@@ -917,8 +917,7 @@ type
     procedure DoOps_LoadCodetreeIcons;
     procedure DoOps_LoadToolbarIcons;
     procedure DoOps_LoadCommandLineOptions;
-    procedure DoOps_LoadCommandLineOptionsEx(const AItems: array of string;
-      AHaltOnBadParam: boolean);
+    procedure DoOps_LoadCommandLineOptionsEx(const AItems: array of string; AHaltOnBadParam: boolean);
     procedure DoOps_LoadLexerLib(AOnCreate: boolean);
     procedure DoOps_SaveHistory;
     procedure DoOps_SaveHistory_GroupView(c: TJsonConfig);
@@ -932,8 +931,7 @@ type
     procedure DoOps_LoadOptionsLexerSpecific(F: TEditorFrame);
     procedure DoOps_OpenFile_LexerSpecific;
     procedure DoOps_LoadPlugins;
-    procedure DoOps_DialogFont(var OpName: string; var OpSize: integer;
-      const AConfigStrName, AConfigStrSize: string);
+    procedure DoOps_DialogFont(var OpName: string; var OpSize: integer; const AConfigStrName, AConfigStrSize: string);
     procedure DoOps_DialogFont_Text;
     procedure DoOps_DialogFont_Ui;
     procedure DoOps_DialogFont_Output;
@@ -4298,6 +4296,7 @@ begin
     begin
       FToolbarIconsLoaded:= true;
       DoOps_LoadToolbarIcons;
+      AppScaleToolbar(ToolbarMain);
     end;
     ToolbarMain.UpdateControls;
   end;
