@@ -207,8 +207,7 @@ end;
 
 function UpdateImagelistWithIconFromFile(AList: TCustomImagelist; const AFilename: string): integer;
 var
-  bmp: TBitmap;
-  png: TPortableNetworkGraphic;
+  bmp: TCustomBitmap;
   ext: string;
 begin
   Result:= -1;
@@ -230,13 +229,13 @@ begin
     else
     if ext='.png' then
     begin
-      png:= TPortableNetworkGraphic.Create;
+      bmp:= TPortableNetworkGraphic.Create;
       try
-        png.LoadFromFile(AFilename);
-        png.Transparent:= true;
-        AList.Add(png, nil);
+        bmp.LoadFromFile(AFilename);
+        bmp.Transparent:= true;
+        AList.Add(bmp, nil);
       finally
-        FreeAndNil(png);
+        FreeAndNil(bmp);
       end;
     end
     else
