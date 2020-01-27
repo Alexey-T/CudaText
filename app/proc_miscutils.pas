@@ -233,6 +233,7 @@ begin
       png:= TPortableNetworkGraphic.Create;
       try
         png.LoadFromFile(AFilename);
+        png.Transparent:= true;
         AList.Add(png, nil);
       finally
         FreeAndNil(png);
