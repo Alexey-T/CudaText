@@ -215,9 +215,9 @@ begin
   ext:= ExtractFileExt(AFilename);
 
   try
-    if ext='.bmp' then
+    if ext='.png' then
     begin
-      bmp:= TBitmap.Create;
+      bmp:= TPortableNetworkGraphic.Create;
       try
         bmp.LoadFromFile(AFilename);
         bmp.Transparent:= true;
@@ -227,9 +227,9 @@ begin
       end;
     end
     else
-    if ext='.png' then
+    if ext='.bmp' then
     begin
-      bmp:= TPortableNetworkGraphic.Create;
+      bmp:= TBitmap.Create;
       try
         bmp.LoadFromFile(AFilename);
         bmp.Transparent:= true;
