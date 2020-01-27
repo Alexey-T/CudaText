@@ -306,11 +306,11 @@ begin
     SFunc:= Parts[2].Str;
     SParam:= Parts[4].Str;
     Result:= Py_RunPlugin_Command(SModule, SFunc, [SParam]);
-    fmMain.MsgLogConsole(Format(msgCallbackDeprecated, [ACallback]));
+    MsgLogConsole(Format(msgCallbackDeprecated, [ACallback]));
     exit;
   end;
 
-  fmMain.MsgLogConsole(Format(msgCallbackBad, [ACallback]));
+  MsgLogConsole(Format(msgCallbackBad, [ACallback]));
 end;
 
 

@@ -39,11 +39,8 @@ var
   AppStyleId2: TecSyntaxFormat = nil;
   AppStyleError: TecSyntaxFormat = nil;
 
-type
-  TAppColorMessageProcedure = procedure(const S: string) of object;
-
 procedure DoInitTheme(var D: TAppTheme);
-procedure DoLoadTheme(const fn: string; var D: TAppTheme; IsThemeUI: boolean; LogProc: TAppColorMessageProcedure);
+procedure DoLoadTheme(const fn: string; var D: TAppTheme; IsThemeUI: boolean);
 procedure DoSaveTheme(const fn: string; const D: TAppTheme; IsThemeUI: boolean);
 function GetAppColor(const AName: string): TColor;
 function GetAppStyleFromName(const SName: string): TecSyntaxFormat;
@@ -54,8 +51,7 @@ uses
   ATButtons,
   at__jsonconf;
 
-procedure DoLoadTheme(const fn: string; var D: TAppTheme; IsThemeUI: boolean;
-  LogProc: TAppColorMessageProcedure);
+procedure DoLoadTheme(const fn: string; var D: TAppTheme; IsThemeUI: boolean);
 var
   c: TJsonConfig;
   //
@@ -67,7 +63,7 @@ var
     s:= c.GetValue(id, '?');
     if s='?' then
     begin
-      LogProc(Format(msgErrorInTheme, [ExtractFileName(fn), id]));
+      MsgLogConsole(Format(msgErrorInTheme, [ExtractFileName(fn), id]));
       exit;
     end;
     if s='' then
@@ -82,7 +78,7 @@ var
 begin
   if not FileExists(fn) then
   begin
-    LogProc('Theme file not found: '+fn);
+    MsgLogConsole('Theme file not found: '+fn);
     exit;
   end;
 
@@ -106,7 +102,7 @@ begin
       begin
         st:= TecSyntaxFormat(d.Styles[i]);
         if not DoLoadLexerStyleFromFile_JsonTheme(st, c, 'Lex_'+st.DisplayName) then
-          LogProc(Format(msgErrorInTheme,
+          MsgLogConsole(Format(msgErrorInTheme,
             [ExtractFileName(fn), 'Lex_'+st.DisplayName]));
       end;
     end;

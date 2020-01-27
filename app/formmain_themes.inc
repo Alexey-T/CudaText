@@ -216,8 +216,7 @@ begin
     DoLoadTheme(
       AppDir_DataThemes+DirectorySeparator+UiOps.ThemeUi+AppExtensionThemeUi,
       AppTheme,
-      true,
-      @MsgLogConsole
+      true
       );
 
   DoClearLexersAskedList;
@@ -243,8 +242,7 @@ begin
     DoLoadTheme(
       AppDir_DataThemes+DirectorySeparator+UiOps.ThemeSyntax+AppExtensionThemeSyntax,
       AppTheme,
-      false,
-      @MsgLogConsole
+      false
       );
 
   DoClearLexersAskedList;

@@ -24,7 +24,7 @@ var
 
 procedure MsgOldApi(const s: string);
 begin
-  fmMain.MsgLogConsole(Format(msgApiDeprecated, [s]));
+  MsgLogConsole(Format(msgApiDeprecated, [s]));
 end;
 
 
@@ -329,7 +329,7 @@ end;
 
 procedure TfmMain.PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
 begin
-  FConsoleQueue.Push( UTF8Encode(Data) );
+  AppConsoleQueue.Push( UTF8Encode(Data) );
 end;
 
 
@@ -7715,7 +7715,7 @@ begin
             if Form.Parent=nil then
               Form.DoEmulatedModalShow
             else
-              fmMain.MsgLogConsole('Error: DLG_SHOW_MODAL was called for docked form');
+              MsgLogConsole('Error: DLG_SHOW_MODAL was called for docked form');
             Result:= ReturnNone;
           end;
 

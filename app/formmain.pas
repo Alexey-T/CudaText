@@ -26,7 +26,6 @@ uses
   syncobjs,
   EncConv,
   TreeFilterEdit,
-  gqueue,
   {$ifdef LCLGTK2}
   fix_gtk_clipboard,
   {$endif}
@@ -140,8 +139,6 @@ type
     item1: TMenuItem;
     active0: boolean;
   end;
-
-  TAppConsoleQueue = specialize TQueue<string>;
 
 const
   cMenuTabsizeMin = 1;
@@ -554,7 +551,6 @@ type
     FToolbarIconsLoaded: boolean;
     FListRecents: TStringList;
     FListTimers: TStringList;
-    FConsoleQueue: TAppConsoleQueue;
     FKeymapUndoList: TATKeymapUndoList;
     FKeymapLastLexer: string;
     FConsoleMustShow: boolean;
@@ -875,7 +871,6 @@ type
     procedure MenuEncNoReloadClick(Sender: TObject);
     procedure MenuLexerClick(Sender: TObject);
     procedure MenuMainClick(Sender: TObject);
-    procedure MsgLogConsole(const AText: string);
     procedure MsgLogDebug(const AText: string);
     procedure MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
     procedure MsgStatusAlt(const AText: string; ASeconds: integer);
@@ -1693,14 +1688,14 @@ var
   NCnt, i: integer;
 begin
   //flush saved Python "print" results to console
-  if not FConsoleQueue.IsEmpty() then
+  if not AppConsoleQueue.IsEmpty() then
   begin
     //avoid output of huge items count at once
     NCnt:= 0;
-    while not FConsoleQueue.IsEmpty() and (NCnt<300) do
+    while not AppConsoleQueue.IsEmpty() and (NCnt<300) do
     begin
-      S:= FConsoleQueue.Front();
-      FConsoleQueue.Pop();
+      S:= AppConsoleQueue.Front();
+      AppConsoleQueue.Pop();
       fmConsole.DoAddLine(S);
       if UiOps.LogConsole then
         MsgLogToFilename(S, FFileNameLogConsole, false);
@@ -2108,7 +2103,6 @@ begin
   FSessionName:= '';
   FListRecents:= TStringList.Create;
   FListTimers:= TStringList.Create;
-  FConsoleQueue:= TAppConsoleQueue.Create;
 
   FKeymapUndoList:= TATKeymapUndoList.Create;
   FKeymapLastLexer:= '??'; //not ''
@@ -2375,7 +2369,6 @@ begin
   FreeAndNil(FListTimers);
 
   FreeAndNil(FListRecents);
-  FreeAndNil(FConsoleQueue);
   FreeAndNil(FKeymapUndoList);
 end;
 
@@ -6303,11 +6296,6 @@ procedure TfmMain.MsgLogDebug(const AText: string);
 begin
   if UiOps.LogDebug then
     MsgLogToFilename(AText, FFileNameLogDebug, true);
-end;
-
-procedure TfmMain.MsgLogConsole(const AText: string);
-begin
-  FConsoleQueue.Push(AText);
 end;
 
 

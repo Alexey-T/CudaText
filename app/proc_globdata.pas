@@ -20,6 +20,7 @@ uses
   Classes, SysUtils, Forms, Controls, Menus,
   Dialogs, Graphics,
   syncobjs,
+  gqueue,
   Math,
   InterfaceBase,
   LclProc, LclType, LazFileUtils,
@@ -57,6 +58,8 @@ type
     Age: LongInt;
     class operator =(const a, b: TAppFileProps): boolean;
   end;
+
+  TAppConsoleQueue = specialize TQueue<string>;
 
 var
   //ATSynEdit has range for bookmarks 0..63, 0=none
@@ -541,6 +544,7 @@ function GetAppLexerSpecificConfig(ALexer: string; ADefaultConfig: boolean=false
 function MsgBox(const Str: string; Flags: Longint): integer;
 procedure MsgBadConfig(const fn: string);
 procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
+procedure MsgLogConsole(const AText: string);
 
 function AppScale(AValue: integer): integer;
 function AppScaleFont(AValue: integer): integer;
@@ -767,6 +771,7 @@ type
   end;
 
 var
+  AppConsoleQueue: TAppConsoleQueue;
   AppCommandList: TFPList;
   AppEventList: TFPList;
   AppSidePanels: TFPList;
@@ -1973,6 +1978,11 @@ begin
   {$endif}
 end;
 
+procedure MsgLogConsole(const AText: string);
+begin
+  AppConsoleQueue.Push(AText);
+end;
+
 
 function AppEncodingShortnameToFullname(const S: string): string;
 var
@@ -2272,6 +2282,7 @@ initialization
   InitEditorOps(EditorOps);
   InitUiOps(UiOps);
 
+  AppConsoleQueue:= TAppConsoleQueue.Create;
   AppCommandList:= TFPList.Create;
   AppEventList:= TFPList.Create;
   AppSidePanels:= TFPList.Create;
@@ -2329,6 +2340,7 @@ finalization
   FreeAndNil(AppSidePanels);
   FreeAndNil(AppEventList);
   FreeAndNil(AppCommandList);
+  FreeAndNil(AppConsoleQueue);
 
 end.
 
