@@ -7156,7 +7156,6 @@ begin
       case NAction of
         TOOLBAR_UPDATE:
           begin
-            AppScaleToolbar(FToolbar);
             FToolbar.UpdateControls;
             Result:= ReturnNone;
           end;

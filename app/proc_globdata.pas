@@ -548,7 +548,6 @@ procedure MsgLogConsole(const AText: string);
 
 function AppScale(AValue: integer): integer;
 function AppScaleFont(AValue: integer): integer;
-procedure AppScaleToolbar(C: TATFlatToolbar);
 //procedure AppScaleScrollbar(C: TATScroll);
 function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
 procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
@@ -2179,11 +2178,6 @@ begin
     Result:= AppScale(AValue)
   else
     Result:= AValue * UiOps.ScaleFont div 100;
-end;
-
-procedure AppScaleToolbar(C: TATFlatToolbar);
-begin
-  C.UpdateControls();
 end;
 
 {

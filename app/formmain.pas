@@ -2911,10 +2911,12 @@ begin
   CompletionOps.AppendOpeningBracket:= UiOps.AutocompleteAddOpeningBracket;
   CompletionOps.UpDownAtEdge:= TATCompletionUpDownAtEdge(UiOps.AutocompleteUpDownAtEdge);
 
-  AppScaleToolbar(ToolbarMain);
-  AppScaleToolbar(ToolbarSideTop);
-  AppScaleToolbar(ToolbarSideLow);
-  AppScaleToolbar(ToolbarSideMid);
+  {
+  ToolbarMain.UpdateControls;
+  ToolbarSideTop.UpdateControls;
+  ToolbarSideLow.UpdateControls;
+  ToolbarSideMid.UpdateControls;
+  }
 
   LexerProgress.Width:= AppScale(UiOps.ProgressbarWidth);
   LexerProgress.Height:= AppScale(UiOps.ProgressbarHeightSmall);
@@ -4462,7 +4464,6 @@ begin
     begin
       FToolbarIconsLoaded:= true;
       DoOps_LoadToolbarIcons;
-      AppScaleToolbar(ToolbarMain);
     end;
     ToolbarMain.UpdateControls;
   end;
