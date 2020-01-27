@@ -46,7 +46,7 @@ type
     ShowRuler: boolean;
     ShowNumbers: boolean;
     ShowUnprinted: boolean;
-    FoldingVisible: boolean;
+    ShowFolding: boolean;
   end;
 
 procedure EditorSaveTempOptions(Ed: TATSynEdit; var Ops: TATEditorTempOptions);
@@ -1448,8 +1448,8 @@ begin
   Ops.ShowMicromap:= Ed.OptMicromapVisible;
   Ops.ShowRuler:= Ed.OptRulerVisible;
   Ops.ShowNumbers:= Ed.Gutter.Items[Ed.GutterBandNumbers].Visible;
+  Ops.ShowFolding:= Ed.Gutter.Items[Ed.GutterBandFolding].Visible;
   Ops.ShowUnprinted:= Ed.OptUnprintedVisible;
-  Ops.FoldingVisible:= Ed.Gutter.Items[Ed.GutterBandFolding].Visible;
 end;
 
 procedure EditorRestoreTempOptions(Ed: TATSynEdit; const Ops: TATEditorTempOptions);
@@ -1460,8 +1460,8 @@ begin
   Ed.OptMicromapVisible:= Ops.ShowMicromap;
   Ed.OptRulerVisible:= Ops.ShowRuler;
   Ed.Gutter.Items[Ed.GutterBandNumbers].Visible:= Ops.ShowNumbers;
+  Ed.Gutter.Items[Ed.GutterBandFolding].Visible:= Ops.ShowFolding;
   Ed.OptUnprintedVisible:= Ops.ShowUnprinted;
-  Ed.Gutter.Items[Ed.GutterBandFolding].Visible:= Ops.FoldingVisible;
 end;
 
 procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer);
