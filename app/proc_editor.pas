@@ -38,7 +38,7 @@ uses
   math;
 
 type
-  TATEditorTempOps = record
+  TATEditorTempOptions = record
     FontSize: integer;
     WrapMode: TATSynWrapMode;
     ShowMinimap: boolean;
@@ -48,8 +48,8 @@ type
     ShowUnprinted: boolean;
   end;
 
-procedure EditorSaveTempOptions(Ed: TATSynEdit; var Ops: TATEditorTempOps);
-procedure EditorRestoreTempOptions(Ed: TATSynEdit; const Ops: TATEditorTempOps);
+procedure EditorSaveTempOptions(Ed: TATSynEdit; var Ops: TATEditorTempOptions);
+procedure EditorRestoreTempOptions(Ed: TATSynEdit; const Ops: TATEditorTempOptions);
 procedure EditorFocus(C: TWinControl);
 procedure EditorMouseClick_AtCursor(Ed: TATSynEdit; AAndSelect: boolean);
 procedure EditorMouseClick_NearCaret(Ed: TATSynEdit; const AParams: string; AAndSelect: boolean);
@@ -1439,7 +1439,7 @@ begin
   Result:= '"'+Result+'"';
 end;
 
-procedure EditorSaveTempOptions(Ed: TATSynEdit; var Ops: TATEditorTempOps);
+procedure EditorSaveTempOptions(Ed: TATSynEdit; var Ops: TATEditorTempOptions);
 begin
   Ops.FontSize:= Ed.Font.Size;
   Ops.WrapMode:= Ed.OptWrapMode;
@@ -1450,7 +1450,7 @@ begin
   Ops.ShowUnprinted:= Ed.OptUnprintedVisible;
 end;
 
-procedure EditorRestoreTempOptions(Ed: TATSynEdit; const Ops: TATEditorTempOps);
+procedure EditorRestoreTempOptions(Ed: TATSynEdit; const Ops: TATEditorTempOptions);
 begin
   Ed.Font.Size:= Ops.FontSize;
   Ed.OptWrapMode:= Ops.WrapMode;

@@ -1147,7 +1147,7 @@ var
   Ops: TEditorOps;
   FilenameDefault, FilenameUser, CurLexer: string;
   bExistsDefault, bExistsUser: boolean;
-  TempOps: TATEditorTempOps;
+  TempOps: TATEditorTempOptions;
 begin
   if F=nil then exit;
   Ed:= F.Editor;
