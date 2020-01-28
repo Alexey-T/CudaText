@@ -77,22 +77,6 @@ begin
   sOpenOptions:= AInitOptions;
   sEncoding:= '';
 
-  (*
-  // maybe need to use this?
-  if not FileExists(fn) then
-    if MsgBox(
-      Format(msgConfirmCreateNewFile, [fn]),
-      MB_OKCANCEL or MB_ICONQUESTION) = ID_OK then
-    begin
-      if FCreateFile(fn) then
-        MsgStdout('CudaText: created file: '+fn)
-      else
-        MsgStdout('CudaText: cannot create file: '+fn);
-      if FileExistsUTF8(fn) then
-        Frame:= DoFileOpen(fn, '', nil, SOption);
-    end;
-  *)
-
   for i:= 0 to Length(AParams)-1 do
   begin
     SParam:= AParams[i];
@@ -152,6 +136,14 @@ begin
         if bReadOnly then
           Frame.ReadOnly[Frame.Ed1]:= true;
       end;
+    end
+    else
+    //file not exists? suggest to create it
+    if MsgBox(Format(msgConfirmCreateNewFile, [SParam]),
+              MB_OKCANCEL or MB_ICONQUESTION) = ID_OK then
+    begin
+      if FCreateFile(SParam) then
+        Frame:= DoFileOpen(SParam, '', nil, sOpenOptions);
     end;
   end;
 end;
