@@ -578,6 +578,7 @@ function DoControl_GetState_Listview(C: TListView): string;
 var
   i: integer;
 begin
+  Result:= '';
   if Assigned(C.ItemFocused) then
     Result:= IntToStr(C.ItemFocused.Index);
 
@@ -1964,23 +1965,15 @@ begin
 end;
 
 
-procedure DoForm_FillContent(
-  F: TFormDummy;
-  const AContent: string);
+procedure DoForm_FillContent(F: TFormDummy; const AContent: string);
 var
-  List: TStringList;
-  i: integer;
+  Sep: TATStringSeparator;
+  SItem: string;
 begin
-  List:= TStringList.Create;
-  try
-    List.StrictDelimiter:= true;
-    List.Delimiter:= #10;
-    List.DelimitedText:= AContent;
-    for i:= 0 to List.Count-1 do
-      DoForm_AddControl(F, List[i]);
-  finally
-    FreeAndNil(List);
-  end;
+  SItem:= '';
+  Sep.Init(AContent, #10);
+  while Sep.GetItemStr(SItem) do
+    DoForm_AddControl(F, SItem);
 end;
 
 
