@@ -15,30 +15,21 @@ begin
   SetLength(Items, ParamCount);
   for i:= 0 to Length(Items)-1 do
     Items[i]:= ParamStrUTF8(i+1);
-  DoOps_LoadCommandLineOptionsEx(Items, true);
+  DoOps_LoadCommandLineOptionsEx(Items);
 end;
 
-procedure TfmMain.DoOps_LoadCommandLineOptionsEx(const AItems: array of string; AHaltOnBadParam: boolean);
+procedure TfmMain.DoOps_LoadCommandLineOptionsEx(const AItems: array of string);
 var
   SParam: string;
   i: integer;
 begin
-  FOption_OpenReadOnly:= false;
   FOption_OpenNewWindow:= false;
   FOption_WindowPos:= '';
-  FOption_Encoding:= '';
-  FOption_FileOpenOptions:= '';
 
   for i:= 0 to Length(AItems)-1 do
   begin
     SParam:= AItems[i];
     if not SBeginsWith(SParam, '-') then Continue;
-
-    if (SParam='-r') then
-    begin
-      FOption_OpenReadOnly:= true;
-      Continue;
-    end;
 
     if (SParam='-n') then
     begin
@@ -65,53 +56,21 @@ begin
       Continue;
     end;
 
-    if SBeginsWith(SParam, '-e=') then
-    begin
-      Delete(SParam, 1, Pos('=', SParam));
-      FOption_Encoding:= AppEncodingShortnameToFullname(SParam);
-      if FOption_Encoding='' then
-        MsgStdout(Format(msgCommandLineUnknownEncoding, [SParam]));
-      Continue;
-    end;
-
     if (SParam='-el') then
     begin
       MsgStdout(AppEncodingListAsString, true);
       Halt;
     end;
 
-    if (SParam='-nh') then
-    begin
-      FOption_FileOpenOptions+= '/nohistory';
-      Continue;
-    end;
-
-    if SBeginsWith(SParam, '-z=') then
-    begin
-      Delete(SParam, 1, Pos('=', SParam));
-      case SParam of
-        'text':    FOption_FileOpenOptions+= '/view-text';
-        'binary':  FOption_FileOpenOptions+= '/view-binary';
-        'hex':     FOption_FileOpenOptions+= '/view-hex';
-        'unicode': FOption_FileOpenOptions+= '/view-unicode';
-      end;
-      Continue;
-    end;
-
     {$ifdef darwin}
     //macOS gives param -psn** for debugger
     if SBeginsWith(SParam, '-psn') then Continue;
     {$endif}
-
-    if AHaltOnBadParam then
-    begin
-      MsgStdout(Format(msgCommandLineUnknownOption, [SParam]));
-      Halt;
-    end;
   end;
 end;
 
-procedure TfmMain.DoLoadCommandLine_PrevInstance(const AParams: array of string);
+procedure TfmMain.DoLoadCommandParams(const AParams: array of string;
+  const AInitOptions: string);
 var
   Frame: TEditorFrame;
   SParam: string;
@@ -120,8 +79,24 @@ var
   sOpenOptions, sEncoding: string;
 begin
   bReadOnly:= false;
-  sOpenOptions:= '';
+  sOpenOptions:= AInitOptions;
   sEncoding:= '';
+
+  (*
+  // maybe need to use this?
+  if not FileExists(fn) then
+    if MsgBox(
+      Format(msgConfirmCreateNewFile, [fn]),
+      MB_OKCANCEL or MB_ICONQUESTION) = ID_OK then
+    begin
+      if FCreateFile(fn) then
+        MsgStdout('CudaText: created file: '+fn)
+      else
+        MsgStdout('CudaText: cannot create file: '+fn);
+      if FileExistsUTF8(fn) then
+        Frame:= DoFileOpen(fn, '', nil, SOption);
+    end;
+  *)
 
   for i:= 0 to Length(AParams)-1 do
   begin
@@ -200,7 +175,7 @@ begin
     Params[Length(Params)-1]:= S;
   end;
 
-  DoLoadCommandLine_PrevInstance(Params);
+  DoLoadCommandParams(Params, '');
 
   if WindowState = wsMinimized then
   begin
@@ -216,7 +191,7 @@ procedure TfmMain.UniqInstanceOtherInstance(Sender: TObject;
 begin
   if not IsAllowedToOpenFileNow then exit;
 
-  DoLoadCommandLine_PrevInstance(Parameters);
+  DoLoadCommandParams(Parameters, '');
 
   if WindowState=wsMinimized then
   begin
@@ -239,85 +214,23 @@ const
   cOptionPassive = '/passive /nonear';
   cOptionActive = '/nonear';
 var
-  Frame: TEditorFrame;
-  fn, SOption: string;
-  NumLine, NumColumn: integer;
+  Params: array of string;
+  Options: string;
   i: integer;
 begin
-  for i:= 0 to Length(FFileNamesDroppedInitially)-1 do
-  begin
-    fn:= FFileNamesDroppedInitially[i];
-    if DirectoryExistsUTF8(fn) then
-      DoFolderOpen(fn, False)
-    else
-    if FileExistsUTF8(fn) then
-      DoFileOpen(fn, '', nil, cOptionPassive);
-  end;
+  DoLoadCommandParams(FFileNamesDroppedInitially, cOptionPassive);
 
   //if passed single file, must activate it, else not
   if ParamCount<2 then
-    SOption:= cOptionActive
+    Options:= cOptionActive
   else
-    SOption:= cOptionPassive;
-  SOption+= FOption_FileOpenOptions;
+    Options:= cOptionPassive;
 
-  //if FOption_FileOpenOptions<>'' then
-  //  MsgStdout('CudaText: options "'+FOption_FileOpenOptions+'"');
+  SetLength(Params, ParamCount);
+  for i:= 1 to Length(Params) do
+    Params[i-1]:= ParamStrUTF8(i);
 
-  for i:= 1 to ParamCount do
-  begin
-    fn:= ParamStrUTF8(i);
-
-    //ignore special params
-    if SBeginsWith(fn, '-') then Continue;
-
-    //if dir, open in ProjManager
-    if DirectoryExistsUTF8(fn) then
-    begin
-      MsgStdout('CudaText: opening dir: '+fn);
-      DoFolderOpen(fn, True);
-      Continue;
-    end;
-
-    //get line number (cut from fn)
-    SParseFilenameWithTwoNumbers(fn, NumLine, NumColumn);
-
-    Frame:= nil;
-    if FileExistsUTF8(fn) then
-    begin
-      MsgStdout('CudaText: opened file: '+fn);
-      Frame:= DoFileOpen(fn, '', nil, SOption);
-    end
-    else
-    if MsgBox(
-      Format(msgConfirmCreateNewFile, [fn]),
-      MB_OKCANCEL or MB_ICONQUESTION) = ID_OK then
-    begin
-      if FCreateFile(fn) then
-        MsgStdout('CudaText: created file: '+fn)
-      else
-        MsgStdout('CudaText: cannot create file: '+fn);
-      if FileExistsUTF8(fn) then
-        Frame:= DoFileOpen(fn, '', nil, SOption);
-    end;
-
-    if Assigned(Frame) then
-    begin
-      if NumLine>0 then
-        Frame.DoGotoPos(Frame.Ed1, NumColumn-1, NumLine-1);
-
-      if FOption_OpenReadOnly then
-      begin
-        Frame.ReadOnly[Frame.Ed1]:= true;
-        MsgStatus(''); //show "[read-only]"
-      end;
-
-      if FOption_Encoding<>'' then
-      begin
-        SetFrameEncoding(Frame, FOption_Encoding, true);
-      end;
-    end;
-  end;
+  DoLoadCommandParams(Params, Options);
 end;
 
 

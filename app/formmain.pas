@@ -652,11 +652,8 @@ type
     FLastMaximized: boolean;
     FLexerProgressIndex: integer;
     FShowPassed: boolean;
-    FOption_OpenReadOnly: boolean;
     FOption_OpenNewWindow: boolean;
     FOption_WindowPos: string;
-    FOption_Encoding: string;
-    FOption_FileOpenOptions: string;
     FOption_GroupMode: TATGroupsMode;
     FOption_GroupSizes: TATGroupsPoints;
     FOption_GroupPanelSize: TPoint;
@@ -905,7 +902,7 @@ type
     procedure DoOps_LoadCodetreeIcons;
     procedure DoOps_LoadToolbarIcons;
     procedure DoOps_LoadCommandLineOptions;
-    procedure DoOps_LoadCommandLineOptionsEx(const AItems: array of string; AHaltOnBadParam: boolean);
+    procedure DoOps_LoadCommandLineOptionsEx(const AItems: array of string);
     procedure DoOps_LoadLexerLib(AOnCreate: boolean);
     procedure DoOps_SaveHistory;
     procedure DoOps_SaveHistory_GroupView(c: TJsonConfig);
@@ -975,7 +972,7 @@ type
     function DoFileSaveAll: boolean;
     procedure DoFileReopen(F: TEditorFrame);
     procedure DoLoadCommandLine;
-    procedure DoLoadCommandLine_PrevInstance(const AParams: array of string);
+    procedure DoLoadCommandParams(const AParams: array of string; const AInitOptions: string);
     //procedure DoToggleMenu;
     procedure DoToggleFloatSide;
     procedure DoToggleFloatBottom;
