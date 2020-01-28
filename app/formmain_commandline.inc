@@ -211,6 +211,29 @@ end;
 {$endif}
 
 
+procedure TfmMain.UniqInstanceOtherInstance(Sender: TObject;
+  ParamCount: Integer; Parameters: array of String);
+begin
+  if not IsAllowedToOpenFileNow then exit;
+
+  DoLoadCommandLine_SecondInstance(Parameters);
+
+  if WindowState=wsMinimized then
+  begin
+    WindowState:= wsNormal;
+    Application.ProcessMessages;
+  end;
+
+  {$ifdef windows}
+  // Those two calls below conflicts with Windows SwitchToThisWindow API call
+  // so they are left for other platforms
+  {$else}
+  Application.BringToFront;
+  DoFocusWindow(Handle);
+  {$ifend}
+end;
+
+
 procedure TfmMain.DoLoadCommandLine;
 const
   cOptionPassive = '/passive /nonear';

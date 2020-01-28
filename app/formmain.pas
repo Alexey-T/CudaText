@@ -1840,48 +1840,6 @@ begin
   if Assigned(fmCommands) and fmCommands.Visible then fmCommands.Close;
 end;
 
-procedure TfmMain.UniqInstanceOtherInstance(Sender: TObject;
-  ParamCount: Integer; Parameters: array of String);
-var
-  SFilename: string;
-  Frame: TEditorFrame;
-  NLine, NColumn, i: integer;
-begin
-  if not IsAllowedToOpenFileNow then exit;
-
-  for i:= 0 to ParamCount-1 do
-  begin
-    SFilename:= Parameters[i];
-    SParseFilenameWithTwoNumbers(SFilename, NLine, NColumn);
-    if DirectoryExistsUTF8(SFilename) then
-    begin
-      DoFolderOpen(SFilename, True);
-    end
-    else
-    if FileExistsUTF8(SFilename) then
-    begin
-      Frame:= DoFileOpen(SFilename, '');
-      if Assigned(Frame) and (NLine>0) then
-        Frame.DoGotoPos(Frame.Editor, NColumn-1, NLine-1);
-    end;
-  end;
-
-  if WindowState=wsMinimized then
-  begin
-    WindowState:= wsNormal;
-    Application.ProcessMessages;
-  end;
-
-  {$ifdef windows}
-  // Those two calls below conflicts with Windows SwitchToThisWindow API call
-  // so they are left for other platforms
-  {$else}
-  Application.BringToFront;
-  DoFocusWindow(Handle);
-  {$ifend}
-end;
-
-
 function TfmMain.GetSessionFilename: string;
 begin
   Result:= FSessionName;
