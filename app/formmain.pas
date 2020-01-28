@@ -901,8 +901,6 @@ type
     procedure DoOps_LoadSidebarIcons;
     procedure DoOps_LoadCodetreeIcons;
     procedure DoOps_LoadToolbarIcons;
-    procedure DoOps_LoadCommandLineOptions;
-    procedure DoOps_LoadCommandLineOptionsEx(const AItems: array of string);
     procedure DoOps_LoadLexerLib(AOnCreate: boolean);
     procedure DoOps_SaveHistory;
     procedure DoOps_SaveHistory_GroupView(c: TJsonConfig);
@@ -971,8 +969,10 @@ type
     procedure DoFileOpenDialog_NoPlugins;
     function DoFileSaveAll: boolean;
     procedure DoFileReopen(F: TEditorFrame);
-    procedure DoLoadCommandLine;
+    procedure DoLoadCommandLineOptions;
+    procedure DoLoadCommandLineOptionsEx(const AItems: array of string);
     procedure DoLoadCommandParams(const AParams: array of string; const AInitOptions: string);
+    procedure DoLoadCommandLine;
     //procedure DoToggleMenu;
     procedure DoToggleFloatSide;
     procedure DoToggleFloatBottom;
@@ -2111,7 +2111,7 @@ end;
 procedure TfmMain.DoOps_OnCreate;
 begin
   //must load window position in OnCreate to fix flickering with maximized window, Win10
-  DoOps_LoadCommandLineOptions;
+  DoLoadCommandLineOptions;
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps); //before LoadHistory
   DoOps_LoadLexerLib(true); //before LoadHistory
   DoFileOpen('', ''); //before LoadHistory

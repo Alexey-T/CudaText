@@ -7,7 +7,7 @@ Copyright (c) Alexey Torgashin
 *)
 {$ifdef nn}begin end;{$endif}
 
-procedure TfmMain.DoOps_LoadCommandLineOptions;
+procedure TfmMain.DoLoadCommandLineOptions;
 var
   Params: array of string;
   i: integer;
@@ -15,10 +15,10 @@ begin
   SetLength(Params, ParamCount);
   for i:= 0 to Length(Params)-1 do
     Params[i]:= ParamStr(i+1);
-  DoOps_LoadCommandLineOptionsEx(Params);
+  DoLoadCommandLineOptionsEx(Params);
 end;
 
-procedure TfmMain.DoOps_LoadCommandLineOptionsEx(const AItems: array of string);
+procedure TfmMain.DoLoadCommandLineOptionsEx(const AItems: array of string);
 var
   SParam: string;
   i: integer;
