@@ -997,7 +997,6 @@ procedure TfmMain.UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean;
 var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
-  Tree: TTreeView;
   Ada: TATAdapterEControl;
   NRanges: integer;
 begin
@@ -1047,24 +1046,28 @@ begin
    else
      CodeTree.Tree.Images:= nil;
 
-  FCodetreeModifiedVersion:= Ed.Strings.ModifiedVersion;
-  if not DoPyTreeHelper(Frame) then
-  begin
-    Tree:= Frame.CachedTreeview[Ed];
-    Ada.TreeFill(Tree);
+   FCodetreeModifiedVersion:= Ed.Strings.ModifiedVersion;
+   if not DoPyTreeHelper(Frame) then
+   begin
+     if not Assigned(FCodetreeBuffer) then
+       FCodetreeBuffer:= TTreeView.Create(Self);
+     Ada.TreeFill(FCodetreeBuffer);
 
-    //Lazarus dont sort new items
-    if CodeTree.Tree.SortType<>stNone then
-      Tree.AlphaSort;
+     if FCodetreeBuffer.Items.Count>0 then
+       DoTreeviewCopy(FCodetreeBuffer, Frame.CachedTreeview[Ed]);
 
-    DoTreeviewCopy(Tree, CodeTree.Tree);
-    CodeTree.SourceObject:= Ed;
+     //Lazarus dont sort new items
+     if CodeTree.Tree.SortType<>stNone then
+       FCodetreeBuffer.AlphaSort;
 
-    //force update scrollbar
-    CodeTree.Tree.Font.Size:= AppScaleFont(UiOps.VarFontSize);
-    CodeTree.Tree.Perform(CM_CHANGED, 0, 0);
+     DoTreeviewCopy(FCodetreeBuffer, CodeTree.Tree);
+     CodeTree.SourceObject:= Ed;
+
+     //force update scrollbar
+     CodeTree.Tree.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+     CodeTree.Tree.Perform(CM_CHANGED, 0, 0);
+    end;
   end;
- end;
 
   UpdateTreeFilter;
   UpdateTreeSelection(Frame, Ed);

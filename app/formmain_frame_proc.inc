@@ -45,6 +45,7 @@ var
   F: TEditorFrame;
   Ed: TATSynEdit;
   Tree: TTreeView;
+  bTreeCached: boolean;
 begin
   Ed:= Sender as TATSynEdit;
   F:= Ed.Parent as TEditorFrame;
@@ -59,14 +60,20 @@ begin
   begin
     FNewClickedEditor:= Ed;
 
-    Tree:= F.CachedTreeView[Ed];
-    if {UiOps.TreeCache and} (Tree.Items.Count>0) then
+    bTreeCached:= false;
+    if F.CachedTreeViewInited[Ed] then
     begin
-      DoTreeviewCopy(Tree, CodeTree.Tree);
-      UpdateTreeFilter;
-      UpdateTreeSelection(F, Ed);
-    end
-    else
+      Tree:= F.CachedTreeView[Ed];
+      if (Tree.Items.Count>0) then
+      begin
+        bTreeCached:= true;
+        DoTreeviewCopy(Tree, CodeTree.Tree);
+        UpdateTreeFilter;
+        UpdateTreeSelection(F, Ed);
+      end;
+    end;
+
+    if not bTreeCached then
       UpdateTreeContents;
   end;
 end;

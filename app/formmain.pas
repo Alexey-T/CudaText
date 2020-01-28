@@ -627,6 +627,7 @@ type
     FFileNamesDroppedInitially: array of string;
     FFileNameLogDebug: string;
     FFileNameLogConsole: string;
+    FCodetreeBuffer: TTreeView;
     FCodetreeDblClicking: boolean;
     FCodetreeModifiedVersion: integer;
     FCodetreeNeedsSelJump: boolean;
