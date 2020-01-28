@@ -65,16 +65,15 @@ begin
 end;
 
 procedure TfmMain.DoLoadCommandParams(const AParams: array of string;
-  const AInitOptions: string);
+  AOpenOptions: string);
 var
   Frame: TEditorFrame;
   SParam: string;
   NLine, NColumn, i: integer;
   bReadOnly: boolean;
-  sOpenOptions, sEncoding: string;
+  sEncoding: string;
 begin
   bReadOnly:= false;
-  sOpenOptions:= AInitOptions;
   sEncoding:= '';
 
   for i:= 0 to Length(AParams)-1 do
@@ -91,14 +90,14 @@ begin
 
     if SParam='-nh' then
     begin
-      sOpenOptions+= '/nohistory';
+      AOpenOptions+= '/nohistory';
       Continue;
     end;
 
     if SBeginsWith(SParam, '-z=') then
     begin
       // '-z=text' must give '/view-text'
-      sOpenOptions+= '/view-'+Copy(SParam, 4, MaxInt);
+      AOpenOptions+= '/view-'+Copy(SParam, 4, MaxInt);
       Continue;
     end;
 
@@ -124,7 +123,7 @@ begin
     else
     if FileExistsUTF8(SParam) then
     begin
-      Frame:= DoFileOpen(SParam, '', nil, sOpenOptions);
+      Frame:= DoFileOpen(SParam, '', nil, AOpenOptions);
       if Assigned(Frame) then
       begin
         if sEncoding<>'' then
@@ -143,7 +142,7 @@ begin
               MB_OKCANCEL or MB_ICONQUESTION) = ID_OK then
     begin
       if FCreateFile(SParam) then
-        Frame:= DoFileOpen(SParam, '', nil, sOpenOptions);
+        Frame:= DoFileOpen(SParam, '', nil, AOpenOptions);
     end;
   end;
 end;

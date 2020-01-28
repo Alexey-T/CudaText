@@ -971,7 +971,7 @@ type
     procedure DoFileReopen(F: TEditorFrame);
     procedure DoLoadCommandLineOptions;
     procedure DoLoadCommandLineOptionsEx(const AItems: array of string);
-    procedure DoLoadCommandParams(const AParams: array of string; const AInitOptions: string);
+    procedure DoLoadCommandParams(const AParams: array of string; AOpenOptions: string);
     procedure DoLoadCommandLine;
     //procedure DoToggleMenu;
     procedure DoToggleFloatSide;
