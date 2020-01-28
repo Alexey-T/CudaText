@@ -10,6 +10,7 @@
 //  NetBSD: "__netbsd"
 //  DragonFlyBSD: "__dragonfly"
 //  Solaris: "__solaris"
+//  Haiku: "__haiku"
 {
   //[Font]
   //Text font name [has suffix]
