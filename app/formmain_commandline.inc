@@ -9,13 +9,13 @@ Copyright (c) Alexey Torgashin
 
 procedure TfmMain.DoOps_LoadCommandLineOptions;
 var
-  Items: array of string;
+  Params: array of string;
   i: integer;
 begin
-  SetLength(Items, ParamCount);
-  for i:= 0 to Length(Items)-1 do
-    Items[i]:= ParamStrUTF8(i+1);
-  DoOps_LoadCommandLineOptionsEx(Items);
+  SetLength(Params, ParamCount);
+  for i:= 0 to Length(Params)-1 do
+    Params[i]:= ParamStr(i+1);
+  DoOps_LoadCommandLineOptionsEx(Params);
 end;
 
 procedure TfmMain.DoOps_LoadCommandLineOptionsEx(const AItems: array of string);
