@@ -61,11 +61,6 @@ begin
       MsgStdout(AppEncodingListAsString, true);
       Halt;
     end;
-
-    {$ifdef darwin}
-    //macOS gives param -psn** for debugger
-    if SBeginsWith(SParam, '-psn') then Continue;
-    {$endif}
   end;
 end;
 
@@ -128,6 +123,12 @@ begin
       sEncoding:= Copy(SParam, 4, MaxInt);
       Continue;
     end;
+
+    {$ifdef darwin}
+    //macOS gives param -psn** for debugger
+    if SBeginsWith(SParam, '-psn') then
+      Continue;
+    {$endif}
 
     SParseFilenameWithTwoNumbers(SParam, NLine, NColumn);
 
