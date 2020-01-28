@@ -168,6 +168,7 @@ type
     procedure EditorDrawMicromap(Sender: TObject; C: TCanvas; const ARect: TRect);
     function EditorIndexToObj(N: integer): TATSynEdit;
     function EditorObjToIndex(Ed: TATSynEdit): integer;
+    function EditorObjToTreeviewIndex(Ed: TATSynEdit): integer;
     procedure EditorOnChange(Sender: TObject);
     procedure EditorOnChangeModified(Sender: TObject);
     procedure EditorOnChangeCaretPos(Sender: TObject);
@@ -192,6 +193,7 @@ type
       ASelectThen: boolean);
     procedure EditorOnScroll(Sender: TObject);
     function GetAdapter(Ed: TATSynEdit): TATAdapterEControl;
+    function GetCachedTreeviewInited(Ed: TATSynEdit): boolean;
     function GetCachedTreeview(Ed: TATSynEdit): TTreeView;
     function GetCommentString(Ed: TATSynEdit): string;
     function GetEnabledCodeTree(Ed: TATSynEdit): boolean;
@@ -267,6 +269,7 @@ type
     property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
     property TabCaptionFromApi: boolean read FTabCaptionFromApi write FTabCaptionFromApi;
     property TabId: integer read FTabId;
+    property CachedTreeViewInited[Ed: TATSynEdit]: boolean read GetCachedTreeviewInited;
     property CachedTreeView[Ed: TATSynEdit]: TTreeView read GetCachedTreeview;
     property SaveHistory: boolean read FSaveHistory write FSaveHistory;
     procedure UpdateModified(Ed: TATSynEdit; AWithEvent: boolean= true);
@@ -1538,7 +1541,7 @@ begin
   FSaveHistory:= true;
   FEditorsLinked:= true;
   FCodetreeFilterHistory:= TStringList.Create;
-  FCachedTreeview[0]:= TTreeView.Create(Self);
+  FCachedTreeview[0]:= nil;
   FCachedTreeview[1]:= nil;
 
   FBracketHilite:= EditorOps.OpBracketHilite;
@@ -1649,16 +1652,30 @@ begin
     Result:= Adapter2;
 end;
 
-function TEditorFrame.GetCachedTreeview(Ed: TATSynEdit): TTreeView;
+function TEditorFrame.EditorObjToTreeviewIndex(Ed: TATSynEdit): integer;
 begin
   if (Ed=Ed1) or EditorsLinked then
-    Result:= FCachedTreeview[0]
+    Result:= 0
   else
-  begin
-    if FCachedTreeview[1]=nil then
-      FCachedTreeview[1]:= TTreeView.Create(Self);
-    Result:= FCachedTreeview[1];
-  end;
+    Result:= 1;
+end;
+
+function TEditorFrame.GetCachedTreeviewInited(Ed: TATSynEdit): boolean;
+var
+  N: integer;
+begin
+  N:= EditorObjToTreeviewIndex(Ed);
+  Result:= Assigned(FCachedTreeview[N]);
+end;
+
+function TEditorFrame.GetCachedTreeview(Ed: TATSynEdit): TTreeView;
+var
+  N: integer;
+begin
+  N:= EditorObjToTreeviewIndex(Ed);
+  if FCachedTreeview[N]=nil then
+    FCachedTreeview[N]:= TTreeView.Create(Self);
+  Result:= FCachedTreeview[N];
 end;
 
 function TEditorFrame.IsEmpty: boolean;
@@ -3126,16 +3143,16 @@ begin
 end;
 
 procedure TEditorFrame.SetEnabledCodeTree(Ed: TATSynEdit; AValue: boolean);
+var
+  N: integer;
 begin
-  if GetEnabledCodeTree(Ed)=AValue then Exit;
-
-  if (Ed=Ed1) or EditorsLinked then
-    FEnabledCodeTree[0]:= AValue
-  else
-    FEnabledCodeTree[1]:= AValue;
+  N:= EditorObjToTreeviewIndex(Ed);
+  if FEnabledCodeTree[N]=AValue then Exit;
+  FEnabledCodeTree[N]:= AValue;
 
   if not AValue then
-    ClearTreeviewWithData(CachedTreeview[Ed]);
+    if Assigned(FCachedTreeview[N]) then
+      ClearTreeviewWithData(FCachedTreeview[N]);
 end;
 
 procedure TEditorFrame.SetEnabledFolding(AValue: boolean);
