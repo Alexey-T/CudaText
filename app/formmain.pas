@@ -1883,23 +1883,18 @@ end;
 {$ifdef windows}
 procedure TfmMain.SecondInstance(const Msg: TBytes);
 var
-  SFilename: String;
-  params: TStringList;
+  Params: TATStringSeparator;
   Frame: TEditorFrame;
-  NLine, NColumn, i: integer;
+  SFilename: string;
+  NLine, NColumn: integer;
   bReadOnly: boolean;
 begin
   if not IsAllowedToOpenFileNow then Exit;
   bReadOnly:= false;
 
-  params := TStringList.Create;
-  try
-    params.StrictDelimiter := True;
-    params.Delimiter := '|';
-    params.DelimitedText := UTF8Encode(TEncoding.UTF8.GetString(Msg));
-    for i := 0 to params.Count - 1 do
-    begin
-      SFilename := params[i];
+  Params.Init(UTF8Encode(TEncoding.UTF8.GetString(Msg)), '|');
+  repeat
+      if not Params.GetItemStr(SFilename) then Break;
       if SFilename='' then
         Continue;
       if SFilename='-r' then
@@ -1926,10 +1921,7 @@ begin
         if Assigned(Frame) and bReadOnly then
           Frame.ReadOnly[Frame.Ed1]:= true;
       end;
-    end;
-  finally
-    params.Free;
-  end;
+  until false;
 
   if WindowState = wsMinimized then
   begin
