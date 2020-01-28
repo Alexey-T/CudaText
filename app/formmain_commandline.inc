@@ -111,6 +111,106 @@ begin
   end;
 end;
 
+procedure TfmMain.DoLoadCommandLine_SecondInstance(const AParams: array of string);
+var
+  Frame: TEditorFrame;
+  SParam: string;
+  NLine, NColumn, i: integer;
+  bReadOnly: boolean;
+  sOpenOptions, sEncoding: string;
+begin
+  bReadOnly:= false;
+  sOpenOptions:= '';
+  sEncoding:= '';
+
+  for i:= 0 to Length(AParams)-1 do
+  begin
+    SParam:= AParams[i];
+    if SParam='' then
+      Continue;
+
+    if SParam='-r' then
+    begin
+      bReadOnly:= true;
+      Continue;
+    end;
+
+    if SParam='-nh' then
+    begin
+      sOpenOptions+= '/nohistory';
+      Continue;
+    end;
+
+    if SBeginsWith(SParam, '-z=') then
+    begin
+      // '-z=text' must give '/view-text'
+      sOpenOptions+= '/view-'+Copy(SParam, 4, MaxInt);
+      Continue;
+    end;
+
+    if SBeginsWith(SParam, '-e=') then
+    begin
+      sEncoding:= Copy(SParam, 4, MaxInt);
+      Continue;
+    end;
+
+    SParseFilenameWithTwoNumbers(SParam, NLine, NColumn);
+
+    //if folder, open it in ProjManager
+    if DirectoryExistsUTF8(SParam) then
+    begin
+      DoFolderOpen(SParam, False);
+    end
+    else
+    if FileExistsUTF8(SParam) then
+    begin
+      Frame:= DoFileOpen(SParam, '', nil, sOpenOptions);
+      if Assigned(Frame) then
+      begin
+        if sEncoding<>'' then
+          SetFrameEncoding(Frame, sEncoding, true);
+
+        if (NLine>0) then
+          Frame.DoGotoPos(Frame.Ed1, NColumn-1, NLine-1);
+
+        if bReadOnly then
+          Frame.ReadOnly[Frame.Ed1]:= true;
+      end;
+    end;
+  end;
+end;
+
+
+{$ifdef windows}
+procedure TfmMain.SecondInstance(const Msg: TBytes);
+var
+  Sep: TATStringSeparator;
+  Params: array of string;
+  S: string;
+begin
+  if not IsAllowedToOpenFileNow then Exit;
+
+  SetLength(Params, 0);
+  S:= '';
+
+  Sep.Init(UTF8Encode(TEncoding.UTF8.GetString(Msg)), '|');
+  while Sep.GetItemStr(S) do
+  begin
+    SetLength(Params, Length(Params)+1);
+    Params[Length(Params)-1]:= S;
+  end;
+
+  DoLoadCommandLine_SecondInstance(Params);
+
+  if WindowState = wsMinimized then
+  begin
+    WindowState:= wsNormal;
+    Application.ProcessMessages;
+  end;
+end;
+{$endif}
+
+
 procedure TfmMain.DoLoadCommandLine;
 const
   cOptionPassive = '/passive /nonear';

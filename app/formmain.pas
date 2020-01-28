@@ -975,6 +975,7 @@ type
     function DoFileSaveAll: boolean;
     procedure DoFileReopen(F: TEditorFrame);
     procedure DoLoadCommandLine;
+    procedure DoLoadCommandLine_SecondInstance(const AParams: array of string);
     //procedure DoToggleMenu;
     procedure DoToggleFloatSide;
     procedure DoToggleFloatBottom;
@@ -1880,85 +1881,6 @@ begin
   {$ifend}
 end;
 
-{$ifdef windows}
-procedure TfmMain.SecondInstance(const Msg: TBytes);
-var
-  Params: TATStringSeparator;
-  Frame: TEditorFrame;
-  SFilename: string;
-  NLine, NColumn: integer;
-  bReadOnly: boolean;
-  sOpenOptions, sEncoding: string;
-begin
-  if not IsAllowedToOpenFileNow then Exit;
-
-  bReadOnly:= false;
-  sOpenOptions:= '';
-  sEncoding:= '';
-
-  Params.Init(UTF8Encode(TEncoding.UTF8.GetString(Msg)), '|');
-  repeat
-      if not Params.GetItemStr(SFilename) then Break;
-      if SFilename='' then
-        Continue;
-
-      if SFilename='-r' then
-      begin
-        bReadOnly:= true;
-        Continue;
-      end;
-
-      if SFilename='-nh' then
-      begin
-        sOpenOptions+= '/nohistory';
-        Continue;
-      end;
-
-      if SBeginsWith(SFilename, '-z=') then
-      begin
-        // '-z=text' must give '/view-text'
-        sOpenOptions+= '/view-'+Copy(SFilename, 4, MaxInt);
-        Continue;
-      end;
-
-      if SBeginsWith(SFilename, '-e=') then
-      begin
-        sEncoding:= Copy(SFilename, 4, MaxInt);
-        Continue;
-      end;
-
-      SParseFilenameWithTwoNumbers(SFilename, NLine, NColumn);
-
-      //if folder, open it in ProjManager
-      if DirectoryExistsUTF8(SFilename) then
-      begin
-        DoFolderOpen(SFilename, False);
-      end
-      else
-      if FileExistsUTF8(SFilename) then
-      begin
-        Frame:= DoFileOpen(SFilename, '', nil, sOpenOptions);
-        if Assigned(Frame) then
-        begin
-          if sEncoding<>'' then
-            SetFrameEncoding(Frame, sEncoding, true);
-
-          if (NLine>0) then
-            Frame.DoGotoPos(Frame.Ed1, NColumn-1, NLine-1);
-
-          if bReadOnly then
-            Frame.ReadOnly[Frame.Ed1]:= true;
-        end;
-      end;
-  until false;
-
-  if WindowState = wsMinimized then
-  begin
-    WindowState := wsNormal;
-    Application.ProcessMessages;
-  end;
-end;
-{$endif}
 
 function TfmMain.GetSessionFilename: string;
 begin
