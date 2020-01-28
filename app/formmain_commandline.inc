@@ -7,18 +7,7 @@ Copyright (c) Alexey Torgashin
 *)
 {$ifdef nn}begin end;{$endif}
 
-procedure TfmMain.DoLoadCommandLineOptions;
-var
-  Params: array of string;
-  i: integer;
-begin
-  SetLength(Params, ParamCount);
-  for i:= 0 to Length(Params)-1 do
-    Params[i]:= ParamStr(i+1);
-  DoLoadCommandLineOptionsEx(Params);
-end;
-
-procedure TfmMain.DoLoadCommandLineOptionsEx(const AItems: array of string);
+procedure TfmMain.DoLoadCommandLineBaseOptions;
 var
   SParam: string;
   i: integer;
@@ -26,10 +15,11 @@ begin
   FOption_OpenNewWindow:= false;
   FOption_WindowPos:= '';
 
-  for i:= 0 to Length(AItems)-1 do
+  for i:= 1 to ParamCount do
   begin
-    SParam:= AItems[i];
-    if not SBeginsWith(SParam, '-') then Continue;
+    SParam:= ParamStr(i);
+    if not SBeginsWith(SParam, '-') then
+      Continue;
 
     if (SParam='-n') then
     begin
