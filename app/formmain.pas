@@ -975,7 +975,7 @@ type
     function DoFileSaveAll: boolean;
     procedure DoFileReopen(F: TEditorFrame);
     procedure DoLoadCommandLine;
-    procedure DoLoadCommandLine_SecondInstance(const AParams: array of string);
+    procedure DoLoadCommandLine_PrevInstance(const AParams: array of string);
     //procedure DoToggleMenu;
     procedure DoToggleFloatSide;
     procedure DoToggleFloatBottom;

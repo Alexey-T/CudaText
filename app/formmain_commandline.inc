@@ -111,7 +111,7 @@ begin
   end;
 end;
 
-procedure TfmMain.DoLoadCommandLine_SecondInstance(const AParams: array of string);
+procedure TfmMain.DoLoadCommandLine_PrevInstance(const AParams: array of string);
 var
   Frame: TEditorFrame;
   SParam: string;
@@ -200,7 +200,7 @@ begin
     Params[Length(Params)-1]:= S;
   end;
 
-  DoLoadCommandLine_SecondInstance(Params);
+  DoLoadCommandLine_PrevInstance(Params);
 
   if WindowState = wsMinimized then
   begin
@@ -216,7 +216,7 @@ procedure TfmMain.UniqInstanceOtherInstance(Sender: TObject;
 begin
   if not IsAllowedToOpenFileNow then exit;
 
-  DoLoadCommandLine_SecondInstance(Parameters);
+  DoLoadCommandLine_PrevInstance(Parameters);
 
   if WindowState=wsMinimized then
   begin
