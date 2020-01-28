@@ -1887,6 +1887,7 @@ var
   params: TStringList;
   Frame: TEditorFrame;
   NLine, NColumn, i: integer;
+  bReadOnly: boolean;
 begin
   if not IsAllowedToOpenFileNow then Exit;
 
@@ -1898,7 +1899,14 @@ begin
     for i := 0 to params.Count - 1 do
     begin
       SFilename := params[i];
-      if SFilename='' then Continue;
+      if SFilename='' then
+        Continue;
+      if SFilename='-r' then
+      begin
+        bReadOnly:= true;
+        Continue;
+      end;
+
       SParseFilenameWithTwoNumbers(SFilename, NLine, NColumn);
       //if dir, open in ProjManager
       if DirectoryExistsUTF8(SFilename) then
@@ -1909,8 +1917,12 @@ begin
       if FileExistsUTF8(SFilename) then
       begin
         Frame:= DoFileOpen(SFilename, '');
+
         if Assigned(Frame) and (NLine>0) then
           Frame.DoGotoPos(Frame.Ed1, NColumn-1, NLine-1);
+
+        if Assigned(Frame) and bReadOnly then
+          Frame.ReadOnly[Frame.Ed1]:= true
       end;
     end;
   finally
