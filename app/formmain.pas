@@ -1890,6 +1890,7 @@ var
   bReadOnly: boolean;
 begin
   if not IsAllowedToOpenFileNow then Exit;
+  bReadOnly:= false;
 
   params := TStringList.Create;
   try
@@ -1908,7 +1909,8 @@ begin
       end;
 
       SParseFilenameWithTwoNumbers(SFilename, NLine, NColumn);
-      //if dir, open in ProjManager
+
+      //if folder, open it in ProjManager
       if DirectoryExistsUTF8(SFilename) then
       begin
         DoFolderOpen(SFilename, False);
@@ -1922,7 +1924,7 @@ begin
           Frame.DoGotoPos(Frame.Ed1, NColumn-1, NLine-1);
 
         if Assigned(Frame) and bReadOnly then
-          Frame.ReadOnly[Frame.Ed1]:= true
+          Frame.ReadOnly[Frame.Ed1]:= true;
       end;
     end;
   finally
