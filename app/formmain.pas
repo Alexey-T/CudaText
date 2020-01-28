@@ -1910,7 +1910,14 @@ begin
 
       if SFilename='-nh' then
       begin
-        sOpenOptions:= '/nohistory';
+        sOpenOptions+= '/nohistory';
+        Continue;
+      end;
+
+      if SBeginsWith(SFilename, '-z=') then
+      begin
+        // '-z=text' must give '/view-text'
+        sOpenOptions+= '/view-'+Copy(SFilename, 4, MaxInt);
         Continue;
       end;
 
