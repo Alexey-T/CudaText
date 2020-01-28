@@ -1888,18 +1888,35 @@ var
   SFilename: string;
   NLine, NColumn: integer;
   bReadOnly: boolean;
+  sOpenOptions, sEncoding: string;
 begin
   if not IsAllowedToOpenFileNow then Exit;
+
   bReadOnly:= false;
+  sOpenOptions:= '';
+  sEncoding:= '';
 
   Params.Init(UTF8Encode(TEncoding.UTF8.GetString(Msg)), '|');
   repeat
       if not Params.GetItemStr(SFilename) then Break;
       if SFilename='' then
         Continue;
+
       if SFilename='-r' then
       begin
         bReadOnly:= true;
+        Continue;
+      end;
+
+      if SFilename='-nh' then
+      begin
+        sOpenOptions:= '/nohistory';
+        Continue;
+      end;
+
+      if SBeginsWith(SFilename, '-e=') then
+      begin
+        sEncoding:= Copy(SFilename, 4, MaxInt);
         Continue;
       end;
 
@@ -1913,13 +1930,18 @@ begin
       else
       if FileExistsUTF8(SFilename) then
       begin
-        Frame:= DoFileOpen(SFilename, '');
+        Frame:= DoFileOpen(SFilename, '', nil, sOpenOptions);
+        if Assigned(Frame) then
+        begin
+          if sEncoding<>'' then
+            SetFrameEncoding(Frame, sEncoding, true);
 
-        if Assigned(Frame) and (NLine>0) then
-          Frame.DoGotoPos(Frame.Ed1, NColumn-1, NLine-1);
+          if (NLine>0) then
+            Frame.DoGotoPos(Frame.Ed1, NColumn-1, NLine-1);
 
-        if Assigned(Frame) and bReadOnly then
-          Frame.ReadOnly[Frame.Ed1]:= true;
+          if bReadOnly then
+            Frame.ReadOnly[Frame.Ed1]:= true;
+        end;
       end;
   until false;
 
