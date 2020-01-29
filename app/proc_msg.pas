@@ -40,6 +40,7 @@ const
   msgApiDeprecated = 'Deprecated API usage: %s'; //no i18n
   msgErrorInTheme = 'Warning for theme "%s": missed item "%s"';
   msgCmdPalettePrefixHelp = '#p – plugins'#10'#l – lexers'#10'#f – opened files'#10'#r – recent files';
+  msgRescannedAllPlugins = 'Rescanned all plugins';
 
   msgTitle = 'CudaText'; //no i18n
   msgModified: array[boolean] of string = ('', '*'); //no i18n

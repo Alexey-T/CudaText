@@ -378,7 +378,7 @@ begin
   DoOps_LoadPlugins;
   UpdateMenuPlugins;
   DoOps_LoadKeymap(false);
-  MsgStatus('Rescanned plugins');
+  MsgStatus(msgRescannedAllPlugins);
 end;
 
 procedure TfmMain.DoPyRunLastPlugin;
