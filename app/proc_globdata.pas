@@ -1252,7 +1252,7 @@ begin
     ThemeUi_Loaded:= false;
     ThemeSyntax_Loaded:= false;
 
-    AutocompleteHtml_Lexers:= '.*HTML.*|PHP';
+    AutocompleteHtml_Lexers:= '.*HTML.*|\bPHP\b';
     AutocompleteCss_Lexers:= 'CSS';
 
     PyLibrary:= InitPyLibraryPath;

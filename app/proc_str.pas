@@ -328,18 +328,16 @@ end;
 
 function SRegexMatchesString(const ASubject, ARegex: string; ACaseSensitive: boolean): boolean;
 var
-  Obj: TecRegExpr;
-  NPos: integer;
+  Obj: TRegExpr;
 begin
-  Obj:= TecRegExpr.Create;
+  Obj:= TRegExpr.Create;
   try
     Obj.Expression:= UTF8Decode(ARegex);
     Obj.ModifierI:= not ACaseSensitive;
     Obj.ModifierS:= false; //don't catch all text by .*
     Obj.ModifierM:= true; //allow to work with ^$
     Obj.ModifierX:= false; //don't ingore spaces
-    NPos:= 1;
-    Result:= Obj.Match(UTF8Decode(ASubject), NPos);
+    Result:= Obj.Exec(UTF8Decode(ASubject));
   finally
     Obj.Free;
   end;
