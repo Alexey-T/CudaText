@@ -16,7 +16,8 @@ uses
   LazFileUtils,
   at__jsonconf,
   ATStringProc,
-  ATSynEdit_RegExpr;
+  ATSynEdit_RegExpr,
+  ec_RegExpr;
 
 type
   TStringReplacePart = record
@@ -300,6 +301,8 @@ begin
   end;
 end;
 
+(*
+//todo: use ATryOnce=true in new RegExpr
 function SRegexMatchesString(const ASubject, ARegex: string; ACaseSensitive: boolean): boolean;
 var
   Obj: TRegExpr;
@@ -316,6 +319,26 @@ begin
     Obj.ModifierM:= true; //allow to work with ^$
     Obj.ModifierX:= false; //don't ingore spaces
     Result:= Obj.Exec(ASubject) and (Obj.MatchPos[0]=1);
+  finally
+    Obj.Free;
+  end;
+end;
+*)
+
+function SRegexMatchesString(const ASubject, ARegex: string; ACaseSensitive: boolean): boolean;
+var
+  Obj: TecRegExpr;
+  NPos: integer;
+begin
+  Obj:= TecRegExpr.Create;
+  try
+    Obj.Expression:= UTF8Decode(ARegex);
+    Obj.ModifierI:= not ACaseSensitive;
+    Obj.ModifierS:= false; //don't catch all text by .*
+    Obj.ModifierM:= true; //allow to work with ^$
+    Obj.ModifierX:= false; //don't ingore spaces
+    NPos:= 1;
+    Result:= Obj.Match(UTF8Decode(ASubject), NPos);
   finally
     Obj.Free;
   end;
