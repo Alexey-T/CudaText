@@ -552,7 +552,6 @@ type
     FListRecents: TStringList;
     FListTimers: TStringList;
     FKeymapUndoList: TATKeymapUndoList;
-    FKeymapLastLexer: string;
     FConsoleMustShow: boolean;
     FSessionName: string;
     FColorDialog: TColorDialog;
@@ -644,6 +643,7 @@ type
     FCmdTimer_Frame: TEditorFrame;
     FLastDirOfOpenDlg: string;
     FLastLexerForPluginsMenu: string;
+    FLastLexerOfKeymap: string;
     FLastSidebarPanel: string;
     FLastBottomPanel: string;
     FLastStatusbarMessage: string;
@@ -2018,7 +2018,7 @@ begin
   FListTimers:= TStringList.Create;
 
   FKeymapUndoList:= TATKeymapUndoList.Create;
-  FKeymapLastLexer:= '??'; //not ''
+  FLastLexerOfKeymap:= '??'; //not ''
   FAllowLoadKeymap:= false;
   FAllowOnFocus:= false;
 

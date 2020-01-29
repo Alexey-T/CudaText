@@ -595,11 +595,11 @@ begin
   CurLexer:= F.LexerName[F.Editor];
   if AUseCache then
     //dont load lexer-specific cfg if tab changed, and same lexer active
-    if FKeymapLastLexer=CurLexer then exit;
-  FKeymapLastLexer:= CurLexer;
+    if FLastLexerOfKeymap=CurLexer then exit;
+  FLastLexerOfKeymap:= CurLexer;
 
   DoOps_LoadKeymapFrom(
-    GetAppKeymap_LexerSpecificConfig(FKeymapLastLexer),
+    GetAppKeymap_LexerSpecificConfig(FLastLexerOfKeymap),
     FKeymapUndoList);
 end;
 
