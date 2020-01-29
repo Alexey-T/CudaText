@@ -650,6 +650,7 @@ type
     FLastSelectedCommand: integer;
     FLastMousePos: TPoint;
     FLastMaximized: boolean;
+    FLastFocusedFrame: TComponent;
     FLexerProgressIndex: integer;
     FShowPassed: boolean;
     FOption_OpenNewWindow: boolean;
