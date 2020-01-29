@@ -300,35 +300,14 @@ begin
   end;
 end;
 
-(*
-//it is slower that with ec_RegExpr
-function SRegexMatchesString(const AStr, AStrRegex: string; ACaseSensitive: boolean): boolean;
-var
-  Obj: TRegExpr;
-begin
-  Result:= false;
-  if AStr='' then exit;
-  if AStrRegex='' then exit;
-
-  Obj:= TRegExpr.Create;
-  try
-    try
-      Obj.ModifierS:= false;
-      Obj.ModifierI:= not ACaseSensitive;
-      Obj.Expression:= AStrRegex;
-      Result:= Obj.Exec(AStr) and (Obj.MatchPos[0]=1);
-    except
-    end;
-  finally
-    Obj.Free;
-  end;
-end;
-*)
-
 function SRegexMatchesString(const ASubject, ARegex: string; ACaseSensitive: boolean): boolean;
 var
   Obj: TRegExpr;
 begin
+  Result:= false;
+  if ARegex='' then exit;
+  if ASubject='' then exit;
+
   Obj:= TRegExpr.Create;
   try
     Obj.Expression:= UTF8Decode(ARegex);
@@ -336,7 +315,7 @@ begin
     Obj.ModifierS:= false; //don't catch all text by .*
     Obj.ModifierM:= true; //allow to work with ^$
     Obj.ModifierX:= false; //don't ingore spaces
-    Result:= Obj.Exec(UTF8Decode(ASubject));
+    Result:= Obj.Exec(UTF8Decode(ASubject)) and (Obj.MatchPos[0]=1);
   finally
     Obj.Free;
   end;
