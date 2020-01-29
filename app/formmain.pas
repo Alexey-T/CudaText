@@ -4435,8 +4435,12 @@ var
   Flags: integer;
   F: TEditorFrame;
   ListNoSave: TFPList;
-  i: integer;
+  NCount, i: integer;
 begin
+  NCount:= FrameCount;
+  if (NCount=1) and (Frames[0].IsEmpty) then
+    exit(true);
+
   if AWithCancel then
     Flags:= MB_YESNOCANCEL or MB_ICONQUESTION
   else
@@ -4444,7 +4448,7 @@ begin
 
   ListNoSave:= TFPList.Create;
   try
-    for i:= 0 to FrameCount-1 do
+    for i:= 0 to NCount-1 do
     begin
       F:= Frames[i];
       if F.Ed1.Modified or F.Ed2.Modified then
