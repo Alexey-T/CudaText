@@ -926,7 +926,7 @@ type
     procedure DoOps_LoadOptions(const fn: string; var Op: TEditorOps;
       AllowUiOps: boolean=true; AllowGlobalOps: boolean=true);
     procedure DoOps_LoadOptionsFromString(const AString: string);
-    procedure DoOps_LoadKeymap;
+    procedure DoOps_LoadKeymap(AUseCache: boolean);
     procedure DoOps_LoadKeymapFrom(const AFilenameKeymap: string; AUndoList: TATKeymapUndoList);
     procedure DoEditorsLock(ALock: boolean);
     procedure DoFindCurrentWordOrSel(Ed: TATSynEdit; ANext, AWordOrSel: boolean);
@@ -2467,7 +2467,7 @@ begin
   FHandledOnShow:= true;
 
   FAllowLoadKeymap:= true;
-  DoOps_LoadKeymap;
+  DoOps_LoadKeymap(false);
 
   NTickPluginBegin:= GetTickCount64;
   DoPyEvent(CurrentEditor, cEventOnStart, []);
@@ -2584,7 +2584,7 @@ begin
     if AddonType=cAddonTypePlugin then
     begin
       DoOps_LoadPlugins;
-      DoOps_LoadKeymap;
+      DoOps_LoadKeymap(true);
       UpdateMenuPlugins;
       UpdateMenuPlugins_Shortcuts(true);
     end;
@@ -5931,7 +5931,7 @@ begin
 
   DoOps_LoadOptionsLexerSpecific(Frame); //options override
   DoPyEvent(Frame.Editor, cEventOnLexer, []);
-  DoOps_LoadKeymap; //keymap override
+  DoOps_LoadKeymap(true); //keymap override
 
   UpdateMenuPlugins_Shortcuts;
 end;

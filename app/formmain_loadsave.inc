@@ -574,7 +574,7 @@ const
   cDefaultKeymapFile: string =
     '{ "cuda_comments,cmt_toggle_line_body": {"name": "plugin: Comments: Toggle line comment, at non-space char", "s1": ["Ctrl+/"], "s2": [] } }';
 
-procedure TfmMain.DoOps_LoadKeymap;
+procedure TfmMain.DoOps_LoadKeymap(AUseCache: boolean);
 var
   F: TEditorFrame;
   CurLexer: string;
@@ -592,9 +592,10 @@ begin
   F:= CurrentFrame;
   if F=nil then exit;
 
-  //dont load lexer-specific cfg if tab changed, and same lexer active
   CurLexer:= F.LexerName[F.Editor];
-  if FKeymapLastLexer=CurLexer then exit;
+  if AUseCache then
+    //dont load lexer-specific cfg if tab changed, and same lexer active
+    if FKeymapLastLexer=CurLexer then exit;
   FKeymapLastLexer:= CurLexer;
 
   DoOps_LoadKeymapFrom(
@@ -1277,9 +1278,12 @@ begin
 end;
 
 procedure TfmMain.DoOps_LoadOptionsAndApplyAll;
+// called by command "settings: reload/apply config"
 begin
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps);
   DoApplyAllOps;
+  DoOps_LoadKeymap(false);
+
   MsgStatus(msgStatusReadingOps);
   DoPyEvent(CurrentEditor, cEventOnState, [IntToStr(APPSTATE_CONFIG_REREAD)]);
 end;

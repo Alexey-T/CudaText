@@ -114,7 +114,7 @@ begin
 
   //load lexer-specific config+keymap
   DoOps_LoadOptionsLexerSpecific(F);
-  DoOps_LoadKeymap;
+  DoOps_LoadKeymap(true);
 
   UpdateStatus;
   DoPyEvent(F.Editor, cEventOnTabChange, []);
