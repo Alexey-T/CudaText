@@ -2467,7 +2467,7 @@ begin
   FHandledOnShow:= true;
 
   FAllowLoadKeymap:= true;
-  DoOps_LoadKeymap(false);
+  DoOps_LoadKeymap(false); //called on OnTabFocus before, but blocked there by FAllowLoadKeymap
 
   NTickPluginBegin:= GetTickCount64;
   DoPyEvent(CurrentEditor, cEventOnStart, []);
