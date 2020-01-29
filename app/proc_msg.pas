@@ -266,12 +266,17 @@ const
   msgAboutCredits =
       'Lazarus IDE'+sLineBreak+
       '  http://www.lazarus-ide.org'+sLineBreak+
+      ''+sLineBreak+
       'ATSynEdit, ATTabs, ATFlatControls, Python wrapper'+sLineBreak+
       '  Alexey Torgashin'+sLineBreak+
       '  https://github.com/Alexey-T/'+sLineBreak+
+      ''+sLineBreak+
       'EControl syntax parser'+sLineBreak+
-      '  Delphi version: http://www.econtrol.ru'+sLineBreak+
-      '  Lazarus port: https://github.com/Alexey-T/'+sLineBreak+
+      '  Delphi version by Michael Zakharov'+sLineBreak+
+      '  http://www.econtrol.ru'+sLineBreak+
+      '  Lazarus port by Alexey Torgashin'+sLineBreak+
+      '  https://github.com/Alexey-T/'+sLineBreak+
+      ''+sLineBreak+
       'Helper Python code:'+sLineBreak+
       '  Andrey Kvichanskiy'+sLineBreak+
       '  https://github.com/kvichans/'+sLineBreak+
