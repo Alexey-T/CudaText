@@ -94,7 +94,7 @@ begin
 
     if SBeginsWith(SParam, '-e=') then
     begin
-      sEncoding:= Copy(SParam, 4, MaxInt);
+      sEncoding:= AppEncodingShortnameToFullname( Copy(SParam, 4, MaxInt) );
       Continue;
     end;
 
