@@ -548,7 +548,6 @@ type
     FBoundsFloatGroups1: TRect;
     FBoundsFloatGroups2: TRect;
     FBoundsFloatGroups3: TRect;
-    FToolbarIconsLoaded: boolean;
     FListRecents: TStringList;
     FListTimers: TStringList;
     FKeymapUndoList: TATKeymapUndoList;
@@ -2116,6 +2115,7 @@ begin
   DoOps_LoadLexerLib(true); //before LoadHistory
   DoFileOpen('', ''); //before LoadHistory
 
+  DoOps_LoadToolbarIcons;
   DoOps_LoadSidebarIcons; //before LoadPlugins (for sidebar icons)
 
   InitPyEngine; //before LoadPlugins
@@ -4372,14 +4372,7 @@ begin
   if AValue=GetShowToolbar then exit;
 
   if AValue then
-  begin
-    if not FToolbarIconsLoaded then
-    begin
-      FToolbarIconsLoaded:= true;
-      DoOps_LoadToolbarIcons;
-    end;
     ToolbarMain.UpdateControls;
-  end;
 
   ToolbarMain.Visible:= AValue;
 end;
