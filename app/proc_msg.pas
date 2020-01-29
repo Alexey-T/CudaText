@@ -265,29 +265,33 @@ const
 
   msgAboutCredits =
       'Lazarus IDE'+sLineBreak+
-      '    http://www.lazarus-ide.org'+sLineBreak+
+      '  http://www.lazarus-ide.org'+sLineBreak+
       'ATSynEdit, ATTabs, ATFlatControls, Python wrapper'+sLineBreak+
-      '    https://github.com/Alexey-T/'+sLineBreak+
+      '  Alexey Torgashin'+sLineBreak+
+      '  https://github.com/Alexey-T/'+sLineBreak+
       'EControl syntax parser'+sLineBreak+
-      '    Delphi version: http://www.econtrol.ru'+sLineBreak+
-      '    Lazarus port: https://github.com/Alexey-T/'+sLineBreak+
-      'Helper Python code: Andrey Kvichanskiy'+sLineBreak+
-      '    https://github.com/kvichans/'+sLineBreak+
-      'Icons'+sLineBreak+
-      '    Main icon'+sLineBreak+
-      '      FTurtle'+sLineBreak+
-      '    Theme for LibreOffice'+sLineBreak+
-      '      https://github.com/libodesign/icons'+sLineBreak+
-      '      License: Creative Commons BY-SA 3.0, http://creativecommons.org/licenses/by-sa/3.0/'+sLineBreak+
-      '    Octicons'+sLineBreak+
-      '      https://octicons.github.com/'+sLineBreak+
-      '      License: MIT License'+sLineBreak+
-      '    Visual Studio Code icons'+sLineBreak+
-      '      https://github.com/vscode-icons/vscode-icons'+sLineBreak+
-      '      License: MIT License'+sLineBreak+
-      '    Hourglass/floppy icons'+sLineBreak+
-      '      https://www.iconfinder.com/snipicons'+sLineBreak+
-      '      License: Creative Commons BY-NC 3.0 Unported, http://creativecommons.org/licenses/by-nc/3.0/'+sLineBreak+
+      '  Delphi version: http://www.econtrol.ru'+sLineBreak+
+      '  Lazarus port: https://github.com/Alexey-T/'+sLineBreak+
+      'Helper Python code:'+sLineBreak+
+      '  Andrey Kvichanskiy'+sLineBreak+
+      '  https://github.com/kvichans/'+sLineBreak+
+      ''+sLineBreak+
+      'Icons:'+sLineBreak+
+      ''+sLineBreak+
+      'Main icon:'+sLineBreak+
+      '  FTurtle'+sLineBreak+
+      'Theme for LibreOffice:'+sLineBreak+
+      '  https://github.com/libodesign/icons'+sLineBreak+
+      '  License: Creative Commons BY-SA 3.0, http://creativecommons.org/licenses/by-sa/3.0/'+sLineBreak+
+      'Octicons:'+sLineBreak+
+      '  https://octicons.github.com/'+sLineBreak+
+      '  License: MIT License'+sLineBreak+
+      'Visual Studio Code icons:'+sLineBreak+
+      '  https://github.com/vscode-icons/vscode-icons'+sLineBreak+
+      '  License: MIT License'+sLineBreak+
+      'Hourglass/floppy icons:'+sLineBreak+
+      '  https://www.iconfinder.com/snipicons'+sLineBreak+
+      '  License: Creative Commons BY-NC 3.0 Unported, http://creativecommons.org/licenses/by-nc/3.0/'+sLineBreak+
       '';
 
   msgCommandLineHelp =
