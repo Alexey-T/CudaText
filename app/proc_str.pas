@@ -184,7 +184,7 @@ begin
     try
       Obj.Expression:= ARegex;
       Obj.InputString:= AStr;
-      Result:= Obj.ExecPos(1);
+      Result:= Obj.Exec;
     except
       Result:= false;
     end;
@@ -310,12 +310,12 @@ begin
 
   Obj:= TRegExpr.Create;
   try
-    Obj.Expression:= UTF8Decode(ARegex);
+    Obj.Expression:= ARegex;
     Obj.ModifierI:= not ACaseSensitive;
     Obj.ModifierS:= false; //don't catch all text by .*
     Obj.ModifierM:= true; //allow to work with ^$
     Obj.ModifierX:= false; //don't ingore spaces
-    Result:= Obj.Exec(UTF8Decode(ASubject)) and (Obj.MatchPos[0]=1);
+    Result:= Obj.Exec(ASubject) and (Obj.MatchPos[0]=1);
   finally
     Obj.Free;
   end;
