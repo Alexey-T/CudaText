@@ -132,16 +132,15 @@ begin
     if not SBeginsWith(SParam, '-') then
       if MsgBox(Format(msgConfirmCreateNewFile, [SParam]),
                 MB_OKCANCEL or MB_ICONQUESTION) = ID_OK then
-      begin
         if FCreateFile(SParam) then
-          Frame:= DoFileOpen(SParam, '', nil, AOpenOptions);
-
-        if Assigned(Frame) then
         begin
-          if sEncoding<>'' then
-            SetFrameEncoding(Frame, sEncoding, true);
+          Frame:= DoFileOpen(SParam, '', nil, AOpenOptions);
+          if Assigned(Frame) then
+          begin
+            if sEncoding<>'' then
+              SetFrameEncoding(Frame, sEncoding, true);
+          end;
         end;
-      end;
   end;
 end;
 
