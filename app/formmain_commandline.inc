@@ -135,6 +135,12 @@ begin
       begin
         if FCreateFile(SParam) then
           Frame:= DoFileOpen(SParam, '', nil, AOpenOptions);
+
+        if Assigned(Frame) then
+        begin
+          if sEncoding<>'' then
+            SetFrameEncoding(Frame, sEncoding, true);
+        end;
       end;
   end;
 end;
