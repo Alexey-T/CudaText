@@ -16,8 +16,7 @@ uses
   LazFileUtils,
   at__jsonconf,
   ATStringProc,
-  ATSynEdit_RegExpr,
-  ec_RegExpr;
+  ATSynEdit_RegExpr;
 
 type
   TStringReplacePart = record
