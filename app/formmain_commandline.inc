@@ -7,13 +7,14 @@ Copyright (c) Alexey Torgashin
 *)
 {$ifdef nn}begin end;{$endif}
 
-procedure TfmMain.DoLoadCommandLineBaseOptions;
+procedure TfmMain.DoLoadCommandLineBaseOptions(out ANewWindow: boolean; out AWindowPos: string);
+// Function handles only few cmdline options: -n -v -h -w -el
 var
   SParam: string;
   i: integer;
 begin
-  FOption_OpenNewWindow:= false;
-  FOption_WindowPos:= '';
+  ANewWindow:= false;
+  AWindowPos:= '';
 
   for i:= 1 to ParamCount do
   begin
@@ -23,17 +24,17 @@ begin
 
     if (SParam='-n') then
     begin
-      FOption_OpenNewWindow:= true;
+      ANewWindow:= true;
       Continue;
     end;
 
     if (SParam='--version') or (SParam='-v') then
     begin
-      MsgStdout(Format(msgCommandLineVersion, [cAppExeVersion]), true);
+      MsgStdout('CudaText version '+cAppExeVersion, true);
       Halt;
     end;
 
-    if (SParam='--help') or (SParam='-h') or (SParam='-?') then
+    if (SParam='--help') or (SParam='-h') then
     begin
       MsgStdout(msgCommandLineHelp, true);
       Halt;
@@ -41,8 +42,7 @@ begin
 
     if SBeginsWith(SParam, '-w=') then
     begin
-      Delete(SParam, 1, Pos('=', SParam));
-      FOption_WindowPos:= SParam;
+      AWindowPos:= Copy(SParam, 4, MaxInt);
       Continue;
     end;
 
@@ -54,8 +54,7 @@ begin
   end;
 end;
 
-procedure TfmMain.DoLoadCommandParams(const AParams: array of string;
-  AOpenOptions: string);
+procedure TfmMain.DoLoadCommandParams(const AParams: array of string; AOpenOptions: string);
 // Function handles passed file names, folder names, and such params as -r -nh -z -e,
 // while others params (-w -el -n) are handled in DoLoadCommandLineBaseOptions
 var

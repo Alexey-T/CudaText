@@ -314,8 +314,6 @@ const
       'CudaText: unknown key %s'#10'Run "cudatext --help" to see command line help.';
   msgCommandLineUnknownEncoding =
       'CudaText: unknown encoding: %s';
-  msgCommandLineVersion =
-      'CudaText version %s';
 
   msgFirstStartInfo =
       'This is the first CudaText start (file history.json not found). '+
