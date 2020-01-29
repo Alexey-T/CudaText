@@ -129,12 +129,13 @@ begin
     end
     else
     //file not exists? suggest to create it
-    if MsgBox(Format(msgConfirmCreateNewFile, [SParam]),
-              MB_OKCANCEL or MB_ICONQUESTION) = ID_OK then
-    begin
-      if FCreateFile(SParam) then
-        Frame:= DoFileOpen(SParam, '', nil, AOpenOptions);
-    end;
+    if not SBeginsWith(SParam, '-') then
+      if MsgBox(Format(msgConfirmCreateNewFile, [SParam]),
+                MB_OKCANCEL or MB_ICONQUESTION) = ID_OK then
+      begin
+        if FCreateFile(SParam) then
+          Frame:= DoFileOpen(SParam, '', nil, AOpenOptions);
+      end;
   end;
 end;
 
