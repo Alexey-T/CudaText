@@ -7,13 +7,13 @@ Copyright (c) Alexey Torgashin
 *)
 {$ifdef nn}begin end;{$endif}
 
-procedure TfmMain.DoLoadCommandLineBaseOptions(out ANewWindow: boolean; out AWindowPos: string);
-// Function handles only few cmdline options: -n -v -h -w -el
+procedure TfmMain.DoLoadCommandLineBaseOptions(out AWindowPos: string);
+// Function handles these options: -v -h -w -el
+// Option -n is handled via var proc_globdata.AppAlwaysNewInstance
 var
   SParam: string;
   i: integer;
 begin
-  ANewWindow:= false;
   AWindowPos:= '';
 
   for i:= 1 to ParamCount do
@@ -21,12 +21,6 @@ begin
     SParam:= ParamStr(i);
     if not SBeginsWith(SParam, '-') then
       Continue;
-
-    if (SParam='-n') then
-    begin
-      ANewWindow:= true;
-      Continue;
-    end;
 
     if (SParam='--version') or (SParam='-v') then
     begin

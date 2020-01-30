@@ -24,7 +24,8 @@ uses
 begin
   NTickInitial:= GetTickCount64;
   {$IFDEF WINDOWS}
-  if IsAnotherInstanceRunning then Exit;
+  if not AppAlwaysNewInstance then
+    if IsAnotherInstanceRunning then Exit;
   if Screen.MonitorCount>1 then
     Application.MainFormOnTaskBar:= True;
   {$IFEND}

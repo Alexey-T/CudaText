@@ -71,6 +71,7 @@ var
 var
   AppBookmarkImagelist: TImageList = nil;
   AppApiFlatTheme: TATFlatTheme;
+  AppAlwaysNewInstance: boolean = false;
 
 var
   AppFrameList1: TFPList; //all frames - for main thread
@@ -2270,12 +2271,22 @@ begin
   Result:= AppCommandCategory(Cmd) in [categ_Normal, categ_Plugin, categ_PluginSub];
 end;
 
+function GetAlwaysNewInstance: boolean;
+var
+  i: integer;
+begin
+  for i:= 1 to ParamCount do
+    if ParamStr(i)='-n' then exit(true);
+  Result:= false;
+end;
+
 
 initialization
   InitDirs;
   InitEditorOps(EditorOps);
   InitUiOps(UiOps);
 
+  AppAlwaysNewInstance:= GetAlwaysNewInstance;
   AppConsoleQueue:= TAppConsoleQueue.Create;
   AppCommandList:= TFPList.Create;
   AppEventList:= TFPList.Create;

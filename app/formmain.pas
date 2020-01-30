@@ -652,7 +652,6 @@ type
     FLastFocusedFrame: TComponent;
     FLexerProgressIndex: integer;
     FShowPassed: boolean;
-    FOption_OpenNewWindow: boolean;
     FOption_WindowPos: string;
     FOption_GroupMode: TATGroupsMode;
     FOption_GroupSizes: TATGroupsPoints;
@@ -969,7 +968,7 @@ type
     procedure DoFileOpenDialog_NoPlugins;
     function DoFileSaveAll: boolean;
     procedure DoFileReopen(F: TEditorFrame);
-    procedure DoLoadCommandLineBaseOptions(out ANewWindow: boolean; out AWindowPos: string);
+    procedure DoLoadCommandLineBaseOptions(out AWindowPos: string);
     procedure DoLoadCommandParams(const AParams: array of string; AOpenOptions: string);
     procedure DoLoadCommandLine;
     //procedure DoToggleMenu;
@@ -2110,7 +2109,7 @@ end;
 procedure TfmMain.DoOps_OnCreate;
 begin
   //must load window position in OnCreate to fix flickering with maximized window, Win10
-  DoLoadCommandLineBaseOptions(FOption_OpenNewWindow, FOption_WindowPos);
+  DoLoadCommandLineBaseOptions(FOption_WindowPos);
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps); //before LoadHistory
   DoOps_LoadLexerLib(true); //before LoadHistory
   DoFileOpen('', ''); //before LoadHistory
@@ -2946,7 +2945,8 @@ begin
   CompletionOps.FormSizeX:= AppScale(UiOps.ListboxCompleteSizeX);
   CompletionOps.FormSizeY:= AppScale(UiOps.ListboxCompleteSizeY);
 
-  if UiOps.OneInstance and not FOption_OpenNewWindow then
+  if not AppAlwaysNewInstance then
+   if UiOps.OneInstance then
     if not UniqInstance.Enabled then
     begin
       UniqInstance.Enabled:= true;
