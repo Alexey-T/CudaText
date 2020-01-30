@@ -39,6 +39,9 @@ begin
   else
     FMenuCopy.Items.Clear;
 
+  //fill submenu "Recent files"
+  MenuRecentsPopup(nil);
+
   Menu_Copy(MainMenu, FMenuCopy);
   Pnt:= ClientToScreen(Point(0, 0));
   FMenuCopy.Popup(Pnt.X, Pnt.Y);
