@@ -3,6 +3,19 @@
   - fixed
   * changed
 
+1.94.0 (2020/02)
+
++ add: Project Manager improvements (show pretty paths in recent file list; don't crash on unfolding deleted folder; use case-insensitive sorting)
++ add: lexer Python: support Unicode ids, fix rules for hex/octal/binary numbers
++ add: lexer HTML: knows few more std tags
++ add: command line supports more params (-r -e -nh -z) for single instance mode
++ add: Addon Manager shows new dialog for "Download all" command
++ add: show Go To dialog on clicking statusbar 1st cell
++ add: optimizations in Python API speed
++ add: Linux gtk2 version starts little faster
+- fix: command line param -n on Windows
+- fix: memory leak in TreeHelpers
+
 1.93.0 (2020/01)
 
 + add: Emmet plugin: added command "Dialog" to show interactive preview dialog for abbreviations
