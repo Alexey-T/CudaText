@@ -537,6 +537,7 @@ type
     PopupToolbarCase: TPopupMenu;
     PopupToolbarComment: TPopupMenu;
     PopupToolbarSort: TPopupMenu;
+    PopupSidebarClone: TPopupMenu;
     PaintTest: TPaintBox;
     FFormFloatSide: TForm;
     FFormFloatBottom: TForm;
@@ -629,7 +630,6 @@ type
     FCodetreeDblClicking: boolean;
     FCodetreeModifiedVersion: integer;
     FCodetreeNeedsSelJump: boolean;
-    FMenuCopy: TPopupMenu;
     FMenuVisible: boolean;
     FNewClickedEditor: TATSynEdit;
     FPyComplete_Editor: TATSynEdit;

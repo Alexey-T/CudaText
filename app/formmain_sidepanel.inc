@@ -34,17 +34,17 @@ procedure TfmMain.DoSidebar_MainMenuClick(Sender: TObject);
 var
   Pnt: TPoint;
 begin
-  if not Assigned(FMenuCopy) then
-    FMenuCopy:= TPopupMenu.Create(Self)
+  if not Assigned(PopupSidebarClone) then
+    PopupSidebarClone:= TPopupMenu.Create(Self)
   else
-    FMenuCopy.Items.Clear;
+    PopupSidebarClone.Items.Clear;
 
   //fill submenu "Recent files"
   MenuRecentsPopup(nil);
 
-  Menu_Copy(MainMenu, FMenuCopy);
+  Menu_Copy(MainMenu, PopupSidebarClone);
   Pnt:= ClientToScreen(Point(0, 0));
-  FMenuCopy.Popup(Pnt.X, Pnt.Y);
+  PopupSidebarClone.Popup(Pnt.X, Pnt.Y);
 end;
 
 
