@@ -1912,7 +1912,7 @@ begin
   PopupToolbarSort.OnPopup:= @PopupToolbarSortOnPopup;
 
   {$ifdef windows}
-  if IsSetToOneInstance then
+  if not AppAlwaysNewInstance and IsSetToOneInstance then
     with TInstanceManage.GetInstance do
       case Status of
         isFirst:
@@ -2945,8 +2945,7 @@ begin
   CompletionOps.FormSizeX:= AppScale(UiOps.ListboxCompleteSizeX);
   CompletionOps.FormSizeY:= AppScale(UiOps.ListboxCompleteSizeY);
 
-  if not AppAlwaysNewInstance then
-   if UiOps.OneInstance then
+  if not AppAlwaysNewInstance and UiOps.OneInstance then
     if not UniqInstance.Enabled then
     begin
       UniqInstance.Enabled:= true;
