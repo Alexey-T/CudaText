@@ -158,11 +158,11 @@ object SyntAnal15: TLibSyntAnalyzer
   Extentions = 'properties /hosts po'
   LexerName = 'Properties'
   Notes.Strings = (
-    'Author: Alex, uvviewsoft.com'
-    '+ ${var}, $(var) hilight'
-    '+ comments hilight'
+    'Alexey (CudaText)'
+    '+ ${var}, $(var) highlight'
+    '+ comments highlight'
     '+ support for #aabbcc color codes'
-    '+ tree (tested on squid.conf)'
+    '+ code tree (tested on squid.conf)'
   )
   LineComment = '#'
   Charset = DEFAULT_CHARSET
