@@ -8,8 +8,10 @@
 + add: Project Manager improvements (show pretty paths in recent file list; fixed crash on unfolding deleted folder; use case-insensitive sorting)
 + add: command line supports all params (-r -e -nh -z) for single instance mode too (thanks @dinkumoil)
 + add: lexer Python: support Unicode ids, fix rules for hex/octal/binary numbers
-+ add: lexer HTML: support few more std tags
++ add: lexer Markdown: support Unicode text
++ add: lexer HTML: support few more tags
 + add: Addon Manager shows new dialog for "Download all" command
++ add: HTML auto-completion must insert "<" char if called on empty place
 + add: show Go To dialog on clicking statusbar 1st cell
 + add: optimizations in Python API speed (thanks @Artem3213212)
 + add: Linux gtk2 version starts little faster
