@@ -834,23 +834,28 @@ class Command:
         self.action_refresh(data, sub_nodes)
 
     def tree_on_menu(self, id_dlg, id_ctl, data='', info=''):
+
         self.generate_context_menu()
         menu_proc(self.h_menu, MENU_SHOW, command='')
 
 
     def do_open_current_file(self, options):
+
         info = self.get_info(self.selected)
         if not info:
             return
         path = self.get_location_by_index(self.selected)
         if not path:
             return
-        # if file deleted in external app, del tree node
-        if not os.path.exists(path):
+
+        if info.image in [self.ICON_BAD, self.ICON_DIR, self.ICON_PROJ]:
+            return
+
+        if not os.path.isfile(str(path)):
             tree_proc(self.tree, TREE_ITEM_DELETE, self.selected)
             return
-        if info.image not in [self.ICON_BAD, self.ICON_DIR, self.ICON_PROJ]:
-            file_open(str(path), options=options)
+
+        file_open(str(path), options=options)
 
 
     def get_open_options(self):
