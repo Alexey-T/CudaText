@@ -414,7 +414,7 @@ object SyntAnal16: TLibSyntAnalyzer
       DisplayName = 'Text'
       StyleName = 'Text'
       TokenType = 1
-      Expression = '[a-z]\w*'
+      Expression = '(?r)\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
