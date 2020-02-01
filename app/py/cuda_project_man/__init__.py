@@ -845,6 +845,10 @@ class Command:
         path = self.get_location_by_index(self.selected)
         if not path:
             return
+        # if file deleted in external app, del tree node
+        if not os.path.exists(path):
+            tree_proc(self.tree, TREE_ITEM_DELETE, self.selected)
+            return
         if info.image not in [self.ICON_BAD, self.ICON_DIR, self.ICON_PROJ]:
             file_open(str(path), options=options)
 
