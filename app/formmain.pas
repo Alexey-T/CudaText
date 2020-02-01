@@ -1126,6 +1126,8 @@ var
 var
   NTickInitial: QWord = 0;
 
+procedure DoOnLexerLoaded(Sender: TObject; ALexer: TecSyntAnalyzer);
+
 
 implementation
 
@@ -4052,58 +4054,26 @@ end;
 
 procedure TfmMain.DoOps_LoadLexerLib(AOnCreate: boolean);
 var
-  fn_ops, LexName: string;
-  ListFiles, ListBackup: TStringlist;
-  an: TecSyntAnalyzer;
-  i, j: integer;
+  ListBackup: TStringlist;
 begin
-  ListFiles:= TStringList.Create;
   ListBackup:= TStringList.Create;
   try
     if not AOnCreate then
       DoOps_LexersDisableInFrames(ListBackup);
 
-    AppManager.Clear;
-    AppManagerLite.Clear;
-
     //load lite lexers
+    AppManagerLite.Clear;
     AppManagerLite.LoadFromDir(AppDir_LexersLite);
 
     //load EControl lexers
-    FindAllFiles(ListFiles, AppDir_Lexers, '*.lcf', false);
-    ListFiles.Sort;
-
-    if ListFiles.Count=0 then
+    AppManager.OnLexerLoaded:= @DoOnLexerLoaded;
+    AppManager.InitLibrary(AppDir_Lexers);
+    if AppManager.LexerCount=0 then
       MsgLogConsole(msgCannotFindLexersAll);
-
-    for i:= 0 to ListFiles.Count-1 do
-    begin
-      an:= AppManager.AddLexer;
-      //an.Name:= '_lx_'+LexerFilenameToComponentName(ListFiles[i]);
-      an.LoadFromFile(ListFiles[i]);
-
-      //load *.cuda-lexops
-      fn_ops:= GetAppLexerOpsFilename(an.LexerName);
-      if FileExistsUTF8(fn_ops) then
-        DoLoadLexerStylesFromFile_JsonLexerOps(an, fn_ops, UiOps.LexerThemes);
-    end;
-
-    //correct sublexer links
-    for i:= 0 to AppManager.LexerCount-1 do
-    begin
-      an:= AppManager.Lexers[i];
-      for j:= 0 to an.SubAnalyzers.Count-1 do
-      begin
-        LexName:= an.SubLexerName(j);
-        if LexName<>'' then
-          an.SubAnalyzers[j].SyntAnalyzer:= AppManager.FindLexerByName(LexName);
-      end;
-    end;
 
     if not AOnCreate then
       DoOps_LexersRestoreInFrames(ListBackup);
   finally
-    FreeAndNil(ListFiles);
     FreeAndNil(ListBackup);
   end;
 end;
@@ -6821,6 +6791,16 @@ begin
     CodeTree.Tree.Images:= ImageListTree;
     DoOps_LoadCodetreeIcons;
   end;
+end;
+
+procedure DoOnLexerLoaded(Sender: TObject; ALexer: TecSyntAnalyzer);
+var
+  fn_ops: string;
+begin
+  //load *.cuda-lexops
+  fn_ops:= GetAppLexerOpsFilename(ALexer.LexerName);
+  if FileExistsUTF8(fn_ops) then
+    DoLoadLexerStylesFromFile_JsonLexerOps(ALexer, fn_ops, UiOps.LexerThemes);
 end;
 
 //----------------------------
