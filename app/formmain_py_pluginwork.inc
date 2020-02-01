@@ -44,10 +44,19 @@ begin
 end;
 
 
+function IsPluginBad(const S: string): boolean;
+var
+  i: integer;
+begin
+  Result:= false;
+  for i:= 0 to High(BadPlugins) do
+    if S=BadPlugins[i] then exit(true);
+end;
+
 procedure TfmMain.DoOps_LoadPlugins;
 var
   list: TStringlist;
-  SItem, fn: string;
+  SItem, fn, DirName: string;
   i: integer;
 begin
   //commands: don't clear all, leave items from Api
@@ -65,6 +74,13 @@ begin
     list.Sort;
     for SItem in list do
     begin
+      DirName:= ExtractFileName(SItem);
+      if IsPluginBad(DirName) then
+      begin
+        MsgLogConsole(Format(msgPluginIsNotActual, [DirName]));
+        Continue;
+      end;
+
       fn:= SItem+DirectorySeparator+'install.inf';
       if FileExists(fn) then
         DoOps_LoadPluginFromInf(fn);
@@ -95,9 +111,6 @@ begin
   try
     dir_inf:= ExtractFileDir(fn_inf);
     s_module:= ExtractFileName(dir_inf);
-
-    //block CudaTree, it's obsolete
-    if s_module='cuda_tree' then exit;
 
     ini.ReadSections(sections);
 

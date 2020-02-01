@@ -1156,6 +1156,12 @@ const
   StatusbarTag_WrapMode = 17;
   StatusbarTag_Msg = 20;
 
+const
+  BadPlugins: array[0..1] of string = (
+    'cuda_tree',
+    'cuda_brackets_hilite'
+    );
+
 {$R *.lfm}
 
 function GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
@@ -2523,9 +2529,6 @@ begin
     AppNotifThread:= TAppNotifThread.Create(false);
     AppNotifThread.Priority:= tpLower;
   end;
-
-  if DirectoryExists(AppDir_Py+DirectorySeparator+'cuda_brackets_hilite') then
-    MsgLogConsole('WARNING: plugin Bracket Helper is not needed anymore, remove it and use option "bracket_highlight"');
 
   FShowPassed:= true;
 end;
