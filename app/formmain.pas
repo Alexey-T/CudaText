@@ -4052,7 +4052,7 @@ end;
 
 procedure TfmMain.DoOps_LoadLexerLib(AOnCreate: boolean);
 var
-  fn_ops, DirLexers, LexName: string;
+  fn_ops, LexName: string;
   ListFiles, ListBackup: TStringlist;
   an: TecSyntAnalyzer;
   i, j: integer;
@@ -4067,12 +4067,10 @@ begin
     AppManagerLite.Clear;
 
     //load lite lexers
-    DirLexers:= AppDir_LexersLite;
-    AppManagerLite.LoadFromDir(DirLexers);
+    AppManagerLite.LoadFromDir(AppDir_LexersLite);
 
     //load EControl lexers
-    DirLexers:= AppDir_Lexers;
-    FindAllFiles(ListFiles, DirLexers, '*.lcf', false);
+    FindAllFiles(ListFiles, AppDir_Lexers, '*.lcf', false);
     ListFiles.Sort;
 
     if ListFiles.Count=0 then
