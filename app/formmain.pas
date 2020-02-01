@@ -4056,9 +4056,13 @@ procedure TfmMain.DoOps_LoadLexerLib(AOnCreate: boolean);
 var
   ListBackup: TStringlist;
 begin
-  ListBackup:= TStringList.Create;
+  if not AOnCreate then
+    ListBackup:= TStringList.Create
+  else
+    ListBackup:= nil;
+
   try
-    if not AOnCreate then
+    if Assigned(ListBackup) then
       DoOps_LexersDisableInFrames(ListBackup);
 
     //load lite lexers
@@ -4071,10 +4075,11 @@ begin
     if AppManager.LexerCount=0 then
       MsgLogConsole(msgCannotFindLexersAll);
 
-    if not AOnCreate then
+    if Assigned(ListBackup) then
       DoOps_LexersRestoreInFrames(ListBackup);
   finally
-    FreeAndNil(ListBackup);
+    if Assigned(ListBackup) then
+      FreeAndNil(ListBackup);
   end;
 end;
 
