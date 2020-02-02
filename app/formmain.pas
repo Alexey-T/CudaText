@@ -2181,7 +2181,7 @@ begin
   *)
 
   DoCloseAllTabs;
-  DoPyEvent(CurrentEditor, cEventOnExit, []);
+  DoPyEvent(nil, cEventOnExit, []);
 end;
 
 procedure TfmMain.ButtonCancelClick(Sender: TObject);
@@ -5708,7 +5708,7 @@ begin
   else
   begin
     MsgStatus(msgStatusClickingLogLine);
-    DoPyEvent(Ed, cEventOnOutputNav,
+    DoPyEvent(nil, cEventOnOutputNav,
       [SStringToPythonString(SText), IntToStr(ItemProp.Tag)] );
   end;
 end;
@@ -5825,7 +5825,7 @@ end;
 
 function TfmMain.DoOnConsoleNav(const Str: string): boolean;
 begin
-  Result:= DoPyEvent(CurrentEditor, cEventOnConsoleNav,
+  Result:= DoPyEvent(nil, cEventOnConsoleNav,
     [SStringToPythonString(Str)]) <> cPyFalse;
 end;
 
