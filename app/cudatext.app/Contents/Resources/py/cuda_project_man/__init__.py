@@ -299,7 +299,7 @@ class Command:
     @staticmethod
     def node_ordering(node):
         path = Path(node)
-        return path.is_file(), path.name
+        return path.is_file(), path.name.upper()
 
     def add_node(self, dialog):
         path = dialog()
@@ -345,7 +345,8 @@ class Command:
 
         #open new file
         self.jump_to_filename(str(path))
-        file_open(str(path))
+        if os.path.isfile(str(path)):
+            file_open(str(path))
 
     def action_rename(self):
         location = Path(self.get_location_by_index(self.selected))
@@ -530,8 +531,8 @@ class Command:
         if index in self.top_nodes:
             tree_proc(self.tree, TREE_ITEM_DELETE, index)
             path = self.top_nodes.pop(index)
-            i = self.project["nodes"].index(str(path))
-            self.project["nodes"].pop(i)
+            if str(path) in self.project["nodes"]:
+                self.project["nodes"].remove(str(path))
             if self.project_file_path:
                 self.action_save_project_as(self.project_file_path)
 
@@ -817,6 +818,13 @@ class Command:
     def tree_on_unfold(self, id_dlg, id_ctl, data='', info=''):
         info = self.get_info(data)
         path = self.get_location_by_index(data)
+
+        if not path.is_dir():
+            tree_proc(self.tree, TREE_ITEM_DELETE, data)
+            if str(path) in self.project["nodes"]:
+                self.project["nodes"].remove(str(path))
+            return
+
         if info.image != self.ICON_DIR:
             return
         items = tree_proc(self.tree, TREE_ITEM_ENUM, data)
@@ -827,19 +835,28 @@ class Command:
         self.action_refresh(data, sub_nodes)
 
     def tree_on_menu(self, id_dlg, id_ctl, data='', info=''):
+
         self.generate_context_menu()
         menu_proc(self.h_menu, MENU_SHOW, command='')
 
 
     def do_open_current_file(self, options):
+
         info = self.get_info(self.selected)
         if not info:
             return
         path = self.get_location_by_index(self.selected)
         if not path:
             return
-        if info.image not in [self.ICON_BAD, self.ICON_DIR, self.ICON_PROJ]:
-            file_open(str(path), options=options)
+
+        if info.image in [self.ICON_BAD, self.ICON_DIR, self.ICON_PROJ]:
+            return
+
+        if not os.path.isfile(str(path)):
+            tree_proc(self.tree, TREE_ITEM_SET_ICON, self.selected, image_index=self.ICON_BAD)
+            return
+
+        file_open(str(path), options=options)
 
 
     def get_open_options(self):
@@ -909,7 +926,7 @@ class Command:
     def form_key_down(self, id_dlg, id_ctl, data):
 
         if id_ctl==13: #Enter
-            self.tree_on_click_dbl(id_dlg, id_ctl)
+            self.do_open_current_file(self.get_open_options())
             return False #block key
 
     def add_current_file(self):

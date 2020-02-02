@@ -1,5 +1,3 @@
-import json
-from time import sleep
 import cudatext_api as ct
 
 MB_OK               = 0x00
@@ -1035,13 +1033,16 @@ def to_str(v, escape=False):
 def _dlg_proc_wait(id_dialog):
     while True:
         app_idle()
-        sleep(0.01) #10 msec seems ok for CPU load
+        from time import sleep
+        sleep(0.03) # 30 msec seems ok for CPU load
+
         d = ct.dlg_proc(id_dialog, DLG_PROP_GET, '', -1, -1, '')
         if isinstance(d, dict) and not d['vis']:
             return
 
 
 def _dlg_proc_callback_proxy(id_dlg, id_ctl, data='', info=''):
+    #print('dlg_proc_proxy: data:', data, ' info:', info)
     if info in _live:
         return _live[info](id_dlg, id_ctl, data=data)
 
@@ -1164,6 +1165,7 @@ class Editor:
         key,dfv = value.split(':', 1) if ':' in value else ('_', value)
         if not js_s:
             return dfv
+        import json
         js = json.loads(js_s)
         return js.get(key, dfv)
 
@@ -1174,6 +1176,7 @@ class Editor:
         key,val = value.split(':', 1) if ':' in value else ('_', value)
         js_s = ct.ed_get_prop(self.h, PROP_TAG, '')
         js_s = js_s if js_s else '{}'
+        import json
         js = json.loads(js_s)
         js[key] = val
         js_s = json.dumps(js)
