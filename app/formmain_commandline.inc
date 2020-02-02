@@ -116,7 +116,7 @@ begin
       begin
         Frame.TabCaption:= '(stdin)';
         Frame.Ed1.Strings.LoadFromString(UTF8Decode(_GetStdin));
-        Frame.Ed1.Modified:= false;
+        //Frame.Ed1.Modified:= false;
       end;
       Continue;
     end;
