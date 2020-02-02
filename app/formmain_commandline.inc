@@ -24,7 +24,7 @@ begin
 
     if (SParam='--version') or (SParam='-v') then
     begin
-      MsgStdout('CudaText version '+cAppExeVersion, true);
+      MsgStdout('CudaText '+cAppExeVersion, true);
       Halt;
     end;
 
