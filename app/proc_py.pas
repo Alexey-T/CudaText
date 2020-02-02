@@ -36,6 +36,8 @@ const
   cPyFalse = 'False';
   cPyNone = 'None';
 
+procedure Py_ClearLoadedStringLists;
+
 implementation
 
 var
@@ -349,6 +351,12 @@ begin
       Result:= PyString_AsDelphiString(s);
     Py_XDECREF(s);
   end;
+end;
+
+procedure Py_ClearLoadedStringLists;
+begin
+  PyLoadedModules.Clear;
+  PyLoadedLocals.Clear;
 end;
 
 initialization

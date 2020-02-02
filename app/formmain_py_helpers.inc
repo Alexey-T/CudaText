@@ -369,6 +369,8 @@ begin
     FreeAndNil(L)
   end;
 
+  Py_ClearLoadedStringLists;
+
   //https://github.com/Alexey-T/CudaText/issues/1253
   DoPyEvent(CurrentEditor, cEventOnStart, []);
 end;
