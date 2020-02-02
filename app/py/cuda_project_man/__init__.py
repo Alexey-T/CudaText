@@ -345,7 +345,8 @@ class Command:
 
         #open new file
         self.jump_to_filename(str(path))
-        file_open(str(path))
+        if os.path.isfile(str(path)):
+            file_open(str(path))
 
     def action_rename(self):
         location = Path(self.get_location_by_index(self.selected))
@@ -852,7 +853,7 @@ class Command:
             return
 
         if not os.path.isfile(str(path)):
-            tree_proc(self.tree, TREE_ITEM_DELETE, self.selected)
+            tree_proc(self.tree, TREE_ITEM_SET_ICON, self.selected, image_index=self.ICON_BAD)
             return
 
         file_open(str(path), options=options)
