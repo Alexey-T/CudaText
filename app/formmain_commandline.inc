@@ -7,7 +7,7 @@ Copyright (c) Alexey Torgashin
 *)
 {$ifdef nn}begin end;{$endif}
 
-procedure TfmMain.DoLoadCommandLineBaseOptions(out AWindowPos: string);
+procedure TfmMain.DoLoadCommandLineBaseOptions(out AWindowPos: string; out AAllowSession: boolean);
 // Function handles these options: -v -h -w -el
 // Option -n is handled via var proc_globdata.AppAlwaysNewInstance
 var
@@ -15,6 +15,7 @@ var
   i: integer;
 begin
   AWindowPos:= '';
+  AAllowSession:= true;
 
   for i:= 1 to ParamCount do
   begin
@@ -44,6 +45,12 @@ begin
     begin
       MsgStdout(AppEncodingListAsString, true);
       Halt;
+    end;
+
+    if (SParam='-ns') then
+    begin
+      AAllowSession:= false;
+      Continue;
     end;
   end;
 end;

@@ -517,13 +517,15 @@ begin
       ThemeSyntax:= c.GetValue('theme_syntax', '');
 
     UiOps.LangName:= c.GetValue('lang', '');
-    FSessionName:= UTF8Encode(c.GetValue('session', UTF8Decode(FSessionName)));
-    FLastSelectedCommand:= c.GetValue('last_cmd', FLastSelectedCommand);
-
     if UiOps.LangName<>'' then
       DoLocalize;
 
-    DoOps_LoadHistory_GroupView(c);
+    if FOption_AllowSession then
+    begin
+      FSessionName:= UTF8Encode(c.GetValue('session', UTF8Decode(FSessionName)));
+      FLastSelectedCommand:= c.GetValue('last_cmd', FLastSelectedCommand);
+      DoOps_LoadHistory_GroupView(c);
+    end;
 
     FOption_SidebarTab:= c.GetValue('tab_left', '');
   finally

@@ -313,6 +313,7 @@ const
       '  -e=value        - Open all files from command line in given encoding'+sLineBreak+
       '  -el             - Show supported encoding names'+sLineBreak+
       '  -nh             - Ignore saved file history'+sLineBreak+
+      '  -ns             - Ignore saved session'+sLineBreak+
       '  -w=left,top,width,height - Set position/size of app window'+sLineBreak+
       '  -i              - Read the contents of stdin (Unix only)'+sLineBreak+
       ''+sLineBreak+

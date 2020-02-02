@@ -653,6 +653,7 @@ type
     FLexerProgressIndex: integer;
     FShowPassed: boolean;
     FOption_WindowPos: string;
+    FOption_AllowSession: boolean;
     FOption_GroupMode: TATGroupsMode;
     FOption_GroupSizes: TATGroupsPoints;
     FOption_GroupPanelSize: TPoint;
@@ -968,7 +969,7 @@ type
     procedure DoFileOpenDialog_NoPlugins;
     function DoFileSaveAll: boolean;
     procedure DoFileReopen(F: TEditorFrame);
-    procedure DoLoadCommandLineBaseOptions(out AWindowPos: string);
+    procedure DoLoadCommandLineBaseOptions(out AWindowPos: string; out AAllowSession: boolean);
     procedure DoLoadCommandParams(const AParams: array of string; AOpenOptions: string);
     procedure DoLoadCommandLine;
     //procedure DoToggleMenu;
@@ -2117,7 +2118,7 @@ end;
 procedure TfmMain.DoOps_OnCreate;
 begin
   //must load window position in OnCreate to fix flickering with maximized window, Win10
-  DoLoadCommandLineBaseOptions(FOption_WindowPos);
+  DoLoadCommandLineBaseOptions(FOption_WindowPos, FOption_AllowSession);
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps); //before LoadHistory
   DoOps_LoadLexerLib(true); //before LoadHistory
   DoFileOpen('', ''); //before LoadHistory
@@ -2467,7 +2468,7 @@ begin
   DoApplyFont_Ui;
   DoApplyFont_Output;
 
-  if UiOps.ReopenSession then
+  if UiOps.ReopenSession and FOption_AllowSession then
     DoOps_LoadSession(GetSessionFilename);
   if FConsoleMustShow then
     DoShowConsole(false);
