@@ -198,25 +198,6 @@ begin
 end;
 
 
-(*
-function Py_RunModuleFunction(const AModule, AFunc: string; AParams: array of string): PPyObject;
-var
-  SCmd1, SCmd2: string;
-begin
-  SCmd1:= Format('import %s', [AModule]);
-  SCmd2:= Format('%s.%s(%s)', [AModule, AFunc, Py_ArgListToString(AParams)]);
-
-  try
-    with GetPythonEngine do
-    begin
-      ExecString(SCmd1);
-      Result:= EvalString(SCmd2);
-    end;
-  except
-  end;
-end;
-*)
-
 function Py_RunModuleFunction(const AModule,AFunc:string;AParams:array of PPyObject;const AParamNames:array of string):PPyObject;
 var
   Module,ModuleDic,Func,Params,ParamsDic:PPyObject;
