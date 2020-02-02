@@ -52,43 +52,31 @@ procedure TfmMain.DoSidebar_OnTabClick(Sender: TObject);
 var
   Btn: TATButton;
   SCaption, SModule, SMethod: string;
-  i: integer;
+  NPanelIndex: integer;
 begin
-  //toggle side panel?
-  Btn:= (Sender as TATButton);
-  if Btn.Checked then
+  Btn:= Sender as TATButton;
+  SCaption:= Btn.Caption;
+
+  if Btn.Checked or (SCaption='') then
   begin
     Btn.Checked:= false;
     ShowSidePanel:= false;
     Exit
   end;
 
-  SCaption:= '';
-  for i:= 0 to ToolbarSideTop.ButtonCount-1 do
-  begin
-    Btn:= ToolbarSideTop.Buttons[i];
-    Btn.Checked:= Btn=Sender;
-    if Btn.Checked then
+  //avoid plugin call if panel already inited
+  NPanelIndex:= DoSidebar_CaptionToPanelsIndex(SCaption);
+  if (NPanelIndex>=0) and (TAppSidePanel(AppSidePanels[NPanelIndex]).ItemControl=nil) then
+    if Btn.DataString<>'' then
     begin
-      SCaption:= Btn.Caption;
-      //button has no form? detect by DataString.
-      if Btn.DataString<>'' then
-      begin
-        SSplitByChar(Btn.DataString, '.', SModule, SMethod);
-        //MsgLogConsole(Format('sidebar click: caption "%s", py %s.%s',
-        //  [SCaption, SModule, SMethod]));
-        DoPyCommand(SModule, SMethod, []);
-      end;
+      SSplitByChar(Btn.DataString, '.', SModule, SMethod);
+      //MsgLogConsole(Format('sidebar click: caption "%s", py %s.%s',
+      //  [SCaption, SModule, SMethod]));
+      DoPyCommand(SModule, SMethod, []);
     end;
-  end;
 
-  if SCaption<>'' then
-  begin
-    //MsgLogConsole(Format('sidebar click: caption "%s"', [SCaption]));
-    UpdateSidebarPanels(SCaption, true);
-  end
-  else
-    ShowSidePanel:= false;
+  UpdateSidebarPanels(SCaption, true);
+  Btn.Checked:= true;
 end;
 
 
