@@ -16,36 +16,36 @@ begin
     ListboxVal.Focused;
 end;
 
+
 procedure TfmMain.DoBottom_OnTabClick(Sender: TObject);
 var
   Btn: TATButton;
-  SCaption: string;
-  i: integer;
+  SCaption, SModule, SMethod: string;
+  NPanelIndex: integer;
 begin
   Btn:= Sender as TATButton;
-  if Btn.Checked then
+  SCaption:= Btn.Caption;
+
+  if Btn.Checked or (SCaption='') then
   begin
     Btn.Checked:= false;
     ShowBottom:= false;
     Exit
   end;
 
-  SCaption:= '';
-  for i:= 0 to ToolbarSideLow.ButtonCount-1 do
-  begin
-    Btn:= ToolbarSideLow.Buttons[i];
-    Btn.Checked:= Btn=Sender;
-    if Btn.Checked then
+  //avoid plugin call if panel already inited
+  NPanelIndex:= DoBottom_CaptionToPanelsIndex(SCaption);
+  if (NPanelIndex>=0) and (TAppSidePanel(AppBottomPanels[NPanelIndex]).ItemControl=nil) then
+    if Btn.DataString<>'' then
     begin
-      SCaption:= Btn.Caption;
-      Break;
+      SSplitByChar(Btn.DataString, '.', SModule, SMethod);
+      //MsgLogConsole(Format('bottombar click: caption "%s", py %s.%s',
+      //  [SCaption, SModule, SMethod]));
+      DoPyCommand(SModule, SMethod, []);
     end;
-  end;
 
-  if SCaption<>'' then
-    UpdateBottomPanels(SCaption, true)
-  else
-    ShowBottom:= false;
+  UpdateBottomPanels(SCaption, true);
+  Btn.Checked:= true;
 end;
 
 
