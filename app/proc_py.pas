@@ -79,13 +79,14 @@ function Py_ArgListToString(const AParams: array of string): string;
 var
   i: integer;
 begin
-  Result:= '';
-  for i:= 0 to Length(AParams)-1 do
+  if Length(AParams)>0 then
   begin
-    if Result<>'' then
-      Result:= Result+', ';
-    Result:= Result+AParams[i];
-  end;
+    Result:= AParams[0];
+    for i:= 1 to Length(AParams)-1 do
+      Result+= ','+AParams[i];
+  end
+  else
+    Result:= '';
 end;
 
 
