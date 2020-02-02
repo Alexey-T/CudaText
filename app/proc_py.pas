@@ -112,12 +112,13 @@ begin
   begin
     if UiOps.PyInitLog then
       MsgLogConsole('Init: '+AModule);
-    with GetPythonEngine do
-    begin
-      ExecString(Format('import %s;%s=%s.Command()', [AModule, SObj, AModule]));
+    try
+      with GetPythonEngine do
+        ExecString(Format('import %s;%s=%s.Command()', [AModule, SObj, AModule]));
+      _LoadedModules.Add(AModule);
+      _LoadedLocals.Add(SObj);
+    except
     end;
-    _LoadedModules.Add(AModule);
-    _LoadedLocals.Add(SObj);
   end;
 
   Result:= Py_RunPlugin_MethodEval(SObj, AMethod, Py_ArgListToString(AParams));
@@ -152,13 +153,13 @@ begin
     begin
       if UiOps.PyInitLog then
         MsgLogConsole('Init: '+AModule);
-      with GetPythonEngine do
-      begin
-        ExecString('import '+AModule);
-        ExecString(Format('%s=%s.Command()', [SObj, AModule]));
+      try
+        with GetPythonEngine do
+          ExecString(Format('import %s;%s=%s.Command()', [AModule, SObj, AModule]));
+        _LoadedModules.Add(AModule);
+        _LoadedLocals.Add(SObj);
+      except
       end;
-      _LoadedModules.Add(AModule);
-      _LoadedLocals.Add(SObj);
     end;
 
     Result:= Py_RunPlugin_MethodEval(SObj, ACmd, SParams);
