@@ -114,8 +114,6 @@ begin
         Frame:= DoFileOpen('', '', nil, '/nohistory');
       if Assigned(Frame) then
       begin
-        if sEncoding<>'' then
-          SetFrameEncoding(Frame, sEncoding, false);
         Frame.TabCaption:= '(stdin)';
         Frame.Ed1.Strings.LoadFromString(UTF8Decode(_GetStdin));
         Frame.Ed1.Modified:= false;
