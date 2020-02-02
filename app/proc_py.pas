@@ -106,7 +106,7 @@ function Py_RunPlugin_Command(const AModule, AMethod: string; const AParams: arr
 var
   SObj: string;
 begin
-  SObj:= '_cudacmd_' + AModule;
+  SObj:= '_cuda' + AModule;
 
   if not IsPyLoadedLocal(SObj) then
   begin
@@ -138,7 +138,7 @@ begin
   for i:= 0 to Length(AParams)-1 do
     SParams:= SParams + ',' + AParams[i];
 
-  SObj:= '_cudacmd_' + AModule;
+  SObj:= '_cuda' + AModule;
 
   if not IsPyLoadedModule('cudatext') then
   begin
