@@ -38,6 +38,21 @@ const
 
 implementation
 
+var
+  PyLoadedModules: TStringList = nil;
+  PyLoadedLocals: TStringList = nil;
+
+function IsPyLoadedModule(const S: string): boolean; inline;
+begin
+  Result:= PyLoadedModules.IndexOf(S)>=0;
+end;
+
+function IsPyLoadedLocal(const S: string): boolean; inline;
+begin
+  Result:= PyLoadedLocals.IndexOf(S)>=0;
+end;
+
+
 procedure Py_SetSysPath(const Dirs: array of string; DoAdd: boolean);
 var
   Str, Sign: string;
@@ -74,31 +89,28 @@ begin
 end;
 
 
-function Py_RunPlugin_Command(const AModule, AMethod: string;
-  const AParams: array of string): string;
+function Py_RunPlugin_Command(const AModule, AMethod: string; const AParams: array of string): string;
 var
-  SObj: string;
-  SCmd1, SCmd2: string;
+  SObj, SCmd: string;
 begin
   SObj:= '_cudacmd_' + AModule;
 
-  SCmd1:=
-    Format('import %s               ', [AModule]) + SLineBreak +
-    Format('if "%s" not in locals():', [SObj]) + SLineBreak +
-    Format('    %s = %s.Command()   ', [SObj, AModule]) + SLineBreak;
-  if UiOps.PyInitLog then
-    SCmd1:= SCmd1+
-    Format('    print("Init: %s")',    [AModule]);
-
-  SCmd2:=
-    Format('%s.%s(%s)', [SObj, AMethod, Py_ArgListToString(AParams)]);
-
-  try
+  if not IsPyLoadedLocal(SObj) then
+  begin
+    if UiOps.PyInitLog then
+      MsgLogConsole('Init: '+AModule);
     with GetPythonEngine do
     begin
-      ExecString(SCmd1);
-      Result:= EvalStringAsStr(SCmd2);
+      ExecString(Format('import %s;%s=%s.Command()', [AModule, SObj, AModule]));
     end;
+    PyLoadedModules.Add(AModule);
+    PyLoadedLocals.Add(SObj);
+  end;
+
+  try
+    SCmd:= Format('%s.%s(%s)', [SObj, AMethod, Py_ArgListToString(AParams)]);
+    with GetPythonEngine do
+      Result:= EvalStringAsStr(SCmd);
   except
   end;
 end;
@@ -107,7 +119,7 @@ function Py_RunPlugin_Event(const AModule, ACmd: string;
   AEd: TATSynEdit; const AParams: array of string;
   ALazy: boolean): string;
 var
-  SObj, Str1, Str2, SParams: string;
+  SObj, SCmd, SParams: string;
   H: PtrInt;
   i: integer;
 begin
@@ -118,44 +130,43 @@ begin
 
   SObj:= '_cudacmd_' + AModule;
 
+  if not IsPyLoadedModule('cudatext') then
+  begin
+    with GetPythonEngine do
+      ExecString('import cudatext');
+    PyLoadedModules.Add('cudatext');
+  end;
+
   if not ALazy then
   begin
-    Str1:= 'import cudatext' + SLineBreak +
-      Format('import %s',                [AModule]) + SLineBreak +
-      Format('if "%s" not in locals():', [SObj]) + SLineBreak +
-      Format('    %s = %s.Command()',    [SObj, AModule]) + SLineBreak;
-    if UiOps.PyInitLog then
-      Str1:= Str1+
-      Format('    print("Init: %s")',    [AModule]);
-    Str2:=
-      Format('%s.%s(%s)', [SObj, ACmd, SParams]);
-
-    try
+    if not IsPyLoadedLocal(SObj) then
+    begin
+      if UiOps.PyInitLog then
+        MsgLogConsole('Init: '+AModule);
       with GetPythonEngine do
       begin
-        ExecString(Str1);
-        Result:= EvalStringAsStr(Str2);
+        ExecString('import '+AModule);
+        ExecString(Format('%s=%s.Command()', [SObj, AModule]));
       end;
+      PyLoadedModules.Add(AModule);
+      PyLoadedLocals.Add(SObj);
+    end;
+
+    try
+      SCmd:= Format('%s.%s(%s)', [SObj, ACmd, SParams]);
+      with GetPythonEngine do
+        Result:= EvalStringAsStr(SCmd);
     except
     end;
   end
   else
-  begin
-    Str1:=
-      'import cudatext' + SLineBreak +
-      '_ = None' + SLineBreak +
-      Format('if "%s" in locals():', [SObj]) + SLineBreak +
-      Format('    _ = %s.%s(%s)',    [SObj, ACmd, SParams]);
-
+  if IsPyLoadedLocal(SObj) then
     try
+      SCmd:= Format('%s.%s(%s)', [SObj, ACmd, SParams]);
       with GetPythonEngine do
-      begin
-        ExecString(Str1);
-        Result:= EvalStringAsStr('_');
-      end;
+        Result:= EvalStringAsStr(SCmd);
     except
     end;
-  end;
 end;
 
 function Py_rect(const R: TRect): PPyObject; cdecl;
@@ -340,6 +351,15 @@ begin
   end;
 end;
 
+initialization
+
+  PyLoadedModules:= TStringList.Create;
+  PyLoadedLocals:= TStringList.Create;
+
+finalization
+
+  FreeAndNil(PyLoadedLocals);
+  FreeAndNil(PyLoadedModules);
 
 end.
 
