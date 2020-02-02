@@ -105,6 +105,15 @@ begin
   end;
 end;
 
+procedure Py_RunModule_ImportCommand(const AObject, AModule: string);
+begin
+  try
+    with GetPythonEngine do
+      ExecString(Format('import %s;%s=%s.Command()', [AModule, AObject, AModule]));
+  except
+  end;
+end;
+
 function Py_RunPlugin_Command(const AModule, AMethod: string; const AParams: array of string): string;
 var
   SObj: string;
@@ -116,8 +125,7 @@ begin
     if UiOps.PyInitLog then
       MsgLogConsole('Init: '+AModule);
     try
-      with GetPythonEngine do
-        ExecString(Format('import %s;%s=%s.Command()', [AModule, SObj, AModule]));
+      Py_RunModule_ImportCommand(SObj, AModule);
       _LoadedModules.Add(AModule);
       _LoadedLocals.Add(SObj);
     except
@@ -164,8 +172,7 @@ begin
       if UiOps.PyInitLog then
         MsgLogConsole('Init: '+AModule);
       try
-        with GetPythonEngine do
-          ExecString(Format('import %s;%s=%s.Command()', [AModule, SObj, AModule]));
+        Py_RunModule_ImportCommand(SObj, AModule);
         _LoadedModules.Add(AModule);
         _LoadedLocals.Add(SObj);
       except
