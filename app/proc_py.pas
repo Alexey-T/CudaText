@@ -41,17 +41,12 @@ procedure PyClearLoadedModuleLists;
 implementation
 
 var
-  _LoadedModules: TStringList = nil;
+  _LoadedCudatext: boolean = false;
   _LoadedLocals: TStringList = nil;
 
 const
   _LoadedPrefix = 'xx';
   //must be the same as in file py/cudatext_reset_plugins.py
-
-function IsPyLoadedModule(const S: string): boolean; inline;
-begin
-  Result:= _LoadedModules.IndexOf(S)>=0;
-end;
 
 function IsPyLoadedLocal(const S: string): boolean; inline;
 begin
@@ -126,7 +121,6 @@ begin
       MsgLogConsole('Init: '+AModule);
     try
       Py_RunModule_ImportCommand(SObj, AModule);
-      _LoadedModules.Add(AModule);
       _LoadedLocals.Add(SObj);
     except
     end;
@@ -158,11 +152,11 @@ begin
 
   SObj:= _LoadedPrefix+AModule;
 
-  if not IsPyLoadedModule('cudatext') then
+  if not _LoadedCudatext then
   begin
     with GetPythonEngine do
       ExecString('import cudatext');
-    _LoadedModules.Add('cudatext');
+    _LoadedCudatext:= true;
   end;
 
   if not ALazy then
@@ -173,7 +167,6 @@ begin
         MsgLogConsole('Init: '+AModule);
       try
         Py_RunModule_ImportCommand(SObj, AModule);
-        _LoadedModules.Add(AModule);
         _LoadedLocals.Add(SObj);
       except
       end;
@@ -351,19 +344,17 @@ end;
 
 procedure PyClearLoadedModuleLists;
 begin
-  _LoadedModules.Clear;
+  _LoadedCudatext:= false;
   _LoadedLocals.Clear;
 end;
 
 initialization
 
-  _LoadedModules:= TStringList.Create;
   _LoadedLocals:= TStringList.Create;
 
 finalization
 
   FreeAndNil(_LoadedLocals);
-  FreeAndNil(_LoadedModules);
 
 end.
 
