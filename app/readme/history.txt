@@ -8,6 +8,7 @@
 + add: Project Manager improvements (show pretty paths in recent file list; fixed crash on unfolding deleted folder; use case-insensitive sorting)
 + add: command line supports all params (-r -e -nh -z) for single instance mode too (thanks @dinkumoil)
 + add: command line parameter -i, to read the contents of stdin (Unix only)
++ add: command line parameter -ns, to disable loading saved session
 + add: if mouse selecting was started, and mouse is moving over gutter, selecting must continue
 + add: lexer Python: support Unicode ids, fix rules for hex/octal/binary numbers
 + add: lexer Markdown: support Unicode text
