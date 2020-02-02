@@ -36,22 +36,22 @@ const
   cPyFalse = 'False';
   cPyNone = 'None';
 
-procedure Py_ClearLoadedStringLists;
+procedure PyClearLoadedModuleLists;
 
 implementation
 
 var
-  PyLoadedModules: TStringList = nil;
-  PyLoadedLocals: TStringList = nil;
+  _LoadedModules: TStringList = nil;
+  _LoadedLocals: TStringList = nil;
 
 function IsPyLoadedModule(const S: string): boolean; inline;
 begin
-  Result:= PyLoadedModules.IndexOf(S)>=0;
+  Result:= _LoadedModules.IndexOf(S)>=0;
 end;
 
 function IsPyLoadedLocal(const S: string): boolean; inline;
 begin
-  Result:= PyLoadedLocals.IndexOf(S)>=0;
+  Result:= _LoadedLocals.IndexOf(S)>=0;
 end;
 
 
@@ -105,8 +105,8 @@ begin
     begin
       ExecString(Format('import %s;%s=%s.Command()', [AModule, SObj, AModule]));
     end;
-    PyLoadedModules.Add(AModule);
-    PyLoadedLocals.Add(SObj);
+    _LoadedModules.Add(AModule);
+    _LoadedLocals.Add(SObj);
   end;
 
   try
@@ -136,7 +136,7 @@ begin
   begin
     with GetPythonEngine do
       ExecString('import cudatext');
-    PyLoadedModules.Add('cudatext');
+    _LoadedModules.Add('cudatext');
   end;
 
   if not ALazy then
@@ -150,8 +150,8 @@ begin
         ExecString('import '+AModule);
         ExecString(Format('%s=%s.Command()', [SObj, AModule]));
       end;
-      PyLoadedModules.Add(AModule);
-      PyLoadedLocals.Add(SObj);
+      _LoadedModules.Add(AModule);
+      _LoadedLocals.Add(SObj);
     end;
 
     try
@@ -353,21 +353,21 @@ begin
   end;
 end;
 
-procedure Py_ClearLoadedStringLists;
+procedure PyClearLoadedModuleLists;
 begin
-  PyLoadedModules.Clear;
-  PyLoadedLocals.Clear;
+  _LoadedModules.Clear;
+  _LoadedLocals.Clear;
 end;
 
 initialization
 
-  PyLoadedModules:= TStringList.Create;
-  PyLoadedLocals:= TStringList.Create;
+  _LoadedModules:= TStringList.Create;
+  _LoadedLocals:= TStringList.Create;
 
 finalization
 
-  FreeAndNil(PyLoadedLocals);
-  FreeAndNil(PyLoadedModules);
+  FreeAndNil(_LoadedLocals);
+  FreeAndNil(_LoadedModules);
 
 end.
 
