@@ -990,7 +990,7 @@
   "autocomplete_html": true,
 
   //Reg.ex. for lexer name, to activate special HTML auto-completion
-  "autocomplete_html_lexers": ".*HTML.*|PHP",
+  "autocomplete_html_lexers": ".*HTML.*|\bPHP\b",
 
   //Enable special auto-completion for CSS lexer (see wiki)
   "autocomplete_css": true,
