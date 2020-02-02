@@ -372,7 +372,7 @@ begin
   PyClearLoadedModuleLists;
 
   //https://github.com/Alexey-T/CudaText/issues/1253
-  DoPyEvent(CurrentEditor, cEventOnStart, []);
+  DoPyEvent(nil, cEventOnStart, []);
 end;
 
 procedure TfmMain.DoPyRescanPlugins;

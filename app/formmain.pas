@@ -2479,7 +2479,7 @@ begin
   DoOps_LoadKeymap(false); //called on OnTabFocus before, but blocked there by FAllowLoadKeymap
 
   NTickPluginBegin:= GetTickCount64;
-  DoPyEvent(CurrentEditor, cEventOnStart, []);
+  DoPyEvent(nil, cEventOnStart, []);
   NTickPluginEnd:= GetTickCount64;
 
   DoApplyUiOps; //after plugin on_start, ConfigToolbar is slow with visible toolbar

@@ -137,8 +137,15 @@ var
   i: integer;
 begin
   Result:= '';
-  H:= PtrInt(Pointer(AEd));
-  SParams:= Format('cudatext.Editor(%d)', [H]);
+
+  if AEd=nil then
+    SParams:= 'None'
+  else
+  begin
+    H:= PtrInt(Pointer(AEd));
+    SParams:= Format('cudatext.Editor(%d)', [H])
+  end;
+
   for i:= 0 to Length(AParams)-1 do
     SParams:= SParams + ',' + AParams[i];
 
