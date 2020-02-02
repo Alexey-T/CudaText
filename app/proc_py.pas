@@ -44,6 +44,10 @@ var
   _LoadedModules: TStringList = nil;
   _LoadedLocals: TStringList = nil;
 
+const
+  _LoadedPrefix = 'xx';
+  //must be the same as in file py/cudatext_reset_plugins.py
+
 function IsPyLoadedModule(const S: string): boolean; inline;
 begin
   Result:= _LoadedModules.IndexOf(S)>=0;
@@ -106,7 +110,7 @@ function Py_RunPlugin_Command(const AModule, AMethod: string; const AParams: arr
 var
   SObj: string;
 begin
-  SObj:= '_cuda' + AModule;
+  SObj:= _LoadedPrefix+AModule;
 
   if not IsPyLoadedLocal(SObj) then
   begin
@@ -138,7 +142,7 @@ begin
   for i:= 0 to Length(AParams)-1 do
     SParams:= SParams + ',' + AParams[i];
 
-  SObj:= '_cuda' + AModule;
+  SObj:= _LoadedPrefix+AModule;
 
   if not IsPyLoadedModule('cudatext') then
   begin
