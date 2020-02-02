@@ -91,9 +91,20 @@ begin
 end;
 
 
+function Py_RunPlugin_MethodEval(const AObject, AMethod, AParams: string): string;
+begin
+  try
+    with GetPythonEngine do
+      Result:= EvalStringAsStr(
+        Format('%s.%s(%s)', [AObject, AMethod, AParams])
+        );
+  except
+  end;
+end;
+
 function Py_RunPlugin_Command(const AModule, AMethod: string; const AParams: array of string): string;
 var
-  SObj, SCmd: string;
+  SObj: string;
 begin
   SObj:= '_cudacmd_' + AModule;
 
@@ -109,26 +120,22 @@ begin
     _LoadedLocals.Add(SObj);
   end;
 
-  try
-    SCmd:= Format('%s.%s(%s)', [SObj, AMethod, Py_ArgListToString(AParams)]);
-    with GetPythonEngine do
-      Result:= EvalStringAsStr(SCmd);
-  except
-  end;
+  Result:= Py_RunPlugin_MethodEval(SObj, AMethod, Py_ArgListToString(AParams));
 end;
 
 function Py_RunPlugin_Event(const AModule, ACmd: string;
   AEd: TATSynEdit; const AParams: array of string;
   ALazy: boolean): string;
 var
-  SObj, SCmd, SParams: string;
+  SObj, SParams: string;
   H: PtrInt;
   i: integer;
 begin
+  Result:= '';
   H:= PtrInt(Pointer(AEd));
   SParams:= Format('cudatext.Editor(%d)', [H]);
   for i:= 0 to Length(AParams)-1 do
-    SParams:= SParams + ', ' + AParams[i];
+    SParams:= SParams + ',' + AParams[i];
 
   SObj:= '_cudacmd_' + AModule;
 
@@ -154,21 +161,11 @@ begin
       _LoadedLocals.Add(SObj);
     end;
 
-    try
-      SCmd:= Format('%s.%s(%s)', [SObj, ACmd, SParams]);
-      with GetPythonEngine do
-        Result:= EvalStringAsStr(SCmd);
-    except
-    end;
+    Result:= Py_RunPlugin_MethodEval(SObj, ACmd, SParams);
   end
   else
   if IsPyLoadedLocal(SObj) then
-    try
-      SCmd:= Format('%s.%s(%s)', [SObj, ACmd, SParams]);
-      with GetPythonEngine do
-        Result:= EvalStringAsStr(SCmd);
-    except
-    end;
+    Result:= Py_RunPlugin_MethodEval(SObj, ACmd, SParams);
 end;
 
 function Py_rect(const R: TRect): PPyObject; cdecl;
