@@ -257,7 +257,7 @@ const
   msgConfirmSaveModifiedTab: string = 'Tab is modified:'#13'%s'#13#13'Save it first?';
   msgConfirmReopenModifiedTab: string = 'Tab is modified:'#13'%s'#13#13'Reopen it?';
   msgConfirmReloadFileWithEnc: string = 'Encoding is changed in memory.'#13'Do you also want to reopen file?';
-  msgConfirmCreateNewFile: string = 'File not found:'#13'%s'#13#13'Create it?';
+  msgConfirmCreateNewFile: string = 'File not found:'#13'"%s"'#13#13'Create it?';
   msgConfirmCreateUserConf: string = 'User config not found. Create it?';
   msgConfirmCloseDelFile: string = 'Close tab and delete its file?';
   msgConfirmDeleteLexer: string = 'Delete lexer "%s"?';
@@ -314,6 +314,7 @@ const
       '  -el             - Show supported encoding names'+sLineBreak+
       '  -nh             - Ignore saved file history'+sLineBreak+
       '  -w=left,top,width,height - Set position/size of app window'+sLineBreak+
+      '  -i              - Read the contents of stdin (Unix only)'+sLineBreak+
       ''+sLineBreak+
       'Filenames can be with ":line" or ":line:column" suffix to place caret.'+sLineBreak+
       'Folder can be passed, will be opened in Project Manager plugin.'+sLineBreak+

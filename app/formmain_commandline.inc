@@ -48,6 +48,20 @@ begin
   end;
 end;
 
+
+function _GetStdin: string;
+var
+  s: string;
+begin
+  Result:= '';
+  Reset(Input);
+  while not EOF(Input) do
+  begin
+    ReadLn(Input, s);
+    Result+= s+#10;
+  end;
+end;
+
 procedure TfmMain.DoLoadCommandParams(const AParams: array of string; AOpenOptions: string);
 // Function handles passed file names, folder names, and such params as -r -nh -z -e,
 // while others params are handled in DoLoadCommandLineBaseOptions
@@ -91,6 +105,24 @@ begin
       sEncoding:= AppEncodingShortnameToFullname( Copy(SParam, 4, MaxInt) );
       Continue;
     end;
+
+    {$ifdef unix}
+    if SParam='-i' then
+    begin
+      Frame:= Frames[0];
+      if not Frame.IsEmpty then
+        Frame:= DoFileOpen('', '', nil, '/nohistory');
+      if Assigned(Frame) then
+      begin
+        if sEncoding<>'' then
+          SetFrameEncoding(Frame, sEncoding, false);
+        Frame.TabCaption:= '(stdin)';
+        Frame.Ed1.Strings.LoadFromString(UTF8Decode(_GetStdin));
+        Frame.Ed1.Modified:= false;
+      end;
+      Continue;
+    end;
+    {$endif}
 
     {$ifdef darwin}
     //macOS gives param -psn** for debugger
