@@ -2995,9 +2995,10 @@ end;
 function TEditorFrame.DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
   const AParams: array of string): string;
 begin
-  Result:= '';
   if Assigned(FOnPyEvent) then
-    Result:= FOnPyEvent(AEd, AEvent, AParams);
+    Result:= FOnPyEvent(AEd, AEvent, AParams)
+  else
+    Result:= '';
 end;
 
 
