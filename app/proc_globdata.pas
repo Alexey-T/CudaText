@@ -2299,6 +2299,8 @@ procedure AppEventStringToEventData(const AEventStr: string;
   out AEvents: TAppPyEvents;
   out AEventsPrior: TAppPyEventsPrior;
   out AEventsLazy: TAppPyEventsLazy);
+const
+  MaxPriority = 4;
 var
   Sep: TATStringSeparator;
   S: string;
@@ -2319,6 +2321,9 @@ begin
       Inc(nPrior);
       SetLength(S, Length(S)-1);
     end;
+
+    if nPrior>MaxPriority then
+      nPrior:= MaxPriority;
 
     bLazy:= false;
     if S[Length(S)]='~' then
