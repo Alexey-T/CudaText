@@ -13,13 +13,9 @@ procedure TfmMain.DoOps_LoadPlugins;
 var
   list: TStringlist;
   SItem, fn, DirName: string;
-  i: integer;
 begin
-  //commands: don't clear all, leave items from Api
-  for i:= AppCommandList.Count-1 downto 0 do
-    with TAppCommand(AppCommandList[i]) do
-      if (ItemModule<>'') and (not ItemFromApi) then
-        AppCommandList.Delete(i);
+  //commands: don't clear all, leave items from API
+  AppCommandsClearButKeepApiItems;
 
   //events: clear all
   AppEventList.Clear;

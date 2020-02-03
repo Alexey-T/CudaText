@@ -802,6 +802,7 @@ type
 
 function AppCommandCategory(Cmd: integer): TAppCommandCategory;
 function AppCommandHasConfigurableHotkey(Cmd: integer): boolean;
+procedure AppCommandsClearButKeepApiItems;
 function AppEventMaxPriority(AEvent: TAppPyEvent): integer;
 procedure AppEventStringToEventData(const AEventStr: string;
   out AEvents: TAppPyEvents;
@@ -2376,6 +2377,16 @@ begin
     ItemLexers:= ALexerStr;
     ItemKeys:= AKeyStr;
   end;
+end;
+
+procedure AppCommandsClearButKeepApiItems;
+var
+  i: integer;
+begin
+  for i:= AppCommandList.Count-1 downto 0 do
+    with TAppCommand(AppCommandList[i]) do
+      if (ItemModule<>'') and (not ItemFromApi) then
+        AppCommandList.Delete(i);
 end;
 
 initialization
