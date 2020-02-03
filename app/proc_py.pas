@@ -49,7 +49,7 @@ const
   _LoadedPrefix = 'xx';
   //must be the same as in file py/cudatext_reset_plugins.py
 
-function IsPyLoadedLocal(const S: string): boolean; inline;
+function _IsLoadedLocal(const S: string): boolean; inline;
 begin
   Result:= _LoadedLocals.IndexOf(S)>=0;
 end;
@@ -114,7 +114,7 @@ var
 begin
   SObj:= _LoadedPrefix+AModule;
 
-  if not IsPyLoadedLocal(SObj) then
+  if not _IsLoadedLocal(SObj) then
   begin
     if UiOps.PyInitLog then
       MsgLogConsole('Init: '+AModule);
@@ -160,7 +160,7 @@ begin
 
   if not ALazy then
   begin
-    if not IsPyLoadedLocal(SObj) then
+    if not _IsLoadedLocal(SObj) then
     begin
       if UiOps.PyInitLog then
         MsgLogConsole('Init: '+AModule);
@@ -174,7 +174,7 @@ begin
     Result:= _MethodEval(SObj, ACmd, SParams);
   end
   else
-  if IsPyLoadedLocal(SObj) then
+  if _IsLoadedLocal(SObj) then
     Result:= _MethodEval(SObj, ACmd, SParams);
 end;
 
