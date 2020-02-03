@@ -688,9 +688,12 @@ type
     cEventOnExit
     );
   TAppPyEvents = set of TAppPyEvent;
-  TAppPyEventsPrior = array[TAppPyEvent] of byte;
+  TAppPyEventsPrior = array[TAppPyEvent] of integer;
     //0: default, 1,2...: higher priority
   TAppPyEventsLazy = array[TAppPyEvent] of boolean;
+
+var
+  AppEventsMaxPriorities: TAppPyEventsPrior;
 
 const
   cAppPyEvent: array[TAppPyEvent] of string = (
@@ -803,12 +806,12 @@ type
 function AppCommandCategory(Cmd: integer): TAppCommandCategory;
 function AppCommandHasConfigurableHotkey(Cmd: integer): boolean;
 procedure AppCommandsClearButKeepApiItems;
-function AppEventMaxPriority(AEvent: TAppPyEvent): integer;
 procedure AppEventStringToEventData(const AEventStr: string;
   out AEvents: TAppPyEvents;
   out AEventsPrior: TAppPyEventsPrior;
   out AEventsLazy: TAppPyEventsLazy);
 procedure AppEventsUpdate(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
+procedure AppEventsMaxPrioritiesUpdate;
 
 function CommandPlugins_GetIndexFromModuleAndMethod(const AText: string): integer;
 procedure CommandPlugins_UpdateSubcommands(const AText: string);
@@ -2287,17 +2290,6 @@ begin
   Result:= false;
 end;
 
-function AppEventMaxPriority(AEvent: TAppPyEvent): integer;
-var
-  i: integer;
-begin
-  Result:= -1;
-  for i:= 0 to AppEventList.Count-1 do
-    with TAppEvent(AppEventList[i]) do
-      if AEvent in ItemEvents then
-        Result:= Max(Result, ItemEventsPrior[AEvent]);
-end;
-
 procedure AppEventStringToEventData(const AEventStr: string;
   out AEvents: TAppPyEvents;
   out AEventsPrior: TAppPyEventsPrior;
@@ -2377,6 +2369,8 @@ begin
     ItemLexers:= ALexerStr;
     ItemKeys:= AKeyStr;
   end;
+
+  AppEventsMaxPrioritiesUpdate;
 end;
 
 procedure AppCommandsClearButKeepApiItems;
@@ -2388,6 +2382,26 @@ begin
       if (ItemModule<>'') and (not ItemFromApi) then
         AppCommandList.Delete(i);
 end;
+
+procedure AppEventsMaxPrioritiesUpdate;
+var
+  ev: TAppPyEvent;
+  Plugin: TAppEvent;
+  Value, i: integer;
+begin
+  for ev in TAppPyEvent do
+  begin
+    Value:= -1;
+    for i:= 0 to AppEventList.Count-1 do
+    begin
+      Plugin:= TAppEvent(AppEventList[i]);
+      if ev in Plugin.ItemEvents then
+        Value:= Max(Value, Plugin.ItemEventsPrior[ev]);
+    end;
+    AppEventsMaxPriorities[ev]:= Value;
+  end;
+end;
+
 
 initialization
   InitDirs;
@@ -2406,6 +2420,7 @@ initialization
   InitKeymapFull(AppKeymap);
   InitKeymapForApplication(AppKeymap);
 
+  FillChar(AppEventsMaxPriorities, SizeOf(AppEventsMaxPriorities), 0);
   FillChar(AppBookmarkSetup, SizeOf(AppBookmarkSetup), 0);
   AppBookmarkImagelist:= TImageList.Create(nil);
 

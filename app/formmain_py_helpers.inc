@@ -83,7 +83,7 @@ begin
   if (AEvent in [cEventOnFocus, cEventOnLexer]) and not FHandledUntilFirstFocus then exit;
                                          //block on_focus/on_lexer fired too early
 
-  MaxPriority:= AppEventMaxPriority(AEvent);
+  MaxPriority:= AppEventsMaxPriorities[AEvent];
   if MaxPriority<0 then exit; //-1 if no such plugins
 
   Frame:= GetEditorFrame(AEd);

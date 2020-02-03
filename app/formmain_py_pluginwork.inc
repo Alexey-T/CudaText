@@ -41,6 +41,7 @@ begin
     FreeAndNil(list);
   end;
 
+  AppEventsMaxPrioritiesUpdate;
   UpdateKeymapDynamicItems(categ_Plugin);
   UpdateKeymapDynamicItems(categ_PluginSub);
 end;
