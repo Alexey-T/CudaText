@@ -3757,4 +3757,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.319 (app 1.92.5)
 * removed: menu_proc special constant "_enc"
 
+1.0.320 (app 1.94.0)
+* change: events are now called with ed_self==None: on_start, on_exit, on_output_nav, on_console_nav
+
 [[Category:CudaText]]
