@@ -79,14 +79,15 @@ begin
   Result:= '';
   if not AppPythonInited then exit;
 
-  if not FHandledOnShowPartly then exit; //block all events fired in FormCreate
+  //block all events fired in FormCreate
+  if not FHandledOnShowPartly then exit;
+  //block on_focus/on_lexer fired too early
   if (AEvent in [cEventOnFocus, cEventOnLexer]) and not FHandledUntilFirstFocus then exit;
-                                         //block on_focus/on_lexer fired too early
 
+  //-1 if no such plugins
   MaxPriority:= AppEventsMaxPriorities[AEvent];
-  if MaxPriority<0 then exit; //-1 if no such plugins
+  if MaxPriority<0 then exit;
 
-  //some are called with AEd=nil
   if Assigned(AEd) then
   begin
     Frame:= GetEditorFrame(AEd);
