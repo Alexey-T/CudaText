@@ -807,6 +807,7 @@ procedure AppEventStringToEventData(const AEventStr: string;
   out AEvents: TAppPyEvents;
   out AEventsPrior: TAppPyEventsPrior;
   out AEventsLazy: TAppPyEventsLazy);
+procedure AppEventsUpdate(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
 
 function CommandPlugins_GetIndexFromModuleAndMethod(const AText: string): integer;
 procedure CommandPlugins_UpdateSubcommands(const AText: string);
@@ -2341,7 +2342,40 @@ begin
         AEventsLazy[event]:= bLazy;
         Break
       end;
-  end;;
+  end;
+end;
+
+
+procedure AppEventsUpdate(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
+var
+  EventItem: TAppEvent;
+  i: integer;
+begin
+  //find index of plugin (get first empty index if not listed)
+  EventItem:= nil;
+  for i:= 0 to AppEventList.Count-1 do
+    with TAppEvent(AppEventList[i]) do
+      if (ItemModule=AModuleName) then
+      begin
+        EventItem:= TAppEvent(AppEventList[i]);
+        Break
+      end;
+
+  if EventItem=nil then
+  begin
+    EventItem:= TAppEvent.Create;
+    AppEventList.Add(EventItem);
+  end;
+
+  //update item
+  with EventItem do
+  begin
+    if ItemModule='' then
+      ItemModule:= AModuleName;
+    AppEventStringToEventData(AEventStr, ItemEvents, ItemEventsPrior, ItemEventsLazy);
+    ItemLexers:= ALexerStr;
+    ItemKeys:= AKeyStr;
+  end;
 end;
 
 initialization

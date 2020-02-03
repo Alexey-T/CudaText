@@ -806,7 +806,6 @@ type
     procedure DoPyRunLastPlugin;
     procedure DoPyResetPlugins;
     procedure DoPyRescanPlugins;
-    procedure DoPyUpdateEvents(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
     function DoSplitter_StringToId(const AStr: string): integer;
     procedure DoSplitter_GetInfo(const Id: integer;
       out BoolVert, BoolVisible: boolean; out NPos, NTotal: integer);

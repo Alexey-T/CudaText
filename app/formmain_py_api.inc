@@ -4056,7 +4056,7 @@ begin
             Sep.GetItemStr(StrCmd); //events
             Sep.GetItemStr(StrCaption); //lexers
             Sep.GetItemStr(StrIndex); //keys
-            fmMain.DoPyUpdateEvents(StrId, StrCmd, StrCaption, StrIndex);
+            AppEventsUpdate(StrId, StrCmd, StrCaption, StrIndex);
             Result:= ReturnNone;
           end;
 
