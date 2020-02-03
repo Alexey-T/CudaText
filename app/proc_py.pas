@@ -71,7 +71,7 @@ begin
 
   with GetPythonEngine do
   begin
-    ExecString(Str+';print("Python %d.%d.%d"%sys.version_info[:3])');
+    ExecString(Str+';print("Python %d.%d"%sys.version_info[:2])');
   end;
 end;
 
