@@ -544,6 +544,7 @@ type
     FFormFloatGroups1: TForm;
     FFormFloatGroups2: TForm;
     FFormFloatGroups3: TForm;
+    FBoundsMain: TRect;
     FBoundsFloatSide: TRect;
     FBoundsFloatBottom: TRect;
     FBoundsFloatGroups1: TRect;
@@ -1927,6 +1928,7 @@ begin
       end;
   {$endif}
 
+  FBoundsMain:= Rect(100, 100, 900, 700);;
   FBoundsFloatSide:= Rect(650, 50, 900, 700);
   FBoundsFloatBottom:= Rect(50, 480, 900, 700);
   FBoundsFloatGroups1:= Rect(300, 100, 800, 700);

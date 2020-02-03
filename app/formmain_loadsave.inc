@@ -458,7 +458,6 @@ procedure TfmMain.DoOps_LoadHistory;
 //was maximized (Win32).
 var
   c: TJSONConfig;
-  RectMain: TRect;
 begin
   c:= TJSONConfig.Create(nil);
   try
@@ -468,14 +467,14 @@ begin
       exit;
     end;
 
-    RectMain:= Rect(100, 100, 900, 650);
-    DoOps_LoadFormRect(c, '/dialog', RectMain);
+    DoOps_LoadFormRect(c, '/dialog', FBoundsMain);
     DoOps_LoadFormRect(c, '/dialog/fl_side', FBoundsFloatSide);
     DoOps_LoadFormRect(c, '/dialog/fl_btm', FBoundsFloatBottom);
     DoOps_LoadFormRect(c, '/dialog/fl_g1', FBoundsFloatGroups1);
     DoOps_LoadFormRect(c, '/dialog/fl_g2', FBoundsFloatGroups2);
     DoOps_LoadFormRect(c, '/dialog/fl_g3', FBoundsFloatGroups3);
-    BoundsRect:= RectMain;
+
+    BoundsRect:= FBoundsMain;
 
     FLastMaximized:= c.GetValue('/dialog/max', false);
 
