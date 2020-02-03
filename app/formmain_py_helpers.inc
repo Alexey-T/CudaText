@@ -7,7 +7,7 @@ var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
 begin
-  if not PythonOK then exit;
+  if not AppPythonInited then exit;
   PyLastCommandModule:= AModule;
   PyLastCommandMethod:= AMethod;
   PyLastCommandParam:= '';
@@ -77,7 +77,7 @@ var
 begin
   //empty string result means "no handlers for event"
   Result:= '';
-  if not PythonOK then exit;
+  if not AppPythonInited then exit;
 
   if (AEvent=cEventOnFocus) and not FAllowOnFocus then exit;
 
@@ -162,7 +162,7 @@ var
   Helper: TAppTreeHelper;
 begin
   Result:= false;
-  if not PythonOK then exit;
+  if not AppPythonInited then exit;
 
   Ed:= Frame.Editor;
   CurLexer:= Frame.LexerName[Ed];

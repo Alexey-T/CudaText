@@ -3941,10 +3941,8 @@ begin
   PythonEng.DllName:= ExtractFileName(UiOps.PyLibrary);
   PythonEng.LoadDll;
 
-  if PythonOK then
-  begin
-  end
-  else
+  AppPythonInited:= PythonOK;
+  if not AppPythonInited then
   begin
     FConsoleMustShow:= true;
     MsgLogConsole(msgCannotInitPython1);
@@ -5402,7 +5400,7 @@ end;
 
 procedure TfmMain.PopupToolbarCommentOnPopup(Sender: TObject);
 begin
-  if not PythonOK then exit;
+  if not AppPythonInited then exit;
 
   if mnuToolbarCommentLineAdd=nil then
   begin
@@ -5436,7 +5434,7 @@ end;
 
 procedure TfmMain.PopupToolbarSortOnPopup(Sender: TObject);
 begin
-  if not PythonOK then exit;
+  if not AppPythonInited then exit;
 
   if mnuToolbarSortDialog=nil then
   begin
