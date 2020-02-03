@@ -6,7 +6,7 @@ procedure TfmMain.DoPyStringToEvents(const AEventStr: string;
   out AEventsLazy: TAppPyEventsLazy);
 var
   Sep: TATStringSeparator;
-  strItem: string;
+  S: string;
   event: TAppPyEvent;
   nPrior: byte;
   bLazy: boolean;
@@ -14,33 +14,33 @@ begin
   AEvents:= [];
   FillChar(AEventsPrior, SizeOf(AEventsPrior), 0);
   FillChar(AEventsLazy, SizeOf(AEventsLazy), 0);
-  Sep.Init(AEventStr);
-  repeat
-    if not Sep.GetItemStr(strItem) then Break;
 
+  Sep.Init(AEventStr);
+  while Sep.GetItemStr(S) do
+  begin
     nPrior:= 0;
-    while SEndsWith(strItem, '+') do
+    while S[Length(S)]='+' do
     begin
       Inc(nPrior);
-      SetLength(strItem, Length(strItem)-1);
+      SetLength(S, Length(S)-1);
     end;
 
     bLazy:= false;
-    if SEndsWith(strItem, '~') then
+    if S[Length(S)]='~' then
     begin
       bLazy:= true;
-      SetLength(strItem, Length(strItem)-1);
+      SetLength(S, Length(S)-1);
     end;
 
     for event in TAppPyEvent do
-      if strItem=cAppPyEvent[event] then
+      if S=cAppPyEvent[event] then
       begin
         Include(AEvents, event);
         AEventsPrior[event]:= nPrior;
         AEventsLazy[event]:= bLazy;
         Break
       end;
-  until false;
+  end;;
 end;
 
 
