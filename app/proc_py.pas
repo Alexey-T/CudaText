@@ -43,6 +43,7 @@ implementation
 var
   _LoadedCudatext: boolean = false;
   _LoadedLocals: TStringList = nil;
+  _LoadedModules: TStringList = nil;
 
 const
   _LoadedPrefix = 'xx';
@@ -208,6 +209,19 @@ begin
   Result:= Py_rect(R);
 end;
 
+function _ImportModuleCached(const AModule: string): PPyObject;
+var
+  N: integer;
+begin
+  N:= _LoadedModules.IndexOf(AModule);
+  if N>=0 then
+    Result:= PPyObject(_LoadedModules.Objects[N])
+  else
+  begin
+    Result:= GetPythonEngine.PyImport_ImportModule(PChar(AModule));
+    _LoadedModules.AddObject(AModule, TObject(Result))
+  end;
+end;
 
 function Py_RunModuleFunction(const AModule,AFunc:string;AParams:array of PPyObject;const AParamNames:array of string):PPyObject;
 var
@@ -217,7 +231,7 @@ begin
   Result:=nil;
   with GetPythonEngine do
   begin
-    Module:=PyImport_ImportModule(PChar(AModule));
+    Module:=_ImportModuleCached(AModule);
     if Assigned(Module) then
     try
       ModuleDic:=PyModule_GetDict(Module);
@@ -249,7 +263,6 @@ begin
         end;
       end;
     finally
-      Py_DECREF(Module);
     end;
   end;
 end;
@@ -262,7 +275,7 @@ begin
   Result:=nil;
   with GetPythonEngine do
   begin
-    Module:=PyImport_ImportModule(PChar(AModule));
+    Module:=_ImportModuleCached(AModule);
     if Assigned(Module) then
     try
       ModuleDic:=PyModule_GetDict(Module);
@@ -284,7 +297,6 @@ begin
         end;
       end;
     finally
-      Py_DECREF(Module);
     end;
   end;
 end;
@@ -347,14 +359,17 @@ procedure PyClearLoadedModuleLists;
 begin
   _LoadedCudatext:= false;
   _LoadedLocals.Clear;
+  _LoadedModules.Clear;
 end;
 
 initialization
 
   _LoadedLocals:= TStringList.Create;
+  _LoadedModules:= TStringList.Create;
 
 finalization
 
+  FreeAndNil(_LoadedModules);
   FreeAndNil(_LoadedLocals);
 
 end.
