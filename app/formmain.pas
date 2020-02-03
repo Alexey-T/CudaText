@@ -5013,7 +5013,7 @@ var
   F: TEditorFrame;
   Ed: TATSynEdit;
   LexName: string;
-  IsPascal, IsCss, IsHtml, IsCaseSens: boolean;
+  IsCss, IsHtml, IsCaseSens: boolean;
   FileHtml, FileCss, FileAcp: string;
   Caret: TATCaretItem;
 begin
@@ -5031,7 +5031,6 @@ begin
   LexName:= F.LexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
   if LexName='' then exit;
 
-  IsPascal:= Pos('Pascal', LexName)>0;
   IsHtml:= UiOps.AutocompleteHtml and SRegexMatchesString(LexName, UiOps.AutocompleteHtml_Lexers, false);
   IsCss:= UiOps.AutocompleteCss and SRegexMatchesString(LexName, UiOps.AutocompleteCss_Lexers, false);
   IsCaseSens:= false; //cannot detect it yet
@@ -5059,7 +5058,7 @@ begin
   if IsCss then
     DoEditorCompletionCss(Ed, FileCss)
   else
-    DoEditorCompletionAcp(Ed, FileAcp, IsCaseSens, IsPascal);
+    DoEditorCompletionAcp(Ed, FileAcp, IsCaseSens);
 end;
 
 procedure TfmMain.mnuTreeFold2Click(Sender: TObject);
