@@ -1325,8 +1325,7 @@ var
 begin
   SRegexFindParts('.+_(\d+)x(\d+)', UiOps.ToolBarTheme, Parts);
 
-  Str:= AppDir_DataToolbarIcons+DirectorySeparator+UiOps.ToolBarTheme+DirectorySeparator;
-
+  Str:= AppDir_DataToolbarIcons+DirectorySeparator+UiOps.ToolBarTheme;
   if not DirectoryExists(Str) then Exit;
 
   Img:= ToolbarMain.Images;
@@ -1334,6 +1333,7 @@ begin
   Img.Height:= StrToIntDef(Parts[2].Str, 24);
   Img.Clear;
 
+  Str+= DirectorySeparator;
   UpdateImagelistWithIconFromFile(Img, Str+'f_new.png');
   UpdateImagelistWithIconFromFile(Img, Str+'f_open.png');
   UpdateImagelistWithIconFromFile(Img, Str+'f_save.png');
