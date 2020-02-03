@@ -2518,7 +2518,6 @@ begin
     (NTickPluginEnd-NTickPluginBegin) div 10 * 10
     ]));
 
-  MsgLogDebug('start');
   DoShowFirstStartInfo;
 
   if UiOps.NotificationEnabled then
