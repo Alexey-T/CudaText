@@ -218,6 +218,8 @@ begin
     Result:= PPyObject(_LoadedModules.Objects[N])
   else
   begin
+    if UiOps.PyInitLog then
+      MsgLogConsole('Init: '+AModule);
     Result:= GetPythonEngine.PyImport_ImportModule(PChar(AModule));
     _LoadedModules.AddObject(AModule, TObject(Result))
   end;
