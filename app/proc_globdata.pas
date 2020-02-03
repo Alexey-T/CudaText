@@ -688,12 +688,12 @@ type
     cEventOnExit
     );
   TAppPyEvents = set of TAppPyEvent;
-  TAppPyEventsPrior = array[TAppPyEvent] of integer;
+  TAppPyEventsPrior = array[TAppPyEvent] of byte;
     //0: default, 1,2...: higher priority
   TAppPyEventsLazy = array[TAppPyEvent] of boolean;
 
 var
-  AppEventsMaxPriorities: TAppPyEventsPrior;
+  AppEventsMaxPriorities: array[TAppPyEvent] of integer;
 
 const
   cAppPyEvent: array[TAppPyEvent] of string = (
