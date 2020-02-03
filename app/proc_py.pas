@@ -41,7 +41,7 @@ procedure PyClearLoadedModuleLists;
 implementation
 
 var
-  _LoadedCudatext: boolean = false;
+  _LoadedModuleCudatext: boolean = false;
   _LoadedLocals: TStringList = nil;
   _LoadedModules: TStringList = nil;
 
@@ -154,11 +154,11 @@ begin
 
   SObj:= _LoadedPrefix+AModule;
 
-  if not _LoadedCudatext then
+  if not _LoadedModuleCudatext then
   begin
     with GetPythonEngine do
       ExecString('import cudatext');
-    _LoadedCudatext:= true;
+    _LoadedModuleCudatext:= true;
   end;
 
   if not ALazy then
@@ -357,7 +357,7 @@ end;
 
 procedure PyClearLoadedModuleLists;
 begin
-  _LoadedCudatext:= false;
+  _LoadedModuleCudatext:= false;
   _LoadedLocals.Clear;
   _LoadedModules.Clear;
 end;
