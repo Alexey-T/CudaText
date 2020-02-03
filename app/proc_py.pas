@@ -88,7 +88,7 @@ begin
 end;
 
 
-function Py_RunPlugin_MethodEval(const AObject, AMethod, AParams: string): string;
+function _MethodEval(const AObject, AMethod, AParams: string): string;
 begin
   try
     with GetPythonEngine do
@@ -99,7 +99,7 @@ begin
   end;
 end;
 
-procedure Py_RunModule_ImportCommand(const AObject, AModule: string);
+procedure _ImportCommand(const AObject, AModule: string);
 begin
   try
     with GetPythonEngine do
@@ -119,13 +119,13 @@ begin
     if UiOps.PyInitLog then
       MsgLogConsole('Init: '+AModule);
     try
-      Py_RunModule_ImportCommand(SObj, AModule);
+      _ImportCommand(SObj, AModule);
       _LoadedLocals.Add(SObj);
     except
     end;
   end;
 
-  Result:= Py_RunPlugin_MethodEval(SObj, AMethod, _StrArrayToString(AParams));
+  Result:= _MethodEval(SObj, AMethod, _StrArrayToString(AParams));
 end;
 
 function Py_RunPlugin_Event(const AModule, ACmd: string;
@@ -165,17 +165,17 @@ begin
       if UiOps.PyInitLog then
         MsgLogConsole('Init: '+AModule);
       try
-        Py_RunModule_ImportCommand(SObj, AModule);
+        _ImportCommand(SObj, AModule);
         _LoadedLocals.Add(SObj);
       except
       end;
     end;
 
-    Result:= Py_RunPlugin_MethodEval(SObj, ACmd, SParams);
+    Result:= _MethodEval(SObj, ACmd, SParams);
   end
   else
   if IsPyLoadedLocal(SObj) then
-    Result:= Py_RunPlugin_MethodEval(SObj, ACmd, SParams);
+    Result:= _MethodEval(SObj, ACmd, SParams);
 end;
 
 function Py_rect(const R: TRect): PPyObject; cdecl;
