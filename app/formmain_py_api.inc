@@ -6664,7 +6664,6 @@ function Py_FindOneMatch(Ed: TATSynEdit; const AText, AOptions: string; AUpdateC
 var
   Finder: TATEditorFinder;
   bChange: boolean;
-  i: integer;
 begin
   Finder:= TATEditorFinder.Create;
   try

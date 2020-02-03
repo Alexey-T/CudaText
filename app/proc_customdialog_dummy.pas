@@ -154,7 +154,7 @@ type
     procedure DoOnEditorClickGutter(Sender: TObject; ABand, ALine: integer);
     procedure DoOnEditorClickGap(Sender: TObject; AGapItem: TATGapItem; APos: TPoint);
     procedure DoOnEditorPaste(Sender: TObject; var AHandled: boolean; AKeepCaret, ASelectThen: boolean);
-    function DoEvent(AIdControl: integer; const ACallback: string; AData: PPyObject): string;
+    function DoEvent(AIdControl: integer; const ACallback: string; AData: PPyObject): boolean;
     procedure DoEmulatedModalShow;
     procedure DoEmulatedModalClose;
     function FindControlByIndex(AIndex: integer): TControl;
@@ -172,7 +172,7 @@ implementation
 const
   cPyFalse = 'False';
   cPyTrue = 'True';
-  cPyFalseTrue: array[boolean] of string = ('False', 'True');
+  //cPyFalseTrue: array[boolean] of string = ('False', 'True');
 
 
 procedure DoForm_SetupFilters(F: TFormDummy);
@@ -438,19 +438,13 @@ end;
 
 procedure TFormDummy.DoOnFormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
-  Str: string;
   Form: TCustomForm;
   Data: PPyObject;
 begin
   with GetPythonEngine do
     Data:= PyString_FromString(PChar(ConvertShiftStateToString(Shift)));
 
-  Str:= DoEvent(
-    Key,
-    FEventOnKeyDown,
-    Data
-    );
-  if Str=cPyFalse then
+  if not DoEvent(Key, FEventOnKeyDown, Data) then
   begin
     Key:= 0;
     exit;
@@ -480,18 +474,12 @@ end;
 
 procedure TFormDummy.DoOnFormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
-  Str: string;
   Data: PPyObject;
 begin
   with GetPythonEngine do
     Data:= PyString_FromString(PChar(ConvertShiftStateToString(Shift)));
 
-  Str:= DoEvent(
-    Key,
-    FEventOnKeyUp,
-    Data
-    );
-  if Str=cPyFalse then
+  if not DoEvent(Key, FEventOnKeyUp, Data) then
   begin
     Key:= 0;
     exit;
@@ -506,11 +494,8 @@ begin
 end;
 
 procedure TFormDummy.DoOnFormCloseQuery(Sender: TObject; var CanClose: boolean);
-var
-  Str: string;
 begin
-  Str:= DoEvent(-1, FEventOnCloseQuery, nil);
-  CanClose:= Str<>cPyFalse;
+  CanClose:= DoEvent(-1, FEventOnCloseQuery, nil);
 end;
 
 procedure TFormDummy.DoOnControlMenu(Sender: TObject; MousePos: TPoint;
@@ -521,9 +506,9 @@ var
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
-  Handled:= DoEvent(IdControl, Props.FEventOnMenu,
+  Handled:= not DoEvent(IdControl, Props.FEventOnMenu,
     _MouseEventDataObject(mbRight, GetKeyShiftState, MousePos.X, MousePos.Y)
-    )=cPyFalse;
+    );
 end;
 
 
@@ -750,12 +735,13 @@ begin
 end;
 
 
-function TFormDummy.DoEvent(AIdControl: integer; const ACallback: string; AData: PPyObject): string;
+function TFormDummy.DoEvent(AIdControl: integer; const ACallback: string;
+  AData: PPyObject): boolean;
 var
   Params: array of PPyObject;
   ParamNames: array of string;
 begin
-  if ACallback='' then exit('');
+  if ACallback='' then exit(true);
 
   with GetPythonEngine do
   begin
@@ -775,7 +761,7 @@ begin
     end;
   end;
 
-  Result:= CustomDialog_DoPyCallback(ACallback, Params, ParamNames);
+  Result:= CustomDialog_DoPyCallback(ACallback, Params, ParamNames)<>cPyFalse;
 end;
 
 procedure TFormDummy.DoEmulatedModalShow;
@@ -942,7 +928,7 @@ begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
   Data:= Py_KeyAndShift(Key, Shift);
-  if DoEvent(IdControl, Props.FEventOnEditorKeyDown, Data) = cPyFalse then
+  if not DoEvent(IdControl, Props.FEventOnEditorKeyDown, Data) then
     Key:= 0;
 end;
 
@@ -955,7 +941,7 @@ begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
   Data:= Py_KeyAndShift(Key, Shift);
-  if DoEvent(IdControl, Props.FEventOnEditorKeyUp, Data) = cPyFalse then
+  if not DoEvent(IdControl, Props.FEventOnEditorKeyUp, Data) then
     Key:= 0;
 end;
 
@@ -1046,15 +1032,15 @@ begin
 
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
-  if DoEvent(IdControl, Props.FEventOnEditorPaste, Data)
-    (*
-    Format('{ "keep_caret": %s, "sel_then": %s }', [
-      cPyFalseTrue[AKeepCaret],
-      cPyFalseTrue[ASelectThen]
-    ]))
-    *)
-    = cPyFalse then
+  if not DoEvent(IdControl, Props.FEventOnEditorPaste, Data) then
     AHandled:= true;
+
+  (*
+  Format('{ "keep_caret": %s, "sel_then": %s }', [
+    cPyFalseTrue[AKeepCaret],
+    cPyFalseTrue[ASelectThen]
+  ]))
+  *)
 end;
 
 
