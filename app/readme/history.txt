@@ -18,7 +18,7 @@
 + add: show Go To dialog on clicking statusbar 1st cell
 + add: optimizations in Python API speed (thanks @Artem3213212)
 + add: Linux gtk2 version starts little faster
-* change: lexers removed to add-ons: Makefile, Pascal, Properties, Ruby 
+* change: lexers removed to add-ons: Diff, Makefile, Pascal, Properties, Ruby 
 - fix: memory leak in TreeHelpers (thanks @Artem3213212)
 - fix: command line param -n was broken on Windows
 - fix: auto-completion was broken in PHP block (bad default of "autocomplete_html_lexers")
