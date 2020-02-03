@@ -2289,7 +2289,7 @@ function AppEventMaxPriority(AEvent: TAppPyEvent): integer;
 var
   i: integer;
 begin
-  Result:= 0;
+  Result:= -1;
   for i:= 0 to AppEventList.Count-1 do
     with TAppEvent(AppEventList[i]) do
       if AEvent in ItemEvents then

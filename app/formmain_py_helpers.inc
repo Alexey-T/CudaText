@@ -81,12 +81,14 @@ begin
 
   if (AEvent=cEventOnFocus) and not FAllowOnFocus then exit;
 
+  MaxPriority:= AppEventMaxPriority(AEvent);
+  if MaxPriority<0 then exit; //-1 if no such plugins
+
   Frame:= GetEditorFrame(AEd);
   if Frame=nil then exit;
 
   SCurLexer:= Frame.LexerName[AEd];
   bNeedGroup:= AEvent in cTheseEventsNeedGroupingUndo;
-  MaxPriority:= AppEventMaxPriority(AEvent);
 
   //see all items with priority=MaxPriority..0
   for NPriority:= MaxPriority downto 0 do
