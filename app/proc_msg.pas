@@ -34,12 +34,13 @@ const
     ;
 
 const
+  EOL = #10;
   msgPythonListError = 'Cannot create new list object'; //no need i18n
   msgCallbackBad = 'Bad API callback, report to plugin author: %s'; //no i18n
   msgCallbackDeprecated = 'Deprecated API callback, report to plugin author: %s'; //no i18n
   msgApiDeprecated = 'Deprecated API usage: %s'; //no i18n
   msgErrorInTheme = 'Warning for theme "%s": missed item "%s"';
-  msgCmdPalettePrefixHelp = '#p – plugins'#10'#l – lexers'#10'#f – opened files'#10'#r – recent files';
+  msgCmdPalettePrefixHelp = '#p – plugins'+EOL+'#l – lexers'+EOL+'#f – opened files'+EOL+'#r – recent files';
   msgRescannedAllPlugins = 'Rescanned all plugins';
   msgPluginIsNotActual = 'NOTE: plugin %s is not actual anymore, remove it';
 
@@ -265,72 +266,72 @@ const
   msgConfirmReplaceGlobal: string = 'This will perform mass replace in all opened documents. This will also reset all selections. Continue?';
 
   msgAboutCredits =
-      'Lazarus IDE'+sLineBreak+
-      '  http://www.lazarus-ide.org'+sLineBreak+
-      ''+sLineBreak+
-      'ATSynEdit, ATTabs, ATFlatControls, Python wrapper'+sLineBreak+
-      '  Alexey Torgashin'+sLineBreak+
-      '  https://github.com/Alexey-T/'+sLineBreak+
-      ''+sLineBreak+
-      'EControl syntax parser'+sLineBreak+
-      '  Delphi version by Michael Zakharov'+sLineBreak+
-      '  http://www.econtrol.ru'+sLineBreak+
-      '  Lazarus port by Alexey Torgashin'+sLineBreak+
-      '  https://github.com/Alexey-T/'+sLineBreak+
-      ''+sLineBreak+
-      'Helper Python code:'+sLineBreak+
-      '  Andrey Kvichanskiy'+sLineBreak+
-      '  https://github.com/kvichans/'+sLineBreak+
-      ''+sLineBreak+
-      'Icons:'+sLineBreak+
-      ''+sLineBreak+
-      'Main icon:'+sLineBreak+
-      '  FTurtle'+sLineBreak+
-      'Theme for LibreOffice:'+sLineBreak+
-      '  https://github.com/libodesign/icons'+sLineBreak+
-      '  License: Creative Commons BY-SA 3.0, http://creativecommons.org/licenses/by-sa/3.0/'+sLineBreak+
-      'Octicons:'+sLineBreak+
-      '  https://octicons.github.com/'+sLineBreak+
-      '  License: MIT License'+sLineBreak+
-      'Visual Studio Code icons:'+sLineBreak+
-      '  https://github.com/vscode-icons/vscode-icons'+sLineBreak+
-      '  License: MIT License'+sLineBreak+
-      'Hourglass/floppy icons:'+sLineBreak+
-      '  https://www.iconfinder.com/snipicons'+sLineBreak+
-      '  License: Creative Commons BY-NC 3.0 Unported, http://creativecommons.org/licenses/by-nc/3.0/'+sLineBreak+
+      'Lazarus IDE'+EOL+
+      '  http://www.lazarus-ide.org'+EOL+
+      ''+EOL+
+      'ATSynEdit, ATTabs, ATFlatControls, Python wrapper'+EOL+
+      '  Alexey Torgashin'+EOL+
+      '  https://github.com/Alexey-T/'+EOL+
+      ''+EOL+
+      'EControl syntax parser'+EOL+
+      '  Delphi version by Michael Zakharov'+EOL+
+      '  http://www.econtrol.ru'+EOL+
+      '  Lazarus port by Alexey Torgashin'+EOL+
+      '  https://github.com/Alexey-T/'+EOL+
+      ''+EOL+
+      'Helper Python code:'+EOL+
+      '  Andrey Kvichanskiy'+EOL+
+      '  https://github.com/kvichans/'+EOL+
+      ''+EOL+
+      'Icons:'+EOL+
+      ''+EOL+
+      'Main icon:'+EOL+
+      '  FTurtle'+EOL+
+      'Theme for LibreOffice:'+EOL+
+      '  https://github.com/libodesign/icons'+EOL+
+      '  License: Creative Commons BY-SA 3.0, http://creativecommons.org/licenses/by-sa/3.0/'+EOL+
+      'Octicons:'+EOL+
+      '  https://octicons.github.com/'+EOL+
+      '  License: MIT License'+EOL+
+      'Visual Studio Code icons:'+EOL+
+      '  https://github.com/vscode-icons/vscode-icons'+EOL+
+      '  License: MIT License'+EOL+
+      'Hourglass/floppy icons:'+EOL+
+      '  https://www.iconfinder.com/snipicons'+EOL+
+      '  License: Creative Commons BY-NC 3.0 Unported, http://creativecommons.org/licenses/by-nc/3.0/'+EOL+
       '';
 
   msgCommandLineHelp =
-      'Usage:'+sLineBreak+
-      '  cudatext [ key ... ] filename ...'+sLineBreak+
-      ''+sLineBreak+
-      'Supported keys:'+sLineBreak+
-      '  -h, --help      - Show this help'+sLineBreak+
-      '  -v, --version   - Show application version'+sLineBreak+
-      '  -n              - Ignore option "ui_one_instance", force new app window'+sLineBreak+
-      '  -z=[text|binary|hex|unicode] - Open in viewer, with given mode'+sLineBreak+
-      '  -r              - Open all files from command line in read-only mode'+sLineBreak+
-      '  -e=value        - Open all files from command line in given encoding'+sLineBreak+
-      '  -el             - Show supported encoding names'+sLineBreak+
-      '  -nh             - Ignore saved file history'+sLineBreak+
-      '  -ns             - Ignore saved session'+sLineBreak+
-      '  -w=left,top,width,height - Set position/size of app window'+sLineBreak+
-      '  -i              - Read the contents of stdin (Unix only)'+sLineBreak+
-      ''+sLineBreak+
-      'Filenames can be with ":line" or ":line:column" suffix to place caret.'+sLineBreak+
-      'Folder can be passed, will be opened in Project Manager plugin.'+sLineBreak+
-      'Projects (.cuda-proj) can be passed, will be opened in Project Manager.'+sLineBreak+
-      'Sessions (.cuda-session) can be passed, if Session Manager installed.'+sLineBreak;
+      'Usage:'+EOL+
+      '  cudatext [ key ... ] filename ...'+EOL+
+      ''+EOL+
+      'Supported keys:'+EOL+
+      '  -h, --help      - Show this help'+EOL+
+      '  -v, --version   - Show application version'+EOL+
+      '  -n              - Ignore option "ui_one_instance", force new app window'+EOL+
+      '  -z=[text|binary|hex|unicode] - Open in viewer, with given mode'+EOL+
+      '  -r              - Open all files from command line in read-only mode'+EOL+
+      '  -e=value        - Open all files from command line in given encoding'+EOL+
+      '  -el             - Show supported encoding names'+EOL+
+      '  -nh             - Ignore saved file history'+EOL+
+      '  -ns             - Ignore saved session'+EOL+
+      '  -w=left,top,width,height - Set position/size of app window'+EOL+
+      '  -i              - Read the contents of stdin (Unix only)'+EOL+
+      ''+EOL+
+      'Filenames can be with ":line" or ":line:column" suffix to place caret.'+EOL+
+      'Folder can be passed, will be opened in Project Manager plugin.'+EOL+
+      'Projects (.cuda-proj) can be passed, will be opened in Project Manager.'+EOL+
+      'Sessions (.cuda-session) can be passed, if Session Manager installed.'+EOL;
 
   msgFirstStartInfo =
-      '---------------------------------------------------------------'#10+
-      'This is the first CudaText start (file history.json not found).'#10+
-      'You can easily install popular add-ons'#10+
+      '---------------------------------------------------------------'+EOL+
+      'This is the first CudaText start (file history.json not found).'+EOL+
+      'You can easily install popular add-ons'+EOL+
       {$ifdef unix}
-      '(if Python option "pylib'+cOptionSystemSuffix+'" is set up)'#10+
+      '(if Python option "pylib'+cOptionSystemSuffix+'" is set up)'+EOL+
       {$endif}
-      'using menu item "Plugins / Multi Installer".'#10+
-      '---------------------------------------------------------------'#10;
+      'using menu item "Plugins / Multi Installer".'+EOL+
+      '---------------------------------------------------------------'+EOL;
 
 const
   msgDefault: string = 'Default';
