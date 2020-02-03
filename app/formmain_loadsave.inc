@@ -474,6 +474,7 @@ begin
     DoOps_LoadFormRect(c, '/dialog/fl_g2', FBoundsFloatGroups2);
     DoOps_LoadFormRect(c, '/dialog/fl_g3', FBoundsFloatGroups3);
 
+    //note: BoundsRect change works very long (150-200ms) on Linux gtk2
     BoundsRect:= FBoundsMain;
 
     FLastMaximized:= c.GetValue('/dialog/max', false);
