@@ -86,11 +86,20 @@ begin
   MaxPriority:= AppEventsMaxPriorities[AEvent];
   if MaxPriority<0 then exit; //-1 if no such plugins
 
-  Frame:= GetEditorFrame(AEd);
-  if Frame=nil then exit;
-
-  SCurLexer:= Frame.LexerName[AEd];
-  bNeedGroup:= AEvent in cTheseEventsNeedGroupingUndo;
+  //some are called with AEd=nil
+  if Assigned(AEd) then
+  begin
+    Frame:= GetEditorFrame(AEd);
+    if Frame=nil then exit;
+    SCurLexer:= Frame.LexerName[AEd];
+    bNeedGroup:= AEvent in cTheseEventsNeedGroupingUndo;
+  end
+  else
+  begin
+    Frame:= nil;
+    SCurLexer:= '';
+    bNeedGroup:= false;
+  end;
 
   //see all items with priority=MaxPriority..0
   for NPriority:= MaxPriority downto 0 do
