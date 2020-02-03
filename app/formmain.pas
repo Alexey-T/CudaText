@@ -622,7 +622,7 @@ type
     FOrigShowTabs: boolean;
     FAllowLoadKeymap: boolean;
     FAllowOnFocus: boolean;
-    FHandledOnShow: boolean;
+    FHandledOnShowPartly: boolean;
     FHandledOnShowFully: boolean;
     FFileNamesDroppedInitially: array of string;
     FFileNameLogDebug: string;
@@ -2298,7 +2298,7 @@ var
 begin
   //support mac: it drops file too early
   //(dbl-click on file in Finder)
-  if not FHandledOnShow then
+  if not FHandledOnShowPartly then
   begin
     SetLength(FFileNamesDroppedInitially, Length(FileNames));
     for i:= 0 to Length(FileNames)-1 do
@@ -2450,7 +2450,7 @@ begin
   {$endif}
   *)
 
-  if FHandledOnShow then exit;
+  if FHandledOnShowPartly then exit;
   DoControlLock(Self);
 
   if FLastMaximized then
@@ -2469,7 +2469,7 @@ begin
   if FConsoleMustShow then
     DoShowConsole(false);
 
-  FHandledOnShow:= true;
+  FHandledOnShowPartly:= true;
 
   FAllowLoadKeymap:= true;
   DoOps_LoadKeymap(false); //called on OnTabFocus before, but blocked there by FAllowLoadKeymap
