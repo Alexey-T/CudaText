@@ -801,6 +801,7 @@ type
 
 function AppCommandCategory(Cmd: integer): TAppCommandCategory;
 function AppCommandHasConfigurableHotkey(Cmd: integer): boolean;
+function AppEventMaxPriority(AEvent: TAppPyEvent): integer;
 
 function CommandPlugins_GetIndexFromModuleAndMethod(const AText: string): integer;
 procedure CommandPlugins_UpdateSubcommands(const AText: string);
@@ -2280,6 +2281,16 @@ begin
   Result:= false;
 end;
 
+function AppEventMaxPriority(AEvent: TAppPyEvent): integer;
+var
+  i: integer;
+begin
+  Result:= 0;
+  for i:= 0 to AppEventList.Count-1 do
+    with TAppEvent(AppEventList[i]) do
+      if AEvent in ItemEvents then
+        Result:= Max(Result, ItemEventsPrior[AEvent]);
+end;
 
 initialization
   InitDirs;

@@ -84,15 +84,7 @@ begin
 
   SCurLexer:= Frame.LexerName[AEd];
   bNeedGroup:= AEvent in cTheseEventsNeedGroupingUndo;
-
-  //get max prior for AEvent
-  MaxPrior:= 0;
-  for i_plugin:= 0 to AppEventList.Count-1 do
-    with TAppEvent(AppEventList[i_plugin]) do
-    begin
-      if (AEvent in ItemEvents) then
-        MaxPrior:= Max(MaxPrior, ItemEventsPrior[AEvent]);
-    end;
+  MaxPrior:= AppEventMaxPriority(AEvent);
 
   //see all items for prior=MaxPrior..0
   for i_prior:= MaxPrior downto 0 do
