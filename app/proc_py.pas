@@ -356,9 +356,21 @@ begin
 end;
 
 procedure PyClearLoadedModuleLists;
+var
+  i: integer;
+  Obj: PPyObject;
 begin
   _LoadedModuleCudatext:= false;
+
   _LoadedLocals.Clear;
+
+  with GetPythonEngine do
+    for i:= 0 to _LoadedModules.Count-1 do
+    begin
+      Obj:= PPyObject(_LoadedModules.Objects[i]);
+      if Assigned(Obj) then
+        Py_DECREF(Obj);
+    end;
   _LoadedModules.Clear;
 end;
 
