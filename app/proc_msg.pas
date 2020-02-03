@@ -323,8 +323,11 @@ const
       'Sessions (.cuda-session) can be passed, if Session Manager installed.'+sLineBreak;
 
   msgFirstStartInfo =
-      'This is the first CudaText start (file history.json not found). '+
-      'You can easily install popular add-ons (Unix: if Python engine is already configured), using menu item "Plugins / Multi Installer".';
+      '---------------------------------------------------------------'#10+
+      'This is the first CudaText start (file history.json not found).'#10+
+      'You can easily install popular add-ons (Unix: if Python engine'#10+
+      'is already configured), using menu item "Plugins / Multi Installer".'#10+
+      '---------------------------------------------------------------'#10;
 
 const
   msgDefault: string = 'Default';

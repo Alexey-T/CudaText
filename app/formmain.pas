@@ -2530,10 +2530,17 @@ begin
 end;
 
 procedure TfmMain.DoShowFirstStartInfo;
+var
+  Frame: TEditorFrame;
 begin
-  if not FileExistsUTF8(AppFile_History) then
+  if not FileExists(AppFile_History) then
   begin
-    MsgBox(msgFirstStartInfo, MB_OK or MB_ICONINFORMATION);
+    Frame:= Frames[0];
+    if Frame.IsEmpty then
+    begin
+      Frame.TabCaption:= '(welcome)';
+      Frame.Ed1.Strings.LoadFromString(msgFirstStartInfo);
+    end;
   end;
 end;
 
