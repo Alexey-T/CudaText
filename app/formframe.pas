@@ -579,11 +579,10 @@ begin
   Result:= (Parent as TATPages).Owner as TATGroups;
 end;
 
-procedure TEditorFrame.EditorOnKeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TEditorFrame.EditorOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  //keyup: only for Ctrl/Shift/Alt
-  //no res.
+  //fire on_key_up only for keys Ctrl, Alt, Shift
+  //event has no result
   case Key of
     VK_CONTROL,
     VK_MENU,
