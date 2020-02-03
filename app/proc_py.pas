@@ -126,11 +126,12 @@ begin
   end;
 
   Obj:= _MethodEval(SObj, AMethod, _StrArrayToString(AParams));
-  with GetPythonEngine do
-  begin
-    Result:= not PyBool_Check(Obj) or (PyObject_IsTrue(Obj)=1);
-    Py_XDECREF(Obj);
-  end;
+  if Assigned(Obj) then
+    with GetPythonEngine do
+    begin
+      Result:= not PyBool_Check(Obj) or (PyObject_IsTrue(Obj)=1);
+      Py_XDECREF(Obj);
+    end;
 end;
 
 function Py_RunPlugin_Event(const AModule, ACmd: string;
