@@ -97,6 +97,24 @@ begin
   end;
 end;
 
+function _MethodEvalEx(const AObject, AMethod, AParams: string): string;
+var
+  Obj: PPyObject;
+begin
+  with GetPythonEngine do
+  begin
+    Obj:= _MethodEval(AObject, AMethod, AParams);
+    if Assigned(Obj) then
+    begin
+      Result:= PyObjectAsString(Obj);
+      Py_XDECREF(Obj);
+    end
+    else
+      Result:= '';
+  end;
+end;
+
+
 procedure _ImportCommand(const AObject, AModule: string);
 begin
   try
@@ -139,24 +157,6 @@ function Py_RunPlugin_Event(const AModule, ACmd: string;
   ALazy: boolean): string;
 var
   SObj, SParams: string;
-  //
-  function DoRun: string;
-  var
-    Obj: PPyObject;
-  begin
-    with GetPythonEngine do
-    begin
-      Obj:= _MethodEval(SObj, ACmd, SParams);
-      if Assigned(Obj) then
-      begin
-        Result:= PyObjectAsString(Obj);
-        Py_XDECREF(Obj);
-      end
-      else
-        Result:= '';
-    end;
-  end;
-  //
 var
   i: integer;
 begin
@@ -192,12 +192,12 @@ begin
       end;
     end;
 
-    Result:= DoRun;
+    Result:= _MethodEvalEx(SObj, ACmd, SParams);
   end
   else
   //lazy event: run only of SObj already created
   if _IsLoadedLocal(SObj) then
-    Result:= DoRun;
+    Result:= _MethodEvalEx(SObj, ACmd, SParams);
 end;
 
 function Py_rect(const R: TRect): PPyObject; cdecl;
