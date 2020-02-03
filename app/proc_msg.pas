@@ -325,8 +325,11 @@ const
   msgFirstStartInfo =
       '---------------------------------------------------------------'#10+
       'This is the first CudaText start (file history.json not found).'#10+
-      'You can easily install popular add-ons (Unix: if Python engine'#10+
-      'is already configured), using menu item "Plugins / Multi Installer".'#10+
+      'You can easily install popular add-ons'#10+
+      {$ifdef unix}
+      '(if Python option "pylib'+cOptionSystemSuffix+'" is set up)'#10+
+      {$endif}
+      'using menu item "Plugins / Multi Installer".'#10+
       '---------------------------------------------------------------'#10;
 
 const
