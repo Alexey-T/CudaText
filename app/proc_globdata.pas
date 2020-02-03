@@ -2244,7 +2244,6 @@ end;
 
 function AppCommandCategory(Cmd: integer): TAppCommandCategory;
 var
-  CmdItem: TAppCommand;
   N: integer;
 begin
   case Cmd of
