@@ -1,49 +1,5 @@
 {$ifdef nn}begin end;{$endif}
 
-procedure TfmMain.DoPyStringToEvents(const AEventStr: string;
-  out AEvents: TAppPyEvents;
-  out AEventsPrior: TAppPyEventsPrior;
-  out AEventsLazy: TAppPyEventsLazy);
-var
-  Sep: TATStringSeparator;
-  S: string;
-  event: TAppPyEvent;
-  nPrior: byte;
-  bLazy: boolean;
-begin
-  AEvents:= [];
-  FillChar(AEventsPrior, SizeOf(AEventsPrior), 0);
-  FillChar(AEventsLazy, SizeOf(AEventsLazy), 0);
-
-  Sep.Init(AEventStr);
-  while Sep.GetItemStr(S) do
-  begin
-    nPrior:= 0;
-    while S[Length(S)]='+' do
-    begin
-      Inc(nPrior);
-      SetLength(S, Length(S)-1);
-    end;
-
-    bLazy:= false;
-    if S[Length(S)]='~' then
-    begin
-      bLazy:= true;
-      SetLength(S, Length(S)-1);
-    end;
-
-    for event in TAppPyEvent do
-      if S=cAppPyEvent[event] then
-      begin
-        Include(AEvents, event);
-        AEventsPrior[event]:= nPrior;
-        AEventsLazy[event]:= bLazy;
-        Break
-      end;
-  end;;
-end;
-
-
 function IsPluginBad(const S: string): boolean;
 var
   i: integer;
@@ -193,7 +149,7 @@ begin
 
         EventItem:= TAppEvent.Create;
         EventItem.ItemModule:= s_module;
-        DoPyStringToEvents(s_events,
+        AppEventStringToEventData(s_events,
           EventItem.ItemEvents,
           EventItem.ItemEventsPrior,
           EventItem.ItemEventsLazy

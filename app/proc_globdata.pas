@@ -802,6 +802,10 @@ type
 function AppCommandCategory(Cmd: integer): TAppCommandCategory;
 function AppCommandHasConfigurableHotkey(Cmd: integer): boolean;
 function AppEventMaxPriority(AEvent: TAppPyEvent): integer;
+procedure AppEventStringToEventData(const AEventStr: string;
+  out AEvents: TAppPyEvents;
+  out AEventsPrior: TAppPyEventsPrior;
+  out AEventsLazy: TAppPyEventsLazy);
 
 function CommandPlugins_GetIndexFromModuleAndMethod(const AText: string): integer;
 procedure CommandPlugins_UpdateSubcommands(const AText: string);
@@ -2289,6 +2293,49 @@ begin
     with TAppEvent(AppEventList[i]) do
       if AEvent in ItemEvents then
         Result:= Max(Result, ItemEventsPrior[AEvent]);
+end;
+
+procedure AppEventStringToEventData(const AEventStr: string;
+  out AEvents: TAppPyEvents;
+  out AEventsPrior: TAppPyEventsPrior;
+  out AEventsLazy: TAppPyEventsLazy);
+var
+  Sep: TATStringSeparator;
+  S: string;
+  event: TAppPyEvent;
+  nPrior: byte;
+  bLazy: boolean;
+begin
+  AEvents:= [];
+  FillChar(AEventsPrior, SizeOf(AEventsPrior), 0);
+  FillChar(AEventsLazy, SizeOf(AEventsLazy), 0);
+
+  Sep.Init(AEventStr);
+  while Sep.GetItemStr(S) do
+  begin
+    nPrior:= 0;
+    while S[Length(S)]='+' do
+    begin
+      Inc(nPrior);
+      SetLength(S, Length(S)-1);
+    end;
+
+    bLazy:= false;
+    if S[Length(S)]='~' then
+    begin
+      bLazy:= true;
+      SetLength(S, Length(S)-1);
+    end;
+
+    for event in TAppPyEvent do
+      if S=cAppPyEvent[event] then
+      begin
+        Include(AEvents, event);
+        AEventsPrior[event]:= nPrior;
+        AEventsLazy[event]:= bLazy;
+        Break
+      end;
+  end;;
 end;
 
 initialization
