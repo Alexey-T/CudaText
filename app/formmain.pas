@@ -2975,7 +2975,7 @@ end;
 
 procedure TfmMain.DoGroupsChangeMode(Sender: TObject);
 begin
-  DoPyEvent(CurrentEditor, cEventOnState, [IntToStr(APPSTATE_GROUPS)]);
+  DoPyEvent(nil, cEventOnState, [IntToStr(APPSTATE_GROUPS)]);
   DoApplyCenteringOption;
 end;
 
@@ -5253,7 +5253,7 @@ begin
         MsgBox(msgStatusI18nPluginsMenuAfterRestart, MB_OK or MB_ICONINFORMATION);
     end;
 
-    DoPyEvent(CurrentEditor, cEventOnState, [IntToStr(APPSTATE_LANG)]);
+    DoPyEvent(nil, cEventOnState, [IntToStr(APPSTATE_LANG)]);
   finally
     FreeAndNil(ListNames);
     FreeAndNil(ListFiles);

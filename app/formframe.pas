@@ -456,7 +456,7 @@ begin
   FTabCaption:= AValue; //don't check Upd here (for Win32)
 
   if Upd then
-    DoPyEvent(Editor, cEventOnState, [IntToStr(EDSTATE_TAB_TITLE)]);
+    DoPyEvent(Ed1, cEventOnState, [IntToStr(EDSTATE_TAB_TITLE)]);
   DoOnChangeCaption;
 end;
 
