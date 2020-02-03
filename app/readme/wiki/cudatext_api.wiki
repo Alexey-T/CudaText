@@ -3759,5 +3759,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.320 (app 1.94.0)
 * change: events are now called with ed_self==None: on_start, on_exit, on_output_nav, on_console_nav
+* change: event on_state is now called with ed_self==None for APPSTATE_ values
 
 [[Category:CudaText]]
