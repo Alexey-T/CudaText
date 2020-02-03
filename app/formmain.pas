@@ -1165,10 +1165,10 @@ const
 
 {$R *.lfm}
 
-function GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
+function GetEditorFrame(Ed: TATSynEdit): TEditorFrame; inline;
 begin
-  if Ed.Parent is TEditorFrame then
-    Result:= Ed.Parent as TEditorFrame
+  if Assigned(Ed) and (Ed.Parent is TEditorFrame) then
+    Result:= TEditorFrame(Ed.Parent)
   else
     Result:= nil;
 end;

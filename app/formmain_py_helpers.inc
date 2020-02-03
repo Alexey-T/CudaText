@@ -76,12 +76,13 @@ begin
   //empty string result means "no handlers for event"
   Result:= '';
   if not PythonOK then exit;
-  Frame:= CurrentFrame;
-  if Frame=nil then exit;
 
   if (AEvent=cEventOnFocus) and not FAllowOnFocus then exit;
 
-  SCurLexer:= Frame.LexerName[Frame.Editor];
+  Frame:= GetEditorFrame(AEd);
+  if Frame=nil then exit;
+
+  SCurLexer:= Frame.LexerName[AEd];
   bNeedGroup:= AEvent in cTheseEventsNeedGroupingUndo;
 
   //get max prior for AEvent
