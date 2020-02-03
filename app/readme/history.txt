@@ -21,7 +21,8 @@
 - fix: memory leak in TreeHelpers (thanks @Artem3213212)
 - fix: command line param -n was broken on Windows
 - fix: auto-completion was broken in PHP block (bad default of "autocomplete_html_lexers")
-- fix: command "settings: reload/apply config" (thanks @OlehL) 
+- fix: command "settings: reload/apply config" (thanks @OlehL)
+* change: lexers removed to add-ons: Pascal, Makefile, Properties 
 
 1.93.0 (2020/01)
 
