@@ -28,7 +28,7 @@ type
   TAppPyCommonCallback = function(
     const ACallback: string;
     const AParams: array of PPyObject;
-    const AParamNames: array of string): string;
+    const AParamNames: array of string): boolean;
 
 type
   TAppCtlMouseEvent = (
@@ -761,7 +761,7 @@ begin
     end;
   end;
 
-  Result:= CustomDialog_DoPyCallback(ACallback, Params, ParamNames)<>cPyFalse;
+  Result:= CustomDialog_DoPyCallback(ACallback, Params, ParamNames);
 end;
 
 procedure TFormDummy.DoEmulatedModalShow;

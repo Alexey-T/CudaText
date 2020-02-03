@@ -196,7 +196,7 @@ end;
 
 function DoPyCallbackFromAPI(const ACallback: string;
   const AParams: array of PPyObject;
-  const AParamNames: array of string): string;
+  const AParamNames: array of string): boolean;
 const
   cRegex_DotCommand = '([a-z_]\w*)\.([a-z_]\w*)$';
   cRegex_SignCommand = 'module=(.+?);cmd=(.+?);(info=(.+?);)?$';
@@ -211,7 +211,7 @@ var
   Obj: PPyObject;
   i: integer;
 begin
-  Result:= '';
+  Result:= true;
 
   //avoid log error on standard ids
   if SBeginsWith(ACallback, 'top-') then exit;
@@ -271,12 +271,8 @@ begin
     Obj:= Py_RunModuleFunction(SModule, SFunc, FParams, FParamNames);
     if Assigned(Obj) then
       with GetPythonEngine do
-      try
-        if Obj=Py_None then
-          Result:= 'None'
-        else
-          Result:= PyObjectAsString(Obj);
-      finally
+      begin
+        Result:= not PyBool_Check(Obj) or (PyObject_IsTrue(Obj)=1);
         Py_DECREF(Obj);
       end;
 

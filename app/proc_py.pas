@@ -19,7 +19,7 @@ uses
   proc_globdata;
 
 procedure Py_SetSysPath(const Dirs: array of string; DoAdd: boolean);
-function Py_RunPlugin_Command(const AModule, AMethod: string; const AParams: array of string): string;
+function Py_RunPlugin_Command(const AModule, AMethod: string; const AParams: array of string): boolean;
 function Py_RunPlugin_Event(const AModule, ACmd: string;
   AEd: TATSynEdit; const AParams: array of string; ALazy: boolean): string;
 function Py_RunModuleFunction(const AModule, AFunc: string; AParams: array of PPyObject;const AParamNames: array of string): PPyObject;
@@ -88,13 +88,11 @@ begin
 end;
 
 
-function _MethodEval(const AObject, AMethod, AParams: string): string;
+function _MethodEval(const AObject, AMethod, AParams: string): PPyObject;
 begin
   try
     with GetPythonEngine do
-      Result:= EvalStringAsStr(
-        Format('%s.%s(%s)', [AObject, AMethod, AParams])
-        );
+      Result:= EvalString( Format('%s.%s(%s)', [AObject, AMethod, AParams]) );
   except
   end;
 end;
@@ -108,9 +106,11 @@ begin
   end;
 end;
 
-function Py_RunPlugin_Command(const AModule, AMethod: string; const AParams: array of string): string;
+function Py_RunPlugin_Command(const AModule, AMethod: string;
+  const AParams: array of string): boolean;
 var
   SObj: string;
+  Obj: PPyObject;
 begin
   SObj:= _LoadedPrefix+AModule;
 
@@ -125,7 +125,12 @@ begin
     end;
   end;
 
-  Result:= _MethodEval(SObj, AMethod, _StrArrayToString(AParams));
+  Obj:= _MethodEval(SObj, AMethod, _StrArrayToString(AParams));
+  with GetPythonEngine do
+  begin
+    Result:= not PyBool_Check(Obj) or (PyObject_IsTrue(Obj)=1);
+    Py_XDECREF(Obj);
+  end;
 end;
 
 function Py_RunPlugin_Event(const AModule, ACmd: string;
@@ -133,6 +138,7 @@ function Py_RunPlugin_Event(const AModule, ACmd: string;
   ALazy: boolean): string;
 var
   SObj, SParams: string;
+  Obj: PPyObject;
   H: PtrInt;
   i: integer;
 begin
@@ -171,11 +177,22 @@ begin
       end;
     end;
 
-    Result:= _MethodEval(SObj, ACmd, SParams);
+    with GetPythonEngine do
+    begin
+      Obj:= _MethodEval(SObj, ACmd, SParams);
+      Result:= PyObjectAsString(Obj);
+      Py_XDECREF(Obj);
+    end;
   end
   else
+  //lazy event: run only of SObj already created
   if _IsLoadedLocal(SObj) then
-    Result:= _MethodEval(SObj, ACmd, SParams);
+    with GetPythonEngine do
+    begin
+      Obj:= _MethodEval(SObj, ACmd, SParams);
+      Result:= PyObjectAsString(Obj);
+      Py_XDECREF(Obj);
+    end;
 end;
 
 function Py_rect(const R: TRect): PPyObject; cdecl;
@@ -367,8 +384,7 @@ begin
     for i:= 0 to _LoadedModules.Count-1 do
     begin
       Obj:= PPyObject(_LoadedModules.Objects[i]);
-      if Assigned(Obj) then
-        Py_DECREF(Obj);
+      Py_XDECREF(Obj);
     end;
   _LoadedModules.Clear;
 end;
