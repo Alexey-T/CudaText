@@ -71,7 +71,9 @@ var
   SCurLexer: string;
   bNeedGroup: boolean;
   Frame: TEditorFrame;
-  MaxPrior, i_plugin, i_prior: integer;
+  MaxPriority, NPlugin, NPriority: integer;
+  Plugin: TAppEvent;
+  bLazy: boolean;
 begin
   //empty string result means "no handlers for event"
   Result:= '';
@@ -84,21 +86,21 @@ begin
 
   SCurLexer:= Frame.LexerName[AEd];
   bNeedGroup:= AEvent in cTheseEventsNeedGroupingUndo;
-  MaxPrior:= AppEventMaxPriority(AEvent);
+  MaxPriority:= AppEventMaxPriority(AEvent);
 
-  //see all items for prior=MaxPrior..0
-  for i_prior:= MaxPrior downto 0 do
-    for i_plugin:= 0 to AppEventList.Count-1 do
-      with TAppEvent(AppEventList[i_plugin]) do
+  //see all items with priority=MaxPriority..0
+  for NPriority:= MaxPriority downto 0 do
+    for NPlugin:= 0 to AppEventList.Count-1 do
       begin
-        if not (AEvent in ItemEvents) then Continue;
-        if (i_prior<>ItemEventsPrior[AEvent]) then Continue;
-        if not ((ItemLexers='') or IsLexerListed(SCurLexer, ItemLexers)) then Continue;
+        Plugin:= TAppEvent(AppEventList[NPlugin]);
+        if not (AEvent in Plugin.ItemEvents) then Continue;
+        if (NPriority<>Plugin.ItemEventsPrior[AEvent]) then Continue;
+        if not ((Plugin.ItemLexers='') or IsLexerListed(SCurLexer, Plugin.ItemLexers)) then Continue;
 
         //check that OnKey event is called for supported keys
         if (AEvent=cEventOnKey) then
           if Length(AParams)>0 then
-            if (ItemKeys<>'') and not IsLexerListed(AParams[0], ItemKeys) then
+            if (Plugin.ItemKeys<>'') and not IsLexerListed(AParams[0], Plugin.ItemKeys) then
               Continue;
 
         //call Python
@@ -106,12 +108,13 @@ begin
           AEd.Strings.BeginUndoGroup;
         PyCommandRunning:= true;
         try
+          bLazy:= (AEvent=cEventOnExit) or Plugin.ItemEventsLazy[AEvent]; //on_exit must be lazy
           Result:= Py_RunPlugin_Event(
-              ItemModule,
+              Plugin.ItemModule,
               cAppPyEvent[AEvent],
               AEd,
               AParams,
-              (AEvent=cEventOnExit) or ItemEventsLazy[AEvent] //on_exit must be lazy
+              bLazy
               );
         finally
           PyCommandRunning:= false;
