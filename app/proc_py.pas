@@ -139,8 +139,25 @@ function Py_RunPlugin_Event(const AModule, ACmd: string;
   ALazy: boolean): string;
 var
   SObj, SParams: string;
-  Obj: PPyObject;
-  H: PtrInt;
+  //
+  function DoRun: string;
+  var
+    Obj: PPyObject;
+  begin
+    with GetPythonEngine do
+    begin
+      Obj:= _MethodEval(SObj, ACmd, SParams);
+      if Assigned(Obj) then
+      begin
+        Result:= PyObjectAsString(Obj);
+        Py_XDECREF(Obj);
+      end
+      else
+        Result:= '';
+    end;
+  end;
+  //
+var
   i: integer;
 begin
   Result:= '';
@@ -148,10 +165,7 @@ begin
   if AEd=nil then
     SParams:= 'None'
   else
-  begin
-    H:= PtrInt(Pointer(AEd));
-    SParams:= Format('cudatext.Editor(%d)', [H])
-  end;
+    SParams:= Format('cudatext.Editor(%d)', [PtrUInt(Pointer(AEd))]);
 
   for i:= 0 to Length(AParams)-1 do
     SParams:= SParams + ',' + AParams[i];
@@ -178,22 +192,12 @@ begin
       end;
     end;
 
-    with GetPythonEngine do
-    begin
-      Obj:= _MethodEval(SObj, ACmd, SParams);
-      Result:= PyObjectAsString(Obj);
-      Py_XDECREF(Obj);
-    end;
+    Result:= DoRun;
   end
   else
   //lazy event: run only of SObj already created
   if _IsLoadedLocal(SObj) then
-    with GetPythonEngine do
-    begin
-      Obj:= _MethodEval(SObj, ACmd, SParams);
-      Result:= PyObjectAsString(Obj);
-      Py_XDECREF(Obj);
-    end;
+    Result:= DoRun;
 end;
 
 function Py_rect(const R: TRect): PPyObject; cdecl;
