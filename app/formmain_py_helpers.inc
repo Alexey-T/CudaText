@@ -159,9 +159,11 @@ end;
 function TfmMain.DoPyTreeHelper(Frame: TEditorFrame): boolean;
 var
   Ed: TATSynEdit;
-  CurLexer: string;
-  Obj, ObjLocals, TreeData: PPyObject;
-  iHelper: integer;
+  CurLexer, CurFilename: string;
+  TreeData: PPyObject;
+  ParamFilename, ParamText: PPyObject;
+  NHelper: integer;
+  Helper: TAppTreeHelper;
 begin
   Result:= false;
   if not PythonOK then exit;
@@ -169,45 +171,33 @@ begin
   Ed:= Frame.Editor;
   CurLexer:= Frame.LexerName[Ed];
   if CurLexer='' then exit;
+  CurFilename:= Frame.GetFileName(Ed);
 
   with GetPythonEngine do
-    for iHelper:= 0 to AppTreeHelpers.Count-1 do
-      with TAppTreeHelper(AppTreeHelpers[iHelper]) do
-      begin
-        if not IsLexerListed(CurLexer, ItemLexers) then Continue;
+    for NHelper:= 0 to AppTreeHelpers.Count-1 do
+    begin
+      Helper:= TAppTreeHelper(AppTreeHelpers[NHelper]);
+      if not IsLexerListed(CurLexer, Helper.ItemLexers) then Continue;
 
-        Obj:= EditorTextToPyObject(Ed);
-        ObjLocals:= PyDict_New();
-        if Assigned(ObjLocals) then
-        begin
-          PyDict_SetItem(
-            ObjLocals,
-            PyString_FromString('text'),
-            Obj);
+      ParamText:= EditorTextToPyObject(Ed);
+      ParamFilename:= PyString_FromString(PChar(CurFilename));
 
-          try
-            ExecString('import '+ItemModule);
-            TreeData:= EvalString(
-              Format('%s.%s(r"%s", text)', [ItemModule, ItemProc, Frame.GetFileName(Ed)]),
-              ObjLocals, //locals
-              nil //globals
-              );
-
-            try
-              //refresh CodeTree only if TreeData is list
-              if PyObject_TypeCheck(TreeData, PyList_Type) then
-                DoCodetree_ApplyTreeHelperResults(TreeData);
-            finally
-              Py_DECREF(TreeData);
-            end;
-          except
-          end;
-          Py_DECREF(ObjLocals);
+      try
+        TreeData:= Py_RunModuleFunction(Helper.ItemModule, Helper.ItemProc, [ParamFilename, ParamText]);
+        try
+          //refresh CodeTree only if TreeData is list
+          if PyObject_TypeCheck(TreeData, PyList_Type) then
+            DoCodetree_ApplyTreeHelperResults(TreeData);
+        finally
+          Py_DECREF(TreeData);
         end;
-        Py_DECREF(Obj);
-
-        exit(true);
+      except
       end;
+
+      //Py_DECREF(ParamText);
+      //Py_DECREF(ParamFilename);
+      exit(true);
+    end;
 end;
 
 
