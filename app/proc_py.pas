@@ -76,18 +76,15 @@ begin
 end;
 
 
-function Py_ArgListToString(const AParams: array of string): string;
+function _StrArrayToString(const AParams: array of string): string;
 var
   i: integer;
 begin
-  if Length(AParams)>0 then
-  begin
-    Result:= AParams[0];
-    for i:= 1 to Length(AParams)-1 do
-      Result+= ','+AParams[i];
-  end
-  else
-    Result:= '';
+  Result:= '';
+  for i:= 0 to Length(AParams)-1 do
+    Result+= AParams[i]+',';
+  if Result<>'' then
+    SetLength(Result, Length(Result)-1);
 end;
 
 
@@ -128,7 +125,7 @@ begin
     end;
   end;
 
-  Result:= Py_RunPlugin_MethodEval(SObj, AMethod, Py_ArgListToString(AParams));
+  Result:= Py_RunPlugin_MethodEval(SObj, AMethod, _StrArrayToString(AParams));
 end;
 
 function Py_RunPlugin_Event(const AModule, ACmd: string;
