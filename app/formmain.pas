@@ -621,7 +621,7 @@ type
     FOrigShowSideBar: boolean;
     FOrigShowTabs: boolean;
     FAllowLoadKeymap: boolean;
-    FAllowOnFocus: boolean;
+    FHandledUntilFirstFocus: boolean;
     FHandledOnShowPartly: boolean;
     FHandledOnShowFully: boolean;
     FFileNamesDroppedInitially: array of string;
@@ -2023,7 +2023,6 @@ begin
   FKeymapUndoList:= TATKeymapUndoList.Create;
   FLastLexerOfKeymap:= '??'; //not ''
   FAllowLoadKeymap:= false;
-  FAllowOnFocus:= false;
 
   FillChar(AppPanelProp_Out, SizeOf(AppPanelProp_Out), 0);
   FillChar(AppPanelProp_Val, SizeOf(AppPanelProp_Val), 0);
@@ -2504,7 +2503,7 @@ begin
       Frame.DoShow;
   end;
 
-  FAllowOnFocus:= true;
+  FHandledUntilFirstFocus:= true;
   DoControlUnlock(Self);
 
   Frame:= CurrentFrame;

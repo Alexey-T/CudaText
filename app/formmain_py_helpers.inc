@@ -80,7 +80,7 @@ begin
   if not AppPythonInited then exit;
 
   if not FHandledOnShowPartly then exit; //block several events fired in FormCreate
-  if (AEvent=cEventOnFocus) and not FAllowOnFocus then exit;
+  if (AEvent=cEventOnFocus) and not FHandledUntilFirstFocus then exit;
 
   MaxPriority:= AppEventMaxPriority(AEvent);
   if MaxPriority<0 then exit; //-1 if no such plugins
