@@ -623,6 +623,7 @@ type
     FAllowLoadKeymap: boolean;
     FAllowOnFocus: boolean;
     FHandledOnShow: boolean;
+    FHandledOnShowFully: boolean;
     FFileNamesDroppedInitially: array of string;
     FFileNameLogDebug: string;
     FFileNameLogConsole: string;
@@ -651,7 +652,6 @@ type
     FLastMaximized: boolean;
     FLastFocusedFrame: TComponent;
     FLexerProgressIndex: integer;
-    FShowPassed: boolean;
     FOption_WindowPos: string;
     FOption_AllowSession: boolean;
     FOption_GroupMode: TATGroupsMode;
@@ -2527,7 +2527,7 @@ begin
     AppNotifThread.Priority:= tpLower;
   end;
 
-  FShowPassed:= true;
+  FHandledOnShowFully:= true;
 end;
 
 procedure TfmMain.DoShowFirstStartInfo;
