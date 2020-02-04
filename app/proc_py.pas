@@ -68,15 +68,18 @@ end;
 function PyEventTimesReport: string;
 var
   i: integer;
+  tick: PtrInt;
 begin
   Result:= IntToStr(PyEventTime div 10 * 10)+'ms (';
   for i:= 0 to PyEventTimes.Count-1 do
   begin
+    tick:= PtrInt(PyEventTimes.Objects[i]);
+    if tick<1 then Continue;
     if i>0 then
       Result+= ', ';
     Result+=
       Copy(PyEventTimes[i], 6, MaxInt)+' '+
-      IntToStr(PtrUInt(PyEventTimes.Objects[i]))+'ms';
+      IntToStr(tick)+'ms';
   end;
   Result+= ')';
 end;
