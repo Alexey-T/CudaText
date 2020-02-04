@@ -125,7 +125,8 @@ begin
     end;
 
     try
-      Result := PyRun_String(PChar({CleanString}(Command)), Mode, _Globals, _Locals);
+      //PythonEngine used PChar(CleanString(Command)) - is it needed?
+      Result := PyRun_String(PChar(Command), Mode, _Globals, _Locals);
       if Result = nil then
         CheckError(False);
       Py_FlushLine;
