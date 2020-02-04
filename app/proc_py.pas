@@ -116,13 +116,57 @@ begin
 end;
 
 
+var
+  _MainModule: PPyObject = nil;
+  _Locals: PPyObject = nil;
+  _Globals: PPyObject = nil;
+
+function _Eval(const Command: string): PPyObject;
+begin
+  Result := nil;
+  with GetPythonEngine do
+  begin
+    Traceback.Clear;
+    CheckError(False);
+
+    if _MainModule=nil then
+    begin
+      _MainModule:= GetMainModule;
+      if _MainModule=nil then
+        raise EPythonError.Create('Python: can''t create __main__');
+      if _Locals=nil then
+        _Locals:= PyModule_GetDict(_MainModule);
+      if _Globals=nil then
+        _Globals:= PyModule_GetDict(_MainModule);
+    end;
+
+    try
+      Result := PyRun_String(PChar({CleanString}(Command)), eval_input, _Globals, _Locals);
+      if Result = nil then
+        CheckError(False);
+      Py_FlushLine;
+    except
+      Py_FlushLine;
+      if PyErr_Occurred <> nil then
+        CheckError(False)
+      else
+        raise;
+    end;
+  end;
+end;
+
+
 function _MethodEval(const AObject, AMethod, AParams: string): PPyObject;
 begin
+  {
   try
     with GetPythonEngine do
       Result:= EvalString( Format('%s.%s(%s)', [AObject, AMethod, AParams]) );
   except
   end;
+  }
+
+  Result:= _Eval( Format('%s.%s(%s)', [AObject, AMethod, AParams]) );
 end;
 
 function _MethodEvalEx(const AObject, AMethod, AParams: string): string;
