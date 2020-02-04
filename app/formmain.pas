@@ -3896,6 +3896,7 @@ var
   PathAppend: boolean;
 begin
   AppPyEngine:= GetPythonEngine;
+  AppPyInited:= PythonOK;
 
   {$ifdef windows}
   PathAppend:= false;
@@ -3945,7 +3946,6 @@ begin
   PythonEng.DllName:= ExtractFileName(UiOps.PyLibrary);
   PythonEng.LoadDll;
 
-  AppPyInited:= PythonOK;
   if not AppPyInited then
   begin
     FConsoleMustShow:= true;
