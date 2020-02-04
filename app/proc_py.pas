@@ -296,6 +296,7 @@ var
   i,UnnamedCount:integer;
 begin
   Result:=nil;
+  if AppPyEngine=nil then exit;
   with AppPyEngine do
   begin
     Module:=_ImportModuleCached(AModule);
@@ -340,6 +341,7 @@ var
   i:integer;
 begin
   Result:=nil;
+  if AppPyEngine=nil then exit;
   with AppPyEngine do
   begin
     Module:=_ImportModuleCached(AModule);
