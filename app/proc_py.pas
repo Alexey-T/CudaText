@@ -66,11 +66,11 @@ begin
   Result:= '';
   for i:= 0 to PyEventTimes.Count-1 do
   begin
+    if i>0 then
+      Result+= ', ';
     Result+=
       Copy(PyEventTimes[i], 6, MaxInt)+' '+
       IntToStr(PtrUInt(PyEventTimes.Objects[i]))+'ms';
-    if i<PyEventTimes.Count-1 then
-      Result+= ', ';
   end;
 end;
 
