@@ -237,7 +237,7 @@ begin
   begin
     i:= PyEventTimes.IndexOf(AModule);
     if i>=0 then
-      PyEventTimes.Objects[i]:= TObject(PtrUInt(PyEventTimes.Objects[i])+tick)
+      PyEventTimes.Objects[i]:= TObject(PtrInt(PyEventTimes.Objects[i])+tick)
     else
       PyEventTimes.AddObject(AModule, TObject(tick));
   end;
