@@ -2938,15 +2938,8 @@ begin
     Sep.GetItemInt(NEndX, -1);
     Sep.GetItemInt(NEndY, -1);
     caret:= Ed.Carets[0];
-    if (caret.PosX<>NPosX) or
-      (caret.PosY<>NPosY) or
-      (caret.EndX<>NEndX) or
-      (caret.EndY<>NEndY) then
+    if caret.Change(NPosX, NPosY, NEndX, NEndY) then
     begin
-      caret.PosX:= NPosX;
-      caret.PosY:= NPosY;
-      caret.EndX:= NEndX;
-      caret.EndY:= NEndY;
       Ed.DoCaretsFixIncorrectPos(true);
       Ed.DoEventCarets;
     end;
