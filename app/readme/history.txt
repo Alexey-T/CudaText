@@ -12,6 +12,7 @@
 + add: command line parameter -ns, to disable loading saved session
 + add: if mouse selecting was started, and mouse is moving over gutter, selecting must continue
 + add: lexer Python: support Unicode ids, fix rules for hex/octal/binary numbers
++ add: lexer JavaScript: support in code-tree functions like "name: function(...){}"
 + add: lexer Markdown: support Unicode text
 + add: lexer HTML: proper highlight few more attribs
 + add: Addon Manager shows new dialog for "Download all" command
