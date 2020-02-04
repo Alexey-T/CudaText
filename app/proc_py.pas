@@ -37,9 +37,11 @@ const
   cPyNone = 'None';
 
 procedure PyClearLoadedModuleLists;
+function PyEventTimesReport: string;
 
 var
-  PyTotalEventTime: QWord = 0;
+  PyEventTime: QWord = 0;
+  PyEventTimes: TStringList;
 
 implementation
 
@@ -57,6 +59,20 @@ begin
   Result:= _LoadedLocals.IndexOf(S)>=0;
 end;
 
+function PyEventTimesReport: string;
+var
+  i: integer;
+begin
+  Result:= '';
+  for i:= 0 to PyEventTimes.Count-1 do
+  begin
+    Result+=
+      Copy(PyEventTimes[i], 6, MaxInt)+' '+
+      IntToStr(PtrUInt(PyEventTimes.Objects[i]))+'ms';
+    if i<PyEventTimes.Count-1 then
+      Result+= ', ';
+  end;
+end;
 
 procedure Py_SetSysPath(const Dirs: array of string; DoAdd: boolean);
 var
@@ -205,7 +221,16 @@ begin
     Result:= _MethodEvalEx(SObj, ACmd, SParams);
 
   tick:= GetTickCount64-tick;
-  Inc(PyTotalEventTime, tick);
+  Inc(PyEventTime, tick);
+
+  if Assigned(PyEventTimes) then
+  begin
+    i:= PyEventTimes.IndexOf(AModule);
+    if i>=0 then
+      PyEventTimes.Objects[i]:= TObject(PtrUInt(PyEventTimes.Objects[i])+tick)
+    else
+      PyEventTimes.AddObject(AModule, TObject(tick));
+  end;
 end;
 
 function Py_rect(const R: TRect): PPyObject; cdecl;
@@ -406,9 +431,12 @@ initialization
 
   _LoadedLocals:= TStringList.Create;
   _LoadedModules:= TStringList.Create;
+  PyEventTimes:= TStringList.Create;
 
 finalization
 
+  if Assigned(PyEventTimes) then
+    FreeAndNil(PyEventTimes);
   FreeAndNil(_LoadedModules);
   FreeAndNil(_LoadedLocals);
 

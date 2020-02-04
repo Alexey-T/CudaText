@@ -2508,11 +2508,13 @@ begin
 
   NTickShowEnd:= GetTickCount64;
   MsgLogConsole(Format(
-    'Startup: total: %dms, including plugins: %dms', [
+    'Startup: %dms, plugins: %dms (%s)', [
     (NTickShowEnd-NTickInitial) div 10 * 10,
-    PyTotalEventTime div 10 * 10
+    PyEventTime div 10 * 10,
+    PyEventTimesReport
     ]));
 
+  FreeAndNil(PyEventTimes);
   DoShowFirstStartInfo;
 
   if UiOps.NotificationEnabled then
