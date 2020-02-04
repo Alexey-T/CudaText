@@ -74,7 +74,6 @@ begin
   for i:= 0 to _EventTimes.Count-1 do
   begin
     tick:= PtrInt(_EventTimes.Objects[i]);
-    if tick<1 then Continue;
     if i>0 then
       Result+= ', ';
     Result+=
@@ -235,13 +234,15 @@ begin
   if Assigned(_EventTimes) then
   begin
     tick:= GetTickCount64-tick;
-    Inc(_EventTime, tick);
-
-    i:= _EventTimes.IndexOf(AModule);
-    if i>=0 then
-      _EventTimes.Objects[i]:= TObject(PtrInt(_EventTimes.Objects[i])+tick)
-    else
-      _EventTimes.AddObject(AModule, TObject(tick));
+    if tick>0 then
+    begin
+      Inc(_EventTime, tick);
+      i:= _EventTimes.IndexOf(AModule);
+      if i>=0 then
+        _EventTimes.Objects[i]:= TObject(PtrInt(_EventTimes.Objects[i])+tick)
+      else
+        _EventTimes.AddObject(AModule, TObject(tick));
+    end;
   end;
 end;
 
