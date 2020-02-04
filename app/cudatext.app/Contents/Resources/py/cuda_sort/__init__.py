@@ -5,8 +5,8 @@ from .app_specific import *
 from .sort_ini import *
 from .sort_emails import *
 
-fn_ini = get_ini_fn()
-op_section = 'op'
+fn_ini = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
+op_section = 'sort'
 
 
 def get_offsets():
@@ -231,10 +231,10 @@ def do_dialog():
     id_offset2 = 9
     id_ok = 10
 
-    op_rev = ini_read(fn_ini, op_section, 'rev', '0')
-    op_nocase = ini_read(fn_ini, op_section, 'nocase', '0')
-    op_del_dup = ini_read(fn_ini, op_section, 'del_dup', '1')
-    op_del_sp = ini_read(fn_ini, op_section, 'del_sp', '1')
+    op_rev = ini_read(fn_ini, op_section, 'reverse', '0')
+    op_nocase = ini_read(fn_ini, op_section, 'ignore_case', '0')
+    op_del_dup = ini_read(fn_ini, op_section, 'del_dups', '1')
+    op_del_sp = ini_read(fn_ini, op_section, 'del_blanks', '1')
     op_numeric = ini_read(fn_ini, op_section, 'numeric', '0')
 
     op_offset1, op_offset2 = get_offsets()
@@ -261,10 +261,10 @@ def do_dialog():
     if btn != id_ok: return
     text = text.splitlines()
 
-    ini_write(fn_ini, op_section, 'rev', text[id_rev])
-    ini_write(fn_ini, op_section, 'nocase', text[id_nocase])
-    ini_write(fn_ini, op_section, 'del_dup', text[id_del_dup])
-    ini_write(fn_ini, op_section, 'del_sp', text[id_del_sp])
+    ini_write(fn_ini, op_section, 'reverse', text[id_rev])
+    ini_write(fn_ini, op_section, 'ignore_case', text[id_nocase])
+    ini_write(fn_ini, op_section, 'del_dups', text[id_del_dup])
+    ini_write(fn_ini, op_section, 'del_blanks', text[id_del_sp])
     ini_write(fn_ini, op_section, 'numeric', text[id_numeric])
 
     is_rev = text[id_rev]=='1'
@@ -299,8 +299,7 @@ class Command:
         do_sort(*res)
 
     def config(self):
-        if not os.path.isfile(fn_ini):
-            ini_write(fn_ini, op_section, 'allow_all', '0')
+        ini_write(fn_ini, op_section, 'allow_all', '0')
         file_open(fn_ini)
 
     def shuffle(self):

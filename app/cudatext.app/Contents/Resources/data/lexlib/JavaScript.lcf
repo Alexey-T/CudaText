@@ -217,7 +217,7 @@ object SyntAnal10: TLibSyntAnalyzer
       TokenType = 2
       Expression = 
         '(?r)(?<=\bfunction\x20+)[\$\w\x{200C}\x{200D}]+ | (?<=\bclass\x2' +
-        '0+)[\$\w\x{200C}\x{200D}]'
+        '0+)[\$\w\x{200C}\x{200D}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -588,6 +588,53 @@ object SyntAnal10: TLibSyntAnalyzer
       HighlightPos = cpAny
       CancelNextRules = True
       CollapseFmt = 'func <arrow>'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'function prefix name'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 256
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 2
+        end
+        item
+          TagList.Strings = (
+            ')')
+          TokenTypes = 128
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 62
+        end
+        item
+          TagList.Strings = (
+            '(')
+          TokenTypes = 128
+        end
+        item
+          TagList.Strings = (
+            'function')
+          TokenTypes = 4
+        end
+        item
+          TagList.Strings = (
+            ':')
+          TokenTypes = 8
+        end
+        item
+          TokenTypes = 4
+        end>
+      BlockEnd = '}'
+      NameFmt = 'func %s0'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      CollapseFmt = 'func %s0'
       IgnoreAsParent = False
     end
     item
