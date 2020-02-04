@@ -5,8 +5,8 @@ from .app_specific import *
 from .sort_ini import *
 from .sort_emails import *
 
-fn_ini = get_ini_fn()
-op_section = 'op'
+fn_ini = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
+op_section = 'sort'
 
 
 def get_offsets():
@@ -299,8 +299,7 @@ class Command:
         do_sort(*res)
 
     def config(self):
-        if not os.path.isfile(fn_ini):
-            ini_write(fn_ini, op_section, 'allow_all', '0')
+        ini_write(fn_ini, op_section, 'allow_all', '0')
         file_open(fn_ini)
 
     def shuffle(self):
