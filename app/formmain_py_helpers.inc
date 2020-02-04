@@ -7,7 +7,7 @@ var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
 begin
-  if not AppPythonInited then exit;
+  if not AppPyInited then exit;
   PyLastCommandModule:= AModule;
   PyLastCommandMethod:= AMethod;
   PyLastCommandParam:= '';
@@ -77,7 +77,7 @@ var
 begin
   //empty string result means "no handlers for event"
   Result:= '';
-  if not AppPythonInited then exit;
+  if not AppPyInited then exit;
 
   //block all events fired in FormCreate
   if not FHandledOnShowPartly then exit;
@@ -176,7 +176,7 @@ var
   Helper: TAppTreeHelper;
 begin
   Result:= false;
-  if not AppPythonInited then exit;
+  if not AppPyInited then exit;
 
   Ed:= Frame.Editor;
   CurLexer:= Frame.LexerName[Ed];

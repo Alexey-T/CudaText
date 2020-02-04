@@ -71,7 +71,6 @@ var
 var
   AppBookmarkImagelist: TImageList = nil;
   AppApiFlatTheme: TATFlatTheme;
-  AppPythonInited: boolean = false;
   AppAlwaysNewInstance: boolean = false;
 
 var

@@ -40,6 +40,7 @@ procedure PythonExec(const Command: string);
 
 var
   AppPyEngine: TPythonEngine = nil;
+  AppPyInited: boolean = false;
 
 implementation
 
