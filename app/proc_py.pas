@@ -51,9 +51,13 @@ var
   _LoadedLocals: TStringList = nil;
   _LoadedModules: TStringList = nil;
 
+var
+  _MainModule: PPyObject = nil;
+  _Locals: PPyObject = nil;
+  _Globals: PPyObject = nil;
+
 const
-  _LoadedPrefix = 'xx';
-  //must be the same as in file py/cudatext_reset_plugins.py
+  _LoadedPrefix = 'xx'; //the same as in py/cudatext_reset_plugins.py
 
 function _IsLoadedLocal(const S: string): boolean; inline;
 begin
@@ -94,11 +98,6 @@ begin
     SetLength(Result, Length(Result)-1);
 end;
 
-
-var
-  _MainModule: PPyObject = nil;
-  _Locals: PPyObject = nil;
-  _Globals: PPyObject = nil;
 
 function _Eval(const Command: string; UseFileMode: boolean=false): PPyObject;
 var
@@ -150,14 +149,6 @@ end;
 
 function _MethodEval(const AObject, AMethod, AParams: string): PPyObject;
 begin
-  {
-  try
-    with GetPythonEngine do
-      Result:= EvalString( Format('%s.%s(%s)', [AObject, AMethod, AParams]) );
-  except
-  end;
-  }
-
   Result:= _Eval( Format('%s.%s(%s)', [AObject, AMethod, AParams]) );
 end;
 
