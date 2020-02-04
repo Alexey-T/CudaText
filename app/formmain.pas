@@ -5948,7 +5948,7 @@ begin
     STagString:= '';
   end;
 
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     if NCommand>0 then
       CmdObject:= PyInt_FromLong(NCommand)
@@ -5991,7 +5991,7 @@ begin
   //this updates PopupText items tags
   PopupText.OnPopup(nil);
 
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     mi:= Py_MenuItemFromId(AMenuId);
     if not Assigned(mi) then
@@ -6560,7 +6560,7 @@ begin
     NodeParent:= nil;
     NLevelPrev:= 1;
 
-    with GetPythonEngine do
+    with AppPyEngine do
     begin
       NCount:= PyList_Size(Data);
       if NCount<=0 then exit;

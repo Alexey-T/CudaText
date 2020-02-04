@@ -85,7 +85,7 @@ end;
 
 function Py_rect(const R: TRect): PPyObject; cdecl;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     Result:= Py_BuildValue('(iiii)', R.Left, R.Top, R.Right, R.Bottom);
 end;
 
@@ -94,7 +94,7 @@ begin
   if (N>=0) and (N<Screen.MonitorCount) then
     Result:= Py_rect(Screen.Monitors[N].BoundsRect)
   else
-    Result:= GetPythonEngine.ReturnNone;
+    Result:= AppPyEngine.ReturnNone;
 end;
 
 function Py_rect_control(C: TControl): PPyObject; cdecl;
@@ -112,7 +112,7 @@ end;
 
 function Py_GetCaretProps(Props: TATCaretProps): PPyObject;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     Result:= Py_BuildValue('(iiO)',
       Props.Width,
       Props.Height,
@@ -125,7 +125,7 @@ function Py_GetThemeDict_UI: PPyObject;
 var
   NLen, i: integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     NLen:= Length(AppTheme.Colors);
     Result:= PyDict_New();
@@ -151,7 +151,7 @@ var
   Strs: TATStrings;
   NLen, i: integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     Strs:= Ed.Strings;
     NLen:= Strs.Count;
@@ -168,7 +168,7 @@ var
   Strs: TATStrings;
   NLen, i: integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     Strs:= Ed.Strings;
     NLen:= Strs.Count;
@@ -206,7 +206,7 @@ var
   bMulLine: boolean;
   NPos, NRes: integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   if Bool(PyArg_ParseTuple(Args, 'isss:emmet', @Id, @PtrText, @Ptr1, @Ptr2)) then
   begin
     StrText:= string(PtrText);
@@ -281,7 +281,7 @@ var
   NLen, i: integer;
   St: TecSyntaxFormat;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     NLen:= AppTheme.Styles.Count;
     Result:= PyDict_New();
@@ -361,13 +361,13 @@ end;
 
 function Py_app_exe_version(Self, Args : PPyObject): PPyObject; cdecl;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     Result:= PyString_FromString(cAppExeVersion);
 end;
 
 function Py_app_api_version(Self, Args : PPyObject): PPyObject; cdecl;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     Result:= PyString_FromString(cAppApiVersion);
 end;
 
@@ -375,7 +375,7 @@ function Py_app_path(Self, Args : PPyObject): PPyObject; cdecl;
 var
   Id: integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'i:app_path', @Id)) then
       case Id of
         APP_DIR_EXE:
@@ -405,12 +405,12 @@ function Py_app_idle(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Flag: LongBool;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'i:app_idle', @Flag)) then
     begin
       Application.ProcessMessages;
       Application.Idle(Flag);
-      Result:= GetPythonEngine.ReturnNone;
+      Result:= AppPyEngine.ReturnNone;
     end
   else
     Result:= ReturnNone;
@@ -422,7 +422,7 @@ var
   P1, P2: PChar;
   StrCaption, StrVal: string;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'ss:dlg_input', @P1, @P2)) then
     begin
       StrCaption:= string(P1);
@@ -445,7 +445,7 @@ var
   Labels, Values: array of string;
   List: TStringList;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'isssssssssssssssssssss:dlg_input_ex',
       @Number, @PCaption,
       @PLabel[1], @PText[1], @PLabel[2], @PText[2], @PLabel[3], @PText[3], @PLabel[4], @PText[4],
@@ -483,7 +483,7 @@ function Py_dlg_charmap(Self, Args : PPyObject): PPyObject; cdecl;
 var
   str: string;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, ':dlg_charmap')) then
     begin
       str:= DoDialogCharmapModal(GetAppLangFilename);
@@ -502,7 +502,7 @@ var
   Str: string;
   Flag: integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     if Bool(PyArg_ParseTuple(Args, 'si:msg_status', @P, @Flag)) then
     begin
@@ -521,7 +521,7 @@ var
   Str: string;
   Num: integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     if Bool(PyArg_ParseTuple(Args, 'si:msg_status_alt', @Ptr, @Num)) then
     begin
@@ -540,7 +540,7 @@ var
   Str: string;
   Flags: integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'si:msg_box', @Ptr, @Flags)) then
     begin
       Str:= string(Ptr);
@@ -576,7 +576,7 @@ var
   Res: Longint;
   Sep: TATStringSeparator;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'sssi:msg_box_ex', @PtrCaption, @PtrText, @PtrButtons, @Icon)) then
     begin
       StrCaption:= string(PtrCaption);
@@ -624,7 +624,7 @@ var
   Pages: TATPages;
   Ok: boolean;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'ssis:file_open', @PtrFile, @PtrFile2, @Num, @PtrArgs)) then
     begin
       StrFile:= string(PtrFile);
@@ -652,7 +652,7 @@ var
   StrName: string;
   Ok: boolean;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Ls:save', @H, @PtrName)) then
     begin
       Ed:= PyEditor(H);
@@ -678,7 +678,7 @@ function Py_ed_get_text_sel(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_text_sel', @H)) then
       Result:= PyUnicode_FromWideString(PyEditor(H).TextSelected)
   else
@@ -691,7 +691,7 @@ var
   Index, MaxLen: Integer;
   Ed: TATSynEdit;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lii:get_text_line', @H, @Index, @MaxLen)) then
     begin
       Ed:= PyEditor(H);
@@ -714,7 +714,7 @@ var
   H: Int64;
   Ed: TATSynEdit;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_text_all', @H)) then
     begin
       Ed:= PyEditor(H);
@@ -732,7 +732,7 @@ var
   Str: atString;
   Ed: TATSynEdit;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liiii:get_text_substr', @H, @X1, @Y1, @X2, @Y2)) then
     begin
       Ed:= PyEditor(H);
@@ -750,7 +750,7 @@ var
   X1, Y1, X2, Y2: Integer;
   Ed: TATSynEdit;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liiiiii:set_caret', @H, @X1, @Y1, @X2, @Y2, @Id, @NOptions)) then
     begin
       Ed:= PyEditor(H);
@@ -830,7 +830,7 @@ var
   Caret: TATCaretItem;
   NLen, i: Integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_carets', @H)) then
     begin
       Ed:= PyEditor(H);
@@ -863,7 +863,7 @@ var
   Mark: TATMarkerItem;
   X, Y, NTag, NLenX, NLenY, i: integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liiiiii:markers', @H, @Id, @X, @Y, @NTag, @NLenX, @NLenY)) then
     begin
       Ed:= PyEditor(H);
@@ -964,7 +964,7 @@ var
   Obj: TATLinePartClass;
   SepX, SepY, SepLen: TATStringSeparator;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liisssiiiiiiiiiiii:attr',
       @H, @Id, @NTag, @PtrX, @PtrY, @PtrLen,
       @NColorFont, @NColorBg, @NColorBorder,
@@ -1191,7 +1191,7 @@ var
   FItem: TATHotspotItem;
   Sep: TATStringSeparator;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'LiLss:hotspots', @H, @Id, @NTag, @PtrTag, @PtrPos)) then
     begin
       Ed:= PyEditor(H);
@@ -1279,7 +1279,7 @@ var
   N: Integer;
   Ed: TATSynEdit;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_sel_mode', @H)) then
     begin
       Ed:= PyEditor(H);
@@ -1298,7 +1298,7 @@ var
   H: Int64;
   R: TRect;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_sel_rect', @H)) then
     begin
       R:= PyEditor(H).SelRect;
@@ -1315,7 +1315,7 @@ var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_sel_lines', @H)) then
     begin
       Ed:= PyEditor(H);
@@ -1333,7 +1333,7 @@ var
   X1, Y1, X2, Y2: Integer;
   Ed: TATSynEdit;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liiii:set_sel_rect', @H, @X1, @Y1, @X2, @Y2)) then
     begin
       Ed:= PyEditor(H);
@@ -1357,7 +1357,7 @@ var
   PtrText: PChar;
   StrW: atString;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Ls:set_text_all', @H, @PtrText)) then
     begin
       Ed:= PyEditor(H);
@@ -1386,7 +1386,7 @@ var
   Ed: TATSynEdit;
   Str: atString;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:set_text_line', @H, @N, @Ptr)) then
     begin
       Ed:= PyEditor(H);
@@ -1424,7 +1424,7 @@ var
   Ed: TATSynEdit;
   Shift, PosAfter: TPoint;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liiii:delete', @H, @X1, @Y1, @X2, @Y2)) then
     begin
       Ed:= PyEditor(H);
@@ -1447,7 +1447,7 @@ var
   Ed: TATSynEdit;
   Shift, PosAfter: TPoint;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liis:insert', @H, @X1, @Y1, @Ptr)) then
     begin
       Ed:= PyEditor(H);
@@ -1481,7 +1481,7 @@ var
   PtrText: PChar;
   StrText: string;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liiiis:replace', @H, @X1, @Y1, @X2, @Y2, @PtrText)) then
     begin
       Ed:= PyEditor(H);
@@ -1509,7 +1509,7 @@ var
   ListPy: PPyObject;
   Res: boolean;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'LiiO:replace_lines', @H, @Y1, @Y2, @ListPy)) then
     begin
       Ed:= PyEditor(H);
@@ -1535,7 +1535,7 @@ function Py_ed_get_line_count(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_line_count', @H)) then
     begin
       Result:= PyInt_FromLong(PyEditor(H).Strings.Count);
@@ -1554,7 +1554,7 @@ var
   F: TEditorFrame;
   Str: string;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Ls:get_filename', @H, @PtrOps)) then
     begin
       Ed:= PyEditor(H);
@@ -1583,7 +1583,7 @@ var
   Ptr: PChar;
   Str: string;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:cmd', @H, @NCode, @Ptr)) then
     begin
       Ed:= PyEditor(H);
@@ -1614,7 +1614,7 @@ var
   H: Int64;
   Ed: TATSynEdit;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'L:lock', @H)) then
     begin
       Ed:= PyEditor(H);
@@ -1630,7 +1630,7 @@ var
   H: Int64;
   Ed: TATSynEdit;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'L:unlock', @H)) then
     begin
       Ed:= PyEditor(H);
@@ -1647,7 +1647,7 @@ var
   Ed: TATSynEdit;
   F: TEditorFrame;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'L:focus', @H)) then
     begin
       Ed:= PyEditor(H);
@@ -1669,7 +1669,7 @@ end;
 
 function Py_ed_bookmark_getitem(BmItem: TATBookmarkItem): PPyObject;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     Result:= Py_BuildValue('{sisLsisssOsO}',
       'line',
       BmItem.Data.LineNum,
@@ -1691,7 +1691,7 @@ var
   NCount, i: integer;
   BmItem: TATBookmarkItem;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     NCount:= ABookmarks.Count;
     if NCount>0 then
@@ -1722,7 +1722,7 @@ var
   BmItem: TATBookmarkItem;
   i: integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'LiiiisiiL:bookmark',
             @H, @NId, @NLine, @NKind, @NColor, @PtrText,
             @NDeleteIfDelLine, @NShowInList, @NTag)) then
@@ -1857,7 +1857,7 @@ end;
 
 function Py_ed_decor_getitem(Item: TATGutterDecorItem): PPyObject;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     Result:= Py_BuildValue('{sisLsssOsOsisisO}',
       'line',
       Item.Data.LineNum,
@@ -1889,7 +1889,7 @@ var
   Data: TATGutterDecorData;
   NCount, i: integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'LiiLsiiiii:decor',
             @H, @NId, @NLine, @NTag, @PtrText, @NColor, @NFontBold, @NFontItalic,
             @NImageIndex, @NAutoDelete)) then
@@ -1994,7 +1994,7 @@ begin
   nMin:= cPyEditorHandleMin;
   nMax:= Min(cPyEditorHandleMin + fmMain.FrameCount - 1, cPyEditorHandleMax);
 
-  with GetPythonEngine do
+  with AppPyEngine do
     Result:= Py_BuildValue('(ii)', nMin, nMax);
 end;
 
@@ -2003,7 +2003,7 @@ var
   Index: Longint;
   Ed: TATSynEdit;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'i:ed_group', @Index)) then
     begin
       Ed:= GetEditorActiveInGroup(Index);
@@ -2025,7 +2025,7 @@ var
   IsAllowAny: boolean;
   Dlg: TOpenDialog;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'issss:dlg_file',
       @IsOpen, @PtrFilename, @PtrFolder, @PtrFilter, @PtrCaption)) then
     begin
@@ -2084,7 +2084,7 @@ var
   StrFolder, StrCaption: string;
   Dlg: TSelectDirectoryDialog;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'ss:dlg_dir', @PtrFolder, @PtrCaption)) then
     begin
       StrFolder:= string(PtrFolder);
@@ -2193,7 +2193,7 @@ var
   Str: string;
   NChars1, NChars2, NSelIndex, NAltOrder: integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lsiiii:complete', @H, @Ptr, @NChars1, @NChars2, @NSelIndex, @NAltOrder)) then
     begin
       Ed:= PyEditor(H);
@@ -2223,7 +2223,7 @@ var
   StrText, StrId: string;
   NChars, NSelIndex: integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lssii:complete_alt', @H, @PtrText, @PtrId, @NChars, @NSelIndex)) then
     begin
       Ed:= PyEditor(H);
@@ -2253,7 +2253,7 @@ var
   StrFN, StrSess, StrKey, StrVal: string;
   fn: string;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     if Bool(PyArg_ParseTuple(Args, 'ssss:ini_readwrite', @P1, @P2, @P3, @P4)) then
     begin
@@ -2305,7 +2305,7 @@ var
   L: TStringList;
   Ini: TIniFile;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     if Bool(PyArg_ParseTuple(Args, 'isss:ini_proc', @Id, @PtrFN, @PtrSection, @PtrKey)) then
     begin
@@ -2369,7 +2369,7 @@ function Py_dlg_color(Self, Args : PPyObject): PPyObject; cdecl;
 var
   NCode: Longint;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'i:dlg_color', @NCode)) then
     begin
       if not Assigned(fmMain.FColorDialog) then
@@ -2390,7 +2390,7 @@ var
   StrItems, StrCaption: string;
   NId, NIndex: integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'isis:dlg_menu', @NId, @PtrItems, @NIndex, @PtrCaption)) then
     begin
       StrItems:= string(PtrItems);
@@ -2459,7 +2459,7 @@ var
   List: TStringList;
   Obj: TObject;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'isLs:app_log', @Id, @PtrText, @NTag, @PtrPanel)) then
     begin
       StrText:= string(PtrText);
@@ -2619,7 +2619,7 @@ var
   Ptr: PChar;
   S: string;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 's:dlg_hotkey', @Ptr)) then
     begin
       S:= string(Ptr);
@@ -2640,7 +2640,7 @@ var
   Cmd: integer;
   Ok: boolean;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'ss:dlg_hotkeys', @PtrCaption, @PtrLexer)) then
     begin
       StrCaption:= string(PtrCaption);
@@ -2664,7 +2664,7 @@ var
   PtrTitle: PChar;
   StrTitle, Str: string;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'is:dlg_commands', @NOps, @PtrTitle)) then
     begin
       StrTitle:= string(PtrTitle);
@@ -2721,7 +2721,7 @@ var
   StrTitle, StrText, StrResult: string;
   NSizeX, NSizeY, NFocused, NButton: integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'siisi:dlg_custom', @PtrTitle, @NSizeX, @NSizeY, @PtrText, @NFocused)) then
     begin
       StrTitle:= string(PtrTitle);
@@ -2747,7 +2747,7 @@ var
   Data: TATWrapItem;
   NLen, i: Integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_wrapinfo', @H)) then
     begin
       Ed:= PyEditor(H);
@@ -2781,7 +2781,7 @@ end;
 
 function Py_GetScrollInfo(const AInfo: TATSynScrollInfo): PPyObject;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     Result:= Py_BuildValue('{sisisisisisisisisisi}',
       'pos', AInfo.NPos,
@@ -2811,7 +2811,7 @@ var
   Lex: TecSyntAnalyzer;
   Sep: TATStringSeparator;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:get_prop', @H, @Id, @Ptr)) then
     begin
       Ed:= PyEditor(H);
@@ -3397,7 +3397,7 @@ var
   NLocalGroup, NGlobalGroup, NTab, NIndexNew, N1, N2: integer;
   LineEnd: TATLineEnds;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:set_prop', @H, @Id, @Ptr)) then
     begin
       Ed:= PyEditor(H);
@@ -3864,7 +3864,7 @@ begin
     InitKeymapForApplication(AppKeymapInitial);
   end;
 
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     NLen:= AppKeymap.Count;
     if NLen>0 then
@@ -4025,7 +4025,7 @@ var
   Pnt: TPoint;
   Sep: TATStringSeparator;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'is:app_proc', @Id, @Ptr)) then
     begin
       Str:= string(Ptr);
@@ -4603,7 +4603,7 @@ var
   ObjStylesCmt,
   ObjStylesStr: PPyObject;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     Str1:= An.CommentRangeBegin;
     Str2:= An.CommentRangeEnd;
@@ -4677,7 +4677,7 @@ var
   ObjStylesCmt,
   ObjStylesStr: PPyObject;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     Str1:= An.CommentBlockBegin;
     Str2:= An.CommentBlockEnd;
@@ -4731,7 +4731,7 @@ var
   Fmt: TecSyntaxFormat;
   i: integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     Result:= PyDict_New();
     for i:= 0 to An.Formats.Count-1 do
@@ -4772,7 +4772,7 @@ var
   Lexer: TecSyntAnalyzer;
   LexerLite: TATLiteLexer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'is:lexer_proc', @Id, @PtrValue)) then
     begin
       StrValue:= string(PtrValue);
@@ -4857,7 +4857,7 @@ var
   Pnt: TPoint;
   Details: TATPosDetails;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liiis:convert', @H, @Id, @X, @Y, @PtrValue)) then
     begin
       Ed:= PyEditor(H);
@@ -4949,7 +4949,7 @@ begin
       L.Add(Range);
   end;
 
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     NLen:= L.Count;
     if NLen>0 then
@@ -4986,7 +4986,7 @@ var
   LexName, Str: string;
   Adapter: TATAdapterEControl;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_sublexer_ranges', @H)) then
     begin
       Ed:= PyEditor(H);
@@ -5027,7 +5027,7 @@ var
   ImgList: TImageList;
   Sep: TATStringSeparator;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'sississ:menu_proc',
        @PtrMenu, @NAction, @PtrCmd, @PtrCaption, @NIndex, @PtrHotkey, @PtrTag)) then
     begin
@@ -5212,7 +5212,7 @@ var
   IndexOk: boolean;
   Obj: TObject;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liiss:listbox_proc', @IdList, @IdAction, @NIndex, @PtrText, @PtrTag)) then
     begin
       if IdList=0 then exit(ReturnNone);
@@ -5507,7 +5507,7 @@ var
   StrValue: string;
   Btn: TATButton;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:button_proc', @IdBtn, @IdAction, @PtrValue)) then
     begin
       StrValue:= string(PtrValue);
@@ -5764,7 +5764,7 @@ var
   Canvas: TCanvas;
   Sep: TATStringSeparator;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:imagelist_proc', @IdList, @IdAction, @PtrValue)) then
     begin
       StrValue:= string(PtrValue);
@@ -5866,7 +5866,7 @@ var
   Sep: TATStringSeparator;
   i: integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'LiLisi:tree_proc', @IdTree, @IdAction, @IdItem, @NIndex, @PtrText, @NImageIndex)) then
     begin
       StrText:= string(PtrText);
@@ -6115,7 +6115,7 @@ var
   Id, NIndex1, NIndex2, NValue, NLen, i: integer;
   Item: TATMarkerItem;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liiii:dim', @H, @Id, @NIndex1, @NIndex2, @NValue)) then
     begin
       Ed:= PyEditor(H);
@@ -6188,7 +6188,7 @@ var
   TokenStr, TokenStyle: string;
   i: integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     An:= Adapter.AnClient;
     if An=nil then exit(ReturnNone);
@@ -6246,7 +6246,7 @@ var
   Adapter: TATAdapterEControl;
   TokenKind: TATFinderTokenKind;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liii:get_token', @H, @Id, @NIndex1, @NIndex2)) then
     begin
       Ed:= PyEditor(H);
@@ -6288,7 +6288,7 @@ var
   PtrText: PChar;
   StrText: string;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lisiiiiiiiii:canvas_proc',
               @IdCanvas, @IdAction, @PtrText, @NColor, @NSize,
               @NX, @NY, @NX2, @NY2, @NStyle, @NP1, @NP2)) then
@@ -6422,7 +6422,7 @@ var
   Canvas: TCanvas;
   Sep: TATStringSeparator;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:image_proc', @IdImage, @IdAction, @PtrValue)) then
     begin
       StrValue:= string(PtrValue);
@@ -6497,7 +6497,7 @@ var
   Item: TATGapItem;
   NLen, NSizeX, NSizeY, i: Integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     NLen:= Ed.Gaps.Count;
     if NLen>0 then
@@ -6550,7 +6550,7 @@ var
   Bmp: TBitmap;
   ScrollInfo: TATSynScrollInfo;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'LiLLLii:gap', @H, @Id, @Num1, @Num2, @NTag, @NSize, @NColor)) then
     begin
       Ed:= PyEditor(H);
@@ -6698,7 +6698,7 @@ begin
     FinderOptionsFromString(Finder, AOptions);
     Finder.OnGetToken:= @fmMain.FinderOnGetToken;
 
-    with GetPythonEngine do
+    with AppPyEngine do
       if Finder.DoAction_FindOrReplace(false, false, false, bChange, AUpdateCaret) then
       begin
         Result:= Py_BuildValue('(iiii)',
@@ -6734,7 +6734,7 @@ begin
 
     Finder.DoAction_FindAll(ResList, false);
 
-    with GetPythonEngine do
+    with AppPyEngine do
     begin
       Result:= PyList_New(ResList.Count);
       for i:= 0 to ResList.Count-1 do
@@ -6770,7 +6770,7 @@ var
   Ok: boolean;
   NX, NY, N1, N2: integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lisss:action', @HEditor, @IdAction, @PtrText1, @PtrText2, @PtrText3)) then
     begin
       Ed:= PyEditor(HEditor);
@@ -6936,7 +6936,7 @@ var
   Ed: TATSynEdit;
   Ok: boolean;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liiiiiis:folding', @H, @Id, @NItem, @NX, @NY, @NY2, @NStaple, @PtrText)) then
     begin
       Ed:= PyEditor(H);
@@ -7080,7 +7080,7 @@ var
   Timer: TTimer;
   SAll, SItem: string;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     if Bool(PyArg_ParseTuple(Args, 'isis:timer_proc',
             @NIdAction, @PtrCallback, @NInterval, @PtrTag)) then
@@ -7164,7 +7164,7 @@ var
   NAction: integer;
   NIndex1, NIndex2: integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     if Bool(PyArg_ParseTuple(Args, 'sisssii:toolbar_proc',
       @PtrToolbar, @NAction, @PtrText, @PtrText2, @PtrCmd, @NIndex1, @NIndex2)) then
@@ -7285,7 +7285,7 @@ var
   ImgList: TImageList;
   Data: TATStatusData;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     if Bool(PyArg_ParseTuple(Args, 'siiLs:statusbar_proc',
       @PtrBar, @NAction, @NIndex, @NTag, @PtrValue)) then
@@ -7692,7 +7692,7 @@ var
   Num64: Int64;
   i: integer;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     if Bool(PyArg_ParseTuple(Args, 'LisLLs:dlg_proc',
       @Form, @NAction, @PtrProp, @NIndex, @NIndex2, @PtrName)) then
@@ -8032,7 +8032,7 @@ begin
     Free
   end;
 
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     Par1:= PyString_FromString(PChar(SCaption));
     Par2:= PyInt_FromLong(AColor);

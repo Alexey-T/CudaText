@@ -154,7 +154,7 @@ var
 begin
   Strs:= Ed.Strings;
   Count:= Strs.Count;
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     Result:= PyList_New(Count);
     for i:= 0 to Count-1 do
@@ -183,7 +183,7 @@ begin
   if CurLexer='' then exit;
   CurFilename:= Frame.GetFileName(Ed);
 
-  with GetPythonEngine do
+  with AppPyEngine do
     for NHelper:= 0 to AppTreeHelpers.Count-1 do
     begin
       Helper:= TAppTreeHelper(AppTreeHelpers[NHelper]);
@@ -287,7 +287,7 @@ begin
 
     Obj:= Py_RunModuleFunction(SModule, SFunc, FParams, FParamNames);
     if Assigned(Obj) then
-      with GetPythonEngine do
+      with AppPyEngine do
       begin
         Result:= not PyBool_Check(Obj) or (PyObject_IsTrue(Obj)=1);
         Py_DECREF(Obj);
@@ -327,7 +327,7 @@ begin
     Cmd:= Format('_reset_plugins(r"%s")', [AppDir_Py]);
     L.LoadFromFile(fn);
     L.Add(Cmd);
-    GetPythonEngine.ExecStrings(L);
+    AppPyEngine.ExecStrings(L);
   finally
     FreeAndNil(L)
   end;
@@ -371,7 +371,7 @@ begin
 
   SSplitByChar(FListTimers[N], '|', SCallback, STag);
 
-  with GetPythonEngine do
+  with AppPyEngine do
     Params[0]:= PyLong_FromLongLong(StrToInt64Def(STag, 0));
   ParamNames[0]:= 'tag';
 

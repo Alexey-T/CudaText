@@ -30,6 +30,7 @@ uses
   proc_customdialog_dummy,
   proc_miscutils,
   proc_globdata,
+  proc_py,
   proc_editor,
   proc_scrollbars,
   proc_lexer_styles,
@@ -2194,7 +2195,7 @@ end;
 
 function DoForm_GetPropsAsStringDict(F: TFormDummy): PPyObject;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     Result:= Py_BuildValue('{sssssisisisisisisOsOsOsOsO}',
       'cap', PChar(F.Caption),
@@ -2250,7 +2251,7 @@ begin
     nTabOrder:= TWinControl(C).TabOrder;
   end;
 
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     //is it docked form?
     if C.Tag=0 then
