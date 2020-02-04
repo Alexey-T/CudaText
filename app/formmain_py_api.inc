@@ -83,12 +83,31 @@ begin
   end;
 end;
 
+function Py_rect(const R: TRect): PPyObject; cdecl;
+begin
+  with GetPythonEngine do
+    Result:= Py_BuildValue('(iiii)', R.Left, R.Top, R.Right, R.Bottom);
+end;
+
 function Py_rect_monitor(N: Integer): PPyObject; cdecl;
 begin
   if (N>=0) and (N<Screen.MonitorCount) then
     Result:= Py_rect(Screen.Monitors[N].BoundsRect)
   else
     Result:= GetPythonEngine.ReturnNone;
+end;
+
+function Py_rect_control(C: TControl): PPyObject; cdecl;
+var
+  Pnt: TPoint;
+  R: TRect;
+begin
+  Pnt:= C.ClientToScreen(Point(0, 0));
+  R.Left:= Pnt.X;
+  R.Top:= Pnt.Y;
+  R.Right:= Pnt.X + C.Width;
+  R.Bottom:= Pnt.Y + C.Height;
+  Result:= Py_rect(R);
 end;
 
 function Py_GetCaretProps(Props: TATCaretProps): PPyObject;

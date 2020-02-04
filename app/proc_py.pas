@@ -12,7 +12,7 @@ unit proc_py;
 interface
 
 uses
-  SysUtils, Classes, Controls,
+  SysUtils, Classes,
   PythonEngine,
   proc_globdata;
 
@@ -23,8 +23,6 @@ function Py_RunPlugin_Event(const AModule, ACmd: string;
 function Py_RunModuleFunction(const AModule, AFunc: string; AParams: array of PPyObject;const AParamNames: array of string): PPyObject;
 function Py_RunModuleFunction(const AModule, AFunc: string; AParams: array of PPyObject): PPyObject;
 
-function Py_rect(const R: TRect): PPyObject; cdecl;
-function Py_rect_control(C: TControl): PPyObject; cdecl;
 function Py_SimpleValueFromString(const S: string): PPyObject;
 function Py_SimpleValueToString(Obj: PPyObject; QuoteStrings: boolean): string;
 
@@ -268,25 +266,6 @@ begin
   end;
 end;
 
-function Py_rect(const R: TRect): PPyObject; cdecl;
-begin
-  with GetPythonEngine do
-    Result:= Py_BuildValue('(iiii)', R.Left, R.Top, R.Right, R.Bottom);
-end;
-
-
-function Py_rect_control(C: TControl): PPyObject; cdecl;
-var
-  Pnt: TPoint;
-  R: TRect;
-begin
-  Pnt:= C.ClientToScreen(Point(0, 0));
-  R.Left:= Pnt.X;
-  R.Top:= Pnt.Y;
-  R.Right:= Pnt.X + C.Width;
-  R.Bottom:= Pnt.Y + C.Height;
-  Result:= Py_rect(R);
-end;
 
 function _ImportModuleCached(const AModule: string): PPyObject;
 var

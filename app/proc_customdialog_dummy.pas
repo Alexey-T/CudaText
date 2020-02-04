@@ -19,7 +19,6 @@ uses
   ListViewFilterEdit,
   proc_globdata,
   proc_miscutils,
-  proc_py,
   PythonEngine,
   ATSynEdit,
   ATSynEdit_Gaps;
@@ -653,7 +652,7 @@ var
 begin
   with GetPythonEngine do
   begin
-    DataRect:= Py_rect(ARect);
+    DataRect:= Py_BuildValue('(iiii)', ARect.Left, ARect.Top, ARect.Right, ARect.Bottom);
     Data:= PyDict_New();
     PyDict_SetItemString(Data, 'canvas', PyLong_FromLongLong(PtrInt(ACanvas)));
     PyDict_SetItemString(Data, 'index', PyInt_FromLong(AIndex));
