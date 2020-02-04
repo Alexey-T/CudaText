@@ -3895,6 +3895,8 @@ var
   {$endif}
   PathAppend: boolean;
 begin
+  AppPyEngine:= GetPythonEngine;
+
   {$ifdef windows}
   PathAppend:= false;
   dir:= ExtractFileDir(Application.ExeName)+DirectorySeparator;

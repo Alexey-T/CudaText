@@ -38,6 +38,9 @@ function PyEventTimesReport: string;
 function PythonEval(const Command: string; UseFileMode: boolean=false): PPyObject;
 procedure PythonExec(const Command: string);
 
+var
+  AppPyEngine: TPythonEngine = nil;
+
 implementation
 
 var
@@ -108,7 +111,7 @@ begin
   else
     Mode:= eval_input;
 
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     Traceback.Clear;
     CheckError(False);
@@ -142,7 +145,7 @@ end;
 
 procedure PythonExec(const Command: string);
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     Py_XDECREF(PythonEval(Command, true));
 end;
 
@@ -155,7 +158,7 @@ function _MethodEvalEx(const AObject, AMethod, AParams: string): string;
 var
   Obj: PPyObject;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     Obj:= _MethodEval(AObject, AMethod, AParams);
     if Assigned(Obj) then
@@ -195,7 +198,7 @@ begin
 
   Obj:= _MethodEval(SObj, AMethod, _StrArrayToString(AParams));
   if Assigned(Obj) then
-    with GetPythonEngine do
+    with AppPyEngine do
     begin
       Result:= not PyBool_Check(Obj) or (PyObject_IsTrue(Obj)=1);
       Py_XDECREF(Obj);
@@ -279,7 +282,7 @@ begin
   begin
     if UiOps.PyInitLog then
       MsgLogConsole('Init: '+AModule);
-    Result:= GetPythonEngine.PyImport_ImportModule(PChar(AModule));
+    Result:= AppPyEngine.PyImport_ImportModule(PChar(AModule));
     _LoadedModules.AddObject(AModule, TObject(Result))
   end;
 end;
@@ -290,7 +293,7 @@ var
   i,UnnamedCount:integer;
 begin
   Result:=nil;
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     Module:=_ImportModuleCached(AModule);
     if Assigned(Module) then
@@ -334,7 +337,7 @@ var
   i:integer;
 begin
   Result:=nil;
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     Module:=_ImportModuleCached(AModule);
     if Assigned(Module) then
@@ -367,7 +370,7 @@ function Py_SimpleValueFromString(const S: string): PPyObject;
 var
   Num: Int64;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     if S='' then
       Result:= ReturnNone
@@ -398,7 +401,7 @@ begin
   if not Assigned(Obj) then
     Exit;
 
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     if PyUnicode_Check(Obj) then
     begin
@@ -425,7 +428,7 @@ begin
 
   _LoadedLocals.Clear;
 
-  with GetPythonEngine do
+  with AppPyEngine do
     for i:= 0 to _LoadedModules.Count-1 do
     begin
       Obj:= PPyObject(_LoadedModules.Objects[i]);
