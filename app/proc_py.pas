@@ -12,21 +12,18 @@ unit proc_py;
 interface
 
 uses
-  SysUtils, Classes, Variants, Controls,
-  Forms,
-  ATSynEdit,
+  SysUtils, Classes, Controls,
   PythonEngine,
   proc_globdata;
 
 procedure Py_SetSysPath(const Dirs: array of string; DoAdd: boolean);
 function Py_RunPlugin_Command(const AModule, AMethod: string; const AParams: array of string): boolean;
 function Py_RunPlugin_Event(const AModule, ACmd: string;
-  AEd: TATSynEdit; const AParams: array of string; ALazy: boolean): string;
+  AEd: TObject; const AParams: array of string; ALazy: boolean): string;
 function Py_RunModuleFunction(const AModule, AFunc: string; AParams: array of PPyObject;const AParamNames: array of string): PPyObject;
 function Py_RunModuleFunction(const AModule, AFunc: string; AParams: array of PPyObject): PPyObject;
 
 function Py_rect(const R: TRect): PPyObject; cdecl;
-function Py_rect_monitor(N: Integer): PPyObject; cdecl;
 function Py_rect_control(C: TControl): PPyObject; cdecl;
 function Py_SimpleValueFromString(const S: string): PPyObject;
 function Py_SimpleValueToString(Obj: PPyObject; QuoteStrings: boolean): string;
@@ -204,7 +201,7 @@ begin
 end;
 
 function Py_RunPlugin_Event(const AModule, ACmd: string;
-  AEd: TATSynEdit; const AParams: array of string;
+  AEd: TObject; const AParams: array of string;
   ALazy: boolean): string;
 var
   SObj, SParams: string;
@@ -272,14 +269,6 @@ function Py_rect(const R: TRect): PPyObject; cdecl;
 begin
   with GetPythonEngine do
     Result:= Py_BuildValue('(iiii)', R.Left, R.Top, R.Right, R.Bottom);
-end;
-
-function Py_rect_monitor(N: Integer): PPyObject; cdecl;
-begin
-  if (N>=0) and (N<Screen.MonitorCount) then
-    Result:= Py_rect(Screen.Monitors[N].BoundsRect)
-  else
-    Result:= GetPythonEngine.ReturnNone;
 end;
 
 

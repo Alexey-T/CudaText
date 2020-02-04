@@ -83,6 +83,13 @@ begin
   end;
 end;
 
+function Py_rect_monitor(N: Integer): PPyObject; cdecl;
+begin
+  if (N>=0) and (N<Screen.MonitorCount) then
+    Result:= Py_rect(Screen.Monitors[N].BoundsRect)
+  else
+    Result:= GetPythonEngine.ReturnNone;
+end;
 
 function Py_GetCaretProps(Props: TATCaretProps): PPyObject;
 begin
