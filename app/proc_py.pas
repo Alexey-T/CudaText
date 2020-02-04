@@ -83,27 +83,6 @@ begin
   Result+= ')';
 end;
 
-procedure Py_SetSysPath(const Dirs: array of string; DoAdd: boolean);
-var
-  Str, Sign: string;
-  i: Integer;
-begin
-  Str:= '';
-  for i:= 0 to Length(Dirs)-1 do
-    Str:= Str + 'r"' + Dirs[i] + '",';
-  if DoAdd then
-    Sign:= '+='
-  else
-    Sign:= '=';
-  Str:= Format('sys.path %s [%s]', [Sign, Str]);
-
-  with GetPythonEngine do
-  begin
-    ExecString(Str+';print("Python %d.%d"%sys.version_info[:2])');
-  end;
-end;
-
-
 function _StrArrayToString(const AParams: array of string): string;
 var
   i: integer;
@@ -121,9 +100,17 @@ var
   _Locals: PPyObject = nil;
   _Globals: PPyObject = nil;
 
-function _Eval(const Command: string): PPyObject;
+function _Eval(const Command: string; UseFileMode: boolean=false): PPyObject;
+var
+  Mode: integer;
 begin
   Result := nil;
+
+  if UseFileMode then
+    Mode:= file_input
+  else
+    Mode:= eval_input;
+
   with GetPythonEngine do
   begin
     Traceback.Clear;
@@ -141,7 +128,7 @@ begin
     end;
 
     try
-      Result := PyRun_String(PChar({CleanString}(Command)), eval_input, _Globals, _Locals);
+      Result := PyRun_String(PChar({CleanString}(Command)), Mode, _Globals, _Locals);
       if Result = nil then
         CheckError(False);
       Py_FlushLine;
@@ -155,6 +142,11 @@ begin
   end;
 end;
 
+procedure _Exec(const Command: string);
+begin
+  with GetPythonEngine do
+    Py_XDECREF(_Eval(Command, true));
+end;
 
 function _MethodEval(const AObject, AMethod, AParams: string): PPyObject;
 begin
@@ -189,11 +181,7 @@ end;
 
 procedure _ImportCommand(const AObject, AModule: string);
 begin
-  try
-    with GetPythonEngine do
-      ExecString(Format('import %s;%s=%s.Command()', [AModule, AObject, AModule]));
-  except
-  end;
+  _Exec(Format('import %s;%s=%s.Command()', [AModule, AObject, AModule]));
 end;
 
 function Py_RunPlugin_Command(const AModule, AMethod: string;
@@ -250,8 +238,7 @@ begin
 
   if not _LoadedModuleCudatext then
   begin
-    with GetPythonEngine do
-      ExecString('import cudatext');
+    _Exec('import cudatext');
     _LoadedModuleCudatext:= true;
   end;
 
@@ -483,6 +470,25 @@ begin
     end;
   _LoadedModules.Clear;
 end;
+
+
+procedure Py_SetSysPath(const Dirs: array of string; DoAdd: boolean);
+var
+  Str, Sign: string;
+  i: Integer;
+begin
+  Str:= '';
+  for i:= 0 to Length(Dirs)-1 do
+    Str:= Str + 'r"' + Dirs[i] + '",';
+  if DoAdd then
+    Sign:= '+='
+  else
+    Sign:= '=';
+  Str:= Format('sys.path %s [%s]', [Sign, Str]);
+
+  _Exec(Str+';print("Python %d.%d"%sys.version_info[:2])');
+end;
+
 
 initialization
 
