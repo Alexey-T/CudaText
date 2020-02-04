@@ -51,7 +51,7 @@ var
 
 var
   _MainModule: PPyObject = nil;
-  _Locals: PPyObject = nil;
+  //_Locals: PPyObject = nil;
   _Globals: PPyObject = nil;
 
 const
@@ -118,15 +118,15 @@ begin
       _MainModule:= GetMainModule;
       if _MainModule=nil then
         raise EPythonError.Create('Python: can''t create __main__');
-      if _Locals=nil then
-        _Locals:= PyModule_GetDict(_MainModule);
+      //if _Locals=nil then
+      //  _Locals:= PyModule_GetDict(_MainModule);
       if _Globals=nil then
         _Globals:= PyModule_GetDict(_MainModule);
     end;
 
     try
       //PythonEngine used PChar(CleanString(Command)) - is it needed?
-      Result := PyRun_String(PChar(Command), Mode, _Globals, _Locals);
+      Result := PyRun_String(PChar(Command), Mode, _Globals, _Globals{_Locals});
       if Result = nil then
         CheckError(False);
       Py_FlushLine;
