@@ -43,8 +43,8 @@ function PyEventTimesReport: string;
 implementation
 
 var
-  PyEventTime: QWord = 0;
-  PyEventTimes: TStringList;
+  _EventTime: QWord = 0;
+  _EventTimes: TStringList;
 
 var
   _LoadedModuleCudatext: boolean = false;
@@ -62,7 +62,7 @@ end;
 
 procedure PyDisableEventTimes;
 begin
-  FreeAndNil(PyEventTimes);
+  FreeAndNil(_EventTimes);
 end;
 
 function PyEventTimesReport: string;
@@ -70,15 +70,15 @@ var
   i: integer;
   tick: PtrInt;
 begin
-  Result:= IntToStr(PyEventTime div 10 * 10)+'ms (';
-  for i:= 0 to PyEventTimes.Count-1 do
+  Result:= IntToStr(_EventTime div 10 * 10)+'ms (';
+  for i:= 0 to _EventTimes.Count-1 do
   begin
-    tick:= PtrInt(PyEventTimes.Objects[i]);
+    tick:= PtrInt(_EventTimes.Objects[i]);
     if tick<1 then Continue;
     if i>0 then
       Result+= ', ';
     Result+=
-      Copy(PyEventTimes[i], 6, MaxInt)+' '+
+      Copy(_EventTimes[i], 6, MaxInt)+' '+
       IntToStr(tick)+'ms';
   end;
   Result+= ')';
@@ -231,15 +231,15 @@ begin
     Result:= _MethodEvalEx(SObj, ACmd, SParams);
 
   tick:= GetTickCount64-tick;
-  Inc(PyEventTime, tick);
+  Inc(_EventTime, tick);
 
-  if Assigned(PyEventTimes) then
+  if Assigned(_EventTimes) then
   begin
-    i:= PyEventTimes.IndexOf(AModule);
+    i:= _EventTimes.IndexOf(AModule);
     if i>=0 then
-      PyEventTimes.Objects[i]:= TObject(PtrInt(PyEventTimes.Objects[i])+tick)
+      _EventTimes.Objects[i]:= TObject(PtrInt(_EventTimes.Objects[i])+tick)
     else
-      PyEventTimes.AddObject(AModule, TObject(tick));
+      _EventTimes.AddObject(AModule, TObject(tick));
   end;
 end;
 
@@ -441,12 +441,12 @@ initialization
 
   _LoadedLocals:= TStringList.Create;
   _LoadedModules:= TStringList.Create;
-  PyEventTimes:= TStringList.Create;
+  _EventTimes:= TStringList.Create;
 
 finalization
 
-  if Assigned(PyEventTimes) then
-    FreeAndNil(PyEventTimes);
+  if Assigned(_EventTimes) then
+    FreeAndNil(_EventTimes);
   FreeAndNil(_LoadedModules);
   FreeAndNil(_LoadedLocals);
 
