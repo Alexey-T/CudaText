@@ -22,6 +22,7 @@ uses
   ATStringProc,
   ec_SyntAnal,
   ec_syntax_format,
+  proc_py,
   proc_str,
   proc_colors,
   proc_globdata,
@@ -173,17 +174,17 @@ begin
   try
     {$ifdef PY_ALWAYS_EVAL}
     if SBeginsWith(Str, cPyCharPrint) then
-      GetPythonEngine.ExecString('print('+Copy(Str, 2, MaxInt) + ')')
+      PythonExec('print('+Copy(Str, 2, MaxInt) + ')')
     else
     if not IsPythonExpression(Str) then
-      GetPythonEngine.ExecString(Str)
+      PythonExec(Str)
     else
-      GetPythonEngine.Run_CommandAsString('print('+Str+')', file_input);
+      PythonExec('print('+Str+')');
 
     {$else}
     if SBeginsWith(Str, cPyCharPrint) then
       Str:= 'print('+Copy(Str, 2, MaxInt) + ')';
-    GetPythonEngine.ExecString(Str);
+    PythonExec(Str);
     {$endif}
   except
   end;
