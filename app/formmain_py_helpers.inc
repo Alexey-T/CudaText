@@ -319,7 +319,7 @@ begin
   fn:= AppDir_Py+DirectorySeparator+'cudatext_reset_plugins.py';
   if not FileExists(fn) then
   begin
-    MsgBox(msgCannotFindFile+#13+fn, MB_OK or MB_ICONERROR);
+    MsgBox(msgCannotFindFile+#10+fn, MB_OK or MB_ICONERROR);
     Exit
   end;
 
@@ -328,7 +328,7 @@ begin
     Cmd:= Format('_reset_plugins(r"%s")', [AppDir_Py]);
     L.LoadFromFile(fn);
     L.Add(Cmd);
-    AppPyEngine.ExecStrings(L);
+    PythonExec(L.Text);
   finally
     FreeAndNil(L)
   end;
