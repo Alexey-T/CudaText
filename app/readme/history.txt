@@ -19,7 +19,8 @@
 + add: HTML auto-completion must insert "<" char if called on empty place
 + add: optimizations in Python API speed (thanks @Artem3213212)
 + add: show Go To dialog on clicking statusbar first cell
-* change: lexers removed to add-ons: Diff, Makefile, Pascal, Properties, Ruby 
+* change: lexers removed to add-ons: Diff, Makefile, Pascal, Properties, Ruby
+* change: plugin Sort: changed config file to settings/plugins.ini, [sort] section
 - fix: memory leak in TreeHelpers (thanks @Artem3213212)
 - fix: command line param -n was broken on Windows
 - fix: auto-completion was broken in PHP block (bad default of "autocomplete_html_lexers")
@@ -74,7 +75,7 @@
 - fix: some APIs worked only for active editor, it gave issues in "File Type Profile" plugin
 - fix: command "go to screen top" was broken
 - fix: trying to fix rare program freezing with "ui_notif" option
-- fix: listbox in sidebar plugins (Tabs List, etc) should use color of Code Tree, not of Command Palette 
+- fix: listbox in sidebar plugins (Tabs List, etc) should use color of Code Tree, not of Command Palette
 - fix: typing bracket with _backward_ multiline selection
 - fix: re-opening UTF8-BOM file could show the BOM
 - fix: horizontal scrollbar could hide even with scroll offset present
