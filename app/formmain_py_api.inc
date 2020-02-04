@@ -4096,7 +4096,7 @@ begin
 
         APP_PROC_EXEC_PYTHON:
           begin
-            GetPythonEngine.ExecString(Str);
+            PythonExec(Str);
             Result:= ReturnNone;
           end;
 
