@@ -284,7 +284,7 @@ begin
       DoOps_FontSizeReset;
 
     cmd_ResetPythonPlugins:
-      DoPyResetPlugins;
+      DoResetPlugins;
     cmd_RunLastCommandPlugin:
       DoPyRunLastPlugin;
     cmd_RescanPythonPluginsInfFiles:

@@ -310,7 +310,7 @@ begin
 end;
 
 
-procedure TfmMain.DoPyResetPlugins;
+procedure TfmMain.DoResetPlugins;
 var
   fn, Cmd: string;
   L: TStringList;
@@ -324,10 +324,10 @@ begin
 
   L:= TStringList.Create;
   try
-    L.LoadFromFile(fn);
-    GetPythonEngine.ExecStrings(L);
     Cmd:= Format('_reset_plugins(r"%s")', [AppDir_Py]);
-    GetPythonEngine.ExecString(Cmd);
+    L.LoadFromFile(fn);
+    L.Add(Cmd);
+    GetPythonEngine.ExecStrings(L);
   finally
     FreeAndNil(L)
   end;
