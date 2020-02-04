@@ -191,7 +191,9 @@ var
   i: integer;
 begin
   Result:= '';
-  tick:= GetTickCount64;
+
+  if Assigned(_EventTimes) then
+    tick:= GetTickCount64;
 
   if AEd=nil then
     SParams:= 'None'
@@ -230,11 +232,11 @@ begin
   if _IsLoadedLocal(SObj) then
     Result:= _MethodEvalEx(SObj, ACmd, SParams);
 
-  tick:= GetTickCount64-tick;
-  Inc(_EventTime, tick);
-
   if Assigned(_EventTimes) then
   begin
+    tick:= GetTickCount64-tick;
+    Inc(_EventTime, tick);
+
     i:= _EventTimes.IndexOf(AModule);
     if i>=0 then
       _EventTimes.Objects[i]:= TObject(PtrInt(_EventTimes.Objects[i])+tick)
