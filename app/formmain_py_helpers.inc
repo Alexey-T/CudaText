@@ -229,6 +229,7 @@ var
   i: integer;
 begin
   Result:= true;
+  if not AppPyInited then exit;
 
   //avoid log error on standard ids
   if SBeginsWith(ACallback, 'top-') then exit;
