@@ -37,13 +37,14 @@ const
   cPyNone = 'None';
 
 procedure PyClearLoadedModuleLists;
+procedure PyDisableEventTimes;
 function PyEventTimesReport: string;
+
+implementation
 
 var
   PyEventTime: QWord = 0;
   PyEventTimes: TStringList;
-
-implementation
 
 var
   _LoadedModuleCudatext: boolean = false;
@@ -59,11 +60,16 @@ begin
   Result:= _LoadedLocals.IndexOf(S)>=0;
 end;
 
+procedure PyDisableEventTimes;
+begin
+  FreeAndNil(PyEventTimes);
+end;
+
 function PyEventTimesReport: string;
 var
   i: integer;
 begin
-  Result:= '';
+  Result:= IntToStr(PyEventTime div 10 * 10)+'ms (';
   for i:= 0 to PyEventTimes.Count-1 do
   begin
     if i>0 then
@@ -72,6 +78,7 @@ begin
       Copy(PyEventTimes[i], 6, MaxInt)+' '+
       IntToStr(PtrUInt(PyEventTimes.Objects[i]))+'ms';
   end;
+  Result+= ')';
 end;
 
 procedure Py_SetSysPath(const Dirs: array of string; DoAdd: boolean);
