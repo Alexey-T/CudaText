@@ -18,6 +18,7 @@ uses
   ListFilterEdit,
   ListViewFilterEdit,
   proc_globdata,
+  proc_py,
   proc_miscutils,
   PythonEngine,
   ATSynEdit,
@@ -339,7 +340,7 @@ begin
   IdControl:= FindControlIndexByOurObject(Sender);
   P:= (Sender as TControl).ScreenToClient(Mouse.CursorPos);
 
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     DataObj:= PyTuple_New(2);
     PyTuple_SetItem(DataObj, 0, PyInt_FromLong(P.X));
@@ -365,7 +366,7 @@ end;
 function TFormDummy._MouseEventDataObject(
   AButton: TMouseButton; AShift: TShiftState; AX, AY: Integer): PPyObject;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     Result:= PyDict_New();
     PyDict_SetItemString(Result, 'btn', PyInt_FromLong(Ord(AButton)));
@@ -440,7 +441,7 @@ var
   Form: TCustomForm;
   Data: PPyObject;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     Data:= PyString_FromString(PChar(ConvertShiftStateToString(Shift)));
 
   if not DoEvent(Key, FEventOnKeyDown, Data) then
@@ -475,7 +476,7 @@ procedure TFormDummy.DoOnFormKeyUp(Sender: TObject; var Key: Word; Shift: TShift
 var
   Data: PPyObject;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     Data:= PyString_FromString(PChar(ConvertShiftStateToString(Shift)));
 
   if not DoEvent(Key, FEventOnKeyUp, Data) then
@@ -650,7 +651,7 @@ var
   IdControl: integer;
   DataRect, Data: PPyObject;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     DataRect:= Py_BuildValue('(iiii)', ARect.Left, ARect.Top, ARect.Right, ARect.Bottom);
     Data:= PyDict_New();
@@ -690,7 +691,7 @@ begin
   if BlockedOnSelect_Listview then exit;
   BlockedOnSelect_Listview:= true;
 
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     Data:= PyTuple_New(2);
     PyTuple_SetItem(Data, 0, PyInt_FromLong(Item.Index));
@@ -717,7 +718,7 @@ var
   IdControl: integer;
   Data: PPyObject;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     Data:= PyInt_FromLong(Column.Index);
 
   Props:= TAppControlProps((Sender as TControl).Tag);
@@ -742,7 +743,7 @@ var
 begin
   if ACallback='' then exit(true);
 
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     SetLength(Params, 2);
     SetLength(ParamNames, 2);
@@ -799,7 +800,7 @@ var
   IdControl: integer;
   Data: PPyObject;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
     Data:= PyLong_FromLongLong(PtrInt(Node));
 
   Props:= TAppControlProps((Sender as TControl).Tag);
@@ -816,7 +817,7 @@ var
 begin
   if BlockedOnUnfold then exit;
 
-  with GetPythonEngine do
+  with AppPyEngine do
     Data:= PyLong_FromLongLong(PtrInt(Node));
 
   Props:= TAppControlProps((Sender as TControl).Tag);
@@ -833,7 +834,7 @@ var
 begin
   if BlockedOnFold then exit;
 
-  with GetPythonEngine do
+  with AppPyEngine do
     Data:= PyLong_FromLongLong(PtrInt(Node));
 
   Props:= TAppControlProps((Sender as TControl).Tag);
@@ -910,7 +911,7 @@ end;
 
 function Py_KeyAndShift(Key: word; Shift: TShiftState): PPyObject; inline;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     Result:= PyTuple_New(2);
     PyTuple_SetItem(Result, 0, PyInt_FromLong(Key));
@@ -951,7 +952,7 @@ var
   IdControl: integer;
   Data: PPyObject;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     Data:= PyDict_New();
     PyDict_SetItemString(Data, 'state', PyString_FromString(PChar(ConvertShiftStateToString(KeyboardStateToShiftState))));
@@ -978,7 +979,7 @@ var
 begin
   if not Assigned(AGapItem) then exit;
 
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     Data:= PyDict_New();
     PyDict_SetItemString(Data, 'state', PyString_FromString(PChar(ConvertShiftStateToString(KeyboardStateToShiftState))));
@@ -1022,7 +1023,7 @@ var
   IdControl: integer;
   Data: PPyObject;
 begin
-  with GetPythonEngine do
+  with AppPyEngine do
   begin
     Data:= PyDict_New();
     PyDict_SetItemString(Data, 'keep_caret', PyBool_FromLong(Ord(AKeepCaret)));
