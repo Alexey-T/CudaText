@@ -37,6 +37,9 @@ procedure PyClearLoadedModuleLists;
 procedure PyDisableEventTimes;
 function PyEventTimesReport: string;
 
+function PythonEval(const Command: string; UseFileMode: boolean=false): PPyObject;
+procedure PythonExec(const Command: string);
+
 implementation
 
 var
@@ -96,7 +99,7 @@ begin
 end;
 
 
-function _Eval(const Command: string; UseFileMode: boolean=false): PPyObject;
+function PythonEval(const Command: string; UseFileMode: boolean=false): PPyObject;
 var
   Mode: integer;
 begin
@@ -138,15 +141,15 @@ begin
   end;
 end;
 
-procedure _Exec(const Command: string);
+procedure PythonExec(const Command: string);
 begin
   with GetPythonEngine do
-    Py_XDECREF(_Eval(Command, true));
+    Py_XDECREF(PythonEval(Command, true));
 end;
 
 function _MethodEval(const AObject, AMethod, AParams: string): PPyObject;
 begin
-  Result:= _Eval( Format('%s.%s(%s)', [AObject, AMethod, AParams]) );
+  Result:= PythonEval( Format('%s.%s(%s)', [AObject, AMethod, AParams]) );
 end;
 
 function _MethodEvalEx(const AObject, AMethod, AParams: string): string;
@@ -169,7 +172,7 @@ end;
 
 procedure _ImportCommand(const AObject, AModule: string);
 begin
-  _Exec(Format('import %s;%s=%s.Command()', [AModule, AObject, AModule]));
+  PythonExec(Format('import %s;%s=%s.Command()', [AModule, AObject, AModule]));
 end;
 
 function Py_RunPlugin_Command(const AModule, AMethod: string;
@@ -226,7 +229,7 @@ begin
 
   if not _LoadedModuleCudatext then
   begin
-    _Exec('import cudatext');
+    PythonExec('import cudatext');
     _LoadedModuleCudatext:= true;
   end;
 
@@ -466,7 +469,7 @@ begin
     Sign:= '=';
   Str:= Format('sys.path %s [%s]', [Sign, Str]);
 
-  _Exec(Str+';print("Python %d.%d"%sys.version_info[:2])');
+  PythonExec(Str+';print("Python %d.%d"%sys.version_info[:2])');
 end;
 
 
