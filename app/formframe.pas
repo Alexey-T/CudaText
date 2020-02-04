@@ -2852,6 +2852,7 @@ procedure TEditorFrame.DoLoadHistoryEx(Ed: TATSynEdit; const AFileName: string;
 var
   str, str0: string;
   Caret: TATCaretItem;
+  NPosX, NPosY, NEndX, NEndY: integer;
   nTop, nKind, i: integer;
   items, items2: TStringlist;
   BmData: TATBookmarkData;
@@ -2930,15 +2931,25 @@ begin
   //caret
   if Ed.Carets.Count>0 then
   begin
-    caret:= Ed.Carets[0];
     str:= c.GetValue(path+cHistory_Caret, '');
     Sep.Init(str);
-    Sep.GetItemInt(caret.PosX, 0);
-    Sep.GetItemInt(caret.PosY, 0);
-    Sep.GetItemInt(caret.EndX, -1);
-    Sep.GetItemInt(caret.EndY, -1);
-    Ed.DoCaretsFixIncorrectPos(true);
-    Ed.DoEventCarets;
+    Sep.GetItemInt(NPosX, 0);
+    Sep.GetItemInt(NPosY, 0);
+    Sep.GetItemInt(NEndX, -1);
+    Sep.GetItemInt(NEndY, -1);
+    caret:= Ed.Carets[0];
+    if (caret.PosX<>NPosX) or
+      (caret.PosY<>NPosY) or
+      (caret.EndX<>NEndX) or
+      (caret.EndY<>NEndY) then
+    begin
+      caret.PosX:= NPosX;
+      caret.PosY:= NPosY;
+      caret.EndX:= NEndX;
+      caret.EndY:= NEndY;
+      Ed.DoCaretsFixIncorrectPos(true);
+      Ed.DoEventCarets;
+    end;
   end;
 
   //bookmarks
