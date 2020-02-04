@@ -38,6 +38,9 @@ const
 
 procedure PyClearLoadedModuleLists;
 
+var
+  PyTotalEventTime: QWord = 0;
+
 implementation
 
 var
@@ -158,9 +161,11 @@ function Py_RunPlugin_Event(const AModule, ACmd: string;
 var
   SObj, SParams: string;
 var
+  tick: QWord;
   i: integer;
 begin
   Result:= '';
+  tick:= GetTickCount64;
 
   if AEd=nil then
     SParams:= 'None'
@@ -198,6 +203,9 @@ begin
   //lazy event: run only of SObj already created
   if _IsLoadedLocal(SObj) then
     Result:= _MethodEvalEx(SObj, ACmd, SParams);
+
+  tick:= GetTickCount64-tick;
+  Inc(PyTotalEventTime, tick);
 end;
 
 function Py_rect(const R: TRect): PPyObject; cdecl;

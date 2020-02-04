@@ -2432,8 +2432,7 @@ end;
 
 procedure TfmMain.FormShow(Sender: TObject);
 var
-  NTickShowEnd,
-  NTickPluginBegin, NTickPluginEnd: QWord;
+  NTickShowEnd: QWord;
   Frame: TEditorFrame;
   i: integer;
 begin
@@ -2472,9 +2471,7 @@ begin
   FAllowLoadKeymap:= true;
   DoOps_LoadKeymap(false); //called on OnTabFocus before, but blocked there by FAllowLoadKeymap
 
-  NTickPluginBegin:= GetTickCount64;
   DoPyEvent(nil, cEventOnStart, []);
-  NTickPluginEnd:= GetTickCount64;
 
   DoApplyUiOps; //after plugin on_start, ConfigToolbar is slow with visible toolbar
   DoApplyInitialSidebarPanel;
@@ -2513,7 +2510,7 @@ begin
   MsgLogConsole(Format(
     'Startup: total: %dms, including plugins: %dms', [
     (NTickShowEnd-NTickInitial) div 10 * 10,
-    (NTickPluginEnd-NTickPluginBegin) div 10 * 10
+    PyTotalEventTime div 10 * 10
     ]));
 
   DoShowFirstStartInfo;
