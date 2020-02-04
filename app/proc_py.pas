@@ -106,6 +106,7 @@ var
   Mode: integer;
 begin
   Result := nil;
+  if not AppPyInited then exit;
 
   if UseFileMode then
     Mode:= file_input
@@ -146,6 +147,7 @@ end;
 
 procedure PythonExec(const Command: string);
 begin
+  if not AppPyInited then exit;
   with AppPyEngine do
     Py_XDECREF(PythonEval(Command, true));
 end;
