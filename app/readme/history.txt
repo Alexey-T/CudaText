@@ -6,6 +6,7 @@
 1.94.0 (2020/02)
 
 + add: Project Manager improvements (show pretty paths in recent file list; fixed crash on unfolding deleted folder; use case-insensitive sorting)
++ add: program starts little faster (Linux/Windows: by 10..20%)
 + add: command line supports all params (-r -e -nh -z) for single instance mode too (thanks @dinkumoil)
 + add: command line parameter -i, to read the contents of stdin (Unix only)
 + add: command line parameter -ns, to disable loading saved session
@@ -15,9 +16,8 @@
 + add: lexer HTML: proper highlight few more attribs
 + add: Addon Manager shows new dialog for "Download all" command
 + add: HTML auto-completion must insert "<" char if called on empty place
-+ add: show Go To dialog on clicking statusbar 1st cell
 + add: optimizations in Python API speed (thanks @Artem3213212)
-+ add: Linux gtk2 version starts little faster
++ add: show Go To dialog on clicking statusbar first cell
 * change: lexers removed to add-ons: Diff, Makefile, Pascal, Properties, Ruby 
 - fix: memory leak in TreeHelpers (thanks @Artem3213212)
 - fix: command line param -n was broken on Windows
