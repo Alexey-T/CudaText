@@ -455,8 +455,8 @@ begin
 
   FTabCaption:= AValue; //don't check Upd here (for Win32)
 
-  //if Upd then
-  //  DoPyEvent(Ed1, cEventOnState, [IntToStr(EDSTATE_TAB_TITLE)]);
+  if Upd then
+    DoPyEvent(Ed1, cEventOnStateEd, [IntToStr(EDSTATE_TAB_TITLE)]);
 
   DoOnChangeCaption;
 end;
@@ -1200,8 +1200,8 @@ begin
   UpdateCaptionFromFilename;
   DoOnChangeCaption;
 
-  //if AWithEvent then
-  //  DoPyEvent(Ed, cEventOnState, [IntToStr(EDSTATE_MODIFIED)]);
+  if AWithEvent then
+    DoPyEvent(Ed, cEventOnStateEd, [IntToStr(EDSTATE_MODIFIED)]);
 
   DoOnUpdateStatus;
 end;

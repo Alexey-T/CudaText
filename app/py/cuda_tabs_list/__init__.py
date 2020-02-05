@@ -174,7 +174,7 @@ class Command:
         self.busy_update = False
 
 
-    def on_state(self, ed_self, state):
+    def on_state_ed(self, ed_self, state):
         if state in [EDSTATE_TAB_TITLE, EDSTATE_MODIFIED]:
             self.update()
 
