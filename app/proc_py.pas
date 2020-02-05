@@ -332,7 +332,7 @@ var
   i,UnnamedCount:integer;
 begin
   Result:=nil;
-  if FEngine=nil then exit;
+  if not FInited then exit;
   with FEngine do
   begin
     Module:=ImportModuleCached(AModule);
@@ -377,7 +377,7 @@ var
   i:integer;
 begin
   Result:=nil;
-  if FEngine=nil then exit;
+  if not FInited then exit;
   with FEngine do
   begin
     Module:=ImportModuleCached(AModule);
