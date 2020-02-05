@@ -49,6 +49,7 @@ Method return value is ignored is many cases, but sometimes return value True or
 * on_mouse_stop(self, ed_self, x, y): Called when mouse cursor stops (for a short delay) over editor. Params "x", "y" are mouse editor-related coords.
 * on_hotspot(self, ed_self, entered, hotspot_index): Called when mouse cursor moves in/out of hotspot. See ed.hotspots() API.
 * on_state(self, ed_self, state): Called after some app state is changed. Param "state" is one of APPSTATE_nnnn constants.
+* on_state_ed(self, ed_self, state): Called after some editor state is changed. Param "state" is one of EDSTATE_nnnn constants.
 * on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt() call.
 
 ==Editor clicks==
@@ -3758,8 +3759,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * removed: menu_proc special constant "_enc"
 
 1.0.320 (app 1.94.0)
-* change: events are now called with ed_self==None: on_start, on_exit, on_output_nav, on_console_nav
-* change: event on_state does not support EDSTATE_ values (none plugins did use it)
-* change: event on_state is now called with ed_self==None
+* change: event on_state does not support EDSTATE_ values
+* change: events are now called with ed_self==None: on_state, on_start, on_exit, on_output_nav, on_console_nav
+* add: event on_state_ed
 
 [[Category:CudaText]]
