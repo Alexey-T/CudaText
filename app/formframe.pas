@@ -57,7 +57,7 @@ uses
   LazUTF8Classes;
 
 type
-  TEditorFramePyEvent = function(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string of object;
+  TEditorFramePyEvent = function(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): TAppPyEventResult of object;
   TEditorFrameStringEvent = procedure(Sender: TObject; const S: string) of object;
 
 type
@@ -356,7 +356,8 @@ type
     procedure DoLoadHistoryEx(Ed: TATSynEdit; const AFileName: string; c: TJsonConfig; const path: UnicodeString; AllowEnc: boolean);
     procedure DoLoadUndo(Ed: TATSynEdit);
     //misc
-    function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
+    function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
+      const AParams: array of string): TAppPyEventResult;
     procedure DoGotoPos(Ed: TATSynEdit; APosX, APosY: integer);
     procedure DoRestoreFolding;
     procedure DoRemovePreviewStyle;
@@ -544,7 +545,7 @@ begin
     [
       IntToStr(Key),
       '"'+ConvertShiftStateToString(Shift)+'"'
-    ]) = cPyFalse then
+    ]).Val = evrFalse then
     begin
       Key:= 0;
       Exit
@@ -561,7 +562,7 @@ begin
     [
       cBool[AKeepCaret],
       cBool[ASelectThen]
-    ]) = cPyFalse then
+    ]).Val = evrFalse then
     AHandled:= true;
 end;
 
@@ -1392,11 +1393,11 @@ end;
 
 procedure TEditorFrame.EditorOnClickDouble(Sender: TObject; var AHandled: boolean);
 var
-  Str: string;
+  Res: TAppPyEventResult;
 begin
-  Str:= DoPyEvent(Sender as TATSynEdit, cEventOnClickDbl,
+  Res:= DoPyEvent(Sender as TATSynEdit, cEventOnClickDbl,
           ['"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"']);
-  AHandled:= Str=cPyFalse;
+  AHandled:= Res.Val=evrFalse;
 end;
 
 procedure TEditorFrame.EditorOnClickMicroMap(Sender: TObject; AX, AY: integer);
@@ -2080,10 +2081,11 @@ var
   PrevEnabled, bNameChanged: boolean;
   NameCounter: integer;
   SFileName, NameTemp, NameInitial: string;
+  EventRes: TAppPyEventResult;
 begin
   Result:= true;
   if not IsText then exit(true); //disable saving, but close
-  if DoPyEvent(Ed, cEventOnSaveBefore, [])=cPyFalse then exit(true); //disable saving, but close
+  if DoPyEvent(Ed, cEventOnSaveBefore, []).Val=evrFalse then exit(true); //disable saving, but close
 
   DoHideNotificationPanel(EditorObjToIndex(Ed));
 
@@ -2106,8 +2108,11 @@ begin
 
     if SFileName='' then
     begin
-      NameInitial:= DoPyEvent(Ed, cEventOnSaveNaming, []);
-      if (NameInitial='') or (NameInitial=cPyNone) then
+      NameInitial:= '';
+      EventRes:= DoPyEvent(Ed, cEventOnSaveNaming, []);
+      if EventRes.Val=evrString then
+        NameInitial:= EventRes.Str;
+      if NameInitial='' then
         NameInitial:= 'new';
 
       //get first free filename: new.txt, new1.txt, new2.txt, ...
@@ -2408,7 +2413,7 @@ begin
     '"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"',
     IntToStr(ALine),
     IntToStr(ABand)
-    ]) = cPyFalse then exit;
+    ]).Val = evrFalse then exit;
 
   if ABand=Ed.GutterBandBookmarks then
     ed.BookmarkToggleForLine(ALine, 1, '', false, true, 0);
@@ -2999,12 +3004,15 @@ begin
 end;
 
 function TEditorFrame.DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
-  const AParams: array of string): string;
+  const AParams: array of string): TAppPyEventResult;
 begin
   if Assigned(FOnPyEvent) then
     Result:= FOnPyEvent(AEd, AEvent, AParams)
   else
-    Result:= '';
+  begin
+    Result.Val:= evrOther;
+    Result.Str:= '';
+  end;
 end;
 
 

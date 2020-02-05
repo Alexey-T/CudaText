@@ -644,6 +644,11 @@ const
     (Sub: 'as'; Name: 'cp1258'; ShortName: 'cp1258')
   );
 
+type
+  TAppPyEventResult = record
+    Val: (evrTrue, evrFalse, evrString, evrOther);
+    Str: string;
+  end;
 
 type
   TAppPyEvent = (

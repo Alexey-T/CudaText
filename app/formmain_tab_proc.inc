@@ -211,7 +211,7 @@ begin
     end;
 
   if not Application.Terminated then
-    if DoPyEvent(Frame.Editor, cEventOnCloseBefore, []) = cPyFalse then
+    if DoPyEvent(Frame.Editor, cEventOnCloseBefore, []).Val = evrFalse then
     begin
       ACanClose:= false;
       Exit

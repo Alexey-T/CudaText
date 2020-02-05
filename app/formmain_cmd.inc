@@ -552,7 +552,7 @@ begin
     (AText<>'') then
   begin
     if DoPyEvent(Ed, cEventOnInsert,
-      [SStringToPythonString(AText)]) = cPyFalse then
+      [SStringToPythonString(AText)]).Val = evrFalse then
       begin AHandled:= true; exit end;
   end;
 

@@ -1111,7 +1111,7 @@ type
     property ThemeUi: string write SetThemeUi;
     property ThemeSyntax: string write SetThemeSyntax;
     property SidebarPanel: string read FLastSidebarPanel write SetSidebarPanel;
-    function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
+    function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): TAppPyEventResult;
     procedure DoPyCommand(const AModule, AMethod: string; const AParams: array of string);
     function DoPyTreeHelper(Frame: TEditorFrame): boolean;
     procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATFinderTokenKind);
@@ -3154,7 +3154,7 @@ begin
     //py event
     if bEnableEvent then
       if DoPyEvent(CurrentEditor, cEventOnOpenBefore,
-        [SStringToPythonString(AFileName)]) = cPyFalse then exit;
+        [SStringToPythonString(AFileName)]).Val = evrFalse then exit;
 
     bDetectedPics:= bAllowPics and IsFilenameListedInExtensionList(AFileName, UiOps.PictureTypes);
 
@@ -3549,7 +3549,7 @@ begin
     Str:= UTF8Encode(fmGoto.edInput.Text);
 
     if DoPyEvent(CurrentEditor, cEventOnGotoEnter,
-      [SStringToPythonString(Str)]) = cPyFalse then exit;
+      [SStringToPythonString(Str)]).Val = evrFalse then exit;
 
     DoGotoFromInput(Str);
   end;
@@ -5022,7 +5022,7 @@ begin
 
   CompletionOps.CommitChars:= UiOps.AutocompleteCommitChars; //before DoPyEvent
   CompletionOps.CloseChars:= UiOps.AutocompleteCloseChars; //before DoPyEvent
-  if DoPyEvent(Ed, cEventOnComplete, [])=cPyTrue then exit;
+  if DoPyEvent(Ed, cEventOnComplete, []).Val = evrTrue then exit;
 
   if F.Lexer[Ed]=nil then exit;
 
@@ -5755,18 +5755,18 @@ end;
 
 procedure TfmMain.DoGotoDefinition;
 begin
-  if DoPyEvent(CurrentEditor, cEventOnGotoDef, [])<>cPyTrue then
+  if DoPyEvent(CurrentEditor, cEventOnGotoDef, []).Val <> evrTrue then
     MsgStatus(msgStatusNoGotoDefinitionPlugins);
 end;
 
 procedure TfmMain.DoShowFuncHint;
 var
+  Res: TAppPyEventResult;
   S: string;
 begin
-  S:= DoPyEvent(CurrentEditor, cEventOnFuncHint, []);
-  if (S='') or (S='None') then exit;
-
-  MsgStatusAlt(S, UiOps.StatusAltTime);
+  Res:= DoPyEvent(CurrentEditor, cEventOnFuncHint, []);
+  if Res.Val=evrString then
+    MsgStatusAlt(Res.Str, UiOps.StatusAltTime);
 end;
 
 procedure TfmMain.PopupTextPopup(Sender: TObject);
@@ -5822,13 +5822,13 @@ end;
 function TfmMain.DoOnConsoleNav(const Str: string): boolean;
 begin
   Result:= DoPyEvent(nil, cEventOnConsoleNav,
-    [SStringToPythonString(Str)]) <> cPyFalse;
+    [SStringToPythonString(Str)]).Val <> evrFalse;
 end;
 
 function TfmMain.DoOnMacro(const Str: string): boolean;
 begin
   Result:= DoPyEvent(CurrentEditor, cEventOnMacro,
-    [SStringToPythonString(Str)]) <> cPyFalse;
+    [SStringToPythonString(Str)]).Val <> evrFalse;
 end;
 
 

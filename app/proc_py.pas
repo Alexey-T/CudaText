@@ -36,7 +36,7 @@ type
     function ImportModuleCached(const AModule: string): PPyObject;
     function IsLoadedLocal(const S: string): boolean;
     function MethodEval(const AObject, AMethod, AParams: string): PPyObject;
-    function MethodEvalEx(const AObject, AMethod, AParams: string): string;
+    function MethodEvalEx(const AObject, AMethod, AParams: string): TAppPyEventResult;
     function StrArrayToString(const AParams: array of string): string;
   public
     constructor Create;
@@ -50,7 +50,7 @@ type
     procedure Exec(const Command: string);
     function RunCommand(const AModule, AMethod: string; const AParams: array of string): boolean;
     function RunEvent(const AModule, ACmd: string;
-      AEd: TObject; const AParams: array of string; ALazy: boolean): string;
+      AEd: TObject; const AParams: array of string; ALazy: boolean): TAppPyEventResult;
     function RunModuleFunction(const AModule, AFunc: string; AParams: array of PPyObject; const AParamNames: array of string): PPyObject;
     function RunModuleFunction(const AModule, AFunc: string; AParams: array of PPyObject): PPyObject;
 
@@ -193,20 +193,34 @@ begin
   Result:= Eval( Format('%s.%s(%s)', [AObject, AMethod, AParams]) );
 end;
 
-function TAppPython.MethodEvalEx(const AObject, AMethod, AParams: string): string;
+function TAppPython.MethodEvalEx(const AObject, AMethod, AParams: string): TAppPyEventResult;
 var
   Obj: PPyObject;
 begin
+  Result.Val:= evrOther;
+  Result.Str:= '';
+
   with FEngine do
   begin
     Obj:= MethodEval(AObject, AMethod, AParams);
     if Assigned(Obj) then
-    begin
-      Result:= PyObjectAsString(Obj);
+    try
+      if PyUnicode_Check(Obj) then
+      begin
+        Result.Val:= evrString;
+        Result.Str:= PyUnicode_AsWideString(Obj);
+      end
+      else
+      if PyBool_Check(Obj) then
+      begin
+        if PyObject_IsTrue(Obj)=1 then
+          Result.Val:= evrTrue
+        else
+          Result.Val:= evrFalse;
+      end;
+    finally
       Py_XDECREF(Obj);
-    end
-    else
-      Result:= '';
+    end;
   end;
 end;
 
@@ -244,16 +258,16 @@ begin
     end;
 end;
 
-function TAppPython.RunEvent(const AModule, ACmd: string;
-  AEd: TObject; const AParams: array of string;
-  ALazy: boolean): string;
+function TAppPython.RunEvent(const AModule, ACmd: string; AEd: TObject;
+  const AParams: array of string; ALazy: boolean): TAppPyEventResult;
 var
   SObj, SParams: string;
 var
   tick: QWord;
   i: integer;
 begin
-  Result:= '';
+  Result.Val:= evrOther;
+  Result.Str:= '';
 
   if Assigned(EventTimes) then
     tick:= GetTickCount64;

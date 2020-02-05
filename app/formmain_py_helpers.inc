@@ -63,7 +63,7 @@ end;
 
 
 function TfmMain.DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
-  const AParams: array of string): string;
+  const AParams: array of string): TAppPyEventResult;
 const
   cTheseEventsStoppedByTrue = [cEventOnComplete{, cEventOnTabSwitch}];
   cTheseEventsNeedGroupingUndo = [cEventOnComplete, cEventOnSnippet];
@@ -75,8 +75,8 @@ var
   Plugin: TAppEvent;
   bLazy: boolean;
 begin
-  //empty string result means "no handlers for event"
-  Result:= '';
+  Result.Val:= evrOther;
+  Result.Str:= '';
   if not AppPython.Inited then exit;
 
   //block all events fired in FormCreate
@@ -137,11 +137,11 @@ begin
         end;
 
         //True for some events means "stop"
-        if Result=cPyTrue then
+        if Result.Val=evrTrue then
           if AEvent in cTheseEventsStoppedByTrue then Exit;
 
         //False means "stop", other results ignored
-        if Result=cPyFalse then Exit;
+        if Result.Val=evrFalse then Exit;
       end;
 end;
 
