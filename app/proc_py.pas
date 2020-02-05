@@ -169,12 +169,10 @@ begin
 
     try
       //PythonEngine used PChar(CleanString(Command)) - is it needed?
-      Result := PyRun_String(PChar(Command), Mode, Globals, Globals{_Locals});
+      Result := PyRun_String(PChar(Command), Mode, Globals, Globals); //seems no need separate Locals
       if Result = nil then
         CheckError(False);
-      Py_FlushLine;
     except
-      Py_FlushLine;
       if PyErr_Occurred <> nil then
         CheckError(False)
       else
