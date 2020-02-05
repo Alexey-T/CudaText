@@ -174,12 +174,12 @@ begin
   try
     {$ifdef PY_ALWAYS_EVAL}
     if SBeginsWith(Str, cPyCharPrint) then
-      PythonExec('print('+Copy(Str, 2, MaxInt) + ')')
+      AppPython.Exec('print('+Copy(Str, 2, MaxInt) + ')')
     else
     if not IsPythonExpression(Str) then
-      PythonExec(Str)
+      AppPython.Exec(Str)
     else
-      PythonExec('print('+Str+')');
+      AppPython.Exec('print('+Str+')');
 
     {$else}
     if SBeginsWith(Str, cPyCharPrint) then

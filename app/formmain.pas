@@ -2510,10 +2510,10 @@ begin
   MsgLogConsole(Format(
     'Startup: %dms, plugins: %s', [
     (NTickShowEnd-NTickInitial) div 10 * 10,
-    PyEventTimesReport
+    AppPython.EventTimesReport
     ]));
 
-  PyDisableEventTimes;
+  AppPython.DisableEventTimes;
   DoShowFirstStartInfo;
 
   if UiOps.NotificationEnabled then
@@ -3914,7 +3914,7 @@ begin
   Dirs[Length(Dirs)-2]:= AppDir_Py;
   Dirs[Length(Dirs)-1]:= AppDir_Py+DirectorySeparator+'sys';
 
-  Py_SetSysPath(Dirs, PathAppend);
+  AppPython.SetPath(Dirs, PathAppend);
 end;
 
 procedure TfmMain.InitPyEngine;

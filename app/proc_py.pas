@@ -16,80 +16,89 @@ uses
   PythonEngine,
   proc_globdata;
 
-procedure Py_SetSysPath(const Dirs: array of string; DoAdd: boolean);
-function Py_RunPlugin_Command(const AModule, AMethod: string; const AParams: array of string): boolean;
-function Py_RunPlugin_Event(const AModule, ACmd: string;
-  AEd: TObject; const AParams: array of string; ALazy: boolean): string;
-function Py_RunModuleFunction(const AModule, AFunc: string; AParams: array of PPyObject;const AParamNames: array of string): PPyObject;
-function Py_RunModuleFunction(const AModule, AFunc: string; AParams: array of PPyObject): PPyObject;
+type
 
-function Py_SimpleValueFromString(const S: string): PPyObject;
-function Py_SimpleValueToString(Obj: PPyObject; QuoteStrings: boolean): string;
+  { TAppPython }
+
+  TAppPython = class
+  private const
+    NamePrefix = 'xx'; //the same as in py/cudatext_reset_plugins.py
+  private
+    EventTime: QWord;
+    EventTimes: TStringList;
+    LoadedModuleCudatext: boolean;
+    LoadedLocals: TStringList;
+    LoadedModules: TStringList;
+    MainModule: PPyObject;
+    Globals: PPyObject;
+    procedure ImportCommand(const AObject, AModule: string);
+    function ImportModuleCached(const AModule: string): PPyObject;
+    function IsLoadedLocal(const S: string): boolean;
+    function MethodEval(const AObject, AMethod, AParams: string): PPyObject;
+    function MethodEvalEx(const AObject, AMethod, AParams: string): string;
+    function StrArrayToString(const AParams: array of string): string;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    function Eval(const Command: string; UseFileMode: boolean=false): PPyObject;
+    procedure Exec(const Command: string);
+    function RunCommand(const AModule, AMethod: string; const AParams: array of string): boolean;
+    function RunEvent(const AModule, ACmd: string;
+      AEd: TObject; const AParams: array of string; ALazy: boolean): string;
+    function RunModuleFunction(const AModule, AFunc: string; AParams: array of PPyObject; const AParamNames: array of string): PPyObject;
+    function RunModuleFunction(const AModule, AFunc: string; AParams: array of PPyObject): PPyObject;
+
+    function SimpleValueFromString(const S: string): PPyObject;
+    function SimpleValueToString(Obj: PPyObject; QuoteStrings: boolean): string;
+
+    procedure SetPath(const Dirs: array of string; DoAdd: boolean);
+    procedure ClearCache;
+    procedure DisableEventTimes;
+    function EventTimesReport: string;
+  end;
 
 const
   cPyTrue = 'True';
   cPyFalse = 'False';
   cPyNone = 'None';
 
-procedure PyClearLoadedModuleLists;
-procedure PyDisableEventTimes;
-function PyEventTimesReport: string;
-
-function PythonEval(const Command: string; UseFileMode: boolean=false): PPyObject;
-procedure PythonExec(const Command: string);
-
 var
+  AppPython: TAppPython = nil;
   AppPyEngine: TPythonEngine = nil;
   AppPyInited: boolean = false;
 
 implementation
 
-var
-  _EventTime: QWord = 0;
-  _EventTimes: TStringList;
-
-var
-  _LoadedModuleCudatext: boolean = false;
-  _LoadedLocals: TStringList = nil;
-  _LoadedModules: TStringList = nil;
-
-var
-  _MainModule: PPyObject = nil;
-  //_Locals: PPyObject = nil;
-  _Globals: PPyObject = nil;
-
-const
-  _LoadedPrefix = 'xx'; //the same as in py/cudatext_reset_plugins.py
-
-function _IsLoadedLocal(const S: string): boolean; inline;
+function TAppPython.IsLoadedLocal(const S: string): boolean; inline;
 begin
-  Result:= _LoadedLocals.IndexOf(S)>=0;
+  Result:= LoadedLocals.IndexOf(S)>=0;
 end;
 
-procedure PyDisableEventTimes;
+procedure TAppPython.DisableEventTimes;
 begin
-  FreeAndNil(_EventTimes);
+  FreeAndNil(EventTimes);
 end;
 
-function PyEventTimesReport: string;
+function TAppPython.EventTimesReport: string;
 var
   i: integer;
   tick: PtrInt;
 begin
-  Result:= IntToStr(_EventTime div 10 * 10)+'ms (';
-  for i:= 0 to _EventTimes.Count-1 do
+  Result:= IntToStr(EventTime div 10 * 10)+'ms (';
+  for i:= 0 to EventTimes.Count-1 do
   begin
-    tick:= PtrInt(_EventTimes.Objects[i]);
+    tick:= PtrInt(EventTimes.Objects[i]);
     if i>0 then
       Result+= ', ';
     Result+=
-      Copy(_EventTimes[i], 6, MaxInt)+' '+
+      Copy(EventTimes[i], 6, MaxInt)+' '+
       IntToStr(tick)+'ms';
   end;
   Result+= ')';
 end;
 
-function _StrArrayToString(const AParams: array of string): string;
+function TAppPython.StrArrayToString(const AParams: array of string): string;
 var
   i: integer;
 begin
@@ -101,7 +110,7 @@ begin
 end;
 
 
-function PythonEval(const Command: string; UseFileMode: boolean=false): PPyObject;
+function TAppPython.Eval(const Command: string; UseFileMode: boolean=false): PPyObject;
 var
   Mode: integer;
 begin
@@ -118,20 +127,20 @@ begin
     Traceback.Clear;
     CheckError(False);
 
-    if _MainModule=nil then
+    if MainModule=nil then
     begin
-      _MainModule:= GetMainModule;
-      if _MainModule=nil then
+      MainModule:= GetMainModule;
+      if MainModule=nil then
         raise EPythonError.Create('Python: can''t create __main__');
       //if _Locals=nil then
-      //  _Locals:= PyModule_GetDict(_MainModule);
-      if _Globals=nil then
-        _Globals:= PyModule_GetDict(_MainModule);
+      //  _Locals:= PyModule_GetDict(MainModule);
+      if Globals=nil then
+        Globals:= PyModule_GetDict(MainModule);
     end;
 
     try
       //PythonEngine used PChar(CleanString(Command)) - is it needed?
-      Result := PyRun_String(PChar(Command), Mode, _Globals, _Globals{_Locals});
+      Result := PyRun_String(PChar(Command), Mode, Globals, Globals{_Locals});
       if Result = nil then
         CheckError(False);
       Py_FlushLine;
@@ -145,25 +154,25 @@ begin
   end;
 end;
 
-procedure PythonExec(const Command: string);
+procedure TAppPython.Exec(const Command: string);
 begin
   if not AppPyInited then exit;
   with AppPyEngine do
-    Py_XDECREF(PythonEval(Command, true));
+    Py_XDECREF(Eval(Command, true));
 end;
 
-function _MethodEval(const AObject, AMethod, AParams: string): PPyObject;
+function TAppPython.MethodEval(const AObject, AMethod, AParams: string): PPyObject;
 begin
-  Result:= PythonEval( Format('%s.%s(%s)', [AObject, AMethod, AParams]) );
+  Result:= Eval( Format('%s.%s(%s)', [AObject, AMethod, AParams]) );
 end;
 
-function _MethodEvalEx(const AObject, AMethod, AParams: string): string;
+function TAppPython.MethodEvalEx(const AObject, AMethod, AParams: string): string;
 var
   Obj: PPyObject;
 begin
   with AppPyEngine do
   begin
-    Obj:= _MethodEval(AObject, AMethod, AParams);
+    Obj:= MethodEval(AObject, AMethod, AParams);
     if Assigned(Obj) then
     begin
       Result:= PyObjectAsString(Obj);
@@ -175,31 +184,31 @@ begin
 end;
 
 
-procedure _ImportCommand(const AObject, AModule: string);
+procedure TAppPython.ImportCommand(const AObject, AModule: string);
 begin
-  PythonExec(Format('import %s;%s=%s.Command()', [AModule, AObject, AModule]));
+  Exec(Format('import %s;%s=%s.Command()', [AModule, AObject, AModule]));
 end;
 
-function Py_RunPlugin_Command(const AModule, AMethod: string;
+function TAppPython.RunCommand(const AModule, AMethod: string;
   const AParams: array of string): boolean;
 var
   SObj: string;
   Obj: PPyObject;
 begin
-  SObj:= _LoadedPrefix+AModule;
+  SObj:= NamePrefix+AModule;
 
-  if not _IsLoadedLocal(SObj) then
+  if not IsLoadedLocal(SObj) then
   begin
     if UiOps.PyInitLog then
       MsgLogConsole('Init: '+AModule);
     try
-      _ImportCommand(SObj, AModule);
-      _LoadedLocals.Add(SObj);
+      ImportCommand(SObj, AModule);
+      LoadedLocals.Add(SObj);
     except
     end;
   end;
 
-  Obj:= _MethodEval(SObj, AMethod, _StrArrayToString(AParams));
+  Obj:= MethodEval(SObj, AMethod, StrArrayToString(AParams));
   if Assigned(Obj) then
     with AppPyEngine do
     begin
@@ -208,7 +217,7 @@ begin
     end;
 end;
 
-function Py_RunPlugin_Event(const AModule, ACmd: string;
+function TAppPython.RunEvent(const AModule, ACmd: string;
   AEd: TObject; const AParams: array of string;
   ALazy: boolean): string;
 var
@@ -219,7 +228,7 @@ var
 begin
   Result:= '';
 
-  if Assigned(_EventTimes) then
+  if Assigned(EventTimes) then
     tick:= GetTickCount64;
 
   if AEd=nil then
@@ -230,67 +239,67 @@ begin
   for i:= 0 to Length(AParams)-1 do
     SParams:= SParams + ',' + AParams[i];
 
-  SObj:= _LoadedPrefix+AModule;
+  SObj:= NamePrefix+AModule;
 
-  if not _LoadedModuleCudatext then
+  if not LoadedModuleCudatext then
   begin
-    PythonExec('import cudatext');
-    _LoadedModuleCudatext:= true;
+    Exec('import cudatext');
+    LoadedModuleCudatext:= true;
   end;
 
   if not ALazy then
   begin
-    if not _IsLoadedLocal(SObj) then
+    if not IsLoadedLocal(SObj) then
     begin
       if UiOps.PyInitLog then
         MsgLogConsole('Init: '+AModule);
       try
-        _ImportCommand(SObj, AModule);
-        _LoadedLocals.Add(SObj);
+        ImportCommand(SObj, AModule);
+        LoadedLocals.Add(SObj);
       except
       end;
     end;
 
-    Result:= _MethodEvalEx(SObj, ACmd, SParams);
+    Result:= MethodEvalEx(SObj, ACmd, SParams);
   end
   else
   //lazy event: run only of SObj already created
-  if _IsLoadedLocal(SObj) then
-    Result:= _MethodEvalEx(SObj, ACmd, SParams);
+  if IsLoadedLocal(SObj) then
+    Result:= MethodEvalEx(SObj, ACmd, SParams);
 
-  if Assigned(_EventTimes) then
+  if Assigned(EventTimes) then
   begin
     tick:= GetTickCount64-tick;
     if tick>0 then
     begin
-      Inc(_EventTime, tick);
-      i:= _EventTimes.IndexOf(AModule);
+      Inc(EventTime, tick);
+      i:= EventTimes.IndexOf(AModule);
       if i>=0 then
-        _EventTimes.Objects[i]:= TObject(PtrInt(_EventTimes.Objects[i])+tick)
+        EventTimes.Objects[i]:= TObject(PtrInt(EventTimes.Objects[i])+tick)
       else
-        _EventTimes.AddObject(AModule, TObject(tick));
+        EventTimes.AddObject(AModule, TObject(tick));
     end;
   end;
 end;
 
 
-function _ImportModuleCached(const AModule: string): PPyObject;
+function TAppPython.ImportModuleCached(const AModule: string): PPyObject;
 var
   N: integer;
 begin
-  N:= _LoadedModules.IndexOf(AModule);
+  N:= LoadedModules.IndexOf(AModule);
   if N>=0 then
-    Result:= PPyObject(_LoadedModules.Objects[N])
+    Result:= PPyObject(LoadedModules.Objects[N])
   else
   begin
     if UiOps.PyInitLog then
       MsgLogConsole('Init: '+AModule);
     Result:= AppPyEngine.PyImport_ImportModule(PChar(AModule));
-    _LoadedModules.AddObject(AModule, TObject(Result))
+    LoadedModules.AddObject(AModule, TObject(Result))
   end;
 end;
 
-function Py_RunModuleFunction(const AModule,AFunc:string;AParams:array of PPyObject;const AParamNames:array of string):PPyObject;
+function TAppPython.RunModuleFunction(const AModule,AFunc:string;AParams:array of PPyObject;const AParamNames:array of string):PPyObject;
 var
   Module,ModuleDic,Func,Params,ParamsDic:PPyObject;
   i,UnnamedCount:integer;
@@ -299,7 +308,7 @@ begin
   if AppPyEngine=nil then exit;
   with AppPyEngine do
   begin
-    Module:=_ImportModuleCached(AModule);
+    Module:=ImportModuleCached(AModule);
     if Assigned(Module) then
     try
       ModuleDic:=PyModule_GetDict(Module);
@@ -335,7 +344,7 @@ begin
   end;
 end;
 
-function Py_RunModuleFunction(const AModule, AFunc: string; AParams: array of PPyObject): PPyObject;
+function TAppPython.RunModuleFunction(const AModule, AFunc: string; AParams: array of PPyObject): PPyObject;
 var
   Module,ModuleDic,Func,Params:PPyObject;
   i:integer;
@@ -344,7 +353,7 @@ begin
   if AppPyEngine=nil then exit;
   with AppPyEngine do
   begin
-    Module:=_ImportModuleCached(AModule);
+    Module:=ImportModuleCached(AModule);
     if Assigned(Module) then
     try
       ModuleDic:=PyModule_GetDict(Module);
@@ -371,7 +380,7 @@ begin
 end;
 
 
-function Py_SimpleValueFromString(const S: string): PPyObject;
+function TAppPython.SimpleValueFromString(const S: string): PPyObject;
 var
   Num: Int64;
 begin
@@ -396,7 +405,7 @@ begin
   end;
 end;
 
-function Py_SimpleValueToString(Obj: PPyObject; QuoteStrings: boolean): string;
+function TAppPython.SimpleValueToString(Obj: PPyObject; QuoteStrings: boolean): string;
 // the same as TPythonEngine.PyObjectAsString but also quotes str values
 var
   s: PPyObject;
@@ -424,26 +433,26 @@ begin
   end;
 end;
 
-procedure PyClearLoadedModuleLists;
+procedure TAppPython.ClearCache;
 var
   i: integer;
   Obj: PPyObject;
 begin
-  _LoadedModuleCudatext:= false;
+  LoadedModuleCudatext:= false;
 
-  _LoadedLocals.Clear;
+  LoadedLocals.Clear;
 
   with AppPyEngine do
-    for i:= 0 to _LoadedModules.Count-1 do
+    for i:= 0 to LoadedModules.Count-1 do
     begin
-      Obj:= PPyObject(_LoadedModules.Objects[i]);
+      Obj:= PPyObject(LoadedModules.Objects[i]);
       Py_XDECREF(Obj);
     end;
-  _LoadedModules.Clear;
+  LoadedModules.Clear;
 end;
 
 
-procedure Py_SetSysPath(const Dirs: array of string; DoAdd: boolean);
+procedure TAppPython.SetPath(const Dirs: array of string; DoAdd: boolean);
 var
   Str, Sign: string;
   i: Integer;
@@ -457,22 +466,36 @@ begin
     Sign:= '=';
   Str:= Format('sys.path %s [%s]', [Sign, Str]);
 
-  PythonExec(Str+';print("Python %d.%d"%sys.version_info[:2])');
+  Exec(Str+';print("Python %d.%d"%sys.version_info[:2])');
+end;
+
+{ TAppPython }
+
+constructor TAppPython.Create;
+begin
+  inherited Create;
+  LoadedLocals:= TStringList.Create;
+  LoadedModules:= TStringList.Create;
+  EventTimes:= TStringList.Create;
+end;
+
+destructor TAppPython.Destroy;
+begin
+  if Assigned(EventTimes) then
+    FreeAndNil(EventTimes);
+  FreeAndNil(LoadedModules);
+  FreeAndNil(LoadedLocals);
+  inherited Destroy;
 end;
 
 
 initialization
 
-  _LoadedLocals:= TStringList.Create;
-  _LoadedModules:= TStringList.Create;
-  _EventTimes:= TStringList.Create;
+  AppPython:= TAppPython.Create;
 
 finalization
 
-  if Assigned(_EventTimes) then
-    FreeAndNil(_EventTimes);
-  FreeAndNil(_LoadedModules);
-  FreeAndNil(_LoadedLocals);
+  FreeAndNil(AppPython);
 
 end.
 

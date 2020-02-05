@@ -26,7 +26,7 @@ begin
   Ed.Strings.BeginUndoGroup;
   PyCommandRunning:= true;
   try
-    Py_RunPlugin_Command(AModule, AMethod, AParams);
+    AppPython.RunCommand(AModule, AMethod, AParams);
   finally
     PyCommandRunning:= false;
     if not PyEditorMaybeDeleted then
@@ -123,7 +123,7 @@ begin
         PyCommandRunning:= true;
         try
           bLazy:= (AEvent=cEventOnExit) or Plugin.ItemEventsLazy[AEvent]; //on_exit must be lazy
-          Result:= Py_RunPlugin_Event(
+          Result:= AppPython.RunEvent(
               Plugin.ItemModule,
               cAppPyEvent[AEvent],
               AEd,
@@ -193,7 +193,7 @@ begin
       ParamFilename:= PyString_FromString(PChar(CurFilename));
 
       try
-        TreeData:= Py_RunModuleFunction(Helper.ItemModule, Helper.ItemProc, [ParamFilename, ParamText]);
+        TreeData:= AppPython.RunModuleFunction(Helper.ItemModule, Helper.ItemProc, [ParamFilename, ParamText]);
         try
           //refresh CodeTree only if TreeData is list
           if PyObject_TypeCheck(TreeData, PyList_Type) then
@@ -239,7 +239,7 @@ begin
   for i:= 0 to Length(AParams)-1 do
   begin
     FParams[i]:= AParams[i];
-    FParamsStr[i]:= Py_SimpleValueToString(AParams[i], true);
+    FParamsStr[i]:= AppPython.SimpleValueToString(AParams[i], true);
   end;
   SetLength(FParamNames, Length(AParamNames));
   for i:= 0 to Length(AParamNames)-1 do
@@ -249,7 +249,7 @@ begin
   begin
     SModule:= Parts[1].Str;
     SFunc:= Parts[2].Str;
-    Result:= Py_RunPlugin_Command(SModule, SFunc, FParamsStr);
+    Result:= AppPython.RunCommand(SModule, SFunc, FParamsStr);
     exit;
   end;
 
@@ -267,7 +267,7 @@ begin
       FParamNames[Length(FParamNames)-1]:= 'info';
     end;
 
-    Result:= Py_RunPlugin_Command(SModule, SFunc, FParamsStr);
+    Result:= AppPython.RunCommand(SModule, SFunc, FParamsStr);
     exit;
   end;
 
@@ -281,12 +281,12 @@ begin
     begin
       // SInfo may have simple type values: string, int, bool...
       SetLength(FParams, Length(FParams)+1);
-      FParams[Length(FParams)-1]:= Py_SimpleValueFromString(SInfo);
+      FParams[Length(FParams)-1]:= AppPython.SimpleValueFromString(SInfo);
       SetLength(FParamNames, Length(FParamNames)+1);
       FParamNames[Length(FParamNames)-1]:= 'info';
     end;
 
-    Obj:= Py_RunModuleFunction(SModule, SFunc, FParams, FParamNames);
+    Obj:= AppPython.RunModuleFunction(SModule, SFunc, FParams, FParamNames);
     if Assigned(Obj) then
       with AppPyEngine do
       begin
@@ -302,7 +302,7 @@ begin
     SModule:= Parts[1].Str;
     SFunc:= Parts[2].Str;
     SParam:= Parts[4].Str;
-    Result:= Py_RunPlugin_Command(SModule, SFunc, [SParam]);
+    Result:= AppPython.RunCommand(SModule, SFunc, [SParam]);
     MsgLogConsole(Format(msgCallbackDeprecated, [ACallback]));
     exit;
   end;
@@ -328,12 +328,12 @@ begin
     Cmd:= Format('_reset_plugins(r"%s")', [AppDir_Py]);
     L.LoadFromFile(fn);
     L.Add(Cmd);
-    PythonExec(L.Text);
+    AppPython.Exec(L.Text);
   finally
     FreeAndNil(L)
   end;
 
-  PyClearLoadedModuleLists;
+  AppPython.ClearCache;
 
   //https://github.com/Alexey-T/CudaText/issues/1253
   DoPyEvent(nil, cEventOnStart, []);
