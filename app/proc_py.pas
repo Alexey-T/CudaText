@@ -144,14 +144,14 @@ var
   Mode: integer;
 begin
   Result := nil;
-  if not AppPython.Inited then exit;
+  if not FInited then exit;
 
   if UseFileMode then
     Mode:= file_input
   else
     Mode:= eval_input;
 
-  with AppPython.Engine do
+  with FEngine do
   begin
     Traceback.Clear;
     CheckError(False);
@@ -185,8 +185,8 @@ end;
 
 procedure TAppPython.Exec(const Command: string);
 begin
-  if not AppPython.Inited then exit;
-  with AppPython.Engine do
+  if not FInited then exit;
+  with FEngine do
     Py_XDECREF(Eval(Command, true));
 end;
 
@@ -199,7 +199,7 @@ function TAppPython.MethodEvalEx(const AObject, AMethod, AParams: string): strin
 var
   Obj: PPyObject;
 begin
-  with AppPython.Engine do
+  with FEngine do
   begin
     Obj:= MethodEval(AObject, AMethod, AParams);
     if Assigned(Obj) then
@@ -239,7 +239,7 @@ begin
 
   Obj:= MethodEval(SObj, AMethod, StrArrayToString(AParams));
   if Assigned(Obj) then
-    with AppPython.Engine do
+    with FEngine do
     begin
       Result:= not PyBool_Check(Obj) or (PyObject_IsTrue(Obj)=1);
       Py_XDECREF(Obj);
@@ -323,7 +323,7 @@ begin
   begin
     if UiOps.PyInitLog then
       MsgLogConsole('Init: '+AModule);
-    Result:= AppPython.Engine.PyImport_ImportModule(PChar(AModule));
+    Result:= FEngine.PyImport_ImportModule(PChar(AModule));
     LoadedModules.AddObject(AModule, TObject(Result))
   end;
 end;
@@ -334,8 +334,8 @@ var
   i,UnnamedCount:integer;
 begin
   Result:=nil;
-  if AppPython.Engine=nil then exit;
-  with AppPython.Engine do
+  if FEngine=nil then exit;
+  with FEngine do
   begin
     Module:=ImportModuleCached(AModule);
     if Assigned(Module) then
@@ -379,8 +379,8 @@ var
   i:integer;
 begin
   Result:=nil;
-  if AppPython.Engine=nil then exit;
-  with AppPython.Engine do
+  if FEngine=nil then exit;
+  with FEngine do
   begin
     Module:=ImportModuleCached(AModule);
     if Assigned(Module) then
@@ -413,7 +413,7 @@ function TAppPython.ValueFromString(const S: string): PPyObject;
 var
   Num: Int64;
 begin
-  with AppPython.Engine do
+  with FEngine do
   begin
     if S='' then
       Result:= ReturnNone
@@ -444,7 +444,7 @@ begin
   if not Assigned(Obj) then
     Exit;
 
-  with AppPython.Engine do
+  with FEngine do
   begin
     if PyUnicode_Check(Obj) then
     begin
@@ -471,7 +471,7 @@ begin
 
   LoadedLocals.Clear;
 
-  with AppPython.Engine do
+  with FEngine do
     for i:= 0 to LoadedModules.Count-1 do
     begin
       Obj:= PPyObject(LoadedModules.Objects[i]);
