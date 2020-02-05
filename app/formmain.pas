@@ -3895,8 +3895,7 @@ var
   {$endif}
   PathAppend: boolean;
 begin
-  AppPyEngine:= GetPythonEngine;
-  AppPyInited:= PythonOK;
+  AppPython.Initialize;
 
   {$ifdef windows}
   PathAppend:= false;
@@ -3946,7 +3945,7 @@ begin
   PythonEng.DllName:= ExtractFileName(UiOps.PyLibrary);
   PythonEng.LoadDll;
 
-  if not AppPyInited then
+  if not AppPython.Inited then
   begin
     FConsoleMustShow:= true;
     MsgLogConsole(msgCannotInitPython1);
@@ -5403,7 +5402,7 @@ end;
 
 procedure TfmMain.PopupToolbarCommentOnPopup(Sender: TObject);
 begin
-  if not AppPyInited then exit;
+  if not AppPython.Inited then exit;
 
   if mnuToolbarCommentLineAdd=nil then
   begin
@@ -5437,7 +5436,7 @@ end;
 
 procedure TfmMain.PopupToolbarSortOnPopup(Sender: TObject);
 begin
-  if not AppPyInited then exit;
+  if not AppPython.Inited then exit;
 
   if mnuToolbarSortDialog=nil then
   begin
@@ -5948,7 +5947,7 @@ begin
     STagString:= '';
   end;
 
-  with AppPyEngine do
+  with AppPython.Engine do
   begin
     if NCommand>0 then
       CmdObject:= PyInt_FromLong(NCommand)
@@ -5991,7 +5990,7 @@ begin
   //this updates PopupText items tags
   PopupText.OnPopup(nil);
 
-  with AppPyEngine do
+  with AppPython.Engine do
   begin
     mi:= Py_MenuItemFromId(AMenuId);
     if not Assigned(mi) then
@@ -6560,7 +6559,7 @@ begin
     NodeParent:= nil;
     NLevelPrev:= 1;
 
-    with AppPyEngine do
+    with AppPython.Engine do
     begin
       NCount:= PyList_Size(Data);
       if NCount<=0 then exit;

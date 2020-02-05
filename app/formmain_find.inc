@@ -772,7 +772,7 @@ var
   bCase, bWord, bRegex, bCfm,
   bInSel, bWrap, bMulLine, oTokens: PPyObject;
 begin
-  with AppPyEngine do
+  with AppPython.Engine do
   begin
     if not Assigned(FFinder) then
       exit(ReturnNone);

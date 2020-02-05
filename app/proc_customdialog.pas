@@ -2195,7 +2195,7 @@ end;
 
 function DoForm_GetPropsAsStringDict(F: TFormDummy): PPyObject;
 begin
-  with AppPyEngine do
+  with AppPython.Engine do
   begin
     Result:= Py_BuildValue('{sssssisisisisisisOsOsOsOsO}',
       'cap', PChar(F.Caption),
@@ -2251,7 +2251,7 @@ begin
     nTabOrder:= TWinControl(C).TabOrder;
   end;
 
-  with AppPyEngine do
+  with AppPython.Engine do
   begin
     //is it docked form?
     if C.Tag=0 then

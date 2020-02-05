@@ -17,13 +17,14 @@ uses
   proc_globdata;
 
 type
-
   { TAppPython }
 
   TAppPython = class
   private const
     NamePrefix = 'xx'; //the same as in py/cudatext_reset_plugins.py
   private
+    FInited: boolean;
+    FEngine: TPythonEngine;
     EventTime: QWord;
     EventTimes: TStringList;
     LoadedLocals: TStringList;
@@ -40,6 +41,10 @@ type
   public
     constructor Create;
     destructor Destroy; override;
+
+    procedure Initialize;
+    property Inited: boolean read FInited;
+    property Engine: TPythonEngine read FEngine;
 
     function Eval(const Command: string; UseFileMode: boolean=false): PPyObject;
     procedure Exec(const Command: string);
@@ -64,9 +69,7 @@ const
   cPyNone = 'None';
 
 var
-  AppPython: TAppPython = nil;
-  AppPyEngine: TPythonEngine = nil;
-  AppPyInited: boolean = false;
+  AppPython: TAppPython;
 
 implementation
 
@@ -87,6 +90,13 @@ begin
   FreeAndNil(LoadedModules);
   FreeAndNil(LoadedLocals);
   inherited Destroy;
+end;
+
+procedure TAppPython.Initialize;
+begin
+  FInited:= PythonOK;
+  if FInited then
+    FEngine:= GetPythonEngine;
 end;
 
 function TAppPython.IsLoadedLocal(const S: string): boolean; inline;
@@ -134,14 +144,14 @@ var
   Mode: integer;
 begin
   Result := nil;
-  if not AppPyInited then exit;
+  if not AppPython.Inited then exit;
 
   if UseFileMode then
     Mode:= file_input
   else
     Mode:= eval_input;
 
-  with AppPyEngine do
+  with AppPython.Engine do
   begin
     Traceback.Clear;
     CheckError(False);
@@ -175,8 +185,8 @@ end;
 
 procedure TAppPython.Exec(const Command: string);
 begin
-  if not AppPyInited then exit;
-  with AppPyEngine do
+  if not AppPython.Inited then exit;
+  with AppPython.Engine do
     Py_XDECREF(Eval(Command, true));
 end;
 
@@ -189,7 +199,7 @@ function TAppPython.MethodEvalEx(const AObject, AMethod, AParams: string): strin
 var
   Obj: PPyObject;
 begin
-  with AppPyEngine do
+  with AppPython.Engine do
   begin
     Obj:= MethodEval(AObject, AMethod, AParams);
     if Assigned(Obj) then
@@ -229,7 +239,7 @@ begin
 
   Obj:= MethodEval(SObj, AMethod, StrArrayToString(AParams));
   if Assigned(Obj) then
-    with AppPyEngine do
+    with AppPython.Engine do
     begin
       Result:= not PyBool_Check(Obj) or (PyObject_IsTrue(Obj)=1);
       Py_XDECREF(Obj);
@@ -313,7 +323,7 @@ begin
   begin
     if UiOps.PyInitLog then
       MsgLogConsole('Init: '+AModule);
-    Result:= AppPyEngine.PyImport_ImportModule(PChar(AModule));
+    Result:= AppPython.Engine.PyImport_ImportModule(PChar(AModule));
     LoadedModules.AddObject(AModule, TObject(Result))
   end;
 end;
@@ -324,8 +334,8 @@ var
   i,UnnamedCount:integer;
 begin
   Result:=nil;
-  if AppPyEngine=nil then exit;
-  with AppPyEngine do
+  if AppPython.Engine=nil then exit;
+  with AppPython.Engine do
   begin
     Module:=ImportModuleCached(AModule);
     if Assigned(Module) then
@@ -369,8 +379,8 @@ var
   i:integer;
 begin
   Result:=nil;
-  if AppPyEngine=nil then exit;
-  with AppPyEngine do
+  if AppPython.Engine=nil then exit;
+  with AppPython.Engine do
   begin
     Module:=ImportModuleCached(AModule);
     if Assigned(Module) then
@@ -403,7 +413,7 @@ function TAppPython.ValueFromString(const S: string): PPyObject;
 var
   Num: Int64;
 begin
-  with AppPyEngine do
+  with AppPython.Engine do
   begin
     if S='' then
       Result:= ReturnNone
@@ -434,7 +444,7 @@ begin
   if not Assigned(Obj) then
     Exit;
 
-  with AppPyEngine do
+  with AppPython.Engine do
   begin
     if PyUnicode_Check(Obj) then
     begin
@@ -461,7 +471,7 @@ begin
 
   LoadedLocals.Clear;
 
-  with AppPyEngine do
+  with AppPython.Engine do
     for i:= 0 to LoadedModules.Count-1 do
     begin
       Obj:= PPyObject(LoadedModules.Objects[i]);

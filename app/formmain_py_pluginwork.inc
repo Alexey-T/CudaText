@@ -278,7 +278,7 @@ var
   LangFile: TIniFile;
   i: integer;
 begin
-  if not AppPyInited then exit;
+  if not AppPython.Inited then exit;
   if mnuPlugins=nil then exit;
 
   LastModule:= '';

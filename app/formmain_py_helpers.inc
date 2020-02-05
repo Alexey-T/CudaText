@@ -7,7 +7,7 @@ var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
 begin
-  if not AppPyInited then exit;
+  if not AppPython.Inited then exit;
   PyLastCommandModule:= AModule;
   PyLastCommandMethod:= AMethod;
   PyLastCommandParam:= '';
@@ -77,7 +77,7 @@ var
 begin
   //empty string result means "no handlers for event"
   Result:= '';
-  if not AppPyInited then exit;
+  if not AppPython.Inited then exit;
 
   //block all events fired in FormCreate
   if not FHandledOnShowPartly then exit;
@@ -154,7 +154,7 @@ var
 begin
   Strs:= Ed.Strings;
   Count:= Strs.Count;
-  with AppPyEngine do
+  with AppPython.Engine do
   begin
     Result:= PyList_New(Count);
     for i:= 0 to Count-1 do
@@ -176,14 +176,14 @@ var
   Helper: TAppTreeHelper;
 begin
   Result:= false;
-  if not AppPyInited then exit;
+  if not AppPython.Inited then exit;
 
   Ed:= Frame.Editor;
   CurLexer:= Frame.LexerName[Ed];
   if CurLexer='' then exit;
   CurFilename:= Frame.GetFileName(Ed);
 
-  with AppPyEngine do
+  with AppPython.Engine do
     for NHelper:= 0 to AppTreeHelpers.Count-1 do
     begin
       Helper:= TAppTreeHelper(AppTreeHelpers[NHelper]);
@@ -229,7 +229,7 @@ var
   i: integer;
 begin
   Result:= true;
-  if not AppPyInited then exit;
+  if not AppPython.Inited then exit;
 
   //avoid log error on standard ids
   if SBeginsWith(ACallback, 'top-') then exit;
@@ -288,7 +288,7 @@ begin
 
     Obj:= AppPython.RunModuleFunction(SModule, SFunc, FParams, FParamNames);
     if Assigned(Obj) then
-      with AppPyEngine do
+      with AppPython.Engine do
       begin
         Result:= not PyBool_Check(Obj) or (PyObject_IsTrue(Obj)=1);
         Py_DECREF(Obj);
@@ -372,7 +372,7 @@ begin
 
   SSplitByChar(FListTimers[N], '|', SCallback, STag);
 
-  with AppPyEngine do
+  with AppPython.Engine do
     Params[0]:= PyLong_FromLongLong(StrToInt64Def(STag, 0));
   ParamNames[0]:= 'tag';
 
