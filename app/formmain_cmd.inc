@@ -412,7 +412,7 @@ begin
         if Assigned(Frame) then
         begin
           Frame.DoMacroStop(false);
-          DoOnMacro(Frame.MacroString);
+          DoOnMacro(Frame, Frame.MacroString);
           MsgStatus('');
         end;
       end;

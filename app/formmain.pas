@@ -785,7 +785,7 @@ type
     procedure DoApplyThemeToGroups(G: TATGroups);
     procedure DoClearRecentFileHistory;
     function DoOnConsoleNav(const Str: string): boolean;
-    function DoOnMacro(const Str: string): boolean;
+    function DoOnMacro(Frame: TEditorFrame; const Str: string): boolean;
     function DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean): boolean;
     function DoDialogMenuApi(const AText, ACaption: string; AMultiline: boolean;
       AInitIndex: integer; ANoFuzzy, ANoFullFilter, AShowCentered: boolean): integer;
@@ -5825,9 +5825,9 @@ begin
     [SStringToPythonString(Str)]).Val <> evrFalse;
 end;
 
-function TfmMain.DoOnMacro(const Str: string): boolean;
+function TfmMain.DoOnMacro(Frame: TEditorFrame; const Str: string): boolean;
 begin
-  Result:= DoPyEvent(CurrentEditor, cEventOnMacro,
+  Result:= DoPyEvent(Frame.Editor, cEventOnMacro,
     [SStringToPythonString(Str)]).Val <> evrFalse;
 end;
 
