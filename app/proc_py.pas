@@ -206,18 +206,18 @@ begin
     Obj:= MethodEval(AObject, AMethod, AParams);
     if Assigned(Obj) then
     try
-      if PyUnicode_Check(Obj) then
-      begin
-        Result.Val:= evrString;
-        Result.Str:= PyUnicode_AsWideString(Obj);
-      end
-      else
-      if PyBool_Check(Obj) then
+      if Obj^.ob_type=PyBool_Type then
       begin
         if PyObject_IsTrue(Obj)=1 then
           Result.Val:= evrTrue
         else
           Result.Val:= evrFalse;
+      end
+      else
+      if Obj^.ob_type=PyUnicode_Type then
+      begin
+        Result.Val:= evrString;
+        Result.Str:= PyUnicode_AsWideString(Obj);
       end;
     finally
       Py_XDECREF(Obj);
