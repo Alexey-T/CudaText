@@ -208,7 +208,8 @@ begin
     try
       if Obj^.ob_type=PyBool_Type then
       begin
-        if PyObject_IsTrue(Obj)=1 then
+        //if PyObject_IsTrue(Obj)=1 then
+        if PPyIntObject(Obj)^.ob_ival>0 then
           Result.Val:= evrTrue
         else
           Result.Val:= evrFalse;
@@ -254,7 +255,8 @@ begin
   if Assigned(Obj) then
     with FEngine do
     begin
-      Result:= not PyBool_Check(Obj) or (PyObject_IsTrue(Obj)=1);
+      //Result:= not PyBool_Check(Obj) or (PyObject_IsTrue(Obj)=1);
+      Result:= (Obj^.ob_type<>PyBool_Type) or (PPyIntObject(Obj)^.ob_ival>0);
       Py_XDECREF(Obj);
     end;
 end;
