@@ -2510,10 +2510,10 @@ begin
   MsgLogConsole(Format(
     'Startup: %dms, plugins: %s', [
     (NTickShowEnd-NTickInitial) div 10 * 10,
-    AppPython.EventTimesReport
+    AppPython.GetTimingReport
     ]));
 
-  AppPython.DisableEventTimes;
+  AppPython.DisableTiming;
   DoShowFirstStartInfo;
 
   if UiOps.NotificationEnabled then

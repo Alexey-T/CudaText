@@ -49,13 +49,13 @@ type
     function RunModuleFunction(const AModule, AFunc: string; AParams: array of PPyObject; const AParamNames: array of string): PPyObject;
     function RunModuleFunction(const AModule, AFunc: string; AParams: array of PPyObject): PPyObject;
 
-    function SimpleValueFromString(const S: string): PPyObject;
-    function SimpleValueToString(Obj: PPyObject; QuoteStrings: boolean): string;
+    function ValueFromString(const S: string): PPyObject;
+    function ValueToString(Obj: PPyObject; QuoteStrings: boolean): string;
 
     procedure SetPath(const Dirs: array of string; DoAdd: boolean);
     procedure ClearCache;
-    procedure DisableEventTimes;
-    function EventTimesReport: string;
+    procedure DisableTiming;
+    function GetTimingReport: string;
   end;
 
 const
@@ -75,12 +75,12 @@ begin
   Result:= LoadedLocals.IndexOf(S)>=0;
 end;
 
-procedure TAppPython.DisableEventTimes;
+procedure TAppPython.DisableTiming;
 begin
   FreeAndNil(EventTimes);
 end;
 
-function TAppPython.EventTimesReport: string;
+function TAppPython.GetTimingReport: string;
 var
   i: integer;
   tick: PtrInt;
@@ -380,7 +380,7 @@ begin
 end;
 
 
-function TAppPython.SimpleValueFromString(const S: string): PPyObject;
+function TAppPython.ValueFromString(const S: string): PPyObject;
 var
   Num: Int64;
 begin
@@ -405,7 +405,7 @@ begin
   end;
 end;
 
-function TAppPython.SimpleValueToString(Obj: PPyObject; QuoteStrings: boolean): string;
+function TAppPython.ValueToString(Obj: PPyObject; QuoteStrings: boolean): string;
 // the same as TPythonEngine.PyObjectAsString but also quotes str values
 var
   s: PPyObject;

@@ -239,7 +239,7 @@ begin
   for i:= 0 to Length(AParams)-1 do
   begin
     FParams[i]:= AParams[i];
-    FParamsStr[i]:= AppPython.SimpleValueToString(AParams[i], true);
+    FParamsStr[i]:= AppPython.ValueToString(AParams[i], true);
   end;
   SetLength(FParamNames, Length(AParamNames));
   for i:= 0 to Length(AParamNames)-1 do
@@ -281,7 +281,7 @@ begin
     begin
       // SInfo may have simple type values: string, int, bool...
       SetLength(FParams, Length(FParams)+1);
-      FParams[Length(FParams)-1]:= AppPython.SimpleValueFromString(SInfo);
+      FParams[Length(FParams)-1]:= AppPython.ValueFromString(SInfo);
       SetLength(FParamNames, Length(FParamNames)+1);
       FParamNames[Length(FParamNames)-1]:= 'info';
     end;
