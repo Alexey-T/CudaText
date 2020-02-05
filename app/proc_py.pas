@@ -186,6 +186,7 @@ begin
   if not FInited then exit;
   with FEngine do
     Py_XDECREF(Eval(Command, true));
+    //UseFileMode=True to allow running several statements with ";"
 end;
 
 function TAppPython.MethodEval(const AObject, AMethod, AParams: string): PPyObject;
