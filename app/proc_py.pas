@@ -26,8 +26,8 @@ type
   private
     EventTime: QWord;
     EventTimes: TStringList;
-    LoadedModuleCudatext: boolean;
     LoadedLocals: TStringList;
+    LoadedModuleCudatext: boolean;
     LoadedModules: TStringList;
     MainModule: PPyObject;
     Globals: PPyObject;
@@ -69,6 +69,25 @@ var
   AppPyInited: boolean = false;
 
 implementation
+
+{ TAppPython }
+
+constructor TAppPython.Create;
+begin
+  inherited Create;
+  LoadedLocals:= TStringList.Create;
+  LoadedModules:= TStringList.Create;
+  EventTimes:= TStringList.Create;
+end;
+
+destructor TAppPython.Destroy;
+begin
+  if Assigned(EventTimes) then
+    FreeAndNil(EventTimes);
+  FreeAndNil(LoadedModules);
+  FreeAndNil(LoadedLocals);
+  inherited Destroy;
+end;
 
 function TAppPython.IsLoadedLocal(const S: string): boolean; inline;
 begin
@@ -467,25 +486,6 @@ begin
   Str:= Format('sys.path %s [%s]', [Sign, Str]);
 
   Exec(Str+';print("Python %d.%d"%sys.version_info[:2])');
-end;
-
-{ TAppPython }
-
-constructor TAppPython.Create;
-begin
-  inherited Create;
-  LoadedLocals:= TStringList.Create;
-  LoadedModules:= TStringList.Create;
-  EventTimes:= TStringList.Create;
-end;
-
-destructor TAppPython.Destroy;
-begin
-  if Assigned(EventTimes) then
-    FreeAndNil(EventTimes);
-  FreeAndNil(LoadedModules);
-  FreeAndNil(LoadedLocals);
-  inherited Destroy;
 end;
 
 
