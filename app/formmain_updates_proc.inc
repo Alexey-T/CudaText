@@ -392,6 +392,8 @@ begin
     F.Ed2.Font.Quality:= EditorOps.OpFontQuality;
 
     DoOps_LoadOptionsLexerSpecific(F.Ed1);
+    if not F.EditorsLinked then
+      DoOps_LoadOptionsLexerSpecific(F.Ed2);
   end;
 
   if Assigned(fmFind) then fmFind.UpdateFonts;
@@ -514,6 +516,8 @@ begin
     F:= Frames[i];
     DoApplyFrameOps(F, EditorOps, false);
     DoOps_LoadOptionsLexerSpecific(F.Ed1);
+    if not F.EditorsLinked then
+      DoOps_LoadOptionsLexerSpecific(F.Ed2);
   end;
 
   UpdateStatus;
