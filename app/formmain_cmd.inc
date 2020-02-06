@@ -73,20 +73,13 @@ begin
       DoFileOpenDialog_NoPlugins;
 
     cmd_FileReopen:
-      begin
-        DoFileReopen(Ed);
-      end;
+      DoFileReopen(Ed);
 
     cmd_FileSave:
-      begin
-        DoFileSave(Ed);
-      end;
+      DoFileSave(Ed);
 
     cmd_FileSaveAs:
-      begin
-        if Assigned(Frame) then
-          DoFileSaveAs(Frame);
-      end;
+      DoFileSaveAs(Ed);
 
     cmd_FileSaveAll:
       DoFileSaveAll;

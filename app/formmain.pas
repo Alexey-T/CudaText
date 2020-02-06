@@ -797,7 +797,7 @@ type
     procedure DoFileNewMenu(Sender: TObject);
     procedure DoFileNewFrom(const fn: string);
     procedure DoFileSave(Ed: TATSynEdit);
-    procedure DoFileSaveAs(F: TEditorFrame);
+    procedure DoFileSaveAs(Ed: TATSynEdit);
     procedure DoFocusEditor(Ed: TATSynEdit);
     procedure DoSwitchTab(ANext: boolean);
     procedure DoSwitchTabSimply(ANext: boolean);
@@ -4799,16 +4799,22 @@ begin
 
   if Ed.Modified or bNoName then
   begin
-    if Frame.DoFileSave(bSaveAs, false) then
+    if Frame.DoFileSave_Ex(Ed, bSaveAs) then
       DoFileDialog_SaveDir(SaveDlg);
   end;
 end;
 
-procedure TfmMain.DoFileSaveAs(F: TEditorFrame);
+procedure TfmMain.DoFileSaveAs(Ed: TATSynEdit);
+var
+  Frame: TEditorFrame;
 begin
+  Frame:= GetEditorFrame(Ed);
+  if Frame=nil then exit;
+
   InitSaveDlg;
   DoFileDialog_PrepareDir(SaveDlg);
-  if F.DoFileSave(true, false) then
+
+  if Frame.DoFileSave_Ex(Ed, true) then
     DoFileDialog_SaveDir(SaveDlg);
 end;
 
