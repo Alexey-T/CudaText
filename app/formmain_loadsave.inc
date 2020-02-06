@@ -1144,16 +1144,17 @@ begin
   UiOps.AutocompleteTriggerChars:= '';
 end;
 
-procedure TfmMain.DoOps_LoadOptionsLexerSpecific(F: TEditorFrame);
+procedure TfmMain.DoOps_LoadOptionsLexerSpecific(Ed: TATSynEdit);
 var
-  Ed: TATSynEdit;
+  F: TEditorFrame;
   Ops: TEditorOps;
   FilenameDefault, FilenameUser, CurLexer: string;
   bExistsDefault, bExistsUser: boolean;
   TempOps: TATEditorTempOptions;
 begin
+  F:= GetEditorFrame(Ed);
   if F=nil then exit;
-  Ed:= F.Editor;
+
   DoOps_ResetLexerSpecificOptions;
 
   CurLexer:= F.LexerName[Ed];

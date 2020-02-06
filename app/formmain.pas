@@ -897,7 +897,7 @@ type
     function DoOps_SaveSession(fn_session: string): boolean;
     function DoOps_LoadSession(fn_session: string): boolean;
     procedure DoOps_LoadOptionsAndApplyAll;
-    procedure DoOps_LoadOptionsLexerSpecific(F: TEditorFrame);
+    procedure DoOps_LoadOptionsLexerSpecific(Ed: TATSynEdit);
     procedure DoOps_OpenFile_LexerSpecific;
     procedure DoOps_LoadPlugins;
     procedure DoOps_DialogFont(var OpName: string; var OpSize: integer; const AConfigStrName, AConfigStrSize: string);
@@ -5908,7 +5908,7 @@ var
 begin
   Frame:= (Sender as TComponent).Owner as TEditorFrame;
 
-  DoOps_LoadOptionsLexerSpecific(Frame); //options override
+  DoOps_LoadOptionsLexerSpecific(Frame.Editor); //options override
   DoPyEvent(Frame.Editor, cEventOnLexer, []);
   DoOps_LoadKeymap(true); //keymap override
 

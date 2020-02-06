@@ -391,7 +391,7 @@ begin
     F.Ed1.Font.Quality:= EditorOps.OpFontQuality;
     F.Ed2.Font.Quality:= EditorOps.OpFontQuality;
 
-    DoOps_LoadOptionsLexerSpecific(F);
+    DoOps_LoadOptionsLexerSpecific(F.Ed1);
   end;
 
   if Assigned(fmFind) then fmFind.UpdateFonts;
@@ -513,7 +513,7 @@ begin
   begin
     F:= Frames[i];
     DoApplyFrameOps(F, EditorOps, false);
-    DoOps_LoadOptionsLexerSpecific(F);
+    DoOps_LoadOptionsLexerSpecific(F.Ed1);
   end;
 
   UpdateStatus;
