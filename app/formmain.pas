@@ -994,7 +994,7 @@ type
     procedure PyCompletionOnResult(Sender: TObject; const ASnippetId: string; ASnippetIndex: integer);
     procedure DoPyCommand_ByPluginIndex(AIndex: integer);
     procedure SetFrameEncoding(Ed: TATSynEdit; const AEnc: string; AAlsoReloadFile: boolean);
-    procedure SetLexerIndex(Ed: TATSynEdit; AIndex: integer);
+    procedure SetFrameLexerByIndex(Ed: TATSynEdit; AIndex: integer);
     procedure SetShowStatus(AValue: boolean);
     procedure SetShowToolbar(AValue: boolean);
     procedure SetShowBottom(AValue: boolean);
@@ -4989,7 +4989,7 @@ begin
   UpdateStatus;
 end;
 
-procedure TfmMain.SetLexerIndex(Ed: TATSynEdit; AIndex: integer);
+procedure TfmMain.SetFrameLexerByIndex(Ed: TATSynEdit; AIndex: integer);
 var
   F: TEditorFrame;
   CountUsual, CountLite: integer;

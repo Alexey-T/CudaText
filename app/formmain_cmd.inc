@@ -499,7 +499,7 @@ begin
 
     cmdFirstLexerCommand..
     cmdLastLexerCommand:
-      SetLexerIndex(Ed, Cmd-cmdFirstLexerCommand);
+      SetFrameLexerByIndex(Ed, Cmd-cmdFirstLexerCommand);
 
     cmdFirstPluginCommand..
     cmdLastPluginCommand:
