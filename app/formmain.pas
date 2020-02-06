@@ -5761,12 +5761,11 @@ end;
 
 procedure TfmMain.DoShowFuncHint;
 var
-  Res: TAppPyEventResult;
   S: string;
 begin
-  Res:= DoPyEvent(CurrentEditor, cEventOnFuncHint, []);
-  if Res.Val=evrString then
-    MsgStatusAlt(Res.Str, UiOps.StatusAltTime);
+  S:= DoPyEvent(CurrentEditor, cEventOnFuncHint, []).Str;
+  if S<>'' then
+    MsgStatusAlt(S, UiOps.StatusAltTime);
 end;
 
 procedure TfmMain.PopupTextPopup(Sender: TObject);
