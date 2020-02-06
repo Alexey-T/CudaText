@@ -650,6 +650,20 @@ type
     Str: string;
   end;
 
+  TAppVariant = record
+    Typ: (avrBool, avrInt, avrStr);
+    Bool: boolean;
+    Int: Int64;
+    Str: string;
+  end;
+
+  TAppVariantArray = array of TAppVariant;
+
+function AppVariant(Value: boolean): TAppVariant; inline;
+function AppVariant(const Value: Int64): TAppVariant; inline;
+function AppVariant(const Value: string): TAppVariant; inline;
+
+
 type
   TAppPyEvent = (
     cEventOnKey,
@@ -968,6 +982,24 @@ begin
   Result:= AFilename;
   if SBeginsWith(Result, '~'+DirectorySeparator) then
     Result:= AppDir_Home+Copy(Result, 3, MaxInt);
+end;
+
+function AppVariant(Value: boolean): TAppVariant;
+begin
+  Result.Typ:= avrBool;
+  Result.Bool:= Value;
+end;
+
+function AppVariant(const Value: Int64): TAppVariant;
+begin
+  Result.Typ:= avrInt;
+  Result.Int:= Value;
+end;
+
+function AppVariant(const Value: string): TAppVariant;
+begin
+  Result.Typ:= avrStr;
+  Result.Str:= Value;
 end;
 
 
