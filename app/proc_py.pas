@@ -319,7 +319,7 @@ begin
   if AEd=nil then
     SParams:= 'None'
   else
-    SParams:= Format('cudatext.Editor(%d)', [PtrUInt(Pointer(AEd))]);
+    SParams:= 'cudatext.Editor('+IntToStr(PtrInt(AEd))+')';
 
   for i:= 0 to Length(AParams)-1 do
     SParams:= SParams + ',' + AParams[i];
