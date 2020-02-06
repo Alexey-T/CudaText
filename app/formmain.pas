@@ -641,7 +641,6 @@ type
     FPyComplete_CaretPos: TPoint;
     FCmdTimer_Code: integer;
     FCmdTimer_Ed: TATSynEdit;
-    FCmdTimer_Frame: TEditorFrame;
     FLastDirOfOpenDlg: string;
     FLastLexerForPluginsMenu: string;
     FLastLexerOfKeymap: string;

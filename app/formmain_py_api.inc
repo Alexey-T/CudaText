@@ -1593,7 +1593,6 @@ begin
       begin
         fmMain.FCmdTimer_Code:= NCode;
         fmMain.FCmdTimer_Ed:= Ed;
-        fmMain.FCmdTimer_Frame:= GetEditorFrame(Ed);
         fmMain.TimerCmdTimer(nil);
       end
       else

@@ -17,7 +17,7 @@ begin
   TimerCmd.Enabled:= false;
   Cmd:= FCmdTimer_Code;
   Ed:= FCmdTimer_Ed;
-  Frame:= FCmdTimer_Frame;
+  Frame:= GetEditorFrame(Ed);
 
   case Cmd of
 
@@ -932,7 +932,6 @@ begin
   //handle other cmd_ commands
   FCmdTimer_Code:= ACommand;
   FCmdTimer_Ed:= Ed;
-  FCmdTimer_Frame:= Frame;
 
   if (ACommand>=cmdFirstAppCommand) and
      (ACommand<=cmdLastAppCommand) then
