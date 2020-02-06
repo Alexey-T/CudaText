@@ -45,7 +45,8 @@ begin
 
     cmd_FileCloseAndDelete:
       begin
-        DoFileCloseAndDelete;
+        if Assigned(Frame) then
+          DoFileCloseAndDelete(Frame);
       end;
 
     cmd_FileNew:

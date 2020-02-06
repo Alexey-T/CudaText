@@ -792,7 +792,7 @@ type
     procedure DoDialogMenuThemes;
     procedure DoFileExportHtml(F: TEditorFrame);
     function DoFileInstallZip(const fn: string; out DirTarget: string; ASilent: boolean): boolean;
-    procedure DoFileCloseAndDelete;
+    procedure DoFileCloseAndDelete(Frame: TEditorFrame);
     procedure DoFileNew;
     procedure DoFileNewMenu(Sender: TObject);
     procedure DoFileNewFrom(const fn: string);
@@ -4450,11 +4450,11 @@ begin
 end;
 
 
-procedure TfmMain.DoFileCloseAndDelete;
+procedure TfmMain.DoFileCloseAndDelete(Frame: TEditorFrame);
 var
   fn: string;
 begin
-  fn:= CurrentFrame.FileName;
+  fn:= Frame.FileName;
   if fn='' then exit;
 
   if MsgBox(
