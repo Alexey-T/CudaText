@@ -353,17 +353,17 @@ begin
     cmd_CopyFilenameFull:
       begin
         if Assigned(Frame) then
-          SClipboardCopy(Frame.FileName);
+          SClipboardCopy(Frame.GetFileName(Ed));
       end;
     cmd_CopyFilenameDir:
       begin
         if Assigned(Frame) then
-          SClipboardCopy(ExtractFileDir(Frame.FileName));
+          SClipboardCopy(ExtractFileDir(Frame.GetFileName(Ed)));
       end;
     cmd_CopyFilenameName:
       begin
         if Assigned(Frame) then
-          SClipboardCopy(ExtractFileName(Frame.FileName));
+          SClipboardCopy(ExtractFileName(Frame.GetFileName(Ed)));
       end;
 
     cmd_DuplicateLineEx:
