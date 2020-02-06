@@ -792,7 +792,7 @@ type
     procedure DoDialogMenuThemes;
     procedure DoFileExportHtml(F: TEditorFrame);
     function DoFileInstallZip(const fn: string; out DirTarget: string; ASilent: boolean): boolean;
-    procedure DoFileCloseAndDelete(Frame: TEditorFrame);
+    procedure DoFileCloseAndDelete(Ed: TATSynEdit);
     procedure DoFileNew;
     procedure DoFileNewMenu(Sender: TObject);
     procedure DoFileNewFrom(const fn: string);
@@ -4462,11 +4462,16 @@ begin
 end;
 
 
-procedure TfmMain.DoFileCloseAndDelete(Frame: TEditorFrame);
+procedure TfmMain.DoFileCloseAndDelete(Ed: TATSynEdit);
 var
+  Frame: TEditorFrame;
   fn: string;
 begin
-  fn:= Frame.FileName;
+  Frame:= GetEditorFrame(Ed);
+  if Frame=nil then exit;
+  if not Frame.EditorsLinked then exit;
+
+  fn:= Frame.GetFileName(Ed);
   if fn='' then exit;
 
   if MsgBox(
