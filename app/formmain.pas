@@ -671,8 +671,7 @@ type
     procedure DoApplyTranslationToGroups(G: TATGroups);
     procedure DoClearSingleFirstTab;
     procedure DoCloseAllTabs;
-    procedure DoCodetree_OnContextPopup(Sender: TObject; MousePos: TPoint;
-      var Handled: Boolean);
+    procedure DoCodetree_OnContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure DoDialogMenuThemes_ThemeSyntaxSelect(const AStr: string);
     procedure DoDialogMenuThemes_ThemeUiSelect(const AStr: string);
     procedure DoFileDialog_PrepareDir(Dlg: TFileDialog);
@@ -700,10 +699,8 @@ type
     procedure DoOps_OnCreate;
     procedure DoShowBottomPanel(const ATabCaption: string; AndFocus: boolean);
     function DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
-    procedure DoSidebar_InitPanelForm(AItem: TAppSidePanel; const ACaption: string; AForm: TCustomForm;
-      AParent: TWinControl);
-    procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas;
-      AIndex: integer; const ARect: TRect);
+    procedure DoSidebar_InitPanelForm(AItem: TAppSidePanel; const ACaption: string; AForm: TCustomForm; AParent: TWinControl);
+    procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas; AIndex: integer; const ARect: TRect);
     procedure DoSidebar_MainMenuClick(Sender: TObject);
     function DoSidebar_TranslatedCaption(const ACaption: string): string;
     function FindFrameOfFilename(const AName: string): TEditorFrame;
@@ -723,9 +720,7 @@ type
     procedure DoLocalizePopupTab;
     function DoCheckFilenameOpened(const AName: string): boolean;
     procedure DoInvalidateEditors;
-    function DoMenuAdd_Params(
-      const AMenuId, AMenuCmd, AMenuCaption, AMenuHotkey, AMenuTagString: string;
-      AIndex: integer): string;
+    function DoMenuAdd_Params(const AMenuId, AMenuCmd, AMenuCaption, AMenuHotkey, AMenuTagString: string; AIndex: integer): string;
     procedure DoMenu_Remove(const AMenuId: string);
     procedure DoMenuClear(const AMenuId: string);
     function DoMenu_GetPyProps(mi: TMenuItem): PPyObject;
@@ -746,10 +741,8 @@ type
     procedure DoCodetree_ApplyTreeHelperResults(Data: PPyObject);
     procedure DoSidebar_OnTabClick(Sender: TObject);
     function DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
-    function DoSidebar_AddTab(const ACaption: string;
-      AImageIndex: integer; AHandle: PtrInt): boolean;
-    function DoSidebar_AddTab_Empty(const ACaption: string;
-      AImageIndex: integer; const AModule, AMethod: string): boolean;
+    function DoSidebar_AddTab(const ACaption: string; AImageIndex: integer; AHandle: PtrInt): boolean;
+    function DoSidebar_AddTab_Empty(const ACaption: string; AImageIndex: integer; const AModule, AMethod: string): boolean;
     function DoSidebar_RemoveTab(const ACaption: string): boolean;
     function DoSidebar_CaptionToPanelsIndex(const ACaption: string): integer;
     function DoSidebar_CaptionToTabIndex(const Str: string): integer;
@@ -760,8 +753,7 @@ type
     procedure DoBottom_AddonsClick(Sender: TObject);
     procedure DoBottom_FindClick(Sender: TObject);
     function DoBottom_CaptionToControlHandle(const ACaption: string): PtrInt;
-    function DoBottom_AddTab(const ACaption: string;
-      AImageIndex: integer; AHandle: PtrInt): boolean;
+    function DoBottom_AddTab(const ACaption: string; AImageIndex: integer; AHandle: PtrInt): boolean;
     function DoBottom_CaptionToPanelsIndex(const ACaption: string): integer;
     function DoBottom_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
     function DoBottom_CaptionToTabIndex(const ACaption: string): integer;
@@ -807,8 +799,7 @@ type
     procedure DoResetPlugins;
     procedure DoPyRescanPlugins;
     function DoSplitter_StringToId(const AStr: string): integer;
-    procedure DoSplitter_GetInfo(const Id: integer;
-      out BoolVert, BoolVisible: boolean; out NPos, NTotal: integer);
+    procedure DoSplitter_GetInfo(const Id: integer; out BoolVert, BoolVisible: boolean; out NPos, NTotal: integer);
     procedure DoSplitter_SetInfo(const Id: integer; NPos: integer);
     procedure DoToolbarClick(Sender: TObject);
     procedure FrameLexerChange(Sender: TObject);
@@ -948,8 +939,7 @@ type
     procedure DoShowValidate(AndFocus: boolean);
     procedure DoShowSidePanel(const ATabCaption: string; AndFocus: boolean);
     function FrameOfPopup: TEditorFrame;
-    procedure FrameOnCommand(Sender: TObject; ACommand: integer; const AText: string;
-      var AHandled: boolean);
+    procedure FrameOnCommand(Sender: TObject; ACommand: integer; const AText: string; var AHandled: boolean);
     function DoFileCloseAll(AWithCancel: boolean): boolean;
     procedure DoDialogFind(AReplaceMode: boolean);
     procedure DoDialogFind_Hide;
@@ -1000,10 +990,8 @@ type
     procedure InitFormFind;
     function IsFocusedBottom: boolean;
     function IsFocusedFind: boolean;
-    procedure PyCompletionOnGetProp(Sender: TObject; out AText: string;
-      out ACharsLeft, ACharsRight: integer);
-    procedure PyCompletionOnResult(Sender: TObject;
-      const ASnippetId: string; ASnippetIndex: integer);
+    procedure PyCompletionOnGetProp(Sender: TObject; out AText: string; out ACharsLeft, ACharsRight: integer);
+    procedure PyCompletionOnResult(Sender: TObject; const ASnippetId: string; ASnippetIndex: integer);
     procedure DoPyCommand_ByPluginIndex(AIndex: integer);
     procedure SetFrameEncoding(Ed: TATSynEdit; const AEnc: string; AAlsoReloadFile: boolean);
     procedure SetLexerIndex(AIndex: integer);
@@ -1056,8 +1044,7 @@ type
     procedure UpdateBottomButtons;
     procedure UpdateStatus_ForFrame(AStatus: TATStatus; F: TEditorFrame);
     procedure UpdateStatus_RealWork;
-    procedure UpdateStatus_ToolButton(AToolbar: TATFlatToolbar; ACmd: integer;
-      AChecked, AEnabled: boolean);
+    procedure UpdateStatus_ToolButton(AToolbar: TATFlatToolbar; ACmd: integer; AChecked, AEnabled: boolean);
     procedure UpdateTabCaptionsFromFolders;
     procedure UpdateTabsActiveColor(F: TEditorFrame);
     procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true; AForceUpdateAll: boolean=false);
