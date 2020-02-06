@@ -3977,7 +3977,11 @@ procedure TfmMain.SetFrameEncoding(Frame: TEditorFrame; const AEnc: string; AAls
 var
   Ed: TATSynEdit;
 begin
-  Ed:= Frame.Ed1;
+  if Frame.EditorsLinked then
+    Ed:= Frame.Ed1
+  else
+    Ed:= Frame.Editor;
+
   if SameText(Ed.EncodingName, AEnc) then exit;
   Ed.EncodingName:= AEnc;
 
