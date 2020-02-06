@@ -796,7 +796,7 @@ type
     procedure DoSwitchTabToRecent;
     procedure DoPyTimerTick(Sender: TObject);
     procedure DoPyRunLastPlugin;
-    procedure DoResetPlugins;
+    procedure DoPyResetPlugins;
     procedure DoPyRescanPlugins;
     function DoSplitter_StringToId(const AStr: string): integer;
     procedure DoSplitter_GetInfo(const Id: integer; out BoolVert, BoolVisible: boolean; out NPos, NTotal: integer);

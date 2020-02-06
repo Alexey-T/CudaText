@@ -311,7 +311,7 @@ begin
 end;
 
 
-procedure TfmMain.DoResetPlugins;
+procedure TfmMain.DoPyResetPlugins;
 var
   fn, Cmd: string;
   L: TStringList;
