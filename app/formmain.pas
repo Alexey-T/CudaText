@@ -768,13 +768,13 @@ type
     function DoBottom_CaptionToTabIndex(const ACaption: string): integer;
     function DoBottom_RemoveTab(const ACaption: string): boolean;
     function DoBottom_TranslatedCaption(const ACaption: string): string;
-    procedure DoAutoComplete;
+    procedure DoAutoComplete(F: TEditorFrame);
     procedure DoCudaLibAction(const AMethod: string);
     procedure DoDialogCharMap;
     procedure DoFindActionFromString(const AStr: string);
     procedure DoGotoFromInput(const AInput: string);
-    procedure DoGotoDefinition;
-    procedure DoShowFuncHint;
+    procedure DoGotoDefinition(Frame: TEditorFrame);
+    procedure DoShowFuncHint(Frame: TEditorFrame);
     procedure DoApplyGutterVisible(AValue: boolean);
     procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps; AForceApply: boolean);
     procedure DoApplyFont_Text;
@@ -5007,23 +5007,21 @@ begin
 end;
 
 
-procedure TfmMain.DoAutoComplete;
+procedure TfmMain.DoAutoComplete(F: TEditorFrame);
 var
-  F: TEditorFrame;
   Ed: TATSynEdit;
   LexName: string;
   IsCss, IsHtml, IsCaseSens: boolean;
   FileHtml, FileCss, FileAcp: string;
   Caret: TATCaretItem;
 begin
-  F:= CurrentFrame;
-  if F=nil then exit;
   Ed:= F.Editor;
 
   CompletionOps.CommitChars:= UiOps.AutocompleteCommitChars; //before DoPyEvent
   CompletionOps.CloseChars:= UiOps.AutocompleteCloseChars; //before DoPyEvent
   if DoPyEvent(Ed, cEventOnComplete, []).Val = evrTrue then exit;
 
+  //py event may handle auto-completion without lexer
   if F.Lexer[Ed]=nil then exit;
 
   Caret:= Ed.Carets[0];
@@ -5753,17 +5751,17 @@ begin
 end;
 
 
-procedure TfmMain.DoGotoDefinition;
+procedure TfmMain.DoGotoDefinition(Frame: TEditorFrame);
 begin
-  if DoPyEvent(CurrentEditor, cEventOnGotoDef, []).Val <> evrTrue then
+  if DoPyEvent(Frame.Editor, cEventOnGotoDef, []).Val <> evrTrue then
     MsgStatus(msgStatusNoGotoDefinitionPlugins);
 end;
 
-procedure TfmMain.DoShowFuncHint;
+procedure TfmMain.DoShowFuncHint(Frame: TEditorFrame);
 var
   S: string;
 begin
-  S:= DoPyEvent(CurrentEditor, cEventOnFuncHint, []).Str;
+  S:= DoPyEvent(Frame.Editor, cEventOnFuncHint, []).Str;
   if S<>'' then
     MsgStatusAlt(S, UiOps.StatusAltTime);
 end;

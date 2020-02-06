@@ -370,11 +370,11 @@ begin
       DoCudaLibAction('duplicate');
 
     cmd_AutoComplete:
-      DoAutoComplete;
+      DoAutoComplete(Frame);
     cmd_GotoDefinition:
-      DoGotoDefinition;
+      DoGotoDefinition(Frame);
     cmd_ShowFunctionHint:
-      DoShowFuncHint;
+      DoShowFuncHint(Frame);
 
     cmd_MenuEnc:
       begin
