@@ -14,6 +14,7 @@ interface
 uses
   SysUtils, Classes,
   PythonEngine,
+  proc_str,
   proc_globdata;
 
 type
@@ -37,7 +38,8 @@ type
     function IsLoadedLocal(const S: string): boolean;
     function MethodEval(const AObject, AMethod, AParams: string): PPyObject;
     function MethodEvalEx(const AObject, AMethod, AParams: string): TAppPyEventResult;
-    function StrArrayToString(const AParams: array of string): string;
+    function StrArrayToString(const V: array of string): string;
+    function VariantArrayToString(const V: TAppVariantArray): string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -127,13 +129,33 @@ begin
   Result+= ')';
 end;
 
-function TAppPython.StrArrayToString(const AParams: array of string): string;
+function TAppPython.StrArrayToString(const V: array of string): string;
 var
   i: integer;
 begin
   Result:= '';
-  for i:= 0 to Length(AParams)-1 do
-    Result+= AParams[i]+',';
+  for i:= 0 to Length(V)-1 do
+    Result+= V[i]+',';
+  if Result<>'' then
+    SetLength(Result, Length(Result)-1);
+end;
+
+function TAppPython.VariantArrayToString(const V: TAppVariantArray): string;
+const
+  cBoolStr: array[boolean] of string = ('False', 'True');
+var
+  i: integer;
+begin
+  Result:= '';
+  for i:= 0 to Length(V)-1 do
+    case V[i].Typ of
+      avrInt:
+        Result+= IntToStr(V[i].Int)+',';
+      avrStr:
+        Result+= SStringToPythonString(V[i].Str)+',';
+      avrBool:
+        Result+= cBoolStr[V[i].Bool]+',';
+    end;
   if Result<>'' then
     SetLength(Result, Length(Result)-1);
 end;
