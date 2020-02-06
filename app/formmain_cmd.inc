@@ -367,14 +367,25 @@ begin
       end;
 
     cmd_DuplicateLineEx:
-      DoPyCommand_Cudaxlib(Frame, 'duplicate');
+      begin
+        DoPyCommand_Cudaxlib(Ed, 'duplicate');
+      end;
 
     cmd_AutoComplete:
-      DoAutoComplete(Frame);
+      begin
+        if Assigned(Frame) then
+          DoAutoComplete(Frame);
+      end;
+
     cmd_GotoDefinition:
-      DoGotoDefinition(Frame);
+      begin
+        DoGotoDefinition(Ed);
+      end;
+
     cmd_ShowFunctionHint:
-      DoShowFuncHint(Frame);
+      begin
+        DoShowFuncHint(Ed);
+      end;
 
     cmd_MenuEnc:
       begin

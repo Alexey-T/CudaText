@@ -769,12 +769,12 @@ type
     function DoBottom_RemoveTab(const ACaption: string): boolean;
     function DoBottom_TranslatedCaption(const ACaption: string): string;
     procedure DoAutoComplete(F: TEditorFrame);
-    procedure DoPyCommand_Cudaxlib(Frame: TEditorFrame; const AMethod: string);
+    procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string);
     procedure DoDialogCharMap;
     procedure DoFindActionFromString(const AStr: string);
     procedure DoGotoFromInput(const AInput: string);
-    procedure DoGotoDefinition(Frame: TEditorFrame);
-    procedure DoShowFuncHint(Frame: TEditorFrame);
+    procedure DoGotoDefinition(Ed: TATSynEdit);
+    procedure DoShowFuncHint(Ed: TATSynEdit);
     procedure DoApplyGutterVisible(AValue: boolean);
     procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps; AForceApply: boolean);
     procedure DoApplyFont_Text;
@@ -4562,11 +4562,8 @@ begin
   DoOps_SaveOptionBool('/ui_statusbar_show', ShowStatus);
 end;
 
-procedure TfmMain.DoPyCommand_Cudaxlib(Frame: TEditorFrame; const AMethod: string);
-var
-  Ed: TATSynEdit;
+procedure TfmMain.DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string);
 begin
-  Ed:= Frame.Editor;
   Ed.Strings.BeginUndoGroup;
   try
     DoPyCommand('cudax_lib', AMethod, []);
@@ -5751,17 +5748,17 @@ begin
 end;
 
 
-procedure TfmMain.DoGotoDefinition(Frame: TEditorFrame);
+procedure TfmMain.DoGotoDefinition(Ed: TATSynEdit);
 begin
-  if DoPyEvent(Frame.Editor, cEventOnGotoDef, []).Val <> evrTrue then
+  if DoPyEvent(Ed, cEventOnGotoDef, []).Val <> evrTrue then
     MsgStatus(msgStatusNoGotoDefinitionPlugins);
 end;
 
-procedure TfmMain.DoShowFuncHint(Frame: TEditorFrame);
+procedure TfmMain.DoShowFuncHint(Ed: TATSynEdit);
 var
   S: string;
 begin
-  S:= DoPyEvent(Frame.Editor, cEventOnFuncHint, []).Str;
+  S:= DoPyEvent(Ed, cEventOnFuncHint, []).Str;
   if S<>'' then
     MsgStatusAlt(S, UiOps.StatusAltTime);
 end;
