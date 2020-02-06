@@ -25,7 +25,7 @@
 - fix: command line param -n was broken on Windows
 - fix: auto-completion was broken in PHP block (bad default of "autocomplete_html_lexers")
 - fix: command "settings: reload/apply config" (thanks @OlehL)
-- fix: commands "save file", "save file as", "reopen file" didn't support paired file-tab
+- fix: commands didn't support paired file-tab: "save file", "save file as", "reopen file", "copy filename", "lexer properties" 
 
 1.93.0 (2020/01)
 
