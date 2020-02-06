@@ -1005,8 +1005,7 @@ type
     procedure PyCompletionOnResult(Sender: TObject;
       const ASnippetId: string; ASnippetIndex: integer);
     procedure DoPyCommand_ByPluginIndex(AIndex: integer);
-    procedure SetFrameEncoding(Frame: TEditorFrame; const AEnc: string;
-      AAlsoReloadFile: boolean);
+    procedure SetFrameEncoding(Ed: TATSynEdit; const AEnc: string; AAlsoReloadFile: boolean);
     procedure SetLexerIndex(AIndex: integer);
     procedure SetShowStatus(AValue: boolean);
     procedure SetShowToolbar(AValue: boolean);
@@ -3964,30 +3963,29 @@ end;
 
 procedure TfmMain.MenuEncNoReloadClick(Sender: TObject);
 begin
-  SetFrameEncoding(CurrentFrame, (Sender as TMenuItem).Caption, false);
+  SetFrameEncoding(CurrentEditor, (Sender as TMenuItem).Caption, false);
 end;
 
 procedure TfmMain.MenuEncWithReloadClick(Sender: TObject);
 begin
-  SetFrameEncoding(CurrentFrame, (Sender as TMenuItem).Caption, true);
+  SetFrameEncoding(CurrentEditor, (Sender as TMenuItem).Caption, true);
 end;
 
 
-procedure TfmMain.SetFrameEncoding(Frame: TEditorFrame; const AEnc: string; AAlsoReloadFile: boolean);
+procedure TfmMain.SetFrameEncoding(Ed: TATSynEdit; const AEnc: string;
+  AAlsoReloadFile: boolean);
 var
-  Ed: TATSynEdit;
+  Frame: TEditorFrame;
 begin
-  if Frame.EditorsLinked then
-    Ed:= Frame.Ed1
-  else
-    Ed:= Frame.Editor;
+  Frame:= GetEditorFrame(Ed);
+  if Frame=nil then exit;
 
   if SameText(Ed.EncodingName, AEnc) then exit;
   Ed.EncodingName:= AEnc;
 
   if AAlsoReloadFile then
   begin
-    if Frame.FileName<>'' then
+    if Frame.GetFileName(Ed)<>'' then
       Frame.DoFileReload_DisableDetectEncoding(Ed)
     else
       MsgBox(msgCannotReloadUntitledTab, MB_OK or MB_ICONWARNING);

@@ -149,7 +149,7 @@ begin
       if Assigned(Frame) then
       begin
         if sEncoding<>'' then
-          SetFrameEncoding(Frame, sEncoding, true);
+          SetFrameEncoding(Frame.Ed1, sEncoding, true);
 
         if (NLine>0) then
           Frame.DoGotoPos(Frame.Ed1, NColumn-1, NLine-1);
@@ -169,7 +169,7 @@ begin
           if Assigned(Frame) then
           begin
             if sEncoding<>'' then
-              SetFrameEncoding(Frame, sEncoding, true);
+              SetFrameEncoding(Frame.Ed1, sEncoding, true);
           end;
         end;
   end;
