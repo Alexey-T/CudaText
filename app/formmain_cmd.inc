@@ -367,7 +367,7 @@ begin
       end;
 
     cmd_DuplicateLineEx:
-      DoCudaLibAction('duplicate');
+      DoPyCommand_Cudaxlib(Frame, 'duplicate');
 
     cmd_AutoComplete:
       DoAutoComplete(Frame);

@@ -769,7 +769,7 @@ type
     function DoBottom_RemoveTab(const ACaption: string): boolean;
     function DoBottom_TranslatedCaption(const ACaption: string): string;
     procedure DoAutoComplete(F: TEditorFrame);
-    procedure DoCudaLibAction(const AMethod: string);
+    procedure DoPyCommand_Cudaxlib(Frame: TEditorFrame; const AMethod: string);
     procedure DoDialogCharMap;
     procedure DoFindActionFromString(const AStr: string);
     procedure DoGotoFromInput(const AInput: string);
@@ -4562,11 +4562,11 @@ begin
   DoOps_SaveOptionBool('/ui_statusbar_show', ShowStatus);
 end;
 
-procedure TfmMain.DoCudaLibAction(const AMethod: string);
+procedure TfmMain.DoPyCommand_Cudaxlib(Frame: TEditorFrame; const AMethod: string);
 var
   Ed: TATSynEdit;
 begin
-  Ed:= CurrentEditor;
+  Ed:= Frame.Editor;
   Ed.Strings.BeginUndoGroup;
   try
     DoPyCommand('cudax_lib', AMethod, []);
