@@ -3317,9 +3317,12 @@ begin
 end;
 
 procedure TfmMain.DoFileDialog_PrepareDir(Dlg: TFileDialog);
+var
+  fn: string;
 begin
-  if CurrentFrame.FileName<>'' then
-    Dlg.InitialDir:= ExtractFileDir(CurrentFrame.FileName)
+  fn:= CurrentFrame.FileName;
+  if fn<>'' then
+    Dlg.InitialDir:= ExtractFileDir(fn)
   else
   begin
     if UiOps.InitialDir<>'' then
