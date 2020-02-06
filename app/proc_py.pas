@@ -206,14 +206,20 @@ begin
     Obj:= MethodEval(AObject, AMethod, AParams);
     if Assigned(Obj) then
     try
+      if Pointer(Obj)=Pointer(Py_True) then
+        Result.Val:= evrTrue
+      else
+      if Pointer(Obj)=Pointer(Py_False) then
+        Result.Val:= evrFalse
+      {
       if Obj^.ob_type=PyBool_Type then
       begin
-        //if PyObject_IsTrue(Obj)=1 then
         if PPyIntObject(Obj)^.ob_ival>0 then
           Result.Val:= evrTrue
         else
           Result.Val:= evrFalse;
       end
+      }
       else
       if Obj^.ob_type=PyUnicode_Type then
       begin
@@ -256,7 +262,11 @@ begin
     with FEngine do
     begin
       //Result:= not PyBool_Check(Obj) or (PyObject_IsTrue(Obj)=1);
-      Result:= (Obj^.ob_type<>PyBool_Type) or (PPyIntObject(Obj)^.ob_ival>0);
+      //Result:= (Obj^.ob_type<>PyBool_Type) or (PPyIntObject(Obj)^.ob_ival>0);
+      if Pointer(Obj)=Pointer(Py_False) then
+        Result:= False
+      else
+        Result:= True;
       Py_XDECREF(Obj);
     end;
 end;
