@@ -963,7 +963,7 @@ type
     procedure DoFileOpenDialog(AOptions: string= '');
     procedure DoFileOpenDialog_NoPlugins;
     function DoFileSaveAll: boolean;
-    procedure DoFileReopen(F: TEditorFrame);
+    procedure DoFileReopen(Ed: TATSynEdit);
     procedure DoLoadCommandLineBaseOptions(out AWindowPos: string; out AAllowSession: boolean);
     procedure DoLoadCommandParams(const AParams: array of string; AOpenOptions: string);
     procedure DoLoadCommandLine;
@@ -4364,35 +4364,41 @@ begin
   end;
 end;
 
-procedure TfmMain.DoFileReopen(F: TEditorFrame);
+procedure TfmMain.DoFileReopen(Ed: TATSynEdit);
 var
+  F: TEditorFrame;
+  fn: string;
   PrevRO: boolean;
   PrevLexer: string;
 begin
-  if F.FileName='' then exit;
+  F:= GetEditorFrame(Ed);
+  if F=nil then exit;
 
-  if not FileExistsUTF8(F.FileName) then
+  fn:= F.GetFileName(Ed);
+  if fn='' then exit;
+
+  if not FileExistsUTF8(fn) then
   begin
-    MsgStatus(msgCannotFindFile+' '+ExtractFileName(F.FileName));
+    MsgStatus(msgCannotFindFile+' '+ExtractFileName(fn));
     exit;
   end;
 
-  if F.Ed1.Modified and UiOps.ReloadUnsavedConfirm then
+  if Ed.Modified and UiOps.ReloadUnsavedConfirm then
     if MsgBox(
-      Format(msgConfirmReopenModifiedTab, [F.FileName]),
+      Format(msgConfirmReopenModifiedTab, [fn]),
       MB_OKCANCEL or MB_ICONQUESTION
       ) <> ID_OK then exit;
 
-  PrevRO:= F.ReadOnly[F.Ed1];
-  PrevLexer:= F.LexerName[F.Ed1];
-  F.ReadOnly[F.Ed1]:= false;
-  F.DoFileReload(F.Ed1);
-  F.LexerName[F.Ed1]:= PrevLexer;
-  F.ReadOnly[F.Ed1]:= PrevRO;
-  F.Ed1.Modified:= false;
+  PrevRO:= F.ReadOnly[Ed];
+  PrevLexer:= F.LexerName[Ed];
+  F.ReadOnly[Ed]:= false;
+  F.DoFileReload(Ed);
+  F.LexerName[Ed]:= PrevLexer;
+  F.ReadOnly[Ed]:= PrevRO;
+  Ed.Modified:= false;
 
   UpdateStatus;
-  MsgStatus(msgStatusReopened+' '+ExtractFileName(F.FileName));
+  MsgStatus(msgStatusReopened+' '+ExtractFileName(fn));
 end;
 
 
