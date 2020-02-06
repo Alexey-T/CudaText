@@ -157,7 +157,7 @@ begin
     cmd_DialogLexerProp:
       begin
         if Assigned(Frame) then
-          DoDialogLexerProp(Frame.Lexer[Frame.Editor]);
+          DoDialogLexerProp(Frame.Lexer[Ed]);
       end;
 
     cmd_DialogLexerLib:
