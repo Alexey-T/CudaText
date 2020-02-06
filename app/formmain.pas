@@ -994,7 +994,7 @@ type
     procedure PyCompletionOnResult(Sender: TObject; const ASnippetId: string; ASnippetIndex: integer);
     procedure DoPyCommand_ByPluginIndex(AIndex: integer);
     procedure SetFrameEncoding(Ed: TATSynEdit; const AEnc: string; AAlsoReloadFile: boolean);
-    procedure SetLexerIndex(AIndex: integer);
+    procedure SetLexerIndex(Ed: TATSynEdit; AIndex: integer);
     procedure SetShowStatus(AValue: boolean);
     procedure SetShowToolbar(AValue: boolean);
     procedure SetShowBottom(AValue: boolean);
@@ -4989,14 +4989,13 @@ begin
   UpdateStatus;
 end;
 
-procedure TfmMain.SetLexerIndex(AIndex: integer);
+procedure TfmMain.SetLexerIndex(Ed: TATSynEdit; AIndex: integer);
 var
   F: TEditorFrame;
-  Ed: TATSynEdit;
   CountUsual, CountLite: integer;
 begin
-  F:= CurrentFrame;
-  Ed:= F.Editor;
+  F:= GetEditorFrame(Ed);
+  if F=nil then exit;
 
   CountUsual:= AppManager.LexerCount;
   CountLite:= AppManagerLite.LexerCount;
