@@ -74,14 +74,12 @@ begin
 
     cmd_FileReopen:
       begin
-        if Assigned(Frame) then
-          DoFileReopen(Ed);
+        DoFileReopen(Ed);
       end;
 
     cmd_FileSave:
       begin
-        if Assigned(Frame) then
-          DoFileSave(Frame);
+        DoFileSave(Ed);
       end;
 
     cmd_FileSaveAs:
