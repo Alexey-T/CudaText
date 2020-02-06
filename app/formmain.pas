@@ -768,7 +768,7 @@ type
     function DoBottom_CaptionToTabIndex(const ACaption: string): integer;
     function DoBottom_RemoveTab(const ACaption: string): boolean;
     function DoBottom_TranslatedCaption(const ACaption: string): string;
-    procedure DoAutoComplete(F: TEditorFrame);
+    procedure DoAutoComplete(Frame: TEditorFrame);
     procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string);
     procedure DoDialogCharMap;
     procedure DoFindActionFromString(const AStr: string);
@@ -5004,7 +5004,7 @@ begin
 end;
 
 
-procedure TfmMain.DoAutoComplete(F: TEditorFrame);
+procedure TfmMain.DoAutoComplete(Frame: TEditorFrame);
 var
   Ed: TATSynEdit;
   LexName: string;
@@ -5012,17 +5012,17 @@ var
   FileHtml, FileCss, FileAcp: string;
   Caret: TATCaretItem;
 begin
-  Ed:= F.Editor;
+  Ed:= Frame.Editor;
 
   CompletionOps.CommitChars:= UiOps.AutocompleteCommitChars; //before DoPyEvent
   CompletionOps.CloseChars:= UiOps.AutocompleteCloseChars; //before DoPyEvent
   if DoPyEvent(Ed, cEventOnComplete, []).Val = evrTrue then exit;
 
   //py event may handle auto-completion without lexer
-  if F.Lexer[Ed]=nil then exit;
+  if Frame.Lexer[Ed]=nil then exit;
 
   Caret:= Ed.Carets[0];
-  LexName:= F.LexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
+  LexName:= Frame.LexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
   if LexName='' then exit;
 
   IsHtml:= UiOps.AutocompleteHtml and SRegexMatchesString(LexName, UiOps.AutocompleteHtml_Lexers, false);
