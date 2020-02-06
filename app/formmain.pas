@@ -3974,24 +3974,27 @@ end;
 
 
 procedure TfmMain.SetFrameEncoding(Frame: TEditorFrame; const AEnc: string; AAlsoReloadFile: boolean);
+var
+  Ed: TATSynEdit;
 begin
-  if SameText(Frame.Editor.EncodingName, AEnc) then exit;
-  Frame.Editor.EncodingName:= AEnc;
+  Ed:= Frame.Ed1;
+  if SameText(Ed.EncodingName, AEnc) then exit;
+  Ed.EncodingName:= AEnc;
 
   if AAlsoReloadFile then
   begin
     if Frame.FileName<>'' then
-      Frame.DoFileReload_DisableDetectEncoding(Frame.Ed1)
+      Frame.DoFileReload_DisableDetectEncoding(Ed)
     else
       MsgBox(msgCannotReloadUntitledTab, MB_OK or MB_ICONWARNING);
   end
   else
   begin
     //set modified to allow save
-    Frame.Editor.Modified:= true;
+    Ed.Modified:= true;
   end;
 
-  Frame.Editor.DoEventChange; //reanalyze all file
+  Ed.DoEventChange; //reanalyze all file
   UpdateFrameEx(Frame, false);
   UpdateStatus;
   MsgStatus(msgStatusEncChanged);
