@@ -366,20 +366,13 @@ begin
       end;
 
     cmd_AutoComplete:
-      begin
-        if Assigned(Frame) then
-          DoAutoComplete(Frame);
-      end;
+      DoAutoComplete(Ed);
 
     cmd_GotoDefinition:
-      begin
-        DoGotoDefinition(Ed);
-      end;
+      DoGotoDefinition(Ed);
 
     cmd_ShowFunctionHint:
-      begin
-        DoShowFuncHint(Ed);
-      end;
+      DoShowFuncHint(Ed);
 
     cmd_MenuEnc:
       begin

@@ -759,7 +759,7 @@ type
     function DoBottom_CaptionToTabIndex(const ACaption: string): integer;
     function DoBottom_RemoveTab(const ACaption: string): boolean;
     function DoBottom_TranslatedCaption(const ACaption: string): string;
-    procedure DoAutoComplete(Frame: TEditorFrame);
+    procedure DoAutoComplete(Ed: TATSynEdit);
     procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string);
     procedure DoDialogCharMap;
     procedure DoFindActionFromString(const AStr: string);
@@ -5018,15 +5018,16 @@ begin
 end;
 
 
-procedure TfmMain.DoAutoComplete(Frame: TEditorFrame);
+procedure TfmMain.DoAutoComplete(Ed: TATSynEdit);
 var
-  Ed: TATSynEdit;
+  Frame: TEditorFrame;
   LexName: string;
   IsCss, IsHtml, IsCaseSens: boolean;
   FileHtml, FileCss, FileAcp: string;
   Caret: TATCaretItem;
 begin
-  Ed:= Frame.Editor;
+  Frame:= GetEditorFrame(Ed);
+  if Frame=nil then exit;
 
   CompletionOps.CommitChars:= UiOps.AutocompleteCommitChars; //before DoPyEvent
   CompletionOps.CloseChars:= UiOps.AutocompleteCloseChars; //before DoPyEvent
