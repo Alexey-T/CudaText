@@ -283,7 +283,7 @@ cmd_OpsFontSizeReset = 2566
 
 cmd_ChooseTranslation = 2570
 cmd_ChooseThemeUI     = 2571
-cmd_ChooseThemeSyntax = 2572
+cmd_ChooseThemeSyntax = 2572 # deleted in app
 
 cmd_ToggleFocusSplitEditors = 2576
 cmd_FocusEditor = 2577

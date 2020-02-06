@@ -401,8 +401,6 @@ begin
       DoDialogMenuTranslations;
     cmd_ChooseThemeUI:
       DoDialogMenuThemes;
-    cmd_ChooseThemeSyntax:
-      DoDialogMenuThemes;
 
     cmd_MacroStart:
       begin
