@@ -292,12 +292,8 @@ begin
   if Assigned(Obj) then
     with FEngine do
     begin
-      //Result:= not PyBool_Check(Obj) or (PyObject_IsTrue(Obj)=1);
-      //Result:= (Obj^.ob_type<>PyBool_Type) or (PPyIntObject(Obj)^.ob_ival>0);
-      if Pointer(Obj)=Pointer(Py_False) then
-        Result:= False
-      else
-        Result:= True;
+      //only check for False
+      Result:= Pointer(Obj)<>Pointer(Py_False);
       Py_XDECREF(Obj);
     end;
 end;

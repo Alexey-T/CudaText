@@ -290,7 +290,8 @@ begin
     if Assigned(Obj) then
       with AppPython.Engine do
       begin
-        Result:= not PyBool_Check(Obj) or (PyObject_IsTrue(Obj)=1);
+        //only check for False
+        Result:= Pointer(Obj)<>Pointer(Py_False);
         Py_DECREF(Obj);
       end;
 
