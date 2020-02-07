@@ -758,7 +758,7 @@ const
     );
 
 type
-  TAppCommand = class
+  TAppCommandInfo = class
   public
     ItemModule: string;
     ItemProc: string;
@@ -1622,7 +1622,7 @@ end;
 function DoOps_CommandCode_To_HotkeyStringId(ACmd: integer): string;
 begin
   if AppCommandCategory(ACmd)=categ_Plugin then
-    with TAppCommand(AppCommandList[ACmd-cmdFirstPluginCommand]) do
+    with TAppCommandInfo(AppCommandList[ACmd-cmdFirstPluginCommand]) do
       Result:= ItemModule+','+ItemProc+IfThen(ItemProcParam<>'', ','+ItemProcParam)
   else
     Result:= IntToStr(ACmd);
@@ -1757,7 +1757,7 @@ function CommandPlugins_GetIndexFromModuleAndMethod(const AText: string): intege
 var
   Sep: TATStringSeparator;
   SModule, SProc, SProcParam: string;
-  AppCmd: TAppCommand;
+  AppCmd: TAppCommandInfo;
   i: integer;
 begin
   Result:= -1;
@@ -1772,7 +1772,7 @@ begin
 
   for i:= 0 to AppCommandList.Count-1 do
   begin
-    AppCmd:= TAppCommand(AppCommandList[i]);
+    AppCmd:= TAppCommandInfo(AppCommandList[i]);
     if (AppCmd.ItemModule=SModule) and
       (AppCmd.ItemProc=SProc) and
       (AppCmd.ItemProcParam=SProcParam) then
@@ -1789,7 +1789,7 @@ const
 var
   Sep: TATStringSeparator;
   SModule, SProc, SParams, SItem, SItemParam, SItemCaption: string;
-  CmdItem: TAppCommand;
+  CmdItem: TAppCommandInfo;
   N: integer;
 begin
   Sep.Init(AText, cSepRoot);
@@ -1799,7 +1799,7 @@ begin
 
   //del items for module/method
   for N:= AppCommandList.Count-1 downto 0 do
-    with TAppCommand(AppCommandList[N]) do
+    with TAppCommandInfo(AppCommandList[N]) do
       if (ItemModule=SModule) and (ItemProc=SProc) and (ItemProcParam<>'') then
         AppCommandList.Delete(N);
 
@@ -1809,7 +1809,7 @@ begin
     if not Sep.GetItemStr(SItem) then Break;
     SSplitByChar(SItem, cSepNameParam, SItemCaption, SItemParam);
 
-    CmdItem:= TAppCommand.Create;
+    CmdItem:= TAppCommandInfo.Create;
     CmdItem.ItemModule:= SModule;
     CmdItem.ItemProc:= SProc;
     CmdItem.ItemProcParam:= SItemParam;
@@ -2300,7 +2300,7 @@ begin
         Result:= categ_Plugin;
         N:= Cmd-cmdFirstPluginCommand;
         if N<AppCommandList.Count then
-          if TAppCommand(AppCommandList[N]).ItemFromApi then
+          if TAppCommandInfo(AppCommandList[N]).ItemFromApi then
             Result:= categ_PluginSub;
       end;
     cmdFirstLexerCommand..cmdLastLexerCommand:
@@ -2416,7 +2416,7 @@ var
   i: integer;
 begin
   for i:= AppCommandList.Count-1 downto 0 do
-    with TAppCommand(AppCommandList[i]) do
+    with TAppCommandInfo(AppCommandList[i]) do
       if (ItemModule<>'') and (not ItemFromApi) then
         AppCommandList.Delete(i);
 end;

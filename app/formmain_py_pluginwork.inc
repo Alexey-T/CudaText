@@ -54,7 +54,7 @@ var
   ini_section,
   dir_inf, s_section, s_caption, s_module, s_method, s_lexers,
   s_events, s_keys, s_inmenu, s_icon: string;
-  CmdItem: TAppCommand;
+  CmdItem: TAppCommandInfo;
   EventItem: TAppEvent;
   TreeHelper: TAppTreeHelper;
 begin
@@ -128,7 +128,7 @@ begin
         if s_caption='' then Continue;
         if s_method='' then Continue;
 
-        CmdItem:= TAppCommand.Create;
+        CmdItem:= TAppCommandInfo.Create;
         CmdItem.ItemModule:= s_module;
         CmdItem.ItemProc:= s_method;
         CmdItem.ItemProcParam:= '';
@@ -274,7 +274,7 @@ procedure TfmMain.UpdateMenuPlugins;
 var
   SCaption, SInMenu: string;
   LangFN, LastModule: string;
-  CmdItem: TAppCommand;
+  CmdItem: TAppCommandInfo;
   LangFile: TIniFile;
   i: integer;
 begin
@@ -290,7 +290,7 @@ begin
 
     for i:= 0 to AppCommandList.Count-1 do
     begin
-      CmdItem:= TAppCommand(AppCommandList[i]);
+      CmdItem:= TAppCommandInfo(AppCommandList[i]);
       if CmdItem.ItemModule='' then Break;
       if CmdItem.ItemFromApi then Continue;
 

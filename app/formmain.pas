@@ -3435,7 +3435,7 @@ begin
     categ_Plugin:
       begin
         NIndex:= NCmd-cmdFirstPluginCommand;
-        with TAppCommand(AppCommandList[NIndex]) do
+        with TAppCommandInfo(AppCommandList[NIndex]) do
           if ItemProcParam<>'' then
             Result:= Format('p:module=%s;cmd=%s;info=%s;', [ItemModule, ItemProc, ItemProcParam])
           else

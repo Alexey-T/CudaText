@@ -37,10 +37,10 @@ procedure TfmMain.DoPyCommand_ByPluginIndex(AIndex: integer);
 var
   F: TEditorFrame;
   CurLexer: string;
-  CmdItem: TAppCommand;
+  CmdItem: TAppCommandInfo;
 begin
   if not ((AIndex>=0) and (AIndex<AppCommandList.Count)) then exit;
-  CmdItem:= TAppCommand(AppCommandList[AIndex]);
+  CmdItem:= TAppCommandInfo(AppCommandList[AIndex]);
 
   F:= CurrentFrame;
   if F=nil then exit;

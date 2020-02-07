@@ -3846,7 +3846,7 @@ end;
 function Py_CommandList: PPyObject; cdecl;
 var
   Item, ItemInitial: TATKeymapItem;
-  ItemPlugin: TAppCommand;
+  ItemPlugin: TAppCommandInfo;
   NLen, i: Integer;
   SKeyInit1, SKeyInit2: string;
 begin
@@ -3896,7 +3896,7 @@ begin
           categ_Plugin,
           categ_PluginSub:
             begin
-              ItemPlugin:= TAppCommand(AppCommandList[Item.Command-cmdFirstPluginCommand]);
+              ItemPlugin:= TAppCommandInfo(AppCommandList[Item.Command-cmdFirstPluginCommand]);
               PyList_SetItem(Result, i,
                 Py_BuildValue('{sssisssssssssssssssOssss}',
                   'type',

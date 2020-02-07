@@ -836,7 +836,7 @@ end;
 
 procedure TfmMain.UpdateKeymapDynamicItems(ACategory: TAppCommandCategory);
 var
-  CmdItem: TAppCommand;
+  CmdItem: TAppCommandInfo;
   Frame: TEditorFrame;
   sl: TStringList;
   Cmd, i: integer;
@@ -881,7 +881,7 @@ begin
     categ_Plugin:
       for i:= 0 to AppCommandList.Count-1 do
       begin
-        CmdItem:= TAppCommand(AppCommandList[i]);
+        CmdItem:= TAppCommandInfo(AppCommandList[i]);
         if CmdItem.ItemFromApi then Continue;
         if CmdItem.ItemModule='' then Break;
         if SEndsWith(CmdItem.ItemCaption, '-') then Continue;
@@ -894,7 +894,7 @@ begin
     categ_PluginSub:
       for i:= 0 to AppCommandList.Count-1 do
       begin
-        CmdItem:= TAppCommand(AppCommandList[i]);
+        CmdItem:= TAppCommandInfo(AppCommandList[i]);
         if not CmdItem.ItemFromApi then Continue;
         if CmdItem.ItemModule='' then Break;
         if SEndsWith(CmdItem.ItemCaption, '-') then Continue;
