@@ -306,17 +306,17 @@ const
       '  cudatext [ key ... ] filename ...'+EOL+
       ''+EOL+
       'Supported keys:'+EOL+
-      '  -h, --help      - Show this help'+EOL+
-      '  -v, --version   - Show application version'+EOL+
-      '  -n              - Ignore option "ui_one_instance", force new app window'+EOL+
-      '  -z=[text|binary|hex|unicode] - Open in viewer, with given mode'+EOL+
-      '  -r              - Open all files from command line in read-only mode'+EOL+
-      '  -e=value        - Open all files from command line in given encoding'+EOL+
-      '  -el             - Show supported encoding names'+EOL+
+      '  -h, --help      - Show this help and exit'+EOL+
+      '  -v, --version   - Show application version and exit'+EOL+
+      '  -z=[text|binary|hex|unicode] - Open arguments in internal viewer'+EOL+
+      '  -r              - Open arguments in read-only mode'+EOL+
+      '  -e=value        - Open arguments in given encoding'+EOL+
+      '  -el             - Show supported encoding names and exit'+EOL+
+      '  -n              - Ignore option "ui_one_instance", open new app window'+EOL+
       '  -nh             - Ignore saved file history'+EOL+
       '  -ns             - Ignore saved session'+EOL+
       '  -w=left,top,width,height - Set position/size of app window'+EOL+
-      '  -i              - Read the contents of stdin (Unix only)'+EOL+
+      '  -i              - Open contents of stdin in new tab (Unix only)'+EOL+
       ''+EOL+
       'Filenames can be with ":line" or ":line:column" suffix to place caret.'+EOL+
       'Folder can be passed, will be opened in Project Manager plugin.'+EOL+
