@@ -377,9 +377,9 @@ begin
       Inc(EventTime, tick);
       i:= EventTimes.IndexOf(AModule);
       if i>=0 then
-        EventTimes.Objects[i]:= TObject(PtrInt(EventTimes.Objects[i])+tick)
+        EventTimes.Objects[i]:= TObject(PtrInt(EventTimes.Objects[i])+PtrInt(tick))
       else
-        EventTimes.AddObject(AModule, TObject(tick));
+        EventTimes.AddObject(AModule, TObject(PtrInt(tick)));
     end;
   end;
 
