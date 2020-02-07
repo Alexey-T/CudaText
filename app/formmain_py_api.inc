@@ -15,7 +15,6 @@ var
   PyLastCommandModule: string = '';
   PyLastCommandMethod: string = '';
   PyLastCommandParam: string = '';
-  PyCommandRunning: boolean = false;
   PyEscapeFlag: boolean = false;
   PyEditorMaybeDeleted: boolean = false;
 

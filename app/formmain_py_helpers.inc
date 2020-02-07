@@ -24,11 +24,9 @@ begin
     Frame.MacroString:= Frame.MacroString+ ('py:'+AModule+','+AMethod+','+PyLastCommandParam+#10);
 
   Ed.Strings.BeginUndoGroup;
-  PyCommandRunning:= true;
   try
     AppPython.RunCommand(AModule, AMethod, AParams);
   finally
-    PyCommandRunning:= false;
     if not PyEditorMaybeDeleted then
       Ed.Strings.EndUndoGroup;
   end;
@@ -120,7 +118,7 @@ begin
         //call Python
         if bNeedGroup then
           AEd.Strings.BeginUndoGroup;
-        PyCommandRunning:= true;
+
         try
           bLazy:= (AEvent=cEventOnExit) or Plugin.ItemEventsLazy[AEvent]; //on_exit must be lazy
           Result:= AppPython.RunEvent(
@@ -131,7 +129,6 @@ begin
               bLazy
               );
         finally
-          PyCommandRunning:= false;
           if bNeedGroup then
             AEd.Strings.EndUndoGroup;
         end;

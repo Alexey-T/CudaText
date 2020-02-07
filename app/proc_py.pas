@@ -26,6 +26,7 @@ type
   private
     FInited: boolean;
     FEngine: TPythonEngine;
+    FRunning: boolean;
     EventTime: QWord;
     EventTimes: TStringList;
     LoadedLocals: TStringList;
@@ -48,6 +49,7 @@ type
     procedure Initialize;
     property Inited: boolean read FInited;
     property Engine: TPythonEngine read FEngine;
+    property IsRunning: boolean read FRunning;
 
     function Eval(const Command: string; UseFileMode: boolean=false): PPyObject;
     procedure Exec(const Command: string);
@@ -275,6 +277,7 @@ var
   SObj: string;
   Obj: PPyObject;
 begin
+  FRunning:= true;
   SObj:= NamePrefix+AModule;
 
   if not IsLoadedLocal(SObj) then
@@ -288,14 +291,18 @@ begin
     end;
   end;
 
-  Obj:= MethodEval(SObj, AMethod, StrArrayToString(AParams));
-  if Assigned(Obj) then
-    with FEngine do
-    begin
-      //only check for False
-      Result:= Pointer(Obj)<>Pointer(Py_False);
-      Py_XDECREF(Obj);
-    end;
+  try
+    Obj:= MethodEval(SObj, AMethod, StrArrayToString(AParams));
+    if Assigned(Obj) then
+      with FEngine do
+      begin
+        //only check for False
+        Result:= Pointer(Obj)<>Pointer(Py_False);
+        Py_XDECREF(Obj);
+      end;
+  finally
+    FRunning:= false;
+  end;
 end;
 
 function TAppPython.RunEvent(const AModule, ACmd: string; AEd: TObject;
@@ -309,6 +316,7 @@ begin
   Result.Val:= evrOther;
   Result.Str:= '';
 
+  FRunning:= true;
   if Assigned(EventTimes) then
     tick:= GetTickCount64;
 
@@ -361,6 +369,8 @@ begin
         EventTimes.AddObject(AModule, TObject(tick));
     end;
   end;
+
+  FRunning:= false;
 end;
 
 

@@ -2367,7 +2367,7 @@ begin
   if (Key=VK_ESCAPE) and (Shift=[]) then
   begin
     PyEscapeFlag:= true;
-    if PyCommandRunning then
+    if AppPython.IsRunning then
     begin
       Key:= 0;
       exit

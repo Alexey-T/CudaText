@@ -535,7 +535,7 @@ begin
   Frame:= GetEditorFrame(Ed);
 
   if Assigned(Frame) and Frame.MacroRecord then
-    if not PyCommandRunning then
+    if not AppPython.IsRunning then
       if IsCommandForMacros(ACommand) then
       begin
         Str:= IntToStr(ACommand);
