@@ -55,7 +55,7 @@ var
   dir_inf, s_section, s_caption, s_module, s_method, s_lexers,
   s_events, s_keys, s_inmenu, s_icon: string;
   CmdItem: TAppCommandInfo;
-  EventItem: TAppEvent;
+  EventItem: TAppEventInfo;
   TreeHelper: TAppTreeHelper;
 begin
   ini:= TIniFile.Create(fn_inf);
@@ -144,7 +144,7 @@ begin
       begin
         if s_events='' then Continue;
 
-        EventItem:= TAppEvent.Create;
+        EventItem:= TAppEventInfo.Create;
         EventItem.ItemModule:= s_module;
         AppEventStringToEventData(s_events,
           EventItem.ItemEvents,
@@ -174,7 +174,7 @@ begin
 
   s:= '';
   for i:= 0 to Min(AppEventList.Count-1, 20) do
-    with TAppEvent(AppEventList[i]) do
+    with TAppEventInfo(AppEventList[i]) do
     begin
       s2:= '';
       for ev in TAppPyEvent do

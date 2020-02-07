@@ -770,7 +770,7 @@ type
   end;
 
 type
-  TAppEvent = class
+  TAppEventInfo = class
     ItemModule: string;
     ItemLexers: string;
     ItemEvents: TAppPyEvents;
@@ -2379,22 +2379,22 @@ end;
 
 procedure AppEventsUpdate(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
 var
-  EventItem: TAppEvent;
+  EventItem: TAppEventInfo;
   i: integer;
 begin
   //find index of plugin (get first empty index if not listed)
   EventItem:= nil;
   for i:= 0 to AppEventList.Count-1 do
-    with TAppEvent(AppEventList[i]) do
+    with TAppEventInfo(AppEventList[i]) do
       if (ItemModule=AModuleName) then
       begin
-        EventItem:= TAppEvent(AppEventList[i]);
+        EventItem:= TAppEventInfo(AppEventList[i]);
         Break
       end;
 
   if EventItem=nil then
   begin
-    EventItem:= TAppEvent.Create;
+    EventItem:= TAppEventInfo.Create;
     AppEventList.Add(EventItem);
   end;
 
@@ -2424,7 +2424,7 @@ end;
 procedure AppEventsMaxPrioritiesUpdate;
 var
   ev: TAppPyEvent;
-  Plugin: TAppEvent;
+  Plugin: TAppEventInfo;
   Value, i: integer;
 begin
   for ev in TAppPyEvent do
@@ -2432,7 +2432,7 @@ begin
     Value:= -1;
     for i:= 0 to AppEventList.Count-1 do
     begin
-      Plugin:= TAppEvent(AppEventList[i]);
+      Plugin:= TAppEventInfo(AppEventList[i]);
       if ev in Plugin.ItemEvents then
         Value:= Max(Value, Plugin.ItemEventsPrior[ev]);
     end;

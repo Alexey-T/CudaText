@@ -70,7 +70,7 @@ var
   bNeedGroup: boolean;
   Frame: TEditorFrame;
   MaxPriority, NPlugin, NPriority: integer;
-  Plugin: TAppEvent;
+  Plugin: TAppEventInfo;
   bLazy: boolean;
 begin
   Result.Val:= evrOther;
@@ -104,7 +104,7 @@ begin
   for NPriority:= MaxPriority downto 0 do
     for NPlugin:= 0 to AppEventList.Count-1 do
       begin
-        Plugin:= TAppEvent(AppEventList[NPlugin]);
+        Plugin:= TAppEventInfo(AppEventList[NPlugin]);
         if not (AEvent in Plugin.ItemEvents) then Continue;
         if (NPriority<>Plugin.ItemEventsPrior[AEvent]) then Continue;
         if not ((Plugin.ItemLexers='') or IsLexerListed(SCurLexer, Plugin.ItemLexers)) then Continue;
