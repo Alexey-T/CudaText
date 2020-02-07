@@ -100,6 +100,14 @@ object SyntAnal23: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = '1st String 2'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '^[\x20\x09]* [buf]* ("|'#39') (\\.|.)*? (\1|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = '1st Id'
       StyleName = 'Id'
       TokenType = 9
