@@ -12,9 +12,6 @@ const
   cPyEditorHandleMax = 10000;
 
 var
-  PyLastCommandModule: string = '';
-  PyLastCommandMethod: string = '';
-  PyLastCommandParam: string = '';
   PyEscapeFlag: boolean = false;
   PyEditorMaybeDeleted: boolean = false;
 
@@ -4093,9 +4090,9 @@ begin
 
         APP_PROC_GET_LAST_PLUGIN:
           begin
-            Str:= PyLastCommandModule+','+PyLastCommandMethod;
-            if PyLastCommandParam<>'' then
-              Str:= Str+','+PyLastCommandParam;
+            Str:= AppPython.LastCommandModule+','+AppPython.LastCommandMethod;
+            if AppPython.LastCommandParam<>'' then
+              Str:= Str+','+AppPython.LastCommandParam;
             Result:= PyString_FromString(PChar(Str));
           end;
 

@@ -27,6 +27,9 @@ type
     FInited: boolean;
     FEngine: TPythonEngine;
     FRunning: boolean;
+    FLastCommandModule: string;
+    FLastCommandMethod: string;
+    FLastCommandParam: string;
     EventTime: QWord;
     EventTimes: TStringList;
     LoadedLocals: TStringList;
@@ -50,6 +53,9 @@ type
     property Inited: boolean read FInited;
     property Engine: TPythonEngine read FEngine;
     property IsRunning: boolean read FRunning;
+    property LastCommandModule: string read FLastCommandModule;
+    property LastCommandMethod: string read FLastCommandMethod;
+    property LastCommandParam: string read FLastCommandParam;
 
     function Eval(const Command: string; UseFileMode: boolean=false): PPyObject;
     procedure Exec(const Command: string);
@@ -278,6 +284,13 @@ var
   Obj: PPyObject;
 begin
   FRunning:= true;
+  FLastCommandModule:= AModule;
+  FLastCommandMethod:= AMethod;
+  if Length(AParams)>0 then
+    FLastCommandParam:= AParams[0]
+  else
+    FLastCommandParam:= '';
+
   SObj:= NamePrefix+AModule;
 
   if not IsLoadedLocal(SObj) then

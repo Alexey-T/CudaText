@@ -6,13 +6,9 @@ procedure TfmMain.DoPyCommand(const AModule, AMethod: string;
 var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
+  SParam: string;
 begin
   if not AppPython.Inited then exit;
-  PyLastCommandModule:= AModule;
-  PyLastCommandMethod:= AMethod;
-  PyLastCommandParam:= '';
-  if Length(AParams)>0 then
-    PyLastCommandParam:= AParams[0];
   PyEditorMaybeDeleted:= false;
 
   Frame:= CurrentFrame;
@@ -20,8 +16,12 @@ begin
   Ed:= Frame.Editor;
   if Ed=nil then exit;
 
+  SParam:= '';
+  if Length(AParams)>0 then
+    SParam:= AParams[0];
+
   if Frame.MacroRecord then
-    Frame.MacroString:= Frame.MacroString+ ('py:'+AModule+','+AMethod+','+PyLastCommandParam+#10);
+    Frame.MacroString:= Frame.MacroString+ ('py:'+AModule+','+AMethod+','+SParam+#10);
 
   Ed.Strings.BeginUndoGroup;
   try
@@ -347,8 +347,8 @@ end;
 
 procedure TfmMain.DoPyRunLastPlugin;
 begin
-  if PyLastCommandModule<>'' then
-    DoPyCommand(PyLastCommandModule, PyLastCommandMethod, PyLastCommandParam);
+  if AppPython.LastCommandModule<>'' then
+    DoPyCommand(AppPython.LastCommandModule, AppPython.LastCommandMethod, AppPython.LastCommandParam);
 end;
 
 
