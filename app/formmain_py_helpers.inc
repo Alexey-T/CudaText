@@ -17,7 +17,7 @@ begin
 
   Frame:= CurrentFrame;
   if Frame=nil then exit;
-  Ed:= CurrentEditor;
+  Ed:= Frame.Editor;
   if Ed=nil then exit;
 
   if Frame.MacroRecord then
