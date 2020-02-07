@@ -262,32 +262,3 @@ begin
   Result:= D.TabObject as TEditorFrame;
 end;
 
-
-procedure TfmMain.FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt,
-  ANewPnt: TPoint);
-var
-  F: TEditorFrame;
-  Pnt: TPoint;
-begin
-  F:= Sender as TEditorFrame;
-  if F.MacroRecord then
-  begin
-    Pnt:= ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt);
-    F.MacroString:= F.MacroString+(Format('%d,%d,%d', [cmd_MouseClickNearCaret, Pnt.X, Pnt.Y])+#10);
-  end;
-end;
-
-procedure TfmMain.FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt,
-  ANewPnt: TPoint);
-var
-  F: TEditorFrame;
-  Pnt: TPoint;
-begin
-  F:= Sender as TEditorFrame;
-  if F.MacroRecord then
-  begin
-    Pnt:= ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt);
-    F.MacroString:= F.MacroString+(Format('%d,%d,%d', [cmd_MouseClickNearCaretAndSelect, Pnt.X, Pnt.Y])+#10);
-  end;
-end;
-

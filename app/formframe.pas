@@ -111,8 +111,6 @@ type
     FOnChangeCaption: TNotifyEvent;
     FOnProgress: TATFinderProgress;
     FOnUpdateStatus: TNotifyEvent;
-    FOnEditorClickMoveCaret: TATSynEditClickMoveCaretEvent;
-    FOnEditorClickEndSelect: TATSynEditClickMoveCaretEvent;
     FOnFocusEditor: TNotifyEvent;
     FOnEditorCommand: TATSynEditCommandEvent;
     FOnEditorChangeCaretPos: TNotifyEvent;
@@ -189,8 +187,7 @@ type
     procedure EditorOnHotspotEnter(Sender: TObject; AHotspotIndex: integer);
     procedure EditorOnHotspotExit(Sender: TObject; AHotspotIndex: integer);
     procedure EditorOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure EditorOnPaste(Sender: TObject; var AHandled: boolean; AKeepCaret,
-      ASelectThen: boolean);
+    procedure EditorOnPaste(Sender: TObject; var AHandled: boolean; AKeepCaret, ASelectThen: boolean);
     procedure EditorOnScroll(Sender: TObject);
     function GetAdapter(Ed: TATSynEdit): TATAdapterEControl;
     function GetCachedTreeviewInited(Ed: TATSynEdit): boolean;
@@ -379,8 +376,6 @@ type
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
     property OnChangeCaption: TNotifyEvent read FOnChangeCaption write FOnChangeCaption;
     property OnUpdateStatus: TNotifyEvent read FOnUpdateStatus write FOnUpdateStatus;
-    property OnEditorClickMoveCaret: TATSynEditClickMoveCaretEvent read FOnEditorClickMoveCaret write FOnEditorClickMoveCaret;
-    property OnEditorClickEndSelect: TATSynEditClickMoveCaretEvent read FOnEditorClickEndSelect write FOnEditorClickEndSelect;
     property OnEditorCommand: TATSynEditCommandEvent read FOnEditorCommand write FOnEditorCommand;
     property OnEditorChangeCaretPos: TNotifyEvent read FOnEditorChangeCaretPos write FOnEditorChangeCaretPos;
     property OnSaveFile: TNotifyEvent read FOnSaveFile write FOnSaveFile;
@@ -2530,11 +2525,15 @@ begin
     FOnUpdateStatus(Self);
 end;
 
-procedure TEditorFrame.EditorClickMoveCaret(Sender: TObject; APrevPnt,
-  ANewPnt: TPoint);
+procedure TEditorFrame.EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
+var
+  Pnt: TPoint;
 begin
-  if Assigned(FOnEditorClickMoveCaret) then
-    FOnEditorClickMoveCaret(Self, APrevPnt, ANewPnt);
+  if MacroRecord then
+  begin
+    Pnt:= ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt);
+    FMacroString+= Format('%d,%d,%d', [cmd_MouseClickNearCaret, Pnt.X, Pnt.Y])+#10;
+  end;
 end;
 
 procedure TEditorFrame.EditorDrawMicromap(Sender: TObject; C: TCanvas;
@@ -2682,11 +2681,15 @@ begin
   end;
 end;
 
-procedure TEditorFrame.EditorClickEndSelect(Sender: TObject; APrevPnt,
-  ANewPnt: TPoint);
+procedure TEditorFrame.EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
+var
+  Pnt: TPoint;
 begin
-  if Assigned(FOnEditorClickEndSelect) then
-    FOnEditorClickEndSelect(Self, APrevPnt, ANewPnt);
+  if MacroRecord then
+  begin
+    Pnt:= ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt);
+    FMacroString+= Format('%d,%d,%d', [cmd_MouseClickNearCaretAndSelect, Pnt.X, Pnt.Y])+#10;
+  end;
 end;
 
 
@@ -3462,6 +3465,7 @@ begin
     EditorOnChangeCaretPos(Ed2);
   end;
 end;
+
 
 end.
 

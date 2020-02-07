@@ -803,8 +803,6 @@ type
     procedure DoSplitter_SetInfo(const Id: integer; NPos: integer);
     procedure DoToolbarClick(Sender: TObject);
     procedure FrameLexerChange(Sender: TObject);
-    procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
-    procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     function GetFloatBottom: boolean;
     function GetFloatSide: boolean;
     function GetFloatGroups: boolean;
