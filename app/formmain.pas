@@ -1871,13 +1871,14 @@ var
   Panel: TAppSidePanel;
   i: integer;
 begin
-  //"Check for Updates" sopported only on Windows
+  //"Check for updates" is supported only on Windows
   {$ifndef windows}
   mnuHelpCheckUpd.Enabled:= false;
   {$endif}
 
   {$ifdef darwin}
   //Cocoa WS has a bug - PanelSide.AutoSize works bad
+  // https://bugs.freepascal.org/view.php?id=36682
   PanelSide.Width:= ToolbarSideTop.Images.Width;
   {$endif}
 
