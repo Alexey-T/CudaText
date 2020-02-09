@@ -81,7 +81,7 @@ var
   AppPython: TAppPython;
 
 function AppVariantToPyObject(const V: TAppVariant): PPyObject;
-
+function AppVariantArrayToPyObject(const V: TAppVariantArray): PPyObject;
 
 implementation
 
@@ -125,6 +125,18 @@ begin
       else
         raise Exception.Create('Unknown type in AppVariantToPyObject');
     end;
+end;
+
+function AppVariantArrayToPyObject(const V: TAppVariantArray): PPyObject;
+var
+  i: integer;
+begin
+  with AppPython.Engine do
+  begin
+    Result:= PyTuple_New(Length(V));
+    for i:= 0 to Length(V)-1 do
+      PyTuple_SetItem(Result, i, AppVariantToPyObject(V[i]));
+  end;
 end;
 
 
