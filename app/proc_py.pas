@@ -80,7 +80,53 @@ const
 var
   AppPython: TAppPython;
 
+function AppVariantToPyObject(const V: TAppVariant): PPyObject;
+
+
 implementation
+
+function AppVariantToPyObject(const V: TAppVariant): PPyObject;
+var
+  i: integer;
+  VV: PPyObject;
+begin
+  with AppPython.Engine do
+    case V.Typ of
+      avrInt:
+        Result:= PyLong_FromLongLong(V.Int);
+      avrStr:
+        Result:= PyString_FromString(PChar(V.Str));
+      avrBool:
+        Result:= PyBool_FromLong(Ord(V.Bool));
+      avrRect:
+        with V.Rect do
+          Result:= Py_BuildValue('(iiii)', Left, Top, Right, Bottom);
+      avrDict:
+        begin
+          Result:= PyDict_New();
+          for i:= 0 to V.DictLen-1 do
+          begin
+            case V.DictItems[i].Typ of
+              avdBool:
+                VV:= PyBool_FromLong(Ord(V.DictItems[i].Bool));
+              avdInt:
+                VV:= PyLong_FromLongLong(V.DictItems[i].Int);
+              avdStr:
+                VV:= PyString_FromString(PChar(string(V.DictItems[i].Str)));
+              avdRect:
+                with V.DictItems[i].Rect do
+                  VV:= Py_BuildValue('(iiii)', Left, Top, Right, Bottom);
+              else
+                raise Exception.Create('Unknown type in AppVariantToPyObject');
+            end;
+            PyDict_SetItemString(Result, PChar(string(V.DictItems[i].KeyName)), VV);
+          end;
+        end;
+      else
+        raise Exception.Create('Unknown type in AppVariantToPyObject');
+    end;
+end;
+
 
 { TAppPython }
 
