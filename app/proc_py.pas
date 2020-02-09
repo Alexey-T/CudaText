@@ -43,8 +43,6 @@ type
     function MethodEval(const AObject, AMethod, AParams: string): PPyObject;
     function MethodEvalEx(const AObject, AMethod, AParams: string): TAppPyEventResult;
     function StrArrayToString(const V: array of string): string;
-    function VariantToString(const V: TAppVariant): string;
-    function VariantArrayToString(const V: TAppVariantArray): string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -148,35 +146,6 @@ begin
   if Result<>'' then
     SetLength(Result, Length(Result)-1);
 end;
-
-function TAppPython.VariantToString(const V: TAppVariant): string;
-begin
-  case V.Typ of
-    avrInt:
-      Result:= IntToStr(V.Int);
-    avrStr:
-      Result:= SStringToPythonString(V.Str);
-    avrBool:
-      begin
-        if V.Bool then
-          Result:= 'True'
-        else
-          Result:= 'False';
-      end;
-  end;
-end;
-
-function TAppPython.VariantArrayToString(const V: TAppVariantArray): string;
-var
-  i: integer;
-begin
-  Result:= '';
-  for i:= 0 to Length(V)-1 do
-    Result+= VariantToString(V[i])+',';
-  if Result<>'' then
-    SetLength(Result, Length(Result)-1);
-end;
-
 
 function TAppPython.Eval(const Command: string; UseFileMode: boolean=false): PPyObject;
 var

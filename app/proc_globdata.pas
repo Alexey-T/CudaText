@@ -691,6 +691,8 @@ function AppVariant(Value: boolean): TAppVariant; inline;
 function AppVariant(const Value: Int64): TAppVariant; inline;
 function AppVariant(const Value: string): TAppVariant; inline;
 function AppVariant(const Value: TRect): TAppVariant; inline;
+function AppVariantToString(const V: TAppVariant): string;
+function AppVariantArrayToString(const V: TAppVariantArray): string;
 
 type
   TAppPyEvent = (
@@ -2472,6 +2474,37 @@ begin
     end;
     AppEventsMaxPriorities[ev]:= Value;
   end;
+end;
+
+
+function AppVariantToString(const V: TAppVariant): string;
+begin
+  case V.Typ of
+    avrInt:
+      Result:= IntToStr(V.Int);
+    avrStr:
+      Result:= SStringToPythonString(V.Str);
+    avrBool:
+      begin
+        if V.Bool then
+          Result:= 'True'
+        else
+          Result:= 'False';
+      end;
+    avrRect:
+      Result:= Format('(%d,%d,%d,%d)', [V.Rect.Left, V.Rect.Top, V.Rect.Right, V.Rect.Bottom]);
+  end;
+end;
+
+function AppVariantArrayToString(const V: TAppVariantArray): string;
+var
+  i: integer;
+begin
+  Result:= '';
+  for i:= 0 to Length(V)-1 do
+    Result+= AppVariantToString(V[i])+',';
+  if Result<>'' then
+    SetLength(Result, Length(Result)-1);
 end;
 
 
