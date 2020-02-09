@@ -666,9 +666,8 @@ type
     );
 
   TAppVariantDictItem = record
-    Typ: TAppVariantDictTypeId;
     KeyName: string[15];
-    case TAppVariantDictTypeId of
+    case Typ: TAppVariantDictTypeId of
       avdBool: (Bool: boolean);
       avdInt: (Int: Int64);
       avdRect: (Rect: TRect);
@@ -676,9 +675,8 @@ type
   end;
 
   TAppVariant = record
-    Typ: TAppVariantTypeId;
     Str: string;
-    case TAppVariantTypeId of
+    case Typ: TAppVariantTypeId of
       avrBool: (Bool: boolean);
       avrInt: (Int: Int64);
       avrRect: (Rect: TRect);
