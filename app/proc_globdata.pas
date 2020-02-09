@@ -650,11 +650,39 @@ type
     Str: string;
   end;
 
+  TAppVariantTypeId = (
+    avrBool,
+    avrInt,
+    avrStr,
+    avrRect,
+    avrDict
+    );
+
+  TAppVariantDictTypeId = (
+    avdBool,
+    avdInt,
+    avdStr,
+    avdRect
+    );
+
+  TAppVariantDictItem = record
+    Typ: TAppVariantDictTypeId;
+    KeyName: string[15];
+    case TAppVariantDictTypeId of
+      avdBool: (Bool: boolean);
+      avdInt: (Int: Int64);
+      avdRect: (Rect: TRect);
+      avdStr: (Str: string[10]);
+  end;
+
   TAppVariant = record
-    Typ: (avrBool, avrInt, avrStr);
-    Bool: boolean;
-    Int: Int64;
+    Typ: TAppVariantTypeId;
     Str: string;
+    case TAppVariantTypeId of
+      avrBool: (Bool: boolean);
+      avrInt: (Int: Int64);
+      avrRect: (Rect: TRect);
+      avrDict: (DictLen: integer; DictItems: array[0..6] of TAppVariantDictItem);
   end;
 
   TAppVariantArray = array of TAppVariant;
@@ -662,7 +690,7 @@ type
 function AppVariant(Value: boolean): TAppVariant; inline;
 function AppVariant(const Value: Int64): TAppVariant; inline;
 function AppVariant(const Value: string): TAppVariant; inline;
-
+function AppVariant(const Value: TRect): TAppVariant; inline;
 
 type
   TAppPyEvent = (
@@ -1000,6 +1028,12 @@ function AppVariant(const Value: string): TAppVariant;
 begin
   Result.Typ:= avrStr;
   Result.Str:= Value;
+end;
+
+function AppVariant(const Value: TRect): TAppVariant;
+begin
+  Result.Typ:= avrRect;
+  Result.Rect:= Value
 end;
 
 
