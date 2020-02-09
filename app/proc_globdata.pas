@@ -666,6 +666,7 @@ type
     );
 
   TAppVariantDictItem = record
+    //in all Form events, real strings are very short, and keynames are too
     KeyName: string[15];
     case Typ: TAppVariantDictTypeId of
       avdBool: (Bool: boolean);
