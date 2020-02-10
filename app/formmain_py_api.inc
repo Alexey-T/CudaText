@@ -7674,6 +7674,9 @@ begin
 end;
 
 
+type
+  TFormHack = class(TForm);
+
 //dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name='')
 function Py_dlg_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
@@ -7759,7 +7762,8 @@ begin
 
         DLG_UNLOCK:
           begin
-            Form.EnableAutoSizing;
+            if TFormHack(Form).AutoSizingLockCount>0 then //check to avoid exception if Unlock was called more times
+              Form.EnableAutoSizing;
             Result:= ReturnNone;
           end;
 
