@@ -1,4 +1,4 @@
-object SyntAnal27: TLibSyntAnalyzer
+object SyntAnal16: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -25,7 +25,7 @@ object SyntAnal27: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'StringHere'
+      DisplayName = 'String here'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clOlive
       Font.Height = -13
@@ -79,6 +79,22 @@ object SyntAnal27: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'Operator'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Variable std'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clFuchsia
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -115,17 +131,17 @@ object SyntAnal27: TLibSyntAnalyzer
     end
     item
       DisplayName = 'StringHere'
-      StyleName = 'StringHere'
+      StyleName = 'String here'
       TokenType = 6
       Expression = '(?s) @(["'#39'])$ .+? ^\1@'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'IdVariable'
+      DisplayName = 'Var'
       StyleName = 'Variable'
-      TokenType = 2
-      Expression = '\$\w+'
+      TokenType = 8
+      Expression = '\$[\$\?\^] | \$(global:|local:|script:|private:|\d+:)?\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -138,26 +154,39 @@ object SyntAnal27: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Hex'
+      DisplayName = 'Number hex'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '0x[\da-f]+'
+      Expression = '(0x[\da-f]+|0b[01]+) (y|uy|s|us|l|u|ul|n)?(kb|mb|gb|tb|pb)?\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Float'
+      DisplayName = 'Number float'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '(\d+ \.)? \d+ e [\+\-]? \d+ |'#13#10'\d+\.\d+'
+      Expression = 
+        '\d+\.?\d* e[\+\-]?\d+ [DL]?(kb|mb|gb|tb|pb)?\b |'#13#10'\d+\.\d+ [DL]?' +
+        '(kb|mb|gb|tb|pb)?\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Integer'
+      DisplayName = 'Number int'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '\d+'
+      Expression = '\d+ (d|y|uy|s|us|l|u|ul|n)?(kb|mb|gb|tb|pb)?\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Operator'
+      StyleName = 'Operator'
+      TokenType = 7
+      Expression = 
+        '-(eq|ne|gt|lt|le|ge|match|notmatch|replace|like|notlike|in|notin' +
+        '|contains|notcontains|and|or|xor|not|bAND|bOR|bXOR|bNOT|split|jo' +
+        'in|is|isnot|as)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -209,7 +238,6 @@ object SyntAnal27: TLibSyntAnalyzer
             'Private'
             'Process'
             'Return'
-            'Switch'
             'Throw'
             'Trap'
             'Try'
@@ -223,7 +251,7 @@ object SyntAnal27: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'Cmd'
+      DisplayName = 'Commands'
       StyleName = 'Cmd'
       BlockType = btTagDetect
       ConditionList = <
@@ -370,11 +398,91 @@ object SyntAnal27: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
+            'bigint'
             'bool'
+            'byte'
+            'datetime'
+            'decimal'
+            'double'
             'float'
+            'hashtable'
             'int'
-            'string')
+            'int16'
+            'int32'
+            'int64'
+            'long'
+            'sbyte'
+            'short'
+            'single'
+            'string'
+            'switch'
+            'uint'
+            'uint16'
+            'uint32'
+            'uint64'
+            'ulong'
+            'ushort')
           TokenTypes = 4
+          IgnoreCase = True
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'StdVars'
+      StyleName = 'Variable std'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '$^'
+            '$_'
+            '$?'
+            '$$'
+            '$args'
+            '$ConsoleFileName'
+            '$Error'
+            '$Event'
+            '$EventArgs'
+            '$EventSubscriber'
+            '$ExecutionContext'
+            '$false'
+            '$foreach'
+            '$HOME'
+            '$Host'
+            '$input'
+            '$IsCoreCLR'
+            '$IsLinux'
+            '$IsMacOS'
+            '$IsWindows'
+            '$LastExitCode'
+            '$Matches'
+            '$MyInvocation'
+            '$NestedPromptLevel'
+            '$null'
+            '$OFS'
+            '$OutputEncoding'
+            '$PID'
+            '$PROFILE'
+            '$PSBoundParameters'
+            '$PSCmdlet'
+            '$PSCommandPath'
+            '$PSCulture'
+            '$PSDebugContext'
+            '$PSHOME'
+            '$PSItem'
+            '$PSScriptRoot'
+            '$PSSenderInfo'
+            '$PSUICulture'
+            '$PSVersionTable'
+            '$PWD'
+            '$Sender'
+            '$ShellId'
+            '$StackTrace'
+            '$switch'
+            '$this'
+            '$true')
+          TokenTypes = 256
           IgnoreCase = True
         end>
       HighlightPos = cpAny
@@ -460,20 +568,21 @@ object SyntAnal27: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
-    '# Convert any text file to UTF-8'
-    
-      'param( [string] $infile = $(throw "Please specify a filename.") ' +
-      ')'
-    '$outfile = "$infile.utf8"'
+    '# Comment'
+    'param( [string] $infile = $(throw "Enter filename") )'
+    '$myname = "$infile.utf8"'
     'get-content -Path $infile | out-file $outfile -encoding utf8'
-    ''
-    '$s = "My name is `"Joe"", hi" + '#39'Joe'#39#39'test'#39' test'
-    '$string = @"'
+    '$null, $IsWindows, $event,  -ne, -lt, -ge, int32, datetime'
+    '$private:myname = "My name is `"Joe"", hi" + '#39'Joe'#39#39'test'#39
+    '$2:string = @"'
     'one'
     '"@'
-    ''
     '<# Block comment'
-    '#>')
+    '#>'
+    '0xBEEF, 0b010, 10, 20kb, 1tb + 2n, 1.2e-3, 1.2tb '
+    '100u, 100D, 100l, 100uL, 100us, 100uy, 100y'
+    '1e2, 1.e2, 0x1e2, 0x1e2L, 0x1e2D, 482D'
+    '482gb, 482ngb, 0x1e2lgb, 0b1011011, 0xFFFFFFFF, 0xFFFFFFFFu')
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
@@ -481,12 +590,17 @@ object SyntAnal27: TLibSyntAnalyzer
     'Symbol'
     'String'
     'Number'
-    'StringHere')
+    'String here'
+    'Operator'
+    'Var')
   Extentions = 'ps1'
   LexerName = 'PowerShell'
   Notes.Strings = (
     'Alexey (CudaText)'
-    'Test: http://www.robvanderwoude.com/powershellexamples.php')
+    'Tests: http://www.robvanderwoude.com/powershellexamples.php'
+    
+      'Numbers: https://docs.microsoft.com/en-us/powershell/module/micr' +
+      'osoft.powershell.core/about/about_numeric_literals')
   LineComment = '# '
   Charset = DEFAULT_CHARSET
 end
