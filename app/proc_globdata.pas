@@ -651,10 +651,12 @@ type
   end;
 
   TAppVariantTypeId = (
+    avrNil,
     avrBool,
     avrInt,
     avrStr,
-    avrRect,
+    avrTupleInt,
+    avrTupleIntStr,
     avrDict
     );
 
@@ -680,16 +682,19 @@ type
     case Typ: TAppVariantTypeId of
       avrBool: (Bool: boolean);
       avrInt: (Int: Int64);
-      avrRect: (Rect: TRect);
+      avrTupleInt: (TupleLen: integer; TupleItems: array[0..6] of integer);
+      avrTupleIntStr: (Tuple2Int: Int64; Tuple2Str: string[10]);
       avrDict: (DictLen: integer; DictItems: array[0..6] of TAppVariantDictItem);
   end;
 
   TAppVariantArray = array of TAppVariant;
 
+function AppVariantNil: TAppVariant; inline;
 function AppVariant(Value: boolean): TAppVariant; inline;
 function AppVariant(const Value: Int64): TAppVariant; inline;
 function AppVariant(const Value: string): TAppVariant; inline;
 function AppVariant(const Value: TRect): TAppVariant; inline;
+function AppVariant(const Value: array of integer): TAppVariant;
 function AppVariantToString(const V: TAppVariant): string;
 function AppVariantArrayToString(const V: TAppVariantArray): string;
 
@@ -1013,28 +1018,53 @@ begin
     Result:= AppDir_Home+Copy(Result, 3, MaxInt);
 end;
 
+function AppVariantNil: TAppVariant;
+begin
+  FillChar(Result, SizeOf(Result), 0);
+  Result.Typ:= avrNil;
+end;
+
 function AppVariant(Value: boolean): TAppVariant;
 begin
+  FillChar(Result, SizeOf(Result), 0);
   Result.Typ:= avrBool;
   Result.Bool:= Value;
 end;
 
 function AppVariant(const Value: Int64): TAppVariant;
 begin
+  FillChar(Result, SizeOf(Result), 0);
   Result.Typ:= avrInt;
   Result.Int:= Value;
 end;
 
 function AppVariant(const Value: string): TAppVariant;
 begin
+  FillChar(Result, SizeOf(Result), 0);
   Result.Typ:= avrStr;
   Result.Str:= Value;
 end;
 
 function AppVariant(const Value: TRect): TAppVariant;
 begin
-  Result.Typ:= avrRect;
-  Result.Rect:= Value
+  FillChar(Result, SizeOf(Result), 0);
+  Result.Typ:= avrTupleInt;
+  Result.TupleLen:= 4;
+  Result.TupleItems[0]:= Value.Left;
+  Result.TupleItems[1]:= Value.Top;
+  Result.TupleItems[2]:= Value.Right;
+  Result.TupleItems[3]:= Value.Bottom;
+end;
+
+function AppVariant(const Value: array of integer): TAppVariant;
+var
+  i: integer;
+begin
+  FillChar(Result, SizeOf(Result), 0);
+  Result.Typ:= avrTupleInt;
+  Result.TupleLen:= Length(Value);
+  for i:= 0 to Min(Length(Value), Length(Result.TupleItems))-1 do
+    Result.TupleItems[i]:= Value[i];
 end;
 
 
@@ -2475,7 +2505,6 @@ begin
   end;
 end;
 
-
 function AppVariantToString(const V: TAppVariant): string;
 begin
   case V.Typ of
@@ -2490,8 +2519,8 @@ begin
         else
           Result:= 'False';
       end;
-    avrRect:
-      Result:= Format('(%d,%d,%d,%d)', [V.Rect.Left, V.Rect.Top, V.Rect.Right, V.Rect.Bottom]);
+    else
+      raise Exception.Create('Unhandled type in AppVariantToString');
   end;
 end;
 
