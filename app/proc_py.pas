@@ -92,15 +92,18 @@ var
 begin
   with AppPython.Engine do
     case V.Typ of
+      avrNil:
+        raise Exception.Create('Nil type in AppVariantToPyObject');
+
       avrInt:
         Result:= PyLong_FromLongLong(V.Int);
+
       avrStr:
         Result:= PyString_FromString(PChar(V.Str));
+
       avrBool:
         Result:= PyBool_FromLong(Ord(V.Bool));
-      avrRect:
-        with V.Rect do
-          Result:= Py_BuildValue('(iiii)', Left, Top, Right, Bottom);
+
       avrDict:
         begin
           Result:= PyDict_New();
@@ -117,13 +120,28 @@ begin
                 with V.DictItems[i].Rect do
                   VV:= Py_BuildValue('(iiii)', Left, Top, Right, Bottom);
               else
-                raise Exception.Create('Unknown type in AppVariantToPyObject');
+                raise Exception.Create('Unhandled dict item in AppVariantToPyObject');
             end;
             PyDict_SetItemString(Result, PChar(string(V.DictItems[i].KeyName)), VV);
           end;
         end;
+
+      avrTupleInt:
+        begin
+          Result:= PyTuple_New(V.TupleLen);
+          for i:= 0 to V.TupleLen-1 do
+            PyTuple_SetItem(Result, i, PyInt_FromLong(V.TupleItems[i]));
+        end;
+
+      avrTupleIntStr:
+        begin
+          Result:= PyTuple_New(2);
+          PyTuple_SetItem(Result, 0, PyLong_FromLongLong(V.Tuple2Int));
+          PyTuple_SetItem(Result, 1, PyString_FromString(PChar(string(V.Tuple2Str))));
+        end;
+
       else
-        raise Exception.Create('Unknown type in AppVariantToPyObject');
+        raise Exception.Create('Unhandled type in AppVariantToPyObject');
     end;
 end;
 
