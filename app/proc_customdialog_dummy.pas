@@ -602,8 +602,8 @@ var
 begin
   if BlockedOnChange then exit;
 
-  //workarnd for bug on Mac
-  //(flickering on More>> press in BackupFile dialog)
+  //workaround for bug on Mac
+  //(flickering on More>> press in "Backup File" plugin dialog)
   if not IsFormShownAlready then exit;
 
   Props:= TAppControlProps((Sender as TControl).Tag);
