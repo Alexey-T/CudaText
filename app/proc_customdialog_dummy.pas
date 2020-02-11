@@ -94,8 +94,6 @@ type
     procedure DoOnFormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnFormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure DoOnFormCloseQuery(Sender: TObject; var CanClose: boolean);
-    function _MouseEventDataObject(AButton: TMouseButton; AShift: TShiftState; AX,
-      AY: Integer): TAppVariant;
     procedure _HandleClickEvent(Sender: TObject; ADblClick: boolean);
     procedure _HandleMouseEvent(Sender: TObject;
       const AEventKind: TAppCtlMouseEvent; const AData: TAppVariant);
@@ -174,6 +172,44 @@ const
   cPyFalse = 'False';
   cPyTrue = 'True';
   //cPyFalseTrue: array[boolean] of string = ('False', 'True');
+
+
+function AppVariant_KeyData(AKey: word; AShift: TShiftState): TAppVariant;
+begin
+  FillChar(Result, SizeOf(Result), 0);
+  Result.Typ:= avrTuple;
+  Result.DictLen:= 2;
+
+  Result.DictItems[0].Typ:= avdInt;
+  Result.DictItems[0].Int:= AKey;
+
+  Result.DictItems[1].Typ:= avdStr;
+  Result.DictItems[1].Str:= ConvertShiftStateToString(AShift);
+end;
+
+
+function AppVariant_MouseData(AButton: TMouseButton; AShift: TShiftState; AX, AY: Integer): TAppVariant;
+begin
+  FillChar(Result, SizeOf(Result), 0);
+  Result.Typ:= avrDict;
+  Result.DictLen:= 4;
+
+  Result.DictItems[0].KeyName:= 'btn';
+  Result.DictItems[0].Typ:= avdInt;
+  Result.DictItems[0].Int:= Ord(AButton);
+
+  Result.DictItems[1].KeyName:= 'state';
+  Result.DictItems[1].Typ:= avdStr;
+  Result.DictItems[1].Str:= ConvertShiftStateToString(AShift);
+
+  Result.DictItems[2].KeyName:= 'x';
+  Result.DictItems[2].Typ:= avdInt;
+  Result.DictItems[2].Int:= AX;
+
+  Result.DictItems[3].KeyName:= 'y';
+  Result.DictItems[3].Typ:= avdInt;
+  Result.DictItems[3].Int:= AY;
+end;
 
 
 procedure DoForm_SetupFilters(F: TFormDummy);
@@ -359,35 +395,11 @@ begin
   _HandleMouseEvent(Sender, cControlEventMouseExit, AppVariantNil);
 end;
 
-function TFormDummy._MouseEventDataObject(
-  AButton: TMouseButton; AShift: TShiftState; AX, AY: Integer): TAppVariant;
-begin
-  FillChar(Result, SizeOf(Result), 0);
-  Result.Typ:= avrDict;
-  Result.DictLen:= 4;
-
-  Result.DictItems[0].KeyName:= 'btn';
-  Result.DictItems[0].Typ:= avdInt;
-  Result.DictItems[0].Int:= Ord(AButton);
-
-  Result.DictItems[1].KeyName:= 'state';
-  Result.DictItems[1].Typ:= avdStr;
-  Result.DictItems[1].Str:= ConvertShiftStateToString(AShift);
-
-  Result.DictItems[2].KeyName:= 'x';
-  Result.DictItems[2].Typ:= avdInt;
-  Result.DictItems[2].Int:= AX;
-
-  Result.DictItems[3].KeyName:= 'y';
-  Result.DictItems[3].Typ:= avdInt;
-  Result.DictItems[3].Int:= AY;
-end;
-
 procedure TFormDummy.DoOnControlMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   _HandleMouseEvent(Sender, cControlEventMouseDown,
-    _MouseEventDataObject(Button, Shift, X, Y)
+    AppVariant_MouseData(Button, Shift, X, Y)
     );
 end;
 
@@ -395,7 +407,7 @@ procedure TFormDummy.DoOnControlMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   _HandleMouseEvent(Sender, cControlEventMouseUp,
-    _MouseEventDataObject(Button, Shift, X, Y)
+    AppVariant_MouseData(Button, Shift, X, Y)
     );
 end;
 
@@ -504,7 +516,7 @@ begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
   Handled:= not DoEvent(IdControl, Props.FEventOnMenu,
-    _MouseEventDataObject(mbRight, GetKeyShiftState, MousePos.X, MousePos.Y)
+    AppVariant_MouseData(mbRight, GetKeyShiftState, MousePos.X, MousePos.Y)
     );
 end;
 
@@ -906,19 +918,6 @@ begin
   DoEvent(IdControl, Props.FEventOnEditorCaret, AppVariantNil);
 end;
 
-function AppVariant_KeyAndShift(AKey: word; AShift: TShiftState): TAppVariant;
-begin
-  FillChar(Result, SizeOf(Result), 0);
-  Result.Typ:= avrTuple;
-  Result.DictLen:= 2;
-
-  Result.DictItems[0].Typ:= avdInt;
-  Result.DictItems[0].Int:= AKey;
-
-  Result.DictItems[1].Typ:= avdStr;
-  Result.DictItems[1].Str:= ConvertShiftStateToString(AShift);
-end;
-
 procedure TFormDummy.DoOnEditorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
   Props: TAppControlProps;
@@ -927,7 +926,7 @@ var
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
-  Data:= AppVariant_KeyAndShift(Key, Shift);
+  Data:= AppVariant_KeyData(Key, Shift);
   if not DoEvent(IdControl, Props.FEventOnEditorKeyDown, Data) then
     Key:= 0;
 end;
@@ -940,7 +939,7 @@ var
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
-  Data:= AppVariant_KeyAndShift(Key, Shift);
+  Data:= AppVariant_KeyData(Key, Shift);
   if not DoEvent(IdControl, Props.FEventOnEditorKeyUp, Data) then
     Key:= 0;
 end;
