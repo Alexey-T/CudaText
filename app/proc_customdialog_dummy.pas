@@ -771,7 +771,6 @@ function TFormDummy.DoEvent(AIdControl: integer; const ACallback: string;
   const AData: TAppVariant): boolean;
 var
   Params: array of PPyObject;
-  ParamData: PPyObject;
   ParamNames: array of string;
 begin
   if ACallback='' then exit(true);
@@ -788,9 +787,8 @@ begin
 
   if AData.Typ<>avrNil then
   begin
-    ParamData:= AppPython.AppVariantToObject(AData);
     SetLength(Params, Length(Params)+1);
-    Params[Length(Params)-1]:= ParamData;
+    Params[Length(Params)-1]:= AppPython.AppVariantToObject(AData);
 
     SetLength(ParamNames, Length(ParamNames)+1);
     ParamNames[Length(ParamNames)-1]:= 'data';
