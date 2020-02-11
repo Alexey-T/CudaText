@@ -710,9 +710,15 @@ var
   Props: TAppControlProps;
   IdControl: integer;
   Data: TAppVariant;
+  Callback: string;
 begin
   if BlockedOnSelect_Listview then exit;
   BlockedOnSelect_Listview:= true;
+
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  Callback:= Props.FEventOnSelect;
+  if Callback='' then exit;
+  IdControl:= FindControlIndexByOurObject(Sender);
 
   FillChar(Data, SizeOf(Data), 0);
   Data.Typ:= avrTuple;
@@ -725,13 +731,7 @@ begin
   Data.Items[1].Bool:= Selected;
 
   try
-    Props:= TAppControlProps((Sender as TControl).Tag);
-    IdControl:= FindControlIndexByOurObject(Sender);
-    DoEvent(IdControl, Props.FEventOnSelect, Data);
-      {
-      Format('(%d, %s)', [Item.Index, cPyFalseTrue[Selected] ])
-      );
-      }
+    DoEvent(IdControl, Callback, Data);
   finally
     BlockedOnSelect_Listview:= false;
   end;
