@@ -662,7 +662,13 @@ var
   Props: TAppControlProps;
   IdControl: integer;
   Data: TAppVariant;
+  Callback: string;
 begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  Callback:= Props.FEventOnListboxDrawItem;
+  if Callback='' then exit;
+  IdControl:= FindControlIndexByOurObject(Sender);
+
   FillChar(Data, SizeOf(Data), 0);
   Data.Typ:= avrDict;
   Data.Len:= 3;
@@ -679,9 +685,7 @@ begin
   Data.Items[2].Typ:= avdRect;
   Data.Items[2].Rect:= ARect;
 
-  Props:= TAppControlProps((Sender as TControl).Tag);
-  IdControl:= FindControlIndexByOurObject(Sender);
-  DoEvent(IdControl, Props.FEventOnListboxDrawItem, Data);
+  DoEvent(IdControl, Callback, Data);
     (*
     Format('{ "canvas": %d, "index": %d, "rect": (%d,%d,%d,%d) }', [
       PtrInt(ACanvas),
