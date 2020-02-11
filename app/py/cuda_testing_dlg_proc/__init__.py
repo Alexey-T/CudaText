@@ -799,17 +799,18 @@ class Command:
         h_editor = dlg_proc(h, DLG_CTL_HANDLE, name='ed')
         ed0 = Editor(h_editor)
         ed0.set_text_all(
-"""unit Test;
-//comment
-procedure Test(var Num: string);
-begin
-  Writeln(Num, 'Test str');
-end;
+r"""#include <stdio.h>
+
+int main(int argc, char *argv[])
+{
+  printf("Hello.\n");
+  return 0;
+}
 """)
         #ed0.set_caret(0, 3, 0, 2)
         #ed0.set_prop(PROP_CARET_SHAPE, 2)
         ed0.set_prop(PROP_MINIMAP, True)
-        ed0.set_prop(PROP_LEXER_FILE, 'Pascal')
+        ed0.set_prop(PROP_LEXER_FILE, 'C++')
         self.do_editor_gap(ed0, 2)
 
         dlg_proc(h, DLG_CTL_FOCUS, name='ed')
