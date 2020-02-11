@@ -998,8 +998,14 @@ var
   Props: TAppControlProps;
   IdControl: integer;
   Data: TAppVariant;
+  Callback: string;
 begin
   if not Assigned(AGapItem) then exit;
+
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  Callback:= Props.FEventOnEditorClickGap;
+  if Callback='' then exit;
+  IdControl:= FindControlIndexByOurObject(Sender);
 
   FillChar(Data, SizeOf(Data), 0);
   Data.Typ:= avrDict;
@@ -1033,9 +1039,7 @@ begin
   Data.Items[6].Typ:= avdInt;
   Data.Items[6].Int:= APos.Y;
 
-  Props:= TAppControlProps((Sender as TControl).Tag);
-  IdControl:= FindControlIndexByOurObject(Sender);
-  DoEvent(IdControl, Props.FEventOnEditorClickGap, Data);
+  DoEvent(IdControl, Callback, Data);
     (*
     Format('{ "state": "%s", "line": %d, "tag": %d, "gap_w": %d, "gap_h": %d, "x": %d, "y": %d }', [
         ConvertShiftStateToString(KeyboardStateToShiftState),
