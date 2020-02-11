@@ -826,10 +826,9 @@ var
   IdControl: integer;
   Data: TAppVariant;
 begin
-  Data:= AppVariant(PtrInt(Node));
-
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
+  Data:= AppVariant(PtrInt(Node));
   DoEvent(IdControl, Props.FEventOnChange, Data);
 end;
 
@@ -842,10 +841,9 @@ var
 begin
   if BlockedOnUnfold then exit;
 
-  Data:= AppVariant(PtrInt(Node));
-
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
+  Data:= AppVariant(PtrInt(Node));
   DoEvent(IdControl, Props.FEventOnUnfold, Data);
 end;
 
@@ -858,10 +856,9 @@ var
 begin
   if BlockedOnFold then exit;
 
-  Data:= AppVariant(PtrInt(Node));
-
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
+  Data:= AppVariant(PtrInt(Node));
   DoEvent(IdControl, Props.FEventOnFold, Data);
 end;
 
