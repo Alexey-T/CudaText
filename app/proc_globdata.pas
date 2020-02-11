@@ -655,8 +655,7 @@ type
     avrBool,
     avrInt,
     avrStr,
-    avrTupleInt,
-    avrTupleIntStr,
+    avrTuple,
     avrDict
     );
 
@@ -682,8 +681,6 @@ type
     case Typ: TAppVariantTypeId of
       avrBool: (Bool: boolean);
       avrInt: (Int: Int64);
-      avrTupleInt: (TupleLen: integer; TupleItems: array[0..6] of integer);
-      avrTupleIntStr: (Tuple2Int: Int64; Tuple2Str: string[10]);
       avrDict: (DictLen: integer; DictItems: array[0..6] of TAppVariantDictItem);
   end;
 
@@ -695,7 +692,6 @@ var
 function AppVariant(Value: boolean): TAppVariant; inline;
 function AppVariant(const Value: Int64): TAppVariant; inline;
 function AppVariant(const Value: string): TAppVariant; inline;
-function AppVariant(const Value: TRect): TAppVariant; inline;
 function AppVariant(const Value: array of integer): TAppVariant;
 function AppVariantToString(const V: TAppVariant): string;
 function AppVariantArrayToString(const V: TAppVariantArray): string;
@@ -1041,26 +1037,18 @@ begin
   Result.Str:= Value;
 end;
 
-function AppVariant(const Value: TRect): TAppVariant;
-begin
-  FillChar(Result, SizeOf(Result), 0);
-  Result.Typ:= avrTupleInt;
-  Result.TupleLen:= 4;
-  Result.TupleItems[0]:= Value.Left;
-  Result.TupleItems[1]:= Value.Top;
-  Result.TupleItems[2]:= Value.Right;
-  Result.TupleItems[3]:= Value.Bottom;
-end;
-
 function AppVariant(const Value: array of integer): TAppVariant;
 var
   i: integer;
 begin
   FillChar(Result, SizeOf(Result), 0);
-  Result.Typ:= avrTupleInt;
-  Result.TupleLen:= Length(Value);
-  for i:= 0 to Min(Length(Value), Length(Result.TupleItems))-1 do
-    Result.TupleItems[i]:= Value[i];
+  Result.Typ:= avrTuple;
+  Result.DictLen:= Length(Value);
+  for i:= 0 to Min(Length(Value), Length(Result.DictItems))-1 do
+  begin
+    Result.DictItems[i].Typ:= avdInt;
+    Result.DictItems[i].Int:= Value[i];
+  end;
 end;
 
 

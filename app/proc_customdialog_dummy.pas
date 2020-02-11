@@ -906,12 +906,17 @@ begin
   DoEvent(IdControl, Props.FEventOnEditorCaret, AppVariantNil);
 end;
 
-function Py_KeyAndShift(Key: word; Shift: TShiftState): TAppVariant;
+function AppVariant_KeyAndShift(AKey: word; AShift: TShiftState): TAppVariant;
 begin
   FillChar(Result, SizeOf(Result), 0);
-  Result.Typ:= avrTupleIntStr;
-  Result.Tuple2Int:= Key;
-  Result.Tuple2Str:= ConvertShiftStateToString(Shift);
+  Result.Typ:= avrTuple;
+  Result.DictLen:= 2;
+
+  Result.DictItems[0].Typ:= avdInt;
+  Result.DictItems[0].Int:= AKey;
+
+  Result.DictItems[1].Typ:= avdStr;
+  Result.DictItems[1].Str:= ConvertShiftStateToString(AShift);
 end;
 
 procedure TFormDummy.DoOnEditorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -922,7 +927,7 @@ var
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
-  Data:= Py_KeyAndShift(Key, Shift);
+  Data:= AppVariant_KeyAndShift(Key, Shift);
   if not DoEvent(IdControl, Props.FEventOnEditorKeyDown, Data) then
     Key:= 0;
 end;
@@ -935,7 +940,7 @@ var
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
-  Data:= Py_KeyAndShift(Key, Shift);
+  Data:= AppVariant_KeyAndShift(Key, Shift);
   if not DoEvent(IdControl, Props.FEventOnEditorKeyUp, Data) then
     Key:= 0;
 end;

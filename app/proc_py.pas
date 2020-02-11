@@ -126,18 +126,26 @@ begin
           end;
         end;
 
-      avrTupleInt:
+      avrTuple:
         begin
-          Result:= PyTuple_New(V.TupleLen);
-          for i:= 0 to V.TupleLen-1 do
-            PyTuple_SetItem(Result, i, PyInt_FromLong(V.TupleItems[i]));
-        end;
-
-      avrTupleIntStr:
-        begin
-          Result:= PyTuple_New(2);
-          PyTuple_SetItem(Result, 0, PyLong_FromLongLong(V.Tuple2Int));
-          PyTuple_SetItem(Result, 1, PyString_FromString(PChar(string(V.Tuple2Str))));
+          Result:= PyTuple_New(V.DictLen);
+          for i:= 0 to V.DictLen-1 do
+          begin
+            case V.DictItems[i].Typ of
+              avdBool:
+                VV:= PyBool_FromLong(Ord(V.DictItems[i].Bool));
+              avdInt:
+                VV:= PyLong_FromLongLong(V.DictItems[i].Int);
+              avdStr:
+                VV:= PyString_FromString(PChar(string(V.DictItems[i].Str)));
+              avdRect:
+                with V.DictItems[i].Rect do
+                  VV:= Py_BuildValue('(iiii)', Left, Top, Right, Bottom);
+              else
+                raise Exception.Create('Unhandled tuple item in AppVariantToPyObject');
+            end;
+            PyTuple_SetItem(Result, i, VV);
+          end;
         end;
 
       else
