@@ -1068,7 +1068,13 @@ var
   Props: TAppControlProps;
   IdControl: integer;
   Data: TAppVariant;
+  Callback: string;
 begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  Callback:= Props.FEventOnEditorPaste;
+  if Callback='' then exit;
+  IdControl:= FindControlIndexByOurObject(Sender);
+
   FillChar(Data, SizeOf(Data), 0);
   Data.Typ:= avrDict;
   Data.Len:= 2;
@@ -1081,17 +1087,8 @@ begin
   Data.Items[1].Typ:= avdBool;
   Data.Items[1].Bool:= ASelectThen;
 
-  Props:= TAppControlProps((Sender as TControl).Tag);
-  IdControl:= FindControlIndexByOurObject(Sender);
-  if not DoEvent(IdControl, Props.FEventOnEditorPaste, Data) then
+  if not DoEvent(IdControl, Callback, Data) then
     AHandled:= true;
-
-  (*
-  Format('{ "keep_caret": %s, "sel_then": %s }', [
-    cPyFalseTrue[AKeepCaret],
-    cPyFalseTrue[ASelectThen]
-  ]))
-  *)
 end;
 
 
