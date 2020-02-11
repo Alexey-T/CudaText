@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.94.1 (2020/02)
+
++ add: can scroll tab captions (when they don't fit) by mouse wheel
++ add: lexer PowerShell: many rules improved, keyword/function lists updated
+
 1.94.0 (2020/02)
 
 + add: Project Manager improvements (show pretty paths in recent file list; fixed crash on unfolding deleted folder; use case-insensitive sorting)
