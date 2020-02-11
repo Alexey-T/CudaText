@@ -126,19 +126,19 @@ begin
       avrDict:
         begin
           Result:= PyDict_New();
-          for i:= 0 to V.DictLen-1 do
+          for i:= 0 to V.Len-1 do
             PyDict_SetItemString(Result,
-              PChar(string(V.DictItems[i].KeyName)),
-              AppVariantItemToPyObject(V.DictItems[i])
+              PChar(string(V.Items[i].KeyName)),
+              AppVariantItemToPyObject(V.Items[i])
               );
         end;
 
       avrTuple:
         begin
-          Result:= PyTuple_New(V.DictLen);
-          for i:= 0 to V.DictLen-1 do
+          Result:= PyTuple_New(V.Len);
+          for i:= 0 to V.Len-1 do
             PyTuple_SetItem(Result, i,
-              AppVariantItemToPyObject(V.DictItems[i])
+              AppVariantItemToPyObject(V.Items[i])
               );
         end;
 

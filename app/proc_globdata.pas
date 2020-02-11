@@ -681,7 +681,7 @@ type
       avrBool: (Bool: boolean);
       avrInt: (Int: Int64);
       avrStr: (Str: string[100]);
-      avrDict: (DictLen: integer; DictItems: array[0..6] of TAppVariantDictItem);
+      avrDict: (Len: integer; Items: array[0..6] of TAppVariantDictItem);
   end;
 
   TAppVariantArray = array of TAppVariant;
@@ -1045,11 +1045,11 @@ var
 begin
   FillChar(Result, SizeOf(Result), 0);
   Result.Typ:= avrTuple;
-  Result.DictLen:= Length(Value);
-  for i:= 0 to Min(Length(Value), Length(Result.DictItems))-1 do
+  Result.Len:= Length(Value);
+  for i:= 0 to Min(Length(Value), Length(Result.Items))-1 do
   begin
-    Result.DictItems[i].Typ:= avdInt;
-    Result.DictItems[i].Int:= Value[i];
+    Result.Items[i].Typ:= avdInt;
+    Result.Items[i].Int:= Value[i];
   end;
 end;
 

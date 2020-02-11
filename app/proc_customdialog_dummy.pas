@@ -178,13 +178,13 @@ function AppVariant_KeyData(AKey: word; AShift: TShiftState): TAppVariant;
 begin
   FillChar(Result, SizeOf(Result), 0);
   Result.Typ:= avrTuple;
-  Result.DictLen:= 2;
+  Result.Len:= 2;
 
-  Result.DictItems[0].Typ:= avdInt;
-  Result.DictItems[0].Int:= AKey;
+  Result.Items[0].Typ:= avdInt;
+  Result.Items[0].Int:= AKey;
 
-  Result.DictItems[1].Typ:= avdStr;
-  Result.DictItems[1].Str:= ConvertShiftStateToString(AShift);
+  Result.Items[1].Typ:= avdStr;
+  Result.Items[1].Str:= ConvertShiftStateToString(AShift);
 end;
 
 
@@ -192,23 +192,23 @@ function AppVariant_MouseData(AButton: TMouseButton; AShift: TShiftState; AX, AY
 begin
   FillChar(Result, SizeOf(Result), 0);
   Result.Typ:= avrDict;
-  Result.DictLen:= 4;
+  Result.Len:= 4;
 
-  Result.DictItems[0].KeyName:= 'btn';
-  Result.DictItems[0].Typ:= avdInt;
-  Result.DictItems[0].Int:= Ord(AButton);
+  Result.Items[0].KeyName:= 'btn';
+  Result.Items[0].Typ:= avdInt;
+  Result.Items[0].Int:= Ord(AButton);
 
-  Result.DictItems[1].KeyName:= 'state';
-  Result.DictItems[1].Typ:= avdStr;
-  Result.DictItems[1].Str:= ConvertShiftStateToString(AShift);
+  Result.Items[1].KeyName:= 'state';
+  Result.Items[1].Typ:= avdStr;
+  Result.Items[1].Str:= ConvertShiftStateToString(AShift);
 
-  Result.DictItems[2].KeyName:= 'x';
-  Result.DictItems[2].Typ:= avdInt;
-  Result.DictItems[2].Int:= AX;
+  Result.Items[2].KeyName:= 'x';
+  Result.Items[2].Typ:= avdInt;
+  Result.Items[2].Int:= AX;
 
-  Result.DictItems[3].KeyName:= 'y';
-  Result.DictItems[3].Typ:= avdInt;
-  Result.DictItems[3].Int:= AY;
+  Result.Items[3].KeyName:= 'y';
+  Result.Items[3].Typ:= avdInt;
+  Result.Items[3].Int:= AY;
 end;
 
 
@@ -661,19 +661,19 @@ var
 begin
   FillChar(Data, SizeOf(Data), 0);
   Data.Typ:= avrDict;
-  Data.DictLen:= 3;
+  Data.Len:= 3;
 
-  Data.DictItems[0].KeyName:= 'canvas';
-  Data.DictItems[0].Typ:= avdInt;
-  Data.DictItems[0].Int:= PtrInt(ACanvas);
+  Data.Items[0].KeyName:= 'canvas';
+  Data.Items[0].Typ:= avdInt;
+  Data.Items[0].Int:= PtrInt(ACanvas);
 
-  Data.DictItems[1].KeyName:= 'index';
-  Data.DictItems[1].Typ:= avdInt;
-  Data.DictItems[1].Int:= AIndex;
+  Data.Items[1].KeyName:= 'index';
+  Data.Items[1].Typ:= avdInt;
+  Data.Items[1].Int:= AIndex;
 
-  Data.DictItems[2].KeyName:= 'rect';
-  Data.DictItems[2].Typ:= avdRect;
-  Data.DictItems[2].Rect:= ARect;
+  Data.Items[2].KeyName:= 'rect';
+  Data.Items[2].Typ:= avdRect;
+  Data.Items[2].Rect:= ARect;
 
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
@@ -708,13 +708,13 @@ begin
 
   FillChar(Data, SizeOf(Data), 0);
   Data.Typ:= avrTuple;
-  Data.DictLen:= 2;
+  Data.Len:= 2;
 
-  Data.DictItems[0].Typ:= avdInt;
-  Data.DictItems[0].Int:= Item.Index;
+  Data.Items[0].Typ:= avdInt;
+  Data.Items[0].Int:= Item.Index;
 
-  Data.DictItems[1].Typ:= avdBool;
-  Data.DictItems[1].Bool:= Selected;
+  Data.Items[1].Typ:= avdBool;
+  Data.Items[1].Bool:= Selected;
 
   try
     Props:= TAppControlProps((Sender as TControl).Tag);
@@ -961,19 +961,19 @@ var
 begin
   FillChar(Data, SizeOf(Data), 0);
   Data.Typ:= avrDict;
-  Data.DictLen:= 3;
+  Data.Len:= 3;
 
-  Data.DictItems[0].KeyName:= 'state';
-  Data.DictItems[0].Typ:= avdStr;
-  Data.DictItems[0].Str:= ConvertShiftStateToString(KeyboardStateToShiftState);
+  Data.Items[0].KeyName:= 'state';
+  Data.Items[0].Typ:= avdStr;
+  Data.Items[0].Str:= ConvertShiftStateToString(KeyboardStateToShiftState);
 
-  Data.DictItems[1].KeyName:= 'line';
-  Data.DictItems[1].Typ:= avdInt;
-  Data.DictItems[1].Int:= ALine;
+  Data.Items[1].KeyName:= 'line';
+  Data.Items[1].Typ:= avdInt;
+  Data.Items[1].Int:= ALine;
 
-  Data.DictItems[2].KeyName:= 'band';
-  Data.DictItems[2].Typ:= avdInt;
-  Data.DictItems[2].Int:= ABand;
+  Data.Items[2].KeyName:= 'band';
+  Data.Items[2].Typ:= avdInt;
+  Data.Items[2].Int:= ABand;
 
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
@@ -996,35 +996,35 @@ begin
 
   FillChar(Data, SizeOf(Data), 0);
   Data.Typ:= avrDict;
-  Data.DictLen:= 7;
+  Data.Len:= 7;
 
-  Data.DictItems[0].KeyName:= 'state';
-  Data.DictItems[0].Typ:= avdStr;
-  Data.DictItems[0].Str:= ConvertShiftStateToString(KeyboardStateToShiftState);
+  Data.Items[0].KeyName:= 'state';
+  Data.Items[0].Typ:= avdStr;
+  Data.Items[0].Str:= ConvertShiftStateToString(KeyboardStateToShiftState);
 
-  Data.DictItems[1].KeyName:= 'line';
-  Data.DictItems[1].Typ:= avdInt;
-  Data.DictItems[1].Int:= AGapItem.LineIndex;
+  Data.Items[1].KeyName:= 'line';
+  Data.Items[1].Typ:= avdInt;
+  Data.Items[1].Int:= AGapItem.LineIndex;
 
-  Data.DictItems[2].KeyName:= 'tag';
-  Data.DictItems[2].Typ:= avdInt;
-  Data.DictItems[2].Int:= AGapItem.Tag;
+  Data.Items[2].KeyName:= 'tag';
+  Data.Items[2].Typ:= avdInt;
+  Data.Items[2].Int:= AGapItem.Tag;
 
-  Data.DictItems[3].KeyName:= 'gap_w';
-  Data.DictItems[3].Typ:= avdInt;
-  Data.DictItems[3].Int:= AGapItem.Bitmap.Width;
+  Data.Items[3].KeyName:= 'gap_w';
+  Data.Items[3].Typ:= avdInt;
+  Data.Items[3].Int:= AGapItem.Bitmap.Width;
 
-  Data.DictItems[4].KeyName:= 'gap_h';
-  Data.DictItems[4].Typ:= avdInt;
-  Data.DictItems[4].Int:= AGapItem.Bitmap.Height;
+  Data.Items[4].KeyName:= 'gap_h';
+  Data.Items[4].Typ:= avdInt;
+  Data.Items[4].Int:= AGapItem.Bitmap.Height;
 
-  Data.DictItems[5].KeyName:= 'x';
-  Data.DictItems[5].Typ:= avdInt;
-  Data.DictItems[5].Int:= APos.X;
+  Data.Items[5].KeyName:= 'x';
+  Data.Items[5].Typ:= avdInt;
+  Data.Items[5].Int:= APos.X;
 
-  Data.DictItems[6].KeyName:= 'y';
-  Data.DictItems[6].Typ:= avdInt;
-  Data.DictItems[6].Int:= APos.Y;
+  Data.Items[6].KeyName:= 'y';
+  Data.Items[6].Typ:= avdInt;
+  Data.Items[6].Int:= APos.Y;
 
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
@@ -1060,15 +1060,15 @@ var
 begin
   FillChar(Data, SizeOf(Data), 0);
   Data.Typ:= avrDict;
-  Data.DictLen:= 2;
+  Data.Len:= 2;
 
-  Data.DictItems[0].KeyName:= 'keep_caret';
-  Data.DictItems[0].Typ:= avdBool;
-  Data.DictItems[0].Bool:= AKeepCaret;
+  Data.Items[0].KeyName:= 'keep_caret';
+  Data.Items[0].Typ:= avdBool;
+  Data.Items[0].Bool:= AKeepCaret;
 
-  Data.DictItems[1].KeyName:= 'sel_then';
-  Data.DictItems[1].Typ:= avdBool;
-  Data.DictItems[1].Bool:= ASelectThen;
+  Data.Items[1].KeyName:= 'sel_then';
+  Data.Items[1].Typ:= avdBool;
+  Data.Items[1].Bool:= ASelectThen;
 
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
