@@ -371,7 +371,7 @@ var
   Callback: string;
   Props: TAppControlProps;
   IdControl: integer;
-  DataObj: TAppVariant;
+  Data: TAppVariant;
   P: TPoint;
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
@@ -384,8 +384,17 @@ begin
   IdControl:= FindControlIndexByOurObject(Sender);
   P:= (Sender as TControl).ScreenToClient(Mouse.CursorPos);
 
-  DataObj:= AppVariant([P.X, P.Y]);
-  DoEvent(IdControl, Callback, DataObj);
+  FillChar(Data, SizeOf(Data), 0);
+  Data.Typ:= avrTuple;
+  Data.Len:= 2;
+
+  Data.Items[0].Typ:= avdInt;
+  Data.Items[0].Int:= P.X;
+
+  Data.Items[1].Typ:= avdInt;
+  Data.Items[1].Int:= P.Y;
+
+  DoEvent(IdControl, Callback, Data);
 end;
 
 procedure TFormDummy.DoOnControlMouseEnter(Sender: TObject);
