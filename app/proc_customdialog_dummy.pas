@@ -737,17 +737,15 @@ begin
   end;
 end;
 
-procedure TFormDummy.DoOnListviewColumnClick(Sender: TObject;
-  Column: TListColumn);
+procedure TFormDummy.DoOnListviewColumnClick(Sender: TObject; Column: TListColumn);
 var
   Props: TAppControlProps;
   IdControl: integer;
   Data: TAppVariant;
 begin
-  Data:= AppVariant(Column.Index);
-
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
+  Data:= AppVariant(Column.Index);
   DoEvent(IdControl, Props.FEventOnClickHeader, Data);
 end;
 
