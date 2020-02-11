@@ -43,7 +43,7 @@ type
     function MethodEval(const AObject, AMethod, AParams: string): PPyObject;
     function MethodEvalEx(const AObject, AMethod, AParams: string): TAppPyEventResult;
     function StrArrayToString(const V: array of string): string;
-    function AppVariantItemToPyObject(const V: TAppVariantDictItem): PPyObject;
+    function AppVariantItemToPyObject(const V: TAppVariantItem): PPyObject;
   public
     constructor Create;
     destructor Destroy; override;
@@ -88,7 +88,7 @@ implementation
 
 { TAppPython }
 
-function TAppPython.AppVariantItemToPyObject(const V: TAppVariantDictItem): PPyObject;
+function TAppPython.AppVariantItemToPyObject(const V: TAppVariantItem): PPyObject;
 begin
   with FEngine do
     case V.Typ of

@@ -659,17 +659,16 @@ type
     avrDict
     );
 
-  TAppVariantDictTypeId = (
+  TAppVariantItemTypeId = (
     avdBool,
     avdInt,
     avdStr,
     avdRect
     );
 
-  TAppVariantDictItem = record
-    //in all Form events, real strings are very short, and keynames are too
+  TAppVariantItem = record
     KeyName: string[15];
-    case Typ: TAppVariantDictTypeId of
+    case Typ: TAppVariantItemTypeId of
       avdBool: (Bool: boolean);
       avdInt: (Int: Int64);
       avdRect: (Rect: TRect);
@@ -681,7 +680,7 @@ type
       avrBool: (Bool: boolean);
       avrInt: (Int: Int64);
       avrStr: (Str: string[100]);
-      avrDict: (Len: integer; Items: array[0..6] of TAppVariantDictItem);
+      avrDict: (Len: integer; Items: array[0..6] of TAppVariantItem);
   end;
 
   TAppVariantArray = array of TAppVariant;
