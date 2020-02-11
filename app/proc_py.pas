@@ -43,6 +43,7 @@ type
     function MethodEval(const AObject, AMethod, AParams: string): PPyObject;
     function MethodEvalEx(const AObject, AMethod, AParams: string): TAppPyEventResult;
     function StrArrayToString(const V: array of string): string;
+    function AppVariantItemToPyObject(const V: TAppVariantDictItem): PPyObject;
   public
     constructor Create;
     destructor Destroy; override;
@@ -70,6 +71,9 @@ type
     procedure ClearCache;
     procedure DisableTiming;
     function GetTimingReport: string;
+
+    function AppVariantToPyObject(const V: TAppVariant): PPyObject;
+    function AppVariantArrayToPyObject(const V: TAppVariantArray): PPyObject;
   end;
 
 const
@@ -80,14 +84,13 @@ const
 var
   AppPython: TAppPython;
 
-function AppVariantToPyObject(const V: TAppVariant): PPyObject;
-function AppVariantArrayToPyObject(const V: TAppVariantArray): PPyObject;
-
 implementation
 
-function AppVariantDictItemToPyObject(const V: TAppVariantDictItem): PPyObject;
+{ TAppPython }
+
+function TAppPython.AppVariantItemToPyObject(const V: TAppVariantDictItem): PPyObject;
 begin
-  with APpPython.Engine do
+  with FEngine do
     case V.Typ of
       avdBool:
         Result:= PyBool_FromLong(Ord(V.Bool));
@@ -102,11 +105,11 @@ begin
     end;
 end;
 
-function AppVariantToPyObject(const V: TAppVariant): PPyObject;
+function TAppPython.AppVariantToPyObject(const V: TAppVariant): PPyObject;
 var
   i: integer;
 begin
-  with AppPython.Engine do
+  with FEngine do
     case V.Typ of
       avrNil:
         raise Exception.Create('Nil type in AppVariantToPyObject');
@@ -126,7 +129,7 @@ begin
           for i:= 0 to V.DictLen-1 do
             PyDict_SetItemString(Result,
               PChar(string(V.DictItems[i].KeyName)),
-              AppVariantDictItemToPyObject(V.DictItems[i])
+              AppVariantItemToPyObject(V.DictItems[i])
               );
         end;
 
@@ -135,7 +138,7 @@ begin
           Result:= PyTuple_New(V.DictLen);
           for i:= 0 to V.DictLen-1 do
             PyTuple_SetItem(Result, i,
-              AppVariantDictItemToPyObject(V.DictItems[i])
+              AppVariantItemToPyObject(V.DictItems[i])
               );
         end;
 
@@ -144,11 +147,11 @@ begin
     end;
 end;
 
-function AppVariantArrayToPyObject(const V: TAppVariantArray): PPyObject;
+function TAppPython.AppVariantArrayToPyObject(const V: TAppVariantArray): PPyObject;
 var
   i: integer;
 begin
-  with AppPython.Engine do
+  with FEngine do
   begin
     Result:= PyTuple_New(Length(V));
     for i:= 0 to Length(V)-1 do
@@ -156,8 +159,6 @@ begin
   end;
 end;
 
-
-{ TAppPython }
 
 constructor TAppPython.Create;
 begin
