@@ -689,7 +689,9 @@ type
 
   TAppVariantArray = array of TAppVariant;
 
-function AppVariantNil: TAppVariant; inline;
+var
+  AppVariantNil: TAppVariant;
+
 function AppVariant(Value: boolean): TAppVariant; inline;
 function AppVariant(const Value: Int64): TAppVariant; inline;
 function AppVariant(const Value: string): TAppVariant; inline;
@@ -1016,12 +1018,6 @@ begin
   Result:= AFilename;
   if SBeginsWith(Result, '~'+DirectorySeparator) then
     Result:= AppDir_Home+Copy(Result, 3, MaxInt);
-end;
-
-function AppVariantNil: TAppVariant;
-begin
-  FillChar(Result, SizeOf(Result), 0);
-  Result.Typ:= avrNil;
 end;
 
 function AppVariant(Value: boolean): TAppVariant;
@@ -2582,6 +2578,9 @@ initialization
   AppEventWatcher:= TEvent.Create(nil, true, true, '');
 
   AppApiFlatTheme:= ATFlatTheme;
+
+  FillChar(AppVariantNil, SizeOf(AppVariantNil), 0);
+  AppVariantNil.Typ:= avrNil;
 
 finalization
   FreeAndNil(AppEventWatcher);
