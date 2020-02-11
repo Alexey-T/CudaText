@@ -209,6 +209,11 @@ class Command:
 
         print('editor on_paste', data)
 
+    def callback_editor_on_menu(self, id_dlg, id_ctl, data='', info=''):
+
+        msg_box('Event handler on_menu blocked std context menu', MB_OK)
+        return False
+
     def callback_editor_on_click_gutter(self, id_dlg, id_ctl, data='', info=''):
 
         print('editor on_click_gutter', data)
@@ -794,6 +799,7 @@ class Command:
             'on_click_gutter': self.callback_editor_on_click_gutter,
             'on_click_gap': self.callback_editor_on_click_gap,
             'on_paste': self.callback_editor_on_paste,
+            'on_menu': self.callback_editor_on_menu,
             })
 
         h_editor = dlg_proc(h, DLG_CTL_HANDLE, name='ed')
