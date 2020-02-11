@@ -517,6 +517,7 @@ var
   IdControl: integer;
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
+  if Props.FEventOnMenu='' then exit;
   IdControl:= FindControlIndexByOurObject(Sender);
   Handled:= not DoEvent(IdControl, Props.FEventOnMenu,
     AppVariant_MouseData(mbRight, GetKeyShiftState, MousePos.X, MousePos.Y)
