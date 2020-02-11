@@ -693,8 +693,8 @@ function AppVariant(Value: boolean): TAppVariant; inline;
 function AppVariant(const Value: Int64): TAppVariant; inline;
 function AppVariant(const Value: string): TAppVariant; inline;
 function AppVariant(const Value: array of integer): TAppVariant;
-function AppVariantToString(const V: TAppVariant): string;
-function AppVariantArrayToString(const V: TAppVariantArray): string;
+//function AppVariantToString(const V: TAppVariant): string;
+//function AppVariantArrayToString(const V: TAppVariantArray): string;
 
 type
   TAppPyEvent = (
@@ -2491,6 +2491,7 @@ begin
   end;
 end;
 
+(*
 function AppVariantToString(const V: TAppVariant): string;
 begin
   case V.Typ of
@@ -2520,7 +2521,7 @@ begin
   if Result<>'' then
     SetLength(Result, Length(Result)-1);
 end;
-
+*)
 
 initialization
   InitDirs;
