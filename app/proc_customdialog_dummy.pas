@@ -934,11 +934,14 @@ var
   Props: TAppControlProps;
   IdControl: integer;
   Data: TAppVariant;
+  Callback: string;
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
+  Callback:= Props.FEventOnEditorKeyDown;
+  if Callback='' then exit;
   IdControl:= FindControlIndexByOurObject(Sender);
   Data:= AppVariant_KeyData(Key, Shift);
-  if not DoEvent(IdControl, Props.FEventOnEditorKeyDown, Data) then
+  if not DoEvent(IdControl, Callback, Data) then
     Key:= 0;
 end;
 
@@ -947,11 +950,14 @@ var
   Props: TAppControlProps;
   IdControl: integer;
   Data: TAppVariant;
+  Callback: string;
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
+  Callback:= Props.FEventOnEditorKeyUp;
+  if Callback='' then exit;
   IdControl:= FindControlIndexByOurObject(Sender);
   Data:= AppVariant_KeyData(Key, Shift);
-  if not DoEvent(IdControl, Props.FEventOnEditorKeyUp, Data) then
+  if not DoEvent(IdControl, Callback, Data) then
     Key:= 0;
 end;
 
