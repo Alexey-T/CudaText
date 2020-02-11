@@ -706,7 +706,15 @@ begin
   if BlockedOnSelect_Listview then exit;
   BlockedOnSelect_Listview:= true;
 
-  Data:= AppVariant([Item.Index, Ord(Selected)]);
+  FillChar(Data, SizeOf(Data), 0);
+  Data.Typ:= avrTuple;
+  Data.DictLen:= 2;
+
+  Data.DictItems[0].Typ:= avdInt;
+  Data.DictItems[0].Int:= Item.Index;
+
+  Data.DictItems[1].Typ:= avdBool;
+  Data.DictItems[1].Bool:= Selected;
 
   try
     Props:= TAppControlProps((Sender as TControl).Tag);
