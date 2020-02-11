@@ -85,10 +85,26 @@ function AppVariantArrayToPyObject(const V: TAppVariantArray): PPyObject;
 
 implementation
 
+function AppVariantDictItemToPyObject(const V: TAppVariantDictItem): PPyObject;
+begin
+  with APpPython.Engine do
+    case V.Typ of
+      avdBool:
+        Result:= PyBool_FromLong(Ord(V.Bool));
+      avdInt:
+        Result:= PyLong_FromLongLong(V.Int);
+      avdStr:
+        Result:= PyString_FromString(PChar(string(V.Str)));
+      avdRect:
+        Result:= Py_BuildValue('(iiii)', V.Rect.Left, V.Rect.Top, V.Rect.Right, V.Rect.Bottom);
+      else
+        raise Exception.Create('Unhandled item in AppVariantDictItemToPyObject');
+    end;
+end;
+
 function AppVariantToPyObject(const V: TAppVariant): PPyObject;
 var
   i: integer;
-  VV: PPyObject;
 begin
   with AppPython.Engine do
     case V.Typ of
@@ -108,44 +124,19 @@ begin
         begin
           Result:= PyDict_New();
           for i:= 0 to V.DictLen-1 do
-          begin
-            case V.DictItems[i].Typ of
-              avdBool:
-                VV:= PyBool_FromLong(Ord(V.DictItems[i].Bool));
-              avdInt:
-                VV:= PyLong_FromLongLong(V.DictItems[i].Int);
-              avdStr:
-                VV:= PyString_FromString(PChar(string(V.DictItems[i].Str)));
-              avdRect:
-                with V.DictItems[i].Rect do
-                  VV:= Py_BuildValue('(iiii)', Left, Top, Right, Bottom);
-              else
-                raise Exception.Create('Unhandled dict item in AppVariantToPyObject');
-            end;
-            PyDict_SetItemString(Result, PChar(string(V.DictItems[i].KeyName)), VV);
-          end;
+            PyDict_SetItemString(Result,
+              PChar(string(V.DictItems[i].KeyName)),
+              AppVariantDictItemToPyObject(V.DictItems[i])
+              );
         end;
 
       avrTuple:
         begin
           Result:= PyTuple_New(V.DictLen);
           for i:= 0 to V.DictLen-1 do
-          begin
-            case V.DictItems[i].Typ of
-              avdBool:
-                VV:= PyBool_FromLong(Ord(V.DictItems[i].Bool));
-              avdInt:
-                VV:= PyLong_FromLongLong(V.DictItems[i].Int);
-              avdStr:
-                VV:= PyString_FromString(PChar(string(V.DictItems[i].Str)));
-              avdRect:
-                with V.DictItems[i].Rect do
-                  VV:= Py_BuildValue('(iiii)', Left, Top, Right, Bottom);
-              else
-                raise Exception.Create('Unhandled tuple item in AppVariantToPyObject');
-            end;
-            PyTuple_SetItem(Result, i, VV);
-          end;
+            PyTuple_SetItem(Result, i,
+              AppVariantDictItemToPyObject(V.DictItems[i])
+              );
         end;
 
       else
