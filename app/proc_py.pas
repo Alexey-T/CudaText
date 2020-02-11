@@ -118,7 +118,7 @@ begin
         Result:= PyLong_FromLongLong(V.Int);
 
       avrStr:
-        Result:= PyString_FromString(PChar(V.Str));
+        Result:= PyString_FromString(PChar(string(V.Str)));
 
       avrBool:
         Result:= PyBool_FromLong(Ord(V.Bool));

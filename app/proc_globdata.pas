@@ -677,10 +677,10 @@ type
   end;
 
   TAppVariant = record
-    Str: string;
     case Typ: TAppVariantTypeId of
       avrBool: (Bool: boolean);
       avrInt: (Int: Int64);
+      avrStr: (Str: string[100]);
       avrDict: (DictLen: integer; DictItems: array[0..6] of TAppVariantDictItem);
   end;
 
@@ -1033,6 +1033,8 @@ end;
 function AppVariant(const Value: string): TAppVariant;
 begin
   FillChar(Result, SizeOf(Result), 0);
+  if Length(Value)>SizeOf(Result.Str)-1 then
+    raise Exception.Create('Too long str in AppVariant');
   Result.Typ:= avrStr;
   Result.Str:= Value;
 end;
