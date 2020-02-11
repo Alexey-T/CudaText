@@ -368,21 +368,24 @@ end;
 
 procedure TFormDummy._HandleClickEvent(Sender: TObject; ADblClick: boolean);
 var
+  Callback: string;
   Props: TAppControlProps;
   IdControl: integer;
   DataObj: TAppVariant;
   P: TPoint;
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
+  if ADblClick then
+    Callback:= Props.FEventOnClickDbl
+  else
+    Callback:= Props.FEventOnClick;
+  if Callback='' then exit;
+
   IdControl:= FindControlIndexByOurObject(Sender);
   P:= (Sender as TControl).ScreenToClient(Mouse.CursorPos);
 
   DataObj:= AppVariant([P.X, P.Y]);
-
-  if ADblClick then
-    DoEvent(IdControl, Props.FEventOnClickDbl, DataObj)
-  else
-    DoEvent(IdControl, Props.FEventOnClick, DataObj);
+  DoEvent(IdControl, Callback, DataObj);
 end;
 
 procedure TFormDummy.DoOnControlMouseEnter(Sender: TObject);
