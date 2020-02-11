@@ -94,10 +94,11 @@ type
     procedure DoOnFormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnFormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure DoOnFormCloseQuery(Sender: TObject; var CanClose: boolean);
-    function _MouseEventDataObject(AButton: TMouseButton; AShift: TShiftState; AX, AY: Integer): PPyObject;
+    function _MouseEventDataObject(AButton: TMouseButton; AShift: TShiftState; AX,
+      AY: Integer): TAppVariant;
     procedure _HandleClickEvent(Sender: TObject; ADblClick: boolean);
     procedure _HandleMouseEvent(Sender: TObject;
-      const AEventKind: TAppCtlMouseEvent; AData: PPyObject);
+      const AEventKind: TAppCtlMouseEvent; const AData: TAppVariant);
   public
     IsDlgCustom: boolean;
     IdClicked: integer;
@@ -154,7 +155,7 @@ type
     procedure DoOnEditorClickGutter(Sender: TObject; ABand, ALine: integer);
     procedure DoOnEditorClickGap(Sender: TObject; AGapItem: TATGapItem; APos: TPoint);
     procedure DoOnEditorPaste(Sender: TObject; var AHandled: boolean; AKeepCaret, ASelectThen: boolean);
-    function DoEvent(AIdControl: integer; const ACallback: string; AData: PPyObject): boolean;
+    function DoEvent(AIdControl: integer; const ACallback: string; const AData: TAppVariant): boolean;
     procedure DoEmulatedModalShow;
     procedure DoEmulatedModalClose;
     function FindControlByIndex(AIndex: integer): TControl;
@@ -301,51 +302,46 @@ begin
           ItemFocused.MakeVisible(false);
   end;
 
-  DoEvent(-1, FEventOnShow, nil);
+  DoEvent(-1, FEventOnShow, AppVariantNil);
 end;
 
 procedure TFormDummy.DoOnFormHide(Sender: TObject);
 begin
-  DoEvent(-1, FEventOnHide, nil);
+  DoEvent(-1, FEventOnHide, AppVariantNil);
 end;
 
 procedure TFormDummy.DoOnFormMouseEnter(Sender: TObject);
 begin
-  DoEvent(-1, FEventOnMouseEnter, nil);
+  DoEvent(-1, FEventOnMouseEnter, AppVariantNil);
 end;
 
 procedure TFormDummy.DoOnFormMouseLeave(Sender: TObject);
 begin
-  DoEvent(-1, FEventOnMouseExit, nil);
+  DoEvent(-1, FEventOnMouseExit, AppVariantNil);
 end;
 
 procedure TFormDummy.DoOnFormActivate(Sender: TObject);
 begin
-  DoEvent(-1, FEventOnActivate, nil);
+  DoEvent(-1, FEventOnActivate, AppVariantNil);
 end;
 
 procedure TFormDummy.DoOnFormDeactivate(Sender: TObject);
 begin
-  DoEvent(-1, FEventOnDeactivate, nil);
+  DoEvent(-1, FEventOnDeactivate, AppVariantNil);
 end;
 
 procedure TFormDummy._HandleClickEvent(Sender: TObject; ADblClick: boolean);
 var
   Props: TAppControlProps;
   IdControl: integer;
-  DataObj: PPyObject;
+  DataObj: TAppVariant;
   P: TPoint;
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
   P:= (Sender as TControl).ScreenToClient(Mouse.CursorPos);
 
-  with AppPython.Engine do
-  begin
-    DataObj:= PyTuple_New(2);
-    PyTuple_SetItem(DataObj, 0, PyInt_FromLong(P.X));
-    PyTuple_SetItem(DataObj, 1, PyInt_FromLong(P.Y));
-  end;
+  DataObj:= AppVariant([P.X, P.Y]);
 
   if ADblClick then
     DoEvent(IdControl, Props.FEventOnClickDbl, DataObj)
@@ -355,33 +351,36 @@ end;
 
 procedure TFormDummy.DoOnControlMouseEnter(Sender: TObject);
 begin
-  _HandleMouseEvent(Sender, cControlEventMouseEnter, nil);
+  _HandleMouseEvent(Sender, cControlEventMouseEnter, AppVariantNil);
 end;
 
 procedure TFormDummy.DoOnControlMouseLeave(Sender: TObject);
 begin
-  _HandleMouseEvent(Sender, cControlEventMouseExit, nil);
+  _HandleMouseEvent(Sender, cControlEventMouseExit, AppVariantNil);
 end;
 
 function TFormDummy._MouseEventDataObject(
-  AButton: TMouseButton; AShift: TShiftState; AX, AY: Integer): PPyObject;
+  AButton: TMouseButton; AShift: TShiftState; AX, AY: Integer): TAppVariant;
 begin
-  with AppPython.Engine do
-  begin
-    Result:= PyDict_New();
-    PyDict_SetItemString(Result, 'btn', PyInt_FromLong(Ord(AButton)));
-    PyDict_SetItemString(Result, 'state', PyString_FromString(PChar(ConvertShiftStateToString(AShift))));
-    PyDict_SetItemString(Result, PChar(string('x')), PyInt_FromLong(AX));
-    PyDict_SetItemString(Result, PChar(string('y')), PyInt_FromLong(AY));
-  end;
-  (*
-  Result:= Format('{"btn": %d, "state": "%s", "x": %d, "y": %d}', [
-    Ord(AButton),
-    ConvertShiftStateToString(AShift),
-    AX,
-    AY
-    ]);
-    *)
+  FillChar(Result, SizeOf(Result), 0);
+  Result.Typ:= avrDict;
+  Result.DictLen:= 4;
+
+  Result.DictItems[0].KeyName:= 'btn';
+  Result.DictItems[0].Typ:= avdInt;
+  Result.DictItems[0].Int:= Ord(AButton);
+
+  Result.DictItems[1].KeyName:= 'state';
+  Result.DictItems[1].Typ:= avdStr;
+  Result.DictItems[1].Str:= ConvertShiftStateToString(AShift);
+
+  Result.DictItems[2].KeyName:= 'x';
+  Result.DictItems[2].Typ:= avdInt;
+  Result.DictItems[2].Int:= AX;
+
+  Result.DictItems[3].KeyName:= 'y';
+  Result.DictItems[3].Typ:= avdInt;
+  Result.DictItems[3].Int:= AY;
 end;
 
 procedure TFormDummy.DoOnControlMouseDown(Sender: TObject;
@@ -428,7 +427,7 @@ var
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
-  DoEvent(IdControl, Props.FEventOnClickX, nil);
+  DoEvent(IdControl, Props.FEventOnClickX, AppVariantNil);
 end;
 
 procedure TFormDummy.DoOnDblClick(Sender: TObject);
@@ -439,10 +438,9 @@ end;
 procedure TFormDummy.DoOnFormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
   Form: TCustomForm;
-  Data: PPyObject;
+  Data: TAppVariant;
 begin
-  with AppPython.Engine do
-    Data:= PyString_FromString(PChar(ConvertShiftStateToString(Shift)));
+  Data:= AppVariant(ConvertShiftStateToString(Shift));
 
   if not DoEvent(Key, FEventOnKeyDown, Data) then
   begin
@@ -474,10 +472,9 @@ end;
 
 procedure TFormDummy.DoOnFormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
-  Data: PPyObject;
+  Data: TAppVariant;
 begin
-  with AppPython.Engine do
-    Data:= PyString_FromString(PChar(ConvertShiftStateToString(Shift)));
+  Data:= AppVariant(ConvertShiftStateToString(Shift));
 
   if not DoEvent(Key, FEventOnKeyUp, Data) then
   begin
@@ -490,12 +487,12 @@ procedure TFormDummy.DoOnResize;
 begin
   if not (BorderStyle in [bsSizeable, bsSizeToolWin]) then exit;
   if not IsFormShownAlready then exit;
-  DoEvent(-1, FEventOnResize, nil);
+  DoEvent(-1, FEventOnResize, AppVariantNil);
 end;
 
 procedure TFormDummy.DoOnFormCloseQuery(Sender: TObject; var CanClose: boolean);
 begin
-  CanClose:= DoEvent(-1, FEventOnCloseQuery, nil);
+  CanClose:= DoEvent(-1, FEventOnCloseQuery, AppVariantNil);
 end;
 
 procedure TFormDummy.DoOnControlMenu(Sender: TObject; MousePos: TPoint;
@@ -519,7 +516,7 @@ begin
 
   DoEmulatedModalClose;
   IdClicked:= -1;
-  DoEvent(-1, FEventOnClose, nil);
+  DoEvent(-1, FEventOnClose, AppVariantNil);
 end;
 
 function TFormDummy.IdFocused: integer;
@@ -606,7 +603,7 @@ begin
 
   BlockedOnChange:= true;
   try
-    DoEvent(IdClicked, Props.FEventOnChange, nil);
+    DoEvent(IdClicked, Props.FEventOnChange, AppVariantNil);
   finally
     BlockedOnChange:= false;
   end;
@@ -620,8 +617,7 @@ begin
 end;
 
 procedure TFormDummy._HandleMouseEvent(Sender: TObject;
-  const AEventKind: TAppCtlMouseEvent;
-  AData: PPyObject);
+  const AEventKind: TAppCtlMouseEvent; const AData: TAppVariant);
 var
   Props: TAppControlProps;
   IdControl: integer;
@@ -649,16 +645,23 @@ procedure TFormDummy.DoOnListboxDrawItem(Sender: TObject; ACanvas: TCanvas;
 var
   Props: TAppControlProps;
   IdControl: integer;
-  DataRect, Data: PPyObject;
+  Data: TAppVariant;
 begin
-  with AppPython.Engine do
-  begin
-    DataRect:= Py_BuildValue('(iiii)', ARect.Left, ARect.Top, ARect.Right, ARect.Bottom);
-    Data:= PyDict_New();
-    PyDict_SetItemString(Data, 'canvas', PyLong_FromLongLong(PtrInt(ACanvas)));
-    PyDict_SetItemString(Data, 'index', PyInt_FromLong(AIndex));
-    PyDict_SetItemString(Data, 'rect', DataRect);
-  end;
+  FillChar(Data, SizeOf(Data), 0);
+  Data.Typ:= avrDict;
+  Data.DictLen:= 3;
+
+  Data.DictItems[0].KeyName:= 'canvas';
+  Data.DictItems[0].Typ:= avdInt;
+  Data.DictItems[0].Int:= PtrInt(ACanvas);
+
+  Data.DictItems[1].KeyName:= 'index';
+  Data.DictItems[1].Typ:= avdInt;
+  Data.DictItems[1].Int:= AIndex;
+
+  Data.DictItems[2].KeyName:= 'rect';
+  Data.DictItems[2].Typ:= avdRect;
+  Data.DictItems[2].Rect:= ARect;
 
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
@@ -686,17 +689,12 @@ procedure TFormDummy.DoOnListviewSelect(Sender: TObject; Item: TListItem;
 var
   Props: TAppControlProps;
   IdControl: integer;
-  Data: PPyObject;
+  Data: TAppVariant;
 begin
   if BlockedOnSelect_Listview then exit;
   BlockedOnSelect_Listview:= true;
 
-  with AppPython.Engine do
-  begin
-    Data:= PyTuple_New(2);
-    PyTuple_SetItem(Data, 0, PyInt_FromLong(Item.Index));
-    PyTuple_SetItem(Data, 1, PyBool_FromLong(Ord(Selected)));
-  end;
+  Data:= AppVariant([Item.Index, Ord(Selected)]);
 
   try
     Props:= TAppControlProps((Sender as TControl).Tag);
@@ -716,10 +714,9 @@ procedure TFormDummy.DoOnListviewColumnClick(Sender: TObject;
 var
   Props: TAppControlProps;
   IdControl: integer;
-  Data: PPyObject;
+  Data: TAppVariant;
 begin
-  with AppPython.Engine do
-    Data:= PyInt_FromLong(Column.Index);
+  Data:= AppVariant(Column.Index);
 
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
@@ -736,9 +733,10 @@ end;
 
 
 function TFormDummy.DoEvent(AIdControl: integer; const ACallback: string;
-  AData: PPyObject): boolean;
+  const AData: TAppVariant): boolean;
 var
   Params: array of PPyObject;
+  ParamData: PPyObject;
   ParamNames: array of string;
 begin
   if ACallback='' then exit(true);
@@ -751,14 +749,16 @@ begin
     Params[1]:= PyInt_FromLong(AIdControl);
     ParamNames[0]:= 'id_dlg';
     ParamNames[1]:= 'id_ctl';
+  end;
 
-    if Assigned(AData) then
-    begin
-      SetLength(Params, Length(Params)+1);
-      Params[Length(Params)-1]:= AData;
-      SetLength(ParamNames, Length(ParamNames)+1);
-      ParamNames[Length(ParamNames)-1]:= 'data';
-    end;
+  if AData.Typ<>avrNil then
+  begin
+    ParamData:= AppVariantToPyObject(AData);
+    SetLength(Params, Length(Params)+1);
+    Params[Length(Params)-1]:= ParamData;
+
+    SetLength(ParamNames, Length(ParamNames)+1);
+    ParamNames[Length(ParamNames)-1]:= 'data';
   end;
 
   Result:= CustomDialog_DoPyCallback(ACallback, Params, ParamNames);
@@ -798,10 +798,9 @@ procedure TFormDummy.DoOnTreeviewChange(Sender: TObject; Node: TTreeNode);
 var
   Props: TAppControlProps;
   IdControl: integer;
-  Data: PPyObject;
+  Data: TAppVariant;
 begin
-  with AppPython.Engine do
-    Data:= PyLong_FromLongLong(PtrInt(Node));
+  Data:= AppVariant(PtrInt(Node));
 
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
@@ -813,12 +812,11 @@ procedure TFormDummy.DoOnTreeviewExpanding(Sender: TObject; Node: TTreeNode;
 var
   Props: TAppControlProps;
   IdControl: integer;
-  Data: PPyObject;
+  Data: TAppVariant;
 begin
   if BlockedOnUnfold then exit;
 
-  with AppPython.Engine do
-    Data:= PyLong_FromLongLong(PtrInt(Node));
+  Data:= AppVariant(PtrInt(Node));
 
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
@@ -830,12 +828,11 @@ procedure TFormDummy.DoOnTreeviewCollapsing(Sender: TObject; Node: TTreeNode;
 var
   Props: TAppControlProps;
   IdControl: integer;
-  Data: PPyObject;
+  Data: TAppVariant;
 begin
   if BlockedOnFold then exit;
 
-  with AppPython.Engine do
-    Data:= PyLong_FromLongLong(PtrInt(Node));
+  Data:= AppVariant(PtrInt(Node));
 
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
@@ -852,7 +849,7 @@ begin
   try
     Props:= TAppControlProps((Sender as TControl).Tag);
     IdControl:= FindControlIndexByOurObject(Sender);
-    DoEvent(IdControl, Props.FEventOnSelect, nil);
+    DoEvent(IdControl, Props.FEventOnSelect, AppVariantNil);
   finally
     BlockedOnSelect_Treeview:= false;
   end;
@@ -865,7 +862,7 @@ var
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
-  DoEvent(IdControl, Props.FEventOnSelect, nil);
+  DoEvent(IdControl, Props.FEventOnSelect, AppVariantNil);
 end;
 
 procedure TFormDummy.DoOnControlFocusEnter(Sender: TObject);
@@ -875,7 +872,7 @@ var
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
-  DoEvent(IdControl, Props.FEventOnFocusEnter, nil);
+  DoEvent(IdControl, Props.FEventOnFocusEnter, AppVariantNil);
 end;
 
 procedure TFormDummy.DoOnControlFocusExit(Sender: TObject);
@@ -885,7 +882,7 @@ var
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
-  DoEvent(IdControl, Props.FEventOnFocusExit, nil);
+  DoEvent(IdControl, Props.FEventOnFocusExit, AppVariantNil);
 end;
 
 
@@ -896,7 +893,7 @@ var
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
-  DoEvent(IdControl, Props.FEventOnChange, nil);
+  DoEvent(IdControl, Props.FEventOnChange, AppVariantNil);
 end;
 
 procedure TFormDummy.DoOnEditorChangeCaretPos(Sender: TObject);
@@ -906,24 +903,22 @@ var
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
-  DoEvent(IdControl, Props.FEventOnEditorCaret, nil);
+  DoEvent(IdControl, Props.FEventOnEditorCaret, AppVariantNil);
 end;
 
-function Py_KeyAndShift(Key: word; Shift: TShiftState): PPyObject; inline;
+function Py_KeyAndShift(Key: word; Shift: TShiftState): TAppVariant;
 begin
-  with AppPython.Engine do
-  begin
-    Result:= PyTuple_New(2);
-    PyTuple_SetItem(Result, 0, PyInt_FromLong(Key));
-    PyTuple_SetItem(Result, 1, PyString_FromString(PChar(ConvertShiftStateToString(Shift))));
-  end;
+  FillChar(Result, SizeOf(Result), 0);
+  Result.Typ:= avrTupleIntStr;
+  Result.Tuple2Int:= Key;
+  Result.Tuple2Str:= ConvertShiftStateToString(Shift);
 end;
 
 procedure TFormDummy.DoOnEditorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
   Props: TAppControlProps;
   IdControl: integer;
-  Data: PPyObject;
+  Data: TAppVariant;
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
@@ -936,7 +931,7 @@ procedure TFormDummy.DoOnEditorKeyUp(Sender: TObject; var Key: Word; Shift: TShi
 var
   Props: TAppControlProps;
   IdControl: integer;
-  Data: PPyObject;
+  Data: TAppVariant;
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
@@ -950,15 +945,23 @@ procedure TFormDummy.DoOnEditorClickGutter(Sender: TObject; ABand, ALine: intege
 var
   Props: TAppControlProps;
   IdControl: integer;
-  Data: PPyObject;
+  Data: TAppVariant;
 begin
-  with AppPython.Engine do
-  begin
-    Data:= PyDict_New();
-    PyDict_SetItemString(Data, 'state', PyString_FromString(PChar(ConvertShiftStateToString(KeyboardStateToShiftState))));
-    PyDict_SetItemString(Data, 'line', PyInt_FromLong(ALine));
-    PyDict_SetItemString(Data, 'band', PyInt_FromLong(ABand));
-  end;
+  FillChar(Data, SizeOf(Data), 0);
+  Data.Typ:= avrDict;
+  Data.DictLen:= 3;
+
+  Data.DictItems[0].KeyName:= 'state';
+  Data.DictItems[0].Typ:= avdStr;
+  Data.DictItems[0].Str:= ConvertShiftStateToString(KeyboardStateToShiftState);
+
+  Data.DictItems[1].KeyName:= 'line';
+  Data.DictItems[1].Typ:= avdInt;
+  Data.DictItems[1].Int:= ALine;
+
+  Data.DictItems[2].KeyName:= 'band';
+  Data.DictItems[2].Typ:= avdInt;
+  Data.DictItems[2].Int:= ABand;
 
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
@@ -975,21 +978,41 @@ procedure TFormDummy.DoOnEditorClickGap(Sender: TObject; AGapItem: TATGapItem; A
 var
   Props: TAppControlProps;
   IdControl: integer;
-  Data: PPyObject;
+  Data: TAppVariant;
 begin
   if not Assigned(AGapItem) then exit;
 
-  with AppPython.Engine do
-  begin
-    Data:= PyDict_New();
-    PyDict_SetItemString(Data, 'state', PyString_FromString(PChar(ConvertShiftStateToString(KeyboardStateToShiftState))));
-    PyDict_SetItemString(Data, 'line', PyInt_FromLong(AGapItem.LineIndex));
-    PyDict_SetItemString(Data, 'tag', PyLong_FromLongLong(AGapItem.Tag));
-    PyDict_SetItemString(Data, 'gap_w', PyInt_FromLong(AGapItem.Bitmap.Width));
-    PyDict_SetItemString(Data, 'gap_h', PyInt_FromLong(AGapItem.Bitmap.Height));
-    PyDict_SetItemString(Data, PChar(string('x')), PyInt_FromLong(APos.X));
-    PyDict_SetItemString(Data, PChar(string('y')), PyInt_FromLong(APos.Y));
-  end;
+  FillChar(Data, SizeOf(Data), 0);
+  Data.Typ:= avrDict;
+  Data.DictLen:= 7;
+
+  Data.DictItems[0].KeyName:= 'state';
+  Data.DictItems[0].Typ:= avdStr;
+  Data.DictItems[0].Str:= ConvertShiftStateToString(KeyboardStateToShiftState);
+
+  Data.DictItems[1].KeyName:= 'line';
+  Data.DictItems[1].Typ:= avdInt;
+  Data.DictItems[1].Int:= AGapItem.LineIndex;
+
+  Data.DictItems[2].KeyName:= 'tag';
+  Data.DictItems[2].Typ:= avdInt;
+  Data.DictItems[2].Int:= AGapItem.Tag;
+
+  Data.DictItems[3].KeyName:= 'gap_w';
+  Data.DictItems[3].Typ:= avdInt;
+  Data.DictItems[3].Int:= AGapItem.Bitmap.Width;
+
+  Data.DictItems[4].KeyName:= 'gap_h';
+  Data.DictItems[4].Typ:= avdInt;
+  Data.DictItems[4].Int:= AGapItem.Bitmap.Height;
+
+  Data.DictItems[5].KeyName:= 'x';
+  Data.DictItems[5].Typ:= avdInt;
+  Data.DictItems[5].Int:= APos.X;
+
+  Data.DictItems[6].KeyName:= 'y';
+  Data.DictItems[6].Typ:= avdInt;
+  Data.DictItems[6].Int:= APos.Y;
 
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
@@ -1014,21 +1037,26 @@ var
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
-  DoEvent(IdControl, Props.FEventOnEditorScroll, nil);
+  DoEvent(IdControl, Props.FEventOnEditorScroll, AppVariantNil);
 end;
 
 procedure TFormDummy.DoOnEditorPaste(Sender: TObject; var AHandled: boolean; AKeepCaret, ASelectThen: boolean);
 var
   Props: TAppControlProps;
   IdControl: integer;
-  Data: PPyObject;
+  Data: TAppVariant;
 begin
-  with AppPython.Engine do
-  begin
-    Data:= PyDict_New();
-    PyDict_SetItemString(Data, 'keep_caret', PyBool_FromLong(Ord(AKeepCaret)));
-    PyDict_SetItemString(Data, 'sel_then', PyBool_FromLong(Ord(ASelectThen)));
-  end;
+  FillChar(Data, SizeOf(Data), 0);
+  Data.Typ:= avrDict;
+  Data.DictLen:= 2;
+
+  Data.DictItems[0].KeyName:= 'keep_caret';
+  Data.DictItems[0].Typ:= avdBool;
+  Data.DictItems[0].Bool:= AKeepCaret;
+
+  Data.DictItems[1].KeyName:= 'sel_then';
+  Data.DictItems[1].Typ:= avdBool;
+  Data.DictItems[1].Bool:= ASelectThen;
 
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
