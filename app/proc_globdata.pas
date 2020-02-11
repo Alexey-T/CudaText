@@ -685,8 +685,11 @@ type
 
   TAppVariantArray = array of TAppVariant;
 
-var
-  AppVariantNil: TAppVariant;
+const
+  AppVariantNil: TAppVariant = (
+    Typ: avrNil;
+    Int: 0
+    );
 
 function AppVariant(Value: boolean): TAppVariant; inline;
 function AppVariant(const Value: Int64): TAppVariant; inline;
@@ -2568,9 +2571,6 @@ initialization
   AppEventWatcher:= TEvent.Create(nil, true, true, '');
 
   AppApiFlatTheme:= ATFlatTheme;
-
-  FillChar(AppVariantNil, SizeOf(AppVariantNil), 0);
-  AppVariantNil.Typ:= avrNil;
 
 finalization
   FreeAndNil(AppEventWatcher);
