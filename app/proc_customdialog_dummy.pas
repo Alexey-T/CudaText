@@ -967,7 +967,13 @@ var
   Props: TAppControlProps;
   IdControl: integer;
   Data: TAppVariant;
+  Callback: string;
 begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  Callback:= Props.FEventOnEditorClickGutter;
+  if Callback='' then exit;
+  IdControl:= FindControlIndexByOurObject(Sender);
+
   FillChar(Data, SizeOf(Data), 0);
   Data.Typ:= avrDict;
   Data.Len:= 3;
@@ -984,15 +990,7 @@ begin
   Data.Items[2].Typ:= avdInt;
   Data.Items[2].Int:= ABand;
 
-  Props:= TAppControlProps((Sender as TControl).Tag);
-  IdControl:= FindControlIndexByOurObject(Sender);
-  DoEvent(IdControl, Props.FEventOnEditorClickGutter, Data);
-    (*
-    Format('{ "state": "%s", "line": %d, "band": %d }', [
-      ConvertShiftStateToString(KeyboardStateToShiftState),
-      ALine,
-      ABand
-      *)
+  DoEvent(IdControl, Callback, Data);
 end;
 
 procedure TFormDummy.DoOnEditorClickGap(Sender: TObject; AGapItem: TATGapItem; APos: TPoint);
