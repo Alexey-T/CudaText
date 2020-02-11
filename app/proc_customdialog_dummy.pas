@@ -773,7 +773,7 @@ begin
 
   if AData.Typ<>avrNil then
   begin
-    ParamData:= AppPython.AppVariantToPyObject(AData);
+    ParamData:= AppPython.AppVariantToObject(AData);
     SetLength(Params, Length(Params)+1);
     Params[Length(Params)-1]:= ParamData;
 
