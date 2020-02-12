@@ -2881,25 +2881,25 @@ begin
   if (str<>'') and (str<>str0) then
     LexerName[Ed]:= str;
 
-  //enc
- if AllowEnc then
- begin
-  str0:= Ed.EncodingName;
-  str:= c.GetValue(path+cHistory_Enc, str0);
-  if str<>str0 then
+  //encoding
+  if AllowEnc then
   begin
-    Ed.EncodingName:= str;
-    //reread in enc
-    //but only if not modified (modified means other text is loaded)
-    if AFileName<>'' then
-      if not Ed.Modified then
-      begin
-        Ed.Strings.EncodingDetect:= false;
-        Ed.LoadFromFile(AFileName);
-        Ed.Strings.EncodingDetect:= true;
-      end;
+    str0:= Ed.EncodingName;
+    str:= c.GetValue(path+cHistory_Enc, str0);
+    if str<>str0 then
+    begin
+      Ed.EncodingName:= str;
+      //reread in encoding
+      //but only if not modified (modified means other text is loaded)
+      if AFileName<>'' then
+        if not Ed.Modified then
+        begin
+          Ed.Strings.EncodingDetect:= false;
+          Ed.LoadFromFile(AFileName);
+          Ed.Strings.EncodingDetect:= true;
+        end;
+    end;
   end;
- end;
 
   TabColor:= StringToColorDef(c.GetValue(path+cHistory_TabColor, ''), clNone);
 
