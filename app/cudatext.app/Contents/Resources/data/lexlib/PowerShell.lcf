@@ -1,4 +1,4 @@
-object SyntAnal16: TLibSyntAnalyzer
+object SyntAnal22: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -184,9 +184,10 @@ object SyntAnal16: TLibSyntAnalyzer
       StyleName = 'Operator'
       TokenType = 7
       Expression = 
-        '-(eq|ne|gt|lt|le|ge|match|notmatch|replace|like|notlike|in|notin' +
-        '|contains|notcontains|and|or|xor|not|bAND|bOR|bXOR|bNOT|split|jo' +
-        'in|is|isnot|as)\b'
+        '-(f|eq|ne|gt|lt|le|ge|ceq|cne|cgt|clt|cle|cge|ieq|ine|igt|ilt|il' +
+        'e|ige|match|notmatch|replace|like|notlike|in|notin|contains|notc' +
+        'ontains|and|or|xor|not|bAND|bOR|bXOR|bNOT|split|join|is|isnot|as' +
+        '|regex|wildcard|exact|casesensitive)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -448,6 +449,7 @@ object SyntAnal16: TLibSyntAnalyzer
             '$ExecutionContext'
             '$false'
             '$foreach'
+            '$FormatEnumerationLimit'
             '$HOME'
             '$Host'
             '$input'
