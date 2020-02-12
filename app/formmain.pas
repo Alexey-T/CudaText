@@ -76,6 +76,7 @@ uses
   proc_str,
   proc_py,
   proc_py_const,
+  proc_appvariant,
   proc_files,
   proc_globdata,
   proc_colors,
@@ -3883,6 +3884,7 @@ var
   PathAppend: boolean;
 begin
   AppPython.Initialize;
+  AppVariantInitializePython;
 
   {$ifdef windows}
   PathAppend:= false;

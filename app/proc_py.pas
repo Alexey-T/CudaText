@@ -44,7 +44,6 @@ type
     function MethodEval(const AObject, AMethod, AParams: string): PPyObject;
     function MethodEvalEx(const AObject, AMethod, AParams: string): TAppPyEventResult;
     function StrArrayToString(const V: array of string): string;
-    function AppVariantItemToObject(const V: TAppVariantItem): PPyObject;
   public
     constructor Create;
     destructor Destroy; override;
@@ -72,9 +71,6 @@ type
     procedure ClearCache;
     procedure DisableTiming;
     function GetTimingReport: string;
-
-    function AppVariantToObject(const V: TAppVariant): PPyObject;
-    function AppVariantArrayToObject(const V: TAppVariantArray): PPyObject;
   end;
 
 const
@@ -88,78 +84,6 @@ var
 implementation
 
 { TAppPython }
-
-function TAppPython.AppVariantItemToObject(const V: TAppVariantItem): PPyObject;
-begin
-  with FEngine do
-    case V.Typ of
-      avdBool:
-        Result:= PyBool_FromLong(Ord(V.Bool));
-      avdInt:
-        Result:= PyLong_FromLongLong(V.Int);
-      avdStr:
-        Result:= PyString_FromString(PChar(string(V.Str)));
-      avdRect:
-        Result:= Py_BuildValue('(iiii)', V.Rect.Left, V.Rect.Top, V.Rect.Right, V.Rect.Bottom);
-      else
-        raise Exception.Create('Unhandled item in AppVariantItemToObject');
-    end;
-end;
-
-function TAppPython.AppVariantToObject(const V: TAppVariant): PPyObject;
-var
-  i: integer;
-begin
-  with FEngine do
-    case V.Typ of
-      avrNil:
-        raise Exception.Create('Nil type in AppVariantToObject');
-
-      avrInt:
-        Result:= PyLong_FromLongLong(V.Int);
-
-      avrStr:
-        Result:= PyString_FromString(PChar(string(V.Str)));
-
-      avrBool:
-        Result:= PyBool_FromLong(Ord(V.Bool));
-
-      avrDict:
-        begin
-          Result:= PyDict_New();
-          for i:= 0 to V.Len-1 do
-            PyDict_SetItemString(Result,
-              PChar(string(V.Items[i].KeyName)),
-              AppVariantItemToObject(V.Items[i])
-              );
-        end;
-
-      avrTuple:
-        begin
-          Result:= PyTuple_New(V.Len);
-          for i:= 0 to V.Len-1 do
-            PyTuple_SetItem(Result, i,
-              AppVariantItemToObject(V.Items[i])
-              );
-        end;
-
-      else
-        raise Exception.Create('Unhandled type in AppVariantToObject');
-    end;
-end;
-
-function TAppPython.AppVariantArrayToObject(const V: TAppVariantArray): PPyObject;
-var
-  i: integer;
-begin
-  with FEngine do
-  begin
-    Result:= PyTuple_New(Length(V));
-    for i:= 0 to Length(V)-1 do
-      PyTuple_SetItem(Result, i, AppVariantToObject(V[i]));
-  end;
-end;
-
 
 constructor TAppPython.Create;
 begin
