@@ -58,13 +58,14 @@ const
     Int: 0
     );
 
-procedure AppVariantInitializePython;
 function AppVariant(Value: boolean): TAppVariant; inline;
 function AppVariant(const Value: Int64): TAppVariant; inline;
 function AppVariant(const Value: string): TAppVariant; inline;
 function AppVariant(const Value: array of integer): TAppVariant;
 function AppVariantToString(const V: TAppVariant): string;
 function AppVariantArrayToString(const V: TAppVariantArray): string;
+
+procedure AppVariantInitializePython;
 function AppVariantToPyObject(const V: TAppVariant): PPyObject;
 function AppVariantArrayToPyObject(const V: TAppVariantArray): PPyObject;
 
@@ -207,7 +208,7 @@ begin
       avdRect:
         Result:= Py_BuildValue('(iiii)', V.Rect.Left, V.Rect.Top, V.Rect.Right, V.Rect.Bottom);
       else
-        raise Exception.Create('Unhandled item in AppVariantItemToObject');
+        raise Exception.Create('Unhandled item in AppVariantItemToPyObject');
     end;
 end;
 
@@ -218,7 +219,7 @@ begin
   with FEngine do
     case V.Typ of
       avrNil:
-        raise Exception.Create('Nil type in AppVariantToObject');
+        raise Exception.Create('Nil type in AppVariantToPyObject');
 
       avrInt:
         Result:= PyLong_FromLongLong(V.Int);
@@ -249,7 +250,7 @@ begin
         end;
 
       else
-        raise Exception.Create('Unhandled type in AppVariantToObject');
+        raise Exception.Create('Unhandled type in AppVariantToPyObject');
     end;
 end;
 
