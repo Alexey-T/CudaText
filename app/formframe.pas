@@ -2928,10 +2928,7 @@ begin
   end
   else
   begin
-    //for open-file from app: ok
-    //for open via cmdline: not ok (maybe need to do it after form shown? how?)
-    Ed.Update(true);
-    Application.ProcessMessages;
+    //now it's not needed to do Ed.Update(true) nor Application.ProcessMessages
     Ed.LineTop:= nTop;
   end;
 
