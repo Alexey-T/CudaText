@@ -3337,6 +3337,7 @@ begin
 
   dlg:= TOpenDialog.Create(nil);
   try
+    dlg.Title:= msgDialogTitleOpen;
     dlg.Options:= [ofAllowMultiSelect, ofPathMustExist, ofEnableSizing];
     dlg.FileName:= '';
 
@@ -5141,6 +5142,7 @@ begin
 
   Dlg:= TSaveDialog.Create(Self);
   try
+    Dlg.Title:= msgDialogTitleSaveAs;
     Dlg.Filename:= STitle+'.html';
     Dlg.InitialDir:= GetTempDir(false);
     Dlg.Options:= [ofPathMustExist, ofEnableSizing, ofDontAddToRecent];
@@ -6784,6 +6786,7 @@ begin
   if not Assigned(SaveDlg) then
   begin
     SaveDlg:= TSaveDialog.Create(Self);
+    SaveDlg.Title:= msgDialogTitleSaveAs;
     SaveDlg.Options:= [ofOverwritePrompt,ofPathMustExist,ofEnableSizing,ofDontAddToRecent,ofViewDetail];
   end;
 end;

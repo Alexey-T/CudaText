@@ -361,6 +361,10 @@ begin
     DoLocString(msgCommentLineToggle, ini, 'tb', 'cm_ln_tog');
     DoLocString(msgCommentStreamToggle, ini, 'tb', 'cm_st_tog');
 
+    msgDialogTitleOpen:= ini.ReadString('ui', 'dl_op', msgDialogTitleOpen);
+    msgDialogTitleSaveAs:= ini.ReadString('ui', 'dl_sav', msgDialogTitleSaveAs);
+    msgDialogTitleSelFolder:= ini.ReadString('ui', 'dl_fld', msgDialogTitleSelFolder);
+
     msgPanelMenu:= ini.ReadString('ui', 't_menu', msgPanelMenu_Init);
     msgPanelTree:= ini.ReadString('ui', 't_tre', msgPanelTree_Init);
     msgPanelProject:= ini.ReadString('ui', 't_proj', msgPanelProject_Init);

@@ -48,6 +48,10 @@ const
   msgModified: array[boolean] of string = ('', '*'); //no i18n
   msgLiteLexerSuffix = ' ^'; //no i18n
 
+  msgDialogTitleOpen: string = 'Open file';
+  msgDialogTitleSaveAs: string = 'Save file as';
+  msgDialogTitleSelFolder: string = 'Select folder';
+
   msgTooltipClearFilter: string = 'Clear filter';
   msgTooltipCloseTab: string = 'Close tab';
   msgTooltipAddTab: string = 'Add tab';

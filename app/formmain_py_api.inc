@@ -2035,6 +2035,7 @@ begin
       if IsOpen then
       begin
         Dlg:= TOpenDialog.Create(nil);
+        Dlg.Title:= msgDialogTitleOpen;
         Dlg.Options:= Dlg.Options+[ofHideReadOnly, ofPathMustExist];
         if not IsAllowAny then
           Dlg.Options:= Dlg.Options+[ofFileMustExist];
@@ -2042,6 +2043,7 @@ begin
       else
       begin
         Dlg:= TSaveDialog.Create(nil);
+        Dlg.Title:= msgDialogTitleSaveAs;
         Dlg.Options:= Dlg.Options+[ofHideReadOnly, ofPathMustExist, ofOverwritePrompt];
       end;
 
@@ -2086,7 +2088,7 @@ begin
       StrCaption:= string(PtrCaption);
       Dlg:= TSelectDirectoryDialog.Create(nil);
       try
-        Dlg.Title:= StrCaption;
+        Dlg.Title:= msgDialogTitleSelFolder; //StrCaption;
         Dlg.InitialDir:= StrFolder;
         if Dlg.Execute then
           Result:= PyUnicode_FromWideString(Utf8Decode(Dlg.FileName))
