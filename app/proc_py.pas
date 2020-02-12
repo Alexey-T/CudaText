@@ -15,7 +15,8 @@ uses
   SysUtils, Classes,
   PythonEngine,
   proc_str,
-  proc_globdata;
+  proc_globdata,
+  proc_appvariant;
 
 type
   { TAppPython }

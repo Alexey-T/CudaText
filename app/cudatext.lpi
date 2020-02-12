@@ -957,7 +957,7 @@
         <PackageName Value="LCL"/>
       </Item12>
     </RequiredPackages>
-    <Units Count="56">
+    <Units Count="57">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1250,6 +1250,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit55>
+      <Unit56>
+        <Filename Value="proc_appvariant.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit56>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
