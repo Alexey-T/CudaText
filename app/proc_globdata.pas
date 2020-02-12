@@ -695,8 +695,8 @@ function AppVariant(Value: boolean): TAppVariant; inline;
 function AppVariant(const Value: Int64): TAppVariant; inline;
 function AppVariant(const Value: string): TAppVariant; inline;
 function AppVariant(const Value: array of integer): TAppVariant;
-//function AppVariantToString(const V: TAppVariant): string;
-//function AppVariantArrayToString(const V: TAppVariantArray): string;
+function AppVariantToString(const V: TAppVariant): string;
+function AppVariantArrayToString(const V: TAppVariantArray): string;
 
 type
   TAppPyEvent = (
@@ -2493,14 +2493,45 @@ begin
   end;
 end;
 
-(*
-function AppVariantToString(const V: TAppVariant): string;
+function AppVariantItemToString(const V: TAppVariantItem): string;
 begin
   case V.Typ of
+    avdBool:
+      begin
+        if V.Bool then
+          Result:= 'True'
+        else
+          Result:= 'False';
+      end;
+
+    avdInt:
+      Result:= IntToStr(V.Int);
+
+    avdRect:
+      Result:= Format('(%d,%d,%d,%d)', [V.Rect.Left, V.Rect.Top, V.Rect.Right, V.Rect.Bottom]);
+
+    avdStr:
+      Result:= SStringToPythonString(V.Str);
+
+    else
+      raise Exception.Create('Unhandled type in AppVariantItemToString');
+  end;
+end;
+
+function AppVariantToString(const V: TAppVariant): string;
+var
+  i: integer;
+begin
+  case V.Typ of
+    avrNil:
+      raise Exception.Create('Nil value in AppVariantToString');
+
     avrInt:
       Result:= IntToStr(V.Int);
+
     avrStr:
       Result:= SStringToPythonString(V.Str);
+
     avrBool:
       begin
         if V.Bool then
@@ -2508,6 +2539,23 @@ begin
         else
           Result:= 'False';
       end;
+
+    avrDict:
+      begin
+        Result:= '{';
+        for i:= 0 to V.Len-1 do
+          Result+= '"'+V.Items[i].KeyName+'":'+AppVariantItemToString(V.Items[i])+',';
+        Result+= '}';
+      end;
+
+    avrTuple:
+      begin
+        Result:= '(';
+        for i:= 0 to V.Len-1 do
+          Result+= AppVariantItemToString(V.Items[i])+',';
+        Result+= ')';
+      end;
+
     else
       raise Exception.Create('Unhandled type in AppVariantToString');
   end;
@@ -2523,7 +2571,7 @@ begin
   if Result<>'' then
     SetLength(Result, Length(Result)-1);
 end;
-*)
+
 
 initialization
   InitDirs;
