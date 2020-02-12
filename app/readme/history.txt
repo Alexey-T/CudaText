@@ -7,6 +7,8 @@
 
 + add: can scroll tab captions (when they don't fit) by mouse wheel
 + add: lexer PowerShell: many rules improved, keyword/function lists updated
+- fix: macro recording gave error when Find dialog button is pressed
+- fix: years-old bug, editor restored bad scroll pos, on opening file from command line with wrap=on
 
 1.94.0 (2020/02)
 
