@@ -212,13 +212,12 @@ begin
   // https://wiki.freepascal.org/CudaText_API#Format_of_text_for_cmd_FinderAction
   if Frame.MacroRecord then
     Frame.MacroString:= Frame.MacroString+
-      (Format('%d,%s'#1'%s'#1'%s'#1'%s', [
-        cmd_FinderAction,
-        cAppFinderOperationString[Res],
-        FFinder.StrFind,
-        FFinder.StrReplace,
-        FinderOptionsToString(FFinder)
-        ])+#10);
+       (IntToStr(cmd_FinderAction)+','+
+        cAppFinderOperationString[Res]+#1+
+        FFinder.StrFind+#1+
+        FFinder.StrReplace+#1+
+        FinderOptionsToString(FFinder)+
+        #10);
 
   bDoLock:=
     //(Res=afoReplace) or //don't lock for single replace, issue #1216
