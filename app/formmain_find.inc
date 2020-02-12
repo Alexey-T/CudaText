@@ -207,9 +207,18 @@ begin
   //if FFinder.OptInSelection then
   //  if CurrentEditor.Carets.Count>1 then
   //    MsgBox(msgCannotFindInMultiSel, MB_OK+MB_ICONWARNING);
+
+  //format must be this:
+  // https://wiki.freepascal.org/CudaText_API#Format_of_text_for_cmd_FinderAction
   if Frame.MacroRecord then
-    Frame.MacroString:= Frame.MacroString+(Format('%d,%s'#1'%s'#1'%s'#1'%s',
-      [cmd_FinderAction, Res, FFinder.StrFind, FFinder.StrReplace, FinderOptionsToString(FFinder)])+#10);
+    Frame.MacroString:= Frame.MacroString+
+      (Format('%d,%s'#1'%s'#1'%s'#1'%s', [
+        cmd_FinderAction,
+        cAppFinderOperationString[Res],
+        FFinder.StrFind,
+        FFinder.StrReplace,
+        FinderOptionsToString(FFinder)
+        ])+#10);
 
   bDoLock:=
     //(Res=afoReplace) or //don't lock for single replace, issue #1216
