@@ -341,12 +341,9 @@ begin
       if FileExistsUTF8(sFilename) then
         F:= DoFileOpen(sFilename, '', Pages, sOpenOptions+SOptionPassive);
 
-      //load other props (caret/encoding/etc)
       if Assigned(F) then
       begin
-        //F.ActivationTime:= GetTickCount64;
         F.NotInRecents:= true;
-        F.DoLoadHistoryEx(F.Ed1, F.FileName, c, '/'+list[i], true);
       end;
     end;
 
