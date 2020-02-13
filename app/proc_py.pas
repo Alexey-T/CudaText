@@ -57,7 +57,7 @@ type
 
     function Eval(const Command: string; UseFileMode: boolean=false): PPyObject;
     procedure Exec(const Command: string);
-    function RunCommand(const AModule, AMethod: string; const AParams: array of string): boolean;
+    function RunCommand(const AModule, AMethod: string; const AParams: TAppVariantArray): boolean;
     function RunEvent(const AModule, ACmd: string;
       AEd: TObject; const AParams: array of string; ALazy: boolean): TAppPyEventResult;
     function RunModuleFunction(const AModule, AFunc: string; AParams: array of PPyObject; const AParamNames: array of string): PPyObject;
@@ -246,17 +246,18 @@ begin
   Exec(Format('import %s;%s=%s.Command()', [AModule, AObject, AModule]));
 end;
 
-function TAppPython.RunCommand(const AModule, AMethod: string;
-  const AParams: array of string): boolean;
+function TAppPython.RunCommand(const AModule, AMethod: string; const AParams: TAppVariantArray): boolean;
 var
   SObj: string;
   Obj: PPyObject;
+  StrParams: string;
+  i: integer;
 begin
   FRunning:= true;
   FLastCommandModule:= AModule;
   FLastCommandMethod:= AMethod;
   if Length(AParams)>0 then
-    FLastCommandParam:= AParams[0]
+    FLastCommandParam:= AppVariantToString(AParams[0])
   else
     FLastCommandParam:= '';
 
@@ -273,8 +274,16 @@ begin
     end;
   end;
 
+  StrParams:= '';
+  for i:= 0 to Length(AParams)-1 do
+  begin
+    StrParams+= AppVariantToString(AParams[i]);
+    if i<Length(AParams)-1 then
+      StrParams+= ',';
+  end;
+
   try
-    Obj:= MethodEval(SObj, AMethod, StrArrayToString(AParams));
+    Obj:= MethodEval(SObj, AMethod, StrParams);
     if Assigned(Obj) then
       with FEngine do
       begin

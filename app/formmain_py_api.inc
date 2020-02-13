@@ -4122,7 +4122,10 @@ begin
             Sep.GetItemStr(Str1);
             Sep.GetItemStr(Str2);
             Sep.GetItemStr(Str3);
-            fmMain.DoPyCommand(Str1, Str2, Str3);
+            if Str3<>'' then
+              fmMain.DoPyCommand(Str1, Str2, [AppVariant(Str3)])
+            else
+              fmMain.DoPyCommand(Str1, Str2, []);
             Result:= ReturnNone;
           end;
 

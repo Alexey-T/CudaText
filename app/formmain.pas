@@ -1096,7 +1096,7 @@ type
     property ThemeSyntax: string write SetThemeSyntax;
     property SidebarPanel: string read FLastSidebarPanel write SetSidebarPanel;
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): TAppPyEventResult;
-    procedure DoPyCommand(const AModule, AMethod: string; const AParams: array of string);
+    procedure DoPyCommand(const AModule, AMethod: string; const AParams: TAppVariantArray);
     function DoPyTreeHelper(Frame: TEditorFrame): boolean;
     procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATFinderTokenKind);
   end;
@@ -2950,12 +2950,10 @@ end;
 
 
 procedure TfmMain.DoFolderOpen(const ADirName: string; ANewProject: boolean);
-const
-  cBool: array[boolean] of string = (cPyFalse, cPyTrue);
 begin
   DoPyCommand('cuda_project_man', 'open_dir', [
-    'r"'+ADirName+'"',
-    cBool[ANewProject]
+    AppVariant(ADirName),
+    AppVariant(ANewProject)
     ]);
 end;
 

@@ -1,8 +1,7 @@
 {$ifdef nn}begin end;{$endif}
 
 
-procedure TfmMain.DoPyCommand(const AModule, AMethod: string;
-  const AParams: array of string);
+procedure TfmMain.DoPyCommand(const AModule, AMethod: string; const AParams: TAppVariantArray);
 var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
@@ -16,12 +15,13 @@ begin
   Ed:= Frame.Editor;
   if Ed=nil then exit;
 
-  SParam:= '';
-  if Length(AParams)>0 then
-    SParam:= AParams[0];
-
   if Frame.MacroRecord then
+  begin
+    SParam:= '';
+    if Length(AParams)>0 then
+      SParam:= AppVariantToString(AParams[0]);
     Frame.MacroString:= Frame.MacroString+ ('py:'+AModule+','+AMethod+','+SParam+#10);
+  end;
 
   Ed.Strings.BeginUndoGroup;
   try
@@ -52,11 +52,18 @@ begin
     Exit
   end;
 
-  DoPyCommand(
-    CmdItem.ItemModule,
-    CmdItem.ItemProc,
-    CmdItem.ItemProcParam
-    );
+  if CmdItem.ItemProcParam<>'' then
+    DoPyCommand(
+      CmdItem.ItemModule,
+      CmdItem.ItemProc,
+      [AppVariant(CmdItem.ItemProcParam)]
+      )
+  else
+    DoPyCommand(
+      CmdItem.ItemModule,
+      CmdItem.ItemProc,
+      []
+      );
 end;
 
 
@@ -218,8 +225,8 @@ const
   cRegex_CommaCommand = '([a-z_]\w*),([a-z_]\w*)(,(.+))?$'; //compatible with menu_proc, with 3rd param
 var
   FParamObjs: array of PPyObject;
-  FParamStrs: array of string;
   FParamNames: array of string;
+  FParamVars: TAppVariantArray;
   SModule, SFunc, SParam, SInfo: string;
   RegexParts: TRegexParts;
   Obj: PPyObject;
@@ -237,11 +244,7 @@ begin
     SModule:= RegexParts[1].Str;
     SFunc:= RegexParts[2].Str;
 
-    SetLength(FParamStrs, Length(AParamVars));
-    for i:= 0 to Length(AParamVars)-1 do
-      FParamStrs[i]:= AppVariantToString(AParamVars[i]);
-
-    Result:= AppPython.RunCommand(SModule, SFunc, FParamStrs);
+    Result:= AppPython.RunCommand(SModule, SFunc, AParamVars);
     exit;
   end;
 
@@ -252,17 +255,17 @@ begin
     SFunc:= RegexParts[2].Str;
     SInfo:= RegexParts[4].Str;
 
-    SetLength(FParamStrs, Length(AParamVars));
+    SetLength(FParamVars, Length(AParamVars));
     for i:= 0 to Length(AParamVars)-1 do
-      FParamStrs[i]:= AppVariantToString(AParamVars[i]);
+      FParamVars[i]:= AParamVars[i];
 
     if SInfo<>'' then
     begin
-      SetLength(FParamStrs, Length(FParamStrs)+1);
-      FParamStrs[Length(FParamStrs)-1]:= SInfo;
+      SetLength(FParamVars, Length(FParamVars)+1);
+      FParamVars[Length(FParamVars)-1]:= AppVariant(SInfo);
     end;
 
-    Result:= AppPython.RunCommand(SModule, SFunc, FParamStrs);
+    Result:= AppPython.RunCommand(SModule, SFunc, FParamVars);
     exit;
   end;
 
@@ -308,7 +311,12 @@ begin
     SModule:= RegexParts[1].Str;
     SFunc:= RegexParts[2].Str;
     SParam:= RegexParts[4].Str;
-    Result:= AppPython.RunCommand(SModule, SFunc, [SParam]);
+
+    if SParam<>'' then
+      Result:= AppPython.RunCommand(SModule, SFunc, [AppVariant(SParam)])
+    else
+      Result:= AppPython.RunCommand(SModule, SFunc, []);
+
     MsgLogConsole(Format(msgCallbackDeprecated, [ACallback]));
     exit;
   end;
@@ -355,8 +363,19 @@ end;
 
 procedure TfmMain.DoPyRunLastPlugin;
 begin
-  if AppPython.LastCommandModule<>'' then
-    DoPyCommand(AppPython.LastCommandModule, AppPython.LastCommandMethod, AppPython.LastCommandParam);
+  if AppPython.LastCommandModule='' then exit;
+  if AppPython.LastCommandParam<>'' then
+    DoPyCommand(
+      AppPython.LastCommandModule,
+      AppPython.LastCommandMethod,
+      [AppVariant(AppPython.LastCommandParam)]
+      )
+  else
+    DoPyCommand(
+      AppPython.LastCommandModule,
+      AppPython.LastCommandMethod,
+      []
+      );
 end;
 
 
