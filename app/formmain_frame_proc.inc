@@ -242,7 +242,7 @@ begin
   //restoring of folded state from history is here,
   //after parsing done
   Frame:= (Sender as TATAdapterEControl).Owner as TEditorFrame;
-  Frame.DoRestoreFolding;
+  Frame.DoRestoreFolding(Frame.Editor);
 
   //do on_lexer_parsed only if parsing was long
   if (Sender as TATAdapterEControl).LexerParsingElapsed>=cMinTime then

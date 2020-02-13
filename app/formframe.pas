@@ -356,7 +356,7 @@ type
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
       const AParams: array of string): TAppPyEventResult;
     procedure DoGotoPos(Ed: TATSynEdit; APosX, APosY: integer);
-    procedure DoRestoreFolding;
+    procedure DoRestoreFolding(Ed: TATSynEdit);
     procedure DoRemovePreviewStyle;
     procedure DoToggleFocusSplitEditors;
     procedure DoFocusNotificationPanel;
@@ -2488,7 +2488,7 @@ begin
     FOnChangeCaption(Self);
 end;
 
-procedure TEditorFrame.DoRestoreFolding;
+procedure TEditorFrame.DoRestoreFolding(Ed: TATSynEdit);
 var
   S: string;
 begin
@@ -2496,12 +2496,12 @@ begin
   begin
     S:= FFoldTodo;
     FFoldTodo:= '';
-    EditorSetFoldString(Editor, S);
+    EditorSetFoldString(Ed, S);
   end;
 
   if FTopLineTodo>0 then
   begin
-    Editor.LineTop:= FTopLineTodo;
+    Ed.LineTop:= FTopLineTodo;
     FTopLineTodo:= 0;
   end;
 end;
