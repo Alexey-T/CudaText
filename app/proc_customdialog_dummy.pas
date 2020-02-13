@@ -28,7 +28,7 @@ uses
 type
   TAppPyCommonCallback = function(
     const ACallback: string;
-    const AParams: array of PPyObject;
+    const AParamVars: TAppVariantArray;
     const AParamNames: array of string): boolean;
 
 type
@@ -771,31 +771,28 @@ end;
 function TFormDummy.DoEvent(AIdControl: integer; const ACallback: string;
   const AData: TAppVariant): boolean;
 var
-  Params: array of PPyObject;
+  ParamVars: TAppVariantArray;
   ParamNames: array of string;
 begin
   if ACallback='' then exit(true);
 
-  with AppPython.Engine do
-  begin
-    SetLength(Params, 2);
-    SetLength(ParamNames, 2);
-    Params[0]:= PyLong_FromLongLong(PtrInt(Self));
-    Params[1]:= PyInt_FromLong(AIdControl);
-    ParamNames[0]:= 'id_dlg';
-    ParamNames[1]:= 'id_ctl';
-  end;
+  SetLength(ParamVars, 2);
+  SetLength(ParamNames, 2);
+  ParamVars[0]:= AppVariant(PtrInt(Self));
+  ParamVars[1]:= AppVariant(AIdControl);
+  ParamNames[0]:= 'id_dlg';
+  ParamNames[1]:= 'id_ctl';
 
   if AData.Typ<>avrNil then
   begin
-    SetLength(Params, Length(Params)+1);
-    Params[Length(Params)-1]:= AppVariantToPyObject(AData);
+    SetLength(ParamVars, Length(ParamVars)+1);
+    ParamVars[Length(ParamVars)-1]:= AData;
 
     SetLength(ParamNames, Length(ParamNames)+1);
     ParamNames[Length(ParamNames)-1]:= 'data';
   end;
 
-  Result:= CustomDialog_DoPyCallback(ACallback, Params, ParamNames);
+  Result:= CustomDialog_DoPyCallback(ACallback, ParamVars, ParamNames);
 end;
 
 procedure TFormDummy.DoEmulatedModalShow;

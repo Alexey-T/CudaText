@@ -209,7 +209,7 @@ end;
 
 
 function DoPyCallbackFromAPI(const ACallback: string;
-  const AParams: array of PPyObject;
+  const AParamVars: TAppVariantArray;
   const AParamNames: array of string): boolean;
 const
   cRegex_DotCommand = '([a-z_]\w*)\.([a-z_]\w*)$';
@@ -217,7 +217,7 @@ const
   cRegex_SignFunc = 'module=(.+?);func=(.+?);(info=(.+?);)?$';
   cRegex_CommaCommand = '([a-z_]\w*),([a-z_]\w*)(,(.+))?$'; //compatible with menu_proc, with 3rd param
 var
-  FParams: array of PPyObject;
+  FParamsObj: array of PPyObject;
   FParamsStr: array of string;
   FParamNames: array of string;
   SModule, SFunc, SParam, SInfo: string;
@@ -231,13 +231,14 @@ begin
   //avoid log error on standard ids
   if SBeginsWith(ACallback, 'top-') then exit;
 
-  SetLength(FParams, Length(AParams));
-  SetLength(FParamsStr, Length(AParams));
-  for i:= 0 to Length(AParams)-1 do
+  SetLength(FParamsObj, Length(AParamVars));
+  SetLength(FParamsStr, Length(AParamVars));
+  for i:= 0 to Length(AParamVars)-1 do
   begin
-    FParams[i]:= AParams[i];
-    FParamsStr[i]:= AppPython.ValueToString(AParams[i], true);
+    FParamsObj[i]:= AppVariantToPyObject(AParamVars[i]);
+    FParamsStr[i]:= AppVariantToString(AParamVars[i]);
   end;
+
   SetLength(FParamNames, Length(AParamNames));
   for i:= 0 to Length(AParamNames)-1 do
     FParamNames[i]:= AParamNames[i];
@@ -277,13 +278,13 @@ begin
     if SInfo<>'' then
     begin
       // SInfo may have simple type values: string, int, bool...
-      SetLength(FParams, Length(FParams)+1);
-      FParams[Length(FParams)-1]:= AppPython.ValueFromString(SInfo);
+      SetLength(FParamsObj, Length(FParamsObj)+1);
+      FParamsObj[Length(FParamsObj)-1]:= AppPython.ValueFromString(SInfo);
       SetLength(FParamNames, Length(FParamNames)+1);
       FParamNames[Length(FParamNames)-1]:= 'info';
     end;
 
-    Obj:= AppPython.RunModuleFunction(SModule, SFunc, FParams, FParamNames);
+    Obj:= AppPython.RunModuleFunction(SModule, SFunc, FParamsObj, FParamNames);
     if Assigned(Obj) then
       with AppPython.Engine do
       begin
@@ -356,7 +357,7 @@ procedure TfmMain.DoPyTimerTick(Sender: TObject);
 var
   Timer: TTimer;
   SCallback, STag: string;
-  Params: array[0..0] of PPyObject;
+  ParamVars: TAppVariantArray;
   ParamNames: array[0..0] of string;
   N: integer;
 begin
@@ -370,11 +371,11 @@ begin
 
   SSplitByChar(FListTimers[N], '|', SCallback, STag);
 
-  with AppPython.Engine do
-    Params[0]:= PyLong_FromLongLong(StrToInt64Def(STag, 0));
+  SetLength(ParamVars, 1);
+  ParamVars[0]:= AppVariant(StrToInt64Def(STag, 0));
   ParamNames[0]:= 'tag';
 
-  DoPyCallbackFromAPI(SCallback, Params, ParamNames);
+  DoPyCallbackFromAPI(SCallback, ParamVars, ParamNames);
 end;
 
 
