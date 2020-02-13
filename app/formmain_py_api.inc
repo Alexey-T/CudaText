@@ -4093,8 +4093,8 @@ begin
         APP_PROC_GET_LAST_PLUGIN:
           begin
             Str:= AppPython.LastCommandModule+','+AppPython.LastCommandMethod;
-            if AppPython.LastCommandParam<>'' then
-              Str:= Str+','+AppPython.LastCommandParam;
+            if AppPython.LastCommandParam.Typ<>avrNil then
+              Str+= ','+AppVariantToString(AppPython.LastCommandParam);
             Result:= PyString_FromString(PChar(Str));
           end;
 
