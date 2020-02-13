@@ -43,6 +43,8 @@ type
     function IsLoadedLocal(const S: string): boolean;
     function MethodEval(const AObject, AMethod, AParams: string): PPyObject;
     function MethodEvalEx(const AObject, AMethod, AParams: string): TAppPyEventResult;
+    function MethodEvalObjects(const AModule, AObject, AFunc: string;
+      AParams: array of PPyObject): PPyObject;
   public
     constructor Create;
     destructor Destroy; override;
@@ -179,6 +181,48 @@ begin
   with FEngine do
     Py_XDECREF(Eval(Command, true));
     //UseFileMode=True to allow running several statements with ";"
+end;
+
+function TAppPython.MethodEvalObjects(const AModule, AObject, AFunc: string; AParams: array of PPyObject): PPyObject;
+var
+  Module,ModuleDic,CurrObject,Func,Params: PPyObject;
+  i: integer;
+begin
+  Result:=nil;
+  if not FInited then exit;
+  with FEngine do
+  begin
+    Module:=ImportModuleCached(AModule);
+    if Assigned(Module) then
+    try
+      ModuleDic:=PyModule_GetDict(Module);
+      if Assigned(ModuleDic) then
+      begin
+        CurrObject:=PyDict_GetItemString(ModuleDic,PChar(AObject));
+        if Assigned(CurrObject) then
+        begin
+          Func:=PyObject_GetAttrString(CurrObject,PChar(AFunc));
+          if Assigned(Func) then
+            try
+              Params:=PyTuple_New(Length(AParams)+1);
+              if Assigned(Params) then
+              try
+                PyTuple_SetItem(Params,0,CurrObject);
+                for i:=1 to Length(AParams) do
+                  if PyTuple_SetItem(Params,i,AParams[i-1])<>0 then
+                    RaiseError;
+                Result:=PyObject_Call(Func,Params,nil);
+              finally
+                Py_DECREF(Params);
+              end;
+            finally
+              Py_DECREF(Func);
+            end;
+        end;
+      end;
+    finally
+    end;
+  end;
 end;
 
 function TAppPython.MethodEval(const AObject, AMethod, AParams: string): PPyObject;
