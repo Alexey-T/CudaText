@@ -62,6 +62,10 @@ uses
   ATSynEdit_CharSizer,
   ATSynEdit_Export_HTML,
   ATSynEdit_Edits,
+  ATSynEdit_Form_Complete,
+  ATSynEdit_Form_Complete_SynWrite,
+  ATSynEdit_Form_Complete_CSS,
+  ATSynEdit_Form_Complete_HTML,
   ATTabs,
   ATGroups,
   ATStatusBar,
@@ -69,10 +73,6 @@ uses
   ATStringProc,
   ATGauge,
   ATBinHex,
-  atsynedit_form_complete,
-  atsynedit_form_complete_synwrite,
-  atsynedit_form_complete_css,
-  atsynedit_form_complete_html,
   proc_str,
   proc_py,
   proc_py_const,
@@ -93,9 +93,6 @@ uses
   proc_keymap_undolist,
   formconsole,
   formframe,
-  form_menu_commands,
-  form_menu_list,
-  form_menu_py,
   formgoto,
   formfind,
   formsavetabs,
@@ -107,9 +104,13 @@ uses
   formabout,
   formcharmaps,
   formkeyinput,
+  formconfirmbinary,
+  form_menu_commands,
+  form_menu_list,
+  form_menu_py,
   form_addon_report,
-  formconfirmbinary, form_choose_theme,
-  math;
+  form_choose_theme,
+  Math;
 
 type
   { TAppNotifThread }
