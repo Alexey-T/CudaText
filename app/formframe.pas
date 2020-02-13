@@ -2918,6 +2918,9 @@ begin
   Ed.OptUnprintedEnds:= c.GetValue(path+cHistory_Unpri_Ends, Ed.OptUnprintedEnds);
   Ed.OptUnprintedEndsDetails:= c.GetValue(path+cHistory_Unpri_Detail, Ed.OptUnprintedEndsDetails);
 
+  with Ed.Gutter[Ed.GutterBandNumbers] do
+    Visible:= c.GetValue(path+cHistory_Nums, Visible);
+
   if Assigned(Lexer[Ed]) then
   begin
     //this seems ok: works even for open-file via cmdline
@@ -2931,9 +2934,6 @@ begin
     //now it's not needed to do Ed.Update(true) nor Application.ProcessMessages
     Ed.LineTop:= nTop;
   end;
-
-  with Ed.Gutter[Ed.GutterBandNumbers] do
-    Visible:= c.GetValue(path+cHistory_Nums, Visible);
 
   //caret
   if Ed.Carets.Count>0 then
