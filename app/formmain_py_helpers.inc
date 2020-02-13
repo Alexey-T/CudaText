@@ -217,8 +217,8 @@ const
   cRegex_SignFunc = 'module=(.+?);func=(.+?);(info=(.+?);)?$';
   cRegex_CommaCommand = '([a-z_]\w*),([a-z_]\w*)(,(.+))?$'; //compatible with menu_proc, with 3rd param
 var
-  FParamsObj: array of PPyObject;
-  FParamsStr: array of string;
+  FParamObjs: array of PPyObject;
+  FParamStrs: array of string;
   FParamNames: array of string;
   SModule, SFunc, SParam, SInfo: string;
   Parts: TRegexParts;
@@ -237,11 +237,11 @@ begin
     SModule:= Parts[1].Str;
     SFunc:= Parts[2].Str;
 
-    SetLength(FParamsStr, Length(AParamVars));
+    SetLength(FParamStrs, Length(AParamVars));
     for i:= 0 to Length(AParamVars)-1 do
-      FParamsStr[i]:= AppVariantToString(AParamVars[i]);
+      FParamStrs[i]:= AppVariantToString(AParamVars[i]);
 
-    Result:= AppPython.RunCommand(SModule, SFunc, FParamsStr);
+    Result:= AppPython.RunCommand(SModule, SFunc, FParamStrs);
     exit;
   end;
 
@@ -252,17 +252,17 @@ begin
     SFunc:= Parts[2].Str;
     SInfo:= Parts[4].Str;
 
-    SetLength(FParamsStr, Length(AParamVars));
+    SetLength(FParamStrs, Length(AParamVars));
     for i:= 0 to Length(AParamVars)-1 do
-      FParamsStr[i]:= AppVariantToString(AParamVars[i]);
+      FParamStrs[i]:= AppVariantToString(AParamVars[i]);
 
     if SInfo<>'' then
     begin
-      SetLength(FParamsStr, Length(FParamsStr)+1);
-      FParamsStr[Length(FParamsStr)-1]:= SInfo;
+      SetLength(FParamStrs, Length(FParamStrs)+1);
+      FParamStrs[Length(FParamStrs)-1]:= SInfo;
     end;
 
-    Result:= AppPython.RunCommand(SModule, SFunc, FParamsStr);
+    Result:= AppPython.RunCommand(SModule, SFunc, FParamStrs);
     exit;
   end;
 
@@ -273,9 +273,9 @@ begin
     SFunc:= Parts[2].Str;
     SInfo:= Parts[4].Str;
 
-    SetLength(FParamsObj, Length(AParamVars));
+    SetLength(FParamObjs, Length(AParamVars));
     for i:= 0 to Length(AParamVars)-1 do
-      FParamsObj[i]:= AppVariantToPyObject(AParamVars[i]);
+      FParamObjs[i]:= AppVariantToPyObject(AParamVars[i]);
 
     SetLength(FParamNames, Length(AParamNames));
     for i:= 0 to Length(AParamNames)-1 do
@@ -284,13 +284,13 @@ begin
     if SInfo<>'' then
     begin
       // SInfo may have simple type values: string, int, bool...
-      SetLength(FParamsObj, Length(FParamsObj)+1);
-      FParamsObj[Length(FParamsObj)-1]:= AppPython.ValueFromString(SInfo);
+      SetLength(FParamObjs, Length(FParamObjs)+1);
+      FParamObjs[Length(FParamObjs)-1]:= AppPython.ValueFromString(SInfo);
       SetLength(FParamNames, Length(FParamNames)+1);
       FParamNames[Length(FParamNames)-1]:= 'info';
     end;
 
-    Obj:= AppPython.RunModuleFunction(SModule, SFunc, FParamsObj, FParamNames);
+    Obj:= AppPython.RunModuleFunction(SModule, SFunc, FParamObjs, FParamNames);
     if Assigned(Obj) then
       with AppPython.Engine do
       begin
