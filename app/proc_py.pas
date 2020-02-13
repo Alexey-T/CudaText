@@ -22,8 +22,8 @@ type
   { TAppPython }
 
   TAppPython = class
-  private const
-    NamePrefix = 'xx'; //the same as in py/cudatext_reset_plugins.py
+  private
+    const NamePrefix = 'xx'; //the same as in py/cudatext_reset_plugins.py
   private
     FInited: boolean;
     FEngine: TPythonEngine;
