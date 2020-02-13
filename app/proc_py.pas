@@ -204,12 +204,13 @@ begin
           Func:=PyObject_GetAttrString(CurrObject,PChar(AFunc));
           if Assigned(Func) then
             try
-              Params:=PyTuple_New(Length(AParams)+1);
+              Params:=PyTuple_New(Length(AParams){+1});
               if Assigned(Params) then
               try
-                PyTuple_SetItem(Params,0,CurrObject);
-                for i:=1 to Length(AParams) do
-                  if PyTuple_SetItem(Params,i,AParams[i-1])<>0 then
+                ////seems additional "self" is not needed
+                //PyTuple_SetItem(Params,0,CurrObject);
+                for i:=0 to Length(AParams)-1 do
+                  if PyTuple_SetItem(Params,i,AParams[i])<>0 then
                     RaiseError;
                 Result:=PyObject_Call(Func,Params,nil);
               finally
@@ -277,7 +278,9 @@ end;
 function TAppPython.RunCommand(const AModule, AMethod: string; const AParams: TAppVariantArray): boolean;
 var
   ModName: string;
+  ParamObjs: array of PPyObject;
   Obj: PPyObject;
+  i: integer;
 begin
   FRunning:= true;
   FLastCommandModule:= AModule;
@@ -300,8 +303,13 @@ begin
     end;
   end;
 
+  SetLength(ParamObjs, Length(AParams));
+  for i:= 0 to Length(AParams)-1 do
+    ParamObjs[i]:= AppVariantToPyObject(AParams[i]);
+
   try
-    Obj:= MethodEval(ModName, AMethod, AppVariantArrayToString(AParams));
+    //Obj:= MethodEval(ModName, AMethod, AppVariantArrayToString(AParams));
+    Obj:= MethodEvalObjects('__main__', ModName, AMethod, ParamObjs);
     if Assigned(Obj) then
       with FEngine do
       begin
