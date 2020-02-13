@@ -44,8 +44,7 @@ type
     function IsLoadedLocal(const S: string): boolean;
     function MethodEval(const AObject, AMethod, AParams: string): PPyObject;
     function MethodEvalEx(const AObject, AMethod, AParams: string): TAppPyEventResult;
-    function MethodEvalObjects(const AModule, AObject, AFunc: string;
-      AParams: array of PPyObject): PPyObject;
+    function MethodEvalObjects(const AObject, AFunc: string; AParams: array of PPyObject): PPyObject;
   public
     constructor Create;
     destructor Destroy; override;
@@ -190,7 +189,7 @@ begin
     //UseFileMode=True to allow running several statements with ";"
 end;
 
-function TAppPython.MethodEvalObjects(const AModule, AObject, AFunc: string; AParams: array of PPyObject): PPyObject;
+function TAppPython.MethodEvalObjects(const AObject, AFunc: string; AParams: array of PPyObject): PPyObject;
 var
   CurrObject, Func, Params: PPyObject;
   i: integer;
@@ -302,13 +301,13 @@ begin
     end;
   end;
 
-  SetLength(ParamObjs, Length(AParams));
-  for i:= 0 to Length(AParams)-1 do
-    ParamObjs[i]:= AppVariantToPyObject(AParams[i]);
-
   try
+    SetLength(ParamObjs, Length(AParams));
+    for i:= 0 to Length(AParams)-1 do
+      ParamObjs[i]:= AppVariantToPyObject(AParams[i]);
+
     //Obj:= MethodEval(ObjName, AMethod, AppVariantArrayToString(AParams));
-    Obj:= MethodEvalObjects('__main__', ObjName, AMethod, ParamObjs);
+    Obj:= MethodEvalObjects(ObjName, AMethod, ParamObjs);
     if Assigned(Obj) then
       with FEngine do
       begin
