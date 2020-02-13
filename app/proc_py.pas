@@ -72,26 +72,10 @@ type
     function GetTimingReport: string;
   end;
 
-const
-  cPyTrue = 'True';
-  cPyFalse = 'False';
-  cPyNone = 'None';
-
 var
   AppPython: TAppPython;
 
 implementation
-
-function StrArrayToString(const V: array of string): string;
-var
-  i: integer;
-begin
-  Result:= '';
-  for i:= 0 to Length(V)-1 do
-    Result+= V[i]+',';
-  if Result<>'' then
-    SetLength(Result, Length(Result)-1);
-end;
 
 { TAppPython }
 
@@ -250,7 +234,6 @@ function TAppPython.RunCommand(const AModule, AMethod: string; const AParams: TA
 var
   ModName: string;
   Obj: PPyObject;
-  i: integer;
 begin
   FRunning:= true;
   FLastCommandModule:= AModule;
@@ -465,10 +448,10 @@ begin
     if (S[1]='"') or (S[1]='''') then
       Result:= PyString_FromString(PChar( Copy(S, 2, Length(S)-2) ))
     else
-    if S=cPyFalse then
+    if S='False' then
       Result:= PyBool_FromLong(0)
     else
-    if S=cPyTrue then
+    if S='True' then
       Result:= PyBool_FromLong(1)
     else
     if TryStrToInt64(S, Num) then
