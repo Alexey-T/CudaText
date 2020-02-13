@@ -255,17 +255,18 @@ begin
     SFunc:= RegexParts[2].Str;
     SInfo:= RegexParts[4].Str;
 
-    SetLength(FParamVars, Length(AParamVars));
-    for i:= 0 to Length(AParamVars)-1 do
-      FParamVars[i]:= AParamVars[i];
-
     if SInfo<>'' then
     begin
-      SetLength(FParamVars, Length(FParamVars)+1);
+      SetLength(FParamVars, Length(AParamVars)+1);
+      for i:= 0 to Length(AParamVars)-1 do
+        FParamVars[i]:= AParamVars[i];
       FParamVars[Length(FParamVars)-1]:= AppVariant(SInfo);
-    end;
 
-    Result:= AppPython.RunCommand(SModule, SFunc, FParamVars);
+      Result:= AppPython.RunCommand(SModule, SFunc, FParamVars);
+    end
+    else
+      Result:= AppPython.RunCommand(SModule, SFunc, AParamVars);
+
     exit;
   end;
 
