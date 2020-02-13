@@ -21,7 +21,6 @@ uses
   proc_py,
   proc_miscutils,
   proc_appvariant,
-  PythonEngine,
   ATSynEdit,
   ATSynEdit_Gaps;
 
