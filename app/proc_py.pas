@@ -192,43 +192,35 @@ end;
 
 function TAppPython.MethodEvalObjects(const AModule, AObject, AFunc: string; AParams: array of PPyObject): PPyObject;
 var
-  Module,ModuleDic,CurrObject,Func,Params: PPyObject;
+  CurrObject, Func, Params: PPyObject;
   i: integer;
 begin
   Result:=nil;
   if not FInited then exit;
+  InitMainModule;
   with FEngine do
   begin
-    Module:=ImportModuleCached(AModule);
-    if Assigned(Module) then
-    try
-      ModuleDic:=PyModule_GetDict(Module);
-      if Assigned(ModuleDic) then
-      begin
-        CurrObject:=PyDict_GetItemString(ModuleDic,PChar(AObject));
-        if Assigned(CurrObject) then
-        begin
-          Func:=PyObject_GetAttrString(CurrObject,PChar(AFunc));
-          if Assigned(Func) then
-            try
-              Params:=PyTuple_New(Length(AParams){+1});
-              if Assigned(Params) then
-              try
-                ////seems additional "self" is not needed
-                //PyTuple_SetItem(Params,0,CurrObject);
-                for i:=0 to Length(AParams)-1 do
-                  if PyTuple_SetItem(Params,i,AParams[i])<>0 then
-                    RaiseError;
-                Result:=PyObject_Call(Func,Params,nil);
-              finally
-                Py_DECREF(Params);
-              end;
-            finally
-              Py_DECREF(Func);
-            end;
+    CurrObject:=PyDict_GetItemString(Globals,PChar(AObject));
+    if Assigned(CurrObject) then
+    begin
+      Func:=PyObject_GetAttrString(CurrObject,PChar(AFunc));
+      if Assigned(Func) then
+        try
+          Params:=PyTuple_New(Length(AParams){+1});
+          if Assigned(Params) then
+          try
+            ////seems additional "self" is not needed
+            //PyTuple_SetItem(Params,0,CurrObject);
+            for i:=0 to Length(AParams)-1 do
+              if PyTuple_SetItem(Params,i,AParams[i])<>0 then
+                RaiseError;
+            Result:=PyObject_Call(Func,Params,nil);
+          finally
+            Py_DECREF(Params);
+          end;
+        finally
+          Py_DECREF(Func);
         end;
-      end;
-    finally
     end;
   end;
 end;
