@@ -231,10 +231,7 @@ begin
   //avoid log error on standard ids
   if SBeginsWith(ACallback, 'top-') then exit;
 
-  SetLength(FParamNames, Length(AParamNames));
-  for i:= 0 to Length(AParamNames)-1 do
-    FParamNames[i]:= AParamNames[i];
-
+  //-----------------------------------------------------
   if SRegexFindParts(cRegex_DotCommand, ACallback, Parts) then
   begin
     SModule:= Parts[1].Str;
@@ -248,6 +245,7 @@ begin
     exit;
   end;
 
+  //-----------------------------------------------------
   if SRegexFindParts(cRegex_SignCommand, ACallback, Parts) then
   begin
     SModule:= Parts[1].Str;
@@ -262,14 +260,13 @@ begin
     begin
       SetLength(FParamsStr, Length(FParamsStr)+1);
       FParamsStr[Length(FParamsStr)-1]:= SInfo;
-      SetLength(FParamNames, Length(FParamNames)+1);
-      FParamNames[Length(FParamNames)-1]:= 'info';
     end;
 
     Result:= AppPython.RunCommand(SModule, SFunc, FParamsStr);
     exit;
   end;
 
+  //-----------------------------------------------------
   if SRegexFindParts(cRegex_SignFunc, ACallback, Parts) then
   begin
     SModule:= Parts[1].Str;
@@ -279,6 +276,10 @@ begin
     SetLength(FParamsObj, Length(AParamVars));
     for i:= 0 to Length(AParamVars)-1 do
       FParamsObj[i]:= AppVariantToPyObject(AParamVars[i]);
+
+    SetLength(FParamNames, Length(AParamNames));
+    for i:= 0 to Length(AParamNames)-1 do
+      FParamNames[i]:= AParamNames[i];
 
     if SInfo<>'' then
     begin
@@ -301,6 +302,7 @@ begin
     exit;
   end;
 
+  //-----------------------------------------------------
   if SRegexFindParts(cRegex_CommaCommand, ACallback, Parts) then
   begin
     SModule:= Parts[1].Str;
