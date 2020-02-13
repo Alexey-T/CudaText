@@ -221,7 +221,7 @@ var
   FParamStrs: array of string;
   FParamNames: array of string;
   SModule, SFunc, SParam, SInfo: string;
-  Parts: TRegexParts;
+  RegexParts: TRegexParts;
   Obj: PPyObject;
   i: integer;
 begin
@@ -232,10 +232,10 @@ begin
   if SBeginsWith(ACallback, 'top-') then exit;
 
   //-----------------------------------------------------
-  if SRegexFindParts(cRegex_DotCommand, ACallback, Parts) then
+  if SRegexFindParts(cRegex_DotCommand, ACallback, RegexParts) then
   begin
-    SModule:= Parts[1].Str;
-    SFunc:= Parts[2].Str;
+    SModule:= RegexParts[1].Str;
+    SFunc:= RegexParts[2].Str;
 
     SetLength(FParamStrs, Length(AParamVars));
     for i:= 0 to Length(AParamVars)-1 do
@@ -246,11 +246,11 @@ begin
   end;
 
   //-----------------------------------------------------
-  if SRegexFindParts(cRegex_SignCommand, ACallback, Parts) then
+  if SRegexFindParts(cRegex_SignCommand, ACallback, RegexParts) then
   begin
-    SModule:= Parts[1].Str;
-    SFunc:= Parts[2].Str;
-    SInfo:= Parts[4].Str;
+    SModule:= RegexParts[1].Str;
+    SFunc:= RegexParts[2].Str;
+    SInfo:= RegexParts[4].Str;
 
     SetLength(FParamStrs, Length(AParamVars));
     for i:= 0 to Length(AParamVars)-1 do
@@ -267,11 +267,11 @@ begin
   end;
 
   //-----------------------------------------------------
-  if SRegexFindParts(cRegex_SignFunc, ACallback, Parts) then
+  if SRegexFindParts(cRegex_SignFunc, ACallback, RegexParts) then
   begin
-    SModule:= Parts[1].Str;
-    SFunc:= Parts[2].Str;
-    SInfo:= Parts[4].Str;
+    SModule:= RegexParts[1].Str;
+    SFunc:= RegexParts[2].Str;
+    SInfo:= RegexParts[4].Str;
 
     SetLength(FParamObjs, Length(AParamVars));
     for i:= 0 to Length(AParamVars)-1 do
@@ -303,11 +303,11 @@ begin
   end;
 
   //-----------------------------------------------------
-  if SRegexFindParts(cRegex_CommaCommand, ACallback, Parts) then
+  if SRegexFindParts(cRegex_CommaCommand, ACallback, RegexParts) then
   begin
-    SModule:= Parts[1].Str;
-    SFunc:= Parts[2].Str;
-    SParam:= Parts[4].Str;
+    SModule:= RegexParts[1].Str;
+    SFunc:= RegexParts[2].Str;
+    SParam:= RegexParts[4].Str;
     Result:= AppPython.RunCommand(SModule, SFunc, [SParam]);
     MsgLogConsole(Format(msgCallbackDeprecated, [ACallback]));
     exit;
