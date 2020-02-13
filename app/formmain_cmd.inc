@@ -548,7 +548,7 @@ begin
     (AText<>'') then
   begin
     if DoPyEvent(Ed, cEventOnInsert,
-      [SStringToPythonString(AText)]).Val = evrFalse then
+      [AppVariant(AText)]).Val = evrFalse then
       begin AHandled:= true; exit end;
   end;
 

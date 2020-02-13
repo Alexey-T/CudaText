@@ -38,6 +38,7 @@ uses
   ATBinHex,
   ATStreamSearch,
   ATImageBox,
+  proc_appvariant,
   proc_globdata,
   proc_editor,
   proc_cmd,
@@ -57,7 +58,8 @@ uses
   LazUTF8Classes;
 
 type
-  TEditorFramePyEvent = function(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): TAppPyEventResult of object;
+  TEditorFramePyEvent = function(AEd: TATSynEdit; AEvent: TAppPyEvent;
+    const AParams: TAppVariantArray): TAppPyEventResult of object;
   TEditorFrameStringEvent = procedure(Sender: TObject; const S: string) of object;
 
 type
@@ -354,7 +356,7 @@ type
     procedure DoLoadUndo(Ed: TATSynEdit);
     //misc
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
-      const AParams: array of string): TAppPyEventResult;
+      const AParams: TAppVariantArray): TAppPyEventResult;
     procedure DoGotoPos(Ed: TATSynEdit; APosX, APosY: integer);
     procedure DoRestoreFolding(Ed: TATSynEdit);
     procedure DoRemovePreviewStyle;
@@ -452,7 +454,7 @@ begin
   FTabCaption:= AValue; //don't check Upd here (for Win32)
 
   if Upd then
-    DoPyEvent(Ed1, cEventOnStateEd, [IntToStr(EDSTATE_TAB_TITLE)]);
+    DoPyEvent(Ed1, cEventOnStateEd, [AppVariant(EDSTATE_TAB_TITLE)]);
 
   DoOnChangeCaption;
 end;
@@ -512,7 +514,7 @@ begin
       exit;
     end;
 
-  DoPyEvent(Ed, cEventOnClick, ['"'+StateString+'"']);
+  DoPyEvent(Ed, cEventOnClick, [AppVariant(StateString)]);
 end;
 
 function TEditorFrame.GetSplitPosCurrent: double;
@@ -538,8 +540,8 @@ begin
   if DoPyEvent(Sender as TATSynEdit,
     cEventOnKey,
     [
-      IntToStr(Key),
-      '"'+ConvertShiftStateToString(Shift)+'"'
+      AppVariant(Key),
+      AppVariant(ConvertShiftStateToString(Shift))
     ]).Val = evrFalse then
     begin
       Key:= 0;
@@ -549,14 +551,12 @@ end;
 
 procedure TEditorFrame.EditorOnPaste(Sender: TObject; var AHandled: boolean;
   AKeepCaret, ASelectThen: boolean);
-const
-  cBool: array[boolean] of string = (cPyFalse, cPyTrue);
 begin
   if DoPyEvent(Sender as TATSynEdit,
     cEventOnPaste,
     [
-      cBool[AKeepCaret],
-      cBool[ASelectThen]
+      AppVariant(AKeepCaret),
+      AppVariant(ASelectThen)
     ]).Val = evrFalse then
     AHandled:= true;
 end;
@@ -588,8 +588,8 @@ begin
       DoPyEvent(Sender as TATSynEdit,
         cEventOnKeyUp,
         [
-          IntToStr(Key),
-          '"'+ConvertShiftStateToString(Shift)+'"'
+          AppVariant(Key),
+          AppVariant(ConvertShiftStateToString(Shift))
         ]);
   end;
 end;
@@ -687,16 +687,16 @@ end;
 procedure TEditorFrame.EditorOnHotspotEnter(Sender: TObject; AHotspotIndex: integer);
 begin
   DoPyEvent(Sender as TATSynEdit, cEventOnHotspot, [
-    cPyTrue, //hotspot enter
-    IntToStr(AHotspotIndex)
+    AppVariant(true), //hotspot enter
+    AppVariant(AHotspotIndex)
     ]);
 end;
 
 procedure TEditorFrame.EditorOnHotspotExit(Sender: TObject; AHotspotIndex: integer);
 begin
   DoPyEvent(Sender as TATSynEdit, cEventOnHotspot, [
-    cPyFalse, //hotspot exit
-    IntToStr(AHotspotIndex)
+    AppVariant(false), //hotspot exit
+    AppVariant(AHotspotIndex)
     ]);
 end;
 
@@ -1197,7 +1197,7 @@ begin
   DoOnChangeCaption;
 
   if AWithEvent then
-    DoPyEvent(Ed, cEventOnStateEd, [IntToStr(EDSTATE_MODIFIED)]);
+    DoPyEvent(Ed, cEventOnStateEd, [AppVariant(EDSTATE_MODIFIED)]);
 
   DoOnUpdateStatus;
 end;
@@ -1391,7 +1391,7 @@ var
   Res: TAppPyEventResult;
 begin
   Res:= DoPyEvent(Sender as TATSynEdit, cEventOnClickDbl,
-          ['"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"']);
+          [AppVariant(ConvertShiftStateToString(KeyboardStateToShiftState))]);
   AHandled:= Res.Val=evrFalse;
 end;
 
@@ -1444,13 +1444,13 @@ begin
   end;
 
   DoPyEvent(Ed, cEventOnClickGap, [
-    '"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"',
-    IntToStr(AGapItem.LineIndex),
-    IntToStr(AGapItem.Tag),
-    IntToStr(W),
-    IntToStr(H),
-    IntToStr(APos.X),
-    IntToStr(APos.Y)
+    AppVariant(ConvertShiftStateToString(KeyboardStateToShiftState)),
+    AppVariant(AGapItem.LineIndex),
+    AppVariant(AGapItem.Tag),
+    AppVariant(W),
+    AppVariant(H),
+    AppVariant(APos.X),
+    AppVariant(APos.Y)
     ]);
 end;
 
@@ -2405,9 +2405,9 @@ begin
   Ed:= Sender as TATSynEdit;
 
   if DoPyEvent(Ed, cEventOnClickGutter, [
-    '"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"',
-    IntToStr(ALine),
-    IntToStr(ABand)
+    AppVariant(ConvertShiftStateToString(KeyboardStateToShiftState)),
+    AppVariant(ALine),
+    AppVariant(ABand)
     ]).Val = evrFalse then exit;
 
   if ABand=Ed.GutterBandBookmarks then
@@ -3004,7 +3004,7 @@ begin
 end;
 
 function TEditorFrame.DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
-  const AParams: array of string): TAppPyEventResult;
+  const AParams: TAppVariantArray): TAppPyEventResult;
 begin
   if Assigned(FOnPyEvent) then
     Result:= FOnPyEvent(AEd, AEvent, AParams)

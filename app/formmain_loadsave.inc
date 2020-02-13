@@ -397,7 +397,7 @@ begin
     c.Free;
   end;
 
-  DoPyEvent(nil, cEventOnState, [IntToStr(APPSTATE_SESSION_LOAD)]);
+  DoPyEvent(nil, cEventOnState, [AppVariant(APPSTATE_SESSION_LOAD)]);
 end;
 
 procedure TfmMain.DoOps_LoadHistory_GroupView(c: TJsonConfig);
@@ -1285,7 +1285,7 @@ begin
   DoOps_LoadKeymap(false);
 
   MsgStatus(msgStatusReadingOps);
-  DoPyEvent(nil, cEventOnState, [IntToStr(APPSTATE_CONFIG_REREAD)]);
+  DoPyEvent(nil, cEventOnState, [AppVariant(APPSTATE_CONFIG_REREAD)]);
 end;
 
 

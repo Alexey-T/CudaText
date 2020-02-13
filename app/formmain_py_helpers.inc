@@ -68,12 +68,12 @@ end;
 
 
 function TfmMain.DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
-  const AParams: array of string): TAppPyEventResult;
+  const AParams: TAppVariantArray): TAppPyEventResult;
 const
   cTheseEventsStoppedByTrue = [cEventOnComplete{, cEventOnTabSwitch}];
   cTheseEventsNeedGroupingUndo = [cEventOnComplete, cEventOnSnippet];
 var
-  SCurLexer: string;
+  SCurLexer, KeyForFilter: string;
   bNeedGroup: boolean;
   Frame: TEditorFrame;
   MaxPriority, NPlugin, NPriority: integer;
@@ -107,6 +107,11 @@ begin
     bNeedGroup:= false;
   end;
 
+  KeyForFilter:= '';
+  if AEvent=cEventOnKey then
+    if Length(AParams)>0 then
+      KeyForFilter:= AppVariantToString(AParams[0]);
+
   //see all items with priority=MaxPriority..0
   for NPriority:= MaxPriority downto 0 do
     for NPlugin:= 0 to AppEventList.Count-1 do
@@ -117,10 +122,9 @@ begin
         if not ((Plugin.ItemLexers='') or IsLexerListed(SCurLexer, Plugin.ItemLexers)) then Continue;
 
         //check that OnKey event is called for supported keys
-        if (AEvent=cEventOnKey) then
-          if Length(AParams)>0 then
-            if (Plugin.ItemKeys<>'') and not IsLexerListed(AParams[0], Plugin.ItemKeys) then
-              Continue;
+        if KeyForFilter<>'' then
+          if (Plugin.ItemKeys<>'') and not IsLexerListed(KeyForFilter, Plugin.ItemKeys) then
+            Continue;
 
         //call Python
         if bNeedGroup then

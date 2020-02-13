@@ -1095,7 +1095,7 @@ type
     property ThemeUi: string write SetThemeUi;
     property ThemeSyntax: string write SetThemeSyntax;
     property SidebarPanel: string read FLastSidebarPanel write SetSidebarPanel;
-    function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): TAppPyEventResult;
+    function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
     procedure DoPyCommand(const AModule, AMethod: string; const AParams: TAppVariantArray);
     function DoPyTreeHelper(Frame: TEditorFrame): boolean;
     procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATFinderTokenKind);
@@ -1706,8 +1706,8 @@ begin
       if PtInRect(Ed.ClientRect, PntLocal) then
       begin
         DoPyEvent(Ed, cEventOnMouseStop, [
-          IntToStr(PntLocal.X),
-          IntToStr(PntLocal.Y)
+          AppVariant(PntLocal.X),
+          AppVariant(PntLocal.Y)
           ]);
         Break;
       end;
@@ -2959,7 +2959,7 @@ end;
 
 procedure TfmMain.DoGroupsChangeMode(Sender: TObject);
 begin
-  DoPyEvent(nil, cEventOnState, [IntToStr(APPSTATE_GROUPS)]);
+  DoPyEvent(nil, cEventOnState, [AppVariant(APPSTATE_GROUPS)]);
   DoApplyCenteringOption;
 end;
 
@@ -3136,7 +3136,7 @@ begin
     //py event
     if bEnableEvent then
       if DoPyEvent(CurrentEditor, cEventOnOpenBefore,
-        [SStringToPythonString(AFileName)]).Val = evrFalse then exit;
+        [AppVariant(AFileName)]).Val = evrFalse then exit;
 
     bDetectedPics:= bAllowPics and IsFilenameListedInExtensionList(AFileName, UiOps.PictureTypes);
 
@@ -3535,7 +3535,7 @@ begin
     Str:= UTF8Encode(fmGoto.edInput.Text);
 
     if DoPyEvent(CurrentEditor, cEventOnGotoEnter,
-      [SStringToPythonString(Str)]).Val = evrFalse then exit;
+      [AppVariant(Str)]).Val = evrFalse then exit;
 
     DoGotoFromInput(Str);
   end;
@@ -5263,7 +5263,7 @@ begin
         MsgBox(msgStatusI18nPluginsMenuAfterRestart, MB_OK or MB_ICONINFORMATION);
     end;
 
-    DoPyEvent(nil, cEventOnState, [IntToStr(APPSTATE_LANG)]);
+    DoPyEvent(nil, cEventOnState, [AppVariant(APPSTATE_LANG)]);
   finally
     FreeAndNil(ListNames);
     FreeAndNil(ListFiles);
@@ -5715,7 +5715,7 @@ begin
   begin
     MsgStatus(msgStatusClickingLogLine);
     DoPyEvent(nil, cEventOnOutputNav,
-      [SStringToPythonString(SText), IntToStr(ItemProp.Tag)] );
+      [AppVariant(SText), AppVariant(ItemProp.Tag)] );
   end;
 end;
 
@@ -5831,13 +5831,13 @@ end;
 function TfmMain.DoOnConsoleNav(const Str: string): boolean;
 begin
   Result:= DoPyEvent(nil, cEventOnConsoleNav,
-    [SStringToPythonString(Str)]).Val <> evrFalse;
+    [AppVariant(Str)]).Val <> evrFalse;
 end;
 
 function TfmMain.DoOnMacro(Frame: TEditorFrame; const Str: string): boolean;
 begin
   Result:= DoPyEvent(Frame.Editor, cEventOnMacro,
-    [SStringToPythonString(Str)]).Val <> evrFalse;
+    [AppVariant(Str)]).Val <> evrFalse;
 end;
 
 

@@ -2161,8 +2161,8 @@ begin
   //ShowMessage('id: '+ASnippetId+#10+'text:'#10+StrSnippet);
 
   DoPyEvent(FPyComplete_Editor, cEventOnSnippet, [
-    SStringToPythonString(ASnippetId),
-    SStringToPythonString(StrSnippet)
+    AppVariant(ASnippetId),
+    AppVariant(StrSnippet)
     ]);
 end;
 

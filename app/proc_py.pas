@@ -59,7 +59,7 @@ type
     procedure Exec(const Command: string);
     function RunCommand(const AModule, AMethod: string; const AParams: TAppVariantArray): boolean;
     function RunEvent(const AModule, ACmd: string;
-      AEd: TObject; const AParams: array of string; ALazy: boolean): TAppPyEventResult;
+      AEd: TObject; const AParams: TAppVariantArray; ALazy: boolean): TAppPyEventResult;
     function RunModuleFunction(const AModule, AFunc: string; AParams: array of PPyObject; const AParamNames: array of string): PPyObject;
     function RunModuleFunction(const AModule, AFunc: string; AParams: array of PPyObject): PPyObject;
 
@@ -250,7 +250,6 @@ function TAppPython.RunCommand(const AModule, AMethod: string; const AParams: TA
 var
   ModName: string;
   Obj: PPyObject;
-  StrParams: string;
   i: integer;
 begin
   FRunning:= true;
@@ -274,16 +273,8 @@ begin
     end;
   end;
 
-  StrParams:= '';
-  for i:= 0 to Length(AParams)-1 do
-  begin
-    StrParams+= AppVariantToString(AParams[i]);
-    if i<Length(AParams)-1 then
-      StrParams+= ',';
-  end;
-
   try
-    Obj:= MethodEval(ModName, AMethod, StrParams);
+    Obj:= MethodEval(ModName, AMethod, AppVariantArrayToString(AParams));
     if Assigned(Obj) then
       with FEngine do
       begin
@@ -297,7 +288,7 @@ begin
 end;
 
 function TAppPython.RunEvent(const AModule, ACmd: string; AEd: TObject;
-  const AParams: array of string; ALazy: boolean): TAppPyEventResult;
+  const AParams: TAppVariantArray; ALazy: boolean): TAppPyEventResult;
 var
   ModName, SParams: string;
 var
@@ -317,7 +308,7 @@ begin
     SParams:= 'cudatext.Editor('+IntToStr(PtrInt(AEd))+')';
 
   for i:= 0 to Length(AParams)-1 do
-    SParams:= SParams + ',' + AParams[i];
+    SParams:= SParams + ',' + AppVariantToString(AParams[i]);
 
   ModName:= NamePrefix+AModule;
 

@@ -222,7 +222,7 @@ begin
   DoClearLexersAskedList;
   DoApplyTheme;
 
-  DoPyEvent(nil, cEventOnState, [IntToStr(APPSTATE_THEME_UI)]);
+  DoPyEvent(nil, cEventOnState, [AppVariant(APPSTATE_THEME_UI)]);
 end;
 
 procedure TfmMain.SetThemeSyntax(const AValue: string);
@@ -248,7 +248,7 @@ begin
   DoClearLexersAskedList;
   DoApplyTheme;
 
-  DoPyEvent(nil, cEventOnState, [IntToStr(APPSTATE_THEME_SYNTAX)]);
+  DoPyEvent(nil, cEventOnState, [AppVariant(APPSTATE_THEME_SYNTAX)]);
 end;
 
 
@@ -328,9 +328,9 @@ begin
     end;
 
     if AThemeUI then
-      DoPyEvent(nil, cEventOnState, [IntToStr(APPSTATE_THEME_UI)])
+      DoPyEvent(nil, cEventOnState, [AppVariant(APPSTATE_THEME_UI)])
     else
-      DoPyEvent(nil, cEventOnState, [IntToStr(APPSTATE_THEME_SYNTAX)]);
+      DoPyEvent(nil, cEventOnState, [AppVariant(APPSTATE_THEME_SYNTAX)]);
   end;
 end;
 
