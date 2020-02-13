@@ -231,13 +231,9 @@ begin
   //avoid log error on standard ids
   if SBeginsWith(ACallback, 'top-') then exit;
 
-  SetLength(FParamsObj, Length(AParamVars));
   SetLength(FParamsStr, Length(AParamVars));
   for i:= 0 to Length(AParamVars)-1 do
-  begin
-    FParamsObj[i]:= AppVariantToPyObject(AParamVars[i]);
     FParamsStr[i]:= AppVariantToString(AParamVars[i]);
-  end;
 
   SetLength(FParamNames, Length(AParamNames));
   for i:= 0 to Length(AParamNames)-1 do
@@ -274,6 +270,10 @@ begin
     SModule:= Parts[1].Str;
     SFunc:= Parts[2].Str;
     SInfo:= Parts[4].Str;
+
+    SetLength(FParamsObj, Length(AParamVars));
+    for i:= 0 to Length(AParamVars)-1 do
+      FParamsObj[i]:= AppVariantToPyObject(AParamVars[i]);
 
     if SInfo<>'' then
     begin
