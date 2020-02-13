@@ -38,6 +38,7 @@ type
     LoadedModules: TStringList;
     MainModule: PPyObject;
     Globals: PPyObject;
+    procedure InitMainModule;
     procedure ImportCommand(const AObject, AModule: string);
     function ImportModuleCached(const AModule: string): PPyObject;
     function IsLoadedLocal(const S: string): boolean;
@@ -133,6 +134,21 @@ begin
   Result+= ')';
 end;
 
+procedure TAppPython.InitMainModule;
+begin
+  with FEngine do
+    if MainModule=nil then
+    begin
+      MainModule:= GetMainModule;
+      if MainModule=nil then
+        raise EPythonError.Create('Python: can''t create __main__');
+      //if _Locals=nil then
+      //  _Locals:= PyModule_GetDict(MainModule);
+      if Globals=nil then
+        Globals:= PyModule_GetDict(MainModule);
+    end;
+end;
+
 function TAppPython.Eval(const Command: string; UseFileMode: boolean=false): PPyObject;
 var
   Mode: integer;
@@ -150,16 +166,7 @@ begin
     Traceback.Clear;
     CheckError(False);
 
-    if MainModule=nil then
-    begin
-      MainModule:= GetMainModule;
-      if MainModule=nil then
-        raise EPythonError.Create('Python: can''t create __main__');
-      //if _Locals=nil then
-      //  _Locals:= PyModule_GetDict(MainModule);
-      if Globals=nil then
-        Globals:= PyModule_GetDict(MainModule);
-    end;
+    InitMainModule;
 
     try
       //PythonEngine used PChar(CleanString(Command)) - is it needed?
