@@ -11,9 +11,6 @@ unit proc_py_const;
 
 interface
 
-uses
-  Classes, SysUtils;
-
 const
   SEL_NORMAL = 0;
   SEL_COLUMN = 1;
