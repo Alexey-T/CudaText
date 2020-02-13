@@ -248,7 +248,7 @@ end;
 
 function TAppPython.RunCommand(const AModule, AMethod: string; const AParams: TAppVariantArray): boolean;
 var
-  SObj: string;
+  ModName: string;
   Obj: PPyObject;
   StrParams: string;
   i: integer;
@@ -261,15 +261,15 @@ begin
   else
     FLastCommandParam:= AppVariantNil;
 
-  SObj:= NamePrefix+AModule;
+  ModName:= NamePrefix+AModule;
 
-  if not IsLoadedLocal(SObj) then
+  if not IsLoadedLocal(ModName) then
   begin
     if UiOps.PyInitLog then
       MsgLogConsole('Init: '+AModule);
     try
-      ImportCommand(SObj, AModule);
-      LoadedLocals.Add(SObj);
+      ImportCommand(ModName, AModule);
+      LoadedLocals.Add(ModName);
     except
     end;
   end;
@@ -283,7 +283,7 @@ begin
   end;
 
   try
-    Obj:= MethodEval(SObj, AMethod, StrParams);
+    Obj:= MethodEval(ModName, AMethod, StrParams);
     if Assigned(Obj) then
       with FEngine do
       begin
@@ -299,7 +299,7 @@ end;
 function TAppPython.RunEvent(const AModule, ACmd: string; AEd: TObject;
   const AParams: array of string; ALazy: boolean): TAppPyEventResult;
 var
-  SObj, SParams: string;
+  ModName, SParams: string;
 var
   tick: QWord;
   i: integer;
@@ -319,7 +319,7 @@ begin
   for i:= 0 to Length(AParams)-1 do
     SParams:= SParams + ',' + AParams[i];
 
-  SObj:= NamePrefix+AModule;
+  ModName:= NamePrefix+AModule;
 
   if not LoadedModuleCudatext then
   begin
@@ -329,23 +329,23 @@ begin
 
   if not ALazy then
   begin
-    if not IsLoadedLocal(SObj) then
+    if not IsLoadedLocal(ModName) then
     begin
       if UiOps.PyInitLog then
         MsgLogConsole('Init: '+AModule);
       try
-        ImportCommand(SObj, AModule);
-        LoadedLocals.Add(SObj);
+        ImportCommand(ModName, AModule);
+        LoadedLocals.Add(ModName);
       except
       end;
     end;
 
-    Result:= MethodEvalEx(SObj, ACmd, SParams);
+    Result:= MethodEvalEx(ModName, ACmd, SParams);
   end
   else
-  //lazy event: run only of SObj already created
-  if IsLoadedLocal(SObj) then
-    Result:= MethodEvalEx(SObj, ACmd, SParams);
+  //lazy event: run only of ModName already created
+  if IsLoadedLocal(ModName) then
+    Result:= MethodEvalEx(ModName, ACmd, SParams);
 
   if Assigned(EventTimes) then
   begin
