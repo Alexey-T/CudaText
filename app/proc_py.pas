@@ -246,15 +246,6 @@ begin
       else
       if Pointer(Obj)=Pointer(Py_False) then
         Result.Val:= evrFalse
-      {
-      if Obj^.ob_type=PyBool_Type then
-      begin
-        if PPyIntObject(Obj)^.ob_ival>0 then
-          Result.Val:= evrTrue
-        else
-          Result.Val:= evrFalse;
-      end
-      }
       else
       if Obj^.ob_type=PyUnicode_Type then
       begin
