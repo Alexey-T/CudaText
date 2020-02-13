@@ -43,7 +43,6 @@ type
     function IsLoadedLocal(const S: string): boolean;
     function MethodEval(const AObject, AMethod, AParams: string): PPyObject;
     function MethodEvalEx(const AObject, AMethod, AParams: string): TAppPyEventResult;
-    function StrArrayToString(const V: array of string): string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -82,6 +81,17 @@ var
   AppPython: TAppPython;
 
 implementation
+
+function StrArrayToString(const V: array of string): string;
+var
+  i: integer;
+begin
+  Result:= '';
+  for i:= 0 to Length(V)-1 do
+    Result+= V[i]+',';
+  if Result<>'' then
+    SetLength(Result, Length(Result)-1);
+end;
 
 { TAppPython }
 
@@ -135,17 +145,6 @@ begin
       IntToStr(tick)+'ms';
   end;
   Result+= ')';
-end;
-
-function TAppPython.StrArrayToString(const V: array of string): string;
-var
-  i: integer;
-begin
-  Result:= '';
-  for i:= 0 to Length(V)-1 do
-    Result+= V[i]+',';
-  if Result<>'' then
-    SetLength(Result, Length(Result)-1);
 end;
 
 function TAppPython.Eval(const Command: string; UseFileMode: boolean=false): PPyObject;
