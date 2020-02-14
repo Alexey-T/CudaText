@@ -213,8 +213,6 @@ var
   i: integer;
 begin
   Result:=nil;
-  if not FInited then exit;
-
   with FEngine do
   begin
     CurrObject:=PyDict_GetItemString(GlobalsMain,PChar(AObject));
