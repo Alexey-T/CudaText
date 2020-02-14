@@ -369,11 +369,11 @@ end;
 procedure TfmMain.DoPyRunLastPlugin;
 begin
   if AppPython.LastCommandModule='' then exit;
-  if AppPython.LastCommandParam.Typ<>avrNil then
+  if AppPython.LastCommandParam<>'' then
     DoPyCommand(
       AppPython.LastCommandModule,
       AppPython.LastCommandMethod,
-      [AppPython.LastCommandParam]
+      [AppVariant(AppPython.LastCommandParam)]
       )
   else
     DoPyCommand(

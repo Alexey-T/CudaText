@@ -30,7 +30,7 @@ type
     FRunning: boolean;
     FLastCommandModule: string;
     FLastCommandMethod: string;
-    FLastCommandParam: TAppVariant;
+    FLastCommandParam: string;
     EventTime: QWord;
     EventTimes: TStringList;
     LoadedLocals: TStringList;
@@ -56,7 +56,7 @@ type
     property IsRunning: boolean read FRunning;
     property LastCommandModule: string read FLastCommandModule;
     property LastCommandMethod: string read FLastCommandMethod;
-    property LastCommandParam: TAppVariant read FLastCommandParam;
+    property LastCommandParam: string read FLastCommandParam;
 
     function Eval(const Command: string; UseFileMode: boolean=false): PPyObject;
     procedure Exec(const Command: string);
@@ -313,10 +313,10 @@ begin
   FRunning:= true;
   FLastCommandModule:= AModule;
   FLastCommandMethod:= AMethod;
+  FLastCommandParam:= '';
   if Length(AParams)>0 then
-    FLastCommandParam:= AParams[0]
-  else
-    FLastCommandParam:= AppVariantNil;
+    if AParams[0].Typ=avrStr then
+      FLastCommandParam:= AParams[0].Str;
 
   ObjName:= NamePrefix+AModule;
 
