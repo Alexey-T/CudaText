@@ -2578,8 +2578,8 @@ begin
         LOG_CONSOLE_ADD:
           with fmMain do
           begin
-            MsgLogConsole(cPyConsolePrompt+StrText);
-            fmConsole.EdInput.DoAddLineToHistory(Utf8Decode(StrText), cPyConsoleMaxComboItems);
+            MsgLogConsole(cConsolePrompt+StrText);
+            fmConsole.EdInput.DoAddLineToHistory(Utf8Decode(StrText), cConsoleMaxComboboxItems);
             fmConsole.EdInput.Text:= '';
             fmConsole.EdInput.Update(true);
             Result:= ReturnNone;

@@ -74,10 +74,10 @@ var
   fmConsole: TfmConsole;
 
 const
-  cPyConsoleMaxLines = 1000;
-  cPyConsoleMaxComboItems: integer = 20;
-  cPyConsolePrompt = '>>> ';
-  cPyCharPrint = '=';
+  cConsoleMaxLines = 1000;
+  cConsoleMaxComboboxItems: integer = 20;
+  cConsolePrompt = '>>> ';
+  cConsolePrintPrefix = '=';
 
 implementation
 
@@ -92,7 +92,7 @@ var
   fmt: TecSyntaxFormat;
 begin
   Str:= Ed.Strings.LinesUTF8[ALineIndex];
-  if SBeginsWith(Str, cPyConsolePrompt) then
+  if SBeginsWith(Str, cConsolePrompt) then
   begin
     fmt:= AppStyleId2;
     AColorFont:= fmt.Font.Color
@@ -139,10 +139,10 @@ begin
   with EdMemo do
   begin
     Str:= Strings;
-    if Str.Count>cPyConsoleMaxLines then
+    if Str.Count>cConsoleMaxLines then
     begin
       ModeReadOnly:= false;
-      while Str.Count>cPyConsoleMaxLines do
+      while Str.Count>cConsoleMaxLines do
         Str.LineDelete(0);
       //if Str.LinesUTF8[0]='' then
       //  Str.LineDelete(0);
@@ -173,14 +173,14 @@ begin
   if bNoLog then
     Delete(Str, Length(Str), 1)
   else
-    EdInput.DoAddLineToHistory(Utf8Decode(Str), cPyConsoleMaxComboItems);
+    EdInput.DoAddLineToHistory(Utf8Decode(Str), cConsoleMaxComboboxItems);
 
-  DoAddLine(cPyConsolePrompt+Str);
+  DoAddLine(cConsolePrompt+Str);
   DoUpdate;
   DoScrollToEnd(true);
 
   try
-    if SBeginsWith(Str, cPyCharPrint) then
+    if SBeginsWith(Str, cConsolePrintPrefix) then
     begin
       Str:= 'print('+Copy(Str, 2, MaxInt) + ')';
       bExpr:= false;
@@ -370,9 +370,9 @@ begin
   if EdMemo.Strings.IsIndexValid(n) then
   begin
     s:= EdMemo.Strings.LinesUTF8[n];
-    if SBeginsWith(s, cPyConsolePrompt) then
+    if SBeginsWith(s, cConsolePrompt) then
     begin
-      Delete(s, 1, Length(cPyConsolePrompt));
+      Delete(s, 1, Length(cConsolePrompt));
       DoRunLine(s);
     end
     else
