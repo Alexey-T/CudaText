@@ -542,7 +542,7 @@ begin
     FFinder.OptRegex:= false;
   FFinder.OptBack:= not ANext;
 
-  ok:= FFinder.DoAction_FindOrReplace(false, false, false, bChanged, true);
+  ok:= FFinder.DoAction_FindOrReplace(ANext and FFinder.OptRegex, false, false, bChanged, true);
   FinderUpdateEditor(false);
   DoFindResult(ok);
 end;
