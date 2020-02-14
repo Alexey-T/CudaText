@@ -34,7 +34,6 @@ type
     EventTime: QWord;
     EventTimes: TStringList;
     LoadedLocals: TStringList;
-    LoadedModuleCudatext: boolean;
     LoadedModules: TStringList;
     MainModule: PPyObject;
     Globals: PPyObject;
@@ -550,8 +549,6 @@ var
   i: integer;
   Obj: PPyObject;
 begin
-  LoadedModuleCudatext:= false;
-
   LoadedLocals.Clear;
 
   with FEngine do
