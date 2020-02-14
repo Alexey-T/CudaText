@@ -373,9 +373,12 @@ var
         if ObjEditor=nil then
           raise EPythonError.Create('Python: cannot find cudatext.Editor');
         ObjEditorArgs:= PyTuple_New(1);
-        PyTuple_SetItem(ObjEditorArgs, 0, PyLong_FromLongLong(PtrInt(AEd)));
-        ParamsObj[0]:= PyObject_CallObject(ObjEditor, ObjEditorArgs);
-        Py_XDECREF(ObjEditorArgs);
+        try
+          PyTuple_SetItem(ObjEditorArgs, 0, PyLong_FromLongLong(PtrInt(AEd)));
+          ParamsObj[0]:= PyObject_CallObject(ObjEditor, ObjEditorArgs);
+        finally
+          Py_XDECREF(ObjEditorArgs);
+        end;
       end;
 
     for i:= 0 to Length(AParams)-1 do
