@@ -10,8 +10,8 @@ Copyright (c) Alexey Torgashin
 function TfmMain.IsFocusedBottom: boolean;
 begin
   Result:=
-    fmConsole.ed.Focused or
-    fmConsole.memo.Focused or
+    fmConsole.EdInput.Focused or
+    fmConsole.EdMemo.Focused or
     ListboxOut.Focused or
     ListboxVal.Focused;
 end;
@@ -97,7 +97,7 @@ begin
   if bConsole then
   begin
     if AndFocus then
-      fmConsole.Ed.SetFocus;
+      fmConsole.EdInput.SetFocus;
   end
   else
   if bListboxOut then

@@ -363,8 +363,8 @@ begin
   fmConsole.Font.Name:= EditorOps.OpFontName;
   fmConsole.Font.Size:= EditorOps.OpFontSize;
   fmConsole.Font.Quality:= EditorOps.OpFontQuality;
-  fmConsole.ed.Font:= fmConsole.Font;
-  fmConsole.memo.Font:= fmConsole.Font;
+  fmConsole.EdInput.Font:= fmConsole.Font;
+  fmConsole.EdMemo.Font:= fmConsole.Font;
 
   for i:= 0 to FrameCount-1 do
   begin

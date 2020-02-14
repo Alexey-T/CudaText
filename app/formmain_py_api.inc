@@ -66,9 +66,9 @@ begin
     }
 
     7: //"ed_con_log"
-      Result:= fmConsole.memo;
+      Result:= fmConsole.EdMemo;
     8: //"ed_con_in"
-      Result:= fmConsole.ed;
+      Result:= fmConsole.EdInput;
 
     cPyEditorHandleMin..cPyEditorHandleMax:
       begin
@@ -2555,21 +2555,21 @@ begin
           begin
             if (StrText='') or (Pos('m', StrText)>0) then
               begin
-                fmConsole.memo.ModeReadOnly:= false;
-                fmConsole.memo.DoCommand(cCommand_GotoTextBegin);
-                fmConsole.memo.DoCommand(cCommand_TextDeleteToTextEnd);
-                fmConsole.memo.ModeReadOnly:= true;
+                fmConsole.EdMemo.ModeReadOnly:= false;
+                fmConsole.EdMemo.DoCommand(cCommand_GotoTextBegin);
+                fmConsole.EdMemo.DoCommand(cCommand_TextDeleteToTextEnd);
+                fmConsole.EdMemo.ModeReadOnly:= true;
               end;
 
             if (StrText='') or (Pos('e', StrText)>0) then
             begin
-              fmConsole.ed.DoCommand(cCommand_GotoTextBegin);
-              fmConsole.ed.DoCommand(cCommand_TextDeleteToTextEnd);
+              fmConsole.EdInput.DoCommand(cCommand_GotoTextBegin);
+              fmConsole.EdInput.DoCommand(cCommand_TextDeleteToTextEnd);
             end;
 
             if (StrText='') or (Pos('h', StrText)>0) then
             begin
-              fmConsole.ed.Items.Clear;
+              fmConsole.EdInput.Items.Clear;
             end;
 
             Result:= ReturnNone;
@@ -2579,15 +2579,15 @@ begin
           with fmMain do
           begin
             MsgLogConsole(cPyConsolePrompt+StrText);
-            fmConsole.ed.DoAddLineToHistory(Utf8Decode(StrText), cPyConsoleMaxComboItems);
-            fmConsole.ed.Text:= '';
-            fmConsole.ed.Update(true);
+            fmConsole.EdInput.DoAddLineToHistory(Utf8Decode(StrText), cPyConsoleMaxComboItems);
+            fmConsole.EdInput.Text:= '';
+            fmConsole.EdInput.Update(true);
             Result:= ReturnNone;
           end;
 
         LOG_CONSOLE_GET_COMBO_LINES:
           begin
-            Result:= StringsToPyList(fmConsole.ed.Items);
+            Result:= StringsToPyList(fmConsole.EdInput.Items);
           end;
 
         LOG_CONSOLE_GET_MEMO_LINES:
@@ -2595,7 +2595,7 @@ begin
             List:= TStringList.Create;
             try
               List.TextLineBreakStyle:= tlbsLF;
-              List.Text:= UTF8Encode(fmConsole.memo.Text);
+              List.Text:= UTF8Encode(fmConsole.EdMemo.Text);
               Result:= StringsToPyList(List);
             finally
               FreeAndNil(List);

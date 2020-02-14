@@ -2377,8 +2377,8 @@ begin
       (ActiveControl is TATSynEdit) and
       (ActiveControl.Parent is TEditorFrame);
     bConsoleActive:=
-      fmConsole.ed.Focused or
-      fmConsole.memo.Focused;
+      fmConsole.EdInput.Focused or
+      fmConsole.EdMemo.Focused;
 
     if not bEditorActive then
     begin
@@ -2867,10 +2867,10 @@ begin
   CodeTreeFilterInput.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   CodeTreeFilterReset.Width:= AppScale(UiOps.ScrollbarWidth);
 
-  EditorCaretPropsFromString(fmConsole.memo.CaretPropsReadonly, EditorOps.OpCaretViewReadonly);
-  fmConsole.memo.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
-  fmConsole.ed.Height:= AppScale(UiOps.InputHeight);
-  fmConsole.ed.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
+  EditorCaretPropsFromString(fmConsole.EdMemo.CaretPropsReadonly, EditorOps.OpCaretViewReadonly);
+  fmConsole.EdMemo.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
+  fmConsole.EdInput.Height:= AppScale(UiOps.InputHeight);
+  fmConsole.EdInput.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   fmConsole.MemoWordWrap:= UiOps.ConsoleWordWrap;
 
   DoApplyUiOpsToGroups(Groups);

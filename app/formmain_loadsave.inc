@@ -134,7 +134,7 @@ begin
       c.SetValue('/find/multi_line', fmFind.IsMultiLine);
     end;
 
-    SSaveStringsToFile(c, '/list_console', fmConsole.ed.Items, UiOps.MaxHistoryEdits);
+    SSaveStringsToFile(c, '/list_console', fmConsole.EdInput.Items, UiOps.MaxHistoryEdits);
 
     ////finder
     c.SetValue('/finder/regex', FFinder.OptRegex);
@@ -478,7 +478,7 @@ begin
 
     ////recents
     SLoadStringsFromFile(c, '/recent_files', FListRecents, UiOps.MaxHistoryMenu);
-    SLoadStringsFromFile(c, '/list_console', fmConsole.ed.Items, UiOps.MaxHistoryEdits);
+    SLoadStringsFromFile(c, '/list_console', fmConsole.EdInput.Items, UiOps.MaxHistoryEdits);
     UpdateMenuRecent(nil, '');
 
     ////finder

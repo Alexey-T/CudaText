@@ -60,8 +60,8 @@ type
     procedure DoRunLine(Str: string);
   public
     { public declarations }
-    ed: TATComboEdit;
-    memo: TATSynEdit;
+    EdInput: TATComboEdit;
+    EdMemo: TATSynEdit;
     property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
     procedure DoAddLine(const AText: string);
     procedure DoUpdate;
@@ -112,7 +112,7 @@ procedure TfmConsole.DoAddLine(const AText: string);
 var
   Str: TATStrings;
 begin
-  with memo do
+  with EdMemo do
   begin
     ModeReadOnly:= false;
     Str:= Strings;
@@ -136,7 +136,7 @@ procedure TfmConsole.DoUpdate;
 var
   Str: TATStrings;
 begin
-  with memo do
+  with EdMemo do
   begin
     Str:= Strings;
     if Str.Count>cPyConsoleMaxLines then
@@ -159,8 +159,8 @@ procedure TfmConsole.DoScrollToEnd(AllowProcessMsg: boolean);
 begin
   if AllowProcessMsg then
     Application.ProcessMessages;
-  memo.DoScrollToBeginOrEnd(false);
-  memo.Update;
+  EdMemo.DoScrollToBeginOrEnd(false);
+  EdMemo.Update;
 end;
 
 procedure TfmConsole.DoRunLine(Str: string);
@@ -173,7 +173,7 @@ begin
   if bNoLog then
     Delete(Str, Length(Str), 1)
   else
-    ed.DoAddLineToHistory(Utf8Decode(Str), cPyConsoleMaxComboItems);
+    EdInput.DoAddLineToHistory(Utf8Decode(Str), cPyConsoleMaxComboItems);
 
   DoAddLine(cPyConsolePrompt+Str);
   DoUpdate;
@@ -209,51 +209,51 @@ begin
   FAdapter:= TATAdapterSimple.Create(Self);
   FAdapter.OnGetLineColor:= @DoGetLineColor;
 
-  ed:= TATComboEdit.Create(Self);
-  ed.Parent:= Self;
-  ed.Align:= alBottom;
-  ed.WantTabs:= false;
-  ed.TabStop:= true;
-  ed.OnCommand:= @ComboCommand;
+  EdInput:= TATComboEdit.Create(Self);
+  EdInput.Parent:= Self;
+  EdInput.Align:= alBottom;
+  EdInput.WantTabs:= false;
+  EdInput.TabStop:= true;
+  EdInput.OnCommand:= @ComboCommand;
 
-  ed.OptTabSize:= 4;
-  ed.OptBorderWidth:= 1;
-  ed.OptBorderWidthFocused:= 1;
+  EdInput.OptTabSize:= 4;
+  EdInput.OptBorderWidth:= 1;
+  EdInput.OptBorderWidthFocused:= 1;
 
-  memo:= TATSynEdit.Create(Self);
-  memo.Parent:= Self;
-  memo.Align:= alClient;
-  memo.BorderStyle:= bsNone;
+  EdMemo:= TATSynEdit.Create(Self);
+  EdMemo.Parent:= Self;
+  EdMemo.Align:= alClient;
+  EdMemo.BorderStyle:= bsNone;
 
-  memo.WantTabs:= false;
-  memo.TabStop:= true;
-  memo.AdapterForHilite:= FAdapter;
+  EdMemo.WantTabs:= false;
+  EdMemo.TabStop:= true;
+  EdMemo.AdapterForHilite:= FAdapter;
 
   IsDoubleBuffered:= UiOps.DoubleBuffered;
 
-  memo.OptWrapMode:= cWrapOn;
-  memo.OptScrollbarsNew:= true;
-  memo.OptUndoLimit:= 0;
+  EdMemo.OptWrapMode:= cWrapOn;
+  EdMemo.OptScrollbarsNew:= true;
+  EdMemo.OptUndoLimit:= 0;
 
-  memo.OptTabSize:= 4;
-  memo.OptBorderWidth:= 0;
-  memo.OptBorderWidthFocused:= 1;
-  memo.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
-  memo.OptShowURLs:= false;
-  memo.OptCaretManyAllowed:= false;
-  memo.OptGutterVisible:= false;
-  memo.OptRulerVisible:= false;
-  memo.OptUnprintedVisible:= false;
-  memo.OptMarginRight:= 2000;
-  memo.OptCaretVirtual:= false;
-  memo.ModeReadOnly:= true;
-  memo.OptMouseRightClickMovesCaret:= true;
-  memo.OptMouseWheelZooms:= false;
-  memo.OptShowMouseSelFrame:= false;
+  EdMemo.OptTabSize:= 4;
+  EdMemo.OptBorderWidth:= 0;
+  EdMemo.OptBorderWidthFocused:= 1;
+  EdMemo.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
+  EdMemo.OptShowURLs:= false;
+  EdMemo.OptCaretManyAllowed:= false;
+  EdMemo.OptGutterVisible:= false;
+  EdMemo.OptRulerVisible:= false;
+  EdMemo.OptUnprintedVisible:= false;
+  EdMemo.OptMarginRight:= 2000;
+  EdMemo.OptCaretVirtual:= false;
+  EdMemo.ModeReadOnly:= true;
+  EdMemo.OptMouseRightClickMovesCaret:= true;
+  EdMemo.OptMouseWheelZooms:= false;
+  EdMemo.OptShowMouseSelFrame:= false;
 
-  memo.OnClickDouble:= @MemoClickDbl;
-  memo.OnCommand:= @MemoCommand;
-  memo.OnContextPopup:= @MemoContextPopup;
+  EdMemo.OnClickDouble:= @MemoClickDbl;
+  EdMemo.OnCommand:= @MemoCommand;
+  EdMemo.OnContextPopup:= @MemoContextPopup;
 end;
 
 procedure TfmConsole.ComboCommand(Sender: TObject; ACmd: integer;
@@ -263,11 +263,11 @@ var
 begin
   if ACmd=cCommand_KeyEnter then
   begin
-    s:= UTF8Encode(ed.Text);
+    s:= UTF8Encode(EdInput.Text);
     DoRunLine(s);
 
-    ed.Text:= '';
-    ed.DoCaretSingle(0, 0);
+    EdInput.Text:= '';
+    EdInput.DoCaretSingle(0, 0);
 
     AHandled:= true;
     Exit
@@ -279,15 +279,15 @@ end;
 
 function TfmConsole.GetWordWrap: boolean;
 begin
-  Result:= memo.OptWrapMode=cWrapOn;
+  Result:= EdMemo.OptWrapMode=cWrapOn;
 end;
 
 procedure TfmConsole.DoClearMemo(Sender: TObject);
 begin
-  memo.ModeReadOnly:= false;
-  memo.Text:= '';
-  memo.DoCaretSingle(0, 0);
-  memo.ModeReadOnly:= true;
+  EdMemo.ModeReadOnly:= false;
+  EdMemo.Text:= '';
+  EdMemo.DoCaretSingle(0, 0);
+  EdMemo.ModeReadOnly:= true;
 end;
 
 procedure TfmConsole.DoNavigate(Sender: TObject);
@@ -297,9 +297,9 @@ var
 begin
   if Assigned(FOnNavigate) then
   begin
-    N:= Memo.Carets[0].PosY;
-    if not Memo.Strings.IsIndexValid(N) then exit;
-    S:= Memo.Strings.LinesUTF8[N];
+    N:= EdMemo.Carets[0].PosY;
+    if not EdMemo.Strings.IsIndexValid(N) then exit;
+    S:= EdMemo.Strings.LinesUTF8[N];
     FOnNavigate(S);
   end;
 end;
@@ -315,15 +315,15 @@ begin
   begin
     mnuTextClear:= TMenuItem.Create(Self);
     mnuTextClear.OnClick:= @DoClearMemo;
-    memo.PopupTextDefault.Items.Add(mnuTextClear);
+    EdMemo.PopupTextDefault.Items.Add(mnuTextClear);
 
     mnuTextWrap:= TMenuItem.Create(Self);
     mnuTextWrap.OnClick:= @DoToggleWrap;
-    memo.PopupTextDefault.Items.Add(mnuTextWrap);
+    EdMemo.PopupTextDefault.Items.Add(mnuTextWrap);
 
     mnuTextNav:= TMenuItem.Create(Self);
     mnuTextNav.OnClick:= @DoNavigate;
-    memo.PopupTextDefault.Items.Add(mnuTextNav);
+    EdMemo.PopupTextDefault.Items.Add(mnuTextNav);
   end;
 
   mnuTextClear.Caption:= msgConsoleClear;
@@ -336,18 +336,18 @@ end;
 
 procedure TfmConsole.SetIsDoubleBuffered(AValue: boolean);
 begin
-  ed.DoubleBuffered:= AValue;
-  memo.DoubleBuffered:= AValue;
+  EdInput.DoubleBuffered:= AValue;
+  EdMemo.DoubleBuffered:= AValue;
 end;
 
 procedure TfmConsole.SetWordWrap(AValue: boolean);
 begin
   if AValue then
-    fmConsole.memo.OptWrapMode:= cWrapOn
+    fmConsole.EdMemo.OptWrapMode:= cWrapOn
   else
-    fmConsole.memo.OptWrapMode:= cWrapOff;
-  //fmConsole.memo.OptAllowScrollbarHorz:= not AValue;
-  fmConsole.memo.Update;
+    fmConsole.EdMemo.OptWrapMode:= cWrapOff;
+  //fmConsole.EdMemo.OptAllowScrollbarHorz:= not AValue;
+  fmConsole.EdMemo.Update;
 end;
 
 procedure TfmConsole.MemoCommand(Sender: TObject; ACmd: integer;
@@ -366,10 +366,10 @@ var
   s: string;
   n: integer;
 begin
-  n:= Memo.Carets[0].PosY;
-  if Memo.Strings.IsIndexValid(n) then
+  n:= EdMemo.Carets[0].PosY;
+  if EdMemo.Strings.IsIndexValid(n) then
   begin
-    s:= Memo.Strings.LinesUTF8[n];
+    s:= EdMemo.Strings.LinesUTF8[n];
     if SBeginsWith(s, cPyConsolePrompt) then
     begin
       Delete(s, 1, Length(cPyConsolePrompt));
