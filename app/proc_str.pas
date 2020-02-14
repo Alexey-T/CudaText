@@ -206,13 +206,11 @@ end;
 
 procedure SDeleteDuplicateSpaces(var S: string);
 var
-  N: integer;
+  i: integer;
 begin
-  repeat
-    N:= Pos('  ', S);
-    if N=0 then Break;
-    Delete(S, N, 1);
-  until false;
+  for i:= Length(S) downto 2{not 1} do
+    if (S[i]=' ') and (S[i-1]=' ') then
+      Delete(S, i, 1);
 end;
 
 function STextListsAllWords(SText, SWords: string): boolean;
