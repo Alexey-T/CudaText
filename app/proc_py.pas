@@ -42,9 +42,8 @@ type
     procedure ImportCommand(const AObject, AModule: string);
     function ImportModuleCached(const AModule: string): PPyObject;
     function IsLoadedLocal(const S: string): boolean;
-    function MethodEval(const AObject, AMethod, AParams: string): PPyObject;
-    function MethodEvalEx(const AObject, AMethod, AParams: string): TAppPyEventResult;
-    function MethodEvalObjects(const AObject, AFunc: string; AParams: array of PPyObject): PPyObject;
+    function MethodEvalEx(const AObject, AMethod: string; const AParams: array of PPyObject): TAppPyEventResult;
+    function MethodEvalObjects(const AObject, AFunc: string; const AParams: array of PPyObject): PPyObject;
   public
     constructor Create;
     destructor Destroy; override;
@@ -189,7 +188,8 @@ begin
     //UseFileMode=True to allow running several statements with ";"
 end;
 
-function TAppPython.MethodEvalObjects(const AObject, AFunc: string; AParams: array of PPyObject): PPyObject;
+function TAppPython.MethodEvalObjects(const AObject, AFunc: string;
+  const AParams: array of PPyObject): PPyObject;
 var
   CurrObject, Func, Params: PPyObject;
   i: integer;
@@ -224,12 +224,8 @@ begin
   end;
 end;
 
-function TAppPython.MethodEval(const AObject, AMethod, AParams: string): PPyObject;
-begin
-  Result:= Eval( Format('%s.%s(%s)', [AObject, AMethod, AParams]) );
-end;
-
-function TAppPython.MethodEvalEx(const AObject, AMethod, AParams: string): TAppPyEventResult;
+function TAppPython.MethodEvalEx(const AObject, AMethod: string;
+  const AParams: array of PPyObject): TAppPyEventResult;
 var
   Obj: PPyObject;
 begin
@@ -238,7 +234,7 @@ begin
 
   with FEngine do
   begin
-    Obj:= MethodEval(AObject, AMethod, AParams);
+    Obj:= MethodEvalObjects(AObject, AMethod, AParams);
     if Assigned(Obj) then
     try
       if Pointer(Obj)=Pointer(Py_True) then
@@ -314,7 +310,37 @@ end;
 function TAppPython.RunEvent(const AModule, ACmd: string; AEd: TObject;
   const AParams: TAppVariantArray; ALazy: boolean): TAppPyEventResult;
 var
-  ObjName, SParams: string;
+  ParamsObj: array of PPyObject;
+//
+  procedure InitParamsObj;
+  var
+    ObjCudatext, ObjCudatextDict: PPyObject;
+    ObjEditor, ObjEditorArgs: PPyObject;
+    i: integer;
+  begin
+    SetLength(ParamsObj, Length(AParams)+1);
+
+    with FEngine do
+      if AEd=nil then
+        ParamsObj[0]:= ReturnNone
+      else
+      begin
+        //1st param is "Editor(AEd_handle)"
+        ObjCudatext:= ImportModuleCached('cudatext');
+        ObjCudatextDict:= PyModule_GetDict(ObjCudatext);
+        ObjEditor:= PyDict_GetItemString(ObjCudatextDict, 'Editor');
+        ObjEditorArgs:= PyTuple_New(1);
+        PyTuple_SetItem(ObjEditorArgs, 0, PyLong_FromLongLong(PtrInt(AEd)));
+        ParamsObj[0]:= PyObject_CallObject(ObjEditor, ObjEditorArgs);
+        Py_XDECREF(ObjEditorArgs);
+      end;
+
+    for i:= 0 to Length(AParams)-1 do
+      ParamsObj[i+1]:= AppVariantToPyObject(AParams[i]);
+  end;
+  //
+var
+  ObjName: string;
   tick: QWord;
   i: integer;
 begin
@@ -325,21 +351,7 @@ begin
   if Assigned(EventTimes) then
     tick:= GetTickCount64;
 
-  if AEd=nil then
-    SParams:= 'None'
-  else
-    SParams:= 'cudatext.Editor('+IntToStr(PtrInt(AEd))+')';
-
-  for i:= 0 to Length(AParams)-1 do
-    SParams:= SParams + ',' + AppVariantToString(AParams[i]);
-
   ObjName:= NamePrefix+AModule;
-
-  if not LoadedModuleCudatext then
-  begin
-    Exec('import cudatext');
-    LoadedModuleCudatext:= true;
-  end;
 
   if not ALazy then
   begin
@@ -354,12 +366,18 @@ begin
       end;
     end;
 
-    Result:= MethodEvalEx(ObjName, ACmd, SParams);
+    InitParamsObj;
+    Result:= MethodEvalEx(ObjName, ACmd, ParamsObj);
   end
   else
   //lazy event: run only of ObjName already created
   if IsLoadedLocal(ObjName) then
-    Result:= MethodEvalEx(ObjName, ACmd, SParams);
+  begin
+    InitParamsObj;
+    Result:= MethodEvalEx(ObjName, ACmd, ParamsObj);
+  end;
+
+  FRunning:= false;
 
   if Assigned(EventTimes) then
   begin
@@ -374,8 +392,6 @@ begin
         EventTimes.AddObject(AModule, TObject(PtrInt(tick)));
     end;
   end;
-
-  FRunning:= false;
 end;
 
 
