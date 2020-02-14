@@ -170,8 +170,9 @@ function TAppPython.Eval(const Command: string; UseFileMode: boolean=false): PPy
 var
   Mode: integer;
 begin
-  Result := nil;
+  Result:= nil;
   if not FInited then exit;
+  InitModuleMain;
 
   if UseFileMode then
     Mode:= file_input
@@ -182,8 +183,6 @@ begin
   begin
     Traceback.Clear;
     CheckError(False);
-
-    InitModuleMain;
 
     try
       //PythonEngine used PChar(CleanString(Command)) - is it needed?
@@ -215,7 +214,7 @@ var
 begin
   Result:=nil;
   if not FInited then exit;
-  InitModuleMain;
+
   with FEngine do
   begin
     CurrObject:=PyDict_GetItemString(GlobalsMain,PChar(AObject));
@@ -310,6 +309,9 @@ var
   Obj: PPyObject;
   i: integer;
 begin
+  if not FInited then exit(false);
+  InitModuleMain;
+
   FRunning:= true;
   FLastCommandModule:= AModule;
   FLastCommandMethod:= AMethod;
@@ -392,6 +394,9 @@ var
 begin
   Result.Val:= evrOther;
   Result.Str:= '';
+
+  if not FInited then exit;
+  InitModuleMain;
 
   FRunning:= true;
   if Assigned(EventTimes) then
