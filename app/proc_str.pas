@@ -34,7 +34,7 @@ function STextListsFuzzyInput(const SText, SFind: string): boolean;
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
 function SRegexMatchesString(const ASubject, ARegex: string; ACaseSensitive: boolean): boolean;
 
-function IsLexerListed(const ALexer, ANameList: string): boolean;
+function IsLexerListed(const AItem, AItemList: string): boolean;
 function IsFilenameListedInExtensionList(const AFilename, AExtList: string): boolean;
 
 type
@@ -234,26 +234,25 @@ begin
   until false;
 end;
 
-function IsLexerListed(const ALexer, ANameList: string): boolean;
+function IsLexerListed(const AItem, AItemList: string): boolean;
 const
   cRegexPrefix = 'regex:';
 var
   SRegex: string;
 begin
-  if ANameList='' then exit(true);
-  if ALexer='' then exit(false);
+  if AItemList='' then exit(true);
+  if AItem='' then exit(false);
 
-  if SBeginsWith(ANameList, cRegexPrefix) then
+  if SBeginsWith(AItemList, cRegexPrefix) then
   begin
-    SRegex:= ANameList;
-    Delete(SRegex, 1, Length(cRegexPrefix));
-    Result:= SRegexMatchesString(ALexer, SRegex, true);
+    SRegex:= Copy(AItemList, Length(cRegexPrefix)+1, MaxInt);
+    Result:= SRegexMatchesString(AItem, SRegex, true);
   end
   else
   begin
     Result:= Pos(
-      ','+LowerCase(ALexer)+',',
-      ','+LowerCase(ANameList)+',' )>0;
+      ','+LowerCase(AItem)+',',
+      ','+LowerCase(AItemList)+',' )>0;
   end;
 end;
 
