@@ -221,11 +221,10 @@ begin
       Func:=PyObject_GetAttrString(CurrObject,PChar(AFunc));
       if Assigned(Func) then
         try
-          Params:=PyTuple_New(Length(AParams){+1});
+          //additional "self" is not needed
+          Params:=PyTuple_New(Length(AParams));
           if Assigned(Params) then
           try
-            ////seems additional "self" is not needed
-            //PyTuple_SetItem(Params,0,CurrObject);
             for i:=0 to Length(AParams)-1 do
               if PyTuple_SetItem(Params,i,AParams[i])<>0 then
                 RaiseError;
@@ -322,8 +321,6 @@ begin
 
   if not IsLoadedLocal(ObjName) then
   begin
-    //if UiOps.PyInitLog then
-    //  MsgLogConsole('Init: '+AModule);
     try
       ImportCommand(ObjName, AModule);
       LoadedLocals.Add(ObjName);
@@ -406,8 +403,6 @@ begin
   begin
     if not IsLoadedLocal(ObjName) then
     begin
-      //if UiOps.PyInitLog then
-      //  MsgLogConsole('Init: '+AModule);
       try
         ImportCommand(ObjName, AModule);
         LoadedLocals.Add(ObjName);
