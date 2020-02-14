@@ -145,7 +145,7 @@ begin
   with FEngine do
     if ModuleMain=nil then
     begin
-      ModuleMain:= GetMainModule;
+      ModuleMain:= PyImport_AddModule('__main__'); //same as PythonEngine.GetMainModule
       if ModuleMain=nil then
         raise EPythonError.Create('Python: cannot init __main__');
       if GlobalsMain=nil then
@@ -158,7 +158,7 @@ begin
   with FEngine do
     if ModuleCud=nil then
     begin
-      ModuleCud:= ImportModuleCached('cudatext');
+      ModuleCud:= PyImport_ImportModule('cudatext');
       if ModuleCud=nil then
         raise EPythonError.Create('Python: cannot import "cudatext"');
       if GlobalsCud=nil then
@@ -347,7 +347,7 @@ var
         InitModuleCud;
         ObjEditor:= PyDict_GetItemString(GlobalsCud, 'Editor');
         if ObjEditor=nil then
-          raise Exception.Create('Python: cannot find cudatext.Editor');
+          raise EPythonError.Create('Python: cannot find cudatext.Editor');
         ObjEditorArgs:= PyTuple_New(1);
         PyTuple_SetItem(ObjEditorArgs, 0, PyLong_FromLongLong(PtrInt(AEd)));
         ParamsObj[0]:= PyObject_CallObject(ObjEditor, ObjEditorArgs);
