@@ -546,6 +546,22 @@ begin
     end;
 end;
 
+procedure TEditorFrame.EditorOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  //fire on_key_up only for keys Ctrl, Alt, Shift
+  //event result is ignored
+  case Key of
+    VK_CONTROL,
+    VK_MENU,
+    VK_SHIFT,
+    VK_RSHIFT:
+      DoPyEvent(Sender as TATSynEdit, cEventOnKeyUp, [
+        AppVariant(Key),
+        AppVariant(ConvertShiftStateToString(Shift))
+        ]);
+  end;
+end;
+
 procedure TEditorFrame.EditorOnPaste(Sender: TObject; var AHandled: boolean;
   AKeepCaret, ASelectThen: boolean);
 begin
@@ -569,24 +585,6 @@ end;
 function TEditorFrame.GetTabGroups: TATGroups;
 begin
   Result:= (Parent as TATPages).Owner as TATGroups;
-end;
-
-procedure TEditorFrame.EditorOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  //fire on_key_up only for keys Ctrl, Alt, Shift
-  //event has no result
-  case Key of
-    VK_CONTROL,
-    VK_MENU,
-    VK_SHIFT,
-    VK_RSHIFT:
-      DoPyEvent(Sender as TATSynEdit,
-        cEventOnKeyUp,
-        [
-          AppVariant(Key),
-          AppVariant(ConvertShiftStateToString(Shift))
-        ]);
-  end;
 end;
 
 procedure TEditorFrame.DoShow;
