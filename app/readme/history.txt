@@ -5,6 +5,7 @@
 
 1.94.2 (2020/02)
 
++ add: RegExpr engine updated to Alexey Torgashin's version, with lot of patches in GitHub, see https://github.com/andgineer/TRegExpr/blob/master/History.txt
 + add: Python API speed optimized again (thanks @Artem3213212)
 
 1.94.1 (2020/02)
