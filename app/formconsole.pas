@@ -156,10 +156,11 @@ begin
   memo.Update;
 end;
 
-{$define py_always_eval}
 procedure TfmConsole.DoRunLine(Str: string);
 var
+  Obj: PPyObject;
   bNoLog: boolean;
+  bExpr: boolean;
 begin
   bNoLog:= SEndsWith(Str, ';');
   if bNoLog then
@@ -172,20 +173,24 @@ begin
   DoScrollToEnd(true);
 
   try
-    {$ifdef PY_ALWAYS_EVAL}
     if SBeginsWith(Str, cPyCharPrint) then
-      AppPython.Exec('print('+Copy(Str, 2, MaxInt) + ')')
-    else
-    if not IsPythonExpression(Str) then
-      AppPython.Exec(Str)
-    else
-      AppPython.Exec('print('+Str+')');
-
-    {$else}
-    if SBeginsWith(Str, cPyCharPrint) then
+    begin
       Str:= 'print('+Copy(Str, 2, MaxInt) + ')';
-    AppPython.Exec(Str);
-    {$endif}
+      bExpr:= false;
+    end
+    else
+      bExpr:= IsPythonExpression(Str);
+
+    Obj:= AppPython.Eval(Str, not bExpr);
+
+    if Assigned(Obj) then
+      with AppPython.Engine do
+      try
+        if Pointer(Obj)<>Pointer(Py_None) then
+          MsgLogConsole(PyObjectAsString(Obj));
+      finally
+        Py_DECREF(Obj);
+      end;
   except
   end;
 end;
