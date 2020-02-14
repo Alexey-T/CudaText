@@ -36,8 +36,11 @@ type
     LoadedLocals: TStringList;
     LoadedModules: TStringList;
     ModuleMain: PPyObject;
+    ModuleCud: PPyObject;
     GlobalsMain: PPyObject;
+    GlobalsCud: PPyObject;
     procedure InitModuleMain;
+    procedure InitModuleCud;
     procedure ImportCommand(const AObject, AModule: string);
     function ImportModuleCached(const AModule: string): PPyObject;
     function IsLoadedLocal(const S: string): boolean;
@@ -144,11 +147,22 @@ begin
     begin
       ModuleMain:= GetMainModule;
       if ModuleMain=nil then
-        raise EPythonError.Create('Python: can''t create __main__');
-      //if _Locals=nil then
-      //  _Locals:= PyModule_GetDict(ModuleMain);
+        raise EPythonError.Create('Python: cannot init __main__');
       if GlobalsMain=nil then
         GlobalsMain:= PyModule_GetDict(ModuleMain);
+    end;
+end;
+
+procedure TAppPython.InitModuleCud;
+begin
+  with FEngine do
+    if ModuleCud=nil then
+    begin
+      ModuleCud:= ImportModuleCached('cudatext');
+      if ModuleCud=nil then
+        raise EPythonError.Create('Python: cannot import "cudatext"');
+      if GlobalsCud=nil then
+        GlobalsCud:= PyModule_GetDict(ModuleCud);
     end;
 end;
 
@@ -319,21 +333,21 @@ var
 //
   procedure InitParamsObj;
   var
-    ObjCudatext, ObjCudatextDict: PPyObject;
     ObjEditor, ObjEditorArgs: PPyObject;
     i: integer;
   begin
     SetLength(ParamsObj, Length(AParams)+1);
 
+    //first param must be None or Editor(AEd_handle)
     with FEngine do
       if AEd=nil then
         ParamsObj[0]:= ReturnNone
       else
       begin
-        //1st param is "Editor(AEd_handle)"
-        ObjCudatext:= ImportModuleCached('cudatext');
-        ObjCudatextDict:= PyModule_GetDict(ObjCudatext);
-        ObjEditor:= PyDict_GetItemString(ObjCudatextDict, 'Editor');
+        InitModuleCud;
+        ObjEditor:= PyDict_GetItemString(GlobalsCud, 'Editor');
+        if ObjEditor=nil then
+          raise Exception.Create('Python: cannot find cudatext.Editor');
         ObjEditorArgs:= PyTuple_New(1);
         PyTuple_SetItem(ObjEditorArgs, 0, PyLong_FromLongLong(PtrInt(AEd)));
         ParamsObj[0]:= PyObject_CallObject(ObjEditor, ObjEditorArgs);
