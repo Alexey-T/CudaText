@@ -182,6 +182,7 @@ begin
       bExpr:= IsPythonExpression(Str);
 
     Obj:= AppPython.Eval(Str, not bExpr);
+    //if 2nd param is True, this won't return PyObject
 
     if Assigned(Obj) then
       with AppPython.Engine do
