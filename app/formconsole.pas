@@ -184,7 +184,7 @@ begin
     {$else}
     if SBeginsWith(Str, cPyCharPrint) then
       Str:= 'print('+Copy(Str, 2, MaxInt) + ')';
-    PythonExec(Str);
+    AppPython.Exec(Str);
     {$endif}
   except
   end;
