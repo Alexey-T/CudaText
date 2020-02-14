@@ -292,6 +292,7 @@ begin
           ObjObject:= PyObject_CallObject(ObjClass, nil);
           if Assigned(ObjObject) then
             PyDict_SetItemString(GlobalsMain, PChar(AObjectName), ObjObject);
+          Py_DECREF(ObjClass);
         end;
       end;
     end;
