@@ -533,15 +533,12 @@ begin
   Result:= Ed2.Visible;
 end;
 
-procedure TEditorFrame.EditorOnKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TEditorFrame.EditorOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  //res=False: block key
-  if DoPyEvent(Sender as TATSynEdit,
-    cEventOnKey,
-    [
-      AppVariant(Key),
-      AppVariant(ConvertShiftStateToString(Shift))
+  //result=False: block the key
+  if DoPyEvent(Sender as TATSynEdit, cEventOnKey, [
+    AppVariant(Key),
+    AppVariant(ConvertShiftStateToString(Shift))
     ]).Val = evrFalse then
     begin
       Key:= 0;
@@ -552,11 +549,9 @@ end;
 procedure TEditorFrame.EditorOnPaste(Sender: TObject; var AHandled: boolean;
   AKeepCaret, ASelectThen: boolean);
 begin
-  if DoPyEvent(Sender as TATSynEdit,
-    cEventOnPaste,
-    [
-      AppVariant(AKeepCaret),
-      AppVariant(ASelectThen)
+  if DoPyEvent(Sender as TATSynEdit, cEventOnPaste, [
+    AppVariant(AKeepCaret),
+    AppVariant(ASelectThen)
     ]).Val = evrFalse then
     AHandled:= true;
 end;
