@@ -355,8 +355,7 @@ type
     procedure DoLoadHistoryEx(Ed: TATSynEdit; const AFileName: string; c: TJsonConfig; const path: UnicodeString; AllowEnc: boolean);
     procedure DoLoadUndo(Ed: TATSynEdit);
     //misc
-    function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
-      const AParams: TAppVariantArray): TAppPyEventResult;
+    function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
     procedure DoGotoPos(Ed: TATSynEdit; APosX, APosY: integer);
     procedure DoRestoreFolding(Ed: TATSynEdit);
     procedure DoRemovePreviewStyle;

@@ -107,10 +107,14 @@ begin
     bNeedGroup:= false;
   end;
 
-  KeyForFilter:= '';
-  if AEvent=cEventOnKey then
-    if Length(AParams)>0 then
-      KeyForFilter:= AppVariantToString(AParams[0]);
+  case AEvent of
+    cEventOnKey:
+      begin;
+        KeyForFilter:= IntToStr(AParams[0].Int);
+      end;
+    else
+      KeyForFilter:= '';
+  end;
 
   //see all items with priority=MaxPriority..0
   for NPriority:= MaxPriority downto 0 do
