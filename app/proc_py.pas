@@ -41,7 +41,7 @@ type
     GlobalsCud: PPyObject;
     procedure InitModuleMain;
     procedure InitModuleCud;
-    procedure ImportCommand(const AObject, AModule: string);
+    procedure ImportCommand(const AObjectName, AModule: string);
     function ImportModuleCached(const AModule: string): PPyObject;
     function IsLoadedLocal(const S: string): boolean;
     function MethodEvalEx(const AObject, AMethod: string; const AParams: array of PPyObject): TAppPyEventResult;
@@ -274,9 +274,31 @@ begin
 end;
 
 
-procedure TAppPython.ImportCommand(const AObject, AModule: string);
+procedure TAppPython.ImportCommand(const AObjectName, AModule: string);
+var
+  ObjModule, ObjDict, ObjClass, ObjObject: PPyObject;
 begin
-  Exec(Format('import %s;%s=%s.Command()', [AModule, AObject, AModule]));
+  with FEngine do
+  begin
+    ObjModule:= ImportModuleCached(AModule);
+    if Assigned(ObjModule) then
+    begin
+      ObjDict:= PyModule_GetDict(ObjModule);
+      if Assigned(ObjDict) then
+      begin
+        ObjClass:= PyDict_GetItemString(ObjDict, 'Command');
+        if Assigned(ObjClass) then
+        begin
+          ObjObject:= PyObject_CallObject(ObjClass, nil);
+          if Assigned(ObjObject) then
+            PyDict_SetItemString(GlobalsMain, PChar(AObjectName), ObjObject);
+        end;
+      end;
+    end;
+  end;
+
+  //old slow code:
+  //Exec(Format('import %s;%s=%s.Command()', [AModule, AObjectName, AModule]));
 end;
 
 function TAppPython.RunCommand(const AModule, AMethod: string; const AParams: TAppVariantArray): boolean;
@@ -298,8 +320,8 @@ begin
 
   if not IsLoadedLocal(ObjName) then
   begin
-    if UiOps.PyInitLog then
-      MsgLogConsole('Init: '+AModule);
+    //if UiOps.PyInitLog then
+    //  MsgLogConsole('Init: '+AModule);
     try
       ImportCommand(ObjName, AModule);
       LoadedLocals.Add(ObjName);
@@ -376,8 +398,8 @@ begin
   begin
     if not IsLoadedLocal(ObjName) then
     begin
-      if UiOps.PyInitLog then
-        MsgLogConsole('Init: '+AModule);
+      //if UiOps.PyInitLog then
+      //  MsgLogConsole('Init: '+AModule);
       try
         ImportCommand(ObjName, AModule);
         LoadedLocals.Add(ObjName);
