@@ -288,10 +288,11 @@ begin
       begin
         ObjClass:= PyDict_GetItemString(ObjDict, 'Command');
         if Assigned(ObjClass) then
-        begin
+        try
           ObjObject:= PyObject_CallObject(ObjClass, nil);
           if Assigned(ObjObject) then
             PyDict_SetItemString(GlobalsMain, PChar(AObjectName), ObjObject);
+        finally
           Py_DECREF(ObjClass);
         end;
       end;
