@@ -14,6 +14,8 @@ var
   list: TStringlist;
   SItem, fn, DirName: string;
 begin
+  if not AppPython.Inited then exit;
+
   //commands: don't clear all, leave items from API
   AppCommandsClearButKeepApiItems;
 
