@@ -548,6 +548,7 @@ function TAppPython.ValueFromString(const S: string): PPyObject;
 var
   Num: Int64;
 begin
+  if not FInited then exit(nil);
   with FEngine do
   begin
     if S='' then
@@ -576,8 +577,8 @@ var
   w: UnicodeString;
 begin
   Result:= '';
-  if not Assigned(Obj) then
-    Exit;
+  if not FInited then exit;
+  if Obj=nil then exit;
 
   with FEngine do
   begin
@@ -602,6 +603,7 @@ var
   i: integer;
   Obj: PPyObject;
 begin
+  if not FInited then exit;
   LoadedLocals.Clear;
 
   with FEngine do
