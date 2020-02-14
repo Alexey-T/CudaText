@@ -107,13 +107,24 @@ begin
     bNeedGroup:= false;
   end;
 
+  KeyForFilter:= '';
   case AEvent of
     cEventOnKey:
-      begin;
+      begin
+        //key code is 1st int parameter
         KeyForFilter:= IntToStr(AParams[0].Int);
       end;
-    else
-      KeyForFilter:= '';
+    cEventOnOpen:
+      begin
+        //filename is attached to editor's frame
+        if Assigned(Frame) then
+          KeyForFilter:= Copy(ExtractFileExt(Frame.GetFileName(AEd)), 2, MaxInt);
+      end;
+    cEventOnOpenBefore:
+      begin
+        //filename is 1st parameter
+        KeyForFilter:= Copy(ExtractFileExt(AParams[0].Str), 2, MaxInt);
+      end;
   end;
 
   //see all items with priority=MaxPriority..0
