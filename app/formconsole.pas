@@ -133,16 +133,19 @@ procedure TfmConsole.DoUpdate;
 //
 //Note: don't call Application.ProcessMessages here!
 // https://github.com/Alexey-T/CudaText/issues/2326
+var
+  Str: TATStrings;
 begin
   with memo do
   begin
-    if Strings.Count>cPyConsoleMaxLines then
+    Str:= Strings;
+    if Str.Count>cPyConsoleMaxLines then
     begin
       ModeReadOnly:= false;
-      while Strings.Count>cPyConsoleMaxLines do
-        Strings.LineDelete(0);
-      //if Strings.LinesUTF8[0]='' then
-      //  Strings.LineDelete(0);
+      while Str.Count>cPyConsoleMaxLines do
+        Str.LineDelete(0);
+      //if Str.LinesUTF8[0]='' then
+      //  Str.LineDelete(0);
       ModeReadOnly:= true;
     end;
 
