@@ -35,9 +35,9 @@ type
     EventTimes: TStringList;
     LoadedLocals: TStringList;
     LoadedModules: TStringList;
-    MainModule: PPyObject;
-    Globals: PPyObject;
-    procedure InitMainModule;
+    ModuleMain: PPyObject;
+    GlobalsMain: PPyObject;
+    procedure InitModuleMain;
     procedure ImportCommand(const AObject, AModule: string);
     function ImportModuleCached(const AModule: string): PPyObject;
     function IsLoadedLocal(const S: string): boolean;
@@ -137,18 +137,18 @@ begin
   Result+= ')';
 end;
 
-procedure TAppPython.InitMainModule;
+procedure TAppPython.InitModuleMain;
 begin
   with FEngine do
-    if MainModule=nil then
+    if ModuleMain=nil then
     begin
-      MainModule:= GetMainModule;
-      if MainModule=nil then
+      ModuleMain:= GetMainModule;
+      if ModuleMain=nil then
         raise EPythonError.Create('Python: can''t create __main__');
       //if _Locals=nil then
-      //  _Locals:= PyModule_GetDict(MainModule);
-      if Globals=nil then
-        Globals:= PyModule_GetDict(MainModule);
+      //  _Locals:= PyModule_GetDict(ModuleMain);
+      if GlobalsMain=nil then
+        GlobalsMain:= PyModule_GetDict(ModuleMain);
     end;
 end;
 
@@ -169,11 +169,11 @@ begin
     Traceback.Clear;
     CheckError(False);
 
-    InitMainModule;
+    InitModuleMain;
 
     try
       //PythonEngine used PChar(CleanString(Command)) - is it needed?
-      Result := PyRun_String(PChar(Command), Mode, Globals, Globals); //seems no need separate Locals
+      Result := PyRun_String(PChar(Command), Mode, GlobalsMain, GlobalsMain); //seems no need separate Locals
       if Result = nil then
         CheckError(False);
     except
@@ -201,10 +201,10 @@ var
 begin
   Result:=nil;
   if not FInited then exit;
-  InitMainModule;
+  InitModuleMain;
   with FEngine do
   begin
-    CurrObject:=PyDict_GetItemString(Globals,PChar(AObject));
+    CurrObject:=PyDict_GetItemString(GlobalsMain,PChar(AObject));
     if Assigned(CurrObject) then
     begin
       Func:=PyObject_GetAttrString(CurrObject,PChar(AFunc));
