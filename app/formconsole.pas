@@ -15,6 +15,7 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   Menus, LclType,
   PythonEngine,
+  ATStrings,
   ATSynEdit,
   ATSynEdit_Edits,
   ATSynEdit_Commands,
@@ -62,7 +63,7 @@ type
     ed: TATComboEdit;
     memo: TATSynEdit;
     property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
-    procedure DoAddLine(const Str: string);
+    procedure DoAddLine(const AText: string);
     procedure DoUpdate;
     procedure DoScrollToEnd(AllowProcessMsg: boolean);
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
@@ -107,17 +108,20 @@ begin
   end;
 end;
 
-procedure TfmConsole.DoAddLine(const Str: string);
+procedure TfmConsole.DoAddLine(const AText: string);
+var
+  Str: TATStrings;
 begin
   with memo do
   begin
     ModeReadOnly:= false;
+    Str:= Strings;
 
     //this is to remove 1st empty line
-    if (Strings.Count=1) and (Strings.LinesUTF8[0]='') then
-      Strings.LinesUTF8[0]:= Str
+    if (Str.Count=1) and (Str.LinesUTF8[0]='') then
+      Str.LinesUTF8[0]:= AText
     else
-      Strings.LineAddRaw_UTF8_NoUndo(Str, cEndUnix);
+      Str.LineAddRaw_UTF8_NoUndo(AText, cEndUnix);
 
     ModeReadOnly:= true;
   end;
