@@ -388,25 +388,23 @@ procedure TfmMain.DoPyTimerTick(Sender: TObject);
 var
   Timer: TTimer;
   SCallback, STag: string;
-  ParamVars: TAppVariantArray;
-  ParamNames: array[0..0] of string;
-  N: integer;
+  NIndex: integer;
 begin
   Timer:= Sender as TTimer;
-  N:= FListTimers.IndexOfObject(Timer);
-  if N<0 then exit;
+  NIndex:= FListTimers.IndexOfObject(Timer);
+  if NIndex<0 then exit;
 
   //if timer_start_one
   if Timer.Tag=1 then
     Timer.Enabled:= false;
 
-  SSplitByChar(FListTimers[N], '|', SCallback, STag);
+  SSplitByChar(FListTimers[NIndex], '|', SCallback, STag);
 
-  SetLength(ParamVars, 1);
-  ParamVars[0]:= AppVariant(StrToInt64Def(STag, 0));
-  ParamNames[0]:= 'tag';
-
-  DoPyCallbackFromAPI(SCallback, ParamVars, ParamNames);
+  DoPyCallbackFromAPI(
+    SCallback,
+    [AppVariant(StrToInt64Def(STag, 0))],
+    ['tag']
+    );
 end;
 
 
