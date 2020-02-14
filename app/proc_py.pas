@@ -57,11 +57,17 @@ type
 
     function Eval(const Command: string; UseFileMode: boolean=false): PPyObject;
     procedure Exec(const Command: string);
-    function RunCommand(const AModule, AMethod: string; const AParams: TAppVariantArray): boolean;
-    function RunEvent(const AModule, ACmd: string;
-      AEd: TObject; const AParams: TAppVariantArray; ALazy: boolean): TAppPyEventResult;
-    function RunModuleFunction(const AModule, AFunc: string; AParams: array of PPyObject; const AParamNames: array of string): PPyObject;
-    function RunModuleFunction(const AModule, AFunc: string; AParams: array of PPyObject): PPyObject;
+
+    function RunCommand(const AModule, AMethod: string;
+      const AParams: TAppVariantArray): boolean;
+    function RunEvent(const AModule, ACmd: string; AEd: TObject;
+      const AParams: TAppVariantArray; ALazy: boolean): TAppPyEventResult;
+
+    function RunModuleFunction(const AModule, AFunc: string;
+      const AParams: array of PPyObject;
+      const AParamNames: array of string): PPyObject;
+    function RunModuleFunction(const AModule, AFunc: string;
+      const AParams: array of PPyObject): PPyObject;
 
     function ValueFromString(const S: string): PPyObject;
     function ValueToString(Obj: PPyObject; QuoteStrings: boolean): string;
@@ -410,7 +416,9 @@ begin
   end;
 end;
 
-function TAppPython.RunModuleFunction(const AModule,AFunc:string;AParams:array of PPyObject;const AParamNames:array of string):PPyObject;
+function TAppPython.RunModuleFunction(const AModule,AFunc:string;
+  const AParams:array of PPyObject;
+  const AParamNames:array of string):PPyObject;
 var
   Module,ModuleDic,Func,Params,ParamsDic:PPyObject;
   i,UnnamedCount:integer;
@@ -455,7 +463,8 @@ begin
   end;
 end;
 
-function TAppPython.RunModuleFunction(const AModule, AFunc: string; AParams: array of PPyObject): PPyObject;
+function TAppPython.RunModuleFunction(const AModule, AFunc: string;
+  const AParams: array of PPyObject): PPyObject;
 var
   Module,ModuleDic,Func,Params:PPyObject;
   i:integer;
