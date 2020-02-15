@@ -376,7 +376,7 @@ const
   msgConsoleToggleWrap: string = 'Toggle word wrap';
   msgConsoleNavigate: string = 'Navigate';
 
-function GetUntitledCaption: string;
+function msgUntitledNumberedCaption: string;
 function msgTranslatedPanelCaption(const ACaption: string): string;
 
 
@@ -385,7 +385,7 @@ implementation
 var
   FUntitledCount: integer = 0;
 
-function GetUntitledCaption: string;
+function msgUntitledNumberedCaption: string;
 begin
   Inc(FUntitledCount);
   Result:= msgUntitledTab+IntToStr(FUntitledCount);
