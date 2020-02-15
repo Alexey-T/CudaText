@@ -34,7 +34,7 @@ begin
   end;
 
   //avoid plugin call if panel already inited
-  NPanelIndex:= DoBottom_CaptionToPanelsIndex(SCaption);
+  NPanelIndex:= DoSidebar_CaptionToPanelsIndex(cSideBottom, SCaption);
   if (NPanelIndex>=0) and (TAppSidePanel(AppPanels[cSideBottom].Panels[NPanelIndex]).ItemControl=nil) then
     if Btn.DataString<>'' then
     begin
@@ -130,23 +130,12 @@ begin
   end;
 end;
 
-function TfmMain.DoBottom_CaptionToPanelsIndex(const ACaption: string): integer;
-var
-  i: integer;
-begin
-  Result:= -1;
-  for i:= 0 to AppPanels[cSideBottom].Panels.Count-1 do
-    with TAppSidePanel(AppPanels[cSideBottom].Panels[i]) do
-      if ItemCaption=ACaption then
-        exit(i);
-end;
-
 function TfmMain.DoBottom_CaptionToControlHandle(const ACaption: string): PtrInt;
 var
   Num: integer;
 begin
   Result:= 0;
-  Num:= DoBottom_CaptionToPanelsIndex(ACaption);
+  Num:= DoSidebar_CaptionToPanelsIndex(cSideBottom, ACaption);
   if Num<0 then exit;
 
   with TAppSidePanel(AppPanels[cSideBottom].Panels[Num]) do
@@ -154,25 +143,12 @@ begin
       Result:= PtrInt(ItemControl);
 end;
 
-function TfmMain.DoBottom_CaptionToTabIndex(const ACaption: string): integer;
-var
-  Btn: TATButton;
-  i: integer;
-begin
-  Result:= -1;
-  for i:= 0 to ToolbarSideLow.ButtonCount-1 do
-  begin
-    Btn:= ToolbarSideLow.Buttons[i];
-    if SameText(Btn.Caption, ACaption) then exit(i);
-  end;
-end;
-
 function TfmMain.DoBottom_AddTab(const ACaption: string; AImageIndex: integer;
   AHandle: PtrInt): boolean;
 var
   Panel: TAppSidePanel;
 begin
-  if DoBottom_CaptionToPanelsIndex(ACaption)>=0 then exit(false);
+  if DoSidebar_CaptionToPanelsIndex(cSideBottom, ACaption)>=0 then exit(false);
 
   Panel:= TAppSidePanel.Create;
   AppPanels[cSideBottom].Panels.Add(Panel);
@@ -188,7 +164,7 @@ function TfmMain.DoBottom_RemoveTab(const ACaption: string): boolean;
 var
   Num, i: integer;
 begin
-  Num:= DoBottom_CaptionToTabIndex(ACaption);
+  Num:= DoSidebar_CaptionToTabIndex(cSideBottom, ACaption);
   Result:= Num>=0;
   if Result then
   begin
@@ -208,7 +184,7 @@ end;
 
 function TfmMain.DoBottom_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
 begin
-  Result:= DoBottom_CaptionToTabIndex(ACaption)>=0;
+  Result:= DoSidebar_CaptionToTabIndex(cSideBottom, ACaption)>=0;
   if Result then
     UpdateBottomPanels(ACaption, AndFocus);
 end;

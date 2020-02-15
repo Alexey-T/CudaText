@@ -746,8 +746,8 @@ type
     function DoSidebar_AddTab(const ACaption: string; AImageIndex: integer; AHandle: PtrInt): boolean;
     function DoSidebar_AddTab_Empty(const ACaption: string; AImageIndex: integer; const AModule, AMethod: string): boolean;
     function DoSidebar_RemoveTab(const ACaption: string): boolean;
-    function DoSidebar_CaptionToPanelsIndex(const ACaption: string): integer;
-    function DoSidebar_CaptionToTabIndex(const Str: string): integer;
+    function DoSidebar_CaptionToPanelsIndex(ASide: TAppSideId; const ACaption: string): integer;
+    function DoSidebar_CaptionToTabIndex(ASide: TAppSideId; const ACaption: string): integer;
     function DoSidebar_CaptionToControlHandle(const ACaption: string): PtrInt;
     procedure DoSidebar_FocusCodetreeFilter;
     procedure DoSidebar_FocusCodetree;
@@ -756,9 +756,7 @@ type
     procedure DoBottom_FindClick(Sender: TObject);
     function DoBottom_CaptionToControlHandle(const ACaption: string): PtrInt;
     function DoBottom_AddTab(const ACaption: string; AImageIndex: integer; AHandle: PtrInt): boolean;
-    function DoBottom_CaptionToPanelsIndex(const ACaption: string): integer;
     function DoBottom_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
-    function DoBottom_CaptionToTabIndex(const ACaption: string): integer;
     function DoBottom_RemoveTab(const ACaption: string): boolean;
     function DoBottom_TranslatedCaption(const ACaption: string): string;
     procedure DoAutoComplete(Ed: TATSynEdit);
