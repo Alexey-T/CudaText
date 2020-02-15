@@ -38,6 +38,7 @@ uses
   ATListbox,
   ATStatusBar,
   ATScrollBar,
+  ATPanelSimple,
   at__jsonconf,
   proc_cmd,
   proc_msg,
@@ -790,7 +791,11 @@ var
   AppCommandList: TFPList;
   AppEventList: TFPList;
   AppTreeHelpers: TFPList;
-  AppPanels: array[TAppSideId] of TFPList;
+  AppPanels: array[TAppSideId] of record
+    ParentPanel: TATPanelSimple;
+    Toolbar: TATFlatToolbar;
+    Panels: TFPList;
+  end;
 
 type
   PAppPanelProps = ^TAppPanelProps;
@@ -2413,9 +2418,6 @@ begin
 end;
 
 
-var
-  side: TAppSideId;
-
 initialization
 
   InitDirs;
@@ -2427,9 +2429,6 @@ initialization
   AppCommandList:= TFPList.Create;
   AppEventList:= TFPList.Create;
   AppTreeHelpers:= TFPList.Create;
-
-  for side in TAppSideId do
-    AppPanels[side]:= TFPList.Create;
 
   AppKeymap:= TATKeymap.Create;
   InitKeymapFull(AppKeymap);
@@ -2483,9 +2482,6 @@ finalization
   FreeAndNil(AppEventList);
   FreeAndNil(AppCommandList);
   FreeAndNil(AppConsoleQueue);
-
-  for side in TAppSideId do
-    FreeAndNil(AppPanels[side]);
 
 end.
 

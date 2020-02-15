@@ -1878,6 +1878,19 @@ begin
   mnuHelpCheckUpd.Enabled:= false;
   {$endif}
 
+  with AppPanels[cSideLeft] do
+  begin
+    ParentPanel:= PanelLeft;
+    Toolbar:= ToolbarSideTop;
+    Panels:= TFPList.Create;
+  end;
+  with AppPanels[cSideBottom] do
+  begin
+    ParentPanel:= PanelBottom;
+    Toolbar:= ToolbarSideLow;
+    Panels:= TFPList.Create;
+  end;
+
   LexerProgress:= TATGauge.Create(Self);
   LexerProgress.Parent:= Status;
 
@@ -2047,7 +2060,7 @@ begin
   Panel:= TAppSidePanel.Create;
   Panel.ItemCaption:= msgPanelTree_Init;
   Panel.ItemControl:= CodeTree;
-  AppPanels[cSideLeft].Add(Panel);
+  AppPanels[cSideLeft].Panels.Add(Panel);
 
   FFinder:= TATEditorFinder.Create;
   FFinder.OptRegex:= true;

@@ -66,7 +66,7 @@ begin
 
   //avoid plugin call if panel already inited
   NPanelIndex:= DoSidebar_CaptionToPanelsIndex(SCaption);
-  if (NPanelIndex>=0) and (TAppSidePanel(AppPanels[cSideLeft][NPanelIndex]).ItemControl=nil) then
+  if (NPanelIndex>=0) and (TAppSidePanel(AppPanels[cSideLeft].Panels[NPanelIndex]).ItemControl=nil) then
     if Btn.DataString<>'' then
     begin
       SSplitByChar(Btn.DataString, '.', SModule, SMethod);
@@ -107,8 +107,8 @@ begin
   if FloatSide then
     FFormFloatSide.Caption:= LabelSideTitle.Caption + ' - ' + msgTitle;
 
-  for i:= 0 to AppPanels[cSideLeft].Count-1 do
-    with TAppSidePanel(AppPanels[cSideLeft][i]) do
+  for i:= 0 to AppPanels[cSideLeft].Panels.Count-1 do
+    with TAppSidePanel(AppPanels[cSideLeft].Panels[i]) do
     begin
       if ItemCaption='' then Break;
       bFound:= SameText(ItemCaption, ACaption);
@@ -135,8 +135,8 @@ var
   i: integer;
 begin
   Result:= -1;
-  for i:= 0 to AppPanels[cSideLeft].Count-1 do
-    with TAppSidePanel(AppPanels[cSideLeft][i]) do
+  for i:= 0 to AppPanels[cSideLeft].Panels.Count-1 do
+    with TAppSidePanel(AppPanels[cSideLeft].Panels[i]) do
       if ItemCaption=ACaption then
         exit(i);
 end;
@@ -149,7 +149,7 @@ begin
   Num:= DoSidebar_CaptionToPanelsIndex(ACaption);
   if Num<0 then exit;
 
-  with TAppSidePanel(AppPanels[cSideLeft][Num]) do
+  with TAppSidePanel(AppPanels[cSideLeft].Panels[Num]) do
     if Assigned(ItemControl) then
       Result:= PtrInt(ItemControl);
 end;
@@ -201,11 +201,11 @@ begin
   bExist:= Num>=0;
 
   if bExist then
-    Panel:= TAppSidePanel(AppPanels[cSideLeft][Num])
+    Panel:= TAppSidePanel(AppPanels[cSideLeft].Panels[Num])
   else
   begin
     Panel:= TAppSidePanel.Create;
-    AppPanels[cSideLeft].Add(Panel);
+    AppPanels[cSideLeft].Panels.Add(Panel);
   end;
 
   if AHandle<>0 then
@@ -232,7 +232,7 @@ begin
   Panel.ItemControl:= nil;
   Panel.ItemModule:= AModule;
   Panel.ItemMethod:= AMethod;
-  AppPanels[cSideLeft].Add(Panel);
+  AppPanels[cSideLeft].Panels.Add(Panel);
 
   //save module/method to Btn.DataString
   ToolbarSideTop.AddButton(AImageIndex, @DoSidebar_OnTabClick, ACaption, ACaption,
@@ -256,8 +256,8 @@ begin
     ToolbarSideTop.UpdateControls;
 
     //hard to remove item, so hide it by "?"
-    for i:= 0 to AppPanels[cSideLeft].Count-1 do
-      with TAppSidePanel(AppPanels[cSideLeft][i]) do
+    for i:= 0 to AppPanels[cSideLeft].Panels.Count-1 do
+      with TAppSidePanel(AppPanels[cSideLeft].Panels[i]) do
         if ItemCaption=ACaption then
         begin
           ItemCaption:= '?';
