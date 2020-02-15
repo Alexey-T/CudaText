@@ -14,8 +14,7 @@ interface
 uses
   SysUtils, Classes, Controls, ExtCtrls, Buttons, Forms,
   ATButtons,
-  ATFlatToolbar,
-  ATPanelSimple;
+  ATFlatToolbar;
 
 type
   TAppSideId = (
@@ -41,7 +40,7 @@ type
 
   TAppPanelHost = class
   public
-    ParentPanel: TATPanelSimple;
+    ParentPanel: TCustomControl;
     Toolbar: TATFlatToolbar;
     Panels: TFPList;
     Splitter: TSplitter;
