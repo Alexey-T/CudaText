@@ -266,7 +266,6 @@ type
     ShowStatusbar: boolean;
     ShowToolbar: boolean;
     ShowActiveBorder: boolean;
-    ShowSidebarCaptions: boolean;
     ShowTitlePath: boolean;
     Scale: integer;
     ScaleFont: integer;
@@ -1425,7 +1424,6 @@ begin
     ShowStatusbar:= true;
     ShowToolbar:= false;
     ShowActiveBorder:= true;
-    ShowSidebarCaptions:= false;
     ShowTitlePath:= false;
 
     Scale:= 100;
@@ -2267,7 +2265,7 @@ begin
 
   if not bExist then
   begin
-    Toolbar.AddButton(AImageIndex, AOnClick, ACaption, ACaption, '', UiOps.ShowSidebarCaptions);
+    Toolbar.AddButton(AImageIndex, AOnClick, ACaption, ACaption, '', false);
     Toolbar.UpdateControls;
   end;
 
@@ -2291,7 +2289,7 @@ begin
   //save module/method to Btn.DataString
   Toolbar.AddButton(AImageIndex, AOnClick, ACaption, ACaption,
     AModule+'.'+AMethod,
-    UiOps.ShowSidebarCaptions);
+    false);
   Toolbar.UpdateControls;
 
   Result:= true;
