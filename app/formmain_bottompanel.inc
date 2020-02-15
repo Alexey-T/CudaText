@@ -76,7 +76,7 @@ begin
 
   ShowBottom:= true;
   if FloatBottom then
-    FFormFloatBottom.Caption:= DoBottom_TranslatedCaption(ACaption) + ' - ' + msgTitle;
+    FFormFloatBottom.Caption:= DoSidebar_TranslatedCaption(ACaption) + ' - ' + msgTitle;
 
   //hide panels from proc_bottompanel_add
   for i:= 0 to AppPanels[cSideBottom].Panels.Count-1 do
@@ -199,20 +199,6 @@ begin
   begin
     Btn:= ToolbarSideLow.Buttons[i];
     Btn.Checked:= SameText(Btn.Caption, FLastBottomPanel) and ShowBottom;
-  end;
-end;
-
-function TfmMain.DoBottom_TranslatedCaption(const ACaption: string): string;
-begin
-  case ACaption of
-    msgPanelConsole_Init:
-      Result:= msgPanelConsole;
-    msgPanelOutput_Init:
-      Result:= msgPanelOutput;
-    msgPanelValidate_Init:
-      Result:= msgPanelValidate;
-    else
-      Result:= ACaption;
   end;
 end;
 

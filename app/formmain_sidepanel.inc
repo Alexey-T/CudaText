@@ -91,6 +91,12 @@ begin
       Result:= msgPanelTabs;
     msgPanelSnippet_Init:
       Result:= msgPanelSnippet;
+    msgPanelConsole_Init:
+      Result:= msgPanelConsole;
+    msgPanelOutput_Init:
+      Result:= msgPanelOutput;
+    msgPanelValidate_Init:
+      Result:= msgPanelValidate;
     else
       Result:= ACaption;
   end;

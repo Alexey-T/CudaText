@@ -758,7 +758,6 @@ type
     function DoBottom_AddTab(const ACaption: string; AImageIndex: integer; AHandle: PtrInt): boolean;
     function DoBottom_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
     function DoBottom_RemoveTab(const ACaption: string): boolean;
-    function DoBottom_TranslatedCaption(const ACaption: string): string;
     procedure DoAutoComplete(Ed: TATSynEdit);
     procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string);
     procedure DoDialogCharMap;
