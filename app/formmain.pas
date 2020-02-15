@@ -748,13 +748,12 @@ type
     function DoSidebar_RemoveTab(const ACaption: string): boolean;
     function DoSidebar_CaptionToPanelsIndex(ASide: TAppSideId; const ACaption: string): integer;
     function DoSidebar_CaptionToTabIndex(ASide: TAppSideId; const ACaption: string): integer;
-    function DoSidebar_CaptionToControlHandle(const ACaption: string): PtrInt;
+    function DoSidebar_CaptionToControlHandle(ASide: TAppSideId; const ACaption: string): PtrInt;
     procedure DoSidebar_FocusCodetreeFilter;
     procedure DoSidebar_FocusCodetree;
     procedure DoBottom_OnTabClick(Sender: TObject);
     procedure DoBottom_AddonsClick(Sender: TObject);
     procedure DoBottom_FindClick(Sender: TObject);
-    function DoBottom_CaptionToControlHandle(const ACaption: string): PtrInt;
     function DoBottom_AddTab(const ACaption: string; AImageIndex: integer; AHandle: PtrInt): boolean;
     function DoBottom_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
     function DoBottom_RemoveTab(const ACaption: string): boolean;

@@ -147,15 +147,15 @@ begin
         exit(i);
 end;
 
-function TfmMain.DoSidebar_CaptionToControlHandle(const ACaption: string): PtrInt;
+function TfmMain.DoSidebar_CaptionToControlHandle(ASide: TAppSideId; const ACaption: string): PtrInt;
 var
   Num: integer;
 begin
   Result:= 0;
-  Num:= DoSidebar_CaptionToPanelsIndex(cSideLeft, ACaption);
+  Num:= DoSidebar_CaptionToPanelsIndex(ASide, ACaption);
   if Num<0 then exit;
 
-  with TAppSidePanel(AppPanels[cSideLeft].Panels[Num]) do
+  with TAppSidePanel(AppPanels[ASide].Panels[Num]) do
     if Assigned(ItemControl) then
       Result:= PtrInt(ItemControl);
 end;

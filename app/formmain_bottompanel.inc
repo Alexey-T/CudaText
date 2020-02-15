@@ -130,19 +130,6 @@ begin
   end;
 end;
 
-function TfmMain.DoBottom_CaptionToControlHandle(const ACaption: string): PtrInt;
-var
-  Num: integer;
-begin
-  Result:= 0;
-  Num:= DoSidebar_CaptionToPanelsIndex(cSideBottom, ACaption);
-  if Num<0 then exit;
-
-  with TAppSidePanel(AppPanels[cSideBottom].Panels[Num]) do
-    if Assigned(ItemControl) then
-      Result:= PtrInt(ItemControl);
-end;
-
 function TfmMain.DoBottom_AddTab(const ACaption: string; AImageIndex: integer;
   AHandle: PtrInt): boolean;
 var
