@@ -54,9 +54,9 @@ type
     function CaptionToPanelIndex(const ACaption: string): integer;
     function CaptionToTabIndex(const ACaption: string): integer;
     function CaptionToControlHandle(const ACaption: string): PtrInt;
-    function AddTab(const ACaption: string; AImageIndex: integer; AHandle: PtrInt; AOnClick: TNotifyEvent): boolean;
-    function AddTabEmpty(const ACaption: string; AImageIndex: integer; const AModule, AMethod: string; AOnClick: TNotifyEvent): boolean;
-    function RemoveTab(const ACaption: string): boolean;
+    function Add(const ACaption: string; AImageIndex: integer; AHandle: PtrInt; AOnClick: TNotifyEvent): boolean;
+    function AddEmpty(const ACaption: string; AImageIndex: integer; const AModule, AMethod: string; AOnClick: TNotifyEvent): boolean;
+    function Delete(const ACaption: string): boolean;
     procedure UpdateButtons;
   end;
 
@@ -141,7 +141,7 @@ begin
       Result:= PtrInt(ItemControl);
 end;
 
-function TAppPanelHost.AddTab(const ACaption: string; AImageIndex: integer;
+function TAppPanelHost.Add(const ACaption: string; AImageIndex: integer;
   AHandle: PtrInt; AOnClick: TNotifyEvent): boolean;
 var
   Panel: TAppSidePanel;
@@ -171,7 +171,7 @@ begin
   Result:= true;
 end;
 
-function TAppPanelHost.AddTabEmpty(const ACaption: string;
+function TAppPanelHost.AddEmpty(const ACaption: string;
   AImageIndex: integer; const AModule, AMethod: string; AOnClick: TNotifyEvent): boolean;
 var
   Panel: TAppSidePanel;
@@ -194,7 +194,7 @@ begin
   Result:= true;
 end;
 
-function TAppPanelHost.RemoveTab(const ACaption: string): boolean;
+function TAppPanelHost.Delete(const ACaption: string): boolean;
 var
   Num, i: integer;
 begin

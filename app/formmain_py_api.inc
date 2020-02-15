@@ -4210,7 +4210,7 @@ begin
             Sep.GetItemStr(StrIndex); //handle
             Sep.GetItemStr(StrFilename); //icon filename
 
-            ok:= AppPanels[cSideLeft].AddTab(
+            ok:= AppPanels[cSideLeft].Add(
               StrCaption,
               fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
               StrToInt64Def(StrIndex, 0),
@@ -4223,7 +4223,7 @@ begin
         APP_PROC_SIDEPANEL_REMOVE:
           begin
             StrCaption:= Str;
-            ok:= AppPanels[cSideLeft].RemoveTab(StrCaption);
+            ok:= AppPanels[cSideLeft].Delete(StrCaption);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
@@ -4274,7 +4274,7 @@ begin
             Sep.GetItemStr(StrIndex); //handle
             Sep.GetItemStr(StrFilename); //icon filename
 
-            ok:= AppPanels[cSideBottom].AddTab(
+            ok:= AppPanels[cSideBottom].Add(
               StrCaption,
               fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
               StrToInt64Def(StrIndex, 0),
@@ -4287,7 +4287,7 @@ begin
         APP_PROC_BOTTOMPANEL_REMOVE:
           begin
             StrCaption:= Str;
-            ok:= AppPanels[cSideBottom].RemoveTab(StrCaption);
+            ok:= AppPanels[cSideBottom].Delete(StrCaption);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 

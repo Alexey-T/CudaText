@@ -86,7 +86,7 @@ begin
       s_method:= ini.ReadString(s_section, 'method', '');
       if s_method='' then Continue;
 
-      AppPanels[cSideLeft].AddTabEmpty(
+      AppPanels[cSideLeft].AddEmpty(
         s_caption,
         DoSidebar_FilenameToImageIndex(s_caption, s_icon),
         s_module,

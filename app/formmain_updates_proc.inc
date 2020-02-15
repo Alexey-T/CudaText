@@ -1362,14 +1362,14 @@ begin
   ToolbarSideTop.AddButton(cSidebarIconMenu, @DoSidebar_MainMenuClick, msgPanelMenu_Init, msgPanelMenu_Init, '', false);
 
   //ToolbarSideTop.AddButton(cSidebarIconTree, @DoSidebar_OnTabClick, msgPanelTree_Init, msgPanelTree_Init, '', false);
-  AppPanels[cSideLeft].AddTab(msgPanelTree_Init, cSidebarIconTree, PtrInt(Pointer(PanelCodeTreeAll)), @DoSidebar_OnTabClick);
+  AppPanels[cSideLeft].Add(msgPanelTree_Init, cSidebarIconTree, PtrInt(Pointer(PanelCodeTreeAll)), @DoSidebar_OnTabClick);
 
   //ToolbarSideLow.AddButton(cSidebarIconConsole, @DoBottom_OnTabClick, msgPanelConsole_Init, msgPanelConsole_Init, '', false);
   //ToolbarSideLow.AddButton(cSidebarIconOutput, @DoBottom_OnTabClick, msgPanelOutput_Init, msgPanelOutput_Init, '', false);
   //ToolbarSideLow.AddButton(cSidebarIconValidate, @DoBottom_OnTabClick, msgPanelValidate_Init, msgPanelValidate_Init, '', false);
-  AppPanels[cSideBottom].AddTab(msgPanelConsole_Init, cSidebarIconConsole, PtrInt(Pointer(fmConsole)), @DoBottom_OnTabClick);
-  AppPanels[cSideBottom].AddTab(msgPanelOutput_Init, cSidebarIconOutput, PtrInt(Pointer(ListboxOut)), @DoBottom_OnTabClick);
-  AppPanels[cSideBottom].AddTab(msgPanelValidate_Init, cSidebarIconValidate, PtrInt(Pointer(ListboxVal)), @DoBottom_OnTabClick);
+  AppPanels[cSideBottom].Add(msgPanelConsole_Init, cSidebarIconConsole, PtrInt(Pointer(fmConsole)), @DoBottom_OnTabClick);
+  AppPanels[cSideBottom].Add(msgPanelOutput_Init, cSidebarIconOutput, PtrInt(Pointer(ListboxOut)), @DoBottom_OnTabClick);
+  AppPanels[cSideBottom].Add(msgPanelValidate_Init, cSidebarIconValidate, PtrInt(Pointer(ListboxVal)), @DoBottom_OnTabClick);
 
   ToolbarSideMid.AddButton(cSidebarIconFind, @DoBottom_FindClick, msgPanelSearch_Init, msgPanelSearch_Init, '', false);
   ToolbarSideMid.AddSep;
