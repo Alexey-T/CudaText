@@ -83,13 +83,15 @@ end;
 procedure TfmMain.UpdateSidebarPanels(const ACaption: string; AndFocus: boolean);
 var
   bFound: boolean;
+  SCaption: string;
   i: integer;
 begin
   AppPanels[cSideLeft].LastActivePanel:= ACaption;
   ShowSidePanel:= true;
-  LabelSideTitle.Caption:= msgTranslatedPanelCaption(ACaption);
-  if FloatSide then
-    AppPanels[cSideLeft].FormFloat.Caption:= LabelSideTitle.Caption + ' - ' + msgTitle;
+  SCaption:= msgTranslatedPanelCaption(ACaption);
+  LabelSideTitle.Caption:= SCaption;
+  if AppPanels[cSideLeft].IsFloating then
+    AppPanels[cSideLeft].FormFloat.Caption:= SCaption + ' - ' + msgTitle;
 
   for i:= 0 to AppPanels[cSideLeft].Panels.Count-1 do
     with TAppPanelItem(AppPanels[cSideLeft].Panels[i]) do
