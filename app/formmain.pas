@@ -697,7 +697,6 @@ type
     procedure DoOps_OnCreate;
     procedure DoShowBottomPanel(const ATabCaption: string; AndFocus: boolean);
     function DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
-    procedure DoSidebar_InitPanelForm(AItem: TAppSidePanel; const ACaption: string; AForm: TCustomForm; AParent: TWinControl);
     procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas; AIndex: integer; const ARect: TRect);
     procedure DoSidebar_MainMenuClick(Sender: TObject);
     function DoSidebar_TranslatedCaption(const ACaption: string): string;

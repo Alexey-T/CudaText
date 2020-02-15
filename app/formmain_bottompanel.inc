@@ -140,7 +140,7 @@ begin
   Panel:= TAppSidePanel.Create;
   AppPanels[cSideBottom].Panels.Add(Panel);
 
-  DoSidebar_InitPanelForm(Panel, ACaption, TCustomForm(AHandle), PanelBottom);
+  Panel.InitForm(ACaption, TCustomForm(AHandle), PanelBottom);
 
   ToolbarSideLow.AddButton(AImageIndex, @DoBottom_OnTabClick, ACaption, ACaption, '', UiOps.ShowSidebarCaptions);
   ToolbarSideLow.UpdateControls;

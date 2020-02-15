@@ -136,19 +136,6 @@ begin
   PanelCodeTreeTop.Visible:= CodeTree.Visible and (UiOps.TreeFilterLayout>0);
 end;
 
-procedure TfmMain.DoSidebar_InitPanelForm(AItem: TAppSidePanel;
-  const ACaption: string; AForm: TCustomForm; AParent: TWinControl);
-begin
-  AItem.ItemCaption:= ACaption;
-  AItem.ItemControl:= AForm;
-  AItem.ItemModule:= '';
-  AItem.ItemMethod:= '';
-
-  AForm.BorderStyle:= bsNone;
-  AForm.Parent:= AParent;
-  AForm.Align:= alClient;
-end;
-
 
 function TfmMain.DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
 begin
@@ -180,7 +167,7 @@ begin
   end;
 
   if AHandle<>0 then
-    DoSidebar_InitPanelForm(Panel, ACaption, TCustomForm(AHandle), PanelLeft);
+    Panel.InitForm(ACaption, TCustomForm(AHandle), PanelLeft);
 
   if not bExist then
   begin

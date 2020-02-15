@@ -772,11 +772,14 @@ type
     cSideBottom
     );
 
+  { TAppSidePanel }
+
   TAppSidePanel = class
     ItemCaption: string;
     ItemControl: TCustomControl;
     ItemModule: string;
     ItemMethod: string;
+    procedure InitForm(const ACaption: string; AForm: TCustomForm; AParent: TWinControl);
   end;
 
 type
@@ -2171,6 +2174,20 @@ begin
 
   F.Right:= F.Left+w;
   F.Bottom:= F.Top+h;
+end;
+
+{ TAppSidePanel }
+
+procedure TAppSidePanel.InitForm(const ACaption: string; AForm: TCustomForm; AParent: TWinControl);
+begin
+  ItemCaption:= ACaption;
+  ItemControl:= AForm;
+  ItemModule:= '';
+  ItemMethod:= '';
+
+  AForm.BorderStyle:= bsNone;
+  AForm.Parent:= AParent;
+  AForm.Align:= alClient;
 end;
 
 { TAppPanelHost }
