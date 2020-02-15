@@ -18,7 +18,7 @@ uses
   Windows,
   {$endif}
   Classes, SysUtils, Forms, Controls, Menus,
-  Dialogs, Graphics,
+  Dialogs, Graphics, ExtCtrls,
   syncobjs,
   gqueue,
   Math,
@@ -779,6 +779,7 @@ type
     ItemControl: TCustomControl;
     ItemModule: string;
     ItemMethod: string;
+    ItemOnShow: TNotifyEvent;
     procedure InitForm(const ACaption: string; AForm: TCustomForm; AParent: TWinControl);
   end;
 
@@ -802,7 +803,9 @@ type
     ParentPanel: TATPanelSimple;
     Toolbar: TATFlatToolbar;
     Panels: TFPList;
+    Splitter: TSplitter;
     LastActivePanel: string;
+    DefaultPanel: string;
     FormFloat: TForm;
     function IsVisible: boolean;
     function IsFloating: boolean;

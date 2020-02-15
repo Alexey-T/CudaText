@@ -1861,7 +1861,9 @@ begin
     ParentPanel:= PanelLeft;
     Toolbar:= ToolbarSideTop;
     Panels:= TFPList.Create;
+    Splitter:= SplitterVert;
     LastActivePanel:= '';
+    DefaultPanel:= msgPanelTree_Init;
     FormFloat:= nil;
   end;
 
@@ -1870,7 +1872,9 @@ begin
     ParentPanel:= PanelBottom;
     Toolbar:= ToolbarSideLow;
     Panels:= TFPList.Create;
+    Splitter:= SplitterHorz;
     LastActivePanel:= '';
+    DefaultPanel:= '';
     FormFloat:= nil;
   end;
 
