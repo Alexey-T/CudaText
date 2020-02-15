@@ -791,10 +791,13 @@ var
   AppCommandList: TFPList;
   AppEventList: TFPList;
   AppTreeHelpers: TFPList;
+
   AppPanels: array[TAppSideId] of record
     ParentPanel: TATPanelSimple;
     Toolbar: TATFlatToolbar;
     Panels: TFPList;
+    LastActivePanel: string;
+    FormFloat: TForm;
   end;
 
 type

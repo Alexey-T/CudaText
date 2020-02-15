@@ -541,8 +541,6 @@ type
     PopupToolbarSort: TPopupMenu;
     PopupSidebarClone: TPopupMenu;
     PaintTest: TPaintBox;
-    FFormFloatSide: TForm;
-    FFormFloatBottom: TForm;
     FFormFloatGroups1: TForm;
     FFormFloatGroups2: TForm;
     FFormFloatGroups3: TForm;
@@ -646,8 +644,6 @@ type
     FLastDirOfOpenDlg: string;
     FLastLexerForPluginsMenu: string;
     FLastLexerOfKeymap: string;
-    FLastSidebarPanel: string;
-    FLastBottomPanel: string;
     FLastStatusbarMessage: string;
     FLastSelectedCommand: integer;
     FLastMousePos: TPoint;
@@ -704,6 +700,7 @@ type
     procedure DoSidebar_InitPanelForm(AItem: TAppSidePanel; const ACaption: string; AForm: TCustomForm; AParent: TWinControl);
     procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas; AIndex: integer; const ARect: TRect);
     procedure DoSidebar_MainMenuClick(Sender: TObject);
+    procedure DoSidebar_UpdateButtons(ASide: TAppSideId);
     function DoSidebar_TranslatedCaption(const ACaption: string): string;
     function FindFrameOfFilename(const AName: string): TEditorFrame;
     procedure FixMainLayout;
@@ -1032,7 +1029,6 @@ type
     procedure SetFrame(Frame: TEditorFrame);
     procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
     procedure MsgStatus(AText: string);
-    procedure UpdateSidebarButtons;
     procedure UpdateSidebarPanels(const ACaption: string; AndFocus: boolean);
     procedure UpdateStatusbarPanelsFromString(const AText: string);
     procedure UpdateStatusbarHints;
@@ -1090,7 +1086,6 @@ type
     property ShowTabsMain: boolean read GetShowTabsMain write SetShowTabsMain;
     property ThemeUi: string write SetThemeUi;
     property ThemeSyntax: string write SetThemeSyntax;
-    property SidebarPanel: string read FLastSidebarPanel write SetSidebarPanel;
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
     procedure DoPyCommand(const AModule, AMethod: string; const AParams: TAppVariantArray);
     function DoPyTreeHelper(Frame: TEditorFrame): boolean;
@@ -1878,12 +1873,17 @@ begin
     ParentPanel:= PanelLeft;
     Toolbar:= ToolbarSideTop;
     Panels:= TFPList.Create;
+    LastActivePanel:= '';
+    FormFloat:= nil;
   end;
+
   with AppPanels[cSideBottom] do
   begin
     ParentPanel:= PanelBottom;
     Toolbar:= ToolbarSideLow;
     Panels:= TFPList.Create;
+    LastActivePanel:= '';
+    FormFloat:= nil;
   end;
 
   LexerProgress:= TATGauge.Create(Self);
@@ -2080,8 +2080,6 @@ begin
 
   FLastDirOfOpenDlg:= '';
   FLastLexerForPluginsMenu:= '-';
-  FLastSidebarPanel:= '';
-  FLastBottomPanel:= '';
 
   UpdateMenuItemHint(mnuFile, 'top-file');
   UpdateMenuItemHint(mnuEdit, 'top-edit');
@@ -2473,14 +2471,14 @@ begin
   UpdateMenuPlugins_Shortcuts(true);
   UpdateMenuHotkeys;
 
-  UpdateSidebarButtons;
+  DoSidebar_UpdateButtons(cSideLeft);
   UpdateBottomButtons;
   UpdateStatus;
   DoLoadCommandLine;
   DoApplyInitialWindowPos;
 
   if ShowBottom then
-    if FLastBottomPanel='' then
+    if AppPanels[cSideBottom].LastActivePanel='' then
       DoShowConsole(false);
 
   //postpone parsing until frames are shown
@@ -2616,17 +2614,17 @@ end;
 function TfmMain.GetShowSidePanel: boolean;
 begin
   if FloatSide then
-    Result:= FFormFloatSide.Visible
+    Result:= AppPanels[cSideLeft].FormFloat.Visible
   else
-    Result:= PanelLeft.Visible;
+    Result:= AppPanels[cSideLeft].ParentPanel.Visible;
 end;
 
 function TfmMain.GetShowBottom: boolean;
 begin
   if FloatBottom then
-    Result:= FFormFloatBottom.Visible
+    Result:= AppPanels[cSideBottom].FormFloat.Visible
   else
-    Result:= PanelBottom.Visible;
+    Result:= AppPanels[cSideBottom].ParentPanel.Visible;
 end;
 
 function TfmMain.GetShowSideBar: boolean;
@@ -3777,7 +3775,7 @@ begin
     PanelBottom.Visible:= AValue;
     if FloatBottom then
     begin
-      FFormFloatBottom.Visible:= AValue;
+      AppPanels[cSideBottom].FormFloat.Visible:= AValue;
     end
     else
     begin
@@ -3805,7 +3803,7 @@ begin
     PanelLeft.Visible:= AValue;
     if FloatSide then
     begin
-      FFormFloatSide.Visible:= AValue;
+      AppPanels[cSideLeft].FormFloat.Visible:= AValue;
     end
     else
     begin
@@ -3815,12 +3813,12 @@ begin
 
     if AValue then
     begin
-      if SidebarPanel='' then
+      if AppPanels[cSideLeft].LastActivePanel='' then
         DoShowSidePanel(msgPanelTree_Init, false);
       UpdateTreeContents;
     end;
   end;
-  UpdateSidebarButtons;
+  DoSidebar_UpdateButtons(cSideLeft);
 end;
 
 
@@ -4614,7 +4612,7 @@ begin
       DoSidebar_ActivateTab(ATabCaption, AndFocus);
   end;
 
-  UpdateSidebarButtons;
+  DoSidebar_UpdateButtons(cSideLeft);
 end;
 
 
@@ -6244,31 +6242,31 @@ end;
 
 function TfmMain.GetFloatSide: boolean;
 begin
-  Result:= Assigned(FFormFloatSide) and
-    (PanelLeft.Parent=FFormFloatSide);
+  with AppPanels[cSideLeft] do
+    Result:= Assigned(FormFloat) and (ParentPanel.Parent=FormFloat);
 end;
 
 procedure TfmMain.SetFloatSide(AValue: boolean);
 begin
   if GetFloatSide=AValue then exit;
 
-  if not Assigned(FFormFloatSide) then
+  if not Assigned(AppPanels[cSideLeft].FormFloat) then
   begin
-    FFormFloatSide:= TForm.CreateNew(Self);
-    FFormFloatSide.Position:= poDesigned;
-    FFormFloatSide.BoundsRect:= FBoundsFloatSide;
-    FFormFloatSide.BorderIcons:= [biSystemMenu, biMaximize];
-    FFormFloatSide.ShowInTaskBar:= stNever;
-    FFormFloatSide.OnClose:= @FormFloatSideOnClose;
+    AppPanels[cSideLeft].FormFloat:= TForm.CreateNew(Self);
+    AppPanels[cSideLeft].FormFloat.Position:= poDesigned;
+    AppPanels[cSideLeft].FormFloat.BoundsRect:= FBoundsFloatSide;
+    AppPanels[cSideLeft].FormFloat.BorderIcons:= [biSystemMenu, biMaximize];
+    AppPanels[cSideLeft].FormFloat.ShowInTaskBar:= stNever;
+    AppPanels[cSideLeft].FormFloat.OnClose:= @FormFloatSideOnClose;
   end;
 
   PanelLeftTitle.Visible:= not AValue;
-  FFormFloatSide.Visible:= AValue;
-  FFormFloatSide.Caption:= FLastSidebarPanel + ' - ' + msgTitle;
+  AppPanels[cSideLeft].FormFloat.Visible:= AValue;
+  AppPanels[cSideLeft].FormFloat.Caption:= AppPanels[cSideLeft].LastActivePanel + ' - ' + msgTitle;
 
   if AValue then
   begin
-    PanelLeft.Parent:= FFormFloatSide;
+    PanelLeft.Parent:= AppPanels[cSideLeft].FormFloat;
     PanelLeft.Align:= alClient;
     PanelLeft.Show;
     SplitterVert.Hide;
@@ -6312,15 +6310,15 @@ end;
 
 function TfmMain.GetFloatBottom: boolean;
 begin
-  Result:= Assigned(FFormFloatBottom) and
-    (PanelBottom.Parent=FFormFloatBottom);
+  with AppPanels[cSideBottom] do
+    Result:= Assigned(FormFloat) and (ParentPanel.Parent=FormFloat);
 end;
 
 procedure TfmMain.UpdateBottomLayout(ASetFloating: boolean);
 begin
   if ASetFloating then
   begin
-    PanelBottom.Parent:= FFormFloatBottom;
+    PanelBottom.Parent:= AppPanels[cSideBottom].FormFloat;
     PanelBottom.Align:= alClient;
     PanelBottom.Show;
     SplitterHorz.Hide;
@@ -6343,18 +6341,18 @@ procedure TfmMain.SetFloatBottom(AValue: boolean);
 begin
   if GetFloatBottom=AValue then exit;
 
-  if not Assigned(FFormFloatBottom) then
+  if not Assigned(AppPanels[cSideBottom].FormFloat) then
   begin
-    FFormFloatBottom:= TForm.CreateNew(Self);
-    FFormFloatBottom.Position:= poDesigned;
-    FFormFloatBottom.BoundsRect:= FBoundsFloatBottom;
-    FFormFloatBottom.BorderIcons:= [biSystemMenu, biMaximize];
-    FFormFloatBottom.ShowInTaskBar:= stNever;
-    FFormFloatBottom.OnClose:= @FormFloatBottomOnClose;
+    AppPanels[cSideBottom].FormFloat:= TForm.CreateNew(Self);
+    AppPanels[cSideBottom].FormFloat.Position:= poDesigned;
+    AppPanels[cSideBottom].FormFloat.BoundsRect:= FBoundsFloatBottom;
+    AppPanels[cSideBottom].FormFloat.BorderIcons:= [biSystemMenu, biMaximize];
+    AppPanels[cSideBottom].FormFloat.ShowInTaskBar:= stNever;
+    AppPanels[cSideBottom].FormFloat.OnClose:= @FormFloatBottomOnClose;
   end;
 
-  FFormFloatBottom.Visible:= AValue;
-  FFormFloatBottom.Caption:= FLastBottomPanel + ' - ' + msgTitle;
+  AppPanels[cSideBottom].FormFloat.Visible:= AValue;
+  AppPanels[cSideBottom].FormFloat.Caption:= AppPanels[cSideBottom].LastActivePanel + ' - ' + msgTitle;
 
   UpdateBottomLayout(AValue);
 end;

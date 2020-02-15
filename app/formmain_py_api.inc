@@ -4252,7 +4252,7 @@ begin
 
         APP_PROC_SIDEPANEL_GET:
           begin
-            Str:= fmMain.FLastSidebarPanel;
+            Str:= AppPanels[cSideLeft].LastActivePanel;
             Result:= PyString_FromString(PChar(Str));
           end;
 
@@ -4306,7 +4306,7 @@ begin
 
         APP_PROC_BOTTOMPANEL_GET:
           begin
-            Str:= fmMain.FLastBottomPanel;
+            Str:= AppPanels[cSideBottom].LastActivePanel;
             Result:= PyString_FromString(PChar(Str));
           end;
 

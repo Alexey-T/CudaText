@@ -72,18 +72,18 @@ begin
 
       if FloatSide then
       begin
-        c.SetValue('/dialog/fl_side/posx',  FFormFloatSide.Left);
-        c.SetValue('/dialog/fl_side/posy',  FFormFloatSide.Top);
-        c.SetValue('/dialog/fl_side/sizex', FFormFloatSide.Width);
-        c.SetValue('/dialog/fl_side/sizey', FFormFloatSide.Height);
+        c.SetValue('/dialog/fl_side/posx',  AppPanels[cSideLeft].FormFloat.Left);
+        c.SetValue('/dialog/fl_side/posy',  AppPanels[cSideLeft].FormFloat.Top);
+        c.SetValue('/dialog/fl_side/sizex', AppPanels[cSideLeft].FormFloat.Width);
+        c.SetValue('/dialog/fl_side/sizey', AppPanels[cSideLeft].FormFloat.Height);
       end;
 
       if FloatBottom then
       begin
-        c.SetValue('/dialog/fl_btm/posx',  FFormFloatBottom.Left);
-        c.SetValue('/dialog/fl_btm/posy',  FFormFloatBottom.Top);
-        c.SetValue('/dialog/fl_btm/sizex', FFormFloatBottom.Width);
-        c.SetValue('/dialog/fl_btm/sizey', FFormFloatBottom.Height);
+        c.SetValue('/dialog/fl_btm/posx',  AppPanels[cSideBottom].FormFloat.Left);
+        c.SetValue('/dialog/fl_btm/posy',  AppPanels[cSideBottom].FormFloat.Top);
+        c.SetValue('/dialog/fl_btm/sizex', AppPanels[cSideBottom].FormFloat.Width);
+        c.SetValue('/dialog/fl_btm/sizey', AppPanels[cSideBottom].FormFloat.Height);
       end;
 
       if FloatGroups then
@@ -114,7 +114,7 @@ begin
         c.SetValue('size_side', PanelLeft.Width);
       if not FloatBottom then
         c.SetValue('size_bottom', PanelBottom.Height);
-      c.SetValue('tab_left', SidebarPanel);
+      c.SetValue('tab_left', AppPanels[cSideLeft].LastActivePanel);
     end;
 
     ////recents
@@ -194,12 +194,12 @@ begin
     c.SetValue('/tab_index/g_active', Groups.PagesIndexOf(Groups.PagesCurrent));
 
     c.SetValue('/panels/side_show', ShowSidePanel);
-    c.SetValue('/panels/side_panel', FLastSidebarPanel);
+    c.SetValue('/panels/side_panel', AppPanels[cSideLeft].LastActivePanel);
     if not FloatSide then
       c.SetValue('/panels/side_size', PanelLeft.Width);
 
     c.SetValue('/panels/bottom_show', ShowBottom);
-    c.SetValue('/panels/bottom_panel', FLastBottomPanel);
+    c.SetValue('/panels/bottom_panel', AppPanels[cSideBottom].LastActivePanel);
     if not FloatBottom then
       c.SetValue('/panels/bottom_size', PanelBottom.Height);
 

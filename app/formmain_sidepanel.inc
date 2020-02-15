@@ -107,11 +107,11 @@ var
   bFound: boolean;
   i: integer;
 begin
-  FLastSidebarPanel:= ACaption;
+  AppPanels[cSideLeft].LastActivePanel:= ACaption;
   ShowSidePanel:= true;
   LabelSideTitle.Caption:= DoSidebar_TranslatedCaption(ACaption);
   if FloatSide then
-    FFormFloatSide.Caption:= LabelSideTitle.Caption + ' - ' + msgTitle;
+    AppPanels[cSideLeft].FormFloat.Caption:= LabelSideTitle.Caption + ' - ' + msgTitle;
 
   for i:= 0 to AppPanels[cSideLeft].Panels.Count-1 do
     with TAppSidePanel(AppPanels[cSideLeft].Panels[i]) do
@@ -281,15 +281,17 @@ begin
     UpdateSidebarPanels(ACaption, AndFocus);
 end;
 
-procedure TfmMain.UpdateSidebarButtons;
+procedure TfmMain.DoSidebar_UpdateButtons(ASide: TAppSideId);
 var
+  Bar: TATFlatToolbar;
   Btn: TATButton;
   i: integer;
 begin
-  for i:= 0 to ToolbarSideTop.ButtonCount-1 do
+  Bar:= AppPanels[ASide].Toolbar;
+  for i:= 0 to Bar.ButtonCount-1 do
   begin
-    Btn:= ToolbarSideTop.Buttons[i];
-    Btn.Checked:= SameText(Btn.Caption, FLastSidebarPanel) and ShowSidePanel;
+    Btn:= Bar.Buttons[i];
+    Btn.Checked:= SameText(Btn.Caption, AppPanels[ASide].LastActivePanel) and ShowSidePanel;
   end;
 end;
 
@@ -303,10 +305,10 @@ begin
   begin
     if FloatSide then
     begin
-      if FFormFloatSide.Visible then
+      if AppPanels[cSideLeft].FormFloat.Visible then
       begin
-        FFormFloatSide.SetFocus;
-        FFormFloatSide.ActiveControl:= CodeTreeFilterInput;
+        AppPanels[cSideLeft].FormFloat.SetFocus;
+        AppPanels[cSideLeft].FormFloat.ActiveControl:= CodeTreeFilterInput;
       end;
     end
     else
@@ -322,10 +324,10 @@ begin
   begin
     if FloatSide then
     begin
-      if FFormFloatSide.Visible then
+      if AppPanels[cSideLeft].FormFloat.Visible then
       begin
-        FFormFloatSide.SetFocus;
-        FFormFloatSide.ActiveControl:= CodeTree.Tree;
+        AppPanels[cSideLeft].FormFloat.SetFocus;
+        AppPanels[cSideLeft].FormFloat.ActiveControl:= CodeTree.Tree;
       end;
     end
     else

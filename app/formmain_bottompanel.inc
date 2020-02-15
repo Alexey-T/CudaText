@@ -72,11 +72,11 @@ var
   Ctl: TWinControl;
   i: integer;
 begin
-  FLastBottomPanel:= ACaption;
+  AppPanels[cSideBottom].LastActivePanel:= ACaption;
 
   ShowBottom:= true;
   if FloatBottom then
-    FFormFloatBottom.Caption:= DoSidebar_TranslatedCaption(ACaption) + ' - ' + msgTitle;
+    AppPanels[cSideBottom].FormFloat.Caption:= DoSidebar_TranslatedCaption(ACaption) + ' - ' + msgTitle;
 
   //hide panels from proc_bottompanel_add
   for i:= 0 to AppPanels[cSideBottom].Panels.Count-1 do
@@ -163,7 +163,7 @@ begin
   for i:= 0 to ToolbarSideLow.ButtonCount-1 do
   begin
     Btn:= ToolbarSideLow.Buttons[i];
-    Btn.Checked:= SameText(Btn.Caption, FLastBottomPanel) and ShowBottom;
+    Btn.Checked:= SameText(Btn.Caption, AppPanels[cSideBottom].LastActivePanel) and ShowBottom;
   end;
 end;
 
