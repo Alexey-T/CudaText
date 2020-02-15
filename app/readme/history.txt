@@ -3,9 +3,9 @@
   - fixed
   * changed
 
-1.94.2 (2020/02)
+1.94.5 (2020/02)
 
-+ add: RegExpr engine updated to Alexey Torgashin's version, with lot of patches, see https://github.com/andgineer/TRegExpr/blob/master/History.txt
++ add: RegExpr engine updated, with lot of patches, see https://github.com/andgineer/TRegExpr/blob/master/History.txt
 + add: Python API speed optimized again (thanks @Artem3213212)
 - fix: command "find next" with regex and zero-length match
 
