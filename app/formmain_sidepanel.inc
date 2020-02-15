@@ -80,28 +80,6 @@ begin
 end;
 
 
-function TfmMain.DoSidebar_TranslatedCaption(const ACaption: string): string;
-begin
-  case ACaption of
-    msgPanelTree_Init:
-      Result:= msgPanelTree;
-    msgPanelProject_Init:
-      Result:= msgPanelProject;
-    msgPanelTabs_Init:
-      Result:= msgPanelTabs;
-    msgPanelSnippet_Init:
-      Result:= msgPanelSnippet;
-    msgPanelConsole_Init:
-      Result:= msgPanelConsole;
-    msgPanelOutput_Init:
-      Result:= msgPanelOutput;
-    msgPanelValidate_Init:
-      Result:= msgPanelValidate;
-    else
-      Result:= ACaption;
-  end;
-end;
-
 procedure TfmMain.UpdateSidebarPanels(const ACaption: string; AndFocus: boolean);
 var
   bFound: boolean;
@@ -109,7 +87,7 @@ var
 begin
   AppPanels[cSideLeft].LastActivePanel:= ACaption;
   ShowSidePanel:= true;
-  LabelSideTitle.Caption:= DoSidebar_TranslatedCaption(ACaption);
+  LabelSideTitle.Caption:= msgTranslatedPanelCaption(ACaption);
   if FloatSide then
     AppPanels[cSideLeft].FormFloat.Caption:= LabelSideTitle.Caption + ' - ' + msgTitle;
 

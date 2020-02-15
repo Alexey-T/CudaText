@@ -75,7 +75,7 @@ begin
 
   ShowBottom:= true;
   if FloatBottom then
-    AppPanels[cSideBottom].FormFloat.Caption:= DoSidebar_TranslatedCaption(ACaption) + ' - ' + msgTitle;
+    AppPanels[cSideBottom].FormFloat.Caption:= msgTranslatedPanelCaption(ACaption) + ' - ' + msgTitle;
 
   //hide panels from proc_bottompanel_add
   for i:= 0 to AppPanels[cSideBottom].Panels.Count-1 do

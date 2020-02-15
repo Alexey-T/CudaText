@@ -377,6 +377,7 @@ const
   msgConsoleNavigate: string = 'Navigate';
 
 function GetUntitledCaption: string;
+function msgTranslatedPanelCaption(const ACaption: string): string;
 
 
 implementation
@@ -388,6 +389,28 @@ function GetUntitledCaption: string;
 begin
   Inc(FUntitledCount);
   Result:= msgUntitledTab+IntToStr(FUntitledCount);
+end;
+
+function msgTranslatedPanelCaption(const ACaption: string): string;
+begin
+  case ACaption of
+    msgPanelTree_Init:
+      Result:= msgPanelTree;
+    msgPanelProject_Init:
+      Result:= msgPanelProject;
+    msgPanelTabs_Init:
+      Result:= msgPanelTabs;
+    msgPanelSnippet_Init:
+      Result:= msgPanelSnippet;
+    msgPanelConsole_Init:
+      Result:= msgPanelConsole;
+    msgPanelOutput_Init:
+      Result:= msgPanelOutput;
+    msgPanelValidate_Init:
+      Result:= msgPanelValidate;
+    else
+      Result:= ACaption;
+  end;
 end;
 
 end.

@@ -700,7 +700,6 @@ type
     function DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
     procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas; AIndex: integer; const ARect: TRect);
     procedure DoSidebar_MainMenuClick(Sender: TObject);
-    function DoSidebar_TranslatedCaption(const ACaption: string): string;
     function FindFrameOfFilename(const AName: string): TEditorFrame;
     procedure FixMainLayout;
     procedure FormFloatBottomOnClose(Sender: TObject; var CloseAction: TCloseAction);
