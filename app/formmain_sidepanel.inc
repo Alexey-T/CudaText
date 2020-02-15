@@ -148,36 +148,6 @@ begin
 end;
 
 
-function TfmMain.DoSidebar_AddTab(const ACaption: string; AImageIndex: integer;
-  AHandle: PtrInt): boolean;
-var
-  Panel: TAppSidePanel;
-  Num: integer;
-  bExist: boolean;
-begin
-  Num:= AppPanels[cSideLeft].CaptionToPanelIndex(ACaption);
-  bExist:= Num>=0;
-
-  if bExist then
-    Panel:= TAppSidePanel(AppPanels[cSideLeft].Panels[Num])
-  else
-  begin
-    Panel:= TAppSidePanel.Create;
-    AppPanels[cSideLeft].Panels.Add(Panel);
-  end;
-
-  if AHandle<>0 then
-    Panel.InitForm(ACaption, TCustomForm(AHandle), PanelLeft);
-
-  if not bExist then
-  begin
-    ToolbarSideTop.AddButton(AImageIndex, @DoSidebar_OnTabClick, ACaption, ACaption, '', UiOps.ShowSidebarCaptions);
-    ToolbarSideTop.UpdateControls;
-  end;
-
-  Result:= true;
-end;
-
 function TfmMain.DoSidebar_AddTab_Empty(const ACaption: string; AImageIndex: integer;
   const AModule, AMethod: string): boolean;
 var

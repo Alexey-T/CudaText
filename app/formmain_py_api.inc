@@ -4210,10 +4210,11 @@ begin
             Sep.GetItemStr(StrIndex); //handle
             Sep.GetItemStr(StrFilename); //icon filename
 
-            ok:= fmMain.DoSidebar_AddTab(
+            ok:= AppPanels[cSideLeft].AddTab(
               StrCaption,
               fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
-              StrToInt64Def(StrIndex, 0)
+              StrToInt64Def(StrIndex, 0),
+              @fmMain.DoSidebar_OnTabClick
               );
 
             Result:= PyBool_FromLong(Ord(ok));
@@ -4273,10 +4274,11 @@ begin
             Sep.GetItemStr(StrIndex); //handle
             Sep.GetItemStr(StrFilename); //icon filename
 
-            ok:= fmMain.DoBottom_AddTab(
+            ok:= AppPanels[cSideBottom].AddTab(
               StrCaption,
               fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
-              StrToInt64Def(StrIndex, 0)
+              StrToInt64Def(StrIndex, 0),
+              @fmMain.DoBottom_OnTabClick
               );
 
             Result:= PyBool_FromLong(Ord(ok));

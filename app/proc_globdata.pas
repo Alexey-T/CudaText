@@ -809,6 +809,7 @@ type
     function CaptionToPanelIndex(const ACaption: string): integer;
     function CaptionToTabIndex(const ACaption: string): integer;
     function CaptionToControlHandle(const ACaption: string): PtrInt;
+    function AddTab(const ACaption: string; AImageIndex: integer; AHandle: PtrInt; AOnClick: TNotifyEvent): boolean;
     function RemoveTab(const ACaption: string): boolean;
     procedure UpdateButtons;
   end;
@@ -2237,6 +2238,36 @@ begin
   with TAppSidePanel(Panels[Num]) do
     if Assigned(ItemControl) then
       Result:= PtrInt(ItemControl);
+end;
+
+function TAppPanelHost.AddTab(const ACaption: string; AImageIndex: integer;
+  AHandle: PtrInt; AOnClick: TNotifyEvent): boolean;
+var
+  Panel: TAppSidePanel;
+  Num: integer;
+  bExist: boolean;
+begin
+  Num:= CaptionToPanelIndex(ACaption);
+  bExist:= Num>=0;
+
+  if bExist then
+    Panel:= TAppSidePanel(Panels[Num])
+  else
+  begin
+    Panel:= TAppSidePanel.Create;
+    Panels.Add(Panel);
+  end;
+
+  if AHandle<>0 then
+    Panel.InitForm(ACaption, TCustomForm(AHandle), ParentPanel);
+
+  if not bExist then
+  begin
+    Toolbar.AddButton(AImageIndex, AOnClick, ACaption, ACaption, '', UiOps.ShowSidebarCaptions);
+    Toolbar.UpdateControls;
+  end;
+
+  Result:= true;
 end;
 
 function TAppPanelHost.RemoveTab(const ACaption: string): boolean;

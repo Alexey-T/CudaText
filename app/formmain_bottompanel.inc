@@ -130,23 +130,6 @@ begin
   end;
 end;
 
-function TfmMain.DoBottom_AddTab(const ACaption: string; AImageIndex: integer;
-  AHandle: PtrInt): boolean;
-var
-  Panel: TAppSidePanel;
-begin
-  if AppPanels[cSideBottom].CaptionToPanelIndex(ACaption)>=0 then exit(false);
-
-  Panel:= TAppSidePanel.Create;
-  AppPanels[cSideBottom].Panels.Add(Panel);
-
-  Panel.InitForm(ACaption, TCustomForm(AHandle), PanelBottom);
-
-  ToolbarSideLow.AddButton(AImageIndex, @DoBottom_OnTabClick, ACaption, ACaption, '', UiOps.ShowSidebarCaptions);
-  ToolbarSideLow.UpdateControls;
-  Result:= true;
-end;
-
 function TfmMain.DoBottom_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
 begin
   Result:= AppPanels[cSideBottom].CaptionToTabIndex(ACaption)>=0;
