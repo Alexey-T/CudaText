@@ -620,6 +620,7 @@ begin
   begin
     Ctl:= TATSynEdit.Create(AForm);
 
+    TATSynEdit(Ctl).DoubleBuffered:= UiOps.DoubleBuffered;
     TATSynEdit(Ctl).OnChange:= @AForm.DoOnEditorChange;
     TATSynEdit(Ctl).OnChangeCaretPos:= @AForm.DoOnEditorChangeCaretPos;
     TATSynEdit(Ctl).OnKeyDown:= @AForm.DoOnEditorKeyDown;
@@ -703,6 +704,7 @@ begin
   if S='button_ex' then
   begin
     Ctl:= TATButton.Create(AForm);
+    TATButton(Ctl).DoubleBuffered:= UiOps.DoubleBuffered;
     TATButton(Ctl).OnClick:= @AForm.DoOnChange;
     exit;
   end;
@@ -801,6 +803,7 @@ begin
   begin
     Ctl:= TATListbox.Create(AForm);
     TATListbox(Ctl).Theme:= @AppApiFlatTheme;
+    TATListbox(Ctl).DoubleBuffered:= UiOps.DoubleBuffered;
     TATListbox(Ctl).VirtualMode:= false;
     TATListbox(Ctl).CanGetFocus:= true;
     TATListbox(Ctl).OnClickXMark:= @AForm.DoOnClickX;
