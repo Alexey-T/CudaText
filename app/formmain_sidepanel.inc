@@ -222,22 +222,6 @@ begin
     UpdateSidebarPanels(ACaption, AndFocus);
 end;
 
-procedure TfmMain.DoSidebar_UpdateButtons(ASide: TAppSideId);
-var
-  Bar: TATFlatToolbar;
-  Btn: TATButton;
-  bVis: boolean;
-  i: integer;
-begin
-  Bar:= AppPanels[ASide].Toolbar;
-  bVis:= AppPanels[ASide].IsVisible;
-  for i:= 0 to Bar.ButtonCount-1 do
-  begin
-    Btn:= Bar.Buttons[i];
-    Btn.Checked:= bVis and SameText(Btn.Caption, AppPanels[ASide].LastActivePanel);
-  end;
-end;
-
 
 procedure TfmMain.DoSidebar_FocusCodetreeFilter;
 begin

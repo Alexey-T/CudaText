@@ -807,6 +807,7 @@ type
     function CaptionToTabIndex(const ACaption: string): integer;
     function CaptionToControlHandle(const ACaption: string): PtrInt;
     function RemoveTab(const ACaption: string): boolean;
+    procedure UpdateButtons;
   end;
 
 var
@@ -2240,6 +2241,20 @@ begin
           ItemCaption:= '?';
           Break;
         end;
+  end;
+end;
+
+procedure TAppPanelHost.UpdateButtons;
+var
+  Btn: TATButton;
+  bVis: boolean;
+  i: integer;
+begin
+  bVis:= IsVisible;
+  for i:= 0 to Toolbar.ButtonCount-1 do
+  begin
+    Btn:= Toolbar.Buttons[i];
+    Btn.Checked:= bVis and SameText(Btn.Caption, LastActivePanel);
   end;
 end;
 

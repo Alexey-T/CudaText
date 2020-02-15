@@ -700,7 +700,6 @@ type
     procedure DoSidebar_InitPanelForm(AItem: TAppSidePanel; const ACaption: string; AForm: TCustomForm; AParent: TWinControl);
     procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas; AIndex: integer; const ARect: TRect);
     procedure DoSidebar_MainMenuClick(Sender: TObject);
-    procedure DoSidebar_UpdateButtons(ASide: TAppSideId);
     function DoSidebar_TranslatedCaption(const ACaption: string): string;
     function FindFrameOfFilename(const AName: string): TEditorFrame;
     procedure FixMainLayout;
@@ -2466,8 +2465,8 @@ begin
   UpdateMenuPlugins_Shortcuts(true);
   UpdateMenuHotkeys;
 
-  DoSidebar_UpdateButtons(cSideLeft);
-  DoSidebar_UpdateButtons(cSideBottom);
+  AppPanels[cSideLeft].UpdateButtons;
+  AppPanels[cSideBottom].UpdateButtons;
   UpdateStatus;
   DoLoadCommandLine;
   DoApplyInitialWindowPos;
@@ -3781,7 +3780,7 @@ begin
       end;
   end;
 
-  DoSidebar_UpdateButtons(cSideBottom);
+  AppPanels[cSideBottom].UpdateButtons;
   UpdateStatus;
 end;
 
@@ -3807,7 +3806,8 @@ begin
       UpdateTreeContents;
     end;
   end;
-  DoSidebar_UpdateButtons(cSideLeft);
+
+  AppPanels[cSideLeft].UpdateButtons;
 end;
 
 
@@ -4601,7 +4601,7 @@ begin
       DoSidebar_ActivateTab(ATabCaption, AndFocus);
   end;
 
-  DoSidebar_UpdateButtons(cSideLeft);
+  AppPanels[cSideLeft].UpdateButtons;
 end;
 
 
@@ -4618,7 +4618,7 @@ begin
       DoBottom_ActivateTab(ATabCaption, AndFocus);
   end;
 
-  DoSidebar_UpdateButtons(cSideBottom);
+  AppPanels[cSideBottom].UpdateButtons;
 end;
 
 procedure TfmMain.SetShowFullScreen(AValue: boolean);
