@@ -148,30 +148,6 @@ begin
 end;
 
 
-function TfmMain.DoSidebar_AddTab_Empty(const ACaption: string; AImageIndex: integer;
-  const AModule, AMethod: string): boolean;
-var
-  Panel: TAppSidePanel;
-begin
-  if AppPanels[cSideLeft].CaptionToPanelIndex(ACaption)>=0 then exit(false);
-
-  Panel:= TAppSidePanel.Create;
-  Panel.ItemCaption:= ACaption;
-  Panel.ItemControl:= nil;
-  Panel.ItemModule:= AModule;
-  Panel.ItemMethod:= AMethod;
-  AppPanels[cSideLeft].Panels.Add(Panel);
-
-  //save module/method to Btn.DataString
-  ToolbarSideTop.AddButton(AImageIndex, @DoSidebar_OnTabClick, ACaption, ACaption,
-    AModule+'.'+AMethod,
-    UiOps.ShowSidebarCaptions);
-  ToolbarSideTop.UpdateControls;
-
-  Result:= true;
-end;
-
-
 function TfmMain.DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
 begin
   Result:= AppPanels[cSideLeft].CaptionToTabIndex(ACaption)>=0;

@@ -810,6 +810,7 @@ type
     function CaptionToTabIndex(const ACaption: string): integer;
     function CaptionToControlHandle(const ACaption: string): PtrInt;
     function AddTab(const ACaption: string; AImageIndex: integer; AHandle: PtrInt; AOnClick: TNotifyEvent): boolean;
+    function AddTabEmpty(const ACaption: string; AImageIndex: integer; const AModule, AMethod: string; AOnClick: TNotifyEvent): boolean;
     function RemoveTab(const ACaption: string): boolean;
     procedure UpdateButtons;
   end;
@@ -2266,6 +2267,29 @@ begin
     Toolbar.AddButton(AImageIndex, AOnClick, ACaption, ACaption, '', UiOps.ShowSidebarCaptions);
     Toolbar.UpdateControls;
   end;
+
+  Result:= true;
+end;
+
+function TAppPanelHost.AddTabEmpty(const ACaption: string;
+  AImageIndex: integer; const AModule, AMethod: string; AOnClick: TNotifyEvent): boolean;
+var
+  Panel: TAppSidePanel;
+begin
+  if CaptionToPanelIndex(ACaption)>=0 then exit(false);
+
+  Panel:= TAppSidePanel.Create;
+  Panel.ItemCaption:= ACaption;
+  Panel.ItemControl:= nil;
+  Panel.ItemModule:= AModule;
+  Panel.ItemMethod:= AMethod;
+  Panels.Add(Panel);
+
+  //save module/method to Btn.DataString
+  Toolbar.AddButton(AImageIndex, AOnClick, ACaption, ACaption,
+    AModule+'.'+AMethod,
+    UiOps.ShowSidebarCaptions);
+  Toolbar.UpdateControls;
 
   Result:= true;
 end;
