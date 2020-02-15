@@ -1046,6 +1046,7 @@ type
     CodeTreeFilter: TTreeFilterEdit;
     CodeTreeFilterInput: TATComboEdit;
     CodeTreeFilterReset: TATButton;
+    PanelCodeTreeAll: TATPanelSimple;
     PanelCodeTreeTop: TATPanelSimple;
     ListboxOut: TATListbox;
     ListboxVal: TATListbox;
@@ -1924,8 +1925,12 @@ begin
   InitToolbar;
   InitSidebar;
 
+  PanelCodeTreeAll:= TATPanelSimple.Create(Self);
+  PanelCodeTreeAll.Parent:= PanelLeft;
+  PanelCodeTreeAll.Align:= alClient;
+
   CodeTree:= TAppTreeContainer.Create(Self);
-  CodeTree.Parent:= PanelLeft;
+  CodeTree.Parent:= PanelCodeTreeAll;
   CodeTree.Align:= alClient;
   CodeTree.Themed:= true;
   CodeTree.Tree.OnDblClick:= @DoCodetree_OnDblClick;
@@ -1934,9 +1939,8 @@ begin
   CodeTree.Tree.OnContextPopup:= @DoCodetree_OnContextPopup;
 
   PanelCodeTreeTop:= TATPanelSimple.Create(Self);
-  PanelCodeTreeTop.Parent:= PanelLeft;
+  PanelCodeTreeTop.Parent:= PanelCodeTreeAll;
   PanelCodeTreeTop.Align:= alTop;
-  PanelCodeTreeTop.Top:= PanelLeftTitle.Height; //fix pos relative to title
   PanelCodeTreeTop.Height:= UiOps.InputHeight;
 
   CodeTreeFilter:= TTreeFilterEdit.Create(Self);
@@ -2046,7 +2050,7 @@ begin
 
   Panel:= TAppSidePanel.Create;
   Panel.ItemCaption:= msgPanelTree_Init;
-  Panel.ItemControl:= CodeTree;
+  Panel.ItemControl:= PanelCodeTreeAll;
   AppPanels[cSideLeft].Panels.Add(Panel);
 
   FFinder:= TATEditorFinder.Create;
@@ -2880,14 +2884,13 @@ begin
       PanelCodeTreeTop.Hide;
     1:
       begin
-        PanelCodeTreeTop.Visible:= CodeTree.Visible;
         PanelCodeTreeTop.Align:= alTop;
-        PanelCodeTreeTop.Top:= PanelLeftTitle.Height; //fix pos relative to title
+        PanelCodeTreeTop.Show;
       end;
     2:
       begin
-        PanelCodeTreeTop.Visible:= CodeTree.Visible;
         PanelCodeTreeTop.Align:= alBottom;
+        PanelCodeTreeTop.Show;
       end;
   end;
 
