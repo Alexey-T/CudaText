@@ -1923,7 +1923,6 @@ begin
 
   InitAppleMenu;
   InitToolbar;
-  InitSidebar;
 
   PanelCodeTreeAll:= TATPanelSimple.Create(Self);
   PanelCodeTreeAll.Parent:= PanelLeft;
@@ -1991,6 +1990,13 @@ begin
   ListboxVal.OnKeyDown:= @ListboxOutKeyDown;
   ListboxVal.OnContextPopup:= @ListboxValidateContextPopup;
 
+  fmConsole:= TfmConsole.Create(Self);
+  fmConsole.Parent:= PanelBottom;
+  fmConsole.Align:= alClient;
+  fmConsole.OnConsoleNav:= @DoOnConsoleNav;
+
+  InitSidebar; //after initing PanelCodeTreeAll, ListboxOut, ListboxVal, fmConsole
+
   AppBookmarkImagelist.AddImages(ImageListBm);
   for i:= 2 to 9 do
   begin
@@ -2028,11 +2034,6 @@ begin
   Status.Padding:= 2;
   Status.OnPanelClick:= @StatusPanelClick;
   Status.ShowHint:= true;
-
-  fmConsole:= TfmConsole.Create(Self);
-  fmConsole.Parent:= PanelBottom;
-  fmConsole.Align:= alClient;
-  fmConsole.OnConsoleNav:= @DoOnConsoleNav;
 
   Groups:= TATGroups.Create(Self);
   Groups.Parent:= PanelEditors;

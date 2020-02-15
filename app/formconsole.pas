@@ -68,6 +68,7 @@ type
     procedure DoScrollToEnd(AllowProcessMsg: boolean);
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
     property MemoWordWrap: boolean read GetWordWrap write SetWordWrap;
+    procedure SetFocus; override;
   end;
 
 var
@@ -161,6 +162,12 @@ begin
     Application.ProcessMessages;
   EdMemo.DoScrollToBeginOrEnd(false);
   EdMemo.Update;
+end;
+
+procedure TfmConsole.SetFocus;
+begin
+  inherited;
+  EdInput.SetFocus;
 end;
 
 procedure TfmConsole.DoRunLine(Str: string);

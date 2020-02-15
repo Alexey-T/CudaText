@@ -779,7 +779,8 @@ type
     ItemModule: string;
     ItemMethod: string;
     ItemOnShow: TNotifyEvent;
-    procedure InitForm(const ACaption: string; AForm: TCustomForm; AParent: TWinControl);
+    procedure InitForm(const ACaption: string; AForm: TCustomControl;
+      AParent: TWinControl);
   end;
 
 type
@@ -2181,7 +2182,7 @@ end;
 
 { TAppSidePanel }
 
-procedure TAppSidePanel.InitForm(const ACaption: string; AForm: TCustomForm; AParent: TWinControl);
+procedure TAppSidePanel.InitForm(const ACaption: string; AForm: TCustomControl; AParent: TWinControl);
 begin
   ItemCaption:= ACaption;
   ItemControl:= AForm;

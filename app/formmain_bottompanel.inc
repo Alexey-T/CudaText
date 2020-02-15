@@ -68,7 +68,6 @@ end;
 
 procedure TfmMain.UpdateBottomPanels(const ACaption: string; AndFocus: boolean);
 var
-  bConsole, bListboxOut, bListboxVal: boolean;
   Ctl: TWinControl;
   i: integer;
 begin
@@ -86,48 +85,18 @@ begin
       Ctl.Hide;
   end;
 
-  bConsole:= SameText(ACaption, msgPanelConsole_Init);
-  bListboxOut:= SameText(ACaption, msgPanelOutput_Init);
-  bListboxVal:= SameText(ACaption, msgPanelValidate_Init);
-
-  fmConsole.Visible:= bConsole;
-  ListboxOut.Visible:= bListboxOut;
-  ListboxVal.Visible:= bListboxVal;
-
-  if bConsole then
-  begin
-    if AndFocus then
-      fmConsole.EdInput.SetFocus;
-  end
-  else
-  if bListboxOut then
-  begin
-    if AndFocus then
-      ListboxOut.SetFocus;
-  end
-  else
-  if bListboxVal then
-  begin
-    if AndFocus then
-      ListboxVal.SetFocus;
-  end
-  else
-  begin
-    //tabs for api proc_bottompanel
-    for i:= 0 to AppPanels[cSideBottom].Panels.Count-1 do
-      with TAppSidePanel(AppPanels[cSideBottom].Panels[i]) do
+  //tabs for api proc_bottompanel
+  for i:= 0 to AppPanels[cSideBottom].Panels.Count-1 do
+    with TAppSidePanel(AppPanels[cSideBottom].Panels[i]) do
+      if Assigned(ItemControl) then
       begin
-        if Assigned(ItemControl) then
-        begin
-          ItemControl.Visible:= SameText(ItemCaption, ACaption);
-          if AndFocus then
-            if PanelBottom.Visible then
-              if ItemControl.Visible then
-                if ItemControl.CanFocus then
-                  ItemControl.SetFocus;
-        end
+        ItemControl.Visible:= SameText(ItemCaption, ACaption);
+        if AndFocus then
+          if PanelBottom.Visible then
+            if ItemControl.Visible then
+              if ItemControl.CanFocus then
+                ItemControl.SetFocus;
       end;
-  end;
 end;
 
 function TfmMain.DoBottom_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
