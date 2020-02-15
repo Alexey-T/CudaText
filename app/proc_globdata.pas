@@ -800,6 +800,7 @@ type
   { TAppPanelHost }
 
   TAppPanelHost = class
+  public
     ParentPanel: TATPanelSimple;
     Toolbar: TATFlatToolbar;
     Panels: TFPList;
@@ -807,6 +808,8 @@ type
     LastActivePanel: string;
     DefaultPanel: string;
     FormFloat: TForm;
+    constructor Create;
+    destructor Destroy; override;
     function IsVisible: boolean;
     function IsFloating: boolean;
     function CaptionToPanelIndex(const ACaption: string): integer;
@@ -2195,6 +2198,19 @@ begin
 end;
 
 { TAppPanelHost }
+
+constructor TAppPanelHost.Create;
+begin
+  inherited Create;
+  Panels:= TFPList.Create;
+end;
+
+destructor TAppPanelHost.Destroy;
+begin
+  Panels.Clear;
+  FreeAndNil(Panels);
+  inherited Destroy;
+end;
 
 function TAppPanelHost.IsVisible: boolean;
 begin

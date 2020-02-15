@@ -1861,7 +1861,6 @@ begin
   begin
     ParentPanel:= PanelLeft;
     Toolbar:= ToolbarSideTop;
-    Panels:= TFPList.Create;
     Splitter:= SplitterVert;
     DefaultPanel:= msgPanelTree_Init;
   end;
@@ -1870,7 +1869,6 @@ begin
   begin
     ParentPanel:= PanelBottom;
     Toolbar:= ToolbarSideLow;
-    Panels:= TFPList.Create;
     Splitter:= SplitterHorz;
   end;
 
