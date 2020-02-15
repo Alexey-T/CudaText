@@ -205,6 +205,8 @@ begin
       mnuCaseLow.Caption:= msgTextCaseLower;
     if Assigned(mnuCaseTitle) then
       mnuCaseTitle.Caption:= msgTextCaseTitle;
+    if Assigned(mnuCaseInvert) then
+      mnuCaseInvert.Caption:= msgTextCaseInvert;
     if Assigned(mnuCaseSent) then
       mnuCaseSent.Caption:= msgTextCaseSentence;
 
