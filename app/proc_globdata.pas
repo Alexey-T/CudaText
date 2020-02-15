@@ -799,7 +799,7 @@ var
 type
   { TAppPanelHost }
 
-  TAppPanelHost = record
+  TAppPanelHost = class
     ParentPanel: TATPanelSimple;
     Toolbar: TATFlatToolbar;
     Panels: TFPList;
@@ -2593,6 +2593,9 @@ begin
 end;
 
 
+var
+  Side: TAppSideId;
+
 initialization
 
   InitDirs;
@@ -2639,7 +2642,13 @@ initialization
 
   AppApiFlatTheme:= ATFlatTheme;
 
+  for Side in TAppSideId do
+    AppPanels[Side]:= TAppPanelHost.Create;
+
 finalization
+
+  for Side in TAppSideId do
+    FreeAndNil(AppPanels[Side]);
 
   FreeAndNil(AppEventWatcher);
   FreeAndNil(AppEventLister);

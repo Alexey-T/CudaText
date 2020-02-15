@@ -1863,9 +1863,7 @@ begin
     Toolbar:= ToolbarSideTop;
     Panels:= TFPList.Create;
     Splitter:= SplitterVert;
-    LastActivePanel:= '';
     DefaultPanel:= msgPanelTree_Init;
-    FormFloat:= nil;
   end;
 
   with AppPanels[cSideBottom] do
@@ -1874,9 +1872,6 @@ begin
     Toolbar:= ToolbarSideLow;
     Panels:= TFPList.Create;
     Splitter:= SplitterHorz;
-    LastActivePanel:= '';
-    DefaultPanel:= '';
-    FormFloat:= nil;
   end;
 
   LexerProgress:= TATGauge.Create(Self);
