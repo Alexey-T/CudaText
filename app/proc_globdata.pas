@@ -766,7 +766,14 @@ type
   end;
 
 type
+  TAppSideId = (
+    cPanelSideLeft,
+    cPanelSideRight,
+    cPanelSideBottom
+    );
+
   TAppSidePanel = class
+    ItemSide: TAppSideId;
     ItemCaption: string;
     ItemControl: TCustomControl;
     ItemModule: string;
