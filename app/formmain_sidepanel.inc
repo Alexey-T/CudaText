@@ -147,7 +147,7 @@ end;
 
 function TfmMain.DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
 begin
-  Result:= AppPanels[cSideLeft].CaptionToTabIndex(ACaption)>=0;
+  Result:= AppPanels[cSideLeft].CaptionToButtonIndex(ACaption)>=0;
   if Result then
     UpdateSidebarPanels(ACaption, AndFocus);
 end;

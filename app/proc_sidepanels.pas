@@ -52,7 +52,7 @@ type
     function IsVisible: boolean;
     function IsFloating: boolean;
     function CaptionToPanelIndex(const ACaption: string): integer;
-    function CaptionToTabIndex(const ACaption: string): integer;
+    function CaptionToButtonIndex(const ACaption: string): integer;
     function CaptionToControlHandle(const ACaption: string): PtrInt;
     function Add(const ACaption: string; AImageIndex: integer; AHandle: PtrInt; AOnClick: TNotifyEvent): boolean;
     function AddEmpty(const ACaption: string; AImageIndex: integer; const AModule, AMethod: string; AOnClick: TNotifyEvent): boolean;
@@ -118,14 +118,14 @@ begin
         exit(i);
 end;
 
-function TAppPanelHost.CaptionToTabIndex(const ACaption: string): integer;
+function TAppPanelHost.CaptionToButtonIndex(const ACaption: string): integer;
 var
   i: integer;
 begin
   Result:= -1;
   for i:= 0 to Toolbar.ButtonCount-1 do
     if SameText(Toolbar.Buttons[i].Caption, ACaption) then
-      Exit(i);
+      exit(i);
 end;
 
 function TAppPanelHost.CaptionToControlHandle(const ACaption: string): PtrInt;
@@ -198,7 +198,7 @@ function TAppPanelHost.Delete(const ACaption: string): boolean;
 var
   Num, i: integer;
 begin
-  Num:= CaptionToTabIndex(ACaption);
+  Num:= CaptionToButtonIndex(ACaption);
   Result:= Num>=0;
   if Result then
   begin

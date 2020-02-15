@@ -101,7 +101,7 @@ end;
 
 function TfmMain.DoBottom_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
 begin
-  Result:= AppPanels[cSideBottom].CaptionToTabIndex(ACaption)>=0;
+  Result:= AppPanels[cSideBottom].CaptionToButtonIndex(ACaption)>=0;
   if Result then
     UpdateBottomPanels(ACaption, AndFocus);
 end;

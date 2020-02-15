@@ -537,7 +537,7 @@ var
 begin
   S:= FOption_SidebarTab;
   //if plugin didnt load, caption not valid
-  if AppPanels[cSideLeft].CaptionToTabIndex(S)<0 then
+  if AppPanels[cSideLeft].CaptionToButtonIndex(S)<0 then
     S:= msgPanelTree_Init;
 
   if (S<>'-') and (S<>'') then
