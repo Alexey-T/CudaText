@@ -767,13 +767,11 @@ type
 
 type
   TAppSideId = (
-    cPanelSideLeft,
-    cPanelSideRight,
-    cPanelSideBottom
+    cSideLeft,
+    cSideBottom
     );
 
   TAppSidePanel = class
-    ItemSide: TAppSideId;
     ItemCaption: string;
     ItemControl: TCustomControl;
     ItemModule: string;
@@ -791,9 +789,8 @@ var
   AppConsoleQueue: TAppConsoleQueue;
   AppCommandList: TFPList;
   AppEventList: TFPList;
-  AppSidePanels: TFPList;
-  AppBottomPanels: TFPList;
   AppTreeHelpers: TFPList;
+  AppPanels: array[TAppSideId] of TFPList;
 
 type
   PAppPanelProps = ^TAppPanelProps;
@@ -2416,7 +2413,11 @@ begin
 end;
 
 
+var
+  side: TAppSideId;
+
 initialization
+
   InitDirs;
   InitEditorOps(EditorOps);
   InitUiOps(UiOps);
@@ -2425,9 +2426,10 @@ initialization
   AppConsoleQueue:= TAppConsoleQueue.Create;
   AppCommandList:= TFPList.Create;
   AppEventList:= TFPList.Create;
-  AppSidePanels:= TFPList.Create;
-  AppBottomPanels:= TFPList.Create;
   AppTreeHelpers:= TFPList.Create;
+
+  for side in TAppSideId do
+    AppPanels[side]:= TFPList.Create;
 
   AppKeymap:= TATKeymap.Create;
   InitKeymapFull(AppKeymap);
@@ -2464,6 +2466,7 @@ initialization
   AppApiFlatTheme:= ATFlatTheme;
 
 finalization
+
   FreeAndNil(AppEventWatcher);
   FreeAndNil(AppEventLister);
   FreeAndNil(AppFrameListDeleting);
@@ -2477,11 +2480,12 @@ finalization
   FreeAndNil(AppBookmarkImagelist);
 
   FreeAndNil(AppTreeHelpers);
-  FreeAndNil(AppBottomPanels);
-  FreeAndNil(AppSidePanels);
   FreeAndNil(AppEventList);
   FreeAndNil(AppCommandList);
   FreeAndNil(AppConsoleQueue);
+
+  for side in TAppSideId do
+    FreeAndNil(AppPanels[side]);
 
 end.
 

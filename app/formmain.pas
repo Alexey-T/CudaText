@@ -2047,7 +2047,7 @@ begin
   Panel:= TAppSidePanel.Create;
   Panel.ItemCaption:= msgPanelTree_Init;
   Panel.ItemControl:= CodeTree;
-  AppSidePanels.Add(Panel);
+  AppPanels[cSideLeft].Add(Panel);
 
   FFinder:= TATEditorFinder.Create;
   FFinder.OptRegex:= true;

@@ -35,7 +35,7 @@ begin
 
   //avoid plugin call if panel already inited
   NPanelIndex:= DoBottom_CaptionToPanelsIndex(SCaption);
-  if (NPanelIndex>=0) and (TAppSidePanel(AppBottomPanels[NPanelIndex]).ItemControl=nil) then
+  if (NPanelIndex>=0) and (TAppSidePanel(AppPanels[cSideBottom][NPanelIndex]).ItemControl=nil) then
     if Btn.DataString<>'' then
     begin
       SSplitByChar(Btn.DataString, '.', SModule, SMethod);
@@ -79,9 +79,9 @@ begin
     FFormFloatBottom.Caption:= DoBottom_TranslatedCaption(ACaption) + ' - ' + msgTitle;
 
   //hide panels from proc_bottompanel_add
-  for i:= 0 to AppBottomPanels.Count-1 do
+  for i:= 0 to AppPanels[cSideBottom].Count-1 do
   begin
-    Ctl:= TAppSidePanel(AppBottomPanels[i]).ItemControl;
+    Ctl:= TAppSidePanel(AppPanels[cSideBottom][i]).ItemControl;
     if Assigned(Ctl) then
       Ctl.Hide;
   end;
@@ -114,8 +114,8 @@ begin
   else
   begin
     //tabs for api proc_bottompanel
-    for i:= 0 to AppBottomPanels.Count-1 do
-      with TAppSidePanel(AppBottomPanels[i]) do
+    for i:= 0 to AppPanels[cSideBottom].Count-1 do
+      with TAppSidePanel(AppPanels[cSideBottom][i]) do
       begin
         if Assigned(ItemControl) then
         begin
@@ -135,8 +135,8 @@ var
   i: integer;
 begin
   Result:= -1;
-  for i:= 0 to AppBottomPanels.Count-1 do
-    with TAppSidePanel(AppBottomPanels[i]) do
+  for i:= 0 to AppPanels[cSideBottom].Count-1 do
+    with TAppSidePanel(AppPanels[cSideBottom][i]) do
       if ItemCaption=ACaption then
         exit(i);
 end;
@@ -149,7 +149,7 @@ begin
   Num:= DoBottom_CaptionToPanelsIndex(ACaption);
   if Num<0 then exit;
 
-  with TAppSidePanel(AppBottomPanels[Num]) do
+  with TAppSidePanel(AppPanels[cSideBottom][Num]) do
     if Assigned(ItemControl) then
       Result:= PtrInt(ItemControl);
 end;
@@ -175,7 +175,7 @@ begin
   if DoBottom_CaptionToPanelsIndex(ACaption)>=0 then exit(false);
 
   Panel:= TAppSidePanel.Create;
-  AppBottomPanels.Add(Panel);
+  AppPanels[cSideBottom].Add(Panel);
 
   DoSidebar_InitPanelForm(Panel, ACaption, TCustomForm(AHandle), PanelBottom);
 
@@ -196,8 +196,8 @@ begin
     ToolbarSideLow.UpdateControls;
 
     //hard to remove item, so hide it by "?"
-    for i:= 0 to AppBottomPanels.Count-1 do
-      with TAppSidePanel(AppBottomPanels[i]) do
+    for i:= 0 to AppPanels[cSideBottom].Count-1 do
+      with TAppSidePanel(AppPanels[cSideBottom][i]) do
         if ItemCaption=ACaption then
         begin
           ItemCaption:= '?';
