@@ -773,6 +773,7 @@ begin
     TListView(Ctl).ViewStyle:= vsReport;
     TListView(Ctl).RowSelect:= true;
     TListView(Ctl).HideSelection:= false;
+    TListView(Ctl).DoubleBuffered:= UiOps.DoubleBuffered;
     TListView(Ctl).Checkboxes:= (S='checklistview');
     TListView(Ctl).OnChange:= @AForm.DoOnListviewChange;
     TListView(Ctl).OnSelectItem:= @AForm.DoOnListviewSelect;
@@ -786,6 +787,7 @@ begin
     DoApplyThemeToTreeview(TAppTreeContainer(Ctl).Tree, false, true);
     TAppTreeContainer(Ctl).Tree.BorderStyle:= bsSingle;
     TAppTreeContainer(Ctl).Tree.Images:= TImageList.Create(Ctl);
+    TAppTreeContainer(Ctl).Tree.DoubleBuffered:= UiOps.DoubleBuffered;
     TAppTreeContainer(Ctl).Tree.OnChange:= @AForm.DoOnTreeviewChange;
     TAppTreeContainer(Ctl).Tree.OnSelectionChanged:= @AForm.DoOnTreeviewSelect;
     TAppTreeContainer(Ctl).Tree.OnCollapsing:= @AForm.DoOnTreeviewCollapsing;
