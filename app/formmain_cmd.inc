@@ -218,7 +218,7 @@ begin
     cmd_ShowSidePanelAndSyntaxTree:
       DoShowSidePanel(msgPanelTree_Init, false);
     cmd_ToggleSidePanelAndSyntaxTree:
-      DoShowSidePanel(IfThen(ShowSidePanel, '-', msgPanelTree_Init), false);
+      DoShowSidePanel(IfThen(AppPanels[cSideLeft].IsVisible, '-', msgPanelTree_Init), false);
     cmd_HideSidePanel:
       DoShowSidePanel('-', false);
     cmd_HideBottomPanel:

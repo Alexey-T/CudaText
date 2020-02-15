@@ -969,10 +969,8 @@ type
     procedure GetEditorIndexes(Ed: TATSynEdit; out AGroupIndex, ATabIndex: Integer);
     function GetModifiedCount: integer;
     function GetShowSideBar: boolean;
-    function GetShowSidePanel: boolean;
     function GetShowStatus: boolean;
     function GetShowToolbar: boolean;
-    function GetShowBottom: boolean;
     function GetShowTabsMain: boolean;
     procedure InitFormFind;
     function IsFocusedBottom: boolean;
@@ -1073,10 +1071,10 @@ type
     property ShowDistractionFree: boolean read FShowFullScreen write SetShowDistractionFree;
     property ShowSideBar: boolean read GetShowSideBar write SetShowSideBar;
     property ShowSideBarOnRight: boolean read GetShowSidebarOnRight write SetShowSidebarOnRight;
-    property ShowSidePanel: boolean read GetShowSidePanel write SetShowSidePanel;
+    property ShowSidePanel: boolean write SetShowSidePanel;
     property ShowToolbar: boolean read GetShowToolbar write SetShowToolbar;
     property ShowStatus: boolean read GetShowStatus write SetShowStatus;
-    property ShowBottom: boolean read GetShowBottom write SetShowBottom;
+    property ShowBottom: boolean write SetShowBottom;
     property ShowTabsMain: boolean read GetShowTabsMain write SetShowTabsMain;
     property ThemeUi: string write SetThemeUi;
     property ThemeSyntax: string write SetThemeSyntax;
@@ -2471,7 +2469,7 @@ begin
   DoLoadCommandLine;
   DoApplyInitialWindowPos;
 
-  if ShowBottom then
+  if AppPanels[cSideBottom].IsVisible then
     if AppPanels[cSideBottom].LastActivePanel='' then
       DoShowConsole(false);
 
@@ -2603,16 +2601,6 @@ end;
 function TfmMain.GetShowToolbar: boolean;
 begin
   Result:= ToolbarMain.Visible;
-end;
-
-function TfmMain.GetShowSidePanel: boolean;
-begin
-  Result:= AppPanels[cSideLeft].IsVisible;
-end;
-
-function TfmMain.GetShowBottom: boolean;
-begin
-  Result:= AppPanels[cSideBottom].IsVisible;
 end;
 
 function TfmMain.GetShowSideBar: boolean;
@@ -3756,7 +3744,7 @@ var
   bBottom: boolean;
   Frame: TEditorFrame;
 begin
-  if GetShowBottom<>AValue then
+  if AppPanels[cSideBottom].IsVisible<>AValue then
   begin
     bBottom:= IsFocusedBottom;
 
@@ -3786,7 +3774,7 @@ end;
 
 procedure TfmMain.SetShowSidePanel(AValue: boolean);
 begin
-  if GetShowSidePanel<>AValue then
+  if AppPanels[cSideLeft].IsVisible<>AValue then
   begin
     PanelLeft.Visible:= AValue;
     if FloatSide then
@@ -4295,7 +4283,7 @@ end;
 procedure TfmMain.SetSidebarPanel(const ACaption: string);
 begin
   if (ACaption<>'-') and (ACaption<>'') then
-    if ShowSidePanel then
+    if AppPanels[cSideLeft].IsVisible then
       DoShowSidePanel(ACaption, true);
 end;
 
@@ -4522,12 +4510,12 @@ end;
 
 procedure TfmMain.DoToggleSidePanel;
 begin
-  ShowSidePanel:= not ShowSidePanel;
+  ShowSidePanel:= not AppPanels[cSideLeft].IsVisible;
 end;
 
 procedure TfmMain.DoToggleBottomPanel;
 begin
-  ShowBottom:= not ShowBottom;
+  ShowBottom:= not AppPanels[cSideBottom].IsVisible;
 end;
 
 procedure TfmMain.DoToggleFindDialog;
@@ -4657,8 +4645,8 @@ begin
   begin
     FOrigShowToolbar:= ShowToolbar;
     FOrigShowStatusbar:= ShowStatus;
-    FOrigShowBottom:= ShowBottom;
-    FOrigShowSidePanel:= ShowSidePanel;
+    FOrigShowBottom:= AppPanels[cSideBottom].IsVisible;
+    FOrigShowSidePanel:= AppPanels[cSideLeft].IsVisible;
     FOrigShowSideBar:= ShowSideBar;
     FOrigShowTabs:= ShowTabsMain;
 

@@ -4394,7 +4394,7 @@ begin
           end;
         APP_PROC_SHOW_SIDEPANEL_GET:
           begin
-            Result:= PyBool_FromLong(Ord(fmMain.ShowSidePanel));
+            Result:= PyBool_FromLong(Ord(AppPanels[cSideLeft].IsVisible));
           end;
 
         APP_PROC_SHOW_BOTTOMPANEL_SET:
@@ -4404,7 +4404,7 @@ begin
           end;
         APP_PROC_SHOW_BOTTOMPANEL_GET:
           begin
-            Result:= PyBool_FromLong(Ord(fmMain.ShowBottom));
+            Result:= PyBool_FromLong(Ord(AppPanels[cSideBottom].IsVisible));
           end;
 
         APP_PROC_SHOW_TABS_SET:

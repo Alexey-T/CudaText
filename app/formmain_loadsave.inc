@@ -104,8 +104,8 @@ begin
         c.SetValue('/dialog/fl_g3/sizey', FFormFloatGroups3.Height);
       end;
 
-      c.SetValue('show_sidepanel', ShowSidePanel);
-      c.SetValue('show_bottom', ShowBottom);
+      c.SetValue('show_sidepanel', AppPanels[cSideLeft].IsVisible);
+      c.SetValue('show_bottom', AppPanels[cSideBottom].IsVisible);
 
       c.SetValue('float_side', FloatSide);
       c.SetValue('float_bottom', FloatBottom);
@@ -193,12 +193,12 @@ begin
       c.SetValue('/tab_index/g'+Inttostr(i), Groups.Pages[i].Tabs.TabIndex);
     c.SetValue('/tab_index/g_active', Groups.PagesIndexOf(Groups.PagesCurrent));
 
-    c.SetValue('/panels/side_show', ShowSidePanel);
+    c.SetValue('/panels/side_show', AppPanels[cSideLeft].IsVisible);
     c.SetValue('/panels/side_panel', AppPanels[cSideLeft].LastActivePanel);
     if not FloatSide then
       c.SetValue('/panels/side_size', PanelLeft.Width);
 
-    c.SetValue('/panels/bottom_show', ShowBottom);
+    c.SetValue('/panels/bottom_show', AppPanels[cSideBottom].IsVisible);
     c.SetValue('/panels/bottom_panel', AppPanels[cSideBottom].LastActivePanel);
     if not FloatBottom then
       c.SetValue('/panels/bottom_size', PanelBottom.Height);
@@ -377,18 +377,18 @@ begin
     end;
 
     //restore panel sizes
-    ShowSidePanel:= c.GetValue('/panels/side_show', ShowSidePanel);
-    ShowBottom:= c.GetValue('/panels/bottom_show', ShowBottom);
+    ShowSidePanel:= c.GetValue('/panels/side_show', AppPanels[cSideLeft].IsVisible);
+    ShowBottom:= c.GetValue('/panels/bottom_show', AppPanels[cSideBottom].IsVisible);
 
     PanelLeft.Width:= Min(c.GetValue('/panels/side_size', PanelLeft.Width), ClientWidth div 2);
     PanelBottom.Height:= Min(c.GetValue('/panels/bottom_size', PanelBottom.Height), ClientHeight div 2);
 
     SText:= c.GetValue('/panels/side_panel', '');
-    if ShowSidePanel and (SText<>'') then
+    if AppPanels[cSideLeft].IsVisible and (SText<>'') then
       DoShowSidePanel(SText, false);
 
     SText:= c.GetValue('/panels/bottom_panel', '');
-    if ShowBottom and (SText<>'') then
+    if AppPanels[cSideBottom].IsVisible and (SText<>'') then
       DoShowBottomPanel(SText, false);
 
     Result:= true;
@@ -541,7 +541,7 @@ begin
     S:= msgPanelTree_Init;
 
   if (S<>'-') and (S<>'') then
-    if ShowSidePanel then
+    if AppPanels[cSideLeft].IsVisible then
       DoShowSidePanel(S, false);
 end;
 
