@@ -3763,7 +3763,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * change: events are now called with ed_self==None: on_state, on_start, on_exit, on_output_nav, on_console_nav
 * add: event on_state_ed
 
-1.0.321 (app 1.94.2)
+1.0.321 (app 1.94.5)
 * add: events on_open / on_open_pre support filtering via "keys=" in install.inf like on_key
 
 [[Category:CudaText]]
