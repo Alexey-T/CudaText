@@ -35,7 +35,7 @@ begin
 
   //avoid plugin call if panel already inited
   NPanelIndex:= AppPanels[cSideBottom].CaptionToPanelIndex(SCaption);
-  if (NPanelIndex>=0) and (TAppSidePanel(AppPanels[cSideBottom].Panels[NPanelIndex]).ItemControl=nil) then
+  if (NPanelIndex>=0) and (TAppPanelItem(AppPanels[cSideBottom].Panels[NPanelIndex]).ItemControl=nil) then
     if Btn.DataString<>'' then
     begin
       SSplitByChar(Btn.DataString, '.', SModule, SMethod);
@@ -80,14 +80,14 @@ begin
   //hide panels from proc_bottompanel_add
   for i:= 0 to AppPanels[cSideBottom].Panels.Count-1 do
   begin
-    Ctl:= TAppSidePanel(AppPanels[cSideBottom].Panels[i]).ItemControl;
+    Ctl:= TAppPanelItem(AppPanels[cSideBottom].Panels[i]).ItemControl;
     if Assigned(Ctl) then
       Ctl.Hide;
   end;
 
   //tabs for api proc_bottompanel
   for i:= 0 to AppPanels[cSideBottom].Panels.Count-1 do
-    with TAppSidePanel(AppPanels[cSideBottom].Panels[i]) do
+    with TAppPanelItem(AppPanels[cSideBottom].Panels[i]) do
       if Assigned(ItemControl) then
       begin
         ItemControl.Visible:= SameText(ItemCaption, ACaption);

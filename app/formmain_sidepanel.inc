@@ -66,7 +66,7 @@ begin
 
   //avoid plugin call if panel already inited
   NPanelIndex:= AppPanels[cSideLeft].CaptionToPanelIndex(SCaption);
-  if (NPanelIndex>=0) and (TAppSidePanel(AppPanels[cSideLeft].Panels[NPanelIndex]).ItemControl=nil) then
+  if (NPanelIndex>=0) and (TAppPanelItem(AppPanels[cSideLeft].Panels[NPanelIndex]).ItemControl=nil) then
     if Btn.DataString<>'' then
     begin
       SSplitByChar(Btn.DataString, '.', SModule, SMethod);
@@ -114,7 +114,7 @@ begin
     AppPanels[cSideLeft].FormFloat.Caption:= LabelSideTitle.Caption + ' - ' + msgTitle;
 
   for i:= 0 to AppPanels[cSideLeft].Panels.Count-1 do
-    with TAppSidePanel(AppPanels[cSideLeft].Panels[i]) do
+    with TAppPanelItem(AppPanels[cSideLeft].Panels[i]) do
     begin
       if ItemCaption='' then Break;
       bFound:= SameText(ItemCaption, ACaption);

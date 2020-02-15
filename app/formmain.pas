@@ -1850,7 +1850,7 @@ end;
 
 procedure TfmMain.FormCreate(Sender: TObject);
 var
-  Panel: TAppSidePanel;
+  Panel: TAppPanelItem;
   i: integer;
 begin
   //"Check for updates" is supported only on Windows
@@ -2043,7 +2043,7 @@ begin
   //Groups.OnTabOver:= @DoOnTabOver;
   Groups.OnTabGetTick:= @DoOnTabGetTick;
 
-  Panel:= TAppSidePanel.Create;
+  Panel:= TAppPanelItem.Create;
   Panel.ItemCaption:= msgPanelTree_Init;
   Panel.ItemControl:= PanelCodeTreeAll;
   AppPanels[cSideLeft].Panels.Add(Panel);

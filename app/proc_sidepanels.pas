@@ -23,9 +23,10 @@ type
     );
 
 type
-  { TAppSidePanel }
+  { TAppPanelItem }
 
-  TAppSidePanel = class
+  TAppPanelItem = class
+  public
     ItemCaption: string;
     ItemControl: TCustomControl;
     ItemModule: string;
@@ -65,9 +66,9 @@ var
 
 implementation
 
-{ TAppSidePanel }
+{ TAppPanelItem }
 
-procedure TAppSidePanel.InitControl(const ACaption: string; AControl: TCustomControl; AParent: TWinControl);
+procedure TAppPanelItem.InitControl(const ACaption: string; AControl: TCustomControl; AParent: TWinControl);
 begin
   ItemCaption:= ACaption;
   ItemControl:= AControl;
@@ -113,7 +114,7 @@ var
 begin
   Result:= -1;
   for i:= 0 to Panels.Count-1 do
-    with TAppSidePanel(Panels[i]) do
+    with TAppPanelItem(Panels[i]) do
       if ItemCaption=ACaption then
         exit(i);
 end;
@@ -136,7 +137,7 @@ begin
   Num:= CaptionToPanelIndex(ACaption);
   if Num<0 then exit;
 
-  with TAppSidePanel(Panels[Num]) do
+  with TAppPanelItem(Panels[Num]) do
     if Assigned(ItemControl) then
       Result:= PtrInt(ItemControl);
 end;
@@ -144,7 +145,7 @@ end;
 function TAppPanelHost.Add(const ACaption: string; AImageIndex: integer;
   AHandle: PtrInt; AOnClick: TNotifyEvent): boolean;
 var
-  Panel: TAppSidePanel;
+  Panel: TAppPanelItem;
   Num: integer;
   bExist: boolean;
 begin
@@ -152,10 +153,10 @@ begin
   bExist:= Num>=0;
 
   if bExist then
-    Panel:= TAppSidePanel(Panels[Num])
+    Panel:= TAppPanelItem(Panels[Num])
   else
   begin
-    Panel:= TAppSidePanel.Create;
+    Panel:= TAppPanelItem.Create;
     Panels.Add(Panel);
   end;
 
@@ -174,11 +175,11 @@ end;
 function TAppPanelHost.AddEmpty(const ACaption: string;
   AImageIndex: integer; const AModule, AMethod: string; AOnClick: TNotifyEvent): boolean;
 var
-  Panel: TAppSidePanel;
+  Panel: TAppPanelItem;
 begin
   if CaptionToPanelIndex(ACaption)>=0 then exit(false);
 
-  Panel:= TAppSidePanel.Create;
+  Panel:= TAppPanelItem.Create;
   Panel.ItemCaption:= ACaption;
   Panel.ItemControl:= nil;
   Panel.ItemModule:= AModule;
@@ -207,7 +208,7 @@ begin
 
     //hard to remove item, so hide it by "?"
     for i:= 0 to Panels.Count-1 do
-      with TAppSidePanel(Panels[i]) do
+      with TAppPanelItem(Panels[i]) do
         if ItemCaption=ACaption then
         begin
           ItemCaption:= '?';
