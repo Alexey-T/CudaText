@@ -155,15 +155,3 @@ begin
 end;
 
 
-procedure TfmMain.UpdateBottomButtons;
-var
-  Btn: TATButton;
-  i: integer;
-begin
-  for i:= 0 to ToolbarSideLow.ButtonCount-1 do
-  begin
-    Btn:= ToolbarSideLow.Buttons[i];
-    Btn.Checked:= SameText(Btn.Caption, AppPanels[cSideBottom].LastActivePanel) and ShowBottom;
-  end;
-end;
-

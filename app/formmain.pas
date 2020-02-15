@@ -797,8 +797,8 @@ type
     procedure DoSplitter_SetInfo(const Id: integer; NPos: integer);
     procedure DoToolbarClick(Sender: TObject);
     procedure FrameLexerChange(Sender: TObject);
-    function GetFloatBottom: boolean;
     function GetFloatSide: boolean;
+    function GetFloatBottom: boolean;
     function GetFloatGroups: boolean;
     function GetShowFloatGroup1: boolean;
     function GetShowFloatGroup2: boolean;
@@ -1032,7 +1032,6 @@ type
     procedure UpdateSidebarPanels(const ACaption: string; AndFocus: boolean);
     procedure UpdateStatusbarPanelsFromString(const AText: string);
     procedure UpdateStatusbarHints;
-    procedure UpdateBottomButtons;
     procedure UpdateStatus_ForFrame(AStatus: TATStatus; F: TEditorFrame);
     procedure UpdateStatus_RealWork;
     procedure UpdateStatus_ToolButton(AToolbar: TATFlatToolbar; ACmd: integer; AChecked, AEnabled: boolean);
@@ -2472,7 +2471,7 @@ begin
   UpdateMenuHotkeys;
 
   DoSidebar_UpdateButtons(cSideLeft);
-  UpdateBottomButtons;
+  DoSidebar_UpdateButtons(cSideBottom);
   UpdateStatus;
   DoLoadCommandLine;
   DoApplyInitialWindowPos;
@@ -2613,18 +2612,12 @@ end;
 
 function TfmMain.GetShowSidePanel: boolean;
 begin
-  if FloatSide then
-    Result:= AppPanels[cSideLeft].FormFloat.Visible
-  else
-    Result:= AppPanels[cSideLeft].ParentPanel.Visible;
+  Result:= AppPanels[cSideLeft].IsVisible;
 end;
 
 function TfmMain.GetShowBottom: boolean;
 begin
-  if FloatBottom then
-    Result:= AppPanels[cSideBottom].FormFloat.Visible
-  else
-    Result:= AppPanels[cSideBottom].ParentPanel.Visible;
+  Result:= AppPanels[cSideBottom].IsVisible;
 end;
 
 function TfmMain.GetShowSideBar: boolean;
@@ -3792,7 +3785,7 @@ begin
       end;
   end;
 
-  UpdateBottomButtons;
+  DoSidebar_UpdateButtons(cSideBottom);
   UpdateStatus;
 end;
 
@@ -4629,7 +4622,7 @@ begin
       DoBottom_ActivateTab(ATabCaption, AndFocus);
   end;
 
-  UpdateBottomButtons;
+  DoSidebar_UpdateButtons(cSideBottom);
 end;
 
 procedure TfmMain.SetShowFullScreen(AValue: boolean);
@@ -6242,8 +6235,12 @@ end;
 
 function TfmMain.GetFloatSide: boolean;
 begin
-  with AppPanels[cSideLeft] do
-    Result:= Assigned(FormFloat) and (ParentPanel.Parent=FormFloat);
+  Result:= AppPanels[cSideLeft].IsFloating;
+end;
+
+function TfmMain.GetFloatBottom: boolean;
+begin
+  Result:= AppPanels[cSideBottom].IsFloating;
 end;
 
 procedure TfmMain.SetFloatSide(AValue: boolean);
@@ -6307,12 +6304,6 @@ begin
   end;
 end;
 
-
-function TfmMain.GetFloatBottom: boolean;
-begin
-  with AppPanels[cSideBottom] do
-    Result:= Assigned(FormFloat) and (ParentPanel.Parent=FormFloat);
-end;
 
 procedure TfmMain.UpdateBottomLayout(ASetFloating: boolean);
 begin

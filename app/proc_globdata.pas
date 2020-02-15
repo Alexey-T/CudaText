@@ -792,13 +792,21 @@ var
   AppEventList: TFPList;
   AppTreeHelpers: TFPList;
 
-  AppPanels: array[TAppSideId] of record
+type
+  { TAppPanelHost }
+
+  TAppPanelHost = record
     ParentPanel: TATPanelSimple;
     Toolbar: TATFlatToolbar;
     Panels: TFPList;
     LastActivePanel: string;
     FormFloat: TForm;
+    function IsVisible: boolean;
+    function IsFloating: boolean;
   end;
+
+var
+  AppPanels: array[TAppSideId] of TAppPanelHost;
 
 type
   PAppPanelProps = ^TAppPanelProps;
@@ -2158,6 +2166,21 @@ begin
 
   F.Right:= F.Left+w;
   F.Bottom:= F.Top+h;
+end;
+
+{ TAppPanelHost }
+
+function TAppPanelHost.IsVisible: boolean;
+begin
+  if IsFloating then
+    Result:= FormFloat.Visible
+  else
+    Result:= ParentPanel.Visible;
+end;
+
+function TAppPanelHost.IsFloating: boolean;
+begin
+  Result:= Assigned(FormFloat) and (ParentPanel.Parent=FormFloat);
 end;
 
 { TAppFileProps }
