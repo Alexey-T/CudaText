@@ -4222,7 +4222,7 @@ begin
         APP_PROC_SIDEPANEL_REMOVE:
           begin
             StrCaption:= Str;
-            ok:= fmMain.DoSidebar_RemoveTab(cSideLeft, StrCaption);
+            ok:= AppPanels[cSideLeft].RemoveTab(StrCaption);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
@@ -4285,7 +4285,7 @@ begin
         APP_PROC_BOTTOMPANEL_REMOVE:
           begin
             StrCaption:= Str;
-            ok:= fmMain.DoSidebar_RemoveTab(cSideBottom, StrCaption);
+            ok:= AppPanels[cSideBottom].RemoveTab(StrCaption);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 

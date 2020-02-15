@@ -742,7 +742,6 @@ type
     function DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
     function DoSidebar_AddTab(const ACaption: string; AImageIndex: integer; AHandle: PtrInt): boolean;
     function DoSidebar_AddTab_Empty(const ACaption: string; AImageIndex: integer; const AModule, AMethod: string): boolean;
-    function DoSidebar_RemoveTab(ASide: TAppSideId; const ACaption: string): boolean;
     procedure DoSidebar_FocusCodetreeFilter;
     procedure DoSidebar_FocusCodetree;
     procedure DoBottom_OnTabClick(Sender: TObject);

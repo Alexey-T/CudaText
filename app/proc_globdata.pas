@@ -806,6 +806,7 @@ type
     function CaptionToPanelIndex(const ACaption: string): integer;
     function CaptionToTabIndex(const ACaption: string): integer;
     function CaptionToControlHandle(const ACaption: string): PtrInt;
+    function RemoveTab(const ACaption: string): boolean;
   end;
 
 var
@@ -2218,6 +2219,28 @@ begin
   with TAppSidePanel(Panels[Num]) do
     if Assigned(ItemControl) then
       Result:= PtrInt(ItemControl);
+end;
+
+function TAppPanelHost.RemoveTab(const ACaption: string): boolean;
+var
+  Num, i: integer;
+begin
+  Num:= CaptionToTabIndex(ACaption);
+  Result:= Num>=0;
+  if Result then
+  begin
+    Toolbar.Buttons[Num].Free;
+    Toolbar.UpdateControls;
+
+    //hard to remove item, so hide it by "?"
+    for i:= 0 to Panels.Count-1 do
+      with TAppSidePanel(Panels[i]) do
+        if ItemCaption=ACaption then
+        begin
+          ItemCaption:= '?';
+          Break;
+        end;
+  end;
 end;
 
 { TAppFileProps }
