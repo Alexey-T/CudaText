@@ -48,6 +48,7 @@ type
     LastActivePanel: string;
     DefaultPanel: string;
     FormFloat: TForm;
+    OnChange: TNotifyEvent;
     constructor Create;
     destructor Destroy; override;
     function IsVisible: boolean;

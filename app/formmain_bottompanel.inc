@@ -72,10 +72,8 @@ var
   i: integer;
 begin
   AppPanels[cSideBottom].LastActivePanel:= ACaption;
-
   ShowBottom:= true;
-  if FloatBottom then
-    AppPanels[cSideBottom].FormFloat.Caption:= msgTranslatedPanelCaption(ACaption) + ' - ' + msgTitle;
+  AppPanels[cSideBottom].OnChange(nil);
 
   //hide panels from proc_bottompanel_add
   for i:= 0 to AppPanels[cSideBottom].Panels.Count-1 do
@@ -106,4 +104,10 @@ begin
     UpdateBottomPanels(ACaption, AndFocus);
 end;
 
+procedure TfmMain.DoBottom_OnTabChange(Sender: TObject);
+begin
+  with AppPanels[cSideBottom] do
+    if IsFloating then
+      FormFloat.Caption:= msgTranslatedPanelCaption(LastActivePanel) + ' - ' + msgTitle;
+end;
 

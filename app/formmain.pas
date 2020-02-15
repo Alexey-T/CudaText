@@ -697,9 +697,6 @@ type
     procedure DoShowFirstStartInfo;
     procedure DoOps_OnCreate;
     procedure DoShowBottomPanel(const ATabCaption: string; AndFocus: boolean);
-    function DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
-    procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas; AIndex: integer; const ARect: TRect);
-    procedure DoSidebar_MainMenuClick(Sender: TObject);
     function FindFrameOfFilename(const AName: string): TEditorFrame;
     procedure FixMainLayout;
     procedure FormFloatBottomOnClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -736,10 +733,15 @@ type
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoCodetree_GotoBlockForCurrentNode(AndSelect: boolean);
     procedure DoCodetree_ApplyTreeHelperResults(Data: PPyObject);
+    procedure DoSidebar_OnTabChange(Sender: TObject);
+    function DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
+    procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas; AIndex: integer; const ARect: TRect);
+    procedure DoSidebar_MainMenuClick(Sender: TObject);
     procedure DoSidebar_OnTabClick(Sender: TObject);
     function DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
     procedure DoSidebar_FocusCodetreeFilter;
     procedure DoSidebar_FocusCodetree;
+    procedure DoBottom_OnTabChange(Sender: TObject);
     procedure DoBottom_OnTabClick(Sender: TObject);
     procedure DoBottom_AddonsClick(Sender: TObject);
     procedure DoBottom_FindClick(Sender: TObject);
@@ -1863,6 +1865,7 @@ begin
     Toolbar:= ToolbarSideTop;
     Splitter:= SplitterVert;
     DefaultPanel:= msgPanelTree_Init;
+    OnChange:= @DoSidebar_OnTabChange;
   end;
 
   with AppPanels[cSideBottom] do
@@ -1870,6 +1873,7 @@ begin
     ParentPanel:= PanelBottom;
     Toolbar:= ToolbarSideLow;
     Splitter:= SplitterHorz;
+    OnChange:=@DoBottom_OnTabChange;
   end;
 
   LexerProgress:= TATGauge.Create(Self);
