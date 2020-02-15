@@ -745,7 +745,7 @@ type
     function DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
     function DoSidebar_AddTab(const ACaption: string; AImageIndex: integer; AHandle: PtrInt): boolean;
     function DoSidebar_AddTab_Empty(const ACaption: string; AImageIndex: integer; const AModule, AMethod: string): boolean;
-    function DoSidebar_RemoveTab(const ACaption: string): boolean;
+    function DoSidebar_RemoveTab(ASide: TAppSideId; const ACaption: string): boolean;
     function DoSidebar_CaptionToPanelsIndex(ASide: TAppSideId; const ACaption: string): integer;
     function DoSidebar_CaptionToTabIndex(ASide: TAppSideId; const ACaption: string): integer;
     function DoSidebar_CaptionToControlHandle(ASide: TAppSideId; const ACaption: string): PtrInt;
@@ -756,7 +756,6 @@ type
     procedure DoBottom_FindClick(Sender: TObject);
     function DoBottom_AddTab(const ACaption: string; AImageIndex: integer; AHandle: PtrInt): boolean;
     function DoBottom_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
-    function DoBottom_RemoveTab(const ACaption: string): boolean;
     procedure DoAutoComplete(Ed: TATSynEdit);
     procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string);
     procedure DoDialogCharMap;

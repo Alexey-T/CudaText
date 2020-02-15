@@ -252,20 +252,20 @@ begin
 end;
 
 
-function TfmMain.DoSidebar_RemoveTab(const ACaption: string): boolean;
+function TfmMain.DoSidebar_RemoveTab(ASide: TAppSideId; const ACaption: string): boolean;
 var
   Num, i: integer;
 begin
-  Num:= DoSidebar_CaptionToTabIndex(cSideLeft, ACaption);
+  Num:= DoSidebar_CaptionToTabIndex(ASide, ACaption);
   Result:= Num>=0;
   if Result then
   begin
-    ToolbarSideTop.Buttons[Num].Free;
-    ToolbarSideTop.UpdateControls;
+    AppPanels[ASide].Toolbar.Buttons[Num].Free;
+    AppPanels[ASide].Toolbar.UpdateControls;
 
     //hard to remove item, so hide it by "?"
-    for i:= 0 to AppPanels[cSideLeft].Panels.Count-1 do
-      with TAppSidePanel(AppPanels[cSideLeft].Panels[i]) do
+    for i:= 0 to AppPanels[ASide].Panels.Count-1 do
+      with TAppSidePanel(AppPanels[ASide].Panels[i]) do
         if ItemCaption=ACaption then
         begin
           ItemCaption:= '?';
