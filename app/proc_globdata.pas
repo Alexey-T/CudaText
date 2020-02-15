@@ -803,6 +803,9 @@ type
     FormFloat: TForm;
     function IsVisible: boolean;
     function IsFloating: boolean;
+    function CaptionToPanelIndex(const ACaption: string): integer;
+    function CaptionToTabIndex(const ACaption: string): integer;
+    function CaptionToControlHandle(const ACaption: string): PtrInt;
   end;
 
 var
@@ -2181,6 +2184,40 @@ end;
 function TAppPanelHost.IsFloating: boolean;
 begin
   Result:= Assigned(FormFloat) and (ParentPanel.Parent=FormFloat);
+end;
+
+function TAppPanelHost.CaptionToPanelIndex(const ACaption: string): integer;
+var
+  i: integer;
+begin
+  Result:= -1;
+  for i:= 0 to Panels.Count-1 do
+    with TAppSidePanel(Panels[i]) do
+      if ItemCaption=ACaption then
+        exit(i);
+end;
+
+function TAppPanelHost.CaptionToTabIndex(const ACaption: string): integer;
+var
+  i: integer;
+begin
+  Result:= -1;
+  for i:= 0 to Toolbar.ButtonCount-1 do
+    if SameText(Toolbar.Buttons[i].Caption, ACaption) then
+      Exit(i);
+end;
+
+function TAppPanelHost.CaptionToControlHandle(const ACaption: string): PtrInt;
+var
+  Num: integer;
+begin
+  Result:= 0;
+  Num:= CaptionToPanelIndex(ACaption);
+  if Num<0 then exit;
+
+  with TAppSidePanel(Panels[Num]) do
+    if Assigned(ItemControl) then
+      Result:= PtrInt(ItemControl);
 end;
 
 { TAppFileProps }

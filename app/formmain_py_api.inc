@@ -4243,7 +4243,7 @@ begin
 
         APP_PROC_SIDEPANEL_GET_CONTROL:
           begin
-            Num64:= fmMain.DoSidebar_CaptionToControlHandle(cSideLeft, Str);
+            Num64:= AppPanels[cSideLeft].CaptionToControlHandle(Str);
             if Num64<>0 then
               Result:= PyLong_FromLongLong(Num64)
             else
@@ -4259,7 +4259,7 @@ begin
         //-------------------
         APP_PROC_BOTTOMPANEL_GET_CONTROL:
           begin
-            Num64:= fmMain.DoSidebar_CaptionToControlHandle(cSideBottom, Str);
+            Num64:= AppPanels[cSideBottom].CaptionToControlHandle(Str);
             if Num64<>0 then
               Result:= PyLong_FromLongLong(Num64)
             else

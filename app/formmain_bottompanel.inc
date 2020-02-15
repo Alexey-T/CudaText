@@ -34,7 +34,7 @@ begin
   end;
 
   //avoid plugin call if panel already inited
-  NPanelIndex:= DoSidebar_CaptionToPanelsIndex(cSideBottom, SCaption);
+  NPanelIndex:= AppPanels[cSideBottom].CaptionToPanelIndex(SCaption);
   if (NPanelIndex>=0) and (TAppSidePanel(AppPanels[cSideBottom].Panels[NPanelIndex]).ItemControl=nil) then
     if Btn.DataString<>'' then
     begin
@@ -135,7 +135,7 @@ function TfmMain.DoBottom_AddTab(const ACaption: string; AImageIndex: integer;
 var
   Panel: TAppSidePanel;
 begin
-  if DoSidebar_CaptionToPanelsIndex(cSideBottom, ACaption)>=0 then exit(false);
+  if AppPanels[cSideBottom].CaptionToPanelIndex(ACaption)>=0 then exit(false);
 
   Panel:= TAppSidePanel.Create;
   AppPanels[cSideBottom].Panels.Add(Panel);
@@ -149,7 +149,7 @@ end;
 
 function TfmMain.DoBottom_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
 begin
-  Result:= DoSidebar_CaptionToTabIndex(cSideBottom, ACaption)>=0;
+  Result:= AppPanels[cSideBottom].CaptionToTabIndex(ACaption)>=0;
   if Result then
     UpdateBottomPanels(ACaption, AndFocus);
 end;

@@ -65,7 +65,7 @@ begin
   end;
 
   //avoid plugin call if panel already inited
-  NPanelIndex:= DoSidebar_CaptionToPanelsIndex(cSideLeft, SCaption);
+  NPanelIndex:= AppPanels[cSideLeft].CaptionToPanelIndex(SCaption);
   if (NPanelIndex>=0) and (TAppSidePanel(AppPanels[cSideLeft].Panels[NPanelIndex]).ItemControl=nil) then
     if Btn.DataString<>'' then
     begin
@@ -136,43 +136,6 @@ begin
   PanelCodeTreeTop.Visible:= CodeTree.Visible and (UiOps.TreeFilterLayout>0);
 end;
 
-function TfmMain.DoSidebar_CaptionToPanelsIndex(ASide: TAppSideId; const ACaption: string): integer;
-var
-  i: integer;
-begin
-  Result:= -1;
-  for i:= 0 to AppPanels[ASide].Panels.Count-1 do
-    with TAppSidePanel(AppPanels[ASide].Panels[i]) do
-      if ItemCaption=ACaption then
-        exit(i);
-end;
-
-function TfmMain.DoSidebar_CaptionToControlHandle(ASide: TAppSideId; const ACaption: string): PtrInt;
-var
-  Num: integer;
-begin
-  Result:= 0;
-  Num:= DoSidebar_CaptionToPanelsIndex(ASide, ACaption);
-  if Num<0 then exit;
-
-  with TAppSidePanel(AppPanels[ASide].Panels[Num]) do
-    if Assigned(ItemControl) then
-      Result:= PtrInt(ItemControl);
-end;
-
-function TfmMain.DoSidebar_CaptionToTabIndex(ASide: TAppSideId; const ACaption: string): integer;
-var
-  Bar: TATFlatToolbar;
-  i: integer;
-begin
-  Result:= -1;
-  Bar:= AppPanels[ASide].Toolbar;
-  for i:= 0 to Bar.ButtonCount-1 do
-    if SameText(Bar.Buttons[i].Caption, ACaption) then
-      Exit(i);
-end;
-
-
 procedure TfmMain.DoSidebar_InitPanelForm(AItem: TAppSidePanel;
   const ACaption: string; AForm: TCustomForm; AParent: TWinControl);
 begin
@@ -205,7 +168,7 @@ var
   Num: integer;
   bExist: boolean;
 begin
-  Num:= DoSidebar_CaptionToPanelsIndex(cSideLeft, ACaption);
+  Num:= AppPanels[cSideLeft].CaptionToPanelIndex(ACaption);
   bExist:= Num>=0;
 
   if bExist then
@@ -233,7 +196,7 @@ function TfmMain.DoSidebar_AddTab_Empty(const ACaption: string; AImageIndex: int
 var
   Panel: TAppSidePanel;
 begin
-  if DoSidebar_CaptionToPanelsIndex(cSideLeft, ACaption)>=0 then exit(false);
+  if AppPanels[cSideLeft].CaptionToPanelIndex(ACaption)>=0 then exit(false);
 
   Panel:= TAppSidePanel.Create;
   Panel.ItemCaption:= ACaption;
@@ -256,7 +219,7 @@ function TfmMain.DoSidebar_RemoveTab(ASide: TAppSideId; const ACaption: string):
 var
   Num, i: integer;
 begin
-  Num:= DoSidebar_CaptionToTabIndex(ASide, ACaption);
+  Num:= AppPanels[ASide].CaptionToTabIndex(ACaption);
   Result:= Num>=0;
   if Result then
   begin
@@ -276,7 +239,7 @@ end;
 
 function TfmMain.DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
 begin
-  Result:= DoSidebar_CaptionToTabIndex(cSideLeft, ACaption)>=0;
+  Result:= AppPanels[cSideLeft].CaptionToTabIndex(ACaption)>=0;
   if Result then
     UpdateSidebarPanels(ACaption, AndFocus);
 end;
