@@ -779,7 +779,7 @@ type
     ItemModule: string;
     ItemMethod: string;
     ItemOnShow: TNotifyEvent;
-    procedure InitForm(const ACaption: string; AForm: TCustomControl;
+    procedure InitControl(const ACaption: string; AControl: TCustomControl;
       AParent: TWinControl);
   end;
 
@@ -2185,16 +2185,16 @@ end;
 
 { TAppSidePanel }
 
-procedure TAppSidePanel.InitForm(const ACaption: string; AForm: TCustomControl; AParent: TWinControl);
+procedure TAppSidePanel.InitControl(const ACaption: string; AControl: TCustomControl; AParent: TWinControl);
 begin
   ItemCaption:= ACaption;
-  ItemControl:= AForm;
+  ItemControl:= AControl;
   ItemModule:= '';
   ItemMethod:= '';
 
-  AForm.BorderStyle:= bsNone;
-  AForm.Parent:= AParent;
-  AForm.Align:= alClient;
+  AControl.BorderStyle:= bsNone;
+  AControl.Parent:= AParent;
+  AControl.Align:= alClient;
 end;
 
 { TAppPanelHost }
@@ -2278,7 +2278,7 @@ begin
   end;
 
   if AHandle<>0 then
-    Panel.InitForm(ACaption, TCustomForm(AHandle), ParentPanel);
+    Panel.InitControl(ACaption, TCustomForm(AHandle), ParentPanel);
 
   if not bExist then
   begin
