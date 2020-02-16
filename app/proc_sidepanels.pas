@@ -46,6 +46,7 @@ type
     function GetFloating: boolean;
     function GetVisible: boolean;
     procedure SetVisible(AValue: boolean);
+    procedure HandleButtonClick(Sender: TObject);
   public
     ParentPanel: TCustomControl;
     Toolbar: TATFlatToolbar;
@@ -358,6 +359,30 @@ begin
     end;
 end;
 
+procedure TAppPanelHost.HandleButtonClick(Sender: TObject);
+var
+  Btn: TATButton;
+  SCaption: string;
+  NPanel: integer;
+begin
+  Btn:= Sender as TATButton;
+  SCaption:= Btn.Caption;
+
+  if Btn.Checked or (SCaption='') then
+  begin
+    Btn.Checked:= false;
+    Visible:= false;
+    exit
+  end;
+
+  //avoid plugin call if panel already inited
+  NPanel:= CaptionToPanelIndex(SCaption);
+  if (NPanel>=0) and (TAppPanelItem(Panels[NPanel]).ItemControl=nil) then
+    OnCommand(Btn.DataString);
+
+  UpdatePanels(SCaption, true, false);
+  Btn.Checked:= true;
+end;
 
 
 var
