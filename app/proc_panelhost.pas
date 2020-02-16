@@ -52,11 +52,11 @@ type
     procedure HandleButtonClick(Sender: TObject);
     procedure UpdateSplitter;
   public
-    ParentPanel: TCustomControl;
+    PanelGrouper: TCustomControl;
+    PanelRoot: TCustomControl;
     PanelTitle: TCustomControl;
-    PanelMain: TCustomControl;
-    Toolbar: TATFlatToolbar;
     Panels: TFPList;
+    Toolbar: TATFlatToolbar;
     Splitter: TSplitter;
     LastActivePanel: string;
     DefaultPanel: string;
@@ -121,7 +121,7 @@ begin
   if Floating then
     Result:= FormFloat.Visible
   else
-    Result:= ParentPanel.Visible;
+    Result:= PanelGrouper.Visible;
 end;
 
 procedure TAppPanelHost.SetFloating(AValue: boolean);
@@ -137,9 +137,9 @@ begin
     FormFloat.Caption:= OnGetFormTitle(LastActivePanel);
     FormFloat.Show;
 
-    ParentPanel.Parent:= FormFloat;
-    ParentPanel.Align:= alClient;
-    ParentPanel.Show;
+    PanelGrouper.Parent:= FormFloat;
+    PanelGrouper.Align:= alClient;
+    PanelGrouper.Show;
     Splitter.Hide;
   end
   else
@@ -147,9 +147,9 @@ begin
     if Assigned(FormFloat) then
       FormFloat.Hide;
 
-    ParentPanel.Align:= Splitter.Align;
-    ParentPanel.Parent:= PanelMain;
-    Splitter.Visible:= ParentPanel.Visible;
+    PanelGrouper.Align:= Splitter.Align;
+    PanelGrouper.Parent:= PanelRoot;
+    Splitter.Visible:= PanelGrouper.Visible;
     UpdateSplitter;
   end
 end;
@@ -162,7 +162,7 @@ var
 begin
   if GetVisible=AValue then exit;
 
-  ParentPanel.Visible:= AValue;
+  PanelGrouper.Visible:= AValue;
   if Floating then
   begin
     FormFloat.Visible:= AValue;
@@ -209,7 +209,7 @@ end;
 
 function TAppPanelHost.GetFloating: boolean;
 begin
-  Result:= Assigned(FormFloat) and (ParentPanel.Parent=FormFloat);
+  Result:= Assigned(FormFloat) and (PanelGrouper.Parent=FormFloat);
 end;
 
 function TAppPanelHost.CaptionToPanelIndex(const ACaption: string): integer;
@@ -266,7 +266,7 @@ begin
   end;
 
   if AHandle<>0 then
-    Panel.InitControl(ACaption, TCustomForm(AHandle), ParentPanel);
+    Panel.InitControl(ACaption, TCustomForm(AHandle), PanelGrouper);
 
   if not bExist then
   begin
@@ -376,7 +376,7 @@ begin
         begin
           Ctl.Show;
           if AndFocus then
-            if ParentPanel.Visible then
+            if PanelGrouper.Visible then
               if Ctl.Visible and Ctl.CanFocus then
                 Ctl.SetFocus;
         end
@@ -429,11 +429,11 @@ procedure TAppPanelHost.UpdateSplitter;
 begin
   case Splitter.Align of
     alLeft:
-      Splitter.Left:= ParentPanel.Width;
+      Splitter.Left:= PanelGrouper.Width;
     alBottom:
-      Splitter.Top:= ParentPanel.Top-8;
+      Splitter.Top:= PanelGrouper.Top-8;
     alRight:
-      Splitter.Left:= ParentPanel.Left-8;
+      Splitter.Left:= PanelGrouper.Left-8;
     else
       begin end;
   end;

@@ -1842,9 +1842,9 @@ begin
 
   with AppPanels[cSideLeft] do
   begin
-    ParentPanel:= Self.PanelLeft;
+    PanelGrouper:= Self.PanelLeft;
     PanelTitle:= Self.PanelLeftTitle;
-    PanelMain:= Self.PanelMain;
+    PanelRoot:= Self.PanelMain;
     Toolbar:= ToolbarSideTop;
     Splitter:= SplitterVert;
     DefaultPanel:= msgPanelTree_Init;
@@ -1856,9 +1856,9 @@ begin
 
   with AppPanels[cSideBottom] do
   begin
-    ParentPanel:= Self.PanelBottom;
+    PanelGrouper:= Self.PanelBottom;
     PanelTitle:= nil;
-    PanelMain:= Self.PanelAll;
+    PanelRoot:= Self.PanelAll;
     Toolbar:= ToolbarSideLow;
     Splitter:= SplitterHorz;
     OnChange:= @DoBottom_OnTabChange;
@@ -2785,9 +2785,9 @@ begin
 
   {
   if UiOps.ConsoleCompact then
-    AppPanels[cSideBottom].PanelMain:= Self.PanelEditors
+    AppPanels[cSideBottom].PanelRoot:= Self.PanelEditors
   else
-    AppPanels[cSideBottom].PanelMain:= Self.PanelAll;
+    AppPanels[cSideBottom].PanelRoot:= Self.PanelAll;
   }
 
   {
