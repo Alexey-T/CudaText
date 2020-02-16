@@ -2783,20 +2783,6 @@ begin
   CompletionOps.AppendOpeningBracket:= UiOps.AutocompleteAddOpeningBracket;
   CompletionOps.UpDownAtEdge:= TATCompletionUpDownAtEdge(UiOps.AutocompleteUpDownAtEdge);
 
-  {
-  if UiOps.ConsoleCompact then
-    AppPanels[cSideBottom].PanelRoot:= Self.PanelEditors
-  else
-    AppPanels[cSideBottom].PanelRoot:= Self.PanelAll;
-  }
-
-  {
-  ToolbarMain.UpdateControls;
-  ToolbarSideTop.UpdateControls;
-  ToolbarSideLow.UpdateControls;
-  ToolbarSideMid.UpdateControls;
-  }
-
   LexerProgress.Width:= AppScale(UiOps.ProgressbarWidth);
   LexerProgress.Height:= AppScale(UiOps.ProgressbarHeightSmall);
   StatusProgress.Width:= AppScale(UiOps.ProgressbarWidth);
