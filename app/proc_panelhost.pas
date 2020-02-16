@@ -37,6 +37,7 @@ type
 
 type
   TAppPanelOnCommand = procedure(const ACallback: string) of object;
+  TAppPanelOnGetTitle = function(const ACaption: string): string of object;
 
 type
   { TAppPanelHost }
@@ -45,10 +46,14 @@ type
   private
     function GetFloating: boolean;
     function GetVisible: boolean;
+    procedure SetFloating(AValue: boolean);
     procedure SetVisible(AValue: boolean);
     procedure HandleButtonClick(Sender: TObject);
+    procedure UpdateSplitter;
   public
     ParentPanel: TCustomControl;
+    PanelTitle: TCustomControl;
+    PanelMain: TCustomControl;
     Toolbar: TATFlatToolbar;
     Panels: TFPList;
     Splitter: TSplitter;
@@ -60,9 +65,10 @@ type
     OnHide: TNotifyEvent;
     OnCommand: TAppPanelOnCommand;
     OnCloseFloatForm: TCloseEvent;
+    OnGetFormTitle: TAppPanelOnGetTitle;
     constructor Create;
     destructor Destroy; override;
-    property Floating: boolean read GetFloating;
+    property Floating: boolean read GetFloating write SetFloating;
     property Visible: boolean read GetVisible write SetVisible;
     function CaptionToPanelIndex(const ACaption: string): integer;
     function CaptionToButtonIndex(const ACaption: string): integer;
@@ -117,6 +123,36 @@ begin
     Result:= ParentPanel.Visible;
 end;
 
+procedure TAppPanelHost.SetFloating(AValue: boolean);
+begin
+  if GetFloating=AValue then exit;
+
+  if Assigned(PanelTitle) then
+    PanelTitle.Visible:= not AValue;
+
+  if AValue then
+  begin
+    InitFormFloat;
+    FormFloat.Caption:= OnGetFormTitle(LastActivePanel);
+    FormFloat.Show;
+
+    ParentPanel.Parent:= FormFloat;
+    ParentPanel.Align:= alClient;
+    ParentPanel.Show;
+    Splitter.Hide;
+  end
+  else
+  begin
+    if Assigned(FormFloat) then
+      FormFloat.Hide;
+
+    ParentPanel.Align:= Splitter.Align;
+    ParentPanel.Parent:= PanelMain;
+    Splitter.Visible:= ParentPanel.Visible;
+    UpdateSplitter;
+  end
+end;
+
 procedure TAppPanelHost.SetVisible(AValue: boolean);
 var
   N: integer;
@@ -134,16 +170,7 @@ begin
   begin
     Splitter.Visible:= AValue;
     if AValue then
-      case Splitter.Align of
-        alLeft:
-          Splitter.Left:= ParentPanel.Width;
-        alBottom:
-          Splitter.Top:= ParentPanel.Top-8;
-        alRight:
-          Splitter.Left:= ParentPanel.Left-8;
-        else
-          begin end;
-      end;
+      UpdateSplitter;
   end;
 
   if AValue then
@@ -397,6 +424,19 @@ begin
   UpdatePanels(SCaption, true, false);
 end;
 
+procedure TAppPanelHost.UpdateSplitter;
+begin
+  case Splitter.Align of
+    alLeft:
+      Splitter.Left:= ParentPanel.Width;
+    alBottom:
+      Splitter.Top:= ParentPanel.Top-8;
+    alRight:
+      Splitter.Left:= ParentPanel.Left-8;
+    else
+      begin end;
+  end;
+end;
 
 var
   Side: TAppSideId;

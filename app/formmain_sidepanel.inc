@@ -149,4 +149,8 @@ begin
   end;
 end;
 
+function TfmMain.DoSidebar_GetFormTitle(const ACaption: string): string;
+begin
+  Result:= msgTranslatedPanelCaption(ACaption) + ' - ' + msgTitle;
+end;
 

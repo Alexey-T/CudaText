@@ -657,6 +657,7 @@ type
     FOption_SidebarTab: string;
 
     procedure DoBottom_OnHide(Sender: TObject);
+    function DoSidebar_GetFormTitle(const ACaption: string): string;
     procedure DoSidebar_OnPythonCall(const ACallback: string);
     procedure DoSidebar_OnShowCodeTree(Sender: TObject);
     procedure PythonEngineAfterInit(Sender: TObject);
@@ -1848,24 +1849,30 @@ begin
 
   with AppPanels[cSideLeft] do
   begin
-    ParentPanel:= PanelLeft;
+    ParentPanel:= Self.PanelLeft;
+    PanelTitle:= Self.PanelLeftTitle;
+    PanelMain:= Self.PanelMain;
     Toolbar:= ToolbarSideTop;
     Splitter:= SplitterVert;
     DefaultPanel:= msgPanelTree_Init;
     OnChange:= @DoSidebar_OnTabChange;
     OnCommand:= @DoSidebar_OnPythonCall;
     OnCloseFloatForm:= @FormFloatSideOnClose;
+    OnGetFormTitle:=@DoSidebar_GetFormTitle;
   end;
 
   with AppPanels[cSideBottom] do
   begin
-    ParentPanel:= PanelBottom;
+    ParentPanel:= Self.PanelBottom;
+    PanelTitle:= nil;
+    PanelMain:= Self.PanelMain;
     Toolbar:= ToolbarSideLow;
     Splitter:= SplitterHorz;
     OnChange:= @DoBottom_OnTabChange;
     OnHide:= @DoBottom_OnHide;
     OnCommand:= @DoSidebar_OnPythonCall;
     OnCloseFloatForm:= @FormFloatBottomOnClose;
+    OnGetFormTitle:= @DoSidebar_GetFormTitle;
   end;
 
   LexerProgress:= TATGauge.Create(Self);
@@ -6126,28 +6133,15 @@ end;
 
 procedure TfmMain.SetFloatSide(AValue: boolean);
 begin
-  if GetFloatSide=AValue then exit;
-
-  PanelLeftTitle.Visible:= not AValue;
-  AppPanels[cSideLeft].InitFormFloat;
-  AppPanels[cSideLeft].FormFloat.Visible:= AValue;
-  AppPanels[cSideLeft].FormFloat.Caption:= msgTranslatedPanelCaption(AppPanels[cSideLeft].LastActivePanel) + ' - ' + msgTitle;
-
-  if AValue then
-  begin
-    PanelLeft.Parent:= AppPanels[cSideLeft].FormFloat;
-    PanelLeft.Align:= alClient;
-    PanelLeft.Show;
-    SplitterVert.Hide;
-  end
-  else
-  begin
-    PanelLeft.Align:= alLeft;
-    PanelLeft.Parent:= PanelMain;
-    SplitterVert.Visible:= PanelLeft.Visible;
-    SplitterVert.Left:= PanelLeft.Width;
-  end
+  AppPanels[cSideLeft].Floating:= AValue;
 end;
+
+procedure TfmMain.SetFloatBottom(AValue: boolean);
+begin
+  AppPanels[cSideBottom].Floating:= AValue;
+  UpdateBottomLayout(AValue);
+end;
+
 
 procedure TfmMain.SetShowFloatGroup1(AValue: boolean);
 begin
@@ -6198,17 +6192,6 @@ begin
     SplitterHorz.Visible:= PanelBottom.Visible;
     SplitterHorz.Top:= PanelBottom.Top-8;
   end;
-end;
-
-procedure TfmMain.SetFloatBottom(AValue: boolean);
-begin
-  if GetFloatBottom=AValue then exit;
-
-  AppPanels[cSideBottom].InitFormFloat;
-  AppPanels[cSideBottom].FormFloat.Visible:= AValue;
-  AppPanels[cSideBottom].FormFloat.Caption:= msgTranslatedPanelCaption(AppPanels[cSideBottom].LastActivePanel) + ' - ' + msgTitle;
-
-  UpdateBottomLayout(AValue);
 end;
 
 
