@@ -546,8 +546,6 @@ type
     FFormFloatGroups2: TForm;
     FFormFloatGroups3: TForm;
     FBoundsMain: TRect;
-    FBoundsFloatSide: TRect;
-    FBoundsFloatBottom: TRect;
     FBoundsFloatGroups1: TRect;
     FBoundsFloatGroups2: TRect;
     FBoundsFloatGroups3: TRect;
@@ -1904,8 +1902,8 @@ begin
   {$endif}
 
   FBoundsMain:= Rect(100, 100, 900, 700);;
-  FBoundsFloatSide:= Rect(650, 50, 900, 700);
-  FBoundsFloatBottom:= Rect(50, 480, 900, 700);
+  AppPanels[cSideLeft].FormFloatBounds:= Rect(650, 50, 900, 700);
+  AppPanels[cSideBottom].FormFloatBounds:= Rect(50, 480, 900, 700);
   FBoundsFloatGroups1:= Rect(300, 100, 800, 700);
   FBoundsFloatGroups2:= Rect(320, 120, 820, 720);
   FBoundsFloatGroups3:= Rect(340, 140, 840, 740);
@@ -6128,17 +6126,8 @@ procedure TfmMain.SetFloatSide(AValue: boolean);
 begin
   if GetFloatSide=AValue then exit;
 
-  if not Assigned(AppPanels[cSideLeft].FormFloat) then
-  begin
-    AppPanels[cSideLeft].FormFloat:= TForm.CreateNew(Self);
-    AppPanels[cSideLeft].FormFloat.Position:= poDesigned;
-    AppPanels[cSideLeft].FormFloat.BoundsRect:= FBoundsFloatSide;
-    AppPanels[cSideLeft].FormFloat.BorderIcons:= [biSystemMenu, biMaximize];
-    AppPanels[cSideLeft].FormFloat.ShowInTaskBar:= stNever;
-    AppPanels[cSideLeft].FormFloat.OnClose:= @FormFloatSideOnClose;
-  end;
-
   PanelLeftTitle.Visible:= not AValue;
+  AppPanels[cSideLeft].InitFormFloat(@FormFloatSideOnClose);
   AppPanels[cSideLeft].FormFloat.Visible:= AValue;
   AppPanels[cSideLeft].FormFloat.Caption:= msgTranslatedPanelCaption(AppPanels[cSideLeft].LastActivePanel) + ' - ' + msgTitle;
 
@@ -6213,16 +6202,7 @@ procedure TfmMain.SetFloatBottom(AValue: boolean);
 begin
   if GetFloatBottom=AValue then exit;
 
-  if not Assigned(AppPanels[cSideBottom].FormFloat) then
-  begin
-    AppPanels[cSideBottom].FormFloat:= TForm.CreateNew(Self);
-    AppPanels[cSideBottom].FormFloat.Position:= poDesigned;
-    AppPanels[cSideBottom].FormFloat.BoundsRect:= FBoundsFloatBottom;
-    AppPanels[cSideBottom].FormFloat.BorderIcons:= [biSystemMenu, biMaximize];
-    AppPanels[cSideBottom].FormFloat.ShowInTaskBar:= stNever;
-    AppPanels[cSideBottom].FormFloat.OnClose:= @FormFloatBottomOnClose;
-  end;
-
+  AppPanels[cSideBottom].InitFormFloat(@FormFloatBottomOnClose);
   AppPanels[cSideBottom].FormFloat.Visible:= AValue;
   AppPanels[cSideBottom].FormFloat.Caption:= msgTranslatedPanelCaption(AppPanels[cSideBottom].LastActivePanel) + ' - ' + msgTitle;
 

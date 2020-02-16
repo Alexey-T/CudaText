@@ -465,8 +465,8 @@ begin
     end;
 
     DoOps_LoadFormRect(c, '/dialog', FBoundsMain);
-    DoOps_LoadFormRect(c, '/dialog/fl_side', FBoundsFloatSide);
-    DoOps_LoadFormRect(c, '/dialog/fl_btm', FBoundsFloatBottom);
+    DoOps_LoadFormRect(c, '/dialog/fl_side', AppPanels[cSideLeft].FormFloatBounds);
+    DoOps_LoadFormRect(c, '/dialog/fl_btm', AppPanels[cSideBottom].FormFloatBounds);
     DoOps_LoadFormRect(c, '/dialog/fl_g1', FBoundsFloatGroups1);
     DoOps_LoadFormRect(c, '/dialog/fl_g2', FBoundsFloatGroups2);
     DoOps_LoadFormRect(c, '/dialog/fl_g3', FBoundsFloatGroups3);

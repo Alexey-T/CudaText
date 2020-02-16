@@ -55,6 +55,7 @@ type
     LastActivePanel: string;
     DefaultPanel: string;
     FormFloat: TForm;
+    FormFloatBounds: TRect;
     OnChange: TNotifyEvent;
     OnHide: TNotifyEvent;
     OnCommand: TAppPanelOnCommand;
@@ -70,6 +71,7 @@ type
     function Delete(const ACaption: string): boolean;
     procedure UpdateButtons;
     function UpdatePanels(const ACaption: string; AndFocus: boolean; ACheckExists: boolean): boolean;
+    procedure InitFormFloat(AOnClose: TCloseEvent);
   end;
 
 var
@@ -355,6 +357,19 @@ begin
         Break;
       end;
     end;
+end;
+
+procedure TAppPanelHost.InitFormFloat(AOnClose: TCloseEvent);
+begin
+  if not Assigned(FormFloat) then
+  begin
+    FormFloat:= TForm.CreateNew(Application.MainForm);
+    FormFloat.Position:= poDesigned;
+    FormFloat.BoundsRect:= FormFloatBounds;
+    FormFloat.BorderIcons:= [biSystemMenu, biMaximize];
+    FormFloat.ShowInTaskBar:= stNever;
+    FormFloat.OnClose:= AOnClose;
+  end;
 end;
 
 procedure TAppPanelHost.HandleButtonClick(Sender: TObject);
