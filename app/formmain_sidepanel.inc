@@ -69,39 +69,8 @@ begin
   if (NPanelIndex>=0) and (TAppPanelItem(AppPanels[cSideLeft].Panels[NPanelIndex]).ItemControl=nil) then
     AppPanels[cSideLeft].OnCommand(Btn.DataString);
 
-  UpdateSidebarPanels(SCaption, true);
+  AppPanels[cSideLeft].UpdatePanels(SCaption, true);
   Btn.Checked:= true;
-end;
-
-
-procedure TfmMain.UpdateSidebarPanels(const ACaption: string; AndFocus: boolean);
-var
-  bFound: boolean;
-  i: integer;
-begin
-  AppPanels[cSideLeft].LastActivePanel:= ACaption;
-  AppPanels[cSideLeft].Visible:= true;
-  AppPanels[cSideLeft].UpdateButtons;
-  AppPanels[cSideLeft].OnChange(nil);
-
-  for i:= 0 to AppPanels[cSideLeft].Panels.Count-1 do
-    with TAppPanelItem(AppPanels[cSideLeft].Panels[i]) do
-    begin
-      if ItemCaption='' then Break;
-      bFound:= SameText(ItemCaption, ACaption);
-      if Assigned(ItemControl) then
-      begin
-        ItemControl.Visible:= bFound;
-        if AndFocus then
-          if PanelLeft.Visible then
-            if ItemControl.Visible then
-              if ItemControl.CanFocus then
-                ItemControl.SetFocus;
-      end
-      else
-      if bFound and (ItemModule<>'') and (ItemMethod<>'') then
-        DoPyCommand(ItemModule, ItemMethod, []);
-    end;
 end;
 
 
@@ -120,7 +89,7 @@ function TfmMain.DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean
 begin
   Result:= AppPanels[cSideLeft].CaptionToButtonIndex(ACaption)>=0;
   if Result then
-    UpdateSidebarPanels(ACaption, AndFocus);
+    AppPanels[cSideLeft].UpdatePanels(ACaption, AndFocus);
 end;
 
 

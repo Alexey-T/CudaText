@@ -990,7 +990,6 @@ type
     procedure StopAllTimers;
     procedure UpdateMenuRecents(sub: TMenuItem);
     procedure UpdateSidebarButtonOverlay;
-    procedure UpdateBottomPanels(const ACaption: string; AndFocus: boolean);
     procedure UpdateEditorTabsize(AValue: integer);
     procedure UpdateKeymapDynamicItems(ACategory: TAppCommandCategory);
     procedure UpdateMenuItemAltObject(mi: TMenuItem; cmd: integer);
@@ -1021,7 +1020,6 @@ type
     procedure SetFrame(Frame: TEditorFrame);
     procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
     procedure MsgStatus(AText: string);
-    procedure UpdateSidebarPanels(const ACaption: string; AndFocus: boolean);
     procedure UpdateStatusbarPanelsFromString(const AText: string);
     procedure UpdateStatusbarHints;
     procedure UpdateStatus_ForFrame(AStatus: TATStatus; F: TEditorFrame);

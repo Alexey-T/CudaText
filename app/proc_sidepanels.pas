@@ -65,11 +65,11 @@ type
     function CaptionToPanelIndex(const ACaption: string): integer;
     function CaptionToButtonIndex(const ACaption: string): integer;
     function CaptionToControlHandle(const ACaption: string): PtrInt;
-    function Add(const ACaption: string; AImageIndex: integer; AHandle: PtrInt;
-      AOnPanelShow: TNotifyEvent): boolean;
+    function Add(const ACaption: string; AImageIndex: integer; AHandle: PtrInt; AOnPanelShow: TNotifyEvent): boolean;
     function AddEmpty(const ACaption: string; AImageIndex: integer; const AModule, AMethod: string): boolean;
     function Delete(const ACaption: string): boolean;
     procedure UpdateButtons;
+    procedure UpdatePanels(const ACaption: string; AndFocus: boolean);
   end;
 
 var
@@ -304,6 +304,50 @@ begin
     Btn.Checked:= bVis and SameText(Btn.Caption, LastActivePanel);
   end;
 end;
+
+procedure TAppPanelHost.UpdatePanels(const ACaption: string; AndFocus: boolean);
+var
+  Ctl: TCustomControl;
+  bFound: boolean;
+  i: integer;
+begin
+  LastActivePanel:= ACaption;
+  Visible:= true;
+  UpdateButtons;
+  OnChange(nil);
+
+  for i:= 0 to Panels.Count-1 do
+  begin
+    Ctl:= TAppPanelItem(Panels[i]).ItemControl;
+    if Assigned(Ctl) then
+      Ctl.Hide;
+  end;
+
+  for i:= 0 to Panels.Count-1 do
+    with TAppPanelItem(Panels[i]) do
+    begin
+      if ItemCaption='' then Continue;
+      Ctl:= ItemControl;
+      bFound:= SameText(ItemCaption, ACaption);
+      if bFound then
+      begin
+        if Assigned(Ctl) then
+        begin
+          Ctl.Show;
+          if AndFocus then
+            if ParentPanel.Visible then
+              if Ctl.Visible then
+                if Ctl.CanFocus then
+                  Ctl.SetFocus;
+        end
+        else
+        if (ItemModule<>'') and (ItemMethod<>'') then
+          OnCommand(ItemModule+'.'+ItemMethod);
+        Break;
+      end;
+    end;
+end;
+
 
 
 var

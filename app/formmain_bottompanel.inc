@@ -38,7 +38,7 @@ begin
   if (NPanelIndex>=0) and (TAppPanelItem(AppPanels[cSideBottom].Panels[NPanelIndex]).ItemControl=nil) then
     AppPanels[cSideBottom].OnCommand(Btn.DataString);
 
-  UpdateBottomPanels(SCaption, true);
+  AppPanels[cSideBottom].UpdatePanels(SCaption, true);
   Btn.Checked:= true;
 end;
 
@@ -60,43 +60,11 @@ begin
   UpdateStatus;
 end;
 
-procedure TfmMain.UpdateBottomPanels(const ACaption: string; AndFocus: boolean);
-var
-  Ctl: TWinControl;
-  i: integer;
-begin
-  AppPanels[cSideBottom].LastActivePanel:= ACaption;
-  AppPanels[cSideBottom].Visible:= true;
-  AppPanels[cSideBottom].UpdateButtons;
-  AppPanels[cSideBottom].OnChange(nil);
-
-  //hide panels from proc_bottompanel_add
-  for i:= 0 to AppPanels[cSideBottom].Panels.Count-1 do
-  begin
-    Ctl:= TAppPanelItem(AppPanels[cSideBottom].Panels[i]).ItemControl;
-    if Assigned(Ctl) then
-      Ctl.Hide;
-  end;
-
-  //tabs for api proc_bottompanel
-  for i:= 0 to AppPanels[cSideBottom].Panels.Count-1 do
-    with TAppPanelItem(AppPanels[cSideBottom].Panels[i]) do
-      if Assigned(ItemControl) then
-      begin
-        ItemControl.Visible:= SameText(ItemCaption, ACaption);
-        if AndFocus then
-          if PanelBottom.Visible then
-            if ItemControl.Visible then
-              if ItemControl.CanFocus then
-                ItemControl.SetFocus;
-      end;
-end;
-
 function TfmMain.DoBottom_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
 begin
   Result:= AppPanels[cSideBottom].CaptionToButtonIndex(ACaption)>=0;
   if Result then
-    UpdateBottomPanels(ACaption, AndFocus);
+    AppPanels[cSideBottom].UpdatePanels(ACaption, AndFocus);
 end;
 
 procedure TfmMain.DoBottom_OnTabChange(Sender: TObject);
