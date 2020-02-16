@@ -34,20 +34,22 @@ type
     );
 
   TAppVariantItem = record
-    KeyName: string[15];
-    case Typ: TAppVariantItemTypeId of
-      avdBool: (Bool: boolean);
-      avdInt: (Int: Int64);
-      avdRect: (Rect: TRect);
-      avdStr: (Str: string[10]);
+    Typ: TAppVariantItemTypeId;
+    KeyName: string[15]; //enough len for Py API events
+    case integer of
+      0: (Bool: boolean);
+      1: (Int: Int64);
+      2: (Rect: TRect);
+      3: (Str: string[10]);
   end;
 
   TAppVariant = record
-    case Typ: TAppVariantTypeId of
-      avrBool: (Bool: boolean);
-      avrInt: (Int: Int64);
-      avrStr: (Str: string[100]);
-      avrDict: (Len: integer; Items: array[0..6] of TAppVariantItem);
+    Typ: TAppVariantTypeId;
+    Str: string; //don't use ShortString to allow big len
+    case integer of
+      0: (Bool: boolean);
+      1: (Int: Int64);
+      2: (Len: integer; Items: array[0..6] of TAppVariantItem);
   end;
 
   TAppVariantArray = array of TAppVariant;
@@ -55,6 +57,7 @@ type
 const
   AppVariantNil: TAppVariant = (
     Typ: avrNil;
+    Str: '';
     Int: 0
     );
 
@@ -96,8 +99,6 @@ end;
 function AppVariant(const Value: string): TAppVariant;
 begin
   FillChar(Result, SizeOf(Result), 0);
-  if Length(Value)>SizeOf(Result.Str)-1 then
-    raise Exception.Create('Too long str in AppVariant');
   Result.Typ:= avrStr;
   Result.Str:= Value;
 end;
@@ -265,5 +266,14 @@ begin
       PyTuple_SetItem(Result, i, AppVariantToPyObject(V[i]));
   end;
 end;
+
+
+var
+  n: integer;
+
+initialization
+
+  n:= SizeOf(TAppVariant);
+  if n>0 then ;
 
 end.
