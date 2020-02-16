@@ -337,18 +337,17 @@ begin
     with TAppPanelItem(Panels[i]) do
     begin
       if ItemCaption='' then Continue;
-      Ctl:= ItemControl;
       bFound:= SameText(ItemCaption, ACaption);
       if bFound then
       begin
+        Ctl:= ItemControl;
         if Assigned(Ctl) then
         begin
           Ctl.Show;
           if AndFocus then
             if ParentPanel.Visible then
-              if Ctl.Visible then
-                if Ctl.CanFocus then
-                  Ctl.SetFocus;
+              if Ctl.Visible and Ctl.CanFocus then
+                Ctl.SetFocus;
         end
         else
         if (ItemModule<>'') and (ItemMethod<>'') then
@@ -374,13 +373,14 @@ begin
     exit
   end;
 
+  Btn.Checked:= true;
+
   //avoid plugin call if panel already inited
   NPanel:= CaptionToPanelIndex(SCaption);
   if (NPanel>=0) and (TAppPanelItem(Panels[NPanel]).ItemControl=nil) then
     OnCommand(Btn.DataString);
 
   UpdatePanels(SCaption, true, false);
-  Btn.Checked:= true;
 end;
 
 
