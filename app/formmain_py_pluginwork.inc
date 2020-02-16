@@ -90,8 +90,7 @@ begin
         s_caption,
         DoSidebar_FilenameToImageIndex(s_caption, s_icon),
         s_module,
-        s_method,
-        @fmMain.DoSidebar_OnTabClick
+        s_method
         );
     end;
 

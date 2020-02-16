@@ -51,6 +51,7 @@ type
     LastActivePanel: string;
     DefaultPanel: string;
     FormFloat: TForm;
+    OnTabClick: TNotifyEvent;
     OnChange: TNotifyEvent;
     OnHide: TNotifyEvent;
     constructor Create;
@@ -60,8 +61,8 @@ type
     function CaptionToPanelIndex(const ACaption: string): integer;
     function CaptionToButtonIndex(const ACaption: string): integer;
     function CaptionToControlHandle(const ACaption: string): PtrInt;
-    function Add(const ACaption: string; AImageIndex: integer; AHandle: PtrInt; AOnClick: TNotifyEvent): boolean;
-    function AddEmpty(const ACaption: string; AImageIndex: integer; const AModule, AMethod: string; AOnClick: TNotifyEvent): boolean;
+    function Add(const ACaption: string; AImageIndex: integer; AHandle: PtrInt): boolean;
+    function AddEmpty(const ACaption: string; AImageIndex: integer; const AModule, AMethod: string): boolean;
     function Delete(const ACaption: string): boolean;
     procedure UpdateButtons;
   end;
@@ -210,7 +211,7 @@ begin
 end;
 
 function TAppPanelHost.Add(const ACaption: string; AImageIndex: integer;
-  AHandle: PtrInt; AOnClick: TNotifyEvent): boolean;
+  AHandle: PtrInt): boolean;
 var
   Panel: TAppPanelItem;
   Num: integer;
@@ -232,15 +233,15 @@ begin
 
   if not bExist then
   begin
-    Toolbar.AddButton(AImageIndex, AOnClick, ACaption, ACaption, '', false);
+    Toolbar.AddButton(AImageIndex, OnTabClick, ACaption, ACaption, '', false);
     Toolbar.UpdateControls;
   end;
 
   Result:= true;
 end;
 
-function TAppPanelHost.AddEmpty(const ACaption: string;
-  AImageIndex: integer; const AModule, AMethod: string; AOnClick: TNotifyEvent): boolean;
+function TAppPanelHost.AddEmpty(const ACaption: string; AImageIndex: integer;
+  const AModule, AMethod: string): boolean;
 var
   Panel: TAppPanelItem;
 begin
@@ -254,7 +255,7 @@ begin
   Panels.Add(Panel);
 
   //save module/method to Btn.DataString
-  Toolbar.AddButton(AImageIndex, AOnClick, ACaption, ACaption,
+  Toolbar.AddButton(AImageIndex, OnTabClick, ACaption, ACaption,
     AModule+'.'+AMethod,
     false);
   Toolbar.UpdateControls;

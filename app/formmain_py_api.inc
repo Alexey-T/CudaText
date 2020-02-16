@@ -4213,8 +4213,7 @@ begin
             ok:= AppPanels[cSideLeft].Add(
               StrCaption,
               fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
-              StrToInt64Def(StrIndex, 0),
-              @fmMain.DoSidebar_OnTabClick
+              StrToInt64Def(StrIndex, 0)
               );
 
             Result:= PyBool_FromLong(Ord(ok));
@@ -4277,8 +4276,7 @@ begin
             ok:= AppPanels[cSideBottom].Add(
               StrCaption,
               fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
-              StrToInt64Def(StrIndex, 0),
-              @fmMain.DoBottom_OnTabClick
+              StrToInt64Def(StrIndex, 0)
               );
 
             Result:= PyBool_FromLong(Ord(ok));

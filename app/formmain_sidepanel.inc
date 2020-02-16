@@ -87,6 +87,7 @@ var
 begin
   AppPanels[cSideLeft].LastActivePanel:= ACaption;
   ShowSidePanel:= true;
+  AppPanels[cSideLeft].UpdateButtons;
   AppPanels[cSideLeft].OnChange(nil);
 
   for i:= 0 to AppPanels[cSideLeft].Panels.Count-1 do

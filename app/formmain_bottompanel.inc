@@ -73,6 +73,7 @@ var
 begin
   AppPanels[cSideBottom].LastActivePanel:= ACaption;
   ShowBottom:= true;
+  AppPanels[cSideBottom].UpdateButtons;
   AppPanels[cSideBottom].OnChange(nil);
 
   //hide panels from proc_bottompanel_add

@@ -1852,7 +1852,6 @@ end;
 
 procedure TfmMain.FormCreate(Sender: TObject);
 var
-  Panel: TAppPanelItem;
   i: integer;
 begin
   //"Check for updates" is supported only on Windows
@@ -1867,6 +1866,7 @@ begin
     Splitter:= SplitterVert;
     DefaultPanel:= msgPanelTree_Init;
     OnChange:= @DoSidebar_OnTabChange;
+    OnTabClick:= @DoSidebar_OnTabClick;
   end;
 
   with AppPanels[cSideBottom] do
@@ -1875,6 +1875,7 @@ begin
     Toolbar:= ToolbarSideLow;
     Splitter:= SplitterHorz;
     OnChange:= @DoBottom_OnTabChange;
+    OnTabClick:= @DoBottom_OnTabClick;
   end;
 
   LexerProgress:= TATGauge.Create(Self);
@@ -2046,12 +2047,6 @@ begin
   Groups.OnTabPopup:= @DoOnTabPopup;
   //Groups.OnTabOver:= @DoOnTabOver;
   Groups.OnTabGetTick:= @DoOnTabGetTick;
-
-  Panel:= TAppPanelItem.Create;
-  Panel.ItemCaption:= msgPanelTree_Init;
-  Panel.ItemControl:= PanelCodeTreeAll;
-  Panel.ItemOnShow:=@DoSidebar_OnShowCodeTree;
-  AppPanels[cSideLeft].Panels.Add(Panel);
 
   FFinder:= TATEditorFinder.Create;
   FFinder.OptRegex:= true;
