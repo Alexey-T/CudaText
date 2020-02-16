@@ -36,6 +36,9 @@ type
   end;
 
 type
+  TAppPanelPythonCall = procedure(const ACallback: string) of object;
+
+type
   { TAppPanelHost }
 
   TAppPanelHost = class
@@ -54,6 +57,7 @@ type
     OnTabClick: TNotifyEvent;
     OnChange: TNotifyEvent;
     OnHide: TNotifyEvent;
+    OnPythonCall: TAppPanelPythonCall;
     constructor Create;
     destructor Destroy; override;
     property Floating: boolean read GetFloating;

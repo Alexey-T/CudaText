@@ -208,3 +208,11 @@ begin
   UpdateTreeContents;
 end;
 
+procedure TfmMain.DoSidebar_OnPythonCall(const AStr: string);
+var
+  SModule, SMethod: string;
+begin
+  SSplitByChar(AStr, '.', SModule, SMethod);
+  DoPyCommand(SModule, SMethod, []);
+end;
+

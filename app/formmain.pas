@@ -659,6 +659,7 @@ type
     FOption_SidebarTab: string;
 
     procedure DoBottom_OnHide(Sender: TObject);
+    procedure DoSidebar_OnPythonCall(const AStr: string);
     procedure DoSidebar_OnShowCodeTree(Sender: TObject);
     procedure PythonEngineAfterInit(Sender: TObject);
     procedure PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
@@ -1864,6 +1865,7 @@ begin
     DefaultPanel:= msgPanelTree_Init;
     OnChange:= @DoSidebar_OnTabChange;
     OnTabClick:= @DoSidebar_OnTabClick;
+    OnPythonCall:= @DoSidebar_OnPythonCall;
   end;
 
   with AppPanels[cSideBottom] do
@@ -1874,6 +1876,7 @@ begin
     OnChange:= @DoBottom_OnTabChange;
     OnTabClick:= @DoBottom_OnTabClick;
     OnHide:= @DoBottom_OnHide;
+    OnPythonCall:= @DoSidebar_OnPythonCall;
   end;
 
   LexerProgress:= TATGauge.Create(Self);
