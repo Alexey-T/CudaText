@@ -112,3 +112,12 @@ begin
       FormFloat.Caption:= msgTranslatedPanelCaption(LastActivePanel) + ' - ' + msgTitle;
 end;
 
+procedure TfmMain.DoBottom_OnHide(Sender: TObject);
+var
+  Frame: TEditorFrame;
+begin
+  Frame:= CurrentFrame;
+  if Assigned(Frame) then
+    Frame.SetFocus;
+end;
+

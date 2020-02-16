@@ -658,6 +658,7 @@ type
     FOption_GroupPanelSize: TPoint;
     FOption_SidebarTab: string;
 
+    procedure DoBottom_OnHide(Sender: TObject);
     procedure DoSidebar_OnShowCodeTree(Sender: TObject);
     procedure PythonEngineAfterInit(Sender: TObject);
     procedure PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
@@ -1876,6 +1877,7 @@ begin
     Splitter:= SplitterHorz;
     OnChange:= @DoBottom_OnTabChange;
     OnTabClick:= @DoBottom_OnTabClick;
+    OnHide:= @DoBottom_OnHide;
   end;
 
   LexerProgress:= TATGauge.Create(Self);
@@ -3738,36 +3740,8 @@ end;
 
 
 procedure TfmMain.SetShowBottom(AValue: boolean);
-var
-  bBottom: boolean;
-  Frame: TEditorFrame;
 begin
-  if AppPanels[cSideBottom].Visible<>AValue then
-  begin
-    bBottom:= IsFocusedBottom;
-
-    PanelBottom.Visible:= AValue;
-    if FloatBottom then
-    begin
-      AppPanels[cSideBottom].FormFloat.Visible:= AValue;
-    end
-    else
-    begin
-      SplitterHorz.Visible:= AValue;
-      SplitterHorz.Top:= PanelBottom.Top-8;
-    end;
-
-    if not AValue then
-      if bBottom then
-      begin
-        Frame:= CurrentFrame;
-        if Assigned(Frame) then
-          Frame.SetFocus;
-      end;
-  end;
-
-  AppPanels[cSideBottom].UpdateButtons;
-  UpdateStatus;
+  AppPanels[cSideBottom].Visible:= AValue;
 end;
 
 procedure TfmMain.SetShowSidePanel(AValue: boolean);
