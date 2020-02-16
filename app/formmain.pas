@@ -659,7 +659,7 @@ type
     FOption_SidebarTab: string;
 
     procedure DoBottom_OnHide(Sender: TObject);
-    procedure DoSidebar_OnPythonCall(const AStr: string);
+    procedure DoSidebar_OnPythonCall(const ACallback: string);
     procedure DoSidebar_OnShowCodeTree(Sender: TObject);
     procedure PythonEngineAfterInit(Sender: TObject);
     procedure PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);

@@ -20,7 +20,7 @@ end;
 procedure TfmMain.DoBottom_OnTabClick(Sender: TObject);
 var
   Btn: TATButton;
-  SCaption, SModule, SMethod: string;
+  SCaption: string;
   NPanelIndex: integer;
 begin
   Btn:= Sender as TATButton;
@@ -36,13 +36,7 @@ begin
   //avoid plugin call if panel already inited
   NPanelIndex:= AppPanels[cSideBottom].CaptionToPanelIndex(SCaption);
   if (NPanelIndex>=0) and (TAppPanelItem(AppPanels[cSideBottom].Panels[NPanelIndex]).ItemControl=nil) then
-    if Btn.DataString<>'' then
-    begin
-      SSplitByChar(Btn.DataString, '.', SModule, SMethod);
-      //MsgLogConsole(Format('bottombar click: caption "%s", py %s.%s',
-      //  [SCaption, SModule, SMethod]));
-      DoPyCommand(SModule, SMethod, []);
-    end;
+    AppPanels[cSideBottom].OnPythonCall(Btn.DataString);
 
   UpdateBottomPanels(SCaption, true);
   Btn.Checked:= true;

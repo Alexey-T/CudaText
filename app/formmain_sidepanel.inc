@@ -51,7 +51,7 @@ end;
 procedure TfmMain.DoSidebar_OnTabClick(Sender: TObject);
 var
   Btn: TATButton;
-  SCaption, SModule, SMethod: string;
+  SCaption: string;
   NPanelIndex: integer;
 begin
   Btn:= Sender as TATButton;
@@ -67,13 +67,7 @@ begin
   //avoid plugin call if panel already inited
   NPanelIndex:= AppPanels[cSideLeft].CaptionToPanelIndex(SCaption);
   if (NPanelIndex>=0) and (TAppPanelItem(AppPanels[cSideLeft].Panels[NPanelIndex]).ItemControl=nil) then
-    if Btn.DataString<>'' then
-    begin
-      SSplitByChar(Btn.DataString, '.', SModule, SMethod);
-      //MsgLogConsole(Format('sidebar click: caption "%s", py %s.%s',
-      //  [SCaption, SModule, SMethod]));
-      DoPyCommand(SModule, SMethod, []);
-    end;
+    AppPanels[cSideLeft].OnPythonCall(Btn.DataString);
 
   UpdateSidebarPanels(SCaption, true);
   Btn.Checked:= true;
@@ -208,11 +202,14 @@ begin
   UpdateTreeContents;
 end;
 
-procedure TfmMain.DoSidebar_OnPythonCall(const AStr: string);
+procedure TfmMain.DoSidebar_OnPythonCall(const ACallback: string);
 var
   SModule, SMethod: string;
 begin
-  SSplitByChar(AStr, '.', SModule, SMethod);
-  DoPyCommand(SModule, SMethod, []);
+  if ACallback<>'' then
+  begin
+    SSplitByChar(ACallback, '.', SModule, SMethod);
+    DoPyCommand(SModule, SMethod, []);
+  end;
 end;
 
