@@ -1,71 +1,71 @@
 object fmChooseTheme: TfmChooseTheme
-  Left = 1819
+  Left = 862
   Height = 580
-  Top = 219
-  Width = 554
+  Top = 158
+  Width = 504
   BorderStyle = bsDialog
   Caption = 'Themes'
   ClientHeight = 580
-  ClientWidth = 554
+  ClientWidth = 504
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '2.1.0.0'
   object GroupUI: TGroupBox
     Left = 6
-    Height = 471
+    Height = 479
     Top = 6
-    Width = 274
+    Width = 242
     Align = alLeft
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
     BorderSpacing.Bottom = 6
     Caption = 'UI themes'
-    ClientHeight = 452
-    ClientWidth = 270
+    ClientHeight = 460
+    ClientWidth = 238
     TabOrder = 0
     object ListboxUI: TListBox
       Left = 0
-      Height = 452
+      Height = 460
       Top = 0
-      Width = 270
+      Width = 238
       Align = alClient
       ItemHeight = 0
       OnClick = ListboxUIClick
-      ScrollWidth = 268
+      ScrollWidth = 236
       TabOrder = 0
       TopIndex = -1
     end
   end
   object GroupSyntax: TGroupBox
-    Left = 286
-    Height = 471
+    Left = 254
+    Height = 479
     Top = 6
-    Width = 262
+    Width = 244
     Align = alClient
     BorderSpacing.Around = 6
     Caption = 'Syntax themes'
-    ClientHeight = 452
-    ClientWidth = 258
+    ClientHeight = 460
+    ClientWidth = 240
     TabOrder = 1
     object ListboxSyntax: TListBox
       Left = 0
-      Height = 452
+      Height = 460
       Top = 0
-      Width = 258
+      Width = 240
       Align = alClient
       ItemHeight = 0
       OnClick = ListboxSyntaxClick
-      ScrollWidth = 256
+      ScrollWidth = 238
       TabOrder = 0
       TopIndex = -1
     end
   end
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 37
-    Top = 537
-    Width = 542
+    Height = 29
+    Top = 545
+    Width = 492
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
     HelpButton.Name = 'HelpButton'
@@ -76,12 +76,13 @@ object fmChooseTheme: TfmChooseTheme
     CancelButton.DefaultCaption = True
     TabOrder = 4
     ShowButtons = [pbOK, pbCancel]
+    ShowBevel = False
   end
   object chkSync: TCheckBox
     Left = 6
     Height = 24
-    Top = 507
-    Width = 542
+    Top = 515
+    Width = 492
     Align = alBottom
     BorderSpacing.Left = 6
     BorderSpacing.Right = 6
@@ -92,8 +93,8 @@ object fmChooseTheme: TfmChooseTheme
   object chkEnableLex: TCheckBox
     Left = 6
     Height = 24
-    Top = 483
-    Width = 542
+    Top = 491
+    Width = 492
     Align = alBottom
     BorderSpacing.Left = 6
     BorderSpacing.Right = 6
