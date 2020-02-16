@@ -52,6 +52,7 @@ type
     DefaultPanel: string;
     FormFloat: TForm;
     OnChange: TNotifyEvent;
+    OnHide: TNotifyEvent;
     constructor Create;
     destructor Destroy; override;
     property Floating: boolean read GetFloating;
@@ -128,9 +129,9 @@ begin
         alLeft:
           Splitter.Left:= ParentPanel.Width;
         alBottom:
-          Splitter.Top:= ParentPanel.Parent.Height-ParentPanel.Height;
+          Splitter.Top:= ParentPanel.Top-8;
         alRight:
-          Splitter.Left:= ParentPanel.Parent.Width-ParentPanel.Width;
+          Splitter.Left:= ParentPanel.Left-8;
         else
           begin end;
       end;
@@ -161,7 +162,10 @@ begin
       if Assigned(OnChange) then
         OnChange(nil);
     end;
-  end;
+  end
+  else
+  if Assigned(OnHide) then
+    OnHide(nil);
 
   UpdateButtons;
 end;
