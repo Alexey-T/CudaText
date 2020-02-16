@@ -48,32 +48,6 @@ begin
 end;
 
 
-procedure TfmMain.DoSidebar_OnTabClick(Sender: TObject);
-var
-  Btn: TATButton;
-  SCaption: string;
-  NPanelIndex: integer;
-begin
-  Btn:= Sender as TATButton;
-  SCaption:= Btn.Caption;
-
-  if Btn.Checked or (SCaption='') then
-  begin
-    Btn.Checked:= false;
-    AppPanels[cSideLeft].Visible:= false;
-    Exit
-  end;
-
-  //avoid plugin call if panel already inited
-  NPanelIndex:= AppPanels[cSideLeft].CaptionToPanelIndex(SCaption);
-  if (NPanelIndex>=0) and (TAppPanelItem(AppPanels[cSideLeft].Panels[NPanelIndex]).ItemControl=nil) then
-    AppPanels[cSideLeft].OnCommand(Btn.DataString);
-
-  AppPanels[cSideLeft].UpdatePanels(SCaption, true, false);
-  Btn.Checked:= true;
-end;
-
-
 function TfmMain.DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
 begin
   if AFilename='' then

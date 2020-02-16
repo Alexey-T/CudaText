@@ -740,11 +740,9 @@ type
     function DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
     procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas; AIndex: integer; const ARect: TRect);
     procedure DoSidebar_MainMenuClick(Sender: TObject);
-    procedure DoSidebar_OnTabClick(Sender: TObject);
     procedure DoSidebar_FocusCodetreeFilter;
     procedure DoSidebar_FocusCodetree;
     procedure DoBottom_OnTabChange(Sender: TObject);
-    procedure DoBottom_OnTabClick(Sender: TObject);
     procedure DoBottom_AddonsClick(Sender: TObject);
     procedure DoBottom_FindClick(Sender: TObject);
     procedure DoAutoComplete(Ed: TATSynEdit);
@@ -1860,7 +1858,6 @@ begin
     Splitter:= SplitterVert;
     DefaultPanel:= msgPanelTree_Init;
     OnChange:= @DoSidebar_OnTabChange;
-    OnTabClick:= @DoSidebar_OnTabClick;
     OnCommand:= @DoSidebar_OnPythonCall;
   end;
 
@@ -1870,7 +1867,6 @@ begin
     Toolbar:= ToolbarSideLow;
     Splitter:= SplitterHorz;
     OnChange:= @DoBottom_OnTabChange;
-    OnTabClick:= @DoBottom_OnTabClick;
     OnHide:= @DoBottom_OnHide;
     OnCommand:= @DoSidebar_OnPythonCall;
   end;

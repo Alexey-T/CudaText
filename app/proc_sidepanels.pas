@@ -55,7 +55,6 @@ type
     LastActivePanel: string;
     DefaultPanel: string;
     FormFloat: TForm;
-    OnTabClick: TNotifyEvent;
     OnChange: TNotifyEvent;
     OnHide: TNotifyEvent;
     OnCommand: TAppPanelOnCommand;
@@ -241,7 +240,7 @@ begin
 
   if not bExist then
   begin
-    Toolbar.AddButton(AImageIndex, OnTabClick, ACaption, ACaption, '', false);
+    Toolbar.AddButton(AImageIndex, @HandleButtonClick, ACaption, ACaption, '', false);
     Toolbar.UpdateControls;
   end;
 
@@ -263,7 +262,7 @@ begin
   Panels.Add(Panel);
 
   //save module/method to Btn.DataString
-  Toolbar.AddButton(AImageIndex, OnTabClick, ACaption, ACaption,
+  Toolbar.AddButton(AImageIndex, @HandleButtonClick, ACaption, ACaption,
     AModule+'.'+AMethod,
     false);
   Toolbar.UpdateControls;

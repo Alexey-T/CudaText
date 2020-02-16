@@ -17,32 +17,6 @@ begin
 end;
 
 
-procedure TfmMain.DoBottom_OnTabClick(Sender: TObject);
-var
-  Btn: TATButton;
-  SCaption: string;
-  NPanelIndex: integer;
-begin
-  Btn:= Sender as TATButton;
-  SCaption:= Btn.Caption;
-
-  if Btn.Checked or (SCaption='') then
-  begin
-    Btn.Checked:= false;
-    AppPanels[cSideBottom].Visible:= false;
-    Exit
-  end;
-
-  //avoid plugin call if panel already inited
-  NPanelIndex:= AppPanels[cSideBottom].CaptionToPanelIndex(SCaption);
-  if (NPanelIndex>=0) and (TAppPanelItem(AppPanels[cSideBottom].Panels[NPanelIndex]).ItemControl=nil) then
-    AppPanels[cSideBottom].OnCommand(Btn.DataString);
-
-  AppPanels[cSideBottom].UpdatePanels(SCaption, true, false);
-  Btn.Checked:= true;
-end;
-
-
 procedure TfmMain.DoBottom_AddonsClick(Sender: TObject);
 begin
   DoPyCommand('cuda_addonman', 'do_install_addon', []);
