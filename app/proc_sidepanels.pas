@@ -280,12 +280,13 @@ begin
     Toolbar.Buttons[Num].Free;
     Toolbar.UpdateControls;
 
-    //hard to remove item, so hide it by "?"
     for i:= 0 to Panels.Count-1 do
       with TAppPanelItem(Panels[i]) do
         if ItemCaption=ACaption then
         begin
-          ItemCaption:= '?';
+          if Assigned(ItemControl) then
+            ItemControl.Hide;
+          Panels.Delete(i);
           Break;
         end;
   end;
