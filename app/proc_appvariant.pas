@@ -268,12 +268,12 @@ begin
 end;
 
 
+{
 var
   n: integer;
-
 initialization
-
   n:= SizeOf(TAppVariant);
   if n>0 then ;
+}
 
 end.
