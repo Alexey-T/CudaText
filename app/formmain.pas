@@ -699,7 +699,7 @@ type
     procedure DoOps_LoadOptions_UiAutoCompletion(c: TJSONConfig);
     procedure DoShowFirstStartInfo;
     procedure DoOps_OnCreate;
-    procedure DoShowBottomPanel(const ATabCaption: string; AndFocus: boolean);
+    procedure DoBottom_SetPanel(const ATabCaption: string; AndFocus: boolean);
     function FindFrameOfFilename(const AName: string): TEditorFrame;
     procedure FixMainLayout;
     procedure FormFloatBottomOnClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -920,7 +920,7 @@ type
     procedure DoShowConsole(AndFocus: boolean);
     procedure DoShowOutput(AndFocus: boolean);
     procedure DoShowValidate(AndFocus: boolean);
-    procedure DoShowSidePanel(const ATabCaption: string; AndFocus: boolean);
+    procedure DoSidebar_SetPanel(const ATabCaption: string; AndFocus: boolean);
     function FrameOfPopup: TEditorFrame;
     procedure FrameOnCommand(Sender: TObject; ACommand: integer; const AText: string; var AHandled: boolean);
     function DoFileCloseAll(AWithCancel: boolean): boolean;
@@ -4214,7 +4214,7 @@ procedure TfmMain.SetSidebarPanel(const ACaption: string);
 begin
   if (ACaption<>'-') and (ACaption<>'') then
     if AppPanels[cSideLeft].Visible then
-      DoShowSidePanel(ACaption, true);
+      DoSidebar_SetPanel(ACaption, true);
 end;
 
 procedure TfmMain.SetShowSideBar(AValue: boolean);
@@ -4495,50 +4495,17 @@ end;
 
 procedure TfmMain.DoShowConsole(AndFocus: boolean);
 begin
-  DoShowBottomPanel(msgPanelConsole_Init, AndFocus);
+  DoBottom_SetPanel(msgPanelConsole_Init, AndFocus);
 end;
 
 procedure TfmMain.DoShowOutput(AndFocus: boolean);
 begin
-  DoShowBottomPanel(msgPanelOutput_Init, AndFocus);
+  DoBottom_SetPanel(msgPanelOutput_Init, AndFocus);
 end;
 
 procedure TfmMain.DoShowValidate(AndFocus: boolean);
 begin
-  DoShowBottomPanel(msgPanelValidate_Init, AndFocus);
-end;
-
-procedure TfmMain.DoShowSidePanel(const ATabCaption: string; AndFocus: boolean);
-begin
-  if ATabCaption='-' then
-  begin
-    AppPanels[cSideLeft].Visible:= false;
-  end
-  else
-  begin
-    AppPanels[cSideLeft].Visible:= true;
-    if ATabCaption<>'' then
-      AppPanels[cSideLeft].UpdatePanels(ATabCaption, AndFocus, true);
-  end;
-
-  AppPanels[cSideLeft].UpdateButtons;
-end;
-
-
-procedure TfmMain.DoShowBottomPanel(const ATabCaption: string; AndFocus: boolean);
-begin
-  if ATabCaption='-' then
-  begin
-    AppPanels[cSideBottom].Visible:= false;
-  end
-  else
-  begin
-    AppPanels[cSideBottom].Visible:= true;
-    if ATabCaption<>'' then
-      AppPanels[cSideBottom].UpdatePanels(ATabCaption, AndFocus, true);
-  end;
-
-  AppPanels[cSideBottom].UpdateButtons;
+  DoBottom_SetPanel(msgPanelValidate_Init, AndFocus);
 end;
 
 procedure TfmMain.SetShowFullScreen(AValue: boolean);

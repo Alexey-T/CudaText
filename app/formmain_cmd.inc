@@ -214,15 +214,15 @@ begin
     cmd_ShowPanelValidate_AndFocus:
       DoShowValidate(true);
     cmd_ShowSidePanelAsIs:
-      DoShowSidePanel('', false);
+      DoSidebar_SetPanel('', false);
     cmd_ShowSidePanelAndSyntaxTree:
-      DoShowSidePanel(msgPanelTree_Init, false);
+      DoSidebar_SetPanel(msgPanelTree_Init, false);
     cmd_ToggleSidePanelAndSyntaxTree:
-      DoShowSidePanel(IfThen(AppPanels[cSideLeft].Visible, '-', msgPanelTree_Init), false);
+      DoSidebar_SetPanel(IfThen(AppPanels[cSideLeft].Visible, '-', msgPanelTree_Init), false);
     cmd_HideSidePanel:
-      DoShowSidePanel('-', false);
+      DoSidebar_SetPanel('-', false);
     cmd_HideBottomPanel:
-      DoShowBottomPanel('-', false);
+      DoBottom_SetPanel('-', false);
 
     cmd_FindFirst:
       DoFindFirst;
