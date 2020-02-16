@@ -217,7 +217,7 @@ type
 
     EscapeClose: boolean;
     EscapeCloseConsole: boolean;
-    ConsoleCompact: boolean;
+    //ConsoleCompact: boolean;
     ConsoleWordWrap: boolean;
     InputHeight: integer;
     InitialDir: string;
@@ -1330,7 +1330,7 @@ begin
 
     EscapeClose:= false;
     EscapeCloseConsole:= true;
-    ConsoleCompact:= false;
+    //ConsoleCompact:= false;
     ConsoleWordWrap:= true;
     InputHeight:= 26;
     InitialDir:= '';

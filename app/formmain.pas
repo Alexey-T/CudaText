@@ -995,7 +995,6 @@ type
     procedure UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean=false);
     procedure UpdateMenuChecks;
     procedure UpdateMenuEnc(AMenu: TMenuItem);
-    procedure DoBottom_UpdateLayout;
     procedure DoApplyUiOps;
     procedure DoApplyUiOpsToGroups(G: TATGroups);
     procedure DoApplyInitialGroupSizes;
@@ -2791,6 +2790,13 @@ begin
   CompletionOps.UpDownAtEdge:= TATCompletionUpDownAtEdge(UiOps.AutocompleteUpDownAtEdge);
 
   {
+  if UiOps.ConsoleCompact then
+    AppPanels[cSideBottom].PanelMain:= Self.PanelEditors
+  else
+    AppPanels[cSideBottom].PanelMain:= Self.PanelAll;
+  }
+
+  {
   ToolbarMain.UpdateControls;
   ToolbarSideTop.UpdateControls;
   ToolbarSideLow.UpdateControls;
@@ -2834,7 +2840,6 @@ begin
     fmFind.IsDoubleBuffered:= UiOps.DoubleBuffered;
   //end apply DoubleBuffered
 
-  DoBottom_UpdateLayout;
   UpdateStatusbarPanelsFromString(UiOps.StatusPanels);
   UpdateStatusbarHints;
 
@@ -6139,7 +6144,6 @@ end;
 procedure TfmMain.SetFloatBottom(AValue: boolean);
 begin
   AppPanels[cSideBottom].Floating:= AValue;
-  DoBottom_UpdateLayout;
 end;
 
 
