@@ -1849,7 +1849,7 @@ begin
     DefaultPanel:= msgPanelTree_Init;
     OnCommand:= @DoSidebar_OnPythonCall;
     OnCloseFloatForm:= @DoSidebar_OnCloseFloatForm;
-    OnGetFormTitle:= @DoSidebar_GetFormTitle;
+    OnGetTranslatedTitle:= @DoSidebar_GetFormTitle;
   end;
 
   with AppPanels[cSideBottom] do
@@ -1863,7 +1863,7 @@ begin
     OnHide:= @DoBottom_OnHide;
     OnCommand:= @DoSidebar_OnPythonCall;
     OnCloseFloatForm:= @DoBottom_OnCloseFloatForm;
-    OnGetFormTitle:= @DoSidebar_GetFormTitle;
+    OnGetTranslatedTitle:= @DoSidebar_GetFormTitle;
   end;
 
   LexerProgress:= TATGauge.Create(Self);

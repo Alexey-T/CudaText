@@ -67,7 +67,7 @@ type
     OnHide: TNotifyEvent;
     OnCommand: TAppPanelOnCommand;
     OnCloseFloatForm: TCloseEvent;
-    OnGetFormTitle: TAppPanelOnGetTitle;
+    OnGetTranslatedTitle: TAppPanelOnGetTitle;
     constructor Create;
     destructor Destroy; override;
     property Floating: boolean read GetFloating write SetFloating;
@@ -446,7 +446,7 @@ procedure TAppPanelHost.UpdateTitle;
 var
   S: string;
 begin
-  S:= OnGetFormTitle(LastActivePanel);
+  S:= OnGetTranslatedTitle(LastActivePanel);
   if Assigned(LabelTitle) then
     LabelTitle.Caption:= S;
   if Assigned(FormFloat) then
