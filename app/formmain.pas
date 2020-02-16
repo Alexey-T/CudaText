@@ -79,7 +79,7 @@ uses
   proc_appvariant,
   proc_files,
   proc_globdata,
-  proc_sidepanels,
+  proc_panelhost,
   proc_colors,
   proc_cmd,
   proc_editor,
