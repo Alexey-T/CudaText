@@ -1854,6 +1854,7 @@ begin
     DefaultPanel:= msgPanelTree_Init;
     OnChange:= @DoSidebar_OnTabChange;
     OnCommand:= @DoSidebar_OnPythonCall;
+    OnCloseFloatForm:= @FormFloatSideOnClose;
   end;
 
   with AppPanels[cSideBottom] do
@@ -1864,6 +1865,7 @@ begin
     OnChange:= @DoBottom_OnTabChange;
     OnHide:= @DoBottom_OnHide;
     OnCommand:= @DoSidebar_OnPythonCall;
+    OnCloseFloatForm:= @FormFloatBottomOnClose;
   end;
 
   LexerProgress:= TATGauge.Create(Self);
@@ -6127,7 +6129,7 @@ begin
   if GetFloatSide=AValue then exit;
 
   PanelLeftTitle.Visible:= not AValue;
-  AppPanels[cSideLeft].InitFormFloat(@FormFloatSideOnClose);
+  AppPanels[cSideLeft].InitFormFloat;
   AppPanels[cSideLeft].FormFloat.Visible:= AValue;
   AppPanels[cSideLeft].FormFloat.Caption:= msgTranslatedPanelCaption(AppPanels[cSideLeft].LastActivePanel) + ' - ' + msgTitle;
 
@@ -6202,7 +6204,7 @@ procedure TfmMain.SetFloatBottom(AValue: boolean);
 begin
   if GetFloatBottom=AValue then exit;
 
-  AppPanels[cSideBottom].InitFormFloat(@FormFloatBottomOnClose);
+  AppPanels[cSideBottom].InitFormFloat;
   AppPanels[cSideBottom].FormFloat.Visible:= AValue;
   AppPanels[cSideBottom].FormFloat.Caption:= msgTranslatedPanelCaption(AppPanels[cSideBottom].LastActivePanel) + ' - ' + msgTitle;
 

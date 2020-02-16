@@ -59,6 +59,7 @@ type
     OnChange: TNotifyEvent;
     OnHide: TNotifyEvent;
     OnCommand: TAppPanelOnCommand;
+    OnCloseFloatForm: TCloseEvent;
     constructor Create;
     destructor Destroy; override;
     property Floating: boolean read GetFloating;
@@ -71,7 +72,7 @@ type
     function Delete(const ACaption: string): boolean;
     procedure UpdateButtons;
     function UpdatePanels(const ACaption: string; AndFocus: boolean; ACheckExists: boolean): boolean;
-    procedure InitFormFloat(AOnClose: TCloseEvent);
+    procedure InitFormFloat;
   end;
 
 var
@@ -359,7 +360,7 @@ begin
     end;
 end;
 
-procedure TAppPanelHost.InitFormFloat(AOnClose: TCloseEvent);
+procedure TAppPanelHost.InitFormFloat;
 begin
   if not Assigned(FormFloat) then
   begin
@@ -368,7 +369,7 @@ begin
     FormFloat.BoundsRect:= FormFloatBounds;
     FormFloat.BorderIcons:= [biSystemMenu, biMaximize];
     FormFloat.ShowInTaskBar:= stNever;
-    FormFloat.OnClose:= AOnClose;
+    FormFloat.OnClose:= OnCloseFloatForm;
   end;
 end;
 
