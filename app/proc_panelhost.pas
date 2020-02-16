@@ -373,8 +373,6 @@ begin
     exit
   end;
 
-  Btn.Checked:= true;
-
   //avoid plugin call if panel already inited
   NPanel:= CaptionToPanelIndex(SCaption);
   if (NPanel>=0) and (TAppPanelItem(Panels[NPanel]).ItemControl=nil) then
