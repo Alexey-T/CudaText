@@ -18,6 +18,7 @@ uses
 
 type
   TAppSideId = (
+    cSideNone,
     cSideLeft,
     cSideBottom
     );
@@ -439,16 +440,18 @@ begin
 end;
 
 var
-  Side: TAppSideId;
+  side: TAppSideId;
 
 initialization
 
-  for Side in TAppSideId do
-    AppPanels[Side]:= TAppPanelHost.Create;
+  for side in TAppSideId do
+    if side<>cSideNone then
+      AppPanels[side]:= TAppPanelHost.Create;
 
 finalization
 
-  for Side in TAppSideId do
-    FreeAndNil(AppPanels[Side]);
+  for side in TAppSideId do
+    if side<>cSideNone then
+      FreeAndNil(AppPanels[side]);
 
 end.
