@@ -6140,7 +6140,7 @@ begin
 
   PanelLeftTitle.Visible:= not AValue;
   AppPanels[cSideLeft].FormFloat.Visible:= AValue;
-  AppPanels[cSideLeft].FormFloat.Caption:= AppPanels[cSideLeft].LastActivePanel + ' - ' + msgTitle;
+  AppPanels[cSideLeft].FormFloat.Caption:= msgTranslatedPanelCaption(AppPanels[cSideLeft].LastActivePanel) + ' - ' + msgTitle;
 
   if AValue then
   begin
@@ -6224,7 +6224,7 @@ begin
   end;
 
   AppPanels[cSideBottom].FormFloat.Visible:= AValue;
-  AppPanels[cSideBottom].FormFloat.Caption:= AppPanels[cSideBottom].LastActivePanel + ' - ' + msgTitle;
+  AppPanels[cSideBottom].FormFloat.Caption:= msgTranslatedPanelCaption(AppPanels[cSideBottom].LastActivePanel) + ' - ' + msgTitle;
 
   UpdateBottomLayout(AValue);
 end;
