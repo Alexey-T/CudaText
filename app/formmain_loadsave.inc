@@ -70,7 +70,7 @@ begin
         c.SetValue('/dialog/sizey', Height);
       end;
 
-      if FloatSide then
+      if AppPanels[cSideLeft].Floating then
       begin
         c.SetValue('/dialog/fl_side/posx',  AppPanels[cSideLeft].FormFloat.Left);
         c.SetValue('/dialog/fl_side/posy',  AppPanels[cSideLeft].FormFloat.Top);
@@ -78,7 +78,7 @@ begin
         c.SetValue('/dialog/fl_side/sizey', AppPanels[cSideLeft].FormFloat.Height);
       end;
 
-      if FloatBottom then
+      if AppPanels[cSideBottom].Floating then
       begin
         c.SetValue('/dialog/fl_btm/posx',  AppPanels[cSideBottom].FormFloat.Left);
         c.SetValue('/dialog/fl_btm/posy',  AppPanels[cSideBottom].FormFloat.Top);
@@ -107,12 +107,12 @@ begin
       c.SetValue('show_sidepanel', AppPanels[cSideLeft].Visible);
       c.SetValue('show_bottom', AppPanels[cSideBottom].Visible);
 
-      c.SetValue('float_side', FloatSide);
-      c.SetValue('float_bottom', FloatBottom);
+      c.SetValue('float_side', AppPanels[cSideLeft].Floating);
+      c.SetValue('float_bottom', AppPanels[cSideBottom].Floating);
 
-      if not FloatSide then
+      if not AppPanels[cSideLeft].Floating then
         c.SetValue('size_side', PanelLeft.Width);
-      if not FloatBottom then
+      if not AppPanels[cSideBottom].Floating then
         c.SetValue('size_bottom', PanelBottom.Height);
       c.SetValue('tab_left', AppPanels[cSideLeft].LastActivePanel);
     end;
@@ -195,12 +195,12 @@ begin
 
     c.SetValue('/panels/side_show', AppPanels[cSideLeft].Visible);
     c.SetValue('/panels/side_panel', AppPanels[cSideLeft].LastActivePanel);
-    if not FloatSide then
+    if not AppPanels[cSideLeft].Floating then
       c.SetValue('/panels/side_size', PanelLeft.Width);
 
     c.SetValue('/panels/bottom_show', AppPanels[cSideBottom].Visible);
     c.SetValue('/panels/bottom_panel', AppPanels[cSideBottom].LastActivePanel);
-    if not FloatBottom then
+    if not AppPanels[cSideBottom].Floating then
       c.SetValue('/panels/bottom_size', PanelBottom.Height);
 
     for i:= 0 to FrameCount-1 do
@@ -498,8 +498,8 @@ begin
     PanelLeft.Width:= Min(c.GetValue('size_side', 200), ClientWidth div 2);
     PanelBottom.Height:= Min(c.GetValue('size_bottom', 200), ClientHeight div 2);
 
-    FloatSide:= c.GetValue('float_side', false);
-    FloatBottom:= c.GetValue('float_bottom', false);
+    AppPanels[cSideLeft].Floating:= c.GetValue('float_side', false);
+    AppPanels[cSideBottom].Floating:= c.GetValue('float_bottom', false);
 
     //note: reading 'theme_ui', 'theme_syntax' from history is deprecated in 2019.09
     //now it's read from user.json

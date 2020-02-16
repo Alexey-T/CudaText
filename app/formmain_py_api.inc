@@ -4471,22 +4471,22 @@ begin
 
         APP_PROC_FLOAT_SIDE_SET:
           begin
-            fmMain.FloatSide:= ParamBool;
+            AppPanels[cSideLeft].Floating:= ParamBool;
             Result:= ReturnNone;
           end;
         APP_PROC_FLOAT_SIDE_GET:
           begin
-            Result:= PyBool_FromLong(Ord(fmMain.FloatSide));
+            Result:= PyBool_FromLong(Ord(AppPanels[cSideLeft].Floating));
           end;
 
         APP_PROC_FLOAT_BOTTOM_SET:
           begin
-            fmMain.FloatBottom:= ParamBool;
+            AppPanels[cSideBottom].Floating:= ParamBool;
             Result:= ReturnNone;
           end;
         APP_PROC_FLOAT_BOTTOM_GET:
           begin
-            Result:= PyBool_FromLong(Ord(fmMain.FloatBottom));
+            Result:= PyBool_FromLong(Ord(AppPanels[cSideBottom].Floating));
           end;
 
         APP_PROC_COORD_WINDOW_GET:

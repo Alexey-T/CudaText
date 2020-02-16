@@ -786,8 +786,6 @@ type
     procedure DoSplitter_SetInfo(const Id: integer; NPos: integer);
     procedure DoToolbarClick(Sender: TObject);
     procedure FrameLexerChange(Sender: TObject);
-    function GetFloatSide: boolean;
-    function GetFloatBottom: boolean;
     function GetFloatGroups: boolean;
     function GetShowFloatGroup1: boolean;
     function GetShowFloatGroup2: boolean;
@@ -845,8 +843,6 @@ type
     procedure PopupListboxOutputClearClick(Sender: TObject);
     procedure PopupListboxValidateClearClick(Sender: TObject);
     procedure PopupListboxValidateCopyClick(Sender: TObject);
-    procedure SetFloatBottom(AValue: boolean);
-    procedure SetFloatSide(AValue: boolean);
     procedure SetShowFloatGroup1(AValue: boolean);
     procedure SetShowFloatGroup2(AValue: boolean);
     procedure SetShowFloatGroup3(AValue: boolean);
@@ -1048,8 +1044,6 @@ type
     function CurrentGroups: TATGroups;
     function CurrentFrame: TEditorFrame;
     function CurrentEditor: TATSynEdit;
-    property FloatSide: boolean read GetFloatSide write SetFloatSide;
-    property FloatBottom: boolean read GetFloatBottom write SetFloatBottom;
     property FloatGroups: boolean read GetFloatGroups;
     property ShowFloatGroup1: boolean read GetShowFloatGroup1 write SetShowFloatGroup1;
     property ShowFloatGroup2: boolean read GetShowFloatGroup2 write SetShowFloatGroup2;
@@ -4425,12 +4419,14 @@ end;
 
 procedure TfmMain.DoToggleFloatSide;
 begin
-  FloatSide:= not FloatSide;
+  with AppPanels[cSideLeft] do
+    Floating:= not Floating;
 end;
 
 procedure TfmMain.DoToggleFloatBottom;
 begin
-  FloatBottom:= not FloatBottom;
+  with AppPanels[cSideBottom] do
+    Floating:= not Floating;
 end;
 
 procedure TfmMain.DoToggleOnTop;
@@ -6123,27 +6119,6 @@ begin
     if Assigned(F.LexerInitial) and (F.LexerInitial.LexerName=ALexerName) then
       F.LexerInitial:= nil;
   end;
-end;
-
-
-function TfmMain.GetFloatSide: boolean;
-begin
-  Result:= AppPanels[cSideLeft].Floating;
-end;
-
-function TfmMain.GetFloatBottom: boolean;
-begin
-  Result:= AppPanels[cSideBottom].Floating;
-end;
-
-procedure TfmMain.SetFloatSide(AValue: boolean);
-begin
-  AppPanels[cSideLeft].Floating:= AValue;
-end;
-
-procedure TfmMain.SetFloatBottom(AValue: boolean);
-begin
-  AppPanels[cSideBottom].Floating:= AValue;
 end;
 
 

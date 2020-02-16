@@ -966,8 +966,8 @@ begin
   UpdateMenuItemChecked(mnuViewSidebar, mnuViewSidebar_Alt, ShowSideBar);
   UpdateMenuItemChecked(mnuViewSide, mnuViewSide_Alt, AppPanels[cSideLeft].Visible);
   UpdateMenuItemChecked(mnuViewBottom, mnuViewBottom_Alt, AppPanels[cSideBottom].Visible);
-  UpdateMenuItemChecked(mnuViewFloatSide, mnuViewFloatSide_Alt, FloatSide);
-  UpdateMenuItemChecked(mnuViewFloatBottom, mnuViewFloatBottom_Alt, FloatBottom);
+  UpdateMenuItemChecked(mnuViewFloatSide, mnuViewFloatSide_Alt, AppPanels[cSideLeft].Floating);
+  UpdateMenuItemChecked(mnuViewFloatBottom, mnuViewFloatBottom_Alt, AppPanels[cSideBottom].Floating);
   UpdateMenuItemChecked(mnuViewOnTop, mnuViewOnTop_Alt, ShowOnTop);
 
   UpdateMenuItemChecked(mnuGr1, mnuGr1_Alt, Groups.Mode= gmOne);
