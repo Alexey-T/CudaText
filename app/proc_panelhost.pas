@@ -337,7 +337,7 @@ begin
     with TAppPanelItem(Panels[i]) do
     begin
       if ItemCaption='' then Continue;
-      bFound:= SameText(ItemCaption, ACaption);
+      bFound:= ItemCaption=ACaption;
       if bFound then
       begin
         Ctl:= ItemControl;
