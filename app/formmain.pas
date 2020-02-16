@@ -6208,7 +6208,7 @@ begin
     F.BoundsRect:= ARect;
     F.BorderIcons:= [biSystemMenu, biMaximize, biMinimize];
     F.OnClose:= AOnClose;
-    F.Caption:= msgTitle + Format(' [f%d]', [ATag]);
+    F.Caption:= Format('[f%d]', [ATag]) + ' - ' + msgTitle;
 
     F.AllowDropFiles:= true;
     F.OnDropFiles:= @FormFloatGroups_OnDropFiles;
