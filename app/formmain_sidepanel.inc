@@ -148,17 +148,4 @@ begin
   end;
 end;
 
-procedure TfmMain.DoSidebar_SetPanel(const ATabCaption: string; AndFocus: boolean);
-begin
-  if ATabCaption='-' then
-  begin
-    AppPanels[cSideLeft].Visible:= false;
-    AppPanels[cSideLeft].UpdateButtons;
-  end
-  else
-  begin
-    AppPanels[cSideLeft].UpdatePanels(ATabCaption, AndFocus, true);
-  end;
-end;
-
 

@@ -45,17 +45,3 @@ begin
     Frame.SetFocus;
 end;
 
-procedure TfmMain.DoBottom_SetPanel(const ATabCaption: string; AndFocus: boolean);
-begin
-  if ATabCaption='-' then
-  begin
-    AppPanels[cSideBottom].Visible:= false;
-    AppPanels[cSideBottom].UpdateButtons;
-  end
-  else
-  begin
-    AppPanels[cSideBottom].UpdatePanels(ATabCaption, AndFocus, true);
-  end;
-end;
-
-

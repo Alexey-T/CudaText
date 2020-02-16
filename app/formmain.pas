@@ -699,7 +699,6 @@ type
     procedure DoOps_LoadOptions_UiAutoCompletion(c: TJSONConfig);
     procedure DoShowFirstStartInfo;
     procedure DoOps_OnCreate;
-    procedure DoBottom_SetPanel(const ATabCaption: string; AndFocus: boolean);
     function FindFrameOfFilename(const AName: string): TEditorFrame;
     procedure FixMainLayout;
     procedure FormFloatBottomOnClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -920,7 +919,6 @@ type
     procedure DoShowConsole(AndFocus: boolean);
     procedure DoShowOutput(AndFocus: boolean);
     procedure DoShowValidate(AndFocus: boolean);
-    procedure DoSidebar_SetPanel(const ATabCaption: string; AndFocus: boolean);
     function FrameOfPopup: TEditorFrame;
     procedure FrameOnCommand(Sender: TObject; ACommand: integer; const AText: string; var AHandled: boolean);
     function DoFileCloseAll(AWithCancel: boolean): boolean;
@@ -4214,7 +4212,7 @@ procedure TfmMain.SetSidebarPanel(const ACaption: string);
 begin
   if (ACaption<>'-') and (ACaption<>'') then
     if AppPanels[cSideLeft].Visible then
-      DoSidebar_SetPanel(ACaption, true);
+      AppPanels[cSideLeft].UpdatePanels(ACaption, true, true);
 end;
 
 procedure TfmMain.SetShowSideBar(AValue: boolean);
@@ -4495,17 +4493,17 @@ end;
 
 procedure TfmMain.DoShowConsole(AndFocus: boolean);
 begin
-  DoBottom_SetPanel(msgPanelConsole_Init, AndFocus);
+  AppPanels[cSideBottom].UpdatePanels(msgPanelConsole_Init, AndFocus, true);
 end;
 
 procedure TfmMain.DoShowOutput(AndFocus: boolean);
 begin
-  DoBottom_SetPanel(msgPanelOutput_Init, AndFocus);
+  AppPanels[cSideBottom].UpdatePanels(msgPanelOutput_Init, AndFocus, true);
 end;
 
 procedure TfmMain.DoShowValidate(AndFocus: boolean);
 begin
-  DoBottom_SetPanel(msgPanelValidate_Init, AndFocus);
+  AppPanels[cSideBottom].UpdatePanels(msgPanelValidate_Init, AndFocus, true);
 end;
 
 procedure TfmMain.SetShowFullScreen(AValue: boolean);

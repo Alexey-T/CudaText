@@ -207,22 +207,32 @@ begin
       DoShowOutput(false);
     cmd_ShowPanelValidate:
       DoShowValidate(false);
+
     cmd_ShowPanelConsole_AndFocus:
       DoShowConsole(true);
     cmd_ShowPanelOutput_AndFocus:
       DoShowOutput(true);
     cmd_ShowPanelValidate_AndFocus:
       DoShowValidate(true);
+
     cmd_ShowSidePanelAsIs:
-      DoSidebar_SetPanel('', false);
+      AppPanels[cSideLeft].UpdatePanels(AppPanels[cSideLeft].LastActivePanel, false, false);
+
     cmd_ShowSidePanelAndSyntaxTree:
-      DoSidebar_SetPanel(msgPanelTree_Init, false);
+      AppPanels[cSideLeft].UpdatePanels(msgPanelTree_Init, false, true);
+
     cmd_ToggleSidePanelAndSyntaxTree:
-      DoSidebar_SetPanel(IfThen(AppPanels[cSideLeft].Visible, '-', msgPanelTree_Init), false);
+      begin
+        if AppPanels[cSideLeft].Visible then
+          AppPanels[cSideLeft].Visible:= false
+        else
+          AppPanels[cSideLeft].UpdatePanels(msgPanelTree_Init, false, true);
+      end;
+
     cmd_HideSidePanel:
-      DoSidebar_SetPanel('-', false);
+      AppPanels[cSideLeft].Visible:= false;
     cmd_HideBottomPanel:
-      DoBottom_SetPanel('-', false);
+      AppPanels[cSideBottom].Visible:= false;
 
     cmd_FindFirst:
       DoFindFirst;

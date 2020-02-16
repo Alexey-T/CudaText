@@ -385,11 +385,11 @@ begin
 
     SText:= c.GetValue('/panels/side_panel', '');
     if AppPanels[cSideLeft].Visible and (SText<>'') then
-      DoSidebar_SetPanel(SText, false);
+      AppPanels[cSideLeft].UpdatePanels(SText, false, true);
 
     SText:= c.GetValue('/panels/bottom_panel', '');
     if AppPanels[cSideBottom].Visible and (SText<>'') then
-      DoBottom_SetPanel(SText, false);
+      AppPanels[cSideBottom].UpdatePanels(SText, false, true);
 
     Result:= true;
   finally
@@ -542,7 +542,7 @@ begin
 
   if (S<>'-') and (S<>'') then
     if AppPanels[cSideLeft].Visible then
-      DoSidebar_SetPanel(S, false);
+      AppPanels[cSideLeft].UpdatePanels(S, false, true);
 end;
 
 procedure TfmMain.DoApplyInitialWindowPos;
