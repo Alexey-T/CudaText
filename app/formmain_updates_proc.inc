@@ -1361,18 +1361,14 @@ procedure TfmMain.InitSidebar;
 begin
   ToolbarSideTop.AddButton(cSidebarIconMenu, @DoSidebar_MainMenuClick, msgPanelMenu_Init, msgPanelMenu_Init, '', false);
 
-  //ToolbarSideTop.AddButton(cSidebarIconTree, @DoSidebar_OnTabClick, msgPanelTree_Init, msgPanelTree_Init, '', false);
-  AppPanels[cSideLeft].Add(msgPanelTree_Init, cSidebarIconTree, PtrInt(Pointer(PanelCodeTreeAll)));
-
-  //ToolbarSideLow.AddButton(cSidebarIconConsole, @DoBottom_OnTabClick, msgPanelConsole_Init, msgPanelConsole_Init, '', false);
-  //ToolbarSideLow.AddButton(cSidebarIconOutput, @DoBottom_OnTabClick, msgPanelOutput_Init, msgPanelOutput_Init, '', false);
-  //ToolbarSideLow.AddButton(cSidebarIconValidate, @DoBottom_OnTabClick, msgPanelValidate_Init, msgPanelValidate_Init, '', false);
-  AppPanels[cSideBottom].Add(msgPanelConsole_Init, cSidebarIconConsole, PtrInt(Pointer(fmConsole)));
-  AppPanels[cSideBottom].Add(msgPanelOutput_Init, cSidebarIconOutput, PtrInt(Pointer(ListboxOut)));
-  AppPanels[cSideBottom].Add(msgPanelValidate_Init, cSidebarIconValidate, PtrInt(Pointer(ListboxVal)));
-
   ToolbarSideMid.AddButton(cSidebarIconFind, @DoBottom_FindClick, msgPanelSearch_Init, msgPanelSearch_Init, '', false);
   ToolbarSideMid.AddSep;
+
+  AppPanels[cSideLeft].Add(msgPanelTree_Init, cSidebarIconTree, PtrInt(Pointer(PanelCodeTreeAll)), @DoSidebar_OnShowCodeTree);
+
+  AppPanels[cSideBottom].Add(msgPanelConsole_Init, cSidebarIconConsole, PtrInt(Pointer(fmConsole)), nil);
+  AppPanels[cSideBottom].Add(msgPanelOutput_Init, cSidebarIconOutput, PtrInt(Pointer(ListboxOut)), nil);
+  AppPanels[cSideBottom].Add(msgPanelValidate_Init, cSidebarIconValidate, PtrInt(Pointer(ListboxVal)), nil);
 end;
 
 

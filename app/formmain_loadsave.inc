@@ -377,8 +377,8 @@ begin
     end;
 
     //restore panel sizes
-    ShowSidePanel:= c.GetValue('/panels/side_show', AppPanels[cSideLeft].Visible);
-    ShowBottom:= c.GetValue('/panels/bottom_show', AppPanels[cSideBottom].Visible);
+    AppPanels[cSideLeft].Visible:= c.GetValue('/panels/side_show', AppPanels[cSideLeft].Visible);
+    AppPanels[cSideBottom].Visible:= c.GetValue('/panels/bottom_show', AppPanels[cSideBottom].Visible);
 
     PanelLeft.Width:= Min(c.GetValue('/panels/side_size', PanelLeft.Width), ClientWidth div 2);
     PanelBottom.Height:= Min(c.GetValue('/panels/bottom_size', PanelBottom.Height), ClientHeight div 2);
@@ -492,8 +492,8 @@ begin
     FFinder.OptTokens:= TATFinderTokensAllowed(c.GetValue('/finder/tokens', 0));
 
     ////state
-    ShowSidePanel:= c.GetValue('show_sidepanel', true);
-    ShowBottom:= c.GetValue('show_bottom', false);
+    AppPanels[cSideLeft].Visible:= c.GetValue('show_sidepanel', true);
+    AppPanels[cSideBottom].Visible:= c.GetValue('show_bottom', false);
 
     PanelLeft.Width:= Min(c.GetValue('size_side', 200), ClientWidth div 2);
     PanelBottom.Height:= Min(c.GetValue('size_bottom', 200), ClientHeight div 2);

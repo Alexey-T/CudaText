@@ -4213,7 +4213,8 @@ begin
             ok:= AppPanels[cSideLeft].Add(
               StrCaption,
               fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
-              StrToInt64Def(StrIndex, 0)
+              StrToInt64Def(StrIndex, 0),
+              nil
               );
 
             Result:= PyBool_FromLong(Ord(ok));
@@ -4276,7 +4277,8 @@ begin
             ok:= AppPanels[cSideBottom].Add(
               StrCaption,
               fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
-              StrToInt64Def(StrIndex, 0)
+              StrToInt64Def(StrIndex, 0),
+              nil
               );
 
             Result:= PyBool_FromLong(Ord(ok));
@@ -4389,7 +4391,7 @@ begin
 
         APP_PROC_SHOW_SIDEPANEL_SET:
           begin
-            fmMain.ShowSidePanel:= ParamBool;
+            AppPanels[cSideLeft].Visible:= ParamBool;
             Result:= ReturnNone;
           end;
         APP_PROC_SHOW_SIDEPANEL_GET:
@@ -4399,7 +4401,7 @@ begin
 
         APP_PROC_SHOW_BOTTOMPANEL_SET:
           begin
-            fmMain.ShowBottom:= ParamBool;
+            AppPanels[cSideBottom].Visible:= ParamBool;
             Result:= ReturnNone;
           end;
         APP_PROC_SHOW_BOTTOMPANEL_GET:

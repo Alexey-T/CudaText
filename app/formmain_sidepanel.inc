@@ -60,7 +60,7 @@ begin
   if Btn.Checked or (SCaption='') then
   begin
     Btn.Checked:= false;
-    ShowSidePanel:= false;
+    AppPanels[cSideLeft].Visible:= false;
     Exit
   end;
 
@@ -86,7 +86,7 @@ var
   i: integer;
 begin
   AppPanels[cSideLeft].LastActivePanel:= ACaption;
-  ShowSidePanel:= true;
+  AppPanels[cSideLeft].Visible:= true;
   AppPanels[cSideLeft].UpdateButtons;
   AppPanels[cSideLeft].OnChange(nil);
 

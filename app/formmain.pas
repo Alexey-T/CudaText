@@ -982,9 +982,7 @@ type
     procedure SetFrameLexerByIndex(Ed: TATSynEdit; AIndex: integer);
     procedure SetShowStatus(AValue: boolean);
     procedure SetShowToolbar(AValue: boolean);
-    procedure SetShowBottom(AValue: boolean);
     procedure SetShowSideBar(AValue: boolean);
-    procedure SetShowSidePanel(AValue: boolean);
     procedure SetShowTabsMain(AValue: boolean);
     procedure SplitterOnPaint_Gr(Sender: TObject);
     procedure SplitterOnPaint_Main(Sender: TObject);
@@ -1072,10 +1070,8 @@ type
     property ShowDistractionFree: boolean read FShowFullScreen write SetShowDistractionFree;
     property ShowSideBar: boolean read GetShowSideBar write SetShowSideBar;
     property ShowSideBarOnRight: boolean read GetShowSidebarOnRight write SetShowSidebarOnRight;
-    property ShowSidePanel: boolean write SetShowSidePanel;
     property ShowToolbar: boolean read GetShowToolbar write SetShowToolbar;
     property ShowStatus: boolean read GetShowStatus write SetShowStatus;
-    property ShowBottom: boolean write SetShowBottom;
     property ShowTabsMain: boolean read GetShowTabsMain write SetShowTabsMain;
     property ThemeUi: string write SetThemeUi;
     property ThemeSyntax: string write SetThemeSyntax;
@@ -2385,7 +2381,7 @@ begin
 
       if bConsoleActive then
         if UiOps.EscapeCloseConsole then
-          ShowBottom:= false;
+          AppPanels[cSideBottom].Visible:= false;
       Key:= 0;
     end
     else
@@ -3739,16 +3735,6 @@ begin
 end;
 
 
-procedure TfmMain.SetShowBottom(AValue: boolean);
-begin
-  AppPanels[cSideBottom].Visible:= AValue;
-end;
-
-procedure TfmMain.SetShowSidePanel(AValue: boolean);
-begin
-  AppPanels[cSideLeft].Visible:= AValue;
-end;
-
 procedure UpdateMenuEnabled(AItem: TMenuItem; AValue: boolean); inline;
 begin
   if Assigned(AItem) then
@@ -4460,12 +4446,14 @@ end;
 
 procedure TfmMain.DoToggleSidePanel;
 begin
-  ShowSidePanel:= not AppPanels[cSideLeft].Visible;
+  with AppPanels[cSideLeft] do
+    Visible:= not Visible;
 end;
 
 procedure TfmMain.DoToggleBottomPanel;
 begin
-  ShowBottom:= not AppPanels[cSideBottom].Visible;
+  with AppPanels[cSideBottom] do
+    Visible:= not Visible;
 end;
 
 procedure TfmMain.DoToggleFindDialog;
@@ -4530,11 +4518,11 @@ procedure TfmMain.DoShowSidePanel(const ATabCaption: string; AndFocus: boolean);
 begin
   if ATabCaption='-' then
   begin
-    ShowSidePanel:= false;
+    AppPanels[cSideLeft].Visible:= false;
   end
   else
   begin
-    ShowSidePanel:= true;
+    AppPanels[cSideLeft].Visible:= true;
     if ATabCaption<>'' then
       DoSidebar_ActivateTab(ATabCaption, AndFocus);
   end;
@@ -4547,11 +4535,11 @@ procedure TfmMain.DoShowBottomPanel(const ATabCaption: string; AndFocus: boolean
 begin
   if ATabCaption='-' then
   begin
-    ShowBottom:= false;
+    AppPanels[cSideBottom].Visible:= false;
   end
   else
   begin
-    ShowBottom:= true;
+    AppPanels[cSideBottom].Visible:= true;
     if ATabCaption<>'' then
       DoBottom_ActivateTab(ATabCaption, AndFocus);
   end;
@@ -4609,9 +4597,9 @@ begin
     end;
 
     if AHideAll or (Pos('t', UiOps.FullScreen)>0) then ShowToolbar:= false;
-    if AHideAll or (Pos('b', UiOps.FullScreen)>0) then ShowBottom:= false;
+    if AHideAll or (Pos('b', UiOps.FullScreen)>0) then AppPanels[cSideBottom].Visible:= false;
     if AHideAll or (Pos('i', UiOps.FullScreen)>0) then ShowStatus:= false;
-    if AHideAll or (Pos('p', UiOps.FullScreen)>0) then ShowSidePanel:= false;
+    if AHideAll or (Pos('p', UiOps.FullScreen)>0) then AppPanels[cSideLeft].Visible:= false;
     if AHideAll or (Pos('a', UiOps.FullScreen)>0) then ShowSideBar:= false;
     if AHideAll or (Pos('u', UiOps.FullScreen)>0) then ShowTabsMain:= false;
     if AHideAll or (Pos('g', UiOps.FullScreen)>0) then DoApplyGutterVisible(false);
@@ -4620,8 +4608,8 @@ begin
   begin
     ShowToolbar:= FOrigShowToolbar;
     ShowStatus:= FOrigShowStatusbar;
-    ShowBottom:= FOrigShowBottom;
-    ShowSidePanel:= FOrigShowSidePanel;
+    AppPanels[cSideBottom].Visible:= FOrigShowBottom;
+    AppPanels[cSideLeft].Visible:= FOrigShowSidePanel;
     ShowSideBar:= FOrigShowSideBar;
     ShowTabsMain:= FOrigShowTabs;
     Ed.OptMinimapVisible:= EditorOps.OpMinimapShow;

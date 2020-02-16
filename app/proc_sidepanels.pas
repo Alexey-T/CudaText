@@ -61,7 +61,8 @@ type
     function CaptionToPanelIndex(const ACaption: string): integer;
     function CaptionToButtonIndex(const ACaption: string): integer;
     function CaptionToControlHandle(const ACaption: string): PtrInt;
-    function Add(const ACaption: string; AImageIndex: integer; AHandle: PtrInt): boolean;
+    function Add(const ACaption: string; AImageIndex: integer; AHandle: PtrInt;
+      AOnPanelShow: TNotifyEvent): boolean;
     function AddEmpty(const ACaption: string; AImageIndex: integer; const AModule, AMethod: string): boolean;
     function Delete(const ACaption: string): boolean;
     procedure UpdateButtons;
@@ -211,7 +212,7 @@ begin
 end;
 
 function TAppPanelHost.Add(const ACaption: string; AImageIndex: integer;
-  AHandle: PtrInt): boolean;
+  AHandle: PtrInt; AOnPanelShow: TNotifyEvent): boolean;
 var
   Panel: TAppPanelItem;
   Num: integer;
@@ -225,6 +226,7 @@ begin
   else
   begin
     Panel:= TAppPanelItem.Create;
+    Panel.ItemOnShow:= AOnPanelShow;
     Panels.Add(Panel);
   end;
 
