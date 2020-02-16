@@ -656,10 +656,6 @@ type
     FOption_GroupPanelSize: TPoint;
     FOption_SidebarTab: string;
 
-    procedure DoBottom_OnHide(Sender: TObject);
-    function DoSidebar_GetFormTitle(const ACaption: string): string;
-    procedure DoSidebar_OnPythonCall(const ACallback: string);
-    procedure DoSidebar_OnShowCodeTree(Sender: TObject);
     procedure PythonEngineAfterInit(Sender: TObject);
     procedure PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
     procedure PythonModuleInitialization(Sender: TObject);
@@ -700,12 +696,10 @@ type
     procedure DoOps_OnCreate;
     function FindFrameOfFilename(const AName: string): TEditorFrame;
     procedure FixMainLayout;
-    procedure FormFloatBottomOnClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormFloatGroups1_OnEmpty(Sender: TObject);
     procedure FormFloatGroups2_OnEmpty(Sender: TObject);
     procedure FormFloatGroups3_OnEmpty(Sender: TObject);
     procedure FormFloatGroups_OnDropFiles(Sender: TObject; const FileNames: array of String);
-    procedure FormFloatSideOnClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormFloatGroups1_OnClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormFloatGroups2_OnClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormFloatGroups3_OnClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -734,12 +728,18 @@ type
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoCodetree_GotoBlockForCurrentNode(AndSelect: boolean);
     procedure DoCodetree_ApplyTreeHelperResults(Data: PPyObject);
+    procedure DoSidebar_OnCloseFloatForm(Sender: TObject; var CloseAction: TCloseAction);
+    function DoSidebar_GetFormTitle(const ACaption: string): string;
+    procedure DoSidebar_OnPythonCall(const ACallback: string);
+    procedure DoSidebar_OnShowCodeTree(Sender: TObject);
     procedure DoSidebar_OnTabChange(Sender: TObject);
     function DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
     procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas; AIndex: integer; const ARect: TRect);
     procedure DoSidebar_MainMenuClick(Sender: TObject);
     procedure DoSidebar_FocusCodetreeFilter;
     procedure DoSidebar_FocusCodetree;
+    procedure DoBottom_OnHide(Sender: TObject);
+    procedure DoBottom_OnCloseFloatForm(Sender: TObject; var CloseAction: TCloseAction);
     procedure DoBottom_OnTabChange(Sender: TObject);
     procedure DoBottom_FindClick(Sender: TObject);
     procedure DoAutoComplete(Ed: TATSynEdit);
@@ -1850,7 +1850,7 @@ begin
     DefaultPanel:= msgPanelTree_Init;
     OnChange:= @DoSidebar_OnTabChange;
     OnCommand:= @DoSidebar_OnPythonCall;
-    OnCloseFloatForm:= @FormFloatSideOnClose;
+    OnCloseFloatForm:= @DoSidebar_OnCloseFloatForm;
     OnGetFormTitle:=@DoSidebar_GetFormTitle;
   end;
 
@@ -1864,7 +1864,7 @@ begin
     OnChange:= @DoBottom_OnTabChange;
     OnHide:= @DoBottom_OnHide;
     OnCommand:= @DoSidebar_OnPythonCall;
-    OnCloseFloatForm:= @FormFloatBottomOnClose;
+    OnCloseFloatForm:= @DoBottom_OnCloseFloatForm;
     OnGetFormTitle:= @DoSidebar_GetFormTitle;
   end;
 
@@ -6150,11 +6150,6 @@ begin
 end;
 
 
-procedure TfmMain.FormFloatBottomOnClose(Sender: TObject; var CloseAction: TCloseAction);
-begin
-  UpdateMenuItemChecked(mnuViewBottom, mnuViewBottom_Alt, false);
-end;
-
 procedure TfmMain.FormFloatGroups1_OnEmpty(Sender: TObject);
 begin
   ShowFloatGroup1:= false;
@@ -6168,11 +6163,6 @@ end;
 procedure TfmMain.FormFloatGroups3_OnEmpty(Sender: TObject);
 begin
   ShowFloatGroup3:= false;
-end;
-
-procedure TfmMain.FormFloatSideOnClose(Sender: TObject; var CloseAction: TCloseAction);
-begin
-  UpdateMenuItemChecked(mnuViewSide, mnuViewSide_Alt, false);
 end;
 
 procedure TfmMain.FormFloatGroups1_OnClose(Sender: TObject; var CloseAction: TCloseAction);

@@ -45,4 +45,9 @@ begin
     Frame.SetFocus;
 end;
 
+procedure TfmMain.DoBottom_OnCloseFloatForm(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  UpdateMenuItemChecked(mnuViewBottom, mnuViewBottom_Alt, false);
+end;
+
 
