@@ -197,7 +197,7 @@ begin
   begin
     SCaption:= msgTranslatedPanelCaption(LastActivePanel);
     LabelSideTitle.Caption:= SCaption;
-    if IsFloating then
+    if Floating then
       FormFloat.Caption:= SCaption + ' - ' + msgTitle;
   end;
 end;

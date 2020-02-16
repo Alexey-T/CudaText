@@ -107,7 +107,7 @@ end;
 procedure TfmMain.DoBottom_OnTabChange(Sender: TObject);
 begin
   with AppPanels[cSideBottom] do
-    if IsFloating then
+    if Floating then
       FormFloat.Caption:= msgTranslatedPanelCaption(LastActivePanel) + ' - ' + msgTitle;
 end;
 

@@ -2471,7 +2471,7 @@ begin
   DoLoadCommandLine;
   DoApplyInitialWindowPos;
 
-  if AppPanels[cSideBottom].IsVisible then
+  if AppPanels[cSideBottom].Visible then
     if AppPanels[cSideBottom].LastActivePanel='' then
       DoShowConsole(false);
 
@@ -3745,7 +3745,7 @@ var
   bBottom: boolean;
   Frame: TEditorFrame;
 begin
-  if AppPanels[cSideBottom].IsVisible<>AValue then
+  if AppPanels[cSideBottom].Visible<>AValue then
   begin
     bBottom:= IsFocusedBottom;
 
@@ -3775,7 +3775,7 @@ end;
 
 procedure TfmMain.SetShowSidePanel(AValue: boolean);
 begin
-  if AppPanels[cSideLeft].IsVisible<>AValue then
+  if AppPanels[cSideLeft].Visible<>AValue then
   begin
     PanelLeft.Visible:= AValue;
     if FloatSide then
@@ -4284,7 +4284,7 @@ end;
 procedure TfmMain.SetSidebarPanel(const ACaption: string);
 begin
   if (ACaption<>'-') and (ACaption<>'') then
-    if AppPanels[cSideLeft].IsVisible then
+    if AppPanels[cSideLeft].Visible then
       DoShowSidePanel(ACaption, true);
 end;
 
@@ -4511,12 +4511,12 @@ end;
 
 procedure TfmMain.DoToggleSidePanel;
 begin
-  ShowSidePanel:= not AppPanels[cSideLeft].IsVisible;
+  ShowSidePanel:= not AppPanels[cSideLeft].Visible;
 end;
 
 procedure TfmMain.DoToggleBottomPanel;
 begin
-  ShowBottom:= not AppPanels[cSideBottom].IsVisible;
+  ShowBottom:= not AppPanels[cSideBottom].Visible;
 end;
 
 procedure TfmMain.DoToggleFindDialog;
@@ -4646,8 +4646,8 @@ begin
   begin
     FOrigShowToolbar:= ShowToolbar;
     FOrigShowStatusbar:= ShowStatus;
-    FOrigShowBottom:= AppPanels[cSideBottom].IsVisible;
-    FOrigShowSidePanel:= AppPanels[cSideLeft].IsVisible;
+    FOrigShowBottom:= AppPanels[cSideBottom].Visible;
+    FOrigShowSidePanel:= AppPanels[cSideLeft].Visible;
     FOrigShowSideBar:= ShowSideBar;
     FOrigShowTabs:= ShowTabsMain;
 
@@ -6220,12 +6220,12 @@ end;
 
 function TfmMain.GetFloatSide: boolean;
 begin
-  Result:= AppPanels[cSideLeft].IsFloating;
+  Result:= AppPanels[cSideLeft].Floating;
 end;
 
 function TfmMain.GetFloatBottom: boolean;
 begin
-  Result:= AppPanels[cSideBottom].IsFloating;
+  Result:= AppPanels[cSideBottom].Floating;
 end;
 
 procedure TfmMain.SetFloatSide(AValue: boolean);

@@ -32,14 +32,16 @@ type
     ItemModule: string;
     ItemMethod: string;
     ItemOnShow: TNotifyEvent;
-    procedure InitControl(const ACaption: string; AControl: TCustomControl;
-      AParent: TWinControl);
+    procedure InitControl(const ACaption: string; AControl: TCustomControl; AParent: TWinControl);
   end;
 
 type
   { TAppPanelHost }
 
   TAppPanelHost = class
+  private
+    function GetFloating: boolean;
+    function GetVisible: boolean;
   public
     ParentPanel: TCustomControl;
     Toolbar: TATFlatToolbar;
@@ -51,8 +53,8 @@ type
     OnChange: TNotifyEvent;
     constructor Create;
     destructor Destroy; override;
-    function IsVisible: boolean;
-    function IsFloating: boolean;
+    property Floating: boolean read GetFloating;
+    property Visible: boolean read GetVisible;
     function CaptionToPanelIndex(const ACaption: string): integer;
     function CaptionToButtonIndex(const ACaption: string): integer;
     function CaptionToControlHandle(const ACaption: string): PtrInt;
@@ -96,15 +98,15 @@ begin
   inherited Destroy;
 end;
 
-function TAppPanelHost.IsVisible: boolean;
+function TAppPanelHost.GetVisible: boolean;
 begin
-  if IsFloating then
+  if Floating then
     Result:= FormFloat.Visible
   else
     Result:= ParentPanel.Visible;
 end;
 
-function TAppPanelHost.IsFloating: boolean;
+function TAppPanelHost.GetFloating: boolean;
 begin
   Result:= Assigned(FormFloat) and (ParentPanel.Parent=FormFloat);
 end;
@@ -224,7 +226,7 @@ var
   bVis: boolean;
   i: integer;
 begin
-  bVis:= IsVisible;
+  bVis:= Visible;
   for i:= 0 to Toolbar.ButtonCount-1 do
   begin
     Btn:= Toolbar.Buttons[i];

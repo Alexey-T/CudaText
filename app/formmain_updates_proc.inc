@@ -964,8 +964,8 @@ begin
   UpdateMenuItemChecked(mnuViewFullscr, mnuViewFullscr_Alt, ShowFullscreen);
   UpdateMenuItemChecked(mnuViewDistFree, mnuViewDistFree_Alt, ShowDistractionFree);
   UpdateMenuItemChecked(mnuViewSidebar, mnuViewSidebar_Alt, ShowSideBar);
-  UpdateMenuItemChecked(mnuViewSide, mnuViewSide_Alt, AppPanels[cSideLeft].IsVisible);
-  UpdateMenuItemChecked(mnuViewBottom, mnuViewBottom_Alt, AppPanels[cSideBottom].IsVisible);
+  UpdateMenuItemChecked(mnuViewSide, mnuViewSide_Alt, AppPanels[cSideLeft].Visible);
+  UpdateMenuItemChecked(mnuViewBottom, mnuViewBottom_Alt, AppPanels[cSideBottom].Visible);
   UpdateMenuItemChecked(mnuViewFloatSide, mnuViewFloatSide_Alt, FloatSide);
   UpdateMenuItemChecked(mnuViewFloatBottom, mnuViewFloatBottom_Alt, FloatBottom);
   UpdateMenuItemChecked(mnuViewOnTop, mnuViewOnTop_Alt, ShowOnTop);
@@ -1005,7 +1005,7 @@ var
   NRanges: integer;
 begin
   if AConsiderTreeVisible then
-    if not AppPanels[cSideLeft].IsVisible then exit;
+    if not AppPanels[cSideLeft].Visible then exit;
 
   Frame:= CurrentFrame;
   if Frame=nil then exit;
