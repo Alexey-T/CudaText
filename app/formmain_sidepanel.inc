@@ -10,12 +10,13 @@ Copyright (c) Alexey Torgashin
 procedure TfmMain.DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas;
   AIndex: integer; const ARect: TRect);
 const
-  cDx=4; cDy=1;
+  cDx=4;
+  cDy=1;
 var
-  Listbox: ATListbox.TATListbox;
+  Listbox: TATListbox;
 begin
   if AIndex<0 then exit;
-  Listbox:= Sender as ATListbox.TATListbox;
+  Listbox:= Sender as TATListbox;
 
   C.Font.Color:= GetAppColor('ListFont');
   C.Brush.Color:= GetAppColor('ListBg');
@@ -66,7 +67,7 @@ begin
     CodeTreeFilterInput.Visible and
     CodeTreeFilterInput.Enabled then
   begin
-    if FloatSide then
+    if AppPanels[cSideLeft].Floating then
     begin
       if AppPanels[cSideLeft].FormFloat.Visible then
       begin
@@ -85,7 +86,7 @@ begin
   if CodeTree.Visible and
     CodeTree.Enabled then
   begin
-    if FloatSide then
+    if AppPanels[cSideLeft].Floating then
     begin
       if AppPanels[cSideLeft].FormFloat.Visible then
       begin
