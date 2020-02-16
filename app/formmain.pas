@@ -1865,7 +1865,7 @@ begin
     DefaultPanel:= msgPanelTree_Init;
     OnChange:= @DoSidebar_OnTabChange;
     OnTabClick:= @DoSidebar_OnTabClick;
-    OnPythonCall:= @DoSidebar_OnPythonCall;
+    OnCommand:= @DoSidebar_OnPythonCall;
   end;
 
   with AppPanels[cSideBottom] do
@@ -1876,7 +1876,7 @@ begin
     OnChange:= @DoBottom_OnTabChange;
     OnTabClick:= @DoBottom_OnTabClick;
     OnHide:= @DoBottom_OnHide;
-    OnPythonCall:= @DoSidebar_OnPythonCall;
+    OnCommand:= @DoSidebar_OnPythonCall;
   end;
 
   LexerProgress:= TATGauge.Create(Self);

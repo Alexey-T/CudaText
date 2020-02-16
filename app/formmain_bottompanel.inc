@@ -36,7 +36,7 @@ begin
   //avoid plugin call if panel already inited
   NPanelIndex:= AppPanels[cSideBottom].CaptionToPanelIndex(SCaption);
   if (NPanelIndex>=0) and (TAppPanelItem(AppPanels[cSideBottom].Panels[NPanelIndex]).ItemControl=nil) then
-    AppPanels[cSideBottom].OnPythonCall(Btn.DataString);
+    AppPanels[cSideBottom].OnCommand(Btn.DataString);
 
   UpdateBottomPanels(SCaption, true);
   Btn.Checked:= true;
