@@ -42,6 +42,7 @@ type
   private
     function GetFloating: boolean;
     function GetVisible: boolean;
+    procedure SetVisible(AValue: boolean);
   public
     ParentPanel: TCustomControl;
     Toolbar: TATFlatToolbar;
@@ -54,7 +55,7 @@ type
     constructor Create;
     destructor Destroy; override;
     property Floating: boolean read GetFloating;
-    property Visible: boolean read GetVisible;
+    property Visible: boolean read GetVisible write SetVisible;
     function CaptionToPanelIndex(const ACaption: string): integer;
     function CaptionToButtonIndex(const ACaption: string): integer;
     function CaptionToControlHandle(const ACaption: string): PtrInt;
@@ -104,6 +105,65 @@ begin
     Result:= FormFloat.Visible
   else
     Result:= ParentPanel.Visible;
+end;
+
+procedure TAppPanelHost.SetVisible(AValue: boolean);
+var
+  N: integer;
+  Panel: TAppPanelItem;
+  Btn: TATButton;
+begin
+  if GetVisible=AValue then exit;
+
+  ParentPanel.Visible:= AValue;
+  if Floating then
+  begin
+    FormFloat.Visible:= AValue;
+  end
+  else
+  begin
+    Splitter.Visible:= AValue;
+    if AValue then
+      case Splitter.Align of
+        alLeft:
+          Splitter.Left:= ParentPanel.Width;
+        alBottom:
+          Splitter.Top:= ParentPanel.Parent.Height-ParentPanel.Height;
+        alRight:
+          Splitter.Left:= ParentPanel.Parent.Width-ParentPanel.Width;
+        else
+          begin end;
+      end;
+  end;
+
+  if AValue then
+  begin
+    if LastActivePanel='' then
+      LastActivePanel:= DefaultPanel;
+
+    if LastActivePanel<>'' then
+    begin
+      N:= CaptionToPanelIndex(LastActivePanel);
+      if N>=0 then
+      begin
+        Panel:= TAppPanelItem(Panels[N]);
+        if Assigned(Panel.ItemOnShow) then
+          Panel.ItemOnShow(nil);
+      end;
+
+      N:= CaptionToButtonIndex(LastActivePanel);
+      if N>=0 then
+      begin
+        Btn:= Toolbar.Buttons[N];
+        Btn.OnClick(Btn);
+      end;
+
+      if Assigned(OnChange) then
+        OnChange(nil);
+    end;
+  end;
+
+  UpdateButtons;
 end;
 
 function TAppPanelHost.GetFloating: boolean;

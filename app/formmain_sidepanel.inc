@@ -202,4 +202,9 @@ begin
   end;
 end;
 
+procedure TfmMain.DoSidebar_OnShowCodeTree(Sender: TObject);
+begin
+  UpdateTreeContents;
+end;
+
 

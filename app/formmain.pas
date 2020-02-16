@@ -658,6 +658,7 @@ type
     FOption_GroupPanelSize: TPoint;
     FOption_SidebarTab: string;
 
+    procedure DoSidebar_OnShowCodeTree(Sender: TObject);
     procedure PythonEngineAfterInit(Sender: TObject);
     procedure PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
     procedure PythonModuleInitialization(Sender: TObject);
@@ -1873,7 +1874,7 @@ begin
     ParentPanel:= PanelBottom;
     Toolbar:= ToolbarSideLow;
     Splitter:= SplitterHorz;
-    OnChange:=@DoBottom_OnTabChange;
+    OnChange:= @DoBottom_OnTabChange;
   end;
 
   LexerProgress:= TATGauge.Create(Self);
@@ -2049,6 +2050,7 @@ begin
   Panel:= TAppPanelItem.Create;
   Panel.ItemCaption:= msgPanelTree_Init;
   Panel.ItemControl:= PanelCodeTreeAll;
+  Panel.ItemOnShow:=@DoSidebar_OnShowCodeTree;
   AppPanels[cSideLeft].Panels.Add(Panel);
 
   FFinder:= TATEditorFinder.Create;
@@ -3775,30 +3777,8 @@ end;
 
 procedure TfmMain.SetShowSidePanel(AValue: boolean);
 begin
-  if AppPanels[cSideLeft].Visible<>AValue then
-  begin
-    PanelLeft.Visible:= AValue;
-    if FloatSide then
-    begin
-      AppPanels[cSideLeft].FormFloat.Visible:= AValue;
-    end
-    else
-    begin
-      SplitterVert.Visible:= AValue;
-      SplitterVert.Left:= PanelLeft.Width;
-    end;
-
-    if AValue then
-    begin
-      if AppPanels[cSideLeft].LastActivePanel='' then
-        DoShowSidePanel(msgPanelTree_Init, false);
-      UpdateTreeContents;
-    end;
-  end;
-
-  AppPanels[cSideLeft].UpdateButtons;
+  AppPanels[cSideLeft].Visible:= AValue;
 end;
-
 
 procedure UpdateMenuEnabled(AItem: TMenuItem; AValue: boolean); inline;
 begin
