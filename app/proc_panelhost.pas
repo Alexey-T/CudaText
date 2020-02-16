@@ -12,7 +12,7 @@ unit proc_panelhost;
 interface
 
 uses
-  SysUtils, Classes, Controls, ExtCtrls, Buttons, Forms,
+  SysUtils, Classes, Controls, StdCtrls, ExtCtrls, Buttons, Forms,
   ATButtons,
   ATFlatToolbar;
 
@@ -51,10 +51,12 @@ type
     procedure SetVisible(AValue: boolean);
     procedure HandleButtonClick(Sender: TObject);
     procedure UpdateSplitter;
+    procedure UpdateTitle;
   public
     PanelGrouper: TCustomControl;
     PanelRoot: TCustomControl;
     PanelTitle: TCustomControl;
+    LabelTitle: TLabel;
     Panels: TFPList;
     Toolbar: TATFlatToolbar;
     Splitter: TSplitter;
@@ -62,7 +64,6 @@ type
     DefaultPanel: string;
     FormFloat: TForm;
     FormFloatBounds: TRect;
-    OnChange: TNotifyEvent;
     OnHide: TNotifyEvent;
     OnCommand: TAppPanelOnCommand;
     OnCloseFloatForm: TCloseEvent;
@@ -86,6 +87,9 @@ var
   AppPanels: array[TAppSideId] of TAppPanelHost;
 
 implementation
+
+const
+  msgTitle = 'CudaText';
 
 { TAppPanelItem }
 
@@ -134,8 +138,8 @@ begin
   if AValue then
   begin
     InitFormFloat;
-    FormFloat.Caption:= OnGetFormTitle(LastActivePanel);
     FormFloat.Show;
+    UpdateTitle;
 
     PanelGrouper.Parent:= FormFloat;
     PanelGrouper.Align:= alClient;
@@ -156,9 +160,9 @@ end;
 
 procedure TAppPanelHost.SetVisible(AValue: boolean);
 var
-  N: integer;
   Panel: TAppPanelItem;
   Btn: TATButton;
+  N: integer;
 begin
   if GetVisible=AValue then exit;
 
@@ -196,8 +200,7 @@ begin
         Btn.OnClick(Btn);
       end;
 
-      if Assigned(OnChange) then
-        OnChange(nil);
+      UpdateTitle;
     end;
   end
   else
@@ -355,7 +358,7 @@ begin
   LastActivePanel:= ACaption;
   Visible:= true;
   UpdateButtons;
-  OnChange(nil);
+  UpdateTitle;
 
   for i:= 0 to Panels.Count-1 do
   begin
@@ -437,6 +440,17 @@ begin
     else
       begin end;
   end;
+end;
+
+procedure TAppPanelHost.UpdateTitle;
+var
+  S: string;
+begin
+  S:= OnGetFormTitle(LastActivePanel);
+  if Assigned(LabelTitle) then
+    LabelTitle.Caption:= S;
+  if Assigned(FormFloat) then
+    FormFloat.Caption:= S+' - '+msgTitle;
 end;
 
 var

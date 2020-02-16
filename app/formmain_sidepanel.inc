@@ -120,19 +120,6 @@ begin
   end;
 end;
 
-procedure TfmMain.DoSidebar_OnTabChange(Sender: TObject);
-var
-  SCaption: string;
-begin
-  with AppPanels[cSideLeft] do
-  begin
-    SCaption:= msgTranslatedPanelCaption(LastActivePanel);
-    LabelSideTitle.Caption:= SCaption;
-    if Floating then
-      FormFloat.Caption:= SCaption + ' - ' + msgTitle;
-  end;
-end;
-
 procedure TfmMain.DoSidebar_OnShowCodeTree(Sender: TObject);
 begin
   UpdateTreeContents;
@@ -151,7 +138,7 @@ end;
 
 function TfmMain.DoSidebar_GetFormTitle(const ACaption: string): string;
 begin
-  Result:= msgTranslatedPanelCaption(ACaption) + ' - ' + msgTitle;
+  Result:= msgTranslatedPanelCaption(ACaption);
 end;
 
 procedure TfmMain.DoSidebar_OnCloseFloatForm(Sender: TObject; var CloseAction: TCloseAction);

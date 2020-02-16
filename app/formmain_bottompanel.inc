@@ -29,13 +29,6 @@ begin
   UpdateStatus;
 end;
 
-procedure TfmMain.DoBottom_OnTabChange(Sender: TObject);
-begin
-  with AppPanels[cSideBottom] do
-    if Floating then
-      FormFloat.Caption:= msgTranslatedPanelCaption(LastActivePanel) + ' - ' + msgTitle;
-end;
-
 procedure TfmMain.DoBottom_OnHide(Sender: TObject);
 var
   Frame: TEditorFrame;

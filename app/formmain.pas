@@ -732,7 +732,6 @@ type
     function DoSidebar_GetFormTitle(const ACaption: string): string;
     procedure DoSidebar_OnPythonCall(const ACallback: string);
     procedure DoSidebar_OnShowCodeTree(Sender: TObject);
-    procedure DoSidebar_OnTabChange(Sender: TObject);
     function DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
     procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas; AIndex: integer; const ARect: TRect);
     procedure DoSidebar_MainMenuClick(Sender: TObject);
@@ -740,7 +739,6 @@ type
     procedure DoSidebar_FocusCodetree;
     procedure DoBottom_OnHide(Sender: TObject);
     procedure DoBottom_OnCloseFloatForm(Sender: TObject; var CloseAction: TCloseAction);
-    procedure DoBottom_OnTabChange(Sender: TObject);
     procedure DoBottom_FindClick(Sender: TObject);
     procedure DoAutoComplete(Ed: TATSynEdit);
     procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string);
@@ -1843,25 +1841,25 @@ begin
   with AppPanels[cSideLeft] do
   begin
     PanelGrouper:= Self.PanelLeft;
-    PanelTitle:= Self.PanelLeftTitle;
     PanelRoot:= Self.PanelMain;
+    PanelTitle:= Self.PanelLeftTitle;
+    LabelTitle:= Self.LabelSideTitle;
     Toolbar:= ToolbarSideTop;
     Splitter:= SplitterVert;
     DefaultPanel:= msgPanelTree_Init;
-    OnChange:= @DoSidebar_OnTabChange;
     OnCommand:= @DoSidebar_OnPythonCall;
     OnCloseFloatForm:= @DoSidebar_OnCloseFloatForm;
-    OnGetFormTitle:=@DoSidebar_GetFormTitle;
+    OnGetFormTitle:= @DoSidebar_GetFormTitle;
   end;
 
   with AppPanels[cSideBottom] do
   begin
     PanelGrouper:= Self.PanelBottom;
-    PanelTitle:= nil;
     PanelRoot:= Self.PanelAll;
+    PanelTitle:= nil;
+    LabelTitle:= nil;
     Toolbar:= ToolbarSideLow;
     Splitter:= SplitterHorz;
-    OnChange:= @DoBottom_OnTabChange;
     OnHide:= @DoBottom_OnHide;
     OnCommand:= @DoSidebar_OnPythonCall;
     OnCloseFloatForm:= @DoBottom_OnCloseFloatForm;
