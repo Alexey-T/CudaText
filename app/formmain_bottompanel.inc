@@ -45,4 +45,14 @@ begin
     Frame.SetFocus;
 end;
 
+procedure TfmMain.DoBottom_UpdateLayout;
+begin
+  if not AppPanels[cSideBottom].Floating then
+  begin
+    if UiOps.ConsoleCompact then
+      PanelBottom.Parent:= PanelEditors
+    else
+      PanelBottom.Parent:= AppPanels[cSideBottom].PanelMain;
+  end;
+end;
 

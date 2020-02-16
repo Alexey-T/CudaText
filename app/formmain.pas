@@ -995,7 +995,7 @@ type
     procedure UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean=false);
     procedure UpdateMenuChecks;
     procedure UpdateMenuEnc(AMenu: TMenuItem);
-    procedure UpdateBottomLayout(ASetFloating: boolean);
+    procedure DoBottom_UpdateLayout;
     procedure DoApplyUiOps;
     procedure DoApplyUiOpsToGroups(G: TATGroups);
     procedure DoApplyInitialGroupSizes;
@@ -1865,7 +1865,7 @@ begin
   begin
     ParentPanel:= Self.PanelBottom;
     PanelTitle:= nil;
-    PanelMain:= Self.PanelMain;
+    PanelMain:= Self.PanelAll;
     Toolbar:= ToolbarSideLow;
     Splitter:= SplitterHorz;
     OnChange:= @DoBottom_OnTabChange;
@@ -2834,7 +2834,7 @@ begin
     fmFind.IsDoubleBuffered:= UiOps.DoubleBuffered;
   //end apply DoubleBuffered
 
-  UpdateBottomLayout(FloatBottom);
+  DoBottom_UpdateLayout;
   UpdateStatusbarPanelsFromString(UiOps.StatusPanels);
   UpdateStatusbarHints;
 
@@ -6139,7 +6139,7 @@ end;
 procedure TfmMain.SetFloatBottom(AValue: boolean);
 begin
   AppPanels[cSideBottom].Floating:= AValue;
-  UpdateBottomLayout(AValue);
+  DoBottom_UpdateLayout;
 end;
 
 
@@ -6167,30 +6167,6 @@ begin
   begin
     InitFloatGroups;
     FFormFloatGroups3.Visible:= AValue;
-  end;
-end;
-
-
-procedure TfmMain.UpdateBottomLayout(ASetFloating: boolean);
-begin
-  if ASetFloating then
-  begin
-    PanelBottom.Parent:= AppPanels[cSideBottom].FormFloat;
-    PanelBottom.Align:= alClient;
-    PanelBottom.Show;
-    SplitterHorz.Hide;
-  end
-  else
-  begin
-    if UiOps.ConsoleCompact then
-      PanelBottom.Parent:= PanelEditors
-    else
-      PanelBottom.Parent:= PanelAll;
-
-    PanelBottom.Align:= alBottom;
-    SplitterHorz.Parent:= PanelBottom.Parent;
-    SplitterHorz.Visible:= PanelBottom.Visible;
-    SplitterHorz.Top:= PanelBottom.Top-8;
   end;
 end;
 
