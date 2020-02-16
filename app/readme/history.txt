@@ -7,6 +7,7 @@
 
 + add: RegExpr engine updated, with lot of patches, see https://github.com/andgineer/TRegExpr/blob/master/History.txt
 + add: Python API speed optimized again (thanks @Artem3213212)
++ add: lexer Lua improved
 - fix: command "find next" with regex and zero-length match
 
 1.94.1 (2020/02)
