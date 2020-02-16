@@ -33,7 +33,7 @@ type
     ItemModule: string;
     ItemMethod: string;
     ItemOnShow: TNotifyEvent;
-    procedure InitControl(const ACaption: string; AControl: TCustomControl; AParent: TWinControl);
+    procedure InitControl(const ACaption: string; AForm: TCustomForm; AParent: TWinControl);
   end;
 
 type
@@ -93,16 +93,17 @@ const
 
 { TAppPanelItem }
 
-procedure TAppPanelItem.InitControl(const ACaption: string; AControl: TCustomControl; AParent: TWinControl);
+procedure TAppPanelItem.InitControl(const ACaption: string;
+  AForm: TCustomForm; AParent: TWinControl);
 begin
   ItemCaption:= ACaption;
-  ItemControl:= AControl;
+  ItemControl:= AForm;
   ItemModule:= '';
   ItemMethod:= '';
 
-  AControl.BorderStyle:= bsNone;
-  AControl.Parent:= AParent;
-  AControl.Align:= alClient;
+  AForm.BorderStyle:= bsNone;
+  AForm.Parent:= AParent;
+  AForm.Align:= alClient;
 end;
 
 { TAppPanelHost }
