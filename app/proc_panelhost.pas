@@ -399,7 +399,7 @@ begin
     FormFloat:= TForm.CreateNew(Application.MainForm);
     FormFloat.Position:= poDesigned;
     FormFloat.BoundsRect:= FormFloatBounds;
-    FormFloat.BorderStyle:= bsSizeToolWin;
+    //FormFloat.BorderStyle:= bsSizeToolWin; //such style is nice but it lacks Maximize button
     FormFloat.BorderIcons:= [biSystemMenu, biMaximize];
     FormFloat.ShowInTaskBar:= stNever;
     FormFloat.OnClose:= OnCloseFloatForm;
