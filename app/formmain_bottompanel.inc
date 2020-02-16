@@ -38,7 +38,7 @@ begin
   if (NPanelIndex>=0) and (TAppPanelItem(AppPanels[cSideBottom].Panels[NPanelIndex]).ItemControl=nil) then
     AppPanels[cSideBottom].OnCommand(Btn.DataString);
 
-  AppPanels[cSideBottom].UpdatePanels(SCaption, true);
+  AppPanels[cSideBottom].UpdatePanels(SCaption, true, false);
   Btn.Checked:= true;
 end;
 
@@ -58,13 +58,6 @@ begin
   else
     DoDialogFind(false);
   UpdateStatus;
-end;
-
-function TfmMain.DoBottom_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
-begin
-  Result:= AppPanels[cSideBottom].CaptionToButtonIndex(ACaption)>=0;
-  if Result then
-    AppPanels[cSideBottom].UpdatePanels(ACaption, AndFocus);
 end;
 
 procedure TfmMain.DoBottom_OnTabChange(Sender: TObject);

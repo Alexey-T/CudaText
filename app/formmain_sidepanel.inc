@@ -69,7 +69,7 @@ begin
   if (NPanelIndex>=0) and (TAppPanelItem(AppPanels[cSideLeft].Panels[NPanelIndex]).ItemControl=nil) then
     AppPanels[cSideLeft].OnCommand(Btn.DataString);
 
-  AppPanels[cSideLeft].UpdatePanels(SCaption, true);
+  AppPanels[cSideLeft].UpdatePanels(SCaption, true, false);
   Btn.Checked:= true;
 end;
 
@@ -85,17 +85,9 @@ begin
 end;
 
 
-function TfmMain.DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
-begin
-  Result:= AppPanels[cSideLeft].CaptionToButtonIndex(ACaption)>=0;
-  if Result then
-    AppPanels[cSideLeft].UpdatePanels(ACaption, AndFocus);
-end;
-
-
 procedure TfmMain.DoSidebar_FocusCodetreeFilter;
 begin
-  DoSidebar_ActivateTab(msgPanelTree_Init, false);
+  AppPanels[cSideLeft].UpdatePanels(msgPanelTree_Init, false, true);
   if CodeTree.Visible and
     CodeTreeFilterInput.Visible and
     CodeTreeFilterInput.Enabled then
@@ -115,7 +107,7 @@ end;
 
 procedure TfmMain.DoSidebar_FocusCodetree;
 begin
-  DoSidebar_ActivateTab(msgPanelTree_Init, false);
+  AppPanels[cSideLeft].UpdatePanels(msgPanelTree_Init, false, true);
   if CodeTree.Visible and
     CodeTree.Enabled then
   begin

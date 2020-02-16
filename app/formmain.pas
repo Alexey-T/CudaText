@@ -741,14 +741,12 @@ type
     procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas; AIndex: integer; const ARect: TRect);
     procedure DoSidebar_MainMenuClick(Sender: TObject);
     procedure DoSidebar_OnTabClick(Sender: TObject);
-    function DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
     procedure DoSidebar_FocusCodetreeFilter;
     procedure DoSidebar_FocusCodetree;
     procedure DoBottom_OnTabChange(Sender: TObject);
     procedure DoBottom_OnTabClick(Sender: TObject);
     procedure DoBottom_AddonsClick(Sender: TObject);
     procedure DoBottom_FindClick(Sender: TObject);
-    function DoBottom_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
     procedure DoAutoComplete(Ed: TATSynEdit);
     procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string);
     procedure DoDialogCharMap;
@@ -4525,7 +4523,7 @@ begin
   begin
     AppPanels[cSideLeft].Visible:= true;
     if ATabCaption<>'' then
-      DoSidebar_ActivateTab(ATabCaption, AndFocus);
+      AppPanels[cSideLeft].UpdatePanels(ATabCaption, AndFocus, true);
   end;
 
   AppPanels[cSideLeft].UpdateButtons;
@@ -4542,7 +4540,7 @@ begin
   begin
     AppPanels[cSideBottom].Visible:= true;
     if ATabCaption<>'' then
-      DoBottom_ActivateTab(ATabCaption, AndFocus);
+      AppPanels[cSideBottom].UpdatePanels(ATabCaption, AndFocus, true);
   end;
 
   AppPanels[cSideBottom].UpdateButtons;

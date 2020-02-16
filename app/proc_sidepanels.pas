@@ -69,7 +69,8 @@ type
     function AddEmpty(const ACaption: string; AImageIndex: integer; const AModule, AMethod: string): boolean;
     function Delete(const ACaption: string): boolean;
     procedure UpdateButtons;
-    procedure UpdatePanels(const ACaption: string; AndFocus: boolean);
+    function UpdatePanels(const ACaption: string; AndFocus: boolean;
+      AIfExists: boolean): boolean;
   end;
 
 var
@@ -305,12 +306,21 @@ begin
   end;
 end;
 
-procedure TAppPanelHost.UpdatePanels(const ACaption: string; AndFocus: boolean);
+function TAppPanelHost.UpdatePanels(const ACaption: string; AndFocus: boolean;
+  AIfExists: boolean): boolean;
 var
   Ctl: TCustomControl;
   bFound: boolean;
   i: integer;
 begin
+  if AIfExists then
+  begin
+    Result:= CaptionToButtonIndex(ACaption)>=0;
+    if not Result then exit;
+  end
+  else
+    Result:= true;
+
   LastActivePanel:= ACaption;
   Visible:= true;
   UpdateButtons;

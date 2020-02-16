@@ -4230,7 +4230,7 @@ begin
         APP_PROC_SIDEPANEL_ACTIVATE:
           begin
             SSplitByChar(Str, ',', Str1, Str2);
-            ok:= fmMain.DoSidebar_ActivateTab(Str1, AppStrToBool(Str2));
+            ok:= AppPanels[cSideLeft].UpdatePanels(Str1, AppStrToBool(Str2), true);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
@@ -4294,7 +4294,7 @@ begin
         APP_PROC_BOTTOMPANEL_ACTIVATE:
           begin
             SSplitByChar(Str, ',', Str1, Str2);
-            ok:= fmMain.DoBottom_ActivateTab(Str1, AppStrToBool(Str2));
+            ok:= AppPanels[cSideBottom].UpdatePanels(Str1, AppStrToBool(Str2), true);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
