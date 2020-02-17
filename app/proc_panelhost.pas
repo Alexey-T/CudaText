@@ -56,8 +56,7 @@ type
     Align: TAlign;
     PanelGrouper: TCustomControl;
     PanelRoot: TCustomControl;
-    PanelTitle: TCustomControl;
-    LabelTitle: TLabel;
+    PanelTitle: TPanel;
     Panels: TFPList;
     Toolbar: TATFlatToolbar;
     Splitter: TSplitter;
@@ -133,15 +132,12 @@ begin
   PanelGrouper.Align:= Align;
   PanelGrouper.Parent:= PanelRoot;
 
-  PanelTitle:= TATPanelSimple.Create(Application.MainForm);
+  PanelTitle:= TPanel.Create(Application.MainForm);
   PanelTitle.Align:= alTop;
   PanelTitle.Height:= 20;
+  PanelTitle.BevelInner:= bvNone;
+  PanelTitle.BevelOuter:= bvNone;
   PanelTitle.Parent:= PanelGrouper;
-
-  LabelTitle:= TLabel.Create(Application.MainForm);
-  LabelTitle.Align:= alClient;
-  LabelTitle.Alignment:= taCenter;
-  LabelTitle.Parent:= PanelTitle;
 
   Splitter:= TSplitter.Create(Application.MainForm);
   Splitter.Align:= Align;
@@ -478,8 +474,7 @@ var
 begin
   S:= OnGetTranslatedTitle(LastActivePanel);
   PanelTitle.Visible:= ShowTitle and not Floating;
-  if Assigned(LabelTitle) then
-    LabelTitle.Caption:= S;
+  PanelTitle.Caption:= S;
   if Assigned(FormFloat) then
     FormFloat.Caption:= S+' - '+msgTitle;
 end;
