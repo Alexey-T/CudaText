@@ -40,7 +40,7 @@ type
       0: (Bool: boolean);
       1: (Int: Int64);
       2: (Rect: TRect);
-      3: (Str: string[10]);
+      3: (Str: string[15]);
   end;
 
   TAppVariant = record
@@ -266,7 +266,6 @@ begin
       PyTuple_SetItem(Result, i, AppVariantToPyObject(V[i]));
   end;
 end;
-
 
 {
 var
