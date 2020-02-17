@@ -19,13 +19,6 @@ uses
   ATSynEdit_RegExpr,
   ec_RegExpr;
 
-{
-type
-  TStringReplacePart = record
-    SFrom, STo: string;
-  end;
-}
-
 function STextWholeWordSelection(const S: UnicodeString; OffsetBegin, OffsetEnd: integer;
   const ANonWordChars: UnicodeString): boolean;
 function SFindFuzzyPositions(SText, SFind: UnicodeString): TATIntArray;
@@ -54,33 +47,6 @@ function IsPythonExpression(const S: string): boolean;
 
 
 implementation
-
-(*
-function SReplaceParts(const S: string; const Decode: array of TStringReplacePart): string;
-var
-  i, j: Integer;
-  DoDecode: Boolean;
-begin
-  Result := '';
-  i := 1;
-  repeat
-    if i > Length(S) then Break;
-    DoDecode := False;
-    for j := Low(Decode) to High(Decode) do
-      with Decode[j] do
-        if strlcomp(PChar(SFrom), @S[i], Length(SFrom)) = 0 then
-        begin
-          DoDecode := True;
-          Result := Result + STo;
-          Inc(i, Length(SFrom));
-          Break
-        end;
-    if DoDecode then Continue;
-    Result := Result + S[i];
-    Inc(i);
-  until False;
-end;
-*)
 
 function SStringToPythonString(const Str: string; AndQuote: boolean=true): string;
 var
