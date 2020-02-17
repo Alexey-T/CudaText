@@ -2712,7 +2712,6 @@ begin
   G.SetTabOption(tabOptionSpaceInitial, IfThen(UiOps.TabAngled, 10, 4));
   G.SetTabOption(tabOptionSpaceBetweenTabs, IfThen(UiOps.TabAngled, 4, 0));
   G.SetTabOption(tabOptionShowFlat, Ord(UiOps.TabFlat));
-  G.SetTabOption(tabOptionPosition, UiOps.TabPosition);
   G.SetTabOption(tabOptionShowXButtons, UiOps.TabShowX);
   G.SetTabOption(tabOptionShowPlus, Ord(UiOps.TabShowPlus));
   G.SetTabOption(tabOptionShowEntireColor, Ord(UiOps.TabColorFull));
@@ -2720,7 +2719,6 @@ begin
   G.SetTabOption(tabOptionWidthNormal, UiOps.TabWidth);
   G.SetTabOption(tabOptionWidthMin, UiOps.TabWidthMin);
   G.SetTabOption(tabOptionWidthMax, UiOps.TabWidthMax);
-  G.SetTabOption(tabOptionHeight, UiOps.TabHeight+UiOps.TabSpacer);
   G.SetTabOption(tabOptionHeightInner, UiOps.TabHeightInner);
   G.SetTabOption(tabOptionSpacer, IfThen(UiOps.TabPosition=0, UiOps.TabSpacer));
   G.SetTabOption(tabOptionSpacer2, 1); //for multiline mode
@@ -2735,6 +2733,7 @@ begin
   G.SetTabOption(tabOptionButtonSize, 16);
   G.SetTabOption(tabOptionShowArrowsNear, Ord(Pos('<>', UiOps.TabButtonLayout)>0));
   G.SetTabOption(tabOptionWhichActivateOnClose, IfThen(UiOps.TabRecentOnClose, Ord(aocRecent), Ord(aocRight)));
+  G.SetTabOption(tabOptionPosition, UiOps.TabPosition);
 
   G.SetTabOptionString(tabOptionButtonLayout, UiOps.TabButtonLayout);
   G.SetTabOptionString(tabOptionModifiedText, ''); //'*' is added in Frame
@@ -2831,7 +2830,7 @@ begin
     if id<>cPaneNone then
       with AppPanels[id] do
       begin
-        PanelTitle.Height:= Groups.GetTabSingleRowHeight;
+        PanelTitle.Height:= Groups.GetTabSingleRowHeight-1;
         if UiOps.TabPosition=1 then
           PanelTitle.Align:= alBottom
         else
