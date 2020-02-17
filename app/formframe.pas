@@ -54,8 +54,7 @@ uses
   ec_lexerlist,
   formlexerstylemap,
   at__jsonconf,
-  math,
-  LazUTF8Classes;
+  math;
 
 type
   TEditorFramePyEvent = function(AEd: TATSynEdit; AEvent: TAppPyEvent;
@@ -134,7 +133,7 @@ type
     FMacroString: string;
     FImageBox: TATImageBox;
     FBin: TATBinHex;
-    FBinStream: TFileStreamUTF8;
+    FBinStream: TFileStream;
     FCheckFilenameOpened: TStrFunction;
     FOnMsgStatus: TStrEvent;
     FSaveDialog: TSaveDialog;
@@ -1822,7 +1821,7 @@ begin
     FBin.OpenStream(nil);
   if Assigned(FBinStream) then
     FreeAndNil(FBinStream);
-  FBinStream:= TFileStreamUTF8.Create(AFileName, fmOpenRead or fmShareDenyWrite);
+  FBinStream:= TFileStream.Create(AFileName, fmOpenRead or fmShareDenyWrite);
 
   if not Assigned(FBin) then
   begin
