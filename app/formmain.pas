@@ -1841,7 +1841,7 @@ begin
     OnCommand:= @DoSidebar_OnPythonCall;
     OnCloseFloatForm:= @DoSidebar_OnCloseFloatForm;
     OnGetTranslatedTitle:= @DoSidebar_GetFormTitle;
-    Init;
+    Init(Self);
     Splitter.OnPaint:= @SplitterOnPaint_Main;
   end;
 
@@ -1855,7 +1855,7 @@ begin
     OnCommand:= @DoSidebar_OnPythonCall;
     OnCloseFloatForm:= @DoBottom_OnCloseFloatForm;
     OnGetTranslatedTitle:= @DoSidebar_GetFormTitle;
-    Init;
+    Init(Self);
     Splitter.OnPaint:= @SplitterOnPaint_Main;
   end;
 

@@ -46,6 +46,7 @@ type
 
   TAppPanelHost = class
   private
+    FOwner: TComponent;
     function GetFloating: boolean;
     function GetVisible: boolean;
     procedure SetFloating(AValue: boolean);
@@ -71,7 +72,7 @@ type
     OnGetTranslatedTitle: TAppPanelOnGetTitle;
     constructor Create;
     destructor Destroy; override;
-    procedure Init;
+    procedure Init(AOwner: TComponent);
     property Floating: boolean read GetFloating write SetFloating;
     property Visible: boolean read GetVisible write SetVisible;
     function CaptionToPanelIndex(const ACaption: string): integer;
@@ -126,20 +127,22 @@ begin
   inherited Destroy;
 end;
 
-procedure TAppPanelHost.Init;
+procedure TAppPanelHost.Init(AOwner: TComponent);
 begin
-  PanelGrouper:= TATPanelSimple.Create(Application.MainForm);
+  FOwner:= AOwner;
+
+  PanelGrouper:= TATPanelSimple.Create(FOwner);
   PanelGrouper.Align:= Align;
   PanelGrouper.Parent:= PanelRoot;
 
-  PanelTitle:= TPanel.Create(Application.MainForm);
+  PanelTitle:= TPanel.Create(FOwner);
   PanelTitle.Align:= alTop;
   PanelTitle.Height:= 20;
   PanelTitle.BevelInner:= bvNone;
   PanelTitle.BevelOuter:= bvNone;
   PanelTitle.Parent:= PanelGrouper;
 
-  Splitter:= TSplitter.Create(Application.MainForm);
+  Splitter:= TSplitter.Create(FOwner);
   Splitter.Align:= Align;
   Splitter.Parent:= PanelRoot;
 
