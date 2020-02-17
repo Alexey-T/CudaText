@@ -96,17 +96,16 @@ begin
 end;
 
 function SStringToPythonString(const Str: string): string;
-const
-  Decode: array[0..3] of TStringReplacePart =
-    (
-      (SFrom: '\'; STo: '\\'),
-      (SFrom: '"'; STo: '\"'),
-      (SFrom: #10; STo: '\n'),
-      (SFrom: #13; STo: '\r')
-      //(SFrom: #9; STo: '\t')
-    );
+var
+  i: integer;
 begin
-  Result:= SReplaceParts(Str, Decode);
+  Result:= Str;
+  UniqueString(Result);
+  for i:= Length(Result) downto 1 do
+    case Result[i] of
+      '\', '"', #10, #13:
+        Insert('\', Result, i);
+    end;
   Result:= '"'+Result+'"';
 end;
 
@@ -440,10 +439,6 @@ begin
   else
     Result:= S;
 end;
-
-initialization
-  //debug
-  //ShowMessage(inttostr(ord(SRegexMatchesString('wwwa--ddd', '\w+\-+\w{3}'))));
 
 end.
 
