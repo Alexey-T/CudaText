@@ -686,15 +686,17 @@ var
   H: Int64;
   Index, MaxLen: Integer;
   Ed: TATSynEdit;
+  Strs: TATStrings;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lii:get_text_line', @H, @Index, @MaxLen)) then
     begin
       Ed:= PyEditor(H);
-      if Ed.Strings.IsIndexValid(Index) then
+      Strs:= Ed.Strings;
+      if Strs.IsIndexValid(Index) then
       begin
-        if (MaxLen=0) or (Ed.Strings.LinesLenRaw[Index]<=MaxLen) then
-          Result:= PyString_FromString(PChar(Ed.Strings.LinesUTF8[Index]))
+        if (MaxLen=0) or (Strs.LinesLenRaw[Index]<=MaxLen) then
+          Result:= PyString_FromString(PChar(Strs.LinesUTF8[Index]))
         else
           Result:= PyString_FromString('');
       end
@@ -1381,29 +1383,31 @@ var
   Ptr: PChar;
   Ed: TATSynEdit;
   Str: atString;
+  Strs: TATStrings;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:set_text_line', @H, @N, @Ptr)) then
     begin
       Ed:= PyEditor(H);
       Str:= UTF8Decode(string(Ptr));
+      Strs:= Ed.Strings;
 
       //replace \n \r to "_"
       for i:= 1 to Length(Str) do
         if (Str[i]=#10) or (Str[i]=#13) then Str[i]:= '_';
 
       if N=-1 then
-        Ed.Strings.LineAdd(Str)
+        Strs.LineAdd(Str)
       else
-      if Ed.Strings.IsIndexValid(N) then
+      if Strs.IsIndexValid(N) then
       begin
-        Ed.Strings.Lines[N]:= Str;
-        if Ed.Strings.LinesEnds[N]=cEndNone then
-          Ed.Strings.LinesEnds[N]:= Ed.Strings.Endings;
+        Strs.Lines[N]:= Str;
+        if Strs.LinesEnds[N]=cEndNone then
+          Strs.LinesEnds[N]:= Strs.Endings;
       end;
 
       Ed.DoEventChange;
-      Ed.Strings.DoSaveLastEditPos(0, N);
+      Strs.DoSaveLastEditPos(0, N);
       Ed.Update(true);
 
       Result:= ReturnNone;
@@ -1441,6 +1445,7 @@ var
   Ptr: PChar;
   Str: atString;
   Ed: TATSynEdit;
+  Strs: TATStrings;
   Shift, PosAfter: TPoint;
 begin
   with AppPython.Engine do
@@ -1448,15 +1453,16 @@ begin
     begin
       Ed:= PyEditor(H);
       Str:= UTF8Decode(string(Ptr));
+      Strs:= Ed.Strings;
 
       if Y1<0 then
         Exit(ReturnNone);
 
       //too big index- do append
-      if Y1>=Ed.Strings.Count then
-        Ed.Strings.TextAppend(Str, Shift, PosAfter)
+      if Y1>=Strs.Count then
+        Strs.TextAppend(Str, Shift, PosAfter)
       else
-        Ed.Strings.TextInsert(X1, Y1, Str, false, Shift, PosAfter);
+        Strs.TextInsert(X1, Y1, Str, false, Shift, PosAfter);
 
       Ed.DoEventChange;
       Ed.Update(true);
@@ -1711,6 +1717,7 @@ var
   PtrText: PChar;
   StrText: string;
   Ed: TATSynEdit;
+  Strs: TATStrings;
   NId, NLine, NKind, NColor, NCount,
   NDeleteIfDelLine, NShowInList: integer;
   NTag: Int64;
@@ -1723,6 +1730,7 @@ begin
             @NDeleteIfDelLine, @NShowInList, @NTag)) then
     begin
       Ed:= PyEditor(H);
+      Strs:= Ed.Strings;
       StrText:= string(PtrText);
 
       //check range of NKind
@@ -1734,10 +1742,10 @@ begin
       case NId of
         BOOKMARK_GET_PROP:
           begin
-            i:= Ed.Strings.Bookmarks.Find(NLine);
+            i:= Strs.Bookmarks.Find(NLine);
             if i>=0 then
             begin
-              BmItem:= Ed.Strings.Bookmarks[i];
+              BmItem:= Strs.Bookmarks[i];
               Result:= Py_ed_bookmark_getitem(BmItem);
             end
             else
@@ -1745,10 +1753,10 @@ begin
           end;
         BOOKMARK2_GET_PROP:
           begin
-            i:= Ed.Strings.Bookmarks2.Find(NLine);
+            i:= Strs.Bookmarks2.Find(NLine);
             if i>=0 then
             begin
-              BmItem:= Ed.Strings.Bookmarks2[i];
+              BmItem:= Strs.Bookmarks2[i];
               Result:= Py_ed_bookmark_getitem(BmItem);
             end
             else
@@ -1806,7 +1814,7 @@ begin
 
         BOOKMARK_GET_LIST:
           begin
-            NCount:= Ed.Strings.Bookmarks.Count;
+            NCount:= Strs.Bookmarks.Count;
             if NCount>0 then
             begin
               Result:= PyList_New(NCount);
@@ -1814,7 +1822,7 @@ begin
                 raise EPythonError.Create(msgPythonListError);
               for i:= 0 to NCount-1 do
                 PyList_SetItem(Result, i,
-                  PyInt_FromLong(Ed.Strings.Bookmarks[i].Data.LineNum)
+                  PyInt_FromLong(Strs.Bookmarks[i].Data.LineNum)
                   );
             end
             else
@@ -1823,11 +1831,11 @@ begin
 
         BOOKMARK_GET_ALL:
           begin
-            Result:= Py_ed_bookmark_getall(Ed.Strings.Bookmarks);
+            Result:= Py_ed_bookmark_getall(Strs.Bookmarks);
           end;
         BOOKMARK2_GET_ALL:
           begin
-            Result:= Py_ed_bookmark_getall(Ed.Strings.Bookmarks2);
+            Result:= Py_ed_bookmark_getall(Strs.Bookmarks2);
           end;
 
         BOOKMARK_DELETE_BY_TAG:
@@ -4852,6 +4860,7 @@ function Py_ed_convert(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
+  Strs: TATStrings;
   Id, X, Y: integer;
   PtrValue: PChar;
   StrValue: string;
@@ -4863,24 +4872,25 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Liiis:convert', @H, @Id, @X, @Y, @PtrValue)) then
     begin
       Ed:= PyEditor(H);
+      Strs:= Ed.Strings;
       StrValue:= string(PtrValue);
 
       case Id of
         CONVERT_CHAR_TO_COL:
           begin
-            if (X<0) or (not Ed.Strings.IsIndexValid(Y)) then
+            if (X<0) or (not Strs.IsIndexValid(Y)) then
               exit(ReturnNone);
 
-            X:= Ed.Strings.CharPosToColumnPos(Y, X, Ed.TabHelper);
+            X:= Strs.CharPosToColumnPos(Y, X, Ed.TabHelper);
             Result:= Py_BuildValue('(ii)', X, Y);
           end;
 
         CONVERT_COL_TO_CHAR:
           begin
-            if (X<0) or (not Ed.Strings.IsIndexValid(Y)) then
+            if (X<0) or (not Strs.IsIndexValid(Y)) then
               exit(ReturnNone);
 
-            X:= Ed.Strings.ColumnPosToCharPos(Y, X, Ed.TabHelper);
+            X:= Strs.ColumnPosToCharPos(Y, X, Ed.TabHelper);
             Result:= Py_BuildValue('(ii)', X, Y);
           end;
 
@@ -4913,7 +4923,7 @@ begin
 
         CONVERT_CARET_TO_PIXELS:
           begin
-            if (X<0) or (not Ed.Strings.IsIndexValid(Y)) then
+            if (X<0) or (not Strs.IsIndexValid(Y)) then
               exit(ReturnNone);
 
             Pnt:= Ed.CaretPosToClientPos(Point(X, Y));
