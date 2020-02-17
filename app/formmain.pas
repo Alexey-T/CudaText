@@ -1902,7 +1902,6 @@ begin
   InitToolbar;
 
   PanelCodeTreeAll:= TATPanelSimple.Create(Self);
-  PanelCodeTreeAll.Align:= alClient;
 
   CodeTree:= TAppTreeContainer.Create(Self);
   CodeTree.Parent:= PanelCodeTreeAll;
@@ -1942,7 +1941,6 @@ begin
 
   ListboxOut:= TATListbox.Create(Self);
   ListboxOut.VirtualMode:= false;
-  ListboxOut.Align:= alClient;
   ListboxOut.CanGetFocus:= true;
   ListboxOut.OwnerDrawn:= true;
   ListboxOut.ScrollStyleVert:= alssShow;
@@ -1954,7 +1952,6 @@ begin
 
   ListboxVal:= TATListbox.Create(Self);
   ListboxVal.VirtualMode:= false;
-  ListboxVal.Align:= alClient;
   ListboxVal.CanGetFocus:= true;
   ListboxVal.OwnerDrawn:= true;
   ListboxVal.ScrollStyleVert:= alssShow;
@@ -1965,7 +1962,6 @@ begin
   ListboxVal.OnContextPopup:= @ListboxValidateContextPopup;
 
   fmConsole:= TfmConsole.Create(Self);
-  fmConsole.Align:= alClient;
   fmConsole.OnConsoleNav:= @DoOnConsoleNav;
 
   InitSidebar; //after initing PanelCodeTreeAll, ListboxOut, ListboxVal, fmConsole
