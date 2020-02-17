@@ -80,18 +80,11 @@ begin
   result:= StringReplace(result, '\', '|', [rfReplaceAll]);
 end;
 
-function SUnicodePosEx(const substr, str: UnicodeString; frompos: integer): integer;
-begin
-  Result:= Pos(substr, Copy(str, frompos, MaxInt));
-  if Result>0 then
-    Inc(Result, frompos-1);
-end;
-
 function SFindFuzzyPositions(SText, SFind: UnicodeString): TATIntArray;
 var
   i, N: integer;
 begin
-  SetLength(result, 0);
+  SetLength(Result, 0);
 
   SText:= UnicodeLowerCase(SText);
   SFind:= UnicodeLowerCase(SFind);
@@ -99,14 +92,14 @@ begin
   N:= 0;
   for i:= 1 to Length(SFind) do
   begin
-    N:= SUnicodePosEx(SFind[i], SText, N+1);
+    N:= Pos(SFind[i], SText, N+1);
     if N=0 then
     begin
-      SetLength(result, 0);
+      SetLength(Result, 0);
       Exit
     end;
-    SetLength(result, Length(result)+1);
-    result[high(result)]:= N;
+    SetLength(Result, Length(Result)+1);
+    Result[High(Result)]:= N;
   end;
 end;
 
