@@ -46,7 +46,7 @@ type
 function SRegexFindParts(const ARegex, AStr: string; out AParts: TRegexParts): boolean;
 
 function SEscapeForPython(const Str: string): string;
-function SStringToPythonString(const Str: string): string;
+function SStringToPythonString(const Str: string; AndQuote: boolean=true): string;
 
 procedure SLoadStringsFromFile(cfg: TJsonConfig; const path: string; List: TStrings; MaxItems: integer);
 procedure SSaveStringsToFile(cfg: TJsonConfig; const path: string; List: TStrings; MaxItems: integer);
@@ -95,7 +95,7 @@ begin
   Result:= SReplaceParts(Str, Decode);
 end;
 
-function SStringToPythonString(const Str: string): string;
+function SStringToPythonString(const Str: string; AndQuote: boolean=true): string;
 var
   i: integer;
 begin
@@ -103,10 +103,21 @@ begin
   UniqueString(Result);
   for i:= Length(Result) downto 1 do
     case Result[i] of
-      '\', '"', #10, #13:
+      '\', '"':
         Insert('\', Result, i);
+      #10:
+        begin
+          Result[i]:= 'n';
+          Insert('\', Result, i);
+        end;
+      #13:
+        begin
+          Result[i]:= 'r';
+          Insert('\', Result, i);
+        end;
     end;
-  Result:= '"'+Result+'"';
+  if AndQuote then
+    Result:= '"'+Result+'"';
 end;
 
 procedure SLoadStringsFromFile(cfg: TJsonConfig; const path: string;
@@ -441,6 +452,14 @@ begin
   else
     Result:= S;
 end;
+
+{
+var
+  s: string;
+initialization
+  s:= SStringToPythonString('--'#10#13'-\-"-');
+  if s='' then;
+}
 
 end.
 
