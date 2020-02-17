@@ -2385,7 +2385,7 @@ procedure TfmMain.FormShow(Sender: TObject);
 var
   NTickShowEnd: QWord;
   Frame: TEditorFrame;
-  side: TAppPanelId;
+  id: TAppPanelId;
   i: integer;
 begin
   {$ifdef darwin}
@@ -2759,7 +2759,7 @@ end;
 
 procedure TfmMain.DoApplyUiOps;
 var
-  side: TAppPanelId;
+  id: TAppPanelId;
   i: integer;
 begin
   cAdapterIdleInterval:= UiOps.LexerDelayedParsingPause;
@@ -2834,9 +2834,9 @@ begin
   PanelSide.Visible:= UiOps.SidebarShow;
   ShowSideBarOnRight:= UiOps.SidebarOnRight;
 
-  for side in TAppPanelId do
-    if side<>cPaneNone then
-      with AppPanels[side] do
+  for id in TAppPanelId do
+    if id<>cPaneNone then
+      with AppPanels[id] do
       begin
         PanelTitle.Height:= Groups.Pages1.Tabs.Height;
         if UiOps.TabPosition=1 then

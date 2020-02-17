@@ -402,7 +402,7 @@ end;
 
 procedure TfmMain.DoApplyFont_Ui;
 var
-  side: TAppPanelId;
+  id: TAppPanelId;
 begin
   Self.Font.Name:= UiOps.VarFontName;
   Self.Font.Size:= AppScaleFont(UiOps.VarFontSize);
@@ -418,16 +418,16 @@ begin
 
   StatusProgress.Font.Assign(Self.Font);
 
-  //dont set font for PanelLeft/PanelBottom, side effects
+  //dont set font for PanelLeft/PanelBottom, id effects
   CodeTree.Tree.Font.Name:= UiOps.VarFontName;
   CodeTree.Tree.Font.Size:= AppScaleFont(UiOps.VarFontSize);
 
   CodeTreeFilterInput.Font.Name:= EditorOps.OpFontName;
   CodeTreeFilterInput.Font.Size:= EditorOps.OpFontSize;
 
-  for side in TAppPanelId do
-    if side<>cPaneNone then
-      with AppPanels[side] do
+  for id in TAppPanelId do
+    if id<>cPaneNone then
+      with AppPanels[id] do
       begin
         PanelTitle.Font.Name:= UiOps.VarFontName;
         PanelTitle.Font.Size:= AppScaleFont(UiOps.VarFontSize);

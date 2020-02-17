@@ -542,18 +542,18 @@ begin
 end;
 
 var
-  side: TAppPanelId;
+  id: TAppPanelId;
 
 initialization
 
-  for side in TAppPanelId do
-    if side<>cPaneNone then
-      AppPanels[side]:= TAppPanelHost.Create;
+  for id in TAppPanelId do
+    if id<>cPaneNone then
+      AppPanels[id]:= TAppPanelHost.Create;
 
 finalization
 
-  for side in TAppPanelId do
-    if side<>cPaneNone then
-      FreeAndNil(AppPanels[side]);
+  for id in TAppPanelId do
+    if id<>cPaneNone then
+      FreeAndNil(AppPanels[id]);
 
 end.
