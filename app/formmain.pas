@@ -2831,7 +2831,7 @@ begin
     if id<>cPaneNone then
       with AppPanels[id] do
       begin
-        PanelTitle.Height:= Groups.Pages1.Tabs.Height;
+        PanelTitle.Height:= Groups.GetTabSingleRowHeight;
         if UiOps.TabPosition=1 then
           PanelTitle.Align:= alBottom
         else
