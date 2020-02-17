@@ -45,7 +45,7 @@ type
 
   TAppVariant = record
     Typ: TAppVariantTypeId;
-    Str: string; //don't use ShortString to allow big len
+    Str: string;
     Items: array of TAppVariantItem;
     case integer of
       0: (Bool: boolean);
@@ -265,15 +265,19 @@ begin
   end;
 end;
 
+{
 var
   n: integer;
+  }
 
 initialization
 
   FillChar(AppVariantNil, SizeOf(AppVariantNil), 0);
   AppVariantNil.Typ:= avrNil;
 
+  {
   n:= SizeOf(TAppVariant);
   if n>0 then ;
+  }
 
 end.
