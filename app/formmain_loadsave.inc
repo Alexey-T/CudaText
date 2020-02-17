@@ -122,13 +122,13 @@ begin
     end;
 
     ////recents
-    SSaveStringsToFile(c, '/recent_files', FListRecents, UiOps.MaxHistoryMenu);
+    c.SetValue('/recent_files', FListRecents);
 
     ////find dialog
     if Assigned(fmFind) then
     begin
-      SSaveStringsToFile(c, '/list_find', fmFind.edFind.Items, UiOps.MaxHistoryEdits);
-      SSaveStringsToFile(c, '/list_replace', fmFind.edRep.Items, UiOps.MaxHistoryEdits);
+      c.SetValue('/list_find', fmFind.edFind.Items);
+      c.SetValue('/list_replace', fmFind.edRep.Items);
       if fmFind.IsNarrow then
       begin
         c.SetValue('/find/pos_x', fmFind.Left);
@@ -138,7 +138,7 @@ begin
       c.SetValue('/find/multi_line', fmFind.IsMultiLine);
     end;
 
-    SSaveStringsToFile(c, '/list_console', fmConsole.EdInput.Items, UiOps.MaxHistoryEdits);
+    c.SetValue('/list_console', fmConsole.EdInput.Items);
 
     ////finder
     c.SetValue('/finder/regex', FFinder.OptRegex);
@@ -488,8 +488,8 @@ begin
     FLastMaximized:= c.GetValue('/dialog/max', false);
 
     ////recents
-    SLoadStringsFromFile(c, '/recent_files', FListRecents, UiOps.MaxHistoryMenu);
-    SLoadStringsFromFile(c, '/list_console', fmConsole.EdInput.Items, UiOps.MaxHistoryEdits);
+    c.GetValue('/recent_files', FListRecents, '');
+    c.GetValue('/list_console', fmConsole.EdInput.Items, '');
     UpdateMenuRecent(nil, '');
 
     ////finder

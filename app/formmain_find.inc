@@ -396,8 +396,8 @@ begin
       try
         cfg.Filename:= AppFile_History;
 
-        SLoadStringsFromFile(cfg, '/list_find', fmFind.edFind.Items, UiOps.MaxHistoryEdits);
-        SLoadStringsFromFile(cfg, '/list_replace', fmFind.edRep.Items, UiOps.MaxHistoryEdits);
+        cfg.GetValue('/list_find', fmFind.edFind.Items, '');
+        cfg.GetValue('/list_replace', fmFind.edRep.Items, '');
         if fmFind.IsNarrow then
         begin
           fmFind.Left:= cfg.GetValue('/find/pos_x', 200);

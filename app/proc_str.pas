@@ -48,8 +48,6 @@ type
 function SRegexFindParts(const ARegex, AStr: string; out AParts: TRegexParts): boolean;
 function SStringToPythonString(const Str: string; AndQuote: boolean=true): string;
 
-procedure SLoadStringsFromFile(cfg: TJsonConfig; const path: string; List: TStrings; MaxItems: integer);
-procedure SSaveStringsToFile(cfg: TJsonConfig; const path: string; List: TStrings; MaxItems: integer);
 function SMaskFilenameSlashes(const fn: string): string;
 procedure SParseFilenameWithTwoNumbers(var fn: string; out NLine, NColumn: integer);
 function IsPythonExpression(const S: string): boolean;
@@ -107,18 +105,6 @@ begin
     end;
   if AndQuote then
     Result:= '"'+Result+'"';
-end;
-
-procedure SLoadStringsFromFile(cfg: TJsonConfig; const path: string;
-  List: TStrings; MaxItems: integer);
-begin
-  cfg.GetValue(path, List, '');
-end;
-
-procedure SSaveStringsToFile(cfg: TJsonConfig; const path: string;
-  List: TStrings; MaxItems: integer);
-begin
-  cfg.SetValue(path, List);
 end;
 
 function SMaskFilenameSlashes(const fn: string): string;
