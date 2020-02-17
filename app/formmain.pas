@@ -2409,8 +2409,6 @@ begin
   DoApplyFont_Ui;
   DoApplyFont_Output;
 
-  if UiOps.ReopenSession and FOption_AllowSession then
-    DoOps_LoadSession(GetSessionFilename);
   if FConsoleMustShow then
     DoShowConsole(false);
 
@@ -2421,7 +2419,10 @@ begin
 
   DoPyEvent(nil, cEventOnStart, []);
 
-  DoApplyUiOps; //after plugin on_start, ConfigToolbar is slow with visible toolbar
+  if UiOps.ReopenSession and FOption_AllowSession then
+    DoOps_LoadSession(GetSessionFilename); //after on_start, so HTML Tooltips with on_open can work
+
+  DoApplyUiOps; //after on_start, ConfigToolbar is slow with visible toolbar
   DoApplyInitialSidebarPanel;
 
   UpdateMenuPlugins;
