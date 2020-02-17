@@ -49,9 +49,11 @@ type
     FOwner: TComponent;
     FAlign: TAlign;
     function GetFloating: boolean;
+    function GetPanelSize: integer;
     function GetVisible: boolean;
     procedure SetAlign(AValue: TAlign);
     procedure SetFloating(AValue: boolean);
+    procedure SetPanelSize(AValue: integer);
     procedure SetVisible(AValue: boolean);
     procedure HandleButtonClick(Sender: TObject);
     procedure UpdateTitle;
@@ -78,6 +80,7 @@ type
     property Align: TAlign read FAlign write SetAlign;
     property Floating: boolean read GetFloating write SetFloating;
     property Visible: boolean read GetVisible write SetVisible;
+    property PanelSize: integer read GetPanelSize write SetPanelSize;
     function CaptionToPanelIndex(const ACaption: string): integer;
     function CaptionToButtonIndex(const ACaption: string): integer;
     function CaptionToControlHandle(const ACaption: string): PtrInt;
@@ -198,6 +201,19 @@ begin
   UpdateTitle;
 end;
 
+procedure TAppPanelHost.SetPanelSize(AValue: integer);
+begin
+  if not Floating then
+    case Align of
+      alLeft,
+      alRight:
+        PanelGrouper.Width:= AValue;
+      alTop,
+      alBottom:
+        PanelGrouper.Height:= AValue
+    end;
+end;
+
 procedure TAppPanelHost.SetVisible(AValue: boolean);
 var
   Panel: TAppPanelItem;
@@ -253,6 +269,20 @@ end;
 function TAppPanelHost.GetFloating: boolean;
 begin
   Result:= Assigned(FormFloat) and (PanelGrouper.Parent=FormFloat);
+end;
+
+function TAppPanelHost.GetPanelSize: integer;
+begin
+  Result:= 0;
+  if Floating then exit;
+  case Align of
+    alLeft,
+    alRight:
+      Result:= PanelGrouper.Width;
+    alTop,
+    alBottom:
+      Result:= PanelGrouper.Height;
+  end;
 end;
 
 function TAppPanelHost.CaptionToPanelIndex(const ACaption: string): integer;
