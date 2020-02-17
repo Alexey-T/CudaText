@@ -14,7 +14,6 @@ interface
 uses
   Classes, SysUtils,
   LazFileUtils,
-  LazUTF8Classes,
   ATStrings,
   CopyDir;
 
@@ -34,24 +33,26 @@ procedure FFileAttrRestore(const fn: string; attr: Longint);
 implementation
 
 function FCreateFile(const fn: string; AsJson: boolean): boolean;
+var
+  L: TStringList;
 begin
   Result:= true;
-  with TStringListUTF8.Create do
+  L:= TStringList.Create;
   try
     if AsJson then
     begin
-      Add('{');
-      Add('');
-      Add('}');
+      L.Add('{');
+      L.Add('');
+      L.Add('}');
     end;
 
     try
-      SaveToFile(fn);
+      L.SaveToFile(fn);
     except
       Result:= false;
     end;
   finally
-    Free;
+    FreeAndNil(L);
   end;
 end;
 
@@ -67,7 +68,7 @@ var
   n: Integer;
   Table: TFreqTable;
   TableSize: Integer;
-  Str: TFileStreamUTF8;
+  Str: TFileStream;
   SSign: string;
   IsOEM, IsLE: boolean;
 begin
@@ -85,7 +86,7 @@ begin
 
   try
     try
-      Str:= TFileStreamUTF8.Create(fn, fmOpenRead or fmShareDenyNone);
+      Str:= TFileStream.Create(fn, fmOpenRead or fmShareDenyNone);
     except
       exit(false);
     end;
