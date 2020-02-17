@@ -1924,11 +1924,10 @@ begin
   CodeTreeFilterReset.Parent:= PanelCodeTreeTop;
   CodeTreeFilterReset.Align:= alRight;
   CodeTreeFilterReset.Width:= UiOps.ScrollbarWidth;
-  CodeTreeFilterReset.Caption:= ''; //msgButtonX;
+  CodeTreeFilterReset.Caption:= '';
   CodeTreeFilterReset.Arrow:= true;
   CodeTreeFilterReset.ArrowKind:= abakCross;
   CodeTreeFilterReset.Focusable:= false;
-  CodeTreeFilterReset.Flat:= true;
   CodeTreeFilterReset.ShowHint:= true;
   CodeTreeFilterReset.Hint:= msgTooltipClearFilter;
   CodeTreeFilterReset.OnClick:= @CodeTreeFilter_ResetOnClick;
