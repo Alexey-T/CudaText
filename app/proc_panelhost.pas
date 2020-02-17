@@ -517,13 +517,25 @@ end;
 procedure TAppPanelHost.UpdateTitle;
 var
   S: string;
+  bShow: boolean;
 begin
   S:= OnGetTranslatedTitle(LastActivePanel);
 
-  PanelTitle.Visible:= not Floating and
-    ( ((Align in [alLeft, alRight]) and ShowTitleForSide) or
-      ((Align in [alTop, alBottom]) and ShowTitleForBottom) );
+  if Floating then
+    bShow:= false
+  else
+  case Align of
+    alLeft,
+    alRight:
+      bShow:= ShowTitleForSide;
+    alTop,
+    alBottom:
+      bShow:= ShowTitleForBottom;
+    else
+      bShow:= false;
+  end;
 
+  PanelTitle.Visible:= bShow;
   PanelTitle.Caption:= S;
   if Assigned(FormFloat) then
     FormFloat.Caption:= S+' - '+msgTitle;
