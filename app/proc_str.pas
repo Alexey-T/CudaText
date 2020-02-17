@@ -19,10 +19,12 @@ uses
   ATSynEdit_RegExpr,
   ec_RegExpr;
 
+{
 type
   TStringReplacePart = record
     SFrom, STo: string;
   end;
+}
 
 function STextWholeWordSelection(const S: UnicodeString; OffsetBegin, OffsetEnd: integer;
   const ANonWordChars: UnicodeString): boolean;
@@ -44,8 +46,6 @@ type
       Str: string;
     end;
 function SRegexFindParts(const ARegex, AStr: string; out AParts: TRegexParts): boolean;
-
-function SEscapeForPython(const Str: string): string;
 function SStringToPythonString(const Str: string; AndQuote: boolean=true): string;
 
 procedure SLoadStringsFromFile(cfg: TJsonConfig; const path: string; List: TStrings; MaxItems: integer);
@@ -57,6 +57,7 @@ function IsPythonExpression(const S: string): boolean;
 
 implementation
 
+(*
 function SReplaceParts(const S: string; const Decode: array of TStringReplacePart): string;
 var
   i, j: Integer;
@@ -69,7 +70,7 @@ begin
     DoDecode := False;
     for j := Low(Decode) to High(Decode) do
       with Decode[j] do
-        if (SFrom <> '') and (SFrom = Copy(S, i, Length(SFrom))) then
+        if strlcomp(PChar(SFrom), @S[i], Length(SFrom)) = 0 then
         begin
           DoDecode := True;
           Result := Result + STo;
@@ -81,19 +82,7 @@ begin
     Inc(i);
   until False;
 end;
-
-function SEscapeForPython(const Str: string): string;
-const
-  Decode: array[0..3] of TStringReplacePart =
-    (
-      (SFrom: '"'; STo: '\"'),
-      (SFrom: #10; STo: '\n'),
-      (SFrom: #13; STo: '\r'),
-      (SFrom: #9; STo: '\t')
-    );
-begin
-  Result:= SReplaceParts(Str, Decode);
-end;
+*)
 
 function SStringToPythonString(const Str: string; AndQuote: boolean=true): string;
 var
