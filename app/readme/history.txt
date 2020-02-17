@@ -12,6 +12,7 @@
 * change: reworked internal manager of side/bottom panels
 - fix: command "find next" with regex and zero-length match
 - fix: regex replace to "\n" in single line file 
+- fix: broken code-tree layout if ui_tab_position = left/right
 
 1.94.1 (2020/02)
 
