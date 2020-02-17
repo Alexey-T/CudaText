@@ -1977,8 +1977,6 @@ begin
     AppBookmarkSetup[i].ImageIndex:= i-1;
   end;
 
-  PanelAll.Align:= alClient;
-
   AppManager:= TecLexerList.Create(Self);
   AppManagerLite:= TATLiteLexers.Create(Self);
   AppManagerLite.OnGetStyleHash:= @LiteLexer_GetStyleHash;

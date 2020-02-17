@@ -24,7 +24,7 @@ object fmMain: TfmMain
   Visible = True
   object PanelSide: TATPanelSimple
     Left = 0
-    Height = 146
+    Height = 481
     Top = 0
     Width = 75
     Align = alLeft
@@ -35,7 +35,7 @@ object fmMain: TfmMain
       AnchorSideBottom.Side = asrBottom
       Left = 0
       Height = 30
-      Top = 116
+      Top = 451
       Width = 75
       Anchors = [akLeft, akBottom]
       AutoSize = True
@@ -49,7 +49,7 @@ object fmMain: TfmMain
       AnchorSideTop.Control = PanelSide
       AnchorSideBottom.Control = ToolbarSideMid
       Left = 0
-      Height = 86
+      Height = 421
       Top = 0
       Width = 75
       Anchors = [akTop, akLeft, akBottom]
@@ -68,7 +68,7 @@ object fmMain: TfmMain
       AnchorSideBottom.Control = ToolbarSideLow
       Left = 0
       Height = 30
-      Top = 86
+      Top = 421
       Width = 75
       Anchors = [akLeft, akBottom]
       AutoSize = True
@@ -79,16 +79,16 @@ object fmMain: TfmMain
     end
   end
   object PanelAll: TATPanelSimple
-    Left = 0
-    Height = 335
-    Top = 146
-    Width = 872
-    Align = alBottom
+    Left = 75
+    Height = 481
+    Top = 0
+    Width = 797
+    Align = alClient
     object ToolbarMain: TATFlatToolbar
       Left = 0
       Height = 24
       Top = 0
-      Width = 872
+      Width = 797
       Align = alTop
       AutoSize = True
       Color = clSilver
@@ -98,9 +98,9 @@ object fmMain: TfmMain
     end
     object PanelMain: TATPanelSimple
       Left = 0
-      Height = 311
+      Height = 457
       Top = 24
-      Width = 872
+      Width = 797
       Align = alClient
       object StatusProgress: TATGauge
         Left = 752
@@ -123,9 +123,9 @@ object fmMain: TfmMain
       end
       object PanelEditors: TATPanelSimple
         Left = 0
-        Height = 311
+        Height = 457
         Top = 0
-        Width = 872
+        Width = 797
         Align = alClient
       end
     end
