@@ -66,7 +66,8 @@ type
     DefaultPanel: string;
     FormFloat: TForm;
     FormFloatBounds: TRect;
-    ShowTitle: boolean;
+    ShowTitleForSide: boolean;
+    ShowTitleForBottom: boolean;
     OnHide: TNotifyEvent;
     OnCommand: TAppPanelOnCommand;
     OnCloseFloatForm: TCloseEvent;
@@ -118,7 +119,8 @@ constructor TAppPanelHost.Create;
 begin
   inherited Create;
   Panels:= TFPList.Create;
-  ShowTitle:= true;
+  ShowTitleForSide:= true;
+  ShowTitleForBottom:= false;
 end;
 
 destructor TAppPanelHost.Destroy;
@@ -487,7 +489,11 @@ var
   S: string;
 begin
   S:= OnGetTranslatedTitle(LastActivePanel);
-  PanelTitle.Visible:= ShowTitle and not Floating;
+
+  PanelTitle.Visible:= not Floating and
+    ( ((Align in [alLeft, alRight]) and ShowTitleForSide) or
+      ((Align in [alTop, alBottom]) and ShowTitleForBottom) );
+
   PanelTitle.Caption:= S;
   if Assigned(FormFloat) then
     FormFloat.Caption:= S+' - '+msgTitle;

@@ -1848,7 +1848,6 @@ begin
   begin
     PanelRoot:= Self.PanelAll;
     Toolbar:= ToolbarSideLow;
-    ShowTitle:= false;
     OnHide:= @DoBottom_OnHide;
     OnCommand:= @DoSidebar_OnPythonCall;
     OnCloseFloatForm:= @DoBottom_OnCloseFloatForm;
