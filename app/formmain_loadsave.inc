@@ -70,20 +70,20 @@ begin
         c.SetValue('/dialog/sizey', Height);
       end;
 
-      if AppPanels[cSideLeft].Floating then
+      if AppPanels[cPaneSide].Floating then
       begin
-        c.SetValue('/dialog/fl_side/posx',  AppPanels[cSideLeft].FormFloat.Left);
-        c.SetValue('/dialog/fl_side/posy',  AppPanels[cSideLeft].FormFloat.Top);
-        c.SetValue('/dialog/fl_side/sizex', AppPanels[cSideLeft].FormFloat.Width);
-        c.SetValue('/dialog/fl_side/sizey', AppPanels[cSideLeft].FormFloat.Height);
+        c.SetValue('/dialog/fl_side/posx',  AppPanels[cPaneSide].FormFloat.Left);
+        c.SetValue('/dialog/fl_side/posy',  AppPanels[cPaneSide].FormFloat.Top);
+        c.SetValue('/dialog/fl_side/sizex', AppPanels[cPaneSide].FormFloat.Width);
+        c.SetValue('/dialog/fl_side/sizey', AppPanels[cPaneSide].FormFloat.Height);
       end;
 
-      if AppPanels[cSideBottom].Floating then
+      if AppPanels[cPaneOut].Floating then
       begin
-        c.SetValue('/dialog/fl_btm/posx',  AppPanels[cSideBottom].FormFloat.Left);
-        c.SetValue('/dialog/fl_btm/posy',  AppPanels[cSideBottom].FormFloat.Top);
-        c.SetValue('/dialog/fl_btm/sizex', AppPanels[cSideBottom].FormFloat.Width);
-        c.SetValue('/dialog/fl_btm/sizey', AppPanels[cSideBottom].FormFloat.Height);
+        c.SetValue('/dialog/fl_btm/posx',  AppPanels[cPaneOut].FormFloat.Left);
+        c.SetValue('/dialog/fl_btm/posy',  AppPanels[cPaneOut].FormFloat.Top);
+        c.SetValue('/dialog/fl_btm/sizex', AppPanels[cPaneOut].FormFloat.Width);
+        c.SetValue('/dialog/fl_btm/sizey', AppPanels[cPaneOut].FormFloat.Height);
       end;
 
       if FloatGroups then
@@ -104,21 +104,21 @@ begin
         c.SetValue('/dialog/fl_g3/sizey', FFormFloatGroups3.Height);
       end;
 
-      c.SetValue('show_sidepanel', AppPanels[cSideLeft].Visible);
-      c.SetValue('show_bottom', AppPanels[cSideBottom].Visible);
+      c.SetValue('show_sidepanel', AppPanels[cPaneSide].Visible);
+      c.SetValue('show_bottom', AppPanels[cPaneOut].Visible);
 
-      c.SetValue('float_side', AppPanels[cSideLeft].Floating);
-      c.SetValue('float_bottom', AppPanels[cSideBottom].Floating);
+      c.SetValue('float_side', AppPanels[cPaneSide].Floating);
+      c.SetValue('float_bottom', AppPanels[cPaneOut].Floating);
 
-      with AppPanels[cSideLeft] do
+      with AppPanels[cPaneSide] do
         if not Floating then
           c.SetValue('size_side', PanelSize);
 
-      with AppPanels[cSideBottom] do
+      with AppPanels[cPaneOut] do
         if not Floating then
           c.SetValue('size_bottom', PanelSize);
 
-      c.SetValue('tab_left', AppPanels[cSideLeft].LastActivePanel);
+      c.SetValue('tab_left', AppPanels[cPaneSide].LastActivePanel);
     end;
 
     ////recents
@@ -197,17 +197,17 @@ begin
       c.SetValue('/tab_index/g'+Inttostr(i), Groups.Pages[i].Tabs.TabIndex);
     c.SetValue('/tab_index/g_active', Groups.PagesIndexOf(Groups.PagesCurrent));
 
-    c.SetValue('/panels/side_show', AppPanels[cSideLeft].Visible);
-    c.SetValue('/panels/side_panel', AppPanels[cSideLeft].LastActivePanel);
+    c.SetValue('/panels/side_show', AppPanels[cPaneSide].Visible);
+    c.SetValue('/panels/side_panel', AppPanels[cPaneSide].LastActivePanel);
 
-    with AppPanels[cSideLeft] do
+    with AppPanels[cPaneSide] do
       if not Floating then
         c.SetValue('/panels/side_size', PanelSize);
 
-    c.SetValue('/panels/bottom_show', AppPanels[cSideBottom].Visible);
-    c.SetValue('/panels/bottom_panel', AppPanels[cSideBottom].LastActivePanel);
+    c.SetValue('/panels/bottom_show', AppPanels[cPaneOut].Visible);
+    c.SetValue('/panels/bottom_panel', AppPanels[cPaneOut].LastActivePanel);
 
-    with AppPanels[cSideBottom] do
+    with AppPanels[cPaneOut] do
       if not Floating then
         c.SetValue('/panels/bottom_size', PanelSize);
 
@@ -385,22 +385,22 @@ begin
     end;
 
     //restore panel sizes
-    AppPanels[cSideLeft].Visible:= c.GetValue('/panels/side_show', AppPanels[cSideLeft].Visible);
-    AppPanels[cSideBottom].Visible:= c.GetValue('/panels/bottom_show', AppPanels[cSideBottom].Visible);
+    AppPanels[cPaneSide].Visible:= c.GetValue('/panels/side_show', AppPanels[cPaneSide].Visible);
+    AppPanels[cPaneOut].Visible:= c.GetValue('/panels/bottom_show', AppPanels[cPaneOut].Visible);
 
-    with AppPanels[cSideLeft] do
+    with AppPanels[cPaneSide] do
       PanelSize:= Min(c.GetValue('/panels/side_size', PanelSize), ClientWidth div 2);
 
-    with AppPanels[cSideBottom] do
+    with AppPanels[cPaneOut] do
       PanelSize:= Min(c.GetValue('/panels/bottom_size', PanelSize), ClientHeight div 2);
 
     SText:= c.GetValue('/panels/side_panel', '');
-    if AppPanels[cSideLeft].Visible and (SText<>'') then
-      AppPanels[cSideLeft].UpdatePanels(SText, false, true);
+    if AppPanels[cPaneSide].Visible and (SText<>'') then
+      AppPanels[cPaneSide].UpdatePanels(SText, false, true);
 
     SText:= c.GetValue('/panels/bottom_panel', '');
-    if AppPanels[cSideBottom].Visible and (SText<>'') then
-      AppPanels[cSideBottom].UpdatePanels(SText, false, true);
+    if AppPanels[cPaneOut].Visible and (SText<>'') then
+      AppPanels[cPaneOut].UpdatePanels(SText, false, true);
 
     Result:= true;
   finally
@@ -476,8 +476,8 @@ begin
     end;
 
     DoOps_LoadFormRect(c, '/dialog', FBoundsMain);
-    DoOps_LoadFormRect(c, '/dialog/fl_side', AppPanels[cSideLeft].FormFloatBounds);
-    DoOps_LoadFormRect(c, '/dialog/fl_btm', AppPanels[cSideBottom].FormFloatBounds);
+    DoOps_LoadFormRect(c, '/dialog/fl_side', AppPanels[cPaneSide].FormFloatBounds);
+    DoOps_LoadFormRect(c, '/dialog/fl_btm', AppPanels[cPaneOut].FormFloatBounds);
     DoOps_LoadFormRect(c, '/dialog/fl_g1', FBoundsFloatGroups1);
     DoOps_LoadFormRect(c, '/dialog/fl_g2', FBoundsFloatGroups2);
     DoOps_LoadFormRect(c, '/dialog/fl_g3', FBoundsFloatGroups3);
@@ -503,14 +503,14 @@ begin
     FFinder.OptTokens:= TATFinderTokensAllowed(c.GetValue('/finder/tokens', 0));
 
     ////state
-    AppPanels[cSideLeft].Visible:= c.GetValue('show_sidepanel', true);
-    AppPanels[cSideBottom].Visible:= c.GetValue('show_bottom', false);
+    AppPanels[cPaneSide].Visible:= c.GetValue('show_sidepanel', true);
+    AppPanels[cPaneOut].Visible:= c.GetValue('show_bottom', false);
 
-    AppPanels[cSideLeft].PanelSize:= Min(c.GetValue('size_side', 200), ClientWidth div 2);
-    AppPanels[cSideBottom].PanelSize:= Min(c.GetValue('size_bottom', 200), ClientHeight div 2);
+    AppPanels[cPaneSide].PanelSize:= Min(c.GetValue('size_side', 200), ClientWidth div 2);
+    AppPanels[cPaneOut].PanelSize:= Min(c.GetValue('size_bottom', 200), ClientHeight div 2);
 
-    AppPanels[cSideLeft].Floating:= c.GetValue('float_side', false);
-    AppPanels[cSideBottom].Floating:= c.GetValue('float_bottom', false);
+    AppPanels[cPaneSide].Floating:= c.GetValue('float_side', false);
+    AppPanels[cPaneOut].Floating:= c.GetValue('float_bottom', false);
 
     //note: reading 'theme_ui', 'theme_syntax' from history is deprecated in 2019.09
     //now it's read from user.json
@@ -548,12 +548,12 @@ var
 begin
   S:= FOption_SidebarTab;
   //if plugin didnt load, caption not valid
-  if AppPanels[cSideLeft].CaptionToButtonIndex(S)<0 then
+  if AppPanels[cPaneSide].CaptionToButtonIndex(S)<0 then
     S:= msgPanelTree_Init;
 
   if (S<>'-') and (S<>'') then
-    if AppPanels[cSideLeft].Visible then
-      AppPanels[cSideLeft].UpdatePanels(S, false, true);
+    if AppPanels[cPaneSide].Visible then
+      AppPanels[cPaneSide].UpdatePanels(S, false, true);
 end;
 
 procedure TfmMain.DoApplyInitialWindowPos;

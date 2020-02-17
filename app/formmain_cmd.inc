@@ -216,23 +216,23 @@ begin
       DoShowValidate(true);
 
     cmd_ShowSidePanelAsIs:
-      AppPanels[cSideLeft].UpdatePanels(AppPanels[cSideLeft].LastActivePanel, false, false);
+      AppPanels[cPaneSide].UpdatePanels(AppPanels[cPaneSide].LastActivePanel, false, false);
 
     cmd_ShowSidePanelAndSyntaxTree:
-      AppPanels[cSideLeft].UpdatePanels(msgPanelTree_Init, false, true);
+      AppPanels[cPaneSide].UpdatePanels(msgPanelTree_Init, false, true);
 
     cmd_ToggleSidePanelAndSyntaxTree:
       begin
-        if AppPanels[cSideLeft].Visible then
-          AppPanels[cSideLeft].Visible:= false
+        if AppPanels[cPaneSide].Visible then
+          AppPanels[cPaneSide].Visible:= false
         else
-          AppPanels[cSideLeft].UpdatePanels(msgPanelTree_Init, false, true);
+          AppPanels[cPaneSide].UpdatePanels(msgPanelTree_Init, false, true);
       end;
 
     cmd_HideSidePanel:
-      AppPanels[cSideLeft].Visible:= false;
+      AppPanels[cPaneSide].Visible:= false;
     cmd_HideBottomPanel:
-      AppPanels[cSideBottom].Visible:= false;
+      AppPanels[cPaneOut].Visible:= false;
 
     cmd_FindFirst:
       DoFindFirst;

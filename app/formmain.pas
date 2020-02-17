@@ -1832,7 +1832,7 @@ begin
   mnuHelpCheckUpd.Enabled:= false;
   {$endif}
 
-  with AppPanels[cSideLeft] do
+  with AppPanels[cPaneSide] do
   begin
     PanelRoot:= Self.PanelMain;
     Toolbar:= ToolbarSideTop;
@@ -1844,7 +1844,7 @@ begin
     Splitter.OnPaint:= @SplitterOnPaint_Main;
   end;
 
-  with AppPanels[cSideBottom] do
+  with AppPanels[cPaneOut] do
   begin
     PanelRoot:= Self.PanelAll;
     Toolbar:= ToolbarSideLow;
@@ -1892,8 +1892,8 @@ begin
   {$endif}
 
   FBoundsMain:= Rect(100, 100, 900, 700);;
-  AppPanels[cSideLeft].FormFloatBounds:= Rect(650, 50, 900, 700);
-  AppPanels[cSideBottom].FormFloatBounds:= Rect(50, 480, 900, 700);
+  AppPanels[cPaneSide].FormFloatBounds:= Rect(650, 50, 900, 700);
+  AppPanels[cPaneOut].FormFloatBounds:= Rect(50, 480, 900, 700);
   FBoundsFloatGroups1:= Rect(300, 100, 800, 700);
   FBoundsFloatGroups2:= Rect(320, 120, 820, 720);
   FBoundsFloatGroups3:= Rect(340, 140, 840, 740);
@@ -2355,7 +2355,7 @@ begin
 
       if bConsoleActive then
         if UiOps.EscapeCloseConsole then
-          AppPanels[cSideBottom].Visible:= false;
+          AppPanels[cPaneOut].Visible:= false;
       Key:= 0;
     end
     else
@@ -2377,15 +2377,15 @@ end;
 procedure TfmMain.FixMainLayout;
 begin
   //issue #1814
-  AppPanels[cSideLeft].UpdateSplitter;
-  AppPanels[cSideBottom].UpdateSplitter;
+  AppPanels[cPaneSide].UpdateSplitter;
+  AppPanels[cPaneOut].UpdateSplitter;
 end;
 
 procedure TfmMain.FormShow(Sender: TObject);
 var
   NTickShowEnd: QWord;
   Frame: TEditorFrame;
-  side: TAppSideId;
+  side: TAppPanelId;
   i: integer;
 begin
   {$ifdef darwin}
@@ -2435,14 +2435,14 @@ begin
   UpdateMenuPlugins_Shortcuts(true);
   UpdateMenuHotkeys;
 
-  AppPanels[cSideLeft].UpdateButtons;
-  AppPanels[cSideBottom].UpdateButtons;
+  AppPanels[cPaneSide].UpdateButtons;
+  AppPanels[cPaneOut].UpdateButtons;
   UpdateStatus;
   DoLoadCommandLine;
   DoApplyInitialWindowPos;
 
-  if AppPanels[cSideBottom].Visible then
-    if AppPanels[cSideBottom].LastActivePanel='' then
+  if AppPanels[cPaneOut].Visible then
+    if AppPanels[cPaneOut].LastActivePanel='' then
       DoShowConsole(false);
 
   //postpone parsing until frames are shown
@@ -2759,7 +2759,7 @@ end;
 
 procedure TfmMain.DoApplyUiOps;
 var
-  side: TAppSideId;
+  side: TAppPanelId;
   i: integer;
 begin
   cAdapterIdleInterval:= UiOps.LexerDelayedParsingPause;
@@ -2772,8 +2772,8 @@ begin
   StatusProgress.Width:= AppScale(UiOps.ProgressbarWidth);
   ButtonCancel.Width:= AppScale(UiOps.ProgressbarWidth);
 
-  AppScaleSplitter(AppPanels[cSideLeft].Splitter);
-  AppScaleSplitter(AppPanels[cSideBottom].Splitter);
+  AppScaleSplitter(AppPanels[cPaneSide].Splitter);
+  AppScaleSplitter(AppPanels[cPaneOut].Splitter);
   AppScaleSplitter(Groups.Splitter1);
   AppScaleSplitter(Groups.Splitter2);
   AppScaleSplitter(Groups.Splitter3);
@@ -2834,8 +2834,8 @@ begin
   PanelSide.Visible:= UiOps.SidebarShow;
   ShowSideBarOnRight:= UiOps.SidebarOnRight;
 
-  for side in TAppSideId do
-    if side<>cSideNone then
+  for side in TAppPanelId do
+    if side<>cPaneNone then
       with AppPanels[side] do
       begin
         PanelTitle.Height:= Groups.Pages1.Tabs.Height;
@@ -4192,8 +4192,8 @@ end;
 procedure TfmMain.SetSidebarPanel(const ACaption: string);
 begin
   if (ACaption<>'-') and (ACaption<>'') then
-    if AppPanels[cSideLeft].Visible then
-      AppPanels[cSideLeft].UpdatePanels(ACaption, true, true);
+    if AppPanels[cPaneSide].Visible then
+      AppPanels[cPaneSide].UpdatePanels(ACaption, true, true);
 end;
 
 procedure TfmMain.SetShowSideBar(AValue: boolean);
@@ -4212,7 +4212,7 @@ const
 begin
   if AValue=GetShowSidebarOnRight then exit;
   PanelSide.Align:= cVal[AValue];
-  AppPanels[cSideLeft].Align:= cVal[AValue];
+  AppPanels[cPaneSide].Align:= cVal[AValue];
 end;
 
 procedure TfmMain.SetShowStatus(AValue: boolean);
@@ -4388,13 +4388,13 @@ end;
 
 procedure TfmMain.DoToggleFloatSide;
 begin
-  with AppPanels[cSideLeft] do
+  with AppPanels[cPaneSide] do
     Floating:= not Floating;
 end;
 
 procedure TfmMain.DoToggleFloatBottom;
 begin
-  with AppPanels[cSideBottom] do
+  with AppPanels[cPaneOut] do
     Floating:= not Floating;
 end;
 
@@ -4415,13 +4415,13 @@ end;
 
 procedure TfmMain.DoToggleSidePanel;
 begin
-  with AppPanels[cSideLeft] do
+  with AppPanels[cPaneSide] do
     Visible:= not Visible;
 end;
 
 procedure TfmMain.DoToggleBottomPanel;
 begin
-  with AppPanels[cSideBottom] do
+  with AppPanels[cPaneOut] do
     Visible:= not Visible;
 end;
 
@@ -4470,17 +4470,17 @@ end;
 
 procedure TfmMain.DoShowConsole(AndFocus: boolean);
 begin
-  AppPanels[cSideBottom].UpdatePanels(msgPanelConsole_Init, AndFocus, true);
+  AppPanels[cPaneOut].UpdatePanels(msgPanelConsole_Init, AndFocus, true);
 end;
 
 procedure TfmMain.DoShowOutput(AndFocus: boolean);
 begin
-  AppPanels[cSideBottom].UpdatePanels(msgPanelOutput_Init, AndFocus, true);
+  AppPanels[cPaneOut].UpdatePanels(msgPanelOutput_Init, AndFocus, true);
 end;
 
 procedure TfmMain.DoShowValidate(AndFocus: boolean);
 begin
-  AppPanels[cSideBottom].UpdatePanels(msgPanelValidate_Init, AndFocus, true);
+  AppPanels[cPaneOut].UpdatePanels(msgPanelValidate_Init, AndFocus, true);
 end;
 
 procedure TfmMain.SetShowFullScreen(AValue: boolean);
@@ -4519,8 +4519,8 @@ begin
   begin
     FOrigShowToolbar:= ShowToolbar;
     FOrigShowStatusbar:= ShowStatus;
-    FOrigShowBottom:= AppPanels[cSideBottom].Visible;
-    FOrigShowSidePanel:= AppPanels[cSideLeft].Visible;
+    FOrigShowBottom:= AppPanels[cPaneOut].Visible;
+    FOrigShowSidePanel:= AppPanels[cPaneSide].Visible;
     FOrigShowSideBar:= ShowSideBar;
     FOrigShowTabs:= ShowTabsMain;
 
@@ -4533,9 +4533,9 @@ begin
     end;
 
     if AHideAll or (Pos('t', UiOps.FullScreen)>0) then ShowToolbar:= false;
-    if AHideAll or (Pos('b', UiOps.FullScreen)>0) then AppPanels[cSideBottom].Visible:= false;
+    if AHideAll or (Pos('b', UiOps.FullScreen)>0) then AppPanels[cPaneOut].Visible:= false;
     if AHideAll or (Pos('i', UiOps.FullScreen)>0) then ShowStatus:= false;
-    if AHideAll or (Pos('p', UiOps.FullScreen)>0) then AppPanels[cSideLeft].Visible:= false;
+    if AHideAll or (Pos('p', UiOps.FullScreen)>0) then AppPanels[cPaneSide].Visible:= false;
     if AHideAll or (Pos('a', UiOps.FullScreen)>0) then ShowSideBar:= false;
     if AHideAll or (Pos('u', UiOps.FullScreen)>0) then ShowTabsMain:= false;
     if AHideAll or (Pos('g', UiOps.FullScreen)>0) then DoApplyGutterVisible(false);
@@ -4544,8 +4544,8 @@ begin
   begin
     ShowToolbar:= FOrigShowToolbar;
     ShowStatus:= FOrigShowStatusbar;
-    AppPanels[cSideBottom].Visible:= FOrigShowBottom;
-    AppPanels[cSideLeft].Visible:= FOrigShowSidePanel;
+    AppPanels[cPaneOut].Visible:= FOrigShowBottom;
+    AppPanels[cPaneSide].Visible:= FOrigShowSidePanel;
     ShowSideBar:= FOrigShowSideBar;
     ShowTabsMain:= FOrigShowTabs;
     Ed.OptMinimapVisible:= EditorOps.OpMinimapShow;
@@ -5727,8 +5727,8 @@ begin
   NTotal:= 0;
 
   case Id of
-    SPLITTER_SIDE: GetSp(AppPanels[cSideLeft].Splitter);
-    SPLITTER_BOTTOM: GetSp(AppPanels[cSideBottom].Splitter);
+    SPLITTER_SIDE: GetSp(AppPanels[cPaneSide].Splitter);
+    SPLITTER_BOTTOM: GetSp(AppPanels[cPaneOut].Splitter);
     SPLITTER_G1: GetSp(Groups.Splitter1);
     SPLITTER_G2: GetSp(Groups.Splitter2);
     SPLITTER_G3: GetSp(Groups.Splitter3);
@@ -5750,8 +5750,8 @@ procedure TfmMain.DoSplitter_SetInfo(const Id: integer; NPos: integer);
 begin
   if NPos<0 then exit;
   case Id of
-    SPLITTER_SIDE: SetSp(AppPanels[cSideLeft].Splitter);
-    SPLITTER_BOTTOM: SetSp(AppPanels[cSideBottom].Splitter);
+    SPLITTER_SIDE: SetSp(AppPanels[cPaneSide].Splitter);
+    SPLITTER_BOTTOM: SetSp(AppPanels[cPaneOut].Splitter);
     SPLITTER_G1: SetSp(Groups.Splitter1);
     SPLITTER_G2: SetSp(Groups.Splitter2);
     SPLITTER_G3: SetSp(Groups.Splitter3);

@@ -4210,7 +4210,7 @@ begin
             Sep.GetItemStr(StrIndex); //handle
             Sep.GetItemStr(StrFilename); //icon filename
 
-            ok:= AppPanels[cSideLeft].Add(
+            ok:= AppPanels[cPaneSide].Add(
               StrCaption,
               fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
               StrToInt64Def(StrIndex, 0),
@@ -4223,14 +4223,14 @@ begin
         APP_PROC_SIDEPANEL_REMOVE:
           begin
             StrCaption:= Str;
-            ok:= AppPanels[cSideLeft].Delete(StrCaption);
+            ok:= AppPanels[cPaneSide].Delete(StrCaption);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
         APP_PROC_SIDEPANEL_ACTIVATE:
           begin
             SSplitByChar(Str, ',', Str1, Str2);
-            ok:= AppPanels[cSideLeft].UpdatePanels(Str1, AppStrToBool(Str2), true);
+            ok:= AppPanels[cPaneSide].UpdatePanels(Str1, AppStrToBool(Str2), true);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
@@ -4244,7 +4244,7 @@ begin
 
         APP_PROC_SIDEPANEL_GET_CONTROL:
           begin
-            Num64:= AppPanels[cSideLeft].CaptionToControlHandle(Str);
+            Num64:= AppPanels[cPaneSide].CaptionToControlHandle(Str);
             if Num64<>0 then
               Result:= PyLong_FromLongLong(Num64)
             else
@@ -4253,14 +4253,14 @@ begin
 
         APP_PROC_SIDEPANEL_GET:
           begin
-            Str:= AppPanels[cSideLeft].LastActivePanel;
+            Str:= AppPanels[cPaneSide].LastActivePanel;
             Result:= PyString_FromString(PChar(Str));
           end;
 
         //-------------------
         APP_PROC_BOTTOMPANEL_GET_CONTROL:
           begin
-            Num64:= AppPanels[cSideBottom].CaptionToControlHandle(Str);
+            Num64:= AppPanels[cPaneOut].CaptionToControlHandle(Str);
             if Num64<>0 then
               Result:= PyLong_FromLongLong(Num64)
             else
@@ -4274,7 +4274,7 @@ begin
             Sep.GetItemStr(StrIndex); //handle
             Sep.GetItemStr(StrFilename); //icon filename
 
-            ok:= AppPanels[cSideBottom].Add(
+            ok:= AppPanels[cPaneOut].Add(
               StrCaption,
               fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
               StrToInt64Def(StrIndex, 0),
@@ -4287,14 +4287,14 @@ begin
         APP_PROC_BOTTOMPANEL_REMOVE:
           begin
             StrCaption:= Str;
-            ok:= AppPanels[cSideBottom].Delete(StrCaption);
+            ok:= AppPanels[cPaneOut].Delete(StrCaption);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
         APP_PROC_BOTTOMPANEL_ACTIVATE:
           begin
             SSplitByChar(Str, ',', Str1, Str2);
-            ok:= AppPanels[cSideBottom].UpdatePanels(Str1, AppStrToBool(Str2), true);
+            ok:= AppPanels[cPaneOut].UpdatePanels(Str1, AppStrToBool(Str2), true);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
@@ -4308,7 +4308,7 @@ begin
 
         APP_PROC_BOTTOMPANEL_GET:
           begin
-            Str:= AppPanels[cSideBottom].LastActivePanel;
+            Str:= AppPanels[cPaneOut].LastActivePanel;
             Result:= PyString_FromString(PChar(Str));
           end;
 
@@ -4391,22 +4391,22 @@ begin
 
         APP_PROC_SHOW_SIDEPANEL_SET:
           begin
-            AppPanels[cSideLeft].Visible:= ParamBool;
+            AppPanels[cPaneSide].Visible:= ParamBool;
             Result:= ReturnNone;
           end;
         APP_PROC_SHOW_SIDEPANEL_GET:
           begin
-            Result:= PyBool_FromLong(Ord(AppPanels[cSideLeft].Visible));
+            Result:= PyBool_FromLong(Ord(AppPanels[cPaneSide].Visible));
           end;
 
         APP_PROC_SHOW_BOTTOMPANEL_SET:
           begin
-            AppPanels[cSideBottom].Visible:= ParamBool;
+            AppPanels[cPaneOut].Visible:= ParamBool;
             Result:= ReturnNone;
           end;
         APP_PROC_SHOW_BOTTOMPANEL_GET:
           begin
-            Result:= PyBool_FromLong(Ord(AppPanels[cSideBottom].Visible));
+            Result:= PyBool_FromLong(Ord(AppPanels[cPaneOut].Visible));
           end;
 
         APP_PROC_SHOW_TABS_SET:
@@ -4471,22 +4471,22 @@ begin
 
         APP_PROC_FLOAT_SIDE_SET:
           begin
-            AppPanels[cSideLeft].Floating:= ParamBool;
+            AppPanels[cPaneSide].Floating:= ParamBool;
             Result:= ReturnNone;
           end;
         APP_PROC_FLOAT_SIDE_GET:
           begin
-            Result:= PyBool_FromLong(Ord(AppPanels[cSideLeft].Floating));
+            Result:= PyBool_FromLong(Ord(AppPanels[cPaneSide].Floating));
           end;
 
         APP_PROC_FLOAT_BOTTOM_SET:
           begin
-            AppPanels[cSideBottom].Floating:= ParamBool;
+            AppPanels[cPaneOut].Floating:= ParamBool;
             Result:= ReturnNone;
           end;
         APP_PROC_FLOAT_BOTTOM_GET:
           begin
-            Result:= PyBool_FromLong(Ord(AppPanels[cSideBottom].Floating));
+            Result:= PyBool_FromLong(Ord(AppPanels[cPaneOut].Floating));
           end;
 
         APP_PROC_COORD_WINDOW_GET:

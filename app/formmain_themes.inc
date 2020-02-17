@@ -51,7 +51,7 @@ end;
 
 procedure TfmMain.DoApplyTheme;
 var
-  side: TAppSideId;
+  side: TAppPanelId;
   i: integer;
 begin
   with ATScrollbarTheme do
@@ -87,8 +87,8 @@ begin
   ToolbarSideLow.Color:= ToolbarSideTop.Color;
   ToolbarSideMid.Color:= ToolbarSideTop.Color;
 
-  for side in TAppSideId do
-    if side<>cSideNone then
+  for side in TAppPanelId do
+    if side<>cPaneNone then
       with AppPanels[side] do
       begin
         PanelTitle.Color:= ToolbarMain.Color;

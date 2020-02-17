@@ -402,7 +402,7 @@ end;
 
 procedure TfmMain.DoApplyFont_Ui;
 var
-  side: TAppSideId;
+  side: TAppPanelId;
 begin
   Self.Font.Name:= UiOps.VarFontName;
   Self.Font.Size:= AppScaleFont(UiOps.VarFontSize);
@@ -425,8 +425,8 @@ begin
   CodeTreeFilterInput.Font.Name:= EditorOps.OpFontName;
   CodeTreeFilterInput.Font.Size:= EditorOps.OpFontSize;
 
-  for side in TAppSideId do
-    if side<>cSideNone then
+  for side in TAppPanelId do
+    if side<>cPaneNone then
       with AppPanels[side] do
       begin
         PanelTitle.Font.Name:= UiOps.VarFontName;
@@ -971,10 +971,10 @@ begin
   UpdateMenuItemChecked(mnuViewFullscr, mnuViewFullscr_Alt, ShowFullscreen);
   UpdateMenuItemChecked(mnuViewDistFree, mnuViewDistFree_Alt, ShowDistractionFree);
   UpdateMenuItemChecked(mnuViewSidebar, mnuViewSidebar_Alt, ShowSideBar);
-  UpdateMenuItemChecked(mnuViewSide, mnuViewSide_Alt, AppPanels[cSideLeft].Visible);
-  UpdateMenuItemChecked(mnuViewBottom, mnuViewBottom_Alt, AppPanels[cSideBottom].Visible);
-  UpdateMenuItemChecked(mnuViewFloatSide, mnuViewFloatSide_Alt, AppPanels[cSideLeft].Floating);
-  UpdateMenuItemChecked(mnuViewFloatBottom, mnuViewFloatBottom_Alt, AppPanels[cSideBottom].Floating);
+  UpdateMenuItemChecked(mnuViewSide, mnuViewSide_Alt, AppPanels[cPaneSide].Visible);
+  UpdateMenuItemChecked(mnuViewBottom, mnuViewBottom_Alt, AppPanels[cPaneOut].Visible);
+  UpdateMenuItemChecked(mnuViewFloatSide, mnuViewFloatSide_Alt, AppPanels[cPaneSide].Floating);
+  UpdateMenuItemChecked(mnuViewFloatBottom, mnuViewFloatBottom_Alt, AppPanels[cPaneOut].Floating);
   UpdateMenuItemChecked(mnuViewOnTop, mnuViewOnTop_Alt, ShowOnTop);
 
   UpdateMenuItemChecked(mnuGr1, mnuGr1_Alt, Groups.Mode= gmOne);
@@ -1012,7 +1012,7 @@ var
   NRanges: integer;
 begin
   if AConsiderTreeVisible then
-    if not AppPanels[cSideLeft].Visible then exit;
+    if not AppPanels[cPaneSide].Visible then exit;
 
   Frame:= CurrentFrame;
   if Frame=nil then exit;
@@ -1371,11 +1371,11 @@ begin
   ToolbarSideMid.AddButton(cSidebarIconFind, @DoBottom_FindClick, msgPanelSearch_Init, msgPanelSearch_Init, '', false);
   ToolbarSideMid.AddSep;
 
-  AppPanels[cSideLeft].Add(msgPanelTree_Init, cSidebarIconTree, PtrInt(Pointer(PanelCodeTreeAll)), @DoSidebar_OnShowCodeTree);
+  AppPanels[cPaneSide].Add(msgPanelTree_Init, cSidebarIconTree, PtrInt(Pointer(PanelCodeTreeAll)), @DoSidebar_OnShowCodeTree);
 
-  AppPanels[cSideBottom].Add(msgPanelConsole_Init, cSidebarIconConsole, PtrInt(Pointer(fmConsole)), nil);
-  AppPanels[cSideBottom].Add(msgPanelOutput_Init, cSidebarIconOutput, PtrInt(Pointer(ListboxOut)), nil);
-  AppPanels[cSideBottom].Add(msgPanelValidate_Init, cSidebarIconValidate, PtrInt(Pointer(ListboxVal)), nil);
+  AppPanels[cPaneOut].Add(msgPanelConsole_Init, cSidebarIconConsole, PtrInt(Pointer(fmConsole)), nil);
+  AppPanels[cPaneOut].Add(msgPanelOutput_Init, cSidebarIconOutput, PtrInt(Pointer(ListboxOut)), nil);
+  AppPanels[cPaneOut].Add(msgPanelValidate_Init, cSidebarIconValidate, PtrInt(Pointer(ListboxVal)), nil);
 end;
 
 

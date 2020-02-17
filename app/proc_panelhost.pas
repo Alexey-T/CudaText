@@ -18,10 +18,10 @@ uses
   ATFlatToolbar;
 
 type
-  TAppSideId = (
-    cSideNone,
-    cSideLeft,
-    cSideBottom
+  TAppPanelId = (
+    cPaneNone,
+    cPaneSide,
+    cPaneOut
     );
 
 type
@@ -94,7 +94,7 @@ type
   end;
 
 var
-  AppPanels: array[TAppSideId] of TAppPanelHost;
+  AppPanels: array[TAppPanelId] of TAppPanelHost;
 
 implementation
 
@@ -530,18 +530,18 @@ begin
 end;
 
 var
-  side: TAppSideId;
+  side: TAppPanelId;
 
 initialization
 
-  for side in TAppSideId do
-    if side<>cSideNone then
+  for side in TAppPanelId do
+    if side<>cPaneNone then
       AppPanels[side]:= TAppPanelHost.Create;
 
 finalization
 
-  for side in TAppSideId do
-    if side<>cSideNone then
+  for side in TAppPanelId do
+    if side<>cPaneNone then
       FreeAndNil(AppPanels[side]);
 
 end.
