@@ -171,7 +171,6 @@ type
     mnuViewMicromap: TMenuItem;
     mnuHelpCheckUpd: TMenuItem;
     StatusProgress: TATGauge;
-    LabelSideTitle: TLabel;
     MenuItem4: TMenuItem;
     mnuViewDistFree: TMenuItem;
     SepV4: TMenuItem;
@@ -187,9 +186,6 @@ type
     mnuOpThemeSyntax: TMenuItem;
     mnuBmPlaceCarets: TMenuItem;
     PanelAll: TATPanelSimple;
-    PanelBottom: TATPanelSimple;
-    PanelLeft: TATPanelSimple;
-    PanelLeftTitle: TATPanelSimple;
     PanelMain: TATPanelSimple;
     PanelEditors: TATPanelSimple;
     PanelSide: TATPanelSimple;
@@ -362,8 +358,6 @@ type
     mnuFileClose: TMenuItem;
     PopupText: TPopupMenu;
     PopupRecents: TPopupMenu;
-    SplitterHorz: TSplitter;
-    SplitterVert: TSplitter;
     TimerStatusAlt: TTimer;
     TimerTreeFill: TTimer;
     TimerCmd: TTimer;
@@ -1840,30 +1834,29 @@ begin
 
   with AppPanels[cSideLeft] do
   begin
-    PanelGrouper:= Self.PanelLeft;
+    Align:= alLeft;
     PanelRoot:= Self.PanelMain;
-    PanelTitle:= Self.PanelLeftTitle;
-    LabelTitle:= Self.LabelSideTitle;
     Toolbar:= ToolbarSideTop;
-    Splitter:= SplitterVert;
     DefaultPanel:= msgPanelTree_Init;
     OnCommand:= @DoSidebar_OnPythonCall;
     OnCloseFloatForm:= @DoSidebar_OnCloseFloatForm;
     OnGetTranslatedTitle:= @DoSidebar_GetFormTitle;
+    Init;
+    Splitter.OnPaint:= @SplitterOnPaint_Main;
   end;
 
   with AppPanels[cSideBottom] do
   begin
-    PanelGrouper:= Self.PanelBottom;
+    Align:= alBottom;
     PanelRoot:= Self.PanelAll;
-    PanelTitle:= nil;
-    LabelTitle:= nil;
     Toolbar:= ToolbarSideLow;
-    Splitter:= SplitterHorz;
+    ShowTitle:= false;
     OnHide:= @DoBottom_OnHide;
     OnCommand:= @DoSidebar_OnPythonCall;
     OnCloseFloatForm:= @DoBottom_OnCloseFloatForm;
     OnGetTranslatedTitle:= @DoSidebar_GetFormTitle;
+    Init;
+    Splitter.OnPaint:= @SplitterOnPaint_Main;
   end;
 
   LexerProgress:= TATGauge.Create(Self);
@@ -1912,7 +1905,6 @@ begin
   InitToolbar;
 
   PanelCodeTreeAll:= TATPanelSimple.Create(Self);
-  PanelCodeTreeAll.Parent:= PanelLeft;
   PanelCodeTreeAll.Align:= alClient;
 
   CodeTree:= TAppTreeContainer.Create(Self);
@@ -1953,7 +1945,6 @@ begin
 
   ListboxOut:= TATListbox.Create(Self);
   ListboxOut.VirtualMode:= false;
-  ListboxOut.Parent:= PanelBottom;
   ListboxOut.Align:= alClient;
   ListboxOut.CanGetFocus:= true;
   ListboxOut.OwnerDrawn:= true;
@@ -1966,7 +1957,6 @@ begin
 
   ListboxVal:= TATListbox.Create(Self);
   ListboxVal.VirtualMode:= false;
-  ListboxVal.Parent:= PanelBottom;
   ListboxVal.Align:= alClient;
   ListboxVal.CanGetFocus:= true;
   ListboxVal.OwnerDrawn:= true;
@@ -1978,7 +1968,6 @@ begin
   ListboxVal.OnContextPopup:= @ListboxValidateContextPopup;
 
   fmConsole:= TfmConsole.Create(Self);
-  fmConsole.Parent:= PanelBottom;
   fmConsole.Align:= alClient;
   fmConsole.OnConsoleNav:= @DoOnConsoleNav;
 
@@ -2054,8 +2043,6 @@ begin
   Groups.Splitter3.OnPaint:= @SplitterOnPaint_Gr;
   Groups.Splitter4.OnPaint:= @SplitterOnPaint_Gr;
   Groups.Splitter5.OnPaint:= @SplitterOnPaint_Gr;
-  SplitterVert.OnPaint:= @SplitterOnPaint_Main;
-  SplitterHorz.OnPaint:= @SplitterOnPaint_Main;
 
   FLastDirOfOpenDlg:= '';
   FLastLexerForPluginsMenu:= '-';
@@ -2393,23 +2380,24 @@ end;
 procedure TfmMain.FixMainLayout;
 begin
   //issue #1814
-  if SplitterHorz.Visible and PanelBottom.Visible then
-    SplitterHorz.Top:= PanelBottom.Top-8;
-
-  if SplitterVert.Visible and PanelLeft.Visible then
-    SplitterVert.Left:= PanelLeft.Width;
+  AppPanels[cSideLeft].UpdateSplitter;
+  AppPanels[cSideBottom].UpdateSplitter;
 end;
 
 procedure TfmMain.FormShow(Sender: TObject);
 var
   NTickShowEnd: QWord;
   Frame: TEditorFrame;
+  side: TAppSideId;
   i: integer;
 begin
   {$ifdef darwin}
   // https://bugs.freepascal.org/view.php?id=35599
-  SplitterHorz.ResizeStyle:= rsUpdate;
-  SplitterVert.ResizeStyle:= rsUpdate;
+  for side in TAppSideId do
+    if side<>cSideNone then
+      with AppPanels[side] do
+        Splitter.ResizeStyle:= rsUpdate;
+
   Groups.Splitter1.ResizeStyle:= rsUpdate;
   Groups.Splitter2.ResizeStyle:= rsUpdate;
   Groups.Splitter3.ResizeStyle:= rsUpdate;
@@ -2774,6 +2762,7 @@ end;
 
 procedure TfmMain.DoApplyUiOps;
 var
+  side: TAppSideId;
   i: integer;
 begin
   cAdapterIdleInterval:= UiOps.LexerDelayedParsingPause;
@@ -2786,8 +2775,8 @@ begin
   StatusProgress.Width:= AppScale(UiOps.ProgressbarWidth);
   ButtonCancel.Width:= AppScale(UiOps.ProgressbarWidth);
 
-  AppScaleSplitter(SplitterVert);
-  AppScaleSplitter(SplitterHorz);
+  AppScaleSplitter(AppPanels[cSideLeft].Splitter);
+  AppScaleSplitter(AppPanels[cSideBottom].Splitter);
   AppScaleSplitter(Groups.Splitter1);
   AppScaleSplitter(Groups.Splitter2);
   AppScaleSplitter(Groups.Splitter3);
@@ -2847,12 +2836,17 @@ begin
 
   PanelSide.Visible:= UiOps.SidebarShow;
   ShowSideBarOnRight:= UiOps.SidebarOnRight;
-  PanelLeftTitle.Height:= Groups.Pages1.Tabs.Height;
 
-  if UiOps.TabPosition=1 then
-    PanelLeftTitle.Align:= alBottom
-  else
-    PanelLeftTitle.Align:= alTop;
+  for side in TAppSideId do
+    if side<>cSideNone then
+      with AppPanels[side] do
+      begin
+        PanelTitle.Height:= Groups.Pages1.Tabs.Height;
+        if UiOps.TabPosition=1 then
+          PanelTitle.Align:= alBottom
+        else
+          PanelTitle.Align:= alTop;
+      end;
 
   case UiOps.TreeFilterLayout of
     0:
@@ -4221,13 +4215,14 @@ const
 begin
   if AValue=GetShowSidebarOnRight then exit;
   PanelSide.Align:= cVal[AValue];
-  PanelLeft.Align:= cVal[AValue];
-  SplitterVert.Align:= cVal[AValue];
 
-  if AValue then
-    SplitterVert.Left:= PanelSide.Width
-  else
-    SplitterVert.Left:= ClientWidth-PanelSide.Width;
+  with AppPanels[cSideLeft] do
+  begin
+    Align:= cVal[AValue];
+    PanelRoot.Align:= cVal[AValue];
+    Splitter.Align:= cVal[AValue];
+    UpdateSplitter;
+  end;
 end;
 
 procedure TfmMain.SetShowStatus(AValue: boolean);
@@ -5742,8 +5737,8 @@ begin
   NTotal:= 0;
 
   case Id of
-    SPLITTER_SIDE: GetSp(SplitterVert);
-    SPLITTER_BOTTOM: GetSp(SplitterHorz);
+    SPLITTER_SIDE: GetSp(AppPanels[cSideLeft].Splitter);
+    SPLITTER_BOTTOM: GetSp(AppPanels[cSideBottom].Splitter);
     SPLITTER_G1: GetSp(Groups.Splitter1);
     SPLITTER_G2: GetSp(Groups.Splitter2);
     SPLITTER_G3: GetSp(Groups.Splitter3);
@@ -5765,8 +5760,8 @@ procedure TfmMain.DoSplitter_SetInfo(const Id: integer; NPos: integer);
 begin
   if NPos<0 then exit;
   case Id of
-    SPLITTER_SIDE: SetSp(SplitterVert);
-    SPLITTER_BOTTOM: SetSp(SplitterHorz);
+    SPLITTER_SIDE: SetSp(AppPanels[cSideLeft].Splitter);
+    SPLITTER_BOTTOM: SetSp(AppPanels[cSideBottom].Splitter);
     SPLITTER_G1: SetSp(Groups.Splitter1);
     SPLITTER_G2: SetSp(Groups.Splitter2);
     SPLITTER_G3: SetSp(Groups.Splitter3);

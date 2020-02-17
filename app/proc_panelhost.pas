@@ -14,6 +14,7 @@ interface
 uses
   SysUtils, Classes, Controls, StdCtrls, ExtCtrls, Buttons, Forms,
   ATButtons,
+  ATPanelSimple,
   ATFlatToolbar;
 
 type
@@ -50,9 +51,9 @@ type
     procedure SetFloating(AValue: boolean);
     procedure SetVisible(AValue: boolean);
     procedure HandleButtonClick(Sender: TObject);
-    procedure UpdateSplitter;
     procedure UpdateTitle;
   public
+    Align: TAlign;
     PanelGrouper: TCustomControl;
     PanelRoot: TCustomControl;
     PanelTitle: TCustomControl;
@@ -64,12 +65,14 @@ type
     DefaultPanel: string;
     FormFloat: TForm;
     FormFloatBounds: TRect;
+    ShowTitle: boolean;
     OnHide: TNotifyEvent;
     OnCommand: TAppPanelOnCommand;
     OnCloseFloatForm: TCloseEvent;
     OnGetTranslatedTitle: TAppPanelOnGetTitle;
     constructor Create;
     destructor Destroy; override;
+    procedure Init;
     property Floating: boolean read GetFloating write SetFloating;
     property Visible: boolean read GetVisible write SetVisible;
     function CaptionToPanelIndex(const ACaption: string): integer;
@@ -79,6 +82,7 @@ type
     function AddEmpty(const ACaption: string; AImageIndex: integer; const AModule, AMethod: string): boolean;
     function Delete(const ACaption: string): boolean;
     procedure UpdateButtons;
+    procedure UpdateSplitter;
     function UpdatePanels(const ACaption: string; AndFocus: boolean; ACheckExists: boolean): boolean;
     procedure InitFormFloat;
   end;
@@ -112,6 +116,8 @@ constructor TAppPanelHost.Create;
 begin
   inherited Create;
   Panels:= TFPList.Create;
+  ShowTitle:= true;
+  Align:= alLeft;
 end;
 
 destructor TAppPanelHost.Destroy;
@@ -119,6 +125,29 @@ begin
   Panels.Clear;
   FreeAndNil(Panels);
   inherited Destroy;
+end;
+
+procedure TAppPanelHost.Init;
+begin
+  PanelGrouper:= TATPanelSimple.Create(Application.MainForm);
+  PanelGrouper.Align:= Align;
+  PanelGrouper.Parent:= PanelRoot;
+
+  PanelTitle:= TATPanelSimple.Create(Application.MainForm);
+  PanelTitle.Align:= alTop;
+  PanelTitle.Height:= 20;
+  PanelTitle.Parent:= PanelGrouper;
+
+  LabelTitle:= TLabel.Create(Application.MainForm);
+  LabelTitle.Align:= alClient;
+  LabelTitle.Alignment:= taCenter;
+  LabelTitle.Parent:= PanelTitle;
+
+  Splitter:= TSplitter.Create(Application.MainForm);
+  Splitter.Align:= Align;
+  Splitter.Parent:= PanelRoot;
+
+  UpdateSplitter;
 end;
 
 function TAppPanelHost.GetVisible: boolean;
@@ -133,14 +162,10 @@ procedure TAppPanelHost.SetFloating(AValue: boolean);
 begin
   if GetFloating=AValue then exit;
 
-  if Assigned(PanelTitle) then
-    PanelTitle.Visible:= not AValue;
-
   if AValue then
   begin
     InitFormFloat;
     FormFloat.Show;
-    UpdateTitle;
 
     PanelGrouper.Parent:= FormFloat;
     PanelGrouper.Align:= alClient;
@@ -156,7 +181,9 @@ begin
     PanelGrouper.Parent:= PanelRoot;
     Splitter.Visible:= PanelGrouper.Visible;
     UpdateSplitter;
-  end
+  end;
+
+  UpdateTitle;
 end;
 
 procedure TAppPanelHost.SetVisible(AValue: boolean);
@@ -432,6 +459,7 @@ end;
 
 procedure TAppPanelHost.UpdateSplitter;
 begin
+  if Splitter.Visible then
   case Splitter.Align of
     alLeft:
       Splitter.Left:= PanelGrouper.Width;
@@ -449,6 +477,7 @@ var
   S: string;
 begin
   S:= OnGetTranslatedTitle(LastActivePanel);
+  PanelTitle.Visible:= ShowTitle and not Floating;
   if Assigned(LabelTitle) then
     LabelTitle.Caption:= S;
   if Assigned(FormFloat) then

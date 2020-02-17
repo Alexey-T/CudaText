@@ -84,19 +84,6 @@ object fmMain: TfmMain
     Top = 146
     Width = 872
     Align = alBottom
-    object SplitterHorz: TSplitter
-      Cursor = crVSplit
-      Left = 0
-      Height = 5
-      Top = 240
-      Width = 872
-      Align = alBottom
-      AutoSnap = False
-      MinSize = 25
-      ParentColor = False
-      ResizeAnchor = akBottom
-      ResizeStyle = rsPattern
-    end
     object ToolbarMain: TATFlatToolbar
       Left = 0
       Height = 24
@@ -111,16 +98,10 @@ object fmMain: TfmMain
     end
     object PanelMain: TATPanelSimple
       Left = 0
-      Height = 216
+      Height = 311
       Top = 24
       Width = 872
       Align = alClient
-      object SplitterVert: TSplitter
-        Left = 202
-        Height = 216
-        Top = 0
-        Width = 4
-      end
       object StatusProgress: TATGauge
         Left = 752
         Height = 19
@@ -137,56 +118,16 @@ object fmMain: TfmMain
         Width = 100
         Caption = 'Cancel'
         TabStop = True
-        TabOrder = 1
+        TabOrder = 0
         OnClick = ButtonCancelClick
       end
-      object PanelLeft: TATPanelSimple
-        Left = 0
-        Height = 216
-        Top = 0
-        Width = 202
-        Align = alLeft
-        Color = clSilver
-        ParentColor = False
-        object PanelLeftTitle: TATPanelSimple
-          Left = 0
-          Height = 24
-          Top = 0
-          Width = 202
-          Align = alTop
-          Color = clGray
-          ParentColor = False
-          object LabelSideTitle: TLabel
-            AnchorSideTop.Control = PanelLeftTitle
-            AnchorSideTop.Side = asrCenter
-            AnchorSideRight.Side = asrBottom
-            Left = 0
-            Height = 17
-            Top = 4
-            Width = 202
-            Alignment = taCenter
-            Anchors = [akTop, akLeft, akRight]
-            Caption = '?'
-            ParentColor = False
-          end
-        end
-      end
       object PanelEditors: TATPanelSimple
-        Left = 206
-        Height = 216
+        Left = 0
+        Height = 311
         Top = 0
-        Width = 666
+        Width = 872
         Align = alClient
       end
-    end
-    object PanelBottom: TATPanelSimple
-      Left = 0
-      Height = 90
-      Top = 245
-      Width = 872
-      Align = alBottom
-      Color = clSilver
-      ParentColor = False
     end
   end
   object MainMenu: TMainMenu

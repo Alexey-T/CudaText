@@ -51,6 +51,7 @@ end;
 
 procedure TfmMain.DoApplyTheme;
 var
+  side: TAppSideId;
   i: integer;
 begin
   with ATScrollbarTheme do
@@ -82,10 +83,19 @@ begin
   Self.Color:= ToolbarMain.Color;
 
   PanelCodeTreeTop.Color:= ToolbarMain.Color;
-  PanelLeftTitle.Color:= ToolbarMain.Color;
   ToolbarSideTop.Color:= GetAppColor('SideBg');
   ToolbarSideLow.Color:= ToolbarSideTop.Color;
   ToolbarSideMid.Color:= ToolbarSideTop.Color;
+
+  for side in TAppSideId do
+    if side<>cSideNone then
+      with AppPanels[side] do
+      begin
+        PanelTitle.Color:= ToolbarMain.Color;
+        PanelTitle.Font.Color:= GetAppColor('TabFont');
+        Splitter.Color:= GetAppColor('SplitMain');
+        Splitter.Invalidate;
+      end;
 
   Status.Color:= GetAppColor('TabBg');
   Status.ColorBorderTop:= GetAppColor('ButtonBorderPassive');
@@ -125,8 +135,6 @@ begin
     DoApplyThemeToGroups(GroupsF3);
   end;
 
-  PanelLeftTitle.Font.Color:= GetAppColor('TabFont');
-
   if assigned(fmFind) then
   begin
     fmFind.Color:= GetAppColor('TabBg');
@@ -144,11 +152,6 @@ begin
 
   //apply AppTheme to all frames
   DoApplyLexerStyleMaps(true);
-
-  SplitterVert.Color:= GetAppColor('SplitMain');
-  SplitterHorz.Color:= SplitterVert.Color;
-  SplitterHorz.Invalidate;
-  SplitterVert.Invalidate;
 
   Groups.Splitter1.Color:= GetAppColor('SplitGroups');
   Groups.Splitter2.Color:= Groups.Splitter1.Color;

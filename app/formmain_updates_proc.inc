@@ -401,6 +401,8 @@ end;
 
 
 procedure TfmMain.DoApplyFont_Ui;
+var
+  side: TAppSideId;
 begin
   Self.Font.Name:= UiOps.VarFontName;
   Self.Font.Size:= AppScaleFont(UiOps.VarFontSize);
@@ -423,8 +425,13 @@ begin
   CodeTreeFilterInput.Font.Name:= EditorOps.OpFontName;
   CodeTreeFilterInput.Font.Size:= EditorOps.OpFontSize;
 
-  PanelLeftTitle.Font.Name:= UiOps.VarFontName;
-  PanelLeftTitle.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+  for side in TAppSideId do
+    if side<>cSideNone then
+      with AppPanels[side] do
+      begin
+        PanelTitle.Font.Name:= UiOps.VarFontName;
+        PanelTitle.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+      end;
 
   ATFlatTheme.FontName:= UiOps.VarFontName;
   ATFlatTheme.FontSize:= UiOps.VarFontSize;

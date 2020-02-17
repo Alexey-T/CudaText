@@ -110,10 +110,14 @@ begin
       c.SetValue('float_side', AppPanels[cSideLeft].Floating);
       c.SetValue('float_bottom', AppPanels[cSideBottom].Floating);
 
-      if not AppPanels[cSideLeft].Floating then
-        c.SetValue('size_side', PanelLeft.Width);
-      if not AppPanels[cSideBottom].Floating then
-        c.SetValue('size_bottom', PanelBottom.Height);
+      with AppPanels[cSideLeft] do
+        if not Floating then
+          c.SetValue('size_side', PanelGrouper.Width);
+
+      with AppPanels[cSideBottom] do
+        if not Floating then
+          c.SetValue('size_bottom', PanelGrouper.Height);
+
       c.SetValue('tab_left', AppPanels[cSideLeft].LastActivePanel);
     end;
 
@@ -195,13 +199,17 @@ begin
 
     c.SetValue('/panels/side_show', AppPanels[cSideLeft].Visible);
     c.SetValue('/panels/side_panel', AppPanels[cSideLeft].LastActivePanel);
-    if not AppPanels[cSideLeft].Floating then
-      c.SetValue('/panels/side_size', PanelLeft.Width);
+
+    with AppPanels[cSideLeft] do
+      if not Floating then
+        c.SetValue('/panels/side_size', PanelGrouper.Width);
 
     c.SetValue('/panels/bottom_show', AppPanels[cSideBottom].Visible);
     c.SetValue('/panels/bottom_panel', AppPanels[cSideBottom].LastActivePanel);
-    if not AppPanels[cSideBottom].Floating then
-      c.SetValue('/panels/bottom_size', PanelBottom.Height);
+
+    with AppPanels[cSideBottom] do
+      if not Floating then
+        c.SetValue('/panels/bottom_size', PanelGrouper.Height);
 
     for i:= 0 to FrameCount-1 do
     begin
@@ -380,8 +388,11 @@ begin
     AppPanels[cSideLeft].Visible:= c.GetValue('/panels/side_show', AppPanels[cSideLeft].Visible);
     AppPanels[cSideBottom].Visible:= c.GetValue('/panels/bottom_show', AppPanels[cSideBottom].Visible);
 
-    PanelLeft.Width:= Min(c.GetValue('/panels/side_size', PanelLeft.Width), ClientWidth div 2);
-    PanelBottom.Height:= Min(c.GetValue('/panels/bottom_size', PanelBottom.Height), ClientHeight div 2);
+    with AppPanels[cSideLeft] do
+      PanelGrouper.Width:= Min(c.GetValue('/panels/side_size', PanelGrouper.Width), ClientWidth div 2);
+
+    with AppPanels[cSideBottom] do
+      PanelGrouper.Height:= Min(c.GetValue('/panels/bottom_size', PanelGrouper.Height), ClientHeight div 2);
 
     SText:= c.GetValue('/panels/side_panel', '');
     if AppPanels[cSideLeft].Visible and (SText<>'') then
@@ -495,8 +506,8 @@ begin
     AppPanels[cSideLeft].Visible:= c.GetValue('show_sidepanel', true);
     AppPanels[cSideBottom].Visible:= c.GetValue('show_bottom', false);
 
-    PanelLeft.Width:= Min(c.GetValue('size_side', 200), ClientWidth div 2);
-    PanelBottom.Height:= Min(c.GetValue('size_bottom', 200), ClientHeight div 2);
+    AppPanels[cSideLeft].PanelGrouper.Width:= Min(c.GetValue('size_side', 200), ClientWidth div 2);
+    AppPanels[cSideBottom].PanelGrouper.Height:= Min(c.GetValue('size_bottom', 200), ClientHeight div 2);
 
     AppPanels[cSideLeft].Floating:= c.GetValue('float_side', false);
     AppPanels[cSideBottom].Floating:= c.GetValue('float_bottom', false);
