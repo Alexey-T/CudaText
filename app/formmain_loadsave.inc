@@ -48,6 +48,7 @@ end;
 procedure TfmMain.DoOps_SaveHistory;
 var
   c: TJSONConfig;
+  bMax: boolean;
 begin
   c:= TJSONConfig.Create(nil);
   try
@@ -61,7 +62,11 @@ begin
     ////form
     if not ShowFullscreen then
     begin
-      c.SetValue('/dialog/max', WindowState=wsMaximized);
+      bMax:= WindowState=wsMaximized;
+      c.SetValue('/dialog/max', bMax);
+      if bMax then
+        c.SetValue('/dialog/max_mon', Monitor.MonitorNum);
+
       if not IsWindowMaximizedOrFullscreen then
       begin
         c.SetValue('/dialog/posx', Left);
@@ -486,6 +491,7 @@ begin
     BoundsRect:= FBoundsMain;
 
     FLastMaximized:= c.GetValue('/dialog/max', false);
+    FLastMaximizedMonitor:= c.GetValue('/dialog/max_mon', 0);
 
     ////recents
     c.GetValue('/recent_files', FListRecents, '');

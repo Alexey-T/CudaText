@@ -641,6 +641,7 @@ type
     FLastSelectedCommand: integer;
     FLastMousePos: TPoint;
     FLastMaximized: boolean;
+    FLastMaximizedMonitor: integer;
     FLastFocusedFrame: TComponent;
     FLexerProgressIndex: integer;
     FOption_WindowPos: string;
@@ -2401,6 +2402,8 @@ begin
   if FLastMaximized then
   begin
     FLastMaximized:= false;
+    if (FLastMaximizedMonitor>=0) and (FLastMaximizedMonitor<Screen.MonitorCount) then
+      BoundsRect:= Screen.Monitors[FLastMaximizedMonitor].BoundsRect;
     WindowState:= wsMaximized;
   end;
 
