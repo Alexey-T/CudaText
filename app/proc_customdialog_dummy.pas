@@ -178,7 +178,7 @@ function AppVariant_KeyData(AKey: word; AShift: TShiftState): TAppVariant;
 begin
   FillChar(Result, SizeOf(Result), 0);
   Result.Typ:= avrTuple;
-  Result.Len:= 2;
+  SetLength(Result.Items, 2);
 
   Result.Items[0].Typ:= avdInt;
   Result.Items[0].Int:= AKey;
@@ -192,7 +192,7 @@ function AppVariant_MouseData(AButton: TMouseButton; AShift: TShiftState; AX, AY
 begin
   FillChar(Result, SizeOf(Result), 0);
   Result.Typ:= avrDict;
-  Result.Len:= 4;
+  SetLength(Result.Items, 4);
 
   Result.Items[0].KeyName:= 'btn';
   Result.Items[0].Typ:= avdInt;
@@ -386,7 +386,7 @@ begin
 
   FillChar(Data, SizeOf(Data), 0);
   Data.Typ:= avrTuple;
-  Data.Len:= 2;
+  SetLength(Data.Items, 2);
 
   Data.Items[0].Typ:= avdInt;
   Data.Items[0].Int:= P.X;
@@ -680,7 +680,7 @@ begin
 
   FillChar(Data, SizeOf(Data), 0);
   Data.Typ:= avrDict;
-  Data.Len:= 3;
+  SetLength(Data.Items, 3);
 
   Data.Items[0].KeyName:= 'canvas';
   Data.Items[0].Typ:= avdInt;
@@ -731,7 +731,7 @@ begin
 
   FillChar(Data, SizeOf(Data), 0);
   Data.Typ:= avrTuple;
-  Data.Len:= 2;
+  SetLength(Data.Items, 2);
 
   Data.Items[0].Typ:= avdInt;
   Data.Items[0].Int:= Item.Index;
@@ -980,7 +980,7 @@ begin
 
   FillChar(Data, SizeOf(Data), 0);
   Data.Typ:= avrDict;
-  Data.Len:= 3;
+  SetLength(Data.Items, 3);
 
   Data.Items[0].KeyName:= 'state';
   Data.Items[0].Typ:= avdStr;
@@ -1013,7 +1013,7 @@ begin
 
   FillChar(Data, SizeOf(Data), 0);
   Data.Typ:= avrDict;
-  Data.Len:= 7;
+  SetLength(Data.Items, 7);
 
   Data.Items[0].KeyName:= 'state';
   Data.Items[0].Typ:= avdStr;
@@ -1081,7 +1081,7 @@ begin
 
   FillChar(Data, SizeOf(Data), 0);
   Data.Typ:= avrDict;
-  Data.Len:= 2;
+  SetLength(Data.Items, 2);
 
   Data.Items[0].KeyName:= 'keep_caret';
   Data.Items[0].Typ:= avdBool;

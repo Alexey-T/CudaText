@@ -12,7 +12,7 @@ unit proc_appvariant;
 interface
 
 uses
-  SysUtils, Types, Math,
+  SysUtils, Types,
   PythonEngine,
   proc_str;
 
@@ -46,20 +46,16 @@ type
   TAppVariant = record
     Typ: TAppVariantTypeId;
     Str: string; //don't use ShortString to allow big len
+    Items: array of TAppVariantItem;
     case integer of
       0: (Bool: boolean);
       1: (Int: Int64);
-      2: (Len: integer; Items: array[0..6] of TAppVariantItem);
   end;
 
   TAppVariantArray = array of TAppVariant;
 
-const
-  AppVariantNil: TAppVariant = (
-    Typ: avrNil;
-    Str: '';
-    Int: 0
-    );
+var
+  AppVariantNil: TAppVariant;
 
 function AppVariant(Value: boolean): TAppVariant; inline;
 function AppVariant(const Value: Int64): TAppVariant; inline;
@@ -109,8 +105,8 @@ var
 begin
   FillChar(Result, SizeOf(Result), 0);
   Result.Typ:= avrTuple;
-  Result.Len:= Length(Value);
-  for i:= 0 to Min(Length(Value), Length(Result.Items))-1 do
+  SetLength(Result.Items, Length(Value));
+  for i:= 0 to Length(Value)-1 do
   begin
     Result.Items[i].Typ:= avdInt;
     Result.Items[i].Int:= Value[i];
@@ -167,7 +163,7 @@ begin
     avrDict:
       begin
         Result:= '{';
-        for i:= 0 to V.Len-1 do
+        for i:= 0 to Length(V.Items)-1 do
           Result+= '"'+V.Items[i].KeyName+'":'+AppVariantItemToString(V.Items[i])+',';
         Result+= '}';
       end;
@@ -175,7 +171,7 @@ begin
     avrTuple:
       begin
         Result:= '(';
-        for i:= 0 to V.Len-1 do
+        for i:= 0 to Length(V.Items)-1 do
           Result+= AppVariantItemToString(V.Items[i])+',';
         Result+= ')';
       end;
@@ -215,7 +211,7 @@ end;
 
 function AppVariantToPyObject(const V: TAppVariant): PPyObject;
 var
-  i: integer;
+  NLen, i: integer;
 begin
   with FEngine do
     case V.Typ of
@@ -234,7 +230,8 @@ begin
       avrDict:
         begin
           Result:= PyDict_New();
-          for i:= 0 to V.Len-1 do
+          NLen:= Length(V.Items);
+          for i:= 0 to NLen-1 do
             PyDict_SetItemString(Result,
               PChar(string(V.Items[i].KeyName)),
               AppVariantItemToPyObject(V.Items[i])
@@ -243,8 +240,9 @@ begin
 
       avrTuple:
         begin
-          Result:= PyTuple_New(V.Len);
-          for i:= 0 to V.Len-1 do
+          NLen:= Length(V.Items);
+          Result:= PyTuple_New(NLen);
+          for i:= 0 to NLen-1 do
             PyTuple_SetItem(Result, i,
               AppVariantItemToPyObject(V.Items[i])
               );
@@ -267,12 +265,15 @@ begin
   end;
 end;
 
-{
 var
   n: integer;
+
 initialization
+
+  FillChar(AppVariantNil, SizeOf(AppVariantNil), 0);
+  AppVariantNil.Typ:= avrNil;
+
   n:= SizeOf(TAppVariant);
   if n>0 then ;
-}
 
 end.
