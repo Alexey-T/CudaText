@@ -47,14 +47,15 @@ type
   TAppPanelHost = class
   private
     FOwner: TComponent;
+    FAlign: TAlign;
     function GetFloating: boolean;
     function GetVisible: boolean;
+    procedure SetAlign(AValue: TAlign);
     procedure SetFloating(AValue: boolean);
     procedure SetVisible(AValue: boolean);
     procedure HandleButtonClick(Sender: TObject);
     procedure UpdateTitle;
   public
-    Align: TAlign;
     PanelGrouper: TCustomControl;
     PanelRoot: TCustomControl;
     PanelTitle: TPanel;
@@ -72,7 +73,8 @@ type
     OnGetTranslatedTitle: TAppPanelOnGetTitle;
     constructor Create;
     destructor Destroy; override;
-    procedure Init(AOwner: TComponent);
+    procedure Init(AOwner: TComponent; AAlign: TAlign);
+    property Align: TAlign read FAlign write SetAlign;
     property Floating: boolean read GetFloating write SetFloating;
     property Visible: boolean read GetVisible write SetVisible;
     function CaptionToPanelIndex(const ACaption: string): integer;
@@ -117,7 +119,6 @@ begin
   inherited Create;
   Panels:= TFPList.Create;
   ShowTitle:= true;
-  Align:= alLeft;
 end;
 
 destructor TAppPanelHost.Destroy;
@@ -127,9 +128,10 @@ begin
   inherited Destroy;
 end;
 
-procedure TAppPanelHost.Init(AOwner: TComponent);
+procedure TAppPanelHost.Init(AOwner: TComponent; AAlign: TAlign);
 begin
   FOwner:= AOwner;
+  FAlign:= AAlign;
 
   PanelGrouper:= TATPanelSimple.Create(FOwner);
   PanelGrouper.Align:= Align;
@@ -157,6 +159,15 @@ begin
     Result:= PanelGrouper.Visible;
 end;
 
+procedure TAppPanelHost.SetAlign(AValue: TAlign);
+begin
+  if FAlign=AValue then Exit;
+  FAlign:= AValue;
+  PanelGrouper.Align:= FAlign;
+  Splitter.Align:= FAlign;
+  UpdateSplitter;
+end;
+
 procedure TAppPanelHost.SetFloating(AValue: boolean);
 begin
   if GetFloating=AValue then exit;
@@ -176,7 +187,7 @@ begin
     if Assigned(FormFloat) then
       FormFloat.Hide;
 
-    PanelGrouper.Align:= Splitter.Align;
+    PanelGrouper.Align:= Align;
     PanelGrouper.Parent:= PanelRoot;
     Splitter.Visible:= PanelGrouper.Visible;
     UpdateSplitter;
@@ -459,16 +470,16 @@ end;
 procedure TAppPanelHost.UpdateSplitter;
 begin
   if Splitter.Visible then
-  case Splitter.Align of
-    alLeft:
-      Splitter.Left:= PanelGrouper.Width;
-    alBottom:
-      Splitter.Top:= PanelGrouper.Top-8;
-    alRight:
-      Splitter.Left:= PanelGrouper.Left-8;
-    else
-      begin end;
-  end;
+    case Align of
+      alLeft:
+        Splitter.Left:= PanelGrouper.Width;
+      alBottom:
+        Splitter.Top:= PanelGrouper.Top-8;
+      alRight:
+        Splitter.Left:= PanelGrouper.Left-8;
+      else
+        begin end;
+    end;
 end;
 
 procedure TAppPanelHost.UpdateTitle;

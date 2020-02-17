@@ -1834,20 +1834,18 @@ begin
 
   with AppPanels[cSideLeft] do
   begin
-    Align:= alLeft;
     PanelRoot:= Self.PanelMain;
     Toolbar:= ToolbarSideTop;
     DefaultPanel:= msgPanelTree_Init;
     OnCommand:= @DoSidebar_OnPythonCall;
     OnCloseFloatForm:= @DoSidebar_OnCloseFloatForm;
     OnGetTranslatedTitle:= @DoSidebar_GetFormTitle;
-    Init(Self);
+    Init(Self, alLeft);
     Splitter.OnPaint:= @SplitterOnPaint_Main;
   end;
 
   with AppPanels[cSideBottom] do
   begin
-    Align:= alBottom;
     PanelRoot:= Self.PanelAll;
     Toolbar:= ToolbarSideLow;
     ShowTitle:= false;
@@ -1855,7 +1853,7 @@ begin
     OnCommand:= @DoSidebar_OnPythonCall;
     OnCloseFloatForm:= @DoBottom_OnCloseFloatForm;
     OnGetTranslatedTitle:= @DoSidebar_GetFormTitle;
-    Init(Self);
+    Init(Self, alBottom);
     Splitter.OnPaint:= @SplitterOnPaint_Main;
   end;
 
@@ -4215,14 +4213,7 @@ const
 begin
   if AValue=GetShowSidebarOnRight then exit;
   PanelSide.Align:= cVal[AValue];
-
-  with AppPanels[cSideLeft] do
-  begin
-    Align:= cVal[AValue];
-    PanelRoot.Align:= cVal[AValue];
-    Splitter.Align:= cVal[AValue];
-    UpdateSplitter;
-  end;
+  AppPanels[cSideLeft].Align:= cVal[AValue];
 end;
 
 procedure TfmMain.SetShowStatus(AValue: boolean);
