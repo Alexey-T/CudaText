@@ -9,7 +9,9 @@
 + add: Python API speed optimized again (thanks @Artem3213212)
 + add: lexer Lua improved
 * change: removed option "ui_console_compact"
+* change: reworked internal manager of side/bottom panels
 - fix: command "find next" with regex and zero-length match
+- fix: regex replace to "\n" in single line file 
 
 1.94.1 (2020/02)
 
