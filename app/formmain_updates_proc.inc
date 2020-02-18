@@ -475,6 +475,7 @@ begin
   mi:= TMenuItem.Create(Self);
   mi.Caption:= msgFileClearList;
   mi.OnClick:= @MenuRecentsClear;
+  mi.Enabled:= FListRecents.Count>0;
   sub.Add(mi);
 end;
 
