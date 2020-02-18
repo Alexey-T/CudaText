@@ -22,6 +22,10 @@
       "regex": "\\d+(\\.\\d+)?([eE][-\\+]?\\d+)?",
       "style": "Number"
     },
+    "str2": {
+      "regex": "\".*?\"(?=\\x20*:)",
+      "style": "String2"
+    },
     "str": {
       "regex": "\"(\\\\\\\\|\\\\\"|.)*?\"",
       "style": "String"
