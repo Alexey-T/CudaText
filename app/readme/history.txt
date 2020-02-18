@@ -12,7 +12,7 @@
 * change: lexer PowerShell removed to add-ons
 * change: removed option "ui_console_compact"
 * change: reworked internal manager of side/bottom panels
-- fix: lexers XML, HTML, PHP produced "tokens" with newlines which gave some slowdown
+- fix: lexers HTML/PHP/XML produced elements with newlines which gave some slowdown
 - fix: command "find next" with regex and zero-length match
 - fix: regex replace to "\n" in single line file 
 - fix: broken code-tree layout if ui_tab_position = left/right
