@@ -79,6 +79,14 @@ object SyntAnal12: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'Label'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clFuchsia
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -146,6 +154,14 @@ object SyntAnal12: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Label'
+      StyleName = 'Label'
+      TokenType = 6
+      Expression = '(?<=goto\x20+)\w+ | ::\w+::'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Id'
       StyleName = 'Id'
       TokenType = 2
@@ -172,24 +188,24 @@ object SyntAnal12: TLibSyntAnalyzer
     item
       DisplayName = 'NumHex'
       StyleName = 'Number'
-      TokenType = 7
-      Expression = '0x[A-Fa-f0-9]+'
+      TokenType = 5
+      Expression = '0x[\da-f]+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'NumFloat'
       StyleName = 'Number'
-      TokenType = 6
-      Expression = '\d+(\.\d+)? e[\+\-]?\d+ |'#13#10'\d+\.\d+ '
+      TokenType = 5
+      Expression = '\d+(\.\d+)? e[\+\-]?\d+\b |'#13#10'\d+\.\d+\b '
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Num'
+      DisplayName = 'NumInt'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '\d+'
+      Expression = '\d+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -498,8 +514,6 @@ object SyntAnal12: TLibSyntAnalyzer
   SampleText.Strings = (
     '--Str'
     '--test'
-    '--test'
-    ''
     ' s = '#39'ww\'#39'ww'#39', "ww\"ww", '#39'alo\n123"'#39
     ' a = [[alo'
     '  123]] test'
@@ -507,8 +521,8 @@ object SyntAnal12: TLibSyntAnalyzer
     '  alo'
     '  123]==] test'
     ''
-    ' n = 2 + 2.22 + 22.22e-2 + 0.22E1 '
-    ' n = 0xF0'
+    ' n = 2 + 2.22 + 22.22e-2 + 0.22E1 + 0xF0   '
+    ' ::name:: , goto name'
     ''
     'function Set.mt.__lt (a,b)'
     '  return a <= b and not (b <= a)'
@@ -519,13 +533,6 @@ object SyntAnal12: TLibSyntAnalyzer
     '    coroutine.yield(a)'
     '  else'
     '    for i=1,n do'
-    '      -- put i-th element as the last one'
-    '      a[n], a[i] = a[i], a[n]'
-    ''
-    '      -- generate all permutations of the other elements'
-    '      permgen(a, n - 1)'
-    ''
-    '      -- restore i-th element'
     '      a[n], a[i] = a[i], a[n]'
     '    end'
     '  end'
@@ -548,13 +555,13 @@ object SyntAnal12: TLibSyntAnalyzer
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
-    'Identifier'
+    'Id'
     'Symbol'
     'String'
-    'Integer const'
-    'Float const'
-    'Hex const'
-    'Char const'
+    'Number'
+    'Label'
+    '-'
+    '-'
     'Preprocessor'
     'Func name')
   Extentions = 'lua'
