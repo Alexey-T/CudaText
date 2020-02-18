@@ -1,4 +1,4 @@
-object SyntAnal19: TLibSyntAnalyzer
+object SyntAnal12: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -43,18 +43,10 @@ object SyntAnal19: TLibSyntAnalyzer
     item
       DisplayName = 'Id reserved'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clNavy
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = []
-    end
-    item
-      DisplayName = 'Id func'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGreen
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
+      Font.Style = [fsBold]
     end
     item
       DisplayName = 'Id standard'
@@ -65,9 +57,33 @@ object SyntAnal19: TLibSyntAnalyzer
       Font.Style = []
     end
     item
+      DisplayName = 'Id operator'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Func name'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
       DisplayName = 'String2'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Label'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clFuchsia
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -122,18 +138,26 @@ object SyntAnal19: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = '_IdFunc1'
-      StyleName = 'Id func'
+      DisplayName = 'FuncName1'
+      StyleName = 'Func name'
       TokenType = 10
-      Expression = '[\w\.:]+(?=\s*=\s*function\s*\()'
+      Expression = '[\w\.:]+(?=\x20*=\x20*function\x20*\()'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = '_IdFunc2'
-      StyleName = 'Id func'
+      DisplayName = 'FuncName2'
+      StyleName = 'Func name'
       TokenType = 10
       Expression = '(?<=function\x20+)[\w\.:]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Label'
+      StyleName = 'Label'
+      TokenType = 6
+      Expression = '(?<=goto\x20+)\w+ | ::\w+::'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -164,24 +188,24 @@ object SyntAnal19: TLibSyntAnalyzer
     item
       DisplayName = 'NumHex'
       StyleName = 'Number'
-      TokenType = 7
-      Expression = '0x[A-Fa-f0-9]+'
+      TokenType = 5
+      Expression = '0x[\da-f]+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'NumFloat'
       StyleName = 'Number'
-      TokenType = 6
-      Expression = '\d+(\.\d+)? e[\+\-]?\d+ |'#13#10'\d+\.\d+ '
+      TokenType = 5
+      Expression = '\d+(\.\d+)? e[\+\-]?\d+\b |'#13#10'\d+\.\d+\b '
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Num'
+      DisplayName = 'NumInt'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '\d+'
+      Expression = '\d+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -276,6 +300,7 @@ object SyntAnal19: TLibSyntAnalyzer
             'io'
             'ipairs'
             'ldexp'
+            'load'
             'loadfile'
             'loadlib'
             'loadstring'
@@ -289,6 +314,7 @@ object SyntAnal19: TLibSyntAnalyzer
             'next'
             'openfile'
             'os'
+            'package'
             'pairs'
             'pcall'
             'print'
@@ -296,7 +322,9 @@ object SyntAnal19: TLibSyntAnalyzer
             'random'
             'randomseed'
             'rawegal'
+            'rawequal'
             'rawget'
+            'rawlen'
             'rawset'
             'read'
             'readfrom'
@@ -304,6 +332,7 @@ object SyntAnal19: TLibSyntAnalyzer
             'rename'
             'require'
             'seek'
+            'select'
             'setfenv'
             'setlocale'
             'setmetatable'
@@ -330,9 +359,50 @@ object SyntAnal19: TLibSyntAnalyzer
             'tremove'
             'type'
             'unpack'
+            'utf8'
             'write'
             'writeto'
             'xpcall')
+          TokenTypes = 4
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Id operator'
+      StyleName = 'Id operator'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '__add'
+            '__band'
+            '__bnot'
+            '__bor'
+            '__bxor'
+            '__call'
+            '__concat'
+            '__div'
+            '__eq'
+            '__gc'
+            '__idiv'
+            '__index'
+            '__ipairs'
+            '__le'
+            '__len'
+            '__lt'
+            '__metatable'
+            '__mod'
+            '__mode'
+            '__mul'
+            '__newindex'
+            '__pairs'
+            '__pow'
+            '__shl'
+            '__shr'
+            '__sub'
+            '__tostring'
+            '__unm')
           TokenTypes = 4
         end>
       HighlightPos = cpAny
@@ -444,8 +514,6 @@ object SyntAnal19: TLibSyntAnalyzer
   SampleText.Strings = (
     '--Str'
     '--test'
-    '--test'
-    ''
     ' s = '#39'ww\'#39'ww'#39', "ww\"ww", '#39'alo\n123"'#39
     ' a = [[alo'
     '  123]] test'
@@ -453,8 +521,8 @@ object SyntAnal19: TLibSyntAnalyzer
     '  alo'
     '  123]==] test'
     ''
-    ' n = 2 + 2.22 + 22.22e-2 + 0.22E1 '
-    ' n = 0xF0'
+    ' n = 2 + 2.22 + 22.22e-2 + 0.22E1 + 0xF0   '
+    ' ::name:: , goto name'
     ''
     'function Set.mt.__lt (a,b)'
     '  return a <= b and not (b <= a)'
@@ -465,13 +533,6 @@ object SyntAnal19: TLibSyntAnalyzer
     '    coroutine.yield(a)'
     '  else'
     '    for i=1,n do'
-    '      -- put i-th element as the last one'
-    '      a[n], a[i] = a[i], a[n]'
-    ''
-    '      -- generate all permutations of the other elements'
-    '      permgen(a, n - 1)'
-    ''
-    '      -- restore i-th element'
     '      a[n], a[i] = a[i], a[n]'
     '    end'
     '  end'
@@ -494,13 +555,13 @@ object SyntAnal19: TLibSyntAnalyzer
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
-    'Identifier'
+    'Id'
     'Symbol'
     'String'
-    'Integer const'
-    'Float const'
-    'Hex const'
-    'Char const'
+    'Number'
+    'Label'
+    '-'
+    '-'
     'Preprocessor'
     'Func name')
   Extentions = 'lua'

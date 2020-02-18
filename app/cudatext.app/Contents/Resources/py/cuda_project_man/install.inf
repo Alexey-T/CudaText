@@ -12,14 +12,19 @@ method=show_panel
 
 [item1]
 section=events
-events=on_open,on_open_pre,on_start
+events=on_start,on_open
 
 [item2]
+section=events
+events=on_open_pre
+keys=cuda-proj
+
+[item4]
 section=commands
 caption=&Project Manager\&Show Project panel
 method=show_panel
 
-;[item3]
+;[item5]
 ;section=commands
 ;caption=&Project Manager\&Focus Project panel
 ;method=focus_panel

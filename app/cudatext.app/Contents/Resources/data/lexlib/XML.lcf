@@ -1,4 +1,4 @@
-object SyntAnal31: TLibSyntAnalyzer
+object SyntAnal20: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -175,7 +175,7 @@ object SyntAnal31: TLibSyntAnalyzer
       DisplayName = 'CDATA text'
       StyleName = 'CDATA text'
       BlockName = 'CDATA begin'
-      Expression = '(?s)[^\]]*'
+      Expression = '[^\]\n<>]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -272,10 +272,7 @@ object SyntAnal31: TLibSyntAnalyzer
     item
       DisplayName = 'Text'
       StyleName = 'CDATA text'
-      BlockName = 'CDATA begin'
-      NotParent = True
-      TokenType = 4
-      Expression = '[^<&]*'
+      Expression = '[^<>&\n]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -290,7 +287,6 @@ object SyntAnal31: TLibSyntAnalyzer
       BlockEnd = 'Tag end'
       NotCollapsed = True
       DisplayInTree = False
-      DynHighlight = dhRangeNoBound
       HighlightPos = cpRange
       IgnoreAsParent = False
     end
@@ -507,7 +503,7 @@ object SyntAnal31: TLibSyntAnalyzer
   SampleText.Strings = (
     '<?xml version="1.0" encoding="utf8" ?>'
     '<!-- comment -->'
-    '<!-- comment invalid --->'
+    'Text &copy; text'
     ''
     '<!DOCTYPE web-app ['
     '  <!ELEMENT web-app (icon?, display-name?, ejb-local-ref*)>'
@@ -518,7 +514,6 @@ object SyntAnal31: TLibSyntAnalyzer
     '<![CDATA['
     'Included text '
     ']]>'
-    'Text &spec; text'
     ''
     '<web-app>'
     '    <display-name abc="123" def="true"></display-name>'
@@ -540,7 +535,7 @@ object SyntAnal31: TLibSyntAnalyzer
     'Tag Close'
     'CDATA'
     'Comment doc'
-    'Attrib. value'
+    'Attrib value'
     'CDATA end')
   Extentions = 
     'xml xsl xslt mmpa mmpr sti bdsproj xsd rss wml svg xul xsd axl r' +

@@ -1,4 +1,4 @@
-object SyntAnal23: TLibSyntAnalyzer
+object SyntAnal15: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Text'
@@ -191,7 +191,7 @@ object SyntAnal23: TLibSyntAnalyzer
       DisplayName = '>'
       StyleName = 'Tag bound'
       TokenType = 11
-      Expression = '[/]?>'
+      Expression = '/?>'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -209,7 +209,7 @@ object SyntAnal23: TLibSyntAnalyzer
       StyleName = 'Color'
       BlockName = 'Tag begin'
       TokenType = 7
-      Expression = '\#[a-f\d]+'
+      Expression = '\#[\da-f]{3,6}'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -236,7 +236,7 @@ object SyntAnal23: TLibSyntAnalyzer
       StyleName = 'Tag unknown text'
       BlockName = 'Tag begin'
       TokenType = 2
-      Expression = '[^\s<>/=]+'
+      Expression = '[\w\-:]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -252,7 +252,7 @@ object SyntAnal23: TLibSyntAnalyzer
       DisplayName = 'Text'
       StyleName = 'Text'
       TokenType = 9
-      Expression = '[^<>&\{\}\[\]/\\=\x20]+'
+      Expression = '[\w\.\-]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -781,7 +781,7 @@ object SyntAnal23: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal22
+      SyntAnalyzer = SyntAnal14
     end
     item
       DisplayName = 'CSS'
@@ -789,7 +789,7 @@ object SyntAnal23: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<style[^>]*>'
       EndExpression = '</style>'
-      SyntAnalyzer = SyntAnal8
+      SyntAnalyzer = SyntAnal6
     end
     item
       DisplayName = 'JavaScript'
@@ -797,25 +797,25 @@ object SyntAnal23: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<script[^>]*javascript [^>]* [^\?] > \s*(<!--)?'
       EndExpression = '(?i)(//)?(-->)?\s*</script>'
-      SyntAnalyzer = SyntAnal15
+      SyntAnalyzer = SyntAnal9
     end
     item
       DisplayName = 'JavaScript simple'
       StyleName = 'Sublexer BG'
       StartExpression = '<script>'
       EndExpression = '</script>'
-      SyntAnalyzer = SyntAnal15
+      SyntAnalyzer = SyntAnal9
     end>
   SampleText.Strings = (
     '<!doctype test="123">'
     '<!-- comment -->'
     '<meta1/>'
     '<meta2>text</meta3>'
-    '<?php echo '#39'test'#39', 20 ?>'
+    '<?php echo '#39'test'#39', 20 ?> '
     ''
     '<html> '
     '  <head>'
-    '    <title test="15" #$@ >Text</title>'
+    '    <title test="15" #$@ #aa22cc >Text</title>'
     '  </head>'
     ''
     '  <script type="text/javascript">'
