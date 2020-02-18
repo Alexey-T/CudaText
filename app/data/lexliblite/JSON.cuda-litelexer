@@ -1,5 +1,5 @@
 {
-  "about": "JSON lexer by Alexey T.",
+  "about": "JSON lexer by Alexey Torgashin",
   "files": "*.json;*.cuda-litelexer",
   "cmt_line": "//",
   "cmt_block_1": "",
