@@ -2099,7 +2099,7 @@ begin
         Dlg.Title:= msgDialogTitleSelFolder; //StrCaption;
         Dlg.InitialDir:= StrFolder;
         if Dlg.Execute then
-          Result:= PyUnicode_FromWideString(Utf8Decode(Dlg.FileName))
+          Result:= PyString_FromString(PChar(Dlg.FileName))
         else
           Result:= ReturnNone;
       finally
@@ -2970,7 +2970,7 @@ begin
         PROP_TAB_TITLE:
           begin
             if Assigned(F) then
-              Result:= PyUnicode_FromWideString(Utf8Decode(F.TabCaption))
+              Result:= PyString_FromString(PChar(F.TabCaption))
             else
               Result:= ReturnNone;
           end;
@@ -2986,7 +2986,7 @@ begin
         PROP_ENC:
           begin
             Str:= AppEncodingFullnameToShortname(Ed.EncodingName);
-            Result:= PyUnicode_FromWideString(Utf8Decode(Str));
+            Result:= PyString_FromString(PChar(Str));
           end;
 
         PROP_NEWLINE:
