@@ -49,14 +49,6 @@ object SyntAnal12: TLibSyntAnalyzer
       Font.Style = [fsBold]
     end
     item
-      DisplayName = 'Id func'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlue
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-    end
-    item
       DisplayName = 'Id standard'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clPurple
@@ -68,6 +60,14 @@ object SyntAnal12: TLibSyntAnalyzer
       DisplayName = 'Id operator'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Func name'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -138,16 +138,16 @@ object SyntAnal12: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = '_IdFunc1'
-      StyleName = 'Id func'
+      DisplayName = 'FuncName1'
+      StyleName = 'Func name'
       TokenType = 10
-      Expression = '[\w\.:]+(?=\s*=\s*function\s*\()'
+      Expression = '[\w\.:]+(?=\x20*=\x20*function\x20*\()'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = '_IdFunc2'
-      StyleName = 'Id func'
+      DisplayName = 'FuncName2'
+      StyleName = 'Func name'
       TokenType = 10
       Expression = '(?<=function\x20+)[\w\.:]+'
       ColumnFrom = 0
