@@ -199,7 +199,7 @@ begin
 
   if WindowState = wsMinimized then
   begin
-    WindowState:= wsNormal;
+    Application.Restore;
     Application.ProcessMessages;
   end;
 end;
@@ -215,7 +215,7 @@ begin
 
   if WindowState=wsMinimized then
   begin
-    WindowState:= wsNormal;
+    Application.Restore;
     Application.ProcessMessages;
   end;
 
