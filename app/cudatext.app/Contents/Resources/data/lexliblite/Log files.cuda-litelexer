@@ -1,5 +1,5 @@
 {
-  "about": "Converted from Matthias030's lexer 'Log files' by Alexey T.",
+  "about": "Converted from Matthias030's lexer by Alexey Torgashin",
   "files": "*.log",
   "case_sens": false,
   "consider_spaces": true,

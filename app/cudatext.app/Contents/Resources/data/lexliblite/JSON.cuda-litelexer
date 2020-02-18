@@ -1,5 +1,5 @@
 {
-  "about": "JSON lexer by Alexey T.",
+  "about": "JSON lexer by Alexey Torgashin",
   "files": "*.json;*.cuda-litelexer",
   "cmt_line": "//",
   "cmt_block_1": "",
@@ -21,6 +21,10 @@
     "num": {
       "regex": "\\d+(\\.\\d+)?([eE][-\\+]?\\d+)?",
       "style": "Number"
+    },
+    "str2": {
+      "regex": "\".*?\"(?=\\x20*:)",
+      "style": "String2"
     },
     "str": {
       "regex": "\"(\\\\\\\\|\\\\\"|.)*?\"",

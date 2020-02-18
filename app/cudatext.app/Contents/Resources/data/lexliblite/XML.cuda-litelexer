@@ -1,5 +1,5 @@
 {
-  "about": "XML lexer by Alexey T.",
+  "about": "XML lexer by Alexey Torgashin",
   "files": "*.xml;*.xsl",
   "cmt_line": "",
   "cmt_block_1": "<!--",
