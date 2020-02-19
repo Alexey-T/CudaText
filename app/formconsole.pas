@@ -89,10 +89,10 @@ implementation
 procedure TfmConsole.DoGetLineColor(Ed: TATSynEdit; ALineIndex: integer;
   var AColorFont, AColorBg: TColor);
 var
-  Str: string;
+  Str: atString;
   fmt: TecSyntaxFormat;
 begin
-  Str:= Ed.Strings.LinesUTF8[ALineIndex];
+  Str:= Ed.Strings.Lines[ALineIndex];
   if SBeginsWith(Str, cConsolePrompt) then
   begin
     fmt:= AppStyleId2;
@@ -119,8 +119,8 @@ begin
     Str:= Strings;
 
     //this is to remove 1st empty line
-    if (Str.Count=1) and (Str.LinesUTF8[0]='') then
-      Str.LinesUTF8[0]:= AText
+    if (Str.Count=1) and (Str.LinesLen[0]=0) then
+      Str.Lines[0]:= AText
     else
       Str.LineAddRaw_UTF8_NoUndo(AText, cEndUnix);
 
@@ -306,7 +306,7 @@ begin
   begin
     N:= EdMemo.Carets[0].PosY;
     if not EdMemo.Strings.IsIndexValid(N) then exit;
-    S:= EdMemo.Strings.LinesUTF8[N];
+    S:= EdMemo.Strings.Lines[N];
     FOnNavigate(S);
   end;
 end;
@@ -376,7 +376,7 @@ begin
   n:= EdMemo.Carets[0].PosY;
   if EdMemo.Strings.IsIndexValid(n) then
   begin
-    s:= EdMemo.Strings.LinesUTF8[n];
+    s:= EdMemo.Strings.Lines[n];
     if SBeginsWith(s, cConsolePrompt) then
     begin
       Delete(s, 1, Length(cConsolePrompt));

@@ -3588,7 +3588,7 @@ var
       NLine:= Mark.Data.LineNum;
       if not Ed.Strings.IsIndexValid(NLine) then Continue;
 
-      SCaption:= Copy(Ed.Strings.LinesUTF8[NLine], 1, cMaxLen);
+      SCaption:= Copy(Ed.Strings.Lines[NLine], 1, cMaxLen);
       SCaption:= StringReplace(SCaption, #9, '  ', [rfReplaceAll]);
 
       Prop:= TAppBookmarkProp.Create;

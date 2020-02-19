@@ -1510,14 +1510,12 @@ end;
 
 procedure EditorCopyLine(Ed: TATSynEdit);
 var
-  S: string;
   N: integer;
 begin
   N:= Ed.Carets[0].PosY;
   if Ed.Strings.IsIndexValid(N) then
   begin
-    S:= Ed.Strings.LinesUTF8[N];
-    SClipboardCopy(S);
+    SClipboardCopy(UTF8Encode(Ed.Strings.Lines[N]));
   end;
 end;
 

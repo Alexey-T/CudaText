@@ -173,7 +173,6 @@ function EditorTextToPyObject(Ed: TATSynEdit): PPyObject;
 var
   Count, i: integer;
   Strs: TATStrings;
-  S: string;
 begin
   Strs:= Ed.Strings;
   Count:= Strs.Count;
@@ -182,8 +181,7 @@ begin
     Result:= PyList_New(Count);
     for i:= 0 to Count-1 do
     begin
-      S:= Strs.LinesUTF8[i];
-      PyList_SetItem(Result, i, PyString_FromString(PChar(S)));
+      PyList_SetItem(Result, i, PyUnicode_FromWideString(Strs.Lines[i]));
     end;
   end;
 end;
