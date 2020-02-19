@@ -293,8 +293,9 @@ class Command:
             menu_added = self.add_context_menu_node(menu_use, action, item_caption)
             if item_caption == "Recent projects":
                 for path in self.options["recent_projects"]:
-                    action = str.format("module=cuda_project_man;cmd=action_open_project;info=r'{}';", path)
-                    self.add_context_menu_node(menu_added, action, nice_filename(path))
+                    if os.sep in path:
+                        action = str.format("module=cuda_project_man;cmd=action_open_project;info=r'{}';", path)
+                        self.add_context_menu_node(menu_added, action, nice_filename(path))
 
     @staticmethod
     def node_ordering(node):
