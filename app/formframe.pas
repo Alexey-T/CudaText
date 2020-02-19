@@ -3061,14 +3061,19 @@ begin
 end;
 
 procedure TEditorFrame.InitPanelReload(Index: integer);
+var
+  NPanelHeight, NBtnHeight: integer;
 begin
   if Assigned(PanelReload[Index]) then exit;
+
+  NPanelHeight:= AppScale(31);
+  NBtnHeight:= AppScale(25);
 
   PanelReload[Index]:= TPanel.Create(Self);
   PanelReload[Index].Parent:= Self;
   PanelReload[Index].Align:= alTop;
   PanelReload[Index].Visible:= false;
-  PanelReload[Index].Height:= AppScale(31);
+  PanelReload[Index].Height:= NPanelHeight;
   PanelReload[Index].BevelOuter:= bvNone;
 
   LabelReload[Index]:= TLabel.Create(Self);
@@ -3087,7 +3092,7 @@ begin
   btnReloadNone[Index].AnchorSideRight.Control:= PanelReload[Index];
   btnReloadNone[Index].AnchorSideRight.Side:= asrBottom;
   btnReloadNone[Index].Anchors:= [akTop, akRight];
-  btnReloadNone[Index].Height:= AppScale(25);
+  btnReloadNone[Index].Height:= NBtnHeight;
   btnReloadNone[Index].BorderSpacing.Right:= 4;
   btnReloadNone[Index].OnClick:= @btnReloadNoneClick;
 
@@ -3097,7 +3102,7 @@ begin
   btnReloadNo[Index].AnchorSideTop.Control:= btnReloadNone[Index];
   btnReloadNo[Index].AnchorSideRight.Control:= btnReloadNone[Index];
   btnReloadNo[Index].Anchors:= [akTop, akRight];
-  btnReloadNo[Index].Height:= btnReloadNone[Index].Height;
+  btnReloadNo[Index].Height:= NBtnHeight;
   btnReloadNo[Index].BorderSpacing.Right:= 0;
   btnReloadNo[Index].OnClick:= @btnReloadNoClick;
 
@@ -3107,7 +3112,7 @@ begin
   btnReloadYes[Index].AnchorSideTop.Control:= btnReloadNone[Index];
   btnReloadYes[Index].AnchorSideRight.Control:= btnReloadNo[Index];
   btnReloadYes[Index].Anchors:= [akTop, akRight];
-  btnReloadYes[Index].Height:= btnReloadNone[Index].Height;
+  btnReloadYes[Index].Height:= NBtnHeight;
   btnReloadYes[Index].BorderSpacing.Right:= 0;
   btnReloadYes[Index].OnClick:= @btnReloadYesClick;
 
