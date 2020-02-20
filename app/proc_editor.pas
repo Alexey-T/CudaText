@@ -1321,8 +1321,13 @@ begin
   Caret:= Ed.Carets[0];
   PosX:= Caret.PosX;
   PosY:= Caret.PosY;
+
   //don't work if selection
   if Caret.EndY>=0 then exit;
+
+  //don't work on huge lines
+  if Ed.Strings.LinesLen[Caret.PosY]>Ed.OptMaxLineLenToTokenize then
+    exit;
 
   EditorBracket_FindBoth(Ed,
     PosX, PosY,
