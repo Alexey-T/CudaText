@@ -63,7 +63,7 @@ type
     EdInput: TATComboEdit;
     EdMemo: TATSynEdit;
     property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
-    procedure DoAddLine(const AText: string);
+    procedure DoAddLine(const AText: UnicodeString);
     procedure DoUpdate;
     procedure DoScrollToEnd(AllowProcessMsg: boolean);
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
@@ -109,20 +109,20 @@ begin
   end;
 end;
 
-procedure TfmConsole.DoAddLine(const AText: string);
+procedure TfmConsole.DoAddLine(const AText: UnicodeString);
 var
-  Str: TATStrings;
+  Strs: TATStrings;
 begin
   with EdMemo do
   begin
     ModeReadOnly:= false;
-    Str:= Strings;
+    Strs:= Strings;
 
     //this is to remove 1st empty line
-    if (Str.Count=1) and (Str.LinesLen[0]=0) then
-      Str.Lines[0]:= AText
+    if (Strs.Count=1) and (Strs.LinesLen[0]=0) then
+      Strs.Lines[0]:= AText
     else
-      Str.LineAddRaw_NoUndo(AText, cEndUnix);
+      Strs.LineAddRaw_NoUndo(AText, cEndUnix);
 
     ModeReadOnly:= true;
   end;
