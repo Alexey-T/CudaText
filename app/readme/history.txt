@@ -3,10 +3,11 @@
   - fixed
   * changed
 
-1.95.1 (2020/02)
+1.95.2 (2020/02)
 
 + add: reworked strings storage system: a) it takes less memory for ASCII text lines, b) for lines with non-ASCII chars, it takes more memory, but it works much faster, so scrolling in smoother
-+ add: bracket finder must skip huge lines (length>4k)
++ add: rendering speed much increased at the end of huge lines (even with length=2M)
++ add: bracket finder ignores huge lines (length>4K)
 
 1.95.0 (2020/02)
 
