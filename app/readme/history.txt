@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.95.1 (2020/02)
+
++ add: reworked strings storage system: a) it takes less memory for ASCII text lines, b) for lines with non-ASCII chars, it takes more memory, but it works much faster, so scrolling in smoother
++ add: bracket finder must skip huge lines (length>4k)
+
 1.95.0 (2020/02)
 
 + add: RegExpr engine updated, with lot of patches, see https://github.com/andgineer/TRegExpr/blob/master/History.txt
