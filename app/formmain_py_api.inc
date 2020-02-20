@@ -695,7 +695,7 @@ begin
       Strs:= Ed.Strings;
       if Strs.IsIndexValid(Index) then
       begin
-        if (MaxLen=0) or (Strs.LinesLenRaw[Index]<=MaxLen) then
+        if (MaxLen=0) or (Strs.LinesLen[Index]<=MaxLen) then
           Result:= PyUnicode_FromWideString(Strs.Lines[Index])
         else
           Result:= PyString_FromString('');
@@ -716,7 +716,7 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'L:get_text_all', @H)) then
     begin
       Ed:= PyEditor(H);
-      Result:= PyString_FromString(PChar(Ed.Strings.TextString_UTF8));
+      Result:= PyUnicode_FromWideString(Ed.Strings.TextString_Unicode);
     end
   else
     Result:= ReturnNone;

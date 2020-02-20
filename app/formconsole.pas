@@ -122,7 +122,7 @@ begin
     if (Str.Count=1) and (Str.LinesLen[0]=0) then
       Str.Lines[0]:= AText
     else
-      Str.LineAddRaw_UTF8_NoUndo(AText, cEndUnix);
+      Str.LineAddRaw_NoUndo(AText, cEndUnix);
 
     ModeReadOnly:= true;
   end;
