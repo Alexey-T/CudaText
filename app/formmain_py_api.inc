@@ -351,7 +351,7 @@ end;
 
 procedure TfmMain.PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
 begin
-  AppConsoleQueue.Push( UTF8Encode(Data) );
+  AppConsoleQueue.Push(Data);
 end;
 
 
@@ -2587,7 +2587,7 @@ begin
           with fmMain do
           begin
             MsgLogConsole(cConsolePrompt+StrText);
-            fmConsole.EdInput.DoAddLineToHistory(Utf8Decode(StrText), cConsoleMaxComboboxItems);
+            fmConsole.EdInput.DoAddLineToHistory(StrText, cConsoleMaxComboboxItems);
             fmConsole.EdInput.Text:= '';
             fmConsole.EdInput.Update(true);
             Result:= ReturnNone;

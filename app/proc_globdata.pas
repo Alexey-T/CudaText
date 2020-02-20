@@ -57,7 +57,7 @@ type
     class operator =(const a, b: TAppFileProps): boolean;
   end;
 
-  TAppConsoleQueue = specialize TQueue<string>;
+  TAppConsoleQueue = specialize TQueue<UnicodeString>;
 
 var
   //ATSynEdit has range for bookmarks 0..63, 0=none

@@ -1627,7 +1627,7 @@ procedure TfmMain.TimerAppIdleTimer(Sender: TObject);
 var
   PntScreen, PntLocal: TPoint;
   Ed: TATSynEdit;
-  S: string;
+  S: UnicodeString;
   NCnt, i: integer;
 begin
   //flush saved Python "print" results to console
