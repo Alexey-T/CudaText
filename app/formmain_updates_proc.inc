@@ -112,6 +112,8 @@ begin
 end;
 
 procedure TfmMain.UpdateStatus_ForFrame(AStatus: TATStatus; F: TEditorFrame);
+const
+  cColumnMarks: array[boolean] of string = ('-', '||');
 var
   Ed: TATSynEdit;
   S, fmt: string;
@@ -205,7 +207,7 @@ begin
   DoStatusbarTextByTag(AStatus, StatusbarTag_InsOvr, S);
 
   //------
-  DoStatusbarTextByTag(AStatus, StatusbarTag_SelMode, IfThen(Ed.OptMouseColumnSelectionWithoutKey, '||', '-'));
+  DoStatusbarTextByTag(AStatus, StatusbarTag_SelMode, cColumnMarks[Ed.OptMouseColumnSelectionWithoutKey]);
   DoStatusbarTextByTag(AStatus, StatusbarTag_WrapMode, msgStatusbarWrapStates[Ord(Ed.OptWrapMode)]);
 
   //to update '[Read only]' in the message
