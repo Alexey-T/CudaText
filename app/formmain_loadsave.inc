@@ -177,6 +177,7 @@ var
   Gr: TATGroups;
   Pages: TATPages;
   nLocalGroup, nGlobalGroup, nTab, i: integer;
+  nCountFiles: integer;
   path, value: string;
   bModified: boolean;
 begin
@@ -184,7 +185,7 @@ begin
   if AFileName='' then exit;
   DeleteFile(AFileName);
 
-  //MsgLogConsole('Saving session: '+ExtractFileName(AFileName));
+  nCountFiles:= 0;
 
   c:= TJSONConfig.Create(nil);
   try
@@ -218,6 +219,7 @@ begin
 
     for i:= 0 to FrameCount-1 do
     begin
+      Inc(nCountFiles);
       F:= Frames[i];
       path:= '/'+Format('%3.3d', [i]);
 
@@ -254,6 +256,9 @@ begin
       //for incorrect sess folder
     end;
   end;
+
+  value:= 'Saved session: '+ExtractFileName(AFileName)+', '+IntToStr(nCountFiles)+' file(s)';
+  MsgLogConsole(value);
 end;
 
 function TfmMain.DoOps_LoadSession(const AFileName: string): boolean;
