@@ -24,8 +24,8 @@ uses
   Math,
   InterfaceBase,
   LclProc, LclType, LazFileUtils,
-  LazUTF8,
-  FileUtil, IniFiles, StrUtils,
+  FileUtil,
+  IniFiles,
   Process,
   ATSynEdit,
   ATSynEdit_Keymap,
@@ -943,7 +943,7 @@ procedure InitDirs;
 var
   S, HomeConfig: string;
 begin
-  OpDirExe:= ExtractFileDir(ParamStrUTF8(0));
+  OpDirExe:= ExtractFileDir(ParamStr(0));
   OpDirPrecopy:= GetDirPrecopy;
   OpDirLocal:= OpDirExe;
 
@@ -1546,7 +1546,11 @@ function DoOps_CommandCode_To_HotkeyStringId(ACmd: integer): string;
 begin
   if AppCommandCategory(ACmd)=categ_Plugin then
     with TAppCommandInfo(AppCommandList[ACmd-cmdFirstPluginCommand]) do
-      Result:= ItemModule+','+ItemProc+IfThen(ItemProcParam<>'', ','+ItemProcParam)
+    begin
+      Result:= ItemModule+','+ItemProc;
+      if ItemProcParam<>'' then
+        Result+= ','+ItemProcParam;
+    end
   else
     Result:= IntToStr(ACmd);
 end;
