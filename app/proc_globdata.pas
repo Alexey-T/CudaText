@@ -869,35 +869,27 @@ begin
   MsgBox(msgCannotReadConf+#10+fn, MB_OK+MB_ICONERROR);
 end;
 
-{$ifdef windows}
-const
-  cPythonWindowsDLLs: array[0..4] of string = (
-    'python38.dll',
-    'python37.dll',
-    'python36.dll',
-    'python35.dll',
-    'python34.dll'
-    );
-{$endif}
-
 function InitPyLibraryPath: string;
 var
   N: integer;
-  S: string;
+  S, SFile: string;
 begin
   Result:= '';
 
   {$ifdef windows}
   //detect latest existing file python3x.dll in app folder
   S:= ExtractFilePath(Application.ExeName);
-  for N:= 0 to High(cPythonWindowsDLLs) do
-    if FileExists(S+cPythonWindowsDLLs[N]) then
-      exit(S+cPythonWindowsDLLs[N]);
+  for N:= 8 downto 4 do
+  begin
+    SFile:= S+Format('python3%d.dll', [N]);
+    if FileExists(SFile) then
+      exit(SFile);
+  end;
   exit;
   {$endif}
 
   {$ifdef darwin}
-  for N:= 5 to 9 do
+  for N:= 5 to 8 do
   begin
     S:= Format('/Library/Frameworks/Python.framework/Versions/3.%d/lib/libpython3.%d.dylib',
       [N, N]);
@@ -918,7 +910,9 @@ begin
   exit('/usr/lib/amd64/libpython3.5m.so');
   {$endif}
 
+  {$ifdef unix}
   exit('libpython3.so');
+  {$endif}
 end;
 
 var
