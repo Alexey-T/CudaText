@@ -273,6 +273,7 @@ var
   bModified: boolean;
   sText: UnicodeString;
   sDateSaved, sDateCurrent: string;
+  nTick: QWord;
 const
   SOptionPassive = '/passive /nonear';
 begin
@@ -282,6 +283,7 @@ begin
 
   if not DoFileCloseAll(true) then exit;
 
+  nTick:= GetTickCount64;
   nCountFiles:= 0;
   nCountFilesModified:= 0;
 
@@ -424,7 +426,9 @@ begin
     c.Free;
   end;
 
-  sText:= 'Loaded session: '+ExtractFileName(AFileName)+', '+IntToStr(nCountFiles)+' file(s)';
+  nTick:= (GetTickCount64-nTick) div 10 * 10;
+
+  sText:= 'Loaded session: '+ExtractFileName(AFileName)+', '+IntToStr(nTick)+'ms, '+IntToStr(nCountFiles)+' file(s)';
   if nCountFilesModified>0 then
     sText+= ' + '+IntToStr(nCountFilesModified)+' modified';
   MsgLogConsole(sText);
