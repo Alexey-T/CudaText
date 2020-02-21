@@ -315,8 +315,12 @@ begin
         s_caption_nice:= StringReplace(s_caption_nice, '\', ': ', [rfReplaceAll]);
 
         if not SEndsWith(s_caption, '\-') then
-          AReport:= AReport+msgStatusPackageCommand+' '+s_caption_nice+
-            IfThen(s_hotkey<>'', '  ['+s_hotkey+']')+#10;
+        begin
+          AReport+= msgStatusPackageCommand+' '+s_caption_nice;
+          if s_hotkey<>'' then
+            AReport+= '  ['+s_hotkey+']';
+          AReport+= #10;
+        end;
 
         //handle "hotkey"
         if s_hotkey<>'' then
