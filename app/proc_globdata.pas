@@ -892,7 +892,7 @@ begin
   S:= ExtractFilePath(Application.ExeName);
   for N:= 0 to High(cPythonWindowsDLLs) do
     if FileExists(S+cPythonWindowsDLLs[N]) then
-      exit(cPythonWindowsDLLs[N]);
+      exit(S+cPythonWindowsDLLs[N]);
   exit;
   {$endif}
 
