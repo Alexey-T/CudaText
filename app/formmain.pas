@@ -864,8 +864,8 @@ type
     procedure DoOps_SaveThemes;
     procedure DoOps_LoadHistory;
     procedure DoOps_LoadHistory_GroupView(c: TJsonConfig);
-    function DoOps_SaveSession(AFileName: string): boolean;
-    function DoOps_LoadSession(AFileName: string): boolean;
+    function DoOps_SaveSession(const AFileName: string): boolean;
+    function DoOps_LoadSession(const AFileName: string): boolean;
     procedure DoOps_LoadOptionsAndApplyAll;
     procedure DoOps_LoadOptionsLexerSpecific(Ed: TATSynEdit);
     procedure DoOps_OpenFile_LexerSpecific;

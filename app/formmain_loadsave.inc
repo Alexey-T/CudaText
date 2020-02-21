@@ -170,7 +170,7 @@ begin
 end;
 
 
-function TfmMain.DoOps_SaveSession(AFileName: string): boolean;
+function TfmMain.DoOps_SaveSession(const AFileName: string): boolean;
 var
   c: TJSONConfig;
   F: TEditorFrame;
@@ -256,7 +256,7 @@ begin
   end;
 end;
 
-function TfmMain.DoOps_LoadSession(AFileName: string): boolean;
+function TfmMain.DoOps_LoadSession(const AFileName: string): boolean;
 var
   c: TJSONConfig;
   F: TEditorFrame;
