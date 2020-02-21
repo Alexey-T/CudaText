@@ -34,7 +34,6 @@ type
     ItemModule: string;
     ItemMethod: string;
     ItemOnShow: TNotifyEvent;
-    procedure InitControl(const ACaption: string; AForm: TCustomForm; AParent: TWinControl);
   end;
 
 type
@@ -102,19 +101,6 @@ const
   msgTitle = 'CudaText';
 
 { TAppPanelItem }
-
-procedure TAppPanelItem.InitControl(const ACaption: string;
-  AForm: TCustomForm; AParent: TWinControl);
-begin
-  ItemCaption:= ACaption;
-  ItemControl:= AForm;
-  ItemModule:= '';
-  ItemMethod:= '';
-
-  AForm.BorderStyle:= bsNone;
-  AForm.Parent:= AParent;
-  AForm.Align:= alClient;
-end;
 
 { TAppPanelHost }
 
@@ -325,6 +311,7 @@ var
   Panel: TAppPanelItem;
   Num: integer;
   bExist: boolean;
+  Ctl: TCustomControl;
 begin
   Num:= CaptionToPanelIndex(ACaption);
   bExist:= Num>=0;
@@ -339,7 +326,19 @@ begin
   end;
 
   if AHandle<>0 then
-    Panel.InitControl(ACaption, TCustomForm(AHandle), PanelGrouper);
+  begin
+    Ctl:= TCustomControl(AHandle);
+
+    Panel.ItemCaption:= ACaption;
+    Panel.ItemControl:= Ctl;
+    Panel.ItemModule:= '';
+    Panel.ItemMethod:= '';
+
+    Ctl.Parent:= PanelGrouper;
+    Ctl.Align:= alClient;
+    if Ctl is TCustomForm then
+      TCustomForm(Ctl).BorderStyle:= bsNone;
+  end;
 
   if not bExist then
   begin
