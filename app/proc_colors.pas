@@ -12,8 +12,7 @@ unit proc_colors;
 interface
 
 uses
-  Classes, SysUtils, Graphics, Dialogs,
-  LclProc, LclType,
+  Classes, SysUtils, Graphics,
   ATStringProc,
   ATStringProc_HtmlColor,
   ec_SyntAnal,
@@ -27,6 +26,7 @@ type
     color: TColor;
     name, desc: string;
   end;
+
   TAppTheme = record
     Colors: array of TAppColor;
     Styles: TFPList;
