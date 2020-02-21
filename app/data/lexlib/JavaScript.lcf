@@ -82,7 +82,7 @@ object SyntAnal10: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Current block'
-      Font.Charset = RUSSIAN_CHARSET
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clMaroon
       Font.Height = -13
       Font.Name = 'Courier New'

@@ -2,7 +2,7 @@ object SyntAnal8: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Section'
-      Font.Charset = RUSSIAN_CHARSET
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clPurple
       Font.Height = -13
       Font.Name = 'Courier New'
@@ -10,7 +10,7 @@ object SyntAnal8: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Key'
-      Font.Charset = RUSSIAN_CHARSET
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Courier New'
@@ -18,7 +18,7 @@ object SyntAnal8: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Value'
-      Font.Charset = RUSSIAN_CHARSET
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
@@ -26,7 +26,7 @@ object SyntAnal8: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Symbol'
-      Font.Charset = RUSSIAN_CHARSET
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clMaroon
       Font.Height = -13
       Font.Name = 'Courier New'
@@ -34,7 +34,7 @@ object SyntAnal8: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Comment'
-      Font.Charset = RUSSIAN_CHARSET
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
