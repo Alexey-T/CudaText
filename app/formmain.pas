@@ -3951,12 +3951,14 @@ begin
     //load lite lexers
     AppManagerLite.Clear;
     AppManagerLite.LoadFromDir(AppDir_LexersLite);
+    if AppManagerLite.LexerCount=0 then
+      MsgLogConsole(Format(msgCannotFindLexers, [AppDir_LexersLite]));
 
     //load EControl lexers
     AppManager.OnLexerLoaded:= @DoOnLexerLoaded;
     AppManager.InitLibrary(AppDir_Lexers);
     if AppManager.LexerCount=0 then
-      MsgLogConsole(msgCannotFindLexersAll);
+      MsgLogConsole(Format(msgCannotFindLexers, [AppDir_Lexers]));
 
     if Assigned(ListBackup) then
       DoOps_LexersRestoreInFrames(ListBackup);

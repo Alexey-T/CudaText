@@ -153,7 +153,8 @@ const
   msgCannotFindFile: string = 'Cannot find file:';
   msgCannotFindLexerInLibrary: string = 'Cannot find lexer in library:';
   msgCannotFindLexerFile: string = 'Cannot find lexer file:';
-  msgCannotFindLexersAll: string = 'Cannot find lexers in data/lexlib/';
+  msgCannotFindLexers: string = 'NOTE: Cannot find lexers: %s';
+  msgCannotFindData: string = 'NOTE: Cannot find data: %s';
   msgCannotFindSublexerInLibrary: string = 'Cannot find linked sublexer:';
   msgCannotFindWithoutCaret: string = 'Cannot find/replace without caret';
   msgCannotCreateDir: string = 'Cannot create dir:';

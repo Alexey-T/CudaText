@@ -1291,7 +1291,16 @@ begin
   ToolbarSideLow.ButtonWidth:= ToolbarSideTop.ButtonWidth;
   ToolbarSideMid.ButtonWidth:= ToolbarSideTop.ButtonWidth;
 
-  Str:= AppDir_DataSidebarIcons+DirectorySeparator+UiOps.SidebarTheme+DirectorySeparator;
+  Str:= AppDir_DataSidebarIcons+DirectorySeparator+UiOps.SidebarTheme;
+  if not DirectoryExists(Str) then
+  begin
+    MsgLogConsole(Format(msgCannotFindData, [Str]));
+    ToolbarSideMid.UpdateControls;
+    exit;
+  end;
+
+  Str+= DirectorySeparator;
+
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'tree.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'console.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'output.png');
@@ -1318,7 +1327,14 @@ begin
   ImageListTree.Height:= StrToIntDef(Parts[2].Str, 16);
   ImageListTree.Clear;
 
-  Str:= AppDir_DataCodetreeIcons+DirectorySeparator+UiOps.TreeTheme+DirectorySeparator;
+  Str:= AppDir_DataCodetreeIcons+DirectorySeparator+UiOps.TreeTheme;
+  if not DirectoryExists(Str) then
+  begin
+    MsgLogConsole(Format(msgCannotFindData, [Str]));
+    exit;
+  end;
+  Str+= DirectorySeparator;
+
   UpdateImagelistWithIconFromFile(ImageListTree, Str+'dir.png');
   UpdateImagelistWithIconFromFile(ImageListTree, Str+'st1.png');
   UpdateImagelistWithIconFromFile(ImageListTree, Str+'st2.png');
@@ -1338,7 +1354,11 @@ begin
   SRegexFindParts('.+_(\d+)x(\d+)', UiOps.ToolBarTheme, Parts);
 
   Str:= AppDir_DataToolbarIcons+DirectorySeparator+UiOps.ToolBarTheme;
-  if not DirectoryExists(Str) then Exit;
+  if not DirectoryExists(Str) then
+  begin
+    MsgLogConsole(Format(msgCannotFindData, [Str]));
+    Exit;
+  end;
 
   Img:= ToolbarMain.Images;
   Img.Width:= StrToIntDef(Parts[1].Str, 24);
