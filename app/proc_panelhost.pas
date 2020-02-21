@@ -311,6 +311,7 @@ var
   Panel: TAppPanelItem;
   Num: integer;
   bExist: boolean;
+  Obj: TObject;
   Ctl: TCustomControl;
 begin
   Num:= CaptionToPanelIndex(ACaption);
@@ -327,7 +328,9 @@ begin
 
   if AHandle<>0 then
   begin
-    Ctl:= TCustomControl(AHandle);
+    Obj:= TObject(AHandle);
+    if not (Obj is TCustomControl) then exit;
+    Ctl:= TCustomControl(Obj);
 
     Panel.ItemCaption:= ACaption;
     Panel.ItemControl:= Ctl;
