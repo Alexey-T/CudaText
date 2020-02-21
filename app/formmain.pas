@@ -2593,7 +2593,9 @@ begin
     begin
       F:= Frames[i];
       if not (F.Ed1.Modified or F.Ed2.Modified) then Continue;
-      SCaption:= F.TabCaption+IfThen(F.Filename<>'', '  ('+ExtractFileDir(F.Filename)+')');
+      SCaption:= F.TabCaption;
+      if F.Filename<>'' then
+        SCaption+= '  ('+ExtractFileDir(F.Filename)+')';
       Form.List.Items.AddObject(SCaption, F);
       Form.List.Checked[Form.List.Count-1]:= true;
     end;
