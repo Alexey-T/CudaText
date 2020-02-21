@@ -825,37 +825,6 @@ procedure DoLexerDetect(const AFilename: string;
   AChooseFunc: TecLexerChooseFunc);
 procedure DoMenuitemEllipsis(c: TMenuItem);
 
-type
-  TATSynCaretShape = (
-    cCaretShapeFull,
-    cCaretShapeVertPixels1,
-    cCaretShapeVertPixels2,
-    cCaretShapeVertPixels3,
-    cCaretShapeVertPixels4,
-    cCaretShapeVertPercents10,
-    cCaretShapeVertPercents15,
-    cCaretShapeVertPercents20,
-    cCaretShapeVertPercents25,
-    cCaretShapeVertPercents30,
-    cCaretShapeVertPercents35,
-    cCaretShapeVertPercents40,
-    cCaretShapeVertPercents50,
-    cCaretShapeHorzPixels1,
-    cCaretShapeHorzPixels2,
-    cCaretShapeHorzPixels3,
-    cCaretShapeHorzPixels4,
-    cCaretShapeHorzPixels5,
-    cCaretShapeHorzPercents10,
-    cCaretShapeHorzPercents15,
-    cCaretShapeHorzPercents20,
-    cCaretShapeHorzPercents25,
-    cCaretShapeHorzPercents30,
-    cCaretShapeHorzPercents35,
-    cCaretShapeHorzPercents40,
-    cCaretShapeHorzPercents50,
-    cCaretShapeFrameFull
-    );
-
 
 implementation
 
