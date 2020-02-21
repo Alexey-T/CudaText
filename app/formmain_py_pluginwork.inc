@@ -31,7 +31,7 @@ begin
       DirName:= ExtractFileName(SItem);
       if IsPluginBad(DirName) then
       begin
-        MsgLogConsole(Format(msgPluginIsNotActual, [DirName]));
+        MsgLogConsole(Format(msgPluginIgnored, [DirName]));
         Continue;
       end;
 

@@ -42,7 +42,8 @@ const
   msgErrorInTheme = 'Warning for theme "%s": missed item "%s"';
   msgCmdPalettePrefixHelp = '#p – plugins'+EOL+'#l – lexers'+EOL+'#f – opened files'+EOL+'#r – recent files';
   msgRescannedAllPlugins = 'Rescanned all plugins';
-  msgPluginIsNotActual = 'NOTE: plugin %s is not actual anymore, remove it';
+
+  msgPluginIgnored = 'NOTE: plugin %s ignored, remove it';
 
   msgTitle = 'CudaText'; //no i18n
   msgModified: array[boolean] of string = ('', '*'); //no i18n
