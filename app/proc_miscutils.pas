@@ -783,16 +783,24 @@ end;
 
 function FinderOptionsToString(F: TATEditorFinder): string;
 begin
-  Result:=
-    //ignore OptBack
-    IfThen(F.OptCase, 'c')+
-    IfThen(F.OptRegex, 'r')+
-    IfThen(F.OptWords, 'w')+
-    IfThen(F.OptFromCaret, 'f')+
-    IfThen(F.OptInSelection, 's')+
-    IfThen(F.OptConfirmReplace, 'o')+
-    IfThen(F.OptWrapped, 'a')+
-    IfThen(F.OptTokens<>cTokensAll, 'T'+IntToStr(Ord(F.OptTokens)));
+  Result:= '';
+  //ignore OptBack
+  if F.OptCase then
+    Result+= 'c';
+  if F.OptRegex then
+    Result+= 'r';
+  if F.OptWords then
+    Result+= 'w';
+  if F.OptFromCaret then
+    Result+= 'f';
+  if F.OptInSelection then
+    Result+= 's';
+  if F.OptConfirmReplace then
+    Result+= 'o';
+  if F.OptWrapped then
+    Result+= 'a';
+  if F.OptTokens<>cTokensAll then
+    Result+= 'T'+IntToStr(Ord(F.OptTokens));
 end;
 
 procedure FinderOptionsFromString(F: TATEditorFinder; const S: string);
