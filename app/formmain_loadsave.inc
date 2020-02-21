@@ -170,7 +170,7 @@ begin
 end;
 
 
-function TfmMain.DoOps_SaveSession(fn_session: string): boolean;
+function TfmMain.DoOps_SaveSession(AFileName: string): boolean;
 var
   c: TJSONConfig;
   F: TEditorFrame;
@@ -181,18 +181,18 @@ var
   bModified: boolean;
 begin
   Result:= false;
-  if fn_session='' then exit;
-  DeleteFile(fn_session);
+  if AFileName='' then exit;
+  DeleteFile(AFileName);
 
-  //MsgLogConsole('Saving session: '+ExtractFileName(fn_session));
+  //MsgLogConsole('Saving session: '+ExtractFileName(AFileName));
 
   c:= TJSONConfig.Create(nil);
   try
     try
       c.Formatted:= true;
-      c.Filename:= fn_session;
+      c.Filename:= AFileName;
     except
-      MsgBadConfig(fn_session);
+      MsgBadConfig(AFileName);
       exit;
     end;
 
@@ -256,7 +256,7 @@ begin
   end;
 end;
 
-function TfmMain.DoOps_LoadSession(fn_session: string): boolean;
+function TfmMain.DoOps_LoadSession(AFileName: string): boolean;
 var
   c: TJSONConfig;
   F: TEditorFrame;
@@ -272,8 +272,8 @@ const
   SOptionPassive = '/passive /nonear';
 begin
   Result:= false;
-  if fn_session='' then exit;
-  if not FileExists(fn_session) then exit;
+  if AFileName='' then exit;
+  if not FileExists(AFileName) then exit;
 
   if not DoFileCloseAll(true) then exit;
 
@@ -284,9 +284,9 @@ begin
   list:= TStringList.Create;
   try
     try
-      c.Filename:= fn_session;
+      c.Filename:= AFileName;
     except
-      MsgBadConfig(fn_session);
+      MsgBadConfig(AFileName);
       exit;
     end;
 
@@ -419,7 +419,7 @@ begin
     c.Free;
   end;
 
-  sText:= 'Loaded session: '+ExtractFileName(fn_session)+', '+IntToStr(nCountFiles)+' file(s)';
+  sText:= 'Loaded session: '+ExtractFileName(AFileName)+', '+IntToStr(nCountFiles)+' file(s)';
   if nCountFilesModified>0 then
     sText+= ' + '+IntToStr(nCountFilesModified)+' modified';
   MsgLogConsole(sText);
