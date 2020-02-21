@@ -262,6 +262,7 @@ var
   F: TEditorFrame;
   list: TStringlist;
   sFilename, sTabTitle, sKind, sOpenOptions, item_path: string;
+  nCountFiles, nCountFilesModified: integer;
   nIndex, i: integer;
   Pages: TATPages;
   bModified: boolean;
@@ -276,6 +277,9 @@ begin
 
   if not DoFileCloseAll(true) then exit;
 
+  nCountFiles:= 0;
+  nCountFilesModified:= 0;
+
   c:= TJSONConfig.Create(nil);
   list:= TStringList.Create;
   try
@@ -285,8 +289,6 @@ begin
       MsgBadConfig(fn_session);
       exit;
     end;
-
-    //MsgLogConsole('Loading session: '+ExtractFileName(fn_session));
 
     DoOps_LoadHistory_GroupView(c); //reads to variables
     DoApplyInitialGroupSizes; //applies that variables
@@ -334,6 +336,7 @@ begin
       //modified tabs must restore text, and set filename (if not empty)
       if bModified then
       begin
+        Inc(nCountFilesModified);
         if (FrameCount>0) and Frames[0].IsEmpty then
           F:= Frames[0]
         else
@@ -352,7 +355,10 @@ begin
       else
       //unmodified+named tabs must load file again
       if FileExistsUTF8(sFilename) then
+      begin
+        Inc(nCountFiles);
         F:= DoFileOpen(sFilename, '', Pages, sOpenOptions+SOptionPassive);
+      end;
 
       if Assigned(F) then
       begin
@@ -412,6 +418,11 @@ begin
     list.Free;
     c.Free;
   end;
+
+  sText:= 'Loaded session: '+ExtractFileName(fn_session)+', '+IntToStr(nCountFiles)+' file(s)';
+  if nCountFilesModified>0 then
+    sText+= ' + '+IntToStr(nCountFilesModified)+' modified';
+  MsgLogConsole(sText);
 
   DoPyEvent(nil, cEventOnState, [AppVariant(APPSTATE_SESSION_LOAD)]);
 end;
