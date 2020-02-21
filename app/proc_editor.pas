@@ -1324,9 +1324,10 @@ begin
 
   //don't work if selection
   if Caret.EndY>=0 then exit;
+  if not Ed.Strings.IsIndexValid(PosY) then exit;
 
   //don't work on huge lines
-  if Ed.Strings.LinesLen[Caret.PosY]>Ed.OptMaxLineLenToTokenize then
+  if Ed.Strings.LinesLen[PosY]>OptMaxLineLenForAccurateCharWidths then
     exit;
 
   EditorBracket_FindBoth(Ed,
