@@ -453,7 +453,11 @@ begin
           if AndFocus then
             if PanelGrouper.Visible then
               if Ctl.Visible and Ctl.CanFocus then
+              begin
                 Ctl.SetFocus;
+                if Assigned(Ctl.OnEnter) then
+                  Ctl.OnEnter(nil);
+              end;
         end
         else
         if (ItemModule<>'') and (ItemMethod<>'') then

@@ -1905,6 +1905,7 @@ begin
 
   PanelCodeTreeAll:= TATPanelSimple.Create(Self);
   PanelCodeTreeAll.OnEnter:= @DoCodetree_PanelOnEnter;
+  PanelCodeTreeAll.Focusable:= true;
 
   CodeTree:= TAppTreeContainer.Create(Self);
   CodeTree.Parent:= PanelCodeTreeAll;
