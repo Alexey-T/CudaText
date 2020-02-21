@@ -380,7 +380,6 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure DoCodetree_StopUpdate;
     procedure FrameAddRecent(Sender: TObject; const AFileName: string);
     procedure FrameOnMsgStatus(Sender: TObject; const AStr: string);
     procedure FrameOnChangeCaretPos(Sender: TObject);
@@ -663,7 +662,6 @@ type
     procedure DoApplyTranslationToGroups(G: TATGroups);
     procedure DoClearSingleFirstTab;
     procedure DoCloseAllTabs;
-    procedure DoCodetree_OnContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure DoDialogMenuThemes_ThemeSyntaxSelect(const AStr: string);
     procedure DoDialogMenuThemes_ThemeUiSelect(const AStr: string);
     procedure DoFileDialog_PrepareDir(Dlg: TFileDialog);
@@ -716,6 +714,9 @@ type
     //procedure DoOnTabOver(Sender: TObject; ATabIndex: Integer);
     procedure DoOnTabPopup(Sender: TObject; APages: TATPages; ATabIndex: integer);
     function DoOnTabGetTick(Sender: TObject; ATabObject: TObject): Int64;
+    procedure DoCodetree_PanelOnEnter(Sender: TObject);
+    procedure DoCodetree_StopUpdate;
+    procedure DoCodetree_OnContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure DoCodetree_GetSyntaxRange(ANode: TTreeNode; out APosBegin, APosEnd: TPoint);
     procedure DoCodetree_SetSyntaxRange(ANode: TTreeNode; const APosBegin, APosEnd: TPoint);
     procedure DoCodetree_OnDblClick(Sender: TObject);
@@ -1903,6 +1904,7 @@ begin
   InitToolbar;
 
   PanelCodeTreeAll:= TATPanelSimple.Create(Self);
+  PanelCodeTreeAll.OnEnter:= @DoCodetree_PanelOnEnter;
 
   CodeTree:= TAppTreeContainer.Create(Self);
   CodeTree.Parent:= PanelCodeTreeAll;
@@ -6574,6 +6576,13 @@ begin
   fn_ops:= GetAppLexerOpsFilename(ALexer.LexerName);
   if FileExistsUTF8(fn_ops) then
     DoLoadLexerStylesFromFile_JsonLexerOps(ALexer, fn_ops, UiOps.LexerThemes);
+end;
+
+procedure TfmMain.DoCodetree_PanelOnEnter(Sender: TObject);
+begin
+  with CodeTree.Tree do
+    if Enabled and CanFocus then
+      SetFocus;
 end;
 
 //----------------------------
