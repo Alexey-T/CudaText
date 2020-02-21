@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.95.2 (2020/02)
+1.95.5 (2020/02)
 
 + add: reworked strings storage system:
   + it takes less memory for ASCII text lines
