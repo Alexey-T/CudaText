@@ -1,84 +1,70 @@
-object SyntAnal76: TLibSyntAnalyzer
-  Formats = <  
-    item
-      DisplayName = 'Default'
-      Font.CharSet = RUSSIAN_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      FormatType = ftCustomFont
-    end  
+object SyntAnal8: TLibSyntAnalyzer
+  Formats = <
     item
       DisplayName = 'Section'
-      Font.CharSet = RUSSIAN_CHARSET
-      Font.Color = clMaroon
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = [fsBold]
-    end  
+      Font.Style = []
+    end
     item
-      DisplayName = 'Parameter'
-      Font.CharSet = RUSSIAN_CHARSET
+      DisplayName = 'Key'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Value'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
-    item
-      DisplayName = 'Value'
-      Font.CharSet = RUSSIAN_CHARSET
-      Font.Color = clBlue
-      Font.Height = -13
-      Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Symbol'
-      Font.CharSet = RUSSIAN_CHARSET
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clMaroon
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Comment'
-      Font.CharSet = RUSSIAN_CHARSET
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
-    end  
-    item
-      DisplayName = 'Number'
-      Font.CharSet = RUSSIAN_CHARSET
-      Font.Color = clNavy
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsBold]
     end>
-  TokenRules = <  
+  TokenRules = <
     item
       DisplayName = 'Comment'
       StyleName = 'Comment'
       TokenType = 1
-      Expression = '^[;\#].*$'
+      Expression = '^[;\#].*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Section'
       StyleName = 'Section'
       TokenType = 5
-      Expression = '^\[.*?\]'
+      Expression = '^\[.+?\]'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Key'
-      StyleName = 'Parameter'
+      StyleName = 'Key'
       TokenType = 2
-      Expression = '^[^=\n\r]+'
+      Expression = '^(.+?)(?=\=)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
@@ -86,19 +72,19 @@ object SyntAnal76: TLibSyntAnalyzer
       Expression = '='
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Value'
       StyleName = 'Value'
       TokenType = 4
-      Expression = '.*$'
+      Expression = '.+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
-  BlockRules = <  
+  BlockRules = <
     item
       DisplayName = 'Section'
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 32
         end>
@@ -109,13 +95,13 @@ object SyntAnal76: TLibSyntAnalyzer
       SelfClose = True
       TreeItemStyle = 'Section'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Item'
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 8
-        end      
+        end
         item
           TokenTypes = 4
         end>
@@ -129,24 +115,23 @@ object SyntAnal76: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
-    '[TT]'
-    'aa=test'
-    'bb=test'
-    ''
-    '[TT2]'
-    ';tt=2'
-    'ww=22'
-  )
+    ';Cmt'
+    '#Cmt'
+    '[seciton]'
+    'aa=test=val'
+    'bb=#test'
+    'Incorrect')
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
     'Key'
     'Symbol'
     'Value'
-    'Section'
-  )
+    'Section')
   Extentions = 'ini dsk dti dof inf lng srv reg sas cfg desktop'
   LexerName = 'Ini files'
+  Notes.Strings = (
+    'Alexey (CudaText)')
   LineComment = ';'
   Charset = DEFAULT_CHARSET
 end
