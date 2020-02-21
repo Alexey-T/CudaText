@@ -22,13 +22,13 @@ uses
   proc_lexer_styles;
 
 type
-  TAppColor = record
+  TAppThemeColor = record
     color: TColor;
     name, desc: string;
   end;
 
   TAppTheme = record
-    Colors: array of TAppColor;
+    Colors: array of TAppThemeColor;
     Styles: TFPList;
   end;
 
