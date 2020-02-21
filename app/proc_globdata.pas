@@ -870,9 +870,16 @@ begin
 end;
 
 function InitPyLibraryPath: string;
+{$ifdef windows}
 var
   N: integer;
   S, SFile: string;
+{$endif}
+{$ifdef darwin}
+var
+  N: integer;
+  S: string;
+{$endif}
 begin
   Result:= '';
 
