@@ -857,8 +857,9 @@ begin
   S:= ExtractFilePath(Application.ExeName);
   for N:= 8 downto 4 do
   begin
-    SFile:= S+Format('python3%d.dll', [N]);
-    if FileExists(SFile) then
+    SFile:= Format('python3%d.dll', [N]);
+    //don't return full filename, this loads DLL with full filename and plugins cannot load
+    if FileExists(S+SFile) then
       exit(SFile);
   end;
   exit;
