@@ -11,6 +11,7 @@
 + add: rendering speed much increased at the end of huge lines (length>1M)
 + add: toggling word-wrap speed much increased on huge lines
 + add: bracket finder ignores long lines (length>500)
+- fix: error after "Sort / Remove blank lines"
 
 1.95.0 (2020/02)
 
