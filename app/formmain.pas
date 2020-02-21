@@ -3817,7 +3817,7 @@ begin
   PythonModule.ModuleName:= 'cudatext_api';
   PythonModule.OnInitialization:= @PythonModuleInitialization;
 
-  PythonEng.DllPath:= ExtractFileDir(UiOps.PyLibrary);
+  PythonEng.DllPath:= ExtractFilePath(UiOps.PyLibrary);
   PythonEng.DllName:= ExtractFileName(UiOps.PyLibrary);
   PythonEng.LoadDll;
 
