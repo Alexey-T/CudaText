@@ -13,6 +13,7 @@
 + add: bracket finder ignores long lines (length>500)
 - fix: Windows version didn't ignore system Python
 - fix: error after "Sort / Remove blank lines"
+- fix: lexer Ini minor fixes
 
 1.95.0 (2020/02)
 
