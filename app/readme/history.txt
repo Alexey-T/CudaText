@@ -9,7 +9,7 @@
   + it takes less memory for ASCII text lines
   + for non-ASCII lines, it takes more memory, but it works much faster, so scrolling in smoother
 + add: rendering speed much increased at the end of huge lines (length>1M)
-+ add: toggling word-wrap speed much increased on big files
++ add: toggling word-wrap speed much increased on huge lines
 + add: bracket finder ignores long lines (length>4K)
 
 1.95.0 (2020/02)
