@@ -1368,6 +1368,7 @@ begin
       Ed.DoCaretSingle(0, 0);
       Ed.Strings.LoadFromString(StrW);
 
+      Ed.DoCaretsFixIncorrectPos(false);
       Ed.DoEventChange;
       Ed.Strings.DoSaveLastEditPos(0, 0);
       Ed.Update(true);
