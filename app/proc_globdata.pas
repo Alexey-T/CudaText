@@ -898,16 +898,15 @@ var
 
 function GetDirPrecopy: string;
 begin
-  Result:=
-    {$ifdef linux} 
-    '/usr/share/cudatext'
-    {$else} 
-      {$ifdef darwin} 
-      ExtractFileDir(OpDirExe)+'/Resources'
-      {$else}
-      '' 
-      {$endif}
-    {$endif}
+  {$ifdef linux}
+  exit('/usr/share/cudatext');
+  {$endif}
+
+  {$ifdef darwin}
+  exit(ExtractFileDir(OpDirExe)+'/Resources');
+  {$endif}
+
+  Result:= '';
 end;
 
 function SCollapseHomeDirInFilename(const AFilename: string): string;
