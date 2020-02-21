@@ -44,6 +44,8 @@ const
   msgRescannedAllPlugins = 'Rescanned all plugins';
 
   msgPluginIgnored = 'NOTE: plugin %s ignored, remove it';
+  msgCannotFindLexers = 'NOTE: Cannot find lexers: %s';
+  msgCannotFindData = 'NOTE: Cannot find data: %s';
 
   msgTitle = 'CudaText'; //no i18n
   msgModified: array[boolean] of string = ('', '*'); //no i18n
@@ -154,8 +156,6 @@ const
   msgCannotFindFile: string = 'Cannot find file:';
   msgCannotFindLexerInLibrary: string = 'Cannot find lexer in library:';
   msgCannotFindLexerFile: string = 'Cannot find lexer file:';
-  msgCannotFindLexers: string = 'NOTE: Cannot find lexers: %s';
-  msgCannotFindData: string = 'NOTE: Cannot find data: %s';
   msgCannotFindSublexerInLibrary: string = 'Cannot find linked sublexer:';
   msgCannotFindWithoutCaret: string = 'Cannot find/replace without caret';
   msgCannotCreateDir: string = 'Cannot create dir:';
