@@ -467,9 +467,9 @@ var
   Form: TCustomForm;
   Data: TAppVariant;
 begin
-  Data:= AppVariant(ConvertShiftStateToString(Shift));
+  Data:= AppVariant_KeyData(Key, Shift);
 
-  if not DoEvent(Key, FEventOnKeyDown, Data) then
+  if not DoEvent(-1, FEventOnKeyDown, Data) then
   begin
     Key:= 0;
     exit;
@@ -501,9 +501,9 @@ procedure TFormDummy.DoOnFormKeyUp(Sender: TObject; var Key: Word; Shift: TShift
 var
   Data: TAppVariant;
 begin
-  Data:= AppVariant(ConvertShiftStateToString(Shift));
+  Data:= AppVariant_KeyData(Key, Shift);
 
-  if not DoEvent(Key, FEventOnKeyUp, Data) then
+  if not DoEvent(-1, FEventOnKeyUp, Data) then
   begin
     Key:= 0;
     exit;
