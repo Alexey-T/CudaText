@@ -189,7 +189,7 @@ var
 begin
   if not FileExists(fn) then
   begin
-    MsgLogConsole('Theme file not found: '+fn);
+    MsgLogConsole(Format(msgCannotFindData, [fn]));
     exit;
   end;
 
