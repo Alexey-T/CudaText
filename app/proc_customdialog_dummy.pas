@@ -21,8 +21,10 @@ uses
   proc_py,
   proc_miscutils,
   proc_appvariant,
+  proc_scrollbars,
   ATSynEdit,
-  ATSynEdit_Gaps;
+  ATSynEdit_Gaps,
+  ATListbox;
 
 type
   TAppPyCommonCallback = function(
@@ -120,6 +122,7 @@ type
     BlockedOnFold: boolean;
     BlockedOnUnfold: boolean;
     function IdFocused: integer;
+    procedure SetFocus; override;
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
     procedure DoOnResize; override;
@@ -547,6 +550,37 @@ end;
 function TFormDummy.IdFocused: integer;
 begin
   Result:= FindControlIndexByOurObject(ActiveControl);
+end;
+
+procedure TFormDummy.SetFocus;
+var
+  Ctl: TControl;
+  i: integer;
+begin
+  inherited;
+  for i:= 0 to ControlCount-1 do
+  begin
+    Ctl:= Controls[i];
+    if not (Ctl is TWinControl) then Continue;
+
+    if (Ctl is TAppTreeContainer) then
+    begin
+      Ctl:= (Ctl as TAppTreeContainer).Tree;
+      if Ctl.Enabled and Ctl.Visible and TWinControl(Ctl).CanFocus then
+        TWinControl(Ctl).SetFocus;
+      exit;
+    end;
+
+    if (Ctl is TListView) or
+      (Ctl is TATListbox) or
+      (Ctl is TATSynEdit) or
+      (Ctl is TMemo) then
+    begin
+      if Ctl.Enabled and Ctl.Visible and TWinControl(Ctl).CanFocus then
+        TWinControl(Ctl).SetFocus;
+      exit;
+    end;
+  end;
 end;
 
 
