@@ -650,6 +650,7 @@ type
     FOption_GroupPanelSize: TPoint;
     FOption_SidebarTab: string;
 
+    procedure FormEnter(Sender: TObject);
     procedure PythonEngineAfterInit(Sender: TObject);
     procedure PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
     procedure PythonModuleInitialization(Sender: TObject);
@@ -1829,6 +1830,8 @@ procedure TfmMain.FormCreate(Sender: TObject);
 var
   i: integer;
 begin
+  OnEnter:= @FormEnter;
+
   //"Check for updates" is supported only on Windows
   {$ifndef windows}
   mnuHelpCheckUpd.Enabled:= false;
@@ -6584,6 +6587,15 @@ begin
   with CodeTree.Tree do
     if Enabled and CanFocus then
       SetFocus;
+end;
+
+procedure TfmMain.FormEnter(Sender: TObject);
+var
+  Frame: TEditorFrame;
+begin
+  Frame:= CurrentFrame;
+  if Assigned(Frame) then
+    Frame.SetFocus;
 end;
 
 //----------------------------

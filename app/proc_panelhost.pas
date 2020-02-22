@@ -494,6 +494,10 @@ begin
   begin
     Btn.Checked:= false;
     Visible:= false;
+    //focus current editor when panel hides
+    with Application.MainForm do
+      if Assigned(OnEnter) then
+        OnEnter(nil);
     exit
   end;
 
