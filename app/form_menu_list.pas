@@ -116,11 +116,11 @@ end;
 
 procedure TfmMenuList.UpdateColors;
 begin
-  FColorBg:= GetAppColor('ListBg');
-  FColorBgSel:= GetAppColor('ListSelBg');
-  FColorFont:= GetAppColor('ListFont');
-  FColorFontSel:= GetAppColor('ListSelFont');
-  FColorFontAlt:= GetAppColor('ListFontHotkey');
+  FColorBg:= GetAppColor(apclListBg);
+  FColorBgSel:= GetAppColor(apclListSelBg);
+  FColorFont:= GetAppColor(apclListFont);
+  FColorFontSel:= GetAppColor(apclListSelFont);
+  FColorFontAlt:= GetAppColor(apclListFontHotkey);
 
   self.Color:= FColorBg;
   List.Color:= FColorBg;
@@ -138,7 +138,7 @@ begin
   plCaption.Height:= AppScale(26);
   plCaption.Font.Name:= UiOps.VarFontName;
   plCaption.Font.Size:= AppScaleFont(UiOps.VarFontSize);
-  plCaption.Font.Color:= GetAppColor('ListFont');
+  plCaption.Font.Color:= GetAppColor(apclListFont);
 
   self.Width:= AppScale(UiOps.ListboxSizeX);
   self.Height:= AppScale(UiOps.ListboxSizeY);

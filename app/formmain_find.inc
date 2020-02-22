@@ -369,7 +369,7 @@ begin
     fmFind:= TfmFind.Create(Self);
     fmFind.OnResult:= @FindDialogDone;
     fmFind.OnChangeOptions:= @DoFindOptions_OnChange;
-    fmFind.Color:= GetAppColor('TabBg');
+    fmFind.Color:= GetAppColor(apclTabBg);
 
     UiOps.HotkeyFindDialog:= ShortcutToText(AppKeymap.GetShortcutFromCommand(cmd_DialogFind));
     UiOps.HotkeyReplaceDialog:= ShortcutToText(AppKeymap.GetShortcutFromCommand(cmd_DialogReplace));

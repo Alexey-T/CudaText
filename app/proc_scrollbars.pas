@@ -174,13 +174,13 @@ end;
 procedure TAppTreeView.DoEnter;
 begin
   inherited;
-  SelectionColor:= GetAppColor('TreeSelBg');
+  SelectionColor:= GetAppColor(apclTreeSelBg);
 end;
 
 procedure TAppTreeView.DoExit;
 begin
   inherited;
-  SelectionColor:= GetAppColor('TreeSelBg2');
+  SelectionColor:= GetAppColor(apclTreeSelBg2);
 end;
 
 procedure TAppTreeView.Collapse(Node: TTreeNode);

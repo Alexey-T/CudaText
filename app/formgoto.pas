@@ -79,12 +79,12 @@ begin
   edInput.Font.Size:= EditorOps.OpFontSize;
   edInput.Font.Quality:= EditorOps.OpFontQuality;
 
-  Color:= GetAppColor('ListBg');
+  Color:= GetAppColor(apclListBg);
   EditorApplyTheme(edInput);
 
   plCaption.Font.Name:= UiOps.VarFontName;
   plCaption.Font.Size:= AppScaleFont(UiOps.VarFontSize);
-  plCaption.Font.Color:= GetAppColor('ListFont');
+  plCaption.Font.Color:= GetAppColor(apclListFont);
 
   UpdateFormOnTop(Self);
 

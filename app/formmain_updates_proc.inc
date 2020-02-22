@@ -408,7 +408,7 @@ var
 begin
   Self.Font.Name:= UiOps.VarFontName;
   Self.Font.Size:= AppScaleFont(UiOps.VarFontSize);
-  Self.Font.Color:= GetAppColor('TabFont');
+  Self.Font.Color:= GetAppColor(apclTabFont);
 
   Groups.SetTabFont(Self.Font);
   if FloatGroups then

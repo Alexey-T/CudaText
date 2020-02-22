@@ -467,7 +467,7 @@ begin
   begin
     Font.Name:= UiOps.VarFontName;
     Font.Size:= AppScaleFont(UiOps.VarFontSize);
-    Font.Color:= GetAppColor('TabFont');
+    Font.Color:= GetAppColor(apclTabFont);
   end;
   LabelRep.Font.Assign(LabelFind.Font);
 

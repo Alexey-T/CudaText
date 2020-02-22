@@ -120,6 +120,7 @@ end;
 function Py_GetThemeDict_UI: PPyObject;
 var
   NLen, i: integer;
+  ColorItem: TAppThemeColor;
 begin
   with AppPython.Engine do
   begin
@@ -129,13 +130,14 @@ begin
       raise EPythonError.Create(msgPythonListError);
     for i:= 0 to NLen-1 do
     begin
+      ColorItem:= AppTheme.Colors[TAppThemeColorId(i)];
       PyDict_SetItem(Result,
-        PyString_FromString(PChar(AppTheme.Colors[i].name)),
+        PyString_FromString(PChar(ColorItem.name)),
         Py_BuildValue('{sssi}',
           'desc',
-          PChar(AppTheme.Colors[i].desc),
+          PChar(ColorItem.desc),
           'color',
-          AppTheme.Colors[i].color
+          ColorItem.color
           ));
     end;
   end;

@@ -28,24 +28,24 @@ end;
 
 procedure TfmMain.DoApplyThemeToGroups(G: TATGroups);
 begin
-  G.SetTabOption(tabColorText, GetAppColor('TabFont'));
-  G.SetTabOption(tabColorTextModified, GetAppColor('TabFontMod'));
-  G.SetTabOption(tabColorBg, GetAppColor('TabBg'));
-  G.SetTabOption(tabColorBgActive, GetAppColor('TabActive'));
-  G.SetTabOption(tabColorBgPassive, GetAppColor('TabPassive'));
-  G.SetTabOption(tabColorBgPassiveOver, GetAppColor('TabOver'));
-  G.SetTabOption(tabColorBorderActive, GetAppColor('TabBorderActive'));
-  G.SetTabOption(tabColorBorderPassive, GetAppColor('TabBorderPassive'));
-  G.SetTabOption(tabColorSeparator, GetAppColor('TabBorderActive'));
-  G.SetTabOption(tabColorArrow, GetAppColor('TabArrow'));
-  G.SetTabOption(tabColorArrowOver, GetAppColor('TabArrowOver'));
-  G.SetTabOption(tabColorCloseBg, GetAppColor('TabCloseBg'));
-  G.SetTabOption(tabColorCloseBgOver, GetAppColor('TabCloseBgOver'));
-  G.SetTabOption(tabColorCloseBorderOver, GetAppColor('TabCloseBorderOver'));
-  G.SetTabOption(tabColorCloseX, GetAppColor('TabCloseX'));
-  G.SetTabOption(tabColorCloseXOver, GetAppColor('TabCloseXOver'));
-  G.SetTabOption(tabColorActiveMark, GetAppColor('TabActiveMark'));
-  G.SetTabOption(tabColorSpecMarks, GetAppColor('TabMarks'));
+  G.SetTabOption(tabColorText, GetAppColor(apclTabFont));
+  G.SetTabOption(tabColorTextModified, GetAppColor(apclTabFontMod));
+  G.SetTabOption(tabColorBg, GetAppColor(apclTabBg));
+  G.SetTabOption(tabColorBgActive, GetAppColor(apclTabActive));
+  G.SetTabOption(tabColorBgPassive, GetAppColor(apclTabPassive));
+  G.SetTabOption(tabColorBgPassiveOver, GetAppColor(apclTabOver));
+  G.SetTabOption(tabColorBorderActive, GetAppColor(apclTabBorderActive));
+  G.SetTabOption(tabColorBorderPassive, GetAppColor(apclTabBorderPassive));
+  G.SetTabOption(tabColorSeparator, GetAppColor(apclTabBorderActive));
+  G.SetTabOption(tabColorArrow, GetAppColor(apclTabArrow));
+  G.SetTabOption(tabColorArrowOver, GetAppColor(apclTabArrowOver));
+  G.SetTabOption(tabColorCloseBg, GetAppColor(apclTabCloseBg));
+  G.SetTabOption(tabColorCloseBgOver, GetAppColor(apclTabCloseBgOver));
+  G.SetTabOption(tabColorCloseBorderOver, GetAppColor(apclTabCloseBorderOver));
+  G.SetTabOption(tabColorCloseX, GetAppColor(apclTabCloseX));
+  G.SetTabOption(tabColorCloseXOver, GetAppColor(apclTabCloseXOver));
+  G.SetTabOption(tabColorActiveMark, GetAppColor(apclTabActiveMark));
+  G.SetTabOption(tabColorSpecMarks, GetAppColor(apclTabMarks));
   G.Invalidate;
 end;
 
@@ -56,9 +56,9 @@ var
 begin
   with ATScrollbarTheme do
   begin
-    ColorBG:= GetAppColor('ScrollBack');
-    ColorThumbBorder:= GetAppColor('ScrollRect');
-    ColorThumbFill:= GetAppColor('ScrollFill');
+    ColorBG:= GetAppColor(apclScrollBack);
+    ColorThumbBorder:= GetAppColor(apclScrollRect);
+    ColorThumbFill:= GetAppColor(apclScrollFill);
     ColorThumbFillOver:= ColorThumbFill;
     ColorThumbFillPressed:= ColorThumbFill;
     ColorThumbDecor:= ColorThumbBorder;
@@ -66,11 +66,11 @@ begin
     ColorArrowFill:= ColorBG;
     ColorArrowFillOver:= ColorArrowFill;
     ColorArrowFillPressed:= ColorArrowFill;
-    ColorArrowSign:= GetAppColor('ScrollArrow');
-    ColorScrolled:= GetAppColor('ScrollScrolled');
+    ColorArrowSign:= GetAppColor(apclScrollArrow);
+    ColorScrolled:= GetAppColor(apclScrollScrolled);
   end;
 
-  ListboxOut.Color:= GetAppColor('ListBg');
+  ListboxOut.Color:= GetAppColor(apclListBg);
   ListboxOut.Invalidate;
   ListboxVal.Color:= ListboxOut.Color;
   ListboxVal.Invalidate;
@@ -79,11 +79,11 @@ begin
   EditorApplyTheme(fmConsole.EdInput);
   EditorApplyTheme(fmConsole.EdMemo);
 
-  ToolbarMain.Color:= GetAppColor('TabBg');
+  ToolbarMain.Color:= GetAppColor(apclTabBg);
   Self.Color:= ToolbarMain.Color;
 
   PanelCodeTreeTop.Color:= ToolbarMain.Color;
-  ToolbarSideTop.Color:= GetAppColor('SideBg');
+  ToolbarSideTop.Color:= GetAppColor(apclSideBg);
   ToolbarSideLow.Color:= ToolbarSideTop.Color;
   ToolbarSideMid.Color:= ToolbarSideTop.Color;
 
@@ -92,40 +92,40 @@ begin
       with AppPanels[id] do
       begin
         PanelTitle.Color:= ToolbarMain.Color;
-        PanelTitle.Font.Color:= GetAppColor('TabFont');
-        Splitter.Color:= GetAppColor('SplitMain');
+        PanelTitle.Font.Color:= GetAppColor(apclTabFont);
+        Splitter.Color:= GetAppColor(apclSplitMain);
         Splitter.Invalidate;
       end;
 
-  Status.Color:= GetAppColor('TabBg');
-  Status.ColorBorderTop:= GetAppColor('ButtonBorderPassive');
-  Status.ColorBorderR:= GetAppColor('ButtonBorderPassive');
+  Status.Color:= GetAppColor(apclTabBg);
+  Status.ColorBorderTop:= GetAppColor(apclButtonBorderPassive);
+  Status.ColorBorderR:= GetAppColor(apclButtonBorderPassive);
 
-  ATFlatTheme.ColorFont:= GetAppColor('ButtonFont');
-  ATFlatTheme.ColorFontDisabled:= GetAppColor('ButtonFontDisabled');
-  ATFlatTheme.ColorFontOverlay:= GetAppColor('SideBadgeFont');
-  ATFlatTheme.ColorBgPassive:= GetAppColor('ButtonBgPassive');
-  ATFlatTheme.ColorBgOver:= GetAppColor('ButtonBgOver');
-  ATFlatTheme.ColorBgChecked:= GetAppColor('ButtonBgChecked');
-  ATFlatTheme.ColorBgDisabled:= GetAppColor('ButtonBgDisabled');
-  ATFlatTheme.ColorBorderPassive:= GetAppColor('ButtonBorderPassive');
-  ATFlatTheme.ColorArrows:= GetAppColor('TabArrow');
-  ATFlatTheme.ColorArrowsOver:= GetAppColor('TabArrowOver');
-  ATFlatTheme.ColorSeparators:= GetAppColor('TabBorderActive');
-  ATFlatTheme.ColorBorderOver:= GetAppColor('ButtonBorderOver');
-  ATFlatTheme.ColorBorderFocused:= GetAppColor('ButtonBorderFocused');
-  ATFlatTheme.ColorFontListbox:= GetAppColor('ListFont');
-  ATFlatTheme.ColorFontListboxSel:= GetAppColor('ListSelFont');
-  ATFlatTheme.ColorBgListbox:= GetAppColor('ListBg');
-  ATFlatTheme.ColorBgListboxSel:= GetAppColor('ListSelBg');
+  ATFlatTheme.ColorFont:= GetAppColor(apclButtonFont);
+  ATFlatTheme.ColorFontDisabled:= GetAppColor(apclButtonFontDisabled);
+  ATFlatTheme.ColorFontOverlay:= GetAppColor(apclSideBadgeFont);
+  ATFlatTheme.ColorBgPassive:= GetAppColor(apclButtonBgPassive);
+  ATFlatTheme.ColorBgOver:= GetAppColor(apclButtonBgOver);
+  ATFlatTheme.ColorBgChecked:= GetAppColor(apclButtonBgChecked);
+  ATFlatTheme.ColorBgDisabled:= GetAppColor(apclButtonBgDisabled);
+  ATFlatTheme.ColorBorderPassive:= GetAppColor(apclButtonBorderPassive);
+  ATFlatTheme.ColorArrows:= GetAppColor(apclTabArrow);
+  ATFlatTheme.ColorArrowsOver:= GetAppColor(apclTabArrowOver);
+  ATFlatTheme.ColorSeparators:= GetAppColor(apclTabBorderActive);
+  ATFlatTheme.ColorBorderOver:= GetAppColor(apclButtonBorderOver);
+  ATFlatTheme.ColorBorderFocused:= GetAppColor(apclButtonBorderFocused);
+  ATFlatTheme.ColorFontListbox:= GetAppColor(apclListFont);
+  ATFlatTheme.ColorFontListboxSel:= GetAppColor(apclListSelFont);
+  ATFlatTheme.ColorBgListbox:= GetAppColor(apclListBg);
+  ATFlatTheme.ColorBgListboxSel:= GetAppColor(apclListSelBg);
   ATFlatTheme.ColorBgListboxHottrack:= ColorBlendHalf(ATFlatTheme.ColorBgListbox, ATFlatTheme.ColorBgListboxSel);
-  ATFlatTheme.ColorBgOverlay:= GetAppColor('SideBadgeBg');
+  ATFlatTheme.ColorBgOverlay:= GetAppColor(apclSideBadgeBg);
 
   AppApiFlatTheme:= ATFlatTheme;
-  AppApiFlatTheme.ColorBgListbox:= GetAppColor('TreeBg');
-  AppApiFlatTheme.ColorBgListboxSel:= GetAppColor('TreeSelBg');
-  AppApiFlatTheme.ColorFontListbox:= GetAppColor('TreeFont');
-  AppApiFlatTheme.ColorFontListboxSel:= GetAppColor('TreeSelFont');
+  AppApiFlatTheme.ColorBgListbox:= GetAppColor(apclTreeBg);
+  AppApiFlatTheme.ColorBgListboxSel:= GetAppColor(apclTreeSelBg);
+  AppApiFlatTheme.ColorFontListbox:= GetAppColor(apclTreeFont);
+  AppApiFlatTheme.ColorFontListboxSel:= GetAppColor(apclTreeSelFont);
 
   DoApplyThemeToGroups(Groups);
   if FloatGroups then
@@ -137,8 +137,8 @@ begin
 
   if assigned(fmFind) then
   begin
-    fmFind.Color:= GetAppColor('TabBg');
-    fmFind.LabelFind.Font.Color:= GetAppColor('ListFont');
+    fmFind.Color:= GetAppColor(apclTabBg);
+    fmFind.LabelFind.Font.Color:= GetAppColor(apclListFont);
     EditorApplyTheme(fmFind.edFind);
     EditorApplyTheme(fmFind.edRep);
     fmFind.Invalidate;
@@ -153,7 +153,7 @@ begin
   //apply AppTheme to all frames
   DoApplyLexerStyleMaps(true);
 
-  Groups.Splitter1.Color:= GetAppColor('SplitGroups');
+  Groups.Splitter1.Color:= GetAppColor(apclSplitGroups);
   Groups.Splitter2.Color:= Groups.Splitter1.Color;
   Groups.Splitter3.Color:= Groups.Splitter1.Color;
   Groups.Splitter4.Color:= Groups.Splitter1.Color;
@@ -164,8 +164,8 @@ begin
   Groups.Splitter4.Invalidate;
   Groups.Splitter5.Invalidate;
 
-  CompletionOps.ColorFontPrefix:= GetAppColor('ListCompletePrefix');
-  CompletionOps.ColorFontParams:= GetAppColor('ListCompleteParams');
+  CompletionOps.ColorFontPrefix:= GetAppColor(apclListCompletePrefix);
+  CompletionOps.ColorFontParams:= GetAppColor(apclListCompleteParams);
 end;
 
 procedure TfmMain.DoDialogMenuThemes_ThemeUiSelect(const AStr: string);

@@ -22,13 +22,123 @@ uses
   proc_lexer_styles;
 
 type
+  TAppThemeColorId = (
+    apclEdTextFont,
+    apclEdTextBg,
+    apclEdSelFont,
+    apclEdSelBg,
+    apclEdDisableFont,
+    apclEdDisableBg,
+    apclEdLinks,
+    apclEdLockedBg,
+    apclEdCaret,
+    apclEdMarkers,
+    apclEdCurLineBg,
+    apclEdIndentVLine,
+    apclEdUnprintFont,
+    apclEdUnprintBg,
+    apclEdUnprintHexFont,
+    apclEdMinimapBorder,
+    apclEdMinimapSelBg,
+    apclEdMinimapTooltipBg,
+    apclEdMinimapTooltipBorder,
+    apclEdMicromapBg,
+    apclEdMicromapViewBg,
+    apclEdMicromapOccur,
+    apclEdMicromapSpell,
+    apclEdStateChanged,
+    apclEdStateAdded,
+    apclEdStateSaved,
+    apclEdBlockStaple,
+    apclEdBlockStapleActive,
+    apclEdComboArrow,
+    apclEdComboArrowBg,
+    apclEdBorder,
+    apclEdBorderFocused,
+    apclEdBlockSepLine,
+    apclEdFoldMarkLine,
+    apclEdFoldMarkFont,
+    apclEdFoldMarkBorder,
+    apclEdFoldMarkBg,
+    apclEdGutterFont,
+    apclEdGutterBg,
+    apclEdGutterCaretFont,
+    apclEdGutterCaretBg,
+    apclEdRulerFont,
+    apclEdRulerBg,
+    apclEdFoldLine,
+    apclEdFoldBg,
+    apclEdFoldPlusLine,
+    apclEdFoldPlusBg,
+    apclEdMarginFixed,
+    apclEdMarginCaret,
+    apclEdMarginUser,
+    apclEdBookmarkBg,
+    apclEdBookmarkIcon,
+    apclEdMarkedRangeBg,
+    apclTabBg,
+    apclSideBg,
+    apclSideBadgeBg,
+    apclSideBadgeFont,
+    apclTabFont,
+    apclTabFontMod,
+    apclTabActive,
+    apclTabActiveOthers,
+    apclTabPassive,
+    apclTabOver,
+    apclTabBorderActive,
+    apclTabBorderPassive,
+    apclTabCloseBg,
+    apclTabCloseBgOver,
+    apclTabCloseBorderOver,
+    apclTabCloseX,
+    apclTabCloseXOver,
+    apclTabArrow,
+    apclTabArrowOver,
+    apclTabActiveMark,
+    apclTabMarks,
+    apclTreeFont,
+    apclTreeBg,
+    apclTreeSelFont,
+    apclTreeSelBg,
+    apclTreeSelBg2,
+    apclTreeSign,
+    apclListBg,
+    apclListSelBg,
+    apclListFont,
+    apclListSelFont,
+    apclListFontHotkey,
+    apclListFontHilite,
+    apclListCompletePrefix,
+    apclListCompleteParams,
+    apclButtonFont,
+    apclButtonFontDisabled,
+    apclButtonBgPassive,
+    apclButtonBgOver,
+    apclButtonBgChecked,
+    apclButtonBgDisabled,
+    apclButtonBorderPassive,
+    apclButtonBorderOver,
+    apclButtonBorderFocused,
+    apclScrollBack,
+    apclScrollRect,
+    apclScrollFill,
+    apclScrollArrow,
+    apclScrollScrolled,
+    apclSplitMain,
+    apclSplitGroups,
+    apclExportHtmlBg,
+    apclExportHtmlNumbers
+    );
+
+type
   TAppThemeColor = record
     color: TColor;
     name, desc: string;
   end;
 
   TAppTheme = record
-    Colors: array of TAppThemeColor;
+    Colors: array[TAppThemeColorId] of TAppThemeColor;
     Styles: TFPList;
   end;
 
@@ -42,7 +152,7 @@ var
 procedure DoInitTheme(var D: TAppTheme);
 procedure DoLoadTheme(const fn: string; var D: TAppTheme; IsThemeUI: boolean);
 procedure DoSaveTheme(const fn: string; const D: TAppTheme; IsThemeUI: boolean);
-function GetAppColor(const AName: string): TColor;
+function GetAppColor(id: TAppThemeColorId): TColor; inline;
 function GetAppStyleFromName(const SName: string): TecSyntaxFormat;
 
 implementation
@@ -74,6 +184,7 @@ var
   //
 var
   st: TecSyntaxFormat;
+  iColor: TAppThemeColorId;
   i: integer;
 begin
   if not FileExists(fn) then
@@ -93,8 +204,8 @@ begin
 
     if IsThemeUI then
     begin
-      for i:= Low(D.Colors) to High(D.Colors) do
-        DoVal(D.Colors[i].color, D.Colors[i].name);
+      for iColor:= Low(iColor) to High(iColor) do
+        DoVal(D.Colors[iColor].color, D.Colors[iColor].name);
     end
     else
     begin
@@ -114,12 +225,11 @@ end;
 
 procedure DoInitTheme(var D: TAppTheme);
   //
-  procedure Add(color: TColor; const name, desc: string);
+  procedure SetColor(id: TAppThemeColorId; color: TColor; const name, desc: string); inline;
   begin
-    SetLength(D.Colors, Length(D.Colors)+1);
-    D.Colors[High(D.Colors)].color:= color;
-    D.Colors[High(D.Colors)].name:= name;
-    D.Colors[High(D.Colors)].desc:= desc;
+    D.Colors[id].color:= color;
+    D.Colors[id].name:= name;
+    D.Colors[id].desc:= desc;
   end;
   //
   procedure AddStyle(const SName: string;
@@ -160,131 +270,121 @@ const
   nColorListSelBack = $d0d0d0;
   nColorListSelBack2 = $f4f4f4;
 begin
-  SetLength(D.Colors, 0);
-
   if Assigned(D.Styles) then
     D.Styles.Clear
   else
     D.Styles:= TFPList.Create;
 
-  //add colors
-  Add(nColorText, 'EdTextFont', 'editor, font');
-  Add(nColorBack, 'EdTextBg', 'editor, BG');
-  Add($e0e0e0, 'EdSelFont', 'editor, selection, font');
-  Add($b0a0a0, 'EdSelBg', 'editor, selection, BG');
-  Add(clGray, 'EdDisableFont', 'editor, disabled state, font');
-  Add(nColorGutterBack, 'EdDisableBg', 'editor, disabled state, BG');
-  Add($c05050, 'EdLinks', 'editor, links');
-  Add(nColorGutterBack, 'EdLockedBg', 'editor, locked state, BG');
-  Add(clBlack, 'EdCaret', 'editor, caret');
-  Add($6060d0, 'EdMarkers', 'editor, markers');
-  Add($eaf0f0, 'EdCurLineBg', 'editor, current line BG');
-  Add(clMedGray, 'EdIndentVLine', 'editor, wrapped line indent vert-lines');
-  Add($a0a0b8, 'EdUnprintFont', 'editor, unprinted chars, font');
-  Add($e0e0e0, 'EdUnprintBg', 'editor, unprinted chars, BG');
-  Add(clMedGray, 'EdUnprintHexFont', 'editor, special hex codes, font');
-  Add(clLtGray, 'EdMinimapBorder', 'editor, minimap, border');
-  Add($eeeeee, 'EdMinimapSelBg', 'editor, minimap, view BG');
-  Add(clMoneyGreen, 'EdMinimapTooltipBg', 'editor, minimap, tooltip BG');
-  Add(clMedGray, 'EdMinimapTooltipBorder', 'editor, minimap, tooltip border');
-  Add($e0e0e0, 'EdMicromapBg', 'editor, micromap, BG');
-  Add($d0d0d0, 'EdMicromapViewBg', 'editor, micromap, current view area');
-  Add($c05050, 'EdMicromapOccur', 'editor, micromap, word occurrences');
-  Add($6060d0, 'EdMicromapSpell', 'editor, micromap, misspelled marks');
-  Add($70b0b0, 'EdStateChanged', 'editor, line states, changed');
-  Add($80a080, 'EdStateAdded', 'editor, line states, added');
-  Add(clMedGray, 'EdStateSaved', 'editor, line states, saved');
-  Add($b0b0b0, 'EdBlockStaple', 'editor, block staples (indent guides)');
-  Add(clNone, 'EdBlockStapleActive', 'editor, block staples, for caret');
-  Add(nColorArrow, 'EdComboArrow', 'editor, combobox arrow-down');
-  Add(nColorBack, 'EdComboArrowBg', 'editor, combobox arrow-down BG');
-  Add(nColorBorder, 'EdBorder', 'editor, combobox border');
-  Add(clNavy, 'EdBorderFocused', 'editor, combobox border, focused');
-  Add(clMedGray, 'EdBlockSepLine', 'editor, separator line');
-  Add($a06060, 'EdFoldMarkLine', 'editor, folded line');
-  Add($e08080, 'EdFoldMarkFont', 'editor, folded block mark, font');
-  Add($e08080, 'EdFoldMarkBorder', 'editor, folded block mark, border');
-  Add(nColorBack, 'EdFoldMarkBg', 'editor, folded block mark, BG');
-  Add(nColorGutterFont, 'EdGutterFont', 'editor, gutter font');
-  Add(nColorGutterBack, 'EdGutterBg', 'editor, gutter BG');
-  Add(nColorGutterFont, 'EdGutterCaretFont', 'editor, gutter font, lines with carets');
-  Add(nColorListSelBack, 'EdGutterCaretBg', 'editor, gutter BG, lines with carets');
-  Add(nColorGutterFont, 'EdRulerFont', 'editor, ruler font');
-  Add(nColorBack, 'EdRulerBg', 'editor, ruler BG');
-  Add(nColorGutterFont, 'EdFoldLine', 'editor, gutter folding, lines');
-  Add(nColorGutterBack, 'EdFoldBg', 'editor, gutter folding, BG');
-  Add(nColorGutterFont, 'EdFoldPlusLine', 'editor, gutter folding, "plus" border');
-  Add(nColorGutterBack, 'EdFoldPlusBg', 'editor, gutter folding, "plus" BG');
-  Add(clLtGray, 'EdMarginFixed', 'editor, margin, fixed position');
-  Add($b0c0c0, 'EdMarginCaret', 'editor, margins, for carets');
-  Add($b0c0c0, 'EdMarginUser', 'editor, margins, user defined');
-  Add(clMoneyGreen, 'EdBookmarkBg', 'editor, bookmark, line BG');
-  Add(clMedGray, 'EdBookmarkIcon', 'editor, bookmark, gutter mark');
-  Add($f0e0b0, 'EdMarkedRangeBg', 'editor, marked range BG');
-
-  Add(nColorBack2, 'TabBg', 'main-toolbar, tabs BG');
-  Add($808080, 'SideBg', 'side-toolbar BG');
-  Add(clNavy, 'SideBadgeBg', 'side-toolbar, button badges BG');
-  Add(clWhite, 'SideBadgeFont', 'side-toolbar, button badges font');
-  Add(nColorText, 'TabFont', 'tabs, font');
-  Add($a00000, 'TabFontMod', 'tabs, font, modified tab');
-  Add(nColorBack, 'TabActive', 'tabs, active tab BG');
-  Add($e4d0d0, 'TabActiveOthers', 'tabs, active tab BG, inactive groups');
-  Add(nColorBack2+$0a0a0a, 'TabPassive', 'tabs, passive tab BG');
-  Add($ffffff, 'TabOver', 'tabs, mouse-over tab BG');
-  Add(nColorBorder, 'TabBorderActive', 'tabs, active tab border');
-  Add(nColorBorder, 'TabBorderPassive', 'tabs, passive tab border');
-  Add(clNone, 'TabCloseBg', 'tabs, close button BG');
-  Add($9090c0, 'TabCloseBgOver', 'tabs, close button BG, mouse-over');
-  Add($9090c0, 'TabCloseBorderOver', 'tabs, close button border');
-  Add(nColorArrow, 'TabCloseX', 'tabs, close x mark');
-  Add(nColorBack, 'TabCloseXOver', 'tabs, close x mark, mouse-over');
-  Add(nColorArrow, 'TabArrow', 'tabs, triangle arrows');
-  Add($404040, 'TabArrowOver', 'tabs, triangle arrows, mouse-over');
-  Add(clMedGray, 'TabActiveMark', 'tabs, flat style, active tab mark');
-  Add($6060E0, 'TabMarks', 'tabs, special marks');
-
-  Add(nColorText, 'TreeFont', 'treeview, font');
-  Add(nColorBack, 'TreeBg', 'treeview, BG');
-  Add(nColorText, 'TreeSelFont', 'treeview, selected font');
-  Add(nColorListSelBack, 'TreeSelBg', 'treeview, selected BG');
-  Add(nColorListSelBack2, 'TreeSelBg2', 'treeview, selected BG, not focused');
-  Add(nColorGutterFont, 'TreeSign', 'treeview, folding sign');
-
-  Add(nColorListBack, 'ListBg', 'listbox, BG');
-  Add(nColorListSelBack, 'ListSelBg', 'listbox, selected line BG');
-  Add(nColorText, 'ListFont', 'listbox, font');
-  Add(nColorText, 'ListSelFont', 'listbox, selected line font');
-  Add($c05050, 'ListFontHotkey', 'listbox, font, hotkey');
-  Add($e00000, 'ListFontHilite', 'listbox, font, search chars');
-
-  Add($c05050, 'ListCompletePrefix', 'listbox, font, auto-complete prefix');
-  Add(clGray, 'ListCompleteParams', 'listbox, font, auto-complete params');
-
-  Add(nColorText, 'ButtonFont', 'buttons, font');
-  Add($808088, 'ButtonFontDisabled', 'buttons, font, disabled state');
-  Add(nColorBack, 'ButtonBgPassive', 'buttons, BG, passive');
-  Add($d0b0b0, 'ButtonBgOver', 'buttons, BG, mouse-over');
-  Add($b0b0b0, 'ButtonBgChecked', 'buttons, BG, checked state');
-  Add($c0c0d0, 'ButtonBgDisabled', 'buttons, BG, disabled state');
-  Add(nColorBorder, 'ButtonBorderPassive', 'buttons, border, passive');
-  Add(nColorBorder, 'ButtonBorderOver', 'buttons, border, mouse-over');
-  Add(clGray, 'ButtonBorderFocused', 'buttons, border, focused');
-
-  Add($d0d0d0, 'ScrollBack', 'scrollbar, BG');
-  Add(nColorBorder, 'ScrollRect', 'scrollbar, thumb border');
-  Add(nColorBack, 'ScrollFill', 'scrollbar, thumb fill');
-  Add(nColorArrow, 'ScrollArrow', 'scrollbar, arrows');
-  Add($c0c0a0, 'ScrollScrolled', 'scrollbar, scrolling area');
-
-  Add(nColorBack2, 'SplitMain', 'splitters, main');
-  Add(nColorBack2, 'SplitGroups', 'splitters, groups');
-
-  Add(clWhite, 'ExportHtmlBg', 'export to html, BG');
-  Add(clMedGray, 'ExportHtmlNumbers', 'export to html, line numbers');
+  //init colors
+  SetColor(apclEdTextFont, nColorText, 'EdTextFont', 'editor, font');
+  SetColor(apclEdTextBg, nColorBack, 'EdTextBg', 'editor, BG');
+  SetColor(apclEdSelFont, $e0e0e0, 'EdSelFont', 'editor, selection, font');
+  SetColor(apclEdSelBg, $b0a0a0, 'EdSelBg', 'editor, selection, BG');
+  SetColor(apclEdDisableFont, clGray, 'EdDisableFont', 'editor, disabled state, font');
+  SetColor(apclEdDisableBg, nColorGutterBack, 'EdDisableBg', 'editor, disabled state, BG');
+  SetColor(apclEdLinks, $c05050, 'EdLinks', 'editor, links');
+  SetColor(apclEdLockedBg, nColorGutterBack, 'EdLockedBg', 'editor, locked state, BG');
+  SetColor(apclEdCaret, clBlack, 'EdCaret', 'editor, caret');
+  SetColor(apclEdMarkers, $6060d0, 'EdMarkers', 'editor, markers');
+  SetColor(apclEdCurLineBg, $eaf0f0, 'EdCurLineBg', 'editor, current line BG');
+  SetColor(apclEdIndentVLine, clMedGray, 'EdIndentVLine', 'editor, wrapped line indent vert-lines');
+  SetColor(apclEdUnprintFont, $a0a0b8, 'EdUnprintFont', 'editor, unprinted chars, font');
+  SetColor(apclEdUnprintBg, $e0e0e0, 'EdUnprintBg', 'editor, unprinted chars, BG');
+  SetColor(apclEdUnprintHexFont, clMedGray, 'EdUnprintHexFont', 'editor, special hex codes, font');
+  SetColor(apclEdMinimapBorder, clLtGray, 'EdMinimapBorder', 'editor, minimap, border');
+  SetColor(apclEdMinimapSelBg, $eeeeee, 'EdMinimapSelBg', 'editor, minimap, view BG');
+  SetColor(apclEdMinimapTooltipBg, clMoneyGreen, 'EdMinimapTooltipBg', 'editor, minimap, tooltip BG');
+  SetColor(apclEdMinimapTooltipBorder, clMedGray, 'EdMinimapTooltipBorder', 'editor, minimap, tooltip border');
+  SetColor(apclEdMicromapBg, $e0e0e0, 'EdMicromapBg', 'editor, micromap, BG');
+  SetColor(apclEdMicromapViewBg, $d0d0d0, 'EdMicromapViewBg', 'editor, micromap, current view area');
+  SetColor(apclEdMicromapOccur, $c05050, 'EdMicromapOccur', 'editor, micromap, word occurrences');
+  SetColor(apclEdMicromapSpell, $6060d0, 'EdMicromapSpell', 'editor, micromap, misspelled marks');
+  SetColor(apclEdStateChanged, $70b0b0, 'EdStateChanged', 'editor, line states, changed');
+  SetColor(apclEdStateAdded, $80a080, 'EdStateAdded', 'editor, line states, added');
+  SetColor(apclEdStateSaved, clMedGray, 'EdStateSaved', 'editor, line states, saved');
+  SetColor(apclEdBlockStaple, $b0b0b0, 'EdBlockStaple', 'editor, block staples (indent guides)');
+  SetColor(apclEdBlockStapleActive, clNone, 'EdBlockStapleActive', 'editor, block staples, for caret');
+  SetColor(apclEdComboArrow, nColorArrow, 'EdComboArrow', 'editor, combobox arrow-down');
+  SetColor(apclEdComboArrowBg, nColorBack, 'EdComboArrowBg', 'editor, combobox arrow-down BG');
+  SetColor(apclEdBorder, nColorBorder, 'EdBorder', 'editor, combobox border');
+  SetColor(apclEdBorderFocused, clNavy, 'EdBorderFocused', 'editor, combobox border, focused');
+  SetColor(apclEdBlockSepLine, clMedGray, 'EdBlockSepLine', 'editor, separator line');
+  SetColor(apclEdFoldMarkLine, $a06060, 'EdFoldMarkLine', 'editor, folded line');
+  SetColor(apclEdFoldMarkFont, $e08080, 'EdFoldMarkFont', 'editor, folded block mark, font');
+  SetColor(apclEdFoldMarkBorder, $e08080, 'EdFoldMarkBorder', 'editor, folded block mark, border');
+  SetColor(apclEdFoldMarkBg, nColorBack, 'EdFoldMarkBg', 'editor, folded block mark, BG');
+  SetColor(apclEdGutterFont, nColorGutterFont, 'EdGutterFont', 'editor, gutter font');
+  SetColor(apclEdGutterBg, nColorGutterBack, 'EdGutterBg', 'editor, gutter BG');
+  SetColor(apclEdGutterCaretFont, nColorGutterFont, 'EdGutterCaretFont', 'editor, gutter font, lines with carets');
+  SetColor(apclEdGutterCaretBg, nColorListSelBack, 'EdGutterCaretBg', 'editor, gutter BG, lines with carets');
+  SetColor(apclEdRulerFont, nColorGutterFont, 'EdRulerFont', 'editor, ruler font');
+  SetColor(apclEdRulerBg, nColorBack, 'EdRulerBg', 'editor, ruler BG');
+  SetColor(apclEdFoldLine, nColorGutterFont, 'EdFoldLine', 'editor, gutter folding, lines');
+  SetColor(apclEdFoldBg, nColorGutterBack, 'EdFoldBg', 'editor, gutter folding, BG');
+  SetColor(apclEdFoldPlusLine, nColorGutterFont, 'EdFoldPlusLine', 'editor, gutter folding, "plus" border');
+  SetColor(apclEdFoldPlusBg, nColorGutterBack, 'EdFoldPlusBg', 'editor, gutter folding, "plus" BG');
+  SetColor(apclEdMarginFixed, clLtGray, 'EdMarginFixed', 'editor, margin, fixed position');
+  SetColor(apclEdMarginCaret, $b0c0c0, 'EdMarginCaret', 'editor, margins, for carets');
+  SetColor(apclEdMarginUser, $b0c0c0, 'EdMarginUser', 'editor, margins, user defined');
+  SetColor(apclEdBookmarkBg, clMoneyGreen, 'EdBookmarkBg', 'editor, bookmark, line BG');
+  SetColor(apclEdBookmarkIcon, clMedGray, 'EdBookmarkIcon', 'editor, bookmark, gutter mark');
+  SetColor(apclEdMarkedRangeBg, $f0e0b0, 'EdMarkedRangeBg', 'editor, marked range BG');
+  SetColor(apclTabBg, nColorBack2, 'TabBg', 'main-toolbar, tabs BG');
+  SetColor(apclSideBg, $808080, 'SideBg', 'side-toolbar BG');
+  SetColor(apclSideBadgeBg, clNavy, 'SideBadgeBg', 'side-toolbar, button badges BG');
+  SetColor(apclSideBadgeFont, clWhite, 'SideBadgeFont', 'side-toolbar, button badges font');
+  SetColor(apclTabFont, nColorText, 'TabFont', 'tabs, font');
+  SetColor(apclTabFontMod, $a00000, 'TabFontMod', 'tabs, font, modified tab');
+  SetColor(apclTabActive, nColorBack, 'TabActive', 'tabs, active tab BG');
+  SetColor(apclTabActiveOthers, $e4d0d0, 'TabActiveOthers', 'tabs, active tab BG, inactive groups');
+  SetColor(apclTabPassive, nColorBack2+$0a0a0a, 'TabPassive', 'tabs, passive tab BG');
+  SetColor(apclTabOver, $ffffff, 'TabOver', 'tabs, mouse-over tab BG');
+  SetColor(apclTabBorderActive, nColorBorder, 'TabBorderActive', 'tabs, active tab border');
+  SetColor(apclTabBorderPassive, nColorBorder, 'TabBorderPassive', 'tabs, passive tab border');
+  SetColor(apclTabCloseBg, clNone, 'TabCloseBg', 'tabs, close button BG');
+  SetColor(apclTabCloseBgOver, $9090c0, 'TabCloseBgOver', 'tabs, close button BG, mouse-over');
+  SetColor(apclTabCloseBorderOver, $9090c0, 'TabCloseBorderOver', 'tabs, close button border');
+  SetColor(apclTabCloseX, nColorArrow, 'TabCloseX', 'tabs, close x mark');
+  SetColor(apclTabCloseXOver, nColorBack, 'TabCloseXOver', 'tabs, close x mark, mouse-over');
+  SetColor(apclTabArrow, nColorArrow, 'TabArrow', 'tabs, triangle arrows');
+  SetColor(apclTabArrowOver, $404040, 'TabArrowOver', 'tabs, triangle arrows, mouse-over');
+  SetColor(apclTabActiveMark, clMedGray, 'TabActiveMark', 'tabs, flat style, active tab mark');
+  SetColor(apclTabMarks, $6060E0, 'TabMarks', 'tabs, special marks');
+  SetColor(apclTreeFont, nColorText, 'TreeFont', 'treeview, font');
+  SetColor(apclTreeBg, nColorBack, 'TreeBg', 'treeview, BG');
+  SetColor(apclTreeSelFont, nColorText, 'TreeSelFont', 'treeview, selected font');
+  SetColor(apclTreeSelBg, nColorListSelBack, 'TreeSelBg', 'treeview, selected BG');
+  SetColor(apclTreeSelBg2, nColorListSelBack2, 'TreeSelBg2', 'treeview, selected BG, not focused');
+  SetColor(apclTreeSign, nColorGutterFont, 'TreeSign', 'treeview, folding sign');
+  SetColor(apclListBg, nColorListBack, 'ListBg', 'listbox, BG');
+  SetColor(apclListSelBg, nColorListSelBack, 'ListSelBg', 'listbox, selected line BG');
+  SetColor(apclListFont, nColorText, 'ListFont', 'listbox, font');
+  SetColor(apclListSelFont, nColorText, 'ListSelFont', 'listbox, selected line font');
+  SetColor(apclListFontHotkey, $c05050, 'ListFontHotkey', 'listbox, font, hotkey');
+  SetColor(apclListFontHilite, $e00000, 'ListFontHilite', 'listbox, font, search chars');
+  SetColor(apclListCompletePrefix, $c05050, 'ListCompletePrefix', 'listbox, font, auto-complete prefix');
+  SetColor(apclListCompleteParams, clGray, 'ListCompleteParams', 'listbox, font, auto-complete params');
+  SetColor(apclButtonFont, nColorText, 'ButtonFont', 'buttons, font');
+  SetColor(apclButtonFontDisabled, $808088, 'ButtonFontDisabled', 'buttons, font, disabled state');
+  SetColor(apclButtonBgPassive, nColorBack, 'ButtonBgPassive', 'buttons, BG, passive');
+  SetColor(apclButtonBgOver, $d0b0b0, 'ButtonBgOver', 'buttons, BG, mouse-over');
+  SetColor(apclButtonBgChecked, $b0b0b0, 'ButtonBgChecked', 'buttons, BG, checked state');
+  SetColor(apclButtonBgDisabled, $c0c0d0, 'ButtonBgDisabled', 'buttons, BG, disabled state');
+  SetColor(apclButtonBorderPassive, nColorBorder, 'ButtonBorderPassive', 'buttons, border, passive');
+  SetColor(apclButtonBorderOver, nColorBorder, 'ButtonBorderOver', 'buttons, border, mouse-over');
+  SetColor(apclButtonBorderFocused, clGray, 'ButtonBorderFocused', 'buttons, border, focused');
+  SetColor(apclScrollBack, $d0d0d0, 'ScrollBack', 'scrollbar, BG');
+  SetColor(apclScrollRect, nColorBorder, 'ScrollRect', 'scrollbar, thumb border');
+  SetColor(apclScrollFill, nColorBack, 'ScrollFill', 'scrollbar, thumb fill');
+  SetColor(apclScrollArrow, nColorArrow, 'ScrollArrow', 'scrollbar, arrows');
+  SetColor(apclScrollScrolled, $c0c0a0, 'ScrollScrolled', 'scrollbar, scrolling area');
+  SetColor(apclSplitMain, nColorBack2, 'SplitMain', 'splitters, main');
+  SetColor(apclSplitGroups, nColorBack2, 'SplitGroups', 'splitters, groups');
+  SetColor(apclExportHtmlBg, clWhite, 'ExportHtmlBg', 'export to html, BG');
+  SetColor(apclExportHtmlNumbers, clMedGray, 'ExportHtmlNumbers', 'export to html, line numbers');
 
   //--------------
-  //add styles
+  //styles
   AddStyle('Id', nColorText, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
   AddStyle('Id1', clNavy, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
   AddStyle('Id2', clPurple, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
@@ -356,6 +456,7 @@ end;
 procedure DoSaveTheme(const fn: string; const D: TAppTheme; IsThemeUI: boolean);
 var
   c: TJSONConfig;
+  iColor: TAppThemeColorId;
   i: integer;
   st: TecSyntaxFormat;
 begin
@@ -374,8 +475,8 @@ begin
 
     if IsThemeUI then
     begin
-      for i:= low(d.Colors) to high(d.Colors) do
-        c.SetValue(d.Colors[i].name, SColorToHtmlColor(d.Colors[i].color));
+      for iColor:= Low(iColor) to High(iColor) do
+        c.SetValue(D.Colors[iColor].name, SColorToHtmlColor(D.Colors[iColor].color));
     end
     else
     begin
@@ -390,15 +491,9 @@ begin
   end;
 end;
 
-function GetAppColor(const AName: string): TColor;
-var
-  i: integer;
+function GetAppColor(id: TAppThemeColorId): TColor;
 begin
-  Result:= clRed;
-  for i:= Low(AppTheme.Colors) to High(AppTheme.Colors) do
-    if AppTheme.Colors[i].name=AName then
-      exit(AppTheme.Colors[i].color);
-  //raise Exception.Create('Incorrect color id: '+name);
+  Result:= AppTheme.Colors[id].Color;
 end;
 
 function GetAppStyleFromName(const SName: string): TecSyntaxFormat;

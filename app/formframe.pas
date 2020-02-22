@@ -644,7 +644,7 @@ begin
   begin
     AColor:= AppBookmarkSetup[ABookmarkKind].Color;
     if AColor=clDefault then
-      AColor:= GetAppColor('EdBookmarkBg');
+      AColor:= GetAppColor(apclEdBookmarkBg);
   end;
 end;
 
@@ -2423,7 +2423,7 @@ begin
   kind:= Ed.Strings.Bookmarks[index].Data.Kind;
   if kind<=1 then
   begin
-    c.brush.color:= GetAppColor('EdBookmarkIcon');
+    c.brush.color:= GetAppColor(apclEdBookmarkIcon);
     c.pen.color:= c.brush.color;
     inc(r.top, 1);
     inc(r.left, 4);
@@ -2568,7 +2568,7 @@ begin
   if St.Count=0 then exit;
   NWidthSmall:= EditorScale(EditorOps.OpMicromapWidthSmall);
 
-  C.Brush.Color:= GetAppColor('EdMicromapBg');
+  C.Brush.Color:= GetAppColor(apclEdMicromapBg);
   C.FillRect(ARect);
 
   //paint full-width area of current view
@@ -2576,12 +2576,12 @@ begin
   R1.Left:= ARect.Left;
   R1.Right:= ARect.Right;
 
-  C.Brush.Color:= GetAppColor('EdMicromapViewBg');
+  C.Brush.Color:= GetAppColor(apclEdMicromapViewBg);
   C.FillRect(R1);
 
   NColorSelected:= Ed.Colors.TextSelBG;
-  NColorOccur:= GetAppColor('EdMicromapOccur');
-  NColorSpell:= GetAppColor('EdMicromapSpell');
+  NColorOccur:= GetAppColor(apclEdMicromapOccur);
+  NColorSpell:= GetAppColor(apclEdMicromapSpell);
 
   //paint line states
   for i:= 0 to St.Count-1 do
@@ -3136,10 +3136,10 @@ begin
   if Index<0 then exit;
   InitPanelReload(Index);
 
-  PanelReload[Index].Color:= GetAppColor('ListBg');
+  PanelReload[Index].Color:= GetAppColor(apclListBg);
   PanelReload[Index].Font.Name:= UiOps.VarFontName;
   PanelReload[Index].Font.Size:= AppScaleFont(UiOps.VarFontSize);
-  PanelReload[Index].Font.Color:= GetAppColor('ListFont');
+  PanelReload[Index].Font.Color:= GetAppColor(apclListFont);
 
   btnReloadYes[Index].Caption:= msgConfirmReloadYes;
   btnReloadNo[Index].Caption:= msgButtonCancel;

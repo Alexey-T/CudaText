@@ -4103,10 +4103,10 @@ begin
   end;
 
   StatusForm.FormStyle:= fsSystemStayOnTop;
-  StatusForm.Color:= GetAppColor('ListBg');
+  StatusForm.Color:= GetAppColor(apclListBg);
   StatusForm.Font.Name:= UiOps.VarFontName;
   StatusForm.Font.Size:= AppScaleFont(UiOps.VarFontSize);
-  StatusForm.Font.Color:= GetAppColor('ListFont');
+  StatusForm.Font.Color:= GetAppColor(apclListFont);
 
   if ASeconds<=0 then
   begin
@@ -5035,8 +5035,8 @@ begin
     UiOps.ExportHtmlFontName,
     UiOps.ExportHtmlFontSize,
     UiOps.ExportHtmlNumbers,
-    GetAppColor('ExportHtmlBg'),
-    GetAppColor('ExportHtmlNumbers')
+    GetAppColor(apclExportHtmlBg),
+    GetAppColor(apclExportHtmlNumbers)
     );
 
   //restore caret
@@ -5603,19 +5603,19 @@ begin
   DoParseOutputLine(Prop^, Listbox.Items[AIndex], ResFilename, ResLine, ResCol);
   if (ResFilename<>'') and (ResLine>=0) then
   begin
-    C.Font.Color:= GetAppColor('ListFontHotkey');
-    C.Brush.Color:= GetAppColor('ListBg');
+    C.Font.Color:= GetAppColor(apclListFontHotkey);
+    C.Brush.Color:= GetAppColor(apclListBg);
   end
   else
   begin
-    C.Font.Color:= GetAppColor('ListFont');
-    C.Brush.Color:= GetAppColor('ListBg');
+    C.Font.Color:= GetAppColor(apclListFont);
+    C.Brush.Color:= GetAppColor(apclListBg);
   end;
 
   if AIndex=Listbox.ItemIndex then
   begin
-    C.Font.Color:= GetAppColor('ListSelFont');
-    C.Brush.Color:= GetAppColor('ListSelBg');
+    C.Font.Color:= GetAppColor(apclListSelFont);
+    C.Brush.Color:= GetAppColor(apclListSelBg);
     C.FillRect(ARect);
   end;
 

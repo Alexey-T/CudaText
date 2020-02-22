@@ -357,16 +357,16 @@ begin
   begin
     C.Font.Name:= UiOps.VarFontName;
     C.Font.Size:= UiOps.VarFontSize;
-    C.Font.Color:= GetAppColor('TreeFont');
-    C.BackgroundColor:= GetAppColor('TreeBg');
-    C.SelectionFontColor:= GetAppColor('TreeSelFont'); //lew Laz
+    C.Font.Color:= GetAppColor(apclTreeFont);
+    C.BackgroundColor:= GetAppColor(apclTreeBg);
+    C.SelectionFontColor:= GetAppColor(apclTreeSelFont); //lew Laz
     C.SelectionFontColorUsed:= true; //new Laz
     if C.Focused then
-      C.SelectionColor:= GetAppColor('TreeSelBg')
+      C.SelectionColor:= GetAppColor(apclTreeSelBg)
     else
-      C.SelectionColor:= GetAppColor('TreeSelBg2');
+      C.SelectionColor:= GetAppColor(apclTreeSelBg2);
     C.TreeLinePenStyle:= psSolid;
-    C.ExpandSignColor:= GetAppColor('TreeSign');
+    C.ExpandSignColor:= GetAppColor(apclTreeSign);
   end;
 
   C.BorderStyle:= bsNone;
@@ -412,7 +412,7 @@ end;
 
 procedure DoApplyThemeToToolbar(C: TATFlatToolbar);
 begin
-  C.Color:= GetAppColor('TabBg');
+  C.Color:= GetAppColor(apclTabBg);
   C.Invalidate;
 end;
 
@@ -552,13 +552,13 @@ var
 begin
   V.Font.Name:= EditorOps.OpFontName;
   V.Font.Size:= EditorOps.OpFontSize;
-  V.Font.Color:= GetAppColor('EdTextFont');
+  V.Font.Color:= GetAppColor(apclEdTextFont);
   V.FontGutter.Name:= EditorOps.OpFontName;
   V.FontGutter.Size:= EditorOps.OpFontSize;
-  V.FontGutter.Color:= GetAppColor('EdGutterFont');
-  V.Color:= GetAppColor('EdTextBg');
-  V.TextColorGutter:= GetAppColor('EdGutterBg');
-  V.TextColorURL:= GetAppColor('EdLinks');
+  V.FontGutter.Color:= GetAppColor(apclEdGutterFont);
+  V.Color:= GetAppColor(apclEdTextBg);
+  V.TextColorGutter:= GetAppColor(apclEdGutterBg);
+  V.TextColorURL:= GetAppColor(apclEdLinks);
 
   St:= GetAppStyleFromName('SectionBG1');
   V.TextColorHexBack:= St.BgColor;

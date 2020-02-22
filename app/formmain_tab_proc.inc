@@ -130,8 +130,8 @@ var
   NColorAct, NColorOther: TColor;
   NLocalGroups, NGlobalGroup, NTab, i: integer;
 begin
-  NColorAct:= GetAppColor('TabActive');
-  NColorOther:= GetAppColor('TabActiveOthers');
+  NColorAct:= GetAppColor(apclTabActive);
+  NColorOther:= GetAppColor(apclTabActiveOthers);
 
   GetFrameLocation(F, Gr, Pages, NLocalGroups, NGlobalGroup, NTab);
 

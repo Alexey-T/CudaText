@@ -101,12 +101,12 @@ end;
 
 procedure TfmMenuApi.FormCreate(Sender: TObject);
 begin
-  FColorBg:= GetAppColor('ListBg');
-  FColorBgSel:= GetAppColor('ListSelBg');
-  FColorFont:= GetAppColor('ListFont');
-  FColorFontSel:= GetAppColor('ListSelFont');
-  FColorFontAlt:= GetAppColor('ListFontHotkey');
-  FColorFontHilite:= GetAppColor('ListFontHilite');
+  FColorBg:= GetAppColor(apclListBg);
+  FColorBgSel:= GetAppColor(apclListSelBg);
+  FColorFont:= GetAppColor(apclListFont);
+  FColorFontSel:= GetAppColor(apclListSelFont);
+  FColorFontAlt:= GetAppColor(apclListFontHotkey);
+  FColorFontHilite:= GetAppColor(apclListFontHilite);
 
   if UiOps.ShowMenuDialogsWithBorder then
     BorderStyle:= bsDialog;
@@ -120,11 +120,11 @@ begin
   edit.Font.Name:= EditorOps.OpFontName;
   edit.Font.Size:= EditorOps.OpFontSize;
   edit.Font.Quality:= EditorOps.OpFontQuality;
-  edit.Colors.TextFont:= GetAppColor('EdTextFont');
-  edit.Colors.TextBG:= GetAppColor('EdTextBg');
-  edit.Colors.TextSelFont:= GetAppColor('EdSelFont');
-  edit.Colors.TextSelBG:= GetAppColor('EdSelBg');
-  edit.Colors.BorderLine:= GetAppColor('EdBorder');
+  edit.Colors.TextFont:= GetAppColor(apclEdTextFont);
+  edit.Colors.TextBG:= GetAppColor(apclEdTextBg);
+  edit.Colors.TextSelFont:= GetAppColor(apclEdSelFont);
+  edit.Colors.TextSelBG:= GetAppColor(apclEdSelBg);
+  edit.Colors.BorderLine:= GetAppColor(apclEdBorder);
 
   PanelCaption.Height:= AppScale(26);
   PanelCaption.Font.Name:= UiOps.VarFontName;

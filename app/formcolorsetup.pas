@@ -92,13 +92,14 @@ end;
 procedure TfmColorSetup.UpdateList;
 var
   st: TecSyntaxFormat;
+  iColor: TAppThemeColorId;
   i, n: integer;
 begin
   n:= List.ItemIndex;
   List.Items.Clear;
 
-  for i:= Low(Data.Colors) to High(Data.Colors) do
-    List.Items.AddObject(Data.Colors[i].desc, TObject(ptrint(Data.Colors[i].color)));
+  for iColor:= Low(iColor) to High(iColor) do
+    List.Items.AddObject(Data.Colors[iColor].desc, TObject(PtrInt(Data.Colors[iColor].color)));
 
   if ListStyles.Count=0 then
     for i:= 0 to Data.Styles.Count-1 do
@@ -114,17 +115,17 @@ end;
 
 procedure TfmColorSetup.bChangeClick(Sender: TObject);
 begin
-  ColorDialog1.Color:= ptrint(List.Items.Objects[List.itemindex]);
+  ColorDialog1.Color:= PtrInt(List.Items.Objects[List.ItemIndex]);
   if ColorDialog1.Execute then
   begin
-    Data.Colors[List.Itemindex].color:= ColorDialog1.Color;
+    Data.Colors[TAppThemeColorId(List.ItemIndex)].color:= ColorDialog1.Color;
     UpdateList;
   end;
 end;
 
 procedure TfmColorSetup.bNoneClick(Sender: TObject);
 begin
-  Data.Colors[List.Itemindex].color:= clNone;
+  Data.Colors[TAppThemeColorId(List.ItemIndex)].color:= clNone;
   UpdateList;
 end;
 
@@ -176,8 +177,6 @@ begin
 end;
 
 procedure TfmColorSetup.FormShow(Sender: TObject);
-var
-  i: integer;
 begin
   Localize;
 
@@ -194,13 +193,7 @@ begin
   List.ItemIndex:= 0;
   ListStyles.ItemIndex:= 0;
 
-  FColorBg:= clWhite;
-  for i:= Low(Data.Colors) to High(Data.Colors) do
-    if Data.Colors[i].name='EdTextBg' then
-    begin
-      FColorBg:= Data.Colors[i].color;
-      Break
-    end;
+  FColorBg:= Data.Colors[apclEdTextBg].color;
 
   if PanelUi.Visible then
     ActiveControl:= List

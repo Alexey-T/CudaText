@@ -121,11 +121,11 @@ begin
   panelCaption.Font.Size:= AppScaleFont(UiOps.VarFontSize);
 
   self.Color:= FColorBg;
-  edit.Colors.TextFont:= GetAppColor('EdTextFont');
-  edit.Colors.TextBG:= GetAppColor('EdTextBg');
-  edit.Colors.TextSelFont:= GetAppColor('EdSelFont');
-  edit.Colors.TextSelBG:= GetAppColor('EdSelBg');
-  edit.Colors.BorderLine:= GetAppColor('EdBorder');
+  edit.Colors.TextFont:= GetAppColor(apclEdTextFont);
+  edit.Colors.TextBG:= GetAppColor(apclEdTextBg);
+  edit.Colors.TextSelFont:= GetAppColor(apclEdSelFont);
+  edit.Colors.TextSelBG:= GetAppColor(apclEdSelBg);
+  edit.Colors.BorderLine:= GetAppColor(apclEdBorder);
   list.Color:= FColorBg;
   panelCaption.Font.Color:= FColorFont;
 
@@ -157,12 +157,12 @@ end;
 
 procedure TfmCommands.FormCreate(Sender: TObject);
 begin
-  FColorBg:= GetAppColor('ListBg');
-  FColorBgSel:= GetAppColor('ListSelBg');
-  FColorFont:= GetAppColor('ListFont');
-  FColorFontSel:= GetAppColor('ListSelFont');
-  FColorFontHilite:= GetAppColor('ListFontHilite');
-  FColorFontHotkey:= GetAppColor('ListFontHotkey');
+  FColorBg:= GetAppColor(apclListBg);
+  FColorBgSel:= GetAppColor(apclListSelBg);
+  FColorFont:= GetAppColor(apclListFont);
+  FColorFontSel:= GetAppColor(apclListSelFont);
+  FColorFontHilite:= GetAppColor(apclListFontHilite);
+  FColorFontHotkey:= GetAppColor(apclListFontHotkey);
 
   if UiOps.ShowMenuDialogsWithBorder then
     BorderStyle:= bsDialog;
