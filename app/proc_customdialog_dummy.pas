@@ -558,27 +558,20 @@ var
   i: integer;
 begin
   inherited;
+
+  //find first "big" control and focus it
   for i:= 0 to ControlCount-1 do
   begin
     Ctl:= Controls[i];
-    if not (Ctl is TWinControl) then Continue;
-
-    if (Ctl is TAppTreeContainer) then
-    begin
-      Ctl:= (Ctl as TAppTreeContainer).Tree;
-      if Ctl.Enabled and Ctl.Visible and TWinControl(Ctl).CanFocus then
-        TWinControl(Ctl).SetFocus;
-      exit;
-    end;
-
-    if (Ctl is TListView) or
+    if (Ctl is TAppTreeContainer) or
+      (Ctl is TListView) or
+      (Ctl is TMemo) or
       (Ctl is TATListbox) or
-      (Ctl is TATSynEdit) or
-      (Ctl is TMemo) then
+      (Ctl is TATSynEdit) then
     begin
-      if Ctl.Enabled and Ctl.Visible and TWinControl(Ctl).CanFocus then
-        TWinControl(Ctl).SetFocus;
-      exit;
+      if Ctl.Enabled and Ctl.Visible and (Ctl as TWinControl).CanFocus then
+        (Ctl as TWinControl).SetFocus;
+      Break;
     end;
   end;
 end;
