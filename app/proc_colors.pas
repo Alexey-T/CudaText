@@ -495,7 +495,7 @@ end;
 
 procedure DoSaveTheme(const fn: string; const D: TAppTheme; IsThemeUI: boolean);
 var
-  c: TJSONConfig;
+  cfg: TJSONConfig;
   iColor: TAppThemeColorId;
   iStyle: TAppThemeStyleId;
   st: TecSyntaxFormat;
@@ -503,11 +503,11 @@ begin
   if FileExists(fn) then
     DeleteFile(fn);
 
-  c:= TJSONConfig.Create(nil);
+  cfg:= TJSONConfig.Create(nil);
   try
     try
-      c.Formatted:= true;
-      c.Filename:= fn;
+      cfg.Formatted:= true;
+      cfg.Filename:= fn;
     except
       MsgBadConfig(fn);
       exit;
@@ -516,18 +516,18 @@ begin
     if IsThemeUI then
     begin
       for iColor:= Low(iColor) to High(iColor) do
-        c.SetValue(D.Colors[iColor].name, SColorToHtmlColor(D.Colors[iColor].color));
+        cfg.SetValue(D.Colors[iColor].name, SColorToHtmlColor(D.Colors[iColor].color));
     end
     else
     begin
       for iStyle:= Low(iStyle) to High(iStyle) do
       begin
         st:= d.Styles[iStyle];
-        DoSaveLexerStyleToFile_JsonTheme(st, c, 'Lex_'+st.DisplayName);
+        DoSaveLexerStyleToFile_JsonTheme(st, cfg, 'Lex_'+st.DisplayName);
       end;
     end;
   finally
-    c.Free;
+    cfg.Free;
   end;
 end;
 
