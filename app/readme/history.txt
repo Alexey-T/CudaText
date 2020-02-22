@@ -11,7 +11,8 @@
 + add: rendering speed much increased at the end of huge lines (length>1M)
 + add: toggling word-wrap speed much increased on huge lines
 + add: bracket finder ignores long lines (length>500)
-- fix: Windows version didn't ignore system Python
++ add: plugin Tabs List: menu item "Tabs List / Open" focuses plugin; plugin handles Enter key
+- fix: plugin API gave crash in plugin forms' on_key_down
 - fix: error after "Sort / Remove blank lines"
 - fix: lexer Ini minor fixes
 
