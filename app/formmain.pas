@@ -6582,9 +6582,7 @@ end;
 
 procedure TfmMain.DoCodetree_PanelOnEnter(Sender: TObject);
 begin
-  with CodeTree.Tree do
-    if Enabled and CanFocus then
-      SetFocus;
+  CodeTree.SetFocus;
 end;
 
 procedure TfmMain.FormEnter(Sender: TObject);
