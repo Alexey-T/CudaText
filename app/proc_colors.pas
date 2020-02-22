@@ -150,7 +150,7 @@ var
   AppStyleError: TecSyntaxFormat = nil;
 
 procedure DoInitTheme(var D: TAppTheme);
-procedure DoLoadTheme(const fn: string; var D: TAppTheme; IsThemeUI: boolean);
+procedure DoLoadTheme(const AFileName: string; var D: TAppTheme; IsThemeUI: boolean);
 procedure DoSaveTheme(const fn: string; const D: TAppTheme; IsThemeUI: boolean);
 function GetAppColor(id: TAppThemeColorId): TColor; inline;
 function GetAppStyleFromName(const SName: string): TecSyntaxFormat;
@@ -161,19 +161,19 @@ uses
   ATButtons,
   at__jsonconf;
 
-procedure DoLoadTheme(const fn: string; var D: TAppTheme; IsThemeUI: boolean);
+procedure DoLoadTheme(const AFileName: string; var D: TAppTheme; IsThemeUI: boolean);
 var
-  c: TJsonConfig;
+  cfg: TJsonConfig;
   //
-  procedure DoVal(var Val: TColor; const id: string);
+  procedure ReadColorValue(var Val: TColor; const id: string);
   var
     s: string;
     len: integer;
   begin
-    s:= c.GetValue(id, '?');
+    s:= cfg.GetValue(id, '?');
     if s='?' then
     begin
-      MsgLogConsole(Format(msgErrorInTheme, [ExtractFileName(fn), id]));
+      MsgLogConsole(Format(msgErrorInTheme, [ExtractFileName(AFileName), id]));
       exit;
     end;
     if s='' then
@@ -187,38 +187,38 @@ var
   iColor: TAppThemeColorId;
   i: integer;
 begin
-  if not FileExists(fn) then
+  if not FileExists(AFileName) then
   begin
-    MsgLogConsole(Format(msgCannotFindData, [fn]));
+    MsgLogConsole(Format(msgCannotFindData, [AFileName]));
     exit;
   end;
 
-  c:= TJsonConfig.Create(nil);
+  cfg:= TJsonConfig.Create(nil);
   try
     try
-      c.Filename:= fn;
+      cfg.Filename:= AFileName;
     except
-      MsgBadConfig(fn);
+      MsgBadConfig(AFileName);
       Exit
     end;
 
     if IsThemeUI then
     begin
       for iColor:= Low(iColor) to High(iColor) do
-        DoVal(D.Colors[iColor].color, D.Colors[iColor].name);
+        ReadColorValue(D.Colors[iColor].color, D.Colors[iColor].name);
     end
     else
     begin
       for i:= 0 to d.Styles.Count-1 do
       begin
         st:= TecSyntaxFormat(d.Styles[i]);
-        if not DoLoadLexerStyleFromFile_JsonTheme(st, c, 'Lex_'+st.DisplayName) then
+        if not DoLoadLexerStyleFromFile_JsonTheme(st, cfg, 'Lex_'+st.DisplayName) then
           MsgLogConsole(Format(msgErrorInTheme,
-            [ExtractFileName(fn), 'Lex_'+st.DisplayName]));
+            [ExtractFileName(AFileName), 'Lex_'+st.DisplayName]));
       end;
     end;
   finally
-    c.Free;
+    cfg.Free;
   end;
 end;
 
