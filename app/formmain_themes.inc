@@ -211,12 +211,12 @@ begin
   if UiOps.ThemeUi='' then
   begin
     SName:= UiOps.ThemeSyntax;
-    DoInitTheme(AppTheme); //resets UI+Syntax
+    AppThemeInit(AppTheme); //resets UI+Syntax
     if SName<>'' then
       SetThemeSyntax(SName);
   end
   else
-    DoLoadTheme(
+    AppThemeLoadFromFile(
       AppDir_DataThemes+DirectorySeparator+UiOps.ThemeUi+AppExtensionThemeUi,
       AppTheme,
       true
@@ -237,12 +237,12 @@ begin
   if UiOps.ThemeSyntax='' then
   begin
     SName:= UiOps.ThemeUi;
-    DoInitTheme(AppTheme); //resets UI+Syntax
+    AppThemeInit(AppTheme); //resets UI+Syntax
     if SName<>'' then
       SetThemeUi(SName);
   end
   else
-    DoLoadTheme(
+    AppThemeLoadFromFile(
       AppDir_DataThemes+DirectorySeparator+UiOps.ThemeSyntax+AppExtensionThemeSyntax,
       AppTheme,
       false
@@ -327,7 +327,7 @@ begin
       if Str='' then exit;
       Str:= AppDir_DataThemes+DirectorySeparator+Str+StrExt;
 
-      DoSaveTheme(Str, AppTheme, AThemeUI);
+      AppThemeSaveToFile(Str, AppTheme, AThemeUI);
     end;
 
     if AThemeUI then

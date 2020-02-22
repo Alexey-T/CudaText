@@ -198,9 +198,10 @@ type
 var
   AppTheme: TAppTheme;
 
-procedure DoInitTheme(var D: TAppTheme);
-procedure DoLoadTheme(const AFileName: string; var D: TAppTheme; IsThemeUI: boolean);
-procedure DoSaveTheme(const fn: string; const D: TAppTheme; IsThemeUI: boolean);
+procedure AppThemeInit(var D: TAppTheme);
+procedure AppThemeLoadFromFile(const AFileName: string; var D: TAppTheme; IsThemeUI: boolean);
+procedure AppThemeSaveToFile(const AFileName: string; const D: TAppTheme; IsThemeUI: boolean);
+
 function GetAppColor(id: TAppThemeColorId): TColor; inline;
 function GetAppStyle(id: TAppThemeStyleId): TecSyntaxFormat; inline;
 
@@ -210,7 +211,7 @@ uses
   ATButtons,
   at__jsonconf;
 
-procedure DoLoadTheme(const AFileName: string; var D: TAppTheme; IsThemeUI: boolean);
+procedure AppThemeLoadFromFile(const AFileName: string; var D: TAppTheme; IsThemeUI: boolean);
 var
   cfg: TJsonConfig;
   //
@@ -272,7 +273,7 @@ begin
 end;
 
 
-procedure DoInitTheme(var D: TAppTheme);
+procedure AppThemeInit(var D: TAppTheme);
   //
   procedure SetColor(id: TAppThemeColorId; color: TColor; const name, desc: string); inline;
   begin
@@ -493,23 +494,23 @@ begin
   SetStyle(apstTextCross, 'TextCross', clBlack, clNone, clNone, [fsStrikeOut], blNone, blNone, blNone, blNone, ftFontAttr);
 end;
 
-procedure DoSaveTheme(const fn: string; const D: TAppTheme; IsThemeUI: boolean);
+procedure AppThemeSaveToFile(const AFileName: string; const D: TAppTheme; IsThemeUI: boolean);
 var
   cfg: TJSONConfig;
   iColor: TAppThemeColorId;
   iStyle: TAppThemeStyleId;
   st: TecSyntaxFormat;
 begin
-  if FileExists(fn) then
-    DeleteFile(fn);
+  if FileExists(AFileName) then
+    DeleteFile(AFileName);
 
   cfg:= TJSONConfig.Create(nil);
   try
     try
       cfg.Formatted:= true;
-      cfg.Filename:= fn;
+      cfg.Filename:= AFileName;
     except
-      MsgBadConfig(fn);
+      MsgBadConfig(AFileName);
       exit;
     end;
 
@@ -545,7 +546,7 @@ end;
 initialization
 
   FillChar(AppTheme, SizeOf(AppTheme), 0);
-  DoInitTheme(AppTheme);
+  AppThemeInit(AppTheme);
 
 end.
 
