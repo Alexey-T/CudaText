@@ -276,18 +276,17 @@ end;
 
 function Py_GetThemeDict_Syntax: PPyObject;
 var
-  NLen, i: integer;
+  iStyle: TAppThemeStyleId;
   St: TecSyntaxFormat;
 begin
   with AppPython.Engine do
   begin
-    NLen:= AppTheme.Styles.Count;
     Result:= PyDict_New();
     if not Assigned(Result) then
       raise EPythonError.Create(msgPythonListError);
-    for i:= 0 to NLen-1 do
+    for iStyle:= Low(iStyle) to High(iStyle) do
     begin
-      St:= TecSyntaxFormat(AppTheme.Styles[i]);
+      St:= AppTheme.Styles[iStyle];
       PyDict_SetItem(Result,
         PyString_FromString(PChar(St.DisplayName)),
         Py_BuildValue('{sisisisisisisisiss}',

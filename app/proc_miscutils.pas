@@ -560,16 +560,16 @@ begin
   V.TextColorGutter:= GetAppColor(apclEdGutterBg);
   V.TextColorURL:= GetAppColor(apclEdLinks);
 
-  St:= GetAppStyleFromName('SectionBG1');
+  St:= GetAppStyle(apstSectionBG1);
   V.TextColorHexBack:= St.BgColor;
 
-  St:= GetAppStyleFromName('Id');
+  St:= GetAppStyle(apstId);
   V.TextColorHex:= St.Font.Color;
 
-  St:= GetAppStyleFromName('Id1');
+  St:= GetAppStyle(apstId1);
   V.TextColorHex2:= St.Font.Color;
 
-  St:= GetAppStyleFromName('Pale1');
+  St:= GetAppStyle(apstPale1);
   V.TextColorLines:= St.Font.Color;
 end;
 

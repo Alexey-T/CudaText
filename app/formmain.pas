@@ -6021,15 +6021,13 @@ end;
 
 function TfmMain.LiteLexer_GetStyleHash(Sender: TObject; const AStyleName: string): integer;
 var
-  st: TecSyntaxFormat;
-  i: integer;
+  iStyle: TAppThemeStyleId;
 begin
   Result:= -1;
-  for i:= 0 to AppTheme.Styles.Count-1 do
+  for iStyle:= Low(iStyle) to High(iStyle) do
   begin
-    st:= TecSyntaxFormat(AppTheme.Styles[i]);
-    if AStyleName=st.DisplayName then
-      exit(i);
+    if AStyleName=AppTheme.Styles[iStyle].DisplayName then
+      exit(Ord(iStyle));
   end;
 end;
 
@@ -6039,7 +6037,7 @@ var
   st: TecSyntaxFormat;
 begin
   if AStyleHash<0 then exit;
-  st:= TecSyntaxFormat(AppTheme.Styles[AStyleHash]);
+  st:= AppTheme.Styles[TAppThemeStyleId(AStyleHash)];
   ApplyPartStyleFromEcontrolStyle(APart, st);
 end;
 

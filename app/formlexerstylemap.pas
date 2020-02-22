@@ -98,6 +98,7 @@ function DoApplyLexerStylesMap(an: TecSyntAnalyzer; out anNotCorrect: TecSyntAna
 var
   value: string;
   st: TecSyntaxFormat;
+  iStyle: TAppThemeStyleId;
   i: integer;
 begin
   Result:= true;
@@ -121,16 +122,24 @@ begin
   for i:= 0 to an.Formats.Count-1 do
   begin
     value:= an.ThemeMappingOfStyle(an.Formats[i].DisplayName);
-    if value='-' then Continue;
+    if value='-' then
+      Continue;
     if value='' then
     begin
       anNotCorrect:= an;
       Result:= false; //not exit
+      Continue;
     end;
 
-    st:= GetAppStyleFromName(value);
-    if Assigned(st) then
-      DoStyleAssign(an.Formats[i], st);
+    for iStyle:= Low(iStyle) to High(iStyle) do
+    begin
+      st:= GetAppStyle(iStyle);
+      if st.DisplayName=value then
+      begin
+        DoStyleAssign(an.Formats[i], st);
+        Break
+      end;
+    end;
   end;
 end;
 
@@ -138,6 +147,7 @@ function DoDialogLexerStylesMap(an: TecSyntAnalyzer): boolean;
 var
   F: TfmLexerStyleMap;
   anNotCorrent: TecSyntAnalyzer;
+  iStyle: TAppThemeStyleId;
   i: integer;
 begin
   Result:= false;
@@ -153,8 +163,8 @@ begin
       F.ItemsLex.Add(an.Formats[i].DisplayName);
     for i:= 0 to an.Formats.Count-1 do
       F.ItemsVal.Add('');
-    for i:= 0 to AppTheme.Styles.Count-1 do
-      F.ItemsTh.Add(TecSyntaxFormat(AppTheme.Styles[i]).DisplayName);
+    for iStyle:= Low(iStyle) to High(iStyle) do
+      F.ItemsTh.Add(AppTheme.Styles[iStyle].DisplayName);
 
     F.ListLex.Items.AddStrings(F.ItemsLex);
     F.ListLex.ItemIndex:= 0;

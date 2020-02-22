@@ -132,6 +132,59 @@ type
     );
 
 type
+  TAppThemeStyleId = (
+    apstId,
+    apstId1,
+    apstId2,
+    apstId3,
+    apstId4,
+    apstIdKeyword,
+    apstIdVar,
+    apstIdBad,
+    apstString,
+    apstString2,
+    apstString3,
+    apstSymbol,
+    apstSymbol2,
+    apstSymbolBad,
+    apstComment,
+    apstComment2,
+    apstCommentDoc,
+    apstNumber,
+    apstLabel,
+    apstColor,
+    apstIncludeBG1,
+    apstIncludeBG2,
+    apstIncludeBG3,
+    apstIncludeBG4,
+    apstSectionBG1,
+    apstSectionBG2,
+    apstSectionBG3,
+    apstSectionBG4,
+    apstBracketBG,
+    apstCurBlockBG,
+    apstSeparLine,
+    apstTagBound,
+    apstTagId,
+    apstTagIdBad,
+    apstTagProp,
+    apstTagPropBad,
+    apstTagInclude,
+    apstLightBG1,
+    apstLightBG2,
+    apstLightBG3,
+    apstLightBG4,
+    apstLightBG5,
+    apstPale1,
+    apstPale2,
+    apstPale3,
+    apstTextBold,
+    apstTextItalic,
+    apstTextBoldItalic,
+    apstTextCross
+    );
+
+type
   TAppThemeColor = record
     color: TColor;
     name, desc: string;
@@ -139,7 +192,7 @@ type
 
   TAppTheme = record
     Colors: array[TAppThemeColorId] of TAppThemeColor;
-    Styles: TFPList;
+    Styles: array[TAppThemeStyleId] of TecSyntaxFormat;
   end;
 
 var
@@ -153,7 +206,7 @@ procedure DoInitTheme(var D: TAppTheme);
 procedure DoLoadTheme(const AFileName: string; var D: TAppTheme; IsThemeUI: boolean);
 procedure DoSaveTheme(const fn: string; const D: TAppTheme; IsThemeUI: boolean);
 function GetAppColor(id: TAppThemeColorId): TColor; inline;
-function GetAppStyleFromName(const SName: string): TecSyntaxFormat;
+function GetAppStyle(id: TAppThemeStyleId): TecSyntaxFormat; inline;
 
 implementation
 
@@ -185,7 +238,7 @@ var
 var
   st: TecSyntaxFormat;
   iColor: TAppThemeColorId;
-  i: integer;
+  iStyle: TAppThemeStyleId;
 begin
   if not FileExists(AFileName) then
   begin
@@ -209,9 +262,9 @@ begin
     end
     else
     begin
-      for i:= 0 to d.Styles.Count-1 do
+      for iStyle:= Low(iStyle) to High(iStyle) do
       begin
-        st:= TecSyntaxFormat(d.Styles[i]);
+        st:= d.Styles[iStyle];
         if not DoLoadLexerStyleFromFile_JsonTheme(st, cfg, 'Lex_'+st.DisplayName) then
           MsgLogConsole(Format(msgErrorInTheme,
             [ExtractFileName(AFileName), 'Lex_'+st.DisplayName]));
@@ -232,7 +285,7 @@ procedure DoInitTheme(var D: TAppTheme);
     D.Colors[id].desc:= desc;
   end;
   //
-  procedure AddStyle(const SName: string;
+  procedure SetStyle(id: TAppThemeStyleId; const SName: string;
     NColorFont, NColorBg, NColorBorder: TColor;
     NFontStyle: TFontStyles;
     NBorderLeft, NBorderRight, NBorderUp, NBorderDown: TecBorderLineType;
@@ -240,7 +293,10 @@ procedure DoInitTheme(var D: TAppTheme);
   var
     st: TecSyntaxFormat;
   begin
-    st:= TecSyntaxFormat.Create(nil);
+    if D.Styles[id]=nil then
+      D.Styles[id]:= TecSyntaxFormat.Create(nil);
+    st:= D.Styles[id];
+
     st.DisplayName:= SName;
     st.Font.Color:= NColorFont;
     st.Font.Style:= NFontStyle;
@@ -254,8 +310,6 @@ procedure DoInitTheme(var D: TAppTheme);
     st.BorderTypeTop:= NBorderUp;
     st.BorderTypeBottom:= NBorderDown;
     st.FormatType:= NFormatType;
-
-    D.Styles.Add(st);
   end;
   //
 const
@@ -270,11 +324,6 @@ const
   nColorListSelBack = $d0d0d0;
   nColorListSelBack2 = $f4f4f4;
 begin
-  if Assigned(D.Styles) then
-    D.Styles.Clear
-  else
-    D.Styles:= TFPList.Create;
-
   //init colors
   SetColor(apclEdTextFont, nColorText, 'EdTextFont', 'editor, font');
   SetColor(apclEdTextBg, nColorBack, 'EdTextBg', 'editor, BG');
@@ -384,80 +433,80 @@ begin
   SetColor(apclExportHtmlNumbers, clMedGray, 'ExportHtmlNumbers', 'export to html, line numbers');
 
   //--------------
-  //styles
-  AddStyle('Id', nColorText, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('Id1', clNavy, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('Id2', clPurple, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('Id3', clOlive, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('Id4', clBlue, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('IdKeyword', clBlack, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('IdVar', clGreen, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('IdBad', clBlack, clNone, clRed, [], blNone, blNone, blNone, blSolid, ftFontAttr);
+  //init styles
+  SetStyle(apstId, 'Id', nColorText, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstId1, 'Id1', clNavy, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstId2, 'Id2', clPurple, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstId3, 'Id3', clOlive, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstId4, 'Id4', clBlue, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstIdKeyword, 'IdKeyword', clBlack, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstIdVar, 'IdVar', clGreen, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstIdBad, 'IdBad', clBlack, clNone, clRed, [], blNone, blNone, blNone, blSolid, ftFontAttr);
 
-  AddStyle('String', clTeal, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('String2', clOlive, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('String3', $C8C040, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstString, 'String', clTeal, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstString2, 'String2', clOlive, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstString3, 'String3', $C8C040, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
 
-  AddStyle('Symbol', clMaroon, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('Symbol2', $0000C0, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('SymbolBad', clMaroon, clNone, clRed, [], blNone, blNone, blNone, blSolid, ftFontAttr);
+  SetStyle(apstSymbol, 'Symbol', clMaroon, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstSymbol2, 'Symbol2', $0000C0, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstSymbolBad, 'SymbolBad', clMaroon, clNone, clRed, [], blNone, blNone, blNone, blSolid, ftFontAttr);
 
   //don't use Italic for comments, coz comments often have Unicode
-  AddStyle('Comment', clGray, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('Comment2', $00C080, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('CommentDoc', $809070, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstComment, 'Comment', clGray, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstComment2, 'Comment2', $00C080, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstCommentDoc, 'CommentDoc', $809070, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
 
-  AddStyle('Number', clNavy, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('Label', $607EB6, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('Color', $0080C0, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstNumber, 'Number', clNavy, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstLabel, 'Label', $607EB6, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstColor, 'Color', $0080C0, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
 
-  AddStyle('IncludeBG1', clBlack, clMoneyGreen, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
-  AddStyle('IncludeBG2', clBlack, clSkyBlue, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
-  AddStyle('IncludeBG3', clBlack, $F0B0F0, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
-  AddStyle('IncludeBG4', clBlack, $B0F0F0, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
+  SetStyle(apstIncludeBG1, 'IncludeBG1', clBlack, clMoneyGreen, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
+  SetStyle(apstIncludeBG2, 'IncludeBG2', clBlack, clSkyBlue, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
+  SetStyle(apstIncludeBG3, 'IncludeBG3', clBlack, $F0B0F0, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
+  SetStyle(apstIncludeBG4, 'IncludeBG4', clBlack, $B0F0F0, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
 
-  AddStyle('SectionBG1', clBlack, clCream, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
-  AddStyle('SectionBG2', clBlack, $E0FFE0, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
-  AddStyle('SectionBG3', clBlack, $F0F0E0, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
-  AddStyle('SectionBG4', clBlack, $FFE0FF, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
+  SetStyle(apstSectionBG1, 'SectionBG1', clBlack, clCream, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
+  SetStyle(apstSectionBG2, 'SectionBG2', clBlack, $E0FFE0, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
+  SetStyle(apstSectionBG3, 'SectionBG3', clBlack, $F0F0E0, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
+  SetStyle(apstSectionBG4, 'SectionBG4', clBlack, $FFE0FF, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
 
-  AddStyle('BracketBG', clBlack, clMoneyGreen, clGray, [], blSolid, blSolid, blSolid, blSolid, ftFontAttr);
-  AddStyle('CurBlockBG', clBlack, $E8E8E8, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
-  AddStyle('SeparLine', clBlack, $00E000, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
+  SetStyle(apstBracketBG, 'BracketBG', clBlack, clMoneyGreen, clGray, [], blSolid, blSolid, blSolid, blSolid, ftFontAttr);
+  SetStyle(apstCurBlockBG, 'CurBlockBG', clBlack, $E8E8E8, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
+  SetStyle(apstSeparLine, 'SeparLine', clBlack, $00E000, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
 
-  AddStyle('TagBound', clGray, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('TagId', $F06060, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('TagIdBad', $F06060, clNone, clRed, [], blNone, blNone, blNone, blWavyLine, ftFontAttr);
-  AddStyle('TagProp', $40A040, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('TagPropBad', $40A040, clNone, clRed, [], blNone, blNone, blNone, blWavyLine, ftFontAttr);
-  AddStyle('TagInclude', clOlive, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstTagBound, 'TagBound', clGray, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstTagId, 'TagId', $F06060, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstTagIdBad, 'TagIdBad', $F06060, clNone, clRed, [], blNone, blNone, blNone, blWavyLine, ftFontAttr);
+  SetStyle(apstTagProp, 'TagProp', $40A040, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstTagPropBad, 'TagPropBad', $40A040, clNone, clRed, [], blNone, blNone, blNone, blWavyLine, ftFontAttr);
+  SetStyle(apstTagInclude, 'TagInclude', clOlive, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
 
-  AddStyle('LightBG1', clBlack, $8080F0, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('LightBG2', clBlack, $60F0F0, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('LightBG3', clBlack, $80F080, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('LightBG4', clBlack, $F08080, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('LightBG5', clBlack, $C0C0B0, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstLightBG1, 'LightBG1', clBlack, $8080F0, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstLightBG2, 'LightBG2', clBlack, $60F0F0, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstLightBG3, 'LightBG3', clBlack, $80F080, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstLightBG4, 'LightBG4', clBlack, $F08080, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstLightBG5, 'LightBG5', clBlack, $C0C0B0, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
 
-  AddStyle('Pale1', $A0E0E0, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('Pale2', $E0E0A0, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('Pale3', $E0E0E0, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstPale1, 'Pale1', $A0E0E0, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstPale2, 'Pale2', $E0E0A0, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstPale3, 'Pale3', $E0E0E0, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
 
-  AddStyle('TextBold', clBlack, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('TextItalic', clBlack, clNone, clNone, [fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('TextBoldItalic', clBlack, clNone, clNone, [fsBold, fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('TextCross', clBlack, clNone, clNone, [fsStrikeOut], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstTextBold, 'TextBold', clBlack, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstTextItalic, 'TextItalic', clBlack, clNone, clNone, [fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstTextBoldItalic, 'TextBoldItalic', clBlack, clNone, clNone, [fsBold, fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstTextCross, 'TextCross', clBlack, clNone, clNone, [fsStrikeOut], blNone, blNone, blNone, blNone, ftFontAttr);
 
-  AppStyleBrackets:= GetAppStyleFromName('BracketBG');
-  AppStyleSymbols:= GetAppStyleFromName('Symbol');
-  AppStyleId2:= GetAppStyleFromName('Id2');
-  AppStyleError:= GetAppStyleFromName('LightBG1');
+  AppStyleBrackets:= GetAppStyle(apstBracketBG);
+  AppStyleSymbols:= GetAppStyle(apstSymbol);
+  AppStyleId2:= GetAppStyle(apstId2);
+  AppStyleError:= GetAppStyle(apstLightBG1);
 end;
 
 procedure DoSaveTheme(const fn: string; const D: TAppTheme; IsThemeUI: boolean);
 var
   c: TJSONConfig;
   iColor: TAppThemeColorId;
-  i: integer;
+  iStyle: TAppThemeStyleId;
   st: TecSyntaxFormat;
 begin
   if FileExists(fn) then
@@ -480,9 +529,9 @@ begin
     end
     else
     begin
-      for i:= 0 to d.Styles.Count-1 do
+      for iStyle:= Low(iStyle) to High(iStyle) do
       begin
-        st:= TecSyntaxFormat(d.Styles[i]);
+        st:= d.Styles[iStyle];
         DoSaveLexerStyleToFile_JsonTheme(st, c, 'Lex_'+st.DisplayName);
       end;
     end;
@@ -496,21 +545,15 @@ begin
   Result:= AppTheme.Colors[id].Color;
 end;
 
-function GetAppStyleFromName(const SName: string): TecSyntaxFormat;
-var
-  st: TecSyntaxFormat;
-  i: integer;
+function GetAppStyle(id: TAppThemeStyleId): TecSyntaxFormat;
 begin
-  Result:= nil;
-  for i:= 0 to AppTheme.Styles.Count-1 do
-  begin
-    st:= TecSyntaxFormat(AppTheme.Styles[i]);
-    if st.DisplayName=SName then exit(st);
-  end;
+  Result:= AppTheme.Styles[id];
 end;
 
 
 initialization
+
+  FillChar(AppTheme, SizeOf(AppTheme), 0);
   DoInitTheme(AppTheme);
 
 end.

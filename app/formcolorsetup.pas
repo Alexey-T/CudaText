@@ -93,6 +93,7 @@ procedure TfmColorSetup.UpdateList;
 var
   st: TecSyntaxFormat;
   iColor: TAppThemeColorId;
+  iStyle: TAppThemeStyleId;
   i, n: integer;
 begin
   n:= List.ItemIndex;
@@ -102,9 +103,9 @@ begin
     List.Items.AddObject(Data.Colors[iColor].desc, TObject(PtrInt(Data.Colors[iColor].color)));
 
   if ListStyles.Count=0 then
-    for i:= 0 to Data.Styles.Count-1 do
+    for iStyle:= Low(iStyle) to High(iStyle) do
     begin
-      st:= TecSyntaxFormat(Data.Styles[i]);
+      st:= Data.Styles[iStyle];
       ListStyles.Items.AddObject(st.DisplayName, st);
     end;
 
