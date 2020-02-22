@@ -13,9 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics,
-  ATStringProc,
   ATStringProc_HtmlColor,
-  ec_SyntAnal,
   ec_syntax_format,
   proc_msg,
   proc_globdata,
