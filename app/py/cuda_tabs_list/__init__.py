@@ -61,7 +61,8 @@ class Command:
 
         if not self.h_dlg:
             self.init_form()
-        app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
+        and_focus = True
+        app_proc(PROC_SIDEPANEL_ACTIVATE, (self.title, and_focus))
         self.update()
 
     def init_form(self):
