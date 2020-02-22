@@ -1314,6 +1314,7 @@ var
   Decor: TATGutterDecorData;
   PosX, PosY, FoundX, FoundY: integer;
   Pnt1, Pnt2: TPoint;
+  StyleSymbol: TecSyntaxFormat;
 begin
   EditorBracket_ClearHilite(Ed);
 
@@ -1343,20 +1344,21 @@ begin
     bracketActionHilite:
       begin
         PartObj:= TATLinePartClass.Create;
-        ApplyPartStyleFromEcontrolStyle(PartObj.Data, AppStyleBrackets);
+        ApplyPartStyleFromEcontrolStyle(PartObj.Data, GetAppStyle(apstBracketBG));
         Ed.Attribs.Add(PosX, PosY, cEditorTagForBracket, 1, 0, PartObj);
 
         PartObj:= TATLinePartClass.Create;
-        ApplyPartStyleFromEcontrolStyle(PartObj.Data, AppStyleBrackets);
+        ApplyPartStyleFromEcontrolStyle(PartObj.Data, GetAppStyle(apstBracketBG));
         Ed.Attribs.Add(FoundX, FoundY, cEditorTagForBracket, 1, 0, PartObj);
 
         FillChar(Decor, SizeOf(Decor), 0);
+        StyleSymbol:= GetAppStyle(apstSymbol);
         Decor.DeleteOnDelLine:= true;
         Decor.ImageIndex:= -1;
         Decor.Tag:= cEditorTagForBracket;
-        Decor.TextBold:= fsBold in AppStyleSymbols.Font.Style;
-        Decor.TextItalic:= fsItalic in AppStyleSymbols.Font.Style;
-        Decor.TextColor:= AppStyleSymbols.Font.Color;
+        Decor.TextBold:= fsBold in StyleSymbol.Font.Style;
+        Decor.TextItalic:= fsItalic in StyleSymbol.Font.Style;
+        Decor.TextColor:= StyleSymbol.Font.Color;
 
         if PosY<>FoundY then
         begin

@@ -95,7 +95,7 @@ begin
   Str:= Ed.Strings.Lines[ALineIndex];
   if SBeginsWith(Str, cConsolePrompt) then
   begin
-    fmt:= AppStyleId2;
+    fmt:= GetAppStyle(apstId2);
     AColorFont:= fmt.Font.Color
   end
   else
@@ -103,7 +103,7 @@ begin
     (Str='Traceback (most recent call last):') or
     SRegexMatchesString(Str, '^[a-zA-Z][\w\.]*Error: .+', true) then
   begin
-    fmt:= AppStyleError;
+    fmt:= GetAppStyle(apstLightBG1);
     AColorFont:= fmt.Font.Color;
     AColorBg:= fmt.BgColor;
   end;

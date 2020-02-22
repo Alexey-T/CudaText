@@ -197,10 +197,6 @@ type
 
 var
   AppTheme: TAppTheme;
-  AppStyleBrackets: TecSyntaxFormat = nil;
-  AppStyleSymbols: TecSyntaxFormat = nil;
-  AppStyleId2: TecSyntaxFormat = nil;
-  AppStyleError: TecSyntaxFormat = nil;
 
 procedure DoInitTheme(var D: TAppTheme);
 procedure DoLoadTheme(const AFileName: string; var D: TAppTheme; IsThemeUI: boolean);
@@ -495,11 +491,6 @@ begin
   SetStyle(apstTextItalic, 'TextItalic', clBlack, clNone, clNone, [fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);
   SetStyle(apstTextBoldItalic, 'TextBoldItalic', clBlack, clNone, clNone, [fsBold, fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);
   SetStyle(apstTextCross, 'TextCross', clBlack, clNone, clNone, [fsStrikeOut], blNone, blNone, blNone, blNone, ftFontAttr);
-
-  AppStyleBrackets:= GetAppStyle(apstBracketBG);
-  AppStyleSymbols:= GetAppStyle(apstSymbol);
-  AppStyleId2:= GetAppStyle(apstId2);
-  AppStyleError:= GetAppStyle(apstLightBG1);
 end;
 
 procedure DoSaveTheme(const fn: string; const D: TAppTheme; IsThemeUI: boolean);
