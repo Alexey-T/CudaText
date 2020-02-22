@@ -131,8 +131,8 @@ begin
     for i:= 0 to NLen-1 do
     begin
       ColorItem:= AppTheme.Colors[TAppThemeColorId(i)];
-      PyDict_SetItem(Result,
-        PyString_FromString(PChar(ColorItem.name)),
+      PyDict_SetItemString(Result,
+        PChar(ColorItem.name),
         Py_BuildValue('{sssi}',
           'desc',
           PChar(ColorItem.desc),
@@ -287,8 +287,8 @@ begin
     for iStyle:= Low(iStyle) to High(iStyle) do
     begin
       St:= AppTheme.Styles[iStyle];
-      PyDict_SetItem(Result,
-        PyString_FromString(PChar(St.DisplayName)),
+      PyDict_SetItemString(Result,
+        PChar(St.DisplayName),
         Py_BuildValue('{sisisisisisisisiss}',
           'type',
           Ord(St.FormatType),
@@ -4749,8 +4749,8 @@ begin
     for i:= 0 to An.Formats.Count-1 do
     begin
       Fmt:= An.Formats[i];
-      PyDict_SetItem(Result,
-        PyString_FromString(PChar(Fmt.DisplayName)),
+      PyDict_SetItemString(Result,
+        PChar(Fmt.DisplayName),
         Py_BuildValue('{sisisisisisisisiss}',
           'type',
           Ord(Fmt.FormatType),
