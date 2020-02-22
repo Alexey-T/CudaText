@@ -48,7 +48,7 @@ class Command:
         ini_write(fn_config, 'op', 'show_index_aligned', bool_to_str(self.show_index_aligned))
         ini_write(fn_config, 'op', 'font_name', self.font_name)
         ini_write(fn_config, 'op', 'font_size', str(self.font_size))
-        
+
         ini_write(fn_config, 'columns', '; width_ values: >0 - in pixels, <0 - in percents, =0 - auto-stretched', '')
         ini_write(fn_config, 'columns', '; show_ values: boolean, 0 or 1', '')
         ini_write(fn_config, 'columns', 'width_name', str(self.column_name))
@@ -68,6 +68,11 @@ class Command:
     def init_form(self):
 
         self.h_dlg = dlg_proc(0, DLG_CREATE)
+
+        dlg_proc(self.h_dlg, DLG_PROP_SET, prop={
+            'keypreview': True,
+            'on_key_down': self.form_key_down,
+        })
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='listbox_ex')
 
@@ -241,3 +246,10 @@ class Command:
 
     def get_color_back(self):
         return THEME['ListBg']['color']
+
+    def form_key_down(self, id_dlg, id_ctl, data='', info=''):
+
+        key, state = data
+        if (key==13) and (state==''):
+            self.list_on_click(id_dlg, id_ctl)
+            return False
