@@ -244,8 +244,6 @@ begin
         if F.FileName<>'' then
           cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(F.FileName));
       end;
-
-      F.DoSaveHistoryEx(F.Ed1, cfg, path);
     end;
 
     Result:= true;
@@ -259,6 +257,11 @@ begin
 
   value:= 'Saved session: '+ExtractFileName(AFileName)+', '+IntToStr(nCountFiles)+' file(s)';
   MsgLogConsole(value);
+end;
+
+function IsHistorySectionForFilename(const s: string): boolean;
+begin
+  Result:= StrToIntDef(s, -1)>=0;
 end;
 
 function TfmMain.DoOps_LoadSession(const AFileName: string): boolean;
@@ -307,14 +310,14 @@ begin
     begin
       //handle only sections like "000".."001"..etc, ignore sections like "panels", "gr"
       item_path:= list[i];
-      if StrToIntDef(item_path, -1)<0 then Continue;
+      if not IsHistorySectionForFilename(item_path) then Continue;
       item_path:= '/'+item_path+'/';
 
-      sFilename:= UTF8Encode(cfg.GetValue(item_path+'file', ''));
+      sFilename:= cfg.GetValue(item_path+'file', '');
       sFilename:= SExpandHomeDirInFilename(sFilename);
-      sTabTitle:= UTF8Encode(cfg.GetValue(item_path+'tab_title', ''));
-      sText:= UTF8Encode(cfg.GetValue(item_path+'text', ''));
-      sKind:= UTF8Encode(cfg.GetValue(item_path+'kind', ''));
+      sTabTitle:= cfg.GetValue(item_path+'tab_title', '');
+      sText:= cfg.GetValue(item_path+'text', '');
+      sKind:= cfg.GetValue(item_path+'kind', '');
       bModified:= cfg.GetValue(item_path+'modified', false);
 
       //support old sessions with 1-based group index
