@@ -173,7 +173,7 @@ end;
 function TfmMain.DoOps_SaveSession(const AFileName: string): boolean;
 var
   cfg: TJSONConfig;
-  F: TEditorFrame;
+  Frame: TEditorFrame;
   Gr: TATGroups;
   Pages: TATPages;
   nLocalGroup, nGlobalGroup, nTab, i: integer;
@@ -220,29 +220,29 @@ begin
     for i:= 0 to FrameCount-1 do
     begin
       Inc(nCountFiles);
-      F:= Frames[i];
+      Frame:= Frames[i];
       path:= '/'+Format('%3.3d', [i]);
 
-      GetFrameLocation(F, Gr, Pages, nLocalGroup, nGlobalGroup, nTab);
-      bModified:= F.Ed1.Modified or ((F.GetFileName(F.Ed1)='') and not F.IsEmpty);
+      GetFrameLocation(Frame, Gr, Pages, nLocalGroup, nGlobalGroup, nTab);
+      bModified:= Frame.Ed1.Modified or ((Frame.GetFileName(Frame.Ed1)='') and not Frame.IsEmpty);
 
       cfg.SetValue(path+'/modified', bModified);
-      cfg.SetValue(path+'/file', UTF8Decode(SCollapseHomeDirInFilename(F.Filename)));
-      cfg.SetValue(path+'/tab_title', UTF8Decode(F.TabCaption));
+      cfg.SetValue(path+'/file', UTF8Decode(SCollapseHomeDirInFilename(Frame.Filename)));
+      cfg.SetValue(path+'/tab_title', UTF8Decode(Frame.TabCaption));
       cfg.SetValue(path+'/group', nLocalGroup+1); //support old sessions with 1-based index
 
-      if F.IsText then value:= ''
+      if Frame.IsText then value:= ''
       else
-      if F.IsBinary then value:= 'bin,'+IntToStr(Ord(F.Binary.Mode))
+      if Frame.IsBinary then value:= 'bin,'+IntToStr(Ord(Frame.Binary.Mode))
       else
-      if F.IsPicture then value:= 'pic';
+      if Frame.IsPicture then value:= 'pic';
       cfg.SetValue(path+'/kind', UTF8Decode(value));
 
       if bModified then
       begin
-        cfg.SetValue(path+'/text', F.Editor.Text);
-        if F.FileName<>'' then
-          cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(F.FileName));
+        cfg.SetValue(path+'/text', Frame.Editor.Text);
+        if Frame.FileName<>'' then
+          cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(Frame.FileName));
       end;
     end;
 
@@ -267,7 +267,7 @@ end;
 function TfmMain.DoOps_LoadSession(const AFileName: string): boolean;
 var
   cfg: TJSONConfig;
-  F: TEditorFrame;
+  Frame: TEditorFrame;
   list: TStringlist;
   sFilename, sTabTitle, sKind, sOpenOptions, item_path: string;
   nCountFiles, nCountFilesModified: integer;
@@ -346,37 +346,37 @@ begin
       else
         sOpenOptions:= '';
 
-      F:= nil;
+      Frame:= nil;
       //modified tabs must restore text, and set filename (if not empty)
       if bModified then
       begin
         Inc(nCountFilesModified);
         if (FrameCount>0) and Frames[0].IsEmpty then
-          F:= Frames[0]
+          Frame:= Frames[0]
         else
-          F:= DoFileOpen('', '', Pages, SOptionPassive);
+          Frame:= DoFileOpen('', '', Pages, SOptionPassive);
         if sFilename<>'' then
         begin
-          F.FileName:= sFilename;
-          F.TabCaption:= ExtractFileName(sFilename);
+          Frame.FileName:= sFilename;
+          Frame.TabCaption:= ExtractFileName(sFilename);
         end;
-        F.Editor.Text:= sText;
-        F.Editor.Modified:= bModified;
+        Frame.Editor.Text:= sText;
+        Frame.Editor.Modified:= bModified;
         if sTabTitle<>'' then
-          F.TabCaption:= sTabTitle;
-        F.UpdateModified(F.Editor);
+          Frame.TabCaption:= sTabTitle;
+        Frame.UpdateModified(Frame.Editor);
       end
       else
       //unmodified+named tabs must load file again
       if FileExistsUTF8(sFilename) then
       begin
         Inc(nCountFiles);
-        F:= DoFileOpen(sFilename, '', Pages, sOpenOptions+SOptionPassive);
+        Frame:= DoFileOpen(sFilename, '', Pages, sOpenOptions+SOptionPassive);
       end;
 
-      if Assigned(F) then
+      if Assigned(Frame) then
       begin
-        F.NotInRecents:= true;
+        Frame.NotInRecents:= true;
       end;
     end;
 
@@ -402,11 +402,11 @@ begin
     //(it shows frames with tick=0 in second listbox)
     for i:= 0 to FrameCount-1 do
     begin
-      F:= Frames[i];
-      if F.Visible then
-        F.ActivationTime:= GetTickCount64
+      Frame:= Frames[i];
+      if Frame.Visible then
+        Frame.ActivationTime:= GetTickCount64
       else
-        F.ActivationTime:= 0;
+        Frame.ActivationTime:= 0;
     end;
 
     //restore panel sizes
