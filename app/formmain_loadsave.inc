@@ -172,7 +172,7 @@ end;
 
 function TfmMain.DoOps_SaveSession(const AFileName: string): boolean;
 var
-  c: TJSONConfig;
+  cfg: TJSONConfig;
   F: TEditorFrame;
   Gr: TATGroups;
   Pages: TATPages;
@@ -187,35 +187,35 @@ begin
 
   nCountFiles:= 0;
 
-  c:= TJSONConfig.Create(nil);
+  cfg:= TJSONConfig.Create(nil);
   try
     try
-      c.Formatted:= true;
-      c.Filename:= AFileName;
+      cfg.Formatted:= true;
+      cfg.Filename:= AFileName;
     except
       MsgBadConfig(AFileName);
       exit;
     end;
 
-    DoOps_SaveHistory_GroupView(c);
+    DoOps_SaveHistory_GroupView(cfg);
 
     for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
-      c.SetValue('/tab_index/g'+Inttostr(i), Groups.Pages[i].Tabs.TabIndex);
-    c.SetValue('/tab_index/g_active', Groups.PagesIndexOf(Groups.PagesCurrent));
+      cfg.SetValue('/tab_index/g'+Inttostr(i), Groups.Pages[i].Tabs.TabIndex);
+    cfg.SetValue('/tab_index/g_active', Groups.PagesIndexOf(Groups.PagesCurrent));
 
-    c.SetValue('/panels/side_show', AppPanels[cPaneSide].Visible);
-    c.SetValue('/panels/side_panel', AppPanels[cPaneSide].LastActivePanel);
+    cfg.SetValue('/panels/side_show', AppPanels[cPaneSide].Visible);
+    cfg.SetValue('/panels/side_panel', AppPanels[cPaneSide].LastActivePanel);
 
     with AppPanels[cPaneSide] do
       if not Floating then
-        c.SetValue('/panels/side_size', PanelSize);
+        cfg.SetValue('/panels/side_size', PanelSize);
 
-    c.SetValue('/panels/bottom_show', AppPanels[cPaneOut].Visible);
-    c.SetValue('/panels/bottom_panel', AppPanels[cPaneOut].LastActivePanel);
+    cfg.SetValue('/panels/bottom_show', AppPanels[cPaneOut].Visible);
+    cfg.SetValue('/panels/bottom_panel', AppPanels[cPaneOut].LastActivePanel);
 
     with AppPanels[cPaneOut] do
       if not Floating then
-        c.SetValue('/panels/bottom_size', PanelSize);
+        cfg.SetValue('/panels/bottom_size', PanelSize);
 
     for i:= 0 to FrameCount-1 do
     begin
@@ -226,32 +226,32 @@ begin
       GetFrameLocation(F, Gr, Pages, nLocalGroup, nGlobalGroup, nTab);
       bModified:= F.Ed1.Modified or ((F.GetFileName(F.Ed1)='') and not F.IsEmpty);
 
-      c.SetValue(path+'/modified', bModified);
-      c.SetValue(path+'/file', UTF8Decode(SCollapseHomeDirInFilename(F.Filename)));
-      c.SetValue(path+'/tab_title', UTF8Decode(F.TabCaption));
-      c.SetValue(path+'/group', nLocalGroup+1); //support old sessions with 1-based index
+      cfg.SetValue(path+'/modified', bModified);
+      cfg.SetValue(path+'/file', UTF8Decode(SCollapseHomeDirInFilename(F.Filename)));
+      cfg.SetValue(path+'/tab_title', UTF8Decode(F.TabCaption));
+      cfg.SetValue(path+'/group', nLocalGroup+1); //support old sessions with 1-based index
 
       if F.IsText then value:= ''
       else
       if F.IsBinary then value:= 'bin,'+IntToStr(Ord(F.Binary.Mode))
       else
       if F.IsPicture then value:= 'pic';
-      c.SetValue(path+'/kind', UTF8Decode(value));
+      cfg.SetValue(path+'/kind', UTF8Decode(value));
 
       if bModified then
       begin
-        c.SetValue(path+'/text', F.Editor.Text);
+        cfg.SetValue(path+'/text', F.Editor.Text);
         if F.FileName<>'' then
-          c.SetValue(path+'/file_date', FormatFileDateAsNiceString(F.FileName));
+          cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(F.FileName));
       end;
 
-      F.DoSaveHistoryEx(F.Ed1, c, path);
+      F.DoSaveHistoryEx(F.Ed1, cfg, path);
     end;
 
     Result:= true;
   finally
     try
-      c.Free; //saves json file
+      cfg.Free; //saves json file
     except
       //for incorrect sess folder
     end;
@@ -263,7 +263,7 @@ end;
 
 function TfmMain.DoOps_LoadSession(const AFileName: string): boolean;
 var
-  c: TJSONConfig;
+  cfg: TJSONConfig;
   F: TEditorFrame;
   list: TStringlist;
   sFilename, sTabTitle, sKind, sOpenOptions, item_path: string;
@@ -287,20 +287,20 @@ begin
   nCountFiles:= 0;
   nCountFilesModified:= 0;
 
-  c:= TJSONConfig.Create(nil);
+  cfg:= TJSONConfig.Create(nil);
   list:= TStringList.Create;
   try
     try
-      c.Filename:= AFileName;
+      cfg.Filename:= AFileName;
     except
       MsgBadConfig(AFileName);
       exit;
     end;
 
-    DoOps_LoadHistory_GroupView(c); //reads to variables
+    DoOps_LoadHistory_GroupView(cfg); //reads to variables
     DoApplyInitialGroupSizes; //applies that variables
 
-    c.EnumSubKeys('/', list);
+    cfg.EnumSubKeys('/', list);
     list.Sort;
 
     for i:= 0 to list.Count-1 do
@@ -310,20 +310,20 @@ begin
       if StrToIntDef(item_path, -1)<0 then Continue;
       item_path:= '/'+item_path+'/';
 
-      sFilename:= UTF8Encode(c.GetValue(item_path+'file', ''));
+      sFilename:= UTF8Encode(cfg.GetValue(item_path+'file', ''));
       sFilename:= SExpandHomeDirInFilename(sFilename);
-      sTabTitle:= UTF8Encode(c.GetValue(item_path+'tab_title', ''));
-      sText:= UTF8Encode(c.GetValue(item_path+'text', ''));
-      sKind:= UTF8Encode(c.GetValue(item_path+'kind', ''));
-      bModified:= c.GetValue(item_path+'modified', false);
+      sTabTitle:= UTF8Encode(cfg.GetValue(item_path+'tab_title', ''));
+      sText:= UTF8Encode(cfg.GetValue(item_path+'text', ''));
+      sKind:= UTF8Encode(cfg.GetValue(item_path+'kind', ''));
+      bModified:= cfg.GetValue(item_path+'modified', false);
 
       //support old sessions with 1-based group index
-      nIndex:= c.GetValue(item_path+'group', 1)-1;
+      nIndex:= cfg.GetValue(item_path+'group', 1)-1;
 
       //check, if text saved in session, but file was changed outside
       if bModified and (sFilename<>'') and FileExistsUTF8(sFileName) then
       begin
-        sDateSaved:= c.GetValue(item_path+'file_date', '');
+        sDateSaved:= cfg.GetValue(item_path+'file_date', '');
         sDateCurrent:= FormatFileDateAsNiceString(sFilename);
         if sDateSaved<>sDateCurrent then
           if MsgBox(
@@ -380,14 +380,14 @@ begin
     //restore tab-index in all groups
     for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
     begin
-      nIndex:= c.GetValue('/tab_index/g'+IntToStr(i), -1);
+      nIndex:= cfg.GetValue('/tab_index/g'+IntToStr(i), -1);
       if (nIndex<0) or (nIndex>=Groups.Pages[i].Tabs.TabCount) then
         nIndex:= 0;
       Groups.Pages[i].Tabs.TabIndex:= nIndex;
     end;
 
     //restore group-index
-    nIndex:= c.GetValue('/tab_index/g_active', Low(TATGroupsNums));
+    nIndex:= cfg.GetValue('/tab_index/g_active', Low(TATGroupsNums));
     if (nIndex>=Low(TATGroupsNums)) and (nIndex<=High(TATGroupsNums)) then
     begin
       Groups.PagesCurrent:= Groups.Pages[nIndex];
@@ -407,27 +407,27 @@ begin
     end;
 
     //restore panel sizes
-    AppPanels[cPaneSide].Visible:= c.GetValue('/panels/side_show', AppPanels[cPaneSide].Visible);
-    AppPanels[cPaneOut].Visible:= c.GetValue('/panels/bottom_show', AppPanels[cPaneOut].Visible);
+    AppPanels[cPaneSide].Visible:= cfg.GetValue('/panels/side_show', AppPanels[cPaneSide].Visible);
+    AppPanels[cPaneOut].Visible:= cfg.GetValue('/panels/bottom_show', AppPanels[cPaneOut].Visible);
 
     with AppPanels[cPaneSide] do
-      PanelSize:= Min(c.GetValue('/panels/side_size', PanelSize), ClientWidth div 2);
+      PanelSize:= Min(cfg.GetValue('/panels/side_size', PanelSize), ClientWidth div 2);
 
     with AppPanels[cPaneOut] do
-      PanelSize:= Min(c.GetValue('/panels/bottom_size', PanelSize), ClientHeight div 2);
+      PanelSize:= Min(cfg.GetValue('/panels/bottom_size', PanelSize), ClientHeight div 2);
 
-    SText:= c.GetValue('/panels/side_panel', '');
+    SText:= cfg.GetValue('/panels/side_panel', '');
     if AppPanels[cPaneSide].Visible and (SText<>'') then
       AppPanels[cPaneSide].UpdatePanels(SText, false, true);
 
-    SText:= c.GetValue('/panels/bottom_panel', '');
+    SText:= cfg.GetValue('/panels/bottom_panel', '');
     if AppPanels[cPaneOut].Visible and (SText<>'') then
       AppPanels[cPaneOut].UpdatePanels(SText, false, true);
 
     Result:= true;
   finally
     list.Free;
-    c.Free;
+    cfg.Free;
   end;
 
   nTick:= (GetTickCount64-nTick) div 10 * 10;
