@@ -682,10 +682,10 @@ type
     procedure DoOps_AddPluginMenuItem(const ACaption: string; ASubMenu: TMenuItem; ALangFile: TIniFile; ATag: integer);
     procedure DoOps_LexersDisableInFrames(ListNames: TStringList);
     procedure DoOps_LexersRestoreInFrames(ListNames: TStringList);
-    procedure DoOps_LoadOptions_Editor(c: TJSONConfig; var Op: TEditorOps);
-    procedure DoOps_LoadOptions_Global(c: TJSONConfig);
-    procedure DoOps_LoadOptions_Ui(c: TJSONConfig);
-    procedure DoOps_LoadOptions_UiAutoCompletion(c: TJSONConfig);
+    procedure DoOps_LoadOptions_Editor(cfg: TJSONConfig; var Op: TEditorOps);
+    procedure DoOps_LoadOptions_Global(cfg: TJSONConfig);
+    procedure DoOps_LoadOptions_Ui(cfg: TJSONConfig);
+    procedure DoOps_LoadOptions_UiAutoCompletion(cfg: TJSONConfig);
     procedure DoShowFirstStartInfo;
     procedure DoOps_OnCreate;
     function FindFrameOfFilename(const AName: string): TEditorFrame;
@@ -861,11 +861,11 @@ type
     procedure DoOps_LoadToolbarIcons;
     procedure DoOps_LoadLexerLib(AOnCreate: boolean);
     procedure DoOps_SaveHistory;
-    procedure DoOps_SaveHistory_GroupView(c: TJsonConfig);
+    procedure DoOps_SaveHistory_GroupView(cfg: TJsonConfig);
     procedure DoOps_SaveOptionBool(const APath: string; AValue: boolean);
     procedure DoOps_SaveThemes;
     procedure DoOps_LoadHistory;
-    procedure DoOps_LoadHistory_GroupView(c: TJsonConfig);
+    procedure DoOps_LoadHistory_GroupView(cfg: TJsonConfig);
     function DoOps_SaveSession(const AFileName: string): boolean;
     function DoOps_LoadSession(const AFileName: string): boolean;
     procedure DoOps_LoadOptionsAndApplyAll;
