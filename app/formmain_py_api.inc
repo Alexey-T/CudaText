@@ -482,7 +482,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, ':dlg_charmap')) then
     begin
-      str:= DoDialogCharmapModal(GetAppLangFilename);
+      str:= DoDialogCharmapModal;
       if str<>'' then
         Result:= PyString_FromString(PChar(str))
       else

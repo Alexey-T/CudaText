@@ -28,7 +28,6 @@ uses
   proc_colors,
   proc_str,
   proc_keysdialog,
-  proc_scrollbars,
   at__jsonconf,
   math;
 

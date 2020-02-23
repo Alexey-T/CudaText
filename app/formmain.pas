@@ -2160,6 +2160,7 @@ procedure TfmMain.AppPropsQueryEndSession(var Cancel: Boolean);
 var
   FAction: TCloseAction;
 begin
+  FAction:= caFree;
   FormClose(Self, FAction);
 end;
 
@@ -2385,7 +2386,6 @@ procedure TfmMain.FormShow(Sender: TObject);
 var
   NTickShowEnd: QWord;
   Frame: TEditorFrame;
-  id: TAppPanelId;
   i: integer;
 begin
   {$ifdef darwin}

@@ -84,7 +84,7 @@ type
 var
   fmCharmaps: TfmCharmaps;
 
-function DoDialogCharmapModal(const ALangFilename: string): string;
+function DoDialogCharmapModal: string;
 
 
 implementation
@@ -129,7 +129,7 @@ begin
   if Assigned(Form) then Form.Close;
 end;
 
-function DoDialogCharmapModal(const ALangFilename: string): string;
+function DoDialogCharmapModal: string;
 var
   F: TfmCharmaps;
   Dummy: TDummy;
@@ -192,23 +192,29 @@ end;
 procedure TfmCharmaps.GridMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
-  i, j: integer;
+  NRow, NCol: integer;
 begin
   if Grid.MouseToGridZone(X, Y)<>gzNormal then exit;
   if Button=mbLeft then
   begin
-    Grid.MouseToCell(X, Y, i, j);
-    DoInsert(i, j);
+    NRow:= -1;
+    NCol:= -1;
+    Grid.MouseToCell(X, Y, NRow, NCol);
+    if (NRow>=0) and (NCol>=0) then
+      DoInsert(NRow, NCol);
   end;
 end;
 
 procedure TfmCharmaps.GridMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 var
-  i, j: integer;
+  NRow, NCol: integer;
 begin
   if Grid.MouseToGridZone(X, Y)<>gzNormal then exit;
-  Grid.MouseToCell(X, Y, i, j);
-  DoShowStatus(i, j);
+  NRow:= -1;
+  NCol:= -1;
+  Grid.MouseToCell(X, Y, NRow, NCol);
+  if (NRow>=0) and (NCol>=0) then
+    DoShowStatus(NRow, NCol);
 end;
 
 function TfmCharmaps.DoGetCode(aCol, aRow: integer): integer;

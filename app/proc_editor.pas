@@ -49,7 +49,7 @@ type
     ShowFolding: boolean;
   end;
 
-procedure EditorSaveTempOptions(Ed: TATSynEdit; var Ops: TATEditorTempOptions);
+procedure EditorSaveTempOptions(Ed: TATSynEdit; out Ops: TATEditorTempOptions);
 procedure EditorRestoreTempOptions(Ed: TATSynEdit; const Ops: TATEditorTempOptions);
 procedure EditorFocus(C: TWinControl);
 procedure EditorMouseClick_AtCursor(Ed: TATSynEdit; AAndSelect: boolean);
@@ -1448,7 +1448,7 @@ begin
   Result:= '"'+Result+'"';
 end;
 
-procedure EditorSaveTempOptions(Ed: TATSynEdit; var Ops: TATEditorTempOptions);
+procedure EditorSaveTempOptions(Ed: TATSynEdit; out Ops: TATEditorTempOptions);
 begin
   Ops.FontSize:= Ed.Font.Size;
   Ops.WrapMode:= Ed.OptWrapMode;

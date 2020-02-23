@@ -19,8 +19,7 @@ uses
   ATSynEdit,
   ATListbox,
   proc_globdata,
-  proc_colors,
-  proc_scrollbars;
+  proc_colors;
 
 type
   TAppListSelectEvent = procedure(AIndex: integer; const AStr: string) of object;

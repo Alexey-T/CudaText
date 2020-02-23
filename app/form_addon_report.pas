@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ButtonPanel,
-  ExtCtrls, StdCtrls, IniFiles,
+  ExtCtrls, StdCtrls,
   ATStringProc,
   proc_globdata,
   proc_msg;
