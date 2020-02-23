@@ -305,7 +305,11 @@ begin
 
     for i:= 0 to list.Count-1 do
     begin
-      item_path:= '/'+list[i]+'/';
+      //handle only sections like "000".."001"..etc, ignore sections like "panels", "gr"
+      item_path:= list[i];
+      if StrToIntDef(item_path, -1)<0 then Continue;
+      item_path:= '/'+item_path+'/';
+
       sFilename:= UTF8Encode(c.GetValue(item_path+'file', ''));
       sFilename:= SExpandHomeDirInFilename(sFilename);
       sTabTitle:= UTF8Encode(c.GetValue(item_path+'tab_title', ''));
