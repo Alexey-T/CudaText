@@ -249,7 +249,10 @@ class Command:
 
     def form_key_down(self, id_dlg, id_ctl, data='', info=''):
 
-        key, state = data
-        if (key==13) and (state==''):
+        key = id_ctl
+        state = data
+
+        #handle Enter and Space
+        if (key in [13, 32]) and (state==''):
             self.list_on_click(id_dlg, id_ctl)
             return False
