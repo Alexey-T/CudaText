@@ -62,10 +62,10 @@ class Command:
         with open(fn_inf, 'w') as f:
             f.write('[info]\n')
             f.write('title='+s_caption+'\n')
-            f.write('desc=Some description\n')
+            f.write('desc=(Fill the description)\n')
             f.write('type=cudatext-plugin\n')
             f.write('subdir='+s_module+'\n')
-            f.write('homepage=\n')
+            f.write('homepage=(Fill the GitHub repo URL)\n')
             f.write('\n')
 
             if event_list:
