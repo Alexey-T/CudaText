@@ -243,6 +243,13 @@ type
     procedure SetLexerLite(Ed: TATSynEdit; an: TATLiteLexer);
     procedure SetLexerName(Ed: TATSynEdit; const AValue: string);
     procedure UpdateTabTooltip;
+
+    procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
+    procedure DoSaveUndo(Ed: TATSynEdit; const AFileName: string);
+    procedure DoLoadHistory(Ed: TATSynEdit; AllowEnc: boolean);
+    procedure DoLoadHistoryEx(Ed: TATSynEdit; const AFileName: string; c: TJsonConfig; const path: UnicodeString; AllowEnc: boolean);
+    procedure DoLoadUndo(Ed: TATSynEdit);
+
   protected
     procedure DoOnResize; override;
   public
@@ -348,11 +355,6 @@ type
     function DoFileReload(Ed: TATSynEdit): boolean;
     procedure DoLexerFromFilename(Ed: TATSynEdit; const AFileName: string);
     procedure DoSaveHistory(Ed: TATSynEdit);
-    procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
-    procedure DoSaveUndo(Ed: TATSynEdit; const AFileName: string);
-    procedure DoLoadHistory(Ed: TATSynEdit; AllowEnc: boolean);
-    procedure DoLoadHistoryEx(Ed: TATSynEdit; const AFileName: string; c: TJsonConfig; const path: UnicodeString; AllowEnc: boolean);
-    procedure DoLoadUndo(Ed: TATSynEdit);
     //misc
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
     procedure DoGotoPos(Ed: TATSynEdit; APosX, APosY: integer);
