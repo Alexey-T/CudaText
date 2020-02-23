@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.95.5 (2020/02)
+1.96.0 (2020/02)
 
 + add: reworked strings storage system:
   + it takes less memory for ASCII text lines
@@ -11,11 +11,11 @@
 + add: rendering speed much increased at the end of huge lines (length>1M)
 + add: toggling word-wrap speed much increased on huge lines
 + add: bracket finder ignores long lines (length>500)
-+ add: plugin Tabs List: menu item "Tabs List / Open" focuses plugin; plugin handles Enter key
++ add: plugin Tabs List: command "Tabs List / Open" focuses plugin; plugin handles Enter/Space keys
 + add: lexer VBScript improved
 + add: lexer Ini improved
-- fix: for files in session, app didn't save caret/selection in history
-- fix: error after "Sort / Remove blank lines"
+- fix: for files in session, app didn't save caret and other history
+- fix: error after "Plugins / Sort / Remove blank lines"
 
 1.95.0 (2020/02)
 
