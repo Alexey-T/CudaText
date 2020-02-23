@@ -2690,9 +2690,9 @@ end;
 
 procedure TEditorFrame.DoSaveHistory(Ed: TATSynEdit);
 var
-  c: TJSONConfig;
+  cfg: TJSONConfig;
   SFileName: string;
-  path: UnicodeString;
+  path: string;
   items: TStringlist;
 begin
   if not FSaveHistory then exit;
@@ -2700,35 +2700,34 @@ begin
 
   SFileName:= GetFileName(Ed);
   if SFileName='' then exit;
+  path:= SMaskFilenameSlashes(SFileName);
 
-  c:= TJsonConfig.Create(nil);
+  cfg:= TJsonConfig.Create(nil);
   try
     try
-      c.Formatted:= true;
-      c.Filename:= AppFile_HistoryFiles;
+      cfg.Formatted:= true;
+      cfg.Filename:= AppFile_HistoryFiles;
     except
       MsgBadConfig(AppFile_HistoryFiles);
       exit
     end;
 
-    path:= UTF8Decode(SMaskFilenameSlashes(SFileName));
-
     items:= TStringList.Create;
     try
-      c.DeletePath(path);
-      c.EnumSubKeys('/', items);
+      cfg.DeletePath(path);
+      cfg.EnumSubKeys('/', items);
       while items.Count>=UiOps.MaxHistoryFiles do
       begin
-        c.DeletePath(UTF8Decode('/'+items[0]));
+        cfg.DeletePath('/'+items[0]);
         items.Delete(0);
       end;
     finally
       FreeAndNil(items);
     end;
 
-    DoSaveHistoryEx(Ed, c, path);
+    DoSaveHistoryEx(Ed, cfg, path);
   finally
-    c.Free;
+    cfg.Free;
   end;
 end;
 
@@ -2826,28 +2825,29 @@ end;
 
 procedure TEditorFrame.DoLoadHistory(Ed: TATSynEdit; AllowEnc: boolean);
 var
-  c: TJSONConfig;
+  cfg: TJSONConfig;
   SFileName: string;
-  path: UnicodeString;
+  path: string;
 begin
   SFileName:= GetFileName(Ed);
   if SFileName='' then exit;
+  path:= SMaskFilenameSlashes(SFileName);
+
   if UiOps.MaxHistoryFiles<2 then exit;
 
-  c:= TJsonConfig.Create(nil);
+  cfg:= TJsonConfig.Create(nil);
   try
     try
-      c.Formatted:= true;
-      c.Filename:= AppFile_HistoryFiles;
+      cfg.Formatted:= true;
+      cfg.Filename:= AppFile_HistoryFiles;
     except
       MsgBadConfig(AppFile_HistoryFiles);
       exit
     end;
 
-    path:= UTF8Decode(SMaskFilenameSlashes(SFileName));
-    DoLoadHistoryEx(Ed, SFileName, c, path, AllowEnc);
+    DoLoadHistoryEx(Ed, SFileName, cfg, path, AllowEnc);
   finally
-    c.Free;
+    cfg.Free;
   end;
 end;
 
