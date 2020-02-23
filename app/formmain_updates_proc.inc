@@ -495,16 +495,17 @@ begin
   Frame:= GetEditorFrame(Ed);
   if Frame=nil then exit;
   if not Frame.IsText then exit;
-  if Frame.NotInRecents then exit;
 
   SFileName:= Frame.GetFileName(Ed);
   if SFileName='' then exit;
 
-  SAddStringToHistory(
-    SCollapseHomeDirInFilename(SFileName),
-    FListRecents,
-    UiOps.MaxHistoryMenu);
   Frame.DoSaveHistory(Ed);
+
+  if not Frame.NotInRecents then
+    SAddStringToHistory(
+      SCollapseHomeDirInFilename(SFileName),
+      FListRecents,
+      UiOps.MaxHistoryMenu);
 end;
 
 procedure TfmMain.PopupRecentsPopup(Sender: TObject);
