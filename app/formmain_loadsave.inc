@@ -157,7 +157,7 @@ begin
 
     ////state
     c.SetValue('lang', UiOps.LangName);
-    c.SetValue('session', UTF8Decode(IfThen(UiOps.ReopenSession, FSessionName, '')));
+    c.SetValue('session', IfThen(UiOps.ReopenSession, FSessionName, ''));
     c.SetValue('last_cmd', FLastSelectedCommand);
 
     DoOps_SaveHistory_GroupView(c);
@@ -227,8 +227,8 @@ begin
       bModified:= Frame.Ed1.Modified or ((Frame.GetFileName(Frame.Ed1)='') and not Frame.IsEmpty);
 
       cfg.SetValue(path+'/modified', bModified);
-      cfg.SetValue(path+'/file', UTF8Decode(SCollapseHomeDirInFilename(Frame.Filename)));
-      cfg.SetValue(path+'/tab_title', UTF8Decode(Frame.TabCaption));
+      cfg.SetValue(path+'/file', SCollapseHomeDirInFilename(Frame.Filename));
+      cfg.SetValue(path+'/tab_title', Frame.TabCaption);
       cfg.SetValue(path+'/group', nLocalGroup+1); //support old sessions with 1-based index
 
       if Frame.IsText then value:= ''
@@ -236,7 +236,7 @@ begin
       if Frame.IsBinary then value:= 'bin,'+IntToStr(Ord(Frame.Binary.Mode))
       else
       if Frame.IsPicture then value:= 'pic';
-      cfg.SetValue(path+'/kind', UTF8Decode(value));
+      cfg.SetValue(path+'/kind', value);
 
       if bModified then
       begin
@@ -563,7 +563,7 @@ begin
 
     if FOption_AllowSession then
     begin
-      FSessionName:= UTF8Encode(c.GetValue('session', UTF8Decode(FSessionName)));
+      FSessionName:= c.GetValue('session', FSessionName);
       FLastSelectedCommand:= c.GetValue('last_cmd', FLastSelectedCommand);
       DoOps_LoadHistory_GroupView(c);
     end;
@@ -760,10 +760,10 @@ end;
 
 procedure TfmMain.DoOps_LoadOptions_Editor(c: TJSONConfig; var Op: TEditorOps);
 begin
-  Op.OpFontName:= FixFontMonospaced(UTF8Encode(c.GetValue(str_FontName, UTF8Decode(Op.OpFontName))));
-  Op.OpFontName_i:= FixFontMonospaced(UTF8Encode(c.GetValue(str_FontName_i, UTF8Decode(Op.OpFontName_i))));
-  Op.OpFontName_b:= FixFontMonospaced(UTF8Encode(c.GetValue(str_FontName_b, UTF8Decode(Op.OpFontName_b))));
-  Op.OpFontName_bi:= FixFontMonospaced(UTF8Encode(c.GetValue(str_FontName_bi, UTF8Decode(Op.OpFontName_bi))));
+  Op.OpFontName:= FixFontMonospaced(c.GetValue(str_FontName, Op.OpFontName));
+  Op.OpFontName_i:= FixFontMonospaced(c.GetValue(str_FontName_i, Op.OpFontName_i));
+  Op.OpFontName_b:= FixFontMonospaced(c.GetValue(str_FontName_b, Op.OpFontName_b));
+  Op.OpFontName_bi:= FixFontMonospaced(c.GetValue(str_FontName_bi, Op.OpFontName_bi));
 
   Op.OpFontSize:= Abs(c.GetValue(str_FontSize, Op.OpFontSize)); //Abs() for macOS
   Op.OpFontSize_i:= Abs(c.GetValue(str_FontSize_i, Op.OpFontSize_i));
@@ -947,9 +947,9 @@ procedure TfmMain.DoOps_LoadOptions_Ui(c: TJSONConfig);
 var
   S: string;
 begin
-  UiOps.VarFontName:= UTF8Encode(c.GetValue(str_UiFontName, UTF8Decode(UiOps.VarFontName)));
+  UiOps.VarFontName:= c.GetValue(str_UiFontName, UiOps.VarFontName);
   UiOps.VarFontSize:= Abs(c.GetValue(str_UiFontSize, UiOps.VarFontSize)); //Abs for macOS
-  UiOps.OutputFontName:= UTF8Encode(c.GetValue(str_UiFontOutputName, UTF8Decode(UiOps.OutputFontName)));
+  UiOps.OutputFontName:= c.GetValue(str_UiFontOutputName, UiOps.OutputFontName);
   UiOps.OutputFontSize:= Abs(c.GetValue(str_UiFontOutputSize, UiOps.OutputFontSize)); //Abs for macOS
 
   UiOps.DoubleBuffered:= c.GetValue(str_UiDoubleBuffered, UiOps.DoubleBuffered);
@@ -1109,7 +1109,7 @@ begin
   UiOps.InitialDir:= c.GetValue('ui_initial_dir', UiOps.InitialDir);
 
   UiOps.ExportHtmlNumbers:= c.GetValue('export_html_numbers', UiOps.ExportHtmlNumbers);
-  UiOps.ExportHtmlFontName:= UTF8Encode(c.GetValue('export_html_font_name', UTF8Decode(UiOps.ExportHtmlFontName)));
+  UiOps.ExportHtmlFontName:= c.GetValue('export_html_font_name', UiOps.ExportHtmlFontName);
   UiOps.ExportHtmlFontSize:= Abs(c.GetValue('export_html_font_size', UiOps.ExportHtmlFontSize));
 
   UiOps.TreeAutoSync:= c.GetValue('ui_tree_auto_sync', UiOps.TreeAutoSync);
@@ -1308,7 +1308,7 @@ begin
     try
       cfg.Formatted:= true;
       cfg.Filename:= fn;
-      cfg.SetValue(AConfigStrName, UTF8Decode(OpName));
+      cfg.SetValue(AConfigStrName, OpName);
       cfg.SetValue(AConfigStrSize, OpSize);
     except
     end;
