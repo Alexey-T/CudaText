@@ -380,7 +380,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure FrameAddRecent(Sender: TObject; const AFileName: string);
+    procedure FrameAddRecent(Sender: TObject);
     procedure FrameOnMsgStatus(Sender: TObject; const AStr: string);
     procedure FrameOnChangeCaretPos(Sender: TObject);
     procedure FrameOnInitAdapter(Sender: TObject);
@@ -980,7 +980,7 @@ type
     procedure UpdateMenuItemHint(mi: TMenuItem; const AHint: string);
     procedure UpdateMenuItemHotkey(mi: TMenuItem; cmd: integer);
     procedure UpdateMenuLexersTo(AMenu: TMenuItem);
-    procedure UpdateMenuRecent(F: TEditorFrame; const AFileName: string);
+    procedure UpdateMenuRecent(Ed: TATSynEdit);
     procedure UpdateMenuHotkeys;
     procedure UpdateMenuPlugins;
     procedure UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean=false);
@@ -2110,9 +2110,9 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
-    UpdateMenuRecent(F, F.FileName);
+    UpdateMenuRecent(F.Ed1);
     if not F.EditorsLinked then
-      UpdateMenuRecent(F, F.GetFileName(F.Ed2));
+      UpdateMenuRecent(F.Ed2);
   end;
 
   //after UpdateMenuRecent
@@ -2498,9 +2498,9 @@ begin
   end;
 end;
 
-procedure TfmMain.FrameAddRecent(Sender: TObject; const AFileName: string);
+procedure TfmMain.FrameAddRecent(Sender: TObject);
 begin
-  UpdateMenuRecent(Sender as TEditorFrame, AFileName);
+  UpdateMenuRecent(Sender as TATSynEdit);
 end;
 
 procedure TfmMain.FrameOnChangeCaretPos(Sender: TObject);
@@ -2522,7 +2522,7 @@ end;
 procedure TfmMain.DoClearRecentFileHistory;
 begin
   FListRecents.Clear;
-  UpdateMenuRecent(nil, '');
+  UpdateMenuRecent(nil);
   //
   DeleteFileUTF8(AppFile_HistoryFiles);
 end;
@@ -4381,7 +4381,7 @@ begin
   begin
     MsgBox(msgCannotFindFile+#10+fn, MB_OK or MB_ICONERROR);
     FListRecents.Delete(n);
-    UpdateMenuRecent(nil, '');
+    UpdateMenuRecent(nil);
   end;
 end;
 

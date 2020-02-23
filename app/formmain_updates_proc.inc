@@ -481,23 +481,30 @@ begin
   sub.Add(mi);
 end;
 
-procedure TfmMain.UpdateMenuRecent(F: TEditorFrame; const AFileName: string);
+procedure TfmMain.UpdateMenuRecent(Ed: TATSynEdit);
+var
+  Frame: TEditorFrame;
+  SFileName: string;
 begin
-  if F=nil then
-    SAddStringToHistory('', FListRecents, UiOps.MaxHistoryMenu)
-  else
+  if Ed=nil then
   begin
-    if not F.IsText then exit;
-    if AFileName='' then exit;
-    if F.NotInRecents then exit;
-    SAddStringToHistory(
-      SCollapseHomeDirInFilename(AFileName),
-      FListRecents,
-      UiOps.MaxHistoryMenu);
-    F.DoSaveHistory(F.Ed1);
-    if not F.EditorsLinked then
-      F.DoSaveHistory(F.Ed2);
+    SAddStringToHistory('', FListRecents, UiOps.MaxHistoryMenu);
+    exit;
   end;
+
+  Frame:= GetEditorFrame(Ed);
+  if Frame=nil then exit;
+  if not Frame.IsText then exit;
+  if Frame.NotInRecents then exit;
+
+  SFileName:= Frame.GetFileName(Ed);
+  if SFileName='' then exit;
+
+  SAddStringToHistory(
+    SCollapseHomeDirInFilename(SFileName),
+    FListRecents,
+    UiOps.MaxHistoryMenu);
+  Frame.DoSaveHistory(Ed);
 end;
 
 procedure TfmMain.PopupRecentsPopup(Sender: TObject);

@@ -116,7 +116,7 @@ type
     FOnEditorCommand: TATSynEditCommandEvent;
     FOnEditorChangeCaretPos: TNotifyEvent;
     FOnSaveFile: TNotifyEvent;
-    FOnAddRecent: TEditorFrameStringEvent;
+    FOnAddRecent: TNotifyEvent;
     FOnPyEvent: TEditorFramePyEvent;
     FOnInitAdapter: TNotifyEvent;
     FSplitPos: double;
@@ -381,7 +381,7 @@ type
     property OnEditorCommand: TATSynEditCommandEvent read FOnEditorCommand write FOnEditorCommand;
     property OnEditorChangeCaretPos: TNotifyEvent read FOnEditorChangeCaretPos write FOnEditorChangeCaretPos;
     property OnSaveFile: TNotifyEvent read FOnSaveFile write FOnSaveFile;
-    property OnAddRecent: TEditorFrameStringEvent read FOnAddRecent write FOnAddRecent;
+    property OnAddRecent: TNotifyEvent read FOnAddRecent write FOnAddRecent;
     property OnPyEvent: TEditorFramePyEvent read FOnPyEvent write FOnPyEvent;
     property OnInitAdapter: TNotifyEvent read FOnInitAdapter write FOnInitAdapter;
   end;
@@ -2139,7 +2139,7 @@ begin
 
     //add to recents previous filename
     if Assigned(FOnAddRecent) then
-      FOnAddRecent(Self, SFileName);
+      FOnAddRecent(Ed);
 
     SFileName:= SaveDialog.FileName;
     SetFileName(Ed, SFileName);
@@ -2147,7 +2147,7 @@ begin
 
     //add to recents new filename
     if Assigned(FOnAddRecent) then
-      FOnAddRecent(Self, SFileName);
+      FOnAddRecent(Ed);
   end;
 
   PrevEnabled:= NotifEnabled;

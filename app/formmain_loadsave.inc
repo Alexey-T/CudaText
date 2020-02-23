@@ -523,7 +523,7 @@ begin
     ////recents
     c.GetValue('/recent_files', FListRecents, '');
     c.GetValue('/list_console', fmConsole.EdInput.Items, '');
-    UpdateMenuRecent(nil, '');
+    UpdateMenuRecent(nil);
 
     ////finder
     FFinder.OptRegex:= c.GetValue('/finder/regex', false);

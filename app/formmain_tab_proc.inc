@@ -241,9 +241,9 @@ begin
     AppFrameList1.Remove(Frame);
     AppFrameListDeleting.Add(Frame);
 
-    UpdateMenuRecent(Frame, Frame.FileName);
+    UpdateMenuRecent(Frame.Ed1);
     if not Frame.EditorsLinked then
-      UpdateMenuRecent(Frame, Frame.GetFileName(Frame.Ed2));
+      UpdateMenuRecent(Frame.Ed2);
 
     Frame.Ed1.AdapterForHilite:= nil;
     Frame.Ed2.AdapterForHilite:= nil;
