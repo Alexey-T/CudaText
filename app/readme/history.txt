@@ -12,9 +12,10 @@
 + add: toggling word-wrap speed much increased on huge lines
 + add: bracket finder ignores long lines (length>500)
 + add: plugin Tabs List: menu item "Tabs List / Open" focuses plugin; plugin handles Enter key
-- fix: plugin API gave crash in plugin forms' on_key_down
++ add: lexer VBScript improved
++ add: lexer Ini improved
+- fix: for files in session, app didn't save caret/selection in history
 - fix: error after "Sort / Remove blank lines"
-- fix: lexer Ini minor fixes
 
 1.95.0 (2020/02)
 
