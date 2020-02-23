@@ -41,21 +41,21 @@ def dlg_make_plugin():
     id_ok = 9
     c1 = chr(1)
 
-    s_caption = 'MySample'
+    s_caption = 'My Sample'
     s_module = get_module_dir()
-    s_plugin_items = 'MySample>run'
+    s_plugin_items = 'My command name>run'
     s_events_checks = ''
 
     while True:
         res = dlg_custom('Make Plugin', dlg_w, dlg_h, '\n'.join([]
-          + [c1.join(['type=label', 'cap=Plugin &name', 'pos=6,6,400,0'])]
+          + [c1.join(['type=label', 'cap=Plugin &name:', 'pos=6,6,400,0'])]
           + [c1.join(['type=edit', 'val='+s_caption, 'pos=6,24,400,46'])]
-          + [c1.join(['type=label', 'cap=&Module name after "cuda_"', 'pos=6,54,450,0'])]
+          + [c1.join(['type=label', 'cap=&Python module name without "cuda_":', 'pos=6,54,450,0'])]
           + [c1.join(['type=edit', 'val='+s_module, 'pos=6,72,400,46'])]
-          + [c1.join(['type=label', 'cap=&Items "Caption>method" ("-" at end: hide item in Plugins)', 'pos=6,102,450,0'])]
+          + [c1.join(['type=label', 'cap=&Commands "Caption>method" ("-" at end: without menu item):', 'pos=6,102,450,0'])]
           + [c1.join(['type=memo', 'val='+s_plugin_items, 'pos=6,120,450,240'])]
-          + [c1.join(['type=check', 'cap=Add "&Config" item in "Options / Settings-plugins"', 'pos=6,246,450,0'])]
-          + [c1.join(['type=label', 'cap=&Events to handle', 'pos=6,276,400,0'])]
+          + [c1.join(['type=check', 'cap=&Add "Config" menu item to "Options / Settings-plugins"', 'pos=6,246,450,0'])]
+          + [c1.join(['type=label', 'cap=&Events to handle:', 'pos=6,276,400,0'])]
           + [c1.join(['type=checklistbox', 'items='+'\t'.join(EVENTS), 'val='+s_events_checks, 'pos=6,294,450,450'])]
           + [c1.join(['type=button', 'cap=&OK', 'props=1', 'pos=%d,%d,%d,%d'%(dlg_w-btn_w*2-12, dlg_h-30, dlg_w-btn_w-12, 0)])]
           + [c1.join(['type=button', 'cap=Cancel', 'pos=%d,%d,%d,%d'%(dlg_w-btn_w-6, dlg_h-30, dlg_w-6, 0)])]
