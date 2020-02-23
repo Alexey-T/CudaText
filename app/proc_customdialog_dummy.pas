@@ -971,6 +971,10 @@ begin
 end;
 
 procedure TFormDummy.DoOnEditorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+{
+Wiki:
+Param "data" is tuple (int_key_code, str_key_state).
+}
 var
   Props: TAppControlProps;
   IdControl: integer;
@@ -987,6 +991,10 @@ begin
 end;
 
 procedure TFormDummy.DoOnEditorKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+{
+Wiki:
+Param "data" is tuple (int_key_code, str_key_state).
+}
 var
   Props: TAppControlProps;
   IdControl: integer;
