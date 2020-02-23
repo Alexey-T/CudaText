@@ -23,7 +23,6 @@ uses
   ATSynEdit_Ranges,
   ATSynEdit_Commands,
   ATSynEdit_CharSizer,
-  ATSynEdit_Edits,
   ATSynEdit_Gutter_Decor,
   ATSynEdit_Adapter_EControl,
   ATSynEdit_Finder,

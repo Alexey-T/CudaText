@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics,
-  StdCtrls, Dialogs,
+  Dialogs,
   LclProc, LclType,
   ExtCtrls,
   IniFiles,
@@ -22,7 +22,6 @@ uses
   proc_globdata,
   proc_colors,
   proc_editor,
-  proc_miscutils,
   math;
 
 type

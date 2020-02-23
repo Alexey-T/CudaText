@@ -165,8 +165,8 @@ type
     procedure EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorDrawMicromap(Sender: TObject; C: TCanvas; const ARect: TRect);
-    function EditorIndexToObj(N: integer): TATSynEdit; inline;
-    function EditorObjToIndex(Ed: TATSynEdit): integer; inline;
+    function EditorIndexToObj(N: integer): TATSynEdit;
+    function EditorObjToIndex(Ed: TATSynEdit): integer;
     function EditorObjToTreeviewIndex(Ed: TATSynEdit): integer; inline;
     procedure EditorOnChange(Sender: TObject);
     procedure EditorOnChangeModified(Sender: TObject);

@@ -14,7 +14,6 @@ interface
 uses
   SysUtils, Classes,
   PythonEngine,
-  proc_str,
   proc_globdata,
   proc_appvariant;
 

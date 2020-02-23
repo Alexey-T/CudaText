@@ -42,7 +42,6 @@ uses
   proc_str,
   proc_keymap_undolist,
   ec_LexerList,
-  ec_proc_lexer,
   ec_SyntAnal;
 
 type

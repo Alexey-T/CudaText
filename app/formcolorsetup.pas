@@ -94,9 +94,9 @@ var
   st: TecSyntaxFormat;
   iColor: TAppThemeColorId;
   iStyle: TAppThemeStyleId;
-  i, n: integer;
+  NPrevIndex: integer;
 begin
-  n:= List.ItemIndex;
+  NPrevIndex:= List.ItemIndex;
   List.Items.Clear;
 
   for iColor:= Low(iColor) to High(iColor) do
@@ -109,8 +109,8 @@ begin
       ListStyles.Items.AddObject(st.DisplayName, st);
     end;
 
-  if n<List.Items.Count then
-    List.ItemIndex:= n;
+  if NPrevIndex<List.Items.Count then
+    List.ItemIndex:= NPrevIndex;
   List.Invalidate;
 end;
 

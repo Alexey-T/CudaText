@@ -14,7 +14,6 @@ interface
 uses
   SysUtils, Classes,
   LazFileUtils,
-  at__jsonconf,
   ATStringProc,
   ATSynEdit_RegExpr,
   ec_RegExpr;

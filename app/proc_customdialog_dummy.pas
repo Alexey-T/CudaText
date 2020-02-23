@@ -171,12 +171,6 @@ function IsEventItemListed(const SItem, SList: string): boolean;
 
 implementation
 
-const
-  cPyFalse = 'False';
-  cPyTrue = 'True';
-  //cPyFalseTrue: array[boolean] of string = ('False', 'True');
-
-
 function AppVariant_KeyData(AKey: word; AShift: TShiftState): TAppVariant;
 begin
   FillChar(Result, SizeOf(Result), 0);

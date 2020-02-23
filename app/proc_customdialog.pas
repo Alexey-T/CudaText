@@ -35,7 +35,6 @@ uses
   proc_scrollbars,
   proc_lexer_styles,
   proc_str,
-  formconsole,
   PythonEngine;
 
 procedure DoDialogCustom(const ATitle: string;

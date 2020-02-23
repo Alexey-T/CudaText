@@ -13,7 +13,6 @@ interface
 
 uses
   Classes, SysUtils, Controls, Forms,
-  StrUtils,
   proc_globdata,
   proc_cmd,
   formkeys;

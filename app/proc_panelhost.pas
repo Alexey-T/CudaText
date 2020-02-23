@@ -12,7 +12,8 @@ unit proc_panelhost;
 interface
 
 uses
-  SysUtils, Classes, Controls, StdCtrls, ExtCtrls, Buttons, Forms,
+  SysUtils, Classes, Controls,
+  ExtCtrls, Buttons, Forms,
   ATButtons,
   ATPanelSimple,
   ATFlatToolbar;

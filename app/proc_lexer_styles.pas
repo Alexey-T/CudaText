@@ -10,7 +10,7 @@ unit proc_lexer_styles;
 interface
 
 uses
-  SysUtils, Classes, Graphics, IniFiles,
+  SysUtils, Classes, Graphics,
   LazFileUtils,
   at__jsonconf,
   ec_SyntAnal,

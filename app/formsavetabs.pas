@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
-  IniFiles, CheckLst, ExtCtrls, StdCtrls, StrUtils,
+  IniFiles, CheckLst, ExtCtrls, StdCtrls,
   LazUTF8, LazFileUtils, LCLType,
   ATPanelSimple,
   proc_globdata,
