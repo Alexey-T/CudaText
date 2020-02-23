@@ -112,4 +112,7 @@ def dlg_make_plugin():
             if nomenu:
                 i[1] = i[1][:-1]
 
+        if s_module.startswith('cuda_'):
+            s_module = s_module[5:]
+
         return (s_caption, 'cuda_'+s_module, cmd_list, event_list, with_config)
