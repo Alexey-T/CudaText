@@ -463,6 +463,11 @@ begin
 end;
 
 procedure TFormDummy.DoOnFormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+{
+Wiki:
+    param "id_ctl": int key code.
+    param "data": key-state string
+}
 var
   Form: TCustomForm;
   Data: TAppVariant;
@@ -498,6 +503,11 @@ begin
 end;
 
 procedure TFormDummy.DoOnFormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+{
+Wiki:
+    param "id_ctl": int key code.
+    param "data": key-state string
+}
 var
   Data: TAppVariant;
 begin
