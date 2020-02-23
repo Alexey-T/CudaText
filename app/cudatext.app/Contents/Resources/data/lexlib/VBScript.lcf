@@ -1,14 +1,5 @@
-object SyntAnal37: TLibSyntAnalyzer
+object SyntAnal19: TLibSyntAnalyzer
   Formats = <
-    item
-      DisplayName = 'Default'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-      FormatType = ftCustomFont
-    end
     item
       DisplayName = 'Comment'
       Font.Charset = DEFAULT_CHARSET
@@ -52,10 +43,10 @@ object SyntAnal37: TLibSyntAnalyzer
     item
       DisplayName = 'Reserved word'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clNavy
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = []
+      Font.Style = [fsBold]
     end
     item
       DisplayName = 'Function separator'
@@ -153,6 +144,14 @@ object SyntAnal37: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = '_ continuation'
+      StyleName = 'Symbol'
+      TokenType = 3
+      Expression = '_$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Id'
       StyleName = 'Identifier'
       TokenType = 2
@@ -204,7 +203,7 @@ object SyntAnal37: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[/,\.;:=<>\+\-\*&%\^\$!@~]+'
+      Expression = '[/,\.;:=<>\+\-\*&%\^\$!@~\\]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -255,7 +254,10 @@ object SyntAnal37: TLibSyntAnalyzer
             'erase'
             'error'
             'event'
+            'execute'
+            'executeglobal'
             'exit'
+            'explicit'
             'False'
             'filecopy'
             'finally'
@@ -282,11 +284,13 @@ object SyntAnal37: TLibSyntAnalyzer
             'long'
             'loop'
             'lset'
+            'mod'
             'module'
             'namespace'
             'new'
             'next'
             'not'
+            'nothing'
             'null'
             'object'
             'on'
