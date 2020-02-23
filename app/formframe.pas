@@ -704,6 +704,7 @@ var
   Ch: atChar;
   ValueR, ValueG, ValueB: byte;
   ValueH, ValueS, ValueL: word;
+  Substr: string;
   i: integer;
 begin
   if AStr='' then Exit;
@@ -715,9 +716,10 @@ begin
     Ch:= AStr[i];
 
     //find #rgb, #rrggbb
-    if Ch='#' then
+    if (Ch='#') and IsCharHex(AStr[i+1]) then
     begin
-      NColor:= SHtmlColorToColor(Copy(AStr, i+1, 7), NLen, clNone);
+      Substr:= Copy(AStr, i+1, 6);
+      NColor:= SHtmlColorToColor(PChar(Substr), NLen, clNone);
       if NColor=clNone then Continue;
 
       if i-2>=0 then

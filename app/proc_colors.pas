@@ -227,7 +227,7 @@ var
     if s='' then
       Val:= clNone
     else
-      Val:= SHtmlColorToColor(s, len, Val);
+      Val:= SHtmlColorToColor(PChar(s), len, Val);
   end;
   //
 var

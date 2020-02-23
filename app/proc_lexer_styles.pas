@@ -293,9 +293,16 @@ begin
   st.FormatType:= TecFormatType(N);
 
   st.Font.Style:= StringToFontStyles(cfg.GetValue(skey+'Styles', FontStylesToString(st.Font.Style)));
-  st.Font.Color:= SHtmlColorToColor(cfg.GetValue(skey+'CFont', ''), Len, st.Font.Color);
-  st.BgColor:= SHtmlColorToColor(cfg.GetValue(skey+'CBack', ''), Len, clNone);
-  st.BorderColorBottom:= SHtmlColorToColor(cfg.GetValue(skey+'CBorder', ''), Len, st.BorderColorBottom);
+
+  s:= cfg.GetValue(skey+'CFont', '');
+  st.Font.Color:= SHtmlColorToColor(PChar(s), Len, st.Font.Color);
+
+  s:= cfg.GetValue(skey+'CBack', '');
+  st.BgColor:= SHtmlColorToColor(PChar(s), Len, clNone);
+
+  s:= cfg.GetValue(skey+'CBorder', '');
+  st.BorderColorBottom:= SHtmlColorToColor(PChar(s), Len, st.BorderColorBottom);
+
   st.BorderColorLeft:= st.BorderColorBottom;
   st.BorderColorRight:= st.BorderColorBottom;
   st.BorderColorTop:= st.BorderColorBottom;
