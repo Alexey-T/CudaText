@@ -14,6 +14,7 @@
 + add: plugin Tabs List: command "Tabs List / Open" focuses plugin; plugin handles Enter/Space keys
 + add: lexer VBScript improved
 + add: lexer Ini improved
+- fix: app had saved redundant information to session files (now session files will be smaller)
 - fix: for files loaded from session, app didn't save history (caret position, etc)
 - fix: error after "Plugins / Sort / Remove blank lines"
 
