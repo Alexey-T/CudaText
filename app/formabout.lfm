@@ -19,9 +19,9 @@ object fmAbout: TfmAbout
   Scaled = False
   object LabelName: TLabel
     Left = 152
-    Height = 17
+    Height = 15
     Top = 64
-    Width = 63
+    Width = 49
     Caption = 'CudaText'
     ParentColor = False
   end
@@ -30,9 +30,9 @@ object fmAbout: TfmAbout
     AnchorSideTop.Control = LabelName
     AnchorSideTop.Side = asrBottom
     Left = 152
-    Height = 17
-    Top = 93
-    Width = 51
+    Height = 15
+    Top = 91
+    Width = 38
     BorderSpacing.Top = 12
     Caption = 'Version'
     ParentColor = False
@@ -42,17 +42,17 @@ object fmAbout: TfmAbout
     AnchorSideTop.Control = labelVersion
     AnchorSideTop.Side = asrBottom
     Left = 152
-    Height = 17
-    Top = 113
-    Width = 61
+    Height = 15
+    Top = 109
+    Width = 46
     BorderSpacing.Top = 3
     Caption = 'Platform'
     ParentColor = False
   end
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 29
-    Top = 235
+    Height = 26
+    Top = 238
     Width = 453
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -80,7 +80,6 @@ object fmAbout: TfmAbout
     ParentFont = False
     TabOrder = 1
     TabStop = True
-    PopupText = PopupText
     Colors.TextFont = clBlack
     Colors.TextBG = clWhite
     Colors.TextDisabledFont = clGray

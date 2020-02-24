@@ -97,6 +97,7 @@ begin
   memo.DoubleBuffered:= UiOps.DoubleBuffered;
   memo.Font.Name:= EditorOps.OpFontName;
   memo.Font.Size:= EditorOps.OpFontSize;
+  memo.PopupText:= PopupText;
 
   FLabelLink:= TATLabelLink.Create(Self);
   FLabelLink.Parent:= Self;
