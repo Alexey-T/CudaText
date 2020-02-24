@@ -227,7 +227,17 @@ begin
             for i:=0 to Length(AParams)-1 do
               if PyTuple_SetItem(Params,i,AParams[i])<>0 then
                 RaiseError;
-            Result:=PyObject_Call(Func,Params,nil);
+
+            try
+              Result:=PyObject_Call(Func,Params,nil);
+              if Result = nil then
+                CheckError(False);
+            except
+              if PyErr_Occurred <> nil then
+                CheckError(False)
+              else
+                raise;
+            end;
           finally
             Py_DECREF(Params);
           end;
