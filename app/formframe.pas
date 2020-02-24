@@ -534,16 +534,19 @@ begin
 end;
 
 procedure TEditorFrame.EditorOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  Res: TAppPyEventResult;
 begin
   //result=False: block the key
-  if DoPyEvent(Sender as TATSynEdit, cEventOnKey, [
+  Res:= DoPyEvent(Sender as TATSynEdit, cEventOnKey, [
     AppVariant(Key),
     AppVariant(ConvertShiftStateToString(Shift))
-    ]).Val = evrFalse then
-    begin
-      Key:= 0;
-      Exit
-    end;
+    ]);
+  if Res.Val=evrFalse then
+  begin
+    Key:= 0;
+    Exit
+  end;
 end;
 
 procedure TEditorFrame.EditorOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
