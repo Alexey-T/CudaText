@@ -2393,12 +2393,15 @@ var
   Frame: TEditorFrame;
   Params: TAppVariantArray;
   i: integer;
+  {$ifdef darwin}
+  id: TAppPanelId;
+  {$endif}
 begin
   {$ifdef darwin}
   // https://bugs.freepascal.org/view.php?id=35599
-  for side in TAppSideId do
-    if side<>cSideNone then
-      with AppPanels[side] do
+  for id:= Low(id) to High(id) do
+    if id<>cPaneNone then
+      with AppPanels[id] do
         Splitter.ResizeStyle:= rsUpdate;
 
   Groups.Splitter1.ResizeStyle:= rsUpdate;
