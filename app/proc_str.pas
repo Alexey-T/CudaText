@@ -13,6 +13,7 @@ interface
 
 uses
   SysUtils, Classes,
+  StrUtils,
   LazFileUtils,
   ATStringProc,
   ATSynEdit_RegExpr,
@@ -91,7 +92,7 @@ begin
   N:= 0;
   for i:= 1 to Length(SFind) do
   begin
-    N:= Pos(SFind[i], SText, N+1);
+    N:= PosEx(SFind[i], SText, N+1);
     if N=0 then
     begin
       SetLength(Result, 0);
