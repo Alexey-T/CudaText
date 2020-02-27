@@ -91,6 +91,7 @@ var
   Tabs: TATTabs;
   D: TATTabData;
   F: TEditorFrame;
+  Params: TAppVariantArray;
 begin
   Tabs:= Sender as TATTabs;
   D:= Tabs.GetTabData(Tabs.TabIndex);
@@ -120,7 +121,8 @@ begin
   DoOps_LoadKeymap(true);
 
   UpdateStatus;
-  DoPyEvent(F.Editor, cEventOnTabChange, []);
+  SetLength(Params, 0);
+  DoPyEvent(F.Editor, cEventOnTabChange, Params);
 end;
 
 procedure TfmMain.UpdateTabsActiveColor(F: TEditorFrame);
@@ -182,6 +184,7 @@ var
   Msg: string;
   bNeedTreeUpd, bSavedOk: boolean;
   Adapter: TATAdapterEControl;
+  Params: TAppVariantArray;
 begin
   D:= (Sender as TATTabs).GetTabData(ATabIndex);
   if D=nil then exit;
@@ -209,11 +212,14 @@ begin
     end;
 
   if not Application.Terminated then
-    if DoPyEvent(Frame.Editor, cEventOnCloseBefore, []).Val = evrFalse then
+  begin
+    SetLength(Params, 0);
+    if DoPyEvent(Frame.Editor, cEventOnCloseBefore, Params).Val = evrFalse then
     begin
       ACanClose:= false;
       Exit
     end;
+  end;
 
   if Application.Terminated then
     Res:= ID_OK
@@ -454,12 +460,15 @@ end;
 *)
 
 procedure TfmMain.DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
+var
+  Params: TAppVariantArray;
 begin
   //tab closed: set flag
   if NTo=-1 then
     PyEditorMaybeDeleted:= true;
 
-  DoPyEvent(CurrentEditor, cEventOnTabMove, []);
+  SetLength(Params, 0);
+  DoPyEvent(CurrentEditor, cEventOnTabMove, Params);
 end;
 
 

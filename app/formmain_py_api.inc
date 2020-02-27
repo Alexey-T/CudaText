@@ -2115,6 +2115,7 @@ var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
   PrevCharsLeft: integer;
+  Params: TAppVariantArray;
 begin
   AText:= '';
   ACharsLeft:= 0;
@@ -2128,7 +2129,8 @@ begin
      (Caret.PosY=FPyComplete_CaretPos.Y) then
   begin
     PrevCharsLeft:= FPyComplete_CharsLeft;
-    DoPyEvent(Ed, cEventOnComplete, []);
+    SetLength(Params, 0);
+    DoPyEvent(Ed, cEventOnComplete, Params);
 
     //this check- to close listbox when no more matches after typing too much
     //MsgStatus(Format('prev %d now %d', [PrevCharsLeft, FPyComplete_CharsLeft]));
@@ -2155,6 +2157,7 @@ procedure TfmMain.PyCompletionOnResult(Sender: TObject;
 var
   Sep: TATStringSeparator;
   StrLine, StrSnippet: string;
+  Params: TAppVariantArray;
   i: integer;
 begin
   //find index-th line
@@ -2169,10 +2172,11 @@ begin
 
   //ShowMessage('id: '+ASnippetId+#10+'text:'#10+StrSnippet);
 
-  DoPyEvent(FPyComplete_Editor, cEventOnSnippet, [
-    AppVariant(ASnippetId),
-    AppVariant(StrSnippet)
-    ]);
+  SetLength(Params, 2);
+  Params[0]:= AppVariant(ASnippetId);
+  Params[1]:= AppVariant(StrSnippet);
+
+  DoPyEvent(FPyComplete_Editor, cEventOnSnippet, Params);
 end;
 
 
@@ -3402,6 +3406,7 @@ var
   Pages, PagesTo: TATPages;
   NLocalGroup, NGlobalGroup, NTab, NIndexNew, N1, N2: integer;
   LineEnd: TATLineEnds;
+  Params: TAppVariantArray;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:set_prop', @H, @Id, @Ptr)) then
@@ -3632,7 +3637,8 @@ begin
               if NTab>=0 then
               begin
                 Pages.Tabs.MoveTab(NTab, NIndexNew, true);
-                fmMain.DoPyEvent(Ed, cEventOnTabMove, []);
+                SetLength(Params, 0);
+                fmMain.DoPyEvent(Ed, cEventOnTabMove, Params);
               end;
             end;
           end;
@@ -4027,6 +4033,7 @@ var
   SplitPos, SplitTotal: integer;
   ParamBool: boolean;
   ParamRect: TRect;
+  Params: TAppVariantArray;
   Num64: Int64;
   Pnt: TPoint;
   Sep: TATStringSeparator;
@@ -4132,9 +4139,14 @@ begin
             Sep.GetItemStr(Str2);
             Sep.GetItemStr(Str3);
             if Str3<>'' then
-              fmMain.DoPyCommand(Str1, Str2, [AppVariant(Str3)])
+            begin
+              SetLength(Params, 1);
+              Params[0]:= AppVariant(Str3);
+            end
             else
-              fmMain.DoPyCommand(Str1, Str2, []);
+              SetLength(Params, 0);
+
+            fmMain.DoPyCommand(Str1, Str2, Params);
             Result:= ReturnNone;
           end;
 

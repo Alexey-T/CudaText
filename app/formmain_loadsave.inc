@@ -276,6 +276,7 @@ var
   bModified: boolean;
   sText: UnicodeString;
   sDateSaved, sDateCurrent: string;
+  Params: TAppVariantArray;
   nTick: QWord;
 const
   SOptionPassive = '/passive /nonear';
@@ -440,7 +441,9 @@ begin
     sText+= ' + '+IntToStr(nCountFilesModified)+' modified';
   MsgLogConsole(sText);
 
-  DoPyEvent(nil, cEventOnState, [AppVariant(APPSTATE_SESSION_LOAD)]);
+  SetLength(Params, 1);
+  Params[0]:= AppVariant(APPSTATE_SESSION_LOAD);
+  DoPyEvent(nil, cEventOnState, Params);
 end;
 
 procedure TfmMain.DoOps_LoadHistory_GroupView(cfg: TJsonConfig);
@@ -1323,13 +1326,17 @@ end;
 
 procedure TfmMain.DoOps_LoadOptionsAndApplyAll;
 // called by command "settings: reload/apply config"
+var
+  Params: TAppVariantArray;
 begin
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps);
   DoApplyAllOps;
   DoOps_LoadKeymap(false);
 
   MsgStatus(msgStatusReadingOps);
-  DoPyEvent(nil, cEventOnState, [AppVariant(APPSTATE_CONFIG_REREAD)]);
+  SetLength(Params, 1);
+  Params[0]:= AppVariant(APPSTATE_CONFIG_REREAD);
+  DoPyEvent(nil, cEventOnState, Params);
 end;
 
 

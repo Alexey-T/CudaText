@@ -235,6 +235,7 @@ const
   cMinTime = 600;
 var
   Frame: TEditorFrame;
+  Params: TAppVariantArray;
 begin
   LexerProgress.Hide;
   UpdateTreeContents;
@@ -246,7 +247,10 @@ begin
 
   //do on_lexer_parsed only if parsing was long
   if (Sender as TATAdapterEControl).LexerParsingElapsed>=cMinTime then
-    DoPyEvent(Frame.Editor, cEventOnLexerParsed, []);
+  begin
+    SetLength(Params, 0);
+    DoPyEvent(Frame.Editor, cEventOnLexerParsed, Params);
+  end;
 end;
 
 function TfmMain.FrameOfPopup: TEditorFrame;

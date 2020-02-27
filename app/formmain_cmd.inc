@@ -13,6 +13,7 @@ var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
   NIndex: integer;
+  Params: TAppVariantArray;
 begin
   TimerCmd.Enabled:= false;
   Cmd:= FCmdTimer_Code;
@@ -67,7 +68,10 @@ begin
       DoFileOpenDialog('/view-unicode /nozip /nopictures');
 
     cmd_FileOpenFolder:
-      DoPyCommand('cuda_project_man', 'new_project_open_dir', []);
+      begin
+        SetLength(Params, 0);
+        DoPyCommand('cuda_project_man', 'new_project_open_dir', Params);
+      end;
 
     cmd_FileOpen_NoPlugins:
       DoFileOpenDialog_NoPlugins;
@@ -495,8 +499,12 @@ begin
       DoHelpIssues;
     cmd_HelpHotkeys:
       DoHelpHotkeys;
+
     cmd_HelpCheckUpdates:
-      DoPyCommand('cuda_addonman', 'check_cudatext_updates', []);
+      begin
+        SetLength(Params, 0);
+        DoPyCommand('cuda_addonman', 'check_cudatext_updates', Params);
+      end;
 
     cmdFirstLexerCommand..
     cmdLastLexerCommand:
@@ -536,6 +544,7 @@ procedure TfmMain.FrameOnCommand(Sender: TObject; ACommand: integer;
 var
   Ed: TATSynEdit;
   Frame: TEditorFrame;
+  Params: TAppVariantArray;
   Str: string;
 begin
   AHandled:= true;
@@ -557,8 +566,9 @@ begin
   if (ACommand=cCommand_TextInsert) and
     (AText<>'') then
   begin
-    if DoPyEvent(Ed, cEventOnInsert,
-      [AppVariant(AText)]).Val = evrFalse then
+    SetLength(Params, 1);
+    Params[0]:= AppVariant(AText);
+    if DoPyEvent(Ed, cEventOnInsert, Params).Val = evrFalse then
       begin AHandled:= true; exit end;
   end;
 

@@ -38,6 +38,7 @@ var
   F: TEditorFrame;
   CurLexer: string;
   CmdItem: TAppCommandInfo;
+  Params: TAppVariantArray;
 begin
   if not ((AIndex>=0) and (AIndex<AppCommandList.Count)) then exit;
   CmdItem:= TAppCommandInfo(AppCommandList[AIndex]);
@@ -53,17 +54,14 @@ begin
   end;
 
   if CmdItem.ItemProcParam<>'' then
-    DoPyCommand(
-      CmdItem.ItemModule,
-      CmdItem.ItemProc,
-      [AppVariant(CmdItem.ItemProcParam)]
-      )
+  begin
+    SetLength(Params, 1);
+    Params[0]:= AppVariant(CmdItem.ItemProcParam);
+  end
   else
-    DoPyCommand(
-      CmdItem.ItemModule,
-      CmdItem.ItemProc,
-      []
-      );
+    SetLength(Params, 0);
+
+  DoPyCommand(CmdItem.ItemModule, CmdItem.ItemProc, Params);
 end;
 
 
@@ -331,10 +329,14 @@ begin
     SParam:= RegexParts[4].Str;
 
     if SParam<>'' then
-      Result:= AppPython.RunCommand(SModule, SFunc, [AppVariant(SParam)])
+    begin
+      SetLength(FParamVars, 1);
+      FParamVars[0]:= AppVariant(SParam);
+    end
     else
-      Result:= AppPython.RunCommand(SModule, SFunc, []);
+      SetLength(FParamVars, 0);
 
+    Result:= AppPython.RunCommand(SModule, SFunc, FParamVars);
     MsgLogConsole(Format(msgCallbackDeprecated, [ACallback]));
     exit;
   end;
@@ -347,6 +349,7 @@ procedure TfmMain.DoPyResetPlugins;
 var
   fn, Cmd: string;
   L: TStringList;
+  Params: TAppVariantArray;
 begin
   fn:= AppDir_Py+DirectorySeparator+'cudatext_reset_plugins.py';
   if not FileExists(fn) then
@@ -368,7 +371,8 @@ begin
   AppPython.ClearCache;
 
   //https://github.com/Alexey-T/CudaText/issues/1253
-  DoPyEvent(nil, cEventOnStart, []);
+  SetLength(Params, 0);
+  DoPyEvent(nil, cEventOnStart, Params);
 end;
 
 procedure TfmMain.DoPyRescanPlugins;
@@ -380,20 +384,19 @@ begin
 end;
 
 procedure TfmMain.DoPyRunLastPlugin;
+var
+  Params: TAppVariantArray;
 begin
   if AppPython.LastCommandModule='' then exit;
   if AppPython.LastCommandParam<>'' then
-    DoPyCommand(
-      AppPython.LastCommandModule,
-      AppPython.LastCommandMethod,
-      [AppVariant(AppPython.LastCommandParam)]
-      )
+  begin
+    SetLength(Params, 1);
+    Params[0]:= AppVariant(AppPython.LastCommandParam);
+  end
   else
-    DoPyCommand(
-      AppPython.LastCommandModule,
-      AppPython.LastCommandMethod,
-      []
-      );
+    SetLength(Params, 0);
+
+  DoPyCommand(AppPython.LastCommandModule, AppPython.LastCommandMethod, Params);
 end;
 
 
@@ -402,6 +405,7 @@ var
   Timer: TTimer;
   SCallback, STag: string;
   NIndex: integer;
+  Params: TAppVariantArray;
 begin
   Timer:= Sender as TTimer;
   NIndex:= FListTimers.IndexOfObject(Timer);
@@ -413,9 +417,12 @@ begin
 
   SSplitByChar(FListTimers[NIndex], '|', SCallback, STag);
 
+  SetLength(Params, 1);
+  Params[0]:= AppVariant(StrToInt64Def(STag, 0));
+
   DoPyCallbackFromAPI(
     SCallback,
-    [AppVariant(StrToInt64Def(STag, 0))],
+    Params,
     ['tag']
     );
 end;
