@@ -754,7 +754,7 @@ begin
     //find #rgb, #rrggbb
     if (Ch='#') and IsCharHexDigit(AStr[i+1]) then
     begin
-      Substr:= Copy(AStr, i+1, 6+1);
+      Substr:= Copy(AStr, i+1, 8+1);
       NColor:= SHtmlColorToColor(PChar(Substr), NLen, clNone);
       if NColor=clNone then Continue;
 
