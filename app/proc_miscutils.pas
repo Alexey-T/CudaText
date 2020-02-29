@@ -68,6 +68,7 @@ function UpdateImagelistWithIconFromFile(AList: TCustomImagelist; const AFilenam
 function FormatFileDateAsNiceString(const AFilename: string): string;
 function FormatFilenameForMenu(const fn: string): string;
 
+procedure AppOpenURL(const S: string);
 function AppStrToBool(const S: string): boolean; inline;
 function AppStringToAlignment(const S: string): TAlignment;
 function AppAlignmentToString(const V: TAlignment): string;
@@ -839,6 +840,15 @@ begin
     C.Height:= NSize;
 end;
 
+procedure AppOpenURL(const S: string);
+const
+  MailPrefix = 'mailto:';
+begin
+  if (Pos(MailPrefix, S)=0) and (Pos('://', S)=0) and (Pos('@', S)>0) then
+    OpenURL(MailPrefix+S)
+  else
+    OpenURL(S);
+end;
 
 end.
 
