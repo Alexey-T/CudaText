@@ -3,6 +3,9 @@
   - fixed
   * changed
 
++ add: highlight/open emails (without 'mailto:') like URLs
++ add: highlight HTML colors #rgba, #rrggbbaa too
+
 1.96.0 (2020/02)
 
 + add: reworked strings storage system:
