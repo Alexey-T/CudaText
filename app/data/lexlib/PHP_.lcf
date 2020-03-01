@@ -119,16 +119,6 @@ object SyntAnal14: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-    end
-    item
-      DisplayName = 'Bracket BG'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWhite
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-      BgColor = 4390722
-      FormatType = ftBackGround
     end>
   TokenRules = <
     item
@@ -544,7 +534,6 @@ object SyntAnal14: TLibSyntAnalyzer
     end
     item
       DisplayName = '{'
-      StyleName = 'Bracket BG'
       ConditionList = <
         item
           TagList.Strings = (
@@ -554,9 +543,7 @@ object SyntAnal14: TLibSyntAnalyzer
       BlockEnd = '}'
       DisplayInTree = False
       RefToCondEnd = True
-      DynHighlight = dhBound
-      HighlightPos = cpRange
-      DynSelectMin = True
+      HighlightPos = cpAny
       DrawStaple = True
       CollapseFmt = '{ ... }'
       Pen.Color = clRed
