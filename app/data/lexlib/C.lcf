@@ -329,6 +329,7 @@ object SyntAnal4: TLibSyntAnalyzer
             'int'
             'long'
             'null'
+            'NULL'
             'short'
             'signed'
             'true'
