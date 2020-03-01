@@ -1,4 +1,4 @@
-object SyntAnal17: TLibSyntAnalyzer
+object SyntAnal14: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -210,7 +210,7 @@ object SyntAnal17: TLibSyntAnalyzer
       DisplayName = 'Var'
       StyleName = 'Var'
       TokenType = 6
-      Expression = '\$\w*'#13#10
+      Expression = '\$\w*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -363,6 +363,7 @@ object SyntAnal17: TLibSyntAnalyzer
             'E_ERROR'
             'E_NOTICE'
             'E_PARSE'
+            'E_RECOVERABLE_ERROR'
             'E_STRICT'
             'E_USER_DEPRECATED'
             'E_USER_ERROR'
@@ -371,6 +372,7 @@ object SyntAnal17: TLibSyntAnalyzer
             'E_WARNING'
             'FALSE'
             'NULL'
+            'parent'
             'PEAR_EXTENSION_DIR'
             'PEAR_INSTALL_DIR'
             'PHP_BINARY'
@@ -382,6 +384,11 @@ object SyntAnal17: TLibSyntAnalyzer
             'PHP_EOL'
             'PHP_EXTENSION_DIR'
             'PHP_EXTRA_VERSION'
+            'PHP_FD_SETSIZE'
+            'PHP_FLOAT_DIG'
+            'PHP_FLOAT_EPSILON'
+            'PHP_FLOAT_MAX'
+            'PHP_FLOAT_MIN'
             'PHP_INT_MAX'
             'PHP_INT_MIN'
             'PHP_INT_SIZE'
@@ -392,6 +399,7 @@ object SyntAnal17: TLibSyntAnalyzer
             'PHP_MAXPATHLEN'
             'PHP_MINOR_VERSION'
             'PHP_OS'
+            'PHP_OS_FAMILY'
             'PHP_PREFIX'
             'PHP_RELEASE_VERSION'
             'PHP_SAPI'
@@ -399,7 +407,10 @@ object SyntAnal17: TLibSyntAnalyzer
             'PHP_SYSCONFDIR'
             'PHP_VERSION'
             'PHP_VERSION_ID'
+            'PHP_WINDOWS_EVENT_CTRL_BREAK'
+            'PHP_WINDOWS_EVENT_CTRL_C'
             'PHP_ZTS'
+            'self'
             'TRUE')
           TokenTypes = 2
         end>
@@ -480,6 +491,33 @@ object SyntAnal17: TLibSyntAnalyzer
             'stdClass'
             'XSLTProcessor')
           TokenTypes = 2
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'std vars'
+      StyleName = 'Id standard const'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '$_COOKIE'
+            '$_ENV'
+            '$_FILES'
+            '$_GET'
+            '$_POST'
+            '$_REQUEST'
+            '$_SERVER'
+            '$_SESSION'
+            '$argc'
+            '$argv'
+            '$GLOBALS'
+            '$HTTP_RAW_POST_DATA'
+            '$http_response_header'
+            '$php_errormsg'
+            '$this')
+          TokenTypes = 64
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
@@ -698,8 +736,9 @@ object SyntAnal17: TLibSyntAnalyzer
   Notes.Strings = (
     'Created by 480499497 from forum.wincmd.ru (named PHP_dev)'
     'Big rework by Alexey (CudaText)'
-    'Removed link to HTML, now it'#39's pure PHP lexer, HTML/CSS/JS will ' +
-    'link to it')
+    
+      'Removed link to HTML, now it'#39's pure PHP lexer, HTML/CSS/JS will ' +
+      'link to it')
   Internal = True
   RestartFromLineStart = True
   LineComment = '//'
