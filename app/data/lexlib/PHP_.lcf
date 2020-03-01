@@ -584,7 +584,8 @@ object SyntAnal14: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
-            'class')
+            'class'
+            'trait')
           TokenTypes = 2
         end>
       BlockEnd = 'class_end'
@@ -593,6 +594,7 @@ object SyntAnal14: TLibSyntAnalyzer
       RefToCondEnd = True
       HighlightPos = cpAny
       SelfClose = True
+      TreeItemImage = 0
       IgnoreAsParent = False
     end
     item
@@ -625,6 +627,7 @@ object SyntAnal14: TLibSyntAnalyzer
       HighlightPos = cpAny
       CancelNextRules = True
       SelfClose = True
+      TreeItemImage = 5
       IgnoreAsParent = False
     end
     item
@@ -653,6 +656,7 @@ object SyntAnal14: TLibSyntAnalyzer
       NameFmt = '%s0~[(]1'
       RefToCondEnd = True
       HighlightPos = cpAny
+      TreeItemImage = 5
       IgnoreAsParent = False
     end
     item
@@ -685,6 +689,7 @@ object SyntAnal14: TLibSyntAnalyzer
       RefToCondEnd = True
       HighlightPos = cpAny
       NoEndRule = True
+      TreeItemImage = 4
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
