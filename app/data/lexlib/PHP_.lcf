@@ -99,7 +99,7 @@ object SyntAnal14: TLibSyntAnalyzer
     item
       DisplayName = 'Id standard const'
       Font.Charset = ANSI_CHARSET
-      Font.Color = clOlive
+      Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Arial'
       Font.Style = []
@@ -108,6 +108,14 @@ object SyntAnal14: TLibSyntAnalyzer
       DisplayName = 'Id standard class'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Id modifier'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clOlive
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -239,7 +247,6 @@ object SyntAnal14: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '__halt_compiler'
-            'abstract'
             'and'
             'as'
             'break'
@@ -267,7 +274,6 @@ object SyntAnal14: TLibSyntAnalyzer
             'eval'
             'exit'
             'extends'
-            'final'
             'for'
             'foreach'
             'function'
@@ -285,15 +291,13 @@ object SyntAnal14: TLibSyntAnalyzer
             'namespace'
             'new'
             'or'
+            'parent'
             'print'
-            'private'
-            'protected'
-            'public'
             'require'
             'require_once'
             'resource'
             'return'
-            'static'
+            'self'
             'switch'
             'throw'
             'trait'
@@ -372,7 +376,6 @@ object SyntAnal14: TLibSyntAnalyzer
             'E_WARNING'
             'FALSE'
             'NULL'
-            'parent'
             'PEAR_EXTENSION_DIR'
             'PEAR_INSTALL_DIR'
             'PHP_BINARY'
@@ -410,7 +413,6 @@ object SyntAnal14: TLibSyntAnalyzer
             'PHP_WINDOWS_EVENT_CTRL_BREAK'
             'PHP_WINDOWS_EVENT_CTRL_C'
             'PHP_ZTS'
-            'self'
             'TRUE')
           TokenTypes = 2
         end>
@@ -518,6 +520,24 @@ object SyntAnal14: TLibSyntAnalyzer
             '$php_errormsg'
             '$this')
           TokenTypes = 64
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'modifiers'
+      StyleName = 'Id modifier'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'abstract'
+            'final'
+            'private'
+            'protected'
+            'public'
+            'static')
+          TokenTypes = 2
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
