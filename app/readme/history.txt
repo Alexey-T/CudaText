@@ -5,7 +5,7 @@
 
 + add: highlight/open emails (without 'mailto:') like URLs
 + add: highlight HTML colors #rgba, #rrggbbaa too
-+ add: lexer PHP: separate style for "func modifiers", more keywords
++ add: lexer PHP: separate style for "function modifiers", more keywords
 
 1.96.0 (2020/02)
 
