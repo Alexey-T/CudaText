@@ -1,4 +1,4 @@
-object SyntAnal17: TLibSyntAnalyzer
+object SyntAnal14: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -99,7 +99,7 @@ object SyntAnal17: TLibSyntAnalyzer
     item
       DisplayName = 'Id standard const'
       Font.Charset = ANSI_CHARSET
-      Font.Color = clOlive
+      Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Arial'
       Font.Style = []
@@ -113,14 +113,12 @@ object SyntAnal17: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Bracket BG'
+      DisplayName = 'Id modifier'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWhite
+      Font.Color = clOlive
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-      BgColor = 4390722
-      FormatType = ftBackGround
     end>
   TokenRules = <
     item
@@ -186,7 +184,7 @@ object SyntAnal17: TLibSyntAnalyzer
       DisplayName = 'Symbol op'
       StyleName = 'Symbol operator'
       TokenType = 4
-      Expression = '[!/\+\-\*:=<>&/\|\^~\@\%\?]+'
+      Expression = '[!/\+\-\*:=<>&/\|\^~\@\%\?\.]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -194,7 +192,7 @@ object SyntAnal17: TLibSyntAnalyzer
       DisplayName = 'Symbol single'
       StyleName = 'Symbol single'
       TokenType = 5
-      Expression = '[\{\}\(\)\[\],;\.\\]'
+      Expression = '[\{\}\(\)\[\],;\\]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -210,7 +208,7 @@ object SyntAnal17: TLibSyntAnalyzer
       DisplayName = 'Var'
       StyleName = 'Var'
       TokenType = 6
-      Expression = '\$\w*'#13#10
+      Expression = '\$\w*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -239,7 +237,6 @@ object SyntAnal17: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '__halt_compiler'
-            'abstract'
             'and'
             'as'
             'break'
@@ -267,7 +264,6 @@ object SyntAnal17: TLibSyntAnalyzer
             'eval'
             'exit'
             'extends'
-            'final'
             'for'
             'foreach'
             'function'
@@ -285,15 +281,13 @@ object SyntAnal17: TLibSyntAnalyzer
             'namespace'
             'new'
             'or'
+            'parent'
             'print'
-            'private'
-            'protected'
-            'public'
             'require'
             'require_once'
             'resource'
             'return'
-            'static'
+            'self'
             'switch'
             'throw'
             'trait'
@@ -363,6 +357,7 @@ object SyntAnal17: TLibSyntAnalyzer
             'E_ERROR'
             'E_NOTICE'
             'E_PARSE'
+            'E_RECOVERABLE_ERROR'
             'E_STRICT'
             'E_USER_DEPRECATED'
             'E_USER_ERROR'
@@ -382,6 +377,11 @@ object SyntAnal17: TLibSyntAnalyzer
             'PHP_EOL'
             'PHP_EXTENSION_DIR'
             'PHP_EXTRA_VERSION'
+            'PHP_FD_SETSIZE'
+            'PHP_FLOAT_DIG'
+            'PHP_FLOAT_EPSILON'
+            'PHP_FLOAT_MAX'
+            'PHP_FLOAT_MIN'
             'PHP_INT_MAX'
             'PHP_INT_MIN'
             'PHP_INT_SIZE'
@@ -392,6 +392,7 @@ object SyntAnal17: TLibSyntAnalyzer
             'PHP_MAXPATHLEN'
             'PHP_MINOR_VERSION'
             'PHP_OS'
+            'PHP_OS_FAMILY'
             'PHP_PREFIX'
             'PHP_RELEASE_VERSION'
             'PHP_SAPI'
@@ -399,6 +400,8 @@ object SyntAnal17: TLibSyntAnalyzer
             'PHP_SYSCONFDIR'
             'PHP_VERSION'
             'PHP_VERSION_ID'
+            'PHP_WINDOWS_EVENT_CTRL_BREAK'
+            'PHP_WINDOWS_EVENT_CTRL_C'
             'PHP_ZTS'
             'TRUE')
           TokenTypes = 2
@@ -485,8 +488,52 @@ object SyntAnal17: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = 'std vars'
+      StyleName = 'Id standard const'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '$_COOKIE'
+            '$_ENV'
+            '$_FILES'
+            '$_GET'
+            '$_POST'
+            '$_REQUEST'
+            '$_SERVER'
+            '$_SESSION'
+            '$argc'
+            '$argv'
+            '$GLOBALS'
+            '$HTTP_RAW_POST_DATA'
+            '$http_response_header'
+            '$php_errormsg'
+            '$this')
+          TokenTypes = 64
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'modifiers'
+      StyleName = 'Id modifier'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'abstract'
+            'final'
+            'private'
+            'protected'
+            'public'
+            'static')
+          TokenTypes = 2
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = '{'
-      StyleName = 'Bracket BG'
       ConditionList = <
         item
           TagList.Strings = (
@@ -496,9 +543,7 @@ object SyntAnal17: TLibSyntAnalyzer
       BlockEnd = '}'
       DisplayInTree = False
       RefToCondEnd = True
-      DynHighlight = dhBound
-      HighlightPos = cpRange
-      DynSelectMin = True
+      HighlightPos = cpAny
       DrawStaple = True
       CollapseFmt = '{ ... }'
       Pen.Color = clRed
@@ -526,7 +571,8 @@ object SyntAnal17: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
-            'class')
+            'class'
+            'trait')
           TokenTypes = 2
         end>
       BlockEnd = 'class_end'
@@ -535,6 +581,7 @@ object SyntAnal17: TLibSyntAnalyzer
       RefToCondEnd = True
       HighlightPos = cpAny
       SelfClose = True
+      TreeItemImage = 0
       IgnoreAsParent = False
     end
     item
@@ -567,6 +614,7 @@ object SyntAnal17: TLibSyntAnalyzer
       HighlightPos = cpAny
       CancelNextRules = True
       SelfClose = True
+      TreeItemImage = 5
       IgnoreAsParent = False
     end
     item
@@ -595,6 +643,7 @@ object SyntAnal17: TLibSyntAnalyzer
       NameFmt = '%s0~[(]1'
       RefToCondEnd = True
       HighlightPos = cpAny
+      TreeItemImage = 5
       IgnoreAsParent = False
     end
     item
@@ -627,6 +676,7 @@ object SyntAnal17: TLibSyntAnalyzer
       RefToCondEnd = True
       HighlightPos = cpAny
       NoEndRule = True
+      TreeItemImage = 4
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
@@ -698,8 +748,9 @@ object SyntAnal17: TLibSyntAnalyzer
   Notes.Strings = (
     'Created by 480499497 from forum.wincmd.ru (named PHP_dev)'
     'Big rework by Alexey (CudaText)'
-    'Removed link to HTML, now it'#39's pure PHP lexer, HTML/CSS/JS will ' +
-    'link to it')
+    
+      'Removed link to HTML, now it'#39's pure PHP lexer, HTML/CSS/JS will ' +
+      'link to it')
   Internal = True
   RestartFromLineStart = True
   LineComment = '//'
