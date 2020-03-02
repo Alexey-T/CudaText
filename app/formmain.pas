@@ -1637,15 +1637,14 @@ begin
   if not AppConsoleQueue.IsEmpty() then
   begin
     //avoid output of huge items count at once
-    NCnt:= 0;
-    while not AppConsoleQueue.IsEmpty() and (NCnt<300) do
+    NCnt:= Min(AppConsoleQueue.Size, 300);
+    for i:= 1 to NCnt do
     begin
       S:= AppConsoleQueue.Front();
       AppConsoleQueue.Pop();
       fmConsole.DoAddLine(S);
       if UiOps.LogConsole then
         MsgLogToFilename(S, FFileNameLogConsole, false);
-      Inc(NCnt);
     end;
 
     fmConsole.DoUpdateMemo;
