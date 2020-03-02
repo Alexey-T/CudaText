@@ -5,6 +5,8 @@
 
 1.96.1 (2020/03)
 
+* change: changed layout of lexer-parsing-progressbar in the right/bottom corner, it's always visible now to reduce controls resizing
+- fix: crash when document loads from session on start with wrapped state
 + add: highlight and open (by command "Open URL") e-mails, even without 'mailto:'
 + add: proper underline HTML colors #rgba, #rrggbbaa too
 + add: lexer C/C++: support multi-line strings (with \ before newline)
