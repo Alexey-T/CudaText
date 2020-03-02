@@ -387,17 +387,20 @@ begin
       nIndex:= cfg.GetValue('/tab_index/g'+IntToStr(i), -1);
       if (nIndex<0) or (nIndex>=Groups.Pages[i].Tabs.TabCount) then
         nIndex:= 0;
-      Groups.Pages[i].Tabs.TabIndex:= nIndex;
+      with Groups.Pages[i].Tabs do
+        if TabIndex<>nIndex then
+          TabIndex:= nIndex;
     end;
 
     //restore group-index
     nIndex:= cfg.GetValue('/tab_index/g_active', Low(TATGroupsNums));
     if (nIndex>=Low(TATGroupsNums)) and (nIndex<=High(TATGroupsNums)) then
-    begin
-      Groups.PagesCurrent:= Groups.Pages[nIndex];
-      with Groups.PagesCurrent do
-        Tabs.TabIndex:= Tabs.TabIndex;
-    end;
+      if Groups.PagesCurrent<>Groups.Pages[nIndex] then
+      begin
+        Groups.PagesCurrent:= Groups.Pages[nIndex];
+        with Groups.PagesCurrent do
+          Tabs.TabIndex:= Tabs.TabIndex;
+      end;
 
     //clear tick values, to CudaExt tab switcher feels good
     //(it shows frames with tick=0 in second listbox)
