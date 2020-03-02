@@ -125,7 +125,7 @@ begin
     begin
       Strs.LineAddRaw_NoUndo(AText, cEndUnix);
       for i:= 1 to Strs.Count-cConsoleMaxLines do
-        Strs.LineDelete(0);
+        Strs.LineDelete(0, false, false, false);
     end;
 
     ModeReadOnly:= true;
