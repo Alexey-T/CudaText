@@ -1648,9 +1648,7 @@ begin
       Inc(NCnt);
     end;
 
-    fmConsole.DoUpdate;
-    //following is to fix https://github.com/Alexey-T/CudaText/issues/2341
-    fmConsole.DoScrollToEnd(true);
+    fmConsole.DoUpdateMemo;
   end;
 
   //call API event on_mouse_stop

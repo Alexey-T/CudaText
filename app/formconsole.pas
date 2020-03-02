@@ -64,8 +64,7 @@ type
     EdMemo: TATSynEdit;
     property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
     procedure DoAddLine(const AText: UnicodeString);
-    procedure DoUpdate;
-    procedure DoScrollToEnd(AllowProcessMsg: boolean);
+    procedure DoUpdateMemo;
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
     property MemoWordWrap: boolean read GetWordWrap write SetWordWrap;
     procedure SetFocus; override;
@@ -122,46 +121,29 @@ begin
     if (Strs.Count=1) and (Strs.LinesLen[0]=0) then
       Strs.Lines[0]:= AText
     else
+    begin
       Strs.LineAddRaw_NoUndo(AText, cEndUnix);
+      while Strs.Count>cConsoleMaxLines do
+        Strs.LineDelete(0);
+    end;
 
     ModeReadOnly:= true;
   end;
 end;
 
-procedure TfmConsole.DoUpdate;
-//DoUpdate must be called after 1+ DoAddLine calls
-//It's called after N calls in main form
+procedure TfmConsole.DoUpdateMemo;
+//This must be called after some DoAddLine calls
 //
 //Note: don't call Application.ProcessMessages here!
 // https://github.com/Alexey-T/CudaText/issues/2326
-var
-  Str: TATStrings;
 begin
   with EdMemo do
   begin
-    Str:= Strings;
-    if Str.Count>cConsoleMaxLines then
-    begin
-      ModeReadOnly:= false;
-      while Str.Count>cConsoleMaxLines do
-        Str.LineDelete(0);
-      //if Str.LinesUTF8[0]='' then
-      //  Str.LineDelete(0);
-      ModeReadOnly:= true;
-    end;
-
+    //we added some lines directly to EdMemo.Strings, so update WrapInfo
+    UpdateWrapInfo(true);
     DoCommand(cCommand_GotoTextEnd);
     ColumnLeft:= 0;
-    Update(true);
   end;
-end;
-
-procedure TfmConsole.DoScrollToEnd(AllowProcessMsg: boolean);
-begin
-  if AllowProcessMsg then
-    Application.ProcessMessages;
-  EdMemo.DoScrollToBeginOrEnd(false);
-  EdMemo.Update;
 end;
 
 procedure TfmConsole.SetFocus;
@@ -183,8 +165,7 @@ begin
     EdInput.DoAddLineToHistory(Utf8Decode(Str), cConsoleMaxComboboxItems);
 
   DoAddLine(cConsolePrompt+Str);
-  DoUpdate;
-  DoScrollToEnd(true);
+  DoUpdateMemo;
 
   try
     if SBeginsWith(Str, cConsolePrintPrefix) then
