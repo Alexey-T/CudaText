@@ -234,18 +234,20 @@ begin
   with LexerProgress do
   begin
     Parent:= Status;
-    AnchorSideRight.Control:= Status;
-    AnchorSideRight.Side:= asrBottom;
-    AnchorSideBottom.Control:= Status;
-    AnchorSideBottom.Side:= asrBottom;
-    Anchors:= [akRight, akBottom];
+    Align:= alRight;
+    //AnchorSideRight.Control:= Status;
+    //AnchorSideRight.Side:= asrRight;
+    //AnchorSideTop.Control:= Status;
+    //AnchorSideTop.Side:= asrTop;
+    //AnchorSideBottom.Control:= Status;
+    //AnchorSideBottom.Side:= asrBottom;
+    //Anchors:= [akRight, akTop];
     BorderSpacing.Around:= 2;
-    Kind:= gkHorizontalBar;
+    Kind:= gkVerticalBar;
     ShowText:= false;
     MinValue:= 0;
     MaxValue:= 100;
-    Width:= UiOps.ProgressbarWidth;
-    Height:= UiOps.ProgressbarHeightSmall;
+    Width:= UiOps.ProgressbarHeightSmall;
   end;
 
   with ButtonCancel do
@@ -260,7 +262,7 @@ begin
     Width:= UiOps.ProgressbarWidth;
   end;
 
-  LexerProgress.Hide;
+  //LexerProgress.Hide;
   StatusProgress.Hide;
   ButtonCancel.Hide;
 end;

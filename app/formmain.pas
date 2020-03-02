@@ -2781,8 +2781,7 @@ begin
   CompletionOps.AppendOpeningBracket:= UiOps.AutocompleteAddOpeningBracket;
   CompletionOps.UpDownAtEdge:= TATCompletionUpDownAtEdge(UiOps.AutocompleteUpDownAtEdge);
 
-  LexerProgress.Width:= AppScale(UiOps.ProgressbarWidth);
-  LexerProgress.Height:= AppScale(UiOps.ProgressbarHeightSmall);
+  LexerProgress.Width:= AppScale(UiOps.ProgressbarHeightSmall);
   StatusProgress.Width:= AppScale(UiOps.ProgressbarWidth);
   ButtonCancel.Width:= AppScale(UiOps.ProgressbarWidth);
 
@@ -6457,11 +6456,12 @@ begin
   if FLexerProgressIndex>=0 then
   begin
     LexerProgress.Progress:= FLexerProgressIndex;
-    if FLexerProgressIndex>0 then
-      LexerProgress.Show;
+    //if FLexerProgressIndex>0 then
+    //  LexerProgress.Show;
   end
   else
-    LexerProgress.Hide;
+    //LexerProgress.Hide;
+    LexerProgress.Progress:= 0;
 end;
 
 function _FrameListCompare(List: TStringList; Index1, Index2: Integer): Integer;
