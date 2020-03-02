@@ -23,12 +23,8 @@
       "style": "TagId"
     },
     "tag_prop": {
-      "regex": "\\w[\\w\\-:]*(?==)",
+      "regex": "\\w[\\w\\-:]*(?==\")",
       "style": "TagProp"
-    },
-    "email": {
-      "regex": "(mailto:)?\\w[\\w\\-\\.]*@[\\w\\-\\.]+",
-      "style": "String2"
     },
     "id": {
       "regex": "[a-zA-Z_]\\w*",
@@ -41,10 +37,6 @@
     "str2": {
       "regex": "\\\".*?\\\"",
       "style": "String"
-    },
-    "sym": {
-      "regex": "[\\-\\+\\*/\\(\\)\\[\\]\\{\\}\\|\\\\\\.,:;~!@\\#\\$%\\^&\\?<>]",
-      "style": "Symbol"
     }
   }
 }
