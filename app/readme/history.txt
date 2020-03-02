@@ -3,8 +3,11 @@
   - fixed
   * changed
 
-+ add: highlight/open emails (without 'mailto:') like URLs
-+ add: highlight HTML colors #rgba, #rrggbbaa too
+1.96.1 (2020/03)
+
++ add: highlight and open (by command "Open URL") e-mails, even without 'mailto:'
++ add: proper underline HTML colors #rgba, #rrggbbaa too
++ add: lexer C/C++: support multi-line strings (with \ before newline)
 + add: lexer PHP: separate style for "function modifiers", highlight system variables, more keywords
 + add: lexer PHP: show "traits" in code tree (was already supported by "tree helper for PHP")
 
