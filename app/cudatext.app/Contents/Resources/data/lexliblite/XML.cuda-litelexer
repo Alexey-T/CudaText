@@ -34,10 +34,6 @@
       "regex": "[a-zA-Z_]\\w*",
       "style": "Id"
     },
-    "num": {
-      "regex": "\\d+(\\.\\d+)?([eE][-\\+]?\\d+)?",
-      "style": "Number"
-    },
     "str": {
       "regex": "\\'.*?\\'",
       "style": "String"
