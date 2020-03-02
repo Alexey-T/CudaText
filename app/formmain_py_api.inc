@@ -6742,7 +6742,7 @@ begin
 end;
 
 
-function Py_FindAllMatches(Ed: TATSynEdit; const AText, AOptions: string): PPyObject;
+function Py_FindAllMatches(Ed: TATSynEdit; const AText, AOptions: string; AMaxLineLen: integer): PPyObject;
 var
   Finder: TATEditorFinder;
   ResList: TATFinderResults;
@@ -6756,6 +6756,7 @@ begin
     Finder.StrFind:= UTF8Decode(AText);
     FinderOptionsFromString(Finder, AOptions);
     Finder.OnGetToken:= @fmMain.FinderOnGetToken;
+    Finder.MaxLineLen:= AMaxLineLen;
 
     Finder.DoAction_FindAll(ResList, false);
 
@@ -6818,7 +6819,7 @@ begin
 
         EDACTION_FIND_ALL:
           begin
-            Result:= Py_FindAllMatches(Ed, StrText1, StrText2);
+            Result:= Py_FindAllMatches(Ed, StrText1, StrText2, StrToIntDef(StrText3, MaxInt));
           end;
 
         EDACTION_FIND_BRACKETS:
