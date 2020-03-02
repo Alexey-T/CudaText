@@ -255,7 +255,7 @@ begin
     end;
   end;
 
-  value:= 'Saved session: '+ExtractFileName(AFileName)+', '+IntToStr(nCountFiles)+' file(s)';
+  value:= 'Saved session: "'+ExtractFileName(AFileName)+'", '+IntToStr(nCountFiles)+' file(s)';
   MsgLogConsole(value);
 end;
 
@@ -270,7 +270,7 @@ var
   Frame: TEditorFrame;
   list: TStringlist;
   sFilename, sTabTitle, sKind, sOpenOptions, item_path: string;
-  nCountFiles, nCountFilesModified: integer;
+  nCountFiles, nCountFilesModified, nCountFilesBefore: integer;
   nIndex, i: integer;
   Pages: TATPages;
   bModified: boolean;
@@ -284,6 +284,11 @@ begin
   Result:= false;
   if AFileName='' then exit;
   if not FileExists(AFileName) then exit;
+
+  nCountFilesBefore:= FrameCount;
+  if nCountFilesBefore=1 then
+    if Frames[0].IsEmpty then
+      nCountFilesBefore:= 0;
 
   if not DoFileCloseAll(true) then exit;
 
@@ -439,14 +444,16 @@ begin
 
   nTick:= (GetTickCount64-nTick) div 10 * 10;
 
-  sText:= 'Loaded session: '+ExtractFileName(AFileName)+', '+IntToStr(nTick)+'ms, '+IntToStr(nCountFiles)+' file(s)';
+  sText:= 'Loaded session: "'+ExtractFileName(AFileName)+'", '+IntToStr(nTick)+'ms, '+IntToStr(nCountFiles)+' file(s)';
   if nCountFilesModified>0 then
     sText+= ' + '+IntToStr(nCountFilesModified)+' modified';
   MsgLogConsole(sText);
 
   SetLength(Params, 1);
   Params[0]:= AppVariant(APPSTATE_SESSION_LOAD);
-  DoPyEvent(nil, cEventOnState, Params);
+
+  if (nCountFilesBefore>0) or (nCountFiles>0) then
+    DoPyEvent(nil, cEventOnState, Params);
 end;
 
 procedure TfmMain.DoOps_LoadHistory_GroupView(cfg: TJsonConfig);
