@@ -87,7 +87,7 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'String'
       StyleName = 'String'
       TokenType = 4
-      Expression = 'L?"(\\"|\\\\|.)*?("|$)'
+      Expression = 'L?"(\\"|\\\\|\\\n|.)*?("|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
