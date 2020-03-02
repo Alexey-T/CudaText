@@ -111,6 +111,7 @@ end;
 procedure TfmConsole.DoAddLine(const AText: UnicodeString);
 var
   Strs: TATStrings;
+  i: integer;
 begin
   with EdMemo do
   begin
@@ -123,7 +124,7 @@ begin
     else
     begin
       Strs.LineAddRaw_NoUndo(AText, cEndUnix);
-      while Strs.Count>cConsoleMaxLines do
+      for i:= 1 to Strs.Count-cConsoleMaxLines do
         Strs.LineDelete(0);
     end;
 
