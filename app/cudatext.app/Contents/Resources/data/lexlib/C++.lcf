@@ -100,6 +100,14 @@ object SyntAnal5: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'String in define'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '(?<=\#include\x20)<.+?>'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Id keyword'
       StyleName = 'Id keyword'
       TokenType = 7
@@ -684,6 +692,7 @@ object SyntAnal5: TLibSyntAnalyzer
     '/* Test */'
     '#define max(a, b) ((a > b) ? a : b)'
     '#  asm(" pop ax ");'
+    '#include <some/path.h>'
     's = "text\"text" + L"test" + name<CName>;'
     
       'n = 1e2 + 0.12e+2 + 0xA'#39'B + 0b11'#39'00 + 1'#39'12'#39'23 + 0.1'#39'2f + 0xF.Ap3' +

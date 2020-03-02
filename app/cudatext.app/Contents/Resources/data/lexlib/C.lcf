@@ -92,6 +92,14 @@ object SyntAnal4: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'String in define'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '(?<=\#include\x20)<.+?>'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Id keyword'
       StyleName = 'Id keyword'
       TokenType = 7
@@ -510,7 +518,8 @@ object SyntAnal4: TLibSyntAnalyzer
     end>
   SampleText.Strings = (
     '/* Test */'
-    '#define sum(a, b) a+b '
+    '#define sum(a, b) a+b'
+    '#include <some/path.h> '
     '#asm (" mov ax, F0h ")'
     ''
     'double a = {'
@@ -531,7 +540,7 @@ object SyntAnal4: TLibSyntAnalyzer
     '  0x10.1p0,'
     '};                   '
     ''
-    'char* stdcall Init(void) {'
+    'static char* stdcall Init(void) {'
     '  TestModDeinit(B64UTIL);'
     '  return 0;'
     '}'
