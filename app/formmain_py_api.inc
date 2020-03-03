@@ -4838,7 +4838,16 @@ begin
 
         LEXER_DETECT:
           begin
-            DoLexerDetect(StrValue, Lexer, LexerLite, SName, nil);
+            if Assigned(fmMain.LexersDetected) then
+              fmMain.LexersDetected.Clear
+            else
+              fmMain.LexersDetected:= TStringList.Create;
+
+            DoLexerDetect(StrValue, Lexer, LexerLite, SName, @fmMain.DoPyLexerDetection);
+
+            if fmMain.LexersDetected.Count>0 then
+              Result:= StringsToPyTuple(fmMain.LexersDetected)
+            else
             if SName<>'' then
               Result:= PyString_FromString(PChar(SName))
             else

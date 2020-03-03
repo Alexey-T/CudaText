@@ -1034,6 +1034,7 @@ type
     ListboxOut: TATListbox;
     ListboxVal: TATListbox;
     LexerProgress: TATGauge;
+    LexersDetected: TStringList;
     function FrameCount: integer;
     property Frames[N: integer]: TEditorFrame read GetFrame;
     function CurrentGroups: TATGroups;
@@ -1057,6 +1058,7 @@ type
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
     procedure DoPyCommand(const AModule, AMethod: string; const AParams: TAppVariantArray);
     function DoPyTreeHelper(Frame: TEditorFrame): boolean;
+    function DoPyLexerDetection(const Filename: string; Lexers: TStringList): integer;
     procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATFinderTokenKind);
   end;
 
@@ -6656,6 +6658,14 @@ begin
   Frame:= CurrentFrame;
   if Assigned(Frame) then
     Frame.SetFocus;
+end;
+
+function TfmMain.DoPyLexerDetection(const Filename: string; Lexers: TStringList): integer;
+begin
+  if not Assigned(LexersDetected) then
+    LexersDetected:= TStringList.Create;
+  LexersDetected.Assign(Lexers);
+  Result:= 0;
 end;
 
 //----------------------------
