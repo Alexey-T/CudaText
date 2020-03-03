@@ -220,7 +220,7 @@ begin
       DoShowValidate(true);
 
     cmd_ShowSidePanelAsIs:
-      AppPanels[cPaneSide].UpdatePanels(AppPanels[cPaneSide].LastActivePanel, false, false);
+      AppPanels[cPaneSide].Visible:= true;
 
     cmd_ShowSidePanelAndSyntaxTree:
       AppPanels[cPaneSide].UpdatePanels(msgPanelTree_Init, false, true);
@@ -235,6 +235,7 @@ begin
 
     cmd_HideSidePanel:
       AppPanels[cPaneSide].Visible:= false;
+
     cmd_HideBottomPanel:
       AppPanels[cPaneOut].Visible:= false;
 
