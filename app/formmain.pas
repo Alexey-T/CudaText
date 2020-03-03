@@ -3954,6 +3954,11 @@ begin
 
   F.LexerName[F.Editor]:= SName;
 
+  //if some lexer selected, OnParseDone will update the tree
+  //if (none) lexer selected, update tree manually
+  if SName='' then
+    UpdateTreeContents;
+
   UpdateFrameEx(F, false);
   UpdateStatus;
 end;

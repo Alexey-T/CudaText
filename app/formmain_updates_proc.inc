@@ -1032,8 +1032,11 @@ begin
   Ed:= Frame.Editor;
 
   Ada:= Frame.Adapter[Ed];
-  if Ada=nil then exit;
-  if Ada.AnClient=nil then exit;
+  if (Ada=nil) or (Ada.AnClient=nil) then
+  begin
+    ClearTreeviewWithData(CodeTree.Tree);
+    exit
+  end;
 
   if not Frame.EnabledCodeTree[Ed] then
   begin
