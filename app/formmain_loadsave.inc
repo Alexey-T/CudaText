@@ -228,7 +228,8 @@ begin
 
       cfg.SetValue(path+'/modified', bModified);
       cfg.SetValue(path+'/file', SCollapseHomeDirInFilename(Frame.Filename));
-      cfg.SetValue(path+'/tab_title', Frame.TabCaption);
+      if bModified then
+        cfg.SetValue(path+'/tab_title', Frame.TabCaption);
       cfg.SetValue(path+'/group', nLocalGroup+1); //support old sessions with 1-based index
 
       if Frame.IsText then value:= ''
