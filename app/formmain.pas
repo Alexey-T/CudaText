@@ -2541,9 +2541,24 @@ function TfmMain.DoFileInstallZip(const fn: string; out DirTarget: string;
 var
   msg, msg2: string;
   AddonType: TAppAddonType;
+  bFileLexer: boolean;
+  ListBackup: TStringlist;
 begin
+  bFileLexer:= true;
+  if bFileLexer then
+  begin
+    ListBackup:= TStringList.Create;
+    DoOps_LexersDisableInFrames(ListBackup);
+  end;
+
   DoInstallAddonFromZip(fn, AppDir_DataAutocomplete, msg, msg2,
     Result, AddonType, DirTarget, ASilent);
+
+  if bFileLexer then
+  begin
+    DoOps_LexersRestoreInFrames(ListBackup);
+    FreeAndNil(ListBackup);
+  end;
 
   if Result then
   begin
