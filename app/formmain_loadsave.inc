@@ -593,6 +593,9 @@ procedure TfmMain.DoApplyInitialSidebarPanel;
 var
   S: string;
 begin
+  //if session was loaded on start, and sidepanel was inited, exit
+  if AppPanels[cPaneSide].LastActivePanel<>'' then exit;
+
   S:= FOption_SidebarTab;
   //if plugin didnt load, caption not valid
   if AppPanels[cPaneSide].CaptionToButtonIndex(S)<0 then
