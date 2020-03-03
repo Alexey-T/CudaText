@@ -5,14 +5,14 @@
 
 1.96.2 (2020/03)
 
-- fix: crash (broken in 1.95) when FTP plugin was active and session is loaded
-- fix: crash when document loads from session on start with wrapped state
 + add: highlight and open (by command "Open URL") e-mails, even without 'mailto:'
 + add: proper underline HTML colors #rgba, #rrggbbaa too
 + add: lexer C/C++: support multi-line strings (with \ before newline)
 + add: lexer PHP: separate style for "function modifiers", highlight system variables, more keywords
 + add: lexer PHP: show "traits" in code tree
 * change: changed layout of lexer-parsing-progressbar in the right/bottom corner, it's always visible now
+- fix: crash on start, when FTP plugin was active on exiting
+- fix: crash on start, when document loads from session with wrapped state
 
 1.96.0 (2020/02)
 
