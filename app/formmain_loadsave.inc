@@ -322,7 +322,6 @@ begin
 
       sFilename:= cfg.GetValue(item_path+'file', '');
       sFilename:= SExpandHomeDirInFilename(sFilename);
-      sTabTitle:= cfg.GetValue(item_path+'tab_title', '');
       sText:= cfg.GetValue(item_path+'text', '');
       sKind:= cfg.GetValue(item_path+'kind', '');
       bModified:= cfg.GetValue(item_path+'modified', false);
@@ -369,6 +368,7 @@ begin
         end;
         Frame.Editor.Text:= sText;
         Frame.Editor.Modified:= bModified;
+        sTabTitle:= cfg.GetValue(item_path+'tab_title', '');
         if sTabTitle<>'' then
           Frame.TabCaption:= sTabTitle;
         Frame.UpdateModified(Frame.Editor);
