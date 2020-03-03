@@ -495,12 +495,12 @@ You can type those "hash tags" at begin or end of the field, even without separa
 Lexer engine uses regex from EControl package. Groups must be referenced as \0 .. \9.
 It has custom features:
 
-* classes \A, \Z: begin/end of file
-* look ahead/behind can find variable length
-* doesn't support non-capturing groups, big drawback when you want to do complex replacements
-* new modifiers (?r), (?g)
+* classes \A, \Z: begin/end of document
+* lookahead/lookbehind can find match of variable length
+* modifier (?r): treat \w as all national characters too
+* modifier (?g)
 
-Search/replace uses TRegExpr engine (by Sorokin), almost fully Perl compatible, syntax is documented here: http://regexpstudio.com/TRegExpr/Help/regexp_syntax.html . Groups must be referenced as $0 .. $9. Engine is more reliable, fast.
+Search/replace uses TRegExpr engine (by Sorokin), its syntax is documented here: http://regexpstudio.com/TRegExpr/Help/regexp_syntax.html . Groups must be referenced as $0 .. $9. Engine is more reliable, fast.
 
 ===Change case on replaces===
 
