@@ -2684,15 +2684,16 @@ end;
 
 procedure TfmMain.DoApplyLexerStyleMaps(AndApplyTheme: boolean);
 var
+  Frame: TEditorFrame;
   i: integer;
 begin
   for i:= 0 to FrameCount-1 do
-    with Frames[i] do
-    begin
-      Lexer[Ed1]:= Lexer[Ed1];
-      if AndApplyTheme then
-        ApplyTheme;
-    end;
+  begin
+    Frame:= Frames[i];
+    Frame.Lexer[Frame.Ed1]:= Frame.Lexer[Frame.Ed1];
+    if AndApplyTheme then
+      Frame.ApplyTheme;
+  end;
 end;
 
 procedure TfmMain.DoDialogLexerMap;
