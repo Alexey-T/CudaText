@@ -1,4 +1,4 @@
-object SyntAnal23: TLibSyntAnalyzer
+object SyntAnal16: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Number'
@@ -103,7 +103,7 @@ object SyntAnal23: TLibSyntAnalyzer
       DisplayName = '1st String 2'
       StyleName = 'String'
       TokenType = 4
-      Expression = '^[\x20\x09]* [buf]* ("|'#39') (\\.|.)*? (\1|$)'
+      Expression = '^[\x20\x09]* [rbuf]* ("|'#39') (\\.|.)*? (\1|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -217,8 +217,8 @@ object SyntAnal23: TLibSyntAnalyzer
       StyleName = 'Number'
       TokenType = 5
       Expression = 
-        '\b \d[_\d]* \.\d[_\d]* (e[\-\+]?\d[_\d]*)? \b |'#13#10'\b\d[_\d]*\.? |' +
-        #13#10'\.\d[_\d]*\b |'
+        '\b \d[_\d]* \.\d[_\d]* (e[\-\+]?\d[_\d]*)?j? \b |'#13#10'\b\d[_\d]*[\.' +
+        'Lj]?\b |'#13#10'\.\d[_\d]*\b |'
       ColumnFrom = 0
       ColumnTo = 0
     end
