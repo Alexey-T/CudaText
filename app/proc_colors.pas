@@ -452,7 +452,7 @@ begin
   SetStyle(apstCommentDoc, 'CommentDoc', $809070, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
 
   SetStyle(apstNumber, 'Number', clNavy, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstLabel, 'Label', $607EB6, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstLabel, 'Label', $406090, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
   SetStyle(apstColor, 'Color', $0080C0, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
 
   SetStyle(apstIncludeBG1, 'IncludeBG1', clBlack, clMoneyGreen, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
