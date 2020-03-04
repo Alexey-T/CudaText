@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+
++ add: lexer Python: add word styles (std functions, exceptions); rework word lists; support complex numbers
+
 1.96.2 (2020/03)
 
 + add: highlight and open (by command "Open URL") e-mails, even without 'mailto:'
