@@ -5,6 +5,7 @@
 
 
 + add: lexer Python: add word styles (std functions, exceptions); rework word lists; support complex numbers
++ add: export to HTML: fixed empty first line; optimized HTML code
 
 1.96.2 (2020/03)
 
