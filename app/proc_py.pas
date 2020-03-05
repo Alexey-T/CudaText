@@ -38,6 +38,8 @@ type
     ModuleCud: PPyObject;
     GlobalsMain: PPyObject;
     GlobalsCud: PPyObject;
+    procedure TimeTrackBegin(var tick: QWord);
+    procedure TimeTrackEnd(const AModule: string; var tick: QWord);
     procedure InitModuleMain;
     procedure InitModuleCud;
     procedure ImportCommand(const AObjectName, AModule: string);
@@ -313,12 +315,15 @@ var
   ObjName: string;
   ParamObjs: array of PPyObject;
   Obj: PPyObject;
+  tick: QWord;
   i: integer;
 begin
   if not FInited then exit(false);
   InitModuleMain;
 
   FRunning:= true;
+  TimeTrackBegin(tick);
+
   FLastCommandModule:= AModule;
   FLastCommandMethod:= AMethod;
   FLastCommandParam:= '';
@@ -352,7 +357,33 @@ begin
         Py_XDECREF(Obj);
       end;
   finally
+    TimeTrackEnd(AModule, tick);
     FRunning:= false;
+  end;
+end;
+
+procedure TAppPython.TimeTrackBegin(var tick: QWord);
+begin
+  if Assigned(EventTimes) then
+    tick:= GetTickCount64;
+end;
+
+procedure TAppPython.TimeTrackEnd(const AModule: string; var tick: QWord);
+var
+  i: integer;
+begin
+  if Assigned(EventTimes) then
+  begin
+    tick:= GetTickCount64-tick;
+    if tick>0 then
+    begin
+      Inc(EventTime, tick);
+      i:= EventTimes.IndexOf(AModule);
+      if i>=0 then
+        EventTimes.Objects[i]:= TObject(PtrInt(EventTimes.Objects[i])+PtrInt(tick))
+      else
+        EventTimes.AddObject(AModule, TObject(PtrInt(tick)));
+    end;
   end;
 end;
 
@@ -403,8 +434,7 @@ begin
   InitModuleMain;
 
   FRunning:= true;
-  if Assigned(EventTimes) then
-    tick:= GetTickCount64;
+  TimeTrackBegin(tick);
 
   ObjName:= NamePrefix+AModule;
 
@@ -431,20 +461,7 @@ begin
   end;
 
   FRunning:= false;
-
-  if Assigned(EventTimes) then
-  begin
-    tick:= GetTickCount64-tick;
-    if tick>0 then
-    begin
-      Inc(EventTime, tick);
-      i:= EventTimes.IndexOf(AModule);
-      if i>=0 then
-        EventTimes.Objects[i]:= TObject(PtrInt(EventTimes.Objects[i])+PtrInt(tick))
-      else
-        EventTimes.AddObject(AModule, TObject(PtrInt(tick)));
-    end;
-  end;
+  TimeTrackEnd(AModule, tick);
 end;
 
 
