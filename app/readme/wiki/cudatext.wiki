@@ -1212,10 +1212,12 @@ How to make translation zip package:
 
 * make "install.inf" with such text:
 
- [info]
- title=LangName translation (by AuthorName)
- type=cudatext-data
- subdir=lang
+<syntaxhighlight lang="ini">
+[info]
+title=LangName translation (by AuthorName)
+type=cudatext-data
+subdir=lang
+</syntaxhighlight>
 
 * make zip file "translation.nn_NN.zip" with files nn_NN.ini, install.inf
 * test this zip: open it in CudaText, and check it's installed
@@ -1223,31 +1225,37 @@ How to make translation zip package:
 * if package ok, it will be at SF.net downloads, and in Addon Manager
 
 ==How to make translation of Plugins menu==
-CudaText 1.84+ supports translation of Plugins menu items. For example, you have plugin with module cuda_nnn, which has "install.inf" with such menu items:
+CudaText supports translation of Plugins menu items. For example, you have plugin with module cuda_nnn, which has "install.inf" with such menu items:
 
- [item1]
- ...
- caption=MyPlugin\ItemOne
- ...
- [item2]
- ...
- caption=MyPlugin\SubMenu\ItemTwo
- ...
+<syntaxhighlight lang="ini">
+[item1]
+...
+caption=MyPlugin\ItemOne
+...
+[item2]
+...
+caption=MyPlugin\SubMenu\ItemTwo
+...
+</syntaxhighlight>
 
 Then you need to create files like "ru_RU.ini" in the folder "data/langmenu/cuda_nnn". Create folder "langmenu" inside "data" if it's absent. Files must be in UTF-8 no BOM encoding. They must have section "menu". All items in the ini-file are optional.
 
- [menu]
- MyPlugin=local name
- ItemOne=local name of item
- ItemTwo=local name of item
- SubMenu=local name of menu
+<syntaxhighlight lang="ini">
+[menu]
+MyPlugin=local name
+ItemOne=local name of item
+ItemTwo=local name of item
+SubMenu=local name of menu
+</syntaxhighlight>
 
 To distribute those translation(s), make zip file like "langmenu.MyPlugin.zip", which must have "install.inf" and folder "cuda_nnn" (you can put more folders, for several plugins, if you want so). Install.inf contents:
 
- [info]
- title=Translation of menu items of MyPlugin
- type=cudatext-data
- subdir=langmenu
+<syntaxhighlight lang="ini">
+[info]
+title=Translation of menu items of MyPlugin
+type=cudatext-data
+subdir=langmenu
+</syntaxhighlight>
 
 Submit that zip file to CudaText GutHub page, or post it to the forum.
 
@@ -1273,11 +1281,13 @@ Don't configure custom lexer styles in Lexer Properties dialog, if option "ui_le
 
 * Make such file "install.inf":
 
- [info]
- title=MyName UI theme (by AuthorName)
- type=cudatext-data
- subdir=themes
- homepage=https://github.com/nnnn/pppp
+<syntaxhighlight lang="ini">
+[info]
+title=MyName UI theme (by AuthorName)
+type=cudatext-data
+subdir=themes
+homepage=https://github.com/nnnn/pppp
+</syntaxhighlight>
 
 * Make zip file "theme.MyName.zip" with files "MyTheme.cuda-theme-nnnnn" and "install.inf"
 * Test zip file: open zip file in CudaText, confirm installation
@@ -1504,31 +1514,33 @@ CPU suffix is "-" char followed by names: i386, x86_64, arm, aarch64, sparc. So 
 
 Example of install.inf for plugin (plugin adds 2 menu items with menu separator between):
 
- [info]
- title=MyName
- desc=Plugin allows smth
- type=cudatext-plugin
- subdir=cuda_test
- homepage=http://github.com/some/name/
- api=1.0.200
+<syntaxhighlight lang="ini">
+[info]
+title=MyName
+desc=Plugin allows smth
+type=cudatext-plugin
+subdir=cuda_test
+homepage=http://github.com/some/name/
+api=1.0.200
 
- [item1]
- section=commands
- caption=MyPlugin\Cmd one
- method=run
- lexers=CSS,HTML
- hotkey=Alt+F
+[item1]
+section=commands
+caption=MyPlugin\Cmd one
+method=run
+lexers=CSS,HTML
+hotkey=Alt+F
 
- [item2]
- section=commands
- caption=MyPlugin\-
- method=nnnn
+[item2]
+section=commands
+caption=MyPlugin\-
+method=nnnn
 
- [item3]
- section=commands
- caption=MyPlugin\Cmd other
- method=run_more
- menu=0
+[item3]
+section=commands
+caption=MyPlugin\Cmd other
+method=run_more
+menu=0
+</syntaxhighlight>
 
 Section names: from "item1" to "item400", any numbers can be skipped. Fields in "item" sections:
 
@@ -1562,59 +1574,71 @@ Plugin can show sidebar button(s), without running plugin code. For this, add se
 
 If plugin has many [itemN] sections, it is possible to set list of lexers using vairable (not to write each time "lexers=name,name2,name3"). Declare list of lexers in [info] section like this, any variable name:
 
- [info]
- $var=Name1,Name2,Name3
+<syntaxhighlight lang="ini">
+[info]
+$var=Name1,Name2,Name3
+</syntaxhighlight>
 
 In [itemN] sections set lexers like this:
 
- [itemN]
- lexers=$var
+<syntaxhighlight lang="ini">
+[itemN]
+lexers=$var
+</syntaxhighlight>
 
 You can set lexers by reg-ex, e.g. reg-ex ".*SQL.*" means all names with substring "SQL". To do it, write variable with prefix:
 
- [info]
- $var=regex:.*SQL.*
+<syntaxhighlight lang="ini">
+[info]
+$var=regex:.*SQL.*
+</syntaxhighlight>
 
 ===Data-files===
 
 Example of install.inf for data files, to be copied into subdir of "data" dir. Name of subdir can be any, for example "themes".
 
- [info]
- title=NiceDarkTheme
- desc=Nice Dark theme (by AuthorName)
- type=cudatext-data
- subdir=themes
+<syntaxhighlight lang="ini">
+[info]
+title=NiceDarkTheme
+desc=Nice Dark theme (by AuthorName)
+type=cudatext-data
+subdir=themes
+</syntaxhighlight>
 
 ===Lexers===
 
 To see example of install.inf for lexers, download any lexer. To see complex example, download lexer zip for "HTML Smarty" which has 2 lexers inside, one lexer is linked to another.
 
- [info]
- title=HTML Smarty
- type=lexer
- subdir=-
+<syntaxhighlight lang="ini">
+[info]
+title=HTML Smarty
+type=lexer
+subdir=-
 
- [lexer1]
- file=HTML Smarty internal
- [lexer2]
- file=HTML Smarty
- link1=CSS
- link2=VBScript
- link3=JavaScript
- link4=JavaScript
- link5=VBScript
- link6=PHP
- link7=PHP
- link8=HTML Smarty internal
+[lexer1]
+file=HTML Smarty internal
+[lexer2]
+file=HTML Smarty
+link1=CSS
+link2=VBScript
+link3=JavaScript
+link4=JavaScript
+link5=VBScript
+link6=PHP
+link7=PHP
+link8=HTML Smarty internal
+</syntaxhighlight>
 
 ===Lite lexers===
 
 Example of install.inf for lite lexer. Note that "^" suffix not needed here.
 
- [info]
- title=MyLexer
- type=lexer-lite
- subdir=-
+<syntaxhighlight lang="ini">
+[info]
+title=MyLexer
+type=lexer-lite
+subdir=-
+</syntaxhighlight>
 
 ==Format of snippet files==
 
