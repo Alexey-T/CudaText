@@ -1007,7 +1007,7 @@ type
     procedure UpdateStatus_ForFrame(AStatus: TATStatus; F: TEditorFrame);
     procedure UpdateStatus_RealWork;
     procedure UpdateStatus_ToolButton(AToolbar: TATFlatToolbar; ACmd: integer; AChecked, AEnabled: boolean);
-    procedure UpdateStatus_ToolButtonFind;
+    procedure UpdateSideButtonFind;
     procedure UpdateTabCaptionsFromFolders;
     procedure UpdateTabsActiveColor(F: TEditorFrame);
     procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true; AForceUpdateAll: boolean=false);

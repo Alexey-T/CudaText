@@ -75,7 +75,7 @@ begin
   TimerStatusWork.Enabled:= true;
 end;
 
-procedure TfmMain.UpdateStatus_ToolButtonFind;
+procedure TfmMain.UpdateSideButtonFind;
 begin
   ToolbarSideMid.Buttons[0].Checked:= Assigned(fmFind) and fmFind.Visible;
 end;
@@ -91,8 +91,7 @@ begin
 
   UpdateTabCaptionsFromFolders; //maybe it's called too often here?
   UpdateMenuChecks;
-
-  UpdateStatus_ToolButtonFind;
+  UpdateSideButtonFind;
   UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible, true);
   UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleUnprinted, Ed.OptUnprintedVisible, true);
 
