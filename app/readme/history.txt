@@ -4,8 +4,9 @@
   * changed
 
 
-+ add: lexer Python: add word styles (std functions, exceptions); rework word lists; support complex numbers
-+ add: export to HTML: fixed empty first line; optimized HTML code
++ add: minor optimizations in renderer
++ add: lexer Python: add styles for std functions, exceptions; rework word lists; highlight complex numbers
++ add: export to HTML: removed empty first line; cleaned up HTML code
 
 1.96.2 (2020/03)
 
