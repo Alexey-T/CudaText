@@ -4,8 +4,9 @@
   * changed
 
 
-1.96.3
+1.96.3 (2020/03)
 
++ add: second click on "Search" sidebar button shows Replace dialog instead of Find dialog
 + add: minor optimizations in editor control
 + add: lexer Python: add styles for std functions, exceptions; rework word lists; highlight complex numbers
 + add: export to HTML: removed empty first line; cleaned up HTML code
