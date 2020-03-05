@@ -75,6 +75,11 @@ begin
   TimerStatusWork.Enabled:= true;
 end;
 
+procedure TfmMain.UpdateStatus_ToolButtonFind;
+begin
+  ToolbarSideMid.Buttons[0].Checked:= Assigned(fmFind) and fmFind.Visible;
+end;
+
 procedure TfmMain.UpdateStatus_RealWork;
 var
   F: TEditorFrame;
@@ -87,8 +92,7 @@ begin
   UpdateTabCaptionsFromFolders; //maybe it's called too often here?
   UpdateMenuChecks;
 
-  ToolbarSideMid.Buttons[0].Checked:= Assigned(fmFind) and fmFind.Visible;
-
+  UpdateStatus_ToolButtonFind;
   UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible, true);
   UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleUnprinted, Ed.OptUnprintedVisible, true);
 

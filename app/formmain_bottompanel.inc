@@ -18,15 +18,21 @@ end;
 
 
 procedure TfmMain.DoBottom_FindClick(Sender: TObject);
-var
-  bShown: boolean;
 begin
-  bShown:= Assigned(fmFind) and fmFind.Visible;
-  if bShown then
-    DoDialogFind_Hide
+  if not Assigned(fmFind) then
+    InitFormFind;
+
+  if fmFind.Visible then
+  begin
+    if fmFind.IsReplace then
+      DoDialogFind_Hide
+    else
+      fmFind.IsReplace:= true;
+  end
   else
     DoDialogFind(false);
-  UpdateStatus;
+
+  UpdateStatus_ToolButtonFind;
 end;
 
 procedure TfmMain.DoBottom_OnHide(Sender: TObject);
