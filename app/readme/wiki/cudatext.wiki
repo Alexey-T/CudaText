@@ -609,6 +609,8 @@ Option buttons have hotkeys too. Hover mouse over them to see floating tooltips 
 
 "Extract" button is enabled only in RegEx mode and it does this: all found matches will be put to a list, list is sorted, duplicates are discarded, and list is written to a new document. This is what plugin "Extract Strings" does.
 
+Second click on "Search" sidebar button shows Replace dialog instead of Find dialog.
+
 ==Dialog "Go to"==
 
 Dialog allows to enter text in formats:
@@ -619,6 +621,8 @@ Dialog allows to enter text in formats:
 * d100 (decimal with leading "d"): jump to absolute decimal offset
 * xFFF (hex number with leading "x"): jump to absolute hex offset
 * value with trailing "+": extend selection to this position (CudaText 1.69+)
+
+Also is possible to show Go To dialog on clicking statusbar first cell.
 
 ==Comments==
 
