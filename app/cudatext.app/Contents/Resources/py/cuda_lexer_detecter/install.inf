@@ -1,0 +1,10 @@
+[info]
+title=Lexer Detecter
+desc=Suggests to install lexer for undetected files
+type=cudatext-plugin
+subdir=cuda_lexer_detecter
+homepage=(Fill the GitHub repo URL)
+
+[item1]
+section=events
+events=on_open_none

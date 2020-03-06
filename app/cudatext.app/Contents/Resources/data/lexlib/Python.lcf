@@ -1,4 +1,4 @@
-object SyntAnal23: TLibSyntAnalyzer
+object SyntAnal16: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Number'
@@ -59,7 +59,7 @@ object SyntAnal23: TLibSyntAnalyzer
     item
       DisplayName = 'Id function'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clPurple
+      Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -68,6 +68,22 @@ object SyntAnal23: TLibSyntAnalyzer
       DisplayName = 'Id func name'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Id types'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Id exception'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clOlive
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -103,7 +119,7 @@ object SyntAnal23: TLibSyntAnalyzer
       DisplayName = '1st String 2'
       StyleName = 'String'
       TokenType = 4
-      Expression = '^[\x20\x09]* [buf]* ("|'#39') (\\.|.)*? (\1|$)'
+      Expression = '^[\x20\x09]* [rbuf]* ("|'#39') (\\.|.)*? (\1|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -217,8 +233,8 @@ object SyntAnal23: TLibSyntAnalyzer
       StyleName = 'Number'
       TokenType = 5
       Expression = 
-        '\b \d[_\d]* \.\d[_\d]* (e[\-\+]?\d[_\d]*)? \b |'#13#10'\b\d[_\d]*\.? |' +
-        #13#10'\.\d[_\d]*\b |'
+        '\b \d[_\d]* \.\d[_\d]* (e[\-\+]?\d[_\d]*)?j? \b |'#13#10'\b\d[_\d]*[\.' +
+        'Lj]?\b |'#13#10'\.\d[_\d]*\b |'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -290,7 +306,6 @@ object SyntAnal23: TLibSyntAnalyzer
             'elif'
             'else'
             'except'
-            'exec'
             'finally'
             'for'
             'from'
@@ -301,7 +316,6 @@ object SyntAnal23: TLibSyntAnalyzer
             'not'
             'or'
             'pass'
-            'print'
             'raise'
             'return'
             'try'
@@ -323,26 +337,27 @@ object SyntAnal23: TLibSyntAnalyzer
             '__future__'
             '__import__'
             'abs'
+            'all'
+            'any'
             'apply'
-            'bool'
+            'ascii'
+            'bin'
             'buffer'
             'callable'
             'chr'
-            'classmethod'
             'cmp'
             'coerce'
-            'complex'
+            'compile'
             'delattr'
-            'dict'
             'dir'
             'divmod'
             'enumerate'
             'eval'
+            'exec'
             'execfile'
-            'False'
             'file'
             'filter'
-            'float'
+            'format'
             'getattr'
             'globals'
             'hasattr'
@@ -351,26 +366,21 @@ object SyntAnal23: TLibSyntAnalyzer
             'hex'
             'id'
             'input'
-            'int'
             'intern'
             'isinstance'
             'issubclass'
             'iter'
             'len'
-            'list'
             'locals'
             'long'
-            'map'
             'max'
             'min'
-            'None'
-            'NotImplemented'
-            'object'
+            'next'
             'oct'
             'open'
             'ord'
             'pow'
-            'property'
+            'print'
             'range'
             'raw_input'
             'reduce'
@@ -382,18 +392,125 @@ object SyntAnal23: TLibSyntAnalyzer
             'setattr'
             'slice'
             'sorted'
-            'staticmethod'
-            'str'
             'sum'
-            'super'
-            'True'
-            'tuple'
-            'type'
             'unichr'
             'unicode'
             'vars'
             'xrange'
             'zip')
+          TokenTypes = 516
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Type-related'
+      StyleName = 'Id types'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'bool'
+            'bytearray'
+            'bytes'
+            'classmethod'
+            'complex'
+            'dict'
+            'Ellipsis'
+            'False'
+            'float'
+            'frozenset'
+            'int'
+            'list'
+            'map'
+            'memoryview'
+            'None'
+            'NotImplemented'
+            'object'
+            'property'
+            'set'
+            'staticmethod'
+            'str'
+            'super'
+            'True'
+            'tuple'
+            'type')
+          TokenTypes = 516
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Exceptions'
+      StyleName = 'Id exception'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'ArithmeticError'
+            'AssertionError'
+            'AttributeError'
+            'BaseException'
+            'BlockingIOError'
+            'BrokenPipeError'
+            'BufferError'
+            'BytesWarning'
+            'ChildProcessError'
+            'ConnectionAbortedError'
+            'ConnectionError'
+            'ConnectionRefusedError'
+            'ConnectionResetError'
+            'DeprecationWarning'
+            'EOFError'
+            'Exception'
+            'FileExistsError'
+            'FileNotFoundError'
+            'FloatingPointError'
+            'FutureWarning'
+            'GeneratorExit'
+            'ImportError'
+            'ImportWarning'
+            'IndentationError'
+            'IndexError'
+            'InterruptedError'
+            'IsADirectoryError'
+            'KeyboardInterrupt'
+            'KeyError'
+            'LookupError'
+            'MemoryError'
+            'ModuleNotFoundError'
+            'NameError'
+            'NotADirectoryError'
+            'NotImplementedError'
+            'OSError'
+            'OverflowError'
+            'PendingDeprecationWarning'
+            'PermissionError'
+            'ProcessLookupError'
+            'RecursionError'
+            'ReferenceError'
+            'ResourceWarning'
+            'RuntimeError'
+            'RuntimeWarning'
+            'StopAsyncIteration'
+            'StopIteration'
+            'SyntaxError'
+            'SyntaxWarning'
+            'SystemError'
+            'SystemExit'
+            'TabError'
+            'TimeoutError'
+            'TypeError'
+            'UnboundLocalError'
+            'UnicodeDecodeError'
+            'UnicodeEncodeError'
+            'UnicodeError'
+            'UnicodeTranslateError'
+            'UnicodeWarning'
+            'UserWarning'
+            'ValueError'
+            'Warning'
+            'ZeroDivisionError')
           TokenTypes = 516
         end>
       HighlightPos = cpAny
