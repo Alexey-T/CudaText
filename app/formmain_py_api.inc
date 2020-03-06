@@ -2097,7 +2097,10 @@ begin
       StrCaption:= string(PtrCaption);
       Dlg:= TSelectDirectoryDialog.Create(nil);
       try
-        Dlg.Title:= msgDialogTitleSelFolder; //StrCaption;
+        if StrCaption<>'' then
+          Dlg.Title:= StrCaption
+        else
+          Dlg.Title:= msgDialogTitleSelFolder;
         Dlg.InitialDir:= StrFolder;
         if Dlg.Execute then
           Result:= PyString_FromString(PChar(Dlg.FileName))
