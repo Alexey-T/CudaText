@@ -2831,32 +2831,46 @@ begin
       case Id of
         PROP_GUTTER_ALL:
           Result:= PyBool_FromLong(Ord(Ed.OptGutterVisible));
+
         PROP_GUTTER_STATES:
           Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandStates].Visible));
+
         PROP_GUTTER_NUM:
           Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandNumbers].Visible));
+
         PROP_GUTTER_FOLD:
           Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandFolding].Visible));
+
         PROP_GUTTER_BM:
           Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandBookmarks].Visible));
+
         PROP_WRAP:
           Result:= PyInt_FromLong(Ord(Ed.OptWrapMode));
+
         PROP_RO:
           Result:= PyBool_FromLong(Ord(Ed.ModeReadOnly));
+
         PROP_TAB_SPACES:
           Result:= PyBool_FromLong(Ord(Ed.OptTabSpaces));
+
         PROP_TAB_SIZE:
           Result:= PyInt_FromLong(Ed.OptTabSize);
+
         PROP_MARGIN:
           Result:= PyInt_FromLong(Ed.OptMarginRight);
+
         PROP_MARGIN_STRING:
           Result:= PyString_FromString(PChar(Ed.OptMarginString));
+
         PROP_INSERT:
           Result:= PyBool_FromLong(Ord(not Ed.ModeOverwrite));
+
         PROP_MODIFIED:
           Result:= PyBool_FromLong(Ord(Ed.Modified));
+
         PROP_MODIFIED_VERSION:
           Result:= PyLong_FromLongLong(Ed.Strings.ModifiedVersion);
+
         PROP_RULER:
           Result:= PyBool_FromLong(Ord(Ed.OptRulerVisible));
 
@@ -3012,6 +3026,7 @@ begin
             fmMain.GetEditorIndexes(Ed, Num1, Num2);
             Result:= PyLong_FromLongLong(Num1);
           end;
+
         PROP_INDEX_TAB:
           begin
             fmMain.GetEditorIndexes(Ed, Num1, Num2);
@@ -3038,12 +3053,16 @@ begin
 
         PROP_UNPRINTED_SHOW:
           Result:= PyBool_FromLong(Ord(Ed.OptUnprintedVisible));
+
         PROP_UNPRINTED_SPACES:
           Result:= PyBool_FromLong(Ord(Ed.OptUnprintedSpaces));
+
         PROP_UNPRINTED_SPACES_TRAILING:
           Result:= PyBool_FromLong(Ord(Ed.OptUnprintedSpacesTrailing));
+
         PROP_UNPRINTED_ENDS:
           Result:= PyBool_FromLong(Ord(Ed.OptUnprintedEnds));
+
         PROP_UNPRINTED_END_DETAILS:
           Result:= PyBool_FromLong(Ord(Ed.OptUnprintedEndsDetails));
 
@@ -3085,35 +3104,43 @@ begin
 
         PROP_CARET_VIEW:
           Result:= Py_GetCaretProps(Ed.CaretPropsNormal);
+
         PROP_CARET_VIEW_OVR:
           Result:= Py_GetCaretProps(Ed.CaretPropsOverwrite);
+
         PROP_CARET_VIEW_RO:
           Result:= Py_GetCaretProps(Ed.CaretPropsReadonly);
 
         PROP_MINIMAP:
           Result:= PyBool_FromLong(Ord(Ed.OptMinimapVisible));
+
         PROP_MICROMAP:
           Result:= PyBool_FromLong(Ord(Ed.OptMicromapVisible));
 
         PROP_VISIBLE_LINES:
           Result:= PyInt_FromLong(Ed.GetVisibleLines);
+
         PROP_VISIBLE_COLUMNS:
           Result:= PyInt_FromLong(Ed.GetVisibleColumns);
+
         PROP_LINE_BOTTOM:
           Result:= PyInt_FromLong(Ed.LineBottom);
 
         PROP_SCROLL_VERT:
           Result:= PyInt_FromLong(Ed.ScrollVert.NPos);
+
         PROP_SCROLL_HORZ:
           Result:= PyInt_FromLong(Ed.ScrollHorz.NPos);
 
         PROP_SCROLL_VERT_SMOOTH:
           Result:= PyInt_FromLong(Ed.ScrollVert.SmoothPos);
+
         PROP_SCROLL_HORZ_SMOOTH:
           Result:= PyInt_FromLong(Ed.ScrollHorz.SmoothPos);
 
         PROP_SCROLL_VERT_INFO:
           Result:= Py_GetScrollInfo(Ed.ScrollVert);
+
         PROP_SCROLL_HORZ_INFO:
           Result:= Py_GetScrollInfo(Ed.ScrollHorz);
 
@@ -3122,10 +3149,13 @@ begin
 
         PROP_HILITE_CUR_COL:
           Result:= PyBool_FromLong(Ord(Ed.OptShowCurColumn));
+
         PROP_HILITE_CUR_LINE:
           Result:= PyBool_FromLong(Ord(Ed.OptShowCurLine));
+
         PROP_HILITE_CUR_LINE_MINIMAL:
           Result:= PyBool_FromLong(Ord(Ed.OptShowCurLineMinimal));
+
         PROP_HILITE_CUR_LINE_IF_FOCUS:
           Result:= PyBool_FromLong(Ord(Ed.OptShowCurLineOnlyFocused));
 
@@ -3421,28 +3451,40 @@ begin
       case Id of
         PROP_GUTTER_ALL:
           Ed.OptGutterVisible:= ValueBool;
+
         PROP_GUTTER_STATES:
           Ed.Gutter[Ed.GutterBandStates].Visible:= ValueBool;
+
         PROP_GUTTER_NUM:
           Ed.Gutter[Ed.GutterBandNumbers].Visible:= ValueBool;
+
         PROP_GUTTER_FOLD:
           Ed.Gutter[Ed.GutterBandFolding].Visible:= ValueBool;
+
         PROP_GUTTER_BM:
           Ed.Gutter[Ed.GutterBandBookmarks].Visible:= ValueBool;
+
         PROP_WRAP:
           Ed.OptWrapMode:= TATSynWrapMode(ValueInt);
+
         PROP_RO:
           Ed.ModeReadOnly:= ValueBool;
+
         PROP_TAB_SPACES:
           Ed.OptTabSpaces:= ValueBool;
+
         PROP_TAB_SIZE:
           Ed.OptTabSize:= ValueInt;
+
         PROP_MARGIN:
           Ed.OptMarginRight:= ValueInt;
+
         PROP_MARGIN_STRING:
           Ed.OptMarginString:= Str;
+
         PROP_INSERT:
           Ed.ModeOverwrite:= not ValueBool;
+
         PROP_MODIFIED:
           begin
             Ed.Modified:= ValueBool;
@@ -3570,12 +3612,16 @@ begin
 
         PROP_UNPRINTED_SHOW:
           Ed.OptUnprintedVisible:= ValueBool;
+
         PROP_UNPRINTED_SPACES:
           Ed.OptUnprintedSpaces:= ValueBool;
+
         PROP_UNPRINTED_SPACES_TRAILING:
           Ed.OptUnprintedSpacesTrailing:= ValueBool;
+
         PROP_UNPRINTED_ENDS:
           Ed.OptUnprintedEnds:= ValueBool;
+
         PROP_UNPRINTED_END_DETAILS:
           Ed.OptUnprintedEndsDetails:= ValueBool;
 
@@ -3645,8 +3691,10 @@ begin
 
         PROP_CARET_VIEW:
           EditorCaretPropsFromPyTuple(Ed.CaretPropsNormal, Str);
+
         PROP_CARET_VIEW_OVR:
           EditorCaretPropsFromPyTuple(Ed.CaretPropsOverwrite, Str);
+
         PROP_CARET_VIEW_RO:
           EditorCaretPropsFromPyTuple(Ed.CaretPropsReadonly, Str);
 
@@ -3658,6 +3706,7 @@ begin
 
         PROP_MINIMAP:
           Ed.OptMinimapVisible:= ValueBool;
+
         PROP_MICROMAP:
           Ed.OptMicromapVisible:= ValueBool;
 
@@ -3694,10 +3743,13 @@ begin
 
         PROP_HILITE_CUR_COL:
           Ed.OptShowCurColumn:= ValueBool;
+
         PROP_HILITE_CUR_LINE:
           Ed.OptShowCurLine:= ValueBool;
+
         PROP_HILITE_CUR_LINE_MINIMAL:
           Ed.OptShowCurLineMinimal:= ValueBool;
+
         PROP_HILITE_CUR_LINE_IF_FOCUS:
           Ed.OptShowCurLineOnlyFocused:= ValueBool;
 
