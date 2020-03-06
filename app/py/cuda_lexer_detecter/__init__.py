@@ -42,7 +42,8 @@ class Command:
         if not lexers:
             return
 
-        res = dlg_menu(MENU_LIST, lexers, caption='Possible lexer(s) for "%s"' % name)
+        items = ['Download lexer: '+s for s in lexers]
+        res = dlg_menu(MENU_LIST, items, caption='Lexer(s) for "%s"' % name)
         if res is None:
             return
         lex = lexers[res]
