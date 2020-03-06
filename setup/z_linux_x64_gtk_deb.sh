@@ -62,6 +62,7 @@ cp -r ../app/py/cuda_new_file/*.py $dd/usr/share/cudatext/py/cuda_new_file
 cp -r ../app/py/cuda_new_file/*.inf $dd/usr/share/cudatext/py/cuda_new_file
 cp -r ../app/py/cuda_options_editor/*.py $dd/usr/share/cudatext/py/cuda_options_editor
 cp -r ../app/py/cuda_options_editor/*.inf $dd/usr/share/cudatext/py/cuda_options_editor
+rm -rf ../app/py/cuda_palette/__pycache__
 cp -r ../app/py/cuda_palette/* $dd/usr/share/cudatext/py/cuda_palette
 rm -rf ../app/py/cuda_insert_time/__pycache__
 cp -r ../app/py/cuda_insert_time $dd/usr/share/cudatext/py
