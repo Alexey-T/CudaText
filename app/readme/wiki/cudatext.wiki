@@ -32,11 +32,9 @@ Screenshot on macOS Sierra:
 
 = Download =
 
-* Homepage: http://uvviewsoft.com/
-* SourceForge downloads: http://cudatext.sf.net
-* GitHub repository: https://github.com/Alexey-T/CudaText
-
-It has builds for Windows, Linux (x32, x64, ARM, AArch64), macOS, FreeBSD, NetBSD, Solaris.
+* Homepage: http://uvviewsoft.com/cudatext/
+* Downloads: https://www.fosshub.com/CudaText.html . It has builds for Windows, Linux (x32, x64, ARM, AArch64), macOS, FreeBSD, NetBSD, Solaris.
+* GitHub repository: https://github.com/Alexey-T/CudaText . That account https://github.com/Alexey-T contains other packages needed to compile the app.
 
 = Configs =
 
