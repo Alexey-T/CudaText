@@ -4,6 +4,9 @@ from cudatext import *
 from .lexertypes import *
 from cuda_addonman.work_remote import get_url
 
+config_file = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
+config_section = 'lexer_detecter_ignore'
+
 class Command:
 
     def on_open_none(self, ed_self):
@@ -21,6 +24,10 @@ class Command:
             s = name[:name.rfind('.'):]
             if '.' in s:
                 ext2 = s[s.rfind('.')+1:] + '.' + ext1
+
+        if ext1:
+            if ini_read(config_file, config_section, ext1, '')=='1':
+                return
 
         #print('name, ext1, ext2:', name, ext1, ext2)
         lexers = []
@@ -43,9 +50,19 @@ class Command:
             return
 
         items = ['Download lexer: '+s for s in lexers]
+        items += ['Cancel', 'Cancel, don\'t suggest anymore for *.%s'%ext1]
+
         res = dlg_menu(MENU_LIST, items, caption='Lexer(s) for "%s"' % name)
         if res is None:
             return
+
+        if res == len(items)-2:
+            return
+
+        if res == len(items)-1:
+            ini_write(config_file, config_section, ext1, '1')
+            return
+
         lex = lexers[res]
         #print('Detected lexer:', lex)
 
