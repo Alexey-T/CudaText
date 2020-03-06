@@ -615,14 +615,14 @@ Second click on "Search" sidebar button shows Replace dialog instead of Find dia
 
 Dialog allows to enter text in formats:
 
-* 10 (decimal number): jump to given line number (to line start)
-* 10:10 (two decimal numbers): jump to given line and column numbers
-* 10% (decimal with trailing "%"): jump to percents of total line count
-* d100 (decimal with leading "d"): jump to absolute decimal offset
-* xFFF (hex number with leading "x"): jump to absolute hex offset
-* value with trailing "+": extend selection to this position (CudaText 1.69+)
+* 10 (decimal number): Jump to given line number (to line start)
+* 10:10 (two decimal numbers): Jump to given line and column numbers
+* 10% (decimal with trailing "%"): Jump to percents of total line count
+* d100 (decimal with leading "d"): Jump to absolute decimal offset
+* xFFF (hex number with leading "x"): Jump to absolute hex offset
+* value with trailing "+": Extend selection to this position, ie, enlarge previous selection so it overlaps the new position
 
-Also is possible to show Go To dialog on clicking statusbar first cell.
+Also it is possible to show Go To dialog by clicking the statusbar's first cell.
 
 ==Comments==
 
@@ -656,7 +656,7 @@ Click any cell in the grid to insert this char at caret position. Or select a ce
 
 == Tab switcher ==
 
-Since version 1.82, CudaText has option "ui_tab_switcher_dialog", which activates modern tab switcher for Ctrl+Tab hotkey. This is dialog which allows to switch tab using visit history. For example: press Ctrl, Tab, Tab, Tab, release Ctrl: this goes 3 steps back in visit history. Visit history is updated on tabs activation (activated tab moves to the top of history).
+CudaText has option "ui_tab_switcher_dialog", which activates modern tab switcher for Ctrl+Tab hotkey. This is dialog which allows to switch tab using visit history. For example: press Ctrl, Tab, Tab, Tab, release Ctrl: this goes 3 steps back in visit history. Visit history is updated on tabs activation (activated tab moves to the top of history).
 
 Alternative way is plugin CudaExt. Plugin gives command "Choose tab to switch to". You need to assign hotkey Ctrl+Tab to this command (hotkey will be removed from CudaText command). Plugin's dialog is richer than CudaText's dialog - it allows to switch to Console/Output/Validate panels, it allows to cancel the operation.
 
