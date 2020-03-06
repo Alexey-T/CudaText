@@ -3259,9 +3259,16 @@ begin
       SetLength(Params, 0);
       DoPyEvent(F.Ed1, cEventOnOpen, Params);
       if F.IsText and (F.LexerName[F.Ed1]='') then
+      begin
         DoPyEvent(F.Ed1, cEventOnOpenNone, Params);
+        UpdateStatus;
+      end;
+
       if AFileName2<>'' then
+      begin
         DoPyEvent(F.Ed2, cEventOnOpen, Params);
+        UpdateStatus;
+      end;
 
       Exit
     end;
