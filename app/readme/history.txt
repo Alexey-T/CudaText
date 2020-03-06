@@ -4,12 +4,13 @@
   * changed
 
 
-1.96.3 (2020/03)
+1.96.5 (2020/03)
 
++ add: added plugin "Lexer Detecter" which is used when file is opened and it has no lexer, plugin suggests to download+install lexer from addons (it has database of all existing lexers)
 + add: second click on "Search" sidebar button shows Replace dialog instead of Find dialog
 + add: minor optimizations in editor control
-+ add: lexer Python: add styles for std functions, exceptions; rework word lists; highlight complex numbers
 + add: export to HTML: removed empty first line; cleaned up HTML code
++ add: lexer Python: add styles for std functions, exceptions; rework word lists; highlight complex numbers
 
 1.96.2 (2020/03)
 
