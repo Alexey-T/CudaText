@@ -1,6 +1,7 @@
 import os
 import tempfile
 from cudatext import *
+from urllib.parse import quote
 from .lexertypes import *
 from cuda_addonman.work_remote import get_url
 
@@ -66,7 +67,7 @@ class Command:
         lex = lexers[res]
         #print('Detected lexer:', lex)
 
-        url = 'https://sourceforge.net/projects/cudatext/files/addons/lexers/lexer.' + lex.replace(' ', '_') + '.zip'
+        url = 'https://sourceforge.net/projects/cudatext/files/addons/lexers/lexer.' + quote(lex.replace(' ', '_')) + '.zip'
 
         tempname = tempfile.gettempdir()+os.sep+'cudatext_lexer.zip'
         get_url(url, tempname, True)
