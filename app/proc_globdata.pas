@@ -1955,8 +1955,18 @@ begin
 end;
 
 procedure MsgLogConsole(const AText: string);
+var
+  Sep: TATStringSeparator;
+  S: UnicodeString;
 begin
-  AppConsoleQueue.Push(AText);
+  if Pos(#10, AText)=0 then
+    AppConsoleQueue.Push(AText)
+  else
+  begin
+    Sep.Init(AText, #10);
+    while Sep.GetItemStr(S) do
+      AppConsoleQueue.Push(S);
+  end;
 end;
 
 
