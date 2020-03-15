@@ -350,8 +350,18 @@ begin
 end;
 
 procedure TfmMain.PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
+var
+  Sep: TATStringSeparator;
+  S: UnicodeString;
 begin
-  AppConsoleQueue.Push(Data);
+  if Pos(#10, Data)=0 then
+    AppConsoleQueue.Push(Data)
+  else
+  begin
+    Sep.Init(Data, #10);
+    while Sep.GetItemStr(S) do
+      AppConsoleQueue.Push(S);
+  end;
 end;
 
 
