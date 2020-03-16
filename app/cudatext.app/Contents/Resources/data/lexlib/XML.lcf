@@ -393,11 +393,12 @@ object SyntAnal20: TLibSyntAnalyzer
             '<')
           TokenTypes = 512
         end>
+      BlockOffset = 1
       BlockEnd = 'Tag block end'
+      NameFmt = '<%s0>'
       DynHighlight = dhBound
       HighlightPos = cpRange
       DynSelectMin = True
-      CollapseFmt = ' %s0 >'
       TreeItemStyle = 'Tree item (tag)'
       IgnoreAsParent = False
       AutoCloseMode = acmCloseOpened
@@ -479,6 +480,7 @@ object SyntAnal20: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Tag attribute'
+      Enabled = False
       StyleName = 'Tag val'
       BlockName = 'Tag begin'
       ConditionList = <
@@ -491,6 +493,7 @@ object SyntAnal20: TLibSyntAnalyzer
         item
           TokenTypes = 4
         end>
+      DisplayInTree = False
       NameFmt = '%s0 %s-1 %s-2'
       RefToCondEnd = True
       HighlightPos = cpBound
