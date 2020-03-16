@@ -551,12 +551,12 @@ object SyntAnal7: TLibSyntAnalyzer
             '<!')
           TokenTypes = 1024
         end>
+      BlockOffset = 1
       BlockEnd = 'Tag block end'
-      NameFmt = '%s0~s[>]1'
+      NameFmt = '<%sz0'
       DynHighlight = dhBound
       HighlightPos = cpRange
       DynSelectMin = True
-      CollapseFmt = '<%s0>'
       IgnoreAsParent = False
     end
     item
