@@ -4,8 +4,10 @@
   * changed
 
 
-1.96.5 (2020/03)
+1.96.6 (2020/03)
 
++ add: lexer HTML shows folded blocks better (full tag contents), and you have old option "fold_style" to make it even better
++ fix: fixed selection by mouse, when mouse cursor is after folded HTML tag 
 + add: added plugin "Lexer Detecter" which is used when file is opened and it has no lexer, plugin suggests to download+install lexer from addons (it has database of all existing lexers)
 + add: second click on "Search" sidebar button shows Replace dialog instead of Find dialog
 + add: minor optimizations in editor control
