@@ -149,10 +149,10 @@ cCommand_ToggleMicromap = 311
 cCommand_ToggleWordWrapAlt = 312
 cCommand_ToggleUnprintedSpacesTrailing = 320
 
-cCommand_FastSort_Asc        = 330
-cCommand_FastSort_AscNoCase  = 331
-cCommand_FastSort_Desc       = 332
-cCommand_FastSort_DescNoCase = 333
+cCommand_Sort_Asc        = 330
+cCommand_Sort_AscNoCase  = 331
+cCommand_Sort_Desc       = 332
+cCommand_Sort_DescNoCase = 333
 
 cCommand_ClipboardPaste = 1000
 cCommand_ClipboardPaste_Select = 1001
