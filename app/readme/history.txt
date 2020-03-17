@@ -6,7 +6,7 @@
 
 1.97.0 (2020/03)
 
-+ add: commands "fast sort without undo: asc / desc / asc ignore case / desc ignore case". They are written in Pascal, work fast and clear Undo, they are intended for huge text files. 
++ add: commands "sort without undo: asc. / desc. / asc. ignore case / desc. ignore case". They are written in Pascal, work fast and don't keep Undo, they are intended for huge text files. 
 + add: lexers HTML/XML show folded tags better (and old option "fold_style" allows to show them even better)
 + fix: fixed selection by mouse, when mouse cursor is after folded block rectangle
 + add: added plugin "Lexer Detecter" which is used when file is opened and it has no lexer, plugin suggests to download+install lexer from addons (it has database of all existing lexers)
