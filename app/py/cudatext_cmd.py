@@ -158,8 +158,9 @@ cCommand_DeleteAllBlanks      = 340
 cCommand_DeleteAdjacentBlanks = 341
 cCommand_DeleteAdjacentDups   = 342
 cCommand_DeleteAllDups        = 343
-cCommand_ReverseLines = 345
-cCommand_ShuffleLines = 346
+cCommand_DeleteAllDupsKeepBlanks = 344
+cCommand_ReverseLines = 350
+cCommand_ShuffleLines = 351
 
 cCommand_ClipboardPaste = 1000
 cCommand_ClipboardPaste_Select = 1001

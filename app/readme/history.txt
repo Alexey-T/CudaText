@@ -11,6 +11,7 @@
     + add: command "(without undo) delete all blank lines" 
     + add: command "(without undo) delete adjacent blank lines" 
     + add: command "(without undo) delete all duplicate lines" 
+    + add: command "(without undo) delete all duplicate lines, keep blanks" 
     + add: command "(without undo) delete adjacent duplicate lines" 
     + add: command "(without undo) reverse lines" 
     + add: command "(without undo) shuffle lines" 
