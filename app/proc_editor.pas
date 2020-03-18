@@ -410,7 +410,10 @@ begin
       begin
         ch:= ed.Strings.LineCharAt(y_b, x_b+1);
         if ch<>#0 then
+        begin
+          char_str:= ch;
           char_code:= Ord(ch);
+        end;
       end;
 
     result:= stringreplace(result, '{char}', char_str, []);
