@@ -6,13 +6,14 @@
 
 1.97.0 (2020/03)
 
-+ add: several commands, written in Pascal, they work fast and don't keep Undo, they are intended for huge text files:
-    + add: commands "(without undo) sort asc. / desc. / asc. ignore case / desc. ignore case". Sorting commands don't consume additional memory (unlike in many other editors).
++ add: several commands, they work fast and don't keep Undo, they are intended for huge text files. All these commands don't consume additional memory (unlike in many other editors).
+    + add: commands "(without undo) sort asc. / desc. / asc. ignore case / desc. ignore case". 
     + add: command "(without undo) delete all blank lines" 
     + add: command "(without undo) delete adjacent blank lines" 
     + add: command "(without undo) delete all duplicate lines" 
     + add: command "(without undo) delete adjacent duplicate lines" 
     + add: command "(without undo) reverse lines" 
+    + add: command "(without undo) shuffle lines" 
 + add: lexers HTML/XML show folded tags better (and old option "fold_style" allows to show them even better)
 + fix: fixed selection by mouse, when mouse cursor is after folded block rectangle
 + add: added plugin "Lexer Detecter" which is used when file is opened and it has no lexer, plugin suggests to download+install lexer from addons (it has database of all existing lexers)
