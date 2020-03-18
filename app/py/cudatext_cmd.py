@@ -157,6 +157,7 @@ cCommand_Sort_DescNoCase = 333
 cCommand_DeleteAllBlanks      = 340
 cCommand_DeleteAdjacentBlanks = 341
 cCommand_DeleteAdjacentDups   = 342
+cCommand_ReverseLines = 345
 
 cCommand_ClipboardPaste = 1000
 cCommand_ClipboardPaste_Select = 1001

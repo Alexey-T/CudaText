@@ -10,6 +10,7 @@
 + add: command "(without undo) delete all blank lines" 
 + add: command "(without undo) delete adjacent blank lines" 
 + add: command "(without undo) delete adjacent duplicate lines" 
++ add: command "(without undo) reverse lines" 
 + add: lexers HTML/XML show folded tags better (and old option "fold_style" allows to show them even better)
 + fix: fixed selection by mouse, when mouse cursor is after folded block rectangle
 + add: added plugin "Lexer Detecter" which is used when file is opened and it has no lexer, plugin suggests to download+install lexer from addons (it has database of all existing lexers)
