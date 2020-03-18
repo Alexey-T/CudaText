@@ -7,7 +7,7 @@
 1.97.0 (2020/03)
 
 + add: several commands, written in Pascal, they work fast and don't keep Undo, they are intended for huge text files:
-    + add: commands "(without undo) sort asc. / desc. / asc. ignore case / desc. ignore case". 
+    + add: commands "(without undo) sort asc. / desc. / asc. ignore case / desc. ignore case". Sorting commands don't consume additional memory (unlike in many other editors).
     + add: command "(without undo) delete all blank lines" 
     + add: command "(without undo) delete adjacent blank lines" 
     + add: command "(without undo) delete all duplicate lines" 
