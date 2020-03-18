@@ -1382,7 +1382,7 @@ begin
     //autoshow for HTML
     if UiOps.AutocompleteHtml and (Pos('HTML', SLexerName)>0) then
     begin
-      if Ed.Strings.LineSub(Caret.PosY, Caret.PosX-1, 1)='<' then
+      if Ed.Strings.LineCharAt(Caret.PosY, Caret.PosX-1)='<' then
         Ed.DoCommand(cmd_AutoComplete);
       exit;
     end;

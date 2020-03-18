@@ -355,6 +355,7 @@ var
   bSel: boolean;
   char_str, temp_str: UnicodeString;
   char_code: integer;
+  ch: WideChar;
 begin
   result:= '';
   if ed.Carets.Count=0 then exit;
@@ -407,9 +408,9 @@ begin
     if ed.Strings.IsIndexValid(y_b) then
       if (x_b>=0) and (x_b<ed.Strings.LinesLen[y_b]) then
       begin
-        char_str:= ed.Strings.LineSub(y_b, x_b+1, 1);
-        if char_str<>'' then
-          char_code:= Ord(char_str[1]);
+        ch:= ed.Strings.LineCharAt(y_b, x_b+1);
+        if ch<>#0 then
+          char_code:= Ord(ch);
       end;
 
     result:= stringreplace(result, '{char}', char_str, []);
@@ -643,16 +644,13 @@ end;
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
 var
   Caret: TATCaretItem;
-  Str: atString;
 begin
   Result:= #0;
   if Ed.Carets.Count<>1 then exit;
   Caret:= Ed.Carets[0];
   if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
   if (Caret.PosX<0) then exit;
-  Str:= Ed.Strings.LineSub(Caret.PosY, Caret.PosX+1, 1);
-  if Str<>'' then
-    Result:= Str[1];
+  Result:= Ed.Strings.LineCharAt(Caret.PosY, Caret.PosX+1);
 end;
 
 
