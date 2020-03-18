@@ -9,6 +9,7 @@
 + add: commands "(without undo) sort asc. / desc. / asc. ignore case / desc. ignore case". They are written in Pascal, work fast and don't keep Undo, they are intended for huge text files.
 + add: command "(without undo) delete all blank lines" 
 + add: command "(without undo) delete adjacent blank lines" 
++ add: command "(without undo) delete all duplicate lines" 
 + add: command "(without undo) delete adjacent duplicate lines" 
 + add: command "(without undo) reverse lines" 
 + add: lexers HTML/XML show folded tags better (and old option "fold_style" allows to show them even better)
