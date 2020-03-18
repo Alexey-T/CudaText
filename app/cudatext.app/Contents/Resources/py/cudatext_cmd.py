@@ -149,6 +149,19 @@ cCommand_ToggleMicromap = 311
 cCommand_ToggleWordWrapAlt = 312
 cCommand_ToggleUnprintedSpacesTrailing = 320
 
+cCommand_Sort_Asc        = 330
+cCommand_Sort_AscNoCase  = 331
+cCommand_Sort_Desc       = 332
+cCommand_Sort_DescNoCase = 333
+
+cCommand_DeleteAllBlanks      = 340
+cCommand_DeleteAdjacentBlanks = 341
+cCommand_DeleteAdjacentDups   = 342
+cCommand_DeleteAllDups        = 343
+cCommand_DeleteAllDupsKeepBlanks = 344
+cCommand_ReverseLines = 350
+cCommand_ShuffleLines = 351
+
 cCommand_ClipboardPaste = 1000
 cCommand_ClipboardPaste_Select = 1001
 cCommand_ClipboardPaste_KeepCaret = 1002
