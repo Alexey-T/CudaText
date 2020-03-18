@@ -198,6 +198,7 @@ TYPES = {
     "jsx": ['JavaScript Babel'],
     "k": ['LS-DYNA'],
     "kix": ['KiXtart'],
+    "ksp": ['Kontakt Script Processor'],
     "kt": ['Kotlin'],
     "kts": ['Kotlin'],
     "kv": ['Kivy'],
