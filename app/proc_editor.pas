@@ -374,30 +374,30 @@ begin
     cols:= Abs(caret.PosX-caret.EndX);
 
   result:= str;
-  result:= stringreplace(result, '{x}', inttostr(caret.PosX+1), []);
-  result:= stringreplace(result, '{y}', inttostr(caret.PosY+1), []);
-  result:= stringreplace(result, '{y2}', inttostr(ed.carets[ed.carets.count-1].PosY+1), []);
-  result:= stringreplace(result, '{yb}', inttostr(y_b+1), []);
-  result:= stringreplace(result, '{ye}', inttostr(y_e+1), []);
-  result:= stringreplace(result, '{count}', inttostr(ed.strings.count), []);
-  result:= stringreplace(result, '{carets}', inttostr(ed.carets.count), []);
-  result:= stringreplace(result, '{cols}', inttostr(cols), []);
+  result:= StringReplace(result, '{x}', inttostr(caret.PosX+1), []);
+  result:= StringReplace(result, '{y}', inttostr(caret.PosY+1), []);
+  result:= StringReplace(result, '{y2}', inttostr(ed.carets[ed.carets.count-1].PosY+1), []);
+  result:= StringReplace(result, '{yb}', inttostr(y_b+1), []);
+  result:= StringReplace(result, '{ye}', inttostr(y_e+1), []);
+  result:= StringReplace(result, '{count}', inttostr(ed.strings.count), []);
+  result:= StringReplace(result, '{carets}', inttostr(ed.carets.count), []);
+  result:= StringReplace(result, '{cols}', inttostr(cols), []);
 
-  result:= stringreplace(result, '{_ln}', msgStatusbarTextLine, []);
-  result:= stringreplace(result, '{_col}', msgStatusbarTextCol, []);
-  result:= stringreplace(result, '{_sel}', msgStatusbarTextSel, []);
-  result:= stringreplace(result, '{_linesel}', msgStatusbarTextLinesSel, []);
-  result:= stringreplace(result, '{_carets}', msgStatusbarTextCarets, []);
+  result:= StringReplace(result, '{_ln}', msgStatusbarTextLine, []);
+  result:= StringReplace(result, '{_col}', msgStatusbarTextCol, []);
+  result:= StringReplace(result, '{_sel}', msgStatusbarTextSel, []);
+  result:= StringReplace(result, '{_linesel}', msgStatusbarTextLinesSel, []);
+  result:= StringReplace(result, '{_carets}', msgStatusbarTextCarets, []);
 
   if pos('{sel}', result)>0 then
-    result:= stringreplace(result, '{sel}', inttostr(EditorGetSelLines(ed)), []);
+    result:= StringReplace(result, '{sel}', inttostr(EditorGetSelLines(ed)), []);
 
   if pos('{xx}', result)>0 then
     if ed.Strings.IsIndexValid(caret.PosY) then
     begin
       //optimized for huge lines
       n:= ed.Strings.CharPosToColumnPos(caret.PosY, caret.PosX, ed.TabHelper)+1;
-      result:= stringreplace(result, '{xx}', inttostr(n), []);
+      result:= StringReplace(result, '{xx}', inttostr(n), []);
     end;
 
   if pos('{char', result)>0 then
@@ -416,25 +416,25 @@ begin
         end;
       end;
 
-    result:= stringreplace(result, '{char}', char_str, []);
+    result:= StringReplace(result, '{char}', char_str, []);
 
     if char_code>=0 then
       temp_str:= IntToStr(char_code)
     else
       temp_str:= '';
-    result:= stringreplace(result, '{char_dec}', temp_str, []);
+    result:= StringReplace(result, '{char_dec}', temp_str, []);
 
     if char_code>=0 then
       temp_str:= IntToHex(char_code, 2)
     else
       temp_str:= '';
-    result:= stringreplace(result, '{char_hex}', temp_str, []);
+    result:= StringReplace(result, '{char_hex}', temp_str, []);
 
     if char_code>=0 then
       temp_str:= IntToHex(char_code, 4)
     else
       temp_str:= '';
-    result:= stringreplace(result, '{char_hex4}', temp_str, []);
+    result:= StringReplace(result, '{char_hex4}', temp_str, []);
   end;
 end;
 
