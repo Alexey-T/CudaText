@@ -2803,7 +2803,7 @@ var
   bookmark: TATBookmarkItem;
   i: integer;
 begin
-  c.SetValue(path+cHistory_Lexer, LexerName[Ed]);
+  c.SetDeleteValue(path+cHistory_Lexer, LexerName[Ed], '');
   c.SetValue(path+cHistory_Enc, Ed.EncodingName);
   c.SetDeleteValue(path+cHistory_Top, Ed.LineTop, 0);
   c.SetDeleteValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode), 0);
