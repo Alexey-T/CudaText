@@ -3157,6 +3157,9 @@ begin
         PROP_SCROLL_HORZ_INFO:
           Result:= Py_GetScrollInfo(Ed.ScrollHorz);
 
+        PROP_SCALE_FONT:
+          Result:= PyInt_FromLong(Ed.OptScaleFont);
+
         PROP_LAST_LINE_ON_TOP:
           Result:= PyBool_FromLong(Ord(Ed.OptLastLineOnTop));
 
@@ -3750,6 +3753,9 @@ begin
             Ed.UpdateScrollInfoFromSmoothPos(ScrollInfo, ValueInt);
             Ed.ScrollHorz:= ScrollInfo;
           end;
+
+        PROP_SCALE_FONT:
+          Ed.OptScaleFont:= ValueInt;
 
         PROP_LAST_LINE_ON_TOP:
           Ed.OptLastLineOnTop:= ValueBool;
