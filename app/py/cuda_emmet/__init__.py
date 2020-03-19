@@ -114,9 +114,14 @@ class Command:
 
     def expand_abbrev(self):
 
+        self.expand_ex(True)
+
+    def expand_ex(self, with_msg):
+
         abr = find_abr()
         if not abr:
-            msg_status('Cannot find Emmet abbreviation')
+            if with_msg:
+                msg_status('Cannot find Emmet abbreviation')
             return
 
         text = do_expand_abbrev(abr)
@@ -127,6 +132,7 @@ class Command:
         xstart = max(0, x0-len(abr))
 
         do_insert_result(xstart, y0, x0, y0, text)
+        return False
 
     def insert_text_at_caret(self, text):
 
@@ -140,3 +146,7 @@ class Command:
             self.dlg = DialogEmmet(do_expand_abbrev, self.insert_text_at_caret)
         self.dlg.show()
 
+    def on_key(self, ed_self, key, state):
+
+        if key==9 and state=='':
+            return self.expand_ex(False)

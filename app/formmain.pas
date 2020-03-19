@@ -3013,6 +3013,11 @@ begin
   MsgStatus(S);
 end;
 
+function IsFilenameForLexerDetecter(const S: string): boolean;
+begin
+  Result:= LowerCase(ExtractFileExt(S))<>'.txt';
+end;
+
 function TfmMain.DoFileOpen(AFileName, AFileName2: string; APages: TATPages;
   const AOptions: string): TEditorFrame;
 var
@@ -3251,11 +3256,13 @@ begin
 
       SetLength(Params, 0);
       DoPyEvent(F.Ed1, cEventOnOpen, Params);
-      if F.IsText and (F.LexerName[F.Ed1]='') then
-      begin
-        DoPyEvent(F.Ed1, cEventOnOpenNone, Params);
-        UpdateStatus;
-      end;
+
+      if IsFilenameForLexerDetecter(AFileName) then
+        if F.IsText and (F.LexerName[F.Ed1]='') then
+        begin
+          DoPyEvent(F.Ed1, cEventOnOpenNone, Params);
+          UpdateStatus;
+        end;
 
       if AFileName2<>'' then
       begin
@@ -3287,8 +3294,11 @@ begin
 
   SetLength(Params, 0);
   DoPyEvent(F.Ed1, cEventOnOpen, Params);
-  if F.IsText and (F.LexerName[F.Ed1]='') then
-    DoPyEvent(F.Ed1, cEventOnOpenNone, Params);
+
+  if IsFilenameForLexerDetecter(AFileName) then
+    if F.IsText and (F.LexerName[F.Ed1]='') then
+      DoPyEvent(F.Ed1, cEventOnOpenNone, Params);
+
   if AFileName2<>'' then
     DoPyEvent(F.Ed2, cEventOnOpen, Params);
 
