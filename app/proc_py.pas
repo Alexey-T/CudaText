@@ -220,9 +220,10 @@ begin
     if Assigned(CurrObject) then
     begin
       Func:=PyObject_GetAttrString(CurrObject,PChar(AFunc));
-      if Assigned(Func) then
+      if Func=nil then
+        RaiseError;
+
         try
-          //additional "self" is not needed
           Params:=PyTuple_New(Length(AParams));
           if Assigned(Params) then
           try
@@ -347,15 +348,22 @@ begin
     for i:= 0 to Length(AParams)-1 do
       ParamObjs[i]:= AppVariantToPyObject(AParams[i]);
 
-    //Obj:= MethodEval(ObjName, AMethod, AppVariantArrayToString(AParams));
-    Obj:= MethodEvalObjects(ObjName, AMethod, ParamObjs);
-    if Assigned(Obj) then
-      with FEngine do
-      begin
-        //only check for False
-        Result:= Pointer(Obj)<>Pointer(Py_False);
-        Py_XDECREF(Obj);
-      end;
+    try
+      //Obj:= MethodEval(ObjName, AMethod, AppVariantArrayToString(AParams));
+      Obj:= MethodEvalObjects(ObjName, AMethod, ParamObjs);
+      if Assigned(Obj) then
+        with FEngine do
+        begin
+          //only check for False
+          Result:= Pointer(Obj)<>Pointer(Py_False);
+          Py_XDECREF(Obj);
+        end;
+    except
+      if FEngine.PyErr_Occurred <> nil then
+        FEngine.CheckError(False)
+      else
+        raise;
+    end;
   finally
     TimeTrackEnd(AModule, tick);
     FRunning:= false;
