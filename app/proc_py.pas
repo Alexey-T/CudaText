@@ -433,7 +433,6 @@ var
 var
   ObjName: string;
   tick: QWord;
-  i: integer;
 begin
   Result.Val:= evrOther;
   Result.Str:= '';
