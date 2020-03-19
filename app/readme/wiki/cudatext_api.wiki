@@ -2064,6 +2064,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_SCROLLSTYLE_HORZ: int: style of horizontal scrollbar, one of SCROLLSTYLE_ constants.
 * PROP_SCROLLSTYLE_VERT: int: style of vertical scrollbar, one of SCROLLSTYLE_ constants.
 
+* PROP_SCALE_FONT: int: scale of editor's font in percents, or 0 to use global app font scale.
 * PROP_COLOR: int: color property. Value must be one of COLOR_ID_nnn values. Gets None for incorrect id.
 * PROP_ENC: str: encoding name. Names are listed at [[CudaText#Encodings]].
 * PROP_LEXER_FILE: str: name of lexer for entire file (empty str if none is active).
@@ -2186,6 +2187,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_SCROLLSTYLE_HORZ: int: style of horizontal scrollbar, one of SCROLLSTYLE_ constants.
 * PROP_SCROLLSTYLE_VERT: int: style of vertical scrollbar, one of SCROLLSTYLE_ constants.
 
+* PROP_SCALE_FONT: int: scale of editor's font in percents, or 0 to use global app font scale.
 * PROP_ENC: str: encoding name. Names listed at [[CudaText#Encodings]].
 * PROP_LEXER_FILE: str: name of lexer.
 * PROP_INDEX_GROUP: int: index of group with editor's tab, 0-based.
@@ -3770,5 +3772,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.322 (app 1.96.2)
 * add: Editor.action: EDACTION_FIND_ALL supports param3
 * add: lexer_proc: LEXER_DETECT can give tuple result
+
+1.0.323 (app 1.97.1)
+* add: Editor.get_prop/set_prop: PROP_SCALE_FONT
 
 [[Category:CudaText]]
