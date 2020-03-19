@@ -4,6 +4,10 @@
   * changed
 
 
+1.97.1
+
++ add: plugin Emmet: expand abbreviation also by Tab-key (Tab-key works as usual if there is no abbreviation)
+
 1.97.0 (2020/03)
 
 + add: several commands, they work fast and don't keep Undo, they are intended for huge text files. All these commands don't consume additional memory (unlike in many other editors).
