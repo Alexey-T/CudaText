@@ -411,6 +411,7 @@ const
   cHistory_TabSize     = '/tab_size';
   cHistory_TabSpace    = '/tab_spaces';
   cHistory_Nums        = '/nums';
+  cHistory_Scale       = '/scale';
   cHistory_Unpri        = '/unprinted_show';
   cHistory_Unpri_Spaces = '/unprinted_spaces';
   cHistory_Unpri_Ends   = '/unprinted_ends';
@@ -2802,26 +2803,27 @@ var
   bookmark: TATBookmarkItem;
   i: integer;
 begin
-  c.SetValue(path+cHistory_Lexer, LexerName[Ed]);
+  c.SetDeleteValue(path+cHistory_Lexer, LexerName[Ed], '');
   c.SetValue(path+cHistory_Enc, Ed.EncodingName);
-  c.SetValue(path+cHistory_Top, Ed.LineTop);
-  c.SetValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode));
+  c.SetDeleteValue(path+cHistory_Top, Ed.LineTop, 0);
+  c.SetDeleteValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode), 0);
   if not ReadOnlyFromFile then
-    c.SetValue(path+cHistory_RO, ReadOnly[Ed]);
-  c.SetValue(path+cHistory_Ruler, Ed.OptRulerVisible);
-  c.SetValue(path+cHistory_Minimap, Ed.OptMinimapVisible);
-  c.SetValue(path+cHistory_Micromap, Ed.OptMicromapVisible);
+    c.SetDeleteValue(path+cHistory_RO, ReadOnly[Ed], false);
+  c.SetDeleteValue(path+cHistory_Ruler, Ed.OptRulerVisible, false);
+  c.SetDeleteValue(path+cHistory_Minimap, Ed.OptMinimapVisible, false);
+  c.SetDeleteValue(path+cHistory_Micromap, Ed.OptMicromapVisible, false);
   c.SetValue(path+cHistory_TabSize, Ed.OptTabSize);
   c.SetValue(path+cHistory_TabSpace, Ed.OptTabSpaces);
-  c.SetValue(path+cHistory_Unpri, Ed.OptUnprintedVisible);
-  c.SetValue(path+cHistory_Unpri_Spaces, Ed.OptUnprintedSpaces);
-  c.SetValue(path+cHistory_Unpri_Ends, Ed.OptUnprintedEnds);
-  c.SetValue(path+cHistory_Unpri_Detail, Ed.OptUnprintedEndsDetails);
-  c.SetValue(path+cHistory_Nums, Ed.Gutter[Ed.GutterBandNumbers].Visible);
-  c.SetValue(path+cHistory_Fold, EditorGetFoldString(Ed));
+  c.SetDeleteValue(path+cHistory_Unpri, Ed.OptUnprintedVisible, false);
+  c.SetDeleteValue(path+cHistory_Unpri_Spaces, Ed.OptUnprintedSpaces, true);
+  c.SetDeleteValue(path+cHistory_Unpri_Ends, Ed.OptUnprintedEnds, true);
+  c.SetDeleteValue(path+cHistory_Unpri_Detail, Ed.OptUnprintedEndsDetails, false);
+  c.SetDeleteValue(path+cHistory_Nums, Ed.Gutter[Ed.GutterBandNumbers].Visible, true);
+  c.SetDeleteValue(path+cHistory_Scale, Ed.OptScaleFont, 0);
+  c.SetDeleteValue(path+cHistory_Fold, EditorGetFoldString(Ed), '');
 
   if TabColor=clNone then
-    c.SetValue(path+cHistory_TabColor, '')
+    c.DeleteValue(path+cHistory_TabColor)
   else
     c.SetValue(path+cHistory_TabColor, ColorToString(TabColor));
 
@@ -2851,7 +2853,7 @@ begin
     FreeAndNil(items);
   end;
 
-  c.SetValue(path+cHistory_CodeTreeFilter, FCodetreeFilter);
+  c.SetDeleteValue(path+cHistory_CodeTreeFilter, FCodetreeFilter, '');
   c.SetValue(path+cHistory_CodeTreeFilters, FCodetreeFilterHistory);
 end;
 
@@ -2979,6 +2981,8 @@ begin
 
   with Ed.Gutter[Ed.GutterBandNumbers] do
     Visible:= c.GetValue(path+cHistory_Nums, Visible);
+
+  Ed.OptScaleFont:= c.GetValue(path+cHistory_Scale, 0);
 
   if Assigned(Lexer[Ed]) then
   begin
