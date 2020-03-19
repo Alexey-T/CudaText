@@ -7,6 +7,9 @@
 1.97.1
 
 + add: plugin Emmet: expand abbreviation also by Tab-key (Tab-key works as usual if there is no abbreviation)
+* change: Ctrl+MouseWheel and commands "current document font size..." change editor's font scale by 10% steps, instead of font-size by 1
++ add: command "current document font size: reset"
++ add: save file history in more compact way
 
 1.97.0 (2020/03)
 
