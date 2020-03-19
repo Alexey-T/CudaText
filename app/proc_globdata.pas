@@ -20,7 +20,6 @@ uses
   Classes, SysUtils, Forms, Controls, Menus,
   Dialogs, Graphics,
   syncobjs,
-  gqueue,
   Math,
   InterfaceBase,
   LclProc, LclType, LazFileUtils,
@@ -55,8 +54,6 @@ type
     Age: LongInt;
     class operator =(const a, b: TAppFileProps): boolean;
   end;
-
-  TAppConsoleQueue = specialize TQueue<UnicodeString>;
 
 var
   //ATSynEdit has range for bookmarks 0..63, 0=none
@@ -768,11 +765,11 @@ type
     ItemLexers: string;
   end;
 
-var
-  AppConsoleQueue: TAppConsoleQueue;
+{var
+
   AppCommandList: TFPList;
   AppEventList: TFPList;
-  AppTreeHelpers: TFPList;
+  AppTreeHelpers: TFPList;}
 
 type
   PAppPanelProps = ^TAppPanelProps;
@@ -1954,22 +1951,6 @@ begin
   {$endif}
 end;
 
-procedure MsgLogConsole(const AText: string);
-var
-  Sep: TATStringSeparator;
-  S: UnicodeString;
-begin
-  if Pos(#10, AText)=0 then
-    AppConsoleQueue.Push(AText)
-  else
-  begin
-    Sep.Init(AText, #10);
-    while Sep.GetItemStr(S) do
-      AppConsoleQueue.Push(S);
-  end;
-end;
-
-
 function AppEncodingShortnameToFullname(const S: string): string;
 var
   i: integer;
@@ -2385,7 +2366,6 @@ initialization
   InitUiOps(UiOps);
 
   AppAlwaysNewInstance:= GetAlwaysNewInstance;
-  AppConsoleQueue:= TAppConsoleQueue.Create;
   AppCommandList:= TFPList.Create;
   AppEventList:= TFPList.Create;
   AppTreeHelpers:= TFPList.Create;
@@ -2441,7 +2421,6 @@ finalization
   FreeAndNil(AppTreeHelpers);
   FreeAndNil(AppEventList);
   FreeAndNil(AppCommandList);
-  FreeAndNil(AppConsoleQueue);
 
 end.
 

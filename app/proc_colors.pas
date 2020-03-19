@@ -16,6 +16,7 @@ uses
   ATStringProc_HtmlColor,
   ec_syntax_format,
   proc_msg,
+  proc_console,
   proc_globdata,
   proc_lexer_styles;
 

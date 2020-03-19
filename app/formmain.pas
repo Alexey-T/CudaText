@@ -31,7 +31,6 @@ uses
   {$endif}
   fix_focus_window,
   at__jsonconf,
-  PythonEngine,
   UniqueInstance,
   ec_LexerList,
   ec_SyntAnal,
@@ -78,7 +77,8 @@ uses
   proc_py_const,
   proc_appvariant,
   proc_files,
-  proc_globdata,
+  proc_globdata, 
+  proc_console,
   proc_panelhost,
   proc_colors,
   proc_cmd,
@@ -111,7 +111,11 @@ uses
   form_menu_py,
   form_addon_report,
   form_choose_theme,
-  Math;
+  Math,
+  //Plugins
+  Plugins.Python,
+  Plugins.Controller,
+  Plugins.Interfaces;
 
 type
   { TAppNotifThread }
@@ -1078,11 +1082,6 @@ uses
   Emmet,
   EmmetHelper;
 
-var
-  PythonEng: TPythonEngine = nil;
-  PythonModule: TPythonModule = nil;
-  PythonIO: TPythonInputOutput = nil;
-
 const
   cThreadSleepTime = 50;
   cThreadSleepCount = 20;
@@ -1098,12 +1097,6 @@ const
   StatusbarTag_SelMode = 16;
   StatusbarTag_WrapMode = 17;
   StatusbarTag_Msg = 20;
-
-const
-  BadPlugins: array[0..1] of string = (
-    'cuda_tree',
-    'cuda_brackets_hilite'
-    );
 
 {$R *.lfm}
 
@@ -3859,41 +3852,7 @@ end;
 
 procedure TfmMain.InitPyEngine;
 begin
-  {$ifdef windows}
-  Windows.SetEnvironmentVariable('PYTHONIOENCODING', 'UTF-8');
-  {$endif}
-
-  PythonIO:= TPythonInputOutput.Create(Self);
-  PythonIO.MaxLineLength:= 2000;
-  PythonIO.OnSendUniData:= @PythonIOSendUniData;
-  PythonIO.UnicodeIO:= True;
-  PythonIO.RawOutput:= False;
-
-  PythonEng:= TPythonEngine.Create(Self);
-  PythonEng.AutoLoad:= false;
-  PythonEng.FatalAbort:= false;
-  PythonEng.FatalMsgDlg:= false;
-  PythonEng.PyFlags:= [pfIgnoreEnvironmentFlag];
-  PythonEng.OnAfterInit:= @PythonEngineAfterInit;
-  PythonEng.IO:= PythonIO;
-
-  PythonModule:= TPythonModule.Create(Self);
-  PythonModule.Engine:= PythonEng;
-  PythonModule.ModuleName:= 'cudatext_api';
-  PythonModule.OnInitialization:= @PythonModuleInitialization;
-
-  PythonEng.UseLastKnownVersion:= False;
-  PythonEng.DllPath:= ExtractFilePath(UiOps.PyLibrary);
-  PythonEng.DllName:= ExtractFileName(UiOps.PyLibrary);
-  PythonEng.LoadDll;
-
-  if not AppPython.Inited then
-  begin
-    FConsoleMustShow:= true;
-    MsgLogConsole(msgCannotInitPython1);
-    MsgLogConsole(msgCannotInitPython2);
-    DisablePluginMenuItems;
-  end;
+  Plugins.Python.InitPyEngine(@PythonIOSendUniData,@PythonEngineAfterInit,@PythonModuleInitialization,UiOps.PyLibrary);
 end;
 
 procedure TfmMain.DisablePluginMenuItems;
