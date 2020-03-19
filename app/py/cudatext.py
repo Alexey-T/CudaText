@@ -206,6 +206,7 @@ PROP_V_WIDTH               = 64
 PROP_NEWLINE               = 65
 PROP_SCROLL_VERT_INFO      = 66
 PROP_SCROLL_HORZ_INFO      = 67
+PROP_SCALE_FONT            = 68
 PROP_CELL_SIZE             = 70
 PROP_INDENT_SIZE           = 71
 PROP_INDENT_KEEP_ALIGN     = 72
