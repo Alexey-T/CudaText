@@ -4,6 +4,7 @@ desc=Implements commands of Emmet engine
 type=cudatext-plugin
 subdir=cuda_emmet
 homepage=
+$lex=regex:HTML.*|PHP|CSS
 
 [item1]
 section=commands
@@ -24,3 +25,9 @@ method=dialog
 section=commands
 caption=Emmet\Show HTML help
 method=help
+
+[item30]
+section=events
+events=on_key
+keys=9
+lexers=$lex
