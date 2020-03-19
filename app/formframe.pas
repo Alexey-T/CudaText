@@ -411,6 +411,7 @@ const
   cHistory_TabSize     = '/tab_size';
   cHistory_TabSpace    = '/tab_spaces';
   cHistory_Nums        = '/nums';
+  cHistory_Scale       = '/scale';
   cHistory_Unpri        = '/unprinted_show';
   cHistory_Unpri_Spaces = '/unprinted_spaces';
   cHistory_Unpri_Ends   = '/unprinted_ends';
@@ -2818,6 +2819,7 @@ begin
   c.SetValue(path+cHistory_Unpri_Ends, Ed.OptUnprintedEnds);
   c.SetValue(path+cHistory_Unpri_Detail, Ed.OptUnprintedEndsDetails);
   c.SetValue(path+cHistory_Nums, Ed.Gutter[Ed.GutterBandNumbers].Visible);
+  c.SetDeleteValue(path+cHistory_Scale, Ed.OptScaleFont, 0);
   c.SetValue(path+cHistory_Fold, EditorGetFoldString(Ed));
 
   if TabColor=clNone then
@@ -2979,6 +2981,8 @@ begin
 
   with Ed.Gutter[Ed.GutterBandNumbers] do
     Visible:= c.GetValue(path+cHistory_Nums, Visible);
+
+  Ed.OptScaleFont:= c.GetValue(path+cHistory_Scale, 0);
 
   if Assigned(Lexer[Ed]) then
   begin
