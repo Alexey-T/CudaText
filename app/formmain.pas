@@ -520,12 +520,7 @@ type
     mnuToolbarSortAscNocase: TMenuItem;
     mnuToolbarSortDescNocase: TMenuItem;
     mnuToolbarSortDialog: TMenuItem;
-    mnuToolbarSortReverse: TMenuItem;
-    mnuToolbarSortShuffle: TMenuItem;
-    mnuToolbarSortRemoveDup: TMenuItem;
-    mnuToolbarSortRemoveBlank: TMenuItem;
     mnuToolbarSortSep1: TMenuItem;
-    mnuToolbarSortSep2: TMenuItem;
     mnuContextOutputCopy: TMenuItem;
     mnuContextOutputClear: TMenuItem;
     mnuContextValidateCopy: TMenuItem;
@@ -5421,36 +5416,12 @@ begin
     mnuToolbarSortDialog.Hint:= 'cuda_sort,sort_dlg';
     mnuToolbarSortDialog.OnClick:= @MenuitemClick_CommandFromHint;
 
-    mnuToolbarSortSep2:= TMenuItem.Create(Self);
-    mnuToolbarSortSep2.Caption:= '-';
-
-    mnuToolbarSortReverse:= TMenuItem.Create(Self);
-    mnuToolbarSortReverse.Hint:= 'cuda_sort,reverse';
-    mnuToolbarSortReverse.OnClick:= @MenuitemClick_CommandFromHint;
-
-    mnuToolbarSortShuffle:= TMenuItem.Create(Self);
-    mnuToolbarSortShuffle.Hint:= 'cuda_sort,shuffle';
-    mnuToolbarSortShuffle.OnClick:= @MenuitemClick_CommandFromHint;
-
-    mnuToolbarSortRemoveDup:= TMenuItem.Create(Self);
-    mnuToolbarSortRemoveDup.Hint:= 'cuda_sort,del_dup';
-    mnuToolbarSortRemoveDup.OnClick:= @MenuitemClick_CommandFromHint;
-
-    mnuToolbarSortRemoveBlank:= TMenuItem.Create(Self);
-    mnuToolbarSortRemoveBlank.Hint:= 'cuda_sort,del_blank';
-    mnuToolbarSortRemoveBlank.OnClick:= @MenuitemClick_CommandFromHint;
-
     PopupToolbarSort.Items.Add(mnuToolbarSortAsc);
     PopupToolbarSort.Items.Add(mnuToolbarSortDesc);
     PopupToolbarSort.Items.Add(mnuToolbarSortAscNocase);
     PopupToolbarSort.Items.Add(mnuToolbarSortDescNocase);
     PopupToolbarSort.Items.Add(mnuToolbarSortSep1);
     PopupToolbarSort.Items.Add(mnuToolbarSortDialog);
-    PopupToolbarSort.Items.Add(mnuToolbarSortSep2);
-    PopupToolbarSort.Items.Add(mnuToolbarSortReverse);
-    PopupToolbarSort.Items.Add(mnuToolbarSortShuffle);
-    PopupToolbarSort.Items.Add(mnuToolbarSortRemoveDup);
-    PopupToolbarSort.Items.Add(mnuToolbarSortRemoveBlank);
   end;
 
   mnuToolbarSortAsc.Caption:= msgSortAsc;
@@ -5458,10 +5429,6 @@ begin
   mnuToolbarSortAscNocase.Caption:= msgSortAscNocase;
   mnuToolbarSortDescNocase.Caption:= msgSortDescNocase;
   mnuToolbarSortDialog.Caption:= msgSortDialog;
-  mnuToolbarSortReverse.Caption:= msgSortReverse;
-  mnuToolbarSortShuffle.Caption:= msgSortShuffle;
-  mnuToolbarSortRemoveDup.Caption:= msgSortRemoveDup;
-  mnuToolbarSortRemoveBlank.Caption:= msgSortRemoveBlank;
 end;
 
 procedure TfmMain.ListboxOutKeyDown(Sender: TObject; var Key: Word;
