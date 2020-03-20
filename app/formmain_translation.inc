@@ -353,10 +353,6 @@ begin
     DoLocString(msgSortAscNocase, ini, 'tb', 'sr_asc_i');
     DoLocString(msgSortDescNocase, ini, 'tb', 'sr_des_i');
     DoLocString(msgSortDialog, ini, 'tb', 'sr_dl');
-    DoLocString(msgSortReverse, ini, 'tb', 'sr_rev');
-    DoLocString(msgSortShuffle, ini, 'tb', 'sr_shf');
-    DoLocString(msgSortRemoveDup, ini, 'tb', 'sr_del_dp');
-    DoLocString(msgSortRemoveBlank, ini, 'tb', 'sr_del_bl');
 
     DoLocString(msgCommentLineAdd, ini, 'tb', 'cm_ln_add');
     DoLocString(msgCommentLineDel, ini, 'tb', 'cm_ln_del');
