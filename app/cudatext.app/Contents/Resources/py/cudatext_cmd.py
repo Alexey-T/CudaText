@@ -212,6 +212,7 @@ cCommand_RepeatTextCommand = 2002
 cCommand_ZoomIn = 2003
 cCommand_ZoomOut = 2004
 cCommand_GotoLastEditPos = 2006
+cCommand_ZoomReset = 2007
 
 cCommand_CaretsExtendDownLine = 2010
 cCommand_CaretsExtendDownPage = 2011
