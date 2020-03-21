@@ -1,51 +1,53 @@
 unit Plugins.Python;
 
-{$mode objfpc}{$H+}
+{$mode Delphi}{$H+}
 
 interface
 
 uses
   Classes, SysUtils,    
-  {$ifdef windows}Windows,{$endif}
-  Plugins.Interfaces,
+  {$ifdef windows}Windows,{$endif}   
+  IniFiles,
   proc_globdata,
   proc_console,
   proc_str,
   ATStringProc,
   PythonEngine,
-  IniFiles;
+  Plugins.Interfaces,
+  Plugins.Utils;
 
 type
-  TPyPlugin=class abstract(TPlugin,IPlugin)
-    Module,ModuleDic:PPyObject;
-    ModuleName:String;
-    constructor Create(const PluginPath,FolderName:String;Conf:TMemIniFile);
-    function IsLoaded():boolean;
-    procedure Load();
-    procedure ReLoad();
-    destructor Destroy;override;
+  TPyPlugin=class abstract(TPlugin,IPlugin)   
+    protected
+      Module,ModuleDic:PPyObject;
+      ModuleName:String;
+    public
+      constructor Create(const PluginPath,FolderName:String;Conf:TMemIniFile);
+      function IsLoaded():boolean;
+      procedure Load();virtual;
+      procedure ReLoad();virtual;
+      destructor Destroy;override;
   end;
   TPyStdPlugin=class(TPyPlugin,IStdPlugin)  
     //constructor Create(const PluginPath,FolderName:String;Conf:TMemIniFile);
     
   end;
-  TPyTreePlugin=class(TPyPlugin,ITreeHelper)
-    type
+  TPyTreePlugin=class(TPyPlugin,ITreeHelper) 
+    protected type
       TFunc=record
         Name:String;
         Func:PPyObject;
       end;
-      TLexer=record
-        Name:String;
-        Num:byte;
-      end;
-    var
+      TLexers=TStringPull<byte>;
+    protected var
       Functions:array[1..5]of TFunc;
-      Lexers:array of TLexer;
-    constructor Create(const PluginPath,FolderName:String;Conf:TMemIniFile);
-    function IsLexerSupported(Lexer:String):boolean; 
-    procedure Load();   
-    destructor Destroy;override;
+      Lexers:TLexers;
+    public
+      constructor Create(const PluginPath,FolderName:String;Conf:TMemIniFile);
+      function IsLexerSupported(Lexer:String):boolean;
+      procedure Load();override;
+      procedure ReLoad();override;
+      destructor Destroy;override;
   end;
 
 implementation
@@ -116,11 +118,13 @@ begin
       if UiOps.PyInitLog then
          MsgLogConsole('Init: '+ModuleName);
       ModuleDic:=PyModule_GetDict(Module);
-    end;
+    end
+    else
+      raise EPluginLoadErr.Create('Error when loading treehelper: '+ModuleName);
   end;
 end;
 
-function TPyPlugin.ReLoad():boolean;
+procedure TPyPlugin.ReLoad();
 begin
   if IsLoaded() then
     with PythonEng do
@@ -131,7 +135,9 @@ begin
         if UiOps.PyInitLog then
            MsgLogConsole('Reload: '+ModuleName);
         ModuleDic:=PyModule_GetDict(Module);
-      end;
+      end
+      else
+        raise EPluginLoadErr.Create('Error when reloading treehelper: '+ModuleName);
     end
   else
     Load();
@@ -146,36 +152,75 @@ end;
 //TPyTreePlugin
 constructor TPyTreePlugin.Create(const PluginPath,FolderName:String;Conf:TMemIniFile);
 var
-  i,i0:integer;
+  i:integer;
+  CurrLexer:String;
   Sep:TATStringSeparator;
 begin
   inherited;
-  i0:=0;
+  Lexers:=TLexers.Create();
   for i:=1 to 5 do
   begin
     Sep.Init(Conf.ReadString('treehelper'+inttostr(i),'lexers',''),',');
-    SetLength(Lexers,i0+1);
-    while Sep.GetItemStr(Lexers[i0].Name) do
-      Lexers[i0].Num:=i;
-      inc(i0);
-      SetLength(i0+1);
-    end          
-    SetLength(Lexers,i0);
+    while Sep.GetItemStr(CurrLexer) do
+      Lexers.Add(CurrLexer,i);
     functions[i].Name:=Conf.ReadString('treehelper'+inttostr(i),'method','');
-  end
+    functions[i].Func:=nil;
+  end;
 end;  
 
-function TPyTreePlugin.IsLexerSupported(Lexer:String):boolean;    
-var
-  Item:TLexer;
+function TPyTreePlugin.IsLexerSupported(Lexer:String):boolean;
 begin
-  Result:=False;
-  for Item in Lexers do
-    if Item.Name=Lexer then
-      Result:=True;
+  Result:=Lexers.IsIn(Lexer);
 end;
 
-finalization 
+procedure TPyTreePlugin.Load();
+var
+  i:byte;
+begin
+  if not IsLoaded then
+  begin
+    inherited;
+    for i:=1 to 5 do
+    begin
+      Functions[i].Func:=PythonEng.PyDict_GetItemString(ModuleDic,PChar(Functions[i].Name));
+      if not Assigned(Functions[i].Func) then
+        raise EPluginLoadErr.Create('Error when loading treehelper function: "'+Functions[i].Name+'" in '+Self.ModuleName);
+    end;
+  end;
+end;
+
+procedure TPyTreePlugin.ReLoad();  
+var
+  i:byte;
+begin
+  if IsLoaded() then  
+  begin
+    inherited;
+    for i:=1 to 5 do
+    begin
+      if Assigned(Functions[i].Func)then
+        PythonEng.PyObject_Free(Functions[i].Func);
+      Functions[i].Func:=PythonEng.PyDict_GetItemString(ModuleDic,PChar(Functions[i].Name));
+      if not Assigned(Functions[i].Func) then
+        raise EPluginReLoadErr.Create('Error when reloading treehelper function: "'+Functions[i].Name+'" in '+Self.ModuleName);
+    end;
+  end
+  else
+    Load();
+end;
+             
+destructor TPyTreePlugin.Destroy;
+var
+  i:TFunc;
+begin
+  inherited;
+  if IsLoaded() then    
+    for i in Functions do    
+      if Assigned(i.Func) then
+         PythonEng.PyObject_Free(i.Func);
+end;
+
+finalization
   FreeAndNil(PythonEng);
   FreeAndNil(PythonModule);    
   FreeAndNil(PythonIO);

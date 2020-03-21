@@ -112,10 +112,10 @@ uses
   form_addon_report,
   form_choose_theme,
   Math,
-  //Plugins
+  //Plugins         
+  Plugins.Interfaces,
   Plugins.Python,
-  Plugins.Controller,
-  Plugins.Interfaces;
+  Plugins.Controller;
 
 type
   { TAppNotifThread }
@@ -676,7 +676,7 @@ type
     procedure DoFindOptions_OnChange(Sender: TObject);
     procedure DoFindOptions_ApplyDict(const AText: string);
     procedure DoFindOptions_ResetInSelection;
-    function DoFindOptions_GetDict: PPyObject;
+    //function DoFindOptions_GetDict: PPyObject;
     procedure DoFolderOpen(const ADirName: string; ANewProject: boolean);
     procedure DoGetSaveDialog(var ASaveDlg: TSaveDialog);
     procedure DoGroupsChangeMode(Sender: TObject);
@@ -710,8 +710,8 @@ type
     function DoMenuAdd_Params(const AMenuId, AMenuCmd, AMenuCaption, AMenuHotkey, AMenuTagString: string; AIndex: integer): string;
     procedure DoMenu_Remove(const AMenuId: string);
     procedure DoMenuClear(const AMenuId: string);
-    function DoMenu_GetPyProps(mi: TMenuItem): PPyObject;
-    function DoMenu_PyEnum(const AMenuId: string): PPyObject;
+    //function DoMenu_GetPyProps(mi: TMenuItem): PPyObject;
+    //function DoMenu_PyEnum(const AMenuId: string): PPyObject;
     procedure DoOnTabFocus(Sender: TObject);
     procedure DoOnTabAdd(Sender: TObject);
     procedure DoOnTabClose(Sender: TObject; ATabIndex: Integer; var ACanClose, ACanContinue: boolean);
@@ -728,7 +728,7 @@ type
     procedure DoCodetree_OnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoCodetree_GotoBlockForCurrentNode(AndSelect: boolean);
-    procedure DoCodetree_ApplyTreeHelperResults(Data: PPyObject);
+    //procedure DoCodetree_ApplyTreeHelperResults(Data: PPyObject);
     procedure DoSidebar_OnCloseFloatForm(Sender: TObject; var CloseAction: TCloseAction);
     function DoSidebar_GetFormTitle(const ACaption: string): string;
     procedure DoSidebar_OnPythonCall(const ACallback: string);

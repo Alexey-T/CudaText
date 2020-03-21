@@ -538,7 +538,6 @@ function GetAppLexerSpecificConfig(ALexer: string; ADefaultConfig: boolean=false
 function MsgBox(const Str: string; Flags: Longint): integer;
 procedure MsgBadConfig(const fn: string);
 procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
-procedure MsgLogConsole(const AText: string);
 
 function AppScale(AValue: integer): integer;
 function AppScaleFont(AValue: integer): integer;
@@ -1541,7 +1540,7 @@ end;
 
 function DoOps_CommandCode_To_HotkeyStringId(ACmd: integer): string;
 begin
-  if AppCommandCategory(ACmd)=categ_Plugin then
+  {if AppCommandCategory(ACmd)=categ_Plugin then
     with TAppCommandInfo(AppCommandList[ACmd-cmdFirstPluginCommand]) do
     begin
       Result:= ItemModule+','+ItemProc;
@@ -1549,7 +1548,7 @@ begin
         Result+= ','+ItemProcParam;
     end
   else
-    Result:= IntToStr(ACmd);
+    Result:= IntToStr(ACmd);}
 end;
 
 procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string;
@@ -1684,7 +1683,7 @@ var
   AppCmd: TAppCommandInfo;
   i: integer;
 begin
-  Result:= -1;
+  {Result:= -1;
 
   Sep.Init(AText);
   Sep.GetItemStr(SModule);
@@ -1701,7 +1700,7 @@ begin
       (AppCmd.ItemProc=SProc) and
       (AppCmd.ItemProcParam=SProcParam) then
       exit(i);
-  end;
+  end;}
 end;
 
 
@@ -1716,7 +1715,7 @@ var
   CmdItem: TAppCommandInfo;
   N: integer;
 begin
-  Sep.Init(AText, cSepRoot);
+  {Sep.Init(AText, cSepRoot);
   Sep.GetItemStr(SModule);
   Sep.GetItemStr(SProc);
   Sep.GetRest(SParams);
@@ -1741,7 +1740,7 @@ begin
     CmdItem.ItemFromApi:= true;
 
     AppCommandList.Add(CmdItem);
-  until false;
+  until false;}
 end;
 
 
@@ -2212,7 +2211,7 @@ function AppCommandCategory(Cmd: integer): TAppCommandCategory;
 var
   N: integer;
 begin
-  case Cmd of
+  {case Cmd of
     cmdFirstPluginCommand..cmdLastPluginCommand:
       begin
         Result:= categ_Plugin;
@@ -2229,7 +2228,7 @@ begin
       Result:= categ_RecentFile;
     else
       Result:= categ_Normal;
-  end;
+  end;}
 end;
 
 function AppCommandHasConfigurableHotkey(Cmd: integer): boolean;
@@ -2301,7 +2300,7 @@ var
   i: integer;
 begin
   //find index of plugin (get first empty index if not listed)
-  EventItem:= nil;
+  {EventItem:= nil;
   for i:= 0 to AppEventList.Count-1 do
     with TAppEventInfo(AppEventList[i]) do
       if (ItemModule=AModuleName) then
@@ -2326,17 +2325,17 @@ begin
     ItemKeys:= AKeyStr;
   end;
 
-  AppEventsMaxPrioritiesUpdate;
+  AppEventsMaxPrioritiesUpdate;}
 end;
 
 procedure AppCommandsClearButKeepApiItems;
 var
   i: integer;
 begin
-  for i:= AppCommandList.Count-1 downto 0 do
+  {for i:= AppCommandList.Count-1 downto 0 do
     with TAppCommandInfo(AppCommandList[i]) do
       if (ItemModule<>'') and (not ItemFromApi) then
-        AppCommandList.Delete(i);
+        AppCommandList.Delete(i);}
 end;
 
 procedure AppEventsMaxPrioritiesUpdate;
@@ -2345,7 +2344,7 @@ var
   Plugin: TAppEventInfo;
   Value, i: integer;
 begin
-  for ev in TAppPyEvent do
+  {for ev in TAppPyEvent do
   begin
     Value:= -1;
     for i:= 0 to AppEventList.Count-1 do
@@ -2355,7 +2354,7 @@ begin
         Value:= Max(Value, Plugin.ItemEventsPrior[ev]);
     end;
     AppEventsMaxPriorities[ev]:= Value;
-  end;
+  end;}
 end;
 
 
@@ -2366,9 +2365,9 @@ initialization
   InitUiOps(UiOps);
 
   AppAlwaysNewInstance:= GetAlwaysNewInstance;
-  AppCommandList:= TFPList.Create;
-  AppEventList:= TFPList.Create;
-  AppTreeHelpers:= TFPList.Create;
+  //AppCommandList:= TFPList.Create;
+  //AppEventList:= TFPList.Create;
+  //AppTreeHelpers:= TFPList.Create;
 
   AppKeymap:= TATKeymap.Create;
   InitKeymapFull(AppKeymap);
@@ -2418,9 +2417,9 @@ finalization
   FreeAndNil(AppKeymap);
   FreeAndNil(AppBookmarkImagelist);
 
-  FreeAndNil(AppTreeHelpers);
-  FreeAndNil(AppEventList);
-  FreeAndNil(AppCommandList);
+  //FreeAndNil(AppTreeHelpers);
+  //FreeAndNil(AppEventList);
+  //FreeAndNil(AppCommandList);
 
 end.
 

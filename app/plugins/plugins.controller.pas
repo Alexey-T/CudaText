@@ -7,27 +7,31 @@ interface
 uses
   Classes, SysUtils, FileUtil,
   proc_console,
-  proc_msg,
-  ATStringProc,
+  proc_msg,     
   IniFiles,
+  ATStringProc,
   Plugins.Interfaces,
-  Plugins.Python;
+  Plugins.Python,
+  Plugins.Utils;
 
 type
   TPluginClass=class of TPlugin;
 
   TPluginsController=class
-    PluginsList,TreeHelpersList:TFPList;
-    constructor Create();
-    //Initialization
-    procedure InitPlugins(const PluginDir:String);
-    procedure AddPlugin(const PluginPath,FolderName:String);
-    procedure AddTreeHelper(TreeHelper:ITreeHelper);
-    function ClassifyPlugin(Config:TMemIniFile;out IsTreeHelper:boolean):TPluginClass;         
-    //PluginAPI
-    //TreeHelperAPI
+    protected
+      PluginsList,TreeHelpersList:TFPList;
 
-    destructor Destroy();override;
+    public
+      constructor Create();
+      //Initialization
+      procedure InitPlugins(const PluginDir:String);
+      procedure AddPlugin(const PluginPath,FolderName:String);
+      procedure AddTreeHelper(TreeHelper:ITreeHelper);
+      function ClassifyPlugin(Config:TMemIniFile;out IsTreeHelper:boolean):TPluginClass;
+      //PluginAPI
+      //TreeHelperAPI
+
+      destructor Destroy();override;
   end;
 
 {$i plugins.deprecated.inc}
@@ -102,6 +106,7 @@ function TPluginsController.ClassifyPlugin(Config:TMemIniFile;out IsTreeHelper:b
 var
   sections:TStringList;
   ini_section:string;
+  PluginType:string;
 begin
   PluginType:=Config.ReadString('info','type','');
 
@@ -120,11 +125,15 @@ begin
   Result:=nil;
 end;
 
-
+procedure RmPlugCallBack(Plug,arg:pointer);
+begin
+  IInterface(Plug)._Release;
+end;
 
 destructor TPluginsController.Destroy();
 begin
-  TFPList.ForEachCall();
+  TreeHelpersList.ForEachCall(@RmPlugCallBack,nil);  
+  PluginsList.ForEachCall(@RmPlugCallBack,nil);
 end;
 
 end.
