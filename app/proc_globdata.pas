@@ -493,6 +493,7 @@ type
     OpKeyPageUpDownSize: integer;
     OpKeyUpDownKeepColumn: boolean;
     OpKeyUpDownNavigateWrapped: boolean;
+    OpKeyLeftRightGoToNextLineWithCarets: boolean;
     OpKeyLeftRightSwapSel: boolean;
     OpKeyLeftRightSwapSelAndSelect: boolean;
 
@@ -1171,6 +1172,7 @@ begin
     OpKeyPageUpDownSize:= Ord(cPageSizeFullMinus1);
     OpKeyUpDownKeepColumn:= true;
     OpKeyUpDownNavigateWrapped:= true;
+    OpKeyLeftRightGoToNextLineWithCarets:= false;
     OpKeyLeftRightSwapSel:= true;
     OpKeyLeftRightSwapSelAndSelect:= false;
 
