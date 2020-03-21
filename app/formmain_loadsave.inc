@@ -943,6 +943,7 @@ begin
   Op.OpKeyPageUpDownSize:= cfg.GetValue('key_page_size', Op.OpKeyPageUpDownSize);
   Op.OpKeyUpDownKeepColumn:= cfg.GetValue('key_up_down_keeps_column', Op.OpKeyUpDownKeepColumn);
   Op.OpKeyUpDownNavigateWrapped:= cfg.GetValue('key_up_down_nav_wrapped', Op.OpKeyUpDownNavigateWrapped);
+  Op.OpKeyLeftRightGoToNextLineWithCarets:= cfg.GetValue('key_left_right_wrap_with_carets', Op.OpKeyLeftRightGoToNextLineWithCarets);
   Op.OpKeyLeftRightSwapSel:= cfg.GetValue('key_left_right_swap_sel', Op.OpKeyLeftRightSwapSel);
   Op.OpKeyLeftRightSwapSelAndSelect:= cfg.GetValue('key_left_right_swap_sel_and_select', Op.OpKeyLeftRightSwapSelAndSelect);
 end;
