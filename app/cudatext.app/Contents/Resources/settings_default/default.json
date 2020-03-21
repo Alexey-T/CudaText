@@ -447,7 +447,8 @@
   "undo_persistent": "",
 
   //[Text/Caret]
-  //Allow to place caret after end-of-line (virtual caret pos)
+  //Allow to place caret after end-of-line (virtual caret position),
+  //and allow caret to go to previous line when Left is pressed at line start
   "caret_after_end": false,
 
   //Caret blink time (msec)
@@ -837,6 +838,12 @@
   //Keys Up/Down: when moving on long wrapped lines, treat wrapped parts
   //like separate lines and try to jump to position above/below previous
   "key_up_down_nav_wrapped": true,
+
+  //Keys Left/Right: with "caret_after_end":false, option allows carets
+  //(when at least 2 carets exist) go to next/previous line
+  //(a: caret is at the line start and Left pressed,
+  //b: caret is at the line end and Right pressed)
+  "key_left_right_wrap_with_carets": true,
 
   //Keys Left/Right: try to jump to opposite selection edge
   "key_left_right_swap_sel": true,
