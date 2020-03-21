@@ -841,9 +841,9 @@
 
   //Keys Left/Right: with "caret_after_end":false, option allows carets
   //(when at least 2 carets exist) go to next/previous line
-  //(a: caret is at line start and Left pressed,
-  //b: caret is at line end and Right pressed)
-  "key_left_right_wrap_with_carets": false,
+  //(a: caret is at the line start and Left pressed,
+  //b: caret is at the line end and Right pressed)
+  "key_left_right_wrap_with_carets": true,
 
   //Keys Left/Right: try to jump to opposite selection edge
   "key_left_right_swap_sel": true,

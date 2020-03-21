@@ -168,6 +168,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_PROGRESSBAR: Changes state of the progress-bar (hidden by default), which is located on the status-bar right corner. Int value<0: progressbar hides, value in 0..100: progressbar shows with the given value.
 * PROC_GET_TAB_IMAGELIST: Gets int handle of imagelist, for file-tabs. Use imagelist_proc() to work with it. Use PROP_TAB_ICON property to get/set file-tab icon index (index in this imagelist).
 * PROC_GET_CODETREE: Gets int handle of code-tree UI control. Use tree_proc() to work with it.
+* PROC_SET_FOLDER: Sets path of folder which will be used as initial folder in program's Open/Save-as dialogs.
 * PROC_WINDOW_TOPMOST_GET: Gets bool flag: main window has "always on top" style.
 * PROC_WINDOW_TOPMOST_SET: Sets bool flag: main window has "always on top" style.
 
@@ -3775,5 +3776,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.323 (app 1.97.1)
 * add: Editor.get_prop/set_prop: PROP_SCALE_FONT
+
+1.0.324 (app 1.97.2)
+* add: app_proc: PROC_SET_FOLDER
 
 [[Category:CudaText]]

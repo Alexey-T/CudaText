@@ -318,6 +318,7 @@ class Command:
         self.project = dict(nodes=[])
         self.project_file_path = None
         self.update_global_data()
+        app_proc(PROC_SET_FOLDER, '')
 
     def add_recent(self, path):
         recent = self.options["recent_projects"]
@@ -514,6 +515,12 @@ class Command:
                     self.save_options()
 
                 self.update_global_data()
+
+                for fn in self.project["nodes"]:
+                    if os.path.isdir(fn):
+                        app_proc(PROC_SET_FOLDER, fn)
+                        break
+
                 msg_status("Project opened: " + path)
             else:
                 msg_status("Recent item not found")
@@ -867,6 +874,10 @@ class Command:
         return s
 
     def tree_on_click(self, id_dlg, id_ctl, data='', info=''):
+
+        path = self.get_location_by_index(self.selected)
+        if os.path.isdir(path):
+            app_proc(PROC_SET_FOLDER, path)
 
         if self.options.get('d_click', False):
             return

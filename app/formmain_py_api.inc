@@ -14,6 +14,7 @@ const
 var
   PyEscapeFlag: boolean = false;
   PyEditorMaybeDeleted: boolean = false;
+  PyCurrentFolder: string = '';
 
 var
   AppEmmet: TEmmet = nil;
@@ -4156,6 +4157,12 @@ begin
           begin
             fmMain.FSessionName:= Str;
             fmMain.UpdateCaption;
+            Result:= ReturnNone;
+          end;
+
+        APP_PROC_SET_FOLDER:
+          begin
+            PyCurrentFolder:= Str;
             Result:= ReturnNone;
           end;
 

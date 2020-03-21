@@ -4,7 +4,12 @@
   * changed
 
 
+1.97.2 (2020/03)
+
 + add: option "key_left_right_wrap_with_carets" (to be like EmEditor with multi-carets)
++ add: ProjectManager sets its current folder as folder of Open/Save-as dialog
++ add: lexer HTML: default extension is now 'html'
++ add: lexer Bash: minor fix
 
 1.97.1 (2020/03)
 

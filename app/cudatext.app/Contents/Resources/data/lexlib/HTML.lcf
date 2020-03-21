@@ -862,7 +862,7 @@ object SyntAnal7: TLibSyntAnalyzer
     'Close Tag'
     'Include Tag')
   Extentions = 
-    'htm html htt hta htx htc htd shtml phtml xhtml asp aspx ascx asm' +
+    'html htm htt hta htx htc htd shtml phtml xhtml asp aspx ascx asm' +
     'x jsp hhc dtd'
   LexerName = 'HTML'
   Notes.Strings = (
