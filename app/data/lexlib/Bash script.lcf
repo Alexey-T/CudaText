@@ -230,7 +230,7 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'Command'
       StyleName = 'Command'
       TokenType = 2
-      Expression = '[a-z_][\w\-\.]*\w'
+      Expression = '[a-z_\.][\w\-\.]*\w'
       ColumnFrom = 0
       ColumnTo = 0
     end>
