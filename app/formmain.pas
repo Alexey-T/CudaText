@@ -3318,15 +3318,22 @@ procedure TfmMain.DoFileDialog_PrepareDir(Dlg: TFileDialog);
 var
   fn: string;
 begin
-  fn:= CurrentFrame.FileName;
+  //allow ProjectManager to set folder of Open/SaveAs dialog
+  fn:= PyCurrentFolder;
   if fn<>'' then
-    Dlg.InitialDir:= ExtractFileDir(fn)
+    Dlg.InitialDir:= fn
   else
   begin
-    if UiOps.InitialDir<>'' then
-      Dlg.InitialDir:= UiOps.InitialDir
+    fn:= CurrentFrame.FileName;
+    if fn<>'' then
+      Dlg.InitialDir:= ExtractFileDir(fn)
     else
-      Dlg.InitialDir:= FLastDirOfOpenDlg;
+    begin
+      if UiOps.InitialDir<>'' then
+        Dlg.InitialDir:= UiOps.InitialDir
+      else
+        Dlg.InitialDir:= FLastDirOfOpenDlg;
+    end;
   end;
 end;
 
