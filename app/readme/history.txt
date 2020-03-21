@@ -4,6 +4,8 @@
   * changed
 
 
++ add: option "key_left_right_wrap_with_carets" (to be like EmEditor with multi-carets)
+
 1.97.1 (2020/03)
 
 + add: plugin Emmet: expand abbreviation also by Tab-key (Tab-key works as usual if there is no abbreviation)
