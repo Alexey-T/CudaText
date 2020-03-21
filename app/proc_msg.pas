@@ -369,10 +369,6 @@ const
   msgSortAscNocase: string = 'Sort ascending, ignore case';
   msgSortDescNocase: string = 'Sort descending, ignore case';
   msgSortDialog: string = 'Sort dialog...';
-  msgSortReverse: string = 'Reverse lines';
-  msgSortShuffle: string = 'Shuffle lines';
-  msgSortRemoveDup: string = 'Remove duplicate lines';
-  msgSortRemoveBlank: string = 'Remove blank lines';
 
   msgConsoleClear: string = 'Clear';
   msgConsoleToggleWrap: string = 'Toggle word wrap';

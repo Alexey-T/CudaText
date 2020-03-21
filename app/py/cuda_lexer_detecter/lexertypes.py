@@ -330,6 +330,7 @@ TYPES = {
     "spirv": ['SPIR'],
     "spv": ['SPIR'],
     "spvasm": ['SPIR'],
+    "srt": ['SRT Subtitles'],
     "sqf": ['Bohemia SQF'],
     "sql": ['MySQL SQL', 'SQL_White', 'MySQL_Stored_Procedures', 'SQL_Blue', 'SQL', 'T-SQL'],
     "sqm": ['Bohemia SQF'],
