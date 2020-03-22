@@ -2935,9 +2935,8 @@ begin
   FillChar(BmData, SizeOf(BmData), 0);
   BmData.ShowInBookmarkList:= true;
 
-  //file not listed?
-  nTop:= c.GetValue(path+cHistory_Top, -1);
-  if nTop<0 then exit;
+  //file not listed in history file?
+  if c.GetValue(path+cHistory_Caret, '')='' then exit;
 
   //lexer
   str0:= LexerName[Ed];
