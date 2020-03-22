@@ -2992,6 +2992,8 @@ begin
 
   Ed.OptScaleFont:= c.GetValue(path+cHistory_Scale, 0);
 
+  nTop:= c.GetValue(path+cHistory_Top, 0);
+  if nTop>0 then
   if Assigned(Lexer[Ed]) then
   begin
     //this seems ok: works even for open-file via cmdline

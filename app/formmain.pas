@@ -1084,6 +1084,9 @@ const
   //SleepTime*SleepCount ~= 1 sec
 
 const
+  cAppSessionDefault = 'history session.json';
+
+const
   StatusbarTag_Caret = 10;
   StatusbarTag_Enc = 11;
   StatusbarTag_LineEnds = 12;
@@ -1783,7 +1786,7 @@ function TfmMain.GetSessionFilename: string;
 begin
   Result:= FSessionName;
   if Result='' then
-    Result:= 'history session.json';
+    Result:= cAppSessionDefault;
   if ExtractFileDir(Result)='' then
     Result:= AppDir_Settings+DirectorySeparator+Result;
 end;
@@ -6677,7 +6680,7 @@ end;
 
 function TfmMain.DoOnGetSessionUsed: boolean;
 begin
-  Result:= FSessionName<>'';
+  Result:= (FSessionName<>'') and (FSessionName<>cAppSessionDefault);
 end;
 
 function TfmMain.DoPyLexerDetection(const Filename: string; Lexers: TStringList): integer;
