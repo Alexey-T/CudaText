@@ -244,10 +244,7 @@ type
     procedure SetLexerName(Ed: TATSynEdit; const AValue: string);
     procedure UpdateTabTooltip;
 
-    procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
     procedure DoSaveUndo(Ed: TATSynEdit; const AFileName: string);
-    procedure DoLoadHistory(Ed: TATSynEdit; AllowEnc: boolean);
-    procedure DoLoadHistoryEx(Ed: TATSynEdit; const AFileName: string; c: TJsonConfig; const path: UnicodeString; AllowEnc: boolean);
     procedure DoLoadUndo(Ed: TATSynEdit);
 
   protected
@@ -354,7 +351,11 @@ type
     procedure DoFileReload_DisableDetectEncoding(Ed: TATSynEdit);
     function DoFileReload(Ed: TATSynEdit): boolean;
     procedure DoLexerFromFilename(Ed: TATSynEdit; const AFileName: string);
+    //history
     procedure DoSaveHistory(Ed: TATSynEdit);
+    procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
+    procedure DoLoadHistory(Ed: TATSynEdit; AllowEnc: boolean);
+    procedure DoLoadHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString; AllowEnc: boolean);
     //misc
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
     procedure DoGotoPos(Ed: TATSynEdit; APosX, APosY: integer);
@@ -2911,17 +2912,17 @@ begin
       exit
     end;
 
-    DoLoadHistoryEx(Ed, SFileName, cfg, path, AllowEnc);
+    DoLoadHistoryEx(Ed, cfg, path, AllowEnc);
   finally
     cfg.Free;
   end;
 end;
 
 
-procedure TEditorFrame.DoLoadHistoryEx(Ed: TATSynEdit; const AFileName: string;
-  c: TJsonConfig; const path: UnicodeString; AllowEnc: boolean);
+procedure TEditorFrame.DoLoadHistoryEx(Ed: TATSynEdit; c: TJsonConfig;
+  const path: UnicodeString; AllowEnc: boolean);
 var
-  str, str0: string;
+  str, str0, sFileName, sCarets: string;
   Caret: TATCaretItem;
   NPosX, NPosY, NEndX, NEndY: integer;
   nTop, nKind, i: integer;
@@ -2929,12 +2930,14 @@ var
   BmData: TATBookmarkData;
   Sep: TATStringSeparator;
 begin
+  sFileName:= GetFileName(Ed);
+
   FillChar(BmData, SizeOf(BmData), 0);
   BmData.ShowInBookmarkList:= true;
 
-  //file not listed?
-  nTop:= c.GetValue(path+cHistory_Top, -1);
-  if nTop<0 then exit;
+  //file not listed in history file?
+  sCarets:= c.GetValue(path+cHistory_Caret, '');
+  if sCarets='' then exit;
 
   //lexer
   str0:= LexerName[Ed];
@@ -2952,11 +2955,11 @@ begin
       Ed.EncodingName:= str;
       //reread in encoding
       //but only if not modified (modified means other text is loaded)
-      if AFileName<>'' then
+      if sFileName<>'' then
         if not Ed.Modified then
         begin
           Ed.Strings.EncodingDetect:= false;
-          Ed.LoadFromFile(AFileName);
+          Ed.LoadFromFile(sFileName);
           Ed.Strings.EncodingDetect:= true;
         end;
     end;
@@ -3001,8 +3004,7 @@ begin
   //caret
   if Ed.Carets.Count>0 then
   begin
-    str:= c.GetValue(path+cHistory_Caret, '');
-    Sep.Init(str);
+    Sep.Init(sCarets);
     Sep.GetItemInt(NPosX, 0);
     Sep.GetItemInt(NPosY, 0);
     Sep.GetItemInt(NEndX, -1);
