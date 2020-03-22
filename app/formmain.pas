@@ -554,7 +554,6 @@ type
 
     mnuApple: TMenuItem;
     mnuApple_About: TMenuItem;
-    mnuApple_CheckUpd: TMenuItem;
     //mnuApple_Quit: TMenuItem;
 
     mnuViewWrap_Alt,
@@ -1809,13 +1808,8 @@ begin
   mnuApple.Add(mnuApple_About);
   mnuHelpAbout.Visible:= false;
 
-  mnuApple_CheckUpd:= TMenuItem.Create(Self);
-  mnuApple_CheckUpd.Caption:= 'Check for updates';
-  mnuApple.Add(mnuApple_CheckUpd);
-
   //"Check for Updates" sopported only on Windows
   mnuHelpCheckUpd.Visible:= false;
-  mnuApple_CheckUpd.Enabled:= false;
 
   //macOS adds "Quit" item in Apple menu, "Exit" not needed
   mnuFileExit.Visible:= false;
