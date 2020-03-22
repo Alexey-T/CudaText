@@ -355,7 +355,7 @@ type
     procedure DoSaveHistory(Ed: TATSynEdit);
     procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
     procedure DoLoadHistory(Ed: TATSynEdit; AllowEnc: boolean);
-    procedure DoLoadHistoryEx(Ed: TATSynEdit; const AFileName: string; c: TJsonConfig; const path: UnicodeString; AllowEnc: boolean);
+    procedure DoLoadHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString; AllowEnc: boolean);
     //misc
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
     procedure DoGotoPos(Ed: TATSynEdit; APosX, APosY: integer);
@@ -2912,17 +2912,17 @@ begin
       exit
     end;
 
-    DoLoadHistoryEx(Ed, SFileName, cfg, path, AllowEnc);
+    DoLoadHistoryEx(Ed, cfg, path, AllowEnc);
   finally
     cfg.Free;
   end;
 end;
 
 
-procedure TEditorFrame.DoLoadHistoryEx(Ed: TATSynEdit; const AFileName: string;
-  c: TJsonConfig; const path: UnicodeString; AllowEnc: boolean);
+procedure TEditorFrame.DoLoadHistoryEx(Ed: TATSynEdit; c: TJsonConfig;
+  const path: UnicodeString; AllowEnc: boolean);
 var
-  str, str0: string;
+  str, str0, sFileName: string;
   Caret: TATCaretItem;
   NPosX, NPosY, NEndX, NEndY: integer;
   nTop, nKind, i: integer;
@@ -2930,6 +2930,8 @@ var
   BmData: TATBookmarkData;
   Sep: TATStringSeparator;
 begin
+  sFileName:= GetFileName(Ed);
+
   FillChar(BmData, SizeOf(BmData), 0);
   BmData.ShowInBookmarkList:= true;
 
@@ -2953,11 +2955,11 @@ begin
       Ed.EncodingName:= str;
       //reread in encoding
       //but only if not modified (modified means other text is loaded)
-      if AFileName<>'' then
+      if sFileName<>'' then
         if not Ed.Modified then
         begin
           Ed.Strings.EncodingDetect:= false;
-          Ed.LoadFromFile(AFileName);
+          Ed.LoadFromFile(sFileName);
           Ed.Strings.EncodingDetect:= true;
         end;
     end;
