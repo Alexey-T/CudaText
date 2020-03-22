@@ -245,6 +245,8 @@ begin
         if Frame.FileName<>'' then
           cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(Frame.FileName));
       end;
+
+      Frame.DoSaveHistoryEx(Frame.Ed1, cfg, path);
     end;
 
     Result:= true;
@@ -384,6 +386,7 @@ begin
       if Assigned(Frame) then
       begin
         Frame.NotInRecents:= true;
+        Frame.DoLoadHistoryEx(Frame.Ed1, cfg, item_path, true);
       end;
     end;
 

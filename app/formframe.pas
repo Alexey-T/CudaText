@@ -73,6 +73,7 @@ type
 
 type
   TFrameGetSaveDialog = procedure(var ASaveDlg: TSaveDialog) of object;
+  TFrameGetSessionUsed = function: boolean of object;
 
 type
   { TEditorFrame }
@@ -148,6 +149,7 @@ type
     FBracketSymbols: string;
     FBracketMaxDistance: integer;
     FOnGetSaveDialog: TFrameGetSaveDialog;
+    FOnGetSessionUsed: TFrameGetSessionUsed;
 
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BinaryOnScroll(Sender: TObject);
@@ -373,6 +375,7 @@ type
 
     //events
     property OnGetSaveDialog: TFrameGetSaveDialog read FOnGetSaveDialog write FOnGetSaveDialog;
+    property OnGetSessionUsed: TFrameGetSessionUsed read FOnGetSessionUsed write FOnGetSessionUsed;
     property OnProgress: TATFinderProgress read FOnProgress write FOnProgress;
     property OnCheckFilenameOpened: TStrFunction read FCheckFilenameOpened write FCheckFilenameOpened;
     property OnMsgStatus: TStrEvent read FOnMsgStatus write FOnMsgStatus;
@@ -2761,6 +2764,7 @@ var
   path: string;
   items: TStringlist;
 begin
+  if OnGetSessionUsed() then exit;
   if not FSaveHistory then exit;
   if UiOps.MaxHistoryFiles<2 then exit;
 
@@ -2896,6 +2900,7 @@ var
   SFileName: string;
   path: string;
 begin
+  if OnGetSessionUsed() then exit;
   SFileName:= GetFileName(Ed);
   if SFileName='' then exit;
   path:= SMaskFilenameSlashes(SFileName);
