@@ -2922,7 +2922,7 @@ end;
 procedure TEditorFrame.DoLoadHistoryEx(Ed: TATSynEdit; c: TJsonConfig;
   const path: UnicodeString; AllowEnc: boolean);
 var
-  str, str0, sFileName: string;
+  str, str0, sFileName, sCarets: string;
   Caret: TATCaretItem;
   NPosX, NPosY, NEndX, NEndY: integer;
   nTop, nKind, i: integer;
@@ -2936,7 +2936,8 @@ begin
   BmData.ShowInBookmarkList:= true;
 
   //file not listed in history file?
-  if c.GetValue(path+cHistory_Caret, '')='' then exit;
+  sCarets:= c.GetValue(path+cHistory_Caret, '');
+  if sCarets='' then exit;
 
   //lexer
   str0:= LexerName[Ed];
@@ -3003,8 +3004,7 @@ begin
   //caret
   if Ed.Carets.Count>0 then
   begin
-    str:= c.GetValue(path+cHistory_Caret, '');
-    Sep.Init(str);
+    Sep.Init(sCarets);
     Sep.GetItemInt(NPosX, 0);
     Sep.GetItemInt(NPosY, 0);
     Sep.GetItemInt(NEndX, -1);
