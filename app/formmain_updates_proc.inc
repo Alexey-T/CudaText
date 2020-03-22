@@ -665,7 +665,6 @@ end;
 procedure TfmMain.UpdateMenuHotkeys;
 begin
   UpdateMenuItemHotkey(mnuApple_About, cmd_HelpAbout);
-  UpdateMenuItemHotkey(mnuApple_CheckUpd, cmd_HelpCheckUpdates);
 
   UpdateMenuItemHotkey(mnuFileEnc, cmd_MenuEnc);
   UpdateMenuItemHotkey(mnuFileEndWin, cmd_LineEndWin);
