@@ -2931,7 +2931,10 @@ begin
           begin
             //if editor in frame, use frame's prop
             if Assigned(F) then
-              Result:= PyString_FromString(PChar(F.LexerName[Ed]))
+            begin
+              Str:= F.LexerName[Ed];
+              Result:= PyString_FromString(PChar(Str));
+            end
             else
             if Ed.AdapterForHilite is TATAdapterEControl then
             begin
