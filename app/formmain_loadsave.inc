@@ -286,6 +286,7 @@ var
   nTick: QWord;
 const
   SOptionPassive = '/passive /nonear';
+  SOptionNoHistory = '/nohistory'; //on loading session, we disable loading of main app history
 begin
   Result:= false;
   if AFileName='' then exit;
@@ -365,7 +366,7 @@ begin
         if (FrameCount>0) and Frames[0].IsEmpty then
           Frame:= Frames[0]
         else
-          Frame:= DoFileOpen('', '', Pages, SOptionPassive);
+          Frame:= DoFileOpen('', '', Pages, SOptionPassive+SOptionNoHistory);
         if sFilename<>'' then
         begin
           Frame.FileName:= sFilename;
@@ -383,7 +384,7 @@ begin
       if FileExistsUTF8(sFilename) then
       begin
         Inc(nCountFiles);
-        Frame:= DoFileOpen(sFilename, '', Pages, sOpenOptions+SOptionPassive);
+        Frame:= DoFileOpen(sFilename, '', Pages, sOpenOptions+SOptionPassive+SOptionNoHistory);
       end;
 
       if Assigned(Frame) then
