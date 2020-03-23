@@ -3022,7 +3022,8 @@ function TfmMain.DoFileOpen(AFileName, AFileName2: string; APages: TATPages;
 var
   D: TATTabData;
   F: TEditorFrame;
-  bSilent, bPreviewTab, bEnableHistory, bEnableEvent,
+  bSilent, bPreviewTab, bEnableHistory,
+  bEnableEventPre, bEnableEventOpened, bEnableEventOpenedNone,
   bAllowZip, bAllowPics, bAllowLexerDetect, bDetectedPics,
   bAndActivate, bAllowNear: boolean;
   OpenMode, NonTextMode: TAppOpenMode;
@@ -3041,7 +3042,9 @@ begin
   bSilent:= Pos('/silent', AOptions)>0;
   bPreviewTab:= Pos('/preview', AOptions)>0;
   bEnableHistory:= Pos('/nohistory', AOptions)=0;
-  bEnableEvent:= Pos('/noevent', AOptions)=0;
+  bEnableEventPre:= Pos('/noevent', AOptions)=0;
+  bEnableEventOpened:= Pos('/noopenedevent', AOptions)=0;
+  bEnableEventOpenedNone:= bEnableEventOpened;
   bAndActivate:= Pos('/passive', AOptions)=0;
   bAllowLexerDetect:= Pos('/nolexerdetect', AOptions)=0;
   bAllowNear:= Pos('/nonear', AOptions)=0;
@@ -3129,7 +3132,7 @@ begin
     end;
 
     //py event
-    if bEnableEvent then
+    if bEnableEventPre then
     begin
       SetLength(Params, 1);
       Params[0]:= AppVariant(AFileName);
@@ -3231,8 +3234,12 @@ begin
     Result.DoFileOpen(AFileName, AFileName2, bEnableHistory, bAllowLexerDetect, true, OpenMode);
     MsgStatusFileOpened(AFileName, AFileName2);
 
-    SetLength(Params, 0);
-    DoPyEvent(Result.Ed1, cEventOnOpen, Params);
+    if bEnableEventOpened then
+    begin
+      SetLength(Params, 0);
+      DoPyEvent(Result.Ed1, cEventOnOpen, Params);
+    end;
+
     Result.SetFocus;
     exit;
   end;
@@ -3254,19 +3261,24 @@ begin
       //  msg:= msg+' ('+IntToStr(tick)+'s)';
       MsgStatusFileOpened(AFileName, AFileName2);
 
-      SetLength(Params, 0);
-      DoPyEvent(F.Ed1, cEventOnOpen, Params);
+      if bEnableEventOpened then
+      begin
+        SetLength(Params, 0);
+        DoPyEvent(F.Ed1, cEventOnOpen, Params);
+      end;
 
       if IsFilenameForLexerDetecter(AFileName) then
         if F.IsText and (F.LexerName[F.Ed1]='') then
         begin
-          DoPyEvent(F.Ed1, cEventOnOpenNone, Params);
+          if bEnableEventOpenedNone then
+            DoPyEvent(F.Ed1, cEventOnOpenNone, Params);
           UpdateStatus;
         end;
 
       if AFileName2<>'' then
       begin
-        DoPyEvent(F.Ed2, cEventOnOpen, Params);
+        if bEnableEventOpened then
+          DoPyEvent(F.Ed2, cEventOnOpen, Params);
         UpdateStatus;
       end;
 
@@ -3292,15 +3304,20 @@ begin
   //  msg:= msg+' ('+IntToStr(tick)+'s)';
   MsgStatusFileOpened(AFileName, AFileName2);
 
-  SetLength(Params, 0);
-  DoPyEvent(F.Ed1, cEventOnOpen, Params);
+  if bEnableEventOpened then
+  begin
+    SetLength(Params, 0);
+    DoPyEvent(F.Ed1, cEventOnOpen, Params);
+  end;
 
   if IsFilenameForLexerDetecter(AFileName) then
     if F.IsText and (F.LexerName[F.Ed1]='') then
-      DoPyEvent(F.Ed1, cEventOnOpenNone, Params);
+      if bEnableEventOpenedNone then
+        DoPyEvent(F.Ed1, cEventOnOpenNone, Params);
 
   if AFileName2<>'' then
-    DoPyEvent(F.Ed2, cEventOnOpen, Params);
+    if bEnableEventOpened then
+      DoPyEvent(F.Ed2, cEventOnOpen, Params);
 
   if Visible and Result.Visible and Result.Enabled then
     Result.SetFocus;
