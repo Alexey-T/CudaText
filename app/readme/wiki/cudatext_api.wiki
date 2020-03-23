@@ -1229,6 +1229,7 @@ For zip file (only first filename is checked for it), gets True only if zip file
 * Param "options": string:
 ** If it has "/preview", then file opens in a "temporary preview" tab, with italic caption. Param "group" is ignored then, used 1st group.
 ** If it has "/nohistory", file's saved history (caret, scroll pos, etc) won't be used.
+** If it has "/nolexerdetect", lexer won't be auto-detected.
 ** If it has "/noevent", then "on_open_pre" event won't fire.
 ** If it has "/silent", then zipped add-on will install w/o prompt and report.
 ** If it has "/passive", then tab will not activate, it will be passive tab.
@@ -3779,5 +3780,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.324 (app 1.97.2)
 * add: app_proc: PROC_SET_FOLDER
+* add: file_open: added option "/nolexerdetect"
 
 [[Category:CudaText]]
