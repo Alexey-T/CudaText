@@ -1144,7 +1144,7 @@ begin
   UiOps.TreeSublexers:= cfg.GetValue('ui_tree_sublexers', UiOps.TreeSublexers);
 
   UiOps.PyChangeSlow:= cfg.GetValue('py_change_slow', UiOps.PyChangeSlow);
-  UiOps.PyInitLog:= cfg.GetValue('py_init_log', UiOps.PyInitLog);
+  UiOps.LogPluginIniting:= cfg.GetValue('py_init_log', UiOps.LogPluginIniting);
 
   UiOps.NewdocLexer:= cfg.GetValue('newdoc_lexer', UiOps.NewdocLexer);
   UiOps.NewdocEnc:= cfg.GetValue('newdoc_encoding', UiOps.NewdocEnc);

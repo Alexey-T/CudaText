@@ -481,7 +481,7 @@ begin
     Result:= PPyObject(LoadedModules.Objects[N])
   else
   begin
-    if UiOps.PyInitLog then
+    if UiOps.LogPluginIniting then
       MsgLogConsole('Init: '+AModule);
     Result:= FEngine.PyImport_ImportModule(PChar(AModule));
     LoadedModules.AddObject(AModule, TObject(Result))

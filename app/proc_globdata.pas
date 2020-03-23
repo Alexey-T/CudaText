@@ -126,7 +126,7 @@ type
 
     PyLibrary: string;
     PyChangeSlow: integer;
-    PyInitLog: boolean;
+    LogPluginIniting: boolean;
 
     LexerThemes: boolean;
     LexerMenuGrouped: boolean;
@@ -1319,7 +1319,7 @@ begin
     TreeSublexers:= false;
 
     PyChangeSlow:= 2000;
-    PyInitLog:= true;
+    LogPluginIniting:= true;
 
     NewdocLexer:= '';
     NewdocEnc:= 'utf8';
