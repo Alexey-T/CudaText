@@ -1014,8 +1014,6 @@ begin
   UiOps.FullScreen:= cfg.GetValue('ui_fullscreen', UiOps.FullScreen);
 
   UiOps.MouseGotoDefinition:= cfg.GetValue('mouse_goto_definition', UiOps.MouseGotoDefinition);
-  //UiOps.LogDebug:= cfg.GetValue('log_debug', UiOps.LogDebug);
-  UiOps.LogConsole:= cfg.GetValue('log_console', UiOps.LogConsole);
 
   UiOps.Emmet_AddSlashToEmptyTags:= cfg.GetValue('emmet_add_slash_to_empty_tags', UiOps.Emmet_AddSlashToEmptyTags);
   UiOps.Emmet_CommentTags:= cfg.GetValue('emmet_comment_tags', UiOps.Emmet_CommentTags);
@@ -1150,8 +1148,11 @@ begin
   UiOps.TreeSublexers:= cfg.GetValue('ui_tree_sublexers', UiOps.TreeSublexers);
 
   UiOps.PyChangeSlow:= cfg.GetValue('py_change_slow', UiOps.PyChangeSlow);
+
   UiOps.LogPluginIniting:= cfg.GetValue('py_init_log', UiOps.LogPluginIniting);
   UiOps.LogSessions:= cfg.GetValue('log_sessions', UiOps.LogSessions);
+  //UiOps.LogDebug:= cfg.GetValue('log_debug', UiOps.LogDebug);
+  UiOps.LogConsole:= cfg.GetValue('log_console', UiOps.LogConsole);
 
   UiOps.NewdocLexer:= cfg.GetValue('newdoc_lexer', UiOps.NewdocLexer);
   UiOps.NewdocEnc:= cfg.GetValue('newdoc_encoding', UiOps.NewdocEnc);
