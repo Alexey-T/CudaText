@@ -378,6 +378,12 @@ begin
         if sTabTitle<>'' then
           Frame.TabCaption:= sTabTitle;
         Frame.UpdateModified(Frame.Editor);
+
+        Frame.DoLoadHistoryEx(Frame.Ed1, cfg, item_path, true);
+
+        //fire on_open for "Tab Icons" plugin (on_lexer is blocked from OnShow)
+        SetLength(Params, 0);
+        DoPyEvent(Frame.Ed1, cEventOnOpen, Params);
       end
       else
       //unmodified+named tabs must load file again
@@ -385,12 +391,12 @@ begin
       begin
         Inc(nCountFiles);
         Frame:= DoFileOpen(sFilename, '', Pages, sOpenOptions+SOptionPassive+SOptionNoHistory);
+        Frame.DoLoadHistoryEx(Frame.Ed1, cfg, item_path, true);
       end;
 
       if Assigned(Frame) then
       begin
         Frame.NotInRecents:= true;
-        Frame.DoLoadHistoryEx(Frame.Ed1, cfg, item_path, true);
       end;
     end;
 
