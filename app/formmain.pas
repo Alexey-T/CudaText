@@ -3044,7 +3044,7 @@ begin
   bEnableHistory:= Pos('/nohistory', AOptions)=0;
   bEnableEventPre:= Pos('/noevent', AOptions)=0;
   bEnableEventOpened:= Pos('/noopenedevent', AOptions)=0;
-  bEnableEventOpenedNone:= bEnableEventOpened;
+  bEnableEventOpenedNone:= Pos('/nononeevent', AOptions)=0;
   bAndActivate:= Pos('/passive', AOptions)=0;
   bAllowLexerDetect:= Pos('/nolexerdetect', AOptions)=0;
   bAllowNear:= Pos('/nonear', AOptions)=0;

@@ -1232,6 +1232,7 @@ For zip file (only first filename is checked for it), gets True only if zip file
 ** If it has "/nolexerdetect", lexer won't be auto-detected.
 ** If it has "/noevent", then "on_open_pre" event won't fire.
 ** If it has "/noopenedevent", then "on_open" event won't fire.
+** If it has "/nononeevent", then "on_open_none" event won't fire.
 ** If it has "/silent", then zipped add-on will install w/o prompt and report.
 ** If it has "/passive", then tab will not activate, it will be passive tab.
 ** If it has "/nonear", then app option "ui_tab_new_near_current" will be ignored, tab will append to end.
@@ -3783,5 +3784,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: app_proc: PROC_SET_FOLDER
 * add: file_open: added option "/nolexerdetect"
 * add: file_open: added option "/noopenedevent"
+* add: file_open: added option "/nononeevent"
 
 [[Category:CudaText]]
