@@ -1,6 +1,169 @@
 {$ifdef nn}begin end;{$endif}
 
+function IsPluginBad(const S: string): boolean;
+var
+  i: integer;
+begin
+  Result:= false;
+  for i:= 0 to High(BadPlugins) do
+    if S=BadPlugins[i] then exit(true);
+end;
 
+procedure TfmMain.DoOps_LoadPlugins;
+var
+  list: TStringlist;
+  SItem, fn, DirName: string;
+begin
+  if not AppPython.Inited then exit;
+
+  //commands: don't clear all, leave items from API
+  AppCommandsClearButKeepApiItems;
+
+  //events: clear all
+  AppEventList.Clear;
+
+  list:= TStringlist.Create;
+  try
+    FindAllDirectories(list, AppDir_Py, false);
+    list.Sort;
+    for SItem in list do
+    begin
+      DirName:= ExtractFileName(SItem);
+      if IsPluginBad(DirName) then
+      begin
+        MsgLogConsole(Format(msgPluginIgnored, [DirName]));
+        Continue;
+      end;
+
+      fn:= SItem+DirectorySeparator+'install.inf';
+      if FileExists(fn) then
+        DoOps_LoadPluginFromInf(fn);
+    end;
+  finally
+    FreeAndNil(list);
+  end;
+
+  AppEventsMaxPrioritiesUpdate;
+  UpdateKeymapDynamicItems(categ_Plugin);
+  UpdateKeymapDynamicItems(categ_PluginSub);
+end;
+
+
+procedure TfmMain.DoOps_LoadPluginFromInf(const fn_inf: string);
+var
+  ini: TIniFile;
+  sections: TStringList;
+  ini_section,
+  dir_inf, s_section, s_caption, s_module, s_method, s_lexers,
+  s_events, s_keys, s_inmenu, s_icon: string;
+  CmdItem: TAppCommandInfo;
+  EventItem: TAppEventInfo;
+  TreeHelper: TAppTreeHelper;
+begin
+  ini:= TIniFile.Create(fn_inf);
+  sections:= TStringList.Create;
+
+  try
+    dir_inf:= ExtractFileDir(fn_inf);
+    s_module:= ExtractFileName(dir_inf);
+
+    ini.ReadSections(sections);
+
+    for s_section in sections do
+    begin
+      if not SRegexMatchesString(s_section, 'sidebar\d+', true) then Continue;
+
+      s_caption:= ini.ReadString(s_section, 'hint', '');
+      if s_caption='' then Continue;
+
+      s_icon:= ini.ReadString(s_section, 'icon', '');
+      if s_icon='' then Continue;
+      s_icon:= StringReplace(s_icon, '{dir}', dir_inf, []);
+      {$ifdef windows}
+      s_icon:= StringReplace(s_icon, '/', '\', [rfReplaceAll]);
+      {$endif}
+
+      s_method:= ini.ReadString(s_section, 'method', '');
+      if s_method='' then Continue;
+
+      AppPanels[cPaneSide].AddEmpty(
+        s_caption,
+        DoSidebar_FilenameToImageIndex(s_caption, s_icon),
+        s_module,
+        s_method
+        );
+    end;
+
+    for ini_section in sections do
+    begin
+      //add tree helpers
+      if SRegexMatchesString(ini_section, 'treehelper\d+', true) then
+      begin
+        s_method:= ini.ReadString(ini_section, 'method', '');
+        s_lexers:= ini.ReadString(ini_section, 'lexers', '');
+        TreeHelper:= TAppTreeHelper.Create;
+        TreeHelper.ItemModule:= s_module;
+        TreeHelper.ItemProc:= s_method;
+        TreeHelper.ItemLexers:= s_lexers;
+        AppTreeHelpers.Add(TreeHelper);
+        Continue;
+      end;
+
+      if not SRegexMatchesString(ini_section, 'item\d+', true) then Continue;
+
+      s_section:= ini.ReadString(ini_section, 'section', '');
+      s_caption:= ini.ReadString(ini_section, 'caption', '');
+      s_method:= ini.ReadString(ini_section, 'method', '');
+      //s_hotkey:= ini.ReadString(ini_section, 'hotkey', '');
+
+      s_lexers:= ini.ReadString(ini_section, 'lexers', '');
+      if SBeginsWith(s_lexers, '$') then //var $name defined in [info]
+        s_lexers:= ini.ReadString('info', s_lexers, '');
+
+      s_events:= ini.ReadString(ini_section, 'events', '');
+      s_keys:= ini.ReadString(ini_section, 'keys', '');
+      s_inmenu:= ini.ReadString(ini_section, 'menu', '');
+
+      //add commands
+      if s_section='commands' then
+      begin
+        if s_caption='' then Continue;
+        if s_method='' then Continue;
+
+        CmdItem:= TAppCommandInfo.Create;
+        CmdItem.ItemModule:= s_module;
+        CmdItem.ItemProc:= s_method;
+        CmdItem.ItemProcParam:= '';
+        CmdItem.ItemCaption:= s_caption;
+        CmdItem.ItemLexers:= s_lexers;
+        CmdItem.ItemInMenu:= s_inmenu;
+        AppCommandList.Add(CmdItem);
+        Continue;
+      end;
+
+      //add events
+      if s_section='events' then
+      begin
+        if s_events='' then Continue;
+
+        EventItem:= TAppEventInfo.Create;
+        EventItem.ItemModule:= s_module;
+        AppEventStringToEventData(s_events,
+          EventItem.ItemEvents,
+          EventItem.ItemEventsPrior,
+          EventItem.ItemEventsLazy
+          );
+        EventItem.ItemLexers:= s_lexers;
+        EventItem.ItemKeys:= s_keys;
+        AppEventList.Add(EventItem);
+        Continue;
+      end;
+    end;
+  finally
+    FreeAndNil(sections);
+    FreeAndNil(ini);
+  end;
+end;
 
 
 procedure TfmMain.DoOps_ShowEventPlugins;

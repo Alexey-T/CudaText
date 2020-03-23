@@ -27,7 +27,6 @@ uses
   proc_str,
   proc_colors,
   proc_globdata,
-  proc_console,
   proc_msg;
 
 type

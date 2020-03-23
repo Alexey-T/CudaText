@@ -31,6 +31,7 @@ uses
   {$endif}
   fix_focus_window,
   at__jsonconf,
+  PythonEngine,
   UniqueInstance,
   ec_LexerList,
   ec_SyntAnal,
@@ -77,8 +78,7 @@ uses
   proc_py_const,
   proc_appvariant,
   proc_files,
-  proc_globdata, 
-  proc_console,
+  proc_globdata,
   proc_panelhost,
   proc_colors,
   proc_cmd,
@@ -111,11 +111,7 @@ uses
   form_menu_py,
   form_addon_report,
   form_choose_theme,
-  Math,
-  //Plugins         
-  Plugins.Interfaces,
-  Plugins.Python,
-  Plugins.Controller;
+  Math;
 
 type
   { TAppNotifThread }
@@ -670,7 +666,7 @@ type
     procedure DoFindOptions_OnChange(Sender: TObject);
     procedure DoFindOptions_ApplyDict(const AText: string);
     procedure DoFindOptions_ResetInSelection;
-    //function DoFindOptions_GetDict: PPyObject;
+    function DoFindOptions_GetDict: PPyObject;
     procedure DoFolderOpen(const ADirName: string; ANewProject: boolean);
     procedure DoGetSaveDialog(var ASaveDlg: TSaveDialog);
     procedure DoGroupsChangeMode(Sender: TObject);
@@ -704,8 +700,8 @@ type
     function DoMenuAdd_Params(const AMenuId, AMenuCmd, AMenuCaption, AMenuHotkey, AMenuTagString: string; AIndex: integer): string;
     procedure DoMenu_Remove(const AMenuId: string);
     procedure DoMenuClear(const AMenuId: string);
-    //function DoMenu_GetPyProps(mi: TMenuItem): PPyObject;
-    //function DoMenu_PyEnum(const AMenuId: string): PPyObject;
+    function DoMenu_GetPyProps(mi: TMenuItem): PPyObject;
+    function DoMenu_PyEnum(const AMenuId: string): PPyObject;
     procedure DoOnTabFocus(Sender: TObject);
     procedure DoOnTabAdd(Sender: TObject);
     procedure DoOnTabClose(Sender: TObject; ATabIndex: Integer; var ACanClose, ACanContinue: boolean);
@@ -722,7 +718,7 @@ type
     procedure DoCodetree_OnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoCodetree_GotoBlockForCurrentNode(AndSelect: boolean);
-    //procedure DoCodetree_ApplyTreeHelperResults(Data: PPyObject);
+    procedure DoCodetree_ApplyTreeHelperResults(Data: PPyObject);
     procedure DoSidebar_OnCloseFloatForm(Sender: TObject; var CloseAction: TCloseAction);
     function DoSidebar_GetFormTitle(const ACaption: string): string;
     procedure DoSidebar_OnPythonCall(const ACallback: string);
@@ -1076,6 +1072,11 @@ uses
   Emmet,
   EmmetHelper;
 
+var
+  PythonEng: TPythonEngine = nil;
+  PythonModule: TPythonModule = nil;
+  PythonIO: TPythonInputOutput = nil;
+
 const
   cThreadSleepTime = 50;
   cThreadSleepCount = 20;
@@ -1094,6 +1095,12 @@ const
   StatusbarTag_SelMode = 16;
   StatusbarTag_WrapMode = 17;
   StatusbarTag_Msg = 20;
+
+const
+  BadPlugins: array[0..1] of string = (
+    'cuda_tree',
+    'cuda_brackets_hilite'
+    );
 
 {$R *.lfm}
 
@@ -3861,7 +3868,41 @@ end;
 
 procedure TfmMain.InitPyEngine;
 begin
-  Plugins.Python.InitPyEngine(@PythonIOSendUniData,@PythonEngineAfterInit,@PythonModuleInitialization,UiOps.PyLibrary);
+  {$ifdef windows}
+  Windows.SetEnvironmentVariable('PYTHONIOENCODING', 'UTF-8');
+  {$endif}
+
+  PythonIO:= TPythonInputOutput.Create(Self);
+  PythonIO.MaxLineLength:= 2000;
+  PythonIO.OnSendUniData:= @PythonIOSendUniData;
+  PythonIO.UnicodeIO:= True;
+  PythonIO.RawOutput:= False;
+
+  PythonEng:= TPythonEngine.Create(Self);
+  PythonEng.AutoLoad:= false;
+  PythonEng.FatalAbort:= false;
+  PythonEng.FatalMsgDlg:= false;
+  PythonEng.PyFlags:= [pfIgnoreEnvironmentFlag];
+  PythonEng.OnAfterInit:= @PythonEngineAfterInit;
+  PythonEng.IO:= PythonIO;
+
+  PythonModule:= TPythonModule.Create(Self);
+  PythonModule.Engine:= PythonEng;
+  PythonModule.ModuleName:= 'cudatext_api';
+  PythonModule.OnInitialization:= @PythonModuleInitialization;
+
+  PythonEng.UseLastKnownVersion:= False;
+  PythonEng.DllPath:= ExtractFilePath(UiOps.PyLibrary);
+  PythonEng.DllName:= ExtractFileName(UiOps.PyLibrary);
+  PythonEng.LoadDll;
+
+  if not AppPython.Inited then
+  begin
+    FConsoleMustShow:= true;
+    MsgLogConsole(msgCannotInitPython1);
+    MsgLogConsole(msgCannotInitPython2);
+    DisablePluginMenuItems;
+  end;
 end;
 
 procedure TfmMain.DisablePluginMenuItems;

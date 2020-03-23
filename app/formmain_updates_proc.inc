@@ -1076,7 +1076,7 @@ begin
      CodeTree.Tree.Images:= nil;
 
    FCodetreeModifiedVersion:= Ed.Strings.ModifiedVersion;
-   if not AppPluginsController.TreeHelpersList(Frame) then
+   if not DoPyTreeHelper(Frame) then
    begin
      if not Assigned(FCodetreeBuffer) then
        FCodetreeBuffer:= TTreeView.Create(Self);
