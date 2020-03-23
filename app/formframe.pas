@@ -158,7 +158,7 @@ type
     procedure DoFileOpen_AsBinary(const AFileName: string; AMode: TATBinHexMode);
     procedure DoFileOpen_AsPicture(const AFileName: string);
     procedure DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string;
-      AAllowLoadHistory, AAllowLoadHistoryEnc, AAllowErrorMsgBox, AKeepScroll: boolean; AOpenMode: TAppOpenMode);
+      AAllowLoadHistory, AAllowLoadHistoryEnc, AAllowLexerDetect, AAllowErrorMsgBox, AKeepScroll: boolean; AOpenMode: TAppOpenMode);
     procedure DoImageboxScroll(Sender: TObject);
     procedure DoOnChangeCaption;
     procedure DoOnUpdateStatus;
@@ -344,7 +344,7 @@ type
     function IsParsingBusy: boolean;
     //file
     procedure DoFileClose;
-    procedure DoFileOpen(const AFileName, AFileName2: string; AAllowLoadHistory,
+    procedure DoFileOpen(const AFileName, AFileName2: string; AAllowLoadHistory, AAllowLexerDetect,
       AAllowErrorMsgBox: boolean; AOpenMode: TAppOpenMode);
     function DoFileSave(ASaveAs, AAllEditors: boolean): boolean;
     function DoFileSave_Ex(Ed: TATSynEdit; ASaveAs: boolean): boolean;
@@ -1967,7 +1967,8 @@ begin
   end;
 end;
 
-procedure TEditorFrame.DoFileOpen(const AFileName, AFileName2: string; AAllowLoadHistory, AAllowErrorMsgBox: boolean;
+procedure TEditorFrame.DoFileOpen(const AFileName, AFileName2: string;
+  AAllowLoadHistory, AAllowLexerDetect, AAllowErrorMsgBox: boolean;
   AOpenMode: TAppOpenMode);
 begin
   if not FileExistsUTF8(AFileName) then exit;
@@ -2010,20 +2011,20 @@ begin
   DoDeactivatePictureMode;
   DoDeactivateViewerMode;
 
-  DoFileOpen_Ex(Ed1, AFileName, AAllowLoadHistory, AAllowLoadHistory, AAllowErrorMsgBox, false, AOpenMode);
+  DoFileOpen_Ex(Ed1, AFileName, AAllowLoadHistory, AAllowLoadHistory, AAllowLexerDetect, AAllowErrorMsgBox, false, AOpenMode);
 
   if AFileName2<>'' then
   begin
     EditorsLinked:= false;
     SplitHorz:= false;
     Splitted:= true;
-    DoFileOpen_Ex(Ed2, AFileName2, AAllowLoadHistory, AAllowLoadHistory, AAllowErrorMsgBox, false, AOpenMode);
+    DoFileOpen_Ex(Ed2, AFileName2, AAllowLoadHistory, AAllowLoadHistory, AAllowLexerDetect, AAllowErrorMsgBox, false, AOpenMode);
   end;
 end;
 
 procedure TEditorFrame.DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string;
-  AAllowLoadHistory, AAllowLoadHistoryEnc, AAllowErrorMsgBox, AKeepScroll: boolean;
-  AOpenMode: TAppOpenMode);
+  AAllowLoadHistory, AAllowLoadHistoryEnc, AAllowLexerDetect,
+  AAllowErrorMsgBox, AKeepScroll: boolean; AOpenMode: TAppOpenMode);
 begin
   try
     if AKeepScroll then
@@ -2052,8 +2053,9 @@ begin
     DoLoadHistory(Ed, AAllowLoadHistoryEnc);
   end;
 
-  if Lexer[Ed]=nil then
-    DoLexerFromFilename(Ed, AFileName);
+  if AAllowLexerDetect then
+    if LexerName[Ed]='' then
+      DoLexerFromFilename(Ed, AFileName);
 
   UpdateReadOnlyFromFile(Ed);
   NotifEnabled:= true;
@@ -2342,6 +2344,7 @@ begin
   DoFileOpen_Ex(Ed, SFileName,
     true{AllowLoadHistory},
     false{AllowLoadHistoryEnc},
+    false{AllowLexerDetect},
     false{AllowMsgBox},
     true{KeepScroll},
     Mode);

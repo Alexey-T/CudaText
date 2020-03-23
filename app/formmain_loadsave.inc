@@ -286,7 +286,7 @@ var
   nTick: QWord;
 const
   SOptionPassive = '/passive /nonear';
-  SOptionNoHistory = '/nohistory'; //on loading session, we disable loading of main app history
+  SOptionNoHistory = '/nohistory /nolexerdetect'; //on loading session, we disable loading of main app history
 begin
   Result:= false;
   if AFileName='' then exit;

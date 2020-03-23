@@ -3023,7 +3023,7 @@ var
   D: TATTabData;
   F: TEditorFrame;
   bSilent, bPreviewTab, bEnableHistory, bEnableEvent,
-  bAllowZip, bAllowPics, bDetectedPics,
+  bAllowZip, bAllowPics, bAllowLexerDetect, bDetectedPics,
   bAndActivate, bAllowNear: boolean;
   OpenMode, NonTextMode: TAppOpenMode;
   CurGroups: TATGroups;
@@ -3043,6 +3043,7 @@ begin
   bEnableHistory:= Pos('/nohistory', AOptions)=0;
   bEnableEvent:= Pos('/noevent', AOptions)=0;
   bAndActivate:= Pos('/passive', AOptions)=0;
+  bAllowLexerDetect:= Pos('/nolexerdetect', AOptions)=0;
   bAllowNear:= Pos('/nonear', AOptions)=0;
   bAllowZip:= Pos('/nozip', AOptions)=0;
   bAllowPics:= Pos('/nopictures', AOptions)=0;
@@ -3227,7 +3228,7 @@ begin
 
     Result.Adapter[Result.Ed1].Stop;
     Result.Adapter[Result.Ed2].Stop;
-    Result.DoFileOpen(AFileName, AFileName2, bEnableHistory, true, OpenMode);
+    Result.DoFileOpen(AFileName, AFileName2, bEnableHistory, bAllowLexerDetect, true, OpenMode);
     MsgStatusFileOpened(AFileName, AFileName2);
 
     SetLength(Params, 0);
@@ -3244,7 +3245,7 @@ begin
     if F.IsEmpty then
     begin
       //tick:= GetTickCount64;
-      F.DoFileOpen(AFileName, AFileName2, bEnableHistory, true, OpenMode);
+      F.DoFileOpen(AFileName, AFileName2, bEnableHistory, bAllowLexerDetect, true, OpenMode);
       Result:= F;
       //tick:= (GetTickCount64-tick) div 1000;
 
@@ -3282,7 +3283,7 @@ begin
   F:= D.TabObject as TEditorFrame;
 
   //tick:= GetTickCount64;
-  F.DoFileOpen(AFileName, AFileName2, bEnableHistory, true, OpenMode);
+  F.DoFileOpen(AFileName, AFileName2, bEnableHistory, bAllowLexerDetect, true, OpenMode);
   Result:= F;
   //tick:= (GetTickCount64-tick) div 1000;
 
