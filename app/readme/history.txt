@@ -12,6 +12,7 @@
 + add: ProjectManager sets its current folder as folder of Open/Save-as dialog
 + add: lexer HTML: default extension is now 'html'
 + add: lexer Bash: minor fix
+- fix: bad saving of External Tools plugin hotkeys to keys.json
 
 1.97.1 (2020/03)
 
