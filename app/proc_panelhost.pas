@@ -236,12 +236,15 @@ begin
           Panel.ItemOnShow(nil);
       end;
 
+      {
+      //this focuses LastActivePanel, bad
       N:= CaptionToButtonIndex(LastActivePanel);
       if N>=0 then
       begin
         Btn:= Toolbar.Buttons[N];
         Btn.OnClick(Btn);
       end;
+      }
 
       UpdateTitle;
     end;
