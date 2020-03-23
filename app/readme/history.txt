@@ -14,7 +14,7 @@
 + add: lexer Bash: minor fix
 - fix: bad saving of External Tools plugin hotkeys to keys.json (thanks @AleXY)
 - fix: broken highlight of multi-line strings on editing text after them (thanks @AleXY)
-- fix: invisible file-tab in groups-2 on loading session (thanks @kvichans)
+- fix: invisible file tab in group-2 on loading session (thanks @kvichans)
 
 1.97.1 (2020/03)
 
