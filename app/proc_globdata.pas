@@ -1550,7 +1550,7 @@ end;
 
 function DoOps_CommandCode_To_HotkeyStringId(ACmd: integer): string;
 begin
-  if AppCommandCategory(ACmd)=categ_Plugin then
+  if AppCommandCategory(ACmd) in [categ_Plugin, categ_PluginSub] then
     with TAppCommandInfo(AppCommandList[ACmd-cmdFirstPluginCommand]) do
     begin
       Result:= ItemModule+','+ItemProc;
