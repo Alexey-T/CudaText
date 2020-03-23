@@ -402,7 +402,11 @@ begin
         nIndex:= 0;
       with Groups.Pages[i].Tabs do
         if TabIndex<>nIndex then
-          TabIndex:= nIndex;
+          TabIndex:= nIndex
+        else
+        //default TabIndex is 0, but we need to show tab anyway
+        if TabIndex=0 then
+          TabIndex:= 0;
     end;
 
     //restore group-index
