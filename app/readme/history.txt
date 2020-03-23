@@ -7,6 +7,7 @@
 1.97.2 (2020/03)
 
 + add: option "key_left_right_wrap_with_carets" (to be like EmEditor with multi-carets)
++ add: option "log_sessions"
 * change: file history (caret, bookmarks etc) is now saved to session file *.cuda-session, if non-default session is used. This makes session files independent from main history, and makes main history less bloated.
 + add: ProjectManager sets its current folder as folder of Open/Save-as dialog
 + add: lexer HTML: default extension is now 'html'

@@ -258,8 +258,11 @@ begin
     end;
   end;
 
-  value:= 'Saved session: "'+ExtractFileName(AFileName)+'", '+IntToStr(nCountFiles)+' file(s)';
-  MsgLogConsole(value);
+  if UiOps.LogSessions then
+  begin
+    value:= 'Saved session: "'+ExtractFileName(AFileName)+'", '+IntToStr(nCountFiles)+' file(s)';
+    MsgLogConsole(value);
+  end;
 end;
 
 function IsHistorySectionForFilename(const s: string): boolean;
@@ -448,10 +451,13 @@ begin
 
   nTick:= (GetTickCount64-nTick) div 10 * 10;
 
-  sText:= 'Loaded session: "'+ExtractFileName(AFileName)+'", '+IntToStr(nTick)+'ms, '+IntToStr(nCountFiles)+' file(s)';
-  if nCountFilesModified>0 then
-    sText+= ' + '+IntToStr(nCountFilesModified)+' modified';
-  MsgLogConsole(sText);
+  if UiOps.LogSessions then
+  begin
+    sText:= 'Loaded session: "'+ExtractFileName(AFileName)+'", '+IntToStr(nTick)+'ms, '+IntToStr(nCountFiles)+' file(s)';
+    if nCountFilesModified>0 then
+      sText+= ' + '+IntToStr(nCountFilesModified)+' modified';
+    MsgLogConsole(sText);
+  end;
 
   SetLength(Params, 1);
   Params[0]:= AppVariant(APPSTATE_SESSION_LOAD);
@@ -1145,6 +1151,7 @@ begin
 
   UiOps.PyChangeSlow:= cfg.GetValue('py_change_slow', UiOps.PyChangeSlow);
   UiOps.LogPluginIniting:= cfg.GetValue('py_init_log', UiOps.LogPluginIniting);
+  UiOps.LogSessions:= cfg.GetValue('log_sessions', UiOps.LogSessions);
 
   UiOps.NewdocLexer:= cfg.GetValue('newdoc_lexer', UiOps.NewdocLexer);
   UiOps.NewdocEnc:= cfg.GetValue('newdoc_encoding', UiOps.NewdocEnc);

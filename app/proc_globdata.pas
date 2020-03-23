@@ -127,6 +127,7 @@ type
     PyLibrary: string;
     PyChangeSlow: integer;
     LogPluginIniting: boolean;
+    LogSessions: boolean;
 
     LexerThemes: boolean;
     LexerMenuGrouped: boolean;
@@ -1320,6 +1321,7 @@ begin
 
     PyChangeSlow:= 2000;
     LogPluginIniting:= true;
+    LogSessions:= true;
 
     NewdocLexer:= '';
     NewdocEnc:= 'utf8';
