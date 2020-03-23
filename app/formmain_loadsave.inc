@@ -286,7 +286,7 @@ var
   nTick: QWord;
 const
   SOptionPassive = '/passive /nonear';
-  SOptionNoHistory = '/nohistory /nolexerdetect'; //on loading session, we disable loading of main app history
+  SOptionNoHistory = '/nohistory /nolexerdetect /noevent /noopenedevent /nononeevent';
 begin
   Result:= false;
   if AFileName='' then exit;
@@ -378,12 +378,6 @@ begin
         if sTabTitle<>'' then
           Frame.TabCaption:= sTabTitle;
         Frame.UpdateModified(Frame.Editor);
-
-        Frame.DoLoadHistoryEx(Frame.Ed1, cfg, item_path, true);
-
-        //fire on_open for "Tab Icons" plugin (on_lexer is blocked from OnShow)
-        SetLength(Params, 0);
-        DoPyEvent(Frame.Ed1, cEventOnOpen, Params);
       end
       else
       //unmodified+named tabs must load file again
@@ -391,12 +385,17 @@ begin
       begin
         Inc(nCountFiles);
         Frame:= DoFileOpen(sFilename, '', Pages, sOpenOptions+SOptionPassive+SOptionNoHistory);
-        Frame.DoLoadHistoryEx(Frame.Ed1, cfg, item_path, true);
       end;
 
       if Assigned(Frame) then
       begin
         Frame.NotInRecents:= true;
+        Frame.DoLoadHistoryEx(Frame.Ed1, cfg, item_path, true);
+
+        //event on_open was blocked in DoFileOpen, call it here
+        //(plugin "Tab Icons" needs it)
+        SetLength(Params, 0);
+        DoPyEvent(Frame.Ed1, cEventOnOpen, Params);
       end;
     end;
 
