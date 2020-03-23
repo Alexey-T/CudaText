@@ -670,7 +670,6 @@ type
     procedure DoFolderOpen(const ADirName: string; ANewProject: boolean);
     procedure DoGetSaveDialog(var ASaveDlg: TSaveDialog);
     procedure DoGroupsChangeMode(Sender: TObject);
-    function DoOnGetSessionUsed: boolean;
     procedure DoOnLexerParseProgress(Sender: TObject; AProgress: integer);
     //procedure DoOnLexerParseProgress(Sender: TObject; ALineIndex, ALineCount: integer);
     procedure DoOnLexerParseProgress_Sync();
@@ -6676,11 +6675,6 @@ begin
   Frame:= CurrentFrame;
   if Assigned(Frame) then
     Frame.SetFocus;
-end;
-
-function TfmMain.DoOnGetSessionUsed: boolean;
-begin
-  Result:= (FSessionName<>'') and (FSessionName<>cAppSessionDefault);
 end;
 
 function TfmMain.DoPyLexerDetection(const Filename: string; Lexers: TStringList): integer;
