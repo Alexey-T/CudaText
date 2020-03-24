@@ -1129,11 +1129,14 @@
   "viewer_binary_width": 100,
 
   //[Log]
-  //Show console lines "Init: cuda_nnnn" on plugins initialization
+  //Show in console lines "Init: cuda_nnnn" about plugins initialization
   "py_init_log": true,
 
-  //Log console contents to file settings/console.log
+  //Write console contents to file settings/console.log
   "log_console": false,
+
+  //Show in console lines "Loaded session...", "Saved session..."
+  "log_sessions": true,
 
   //[Emmet]
   //Add slash to empty tags (example of result: <img src="" />)
