@@ -27,7 +27,14 @@ def get_profile():
 
 def find_abr():
 
-    x, y, x1, y1 = ed.get_carets()[0]
+    crt = ed.get_carets()
+    # don't work with mul-carets
+    if len(crt)>1:
+        return
+    x, y, x1, y1 = crt[0]
+    # don't work with selection
+    if y1>=0:
+        return
     text = ed.get_text_line(y)
     if not text: return
     text = text[:x]
