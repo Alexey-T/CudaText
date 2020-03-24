@@ -12,6 +12,7 @@
 + add: Project Manager sets its current folder as folder of Open/Save-as dialog
 + add: lexer HTML: default extension is now 'html'
 + add: lexer Bash: minor fix
+- fix: bad work of HTML auto-completion with '<tag attrib=| >' and '<tag attrib="|" >' (thanks @AleXY)
 - fix: bad saving of External Tools plugin hotkeys to keys.json (thanks @AleXY)
 - fix: broken highlight of multi-line strings on editing text after them (thanks @AleXY)
 - fix: invisible file tab in group-2 on loading session (thanks @kvichans)
