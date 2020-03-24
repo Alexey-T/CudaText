@@ -4,25 +4,21 @@
   * changed
 
 
-1.97.2 (2020/03)
+1.97.5 (2020/03)
 
 + add: option "key_left_right_wrap_with_carets" (to be like EmEditor with multi-carets)
 + add: option "log_sessions"
-* change: file history (caret, bookmarks etc) is now saved to session file *.cuda-session, if non-default session is used. This makes session files independent from main history, and makes main history less bloated.
-+ add: Project Manager sets its current folder as folder of Open/Save-as dialog
+* change: file history (caret, bookmarks etc) is now saved to session file *.cuda-session. This makes session files independent from main history.
+* change: Ctrl+MouseWheel and commands "current document font size..." change editor's font scale by 10% steps, instead of font-size by 1
++ add: Emmet: expand abbreviation also by Tab-key (Tab-key works as usual if there is no abbreviation)
++ add: Project Manager: sets its current folder as folder of Open/Save-as dialog
++ add: command "current document font size: reset"
 + add: lexer HTML: default extension is now 'html'
 + add: lexer Bash: minor fix
 - fix: bad work of HTML auto-completion with '<tag attrib=| >' and '<tag attrib="|" >' (thanks @AleXY)
 - fix: bad saving of External Tools plugin hotkeys to keys.json (thanks @AleXY)
 - fix: broken highlight of multi-line strings on editing text after them (thanks @AleXY)
 - fix: invisible file tab in group-2 on loading session (thanks @kvichans)
-
-1.97.1 (2020/03)
-
-+ add: plugin Emmet: expand abbreviation also by Tab-key (Tab-key works as usual if there is no abbreviation)
-* change: Ctrl+MouseWheel and commands "current document font size..." change editor's font scale by 10% steps, instead of font-size by 1
-+ add: command "current document font size: reset"
-+ add: save file history in more compact way
 
 1.97.0 (2020/03)
 
