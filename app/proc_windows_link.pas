@@ -44,7 +44,7 @@ end;
 function ResolveWindowsLinkTarget(const AFileName: string): string;
 begin
   Result := AFileName;
-  if LowerCase(ExtractFileExt(AFileName))='.lnk' then
+  if ExtractFileExt(AFileName)='.lnk' then
     Result := GetLinkTarget(Result);
 end;
 
