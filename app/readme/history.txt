@@ -4,12 +4,9 @@
   * changed
 
 
-1.97.6
-
-+ add: Windows: .lnk files targets are now resolved
-
 1.97.5 (2020/03)
 
++ add: Windows: .lnk files targets are now resolved
 + add: option "key_left_right_wrap_with_carets" (to be like EmEditor with multi-carets)
 + add: option "log_sessions"
 * change: file history (caret, bookmarks etc) is now saved to session file *.cuda-session. This makes session files independent from main history.
