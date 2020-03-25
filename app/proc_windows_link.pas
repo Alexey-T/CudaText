@@ -43,9 +43,10 @@ end;
 
 function ResolveWindowsLinkTarget(const AFileName: string): string;
 begin
-  Result := AFileName;
   if ExtractFileExt(AFileName)='.lnk' then
-    Result := GetLinkTarget(Result);
+    Result := GetLinkTarget(AFileName)
+  else
+    Result := AFileName;
 end;
 
 {$else}
