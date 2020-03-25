@@ -2597,12 +2597,9 @@ Note: listbox disappears if you move caret or type text, unlike usual auto-compl
 
  complete_alt(text, snippet_id, len_chars, selected=0)
 
-Shows alternative completion listbox. This listbox allows to insert complex snippets, not only simple words. E.g. snippet text like "myobj.myfunc(${1:value1}, ${2:value2});".
+Shows alternative completion listbox. This allows to insert complex snippets, not only simple words.
 
-Function gets None and listbox stays open. When user chooses listbox item, event on_snippet is called, with params:
-
-* Param "snippet_id": value from complete_alt() call; on_snippet should handle only known value of snippet_id.
-* Param "snippet_text": text of selected item (last column).
+Function returns None and listbox stays open. When user chooses listbox item, event "on_snippet" is called in plugin.
 
 Function params:
 
@@ -2610,9 +2607,14 @@ Function params:
 ** Column 1 is shown on left side of listbox (good to show here name of function)
 ** Column 2 is shown on right side of listbox (good to show here type of function)
 ** Column 3 is snippet text in any format. Can contain "\t" but not "\n". Can have any chars escaped in any form.
-* Param "snippet_id": any short string just to identify snippet kind between all plugins. E.g. plugin1/plugin2 may have snippets in different formats, they must handle only their snippets.
-* Param "len_chars": listbox shows lefter than caret, by this count of chars.
-* Param "selected": index of initially selected listbox item (0-based).
+* Param "snippet_id": Some short string just to identify snippet between different plugins. Different plugins provide snippets in different formats, they must  insert only their own snippets, so each plugin must check kind of the snippet, passed to "on_snippet" event.
+* Param "len_chars": Listbox is shown lefter than the caret, by specified count of chars.
+* Param "selected": Index of initially selected listbox item (0-based).
+
+After user has chosen some item in the completion listbox, event "on_snippet" will be called with parameters:
+
+* Param "snippet_id": Value from complete_alt() call.
+* Param "snippet_text": Text of chosen snippet.
 
 ===Editor.gap===
 
