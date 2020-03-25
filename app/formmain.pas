@@ -92,6 +92,7 @@ uses
   proc_customdialog_dummy,
   proc_scrollbars,
   proc_keymap_undolist,
+  proc_windows_link,
   formconsole,
   formframe,
   formgoto,
@@ -3102,7 +3103,7 @@ begin
   //note: ExpandFileNameUTF8 has bug in Laz 1.9-
   if AFileName<>'' then
   begin
-    AFileName:= ExpandFileName(AFileName);
+    AFileName:= ResolveWindowsLinkTarget(ExpandFileName(AFileName));
     if not FileExistsUTF8(AFileName) then
     begin
       MsgBox(msgCannotFindFile+#10+AFileName, MB_OK or MB_ICONERROR);
@@ -3112,7 +3113,7 @@ begin
 
   if AFileName2<>'' then
   begin
-    AFileName2:= ExpandFileName(AFileName2);
+    AFileName2:= ResolveWindowsLinkTarget(ExpandFileName(AFileName2));
     if not FileExistsUTF8(AFileName2) then
     begin
       MsgBox(msgCannotFindFile+#10+AFileName2, MB_OK or MB_ICONERROR);

@@ -9,7 +9,7 @@ unit proc_windows_link;
 
 interface
 
-function ResolveWindowShortcutTarget(const AFileName: string): string;
+function ResolveWindowsLinkTarget(const AFileName: string): string;
 
 implementation
 
@@ -19,7 +19,7 @@ uses
   SysUtils,
   ShlObj, ComObj, ActiveX;
 
-function GetWindowsShortcutTarget(const AFileName: string): string;
+function GetLinkTarget(const AFileName: string): string;
 var
   ShellLink: IShellLinkW;
   PersistFile: IPersistFile;
@@ -41,15 +41,15 @@ begin
   end;
 end;
 
-function ResolveWindowShortcutTarget(const AFileName: string): string;
+function ResolveWindowsLinkTarget(const AFileName: string): string;
 begin
   Result := AFileName;
   if LowerCase(ExtractFileExt(AFileName))='.lnk' then
-    Result := GetWindowsShortcutTarget(Result);
+    Result := GetLinkTarget(Result);
 end;
 
 {$else}
-function ResolveWindowShortcutTarget(const AFileName: string): string;
+function ResolveWindowsLinkTarget(const AFileName: string): string;
 begin
   Result := AFileName;
 end;
