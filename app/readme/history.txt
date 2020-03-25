@@ -4,6 +4,10 @@
   * changed
 
 
+1.97.6
+
++ add: Windows: .lnk files targets are now resolved
+
 1.97.5 (2020/03)
 
 + add: option "key_left_right_wrap_with_carets" (to be like EmEditor with multi-carets)
