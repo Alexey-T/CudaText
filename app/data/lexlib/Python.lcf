@@ -140,10 +140,18 @@ object SyntAnal16: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = '1st Symbol'
+      StyleName = 'Symbol'
+      TokenType = 8
+      Expression = '^[\x20\x09]*[\(\)\[\]\{\}]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = '1st Comment'
       Enabled = False
       StyleName = 'Comment'
-      TokenType = 13
+      TokenType = 7
       Expression = '^[\x20\x09]* \#.*'
       ColumnFrom = 0
       ColumnTo = 0
@@ -680,19 +688,18 @@ object SyntAnal16: TLibSyntAnalyzer
     'String'
     'Integer const'
     'Float const'
-    'Hex const'
-    'Char const'
+    '1st comment'
+    '1st symbol'
     '1st word'
     '1st keyword'
     '1st word tree'
-    'Symbol :'
-    '1st comment')
+    'Symbol :')
   Extentions = 'py pyw rpy cpy sconstruct pyi'
   LexerName = 'Python'
   SkipSpaces = False
   Notes.Strings = (
     'Python lexer by Alexey (CudaText)'
-    'For indent-based folding lexer was tweaked:'
+    'For indent-based folding lexer was imporved:'
     'see SynWrite lexer documentation about these tweaks.')
   LineComment = '#'
   Charset = DEFAULT_CHARSET
