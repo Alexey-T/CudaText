@@ -25,8 +25,8 @@ Method return value is ignored is many cases, but sometimes return value True or
 * on_save(self, ed_self): Called after saving file.
 * on_save_pre(self, ed_self): Called before saving file. Method can return False to disable saving, other value is ignored.
 * on_save_naming(self, ed_self): Called before saving untitled tab, to get suggested filename without path and extension. Method must return valid filename string or None.
-* on_start(self, ed_self): Called once on program start (ignore ed_self).
-* on_exit(self, ed_self): Called on exiting application. This event is lazy, ie it's called only for already loaded plugins.
+* on_start(self, ed_self): Called once on program start. ed_self is None.
+* on_exit(self, ed_self): Called on exiting application. This event is lazy, ie it's called only for already loaded plugins. ed_self is None.
 
 ==Tabs==
 
@@ -48,7 +48,7 @@ Method return value is ignored is many cases, but sometimes return value True or
 * on_scroll(self, ed_self): Called on scrolling in editor.
 * on_mouse_stop(self, ed_self, x, y): Called when mouse cursor stops (for a short delay) over editor. Params "x", "y" are mouse editor-related coords.
 * on_hotspot(self, ed_self, entered, hotspot_index): Called when mouse cursor moves in/out of hotspot. See ed.hotspots() API.
-* on_state(self, ed_self, state): Called after some app state is changed. Param "state" is one of APPSTATE_nnnn constants.
+* on_state(self, ed_self, state): Called after some app state is changed. Param "state" is one of APPSTATE_nnnn constants. ed_self is None.
 * on_state_ed(self, ed_self, state): Called after some editor state is changed. Param "state" is one of EDSTATE_nnnn constants.
 * on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt() call.
 
@@ -68,8 +68,8 @@ Method return value is ignored is many cases, but sometimes return value True or
 
 ==Panels==
 
-* on_console_nav(self, ed_self, text): Called on double-clicking line, or calling context menu item "Navigate", in Python Console panel. Ignore ed_self. Param "text" is line with caret.
-* on_output_nav(self, ed_self, text, tag): Called on clicking line, or pressing Enter, in the Output or Validate panel. Ignore ed_self. Param "text" is clicked line, param "tag" is int value associated with line. Event is called only if app cannot parse output line by itself using given regex, or regex is not set.
+* on_console_nav(self, ed_self, text): Called on double-clicking line, or calling context menu item "Navigate", in Python Console panel. Ignore ed_self. Param "text" is line with caret. ed_self is None.
+* on_output_nav(self, ed_self, text, tag): Called on clicking line, or pressing Enter, in the Output or Validate panel. Ignore ed_self. Param "text" is clicked line, param "tag" is int value associated with line. Event is called only if app cannot parse output line by itself using given regex, or regex is not set. ed_self is None.
 
 ==Macros==
 
