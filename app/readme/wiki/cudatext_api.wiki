@@ -2095,6 +2095,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_MINIMAP: bool: minimap is visible.
 * PROP_MICROMAP: bool: micromap is visible.
 * PROP_LINK_AT_POS: str: URL in the document, at given position. Value must be str(pos_x)+","+str(pos_y).
+* PROP_IN_SESSION: bool: document was loaded from CudaText session.
 * PROP_TAB_SPACES: bool: tab-key inserts spaces (not tab-char).
 * PROP_TAB_SIZE: int: size of tab-char.
 * PROP_TAB_COLLECT_MARKERS: bool: tab-key collects (jumps to and deletes) markers (if markers placed).
@@ -3787,5 +3788,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: file_open: added option "/nolexerdetect"
 * add: file_open: added option "/noopenedevent"
 * add: file_open: added option "/nononeevent"
+
+1.0.325 (app 1.97.5.2)
+* add: Editor.get_prop: PROP_IN_SESSION
 
 [[Category:CudaText]]
