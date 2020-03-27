@@ -3033,6 +3033,14 @@ begin
               Result:= PyBool_FromLong(0);
           end;
 
+        PROP_IN_HISTORY:
+          begin
+            if Assigned(F) then
+              Result:= PyBool_FromLong(Ord(F.InHistory))
+            else
+              Result:= PyBool_FromLong(0);
+          end;
+
         PROP_NEWLINE:
           begin
             case Ed.Strings.Endings of

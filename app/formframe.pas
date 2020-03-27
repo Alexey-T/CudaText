@@ -129,6 +129,7 @@ type
     FTopLineTodo: integer;
     FTabKeyCollectMarkers: boolean;
     FInSession: boolean;
+    FInHistory: boolean;
     FMacroRecord: boolean;
     FMacroString: string;
     FImageBox: TATImageBox;
@@ -300,6 +301,7 @@ type
     property TabSizeChanged: boolean read FTabSizeChanged write FTabSizeChanged;
     property TabKeyCollectMarkers: boolean read GetTabKeyCollectMarkers write FTabKeyCollectMarkers;
     property InSession: boolean read FInSession write FInSession;
+    property InHistory: boolean read FInHistory write FInHistory;
     property TopLineTodo: integer read FTopLineTodo write FTopLineTodo; //always use it instead of Ed.LineTop
     property TextCharsTyped: integer read FTextCharsTyped write FTextCharsTyped;
     property EnabledCodeTree[Ed: TATSynEdit]: boolean read GetEnabledCodeTree write SetEnabledCodeTree;
@@ -2940,7 +2942,8 @@ begin
 
   //file not listed in history file?
   sCarets:= c.GetValue(path+cHistory_Caret, '');
-  if sCarets='' then exit;
+  FInHistory:= sCarets<>'';
+  if not FInHistory then exit;
 
   //lexer
   str0:= LexerName[Ed];
