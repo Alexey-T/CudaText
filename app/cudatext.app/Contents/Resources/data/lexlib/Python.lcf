@@ -257,7 +257,7 @@ object SyntAnal16: TLibSyntAnalyzer
     item
       DisplayName = 'Symbol :'
       StyleName = 'Symbol'
-      TokenType = 12
+      TokenType = 6
       Expression = ':'
       ColumnFrom = 0
       ColumnTo = 0
@@ -561,7 +561,7 @@ object SyntAnal16: TLibSyntAnalyzer
         item
           TagList.Strings = (
             ':')
-          TokenTypes = 4096
+          TokenTypes = 64
         end
         item
           CondType = tcSkip
@@ -586,7 +586,7 @@ object SyntAnal16: TLibSyntAnalyzer
         item
           TagList.Strings = (
             ':')
-          TokenTypes = 4096
+          TokenTypes = 64
         end
         item
           CondType = tcSkip
@@ -611,7 +611,7 @@ object SyntAnal16: TLibSyntAnalyzer
         item
           TagList.Strings = (
             ':')
-          TokenTypes = 4096
+          TokenTypes = 64
         end
         item
           CondType = tcSkip
@@ -686,14 +686,13 @@ object SyntAnal16: TLibSyntAnalyzer
     'Identifier'
     'Symbol'
     'String'
-    'Integer const'
-    'Float const'
+    'Number'
+    'Symbol:'
     '1st comment'
     '1st symbol'
     '1st word'
     '1st keyword'
-    '1st word tree'
-    'Symbol :')
+    '1st word tree')
   Extentions = 'py pyw rpy cpy sconstruct pyi'
   LexerName = 'Python'
   SkipSpaces = False
