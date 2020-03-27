@@ -128,7 +128,7 @@ type
     FFoldTodo: string;
     FTopLineTodo: integer;
     FTabKeyCollectMarkers: boolean;
-    FNotInRecents: boolean;
+    FInSession: boolean;
     FMacroRecord: boolean;
     FMacroString: string;
     FImageBox: TATImageBox;
@@ -299,7 +299,7 @@ type
     property TabColor: TColor read FTabColor write SetTabColor;
     property TabSizeChanged: boolean read FTabSizeChanged write FTabSizeChanged;
     property TabKeyCollectMarkers: boolean read GetTabKeyCollectMarkers write FTabKeyCollectMarkers;
-    property NotInRecents: boolean read FNotInRecents write FNotInRecents;
+    property InSession: boolean read FInSession write FInSession;
     property TopLineTodo: integer read FTopLineTodo write FTopLineTodo; //always use it instead of Ed.LineTop
     property TextCharsTyped: integer read FTextCharsTyped write FTextCharsTyped;
     property EnabledCodeTree[Ed: TATSynEdit]: boolean read GetEnabledCodeTree write SetEnabledCodeTree;
@@ -1577,7 +1577,7 @@ begin
   Inc(FLastTabId);
   FTabId:= FLastTabId;
   FTabImageIndex:= -1;
-  FNotInRecents:= false;
+  FInSession:= false;
   FEnabledCodeTree[0]:= true;
   FEnabledCodeTree[1]:= true;
   FSaveHistory:= true;

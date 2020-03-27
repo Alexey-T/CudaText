@@ -3025,6 +3025,14 @@ begin
             Result:= PyString_FromString(PChar(Str));
           end;
 
+        PROP_IN_SESSION:
+          begin
+            if Assigned(F) then
+              Result:= PyBool_FromLong(Ord(F.InSession))
+            else
+              Result:= PyBool_FromLong(0);
+          end;
+
         PROP_NEWLINE:
           begin
             case Ed.Strings.Endings of

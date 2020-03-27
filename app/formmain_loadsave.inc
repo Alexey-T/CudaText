@@ -389,7 +389,7 @@ begin
 
       if Assigned(Frame) then
       begin
-        Frame.NotInRecents:= true;
+        Frame.InSession:= true;
         Frame.DoLoadHistoryEx(Frame.Ed1, cfg, item_path, true);
 
         //event on_open was blocked in DoFileOpen, call it here

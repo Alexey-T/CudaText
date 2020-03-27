@@ -506,7 +506,7 @@ begin
 
   Frame.DoSaveHistory(Ed);
 
-  if not Frame.NotInRecents then
+  if not Frame.InSession then
     SAddStringToHistory(
       SCollapseHomeDirInFilename(SFileName),
       FListRecents,
