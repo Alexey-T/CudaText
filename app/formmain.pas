@@ -3223,7 +3223,10 @@ begin
 
     if Result=nil then
     begin
-      D:= DoTabAdd(APages, 'pre', true, false);
+      if UiOps.TabsDisabled then
+        D:= APages.Tabs.GetTabData(0)
+      else
+        D:= DoTabAdd(APages, 'pre', true, false);
       if not Assigned(D) then exit;
       D.TabSpecial:= true;
       D.TabFontStyle:= StringToFontStyles(UiOps.TabPreviewFontStyle);
