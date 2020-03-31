@@ -2751,7 +2751,7 @@ begin
   G.SetTabOption(tabOptionSpaceBetweenTabs, IfThen(UiOps.TabAngled, 4, 0));
   G.SetTabOption(tabOptionShowFlat, Ord(UiOps.TabFlat));
   G.SetTabOption(tabOptionShowXButtons, UiOps.TabShowX);
-  G.SetTabOption(tabOptionShowPlus, Ord(UiOps.TabShowPlus));
+  G.SetTabOption(tabOptionShowPlus, Ord(UiOps.TabShowPlus and not UiOps.TabsDisabled));
   G.SetTabOption(tabOptionShowEntireColor, Ord(UiOps.TabColorFull));
   G.SetTabOption(tabOptionDoubleClickClose, Ord(UiOps.TabDblClickClose));
   G.SetTabOption(tabOptionWidthNormal, UiOps.TabWidth);
