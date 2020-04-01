@@ -358,7 +358,9 @@ begin
       Frame.SetFocus;
   end;
 
-  Ed.DoEventCarets;
+  ////removed to fix issue:
+  ////search fails, but OnCaret fired and Highlight Occurences gives statusbar message "hilited N matches"
+  //Ed.DoEventCarets;
 end;
 
 
