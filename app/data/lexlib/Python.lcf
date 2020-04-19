@@ -215,7 +215,7 @@ object SyntAnal16: TLibSyntAnalyzer
     item
       DisplayName = 'Int hex'
       StyleName = 'Number'
-      TokenType = 7
+      TokenType = 5
       Expression = '\b0x(_?[0-9a-f])+\b'
       ColumnFrom = 0
       ColumnTo = 0
@@ -223,7 +223,7 @@ object SyntAnal16: TLibSyntAnalyzer
     item
       DisplayName = 'Int octal'
       StyleName = 'Number'
-      TokenType = 7
+      TokenType = 5
       Expression = '\b0o(_?[0-7])+\b'
       ColumnFrom = 0
       ColumnTo = 0
@@ -231,7 +231,7 @@ object SyntAnal16: TLibSyntAnalyzer
     item
       DisplayName = 'Int bin'
       StyleName = 'Number'
-      TokenType = 7
+      TokenType = 5
       Expression = '\b0b(_?[01])+\b'
       ColumnFrom = 0
       ColumnTo = 0
@@ -658,11 +658,11 @@ object SyntAnal16: TLibSyntAnalyzer
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
-    'Identifier'
+    'Id'
     'Symbol'
     'String'
-    'Integer const'
-    'Float const'
+    'Number'
+    'Number2'
     '1st comment'
     '1st symbol'
     '1st word'
