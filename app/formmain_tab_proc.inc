@@ -267,11 +267,11 @@ begin
         Adapter.Stop;
       end;
     end;
-  end;
 
-  if not Application.Terminated then
-    if bNeedTreeUpd then
-      ClearTreeviewWithData(CodeTree.Tree);
+    if not Application.Terminated then
+      if bNeedTreeUpd then
+        ClearTreeviewWithData(CodeTree.Tree);
+  end;
 end;
 
 procedure TfmMain.DoOnTabPopup(Sender: TObject; APages: TATPages; ATabIndex: integer);
