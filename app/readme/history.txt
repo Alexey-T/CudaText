@@ -4,6 +4,11 @@
   * changed
 
 
+1.97.7
+
+- fix: behaviour of Left/Right keys on multi-selection (thanks @Jairo-Martinez)
+- fix: lexer PHP keywords
+
 1.97.5 (2020/03)
 
 + add: Windows: .lnk files targets are now resolved

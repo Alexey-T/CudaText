@@ -836,7 +836,7 @@ int main(int argc, char *argv[])
         dlg_proc(id, DLG_PROP_SET, {
             'w': 400,
             'h': 300,
-            'cap': 'Test type=pages'
+            'cap': 'Test type=pages, tabs'
             })
 
         n = dlg_proc(id, DLG_CTL_ADD, 'pages')
@@ -845,12 +845,23 @@ int main(int argc, char *argv[])
             'x': 10,
             'y': 10,
             'w': 380,
-            'h': 280,
+            'h': 140,
             'items': 'page-A\tpage-B\tpage-C',
             'on_change': self.callback_pages_on_change,
             'act': True,
             })
 
+        n = dlg_proc(id, DLG_CTL_ADD, 'tabs')
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'mytbs',
+            'x': 10,
+            'y': 160,
+            'w': 380,
+            'h': 50,
+            'items': 'tab-A\ttab-B',
+            'on_change': self.callback_tabs_on_change,
+            'act': True,
+            })
         n = dlg_proc(id, DLG_CTL_ADD, 'check')
         dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'check0',
@@ -884,12 +895,21 @@ int main(int argc, char *argv[])
 
         n = dlg_proc(id, DLG_CTL_ADD, 'label')
         dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
-            'name': 'lab1',
+            'name': 'lab_b',
             'x': 20,
             'y': 50,
             'w': 300,
             'cap': 'label-B',
             'p': 'my.1'
+            })
+        n = dlg_proc(id, DLG_CTL_ADD, 'label')
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'lab_c',
+            'x': 20,
+            'y': 50,
+            'w': 300,
+            'cap': 'label-C',
+            'p': 'my.2'
             })
 
         dlg_proc(id, DLG_SHOW_MODAL)
@@ -1068,6 +1088,8 @@ int main(int argc, char *argv[])
 
     def callback_pages_on_change(self, id_dlg, id_ctl, data='', info=''):
         print('pages on_change')
+    def callback_tabs_on_change(self, id_dlg, id_ctl, data='', info=''):
+        print('tabs on_change')
 
     def test_sidepanel(self):
         print('test_sidepanel')
