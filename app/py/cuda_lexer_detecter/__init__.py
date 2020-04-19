@@ -16,7 +16,7 @@ class Command:
         if not fn:
             return
 
-        name = os.path.basename(fn)
+        name = os.path.basename(fn).lower()
         ext1 = ''
         ext2 = ''
 
