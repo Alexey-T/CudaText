@@ -565,7 +565,7 @@ object SyntAnal16: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 510
+          TokenTypes = 2046
         end
         item
           TokenTypes = 2048
@@ -590,7 +590,7 @@ object SyntAnal16: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 1022
+          TokenTypes = 2046
         end
         item
           TokenTypes = 2048
@@ -603,31 +603,6 @@ object SyntAnal16: TLibSyntAnalyzer
       DrawStaple = True
       GroupIndex = 20
       CollapseFmt = '%s0 %s-1...'
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'block begin'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            ':')
-          TokenTypes = 4096
-        end
-        item
-          CondType = tcSkip
-          TokenTypes = 510
-        end
-        item
-          TokenTypes = 1024
-        end>
-      EndOfTextClose = True
-      DisplayInTree = False
-      NameFmt = '"%s0"'
-      RefToCondEnd = True
-      HighlightPos = cpAny
-      DrawStaple = True
-      GroupIndex = 20
-      CollapseFmt = '%sz0 ...'
       IgnoreAsParent = False
     end
     item
