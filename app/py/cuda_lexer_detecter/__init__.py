@@ -16,7 +16,8 @@ class Command:
         if not fn:
             return
 
-        name = os.path.basename(fn).lower()
+        name_orig = os.path.basename(fn)
+        name = name_orig.lower()
         ext1 = ''
         ext2 = ''
 
@@ -53,7 +54,7 @@ class Command:
         items = ['Download lexer: '+s for s in lexers]
         items += ['Cancel', 'Cancel, don\'t suggest anymore for *.%s'%ext1]
 
-        res = dlg_menu(MENU_LIST, items, caption='Lexer(s) for "%s"' % name)
+        res = dlg_menu(MENU_LIST, items, caption='Lexer(s) for "%s"' % name_orig)
         if res is None:
             return
 
