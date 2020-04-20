@@ -995,6 +995,7 @@ How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=
 * "cap": str: Caption.
 * "x", "y": int: Position (coordinates relative to dialog), left/top.
 * "w", "h": int: Size, width/height.
+* "act": bool: Active state. For many controls (edit, check, radio, combo_ro, checkbutton, listbox'es, listview's, tabs), it means that control's value change fires events (for dlg_proc) or closes form (for dlg_custom).
 * "en": bool: Enabled state.
 * "vis": bool: Visible state.
 * "color": int: Color.
