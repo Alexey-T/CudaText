@@ -746,6 +746,7 @@ Parameter "text" is "\n"-separated items, one item per control. Each item is chr
 
 * "type": type of control; must be specified first
 * "cap": caption
+* "act": active state, bool. For many controls (edit, check, radio, combo_ro, checkbutton, listbox'es, listview's, tabs), it means that control's value change fires events (for dlg_proc) or closes form (for dlg_custom).
 * "x", "y": position, left/top
 * "w", "h": size, width/height
 * "w_min", "w_max": Constraints for width, min/max value.
@@ -762,7 +763,6 @@ Parameter "text" is "\n"-separated items, one item per control. Each item is chr
 * "font_color": font color
 * "font_style": font styles. String, each char can be: "b": bold, "i": italic, "u": underline, "s": strikeout.
 * "name": optional name of control. It may be not unique for all controls.
-* "act": active state, bool. For many controls (edit, check, radio, combo_ro, checkbutton, listbox'es, listview's, tabs), it means that control's value change fires events (for dlg_proc) or closes form (for dlg_custom).
 * "ex0"..."ex9": advanced control-specific props. Described below.
 * "props": deprecated; advanced control-specific props. Described below.
 * "val": value of control. Described below.
@@ -993,9 +993,9 @@ How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=
 
 * "name": str: Optional name of control, to find control later by name. May be not unique for controls.
 * "cap": str: Caption.
+* "act": bool: Active state. For many controls (edit, check, radio, combo_ro, checkbutton, listbox'es, listview's, tabs), it means that control's value change fires events (for dlg_proc) or closes form (for dlg_custom).
 * "x", "y": int: Position (coordinates relative to dialog), left/top.
 * "w", "h": int: Size, width/height.
-* "act": bool: Active state. For many controls (edit, check, radio, combo_ro, checkbutton, listbox'es, listview's, tabs), it means that control's value change fires events (for dlg_proc) or closes form (for dlg_custom).
 * "en": bool: Enabled state.
 * "vis": bool: Visible state.
 * "color": int: Color.
