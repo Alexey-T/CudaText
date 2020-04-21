@@ -214,7 +214,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'Number'
       StyleName = 'Number'
       TokenType = 7
-      Expression = '[\-\+]? \d*\.\d+ (e[\-\+]?\d+)? |'#13#10'[\-\+]? \d*\.?\d+'
+      Expression = '[\-\+]? \d*\.?\d+ (e[\-\+]?\d+)?'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -2104,7 +2104,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal17
+      SyntAnalyzer = SyntAnal14
     end>
   SampleText.Strings = (
     '/* Comment */'
