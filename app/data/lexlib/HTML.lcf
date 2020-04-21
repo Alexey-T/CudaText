@@ -810,8 +810,8 @@ object SyntAnal7: TLibSyntAnalyzer
     item
       DisplayName = 'JavaScript simple'
       StyleName = 'Sublexer BG'
-      StartExpression = '<script>'
-      EndExpression = '</script>'
+      StartExpression = '<script\s*>'
+      EndExpression = '</script\s*>'
       SyntAnalyzer = SyntAnal9
     end
     item
