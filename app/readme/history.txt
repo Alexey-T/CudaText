@@ -7,8 +7,9 @@
 1.98.0
 
 - fix: behaviour of Left/Right keys on multi-selection (thanks @Jairo-Martinez)
-- fix: lexer Python folding (thanks @Jairo-Martinez)
-- fix: lexer PHP keywords
+- fix: lexer Python: folding (thanks @Jairo-Martinez)
+- fix: lexer PHP: keywords
+- fix: lexer HTML: <script> tag
 
 1.97.5 (2020/03)
 
