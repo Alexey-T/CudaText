@@ -11,16 +11,23 @@ class Command:
             msg_status('No files in data/newdoc')
             return
         
-        files = [(item, lexer_proc(LEXER_DETECT, item)) for item in files]
+        infos = []
+        for item in files:
+            lex = lexer_proc(LEXER_DETECT, item)
+            if isinstance(lex, tuple):
+                for l in lex:
+                    infos += [(item, l)]
+            else:
+                infos += [(item, lex)]
         
-        lexers = sorted(list(set([item[1] for item in files if item[1]])))
+        lexers = sorted(list(set([item[1] for item in infos if item[1]])))
         if not lexers: return
         
         res = dlg_menu(MENU_LIST, lexers, caption='Templates')
         if res is None: return
         
         lexer = lexers[res]
-        files = sorted([item[0] for item in files if item[1]==lexer])
+        files = sorted([item[0] for item in infos if item[1]==lexer])
         if not files: return
         
         if len(files)==1:
@@ -30,7 +37,6 @@ class Command:
             if res is None: return
             fn = files[res]
             
-        lexer = lexer_proc(LEXER_DETECT, fn)
         msg_status('New file from "%s", lexer "%s"' % (fn, lexer))
 
         fn = os.path.join(DIR_NEWDOC, fn)
