@@ -417,8 +417,9 @@ begin
 
   SSplitByChar(FListTimers[NIndex], '|', SCallback, STag);
 
+  //timer_proc callback must pass 'tag' as str!
   SetLength(Params, 1);
-  Params[0]:= AppVariant(StrToInt64Def(STag, 0));
+  Params[0]:= AppVariant(STag); //str
 
   DoPyCallbackFromAPI(
     SCallback,
