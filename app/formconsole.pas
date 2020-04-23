@@ -90,26 +90,28 @@ procedure TfmConsole.DoGetLineColor(Ed: TATSynEdit; ALineIndex: integer;
 var
   Str: atString;
   fmt: TecSyntaxFormat;
-  bMsgNote, bMsgError: boolean;
+  bMsgPrompt, bMsgNote, bMsgError: boolean;
 begin
   Str:= Ed.Strings.Lines[ALineIndex];
 
-  if SBeginsWith(Str, cConsolePrompt) then
+  bMsgPrompt:= SBeginsWith(Str, cConsolePrompt);
+  bMsgNote:= SBeginsWith(Str, 'NOTE: ');
+  bMsgError:= (Str='Traceback (most recent call last):') or
+    SRegexMatchesString(Str, '^[a-zA-Z][\w\.]*Error: .+', true);
+
+  if bMsgPrompt then
   begin
     fmt:= GetAppStyle(apstId2);
     AColorFont:= fmt.Font.Color;
     exit;
   end;
 
-  bMsgNote:= SBeginsWith(Str, 'NOTE: ');
-  bMsgError:= (Str='Traceback (most recent call last):') or
-    SRegexMatchesString(Str, '^[a-zA-Z][\w\.]*Error: .+', true);
-
   if bMsgNote then
   begin
     fmt:= GetAppStyle(apstLightBG2);
     AColorFont:= fmt.Font.Color;
     AColorBg:= fmt.BgColor;
+    exit
   end;
 
   if bMsgError then
@@ -117,6 +119,7 @@ begin
     fmt:= GetAppStyle(apstLightBG1);
     AColorFont:= fmt.Font.Color;
     AColorBg:= fmt.BgColor;
+    exit
   end;
 end;
 
