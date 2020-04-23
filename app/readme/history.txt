@@ -4,12 +4,15 @@
   * changed
 
 
-1.98.0
+1.98.0 (2020/04)
 
+- fix: plugin "New File" bug with lexer XSLT (thanks @dinkumoil)
 - fix: behaviour of Left/Right keys on multi-selection (thanks @Jairo-Martinez)
+- fix: bug in API timer_proc (thanks @kvichans)
+- fix: can't open files from project when "ui_tab_disabled":true (thanks @Cauterite)
 - fix: lexer Python: folding (thanks @Jairo-Martinez)
 - fix: lexer PHP: keywords
-- fix: lexer HTML: <script> tag
+- fix: lexer HTML: JS in script tag
 
 1.97.5 (2020/03)
 
