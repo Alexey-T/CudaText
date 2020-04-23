@@ -52,7 +52,6 @@ type
     procedure MemoClickDbl(Sender: TObject; var AHandled: boolean);
     procedure MemoCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
     procedure MemoContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
-    procedure DoClearMemo(Sender: TObject);
     procedure DoNavigate(Sender: TObject);
     procedure DoToggleWrap(Sender: TObject);
     procedure SetIsDoubleBuffered(AValue: boolean);
@@ -67,6 +66,7 @@ type
     property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
     property OnNumberChange: TNotifyEvent read FOnNumberChange write FOnNumberChange;
     procedure DoAddLine(const AText: UnicodeString);
+    procedure DoClearMemo(Sender: TObject);
     procedure DoUpdateMemo;
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
     property MemoWordWrap: boolean read GetWordWrap write SetWordWrap;

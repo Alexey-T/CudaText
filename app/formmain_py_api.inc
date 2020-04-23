@@ -2581,12 +2581,9 @@ begin
         LOG_CONSOLE_CLEAR:
           begin
             if (StrText='') or (Pos('m', StrText)>0) then
-              begin
-                fmConsole.EdMemo.ModeReadOnly:= false;
-                fmConsole.EdMemo.DoCommand(cCommand_GotoTextBegin);
-                fmConsole.EdMemo.DoCommand(cCommand_TextDeleteToTextEnd);
-                fmConsole.EdMemo.ModeReadOnly:= true;
-              end;
+            begin
+              fmConsole.DoClearMemo(nil);
+            end;
 
             if (StrText='') or (Pos('e', StrText)>0) then
             begin
