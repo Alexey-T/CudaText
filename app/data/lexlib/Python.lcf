@@ -1,4 +1,4 @@
-object SyntAnal16: TLibSyntAnalyzer
+object SyntAnal17: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Number'
@@ -603,6 +603,29 @@ object SyntAnal16: TLibSyntAnalyzer
       DrawStaple = True
       GroupIndex = 20
       CollapseFmt = '%s0 %s-1...'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'block not for tree'
+      ConditionList = <
+        item
+          TokenTypes = 4096
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 124
+        end
+        item
+          TokenTypes = 1024
+        end>
+      EndOfTextClose = True
+      DisplayInTree = False
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      DrawStaple = True
+      GroupIndex = 20
+      CollapseFmt = '%sz0 ...'
       IgnoreAsParent = False
     end
     item
