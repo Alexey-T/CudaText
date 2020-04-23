@@ -67,6 +67,8 @@ type
     property OnNumberChange: TNotifyEvent read FOnNumberChange write FOnNumberChange;
     procedure DoAddLine(const AText: UnicodeString);
     procedure DoClearMemo(Sender: TObject);
+    procedure DoClearInput(Sender: TObject);
+    procedure DoClearHistory;
     procedure DoUpdateMemo;
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
     property MemoWordWrap: boolean read GetWordWrap write SetWordWrap;
@@ -307,6 +309,18 @@ begin
   ErrorCounter:= 0;
   if Assigned(FOnNumberChange) then
     FOnNumberChange(Self);
+end;
+
+procedure TfmConsole.DoClearInput(Sender: TObject);
+begin
+  EdInput.DoCommand(cCommand_GotoTextBegin);
+  EdInput.DoCommand(cCommand_TextDeleteToTextEnd);
+  EdInput.DoCaretSingle(0, 0);
+end;
+
+procedure TfmConsole.DoClearHistory;
+begin
+  EdInput.Items.Clear;
 end;
 
 procedure TfmConsole.DoNavigate(Sender: TObject);

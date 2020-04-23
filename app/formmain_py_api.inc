@@ -2581,20 +2581,13 @@ begin
         LOG_CONSOLE_CLEAR:
           begin
             if (StrText='') or (Pos('m', StrText)>0) then
-            begin
               fmConsole.DoClearMemo(nil);
-            end;
 
             if (StrText='') or (Pos('e', StrText)>0) then
-            begin
-              fmConsole.EdInput.DoCommand(cCommand_GotoTextBegin);
-              fmConsole.EdInput.DoCommand(cCommand_TextDeleteToTextEnd);
-            end;
+              fmConsole.DoClearInput(nil);
 
             if (StrText='') or (Pos('h', StrText)>0) then
-            begin
-              fmConsole.EdInput.Items.Clear;
-            end;
+              fmConsole.DoClearHistory;
 
             Result:= ReturnNone;
           end;
