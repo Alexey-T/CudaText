@@ -43,6 +43,7 @@ type
     { private declarations }
     FAdapter: TATAdapterSimple;
     FOnNavigate: TAppConsoleEvent;
+    FOnNumberChange: TNotifyEvent;
     mnuTextClear: TMenuItem;
     mnuTextNav: TMenuItem;
     mnuTextWrap: TMenuItem;
@@ -62,7 +63,9 @@ type
     { public declarations }
     EdInput: TATComboEdit;
     EdMemo: TATSynEdit;
+    ErrorCounter: integer;
     property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
+    property OnNumberChange: TNotifyEvent read FOnNumberChange write FOnNumberChange;
     procedure DoAddLine(const AText: UnicodeString);
     procedure DoUpdateMemo;
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
@@ -78,6 +81,7 @@ const
   cConsoleMaxComboboxItems: integer = 20;
   cConsolePrompt = '>>> ';
   cConsolePrintPrefix = '=';
+  cConsoleTracebackMsg = 'Traceback (most recent call last):';
 
 implementation
 
@@ -96,7 +100,7 @@ begin
 
   bMsgPrompt:= SBeginsWith(Str, cConsolePrompt);
   bMsgNote:= SBeginsWith(Str, 'NOTE: ');
-  bMsgError:= (Str='Traceback (most recent call last):') or
+  bMsgError:= (Str=cConsoleTracebackMsg) or
     SRegexMatchesString(Str, '^[a-zA-Z][\w\.]*Error: .+', true);
 
   if bMsgPrompt then
@@ -144,6 +148,13 @@ begin
     end;
 
     ModeReadOnly:= true;
+
+    if AText=cConsoleTracebackMsg then
+    begin
+      Inc(ErrorCounter);
+      if Assigned(FOnNumberChange) then
+        FOnNumberChange(Self);
+    end;
   end;
 end;
 
@@ -292,6 +303,10 @@ begin
   EdMemo.Text:= '';
   EdMemo.DoCaretSingle(0, 0);
   EdMemo.ModeReadOnly:= true;
+
+  ErrorCounter:= 0;
+  if Assigned(FOnNumberChange) then
+    FOnNumberChange(Self);
 end;
 
 procedure TfmConsole.DoNavigate(Sender: TObject);

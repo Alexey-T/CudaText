@@ -749,6 +749,7 @@ type
     procedure DoApplyThemeToGroups(G: TATGroups);
     procedure DoClearRecentFileHistory;
     function DoOnConsoleNav(const Str: string): boolean;
+    procedure DoOnConsoleNumberChange(Sender: TObject);
     function DoOnMacro(Frame: TEditorFrame; const Str: string): boolean;
     function DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean): boolean;
     function DoDialogMenuApi(const AText, ACaption: string; AMultiline: boolean;
@@ -1963,6 +1964,7 @@ begin
 
   fmConsole:= TfmConsole.Create(Self);
   fmConsole.OnConsoleNav:= @DoOnConsoleNav;
+  fmConsole.OnNumberChange:= @DoOnConsoleNumberChange;
 
   InitSidebar; //after initing PanelCodeTreeAll, ListboxOut, ListboxVal, fmConsole
 
@@ -2215,6 +2217,15 @@ begin
     if Btn.Caption=msgPanelOutput_Init then
     begin
       NCount:= ListboxOut.Items.Count;
+      if NCount>0 then
+        Btn.TextOverlay:= IntToStr(NCount)
+      else
+        Btn.TextOverlay:= '';
+    end
+    else
+    if Btn.Caption=msgPanelConsole_Init then
+    begin
+      NCount:= fmConsole.ErrorCounter;
       if NCount>0 then
         Btn.TextOverlay:= IntToStr(NCount)
       else
@@ -5785,6 +5796,11 @@ begin
   Params[0]:= AppVariant(Str);
 
   Result:= DoPyEvent(nil, cEventOnConsoleNav, Params).Val <> evrFalse;
+end;
+
+procedure TfmMain.DoOnConsoleNumberChange(Sender: TObject);
+begin
+  UpdateSidebarButtonOverlay;
 end;
 
 function TfmMain.DoOnMacro(Frame: TEditorFrame; const Str: string): boolean;
