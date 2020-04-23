@@ -105,7 +105,14 @@ begin
   bMsgError:= (Str='Traceback (most recent call last):') or
     SRegexMatchesString(Str, '^[a-zA-Z][\w\.]*Error: .+', true);
 
-  if bMsgNote or bMsgError then
+  if bMsgNote then
+  begin
+    fmt:= GetAppStyle(apstLightBG2);
+    AColorFont:= fmt.Font.Color;
+    AColorBg:= fmt.BgColor;
+  end;
+
+  if bMsgError then
   begin
     fmt:= GetAppStyle(apstLightBG1);
     AColorFont:= fmt.Font.Color;
