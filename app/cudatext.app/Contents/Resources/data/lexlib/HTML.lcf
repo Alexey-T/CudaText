@@ -803,15 +803,15 @@ object SyntAnal7: TLibSyntAnalyzer
       DisplayName = 'JavaScript'
       StyleName = 'Sublexer BG'
       AlwaysEnabled = True
-      StartExpression = '(?si)<script[^>]*javascript [^>]* [^\?] > \s*(<!--)?'
-      EndExpression = '(?i)(//)?(-->)?\s*</script>'
+      StartExpression = '(?si)<script\s[^>]*javascript [^>\?]* > \s*(<!\-\-)?'
+      EndExpression = '(?i)(//)?(\-\->)?\s*</script\s*>'
       SyntAnalyzer = SyntAnal9
     end
     item
       DisplayName = 'JavaScript simple'
       StyleName = 'Sublexer BG'
-      StartExpression = '<script>'
-      EndExpression = '</script>'
+      StartExpression = '<script\s*>'
+      EndExpression = '</script\s*>'
       SyntAnalyzer = SyntAnal9
     end
     item

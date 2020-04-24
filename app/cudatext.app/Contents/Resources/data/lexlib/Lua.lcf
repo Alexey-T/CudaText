@@ -178,6 +178,14 @@ object SyntAnal12: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'NumFloat'
+      StyleName = 'Number'
+      TokenType = 5
+      Expression = '\d+\. | (\.\d+|\d+\.?\d*) (e[\+\-]?\d+)?\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
@@ -189,15 +197,7 @@ object SyntAnal12: TLibSyntAnalyzer
       DisplayName = 'NumHex'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '0x[\da-f]+\b'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'NumFloat'
-      StyleName = 'Number'
-      TokenType = 5
-      Expression = '\d+(\.\d+)? e[\+\-]?\d+\b |'#13#10'\d+\.\d+\b '
+      Expression = '0x\h+\.\h+\b | 0x\h+\b\.?'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -521,7 +521,7 @@ object SyntAnal12: TLibSyntAnalyzer
     '  alo'
     '  123]==] test'
     ''
-    ' n = 2 + 2.22 + 22.22e-2 + 0.22E1 + 0xF0   '
+    ' n = 2 + 2.22 + 22.22e-2 + 0.22E1 + 0xF0 + .5 + 5.  '
     ' ::name:: , goto name'
     ''
     'function Set.mt.__lt (a,b)'

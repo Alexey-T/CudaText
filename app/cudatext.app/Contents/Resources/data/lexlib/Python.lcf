@@ -1,4 +1,4 @@
-object SyntAnal16: TLibSyntAnalyzer
+object SyntAnal17: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Number'
@@ -215,7 +215,7 @@ object SyntAnal16: TLibSyntAnalyzer
     item
       DisplayName = 'Int hex'
       StyleName = 'Number'
-      TokenType = 7
+      TokenType = 5
       Expression = '\b0x(_?[0-9a-f])+\b'
       ColumnFrom = 0
       ColumnTo = 0
@@ -223,7 +223,7 @@ object SyntAnal16: TLibSyntAnalyzer
     item
       DisplayName = 'Int octal'
       StyleName = 'Number'
-      TokenType = 7
+      TokenType = 5
       Expression = '\b0o(_?[0-7])+\b'
       ColumnFrom = 0
       ColumnTo = 0
@@ -231,7 +231,7 @@ object SyntAnal16: TLibSyntAnalyzer
     item
       DisplayName = 'Int bin'
       StyleName = 'Number'
-      TokenType = 7
+      TokenType = 5
       Expression = '\b0b(_?[01])+\b'
       ColumnFrom = 0
       ColumnTo = 0
@@ -257,7 +257,7 @@ object SyntAnal16: TLibSyntAnalyzer
     item
       DisplayName = 'Symbol :'
       StyleName = 'Symbol'
-      TokenType = 6
+      TokenType = 12
       Expression = ':'
       ColumnFrom = 0
       ColumnTo = 0
@@ -561,11 +561,11 @@ object SyntAnal16: TLibSyntAnalyzer
         item
           TagList.Strings = (
             ':')
-          TokenTypes = 64
+          TokenTypes = 4096
         end
         item
           CondType = tcSkip
-          TokenTypes = 510
+          TokenTypes = 2046
         end
         item
           TokenTypes = 2048
@@ -586,11 +586,11 @@ object SyntAnal16: TLibSyntAnalyzer
         item
           TagList.Strings = (
             ':')
-          TokenTypes = 64
+          TokenTypes = 4096
         end
         item
           CondType = tcSkip
-          TokenTypes = 1022
+          TokenTypes = 2046
         end
         item
           TokenTypes = 2048
@@ -606,25 +606,23 @@ object SyntAnal16: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'block begin'
+      DisplayName = 'block not for tree'
       ConditionList = <
         item
-          TagList.Strings = (
-            ':')
-          TokenTypes = 64
+          TokenTypes = 4096
         end
         item
           CondType = tcSkip
-          TokenTypes = 510
+          TokenTypes = 124
         end
         item
           TokenTypes = 1024
         end>
       EndOfTextClose = True
       DisplayInTree = False
-      NameFmt = '"%s0"'
       RefToCondEnd = True
       HighlightPos = cpAny
+      CancelNextRules = True
       DrawStaple = True
       GroupIndex = 20
       CollapseFmt = '%sz0 ...'
@@ -683,16 +681,17 @@ object SyntAnal16: TLibSyntAnalyzer
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
-    'Identifier'
+    'Id'
     'Symbol'
     'String'
     'Number'
-    'Symbol:'
+    'Number2'
     '1st comment'
     '1st symbol'
     '1st word'
     '1st keyword'
-    '1st word tree')
+    '1st word tree'
+    'Symbol :')
   Extentions = 'py pyw rpy cpy sconstruct pyi'
   LexerName = 'Python'
   SkipSpaces = False
