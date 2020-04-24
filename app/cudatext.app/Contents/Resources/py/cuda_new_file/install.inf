@@ -1,6 +1,6 @@
 [info]
 title=New File
-desc=Makes new file by template from dir "data/newdoc"
+desc=Suggests to create new file from templates in folder data/newdoc
 type=cudatext-plugin
 subdir=cuda_new_file
 homepage=
