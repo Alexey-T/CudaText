@@ -993,26 +993,26 @@
   "duplicate_move_down": true,
 
   //[Text/Completion]
-  //Enable special auto-completion for HTML lexer (see wiki)
+  //Enable special HTML auto-completion, see wiki
   "autocomplete_html": true,
 
-  //Reg.ex. for lexer name, to activate special HTML auto-completion
+  //Enable special HTML auto-completion, if lexer name matches this reg.ex.
   "autocomplete_html_lexers": ".*HTML.*|\bPHP\b",
 
-  //Enable special auto-completion for CSS lexer (see wiki)
+  //Enable special CSS auto-completion, see wiki
   "autocomplete_css": true,
 
-  //Reg.ex. for lexer name, to activate special CSS auto-completion
+  //Enable special CSS auto-completion, if lexer name matches this reg.ex.
   "autocomplete_css_lexers": "CSS",
 
   //Auto-show auto-completion after typing N word-chars (0: disabled)
   //Option is for lexer-specific configs, not for user.json config.
   "autocomplete_autoshow_chars": 0,
 
-  //Chars, which trigger autocompletion show.
+  //Chars, which trigger auto-completion showing.
   //Option is for lexer-specific configs, not for user.json config.
   //  E.g. if option is "@!" in config "lexer Nnn.json", then @ and !
-  //  chars trigger autocompletion, in Nnn lexer.
+  //  chars trigger auto-completion, in Nnn lexer.
   "autocomplete_trigger_chars": "",
 
   //When any of these chars is typed while showing completion listbox,
@@ -1027,11 +1027,11 @@
   //If chosen auto-completion item has (), then append "(" on insertion
   "autocomplete_add_opening_bracket": true,
 
-  //What to do when Up key is pressed with autocompletion selection on top,
+  //What to do when Up key is pressed with auto-completion selection on top,
   //or Down key is pressed with selection on bottom
   //  0: ignore pressed key
   //  1: wrap selection to opposite edge
-  //  2: close autocompletion
+  //  2: close auto-completion
   "autocomplete_up_down_at_edge": 1,
 
   //Auto-close brackets/quotes. Value can have only chars: ( [ { ' " `
