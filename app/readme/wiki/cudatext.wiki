@@ -914,6 +914,54 @@ Plugin CudaExt provides such related commands:
 * Cuda-Ext: Jump: Left into CamelCase/snake_case
 * Cuda-Ext: Jump: Right into CamelCase/snake_case
 
+==Sorting and finding duplicate lines==
+CudaText has two sorting methods.
+If lines are selected (with single selection), commands handle only selected lines. Otherwise, commands handle entire document.
+
+Method 1: Python plugin "Sort", which supports Undo for its commands. It works not fast and takes lot of memory on sorting. It cannot sort huge files, because it reads all file contents from Pascal buffer to Python buffers.
+
+Commands in menu "Plugins / Sort":
+
+* Sort ascending
+* Sort descending
+* Sort ascending, ignore case
+* Sort descending, ignore case
+* Sort dialog... (shows all sorting options in dialog)
+* Reverse lines
+* Shuffle lines
+* Remove duplicate lines
+* Remove duplicate lines, but keep blanks
+* Remove duplicate lines + origins
+* Remove adjacent duplicate lines (ie nearest repeated lines)
+* Extract duplicate lines (put duplicate lines to a new document)
+* Extract duplicate lines, ignore case
+* Extract unique lines
+* Remove blank lines
+* Remove adjacent blank lines
+* Ini file: sort sections and keys
+* Ini file: sort sections, but not keys
+* Sort e-mail list by domain (lines should be valid email addresses to sort them by domain)
+
+The advantage of "Sort" plugin is that is has additional commands (for duplicate lines, for ini files, for e-mails).
+
+Plugin has config file, you can edit it via menu item "Options / Settings-plugins / Sort". In section [sort] you can change "allow_all" to 1 to enable sorting of entire document, if nothing is selected.
+
+Method 2: Pascal-based sorting commands, which are named like "(without undo) Sort...". They clear current Undo (ie user cannot undo sorting operation), but they are optimized for speed and memory. Commands don't read document contents into additional buffers, they sort document in-place (changing pointers only). So they work with all files which CudaText can load.
+
+Commands in Command Palette:
+
+* (without undo) sort ascending
+* (without undo) sort ascending, ignore case
+* (without undo) sort descending
+* (without undo) sort descending, ignore case
+* (without undo) delete all blank lines
+* (without undo) delete adjacent blank lines
+* (without undo) delete all duplicate lines
+* (without undo) delete all duplicate lines
+* (without undo) delete adjacent duplicate lines
+* (without undo) reverse lines
+* (without undo) shuffle lines
+
 =External Tools=
 
 Several examples of external tools configs. Call dialog of External Tools plugin (menu "Tools / Config..."). Add a new tool. Set dialog properties as shown below. This must add menu item, for new tool, under Tools menu.
