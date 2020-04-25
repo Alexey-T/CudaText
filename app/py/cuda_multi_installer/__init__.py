@@ -297,11 +297,11 @@ class Command:
 
             msg_status('Multi Installer: done', True)
 
-            s = 'Multi Installer:\n'
+            s = 'Multi Installer:'
             if self.ok_count>0:
-                s += '%d add-on(s) installed'%self.ok_count
+                s += '\n%d add-on(s) installed'%self.ok_count
             if self.error_count>0:
-                s += '%d download error(s) (SF.net has problems?)'%self.error_count
+                s += '\n%d download error(s) (SF.net has problems?)'%self.error_count
             msg_box(s, MB_OK+MB_ICONINFO)
 
         else:
