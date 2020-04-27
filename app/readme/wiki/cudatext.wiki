@@ -468,6 +468,8 @@ Example of 3 entered lines and their log in console:
 
 == Command Palette ==
 
+Command Palette is a dialog which shows all embedded and external (plugin) commands in a single list. To call it, use hotkey Ctrl+Shift+P (or alias hotkey F1). To configure hotkey for some command in Palette, focus this command in listbox and press F9 - additional dialog will appear. CudaText remembers last chosen listbox item in the history file.
+
 Command Palette (and menu-like dialog in Python API) has filter field. Filter supports fuzzy search, if the option "ui_listbox_fuzzy" is on. "Fuzzy" means that filter leaves only those listbox items, which contain all filter chars in ascending order. Example of fuzzy matches:
 
 * "fop" matches "<font color=red>f</font>ile: <font color=red>op</font>en file"
@@ -486,7 +488,7 @@ Command Palette lists all internal CudaText commands, all plugin commands (prefi
 * #f - opened files
 * #r - recently used files
 
-You can type those "hash tags" at begin or end of the field, even without separating space. E.g. "bar#p" will show only plugin commands containing "bar", "#f.md" will show only Markdown files.
+You can type those "hash tags" at begin or end of the field, even without separating space. E.g. "bar#p" will show only plugin commands containing "bar", "#f.md" will show only Markdown files (with .md extension).
 
 ==Regular expressions==
 
