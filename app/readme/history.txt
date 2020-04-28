@@ -5,6 +5,7 @@
 
 
 - fix: on app closing, hex viewer painted something on Windows desktop (thanks @dinkumoil)
+- fix: not smooth edge of triangled ui-tabs (bug from someone's patch to ATTabs)
 - fix: italic "comments" at line ends were cropped with some fonts
 
 1.98.0 (2020/04)
