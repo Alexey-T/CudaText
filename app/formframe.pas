@@ -1650,7 +1650,7 @@ var
 begin
   if Assigned(FBin) then
   begin
-    FBin.OpenStream(nil);
+    FBin.OpenStream(nil, False);
     FreeAndNil(FBinStream);
     FreeAndNil(FBin);
   end;
