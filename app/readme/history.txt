@@ -4,6 +4,9 @@
   * changed
 
 
+- fix: on app closing, hex viewer painted something on Windows desktop (thanks @dinkumoil)
+- fix: italic "comments" at line ends were cropped
+
 1.98.0 (2020/04)
 
 + add: number of errors in Console (number of lines "Traceback (most recent call last)") is shown over Console sidebar button
