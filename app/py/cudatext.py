@@ -1079,6 +1079,17 @@ def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name=''):
     return res
 
 
+def esc_z(s):
+    # temp solution for null chars, later replace it to full solution with app patch
+    if chr(0) in s:
+        s = s.replace(chr(0), chr(1))
+    '''
+    # by kvichans:
+    s = s.replace('\\', r'\\') if '\\' in s else s
+    s = s.replace(chr(0), r'\0') if chr(0) in s else s
+    '''
+    return s
+
 #Editor
 class Editor:
     h = 0
@@ -1098,7 +1109,7 @@ class Editor:
         return ct.ed_get_text_all(self.h)
 
     def set_text_all(self, text):
-        return ct.ed_set_text_all(self.h, text)
+        return ct.ed_set_text_all(self.h, esc_z(text))
 
     def get_text_sel(self):
         return ct.ed_get_text_sel(self.h)
@@ -1107,7 +1118,7 @@ class Editor:
         return ct.ed_get_text_line(self.h, index, max_len)
 
     def set_text_line(self, index, text):
-        return ct.ed_set_text_line(self.h, index, text)
+        return ct.ed_set_text_line(self.h, index, esc_z(text))
 
     def get_text_substr(self, x1, y1, x2, y2):
         return ct.ed_get_text_substr(self.h, x1, y1, x2, y2)
@@ -1128,13 +1139,13 @@ class Editor:
         return ct.ed_delete(self.h, x1, y1, x2, y2)
 
     def insert(self, x1, y1, text):
-        return ct.ed_insert(self.h, x1, y1, text)
+        return ct.ed_insert(self.h, x1, y1, esc_z(text))
 
     def replace(self, x1, y1, x2, y2, text):
-        return ct.ed_replace(self.h, x1, y1, x2, y2, text)
+        return ct.ed_replace(self.h, x1, y1, x2, y2, esc_z(text))
 
     def replace_lines(self, y1, y2, lines):
-        return ct.ed_replace_lines(self.h, y1, y2, lines)
+        return ct.ed_replace_lines(self.h, y1, y2, [esc_z(l) for l in lines])
 
     def get_filename(self, options=''):
         return ct.ed_get_filename(self.h, options)
@@ -1143,7 +1154,7 @@ class Editor:
         return ct.ed_save(self.h, filename)
 
     def cmd(self, code, text=''):
-        return ct.ed_cmd(self.h, code, text)
+        return ct.ed_cmd(self.h, code, esc_z(text))
 
     def focus(self):
         return ct.ed_focus(self.h)
@@ -1192,7 +1203,7 @@ class Editor:
         return ct.ed_complete_alt(self.h, text, snippet_id, len_chars, selected)
 
     def convert(self, id, x, y, text=''):
-        return ct.ed_convert(self.h, id, x, y, text)
+        return ct.ed_convert(self.h, id, x, y, esc_z(text))
 
     def get_ranges(self):
         return ct.ed_get_ranges(self.h)
