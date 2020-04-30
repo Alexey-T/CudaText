@@ -1635,6 +1635,14 @@ var
   NCnt, i: integer;
   Params: TAppVariantArray;
 begin
+  //in Lazarus 2.1 trunk on Linux x64 gtk2/qt5, TimerAppIdle.Timer is called too early,
+  //when Handle is not created
+  if not HandleAllocated then
+  begin
+    //debug
+    exit;
+  end;
+
   //flush saved Python "print" results to console
   if not AppConsoleQueue.IsEmpty() then
   begin
