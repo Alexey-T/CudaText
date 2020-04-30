@@ -6,6 +6,7 @@
 
 1.98.1.1 (2020/04)
 
+- fix: crash on start on Linux (Lazarus bug: IdleTimer fires too early when form's handle not created)
 - fix: Emmet bug with "!" abbrev
 - fix: Emmet bug with "span.classname" (thanks @d-mal)
 - fix: crash of External Tools/ FindInFiles on files with null bytes (thanks @kvichans)
