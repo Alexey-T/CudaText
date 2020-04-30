@@ -1207,9 +1207,18 @@ Tool properties:
 * Initial folder: {FileDir}
 
 =Tech topics=
+
 == Python API ==
 
 Separate big page about Python API is [[CudaText API]].
+
+==Program perfomance==
+
+===Startup time===
+
+CudaText starts quite fast: about 0.3 sec with about 30 plugins, on Linux, on CPU x64 Intel Core i3 3Hz.
+If no additional plugins are installed, or Python engine is disabled (ie not configured on Unix, or Python DLL files are deleted on Windows), then it starts even faster.
+If configuration/history are clean, it starts faster.
 
 ==How to compile program==
 
