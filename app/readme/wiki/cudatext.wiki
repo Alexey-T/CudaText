@@ -1787,11 +1787,11 @@ ST3: You need to use platform-specific config files. E.g. for macOS, platform-sp
 
 CudaText: You still need to use the same config user.json, but write there options with OS specific suffixes. E.g. Windows option is "font_name", and macOS option is "font_name__mac". Possible suffixes are listed in default.json: __linux, __mac, __freebsd etc. Options with suffixes are marked in default.json.
 
-==How to add commands to context menu?==
+==How to add commands to top/context menu?==
 
-ST3: You need to create the file "Context.sublime-menu": https://www.sublimetext.com/docs/3/menus.html#available_menus
+ST3: You need to create *.sublime-menu files: https://www.sublimetext.com/docs/3/menus.html#available_menus
 
-CudaText: You need to install plugin "Configure Menu". In its dialog, create new menu.json file which has all items of top menu and items of context menu. Then change in that file items of context menu.
+CudaText: You need to install plugin "Configure Menu". In its dialog, create "menu.json" file which has default items of top menu and context menu. Then edit that file.
 
 
 [[Category: CudaText]]
