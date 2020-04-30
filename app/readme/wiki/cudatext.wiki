@@ -741,9 +741,12 @@ In the gutter bar, you can see colored thin bars next to line numbers: green, ye
 * usual lines (not changed)
 * changed lines
 * newly added lines
-* changed or added, and file was saved after it
+* changed or added lines, and file was saved after it
 
-Line states help to see which lines were edited in the last time. Also CudaExt plugin gives few commands to jump over lines with some line states (go to next/previous for several states: for changed, for added, for changed+added).
+Line states help to see which lines were edited since the last opening of a file / last saving of a file. CudaExt plugin gives few commands for line states:
+* "Jump: to next/previous changed lines"
+* "Jump: to next/previous working lines"
+* "Jump: to next/previous saved lines"
 
 ==Project Manager==
 
