@@ -1779,7 +1779,7 @@ Color in Pascal format: hex number (6..8 digits) with "$" prefix, or constants. 
 
 ST3: Use feature of editor called "build systems".
 
-CudaText: Install plugin "External Tools", which adds "Tools" item to the top menu, with dialog to add/configure tools and URLs.
+CudaText: Use plugin "External Tools", which adds "Tools" item to the top menu, with dialog to add/configure programs and URLs.
 
 ==How to change settings for one OS only?==
 
@@ -1793,6 +1793,21 @@ ST3: You need to create *.sublime-menu files: https://www.sublimetext.com/docs/3
 
 CudaText: You need to install plugin "Configure Menu". In its dialog, create "menu.json" file which has default items of top menu and context menu. Then edit that file.
 
+==How to find/replace text in many files?==
+
+ST3: Use built-in command "Find in files".
+
+CudaText: Install plugin "Find in Files" (will be deprecated soon) or "Find in Files 4" (totally new plugin, it has bugs yet).
+
+==How to show vertical lines to some columns?==
+
+ST3: Use option
+
+ "rulers": [40, 80, 120],
+
+CudaText: Use option
+
+ "margin_string": "40 80 120",
 
 [[Category: CudaText]]
 [[Category: Applications written in Free Pascal]]
