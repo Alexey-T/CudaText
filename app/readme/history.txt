@@ -4,9 +4,9 @@
   * changed
 
 
-1.98.1.1 (2020/04)
+1.98.2 (2020/05)
 
-- fix: crash on start on Linux (Lazarus bug)
+- fix: crash on start on Linux (some Lazarus bug)
 - fix: Emmet bug with "!" abbrev
 - fix: Emmet bug with "span.classname" (thanks @d-mal)
 - fix: crash of External Tools/ FindInFiles on files with null bytes (thanks @kvichans)
