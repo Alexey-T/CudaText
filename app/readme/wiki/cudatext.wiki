@@ -212,7 +212,7 @@ Some details about this:
 
 == Lexers ==
 
-Lexers (syntax highlighters) from SynWrite editor are used. Used EControl.ru syntax parser with mods. Main mod is support for folding in Python (and other lexers with indent-based folding).
+Syntax highlighters in CudaText are called lexers. Lexers are compatible with SynWrite editor (which is frozen). Lexer engine by EControl.ru is used, with modifications by Alexey Torgashin. Main modification is support for folding in Python and other syntaxes with indentation-based folding.
 
 * Dialog "Lexer properties" allows to config props of current lexer (selected via statusbar panel in CudaText). You can config: lexer name, file types, commenting for language, colors of tokens, font-styles (bold/italic/underline), borders around tokens.
 * Dialog "Lexer library" shows list of installed lexers. Dialog shows lexers which are in the folder "data/lexlib".
