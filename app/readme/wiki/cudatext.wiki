@@ -1902,6 +1902,14 @@ ST3: Use commands "Next modification", "Previous modification".
 
 CudaText: Use plugin "CudaExt" which gives commands: "Jump: to next/previous changed lines", "Jump: to next/previous working lines", "Jump: to next/previous saved lines". See "line states": https://wiki.freepascal.org/CudaText#Line_states
 
+==How to find file in a project?==
+
+ST3: Use "Goto Anything" (Ctrl+P on Windows/Linux, Command+P on macOS).
+
+CudaText: Plugin FindInFiles (v3) allows to search in project files. Quote from its help:
+<pre>
+Set special value "<Project Folders>" (in short <p>) for field "In folder" to search in project files.
+</pre>
 
 [[Category: CudaText]]
 [[Category: Applications written in Free Pascal]]
