@@ -1808,7 +1808,7 @@ ST3: Use built-in command "Find in files".
 
 CudaText: Install plugin "Find in Files" (will be deprecated soon) or "Find in Files 4" (totally new plugin, it has bugs yet).
 
-==How to show vertical lines to some columns?==
+==How to show vertical lines on some columns?==
 
 ST3: Use option
 
@@ -1817,6 +1817,91 @@ ST3: Use option
 CudaText: Use option
 
  "margin_string": "40 80 120",
+
+==How to highlight pair brackets?==
+
+ST3: Use plugin, e.g. https://packagecontrol.io/packages/BracketHighlighter
+
+CudaText: Use several "bracket_" options, see in the "Options Editor" plugin.
+
+==How to highlight pair HTML tags?==
+
+ST3: Use plugin, e.g. https://packagecontrol.io/packages/BracketHighlighter
+
+CudaText: Use options for "dynamic highlighting", "lexer_dynamic_" in "Options Editor" plugin.
+
+==How to add custom syntax support?==
+
+ST3: You need to create syntax file, https://www.sublimetext.com/docs/3/syntax.html
+
+CudaText: You need to create lexer, https://wiki.freepascal.org/CudaText#Lexers
+
+==How to customize hotkeys?==
+
+ST3: You need to edit keybinding files like "Default (Windows).sublime-keymap".
+
+CudaText: In the Command Palette dialog, focus needed command item, press F9 - additional dialog will appear to set the hotkey. Method 2: install plugin "Configure Hotkeys" which gives alternative dialog.
+
+==How to use Emmet?==
+
+ST3: Install plugin "Emmet". Emmet here is written in JavaScript.
+
+CudaText: Use pre-installed plugin "Emmet". Emmet here is written in Pascal with minor differences (e.g. "lorem" works differently).
+
+==How to show 2/3/4 files at once?==
+
+ST3: Use "View / Layout" menu.
+
+CudaText: Use "=" item in the top menu.
+
+==How to detect syntax by first line of file?==
+
+ST3: It's configured in syntax file: https://superuser.com/questions/752025/sublime-text-3-detect-syntax-based-on-file-header
+
+CudaText: Use "file types config", https://wiki.freepascal.org/CudaText#File_types_config
+
+==How to assign syntax to undetected file extension?==
+
+ST3: Open your file, click statusbar item for syntax, use item "Open all with current extension as...".
+
+CudaText: Use "file types config", https://wiki.freepascal.org/CudaText#File_types_config
+
+==How to select several occurrences of a word?==
+
+ST3: Use command "Selection / Expand selection to word".
+
+CudaText: Use command "Selection / Add next occurrence of selected word".
+
+==How to select all occurrences of a word?==
+
+ST3: In the Find dialog, enter a word, check "whole words", press "Find All".
+
+CudaText: In the Find dialog, enter a word, check "whole words", press "Select all".
+
+==How to record macros?==
+
+ST3: Use menu items in the "Tools" menu.
+
+CudaText: Install plugin "Macros", which adds item "Macros" to the top menu.
+
+==How to use "Go to symbol"?==
+
+ST3: Use menu item "Go to symbol".
+
+CudaText: It doesn't have "Go to anything" but it has "Go to symbol" for a lexer, if lexer finds such symbols for Code Tree. Install plugin "CudaExt", which gives menu "Plugins / Cuda-Ext / Code Tree" with several menu items. One item is "Symbols list" which shows Code Tree items in the menu dialog.
+
+==How to switch between C++ (for example) header/implementation files?==
+
+ST3: Use command "Switch header/implementation".
+
+CudaText: Use plugin "Switch Header" (it's configurable for all lexers).
+
+==How to jump to next/previous modified lines?==
+
+ST3: Use commands "Next modification", "Previous modification".
+
+CudaText: Use plugin "CudaExt" which gives commands: "Jump: to next/previous changed lines", "Jump: to next/previous working lines", "Jump: to next/previous saved lines". See "line states": https://wiki.freepascal.org/CudaText#Line_states
+
 
 [[Category: CudaText]]
 [[Category: Applications written in Free Pascal]]
