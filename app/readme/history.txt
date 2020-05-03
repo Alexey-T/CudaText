@@ -4,6 +4,8 @@
   * changed
 
 
++ add: Find/Replace dialog: on regex error, show error details
+
 1.98.2 (2020/05)
 
 - fix: crash on start on Linux (some Lazarus bug)
