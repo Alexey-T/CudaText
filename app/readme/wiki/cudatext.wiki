@@ -1220,6 +1220,35 @@ CudaText starts quite fast: about 0.3 sec with about 30 plugins, on Linux, on CP
 If no additional plugins are installed, or Python engine is disabled (ie not configured on Unix, or Python DLL files are deleted on Windows), then it starts even faster.
 If configuration/history are clean, it starts faster.
 
+===Perfomance on huge lines===
+
+It's interesting how some Linux editors handle huge lines. Tested several editors on Ubuntu 19.10 on Intel i3 CPU. With XML file with a single line of length 4M. XML file contains line like <id name="nnnnnnnnnnnnnnn"> with the huge "name" value of 4M.
+
+Python script to generate test file:
+
+<syntaxhighlight lang="python">
+#!/usr/bin/python3
+f = open("a.xml", "w")
+f.write('<id name="')
+for n in range(1, 4096):
+    f.write("n" * 1024)
+f.write('">\n')
+</syntaxhighlight>
+
+*    CudaText 1.96. Opens file: 1.5sec. Caret moves at the end of line: very fast (<0.1sec). Editing of this line: not fast, adding each char is about 0.5sec.
+
+*    Sublime Text 3. Opens file: 2sec. Caret moves at the end of line: each Left/Right arrow is 0.5sec delay. Editing of this line: not fast.
+
+*    Geany 1.35. Opens file: about 10sec, then for next 5-10sec I cannot place caret by mouse, then it works. Caret moves at line begin: fast, caret moves at line end: slow (delay 0.5sec after each Left/Right key). Editing at the end: adding each char is about 6sec.
+
+*    Kate 19.04. Gives colored panel "The file ... was opened and contained lines longer than ... The lines were wrapped and document is set to read-only mode...". Caret moves at the end of wrapped doc: fast. Editing is disabled.
+
+*    gedit 3.34. Hanged on opening file (from command line and from editor), waited it for 20sec.
+
+*    Emacs 26.3 GUI. Opens file: 1sec. In word-wrapped mode. With the statusbar error "Internal error in rng-validate-mode triggered at buffer position 10. Stack overflow in regexp matcher". Pressing Ctrl+End to move to end: editor hanged with "wait" cursor.
+
+*    Bluefish 2.2.10. On opening file, gives the warning about too long lines, on choosing "don't split lines" it hanged, waited for 30sec.
+
 ==How to compile program==
 
 There is Linux script CudaText_up https://github.com/Alexey-T/CudaText_up - it downloads all  sources into ~/cudatext_up, then calls Lazarus (at least 1.8.4) to compile them. You can use it with FPC cross-compilers, installed from FpcUpDeluxe, script will compile CudaText for any of available platforms. Without cross-compilers, script makes CudaText only for the current platform. It puts result to ~/cudatext_up/bin.
@@ -1812,7 +1841,10 @@ CudaText: Use plugin FindInFiles v3 or FindInFiles v4 (totally new plugin, it ha
 
 ST3: Use "Goto Anything" (Ctrl+P on Windows/Linux, Command+P on macOS).
 
-CudaText: Use plugin FindInFiles (v3) which allows to search in project files. Quote from its help:
+CudaText:
+
+* To find file by name, use command "Plugins / Project Manager / Go to file...". After file is focused in project, press Enter to open it.
+* To find file by contents, use plugin FindInFiles (v3) which allows to search in project files. Quote from its help:
 <pre>
 Set special value "<Project Folders>" (in short <p>) for field "In folder" to search in project files.
 </pre>
