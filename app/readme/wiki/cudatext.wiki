@@ -1806,7 +1806,16 @@ CudaText: You need to install plugin "Configure Menu". In its dialog, create "me
 
 ST3: Use built-in command "Find in files".
 
-CudaText: Install plugin "Find in Files" (will be deprecated soon) or "Find in Files 4" (totally new plugin, it has bugs yet).
+CudaText: Use plugin FindInFiles v3 or FindInFiles v4 (totally new plugin, it has bugs yet).
+
+==How to find file in a project?==
+
+ST3: Use "Goto Anything" (Ctrl+P on Windows/Linux, Command+P on macOS).
+
+CudaText: Use plugin FindInFiles (v3) which allows to search in project files. Quote from its help:
+<pre>
+Set special value "<Project Folders>" (in short <p>) for field "In folder" to search in project files.
+</pre>
 
 ==How to show vertical lines on some columns?==
 
@@ -1901,15 +1910,6 @@ CudaText: Use plugin "Switch Header" (it's configurable for all lexers).
 ST3: Use commands "Next modification", "Previous modification".
 
 CudaText: Use plugin "CudaExt" which gives commands: "Jump: to next/previous changed lines", "Jump: to next/previous working lines", "Jump: to next/previous saved lines". See "line states": https://wiki.freepascal.org/CudaText#Line_states
-
-==How to find file in a project?==
-
-ST3: Use "Goto Anything" (Ctrl+P on Windows/Linux, Command+P on macOS).
-
-CudaText: Plugin FindInFiles (v3) allows to search in project files. Quote from its help:
-<pre>
-Set special value "<Project Folders>" (in short <p>) for field "In folder" to search in project files.
-</pre>
 
 [[Category: CudaText]]
 [[Category: Applications written in Free Pascal]]
