@@ -708,10 +708,10 @@ begin
     FFindConfirmAll:= Res;
 end;
 
-procedure TfmMain.FinderOnBadRegex(Sender: TObject);
+procedure TfmMain.FinderOnBadRegex(Sender: TObject; const Msg: string);
 begin
   MsgBox(
-    msgStatusBadRegex+#10+Utf8Encode(FFinder.StrFind),
+    msgStatusBadRegex+#10+Utf8Encode(FFinder.StrFind)+#10+Msg,
     MB_OK or MB_ICONERROR);
 end;
 

@@ -940,7 +940,7 @@ type
     procedure FinderShowReplaceReport(ACounter, ATime: integer);
     procedure FindDialogDone(Sender: TObject; Res: TAppFinderOperation);
     procedure FinderOnFound(Sender: TObject; APos1, APos2: TPoint);
-    procedure FinderOnBadRegex(Sender: TObject);
+    procedure FinderOnBadRegex(Sender: TObject; const Msg: string);
     procedure FinderOnConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
       AForMany: boolean; var AConfirm, AContinue: boolean);
     procedure FinderOnProgress(Sender: TObject; const ACurPos, AMaxPos: Int64; var AContinue: boolean);
