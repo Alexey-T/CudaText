@@ -1245,7 +1245,7 @@ f.write('">\n')
 
 *    gedit 3.34. Hanged on opening file (from command line and from editor), waited it for 20sec.
 
-*    Vim 8.0. Opens file: 2-3sec. Caret moves at the end of line: each Left/Right command (Vim hotkeys) is 2sec delay. Editing of this line: adding each char is about 3sec.
+*    Vim 8.0. Opens file: 2-3sec. In word-wrapped mode. Caret moves at the end of line: each Left/Right command (Vim hotkeys) is 2sec delay. Editing of this line: adding each char is about 3sec.
 
 *    Emacs 26.3 GUI. Opens file: 1sec. In word-wrapped mode. With the statusbar error "Internal error in rng-validate-mode triggered at buffer position 10. Stack overflow in regexp matcher". Pressing Ctrl+End to move to end: editor hanged with "wait" cursor.
 
