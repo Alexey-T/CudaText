@@ -1919,7 +1919,10 @@ CudaText: Use command "Selection / Add next occurrence of selected word".
 
 ST3: In the Find dialog, enter a word, check "whole words", press "Find All".
 
-CudaText: In the Find dialog, enter a word, check "whole words", press "Select all".
+CudaText:
+
+* In the Find dialog, enter a word, check "whole words", press "Select all".
+* Plugin "Highlights Occurrences" gives command "Select all occurrences".
 
 ==How to record macros?==
 
