@@ -2910,10 +2910,31 @@ Project Manager plugin (preinstalled in CudaText) gives API to read properties o
 * "nodes": List of root project nodes, ie folder and file paths in the root level.
 * "vars": List of variables defined in the Project Properties dialog. List of strings in the form "name=value".
 
-Example:
+Example gets list of root project items:
 <syntaxhighlight lang="Python">
-     from cuda_project_man import global_project_info
-     roots = global_project_info['nodes']
+     import cuda_project_man as p
+     nodes = p.global_project_info['nodes']
+</syntaxhighlight>
+
+Result without opened project:
+
+<syntaxhighlight lang="Python">
+  >>> p.global_project_info
+  {'filename': '', 'nodes': [], 'vars': [], 'mainfile': ''}
+</syntaxhighlight>
+ 
+Result with opened folder in unsaved project:
+
+<syntaxhighlight lang="Python">
+  >>> p.global_project_info
+  {'filename': '', 'nodes': ['/home/name/datadir'], 'vars': [], 'mainfile': ''}
+</syntaxhighlight>
+
+Result with opened folder in saved project:
+
+<syntaxhighlight lang="Python">
+  >>> p.global_project_info
+  {'filename': '/home/name/test.cuda-proj', 'nodes': ['/home/name/datadir'], 'vars': [], 'mainfile': ''}
 </syntaxhighlight>
 
 Also global function '''project_variables()''' exists, which is handy wrapper around global_project_info. It returns dict with keys:
