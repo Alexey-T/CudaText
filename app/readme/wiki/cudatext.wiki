@@ -1220,6 +1220,28 @@ CudaText starts quite fast: about 0.3 sec with about 30 plugins, on Linux, on CP
 If no additional plugins are installed, or Python engine is disabled (ie not configured on Unix, or Python DLL files are deleted on Windows), then it starts even faster.
 If configuration/history are clean, it starts faster.
 
+===Perfomance of loading huge files===
+
+It's interesting how fast Linux editors open huge log files.
+Test file has about 300M size, 4M ASCII lines, it's created by Python script:
+<syntaxhighlight lang="python">
+f = open("a.log", "w")
+for n in range(4*1000*1000):
+    k = 120-n%100
+    f.write(str(n+1)+' '+chr(k%26+ord('a'))*k+'\n')
+</syntaxhighlight>
+
+PC is HP Pavilion g6, CPU AMD A10 x64, 4 cores, RAM 8G, Ubuntu 18.04. Each time is average of 2-3 tries in the same session.
+
+* CudaText 1.98: 9 sec.
+* Sublime Text 3.2: 11.5 sec.
+* Geany 1.32: 6.5 sec., jump to end: additional 4-5 sec.
+* Kate 17.12.3: 7 sec.
+* gedit 3.28.1: 1 min 10 sec.
+* Vim 8.0, NeoVim 0.2.2: 3 sec.
+* Emacs GUI 25.2.2: 2 sec., after showing confirmation for big file
+* Bluefish 2.2.10: 24 sec.
+
 ===Perfomance on huge lines===
 
 It's interesting how some Linux editors handle huge lines. Tested several editors on Ubuntu 19.10 on Intel i3 CPU. With XML file with a single line of length 4M. XML file contains line like <id name="nnnnnnnnnnnnnnn"> with the huge "name" value of 4M.
