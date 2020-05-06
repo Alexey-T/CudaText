@@ -1029,7 +1029,7 @@ How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=
 ** ALIGN_TOP: glued to the top of parent (only prop "h" has meaning)
 ** ALIGN_BOTTOM: glued to the bottom of parent (only prop "h" has meaning)
 
-* "p": str: Name of control's parent, or empty to use the form. Coordinates x/y of control are relative to the current parent. If parent's position changes, control's position don't change. To place control on PageControl's page with index N, specify such parent name: pages_name+"."+str(N).
+* "p": str: Name of control's parent control, or empty if the form is used as a parent. Coordinates x/y of a control are relative to the current parent, so control is attached to its parent. For example, you can place several controls on a "panel" control (panel can have hidden border), then change this panel's coordinates to visually move all child controls. Special case: to place control on PageControl's page with index N, specify such parent: pages_name+"."+str(N).
 
 ====Control events====
 
