@@ -3817,4 +3817,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.get_prop: PROP_IN_SESSION
 * add: Editor.get_prop: PROP_IN_HISTORY
 
+1.0.326 (app 1.98.3)
+* add: dlg_proc: DLG_CTL_PROP_GET returns also the parent info in key "p"
+
 [[Category:CudaText]]
