@@ -2242,6 +2242,7 @@ var
   nTabOrder: integer;
   SItems, SColumns: string;
   SParent: string;
+  Props: TAppControlProps;
 begin
   bFocused:= false;
   bTabStop:= false;
@@ -2265,20 +2266,21 @@ begin
     //is it docked form?
     if C.Tag=0 then
       exit(ReturnNone);
+    Props:= TAppControlProps(C.Tag);
 
     Result:= Py_BuildValue('{sssssssssssisisisisssssOsOsOsOsOsisisisisisissss}',
-      'name', PChar(TAppControlProps(C.Tag).FName),
+      'name', PChar(Props.FName),
       'cap', PChar(C.Caption),
       'hint', PChar(C.Hint),
-      'type', PChar(TAppControlProps(C.Tag).FTypeString),
-      'tag', PChar(TAppControlProps(C.Tag).FTagString),
+      'type', PChar(Props.FTypeString),
+      'tag', PChar(Props.FTagString),
       PChar(string('x')), C.Left,
       PChar(string('y')), C.Top,
       PChar(string('w')), C.Width,
       PChar(string('h')), C.Height,
       PChar(string('p')), PChar(SParent),
       'val', PChar(DoControl_GetState(C)),
-      'act', PyBool_FromLong(Ord(TAppControlProps(C.Tag).FActive)),
+      'act', PyBool_FromLong(Ord(Props.FActive)),
       'en', PyBool_FromLong(Ord(C.Enabled)),
       'vis', PyBool_FromLong(Ord(C.Visible)),
       'focused', PyBool_FromLong(Ord(bFocused)),
