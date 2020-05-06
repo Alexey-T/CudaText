@@ -914,11 +914,12 @@ Dialog is closed by clicking any button or by changing of any control which has 
 
  dlg_proc(id_dialog, id_action, prop="", index=-1, index2=-1, name="")
 
-Advanced work with dialogs (forms). More advanced than dlg_custom(), forms can show modal/nonmodal, controls can change value during form showing.
+Advanced work with dialogs (forms). More advanced than dlg_custom(), forms can show in modal/nonmodal way, controls can change their value during form showing.
 
-If an action needs control, you can use 2 ways:
-* set param "name" to control's name (name is searched if not empty),
-* set param "index" to control's index (you should use DLG_CTL_FIND to find it).
+Often the function works with some control. To pass some control here, use one of 2 methods:
+
+* Set param "name" to control's name. You give name to a control when you create this control. Param "name" is used if it's not empty.
+* Set param "index" to control's index. You get index of newly created control from dlg_proc call. You can find the index from name, using DLG_CTL_FIND action. Param "index" is used if it's >=0 and param "name" is empty.
 
 ====Types====
 
