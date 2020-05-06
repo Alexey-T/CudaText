@@ -191,6 +191,7 @@ begin
   Result.TrimLineMarkers:= UiOps.Emmet_TrimLineMarkers;
   Result.Wordwrap:= UiOps.Emmet_WordWrap;
   Result.WordwrapAt:= EditorOps.OpMarginFixed;
+  Result.AlwaysReturnIndexedTabStops:= true;
 end;
 
 function Py_emmet(Self, Args: PPyObject): PPyObject; cdecl;
