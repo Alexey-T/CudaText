@@ -1082,7 +1082,7 @@ def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name=''):
 def esc_z(s):
     # temp solution for null chars, later replace it to full solution with app patch
     if chr(0) in s:
-        s = s.replace(chr(0), chr(1))
+        s = s.replace(chr(0), ' ')
     '''
     # by kvichans:
     s = s.replace('\\', r'\\') if '\\' in s else s
