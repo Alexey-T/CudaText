@@ -2241,6 +2241,7 @@ var
   bTabStop, bFocused: boolean;
   nTabOrder: integer;
   SItems, SColumns: string;
+  SParent: string;
 begin
   bFocused:= false;
   bTabStop:= false;
@@ -2255,13 +2256,17 @@ begin
     nTabOrder:= TWinControl(C).TabOrder;
   end;
 
+  SParent:= '';
+  if Assigned(C.Parent) and (C.Parent.Tag<>0) then
+    SParent:= TAppControlProps(C.Parent.Tag).FName;
+
   with AppPython.Engine do
   begin
     //is it docked form?
     if C.Tag=0 then
       exit(ReturnNone);
 
-    Result:= Py_BuildValue('{sssssssssssisisisisssOsOsOsOsOsisisisisisissss}',
+    Result:= Py_BuildValue('{sssssssssssisisisisssssOsOsOsOsOsisisisisisissss}',
       'name', PChar(TAppControlProps(C.Tag).FName),
       'cap', PChar(C.Caption),
       'hint', PChar(C.Hint),
@@ -2271,6 +2276,7 @@ begin
       PChar(string('y')), C.Top,
       PChar(string('w')), C.Width,
       PChar(string('h')), C.Height,
+      PChar(string('p')), PChar(SParent),
       'val', PChar(DoControl_GetState(C)),
       'act', PyBool_FromLong(Ord(TAppControlProps(C.Tag).FActive)),
       'en', PyBool_FromLong(Ord(C.Enabled)),
