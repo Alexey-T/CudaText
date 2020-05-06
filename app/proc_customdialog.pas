@@ -1439,10 +1439,14 @@ end;
 procedure DoControl_SetPropFromPair(C: TControl; const AName, AValue: string);
 var
   Num: integer;
+  Props: TAppControlProps;
 begin
+  if C.Tag=0 then exit;
+  Props:= TAppControlProps(C.Tag);
+
   if AName='name' then
   begin
-    TAppControlProps(C.Tag).FName:= AValue;
+    Props.FName:= AValue;
     exit;
   end;
 
@@ -1484,7 +1488,7 @@ begin
 
   if AName='act' then
   begin
-    TAppControlProps(C.Tag).FActive:= AppStrToBool(AValue);
+    Props.FActive:= AppStrToBool(AValue);
     exit;
   end;
 
@@ -1544,7 +1548,7 @@ begin
 
   if AName='props' then
   begin
-    ////MsgLogConsole('Deprecated API: dlg_proc "props" for "'+TAppControlProps(C.Tag).FTypeString+'"');
+    ////MsgLogConsole('Deprecated API: dlg_proc "props" for "'+Props.FTypeString+'"');
     DoControl_SetPropsFromString_Adv(C, AValue);
     exit;
   end;
@@ -1577,7 +1581,7 @@ begin
 
   if AName='tag' then
   begin
-    TAppControlProps(C.Tag).FTagString:= AValue;
+    Props.FTagString:= AValue;
     exit;
   end;
 
@@ -1590,139 +1594,139 @@ begin
 
   if AName='on_change' then
   begin
-    TAppControlProps(C.Tag).FEventOnChange:= AValue;
+    Props.FEventOnChange:= AValue;
     exit;
   end;
 
   if AName='on_select' then
   begin
-    TAppControlProps(C.Tag).FEventOnSelect:= AValue;
+    Props.FEventOnSelect:= AValue;
     exit;
   end;
 
   if AName='on_fold' then
   begin
-    TAppControlProps(C.Tag).FEventOnFold:= AValue;
+    Props.FEventOnFold:= AValue;
     exit;
   end;
 
   if AName='on_unfold' then
   begin
-    TAppControlProps(C.Tag).FEventOnUnfold:= AValue;
+    Props.FEventOnUnfold:= AValue;
     exit;
   end;
 
   if AName='on_menu' then
   begin
-    TAppControlProps(C.Tag).FEventOnMenu:= AValue;
+    Props.FEventOnMenu:= AValue;
     exit;
   end;
 
   if AName='on_click' then
   begin
-    TAppControlProps(C.Tag).FEventOnClick:= AValue;
+    Props.FEventOnClick:= AValue;
     exit;
   end;
 
   if AName='on_click_x' then
   begin
-    TAppControlProps(C.Tag).FEventOnClickX:= AValue;
+    Props.FEventOnClickX:= AValue;
     exit;
   end;
 
   if AName='on_click_dbl' then
   begin
-    TAppControlProps(C.Tag).FEventOnClickDbl:= AValue;
+    Props.FEventOnClickDbl:= AValue;
     exit;
   end;
 
   if AName='on_click_header' then
   begin
-    TAppControlProps(C.Tag).FEventOnClickHeader:= AValue;
+    Props.FEventOnClickHeader:= AValue;
     exit;
   end;
 
   if AName='on_focus_enter' then
   begin
-    TAppControlProps(C.Tag).FEventOnFocusEnter:= AValue;
+    Props.FEventOnFocusEnter:= AValue;
     exit;
   end;
 
   if AName='on_focus_exit' then
   begin
-    TAppControlProps(C.Tag).FEventOnFocusExit:= AValue;
+    Props.FEventOnFocusExit:= AValue;
     exit;
   end;
 
   if AName='on_mouse_enter' then
   begin
-    TAppControlProps(C.Tag).FEventOnMouseEnter:= AValue;
+    Props.FEventOnMouseEnter:= AValue;
     exit;
   end;
 
   if AName='on_mouse_exit' then
   begin
-    TAppControlProps(C.Tag).FEventOnMouseExit:= AValue;
+    Props.FEventOnMouseExit:= AValue;
     exit;
   end;
 
   if AName='on_mouse_down' then
   begin
-    TAppControlProps(C.Tag).FEventOnMouseDown:= AValue;
+    Props.FEventOnMouseDown:= AValue;
     exit;
   end;
 
   if AName='on_mouse_up' then
   begin
-    TAppControlProps(C.Tag).FEventOnMouseUp:= AValue;
+    Props.FEventOnMouseUp:= AValue;
     exit;
   end;
 
   if AName='on_draw_item' then
   begin
-    TAppControlProps(C.Tag).FEventOnListboxDrawItem:= AValue;
+    Props.FEventOnListboxDrawItem:= AValue;
     exit;
   end;
 
   if AName='on_caret' then
   begin
-    TAppControlProps(C.Tag).FEventOnEditorCaret:= AValue;
+    Props.FEventOnEditorCaret:= AValue;
     exit;
   end;
 
   if AName='on_scroll' then
   begin
-    TAppControlProps(C.Tag).FEventOnEditorScroll:= AValue;
+    Props.FEventOnEditorScroll:= AValue;
     exit;
   end;
 
   if AName='on_key_down' then
   begin
-    TAppControlProps(C.Tag).FEventOnEditorKeyDown:= AValue;
+    Props.FEventOnEditorKeyDown:= AValue;
     exit;
   end;
 
   if AName='on_key_up' then
   begin
-    TAppControlProps(C.Tag).FEventOnEditorKeyUp:= AValue;
+    Props.FEventOnEditorKeyUp:= AValue;
     exit;
   end;
 
   if AName='on_click_gutter' then
   begin
-    TAppControlProps(C.Tag).FEventOnEditorClickGutter:= AValue;
+    Props.FEventOnEditorClickGutter:= AValue;
     exit;
   end;
 
   if AName='on_click_gap' then
   begin
-    TAppControlProps(C.Tag).FEventOnEditorClickGap:= AValue;
+    Props.FEventOnEditorClickGap:= AValue;
     exit;
   end;
 
   if AName='on_paste' then
   begin
-    TAppControlProps(C.Tag).FEventOnEditorPaste:= AValue;
+    Props.FEventOnEditorPaste:= AValue;
     exit;
   end;
 
