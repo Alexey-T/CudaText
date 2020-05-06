@@ -1970,6 +1970,24 @@ ST3: Use commands "Next modification", "Previous modification".
 
 CudaText: Use plugin "CudaExt" which gives commands: "Jump: to next/previous changed lines", "Jump: to next/previous working lines", "Jump: to next/previous saved lines". See "line states": https://wiki.freepascal.org/CudaText#Line_states
 
+==How to detect indentation characters in a file?==
+
+ST3: Menu item "View / Indentation / Guess settings from buffer".
+
+CudaText: Plugin "Detect Indent" which does the same.
+
+==How to change indentation characters in a file?==
+
+ST3: Click statusbar cell "Tab size..."/"Spaces...", it has menu items "Convert indentation to spaces", "Convert indentation to tabs".
+
+CudaText: The same as for ST3.
+
+==How to install plugins without package manager?==
+
+ST3: Open terminal, go to Packages folder, run "git clone" in that folder, or copy plugin there.
+
+CudaText: Open terminal, go to "py" subfolder, run "git clone" in that folder, or copy "cuda_" plugin folder there.
+
 [[Category: CudaText]]
 [[Category: Applications written in Free Pascal]]
 [[Category: Applications created with Lazarus]]
