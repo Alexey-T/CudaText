@@ -3,6 +3,7 @@
   - fixed
   * changed
 
+1.98.2.2 (2020/05)
 
 + add: load big files faster by 5-7%
 + add: Find/Replace dialog: on regex error, show error details
