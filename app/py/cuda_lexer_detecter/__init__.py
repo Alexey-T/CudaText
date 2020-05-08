@@ -1,9 +1,6 @@
 import os
-import tempfile
 from cudatext import *
-from urllib.parse import quote
 from .lexertypes import *
-from cuda_addonman.work_remote import get_url
 
 config_file = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
 config_section = 'lexer_detecter_ignore'
@@ -67,6 +64,11 @@ class Command:
 
         lex = lexers[res]
         #print('Detected lexer:', lex)
+
+        # imports here to speedup plugin load when no lexers found
+        import tempfile
+        from urllib.parse import quote
+        from cuda_addonman.work_remote import get_url
 
         url = 'https://sourceforge.net/projects/cudatext/files/addons/lexers/lexer.' + quote(lex.replace(' ', '_')) + '.zip'
 
