@@ -2,9 +2,8 @@ import os
 import re
 import collections
 import json
-import glob
 from pathlib import Path, PurePosixPath
-from .projman_dlg import *
+from .projman_glob import *
 
 from cudatext import *
 import cudatext_cmd
@@ -676,6 +675,8 @@ class Command:
             return False #block opening
 
     def config(self):
+        
+        from .projman_dlg import dialog_config
         if dialog_config(self.options):
             #print('ProjectManager: saving options')
             self.save_options()
@@ -981,6 +982,8 @@ class Command:
             msg_status('Project main file is not set')
 
     def enum_all_files(self):
+
+        import glob
         files = []
 
         for root in self.project['nodes']:
