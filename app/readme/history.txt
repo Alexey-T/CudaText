@@ -7,7 +7,7 @@
 
 + add: load big files faster by 5-7%
 + add: Find/Replace dialog: on regex error, show error details
-+ add: plugin Lexer Detecter: speedup load time (110ms->6ms)
++ add: plugin Lexer Detecter: speedup load time when no lexer found (110ms->2ms)
 
 1.98.2 (2020/05)
 
