@@ -784,7 +784,8 @@ class Command:
             return
 
         files_nice = [os.path.basename(fn)+'\t'+os.path.dirname(fn) for fn in files]
-        res = dlg_menu(MENU_LIST_ALT, '\n'.join(files_nice), caption='Go to file')
+        # disable fuzzy search in menu
+        res = dlg_menu(MENU_LIST_ALT+MENU_NO_FUZZY, files_nice, caption='Go to file')
         if res is None:
             return
 
