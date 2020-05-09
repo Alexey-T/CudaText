@@ -1899,7 +1899,7 @@ CudaText: Use options for "dynamic highlighting", "lexer_dynamic_" in "Options E
 
 ST3: You need to create syntax file, https://www.sublimetext.com/docs/3/syntax.html
 
-CudaText: You need to create lexer, https://wiki.freepascal.org/CudaText#Lexers
+CudaText: You need to create lexer, see [[#Lexers]].
 
 ==How to customize hotkeys?==
 
@@ -1923,13 +1923,13 @@ CudaText: Use "=" item in the top menu.
 
 ST3: It's configured in syntax file: https://superuser.com/questions/752025/sublime-text-3-detect-syntax-based-on-file-header
 
-CudaText: Use "file types config", https://wiki.freepascal.org/CudaText#File_types_config
+CudaText: Use "file types config", see [[#File_types_config]].
 
 ==How to assign syntax to undetected file extension?==
 
 ST3: Open your file, click statusbar item for syntax, use item "Open all with current extension as...".
 
-CudaText: Use "file types config", https://wiki.freepascal.org/CudaText#File_types_config
+CudaText: Use "file types config", see [[#File_types_config]].
 
 ==How to select several occurrences of a word?==
 
@@ -1968,7 +1968,7 @@ CudaText: Use plugin "Switch Header" (it's configurable for all lexers).
 
 ST3: Use commands "Next modification", "Previous modification".
 
-CudaText: Use plugin "CudaExt" which gives commands: "Jump: to next/previous changed lines", "Jump: to next/previous working lines", "Jump: to next/previous saved lines". See "line states": https://wiki.freepascal.org/CudaText#Line_states
+CudaText: Use plugin "CudaExt" which gives commands: "Jump: to next/previous changed lines", "Jump: to next/previous working lines", "Jump: to next/previous saved lines". See [[#Line_states]].
 
 ==How to detect indentation characters in a file?==
 
