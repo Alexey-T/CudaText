@@ -1849,6 +1849,12 @@ ST3: You need to use platform-specific config files. E.g. for macOS, platform-sp
 
 CudaText: You still need to use the same config user.json, but write there options with OS specific suffixes. E.g. Windows option is "font_name", and macOS option is "font_name__mac". Possible suffixes are listed in default.json: __linux, __mac, __freebsd etc. Options with suffixes are marked in default.json.
 
+==How to change settings for one syntax only?==
+
+ST3: To edit syntax-specific config, call "Preferences / Settings - Syntax Specific".
+
+CudaText: To edit lexer-specific config, see [[#Configs]]. 
+
 ==How to add commands to top/context menu?==
 
 ST3: You need to create *.sublime-menu files: https://www.sublimetext.com/docs/3/menus.html#available_menus
