@@ -1919,6 +1919,16 @@ ST3: Use "View / Layout" menu.
 
 CudaText: Use "=" item in the top menu.
 
+==How to split window for single file?==
+
+ST3:
+
+* menu "File / New View into File"
+* menu "View / Layout / Columns: 2 (or Rows: 2)"
+* drag the tab into another group
+
+CudaText: menu "View / Split tab / Toggle split".
+
 ==How to detect syntax by first line of file?==
 
 ST3: It's configured in syntax file: https://superuser.com/questions/752025/sublime-text-3-detect-syntax-based-on-file-header
