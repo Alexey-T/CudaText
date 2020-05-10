@@ -9,6 +9,7 @@
 + add: plugin Lexer Detecter: speedup loading when no lexer found (110ms->2ms)
 + add: Find/Replace dialog: on regex error, show error more detailed
 + add: lexer Markdown: highlight checkboxes in lists: [ ] [x] [X]
+- fix: crash when CudaText is opened from file manager, with specific history data (thanks @dinkumoil, @OlehL)
 - fix: search with regex bug with some count of simple chars, e.g. "a+", "a{2,5}" (thanks @Petrik_Pjatochkin, @ritmation)
 - fix: Project Manager: fuzzy search in Go To File was bad (thanks @4goodapp)
 
