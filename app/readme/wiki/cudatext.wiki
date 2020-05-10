@@ -322,12 +322,12 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 
 * "code tree icons": Icon sets for the Code Tree (icons are visible in the Code Tree with some lexers, e.g. C#).
 
-==Location of 'settings' and 'data' folders==
+==Location of folders 'settings', 'py', 'data'==
 
-When CudaText runs in portable mode (executable file is located near folder "data"), then portable folders are used. Otherwise:
+When CudaText runs in portable mode (executable file is located near folder "data"), then portable folders are used. Otherwise these locations are used:
 
 * Windows: %AppData%\CudaText
-* Linux, *BSD, Solaris: ~/.config/cudatext, or $XDG_CONFIG_HOME/cudatext if variable set
+* Linux, *BSD, Solaris: ~/.config/cudatext, or $XDG_CONFIG_HOME/cudatext if this OS variable is set
 * macOS: ~/Library/Application Support/CudaText
 
 ==Encodings==
