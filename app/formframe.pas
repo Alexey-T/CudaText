@@ -2853,8 +2853,16 @@ begin
       items.Add(IntToStr(bookmark.Data.LineNum));
       items2.Add(IntToStr(bookmark.Data.Kind));
     end;
-    c.SetValue(path+cHistory_Bookmark, items);
-    c.SetValue(path+cHistory_BookmarkKind, items2);
+
+    if items.Count>0 then
+      c.SetValue(path+cHistory_Bookmark, items)
+    else
+      c.DeleteValue(path+cHistory_Bookmark);
+
+    if items2.Count>0 then
+      c.SetValue(path+cHistory_BookmarkKind, items2)
+    else
+      c.DeleteValue(path+cHistory_BookmarkKind);
 
   finally
     FreeAndNil(items2);
@@ -2862,7 +2870,11 @@ begin
   end;
 
   c.SetDeleteValue(path+cHistory_CodeTreeFilter, FCodetreeFilter, '');
-  c.SetValue(path+cHistory_CodeTreeFilters, FCodetreeFilterHistory);
+
+  if FCodetreeFilterHistory.Count>0 then
+    c.SetValue(path+cHistory_CodeTreeFilters, FCodetreeFilterHistory)
+  else
+    c.DeleteValue(path+cHistory_CodeTreeFilters);
 end;
 
 procedure _WriteStringToFileInHiddenDir(const fn, s: string);
