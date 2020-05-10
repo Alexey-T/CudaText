@@ -7,10 +7,10 @@
 
 + add: speedup loading big ascii files by 5-7%
 + add: plugin Lexer Detecter: speedup loading when no lexer found (110ms->2ms)
-+ add: Find/Replace dialog: on regex error, show error details
++ add: Find/Replace dialog: on regex error, show error more detailed
 + add: lexer Markdown: highlight checkboxes in lists: [ ] [x] [X]
-- fix: search with reg.ex. bug with some count of simple chars, e.g. "a+", "a{2,5}" (thanks @Petrik_Pjatochkin, @ritmation)
-- fix: Project Manager: disabled fuzzy search in Go To File (thanks @4goodapp)
+- fix: search with regex bug with some count of simple chars, e.g. "a+", "a{2,5}" (thanks @Petrik_Pjatochkin, @ritmation)
+- fix: Project Manager: fuzzy search in Go To File was bad (thanks @4goodapp)
 
 1.98.2 (2020/05)
 
