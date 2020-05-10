@@ -2836,8 +2836,10 @@ begin
   if Ed.Carets.Count>0 then
   begin
     caret:= Ed.Carets[0];
-    c.SetValue(path+cHistory_Caret,
-      Format('%d,%d,%d,%d,', [caret.PosX, caret.PosY, caret.EndX, caret.EndY]));
+    c.SetDeleteValue(path+cHistory_Caret,
+      Format('%d,%d,%d,%d,', [caret.PosX, caret.PosY, caret.EndX, caret.EndY]),
+      '0,0,-1,-1,'
+      );
   end;
 
   items:= TStringList.Create;
