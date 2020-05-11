@@ -11,6 +11,7 @@
 + add: plugin Lexer Detecter: speedup loading when no lexer found (110ms->2ms)
 + add: Find/Replace dialog: on regex error, show error more detailed
 + add: lexer Markdown: highlight checkboxes in lists: [ ] [x] [X]
+* change: lexer HTML: don't fold <p> tags (tags produce [-] folding icon which don't work if many tags on a line)
 - fix: API ini_read/ini_write deleted quotes from quoted values (thanks @dinkumoil)
 - fix: crash when CudaText is opened from file manager, with specific history data (thanks @dinkumoil, @OlehL)
 - fix: bug in regex search with regex'es like "a+", "a{2,4}" (thanks @Petrik_Pjatochkin, @ritmation)
