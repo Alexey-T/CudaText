@@ -11,10 +11,7 @@
 + add: lexer Markdown: highlight checkboxes in lists: [ ] [x] [X]
 - fix: crash when CudaText is opened from file manager, with specific history data (thanks @dinkumoil, @OlehL)
 - fix: bug in regex search with regex'es like "a+", "a{2,4}" (thanks @Petrik_Pjatochkin, @ritmation)
-- fix: Project Manager: fuzzy search in Go To File was bad (thanks @4goodapp)
-
-1.98.2 (2020/05)
-
+- fix: Project Manager: fuzzy search in "Go To File" was not handy (thanks @4goodapp)
 - fix: crash on start on Linux (some Lazarus bug)
 - fix: Emmet bug with "!" abbrev
 - fix: Emmet bug with "span.classname" (thanks @d-mal)
