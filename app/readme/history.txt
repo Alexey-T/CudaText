@@ -17,7 +17,7 @@
 - fix: Emmet bug with "span.classname" (thanks @d-mal)
 - fix: crash of External Tools/ FindInFiles on files with null bytes (thanks @kvichans)
 - fix: on app closing, hex viewer painted something on Windows desktop (thanks @dinkumoil)
-- fix: not smooth edge of triangled ui-tabs (bug from someone's patch to ATTabs)
+- fix: not smooth edge of triangled ui-tabs
 - fix: italic "comments" at line ends were cropped with some fonts
 
 1.98.0 (2020/04)
