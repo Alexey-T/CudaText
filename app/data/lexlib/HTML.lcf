@@ -502,7 +502,8 @@ object SyntAnal7: TLibSyntAnalyzer
             'hr'
             'image'
             'img'
-            'link')
+            'link'
+            'p')
           TokenTypes = 4
           IgnoreCase = True
         end
@@ -540,7 +541,8 @@ object SyntAnal7: TLibSyntAnalyzer
             'hr'
             'image'
             'img'
-            'link')
+            'link'
+            'p')
           CondType = tcNotEqual
           TokenTypes = 4
           IgnoreCase = True
