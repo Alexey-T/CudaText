@@ -163,6 +163,7 @@ type
     function FindControlByOurName(const AName: string): TControl;
     function FindControlIndexByOurObject(Sender: TObject): integer;
     function FindControlIndexByOurName(const AName: string): integer;
+    procedure FixPositionIfOutOfScreen;
   end;
 
 
@@ -635,6 +636,24 @@ begin
   end;
 end;
 
+procedure TFormDummy.FixPositionIfOutOfScreen;
+var
+  R: TRect;
+begin
+  {$ifdef windows}
+  MoveToDefaultPosition;
+  Position:= poDesigned;
+
+  R:= Monitor.WorkareaRect;
+  //move window from the bottom
+  if Top+Height>R.Bottom then
+    Top:= R.Bottom-Height;
+  //move window from the top
+  if Top<R.Top then
+    Top:= R.Top;
+  {$endif}
+end;
+
 
 procedure TFormDummy.DoOnChange(Sender: TObject);
 var
@@ -842,6 +861,7 @@ begin
       F.Enabled:= false;
     end;
   end;
+
   FormStyle:= fsStayOnTop;
   Show;
 end;

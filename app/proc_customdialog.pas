@@ -2014,6 +2014,8 @@ begin
       DoForm_FocusControl(F, C);
     DoForm_ScaleAuto(F);
 
+    F.FixPositionIfOutOfScreen;
+
     FDialogShown:= true;
     if F.ShowModal=mrOk then
     begin
