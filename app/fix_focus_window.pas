@@ -26,6 +26,51 @@ uses
   LCLType,
   LCLIntf;
 
+(*
+----------------------------------------------------------------------
+detailed comment by Andreas Heim about single-instance code on Windows,
+https://github.com/Alexey-T/CudaText/issues/2519
+
+-    When there is a running CudaText instance that is set to
+single-instance-mode and a user wants to open a file by right-click -> Open
+with CudaText, an additional instance of CudaText is started (in the following
+I call it the "new instance").
+
+-    The new instance checks the single-instance-mode setting (which is set to
+TRUE in this case) and then checks for and detects the already running CudaText
+instance.
+
+-    Now the new instance performs a blocking wait until it becomes the owner
+of a certain Windows mutex object. If there is no other CudaText process that
+owns that mutex object rightnow, the blocking wait terminates immediatly.
+
+-    After that the new instance writes the name(s) of the file(s) to open to
+shared memory (backed by the page file) and sets a Windows event object to the
+signaled state. This informs the already running CudaText instance that there
+is data in the shared memory for reading.
+
+-    Now the new instance performs a blocking wait until the already running
+CudaText instance sets another Windows event object to the signaled state to
+inform that it has read the filename(s) from the shared memory and opened the
+files.
+
+-    The new CudaText instance now releases ownership of the mutex object and
+terminates itself.
+
+-    If there is another "new instance" (which happens when a user selects
+multiple files in Windows Explorer and opens them by right-click -> Open with
+CudaText) it becomes the owner of the mutex object. It terminates its blocking
+wait for that and processes the last three steps from above.
+
+If the already running CudaText instance crashes before it sets the second
+Windows event object to the signaled state, the new instance waits forever.
+That's the reason for the background CudaText process that is only visible in
+Taskmanager. It is also the reason why it is impossible to start another
+instance of CudaText, all these new instances wait for becoming the owner of
+the mutex object that is still owned by the blocked CudaText process.
+----------------------------------------------------------------------
+*)
+
 {$ifdef windows}
 const
   AppUniqueUID = '{950ccfac-9878-4e1a-b50e-0dd66b92679c}';
