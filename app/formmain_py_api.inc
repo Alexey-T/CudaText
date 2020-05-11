@@ -2308,7 +2308,7 @@ begin
           Result:= PyString_FromString(PChar(StrVal));
         end;
       finally
-        ini.Free;
+        FreeAndNil(ini);
       end;
     end
     else
