@@ -2276,6 +2276,7 @@ function Py_ini_readwrite(Self, Args: PPyObject; AWrite: boolean): PPyObject; cd
 var
   P1, P2, P3, P4: PChar;
   StrFN, StrSess, StrKey, StrVal: string;
+  ini: TIniFile;
   fn: string;
 begin
   with AppPython.Engine do
@@ -2291,20 +2292,23 @@ begin
       if ExtractFileDir(fn)='' then
         fn:= AppDir_Settings+DirectorySeparator+fn;
 
-      with TIniFile.Create(fn) do
+      ini:= TIniFile.Create(fn);
+      //FreePascal 3.0.4 sets StripQuotes:=True in TIniFile.Create, but plugins need to keep quotes
+      ini.Options:= ini.Options-[ifoStripComments, ifoStripQuotes];
+
       try
         if AWrite then
         begin
-          WriteString(StrSess, StrKey, StrVal);
+          ini.WriteString(StrSess, StrKey, StrVal);
           Result:= ReturnNone;
         end
         else
         begin
-          StrVal:= ReadString(StrSess, StrKey, StrVal);
+          StrVal:= ini.ReadString(StrSess, StrKey, StrVal);
           Result:= PyString_FromString(PChar(StrVal));
         end;
       finally
-        Free
+        ini.Free;
       end;
     end
     else
