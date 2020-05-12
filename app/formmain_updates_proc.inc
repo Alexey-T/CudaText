@@ -1280,8 +1280,8 @@ begin
   ToolbarMain.AddButton(11, @DoToolbarClick, 'unindent', 'Unindent block', IntToStr(cCommand_TextUnIndent), false);
 
   ToolbarMain.AddDropdown(12, PopupToolbarCase);
-  ToolbarMain.AddDropdown(14, PopupToolbarComment);
-  ToolbarMain.AddButton(15, @DoToolbarClick, 'opt', 'Options Editor', 'module=cuda_options_editor;cmd=dlg_cuda_options;', false);
+  ToolbarMain.AddDropdown(13, PopupToolbarComment);
+  ToolbarMain.AddButton(14, @DoToolbarClick, 'opt', 'Options Editor', 'module=cuda_options_editor;cmd=dlg_cuda_options;', false);
 end;
 
 
@@ -1397,7 +1397,6 @@ begin
   UpdateImagelistWithIconFromFile(Img, Str+'indent.png');
   UpdateImagelistWithIconFromFile(Img, Str+'unindent.png');
   UpdateImagelistWithIconFromFile(Img, Str+'case.png');
-  UpdateImagelistWithIconFromFile(Img, Str+'sort.png');
   UpdateImagelistWithIconFromFile(Img, Str+'comment.png');
   UpdateImagelistWithIconFromFile(Img, Str+'opt.png');
 end;
