@@ -922,6 +922,12 @@ begin
     exit;
   end;
 
+  //unsupported control type: create red panel to indicate plugin's error
+  Ctl:= TPanel.Create(AForm);
+  Ctl.Caption:= S+'?';
+  Ctl.Color:= clRed;
+  exit;
+
  finally
    if Assigned(Ctl) then
    begin
