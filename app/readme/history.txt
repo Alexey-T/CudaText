@@ -5,8 +5,9 @@
 
 1.99.1 (2020/05)
 
++ add: ui tabs: Shift+wheel now switches tabs
+* change: ui tabs: mouse wheel scroll step is now 20% of width
 * change: deleted toolbar button/submenu "Sort". That submenu gave the same commands as "Plugins / Sort" but it had only 5 of all 20 commands.
-* change: ui-tabs mouse wheel step decreased to 20% of width
 
 1.99.0 (2020/05)
 
