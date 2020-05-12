@@ -130,6 +130,7 @@ type
     procedure DoOnClickX(Sender: TObject);
     procedure DoOnDblClick(Sender: TObject);
     procedure DoOnChange(Sender: TObject);
+    procedure DoOnCheckGroupClicked(Sender: TObject; AIndex: integer);
     procedure DoOnListboxSelect(Sender: TObject; User: boolean);
     procedure DoOnListboxDrawItem(Sender: TObject; ACanvas: TCanvas; AIndex: integer; const ARect: TRect);
     procedure DoOnListviewChange(Sender: TObject; Item: TListItem; Change: TItemChange);
@@ -682,6 +683,11 @@ begin
   finally
     BlockedOnChange:= false;
   end;
+end;
+
+procedure TFormDummy.DoOnCheckGroupClicked(Sender: TObject; AIndex: integer);
+begin
+  DoOnChange(Sender);
 end;
 
 procedure TFormDummy.DoOnListboxSelect(Sender: TObject; User: boolean);

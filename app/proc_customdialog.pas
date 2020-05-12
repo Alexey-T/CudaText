@@ -740,6 +740,7 @@ begin
   if S='checkgroup' then
   begin
     Ctl:= TCheckGroup.Create(AForm);
+    TCheckGroup(Ctl).OnItemClick:= @AForm.DoOnCheckGroupClicked;
     exit;
   end;
 
