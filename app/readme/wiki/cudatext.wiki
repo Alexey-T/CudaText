@@ -1850,7 +1850,7 @@ CudaText: Use plugin "External Tools", which adds "Tools" item to the top menu, 
 
 ST3: You need to use platform-specific config files. E.g. for macOS, platform-specific config is "Preferences (OSX).sublime-settings".
 
-CudaText: You still need to use the same config user.json, but write there options with OS specific suffixes. E.g. Windows option is "font_name", and macOS option is "font_name__mac". Possible suffixes are listed in default.json: __linux, __mac, __freebsd etc. Options with suffixes are marked in default.json.
+CudaText: You need to use the config user.json, but write there options with OS specific suffixes. E.g. Windows option is "font_name", and macOS option is "font_name__mac". Possible suffixes are listed in default.json: __linux, __mac, __freebsd etc. Only limited count of options support OS suffixes, this is marked in the default config (default.json).
 
 ==How to change settings for one syntax only?==
 
