@@ -971,8 +971,8 @@ Commands in Command Palette:
 CudaText gives such commands in the Command Palette:
 
 * "markers: drop marker at caret": Adds a marker on current caret position.
-* "markers: go to last marker (don't delete)": Moves caret to the last placed marker and deletes this marker.
-* "markers: collect last marker (delete)": Moves caret to the last placed marker without deleting it.
+* "markers: go to last marker (don't delete)": Moves caret to the last placed marker without deleting it.
+* "markers: collect last marker (delete)": Moves caret to the last placed marker and deletes it.
 * "markers: remove all": Removes all markers in the current document.
 * "markers: swap caret and last marker": Moves caret to the last placed marker, deletes this marker, and adds marker on the previous caret position. Command is to jump to the last marker, second command call jumps back, 3rd command call jumps back, etc.
 * "markers: select to last marker": Makes text selection from caret position to the position of last placed marker.
