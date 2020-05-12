@@ -1759,23 +1759,24 @@ subdir=-
 
 ==Format of snippet files==
 
-===Contents===
+===Snippets tab-stops===
 
-To specify markers:
+Specify tab-stops in the snippet text like this:
 
 * ${NN}
 * ${NN:default text}
 
-These place markers in text, marker index NN is 0 to 40.
-After snippet insertion, tab-key goes to markers (and deletes them).
+This places markers (AKA tab-stops) in the editor, marker index NN should be from 0 to 40.
+After snippet insertion, tab-key goes to next marker(s) and deletes it.
 
-* Markers can be in any order in snippet (e.g. marker 4 can be between 1 and 2)
-* Tab-key goes first to marker 1, 2, 3... and marker 0 is always last by tab-key.
-* Markers with the same index will place multi-carets, when tab-key goes to them.
-* Nested markers with def-text allowed, but only 1 level: ${2:text is {$3:here}}.
-* Macro ${NN:...} with def-text can take n lines (ending "}" on next lines, so selection will be multi-line).
+* Markers can be listed in any order (e.g. marker 4 can be between 1 and 2).
+* Tab-key first goes to marker 1, 2, 3... and marker 0 is always the last.
+* Markers with the same indexes will place multi-carets.
+* Nested markers (with default text) are allowed, but only with one nesting level, e.g. ${2:text is {$3:here}}.
+* Marker with default text ${NN:...} can specify multi-line default text (character "}" is on another line of snippet).
 
-The following macros are allowed in snippets text:
+===Snippets macros===
+Special "macros" are handled by Snippets plugin in snippet text:
 
 * ${sel} - Replaced with text selected before snippet insertion. (If snippet called with Tab key, it's empty string.)
 * ${cp} - Replaced with clipboard text.
@@ -1785,7 +1786,7 @@ The following macros are allowed in snippets text:
 * ${cmt_end} - Replaced with current lexer's "block comment" end symbols (or empty string).
 * ${cmt_line} - Replaced with current lexer's "line comment" symbols (or empty string).
 
-===File names===
+===Snippets file names===
 
 Snippets are stored in separate files with extensions:
 
@@ -2005,6 +2006,16 @@ CudaText: The same as for ST3.
 ST3: Open terminal, go to Packages folder, run "git clone" in that folder, or copy plugin there.
 
 CudaText: Open terminal, go to "py" subfolder, run "git clone" in that folder, or copy "cuda_" plugin folder there.
+
+==How to make vertical/column selection?==
+
+ST3: See the official documentation page "Column Selection".
+
+CudaText:
+
+* Mouse shortcuts: [[#Mouse shortcuts]].
+* Keyboard commands: "column select: up / down / left / right / ....".
+* Click the statusbar cell "-", it will toggle to "||", and usual mouse selection will perform column selection. 
 
 [[Category: CudaText]]
 [[Category: Applications written in Free Pascal]]
