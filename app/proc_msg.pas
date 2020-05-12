@@ -364,12 +364,6 @@ const
   msgCommentLineToggle: string = 'Line comment: toggle';
   msgCommentStreamToggle: string = 'Stream comment: toggle';
 
-  msgSortAsc: string = 'Sort ascending';
-  msgSortDesc: string = 'Sort descending';
-  msgSortAscNocase: string = 'Sort ascending, ignore case';
-  msgSortDescNocase: string = 'Sort descending, ignore case';
-  msgSortDialog: string = 'Sort dialog...';
-
   msgConsoleClear: string = 'Clear';
   msgConsoleToggleWrap: string = 'Toggle word wrap';
   msgConsoleNavigate: string = 'Navigate';
