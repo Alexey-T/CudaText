@@ -533,7 +533,7 @@ Dialog of Snippets plugin:
 
 [[File:cudatext_snippets_menu.png]]
 
-Snippets have markers in them. Markers are placed in editor (small colored triangles), and caret jumps to the first marker. Then you type text at this marker and press Tab key, caret jumps to the next marker. Markers may give multi-carets too (if exactly the same text is needed at several places, for example "class name"). While markers are shown, Tab key works specially (it jumps to next marker). After you collect all markers by Tab, Tab key will work as usual.
+Texts of snippets usually have tab-stop(s), e.g. ${1:some_text}. Plugin Snippets finds tab-stops and places "markers" for them. After markers are placed, Tab-key works special in editor, it jumps to next marker. See detailed information in the [[#Markers]].
 
 ===Snippets for HTML tags===
 
@@ -964,6 +964,23 @@ Commands in Command Palette:
 * (without undo) delete adjacent duplicate lines
 * (without undo) reverse lines
 * (without undo) shuffle lines
+
+==Markers==
+
+"Markers" are text positions which are shown with red (color in default theme) triangles below them.
+CudaText gives such commands in the Command Palette:
+
+* "markers: drop marker at caret": Adds a marker on current caret position.
+* "markers: go to last marker (don't delete)": Moves caret to the last placed marker and deletes this marker.
+* "markers: collect last marker (delete)": Moves caret to the last placed marker without deleting it.
+* "markers: remove all": Removes all markers in the current document.
+* "markers: swap caret and last marker": Moves caret to the last placed marker, deletes this marker, and adds marker on the previous caret position. Command is to jump to the last marker, second command call jumps back, 3rd command call jumps back, etc.
+* "markers: select to last marker": Makes text selection from caret position to the position of last placed marker.
+* "markers: delete to last marker": Deletes text from caret position to the position of last placed marker.
+
+Markers are utilized by the Snippets plugin. 
+Snippets plugin finds tab-stops in the inserting snippet text, and places markers for them.  
+After markers are placed by Snippets plugin, Tab-key works special - it jumps to the next marker ("next" by the order of tab-stop: 1, 2, 3... tab-stop 0 is the last). When user "collects" all those markers by Tab-key, this special mode deactivates and Tab-key works as usual again. Command "markers: remove all" also deactivates that mode.
 
 =External Tools=
 
