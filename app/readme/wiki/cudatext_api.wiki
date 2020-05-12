@@ -3820,4 +3820,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.326 (app 1.98.3)
 * add: dlg_proc: DLG_CTL_PROP_GET returns also the parent info in key "p"
 
+1.0.327 (app 1.99.1)
+* add: dlg_proc: control "radiogroup" supports event "on_change"
+
 [[Category:CudaText]]
