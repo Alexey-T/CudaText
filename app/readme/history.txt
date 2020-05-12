@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.99.1 (2020/05)
+
+* change: deleted toolbar button/submenu "Sort". That submenu gave the same commands as "Plugins / Sort" but it had only 5 of all 20 commands.
+
 1.99.0 (2020/05)
 
 + add: speedup loading big ascii files by 5-6%
