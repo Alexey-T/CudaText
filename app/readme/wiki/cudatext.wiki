@@ -1625,7 +1625,7 @@ To make such zip file, pack into zip also "install.inf" with meta-info.
 
 CPU suffix is "-" char followed by names: i386, x86_64, arm, aarch64, sparc. So for example Linux/x86 allows values "linux" and "linux-i386", Solaris/AMD64 allows values "solaris" and "solaris-x86_64".
 
-=== Plugins ===
+===Install.inf for plugins===
 
 Example of install.inf for plugin (plugin adds 2 menu items with menu separator between):
 
@@ -1679,13 +1679,15 @@ Only for "section=events":
 ** for "on_key": comma-separated list of int key codes to handle in event, e.g. "keys=9" means that event is only called for key code 9 (Tab char).
 ** for "on_open" / "on_open_pre": comma-separated list of lower-case file extensions, without leading dot, to handle in event.
 
+====Install.inf sidebar buttons====
+
 Plugin can show sidebar button(s), without running plugin code. For this, add sections "sidebar1" to "sidebar3", with keys:
 
 * "hint": hint of button, must be the same as used by plugin to create button in runtime.
 * "icon": filename of PNG icon. If path missed, used file from CudaText. To use path in plugin dir, write value as "{dir}/subdir/filename.png" - with macro, with / slashes.
 * "method": Python method name to show plugin side panel. This command must create side panel for this sidebar button.
 
-==== Lexer lists ====
+====Install.inf lexer lists====
 
 If plugin has many [itemN] sections, it is possible to set list of lexers using vairable (not to write each time "lexers=name,name2,name3"). Declare list of lexers in [info] section like this, any variable name:
 
@@ -1708,7 +1710,7 @@ You can set lexers by reg-ex, e.g. reg-ex ".*SQL.*" means all names with substri
 $var=regex:.*SQL.*
 </syntaxhighlight>
 
-===Data-files===
+===Install.inf for data files===
 
 Example of install.inf for data files, to be copied into subdir of "data" dir. Name of subdir can be any, for example "themes".
 
@@ -1720,7 +1722,7 @@ type=cudatext-data
 subdir=themes
 </syntaxhighlight>
 
-===Lexers===
+===Install.inf for lexers===
 
 To see example of install.inf for lexers, download any lexer. To see complex example, download lexer zip for "HTML Smarty" which has 2 lexers inside, one lexer is linked to another.
 
@@ -1744,7 +1746,7 @@ link7=PHP
 link8=HTML Smarty internal
 </syntaxhighlight>
 
-===Lite lexers===
+===Install.inf for lite lexers===
 
 Example of install.inf for lite lexer. Note that "^" suffix not needed here.
 
