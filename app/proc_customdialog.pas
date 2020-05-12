@@ -733,6 +733,7 @@ begin
   if S='radiogroup' then
   begin
     Ctl:= TRadioGroup.Create(AForm);
+    TRadioGroup(Ctl).OnSelectionChanged:= @AForm.DoOnChange;
     exit;
   end;
 
