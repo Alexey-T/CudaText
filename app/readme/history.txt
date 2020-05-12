@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.98.5 (2020/05)
+1.99.0 (2020/05)
 
 + add: speedup loading big ascii files by 5-6%
 + add: new big Wiki topic: https://wiki.freepascal.org/CudaText#CudaText_vs_Sublime_Text.2C_different_answers_to_questions
