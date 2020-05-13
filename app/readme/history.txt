@@ -6,7 +6,7 @@
 1.99.2 (2020/05)
 
 + add: open URLs and e-mails (with and without "mailto:") by double-click
-+ add: open URLs starting with "www."
++ add: open URLs starting with "www." and "ftp."
 + add: switch ui tabs by Shift+wheel
 + add: API to show button on sidebar's bottom without loading the plugin
 * change: ui tabs: mouse wheel scroll step is now 20% of width
