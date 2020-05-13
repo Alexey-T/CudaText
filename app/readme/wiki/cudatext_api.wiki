@@ -3823,6 +3823,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.327 (app 1.99.1)
 * add: install.inf supports sections "bottombar*" to show button on sidebar bottom, without loading plugin on start
 * add: install.inf supports sections "sidebar*", before allowed sections were limited by regex "sidebar\d+"
+* add: install.inf supports sections "treehelper*", before allowed sections were limited by regex "treehelper\d+"
 * add: dlg_proc: control "radiogroup" supports event "on_change"
 * add: dlg_proc: control "checkgroup" supports event "on_change"
 
