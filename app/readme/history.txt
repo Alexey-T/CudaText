@@ -8,8 +8,8 @@
 + add: ui tabs: Shift+wheel now switches tabs
 + add: API to show button on sidebar's bottom without loading the plugin
 * change: ui tabs: mouse wheel scroll step is now 20% of width
-* change: deleted toolbar button/submenu "Sort". That submenu gave the same commands as "Plugins / Sort" but it had only 5 of all 20 commands.
-- fix: bug from last release, file can be loaded from session without lexer set
+* change: toolbar button "Sort" was removed. It gave the same commands as "Plugins / Sort" but it had only 5 of all 20 commands.
+- fix: bug from 1.99.0, file can be loaded from session without lexer set
 
 1.99.0 (2020/05)
 
