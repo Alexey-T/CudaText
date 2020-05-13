@@ -54,7 +54,7 @@ var
   ini: TMemIniFile;
   sections: TStringList;
   ini_section,
-  dir_inf, s_section, s_caption, s_module, s_method, s_lexers,
+  dir_inf, s_itemkind, s_caption, s_module, s_method, s_lexers,
   s_events, s_keys, s_inmenu, s_icon: string;
   CmdItem: TAppCommandInfo;
   EventItem: TAppEventInfo;
@@ -119,7 +119,7 @@ begin
 
       if SBeginsWith(ini_section, 'item') then
       begin
-        s_section:= ini.ReadString(ini_section, 'section', '');
+        s_itemkind:= ini.ReadString(ini_section, 'section', '');
         s_caption:= ini.ReadString(ini_section, 'caption', '');
         s_method:= ini.ReadString(ini_section, 'method', '');
         //s_hotkey:= ini.ReadString(ini_section, 'hotkey', '');
@@ -133,7 +133,7 @@ begin
         s_inmenu:= ini.ReadString(ini_section, 'menu', '');
 
         //add commands
-        if s_section='commands' then
+        if s_itemkind='commands' then
         begin
           if s_caption='' then Continue;
           if s_method='' then Continue;
@@ -150,7 +150,7 @@ begin
         end;
 
         //add events
-        if s_section='events' then
+        if s_itemkind='events' then
         begin
           if s_events='' then Continue;
 
