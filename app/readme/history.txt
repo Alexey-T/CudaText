@@ -6,6 +6,7 @@
 1.99.1 (2020/05)
 
 + add: ui tabs: Shift+wheel now switches tabs
++ add: API to show button on sidebar's bottom without loading the plugin
 * change: ui tabs: mouse wheel scroll step is now 20% of width
 * change: deleted toolbar button/submenu "Sort". That submenu gave the same commands as "Plugins / Sort" but it had only 5 of all 20 commands.
 
