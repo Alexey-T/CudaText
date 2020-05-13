@@ -50,16 +50,24 @@ end;
 
 
 procedure TfmMain.DoOps_LoadPluginFromInf(const fn_inf: string);
+type
+  TAppInfSection = (
+    sidNone,
+    sidItem,
+    sidTreeHelper,
+    sidSidebar,
+    sidBottombar
+    );
 var
   ini: TMemIniFile;
   sections: TStringList;
+  sectionId: TAppInfSection;
   ini_section, dir_inf: string;
   s_itemkind, s_caption, s_module, s_method, s_lexers,
   s_events, s_keys, s_inmenu, s_icon: string;
   CmdItem: TAppCommandInfo;
   EventItem: TAppEventInfo;
   TreeHelper: TAppTreeHelper;
-  bSectionSidebar, bSectionBottombar: boolean;
   PanelId: TAppPanelId;
 begin
   dir_inf:= ExtractFileDir(fn_inf);
@@ -72,9 +80,22 @@ begin
 
     for ini_section in sections do
     begin
-      bSectionSidebar:= SBeginsWith(ini_section, 'sidebar');
-      bSectionBottombar:= SBeginsWith(ini_section, 'bottombar');
-      if bSectionSidebar or bSectionBottombar then
+      if SBeginsWith(ini_section, 'item') then
+        sectionId:= sidItem
+      else
+      if SBeginsWith(ini_section, 'treehelper') then
+        sectionId:= sidTreeHelper
+      else
+      if SBeginsWith(ini_section, 'sidebar') then
+        sectionId:= sidSidebar
+      else
+      if SBeginsWith(ini_section, 'bottombar') then
+        sectionId:= sidBottombar
+      else
+        sectionId:= sidNone;
+
+      if (sectionId=sidSidebar) or
+        (sectionId=sidBottombar) then
       begin
         s_caption:= ini.ReadString(ini_section, 'hint', '');
         if s_caption='' then Continue;
@@ -89,11 +110,14 @@ begin
         s_method:= ini.ReadString(ini_section, 'method', '');
         if s_method='' then Continue;
 
-        if bSectionSidebar then
-          PanelId:= cPaneSide
-        else
-        if bSectionBottombar then
-          PanelId:= cPaneOut;
+        case sectionId of
+          sidSidebar:
+            PanelId:= cPaneSide;
+          sidBottombar:
+            PanelId:= cPaneOut;
+          else
+            Continue;
+        end;
 
         AppPanels[PanelId].AddEmpty(
           s_caption,
@@ -103,7 +127,7 @@ begin
           );
       end
       else
-      if SBeginsWith(ini_section, 'treehelper') then
+      if sectionId=sidTreeHelper then
       begin
         s_method:= ini.ReadString(ini_section, 'method', '');
         s_lexers:= ini.ReadString(ini_section, 'lexers', '');
@@ -114,7 +138,7 @@ begin
         AppTreeHelpers.Add(TreeHelper);
       end
       else
-      if SBeginsWith(ini_section, 'item') then
+      if sectionId=sidItem then
       begin
         s_itemkind:= ini.ReadString(ini_section, 'section', '');
         s_caption:= ini.ReadString(ini_section, 'caption', '');
