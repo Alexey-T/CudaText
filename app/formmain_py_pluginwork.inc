@@ -102,9 +102,8 @@ begin
           s_module,
           s_method
           );
-        Continue;
-      end;
-
+      end
+      else
       if SBeginsWith(ini_section, 'treehelper') then
       begin
         s_method:= ini.ReadString(ini_section, 'method', '');
@@ -114,9 +113,8 @@ begin
         TreeHelper.ItemProc:= s_method;
         TreeHelper.ItemLexers:= s_lexers;
         AppTreeHelpers.Add(TreeHelper);
-        Continue;
-      end;
-
+      end
+      else
       if SBeginsWith(ini_section, 'item') then
       begin
         s_itemkind:= ini.ReadString(ini_section, 'section', '');
@@ -163,7 +161,6 @@ begin
               AppEventList.Add(EventItem);
             end;
         end;
-        Continue;
       end;
     end;
   finally
