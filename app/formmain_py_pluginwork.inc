@@ -53,8 +53,8 @@ procedure TfmMain.DoOps_LoadPluginFromInf(const fn_inf: string);
 var
   ini: TMemIniFile;
   sections: TStringList;
-  ini_section,
-  dir_inf, s_itemkind, s_caption, s_module, s_method, s_lexers,
+  ini_section, dir_inf: string;
+  s_itemkind, s_caption, s_module, s_method, s_lexers,
   s_events, s_keys, s_inmenu, s_icon: string;
   CmdItem: TAppCommandInfo;
   EventItem: TAppEventInfo;
@@ -62,12 +62,11 @@ var
   bSectionSidebar, bSectionBottombar: boolean;
   PanelId: TAppPanelId;
 begin
-  ini:= TMemIniFile.Create(fn_inf);
-  sections:= TStringList.Create;
-
   dir_inf:= ExtractFileDir(fn_inf);
   s_module:= ExtractFileName(dir_inf);
 
+  ini:= TMemIniFile.Create(fn_inf);
+  sections:= TStringList.Create;
   try
     ini.ReadSections(sections);
 
