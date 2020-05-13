@@ -2835,10 +2835,11 @@ begin
 
   if Ed.Carets.Count>0 then
   begin
+    //note: don't use c.SetDeleteValue here because non-empty value is always needed:
+    //app loads file from session and skips history if key is empty
     caret:= Ed.Carets[0];
-    c.SetDeleteValue(path+cHistory_Caret,
-      Format('%d,%d,%d,%d,', [caret.PosX, caret.PosY, caret.EndX, caret.EndY]),
-      '0,0,-1,-1,'
+    c.SetValue(path+cHistory_Caret,
+      Format('%d,%d,%d,%d,', [caret.PosX, caret.PosY, caret.EndX, caret.EndY])
       );
   end;
 
