@@ -1,8 +1,8 @@
 import os
-import shutil
-from cudatext import *
 from datetime import datetime
 from time import strftime, gmtime
+import cudatext as app
+from cudatext import ed
 
 DEF_CONFIG = '''#Documentation about formats: http://strftime.org/
 %d/%m/%Y %H:%M:%S
@@ -15,7 +15,7 @@ DEF_CONFIG = '''#Documentation about formats: http://strftime.org/
 rfc
 '''
 
-ini = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_insert_time.ini')
+ini = os.path.join(app.app_path(app.APP_DIR_SETTINGS), 'cuda_insert_time.ini')
 if not os.path.isfile(ini):
     with open(ini, 'w') as f:
         f.write(DEF_CONFIG)
@@ -49,10 +49,7 @@ class Command:
     def config(self):
 
         if os.path.isfile(ini):
-            file_open(ini)
-        else:
-            msg_status('Cannot find config file')
-
+            app.file_open(ini)
 
     def do_insert(self, s):
 
@@ -65,7 +62,7 @@ class Command:
         else:
             ed.insert(x, y, s)
 
-        msg_status('Date/time inserted')
+        app.msg_status('Date/time inserted')
 
 
     def dialog(self):
@@ -73,7 +70,7 @@ class Command:
         lines = get_format_lines()
         lines = [do_format(s) for s in lines]
 
-        res = dlg_menu(MENU_LIST, lines, caption='Insert Time')
+        res = app.dlg_menu(app.MENU_LIST, lines, caption='Insert Time')
         if res is None: return
         self.do_insert(lines[res])
 
@@ -82,8 +79,8 @@ class Command:
 
         fmt = get_default_format()
         if not fmt:
-            msg_box('No default time format is specified. To specify it, open config file (menu Options / Settings-plugins / Insert Time), and prefix some format with @ char.',
-              MB_OK or MB_ICONINFO)
+            app.msg_box('No default time format is specified. To specify it, open config file (menu Options / Settings-plugins / Insert Time), and prefix some format with @ char.',
+              app.MB_OK or app.MB_ICONINFO)
             return
 
         self.do_insert(do_format(fmt))
