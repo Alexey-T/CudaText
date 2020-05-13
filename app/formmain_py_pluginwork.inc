@@ -71,23 +71,23 @@ begin
 
     ini.ReadSections(sections);
 
-    for s_section in sections do
+    for ini_section in sections do
     begin
-      bSectionSidebar:= SBeginsWith(s_section, 'sidebar');
-      bSectionBottombar:= SBeginsWith(s_section, 'bottombar');
+      bSectionSidebar:= SBeginsWith(ini_section, 'sidebar');
+      bSectionBottombar:= SBeginsWith(ini_section, 'bottombar');
       if bSectionSidebar or bSectionBottombar then
       begin
-        s_caption:= ini.ReadString(s_section, 'hint', '');
+        s_caption:= ini.ReadString(ini_section, 'hint', '');
         if s_caption='' then Continue;
 
-        s_icon:= ini.ReadString(s_section, 'icon', '');
+        s_icon:= ini.ReadString(ini_section, 'icon', '');
         if s_icon='' then Continue;
         s_icon:= StringReplace(s_icon, '{dir}', dir_inf, []);
         {$ifdef windows}
         s_icon:= StringReplace(s_icon, '/', '\', [rfReplaceAll]);
         {$endif}
 
-        s_method:= ini.ReadString(s_section, 'method', '');
+        s_method:= ini.ReadString(ini_section, 'method', '');
         if s_method='' then Continue;
 
         if bSectionSidebar then
