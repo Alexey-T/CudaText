@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.99.1 (2020/05)
+1.99.2 (2020/05)
 
 + add: ui tabs: Shift+wheel now switches tabs
 + add: API to show button on sidebar's bottom without loading the plugin
