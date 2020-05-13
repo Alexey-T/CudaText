@@ -120,54 +120,55 @@ begin
         Continue;
       end;
 
-      if not SRegexMatchesString(ini_section, 'item\d+', true) then Continue;
-
-      s_section:= ini.ReadString(ini_section, 'section', '');
-      s_caption:= ini.ReadString(ini_section, 'caption', '');
-      s_method:= ini.ReadString(ini_section, 'method', '');
-      //s_hotkey:= ini.ReadString(ini_section, 'hotkey', '');
-
-      s_lexers:= ini.ReadString(ini_section, 'lexers', '');
-      if SBeginsWith(s_lexers, '$') then //var $name defined in [info]
-        s_lexers:= ini.ReadString('info', s_lexers, '');
-
-      s_events:= ini.ReadString(ini_section, 'events', '');
-      s_keys:= ini.ReadString(ini_section, 'keys', '');
-      s_inmenu:= ini.ReadString(ini_section, 'menu', '');
-
-      //add commands
-      if s_section='commands' then
+      if SRegexMatchesString(ini_section, 'item\d+', true) then
       begin
-        if s_caption='' then Continue;
-        if s_method='' then Continue;
+        s_section:= ini.ReadString(ini_section, 'section', '');
+        s_caption:= ini.ReadString(ini_section, 'caption', '');
+        s_method:= ini.ReadString(ini_section, 'method', '');
+        //s_hotkey:= ini.ReadString(ini_section, 'hotkey', '');
 
-        CmdItem:= TAppCommandInfo.Create;
-        CmdItem.ItemModule:= s_module;
-        CmdItem.ItemProc:= s_method;
-        CmdItem.ItemProcParam:= '';
-        CmdItem.ItemCaption:= s_caption;
-        CmdItem.ItemLexers:= s_lexers;
-        CmdItem.ItemInMenu:= s_inmenu;
-        AppCommandList.Add(CmdItem);
-        Continue;
-      end;
+        s_lexers:= ini.ReadString(ini_section, 'lexers', '');
+        if SBeginsWith(s_lexers, '$') then //var $name defined in [info]
+          s_lexers:= ini.ReadString('info', s_lexers, '');
 
-      //add events
-      if s_section='events' then
-      begin
-        if s_events='' then Continue;
+        s_events:= ini.ReadString(ini_section, 'events', '');
+        s_keys:= ini.ReadString(ini_section, 'keys', '');
+        s_inmenu:= ini.ReadString(ini_section, 'menu', '');
 
-        EventItem:= TAppEventInfo.Create;
-        EventItem.ItemModule:= s_module;
-        AppEventStringToEventData(s_events,
-          EventItem.ItemEvents,
-          EventItem.ItemEventsPrior,
-          EventItem.ItemEventsLazy
-          );
-        EventItem.ItemLexers:= s_lexers;
-        EventItem.ItemKeys:= s_keys;
-        AppEventList.Add(EventItem);
-        Continue;
+        //add commands
+        if s_section='commands' then
+        begin
+          if s_caption='' then Continue;
+          if s_method='' then Continue;
+
+          CmdItem:= TAppCommandInfo.Create;
+          CmdItem.ItemModule:= s_module;
+          CmdItem.ItemProc:= s_method;
+          CmdItem.ItemProcParam:= '';
+          CmdItem.ItemCaption:= s_caption;
+          CmdItem.ItemLexers:= s_lexers;
+          CmdItem.ItemInMenu:= s_inmenu;
+          AppCommandList.Add(CmdItem);
+          Continue;
+        end;
+
+        //add events
+        if s_section='events' then
+        begin
+          if s_events='' then Continue;
+
+          EventItem:= TAppEventInfo.Create;
+          EventItem.ItemModule:= s_module;
+          AppEventStringToEventData(s_events,
+            EventItem.ItemEvents,
+            EventItem.ItemEventsPrior,
+            EventItem.ItemEventsLazy
+            );
+          EventItem.ItemLexers:= s_lexers;
+          EventItem.ItemKeys:= s_keys;
+          AppEventList.Add(EventItem);
+          Continue;
+        end;
       end;
     end;
   finally
