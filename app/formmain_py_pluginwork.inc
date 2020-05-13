@@ -59,6 +59,8 @@ var
   CmdItem: TAppCommandInfo;
   EventItem: TAppEventInfo;
   TreeHelper: TAppTreeHelper;
+  bSectionSidebar, bSectionBottombar: boolean;
+  PanelId: TAppPanelId;
 begin
   ini:= TIniFile.Create(fn_inf);
   sections:= TStringList.Create;
@@ -71,7 +73,9 @@ begin
 
     for s_section in sections do
     begin
-      if SBeginsWith(s_section, 'sidebar') then
+      bSectionSidebar:= SBeginsWith(s_section, 'sidebar');
+      bSectionBottombar:= SBeginsWith(s_section, 'bottombar');
+      if bSectionSidebar or bSectionBottombar then
       begin
         s_caption:= ini.ReadString(s_section, 'hint', '');
         if s_caption='' then Continue;
@@ -86,7 +90,13 @@ begin
         s_method:= ini.ReadString(s_section, 'method', '');
         if s_method='' then Continue;
 
-        AppPanels[cPaneSide].AddEmpty(
+        if bSectionSidebar then
+          PanelId:= cPaneSide
+        else
+        if bSectionBottombar then
+          PanelId:= cPaneOut;
+
+        AppPanels[PanelId].AddEmpty(
           s_caption,
           DoSidebar_FilenameToImageIndex(s_caption, s_icon),
           s_module,
