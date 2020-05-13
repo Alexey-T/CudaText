@@ -132,40 +132,38 @@ begin
         s_keys:= ini.ReadString(ini_section, 'keys', '');
         s_inmenu:= ini.ReadString(ini_section, 'menu', '');
 
-        //add commands
-        if s_itemkind='commands' then
-        begin
-          if s_caption='' then Continue;
-          if s_method='' then Continue;
+        case s_itemkind of
+          'commands':
+            begin
+              if s_caption='' then Continue;
+              if s_method='' then Continue;
 
-          CmdItem:= TAppCommandInfo.Create;
-          CmdItem.ItemModule:= s_module;
-          CmdItem.ItemProc:= s_method;
-          CmdItem.ItemProcParam:= '';
-          CmdItem.ItemCaption:= s_caption;
-          CmdItem.ItemLexers:= s_lexers;
-          CmdItem.ItemInMenu:= s_inmenu;
-          AppCommandList.Add(CmdItem);
-          Continue;
+              CmdItem:= TAppCommandInfo.Create;
+              CmdItem.ItemModule:= s_module;
+              CmdItem.ItemProc:= s_method;
+              CmdItem.ItemProcParam:= '';
+              CmdItem.ItemCaption:= s_caption;
+              CmdItem.ItemLexers:= s_lexers;
+              CmdItem.ItemInMenu:= s_inmenu;
+              AppCommandList.Add(CmdItem);
+            end;
+          'events':
+            begin
+              if s_events='' then Continue;
+
+              EventItem:= TAppEventInfo.Create;
+              EventItem.ItemModule:= s_module;
+              AppEventStringToEventData(s_events,
+                EventItem.ItemEvents,
+                EventItem.ItemEventsPrior,
+                EventItem.ItemEventsLazy
+                );
+              EventItem.ItemLexers:= s_lexers;
+              EventItem.ItemKeys:= s_keys;
+              AppEventList.Add(EventItem);
+            end;
         end;
-
-        //add events
-        if s_itemkind='events' then
-        begin
-          if s_events='' then Continue;
-
-          EventItem:= TAppEventInfo.Create;
-          EventItem.ItemModule:= s_module;
-          AppEventStringToEventData(s_events,
-            EventItem.ItemEvents,
-            EventItem.ItemEventsPrior,
-            EventItem.ItemEventsLazy
-            );
-          EventItem.ItemLexers:= s_lexers;
-          EventItem.ItemKeys:= s_keys;
-          AppEventList.Add(EventItem);
-          Continue;
-        end;
+        Continue;
       end;
     end;
   finally
