@@ -833,7 +833,7 @@ begin
         Str:= EditorGetLinkAtCaret(Ed);
         if Str<>'' then
         begin
-          AppOpenURL(Str);
+          EditorOpenLink(Str);
           MsgStatus(msgStatusOpenedBrowser);
         end;
         AHandled:= true;
@@ -857,7 +857,7 @@ begin
         Str:= EditorGetLinkAtScreenCoord(Ed, PopupText.PopupPoint);
         if Str<>'' then
         begin
-          AppOpenURL(Str);
+          EditorOpenLink(Str);
           MsgStatus(msgStatusOpenedBrowser);
         end;
         AHandled:= true;

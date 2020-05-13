@@ -177,6 +177,7 @@ type
     procedure EditorOnClickGap(Sender: TObject; AGapItem: TATGapItem; APos: TPoint);
     procedure EditorOnClickGutter(Sender: TObject; ABand, ALine: integer);
     procedure EditorOnClickDouble(Sender: TObject; var AHandled: boolean);
+    procedure EditorOnClickLink(Sender: TObject; const ALink: string);
     procedure EditorOnClickMicroMap(Sender: TObject; AX, AY: integer);
     procedure EditorOnClickMiddle(Sender: TObject; var AHandled: boolean);
     procedure EditorOnCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
@@ -1441,6 +1442,11 @@ begin
   AHandled:= Res.Val=evrFalse;
 end;
 
+procedure TEditorFrame.EditorOnClickLink(Sender: TObject; const ALink: string);
+begin
+  EditorOpenLink(ALink);
+end;
+
 procedure TEditorFrame.EditorOnClickMicroMap(Sender: TObject; AX, AY: integer);
 var
   Ed: TATSynEdit;
@@ -1542,6 +1548,7 @@ begin
   ed.Micromap.Columns[1].NTag:= 1;
 
   ed.OnClick:= @EditorOnClick;
+  ed.OnClickLink:=@EditorOnClickLink;
   ed.OnClickDouble:= @EditorOnClickDouble;
   ed.OnClickMiddle:= @EditorOnClickMiddle;
   ed.OnClickMoveCaret:= @EditorClickMoveCaret;
