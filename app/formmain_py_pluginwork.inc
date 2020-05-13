@@ -65,10 +65,10 @@ begin
   ini:= TMemIniFile.Create(fn_inf);
   sections:= TStringList.Create;
 
-  try
-    dir_inf:= ExtractFileDir(fn_inf);
-    s_module:= ExtractFileName(dir_inf);
+  dir_inf:= ExtractFileDir(fn_inf);
+  s_module:= ExtractFileName(dir_inf);
 
+  try
     ini.ReadSections(sections);
 
     for ini_section in sections do
