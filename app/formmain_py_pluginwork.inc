@@ -117,7 +117,7 @@ begin
         Continue;
       end;
 
-      if SRegexMatchesString(ini_section, 'item\d+', true) then
+      if SBeginsWith(ini_section, 'item') then
       begin
         s_section:= ini.ReadString(ini_section, 'section', '');
         s_caption:= ini.ReadString(ini_section, 'caption', '');
