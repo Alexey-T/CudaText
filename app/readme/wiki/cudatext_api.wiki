@@ -3821,10 +3821,10 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: dlg_proc: DLG_CTL_PROP_GET returns also the parent info in key "p"
 
 1.0.327 (app 1.99.2)
-* add: install.inf supports sections "bottombar*" to show button on sidebar bottom, without loading plugin on start
-* change: install.inf supports sections "item*", before allowed sections were limited by regex "item\d+"
-* change: install.inf supports sections "sidebar*", before allowed sections were limited by regex "sidebar\d+"
-* change: install.inf supports sections "treehelper*", before allowed sections were limited by regex "treehelper\d+"
+* add: install.inf supports sections "bottombar*" to show button on sidebar near Console/Output, without loading plugin
+* change: install.inf supports sections "item*", earlier allowed sections were limited by regex "item\d+"
+* change: install.inf supports sections "sidebar*", earlier allowed sections were limited by regex "sidebar\d+"
+* change: install.inf supports sections "treehelper*", earlier allowed sections were limited by regex "treehelper\d+"
 * add: dlg_proc: control "radiogroup" supports event "on_change"
 * add: dlg_proc: control "checkgroup" supports event "on_change"
 
