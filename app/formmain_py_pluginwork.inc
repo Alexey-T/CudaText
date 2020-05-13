@@ -71,27 +71,28 @@ begin
 
     for s_section in sections do
     begin
-      if not SRegexMatchesString(s_section, 'sidebar\d+', true) then Continue;
+      if SBeginsWith(s_section, 'sidebar') then
+      begin
+        s_caption:= ini.ReadString(s_section, 'hint', '');
+        if s_caption='' then Continue;
 
-      s_caption:= ini.ReadString(s_section, 'hint', '');
-      if s_caption='' then Continue;
+        s_icon:= ini.ReadString(s_section, 'icon', '');
+        if s_icon='' then Continue;
+        s_icon:= StringReplace(s_icon, '{dir}', dir_inf, []);
+        {$ifdef windows}
+        s_icon:= StringReplace(s_icon, '/', '\', [rfReplaceAll]);
+        {$endif}
 
-      s_icon:= ini.ReadString(s_section, 'icon', '');
-      if s_icon='' then Continue;
-      s_icon:= StringReplace(s_icon, '{dir}', dir_inf, []);
-      {$ifdef windows}
-      s_icon:= StringReplace(s_icon, '/', '\', [rfReplaceAll]);
-      {$endif}
+        s_method:= ini.ReadString(s_section, 'method', '');
+        if s_method='' then Continue;
 
-      s_method:= ini.ReadString(s_section, 'method', '');
-      if s_method='' then Continue;
-
-      AppPanels[cPaneSide].AddEmpty(
-        s_caption,
-        DoSidebar_FilenameToImageIndex(s_caption, s_icon),
-        s_module,
-        s_method
-        );
+        AppPanels[cPaneSide].AddEmpty(
+          s_caption,
+          DoSidebar_FilenameToImageIndex(s_caption, s_icon),
+          s_module,
+          s_method
+          );
+      end;
     end;
 
     for ini_section in sections do
