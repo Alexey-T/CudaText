@@ -108,7 +108,7 @@ begin
     for ini_section in sections do
     begin
       //add tree helpers
-      if SRegexMatchesString(ini_section, 'treehelper\d+', true) then
+      if SBeginsWith(ini_section, 'treehelper') then
       begin
         s_method:= ini.ReadString(ini_section, 'method', '');
         s_lexers:= ini.ReadString(ini_section, 'lexers', '');
