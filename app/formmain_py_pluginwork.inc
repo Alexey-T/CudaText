@@ -103,10 +103,7 @@ begin
           s_method
           );
       end;
-    end;
 
-    for ini_section in sections do
-    begin
       //add tree helpers
       if SBeginsWith(ini_section, 'treehelper') then
       begin
