@@ -119,11 +119,14 @@ except ImportError:
             self.certfile = certfile
             self.keyfile = keyfile
 
-        def load_verify_locations(self, cafile=None, capath=None):
+        def load_verify_locations(self, cafile=None, capath=None, cadata=None):
             self.ca_certs = cafile
 
             if capath is not None:
                 raise SSLError("CA directories not supported in older Pythons")
+
+            if cadata is not None:
+                raise SSLError("CA data not supported in older Pythons")
 
         def set_ciphers(self, cipher_suite):
             self.ciphers = cipher_suite
@@ -182,7 +185,7 @@ def resolve_cert_reqs(candidate):
     """
     Resolves the argument to a numeric constant, which can be passed to
     the wrap_socket function/method from the ssl module.
-    Defaults to :data:`ssl.CERT_NONE`.
+    Defaults to :data:`ssl.CERT_REQUIRED`.
     If given a string it is assumed to be the name of the constant in the
     :mod:`ssl` module or its abbreviation.
     (So you can specify `REQUIRED` instead of `CERT_REQUIRED`.
@@ -305,6 +308,7 @@ def ssl_wrap_socket(
     ssl_context=None,
     ca_cert_dir=None,
     key_password=None,
+    ca_cert_data=None,
 ):
     """
     All arguments except for server_hostname, ssl_context, and ca_cert_dir have
@@ -323,6 +327,9 @@ def ssl_wrap_socket(
         SSLContext.load_verify_locations().
     :param key_password:
         Optional password if the keyfile is encrypted.
+    :param ca_cert_data:
+        Optional string containing CA certificates in PEM format suitable for
+        passing as the cadata parameter to SSLContext.load_verify_locations()
     """
     context = ssl_context
     if context is None:
@@ -331,9 +338,9 @@ def ssl_wrap_socket(
         # this code.
         context = create_urllib3_context(ssl_version, cert_reqs, ciphers=ciphers)
 
-    if ca_certs or ca_cert_dir:
+    if ca_certs or ca_cert_dir or ca_cert_data:
         try:
-            context.load_verify_locations(ca_certs, ca_cert_dir)
+            context.load_verify_locations(ca_certs, ca_cert_dir, ca_cert_data)
         except IOError as e:  # Platform-specific: Python 2.7
             raise SSLError(e)
         # Py33 raises FileNotFoundError which subclasses OSError

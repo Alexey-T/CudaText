@@ -1,4 +1,5 @@
 from __future__ import absolute_import
+import re
 import datetime
 import logging
 import os
@@ -57,6 +58,8 @@ port_by_scheme = {"http": 80, "https": 443}
 # When it comes time to update this value as a part of regular maintenance
 # (ie test_recent_date is failing) update it to ~6 months before the current date.
 RECENT_DATE = datetime.date(2019, 1, 1)
+
+_CONTAINS_CONTROL_CHAR_RE = re.compile(r"[^-!#$%&'*+.^_`|~0-9a-zA-Z]")
 
 
 class DummyConnection(object):
@@ -184,6 +187,17 @@ class HTTPConnection(_HTTPConnection, object):
         conn = self._new_conn()
         self._prepare_conn(conn)
 
+    def putrequest(self, method, url, *args, **kwargs):
+        """Send a request to the server"""
+        match = _CONTAINS_CONTROL_CHAR_RE.search(method)
+        if match:
+            raise ValueError(
+                "Method cannot contain non-token characters %r (found at least %r)"
+                % (method, match.group())
+            )
+
+        return _HTTPConnection.putrequest(self, method, url, *args, **kwargs)
+
     def request_chunked(self, method, url, body=None, headers=None):
         """
         Alternative to the common request method, which sends the
@@ -223,7 +237,12 @@ class HTTPConnection(_HTTPConnection, object):
 class HTTPSConnection(HTTPConnection):
     default_port = port_by_scheme["https"]
 
+    cert_reqs = None
+    ca_certs = None
+    ca_cert_dir = None
+    ca_cert_data = None
     ssl_version = None
+    assert_fingerprint = None
 
     def __init__(
         self,
@@ -251,53 +270,6 @@ class HTTPSConnection(HTTPConnection):
         # HTTPS requests to go out as HTTP. (See Issue #356)
         self._protocol = "https"
 
-    def connect(self):
-        conn = self._new_conn()
-        self._prepare_conn(conn)
-
-        # Wrap socket using verification with the root certs in
-        # trusted_root_certs
-        default_ssl_context = False
-        if self.ssl_context is None:
-            default_ssl_context = True
-            self.ssl_context = create_urllib3_context(
-                ssl_version=resolve_ssl_version(self.ssl_version),
-                cert_reqs=resolve_cert_reqs(self.cert_reqs),
-            )
-
-        # Try to load OS default certs if none are given.
-        # Works well on Windows (requires Python3.4+)
-        context = self.ssl_context
-        if (
-            not self.ca_certs
-            and not self.ca_cert_dir
-            and default_ssl_context
-            and hasattr(context, "load_default_certs")
-        ):
-            context.load_default_certs()
-
-        self.sock = ssl_wrap_socket(
-            sock=conn,
-            keyfile=self.key_file,
-            certfile=self.cert_file,
-            key_password=self.key_password,
-            ssl_context=self.ssl_context,
-            server_hostname=self.server_hostname,
-        )
-
-
-class VerifiedHTTPSConnection(HTTPSConnection):
-    """
-    Based on httplib.HTTPSConnection but wraps the socket with
-    SSL certification.
-    """
-
-    cert_reqs = None
-    ca_certs = None
-    ca_cert_dir = None
-    ssl_version = None
-    assert_fingerprint = None
-
     def set_cert(
         self,
         key_file=None,
@@ -308,6 +280,7 @@ class VerifiedHTTPSConnection(HTTPSConnection):
         assert_hostname=None,
         assert_fingerprint=None,
         ca_cert_dir=None,
+        ca_cert_data=None,
     ):
         """
         This method should only be called once, before the connection is used.
@@ -328,6 +301,7 @@ class VerifiedHTTPSConnection(HTTPSConnection):
         self.assert_fingerprint = assert_fingerprint
         self.ca_certs = ca_certs and os.path.expanduser(ca_certs)
         self.ca_cert_dir = ca_cert_dir and os.path.expanduser(ca_cert_dir)
+        self.ca_cert_data = ca_cert_data
 
     def connect(self):
         # Add certificate verification
@@ -378,6 +352,7 @@ class VerifiedHTTPSConnection(HTTPSConnection):
         if (
             not self.ca_certs
             and not self.ca_cert_dir
+            and not self.ca_cert_data
             and default_ssl_context
             and hasattr(context, "load_default_certs")
         ):
@@ -390,6 +365,7 @@ class VerifiedHTTPSConnection(HTTPSConnection):
             key_password=self.key_password,
             ca_certs=self.ca_certs,
             ca_cert_dir=self.ca_cert_dir,
+            ca_cert_data=self.ca_cert_data,
             server_hostname=server_hostname,
             ssl_context=context,
         )
@@ -412,7 +388,7 @@ class VerifiedHTTPSConnection(HTTPSConnection):
                     (
                         "Certificate for {0} has no `subjectAltName`, falling back to check for a "
                         "`commonName` for now. This feature is being removed by major browsers and "
-                        "deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 "
+                        "deprecated by RFC 2818. (See https://github.com/urllib3/urllib3/issues/497 "
                         "for details.)".format(hostname)
                     ),
                     SubjectAltNameWarning,
@@ -430,7 +406,7 @@ def _match_hostname(cert, asserted_hostname):
         match_hostname(cert, asserted_hostname)
     except CertificateError as e:
         log.warning(
-            "Certificate did not match expected hostname: %s. " "Certificate: %s",
+            "Certificate did not match expected hostname: %s. Certificate: %s",
             asserted_hostname,
             cert,
         )
@@ -440,9 +416,8 @@ def _match_hostname(cert, asserted_hostname):
         raise
 
 
-if ssl:
-    # Make a copy for testing.
-    UnverifiedHTTPSConnection = HTTPSConnection
-    HTTPSConnection = VerifiedHTTPSConnection
-else:
-    HTTPSConnection = DummyConnection
+if not ssl:
+    HTTPSConnection = DummyConnection  # noqa: F811
+
+
+VerifiedHTTPSConnection = HTTPSConnection
