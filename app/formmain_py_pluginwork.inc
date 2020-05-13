@@ -51,7 +51,7 @@ end;
 
 procedure TfmMain.DoOps_LoadPluginFromInf(const fn_inf: string);
 var
-  ini: TIniFile;
+  ini: TMemIniFile;
   sections: TStringList;
   ini_section,
   dir_inf, s_section, s_caption, s_module, s_method, s_lexers,
@@ -62,7 +62,7 @@ var
   bSectionSidebar, bSectionBottombar: boolean;
   PanelId: TAppPanelId;
 begin
-  ini:= TIniFile.Create(fn_inf);
+  ini:= TMemIniFile.Create(fn_inf);
   sections:= TStringList.Create;
 
   try
