@@ -4,12 +4,21 @@ from cudatext import *
 from datetime import datetime
 from time import strftime, gmtime
 
-INI = 'cuda_insert_time.ini'
+DEF_CONFIG = '''#Documentation about formats: http://strftime.org/
+%d/%m/%Y %H:%M:%S
+%d.%m.%Y
+%Y.%m.%d
+%d. %B %Y
+%d %b %Y
+%A %d. %B.%Y
+%H:%M:%S
+rfc
+'''
 
-ini = os.path.join(app_path(APP_DIR_SETTINGS), INI)
-ini0 = os.path.join(os.path.dirname(__file__), INI)
-if not os.path.isfile(ini) and os.path.isfile(ini0):
-    shutil.copyfile(ini0, ini)
+ini = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_insert_time.ini')
+if not os.path.isfile(ini):
+    with open(ini, 'w') as f:
+        f.write(DEF_CONFIG)
 
 COMMENT_CHAR = '#'
 DEFAULT_CHAR = '@'
