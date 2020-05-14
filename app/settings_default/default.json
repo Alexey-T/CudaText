@@ -906,11 +906,11 @@
   "ui_title_path": false,
 
   //[Ui/History]
-  //Save last session on close, and restore it on start (all named+unnamed tabs).
-  //This also shows "Don't save/ Keep in session" button in the "Save tabs?" dialog.
+  //Save current "session" on program closing, and restore it on start.
+  //This also shows "Don't save / Keep in session" button in the "Save tabs?" dialog.
   "ui_reopen_session": true,
 
-  //On closing app, save current session without asking.
+  //On program closing, save current "session" without confirmation.
   //Requires option "ui_reopen_session": true.
   "ui_auto_save_session": false,
 
