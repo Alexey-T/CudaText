@@ -360,6 +360,7 @@ type
     OpTabSpaces: boolean;
     OpTabMaxPosExpanded: integer;
     OpMaxLineLenForAccurateCharWidths: integer;
+    OpMaxLineLenForBracketFinder: integer;
 
     OpOverwriteSel: boolean;
     OpOverwriteOnPaste: boolean;
@@ -1048,6 +1049,7 @@ begin
     OpTabSpaces:= false;
     OpTabMaxPosExpanded:= 500;
     OpMaxLineLenForAccurateCharWidths:= 500;
+    OpMaxLineLenForBracketFinder:= 1000;
 
     OpOverwriteSel:= true;
     OpOverwriteOnPaste:= false;

@@ -1330,7 +1330,7 @@ begin
   if not Ed.Strings.IsIndexValid(PosY) then exit;
 
   //don't work on huge lines
-  if Ed.Strings.LinesLen[PosY]>OptMaxLineLenForAccurateCharWidths then
+  if Ed.Strings.LinesLen[PosY]>EditorOps.OpMaxLineLenForBracketFinder then
     exit;
 
   EditorBracket_FindBoth(Ed,
