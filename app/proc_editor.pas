@@ -214,6 +214,7 @@ begin
 
   //global options
   OptMaxTabPositionToExpand:= Op.OpTabMaxPosExpanded;
+  OptMaxLineLenForAccurateCharWidths:= Op.OpMaxLineLenForAccurateCharWidths;
   OptHexChars:= OptHexCharsDefault + Op.OpHexChars;
 
   OptUnprintedEndArrowOrDot:= Pos('.', Op.OpUnprintedContent)=0;

@@ -5,6 +5,7 @@
 
 1.99.2 (2020/05)
 
++ add: option "max_line_len_for_accurate_width"
 + add: open URLs and e-mails (with and without "mailto:") by double-click
 + add: open URLs starting with "www." and "ftp."
 + add: switch ui tabs by Shift+wheel

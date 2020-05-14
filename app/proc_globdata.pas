@@ -359,6 +359,7 @@ type
     OpTabSize: integer;
     OpTabSpaces: boolean;
     OpTabMaxPosExpanded: integer;
+    OpMaxLineLenForAccurateCharWidths: integer;
 
     OpOverwriteSel: boolean;
     OpOverwriteOnPaste: boolean;
@@ -1046,6 +1047,7 @@ begin
     OpTabSize:= 4;
     OpTabSpaces:= false;
     OpTabMaxPosExpanded:= 500;
+    OpMaxLineLenForAccurateCharWidths:= 500;
 
     OpOverwriteSel:= true;
     OpOverwriteOnPaste:= false;

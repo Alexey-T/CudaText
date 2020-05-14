@@ -274,8 +274,13 @@
   //Tab key inserts spaces, instead of tab-char
   "tab_spaces": false,
 
-  //Max x-position, before which tab-chars expand to N spaces (after it to 1 space)
+  //Maximal X position, before which tab-characters visually expand to N spaces
+  //(after this X position, tab-chars expand to 1 space)
   "tab_max_pos_expanded": 500,
+
+  //Maximal line length, for which char-width calculations are slow+correct.
+  //This has effect for lines with CJK or another "wide" characters.
+  "max_line_len_for_accurate_width": 500,
 
   //[View/Gutter]
   //Gutter: If false, all gutter columns hide (bookmarks, folding, numbers, line states)
