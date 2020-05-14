@@ -4,15 +4,15 @@ CudaText is a cross-platform text editor, written in Lazarus.
 
 * Syntax highlight for lot of languages ([http://sourceforge.net/p/synwrite/wiki/Lexers%20list/ 230+ lexers exist])
 * Code folding
-* Code tree (tree of functions/classes/etc in the code, if lexer supports this)
+* Code tree (list of functions/classes/etc, if lexer supports this)
 * Multi-carets, multi-selections
-* Search/replace with reg.ex.
+* Search/replace with regular expressions
 * Supports many encodings
-* Simple auto-completion (fixed list) for some lexers
 * Extendable by Python add-ons
 * Command palette
 * Configs in JSON files
 * Interface and syntax themes
+* Built-in HTML and CSS auto-completion
 * Based on [[ATSynEdit]] engine
 
 Features for HTML/CSS coding:
