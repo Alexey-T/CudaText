@@ -9,6 +9,7 @@
 + add: open URLs starting with "www." and "ftp."
 + add: switch ui tabs by Shift+wheel
 + add: API to show button on sidebar's bottom without loading the plugin
++ add: Wiki topic: https://wiki.freepascal.org/CudaText#Sessions
 * change: ui tabs: mouse wheel scroll step is now 20% of width
 * change: toolbar button "Sort" was removed. It gave the same commands as "Plugins / Sort" but it had only 5 of all 20 commands.
 - fix: bug from 1.99.0, file can be loaded from session without lexer set
