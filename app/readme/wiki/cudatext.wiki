@@ -609,9 +609,17 @@ Option buttons have hotkeys too. Hover mouse over them to see floating tooltips 
 * "+" - Toggle multi-line mode: input boxes have double height and show several lines - Alt+M
 * "?!" - Show confirmation on each replace - Alt+Y
 
-"Extract" button is enabled only in RegEx mode and it does this: all found matches will be put to a list, list is sorted, duplicates are discarded, and list is written to a new document. This is what plugin "Extract Strings" does.
+Button "Find". It's visible if CudaText option "find_show_findfirst":true. It starts the search from document beginning, ignoring the caret position. While button "Find next" continues the search from caret position. 
 
-Second click on "Search" sidebar button shows Replace dialog instead of Find dialog.
+Button "Extract". It's visible if CudaText option "find_show_extract":true. It's enabled only with RegEx option, and it does the following: all found matches are put to a list, list is sorted, duplicates are discarded, and list is written to a new document. Plugin "Extract Strings" does the same task but using Python RegEx engine.
+
+Button "Select all". It's visible if CudaText option "find_show_select_all":true. It finds all matches in a document and places multi-seletions on them.
+
+Button "Mark all". It's visible if CudaText option "find_show_mark_all":true. It finds all matches in a document and places [[#Markers]] on them.
+
+Button "Replace global". It's visible if CudaText option "find_show_replace_global":true. It performs replacement in all opened documents in all editor groups. After additional confirmation. 
+
+Second click on the "Search" sidebar button toggles dialog between Find and Replace modes.
 
 ==Dialog "Go to"==
 
