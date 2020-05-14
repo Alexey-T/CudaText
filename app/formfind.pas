@@ -179,7 +179,7 @@ type
     FBinaryMode: boolean;
     procedure Localize;
     procedure DoOnChange;
-    procedure UpdateSize;
+    procedure UpdateFormHeight;
     procedure UpdateState;
     procedure UpdateFonts;
     procedure UpdateFocus(AFindMode: boolean);
@@ -751,7 +751,7 @@ end;
 
 procedure TfmFind.FormShow(Sender: TObject);
 begin
-  UpdateSize;
+  UpdateFormHeight;
   UpdateFonts;
   FixFormPositionToDesktop(Self);
   OnResize(Self);
@@ -859,7 +859,7 @@ begin
   UpdateState;
 end;
 
-procedure TfmFind.UpdateSize;
+procedure TfmFind.UpdateFormHeight;
   //
   function MaxY(C: TControl): integer;
   var
@@ -923,7 +923,7 @@ begin
   end;
 
   UpdateButtonBold;
-  UpdateSize;
+  UpdateFormHeight;
 end;
 
 procedure TfmFind.UpdateButtonBold;
