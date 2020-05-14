@@ -645,6 +645,53 @@ Comment chars are saved:
 * Line comments: in lexer file data/lexlib/nnn.lcf.
 * Range comments: in files data/lexlib/nnn.cuda-lexmap.
 
+==Sessions==
+
+"Session" is a set of opened documents, with properties of each document.
+CudaText sessions are stored in JSON files with .json and .cuda-session extensions.
+Default session file name is "history session.json" in the "settings" folder.
+CudaText shows name of current session in its window title like "filename.txt {session_name} - CudaText".
+
+Program has options:
+
+* "ui_reopen_session": Save last session on closing, and restore it on start.
+* "ui_auto_save_session": On program closing, save current session without asking.
+
+If some session is opened, program stores document states, on program closing, to session file.
+If no session is opened, program stores document states to "history files.json" in the "settings" folder.
+
+Session file contains data:
+
+* List of named documents (file names), and unnamed documents
+* For each document:
+** kind of document: text in editor, picture file, text in viewer (and viewer mode: text/binary/hex/unicode)
+** read-only state
+** caret position
+** encoding
+** word-wrap mode
+** lexer
+** bookmarks
+** index of top visible line
+** tab size and "tab as spaces" state
+** minimap and micromap visible state
+** ruler visible state
+** non-printable characters visible state
+** line numbers visible state
+** scale factor
+** list of folded ranges (if lexer supports folding)
+** color of ui-tab (if not default)
+** tab title (if not default)
+** modified state
+** code-tree filter string and history of last filters
+* For each modified document: date of modification, full document text
+* Layout/sizes of side panel and bottom panel
+* Layout/sizes of editor groups
+* Index of active editor group and active tab in each group
+
+Plugin "Session Manager" is present in Addon Manager, it gives commands to control sessions:
+open session file, save session, show list of recent sessions, etc.
+Session Manager also supports files from SynWrite, with .synw-session extension.
+
 == Char map ==
 
 Char-map dialog can be called in Edit menu. It has 2 modes:
