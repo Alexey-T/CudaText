@@ -9,10 +9,11 @@ CudaText is a cross-platform text editor, written in Lazarus.
 * Search/replace with reg.ex.
 * Supports many encodings
 * Simple auto-completion (fixed list) for some lexers
-* Extendable via Python plugins
-* Command palette (Sublime style)
+* Extendable by Python add-ons
+* Command palette
 * Configs in JSON files
-* Made on [[ATSynEdit]] engine
+* Interface and syntax themes
+* Based on [[ATSynEdit]] engine
 
 Features for HTML/CSS coding:
 
