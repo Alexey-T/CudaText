@@ -181,6 +181,22 @@ object SyntAnal14: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Symbol ;'
+      StyleName = 'Symbol single'
+      TokenType = 8
+      Expression = ';'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Symbol {}'
+      StyleName = 'Symbol single'
+      TokenType = 7
+      Expression = '[\{\}]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Symbol op'
       StyleName = 'Symbol operator'
       TokenType = 4
@@ -192,7 +208,7 @@ object SyntAnal14: TLibSyntAnalyzer
       DisplayName = 'Symbol single'
       StyleName = 'Symbol single'
       TokenType = 5
-      Expression = '[\{\}\(\)\[\],;\\]'
+      Expression = '[\(\)\[\],\\]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -534,17 +550,74 @@ object SyntAnal14: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = 'class'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 128
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 63
+        end
+        item
+          TagList.Strings = (
+            'class'
+            'interface'
+            'trait')
+          TokenTypes = 2
+        end>
+      BlockEnd = '}'
+      EndOfTextClose = True
+      NameFmt = '%s0 %s-1'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      CollapseFmt = '%sz0'
+      TreeItemImage = 0
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'func'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 128
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 127
+        end
+        item
+          TagList.Strings = (
+            'function')
+          TokenTypes = 2
+        end>
+      BlockEnd = '}'
+      EndOfTextClose = True
+      NameFmt = '%s0~[(]1'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      CollapseFmt = '%sz0'
+      TreeItemImage = 5
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = '{'
       ConditionList = <
         item
           TagList.Strings = (
             '{')
-          TokenTypes = 32
+          TokenTypes = 128
         end>
       BlockEnd = '}'
       DisplayInTree = False
       RefToCondEnd = True
       HighlightPos = cpAny
+      CancelNextRules = True
       DrawStaple = True
       CollapseFmt = '{ ... }'
       Pen.Color = clRed
@@ -560,105 +633,10 @@ object SyntAnal14: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '}')
-          TokenTypes = 32
+          TokenTypes = 128
         end>
-      BlockEnd = '{'
       HighlightPos = cpAny
       GroupIndex = 1
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'class'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            'class'
-            'trait')
-          TokenTypes = 2
-        end>
-      BlockEnd = 'class_end'
-      EndOfTextClose = True
-      NameFmt = '%s0 %s-1'
-      RefToCondEnd = True
-      HighlightPos = cpAny
-      SelfClose = True
-      TreeItemImage = 0
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'class_end'
-      BlockName = 'class'
-      StrictParent = True
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '}')
-          TokenTypes = 32
-        end>
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'func'
-      BlockName = 'class'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            'function')
-          TokenTypes = 2
-        end>
-      BlockEnd = 'func_end'
-      EndOfTextClose = True
-      NameFmt = '%s0~[(]1'
-      RefToCondEnd = True
-      HighlightPos = cpAny
-      CancelNextRules = True
-      SelfClose = True
-      TreeItemImage = 5
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'func_end'
-      BlockName = 'func'
-      StrictParent = True
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '}')
-          TokenTypes = 32
-        end>
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'func_without_class'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            'function')
-          TokenTypes = 2
-        end>
-      BlockEnd = 'func_without_class_end'
-      NameFmt = '%s0~[(]1'
-      RefToCondEnd = True
-      HighlightPos = cpAny
-      TreeItemImage = 5
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'func_without_class_end'
-      BlockName = 'func_without_class'
-      StrictParent = True
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '}')
-          TokenTypes = 32
-        end>
-      HighlightPos = cpAny
       IgnoreAsParent = False
     end
     item
@@ -696,10 +674,9 @@ object SyntAnal14: TLibSyntAnalyzer
     'include("math.php");'
     'include_once("math2.php");'
     ''
-    'function pp_out1(int $a){'
+    'function outer1(int $a){'
     '  $a = 10 + 10.10 + 0xAF + 0b1100;'
     '  $this->var = 100;'
-    '  $this->proc($var);'
     '  echo [ $a, $b, $aa ]'
     '  echo '#39'test'#39'."\\";'
     '  if (a){'
@@ -708,7 +685,7 @@ object SyntAnal14: TLibSyntAnalyzer
     '  };'
     '}'
     ''
-    'class f {'
+    'class c1 {'
     '  function a(){'
     '    $n = 10;'
     '    if (a) { a++; }'
@@ -718,7 +695,7 @@ object SyntAnal14: TLibSyntAnalyzer
     '  }'
     '}'
     ''
-    'class ff extends f {'
+    'class c2 extends f {'
     '  function a(){'
     '    i++;'
     '  }'
@@ -730,7 +707,7 @@ object SyntAnal14: TLibSyntAnalyzer
     '  }'
     '}'
     ''
-    'function pp_out2($a; $b){'
+    'function outer2($a, $b){'
     '  $i++;'
     '  if ($a){'
     '  }'
@@ -744,7 +721,9 @@ object SyntAnal14: TLibSyntAnalyzer
     'String'
     'Symbol op '
     'Symbol single'
-    'Var')
+    'Var'
+    'Symbol {}'
+    'Symbol ;')
   LexerName = 'PHP_'
   Notes.Strings = (
     'Created by 480499497 from forum.wincmd.ru (named PHP_dev)'
