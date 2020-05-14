@@ -608,7 +608,7 @@ Option buttons have hotkeys too. Hover mouse over them to see floating tooltips 
 * "[..]" - Search in selection only - Alt+X
 * "+" - Toggle multi-line mode for both dialog input fields (to add a newline in multi-line fields, press Ctrl+Enter) - Alt+M
 * "?!" - Show confirmation on each replace - Alt+Y
-* "*" - Choose allowed syntax elements: Any / Only comments / Only strings / Only comments+strings / etc.
+* "*" - Choose allowed syntax elements: Any / Only comments / Only strings / Only comments+strings / etc. This feature must be supported by lexer (and some lexers are limited, support only "comments" or only "strings" syntax elements). Syntax element is detected from left edge position of a found match.
 
 Button "Find". It's visible if CudaText option "find_show_findfirst":true. It starts the search from document beginning, ignoring the caret position. While button "Find next" continues the search from caret position. 
 
