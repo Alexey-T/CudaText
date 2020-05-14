@@ -870,12 +870,18 @@ procedure TfmFind.UpdateSize;
     P:= C.ClientToScreen(P);
     P:= Self.ScreenToClient(P);
     Result:= P.Y;
+    //Lazarus sometimes gets big negative p.x/p.y
+    if Result<0 then
+      Result:= 0;
   end;
   //
+const
+  cMinHeight = 30;
+  cHeightIncrease = 4;
 var
   N: integer;
 begin
-  N:= IfThen(IsReplace, MaxY(edRep), MaxY(edFind)) + 4;
+  N:= Max(cMinHeight, IfThen(IsReplace, MaxY(edRep), MaxY(edFind)) + cHeightIncrease);
   Constraints.MinHeight:= N;
   Constraints.MaxHeight:= N;
   Height:= N;
