@@ -141,7 +141,7 @@
   "ui_reload_unsaved_confirm": true,
 
   //[Lexers]
-  //Group lexers menu by 1st char of name
+  //Group lexers menu by first char of name
   "ui_lexers_grouped": true,
 
   //[Text]
@@ -860,16 +860,16 @@
   //States: no-selection, small-selection (one line), stream-selection (several lines),
   //  column-selection, multi-carets.
   //Macros:
-  //  {y}: line of top caret
-  //  {y2}: line of bottom caret
-  //  {yb}: line of 1st selection begin
-  //  {ye}: line of 1st selection end
-  //  {x}: column of top caret, tab-chars counted as 1
-  //  {xx}: column of top caret, tab-chars expanded
-  //  {count}: number of lines
-  //  {carets}: number of carets
+  //  {y}: line index of first caret
+  //  {y2}: line index of last caret
+  //  {yb}: line index of first selection beginning
+  //  {ye}: line index of first selection ending
+  //  {x}: column index of first caret, tab-chars counted as 1
+  //  {xx}: column index of last caret, tab-chars expanded
+  //  {count}: total number of lines
+  //  {carets}: total number of carets
   //  {sel}: number of lines affected by selection(s)
-  //  {cols}: number of columns in column-selection
+  //  {cols}: number of columns in column selection
   //  {char}: character at first caret (empty if no char)
   //  {char_dec}: character at first caret - decimal code (empty if no char)
   //  {char_hex}: character at first caret - 2..4-digit hex code (empty if no char)
