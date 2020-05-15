@@ -272,20 +272,20 @@ const
   msgConfirmReplaceGlobal: string = 'This will perform mass replace in all opened documents. This will also reset all selections. Continue?';
 
   msgAboutCredits =
-      'Lazarus IDE'+EOL+
+      'Lazarus IDE:'+EOL+
       '  http://www.lazarus-ide.org'+EOL+
       ''+EOL+
-      'ATSynEdit, ATTabs, ATFlatControls, Python wrapper'+EOL+
+      'ATSynEdit, ATTabs, ATFlatControls, Python wrapper:'+EOL+
       '  Alexey Torgashin'+EOL+
       '  https://github.com/Alexey-T/'+EOL+
       ''+EOL+
-      'EControl syntax parser'+EOL+
+      'EControl syntax parser:'+EOL+
       '  Delphi version by Michael Zakharov'+EOL+
       '  http://www.econtrol.ru'+EOL+
       '  Lazarus port by Alexey Torgashin'+EOL+
       '  https://github.com/Alexey-T/'+EOL+
       ''+EOL+
-      'Helper Python code:'+EOL+
+      'Helper Python code, QA:'+EOL+
       '  Andrey Kvichanskiy'+EOL+
       '  https://github.com/kvichans/'+EOL+
       ''+EOL+
