@@ -15,6 +15,7 @@
 + add: optimizations for "dynamic highlightings" code
 * change: ui tabs: mouse wheel scroll step is now 20% of width
 * change: toolbar button "Sort" was removed. It gave the same commands as "Plugins / Sort" but it had only 5 of all 20 commands.
+- fix: regex search bug with regex like "[.-]test"
 - fix: lexer PHP: several fixes for code-tree and folding
 - fix: incorrect caret pos in huge lines (len>500) with CJK chars
 - fix: bug from 1.99.0, file can be loaded from session without lexer set
