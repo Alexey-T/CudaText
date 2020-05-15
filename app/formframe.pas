@@ -1443,8 +1443,19 @@ begin
 end;
 
 procedure TEditorFrame.EditorOnClickLink(Sender: TObject; const ALink: string);
+var
+  Params: TAppVariantArray;
+  Res: TAppPyEventResult;
+  bHandled: boolean;
 begin
-  EditorOpenLink(ALink);
+  SetLength(Params, 2);
+  Params[0]:= AppVariant(ConvertShiftStateToString(KeyboardStateToShiftState));
+  Params[1]:= AppVariant(ALink);
+
+  Res:= DoPyEvent(Sender as TATSynEdit, cEventOnClickLink, Params);
+  bHandled:= Res.Val=evrFalse;
+  if not bHandled then
+    EditorOpenLink(ALink);
 end;
 
 procedure TEditorFrame.EditorOnClickMicroMap(Sender: TObject; AX, AY: integer);
