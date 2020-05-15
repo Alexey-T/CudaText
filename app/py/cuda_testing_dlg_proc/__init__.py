@@ -841,27 +841,37 @@ int main(int argc, char *argv[])
 
         n = dlg_proc(id, DLG_CTL_ADD, 'pages')
         dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
-            'name': 'my',
+            'name': 'mypages',
             'x': 10,
             'y': 10,
             'w': 380,
             'h': 140,
-            'items': 'page-A\tpage-B\tpage-C',
+            'items': '\t'.join(['page-A', 'page-B', 'page-C']),
             'on_change': self.callback_pages_on_change,
             'act': True,
             })
 
         n = dlg_proc(id, DLG_CTL_ADD, 'tabs')
         dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
-            'name': 'mytbs',
+            'name': 'mytabs',
             'x': 10,
             'y': 160,
             'w': 380,
             'h': 50,
-            'items': 'tab-A\ttab-B',
+            'items': '\t'.join(['tab-1', 'tab-2', 'tab-3']),
             'on_change': self.callback_tabs_on_change,
             'act': True,
             })
+
+        n = dlg_proc(id, DLG_CTL_ADD, 'label')
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'tab_label',
+            'x': 10,
+            'y': 220,
+            'w': 300,
+            'cap': '(tabs not clicked)',
+            })
+
         n = dlg_proc(id, DLG_CTL_ADD, 'check')
         dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'check0',
@@ -869,7 +879,7 @@ int main(int argc, char *argv[])
             'y': 10,
             'w': 300,
             'cap': 'check-A',
-            'p':'my.0'
+            'p':'mypages.0'
             })
 
         n = dlg_proc(id, DLG_CTL_ADD, 'button')
@@ -879,7 +889,7 @@ int main(int argc, char *argv[])
             'y': 40,
             'w': 150,
             'cap': 'toggle check-A',
-            'p':'my.0',
+            'p':'mypages.0',
             'on_change': self.callback_pages_button_a,
             })
 
@@ -890,7 +900,7 @@ int main(int argc, char *argv[])
             'y': 20,
             'w': 300,
             'cap': 'check-B',
-            'p': 'my.1'
+            'p': 'mypages.1'
             })
 
         n = dlg_proc(id, DLG_CTL_ADD, 'label')
@@ -900,7 +910,7 @@ int main(int argc, char *argv[])
             'y': 50,
             'w': 300,
             'cap': 'label-B',
-            'p': 'my.1'
+            'p': 'mypages.1'
             })
         n = dlg_proc(id, DLG_CTL_ADD, 'label')
         dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
@@ -909,7 +919,7 @@ int main(int argc, char *argv[])
             'y': 50,
             'w': 300,
             'cap': 'label-C',
-            'p': 'my.2'
+            'p': 'mypages.2'
             })
 
         dlg_proc(id, DLG_SHOW_MODAL)
@@ -1088,8 +1098,14 @@ int main(int argc, char *argv[])
 
     def callback_pages_on_change(self, id_dlg, id_ctl, data='', info=''):
         print('pages on_change')
+
     def callback_tabs_on_change(self, id_dlg, id_ctl, data='', info=''):
         print('tabs on_change')
+        prop = dlg_proc(id_dlg, DLG_CTL_PROP_GET, name='mytabs')
+        n = int(prop['val'])
+        dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='tab_label', prop={
+            'cap': '(clicked tab-'+str(n+1)+')',
+            })
 
     def test_sidepanel(self):
         print('test_sidepanel')
