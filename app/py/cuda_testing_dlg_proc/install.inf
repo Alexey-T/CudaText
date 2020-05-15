@@ -22,7 +22,7 @@ method=run_dlgcustom
 
 [item22]
 section=commands
-caption=Testing of dialog API\test type=pages
+caption=Testing of dialog API\test type=pages, tabs
 method=test_pages
 
 [item23]

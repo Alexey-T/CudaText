@@ -983,7 +983,7 @@ int main(int argc, char *argv[])
         count = toolbar_proc(tb_id, TOOLBAR_GET_COUNT)
         btn_id = toolbar_proc(tb_id, TOOLBAR_GET_BUTTON_HANDLE, index=count-1)
         button_proc(btn_id, BTN_SET_KIND, BTNKIND_TEXT_CHOICE)
-        button_proc(btn_id, BTN_SET_TEXT, '?')
+        button_proc(btn_id, BTN_SET_TEXT, '???')
         button_proc(btn_id, BTN_SET_ARROW, True)
         button_proc(btn_id, BTN_SET_ITEMS, '\n'.join(['choice-aa', 'choice-bbbb', 'choice-cccc', 'choice-ddd']))
         button_proc(btn_id, BTN_SET_ITEMINDEX, 3)
@@ -991,7 +991,7 @@ int main(int argc, char *argv[])
         button_proc(btn_id, BTN_SET_DATA1, lambda: print('choice in menu'))
 
         toolbar_proc(tb_id, TOOLBAR_UPDATE)
-
+        
         #----------
         n = dlg_proc(id, DLG_CTL_ADD, 'statusbar')
         dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={

@@ -5829,7 +5829,8 @@ begin
 
         BTN_SET_WIDTH:
           begin
-            Btn.Width:= StrToIntDef(StrValue, Btn.Width);
+            Btn.WidthInitial:= StrToIntDef(StrValue, Btn.WidthInitial);
+            Btn.Width:= Btn.WidthInitial;
             Result:= ReturnNone;
           end;
 
