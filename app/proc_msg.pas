@@ -289,7 +289,11 @@ const
       '  Andrey Kvichanskiy'+EOL+
       '  https://github.com/kvichans/'+EOL+
       ''+EOL+
-      'Patches, Windows shell extension:'+EOL+
+      'Optimizations of Python wrapper, plugins:'+EOL+
+      '  Artem Gavrilov'+EOL+
+      '  https://github.com/Artem3213212'+EOL+
+      ''+EOL+
+      'Patches, Windows shell extension, plugins:'+EOL+
       '  Andreas Heim'+EOL+
       '  https://github.com/dinkumoil/'+EOL+
       ''+EOL+
