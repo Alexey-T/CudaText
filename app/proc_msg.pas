@@ -297,15 +297,19 @@ const
       ''+EOL+
       'Main icon:'+EOL+
       '  FTurtle'+EOL+
+      ''+EOL+
       'Theme for LibreOffice:'+EOL+
       '  https://github.com/libodesign/icons'+EOL+
       '  License: Creative Commons BY-SA 3.0, http://creativecommons.org/licenses/by-sa/3.0/'+EOL+
+      ''+EOL+
       'Octicons:'+EOL+
       '  https://octicons.github.com/'+EOL+
       '  License: MIT License'+EOL+
+      ''+EOL+
       'Visual Studio Code icons:'+EOL+
       '  https://github.com/vscode-icons/vscode-icons'+EOL+
       '  License: MIT License'+EOL+
+      ''+EOL+
       'Hourglass/floppy icons:'+EOL+
       '  https://www.iconfinder.com/snipicons'+EOL+
       '  License: Creative Commons BY-NC 3.0 Unported, http://creativecommons.org/licenses/by-nc/3.0/'+EOL+
