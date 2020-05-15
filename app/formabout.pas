@@ -48,6 +48,7 @@ type
   private
     { private declarations }
     procedure Localize;
+    procedure EditorOnClickLink(Sender: TObject; const ALink: string);
   public
     { public declarations }
     FLabelLink: TATLabelLink;
@@ -85,6 +86,11 @@ begin
   end;
 end;
 
+procedure TfmAbout.EditorOnClickLink(Sender: TObject; const ALink: string);
+begin
+  EditorOpenLink(ALink);
+end;
+
 procedure TfmAbout.bOkClick(Sender: TObject);
 begin
   ModalResult:= mrCancel;
@@ -98,6 +104,8 @@ begin
   memo.Font.Name:= EditorOps.OpFontName;
   memo.Font.Size:= EditorOps.OpFontSize;
   memo.PopupText:= PopupText;
+  memo.OnClickLink:= @EditorOnClickLink;
+  memo.OptMouseClickOpensURL:= true;
 
   FLabelLink:= TATLabelLink.Create(Self);
   FLabelLink.Parent:= Self;
