@@ -58,7 +58,7 @@ Method return value is ignored is many cases, but sometimes return value True or
 * on_click_dbl(self, ed_self, state): Called after mouse double-click on text area. Param "state": same meaning as in on_key. Method can return False to disable default processing.
 * on_click_gutter(self, ed_self, state, nline, nband): Called on mouse click on gutter area. Param "state": same as in on_key. Param "nline": index of editor line. Param "nband": index of gutter band. Method can return False to disable default processing.
 * on_click_gap(self, ed_self, state, nline, ntag, size_x, size_y, pos_x, pos_y): Called after mouse click on inter-line gap: see Editor.gap(). Param "state": same meaning as in on_key. Other params: properties of clicked gap.
-* on_click_link(self, state, link): Called after link (URL) in the editor is activated (by any method: double-click, using item in context menu, using Command Palette etc). Param "state": same meaning as in on_key. Param "link": link string.
+* on_click_link(self, state, link): Called after link (URL) in the editor is activated (by any method: double-click, using item in context menu, using Command Palette etc). Param "state": same meaning as in on_key. Param "link": link string. Method can return False to disable default program action.
 
 ==Smart commands==
 
