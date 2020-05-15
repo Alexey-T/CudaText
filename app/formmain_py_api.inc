@@ -5829,6 +5829,8 @@ begin
 
         BTN_SET_WIDTH:
           begin
+            //must set Btn.WidthInitial because it's used in ATFlatToolbar.Update
+            //for Btn.Kind=TextChoice
             Btn.WidthInitial:= StrToIntDef(StrValue, Btn.WidthInitial);
             Btn.Width:= Btn.WidthInitial;
             Result:= ReturnNone;
