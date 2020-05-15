@@ -285,7 +285,7 @@ const
       '  Lazarus port by Alexey Torgashin'+EOL+
       '  https://github.com/Alexey-T/'+EOL+
       ''+EOL+
-      'Helper Python code, QA:'+EOL+
+      'Python plugins, QA:'+EOL+
       '  Andrey Kvichanskiy'+EOL+
       '  https://github.com/kvichans/'+EOL+
       ''+EOL+
