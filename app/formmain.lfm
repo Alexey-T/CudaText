@@ -1,12 +1,12 @@
 object fmMain: TfmMain
-  Left = 339
-  Height = 504
-  Top = 211
-  Width = 872
+  Left = 35
+  Height = 819
+  Top = 107
+  Width = 1236
   AllowDropFiles = True
   Caption = 'CudaText'
-  ClientHeight = 481
-  ClientWidth = 872
+  ClientHeight = 796
+  ClientWidth = 1236
   Constraints.MinHeight = 200
   Constraints.MinWidth = 300
   DefaultMonitor = dmDesktop
@@ -24,7 +24,7 @@ object fmMain: TfmMain
   Visible = True
   object PanelSide: TATPanelSimple
     Left = 0
-    Height = 481
+    Height = 796
     Top = 0
     Width = 75
     Align = alLeft
@@ -35,7 +35,7 @@ object fmMain: TfmMain
       AnchorSideBottom.Side = asrBottom
       Left = 0
       Height = 30
-      Top = 451
+      Top = 766
       Width = 75
       Anchors = [akLeft, akBottom]
       AutoSize = True
@@ -49,7 +49,7 @@ object fmMain: TfmMain
       AnchorSideTop.Control = PanelSide
       AnchorSideBottom.Control = ToolbarSideMid
       Left = 0
-      Height = 421
+      Height = 736
       Top = 0
       Width = 75
       Anchors = [akTop, akLeft, akBottom]
@@ -68,7 +68,7 @@ object fmMain: TfmMain
       AnchorSideBottom.Control = ToolbarSideLow
       Left = 0
       Height = 30
-      Top = 421
+      Top = 736
       Width = 75
       Anchors = [akLeft, akBottom]
       AutoSize = True
@@ -80,15 +80,15 @@ object fmMain: TfmMain
   end
   object PanelAll: TATPanelSimple
     Left = 75
-    Height = 481
+    Height = 796
     Top = 0
-    Width = 797
+    Width = 1161
     Align = alClient
     object ToolbarMain: TATFlatToolbar
       Left = 0
       Height = 24
       Top = 0
-      Width = 797
+      Width = 1161
       Align = alTop
       AutoSize = True
       Color = clSilver
@@ -98,9 +98,9 @@ object fmMain: TfmMain
     end
     object PanelMain: TATPanelSimple
       Left = 0
-      Height = 457
+      Height = 772
       Top = 24
-      Width = 797
+      Width = 1161
       Align = alClient
       object StatusProgress: TATGauge
         Left = 752
@@ -123,9 +123,9 @@ object fmMain: TfmMain
       end
       object PanelEditors: TATPanelSimple
         Left = 0
-        Height = 457
+        Height = 772
         Top = 0
-        Width = 797
+        Width = 1161
         Align = alClient
       end
     end
