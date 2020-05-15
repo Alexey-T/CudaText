@@ -289,7 +289,11 @@ const
       '  Andrey Kvichanskiy'+EOL+
       '  https://github.com/kvichans/'+EOL+
       ''+EOL+
-      'Icons:'+EOL+
+      'Patches, Windows shell extension:'+EOL+
+      '  Andreas Heim'+EOL+
+      '  https://github.com/dinkumoil/'+EOL+
+      ''+EOL+
+      '------------------------------'+EOL+
       ''+EOL+
       'Main icon:'+EOL+
       '  FTurtle'+EOL+
