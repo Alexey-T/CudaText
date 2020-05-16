@@ -79,8 +79,13 @@ def dlg_make_plugin():
         if not s_module or not s_caption:
             msg_box('Empty field', MB_OK+MB_ICONERROR)
             continue
-        if not is_correct_id(s_module):
-            msg_box('Incorrect module name: "%s"' % s_module, MB_OK+MB_ICONERROR)
+
+        if s_module.startswith('cuda_'):
+            s_module = s_module[5:]
+        s_module_ok = 'cuda_'+s_module
+
+        if not s_module_ok.isidentifier():
+            msg_box('Incorrect module name: "%s"' % s_module_ok, MB_OK+MB_ICONERROR)
             continue
 
         bad = False
@@ -112,7 +117,4 @@ def dlg_make_plugin():
             if nomenu:
                 i[1] = i[1][:-1]
 
-        if s_module.startswith('cuda_'):
-            s_module = s_module[5:]
-
-        return (s_caption, 'cuda_'+s_module, cmd_list, event_list, with_config)
+        return (s_caption, s_module_ok, cmd_list, event_list, with_config)
