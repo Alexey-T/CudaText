@@ -8,7 +8,6 @@ CudaText is a cross-platform text editor, written in Lazarus.
 * Multi-carets, multi-selections
 * Search/replace with regular expressions
 * Support for many encodings
-* Built-in HTML and CSS auto-completion
 * Extendable by Python add-ons
 * Command palette
 * Configs in JSON files
@@ -17,11 +16,11 @@ CudaText is a cross-platform text editor, written in Lazarus.
 
 Features for HTML/CSS coding:
 
-* Smart auto-completion for HTML, CSS.
-* HTML tags completion with Tab-key.
-* HTML color codes underline.
-* HTML tooltips on mouse-over.
-* Viewer for pictures (jpeg, png, gif, bmp, ico).
+* Built-in HTML and CSS auto-completion
+* HTML tags completion with Tab-key
+* HTML color codes underlining
+* HTML tooltips on mouse-over
+* Viewer for picture files (jpeg, png, gif, bmp, ico)
 
 Screenshot on Windows:
 
