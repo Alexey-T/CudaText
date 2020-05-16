@@ -183,9 +183,8 @@ class Command:
             'a_b':('',']'),
             'on_menu': 'cuda_project_man.tree_on_menu',
             'on_unfold': 'cuda_project_man.tree_on_unfold',
-            'on_click': 'cuda_project_man.tree_on_click',
+            'on_change': 'cuda_project_man.tree_on_click',
             'on_click_dbl': 'cuda_project_man.tree_on_click_dbl',
-            #'on_click_dbl': 'cuda_project_man.tree_on_click_dbl',
             } )
 
         self.tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
