@@ -1668,10 +1668,15 @@ var
 begin
   if Assigned(FBin) then
   begin
-    FBin.OpenStream(nil, False);
-    FreeAndNil(FBinStream);
+    FBin.OpenStream(nil, False); //ARedraw=False to not paint on Win desktop with DC=0
     FreeAndNil(FBin);
   end;
+
+  if Assigned(FBinStream) then
+    FreeAndNil(FBinStream);
+
+  if Assigned(FImageBox) then
+    FreeAndNil(FImageBox);
 
   Ed1.AdapterForHilite:= nil;
   Ed2.AdapterForHilite:= nil;
@@ -1899,13 +1904,12 @@ begin
   Splitter.Hide;
   ReadOnly[Ed1]:= true;
 
-  if Assigned(FBin) then
-    FBin.OpenStream(nil);
-  if Assigned(FBinStream) then
-    FreeAndNil(FBinStream);
-  FBinStream:= TFileStream.Create(AFileName, fmOpenRead or fmShareDenyWrite);
+  if Assigned(FImageBox) then
+    FImageBox.Hide;
 
-  if not Assigned(FBin) then
+  if Assigned(FBin) then
+    FBin.OpenStream(nil)
+  else
   begin
     FBin:= TATBinHex.Create(Self);
     FBin.OnKeyDown:= @BinaryOnKeyDown;
@@ -1923,12 +1927,16 @@ begin
     FBin.TextPopupCaption[vpCmdSelectAll]:= cStrMenuitemSelectAll;
   end;
 
+  if Assigned(FBinStream) then
+    FreeAndNil(FBinStream);
+  FBinStream:= TFileStream.Create(AFileName, fmOpenRead or fmShareDenyWrite);
+
   ViewerApplyTheme(FBin);
   FBin.Show;
   FBin.Mode:= AMode;
   FBin.OpenStream(FBinStream);
 
-  if Visible and FBin.Visible then
+  if Visible and FBin.Visible and FBin.CanFocus then
     FBin.SetFocus;
 
   DoOnChangeCaption;
