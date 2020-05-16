@@ -292,7 +292,7 @@ class Command:
             if item_caption == "Recent projects":
                 for path in self.options["recent_projects"]:
                     if os.sep in path:
-                        action = str.format("module=cuda_project_man;cmd=action_open_project;info=r'{}';", path)
+                        action = str.format("module=cuda_project_man;cmd=action_open_project;info={};", path)
                         self.add_context_menu_node(menu_added, action, nice_filename(path))
 
     @staticmethod
@@ -521,7 +521,7 @@ class Command:
 
                 msg_status("Project opened: " + path)
             else:
-                msg_status("Recent item not found")
+                msg_status("Recent item not found: " + path)
 
     def action_add_folder(self):
         self.add_node(lambda: dlg_dir(""))
