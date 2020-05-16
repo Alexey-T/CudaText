@@ -3823,7 +3823,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.327 (app 1.99.5)
 * add: event "on_click_link"
-* add: install.inf supports sections "bottombar*" to show button on sidebar near Console/Output, without loading plugin
+* add: install.inf supports sections "bottombar*" to show button on sidebar near Console/Output, without loading the plugin
 * change: install.inf supports sections "item*", earlier allowed sections were limited by regex "item\d+"
 * change: install.inf supports sections "sidebar*", earlier allowed sections were limited by regex "sidebar\d+"
 * change: install.inf supports sections "treehelper*", earlier allowed sections were limited by regex "treehelper\d+"
