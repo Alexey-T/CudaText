@@ -1924,6 +1924,7 @@ begin
   end;
 
   ViewerApplyTheme(FBin);
+  FBin.Show;
   FBin.Mode:= AMode;
   FBin.OpenStream(FBinStream);
 
@@ -1944,15 +1945,19 @@ begin
   Splitter.Hide;
   ReadOnly[Ed1]:= true;
 
-  FImageBox:= TATImageBox.Create(Self);
-  FImageBox.Parent:= Self;
-  FImageBox.Align:= alClient;
-  FImageBox.BorderStyle:= bsNone;
-  FImageBox.OptFitToWindow:= true;
-  FImageBox.OnScroll:= @DoImageboxScroll;
-  FImageBox.OnKeyDown:= @BinaryOnKeyDown;
+  if not Assigned(FImageBox) then
+  begin
+    FImageBox:= TATImageBox.Create(Self);
+    FImageBox.Parent:= Self;
+    FImageBox.Align:= alClient;
+    FImageBox.BorderStyle:= bsNone;
+    FImageBox.OptFitToWindow:= true;
+    FImageBox.OnScroll:= @DoImageboxScroll;
+    FImageBox.OnKeyDown:= @BinaryOnKeyDown;
+  end;
 
   try
+    FImageBox.Show;
     FImageBox.LoadFromFile(AFileName);
   except
   end;
@@ -1991,6 +1996,11 @@ procedure TEditorFrame.DoFileOpen(const AFileName, AFileName2: string;
   AAllowLoadHistory, AAllowLexerDetect, AAllowErrorMsgBox: boolean;
   AOpenMode: TAppOpenMode);
 begin
+  if Assigned(FBin) then
+    FBin.Hide;
+  if Assigned(FImageBox) then
+    FImageBox.Hide;
+
   if not FileExistsUTF8(AFileName) then exit;
   if (AFileName2<>'') then
     if not FileExistsUTF8(AFileName2) then exit;
@@ -3334,22 +3344,26 @@ begin
   DoOnChangeCaption;
   DoShow;
 
-  if Assigned(FBin) then
-    if FBin.Visible and FBin.CanFocus then
-    begin
-      EditorFocus(FBin);
-      exit;
-    end;
-
-  if Assigned(FImageBox) then
-    if FImageBox.Visible and FImageBox.CanFocus then
-    begin
-      FImageBox.SetFocus;
-      exit;
-    end;
-
   if Visible and Enabled then
-    EditorFocus(Editor);
+  begin
+    if IsText then
+    begin
+      if Editor.Visible and Editor.Enabled then
+        EditorFocus(Editor);
+    end
+    else
+    if IsBinary then
+    begin
+      if Assigned(FBin) and FBin.Visible and FBin.CanFocus then
+        EditorFocus(FBin);
+    end
+    else
+    if IsPicture then
+    begin
+      if Assigned(FImageBox) and FImageBox.Visible and FImageBox.CanFocus then
+        FImageBox.SetFocus;
+    end;
+  end;
 end;
 
 type
