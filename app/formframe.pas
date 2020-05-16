@@ -1939,7 +1939,7 @@ begin
   if Visible and FBin.Visible and FBin.CanFocus then
     FBin.SetFocus;
 
-  DoOnChangeCaption;
+  //DoOnChangeCaption; //needed?
 end;
 
 
@@ -1970,7 +1970,7 @@ begin
   except
   end;
 
-  DoOnChangeCaption;
+  //DoOnChangeCaption; //needed?
 end;
 
 procedure TEditorFrame.DoImageboxScroll(Sender: TObject);
