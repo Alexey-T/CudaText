@@ -333,7 +333,7 @@ begin
   Ed.OptKeyLeftRightSwapSelAndSelect:= Op.OpKeyLeftRightSwapSelAndSelect;
 end;
 
-function EditorGetSelLines(ed: TATSynEdit): integer;
+function EditorGetSelLinesCount(ed: TATSynEdit): integer;
 var
   n1, n2, i: integer;
 begin
@@ -395,7 +395,7 @@ begin
   result:= StringReplace(result, '{_carets}', msgStatusbarTextCarets, []);
 
   if pos('{sel}', result)>0 then
-    result:= StringReplace(result, '{sel}', inttostr(EditorGetSelLines(ed)), []);
+    result:= StringReplace(result, '{sel}', inttostr(EditorGetSelLinesCount(ed)), []);
 
   if pos('{xx}', result)>0 then
     if ed.Strings.IsIndexValid(caret.PosY) then
