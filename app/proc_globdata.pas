@@ -488,6 +488,7 @@ type
     OpMouseWheelSpeedVert: integer;
     OpMouseWheelSpeedHorz: integer;
     OpMouseClickNumberSelectsEol: boolean;
+    OpMouseClickLinks: integer;
 
     //keys
     OpKeyBackspaceUnindent: boolean;
@@ -1173,6 +1174,7 @@ begin
     OpMouseWheelSpeedVert:= 3;
     OpMouseWheelSpeedHorz:= 10;
     OpMouseClickNumberSelectsEol:= true;
+    OpMouseClickLinks:= 2;
 
     OpKeyBackspaceUnindent:= true;
     OpKeyBackspaceWrap:= true;

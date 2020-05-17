@@ -314,6 +314,9 @@ begin
   Ed.OptMouseWheelScrollHorzSpeed:= Op.OpMouseWheelSpeedHorz;
   Ed.OptMouseClickNumberSelectsLineWithEOL:= Op.OpMouseClickNumberSelectsEol;
 
+  Ed.OptMouseClickOpensURL:= Op.OpMouseClickLinks=1;
+  Ed.OptMouse2ClickOpensURL:= Op.OpMouseClickLinks=2;
+
   Ed.OptKeyBackspaceUnindent:= Op.OpKeyBackspaceUnindent;
   Ed.OptKeyBackspaceGoesToPrevLine:= Op.OpKeyBackspaceWrap;
   Ed.OptKeyTabIndents:= Op.OpKeyTabIndents;

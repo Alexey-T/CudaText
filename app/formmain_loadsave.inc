@@ -951,6 +951,7 @@ begin
   Op.OpMouseWheelSpeedVert:= cfg.GetValue('mouse_wheel_speed_vert', Op.OpMouseWheelSpeedVert);
   Op.OpMouseWheelSpeedHorz:= cfg.GetValue('mouse_wheel_speed_horz', Op.OpMouseWheelSpeedHorz);
   Op.OpMouseClickNumberSelectsEol:= cfg.GetValue('mouse_click_number_selects_eol', Op.OpMouseClickNumberSelectsEol);
+  Op.OpMouseClickLinks:= cfg.GetValue('mouse_click_links', Op.OpMouseClickLinks);
   cSpeedScrollAutoVert:= cfg.GetValue('mouse_scroll_speed_vert', cSpeedScrollAutoVert);
 
   Op.OpKeyBackspaceUnindent:= cfg.GetValue('key_bksp_unindent', Op.OpKeyBackspaceUnindent);

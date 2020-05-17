@@ -807,6 +807,13 @@
   //(so caret is placed on the next line)
   "mouse_click_number_selects_eol": true,
 
+  //How to activate web links (URLs and emails) by mouse
+  //(links are specified by option "links_regex")
+  //  0: don't activate
+  //  1: activate by single click
+  //  2: activate by double click
+  "mouse_click_links": 2,
+
   //[Keys]
   //Key BackSpace: do Unindent command, if caret is inside indented area
   "key_bksp_unindent": true,
