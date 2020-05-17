@@ -5,6 +5,7 @@
 
 1.99.6 (2020/05)
 
++ add: options "statusbar_nnnn" support new macro {selchars} - total number of selected characters
 + add: option "mouse_click_links"
 + add: option "max_line_len_for_accurate_width"
 + add: open URLs and e-mails (with and without "mailto:") by double-click

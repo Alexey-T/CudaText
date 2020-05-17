@@ -353,6 +353,32 @@ begin
   end;
 end;
 
+function EditorGetSelCharsCount(ed: TATSynEdit): integer;
+var
+  Caret: TATCaretItem;
+  x1, x2, y1, y2, i: integer;
+  bSel: boolean;
+begin
+  result:= 0;
+
+  if not ed.IsSelRectEmpty then
+  begin
+    x1:= ed.SelRect.Left;
+    x2:= ed.SelRect.Right;
+    for i:= ed.SelRect.Top to ed.SelRect.Bottom do
+      Inc(result, ed.Strings.TextSubstringLength(x1, i, x2, i));
+    exit;
+  end;
+
+  for i:= 0 to ed.Carets.Count-1 do
+  begin
+    Caret:= ed.Carets[i];
+    Caret.GetRange(x1, y1, x2, y2, bSel);
+    if bSel then
+      Inc(result, ed.Strings.TextSubstringLength(x1, y1, x2, y2));
+  end;
+end;
+
 function EditorFormatStatus(ed: TATSynEdit; const str: string): string;
 var
   caret: TATCaretItem;
@@ -396,6 +422,9 @@ begin
 
   if pos('{sel}', result)>0 then
     result:= StringReplace(result, '{sel}', inttostr(EditorGetSelLinesCount(ed)), []);
+
+  if pos('{selchars}', result)>0 then
+    result:= StringReplace(result, '{selchars}', inttostr(EditorGetSelCharsCount(ed)), []);
 
   if pos('{xx}', result)>0 then
     if ed.Strings.IsIndexValid(caret.PosY) then
