@@ -878,10 +878,11 @@
   //  {count}: total number of lines
   //  {carets}: total number of carets
   //  {sel}: number of lines affected by selection(s)
+  //  {selchars}: number of selected characters, for all kinds of selections
   //  {cols}: number of columns in column selection
   //  {char}: character at first caret (empty if no char)
   //  {char_dec}: character at first caret - decimal code (empty if no char)
-  //  {char_hex}: character at first caret - 2..4-digit hex code (empty if no char)
+  //  {char_hex}: character at first caret - 2...4-digit hex code (empty if no char)
   //  {char_hex4}: character at first caret - 4-digit hex code (empty if no char)
   //  {_ln}: localized string "Ln"
   //  {_col}: localized string "Col"
