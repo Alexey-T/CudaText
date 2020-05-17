@@ -1703,6 +1703,7 @@ OS names are:
 * netbsd
 * dragonfly
 * solaris
+* haiku
 
 CPU families are:
 * i386
