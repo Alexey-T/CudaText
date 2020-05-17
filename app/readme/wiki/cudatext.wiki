@@ -1688,7 +1688,7 @@ To make such zip file, pack into zip also "install.inf" with meta-info.
 * "api" field, optional, minimal required API version (3 numbers dot-separated)
 * "os" field, optional, comma-separated list of supported platforms, described below
 
-==Install.inf supported "os" values==
+===Install.inf supported "os" values===
 
 Value of "os" field is comma-separated list of platforms (no spaces around commas).
 Each platform is supported OS name, with optional trailing "-" and CPU family name.
