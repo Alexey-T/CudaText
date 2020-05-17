@@ -404,7 +404,9 @@
   //Otherwuse, show them as "xNN" hex codes.
   "unprinted_replace_spec": false,
 
-  //Unprinted symbols: Hex code of replacement-char, for control ASCII characters
+  //Unprinted symbols: ASCII characters 0...31 will be rendered
+  //as a "replacement character" with specified hex code
+  //(e.g. value "A4" means character U+00A4)
   "unprinted_replace_to_code": "A4",
 
   //Unprinted symbols: Length of arrow rendered for tab-char.
