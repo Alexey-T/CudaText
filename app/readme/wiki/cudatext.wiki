@@ -1714,7 +1714,7 @@ CPU families are:
 * ppc64
 * mips
 
-So for example Windows 32-bit platform values are "win" and "win-i386", Linux 64-bit platform values are "linux" and "linux-x86_64".
+So for example Windows x86 platform values are "win" and "win-i386", Linux AMD64 platform values are "linux" and "linux-x86_64".
 
 ===Install.inf for plugins===
 
