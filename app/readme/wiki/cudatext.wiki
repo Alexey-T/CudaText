@@ -1686,17 +1686,35 @@ To make such zip file, pack into zip also "install.inf" with meta-info.
 ** for lexers it should be "-"
 * "homepage" field, source code repository URL (usually on GitHub)
 * "api" field, optional, minimal required API version (3 numbers dot-separated)
-* "os" field, optional, comma-separated list of supported platforms:
-** "win", with optional CPU suffix
-** "linux", with optional CPU suffix
-** "macos"
-** "freebsd", with optional CPU suffix
-** "openbsd", with optional CPU suffix
-** "netbsd", with optional CPU suffix
-** "dragonfly", with optional CPU suffix
-** "solaris", with optional CPU suffix
+* "os" field, optional, comma-separated list of supported platforms, described below
 
-CPU suffix is "-" char followed by names: i386, x86_64, arm, aarch64, sparc. So for example Linux/x86 allows values "linux" and "linux-i386", Solaris/AMD64 allows values "solaris" and "solaris-x86_64".
+==Install.inf supported "os" values==
+
+Value of "os" field is comma-separated list of platforms (no spaces around commas).
+Each platform is supported OS name, with optional trailing "-" and CPU family name.
+
+OS names are:
+
+* win
+* linux
+* macos
+* freebsd
+* openbsd
+* netbsd
+* dragonfly
+* solaris
+
+CPU families are:
+* i386
+* x86_64
+* arm
+* aarch64
+* sparc
+* ppc
+* ppc64
+* mips
+
+So for example Linux/x86 allows platform values "linux" and "linux-i386", Solaris/AMD64 allows values "solaris" and "solaris-x86_64".
 
 ===Install.inf for plugins===
 
