@@ -877,10 +877,10 @@ begin
   Op.OpUnprintedTabArrowLen:= cfg.GetValue('unprinted_tab_len', Op.OpUnprintedTabArrowLen);
 
   Sep.Init(cfg.GetValue('unprinted_symbols_scale', ''));
-  Sep.GetItemInt(Op.OpUnprintedSpaceDotScale, Op.OpUnprintedSpaceDotScale);
-  Sep.GetItemInt(Op.OpUnprintedEndDotScale, Op.OpUnprintedEndDotScale);
-  Sep.GetItemInt(Op.OpUnprintedEndFontScale, Op.OpUnprintedEndFontScale);
-  Sep.GetItemInt(Op.OpUnprintedTabPointerScale, Op.OpUnprintedTabPointerScale);
+  Sep.GetItemInt(Op.OpUnprintedSpaceDotScale, Op.OpUnprintedSpaceDotScale, 5, 100);
+  Sep.GetItemInt(Op.OpUnprintedEndDotScale, Op.OpUnprintedEndDotScale, 5, 100);
+  Sep.GetItemInt(Op.OpUnprintedEndFontScale, Op.OpUnprintedEndFontScale, 5, 100);
+  Sep.GetItemInt(Op.OpUnprintedTabPointerScale, Op.OpUnprintedTabPointerScale, 0, 100);
 
   Op.OpBracketHilite:= cfg.GetValue('bracket_highlight', Op.OpBracketHilite);
   Op.OpBracketSymbols:= cfg.GetValue('bracket_symbols', op.OpBracketSymbols);
