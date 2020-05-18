@@ -416,7 +416,7 @@
   //Unprinted symbols: Scale of different symbols, in % of character height
   //Value is string with comma-separated numbers:
   //- Scale of space-char "dots"
-  //- Scale of end-of-line bigger "dots"
+  //- Scale of end-of-line "dots"
   //- Scale of end-of-line text marks "LF", "CRLF", "CR"
   //- Scale of tab-char arrow pointer
   "unprinted_symbols_scale": "15,30,80,22,",
