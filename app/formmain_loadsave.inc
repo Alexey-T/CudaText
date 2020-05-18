@@ -795,6 +795,8 @@ begin
 end;
 
 procedure TfmMain.DoOps_LoadOptions_Editor(cfg: TJSONConfig; var Op: TEditorOps);
+var
+  Sep: TATStringSeparator;
 begin
   Op.OpFontName:= FixFontMonospaced(cfg.GetValue(str_FontName, Op.OpFontName));
   Op.OpFontName_i:= FixFontMonospaced(cfg.GetValue(str_FontName_i, Op.OpFontName_i));
@@ -873,10 +875,12 @@ begin
   Op.OpUnprintedReplaceToCode:= cfg.GetValue('unprinted_replace_to_code', Op.OpUnprintedReplaceToCode);
 
   Op.OpUnprintedTabArrowLen:= cfg.GetValue('unprinted_tab_len', Op.OpUnprintedTabArrowLen);
-  Op.OpUnprintedSpaceDotScale:= cfg.GetValue('unprinted_space_dot_scale', Op.OpUnprintedSpaceDotScale);
-  //Op.OpUnprintedEndDotScale:= cfg.GetValue('unprinted_end_dot_scale', Op.OpUnprintedEndDotScale);
-  Op.OpUnprintedEndFontScale:= cfg.GetValue('unprinted_end_font_scale', Op.OpUnprintedEndFontScale);
-  Op.OpUnprintedTabPointerScale:= cfg.GetValue('unprinted_tab_ptr_scale', Op.OpUnprintedTabPointerScale);
+
+  Sep.Init(cfg.GetValue('unprinted_symbols_scale', ''));
+  Sep.GetItemInt(Op.OpUnprintedSpaceDotScale, Op.OpUnprintedSpaceDotScale);
+  Sep.GetItemInt(Op.OpUnprintedEndDotScale, Op.OpUnprintedEndDotScale);
+  Sep.GetItemInt(Op.OpUnprintedEndFontScale, Op.OpUnprintedEndFontScale);
+  Sep.GetItemInt(Op.OpUnprintedTabPointerScale, Op.OpUnprintedTabPointerScale);
 
   Op.OpBracketHilite:= cfg.GetValue('bracket_highlight', Op.OpBracketHilite);
   Op.OpBracketSymbols:= cfg.GetValue('bracket_symbols', op.OpBracketSymbols);

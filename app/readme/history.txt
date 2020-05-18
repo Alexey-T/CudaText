@@ -15,6 +15,7 @@
 + add: Wiki topic: https://wiki.freepascal.org/CudaText#Sessions
 + add: Wiki topic: https://wiki.freepascal.org/CudaText#Markers
 + add: API to show button on sidebar's bottom without loading the plugin
+* change: replaced 3 rarely needed options "unprinted_xxxx_scale" with single option "unprinted_symbols_scale"
 * change: ui tabs: mouse wheel scroll step is now 20% of width
 * change: toolbar button "Sort" was removed. It gave the same commands as "Plugins / Sort" but it had only 5 of all 20 commands.
 - fix: plugin "Open URL" didn't catch double-click sometimes (thanks @Jairo-Martinez)

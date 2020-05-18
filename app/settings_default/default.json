@@ -413,14 +413,13 @@
   //Value=1 means minimal length, 0 means full size.
   "unprinted_tab_len": 1,
 
-  //Unprinted symbols: Scale (% of char height) of whitespace "dot"
-  "unprinted_space_dot_scale": 15,
-
-  //Unprinted symbols: Scale (% of char height) of end-of-line marks: "LF", "CRLF", "CR"
-  "unprinted_end_font_scale": 80,
-
-  //Unprinted symbols: Scale (% of char height) of tab-arrow pointer (15..50)
-  "unprinted_tab_ptr_scale": 22,
+  //Unprinted symbols: Scale of different symbols, in % of character height
+  //Value is string with comma-separated numbers:
+  //- Scale of space-char "dots"
+  //- Scale of end-of-line bigger "dots"
+  //- Scale of end-of-line text marks "LF", "CRLF", "CR"
+  //- Scale of tab-char arrow pointer
+  "unprinted_symbols_scale": "15,30,80,22,",
 
   //[Text/Wrap]
   //Long lines wrap mode:
