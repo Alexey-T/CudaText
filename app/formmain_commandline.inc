@@ -78,6 +78,7 @@ var
   NLine, NColumn, i: integer;
   bReadOnly: boolean;
   sEncoding: string;
+  List: TStringList;
 begin
   bReadOnly:= false;
   sEncoding:= '';
@@ -156,6 +157,29 @@ begin
 
         if bReadOnly then
           Frame.ReadOnly[Frame.Ed1]:= true;
+      end;
+    end
+    else
+    //file mask with '*' char?
+    if Pos('*', SParam)>0 then
+    begin
+      List:= TStringList.Create;
+      try
+        FindAllFiles(List, GetCurrentDirUTF8, SParam, false{SubDirs});
+        for SParam in List do
+        begin
+          Frame:= DoFileOpen(SParam, '', nil, AOpenOptions);
+          if Assigned(Frame) then
+          begin
+            if sEncoding<>'' then
+              SetFrameEncoding(Frame.Ed1, sEncoding, true);
+
+            if bReadOnly then
+              Frame.ReadOnly[Frame.Ed1]:= true;
+          end;
+        end;
+      finally
+        FreeAndNil(List);
       end;
     end
     else
