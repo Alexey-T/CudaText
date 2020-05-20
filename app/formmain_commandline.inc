@@ -8,7 +8,7 @@ Copyright (c) Alexey Torgashin
 {$ifdef nn}begin end;{$endif}
 
 procedure TfmMain.DoLoadCommandLineBaseOptions(out AWindowPos: string; out AAllowSession: boolean);
-// Function handles these options: -v -h -w -el
+// Function handles these options: -v -h -w -el -ns
 // Option -n is handled via var proc_globdata.AppAlwaysNewInstance
 var
   SParam: string;
