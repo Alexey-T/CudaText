@@ -690,6 +690,7 @@ class Command:
             msg_status('Project not loaded')
             return
 
+        from .projman_dlg import dialog_proj_prop
         if dialog_proj_prop(self.project):
             self.update_global_data()
             if self.project_file_path:
