@@ -227,7 +227,8 @@ begin
       bModified:= Frame.Ed1.Modified or ((Frame.GetFileName(Frame.Ed1)='') and not Frame.IsEmpty);
 
       cfg.SetValue(path+'/modified', bModified);
-      cfg.SetValue(path+'/file', SCollapseHomeDirInFilename(Frame.Filename));
+      cfg.SetValue(path+'/file', SCollapseHomeDirInFilename(Frame.FileName));
+
       if bModified then
         cfg.SetValue(path+'/tab_title', Frame.TabCaption);
       cfg.SetValue(path+'/group', nLocalGroup+1); //support old sessions with 1-based index
@@ -247,6 +248,23 @@ begin
       end;
 
       Frame.DoSaveHistoryEx(Frame.Ed1, cfg, path);
+
+      //save info about paired-tab to subkey "pair"
+      if (not Frame.EditorsLinked) and (Frame.FileName2<>'') then
+      begin
+        path+= '/pair';
+
+        bModified:= Frame.Ed2.Modified;
+        cfg.SetValue(path+'/modified', bModified);
+        cfg.SetValue(path+'/file', SCollapseHomeDirInFilename(Frame.FileName2));
+        if bModified then
+        begin
+          cfg.SetValue(path+'/text', Frame.Ed2.Text);
+          cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(Frame.FileName2));
+        end;
+
+        Frame.DoSaveHistoryEx(Frame.Ed2, cfg, path);
+      end;
     end;
 
     Result:= true;
