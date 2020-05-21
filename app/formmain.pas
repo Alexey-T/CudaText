@@ -6144,33 +6144,27 @@ begin
 end;
 
 
+procedure _FrameFixLexer(F: TEditorFrame; Ed: TATSynEdit; const ALexerName: string);
+begin
+  if F.LexerName[Ed]=ALexerName then
+    F.Lexer[Ed]:= nil;
+  //fix crash:
+  //F.InitialLexer is C#, user deletes C# in lexer lib, and switches tab
+  if Assigned(F.LexerInitial[Ed]) and (F.LexerInitial[Ed].LexerName=ALexerName) then
+    F.LexerInitial[Ed]:= nil;
+end;
+
 procedure TfmMain.DoOnDeleteLexer(Sender: TObject; const ALexerName: string);
 var
   F: TEditorFrame;
-  Ed: TATSynEdit;
   i: integer;
 begin
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
-
-    Ed:= F.Ed1;
-    if F.LexerName[Ed]=ALexerName then
-      F.Lexer[Ed]:= nil;
-    //fix crash
-    //F.InitialLexer is C#, user deletes C# in lexer lib, and switches tab
-    if Assigned(F.LexerInitial[Ed]) and (F.LexerInitial[Ed].LexerName=ALexerName) then
-      F.LexerInitial[Ed]:= nil;
-
+    _FrameFixLexer(F, F.Ed1, ALexerName);
     if not F.EditorsLinked then
-    begin
-      Ed:= F.Ed2;
-      if F.LexerName[Ed]=ALexerName then
-        F.Lexer[Ed]:= nil;
-      //fix crash
-      if Assigned(F.LexerInitial[Ed]) and (F.LexerInitial[Ed].LexerName=ALexerName) then
-        F.LexerInitial[Ed]:= nil;
-    end;
+      _FrameFixLexer(F, F.Ed2, ALexerName);
   end;
 end;
 
