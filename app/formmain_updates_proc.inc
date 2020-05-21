@@ -880,6 +880,7 @@ begin
         try
           //usual lexers
           for i:= 0 to AppManager.LexerCount-1 do
+           if not AppManager.Lexers[i].Deleted then
             sl.AddObject(AppManager.Lexers[i].LexerName,
                          TObject(cmdFirstLexerCommand+i));
           //lite lexers

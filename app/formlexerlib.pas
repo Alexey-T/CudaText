@@ -232,16 +232,17 @@ begin
   List.Items.BeginUpdate;
   List.Items.Clear;
 
-  sl:= tstringlist.create;
+  sl:= TStringList.Create;
   try
     for i:= 0 to AppManager.LexerCount-1 do
     begin
       an:= AppManager.Lexers[i];
+      if an.Deleted then Continue;
       sl.AddObject(an.LexerName, an);
     end;
-    sl.sort;
+    sl.Sort;
 
-    for i:= 0 to sl.count-1 do
+    for i:= 0 to sl.Count-1 do
     begin
       an:= sl.Objects[i] as TecSyntAnalyzer;
 

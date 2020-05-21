@@ -4106,6 +4106,7 @@ begin
     for i:= 0 to AppManager.LexerCount-1 do
     begin
       an:= AppManager.Lexers[i];
+      if an.Deleted then Continue;
       if not an.Internal then
         sl.AddObject(an.LexerName, an);
     end;
@@ -6559,6 +6560,7 @@ begin
     for i:= 0 to AppManager.LexerCount-1 do
     begin
       Lexer:= AppManager.Lexers[i];
+      if Lexer.Deleted then Continue;
       if Lexer.Internal then Continue;
       List.AddObject(Lexer.LexerName, Lexer);
     end;

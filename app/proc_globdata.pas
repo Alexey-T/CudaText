@@ -1674,12 +1674,17 @@ end;
 
 procedure DoLexerEnum(L: TStringList; AlsoDisabled: boolean = false);
 var
+  an: TecSyntAnalyzer;
   i: integer;
 begin
   with AppManager do
     for i:= 0 to LexerCount-1 do
-      if AlsoDisabled or not Lexers[i].Internal then
-        L.Add(Lexers[i].LexerName);
+    begin
+      an:= Lexers[i];
+      if an.Deleted then Continue;
+      if AlsoDisabled or not an.Internal then
+        L.Add(an.LexerName);
+    end;
 
   with AppManagerLite do
     for i:= 0 to LexerCount-1 do
