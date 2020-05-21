@@ -991,7 +991,7 @@ begin
     S:= ParamStr(i);
     if SBeginsWith(S, '-s=') then
     begin
-      AppDir_Settings_Custom:= Copy(S, 4, MaxInt);
+      AppDir_Settings_Custom:= SExpandHomeDirInFilename(Copy(S, 4, MaxInt));
       Break;
     end;
   end;
