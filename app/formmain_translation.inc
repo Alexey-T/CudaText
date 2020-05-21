@@ -510,7 +510,7 @@ begin
     DoLocString(msgCannotSaveFile                , ini, 'se', 'SaveFile');
     DoLocString(msgCannotSaveFileWithEnc         , ini, 'se', 'SaveWithEnc');
     DoLocString(msgCannotSaveUserConf            , ini, 'se', 'SaveUserConf');
-    DoLocString(msgCannotReadConf                , ini, 'se', 'ReadConf');
+    DoLocString(msgCannotReadConfig                , ini, 'se', 'ReadConf');
     DoLocString(msgCannotReloadUntitledTab       , ini, 'se', 'ReloadUntitledTab');
     DoLocString(msgCannotFindMatch               , ini, 'se', 'FindMatch');
     DoLocString(msgCannotFindInstallInfInZip     , ini, 'se', 'FindInstallInfInZip');

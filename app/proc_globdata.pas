@@ -843,7 +843,7 @@ end;
 
 procedure MsgBadConfig(const fn: string);
 begin
-  MsgBox(msgCannotReadConf+#10+fn, MB_OK+MB_ICONERROR);
+  MsgBox(msgCannotReadConfig+#10+fn, MB_OK+MB_ICONERROR);
 end;
 
 function InitPyLibraryPath: string;
