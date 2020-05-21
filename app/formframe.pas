@@ -140,7 +140,8 @@ type
     FSaveDialog: TSaveDialog;
     FReadOnlyFromFile: boolean;
     FWasVisible: boolean;
-    FInitialLexer: TecSyntAnalyzer;
+    FInitialLexer1: TecSyntAnalyzer;
+    FInitialLexer2: TecSyntAnalyzer;
     FSaveHistory: boolean;
     FEditorsLinked: boolean;
     FCachedTreeview: array[0..1] of TTreeView;
@@ -197,6 +198,7 @@ type
     function GetEnabledCodeTree(Ed: TATSynEdit): boolean;
     function GetEnabledFolding: boolean;
     function GetFileWasBig(Ed: TATSynEdit): boolean;
+    function GetInitialLexer(Ed: TATSynEdit): TecSyntAnalyzer;
     function GetLineEnds(Ed: TATSynEdit): TATLineEnds;
     function GetPictureScale: integer;
     function GetReadOnly(Ed: TATSynEdit): boolean;
@@ -217,6 +219,7 @@ type
     procedure SetFileName(const AValue: string);
     procedure SetFileName2(AValue: string);
     procedure SetFileWasBig(Ed: TATSynEdit; AValue: boolean);
+    procedure SetInitialLexer(Ed: TATSynEdit; AValue: TecSyntAnalyzer);
     procedure SetLocked(AValue: boolean);
     procedure SetPictureScale(AValue: integer);
     procedure SetReadOnly(Ed: TATSynEdit; AValue: boolean);
@@ -294,7 +297,7 @@ type
     property Lexer[Ed: TATSynEdit]: TecSyntAnalyzer read GetLexer write SetLexer;
     property LexerLite[Ed: TATSynEdit]: TATLiteLexer read GetLexerLite write SetLexerLite;
     property LexerName[Ed: TATSynEdit]: string read GetLexerName write SetLexerName;
-    property LexerInitial: TecSyntAnalyzer read FInitialLexer write FInitialLexer;
+    property LexerInitial[Ed: TATSynEdit]: TecSyntAnalyzer read GetInitialLexer write SetInitialLexer;
     function LexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
 
     property Locked: boolean read FLocked write SetLocked;
@@ -617,6 +620,8 @@ begin
 end;
 
 procedure TEditorFrame.DoShow;
+var
+  an: TecSyntAnalyzer;
 begin
   //analize file, when frame is shown for the 1st time
   if AllowFrameParsing and not FWasVisible then
@@ -624,10 +629,21 @@ begin
     FWasVisible:= true;
     //ShowMessage('show frame: '+FileName); ////debug
 
-    if Assigned(FInitialLexer) then
+    an:= LexerInitial[Ed1];
+    if Assigned(an) then
     begin
-      Lexer[Ed1]:= FInitialLexer;
-      FInitialLexer:= nil;
+      Lexer[Ed1]:= an;
+      LexerInitial[Ed1]:= nil;
+    end;
+
+    if not EditorsLinked then
+    begin
+      an:= LexerInitial[Ed2];
+      if Assigned(an) then
+      begin
+        Lexer[Ed2]:= an;
+        LexerInitial[Ed2]:= nil;
+      end;
     end;
   end;
 end;
@@ -966,6 +982,22 @@ begin
   end;
 end;
 
+procedure TEditorFrame.SetInitialLexer(Ed: TATSynEdit; AValue: TecSyntAnalyzer);
+var
+  Index: integer;
+begin
+  if EditorsLinked then
+    FInitialLexer1:= AValue
+  else
+  begin
+    Index:= EditorObjToIndex(Ed);
+    if Index=0 then
+      FInitialLexer1:= AValue
+    else
+      FInitialLexer2:= AValue;
+  end;
+end;
+
 procedure TEditorFrame.SetLocked(AValue: boolean);
 begin
   if AValue=FLocked then exit;
@@ -1015,9 +1047,9 @@ end;
 
 function TEditorFrame.GetLexer(Ed: TATSynEdit): TecSyntAnalyzer;
 begin
-  if Assigned(FInitialLexer) then
-    Result:= FInitialLexer
-  else
+  Result:= LexerInitial[Ed];
+  if Assigned(Result) then exit;
+
   if Ed.AdapterForHilite is TATAdapterEControl then
     Result:= TATAdapterEControl(Ed.AdapterForHilite).Lexer
   else
@@ -1039,8 +1071,9 @@ var
 begin
   Result:= '';
 
-  if Assigned(FInitialLexer) then
-    exit(FInitialLexer.LexerName);
+  an:= LexerInitial[Ed];
+  if Assigned(an) then
+    exit(an.LexerName);
 
   CurAdapter:= Ed.AdapterForHilite;
   if CurAdapter=nil then exit;
@@ -1867,7 +1900,7 @@ begin
   end
   else
   begin
-    FInitialLexer:= an;
+    LexerInitial[Ed]:= an;
     //support on_lexer
     SetLength(Params, 0);
     DoPyEvent(Ed, cEventOnLexer, Params);
@@ -2587,6 +2620,22 @@ begin
     Result:= FFileWasBig[Index]
   else
     Result:= false;
+end;
+
+function TEditorFrame.GetInitialLexer(Ed: TATSynEdit): TecSyntAnalyzer;
+var
+  Index: integer;
+begin
+  if EditorsLinked then
+    Result:= FInitialLexer1
+  else
+  begin
+    Index:= EditorObjToIndex(Ed);
+    if Index=0 then
+      Result:= FInitialLexer1
+    else
+      Result:= FInitialLexer2;
+  end;
 end;
 
 procedure TEditorFrame.DoOnChangeCaption;

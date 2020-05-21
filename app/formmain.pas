@@ -4027,7 +4027,8 @@ begin
       F.Lexer[F.Ed2]:= nil;
 
     //fix crash: lexer is active in passive tab, LoadLexerLib deletes all lexers, user switches tab
-    F.LexerInitial:= nil;
+    F.LexerInitial[F.Ed1]:= nil;
+    F.LexerInitial[F.Ed2]:= nil;
   end;
 end;
 
@@ -6146,22 +6147,30 @@ end;
 procedure TfmMain.DoOnDeleteLexer(Sender: TObject; const ALexerName: string);
 var
   F: TEditorFrame;
+  Ed: TATSynEdit;
   i: integer;
 begin
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
 
-    if F.LexerName[F.Ed1]=ALexerName then
-      F.Lexer[F.Ed1]:= nil;
+    Ed:= F.Ed1;
+    if F.LexerName[Ed]=ALexerName then
+      F.Lexer[Ed]:= nil;
+    //fix crash
+    //F.InitialLexer is C#, user deletes C# in lexer lib, and switches tab
+    if Assigned(F.LexerInitial[Ed]) and (F.LexerInitial[Ed].LexerName=ALexerName) then
+      F.LexerInitial[Ed]:= nil;
 
     if not F.EditorsLinked then
-      if F.LexerName[F.Ed2]=ALexerName then
-        F.Lexer[F.Ed2]:= nil;
-
-    //fix crash: F.InitialLexer is C#, user deletes C# in lexer lib, and switches tab
-    if Assigned(F.LexerInitial) and (F.LexerInitial.LexerName=ALexerName) then
-      F.LexerInitial:= nil;
+    begin
+      Ed:= F.Ed2;
+      if F.LexerName[Ed]=ALexerName then
+        F.Lexer[Ed]:= nil;
+      //fix crash
+      if Assigned(F.LexerInitial[Ed]) and (F.LexerInitial[Ed].LexerName=ALexerName) then
+        F.LexerInitial[Ed]:= nil;
+    end;
   end;
 end;
 
