@@ -955,10 +955,14 @@ begin
   OpDirPrecopy:= GetDirPrecopy;
   OpDirLocal:= OpDirExe;
 
+  {$ifdef windows}
+  AppDir_Home:= '';
+  {$else}
   //from https://github.com/graemeg/freepascal/blob/master/rtl/unix/sysutils.pp
   AppDir_Home:= GetEnvironmentVariable('HOME');
   If AppDir_Home<>'' then
     AppDir_Home:= IncludeTrailingPathDelimiter(AppDir_Home);
+  {$endif}
 
   {$ifdef linux}
   //not portable folder of app
