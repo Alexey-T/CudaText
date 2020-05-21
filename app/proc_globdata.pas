@@ -1002,14 +1002,11 @@ begin
     AppDir_Settings:= OpDirLocal+DirectorySeparator+'settings';
 
   if not DirectoryExistsUTF8(AppDir_Settings) then
-  begin
-    CreateDirUTF8(AppDir_Settings);
-    if not DirectoryExistsUTF8(AppDir_Settings) then
+    if not CreateDirUTF8(AppDir_Settings) then
     begin
       MsgStdout(msgCannotCreateDir+' '+AppDir_Settings, true);
       Halt;
     end;
-  end;
 
   AppDir_SettingsDefault:= OpDirLocal+DirectorySeparator+'settings_default';
 
