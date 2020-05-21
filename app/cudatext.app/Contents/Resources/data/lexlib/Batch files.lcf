@@ -1,4 +1,4 @@
-object SyntAnal5: TLibSyntAnalyzer
+object SyntAnal3: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Label'
@@ -118,8 +118,8 @@ object SyntAnal5: TLibSyntAnalyzer
       StyleName = 'Symbol'
       TokenType = 6
       Expression = 
-        '[\+\-\*\(\)\[\]\{\}<>\.,~!&\|;=%\^\#@\\/] | \b equ \b | \b neq \' +
-        'b | \b lss \b | \b gtr \b | \b leq \b | \b geq \b'
+        '[\+\*\(\)\[\]\{\}<>,~!&\|;=%\^\#@\\/] | \b equ \b | \b neq \b | ' +
+        '\b lss \b | \b gtr \b | \b leq \b | \b geq \b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -144,7 +144,7 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'Number'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '0x[0-9a-f]+ | \d+'
+      Expression = '0x[0-9a-f]+\b | \d+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -152,7 +152,7 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'Text'
       StyleName = 'Text'
       TokenType = 2
-      Expression = '(?r)\w+'
+      Expression = '(?r)[\w\-\.]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
