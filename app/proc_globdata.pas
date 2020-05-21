@@ -1006,7 +1006,7 @@ begin
     CreateDirUTF8(AppDir_Settings);
     if not DirectoryExistsUTF8(AppDir_Settings) then
     begin
-      MsgStdout('CudaText could not create settings folder: '+AppDir_Settings);
+      MsgStdout('CudaText could not create settings folder: '+AppDir_Settings, true);
       Halt;
     end;
   end;
