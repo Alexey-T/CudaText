@@ -2824,15 +2824,18 @@ Text is chr(1) separated items:
 
 ==Format of serialized Undo/Redo==
 
-Text is "\n"-separated lines, each line is Undo/Redo item. Each item is "\t"-separated elements:
+Text is "\n"-separated lines, each line is undo/redo item. Each line is "\t"-separated elements:
 
-* action, number 0..4. 0: change; 1: change EOL; 2: insert; 3: delete; 4: clear modified flag.
+* editing action, number 0..4. 0: text change; 1: EOL change; 2: line insertion; 3: line deletion; 4: cleared document modified-flag.
 * line index, number from 0.
-* end of line, number 0..3. 0: none; 1: CRLF; 2: LF; 3: CR.
-* caret position(s). "x0,y0;x1,y1;x2,y2;" etc. 2*N numbers in total for N carets.
+* end-of-line kind, number 0..3. 0: none; 1: CRLF; 2: LF; 3: CR.
+* line state, number 0..3. 0: none; 1: changed; 2: added; 3: saved.
+* caret position(s). "x0,y0;"+"x1,y1;"+"x2,y2;"+... ie 2*N numbers for N carets.
 * soft mark flag, number 0/1 (boolean). Logic of soft/hard marks is described in wiki page [[ATSynEdit]].
 * hard mark flag, number 0/1.
-* line text, in UTF8. This text can have "\t", not a separator here.
+* line text, in UTF8. This text can have "\t", "\t" is not a separator here.
+
+Note that field "line state" was inserted in CudaText 1.100.2, new format of data became incompatible with old format.
 
 =API of 3rd-party plugins=
 ==Options Editor==
