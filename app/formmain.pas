@@ -3200,7 +3200,8 @@ begin
   //file already opened? activate its frame
   F:= FindFrameOfFilename(AFileName);
   if F=nil then
-    F:= FindFrameOfFilename(AFileName2);
+    if AFileName2<>'' then
+      F:= FindFrameOfFilename(AFileName2);
   if Assigned(F) then
   begin
     //don't work, if need to open 2 files
@@ -4837,8 +4838,11 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
-    if SameFileName(AName, F.GetFileName(F.Ed1)) or
-      SameFileName(AName, F.GetFileName(F.Ed2)) then exit(F);
+    if SameFileName(AName, F.FileName) then
+      exit(F);
+    if not F.EditorsLinked then
+      if SameFileName(AName, F.FileName2) then
+        exit(F);
   end;
 end;
 
