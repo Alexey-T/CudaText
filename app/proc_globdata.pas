@@ -948,6 +948,8 @@ begin
 end;
 
 function AppDirSettingsFromCommandLine: string;
+const
+  cParam = '-s=';
 var
   S: string;
   i: integer;
@@ -956,8 +958,11 @@ begin
   for i:= 1{not 0} to ParamCount do
   begin
     S:= ParamStr(i);
-    if SBeginsWith(S, '-s=') then
-      exit(SExpandHomeDirInFilename(Copy(S, 4, MaxInt)));
+    if SBeginsWith(S, cParam) then
+    begin
+      Delete(S, 1, Length(cParam));
+      exit(SExpandHomeDirInFilename(S));
+    end;
   end;
 end;
 
