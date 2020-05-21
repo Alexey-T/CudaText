@@ -515,7 +515,6 @@ var
 var
   AppDir_Home: string;
   AppDir_Settings: string;
-  AppDir_Settings_Custom: string = '';
   AppDir_SettingsDefault: string;
   AppDir_Py: string;
   AppDir_Data: string;
@@ -948,10 +947,23 @@ begin
   end;
 end;
 
+function AppDirSettingsFromCommandLine: string;
+var
+  S: string;
+  i: integer;
+begin
+  Result:= '';
+  for i:= 1{not 0} to ParamCount do
+  begin
+    S:= ParamStr(i);
+    if SBeginsWith(S, '-s=') then
+      exit(SExpandHomeDirInFilename(Copy(S, 4, MaxInt)));
+  end;
+end;
+
 procedure InitDirs;
 var
   S, HomeConfig: string;
-  i: integer;
 begin
   OpDirExe:= ExtractFileDir(ParamStr(0));
   OpDirPrecopy:= GetDirPrecopy;
@@ -986,19 +998,8 @@ begin
   {$endif}
 
   //support command line key -s=folder
-  for i:= 1{not 0} to ParamCount do
-  begin
-    S:= ParamStr(i);
-    if SBeginsWith(S, '-s=') then
-    begin
-      AppDir_Settings_Custom:= SExpandHomeDirInFilename(Copy(S, 4, MaxInt));
-      Break;
-    end;
-  end;
-
-  if AppDir_Settings_Custom<>'' then
-    AppDir_Settings:= AppDir_Settings_Custom
-  else
+  AppDir_Settings:= AppDirSettingsFromCommandLine;
+  if AppDir_Settings='' then
     AppDir_Settings:= OpDirLocal+DirectorySeparator+'settings';
 
   if not DirectoryExistsUTF8(AppDir_Settings) then
