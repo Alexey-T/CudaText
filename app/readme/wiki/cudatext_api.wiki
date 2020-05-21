@@ -2835,7 +2835,7 @@ Text is "\n"-separated lines, each line is undo/redo item. Each line is "\t"-sep
 * hard mark flag, number 0/1.
 * line text, in UTF8. This text can have "\t", "\t" is not a separator here.
 
-Note that field "line state" was inserted in CudaText 1.100.2, new format of data became incompatible with old format.
+Note that field "line state" was inserted in API 1.0.328, new format of data became incompatible with old format.
 
 =API of 3rd-party plugins=
 ==Options Editor==
