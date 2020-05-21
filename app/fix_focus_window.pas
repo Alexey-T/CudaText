@@ -491,6 +491,11 @@ begin
           for i := 1 to ParamCount do
           begin
             parameter := ParamStrUTF8(i);
+            if parameter = '' then Continue;
+
+            // skip CudaText params
+            // https://github.com/Alexey-T/CudaText/issues/2578
+            if parameter[1] = '-' then Continue;
 
             if workDir = '' then
               cli := cli + parameter + ParamsSeparator
