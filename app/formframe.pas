@@ -166,8 +166,6 @@ type
     procedure EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorDrawMicromap(Sender: TObject; C: TCanvas; const ARect: TRect);
-    function EditorIndexToObj(N: integer): TATSynEdit;
-    function EditorObjToIndex(Ed: TATSynEdit): integer;
     function EditorObjToTreeviewIndex(Ed: TATSynEdit): integer; inline;
     procedure EditorOnChange(Sender: TObject);
     procedure EditorOnChangeModified(Sender: TObject);
@@ -258,6 +256,7 @@ type
     Groups: TATGroups;
     FileProps: TAppFileProps;
     FileProps2: TAppFileProps;
+    InitialOptions: array[0..1] of TATEditorTempOptions;
 
     constructor Create(AOwner: TComponent; AApplyCentering: boolean); reintroduce;
     destructor Destroy; override;
@@ -266,6 +265,9 @@ type
     property Adapter[Ed: TATSynEdit]: TATAdapterEControl read GetAdapter;
     procedure EditorOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoShow;
+
+    function EditorIndexToObj(N: integer): TATSynEdit;
+    function EditorObjToIndex(Ed: TATSynEdit): integer;
     property ReadOnly[Ed: TATSynEdit]: boolean read GetReadOnly write SetReadOnly;
     property ReadOnlyFromFile: boolean read FReadOnlyFromFile write FReadOnlyFromFile;
     property TabCaption: string read FTabCaption write SetTabCaption;
@@ -2090,6 +2092,10 @@ begin
     DoLoadUndo(Ed);
     DoLoadHistory(Ed, AAllowLoadHistoryEnc);
   end;
+
+  //save temp-options, to later know which options are changed,
+  //during loading of lexer-specific config
+  EditorSaveTempOptions(Ed, InitialOptions[EditorObjToIndex(Ed)]);
 
   if AAllowLexerDetect then
     if LexerName[Ed]='' then
