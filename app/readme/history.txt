@@ -8,6 +8,7 @@
 + add: Undo-list records also "line states", ie Undo reverts "line states" to initial value (thanks @tmsg)
 + add: support file masks with '*' in command line arguments, e.g. "cudatext readme/test*.htm*" (thanks @tmsg)
 + add: when "unprinted symbols" are visible, for wrapped parts of long lines, render additional curved-arrow (thanks @tmsg)
++ add: when user removes lexer in Lexer Library dialog, app doesn't deallocate lexer object but only "marks" it, this prevents access to deallocated memory objects
 + add: paired file-tabs (2 files in a single tab) now correctly save/restore to/from sessions 
 * change: changed format of serialized undo/redo data
 * change: changed file extension of persistent undo/redo ("undo_persistent":true)
