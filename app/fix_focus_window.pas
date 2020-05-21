@@ -493,7 +493,7 @@ begin
             parameter := ParamStrUTF8(i);
             if parameter = '' then Continue;
 
-            // skip CudaText params
+            // skip CudaText command line keys
             // https://github.com/Alexey-T/CudaText/issues/2578
             if parameter[1] = '-' then Continue;
 
