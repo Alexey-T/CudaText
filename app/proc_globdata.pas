@@ -1812,7 +1812,7 @@ end;
 
 function GetAppUndoFilename(const fn: string; IsRedo: boolean): string;
 const
-  Ext: array[boolean] of string = ('.undo', '.redo');
+  Ext: array[boolean] of string = ('.undo2', '.redo2');
 begin
   Result:= ExtractFileDir(fn)+DirectorySeparator+
     '.cudatext'+DirectorySeparator+
