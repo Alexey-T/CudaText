@@ -3,8 +3,10 @@
   - fixed
   * changed
 
-1.100.1
+1.100.2
 
++ add: Undo-list records also "line states" (Undo reverts "line states" to initial unmodified state)
+* change: changed format of serialized Undo data
 + add: support file masks with '*' in command line arguments, e.g. "cudatext readme/test*.htm*" (thanks @tmsg)
 + add: when "unprinted symbols" are visible, for wrapped parts of long lines, render additional curved-arrow (thanks @tmsg)
 - fix: Project Manager crash on calling Project Properties (thanks @Jairo-Martinez)
