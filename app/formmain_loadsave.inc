@@ -1266,7 +1266,7 @@ begin
     end;
 
     DoApplyFrameOps(F, Ops, true);
-    EditorRestoreTempOptions(Ed, TempOps, F.InitialOptions[F.EditorObjToIndex(Ed)]);
+    EditorRestoreTempOptions(Ed, TempOps, Ed.InitialOptions);
   end;
 end;
 

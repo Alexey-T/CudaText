@@ -256,7 +256,6 @@ type
     Groups: TATGroups;
     FileProps: TAppFileProps;
     FileProps2: TAppFileProps;
-    InitialOptions: array[0..1] of TATEditorTempOptions;
 
     constructor Create(AOwner: TComponent; AApplyCentering: boolean); reintroduce;
     destructor Destroy; override;
@@ -2095,7 +2094,7 @@ begin
 
   //save temp-options, to later know which options are changed,
   //during loading of lexer-specific config
-  EditorSaveTempOptions(Ed, InitialOptions[EditorObjToIndex(Ed)]);
+  EditorSaveTempOptions(Ed, Ed.InitialOptions);
 
   if AAllowLexerDetect then
     if LexerName[Ed]='' then

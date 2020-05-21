@@ -36,18 +36,6 @@ uses
   ec_syntax_format,
   math;
 
-type
-  TATEditorTempOptions = record
-    FontSize: integer;
-    WrapMode: TATSynWrapMode;
-    ShowMinimap: boolean;
-    ShowMicromap: boolean;
-    ShowRuler: boolean;
-    ShowNumbers: boolean;
-    ShowUnprinted: boolean;
-    ShowFolding: boolean;
-  end;
-
 procedure EditorSaveTempOptions(Ed: TATSynEdit; out Ops: TATEditorTempOptions);
 procedure EditorRestoreTempOptions(Ed: TATSynEdit; const ANew, AOld: TATEditorTempOptions);
 procedure EditorFocus(C: TWinControl);
