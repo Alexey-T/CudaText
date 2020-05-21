@@ -114,6 +114,7 @@ Supported keys:
 * -nh - Ignore saved file history (caret, selection, scroll position)
 * -ns - Ignore saved session
 * -w=left,top,width,height - Set position/size of window (up to 4 numbers should be specified, any can be skipped to keep previous value)
+* -s=folder - Specify path of settings folder, which contains all config files
 * -i - Read the contents of stdin to a new document (Unix only), can be used in Unix shell like: "ls -l | cudatext -i"
 
 Notes:
