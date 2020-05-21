@@ -464,6 +464,15 @@ begin
   end;
 end;
 
+function _IsSpecialWinPath(const S: string): boolean;
+//path is 'D:\somestring'?
+//path is '\\UNCpath'?
+begin
+  Result :=
+    (Length(S)>2) and
+    ((S[2]=':') or ((S[1]='\') and (S[2]='\')));
+end;
+
 function IsAnotherInstanceRunning:boolean;
 var
   i: Integer;
@@ -499,7 +508,8 @@ begin
 
             if workDir = '' then
               cli := cli + parameter + ParamsSeparator
-            else if (Pos(':', parameter) = 2) or (Pos('\\', parameter) = 1) then
+            else
+            if _IsSpecialWinPath(parameter) then
               cli := cli + parameter + ParamsSeparator
             else
               cli := cli + workDir + '\' + parameter + ParamsSeparator;
