@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.100.2
+1.100.5 (2020/05)
 
 + add: Undo-list records also "line states", ie Undo reverts "line states" to initial value (thanks @tmsg)
 + add: support command-line key -s to specify custom settings folder (thanks @tmsg)

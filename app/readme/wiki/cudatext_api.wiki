@@ -3833,7 +3833,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: dlg_proc: control "radiogroup" supports event "on_change"
 * add: dlg_proc: control "checkgroup" supports event "on_change"
 
-1.0.328 (app 1.100.2)
+1.0.328 (app 1.100.5)
 * change: changed format of string in PROP_UNDO_DATA, PROP_REDO_DATA (field "line state" was inserted in the middle of lines, could not append it to the end)
 
 [[Category:CudaText]]
