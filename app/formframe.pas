@@ -283,6 +283,7 @@ type
     procedure UpdateModified(Ed: TATSynEdit; AWithEvent: boolean= true);
     procedure UpdateReadOnlyFromFile(Ed: TATSynEdit);
     procedure UpdateFrame(AUpdatedText: boolean);
+    procedure FixLexerIfDeleted(Ed: TATSynEdit; const ALexerName: string);
 
     property NotifEnabled: boolean read FNotifEnabled write FNotifEnabled;
     procedure NotifyAboutChange(Ed: TATSynEdit);
@@ -2168,6 +2169,16 @@ begin
         Ad.OnEditorChange(Ed2);
     end;
   end;
+end;
+
+procedure TEditorFrame.FixLexerIfDeleted(Ed: TATSynEdit; const ALexerName: string);
+begin
+  if LexerName[Ed]=ALexerName then
+    Lexer[Ed]:= nil;
+  //fix crash:
+  //F.InitialLexer is C#, user deletes C# in lexer lib, and switches tab
+  if Assigned(LexerInitial[Ed]) and (LexerInitial[Ed].LexerName=ALexerName) then
+    LexerInitial[Ed]:= nil;
 end;
 
 function TEditorFrame.GetFileName(Ed: TATSynEdit): string;
