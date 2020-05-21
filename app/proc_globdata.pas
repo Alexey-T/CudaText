@@ -515,6 +515,7 @@ var
 var
   AppDir_Home: string;
   AppDir_Settings: string;
+  AppDir_Settings_Custom: string = '';
   AppDir_SettingsDefault: string;
   AppDir_Py: string;
   AppDir_Data: string;
@@ -950,6 +951,7 @@ end;
 procedure InitDirs;
 var
   S, HomeConfig: string;
+  i: integer;
 begin
   OpDirExe:= ExtractFileDir(ParamStr(0));
   OpDirPrecopy:= GetDirPrecopy;
@@ -983,7 +985,22 @@ begin
   CreateDirUTF8(OpDirLocal);
   {$endif}
 
-  AppDir_Settings:= OpDirLocal+DirectorySeparator+'settings';
+  //support command line key -s=folder
+  for i:= 1{not 0} to ParamCount do
+  begin
+    S:= ParamStr(i);
+    if SBeginsWith(S, '-s=') then
+    begin
+      AppDir_Settings_Custom:= Copy(S, 4, MaxInt);
+      Break;
+    end;
+  end;
+
+  if AppDir_Settings_Custom<>'' then
+    AppDir_Settings:= AppDir_Settings_Custom
+  else
+    AppDir_Settings:= OpDirLocal+DirectorySeparator+'settings';
+
   CreateDirUTF8(AppDir_Settings);
   AppDir_SettingsDefault:= OpDirLocal+DirectorySeparator+'settings_default';
 
