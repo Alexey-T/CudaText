@@ -10,6 +10,7 @@
 + add: when "unprinted symbols" are visible, for wrapped parts of long lines, render additional curved-arrow (thanks @tmsg)
 * change: changed format of serialized undo/redo data
 * change: changed file extension of persistent undo/redo ("undo_persistent":true)
+- fix: several editor settings (wrap mode, show ruler/minimap/micromap, font size, etc) could not load from lexer-specific configs (thanks @tmsg)
 - fix: Project Manager crash on calling Project Properties (thanks @Jairo-Martinez)
 
 1.100.0 (2020/05)
