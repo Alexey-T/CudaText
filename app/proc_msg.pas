@@ -334,6 +334,7 @@ const
       '  -nh             - Ignore saved file history'+EOL+
       '  -ns             - Ignore saved session'+EOL+
       '  -w=left,top,width,height - Set position/size of app window'+EOL+
+      '  -s=folder       - Specify full path of "settings" folder'+EOL+
       '  -i              - Open contents of stdin in new tab (Unix only)'+EOL+
       ''+EOL+
       'Filenames can be with ":line" or ":line:column" suffix to place caret.'+EOL+
