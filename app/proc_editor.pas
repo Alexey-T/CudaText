@@ -49,7 +49,7 @@ type
   end;
 
 procedure EditorSaveTempOptions(Ed: TATSynEdit; out Ops: TATEditorTempOptions);
-procedure EditorRestoreTempOptions(Ed: TATSynEdit; const Ops, OpsInit: TATEditorTempOptions);
+procedure EditorRestoreTempOptions(Ed: TATSynEdit; const ANew, AOld: TATEditorTempOptions);
 procedure EditorFocus(C: TWinControl);
 procedure EditorMouseClick_AtCursor(Ed: TATSynEdit; AAndSelect: boolean);
 procedure EditorMouseClick_NearCaret(Ed: TATSynEdit; const AParams: string; AAndSelect: boolean);
@@ -1487,24 +1487,24 @@ begin
   Ops.ShowUnprinted:= Ed.OptUnprintedVisible;
 end;
 
-procedure EditorRestoreTempOptions(Ed: TATSynEdit; const Ops, OpsInit: TATEditorTempOptions);
+procedure EditorRestoreTempOptions(Ed: TATSynEdit; const ANew, AOld: TATEditorTempOptions);
 begin
-  if OpsInit.FontSize<>Ops.FontSize then
-    Ed.Font.Size:= Ops.FontSize;
-  if OpsInit.WrapMode<>Ops.WrapMode then
-    Ed.OptWrapMode:= Ops.WrapMode;
-  if OpsInit.ShowMinimap<>Ops.ShowMinimap then
-    Ed.OptMinimapVisible:= Ops.ShowMinimap;
-  if OpsInit.ShowMicromap<>Ops.ShowMicromap then
-    Ed.OptMicromapVisible:= Ops.ShowMicromap;
-  if OpsInit.ShowRuler<>Ops.ShowRuler then
-    Ed.OptRulerVisible:= Ops.ShowRuler;
-  if OpsInit.ShowNumbers<>Ops.ShowNumbers then
-    Ed.Gutter.Items[Ed.GutterBandNumbers].Visible:= Ops.ShowNumbers;
-  if OpsInit.ShowFolding<>Ops.ShowFolding then
-    Ed.Gutter.Items[Ed.GutterBandFolding].Visible:= Ops.ShowFolding;
-  if OpsInit.ShowUnprinted<>Ops.ShowUnprinted then
-    Ed.OptUnprintedVisible:= Ops.ShowUnprinted;
+  if AOld.FontSize<>ANew.FontSize then
+    Ed.Font.Size:= ANew.FontSize;
+  if AOld.WrapMode<>ANew.WrapMode then
+    Ed.OptWrapMode:= ANew.WrapMode;
+  if AOld.ShowMinimap<>ANew.ShowMinimap then
+    Ed.OptMinimapVisible:= ANew.ShowMinimap;
+  if AOld.ShowMicromap<>ANew.ShowMicromap then
+    Ed.OptMicromapVisible:= ANew.ShowMicromap;
+  if AOld.ShowRuler<>ANew.ShowRuler then
+    Ed.OptRulerVisible:= ANew.ShowRuler;
+  if AOld.ShowNumbers<>ANew.ShowNumbers then
+    Ed.Gutter.Items[Ed.GutterBandNumbers].Visible:= ANew.ShowNumbers;
+  if AOld.ShowFolding<>ANew.ShowFolding then
+    Ed.Gutter.Items[Ed.GutterBandFolding].Visible:= ANew.ShowFolding;
+  if AOld.ShowUnprinted<>ANew.ShowUnprinted then
+    Ed.OptUnprintedVisible:= ANew.ShowUnprinted;
 end;
 
 procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer);
