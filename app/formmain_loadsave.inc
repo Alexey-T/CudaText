@@ -293,7 +293,9 @@ var
   cfg: TJSONConfig;
   Frame: TEditorFrame;
   list: TStringlist;
-  sFilename, sTabTitle, sKind, sOpenOptions, item_path: string;
+  sFilename, sFilename2,
+  sTabTitle, sKind, sOpenOptions,
+  item_path, item_path2: string;
   nCountFiles, nCountFilesModified, nCountFilesBefore: integer;
   nIndex, i: integer;
   Pages: TATPages;
@@ -343,9 +345,16 @@ begin
       item_path:= list[i];
       if not IsHistorySectionForFilename(item_path) then Continue;
       item_path:= '/'+item_path+'/';
+      item_path2:= item_path+'pair/';
 
       sFilename:= cfg.GetValue(item_path+'file', '');
       sFilename:= SExpandHomeDirInFilename(sFilename);
+
+      sFilename2:= cfg.GetValue(item_path2+'file', '');
+      sFilename2:= SExpandHomeDirInFilename(sFilename2);
+      if not FileExistsUTF8(sFilename2) then
+        sFilename2:= '';
+
       sText:= cfg.GetValue(item_path+'text', '');
       sKind:= cfg.GetValue(item_path+'kind', '');
       bModified:= cfg.GetValue(item_path+'modified', false);
@@ -402,13 +411,18 @@ begin
       if FileExistsUTF8(sFilename) then
       begin
         Inc(nCountFiles);
-        Frame:= DoFileOpen(sFilename, '', Pages, sOpenOptions+SOptionPassive+SOptionNoHistory);
+        if sFilename2<>'' then
+          Inc(nCountFiles);
+        Frame:= DoFileOpen(sFilename, sFilename2, Pages, sOpenOptions+SOptionPassive+SOptionNoHistory);
       end;
 
       if Assigned(Frame) then
       begin
         Frame.InSession:= true;
         Frame.DoLoadHistoryEx(Frame.Ed1, cfg, item_path, true);
+
+        if sFilename2<>'' then
+          Frame.DoLoadHistoryEx(Frame.Ed2, cfg, item_path2, true);
 
         //event on_open was blocked in DoFileOpen, call it here
         //(plugin "Tab Icons" needs it)
