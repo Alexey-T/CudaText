@@ -1001,7 +1001,16 @@ begin
   else
     AppDir_Settings:= OpDirLocal+DirectorySeparator+'settings';
 
-  CreateDirUTF8(AppDir_Settings);
+  if not DirectoryExistsUTF8(AppDir_Settings) then
+  begin
+    CreateDirUTF8(AppDir_Settings);
+    if not DirectoryExistsUTF8(AppDir_Settings) then
+    begin
+      MsgStdout('CudaText could not create settings folder: '+AppDir_Settings);
+      Halt;
+    end;
+  end;
+
   AppDir_SettingsDefault:= OpDirLocal+DirectorySeparator+'settings_default';
 
   {$ifdef linux}
