@@ -3205,7 +3205,11 @@ begin
   if Assigned(F) then
   begin
     //don't work, if need to open 2 files
-    if AFileName2<>'' then exit;
+    if AFileName2<>'' then
+    begin
+      if not SameFileName(F.FileName, AFileName) then exit;
+      if not SameFileName(F.FileName2, AFileName2) then exit;
+    end;
 
     SetFrame(F);
     Result:= F;
