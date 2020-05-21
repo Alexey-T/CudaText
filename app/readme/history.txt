@@ -6,6 +6,7 @@
 1.100.2
 
 + add: Undo-list records also "line states", ie Undo reverts "line states" to initial value (thanks @tmsg)
++ add: support command-line key -s to specify custom settings folder (thanks @tmsg)
 + add: support file masks with '*' in command line arguments, e.g. "cudatext readme/test*.htm*" (thanks @tmsg)
 + add: when "unprinted symbols" are visible, for wrapped parts of long lines, render additional curved-arrow (thanks @tmsg)
 + add: when user removes lexer in Lexer Library dialog, app doesn't deallocate lexer object but only "marks" it, this prevents access to deallocated memory objects
