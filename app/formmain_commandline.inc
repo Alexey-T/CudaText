@@ -75,13 +75,23 @@ var
 begin
   Dir:= GetCurrentDirUTF8;
 
+  //support full dir path
   {$ifdef windows}
   if _IsWindowsFullPath(AMask) then
+  {$else}
+  if SBeginsWith(AMask, DirectorySeparator) then
+  {$endif}
   begin
     Dir:= ExtractFileDir(AMask);
     AMask:= ExtractFileName(AMask);
+  end
+  else
+  //support relative dir path
+  if Pos(DirectorySeparator, AMask)>0 then
+  begin
+    Dir+= DirectorySeparator+ExtractFileDir(AMask);
+    AMask:= ExtractFileName(AMask);
   end;
-  {$endif}
 
   FindAllFiles(List, Dir, AMask, false{SubDirs});
 end;
