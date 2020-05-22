@@ -11,6 +11,7 @@
 + add: when "unprinted symbols" are visible, render curved-arrow for wrapped parts of long lines (thanks @tmsg)
 + add: paired file tabs (2 files in a single tab) now correctly save/restore to/from sessions 
 + add: for stability, when user removes lexer in Lexer Library dialog, app doesn't deallocate lexer object but only "marks" it (prevents access to deallocated memory objects)
++ add: Wiki topic: https://wiki.freepascal.org/CudaText#Dialog_.22Save_tabs.22
 * change: changed format and file extensions of persistent undo/redo (used with "undo_persistent":true)
 - fix: bug in regex engine with regex like [\.-] and [.\-] (thanks @SlMaker)
 - fix: lexer Batch issues
