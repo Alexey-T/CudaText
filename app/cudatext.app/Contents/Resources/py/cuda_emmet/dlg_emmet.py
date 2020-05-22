@@ -93,7 +93,7 @@ class DialogEmmet:
 
     def on_edit_change(self, id_dlg, id_ctl, data='', info=''):
 
-        text = self.result(True)
+        text = self.result(False) # better keep tabstops
         if text:
             s = text.replace('\t', '    ')
             s = s.split('\n')
