@@ -494,7 +494,7 @@ begin
           cli := '';
           workDir := GetCurrentDirUTF8;
 
-          if LowerCase(ExtractFileDir(ParamStrUTF8(0))) = LowerCase(workDir) then
+          if SameFileName(ExtractFileDir(ParamStrUTF8(0)), workDir) then
             workDir := '';
 
           for i := 1 to ParamCount do
