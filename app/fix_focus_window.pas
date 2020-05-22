@@ -473,13 +473,14 @@ begin
     ((S[2]=':') or ((S[1]='\') and (S[2]='\')));
 end;
 
-function IsAnotherInstanceRunning:boolean;
+function IsAnotherInstanceRunning: boolean;
 var
   i: Integer;
   cli: String;
   workDir: String;
-  parameter: String;
+  param: String;
   InstanceManage: TInstanceManage;
+  bAddDir: boolean;
 begin
   Result := False;
 
@@ -499,20 +500,18 @@ begin
 
           for i := 1 to ParamCount do
           begin
-            parameter := ParamStrUTF8(i);
-            if parameter = '' then Continue;
+            param := ParamStrUTF8(i);
+            if param = '' then Continue;
 
-            // fixing https://github.com/Alexey-T/CudaText/issues/2578
-            if parameter[1] = '-' then
-              cli := cli + parameter + ParamsSeparator
-            else
-            if workDir = '' then
-              cli := cli + parameter + ParamsSeparator
-            else
-            if _IsSpecialWinPath(parameter) then
-              cli := cli + parameter + ParamsSeparator
-            else
-              cli := cli + workDir + '\' + parameter + ParamsSeparator;
+            bAddDir :=
+              (param[1] <> '-') and // https://github.com/Alexey-T/CudaText/issues/2578
+              (workDir <> '') and
+              not _IsSpecialWinPath(param);
+
+            if bAddDir then
+              param := workDir + '\' + param;
+
+            cli := cli + param + ParamsSeparator;
           end;
 
           InstanceManage.ActivateFirstInstance(BytesOf(cli));
