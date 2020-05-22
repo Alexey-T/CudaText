@@ -69,6 +69,14 @@ begin
   end;
 end;
 
+procedure _AppFindFilesByMask(List: TStringList; AMask: string);
+var
+  Dir: string;
+begin
+  Dir:= GetCurrentDirUTF8;
+  FindAllFiles(List, Dir, AMask, false{SubDirs});
+end;
+
 procedure TfmMain.DoLoadCommandParams(const AParams: array of string; AOpenOptions: string);
 // Function handles passed file names, folder names, and such params as -r -nh -z -e,
 // while others params are handled in DoLoadCommandLineBaseOptions
@@ -165,7 +173,7 @@ begin
     begin
       List:= TStringList.Create;
       try
-        FindAllFiles(List, GetCurrentDirUTF8, SParam, false{SubDirs});
+        _AppFindFilesByMask(List, SParam);
         for SParam in List do
         begin
           Frame:= DoFileOpen(SParam, '', nil, AOpenOptions);
