@@ -1659,6 +1659,14 @@ What CudaText folder to pack?
 
 Make the bug reproducable on your CudaText folder on your test file(s). Put your test file(s) in ZIP too. If needed to reproduce the bug, create the [[#Sessions|session]] using Session Manager plugin (bug may be visible only with some session). Put session file in ZIP too (usually it's already in the "settings" subfolder).
 
+==Why column selection looks weird with CJK characters==
+
+When full-width characters (CJK or other Unicode) are present in text, column (vertical) selection may look weird. Here is an example picture where starting lines are ASCII and ending lines have full-width characters.
+
+[[File:cudatext-column-sel-cjk.png]]
+
+It is not a bug. In this example, user selected column block from column 7 (at line 1) until column 20 (at line 6), so column block takes columns 7...20 from all lines. On first ASCII lines, columns 7...20 take different visual area, than columns on last lines. When you copy/paste that block to another program, block may look differently. But that block contains equal number of chars on each line.
+
 ==More==
 
 =Formats of files=
