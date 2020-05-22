@@ -473,6 +473,11 @@ begin
     ((S[2]=':') or ((S[1]='\') and (S[2]='\')));
 end;
 
+function _IsBadParamForFirstInstance(const S: string): boolean;
+begin
+  Result:= (S='-ns') or (Copy(S, 1, 3)='-w=');
+end;
+
 function IsAnotherInstanceRunning:boolean;
 var
   i: Integer;
@@ -502,9 +507,8 @@ begin
             parameter := ParamStrUTF8(i);
             if parameter = '' then Continue;
 
-            // skip CudaText command line keys
-            // https://github.com/Alexey-T/CudaText/issues/2578
-            if parameter[1] = '-' then Continue;
+            // fixing https://github.com/Alexey-T/CudaText/issues/2578
+            if _IsBadParamForFirstInstance(parameter) then Continue;
 
             if workDir = '' then
               cli := cli + parameter + ParamsSeparator
