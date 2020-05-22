@@ -884,6 +884,7 @@ begin
           begin
             An:= AppManager.Lexers[i];
             if An.Deleted then Continue;
+            if An.Internal then Continue;
             sl.AddObject(An.LexerName,
                          TObject(cmdFirstLexerCommand+i));
           end;
