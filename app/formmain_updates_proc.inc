@@ -862,6 +862,7 @@ procedure TfmMain.UpdateKeymapDynamicItems(ACategory: TAppCommandCategory);
 var
   CmdItem: TAppCommandInfo;
   Frame: TEditorFrame;
+  An: TecSyntAnalyzer;
   sl: TStringList;
   Cmd, i: integer;
 begin
@@ -880,9 +881,13 @@ begin
         try
           //usual lexers
           for i:= 0 to AppManager.LexerCount-1 do
-           if not AppManager.Lexers[i].Deleted then
-            sl.AddObject(AppManager.Lexers[i].LexerName,
+          begin
+            An:= AppManager.Lexers[i];
+            if An.Deleted then Continue;
+            sl.AddObject(An.LexerName,
                          TObject(cmdFirstLexerCommand+i));
+          end;
+
           //lite lexers
           for i:= 0 to AppManagerLite.LexerCount-1 do
             sl.AddObject(AppManagerLite.Lexers[i].LexerName+msgLiteLexerSuffix,
