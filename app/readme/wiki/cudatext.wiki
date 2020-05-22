@@ -1044,7 +1044,10 @@ After markers are placed by Snippets plugin, Tab-key works special - it jumps to
 ==Dialog "Save tabs"==
 
 Dialog "Save tabs?" shows on CudaText closing, if at least one document is modified and not saved to disk.
-Dialog lists all modified file-tabs (usually one file per one file-tab, but it's allowed to have 2 files in a single file-tab). User can place checkmarks near file-tabs which will be saved on pressing "Save" button. Button "Don't save" closes dialog+program, loosing modified texts. Button "Cancel" closes only the dialog, but not the program.
+Dialog lists all modified file-tabs (usually one file per one file-tab, but it's allowed to have 2 files in a single file-tab). Checkmarks (all checked by default) are used to check/uncheck file-tabs which will be saved on pressing "Save" button. For untitled documents to be saved, program will show "Save file as" prompts.
+
+Button "Don't save" closes dialog and program, loosing modified texts.
+Button "Cancel" closes the dialog, but not the program.
 
 CudaText has the option "ui_reopen_session". When it is true, dialog "Save tabs?" shows additional button: "Don't save / Keep in session", which doesn't save disk files, but stores modified documents to active "session" file. Program will read it on start.
 
