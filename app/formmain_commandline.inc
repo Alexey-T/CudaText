@@ -76,14 +76,11 @@ begin
   Dir:= GetCurrentDirUTF8;
 
   {$ifdef windows}
-  //support masks with full directory path
-  if Pos('\', AMask)>0 then
-    if Length(AMask)>2 then
-      if AMask[2]=':' then
-      begin
-        Dir:= ExtractFileDir(AMask);
-        AMask:= ExtractFileName(AMask);
-      end;
+  if _IsWindowsFullPath(AMask) then
+  begin
+    Dir:= ExtractFileDir(AMask);
+    AMask:= ExtractFileName(AMask);
+  end;
   {$endif}
 
   FindAllFiles(List, Dir, AMask, false{SubDirs});

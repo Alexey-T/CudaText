@@ -135,6 +135,7 @@ type
 function IsSetToOneInstance: boolean;
 //Block another window instance if Single Instance is True
 function IsAnotherInstanceRunning:boolean;
+function _IsWindowsFullPath(const S: string): boolean;
 procedure debug(const text: String);
 {$ifend}
 
@@ -464,7 +465,7 @@ begin
   end;
 end;
 
-function _IsSpecialWinPath(const S: string): boolean;
+function _IsWindowsFullPath(const S: string): boolean;
 //path is 'D:\somestring'?
 //path is '\\UNCpath'?
 begin
@@ -506,7 +507,7 @@ begin
             bAddDir :=
               (param[1] <> '-') and // https://github.com/Alexey-T/CudaText/issues/2578
               (workDir <> '') and
-              not _IsSpecialWinPath(param);
+              not _IsWindowsFullPath(param);
 
             if bAddDir then
               param := workDir + '\' + param;
