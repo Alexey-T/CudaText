@@ -1086,10 +1086,11 @@
   //  if "g" in value: gutter (all columns: numbers, bookmarks...)
   "ui_fullscreen": "tp",
 
-  //Highlight border of focused input box (find/ replace/ goto/ console input)
+  //Highlight border of focused input box
+  //(Find/Replace dialog, Console panel, Code Tree filter input)
   "ui_active_border": true,
 
-  //Console panel (Ctrl+`): word wrap mode
+  //Console panel (Ctrl+`): word-wrap mode
   "ui_console_wrap": true,
 
   //[Ui/Toolbars]
