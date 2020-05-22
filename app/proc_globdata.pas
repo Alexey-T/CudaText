@@ -1715,8 +1715,8 @@ begin
     begin
       an:= Lexers[i];
       if an.Deleted then Continue;
-      if AlsoDisabled or not an.Internal then
-        L.Add(an.LexerName);
+      if an.Internal and not AlsoDisabled then Continue;
+      L.Add(an.LexerName);
     end;
 
   with AppManagerLite do
