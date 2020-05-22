@@ -1,4 +1,4 @@
-object SyntAnal17: TLibSyntAnalyzer
+object SyntAnal16: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Number'
@@ -184,7 +184,7 @@ object SyntAnal17: TLibSyntAnalyzer
       DisplayName = 'String raw'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(r|rf|rb|br|ur) ("|'#39') (\\.|.)*? (\2|$)'
+      Expression = '(r|rf|fr|rb|br|ur) ("|'#39') (\\.|.)*? (\2|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
