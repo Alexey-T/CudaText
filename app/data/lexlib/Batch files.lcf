@@ -118,8 +118,8 @@ object SyntAnal3: TLibSyntAnalyzer
       StyleName = 'Symbol'
       TokenType = 6
       Expression = 
-        '[\+\*\(\)\[\]\{\}<>,~!&\|;=%\^\#@\\/] | \b equ \b | \b neq \b | ' +
-        '\b lss \b | \b gtr \b | \b leq \b | \b geq \b'
+        '[\+\*\(\)\[\]\{\}<>,~!&\|;=%\^\#@/] | \b equ \b | \b neq \b | \b' +
+        ' lss \b | \b gtr \b | \b leq \b | \b geq \b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -152,7 +152,7 @@ object SyntAnal3: TLibSyntAnalyzer
       DisplayName = 'Text'
       StyleName = 'Text'
       TokenType = 2
-      Expression = '(?r)[\w\-\.]+'
+      Expression = '(?r)\w[\w\-\./\\:]*'
       ColumnFrom = 0
       ColumnTo = 0
     end>
