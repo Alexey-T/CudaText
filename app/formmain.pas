@@ -4182,10 +4182,10 @@ procedure TfmMain.MsgStatus(AText: string);
 begin
   SReplaceAll(AText, #10, ' ');
   SReplaceAll(AText, #13, ' ');
-  FLastStatusbarMessage:= AText;
 
   if DoOnMessage(AText) then
   begin
+    FLastStatusbarMessage:= AText;
     DoStatusbarTextByTag(Status, StatusbarTag_Msg, GetStatusbarPrefix(CurrentFrame)+AText);
 
     if AText='' then exit;
