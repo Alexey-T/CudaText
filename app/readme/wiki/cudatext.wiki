@@ -1360,6 +1360,23 @@ f.write('">\n')
 
 *    Bluefish 2.2.10. On opening file, gives the warning about too long lines, on choosing "don't split lines" it hanged, waited for 30sec.
 
+===Perfomance of built-in sorting===
+
+Test on ~100M text file with short ASCII lines.
+Test on Ubuntu 19.10 on Intel i3 CPU.
+
+CudaText 1.97:
+* sort time: 18sec
+* sort time with ignoring case: 19sec
+* memory used after file loading: ~1.0G
+* peak memory used on sorting: the same (inplace sorting in the same list)
+
+Sublime Text 3.2:
+* sort time: 14sec
+* sort time with ignoring case: 16sec
+* memory used after file loading: ~1.3G
+* peak memory used on sorting: ~3.3G
+
 ==How to compile program==
 
 There is Linux script CudaText_up https://github.com/Alexey-T/CudaText_up - it downloads all  sources into ~/cudatext_up, then calls Lazarus (at least 1.8.4) to compile them. You can use it with FPC cross-compilers, installed from FpcUpDeluxe, script will compile CudaText for any of available platforms. Without cross-compilers, script makes CudaText only for the current platform. It puts result to ~/cudatext_up/bin.
