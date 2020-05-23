@@ -440,16 +440,45 @@ object SyntAnal12: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'func'
+      DisplayName = 'function anon'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '(')
+          TokenTypes = 8
+        end
+        item
+          TagList.Strings = (
+            'function')
+          TokenTypes = 4
+        end>
+      BlockEnd = 'end'
+      NameFmt = '<anon>'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      CollapseFmt = '%sz0'
+      TreeItemImage = 5
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'function'
       ConditionList = <
         item
           TokenTypes = 1024
+        end
+        item
+          TagList.Strings = (
+            'function')
+          TokenTypes = 4
         end>
       BlockEnd = 'end'
+      NameFmt = '%s-1'
+      RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
       DrawStaple = True
-      NoEndRule = True
+      CollapseFmt = '%sz0'
       TreeItemImage = 5
       IgnoreAsParent = False
     end
@@ -471,7 +500,6 @@ object SyntAnal12: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'do'
-            'function'
             'if')
           TokenTypes = 4
         end>
