@@ -69,6 +69,7 @@ Method return value is ignored is many cases, but sometimes return value True or
 
 ==Panels==
 
+* on_message(self, ed_self, id, text): Called on showing a text in the statusbar. Param "id" means statusbar column index, currently only value 0 is used ("text message" statusbar cell). Method can return False to disable usual showing of message. Param "ed_self" is None here.
 * on_console_nav(self, ed_self, text): Called on double-clicking line, or calling context menu item "Navigate", in Python Console panel. Param "text" is line with caret. Param "ed_self" is None here.
 * on_output_nav(self, ed_self, text, tag): Called on clicking line, or pressing Enter, in the Output or Validate panel. Param "text" is clicked line, param "tag" is int value associated with line. Event is called only if app cannot parse output line by itself using given regex, or regex is not set. Param "ed_self" is None here.
 
@@ -3835,5 +3836,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.328 (app 1.100.5)
 * change: changed format of string in PROP_UNDO_DATA, PROP_REDO_DATA (field "line state" was inserted in the middle of lines, could not append it to the end)
+
+1.0.329 (app 1.100.6)
++ add: event "on_message"
 
 [[Category:CudaText]]
