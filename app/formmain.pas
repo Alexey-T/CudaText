@@ -741,6 +741,7 @@ type
     procedure DoApplyTheme;
     procedure DoApplyThemeToGroups(G: TATGroups);
     procedure DoClearRecentFileHistory;
+    function DoOnMessage(const AText: string): boolean;
     function DoOnConsoleNav(const Str: string): boolean;
     procedure DoOnConsoleNumberChange(Sender: TObject);
     function DoOnMacro(Frame: TEditorFrame; const Str: string): boolean;
@@ -4183,11 +4184,14 @@ begin
   SReplaceAll(AText, #13, ' ');
   FLastStatusbarMessage:= AText;
 
-  DoStatusbarTextByTag(Status, StatusbarTag_Msg, GetStatusbarPrefix(CurrentFrame)+AText);
+  if DoOnMessage(AText) then
+  begin
+    DoStatusbarTextByTag(Status, StatusbarTag_Msg, GetStatusbarPrefix(CurrentFrame)+AText);
 
-  if AText='' then exit;
-  TimerStatusClear.Enabled:= false;
-  TimerStatusClear.Enabled:= true;
+    if AText='' then exit;
+    TimerStatusClear.Enabled:= false;
+    TimerStatusClear.Enabled:= true;
+  end;
 end;
 
 procedure TfmMain.MsgStatusAlt(const AText: string; ASeconds: integer);
@@ -5760,6 +5764,18 @@ begin
 
   Result:= DoPyEvent(nil, cEventOnConsoleNav, Params).Val <> evrFalse;
 end;
+
+function TfmMain.DoOnMessage(const AText: string): boolean;
+var
+  Params: TAppVariantArray;
+begin
+  SetLength(Params, 2);
+  Params[0]:= AppVariant(0); //reserved for future
+  Params[1]:= AppVariant(AText);
+
+  Result:= DoPyEvent(nil, cEventOnMessage, Params).Val <> evrFalse;
+end;
+
 
 procedure TfmMain.DoOnConsoleNumberChange(Sender: TObject);
 begin
