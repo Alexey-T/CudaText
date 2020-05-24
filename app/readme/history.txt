@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.101.1
+1.101.3
 
++ add: optimization in rendering of "colored ranges" (they are present in Bash lexer for $(...) and AutoIt lexer for comments). Syntetic tests, with lot of colored ranges, show much faster rendering.
 + add: option "ui_notif_confirm" to enable confirmation on file auto-reloading
 + add: lexer Lua: better code-tree for functions
 
