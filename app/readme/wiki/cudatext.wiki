@@ -495,7 +495,7 @@ You can type those "hash tags" at begin or end of the field, even without separa
 
 ==Regular expressions==
 
-Lexer engine uses regex from EControl package. Groups must be referenced as \0 .. \9.
+Lexer parser uses regex engine from EControl package. Groups must be referenced as \0 .. \9.
 It has custom features:
 
 * classes \A, \Z: begin/end of document
@@ -503,7 +503,9 @@ It has custom features:
 * modifier (?r): treat \w as all national characters too
 * modifier (?g)
 
-Search/replace uses TRegExpr engine (by Sorokin), its syntax is documented here: http://regexpstudio.com/TRegExpr/Help/regexp_syntax.html . Groups must be referenced as $0 .. $9. Engine is more reliable, fast.
+Search/replace uses TRegExpr engine (by Sorokin), its syntax is documented here:
+https://regex.sorokin.engineer/en/latest/regular_expressions.html .
+Groups must be referenced as $0 .. $9.
 
 ===Change case on replaces===
 
