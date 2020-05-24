@@ -1054,6 +1054,7 @@ begin
 
   UiOps.NotificationEnabled:= cfg.GetValue('ui_notif', UiOps.NotificationEnabled);
   UiOps.NotificationTimeSeconds:= Max(1, cfg.GetValue('ui_notif_time', UiOps.NotificationTimeSeconds)); //don't allow 0
+  UiOps.NotificationConfirmReload:= cfg.GetValue('ui_notif_confirm', UiOps.NotificationConfirmReload);
 
   UiOps.NonTextFiles:= cfg.GetValue('ui_non_text', UiOps.NonTextFiles);
   UiOps.NonTextFilesBufferKb:= Max(1, Min(1024, cfg.GetValue('ui_non_text_buffer', UiOps.NonTextFilesBufferKb)));

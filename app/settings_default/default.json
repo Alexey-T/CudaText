@@ -118,8 +118,13 @@
   //(changing to "true" requires app restart)
   "ui_notif": true,
 
-  //Notifications about file change in external programs: wait time in seconds
+  //Notifications about file change in external programs:
+  //waiting time in seconds
   "ui_notif_time": 2,
+
+  //Notifications about file change in external programs:
+  //always confirm to reload file, even if it's not modified in CudaText
+  "ui_notif_confirm": false,
 
   //[File/NonText]
   //Non-text files: allow to open

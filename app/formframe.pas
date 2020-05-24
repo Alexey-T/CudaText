@@ -3323,8 +3323,9 @@ procedure TEditorFrame.NotifyAboutChange(Ed: TATSynEdit);
 var
   Index: integer;
 begin
-  //silent reload if: not modified, and undo empty
-  if (not Ed.Modified) and (Ed.UndoCount<=1) then
+  if (not UiOps.NotificationConfirmReload) and
+     (not Ed.Modified) and
+     (Ed.UndoCount<=1) then
   begin
     DoFileReload(Ed);
     exit
