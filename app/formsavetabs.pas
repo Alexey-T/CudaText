@@ -69,6 +69,7 @@ begin
     with btnSave do Caption:= ini.ReadString(section, 'sav', Caption);
     with btnDontSave do Caption:= ini.ReadString(section, 'no', Caption);
     with btnDontSaveKeep do Caption:= ini.ReadString(section, 'no_ses', Caption);
+    with btnToggle do Caption:= ini.ReadString(section, 'tg', Caption);
     with btnCancel do Caption:= msgButtonCancel;
   finally
     FreeAndNil(ini);
