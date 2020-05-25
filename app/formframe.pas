@@ -2039,6 +2039,9 @@ procedure TEditorFrame.DoFileOpen(const AFileName, AFileName2: string;
   AAllowLoadHistory, AAllowLexerDetect, AAllowErrorMsgBox: boolean;
   AOpenMode: TAppOpenMode);
 begin
+  NotifEnabled:= false; //for binary-viewer and pictures, NotifEnabled must be False
+  FileProps.Inited:= false; //loading of new filename must not trigger notif-thread
+
   if Assigned(FBin) then
     FBin.Hide;
   if Assigned(FImageBox) then
