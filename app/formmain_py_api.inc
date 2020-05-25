@@ -5062,6 +5062,9 @@ var
   Item: PATSynRange;
   NLen, i: integer;
 begin
+  if Ed.Fold.Count=0 then
+    exit(AppPython.Engine.ReturnNone);
+
   L:= TFPList.Create;
   try
     for i:= 0 to Ed.Fold.Count-1 do
