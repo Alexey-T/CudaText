@@ -1238,6 +1238,7 @@ begin
         CurFrame:= TEditorFrame(AppFrameList2[i]);
         if CurFrame.FileName='' then Continue;
         if not CurFrame.NotifEnabled then Continue;
+        if not CurFrame.IsText then Continue;
         HandleOneFrame;
       end;
     finally
