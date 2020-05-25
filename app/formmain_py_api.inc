@@ -5059,20 +5059,19 @@ end;
 function Py_ed_folding_getlist(Ed: TATSynEdit; NeedY, NeedY2: integer): PPyObject; cdecl;
 var
   L: TATSynRangeList;
-  Range: TATSynRange;
-  NLen, i: Integer;
-  ok: boolean;
+  Item: PATSynRange;
+  NLen, i: integer;
 begin
-  L:= TATSynRangeList.Create;
+ L:= TATSynRangeList.Create;
+ try
   for i:= 0 to Ed.Fold.Count-1 do
   begin
-    Range:= Ed.Fold[i];
+    Item:= Ed.Fold.ItemPtr(i);
     if NeedY<0 then
-      ok:= true
+      L.Add(Item^)
     else
-      ok:= (Range.Y<=NeedY) and (Range.Y2>=NeedY2);
-    if ok then
-      L.Add(Range);
+    if (Item^.Y<=NeedY) and (Item^.Y2>=NeedY2) then
+      L.Add(Item^);
   end;
 
   with AppPython.Engine do
@@ -5085,21 +5084,23 @@ begin
         raise EPythonError.Create(msgPythonListError);
       for i:= 0 to NLen-1 do
       begin
-        Range:= L[i];
+        Item:= L.ItemPtr(i);
         PyList_SetItem(Result, i,
           Py_BuildValue('(iiiOO)',
-            Range.Y,
-            Range.Y2,
-            Range.X-1,
-            PyBool_FromLong(Ord(Range.Staple)),
-            PyBool_FromLong(Ord(Range.Folded))
+            Item^.Y,
+            Item^.Y2,
+            Item^.X-1,
+            PyBool_FromLong(Ord(Item^.Staple)),
+            PyBool_FromLong(Ord(Item^.Folded))
             ));
       end;
     end
     else
       Result:= ReturnNone;
   end;
+ finally
   FreeAndNil(L);
+ end;
 end;
 
 
