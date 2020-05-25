@@ -5062,47 +5062,46 @@ var
   Item: PATSynRange;
   NLen, i: integer;
 begin
- L:= TFPList.Create;
- try
-  for i:= 0 to Ed.Fold.Count-1 do
-  begin
-    Item:= Ed.Fold.ItemPtr(i);
-    if NeedY<0 then
-      L.Add(Item)
-    else
-    if (Item^.Y<=NeedY) and (Item^.Y2>=NeedY2) then
-      L.Add(Item);
-  end;
-
-  with AppPython.Engine do
-  begin
-    NLen:= L.Count;
-    if NLen>0 then
+  L:= TFPList.Create;
+  try
+    for i:= 0 to Ed.Fold.Count-1 do
     begin
-      Result:= PyList_New(NLen);
-      if not Assigned(Result) then
-        raise EPythonError.Create(msgPythonListError);
-      for i:= 0 to NLen-1 do
-      begin
-        Item:= PATSynRange(L[i]);
-        PyList_SetItem(Result, i,
-          Py_BuildValue('(iiiOO)',
-            Item^.Y,
-            Item^.Y2,
-            Item^.X-1,
-            PyBool_FromLong(Ord(Item^.Staple)),
-            PyBool_FromLong(Ord(Item^.Folded))
-            ));
-      end;
-    end
-    else
-      Result:= ReturnNone;
-  end;
- finally
-  FreeAndNil(L);
- end;
-end;
+      Item:= Ed.Fold.ItemPtr(i);
+      if NeedY<0 then
+        L.Add(Item)
+      else
+      if (Item^.Y<=NeedY) and (Item^.Y2>=NeedY2) then
+        L.Add(Item);
+    end;
 
+    with AppPython.Engine do
+    begin
+      NLen:= L.Count;
+      if NLen>0 then
+      begin
+        Result:= PyList_New(NLen);
+        if not Assigned(Result) then
+          raise EPythonError.Create(msgPythonListError);
+        for i:= 0 to NLen-1 do
+        begin
+          Item:= PATSynRange(L[i]);
+          PyList_SetItem(Result, i,
+            Py_BuildValue('(iiiOO)',
+              Item^.Y,
+              Item^.Y2,
+              Item^.X-1,
+              PyBool_FromLong(Ord(Item^.Staple)),
+              PyBool_FromLong(Ord(Item^.Folded))
+              ));
+        end;
+      end
+      else
+        Result:= ReturnNone;
+    end;
+  finally
+    FreeAndNil(L);
+  end;
+end;
 
 function Py_ed_get_sublexer_ranges(Self, Args: PPyObject): PPyObject; cdecl;
 var
