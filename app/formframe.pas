@@ -1824,12 +1824,12 @@ end;
 
 function TEditorFrame.IsPicture: boolean;
 begin
-  Result:= Assigned(FImageBox);
+  Result:= Assigned(FImageBox) and FImageBox.Visible;
 end;
 
 function TEditorFrame.IsBinary: boolean;
 begin
-  Result:= Assigned(FBin);
+  Result:= Assigned(FBin) and FBin.Visible;
 end;
 
 
