@@ -5055,8 +5055,44 @@ begin
     Result:= ReturnNone;
 end;
 
+procedure Py_ed_folding_SetItem(AObj: PPyObject; AListIndex: integer; AItem: PATSynRange);
+begin
+  with AppPython.Engine do
+    PyList_SetItem(AObj, AListIndex,
+      Py_BuildValue('(iiiOO)',
+        AItem^.Y,
+        AItem^.Y2,
+        AItem^.X-1,
+        PyBool_FromLong(Ord(AItem^.Staple)),
+        PyBool_FromLong(Ord(AItem^.Folded))
+        ));
+end;
 
-function Py_ed_folding_getlist(Ed: TATSynEdit; NeedY, NeedY2: integer): PPyObject; cdecl;
+function Py_ed_folding_GetAll(Ed: TATSynEdit): PPyObject; cdecl;
+var
+  Item: PATSynRange;
+  NLen, i: integer;
+begin
+  with AppPython.Engine do
+  begin
+    NLen:= Ed.Fold.Count;
+    if NLen>0 then
+    begin
+      Result:= PyList_New(NLen);
+      if not Assigned(Result) then
+        raise EPythonError.Create(msgPythonListError);
+      for i:= 0 to NLen-1 do
+      begin
+        Item:= Ed.Fold.ItemPtr(i);
+        Py_ed_folding_SetItem(Result, i, Item);
+      end;
+    end
+    else
+      Result:= ReturnNone;
+  end;
+end;
+
+function Py_ed_folding_GetFiltered(Ed: TATSynEdit; NeedY, NeedY2: integer): PPyObject; cdecl;
 var
   L: TFPList;
   Item: PATSynRange;
@@ -5070,9 +5106,6 @@ begin
     for i:= 0 to Ed.Fold.Count-1 do
     begin
       Item:= Ed.Fold.ItemPtr(i);
-      if NeedY<0 then
-        L.Add(Item)
-      else
       if (Item^.Y<=NeedY) and (Item^.Y2>=NeedY2) then
         L.Add(Item);
     end;
@@ -5088,14 +5121,7 @@ begin
         for i:= 0 to NLen-1 do
         begin
           Item:= PATSynRange(L[i]);
-          PyList_SetItem(Result, i,
-            Py_BuildValue('(iiiOO)',
-              Item^.Y,
-              Item^.Y2,
-              Item^.X-1,
-              PyBool_FromLong(Ord(Item^.Staple)),
-              PyBool_FromLong(Ord(Item^.Folded))
-              ));
+          Py_ed_folding_SetItem(Result, i, Item);
         end;
       end
       else
@@ -5105,6 +5131,7 @@ begin
     FreeAndNil(L);
   end;
 end;
+
 
 function Py_ed_get_sublexer_ranges(Self, Args: PPyObject): PPyObject; cdecl;
 var
@@ -7078,12 +7105,15 @@ begin
       case Id of
         FOLDING_GET_LIST:
           begin
-            Result:= Py_ed_folding_getlist(Ed, -1, -1);
+            Result:= Py_ed_folding_GetAll(Ed);
           end;
 
         FOLDING_GET_LIST_FILTERED:
           begin
-            Result:= Py_ed_folding_getlist(Ed, NY, NY2);
+            if NY<0 then
+              Result:= Py_ed_folding_GetAll(Ed)
+            else
+              Result:= Py_ed_folding_GetFiltered(Ed, NY, NY2);
           end;
 
         FOLDING_FOLD:
