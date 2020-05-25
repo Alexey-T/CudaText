@@ -28,8 +28,10 @@ type
     btnDontSave: TButton;
     btnDontSaveKeep: TButton;
     btnSave: TButton;
+    btnToggle: TButton;
     List: TCheckListBox;
     Panel1: TATPanelSimple;
+    procedure btnToggleClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -114,6 +116,14 @@ end;
 procedure TfmSaveTabs.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   DoSaveSize;
+end;
+
+procedure TfmSaveTabs.btnToggleClick(Sender: TObject);
+var
+  i: integer;
+begin
+  for i:= 0 to List.Items.Count-1 do
+    List.Toggle(i);
 end;
 
 procedure TfmSaveTabs.FormCreate(Sender: TObject);

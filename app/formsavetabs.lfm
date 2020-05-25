@@ -20,7 +20,7 @@ object fmSaveTabs: TfmSaveTabs
   LCLVersion = '2.1.0.0'
   object List: TCheckListBox
     Left = 6
-    Height = 303
+    Height = 299
     Top = 6
     Width = 708
     Align = alClient
@@ -33,16 +33,16 @@ object fmSaveTabs: TfmSaveTabs
   end
   object Panel1: TATPanelSimple
     Left = 0
-    Height = 41
-    Top = 309
+    Height = 45
+    Top = 305
     Width = 720
     Align = alBottom
     AutoSize = True
     object btnSave: TButton
       AnchorSideTop.Control = btnDontSave
       AnchorSideRight.Control = btnDontSaveKeep
-      Left = 230
-      Height = 29
+      Left = 227
+      Height = 33
       Top = 6
       Width = 90
       Anchors = [akTop, akRight]
@@ -58,7 +58,7 @@ object fmSaveTabs: TfmSaveTabs
       AnchorSideTop.Control = btnCancel
       AnchorSideRight.Control = btnCancel
       Left = 528
-      Height = 29
+      Height = 33
       Top = 6
       Width = 90
       Anchors = [akTop, akRight]
@@ -74,7 +74,7 @@ object fmSaveTabs: TfmSaveTabs
       AnchorSideRight.Control = Panel1
       AnchorSideRight.Side = asrBottom
       Left = 624
-      Height = 29
+      Height = 33
       Top = 6
       Width = 90
       Anchors = [akTop, akRight]
@@ -89,10 +89,10 @@ object fmSaveTabs: TfmSaveTabs
     object btnDontSaveKeep: TButton
       AnchorSideTop.Control = btnCancel
       AnchorSideRight.Control = btnDontSave
-      Left = 326
-      Height = 29
+      Left = 323
+      Height = 33
       Top = 6
-      Width = 196
+      Width = 199
       Anchors = [akTop, akRight]
       AutoSize = True
       BorderSpacing.Right = 6
@@ -100,6 +100,18 @@ object fmSaveTabs: TfmSaveTabs
       Constraints.MinWidth = 90
       ModalResult = 11
       TabOrder = 1
+    end
+    object btnToggle: TButton
+      AnchorSideTop.Control = btnDontSave
+      Left = 6
+      Height = 33
+      Top = 6
+      Width = 60
+      AutoSize = True
+      BorderSpacing.Left = 6
+      Caption = 'Toggle'
+      OnClick = btnToggleClick
+      TabOrder = 4
     end
   end
 end
