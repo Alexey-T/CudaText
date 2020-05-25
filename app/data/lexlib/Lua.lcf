@@ -509,6 +509,47 @@ object SyntAnal12: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = 'func in class 2'
+      ConditionList = <
+        item
+          TokenTypes = 4
+        end
+        item
+          TagList.Strings = (
+            ':'
+            '.')
+          TokenTypes = 8
+        end
+        item
+          TokenTypes = 4
+        end
+        item
+          TagList.Strings = (
+            ':'
+            '.')
+          TokenTypes = 8
+        end
+        item
+          TokenTypes = 4
+        end
+        item
+          TagList.Strings = (
+            'function')
+          TokenTypes = 4
+        end>
+      BlockEnd = 'end'
+      NameFmt = '%s-3%s-4%s-5'
+      GroupFmt = '%s-1'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      DrawStaple = True
+      CollapseFmt = '%sz0'
+      TreeItemImage = 5
+      TreeGroupImage = 1
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = 'end'
       BlockType = btRangeEnd
       ConditionList = <
@@ -605,11 +646,11 @@ object SyntAnal12: TLibSyntAnalyzer
     ' n = 2 + 2.22 + 22.22e-2 + 0.22E1 + 0xF0 + .5 + 5.  '
     ' ::name:: , goto name'
     ''
-    'function Cls1.mt.__lt (a,b)'
-    '  return a <= b and not (b <= a)'
+    'function Test.mt.__lt (a,b)'
+    '  return a <= b'
     'end'
     ''
-    'function Cls1:app(a, n)'
+    'function Test:app (a, n)'
     '  if n == 0 then'
     '    coroutine.yield(a)'
     '  else'
