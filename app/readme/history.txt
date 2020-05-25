@@ -3,12 +3,12 @@
   - fixed
   * changed
 
-1.101.3
+1.101.3 (2020/05)
 
 + add: optimization in rendering of "colored ranges" (they are present in Bash lexer for $(...) and AutoIt lexer for comments). Syntetic tests, with lot of colored ranges, show much faster rendering.
 + add: option "ui_notif_confirm" to enable confirmation on file auto-reloading
 + add: lexer Lua: better code-tree for functions in class; folding of {}
-- fix: opening files in "preview tab" (Project Manager) may give incorrect filename (with "ui_notif":true)
+- fix: opening files in "preview tab" (Project Manager) may give incorrect previous filename (with "ui_notif":true)
 
 1.101.0 (2020/05)
 
