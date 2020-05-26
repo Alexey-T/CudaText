@@ -3113,14 +3113,14 @@ begin
   Ed.OptScaleFont:= c.GetValue(path+cHistory_Scale, 0);
 
   nTop:= c.GetValue(path+cHistory_Top, 0);
-  if nTop>0 then
   if Assigned(Lexer[Ed]) then
   begin
-    //this seems ok: works even for open-file via cmdline
     FFoldTodo:= c.GetValue(path+cHistory_Fold, '');
-    //linetop
-    FTopLineTodo:= nTop; //restore LineTop after analize done
-    Ed.LineTop:= nTop; //scroll immediately
+    if nTop>0 then
+    begin
+      FTopLineTodo:= nTop; //restore LineTop after parsing done
+      Ed.LineTop:= nTop; //scroll immediately
+    end;
   end
   else
   begin
