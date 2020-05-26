@@ -11,7 +11,7 @@
 + add: dialog "Save Tabs" has new button "Toggle"
 + add: lexer Lua: better code-tree for functions in class; folding of {}
 - fix: lexer JS: highlighting of regex'es
-- fix: folded ranges didn't restore from history (if top_line=0)
+- fix: folded ranges didn't restore from history (if scroll pos: on top)
 - fix: opening files in "preview tab" (Project Manager) gave incorrect filename sometimes (with "ui_notif":true)
 
 1.101.0 (2020/05)
