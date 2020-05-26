@@ -3125,7 +3125,8 @@ begin
   else
   begin
     //now it's not needed to do Ed.Update(true) nor Application.ProcessMessages
-    Ed.LineTop:= nTop;
+    if nTop>0 then
+      Ed.LineTop:= nTop;
   end;
 
   //caret
