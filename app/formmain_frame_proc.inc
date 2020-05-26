@@ -206,14 +206,15 @@ var
   fn: string;
 begin
   F:= Sender as TEditorFrame;
-  fn:= F.Filename;
+  fn:= F.FileName;
   MsgStatus(
     msgStatusSavedFile+' '+
     ExtractFileName_Fixed(fn)+
-    ' ('+ExtractFileDir_Fixed(fn)+')');
+    ' ('+SCollapseHomeDirInFilename(ExtractFileDir_Fixed(fn))+')'
+    );
 
+  //if it's user.json, reread app config (using timer!)
   if SameFileName(fn, AppFile_OptionsUser) then
-    //must use timer
     CurrentEditor.DoCommand(cmd_OpsReloadAndApply);
 end;
 
