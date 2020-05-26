@@ -10,7 +10,7 @@
 + add: option "ui_notif_confirm" to enable confirmation on file auto-reloading
 + add: dialog "Save Tabs" has new button "Toggle"
 + add: lexer Lua: better code-tree for functions in class; folding of {}
-- fix: opening files in "preview tab" (Project Manager) may give incorrect previous filename (with "ui_notif":true)
+- fix: opening files in "preview tab" (Project Manager) gave incorrect filename sometimes (with "ui_notif":true)
 
 1.101.0 (2020/05)
 
