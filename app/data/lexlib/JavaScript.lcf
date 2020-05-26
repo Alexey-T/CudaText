@@ -201,7 +201,8 @@ object SyntAnal9: TLibSyntAnalyzer
       TokenType = 4
       Expression = 
         '(?<=[=\(\[&!:/>\?\+]\x20*) / (\\/|\\\\|\[.+?\]|.)*? /[gimy]* |'#13#10 +
-        '(?<=\bcase\x20+) / (\\/|\\\\|\[.+?\]|.)*? /[gimy]*'
+        '(?<=\bcase\x20+) / (\\/|\\\\|\[.+?\]|.)*? /[gimy]* |'#13#10'(?<=\bretu' +
+        'rn\x20+) / (\\/|\\\\|\[.+?\]|.)*? /[gimy]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
