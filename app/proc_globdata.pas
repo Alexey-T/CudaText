@@ -586,8 +586,8 @@ function DoReadOneStringFromFile(const AFilename: string): string;
 function DoReadContentFromFile(const AFilename: string): string;
 procedure DoWriteStringToFile(const AFilename, AText: string);
 
-function SCollapseHomeDirInFilename(const AFilename: string): string;
-function SExpandHomeDirInFilename(const AFilename: string): string;
+function SCollapseHomeDirInFilename(const fn: string): string;
+function SExpandHomeDirInFilename(const fn: string): string;
 
 var
   AppManager: TecLexerList = nil;
@@ -920,21 +920,25 @@ begin
   Result:= '';
 end;
 
-function SCollapseHomeDirInFilename(const AFilename: string): string;
+function SCollapseHomeDirInFilename(const fn: string): string;
 var
   S: string;
 begin
-  Result:= AFilename;
+  Result:= fn;
+  {$ifndef windows}
   S:= AppDir_Home;
   if SBeginsWith(Result, S) then
     Result:= '~'+DirectorySeparator+Copy(Result, Length(S)+1, MaxInt);
+  {$endif}
 end;
 
-function SExpandHomeDirInFilename(const AFilename: string): string;
+function SExpandHomeDirInFilename(const fn: string): string;
 begin
-  Result:= AFilename;
+  Result:= fn;
+  {$ifndef windows}
   if SBeginsWith(Result, '~'+DirectorySeparator) then
     Result:= AppDir_Home+Copy(Result, 3, MaxInt);
+  {$endif}
 end;
 
 
