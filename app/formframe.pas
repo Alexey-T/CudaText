@@ -3325,6 +3325,7 @@ end;
 
 procedure TEditorFrame.NotifyAboutChange(Ed: TATSynEdit);
 var
+  bMsg: boolean;
   Index: integer;
 begin
   //why do we check Ed.UndoCount here?
@@ -3333,9 +3334,16 @@ begin
   //so when Undo info present (1 item allowed, is empty-marker in undo list)
   //then show confirmation to reload.
 
-  if (not UiOps.NotificationConfirmReload) and
-     (not Ed.Modified) and
-     (Ed.UndoCount<=1) then
+  case UiOps.NotificationConfirmReload of
+    1:
+      bMsg:= Ed.Modified or (Ed.UndoCount>1);
+    2:
+      bMsg:= Ed.Modified; //like Notepad++
+    else
+      bMsg:= true;
+  end;
+
+  if not bMsg then
   begin
     DoFileReload(Ed);
     exit
