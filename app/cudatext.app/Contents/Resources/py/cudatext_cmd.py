@@ -362,6 +362,11 @@ cmd_GroupActivatePrev = 2641
 
 cmd_MoveTabToGroupNext = 2642
 cmd_MoveTabToGroupPrev = 2643
+cmd_MoveTabToGroup1 = 2644
+cmd_MoveTabToGroup2 = 2645
+cmd_MoveTabToGroupFloating1 = 2646
+cmd_MoveTabToGroupFloating2 = 2647
+cmd_MoveTabToGroupFloating3 = 2648
 
 cmd_CopyLine         = 2650
 cmd_CopyFilenameFull = 2651
