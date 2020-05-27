@@ -130,12 +130,12 @@
   "ui_notif_confirm": 1,
 
   //[File/NonText]
-  //Non-text files: allow to open
-  //  0: show question message
-  //  1: open in editor
+  //Non-text files: behaviour on opening such files
+  //  0: show confirmation with choices
+  //  1: automatically open in editor
   //  2: don't open
-  //  3: open in viewer, binary mode
-  //  4: open in viewer, hex mode
+  //  3: automatically open in viewer, in binary mode
+  //  4: automatically open in viewer, in hex mode
   "ui_non_text": 0,
 
   //Non-text files: detection buffer size, Kb
