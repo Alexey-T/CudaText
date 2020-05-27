@@ -356,6 +356,18 @@ begin
     cmd_MoveTabToGroupPrev:
       Groups.MoveCurrentTabToNext(false);
 
+    cmd_MoveTabToGroup1:
+      DoMoveTabToGroup(0, true);
+    cmd_MoveTabToGroup2:
+      DoMoveTabToGroup(1, true);
+
+    cmd_MoveTabToGroupFloating1:
+      DoMoveTabToGroup(6, true);
+    cmd_MoveTabToGroupFloating2:
+      DoMoveTabToGroup(7, true);
+    cmd_MoveTabToGroupFloating3:
+      DoMoveTabToGroup(8, true);
+
     cmd_CopyLine:
       EditorCopyLine(Ed);
 

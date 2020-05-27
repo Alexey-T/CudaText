@@ -181,6 +181,11 @@ const
 
   cmd_MoveTabToGroupNext = 2642;
   cmd_MoveTabToGroupPrev = 2643;
+  cmd_MoveTabToGroup1 = 2644;
+  cmd_MoveTabToGroup2 = 2645;
+  cmd_MoveTabToGroupFloating1 = 2646;
+  cmd_MoveTabToGroupFloating2 = 2647;
+  cmd_MoveTabToGroupFloating3 = 2648;
 
   cmd_CopyLine         = 2650;
   cmd_CopyFilenameFull = 2651;
@@ -485,6 +490,11 @@ begin
 
   M.Add(cmd_MoveTabToGroupNext, 'groups: move tab to next group', [], []);
   M.Add(cmd_MoveTabToGroupPrev, 'groups: move tab to previous group', [], []);
+  M.Add(cmd_MoveTabToGroup1, 'groups: move tab to group 1', [], []);
+  M.Add(cmd_MoveTabToGroup2, 'groups: move tab to group 2', [], []);
+  M.Add(cmd_MoveTabToGroupFloating1, 'groups: move tab to group floating-1', [], []);
+  M.Add(cmd_MoveTabToGroupFloating2, 'groups: move tab to group floating-2', [], []);
+  M.Add(cmd_MoveTabToGroupFloating3, 'groups: move tab to group floating-3', [], []);
 
   M.Add(cmd_BookmarkToggle, 'bookmarks: toggle on current line', [], []);
   M.Add(cmd_BookmarkGotoNext, 'bookmarks: go to next', [], []);
@@ -730,6 +740,11 @@ begin
 
     cmd_MoveTabToGroupNext,
     cmd_MoveTabToGroupPrev,
+    cmd_MoveTabToGroup1,
+    cmd_MoveTabToGroup2,
+    cmd_MoveTabToGroupFloating1,
+    cmd_MoveTabToGroupFloating2,
+    cmd_MoveTabToGroupFloating3,
 
     cmd_MenuEnc,
     cmd_MenuEnds,

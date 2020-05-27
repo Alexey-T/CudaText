@@ -318,14 +318,23 @@ begin
   GroupsCtx.PopupPages.Tabs.DeleteTab(GroupsCtx.PopupTabIndex, true, true);
 end;
 
-procedure TfmMain.DoMoveTabToGroup(AGroupIndex: Integer);
+procedure TfmMain.DoMoveTabToGroup(AGroupIndex: Integer;
+  AFromCommandPalette: boolean);
 var
   Pages, PagesTo: TATPages;
   NTabIndex: integer;
   //Form: TForm;
 begin
-  Pages:= GroupsCtx.PopupPages;
-  NTabIndex:= GroupsCtx.PopupTabIndex;
+  if Assigned(GroupsCtx) and not AFromCommandPalette then
+  begin
+    Pages:= GroupsCtx.PopupPages;
+    NTabIndex:= GroupsCtx.PopupTabIndex;
+  end
+  else
+  begin
+    Pages:= CurrentGroups.PagesCurrent;
+    NTabIndex:= Pages.Tabs.TabIndex;
+  end;
 
   //force 2 groups if only one
   if (AGroupIndex=1) and (Groups.Mode=gmOne) then

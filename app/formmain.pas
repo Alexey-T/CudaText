@@ -908,7 +908,7 @@ type
     procedure DoFindFirst;
     procedure DoFindNext(ANext: boolean);
     procedure DoFindMarkAll(AMode: TATFindMarkingMode);
-    procedure DoMoveTabToGroup(AGroupIndex: Integer);
+    procedure DoMoveTabToGroup(AGroupIndex: Integer; AFromCommandPalette: boolean=false);
     function DoFileOpen(AFileName, AFileName2: string; APages: TATPages=nil; const AOptions: string=''): TEditorFrame;
     procedure DoFileOpenDialog(AOptions: string= '');
     procedure DoFileOpenDialog_NoPlugins;
