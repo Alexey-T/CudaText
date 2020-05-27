@@ -123,8 +123,11 @@
   "ui_notif_time": 2,
 
   //Notifications about file change in external programs:
-  //always confirm to reload file, even if it's not modified in CudaText
-  "ui_notif_confirm": false,
+  //when to show confirmation to reload the file
+  //  0: show always
+  //  1: show if editor is not modified and undo-information is empty
+  //  2: show if editor is not modified
+  "ui_notif_confirm": 1,
 
   //[File/NonText]
   //Non-text files: allow to open
