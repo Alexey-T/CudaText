@@ -113,7 +113,7 @@
   //Allow to run only one instance of CudaText
   "ui_one_instance": false,
 
-  //[File]
+  //[File/Notifications]
   //Enable notifications about file change in external programs
   //(changing to "true" requires app restart)
   "ui_notif": true,
