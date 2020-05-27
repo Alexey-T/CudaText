@@ -686,7 +686,6 @@ begin
   UpdateMenuItemHotkey(mnuFileCloseOther, cmd_FileCloseOtherThis);
   UpdateMenuItemHotkey(mnuFileCloseDel, cmd_FileCloseAndDelete);
   UpdateMenuItemHotkey(mnuFileExit, cmd_FileExit);
-  UpdateMenuItemHotkey(mnuFileHtml, cmd_FileExportHtml);
 
   UpdateMenuItemHotkey(mnuSelAll, cCommand_SelectAll);
   UpdateMenuItemHotkey(mnuSelSplit, cCommand_SelectSplitToLines);

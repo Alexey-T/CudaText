@@ -125,7 +125,6 @@ begin
     DoLocMenuitem(ini, mnuFileCloseDel, 'm_f', 'cl_del');
     DoLocMenuitem(ini, mnuFileEnc, 'm_f', 'e_');
     DoLocMenuitem(ini, mnuFileEnds, 'm_f', 'z_');
-    DoLocMenuitem(ini, mnuFileHtml, 'm_f', 'html');
     DoLocMenuitem(ini, mnuFileExit, 'm_f', 'q');
 
     DoMenuitemEllipsis(mnuFileEnc);

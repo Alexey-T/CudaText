@@ -225,7 +225,6 @@ type
     mnuTextSel: TMenuItem;
     mnuTextGotoDef: TMenuItem;
     mnuPlugins: TMenuItem;
-    mnuFileHtml: TMenuItem;
     mnuViewSide: TMenuItem;
     mnuOpKeys: TMenuItem;
     mnuHelpWiki: TMenuItem;
