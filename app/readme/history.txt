@@ -10,6 +10,8 @@
 + add: option "ui_notif_confirm" to enable confirmation on file auto-reloading
 + add: dialog "Save Tabs" has new button "Toggle"
 + add: lexer Lua: better code-tree for functions in class; folding of {}
++ add: commands "move tab to group 1", "move tab to group 2"
++ add: commands "move tab to group floating-1/ floating-2/ floating-3"
 - fix: lexer JS: highlighting of regex'es
 - fix: folded ranges didn't restore from history (if scroll pos: on top)
 - fix: opening files in "preview tab" (Project Manager) gave incorrect filename sometimes (with "ui_notif":true)
