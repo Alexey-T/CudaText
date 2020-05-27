@@ -72,18 +72,20 @@ def file_aged(fn):
 
 
 def get_channel(url):
+    cap = url.split('/')[-1]
+
     #separate temp fn for each channel
     temp_dir = os.path.join(tempfile.gettempdir(), 'cudatext_addon_man')
     if not os.path.isdir(temp_dir):
         os.mkdir(temp_dir)
-    temp_fn = os.path.join(temp_dir, os.path.basename(url))
+    temp_fn = os.path.join(temp_dir, cap)
 
     #download if not cached or cache is aged
     if file_aged(temp_fn):
-        print('  getting:', os.path.basename(url))
+        print('  getting:', cap)
         get_url(url, temp_fn, True)
     else:
-        print('  cached: '+os.path.basename(url))
+        print('  cached:', cap)
     if not os.path.isfile(temp_fn): return
 
     text = open(temp_fn, encoding='utf8').read()
