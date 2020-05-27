@@ -3327,6 +3327,12 @@ procedure TEditorFrame.NotifyAboutChange(Ed: TATSynEdit);
 var
   Index: integer;
 begin
+  //why do we check Ed.UndoCount here?
+  //user's suggestion - to not loose Undo info on automatic file reloading.
+  //Undo info appears after file change+saving.
+  //so when Undo info present (1 item is allowed, it's empty-marker in undo)
+  //then show confirm.
+
   if (not UiOps.NotificationConfirmReload) and
      (not Ed.Modified) and
      (Ed.UndoCount<=1) then
