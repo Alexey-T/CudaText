@@ -237,7 +237,7 @@ begin
   begin
     FFinder.OptBack:= (Res=afoFindPrev);
     ok:= FFinder.DoAction_FindOrReplace(
-      FFinder.OptRegex and (Res=afoFindNext), //ANext should be used for regex
+      FFinder.OptRegex and (Res=afoFindNext), //ANext should be True only in regex mode
       false, false, bChanged, true);
     FinderUpdateEditor(false);
     DoFindResult(ok);
@@ -538,8 +538,6 @@ begin
 
   FFinder.Editor:= CurrentEditor;
   FFinder.OptFromCaret:= true;
-  if not ANext then
-    FFinder.OptRegex:= false;
   FFinder.OptBack:= not ANext;
 
   ok:= FFinder.DoAction_FindOrReplace(ANext and FFinder.OptRegex, false, false, bChanged, true);

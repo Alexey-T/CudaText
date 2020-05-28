@@ -759,9 +759,6 @@ end;
 
 procedure TfmFind.DoResult(Str: TAppFinderOperation);
 begin
-  if Str=afoFindPrev then
-    if chkRegex.Checked then exit;
-
   if edFind.Text='' then
     if Str<>afoCloseDlg then exit;
 
@@ -908,7 +905,6 @@ begin
 
   bFindFirst.Enabled:= true;
   bFindNext.Enabled:= true;
-  bFindPrev.Enabled:= not chkRegex.Checked;
   bExtract.Enabled:= chkRegex.Checked;
   edRep.Enabled:= IsReplace;
   bRep.Enabled:= IsReplace;
