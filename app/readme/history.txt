@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+
+- fix: ui tabs: mouse hover sometimes does not show tooltip (thanks @dinkumoil)
+- fix: Emmet plugin bad result if called after '<a href="text"'
+
 1.101.5 (2020/05)
 
 + add: optimization in unfolding code, so unfolding of ranges, which have lot of folded subranges, is ~20x faster
