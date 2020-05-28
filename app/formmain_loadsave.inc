@@ -848,7 +848,6 @@ begin
   Op.OpFontLigatures:= cfg.GetValue(str_FontLigatures, Op.OpFontLigatures);
 
   OptCharSizeProportional:= cfg.GetValue('unicode_proportional', OptCharSizeProportional);
-  OptCharSizeWideAllowed:= cfg.GetValue('unicode_wide_allowed', OptCharSizeWideAllowed);
   OptCharScaleFullWidth:= cfg.GetValue('unicode_full_width', OptCharScaleFullWidth);
 
   Op.OpSpacingY:= cfg.GetValue('spacing_y', Op.OpSpacingY);
