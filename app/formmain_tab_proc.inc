@@ -69,6 +69,7 @@ begin
     false,
     clNone,
     -1,
+    '',
     AndActivate
     );
   APages.Tabs.MakeVisible(NToIndex);
