@@ -6,7 +6,7 @@
 1.101.6 (2020/06)
 
 + add: Find dialog allows backward search even in RegEx mode (thanks @tmsg)
-+ add: to speedup rendering, program uses predefined char widths for the following chars: Russian, Greek, German, Japanese, Chinese, Korean, full-width Roman
++ add: to speedup rendering, program uses predefined char widths for the following: Russian, Greek, German, Japanese, Chinese, Korean, Hebrew, Arabic
 * change: deleted option "unicode_wide_allowed"
 - fix: "Find next" with RegEx did continue the search from the last found location and not from the caret (thanks @tmsg)
 - fix: Emmet plugin bad result if called after '<a href="text"'
