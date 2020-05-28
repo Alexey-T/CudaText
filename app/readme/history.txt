@@ -5,10 +5,10 @@
 
 1.101.6 (2020/06)
 
-+ add: Find dialog allows backward search in regex mode (thanks @tmsg)
-- fix: "Find next" with regex continues the search from the last found location and not from the caret (thanks @tmsg)
++ add: Find dialog allows backward search even in RegEx mode (thanks @tmsg)
+- fix: "Find next" with RegEx did continue the search from the last found location and not from the caret (thanks @tmsg)
 - fix: Emmet plugin bad result if called after '<a href="text"'
-- fix: ui tabs: mouse hover sometimes does not show tooltip (thanks @dinkumoil)
+- fix: ui tab does not show tooltip after moving it with "move tab to next group" (thanks @dinkumoil)
 
 1.101.5 (2020/05)
 
