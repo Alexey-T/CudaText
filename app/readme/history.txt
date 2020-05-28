@@ -4,8 +4,9 @@
   * changed
 
 
-- fix: ui tabs: mouse hover sometimes does not show tooltip (thanks @dinkumoil)
+- fix: "Find next" with regex continues the search from the last found location and not from the caret (thanks @tmsg)
 - fix: Emmet plugin bad result if called after '<a href="text"'
+- fix: ui tabs: mouse hover sometimes does not show tooltip (thanks @dinkumoil)
 
 1.101.5 (2020/05)
 
