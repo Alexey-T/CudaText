@@ -3,7 +3,9 @@
   - fixed
   * changed
 
+1.101.6 (2020/06)
 
++ add: Find dialog allows backward search in regex mode (thanks @tmsg)
 - fix: "Find next" with regex continues the search from the last found location and not from the caret (thanks @tmsg)
 - fix: Emmet plugin bad result if called after '<a href="text"'
 - fix: ui tabs: mouse hover sometimes does not show tooltip (thanks @dinkumoil)
