@@ -528,6 +528,28 @@ object SyntAnal12: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = 'func anon'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '(')
+          TokenTypes = 128
+        end
+        item
+          TagList.Strings = (
+            'function')
+          TokenTypes = 4
+        end>
+      BlockEnd = 'end'
+      DisplayInTree = False
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      DrawStaple = True
+      CollapseFmt = '%sz0'
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = 'end'
       BlockType = btRangeEnd
       ConditionList = <
