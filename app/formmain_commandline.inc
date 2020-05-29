@@ -170,6 +170,9 @@ begin
       Continue;
 
     //here we assume that SParam is filename/dirname/filemask
+    if Pos(DirectorySeparator, SParam)=0 then
+      SParam:= GetCurrentDirUTF8+DirectorySeparator+SParam;
+
     SParseFilenameWithTwoNumbers(SParam, NLine, NColumn);
 
     //if folder, open it in ProjManager
