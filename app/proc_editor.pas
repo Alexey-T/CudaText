@@ -681,15 +681,23 @@ end;
 
 function EditorGetFoldString(Ed: TATSynEdit): string;
 var
+  L: TStringList;
   i: integer;
-  R: TATSynRange;
+  R: PATSynRange;
 begin
   Result:= '';
-  for i:= 0 to Ed.Fold.Count-1 do
-  begin
-    R:= Ed.Fold[i];
-    if R.Folded then
-      Result:= Result+(IntToStr(R.Y)+',');
+  L:= TStringList.Create;
+  try
+    L.LineBreak:= ',';
+    for i:= 0 to Ed.Fold.Count-1 do
+    begin
+      R:= Ed.Fold.ItemPtr(i);
+      if R^.Folded then
+        L.Add(IntToStr(R^.Y));
+    end;
+    Result:= L.Text;
+  finally
+    L.Free;
   end;
 end;
 
