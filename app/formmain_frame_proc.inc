@@ -144,21 +144,26 @@ begin
 end;
 
 function TfmMain.CurrentGroups: TATGroups;
-var
-  CurForm: TForm;
+  //
+  function _FormAct(F: TForm): boolean;
+  begin
+    Result:= Assigned(F)
+      //and F.Visible and F.Active;
+      and (Screen.ActiveForm=F);
+  end;
+  //
 begin
   Result:= Groups;
 
-  CurForm:= Screen.ActiveForm;
-  if (CurForm<>Self) and FloatGroups then
+  if FloatGroups then
   begin
-    if CurForm=FFormFloatGroups1 then
+    if _FormAct(FFormFloatGroups1) then
       Result:= GroupsF1
     else
-    if CurForm=FFormFloatGroups2 then
+    if _FormAct(FFormFloatGroups2) then
       Result:= GroupsF2
     else
-    if CurForm=FFormFloatGroups3 then
+    if _FormAct(FFormFloatGroups3) then
       Result:= GroupsF3
   end;
 end;
