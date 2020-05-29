@@ -1,4 +1,4 @@
-= About =
+=Introduction=
 
 CudaText is a cross-platform text editor, written in Lazarus.
 
@@ -1699,7 +1699,19 @@ When full-width characters (CJK or other Unicode) are present in text, column (v
 
 It is not a bug. In this example, user selected column block from column 7 (at line 1) until column 20 (at line 6), so column block takes columns 7...20 from all lines. On first ASCII lines, columns 7...20 take different visual area, than columns on last lines. When you copy/paste that block to another program, block may look differently. But that block contains equal number of chars on each line.
 
-==More==
+==How to replace from/to text containing line-breaks==
+There are several ways to perfrom it:
+
+1. The simplest way: set multi-line mode in the Find/Replace dialog, using "+" button. Input fields will become tall and multi-line. To enter line-breaks there, press Ctrl+Enter.
+
+2. Use plugin CudaExt:
+* Select fragment in editor (can contain line-breaks), "what to replace" .
+* Copy to clipboard the fragment (can contain line-breaks), which will be "replacement".
+* Call command in CudaExt plugin: "Replace all occurrences of selected string with clipbrd".
+
+3. Search for selected editor text (can contain line-breaks) using command "find current selection, next".
+
+4. Copy fragment (can contain line-breaks) which you need to find, to clipboard. Call command in CudaExt plugin: "Find clipbrd: next".
 
 =Formats of files=
 ==Format of auto-completion acp file==
