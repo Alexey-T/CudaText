@@ -333,6 +333,7 @@ const
       '  -n              - Ignore option "ui_one_instance", open new app window'+EOL+
       '  -nh             - Ignore saved file history'+EOL+
       '  -ns             - Ignore saved session'+EOL+
+      '  -nn             - Don''t suggest to create new file if param not found'+EOL+
       '  -w=left,top,width,height - Set position/size of app window'+EOL+
       '  -s=folder       - Specify full path of "settings" folder'+EOL+
       '  -i              - Open contents of stdin in new tab (Unix only)'+EOL+

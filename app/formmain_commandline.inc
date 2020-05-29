@@ -100,10 +100,12 @@ var
   SParam: string;
   NLine, NColumn, i: integer;
   bReadOnly: boolean;
+  bAllowCreate: boolean;
   sEncoding: string;
   List: TStringList;
 begin
   bReadOnly:= false;
+  bAllowCreate:= true;
   sEncoding:= '';
 
   for i:= 0 to Length(AParams)-1 do
@@ -121,6 +123,12 @@ begin
     if SParam='-nh' then
     begin
       AOpenOptions+= '/nohistory';
+      Continue;
+    end;
+
+    if SParam='-nn' then
+    begin
+      bAllowCreate:= false;
       Continue;
     end;
 
@@ -217,7 +225,8 @@ begin
     end
     else
     //file not exists? suggest to create it
-    if MsgBox(Format(msgConfirmCreateNewFile, [SParam]),
+    if bAllowCreate then
+      if MsgBox(Format(msgConfirmCreateNewFile, [SParam]),
               MB_OKCANCEL or MB_ICONQUESTION) = ID_OK then
         if FCreateFile(SParam) then
         begin
