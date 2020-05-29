@@ -157,12 +157,19 @@ begin
     end;
     {$endif}
 
+    (*
     {$ifdef darwin}
     //macOS gives param -psn** for debugger
     if SBeginsWith(SParam, '-psn') then
       Continue;
     {$endif}
+    *)
 
+    //skip all other keys, to not see them as filenames
+    if SBeginsWith(SParam, '-') then
+      Continue;
+
+    //here we assume that SParam is filename/dirname/filemask
     SParseFilenameWithTwoNumbers(SParam, NLine, NColumn);
 
     //if folder, open it in ProjManager
@@ -211,9 +218,8 @@ begin
     end
     else
     //file not exists? suggest to create it
-    if not SBeginsWith(SParam, '-') then
-      if MsgBox(Format(msgConfirmCreateNewFile, [SParam]),
-                MB_OKCANCEL or MB_ICONQUESTION) = ID_OK then
+    if MsgBox(Format(msgConfirmCreateNewFile, [SParam]),
+              MB_OKCANCEL or MB_ICONQUESTION) = ID_OK then
         if FCreateFile(SParam) then
         begin
           Frame:= DoFileOpen(SParam, '', nil, AOpenOptions);
