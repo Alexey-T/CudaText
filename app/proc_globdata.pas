@@ -829,6 +829,7 @@ procedure DoStatusbarTextByTag(AStatus: TATStatus; ATag: PtrInt; const AText: st
 procedure DoStatusbarHintByTag(AStatus: TATStatus; ATag: PtrInt; const AText: string);
 function IsFileTooBigForOpening(const AFilename: string): boolean;
 function IsFileTooBigForLexer(const AFilename: string): boolean;
+function IsOsFullPath(const S: string): boolean;
 procedure DoLexerDetect(const AFilename: string;
   out Lexer: TecSyntAnalyzer;
   out LexerLite: TATLiteLexer;
@@ -2437,6 +2438,20 @@ begin
     end;
     AppEventsMaxPriorities[ev]:= Value;
   end;
+end;
+
+
+function IsOsFullPath(const S: string): boolean;
+begin
+  {$ifdef windows}
+  //'D:\path'
+  //'\\UNCpath'
+  Result:=
+    (Length(S)>2) and
+    ((S[2]=':') or ((S[1]='\') and (S[2]='\')));
+  {$else}
+  Result:= SBeginsWith(S, '/');
+  {$endif}
 end;
 
 

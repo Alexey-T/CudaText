@@ -76,11 +76,7 @@ begin
   Dir:= GetCurrentDirUTF8;
 
   //support full dir path
-  {$ifdef windows}
-  if _IsWindowsFullPath(AMask) then
-  {$else}
-  if SBeginsWith(AMask, DirectorySeparator) then
-  {$endif}
+  if IsOsFullPath(AMask) then
   begin
     Dir:= ExtractFileDir(AMask);
     AMask:= ExtractFileName(AMask);
