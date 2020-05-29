@@ -362,6 +362,7 @@ type
     OpTabMaxPosExpanded: integer;
     OpMaxLineLenForAccurateCharWidths: integer;
     OpMaxLineLenForBracketFinder: integer;
+    OpRendererCacheLines: integer;
 
     OpOverwriteSel: boolean;
     OpOverwriteOnPaste: boolean;
@@ -1093,6 +1094,7 @@ begin
     OpTabMaxPosExpanded:= 500;
     OpMaxLineLenForAccurateCharWidths:= 500;
     OpMaxLineLenForBracketFinder:= 1000;
+    OpRendererCacheLines:= 100;
 
     OpOverwriteSel:= true;
     OpOverwriteOnPaste:= false;
