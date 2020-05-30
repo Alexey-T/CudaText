@@ -5,13 +5,13 @@
 
 1.101.6 (2020/06)
 
-+ add: on moving caret left/right, skip positions on combining (accent) chars, like other editors do
-+ add: command line parameter -nn - don't suggest to create new file
 + add: Find dialog allows backward search even in RegEx mode (thanks @tmsg)
 + add: to speedup rendering, program uses predefined char widths for the following: Cyrillic, Greek, German, Japanese, Chinese, Korean, Hebrew, Arabic, Indian
++ add: on moving caret left/right, skip positions on combining (accent) chars, like other editors do
++ add: command line parameter -nn: don't suggest to create new file
 + add: option "renderer_cache_lines"
 * change: removed option "unicode_wide_allowed"
-* change: removed menu item "File / Export to HTML"
+* change: removed menu item "File / Export to HTML" (command still exists in Command Palette)
 - fix: "Find next" with RegEx did continue the search from the last found location and not from the caret (thanks @tmsg)
 - fix: Emmet plugin bad result if called after '<a href="text"'
 - fix: ui tab does not show tooltip after moving it with "move tab to next group" (thanks @dinkumoil)
