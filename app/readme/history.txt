@@ -13,7 +13,7 @@
 + add: option "renderer_cache_lines"
 * change: removed option "unicode_wide_allowed"
 * change: removed menu item "File / Export to HTML" (command still exists in Command Palette)
-- fix: problem in parser RegEx (not Find/Replace RegEx), now e.g. HTML lexer finds JS sublexer blocks better
+* change: in parser's RegEx engine, removed support of rarely needed \l \L \g \G
 - fix: problem in API: "ed" got wrong editor for "floating groups" after plugin shows modal dialog
 - fix: "Find next" with RegEx did continue the search from the last found location and not from the caret (thanks @tmsg)
 - fix: Emmet plugin bad result if called after '<a href="text"'
