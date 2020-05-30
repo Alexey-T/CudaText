@@ -12,6 +12,7 @@ object fmMain: TfmMain
   DefaultMonitor = dmDesktop
   KeyPreview = True
   Menu = MainMenu
+  OnActivate = FormActivate
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate

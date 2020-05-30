@@ -371,6 +371,7 @@ type
     procedure AppPropsEndSession(Sender: TObject);
     procedure AppPropsQueryEndSession(var Cancel: Boolean);
     procedure ButtonCancelClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCloseQuery(Sender: TObject; var ACanClose: boolean);
     procedure FormColorsApply(const AColors: TAppTheme);
@@ -2133,6 +2134,11 @@ end;
 procedure TfmMain.ButtonCancelClick(Sender: TObject);
 begin
   FFindStop:= true;
+end;
+
+procedure TfmMain.FormActivate(Sender: TObject);
+begin
+  AppActiveForm:= Sender;
 end;
 
 procedure TfmMain.AppPropsActivate(Sender: TObject);
@@ -6272,11 +6278,8 @@ begin
 end;
 
 
-procedure TfmMain.InitFloatGroup(var F: TForm; var G: TATGroups;
-  ATag: integer;
-  const ARect: TRect;
-  AOnClose: TCloseEvent;
-  AOnGroupEmpty: TNotifyEvent);
+procedure TfmMain.InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer;
+  const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
 begin
   if not Assigned(F) then
   begin
@@ -6286,6 +6289,7 @@ begin
     F.BoundsRect:= ARect;
     F.BorderIcons:= [biSystemMenu, biMaximize, biMinimize];
     F.OnClose:= AOnClose;
+    F.OnActivate:= @FormActivate;
     F.Caption:= Format('[f%d]', [ATag]) + ' - ' + msgTitle;
 
     F.AllowDropFiles:= true;

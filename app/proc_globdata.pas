@@ -59,6 +59,9 @@ type
   TAppConsoleQueue = specialize TQueue<UnicodeString>;
 
 var
+  AppActiveForm: TObject = nil;
+
+var
   //ATSynEdit has range for bookmarks 0..63, 0=none
   AppBookmarkSetup: array[1..63] of
     record
