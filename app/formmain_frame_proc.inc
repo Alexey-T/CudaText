@@ -145,11 +145,11 @@ end;
 
 function TfmMain.CurrentGroups: TATGroups;
   //
-  function _FormAct(F: TForm): boolean;
+  function _FormAct(F: TForm): boolean; inline;
   begin
     Result:= Assigned(F)
-      and F.Visible
-      and (AppActiveForm=F);
+      and (AppActiveForm=F)
+      and F.Visible;
   end;
   //
 begin
