@@ -12,6 +12,7 @@
 + add: option "renderer_cache_lines"
 * change: removed option "unicode_wide_allowed"
 * change: removed menu item "File / Export to HTML" (command still exists in Command Palette)
+- fix: problem in API: "ed" got wrong editor for "floating groups" after plugin shows modal dialog
 - fix: special rendering of ASCII-control chars and BiDi chars was broken
 - fix: "Find next" with RegEx did continue the search from the last found location and not from the caret (thanks @tmsg)
 - fix: Emmet plugin bad result if called after '<a href="text"'
