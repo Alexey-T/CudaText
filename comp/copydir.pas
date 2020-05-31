@@ -153,8 +153,11 @@ end;
 
 procedure TCopyDir._AddToLog(const aNote: String);
 begin
+  //Alexey
+  {
   self._log.Append(aNote);
   if self._printToTerminal then WriteLn(aNote);
+  }
 end;
 
 procedure TCopyDir._CopyFile(const aFile: String);
@@ -448,9 +451,11 @@ end;
 
 function TCopyDir.GetLog: TStringList;
 begin
+  { //Alexey
   self._log.Append('');
   self._log.Append('Greetings,');
   self._log.Append('bastla (@ Lazarus Forum)');
+  }
   Result := self._log;
 end;
 
