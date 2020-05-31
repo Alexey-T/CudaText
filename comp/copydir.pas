@@ -44,7 +44,7 @@
 *       (affecting lines 181-182) -- SPECIAL THANKS TO onivan!
 *     - fixed a bug causing an error on Unix machines (affecting line 292) --
 *       SPECIAL THANKS TO Caladan!
-*
+* 2020.05.31 - changes by Alexey Torgashin
 *
 *  Greetings,
 *  bastla
@@ -61,7 +61,10 @@ uses
   LazFileUtils, FIleUtil, LCLIntf;
 
 type
-  TList = array of String;
+  TDirsArray = array of String;
+
+  { TCopyDir }
+
   TCopyDir = class
   private
     _dirSource, _dirTarget: String;
@@ -69,17 +72,17 @@ type
     _fs: TFileSearcher;
     _log: TStringList;
 
-    _files: TList;
-    _directories: TList;
+    _files: TDirsArray;
+    _directories: TDirsArray;
 
     _copied: Boolean;
     _dirsCreated: Boolean;
     _enumerated: Boolean;
 
-    _copyingDone: TList;
-    _copyingFailed: TList;
-    _creatingDone: TList;
-    _creatingFailed: TList;
+    _copyingDone: TDirsArray;
+    _copyingFailed: TDirsArray;
+    _creatingDone: TDirsArray;
+    _creatingFailed: TDirsArray;
 
     _preserveFileDates: Boolean;
     _preserveAttributes: Boolean;
@@ -91,19 +94,19 @@ type
 
     _printToTerminal: Boolean;
 
-    procedure _AddToList(aString: String; var aList: TList);
-    procedure _AddToLog(aNote: String);
-    procedure _CopyFile(aFile: String);
+    procedure _AddToList(const aString: String; var aList: TDirsArray);
+    procedure _AddToLog(const aNote: String);
+    procedure _CopyFile(const aFile: String);
     procedure _CopyFiles;
-    procedure _CreateDir(aDir: String);
+    procedure _CreateDir(const aDir: String);
     procedure _CreateDirs;
     procedure _DirFound(FileIterator: TFileIterator);
     procedure _FileFound(FileIterator: TFileIterator);
 
-    function _CanCopy(aFile: String): Boolean;
-    function _SourceToTarget(aTarget: String): String;
+    function _CanCopy(const aFile: String): Boolean;
+    function _SourceToTarget(const aTarget: String): String;
   public
-    constructor Create(aSourceDir, aTargetDir: String);
+    constructor Create(const aSourceDir, aTargetDir: String);
     destructor Destroy; override;
 
     property PreserverFileDates: Boolean
@@ -142,19 +145,19 @@ implementation
 // ***************************** PRIVATE SECTION **************************** \\
 // ************************************************************************** \\
 
-procedure TCopyDir._AddToList(aString: String; var aList: TList);
+procedure TCopyDir._AddToList(const aString: String; var aList: TDirsArray);
 begin
   SetLength(aList, Length(aList) + 1);
   aList[High(aList)] := aString;
 end;
 
-procedure TCopyDir._AddToLog(aNote: String);
+procedure TCopyDir._AddToLog(const aNote: String);
 begin
   self._log.Append(aNote);
   if self._printToTerminal then WriteLn(aNote);
 end;
 
-procedure TCopyDir._CopyFile(aFile: String);
+procedure TCopyDir._CopyFile(const aFile: String);
 begin
   if CopyFile(aFile, self._SourceToTarget(aFile), self._preserveFileDates) then
   begin
@@ -194,7 +197,7 @@ begin
   end;
 end;
 
-procedure TCopyDir._CreateDir(aDir: String);
+procedure TCopyDir._CreateDir(const aDir: String);
 begin
   if ForceDirectoriesUTF8(aDir) then
   begin
@@ -236,7 +239,7 @@ begin
   end;
 end;
 
-function TCopyDir._CanCopy(aFile: String): Boolean;
+function TCopyDir._CanCopy(const aFile: String): Boolean;
 var
   __fileAttributes: LongInt;
 begin
@@ -266,7 +269,7 @@ begin
   Result := true;
 end;
 
-function TCopyDir._SourceToTarget(aTarget: String): String;
+function TCopyDir._SourceToTarget(const aTarget: String): String;
 begin
   Result := IncludeTrailingPathDelimiter(self._dirTarget) + Copy(aTarget,
     Length(self._dirSource) + 1, Length(aTarget));
@@ -277,7 +280,7 @@ end;
 // ***************************** PUBLIC SECTION ***************************** \\
 // ************************************************************************** \\
 
-constructor TCopyDir.Create(aSourceDir, aTargetDir: String);
+constructor TCopyDir.Create(const aSourceDir, aTargetDir: String);
 begin
   self._fs := TFileSearcher.Create;
   self._fs.OnDirectoryFound := @self._DirFound;
