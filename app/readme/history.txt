@@ -14,6 +14,7 @@
 * change: removed option "unicode_wide_allowed"
 * change: removed menu item "File / Export to HTML" (command still exists in Command Palette)
 * change: in parser's RegEx engine, removed support of rarely needed \l \L \g \G
+- fix: very old problem in parser's RegEx: \s \S did not catch line-breaks (it affects some lexers, e.g. HTML lexer has rule which finds JS blocks)
 - fix: problem in API: "ed" got wrong editor for "floating groups" after plugin shows modal dialog
 - fix: "Find next" with RegEx did continue the search from the last found location and not from the caret (thanks @tmsg)
 - fix: Emmet plugin bad result if called after '<a href="text"'
