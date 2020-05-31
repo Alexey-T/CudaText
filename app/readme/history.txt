@@ -5,7 +5,7 @@
 
 1.102.0 (2020/06)
 
-+ add: optimizations in lexer engine; tests on huge XML/HTML files show that parsing is faster (than v1.100) by 1.2 - 2 times (with "ui_max_size_lexer":150)
++ add: optimizations in lexer engine; tests on huge XML/HTML files ("ui_max_size_lexer":150) show that parsing is faster (than v1.100) 1.2 - 2 times
 + add: Find dialog allows backward search even in RegEx mode (thanks @tmsg)
 + add: to speedup rendering, program uses predefined char widths for the following: Cyrillic, Greek, German, Japanese, Chinese, Korean, Hebrew, Arabic, Indian
 + add: on moving caret left/right, skip positions of combining (accent) chars, like other programs do
