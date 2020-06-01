@@ -3838,6 +3838,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * change: changed format of string in PROP_UNDO_DATA, PROP_REDO_DATA (field "line state" was inserted in the middle of lines, could not append it to the end)
 
 1.0.329 (app 1.101.0)
-+ add: event "on_message"
+* add: event "on_message"
 
 [[Category:CudaText]]
