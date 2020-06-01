@@ -160,8 +160,12 @@ begin
     if ModuleCud=nil then
     begin
       ModuleCud:= PyImport_ImportModule('cudatext');
+
+      //handle import error (e.g. syntax errors)
       if ModuleCud=nil then
-        raise EPythonError.Create('Python: cannot import "cudatext"');
+        if FEngine.PyErr_Occurred <> nil then
+          FEngine.CheckError(False);
+
       if GlobalsCud=nil then
         GlobalsCud:= PyModule_GetDict(ModuleCud);
     end;
@@ -486,7 +490,7 @@ begin
 
     Result:= FEngine.PyImport_ImportModule(PChar(AModule));
 
-    //handle import error (e.g. syntax errors)! no exception here.
+    //handle import error (e.g. syntax errors)
     if Result=nil then
       if FEngine.PyErr_Occurred <> nil then
         FEngine.CheckError(False);
