@@ -163,8 +163,7 @@ begin
 
       //handle import error (e.g. syntax errors)
       if ModuleCud=nil then
-        if FEngine.PyErr_Occurred <> nil then
-          FEngine.CheckError(False);
+        CheckError(False);
 
       if GlobalsCud=nil then
         GlobalsCud:= PyModule_GetDict(ModuleCud);
@@ -492,8 +491,7 @@ begin
 
     //handle import error (e.g. syntax errors)
     if Result=nil then
-      if FEngine.PyErr_Occurred <> nil then
-        FEngine.CheckError(False);
+      FEngine.CheckError(False);
 
     LoadedModules.AddObject(AModule, TObject(Result))
   end;
