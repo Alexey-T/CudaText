@@ -483,7 +483,14 @@ begin
   begin
     if UiOps.LogPluginIniting then
       MsgLogConsole('Init: '+AModule);
+
     Result:= FEngine.PyImport_ImportModule(PChar(AModule));
+
+    //handle import error (e.g. syntax errors)! no exception here.
+    if Result=nil then
+      if FEngine.PyErr_Occurred <> nil then
+        FEngine.CheckError(False);
+
     LoadedModules.AddObject(AModule, TObject(Result))
   end;
 end;
