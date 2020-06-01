@@ -941,7 +941,6 @@ begin
     end;
 
     D.TabHint:= SHint;
-    Pages.Tabs.Invalidate;
   end;
 end;
 
@@ -2212,6 +2211,9 @@ begin
   begin
     Result:= DoFileSave_Ex(Editor, ASaveAs);
   end;
+
+  if ASaveAs then
+    UpdateTabTooltip;
 end;
 
 function TEditorFrame.DoFileSave_Ex(Ed: TATSynEdit; ASaveAs: boolean): boolean;
