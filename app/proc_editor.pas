@@ -796,8 +796,7 @@ begin
   Sep.Init(AParams);
 
   Sep.GetItemStr(S);
-  if S<>'' then
-    F.Name:= S;
+  F.Name:= S;
 
   Sep.GetItemInt(N, 0);
   if N>0 then
