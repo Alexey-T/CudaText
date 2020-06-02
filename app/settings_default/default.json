@@ -279,8 +279,11 @@
   // http://unicode.org/reports/tr9/#Directional_Formatting_Characters
   "hex_chars": "",
 
-  //Additional vertical spacing per each line (pixels), can be <0
+  //Additional vertical spacing per each line, in pixels [has suffix]
+  //Can be negative too
   "spacing_y": 1,
+  "spacing_y__linux": 1,
+  "spacing_y__mac": 1,
 
   //Tab-char width
   "tab_size": 4,

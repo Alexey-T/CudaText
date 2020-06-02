@@ -850,7 +850,7 @@ begin
   OptCharSizeProportional:= cfg.GetValue('unicode_proportional', OptCharSizeProportional);
   OptCharScaleFullWidth:= cfg.GetValue('unicode_full_width', OptCharScaleFullWidth);
 
-  Op.OpSpacingY:= cfg.GetValue('spacing_y', Op.OpSpacingY);
+  Op.OpSpacingY:= cfg.GetValue('spacing_y'+cOptionSystemSuffix, Op.OpSpacingY);
 
   Op.OpTabSize:= cfg.GetValue('tab_size', Op.OpTabSize);
   Op.OpTabSpaces:= cfg.GetValue('tab_spaces', Op.OpTabSpaces);
