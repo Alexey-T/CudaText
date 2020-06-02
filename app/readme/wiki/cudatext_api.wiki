@@ -15,7 +15,7 @@ Another way to react to program events is dynamic subscribing to events in runti
 
 Method return value is ignored is many cases, but sometimes return value True or False has special meaning. Usually the False return value blocks propagation of event to other plugins, so don't return False if not nessesary.
 
-==General==
+==Events - General==
 
 * on_open(self, ed_self): Called after file is opened from disk.
 * on_open_pre(self, ed_self, filename): Called before file opening. Method can return False to disable opening, other value is ignored.
@@ -28,12 +28,12 @@ Method return value is ignored is many cases, but sometimes return value True or
 * on_start(self, ed_self): Called once on program start. ed_self is None.
 * on_exit(self, ed_self): Called on exiting application. This event is lazy, ie it's called only for already loaded plugins. ed_self is None.
 
-==Tabs==
+==Events - Tabs==
 
 * on_tab_change(self, ed_self): Called after active tab is changed.
 * on_tab_move(self, ed_self): Called after closing a tab (another tab is already activated), or moving a tab (by drag-n-drop, or UI command).
 
-==Editor==
+==Events - Editor==
 
 * on_change(self, ed_self): Called after editor text is changed.
 * on_change_slow(self, ed_self): Called after editor text is changed, and few seconds (option) passed. Used in CudaLint plugin, it needs to react to change after a delay.
@@ -52,7 +52,7 @@ Method return value is ignored is many cases, but sometimes return value True or
 * on_state_ed(self, ed_self, state): Called after some editor state is changed. Param "state" is one of EDSTATE_nnnn constants.
 * on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt() call.
 
-==Editor clicks==
+==Events - Editor clicks==
 
 * on_click(self, ed_self, state): Called after mouse click on text area. Param "state": same meaning as in on_key.
 * on_click_dbl(self, ed_self, state): Called after mouse double-click on text area. Param "state": same meaning as in on_key. Method can return False to disable default processing.
@@ -60,20 +60,20 @@ Method return value is ignored is many cases, but sometimes return value True or
 * on_click_gap(self, ed_self, state, nline, ntag, size_x, size_y, pos_x, pos_y): Called after mouse click on inter-line gap: see Editor.gap(). Param "state": same meaning as in on_key. Other params: properties of clicked gap.
 * on_click_link(self, ed_self, state, link): Called after link/URL in the editor is activated by click or double-click (event is not called on URL opening from Command Palette or from editor context menu). Param "state": same meaning as in on_key. Param "link": link string. Method can return False to disable default program action.
 
-==Smart commands==
+==Events - Smart commands==
 
 * on_complete(self, ed_self): Called by "auto-completion menu" command (default hotkey: Ctrl+Space). Method should read editor text, find all needed data, and call Editor.complete() API to show the actual auto-completion listbox to user. Method must return True if it handled the command, otherwise None.
 * on_func_hint(self, ed_self): Called by "show function-hint" command (default hotkey: Ctrl+Shift+Space). Method should return function-hint string (comma-separated parameters, brackets are optional). Empty string or None mean that no hint was found.
 * on_goto_def(self, ed_self): Called by "go to definition" command (e.g. by mouse shortcut or by menu item in the editor context menu). Method must return True if it handled the command, otherwise None.
 * on_goto_enter(self, ed_self, text): Called after user entered text in the Go To dialog. Method can return False to disable default processing.
 
-==Panels==
+==Events - Panels==
 
 * on_message(self, ed_self, id, text): Called on showing a text in the statusbar. Param "id" means statusbar column index, currently only value 0 is used ("text message" statusbar cell). Method can return False to disable usual showing of message. Param "ed_self" is None here.
 * on_console_nav(self, ed_self, text): Called on double-clicking line, or calling context menu item "Navigate", in Python Console panel. Param "text" is line with caret. Param "ed_self" is None here.
 * on_output_nav(self, ed_self, text, tag): Called on clicking line, or pressing Enter, in the Output or Validate panel. Param "text" is clicked line, param "tag" is int value associated with line. Event is called only if app cannot parse output line by itself using given regex, or regex is not set. Param "ed_self" is None here.
 
-==Macros==
+==Events - Macros==
 
 * on_macro(self, ed_self, text): Called when command "macros: stop recording" runs. In text the "\n"-separated list of macro items is passed. These items were run after command "macros: start recording" and before command "macros: stop recording".
 ** if item is "number" then it's simple command.
