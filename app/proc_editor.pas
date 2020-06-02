@@ -41,7 +41,7 @@ procedure EditorRestoreTempOptions(Ed: TATSynEdit; const ANew, AOld: TATEditorTe
 procedure EditorFocus(C: TWinControl);
 procedure EditorMouseClick_AtCursor(Ed: TATSynEdit; AAndSelect: boolean);
 procedure EditorMouseClick_NearCaret(Ed: TATSynEdit; const AParams: string; AAndSelect: boolean);
-procedure EditorSetFont(Ed: TATSynEdit; const AParams: string);
+procedure EditorSetFont(F: TFont; const AParams: string);
 
 procedure EditorClear(Ed: TATSynEdit);
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
@@ -787,7 +787,7 @@ begin
   Ed.Update;
 end;
 
-procedure EditorSetFont(Ed: TATSynEdit; const AParams: string);
+procedure EditorSetFont(F: TFont; const AParams: string);
 var
   Sep: TATStringSeparator;
   S: string;
@@ -797,11 +797,11 @@ begin
 
   Sep.GetItemStr(S);
   if S<>'' then
-    Ed.Font.Name:= S;
+    F.Name:= S;
 
   Sep.GetItemInt(N, 0);
   if N>0 then
-    Ed.Font.Size:= N;
+    F.Size:= N;
 end;
 
 

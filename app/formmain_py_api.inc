@@ -117,6 +117,11 @@ begin
       );
 end;
 
+function Py_GetFontProps(F: TFont): PPyObject;
+begin
+  with AppPython.Engine do
+    Result:= Py_BuildValue('(si)', PChar(F.Name), F.Size);
+end;
 
 function Py_GetThemeDict_UI: PPyObject;
 var
@@ -3417,7 +3422,13 @@ begin
           end;
 
         PROP_FONT:
-          Result:= Py_BuildValue('(si)', PChar(Ed.Font.Name), Ed.Font.Size);
+          Result:= Py_GetFontProps(Ed.Font);
+        PROP_FONT_B:
+          Result:= Py_GetFontProps(Ed.FontBold);
+        PROP_FONT_I:
+          Result:= Py_GetFontProps(Ed.FontItalic);
+        PROP_FONT_BI:
+          Result:= Py_GetFontProps(Ed.FontBoldItalic);
 
         PROP_V_MODE:
           begin
@@ -3922,7 +3933,13 @@ begin
           end;
 
         PROP_FONT:
-          EditorSetFont(Ed, Str);
+          EditorSetFont(Ed.Font, Str);
+        PROP_FONT_B:
+          EditorSetFont(Ed.FontBold, Str);
+        PROP_FONT_I:
+          EditorSetFont(Ed.FontItalic, Str);
+        PROP_FONT_BI:
+          EditorSetFont(Ed.FontBoldItalic, Str);
 
         PROP_V_MODE:
           begin

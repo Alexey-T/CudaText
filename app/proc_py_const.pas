@@ -217,7 +217,10 @@ const
   PROP_RECT_TEXT          = 116;
   PROP_CODETREE_MODIFIED_VERSION = 120;
   PROP_CODETREE_SUBLEXER         = 121;
-  PROP_FONT = 122;
+  PROP_FONT                      = 122;
+  PROP_FONT_B                    = 123;
+  PROP_FONT_I                    = 124;
+  PROP_FONT_BI                   = 125;
 
   APP_PROC_SET_CLIP_ALT = -1;
   APP_PROC_GET_CLIP = 0;
