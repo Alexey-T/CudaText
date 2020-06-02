@@ -2156,6 +2156,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_COORDS: 4-tuple of int: rectangle of entire editor area, relative to screen.
 * PROP_RECT_CLIENT: 4-tuple of int: rectangle of entire editor area, relative to editor.
 * PROP_RECT_TEXT: 4-tuple of int: rectangle of text-only editor area (excluding gutter/minimap/etc), relative to editor.
+* PROP_FONT: 3-tuple (str, str, int): font name, font style (some chars: 'b' for bold, 'i' for italic, 'u' for underline, 's' for crossed), font size.
 
 * PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
 * PROP_V_POS: int: for binary viewer, scroll position.
@@ -2253,6 +2254,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_SAVING_FORCE_FINAL_EOL: bool: on saving file, ensure the newline at end of document.
 * PROP_SAVING_TRIM_SPACES: bool: on saving file, trim trailing whitespaces.
 * PROP_SAVING_TRIM_FINAL_EMPTY_LINES: bool: on saving file, trim redundant empty lines at end of document.
+
+* PROP_FONT: 3-tuple (str, str, int): font name, font style (some chars: 'b' for bold, 'i' for italic, 'u' for underline, 's' for crossed), font size.
 
 * PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
 * PROP_V_POS: int: for binary viewer, scroll position.
@@ -3839,5 +3842,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.329 (app 1.101.0)
 * add: event "on_message"
+
+1.0.330 (app 1.102.1)
+* add: Editor.get_prop/set_prop: PROP_FONT
 
 [[Category:CudaText]]
