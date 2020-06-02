@@ -194,10 +194,13 @@
   //Same as "centering_width", but it's applied only in Distraction-Free mode
   "centering_for_distraction_free": 100,
 
-  //Zebra mode, ie additional coloring of even (2, 4, 6...) lines
+  //Zebra mode, ie additional coloring of N-th lines (N=2 by default)
   //  If value=0, zebra mode is not active.
   //  If value=1 to 255, it defines alpha-blending value of new color, best is 220..245.
   "zebra": 0,
+
+  //Zebra mode: step, in lines
+  "zebra_step": 2,
 
   //[Lexers]
   //Enable caret-depending highlightings.
