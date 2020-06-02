@@ -208,6 +208,7 @@ const
   PROP_SCROLLSTYLE_VERT          = 105;
   PROP_LINKS_SHOW                = 106;
   PROP_LINKS_REGEX               = 107;
+  PROP_LINKS_CLICKS              = 108;
   PROP_HANDLE_SELF        = 110;
   PROP_HANDLE_PRIMARY     = 111;
   PROP_HANDLE_SECONDARY   = 112;

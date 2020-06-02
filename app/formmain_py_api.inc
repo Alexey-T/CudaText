@@ -3387,6 +3387,15 @@ begin
         PROP_LINKS_REGEX:
           Result:= PyString_FromString(PChar(Ed.OptShowURLsRegex));
 
+        PROP_LINKS_CLICKS:
+          begin
+            Num1:= 0;
+            if Ed.OptMouseClickOpensURL then Num1:= 1
+            else
+            if Ed.OptMouse2ClickOpensURL then Num1:= 2;
+            Result:= PyInt_FromLong(Num1);
+          end;
+
         PROP_RECT_CLIENT:
           begin
             Result:= Py_rect(Ed.ClientRect);
@@ -3905,6 +3914,12 @@ begin
 
         PROP_LINKS_REGEX:
           Ed.OptShowURLsRegex:= Str;
+
+        PROP_LINKS_CLICKS:
+          begin
+            Ed.OptMouseClickOpensURL:= ValueInt=1;
+            Ed.OptMouse2ClickOpensURL:= ValueInt=2;
+          end;
 
         PROP_CODETREE_SUBLEXER:
           begin
