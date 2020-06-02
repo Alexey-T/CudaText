@@ -278,8 +278,8 @@ Notes:
 * Value of command_id can be: str(int_command_code) or "module,method" or "module,method,param".
 
 ====Python====
-* PROC_EXEC_PYTHON: Runs Python string in the context of Console (it is not the same as exec() call). Also gets string: result of command.
-* PROC_EXEC_PLUGIN: Runs Python plugin's method. Text must be ","-separated: "module_name,method_name,param_string", where param_string can be missed, this is parameter(s) for method.
+* PROC_EXEC_PYTHON: Runs Python string in the context of Console. It is not the same as standard exec() call, it uses the same globals/locals as CudaText Console.
+* PROC_EXEC_PLUGIN: Runs Python plugin's method. Text must be comma-separated: "module_name,method_name,params", where "params" is optional part, it is parameter(s) for the method.
 
 ====Themes====
 
