@@ -127,6 +127,7 @@ Notes:
 * Project files (.cuda-proj) can be loaded.
 * Session files (.cuda-session) can be loaded, if Session Manager installed.
 * Non-existing file name can be specified, program will ask to create it.
+* File masks with "*" symbol are supported, e.g. command "cudatext test/t*.htm*" will work.
 
 ===macOS===
 
