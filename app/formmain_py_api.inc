@@ -3398,6 +3398,15 @@ begin
               Result:= PyBool_FromLong(0);
           end;
 
+        PROP_FONT:
+          begin
+            Result:= Py_BuildValue('(ssi)',
+              PChar(Ed.Font.Name),
+              PChar(FontStylesToString(Ed.Font.Style)),
+              Ed.Font.Size
+              );
+          end;
+
         PROP_V_MODE:
           begin
             if not Assigned(F) then exit(ReturnNone);
@@ -3883,6 +3892,9 @@ begin
             if Ed.AdapterForHilite is TATAdapterEControl then
               (Ed.AdapterForHilite as TATAdapterEControl).EnabledSublexerTreeNodes:= ValueBool;
           end;
+
+        PROP_FONT:
+          EditorSetFont(Ed, Str);
 
         PROP_V_MODE:
           begin
