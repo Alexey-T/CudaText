@@ -285,9 +285,8 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 
 ===Differences in lexer support in CudaText/SynWrite===
 
-* SynWrite handles \S regex (non space chars) ok, while CudaText not
-* SynWrite lexers need constructs like \x0D\x0A, or \z (EOL), while CudaText is ok with simple \n (CudaText text never has CR char)
-* For CudaText avoid "system colors" in lexer styles (e.g. "window background", "window text", "hint background"), because OSes have different system colors
+* SynWrite lexers need constructs like \x0D\x0A or \z (any line-break), while CudaText is OK with simple \n (because internal buffer never has CR char)
+* For CudaText you must avoid "system colors" in lexer styles (e.g. "window background", "window text", "hint background"), because OSes have different system colors
 * SynWrite lexer settings are not used in CudaText:
 ** Default style
 ** Selection mark style
