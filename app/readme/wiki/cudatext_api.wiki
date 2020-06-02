@@ -2139,7 +2139,10 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_REDO_DATA: str: string representation of Redo data.
 * PROP_ZEBRA: int: if 0, "zebra" mode is not active; if >0, it is alpha-blend value (1..255) of active zebra mode.
 * PROP_ZEBRA_STEP: int: step (in lines) of "zebra" mode.
-* PROP_FONT: 2-tuple (str, int): font name, font size.
+* PROP_FONT: 2-tuple (str, int): normal font: name, size.
+* PROP_FONT_B: 2-tuple (str, int): bold font: name, size. Empty name: not used.
+* PROP_FONT_I: 2-tuple (str, int): italic font: name, size. Empty name: not used.
+* PROP_FONT_BI: 2-tuple (str, int): bold+italic font: name, size. Empty name: not used.
 * PROP_ACTIVATION_TIME: int: relative time (in OS timer ticks) when tab ("main" or "brother" editor in the same tab) was last focused. It's 0 for not yet focused tabs. It's None for editors created by dlg_proc().
 * PROP_KIND: str: kind of UI control in the tab.
 ** "text": normal editor
@@ -2254,7 +2257,10 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_REDO_DATA: str: string representation of Redo data.
 * PROP_ZEBRA: int: if 0, "zebra" mode is not active; if >0, it is alpha-blend value (1..255) of active zebra mode.
 * PROP_ZEBRA_STEP: int: step (in lines) of "zebra" mode.
-* PROP_FONT: 2-tuple (str, int): font name, font size.
+* PROP_FONT: 2-tuple (str, int): normal font: name, size.
+* PROP_FONT_B: 2-tuple (str, int): bold font: name, size. Empty name: not used.
+* PROP_FONT_I: 2-tuple (str, int): italic font: name, size. Empty name: not used.
+* PROP_FONT_BI: 2-tuple (str, int): bold+italic font: name, size. Empty name: not used.
 * PROP_CODETREE_SUBLEXER: bool: enable code-tree to show nodes from sublexer(s) of current lexer.
 
 * PROP_SPLIT: 2-tuple: information about primary/secondary editors splitting as tuple (split_kind, split_pos).
@@ -3852,7 +3858,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: event "on_message"
 
 1.0.330 (app 1.102.1)
-* add: Editor.get_prop/set_prop: PROP_FONT
+* add: Editor.get_prop/set_prop: PROP_FONT, PROP_FONT_B, PROP_FONT_I, PROP_FONT_BI
 * add: Editor.get_prop/set_prop: PROP_ZEBRA_STEP
 * add: Editor.get_prop/set_prop: PROP_LINKS_SHOW
 * add: Editor.get_prop/set_prop: PROP_LINKS_REGEX
