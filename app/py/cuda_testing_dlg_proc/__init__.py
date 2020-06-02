@@ -222,6 +222,10 @@ class Command:
 
         print('editor on_click_gap', data)
 
+    def callback_editor_on_click_link(self, id_dlg, id_ctl, data='', info=''):
+
+        print('editor on_click_link', data)
+
     def callback_editor_on_key_down(self, id_dlg, id_ctl, data='', info=''):
 
         print('editor on_key_down', data)
@@ -798,6 +802,7 @@ class Command:
             'on_key_up': self.callback_editor_on_key_up,
             'on_click_gutter': self.callback_editor_on_click_gutter,
             'on_click_gap': self.callback_editor_on_click_gap,
+            'on_click_link': self.callback_editor_on_click_link,
             'on_paste': self.callback_editor_on_paste,
             'on_menu': self.callback_editor_on_menu,
             })
@@ -812,6 +817,8 @@ int main(int argc, char *argv[])
   printf("Hello.\n");
   return 0;
 }
+
+/* clickable links: www.test.com , https://yahoo.com */
 """)
         #ed0.set_caret(0, 3, 0, 2)
         #ed0.set_prop(PROP_CARET_SHAPE, 2)
