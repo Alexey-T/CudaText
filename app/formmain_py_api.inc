@@ -3381,6 +3381,12 @@ begin
             Result:= PyLong_FromLong(Ord(Ed.OptScrollStyleVert));
           end;
 
+        PROP_LINKS_SHOW:
+          Result:= PyBool_FromLong(Ord(Ed.OptShowURLs));
+
+        PROP_LINKS_REGEX:
+          Result:= PyString_FromString(PChar(Ed.OptShowURLsRegex));
+
         PROP_RECT_CLIENT:
           begin
             Result:= Py_rect(Ed.ClientRect);
@@ -3893,6 +3899,12 @@ begin
 
         PROP_SCROLLSTYLE_VERT:
           Ed.OptScrollStyleVert:= TATSynEditScrollStyle(ValueInt);
+
+        PROP_LINKS_SHOW:
+          Ed.OptShowURLs:= ValueBool;
+
+        PROP_LINKS_REGEX:
+          Ed.OptShowURLsRegex:= Str;
 
         PROP_CODETREE_SUBLEXER:
           begin
