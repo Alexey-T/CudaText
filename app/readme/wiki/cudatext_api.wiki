@@ -3857,7 +3857,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.329 (app 1.101.0)
 * add: event "on_message"
 
-1.0.330 (app 1.102.1)
+1.0.330 (app 1.102.2)
 * add: Editor.get_prop/set_prop: PROP_FONT, PROP_FONT_B, PROP_FONT_I, PROP_FONT_BI
 * add: Editor.get_prop/set_prop: PROP_ZEBRA_STEP
 * add: Editor.get_prop/set_prop: PROP_LINKS_SHOW
