@@ -2907,6 +2907,9 @@ begin
             Result:= PyInt_FromLong(Num1);
           end;
 
+        PROP_ZEBRA_STEP:
+          Result:= PyInt_FromLong(Ed.OptZebraStep);
+
         PROP_COLOR:
           begin
             Num1:= EditorGetColorById(Ed, Str);
@@ -3603,11 +3606,15 @@ begin
             end;
           end;
 
+        PROP_ZEBRA_STEP:
+          Ed.OptZebraStep:= Max(2, ValueInt);
+
         PROP_TAB_COLOR:
           begin
             if Assigned(F) then
               F.TabColor:= ValueInt;
           end;
+
         PROP_TAB_TITLE:
           begin
             if Assigned(F) then
