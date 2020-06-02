@@ -96,6 +96,7 @@ type
     procedure DoOnFormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnFormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure DoOnFormCloseQuery(Sender: TObject; var CanClose: boolean);
+    function _FocusedControl: TControl;
     procedure _HandleClickEvent(Sender: TObject; ADblClick: boolean);
     procedure _HandleMouseEvent(Sender: TObject;
       const AEventKind: TAppCtlMouseEvent; const AData: TAppVariant);
@@ -553,9 +554,29 @@ begin
   DoEvent(-1, FEventOnClose, AppVariantNil);
 end;
 
+function TFormDummy._FocusedControl: TControl;
+//reason for this helper: TForm.ActiveControl works bad if form is docked
+// https://github.com/Alexey-T/CudaText/issues/2618
+var
+  C: TControl;
+  i: integer;
+begin
+  Result:= nil;
+  for i:= 0 to ControlCount-1 do
+  begin
+    C:= Controls[i];
+    if C is TWinControl then
+      if TWinControl(C).Focused then
+        exit(C);
+  end;
+end;
+
 function TFormDummy.IdFocused: integer;
 begin
-  Result:= FindControlIndexByOurObject(ActiveControl);
+  Result:= FindControlIndexByOurObject(
+    //ActiveControl
+    _FocusedControl
+    );
 end;
 
 procedure TFormDummy.SetFocus;
