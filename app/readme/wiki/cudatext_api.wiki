@@ -2100,8 +2100,9 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_MINIMAP: bool: minimap is visible.
 * PROP_MICROMAP: bool: micromap is visible.
 * PROP_LINK_AT_POS: str: URL in the document, at given position. Value must be str(pos_x)+","+str(pos_y).
-* PROP_LINKS_SHOW: bool: enable links (hyperlinks) underlining.
-* PROP_LINKS_REGEX: str: regular expression for links (hyperlinks).
+* PROP_LINKS_SHOW: bool: enable hyperlinks underlining.
+* PROP_LINKS_REGEX: str: regular expression for hyperlinks.
+* PROP_LINKS_CLICKS: int: how mouse clicks activate hyperlinks. 0: disabled, 1: single click, 2: double click.
 * PROP_IN_SESSION: bool: document was loaded from "session".
 * PROP_IN_HISTORY: bool: document history was loaded from history file (history embedded to "session" or main history file).
 * PROP_TAB_SPACES: bool: tab-key inserts spaces (not tab-char).
@@ -2221,8 +2222,9 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_MARKED_RANGE: line indexes of "marked range", value is 2-tuple (index1, index2) or (-1, -1) to remove this range.
 * PROP_MINIMAP: bool: minimap is visible.
 * PROP_MICROMAP: bool: micromap is visible.
-* PROP_LINKS_SHOW: bool: enable links (hyperlinks) underlining.
-* PROP_LINKS_REGEX: str: regular expression for links (hyperlinks).
+* PROP_LINKS_SHOW: bool: enable hyperlinks underlining.
+* PROP_LINKS_REGEX: str: regular expression for hyperlinks.
+* PROP_LINKS_CLICKS: int: how mouse clicks activate hyperlinks. 0: disabled, 1: single click, 2: double click.
 * PROP_TAB_SPACES: bool: tab-key inserts spaces.
 * PROP_TAB_SIZE: int: size of tab-char.
 * PROP_TAB_COLLECT_MARKERS: bool: tab-key collects (jumps to and deletes) markers.
@@ -3855,6 +3857,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.get_prop/set_prop: PROP_ZEBRA_STEP
 * add: Editor.get_prop/set_prop: PROP_LINKS_SHOW
 * add: Editor.get_prop/set_prop: PROP_LINKS_REGEX
+* add: Editor.get_prop/set_prop: PROP_LINKS_CLICKS
 * add: dlg_proc: editor event "on_click_link"
 
 [[Category:CudaText]]
