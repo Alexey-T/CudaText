@@ -2139,6 +2139,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_REDO_DATA: str: string representation of Redo data.
 * PROP_ZEBRA: int: if 0, "zebra" mode is not active; if >0, it is alpha-blend value (1..255) of active zebra mode.
 * PROP_ZEBRA_STEP: int: step (in lines) of "zebra" mode.
+* PROP_FONT: 2-tuple (str, int): font name, font size.
 * PROP_ACTIVATION_TIME: int: relative time (in OS timer ticks) when tab ("main" or "brother" editor in the same tab) was last focused. It's 0 for not yet focused tabs. It's None for editors created by dlg_proc().
 * PROP_KIND: str: kind of UI control in the tab.
 ** "text": normal editor
@@ -2161,7 +2162,6 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_COORDS: 4-tuple of int: rectangle of entire editor area, relative to screen.
 * PROP_RECT_CLIENT: 4-tuple of int: rectangle of entire editor area, relative to editor.
 * PROP_RECT_TEXT: 4-tuple of int: rectangle of text-only editor area (excluding gutter/minimap/etc), relative to editor.
-* PROP_FONT: 3-tuple (str, str, int): font name, font style (some chars: 'b' for bold, 'i' for italic, 'u' for underline, 's' for crossed), font size.
 
 * PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
 * PROP_V_POS: int: for binary viewer, scroll position.
@@ -2254,6 +2254,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_REDO_DATA: str: string representation of Redo data.
 * PROP_ZEBRA: int: if 0, "zebra" mode is not active; if >0, it is alpha-blend value (1..255) of active zebra mode.
 * PROP_ZEBRA_STEP: int: step (in lines) of "zebra" mode.
+* PROP_FONT: 2-tuple (str, int): font name, font size.
 * PROP_CODETREE_SUBLEXER: bool: enable code-tree to show nodes from sublexer(s) of current lexer.
 
 * PROP_SPLIT: 2-tuple: information about primary/secondary editors splitting as tuple (split_kind, split_pos).
@@ -2263,8 +2264,6 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_SAVING_FORCE_FINAL_EOL: bool: on saving file, ensure the newline at end of document.
 * PROP_SAVING_TRIM_SPACES: bool: on saving file, trim trailing whitespaces.
 * PROP_SAVING_TRIM_FINAL_EMPTY_LINES: bool: on saving file, trim redundant empty lines at end of document.
-
-* PROP_FONT: 3-tuple (str, str, int): font name, font style (some chars: 'b' for bold, 'i' for italic, 'u' for underline, 's' for crossed), font size.
 
 * PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
 * PROP_V_POS: int: for binary viewer, scroll position.
