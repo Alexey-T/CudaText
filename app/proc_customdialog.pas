@@ -626,6 +626,7 @@ begin
     TATSynEdit(Ctl).OnKeyUp:= @AForm.DoOnEditorKeyUp;
     TATSynEdit(Ctl).OnClickGutter:= @AForm.DoOnEditorClickGutter;
     TATSynEdit(Ctl).OnClickGap:= @AForm.DoOnEditorClickGap;
+    TATSynEdit(Ctl).OnClickLink:= @AForm.DoOnEditorClickLink;
     TATSynEdit(Ctl).OnScroll:= @AForm.DoOnEditorScroll;
     TATSynEdit(Ctl).OnPaste:= @AForm.DoOnEditorPaste;
 
@@ -1729,6 +1730,12 @@ begin
   if AName='on_click_gap' then
   begin
     Props.FEventOnEditorClickGap:= AValue;
+    exit;
+  end;
+
+  if AName='on_click_link' then
+  begin
+    Props.FEventOnEditorClickLink:= AValue;
     exit;
   end;
 

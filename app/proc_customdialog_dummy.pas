@@ -75,6 +75,7 @@ type
     FEventOnEditorKeyUp: string;
     FEventOnEditorClickGutter: string;
     FEventOnEditorClickGap: string;
+    FEventOnEditorClickLink: string;
     FEventOnEditorPaste: string;
     constructor Create(const ATypeString: string);
   end;
@@ -157,6 +158,7 @@ type
     procedure DoOnEditorKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnEditorClickGutter(Sender: TObject; ABand, ALine: integer);
     procedure DoOnEditorClickGap(Sender: TObject; AGapItem: TATGapItem; APos: TPoint);
+    procedure DoOnEditorClickLink(Sender: TObject; const ALink: string);
     procedure DoOnEditorPaste(Sender: TObject; var AHandled: boolean; AKeepCaret, ASelectThen: boolean);
     function DoEvent(AIdControl: integer; const ACallback: string; const AData: TAppVariant): boolean;
     procedure DoEmulatedModalShow;
@@ -1141,6 +1143,25 @@ begin
         APos.Y
     ]));
     *)
+end;
+
+procedure TFormDummy.DoOnEditorClickLink(Sender: TObject; const ALink: string);
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+  Data: TAppVariant;
+  Callback: string;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  Callback:= Props.FEventOnEditorClickLink;
+  if Callback='' then exit;
+  IdControl:= FindControlIndexByOurObject(Sender);
+
+  FillChar(Data, SizeOf(Data), 0);
+  Data.Typ:= avrStr;
+  Data.Str:= ALink;
+
+  DoEvent(IdControl, Callback, Data);
 end;
 
 procedure TFormDummy.DoOnEditorScroll(Sender: TObject);
