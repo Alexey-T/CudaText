@@ -269,16 +269,21 @@
   "saving_force_final_eol": false,
 
   //[Text]
-  //String of non-word characters, which define word boundaries
+  //String of non-word characters, which define word boundaries.
+  //To specify underscore "_" here, place it as first char.
+  //Option should be used in lexer-specific config.
   "nonword_chars": "-+*=/\\()[]{}<>\"'.,:;~?!@#$%^&|`…",
 
-  //Show these Unicode characters in long hex form: xNNNN
+  //Show these Unicode characters in long hex form: "xNN" or "xNNNN"
   //Some chars are shown in hex form by default:
   // http://unicode.org/reports/tr9/#Directional_Formatting_Characters
   "hex_chars": "",
 
-  //Additional vertical spacing per each line (pixels), can be <0
+  //Additional vertical spacing per each line, in pixels [has suffix]
+  //Can be negative too
   "spacing_y": 1,
+  "spacing_y__linux": 1,
+  "spacing_y__mac": 1,
 
   //Tab-char width
   "tab_size": 4,
