@@ -269,10 +269,12 @@
   "saving_force_final_eol": false,
 
   //[Text]
-  //String of non-word characters, which define word boundaries
+  //String of non-word characters, which define word boundaries.
+  //To specify underscore "_" here, place it as first char.
+  //Option should be used in lexer-specific config.
   "nonword_chars": "-+*=/\\()[]{}<>\"'.,:;~?!@#$%^&|`…",
 
-  //Show these Unicode characters in long hex form: xNNNN
+  //Show these Unicode characters in long hex form: "xNN" or "xNNNN"
   //Some chars are shown in hex form by default:
   // http://unicode.org/reports/tr9/#Directional_Formatting_Characters
   "hex_chars": "",
