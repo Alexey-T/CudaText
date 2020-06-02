@@ -284,6 +284,7 @@ begin
   Ed.OptZebraActive:= Op.OpZebra>0;
   if Ed.OptZebraActive then
     Ed.OptZebraAlphaBlend:= Op.OpZebra;
+  Ed.OptZebraStep:= Op.OpZebraStep;
 
   Ed.OptIndentSize:= Op.OpIndentSize;
   Ed.OptIndentKeepsAlign:= Op.OpUnIndentKeepsAlign;

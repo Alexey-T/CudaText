@@ -465,6 +465,7 @@ type
     OpLexerDynamicHiliteMaxLines: integer;
     OpLexerLineSeparators: boolean;
     OpZebra: integer;
+    OpZebraStep: integer;
 
     OpNonWordChars: UnicodeString;
     OpHexChars: UnicodeString;
@@ -1194,6 +1195,7 @@ begin
     OpLexerDynamicHiliteMaxLines:= 2000;
     OpLexerLineSeparators:= false;
     OpZebra:= 0;
+    OpZebraStep:= 2;
 
     OpNonWordChars:= cDefaultNonWordChars;
     OpHexChars:= '';

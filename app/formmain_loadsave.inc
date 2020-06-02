@@ -961,6 +961,7 @@ begin
   Op.OpLexerDynamicHiliteMaxLines:= cfg.GetValue('lexer_dynamic_hilite_max_lines', Op.OpLexerDynamicHiliteMaxLines);
   Op.OpLexerLineSeparators:= false; //cfg.GetValue('lexer_line_separators', Op.OpLexerLineSeparators);
   Op.OpZebra:= cfg.GetValue('zebra', Op.OpZebra);
+  Op.OpZebraStep:= cfg.GetValue('zebra_step', Op.OpZebraStep);
 
   Op.OpNonWordChars:= cfg.GetValue('nonword_chars', Op.OpNonWordChars);
   Op.OpHexChars:= cfg.GetValue('hex_chars', Op.OpHexChars);
