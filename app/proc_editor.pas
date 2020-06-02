@@ -32,7 +32,6 @@ uses
   proc_colors,
   proc_msg,
   proc_str,
-  proc_lexer_styles,
   ec_SyntAnal,
   ec_syntax_format,
   math;
@@ -799,9 +798,6 @@ begin
   Sep.GetItemStr(S);
   if S<>'' then
     Ed.Font.Name:= S;
-
-  Sep.GetItemStr(S);
-  Ed.Font.Style:= StringToFontStyles(S);
 
   Sep.GetItemInt(N, 0);
   if N>0 then

@@ -3417,13 +3417,7 @@ begin
           end;
 
         PROP_FONT:
-          begin
-            Result:= Py_BuildValue('(ssi)',
-              PChar(Ed.Font.Name),
-              PChar(FontStylesToString(Ed.Font.Style)),
-              Ed.Font.Size
-              );
-          end;
+          Result:= Py_BuildValue('(si)', PChar(Ed.Font.Name), Ed.Font.Size);
 
         PROP_V_MODE:
           begin
