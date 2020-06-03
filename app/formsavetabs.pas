@@ -85,7 +85,7 @@ begin
       ItemIndex:= 0;
 
   //btnDontSave.Visible:= not UiOps.ReopenSession;
-  btnDontSaveKeep.Visible:= UiOps.ReopenSession;
+  btnDontSaveKeep.Visible:= UiOps.ReopenSession and UiOps.HistoryItems[ahhText];
 end;
 
 procedure TfmSaveTabs.DoLoadSize;
