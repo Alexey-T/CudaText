@@ -693,7 +693,12 @@
   //  if 'l' in value: Index of top visible line (ie vertical scroll position)
   //  if 'e' in value: Encoding
   //  if 'b' in value: Bookmarks
-  //  if 'u' in value: Visibility of unprinted symbols
+  //  if 'L' in value: Lexer
+  //  if 'w' in value: Word-wrap state
+  //  if 'M' in value: Minimap visible state
+  //  if 'm' in value: Micromap visible state
+  //  if 'r' in value: Ruler visible state
+  //  if 'u' in value: Unprinted symbols visible state
   //  if 'f' in value: List of folded ranges
   //  if 'C' in value: Custom color of ui-tab header
   //  if 'F' in value: Code-tree filter: string and history

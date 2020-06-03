@@ -2915,7 +2915,8 @@ var
   bookmark: TATBookmarkItem;
   i: integer;
 begin
-  c.SetDeleteValue(path+cHistory_Lexer, LexerName[Ed], '');
+  if UiOps.HistoryItems[ahhLexer] then
+    c.SetDeleteValue(path+cHistory_Lexer, LexerName[Ed], '');
 
   if UiOps.HistoryItems[ahhEncoding] then
     c.SetValue(path+cHistory_Enc, Ed.EncodingName);
@@ -2923,14 +2924,20 @@ begin
   if UiOps.HistoryItems[ahhTopLine] then
     c.SetDeleteValue(path+cHistory_Top, Ed.LineTop, 0);
 
-  c.SetDeleteValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode), 0);
+  if UiOps.HistoryItems[ahhWordWrap] then
+    c.SetDeleteValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode), 0);
 
   if not ReadOnlyFromFile then
     c.SetDeleteValue(path+cHistory_RO, ReadOnly[Ed], false);
 
-  c.SetDeleteValue(path+cHistory_Ruler, Ed.OptRulerVisible, false);
-  c.SetDeleteValue(path+cHistory_Minimap, Ed.OptMinimapVisible, false);
-  c.SetDeleteValue(path+cHistory_Micromap, Ed.OptMicromapVisible, false);
+  if UiOps.HistoryItems[ahhRuler] then
+    c.SetDeleteValue(path+cHistory_Ruler, Ed.OptRulerVisible, false);
+
+  if UiOps.HistoryItems[ahhMinimap] then
+    c.SetDeleteValue(path+cHistory_Minimap, Ed.OptMinimapVisible, false);
+
+  if UiOps.HistoryItems[ahhMicromap] then
+    c.SetDeleteValue(path+cHistory_Micromap, Ed.OptMicromapVisible, false);
 
   c.SetValue(path+cHistory_TabSize, Ed.OptTabSize);
   c.SetValue(path+cHistory_TabSpace, Ed.OptTabSpaces);
