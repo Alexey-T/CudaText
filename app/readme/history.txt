@@ -12,6 +12,7 @@
 + add: option "zebra_step"
 + add: API to get/set editor font
 + add: API to get/set editor hyperlinks behaviour
+* change: changed logic of undo/redo a little (additional caret jump will appear on redo)
 
 1.102.0 (2020/06)
 
