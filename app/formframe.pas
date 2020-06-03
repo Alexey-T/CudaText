@@ -2950,8 +2950,11 @@ begin
     c.SetDeleteValue(path+cHistory_Unpri_Detail, Ed.OptUnprintedEndsDetails, false);
   end;
 
-  c.SetDeleteValue(path+cHistory_Nums, Ed.Gutter[Ed.GutterBandNumbers].Visible, true);
-  c.SetDeleteValue(path+cHistory_Scale, Ed.OptScaleFont, 0);
+  if UiOps.HistoryItems[ahhLineNumbers] then
+    c.SetDeleteValue(path+cHistory_Nums, Ed.Gutter[Ed.GutterBandNumbers].Visible, true);
+
+  if UiOps.HistoryItems[ahhScale] then
+    c.SetDeleteValue(path+cHistory_Scale, Ed.OptScaleFont, 0);
 
   if UiOps.HistoryItems[ahhFolding] then
     c.SetDeleteValue(path+cHistory_Fold, EditorGetFoldString(Ed), '');
