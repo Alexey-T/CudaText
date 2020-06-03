@@ -1684,7 +1684,11 @@ begin
     for i:= 0 to High(TATKeyArray.Data) do
       if K.Keys2.Data[i]<>0 then
         sl.Add(ShortCutToText(K.Keys2.Data[i]));
-    c.SetValue(path+'/s2', sl);
+
+    if sl.Count>0 then
+      c.SetValue(path+'/s2', sl)
+    else
+      c.DeleteValue(path+'/s2')
   finally
     c.Free;
     sl.Free;
