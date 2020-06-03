@@ -1611,9 +1611,7 @@ begin
 
       if IsCommandNeedTimer(NCode) then
       begin
-        fmMain.FCmdTimer_Code:= NCode;
-        fmMain.FCmdTimer_Ed:= Ed;
-        fmMain.TimerCmdTimer(nil);
+        AppCommandPut(Ed, NCode, true);
       end
       else
       begin

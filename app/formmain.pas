@@ -619,8 +619,6 @@ type
     FPyComplete_CharsLeft: integer;
     FPyComplete_CharsRight: integer;
     FPyComplete_CaretPos: TPoint;
-    FCmdTimer_Code: integer;
-    FCmdTimer_Ed: TATSynEdit;
     FLastDirOfOpenDlg: string;
     FLastLexerForPluginsMenu: string;
     FLastLexerOfKeymap: string;
@@ -1169,6 +1167,83 @@ begin
     Result:= (Data.TabObject as TEditorFrame).Editor;
 end;
 
+
+procedure AppCommandPut(Ed: TATSynEdit; ACommand: integer; AForceTimer: boolean);
+var
+  Frame: TEditorFrame;
+  Item: TAppCommandDelayed;
+  GroupsObj: TATGroups;
+  PagesObj: TATPages;
+  N1, N2, NTabIndex: integer;
+begin
+  Item.Code:= ACommand;
+  Item.EditorObject:= Ed;
+  Item.EditorIndex:= 0;
+  Item.TabObject:= nil;
+  Item.TabIndex:= -1;
+
+  Frame:= GetEditorFrame(Ed);
+  if Assigned(Frame) then
+  begin
+    GetFrameLocation(Frame, GroupsObj, PagesObj, N1, N2, NTabIndex);
+    if Assigned(PagesObj) then
+    begin
+      Item.TabObject:= PagesObj.Tabs;
+      Item.TabIndex:= NTabIndex;
+    end;
+    Item.EditorIndex:= Frame.EditorObjToIndex(Ed);
+  end;
+
+  AppCommandsDelayed.Push(Item);
+
+  if AForceTimer or IsCommandNeedTimer(ACommand) then
+  begin
+    fmMain.TimerCmd.Enabled:= true;
+  end
+  else
+  begin
+    fmMain.TimerCmd.Enabled:= false;
+    fmMain.TimerCmdTimer(nil);
+  end;
+end;
+
+
+type
+  TAppCommandGetStatus = (acgNoCommands, acgBadCommand, acgOkCommand);
+
+function AppCommandGet(out AEditor: TATSynEdit; out ACommand: integer): TAppCommandGetStatus;
+var
+  Item: TAppCommandDelayed;
+  TabData: TATTabData;
+  Frame: TEditorFrame;
+  EdTemp: TATSynEdit;
+begin
+  AEditor:= nil;
+  ACommand:= 0;
+  if AppCommandsDelayed.IsEmpty() then
+    exit(acgNoCommands);
+
+  Result:= acgBadCommand;
+  Item:= AppCommandsDelayed.Front();
+  AppCommandsDelayed.Pop();
+
+  if Item.TabObject=nil then exit;
+  TabData:= Item.TabObject.GetTabData(Item.TabIndex);
+  if TabData=nil then exit;
+  if TabData.TabObject=nil then exit;
+  Frame:= TabData.TabObject as TEditorFrame;
+  EdTemp:= Frame.EditorIndexToObj(Item.EditorIndex);
+  if EdTemp=nil then exit;
+
+  //Item.EditorObject is like CRC here.
+  //we don't read the address at Item.EditorObject!!
+  //why? avoid AV from deleted frames.
+  if EdTemp<>Item.EditorObject then exit;
+
+  AEditor:= EdTemp;
+  ACommand:= Item.Code;
+  Result:= acgOkCommand;
+end;
 
 { TAppNotifThread }
 

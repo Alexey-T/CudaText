@@ -36,6 +36,7 @@ uses
   ATListbox,
   ATStatusBar,
   ATScrollBar,
+  ATTabs,
   at__jsonconf,
   proc_cmd,
   proc_msg,
@@ -57,6 +58,16 @@ type
   end;
 
   TAppConsoleQueue = specialize TQueue<UnicodeString>;
+
+  TAppCommandDelayed = record
+    Code: integer;
+    TabObject: TATTabs;
+    TabIndex: integer;
+    EditorObject: TObject;
+    EditorIndex: integer;
+  end;
+
+  TAppCommandsDelayed = specialize TQueue<TAppCommandDelayed>;
 
 var
   AppActiveForm: TObject = nil;
@@ -814,6 +825,7 @@ type
 
 var
   AppConsoleQueue: TAppConsoleQueue;
+  AppCommandsDelayed: TAppCommandsDelayed;
   AppCommandList: TFPList;
   AppEventList: TFPList;
   AppTreeHelpers: TFPList;
@@ -2506,6 +2518,7 @@ initialization
 
   AppAlwaysNewInstance:= GetAlwaysNewInstance;
   AppConsoleQueue:= TAppConsoleQueue.Create;
+  AppCommandsDelayed:= TAppCommandsDelayed.Create;
   AppCommandList:= TFPList.Create;
   AppEventList:= TFPList.Create;
   AppTreeHelpers:= TFPList.Create;
@@ -2562,6 +2575,7 @@ finalization
   FreeAndNil(AppEventList);
   FreeAndNil(AppCommandList);
   FreeAndNil(AppConsoleQueue);
+  FreeAndNil(AppCommandsDelayed);
 
 end.
 

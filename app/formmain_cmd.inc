@@ -15,9 +15,14 @@ var
   NIndex: integer;
   Params: TAppVariantArray;
 begin
-  TimerCmd.Enabled:= false;
-  Cmd:= FCmdTimer_Code;
-  Ed:= FCmdTimer_Ed;
+ TimerCmd.Enabled:= false;
+
+ repeat
+  case AppCommandGet(Ed, Cmd) of
+    acgNoCommands: Exit;
+    acgBadCommand: Continue;
+  end;
+
   Frame:= GetEditorFrame(Ed);
 
   case Cmd of
@@ -547,10 +552,10 @@ begin
           DoFileOpen(FListRecents[NIndex], '');
       end;
   end;
+ until false;
 
-  UpdateStatus;
+ UpdateStatus;
 end;
-
 
 procedure TfmMain.FrameOnCommand(Sender: TObject; ACommand: integer;
   const AText: string; var AHandled: boolean);
@@ -948,22 +953,12 @@ begin
   end;
 
   //handle other cmd_ commands
-  FCmdTimer_Code:= ACommand;
-  FCmdTimer_Ed:= Ed;
-
   if (ACommand>=cmdFirstAppCommand) and
      (ACommand<=cmdLastAppCommand) then
-    if IsCommandNeedTimer(ACommand) then
-    begin
-      TimerCmd.Enabled:= true;
-      exit
-    end
-    else
-    begin
-      TimerCmd.Enabled:= false;
-      TimerCmdTimer(nil);
-      exit
-    end;
+  begin
+    AppCommandPut(Ed, ACommand, false);
+    exit;
+  end;
 
   case ACommand of
     cCommand_KeyTab:
