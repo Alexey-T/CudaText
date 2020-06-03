@@ -1814,7 +1814,7 @@ method=run_more
 menu=0
 </syntaxhighlight>
 
-Section names: from "item1" to "item400", any numbers can be skipped. Fields in "item" sections:
+Section names: "item" followed by any string (e.g. "item1"). Fields in sections:
 
 * "section": possible values are "commands", "events".
 * "caption": caption of menu item in Plugins menu. "\" separates menu levels. "&" makes accelerator hotkey. "-" as final level name, makes separator menu item.

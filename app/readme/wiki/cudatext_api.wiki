@@ -2762,12 +2762,12 @@ Performs some action in editor. Possible values of "id":
 
 =TreeHelpers=
 
-CudaText contains built-in support for TreeHelpers. They build code-tree for additional lexers. TreeHelpers must be plugins, which have special install.inf file.
+CudaText contains built-in support for TreeHelpers. They build code-tree for additional lexers. TreeHelpers must be plugins, which have special install.inf file (Ini format).
 
-Section [info]:
+Section "info":
 * key "subdir" must begin with "cuda_tree_"
 
-Section(s) [treehelper1] ... [treehelper5]:
+Section(s) "treehelper" followed by any string (e.g. "treehelper1"):
 * key "lexers" is comma-separated lexers list
 * key "method" is name of getter method in __init__.py
 
