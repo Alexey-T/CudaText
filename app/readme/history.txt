@@ -5,6 +5,7 @@
 
 1.102.2 (2020/06)
 
++ add: allow to disable storing to history/session some elements via new option "ui_history_disabled"
 + add: allow to specify underscore "_" as non-word char, by placing at as _first_ in "nonword_chars" option
 + add: option "spacing_y" now has OS suffix
 + add: option "zebra_step"
