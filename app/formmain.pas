@@ -1172,9 +1172,6 @@ procedure AppCommandPut(Ed: TATSynEdit; ACommand: integer; AForceTimer: boolean)
 var
   Frame: TEditorFrame;
   Item: TAppCommandDelayed;
-  GroupsObj: TATGroups;
-  PagesObj: TATPages;
-  N1, N2, NTabIndex: integer;
 begin
   Item.Code:= ACommand;
   Item.EditorObject:= Ed;
@@ -1185,13 +1182,9 @@ begin
   Frame:= GetEditorFrame(Ed);
   if Assigned(Frame) then
   begin
-    GetFrameLocation(Frame, GroupsObj, PagesObj, N1, N2, NTabIndex);
-    if Assigned(PagesObj) then
-    begin
-      Item.TabObject:= PagesObj.Tabs;
-      Item.TabIndex:= NTabIndex;
-    end;
     Item.EditorIndex:= Frame.EditorObjToIndex(Ed);
+    Item.TabObject:= Frame.GetTabPages.Tabs;
+    Item.TabIndex:= Item.TabObject.FindTabByObject(Frame);
   end;
 
   AppCommandsDelayed.Push(Item);
