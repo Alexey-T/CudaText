@@ -581,6 +581,8 @@ begin
   if Parent=nil then
     C:= ActiveControl
   else
+    //ActiveControl works bad if form is docked
+    // https://github.com/Alexey-T/CudaText/issues/2618
     C:= FindOwnerControl(GetFocus); // like TWinControl.Focused does
 
   Result:= FindControlIndexByOurObject(C);
