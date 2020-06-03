@@ -2917,10 +2917,10 @@ var
 begin
   c.SetDeleteValue(path+cHistory_Lexer, LexerName[Ed], '');
 
-  if UiOps.HistoryEncoding then
+  if UiOps.HistoryItems[ahhEncoding] then
     c.SetValue(path+cHistory_Enc, Ed.EncodingName);
 
-  if UiOps.HistoryTopLine then
+  if UiOps.HistoryItems[ahhTopLine] then
     c.SetDeleteValue(path+cHistory_Top, Ed.LineTop, 0);
 
   c.SetDeleteValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode), 0);
@@ -2935,7 +2935,7 @@ begin
   c.SetValue(path+cHistory_TabSize, Ed.OptTabSize);
   c.SetValue(path+cHistory_TabSpace, Ed.OptTabSpaces);
 
-  if UiOps.HistoryUnprinted then
+  if UiOps.HistoryItems[ahhUnprinted] then
   begin
     c.SetDeleteValue(path+cHistory_Unpri, Ed.OptUnprintedVisible, false);
     c.SetDeleteValue(path+cHistory_Unpri_Spaces, Ed.OptUnprintedSpaces, true);
@@ -2946,10 +2946,10 @@ begin
   c.SetDeleteValue(path+cHistory_Nums, Ed.Gutter[Ed.GutterBandNumbers].Visible, true);
   c.SetDeleteValue(path+cHistory_Scale, Ed.OptScaleFont, 0);
 
-  if UiOps.HistoryFolding then
+  if UiOps.HistoryItems[ahhFolding] then
     c.SetDeleteValue(path+cHistory_Fold, EditorGetFoldString(Ed), '');
 
-  if UiOps.HistoryTabColor then
+  if UiOps.HistoryItems[ahhTabColor] then
   begin
     if TabColor=clNone then
       c.DeleteValue(path+cHistory_TabColor)
@@ -2957,7 +2957,7 @@ begin
       c.SetValue(path+cHistory_TabColor, ColorToString(TabColor));
   end;
 
-  if UiOps.HistoryCaret then
+  if UiOps.HistoryItems[ahhCaret] then
    if Ed.Carets.Count>0 then
    begin
     //note: don't use c.SetDeleteValue here because non-empty value is always needed:
@@ -2968,7 +2968,7 @@ begin
       );
    end;
 
-  if UiOps.HistoryBookmarks then
+  if UiOps.HistoryItems[ahhBookmarks] then
   begin
    items:= TStringList.Create;
    items2:= TStringList.Create;
@@ -2998,7 +2998,7 @@ begin
    end;
   end;
 
-  if UiOps.HistoryCodeTreeFilter then
+  if UiOps.HistoryItems[ahhCodeTreeFilter] then
   begin
     c.SetDeleteValue(path+cHistory_CodeTreeFilter, FCodetreeFilter, '');
 

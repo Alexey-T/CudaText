@@ -61,6 +61,23 @@ type
 var
   AppActiveForm: TObject = nil;
 
+type
+  TAppHistoryElement = (
+    ahhText,
+    ahhCaret,
+    ahhTopLine,
+    ahhEncoding,
+    ahhBookmarks,
+    ahhUnprinted,
+    ahhFolding,
+    ahhTabColor,
+    ahhCodeTreeFilter
+    );
+
+const
+  cAppHistoryElementChar: array[TAppHistoryElement] of char =
+    'tclebufCF';
+
 var
   //ATSynEdit has range for bookmarks 0..63, 0=none
   AppBookmarkSetup: array[1..63] of
@@ -208,15 +225,7 @@ type
     MaxHistoryFiles: integer;
 
     HistoryDisabledStr: string;
-    HistoryText: boolean;
-    HistoryCaret: boolean;
-    HistoryTopLine: boolean;
-    HistoryEncoding: boolean;
-    HistoryBookmarks: boolean;
-    HistoryUnprinted: boolean;
-    HistoryFolding: boolean;
-    HistoryTabColor: boolean;
-    HistoryCodeTreeFilter: boolean;
+    HistoryItems: array[TAppHistoryElement] of boolean;
 
     FindSuggestSel: boolean;
     FindSuggestWord: boolean;
@@ -1268,6 +1277,8 @@ end;
 
 
 procedure InitUiOps(var Op: TUiOps);
+var
+  element: TAppHistoryElement;
 begin
   with Op do
   begin
@@ -1355,15 +1366,8 @@ begin
     MaxHistoryFiles:= 25;
 
     HistoryDisabledStr:= '';
-    HistoryText:= true;
-    HistoryCaret:= true;
-    HistoryTopLine:= true;
-    HistoryEncoding:= true;
-    HistoryBookmarks:= true;
-    HistoryUnprinted:= true;
-    HistoryFolding:= true;
-    HistoryTabColor:= true;
-    HistoryCodeTreeFilter:= true;
+    for element:= Low(element) to High(element) do
+      HistoryItems[element]:= true;
 
     FindSuggestSel:= false;
     FindSuggestWord:= true;

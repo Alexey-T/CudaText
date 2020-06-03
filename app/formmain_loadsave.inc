@@ -240,7 +240,7 @@ begin
       if Frame.IsPicture then value:= 'pic';
       cfg.SetValue(path+'/kind', value);
 
-      if UiOps.HistoryText then
+      if UiOps.HistoryItems[ahhText] then
        if bModified then
        begin
         cfg.SetValue(path+'/text', Frame.Editor.Text);
@@ -259,7 +259,7 @@ begin
         cfg.SetValue(path+'/modified', bModified);
         cfg.SetValue(path+'/file', SCollapseHomeDirInFilename(Frame.FileName2));
 
-        if UiOps.HistoryText then
+        if UiOps.HistoryItems[ahhText] then
          if bModified then
          begin
           cfg.SetValue(path+'/text', Frame.Ed2.Text);
@@ -1025,6 +1025,7 @@ end;
 procedure TfmMain.DoOps_LoadOptions_Ui(cfg: TJSONConfig);
 var
   S: string;
+  element: TAppHistoryElement;
 begin
   UiOps.VarFontName:= cfg.GetValue(str_UiFontName, UiOps.VarFontName);
   UiOps.VarFontSize:= Abs(cfg.GetValue(str_UiFontSize, UiOps.VarFontSize)); //Abs for macOS
@@ -1181,15 +1182,8 @@ begin
   UiOps.MaxHistoryFiles:= Max(0, Min(400, cfg.GetValue('ui_max_history_files', UiOps.MaxHistoryFiles)));
 
   UiOps.HistoryDisabledStr:= cfg.GetValue('ui_history_disabled', UiOps.HistoryDisabledStr);
-  UiOps.HistoryText:= Pos('t', UiOps.HistoryDisabledStr)=0;
-  UiOps.HistoryCaret:= Pos('c', UiOps.HistoryDisabledStr)=0;
-  UiOps.HistoryTopLine:= Pos('l', UiOps.HistoryDisabledStr)=0;
-  UiOps.HistoryEncoding:= Pos('e', UiOps.HistoryDisabledStr)=0;
-  UiOps.HistoryBookmarks:= Pos('b', UiOps.HistoryDisabledStr)=0;
-  UiOps.HistoryUnprinted:= Pos('u', UiOps.HistoryDisabledStr)=0;
-  UiOps.HistoryFolding:= Pos('f', UiOps.HistoryDisabledStr)=0;
-  UiOps.HistoryTabColor:= Pos('C', UiOps.HistoryDisabledStr)=0;
-  UiOps.HistoryCodeTreeFilter:= Pos('F', UiOps.HistoryDisabledStr)=0;
+  for element:= Low(element) to High(element) do
+    UiOps.HistoryItems[element]:= Pos(cAppHistoryElementChar[element], UiOps.HistoryDisabledStr)=0;
 
   UiOps.EscapeClose:= cfg.GetValue('ui_esc_close', UiOps.EscapeClose);
   UiOps.EscapeCloseConsole:= cfg.GetValue('ui_esc_close_console', UiOps.EscapeCloseConsole);
