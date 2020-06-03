@@ -686,7 +686,8 @@
   //History: Max items in "settings/history files.json" (0..400)
   "ui_max_history_files": 25,
 
-  //History: elements to store to history/session files.
+  //History: Which elements to save to history/session files.
+  //Option affects only saving the history, and is ignored on reading it.
   //Value is string, each char _disables_ storing of one element.
   //  if 't' in value: Text of document (it's saved for modified documents)
   //  if 'c' in value: Caret position and selection
