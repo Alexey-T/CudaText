@@ -690,10 +690,10 @@
   //Value is string, each char _disables_ storing of one element.
   //  if 't' in value: Text of document (it's saved for modified documents)
   //  if 'c' in value: Caret position and selection
-  //  if 'l' in value: Index of top visible line (ie vertical scroll position)
+  //  if 's' in value: Vertical scroll position
   //  if 'e' in value: Encoding
   //  if 'b' in value: Bookmarks
-  //  if 'L' in value: Lexer
+  //  if 'l' in value: Lexer name
   //  if 'w' in value: Word-wrap state
   //  if 'M' in value: Minimap visible state
   //  if 'm' in value: Micromap visible state

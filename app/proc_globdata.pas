@@ -81,7 +81,7 @@ type
 
 const
   cAppHistoryElementChar: array[TAppHistoryElement] of char =
-    'tclebLwMmrufCF';
+    'tcseblwMmrufCF';
 
 var
   //ATSynEdit has range for bookmarks 0..63, 0=none
