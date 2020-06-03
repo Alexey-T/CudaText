@@ -2916,42 +2916,63 @@ var
   i: integer;
 begin
   c.SetDeleteValue(path+cHistory_Lexer, LexerName[Ed], '');
-  c.SetValue(path+cHistory_Enc, Ed.EncodingName);
-  c.SetDeleteValue(path+cHistory_Top, Ed.LineTop, 0);
+
+  if UiOps.HistoryEncoding then
+    c.SetValue(path+cHistory_Enc, Ed.EncodingName);
+
+  if UiOps.HistoryTopLine then
+    c.SetDeleteValue(path+cHistory_Top, Ed.LineTop, 0);
+
   c.SetDeleteValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode), 0);
+
   if not ReadOnlyFromFile then
     c.SetDeleteValue(path+cHistory_RO, ReadOnly[Ed], false);
+
   c.SetDeleteValue(path+cHistory_Ruler, Ed.OptRulerVisible, false);
   c.SetDeleteValue(path+cHistory_Minimap, Ed.OptMinimapVisible, false);
   c.SetDeleteValue(path+cHistory_Micromap, Ed.OptMicromapVisible, false);
+
   c.SetValue(path+cHistory_TabSize, Ed.OptTabSize);
   c.SetValue(path+cHistory_TabSpace, Ed.OptTabSpaces);
-  c.SetDeleteValue(path+cHistory_Unpri, Ed.OptUnprintedVisible, false);
-  c.SetDeleteValue(path+cHistory_Unpri_Spaces, Ed.OptUnprintedSpaces, true);
-  c.SetDeleteValue(path+cHistory_Unpri_Ends, Ed.OptUnprintedEnds, true);
-  c.SetDeleteValue(path+cHistory_Unpri_Detail, Ed.OptUnprintedEndsDetails, false);
+
+  if UiOps.HistoryUnprinted then
+  begin
+    c.SetDeleteValue(path+cHistory_Unpri, Ed.OptUnprintedVisible, false);
+    c.SetDeleteValue(path+cHistory_Unpri_Spaces, Ed.OptUnprintedSpaces, true);
+    c.SetDeleteValue(path+cHistory_Unpri_Ends, Ed.OptUnprintedEnds, true);
+    c.SetDeleteValue(path+cHistory_Unpri_Detail, Ed.OptUnprintedEndsDetails, false);
+  end;
+
   c.SetDeleteValue(path+cHistory_Nums, Ed.Gutter[Ed.GutterBandNumbers].Visible, true);
   c.SetDeleteValue(path+cHistory_Scale, Ed.OptScaleFont, 0);
-  c.SetDeleteValue(path+cHistory_Fold, EditorGetFoldString(Ed), '');
 
-  if TabColor=clNone then
-    c.DeleteValue(path+cHistory_TabColor)
-  else
-    c.SetValue(path+cHistory_TabColor, ColorToString(TabColor));
+  if UiOps.HistoryFolding then
+    c.SetDeleteValue(path+cHistory_Fold, EditorGetFoldString(Ed), '');
 
-  if Ed.Carets.Count>0 then
+  if UiOps.HistoryTabColor then
   begin
+    if TabColor=clNone then
+      c.DeleteValue(path+cHistory_TabColor)
+    else
+      c.SetValue(path+cHistory_TabColor, ColorToString(TabColor));
+  end;
+
+  if UiOps.HistoryCaret then
+   if Ed.Carets.Count>0 then
+   begin
     //note: don't use c.SetDeleteValue here because non-empty value is always needed:
     //app loads file from session and skips history if key is empty
     caret:= Ed.Carets[0];
     c.SetValue(path+cHistory_Caret,
       Format('%d,%d,%d,%d,', [caret.PosX, caret.PosY, caret.EndX, caret.EndY])
       );
-  end;
+   end;
 
-  items:= TStringList.Create;
-  items2:= TStringList.Create;
-  try
+  if UiOps.HistoryBookmarks then
+  begin
+   items:= TStringList.Create;
+   items2:= TStringList.Create;
+   try
     for i:= 0 to Ed.Strings.Bookmarks.Count-1 do
     begin
       bookmark:= Ed.Strings.Bookmarks[i];
@@ -2971,17 +2992,21 @@ begin
     else
       c.DeleteValue(path+cHistory_BookmarkKind);
 
-  finally
+   finally
     FreeAndNil(items2);
     FreeAndNil(items);
+   end;
   end;
 
-  c.SetDeleteValue(path+cHistory_CodeTreeFilter, FCodetreeFilter, '');
+  if UiOps.HistoryCodeTreeFilter then
+  begin
+    c.SetDeleteValue(path+cHistory_CodeTreeFilter, FCodetreeFilter, '');
 
-  if FCodetreeFilterHistory.Count>0 then
-    c.SetValue(path+cHistory_CodeTreeFilters, FCodetreeFilterHistory)
-  else
-    c.DeleteValue(path+cHistory_CodeTreeFilters);
+    if FCodetreeFilterHistory.Count>0 then
+      c.SetValue(path+cHistory_CodeTreeFilters, FCodetreeFilterHistory)
+    else
+      c.DeleteValue(path+cHistory_CodeTreeFilters);
+  end;
 end;
 
 procedure _WriteStringToFileInHiddenDir(const fn, s: string);

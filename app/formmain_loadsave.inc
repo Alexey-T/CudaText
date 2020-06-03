@@ -240,12 +240,13 @@ begin
       if Frame.IsPicture then value:= 'pic';
       cfg.SetValue(path+'/kind', value);
 
-      if bModified then
-      begin
+      if UiOps.HistoryText then
+       if bModified then
+       begin
         cfg.SetValue(path+'/text', Frame.Editor.Text);
         if Frame.FileName<>'' then
           cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(Frame.FileName));
-      end;
+       end;
 
       Frame.DoSaveHistoryEx(Frame.Ed1, cfg, path);
 
@@ -257,11 +258,13 @@ begin
         bModified:= Frame.Ed2.Modified;
         cfg.SetValue(path+'/modified', bModified);
         cfg.SetValue(path+'/file', SCollapseHomeDirInFilename(Frame.FileName2));
-        if bModified then
-        begin
+
+        if UiOps.HistoryText then
+         if bModified then
+         begin
           cfg.SetValue(path+'/text', Frame.Ed2.Text);
           cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(Frame.FileName2));
-        end;
+         end;
 
         Frame.DoSaveHistoryEx(Frame.Ed2, cfg, path);
       end;
@@ -1176,6 +1179,17 @@ begin
   UiOps.MaxHistoryEdits:= Max(0, Min(200, cfg.GetValue('ui_max_history_edits', UiOps.MaxHistoryEdits)));
   UiOps.MaxHistoryMenu:= Max(0, Min(50, cfg.GetValue('ui_max_history_menu', UiOps.MaxHistoryMenu)));
   UiOps.MaxHistoryFiles:= Max(0, Min(400, cfg.GetValue('ui_max_history_files', UiOps.MaxHistoryFiles)));
+
+  UiOps.HistoryDisabledStr:= cfg.GetValue('ui_history_disabled', UiOps.HistoryDisabledStr);
+  UiOps.HistoryText:= Pos('t', UiOps.HistoryDisabledStr)=0;
+  UiOps.HistoryCaret:= Pos('c', UiOps.HistoryDisabledStr)=0;
+  UiOps.HistoryTopLine:= Pos('l', UiOps.HistoryDisabledStr)=0;
+  UiOps.HistoryEncoding:= Pos('e', UiOps.HistoryDisabledStr)=0;
+  UiOps.HistoryBookmarks:= Pos('b', UiOps.HistoryDisabledStr)=0;
+  UiOps.HistoryUnprinted:= Pos('u', UiOps.HistoryDisabledStr)=0;
+  UiOps.HistoryFolding:= Pos('f', UiOps.HistoryDisabledStr)=0;
+  UiOps.HistoryTabColor:= Pos('C', UiOps.HistoryDisabledStr)=0;
+  UiOps.HistoryCodeTreeFilter:= Pos('F', UiOps.HistoryDisabledStr)=0;
 
   UiOps.EscapeClose:= cfg.GetValue('ui_esc_close', UiOps.EscapeClose);
   UiOps.EscapeCloseConsole:= cfg.GetValue('ui_esc_close_console', UiOps.EscapeCloseConsole);

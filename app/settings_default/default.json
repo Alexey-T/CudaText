@@ -686,6 +686,19 @@
   //History: Max items in "settings/history files.json" (0..400)
   "ui_max_history_files": 25,
 
+  //History: elements to store to history/session files.
+  //Value is string, each char _disables_ storing of one element.
+  //  if 't' in value: Text of document (it's saved for modified documents)
+  //  if 'c' in value: Caret position and selection
+  //  if 'l' in value: Index of top visible line (ie vertical scroll position)
+  //  if 'e' in value: Encoding
+  //  if 'b' in value: Bookmarks
+  //  if 'u' in value: Visibility of unprinted symbols
+  //  if 'f' in value: List of folded ranges
+  //  if 'C' in value: Custom color of ui-tab header
+  //  if 'F' in value: Code-tree filter: string and history
+  "ui_history_disabled": "",
+
   //[Ui]
   //Close program by Esc key
   "ui_esc_close": false,

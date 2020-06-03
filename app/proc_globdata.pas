@@ -207,6 +207,17 @@ type
     MaxHistoryMenu: integer;
     MaxHistoryFiles: integer;
 
+    HistoryDisabledStr: string;
+    HistoryText: boolean;
+    HistoryCaret: boolean;
+    HistoryTopLine: boolean;
+    HistoryEncoding: boolean;
+    HistoryBookmarks: boolean;
+    HistoryUnprinted: boolean;
+    HistoryFolding: boolean;
+    HistoryTabColor: boolean;
+    HistoryCodeTreeFilter: boolean;
+
     FindSuggestSel: boolean;
     FindSuggestWord: boolean;
     FindSuggestInSelection: boolean;
@@ -1342,6 +1353,17 @@ begin
     MaxHistoryEdits:= 20;
     MaxHistoryMenu:= 10;
     MaxHistoryFiles:= 25;
+
+    HistoryDisabledStr:= '';
+    HistoryText:= true;
+    HistoryCaret:= true;
+    HistoryTopLine:= true;
+    HistoryEncoding:= true;
+    HistoryBookmarks:= true;
+    HistoryUnprinted:= true;
+    HistoryFolding:= true;
+    HistoryTabColor:= true;
+    HistoryCodeTreeFilter:= true;
 
     FindSuggestSel:= false;
     FindSuggestWord:= true;
