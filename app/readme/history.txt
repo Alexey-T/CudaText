@@ -4,9 +4,10 @@
   * changed
 
 1.102.4 (2020/06)
-
-+ add: allow to disable storing some elements to history/session, via new option "ui_history_disabled"
-+ add: allow to specify underscore "_" as non-word char, by placing at as _first_ in "nonword_chars" option
+ 
++ add: better logic of "line states": now "added" lines don't change state to "modified" during editing (thanks @tmsg)
++ add: allow to disable storing some elements to history/session, via new option "ui_history_disabled" (thanks @tmsg)
++ add: allow to specify underscore "_" as non-word char, by placing at as _first_ in "nonword_chars" option (thanks @tmsg)
 + add: option "spacing_y" now has OS suffix
 + add: option "zebra_step"
 + add: API to get/set editor font
