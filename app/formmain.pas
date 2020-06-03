@@ -1174,17 +1174,17 @@ var
   Item: TAppCommandDelayed;
 begin
   Item.Code:= ACommand;
-  Item.EditorObject:= Ed;
-  Item.EditorIndex:= 0;
-  Item.TabObject:= nil;
+  Item.EdObject:= Ed;
+  Item.EdIndex:= 0;
+  Item.Tabs:= nil;
   Item.TabIndex:= -1;
 
   Frame:= GetEditorFrame(Ed);
   if Assigned(Frame) then
   begin
-    Item.EditorIndex:= Frame.EditorObjToIndex(Ed);
-    Item.TabObject:= Frame.GetTabPages.Tabs;
-    Item.TabIndex:= Item.TabObject.FindTabByObject(Frame);
+    Item.EdIndex:= Frame.EditorObjToIndex(Ed);
+    Item.Tabs:= Frame.GetTabPages.Tabs;
+    Item.TabIndex:= Item.Tabs.FindTabByObject(Frame);
   end;
 
   AppCommandsDelayed.Push(Item);
@@ -1220,18 +1220,18 @@ begin
   Item:= AppCommandsDelayed.Front();
   AppCommandsDelayed.Pop();
 
-  if Item.TabObject=nil then exit;
-  TabData:= Item.TabObject.GetTabData(Item.TabIndex);
+  if Item.Tabs=nil then exit;
+  TabData:= Item.Tabs.GetTabData(Item.TabIndex);
   if TabData=nil then exit;
   if TabData.TabObject=nil then exit;
   Frame:= TabData.TabObject as TEditorFrame;
-  EdTemp:= Frame.EditorIndexToObj(Item.EditorIndex);
+  EdTemp:= Frame.EditorIndexToObj(Item.EdIndex);
   if EdTemp=nil then exit;
 
-  //Item.EditorObject is like CRC here.
+  //Item.EdObject is like CRC here.
   //we don't read the address at Item.EditorObject!!
   //why? avoid AV from deleted frames.
-  if EdTemp<>Item.EditorObject then exit;
+  if pointer(EdTemp)<>Item.EdObject then exit;
 
   AEditor:= EdTemp;
   ACommand:= Item.Code;

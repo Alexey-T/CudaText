@@ -61,10 +61,10 @@ type
 
   TAppCommandDelayed = record
     Code: integer;
-    TabObject: TATTabs;
+    Tabs: TATTabs;
     TabIndex: integer;
-    EditorObject: TObject;
-    EditorIndex: integer;
+    EdObject: pointer;
+    EdIndex: integer;
   end;
 
   TAppCommandsDelayed = specialize TQueue<TAppCommandDelayed>;
