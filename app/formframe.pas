@@ -249,6 +249,8 @@ type
 
     procedure DoSaveUndo(Ed: TATSynEdit; const AFileName: string);
     procedure DoLoadUndo(Ed: TATSynEdit);
+    procedure DoSaveHistory_Caret(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
+    procedure DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
 
   protected
     procedure DoOnResize; override;
@@ -2908,12 +2910,56 @@ begin
   end;
 end;
 
-procedure TEditorFrame.DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
+procedure TEditorFrame.DoSaveHistory_Caret(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
 var
   caret: TATCaretItem;
+begin
+  if Ed.Carets.Count>0 then
+  begin
+    //note: don't use c.SetDeleteValue here because non-empty value is always needed:
+    //app loads file from session and skips history if key is empty
+    caret:= Ed.Carets[0];
+    c.SetValue(path+cHistory_Caret,
+      Format('%d,%d,%d,%d,', [caret.PosX, caret.PosY, caret.EndX, caret.EndY])
+      );
+   end;
+end;
+
+procedure TEditorFrame.DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
+var
   items, items2: TStringList;
   bookmark: TATBookmarkItem;
   i: integer;
+begin
+  items:= TStringList.Create;
+  items2:= TStringList.Create;
+  try
+    for i:= 0 to Ed.Strings.Bookmarks.Count-1 do
+    begin
+      bookmark:= Ed.Strings.Bookmarks[i];
+      //save usual bookmarks and numbered bookmarks (kind=1..10)
+      if (bookmark.Data.Kind>10) then Continue;
+      items.Add(IntToStr(bookmark.Data.LineNum));
+      items2.Add(IntToStr(bookmark.Data.Kind));
+    end;
+
+    if items.Count>0 then
+      c.SetValue(path+cHistory_Bookmark, items)
+    else
+      c.DeleteValue(path+cHistory_Bookmark);
+
+    if items2.Count>0 then
+      c.SetValue(path+cHistory_BookmarkKind, items2)
+    else
+      c.DeleteValue(path+cHistory_BookmarkKind);
+
+  finally
+    FreeAndNil(items2);
+    FreeAndNil(items);
+  end;
+end;
+
+procedure TEditorFrame.DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
 begin
   if UiOps.HistoryItems[ahhLexer] then
     c.SetDeleteValue(path+cHistory_Lexer, LexerName[Ed], '');
@@ -2971,45 +3017,10 @@ begin
   end;
 
   if UiOps.HistoryItems[ahhCaret] then
-   if Ed.Carets.Count>0 then
-   begin
-    //note: don't use c.SetDeleteValue here because non-empty value is always needed:
-    //app loads file from session and skips history if key is empty
-    caret:= Ed.Carets[0];
-    c.SetValue(path+cHistory_Caret,
-      Format('%d,%d,%d,%d,', [caret.PosX, caret.PosY, caret.EndX, caret.EndY])
-      );
-   end;
+    DoSaveHistory_Caret(Ed, c, path);
 
   if UiOps.HistoryItems[ahhBookmarks] then
-  begin
-   items:= TStringList.Create;
-   items2:= TStringList.Create;
-   try
-    for i:= 0 to Ed.Strings.Bookmarks.Count-1 do
-    begin
-      bookmark:= Ed.Strings.Bookmarks[i];
-      //save usual bookmarks and numbered bookmarks (kind=1..10)
-      if (bookmark.Data.Kind>10) then Continue;
-      items.Add(IntToStr(bookmark.Data.LineNum));
-      items2.Add(IntToStr(bookmark.Data.Kind));
-    end;
-
-    if items.Count>0 then
-      c.SetValue(path+cHistory_Bookmark, items)
-    else
-      c.DeleteValue(path+cHistory_Bookmark);
-
-    if items2.Count>0 then
-      c.SetValue(path+cHistory_BookmarkKind, items2)
-    else
-      c.DeleteValue(path+cHistory_BookmarkKind);
-
-   finally
-    FreeAndNil(items2);
-    FreeAndNil(items);
-   end;
-  end;
+    DoSaveHistory_Bookmarks(Ed, c, path);
 
   if UiOps.HistoryItems[ahhCodeTreeFilter] then
   begin
