@@ -15,6 +15,7 @@ uses
   Classes, SysUtils, Controls, Graphics,
   StdCtrls, Forms, ComCtrls, ExtCtrls,
   LCLType,
+  LCLIntf,
   ListFilterEdit,
   ListViewFilterEdit,
   proc_globdata,
@@ -574,11 +575,15 @@ begin
 end;
 
 function TFormDummy.IdFocused: integer;
+var
+  C: TWinControl;
 begin
-  Result:= FindControlIndexByOurObject(
-    //ActiveControl
-    _FocusedControl
-    );
+  if Parent=nil then
+    C:= ActiveControl
+  else
+    C:= FindOwnerControl(GetFocus); // like TWinControl.Focused does
+
+  Result:= FindControlIndexByOurObject(C);
 end;
 
 procedure TFormDummy.SetFocus;
