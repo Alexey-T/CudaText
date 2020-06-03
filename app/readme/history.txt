@@ -3,13 +3,14 @@
   - fixed
   * changed
 
-1.102.2 (2020/06)
+1.102.4 (2020/06)
 
 + add: allow to disable storing to history/session some elements via new option "ui_history_disabled"
 + add: allow to specify underscore "_" as non-word char, by placing at as _first_ in "nonword_chars" option
 + add: option "spacing_y" now has OS suffix
 + add: option "zebra_step"
-+ add: API to get/set editor font, editor hyperlinks behaviour
++ add: API to get/set editor font
++ add: API to get/set editor hyperlinks behaviour
 
 1.102.0 (2020/06)
 
