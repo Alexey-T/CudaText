@@ -361,6 +361,8 @@ begin
       sText:= cfg.GetValue(item_path+'text', '');
       sKind:= cfg.GetValue(item_path+'kind', '');
       bModified:= cfg.GetValue(item_path+'modified', false);
+      if sText='' then //don't load this file from session
+        bModified:= false;
 
       //support old sessions with 1-based group index
       nIndex:= cfg.GetValue(item_path+'group', 1)-1;
@@ -402,7 +404,8 @@ begin
           Frame.FileName:= sFilename;
           Frame.TabCaption:= ExtractFileName(sFilename);
         end;
-        Frame.Editor.Text:= sText;
+        if sText<>'' then
+          Frame.Editor.Text:= sText;
         Frame.Editor.Modified:= bModified;
         sTabTitle:= cfg.GetValue(item_path+'tab_title', '');
         if sTabTitle<>'' then
