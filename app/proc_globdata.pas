@@ -66,6 +66,7 @@ type
     ahhText,
     ahhCaret,
     ahhTopLine,
+    ahhTabSize,
     ahhEncoding,
     ahhBookmarks,
     ahhLexer,
@@ -83,7 +84,7 @@ type
 
 const
   cAppHistoryElementChar: array[TAppHistoryElement] of char =
-    'tcseblwMmrunSfCF';
+    'tcsTeblwMmrunSfCF';
 
 var
   //ATSynEdit has range for bookmarks 0..63, 0=none

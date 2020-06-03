@@ -2939,8 +2939,11 @@ begin
   if UiOps.HistoryItems[ahhMicromap] then
     c.SetDeleteValue(path+cHistory_Micromap, Ed.OptMicromapVisible, false);
 
-  c.SetValue(path+cHistory_TabSize, Ed.OptTabSize);
-  c.SetValue(path+cHistory_TabSpace, Ed.OptTabSpaces);
+  if UiOps.HistoryItems[ahhTabSize] then
+  begin
+    c.SetValue(path+cHistory_TabSize, Ed.OptTabSize);
+    c.SetValue(path+cHistory_TabSpace, Ed.OptTabSpaces);
+  end;
 
   if UiOps.HistoryItems[ahhUnprinted] then
   begin
