@@ -526,6 +526,8 @@ var
   list: TStringlist;
   dir_temp, dir_zipped, fn_inf: string;
   s_title, s_type, s_subdir, s_desc, s_api, s_os: string;
+  ok: boolean;
+  Num: integer;
 begin
   AStrReport:= '';
   AStrMessage:= '';
@@ -616,11 +618,22 @@ begin
   end;
   *)
 
-  if (s_api<>'') and (s_api > '1.0.'+IntToStr(cAppApiVersion) ) then
+  if (s_api<>'') then
   begin
-    if not ASilent then
-      MsgBox(Format(msgCannotInstallAddonApi, [s_title, s_api]), MB_OK or MB_ICONERROR);
-    exit
+    //support 'api' key in 2 formats:
+    // number 300
+    // string '1.0.300'
+    Num:= StrToIntDef(s_api, 0);
+    if Num>0 then
+      ok:= Num<=cAppApiVersion
+    else
+      ok:= s_api <= '1.0.'+IntToStr(cAppApiVersion);
+    if not ok then
+    begin
+      if not ASilent then
+        MsgBox(Format(msgCannotInstallAddonApi, [s_title, s_api]), MB_OK or MB_ICONERROR);
+      exit;
+    end;
   end;
 
   if (s_title='') or (s_type='') then
