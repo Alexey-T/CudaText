@@ -201,7 +201,7 @@ begin
 
     for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
       cfg.SetValue('/tab_index/g'+Inttostr(i), Groups.Pages[i].Tabs.TabIndex);
-    cfg.SetValue('/tab_index/g_active', Groups.PagesIndexOf(Groups.PagesCurrent));
+    cfg.SetValue('/tab_index/g_active', Groups.FindPages(Groups.PagesCurrent));
 
     cfg.SetValue('/panels/side_show', AppPanels[cPaneSide].Visible);
     cfg.SetValue('/panels/side_panel', AppPanels[cPaneSide].LastActivePanel);

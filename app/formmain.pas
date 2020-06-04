@@ -3916,7 +3916,7 @@ begin
   if CurForm=Self then
   begin
     GroupsCtx:= Groups;
-    NCur:= GroupsCtx.PagesIndexOf(GroupsCtx.PopupPages);
+    NCur:= GroupsCtx.FindPages(GroupsCtx.PopupPages);
   end
   else
   if FloatGroups then

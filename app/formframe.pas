@@ -446,7 +446,7 @@ begin
   Assert(Assigned(Frame.Parent));
   APages:= Frame.GetTabPages;
   AGroups:= Frame.GetTabGroups;
-  AGroups.PagesAndTabIndexOfControl(Frame, ALocalGroupIndex, ATabIndex);
+  AGroups.FindPositionOfControl(Frame, ALocalGroupIndex, ATabIndex);
 
   AGlobalGroupIndex:= ALocalGroupIndex;
   if AGroups.Tag<>0 then
