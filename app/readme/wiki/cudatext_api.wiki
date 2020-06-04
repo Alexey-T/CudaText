@@ -3881,6 +3881,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.331 (app 1.102.6)
 * add: Editor.micromap()
 * change: Editor.action: deleted actions EDACTION_MICROMAPCOL_*
-* add: constant API, which will replace app_api_version() later
+* add: constant "cudatext.API", which will replace "cudatext.app_api_version" later
 
 [[Category:CudaText]]
