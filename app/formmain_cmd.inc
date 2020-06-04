@@ -12,6 +12,7 @@ var
   Cmd: integer;
   Frame: TEditorFrame;
   Ed: TATSynEdit;
+  EdGrp: TATGroups;
   NIndex: integer;
   Params: TAppVariantArray;
 begin
@@ -24,29 +25,33 @@ begin
   end;
 
   Frame:= GetEditorFrame(Ed);
+  if Assigned(Frame) then
+    EdGrp:= Frame.GetTabGroups
+  else
+    EdGrp:= Groups;
 
   case Cmd of
 
     cmd_FileClose:
       begin
-        Groups.CloseTabs(tabCloseCurrent, false);
+        EdGrp.CloseTabs(tabCloseCurrent, false);
         CurrentFrame.SetFocus;
       end;
 
     cmd_FileCloseAll:
       begin
-        Groups.CloseTabs(tabCloseAll, false);
+        EdGrp.CloseTabs(tabCloseAll, false);
         CurrentFrame.SetFocus;
       end;
 
     cmd_FileCloseOtherThis:
       begin
-        Groups.CloseTabs(tabCloseOthersThisPage, false);
+        EdGrp.CloseTabs(tabCloseOthersThisPage, false);
       end;
 
     cmd_FileCloseOtherAll:
       begin
-        Groups.CloseTabs(tabCloseOthersAllPages, false);
+        EdGrp.CloseTabs(tabCloseOthersAllPages, false);
       end;
 
     cmd_FileCloseAndDelete:
