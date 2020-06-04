@@ -1702,6 +1702,8 @@ It is not a bug. In this example, user selected column block from column 7 (at l
 
 Even more weird look happens when user selects column block over word-wrapped lines.
 
+[[File:cudatext-column-sel-weird.png]]
+
 Here is the program's logic in all these cases (with full-width characters and with word-wrapped lines). Program calculates (line1, column1) text position of column block left-top edge. Then program calculates (line2, column2) text position of column block right-bottom edge. Then program selects characters in range column1...column2 in all those affected lines line1...line2. And this program logic produces so weird look in word-wrapped mode.
 
 ==How to replace from/to text containing line-breaks==
