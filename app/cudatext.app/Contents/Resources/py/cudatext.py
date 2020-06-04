@@ -435,6 +435,7 @@ LEXER_GET_PROP       = 1
 LEXER_DETECT         = 2
 LEXER_REREAD_LIB     = 3
 LEXER_GET_STYLES     = 4
+LEXER_ADD_VIRTUAL    = 5
 
 GROUPS_ONE     = 1
 GROUPS_2VERT   = 2
@@ -815,12 +816,13 @@ INI_GET_KEYS         = 1
 INI_DELETE_KEY       = 2
 INI_DELETE_SECTION   = 3
 
+API, EXE_VER = ct.app_ver()
 
 def app_exe_version():
-    return ct.app_exe_version()
+    return EXE_VER
 
 def app_api_version():
-    return ct.app_api_version()
+    return '1.0.'+str(API)
 
 def app_path(id):
     return ct.app_path(id)
