@@ -13,6 +13,7 @@
 + add: API to get/set editor font
 + add: API to get/set editor hyperlinks behaviour
 * change: changed logic of undo/redo a little (additional caret jump will appear on redo)
+- fix: commands "close tab", "close all tabs", "close other tabs" didn't work correctly when floating group is active
 - fix: minor issues in HTML auto-completion
 
 1.102.0 (2020/06)
