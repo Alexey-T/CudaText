@@ -4944,6 +4944,9 @@ var
   List: TStringList;
   Lexer: TecSyntAnalyzer;
   LexerLite: TATLiteLexer;
+  Sep: TATStringSeparator;
+  PropName, PropTypes, PropCmtLine, PropCmtBlock1, PropCmtBlock2: string;
+  ok: boolean;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'is:lexer_proc', @Id, @PtrValue)) then
@@ -5020,6 +5023,24 @@ begin
           begin
             fmMain.DoOps_LoadLexerLib(false);
             Result:= ReturnNone;
+          end;
+
+        LEXER_ADD_VIRTUAL:
+          begin
+            Sep.Init(StrValue, ',');
+            Sep.GetItemStr(PropName);
+            Sep.GetItemStr(PropTypes);
+            Sep.GetItemStr(PropCmtLine);
+            Sep.GetItemStr(PropCmtBlock1);
+            Sep.GetItemStr(PropCmtBlock2);
+            ok:= AppManagerLite.Add(
+              PropName,
+              PropTypes,
+              PropCmtLine,
+              PropCmtBlock1,
+              PropCmtBlock2
+              );
+            Result:= PyBool_FromLong(Ord(ok));;
           end;
 
         else
