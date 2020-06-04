@@ -1039,7 +1039,9 @@ How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=
 
 ====Control events====
 
-These are also properties of controls.
+Events of controls are also properties, but values of these properties must be Python functions (ie callables). Signature of these functions are shown below.
+
+General events for all controls:
 
 * "on_change": Called after "value" of control is changed.
 * "on_click": Called after mouse click on control, for non-active controls, which don't change "value" by click. Param "data" is tuple (x, y) with control-related coordinates of click.
@@ -1052,22 +1054,22 @@ These are also properties of controls.
 * "on_focus_exit": Called when control looses focus. Supported for the same controls as "on_focus_enter".
 * "on_menu": Called before showing context menu, after right click or ContextMenu hotkey. Param "data": like in "on_mouse_down". Method can return False to disable default menu (if any).
 
-Events for control "listview"/"checklistview":
+Special events for controls "listview", "checklistview":
 
 * "on_click_header": Called when user clicks on column header. Param "data": int column index.
 * "on_select": Called after selection is changed. Param "data" is tuple: (int_item_index, bool_item_selected).
 
-Events for control "listbox_ex":
+Special events for control "listbox_ex":
 
 * "on_click_x": Called when listbox has X marks shown and X mark is clicked.
 * "on_draw_item": Called if listbox is owner-drawn. Param "data" is dict: { "canvas": canvas_id, "index": int_item_index, "rect": item_rectangle_4_tuple }.
 
-Events for control "treeview":
+Special events for control "treeview":
 
 * "on_fold", "on_unfold": Called before treeview node is folded/unfolded. Param "data" is int handle of treeview node.
 * "on_select": Called after selection is changed.
 
-Events for control "editor":
+Special events for control "editor":
 
 * "on_change": Called after text is changed.
 * "on_caret": Called after caret position and/or selection is changed.
@@ -1079,17 +1081,18 @@ Events for control "editor":
 * "on_click_link": Called on mouse click (single or double, depends on settings) over hyperlink (hyperlinks are defined via PROP_LINKS_SHOW, PROP_LINKS_REGEX). Param "data" is str.
 * "on_paste": Called before doing one of Paste commands. Param "data" is dict: {"keep_caret": bool, "sel_then": bool}. Method can return False to disable default operation.
 
-====Callbacks====
+====Control events - signatures====
 
-Values of events are callbacks, must be in one of these forms: [[#Callback_param]].
+Callbacks must be in forms shown in the topic [[#Callback_param]].
 
-Callbacks for dlg_proc must be declared as:
+Callbacks for "dlg_proc" must be declared as:
 
 <syntaxhighlight lang="python">
-#function
+# for functions
 def my(id_dlg, id_ctl, data='', info=''):
   pass
-#method
+
+# for class methods
 class Command:
   def my(self, id_dlg, id_ctl, data='', info=''):
     pass
@@ -1097,16 +1100,16 @@ class Command:
 
 Parameters:
 
-* "id_dlg": Int handle of form.
-* "id_ctl": Int index of control (usually; in on_key_down it has different meaning).
-* "data": Value, specific to event.
-* "info": Value from extended form of callback string.
+* "id_dlg": Int handle of the form.
+* "id_ctl": Int index of control. But for event "on_key_down" it has different meaning.
+* "data": Value specific to event.
+* "info": Additional value passed from CudaText, if extended form of callback is specified, with "info" part.
 
 ====Actions====
 
-Param prop: it can be of any simple type (str, int, bool), also tuple/list (of any simple type), also dict (keys: str, values: simple type or tuple/list). Most used is dict. Example: prop={"cap": "...", "x": 10, "y": 10, "w": 600, "en": False}.
+Param "prop": it can be of any simple type (str, int, bool), also tuple/list (of any simple type), also dict (keys: str, values: simple type or tuple/list). Most used is dict. Example: prop={"cap": "...", "x": 10, "y": 10, "w": 600, "en": False}.
 
-Param id_dialog: int, form handle. Ignored only for DLG_CREATE (pass 0).
+Param "id_dialog": int, form handle. Ignored only for DLG_CREATE action (pass 0 with it).
 
 Possible values of "id_action":
 
