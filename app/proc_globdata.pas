@@ -63,7 +63,7 @@ type
     Code: integer;
     Tabs: TATTabs;
     TabIndex: integer;
-    EdObject: pointer;
+    EdAddress: pointer;
     EdIndex: integer;
   end;
 

@@ -1174,7 +1174,7 @@ var
   Item: TAppCommandDelayed;
 begin
   Item.Code:= ACommand;
-  Item.EdObject:= Ed;
+  Item.EdAddress:= Ed;
   Item.EdIndex:= 0;
   Item.Tabs:= nil;
   Item.TabIndex:= -1;
@@ -1228,10 +1228,10 @@ begin
   EdTemp:= Frame.EditorIndexToObj(Item.EdIndex);
   if EdTemp=nil then exit;
 
-  //Item.EdObject is like CRC here.
-  //we don't read the address at Item.EditorObject!!
+  //Item.EdAddress is like CRC here.
+  //we don't read the memory from this pointer!
   //why? avoid AV from deleted frames.
-  if pointer(EdTemp)<>Item.EdObject then exit;
+  if pointer(EdTemp)<>Item.EdAddress then exit;
 
   AEditor:= EdTemp;
   ACommand:= Item.Code;
