@@ -463,9 +463,10 @@ EDACTION_SHOW_POS       = 9
 EDACTION_CODETREE_FILL  = 10
 EDACTION_LEXER_SCAN     = 11
 EDACTION_EXPORT_HTML    = 15
-EDACTION_MICROMAPCOL_GET    = 20
-EDACTION_MICROMAPCOL_ADD    = 21
-EDACTION_MICROMAPCOL_DELETE = 22
+
+MICROMAP_GET    = 0
+MICROMAP_ADD    = 1
+MICROMAP_DELETE = 2
 
 APPSTATE_LANG          = 20
 APPSTATE_THEME_UI      = 21
@@ -1276,6 +1277,9 @@ class Editor:
 
     def action(self, id, param1='', param2='', param3=''):
         return ct.ed_action(self.h, id, to_str(param1), to_str(param2), to_str(param3))
+
+    def micromap(self, id, param1=0, param2=0, param3=0):
+        return ct.ed_micromap(self.h, id, param1, param2, param3)
 
     def __str__(self):
         return '<Editor id:{} title:"{}" gr:{} tab:{}>'.format(

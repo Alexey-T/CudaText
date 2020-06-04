@@ -7094,13 +7094,37 @@ begin
             Result:= PyBool_FromLong(Ord(Ok));
           end;
 
-        EDACTION_MICROMAPCOL_GET:
+        else
+          Result:= ReturnNone;
+      end;
+    end
+    else
+      Result:= ReturnNone;
+end;
+
+
+function Py_ed_micromap(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  HEditor: Int64;
+  IdAction: integer;
+  Num1, Num2, Num3: Int64;
+  Ed: TATSynEdit;
+  Ok: boolean;
+  NCount, i: integer;
+begin
+  with AppPython.Engine do
+    if Bool(PyArg_ParseTuple(Args, 'LiLLL:micromap', @HEditor, @IdAction, @Num1, @Num2, @Num3)) then
+    begin
+      Ed:= PyEditor(HEditor);
+
+      case IdAction of
+        MICROMAP_GET:
           begin
-            NX:= Length(Ed.Micromap.Columns);
-            Result:= PyList_New(NX);
-            for N1:= 0 to NX-1 do
-              with Ed.Micromap.Columns[N1] do
-                PyList_SetItem(Result, N1,
+            NCount:= Length(Ed.Micromap.Columns);
+            Result:= PyList_New(NCount);
+            for i:= 0 to NCount-1 do
+              with Ed.Micromap.Columns[i] do
+                PyList_SetItem(Result, i,
                   Py_BuildValue('{sisisLsi}',
                     'size_perc',
                     NWidthPercents,
@@ -7113,21 +7137,17 @@ begin
                     ));
           end;
 
-        EDACTION_MICROMAPCOL_ADD:
+        MICROMAP_ADD:
           begin
-            Ok:= Ed.Micromap.ColumnAdd(
-              StrToInt64Def(StrText1, 0),
-              StrToIntDef(StrText2, 100),
-              StrToIntDef(StrText3, clNone)
-              );
+            Ok:= Ed.Micromap.ColumnAdd(Num1, Num2, Num3);
             if Ok then
               Ed.Update;
             Result:= PyBool_FromLong(Ord(Ok));
           end;
 
-        EDACTION_MICROMAPCOL_DELETE:
+        MICROMAP_DELETE:
           begin
-            Ok:= Ed.Micromap.ColumnDelete(StrToInt64Def(StrText1, 0));
+            Ok:= Ed.Micromap.ColumnDelete(Num1);
             if Ok then
               Ed.Update;
             Result:= PyBool_FromLong(Ord(Ok));
@@ -7136,11 +7156,8 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end
-    else
-      Result:= ReturnNone;
+    end;
 end;
-
 
 function Py_ed_folding(Self, Args: PPyObject): PPyObject; cdecl;
 var
@@ -8216,6 +8233,7 @@ begin
     AddMethod('ed_dim', @Py_ed_dim, '');
     AddMethod('ed_hotspots', @Py_ed_hotspots, '');
     AddMethod('ed_action', @Py_ed_action, '');
+    AddMethod('ed_micromap', @Py_ed_micromap, '');
 
     AddMethod('file_open', @Py_file_open, '');
     AddMethod('ed_handles', @Py_ed_handles, '');
