@@ -1692,13 +1692,17 @@ What CudaText folder to pack?
 
 Make the bug reproducable on your CudaText folder on your test file(s). Put your test file(s) in ZIP too. If needed to reproduce the bug, create the [[#Sessions|session]] using Session Manager plugin (bug may be visible only with some session). Put session file in ZIP too (usually it's already in the "settings" subfolder).
 
-==Why column selection looks weird with CJK characters==
+==Why column selection looks weird sometimes==
 
 When full-width characters (CJK or other Unicode) are present in text, column (vertical) selection may look weird. Here is an example picture where starting lines are ASCII and ending lines have full-width characters.
 
 [[File:cudatext-column-sel-cjk.png]]
 
 It is not a bug. In this example, user selected column block from column 7 (at line 1) until column 20 (at line 6), so column block takes columns 7...20 from all lines. On first ASCII lines, columns 7...20 take different visual area, than columns on last lines. When you copy/paste that block to another program, block may look differently. But that block contains equal number of chars on each line.
+
+Even more weird look happens when user selects column block over word-wrapped lines.
+
+Here is the program's logic in all these cases (with full-width characters and with word-wrapped lines). Program calculates (line1, column1) text position of column block left-top edge. Then program calculates (line2, column2) text position of column block right-bottom edge. Then program selects characters in range column1...column2 in all those affected lines line1...line2. And this program logic produces so weird look in word-wrapped mode.
 
 ==How to replace from/to text containing line-breaks==
 There are several ways to perfrom it:
