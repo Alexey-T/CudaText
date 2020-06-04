@@ -401,7 +401,7 @@ const
   LEXER_DETECT         = 2;
   LEXER_REREAD_LIB     = 3;
   LEXER_GET_STYLES     = 4;
-  LEXER_ADD_VIRTUAL    = 8;
+  LEXER_ADD_VIRTUAL    = 5;
 
   GROUPS_ONE    = 1;
   GROUPS_2VERT  = 2;
