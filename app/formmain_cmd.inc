@@ -25,6 +25,8 @@ begin
   end;
 
   Frame:= GetEditorFrame(Ed);
+
+  //support floating groups
   if Assigned(Frame) then
     EdGrp:= Frame.GetTabGroups
   else
