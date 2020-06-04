@@ -1172,6 +1172,8 @@ procedure AppCommandPut(Ed: TATSynEdit; ACommand: integer; AForceTimer: boolean)
 var
   Frame: TEditorFrame;
   Item: TAppCommandDelayed;
+  D: TATTabData;
+  N: integer;
 begin
   Item.Code:= ACommand;
   Item.EdAddress:= Ed;
@@ -1184,7 +1186,14 @@ begin
   begin
     Item.EdIndex:= Frame.EditorObjToIndex(Ed);
     Item.Tabs:= Frame.GetTabPages.Tabs;
-    Item.TabIndex:= Item.Tabs.FindTabByObject(Frame);
+    //is it active tab?
+    N:= Item.Tabs.TabIndex;
+    D:= Item.Tabs.GetTabData(N);
+    if Assigned(D) and (D.TabObject=Frame) then
+      Item.TabIndex:= N
+    else
+      //it's passive tab
+      Item.TabIndex:= Item.Tabs.FindTabByObject(Frame);
   end;
 
   AppCommandsDelayed.Push(Item);
