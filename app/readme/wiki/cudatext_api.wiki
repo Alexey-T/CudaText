@@ -1351,6 +1351,8 @@ Possible values of "id":
 * LEXER_DETECT: Detects lexer name by file name (param "value" is file name). Gets None if cannot detect. Gets string or tuple of string (for example, "C" and "C++" for "test.h"). Function tests file extension, or even filename before extension (e.g. "/path/makefile.gcc" gives "Makefile").
 * LEXER_REREAD_LIB: Re-reads lexer library from disk, updates lexer menu. Make sure that plugins' dialogs don't use editor with lexer, which may crash.
 
+* LEXER_ADD_VIRTUAL: Adds virtual lexer, which doesn't have a file and doesn't highlight text, it's only an item in lexers list. Plugins can be activated by name of such lexer. The purpose of virtual lexers is to avoid making lexer files, but allow plugins to be activated by some lexer name / by some file types. Param "value" must be tuple of string: (lexer_name, file_types, line_comment, range_comment_begin, range_comment_end). Item file_types here must have the same notation as for "lite" lexers, e.g. "*.pas;*.pp;*.lpr". Virtual lexers are internally added to the list of "lite" lexers, and also have the "^" suffix in lexer menu. Action returns bool: lexer_name didn't exist, lexer was added.
+
 ===tree_proc===
 
  tree_proc(id_tree, id_action, id_item=0, index=0, text="", image_index=-1)
@@ -3882,5 +3884,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.micromap()
 * change: Editor.action: deleted actions EDACTION_MICROMAPCOL_*
 * add: constant "cudatext.API", which will replace "cudatext.app_api_version" later
+
+1.0.332 (app 1.102.7)
+* add: lexer_proc: LEXER_ADD_VIRTUAL
 
 [[Category:CudaText]]
