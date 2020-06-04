@@ -123,11 +123,15 @@ Value after "info=" can be of any type, e.g. "info=20;" will pass int 20 to call
 
  app_exe_version()
 
-Gets version of program (string).
+Gets version of program. String, 4 dot-separated numbers.
 
  app_api_version()
 
-Gets version of API (string, contains 3 numbers, dot-separated).
+Gets version of API. String, 3 dot-separated numbers.
+
+ API
+
+Constant, int. It is the last number from app_api_version() complex result.
 
 Example of version check:
 
@@ -135,7 +139,7 @@ Example of version check:
   from cudatext import *
 
   if app_api_version() < '1.0.140':
-      msg_box('Plugin NN needs newer app version', MB_OK+MB_ICONWARNING)
+      msg_box('Plugin needs newer program version', MB_OK+MB_ICONWARNING)
 </syntaxhighlight>
 
 ===app_path===
