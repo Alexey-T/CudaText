@@ -378,10 +378,13 @@ begin
     Result:= PyString_FromString(cAppExeVersion);
 end;
 
-function Py_app_api_version(Self, Args : PPyObject): PPyObject; cdecl;
+function Py_app_ver(Self, Args : PPyObject): PPyObject; cdecl;
 begin
   with AppPython.Engine do
-    Result:= PyString_FromString(cAppApiVersion);
+    Result:= Py_BuildValue('(is)',
+      cAppApiVersion,
+      cAppExeVersion
+      );
 end;
 
 function Py_app_path(Self, Args : PPyObject): PPyObject; cdecl;
@@ -8166,8 +8169,7 @@ procedure TfmMain.PythonModuleInitialization(Sender: TObject);
 begin
   with Sender as TPythonModule do
   begin
-    AddMethod('app_exe_version', @Py_app_exe_version, '');
-    AddMethod('app_api_version', @Py_app_api_version, '');
+    AddMethod('app_ver', @Py_app_ver, '');
     AddMethod('app_path', @Py_app_path, '');
     AddMethod('app_proc', @Py_app_proc, '');
     AddMethod('app_log', @Py_app_log, '');

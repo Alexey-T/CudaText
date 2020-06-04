@@ -616,7 +616,7 @@ begin
   end;
   *)
 
-  if (s_api<>'') and (s_api>cAppApiVersion) then
+  if (s_api<>'') and (s_api > '1.0.'+IntToStr(cAppApiVersion) ) then
   begin
     if not ASilent then
       MsgBox(Format(msgCannotInstallAddonApi, [s_title, s_api]), MB_OK or MB_ICONERROR);
