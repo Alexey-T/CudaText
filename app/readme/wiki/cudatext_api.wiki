@@ -2747,18 +2747,24 @@ Performs some action in editor. Possible values of "id":
 ** "color_back": int: RGB color of page background.
 ** "color_numbers": int: RGB color of line numbers.
 
-* EDACTION_MICROMAPCOL_GET: Get list of micromap columns, as list of dict. Dict keys are:
+===Editor.micromap===
+
+ micromap(id, param1=0, param2=0, param3=0)
+
+Controls editor's micromap. Possible values of "id":
+
+* MICROMAP_GET: Get list of micromap columns, as list of dict. Dict keys are:
 ** "size_perc": Width of column in percents of average char width.
 ** "size_px": Width of column in pixels.
 ** "tag": Int tag of column. CudaText has 2 default columns with tag 0 and 1.
 ** "color": RGB color of column background. Can be COLOR_NONE.
 
-* EDACTION_MICROMAPCOL_ADD: Add micromap column. Gets bool: tag was not used, column was added.
+* MICROMAP_ADD: Add micromap column. Gets bool: tag was not used, column was added.
 ** "param1": Int (64 bit) tag of column.
 ** "param2": Width of column in percents of average char width.
 ** "param3": RGB color of column background, or COLOR_NONE for default themed color.
 
-* EDACTION_MICROMAPCOL_DELETE: Delete micromap column by its tag. Param "param1": tag. Gets bool: column was found and deleted.
+* MICROMAP_DELETE: Delete micromap column by its tag. Param "param1": tag. Gets bool: column was found and deleted.
 
 =TreeHelpers=
 
@@ -3864,5 +3870,9 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.get_prop/set_prop: PROP_LINKS_REGEX
 * add: Editor.get_prop/set_prop: PROP_LINKS_CLICKS
 * add: dlg_proc: editor event "on_click_link"
+
+1.0.331 (app 1.102.6)
+* add: Editor.micromap()
+* change: Editor.action: deleted actions EDACTION_MICROMAPCOL_*
 
 [[Category:CudaText]]
