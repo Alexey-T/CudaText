@@ -3565,6 +3565,7 @@ begin
             if Assigned(F) then
             begin
               F.LexerName[Ed]:= Str;
+              fmMain.UpdateStatus;
             end
             else
             //for other editors
