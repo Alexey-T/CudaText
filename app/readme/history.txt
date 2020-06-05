@@ -13,6 +13,7 @@
 + add: API to get/set editor font
 + add: API to get/set editor hyperlinks behaviour
 * change: improved logic of undo/redo a little, additional caret jump will appear on redo (thanks @akizuha)
+- fix: regressions in search for multi-line text and "find selection next" (thanks @kvichans)
 - fix: macros with repeated commands to move caret (e.g. "caret line down" 100 times) did only 1 move (thanks @tmsg)
 - fix: 3 years old issue. If complex commands are invoked via fastly pressed hotkeys, some commands were lost. E.g. if hotkey for "toggle line comment" was pressed fastly 20 times, it could run ~17 times. (thanks @kvichans for seeing it)
 - fix: Windows: "cannot create file" error if program runs from "Program Files" folder. You should not put CudaText to "Program Files".
