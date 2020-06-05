@@ -2829,12 +2829,20 @@ Some APIs allow to specify finder options as a string. Such string can have the 
 
 * "b": Backward search
 * "c": Case sensitive
+* "r": Regular expression
 * "w": Whole words
 * "f": Search from caret
 * "s": Search in selection
-* "a": Wrapped (wrap search at edge of text)
 * "o": Confirm replaces
-* "T" followed by a digit: Allowed syntax elements. Digit is 0-based, it is index of "Allowed syntax elements" choice in the Find dialog.
+* "a": Wrap search at edge of text
+* "T" followed by a digit: Allowed syntax elements. Digit can be:
+** "0": any
+** "1": only comments
+** "2": only strings
+** "3": only comments/string
+** "4": except comments
+** "5": except strings
+** "6": except comments/strings
 
 ==Format of text for cmd_FinderAction==
 
