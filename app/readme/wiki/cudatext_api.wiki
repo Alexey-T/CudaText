@@ -2848,19 +2848,19 @@ Some APIs allow to specify finder options as a string. Such string can have the 
 
 Text is chr(1) separated items:
 
-* item 0: finder action, one of:
-** 'findfirst': find first
-** 'findnext': find next
-** 'findprev': find previous
-** 'rep': replace next, and find next
-** 'repstop': replace next, and don't find
-** 'repall': replace all
-** 'findcnt': count all
-** 'findsel': find all, make selections
-** 'findmark': find all, place markers
-* item 1: text to find
-* item 2: text to replace with
-* item 3: options string, see [[#Finder_option_as_string]]
+* item 0: Finder action, one of:
+** "findfirst": Find first
+** "findnext": Find next
+** "findprev": Find previous
+** "rep": Replace next, and find next
+** "repstop": Replace next, and don't find
+** "repall": Replace all
+** "findcnt": Count all
+** "findsel": Find all, make selections
+** "findmark": Find all, place markers
+* item 1: Text to find
+* item 2: Text to replace with
+* item 3: Options string, see [[#Finder_option_as_string]]
 
 ==Format of serialized Undo/Redo==
 
