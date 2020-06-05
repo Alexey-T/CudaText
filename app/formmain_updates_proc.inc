@@ -1121,7 +1121,7 @@ begin
 
   CodetreeSelectItemForPosition(
     CodeTree.Tree,
-    Point(Caret.PosX, Caret.PosY)
+    Caret.PosX, Caret.PosY
     );
 end;
 
