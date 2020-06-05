@@ -1619,10 +1619,9 @@ begin
       else
       begin
         Ed.DoCommand(NCode, Str);
-        Ed.Update();
+        Ed.Invalidate;
       end;
 
-      //fmMain.UpdateStatus;
       Result:= ReturnNone;
     end
   else
