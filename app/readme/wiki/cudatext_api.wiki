@@ -2721,17 +2721,11 @@ Performs some action in editor. Possible values of "id":
 
 * EDACTION_FIND_ONE: Perform text search, get match as 4-tuple of int (start_x, start_y, end_x, end_y) or None if not found. This uses finder independent from CudaText Find/Replace dialog, you must configure this finder via options string.
 ** "param1": Search string.
-** "param2": Search options, string of chars:
-*** "c": Case sensitive.
-*** "r": Regular expression.
-*** "w": Whole words.
-*** "s": In selection.
-*** "f": From caret.
-*** "T" followed by number: Allowed syntax elements. Number is 0-based, it is index of "Allowed syntax elements" choice in the Find dialog.
+** "param2": Search options, see [[#Finder_options_as_string]].
 
 * EDACTION_FIND_ALL: Perform text search and get all matches in a list. Result list items are 4-tuples of int: (start_x, start_y, end_x, end_y). This uses finder independent from CudaText Find/Replace dialog, you must configure this finder via options string.
 ** "param1": Search string.
-** "param2": Search options, like in EDACTION_FIND_ONE.
+** "param2": Search options, see [[#Finder_options_as_string]].
 ** "param3": Optional. Maximal line length (default is 0x7FFFFFFF). Lines longer than this value will be skipped during search.
 
 * EDACTION_FIND_BRACKETS: Find position of nearest opening bracket with its pair bracket. Gets 4-tuple (col_start, line_start, col_end, line_end), where line_end<0 if brackets not found.
@@ -2829,6 +2823,18 @@ To see how to port, compare files "linter.py". Other files must be added like in
 Text is "X,Y" where X/Y are position of caret relative to top-caret (other carets removed when command runs). If Y is 0, X is addition to caret's x.
 If Y not 0, Y is addition to caret's y, and X is absolute caret's x.
 
+==Finder options as string==
+
+Some APIs allow to specify finder options as a string. Such string can have the following chars:
+
+* "c": Case sensitive
+* "w": Whole words
+* "f": Search from caret
+* "s": Search in selection
+* "a": Wrapped (wrap search at edge of text)
+* "o": Confirm replaces
+* "T" followed by a digit: Allowed syntax elements. Digit is 0-based, it is index of "Allowed syntax elements" choice in the Find dialog.
+
 ==Format of text for cmd_FinderAction==
 
 Text is chr(1) separated items:
@@ -2845,15 +2851,7 @@ Text is chr(1) separated items:
 ** 'findmark': find all, place markers
 * item 1: text to find
 * item 2: text to replace with
-* item 3: several chars, each char is finder option:
-** 'c': case sensitive
-** 'r': regular expression
-** 'w': whole words
-** 'f': from caret
-** 'o': confirm replaces
-** 'a': wrapped search
-** 's': search in selection
-** 'T' followed by number: allowed syntax elements. Number is 0-based, it is index of "Allowed syntax elements" choice in the Find dialog.
+* item 3: options string, see [[#Finder_option_as_string]]
 
 ==Format of serialized Undo/Redo==
 
