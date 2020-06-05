@@ -1612,15 +1612,8 @@ begin
       Ed:= PyEditor(H);
       Str:= string(Ptr);
 
-      if IsCommandNeedTimer(NCode) then
-      begin
-        AppCommandPut(Ed, NCode, true);
-      end
-      else
-      begin
-        Ed.DoCommand(NCode, Str);
-        Ed.Invalidate;
-      end;
+      Ed.DoCommand(NCode, Str);
+      Ed.Invalidate;
 
       Result:= ReturnNone;
     end
