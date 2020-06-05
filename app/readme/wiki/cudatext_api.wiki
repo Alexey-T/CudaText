@@ -2827,6 +2827,7 @@ If Y not 0, Y is addition to caret's y, and X is absolute caret's x.
 
 Some APIs allow to specify finder options as a string. Such string can have the following chars:
 
+* "b": Backward search
 * "c": Case sensitive
 * "w": Whole words
 * "f": Search from caret
@@ -3885,5 +3886,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.332 (app 1.102.7)
 * add: lexer_proc: LEXER_ADD_VIRTUAL
+* add: finder options as string (several APIs): support also "b" for backward search
 
 [[Category:CudaText]]
