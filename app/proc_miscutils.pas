@@ -782,7 +782,8 @@ end;
 function FinderOptionsToString(F: TATEditorFinder): string;
 begin
   Result:= '';
-  //ignore OptBack
+  if F.OptBack then
+    Result+= 'b';
   if F.OptCase then
     Result+= 'c';
   if F.OptRegex then
@@ -805,7 +806,7 @@ procedure FinderOptionsFromString(F: TATEditorFinder; const S: string);
 var
   N: integer;
 begin
-  F.OptBack:= false; //ignore OptBack
+  F.OptBack:= Pos('b', S)>0;
   F.OptCase:= Pos('c', S)>0;
   F.OptRegex:= Pos('r', S)>0;
   F.OptWords:= Pos('w', S)>0;
