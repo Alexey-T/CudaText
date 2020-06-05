@@ -2860,7 +2860,7 @@ Text is chr(1) separated items:
 ** "findmark": Find all, place markers
 * item 1: Text to find
 * item 2: Text to replace with
-* item 3: Options string, see [[#Finder_option_as_string]]
+* item 3: Options string, see [[#Finder_options_as_string]]
 
 ==Format of serialized Undo/Redo==
 
