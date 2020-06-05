@@ -1613,7 +1613,7 @@ begin
       Str:= string(Ptr);
 
       Ed.DoCommand(NCode, Str);
-      Ed.Invalidate;
+      //Ed.Invalidate; //seems not needed
 
       Result:= ReturnNone;
     end
