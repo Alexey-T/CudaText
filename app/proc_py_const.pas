@@ -352,6 +352,7 @@ const
   TREE_THEME                 = 33;
 
   EDACTION_UPDATE         = 0;
+  EDACTION_REPLACE_ONE    = 5;
   EDACTION_FIND_ONE       = 6;
   EDACTION_FIND_ALL       = 7;
   EDACTION_FIND_BRACKETS  = 8;

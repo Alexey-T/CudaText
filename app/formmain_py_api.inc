@@ -6925,7 +6925,7 @@ begin
 end;
 
 
-function Py_FindOneMatch(Ed: TATSynEdit; const AText, AOptions: string; AUpdateCaret: boolean): PPyObject;
+function Py_FindOrReplaceOne(Ed: TATSynEdit; const ATextFrom, ATextTo, AOptions: string; AReplace, AUpdateCaret: boolean): PPyObject;
 var
   Finder: TATEditorFinder;
   bChange: boolean;
@@ -6933,19 +6933,20 @@ begin
   Finder:= TATEditorFinder.Create;
   try
     Finder.Editor:= Ed;
-    Finder.StrFind:= UTF8Decode(AText);
+    Finder.StrFind:= ATextFrom;
+    Finder.StrReplace:= ATextTo;
     FinderOptionsFromString(Finder, AOptions);
     Finder.OnGetToken:= @fmMain.FinderOnGetToken;
 
     with AppPython.Engine do
-      if Finder.DoAction_FindOrReplace(false, false, false, bChange, AUpdateCaret) then
+      if Finder.DoAction_FindOrReplace(false, AReplace, false, bChange, AUpdateCaret) then
       begin
         Result:= Py_BuildValue('(iiii)',
           Finder.MatchEdPos.X,
           Finder.MatchEdPos.Y,
           Finder.MatchEdEnd.X,
           Finder.MatchEdEnd.Y);
-        if AUpdateCaret then
+        if AUpdateCaret or bChange then
           Ed.Update;
       end
       else
@@ -7028,7 +7029,12 @@ begin
 
         EDACTION_FIND_ONE:
           begin
-            Result:= Py_FindOneMatch(Ed, StrText1, StrText2, false);
+            Result:= Py_FindOrReplaceOne(Ed, StrText1, '', StrText2, false{Replace}, false);
+          end;
+
+        EDACTION_REPLACE_ONE:
+          begin
+            Result:= Py_FindOrReplaceOne(Ed, StrText1, StrText2, StrText3, true{Replace}, false);
           end;
 
         EDACTION_FIND_ALL:
