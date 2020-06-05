@@ -2723,6 +2723,11 @@ Performs some action in editor. Possible values of "id":
 ** "param1": Search string.
 ** "param2": Search options, see [[#Finder_options_as_string]].
 
+* EDACTION_REPLACE_ONE: Perform text search+replace, get match as 4-tuple of int (start_x, start_y, end_x, end_y) or None if not found. This uses finder independent from CudaText Find/Replace dialog, you must configure this finder via options string.
+** "param1": String to find.
+** "param2": String to replace with.
+** "param3": Search options, see [[#Finder_options_as_string]].
+
 * EDACTION_FIND_ALL: Perform text search and get all matches in a list. Result list items are 4-tuples of int: (start_x, start_y, end_x, end_y). This uses finder independent from CudaText Find/Replace dialog, you must configure this finder via options string.
 ** "param1": Search string.
 ** "param2": Search options, see [[#Finder_options_as_string]].
@@ -3895,5 +3900,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.332 (app 1.102.7)
 * add: lexer_proc: LEXER_ADD_VIRTUAL
 * add: finder options as string (several APIs): support also "b" for backward search
+* add: Editor.action: EDACTION_REPLACE_ONE
 
 [[Category:CudaText]]
