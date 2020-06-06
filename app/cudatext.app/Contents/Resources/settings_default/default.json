@@ -302,6 +302,9 @@
   //This has effect for lines with CJK or another "wide" characters.
   "max_line_len_for_accurate_width": 500,
 
+  //Maximal line length, which will be parsed (and syntax highlighted) by lexers
+  "max_line_len_parsed": 4000,
+
   //[View/Gutter]
   //Gutter: If false, all gutter columns hide (bookmarks, folding, numbers, line states)
   "gutter_show": true,
