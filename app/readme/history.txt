@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.103.1 (2020/06)
+
++ add: option "max_line_len_parsed" (default is 4000 chars)
+- fix: commands "find current word/selection next/previous" did not respect options "find_indent_*" (thanks @kvichans)
+
 1.103.0 (2020/06)
  
 + add: better logic of "line states": now "added" lines don't change state to "modified" during editing (thanks @tmsg)
