@@ -691,7 +691,7 @@ const
   cDefaultKeymapFile: string =
     '{ "cuda_comments,cmt_toggle_line_body": {"name": "plugin: Comments: Toggle line comment, at non-space char", "s1": ["Ctrl+/"], "s2": [] } }';
 
-procedure TfmMain.DoOps_LoadKeymap(F: TEditorFrame; AUseCache: boolean);
+procedure TfmMain.DoOps_LoadKeymap(AKeymap: TATKeymap; F: TEditorFrame; AUseCache: boolean);
 var
   CurLexer: string;
 begin
@@ -703,7 +703,7 @@ begin
     DoWriteStringToFile(AppFile_Hotkeys, cDefaultKeymapFile);
 
   AppKeymap_ApplyUndoList(FKeymapUndoList);
-  DoOps_LoadKeymapFrom(AppFile_Hotkeys, nil);
+  DoOps_LoadKeymapFrom(AKeymap, AppFile_Hotkeys, nil);
   FKeymapUndoList.Clear;
 
   CurLexer:= F.LexerName[F.Editor];
@@ -713,12 +713,13 @@ begin
   FLastLexerOfKeymap:= CurLexer;
 
   DoOps_LoadKeymapFrom(
+    AKeymap,
     GetAppKeymap_LexerSpecificConfig(FLastLexerOfKeymap),
     FKeymapUndoList);
 end;
 
 
-procedure TfmMain.DoOps_LoadKeymapFrom(const AFilenameKeymap: string;
+procedure TfmMain.DoOps_LoadKeymapFrom(AKeymap: TATKeymap; const AFilenameKeymap: string;
   AUndoList: TATKeymapUndoList);
 var
   cfg: TJSONConfig;
@@ -759,20 +760,20 @@ begin
       ncmd:= DoOps_HotkeyStringId_To_CommandCode(StrId);
       if ncmd<0 then Continue;
 
-      nitem:= AppKeymap.IndexOf(ncmd);
+      nitem:= AKeymap.IndexOf(ncmd);
       if nitem<0 then Continue;
 
       if Assigned(AUndoList) then
       begin
         UndoItem:= TATKeymapUndoItem.Create;
         UndoItem.StrId:= StrId;
-        UndoItem.KeyArray1:= AppKeymap[nitem].Keys1;
-        UndoItem.KeyArray2:= AppKeymap[nitem].Keys2;
+        UndoItem.KeyArray1:= AKeymap[nitem].Keys1;
+        UndoItem.KeyArray2:= AKeymap[nitem].Keys2;
         AUndoList.Add(UndoItem);
       end;
 
-      DoReadConfigToKeys(StrId+'/s1', AppKeymap[nitem].Keys1);
-      DoReadConfigToKeys(StrId+'/s2', AppKeymap[nitem].Keys2);
+      DoReadConfigToKeys(StrId+'/s1', AKeymap[nitem].Keys1);
+      DoReadConfigToKeys(StrId+'/s2', AKeymap[nitem].Keys2);
     end;
   finally
     skeys.Free;
@@ -1414,7 +1415,7 @@ var
 begin
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps);
   DoApplyAllOps;
-  DoOps_LoadKeymap(CurrentFrame, false);
+  DoOps_LoadKeymap(AppKeymap, CurrentFrame, false);
 
   MsgStatus(msgStatusReadingOps);
   SetLength(Params, 1);

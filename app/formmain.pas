@@ -871,8 +871,10 @@ type
     procedure DoOps_LoadOptions(const fn: string; var Op: TEditorOps;
       AllowUiOps: boolean=true; AllowGlobalOps: boolean=true);
     procedure DoOps_LoadOptionsFromString(const AString: string);
-    procedure DoOps_LoadKeymap(F: TEditorFrame; AUseCache: boolean);
-    procedure DoOps_LoadKeymapFrom(const AFilenameKeymap: string; AUndoList: TATKeymapUndoList);
+    procedure DoOps_LoadKeymap(AKeymap: TATKeymap; F: TEditorFrame;
+      AUseCache: boolean);
+    procedure DoOps_LoadKeymapFrom(AKeymap: TATKeymap;
+      const AFilenameKeymap: string; AUndoList: TATKeymapUndoList);
     procedure DoEditorsLock(ALock: boolean);
     procedure DoFindCurrentWordOrSel(Ed: TATSynEdit; ANext, AWordOrSel: boolean);
     procedure DoDialogCommands;
@@ -2518,7 +2520,7 @@ begin
   FHandledOnShowPartly:= true;
 
   FAllowLoadKeymap:= true;
-  DoOps_LoadKeymap(CurrentFrame, false); //called on OnTabFocus before, but blocked there by FAllowLoadKeymap
+  DoOps_LoadKeymap(AppKeymap, CurrentFrame, false); //called on OnTabFocus before, but blocked there by FAllowLoadKeymap
 
   SetLength(Params, 0);
   DoPyEvent(nil, cEventOnStart, Params);
@@ -2656,7 +2658,7 @@ begin
     if AddonType=cAddonTypePlugin then
     begin
       DoOps_LoadPlugins;
-      DoOps_LoadKeymap(CurrentFrame, true);
+      DoOps_LoadKeymap(AppKeymap, CurrentFrame, true);
       UpdateMenuPlugins;
       UpdateMenuPlugins_Shortcuts(true);
     end;
@@ -5950,7 +5952,7 @@ begin
   SetLength(Params, 0);
   DoPyEvent(Frame.Editor, cEventOnLexer, Params);
 
-  DoOps_LoadKeymap(Frame, true); //keymap override
+  DoOps_LoadKeymap(AppKeymap, Frame, true); //keymap override
 
   UpdateMenuPlugins_Shortcuts;
 end;

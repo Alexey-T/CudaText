@@ -379,7 +379,7 @@ procedure TfmMain.DoPyRescanPlugins;
 begin
   DoOps_LoadPlugins;
   UpdateMenuPlugins;
-  DoOps_LoadKeymap(CurrentFrame, false);
+  DoOps_LoadKeymap(AppKeymap, CurrentFrame, false);
   MsgStatus(msgRescannedAllPlugins);
 end;
 
