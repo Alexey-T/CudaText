@@ -206,6 +206,8 @@ begin
   OptMaxLineLenForAccurateCharWidths:= Op.OpMaxLineLenForAccurateCharWidths;
   OptHexChars:= OptHexCharsDefault + Op.OpHexChars;
 
+  Ed.OptMaxLineLenToTokenize:= Op.OpMaxLineLenToTokenize;
+
   OptUnprintedEndArrowOrDot:= Pos('.', Op.OpUnprintedContent)=0;
   OptUnprintedTabCharLength:= Op.OpUnprintedTabArrowLen;
   OptUnprintedSpaceDotScale:= Op.OpUnprintedSpaceDotScale;
