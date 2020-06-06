@@ -39,7 +39,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <Libraries Value="..\..\..\cmp\mORMot"/>
+            <Libraries Value="\home\user\fpcupdeluxe\fpcupdeluxe\cross\lib\i386-linux\"/>
             <OtherUnitFiles Value="..\comp"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>

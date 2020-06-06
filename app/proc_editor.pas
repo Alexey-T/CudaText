@@ -1686,9 +1686,16 @@ begin
     Finder.OptInSelection:= false;
     Finder.OptTokens:= cTokensAll;
 
-    Result:= Finder.DoAction_FindOrReplace(false, false, false, bFlag, true);
+    Result:= Finder.DoAction_FindOrReplace(false, false, false, bFlag, false{UpdateCaret});
     if Result then
-      Ed.DoGotoCaret(cEdgeBottom);
+      Ed.DoGotoPos(
+        Finder.MatchEdPos,
+        Finder.MatchEdEnd,
+        UiOps.FindIndentHorz,
+        UiOps.FindIndentVert,
+        true,
+        true
+        );
   finally
     FreeAndNil(Finder);
   end;
