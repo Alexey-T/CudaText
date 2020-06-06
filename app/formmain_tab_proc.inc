@@ -118,7 +118,7 @@ begin
   CodeTreeFilterInput.Items.Assign(F.CodetreeFilterHistory);
 
   //load lexer-specific config+keymap
-  DoOps_LoadOptionsLexerSpecific(F.Editor);
+  DoOps_LoadOptionsLexerSpecific(F, F.Editor);
   DoOps_LoadKeymap(true);
 
   UpdateStatus;
