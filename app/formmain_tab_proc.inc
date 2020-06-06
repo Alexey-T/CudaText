@@ -119,7 +119,7 @@ begin
 
   //load lexer-specific config+keymap
   DoOps_LoadOptionsLexerSpecific(F, F.Editor);
-  DoOps_LoadKeymap(true);
+  DoOps_LoadKeymap(F, true);
 
   UpdateStatus;
   SetLength(Params, 0);

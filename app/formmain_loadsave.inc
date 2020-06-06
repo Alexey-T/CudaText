@@ -691,11 +691,11 @@ const
   cDefaultKeymapFile: string =
     '{ "cuda_comments,cmt_toggle_line_body": {"name": "plugin: Comments: Toggle line comment, at non-space char", "s1": ["Ctrl+/"], "s2": [] } }';
 
-procedure TfmMain.DoOps_LoadKeymap(AUseCache: boolean);
+procedure TfmMain.DoOps_LoadKeymap(F: TEditorFrame; AUseCache: boolean);
 var
-  F: TEditorFrame;
   CurLexer: string;
 begin
+  if F=nil then exit;
   //func called few times before OnShow because of OnTabFocus, disable these
   if not FAllowLoadKeymap then exit;
 
@@ -705,9 +705,6 @@ begin
   AppKeymap_ApplyUndoList(FKeymapUndoList);
   DoOps_LoadKeymapFrom(AppFile_Hotkeys, nil);
   FKeymapUndoList.Clear;
-
-  F:= CurrentFrame;
-  if F=nil then exit;
 
   CurLexer:= F.LexerName[F.Editor];
   if AUseCache then
@@ -1417,7 +1414,7 @@ var
 begin
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps);
   DoApplyAllOps;
-  DoOps_LoadKeymap(false);
+  DoOps_LoadKeymap(CurrentFrame, false);
 
   MsgStatus(msgStatusReadingOps);
   SetLength(Params, 1);
