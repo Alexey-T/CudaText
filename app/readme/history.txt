@@ -6,6 +6,7 @@
 1.103.1 (2020/06)
 
 + add: option "max_line_len_parsed" (default is 4000 chars)
+- fix: regression in commands "fold/unfold/toggle block at current line" if lexer don't show "staples" (thanks @MiroslavMatas)
 - fix: commands "find current word/selection next/previous" did not respect options "find_indent_*" (thanks @kvichans)
 
 1.103.0 (2020/06)
