@@ -791,8 +791,9 @@
   //  N=0: indent is from options "tab_size" and "tab_spaces"
   "indent_size": 0,
 
-  //Don't Unindent, if any line of the selected block already reached the left edge
-  "unindent_keeps_align": true,
+  //Don't do more Unindent (Shift+Tab), when any line of the selected block
+  //is already at the first column
+  "unindent_keeps_align": false,
 
   //When indenting several lines, stretch selection after command, to entire affected lines.
   //Otherwise, selection will be like before, shifted.

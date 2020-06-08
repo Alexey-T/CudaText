@@ -1249,7 +1249,7 @@ begin
     OpIndentAutoKind:= Ord(cIndentAsPrevLine);
     OpIndentSize:= 2;
     OpIndentAutoRule:= '';
-    OpUnIndentKeepsAlign:= true;
+    OpUnIndentKeepsAlign:= false;
     OpIndentMakesWholeLineSel:= false;
 
     OpMouse2ClickDragSelectsWords:= true;
