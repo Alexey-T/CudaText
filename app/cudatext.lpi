@@ -950,7 +950,7 @@
         </Mode0>
       </Modes>
     </RunParams>
-    <RequiredPackages Count="12">
+    <RequiredPackages Count="11">
       <Item1>
         <PackageName Value="encconv_package"/>
       </Item1>
@@ -979,14 +979,11 @@
         <PackageName Value="LazControls"/>
       </Item9>
       <Item10>
-        <PackageName Value="uniqueinstance_package"/>
+        <PackageName Value="econtrol_package"/>
       </Item10>
       <Item11>
-        <PackageName Value="econtrol_package"/>
-      </Item11>
-      <Item12>
         <PackageName Value="LCL"/>
-      </Item12>
+      </Item11>
     </RequiredPackages>
     <Units Count="59">
       <Unit0>

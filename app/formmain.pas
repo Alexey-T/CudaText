@@ -33,7 +33,7 @@ uses
   at__jsonconf,
   PythonEngine,
   {$ifdef unix}
-  UniqueInstance,
+  AppUniqueInstance,
   {$endif}
   ec_LexerList,
   ec_SyntAnal,

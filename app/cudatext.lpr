@@ -8,7 +8,7 @@ uses
   cthreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  SysUtils, Forms, lazcontrols, uniqueinstance_package, FormMain, FormConsole,
+  SysUtils, Forms, lazcontrols, FormMain, FormConsole,
   proc_str, proc_py, proc_py_const, proc_globdata, FormFrame,
   form_menu_commands, formgoto, proc_cmd, form_menu_list, formsavetabs,
   formconfirmrep, formlexerprop, formlexerlib, proc_msg, proc_install_zip,
