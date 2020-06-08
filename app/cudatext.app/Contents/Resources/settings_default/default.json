@@ -120,10 +120,10 @@
   "ui_notif_time": 2,
 
   //Notifications about file change in external programs:
-  //when to show confirmation to reload the file
-  //  0: show always
-  //  1: show if editor is not modified and undo-information is empty
-  //  2: show if editor is not modified
+  //when to show confirmation to reload the changed file
+  //  0: show always (on each change in external program)
+  //  1: show if editor is modified or Undo-data is not empty
+  //  2: show if editor is modified
   "ui_notif_confirm": 1,
 
   //[File/NonText]
@@ -693,7 +693,8 @@
   //Option affects only saving the history, and is ignored on reading it.
   //Value is string, each char _disables_ storing of one element.
   //  if 't' in value: Text of document (it's saved for modified documents)
-  //  if 'c' in value: Caret position and selection
+  //  if 'c' in value: Caret's position and selection (first caret only)
+  //  if 'h' in value: Caret's selection only
   //  if 'T' in value: Tabulation width and "tab-char as spaces" state
   //  if 's' in value: Vertical scroll position
   //  if 'e' in value: Encoding
