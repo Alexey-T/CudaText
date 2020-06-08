@@ -101,6 +101,8 @@ class Command:
 
     def wrap_abbrev(self):
 
+        if ed.get_prop(PROP_RO): return
+
         x0, y0, x1, y1 = ed.get_carets()[0]
         if (y0, x0)>(y1, x1):
             x0, y0, x1, y1 = x1, y1, x0, y0
@@ -121,6 +123,7 @@ class Command:
 
     def expand_abbrev(self):
 
+        if ed.get_prop(PROP_RO): return
         self.expand_ex(True)
 
     def expand_ex(self, with_msg):
