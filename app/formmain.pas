@@ -32,7 +32,9 @@ uses
   fix_focus_window,
   at__jsonconf,
   PythonEngine,
+  {$ifdef unix}
   UniqueInstance,
+  {$endif}
   ec_LexerList,
   ec_SyntAnal,
   ec_syntax_format,
@@ -129,6 +131,14 @@ type
 
 var
   AppNotifThread: TAppNotifThread = nil;
+
+{$ifdef unix}
+type
+  TUniqInstanceHack = class(TUniqueInstance);
+
+var
+  AppUniqInst: TUniqueInstance = nil;
+{$endif}
 
 type
   TATFindMarkingMode = (
@@ -366,7 +376,6 @@ type
     ToolbarSideMid: TATFlatToolbar;
     ToolbarSideLow: TATFlatToolbar;
     ToolbarSideTop: TATFlatToolbar;
-    UniqInstance: TUniqueInstance;
     procedure AppPropsActivate(Sender: TObject);
     procedure AppPropsEndSession(Sender: TObject);
     procedure AppPropsQueryEndSession(var Cancel: Boolean);
@@ -443,7 +452,7 @@ type
     procedure TimerStatusClearTimer(Sender: TObject);
     procedure TimerTreeFillTimer(Sender: TObject);
     procedure UniqInstanceOtherInstance(Sender: TObject; ParamCount: Integer;
-      Parameters: array of String);
+      const Parameters: array of String);
     {$ifdef windows}
     procedure SecondInstance(const Msg: TBytes);
     {$endif}
@@ -1097,6 +1106,16 @@ const
     'cuda_tree',
     'cuda_brackets_hilite'
     );
+
+procedure InitUniqueInstanceObject;
+begin
+  {$ifdef unix}
+  if Assigned(AppUniqInst) then exit;
+  AppUniqInst:= TUniqueInstance.Create(nil);
+  AppUniqInst.Identifier:= 'cudatext.0';
+  AppUniqInst.OnOtherInstance:= @fmMain.UniqInstanceOtherInstance;
+  {$endif}
+end;
 
 {$R *.lfm}
 
@@ -2829,9 +2848,6 @@ begin
   MsgStatus(msgStatusEndsChanged);
 end;
 
-type
-  TUniqInstanceHack = class(TUniqueInstance);
-
 
 procedure TfmMain.DoApplyUiOpsToGroups(G: TATGroups);
 begin
@@ -3009,17 +3025,22 @@ begin
   CompletionOps.FormSizeX:= AppScale(UiOps.ListboxCompleteSizeX);
   CompletionOps.FormSizeY:= AppScale(UiOps.ListboxCompleteSizeY);
 
+  {$ifdef unix}
   if not AppAlwaysNewInstance and UiOps.OneInstance then
-    if not UniqInstance.Enabled then
+  begin
+    InitUniqueInstanceObject;
+    if not AppUniqInst.Enabled then
     begin
-      UniqInstance.Enabled:= true;
-      TUniqInstanceHack(UniqInstance).Loaded;
+      AppUniqInst.Enabled:= true;
+      TUniqInstanceHack(AppUniqInst).Loaded;
 
-      if UniqInstance.PriorInstanceRunning then
+      if AppUniqInst.PriorInstanceRunning then
         Application.Terminate;
         //note: app still works and will get DoFileOpen calls (e.g. on session opening)
         //so later need to check Application.Terminated
     end;
+  end;
+  {$endif}
 
   DoApplyTheme;
 end;

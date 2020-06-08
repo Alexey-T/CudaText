@@ -272,7 +272,7 @@ end;
 
 
 procedure TfmMain.UniqInstanceOtherInstance(Sender: TObject;
-  ParamCount: Integer; Parameters: array of String);
+  ParamCount: Integer; const Parameters: array of String);
 begin
   if not IsAllowedToOpenFileNow then exit;
 

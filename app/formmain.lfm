@@ -753,12 +753,6 @@ object fmMain: TfmMain
       A8A51A
     }
   end
-  object UniqInstance: TUniqueInstance
-    Identifier = 'cudatext.0'
-    OnOtherInstance = UniqInstanceOtherInstance
-    Left = 672
-    Top = 320
-  end
   object PopupText: TPopupMenu
     OnPopup = PopupTextPopup
     Left = 560
