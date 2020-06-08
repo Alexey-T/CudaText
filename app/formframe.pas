@@ -3391,15 +3391,9 @@ var
   bMsg: boolean;
   Index: integer;
 begin
-  //why do we check Ed.UndoCount here?
-  //user's suggestion - to not loose Undo info on automatic file reloading.
-  //Undo info appears after file change+saving.
-  //so when Undo info present (1 item allowed, is empty-marker in undo list)
-  //then show confirmation to reload.
-
   case UiOps.NotificationConfirmReload of
     1:
-      bMsg:= Ed.Modified or (Ed.UndoCount>1);
+      bMsg:= Ed.Modified or not Ed.Strings.UndoEmpty;
     2:
       bMsg:= Ed.Modified; //like Notepad++
     else
