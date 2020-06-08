@@ -1691,8 +1691,8 @@ begin
     Result:= Finder.DoAction_FindOrReplace(false, false, false, bFlag, false{UpdateCaret});
     if Result then
       Ed.DoGotoPos(
-        Finder.MatchEdPos,
         Finder.MatchEdEnd,
+        Finder.MatchEdPos,
         UiOps.FindIndentHorz,
         UiOps.FindIndentVert,
         true,
