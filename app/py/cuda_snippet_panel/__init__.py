@@ -92,6 +92,9 @@ class Command:
 
     def callback_list_dblclick(self, id_dlg, id_ctl, data='', info=''):
 
+        if ed.get_prop(PROP_RO):
+            return
+
         index = listbox_proc(self.h_list, LISTBOX_GET_SEL)
         if index<0 or index>=len(self.clips):
             return
