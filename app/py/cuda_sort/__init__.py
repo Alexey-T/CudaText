@@ -62,6 +62,8 @@ def get_uniq(lines):
 
 def get_input():
 
+    if ed.get_prop(PROP_RO): return
+
     op_sort_all = ini_read(fn_ini, op_section, 'allow_all', '0')=='1'
 
     is_all = False
