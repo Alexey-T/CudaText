@@ -81,6 +81,8 @@ class Command:
     #################################################
     ## Duplicate
     def duplicate(self):
+        if ed.get_prop(app.PROP_RO): return
+
         if ed.get_sel_mode() != app.SEL_NORMAL:
             return app.msg_status(ONLY_NORM_SEL_MODE.format(DUPLICATION))
 
@@ -184,7 +186,7 @@ def get_opt(path, def_value=None, lev=CONFIG_LEV_ALL, ed_cfg=ed, lexer='', user_
             def_value   For return if no opt for the path into all config files
             lev         Stop level to search in chain default-user-lexer-file
                             CONFIG_LEV_ALL, CONFIG_LEV_DEF, CONFIG_LEV_USER[_ONLY], CONFIG_LEV_LEX[_ONLY], CONFIG_LEV_FILE
-            ed_cfg      Ref to editor to point a lexer (over first caret) 
+            ed_cfg      Ref to editor to point a lexer (over first caret)
                         Used only if lev in (CONFIG_LEV_LEX, CONFIG_LEV_FILE)
             lexer       Explicit lexer name (lexer from ed_cfg not used).
                         Used only if lev==CONFIG_LEV_LEX
@@ -291,7 +293,7 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='us
     pass;                      #LOG and log('cfg_json={}',(cfg_json))
     if not os.path.exists(cfg_json)     and value is     None:
         return None # SUCCESS (or fail?)
-    
+
     kv_dct  = {path:value}
     keys    = path.split('/')
     if '/' in path:
@@ -312,7 +314,7 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='us
     body    = open(cfg_json, encoding='utf8').read()
     value4js= json.dumps({"": value})[len('{"": '):-1]      # Format value as 'after ": " string'
     if '/' in path:
-        # Trick: 
+        # Trick:
         #   1. Replace all comments to cmkey:value
         #   2. Parse
         #   3. Modify
@@ -326,7 +328,7 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='us
         # "__c_m_n_t_0__":"  //abc"
         # "__c_m_n_t_1__":"    //xyz"
         # "__c_m_n_t_2__":"  //\"a\": \"\\t\""
-        # Comment # N 
+        # Comment # N
         #   //smth
         # is replaced to pair
         #   "__c_m_n_t_N__":"SMTH"
@@ -486,7 +488,7 @@ def _json_loads(s, **kw):
     #def _json_loads
 
 def get_tab_by_id(tab_id):
-    for h in app.ed_handles(): 
+    for h in app.ed_handles():
         try_ed  = app.Editor(h)
         if int(tab_id) == try_ed.get_prop(app.PROP_TAB_ID, ''):
             return try_ed

@@ -15,4 +15,4 @@ Id standard=Id2
 Id operator=Id1
 String2=String2
 Label=Label
-CurBlock BG=BracketBG
+Hilite BG=BracketBG
