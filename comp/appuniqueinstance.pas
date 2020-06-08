@@ -60,11 +60,10 @@ type
     {$ifdef PollIPCMessage}
     procedure CheckMessage(Sender: TObject);
     {$endif}
-  protected
-    procedure Loaded; override;
   public
     constructor Create(AOwner: TComponent); override;
     property PriorInstanceRunning: Boolean read FPriorInstanceRunning;
+    procedure Loaded(const AParams: array of string); reintroduce; //Alexey
   published
     property Enabled: Boolean read FEnabled write FEnabled default False;
     property Identifier: String read FIdentifier write FIdentifier;
@@ -104,7 +103,7 @@ begin
 end;
 {$endif}
 
-procedure TUniqueInstance.Loaded;
+procedure TUniqueInstance.Loaded(const AParams: array of string);
 var
   IPCClient: TSimpleIPCClient;
   {$ifdef PollIPCMessage}
@@ -124,7 +123,7 @@ begin
       if Assigned(FOnOtherInstance) then
       begin
         IPCClient.Active := True;
-        IPCClient.SendStringMessage(ParamCount, GetFormattedParams);
+        IPCClient.SendStringMessage(ParamCount, GetFormattedParams(AParams));
       end;
       Application.ShowMainForm := False;
       Application.Terminate;
@@ -146,7 +145,7 @@ begin
       {$endif}
     end;
   end;//if
-  inherited;
+  inherited Loaded;
 end;
 
 constructor TUniqueInstance.Create(AOwner: TComponent);

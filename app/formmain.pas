@@ -129,13 +129,12 @@ type
     procedure Execute; override;
   end;
 
+  TAppStringArray = array of string;
+
 var
   AppNotifThread: TAppNotifThread = nil;
 
 {$ifdef unix}
-type
-  TUniqInstanceHack = class(TUniqueInstance);
-
 var
   AppUniqInst: TUniqueInstance = nil;
 {$endif}
@@ -647,6 +646,7 @@ type
     FOption_SidebarTab: string;
 
     procedure FormEnter(Sender: TObject);
+    procedure GetParamsForUniqueInstance(out AParams: TAppStringArray);
     procedure PythonEngineAfterInit(Sender: TObject);
     procedure PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
     procedure PythonModuleInitialization(Sender: TObject);
@@ -2898,9 +2898,20 @@ begin
   G.SetTabOptionString(tabOptionHintForArrowMenu, msgTooltipArrowMenu);
 end;
 
+procedure TfmMain.GetParamsForUniqueInstance(out AParams: TAppStringArray);
+var
+  N, i: integer;
+begin
+  N:= ParamCount;
+  SetLength(AParams, N);
+  for i:= 1 to N do
+    AParams[i-1]:= ParamStrUTF8(i);
+end;
+
 procedure TfmMain.DoApplyUiOps;
 var
   id: TAppPanelId;
+  CmdParams: TAppStringArray;
   i: integer;
 begin
   cAdapterIdleInterval:= UiOps.LexerDelayedParsingPause;
@@ -3032,7 +3043,8 @@ begin
     if not AppUniqInst.Enabled then
     begin
       AppUniqInst.Enabled:= true;
-      TUniqInstanceHack(AppUniqInst).Loaded;
+      GetParamsForUniqueInstance(CmdParams);
+      AppUniqInst.Loaded(CmdParams);
 
       if AppUniqInst.PriorInstanceRunning then
         Application.Terminate;

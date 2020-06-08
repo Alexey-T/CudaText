@@ -15,7 +15,7 @@ var
 
 procedure InitializeUniqueServer(const ServerId: String);
 
-function GetFormattedParams: String;
+function GetFormattedParams(const AParams: array of string): String; //Alexey
 
 function GetServerId(const Identifier: String): String;
 
@@ -39,13 +39,13 @@ begin
   end;
 end;
 
-function GetFormattedParams: String;
+function GetFormattedParams(const AParams: array of string): String; //Alexey
 var
   i: Integer;
 begin
   Result := '';
-  for i := 1 to ParamCount do
-    Result := Result + ParamStrUTF8(i) + ParamsSeparator;
+  for i := Low(AParams) to High(AParams) do
+    Result := Result + AParams[i] + ParamsSeparator;
 end;
 
 function GetServerId(const Identifier: String): String;
