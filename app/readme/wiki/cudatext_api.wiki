@@ -241,7 +241,11 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 *** filter for "on_open", "on_open_pre": comma-separated list of lower-case file extensions, without leading dot, to handle in event.
 
 * PROC_GET_LAST_PLUGIN: Gets info about last plugin which run from program. It is str "module_name,method_name", values are empty if no plugins run yet.
-* PROC_SET_SUBCOMMANDS: Adds command items for plugin (for fixed module/method). Param text must be ";"-separated: "module_name;method_name;param_list". Param_list is "\n"-separated items. Each item is s_caption+"\t"+s_param_value. s_caption is caption for Commands dialog item, s_param_value is parameter for Python method (it can be any primitive type: 20, None, False, 'Test here', or expression).
+
+* PROC_SET_SUBCOMMANDS: Adds command items (items which can be called from Command Palette). These items will run specified module name and method name, but with different parameters to that method. For example, plugin External Tools uses this API to add command items for configured tools. Param "text" must be ";"-separated: "module_name;method_name;param_list".
+** "param_list" is "\n"-separated items, each item is param_caption+"\t"+param_value.
+** "param_caption" is caption for Command Palette.
+** "param_value" is parameter for Python method. It can be any primitive type: int, string, bool, None, or even some expression.
 
 * PROC_GET_COMMANDS: Gets list of all commands, as list of dict. Dict keys are:
 ** "type": str: Possible values:
