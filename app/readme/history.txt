@@ -8,6 +8,7 @@
 + add: option "ui_history_disabled" has new item to disable selection, but not caret position (thanks @hamasaki)
 + add: option "max_line_len_parsed" (default is 4000 chars)
 + add: lexer Lua now has dynamic-highlighting rules (thanks @tmsg)
+* change: change default value of option "unindent_keeps_align" to be like ST3
 - fix: command "focus next group" didn't work sometimes (thanks @MiroslavMatas)
 - fix: regression in handler of "ui_notif_confirm":1 (thanks @kvichans)
 - fix: regression in commands "fold/unfold/toggle block at current line" if lexer don't show "staples" (thanks @MiroslavMatas)
