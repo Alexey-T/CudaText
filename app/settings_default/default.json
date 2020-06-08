@@ -693,7 +693,8 @@
   //Option affects only saving the history, and is ignored on reading it.
   //Value is string, each char _disables_ storing of one element.
   //  if 't' in value: Text of document (it's saved for modified documents)
-  //  if 'c' in value: Caret position and selection
+  //  if 'c' in value: Caret's position and selection (first caret only)
+  //  if 'h' in value: Caret's selection only
   //  if 'T' in value: Tabulation width and "tab-char as spaces" state
   //  if 's' in value: Vertical scroll position
   //  if 'e' in value: Encoding

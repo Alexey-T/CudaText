@@ -2912,15 +2912,27 @@ end;
 
 procedure TEditorFrame.DoSaveHistory_Caret(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
 var
-  caret: TATCaretItem;
+  Caret: TATCaretItem;
+  EndX, EndY: integer;
 begin
   if Ed.Carets.Count>0 then
   begin
+    Caret:= Ed.Carets[0];
+    if UiOps.HistoryItems[ahhCaretSel] then
+    begin
+      EndX:= Caret.EndX;
+      EndY:= Caret.EndY;
+    end
+    else
+    begin
+      EndX:= -1;
+      EndY:= -1;
+    end;
+
     //note: don't use c.SetDeleteValue here because non-empty value is always needed:
     //app loads file from session and skips history if key is empty
-    caret:= Ed.Carets[0];
     c.SetValue(path+cHistory_Caret,
-      Format('%d,%d,%d,%d,', [caret.PosX, caret.PosY, caret.EndX, caret.EndY])
+      Format('%d,%d,%d,%d,', [Caret.PosX, Caret.PosY, EndX, EndY])
       );
    end;
 end;
