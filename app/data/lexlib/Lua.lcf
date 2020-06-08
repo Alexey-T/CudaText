@@ -79,6 +79,16 @@ object SyntAnal12: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'CurBlock BG'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = clMoneyGreen
+      FormatType = ftBackGround
     end>
   TokenRules = <
     item
@@ -425,6 +435,7 @@ object SyntAnal12: TLibSyntAnalyzer
     end
     item
       DisplayName = 'func'
+      StyleName = 'CurBlock BG'
       ConditionList = <
         item
           TagList.Strings = (
@@ -442,7 +453,9 @@ object SyntAnal12: TLibSyntAnalyzer
       BlockEnd = 'end'
       NameFmt = '%s-1'
       RefToCondEnd = True
-      HighlightPos = cpAny
+      DynHighlight = dhBound
+      HighlightPos = cpRange
+      DynSelectMin = True
       CancelNextRules = True
       DrawStaple = True
       CollapseFmt = '%sz0'
@@ -451,6 +464,7 @@ object SyntAnal12: TLibSyntAnalyzer
     end
     item
       DisplayName = 'func in class'
+      StyleName = 'CurBlock BG'
       ConditionList = <
         item
           TagList.Strings = (
@@ -478,7 +492,9 @@ object SyntAnal12: TLibSyntAnalyzer
       NameFmt = '%s-3'
       GroupFmt = '%s-1'
       RefToCondEnd = True
-      HighlightPos = cpAny
+      DynHighlight = dhBound
+      HighlightPos = cpRange
+      DynSelectMin = True
       CancelNextRules = True
       DrawStaple = True
       CollapseFmt = '%sz0'
@@ -488,6 +504,7 @@ object SyntAnal12: TLibSyntAnalyzer
     end
     item
       DisplayName = 'func in class 2'
+      StyleName = 'CurBlock BG'
       ConditionList = <
         item
           TokenTypes = 4
@@ -519,7 +536,9 @@ object SyntAnal12: TLibSyntAnalyzer
       NameFmt = '%s-3%s-4%s-5'
       GroupFmt = '%s-1'
       RefToCondEnd = True
-      HighlightPos = cpAny
+      DynHighlight = dhBound
+      HighlightPos = cpRange
+      DynSelectMin = True
       CancelNextRules = True
       DrawStaple = True
       CollapseFmt = '%sz0'
@@ -529,6 +548,7 @@ object SyntAnal12: TLibSyntAnalyzer
     end
     item
       DisplayName = 'func anon'
+      StyleName = 'CurBlock BG'
       ConditionList = <
         item
           TagList.Strings = (
@@ -543,7 +563,9 @@ object SyntAnal12: TLibSyntAnalyzer
       BlockEnd = 'end'
       DisplayInTree = False
       RefToCondEnd = True
-      HighlightPos = cpAny
+      DynHighlight = dhBound
+      HighlightPos = cpRange
+      DynSelectMin = True
       CancelNextRules = True
       DrawStaple = True
       CollapseFmt = '%sz0'
@@ -563,6 +585,7 @@ object SyntAnal12: TLibSyntAnalyzer
     end
     item
       DisplayName = 'begin'
+      StyleName = 'CurBlock BG'
       ConditionList = <
         item
           TagList.Strings = (
@@ -572,13 +595,16 @@ object SyntAnal12: TLibSyntAnalyzer
         end>
       BlockEnd = 'end'
       DisplayInTree = False
-      HighlightPos = cpAny
+      DynHighlight = dhBound
+      HighlightPos = cpRange
+      DynSelectMin = True
       DrawStaple = True
       CollapseFmt = '%sz0'
       IgnoreAsParent = False
     end
     item
       DisplayName = 'repeat'
+      StyleName = 'CurBlock BG'
       ConditionList = <
         item
           TagList.Strings = (
@@ -587,7 +613,9 @@ object SyntAnal12: TLibSyntAnalyzer
         end>
       BlockEnd = 'until'
       DisplayInTree = False
-      HighlightPos = cpAny
+      DynHighlight = dhBound
+      HighlightPos = cpRange
+      DynSelectMin = True
       DrawStaple = True
       CollapseFmt = '%sz0'
       IgnoreAsParent = False

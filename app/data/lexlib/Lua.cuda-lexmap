@@ -13,6 +13,6 @@ Id=Id
 Id reserved=IdKeyword
 Id standard=Id2
 Id operator=Id1
-Func name=Id4
 String2=String2
 Label=Label
+CurBlock BG=BracketBG
