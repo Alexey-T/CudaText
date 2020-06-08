@@ -10,6 +10,7 @@
 + add: lexer Lua now has dynamic-highlighting rules (thanks @tmsg)
 * change: change default value of option "unindent_keeps_align" to be like ST3
 - fix: command "focus next group" didn't work sometimes (thanks @MiroslavMatas)
+- fix: some commands and APIs didn't respect read-only mode (thanks @wibotwi)
 - fix: regression in handler of "ui_notif_confirm":1 (thanks @kvichans)
 - fix: regression in commands "fold/unfold/toggle block at current line" if lexer don't show "staples" (thanks @MiroslavMatas)
 - fix: commands "find current word/selection next/previous" did not respect options "find_indent_*" (thanks @kvichans)
