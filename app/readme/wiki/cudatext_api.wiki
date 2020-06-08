@@ -236,7 +236,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** module_name is plugin's main module name, usually starting with "cuda_".
 ** event_list is comma-separated event names, e.g. "on_open,on_save", or empty string.
 ** lexer_list is comma-separated lexer names, e.g. "C,C++", or empty  string.
-** filter is additional parameter, used by some events:
+** filter is additional parameter, used by some events, if that filter is not empty:
 *** filter for "on_key": comma-separated list of int key codes to handle in event, e.g. "9,32" means that event is only called for pressed Tab and Space.
 *** filter for "on_open", "on_open_pre": comma-separated list of lower-case file extensions, without leading dot, to handle in event.
 
