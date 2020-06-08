@@ -1400,14 +1400,12 @@ And here is the old way to compile:
 ** https://github.com/Alexey-T/ATSynEdit_Cmp
 ** https://github.com/Alexey-T/ATBinHex-Lazarus
 ** https://github.com/Alexey-T/Emmet-Pascal
-** https://github.com/Alexey-T/UniqueInstance
 ** https://github.com/Alexey-T/CudaText (no package here, only project)
 
 * install .lpk packages into Lazarus (find all .lpk files, open them in IDE, install from Packages dialog)
 * in the Lazarus component palette, you should see:
 ** "AT Controls" tab: TATButton, TATButtonsToolbar, TATListbox, TATScroll, TATSynEdit, TATLabelLink, TATGauge
 ** "Python" tab: several items
-** "System" tab: TUniqueInstance
 * in Lazarus, open "cudatext.lpi" project, compile it
 
 ==How to install plugins from GitHub==
