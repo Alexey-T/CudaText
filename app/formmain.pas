@@ -2901,11 +2901,27 @@ end;
 procedure TfmMain.GetParamsForUniqueInstance(out AParams: TAppStringArray);
 var
   N, i: integer;
+  S, WorkDir: string;
+  bAddDir: boolean;
 begin
+  WorkDir:= GetCurrentDirUTF8;
+
   N:= ParamCount;
   SetLength(AParams, N);
+
   for i:= 1 to N do
-    AParams[i-1]:= ParamStrUTF8(i);
+  begin
+    S:= ParamStrUTF8(i);
+
+    bAddDir :=
+      (S[1] <> '-') and
+      (WorkDir <> '') and
+      not IsOsFullPath(S);
+    if bAddDir then
+      S:= WorkDir+DirectorySeparator+S;
+
+    AParams[i-1]:= S;
+  end;
 end;
 
 procedure TfmMain.DoApplyUiOps;
