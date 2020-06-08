@@ -232,10 +232,12 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 ====Plugin calls====
 
-* PROC_SET_EVENTS: Subscribes plugin to events. It removes all subscribed events (even those from install.inf file) and then adds specified events (if list not empty). Param "text" must be 4 values ";"-separated: "module_name;event_list;lexer_list;keycode_list".
-** event_list is comma-separated event names. e.g. "on_open,on_save", or empty str to unsubscribe from all.
-** lexer_list is comma-separated lexer names.
-** keycode_list is comma-separated int key codes, it can be used when on_key event was specified (event will fire only for specified key codes).
+* PROC_SET_EVENTS: Subscribes plugin to events. First it removes all subscribed events for specified module name (even those from install.inf file) and then adds specified events (if event list is not empty). Param "text" must be 4 values ";"-separated: "module_name;event_list;lexer_list;key_list".
+** module_name is plugin's main module name, usually starting with "cuda_".
+** event_list is comma-separated event names, e.g. "on_open,on_save", or empty string.
+** lexer_list is comma-separated lexer names, e.g. "C,C++", or empty  string.
+** key_list is additional parameter, comma-separated codes. For example, it is used by "on_key" or some other events, to make some filtering and reduce event calls.
+
 * PROC_GET_LAST_PLUGIN: Gets info about last plugin which run from program. It is str "module_name,method_name", values are empty if no plugins run yet.
 * PROC_SET_SUBCOMMANDS: Adds command items for plugin (for fixed module/method). Param text must be ";"-separated: "module_name;method_name;param_list". Param_list is "\n"-separated items. Each item is s_caption+"\t"+s_param_value. s_caption is caption for Commands dialog item, s_param_value is parameter for Python method (it can be any primitive type: 20, None, False, 'Test here', or expression).
 
