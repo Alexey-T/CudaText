@@ -101,8 +101,11 @@ begin
   F:= D.TabObject as TEditorFrame;
 
   //avoid duplicate calls when session is loaded (and TabIndex is set there 2 times)
-  if F=FLastFocusedFrame then exit;
-  FLastFocusedFrame:= F;
+  if FSessionIsLoading then
+  begin
+    if F=FLastFocusedFrame then exit;
+    FLastFocusedFrame:= F;
+  end;
 
   if not F.IsEditorFocused then
   begin

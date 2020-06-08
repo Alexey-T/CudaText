@@ -536,6 +536,7 @@ type
     FKeymapUndoList: TATKeymapUndoList;
     FConsoleMustShow: boolean;
     FSessionName: string;
+    FSessionIsLoading: boolean;
     FColorDialog: TColorDialog;
     Status: TATStatus;
     StatusForm: TForm;

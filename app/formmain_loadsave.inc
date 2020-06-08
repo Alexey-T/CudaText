@@ -336,6 +336,7 @@ begin
       exit;
     end;
 
+    FSessionIsLoading:= true;
     DoOps_LoadHistory_GroupView(cfg); //reads to variables
     DoApplyInitialGroupSizes; //applies that variables
 
@@ -493,6 +494,7 @@ begin
 
     Result:= true;
   finally
+    FSessionIsLoading:= false;
     list.Free;
     cfg.Free;
   end;
