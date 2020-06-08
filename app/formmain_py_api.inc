@@ -1412,6 +1412,8 @@ begin
       Ed:= PyEditor(H);
       Str:= UTF8Decode(string(Ptr));
       Strs:= Ed.Strings;
+      if Ed.ModeReadOnly then
+        exit(ReturnNone);
 
       //replace \n \r to "_"
       for i:= 1 to Length(Str) do
@@ -1449,6 +1451,9 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Liiii:delete', @H, @X1, @Y1, @X2, @Y2)) then
     begin
       Ed:= PyEditor(H);
+      if Ed.ModeReadOnly then
+        exit(ReturnNone);
+
       Ed.Strings.TextDeleteRange(X1, Y1, X2, Y2, Shift, PosAfter);
       Ed.DoEventChange;
       Ed.Update(true);
@@ -1475,6 +1480,8 @@ begin
       Ed:= PyEditor(H);
       Str:= UTF8Decode(string(Ptr));
       Strs:= Ed.Strings;
+      if Ed.ModeReadOnly then
+        Exit(ReturnNone);
 
       if Y1<0 then
         Exit(ReturnNone);
@@ -1509,6 +1516,8 @@ begin
     begin
       Ed:= PyEditor(H);
       StrText:= string(PtrText);
+      if Ed.ModeReadOnly then
+        exit(ReturnNone);
 
       Ed.Strings.TextReplaceRange(X1, Y1, X2, Y2,
         UTF8Decode(StrText), Shift, PosAfter, true);
@@ -1536,6 +1545,8 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'LiiO:replace_lines', @H, @Y1, @Y2, @ListPy)) then
     begin
       Ed:= PyEditor(H);
+      if Ed.ModeReadOnly then
+        exit(ReturnNone);
 
       Lines:= TStringList.Create;
       try
