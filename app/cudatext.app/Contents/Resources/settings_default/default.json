@@ -971,8 +971,11 @@
   //This also shows "Don't save / Keep in session" button in the "Save tabs?" dialog.
   "ui_reopen_session": true,
 
-  //On program closing, save current "session" without confirmation.
-  //Requires option "ui_reopen_session": true.
+  //Allow to close program without confirmation, with saving modified documents
+  //to the session. In details: if a) "ui_auto_save_session":true,
+  //b) "ui_reopen_session":true,
+  //c) "ui_history_disabled" does not have "t",
+  //program will save modified documents to the session, on closing, without confirmation.
   "ui_auto_save_session": false,
 
   //[Lexers]
