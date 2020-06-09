@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.103.2 (2020/06)
+1.103.5 (2020/06)
 
 + add: improve work of command-line file masks with relative paths, on Unix, with single instance (thanks @tmsg)
 + add: option "max_line_len_parsed" (thanks @tmsg)
