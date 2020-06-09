@@ -72,6 +72,10 @@ type
 var
   AppActiveForm: TObject = nil;
 
+var
+  //used by TUniqueInstance (which is used only on Unix)
+  AppServerId: string = 'cudatext.0';
+
 type
   TAppHistoryElement = (
     ahhText,

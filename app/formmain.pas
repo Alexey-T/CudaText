@@ -1112,7 +1112,7 @@ begin
   {$ifdef unix}
   if Assigned(AppUniqInst) then exit;
   AppUniqInst:= TUniqueInstance.Create(nil);
-  AppUniqInst.Identifier:= 'cudatext.0';
+  AppUniqInst.Identifier:= AppServerId;
   AppUniqInst.OnOtherInstance:= @fmMain.UniqInstanceOtherInstance;
   {$endif}
 end;
