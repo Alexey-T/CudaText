@@ -1109,11 +1109,11 @@
   "picture_types": "bmp,png,jpg,jpeg,jpe,gif,ico",
 
   //[View/Web]
-  //Highlight web links (URLs), with font color + underline
+  //Highlight (and underline) hyperlinks
   "links_hilite": true,
 
-  //Regular expression, which finds web links
-  "links_regex": "\\b\\w[\\w\\-\\.]*@\\w[\\w\\-\\.]*\\.\\w{2,}\\b|\\b(https?://|ftp://|mailto:|magnet:\\?|www\\.|ftp\\.)\\w[^<>'\"\\s]+",
+  //Regular expression, which finds hyperlinks
+  "links_regex": "\\b\\w[\\w\\-\\.]*@\\w[\\w\\-\\.]*\\.\\w{2,}\\b|\\b(https?://|ftp://|mailto:|magnet:\\?|www\\.|ftp\\.)\\w[\\w\\.\\-\\/]*(\\?[^<>'\"\\s]+)?",
 
   //[File]
   //Maximal file size, allowed to open, in Mb
