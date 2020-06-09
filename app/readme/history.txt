@@ -10,6 +10,7 @@
 + add: option "ui_history_disabled" has sub-item to disable only selection (thanks @hamasaki)
 + add: lexer Lua now has dynamic-highlighting rules (thanks @tmsg)
 * change: change default value of option "unindent_keeps_align" to be like ST3
+- fix: regression for Undo after Save (thanks @hamasaki)
 - fix: command "focus next group" didn't work sometimes (thanks @MiroslavMatas)
 - fix: some commands and APIs didn't respect read-only mode (thanks @wibotwi)
 - fix: crash on regex replace if replace-with is "$" (thanks @wibotwi)
