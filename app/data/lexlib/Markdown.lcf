@@ -332,7 +332,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'Codeblock fenced'
       StyleName = 'Block'
       TokenType = 5
-      Expression = '(?s)^[\x20\x09]*([`~]{3,}) .+? \1[`~]*$'
+      Expression = '(?s)^[\x20\x09]*(`{3,}|~{3,}) .+? \1[`~]*$'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -340,7 +340,9 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'Codeblock raw'
       StyleName = 'Block'
       TokenType = 5
-      Expression = '(?s) (`+) .+? (\1|\z\z)'#13#10'#cannot have 2 EOLs'
+      Expression = 
+        '(?s) (`+) .+? (\1|\z\z)'#13#10'#to-fix: SublimeText syntax test has ma' +
+        'ny errors for this'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -449,7 +451,7 @@ object SyntAnal13: TLibSyntAnalyzer
       'l &harr; '
     'chars are highlighted, [Hyperlink text](url "title") '
     'and ![alternative text](image adress "title"). '
-    '~~Crossed out~~ is supported, too. '
+    'test: ~~~~crossed~ and ~crossed~~~ is supported '
     ''
     '   ~~~php'
     'Codeblocks'
