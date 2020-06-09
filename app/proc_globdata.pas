@@ -2378,7 +2378,7 @@ begin
   Result:= AppCommandCategory(Cmd) in [categ_Normal, categ_Plugin, categ_PluginSub];
 end;
 
-procedure InitBasicCommandLineOptions(var ANewInstance: boolean; var AServerId: string);
+procedure InitBasicCommandLineOptions;
 var
   S: string;
   i: integer;
@@ -2389,7 +2389,7 @@ begin
 
     if S='-n' then
     begin
-      ANewInstance:= true;
+      AppAlwaysNewInstance:= true;
       Continue;
     end;
 
@@ -2397,7 +2397,7 @@ begin
     begin
       Delete(S, 1, Length('-id='));
       if S<>'' then
-        AServerId:= S;
+        AppServerId:= S;
       Continue;
     end;
   end;
@@ -2535,8 +2535,7 @@ initialization
   InitDirs;
   InitEditorOps(EditorOps);
   InitUiOps(UiOps);
-
-  InitBasicCommandLineOptions(AppAlwaysNewInstance, AppServerId);
+  InitBasicCommandLineOptions;
 
   AppConsoleQueue:= TAppConsoleQueue.Create;
   AppCommandsDelayed:= TAppCommandsDelayed.Create;
