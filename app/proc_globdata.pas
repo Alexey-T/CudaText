@@ -2381,13 +2381,18 @@ begin
   Result:= AppCommandCategory(Cmd) in [categ_Normal, categ_Plugin, categ_PluginSub];
 end;
 
-function GetAlwaysNewInstance: boolean;
+procedure InitBasicCommandLineOptions(out ANewInstance: boolean);
 var
+  S: string;
   i: integer;
 begin
+  ANewInstance:= false;
   for i:= 1 to ParamCount do
-    if ParamStr(i)='-n' then exit(true);
-  Result:= false;
+  begin
+    S:= ParamStr(i);
+    if S='-n' then
+      ANewInstance:= true;
+  end;
 end;
 
 procedure AppEventStringToEventData(const AEventStr: string;
@@ -2523,7 +2528,8 @@ initialization
   InitEditorOps(EditorOps);
   InitUiOps(UiOps);
 
-  AppAlwaysNewInstance:= GetAlwaysNewInstance;
+  InitBasicCommandLineOptions(AppAlwaysNewInstance);
+
   AppConsoleQueue:= TAppConsoleQueue.Create;
   AppCommandsDelayed:= TAppCommandsDelayed.Create;
   AppCommandList:= TFPList.Create;
