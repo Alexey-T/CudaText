@@ -72,10 +72,6 @@ type
 var
   AppActiveForm: TObject = nil;
 
-var
-  //used by TUniqueInstance (which is used only on Unix)
-  AppServerId: string = 'cudatext.0';
-
 type
   TAppHistoryElement = (
     ahhText,
@@ -113,6 +109,7 @@ var
   AppBookmarkImagelist: TImageList = nil;
   AppApiFlatTheme: TATFlatTheme;
   AppAlwaysNewInstance: boolean = false;
+  AppServerId: string = 'cudatext.0'; //used by TUniqueInstance (which is used only on Unix)
 
 var
   AppFrameList1: TFPList; //all frames - for main thread
@@ -2381,17 +2378,28 @@ begin
   Result:= AppCommandCategory(Cmd) in [categ_Normal, categ_Plugin, categ_PluginSub];
 end;
 
-procedure InitBasicCommandLineOptions(out ANewInstance: boolean);
+procedure InitBasicCommandLineOptions(var ANewInstance: boolean; var AServerId: string);
 var
   S: string;
   i: integer;
 begin
-  ANewInstance:= false;
   for i:= 1 to ParamCount do
   begin
     S:= ParamStr(i);
+
     if S='-n' then
+    begin
       ANewInstance:= true;
+      Continue;
+    end;
+
+    if SBeginsWith(S, '-id=') then
+    begin
+      Delete(S, 1, Length('-id='));
+      if S<>'' then
+        AServerId:= S;
+      Continue;
+    end;
   end;
 end;
 
@@ -2528,7 +2536,7 @@ initialization
   InitEditorOps(EditorOps);
   InitUiOps(UiOps);
 
-  InitBasicCommandLineOptions(AppAlwaysNewInstance);
+  InitBasicCommandLineOptions(AppAlwaysNewInstance, AppServerId);
 
   AppConsoleQueue:= TAppConsoleQueue.Create;
   AppCommandsDelayed:= TAppCommandsDelayed.Create;
