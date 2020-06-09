@@ -116,9 +116,10 @@ Supported keys:
 * -nh - Ignore saved file history (caret, selection, scroll position)
 * -ns - Ignore saved session
 * -nn - Don't suggest to create new file if param not found
-* -w=left,top,width,height - Set position/size of window (up to 4 numbers should be specified, any can be skipped to keep previous value)
 * -s=folder - Specify path of settings folder, which contains all config files
-* -i - Read the contents of stdin to a new document (Unix only), can be used in Unix shell like: "ls -l | cudatext -i"
+* -i - Read the contents of stdin to a new document. Unix only. It can be used in Unix shell like: "ls -l | cudatext -i"
+* -id=name - Set "group" for single-instance mode, so that program with one "group" will not interfere and find instances with another "group". Unix only. Default value is "cudatext.0".
+* -w=left,top,width,height - Set position/size of window (up to 4 numbers should be specified, any can be skipped to keep previous value)
 
 Notes:
 
