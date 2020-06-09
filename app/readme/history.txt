@@ -5,6 +5,7 @@
 
 1.103.5 (2020/06)
 
++ add: command-line option -id=name to set single-instance id, on Unix (thanks @tmsg)
 + add: improve work of command-line file masks with relative paths, on Unix, with single instance (thanks @tmsg)
 + add: option "max_line_len_parsed" (thanks @tmsg)
 + add: option "ui_history_disabled" has sub-item to disable only selection (thanks @hamasaki)
