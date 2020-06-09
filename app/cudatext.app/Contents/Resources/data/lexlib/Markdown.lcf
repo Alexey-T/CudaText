@@ -334,7 +334,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'Link desc text'
       StyleName = 'Link'
       TokenType = 11
-      Expression = '!?\[(\[[^\]]+\]|`[^`]+`|.)*?\]'#13#10'#allow nested [text] and `text`'
+      Expression = '!?\[ (\[[^\]]*\]|`.+?`|.)*? \]'#13#10'#allow nested [text] and `text`'
       ColumnFrom = 0
       ColumnTo = 0
     end
