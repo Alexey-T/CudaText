@@ -87,7 +87,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'HTML Code'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = 8404992
+      Font.Color = clTeal
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -171,16 +171,6 @@ object SyntAnal13: TLibSyntAnalyzer
       BgColor = clYellow
     end
     item
-      DisplayName = 'Hotkey BG'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-      BgColor = clYellow
-      FormatType = ftBackGround
-    end
-    item
       DisplayName = 'Symbols'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clMaroon
@@ -203,7 +193,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'Bold-Italic'
       StyleName = 'Bold-Italic'
       TokenType = 1
-      Expression = '(\*\*\*|___).+?(\1|$)'
+      Expression = '(\*\*\*|___) (`.+?`|.)+? (\1|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -211,7 +201,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'Bold'
       StyleName = 'Bold'
       TokenType = 1
-      Expression = '(\*\*|__).+?(\1|$)'
+      Expression = '(\*\*|__) (`.+?`|.)+? (\1|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -219,7 +209,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'Italic'
       StyleName = 'Italic'
       TokenType = 1
-      Expression = '\*\S.*?(\*|$)'
+      Expression = '\*\S (`.+?`|.)*? \*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -250,7 +240,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'HTML pre'
       StyleName = 'Codeblock'
       TokenType = 4
-      Expression = '(?s) <pre> .+? </pre>'
+      Expression = '(?s) <pre\b .+? </pre>'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -263,10 +253,10 @@ object SyntAnal13: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'HTML code'
+      DisplayName = 'HTML tag'
       StyleName = 'HTML Code'
       TokenType = 9
-      Expression = '</?\w+>?|>'
+      Expression = '(?s)<[/!]?\w.*?> | (?s)<\?.+? \?>'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -297,7 +287,7 @@ object SyntAnal13: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Codeblock'
+      DisplayName = 'Codeblock indented'
       StyleName = 'Codeblock'
       TokenType = 4
       Expression = '^(\x20{4,}|\x09{1,}) [^`<>].*$'
@@ -342,15 +332,23 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'Codeblock fenced'
       StyleName = 'Block'
       TokenType = 5
-      Expression = '(?s)(^```|`).*?(^```|`)|'#13#10'(?s)^~~~.*?^~~~'
+      Expression = '(?s)^[\x20\x09]*([`~]{3,}) .+? \1[`~]*$'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Crossed Out'
+      DisplayName = 'Codeblock raw'
+      StyleName = 'Block'
+      TokenType = 5
+      Expression = '(?s) (`+) .+? (\1|\z\z)'#13#10'#cannot have 2 EOLs'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Crossed text'
       StyleName = 'Crossed out'
       TokenType = 1
-      Expression = '(?s)~~[^\x20\x09\n\r].*?~~'
+      Expression = '(?s)~+[^\x20\x09\n\r~].*? ~+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -363,10 +361,10 @@ object SyntAnal13: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Hotkey'
-      StyleName = 'Hotkey BG'
-      TokenType = 1
-      Expression = '(?<=<kbd>).+?(?=</kbd>)'
+      DisplayName = 'Escaped char'
+      StyleName = 'Symbols'
+      TokenType = 15
+      Expression = '\\.'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -453,9 +451,9 @@ object SyntAnal13: TLibSyntAnalyzer
     'and ![alternative text](image adress "title"). '
     '~~Crossed out~~ is supported, too. '
     ''
-    '~~~'
+    '   ~~~php'
     'Codeblocks'
-    '~~~'
+    '   ~~~'
     ''
     '    Codeblock by indention'
     ''
