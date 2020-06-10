@@ -433,7 +433,15 @@ object SyntAnal13: TLibSyntAnalyzer
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
-  SubAnalyzers = <>
+  SubAnalyzers = <
+    item
+      DisplayName = 'Fenced block'
+      StyleName = 'Codeblock'
+      StatesPresent = 100
+      StartExpression = '^[\x20\x09]*(`{3,}|~{3,}).*$'
+      EndExpression = '^[\x20\x09]*(`{3,}|~{3,})$'
+      IncludeBounds = True
+    end>
   SampleText.Strings = (
     '[![Test](link here)](link here)'
     ''
@@ -454,7 +462,7 @@ object SyntAnal13: TLibSyntAnalyzer
     'test: ~~~~crossed~ and ~crossed~~~ is supported '
     ''
     '   ~~~php'
-    'Codeblocks'
+    '12, "test"'
     '   ~~~'
     ''
     '    Codeblock by indention'
