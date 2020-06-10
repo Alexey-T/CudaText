@@ -238,7 +238,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StyleName = 'Bold-Italic'
       StatesAbsent = 3
       TokenType = 1
-      Expression = '(\*\*\*|___) (`.+?`|.)+? (\1|$)'
+      Expression = '(\*\*\*|___) [^\n\r\x20\*_\\](`.+?`|.)*? \1'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -247,7 +247,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StyleName = 'Bold'
       StatesAbsent = 3
       TokenType = 1
-      Expression = '(\*\*|__) (`.+?`|.)+? (\1|$)'
+      Expression = '(\*\*|__) [^\n\r\x20\*_\\](`.+?`|.)*? \1'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -256,7 +256,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StyleName = 'Italic'
       StatesAbsent = 3
       TokenType = 1
-      Expression = '\*\S (`.+?`|.)*? \*'
+      Expression = '\* [^\n\r\x20\*_\\](`.+?`|.)*? \*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -297,7 +297,7 @@ object SyntAnal13: TLibSyntAnalyzer
     end
     item
       DisplayName = 'HTML entity'
-      StyleName = 'HTML Code'
+      StyleName = 'Symbols'
       StatesAbsent = 3
       TokenType = 9
       Expression = '\&\#?\w+;'
@@ -405,7 +405,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StyleName = 'Crossed out'
       StatesAbsent = 3
       TokenType = 1
-      Expression = '(?s)~+[^\x20\x09\n\r~].*? ~+'
+      Expression = '(?s)~+[^\x20\x09\n\r~\\].*? ~+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -432,7 +432,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StyleName = 'Symbols'
       StatesAbsent = 3
       TokenType = 15
-      Expression = '[\|\-\+:]'
+      Expression = '[\|\-\+:=/%\*!~<>&]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -595,7 +595,7 @@ object SyntAnal13: TLibSyntAnalyzer
     'void N(n) { return 20; }'
     '   ~~~'
     ''
-    '    Codeblock by indention'
+    '    Codeblock by indent'
     ''
     #9'1. But not for numbered'
     #9'-  or unordered lists'
@@ -658,7 +658,7 @@ object SyntAnal13: TLibSyntAnalyzer
   LexerName = 'Markdown'
   SkipSpaces = False
   Notes.Strings = (
-    'Original author: NoSi (2014-01-20)'
-    'Many changes: Alexey (CudaText)')
+    'Original author: NoSi (2014)'
+    'Fully reworked: Alexey (CudaText)')
   Charset = DEFAULT_CHARSET
 end
