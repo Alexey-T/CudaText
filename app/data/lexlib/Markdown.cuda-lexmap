@@ -27,3 +27,6 @@ Mark-edited=LightBG2
 Hotkey BG=IncludeBG4
 Symbols=Symbol
 Math BG=LightBG5
+[ref]
+1=PHP_
+2=JavaScript

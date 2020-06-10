@@ -256,7 +256,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'HTML tag'
       StyleName = 'HTML Code'
       TokenType = 9
-      Expression = '(?s)<[/!]?\w.*?> | (?s)<\?.+? \?>'
+      Expression = '(?s)<[/!]?[\[\w].*?>'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -374,7 +374,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'Symbols'
       StyleName = 'Symbols'
       TokenType = 15
-      Expression = '[\|\-\+] | \\[`\*\-\+\^\$\.,:]'
+      Expression = '[\|\-\+:]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -440,6 +440,19 @@ object SyntAnal13: TLibSyntAnalyzer
       StartExpression = '^[\x20\x09]*(`{3,}|~{3,})\w+$'
       EndExpression = '^[\x20\x09]*(`{3,}|~{3,})$'
       IncludeBounds = True
+    end
+    item
+      DisplayName = 'PHP'
+      StartExpression = '<\?'
+      EndExpression = '\?>'
+      SyntAnalyzer = SyntAnal14
+      IncludeBounds = True
+    end
+    item
+      DisplayName = 'JS'
+      StartExpression = '<script\b.*?>'
+      EndExpression = '</script>'
+      SyntAnalyzer = SyntAnal9
     end>
   SampleText.Strings = (
     '[![Test](link here)](link here)'
