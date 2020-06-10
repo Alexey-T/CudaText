@@ -437,7 +437,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = '~Fenced'
       StyleName = 'Codeblock'
-      StartExpression = '^[\x20\x09]*(`{3,}|~{3,})\w+$'
+      StartExpression = '^[\x20\x09]*(`{3,}|~{3,})\x20*\w+$'
       EndExpression = '^[\x20\x09]*(`{3,}|~{3,})$'
       IncludeBounds = True
     end
