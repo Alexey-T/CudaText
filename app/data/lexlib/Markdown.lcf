@@ -41,7 +41,7 @@ object SyntAnal13: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-      BgColor = 15779980
+      BgColor = 15659207
     end
     item
       DisplayName = 'Block'
@@ -187,11 +187,56 @@ object SyntAnal13: TLibSyntAnalyzer
       Font.Style = []
       BgColor = clYellow
       FormatType = ftColor
+    end
+    item
+      DisplayName = '``` edge'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
     end>
   TokenRules = <
     item
+      DisplayName = '`begin'
+      StyleName = '``` edge'
+      StatesAdd = 1
+      TokenType = 16
+      Expression = '^[\x20\x09]*`{3,}\x20*\w+.*$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = '`end'
+      StyleName = '``` edge'
+      StatesRemove = 1
+      TokenType = 17
+      Expression = '^[\x20\x09]*`{3,}\x20*$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = '~begin'
+      StyleName = '``` edge'
+      StatesAdd = 2
+      TokenType = 18
+      Expression = '^[\x20\x09]*~{3,}\x20*\w+.*$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = '~end'
+      StyleName = '``` edge'
+      StatesRemove = 2
+      TokenType = 19
+      Expression = '^[\x20\x09]*~{3,}\x20*$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Bold-Italic'
       StyleName = 'Bold-Italic'
+      StatesAbsent = 3
       TokenType = 1
       Expression = '(\*\*\*|___) (`.+?`|.)+? (\1|$)'
       ColumnFrom = 0
@@ -200,6 +245,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'Bold'
       StyleName = 'Bold'
+      StatesAbsent = 3
       TokenType = 1
       Expression = '(\*\*|__) (`.+?`|.)+? (\1|$)'
       ColumnFrom = 0
@@ -208,6 +254,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'Italic'
       StyleName = 'Italic'
+      StatesAbsent = 3
       TokenType = 1
       Expression = '\*\S (`.+?`|.)*? \*'
       ColumnFrom = 0
@@ -216,6 +263,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'Heading'
       StyleName = 'Heading'
+      StatesAbsent = 3
       Expression = '^\#+ \x20 .+ |'#13#10'.+\z(-+|=+)$'
       ColumnFrom = 0
       ColumnTo = 0
@@ -223,6 +271,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'Comment'
       StyleName = 'Comment'
+      StatesAbsent = 3
       TokenType = 2
       Expression = '(?s)\<!--.*?--\>  |'#13#10'(?s)/\*.*?\*/'
       ColumnFrom = 0
@@ -231,6 +280,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'Quote'
       StyleName = 'Quote'
+      StatesAbsent = 3
       TokenType = 3
       Expression = '^[\x20\x09]*>.*$'
       ColumnFrom = 0
@@ -239,6 +289,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'HTML pre'
       StyleName = 'Codeblock'
+      StatesAbsent = 3
       TokenType = 4
       Expression = '(?s) <pre\b .+? </pre>'
       ColumnFrom = 0
@@ -247,6 +298,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'HTML entity'
       StyleName = 'HTML Code'
+      StatesAbsent = 3
       TokenType = 9
       Expression = '\&\#?\w+;'
       ColumnFrom = 0
@@ -255,6 +307,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'HTML tag'
       StyleName = 'HTML Code'
+      StatesAbsent = 3
       TokenType = 9
       Expression = '(?s)<[/!]?[\[\w].*?>'
       ColumnFrom = 0
@@ -263,6 +316,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'Link github'
       StyleName = 'Link'
+      StatesAbsent = 3
       TokenType = 11
       Expression = '\[! \[ [^\]]+ \]\( [^\)]+ \) \] \( [^\)]+ \)'
       ColumnFrom = 0
@@ -271,6 +325,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'Link usual'
       StyleName = 'Image'
+      StatesAbsent = 3
       TokenType = 11
       Expression = '(?s)(?<=\])\(.+?\) (\{.*?\})?'
       ColumnFrom = 0
@@ -279,6 +334,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'List'
       StyleName = 'List'
+      StatesAbsent = 3
       TokenType = 13
       Expression = 
         '^[\x20\x09]*( \d{1,3}\. '#13#10'| [\-\+\*]'#13#10'| \(?\w?[\.\)]'#13#10') \x20(\[[' +
@@ -289,14 +345,16 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'Codeblock indented'
       StyleName = 'Codeblock'
+      StatesAbsent = 3
       TokenType = 4
-      Expression = '^(\x20{4,}|\x09{1,}) [^`<>].*$'
+      Expression = '^(\x20{4,}|\x09{1,}) [^`<>\n\r].*$'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'Footnote'
       StyleName = 'Footnote'
+      StatesAbsent = 3
       TokenType = 7
       Expression = '^\[\^[^\]\^]+\]:.*?($|\z) |'#13#10'\[\^[^\]]+\]'
       ColumnFrom = 0
@@ -305,6 +363,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'Reference'
       StyleName = 'Reference'
+      StatesAbsent = 3
       TokenType = 6
       Expression = 
         '^\x20{0,3}\[[^\]\^]+\]:.*?($|\z) |'#13#10'(?<=\]\x20?)\[.*?\] (\{.*?\}' +
@@ -315,6 +374,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'Definition'
       StyleName = 'Definition'
+      StatesAbsent = 3
       TokenType = 10
       Expression = '^[\x20\x09]*:\ .* '#13#10'# Pandoc Style (:\ \ \ )'
       ColumnFrom = 0
@@ -323,22 +383,16 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'Link desc text'
       StyleName = 'Link'
+      StatesAbsent = 3
       TokenType = 11
       Expression = '!?\[ (\[[^\]]*\]|`.+?`|.)*? \]'#13#10'#allow nested [text] and `text`'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Codeblock fenced'
-      StyleName = 'Block'
-      TokenType = 5
-      Expression = '(?s)^[\x20\x09]*(`{3,}|~{3,}) .+? \1[`~]*$'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Codeblock raw'
       StyleName = 'Block'
+      StatesAbsent = 3
       TokenType = 5
       Expression = 
         '(?s) (`+) .+? (\1|\z\z)'#13#10'#to-fix: SublimeText syntax test has ma' +
@@ -349,6 +403,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'Crossed text'
       StyleName = 'Crossed out'
+      StatesAbsent = 3
       TokenType = 1
       Expression = '(?s)~+[^\x20\x09\n\r~].*? ~+'
       ColumnFrom = 0
@@ -357,6 +412,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'Footnote Inline'
       StyleName = 'Footnote'
+      StatesAbsent = 3
       TokenType = 7
       Expression = '\^\[.+?\] #Pandoc Inline-Style'
       ColumnFrom = 0
@@ -365,6 +421,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'Escaped char'
       StyleName = 'Symbols'
+      StatesAbsent = 3
       TokenType = 15
       Expression = '\\.'
       ColumnFrom = 0
@@ -373,6 +430,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'Symbols'
       StyleName = 'Symbols'
+      StatesAbsent = 3
       TokenType = 15
       Expression = '[\|\-\+:]'
       ColumnFrom = 0
@@ -381,6 +439,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'Math block'
       StyleName = 'Math BG'
+      StatesAbsent = 3
       TokenType = 3
       Expression = '(\${1,2}).+\1'
       ColumnFrom = 0
@@ -389,6 +448,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'Mark-added'
       StyleName = 'Mark-added'
+      StatesAbsent = 3
       TokenType = 14
       Expression = '\{\+\+[^\+\}]+\+\+\}'
       ColumnFrom = 0
@@ -397,6 +457,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'Mark-deleted'
       StyleName = 'Mark-deleted'
+      StatesAbsent = 3
       TokenType = 14
       Expression = '\{\-\-[^\-\}]+\-\-\}'
       ColumnFrom = 0
@@ -405,6 +466,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'Mark-edited'
       StyleName = 'Mark-edited'
+      StatesAbsent = 3
       TokenType = 14
       Expression = '\{~~[^~\}]+~~\}'
       ColumnFrom = 0
@@ -413,6 +475,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'Text'
       StyleName = 'Text'
+      StatesAbsent = 3
       TokenType = 1
       Expression = '(?r)\w+'
       ColumnFrom = 0
@@ -431,18 +494,60 @@ object SyntAnal13: TLibSyntAnalyzer
       CollapseFmt = '%s0'
       SelfClose = True
       IgnoreAsParent = False
+    end
+    item
+      DisplayName = '`begin'
+      StyleName = 'Codeblock'
+      ConditionList = <
+        item
+          TokenTypes = 65536
+        end>
+      BlockEnd = '`end'
+      DisplayInTree = False
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      CollapseFmt = '%sz0'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '`end'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TokenTypes = 131072
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '~begin'
+      StyleName = 'Codeblock'
+      ConditionList = <
+        item
+          TokenTypes = 262144
+        end>
+      BlockEnd = '~end'
+      DisplayInTree = False
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      CollapseFmt = '%sz0'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '~end'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TokenTypes = 524288
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <
     item
-      DisplayName = '~Fenced'
-      StyleName = 'Codeblock'
-      StartExpression = '^[\x20\x09]*(`{3,}|~{3,})\x20*\w+$'
-      EndExpression = '^[\x20\x09]*(`{3,}|~{3,})$'
-      IncludeBounds = True
-    end
-    item
       DisplayName = 'PHP'
+      StatesAbsent = 3
       StartExpression = '<\?'
       EndExpression = '\?>'
       SyntAnalyzer = SyntAnal14
@@ -450,12 +555,14 @@ object SyntAnal13: TLibSyntAnalyzer
     end
     item
       DisplayName = 'JS'
+      StatesAbsent = 3
       StartExpression = '(?s)<script\b.*?>'
       EndExpression = '</script>'
       SyntAnalyzer = SyntAnal9
     end
     item
       DisplayName = 'CSS'
+      StatesAbsent = 3
       StartExpression = '(?s)<style\b.*?>'
       EndExpression = '</style>'
       SyntAnalyzer = SyntAnal6
@@ -479,8 +586,13 @@ object SyntAnal13: TLibSyntAnalyzer
     'and ![alternative text](image adress "title"). '
     'test: ~~~~crossed~ and ~crossed~~~ is supported '
     ''
+    '```c'
+    'void F(int s) { return 20; }'
+    '```'
+    'and'
+    ''
     '   ~~~php'
-    '12, "test"'
+    'void N(n) { return 20; }'
     '   ~~~'
     ''
     '    Codeblock by indention'
@@ -518,10 +630,6 @@ object SyntAnal13: TLibSyntAnalyzer
     'header'
     '='
     ''
-    '```'
-    'codeblock'
-    '```'
-    '    '
     
       'Test {++added++} and {--deleted--} and {~~edited text~~} end.   ' +
       ' ')
@@ -541,7 +649,11 @@ object SyntAnal13: TLibSyntAnalyzer
     'Image'
     'List'
     'Mark-inline'
-    'Symbols')
+    'Symbols'
+    '`begin'
+    '`end'
+    '~begin'
+    '~end')
   Extentions = 'md markdown mkd'
   LexerName = 'Markdown'
   SkipSpaces = False
