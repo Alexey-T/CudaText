@@ -450,9 +450,15 @@ object SyntAnal13: TLibSyntAnalyzer
     end
     item
       DisplayName = 'JS'
-      StartExpression = '<script\b.*?>'
+      StartExpression = '(?s)<script\b.*?>'
       EndExpression = '</script>'
       SyntAnalyzer = SyntAnal9
+    end
+    item
+      DisplayName = 'CSS'
+      StartExpression = '(?s)<style\b.*?>'
+      EndExpression = '</style>'
+      SyntAnalyzer = SyntAnal6
     end>
   SampleText.Strings = (
     '[![Test](link here)](link here)'
