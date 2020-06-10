@@ -435,9 +435,8 @@ object SyntAnal13: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <
     item
-      DisplayName = 'Fenced block'
+      DisplayName = '~Fenced'
       StyleName = 'Codeblock'
-      StatesPresent = 100
       StartExpression = '^[\x20\x09]*(`{3,}|~{3,}).*$'
       EndExpression = '^[\x20\x09]*(`{3,}|~{3,})$'
       IncludeBounds = True
