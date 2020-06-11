@@ -4529,12 +4529,14 @@ begin
       MB_OKCANCEL or MB_ICONQUESTION
       ) <> ID_OK then exit;
 
-  PrevRO:= F.ReadOnly[Ed];
+  if Ed.IsReadOnlyChanged then
+    PrevRO:= F.ReadOnly[Ed];
   PrevLexer:= F.LexerName[Ed];
   F.ReadOnly[Ed]:= false;
   F.DoFileReload(Ed);
   F.LexerName[Ed]:= PrevLexer;
-  F.ReadOnly[Ed]:= PrevRO;
+  if Ed.IsReadOnlyChanged then
+    F.ReadOnly[Ed]:= PrevRO;
   Ed.Modified:= false;
 
   UpdateStatus;

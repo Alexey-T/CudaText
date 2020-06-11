@@ -2144,12 +2144,11 @@ procedure TEditorFrame.UpdateReadOnlyFromFile(Ed: TATSynEdit);
 var
   b: boolean;
 begin
+  if Ed.IsReadOnlyChanged then exit;
   b:= IsFileReadonly(GetFileName(Ed));
+  ReadOnly[Ed]:= b;
   if b then
-  begin
-    ReadOnly[Ed]:= true;
     Ed.IsReadOnlyAutodetected:= true;
-  end;
 end;
 
 procedure TEditorFrame.UpdateFrame(AUpdatedText: boolean);
@@ -2465,6 +2464,7 @@ begin
     );
 
   OnUpdateStatus(Self);
+
   SetLength(Params, 0);
   DoPyEvent(Ed, cEventOnChangeSlow, Params);
 end;
@@ -3156,7 +3156,9 @@ begin
 
   TabColor:= StringToColorDef(c.GetValue(path+cHistory_TabColor, ''), clNone);
 
-  ReadOnly[Ed]:= c.GetValue(path+cHistory_RO, ReadOnly[Ed]);
+  if not Ed.IsReadOnlyAutodetected then
+    ReadOnly[Ed]:= c.GetValue(path+cHistory_RO, ReadOnly[Ed]);
+
   if not FileWasBig[Ed] then
   begin
     Ed.OptWrapMode:= TATSynWrapMode(c.GetValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode)));
