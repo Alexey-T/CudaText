@@ -10,6 +10,7 @@
 + add: better value of "links_regex" (chars like '()[]#,:' appear in URL only after '?')
 + add: detect read-only also on "File / Reopen" (thanks @Petrik_Pjatochkin)
 + add: lexer Markdown: many improvements, including folding of fenced blocks
+- fix: Project Manager messes with folder of Open/Save-as dialogs (thanks @kvichans)
 
 1.103.5 (2020/06)
 
