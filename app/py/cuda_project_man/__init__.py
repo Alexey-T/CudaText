@@ -674,7 +674,7 @@ class Command:
             return False #block opening
 
     def config(self):
-        
+
         from .projman_dlg import dialog_config
         if dialog_config(self.options):
             #print('ProjectManager: saving options')
@@ -877,9 +877,13 @@ class Command:
 
     def tree_on_click(self, id_dlg, id_ctl, data='', info=''):
 
-        path = self.get_location_by_index(self.selected)
-        if os.path.isdir(path):
-            app_proc(PROC_SET_FOLDER, path)
+        # set folder in project as current folder for Open/Save-as dialogs
+        s = str(self.get_location_by_index(self.selected))
+        if s and not s.startswith('.'): # skip parasitic '.' for project root node
+            if os.path.isdir(s):
+                app_proc(PROC_SET_FOLDER, s)
+            elif os.path.isfile(s):
+                app_proc(PROC_SET_FOLDER, os.path.dirname(s))
 
         if self.options.get('d_click', False):
             return
