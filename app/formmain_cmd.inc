@@ -613,6 +613,14 @@ begin
 
   //handle commands cmd_
   case ACommand of
+    cCommand_ToggleWordWrap,
+    cCommand_ToggleWordWrapAlt:
+      begin
+        UpdateStatus;
+        AHandled:= false;
+        exit
+      end;
+
     cmd_RepaintEditor:
       begin
         Ed.Update;
