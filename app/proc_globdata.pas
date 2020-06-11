@@ -510,7 +510,6 @@ type
     OpZebraStep: integer;
 
     OpNonWordChars: UnicodeString;
-    OpHexChars: UnicodeString;
     OpFoldStyle: integer;
     OpFoldTooltipShow: boolean;
 
@@ -1242,7 +1241,6 @@ begin
     OpZebraStep:= 2;
 
     OpNonWordChars:= cDefaultNonWordChars;
-    OpHexChars:= '';
     OpFoldStyle:= 1;
     OpFoldTooltipShow:= false;
 

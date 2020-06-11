@@ -971,7 +971,6 @@ begin
   Op.OpZebraStep:= cfg.GetValue('zebra_step', Op.OpZebraStep);
 
   Op.OpNonWordChars:= cfg.GetValue('nonword_chars', Op.OpNonWordChars);
-  Op.OpHexChars:= cfg.GetValue('hex_chars', Op.OpHexChars);
   Op.OpFoldStyle:= cfg.GetValue('fold_style', Op.OpFoldStyle);
   Op.OpFoldTooltipShow:= cfg.GetValue('fold_tooltip_show', Op.OpFoldTooltipShow);
 
