@@ -393,7 +393,6 @@ object SyntAnal20: TLibSyntAnalyzer
             '<')
           TokenTypes = 512
         end>
-      BlockOffset = 1
       BlockEnd = 'Tag block end'
       NameFmt = '<%s0>'
       DynHighlight = dhBound
