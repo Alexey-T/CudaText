@@ -138,7 +138,6 @@ type
     FCheckFilenameOpened: TStrFunction;
     FOnMsgStatus: TStrEvent;
     FSaveDialog: TSaveDialog;
-    FReadOnlyFromFile: boolean;
     FWasVisible: boolean;
     FInitialLexer1: TecSyntAnalyzer;
     FInitialLexer2: TecSyntAnalyzer;
@@ -273,7 +272,6 @@ type
     function EditorIndexToObj(N: integer): TATSynEdit;
     function EditorObjToIndex(Ed: TATSynEdit): integer;
     property ReadOnly[Ed: TATSynEdit]: boolean read GetReadOnly write SetReadOnly;
-    property ReadOnlyFromFile: boolean read FReadOnlyFromFile write FReadOnlyFromFile;
     property TabCaption: string read FTabCaption write SetTabCaption;
     property TabCaptionUntitled: string read FTabCaptionUntitled write FTabCaptionUntitled;
     property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
@@ -2143,11 +2141,14 @@ begin
 end;
 
 procedure TEditorFrame.UpdateReadOnlyFromFile(Ed: TATSynEdit);
+var
+  b: boolean;
 begin
-  if IsFileReadonly(GetFileName(Ed)) then
+  b:= IsFileReadonly(GetFileName(Ed));
+  if b then
   begin
     ReadOnly[Ed]:= true;
-    ReadOnlyFromFile:= true;
+    Ed.IsReadOnlyAutodetected:= true;
   end;
 end;
 
@@ -2985,7 +2986,7 @@ begin
   if UiOps.HistoryItems[ahhWordWrap] then
     c.SetDeleteValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode), 0);
 
-  if not ReadOnlyFromFile then
+  if not Ed.IsReadOnlyAutodetected then
     c.SetDeleteValue(path+cHistory_RO, ReadOnly[Ed], false);
 
   if UiOps.HistoryItems[ahhRuler] then
