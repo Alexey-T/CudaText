@@ -277,11 +277,6 @@
   //Option should be used in lexer-specific config.
   "nonword_chars": "-+*=/\\()[]{}<>\"'.,:;~?!@#$%^&|`…",
 
-  //Show these Unicode characters in long hex form: "xNN" or "xNNNN"
-  //Some chars are shown in hex form by default:
-  // http://unicode.org/reports/tr9/#Directional_Formatting_Characters
-  "hex_chars": "",
-
   //Additional vertical spacing per each line, in pixels [has suffix]
   //Can be negative too
   "spacing_y": 1,
