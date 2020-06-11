@@ -10,6 +10,7 @@
 + add: better value of "links_regex" (chars like '()[]#,:' appear in URL only after '?')
 + add: detect read-only also on "File / Reopen" (thanks @Petrik_Pjatochkin)
 + add: lexer Markdown: many improvements, including folding of fenced blocks
+* change: removed option "hex_chars", maybe later will be replaced by another option
 - fix: Project Manager messes with folder of Open/Save-as dialogs (thanks @kvichans)
 - fix: lexers HTML, XML dynamic highlighting was shifted
 
