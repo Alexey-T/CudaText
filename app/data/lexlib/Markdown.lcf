@@ -335,6 +335,7 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'Break line'
       StyleName = 'Comment'
+      StatesAbsent = 3
       TokenType = 2
       Expression = '^([\-\*_]\x20+)+[\-\*_]'
       ColumnFrom = 0
