@@ -3,11 +3,12 @@
   - fixed
   * changed
 
-1.103.6 (2020/06)
+1.104.0 (2020/06)
 
 + add: much faster rendering on Linux (gtk2) for texts with Unicode (but not full-width) chars
 + add: several internal Unicode functions are optimized, which speeds up case-insensitive search, whole-word search, \w in regex
 + add: better value of "links_regex" (chars like '()[]#,:' appear in URL only after '?')
++ add: detect read-only also on "File / Reopen" (thanks @Petrik_Pjatochkin)
 + add: lexer Markdown: many improvements, including folding of fenced blocks
 
 1.103.5 (2020/06)
