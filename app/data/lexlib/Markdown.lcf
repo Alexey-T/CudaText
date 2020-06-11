@@ -18,13 +18,14 @@ object SyntAnal13: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Quote'
+      DisplayName = 'Quote BG'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
       BgColor = 12645824
+      FormatType = ftColor
     end
     item
       DisplayName = 'Text'
@@ -279,10 +280,10 @@ object SyntAnal13: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Quote'
-      StyleName = 'Quote'
+      StyleName = 'Quote BG'
       StatesAbsent = 3
       TokenType = 3
-      Expression = '^[\x20\x09]*>.*$'
+      Expression = '^[\x20\x09]*(>[\x20=])+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -328,6 +329,14 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesAbsent = 3
       TokenType = 11
       Expression = '(?s)(?<=\])\(.+?\) (\{.*?\})?'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Break line'
+      StyleName = 'Comment'
+      TokenType = 2
+      Expression = '^([\-\*_]\x20+)+[\-\*_]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -585,6 +594,9 @@ object SyntAnal13: TLibSyntAnalyzer
     'chars are highlighted, [Hyperlink text](url "title") '
     'and ![alternative text](image adress "title"). '
     'test: ~~~~crossed~ and ~crossed~~~ is supported '
+    '- - -'
+    '*  *  *'
+    '_  _  _  _'
     ''
     '```c'
     'void F(int s) { return 20; }'
@@ -614,7 +626,10 @@ object SyntAnal13: TLibSyntAnalyzer
     '(@ref) with or without reference, where (@ref) is'
     'handled as reference'
     ''
-    '> quoted text'
+    '> quoted **text**'
+    '> > *markup* in quote'
+    '>        > code in quote, not 2nd quote'
+    '  >= quote'
     ''
     'Definition lists'
     ':   In a single line'
@@ -658,7 +673,7 @@ object SyntAnal13: TLibSyntAnalyzer
   LexerName = 'Markdown'
   SkipSpaces = False
   Notes.Strings = (
-    'Original author: NoSi (2014)'
-    'Fully reworked: Alexey (CudaText)')
+    'Based on original lexer by NoSi (2014)'
+    'Fully reworked by Alexey (CudaText)')
   Charset = DEFAULT_CHARSET
 end

@@ -12,7 +12,7 @@ styles_str=Quote,Text,Bold,Italic,Bold-Italic,Heading,Link,Definition,Crossed ou
 [map]
 Heading=IdKeyword
 Comment=Comment
-Quote=String
+Quote BG=IncludeBG3
 Text=Id
 Codeblock=SectionBG1
 Block=SectionBG2
