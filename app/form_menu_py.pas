@@ -262,13 +262,15 @@ begin
   SSplitByChar(listItems[PtrInt(listFiltered[AIndex])], #9, part_L, part_R);
 
   //right part
-  strkey:= CanvasCollapseStringByDots(C, part_R, acsmLeft, ARect.Width div 2);
+  n:= ARect.Width div 2;
+  strkey:= CanvasCollapseStringByDots(C, part_R, acsmLeft, n);
   n:= C.TextWidth(strkey);
 
   //left part
   //less space for name if part_R long
+  n:= ARect.Width - n - 2*cIndent;
   strname:= part_L;
-  strname2:= CanvasCollapseStringByDots(C, part_L, CollapseMode, ARect.Width-n);
+  strname2:= CanvasCollapseStringByDots(C, part_L, CollapseMode, n);
 
   //text of filter
   strfind:= Trim(edit.Text);
