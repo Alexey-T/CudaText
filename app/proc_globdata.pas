@@ -1549,7 +1549,7 @@ begin
   Result:= dir+DirectorySeparator+'lexer '+ALexer+'.json';
 end;
 
-function GetAppKeymap_LexerSpecificConfig(AName: string): string;
+function AppFile_HotkeysForLexer(AName: string): string;
 begin
   //support none-lexer
   if AName='' then
@@ -1686,7 +1686,7 @@ begin
     try
       c.Formatted:= true;
       if ALexerSpecific then
-        c.Filename:= GetAppKeymap_LexerSpecificConfig(ALexerName)
+        c.Filename:= AppFile_HotkeysForLexer(ALexerName)
       else
         c.Filename:= AppFile_Hotkeys;
     except
@@ -1738,7 +1738,7 @@ begin
     try
       c.Formatted:= true;
       if ALexerName<>'' then
-        c.Filename:= GetAppKeymap_LexerSpecificConfig(ALexerName)
+        c.Filename:= AppFile_HotkeysForLexer(ALexerName)
       else
         c.Filename:= AppFile_Hotkeys;
     except
@@ -2123,7 +2123,7 @@ begin
   AppKeymapLexers.AddObject(ALexer, Keymap);
 
   Keymap_LoadConfig(Keymap,
-    GetAppKeymap_LexerSpecificConfig(ALexer));
+    AppFile_HotkeysForLexer(ALexer));
 
   Result:= Keymap;
 end;
