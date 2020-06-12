@@ -2668,22 +2668,23 @@ end;
 
 function Py_dlg_hotkeys(Self, Args : PPyObject): PPyObject; cdecl;
 var
-  PtrCaption, PtrLexer: PChar;
-  StrCaption, StrLexer: string;
-  Cmd: integer;
+  PtrCommand, PtrLexer: PChar;
+  StrCommand, StrLexer: string;
+  NCommand: integer;
   Ok: boolean;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'ss:dlg_hotkeys', @PtrCaption, @PtrLexer)) then
+    if Bool(PyArg_ParseTuple(Args, 'ss:dlg_hotkeys', @PtrCommand, @PtrLexer)) then
     begin
-      StrCaption:= string(PtrCaption);
+      StrCommand:= string(PtrCommand);
       StrLexer:= string(PtrLexer);
 
-      Cmd:= StrToIntDef(StrCaption, 0);
-      if Cmd>0 then
-        Ok:= DoDialogHotkeys(AppKeymapMain, Cmd, StrLexer)
+      NCommand:= StrToIntDef(StrCommand, 0);
+      if NCommand>0 then
+        Ok:= DoDialogHotkeys(AppKeymapMain, NCommand, StrLexer)
       else
-        Ok:= DoDialogHotkeys(AppKeymapMain, StrCaption, StrLexer);
+        Ok:= DoDialogHotkeys(AppKeymapMain, StrCommand, StrLexer);
+
       Result:= PyBool_FromLong(Ord(Ok));
     end
   else
