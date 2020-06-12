@@ -626,18 +626,18 @@ Shows modal dialog to enter 1 to 10 string fields at once. Gets list of strings 
 
  dlg_file(is_open, init_filename, init_dir, filters, caption="")
 
-Shows file-open or file-save-as modal dialog. Gets filename (str) or None if cancelled.
+Shows "Open file" or "Save file as" modal dialog. Gets filename (or list of filenames) or None if cancelled.
 
-* Param "is_open": True for open dialog, False for save-as dialog.
-* Param "init_filename": Initial filename for save-as dialog. Can be empty.
+* Param "is_open": True for "Open" dialog, False for "Save as" dialog.
+* Param "init_filename": Initial filename for "Save as" dialog. Can be empty.
 * Param "init_dir": Initial folder. Can be empty.
-* Param "filters": File filters string. Can be empty. Example for 2 filters: "Source codes|*.pas;*.inc|Text files|*.txt"
-* Param "caption": Dialog caption. If empty, default value is used: "Open file", "Save file".
+* Param "filters": How to filter filenames from file system. Can be empty. Must be in format used by Lazarus IDE, example for 2 filters: "Source codes|*.pas;*.inc|Text files|*.txt"
+* Param "caption": If not empty, dialog caption. If empty, default dialog caption is used: "Open file", "Save file".
 
-Features:
+Additional options:
 
-* To allow multi-select in open dialog, pass init_filename="*". If single filename selected, result is str. If several filenames selected, result is list of str.
-* To disable check "filename exists" in open dialog, start init_filename with "!".
+* To allow multi-selection in the "Open" dialog, pass init_filename="*". If single filename was selected, result is str. If several filenames were selected, result is list of str.
+* To disable checking "entered filename exists" in the "Open" dialog, start init_filename with "!".
 
 ===dlg_dir===
 
