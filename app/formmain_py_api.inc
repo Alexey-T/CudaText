@@ -2714,6 +2714,7 @@ begin
         (NOps and COMMANDS_FILES)<>0,
         (NOps and COMMANDS_RECENTS)<>0,
         (NOps and COMMANDS_CONFIG)<>0,
+        (NOps and COMMANDS_CONFIG_LEXER)<>0,
         (NOps and COMMANDS_CENTERED)<>0,
         StrTitle
         );

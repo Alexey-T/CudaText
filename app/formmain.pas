@@ -891,10 +891,10 @@ type
     procedure DoFindCurrentWordOrSel(Ed: TATSynEdit; ANext, AWordOrSel: boolean);
     procedure DoDialogCommands;
     function DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers,
-      AShowFiles, AShowRecents, AAllowConfig, AShowCentered: boolean;
+      AShowFiles, AShowRecents, AAllowConfig, AAllowConfigForLexer, AShowCentered: boolean;
       ACaption: string; AFocusedCommand: integer): integer;
     function DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers, AShowFiles,
-      AShowRecents, AAllowConfig, AShowCentered: boolean; ACaption: string): string;
+      AShowRecents, AAllowConfig, AAllowConfigForLexer, AShowCentered: boolean; ACaption: string): string;
     procedure DoDialogGoto;
     function DoDialogMenuList(const ACaption: string; AItems: TStringList; AInitItemIndex: integer;
       ACloseOnCtrlRelease: boolean= false; AOnListSelect: TAppListSelectEvent=nil): integer;
@@ -3596,7 +3596,7 @@ begin
   UpdateKeymapDynamicItems(AppKeymapMain, categ_OpenedFile);
   UpdateKeymapDynamicItems(AppKeymapMain, categ_RecentFile);
 
-  NCmd:= DoDialogCommands_Custom(true, true, true, true, true, true, false, '', FLastSelectedCommand);
+  NCmd:= DoDialogCommands_Custom(true, true, true, true, true, true, true, false, '', FLastSelectedCommand);
   if NCmd>0 then
   begin
     FLastSelectedCommand:= NCmd;
@@ -3607,7 +3607,7 @@ end;
 
 
 function TfmMain.DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers, AShowFiles, AShowRecents,
-  AAllowConfig, AShowCentered: boolean; ACaption: string): string;
+  AAllowConfig, AAllowConfigForLexer, AShowCentered: boolean; ACaption: string): string;
 var
   NCmd, NIndex: integer;
 begin
@@ -3619,6 +3619,7 @@ begin
     AShowFiles,
     AShowRecents,
     AAllowConfig,
+    AAllowConfigForLexer,
     AShowCentered,
     ACaption,
     0);
@@ -3671,7 +3672,8 @@ end;
 
 
 function TfmMain.DoDialogCommands_Custom(
-  AShowUsual, AShowPlugins, AShowLexers, AShowFiles, AShowRecents, AAllowConfig, AShowCentered: boolean;
+  AShowUsual, AShowPlugins, AShowLexers, AShowFiles, AShowRecents,
+  AAllowConfig, AAllowConfigForLexer, AShowCentered: boolean;
   ACaption: string; AFocusedCommand: integer): integer;
 var
   F: TEditorFrame;
@@ -3692,6 +3694,7 @@ begin
     fmCommands.OptShowFiles:= AShowFiles;
     fmCommands.OptShowRecents:= AShowRecents;
     fmCommands.OptAllowConfig:= AAllowConfig;
+    fmCommands.OptAllowConfigForLexer:= AAllowConfigForLexer;
     fmCommands.OptFocusedCommand:= AFocusedCommand;
     fmCommands.OnMsg:= @DoCommandsMsgStatus;
     fmCommands.CurrentLexerName:= F.LexerName[Ed];

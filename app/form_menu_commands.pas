@@ -77,6 +77,7 @@ type
     OptShowFiles: boolean;
     OptShowRecents: boolean;
     OptAllowConfig: boolean;
+    OptAllowConfigForLexer: boolean;
     OptFocusedCommand: integer;
     property OnMsg: TStrEvent read FOnMsg write FOnMsg;
     property ListCaption: string read GetListCaption write SetListCaption;
@@ -172,6 +173,7 @@ begin
   OptShowFiles:= true;
   OptShowRecents:= true;
   OptAllowConfig:= true;
+  OptAllowConfigForLexer:= true;
   OptFocusedCommand:= 0;
 
   edit.DoubleBuffered:= UiOps.DoubleBuffered;
@@ -296,6 +298,7 @@ end;
 
 procedure TfmCommands.DoConfigKey(Cmd: integer);
 var
+  SLexer: string;
   N: integer;
 begin
   DoMsgStatus('');
@@ -306,8 +309,13 @@ begin
     exit
   end;
 
+  if OptAllowConfigForLexer then
+    SLexer:= CurrentLexerName
+  else
+    SLexer:= '?';
+
   N:= list.ItemIndex;
-  if DoDialogHotkeys(Keymap, Cmd, CurrentLexerName) then
+  if DoDialogHotkeys(Keymap, Cmd, SLexer) then
   begin
     DoFilter;
     list.ItemIndex:= N;
