@@ -1925,9 +1925,7 @@ begin
     Ed2.Update;
   end;
 
-  //support event on_lexer
-  //we could do DoPyEvent(Ed1, cEventOnLexer, []);
-  //but OnLexerChange() does also task to load lexer-specific config
+  //to apply lexer-specific config
   OnLexerChange(Self);
 end;
 
