@@ -650,7 +650,7 @@ Shows dialog to select folder path. Gets path (str), or None if cancelled.
 
 ===dlg_menu===
 
- dlg_menu(id, items, focused=0, caption="", clip=0)
+ dlg_menu(id, items, focused=0, caption="", clip=0, w=0, h=0)
 
 Shows menu-like dialog. Gets index of selected item (0-based), or None if cancelled.
 
@@ -671,6 +671,8 @@ Parameters:
 * Param "focused": Index of initially selected item.
 * Param "caption": If not empty string, it is dialog caption.
 * Param "clip": How to shorten too long lines, one of values: CLIP_NONE (default), CLIP_LEFT, CLIP_MIDDLE, CLIP_RIGHT.
+* Param "w": If value>0, width of dialog.
+* Param "h": If value>0, height of dialog.
 
 ===dlg_color===
 
@@ -3920,6 +3922,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.action: EDACTION_REPLACE_ALL
 
 1.0.334 (app 1.104.1)
-* add: dlg_menu: added "clip" param
+* add: dlg_menu: added params: "clip", "w", "h"
 
 [[Category:CudaText]]
