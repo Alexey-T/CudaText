@@ -617,7 +617,7 @@ function Keymap_CheckDuplicateForCommand(
 function Keymap_HasDuplicateForKey(AKeymap: TATKeymap; AHotkey, AKeyComboSeparator: string): boolean;
 
 function Keymap_GetForLexer(const ALexer: string): TATKeymap;
-procedure Keymap_LoadConfig(AKeymap: TATKeymap; const AFileName: string);
+procedure Keymap_LoadConfig(AKeymap: TATKeymap; const AFileName: string; AForLexer: boolean);
 
 function DoOps_HotkeyStringId_To_CommandCode(const AId: string): integer;
 function DoOps_CommandCode_To_HotkeyStringId(ACmd: integer): string;
@@ -2053,7 +2053,7 @@ begin
 end;
 
 
-procedure Keymap_LoadConfig(AKeymap: TATKeymap; const AFileName: string);
+procedure Keymap_LoadConfig(AKeymap: TATKeymap; const AFileName: string; AForLexer: boolean);
 var
   cfg: TJSONConfig;
   slist, skeys: TStringList;
@@ -2097,6 +2097,7 @@ begin
 
       DoReadConfigToKeys(StrId+'/s1', AKeymap[nitem].Keys1);
       DoReadConfigToKeys(StrId+'/s2', AKeymap[nitem].Keys2);
+      AKeymap[nitem].LexerSpecific:= AForLexer;
     end;
   finally
     skeys.Free;
@@ -2123,7 +2124,7 @@ begin
   AppKeymapLexers.AddObject(ALexer, Keymap);
 
   Keymap_LoadConfig(Keymap,
-    AppFile_HotkeysForLexer(ALexer));
+    AppFile_HotkeysForLexer(ALexer), true);
 
   Result:= Keymap;
 end;

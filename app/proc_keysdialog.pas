@@ -58,6 +58,7 @@ begin
         //apply to caller's keymap
         AKeymap[CmdIndex].Keys1:= Form.Keys1;
         AKeymap[CmdIndex].Keys2:= Form.Keys2;
+        AKeymap[CmdIndex].LexerSpecific:= true;
 
         //save to 'keys nn.json'
         DoOps_SaveKeyItem(AKeymap[CmdIndex], StrId, ALexerName, true);
@@ -72,8 +73,11 @@ begin
         for i:= 0 to AppKeymapLexers.Count-1 do
         begin
           Map:= TATKeymap(AppKeymapLexers.Objects[i]);
-          Map[CmdIndex].Keys1:= Form.Keys1;
-          Map[CmdIndex].Keys2:= Form.Keys2;
+          if not Map[CmdIndex].LexerSpecific then
+          begin
+            Map[CmdIndex].Keys1:= Form.Keys1;
+            Map[CmdIndex].Keys2:= Form.Keys2;
+          end;
         end;
 
         //save to keys.json
