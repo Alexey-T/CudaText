@@ -2683,7 +2683,6 @@ begin
     if AddonType=cAddonTypePlugin then
     begin
       DoOps_LoadPlugins;
-      //DoOps_LoadKeymap(AppKeymap, CurrentFrame); //todo: use lexer-keymap
       UpdateMenuPlugins;
       UpdateMenuPlugins_Shortcuts(true);
     end;

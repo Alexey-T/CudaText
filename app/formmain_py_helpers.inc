@@ -379,7 +379,6 @@ procedure TfmMain.DoPyRescanPlugins;
 begin
   DoOps_LoadPlugins;
   UpdateMenuPlugins;
-  //DoOps_LoadKeymap(AppKeymap, CurrentFrame, false); //todo: check it...
   MsgStatus(msgRescannedAllPlugins);
 end;
 
