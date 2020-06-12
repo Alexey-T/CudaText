@@ -607,7 +607,7 @@ procedure FixFormPositionToDesktop(F: TForm);
 procedure FixRectPositionToDesktop(var F: TRect);
 
 function Keymap_GetHotkey(AKeymap: TATKeymap; const ACmdString: string): string;
-function Keymap_SetHotkey(AKeymap: TATKeymap; const AParams: string): boolean;
+function Keymap_SetHotkey(AKeymap: TATKeymap; const AParams: string; AndSaveFile: boolean): boolean;
 
 function Keymap_CheckDuplicateForCommand(
   AKeymap: TATKeymap;
@@ -888,10 +888,6 @@ procedure DoMenuitemEllipsis(c: TMenuItem);
 
 
 implementation
-
-const
-  cDefaultKeysConfig: string =
-    '{ "cuda_comments,cmt_toggle_line_body": {"name": "plugin: Comments: Toggle line comment, at non-space char", "s1": ["Ctrl+/"], "s2": [] } }';
 
 function MsgBox(const Str: string; Flags: Longint): integer;
 begin
@@ -1954,7 +1950,7 @@ begin
 end;
 
 
-function Keymap_SetHotkey(AKeymap: TATKeymap; const AParams: string): boolean;
+function Keymap_SetHotkey(AKeymap: TATKeymap; const AParams: string; AndSaveFile: boolean): boolean;
 var
   Sep: TATStringSeparator;
   NCode, NIndex: integer;
@@ -1985,7 +1981,8 @@ begin
 
     //save to keys.json
     //Py API: no need lexer-specific
-    DoOps_SaveKeyItem(AKeymap[NIndex], SCmd, '', false);
+    if AndSaveFile then
+      DoOps_SaveKeyItem(AKeymap[NIndex], SCmd, '', false);
   end;
   Result:= true;
 end;
@@ -2609,9 +2606,6 @@ initialization
   AppKeymapMain:= TATKeymap.Create;
   InitKeymapFull(AppKeymapMain);
   InitKeymap_AddCudatextItems(AppKeymapMain);
-
-  if not FileExists(AppFile_Hotkeys) then
-    DoWriteStringToFile(AppFile_Hotkeys, cDefaultKeysConfig);
 
   AppKeymapLexers:= TStringList.Create;
   AppKeymapLexers.Sorted:= true;

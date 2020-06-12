@@ -2581,6 +2581,7 @@ begin
     Frame.SetFocus;
 
   //load keys.json after loading plugins (to apply plugins keys)
+  Keymap_SetHotkey(AppKeymapMain, 'cuda_comments,cmt_toggle_line_body|Ctrl+/|', false);
   Keymap_LoadConfig(AppKeymapMain, AppFile_Hotkeys);
 
   NTickShowEnd:= GetTickCount64;

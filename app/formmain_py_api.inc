@@ -4504,7 +4504,7 @@ begin
           end;
         APP_PROC_SET_HOTKEY:
           begin
-            Result:= PyBool_FromLong(Ord(Keymap_SetHotkey(AppKeymapMain, Str)));
+            Result:= PyBool_FromLong(Ord(Keymap_SetHotkey(AppKeymapMain, Str, true)));
           end;
 
         APP_PROC_GET_KEYSTATE:
