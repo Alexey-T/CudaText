@@ -1114,7 +1114,6 @@ begin
       Ed.AdapterForHilite:= nil;
       Ed.Update;
     end;
-
     exit;
   end;
 
@@ -1695,8 +1694,9 @@ begin
   Ed2.Modified:= false;
 
   //passing lite lexer - crashes (can't solve), so disabled
-  if not SEndsWith(UiOps.NewdocLexer, msgLiteLexerSuffix) then
-    LexerName[Ed1]:= UiOps.NewdocLexer;
+  if UiOps.NewdocLexer<>'' then
+    if not SEndsWith(UiOps.NewdocLexer, msgLiteLexerSuffix) then
+      LexerName[Ed1]:= UiOps.NewdocLexer;
 end;
 
 destructor TEditorFrame.Destroy;
