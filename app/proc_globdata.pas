@@ -1672,26 +1672,29 @@ end;
 procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string;
   ALexerSpecific: boolean);
 var
+  SFilename: string;
   c: TJSONConfig;
   sl: TStringList;
   i: integer;
 begin
+  if ALexerSpecific then
+    SFilename:= AppFile_HotkeysForLexer(ALexerName)
+  else
+    SFilename:= AppFile_Hotkeys;
+
   c:= TJSONConfig.Create(nil);
   sl:= TStringlist.create;
   try
     try
       c.Formatted:= true;
-      if ALexerSpecific then
-        c.Filename:= AppFile_HotkeysForLexer(ALexerName)
-      else
-        c.Filename:= AppFile_Hotkeys;
+      c.Filename:= SFilename;
     except
       exit;
     end;
 
     c.SetValue(path+'/name', K.Name);
 
-    sl.clear;
+    sl.Clear;
     for i:= 0 to High(TATKeyArray.Data) do
       if K.Keys1.Data[i]<>0 then
         sl.Add(ShortCutToText(K.Keys1.Data[i]));
