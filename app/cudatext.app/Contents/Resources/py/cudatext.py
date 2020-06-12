@@ -75,10 +75,10 @@ MENU_NO_FUZZY = 16
 MENU_NO_FULLFILTER = 32
 MENU_CENTERED = 64
 
-COLLAPSE_NONE   = 0
-COLLAPSE_LEFT   = 1
-COLLAPSE_MIDDLE = 2
-COLLAPSE_RIGHT  = 3
+CLIP_NONE   = 0
+CLIP_LEFT   = 1
+CLIP_MIDDLE = 2
+CLIP_RIGHT  = 3
 
 #menu_proc
 MENU_CLEAR         = 0
@@ -875,7 +875,7 @@ def dlg_input_ex(number, caption,
                  label7, text7, label8, text8, label9, text9,
                  label10, text10)
 
-def dlg_menu(id, items, focused=0, caption='', collapse=0):
+def dlg_menu(id, items, focused=0, caption='', clip=0):
     if isinstance(items, str):
         text = items
     elif isinstance(items, (tuple, list)):
