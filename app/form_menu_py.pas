@@ -236,11 +236,11 @@ const
   cIndent2 = 10;
 var
   buf, part_L, part_R: string;
-  strname, strkey, strname2, strfind: UnicodeString;
+  s_name, s_name2, s_right, s_filter: UnicodeString;
   cl: TColor;
   ar: TATIntArray;
   pnt: TPoint;
-  r1: TRect;
+  RectClip: TRect;
   bCurrentFuzzy: boolean;
   n, i: integer;
 begin
@@ -263,39 +263,39 @@ begin
 
   //right part
   n:= ARect.Width div 2;
-  strkey:= CanvasCollapseStringByDots(C, part_R, acsmLeft, n);
-  n:= C.TextWidth(strkey);
+  s_right:= CanvasCollapseStringByDots(C, part_R, acsmLeft, n);
+  n:= C.TextWidth(s_right);
 
   //left part
   //less space for name if part_R long
   n:= ARect.Width - n - 2*cIndent;
-  strname:= part_L;
-  strname2:= CanvasCollapseStringByDots(C, part_L, CollapseMode, n);
+  s_name:= part_L;
+  s_name2:= CanvasCollapseStringByDots(C, part_L, CollapseMode, n);
 
   //text of filter
-  strfind:= Trim(edit.Text);
+  s_filter:= Trim(edit.Text);
 
   bCurrentFuzzy:= UiOps.ListboxFuzzySearch and not DisableFuzzy;
-  if bCurrentFuzzy and (strname<>strname2) then
+  if bCurrentFuzzy and (s_name<>s_name2) then
     bCurrentFuzzy:= false;
 
   pnt:= Point(ARect.Left+cIndent, ARect.Top+1);
-  c.TextOut(pnt.x, pnt.y, Utf8Encode(strname2));
+  c.TextOut(pnt.x, pnt.y, Utf8Encode(s_name2));
 
   c.Font.Color:= FColorFontHilite;
 
   if bCurrentFuzzy then
   begin
-    ar:= SFindFuzzyPositions(strname, strfind);
+    ar:= SFindFuzzyPositions(s_name, s_filter);
     for i:= Low(ar) to High(ar) do
     begin
-      buf:= Utf8Encode(UnicodeString(strname[ar[i]]));
-      n:= c.TextWidth(Utf8Encode(Copy(strname, 1, ar[i]-1)));
-      r1:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
+      buf:= Utf8Encode(UnicodeString(s_name[ar[i]]));
+      n:= c.TextWidth(Utf8Encode(Copy(s_name, 1, ar[i]-1)));
+      RectClip:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
       ExtTextOut(c.Handle,
-        r1.Left, r1.Top,
+        RectClip.Left, RectClip.Top,
         ETO_CLIPPED+ETO_OPAQUE,
-        @r1,
+        @RectClip,
         PChar(buf),
         Length(buf),
         nil);
@@ -304,16 +304,16 @@ begin
   {//no support for n words
   else
   begin
-    n:= Pos(Lowercase(strfind), Lowercase(strname));
+    n:= Pos(Lowercase(s_filter), Lowercase(s_name));
     if n>0 then
     begin
-      buf:= Copy(strname, n, Length(strfind));
-      n:= c.TextWidth(Copy(strname, 1, n-1));
-      r1:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
+      buf:= Copy(s_name, n, Length(s_filter));
+      n:= c.TextWidth(Copy(s_name, 1, n-1));
+      RectClip:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
       ExtTextOut(c.Handle,
-        r1.Left, r1.Top,
+        RectClip.Left, RectClip.Top,
         ETO_CLIPPED+ETO_OPAQUE,
-        @r1,
+        @RectClip,
         PChar(buf),
         Length(buf),
         nil);
@@ -321,10 +321,10 @@ begin
   end;
   }
 
-  if strkey<>'' then
+  if s_right<>'' then
   begin
     if not Multiline then
-      pnt:= Point(ARect.Left+List.ClientWidth-cIndent-c.TextWidth(Utf8Encode(strkey)), pnt.y)
+      pnt:= Point(ARect.Left+List.ClientWidth-cIndent-c.TextWidth(Utf8Encode(s_right)), pnt.y)
     else
       pnt:= Point(ARect.Left+cIndent2, pnt.y+list.ItemHeight div 2);
 
@@ -332,7 +332,7 @@ begin
       c.FillRect(pnt.x-2, pnt.y, list.ClientWidth, pnt.y+list.ItemHeight-1);
 
     c.Font.Color:= FColorFontAlt;
-    c.TextOut(pnt.x, pnt.y, Utf8Encode(strkey));
+    c.TextOut(pnt.x, pnt.y, Utf8Encode(s_right));
   end;
 end;
 
