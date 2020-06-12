@@ -890,7 +890,9 @@ type
     procedure DoEditorsLock(ALock: boolean);
     procedure DoFindCurrentWordOrSel(Ed: TATSynEdit; ANext, AWordOrSel: boolean);
     procedure DoDialogCommands;
-    function DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers,
+    function DoDialogCommands_Custom(
+      Ed: TATSynEdit; const ALexerName: string;
+      AShowUsual, AShowPlugins, AShowLexers,
       AShowFiles, AShowRecents, AAllowConfig, AAllowConfigForLexer, AShowCentered: boolean;
       ACaption: string; AFocusedCommand: integer): integer;
     function DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers, AShowFiles,
@@ -3586,17 +3588,23 @@ end;
 
 procedure TfmMain.DoDialogCommands;
 var
+  F: TEditorFrame;
   Ed: TATSynEdit;
   NCmd: integer;
 begin
-  Ed:= CurrentEditor;
+  F:= CurrentFrame;
+  Ed:= F.Editor;
   MsgStatus(msgStatusHelpOnShowCommands);
 
   UpdateKeymapDynamicItems(AppKeymapMain, categ_Lexer);
   UpdateKeymapDynamicItems(AppKeymapMain, categ_OpenedFile);
   UpdateKeymapDynamicItems(AppKeymapMain, categ_RecentFile);
 
-  NCmd:= DoDialogCommands_Custom(true, true, true, true, true, true, true, false, '', FLastSelectedCommand);
+  NCmd:= DoDialogCommands_Custom(
+    Ed, F.LexerName[Ed],
+    true, true, true, true, true, true, true, false,
+    '', FLastSelectedCommand);
+
   if NCmd>0 then
   begin
     FLastSelectedCommand:= NCmd;
@@ -3609,10 +3617,16 @@ end;
 function TfmMain.DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers, AShowFiles, AShowRecents,
   AAllowConfig, AAllowConfigForLexer, AShowCentered: boolean; ACaption: string): string;
 var
+  F: TEditorFrame;
   NCmd, NIndex: integer;
 begin
   Result:= '';
+
+  F:= CurrentFrame;
+
   NCmd:= DoDialogCommands_Custom(
+    F.Editor,
+    F.LexerName[F.Ed1],
     AShowUsual,
     AShowPlugins,
     AShowLexers,
@@ -3672,19 +3686,14 @@ end;
 
 
 function TfmMain.DoDialogCommands_Custom(
+  Ed: TATSynEdit; const ALexerName: string;
   AShowUsual, AShowPlugins, AShowLexers, AShowFiles, AShowRecents,
   AAllowConfig, AAllowConfigForLexer, AShowCentered: boolean;
   ACaption: string; AFocusedCommand: integer): integer;
 var
-  F: TEditorFrame;
-  Ed: TATSynEdit;
   bKeysChanged: boolean;
 begin
   Result:= 0;
-  F:= CurrentFrame;
-  if F=nil then exit;
-  Ed:= F.Editor;
-
   fmCommands:= TfmCommands.Create(Self);
   try
     UpdateInputForm(fmCommands);
@@ -3697,7 +3706,7 @@ begin
     fmCommands.OptAllowConfigForLexer:= AAllowConfigForLexer;
     fmCommands.OptFocusedCommand:= AFocusedCommand;
     fmCommands.OnMsg:= @DoCommandsMsgStatus;
-    fmCommands.CurrentLexerName:= F.LexerName[Ed];
+    fmCommands.CurrentLexerName:= ALexerName;
     fmCommands.Keymap:= Ed.Keymap;
     fmCommands.ListCaption:= ACaption;
     if AShowCentered then
