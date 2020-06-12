@@ -674,11 +674,6 @@ const
   INI_DELETE_KEY       = 2;
   INI_DELETE_SECTION   = 3;
 
-  COLLAPSE_NONE   = 0;
-  COLLAPSE_LEFT   = 1;
-  COLLAPSE_MIDDLE = 2;
-  COLLAPSE_RIGHT  = 3;
-
 implementation
 
 end.
