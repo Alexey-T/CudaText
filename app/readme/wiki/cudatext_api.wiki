@@ -1,4 +1,5 @@
 =Intro=
+=Intro=
 This is API for [[CudaText]] in Python.
 
 * Module: cudatext. Constants, functions, class Editor, objects of class Editor.
@@ -1232,6 +1233,7 @@ Param "options" should be 0 or sum of int flags:
 * COMMANDS_FILES: Show opened files pseudo-commands. Function gets "f:"+file_name for them.
 * COMMANDS_RECENTS: Show recent files pseudo-commands. Function gets "r:"+file_name for them.
 * COMMANDS_CONFIG: Allow to call Configure Hotkeys dialog by F9 key.
+* COMMANDS_CONFIG_LEXER: Enable checkbox "For current lexer" when dialog to configure hotkey is called.
 * COMMANDS_CENTERED: Set dialog position to the center of desktop. Otherwise, position depends on CudaText option.
 
 Gets string if command selected, or None if cancelled.
@@ -3923,5 +3925,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.334 (app 1.104.1)
 * add: dlg_menu: added params: "clip", "w", "h"
+* add: dlg_commands: added COMMANDS_CONFIG_LEXER
 
 [[Category:CudaText]]
