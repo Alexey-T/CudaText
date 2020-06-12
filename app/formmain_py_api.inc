@@ -2427,9 +2427,10 @@ var
   PtrItems, PtrCaption: PChar;
   StrItems, StrCaption: string;
   NId, NIndex: integer;
+  NCollapse: integer;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'isis:dlg_menu', @NId, @PtrItems, @NIndex, @PtrCaption)) then
+    if Bool(PyArg_ParseTuple(Args, 'isisi:dlg_menu', @NId, @PtrItems, @NIndex, @PtrCaption, @NCollapse)) then
     begin
       StrItems:= string(PtrItems);
       StrCaption:= string(PtrCaption);
@@ -2445,7 +2446,8 @@ begin
                     NIndex,
                     (NId and MENU_NO_FUZZY)<>0,
                     (NId and MENU_NO_FULLFILTER)<>0,
-                    (NId and MENU_CENTERED)<>0
+                    (NId and MENU_CENTERED)<>0,
+                    TATCollapseStringMode(NCollapse)
                     );
             Application.ProcessMessages; //force hide dialog
             if NIndex>=0 then

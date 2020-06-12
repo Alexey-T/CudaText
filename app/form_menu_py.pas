@@ -18,6 +18,7 @@ uses
   ATSynEdit_Edits,
   ATStringProc,
   ATListbox,
+  ATCanvasPrimitives,
   LclProc,
   LclType,
   LclIntf,
@@ -62,6 +63,7 @@ type
     InitItemIndex: integer;
     DisableFuzzy: boolean;
     DisableFullFilter: boolean;
+    CollapseMode: TATCollapseStringMode;
     property Multiline: boolean read FMultiline write FMultiline;
     property ListCaption: string write SetListCaption;
   end;
@@ -236,10 +238,11 @@ var
   cl: TColor;
   n, i: integer;
   buf, temp1, temp2: string;
-  strname, strkey, strfind: UnicodeString;
+  strname, strkey, strname2, strfind: UnicodeString;
   ar: TATIntArray;
   pnt: TPoint;
   r1: TRect;
+  bCurrentFuzzy: boolean;
 begin
   if AIndex<0 then exit;
   if AIndex=list.ItemIndex then
@@ -261,12 +264,18 @@ begin
   strkey:= Utf8Decode(temp2); //uni
   strfind:= Trim(edit.Text); //uni
 
+  strname2:= CanvasCollapseStringByDots(C, temp1, CollapseMode, ARect.Width, '…');
+
+  bCurrentFuzzy:= UiOps.ListboxFuzzySearch and not DisableFuzzy;
+  if bCurrentFuzzy and (strname<>strname2) then
+    bCurrentFuzzy:= false;
+
   pnt:= Point(ARect.Left+cIndent, ARect.Top+1);
-  c.TextOut(pnt.x, pnt.y, Utf8Encode(strname));
+  c.TextOut(pnt.x, pnt.y, Utf8Encode(strname2));
 
   c.Font.Color:= FColorFontHilite;
 
-  if UiOps.ListboxFuzzySearch and not DisableFuzzy then
+  if bCurrentFuzzy then
   begin
     ar:= SFindFuzzyPositions(strname, strfind);
     for i:= Low(ar) to High(ar) do

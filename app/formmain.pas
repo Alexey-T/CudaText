@@ -44,6 +44,7 @@ uses
   ATListbox,
   ATScrollBar,
   ATPanelSimple,
+  ATCanvasPrimitives,
   ATSynEdit,
   ATSynEdit_Keymap,
   ATSynEdit_Keymap_Init,
@@ -755,7 +756,8 @@ type
     function DoOnMacro(Frame: TEditorFrame; const Str: string): boolean;
     function DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean): boolean;
     function DoDialogMenuApi(const AText, ACaption: string; AMultiline: boolean;
-      AInitIndex: integer; ANoFuzzy, ANoFullFilter, AShowCentered: boolean): integer;
+      AInitIndex: integer; ANoFuzzy, ANoFullFilter, AShowCentered: boolean;
+      ACollapse: TATCollapseStringMode): integer;
     procedure DoDialogMenuTranslations;
     procedure DoDialogMenuThemes;
     procedure DoFileExportHtml(F: TEditorFrame);
@@ -5318,7 +5320,8 @@ end;
 
 function TfmMain.DoDialogMenuApi(const AText, ACaption: string;
   AMultiline: boolean; AInitIndex: integer; ANoFuzzy, ANoFullFilter,
-  AShowCentered: boolean): integer;
+  AShowCentered: boolean;
+  ACollapse: TATCollapseStringMode): integer;
 var
   Form: TfmMenuApi;
   Sep: TATStringSeparator;
@@ -5341,6 +5344,7 @@ begin
     Form.InitItemIndex:= AInitIndex;
     Form.DisableFuzzy:= ANoFuzzy;
     Form.DisableFullFilter:= ANoFullFilter;
+    Form.CollapseMode:= ACollapse;
 
     Form.ShowModal;
     Result:= Form.ResultCode;
@@ -6749,7 +6753,8 @@ begin
       NIndex,
       not UiOps.ListboxFuzzySearch,
       false,
-      false);
+      false,
+      acsmNone);
     if NIndex<0 then exit;
 
     Obj:= List.Objects[NIndex];
