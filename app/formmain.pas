@@ -2564,6 +2564,10 @@ begin
     if AppPanels[cPaneOut].LastActivePanel='' then
       DoShowConsole(false);
 
+  //load keys.json after loading plugins (to apply plugins keys)
+  Keymap_SetHotkey(AppKeymapMain, 'cuda_comments,cmt_toggle_line_body|Ctrl+/|', false);
+  Keymap_LoadConfig(AppKeymapMain, AppFile_Hotkeys);
+
   //postpone parsing until frames are shown
   AllowFrameParsing:= true;
   for i:= 0 to FrameCount-1 do
@@ -2579,10 +2583,6 @@ begin
   Frame:= CurrentFrame;
   if Assigned(Frame) then
     Frame.SetFocus;
-
-  //load keys.json after loading plugins (to apply plugins keys)
-  Keymap_SetHotkey(AppKeymapMain, 'cuda_comments,cmt_toggle_line_body|Ctrl+/|', false);
-  Keymap_LoadConfig(AppKeymapMain, AppFile_Hotkeys);
 
   NTickShowEnd:= GetTickCount64;
   MsgLogConsole(Format(
