@@ -119,6 +119,7 @@ type
     FOnAddRecent: TNotifyEvent;
     FOnPyEvent: TEditorFramePyEvent;
     FOnInitAdapter: TNotifyEvent;
+    FOnLexerChange: TNotifyEvent;
     FSplitPos: double;
     FSplitHorz: boolean;
     FActiveSecondaryEd: boolean;
@@ -393,6 +394,7 @@ type
     property OnAddRecent: TNotifyEvent read FOnAddRecent write FOnAddRecent;
     property OnPyEvent: TEditorFramePyEvent read FOnPyEvent write FOnPyEvent;
     property OnInitAdapter: TNotifyEvent read FOnInitAdapter write FOnInitAdapter;
+    property OnLexerChange: TNotifyEvent read FOnLexerChange write FOnLexerChange;
   end;
 
 procedure GetFrameLocation(Frame: TEditorFrame;
@@ -1112,6 +1114,7 @@ begin
       Ed.AdapterForHilite:= nil;
       Ed.Update;
     end;
+
     exit;
   end;
 
@@ -1925,7 +1928,7 @@ begin
   //support event on_lexer
   //we could do DoPyEvent(Ed1, cEventOnLexer, []);
   //but OnLexerChange() does also task to load lexer-specific config
-  Adapter[Ed].OnLexerChange(Adapter[Ed]);
+  OnLexerChange(Self);
 end;
 
 procedure TEditorFrame.DoFileOpen_AsBinary(const AFileName: string; AMode: TATBinHexMode);

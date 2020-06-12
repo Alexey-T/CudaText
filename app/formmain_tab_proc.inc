@@ -21,6 +21,7 @@ begin
   F.OnMsgStatus:= @FrameOnMsgStatus;
   F.OnProgress:= @FinderOnProgress;
   F.OnInitAdapter:= @FrameOnInitAdapter;
+  F.OnLexerChange:= @FrameLexerChange;
 
   F.Groups:= Groups;
   F.LexerChooseFunc:= @DoDialogMenuLexerChoose;

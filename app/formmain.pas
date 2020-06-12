@@ -6017,7 +6017,11 @@ var
   Params: TAppVariantArray;
   Keymap: TATKeymap;
 begin
-  Frame:= (Sender as TComponent).Owner as TEditorFrame;
+  if Sender is TEditorFrame then
+    Frame:= TEditorFrame(Sender)
+  else
+    Frame:= (Sender as TComponent).Owner as TEditorFrame;
+
   Ed:= Frame.Editor;
 
   //load lexer-specific config
