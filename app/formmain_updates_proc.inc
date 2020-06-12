@@ -601,7 +601,7 @@ begin
     (cmd<>cCommand_Undo) and
     (cmd<>cCommand_Redo) and
     (cmd<>cCommand_SelectAll) then
-    mi.ShortCut:= AppKeymap.GetShortcutFromCommand(cmd);
+    mi.ShortCut:= AppKeymapMain.GetShortcutFromCommand(cmd);
 
   //don't set Esc here: for OSX/ Qt, else Esc blocked in Find/ Goto/ closing app
   if mi.Shortcut=AppShortcutEscape then
@@ -857,7 +857,7 @@ begin
   Result:= StringReplace(Result, '&', '', [rfReplaceAll]);
 end;
 
-procedure TfmMain.UpdateKeymapDynamicItems(ACategory: TAppCommandCategory);
+procedure TfmMain.UpdateKeymapDynamicItems(AKeymap: TATKeymap; ACategory: TAppCommandCategory);
 var
   CmdItem: TAppCommandInfo;
   Frame: TEditorFrame;
@@ -865,12 +865,12 @@ var
   sl: TStringList;
   Cmd, i: integer;
 begin
-  for i:= AppKeymap.Count-1 downto 0 do
+  for i:= AKeymap.Count-1 downto 0 do
   begin
-    Cmd:= AppKeymap[i].Command;
+    Cmd:= AKeymap[i].Command;
     if Cmd<cmdFirstAppCommand then Break;
     if AppCommandCategory(Cmd)=ACategory then
-      AppKeymap.Delete(i);
+      AKeymap.Delete(i);
   end;
 
   case ACategory of
@@ -899,7 +899,7 @@ begin
           sl.InsertObject(0, msgNoLexer, TObject(cmdLastLexerCommand));
 
           for i:= 0 to sl.count-1 do
-            AppKeymap.Add(
+            AKeymap.Add(
               PtrInt(sl.Objects[i]),
               'lexer: '+sl[i],
               [], []);
@@ -915,7 +915,7 @@ begin
         if CmdItem.ItemFromApi then Continue;
         if CmdItem.ItemModule='' then Break;
         if SEndsWith(CmdItem.ItemCaption, '-') then Continue;
-        AppKeymap.Add(
+        AKeymap.Add(
           cmdFirstPluginCommand+i,
           'plugin: '+_NicePluginCaption(CmdItem.ItemCaption),
           [], []);
@@ -928,7 +928,7 @@ begin
         if not CmdItem.ItemFromApi then Continue;
         if CmdItem.ItemModule='' then Break;
         if SEndsWith(CmdItem.ItemCaption, '-') then Continue;
-        AppKeymap.Add(
+        AKeymap.Add(
           cmdFirstPluginCommand+i,
           'plugin: '+_NicePluginCaption(CmdItem.ItemCaption),
           [], []);
@@ -939,7 +939,7 @@ begin
       begin
         Frame:= TEditorFrame(AppFrameList1[i]);
         if Frame.FileName<>'' then
-          AppKeymap.Add(
+          AKeymap.Add(
             cmdFirstFileCommand+i,
             'opened file: '+FormatFilenameForMenu(Frame.FileName),
             [], []);
@@ -948,7 +948,7 @@ begin
     categ_RecentFile:
       for i:= 0 to FListRecents.Count-1 do
       begin
-        AppKeymap.Add(
+        AKeymap.Add(
           cmdFirstRecentCommand+i,
           'recent file: '+FormatFilenameForMenu(FListRecents[i]),
           [], []);

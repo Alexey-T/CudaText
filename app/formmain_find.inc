@@ -371,8 +371,8 @@ begin
     fmFind.OnChangeOptions:= @DoFindOptions_OnChange;
     fmFind.Color:= GetAppColor(apclTabBg);
 
-    UiOps.HotkeyFindDialog:= ShortcutToText(AppKeymap.GetShortcutFromCommand(cmd_DialogFind));
-    UiOps.HotkeyReplaceDialog:= ShortcutToText(AppKeymap.GetShortcutFromCommand(cmd_DialogReplace));
+    UiOps.HotkeyFindDialog:= ShortcutToText(AppKeymapMain.GetShortcutFromCommand(cmd_DialogFind));
+    UiOps.HotkeyReplaceDialog:= ShortcutToText(AppKeymapMain.GetShortcutFromCommand(cmd_DialogReplace));
 
     if not UiOps.FindSeparateForm then
     begin

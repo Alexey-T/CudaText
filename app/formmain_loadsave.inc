@@ -689,101 +689,6 @@ begin
   Groups.SaveSplitPos; //apply current sizes to internal Groups vars
 end;
 
-const
-  cDefaultKeymapFile: string =
-    '{ "cuda_comments,cmt_toggle_line_body": {"name": "plugin: Comments: Toggle line comment, at non-space char", "s1": ["Ctrl+/"], "s2": [] } }';
-
-procedure TfmMain.DoOps_LoadKeymap(AKeymap: TATKeymap; F: TEditorFrame; AUseCache: boolean);
-var
-  CurLexer: string;
-begin
-  if F=nil then exit;
-  //func called few times before OnShow because of OnTabFocus, disable these
-  if not FAllowLoadKeymap then exit;
-
-  if not FileExists(AppFile_Hotkeys) then
-    DoWriteStringToFile(AppFile_Hotkeys, cDefaultKeymapFile);
-
-  AppKeymap_ApplyUndoList(FKeymapUndoList);
-  DoOps_LoadKeymapFrom(AKeymap, AppFile_Hotkeys, nil);
-  FKeymapUndoList.Clear;
-
-  CurLexer:= F.LexerName[F.Editor];
-  if AUseCache then
-    //dont load lexer-specific cfg if tab changed, and same lexer active
-    if FLastLexerOfKeymap=CurLexer then exit;
-  FLastLexerOfKeymap:= CurLexer;
-
-  DoOps_LoadKeymapFrom(
-    AKeymap,
-    GetAppKeymap_LexerSpecificConfig(FLastLexerOfKeymap),
-    FKeymapUndoList);
-end;
-
-
-procedure TfmMain.DoOps_LoadKeymapFrom(AKeymap: TATKeymap; const AFilenameKeymap: string;
-  AUndoList: TATKeymapUndoList);
-var
-  cfg: TJSONConfig;
-  slist, skeys: TStringList;
-  //
-  procedure DoReadConfigToKeys(const path: string; var keys: TATKeyArray);
-  var
-    j: integer;
-  begin
-    FillChar(keys, SizeOf(keys), 0);
-    cfg.GetValue(path, skeys, '');
-    for j:= 0 to skeys.count-1 do
-      if skeys[j]<>'' then
-        keys.Data[j]:= TextToShortCut(skeys[j]);
-  end;
-  //
-var
-  UndoItem: TATKeymapUndoItem;
-  StrId: string;
-  ncmd, nitem, i: integer;
-begin
-  cfg:= TJSONConfig.Create(nil);
-  slist:= TStringList.Create;
-  skeys:= TStringList.Create;
-
-  try
-    try
-      cfg.Formatted:= true;
-      cfg.Filename:= AFilenameKeymap;
-    except
-      exit;
-    end;
-
-    cfg.EnumSubKeys('/', slist);
-    for i:= 0 to slist.count-1 do
-    begin
-      StrId:= slist[i];
-      ncmd:= DoOps_HotkeyStringId_To_CommandCode(StrId);
-      if ncmd<0 then Continue;
-
-      nitem:= AKeymap.IndexOf(ncmd);
-      if nitem<0 then Continue;
-
-      if Assigned(AUndoList) then
-      begin
-        UndoItem:= TATKeymapUndoItem.Create;
-        UndoItem.StrId:= StrId;
-        UndoItem.KeyArray1:= AKeymap[nitem].Keys1;
-        UndoItem.KeyArray2:= AKeymap[nitem].Keys2;
-        AUndoList.Add(UndoItem);
-      end;
-
-      DoReadConfigToKeys(StrId+'/s1', AKeymap[nitem].Keys1);
-      DoReadConfigToKeys(StrId+'/s2', AKeymap[nitem].Keys2);
-    end;
-  finally
-    skeys.Free;
-    slist.Free;
-    cfg.Free;
-  end;
-end;
-
 
 procedure TfmMain.DoOps_LoadOptionsFromString(const AString: string);
 var
@@ -1416,7 +1321,6 @@ var
 begin
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps);
   DoApplyAllOps;
-  DoOps_LoadKeymap(AppKeymap, CurrentFrame, false);
 
   MsgStatus(msgStatusReadingOps);
   SetLength(Params, 1);

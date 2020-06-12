@@ -44,8 +44,8 @@ begin
   end;
 
   AppEventsMaxPrioritiesUpdate;
-  UpdateKeymapDynamicItems(categ_Plugin);
-  UpdateKeymapDynamicItems(categ_PluginSub);
+  UpdateKeymapDynamicItems(AppKeymapMain, categ_Plugin);
+  UpdateKeymapDynamicItems(AppKeymapMain, categ_PluginSub);
 end;
 
 
@@ -362,6 +362,7 @@ begin
 end;
 
 procedure TfmMain.UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean = false);
+//todo: maybe? addd params Frame, Ed to not calc here?
   //
   procedure UpdMenu(AMenu: TMenuItem; AKeymap: TATKeymap);
   var

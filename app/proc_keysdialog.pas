@@ -13,17 +13,18 @@ interface
 
 uses
   Classes, SysUtils, Controls, Forms,
+  ATSynEdit_Keymap,
   proc_globdata,
   proc_cmd,
   formkeys;
 
-function DoDialogHotkeys(ACmd: integer; const ALexerName: string): boolean;
-function DoDialogHotkeys(const AModuleAndMethod: string; const ALexerName: string): boolean;
+function DoDialogHotkeys(AKeymap: TATKeymap; ACmd: integer; const ALexerName: string): boolean;
+function DoDialogHotkeys(AKeymap: TATKeymap; const AModuleAndMethod: string; const ALexerName: string): boolean;
 
 
 implementation
 
-function DoDialogHotkeys(ACmd: integer; const ALexerName: string): boolean;
+function DoDialogHotkeys(AKeymap: TATKeymap; ACmd: integer; const ALexerName: string): boolean;
 var
   Form: TfmKeys;
   StrId: string;
@@ -32,25 +33,26 @@ begin
   Result:= false;
   if not AppCommandHasConfigurableHotkey(ACmd) then exit;
 
-  n:= AppKeymap.IndexOf(ACmd);
+  n:= AKeymap.IndexOf(ACmd);
   if n<0 then exit;
 
   StrId:= DoOps_CommandCode_To_HotkeyStringId(ACmd);
 
   Form:= TfmKeys.Create(nil);
   try
-    Form.Caption:= Form.Caption+' - '+AppKeymap[n].Name;
+    Form.Caption:= Form.Caption+' - '+AKeymap[n].Name;
     Form.LexerName:= ALexerName;
     Form.CommandCode:= ACmd;
-    Form.Keys1:= AppKeymap[n].Keys1;
-    Form.Keys2:= AppKeymap[n].Keys2;
+    Form.Keymap:= AKeymap;
+    Form.Keys1:= AKeymap[n].Keys1;
+    Form.Keys2:= AKeymap[n].Keys2;
 
     Result:= Form.ShowModal=mrOk;
     if Result then
     begin
-      AppKeymap[n].Keys1:= Form.Keys1;
-      AppKeymap[n].Keys2:= Form.Keys2;
-      DoOps_SaveKeyItem(AppKeymap[n], StrId,
+      AKeymap[n].Keys1:= Form.Keys1;
+      AKeymap[n].Keys2:= Form.Keys2;
+      DoOps_SaveKeyItem(AKeymap[n], StrId,
         ALexerName, Form.chkForLexer.Checked);
     end;
   finally
@@ -59,7 +61,8 @@ begin
 end;
 
 
-function DoDialogHotkeys(const AModuleAndMethod: string;
+function DoDialogHotkeys(AKeymap: TATKeymap;
+  const AModuleAndMethod: string;
   const ALexerName: string): boolean;
 var
   N: integer;
@@ -68,7 +71,7 @@ begin
   N:= CommandPlugins_GetIndexFromModuleAndMethod(AModuleAndMethod);
   if N<0 then exit;
 
-  Result:= DoDialogHotkeys(N+cmdFirstPluginCommand, ALexerName);
+  Result:= DoDialogHotkeys(AKeymap, N+cmdFirstPluginCommand, ALexerName);
 end;
 
 

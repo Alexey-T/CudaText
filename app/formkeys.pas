@@ -52,6 +52,7 @@ type
     procedure Localize;
   public
     { public declarations }
+    Keymap: TATKeymap;
     LexerName: string;
     CommandCode: integer;
     Keys1, Keys2: TATKeyArray;
@@ -130,16 +131,16 @@ begin
     Item.Keys1:= Keys1;
     Item.Keys2:= Keys2;
 
-    N:= AppKeymapCheckDuplicateForCommand(Item, LexerName, false);
+    N:= AppKeymapCheckDuplicateForCommand(Keymap, Item, LexerName, false);
     if N=0 then
     begin
       ModalResult:= mrOk;
       exit;
     end;
 
-    N:= AppKeymap.IndexOf(N);
+    N:= Keymap.IndexOf(N);
     if N>=0 then
-      SDesc:= AppKeymap.Items[N].Name
+      SDesc:= Keymap.Items[N].Name
     else
       SDesc:= '??';
 
@@ -147,7 +148,7 @@ begin
          Format(msgConfirmHotkeyBusy, [SDesc]),
          MB_OKCANCEL or MB_ICONWARNING) = ID_OK then
     begin
-      AppKeymapCheckDuplicateForCommand(Item, LexerName, true);
+      AppKeymapCheckDuplicateForCommand(Keymap, Item, LexerName, true);
       ModalResult:= mrOk;
     end;
   finally
@@ -263,12 +264,12 @@ begin
     Item.Keys1:= Keys1;
     Item.Keys2:= Keys2;
 
-    N:= AppKeymapCheckDuplicateForCommand(Item, LexerName, false);
+    N:= AppKeymapCheckDuplicateForCommand(Keymap, Item, LexerName, false);
     if N>0 then
     begin
-      N:= AppKeymap.IndexOf(N);
+      N:= Keymap.IndexOf(N);
       if N>=0 then
-        SDesc:= AppKeymap.Items[N].Name
+        SDesc:= Keymap.Items[N].Name
       else
         SDesc:= '??';
 

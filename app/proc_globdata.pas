@@ -41,7 +41,6 @@ uses
   proc_cmd,
   proc_msg,
   proc_str,
-  proc_keymap_undolist,
   ec_LexerList,
   ec_SyntAnal;
 
@@ -607,21 +606,22 @@ function FixFontMonospaced(const AName: string): string;
 procedure FixFormPositionToDesktop(F: TForm);
 procedure FixRectPositionToDesktop(var F: TRect);
 
-function GetAppKeymap_LexerSpecificConfig(AName: string): string;
-function GetAppKeymapHotkey(const ACmdString: string): string;
-function SetAppKeymapHotkey(const AParams: string): boolean;
+function GetAppKeymapHotkey(AKeymap: TATKeymap; const ACmdString: string): string;
+function SetAppKeymapHotkey(AKeymap: TATKeymap; const AParams: string): boolean;
 
 function AppKeymapCheckDuplicateForCommand(
+  AKeymap: TATKeymap;
   AKeymapItem: TATKeymapItem;
   const ALexerName: string;
   AOverwriteAndSave: boolean): integer;
-function AppKeymapHasDuplicateForKey(AHotkey, AKeyComboSeparator: string): boolean;
-procedure AppKeymap_ApplyUndoList(AUndoList: TATKeymapUndoList);
+function AppKeymapHasDuplicateForKey(AKeymap: TATKeymap; AHotkey, AKeyComboSeparator: string): boolean;
+function AppKeymap_ForLexer(const ALexer: string): TATKeymap;
+procedure AppKeymap_LoadConfig(AKeymap: TATKeymap; const AFileName: string);
 
 function DoOps_HotkeyStringId_To_CommandCode(const AId: string): integer;
 function DoOps_CommandCode_To_HotkeyStringId(ACmd: integer): string;
 procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string; ALexerSpecific: boolean);
-procedure DoOps_SaveKey_ForPluginModuleAndMethod(AOverwriteKey: boolean;
+procedure DoOps_SaveKey_ForPluginModuleAndMethod(AKeymap: TATKeymap; AOverwriteKey: boolean;
   const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string);
 
 function DoLexerDetectByFilenameOrContent(const AFilename: string;
@@ -638,10 +638,12 @@ function SExpandHomeDirInFilename(const fn: string): string;
 var
   AppManager: TecLexerList = nil;
   AppManagerLite: TATLiteLexers = nil;
-  AppKeymap: TATKeymap = nil;
-  AppKeymapInitial: TATKeymap = nil;
   AppShortcutEscape: TShortcut = 0;
   AppShortcutShiftTab: TShortcut = 0;
+
+  AppKeymapMain: TATKeymap = nil;
+  AppKeymapInitial: TATKeymap = nil;
+  AppKeymapLexers: TStringList = nil;
 
 type
   TStrEvent = procedure(Sender: TObject; const ARes: string) of object;
@@ -885,6 +887,10 @@ procedure DoMenuitemEllipsis(c: TMenuItem);
 
 
 implementation
+
+const
+  cDefaultKeysConfig: string =
+    '{ "cuda_comments,cmt_toggle_line_body": {"name": "plugin: Comments: Toggle line comment, at non-space char", "s1": ["Ctrl+/"], "s2": [] } }';
 
 function MsgBox(const Str: string; Flags: Longint): integer;
 begin
@@ -1710,7 +1716,8 @@ begin
 end;
 
 
-procedure DoOps_SaveKey_ForPluginModuleAndMethod(AOverwriteKey: boolean;
+procedure DoOps_SaveKey_ForPluginModuleAndMethod(AKeymap: TATKeymap;
+  AOverwriteKey: boolean;
   const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string);
 const
   cKeyComboSeparator = '|';
@@ -1722,7 +1729,7 @@ var
 begin
   //check-1: is key registered for any other command?
   if not AOverwriteKey then
-    if AppKeymapHasDuplicateForKey(AHotkey, cKeyComboSeparator) then exit;
+    if AppKeymapHasDuplicateForKey(AKeymap, AHotkey, cKeyComboSeparator) then exit;
 
   c:= TJSONConfig.Create(nil);
   sl:= TStringlist.create;
@@ -1925,7 +1932,7 @@ begin
     ExtractFileName(fn)+Ext[IsRedo];
 end;
 
-function GetAppKeymapHotkey(const ACmdString: string): string;
+function GetAppKeymapHotkey(AKeymap: TATKeymap; const ACmdString: string): string;
 var
   NCode, NIndex: integer;
 begin
@@ -1939,14 +1946,14 @@ begin
     NCode:= NIndex+cmdFirstPluginCommand;
   end;
 
-  NIndex:= AppKeymap.IndexOf(NCode);
+  NIndex:= AKeymap.IndexOf(NCode);
   if NIndex<0 then exit;
-  with AppKeymap[NIndex] do
+  with AKeymap[NIndex] do
     Result:= Keys1.ToString+'|'+Keys2.ToString;
 end;
 
 
-function SetAppKeymapHotkey(const AParams: string): boolean;
+function SetAppKeymapHotkey(AKeymap: TATKeymap; const AParams: string): boolean;
 var
   Sep: TATStringSeparator;
   NCode, NIndex: integer;
@@ -1968,22 +1975,23 @@ begin
     NCode:= NIndex+cmdFirstPluginCommand;
   end;
 
-  NIndex:= AppKeymap.IndexOf(NCode);
+  NIndex:= AKeymap.IndexOf(NCode);
   if NIndex<0 then exit;
-  with AppKeymap[NIndex] do
+  with AKeymap[NIndex] do
   begin
     Keys1.SetFromString(SKey1);
     Keys2.SetFromString(SKey2);
 
     //save to keys.json
     //Py API: no need lexer-specific
-    DoOps_SaveKeyItem(AppKeymap[NIndex], SCmd, '', false);
+    DoOps_SaveKeyItem(AKeymap[NIndex], SCmd, '', false);
   end;
   Result:= true;
 end;
 
 
 function AppKeymapCheckDuplicateForCommand(
+  AKeymap: TATKeymap;
   AKeymapItem: TATKeymapItem;
   const ALexerName: string;
   AOverwriteAndSave: boolean): integer;
@@ -1995,9 +2003,9 @@ var
 begin
   Result:= 0;
 
-  for i:= 0 to AppKeymap.Count-1 do
+  for i:= 0 to AKeymap.Count-1 do
   begin
-    item:= AppKeymap.Items[i];
+    item:= AKeymap.Items[i];
     if item.Command=AKeymapItem.Command then Continue;
 
     if (AKeymapItem.Keys1=item.Keys1) or
@@ -2024,7 +2032,7 @@ begin
   end;
 end;
 
-function AppKeymapHasDuplicateForKey(AHotkey, AKeyComboSeparator: string): boolean;
+function AppKeymapHasDuplicateForKey(AKeymap: TATKeymap; AHotkey, AKeyComboSeparator: string): boolean;
 var
   item: TATKeymapItem;
   i: integer;
@@ -2035,34 +2043,90 @@ begin
   //KeyArrayToString has separator ' * '
   AHotkey:= StringReplace(AHotkey, AKeyComboSeparator, ' * ', [rfReplaceAll]);
 
-  for i:= 0 to AppKeymap.Count-1 do
+  for i:= 0 to AKeymap.Count-1 do
   begin
-    item:= AppKeymap.Items[i];
+    item:= AKeymap.Items[i];
     if (item.Keys1.ToString=AHotkey) or
        (item.Keys2.ToString=AHotkey) then exit(true);
   end;
 end;
 
 
-procedure AppKeymap_ApplyUndoList(AUndoList: TATKeymapUndoList);
+procedure AppKeymap_LoadConfig(AKeymap: TATKeymap; const AFileName: string);
 var
-  UndoItem: TATKeymapUndoItem;
-  i, ncmd, nitem: integer;
-begin
-  for i:= 0 to AUndoList.Count-1 do
+  cfg: TJSONConfig;
+  slist, skeys: TStringList;
+  //
+  procedure DoReadConfigToKeys(const path: string; var keys: TATKeyArray);
+  var
+    j: integer;
   begin
-    UndoItem:= AUndoList[i];
+    FillChar(keys, SizeOf(keys), 0);
+    cfg.GetValue(path, skeys, '');
+    for j:= 0 to skeys.count-1 do
+      if skeys[j]<>'' then
+        keys.Data[j]:= TextToShortCut(skeys[j]);
+  end;
+  //
+var
+  StrId: string;
+  ncmd, nitem, i: integer;
+begin
+  cfg:= TJSONConfig.Create(nil);
+  slist:= TStringList.Create;
+  skeys:= TStringList.Create;
 
-    ncmd:= DoOps_HotkeyStringId_To_CommandCode(UndoItem.StrId);
-    if ncmd<0 then Continue;
+  try
+    try
+      cfg.Formatted:= true;
+      cfg.Filename:= AFileName;
+    except
+      exit;
+    end;
 
-    nitem:= AppKeymap.IndexOf(ncmd);
-    if nitem<0 then Continue;
+    cfg.EnumSubKeys('/', slist);
+    for i:= 0 to slist.count-1 do
+    begin
+      StrId:= slist[i];
+      ncmd:= DoOps_HotkeyStringId_To_CommandCode(StrId);
+      if ncmd<0 then Continue;
 
-    AppKeymap.Items[nitem].Keys1:= UndoItem.KeyArray1;
-    AppKeymap.Items[nitem].Keys2:= UndoItem.KeyArray2;
+      nitem:= AKeymap.IndexOf(ncmd);
+      if nitem<0 then Continue;
+
+      DoReadConfigToKeys(StrId+'/s1', AKeymap[nitem].Keys1);
+      DoReadConfigToKeys(StrId+'/s2', AKeymap[nitem].Keys2);
+    end;
+  finally
+    skeys.Free;
+    slist.Free;
+    cfg.Free;
   end;
 end;
+
+
+function AppKeymap_ForLexer(const ALexer: string): TATKeymap;
+var
+  Keymap: TATKeymap;
+  N: integer;
+begin
+  N:= AppKeymapLexers.IndexOf(ALexer);
+  if N>=0 then
+  begin
+    Result:= TATKeymap(AppKeymapLexers.Objects[N]);
+    exit;
+  end;
+
+  Keymap:= TATKeymap.Create;
+  Keymap.Assign(AppKeymapMain);
+  AppKeymapLexers.AddObject(ALexer, Keymap);
+
+  AppKeymap_LoadConfig(Keymap,
+    GetAppKeymap_LexerSpecificConfig(ALexer));
+
+  Result:= Keymap;
+end;
+
 
 procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
 begin
@@ -2541,9 +2605,16 @@ initialization
   AppEventList:= TFPList.Create;
   AppTreeHelpers:= TFPList.Create;
 
-  AppKeymap:= TATKeymap.Create;
-  InitKeymapFull(AppKeymap);
-  InitKeymap_AddCudatextItems(AppKeymap);
+  AppKeymapMain:= TATKeymap.Create;
+  InitKeymapFull(AppKeymapMain);
+  InitKeymap_AddCudatextItems(AppKeymapMain);
+
+  if not FileExists(AppFile_Hotkeys) then
+    DoWriteStringToFile(AppFile_Hotkeys, cDefaultKeysConfig);
+
+  AppKeymapLexers:= TStringList.Create;
+  AppKeymapLexers.Sorted:= true;
+  AppKeymapLexers.OwnsObjects:= true;
 
   FillChar(AppEventsMaxPriorities, SizeOf(AppEventsMaxPriorities), 0);
   FillChar(AppBookmarkSetup, SizeOf(AppBookmarkSetup), 0);
@@ -2586,7 +2657,8 @@ finalization
   FreeAndNil(AppConfig_PGroups);
   FreeAndNil(AppConfig_DetectLine);
   FreeAndNil(AppConfig_Detect);
-  FreeAndNil(AppKeymap);
+  FreeAndNil(AppKeymapLexers);
+  FreeAndNil(AppKeymapMain);
   FreeAndNil(AppBookmarkImagelist);
 
   FreeAndNil(AppTreeHelpers);

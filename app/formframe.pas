@@ -1582,7 +1582,7 @@ begin
   ed.Font.Quality:= EditorOps.OpFontQuality;
 
   ed.BorderStyle:= bsNone;
-  ed.Keymap:= AppKeymap;
+  ed.Keymap:= AppKeymapMain; //todo: use lex-specific keymap
   ed.TabStop:= false;
   ed.OptUnprintedVisible:= EditorOps.OpUnprintedShow;
   ed.OptRulerVisible:= EditorOps.OpRulerShow;

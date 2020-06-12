@@ -2681,9 +2681,9 @@ begin
 
       Cmd:= StrToIntDef(StrCaption, 0);
       if Cmd>0 then
-        Ok:= DoDialogHotkeys(Cmd, StrLexer)
+        Ok:= DoDialogHotkeys(AppKeymapMain, Cmd, StrLexer)
       else
-        Ok:= DoDialogHotkeys(StrCaption, StrLexer);
+        Ok:= DoDialogHotkeys(AppKeymapMain, StrCaption, StrLexer);
       Result:= PyBool_FromLong(Ord(Ok));
     end
   else
@@ -2702,9 +2702,9 @@ begin
     begin
       StrTitle:= string(PtrTitle);
 
-      fmMain.UpdateKeymapDynamicItems(categ_Lexer);
-      fmMain.UpdateKeymapDynamicItems(categ_OpenedFile);
-      fmMain.UpdateKeymapDynamicItems(categ_RecentFile);
+      fmMain.UpdateKeymapDynamicItems(AppKeymapMain, categ_Lexer);
+      fmMain.UpdateKeymapDynamicItems(AppKeymapMain, categ_OpenedFile);
+      fmMain.UpdateKeymapDynamicItems(AppKeymapMain, categ_RecentFile);
 
       Str:= fmMain.DoDialogCommands_Py(
         (NOps and COMMANDS_USUAL)<>0,
@@ -4031,7 +4031,7 @@ begin
 
   with AppPython.Engine do
   begin
-    NLen:= AppKeymap.Count;
+    NLen:= AppKeymapMain.Count;
     if NLen>0 then
     begin
       Result:= PyList_New(NLen);
@@ -4040,7 +4040,7 @@ begin
 
       for i:= 0 to NLen-1 do
       begin
-        Item:= AppKeymap[i];
+        Item:= AppKeymapMain[i];
         case AppCommandCategory(Item.Command) of
           categ_Lexer:
             begin
@@ -4216,9 +4216,9 @@ begin
 
         APP_PROC_GET_COMMANDS:
           begin
-            fmMain.UpdateKeymapDynamicItems(categ_Lexer);
-            fmMain.UpdateKeymapDynamicItems(categ_OpenedFile);
-            fmMain.UpdateKeymapDynamicItems(categ_RecentFile);
+            fmMain.UpdateKeymapDynamicItems(AppKeymapMain, categ_Lexer);
+            fmMain.UpdateKeymapDynamicItems(AppKeymapMain, categ_OpenedFile);
+            fmMain.UpdateKeymapDynamicItems(AppKeymapMain, categ_RecentFile);
             Result:= Py_CommandList;
           end;
 
@@ -4261,7 +4261,7 @@ begin
         APP_PROC_SET_SUBCOMMANDS:
           begin
             CommandPlugins_UpdateSubcommands(Str);
-            fmMain.UpdateKeymapDynamicItems(categ_PluginSub);
+            fmMain.UpdateKeymapDynamicItems(AppKeymapMain, categ_PluginSub);
             Result:= ReturnNone;
           end;
 
@@ -4500,11 +4500,11 @@ begin
 
         APP_PROC_GET_HOTKEY:
           begin
-            Result:= PyString_FromString(PChar(GetAppKeymapHotkey(Str)));
+            Result:= PyString_FromString(PChar(GetAppKeymapHotkey(AppKeymapMain, Str)));
           end;
         APP_PROC_SET_HOTKEY:
           begin
-            Result:= PyBool_FromLong(Ord(SetAppKeymapHotkey(Str)));
+            Result:= PyBool_FromLong(Ord(SetAppKeymapHotkey(AppKeymapMain, Str)));
           end;
 
         APP_PROC_GET_KEYSTATE:

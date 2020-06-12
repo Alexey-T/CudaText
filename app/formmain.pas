@@ -94,7 +94,6 @@ uses
   proc_customdialog,
   proc_customdialog_dummy,
   proc_scrollbars,
-  proc_keymap_undolist,
   proc_windows_link,
   formconsole,
   formframe,
@@ -552,7 +551,6 @@ type
     FBoundsFloatGroups3: TRect;
     FListRecents: TStringList;
     FListTimers: TStringList;
-    FKeymapUndoList: TATKeymapUndoList;
     FConsoleMustShow: boolean;
     FSessionName: string;
     FSessionIsLoading: boolean;
@@ -621,7 +619,6 @@ type
     FOrigShowSidePanel: boolean;
     FOrigShowSideBar: boolean;
     FOrigShowTabs: boolean;
-    FAllowLoadKeymap: boolean;
     FHandledUntilFirstFocus: boolean;
     FHandledOnShowPartly: boolean;
     FHandledOnShowFully: boolean;
@@ -641,7 +638,6 @@ type
     FPyComplete_CaretPos: TPoint;
     FLastDirOfOpenDlg: string;
     FLastLexerForPluginsMenu: string;
-    FLastLexerOfKeymap: string;
     FLastStatusbarMessage: string;
     FLastSelectedCommand: integer;
     FLastMousePos: TPoint;
@@ -891,10 +887,6 @@ type
     procedure DoOps_LoadOptions(const fn: string; var Op: TEditorOps;
       AllowUiOps: boolean=true; AllowGlobalOps: boolean=true);
     procedure DoOps_LoadOptionsFromString(const AString: string);
-    procedure DoOps_LoadKeymap(AKeymap: TATKeymap; F: TEditorFrame;
-      AUseCache: boolean);
-    procedure DoOps_LoadKeymapFrom(AKeymap: TATKeymap;
-      const AFilenameKeymap: string; AUndoList: TATKeymapUndoList);
     procedure DoEditorsLock(ALock: boolean);
     procedure DoFindCurrentWordOrSel(Ed: TATSynEdit; ANext, AWordOrSel: boolean);
     procedure DoDialogCommands;
@@ -983,7 +975,7 @@ type
     procedure UpdateMenuRecents(sub: TMenuItem);
     procedure UpdateSidebarButtonOverlay;
     procedure UpdateEditorTabsize(AValue: integer);
-    procedure UpdateKeymapDynamicItems(ACategory: TAppCommandCategory);
+    procedure UpdateKeymapDynamicItems(AKeymap: TATKeymap; ACategory: TAppCommandCategory);
     procedure UpdateMenuItemAltObject(mi: TMenuItem; cmd: integer);
     procedure UpdateMenuItemChecked(mi: TMenuItem; saved: TATMenuItemsAlt; AValue: boolean);
     procedure UpdateMenuItemHint(mi: TMenuItem; const AHint: string);
@@ -2093,10 +2085,6 @@ begin
   FListRecents:= TStringList.Create;
   FListTimers:= TStringList.Create;
 
-  FKeymapUndoList:= TATKeymapUndoList.Create;
-  FLastLexerOfKeymap:= '??'; //not ''
-  FAllowLoadKeymap:= false;
-
   FillChar(AppPanelProp_Out, SizeOf(AppPanelProp_Out), 0);
   FillChar(AppPanelProp_Val, SizeOf(AppPanelProp_Val), 0);
   AppPanelProp_Out.Listbox:= ListboxOut;
@@ -2368,7 +2356,6 @@ begin
   FreeAndNil(FListTimers);
 
   FreeAndNil(FListRecents);
-  FreeAndNil(FKeymapUndoList);
 end;
 
 procedure TfmMain.FormDropFiles(Sender: TObject;
@@ -2554,9 +2541,6 @@ begin
 
   FHandledOnShowPartly:= true;
 
-  FAllowLoadKeymap:= true;
-  DoOps_LoadKeymap(AppKeymap, CurrentFrame, false); //called on OnTabFocus before, but blocked there by FAllowLoadKeymap
-
   SetLength(Params, 0);
   DoPyEvent(nil, cEventOnStart, Params);
 
@@ -2595,6 +2579,9 @@ begin
   Frame:= CurrentFrame;
   if Assigned(Frame) then
     Frame.SetFocus;
+
+  //load keys.json after loading plugins (to apply plugins keys)
+  AppKeymap_LoadConfig(AppKeymapMain, AppFile_Hotkeys);
 
   NTickShowEnd:= GetTickCount64;
   MsgLogConsole(Format(
@@ -2693,7 +2680,7 @@ begin
     if AddonType=cAddonTypePlugin then
     begin
       DoOps_LoadPlugins;
-      DoOps_LoadKeymap(AppKeymap, CurrentFrame, true);
+      //DoOps_LoadKeymap(AppKeymap, CurrentFrame); //todo: use lexer-keymap
       UpdateMenuPlugins;
       UpdateMenuPlugins_Shortcuts(true);
     end;
@@ -3604,9 +3591,9 @@ begin
   Ed:= CurrentEditor;
   MsgStatus(msgStatusHelpOnShowCommands);
 
-  UpdateKeymapDynamicItems(categ_Lexer);
-  UpdateKeymapDynamicItems(categ_OpenedFile);
-  UpdateKeymapDynamicItems(categ_RecentFile);
+  UpdateKeymapDynamicItems(AppKeymapMain, categ_Lexer);
+  UpdateKeymapDynamicItems(AppKeymapMain, categ_OpenedFile);
+  UpdateKeymapDynamicItems(AppKeymapMain, categ_RecentFile);
 
   NCmd:= DoDialogCommands_Custom(true, true, true, true, true, true, false, '', FLastSelectedCommand);
   if NCmd>0 then
@@ -6013,18 +6000,31 @@ end;
 
 procedure TfmMain.FrameLexerChange(Sender: TObject);
 var
+  Ed: TATSynEdit;
   Frame: TEditorFrame;
   Params: TAppVariantArray;
+  Keymap: TATKeymap;
 begin
   Frame:= (Sender as TComponent).Owner as TEditorFrame;
+  Ed:= Frame.Editor;
 
-  DoOps_LoadOptionsLexerSpecific(Frame, Frame.Editor); //options override
+  //load lexer-specific config
+  DoOps_LoadOptionsLexerSpecific(Frame, Ed);
 
   //API event on_lexer
   SetLength(Params, 0);
-  DoPyEvent(Frame.Editor, cEventOnLexer, Params);
+  DoPyEvent(Ed, cEventOnLexer, Params);
 
-  DoOps_LoadKeymap(AppKeymap, Frame, true); //keymap override
+  //apply lexer-specific keymap
+  Keymap:= AppKeymap_ForLexer(Frame.LexerName[Ed]);
+
+  if Frame.EditorsLinked then
+  begin
+    Frame.Ed1.Keymap:= Keymap;
+    Frame.Ed2.Keymap:= Keymap;
+  end
+  else
+    Ed.Keymap:= Keymap;
 
   UpdateMenuPlugins_Shortcuts;
 end;

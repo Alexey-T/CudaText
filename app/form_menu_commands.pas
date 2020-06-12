@@ -307,7 +307,7 @@ begin
   end;
 
   N:= list.ItemIndex;
-  if DoDialogHotkeys(Cmd, CurrentLexerName) then
+  if DoDialogHotkeys(Keymap, Cmd, CurrentLexerName) then
   begin
     DoFilter;
     list.ItemIndex:= N;
