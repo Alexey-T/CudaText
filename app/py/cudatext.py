@@ -877,12 +877,12 @@ def dlg_input_ex(number, caption,
 
 def dlg_menu(id, items, focused=0, caption='', clip=0, w=0, h=0):
     if isinstance(items, str):
-        text = items
+        s = items
     elif isinstance(items, (tuple, list)):
-        text = '\n'.join(items)
+        s = '\n'.join(items)
     else:
-        return
-    return ct.dlg_menu(id, text, focused, caption, clip, w, h)
+        raise ValueError('Incorrect type in dlg_menu')
+    return ct.dlg_menu(id, s, focused, caption, clip, w, h)
 
 def dlg_file(is_open, init_filename, init_dir, filters, caption=''):
     if not caption:
