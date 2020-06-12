@@ -154,6 +154,15 @@ type
     active0: boolean;
   end;
 
+  TATDlgMenuProps = record
+    InitialIndex: integer;
+    Multiline: boolean;
+    NoFuzzy: boolean;
+    NoFullFilter: boolean;
+    ShowCentered: boolean;
+    Collapse: TATCollapseStringMode;
+  end;
+
 const
   cMenuTabsizeMin = 1;
   cMenuTabsizeMax = 10;
@@ -755,9 +764,7 @@ type
     procedure DoOnConsoleNumberChange(Sender: TObject);
     function DoOnMacro(Frame: TEditorFrame; const Str: string): boolean;
     function DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean): boolean;
-    function DoDialogMenuApi(const AText, ACaption: string; AMultiline: boolean;
-      AInitIndex: integer; ANoFuzzy, ANoFullFilter, AShowCentered: boolean;
-      ACollapse: TATCollapseStringMode): integer;
+    function DoDialogMenuApi(const AText, ACaption: string; const AProps: TATDlgMenuProps): integer;
     procedure DoDialogMenuTranslations;
     procedure DoDialogMenuThemes;
     procedure DoFileExportHtml(F: TEditorFrame);
@@ -5319,9 +5326,7 @@ end;
 
 
 function TfmMain.DoDialogMenuApi(const AText, ACaption: string;
-  AMultiline: boolean; AInitIndex: integer; ANoFuzzy, ANoFullFilter,
-  AShowCentered: boolean;
-  ACollapse: TATCollapseStringMode): integer;
+  const AProps: TATDlgMenuProps): integer;
 var
   Form: TfmMenuApi;
   Sep: TATStringSeparator;
@@ -5336,15 +5341,15 @@ begin
     until false;
 
     UpdateInputForm(Form);
-    if AShowCentered then
+    if AProps.ShowCentered then
       Form.Position:= poScreenCenter;
 
     Form.ListCaption:= ACaption;
-    Form.Multiline:= AMultiline;
-    Form.InitItemIndex:= AInitIndex;
-    Form.DisableFuzzy:= ANoFuzzy;
-    Form.DisableFullFilter:= ANoFullFilter;
-    Form.CollapseMode:= ACollapse;
+    Form.Multiline:= AProps.Multiline;
+    Form.InitItemIndex:= AProps.InitialIndex;
+    Form.DisableFuzzy:= AProps.NoFuzzy;
+    Form.DisableFullFilter:= AProps.NoFullFilter;
+    Form.CollapseMode:= AProps.Collapse;
 
     Form.ShowModal;
     Result:= Form.ResultCode;
@@ -6714,6 +6719,7 @@ var
   Obj: TObject;
   Frame: TEditorFrame;
   SCaption: string;
+  DlgProps: TATDlgMenuProps;
 begin
   Frame:= CurrentFrame;
   if Frame=nil then exit;
@@ -6745,16 +6751,10 @@ begin
     List.Sort;
     List.Insert(0, msgNoLexer);
 
-    NIndex:= 0;
-    NIndex:= DoDialogMenuApi(
-      List.Text,
-      SCaption,
-      false,
-      NIndex,
-      not UiOps.ListboxFuzzySearch,
-      false,
-      false,
-      acsmNone);
+    FillChar(DlgProps, SizeOf(DlgProps), 0);
+    DlgProps.NoFuzzy:= not UiOps.ListboxFuzzySearch;
+
+    NIndex:= DoDialogMenuApi(List.Text, SCaption, DlgProps);
     if NIndex<0 then exit;
 
     Obj:= List.Objects[NIndex];
