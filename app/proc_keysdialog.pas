@@ -42,12 +42,13 @@ begin
 
   Form:= TfmKeys.Create(nil);
   try
-    Form.Caption:= Form.Caption+' - '+AKeymap[CmdIndex].Name;
+    Form.Caption:= Form.Caption+': '+AKeymap[CmdIndex].Name;
     Form.LexerName:= ALexerName;
     Form.CommandCode:= ACmd;
     Form.Keymap:= AKeymap;
     Form.Keys1:= AKeymap[CmdIndex].Keys1;
     Form.Keys2:= AKeymap[CmdIndex].Keys2;
+    Form.chkForLexer.Enabled:= ALexerName<>'?';
 
     Result:= Form.ShowModal=mrOk;
     if Result then
