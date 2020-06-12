@@ -260,11 +260,17 @@ begin
   c.FillRect(ARect);
 
   SSplitByChar(listItems[PtrInt(listFiltered[AIndex])], #9, temp1, temp2);
-  strname:= Utf8Decode(temp1); //uni
-  strkey:= Utf8Decode(temp2); //uni
-  strfind:= Trim(edit.Text); //uni
 
-  strname2:= CanvasCollapseStringByDots(C, temp1, CollapseMode, ARect.Width, '…');
+  //left part
+  strname:= Utf8Decode(temp1); //uni
+  strname2:= CanvasCollapseStringByDots(C, temp1, CollapseMode, ARect.Width);
+
+  //right part
+  temp2:= CanvasCollapseStringByDots(C, temp2, acsmLeft, ARect.Width div 2);
+  strkey:= Utf8Decode(temp2); //uni
+
+  //text of filter
+  strfind:= Trim(edit.Text); //uni
 
   bCurrentFuzzy:= UiOps.ListboxFuzzySearch and not DisableFuzzy;
   if bCurrentFuzzy and (strname<>strname2) then
