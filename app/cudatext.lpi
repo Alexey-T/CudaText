@@ -984,7 +984,7 @@
         <PackageName Value="LCL"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="59">
+    <Units Count="58">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1209,86 +1209,82 @@
         <IsPartOfProject Value="True"/>
       </Unit40>
       <Unit41>
-        <Filename Value="proc_keymap_undolist.pas"/>
+        <Filename Value="formmain_themes.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit41>
       <Unit42>
-        <Filename Value="formmain_themes.inc"/>
+        <Filename Value="formmain_sidepanel.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit42>
       <Unit43>
-        <Filename Value="formmain_sidepanel.inc"/>
+        <Filename Value="formmain_bottompanel.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit43>
       <Unit44>
-        <Filename Value="formmain_bottompanel.inc"/>
+        <Filename Value="proc_customdialog_dummy.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit44>
       <Unit45>
-        <Filename Value="proc_customdialog_dummy.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit45>
-      <Unit46>
         <Filename Value="form_addon_report.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmAddonReport"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit45>
+      <Unit46>
+        <Filename Value="formmain_commandline.inc"/>
+        <IsPartOfProject Value="True"/>
       </Unit46>
       <Unit47>
-        <Filename Value="formmain_commandline.inc"/>
+        <Filename Value="formmain_py_toolbars.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit47>
       <Unit48>
-        <Filename Value="formmain_py_toolbars.inc"/>
+        <Filename Value="formmain_py_api.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit48>
       <Unit49>
-        <Filename Value="formmain_py_api.inc"/>
+        <Filename Value="formmain_py_helpers.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit49>
       <Unit50>
-        <Filename Value="formmain_py_helpers.inc"/>
+        <Filename Value="formmain_py_pluginwork.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit50>
       <Unit51>
-        <Filename Value="formmain_py_pluginwork.inc"/>
-        <IsPartOfProject Value="True"/>
-      </Unit51>
-      <Unit52>
         <Filename Value="formconfirmbinary.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmConfirmBinary"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit51>
+      <Unit52>
+        <Filename Value="formmain_py_statusbars.inc"/>
+        <IsPartOfProject Value="True"/>
       </Unit52>
       <Unit53>
-        <Filename Value="formmain_py_statusbars.inc"/>
+        <Filename Value="proc_lexer_styles.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit53>
       <Unit54>
-        <Filename Value="proc_lexer_styles.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit54>
-      <Unit55>
         <Filename Value="form_choose_theme.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmChooseTheme"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit54>
+      <Unit55>
+        <Filename Value="proc_appvariant.pas"/>
+        <IsPartOfProject Value="True"/>
       </Unit55>
       <Unit56>
-        <Filename Value="proc_appvariant.pas"/>
+        <Filename Value="proc_panelhost.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit56>
       <Unit57>
-        <Filename Value="proc_panelhost.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit57>
-      <Unit58>
         <Filename Value="proc_windows_link.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit58>
+      </Unit57>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

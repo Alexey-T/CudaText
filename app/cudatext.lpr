@@ -14,7 +14,7 @@ uses
   formconfirmrep, formlexerprop, formlexerlib, proc_msg, proc_install_zip,
   formcolorsetup, formabout, formkeys, formcharmaps, proc_keysdialog,
   proc_customdialog, proc_miscutils, formlexerstyle, formlexerstylemap,
-  formkeyinput, proc_scrollbars, proc_keymap_undolist, proc_customdialog_dummy,
+  formkeyinput, proc_scrollbars, proc_customdialog_dummy,
   form_addon_report, fix_focus_window, formconfirmbinary, proc_lexer_styles,
   form_choose_theme, proc_appvariant, proc_windows_link;
 
