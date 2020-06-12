@@ -28,6 +28,7 @@ function DoDialogHotkeys(AKeymap: TATKeymap; ACmd: integer; const ALexerName: st
 var
   Form: TfmKeys;
   StrId: string;
+  bForLexer: boolean;
   n: integer;
 begin
   Result:= false;
@@ -52,8 +53,9 @@ begin
     begin
       AKeymap[n].Keys1:= Form.Keys1;
       AKeymap[n].Keys2:= Form.Keys2;
-      DoOps_SaveKeyItem(AKeymap[n], StrId,
-        ALexerName, Form.chkForLexer.Checked);
+      bForLexer:= Form.chkForLexer.Checked;
+
+      DoOps_SaveKeyItem(AKeymap[n], StrId, ALexerName, bForLexer);
     end;
   finally
     Form.Free
