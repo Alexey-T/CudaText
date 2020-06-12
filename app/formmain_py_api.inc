@@ -2427,11 +2427,12 @@ var
   PtrItems, PtrCaption: PChar;
   StrItems, StrCaption: string;
   NId, NIndex: integer;
-  NCollapse: integer;
+  NCollapse, NW, NH: integer;
   Props: TATDlgMenuProps;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'isisi:dlg_menu', @NId, @PtrItems, @NIndex, @PtrCaption, @NCollapse)) then
+    if Bool(PyArg_ParseTuple(Args, 'isisiii:dlg_menu', @NId, @PtrItems, @NIndex, @PtrCaption,
+                             @NCollapse, @NW, @NH)) then
     begin
       StrItems:= string(PtrItems);
       StrCaption:= string(PtrCaption);
@@ -2447,6 +2448,8 @@ begin
             Props.NoFullFilter:= (NId and MENU_NO_FULLFILTER)<>0;
             Props.ShowCentered:= (NId and MENU_CENTERED)<>0;
             Props.Collapse:= TATCollapseStringMode(NCollapse);
+            Props.W:= NW;
+            Props.H:= NH;
 
             NIndex:= fmMain.DoDialogMenuApi(StrItems, StrCaption, Props);
             Application.ProcessMessages; //force hide dialog

@@ -161,6 +161,7 @@ type
     NoFullFilter: boolean;
     ShowCentered: boolean;
     Collapse: TATCollapseStringMode;
+    W, H: integer;
   end;
 
 const
@@ -5350,6 +5351,11 @@ begin
     Form.DisableFuzzy:= AProps.NoFuzzy;
     Form.DisableFullFilter:= AProps.NoFullFilter;
     Form.CollapseMode:= AProps.Collapse;
+
+    if AProps.W>0 then
+      Form.Width:= AProps.W;
+    if AProps.H>0 then
+      Form.Height:= AProps.H;
 
     Form.ShowModal;
     Result:= Form.ResultCode;
