@@ -202,8 +202,9 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = '`begin'
       StyleName = '``` edge'
       StatesAdd = 1
+      StatesAbsent = 1
       TokenType = 16
-      Expression = '^[\x20\x09]*`{3,}\x20*\w+.*$'
+      Expression = '^[\x20\x09]*`{3,}\x20*.*$'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -211,6 +212,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = '`end'
       StyleName = '``` edge'
       StatesRemove = 1
+      StatesPresent = 1
       TokenType = 17
       Expression = '^[\x20\x09]*`{3,}\x20*$'
       ColumnFrom = 0

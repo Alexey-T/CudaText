@@ -882,7 +882,7 @@ def dlg_menu(id, items, focused=0, caption='', clip=0):
         text = '\n'.join(items)
     else:
         return
-    return ct.dlg_menu(id, text, focused, caption, collapse)
+    return ct.dlg_menu(id, text, focused, caption, clip)
 
 def dlg_file(is_open, init_filename, init_dir, filters, caption=''):
     if not caption:
