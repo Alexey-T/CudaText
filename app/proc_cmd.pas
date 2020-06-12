@@ -15,7 +15,8 @@ uses
   Classes, SysUtils,
   ATSynEdit_Keymap;
 
-procedure InitKeymapForApplication(M: TATKeymap);
+procedure InitKeymap_AddCudatextItems(M: TATKeymap);
+
 function IsCommandForMacros(Cmd: integer): boolean;
 function IsCommandNeedTimer(Cmd: integer): boolean;
 
@@ -341,7 +342,7 @@ implementation
 const
   cXControl = {$ifdef darwin} 'Meta' {$else} 'Ctrl' {$endif};
 
-procedure InitKeymapForApplication(M: TATKeymap);
+procedure InitKeymap_AddCudatextItems(M: TATKeymap);
 begin
   M.Add(cmd_RepaintEditor, 'repaint editor', [], []);
   M.Add(cmd_FileNew, 'file: new file', [cXControl+'+N'], []);

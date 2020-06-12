@@ -2543,7 +2543,7 @@ initialization
 
   AppKeymap:= TATKeymap.Create;
   InitKeymapFull(AppKeymap);
-  InitKeymapForApplication(AppKeymap);
+  InitKeymap_AddCudatextItems(AppKeymap);
 
   FillChar(AppEventsMaxPriorities, SizeOf(AppEventsMaxPriorities), 0);
   FillChar(AppBookmarkSetup, SizeOf(AppBookmarkSetup), 0);
