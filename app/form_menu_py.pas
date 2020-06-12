@@ -235,14 +235,14 @@ const
   cIndent = 4;
   cIndent2 = 10;
 var
-  cl: TColor;
-  n, i: integer;
-  buf, temp1, temp2: string;
+  buf, part_L, part_R: string;
   strname, strkey, strname2, strfind: UnicodeString;
+  cl: TColor;
   ar: TATIntArray;
   pnt: TPoint;
   r1: TRect;
   bCurrentFuzzy: boolean;
+  n, i: integer;
 begin
   if AIndex<0 then exit;
   if AIndex=list.ItemIndex then
@@ -259,18 +259,19 @@ begin
   c.Pen.Color:= cl;
   c.FillRect(ARect);
 
-  SSplitByChar(listItems[PtrInt(listFiltered[AIndex])], #9, temp1, temp2);
-
-  //left part
-  strname:= Utf8Decode(temp1); //uni
-  strname2:= CanvasCollapseStringByDots(C, temp1, CollapseMode, ARect.Width);
+  SSplitByChar(listItems[PtrInt(listFiltered[AIndex])], #9, part_L, part_R);
 
   //right part
-  temp2:= CanvasCollapseStringByDots(C, temp2, acsmLeft, ARect.Width div 2);
-  strkey:= Utf8Decode(temp2); //uni
+  strkey:= CanvasCollapseStringByDots(C, part_R, acsmLeft, ARect.Width div 2);
+  n:= C.TextWidth(strkey);
+
+  //left part
+  //less space for name if part_R long
+  strname:= part_L;
+  strname2:= CanvasCollapseStringByDots(C, part_L, CollapseMode, ARect.Width-n);
 
   //text of filter
-  strfind:= Trim(edit.Text); //uni
+  strfind:= Trim(edit.Text);
 
   bCurrentFuzzy:= UiOps.ListboxFuzzySearch and not DisableFuzzy;
   if bCurrentFuzzy and (strname<>strname2) then

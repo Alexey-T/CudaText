@@ -15,11 +15,11 @@ object fmMenuApi: TfmMenuApi
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   ShowInTaskBar = stNever
-  LCLVersion = '1.9.0.0'
+  LCLVersion = '2.1.0.0'
   object edit: TATEdit
     Left = 6
     Height = 26
-    Top = 30
+    Top = 32
     Width = 488
     Align = alTop
     BorderSpacing.Around = 6
@@ -64,10 +64,13 @@ object fmMenuApi: TfmMenuApi
     Colors.UnprintedHexFont = clMedGray
     Colors.MinimapBorder = clSilver
     Colors.MinimapSelBG = 15658734
+    Colors.MinimapTooltipBG = clMoneyGreen
+    Colors.MinimapTooltipBorder = clGray
     Colors.StateChanged = 61680
     Colors.StateAdded = 2146336
     Colors.StateSaved = clMedGray
     Colors.BlockStaple = clMedGray
+    Colors.BlockStapleForCaret = clNone
     Colors.BlockSepLine = clMedGray
     Colors.Links = clBlue
     Colors.LockedBG = 14737632
@@ -79,11 +82,16 @@ object fmMenuApi: TfmMenuApi
     Colors.ComboboxArrowBG = 15790320
     WantTabs = False
     WantReturns = False
+    OptNonWordChars = '-+*=/\()[]{}<>"''.,:;~?!@#$%^&|`'#8230
     OptTextOffsetLeft = 2
     OptTextOffsetTop = 5
     OptTextOffsetFromLine = 0
+    OptScrollStyleHorz = aessHide
+    OptScrollStyleVert = aessHide
+    OptScrollIndentCaretHorz = 0
     OptShowURLs = False
     OptShowURLsRegex = '\b(https?://|ftp://|magnet:\?|www\.)\w[^<>''"\s]+'
+    OptShowMouseSelFrame = False
     OptCaretManyAllowed = False
     OptCaretVirtual = False
     OptGutterVisible = False
@@ -101,13 +109,14 @@ object fmMenuApi: TfmMenuApi
   end
   object list: TATListbox
     Left = 6
-    Height = 180
-    Top = 62
+    Height = 178
+    Top = 64
     Width = 488
     Align = alClient
     BorderSpacing.Around = 6
     OwnerDrawn = True
     ParentColor = False
+    ParentFont = False
     OnClick = listClick
     OnDrawItem = listDrawItem
   end
