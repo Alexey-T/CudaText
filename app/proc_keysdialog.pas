@@ -29,33 +29,56 @@ var
   Form: TfmKeys;
   StrId: string;
   bForLexer: boolean;
-  n: integer;
+  CmdIndex, i: integer;
+  Map: TATKeymap;
 begin
   Result:= false;
   if not AppCommandHasConfigurableHotkey(ACmd) then exit;
 
-  n:= AKeymap.IndexOf(ACmd);
-  if n<0 then exit;
+  CmdIndex:= AKeymap.IndexOf(ACmd);
+  if CmdIndex<0 then exit;
 
   StrId:= DoOps_CommandCode_To_HotkeyStringId(ACmd);
 
   Form:= TfmKeys.Create(nil);
   try
-    Form.Caption:= Form.Caption+' - '+AKeymap[n].Name;
+    Form.Caption:= Form.Caption+' - '+AKeymap[CmdIndex].Name;
     Form.LexerName:= ALexerName;
     Form.CommandCode:= ACmd;
     Form.Keymap:= AKeymap;
-    Form.Keys1:= AKeymap[n].Keys1;
-    Form.Keys2:= AKeymap[n].Keys2;
+    Form.Keys1:= AKeymap[CmdIndex].Keys1;
+    Form.Keys2:= AKeymap[CmdIndex].Keys2;
 
     Result:= Form.ShowModal=mrOk;
     if Result then
     begin
-      AKeymap[n].Keys1:= Form.Keys1;
-      AKeymap[n].Keys2:= Form.Keys2;
       bForLexer:= Form.chkForLexer.Checked;
+      if bForLexer then
+      begin
+        //apply to caller's keymap
+        AKeymap[CmdIndex].Keys1:= Form.Keys1;
+        AKeymap[CmdIndex].Keys2:= Form.Keys2;
 
-      DoOps_SaveKeyItem(AKeymap[n], StrId, ALexerName, bForLexer);
+        //save to 'keys nn.json'
+        DoOps_SaveKeyItem(AKeymap[CmdIndex], StrId, ALexerName, true);
+      end
+      else
+      begin
+        //apply to main keymap
+        AppKeymapMain[CmdIndex].Keys1:= Form.Keys1;
+        AppKeymapMain[CmdIndex].Keys2:= Form.Keys2;
+
+        //apply to all lexer keymaps
+        for i:= 0 to AppKeymapLexers.Count-1 do
+        begin
+          Map:= TATKeymap(AppKeymapLexers.Objects[i]);
+          Map[CmdIndex].Keys1:= Form.Keys1;
+          Map[CmdIndex].Keys2:= Form.Keys2;
+        end;
+
+        //save to keys.json
+        DoOps_SaveKeyItem(AppKeymapMain[CmdIndex], StrId, '', false);
+      end;
     end;
   finally
     Form.Free
