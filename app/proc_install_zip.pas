@@ -338,7 +338,7 @@ begin
             Sep.Init(s_lexers);
             repeat
               if not Sep.GetItemStr(s_lexer_item) then Break;
-              DoOps_SaveKey_ForPluginModuleAndMethod(AppKeymap_ForLexer(s_lexer_item), false,
+              DoOps_SaveKey_ForPluginModuleAndMethod(Keymap_GetForLexer(s_lexer_item), false,
                 'plugin: '+s_caption_nice, s_module, s_method, s_lexer_item, s_hotkey);
             until false;
           end;

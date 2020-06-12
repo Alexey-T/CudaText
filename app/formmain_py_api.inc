@@ -4500,11 +4500,11 @@ begin
 
         APP_PROC_GET_HOTKEY:
           begin
-            Result:= PyString_FromString(PChar(GetAppKeymapHotkey(AppKeymapMain, Str)));
+            Result:= PyString_FromString(PChar(Keymap_GetHotkey(AppKeymapMain, Str)));
           end;
         APP_PROC_SET_HOTKEY:
           begin
-            Result:= PyBool_FromLong(Ord(SetAppKeymapHotkey(AppKeymapMain, Str)));
+            Result:= PyBool_FromLong(Ord(Keymap_SetHotkey(AppKeymapMain, Str)));
           end;
 
         APP_PROC_GET_KEYSTATE:

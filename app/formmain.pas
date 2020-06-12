@@ -2581,7 +2581,7 @@ begin
     Frame.SetFocus;
 
   //load keys.json after loading plugins (to apply plugins keys)
-  AppKeymap_LoadConfig(AppKeymapMain, AppFile_Hotkeys);
+  Keymap_LoadConfig(AppKeymapMain, AppFile_Hotkeys);
 
   NTickShowEnd:= GetTickCount64;
   MsgLogConsole(Format(
@@ -6016,7 +6016,7 @@ begin
   DoPyEvent(Ed, cEventOnLexer, Params);
 
   //apply lexer-specific keymap
-  Keymap:= AppKeymap_ForLexer(Frame.LexerName[Ed]);
+  Keymap:= Keymap_GetForLexer(Frame.LexerName[Ed]);
 
   if Frame.EditorsLinked then
   begin

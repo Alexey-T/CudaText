@@ -606,17 +606,18 @@ function FixFontMonospaced(const AName: string): string;
 procedure FixFormPositionToDesktop(F: TForm);
 procedure FixRectPositionToDesktop(var F: TRect);
 
-function GetAppKeymapHotkey(AKeymap: TATKeymap; const ACmdString: string): string;
-function SetAppKeymapHotkey(AKeymap: TATKeymap; const AParams: string): boolean;
+function Keymap_GetHotkey(AKeymap: TATKeymap; const ACmdString: string): string;
+function Keymap_SetHotkey(AKeymap: TATKeymap; const AParams: string): boolean;
 
-function AppKeymapCheckDuplicateForCommand(
+function Keymap_CheckDuplicateForCommand(
   AKeymap: TATKeymap;
   AKeymapItem: TATKeymapItem;
   const ALexerName: string;
   AOverwriteAndSave: boolean): integer;
-function AppKeymapHasDuplicateForKey(AKeymap: TATKeymap; AHotkey, AKeyComboSeparator: string): boolean;
-function AppKeymap_ForLexer(const ALexer: string): TATKeymap;
-procedure AppKeymap_LoadConfig(AKeymap: TATKeymap; const AFileName: string);
+function Keymap_HasDuplicateForKey(AKeymap: TATKeymap; AHotkey, AKeyComboSeparator: string): boolean;
+
+function Keymap_GetForLexer(const ALexer: string): TATKeymap;
+procedure Keymap_LoadConfig(AKeymap: TATKeymap; const AFileName: string);
 
 function DoOps_HotkeyStringId_To_CommandCode(const AId: string): integer;
 function DoOps_CommandCode_To_HotkeyStringId(ACmd: integer): string;
@@ -1729,7 +1730,7 @@ var
 begin
   //check-1: is key registered for any other command?
   if not AOverwriteKey then
-    if AppKeymapHasDuplicateForKey(AKeymap, AHotkey, cKeyComboSeparator) then exit;
+    if Keymap_HasDuplicateForKey(AKeymap, AHotkey, cKeyComboSeparator) then exit;
 
   c:= TJSONConfig.Create(nil);
   sl:= TStringlist.create;
@@ -1932,7 +1933,7 @@ begin
     ExtractFileName(fn)+Ext[IsRedo];
 end;
 
-function GetAppKeymapHotkey(AKeymap: TATKeymap; const ACmdString: string): string;
+function Keymap_GetHotkey(AKeymap: TATKeymap; const ACmdString: string): string;
 var
   NCode, NIndex: integer;
 begin
@@ -1953,7 +1954,7 @@ begin
 end;
 
 
-function SetAppKeymapHotkey(AKeymap: TATKeymap; const AParams: string): boolean;
+function Keymap_SetHotkey(AKeymap: TATKeymap; const AParams: string): boolean;
 var
   Sep: TATStringSeparator;
   NCode, NIndex: integer;
@@ -1990,7 +1991,7 @@ begin
 end;
 
 
-function AppKeymapCheckDuplicateForCommand(
+function Keymap_CheckDuplicateForCommand(
   AKeymap: TATKeymap;
   AKeymapItem: TATKeymapItem;
   const ALexerName: string;
@@ -2032,7 +2033,7 @@ begin
   end;
 end;
 
-function AppKeymapHasDuplicateForKey(AKeymap: TATKeymap; AHotkey, AKeyComboSeparator: string): boolean;
+function Keymap_HasDuplicateForKey(AKeymap: TATKeymap; AHotkey, AKeyComboSeparator: string): boolean;
 var
   item: TATKeymapItem;
   i: integer;
@@ -2052,7 +2053,7 @@ begin
 end;
 
 
-procedure AppKeymap_LoadConfig(AKeymap: TATKeymap; const AFileName: string);
+procedure Keymap_LoadConfig(AKeymap: TATKeymap; const AFileName: string);
 var
   cfg: TJSONConfig;
   slist, skeys: TStringList;
@@ -2105,7 +2106,7 @@ begin
 end;
 
 
-function AppKeymap_ForLexer(const ALexer: string): TATKeymap;
+function Keymap_GetForLexer(const ALexer: string): TATKeymap;
 var
   Keymap: TATKeymap;
   N: integer;
@@ -2121,7 +2122,7 @@ begin
   Keymap.Assign(AppKeymapMain);
   AppKeymapLexers.AddObject(ALexer, Keymap);
 
-  AppKeymap_LoadConfig(Keymap,
+  Keymap_LoadConfig(Keymap,
     GetAppKeymap_LexerSpecificConfig(ALexer));
 
   Result:= Keymap;

@@ -131,7 +131,7 @@ begin
     Item.Keys1:= Keys1;
     Item.Keys2:= Keys2;
 
-    N:= AppKeymapCheckDuplicateForCommand(Keymap, Item, LexerName, false);
+    N:= Keymap_CheckDuplicateForCommand(Keymap, Item, LexerName, false);
     if N=0 then
     begin
       ModalResult:= mrOk;
@@ -148,7 +148,7 @@ begin
          Format(msgConfirmHotkeyBusy, [SDesc]),
          MB_OKCANCEL or MB_ICONWARNING) = ID_OK then
     begin
-      AppKeymapCheckDuplicateForCommand(Keymap, Item, LexerName, true);
+      Keymap_CheckDuplicateForCommand(Keymap, Item, LexerName, true);
       ModalResult:= mrOk;
     end;
   finally
@@ -264,7 +264,7 @@ begin
     Item.Keys1:= Keys1;
     Item.Keys2:= Keys2;
 
-    N:= AppKeymapCheckDuplicateForCommand(Keymap, Item, LexerName, false);
+    N:= Keymap_CheckDuplicateForCommand(Keymap, Item, LexerName, false);
     if N>0 then
     begin
       N:= Keymap.IndexOf(N);
