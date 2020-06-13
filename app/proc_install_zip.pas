@@ -335,12 +335,11 @@ begin
           else
           begin
             //set in "keys lexer nnnn.json" for all items in s_lexers
+            //todo: check.....
             Sep.Init(s_lexers);
-            repeat
-              if not Sep.GetItemStr(s_lexer_item) then Break;
+            while Sep.GetItemStr(s_lexer_item) do
               Keymap_SaveKey_ForPlugin(Keymap_GetForLexer(s_lexer_item), false,
                 'plugin: '+s_caption_nice, s_module, s_method, s_lexer_item, s_hotkey);
-            until false;
           end;
         end;
       end;
