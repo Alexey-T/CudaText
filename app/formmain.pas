@@ -2178,7 +2178,7 @@ begin
   DoLoadCommandLineBaseOptions(FOption_WindowPos, FOption_AllowSession);
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps); //before LoadHistory
   DoOps_LoadLexerLib(true); //before LoadHistory
-  DoFileOpen('', ''); //before LoadHistory
+  DoFileOpen('', '', nil, '/nolexernewdoc'); //before LoadHistory
 
   DoOps_LoadToolbarIcons;
   DoOps_LoadSidebarIcons; //before LoadPlugins (for sidebar icons)
@@ -2597,10 +2597,7 @@ begin
 
   Frame:= CurrentFrame;
   if Assigned(Frame) then
-  begin
     Frame.SetFocus;
-    //FrameLexerChange(Frame.Ed1); //todo: needed?
-  end;
 
   NTickShowEnd:= GetTickCount64;
   MsgLogConsole(Format(
