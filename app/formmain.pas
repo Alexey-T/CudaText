@@ -6033,16 +6033,11 @@ var
   {$endif}
   SLexerName: string;
 begin
-  if Sender is TEditorFrame then
+  if Sender is TATSynEdit then
   begin
-    Frame:= TEditorFrame(Sender);
-    Ed:= Frame.Editor;
-  end
-  else
-  if Sender is TATAdapterEControl then
-  begin
-    Ed:= TATAdapterEControl(Sender).Editor;
+    Ed:= TATSynEdit(Sender);
     Frame:= GetEditorFrame(Ed);
+    if Frame=nil then exit;
   end
   else
     raise Exception.Create('Unknown Sender in FrameLexerChange');

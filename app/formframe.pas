@@ -1919,7 +1919,7 @@ begin
   end;
 
   //to apply lexer-specific config
-  OnLexerChange(Self);
+  OnLexerChange(Ed);
 end;
 
 procedure TEditorFrame.DoFileOpen_AsBinary(const AFileName: string; AMode: TATBinHexMode);
