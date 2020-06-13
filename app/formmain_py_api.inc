@@ -2683,7 +2683,7 @@ begin
       if NCommand>0 then
         Ok:= DoDialogHotkeys(AppKeymapMain, NCommand, StrLexer)
       else
-        Ok:= DoDialogHotkeys(AppKeymapMain, StrCommand, StrLexer);
+        Ok:= DoDialogHotkeys_Plugin(AppKeymapMain, StrCommand, StrLexer);
 
       Result:= PyBool_FromLong(Ord(Ok));
     end

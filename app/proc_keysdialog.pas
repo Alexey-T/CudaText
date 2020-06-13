@@ -19,7 +19,7 @@ uses
   formkeys;
 
 function DoDialogHotkeys(AKeymap: TATKeymap; ACmd: integer; const ALexerName: string): boolean;
-function DoDialogHotkeys(AKeymap: TATKeymap; const AModuleAndMethod: string; const ALexerName: string): boolean;
+function DoDialogHotkeys_Plugin(AKeymap: TATKeymap; const AModuleAndMethod: string; const ALexerName: string): boolean;
 
 
 implementation
@@ -99,7 +99,7 @@ begin
 end;
 
 
-function DoDialogHotkeys(AKeymap: TATKeymap;
+function DoDialogHotkeys_Plugin(AKeymap: TATKeymap;
   const AModuleAndMethod: string;
   const ALexerName: string): boolean;
 var
