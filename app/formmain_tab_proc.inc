@@ -37,7 +37,7 @@ begin
 end;
 
 function TfmMain.DoTabAdd(APages: TATPages; const ACaption: string;
-  AndActivate: boolean; AAllowNearCurrent: boolean; AAllowSetLexer: boolean): TATTabData;
+  AndActivate: boolean; AAllowNearCurrent: boolean; AAllowLexerForNewdoc: boolean): TATTabData;
 var
   F: TEditorFrame;
   NToIndex: integer;
@@ -77,7 +77,7 @@ begin
 
   //passing lite lexer - crashes (can't solve), so disabled
   //call this for empty NewdocLexer too to apply lexer-spec cfg for none-lexer
-  if AAllowSetLexer then
+  if AAllowLexerForNewdoc then
     if not SEndsWith(UiOps.NewdocLexer, msgLiteLexerSuffix) then
       F.LexerName[F.Ed1]:= UiOps.NewdocLexer;
 

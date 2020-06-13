@@ -1006,7 +1006,7 @@ type
     function DoTabAdd(APages: TATPages; const ACaption: string;
       AndActivate: boolean=true;
       AAllowNearCurrent: boolean=true;
-      AAllowSetLexer: boolean=true): TATTabData;
+      AAllowLexerForNewdoc: boolean=true): TATTabData;
     procedure FrameOnFocus(Sender: TObject);
     function GetFrame(AIndex: integer): TEditorFrame;
     procedure SetFrame(Frame: TEditorFrame);
@@ -3190,6 +3190,7 @@ var
   bSilent, bPreviewTab, bEnableHistory,
   bEnableEventPre, bEnableEventOpened, bEnableEventOpenedNone,
   bAllowZip, bAllowPics, bAllowLexerDetect, bDetectedPics,
+  bAllowLexerForNewdoc,
   bAndActivate, bAllowNear: boolean;
   OpenMode, NonTextMode: TAppOpenMode;
   CurGroups: TATGroups;
@@ -3212,6 +3213,7 @@ begin
   bEnableEventOpenedNone:= Pos('/nononeevent', AOptions)=0;
   bAndActivate:= Pos('/passive', AOptions)=0;
   bAllowLexerDetect:= Pos('/nolexerdetect', AOptions)=0;
+  bAllowLexerForNewdoc:= Pos('/nolexernewdoc', AOptions)=0;
   bAllowNear:= Pos('/nonear', AOptions)=0;
   bAllowZip:= Pos('/nozip', AOptions)=0;
   bAllowPics:= Pos('/nopictures', AOptions)=0;
@@ -3252,7 +3254,7 @@ begin
 
   if AFileName='' then
   begin
-    D:= DoTabAdd(APages, '', bAndActivate, bAllowNear);
+    D:= DoTabAdd(APages, '', bAndActivate, bAllowNear, bAllowLexerForNewdoc);
     if not Assigned(D) then
     begin
       D:= Groups.Pages1.Tabs.GetTabData(0);
@@ -3395,7 +3397,7 @@ begin
       if UiOps.TabsDisabled then
         D:= APages.Tabs.GetTabData(0)
       else
-        D:= DoTabAdd(APages, 'pre', true, false);
+        D:= DoTabAdd(APages, 'pre', true, false, false{dont set lexer for preview tab});
       if not Assigned(D) then exit;
       D.TabSpecial:= true;
       D.TabFontStyle:= StringToFontStyles(UiOps.TabPreviewFontStyle);
@@ -3459,7 +3461,7 @@ begin
     end;
   end;
 
-  D:= DoTabAdd(APages, ExtractFileName(AFileName), bAndActivate, bAllowNear);
+  D:= DoTabAdd(APages, ExtractFileName(AFileName), bAndActivate, bAllowNear, false{dont set lexer});
   if not Assigned(D) then
   begin
     D:= Groups.Pages1.Tabs.GetTabData(0);

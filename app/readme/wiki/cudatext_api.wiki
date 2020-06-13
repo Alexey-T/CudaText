@@ -1255,6 +1255,7 @@ For zip file (only first filename is checked for it), gets True only if zip file
 ** If it has "/preview", then file opens in a "temporary preview" tab, with italic caption. Param "group" is ignored then, used 1st group.
 ** If it has "/nohistory", file's saved history (caret, scroll pos, etc) won't be used.
 ** If it has "/nolexerdetect", lexer won't be auto-detected.
+** If it has "/nolexernewdoc", lexer won't be set for empty tab from option "newdoc_lexer".
 ** If it has "/noevent", then "on_open_pre" event won't fire.
 ** If it has "/noopenedevent", then "on_open" event won't fire.
 ** If it has "/nononeevent", then "on_open_none" event won't fire.
@@ -3926,5 +3927,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.334 (app 1.104.1)
 * add: dlg_menu: added params: "clip", "w", "h"
 * add: dlg_commands: added COMMANDS_CONFIG_LEXER
+
+1.0.335 (app 1.104.2)
+* add: file_open: option "/nolexernewdoc"
 
 [[Category:CudaText]]
