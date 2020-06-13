@@ -75,11 +75,10 @@ begin
     );
   APages.Tabs.MakeVisible(NToIndex);
 
-  //passing lite lexer - crashes (can't solve), so disabled
   //call this for empty NewdocLexer too to apply lexer-spec cfg for none-lexer
   if AAllowLexerForNewdoc then
-    if not SEndsWith(UiOps.NewdocLexer, msgLiteLexerSuffix) then
-      F.LexerName[F.Ed1]:= UiOps.NewdocLexer;
+   //if not SEndsWith(UiOps.NewdocLexer, msgLiteLexerSuffix) then //it was fix for old crash
+    F.LexerName[F.Ed1]:= UiOps.NewdocLexer;
 
   AppFrameList1.Add(F);
 
