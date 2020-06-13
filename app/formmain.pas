@@ -6034,10 +6034,18 @@ var
   SLexerName: string;
 begin
   if Sender is TEditorFrame then
-    Frame:= TEditorFrame(Sender)
+  begin
+    Frame:= TEditorFrame(Sender);
+    Ed:= Frame.Editor;
+  end
   else
-    Frame:= (Sender as TComponent).Owner as TEditorFrame;
-  Ed:= Frame.Editor;
+  if Sender is TATAdapterEControl then
+  begin
+    Ed:= TATAdapterEControl(Sender).Editor;
+    Frame:= GetEditorFrame(Ed);
+  end
+  else
+    raise Exception.Create('Unknown Sender in FrameLexerChange');
 
   {$ifdef debug_on_lexer}
   SFileName:= Frame.GetFileName(Ed);
