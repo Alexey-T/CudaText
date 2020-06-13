@@ -1106,7 +1106,6 @@ begin
       Ed1.AdapterForHilite:= nil;
       Ed2.AdapterForHilite:= nil;
       Adapter1.Lexer:= nil;
-      UpdateEds;
     end
     else
     begin
