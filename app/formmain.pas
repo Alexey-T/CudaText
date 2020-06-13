@@ -644,6 +644,8 @@ type
     FLastMaximized: boolean;
     FLastMaximizedMonitor: integer;
     FLastFocusedFrame: TComponent;
+    FInvalidateShortcuts: boolean;
+    FInvalidateShortcutsForce: boolean;
     FLexerProgressIndex: integer;
     FOption_WindowPos: string;
     FOption_AllowSession: boolean;
@@ -987,6 +989,7 @@ type
     procedure UpdateMenuHotkeys;
     procedure UpdateMenuPlugins;
     procedure UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean=false);
+    procedure UpdateMenuPlugins_Shortcuts_Work(AForceUpdate: boolean=false);
     procedure UpdateMenuChecks;
     procedure UpdateMenuEnc(AMenu: TMenuItem);
     procedure DoApplyUiOps;
@@ -1784,6 +1787,12 @@ begin
   begin
     FCodetreeNeedsSelJump:= false;
     UpdateTree(false);
+  end;
+
+  if FInvalidateShortcuts then
+  begin
+    FInvalidateShortcuts:= false;
+    UpdateMenuPlugins_Shortcuts_Work(FInvalidateShortcutsForce);
   end;
 end;
 

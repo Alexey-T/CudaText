@@ -362,7 +362,12 @@ begin
 end;
 
 procedure TfmMain.UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean = false);
-//todo: maybe? addd params Frame, Ed to not calc here?
+begin
+  FInvalidateShortcuts:= true;
+  FInvalidateShortcutsForce:= AForceUpdate;
+end;
+
+procedure TfmMain.UpdateMenuPlugins_Shortcuts_Work(AForceUpdate: boolean = false);
   //
   procedure UpdMenu(AMenu: TMenuItem; AKeymap: TATKeymap);
   var
