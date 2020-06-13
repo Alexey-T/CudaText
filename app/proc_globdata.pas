@@ -614,7 +614,6 @@ function Keymap_CheckDuplicateForCommand(
   AKeymapItem: TATKeymapItem;
   const ALexerName: string;
   AOverwriteAndSave: boolean): integer;
-function Keymap_HasDuplicateForKey(AKeymap: TATKeymap; AHotkey, AKeyComboSeparator: string): boolean;
 
 function Keymap_GetForLexer(const ALexer: string): TATKeymap;
 procedure Keymap_LoadConfig(AKeymap: TATKeymap; const AFileName: string; AForLexer: boolean);
@@ -1757,10 +1756,6 @@ var
   path, s_item: string;
   Sep: TATStringSeparator;
 begin
-  //check-1: is key registered for any other command?
-  if not AOverwriteKey then
-    if Keymap_HasDuplicateForKey(AKeymap, AHotkey, cKeyComboSeparator) then exit;
-
   if ALexerName<>'' then
     SFilename:= AppFile_HotkeysForLexer(ALexerName)
   else
@@ -1778,7 +1773,7 @@ begin
 
     path:= AModuleName+','+AMethodName;
 
-    //check-2: this command has already any key?
+    //check: this command has already any key?
     if not AOverwriteKey then
       if c.GetValue(path+'/s1', sl, '') then exit;
 
@@ -2064,26 +2059,6 @@ begin
       exit(item.Command);
   end;
 end;
-
-function Keymap_HasDuplicateForKey(AKeymap: TATKeymap; AHotkey, AKeyComboSeparator: string): boolean;
-var
-  item: TATKeymapItem;
-  i: integer;
-begin
-  Result:= false;
-  if AHotkey='' then exit;
-
-  //KeyArrayToString has separator ' * '
-  AHotkey:= StringReplace(AHotkey, AKeyComboSeparator, ' * ', [rfReplaceAll]);
-
-  for i:= 0 to AKeymap.Count-1 do
-  begin
-    item:= AKeymap.Items[i];
-    if (item.Keys1.ToString=AHotkey) or
-       (item.Keys2.ToString=AHotkey) then exit(true);
-  end;
-end;
-
 
 procedure Keymap_LoadConfig(AKeymap: TATKeymap; const AFileName: string; AForLexer: boolean);
 var
