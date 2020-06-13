@@ -91,7 +91,8 @@ begin
         KeymapItem_DeleteInConfig(AKeymap[CmdIndex], StrId, ALexerName, true);
 
         //save to keys.json
-        KeymapItem_SaveToConfig(AppKeymapMain[CmdIndex], StrId, '', false);
+        if AppKeymapMain.IsIndexValid(CmdIndex) then
+          KeymapItem_SaveToConfig(AppKeymapMain[CmdIndex], StrId, '', false);
       end;
     end;
   finally
