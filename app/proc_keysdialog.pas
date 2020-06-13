@@ -105,11 +105,11 @@ function DoDialogHotkeys(AKeymap: TATKeymap;
 var
   N: integer;
 begin
-  Result:= false;
   N:= CommandPlugins_GetIndexFromModuleAndMethod(AModuleAndMethod);
-  if N<0 then exit;
-
-  Result:= DoDialogHotkeys(AKeymap, N+cmdFirstPluginCommand, ALexerName);
+  if N>=0 then
+    Result:= DoDialogHotkeys(AKeymap, N+cmdFirstPluginCommand, ALexerName)
+  else
+    Result:= false;
 end;
 
 
