@@ -621,8 +621,9 @@ procedure Keymap_LoadConfig(AKeymap: TATKeymap; const AFileName: string; AForLex
 
 function DoOps_HotkeyStringId_To_CommandCode(const AId: string): integer;
 function DoOps_CommandCode_To_HotkeyStringId(ACmd: integer): string;
-procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string; ALexerSpecific: boolean);
-procedure DoOps_DeleteKeyItem(K: TATKeymapItem; const path, ALexerName: string; ALexerSpecific: boolean);
+
+procedure KeymapItem_SaveToConfig(K: TATKeymapItem; const path, ALexerName: string; ALexerSpecific: boolean);
+procedure KeymapItem_DeleteInConfig(K: TATKeymapItem; const path, ALexerName: string; ALexerSpecific: boolean);
 procedure Keymap_SaveKey_ForPlugin(AKeymap: TATKeymap; AOverwriteKey: boolean;
   const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string);
 
@@ -1670,7 +1671,7 @@ begin
     Result:= IntToStr(ACmd);
 end;
 
-procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string;
+procedure KeymapItem_SaveToConfig(K: TATKeymapItem; const path, ALexerName: string;
   ALexerSpecific: boolean);
 var
   SFilename: string;
@@ -1717,7 +1718,7 @@ begin
 end;
 
 
-procedure DoOps_DeleteKeyItem(K: TATKeymapItem; const path, ALexerName: string;
+procedure KeymapItem_DeleteInConfig(K: TATKeymapItem; const path, ALexerName: string;
   ALexerSpecific: boolean);
 var
   SFilename: string;
@@ -2016,7 +2017,7 @@ begin
     //save to keys.json
     //Py API: no need lexer-specific
     if AndSaveFile then
-      DoOps_SaveKeyItem(AKeymap[NIndex], SCmd, '', false);
+      KeymapItem_SaveToConfig(AKeymap[NIndex], SCmd, '', false);
   end;
   Result:= true;
 end;
@@ -2054,10 +2055,10 @@ begin
       StrId:= DoOps_CommandCode_To_HotkeyStringId(item.Command);
 
       //save to: user.json
-      DoOps_SaveKeyItem(item, StrId, '', false);
+      KeymapItem_SaveToConfig(item, StrId, '', false);
       //save to: lexer*.json
       if ALexerName<>'' then
-        DoOps_SaveKeyItem(item, StrId, ALexerName, true);
+        KeymapItem_SaveToConfig(item, StrId, ALexerName, true);
     end
     else
       exit(item.Command);
