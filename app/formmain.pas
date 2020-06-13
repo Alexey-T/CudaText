@@ -6025,23 +6025,37 @@ var
   Frame: TEditorFrame;
   Params: TAppVariantArray;
   Keymap: TATKeymap;
+  SFileName, SLexerName: string;
 begin
   if Sender is TEditorFrame then
     Frame:= TEditorFrame(Sender)
   else
     Frame:= (Sender as TComponent).Owner as TEditorFrame;
-
   Ed:= Frame.Editor;
+
+  SFileName:= Frame.GetFileName(Ed);
+  SLexerName:= Frame.LexerName[Ed];
+
+  ////debug
+  //MsgLogConsole('OnLexerChange: file "'+ExtractFileName(SFileName)+'" -> "'+SLexerName+'"');
 
   //load lexer-specific config
   DoOps_LoadOptionsLexerSpecific(Frame, Ed);
 
   //API event on_lexer
-  SetLength(Params, 0);
-  DoPyEvent(Ed, cEventOnLexer, Params);
+  //better avoid it for empty filename and empty lexername
+  if not FSessionIsLoading then
+    if (SFileName<>'') or (SLexerName<>'') then
+    begin
+      ////debug
+      //MsgLogConsole('on_lexer: file "'+ExtractFileName(SFileName)+'" -> "'+SLexerName+'"');
+
+      SetLength(Params, 0);
+      DoPyEvent(Ed, cEventOnLexer, Params);
+    end;
 
   //apply lexer-specific keymap
-  Keymap:= Keymap_GetForLexer(Frame.LexerName[Ed]);
+  Keymap:= Keymap_GetForLexer(SLexerName);
 
   if Frame.EditorsLinked then
   begin
