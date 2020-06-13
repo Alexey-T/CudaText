@@ -36,6 +36,7 @@ uses
   ec_syntax_format,
   math;
 
+function EditorIsEmpty(Ed: TATSynEdit): boolean;
 procedure EditorSaveTempOptions(Ed: TATSynEdit; out Ops: TATEditorTempOptions);
 procedure EditorRestoreTempOptions(Ed: TATSynEdit; const ANew, AOld: TATEditorTempOptions);
 procedure EditorFocus(C: TWinControl);
@@ -1700,6 +1701,16 @@ begin
   finally
     FreeAndNil(Finder);
   end;
+end;
+
+function EditorIsEmpty(Ed: TATSynEdit): boolean;
+var
+  Str: TATStrings;
+begin
+  //dont check Modified here
+  Str:= Ed.Strings;
+  Result:=
+    (Str.Count=0) or ((Str.Count=1) and (Str.Lines[0]=''));
 end;
 
 end.

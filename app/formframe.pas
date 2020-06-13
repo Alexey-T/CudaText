@@ -1782,14 +1782,13 @@ begin
 end;
 
 function TEditorFrame.IsEmpty: boolean;
-var
-  Str: TATStrings;
 begin
-  //dont check Modified here better
-  Str:= Ed1.Strings;
-  Result:=
-    (FileName='') and
-    ((Str.Count=0) or ((Str.Count=1) and (Str.Lines[0]='')));
+  //dont check Modified here
+  if EditorsLinked then
+    Result:= (FFileName='') and EditorIsEmpty(Ed1)
+  else
+    Result:= (FFileName='') and (FFileName2='') and
+      EditorIsEmpty(Ed1) and EditorIsEmpty(Ed2);
 end;
 
 procedure TEditorFrame.ApplyTheme;
