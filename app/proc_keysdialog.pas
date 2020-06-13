@@ -56,7 +56,7 @@ begin
       bForLexer:= Form.chkForLexer.Checked;
       if bForLexer then
       begin
-        //apply to caller's keymap
+        //apply to caller keymap
         AKeymap[CmdIndex].Keys1:= Form.Keys1;
         AKeymap[CmdIndex].Keys2:= Form.Keys2;
         AKeymap[CmdIndex].LexerSpecific:= true;
@@ -66,6 +66,11 @@ begin
       end
       else
       begin
+        //apply to caller keymap
+        AKeymap[CmdIndex].Keys1:= Form.Keys1;
+        AKeymap[CmdIndex].Keys2:= Form.Keys2;
+        AKeymap[CmdIndex].LexerSpecific:= false;
+
         //apply to main keymap
         AppKeymapMain[CmdIndex].Keys1:= Form.Keys1;
         AppKeymapMain[CmdIndex].Keys2:= Form.Keys2;
@@ -80,6 +85,9 @@ begin
             Map[CmdIndex].Keys2:= Form.Keys2;
           end;
         end;
+
+        //delete in 'keys nn.json'
+        DoOps_DeleteKeyItem(AKeymap[CmdIndex], StrId, ALexerName, true);
 
         //save to keys.json
         DoOps_SaveKeyItem(AppKeymapMain[CmdIndex], StrId, '', false);

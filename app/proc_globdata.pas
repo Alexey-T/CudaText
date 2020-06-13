@@ -622,6 +622,7 @@ procedure Keymap_LoadConfig(AKeymap: TATKeymap; const AFileName: string; AForLex
 function DoOps_HotkeyStringId_To_CommandCode(const AId: string): integer;
 function DoOps_CommandCode_To_HotkeyStringId(ACmd: integer): string;
 procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string; ALexerSpecific: boolean);
+procedure DoOps_DeleteKeyItem(K: TATKeymapItem; const path, ALexerName: string; ALexerSpecific: boolean);
 procedure DoOps_SaveKey_ForPluginModuleAndMethod(AKeymap: TATKeymap; AOverwriteKey: boolean;
   const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string);
 
@@ -1712,6 +1713,33 @@ begin
   finally
     c.Free;
     sl.Free;
+  end;
+end;
+
+
+procedure DoOps_DeleteKeyItem(K: TATKeymapItem; const path, ALexerName: string;
+  ALexerSpecific: boolean);
+var
+  SFilename: string;
+  c: TJSONConfig;
+begin
+  if ALexerSpecific then
+    SFilename:= AppFile_HotkeysForLexer(ALexerName)
+  else
+    SFilename:= AppFile_Hotkeys;
+
+  c:= TJSONConfig.Create(nil);
+  try
+    try
+      c.Formatted:= true;
+      c.Filename:= SFilename;
+    except
+      exit;
+    end;
+
+    c.DeletePath(path);
+  finally
+    c.Free;
   end;
 end;
 
