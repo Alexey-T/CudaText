@@ -623,8 +623,8 @@ function DoOps_CommandCode_To_HotkeyStringId(ACmd: integer): string;
 
 procedure KeymapItem_SaveToConfig(K: TATKeymapItem; const path, ALexerName: string; ALexerSpecific: boolean);
 procedure KeymapItem_DeleteInConfig(K: TATKeymapItem; const path, ALexerName: string; ALexerSpecific: boolean);
-procedure Keymap_SaveKey_ForPlugin(AKeymap: TATKeymap; AOverwriteKey: boolean;
-  const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string);
+function Keymap_SaveKey_ForPlugin(AKeymap: TATKeymap; AOverwriteKey: boolean;
+  const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string): boolean;
 
 function DoLexerDetectByFilenameOrContent(const AFilename: string;
   AChooseFunc: TecLexerChooseFunc): TecSyntAnalyzer;
@@ -1744,9 +1744,9 @@ begin
 end;
 
 
-procedure Keymap_SaveKey_ForPlugin(AKeymap: TATKeymap;
+function Keymap_SaveKey_ForPlugin(AKeymap: TATKeymap;
   AOverwriteKey: boolean;
-  const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string);
+  const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string): boolean;
 const
   cKeyComboSeparator = '|';
 var
@@ -1756,6 +1756,8 @@ var
   path, s_item: string;
   Sep: TATStringSeparator;
 begin
+  Result:= false;
+
   if ALexerName<>'' then
     SFilename:= AppFile_HotkeysForLexer(ALexerName)
   else
@@ -1785,6 +1787,7 @@ begin
       sl.Add(s_item);
 
     c.SetValue(path+'/s1', sl);
+    Result:= true;
   finally
     c.Free;
     sl.Free;
