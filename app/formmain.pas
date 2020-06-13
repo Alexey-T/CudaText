@@ -989,7 +989,7 @@ type
     procedure UpdateMenuHotkeys;
     procedure UpdateMenuPlugins;
     procedure UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean=false);
-    procedure UpdateMenuPlugins_Shortcuts_Work(AForceUpdate: boolean=false);
+    procedure UpdateMenuPlugins_Shortcuts_Work(AForceUpdate: boolean);
     procedure UpdateMenuChecks;
     procedure UpdateMenuEnc(AMenu: TMenuItem);
     procedure DoApplyUiOps;
