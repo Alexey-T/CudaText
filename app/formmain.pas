@@ -8,9 +8,12 @@ Copyright (c) Alexey Torgashin
 unit FormMain;
 
 {$mode objfpc}{$H+}
+
 {$IFDEF DEBUG}
 {$INLINE OFF}
 {$ENDIF}
+//{$define debug_on_lexer}
+
 interface
 
 uses
@@ -6025,7 +6028,10 @@ var
   Frame: TEditorFrame;
   Params: TAppVariantArray;
   Keymap: TATKeymap;
-  SFileName, SLexerName: string;
+  {$ifdef debug_on_lexer}
+  SFileName: string;
+  {$endif}
+  SLexerName: string;
 begin
   if Sender is TEditorFrame then
     Frame:= TEditorFrame(Sender)
@@ -6033,11 +6039,14 @@ begin
     Frame:= (Sender as TComponent).Owner as TEditorFrame;
   Ed:= Frame.Editor;
 
+  {$ifdef debug_on_lexer}
   SFileName:= Frame.GetFileName(Ed);
+  {$endif}
   SLexerName:= Frame.LexerName[Ed];
 
-  ////debug
-  //MsgLogConsole('OnLexerChange: file "'+ExtractFileName(SFileName)+'" -> "'+SLexerName+'"');
+  {$ifdef debug_on_lexer}
+  MsgLogConsole('OnLexerChange: file "'+ExtractFileName(SFileName)+'" -> "'+SLexerName+'"');
+  {$endif}
 
   //load lexer-specific config
   DoOps_LoadOptionsLexerSpecific(Frame, Ed);
@@ -6047,8 +6056,9 @@ begin
   if not FSessionIsLoading then
     if (SLexerName<>'') or not EditorIsEmpty(Ed) then
     begin
-      ////debug
-      //MsgLogConsole('on_lexer: file "'+ExtractFileName(SFileName)+'" -> "'+SLexerName+'"');
+      {$ifdef debug_on_lexer}
+      MsgLogConsole('on_lexer: file "'+ExtractFileName(SFileName)+'" -> "'+SLexerName+'"');
+      {$endif}
 
       SetLength(Params, 0);
       DoPyEvent(Ed, cEventOnLexer, Params);
