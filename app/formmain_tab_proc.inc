@@ -58,6 +58,11 @@ begin
 
   InitFrameEvents(F);
 
+  //passing lite lexer - crashes (can't solve), so disabled
+  //call this for empty NewdocLexer too to apply lexer-spec cfg for none-lexer
+  if not SEndsWith(UiOps.NewdocLexer, msgLiteLexerSuffix) then
+    F.LexerName[F.Ed1]:= UiOps.NewdocLexer;
+
   NToIndex:= -1;
   if AAllowNearCurrent and UiOps.TabNewNearCurrent then
     if APages.Tabs.TabIndex<APages.Tabs.TabCount-1 then
