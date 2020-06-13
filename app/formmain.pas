@@ -789,7 +789,7 @@ type
     procedure DoSplitter_GetInfo(const Id: integer; out BoolVert, BoolVisible: boolean; out NPos, NTotal: integer);
     procedure DoSplitter_SetInfo(const Id: integer; NPos: integer);
     procedure DoToolbarClick(Sender: TObject);
-    procedure FrameLexerChange(Sender: TObject);
+    procedure FrameLexerChange(Sender: TATSynEdit);
     function GetFloatGroups: boolean;
     function GetShowFloatGroup1: boolean;
     function GetShowFloatGroup2: boolean;
@@ -6022,7 +6022,7 @@ begin
   end;
 end;
 
-procedure TfmMain.FrameLexerChange(Sender: TObject);
+procedure TfmMain.FrameLexerChange(Sender: TATSynEdit);
 var
   Ed: TATSynEdit;
   Frame: TEditorFrame;
@@ -6033,14 +6033,9 @@ var
   {$endif}
   SLexerName: string;
 begin
-  if Sender is TATSynEdit then
-  begin
-    Ed:= TATSynEdit(Sender);
-    Frame:= GetEditorFrame(Ed);
-    if Frame=nil then exit;
-  end
-  else
-    raise Exception.Create('Unknown Sender in FrameLexerChange');
+  Ed:= Sender;
+  Frame:= GetEditorFrame(Ed);
+  if Frame=nil then exit;
 
   {$ifdef debug_on_lexer}
   SFileName:= Frame.GetFileName(Ed);

@@ -119,7 +119,7 @@ type
     FOnAddRecent: TNotifyEvent;
     FOnPyEvent: TEditorFramePyEvent;
     FOnInitAdapter: TNotifyEvent;
-    FOnLexerChange: TNotifyEvent;
+    FOnLexerChange: TATEditorEvent;
     FSplitPos: double;
     FSplitHorz: boolean;
     FActiveSecondaryEd: boolean;
@@ -394,7 +394,7 @@ type
     property OnAddRecent: TNotifyEvent read FOnAddRecent write FOnAddRecent;
     property OnPyEvent: TEditorFramePyEvent read FOnPyEvent write FOnPyEvent;
     property OnInitAdapter: TNotifyEvent read FOnInitAdapter write FOnInitAdapter;
-    property OnLexerChange: TNotifyEvent read FOnLexerChange write FOnLexerChange;
+    property OnLexerChange: TATEditorEvent read FOnLexerChange write FOnLexerChange;
   end;
 
 procedure GetFrameLocation(Frame: TEditorFrame;
