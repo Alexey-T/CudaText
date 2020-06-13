@@ -6510,6 +6510,7 @@ begin
     G.Parent:= F;
     G.Align:= alClient;
     G.Mode:= gmOne;
+    G.Images:= ImageListTabs;
 
     G.OnTabFocus:= @DoOnTabFocus;
     G.OnTabAdd:= @DoOnTabAdd;
