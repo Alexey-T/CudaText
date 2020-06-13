@@ -329,13 +329,12 @@ begin
             AReport:= Format(msgStatusPluginHotkeyBusy, [s_hotkey])+#10+AReport
           else
           if s_lexers='' then
-            //set in keys.json
+            //save to keys.json
             Keymap_SaveKey_ForPlugin(AppKeymapMain, false,
               'plugin: '+s_caption_nice, s_module, s_method, '', s_hotkey)
           else
           begin
-            //set in "keys lexer nnnn.json" for all items in s_lexers
-            //todo: check.....
+            //save to "keys nn.json" for all items in s_lexers
             Sep.Init(s_lexers);
             while Sep.GetItemStr(s_lexer_item) do
               Keymap_SaveKey_ForPlugin(Keymap_GetForLexer(s_lexer_item), false,
