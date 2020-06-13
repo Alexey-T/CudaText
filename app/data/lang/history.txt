@@ -1,5 +1,9 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2020.06.13
++ [d_keys] set, ex
+* delete [d_keys] add
+
 2020.05.26
 + [d_save_tabs] tg
 
