@@ -6,6 +6,7 @@
 1.104.2 (2020/06)
 
 + add: rewritten system of keymapping, how keymappings are assigned to documents. Previous system was bad. It was slow (each tab switching was loading lexer-specific hotkeys from file). It had bugs (lexer-specific hotkeys did not load sometimes, see GitHub issues 2620 2648). (thanks @OlehL)
++ add: dialog "Configure hotkey" has additional "Set" button which makes "Clear"+"Extend"
 - fix: input of complex hotkeys (like "Alt+1 * Alt+2") had "shared history" for all documents
 - fix: width of some Unicode chars (thanks @ritmation)
 - fix: Linux gtk2: rendering of tab-chars (thanks @tmsg)
