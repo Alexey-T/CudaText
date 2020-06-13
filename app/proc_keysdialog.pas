@@ -79,11 +79,12 @@ begin
         for i:= 0 to AppKeymapLexers.Count-1 do
         begin
           Map:= TATKeymap(AppKeymapLexers.Objects[i]);
-          if not Map[CmdIndex].LexerSpecific then
-          begin
-            Map[CmdIndex].Keys1:= Form.Keys1;
-            Map[CmdIndex].Keys2:= Form.Keys2;
-          end;
+          if Map.IsIndexValid(CmdIndex) then
+            if not Map[CmdIndex].LexerSpecific then
+            begin
+              Map[CmdIndex].Keys1:= Form.Keys1;
+              Map[CmdIndex].Keys2:= Form.Keys2;
+            end;
         end;
 
         //delete in 'keys nn.json'
