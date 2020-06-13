@@ -6043,9 +6043,9 @@ begin
   DoOps_LoadOptionsLexerSpecific(Frame, Ed);
 
   //API event on_lexer
-  //better avoid it for empty filename and empty lexername
+  //better avoid it for empty editor
   if not FSessionIsLoading then
-    if (SFileName<>'') or (SLexerName<>'') then
+    if (SLexerName<>'') or not EditorIsEmpty(Ed) then
     begin
       ////debug
       //MsgLogConsole('on_lexer: file "'+ExtractFileName(SFileName)+'" -> "'+SLexerName+'"');
