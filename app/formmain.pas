@@ -1005,7 +1005,8 @@ type
     procedure FrameOnUpdateStatus(Sender: TObject);
     function DoTabAdd(APages: TATPages; const ACaption: string;
       AndActivate: boolean=true;
-      AAllowNearCurrent: boolean=true): TATTabData;
+      AAllowNearCurrent: boolean=true;
+      AAllowSetLexer: boolean=true): TATTabData;
     procedure FrameOnFocus(Sender: TObject);
     function GetFrame(AIndex: integer): TEditorFrame;
     procedure SetFrame(Frame: TEditorFrame);
@@ -2596,7 +2597,10 @@ begin
 
   Frame:= CurrentFrame;
   if Assigned(Frame) then
+  begin
     Frame.SetFocus;
+    //FrameLexerChange(Frame.Ed1); //todo: needed?
+  end;
 
   NTickShowEnd:= GetTickCount64;
   MsgLogConsole(Format(
