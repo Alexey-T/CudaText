@@ -1103,15 +1103,15 @@ begin
   begin
     if EditorsLinked then
     begin
-      Adapter1.Lexer:= nil;
       Ed1.AdapterForHilite:= nil;
       Ed2.AdapterForHilite:= nil;
+      Adapter1.Lexer:= nil;
       UpdateEds;
     end
     else
     begin
-      Lexer[Ed]:= nil;
       Ed.AdapterForHilite:= nil;
+      Lexer[Ed]:= nil;
       Ed.Update;
     end;
     exit;
