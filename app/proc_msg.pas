@@ -200,8 +200,7 @@ const
   msgStatusI18nEnglishAfterRestart: string = 'English translation will be applied after program restart';
   msgStatusI18nPluginsMenuAfterRestart: string = 'Translations of Plugins menu and plugin''s dialogs will be applied after program restart';
 
-  msgStatusPluginHotkeyBusy: string = 'Warning: hotkey [%s] is busy, it was not set';
-  msgStatusPluginCommandAlreadyHasHotkey: string = 'Warning: "%s" already had a hotkey, hotkey [%s] was not set';
+  msgStatusPluginHotkeyBusy: string = 'Note: hotkey [%s] is busy, skipped it';
   msgStatusSyntaxThemesOff: string = 'Syntax themes are turned off by option "ui_lexer_themes": false. So the following dialog will have no effect. To customize styles, use "Lexer properties" dialog.';
   msgStatusIncorrectInstallInfInZip: string = 'Incorrect install.inf in zip';
   msgStatusUnsupportedAddonType: string = 'Unsupported addon type:';

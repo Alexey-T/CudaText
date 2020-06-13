@@ -1773,18 +1773,17 @@ begin
 
     path:= AModuleName+','+AMethodName;
 
-    //check: this command has already any key?
+    //check: this command has already any hotkey?
     if not AOverwriteKey then
       if c.GetValue(path+'/s1', sl, '') then exit;
 
-    c.SetValue(path+'/name', Utf8Decode(AMenuitemCaption));
+    c.SetValue(path+'/name', AMenuitemCaption);
 
     sl.Clear;
     Sep.Init(AHotkey, cKeyComboSeparator);
-    repeat
-      if not Sep.GetItemStr(s_item) then Break;
+    while Sep.GetItemStr(s_item) do
       sl.Add(s_item);
-    until false;
+
     c.SetValue(path+'/s1', sl);
   finally
     c.Free;
