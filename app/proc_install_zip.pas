@@ -55,6 +55,7 @@ uses
   IniFiles,
   Zipper,
   ATStringProc,
+  ATSynEdit_Keymap,
   proc_files,
   proc_globdata,
   proc_msg,
@@ -279,6 +280,7 @@ var
   ini_section, s_section, s_caption, s_module, s_method, s_events,
   s_lexers, s_hotkey, s_lexer_item, s_caption_nice: string;
   Sep: TATStringSeparator;
+  Keymap: TATKeymap;
 begin
   AReport:= '';
   ADirTarget:= '';
@@ -325,20 +327,27 @@ begin
         //handle "hotkey"
         if s_hotkey<>'' then
         begin
-          if AppKeymapMain.GetCommandFromHotkeyString(s_hotkey, '|')>=0 then
-            AReport:= Format(msgStatusPluginHotkeyBusy, [s_hotkey])+#10+AReport
-          else
           if s_lexers='' then
+          begin
             //save to keys.json
-            Keymap_SaveKey_ForPlugin(AppKeymapMain, false,
-              'plugin: '+s_caption_nice, s_module, s_method, '', s_hotkey)
+            Keymap:= AppKeymapMain;
+            if Keymap.GetCommandFromHotkeyString(s_hotkey, '|')>=0 then
+              AReport:= Format(msgStatusPluginHotkeyBusy, [s_hotkey])+#10+AReport
+            else
+              Keymap_SaveKey_ForPlugin(Keymap, false, 'plugin: '+s_caption_nice, s_module, s_method, '', s_hotkey)
+          end
           else
           begin
             //save to "keys nn.json" for all items in s_lexers
             Sep.Init(s_lexers);
             while Sep.GetItemStr(s_lexer_item) do
-              Keymap_SaveKey_ForPlugin(Keymap_GetForLexer(s_lexer_item), false,
-                'plugin: '+s_caption_nice, s_module, s_method, s_lexer_item, s_hotkey);
+            begin
+              Keymap:= Keymap_GetForLexer(s_lexer_item);
+              if Keymap.GetCommandFromHotkeyString(s_hotkey, '|')>=0 then
+                AReport:= Format(msgStatusPluginHotkeyBusy, [s_hotkey])+#10+AReport
+              else
+                Keymap_SaveKey_ForPlugin(Keymap, false, 'plugin: '+s_caption_nice, s_module, s_method, s_lexer_item, s_hotkey);
+            end;
           end;
         end;
       end;
