@@ -1,14 +1,14 @@
 object fmKeys: TfmKeys
   Left = 603
-  Height = 227
+  Height = 238
   Top = 440
-  Width = 437
+  Width = 464
   ActiveControl = bAdd1
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Hotkey'
-  ClientHeight = 227
-  ClientWidth = 437
+  ClientHeight = 238
+  ClientWidth = 464
   KeyPreview = True
   OnKeyDown = FormKeyDown
   OnShow = FormShow
@@ -18,9 +18,9 @@ object fmKeys: TfmKeys
   Scaled = False
   object panelBtn: TButtonPanel
     Left = 6
-    Height = 29
-    Top = 192
-    Width = 425
+    Height = 33
+    Top = 199
+    Width = 452
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
     OKButton.OnClick = OKButtonClick
@@ -31,34 +31,34 @@ object fmKeys: TfmKeys
     CloseButton.DefaultCaption = True
     CancelButton.Name = 'CancelButton'
     CancelButton.DefaultCaption = True
-    TabOrder = 0
+    TabOrder = 1
     ShowButtons = [pbOK, pbCancel]
     ShowBevel = False
   end
   object panelPress: TPanel
-    Left = 338
-    Height = 186
+    Left = 365
+    Height = 193
     Top = 0
     Width = 99
     Align = alRight
     BevelOuter = bvNone
     Caption = 'Press a key...'
     ParentColor = False
-    TabOrder = 1
+    TabOrder = 2
     Visible = False
   end
   object panelInput: TPanel
     Left = 0
-    Height = 186
+    Height = 193
     Top = 0
-    Width = 338
+    Width = 365
     Align = alClient
     AutoSize = True
     BorderSpacing.Bottom = 3
     BevelOuter = bvNone
-    ClientHeight = 186
-    ClientWidth = 338
-    TabOrder = 2
+    ClientHeight = 193
+    ClientWidth = 365
+    TabOrder = 0
     object labelKey1: TLabel
       AnchorSideTop.Control = panelInput
       Left = 9
@@ -71,35 +71,36 @@ object fmKeys: TfmKeys
       ParentColor = False
     end
     object bClear1: TButton
-      AnchorSideLeft.Control = labelKey1
+      AnchorSideLeft.Control = bSet1
+      AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = labelKey1
       AnchorSideTop.Side = asrBottom
-      Left = 79
-      Height = 29
-      Top = 30
+      Left = 178
+      Height = 33
+      Top = 33
       Width = 100
       AutoSize = True
-      BorderSpacing.Left = 70
-      BorderSpacing.Top = 3
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
       Caption = 'Clear'
       Constraints.MinWidth = 100
       OnClick = bClear1Click
-      TabOrder = 0
+      TabOrder = 1
     end
     object bAdd1: TButton
       AnchorSideLeft.Control = bClear1
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = bClear1
-      Left = 185
-      Height = 29
-      Top = 30
+      Left = 284
+      Height = 33
+      Top = 33
       Width = 100
       AutoSize = True
       BorderSpacing.Left = 6
-      Caption = 'Add key'
+      Caption = 'Extend'
       Constraints.MinWidth = 100
       OnClick = bAdd1Click
-      TabOrder = 1
+      TabOrder = 2
     end
     object labelKey2: TLabel
       AnchorSideLeft.Control = labelKey1
@@ -107,7 +108,7 @@ object fmKeys: TfmKeys
       AnchorSideTop.Side = asrBottom
       Left = 9
       Height = 17
-      Top = 67
+      Top = 74
       Width = 32
       BorderSpacing.Top = 8
       Caption = 'Key2'
@@ -117,31 +118,31 @@ object fmKeys: TfmKeys
       AnchorSideLeft.Control = bClear1
       AnchorSideTop.Control = labelKey2
       AnchorSideTop.Side = asrBottom
-      Left = 79
-      Height = 29
-      Top = 87
+      Left = 178
+      Height = 33
+      Top = 97
       Width = 100
       AutoSize = True
-      BorderSpacing.Top = 3
+      BorderSpacing.Top = 6
       Caption = 'Clear'
       Constraints.MinWidth = 100
       OnClick = bClear2Click
-      TabOrder = 2
+      TabOrder = 4
     end
     object bAdd2: TButton
       AnchorSideLeft.Control = bClear2
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = bClear2
-      Left = 185
-      Height = 29
-      Top = 87
+      Left = 284
+      Height = 33
+      Top = 97
       Width = 100
       AutoSize = True
       BorderSpacing.Left = 6
-      Caption = 'Add key'
+      Caption = 'Extend'
       Constraints.MinWidth = 100
       OnClick = bAdd2Click
-      TabOrder = 3
+      TabOrder = 5
     end
     object chkForLexer: TCheckBox
       AnchorSideLeft.Control = labelKey1
@@ -150,21 +151,52 @@ object fmKeys: TfmKeys
       AnchorSideBottom.Control = panelInput
       AnchorSideBottom.Side = asrBottom
       Left = 9
-      Height = 24
-      Top = 162
-      Width = 138
+      Height = 23
+      Top = 170
+      Width = 137
       Anchors = [akLeft, akBottom]
       Caption = 'For current lexer'
-      TabOrder = 4
+      TabOrder = 6
     end
     object LabelDupInfo: TLabel
+      AnchorSideTop.Control = bClear2
+      AnchorSideTop.Side = asrBottom
       Left = 9
       Height = 17
-      Top = 128
-      Width = 98
+      Top = 136
+      Width = 97
+      BorderSpacing.Top = 6
       Caption = 'duplicated key'
       ParentColor = False
       Visible = False
+    end
+    object bSet1: TButton
+      AnchorSideLeft.Control = bClear1
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = bClear1
+      Left = 72
+      Height = 33
+      Top = 33
+      Width = 100
+      Anchors = [akTop]
+      AutoSize = True
+      Caption = 'Set'
+      Constraints.MinWidth = 100
+      OnClick = bSet1Click
+      TabOrder = 0
+    end
+    object bSet2: TButton
+      AnchorSideLeft.Control = bSet1
+      AnchorSideTop.Control = bClear2
+      Left = 72
+      Height = 33
+      Top = 97
+      Width = 100
+      AutoSize = True
+      Caption = 'Set'
+      Constraints.MinWidth = 100
+      OnClick = bSet2Click
+      TabOrder = 3
     end
   end
 end

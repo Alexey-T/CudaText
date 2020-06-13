@@ -28,6 +28,8 @@ type
     bAdd2: TButton;
     bClear1: TButton;
     bClear2: TButton;
+    bSet1: TButton;
+    bSet2: TButton;
     chkForLexer: TCheckBox;
     LabelDupInfo: TLabel;
     labelKey1: TLabel;
@@ -39,6 +41,8 @@ type
     procedure bAdd2Click(Sender: TObject);
     procedure bClear1Click(Sender: TObject);
     procedure bClear2Click(Sender: TObject);
+    procedure bSet1Click(Sender: TObject);
+    procedure bSet2Click(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure HelpButtonClick(Sender: TObject);
@@ -168,6 +172,20 @@ begin
   DoUpdate;
 end;
 
+procedure TfmKeys.bSet1Click(Sender: TObject);
+begin
+  Keys1.Clear;
+  DoAddKey(Keys1);
+  DoUpdate;
+end;
+
+procedure TfmKeys.bSet2Click(Sender: TObject);
+begin
+  Keys2.Clear;
+  DoAddKey(Keys2);
+  DoUpdate;
+end;
+
 procedure TfmKeys.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if not panelPress.Visible then exit;
@@ -251,11 +269,8 @@ begin
   bAdd1.Enabled:= Keys1.Length<Length(TATKeyArray.Data);
   bAdd2.Enabled:= Keys2.Length<Length(TATKeyArray.Data);
 
-  if bAdd1.Enabled then
-    ActiveControl:= bAdd1
-  else
-  if bClear1.Enabled then
-    ActiveControl:= bClear1;
+  if bSet1.Enabled then
+    ActiveControl:= bSet1;
 
   //check dups
   Item:= TATKeymapItem.Create;
