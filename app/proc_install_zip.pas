@@ -330,7 +330,7 @@ begin
           else
           if s_lexers='' then
             //set in keys.json
-            DoOps_SaveKey_ForPluginModuleAndMethod(AppKeymapMain, false,
+            Keymap_SaveKey_ForPlugin(AppKeymapMain, false,
               'plugin: '+s_caption_nice, s_module, s_method, '', s_hotkey)
           else
           begin
@@ -338,7 +338,7 @@ begin
             Sep.Init(s_lexers);
             repeat
               if not Sep.GetItemStr(s_lexer_item) then Break;
-              DoOps_SaveKey_ForPluginModuleAndMethod(Keymap_GetForLexer(s_lexer_item), false,
+              Keymap_SaveKey_ForPlugin(Keymap_GetForLexer(s_lexer_item), false,
                 'plugin: '+s_caption_nice, s_module, s_method, s_lexer_item, s_hotkey);
             until false;
           end;

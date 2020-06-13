@@ -623,7 +623,7 @@ function DoOps_HotkeyStringId_To_CommandCode(const AId: string): integer;
 function DoOps_CommandCode_To_HotkeyStringId(ACmd: integer): string;
 procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string; ALexerSpecific: boolean);
 procedure DoOps_DeleteKeyItem(K: TATKeymapItem; const path, ALexerName: string; ALexerSpecific: boolean);
-procedure DoOps_SaveKey_ForPluginModuleAndMethod(AKeymap: TATKeymap; AOverwriteKey: boolean;
+procedure Keymap_SaveKey_ForPlugin(AKeymap: TATKeymap; AOverwriteKey: boolean;
   const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string);
 
 function DoLexerDetectByFilenameOrContent(const AFilename: string;
@@ -1744,12 +1744,13 @@ begin
 end;
 
 
-procedure DoOps_SaveKey_ForPluginModuleAndMethod(AKeymap: TATKeymap;
+procedure Keymap_SaveKey_ForPlugin(AKeymap: TATKeymap;
   AOverwriteKey: boolean;
   const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string);
 const
   cKeyComboSeparator = '|';
 var
+  SFilename: string;
   c: TJSONConfig;
   sl: TStringList;
   path, s_item: string;
@@ -1759,15 +1760,17 @@ begin
   if not AOverwriteKey then
     if Keymap_HasDuplicateForKey(AKeymap, AHotkey, cKeyComboSeparator) then exit;
 
+  if ALexerName<>'' then
+    SFilename:= AppFile_HotkeysForLexer(ALexerName)
+  else
+    SFilename:= AppFile_Hotkeys;
+
   c:= TJSONConfig.Create(nil);
   sl:= TStringlist.create;
   try
     try
       c.Formatted:= true;
-      if ALexerName<>'' then
-        c.Filename:= AppFile_HotkeysForLexer(ALexerName)
-      else
-        c.Filename:= AppFile_Hotkeys;
+      c.Filename:= SFilename;
     except
       exit;
     end;
