@@ -3,6 +3,13 @@
   - fixed
   * changed
 
+1.104.2 (2020/06)
+
++ add: rewritten system of keymapping, how keymappings are assigned to documents. Previous system was bad. It was slow (each tab switching was loading lexer-specific hotkeys from file). It had bugs (lexer-specific hotkeys did not load sometimes, see GitHub issues 2620 2648).
+- fix: input of complex hotkeys (like "Alt+1 * Alt+2") had "shared history" for all documents
+- fix: Linux gtk2: rendering of tab-chars (thanks @tmsg)
+- fix: lexer Markdown: rule for ```
+
 1.104.0 (2020/06)
 
 + add: much faster rendering on Linux (gtk2) for texts with Unicode (but not full-width) chars
