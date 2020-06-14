@@ -6848,6 +6848,8 @@ begin
   finally
     FreeAndNil(List);
   end;
+
+  UpdateStatus;
 end;
 
 
