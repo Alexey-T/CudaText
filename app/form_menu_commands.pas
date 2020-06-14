@@ -129,9 +129,6 @@ begin
   list.Color:= FColorBg;
   panelCaption.Font.Color:= FColorFont;
 
-  self.Width:= AppScale(UiOps.ListboxSizeX);
-  self.Height:= AppScale(UiOps.ListboxSizeY);
-
   UpdateFormOnTop(Self);
   FixFormPositionToDesktop(Self);
 
@@ -192,6 +189,9 @@ begin
   PanelInfo.Font.Size:= AppScaleFont(UiOps.VarFontSize);
   PanelInfo.BorderSpacing.Around:= 20;
   PanelInfo.Caption:= msgCmdPalettePrefixHelp;
+
+  Width:= AppScale(UiOps.ListboxSizeX);
+  Height:= AppScale(UiOps.ListboxSizeY);
 end;
 
 procedure TfmCommands.editChange(Sender: TObject);

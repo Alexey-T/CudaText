@@ -900,9 +900,9 @@ type
       Ed: TATSynEdit; const ALexerName: string;
       AShowUsual, AShowPlugins, AShowLexers,
       AShowFiles, AShowRecents, AAllowConfig, AAllowConfigForLexer, AShowCentered: boolean;
-      ACaption: string; AFocusedCommand: integer): integer;
+      const ACaption: string; AFocusedCommand: integer; AW, AH: integer): integer;
     function DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers, AShowFiles,
-      AShowRecents, AAllowConfig, AAllowConfigForLexer, AShowCentered: boolean; ACaption: string): string;
+      AShowRecents, AAllowConfig, AAllowConfigForLexer, AShowCentered: boolean; const ACaption: string; AW, AH: integer): string;
     procedure DoDialogGoto;
     function DoDialogMenuList(const ACaption: string; AItems: TStringList; AInitItemIndex: integer;
       ACloseOnCtrlRelease: boolean= false; AOnListSelect: TAppListSelectEvent=nil): integer;
@@ -3615,7 +3615,7 @@ begin
   NCmd:= DoDialogCommands_Custom(
     Ed, F.LexerName[Ed],
     true, true, true, true, true, true, true, false,
-    '', FLastSelectedCommand);
+    '', FLastSelectedCommand, 0, 0);
 
   if NCmd>0 then
   begin
@@ -3627,7 +3627,7 @@ end;
 
 
 function TfmMain.DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers, AShowFiles, AShowRecents,
-  AAllowConfig, AAllowConfigForLexer, AShowCentered: boolean; ACaption: string): string;
+  AAllowConfig, AAllowConfigForLexer, AShowCentered: boolean; const ACaption: string; AW, AH: integer): string;
 var
   F: TEditorFrame;
   NCmd, NIndex: integer;
@@ -3648,7 +3648,10 @@ begin
     AAllowConfigForLexer,
     AShowCentered,
     ACaption,
-    0);
+    0,
+    AW,
+    AH
+    );
   if NCmd<=0 then exit;
 
   case AppCommandCategory(NCmd) of
@@ -3701,7 +3704,7 @@ function TfmMain.DoDialogCommands_Custom(
   Ed: TATSynEdit; const ALexerName: string;
   AShowUsual, AShowPlugins, AShowLexers, AShowFiles, AShowRecents,
   AAllowConfig, AAllowConfigForLexer, AShowCentered: boolean;
-  ACaption: string; AFocusedCommand: integer): integer;
+  const ACaption: string; AFocusedCommand: integer; AW, AH: integer): integer;
 var
   bKeysChanged: boolean;
 begin
@@ -3721,8 +3724,15 @@ begin
     fmCommands.CurrentLexerName:= ALexerName;
     fmCommands.Keymap:= Ed.Keymap;
     fmCommands.ListCaption:= ACaption;
+
     if AShowCentered then
       fmCommands.Position:= poScreenCenter;
+
+    if AW>0 then
+      fmCommands.Width:= AW;
+    if AH>0 then
+      fmCommands.Height:= AH;
+
     fmCommands.ShowModal;
     Result:= fmCommands.ResultCommand;
     bKeysChanged:= fmCommands.ResultHotkeysChanged;

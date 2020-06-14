@@ -2697,9 +2697,10 @@ var
   NOps: integer;
   PtrTitle: PChar;
   StrTitle, Str: string;
+  W, H: integer;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'is:dlg_commands', @NOps, @PtrTitle)) then
+    if Bool(PyArg_ParseTuple(Args, 'isii:dlg_commands', @NOps, @PtrTitle, @W, @H)) then
     begin
       StrTitle:= string(PtrTitle);
 
@@ -2716,7 +2717,9 @@ begin
         (NOps and COMMANDS_CONFIG)<>0,
         (NOps and COMMANDS_CONFIG_LEXER)<>0,
         (NOps and COMMANDS_CENTERED)<>0,
-        StrTitle
+        StrTitle,
+        W,
+        H
         );
 
       if Str='' then
