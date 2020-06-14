@@ -3929,7 +3929,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: dlg_menu: params "clip", "w", "h"
 * add: dlg_commands: COMMANDS_CONFIG_LEXER
 
-1.0.335 (app 1.104.2)
+1.0.335 (app 1.104.5)
 * add: dlg_commands: params "w", "h"
 
 [[Category:CudaText]]
