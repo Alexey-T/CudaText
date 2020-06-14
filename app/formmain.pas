@@ -666,6 +666,7 @@ type
     procedure CodeTreeFilter_ResetOnClick(Sender: TObject);
     procedure CodeTreeFilter_OnCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
     procedure DisablePluginMenuItems;
+    procedure DoApplyNewdocLexer(F: TEditorFrame);
     procedure DoApplyCenteringOption;
     procedure DoApplyLexerStyleMaps(AndApplyTheme: boolean);
     procedure DoApplyTranslationToGroups(G: TATGroups);
@@ -4643,10 +4644,15 @@ var
   Frame: TEditorFrame;
 begin
   Frame:= DoFileOpen('', '');
-  if Assigned(Frame) then
-    Frame.LexerName[Frame.Ed1]:= UiOps.NewdocLexer;
+  DoApplyNewdocLexer(Frame);
 end;
 
+procedure TfmMain.DoApplyNewdocLexer(F: TEditorFrame);
+begin
+  //call this for empty NewdocLexer too- to apply lexer-spec cfg for none-lexer
+  if Assigned(F) then
+    F.LexerName[F.Ed1]:= UiOps.NewdocLexer;
+end;
 
 procedure TfmMain.MenuRecentItemClick(Sender: TObject);
 var

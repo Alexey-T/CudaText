@@ -90,11 +90,7 @@ begin
   Data:= CreateTab(Pages, '');
 
   if Assigned(Data) then
-  begin
-    Frame:= Data.TabObject as TEditorFrame;
-    //call this for empty NewdocLexer too to apply lexer-spec cfg for none-lexer
-    Frame.LexerName[Frame.Ed1]:= UiOps.NewdocLexer;
-  end;
+    DoApplyNewdocLexer(Data.TabObject as TEditorFrame);
 end;
 
 procedure TfmMain.DoOnTabFocus(Sender: TObject);
