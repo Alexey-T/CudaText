@@ -156,7 +156,7 @@ type
     active0: boolean;
   end;
 
-  TATDlgMenuProps = record
+  TDlgMenuProps = record
     InitialIndex: integer;
     Multiline: boolean;
     NoFuzzy: boolean;
@@ -767,7 +767,7 @@ type
     procedure DoOnConsoleNumberChange(Sender: TObject);
     function DoOnMacro(Frame: TEditorFrame; const Str: string): boolean;
     function DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean): boolean;
-    function DoDialogMenuApi(const AText, ACaption: string; const AProps: TATDlgMenuProps): integer;
+    function DoDialogMenuApi(const AText, ACaption: string; const AProps: TDlgMenuProps): integer;
     procedure DoDialogMenuTranslations;
     procedure DoDialogMenuThemes;
     procedure DoFileExportHtml(F: TEditorFrame);
@@ -5358,7 +5358,7 @@ end;
 
 
 function TfmMain.DoDialogMenuApi(const AText, ACaption: string;
-  const AProps: TATDlgMenuProps): integer;
+  const AProps: TDlgMenuProps): integer;
 var
   Form: TfmMenuApi;
   Sep: TATStringSeparator;
@@ -6793,7 +6793,7 @@ var
   Obj: TObject;
   Frame: TEditorFrame;
   SCaption: string;
-  DlgProps: TATDlgMenuProps;
+  DlgProps: TDlgMenuProps;
 begin
   Frame:= CurrentFrame;
   if Frame=nil then exit;

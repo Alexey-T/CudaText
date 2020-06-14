@@ -2428,7 +2428,7 @@ var
   StrItems, StrCaption: string;
   NId, NIndex: integer;
   NCollapse, NW, NH: integer;
-  Props: TATDlgMenuProps;
+  Props: TDlgMenuProps;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'isisiii:dlg_menu', @NId, @PtrItems, @NIndex, @PtrCaption,
