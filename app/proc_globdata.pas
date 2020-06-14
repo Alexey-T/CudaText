@@ -646,7 +646,7 @@ var
   AppShortcutShiftTab: TShortcut = 0;
 
   AppKeymapMain: TATKeymap = nil;
-  AppKeymapInitial: TATKeymap = nil;
+  AppKeymapInitial: TATKeymap = nil; //inited only by API calls
   AppKeymapLexers: TStringList = nil;
 
 type

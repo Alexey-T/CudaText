@@ -4029,8 +4029,7 @@ var
   NLen, i: Integer;
   SKeyInit1, SKeyInit2: string;
 begin
-  //AppKeymapInitial must be inited with _same_ code
-  //as AppKeymap in proc_global
+  //AppKeymapInitial must be inited the _same way_ as AppKeymapMain
   if not Assigned(AppKeymapInitial) then
   begin
     AppKeymapInitial:= TATKeymap.Create;
