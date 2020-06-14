@@ -171,14 +171,11 @@ object fmKeys: TfmKeys
       Visible = False
     end
     object bSet1: TButton
-      AnchorSideLeft.Control = bClear1
-      AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = bClear1
       Left = 72
       Height = 33
       Top = 33
       Width = 100
-      Anchors = [akTop]
       AutoSize = True
       Caption = 'Set'
       Constraints.MinWidth = 100

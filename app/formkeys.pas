@@ -115,7 +115,7 @@ begin
   UpdateState;
 
   //if no hotkeys, user wants to add it, so auto-press Extend here
-  if (Keys1.ToString='') and (Keys2.ToString='') then
+  if (Keys1.Length=0) and (Keys2.Length=0) then
     TimerAdd.Enabled:= true;
 end;
 
@@ -285,13 +285,15 @@ var
   SDesc: string;
   N: integer;
 begin
-  labelKey1.caption:= '1) '+ Keys1.ToString;
-  labelKey2.caption:= '2) '+ Keys2.ToString;
+  labelKey1.caption:= '1) '+Keys1.ToString;
+  labelKey2.caption:= '2) '+Keys2.ToString;
 
-  bAdd1.Enabled:= Keys1.Length<Length(TATKeyArray.Data);
-  bAdd2.Enabled:= Keys2.Length<Length(TATKeyArray.Data);
+  bClear1.Enabled:= Keys1.Length>0;
+  bClear2.Enabled:= Keys2.Length>0;
+  bAdd1.Enabled:= (Keys1.Length>0) and (Keys1.Length<Length(TATKeyArray.Data));
+  bAdd2.Enabled:= (Keys2.Length>0) and (Keys2.Length<Length(TATKeyArray.Data));
 
-  if bSet1.Enabled then
+  if bSet1.Visible and bSet1.Enabled then
     ActiveControl:= bSet1;
 
   //check dups
