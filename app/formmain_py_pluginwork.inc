@@ -44,8 +44,8 @@ begin
   end;
 
   AppEventsMaxPrioritiesUpdate;
-  UpdateKeymapDynamicItems(categ_Plugin);
-  UpdateKeymapDynamicItems(categ_PluginSub);
+  Keymap_UpdateDynamic(categ_Plugin);
+  Keymap_UpdateDynamic(categ_PluginSub);
 end;
 
 

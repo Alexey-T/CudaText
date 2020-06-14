@@ -31,6 +31,7 @@ uses
   proc_py_const,
   proc_colors;
 
+function _NicePluginCaption(const S: string): string;
 procedure FormHistorySave(F: TForm; const AConfigPath: string; AWithPos: boolean);
 procedure FormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean);
 
@@ -839,6 +840,14 @@ begin
   else
     C.Height:= NSize;
 end;
+
+function _NicePluginCaption(const S: string): string;
+begin
+  Result:= S;
+  Result:= StringReplace(Result, '\', ': ', [rfReplaceAll]);
+  Result:= StringReplace(Result, '&', '', [rfReplaceAll]);
+end;
+
 
 end.
 

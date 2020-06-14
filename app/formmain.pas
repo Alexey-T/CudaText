@@ -995,8 +995,6 @@ type
     procedure UpdateMenuRecents(sub: TMenuItem);
     procedure UpdateSidebarButtonOverlay;
     procedure UpdateEditorTabsize(AValue: integer);
-    procedure UpdateKeymapDynamicItems(ACategory: TAppCommandCategory);
-    procedure UpdateKeymapDynamicItemsEx(AKeymap: TATKeymap; ACategory: TAppCommandCategory);
     procedure UpdateMenuItemAltObject(mi: TMenuItem; cmd: integer);
     procedure UpdateMenuItemChecked(mi: TMenuItem; saved: TATMenuItemsAlt; AValue: boolean);
     procedure UpdateMenuItemHint(mi: TMenuItem; const AHint: string);
@@ -1292,6 +1290,126 @@ begin
   ACommand:= Item.Code;
   Result:= acgOkCommand;
 end;
+
+
+procedure Keymap_UpdateDynamicEx(AKeymap: TATKeymap; ACategory: TAppCommandCategory);
+var
+  CmdItem: TAppCommandInfo;
+  Frame: TEditorFrame;
+  An: TecSyntAnalyzer;
+  sl: TStringList;
+  Cmd, i: integer;
+  ListRecents: TStringList;
+begin
+  for i:= AKeymap.Count-1 downto 0 do
+  begin
+    Cmd:= AKeymap[i].Command;
+    if Cmd<cmdFirstAppCommand then Break;
+    if AppCommandCategory(Cmd)=ACategory then
+      AKeymap.Delete(i);
+  end;
+
+  case ACategory of
+    categ_Lexer:
+      begin
+        sl:= TStringList.Create;
+        try
+          //usual lexers
+          for i:= 0 to AppManager.LexerCount-1 do
+          begin
+            An:= AppManager.Lexers[i];
+            if An.Deleted then Continue;
+            if An.Internal then Continue;
+            sl.AddObject(An.LexerName,
+                         TObject(cmdFirstLexerCommand+i));
+          end;
+
+          //lite lexers
+          for i:= 0 to AppManagerLite.LexerCount-1 do
+            sl.AddObject(AppManagerLite.Lexers[i].LexerName+msgLiteLexerSuffix,
+                         TObject(cmdFirstLexerCommand+i+AppManager.LexerCount));
+
+          sl.Sort;
+
+          //insert "none" at list begin
+          sl.InsertObject(0, msgNoLexer, TObject(cmdLastLexerCommand));
+
+          for i:= 0 to sl.count-1 do
+            AKeymap.Add(
+              PtrInt(sl.Objects[i]),
+              'lexer: '+sl[i],
+              [], []);
+        finally
+          FreeAndNil(sl);
+        end;
+      end;
+
+    categ_Plugin:
+      for i:= 0 to AppCommandList.Count-1 do
+      begin
+        CmdItem:= TAppCommandInfo(AppCommandList[i]);
+        if CmdItem.ItemFromApi then Continue;
+        if CmdItem.ItemModule='' then Break;
+        if SEndsWith(CmdItem.ItemCaption, '-') then Continue;
+        AKeymap.Add(
+          cmdFirstPluginCommand+i,
+          'plugin: '+_NicePluginCaption(CmdItem.ItemCaption),
+          [], []);
+      end;
+
+    categ_PluginSub:
+      for i:= 0 to AppCommandList.Count-1 do
+      begin
+        CmdItem:= TAppCommandInfo(AppCommandList[i]);
+        if not CmdItem.ItemFromApi then Continue;
+        if CmdItem.ItemModule='' then Break;
+        if SEndsWith(CmdItem.ItemCaption, '-') then Continue;
+        AKeymap.Add(
+          cmdFirstPluginCommand+i,
+          'plugin: '+_NicePluginCaption(CmdItem.ItemCaption),
+          [], []);
+      end;
+
+    categ_OpenedFile:
+      for i:= 0 to AppFrameList1.Count-1 do
+      begin
+        Frame:= TEditorFrame(AppFrameList1[i]);
+        if Frame.FileName<>'' then
+          AKeymap.Add(
+            cmdFirstFileCommand+i,
+            'opened file: '+FormatFilenameForMenu(Frame.FileName),
+            [], []);
+      end;
+
+    categ_RecentFile:
+    begin
+      ListRecents:= fmMain.FListRecents;
+      for i:= 0 to ListRecents.Count-1 do
+      begin
+        AKeymap.Add(
+          cmdFirstRecentCommand+i,
+          'recent file: '+FormatFilenameForMenu(ListRecents[i]),
+          [], []);
+      end;
+    end;
+  end;
+end;
+
+
+procedure Keymap_UpdateDynamic(ACategory: TAppCommandCategory);
+var
+  Map: TATKeymap;
+  i: integer;
+begin
+  Keymap_UpdateDynamicEx(AppKeymapMain, ACategory);
+
+  for i:= 0 to AppKeymapLexers.Count-1 do
+  begin
+    Map:= TATKeymap(AppKeymapLexers.Objects[i]);
+    Keymap_UpdateDynamicEx(Map, ACategory);
+  end;
+end;
+
 
 { TAppNotifThread }
 
@@ -3622,9 +3740,9 @@ begin
   Ed:= F.Editor;
   MsgStatus(msgStatusHelpOnShowCommands);
 
-  UpdateKeymapDynamicItems(categ_Lexer);
-  UpdateKeymapDynamicItems(categ_OpenedFile);
-  UpdateKeymapDynamicItems(categ_RecentFile);
+  Keymap_UpdateDynamic(categ_Lexer);
+  Keymap_UpdateDynamic(categ_OpenedFile);
+  Keymap_UpdateDynamic(categ_RecentFile);
 
   FillChar(Props, SizeOf(Props), 0);
   Props.Caption:= '';

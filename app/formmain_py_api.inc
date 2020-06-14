@@ -2707,9 +2707,9 @@ begin
     begin
       StrTitle:= string(PtrTitle);
 
-      fmMain.UpdateKeymapDynamicItems(categ_Lexer);
-      fmMain.UpdateKeymapDynamicItems(categ_OpenedFile);
-      fmMain.UpdateKeymapDynamicItems(categ_RecentFile);
+      Keymap_UpdateDynamic(categ_Lexer);
+      Keymap_UpdateDynamic(categ_OpenedFile);
+      Keymap_UpdateDynamic(categ_RecentFile);
 
       FillChar(Props, SizeOf(Props), 0);
       Props.Caption:= StrTitle;
@@ -4225,9 +4225,9 @@ begin
 
         APP_PROC_GET_COMMANDS:
           begin
-            fmMain.UpdateKeymapDynamicItems(categ_Lexer);
-            fmMain.UpdateKeymapDynamicItems(categ_OpenedFile);
-            fmMain.UpdateKeymapDynamicItems(categ_RecentFile);
+            Keymap_UpdateDynamic(categ_Lexer);
+            Keymap_UpdateDynamic(categ_OpenedFile);
+            Keymap_UpdateDynamic(categ_RecentFile);
             Result:= Py_CommandList;
           end;
 
@@ -4270,7 +4270,7 @@ begin
         APP_PROC_SET_SUBCOMMANDS:
           begin
             CommandPlugins_UpdateSubcommands(Str);
-            fmMain.UpdateKeymapDynamicItems(categ_PluginSub);
+            Keymap_UpdateDynamic(categ_PluginSub);
             Result:= ReturnNone;
           end;
 
