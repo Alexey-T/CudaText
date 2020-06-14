@@ -52,8 +52,8 @@ type
   private
     { private declarations }
     FKeyPressed: integer;
-    procedure DoAddKey(var K: TATKeyArray);
-    procedure DoUpdate;
+    procedure UpdateState;
+    procedure AddHotkey(var K: TATKeyArray);
     function GetHotkey: integer;
     procedure Localize;
   public
@@ -112,7 +112,7 @@ begin
   //OK btn needs confirmtion
   panelBtn.OKButton.ModalResult:= mrNone;
 
-  DoUpdate;
+  UpdateState;
 
   //if no hotkeys, user wants to add it, so auto-press Extend here
   if (Keys1.ToString='') and (Keys2.ToString='') then
@@ -178,27 +178,27 @@ end;
 procedure TfmKeys.bClear1Click(Sender: TObject);
 begin
   Keys1.Clear;
-  DoUpdate;
+  UpdateState;
 end;
 
 procedure TfmKeys.bClear2Click(Sender: TObject);
 begin
   Keys2.Clear;
-  DoUpdate;
+  UpdateState;
 end;
 
 procedure TfmKeys.bSet1Click(Sender: TObject);
 begin
   Keys1.Clear;
-  DoAddKey(Keys1);
-  DoUpdate;
+  AddHotkey(Keys1);
+  UpdateState;
 end;
 
 procedure TfmKeys.bSet2Click(Sender: TObject);
 begin
   Keys2.Clear;
-  DoAddKey(Keys2);
-  DoUpdate;
+  AddHotkey(Keys2);
+  UpdateState;
 end;
 
 procedure TfmKeys.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -225,17 +225,17 @@ end;
 
 procedure TfmKeys.bAdd1Click(Sender: TObject);
 begin
-  DoAddKey(Keys1);
-  DoUpdate;
+  AddHotkey(Keys1);
+  UpdateState;
 end;
 
 procedure TfmKeys.bAdd2Click(Sender: TObject);
 begin
-  DoAddKey(Keys2);
-  DoUpdate;
+  AddHotkey(Keys2);
+  UpdateState;
 end;
 
-procedure TfmKeys.DoAddKey(var K: TATKeyArray);
+procedure TfmKeys.AddHotkey(var K: TATKeyArray);
 var
   newkey, index, i: integer;
 begin
@@ -279,7 +279,7 @@ begin
   end;
 end;
 
-procedure TfmKeys.DoUpdate;
+procedure TfmKeys.UpdateState;
 var
   Item: TATKeymapItem;
   SDesc: string;
