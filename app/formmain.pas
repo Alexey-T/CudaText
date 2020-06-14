@@ -1353,7 +1353,7 @@ begin
         if SEndsWith(CmdItem.ItemCaption, '-') then Continue;
         AKeymap.Add(
           cmdFirstPluginCommand+i,
-          'plugin: '+_NicePluginCaption(CmdItem.ItemCaption),
+          'plugin: '+AppNicePluginCaption(CmdItem.ItemCaption),
           [], []);
       end;
 
@@ -1366,7 +1366,7 @@ begin
         if SEndsWith(CmdItem.ItemCaption, '-') then Continue;
         AKeymap.Add(
           cmdFirstPluginCommand+i,
-          'plugin: '+_NicePluginCaption(CmdItem.ItemCaption),
+          'plugin: '+AppNicePluginCaption(CmdItem.ItemCaption),
           [], []);
       end;
 

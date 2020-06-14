@@ -31,7 +31,6 @@ uses
   proc_py_const,
   proc_colors;
 
-function _NicePluginCaption(const S: string): string;
 procedure FormHistorySave(F: TForm; const AConfigPath: string; AWithPos: boolean);
 procedure FormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean);
 
@@ -69,6 +68,7 @@ function UpdateImagelistWithIconFromFile(AList: TCustomImagelist; const AFilenam
 function FormatFileDateAsNiceString(const AFilename: string): string;
 function FormatFilenameForMenu(const fn: string): string;
 
+function AppNicePluginCaption(const S: string): string;
 function AppStrToBool(const S: string): boolean; inline;
 function AppStringToAlignment(const S: string): TAlignment;
 function AppAlignmentToString(const V: TAlignment): string;
@@ -841,7 +841,7 @@ begin
     C.Height:= NSize;
 end;
 
-function _NicePluginCaption(const S: string): string;
+function AppNicePluginCaption(const S: string): string;
 begin
   Result:= S;
   Result:= StringReplace(Result, '\', ': ', [rfReplaceAll]);
