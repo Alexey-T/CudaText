@@ -105,6 +105,7 @@ var
       Color: TColor;
     end;
 var
+  AppListRecents: TStringList;
   AppBookmarkImagelist: TImageList = nil;
   AppApiFlatTheme: TATFlatTheme;
   AppAlwaysNewInstance: boolean = false;
@@ -2653,9 +2654,11 @@ initialization
   AppEventWatcher:= TEvent.Create(nil, true, true, '');
 
   AppApiFlatTheme:= ATFlatTheme;
+  AppListRecents:= TStringList.Create;
 
 finalization
 
+  FreeAndNil(AppListRecents);
   FreeAndNil(AppEventWatcher);
   FreeAndNil(AppEventLister);
   FreeAndNil(AppFrameListDeleting);

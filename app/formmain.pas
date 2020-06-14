@@ -569,7 +569,6 @@ type
     FBoundsFloatGroups1: TRect;
     FBoundsFloatGroups2: TRect;
     FBoundsFloatGroups3: TRect;
-    FListRecents: TStringList;
     FListTimers: TStringList;
     FConsoleMustShow: boolean;
     FSessionName: string;
@@ -1299,7 +1298,6 @@ var
   An: TecSyntAnalyzer;
   sl: TStringList;
   Cmd, i: integer;
-  ListRecents: TStringList;
 begin
   for i:= AKeymap.Count-1 downto 0 do
   begin
@@ -1383,12 +1381,11 @@ begin
 
     categ_RecentFile:
     begin
-      ListRecents:= fmMain.FListRecents;
-      for i:= 0 to ListRecents.Count-1 do
+      for i:= 0 to AppListRecents.Count-1 do
       begin
         AKeymap.Add(
           cmdFirstRecentCommand+i,
-          'recent file: '+FormatFilenameForMenu(ListRecents[i]),
+          'recent file: '+FormatFilenameForMenu(AppListRecents[i]),
           [], []);
       end;
     end;
@@ -2228,7 +2225,6 @@ begin
 
   FMenuVisible:= true;
   FSessionName:= '';
-  FListRecents:= TStringList.Create;
   FListTimers:= TStringList.Create;
 
   FillChar(AppPanelProp_Out, SizeOf(AppPanelProp_Out), 0);
@@ -2500,8 +2496,6 @@ begin
   for i:= 0 to FListTimers.Count-1 do
     TTimer(FListTimers.Objects[i]).Enabled:= false;
   FreeAndNil(FListTimers);
-
-  FreeAndNil(FListRecents);
 end;
 
 procedure TfmMain.FormDropFiles(Sender: TObject;
@@ -2787,7 +2781,7 @@ end;
 
 procedure TfmMain.DoClearRecentFileHistory;
 begin
-  FListRecents.Clear;
+  AppListRecents.Clear;
   UpdateMenuRecent(nil);
   //
   DeleteFileUTF8(AppFile_HistoryFiles);
@@ -3816,8 +3810,8 @@ begin
     categ_RecentFile:
       begin
         NIndex:= NCmd-cmdFirstRecentCommand;
-        if NIndex<FListRecents.Count then
-          Result:= 'r:'+FListRecents[NIndex]
+        if NIndex<AppListRecents.Count then
+          Result:= 'r:'+AppListRecents[NIndex]
         else
           Result:= 'c:'+IntToStr(NCmd);
       end;
@@ -4793,13 +4787,13 @@ var
   n: integer;
 begin
   n:= (Sender as TComponent).Tag;
-  fn:= SExpandHomeDirInFilename(FListRecents[n]);
+  fn:= SExpandHomeDirInFilename(AppListRecents[n]);
   if FileExistsUTF8(fn) then
     DoFileOpen(fn, '')
   else
   begin
     MsgBox(msgCannotFindFile+#10+fn, MB_OK or MB_ICONERROR);
-    FListRecents.Delete(n);
+    AppListRecents.Delete(n);
     UpdateMenuRecent(nil);
   end;
 end;

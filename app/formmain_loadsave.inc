@@ -127,7 +127,7 @@ begin
     end;
 
     ////recents
-    cfg.SetValue('/recent_files', FListRecents);
+    cfg.SetValue('/recent_files', AppListRecents);
 
     ////find dialog
     if Assigned(fmFind) then
@@ -594,7 +594,7 @@ begin
     FLastMaximizedMonitor:= cfg.GetValue('/dialog/max_mon', 0);
 
     ////recents
-    cfg.GetValue('/recent_files', FListRecents, '');
+    cfg.GetValue('/recent_files', AppListRecents, '');
     cfg.GetValue('/list_console', fmConsole.EdInput.Items, '');
     UpdateMenuRecent(nil);
 

@@ -555,8 +555,8 @@ begin
     cmdLastRecentCommand:
       begin
         NIndex:= Cmd-cmdFirstRecentCommand;
-        if NIndex<FListRecents.Count then
-          DoFileOpen(FListRecents[NIndex], '');
+        if NIndex<AppListRecents.Count then
+          DoFileOpen(AppListRecents[NIndex], '');
       end;
   end;
  until false;

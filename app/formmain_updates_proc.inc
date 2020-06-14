@@ -465,12 +465,12 @@ begin
   if sub=nil then exit;
   sub.Clear;
 
-  for i:= 0 to FListRecents.Count-1 do
+  for i:= 0 to AppListRecents.Count-1 do
   begin;
     mi:= TMenuItem.Create(Self);
     SName:= IntToStr(i+1)+'.  '+
-      ExtractFileName(FListRecents[i])+'  ('+
-      ExtractFileDir(FListRecents[i])+')';
+      ExtractFileName(AppListRecents[i])+'  ('+
+      ExtractFileDir(AppListRecents[i])+')';
     mi.Caption:= StringReplace(SName, '&', '&&', [rfReplaceAll]);
     mi.Tag:= i;
     mi.OnClick:= @MenuRecentItemClick;
@@ -484,7 +484,7 @@ begin
   mi:= TMenuItem.Create(Self);
   mi.Caption:= msgFileClearList;
   mi.OnClick:= @MenuRecentsClear;
-  mi.Enabled:= FListRecents.Count>0;
+  mi.Enabled:= AppListRecents.Count>0;
   sub.Add(mi);
 end;
 
@@ -495,7 +495,7 @@ var
 begin
   if Ed=nil then
   begin
-    SAddStringToHistory('', FListRecents, UiOps.MaxHistoryMenu);
+    SAddStringToHistory('', AppListRecents, UiOps.MaxHistoryMenu);
     exit;
   end;
 
@@ -511,7 +511,7 @@ begin
   if not Frame.InSession then
     SAddStringToHistory(
       SCollapseHomeDirInFilename(SFileName),
-      FListRecents,
+      AppListRecents,
       UiOps.MaxHistoryMenu);
 end;
 

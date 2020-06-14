@@ -407,7 +407,7 @@ begin
         APP_DIR_INSTALLED_ADDON:
           Result:= PyString_FromString(PChar(AppDir_LastInstalledAddon));
         APP_FILE_RECENTS:
-          Result:= PyString_FromString(PChar(fmMain.FListRecents.Text));
+          Result:= PyString_FromString(PChar(AppListRecents.Text));
 
         else
           Result:= ReturnNone;
