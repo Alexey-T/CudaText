@@ -1005,8 +1005,7 @@ type
     procedure FrameOnUpdateStatus(Sender: TObject);
     function DoTabAdd(APages: TATPages; const ACaption: string;
       AndActivate: boolean=true;
-      AAllowNearCurrent: boolean=true;
-      AAllowLexerForNewdoc: boolean=true): TATTabData;
+      AAllowNearCurrent: boolean=true): TATTabData;
     procedure FrameOnFocus(Sender: TObject);
     function GetFrame(AIndex: integer): TEditorFrame;
     procedure SetFrame(Frame: TEditorFrame);
@@ -3187,7 +3186,6 @@ var
   bSilent, bPreviewTab, bEnableHistory,
   bEnableEventPre, bEnableEventOpened, bEnableEventOpenedNone,
   bAllowZip, bAllowPics, bAllowLexerDetect, bDetectedPics,
-  bAllowLexerForNewdoc,
   bAndActivate, bAllowNear: boolean;
   OpenMode, NonTextMode: TAppOpenMode;
   CurGroups: TATGroups;
@@ -3210,7 +3208,6 @@ begin
   bEnableEventOpenedNone:= Pos('/nononeevent', AOptions)=0;
   bAndActivate:= Pos('/passive', AOptions)=0;
   bAllowLexerDetect:= Pos('/nolexerdetect', AOptions)=0;
-  bAllowLexerForNewdoc:= Pos('/nolexernewdoc', AOptions)=0;
   bAllowNear:= Pos('/nonear', AOptions)=0;
   bAllowZip:= Pos('/nozip', AOptions)=0;
   bAllowPics:= Pos('/nopictures', AOptions)=0;
@@ -3251,7 +3248,7 @@ begin
 
   if AFileName='' then
   begin
-    D:= DoTabAdd(APages, '', bAndActivate, bAllowNear, bAllowLexerForNewdoc);
+    D:= DoTabAdd(APages, '', bAndActivate, bAllowNear);
     if not Assigned(D) then
     begin
       D:= Groups.Pages1.Tabs.GetTabData(0);
@@ -3394,7 +3391,7 @@ begin
       if UiOps.TabsDisabled then
         D:= APages.Tabs.GetTabData(0)
       else
-        D:= DoTabAdd(APages, 'pre', true, false, false{dont set lexer for preview tab});
+        D:= DoTabAdd(APages, 'pre', true, false);
       if not Assigned(D) then exit;
       D.TabSpecial:= true;
       D.TabFontStyle:= StringToFontStyles(UiOps.TabPreviewFontStyle);
@@ -3458,7 +3455,7 @@ begin
     end;
   end;
 
-  D:= DoTabAdd(APages, ExtractFileName(AFileName), bAndActivate, bAllowNear, false{dont set lexer});
+  D:= DoTabAdd(APages, ExtractFileName(AFileName), bAndActivate, bAllowNear);
   if not Assigned(D) then
   begin
     D:= Groups.Pages1.Tabs.GetTabData(0);
@@ -4642,8 +4639,12 @@ begin
 end;
 
 procedure TfmMain.DoFileNew;
+var
+  Frame: TEditorFrame;
 begin
-  DoFileOpen('', '');
+  Frame:= DoFileOpen('', '');
+  if Assigned(Frame) then
+    Frame.LexerName[Frame.Ed1]:= UiOps.NewdocLexer;
 end;
 
 

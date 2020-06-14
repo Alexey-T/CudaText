@@ -37,7 +37,7 @@ begin
 end;
 
 function TfmMain.DoTabAdd(APages: TATPages; const ACaption: string;
-  AndActivate: boolean; AAllowNearCurrent: boolean; AAllowLexerForNewdoc: boolean): TATTabData;
+  AndActivate: boolean; AAllowNearCurrent: boolean): TATTabData;
 var
   F: TEditorFrame;
   NToIndex: integer;
@@ -75,11 +75,6 @@ begin
     );
   APages.Tabs.MakeVisible(NToIndex);
 
-  //call this for empty NewdocLexer too to apply lexer-spec cfg for none-lexer
-  if AAllowLexerForNewdoc then
-   //if not SEndsWith(UiOps.NewdocLexer, msgLiteLexerSuffix) then //it was fix for old crash
-    F.LexerName[F.Ed1]:= UiOps.NewdocLexer;
-
   AppFrameList1.Add(F);
 
   Result:= APages.Tabs.GetTabData(NToIndex);
@@ -88,9 +83,18 @@ end;
 procedure TfmMain.DoOnTabAdd(Sender: TObject);
 var
   Pages: TATPages;
+  Data: TATTabData;
+  Frame: TEditorFrame;
 begin
   Pages:= (Sender as TATTabs).Parent as TATPages;
-  DoTabAdd(Pages, '');
+  Data:= DoTabAdd(Pages, '');
+
+  if Assigned(Data) then
+  begin
+    Frame:= Data.TabObject as TEditorFrame;
+    //call this for empty NewdocLexer too to apply lexer-spec cfg for none-lexer
+    Frame.LexerName[Frame.Ed1]:= UiOps.NewdocLexer;
+  end;
 end;
 
 procedure TfmMain.DoOnTabFocus(Sender: TObject);
