@@ -166,6 +166,21 @@ type
     W, H: integer;
   end;
 
+  TDlgCommandsProps = record
+    Caption: string;
+    LexerName: string;
+    ShowUsual,
+    ShowPlugins,
+    ShowLexers,
+    ShowFiles,
+    ShowRecents,
+    AllowConfig,
+    AllowConfigForLexer,
+    ShowCentered: boolean;
+    FocusedCommand: integer;
+    W, H: integer;
+  end;
+
 const
   cMenuTabsizeMin = 1;
   cMenuTabsizeMax = 10;
@@ -896,13 +911,8 @@ type
     procedure DoEditorsLock(ALock: boolean);
     procedure DoFindCurrentWordOrSel(Ed: TATSynEdit; ANext, AWordOrSel: boolean);
     procedure DoDialogCommands;
-    function DoDialogCommands_Custom(
-      Ed: TATSynEdit; const ALexerName: string;
-      AShowUsual, AShowPlugins, AShowLexers,
-      AShowFiles, AShowRecents, AAllowConfig, AAllowConfigForLexer, AShowCentered: boolean;
-      const ACaption: string; AFocusedCommand: integer; AW, AH: integer): integer;
-    function DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers, AShowFiles,
-      AShowRecents, AAllowConfig, AAllowConfigForLexer, AShowCentered: boolean; const ACaption: string; AW, AH: integer): string;
+    function DoDialogCommands_Custom(Ed: TATSynEdit; const AProps: TDlgCommandsProps): integer;
+    function DoDialogCommands_Py(var AProps: TDlgCommandsProps): string;
     procedure DoDialogGoto;
     function DoDialogMenuList(const ACaption: string; AItems: TStringList; AInitItemIndex: integer;
       ACloseOnCtrlRelease: boolean= false; AOnListSelect: TAppListSelectEvent=nil): integer;
@@ -3603,6 +3613,7 @@ var
   F: TEditorFrame;
   Ed: TATSynEdit;
   NCmd: integer;
+  Props: TDlgCommandsProps;
 begin
   F:= CurrentFrame;
   Ed:= F.Editor;
@@ -3612,11 +3623,20 @@ begin
   UpdateKeymapDynamicItems(AppKeymapMain, categ_OpenedFile);
   UpdateKeymapDynamicItems(AppKeymapMain, categ_RecentFile);
 
-  NCmd:= DoDialogCommands_Custom(
-    Ed, F.LexerName[Ed],
-    true, true, true, true, true, true, true, false,
-    '', FLastSelectedCommand, 0, 0);
+  FillChar(Props, SizeOf(Props), 0);
+  Props.Caption:= '';
+  Props.LexerName:= F.LexerName[Ed];
+  Props.ShowUsual:= true;
+  Props.ShowPlugins:= true;
+  Props.ShowLexers:= true;
+  Props.ShowFiles:= true;
+  Props.ShowRecents:= true;
+  Props.AllowConfig:= true;
+  Props.AllowConfigForLexer:= true;
+  Props.ShowCentered:= false;
+  Props.FocusedCommand:= FLastSelectedCommand;
 
+  NCmd:= DoDialogCommands_Custom(Ed, Props);
   if NCmd>0 then
   begin
     FLastSelectedCommand:= NCmd;
@@ -3626,8 +3646,7 @@ begin
 end;
 
 
-function TfmMain.DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers, AShowFiles, AShowRecents,
-  AAllowConfig, AAllowConfigForLexer, AShowCentered: boolean; const ACaption: string; AW, AH: integer): string;
+function TfmMain.DoDialogCommands_Py(var AProps: TDlgCommandsProps): string;
 var
   F: TEditorFrame;
   NCmd, NIndex: integer;
@@ -3635,23 +3654,10 @@ begin
   Result:= '';
 
   F:= CurrentFrame;
+  if F=nil then exit;
 
-  NCmd:= DoDialogCommands_Custom(
-    F.Editor,
-    F.LexerName[F.Ed1],
-    AShowUsual,
-    AShowPlugins,
-    AShowLexers,
-    AShowFiles,
-    AShowRecents,
-    AAllowConfig,
-    AAllowConfigForLexer,
-    AShowCentered,
-    ACaption,
-    0,
-    AW,
-    AH
-    );
+  AProps.LexerName:= F.LexerName[F.Editor];
+  NCmd:= DoDialogCommands_Custom(F.Editor, AProps);
   if NCmd<=0 then exit;
 
   case AppCommandCategory(NCmd) of
@@ -3700,11 +3706,7 @@ begin
 end;
 
 
-function TfmMain.DoDialogCommands_Custom(
-  Ed: TATSynEdit; const ALexerName: string;
-  AShowUsual, AShowPlugins, AShowLexers, AShowFiles, AShowRecents,
-  AAllowConfig, AAllowConfigForLexer, AShowCentered: boolean;
-  const ACaption: string; AFocusedCommand: integer; AW, AH: integer): integer;
+function TfmMain.DoDialogCommands_Custom(Ed: TATSynEdit; const AProps: TDlgCommandsProps): integer;
 var
   bKeysChanged: boolean;
 begin
@@ -3712,26 +3714,26 @@ begin
   fmCommands:= TfmCommands.Create(Self);
   try
     UpdateInputForm(fmCommands);
-    fmCommands.OptShowUsual:= AShowUsual;
-    fmCommands.OptShowPlugins:= AShowPlugins;
-    fmCommands.OptShowLexers:= AShowLexers;
-    fmCommands.OptShowFiles:= AShowFiles;
-    fmCommands.OptShowRecents:= AShowRecents;
-    fmCommands.OptAllowConfig:= AAllowConfig;
-    fmCommands.OptAllowConfigForLexer:= AAllowConfigForLexer;
-    fmCommands.OptFocusedCommand:= AFocusedCommand;
+    fmCommands.OptShowUsual:= AProps.ShowUsual;
+    fmCommands.OptShowPlugins:= AProps.ShowPlugins;
+    fmCommands.OptShowLexers:= AProps.ShowLexers;
+    fmCommands.OptShowFiles:= AProps.ShowFiles;
+    fmCommands.OptShowRecents:= AProps.ShowRecents;
+    fmCommands.OptAllowConfig:= AProps.AllowConfig;
+    fmCommands.OptAllowConfigForLexer:= AProps.AllowConfigForLexer;
+    fmCommands.OptFocusedCommand:= AProps.FocusedCommand;
     fmCommands.OnMsg:= @DoCommandsMsgStatus;
-    fmCommands.CurrentLexerName:= ALexerName;
+    fmCommands.CurrentLexerName:= AProps.LexerName;
     fmCommands.Keymap:= Ed.Keymap;
-    fmCommands.ListCaption:= ACaption;
+    fmCommands.ListCaption:= AProps.Caption;
 
-    if AShowCentered then
+    if AProps.ShowCentered then
       fmCommands.Position:= poScreenCenter;
 
-    if AW>0 then
-      fmCommands.Width:= AW;
-    if AH>0 then
-      fmCommands.Height:= AH;
+    if AProps.W>0 then
+      fmCommands.Width:= AProps.W;
+    if AProps.H>0 then
+      fmCommands.Height:= AProps.H;
 
     fmCommands.ShowModal;
     Result:= fmCommands.ResultCommand;

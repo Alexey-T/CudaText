@@ -2698,6 +2698,7 @@ var
   PtrTitle: PChar;
   StrTitle, Str: string;
   W, H: integer;
+  Props: TDlgCommandsProps;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'isii:dlg_commands', @NOps, @PtrTitle, @W, @H)) then
@@ -2708,19 +2709,20 @@ begin
       fmMain.UpdateKeymapDynamicItems(AppKeymapMain, categ_OpenedFile);
       fmMain.UpdateKeymapDynamicItems(AppKeymapMain, categ_RecentFile);
 
-      Str:= fmMain.DoDialogCommands_Py(
-        (NOps and COMMANDS_USUAL)<>0,
-        (NOps and COMMANDS_PLUGINS)<>0,
-        (NOps and COMMANDS_LEXERS)<>0,
-        (NOps and COMMANDS_FILES)<>0,
-        (NOps and COMMANDS_RECENTS)<>0,
-        (NOps and COMMANDS_CONFIG)<>0,
-        (NOps and COMMANDS_CONFIG_LEXER)<>0,
-        (NOps and COMMANDS_CENTERED)<>0,
-        StrTitle,
-        W,
-        H
-        );
+      FillChar(Props, SizeOf(Props), 0);
+      Props.Caption:= StrTitle;
+      Props.ShowUsual:= (NOps and COMMANDS_USUAL)<>0;
+      Props.ShowPlugins:= (NOps and COMMANDS_PLUGINS)<>0;
+      Props.ShowLexers:= (NOps and COMMANDS_LEXERS)<>0;
+      Props.ShowFiles:= (NOps and COMMANDS_FILES)<>0;
+      Props.ShowRecents:= (NOps and COMMANDS_RECENTS)<>0;
+      Props.AllowConfig:= (NOps and COMMANDS_CONFIG)<>0;
+      Props.AllowConfigForLexer:= (NOps and COMMANDS_CONFIG_LEXER)<>0;
+      Props.ShowCentered:= (NOps and COMMANDS_CENTERED)<>0;
+      Props.W:= W;
+      Props.H:= H;
+
+      Str:= fmMain.DoDialogCommands_Py(Props);
 
       if Str='' then
         Result:= ReturnNone
