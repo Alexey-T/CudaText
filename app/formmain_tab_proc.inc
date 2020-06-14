@@ -36,7 +36,7 @@ begin
   F.Splitter.OnPaint:= @SplitterOnPaint_Gr;
 end;
 
-function TfmMain.DoTabAdd(APages: TATPages; const ACaption: string;
+function TfmMain.CreateTab(APages: TATPages; const ACaption: string;
   AndActivate: boolean; AAllowNearCurrent: boolean): TATTabData;
 var
   F: TEditorFrame;
@@ -87,7 +87,7 @@ var
   Frame: TEditorFrame;
 begin
   Pages:= (Sender as TATTabs).Parent as TATPages;
-  Data:= DoTabAdd(Pages, '');
+  Data:= CreateTab(Pages, '');
 
   if Assigned(Data) then
   begin

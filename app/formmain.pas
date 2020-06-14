@@ -1003,7 +1003,7 @@ type
     procedure InitPyEngine;
     procedure FrameOnChangeCaption(Sender: TObject);
     procedure FrameOnUpdateStatus(Sender: TObject);
-    function DoTabAdd(APages: TATPages; const ACaption: string;
+    function CreateTab(APages: TATPages; const ACaption: string;
       AndActivate: boolean=true;
       AAllowNearCurrent: boolean=true): TATTabData;
     procedure FrameOnFocus(Sender: TObject);
@@ -3248,7 +3248,7 @@ begin
 
   if AFileName='' then
   begin
-    D:= DoTabAdd(APages, '', bAndActivate, bAllowNear);
+    D:= CreateTab(APages, '', bAndActivate, bAllowNear);
     if not Assigned(D) then
     begin
       D:= Groups.Pages1.Tabs.GetTabData(0);
@@ -3391,7 +3391,7 @@ begin
       if UiOps.TabsDisabled then
         D:= APages.Tabs.GetTabData(0)
       else
-        D:= DoTabAdd(APages, 'pre', true, false);
+        D:= CreateTab(APages, 'pre', true, false);
       if not Assigned(D) then exit;
       D.TabSpecial:= true;
       D.TabFontStyle:= StringToFontStyles(UiOps.TabPreviewFontStyle);
@@ -3455,7 +3455,7 @@ begin
     end;
   end;
 
-  D:= DoTabAdd(APages, ExtractFileName(AFileName), bAndActivate, bAllowNear);
+  D:= CreateTab(APages, ExtractFileName(AFileName), bAndActivate, bAllowNear);
   if not Assigned(D) then
   begin
     D:= Groups.Pages1.Tabs.GetTabData(0);
