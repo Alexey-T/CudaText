@@ -624,6 +624,7 @@ COMMANDS_CONFIG  = 8
 COMMANDS_CENTERED = 16
 COMMANDS_FILES    = 32
 COMMANDS_RECENTS  = 64
+COMMANDS_CONFIG_LEXER = 128
 
 TOOLBAR_UPDATE         = 1
 TOOLBAR_GET_BUTTON_HANDLE = 2
@@ -875,14 +876,14 @@ def dlg_input_ex(number, caption,
                  label7, text7, label8, text8, label9, text9,
                  label10, text10)
 
-def dlg_menu(id, items, focused=0, caption='', clip=0):
+def dlg_menu(id, items, focused=0, caption='', clip=0, w=0, h=0):
     if isinstance(items, str):
-        text = items
+        s = items
     elif isinstance(items, (tuple, list)):
-        text = '\n'.join(items)
+        s = '\n'.join(items)
     else:
-        return
-    return ct.dlg_menu(id, text, focused, caption, clip)
+        raise ValueError('Incorrect type in dlg_menu')
+    return ct.dlg_menu(id, s, focused, caption, clip, w, h)
 
 def dlg_file(is_open, init_filename, init_dir, filters, caption=''):
     if not caption:
@@ -898,8 +899,8 @@ def dlg_hotkey(title=''):
 def dlg_hotkeys(command, lexer=''):
     return ct.dlg_hotkeys(command, lexer)
 
-def dlg_commands(options, title=''):
-    return ct.dlg_commands(options, title)
+def dlg_commands(options, title='', w=0, h=0):
+    return ct.dlg_commands(options, title, w, h)
 
 def _dlg_custom_dict(res, count):
     """Parse dlg_custom str result to dict"""

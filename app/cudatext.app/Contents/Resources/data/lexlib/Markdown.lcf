@@ -339,7 +339,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StyleName = 'Comment'
       StatesAbsent = 3
       TokenType = 2
-      Expression = '^([\-\*_]\x20+)+[\-\*_]'
+      Expression = '^(([\-\*_])\x20+)+\2?$'
       ColumnFrom = 0
       ColumnTo = 0
     end
