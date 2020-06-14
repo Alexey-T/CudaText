@@ -37,6 +37,7 @@ type
     panelInput: TPanel;
     panelBtn: TButtonPanel;
     panelPress: TPanel;
+    TimerAdd: TTimer;
     procedure bAdd1Click(Sender: TObject);
     procedure bAdd2Click(Sender: TObject);
     procedure bClear1Click(Sender: TObject);
@@ -47,6 +48,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure HelpButtonClick(Sender: TObject);
     procedure OKButtonClick(Sender: TObject);
+    procedure TimerAddTimer(Sender: TObject);
   private
     { private declarations }
     FKeyPressed: integer;
@@ -111,6 +113,10 @@ begin
   panelBtn.OKButton.ModalResult:= mrNone;
 
   DoUpdate;
+
+  //if no hotkeys, user wants to add it, so auto-press Extend here
+  if (Keys1.ToString='') and (Keys2.ToString='') then
+    TimerAdd.Enabled:= true;
 end;
 
 procedure TfmKeys.HelpButtonClick(Sender: TObject);
@@ -161,6 +167,12 @@ begin
   finally
     Item.Free;
   end;
+end;
+
+procedure TfmKeys.TimerAddTimer(Sender: TObject);
+begin
+  TimerAdd.Enabled:= false;
+  bAdd1.Click;
 end;
 
 procedure TfmKeys.bClear1Click(Sender: TObject);
@@ -248,16 +260,23 @@ begin
   panelBtn.Hide;
   panelPress.Show;
 
-  FKeyPressed:= 0;
-  repeat
-    Application.ProcessMessages;
-    if Application.Terminated then exit;
-  until FKeyPressed<>0;
-  Result:= FKeyPressed;
-
-  panelPress.Hide;
-  panelBtn.Show;
-  panelInput.Show;
+  try
+    FKeyPressed:= 0;
+    repeat
+      Application.ProcessMessages;
+      if Application.Terminated then exit;
+      if ModalResult=mrCancel then Break;
+      if FKeyPressed<>0 then
+      begin
+        Result:= FKeyPressed;
+        Break;
+      end;
+    until false;
+  finally
+    panelPress.Hide;
+    panelBtn.Show;
+    panelInput.Show;
+  end;
 end;
 
 procedure TfmKeys.DoUpdate;

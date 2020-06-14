@@ -199,4 +199,11 @@ object fmKeys: TfmKeys
       TabOrder = 3
     end
   end
+  object TimerAdd: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = TimerAddTimer
+    Left = 213
+    Top = 200
+  end
 end
