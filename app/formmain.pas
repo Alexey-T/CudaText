@@ -995,7 +995,8 @@ type
     procedure UpdateMenuRecents(sub: TMenuItem);
     procedure UpdateSidebarButtonOverlay;
     procedure UpdateEditorTabsize(AValue: integer);
-    procedure UpdateKeymapDynamicItems(AKeymap: TATKeymap; ACategory: TAppCommandCategory);
+    procedure UpdateKeymapDynamicItems(ACategory: TAppCommandCategory);
+    procedure UpdateKeymapDynamicItemsEx(AKeymap: TATKeymap; ACategory: TAppCommandCategory);
     procedure UpdateMenuItemAltObject(mi: TMenuItem; cmd: integer);
     procedure UpdateMenuItemChecked(mi: TMenuItem; saved: TATMenuItemsAlt; AValue: boolean);
     procedure UpdateMenuItemHint(mi: TMenuItem; const AHint: string);
@@ -3621,9 +3622,9 @@ begin
   Ed:= F.Editor;
   MsgStatus(msgStatusHelpOnShowCommands);
 
-  UpdateKeymapDynamicItems(AppKeymapMain, categ_Lexer);
-  UpdateKeymapDynamicItems(AppKeymapMain, categ_OpenedFile);
-  UpdateKeymapDynamicItems(AppKeymapMain, categ_RecentFile);
+  UpdateKeymapDynamicItems(categ_Lexer);
+  UpdateKeymapDynamicItems(categ_OpenedFile);
+  UpdateKeymapDynamicItems(categ_RecentFile);
 
   FillChar(Props, SizeOf(Props), 0);
   Props.Caption:= '';

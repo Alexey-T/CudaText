@@ -857,7 +857,21 @@ begin
   Result:= StringReplace(Result, '&', '', [rfReplaceAll]);
 end;
 
-procedure TfmMain.UpdateKeymapDynamicItems(AKeymap: TATKeymap; ACategory: TAppCommandCategory);
+procedure TfmMain.UpdateKeymapDynamicItems(ACategory: TAppCommandCategory);
+var
+  Map: TATKeymap;
+  i: integer;
+begin
+  UpdateKeymapDynamicItemsEx(AppKeymapMain, ACategory);
+
+  for i:= 0 to AppKeymapLexers.Count-1 do
+  begin
+    Map:= TATKeymap(AppKeymapLexers.Objects[i]);
+    UpdateKeymapDynamicItemsEx(Map, ACategory);
+  end;
+end;
+
+procedure TfmMain.UpdateKeymapDynamicItemsEx(AKeymap: TATKeymap; ACategory: TAppCommandCategory);
 var
   CmdItem: TAppCommandInfo;
   Frame: TEditorFrame;
