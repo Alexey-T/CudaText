@@ -38,7 +38,7 @@ begin
   else
     SName:= F.TabCaption;
 
-  SSession:= ChangeFileExt(ExtractFileName(FSessionName), '');
+  SSession:= ChangeFileExt(ExtractFileName(AppSessionName), '');
   if (SSession<>'') and (SSession<>'history session') then
     SSession:= ' {'+SSession+'}'
   else

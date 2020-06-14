@@ -105,10 +105,11 @@ var
       Color: TColor;
     end;
 var
-  AppListRecents: TStringList;
+  AppListRecents: TStringList = nil;
   AppBookmarkImagelist: TImageList = nil;
   AppApiFlatTheme: TATFlatTheme;
   AppAlwaysNewInstance: boolean = false;
+  AppSessionName: string = '';
   AppServerId: string = 'cudatext.0'; //used by TUniqueInstance (which is used only on Unix)
 
 var

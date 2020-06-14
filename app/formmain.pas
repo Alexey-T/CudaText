@@ -571,7 +571,6 @@ type
     FBoundsFloatGroups3: TRect;
     FListTimers: TStringList;
     FConsoleMustShow: boolean;
-    FSessionName: string;
     FSessionIsLoading: boolean;
     FColorDialog: TColorDialog;
     Status: TATStatus;
@@ -2031,7 +2030,7 @@ end;
 
 function TfmMain.GetSessionFilename: string;
 begin
-  Result:= FSessionName;
+  Result:= AppSessionName;
   if Result='' then
     Result:= cAppSessionDefault;
   if ExtractFileDir(Result)='' then
@@ -2224,7 +2223,7 @@ begin
   AppManagerLite.OnApplyStyle:= @LiteLexer_ApplyStyle;
 
   FMenuVisible:= true;
-  FSessionName:= '';
+  AppSessionName:= '';
   FListTimers:= TStringList.Create;
 
   FillChar(AppPanelProp_Out, SizeOf(AppPanelProp_Out), 0);

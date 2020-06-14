@@ -157,7 +157,7 @@ begin
 
     ////state
     cfg.SetValue('lang', UiOps.LangName);
-    cfg.SetValue('session', IfThen(UiOps.ReopenSession, FSessionName, ''));
+    cfg.SetValue('session', IfThen(UiOps.ReopenSession, AppSessionName, ''));
     cfg.SetValue('last_cmd', FLastSelectedCommand);
 
     DoOps_SaveHistory_GroupView(cfg);
@@ -636,7 +636,7 @@ begin
 
     if FOption_AllowSession then
     begin
-      FSessionName:= cfg.GetValue('session', FSessionName);
+      AppSessionName:= cfg.GetValue('session', AppSessionName);
       FLastSelectedCommand:= cfg.GetValue('last_cmd', FLastSelectedCommand);
       DoOps_LoadHistory_GroupView(cfg);
     end;
