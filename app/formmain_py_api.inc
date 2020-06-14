@@ -2442,6 +2442,8 @@ begin
         MENU_LIST_ALT:
           begin
             FillChar(Props, SizeOf(Props), 0);
+            Props.ItemsText:= StrItems;
+            Props.Caption:= StrCaption;
             Props.InitialIndex:= NIndex;
             Props.Multiline:= (NId and 1)=MENU_LIST_ALT;
             Props.NoFuzzy:= (NId and MENU_NO_FUZZY)<>0;
@@ -2451,7 +2453,7 @@ begin
             Props.W:= NW;
             Props.H:= NH;
 
-            NIndex:= fmMain.DoDialogMenuApi(StrItems, StrCaption, Props);
+            NIndex:= fmMain.DoDialogMenuApi(Props);
             Application.ProcessMessages; //force hide dialog
             if NIndex>=0 then
               Result:= PyInt_FromLong(NIndex)

@@ -157,6 +157,8 @@ type
   end;
 
   TDlgMenuProps = record
+    ItemsText: string;
+    Caption: string;
     InitialIndex: integer;
     Multiline: boolean;
     NoFuzzy: boolean;
@@ -782,7 +784,7 @@ type
     procedure DoOnConsoleNumberChange(Sender: TObject);
     function DoOnMacro(Frame: TEditorFrame; const Str: string): boolean;
     function DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean): boolean;
-    function DoDialogMenuApi(const AText, ACaption: string; const AProps: TDlgMenuProps): integer;
+    function DoDialogMenuApi(const AProps: TDlgMenuProps): integer;
     procedure DoDialogMenuTranslations;
     procedure DoDialogMenuThemes;
     procedure DoFileExportHtml(F: TEditorFrame);
@@ -5359,8 +5361,7 @@ begin
 end;
 
 
-function TfmMain.DoDialogMenuApi(const AText, ACaption: string;
-  const AProps: TDlgMenuProps): integer;
+function TfmMain.DoDialogMenuApi(const AProps: TDlgMenuProps): integer;
 var
   Form: TfmMenuApi;
   Sep: TATStringSeparator;
@@ -5368,7 +5369,7 @@ var
 begin
   Form:= TfmMenuApi.Create(nil);
   try
-    Sep.Init(AText, #10);
+    Sep.Init(AProps.ItemsText, #10);
     repeat
       if not Sep.GetItemStr(SItem) then Break;
       Form.listItems.Add(SItem);
@@ -5378,7 +5379,7 @@ begin
     if AProps.ShowCentered then
       Form.Position:= poScreenCenter;
 
-    Form.ListCaption:= ACaption;
+    Form.ListCaption:= AProps.Caption;
     Form.Multiline:= AProps.Multiline;
     Form.InitItemIndex:= AProps.InitialIndex;
     Form.DisableFuzzy:= AProps.NoFuzzy;
@@ -6828,9 +6829,11 @@ begin
     List.Insert(0, msgNoLexer);
 
     FillChar(DlgProps, SizeOf(DlgProps), 0);
+    DlgProps.ItemsText:= List.Text;
+    DlgProps.Caption:= SCaption;
     DlgProps.NoFuzzy:= not UiOps.ListboxFuzzySearch;
 
-    NIndex:= DoDialogMenuApi(List.Text, SCaption, DlgProps);
+    NIndex:= DoDialogMenuApi(DlgProps);
     if NIndex<0 then exit;
 
     Obj:= List.Objects[NIndex];
