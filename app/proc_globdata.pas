@@ -2620,7 +2620,7 @@ initialization
 
   AppKeymapMain:= TATKeymap.Create;
   InitKeymapFull(AppKeymapMain);
-  InitKeymap_AddCudatextItems(AppKeymapMain);
+  Keymap_AddCudatextItems(AppKeymapMain);
 
   AppKeymapLexers:= TStringList.Create;
   AppKeymapLexers.Sorted:= true;

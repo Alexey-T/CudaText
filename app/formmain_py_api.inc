@@ -4035,7 +4035,7 @@ begin
   begin
     AppKeymapInitial:= TATKeymap.Create;
     InitKeymapFull(AppKeymapInitial);
-    InitKeymap_AddCudatextItems(AppKeymapInitial);
+    Keymap_AddCudatextItems(AppKeymapInitial);
   end;
 
   with AppPython.Engine do
