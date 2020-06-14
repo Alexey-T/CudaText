@@ -1221,7 +1221,7 @@ Detailed demo plugin exists, it shows many dlg_proc actions, shows modal/nonmoda
 
 ===dlg_commands===
 
- dlg_commands(options, title="")
+ dlg_commands(options, title="", w=0, h=0)
 
 Show commands dialog, which is customizable version of Commands (F1) dialog in CudaText.
 
@@ -1235,6 +1235,8 @@ Param "options" should be 0 or sum of int flags:
 * COMMANDS_CONFIG: Allow to call Configure Hotkeys dialog by F9 key.
 * COMMANDS_CONFIG_LEXER: Enable checkbox "For current lexer" when dialog to configure hotkey is called.
 * COMMANDS_CENTERED: Set dialog position to the center of desktop. Otherwise, position depends on CudaText option.
+
+Params "w" and "h": if values>0, they are width and height of dialog.
 
 Gets string if command selected, or None if cancelled.
 
@@ -3926,5 +3928,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.334 (app 1.104.1)
 * add: dlg_menu: added params: "clip", "w", "h"
 * add: dlg_commands: added COMMANDS_CONFIG_LEXER
+
+1.0.335 (app 1.104.2)
+* add: dlg_commands: added params: "w", "h"
 
 [[Category:CudaText]]
