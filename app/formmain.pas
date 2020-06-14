@@ -1097,6 +1097,8 @@ uses
   Emmet,
   EmmetHelper;
 
+{$R *.lfm}
+
 var
   PythonEng: TPythonEngine = nil;
   PythonModule: TPythonModule = nil;
@@ -1136,8 +1138,6 @@ begin
   AppUniqInst.OnOtherInstance:= @fmMain.UniqInstanceOtherInstance;
   {$endif}
 end;
-
-{$R *.lfm}
 
 function GetEditorFrame(Ed: TATSynEdit): TEditorFrame; inline;
 begin
