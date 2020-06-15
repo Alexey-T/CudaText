@@ -277,10 +277,14 @@ procedure DoInstallPlugin(
 var
   ini: TIniFile;
   sections: TStringList;
-  ini_section, s_section, s_caption, s_module, s_method, s_events,
-  s_lexers, s_hotkey, s_lexer_item, s_caption_nice: string;
+  ini_section, s_section,
+  s_title, s_caption, s_module, s_method, s_events,
+  s_lexers, s_hotkey, s_lexer_item, s_caption_nice,
+  s_allhotkeys: string;
   Sep: TATStringSeparator;
   Keymap: TATKeymap;
+  bAllowHotkeys: boolean;
+  NumHotkeys: integer;
 begin
   AReport:= '';
   ADirTarget:= '';
@@ -290,11 +294,33 @@ begin
 
   try
     s_module:= ini.ReadString('info', 'subdir', '');
+    s_title:= ini.ReadString('info', 'title', '');
     if s_module='' then exit;
     ini.ReadSections(sections);
 
     ADirTarget:= AppDir_Py+DirectorySeparator+s_module;
     FCopyDir(ExtractFileDir(AFilenameInf), ADirTarget);
+
+    s_allhotkeys:= '';
+    NumHotkeys:= 0;
+    for ini_section in sections do
+    begin
+      if not SRegexMatchesString(ini_section, 'item\d+', true) then Continue;
+      s_hotkey:= ini.ReadString(ini_section, 'hotkey', '');
+      if s_hotkey<>'' then
+      begin
+        Inc(NumHotkeys);
+        if s_allhotkeys<>'' then
+          s_allhotkeys+= ', ';
+        s_allhotkeys+= s_hotkey;
+      end;
+    end;
+
+    if NumHotkeys=0 then
+      bAllowHotkeys:= true
+    else
+      bAllowHotkeys:= MsgBox(Format(msgConfirmInstallHotkeys,
+                      [s_title, NumHotkeys, s_allhotkeys]), MB_OKCANCEL) = ID_OK;
 
     for ini_section in sections do
     begin
@@ -305,7 +331,10 @@ begin
       s_method:= ini.ReadString(ini_section, 'method', '');
       s_events:= ini.ReadString(ini_section, 'events', '');
       s_lexers:= ini.ReadString(ini_section, 'lexers', '');
-      s_hotkey:= ini.ReadString(ini_section, 'hotkey', '');
+      if bAllowHotkeys then
+        s_hotkey:= ini.ReadString(ini_section, 'hotkey', '')
+      else
+        s_hotkey:= '';
 
       if s_section='commands' then
       begin
