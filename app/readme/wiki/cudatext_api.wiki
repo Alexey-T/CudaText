@@ -3931,5 +3931,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.335 (app 1.104.5)
 * add: dlg_commands: params "w", "h"
+* add: support encodings "koi8r", "koi8u", "koi8ru"
 
 [[Category:CudaText]]
