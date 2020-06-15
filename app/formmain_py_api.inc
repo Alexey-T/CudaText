@@ -3665,7 +3665,16 @@ begin
 
         PROP_ENC:
           begin
-            Ed.EncodingName:= AppEncodingShortnameToFullname(Str);
+            if Assigned(F) then
+              fmMain.SetFrameEncoding(Ed, AppEncodingShortnameToFullname(Str), false)
+            else
+              Ed.EncodingName:= AppEncodingShortnameToFullname(Str);
+          end;
+
+        PROP_ENC_RELOAD:
+          begin
+            if Assigned(F) then
+              fmMain.SetFrameEncoding(Ed, AppEncodingShortnameToFullname(Str), true);
           end;
 
         PROP_NEWLINE:
