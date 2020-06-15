@@ -320,7 +320,8 @@ begin
       bAllowHotkeys:= true
     else
       bAllowHotkeys:= MsgBox(Format(msgConfirmInstallHotkeys,
-                      [s_title, NumHotkeys, s_allhotkeys]), MB_OKCANCEL) = ID_OK;
+                      [s_title, NumHotkeys, s_allhotkeys]),
+                      MB_OKCANCEL or MB_ICONQUESTION) = ID_OK;
 
     for ini_section in sections do
     begin
