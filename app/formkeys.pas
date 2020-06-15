@@ -303,7 +303,7 @@ begin
   bAdd1.Enabled:= (Keys1.Length>0) and (Keys1.Length<Length(TATKeyArray.Data));
   bAdd2.Enabled:= (Keys2.Length>0) and (Keys2.Length<Length(TATKeyArray.Data));
 
-  if bSet1.Visible and bSet1.Enabled then
+  if bSet1.Visible and bSet1.CanFocus then
     ActiveControl:= bSet1;
 
   //check dups
