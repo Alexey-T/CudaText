@@ -273,7 +273,8 @@ end;
 procedure DoInstallPlugin(
   const AFilenameInf: string;
   out AReport: string;
-  out ADirTarget: string);
+  out ADirTarget: string;
+  ASilent: boolean);
 var
   ini: TIniFile;
   sections: TStringList;
@@ -303,18 +304,20 @@ begin
 
     s_allhotkeys:= '';
     NumHotkeys:= 0;
-    for ini_section in sections do
-    begin
-      if not SRegexMatchesString(ini_section, 'item\d+', true) then Continue;
-      s_hotkey:= ini.ReadString(ini_section, 'hotkey', '');
-      if s_hotkey<>'' then
+
+    if not ASilent then
+      for ini_section in sections do
       begin
-        Inc(NumHotkeys);
-        if s_allhotkeys<>'' then
-          s_allhotkeys+= ', ';
-        s_allhotkeys+= s_hotkey;
+        if not SRegexMatchesString(ini_section, 'item\d+', true) then Continue;
+        s_hotkey:= ini.ReadString(ini_section, 'hotkey', '');
+        if s_hotkey<>'' then
+        begin
+          Inc(NumHotkeys);
+          if s_allhotkeys<>'' then
+            s_allhotkeys+= ', ';
+          s_allhotkeys+= s_hotkey;
+        end;
       end;
-    end;
 
     if NumHotkeys=0 then
       bAllowHotkeys:= true
@@ -710,7 +713,7 @@ begin
     cAddonTypePlugin:
       begin
         AStrMessage:= msgStatusInstalledNeedRestart;
-        DoInstallPlugin(fn_inf, AStrReport, ADirTarget)
+        DoInstallPlugin(fn_inf, AStrReport, ADirTarget, ASilent)
       end;
     cAddonTypeData:
       begin
