@@ -661,7 +661,7 @@ type
   end;
 
 const
-  AppEncodings: array[0..34] of TAppEncodingRecord = (
+  AppEncodings: array[0..38] of TAppEncodingRecord = (
     (Sub: ''; Name: cEncNameUtf8_NoBom; ShortName: 'utf8'),
     (Sub: ''; Name: cEncNameUtf8_WithBom; ShortName: 'utf8_bom'),
     (Sub: ''; Name: cEncNameUtf16LE_NoBom; ShortName: 'utf16le'),
@@ -688,6 +688,10 @@ const
     (Sub: 'eu'; Name: 'iso88592'; ShortName: 'iso88592'),
     (Sub: 'eu'; Name: 'iso885915'; ShortName: 'iso885915'),
     (Sub: 'eu'; Name: 'mac'; ShortName: 'mac'),
+    (Sub: 'eu'; Name: '-'; ShortName: ''),
+    (Sub: 'eu'; Name: 'koi8r'; ShortName: 'koi8r'),
+    (Sub: 'eu'; Name: 'koi8u'; ShortName: 'koi8u'),
+    (Sub: 'eu'; Name: 'koi8ru'; ShortName: 'koi8ru'),
     (Sub: 'mi'; Name: 'cp1254'; ShortName: 'cp1254'),
     (Sub: 'mi'; Name: 'cp1255'; ShortName: 'cp1255'),
     (Sub: 'mi'; Name: 'cp1256'; ShortName: 'cp1256'),
