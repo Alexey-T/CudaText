@@ -15,7 +15,7 @@
 - fix: floating groups didn't show ui-tab icons
 - fix: input of complex hotkeys (like "Alt+1 * Alt+2") had "shared history" for all documents
 - fix: width of some Unicode chars (thanks @ritmation)
-- fix: Linux gtk2: rendering of tab-chars (thanks @tmsg)
+- fix: Linux/BSD: rendering of tab-chars (thanks @tmsg)
 - fix: lexer Markdown: rule for ``` (thanks @Jairo-Martinez)
 
 1.104.0 (2020/06)
