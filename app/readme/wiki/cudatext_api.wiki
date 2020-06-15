@@ -1,5 +1,4 @@
 =Intro=
-=Intro=
 This is API for [[CudaText]] in Python.
 
 * Module: cudatext. Constants, functions, class Editor, objects of class Editor.
