@@ -444,7 +444,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StyleName = 'Symbols'
       StatesAbsent = 3
       TokenType = 15
-      Expression = '[\|\-\+:=/%\*!~<>&]+'
+      Expression = '[\|\-\+:=%\*!~<>&]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
