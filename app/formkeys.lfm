@@ -36,28 +36,46 @@ object fmKeys: TfmKeys
     ShowBevel = False
   end
   object panelPress: TPanel
-    Left = 365
+    Left = 320
     Height = 193
     Top = 0
-    Width = 99
+    Width = 144
     Align = alRight
     BevelOuter = bvNone
     Caption = 'Press a key...'
+    ClientHeight = 193
+    ClientWidth = 144
     ParentColor = False
     TabOrder = 2
     Visible = False
+    object bCancelInput: TButton
+      AnchorSideRight.Control = panelPress
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = panelPress
+      AnchorSideBottom.Side = asrBottom
+      Left = 78
+      Height = 33
+      Top = 154
+      Width = 60
+      Anchors = [akRight, akBottom]
+      AutoSize = True
+      BorderSpacing.Around = 6
+      Caption = 'Cancel'
+      OnClick = bCancelInputClick
+      TabOrder = 0
+    end
   end
   object panelInput: TPanel
     Left = 0
     Height = 193
     Top = 0
-    Width = 365
+    Width = 320
     Align = alClient
     AutoSize = True
     BorderSpacing.Bottom = 3
     BevelOuter = bvNone
     ClientHeight = 193
-    ClientWidth = 365
+    ClientWidth = 320
     TabOrder = 0
     object labelKey1: TLabel
       AnchorSideTop.Control = panelInput

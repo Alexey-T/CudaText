@@ -30,6 +30,7 @@ type
     bClear2: TButton;
     bSet1: TButton;
     bSet2: TButton;
+    bCancelInput: TButton;
     chkForLexer: TCheckBox;
     LabelDupInfo: TLabel;
     labelKey1: TLabel;
@@ -40,6 +41,7 @@ type
     TimerAdd: TTimer;
     procedure bAdd1Click(Sender: TObject);
     procedure bAdd2Click(Sender: TObject);
+    procedure bCancelInputClick(Sender: TObject);
     procedure bClear1Click(Sender: TObject);
     procedure bClear2Click(Sender: TObject);
     procedure bSet1Click(Sender: TObject);
@@ -87,6 +89,7 @@ begin
     Caption:= ini.ReadString(section, '_', Caption);
     with panelBtn.OKButton do Caption:= msgButtonOk;
     with panelBtn.CancelButton do Caption:= msgButtonCancel;
+    bCancelInput.Caption:= msgButtonCancel;
 
     with bSet1 do Caption:= ini.ReadString(section, 'set', Caption);
     with bClear1 do Caption:= ini.ReadString(section, 'clr', Caption);
@@ -235,6 +238,11 @@ begin
   UpdateState;
 end;
 
+procedure TfmKeys.bCancelInputClick(Sender: TObject);
+begin
+  FKeyPressed:= -1;
+end;
+
 procedure TfmKeys.AddHotkey(var K: TATKeyArray);
 var
   newkey, index, i: integer;
@@ -264,11 +272,13 @@ begin
     FKeyPressed:= 0;
     repeat
       Application.ProcessMessages;
-      if Application.Terminated then exit;
+      if Application.Terminated then Break;
       if ModalResult=mrCancel then Break;
       if FKeyPressed<>0 then
       begin
-        Result:= FKeyPressed;
+        //value -1 means "cancel input"
+        if FKeyPressed>0 then
+          Result:= FKeyPressed;
         Break;
       end;
     until false;
