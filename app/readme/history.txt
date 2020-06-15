@@ -9,6 +9,7 @@
 + add: internal caching of calculated hyperlinks; maybe (not visible on average PC) it gives smoother scrolling by Up/Down arrows
 + add: zip package installer shows additional confirmation to install hotkeys, if plugin provides them (e.g. CudaExt provides ~50 hotkeys, not OK for some users)
 + add: dialog "Configure hotkey" has additional "Set" button which makes "Clear"+"Extend"
++ add: support encodings: koi8r, koi8u, koi8ru (thanks @eastorwest)
 + add: option "newdoc_lexer" allows lite lexers too
 - fix: floating groups didn't show ui-tab icons
 - fix: input of complex hotkeys (like "Alt+1 * Alt+2") had "shared history" for all documents
