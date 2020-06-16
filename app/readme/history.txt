@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.105.1 (2020/06)
+
++ add: optimized lexer code which handles indentation-based folding (e.g. in Python); reworked lexer Python for this
+
 1.105.0 (2020/06)
 
 + add: rewritten system of keymapping, how keymappings are assigned to documents. Previous system was bad. It was slow (each tab switching was loading lexer-specific hotkeys from file). It had bugs (lexer-specific hotkeys did not load sometimes, see GitHub issues 2620 2648). (thanks @OlehL)
