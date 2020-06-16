@@ -2690,8 +2690,6 @@ begin
   DoApplyInitialSidebarPanel;
 
   UpdateMenuPlugins;
-  UpdateMenuPlugins_Shortcuts(true);
-  UpdateMenuHotkeys;
 
   AppPanels[cPaneSide].UpdateButtons;
   AppPanels[cPaneOut].UpdateButtons;
@@ -2706,6 +2704,10 @@ begin
   //load keys.json after loading plugins (to apply plugins keys)
   Keymap_SetHotkey(AppKeymapMain, 'cuda_comments,cmt_toggle_line_body|Ctrl+/|', false);
   Keymap_LoadConfig(AppKeymapMain, AppFile_Hotkeys, false);
+
+  //after loading keys.json
+  UpdateMenuPlugins_Shortcuts(true);
+  UpdateMenuHotkeys;
 
   //postpone parsing until frames are shown
   AllowFrameParsing:= true;
