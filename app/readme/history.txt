@@ -5,7 +5,8 @@
 
 1.105.1 (2020/06)
 
-+ add: optimized lexer code which handles indentation-based folding (e.g. in Python); reworked lexer Python for this
++ add: optimized lexer code which handles indentation-based folding (e.g. in Python); reworked lexer Python for this; all lexers in add-ons which use indentation-based folding will be updated
+- fix: regression for hotkeys (thanks @tmsg)
 
 1.105.0 (2020/06)
 
