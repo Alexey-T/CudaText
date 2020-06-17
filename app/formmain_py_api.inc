@@ -6455,12 +6455,12 @@ begin
 end;
 
 procedure _FindTokenRange(An: TecClientSyntAnalyzer; ALineFrom, ALineTo: integer;
-  out NIndexFrom, NIndexTo: integer);
+  out ResFrom, ResTo: integer);
 var
   NMaxLine: integer;
 begin
-  NIndexFrom:= -1;
-  NIndexTo:= -1;
+  ResFrom:= -1;
+  ResTo:= -1;
 
   if ALineFrom<0 then exit;
   if ALineFrom>ALineTo then exit;
@@ -6473,7 +6473,7 @@ begin
   while (ALineFrom<=NMaxLine) and (An.TokenIndexer[ALineFrom]<0) do
     Inc(ALineFrom);
   if ALineFrom<=NMaxLine then
-    NIndexFrom:= An.TokenIndexer[ALineFrom]
+    ResFrom:= An.TokenIndexer[ALineFrom]
   else
     exit;
 
@@ -6481,9 +6481,9 @@ begin
   while (ALineTo<=NMaxLine) and (An.TokenIndexer[ALineTo]<0) do
     Inc(ALineTo);
   if ALineTo<=NMaxLine then
-    NIndexTo:= An.TokenIndexer[ALineTo]-1
+    ResTo:= An.TokenIndexer[ALineTo]-1
   else
-    NIndexTo:= An.TagCount-1;
+    ResTo:= An.TagCount-1;
 end;
 
 function Py_GetTokenList(Adapter: TATAdapterEControl; ALineFrom, ALineTo: integer): PPyObject;
