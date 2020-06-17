@@ -3123,8 +3123,8 @@ begin
 
   //lexer
   str0:= LexerName[Ed];
-  str:= c.GetValue(path+cHistory_Lexer, '');
-  if (str<>'') and (str<>str0) then
+  str:= c.GetValue(path+cHistory_Lexer, ''); //missed value means none-lexer (for Cud 1.104 or older)
+  if (str='') or (str<>str0) then //better call it for none-lexer to apply "keys lexer -.json"
     LexerName[Ed]:= str;
 
   //encoding
