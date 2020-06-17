@@ -429,6 +429,7 @@ const
   TOKEN_GET_KIND = 1;
   TOKEN_LIST     = 2;
   TOKEN_LIST_SUB = 3;
+  TOKEN_LIST_ALT = 4;
 
   CANVAS_SET_FONT      = 1;
   CANVAS_SET_PEN       = 2;

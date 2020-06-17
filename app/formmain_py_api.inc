@@ -10,6 +10,7 @@ Copyright (c) Alexey Torgashin
 const
   cPyEditorHandleMin = 10;
   cPyEditorHandleMax = 10000;
+  cPyTokenKind: array[TATFinderTokenKind] of string = ('a', 'c', 's');
 
 var
   PyEscapeFlag: boolean = false;
@@ -6510,9 +6511,93 @@ begin
   end;
 end;
 
+function Py_GetTokenListAlt(Adapter: TATAdapterEControl; ALineFrom, ALineTo: integer): PPyObject;
+var
+  An: TecClientSyntAnalyzer;
+  ListTokens: TecTokenList;
+  Token: TecSyntToken;
+  TokenStr, TokenStyle: string;
+  IndexStyle, IndexKind: integer;
+  TokKind: TATFinderTokenKind;
+  SListedStrings, SListedComments: string;
+  iToken: integer;
+begin
+  with AppPython.Engine do
+  begin
+    An:= Adapter.AnClient;
+    if An=nil then exit(ReturnNone);
+
+    ListTokens:= TecTokenList.Create;
+    for iToken:= 0 to An.TagCount-1 do
+    begin
+      Token:= An.Tags[iToken];
+      if (Token.Range.PointEnd.Y<ALineFrom) then Continue;
+      if (Token.Range.PointStart.Y>ALineTo) then Break;
+      ListTokens.Add(Token);
+    end;
+
+    Result:= PyList_New(ListTokens.Count);
+    if not Assigned(Result) then
+      raise EPythonError.Create(msgPythonListError);
+
+    SListedComments:= ','+An.Owner.StylesOfComments+',';
+    SListedStrings:= ','+An.Owner.StylesOfStrings+',';
+    if SListedComments=',,' then
+      SListedComments:= '';
+    if SListedStrings=',,' then
+      SListedStrings:= '';
+
+    for iToken:= 0 to ListTokens.Count-1 do
+    begin
+      Token:= TecSyntToken(ListTokens[iToken]);
+      TokenStr:= Adapter.GetTokenString(Token);
+
+      IndexKind:= Token.TokenType;
+
+      if Assigned(Token.Style) then
+      begin
+        TokenStyle:= Token.Style.DisplayName;
+        IndexStyle:= An.Owner.Formats.IndexOf(Token.Style);
+      end
+      else
+      begin
+        TokenStyle:= '';
+        IndexStyle:= -1;
+      end;
+
+      TokKind:= cTokenKindOther;
+      if (SListedComments<>'') and (Pos(','+TokenStyle+',', SListedComments)>0) then
+        TokKind:= cTokenKindComment
+      else
+      if (SListedStrings<>'') and (Pos(','+TokenStyle+',', SListedStrings)>0) then
+        TokKind:= cTokenKindString;
+
+      PyList_SetItem(Result, iToken,
+        Py_BuildValue('{sssOsisiss}',
+          'str',
+          PChar(TokenStr),
+          'pos',
+          Py_BuildValue('(iiii)',
+            Token.Range.PointStart.X,
+            Token.Range.PointStart.Y,
+            Token.Range.PointEnd.X,
+            Token.Range.PointEnd.Y
+            ),
+          'ki',
+          IndexKind,
+          'si',
+          IndexStyle,
+          'ks',
+          PChar(cPyTokenKind[TokKind])
+          ));
+    end;
+
+    FreeAndNil(ListTokens);
+  end;
+end;
+
+
 function Py_ed_get_token(Self, Args: PPyObject): PPyObject; cdecl;
-const
-  cTokenChar: array[TATFinderTokenKind] of string = ('a', 'c', 's');
 var
   H: Int64;
   Ed: TATSynEdit;
@@ -6532,7 +6617,7 @@ begin
         TOKEN_GET_KIND:
           begin
             TokenKind:= EditorGetTokenKind(Ed, NIndex1, NIndex2);
-            Result:= PyString_FromString(PChar(cTokenChar[TokenKind]));
+            Result:= PyString_FromString(PChar(cPyTokenKind[TokenKind]));
           end;
 
         TOKEN_LIST:
@@ -6543,6 +6628,11 @@ begin
         TOKEN_LIST_SUB:
           begin
             Result:= Py_GetTokenList(Adapter, NIndex1, NIndex2)
+          end;
+
+        TOKEN_LIST_ALT:
+          begin
+            Result:= Py_GetTokenListAlt(Adapter, NIndex1, NIndex2);
           end;
 
         else
