@@ -568,7 +568,7 @@ object SyntAnal16: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 124
+          TokenTypes = 380
         end
         item
           TokenTypes = 1024
