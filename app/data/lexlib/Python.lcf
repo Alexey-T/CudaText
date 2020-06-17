@@ -101,7 +101,9 @@ object SyntAnal16: TLibSyntAnalyzer
       DisplayName = '^Keyword'
       StyleName = 'Id keyword'
       TokenType = 10
-      Expression = '(if|else|elif|for|while|try|except|finally|switch|case|with)\b'
+      Expression = 
+        '(?<=^[\x20\x09]*) (if|else|elif|for|while|try|except|finally|swi' +
+        'tch|case|with)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
