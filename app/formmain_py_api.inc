@@ -6462,6 +6462,9 @@ begin
   NIndexFrom:= -1;
   NIndexTo:= -1;
 
+  if ALineFrom<0 then exit;
+  if ALineFrom>ALineTo then exit;
+
   NMaxLine:= High(An.TokenIndexer);
   if ALineFrom>NMaxLine then exit;
   if ALineTo>NMaxLine then
