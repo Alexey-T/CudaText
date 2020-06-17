@@ -232,8 +232,8 @@ end;
 procedure TfmMenuApi.listDrawItem(Sender: TObject; C: TCanvas;
   AIndex: integer; const ARect: TRect);
 const
-  cIndent = 4;
-  cIndent2 = 10;
+  IndentFor1stLine = 4;
+  IndentFor2ndLine = 10;
 var
   buf, part_L, part_R: string;
   s_name, s_name2, s_right, s_filter: UnicodeString;
@@ -261,16 +261,30 @@ begin
 
   SSplitByChar(listItems[PtrInt(listFiltered[AIndex])], #9, part_L, part_R);
 
-  //right part
-  n:= ARect.Width div 2;
-  s_right:= CanvasCollapseStringByDots(C, part_R, acsmLeft, n);
-  n:= C.TextWidth(s_right);
+  if not FMultiline then
+  begin
+    //right part
+    n:= ARect.Width div 2;
+    s_right:= CanvasCollapseStringByDots(C, part_R, acsmLeft, n);
+    n:= C.TextWidth(s_right);
 
-  //left part
-  //less space for name if part_R long
-  n:= ARect.Width - n - 2*cIndent;
-  s_name:= part_L;
-  s_name2:= CanvasCollapseStringByDots(C, part_L, CollapseMode, n);
+    //left part
+    //less space for name if part_R long
+    n:= ARect.Width - n - 2*IndentFor1stLine;
+    s_name:= part_L;
+    s_name2:= CanvasCollapseStringByDots(C, part_L, CollapseMode, n);
+  end
+  else
+  begin
+    n:= ARect.Width;
+
+    //right part
+    s_right:= CanvasCollapseStringByDots(C, part_R, CollapseMode, n - IndentFor1stLine - IndentFor2ndLine);
+
+    //left part
+    s_name:= part_L;
+    s_name2:= CanvasCollapseStringByDots(C, part_L, CollapseMode, n - 2*IndentFor1stLine);
+  end;
 
   //text of filter
   s_filter:= Trim(edit.Text);
@@ -279,7 +293,7 @@ begin
   if bCurrentFuzzy and (s_name<>s_name2) then
     bCurrentFuzzy:= false;
 
-  pnt:= Point(ARect.Left+cIndent, ARect.Top+1);
+  pnt:= Point(ARect.Left+IndentFor1stLine, ARect.Top+1);
   c.TextOut(pnt.x, pnt.y, Utf8Encode(s_name2));
 
   c.Font.Color:= FColorFontHilite;
@@ -324,9 +338,9 @@ begin
   if s_right<>'' then
   begin
     if not Multiline then
-      pnt:= Point(ARect.Left+List.ClientWidth-cIndent-c.TextWidth(Utf8Encode(s_right)), pnt.y)
+      pnt:= Point(ARect.Left+List.ClientWidth-IndentFor1stLine-c.TextWidth(Utf8Encode(s_right)), pnt.y)
     else
-      pnt:= Point(ARect.Left+cIndent2, pnt.y+list.ItemHeight div 2);
+      pnt:= Point(ARect.Left+IndentFor2ndLine, pnt.y+list.ItemHeight div 2);
 
     if not FMultiline then
       c.FillRect(pnt.x-2, pnt.y, list.ClientWidth, pnt.y+list.ItemHeight-1);
