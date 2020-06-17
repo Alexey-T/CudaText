@@ -220,10 +220,10 @@ object SyntAnal16: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Symbol :'
+      DisplayName = 'Ending :'
       StyleName = 'Symbol'
       TokenType = 12
-      Expression = ':'
+      Expression = ':\x20*$ | :(?=\x20*\#.*$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -232,6 +232,14 @@ object SyntAnal16: TLibSyntAnalyzer
       StyleName = 'Symbol'
       TokenType = 3
       Expression = '[/\*,\.;=<>\+\-\^@!%\\\|~&]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Symbol :'
+      StyleName = 'Symbol'
+      TokenType = 9
+      Expression = ':'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -516,13 +524,11 @@ object SyntAnal16: TLibSyntAnalyzer
       DisplayName = 'block for tree'
       ConditionList = <
         item
-          TagList.Strings = (
-            ':')
           TokenTypes = 4096
         end
         item
           CondType = tcSkip
-          TokenTypes = 2046
+          TokenTypes = 1534
         end
         item
           TokenTypes = 2048
@@ -540,13 +546,11 @@ object SyntAnal16: TLibSyntAnalyzer
       DisplayName = 'block for tree (ex)'
       ConditionList = <
         item
-          TagList.Strings = (
-            ':')
           TokenTypes = 4096
         end
         item
           CondType = tcSkip
-          TokenTypes = 2046
+          TokenTypes = 1534
         end
         item
           TokenTypes = 2048
@@ -614,7 +618,7 @@ object SyntAnal16: TLibSyntAnalyzer
     'str = r'#39'\test\test'#39' + u'#39'test'#39' + r"\test"'
     'func = lambda x: x'
     ''
-    'def func(num):'
+    'def func(num):      #cmt  '
     '    for n in range(len(sys.argv)):'
     '      print "Arg %s" % sys.argv[n]'
     '      if n>2:'
@@ -623,7 +627,7 @@ object SyntAnal16: TLibSyntAnalyzer
     '    '
     'async def get_json(client, url):  '
     '    async with client.get(url) as response:'
-    '        assert response.status == 100'
+    '        assert test = {'#39'aa'#39': 2, '#39'bb'#39': None}'
     '        return await response.read()'
     ''
     'class MyName(object):      '
@@ -642,13 +646,12 @@ object SyntAnal16: TLibSyntAnalyzer
     'Number2'
     '^Comment'
     '^Symbol'
-    '^Id2'
+    'Usual :'
     '^Id keyword'
     '^Id tree'
-    'Symbol :')
+    'Ending :')
   Extentions = 'py pyw rpy cpy sconstruct pyi'
   LexerName = 'Python'
-  SkipSpaces = False
   Notes.Strings = (
     'Python lexer by Alexey (CudaText)'
     'For indent-based folding lexer was imporved:'
