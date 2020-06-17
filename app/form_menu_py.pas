@@ -266,11 +266,10 @@ begin
     //right part
     n:= ARect.Width div 2;
     s_right:= CanvasCollapseStringByDots(C, part_R, acsmLeft, n);
-    n:= C.TextWidth(s_right);
 
     //left part
     //less space for name if part_R long
-    n:= ARect.Width - n - 2*IndentFor1stLine;
+    n:= ARect.Width - C.TextWidth(s_right) - 2*IndentFor1stLine;
     s_name:= part_L;
     s_name2:= CanvasCollapseStringByDots(C, part_L, CollapseMode, n);
   end
@@ -279,11 +278,11 @@ begin
     n:= ARect.Width;
 
     //right part
-    s_right:= CanvasCollapseStringByDots(C, part_R, CollapseMode, n - IndentFor1stLine - IndentFor2ndLine);
+    s_right:= CanvasCollapseStringByDots(C, part_R, CollapseMode, n - IndentFor2ndLine);
 
     //left part
     s_name:= part_L;
-    s_name2:= CanvasCollapseStringByDots(C, part_L, CollapseMode, n - 2*IndentFor1stLine);
+    s_name2:= CanvasCollapseStringByDots(C, part_L, CollapseMode, n - IndentFor1stLine);
   end;
 
   //text of filter
@@ -293,8 +292,9 @@ begin
   if bCurrentFuzzy and (s_name<>s_name2) then
     bCurrentFuzzy:= false;
 
-  pnt:= Point(ARect.Left+IndentFor1stLine, ARect.Top+1);
-  c.TextOut(pnt.x, pnt.y, Utf8Encode(s_name2));
+  pnt.x:= ARect.Left+IndentFor1stLine;
+  pnt.y:= ARect.Top+1;
+  c.TextOut(pnt.x, pnt.y, s_name2);
 
   c.Font.Color:= FColorFontHilite;
 
@@ -337,16 +337,20 @@ begin
 
   if s_right<>'' then
   begin
-    if not Multiline then
-      pnt:= Point(ARect.Left+List.ClientWidth-IndentFor1stLine-c.TextWidth(Utf8Encode(s_right)), pnt.y)
-    else
-      pnt:= Point(ARect.Left+IndentFor2ndLine, pnt.y+list.ItemHeight div 2);
-
     if not FMultiline then
-      c.FillRect(pnt.x-2, pnt.y, list.ClientWidth, pnt.y+list.ItemHeight-1);
+    begin
+      pnt.x:= ARect.Right-IndentFor1stLine-c.TextWidth(s_right) + 2;
+      //right part is painted over left part, so clear the space
+      c.FillRect(pnt.x, pnt.y, ARect.Right, pnt.y+list.ItemHeight-1);
+    end
+    else
+    begin
+      pnt.x:= ARect.Left+IndentFor2ndLine;
+      Inc(pnt.y, list.ItemHeight div 2);
+    end;
 
     c.Font.Color:= FColorFontAlt;
-    c.TextOut(pnt.x, pnt.y, Utf8Encode(s_right));
+    c.TextOut(pnt.x, pnt.y, s_right);
   end;
 end;
 
