@@ -123,11 +123,11 @@ Value after "info=" can be of any type, e.g. "info=20;" will pass int 20 to call
 
  app_exe_version()
 
-Gets version of program. String, 4 dot-separated numbers.
+Returns version of program. String, 4 dot-separated numbers.
 
  app_api_version()
 
-Gets version of API. String, 3 dot-separated numbers.
+Returns version of API. String, 3 dot-separated numbers.
 
  API
 
@@ -146,7 +146,7 @@ Example of version check:
 
  app_path(id)
 
-Gets file-system path. Possible values of "id":
+Returns file-system path. Possible values of "id":
 
 * APP_DIR_EXE: Dir of program executable.
 * APP_DIR_SETTINGS: Dir "settings".
@@ -168,27 +168,27 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 
 ====Misc properties====
 
-* PROC_GET_LANG: Gets string id of active app translation. E.g. "ru_RU" if translation file is "ru_RU.ini", or "translation template" if such file is used. Gets empty string if built-in English translation is used.
-* PROC_GET_GROUPING: Gets grouping mode in program, one of GROUPS_nnnn int contants.
+* PROC_GET_LANG: Returns string id of active app translation. E.g. "ru_RU" if translation file is "ru_RU.ini", or "translation template" if such file is used. Returns empty string if built-in English translation is used.
+* PROC_GET_GROUPING: Returns grouping mode in program, one of GROUPS_nnnn int contants.
 * PROC_SET_GROUPING: Sets grouping mode in program, one of GROUPS_nnnn int contants.
 * PROC_PROGRESSBAR: Changes state of the progress-bar (hidden by default), which is located on the status-bar right corner. Int value<0: progressbar hides, value in 0..100: progressbar shows with the given value.
-* PROC_GET_TAB_IMAGELIST: Gets int handle of imagelist, for file-tabs. Use imagelist_proc() to work with it. Use PROP_TAB_ICON property to get/set file-tab icon index (index in this imagelist).
-* PROC_GET_CODETREE: Gets int handle of code-tree UI control. Use tree_proc() to work with it.
+* PROC_GET_TAB_IMAGELIST: Returns int handle of imagelist, for file-tabs. Use imagelist_proc() to work with it. Use PROP_TAB_ICON property to get/set file-tab icon index (index in this imagelist).
+* PROC_GET_CODETREE: Returns int handle of code-tree UI control. Use tree_proc() to work with it.
 * PROC_SET_FOLDER: Sets path of folder which will be used as initial folder in program's Open/Save-as dialogs.
-* PROC_WINDOW_TOPMOST_GET: Gets bool flag: main window has "always on top" style.
+* PROC_WINDOW_TOPMOST_GET: Returns bool flag: main window has "always on top" style.
 * PROC_WINDOW_TOPMOST_SET: Sets bool flag: main window has "always on top" style.
 
 * PROC_CONFIG_READ: Reads param "text" as contents of CudaText JSON config file.
-* PROC_CONFIG_NEWDOC_EOL_GET: Gets str: line endings of newly created documents (app option "newdoc_ends").
+* PROC_CONFIG_NEWDOC_EOL_GET: Returns str: line endings of newly created documents (app option "newdoc_ends").
 * PROC_CONFIG_NEWDOC_EOL_SET: Sets str: line endings of newly created documents.
-* PROC_CONFIG_NEWDOC_ENC_GET: Gets str: encoding of newly created documents (app option "newdoc_encoding").
+* PROC_CONFIG_NEWDOC_ENC_GET: Returns str: encoding of newly created documents (app option "newdoc_encoding").
 * PROC_CONFIG_NEWDOC_ENC_SET: Sets str: encoding of newly created documents.
 
 ====Search properties====
 
 Actions work with props of Find/Replace dialog, and props of low-level search engine. When user runs some search command in the dialog, dialog applies its props to the search engine. So most of the time, props of dialog and search engine are sync'ed. But they aren't sync'ed if user just typed new text in the dialog. They also aren't sync'ed if user runs some search command via Command Palette or hotkey (e.g. "find current word, previous").
 
-* PROC_GET_FINDER_PROP: Gets properties of Find/Replace dialog and search engine. Gets dict with keys:
+* PROC_GET_FINDER_PROP: Returns properties of Find/Replace dialog and search engine. Returns dict with keys:
 ** "find": string "what to find" of search engine
 ** "rep": string "replace with" of search engine
 ** "find_d": string "what to find" of dialog, None if dialog not inited
@@ -215,15 +215,15 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 ====System====
 
-* PROC_ENUM_FONTS: Gets list of font names, currently installed in OS. Note: only some names are common in all OSes (like Arial, Courier, Courier New, Terminal, maybe more).
-* PROC_GET_SYSTEM_PPI: Gets int value of screen pixels-per-inch. Usual value is 96. When OS UI is scaled, it's bigger, e.g. for scale 150% it is round(96*1.5).
-* PROC_GET_GUI_HEIGHT: Gets height (pixels) of GUI element for dlg_custom(). Possible values of 'text': 'button', 'label', 'linklabel', 'combo', 'combo_ro', 'edit', 'spinedit', 'check', 'radio', 'checkbutton', 'filter_listbox', 'filter_listview'. Special value 'scrollbar' gets size of OS scrollbar. Gets None for other values.
-* PROC_GET_MOUSE_POS: Gets mouse cursor position in screen-related coordinates, as (x, y) tuple.
+* PROC_ENUM_FONTS: Returns list of font names, currently installed in OS. Note: only some names are common in all OSes (like Arial, Courier, Courier New, Terminal, maybe more).
+* PROC_GET_SYSTEM_PPI: Returns int value of screen pixels-per-inch. Usual value is 96. When OS UI is scaled, it's bigger, e.g. for scale 150% it is round(96*1.5).
+* PROC_GET_GUI_HEIGHT: Returns height (pixels) of GUI element for dlg_custom(). Possible values of 'text': 'button', 'label', 'linklabel', 'combo', 'combo_ro', 'edit', 'spinedit', 'check', 'radio', 'checkbutton', 'filter_listbox', 'filter_listview'. Special value 'scrollbar' gets size of OS scrollbar. Returns None for other values.
+* PROC_GET_MOUSE_POS: Returns mouse cursor position in screen-related coordinates, as (x, y) tuple.
 * PROC_SEND_MESSAGE: For Windows. Sends message to a window by its handle. Param "text" must be 4-tuple of int (window_handle, msg_code, param1, param2).
 
 ====Clipboard====
 
-* PROC_GET_CLIP: Gets clipboard text.
+* PROC_GET_CLIP: Returns clipboard text.
 * PROC_SET_CLIP: Copies text to clipboard (usual).
 * PROC_SET_CLIP_ALT: Copies text to alternate clipboard on Linux, called "primary selection".
 ** CudaText Copy commands put text to usual clipboard + primary selection.
@@ -240,14 +240,14 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 *** filter for "on_key": comma-separated list of int key codes to handle in event, e.g. "9,32" means that event is only called for pressed Tab and Space.
 *** filter for "on_open", "on_open_pre": comma-separated list of lower-case file extensions, without leading dot, to handle in event.
 
-* PROC_GET_LAST_PLUGIN: Gets info about last plugin which run from program. It is str "module_name,method_name", values are empty if no plugins run yet.
+* PROC_GET_LAST_PLUGIN: Returns info about last plugin which run from program. It is str "module_name,method_name", values are empty if no plugins run yet.
 
 * PROC_SET_SUBCOMMANDS: Adds command items (items which can be called from Command Palette). These items will run specified module name and method name, but with different parameters to that method. For example, plugin External Tools uses this API to add command items for configured tools. Param "text" must be ";"-separated: "module_name;method_name;param_list".
 ** "param_list" is "\n"-separated items, each item is param_caption+"\t"+param_value.
 ** "param_caption" is caption for Command Palette.
 ** "param_value" is parameter for Python method. It can be any primitive type: int, string, bool, None, or even some expression.
 
-* PROC_GET_COMMANDS: Gets list of all commands, as list of dict. Dict keys are:
+* PROC_GET_COMMANDS: Returns list of all commands, as list of dict. Dict keys are:
 ** "type": str: Possible values:
 *** "cmd": usual built-in command
 *** "lexer": command to activate lexer
@@ -270,11 +270,11 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 ====Hotkeys====
 
-* PROC_GET_ESCAPE: Gets Esc-key flag (bool). This flag is set when user presses Esc key, each Esc press is counted since app start. Note: to allow app to handle key press in long loop, call msg_status('text', True).
+* PROC_GET_ESCAPE: Returns Esc-key flag (bool). This flag is set when user presses Esc key, each Esc press is counted since app start. Note: to allow app to handle key press in long loop, call msg_status('text', True).
 * PROC_SET_ESCAPE: Sets Esc-key flag. Param "text" must be bool (or "0"/"1").
-* PROC_GET_HOTKEY: Gets hotkeys strings for given command_id. Examples of result: "F1", "Ctrl+B * B", "Ctrl+B * B * C|Ctrl+B * D" (two hotkeys for one command). Gets empty str for unknown command_id.
-* PROC_SET_HOTKEY: Sets hotkeys for given command_id from strings. Text must be "command_id|hotkey1|hotkey2", where hotkey1/hotkey2 examples: "F1", "Ctrl+B * B", "Ctrl+B * B * C". Symbol "*" can be without near spaces. Gets bool: command_id exists, changed.
-* PROC_GET_KEYSTATE: Gets state of pressed keyboard keys and mouse buttons. String result has chars:
+* PROC_GET_HOTKEY: Returns hotkeys strings for given command_id. Examples of result: "F1", "Ctrl+B * B", "Ctrl+B * B * C|Ctrl+B * D" (two hotkeys for one command). Returns empty str for unknown command_id.
+* PROC_SET_HOTKEY: Sets hotkeys for given command_id from strings. Text must be "command_id|hotkey1|hotkey2", where hotkey1/hotkey2 examples: "F1", "Ctrl+B * B", "Ctrl+B * B * C". Symbol "*" can be without near spaces. Returns bool: command_id exists, changed.
+* PROC_GET_KEYSTATE: Returns state of pressed keyboard keys and mouse buttons. String result has chars:
 ** "c" for Ctrl
 ** "a" for Alt
 ** "s" for Shift
@@ -282,8 +282,8 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** "L" for left mouse button
 ** "R" for right mouse button
 ** "M" for middle mouse button
-* PROC_HOTKEY_STR_TO_INT: Converts given string hotkey to int. Gets 0 for incorrect string. Example: converts "alt+shift+z" to 41050.
-* PROC_HOTKEY_INT_TO_STR: Converts given int hotkey to string. Gets empty str for unknown code. Example: converts 41050 to "Shift+Alt+Z".
+* PROC_HOTKEY_STR_TO_INT: Converts given string hotkey to int. Returns 0 for incorrect string. Example: converts "alt+shift+z" to 41050.
+* PROC_HOTKEY_INT_TO_STR: Converts given int hotkey to string. Returns empty str for unknown code. Example: converts 41050 to "Shift+Alt+Z".
 
 Notes:
 
@@ -302,36 +302,36 @@ Notes:
 
 Actions:
 
-* PROC_THEME_UI_GET: Gets name of UI-theme.
+* PROC_THEME_UI_GET: Returns name of UI-theme.
 * PROC_THEME_UI_SET: Sets name of UI-theme.
-* PROC_THEME_SYNTAX_GET: Gets name of syntax-theme.
+* PROC_THEME_SYNTAX_GET: Returns name of syntax-theme.
 * PROC_THEME_SYNTAX_SET: Sets name of syntax-theme.
 
-* PROC_THEME_UI_DICT_GET: Gets contents of current UI-theme, as dict.
-* PROC_THEME_SYNTAX_DICT_GET: Gets contents of current syntax-theme, as dict. For description of keys of result, see LEXER_GET_STYLES.
+* PROC_THEME_UI_DICT_GET: Returns contents of current UI-theme, as dict.
+* PROC_THEME_SYNTAX_DICT_GET: Returns contents of current syntax-theme, as dict. For description of keys of result, see LEXER_GET_STYLES.
 
 ====Sessions====
 
 Session is a set of opened files + untitled tabs, with some properties of editors in these tabs, with group-indexes of tabs, with layout of groups. Session format is JSON.
 
-* PROC_SAVE_SESSION: Saves session to file with given name. Gets bool: session was saved.
-* PROC_LOAD_SESSION: Loads session from file with given name (closes all tabs first). Gets bool: tabs closed w/o pressing Cancel, session was loaded.
+* PROC_SAVE_SESSION: Saves session to file with given name. Returns bool: session was saved.
+* PROC_LOAD_SESSION: Loads session from file with given name (closes all tabs first). Returns bool: tabs closed w/o pressing Cancel, session was loaded.
 * PROC_SET_SESSION: Tells to app filename of session. Session with this filename will be saved on exit, loaded on start, shown in app title in {} brackets. Don't set here empty string. Default filename is "history session.json" without path. Missing path means that folder "settings" will be used.
 
 ====Side panel====
 
-* PROC_SIDEPANEL_ADD_DIALOG: Adds tab, with embedded dialog, to sidebar. Gets bool: params correct, tab was added. Text must be 3-tuple (tab_caption, id_dlg, icon_filename):
+* PROC_SIDEPANEL_ADD_DIALOG: Adds tab, with embedded dialog, to sidebar. Returns bool: params correct, tab was added. Text must be 3-tuple (tab_caption, id_dlg, icon_filename):
 ** Caption of tab (must not contain ",")
 ** Handle of dialog, from dlg_proc()
 ** Name of icon file (must not contain ",")
 
-* PROC_SIDEPANEL_REMOVE: Removes tab. Text is caption of tab. (Note: actually it hides tab, dialog for this tab is still in memory). Gets bool: tab was found/removed.
-* PROC_SIDEPANEL_ACTIVATE: Activates tab in sidebar. Gets bool: tab was found/activated. Text can be:
+* PROC_SIDEPANEL_REMOVE: Removes tab. Text is caption of tab. (Note: actually it hides tab, dialog for this tab is still in memory). Returns bool: tab was found/removed.
+* PROC_SIDEPANEL_ACTIVATE: Activates tab in sidebar. Returns bool: tab was found/activated. Text can be:
 ** str: tab_caption.
 ** 2-tuple (tab_caption, bool_set_focus). Default for bool_set_focus is False.
-* PROC_SIDEPANEL_ENUM: Enumerates tabs. Gets str, "\n"-separated captions of tabs.
-* PROC_SIDEPANEL_GET_CONTROL: Gets int handle of dialog, inserted into tab. Text is caption of tab. Gets None if cannot find tab.
-* PROC_SIDEPANEL_GET: Gets caption of last activated tab.
+* PROC_SIDEPANEL_ENUM: Enumerates tabs. Returns str, "\n"-separated captions of tabs.
+* PROC_SIDEPANEL_GET_CONTROL: Returns int handle of dialog, inserted into tab. Text is caption of tab. Returns None if cannot find tab.
+* PROC_SIDEPANEL_GET: Returns caption of last activated tab.
 
 Notes:
 
@@ -343,8 +343,8 @@ Notes:
 * PROC_BOTTOMPANEL_REMOVE: Removes tab. Same as for PROC_SIDEPANEL_REMOVE.
 * PROC_BOTTOMPANEL_ACTIVATE: Activates tab. Same as for PROC_SIDEPANEL_ACTIVATE.
 * PROC_BOTTOMPANEL_ENUM: Enumerates tabs. Same as for PROC_SIDEPANEL_ENUM.
-* PROC_BOTTOMPANEL_GET_CONTROL: Gets int handle of control. Same as for PROC_SIDEPANEL_GET_CONTROL.
-* PROC_BOTTOMPANEL_GET: Gets caption of last activated tab. Same as for PROC_SIDEPANEL_GET.
+* PROC_BOTTOMPANEL_GET_CONTROL: Returns int handle of control. Same as for PROC_SIDEPANEL_GET_CONTROL.
+* PROC_BOTTOMPANEL_GET: Returns caption of last activated tab. Same as for PROC_SIDEPANEL_GET.
 
 ====Splitters====
 
@@ -356,7 +356,7 @@ Splitter id:
 
 Actions:
 
-* PROC_SPLITTER_GET: Gets info about splitter, as 4-tuple: (bool_vertical, bool_visible, int_pos, int_parent_panel_size). Param "text" is int splitter id.
+* PROC_SPLITTER_GET: Returns info about splitter, as 4-tuple: (bool_vertical, bool_visible, int_pos, int_parent_panel_size). Param "text" is int splitter id.
 * PROC_SPLITTER_SET: Sets splitter pos. Param "text" is 2-tuple (int_splitter_id, int_splitter_pos).
 
 Positions of group splitters (G1, G2, G3, G4, G5) are determined by grouping view, in one view splitter may be horizontal with one parent panel, in other view - vertical with another parent panel. Detailed:
@@ -455,14 +455,14 @@ Notes:
 
 Actions:
 
-* PROC_COORD_WINDOW_GET: Gets coords of app window.
+* PROC_COORD_WINDOW_GET: Returns coords of app window.
 * PROC_COORD_WINDOW_SET: Sets coords of app window.
-* PROC_COORD_DESKTOP: Gets coords of virtual desktop, which includes all monitors.
-* PROC_COORD_MONITOR: Gets coords of monitor with app window.
-* PROC_COORD_MONITOR0: Gets coords of 1st monitor.
-* PROC_COORD_MONITOR1: Gets coords of 2nd monitor, or None if no such monitor.
-* PROC_COORD_MONITOR2: Gets coords of 3rd monitor, or None if no such monitor.
-* PROC_COORD_MONITOR3: Gets coords of 4th monitor, or None if no such monitor.
+* PROC_COORD_DESKTOP: Returns coords of virtual desktop, which includes all monitors.
+* PROC_COORD_MONITOR: Returns coords of monitor with app window.
+* PROC_COORD_MONITOR0: Returns coords of 1st monitor.
+* PROC_COORD_MONITOR1: Returns coords of 2nd monitor, or None if no such monitor.
+* PROC_COORD_MONITOR2: Returns coords of 3rd monitor, or None if no such monitor.
+* PROC_COORD_MONITOR3: Returns coords of 4th monitor, or None if no such monitor.
 
 ===app_log===
 
@@ -485,8 +485,8 @@ Possible values of "id" for Output/Validate panels:
 * LOG_SET_NAME_ID: Sets index of regex group for file-name. Param "text".
 * LOG_SET_FILENAME: Sets default file name, which will be used when regex cannot find file name in a string. Param "text".
 * LOG_SET_ZEROBASE: Sets flag: line and column numbers are 0-based, not 1-based. Param "text" is one-char string "0" or "1".
-* LOG_GET_LINES_LIST: Gets items in panel's listbox, as list of 2-tuples (line, tag).
-* LOG_GET_LINEINDEX: Gets index of selected line in panel's listbox.
+* LOG_GET_LINES_LIST: Returns items in panel's listbox, as list of 2-tuples (line, tag).
+* LOG_GET_LINEINDEX: Returns index of selected line in panel's listbox.
 * LOG_SET_LINEINDEX: Sets index of selected line in panel's listbox.
 
 Possible values of "id" for "Console" panel:
@@ -496,8 +496,8 @@ Possible values of "id" for "Console" panel:
 ** If text empty or has "e" then edit-control (below) is cleared.
 ** If text empty or has "h" then combobox history list is cleared.
 * LOG_CONSOLE_ADD: Adds line to console (its combobox and memo).
-* LOG_CONSOLE_GET_COMBO_LINES: Gets list of lines in combobox-control.
-* LOG_CONSOLE_GET_MEMO_LINES: Gets list of lines in memo-control.
+* LOG_CONSOLE_GET_COMBO_LINES: Returns list of lines in combobox-control.
+* LOG_CONSOLE_GET_MEMO_LINES: Returns list of lines in memo-control.
 
 ====Example====
 
@@ -521,16 +521,16 @@ Performs application's message-processing. If wait=True, also waits for new UI e
 
 Performs action with embedded Emmet engine. Possible values of "id":
 
-* EMMET_EXPAND: Expand abbreviation. Gets 2-tuple (str_result, bool_multi_caret) or None.
+* EMMET_EXPAND: Expand abbreviation. Returns 2-tuple (str_result, bool_multi_caret) or None.
 ** Param "text": Emmet abbreviation.
 ** Param "p1": Emmet syntax. Possible values: "html", "xml", "xsl", "css", "svg", "sass", "less".
 
-* EMMET_WRAP: Wrap text with abbreviation. Gets str result or None.
+* EMMET_WRAP: Wrap text with abbreviation. Returns str result or None.
 ** Param "text": Emmet abbreviation.
 ** Param "p1": Emmet syntax.
 ** Param "p2": Text to wrap. Can be multi-line with LF line breaks.
 
-* EMMET_GET_POS: Find beginning of abbreviation in given string. Gets offset in string (0-based), or None.
+* EMMET_GET_POS: Find beginning of abbreviation in given string. Returns offset in string (0-based), or None.
 ** Param "text": Text string (can include unneeded text after caret position, can include HTML tags before abbreviation).
 ** Param "p1": Caret offset (0-based) to search abbreviation to the left of it.
 
@@ -556,7 +556,7 @@ and icon-value:
 * MB_ICONWARNING
 * MB_ICONINFO
 
-Gets int code of pressed button (gets ID_CANCEL if dialog cancelled):
+Returns int code of pressed button (returns ID_CANCEL if dialog cancelled):
 
 * ID_OK
 * ID_CANCEL
@@ -581,7 +581,7 @@ Shows modal message-box with any number of buttons.
 ** MB_ICONWARNING
 ** MB_ICONINFO
 
-Gets int index of pressed button (0-based), or None of cancelled.
+Returns int index of pressed button (0-based), or None of cancelled.
 
 ===msg_status===
 
@@ -603,7 +603,7 @@ Param "seconds": show pause in seconds, 1..30. Value<=0 hides the tooltip.
 
  dlg_input(label, text)
 
-Shows modal dialog to input one string. Gets entered string or None if cancelled.
+Shows modal dialog to input one string. Returns entered string or None if cancelled.
 
 * Param "label": prompt text above input field.
 * Param "text": initial value of input field.
@@ -616,7 +616,7 @@ Shows modal dialog to input one string. Gets entered string or None if cancelled
                label7="", text7="", label8="", text8="", label9="", text9="",
                label10="", text10="")
 
-Shows modal dialog to enter 1 to 10 string fields at once. Gets list of strings or None if cancelled.
+Shows modal dialog to enter 1 to 10 string fields at once. Returns list of strings or None if cancelled.
 
 * Param "number": count of input fields.
 * Params "label": prompt text above input field.
@@ -626,7 +626,7 @@ Shows modal dialog to enter 1 to 10 string fields at once. Gets list of strings 
 
  dlg_file(is_open, init_filename, init_dir, filters, caption="")
 
-Shows "Open file" or "Save file as" modal dialog. Gets filename (or list of filenames) or None if cancelled.
+Shows "Open file" or "Save file as" modal dialog. Returns filename (or list of filenames) or None if cancelled.
 
 * Param "is_open": True for "Open" dialog, False for "Save as" dialog.
 * Param "init_filename": Initial filename for "Save as" dialog. Can be empty.
@@ -643,7 +643,7 @@ Additional options:
 
  dlg_dir(init_dir, caption="Select folder")
 
-Shows dialog to select folder path. Gets path (str), or None if cancelled.
+Shows dialog to select folder path. Returns path (str), or None if cancelled.
 
 * Param "init_dir": Initial folder.
 * Param "caption": Dialog caption.
@@ -652,7 +652,7 @@ Shows dialog to select folder path. Gets path (str), or None if cancelled.
 
  dlg_menu(id, items, focused=0, caption="", clip=0, w=0, h=0)
 
-Shows menu-like dialog. Gets index of selected item (0-based), or None if cancelled.
+Shows menu-like dialog. Returns index of selected item (0-based), or None if cancelled.
 
 Possible values of "id":
 
@@ -680,7 +680,7 @@ Parameters:
 
 Shows select-color dialog with given initial color (int).
 
-Gets int color, or None if cancelled.
+Returns int color, or None if cancelled.
 
 ===dlg_hotkey===
 
@@ -688,13 +688,13 @@ Gets int color, or None if cancelled.
 
 Shows dialog to press single hotkey.
 
-Gets str of hotkey (e.g. "F1", "Ctrl+Alt+B") or None if cancelled.
+Returns str of hotkey (e.g. "F1", "Ctrl+Alt+B") or None if cancelled.
 
 ===dlg_hotkeys===
 
  dlg_hotkeys(command, lexer="")
 
-Shows dialog to configure hotkeys of internal command or plugin. Gets bool: OK pressed and hotkeys saved (to keys.json).
+Shows dialog to configure hotkeys of internal command or plugin. Returns bool: OK pressed and hotkeys saved (to keys.json).
 
 Param "command" can be:
 
@@ -796,7 +796,7 @@ Possible values of "items":
 ** other items are data: cell1+"\r"+cell2+"\r"+... (count of cells may be less than count of columns)
 * image: full path of picture file (png/gif/jpg/bmp)
 
-Action DLG_CTL_PROP_GET also gets key "items" (in the same format) for these controls: "listbox", "checklistbox", "listview", "checklistview".
+Action DLG_CTL_PROP_GET also returns key "items" (in the same format) for these controls: "listbox", "checklistbox", "listview", "checklistview".
 
 ====Prop "columns"====
 
@@ -811,7 +811,7 @@ Action DLG_CTL_PROP_GET also gets key "items" (in the same format) for these con
 
 * For "radiogroup", it is number of vertical columns of radiobuttons.
 
-Action DLG_CTL_PROP_GET also gets key "columns" in the same format.
+Action DLG_CTL_PROP_GET also returns key "columns" in the same format.
 
 Action DLG_CTL_PROP_SET, for "listview", allows both "items" (it sets columns) and "columns", and "columns" is applied last.
 
@@ -909,9 +909,9 @@ Props "ex0"..."ex9" are control-specific. They have different simple type (str, 
 
 Dialog is closed by clicking any button or by changing of any control which has "act=1".
 
-* If cancelled, gets None
-* If get_dict=True, gets dict: {0: str_value_0, 1: str_value_1, ..., 'clicked': N, 'focused': N}
-* If get_dict=False, gets 2-tuple: (clicked_index, state_text)
+* If cancelled, returns None
+* If get_dict=True, returns dict: {0: str_value_0, 1: str_value_1, ..., 'clicked': N, 'focused': N}
+* If get_dict=False, returns 2-tuple: (clicked_index, state_text)
 ** "clicked_index": index of control which closed dialog (0-based).
 ** "state_text": "\n"-separated values of controls. Same count of items as in text, plus optional additional lines in the form "key=value". Line "focused=N" with index of last focused control (0-based) or -1.
 
@@ -1124,7 +1124,7 @@ Param "id_dialog": int, form handle. Ignored only for DLG_CREATE action (pass 0 
 
 Possible values of "id_action":
 
-* DLG_CREATE: Creates new empty form, gets form "handle". You must pass this handle (int) to next calls of dlg_proc().
+* DLG_CREATE: Creates new empty form, returns form "handle". You must pass this handle (int) to next calls of dlg_proc().
 * DLG_HIDE: Hides form.
 * DLG_FREE: Hides and deletes form.
 * DLG_SHOW_MODAL: Shows form in modal mode. Waits for form to hide, then returns.
@@ -1132,7 +1132,7 @@ Possible values of "id_action":
 * DLG_FOCUS: Focuses form (in non-modal mode).
 * DLG_SCALE: Scales form, with all controls, for the current OS high-DPI value. E.g. of OS scale is 150%, all will be scaled by 1.5.
 
-* DLG_PROP_GET: Gets form props, as dict. See example plugin, which props are returned.
+* DLG_PROP_GET: Returns form props, as dict. See example plugin, which props are returned.
 * DLG_PROP_SET: Sets form props, from dict. Param "prop" is dict. Only props mentioned in "prop" are applied, other props don't change.
 
 * DLG_DOCK: Docks (inserts) form into another form. Param "index" is handle of another form, and 0 means main CudaText form. Param "prop" can be: "L", "R", "T", "B" for sides left/right/top/bottom (default is bottom).
@@ -1141,15 +1141,15 @@ Possible values of "id_action":
 * DLG_LOCK: Disables updating of the form. This can be used before adding many controls at once, to remove flickering of these controls.
 * DLG_UNLOCK: Enables updating of the form. This must be used in pair with DLG_LOCK.
 
-* DLG_CTL_COUNT: Gets count of controls on form.
-* DLG_CTL_ADD: Adds new control to form, gets its index, or None if cannot add. Param "prop" is type of control. See description in dlg_custom.
-* DLG_CTL_PROP_GET: Gets control props, as dict. Control must be specified by name or index.
+* DLG_CTL_COUNT: Returns count of controls on form.
+* DLG_CTL_ADD: Adds new control to form, returns its index, or None if cannot add. Param "prop" is type of control. See description in dlg_custom.
+* DLG_CTL_PROP_GET: Returns control props, as dict. Control must be specified by name or index.
 * DLG_CTL_PROP_SET: Sets control props.  Control must be specified by name or index. Param "prop" is dict with props. Only props mentioned in "prop" are applied, other props don't change. To "reset" some props, you must mention them with some value.
 * DLG_CTL_FOCUS: Focuses control.  Control must be specified by name or index.
 * DLG_CTL_DELETE: Deletes control.  Control must be specified by name or index. Controls are stored in list, so after a control deleted, indexes of next controls shift by -1. So don't use fixed indexes if you delete some, use DLG_CTL_FIND.
 * DLG_CTL_DELETE_ALL: Deletes all controls.
-* DLG_CTL_FIND: Gets index of control by name, or -1 if cannot find. Param "prop" is name.
-* DLG_CTL_HANDLE: Gets int "handle" of control on a form. Control must be specified by name or index. This handle is currently useful for types:
+* DLG_CTL_FIND: Returns index of control by name, or -1 if cannot find. Param "prop" is name.
+* DLG_CTL_HANDLE: Returns int "handle" of control on a form. Control must be specified by name or index. This handle is currently useful for types:
 ** type "button_ex": pass handle to button_proc()
 ** type "editor": pass handle to Editor() constructor
 ** type "listbox_ex": pass handle to listbox_proc()
@@ -1158,8 +1158,8 @@ Possible values of "id_action":
 ** type "treeview": pass handle to tree_proc()
 ** type "toolbar": pass handle to toolbar_proc()
 
-* DLG_COORD_LOCAL_TO_SCREEN: Converts x/y coordinates from form-related, to screen-related. Param "index" is x, "index2" is y. Gets tuple (x,y).
-* DLG_COORD_SCREEN_TO_LOCAL: Converts x/y coordinates from screen-related, to form-related. Param "index" is x, "index2" is y. Gets tuple (x,y).
+* DLG_COORD_LOCAL_TO_SCREEN: Converts x/y coordinates from form-related, to screen-related. Param "index" is x, "index2" is y. Returns tuple (x,y).
+* DLG_COORD_SCREEN_TO_LOCAL: Converts x/y coordinates from screen-related, to form-related. Param "index" is x, "index2" is y. Returns tuple (x,y).
 
 ====Anchors====
 
@@ -1226,18 +1226,18 @@ Show commands dialog, which is customizable version of Commands (F1) dialog in C
 
 Param "options" should be 0 or sum of int flags:
 
-* COMMANDS_USUAL: Show usual commands, which have int codes. Function gets "c:"+str(int_command) for them.
-* COMMANDS_PLUGINS: Show plugins commands. Function gets "p:"+callback_string for them.
-* COMMANDS_LEXERS: Show lexers pseudo-commands. Function gets "l:"+lexer_name for them.
-* COMMANDS_FILES: Show opened files pseudo-commands. Function gets "f:"+file_name for them.
-* COMMANDS_RECENTS: Show recent files pseudo-commands. Function gets "r:"+file_name for them.
+* COMMANDS_USUAL: Show usual commands, which have int codes. Function returns "c:"+str(int_command) for them.
+* COMMANDS_PLUGINS: Show plugins commands. Function returns "p:"+callback_string for them.
+* COMMANDS_LEXERS: Show lexers pseudo-commands. Function returns "l:"+lexer_name for them.
+* COMMANDS_FILES: Show opened files pseudo-commands. Function returns "f:"+file_name for them.
+* COMMANDS_RECENTS: Show recent files pseudo-commands. Function returns "r:"+file_name for them.
 * COMMANDS_CONFIG: Allow to call Configure Hotkeys dialog by F9 key.
 * COMMANDS_CONFIG_LEXER: Enable checkbox "For current lexer" when dialog to configure hotkey is called.
 * COMMANDS_CENTERED: Set dialog position to the center of desktop. Otherwise, position depends on CudaText option.
 
 Params "w" and "h": if values>0, they are width and height of dialog.
 
-Gets string if command selected, or None if cancelled.
+Returns string if command selected, or None if cancelled.
 
 ===file_open===
 
@@ -1248,8 +1248,8 @@ Opens editor tab with given filename. If filename already opened, activates its 
 
 First parameter can be 2-tuple (or 2-list) of string, to open two files in a single tab, in a splitted view. In this case, second filename won't be handled specially for zip file, picture file, binary file etc.
 
-Gets bool. True, if first filename is empty. Otherwise, gets True if first filename exists, and second filename is empty or exists.
-For zip file (only first filename is checked for it), gets True only if zip file contains valid CudaText add-on, and it was installed.
+Returns bool. True, if first filename is empty. Otherwise, returns True if first filename exists, and second filename is empty or exists.
+For zip file (only first filename is checked for it), returns True only if zip file contains valid CudaText add-on, and it was installed.
 
 * Param "group": index of tab-group (0-based), default means "current group". If you pass index of currently hidden group, group won't show, you need to call editor command to show it, see [[#cmd]].
 * Param "options": string:
@@ -1286,7 +1286,7 @@ Example opens untitled tab, and writes multi-line text to it:
 
  ed_handles()
 
-Gets range object: it contains int handles of all editor tabs. Pass each handle to Editor() to make editor object from handle.
+Returns range object: it contains int handles of all editor tabs. Pass each handle to Editor() to make editor object from handle.
 
 Example code, which shows filenames of all tabs:
 
@@ -1301,7 +1301,7 @@ Example code, which shows filenames of all tabs:
 
  ed_group(index)
 
-Gets Editor object for active editor in tab-group with given group-index. Gets None for incorrect index, or if no tabs in this group.
+Returns Editor object for active editor in tab-group with given group-index. Returns None for incorrect index, or if no tabs in this group.
 
 Index possible values: 0..5 (first 6 groups) and 6..8 (3 floating groups).
 
@@ -1319,7 +1319,7 @@ Reads/writes single string from/to .ini file. Params:
 ** on read: default value which is returned if no such filename/section/key was found.
 ** on write: value to write.
 
-On read: gets string value. On write: gets None.
+On read: returns string value. On write: returns None.
 
 ===ini_proc===
 
@@ -1329,8 +1329,8 @@ Performs action on .ini file. Filename can be without path, this means that path
 
 Possible values of "id":
 
-* INI_GET_SECTIONS: Gets list of sections. Params "section", "key" ignored.
-* INI_GET_KEYS: Gets list of keys in given section. Param "key" ignored.
+* INI_GET_SECTIONS: Returns list of sections. Params "section", "key" ignored.
+* INI_GET_KEYS: Returns list of keys in given section. Param "key" ignored.
 * INI_DELETE_KEY: Deletes given key in given section.
 * INI_DELETE_SECTION: Deletes given section with all its keys. Param "key" ignored.
 
@@ -1342,8 +1342,8 @@ Perform some lexer-related action.
 
 Possible values of "id":
 
-* LEXER_GET_LEXERS: Gets list of lexers. Param "value" must be bool: allow to include also hidden lexers (not visible in the lexers menu).
-* LEXER_GET_PROP: For lexer name (param "value"), gets lexer general properties, as dict. Supported for "lite" lexers too (lexer name must end with ^ suffix). For incorrect lexer name, gets None. Keys of dict:
+* LEXER_GET_LEXERS: Returns list of lexers. Param "value" must be bool: allow to include also hidden lexers (not visible in the lexers menu).
+* LEXER_GET_PROP: For lexer name (param "value"), returns lexer general properties, as dict. Supported for "lite" lexers too (lexer name must end with ^ suffix). For incorrect lexer name, returns None. Keys of dict:
 ** "en": bool: lexer is visible in the lexers menu.
 ** "typ": list of str: list of file-types (they detect lexer when file loads; "ext" is simple extension, "ext1.ext2" is double extension, "/fullname" is name w/o path).
 ** "st": list of str: list of all styles.
@@ -1355,7 +1355,7 @@ Possible values of "id":
 ** "c_str": 2-tuple or None: stream comment (for any range).
 ** "c_lined": 2-tuple or None: comment for full lines.
 
-* LEXER_GET_STYLES: For lexer name (param "value"), gets lexer styles properties, as dict. This works even if CudaText lexer themes are disabled (option "ui_lexer_themes": false). Not supported for "lite" lexers. Dict keys:
+* LEXER_GET_STYLES: For lexer name (param "value"), returns lexer styles properties, as dict. This works even if CudaText lexer themes are disabled (option "ui_lexer_themes": false). Not supported for "lite" lexers. Dict keys:
 ** "type": Kind of style. Enum. 0: reserved value, 1: colors and font styles, 2: colors only, 3: background color only.
 ** "color_font": RGB color of font.
 ** "color_back": RGB color of background. Can be COLOR_NONE if not used.
@@ -1363,7 +1363,7 @@ Possible values of "id":
 ** "border_left", "border_right", "border_top", "border_bottom": Kind of border at one side. Enum. Values from 0: none, solid, dash, dot, dash dot, dash dot dot, solid2, solid3, wave, double.
 ** "styles": Font styles, as string. If empty, no styles. If "b" in value, bold. If "i" in value, italic. If "u" in value, underline. If "s" in value, strikeout.
 
-* LEXER_DETECT: Detects lexer name by file name (param "value" is file name). Gets None if cannot detect. Gets string or tuple of string (for example, "C" and "C++" for "test.h"). Function tests file extension, or even filename before extension (e.g. "/path/makefile.gcc" gives "Makefile").
+* LEXER_DETECT: Detects lexer name by file name (param "value" is file name). Returns None if cannot detect. Returns string or tuple of string (for example, "C" and "C++" for "test.h"). Function tests file extension, or even filename before extension (e.g. "/path/makefile.gcc" gives "Makefile").
 * LEXER_REREAD_LIB: Re-reads lexer library from disk, updates lexer menu. Make sure that plugins' dialogs don't use editor with lexer, which may crash.
 
 * LEXER_ADD_VIRTUAL: Adds virtual lexer, which doesn't have a file and doesn't highlight text, it's only an item in lexers list. The purpose of virtual lexers is to avoid creating lexer files, but allow plugins to be activated by some lexer name / some file types. Param "value" must be tuple of string: (lexer_name, file_types, line_comment, range_comment_begin, range_comment_end). Item file_types here must have the same notation as for "lite" lexers, e.g. "*.pas;*.pp;*.lpr". Virtual lexers are added to the "lite" lexers list, and show the same suffix in lexer menu. To activate such a lexer, call Editor.set_prop(PROP_LEXER_FILE, lexer_name+suffix). Action returns bool: lexer_name didn't exist, lexer was added.
@@ -1381,17 +1381,17 @@ Perform action on treeview UI-control.
 
 Possible values of "id_action":
 
-* TREE_ITEM_ENUM: Enumerates subitems on given item. Param id_item. Gets list of 2-tuples: (int_handle, str_caption), or None.
-* TREE_ITEM_ADD: Adds subitem as item's child. Param id_item. Param index: at which subitem index to insert (0-based), or -1 to append. Param text: caption of item. Param image_index: index in tree's icon list or -1 to not show icon. Gets int handle of subitem.
+* TREE_ITEM_ENUM: Enumerates subitems on given item. Param id_item. Returns list of 2-tuples: (int_handle, str_caption), or None.
+* TREE_ITEM_ADD: Adds subitem as item's child. Param id_item. Param index: at which subitem index to insert (0-based), or -1 to append. Param text: caption of item. Param image_index: index in tree's icon list or -1 to not show icon. Returns int handle of subitem.
 * TREE_ITEM_DELETE: Deletes item (with all subitems). Param id_item.
 * TREE_ITEM_SET_TEXT: Sets item's text. Params: id_item, text.
 * TREE_ITEM_SET_ICON: Sets item's icon. Params: id_item, image_index.
 
 * TREE_ITEM_SELECT: Selects item.
 * TREE_ITEM_SHOW: Makes item visible, ie scrolls control to this item.
-* TREE_ITEM_GET_SELECTED: Gets int handle of selected item (id_item ignored). Gets None if none selected.
+* TREE_ITEM_GET_SELECTED: Returns int handle of selected item (id_item ignored). Returns None if none selected.
 
-* TREE_ITEM_GET_PROPS: Gets props of item, as dict. Dict keys are:
+* TREE_ITEM_GET_PROPS: Returns props of item, as dict. Dict keys are:
 ** "text": str: caption of item
 ** "icon": int: index of icon in tree's imagelist object, or -1 for none
 ** "level": int: how deep this item is nested (how many parents this item has)
@@ -1407,13 +1407,13 @@ Possible values of "id_action":
 * TREE_ITEM_FOLD_LEVEL: Folds all items (id_item ignored) from level with specified index, 1 or bigger. (This is what CudaText commands "fold level N" do for code-tree).
 * TREE_ITEM_UNFOLD: Unfolds item w/o subitems.
 * TREE_ITEM_UNFOLD_DEEP: Unfolds item with subitems. Root-item allowed too.
-* TREE_GET_IMAGELIST: Gets int handle of image-list object.
+* TREE_GET_IMAGELIST: Returns int handle of image-list object.
 * TREE_PROP_SHOW_ROOT: This allows to hide lines for invisible root-item. If hidden, tree (folded) looks like listbox. Param text: "0"/"1" to hide/show.
 * TREE_LOCK: Disables repainting of control.
 * TREE_UNLOCK: Enables repainting of control.
 * TREE_THEME: Applies current color theme to control.
 
-* TREE_ITEM_GET_RANGE: Should be used only for code-tree. Gets range, stored in tree-item, as 4-tuple (start_x, start_y, end_x, end_y). If range is not set, gets (-1,-1,-1,-1).
+* TREE_ITEM_GET_RANGE: Should be used only for code-tree. Returns range, stored in tree-item, as 4-tuple (start_x, start_y, end_x, end_y). If range is not set, returns (-1,-1,-1,-1).
 * TREE_ITEM_SET_RANGE: Should be used only for code-tree. Sets range for tree-item. Param "text" must be 4-tuple of int (start_x, start_y, end_x, end_y).
 
 ===listbox_proc===
@@ -1427,32 +1427,32 @@ Perform action on listbox UI-control.
 
 Possible values of "id_action":
 
-* LISTBOX_GET_COUNT: Gets number if items.
-* LISTBOX_ADD: Adds item with given text and tag. Gets new count of items. Param "index": index of new item, or -1 to append. Param "text": text of item. Param "tag": int tag.
-* LISTBOX_ADD_PROP: Adds item with given text and other properties. Gets new count of items. Param "index": index of new item, or -1 to append. Param "text": text of item. Param "tag": dict with keys "tag", "modified", "datatext".
+* LISTBOX_GET_COUNT: Returns number if items.
+* LISTBOX_ADD: Adds item with given text and tag. Returns new count of items. Param "index": index of new item, or -1 to append. Param "text": text of item. Param "tag": int tag.
+* LISTBOX_ADD_PROP: Adds item with given text and other properties. Returns new count of items. Param "index": index of new item, or -1 to append. Param "text": text of item. Param "tag": dict with keys "tag", "modified", "datatext".
 * LISTBOX_DELETE: Deletes item with given index.
 * LISTBOX_DELETE_ALL: Deletes all items.
-* LISTBOX_GET_ITEM: Gets text/tag of item with given index. Gets 2-tuple (text, tag) or None if index incorrect.
+* LISTBOX_GET_ITEM: Returns text/tag of item with given index. Returns 2-tuple (text, tag) or None if index incorrect.
 * LISTBOX_SET_ITEM: Sets text/tag of item with given index. Params used: "index", "text", "tag".
-* LISTBOX_GET_ITEM_PROP: Gets properties of item with given index, as dict or None. Dict keys are: "text", "tag", "modified", "datatext".
+* LISTBOX_GET_ITEM_PROP: Returns properties of item with given index, as dict or None. Dict keys are: "text", "tag", "modified", "datatext".
 * LISTBOX_SET_ITEM_PROP: Sets properties of item with given index. Param "index": int value. Param "text": new text of item. Param "tag": dict with keys "tag", "modified", "datatext".
-* LISTBOX_GET_ITEM_H: Gets height of items in pixels.
+* LISTBOX_GET_ITEM_H: Returns height of items in pixels.
 * LISTBOX_SET_ITEM_H: Sets height of items in pixels. Param "index": int value
-* LISTBOX_GET_SEL: Gets selected index. -1 for none.
+* LISTBOX_GET_SEL: Returns selected index. -1 for none.
 * LISTBOX_SET_SEL: Sets selected index. Param "index": int value
-* LISTBOX_GET_TOP: Gets index of top visible item.
+* LISTBOX_GET_TOP: Returns index of top visible item.
 * LISTBOX_SET_TOP: Sets index of top visible item. Param "index": int value
-* LISTBOX_GET_DRAWN: Gets owner-drawn state (bool). Owner-drawn state means that listbox doesn't paint itself, but plugin must paint it via event "on_draw_item".
+* LISTBOX_GET_DRAWN: Returns owner-drawn state (bool). Owner-drawn state means that listbox doesn't paint itself, but plugin must paint it via event "on_draw_item".
 * LISTBOX_SET_DRAWN: Sets owner-drawn state. Param "index": 0 or 1 (off/on).
-* LISTBOX_GET_SHOW_X: Gets state of X marks. Int value: 0: don't show, 1: show for all items, 2: show for mouse-over item.
+* LISTBOX_GET_SHOW_X: Returns state of X marks. Int value: 0: don't show, 1: show for all items, 2: show for mouse-over item.
 * LISTBOX_SET_SHOW_X: Sets state of X marks. Param "index": int value.
-* LISTBOX_GET_HOTTRACK: Gets HotTrack state (bool). HotTrack means that listbox highlights item under mouse cursor.
+* LISTBOX_GET_HOTTRACK: Returns HotTrack state (bool). HotTrack means that listbox highlights item under mouse cursor.
 * LISTBOX_SET_HOTTRACK: Sets HotTrack state. Param "index": 0 or 1 (off/on).
-* LISTBOX_GET_SCROLLSTYLE_HORZ: Gets style of horizontal scrollbar. One of SCROLLSTYLE_ constants.
+* LISTBOX_GET_SCROLLSTYLE_HORZ: Returns style of horizontal scrollbar. One of SCROLLSTYLE_ constants.
 * LISTBOX_SET_SCROLLSTYLE_HORZ: Sets style of horizontal scrollbar. Param "index": int value, one of SCROLLSTYLE_ constants.
-* LISTBOX_GET_SCROLLSTYLE_VERT: Gets style of vertical scrollbar. One of SCROLLSTYLE_ constants.
+* LISTBOX_GET_SCROLLSTYLE_VERT: Returns style of vertical scrollbar. One of SCROLLSTYLE_ constants.
 * LISTBOX_SET_SCROLLSTYLE_VERT: Sets style of vertical scrollbar. Param "index": int value, one of SCROLLSTYLE_ constants.
-* LISTBOX_GET_SCROLLPOS_HORZ: Gets horizontal scroll position.
+* LISTBOX_GET_SCROLLPOS_HORZ: Returns horizontal scroll position.
 * LISTBOX_SET_SCROLLPOS_HORZ: Sets horizontal scroll position. Param "index": int value.
 
 Listbox can have columns. It works only if listbox is not owner-drawn, and column sizes were set via LISTBOX_SET_COLUMNS. You must add separator-chars inside items to split items into columns. Column sizes are passed as list of int. Each list item can be:
@@ -1462,9 +1462,9 @@ Listbox can have columns. It works only if listbox is not owner-drawn, and colum
 
 Actions for columns:
 
-* LISTBOX_GET_COLUMN_SEP: Gets column separator char.
+* LISTBOX_GET_COLUMN_SEP: Returns column separator char.
 * LISTBOX_SET_COLUMN_SEP: Sets column separator char. Param "text" must be single-char string.
-* LISTBOX_GET_COLUMNS: Gets list of column sizes.
+* LISTBOX_GET_COLUMNS: Returns list of column sizes.
 * LISTBOX_SET_COLUMNS: Sets list of column sizes. Param "text" must be list of int.
 
 Example adds 3 columns:
@@ -1504,7 +1504,7 @@ Possible values of "id_action":
 ** "style": one of BRUSH_nnnn. Usually used: BRUSH_SOLID (filled background), BRUSH_CLEAR (transparent background).
 
 * CANVAS_SET_ANTIALIAS: Sets anti-aliasing mode of canvas. Params: style - ANTIALIAS_NONE, _ON, _OFF.
-* CANVAS_GET_TEXT_SIZE: Gets size of text on canvas, as 2-tuple (size_x, size_y). Uses font. Params: text.
+* CANVAS_GET_TEXT_SIZE: Returns size of text on canvas, as 2-tuple (size_x, size_y). Uses font. Params: text.
 * CANVAS_TEXT: Paints text at given coords. Uses font and brush. Params: text, x, y.
 * CANVAS_LINE: Paints line at given coords. Uses pen. Params: x, y, x2, y2.
 * CANVAS_PIXEL: Paints one pixel at given coords. Params: x, y, color.
@@ -1610,10 +1610,10 @@ Some actions get dict for menu items. Dict keys:
 Possible values of "id_action":
 
 * MENU_CLEAR: Removes all sub-items from menu item.
-* MENU_ENUM: Enumerates sub-items of the menu item. Gets list of dict, or None (for incorrect menu_id).
-* MENU_GET_PROP: Gets props of menu item, as dict.
+* MENU_ENUM: Enumerates sub-items of the menu item. Returns list of dict, or None (for incorrect menu_id).
+* MENU_GET_PROP: Returns props of menu item, as dict.
 
-* MENU_ADD: Adds sub-item to menu item. Gets string, menu_id for newly added sub-item. Params:
+* MENU_ADD: Adds sub-item to menu item. Returns string, menu_id for newly added sub-item. Params:
 ** "id_menu": Item in which you add sub-item.
 ** "caption": Caption of item, or "-" for menu separator.
 ** "index": Index (0-based) at which to insert sub-item. Default: append item to end.
@@ -1659,22 +1659,22 @@ Example creates popup-menu with one item and shows it at (x=100, y=100):
 
 Perform action on toolbar UI control.
 
-Param "id_toolbar": int handle of toolbar. Can be "top" for main app toolbar. Function gets None, if id_toolbar not correct.
+Param "id_toolbar": int handle of toolbar. Can be "top" for main app toolbar. Function returns None, if id_toolbar not correct.
 
 Param "id_action" possible values:
 
-* TOOLBAR_GET_COUNT: Gets number of buttons in toolbar.
-* TOOLBAR_GET_IMAGELIST: Gets int handle of image-list object.
-* TOOLBAR_GET_BUTTON_HANDLE: Gets int handle of button to use in button_proc(), or None if index not correct. Param "index": button index.
-* TOOLBAR_GET_BUTTON_HANDLES: Gets list of handles of all buttons.
+* TOOLBAR_GET_COUNT: Returns number of buttons in toolbar.
+* TOOLBAR_GET_IMAGELIST: Returns int handle of image-list object.
+* TOOLBAR_GET_BUTTON_HANDLE: Returns int handle of button to use in button_proc(), or None if index not correct. Param "index": button index.
+* TOOLBAR_GET_BUTTON_HANDLES: Returns list of handles of all buttons.
 * TOOLBAR_DELETE_ALL: Deletes all buttons.
 * TOOLBAR_DELETE_BUTTON: Deletes one button. Param "index": button index.
 * TOOLBAR_ADD_ITEM: Adds one button, usual. Param "index": button index at which to insert, -1 to append. You need to get handle of this button, and customize button via button_proc().
 * TOOLBAR_ADD_MENU: Adds one button, with submenu. Param "index": button index at which to insert, -1 to append.
 * TOOLBAR_UPDATE: Updates buttons positions and sizes (for current size of image-list, current captions etc).
-* TOOLBAR_GET_VERTICAL: Gets vertical state of toolbar.
+* TOOLBAR_GET_VERTICAL: Returns vertical state of toolbar.
 * TOOLBAR_SET_VERTICAL: Sets vertical state of toolbar. Param "index": bool value.
-* TOOLBAR_GET_WRAP: Gets wrappable state of toolbar.
+* TOOLBAR_GET_WRAP: Returns wrappable state of toolbar.
 * TOOLBAR_SET_WRAP: Sets wrappable state of toolbar (implemented for horizontal toolbar only). Param "index": bool value.
 * TOOLBAR_THEME: Applies current UI theme to toolbar.
 
@@ -1703,23 +1703,23 @@ Perform action on statusbar UI control.
 
 Param "id_action" can be:
 
-* STATUSBAR_GET_COUNT: Gets int number of cells.
+* STATUSBAR_GET_COUNT: Returns int number of cells.
 * STATUSBAR_DELETE_ALL: Deletes all cells.
 * STATUSBAR_DELETE_CELL: Deletes one cell (by "index" or "tag").
 
-* STATUSBAR_ADD_CELL: Adds one cell. Param "index": -1: cell will be appended; >=0: cell will be inserted at given index. Param "tag" has special meaning: it is tag value of a new cell. Gets index of new cell, or None if cannot add (e.g. "tag" is busy).
-* STATUSBAR_FIND_CELL: Gets index if cell from tag, or None. Param "value": int tag. Params "index", "tag" ignored.
+* STATUSBAR_ADD_CELL: Adds one cell. Param "index": -1: cell will be appended; >=0: cell will be inserted at given index. Param "tag" has special meaning: it is tag value of a new cell. Returns index of new cell, or None if cannot add (e.g. "tag" is busy).
+* STATUSBAR_FIND_CELL: Returns index if cell from tag, or None. Param "value": int tag. Params "index", "tag" ignored.
 
-* STATUSBAR_GET_IMAGELIST: Gets handle of image-list object, attached to statusbar, or 0 for none.
+* STATUSBAR_GET_IMAGELIST: Returns handle of image-list object, attached to statusbar, or 0 for none.
 * STATUSBAR_SET_IMAGELIST: Sets handle if image-list object. Param "value": handle.
 
-* STATUSBAR_GET_COLOR_BACK: Gets color of background.
-* STATUSBAR_GET_COLOR_FONT: Gets color of font.
-* STATUSBAR_GET_COLOR_BORDER_TOP: Gets color of border-top.
-* STATUSBAR_GET_COLOR_BORDER_L: Gets color of border-left.
-* STATUSBAR_GET_COLOR_BORDER_R: Gets color of border-right.
-* STATUSBAR_GET_COLOR_BORDER_U: Gets color of border-up.
-* STATUSBAR_GET_COLOR_BORDER_D: Gets color of border-down.
+* STATUSBAR_GET_COLOR_BACK: Returns color of background.
+* STATUSBAR_GET_COLOR_FONT: Returns color of font.
+* STATUSBAR_GET_COLOR_BORDER_TOP: Returns color of border-top.
+* STATUSBAR_GET_COLOR_BORDER_L: Returns color of border-left.
+* STATUSBAR_GET_COLOR_BORDER_R: Returns color of border-right.
+* STATUSBAR_GET_COLOR_BORDER_U: Returns color of border-up.
+* STATUSBAR_GET_COLOR_BORDER_D: Returns color of border-down.
 
 * STATUSBAR_SET_COLOR_BACK: Sets color of background. Param "value": int color.
 * STATUSBAR_SET_COLOR_FONT: Sets color of font.
@@ -1729,18 +1729,18 @@ Param "id_action" can be:
 * STATUSBAR_SET_COLOR_BORDER_U: Sets color of border-up.
 * STATUSBAR_SET_COLOR_BORDER_D: Sets color of border-down.
 
-* STATUSBAR_GET_CELL_SIZE: Gets width of cell.
-* STATUSBAR_GET_CELL_AUTOSIZE: Gets auto-size of cell, bool. Auto-size: adjust width of cell to its icon+text.
-* STATUSBAR_GET_CELL_AUTOSTRETCH: Gets auto-stretch of cell, bool. Auto-stretch: stretch cell to fill entire statusbar width.
-* STATUSBAR_GET_CELL_ALIGN: Gets alignment of cell. One of str values: "L" (left), "C" (center), "R" (right).
-* STATUSBAR_GET_CELL_TEXT: Gets text of cell.
-* STATUSBAR_GET_CELL_HINT: Gets hint of cell.
-* STATUSBAR_GET_CELL_IMAGEINDEX: Gets icon index (inside image-list) of cell, -1 for none.
-* STATUSBAR_GET_CELL_COLOR_FONT: Gets font color of cell, COLOR_NONE if not set.
-* STATUSBAR_GET_CELL_COLOR_BACK: Gets background color of cell, COLOR_NONE if not set.
-* STATUSBAR_GET_CELL_FONT_NAME: Gets special font name of cell (if empty str, not used).
-* STATUSBAR_GET_CELL_FONT_SIZE: Gets special font size of cell (if <=0, not used).
-* STATUSBAR_GET_CELL_TAG: Gets int tag of cell.
+* STATUSBAR_GET_CELL_SIZE: Returns width of cell.
+* STATUSBAR_GET_CELL_AUTOSIZE: Returns auto-size of cell, bool. Auto-size: adjust width of cell to its icon+text.
+* STATUSBAR_GET_CELL_AUTOSTRETCH: Returns auto-stretch of cell, bool. Auto-stretch: stretch cell to fill entire statusbar width.
+* STATUSBAR_GET_CELL_ALIGN: Returns alignment of cell. One of str values: "L" (left), "C" (center), "R" (right).
+* STATUSBAR_GET_CELL_TEXT: Returns text of cell.
+* STATUSBAR_GET_CELL_HINT: Returns hint of cell.
+* STATUSBAR_GET_CELL_IMAGEINDEX: Returns icon index (inside image-list) of cell, -1 for none.
+* STATUSBAR_GET_CELL_COLOR_FONT: Returns font color of cell, COLOR_NONE if not set.
+* STATUSBAR_GET_CELL_COLOR_BACK: Returns background color of cell, COLOR_NONE if not set.
+* STATUSBAR_GET_CELL_FONT_NAME: Returns special font name of cell (if empty str, not used).
+* STATUSBAR_GET_CELL_FONT_SIZE: Returns special font size of cell (if <=0, not used).
+* STATUSBAR_GET_CELL_TAG: Returns int tag of cell.
 
 * STATUSBAR_SET_CELL_SIZE: Sets width of cell. Param "value": int.
 * STATUSBAR_SET_CELL_AUTOSIZE: Sets auto-size of cell. Param "value": bool.
@@ -1769,14 +1769,14 @@ Param "id_list" is int handle of image-list. It is required for all actions, exc
 
 Possible values of "id_action":
 
-* IMAGELIST_CREATE: Creates new image-list object with default icon size 16x16. Gets int handle of this image-list. Param "value" must be int handle of owner form of object.
+* IMAGELIST_CREATE: Creates new image-list object with default icon size 16x16. Returns int handle of this image-list. Param "value" must be int handle of owner form of object.
 ** If it is form handle from dlg_proc, object will be deleted after deletion of this form.
 ** If it is 0, main application form is used as owner, and object will be persistent.
 
-* IMAGELIST_COUNT: Gets int number of icons in image-list.
-* IMAGELIST_GET_SIZE: Gets current icon size as 2-tuple (width, height).
-* IMAGELIST_SET_SIZE: Sets new icon size, and clears image-list. Param "value" must be 2-tuple of int (width, height). Gets new icon size (corrected by minimal value) as 2-tuple.
-* IMAGELIST_ADD: Loads image into image-list. Param "value" must be full path to png/bmp image file. Image size should be the same as size in image-list (but not required). Gets int icon index, or None if cannot load.
+* IMAGELIST_COUNT: Returns int number of icons in image-list.
+* IMAGELIST_GET_SIZE: Returns current icon size as 2-tuple (width, height).
+* IMAGELIST_SET_SIZE: Sets new icon size, and clears image-list. Param "value" must be 2-tuple of int (width, height). Returns new icon size (corrected by minimal value) as 2-tuple.
+* IMAGELIST_ADD: Loads image into image-list. Param "value" must be full path to png/bmp image file. Image size should be the same as size in image-list (but not required). Returns int icon index, or None if cannot load.
 * IMAGELIST_DELETE: Deletes one icon. Param "value" is int icon index (0-based).
 * IMAGELIST_DELETE_ALL: Deletes all icons.
 * IMAGELIST_PAINT: Paints single icon on given canvas, at given coords. Param "value" must be tuple (canvas_id, x, y, icon_index). Value canvas_id can be 0 for testing paintbox in CudaText.
@@ -1791,11 +1791,11 @@ Param "id_image" is int handle of image. It is required for all actions, except 
 
 Possible values of "id_action":
 
-* IMAGE_CREATE: Creates new image object. Gets int handle of this image. Param "value" must be int handle of owner form of object.
+* IMAGE_CREATE: Creates new image object. Returns int handle of this image. Param "value" must be int handle of owner form of object.
 ** If it is form handle from dlg_proc, object will be deleted after deletion of this form.
 ** If it is 0, main application form is used as owner, and object will be persistent.
 
-* IMAGE_GET_SIZE: Gets current image size as 2-tuple (width, height).
+* IMAGE_GET_SIZE: Returns current image size as 2-tuple (width, height).
 * IMAGE_LOAD: Reads picture file into image object. Param "value" must be full file path (png, jpg, bmp, gif, ico).
 * IMAGE_PAINT: Paints image object on given canvas, at given coords. Param "value" must be tuple (canvas_id, x, y). Value canvas_id can be 0, for testing paintbox in CudaText.
 * IMAGE_PAINT_SIZED: Paints image object on given canvas, resized to given rectangle. Param "value" must be tuple (canvas_id, x1, y1, x2, y2).
@@ -1811,43 +1811,43 @@ Param "id_button" is int handle of button.
 Possible values of "id_action":
 
 * BTN_UPDATE: Repaints button.
-* BTN_GET_TEXT: Gets caption string.
+* BTN_GET_TEXT: Returns caption string.
 * BTN_SET_TEXT: Sets caption string.
-* BTN_GET_HINT: Gets hint (tooltip) string.
+* BTN_GET_HINT: Returns hint (tooltip) string.
 * BTN_SET_HINT: Sets hint string.
-* BTN_GET_ENABLED: Gets enabled state, bool.
+* BTN_GET_ENABLED: Returns enabled state, bool.
 * BTN_SET_ENABLED: Sets enabled state. Param "value" must be bool.
-* BTN_GET_VISIBLE: Gets visible state, bool.
+* BTN_GET_VISIBLE: Returns visible state, bool.
 * BTN_SET_VISIBLE: Sets visible state. Param "value" must be bool.
-* BTN_GET_CHECKED: Gets checked state, bool.
+* BTN_GET_CHECKED: Returns checked state, bool.
 * BTN_SET_CHECKED: Sets checked state. Param "value" must be bool.
-* BTN_GET_IMAGELIST: Gets handle of image-list for button.
+* BTN_GET_IMAGELIST: Returns handle of image-list for button.
 * BTN_SET_IMAGELIST: Sets handle of image-list. Param "value" must be int handle.
-* BTN_GET_IMAGEINDEX: Gets icon index (in attached image-list).
+* BTN_GET_IMAGEINDEX: Returns icon index (in attached image-list).
 * BTN_SET_IMAGEINDEX: Sets icon index. Param "value" must be int index (0-based), or -1 for none. To show icon, you must also set appropriate kind of button.
-* BTN_GET_MENU: Gets int handle of submenu. It can be passed to menu_proc(h, MENU_SHOW).
+* BTN_GET_MENU: Returns int handle of submenu. It can be passed to menu_proc(h, MENU_SHOW).
 * BTN_SET_MENU: Sets int handle of submenu. It can be handle created by menu_proc(0, MENU_CREATE).
-* BTN_GET_KIND: Gets kind of button. Int value, one of BTNKIND_nnn constants.
+* BTN_GET_KIND: Returns kind of button. Int value, one of BTNKIND_nnn constants.
 * BTN_SET_KIND: Sets kind of button.
-* BTN_GET_BOLD: Gets bold-style of button, bool.
+* BTN_GET_BOLD: Returns bold-style of button, bool.
 * BTN_SET_BOLD: Sets bold-style. Param "value" must be bool.
-* BTN_GET_ARROW: Gets dropdown arrow visible flag, bool.
+* BTN_GET_ARROW: Returns dropdown arrow visible flag, bool.
 * BTN_SET_ARROW: Sets dropdown arrow visible flag. Param "value" must be bool.
-* BTN_GET_ARROW_ALIGN: Gets alignment of dropdown arrow, as str: "L", "R", "C".
+* BTN_GET_ARROW_ALIGN: Returns alignment of dropdown arrow, as str: "L", "R", "C".
 * BTN_SET_ARROW_ALIGN: Sets alignment of dropdown arrow. Param "value" must be str: "L", "R", "C".
-* BTN_GET_FOCUSABLE: Gets focusable state, bool.
+* BTN_GET_FOCUSABLE: Returns focusable state, bool.
 * BTN_SET_FOCUSABLE: Sets focusable state. Param "value" must be bool.
-* BTN_GET_FLAT: Gets flat state, bool.
+* BTN_GET_FLAT: Returns flat state, bool.
 * BTN_SET_FLAT: Sets flat state. Param "value" must be bool.
-* BTN_GET_DATA1: Gets data1 string. Data1 is used for toolbar buttons, contains command of button: str(int_command) or callback.
+* BTN_GET_DATA1: Returns data1 string. Data1 is used for toolbar buttons, contains command of button: str(int_command) or callback.
 * BTN_SET_DATA1: Sets data1. Param "value" must be callback: [[#Callback_param]].
-* BTN_GET_DATA2: Gets data2 string. Data2 is currently not used by app.
+* BTN_GET_DATA2: Returns data2 string. Data2 is currently not used by app.
 * BTN_SET_DATA2: Sets data2 string.
-* BTN_GET_WIDTH: Gets width (in pixels).
+* BTN_GET_WIDTH: Returns width (in pixels).
 * BTN_SET_WIDTH: Sets width.
-* BTN_GET_ITEMS: Gets choice items, used for kind=BTNKIND_TEXT_CHOICE, as "\n"-separated strings.
+* BTN_GET_ITEMS: Returns choice items, used for kind=BTNKIND_TEXT_CHOICE, as "\n"-separated strings.
 * BTN_SET_ITEMS: Sets choice items. Param "value" must be str, "\n"-separated strings.
-* BTN_GET_ITEMINDEX: Gets choice index, used for kind=BTNKIND_TEXT_CHOICE.
+* BTN_GET_ITEMINDEX: Returns choice index, used for kind=BTNKIND_TEXT_CHOICE.
 * BTN_SET_ITEMINDEX: Sets choice index. Param "value" must be int >=0, or -1 for none.
 
 Note: Toolbars contain several "button_ex" objects, which are anchored one to another (horizontally or vertically). You can also construct such toolbar by hands. API toolbar_proc() don't allow to specify kind of buttons, it sets kind from button properties.
@@ -1909,8 +1909,8 @@ Param "options" must be 0 or sum of the following flags:
 
  get_text_all()
 
-Gets the entire editor text, as string.
-Gets "\n" as line-breaks.
+Returns the entire editor text, as string.
+Returns "\n" as line-breaks.
 
 ===Editor.set_text_all===
 
@@ -1927,8 +1927,8 @@ Notes:
 
  get_text_line(index, max_len=0)
 
-Gets single line (str) with given index (0-based).
-Gets None if index incorrect.
+Returns single line (str) with given index (0-based).
+Returns None if index incorrect.
 
 If param "max_len" is non-zero, and UTF-8 length of given line is greater than "max_len", function returns empty str. This allows to skip huge lines.
 
@@ -1944,7 +1944,7 @@ To add new line, pass index=-1.
 
  get_text_substr(x1, y1, x2, y2)
 
-Gets substring from position (x1, y1) to bigger position (x2, y2).
+Returns substring from position (x1, y1) to bigger position (x2, y2).
 
 ===Editor.delete===
 
@@ -1976,7 +1976,7 @@ Example replaces selection of 1st caret with text:
 Inserts given text at position (x, y). If y too big, appends block to end (even to final line w/out line-end).
 Text can be multi-line, all CR LF are converted to currently used line-breaks.
 
-Gets 2-tuple (x, y) of position after inserted text. It is on the same line, if text is single line. Gets None if cannot insert.
+Returns 2-tuple (x, y) of position after inserted text. It is on the same line, if text is single line. Returns None if cannot insert.
 
 ===Editor.replace===
 
@@ -1992,7 +1992,7 @@ Function does the same as delete+insert, but
 * optimized for replace inside one line (when y1==y2 and no line-breaks in text)
 * for multi-line it also makes grouped-undo for delete+insert
 
-Gets 2-tuple (x, y) of position after inserted text.
+Returns 2-tuple (x, y) of position after inserted text.
 
 ===Editor.replace_lines===
 
@@ -2004,7 +2004,7 @@ Deletes whole lines from index y1 to y2, then inserts new lines from specified l
 * Index y2 can be less than y1 (to not delete), and can be too big (to delete lines to end)
 * Param lines is list/tuple of str. Can be empty list to just delete lines. Inside items should not be "\n" and "\r": "\n" will generate additonal lines, "\r" not handled.
 
-Gets bool: index y1 correct, replace done.
+Returns bool: index y1 correct, replace done.
 
 ==Selection==
 
@@ -2018,7 +2018,7 @@ Returns selected text for 1st caret (empty, if no selection).
 
  get_sel_mode()
 
-Gets current selection mode:
+Returns current selection mode:
 
 * SEL_NORMAL: normal (stream) selection; it doesn't mean that selection exists.
 * SEL_COLUMN: column (vertical) selection.
@@ -2027,16 +2027,16 @@ Gets current selection mode:
 
  get_sel_lines()
 
-Gets 2-tuple, indexes of first and last lines affected by first caret selection. Gets (-1,-1) if no selection.
+Returns 2-tuple, indexes of first and last lines affected by first caret selection. Returns (-1,-1) if no selection.
 
 ===Editor.get_sel_rect, Editor.set_sel_rect===
 
  get_sel_rect()
  set_sel_rect(x1, y1, x2, y2)
 
-Gets/sets coords of column selection.
+Returns/sets coords of column selection.
 
-Gets 4-tuple (x1, y1, x2, y2). All 0 if no column selection.
+Returns 4-tuple (x1, y1, x2, y2). All 0 if no column selection.
 
 ==Properties==
 
@@ -2044,16 +2044,16 @@ Gets 4-tuple (x1, y1, x2, y2). All 0 if no column selection.
 
  get_line_count()
 
-Gets number of lines.
+Returns number of lines.
 
 ===Editor.get_filename===
 
  get_filename(options="")
 
-Gets filename (str) of the editor.
+Returns filename (str) of the editor.
 
-* Gets empty string for untitled tab.
-* Gets string "?" if tab contains not normal text editor. See: get_prop(PROP_KIND).
+* Returns empty string for untitled tab.
+* Returns string "?" if tab contains not normal text editor. See: get_prop(PROP_KIND).
 
 If param "options" contains char "*", the real file name is always returned, even in hex/picture viewer mode.
 
@@ -2061,7 +2061,7 @@ If param "options" contains char "*", the real file name is always returned, eve
 
  get_prop(id, value="")
 
-Gets editor's property.
+Returns editor's property.
 
 Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possible values of "id":
 
@@ -2098,7 +2098,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_SCROLLSTYLE_VERT: int: style of vertical scrollbar, one of SCROLLSTYLE_ constants.
 
 * PROP_SCALE_FONT: int: scale of editor's font in percents, or 0 to use global app font scale.
-* PROP_COLOR: int: color property. Value must be one of COLOR_ID_nnn values. Gets None for incorrect id.
+* PROP_COLOR: int: color property. Value must be one of COLOR_ID_nnn values. Returns None for incorrect id.
 * PROP_ENC: str: encoding name. Names are listed at [[CudaText#Encodings]].
 * PROP_LEXER_FILE: str: name of lexer for entire file (empty str if none is active).
 * PROP_LEXER_POS: str: name of lexer at specified position. Param "value" must be 2-tuple (column, line), or string str(column)+','+str(line), with 0-based indexes.
@@ -2120,7 +2120,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_MARKED_RANGE: 2-tuple with line indexes of "marked range"; (-1, -1) if range not set.
 * PROP_VISIBLE_LINES: int: max count of lines that fit to window (doesn't consider word wrap).
 * PROP_VISIBLE_COLUMNS: int: max count of columns that fit to window.
-* PROP_PICTURE: properties of picture file as 3-tuple: (picture_filename, size_x, size_y), or None if not picture loaded in tab. For picture ed.get_filename() gets "?".
+* PROP_PICTURE: properties of picture file as 3-tuple: (picture_filename, size_x, size_y), or None if not picture loaded in tab. For picture ed.get_filename() returns "?".
 * PROP_MINIMAP: bool: minimap is visible.
 * PROP_MICROMAP: bool: micromap is visible.
 * PROP_LINK_AT_POS: str: URL in the document, at given position. Value must be str(pos_x)+","+str(pos_y).
@@ -2181,7 +2181,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_SAVING_TRIM_SPACES: bool: on saving file, trim trailing whitespaces.
 * PROP_SAVING_TRIM_FINAL_EMPTY_LINES: bool: on saving file, trim redundant empty lines at end of document.
 
-* PROP_HANDLE_SELF: int: handle of editor object, for which get_prop is called. This handle is unique among all objects in program (it is memory address). Note that ed.h==0, it is virtual handle for the focused editor. This API gets the real handle.
+* PROP_HANDLE_SELF: int: handle of editor object, for which get_prop is called. This handle is unique among all objects in program (it is memory address). Note that ed.h==0, it is virtual handle for the focused editor. This API returns the real handle.
 * PROP_HANDLE_PRIMARY: int: handle of editor object, which is primary editor in a file tab (always visible). None for separate editors.
 * PROP_HANDLE_SECONDARY: int: handle of editor object, which is secondary editor in a file tab (visible only when file tab is splitted). None for separate editors.
 * PROP_HANDLE_PARENT: int: handle of parent of editor object, or 0 if no such parent. This handle is needed to dock forms near the editor.
@@ -2339,9 +2339,9 @@ Many get_prop/set_prop ids correspond to CudaText options. List of correspoding 
 
 Controls bookmarks. Possible values of "id":
 
-* BOOKMARK_GET_ALL: Gets list of bookmarks, as list of dict. Param "nline" ignored. Dict keys are: "line", "kind", "tag", "hint", "auto_del", "show_in_list".
-* BOOKMARK_GET_LIST: Gets list of line indexes, which have bookmarks. Param "nline" ignored.
-* BOOKMARK_GET_PROP: Gets properties of bookmark at line index, given by param "nline". Gets dict, like for BOOKMARK_GET_ALL, or None.
+* BOOKMARK_GET_ALL: Returns list of bookmarks, as list of dict. Param "nline" ignored. Dict keys are: "line", "kind", "tag", "hint", "auto_del", "show_in_list".
+* BOOKMARK_GET_LIST: Returns list of line indexes, which have bookmarks. Param "nline" ignored.
+* BOOKMARK_GET_PROP: Returns properties of bookmark at line index, given by param "nline". Returns dict, like for BOOKMARK_GET_ALL, or None.
 
 * BOOKMARK_SET: Sets bookmark.
 ** Param "nline": int: line index of bookmark.
@@ -2381,9 +2381,9 @@ Notes:
 
 Controls decorations on gutter. It is used to show some visual marks, which look like bookmark icons, but independent of bookmarks. Possible values of "id":
 
-* DECOR_GET_ALL: Gets list of all decorations, as list of dict, or None.
-* DECOR_GET: Gets decoration for single line, as dict, or None. Params used: "line".
-* DECOR_SET: Sets decoration for single line, overwriting existing item for that line. Gets bool: line index correct, item added. Params used:
+* DECOR_GET_ALL: Returns list of all decorations, as list of dict, or None.
+* DECOR_GET: Returns decoration for single line, as dict, or None. Params used: "line".
+* DECOR_SET: Sets decoration for single line, overwriting existing item for that line. Returns bool: line index correct, item added. Params used:
 ** "line": int, line index.
 ** "tag": int, some value attached to item.
 ** "text": str, text to show; decoration will be text.
@@ -2396,7 +2396,7 @@ Controls decorations on gutter. It is used to show some visual marks, which look
 * DECOR_DELETE_BY_LINE: Deletes single decoration for given line. Params used: "line".
 * DECOR_DELETE_BY_TAG: Deletes all decorations for given tag. Param used: "tag".
 * DECOR_DELETE_ALL: Deletes all decorations.
-* DECOR_GET_IMAGELIST: Gets int handle of decoration image-list (default size is 16x16).
+* DECOR_GET_IMAGELIST: Returns int handle of decoration image-list (default size is 16x16).
 
 ===Editor.folding===
 
@@ -2404,14 +2404,14 @@ Controls decorations on gutter. It is used to show some visual marks, which look
 
 Performs action on folding ranges. Possible values of "id":
 
-* FOLDING_GET_LIST: Gets list of folding ranges. Params used: none except "id". Gets list of tuples (y, y2, x, staple, folded), or None.
+* FOLDING_GET_LIST: Returns list of folding ranges. Params used: none except "id". Returns list of tuples (y, y2, x, staple, folded), or None.
 ** "y": int: line of range start.
 ** "y2": int: line of range end. If y==y2, then range is simple and don't have gutter-mark and staple.
 ** "x": int: x-offset of range start (char index in start line).
 ** "staple": bool: range has block staple.
 ** "folded": bool: range is currently folded.
 
-* FOLDING_GET_LIST_FILTERED: Gets list of folding ranges, which contain given range: line indexes from param "item_y" to param "item_y2" (inclusive). If item_y<0, then no filtering is done. You can perform this filtering from the result of FOLDING_GET_LIST, but it's slower.
+* FOLDING_GET_LIST_FILTERED: Returns list of folding ranges, which contain given range: line indexes from param "item_y" to param "item_y2" (inclusive). If item_y<0, then no filtering is done. You can perform this filtering from the result of FOLDING_GET_LIST, but it's slower.
 
 * FOLDING_FOLD: Folds range with given index (index in list, from FOLDING_GET_LIST). Params used: "index".
 * FOLDING_FOLD_ALL: Folds all ranges.
@@ -2431,15 +2431,15 @@ Performs action on folding ranges. Possible values of "id":
 
 * FOLDING_DELETE: Deletes folding range with given index (index in list, from FOLDING_GET_LIST). Params used: "index".
 * FOLDING_DELETE_ALL: Deletes all folding ranges. Params used: none except "id".
-* FOLDING_FIND: Finds index of range (index in list, from FOLDING_GET_LIST). Gets None if not found. Params used: "item_y" is line index at which range begins.
-* FOLDING_CHECK_RANGE_INSIDE: For 2 ranges, which indexes given by "index" and "item_x", detects: 1st range is inside 2nd range. Gets bool. Gets False if indexes incorrect.
-* FOLDING_CHECK_RANGES_SAME: For 2 ranges, which indexes given by "index" and "item_x", detects: ranges are "equal" (x, y, y2 in ranges may differ). Gets bool. Gets False if indexes incorrect.
+* FOLDING_FIND: Finds index of range (index in list, from FOLDING_GET_LIST). Returns None if not found. Params used: "item_y" is line index at which range begins.
+* FOLDING_CHECK_RANGE_INSIDE: For 2 ranges, which indexes given by "index" and "item_x", detects: 1st range is inside 2nd range. Returns bool. Returns False if indexes incorrect.
+* FOLDING_CHECK_RANGES_SAME: For 2 ranges, which indexes given by "index" and "item_x", detects: ranges are "equal" (x, y, y2 in ranges may differ). Returns bool. Returns False if indexes incorrect.
 
 ===Editor.get_sublexer_ranges===
 
  get_sublexer_ranges()
 
-Gets list of ranges which belong to nested lexers (sublexers of current lexer for entire file, e.g. "JavaScript" inside "PHP", "CSS" inside "HTML"). Gets list of 5-tuples, or None if no ranges. Each tuple is:
+Returns list of ranges which belong to nested lexers (sublexers of current lexer for entire file, e.g. "JavaScript" inside "PHP", "CSS" inside "HTML"). Returns list of 5-tuples, or None if no ranges. Each tuple is:
 
 * str: sublexer name
 * int: start column (0-based)
@@ -2451,16 +2451,16 @@ Gets list of ranges which belong to nested lexers (sublexers of current lexer fo
 
  get_token(id, index1=0, index2=0)
 
-Gets info about lexer "tokens". "Token" is minimal text fragment for lexer, e.g. one indentifier, one operator, one whole comment, one whole string. Each token has its color from lexer properties or color theme. Function returns None if no lexer is active in editor.
+Returns info about lexer "tokens". "Token" is minimal text fragment for lexer, e.g. one indentifier, one operator, one whole comment, one whole string. Each token has its color from lexer properties or color theme. Function returns None if no lexer is active in editor.
 
 Possible values of "id":
 
-* TOKEN_GET_KIND: For text position given by "index1" (column) and "index2" (line), gets kind of lexer token:
+* TOKEN_GET_KIND: For text position given by "index1" (column) and "index2" (line), returns kind of lexer token:
 ** "c": syntax comment
 ** "s": syntax string
 ** "a": any other kind
 
-* TOKEN_LIST: Gets all tokens, as list of dict. Params "index1", "index2" are ignored. Gets None if no lexer active. Dict keys are:
+* TOKEN_LIST: Returns all tokens, as list of dict. Params "index1", "index2" are ignored. Returns None if no lexer active. Dict keys are:
 ** "x1": start column (0-based)
 ** "y1": start line (0-based)
 ** "x2": end column
@@ -2468,9 +2468,9 @@ Possible values of "id":
 ** "str": text of token (can be multi-line with "\n")
 ** "style": lexer style of token (lexer dependent)
 
-* TOKEN_LIST_SUB: Like TOKEN_LIST, but gets tokens only for given lines range, from "index1" to "index2" inclusive. Index in "index2" can be too big, this makes list until end of file.
+* TOKEN_LIST_SUB: Like TOKEN_LIST, but returns tokens only for given lines range, from "index1" to "index2" inclusive. Index in "index2" can be too big, this makes list until end of file.
 
-* TOKEN_LIST_ALT: Gets tokens for lines range, from "index1" to "index2" inclusive. Index in "index2" can be too big, this makes list until end of file. Gets list of dict, dict keys are:
+* TOKEN_LIST_ALT: Returns tokens for lines range, from "index1" to "index2" inclusive. Index in "index2" can be too big, this makes list until end of file. Returns list of dict, dict keys are:
 ** "str": text of token (can be multi-line with "\n")
 ** "pos": position of token, 4-tuple of int (x1, y1, x2, y2), where y1<y2 for multi-line token
 ** "ki": index of token kind, in the list of kinds returned by lexer_proc(), 0-based
@@ -2482,7 +2482,7 @@ Possible values of "id":
 
 Gets info about wrapped lines. It allows to calculate, at which positions long lines are wrapped (when wrap mode is on). It allows to see, which text parts are folded.
 
-Gets list of dict, or None. Dict items has keys:
+Returns list of dict, or None. Dict items has keys:
 
 * "line": int: Original line index, for this part.
 * "char": int: Char index (1-based, for UTF-16 stream of chars), at which this part starts. It is >1, for next parts of long wrapped line.
@@ -2497,9 +2497,9 @@ Gets list of dict, or None. Dict items has keys:
 
 Controls markers (used e.g. in Snippets plugin). Possible values of "id":
 
-* MARKERS_GET: Gets list of markers. Each list item is [x, y, len_x, len_y, tag]. Gets None if no markers.
+* MARKERS_GET: Returns list of markers. Each list item is [x, y, len_x, len_y, tag]. Returns None if no markers.
 
-* MARKERS_ADD: Adds marker. Also gets number of markers. Params:
+* MARKERS_ADD: Adds marker. Also returns number of markers. Params:
 ** "x", "y": Start of marker (like caret pos).
 ** "tag">0 is needed if you want to place multi-carets when command "goto last marker (and delete)" runs. All markers with the same tag>0 will get multi-carets (after markers will be deleted).
 ** "len_x", "len_y" are needed if you want to place selection at marker, when "goto last marker" command goes to this marker.
@@ -2537,12 +2537,12 @@ Controls additional color attributes. Possible values of "id":
 *** False: Don't show on micromap.
 ** "map_only": bool: Fragment will be rendered only on micromap.
 
-* MARKERS_ADD_MANY: Adds one or multiple fragments at once. Also gets number of fragments. Parameters:
+* MARKERS_ADD_MANY: Adds one or multiple fragments at once. Also returns number of fragments. Parameters:
 ** "x", "y", "len": The same as for MARKERS_ADD, but can be also list/tuple of int. Lists/tuples must contain the equal number of elements (otherwise the minimal number of elements will be used).
 ** other parameters: The same as for MARKERS_ADD.
 
-* MARKERS_GET: Gets list of fragments, or None. Each item is list of int, corresponding to Editor.attr() params (bool values will be 0 or 1).
-* MARKERS_GET_DICT: Gets list of fragments. Each item is dict, with keys named like parameters of Editor.attr.
+* MARKERS_GET: Returns list of fragments, or None. Each item is list of int, corresponding to Editor.attr() params (bool values will be 0 or 1).
+* MARKERS_GET_DICT: Returns list of fragments. Each item is dict, with keys named like parameters of Editor.attr.
 
 * MARKERS_DELETE_ALL: Deletes all fragments.
 * MARKERS_DELETE_LAST: Deletes last added fragment.
@@ -2564,12 +2564,12 @@ Controls hotspot ranges. When mouse cursor moves in/out of hotspot, event on_hot
 
 Possible values of "id":
 
-* HOTSPOT_ADD: Adds hotspot. Gets bool: params correct, hotspot added. Params:
+* HOTSPOT_ADD: Adds hotspot. Returns bool: params correct, hotspot added. Params:
 ** "pos": 4-tuple of int, text coords: (x_start, y_start, x_end, y_end)
 ** "tag": optional int value
 ** "tag_str": optional str value
 
-* HOTSPOT_GET_LIST: Gets list of hotspots, or None. Each item is dict with keys:
+* HOTSPOT_GET_LIST: Returns list of hotspots, or None. Each item is dict with keys:
 ** "pos": 4-tuple of int
 ** "tag": int
 ** "tag_str": str
@@ -2588,7 +2588,7 @@ Saves editor's tab to disk.
 
 Shows save-as dialog for untitled tab.
 If param filename not empty, uses it (untitled tab becomes titled).
-Gets bool: file was saved.
+Returns bool: file was saved.
 
 ===Editor.cmd===
 
@@ -2621,13 +2621,13 @@ Converts something in editor. Possible values of "id":
 
 * CONVERT_CHAR_TO_COL: Convert char coordinates (x,y) to column coordinates (column,y), using current tab size.
 * CONVERT_COL_TO_CHAR: Convert column coordinates (x,y) to char coordinates (chars,y).
-* CONVERT_LINE_TABS_TO_SPACES: Convert line (param "text") from tab-chars to spaces, using current tab size. Gets str. Gets original line, if no tab-chars in it.
+* CONVERT_LINE_TABS_TO_SPACES: Convert line (param "text") from tab-chars to spaces, using current tab size. Returns str. Returns original line, if no tab-chars in it.
 * CONVERT_SCREEN_TO_LOCAL: Convert pixel coordinates (x,y), from screen-related to control-related.
 * CONVERT_LOCAL_TO_SCREEN: Convert pixel coordinates (x,y), from control-related to screen-related.
 * CONVERT_PIXELS_TO_CARET: Convert pixel control-related coords (x,y) to caret position (column,line).
 * CONVERT_CARET_TO_PIXELS: Convert caret position (column,line) to pixel control-related coords (x,y).
 
-Gets None if params incorrect, or cannot calc result.
+Returns None if params incorrect, or cannot calc result.
 
 ===Editor.complete===
 
@@ -2635,7 +2635,7 @@ Gets None if params incorrect, or cannot calc result.
 
 Shows auto-completion listbox with given items.
 
-Function gets None and listbox stays open. When user chooses listbox item, its data is inserted.
+Function returns None and listbox stays open. When user chooses listbox item, its data is inserted.
 
 * Param "text": string with items, must be formatted as shown in the [[ATSynEdit#Auto-completion_lists]].
 * Param "len1": count of chars to the left of the caret, to be replaced.
@@ -2677,18 +2677,18 @@ After user has chosen some item in the completion listbox, event "on_snippet" wi
 Performs action on inter-line gaps (they don't overlap text above/below).
 Possible values of "id":
 
-* GAP_GET_ALL: Gets list of gaps. List of dict, or None. Dict keys are:
+* GAP_GET_ALL: Returns list of gaps. List of dict, or None. Dict keys are:
 ** "line": int: Line index; or -1 for gap before the first line.
 ** "tag": int: Tag.
 ** "size": int: Height in pixels.
 ** "color": int: Color.
 ** "bitmap": 2-tuple of int: Size of bitmap, or (0, 0) if no bitmap.
 
-* GAP_MAKE_BITMAP: Action is needed only if you want to paint bitmap in gap, it's not needed for empty gaps. Makes new bitmap for future gap. Size of bitmap is (num1, num2). Gets 2-tuple (id_bitmap, id_canvas).
+* GAP_MAKE_BITMAP: Action is needed only if you want to paint bitmap in gap, it's not needed for empty gaps. Makes new bitmap for future gap. Size of bitmap is (num1, num2). Returns 2-tuple (id_bitmap, id_canvas).
 ** "id_bitmap": bitmap handle, needed to later call GAP_ADD.
 ** "id_canvas": canvas handle, needed to paint on bitmap, by canvas_proc().
 
-* GAP_ADD: Adds gap to editor. Gets bool: params correct, gap added. Params:
+* GAP_ADD: Adds gap to editor. Returns bool: params correct, gap added. Params:
 ** "num1": int: Line index; can be -1 for gap before the first line.
 ** "num2": int: If 0, gap will be empty; otherwise it is bitmap handle (id_bitmap), which you got from GAP_MAKE_BITMAP.
 ** "tag": int: Some value, to separate gaps from several plugins.
@@ -2760,20 +2760,20 @@ Performs some action in editor. Possible values of "id":
 ** "param2": Search options, see [[#Finder_options_as_string]].
 ** "param3": Optional. Maximal line length (default is 0x7FFFFFFF). Lines longer than this value will be skipped during search.
 
-* EDACTION_FIND_BRACKETS: Find position of nearest opening bracket with its pair bracket. Gets 4-tuple (col_start, line_start, col_end, line_end), where line_end<0 if brackets not found.
+* EDACTION_FIND_BRACKETS: Find position of nearest opening bracket with its pair bracket. Returns 4-tuple (col_start, line_start, col_end, line_end), where line_end<0 if brackets not found.
 ** "param1": Text position as 2-tuple (column, line).
 ** "param2": String with allowed bracket pairs. Can have these pairs: () [] {} <>.
 ** "param3": Max distance, in lines, to the pair bracket. Must be 32-bit signed int.
 
-* EDACTION_SHOW_POS: Make text position visible without caret moving. Gets True if params correct and scrolling occured, gets False if params correct and no scrolling occured, gets None if params not correct.
+* EDACTION_SHOW_POS: Make text position visible without caret moving. Returns True if params correct and scrolling occured, returns False if params correct and no scrolling occured, returns None if params not correct.
 ** "param1": Text position as 2-tuple (column, line).
 ** "param2": Indentation of text position from edges as 2-tuple (indent_horz, indent_vert). Values meaning is like for CudaText options "find_indent_horz", "find_indent_vert".
 
-* EDACTION_CODETREE_FILL: Fill some visual TreeView control (it can be standard code-tree control, or TreeView control in some form) with editor's code-tree information. Param "param1" must be TreeView handle (to use with tree_proc()). Gets True if lexer is set and information is read, otherwise False.
+* EDACTION_CODETREE_FILL: Fill some visual TreeView control (it can be standard code-tree control, or TreeView control in some form) with editor's code-tree information. Param "param1" must be TreeView handle (to use with tree_proc()). Returns True if lexer is set and information is read, otherwise False.
 
 * EDACTION_LEXER_SCAN: Run lexer parsing (if lexer is set) from line index, given by "param1". Waits until parsing finishes.
 
-* EDACTION_EXPORT_HTML: Create HTML file from editor's text with syntax highlighting. Gets bool: file is created. Param "param1" must be dict with the following keys:
+* EDACTION_EXPORT_HTML: Create HTML file from editor's text with syntax highlighting. Returns bool: file is created. Param "param1" must be dict with the following keys:
 ** "file_name": str: Full path of file.
 ** "title": str: HTML page title.
 ** "font_name": str: Font name.
@@ -2794,12 +2794,12 @@ Controls editor's micromap. Possible values of "id":
 ** "tag": Int tag of column. CudaText has 2 default columns with tag 0 and 1.
 ** "color": RGB color of column background. Can be COLOR_NONE.
 
-* MICROMAP_ADD: Add micromap column. Gets bool: tag was not used, column was added.
+* MICROMAP_ADD: Add micromap column. Returns bool: tag was not used, column was added.
 ** "param1": Int (64 bit) tag of column.
 ** "param2": Width of column in percents of average char width.
 ** "param3": RGB color of column background, or COLOR_NONE for default themed color.
 
-* MICROMAP_DELETE: Delete micromap column by its tag. Param "param1": tag. Gets bool: column was found and deleted.
+* MICROMAP_DELETE: Delete micromap column by its tag. Param "param1": tag. Returns bool: column was found and deleted.
 
 =TreeHelpers=
 
@@ -3224,7 +3224,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: lexer_proc: LEXER_GET_PROP
 * deprecated: lexer_proc: LEXER_GET_EXT, LEXER_GET_ENABLED, LEXER_GET_COMMENT, LEXER_GET_COMMENT_STREAM, LEXER_GET_COMMENT_LINED, LEXER_GET_LINKS, LEXER_GET_STYLES, LEXER_GET_STYLES_COMMENTS, LEXER_GET_STYLES_STRINGS
 * deleted: lexer_proc: actions didnt work, lexer files were not saved: LEXER_SET_*, LEXER_DELETE, LEXER_IMPORT
-* add: dlg_proc: control "listview" on_select gets "data" param with 2-tuple
+* add: dlg_proc: control "listview" on_select returns "data" param with 2-tuple
 
 1.0.188 (app 1.13.0)
 * add: imagelist_proc()
@@ -3340,7 +3340,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.208 (app 1.27.2)
 * add: menu_proc: added MENU_SET_IMAGELIST, MENU_SET_IMAGEINDEX
-* add: file_open: for zip files, gets True if zip installation completed
+* add: file_open: for zip files, returns True if zip installation completed
 
 1.0.210 (app 1.29.0)
 * add: file_open: for binary viewer, pass options='/binary'
@@ -3359,7 +3359,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: button_proc: BTN_GET_VISIBLE, BTN_SET_VISIBLE
 * add: button_proc: BTN_GET_HINT, BTN_SET_HINT
 * add: button_proc: BTN_GET_DATA1, BTN_SET_DATA1, BTN_GET_DATA2, BTN_SET_DATA2
-* change: toolbar_proc: TOOLBAR_ENUM gets int value of "kind", before it was str
+* change: toolbar_proc: TOOLBAR_ENUM returns int value of "kind", before it was str
 * deprecated: TOOLBAR_GET_CHECKED, TOOLBAR_SET_CHECKED - now use TOOLBAR_GET_BUTTON_HANDLE + button_proc()
 * deprecated: PROC_GET_COMMAND, PROC_GET_COMMAND_INITIAL, PROC_GET_COMMAND_PLUGIN - now use PROC_GET_COMMANDS instead
 
@@ -3377,7 +3377,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: button_proc supports callable param "value"
 
 1.0.215 (app 1.34.1)
-* add: dlg_proc: DLG_CTL_PROP_GET gets key "items" for controls "listview", "checklistview", "listbox", "checklistbox"
+* add: dlg_proc: DLG_CTL_PROP_GET returns key "items" for controls "listview", "checklistview", "listbox", "checklistbox"
 
 1.0.216 (app 1.34.2)
 * add: statusbar_proc: STATUSBAR_GET_CELL_AUTOSIZE, STATUSBAR_SET_CELL_AUTOSIZE
@@ -3614,7 +3614,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.262 (app 1.64.4)
 * add: ini_proc()
-* add: app_proc: PROC_GET_KEYSTATE gets also state of pressed mouse buttons
+* add: app_proc: PROC_GET_KEYSTATE returns also state of pressed mouse buttons
 
 1.0.263 (app 1.65.6)
 * add: event on_lexer_parsed
@@ -3856,7 +3856,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: dlg_commands: COMMANDS_RECENTS
 
 1.0.316 (app 1.90.0)
-* add: app_proc: PROC_GET_COMMANDS gets new kinds "openedfile", "recentfile"
+* add: app_proc: PROC_GET_COMMANDS returns new kinds "openedfile", "recentfile"
 
 1.0.317 (app 1.91.1)
 * add: supported encodings UTF-32 (LE and BE, with and without BOM)
