@@ -2127,8 +2127,7 @@ begin
   EditorSaveTempOptions(Ed, Ed.InitialOptions);
 
   if AAllowLexerDetect then
-    if LexerName[Ed]='' then
-      DoLexerFromFilename(Ed, AFileName);
+    DoLexerFromFilename(Ed, AFileName);
 
   UpdateReadOnlyFromFile(Ed);
   NotifEnabled:= true;
