@@ -1350,6 +1350,7 @@ Possible values of "id":
 ** "st_c": list of str: list of styles of syntax comments (e.g. used by Spell Checker).
 ** "st_s": list of str: list of styles of syntax strings (e.g. used by Spell Checker).
 ** "sub": list of str: list of sub-lexers (some items can be empty if lexer setup broken).
+** "kinds": list of str: list of token kinds.
 ** "c_line": str or None: line comment (until end-of-line).
 ** "c_str": 2-tuple or None: stream comment (for any range).
 ** "c_lined": 2-tuple or None: comment for full lines.
@@ -3935,5 +3936,9 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.336 (app 1.105.1)
 * add: Editor.set_prop: PROP_ENC_RELOAD
+
+1.0.337 (app 1.105.1)
+* fix: lexer_proc: LEXER_GET_PROP didn't return "sub" key
+* add: lexer_proc: LEXER_GET_PROP returns new "kinds" key
 
 [[Category:CudaText]]
