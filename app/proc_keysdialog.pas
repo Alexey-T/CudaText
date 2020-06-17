@@ -72,8 +72,11 @@ begin
         AKeymap[CmdIndex].LexerSpecific:= false;
 
         //apply to main keymap
-        AppKeymapMain[CmdIndex].Keys1:= Form.Keys1;
-        AppKeymapMain[CmdIndex].Keys2:= Form.Keys2;
+        if AppKeymapMain.IsIndexValid(CmdIndex) then
+        begin
+          AppKeymapMain[CmdIndex].Keys1:= Form.Keys1;
+          AppKeymapMain[CmdIndex].Keys2:= Form.Keys2;
+        end;
 
         //apply to all lexer keymaps
         for i:= 0 to AppKeymapLexers.Count-1 do
