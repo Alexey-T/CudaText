@@ -6486,39 +6486,39 @@ end;
 function Py_GetTokenList(Adapter: TATAdapterEControl; ALineFrom, ALineTo: integer): PPyObject;
 var
   An: TecClientSyntAnalyzer;
-  ListTokens: TecTokenList;
   Token: TecSyntToken;
   TokenStr, TokenStyle: string;
-  i: integer;
+  NIndexFrom, NIndexTo, NCount: integer;
+  iToken: integer;
 begin
   with AppPython.Engine do
   begin
     An:= Adapter.AnClient;
     if An=nil then exit(ReturnNone);
 
-    ListTokens:= TecTokenList.Create;
-    for i:= 0 to An.TagCount-1 do
-    begin
-      Token:= An.Tags[i];
-      if (Token.Range.PointEnd.Y<ALineFrom) then Continue;
-      if (Token.Range.PointStart.Y>ALineTo) then Break;
-      ListTokens.Add(Token);
-    end;
+    _FindTokenRange(An, ALineFrom, ALineTo, NIndexFrom, NIndexTo);
+    if NIndexFrom<0 then
+      exit(PyList_New(0));
 
-    Result:= PyList_New(ListTokens.Count);
+    NCount:= NIndexTo-NIndexFrom+1;
+    if NCount<=0 then
+      exit(PyList_New(0));
+
+    Result:= PyList_New(NCount);
     if not Assigned(Result) then
       raise EPythonError.Create(msgPythonListError);
 
-    for i:= 0 to ListTokens.Count-1 do
+    for iToken:= NIndexFrom to NIndexTo do
     begin
-      Token:= TecSyntToken(ListTokens[i]);
+      Token:= An.Tags[iToken];
       TokenStr:= Adapter.GetTokenString(Token);
+
       if Assigned(Token.Style) then
         TokenStyle:= Token.Style.DisplayName
       else
         TokenStyle:= '';
 
-      PyList_SetItem(Result, i,
+      PyList_SetItem(Result, iToken-NIndexFrom,
         Py_BuildValue('{sssssisisisi}',
           'str',
           PChar(TokenStr),
@@ -6534,8 +6534,6 @@ begin
           Token.Range.PointEnd.Y
           ));
     end;
-
-    FreeAndNil(ListTokens);
   end;
 end;
 

@@ -2468,9 +2468,9 @@ Possible values of "id":
 ** "str": text of token (can be multi-line with "\n")
 ** "style": lexer style of token (lexer dependent)
 
-* TOKEN_LIST_SUB: Like TOKEN_LIST, but gets tokens only for given lines range, from "index1" to "index2" inclusive.
+* TOKEN_LIST_SUB: Like TOKEN_LIST, but gets tokens only for given lines range, from "index1" to "index2" inclusive. Index in "index2" can be too big, this makes list until end of file.
 
-* TOKEN_LIST_ALT: Gets tokens for lines range, from "index1" to "index2" inclusive. Gets list of dict, dict keys are:
+* TOKEN_LIST_ALT: Gets tokens for lines range, from "index1" to "index2" inclusive. Index in "index2" can be too big, this makes list until end of file. Gets list of dict, dict keys are:
 ** "str": text of token (can be multi-line with "\n")
 ** "pos": position of token, 4-tuple of int (x1, y1, x2, y2), where y1<y2 for multi-line token
 ** "ki": index of token kind, in the list of kinds returned by lexer_proc(), 0-based
