@@ -4795,6 +4795,7 @@ var
   Str1, Str2: string;
   List: TStringList;
   ObjTypes,
+  ObjTokenKinds,
   ObjSublex,
   ObjCommentStr,
   ObjCommentLined,
@@ -4832,6 +4833,9 @@ begin
       ObjStylesStr:= StringsToPyList(List);
 
       List.LineBreak:= #10;
+
+      ObjTokenKinds:= StringsToPyList(An.TokenTypeNames);
+
       LexerEnumSublexers(An, List);
       ObjSublex:= StringsToPyList(List);
 
@@ -4841,7 +4845,7 @@ begin
       FreeAndNil(List);
     end;
 
-    Result:= Py_BuildValue('{sOsOsssOsOsOsOsO}',
+    Result:= Py_BuildValue('{sOsOsssOsOsOsOsOsOsO}',
       'typ',
       ObjTypes,
       'en',
@@ -4858,6 +4862,8 @@ begin
       ObjStylesCmt,
       'st_s',
       ObjStylesStr,
+      'kinds',
+      ObjTokenKinds,
       'sub',
       ObjSublex
       );
@@ -4869,6 +4875,7 @@ var
   Str1, Str2: string;
   List: TStringList;
   ObjTypes,
+  ObjTokenKinds,
   ObjSublex,
   ObjCommentStr,
   ObjCommentLined,
@@ -4893,6 +4900,7 @@ begin
       List.Text:= An.FileTypes;
       ObjTypes:= StringsToPyList(List);
 
+      ObjTokenKinds:= ReturnNone;
       ObjStylesCmt:= ReturnNone;
       ObjStylesStr:= ReturnNone;
       ObjSublex:= ReturnNone;
@@ -4901,7 +4909,7 @@ begin
       FreeAndNil(List);
     end;
 
-    Result:= Py_BuildValue('{sOsOsssOsOsOsOsO}',
+    Result:= Py_BuildValue('{sOsOsssOsOsOsOsOsOsO}',
       'typ',
       ObjTypes,
       'en',
@@ -4918,6 +4926,8 @@ begin
       ObjStylesCmt,
       'st_s',
       ObjStylesStr,
+      'kinds',
+      ObjTokenKinds,
       'sub',
       ObjSublex
       );
