@@ -2474,7 +2474,6 @@ Possible values of "id":
 ** "str": text of token (can be multi-line with "\n")
 ** "pos": position of token, 4-tuple of int (x1, y1, x2, y2), where y1<y2 for multi-line token
 ** "ki": index of token kind, in the list of kinds returned by lexer_proc(), 0-based
-** "si": index of token style, in the list of styles returned by lexer_proc(), 0-based
 ** "ks": kind of token: "c" - comment, "s" - string, "a" - any other kind
 
 ===Editor.get_wrapinfo===

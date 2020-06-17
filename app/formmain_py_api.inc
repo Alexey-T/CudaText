@@ -6517,7 +6517,6 @@ var
   ListTokens: TecTokenList;
   Token: TecSyntToken;
   TokenStr, TokenStyle: string;
-  IndexStyle, IndexKind: integer;
   TokKind: TATFinderTokenKind;
   SListedStrings, SListedComments: string;
   iToken: integer;
@@ -6552,18 +6551,10 @@ begin
       Token:= TecSyntToken(ListTokens[iToken]);
       TokenStr:= Adapter.GetTokenString(Token);
 
-      IndexKind:= Token.TokenType;
-
       if Assigned(Token.Style) then
-      begin
-        TokenStyle:= Token.Style.DisplayName;
-        IndexStyle:= An.Owner.Formats.IndexOf(Token.Style);
-      end
+        TokenStyle:= Token.Style.DisplayName
       else
-      begin
         TokenStyle:= '';
-        IndexStyle:= -1;
-      end;
 
       TokKind:= cTokenKindOther;
       if (SListedComments<>'') and (Pos(','+TokenStyle+',', SListedComments)>0) then
@@ -6573,7 +6564,7 @@ begin
         TokKind:= cTokenKindString;
 
       PyList_SetItem(Result, iToken,
-        Py_BuildValue('{sssOsisiss}',
+        Py_BuildValue('{sssOsiss}',
           'str',
           PChar(TokenStr),
           'pos',
@@ -6584,9 +6575,7 @@ begin
             Token.Range.PointEnd.Y
             ),
           'ki',
-          IndexKind,
-          'si',
-          IndexStyle,
+          Token.TokenType,
           'ks',
           PChar(cPyTokenKind[TokKind])
           ));
