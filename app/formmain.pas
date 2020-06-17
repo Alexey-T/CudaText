@@ -2680,13 +2680,16 @@ begin
 
   FHandledOnShowPartly:= true;
 
+  //on_start
   SetLength(Params, 0);
   DoPyEvent(nil, cEventOnStart, Params);
 
+  //after on_start, so HTML Tooltips with on_open can work
   if UiOps.ReopenSession and FOption_AllowSession then
-    DoOps_LoadSession(GetSessionFilename); //after on_start, so HTML Tooltips with on_open can work
+    DoOps_LoadSession(GetSessionFilename);
 
-  DoApplyUiOps; //after on_start, ConfigToolbar is slow with visible toolbar
+  //after on_start, ConfigToolbar is slow with visible toolbar
+  DoApplyUiOps;
   DoApplyInitialSidebarPanel;
 
   UpdateMenuPlugins;
