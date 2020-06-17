@@ -6454,6 +6454,34 @@ begin
     Result:= ReturnNone;
 end;
 
+procedure _FindTokenRange(An: TecClientSyntAnalyzer; ALineFrom, ALineTo: integer;
+  out NIndexFrom, NIndexTo: integer);
+var
+  NMaxLine: integer;
+begin
+  NIndexFrom:= -1;
+  NIndexTo:= -1;
+
+  NMaxLine:= High(An.TokenIndexer);
+  if ALineFrom>NMaxLine then exit;
+  if ALineTo>NMaxLine then
+    ALineTo:= NMaxLine;
+
+  while (ALineFrom<=NMaxLine) and (An.TokenIndexer[ALineFrom]<0) do
+    Inc(ALineFrom);
+  if ALineFrom<=NMaxLine then
+    NIndexFrom:= An.TokenIndexer[ALineFrom]
+  else
+    exit;
+
+  Inc(ALineTo);
+  while (ALineTo<=NMaxLine) and (An.TokenIndexer[ALineTo]<0) do
+    Inc(ALineTo);
+  if ALineTo<=NMaxLine then
+    NIndexTo:= An.TokenIndexer[ALineTo]-1
+  else
+    NIndexTo:= An.TagCount-1;
+end;
 
 function Py_GetTokenList(Adapter: TATAdapterEControl; ALineFrom, ALineTo: integer): PPyObject;
 var
@@ -6514,7 +6542,7 @@ end;
 function Py_GetTokenListAlt(Adapter: TATAdapterEControl; ALineFrom, ALineTo: integer): PPyObject;
 var
   An: TecClientSyntAnalyzer;
-  ListTokens: TecTokenList;
+  NIndexFrom, NIndexTo, NCount: integer;
   Token: TecSyntToken;
   TokenStr, TokenStyle: string;
   TokKind: TATFinderTokenKind;
@@ -6526,16 +6554,15 @@ begin
     An:= Adapter.AnClient;
     if An=nil then exit(ReturnNone);
 
-    ListTokens:= TecTokenList.Create;
-    for iToken:= 0 to An.TagCount-1 do
-    begin
-      Token:= An.Tags[iToken];
-      if (Token.Range.PointEnd.Y<ALineFrom) then Continue;
-      if (Token.Range.PointStart.Y>ALineTo) then Break;
-      ListTokens.Add(Token);
-    end;
+    _FindTokenRange(An, ALineFrom, ALineTo, NIndexFrom, NIndexTo);
+    if NIndexFrom<0 then
+      exit(PyList_New(0));
 
-    Result:= PyList_New(ListTokens.Count);
+    NCount:= NIndexTo-NIndexFrom+1;
+    if NCount<=0 then
+      exit(PyList_New(0));
+
+    Result:= PyList_New(NCount);
     if not Assigned(Result) then
       raise EPythonError.Create(msgPythonListError);
 
@@ -6546,9 +6573,9 @@ begin
     if SListedStrings=',,' then
       SListedStrings:= '';
 
-    for iToken:= 0 to ListTokens.Count-1 do
+    for iToken:= NIndexFrom to NIndexTo do
     begin
-      Token:= TecSyntToken(ListTokens[iToken]);
+      Token:= TecSyntToken(An.Tags[iToken]);
       TokenStr:= Adapter.GetTokenString(Token);
 
       if Assigned(Token.Style) then
@@ -6563,7 +6590,7 @@ begin
       if (SListedStrings<>'') and (Pos(','+TokenStyle+',', SListedStrings)>0) then
         TokKind:= cTokenKindString;
 
-      PyList_SetItem(Result, iToken,
+      PyList_SetItem(Result, iToken-NIndexFrom,
         Py_BuildValue('{sssOsiss}',
           'str',
           PChar(TokenStr),
@@ -6580,8 +6607,6 @@ begin
           PChar(cPyTokenKind[TokKind])
           ));
     end;
-
-    FreeAndNil(ListTokens);
   end;
 end;
 
