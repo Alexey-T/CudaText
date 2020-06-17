@@ -2708,6 +2708,14 @@ begin
   Keymap_SetHotkey(AppKeymapMain, 'cuda_comments,cmt_toggle_line_body|Ctrl+/|', false);
   Keymap_LoadConfig(AppKeymapMain, AppFile_Hotkeys, false);
 
+  //load keymap to initial empty frame
+  if FrameCount=1 then //session was not loaded
+  begin
+    Frame:= Frames[0];
+    if Frame.IsEmpty then
+      FrameLexerChange(Frame.Ed1);
+  end;
+
   //after loading keys.json
   UpdateMenuPlugins_Shortcuts(true);
   UpdateMenuHotkeys;
