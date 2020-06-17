@@ -1350,7 +1350,7 @@ Possible values of "id":
 ** "st_c": list of str: list of styles of syntax comments (e.g. used by Spell Checker).
 ** "st_s": list of str: list of styles of syntax strings (e.g. used by Spell Checker).
 ** "sub": list of str: list of sub-lexers (some items can be empty if lexer setup broken).
-** "kinds": list of str: list of token kinds.
+** "kinds": list of str: list of token kind names. (Note: it has nothing common with "syntax elements" search, though if item in this list has "Comment" substring, it almost always means that this kind is for comments, but not always.)
 ** "c_line": str or None: line comment (until end-of-line).
 ** "c_str": 2-tuple or None: stream comment (for any range).
 ** "c_lined": 2-tuple or None: comment for full lines.
