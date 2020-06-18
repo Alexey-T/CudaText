@@ -2684,7 +2684,22 @@ begin
   SetLength(Params, 0);
   DoPyEvent(nil, cEventOnStart, Params);
 
-  //after on_start, so HTML Tooltips with on_open can work
+  //load keymap-main
+  //after loading plugins (to apply plugins keys)
+  Keymap_SetHotkey(AppKeymapMain, 'cuda_comments,cmt_toggle_line_body|Ctrl+/|', false);
+  Keymap_LoadConfig(AppKeymapMain, AppFile_Hotkeys, false);
+
+  //load keymap for none-lexer (to initial empty frame)
+  if FrameCount=1 then //session was not loaded
+  begin
+    Frame:= Frames[0];
+    if Frame.IsEmpty then
+      FrameLexerChange(Frame.Ed1);
+  end;
+
+  //load session
+  //after on_start (so HTML Tooltips with on_open can work)
+  //after loading keymap-main and keymap for none-lexer
   if UiOps.ReopenSession and FOption_AllowSession then
     DoOps_LoadSession(GetSessionFilename);
 
@@ -2693,6 +2708,10 @@ begin
   DoApplyInitialSidebarPanel;
 
   UpdateMenuPlugins;
+
+  //after loading keymap-main
+  UpdateMenuPlugins_Shortcuts(true);
+  UpdateMenuHotkeys;
 
   AppPanels[cPaneSide].UpdateButtons;
   AppPanels[cPaneOut].UpdateButtons;
@@ -2703,22 +2722,6 @@ begin
   if AppPanels[cPaneOut].Visible then
     if AppPanels[cPaneOut].LastActivePanel='' then
       DoShowConsole(false);
-
-  //load keys.json after loading plugins (to apply plugins keys)
-  Keymap_SetHotkey(AppKeymapMain, 'cuda_comments,cmt_toggle_line_body|Ctrl+/|', false);
-  Keymap_LoadConfig(AppKeymapMain, AppFile_Hotkeys, false);
-
-  //load keymap to initial empty frame
-  if FrameCount=1 then //session was not loaded
-  begin
-    Frame:= Frames[0];
-    if Frame.IsEmpty then
-      FrameLexerChange(Frame.Ed1);
-  end;
-
-  //after loading keys.json
-  UpdateMenuPlugins_Shortcuts(true);
-  UpdateMenuHotkeys;
 
   //postpone parsing until frames are shown
   AllowFrameParsing:= true;
