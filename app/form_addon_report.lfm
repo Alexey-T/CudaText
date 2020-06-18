@@ -12,8 +12,8 @@ object fmAddonReport: TfmAddonReport
   LCLVersion = '2.1.0.0'
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 29
-    Top = 268
+    Height = 33
+    Top = 264
     Width = 582
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -31,7 +31,7 @@ object fmAddonReport: TfmAddonReport
     AnchorSideRight.Side = asrBottom
     Left = 0
     Height = 18
-    Top = 244
+    Top = 240
     Width = 594
     Align = alBottom
     BevelOuter = bvNone
@@ -42,7 +42,7 @@ object fmAddonReport: TfmAddonReport
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = PanelInfo
     Left = 6
-    Height = 232
+    Height = 228
     Top = 6
     Width = 582
     Align = alClient

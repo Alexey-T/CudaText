@@ -24,13 +24,13 @@ type
   public
   end;
 
-procedure DoDialogAddonInstalledReport(const SItems, SMsg: string);
+procedure DoDialogAddonInstalledReport(const SItems, SMsg: string; AShowNeedRestart: boolean);
 
 implementation
 
 {$R *.lfm}
 
-procedure DoDialogAddonInstalledReport(const SItems, SMsg: string);
+procedure DoDialogAddonInstalledReport(const SItems, SMsg: string; AShowNeedRestart: boolean);
 var
   F: TfmAddonReport;
   Sep: TATStringSeparator;
@@ -45,7 +45,7 @@ begin
     until false;
 
     F.PanelInfo.Caption:= SMsg;
-    F.PanelInfo.Visible:= SMsg<>'';
+    F.PanelInfo.Visible:= (SMsg<>'') and AShowNeedRestart;
     F.ShowModal;
   finally
     FreeAndNil(F);

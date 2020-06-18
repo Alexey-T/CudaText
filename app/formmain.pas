@@ -2805,8 +2805,10 @@ var
   msg, msg2: string;
   AddonType: TAppAddonType;
   bFileLexer: boolean;
+  bNeedRestart: boolean;
   ListBackup: TStringlist;
 begin
+  bNeedRestart:= false;
   bFileLexer:= true;
   if bFileLexer then
   begin
@@ -2815,7 +2817,7 @@ begin
   end;
 
   DoInstallAddonFromZip(fn, AppDir_DataAutocomplete, msg, msg2,
-    Result, AddonType, DirTarget, ASilent);
+    Result, AddonType, DirTarget, bNeedRestart, ASilent);
 
   if bFileLexer then
   begin
@@ -2838,7 +2840,7 @@ begin
     end;
 
     if not ASilent then
-      DoDialogAddonInstalledReport(msg, msg2);
+      DoDialogAddonInstalledReport(msg, msg2, bNeedRestart);
   end;
 end;
 

@@ -45,7 +45,8 @@ procedure DoInstallAddonFromZip(
   out AIsInstalled: boolean;
   out AAddonType: TAppAddonType;
   out ADirTarget: string;
-  ASilent: boolean);
+  out ANeedRestart: boolean;
+  const ASilent: boolean);
 
 implementation
 
@@ -274,7 +275,8 @@ procedure DoInstallPlugin(
   const AFilenameInf: string;
   out AReport: string;
   out ADirTarget: string;
-  ASilent: boolean);
+  out ANeedRestart: boolean;
+  const ASilent: boolean);
 var
   ini: TIniFile;
   sections: TStringList;
@@ -388,6 +390,7 @@ begin
       if s_section='events' then
       begin
         if s_events='' then Continue;
+        ANeedRestart:= true;
         AReport:= AReport+msgStatusPackageEvents+' '+s_events+#10;
       end;
     end;
@@ -560,7 +563,8 @@ procedure DoInstallAddonFromZip(
   out AIsInstalled: boolean;
   out AAddonType: TAppAddonType;
   out ADirTarget: string;
-  ASilent: boolean);
+  out ANeedRestart: boolean;
+  const ASilent: boolean);
 var
   unzip: TUnZipper;
   list: TStringlist;
@@ -713,7 +717,7 @@ begin
     cAddonTypePlugin:
       begin
         AStrMessage:= msgStatusInstalledNeedRestart;
-        DoInstallPlugin(fn_inf, AStrReport, ADirTarget, ASilent)
+        DoInstallPlugin(fn_inf, AStrReport, ADirTarget, ANeedRestart, ASilent)
       end;
     cAddonTypeData:
       begin
