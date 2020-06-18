@@ -324,8 +324,8 @@ begin
   SetColor(apclEdTextBg, nColorBack, 'EdTextBg', 'editor, BG');
   SetColor(apclEdSelFont, $e0e0e0, 'EdSelFont', 'editor, selection, font');
   SetColor(apclEdSelBg, $b0a0a0, 'EdSelBg', 'editor, selection, BG');
-  SetColor(apclEdDisableFont, clGray, 'EdDisableFont', 'editor, disabled state, font');
-  SetColor(apclEdDisableBg, nColorGutterBack, 'EdDisableBg', 'editor, disabled state, BG');
+  SetColor(apclEdDisableFont, nColorText, 'EdDisableFont', 'editor, disabled state, font');
+  SetColor(apclEdDisableBg, $e0e0e0, 'EdDisableBg', 'editor, disabled state, BG');
   SetColor(apclEdLinks, $c05050, 'EdLinks', 'editor, links');
   SetColor(apclEdLockedBg, nColorGutterBack, 'EdLockedBg', 'editor, locked state, BG');
   SetColor(apclEdCaret, clBlack, 'EdCaret', 'editor, caret');
