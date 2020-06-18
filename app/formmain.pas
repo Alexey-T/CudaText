@@ -2636,39 +2636,58 @@ begin
 end;
 
 procedure TfmMain.FormShow(Sender: TObject);
+  //
+  procedure _Init_FixSplitters;
+  {$ifdef darwin}
+  var
+    id: TAppPanelId;
+  {$endif}
+  begin
+    {$ifdef darwin}
+    // https://bugs.freepascal.org/view.php?id=35599
+    for id:= Low(id) to High(id) do
+      if id<>cPaneNone then
+        with AppPanels[id] do
+          Splitter.ResizeStyle:= rsUpdate;
+
+    Groups.Splitter1.ResizeStyle:= rsUpdate;
+    Groups.Splitter2.ResizeStyle:= rsUpdate;
+    Groups.Splitter3.ResizeStyle:= rsUpdate;
+    Groups.Splitter4.ResizeStyle:= rsUpdate;
+    Groups.Splitter5.ResizeStyle:= rsUpdate;
+    {$endif}
+  end;
+  //
+  procedure _Init_WindowMaximized;
+  begin
+    if FLastMaximized then
+    begin
+      FLastMaximized:= false;
+      if (FLastMaximizedMonitor>=0) and (FLastMaximizedMonitor<Screen.MonitorCount) then
+        BoundsRect:= Screen.Monitors[FLastMaximizedMonitor].BoundsRect;
+      WindowState:= wsMaximized;
+    end;
+  end;
+  //
+  procedure _Init_ApiOnStart;
+  var
+    Params: TAppVariantArray;
+  begin
+    SetLength(Params, 0);
+    DoPyEvent(nil, cEventOnStart, Params);
+  end;
+  //
 var
   NTickShowEnd: QWord;
   Frame: TEditorFrame;
-  Params: TAppVariantArray;
   i: integer;
-  {$ifdef darwin}
-  id: TAppPanelId;
-  {$endif}
 begin
-  {$ifdef darwin}
-  // https://bugs.freepascal.org/view.php?id=35599
-  for id:= Low(id) to High(id) do
-    if id<>cPaneNone then
-      with AppPanels[id] do
-        Splitter.ResizeStyle:= rsUpdate;
-
-  Groups.Splitter1.ResizeStyle:= rsUpdate;
-  Groups.Splitter2.ResizeStyle:= rsUpdate;
-  Groups.Splitter3.ResizeStyle:= rsUpdate;
-  Groups.Splitter4.ResizeStyle:= rsUpdate;
-  Groups.Splitter5.ResizeStyle:= rsUpdate;
-  {$endif}
+  _Init_FixSplitters;
 
   if FHandledOnShowPartly then exit;
   DoControlLock(Self);
 
-  if FLastMaximized then
-  begin
-    FLastMaximized:= false;
-    if (FLastMaximizedMonitor>=0) and (FLastMaximizedMonitor<Screen.MonitorCount) then
-      BoundsRect:= Screen.Monitors[FLastMaximizedMonitor].BoundsRect;
-    WindowState:= wsMaximized;
-  end;
+  _Init_WindowMaximized;
 
   DoApplyInitialGroupSizes;
   DoApplyFont_Text;
@@ -2680,9 +2699,7 @@ begin
 
   FHandledOnShowPartly:= true;
 
-  //on_start
-  SetLength(Params, 0);
-  DoPyEvent(nil, cEventOnStart, Params);
+  _Init_ApiOnStart;
 
   //load keymap-main
   //after loading plugins (to apply plugins keys)
