@@ -6,10 +6,11 @@
 1.105.2 (2020/06)
 
 + add: reworked parser code which handles indentation-based folding (e.g. in Python); reworked lexer Python for this; all lexers in add-ons which use indentation-based folding will be reworked soon
-+ add: on editing, parser better updates fold-blocks started above caret (thanks @OlehL)
 + add: for Python lexer, fold-blocks endings now exclude commented lines
-- fix: regressions for hotkeys (thanks @tmsg)
++ add: on editing in Python, parser better updates fold-blocks started above caret (thanks @OlehL)
+- fix: broken folding after running "move line up/down" many times fastly (thanks @OlehL)
 - fix: replace with confirmation: did not respect options "find_indent_*"
+- fix: regressions in hotkey system (thanks @tmsg)
 
 1.105.0 (2020/06)
 
