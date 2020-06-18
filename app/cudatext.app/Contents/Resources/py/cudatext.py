@@ -852,8 +852,8 @@ def emmet(id, text, p1='', p2=''):
 def msg_box(text, flags):
     return ct.msg_box(text, flags)
 
-def msg_box_ex(caption, text, buttons, icon):
-    return ct.msg_box_ex(caption, text, chr(1).join(buttons), icon)
+def msg_box_ex(caption, text, buttons, icon, focused=0):
+    return ct.msg_box_ex(caption, text, chr(1).join(buttons), icon, focused)
 
 def msg_status(text, process_messages=False):
     return ct.msg_status(text, process_messages)
