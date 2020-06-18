@@ -2698,10 +2698,49 @@ procedure TfmMain.FormShow(Sender: TObject);
     end;
   end;
   //
-var
-  NTickShowEnd: QWord;
-  Frame: TEditorFrame;
-  i: integer;
+  procedure _Init_StartupSession;
+  begin
+    //load session
+    //after on_start (so HTML Tooltips with on_open can work)
+    //after loading keymap-main and keymap for none-lexer
+    if UiOps.ReopenSession and FOption_AllowSession then
+      DoOps_LoadSession(GetSessionFilename);
+  end;
+  //
+  procedure _Init_FocusFrame;
+  var
+    Frame: TEditorFrame;
+  begin
+    Frame:= CurrentFrame;
+    if Assigned(Frame) then
+      Frame.SetFocus;
+  end;
+  //
+  procedure _Init_FramesOnShow;
+  var
+    Frame: TEditorFrame;
+    i: integer;
+  begin
+    for i:= 0 to FrameCount-1 do
+    begin
+      Frame:= Frames[i];
+      if Frame.Visible then
+        Frame.DoShow;
+    end;
+  end;
+  //
+  procedure _Init_ShowStartupTimes;
+  var
+    NTick: QWord;
+  begin
+    NTick:= GetTickCount64;
+    MsgLogConsole(Format(
+      'Startup: %dms, plugins: %s', [
+      (NTick-NTickInitial) div 10 * 10,
+      AppPython.GetTimingReport
+      ]));
+  end;
+  //
 begin
   _Init_FixSplitters;
 
@@ -2725,11 +2764,7 @@ begin
   _Init_KeymapMain;
   _Init_KeymapNoneForEmpty;
 
-  //load session
-  //after on_start (so HTML Tooltips with on_open can work)
-  //after loading keymap-main and keymap for none-lexer
-  if UiOps.ReopenSession and FOption_AllowSession then
-    DoOps_LoadSession(GetSessionFilename);
+  _Init_StartupSession;
 
   //after on_start, ConfigToolbar is slow with visible toolbar
   DoApplyUiOps;
@@ -2753,26 +2788,13 @@ begin
 
   //postpone parsing until frames are shown
   AllowFrameParsing:= true;
-  for i:= 0 to FrameCount-1 do
-  begin
-    Frame:= Frames[i];
-    if Frame.Visible then
-      Frame.DoShow;
-  end;
+  _Init_FramesOnShow;
 
   FHandledUntilFirstFocus:= true;
   DoControlUnlock(Self);
 
-  Frame:= CurrentFrame;
-  if Assigned(Frame) then
-    Frame.SetFocus;
-
-  NTickShowEnd:= GetTickCount64;
-  MsgLogConsole(Format(
-    'Startup: %dms, plugins: %s', [
-    (NTickShowEnd-NTickInitial) div 10 * 10,
-    AppPython.GetTimingReport
-    ]));
+  _Init_FocusFrame;
+  _Init_ShowStartupTimes;
 
   AppPython.DisableTiming;
   DoShowFirstStartInfo;
