@@ -588,13 +588,13 @@ const
 var
   PtrCaption, PtrText, PtrButtons: PChar;
   StrCaption, StrText, StrButtons, StrBtn: string;
-  Icon: Longint;
+  NIcon, NFocused: Longint;
   Buttons: TDialogButtons;
   Res: Longint;
   Sep: TATStringSeparator;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'sssi:msg_box_ex', @PtrCaption, @PtrText, @PtrButtons, @Icon)) then
+    if Bool(PyArg_ParseTuple(Args, 'sssii:msg_box_ex', @PtrCaption, @PtrText, @PtrButtons, @NIcon, @NFocused)) then
     begin
       StrCaption:= string(PtrCaption);
       StrText:= string(PtrText);
@@ -615,10 +615,13 @@ begin
         end;
       until false;
 
+      if (NFocused>=0) and (NFocused<Buttons.Count) then
+        Buttons.DefaultButton:= Buttons[NFocused];
+
       Res:= AskUser(
         StrCaption,
         StrText,
-        ConvertButtonIcon_MB_to_ID(Icon),
+        ConvertButtonIcon_MB_to_ID(NIcon),
         Buttons,
         0);
       FreeAndNil(Buttons);
