@@ -2707,7 +2707,7 @@ procedure TfmMain.FormShow(Sender: TObject);
       DoOps_LoadSession(GetSessionFilename);
   end;
   //
-  procedure _Init_FocusFrame;
+  procedure _Init_FrameFocus;
   var
     Frame: TEditorFrame;
   begin
@@ -2760,10 +2760,8 @@ begin
   FHandledOnShowPartly:= true;
 
   _Init_ApiOnStart;
-
   _Init_KeymapMain;
   _Init_KeymapNoneForEmpty;
-
   _Init_StartupSession;
 
   //after on_start, ConfigToolbar is slow with visible toolbar
@@ -2793,7 +2791,7 @@ begin
   FHandledUntilFirstFocus:= true;
   DoControlUnlock(Self);
 
-  _Init_FocusFrame;
+  _Init_FrameFocus;
   _Init_ShowStartupTimes;
 
   AppPython.DisableTiming;
