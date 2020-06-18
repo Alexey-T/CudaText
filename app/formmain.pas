@@ -2677,6 +2677,27 @@ procedure TfmMain.FormShow(Sender: TObject);
     DoPyEvent(nil, cEventOnStart, Params);
   end;
   //
+  procedure _Init_KeymapMain;
+  begin
+    //load keymap-main
+    //after loading plugins (to apply plugins keys)
+    Keymap_SetHotkey(AppKeymapMain, 'cuda_comments,cmt_toggle_line_body|Ctrl+/|', false);
+    Keymap_LoadConfig(AppKeymapMain, AppFile_Hotkeys, false);
+  end;
+  //
+  procedure _Init_KeymapNoneForEmpty;
+  var
+    Frame: TEditorFrame;
+  begin
+    //load keymap for none-lexer (to initial empty frame)
+    if FrameCount=1 then //session was not loaded
+    begin
+      Frame:= Frames[0];
+      if Frame.IsEmpty then
+        FrameLexerChange(Frame.Ed1);
+    end;
+  end;
+  //
 var
   NTickShowEnd: QWord;
   Frame: TEditorFrame;
@@ -2701,18 +2722,8 @@ begin
 
   _Init_ApiOnStart;
 
-  //load keymap-main
-  //after loading plugins (to apply plugins keys)
-  Keymap_SetHotkey(AppKeymapMain, 'cuda_comments,cmt_toggle_line_body|Ctrl+/|', false);
-  Keymap_LoadConfig(AppKeymapMain, AppFile_Hotkeys, false);
-
-  //load keymap for none-lexer (to initial empty frame)
-  if FrameCount=1 then //session was not loaded
-  begin
-    Frame:= Frames[0];
-    if Frame.IsEmpty then
-      FrameLexerChange(Frame.Ed1);
-  end;
+  _Init_KeymapMain;
+  _Init_KeymapNoneForEmpty;
 
   //load session
   //after on_start (so HTML Tooltips with on_open can work)
