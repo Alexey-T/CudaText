@@ -679,7 +679,14 @@ begin
   end;
 
   Ed.EndUpdate;
-  Ed.DoGotoCaret(cEdgeTop);
+  Ed.DoGotoPos(
+    APos1,
+    APos2,
+    UiOps.FindIndentHorz,
+    UiOps.FindIndentVert,
+    false{place caret},
+    true{unfold}
+    );
   Ed.Update(true);
 
   fmConfirmReplace:= TfmConfirmReplace.Create(Self);
