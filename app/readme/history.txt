@@ -9,6 +9,7 @@
 + add: on editing, parser better updates fold-blocks started above caret (thanks @OlehL)
 + add: for Python lexer, fold-blocks endings now exclude commented lines
 - fix: regressions for hotkeys (thanks @tmsg)
+- fix: replace with confirmation: did not respect options "find_indent_*"
 
 1.105.0 (2020/06)
 
