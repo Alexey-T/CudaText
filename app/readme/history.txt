@@ -3,11 +3,11 @@
   - fixed
   * changed
 
-1.105.1 (2020/06)
+1.105.2 (2020/06)
 
-+ add: optimized lexer code which handles indentation-based folding (e.g. in Python); reworked lexer Python for this; all lexers in add-ons which use indentation-based folding will be updated
-+ add: on editing, app better updates folding for blocks started above caret (thanks @OlehL)
-+ add: for Python lexer, fold-blocks are closed excluding commented lines
++ add: reworked parser code which handles indentation-based folding (e.g. in Python); reworked lexer Python for this; all lexers in add-ons which use indentation-based folding will be reworked soon
++ add: on editing, parser better updates fold-blocks started above caret (thanks @OlehL)
++ add: for Python lexer, fold-blocks endings now exclude commented lines
 - fix: regressions for hotkeys (thanks @tmsg)
 
 1.105.0 (2020/06)
