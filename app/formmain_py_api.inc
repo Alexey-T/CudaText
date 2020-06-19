@@ -6548,7 +6548,7 @@ var
   An: TecClientSyntAnalyzer;
   NIndexFrom, NIndexTo, NCount: integer;
   Token: TecSyntToken;
-  TokenStr: string;
+  TokStr: string;
   TokKind: TATTokenKind;
   iToken: integer;
 begin
@@ -6572,7 +6572,7 @@ begin
     for iToken:= NIndexFrom to NIndexTo do
     begin
       Token:= TecSyntToken(An.Tags[iToken]);
-      TokenStr:= Adapter.GetTokenString(Token);
+      TokStr:= Adapter.GetTokenString(Token);
       TokKind:= atkOther;
 
       if Assigned(Token.Style) then
@@ -6581,7 +6581,7 @@ begin
       PyList_SetItem(Result, iToken-NIndexFrom,
         Py_BuildValue('{sssOsiss}',
           'str',
-          PChar(TokenStr),
+          PChar(TokStr),
           'pos',
           Py_BuildValue('(iiii)',
             Token.Range.PointStart.X,
