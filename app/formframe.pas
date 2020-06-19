@@ -1688,9 +1688,6 @@ begin
   Ed1.Strings.EncodingDetectDefaultUtf8:= UiOps.DefaultEncUtf8;
 
   Ed1.EncodingName:= AppEncodingShortnameToFullname(UiOps.NewdocEnc);
-
-  Ed1.Modified:= false;
-  Ed2.Modified:= false;
 end;
 
 destructor TEditorFrame.Destroy;
