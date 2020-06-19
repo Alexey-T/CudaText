@@ -93,6 +93,7 @@ MENU_SET_CHECKED   = 7
 MENU_SET_RADIOITEM = 8
 MENU_SET_HOTKEY    = 9
 MENU_CREATE        = 10
+MENU_ADD_MANY      = 11
 MENU_SHOW          = 12
 MENU_GET_PROP      = 14
 MENU_SET_IMAGELIST = 20
@@ -973,12 +974,32 @@ def _menu_proc_callback_proxy(info=''):
     if info in _live:
         return _live[info]()
 
+def _resolve_m(s):
+    if callable(s):
+        sid_callback = str(s)
+        _live[sid_callback] = s
+        return 'module={};func=_menu_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
+    else:
+        return to_str(s)
+
 def menu_proc(id_menu, id_action, command="", caption="", index=-1, hotkey="", tag=""):
-    if callable(command):
-        sid_callback = str(command)
-        _live[sid_callback] = command
-        command = 'module={};func=_menu_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
-    return ct.menu_proc(str(id_menu), id_action, to_str(command), caption, index, hotkey, tag)
+    if id_action==MENU_ADD_MANY:
+        if not isinstance(command, list):
+            raise ValueError('Param "command" must be list')
+        if not isinstance(caption, list):
+            raise ValueError('Param "caption" must be list')
+        if not isinstance(hotkey, list):
+            raise ValueError('Param "hotkey" must be list')
+        if not isinstance(tag, list):
+            raise ValueError('Param "tag" must be list')
+        command = '\n'.join([_resolve_m(s) for s in command])
+        caption = '\n'.join(caption)
+        hotkey = '\n'.join(hotkey)
+        tag = '\n'.join(tag)
+    else:
+        command = _resolve_m(command)
+
+    return ct.menu_proc(str(id_menu), id_action, command, caption, index, hotkey, tag)
 
 def button_proc(id_button, id_action, value=''):
     if callable(value):
