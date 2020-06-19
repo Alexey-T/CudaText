@@ -157,8 +157,6 @@ type
       var AContinueSearching: Boolean);
     procedure DoDeactivatePictureMode;
     procedure DoDeactivateViewerMode;
-    procedure DoFileOpen_AsBinary(const AFileName: string; AMode: TATBinHexMode);
-    procedure DoFileOpen_AsPicture(const AFileName: string);
     procedure DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string;
       AAllowLoadHistory, AAllowLoadHistoryEnc, AAllowLexerDetect, AAllowErrorMsgBox, AKeepScroll: boolean; AOpenMode: TAppOpenMode);
     procedure DoImageboxScroll(Sender: TObject);
@@ -355,6 +353,8 @@ type
     procedure DoFileClose;
     procedure DoFileOpen(const AFileName, AFileName2: string; AAllowLoadHistory, AAllowLexerDetect,
       AAllowErrorMsgBox: boolean; AOpenMode: TAppOpenMode);
+    procedure DoFileOpen_AsBinary(const AFileName: string; AMode: TATBinHexMode);
+    procedure DoFileOpen_AsPicture(const AFileName: string);
     function DoFileSave(ASaveAs, AAllEditors: boolean): boolean;
     function DoFileSave_Ex(Ed: TATSynEdit; ASaveAs: boolean): boolean;
     procedure DoFileReload_DisableDetectEncoding(Ed: TATSynEdit);

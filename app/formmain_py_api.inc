@@ -3994,9 +3994,16 @@ begin
         PROP_V_MODE:
           begin
             if not Assigned(F) then exit(ReturnNone);
-            if F.IsBinary then
-              if (ValueInt>=0) and (ValueInt<=Ord(High(TATBinHexMode))) then
-                F.Binary.Mode:= TATBinHexMode(ValueInt);
+            if (ValueInt>=0) and (ValueInt<=Ord(High(TATBinHexMode))) then
+            begin
+              if F.IsBinary then
+                F.Binary.Mode:= TATBinHexMode(ValueInt)
+              else
+              begin
+                if F.EditorsLinked and (F.FileName<>'') then
+                  F.DoFileOpen_AsBinary(F.FileName, TATBinHexMode(ValueInt));
+              end;
+            end;
           end;
 
         PROP_V_POS:
