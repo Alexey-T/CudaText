@@ -4952,7 +4952,7 @@ begin
       Fmt:= An.Formats[i];
       PyDict_SetItemString(Result,
         PChar(Fmt.DisplayName),
-        Py_BuildValue('{sisisisisisisisiss}',
+        Py_BuildValue('{sisisisisisisisissss}',
           'type',
           Ord(Fmt.FormatType),
           'color_font',
@@ -4969,6 +4969,8 @@ begin
           Ord(Fmt.BorderTypeTop),
           'border_bottom',
           Ord(Fmt.BorderTypeBottom),
+          'tkind',
+          PChar(cPyTokenKind[TATTokenKind(Fmt.TokenKind)]),
           'styles',
           PChar(FontStylesToString(Fmt.Font.Style))
           ));
