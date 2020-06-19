@@ -290,6 +290,7 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 * SynWrite lexers need constructs like \x0D\x0A or \z (any line-break), while CudaText is OK with simple \n (because internal buffer never has CR char)
 * For CudaText you must avoid "system colors" in lexer styles (e.g. "window background", "window text", "hint background"), because OSes have different system colors
 * SynWrite lexer settings are not used in CudaText:
+** Option "Restart analysis from the line start" has no effect, it is forced to On in CudaText
 ** Default style
 ** Selection mark style
 ** Search mark style
@@ -297,7 +298,7 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 ** Collapse mark style
 ** Character set
 ** Multiline border
-** options in groups "Syntax tree decoration", "Pen"
+** Options in groups "Syntax tree decoration", "Pen"
 
 ==Add-on types==
 
