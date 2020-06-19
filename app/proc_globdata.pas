@@ -2057,9 +2057,10 @@ begin
 
       StrId:= DoOps_CommandCode_To_HotkeyStringId(item.Command);
 
-      //save to: user.json
+      //save to "keys.json"
       KeymapItem_SaveToConfig(item, StrId, '', false);
-      //save to: lexer*.json
+
+      //save to "keys nn.json"
       if ALexerName<>'' then
         KeymapItem_SaveToConfig(item, StrId, ALexerName, true);
     end
