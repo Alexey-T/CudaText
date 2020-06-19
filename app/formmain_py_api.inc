@@ -6548,9 +6548,8 @@ var
   An: TecClientSyntAnalyzer;
   NIndexFrom, NIndexTo, NCount: integer;
   Token: TecSyntToken;
-  TokenStr, TokenStyle: string;
+  TokenStr: string;
   TokKind: TATFinderTokenKind;
-  SListedStrings, SListedComments: string;
   iToken: integer;
 begin
   with AppPython.Engine do
@@ -6570,29 +6569,14 @@ begin
     if not Assigned(Result) then
       raise EPythonError.Create(msgPythonListError);
 
-    SListedComments:= ','+An.Owner.StylesOfComments+',';
-    SListedStrings:= ','+An.Owner.StylesOfStrings+',';
-    if SListedComments=',,' then
-      SListedComments:= '';
-    if SListedStrings=',,' then
-      SListedStrings:= '';
-
     for iToken:= NIndexFrom to NIndexTo do
     begin
       Token:= TecSyntToken(An.Tags[iToken]);
       TokenStr:= Adapter.GetTokenString(Token);
+      TokKind:= cTokenKindOther;
 
       if Assigned(Token.Style) then
-        TokenStyle:= Token.Style.DisplayName
-      else
-        TokenStyle:= '';
-
-      TokKind:= cTokenKindOther;
-      if (SListedComments<>'') and (Pos(','+TokenStyle+',', SListedComments)>0) then
-        TokKind:= cTokenKindComment
-      else
-      if (SListedStrings<>'') and (Pos(','+TokenStyle+',', SListedStrings)>0) then
-        TokKind:= cTokenKindString;
+        TokKind:= TATFinderTokenKind(Token.Style.TokenKind);
 
       PyList_SetItem(Result, iToken-NIndexFrom,
         Py_BuildValue('{sssOsiss}',
