@@ -2468,14 +2468,10 @@ Possible values of "id":
 ** "y2": end line
 ** "str": text of token (can be multi-line with "\n")
 ** "style": lexer style of token (lexer dependent)
+** "ki": index of token kind (0-based), in the list returned by lexer_proc()
+** "ks": kind of syntax element: "c" - comment, "s" - string, "a" - any other
 
 * TOKEN_LIST_SUB: Like TOKEN_LIST, but returns tokens only for given lines range, from "index1" to "index2" inclusive. Index in "index2" can be too big, this makes list until end of file.
-
-* TOKEN_LIST_ALT: Returns tokens for lines range, from "index1" to "index2" inclusive. Index in "index2" can be too big, this makes list until end of file. Returns list of dict, dict keys are:
-** "str": text of token (can be multi-line with "\n")
-** "pos": position of token, 4-tuple of int (x1, y1, x2, y2), where y1<y2 for multi-line token
-** "ki": index of token kind, in the list of kinds returned by lexer_proc(), 0-based
-** "ks": kind of token: "c" - comment, "s" - string, "a" - any other kind
 
 ===Editor.get_wrapinfo===
 
@@ -3951,5 +3947,9 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.338 (app 1.105.2)
 * add: msg_box_ex: added param "focused" but it doesn't work on GTK2 (Linux/BSD) yet due to Lazarus issue
+
+1.0.339 (app 1.105.3)
+* deleted: Editor.get_token: TOKEN_LIST_ALT
+* add: Editor.get_token: TOKEN_LIST* return additional keys "ki", "ks"
 
 [[Category:CudaText]]
