@@ -2036,6 +2036,18 @@ begin
           Keys2.Clear;
 end;
 
+procedure Keymap_ClearKeyInAll(AItemIndex, AKeyIndex: integer);
+var
+  iMap: integer;
+begin
+  Keymap_ClearKey(AppKeymapMain, AItemIndex, AKeyIndex);
+
+  for iMap:= 0 to AppKeymapLexers.Count-1 do
+    Keymap_ClearKey(
+      TATKeymap(AppKeymapLexers.Objects[iMap]),
+      AItemIndex, AKeyIndex);
+end;
+
 function Keymap_CheckDuplicateForCommand(
   AKeymapItem: TATKeymapItem;
   const ALexerName: string;
@@ -2045,7 +2057,7 @@ var
   MapItem: TATKeymapItem;
   StrId: string;
   NKeyIndex: integer;
-  iCmd, iMap: integer;
+  iCmd: integer;
 begin
   Result:= 0;
 
@@ -2070,12 +2082,7 @@ begin
     if AOverwriteAndSave then
     begin
       //clear item in ALL existing keymaps
-      Keymap_ClearKey(AppKeymapMain, iCmd, NKeyIndex);
-
-      for iMap:= 0 to AppKeymapLexers.Count-1 do
-        Keymap_ClearKey(
-          TATKeymap(AppKeymapLexers.Objects[iMap]),
-          iCmd, NKeyIndex);
+      Keymap_ClearKeyInAll(iCmd, NKeyIndex);
 
       StrId:= DoOps_CommandCode_To_HotkeyStringId(MapItem.Command);
 
