@@ -6494,6 +6494,7 @@ var
   An: TecClientSyntAnalyzer;
   Token: TecSyntToken;
   TokenStr, TokenStyle: string;
+  TokenKind: TATTokenKind;
   NIndexFrom, NIndexTo, NCount: integer;
   iToken: integer;
 begin
@@ -6518,14 +6519,18 @@ begin
     begin
       Token:= An.Tags[iToken];
       TokenStr:= Adapter.GetTokenString(Token);
+      TokenKind:= atkOther;
 
       if Assigned(Token.Style) then
-        TokenStyle:= Token.Style.DisplayName
+      begin
+        TokenStyle:= Token.Style.DisplayName;
+        TokenKind:= TATTokenKind(Token.Style.TokenKind);
+      end
       else
         TokenStyle:= '';
 
       PyList_SetItem(Result, iToken-NIndexFrom,
-        Py_BuildValue('{sssssisisisi}',
+        Py_BuildValue('{sssssisisisisiss}',
           'str',
           PChar(TokenStr),
           'style',
@@ -6537,67 +6542,15 @@ begin
           'x2',
           Token.Range.PointEnd.X,
           'y2',
-          Token.Range.PointEnd.Y
-          ));
-    end;
-  end;
-end;
-
-function Py_GetTokenListAlt(Adapter: TATAdapterEControl; ALineFrom, ALineTo: integer): PPyObject;
-var
-  An: TecClientSyntAnalyzer;
-  NIndexFrom, NIndexTo, NCount: integer;
-  Token: TecSyntToken;
-  TokStr: string;
-  TokKind: TATTokenKind;
-  iToken: integer;
-begin
-  with AppPython.Engine do
-  begin
-    An:= Adapter.AnClient;
-    if An=nil then exit(ReturnNone);
-
-    _FindTokenRange(An, ALineFrom, ALineTo, NIndexFrom, NIndexTo);
-    if NIndexFrom<0 then
-      exit(PyList_New(0));
-
-    NCount:= NIndexTo-NIndexFrom+1;
-    if NCount<=0 then
-      exit(PyList_New(0));
-
-    Result:= PyList_New(NCount);
-    if not Assigned(Result) then
-      raise EPythonError.Create(msgPythonListError);
-
-    for iToken:= NIndexFrom to NIndexTo do
-    begin
-      Token:= TecSyntToken(An.Tags[iToken]);
-      TokStr:= Adapter.GetTokenString(Token);
-      TokKind:= atkOther;
-
-      if Assigned(Token.Style) then
-        TokKind:= TATTokenKind(Token.Style.TokenKind);
-
-      PyList_SetItem(Result, iToken-NIndexFrom,
-        Py_BuildValue('{sssOsiss}',
-          'str',
-          PChar(TokStr),
-          'pos',
-          Py_BuildValue('(iiii)',
-            Token.Range.PointStart.X,
-            Token.Range.PointStart.Y,
-            Token.Range.PointEnd.X,
-            Token.Range.PointEnd.Y
-            ),
+          Token.Range.PointEnd.Y,
           'ki',
           Token.TokenType,
           'ks',
-          PChar(cPyTokenKind[TokKind])
+          PChar(cPyTokenKind[TokenKind])
           ));
     end;
   end;
 end;
-
 
 function Py_ed_get_token(Self, Args: PPyObject): PPyObject; cdecl;
 var
@@ -6630,11 +6583,6 @@ begin
         TOKEN_LIST_SUB:
           begin
             Result:= Py_GetTokenList(Adapter, NIndex1, NIndex2)
-          end;
-
-        TOKEN_LIST_ALT:
-          begin
-            Result:= Py_GetTokenListAlt(Adapter, NIndex1, NIndex2);
           end;
 
         else
