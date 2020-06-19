@@ -1079,7 +1079,7 @@ type
     procedure DoPyCommand(const AModule, AMethod: string; const AParams: TAppVariantArray);
     function DoPyTreeHelper(Frame: TEditorFrame): boolean;
     function DoPyLexerDetection(const Filename: string; Lexers: TStringList): integer;
-    procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATFinderTokenKind);
+    procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATTokenKind);
   end;
 
 var

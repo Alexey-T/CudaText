@@ -10,7 +10,7 @@ Copyright (c) Alexey Torgashin
 const
   cPyEditorHandleMin = 10;
   cPyEditorHandleMax = 10000;
-  cPyTokenKind: array[TATFinderTokenKind] of string = ('a', 'c', 's');
+  cPyTokenKind: array[TATTokenKind] of string = ('a', 'c', 's');
 
 var
   PyEscapeFlag: boolean = false;
@@ -6549,7 +6549,7 @@ var
   NIndexFrom, NIndexTo, NCount: integer;
   Token: TecSyntToken;
   TokenStr: string;
-  TokKind: TATFinderTokenKind;
+  TokKind: TATTokenKind;
   iToken: integer;
 begin
   with AppPython.Engine do
@@ -6573,10 +6573,10 @@ begin
     begin
       Token:= TecSyntToken(An.Tags[iToken]);
       TokenStr:= Adapter.GetTokenString(Token);
-      TokKind:= cTokenKindOther;
+      TokKind:= atkOther;
 
       if Assigned(Token.Style) then
-        TokKind:= TATFinderTokenKind(Token.Style.TokenKind);
+        TokKind:= TATTokenKind(Token.Style.TokenKind);
 
       PyList_SetItem(Result, iToken-NIndexFrom,
         Py_BuildValue('{sssOsiss}',
@@ -6605,7 +6605,7 @@ var
   Ed: TATSynEdit;
   Id, NIndex1, NIndex2: integer;
   Adapter: TATAdapterEControl;
-  TokenKind: TATFinderTokenKind;
+  TokenKind: TATTokenKind;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liii:get_token', @H, @Id, @NIndex1, @NIndex2)) then

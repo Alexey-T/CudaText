@@ -720,7 +720,7 @@ begin
     MB_OK or MB_ICONERROR);
 end;
 
-procedure TfmMain.FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATFinderTokenKind);
+procedure TfmMain.FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATTokenKind);
 begin
   AKind:= EditorGetTokenKind(Sender as TATSynEdit, AX, AY)
 end;

@@ -3652,10 +3652,10 @@ end;
 
 function TEditorFrame.IsCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integer): boolean;
 var
-  Kind: TATFinderTokenKind;
+  Kind: TATTokenKind;
 begin
   Kind:= EditorGetTokenKind(Ed, AX, AY);
-  Result:= (Kind=cTokenKindComment) or (Kind=cTokenKindString);
+  Result:= (Kind=atkComment) or (Kind=atkString);
 end;
 
 function TEditorFrame.IsParsingBusy: boolean;

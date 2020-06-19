@@ -94,7 +94,7 @@ const
   cEditorTagForBracket = 1;
 
 type
-  TATEditorGetTokenKind = function(Ed: TATSynEdit; AX, AY: integer): TATFinderTokenKind of object;
+  TATEditorGetTokenKind = function(Ed: TATSynEdit; AX, AY: integer): TATTokenKind of object;
 
 function EditorBracket_GetPairForClosingBracketOrQuote(ch: char): char;
 procedure EditorBracket_ClearHilite(Ed: TATSynEdit);
@@ -115,7 +115,7 @@ procedure EditorBracket_FindOpeningBracketBackward(Ed: TATSynEdit;
   MaxDistance: integer;
   out FoundX, FoundY: integer);
 
-function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer): TATFinderTokenKind;
+function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer): TATTokenKind;
 function EditorExpandSelectionToWord(Ed: TATSynEdit): boolean;
 function EditorFindCurrentWordOrSel(Ed: TATSynEdit;
   ANext, AWordOrSel, AOptCase, AOptWrapped: boolean;
@@ -1173,7 +1173,7 @@ begin
       if Kind=bracketUnknown then Continue;
 
       //ignore brackets in comments/strings, because of constants '{', '(' etc
-      if EditorGetTokenKind(Ed, iChar, iLine)<>cTokenKindOther then Continue;
+      if EditorGetTokenKind(Ed, iChar, iLine)<>atkOther then Continue;
 
       if Kind=bracketClosing then
       begin
@@ -1227,10 +1227,10 @@ begin
       for IndexX:= IndexXBegin to IndexXEnd do
       begin
         ch:= S[IndexX+1];
-        if (ch=CharFrom) and (EditorGetTokenKind(Ed, IndexX, IndexY)=cTokenKindOther) then
+        if (ch=CharFrom) and (EditorGetTokenKind(Ed, IndexX, IndexY)=atkOther) then
           Inc(Level)
         else
-        if (ch=CharTo) and (EditorGetTokenKind(Ed, IndexX, IndexY)=cTokenKindOther) then
+        if (ch=CharTo) and (EditorGetTokenKind(Ed, IndexX, IndexY)=atkOther) then
         begin
           if Level>0 then
             Dec(Level)
@@ -1258,10 +1258,10 @@ begin
       for IndexX:= IndexXEnd downto IndexXBegin do
       begin
         ch:= S[IndexX+1];
-        if (ch=CharFrom) and (EditorGetTokenKind(Ed, IndexX, IndexY)=cTokenKindOther) then
+        if (ch=CharFrom) and (EditorGetTokenKind(Ed, IndexX, IndexY)=atkOther) then
           Inc(Level)
         else
-        if (ch=CharTo) and (EditorGetTokenKind(Ed, IndexX, IndexY)=cTokenKindOther) then
+        if (ch=CharTo) and (EditorGetTokenKind(Ed, IndexX, IndexY)=atkOther) then
         begin
           if Level>0 then
             Dec(Level)
@@ -1308,7 +1308,7 @@ begin
   begin
     CharFrom:= S[PosX+1];
     if Pos(CharFrom, AllowedSymbols)>0 then
-      if EditorGetTokenKind(Ed, PosX, PosY)=cTokenKindOther then
+      if EditorGetTokenKind(Ed, PosX, PosY)=atkOther then
         EditorBracket_GetCharKind(CharFrom, Kind, CharTo);
   end;
 
@@ -1321,7 +1321,7 @@ begin
       CharFrom:= S[PosX+1];
       if Pos(CharFrom, AllowedSymbols)>0 then
       begin
-        if EditorGetTokenKind(Ed, PosX, PosY)=cTokenKindOther then
+        if EditorGetTokenKind(Ed, PosX, PosY)=atkOther then
           EditorBracket_GetCharKind(CharFrom, Kind, CharTo);
       end
       else
@@ -1536,10 +1536,10 @@ begin
     SClipboardCopy(Ed.TextSelected, PrimarySelection);
 end;
 
-function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer): TATFinderTokenKind;
+function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer): TATTokenKind;
 begin
   if not (Ed.AdapterForHilite is TATAdapterEControl) then
-    exit(cTokenKindOther);
+    exit(atkOther);
 
   Result:= TATAdapterEControl(Ed.AdapterForHilite).GetTokenKindAtPos(Point(AX, AY));
 end;
