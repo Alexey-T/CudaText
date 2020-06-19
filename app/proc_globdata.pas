@@ -612,7 +612,6 @@ function Keymap_GetHotkey(AKeymap: TATKeymap; const ACmdString: string): string;
 function Keymap_SetHotkey(AKeymap: TATKeymap; const AParams: string; AndSaveFile: boolean): boolean;
 
 function Keymap_CheckDuplicateForCommand(
-  AKeymap: TATKeymap;
   AKeymapItem: TATKeymapItem;
   const ALexerName: string;
   AOverwriteAndSave: boolean): integer;
@@ -2026,46 +2025,71 @@ begin
 end;
 
 
+procedure Keymap_ClearKey(AKeymap: TATKeymap; AItemIndex, AKeyIndex: integer);
+begin
+  with AKeymap do
+    if IsIndexValid(AItemIndex) then
+      with Items[AItemIndex] do
+        if AKeyIndex=0 then
+          Keys1.Clear
+        else
+          Keys2.Clear;
+end;
+
 function Keymap_CheckDuplicateForCommand(
-  AKeymap: TATKeymap;
   AKeymapItem: TATKeymapItem;
   const ALexerName: string;
   AOverwriteAndSave: boolean): integer;
 var
-  item: TATKeymapItem;
-  itemKeyPtr: ^TATKeyArray;
+  Map: TATKeymap;
+  MapItem: TATKeymapItem;
   StrId: string;
-  i: integer;
+  NKeyIndex: integer;
+  iCmd, iMap: integer;
 begin
   Result:= 0;
 
-  for i:= 0 to AKeymap.Count-1 do
-  begin
-    item:= AKeymap.Items[i];
-    if item.Command=AKeymapItem.Command then Continue;
+  Map:= AppKeymapMain;
+  NKeyIndex:= 0;
 
-    if (AKeymapItem.Keys1=item.Keys1) or
-       (AKeymapItem.Keys2=item.Keys1) then itemKeyPtr:= @item.Keys1 else
-    if (AKeymapItem.Keys1=item.Keys2) or
-       (AKeymapItem.Keys2=item.Keys2) then itemKeyPtr:= @item.Keys2 else
-    Continue;
+  for iCmd:= 0 to Map.Count-1 do
+  begin
+    MapItem:= Map.Items[iCmd];
+    if MapItem.Command=AKeymapItem.Command then Continue;
+
+    if (AKeymapItem.Keys1=MapItem.Keys1) or
+       (AKeymapItem.Keys2=MapItem.Keys1) then
+       NKeyIndex:= 0
+    else
+    if (AKeymapItem.Keys1=MapItem.Keys2) or
+       (AKeymapItem.Keys2=MapItem.Keys2) then
+       NKeyIndex:= 1
+    else
+      Continue;
 
     if AOverwriteAndSave then
     begin
-      //clear in memory
-      itemKeyPtr^.Clear;
+      //clear item in ALL existing keymaps
+      Keymap_ClearKey(AppKeymapMain, iCmd, NKeyIndex);
 
-      StrId:= DoOps_CommandCode_To_HotkeyStringId(item.Command);
+      for iMap:= 0 to AppKeymapLexers.Count-1 do
+        Keymap_ClearKey(
+          TATKeymap(AppKeymapLexers.Objects[iMap]),
+          iCmd, NKeyIndex);
+
+      StrId:= DoOps_CommandCode_To_HotkeyStringId(MapItem.Command);
 
       //save to "keys.json"
-      KeymapItem_SaveToConfig(item, StrId, '', false);
+      KeymapItem_SaveToConfig(MapItem, StrId, '', false);
 
       //save to "keys nn.json"
       if ALexerName<>'' then
-        KeymapItem_SaveToConfig(item, StrId, ALexerName, true);
+        KeymapItem_SaveToConfig(MapItem, StrId, ALexerName, true);
     end
     else
-      exit(item.Command);
+      Result:= MapItem.Command;
+
+    Break;
   end;
 end;
 
