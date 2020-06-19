@@ -1540,30 +1540,18 @@ function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer): TATFinderTokenKind
 var
   Pnt1, Pnt2: TPoint;
   STokenText, STokenStyle: string;
-  An: TecSyntAnalyzer;
 begin
-  Result:= cTokenKindOther;
+  if not (Ed.AdapterForHilite is TATAdapterEControl) then
+    exit(cTokenKindOther);
 
-  if not (Ed.AdapterForHilite is TATAdapterEControl) then exit;
   TATAdapterEControl(Ed.AdapterForHilite).GetTokenAtPos(
     Point(AX, AY),
     Pnt1,
     Pnt2,
     STokenText,
-    STokenStyle
+    STokenStyle,
+    Result
     );
-  if STokenStyle='' then exit;
-
-  An:= TATAdapterEControl(Ed.AdapterForHilite).Lexer;
-  if An=nil then exit;
-
-  if An.StylesOfComments<>'' then
-    if Pos(','+STokenStyle+',', ','+An.StylesOfComments+',')>0 then
-      exit(cTokenKindComment);
-
-  if An.StylesOfStrings<>'' then
-    if Pos(','+STokenStyle+',', ','+An.StylesOfStrings+',')>0 then
-      exit(cTokenKindString);
 end;
 
 
