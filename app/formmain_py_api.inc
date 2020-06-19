@@ -3506,6 +3506,15 @@ begin
               Result:= ReturnNone;
           end;
 
+        PROP_V_WIDTH_UHEX:
+          begin
+            if not Assigned(F) then exit(ReturnNone);
+            if F.IsBinary then
+              Result:= PyLong_FromLong(F.Binary.TextWidthUHex)
+            else
+              Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
@@ -4033,6 +4042,15 @@ begin
             if F.IsBinary then
             begin
               F.Binary.TextWidthHex:= ValueInt;
+              F.Binary.Redraw();
+            end;
+          end;
+
+        PROP_V_WIDTH_UHEX:
+          begin
+            if not Assigned(F) then exit(ReturnNone);
+            if F.IsBinary then
+            begin
               F.Binary.TextWidthUHex:= ValueInt;
               F.Binary.Redraw();
             end;
