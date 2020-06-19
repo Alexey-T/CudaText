@@ -1316,7 +1316,7 @@ begin
       begin
         NPluginIndex:= Cmd-cmdFirstPluginCommand;
         CmdItem:= TAppCommandInfo(AppCommandList[NPluginIndex]);
-        KeysBackup.Add(MapItem, CmdItem.ItemModule+','+CmdItem.ItemProc+','+CmdItem.ItemProcParam);
+        KeysBackup.Add(MapItem, CmdItem.CommaStr);
       end;
 
       AKeymap.Delete(i);
@@ -1371,10 +1371,7 @@ begin
           'plugin: '+AppNicePluginCaption(CmdItem.ItemCaption),
           [], []);
 
-        KeysBackup.Get(
-          AKeymap[AKeymap.Count-1],
-          CmdItem.ItemModule+','+CmdItem.ItemProc+','+CmdItem.ItemProcParam
-          );
+        KeysBackup.Get(AKeymap[AKeymap.Count-1], CmdItem.CommaStr);
       end;
 
     categ_PluginSub:
@@ -1390,10 +1387,7 @@ begin
           'plugin: '+AppNicePluginCaption(CmdItem.ItemCaption),
           [], []);
 
-        KeysBackup.Get(
-          AKeymap[AKeymap.Count-1],
-          CmdItem.ItemModule+','+CmdItem.ItemProc+','+CmdItem.ItemProcParam
-          );
+        KeysBackup.Get(AKeymap[AKeymap.Count-1], CmdItem.CommaStr);
       end;
 
     categ_OpenedFile:

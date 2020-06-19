@@ -806,6 +806,9 @@ const
     );
 
 type
+
+  { TAppCommandInfo }
+
   TAppCommandInfo = class
   public
     ItemModule: string;
@@ -815,6 +818,7 @@ type
     ItemLexers: string;
     ItemInMenu: string;
     ItemFromApi: boolean;
+    function CommaStr: string;
   end;
 
 type
@@ -2348,6 +2352,20 @@ begin
 
   F.Right:= F.Left+w;
   F.Bottom:= F.Top+h;
+end;
+
+{ TAppCommandInfo }
+
+function TAppCommandInfo.CommaStr: string;
+begin
+  if ItemModule='' then
+    Result:= ''
+  else
+  begin
+    Result:= ItemModule+','+ItemProc;
+    if ItemProcParam<>'' then
+      Result+= ','+ItemProcParam;
+  end;
 end;
 
 { TAppFileProps }
