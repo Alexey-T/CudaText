@@ -74,7 +74,6 @@ const
   MENU_SET_RADIOITEM = 8;
   MENU_SET_HOTKEY    = 9;
   MENU_CREATE        = 10;
-  MENU_ADD_MANY      = 11;
   MENU_SHOW          = 12;
   MENU_GET_PROP      = 14;
   MENU_SET_IMAGELIST = 20;

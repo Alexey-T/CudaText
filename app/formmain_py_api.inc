@@ -5301,9 +5301,6 @@ var
   NX, NY: integer;
   ImgList: TImageList;
   Sep: TATStringSeparator;
-  Sep_Cmd, Sep_Caption, Sep_Hotkey, Sep_Tag: TATStringSeparator;
-  Item_Cmd, Item_Caption, Item_Hotkey, Item_Tag: string;
-  ResList: TStringList;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'sississ:menu_proc',
@@ -5331,28 +5328,6 @@ begin
           begin
             StrResult:= fmMain.DoMenuAdd_Params(StrMenu, StrCmd, StrCaption, StrHotkey, StrTag, NIndex);
             Result:= PyString_FromString(PChar(StrResult));
-          end;
-
-        MENU_ADD_MANY:
-          begin
-            ResList:= TStringList.Create;
-            try
-              Sep_Cmd.Init(StrCmd, #10);
-              Sep_Caption.Init(StrCaption, #10);
-              Sep_Hotkey.Init(StrHotkey, #10);
-              Sep_Tag.Init(StrTag, #10);
-              repeat
-                if not Sep_Cmd.GetItemStr(Item_Cmd) then Break;
-                Sep_Caption.GetItemStr(Item_Caption);
-                Sep_Hotkey.GetItemStr(Item_Hotkey);
-                Sep_Tag.GetItemStr(Item_Tag);
-                StrResult:= fmMain.DoMenuAdd_Params(StrMenu, Item_Cmd, Item_Caption, Item_Hotkey, Item_Tag, -1);
-                ResList.Add(StrResult);
-              until false;
-              Result:= StringsToPyList(ResList);
-            finally
-              FreeAndNil(ResList);
-            end;
           end;
 
         MENU_REMOVE:
