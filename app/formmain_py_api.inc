@@ -4001,7 +4001,11 @@ begin
               else
               begin
                 if F.EditorsLinked and (F.FileName<>'') then
-                  F.DoFileOpen_AsBinary(F.FileName, TATBinHexMode(ValueInt));
+                begin
+                  Str:= F.FileName;
+                  F.DoFileClose;
+                  F.DoFileOpen_AsBinary(Str, TATBinHexMode(ValueInt));
+                end;
               end;
             end;
           end;
