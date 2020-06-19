@@ -1537,21 +1537,11 @@ begin
 end;
 
 function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer): TATFinderTokenKind;
-var
-  Pnt1, Pnt2: TPoint;
-  STokenText, STokenStyle: string;
 begin
   if not (Ed.AdapterForHilite is TATAdapterEControl) then
     exit(cTokenKindOther);
 
-  TATAdapterEControl(Ed.AdapterForHilite).GetTokenAtPos(
-    Point(AX, AY),
-    Pnt1,
-    Pnt2,
-    STokenText,
-    STokenStyle,
-    Result
-    );
+  Result:= TATAdapterEControl(Ed.AdapterForHilite).GetTokenKindAtPos(Point(AX, AY));
 end;
 
 
