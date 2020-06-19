@@ -1294,22 +1294,31 @@ type
     Keys1, Keys2: TATKeyArray;
   end;
 
-function _GetKeysBackup(AList: TStringList; const AStr: string;
-  out AKey1, AKey2: TATKeyArray): boolean;
+procedure _AddKeysBackup(AList: TStringList; AMapItem: TATKeymapItem; const AStr: string);
+var
+  Pair: TMyKeyPair;
+begin
+  if (AMapItem.Keys1.Length>0) or
+    (AMapItem.Keys2.Length>0) then
+  begin
+    Pair:= TMyKeyPair.Create;
+    Pair.Keys1:= AMapItem.Keys1;
+    Pair.Keys2:= AMapItem.Keys2;
+    AList.AddObject(AStr, Pair);
+  end;
+end;
+
+procedure _GetKeysBackup(AList: TStringList; AMapItem: TATKeymapItem; const AStr: string);
 var
   N: integer;
   Pair: TMyKeyPair;
 begin
-  Result:= false;
-  AKey1.Clear;
-  AKey2.Clear;
   N:= AList.IndexOf(AStr);
   if N>=0 then
   begin
-    Result:= true;
     Pair:= TMyKeyPair(AList.Objects[N]);
-    AKey1:= Pair.Keys1;
-    AKey2:= Pair.Keys2;
+    AMapItem.Keys1:= Pair.Keys1;
+    AMapItem.Keys2:= Pair.Keys2;
   end;
 end;
 
@@ -1323,8 +1332,6 @@ var
   Cmd, i: integer;
   NPluginIndex: integer;
   KeysBackup: TStringList;
-  KeyPair: TMyKeyPair;
-  KeyRec1, KeyRec2: TATKeyArray;
 begin
   KeysBackup:= TStringList.Create;
 
@@ -1339,20 +1346,11 @@ begin
       //this function must not loose any hotkeys!
       if ACategory in [categ_Plugin, categ_PluginSub] then
       begin
-        KeyRec1:= MapItem.Keys1;
-        KeyRec2:= MapItem.Keys2;
-        if (KeyRec1.Length>0) or (KeyRec2.Length>0) then
-        begin
-          KeyPair:= TMyKeyPair.Create;
-          KeyPair.Keys1:= KeyRec1;
-          KeyPair.Keys2:= KeyRec2;
-          NPluginIndex:= Cmd-cmdFirstPluginCommand;
-          CmdItem:= TAppCommandInfo(AppCommandList[NPluginIndex]);
-          KeysBackup.AddObject(
-            CmdItem.ItemModule+','+CmdItem.ItemProc+','+CmdItem.ItemProcParam,
-            KeyPair
+        NPluginIndex:= Cmd-cmdFirstPluginCommand;
+        CmdItem:= TAppCommandInfo(AppCommandList[NPluginIndex]);
+        _AddKeysBackup(KeysBackup, MapItem,
+          CmdItem.ItemModule+','+CmdItem.ItemProc+','+CmdItem.ItemProcParam
           );
-        end;
       end;
 
       AKeymap.Delete(i);
@@ -1407,15 +1405,10 @@ begin
           'plugin: '+AppNicePluginCaption(CmdItem.ItemCaption),
           [], []);
 
-        //restore hotkey
-        if _GetKeysBackup(KeysBackup,
-          CmdItem.ItemModule+','+CmdItem.ItemProc+','+CmdItem.ItemProcParam,
-          KeyRec1, KeyRec2) then
-        begin
-          MapItem:= AKeymap[AKeymap.Count-1];
-          MapItem.Keys1:= KeyRec1;
-          MapItem.keys2:= KeyRec2;
-        end;
+        _GetKeysBackup(KeysBackup,
+          AKeymap[AKeymap.Count-1],
+          CmdItem.ItemModule+','+CmdItem.ItemProc+','+CmdItem.ItemProcParam
+          );
       end;
 
     categ_PluginSub:
@@ -1431,15 +1424,10 @@ begin
           'plugin: '+AppNicePluginCaption(CmdItem.ItemCaption),
           [], []);
 
-        //restore hotkey
-        if _GetKeysBackup(KeysBackup,
-          CmdItem.ItemModule+','+CmdItem.ItemProc+','+CmdItem.ItemProcParam,
-          KeyRec1, KeyRec2) then
-        begin
-          MapItem:= AKeymap[AKeymap.Count-1];
-          MapItem.Keys1:= KeyRec1;
-          MapItem.keys2:= KeyRec2;
-        end;
+        _GetKeysBackup(KeysBackup,
+          AKeymap[AKeymap.Count-1],
+          CmdItem.ItemModule+','+CmdItem.ItemProc+','+CmdItem.ItemProcParam
+          );
       end;
 
     categ_OpenedFile:
