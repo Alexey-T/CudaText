@@ -1669,12 +1669,7 @@ end;
 function DoOps_CommandCode_To_HotkeyStringId(ACmd: integer): string;
 begin
   if AppCommandCategory(ACmd) in [categ_Plugin, categ_PluginSub] then
-    with TAppCommandInfo(AppCommandList[ACmd-cmdFirstPluginCommand]) do
-    begin
-      Result:= ItemModule+','+ItemProc;
-      if ItemProcParam<>'' then
-        Result+= ','+ItemProcParam;
-    end
+    Result:= TAppCommandInfo(AppCommandList[ACmd-cmdFirstPluginCommand]).CommaStr
   else
     Result:= IntToStr(ACmd);
 end;
