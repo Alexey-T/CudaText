@@ -2192,7 +2192,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_RECT_CLIENT: 4-tuple of int: rectangle of entire editor area, relative to editor.
 * PROP_RECT_TEXT: 4-tuple of int: rectangle of text-only editor area (excluding gutter/minimap/etc), relative to editor.
 
-* PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
+* PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_ constants. Setting this property for usual editor or picture viewer, switches UI to binary viewer with the given mode.
 * PROP_V_POS: int: for binary viewer, scroll position.
 * PROP_V_SEL_START: int: for binary viewer, selection start offset.
 * PROP_V_SEL_LEN: int: for binary viewer, selection length.
@@ -2300,7 +2300,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_SAVING_TRIM_SPACES: bool: on saving file, trim trailing whitespaces.
 * PROP_SAVING_TRIM_FINAL_EMPTY_LINES: bool: on saving file, trim redundant empty lines at end of document.
 
-* PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
+* PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_ constants. Setting this property for usual editor or picture viewer, switches UI to binary viewer with the given mode.
 * PROP_V_POS: int: for binary viewer, scroll position.
 * PROP_V_SEL_START: int: for binary viewer, selection start offset.
 * PROP_V_SEL_LEN: int: for binary viewer, selection length.
@@ -3960,5 +3960,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.340 (app 1.150.3)
 * add: Editor.get_prop/set_prop: PROP_V_WIDTH_HEX, PROP_V_WIDTH_UHEX
+* add: Editor.set_prop: setting PROP_V_MODE for usual editor switches editor to viewer, with given mode
 
 [[Category:CudaText]]
