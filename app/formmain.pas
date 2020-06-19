@@ -90,6 +90,7 @@ uses
   proc_cmd,
   proc_editor,
   proc_miscutils,
+  proc_keybackupclass,
   proc_msg,
   proc_install_zip,
   proc_lexer_styles,
@@ -1289,51 +1290,18 @@ begin
   Result:= acgOkCommand;
 end;
 
-type
-  TMyKeyPair = class
-    Keys1, Keys2: TATKeyArray;
-  end;
-
-procedure _AddKeysBackup(AList: TStringList; AMapItem: TATKeymapItem; const AStr: string);
-var
-  Pair: TMyKeyPair;
-begin
-  if (AMapItem.Keys1.Length>0) or
-    (AMapItem.Keys2.Length>0) then
-  begin
-    Pair:= TMyKeyPair.Create;
-    Pair.Keys1:= AMapItem.Keys1;
-    Pair.Keys2:= AMapItem.Keys2;
-    AList.AddObject(AStr, Pair);
-  end;
-end;
-
-procedure _GetKeysBackup(AList: TStringList; AMapItem: TATKeymapItem; const AStr: string);
-var
-  N: integer;
-  Pair: TMyKeyPair;
-begin
-  N:= AList.IndexOf(AStr);
-  if N>=0 then
-  begin
-    Pair:= TMyKeyPair(AList.Objects[N]);
-    AMapItem.Keys1:= Pair.Keys1;
-    AMapItem.Keys2:= Pair.Keys2;
-  end;
-end;
-
 procedure Keymap_UpdateDynamicEx(AKeymap: TATKeymap; ACategory: TAppCommandCategory);
 var
   MapItem: TATKeymapItem;
   CmdItem: TAppCommandInfo;
   Frame: TEditorFrame;
   An: TecSyntAnalyzer;
+  KeysBackup: TAppHotkeyBackup;
   sl: TStringList;
   Cmd, i: integer;
   NPluginIndex: integer;
-  KeysBackup: TStringList;
 begin
-  KeysBackup:= TStringList.Create;
+  KeysBackup:= TAppHotkeyBackup.Create;
 
   for i:= AKeymap.Count-1 downto 0 do
   begin
@@ -1348,9 +1316,7 @@ begin
       begin
         NPluginIndex:= Cmd-cmdFirstPluginCommand;
         CmdItem:= TAppCommandInfo(AppCommandList[NPluginIndex]);
-        _AddKeysBackup(KeysBackup, MapItem,
-          CmdItem.ItemModule+','+CmdItem.ItemProc+','+CmdItem.ItemProcParam
-          );
+        KeysBackup.Add(MapItem, CmdItem.ItemModule+','+CmdItem.ItemProc+','+CmdItem.ItemProcParam);
       end;
 
       AKeymap.Delete(i);
@@ -1405,7 +1371,7 @@ begin
           'plugin: '+AppNicePluginCaption(CmdItem.ItemCaption),
           [], []);
 
-        _GetKeysBackup(KeysBackup,
+        KeysBackup.Get(
           AKeymap[AKeymap.Count-1],
           CmdItem.ItemModule+','+CmdItem.ItemProc+','+CmdItem.ItemProcParam
           );
@@ -1424,7 +1390,7 @@ begin
           'plugin: '+AppNicePluginCaption(CmdItem.ItemCaption),
           [], []);
 
-        _GetKeysBackup(KeysBackup,
+        KeysBackup.Get(
           AKeymap[AKeymap.Count-1],
           CmdItem.ItemModule+','+CmdItem.ItemProc+','+CmdItem.ItemProcParam
           );
@@ -1470,7 +1436,6 @@ begin
     Keymap_UpdateDynamicEx(Map, ACategory);
   end;
 end;
-
 
 { TAppNotifThread }
 
