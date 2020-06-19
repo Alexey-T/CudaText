@@ -1363,6 +1363,7 @@ Possible values of "id":
 ** "color_border": RGB color of border.
 ** "border_left", "border_right", "border_top", "border_bottom": Kind of border at one side. Enum. Values from 0: none, solid, dash, dot, dash dot, dash dot dot, solid2, solid3, wave, double.
 ** "styles": Font styles, as string. If empty, no styles. If "b" in value, bold. If "i" in value, italic. If "u" in value, underline. If "s" in value, strikeout.
+** "tkind": Kind of syntax element. "c" - comment, "s" - string, "a" - any other.
 
 * LEXER_DETECT: Detects lexer name by file name (param "value" is file name). Returns None if cannot detect. Returns string or tuple of string (for example, "C" and "C++" for "test.h"). Function tests file extension, or even filename before extension (e.g. "/path/makefile.gcc" gives "Makefile").
 * LEXER_REREAD_LIB: Re-reads lexer library from disk, updates lexer menu. Make sure that plugins' dialogs don't use editor with lexer, which may crash.
@@ -3951,5 +3952,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.339 (app 1.105.3)
 * deleted: Editor.get_token: TOKEN_LIST_ALT
 * add: Editor.get_token: TOKEN_LIST* return additional keys "ki", "ks"
+* add: lexer_proc: LEXER_GET_STYLES returns additional key "tkind"
 
 [[Category:CudaText]]
