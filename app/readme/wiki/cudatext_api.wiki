@@ -1622,6 +1622,14 @@ Possible values of "id_action":
 ** "hotkey": String of hotkey (e.g. "Ctrl+Shift+A"). Hotkey combos are not allowed. It overrides hotkey, which is auto assigned from command code.
 ** "tag": Any string stored in menu item.
 
+* MENU_ADD_MANY: Adds list of sub-items to menu item. Returns list of str, where each item is menu_id for newly added sub-item. This action requires lists for params "caption", "command", "hotkey", "tag". Lengths of lists must be equal. Params:
+** "id_menu": Item in which you add sub-items.
+** "caption": List of captions. Use string "-" for menu separator.
+** "index": Ignored.
+** "command": List of commands. Possible item values are described above.
+** "hotkey": List of hotkeys. Hotkey combos are not allowed.
+** "tag": List of tags. Tag is any string stored in menu item.
+
 * MENU_REMOVE: Deletes menu item. Note: don't remove items, which are auto-updated by CudaText, because you'll get Access Violation on showing menu containing these items. E.g. some items in the tab context menu are auto-updated.
 * MENU_CREATE: Creates new popup-menu, independent from CudaText menus. It can be filled like other menus, then shown via MENU_SHOW.
 * MENU_SHOW: Shows given popup-menu. Only menu created with MENU_CREATE should be specified here. Param "command" must be tuple (x,y) or string "x,y" with screen-related coordinates, if empty - menu shows at mouse cursor.
@@ -3949,7 +3957,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: lexer_proc: LEXER_GET_PROP returns new "kinds" key
 * add: Editor.get_token: TOKEN_LIST_ALT
 
-1.0.338 (app 1.105.2)
+1.0.338 (app 1.105.3)
 * add: msg_box_ex: added param "focused" but it doesn't work on GTK2 (Linux/BSD) yet due to Lazarus issue
+* add: menu_proc: MENU_ADD_MANY
 
 [[Category:CudaText]]
