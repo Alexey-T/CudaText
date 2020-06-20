@@ -9,6 +9,7 @@
 + add: documentation: readme/tutorial/LexerIndentFolding.odt
 + add: for Python lexer, fold-blocks endings now exclude commented lines
 + add: on editing in Python, parser better updates fold-blocks started above caret (thanks @OlehL)
++ add: on first command entering in Console, app auto-runs "from cudatext import *" line, so you don't need to do it
 - fix: ui-tab dirty flag was not updated sometimes (thanks @dinkumoil @OlehL) 
 - fix: broken folding after running "move line up/down" many times fastly (thanks @OlehL)
 - fix: replace with confirmation: did not respect options "find_indent_*"
