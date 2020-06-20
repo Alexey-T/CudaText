@@ -6543,7 +6543,7 @@ end;
 function Py_GetTokenList(Adapter: TATAdapterEControl; ALineFrom, ALineTo: integer): PPyObject;
 var
   An: TecClientSyntAnalyzer;
-  Token: TecSyntToken;
+  Token: PecSyntToken;
   TokenStr, TokenStyle: string;
   TokenKind: TATTokenKind;
   NIndexFrom, NIndexTo, NCount: integer;
@@ -6572,10 +6572,10 @@ begin
       TokenStr:= Adapter.GetTokenString(Token);
       TokenKind:= atkOther;
 
-      if Assigned(Token.Style) then
+      if Assigned(Token^.Style) then
       begin
-        TokenStyle:= Token.Style.DisplayName;
-        TokenKind:= TATTokenKind(Token.Style.TokenKind);
+        TokenStyle:= Token^.Style.DisplayName;
+        TokenKind:= TATTokenKind(Token^.Style.TokenKind);
       end
       else
         TokenStyle:= '';
@@ -6587,15 +6587,15 @@ begin
           'style',
           PChar(TokenStyle),
           'x1',
-          Token.Range.PointStart.X,
+          Token^.Range.PointStart.X,
           'y1',
-          Token.Range.PointStart.Y,
+          Token^.Range.PointStart.Y,
           'x2',
-          Token.Range.PointEnd.X,
+          Token^.Range.PointEnd.X,
           'y2',
-          Token.Range.PointEnd.Y,
+          Token^.Range.PointEnd.Y,
           'ki',
-          Token.TokenType,
+          Token^.TokenType,
           'ks',
           PChar(cPyTokenKind[TokenKind])
           ));
