@@ -3454,11 +3454,11 @@ begin
 
         PROP_V_MODE:
           begin
-            if not Assigned(F) then exit(ReturnNone);
-            if F.IsBinary then
-              Result:= PyInt_FromLong(Ord(F.Binary.Mode))
+            if Assigned(F) and F.IsBinary then
+              Num1:= Ord(F.Binary.Mode)
             else
-              Result:= ReturnNone;
+              Num1:= VMODE_NONE;
+            Result:= PyInt_FromLong(Num1);
           end;
 
         PROP_V_POS:
@@ -3994,6 +3994,16 @@ begin
         PROP_V_MODE:
           begin
             if not Assigned(F) then exit(ReturnNone);
+            if ValueInt=VMODE_NONE then
+            begin
+              if F.IsBinary then
+              begin
+                Str:= F.FileName;
+                F.DoFileClose;
+                F.DoFileOpen(Str, '', false, true, true, cOpenModeEditor);
+              end;
+            end
+            else
             if (ValueInt>=0) and (ValueInt<=Ord(High(TATBinHexMode))) then
             begin
               if F.IsBinary then

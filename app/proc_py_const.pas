@@ -678,6 +678,8 @@ const
   INI_DELETE_KEY       = 2;
   INI_DELETE_SECTION   = 3;
 
+  VMODE_NONE        = 10;
+
 implementation
 
 end.
