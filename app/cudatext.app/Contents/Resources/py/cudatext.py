@@ -263,6 +263,8 @@ PROP_FONT                      = 122
 PROP_FONT_B                    = 123
 PROP_FONT_I                    = 124
 PROP_FONT_BI                   = 125
+PROP_V_WIDTH_HEX        = 140
+PROP_V_WIDTH_UHEX       = 141
 
 SPLITTER_SIDE    = 0
 SPLITTER_BOTTOM  = 1
@@ -750,6 +752,7 @@ VMODE_BINARY      = 1
 VMODE_HEX         = 2
 VMODE_UNICODE     = 3
 VMODE_UNICODE_HEX = 4
+VMODE_NONE        = 10
 
 STATUSBAR_GET_COUNT            = 0
 STATUSBAR_DELETE_ALL           = 1
