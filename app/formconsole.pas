@@ -44,6 +44,7 @@ type
     FAdapter: TATAdapterSimple;
     FOnNavigate: TAppConsoleEvent;
     FOnNumberChange: TNotifyEvent;
+    FCudatextImported: boolean;
     mnuTextClear: TMenuItem;
     mnuTextNav: TMenuItem;
     mnuTextWrap: TMenuItem;
@@ -204,6 +205,12 @@ begin
     end
     else
       bExpr:= IsPythonExpression(Str);
+
+    if not FCudatextImported then
+    begin
+      FCudatextImported:= true;
+      AppPython.Exec('from cudatext import *');
+    end;
 
     Obj:= AppPython.Eval(Str, not bExpr);
     //if 2nd param is True, this won't return PyObject
