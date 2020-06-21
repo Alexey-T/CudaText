@@ -3575,6 +3575,10 @@ begin
   begin
     FBin.OpenStream(nil);
     FreeAndNil(FBin);
+
+    if Assigned(FBinStream) then
+      FreeAndNil(FBinStream);
+
     Ed1.Show;
   end;
 
