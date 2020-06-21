@@ -744,9 +744,6 @@
   //Used for example for JavaScript inside PHP. Requires program restart.
   "ui_tree_sublexers": false,
 
-  //Maximal number of folding ranges in file, for which code-tree fill be filled
-  "ui_max_ranges_codetree": 9000,
-
   //[Text/NewDoc]
   //New tabs: Lexer name
   "newdoc_lexer": "",

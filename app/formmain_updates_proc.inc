@@ -949,11 +949,13 @@ begin
   end;
 
   NRanges:= Ada.AnClient.RangeCount;
+  {
   if (NRanges>UiOps.MaxRangesForCodeTree) then
   begin
     ClearTreeviewWithData(CodeTree.Tree);
     exit;
   end;
+  }
 
   while Ada.TreeBusy do
   begin
