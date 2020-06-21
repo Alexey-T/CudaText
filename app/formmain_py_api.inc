@@ -838,7 +838,8 @@ begin
           Result:= ReturnNone;
       end;
 
-      Ed.DoEventCarets;
+      if Ed.Carets.Count>0 then //don't fire when no carets, plugin will add caret
+        Ed.DoEventCarets;
     end
   else
     Result:= ReturnNone;
