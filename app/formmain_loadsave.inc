@@ -872,6 +872,8 @@ begin
   Op.OpLexerDynamicHiliteEnabled:= cfg.GetValue('lexer_dynamic_hilite', Op.OpLexerDynamicHiliteEnabled);
   Op.OpLexerDynamicHiliteMaxLines:= cfg.GetValue('lexer_dynamic_hilite_max_lines', Op.OpLexerDynamicHiliteMaxLines);
   Op.OpLexerLineSeparators:= false; //cfg.GetValue('lexer_line_separators', Op.OpLexerLineSeparators);
+  MaxLinesWhenParserEnablesFolding:= cfg.GetValue('lexer_folding_max_lines', MaxLinesWhenParserEnablesFolding);
+
   Op.OpZebra:= cfg.GetValue('zebra', Op.OpZebra);
   Op.OpZebraStep:= cfg.GetValue('zebra_step', Op.OpZebraStep);
 
