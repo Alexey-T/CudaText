@@ -2022,7 +2022,7 @@ procedure TEditorFrame.DoDeactivateViewerMode;
 begin
   if Assigned(FBin) then
   begin
-    FBin.OpenStream(nil);
+    FBin.OpenStream(nil, false);
     FreeAndNil(FBin);
 
     if Assigned(FBinStream) then
@@ -3577,23 +3577,10 @@ begin
   UpdateCaptionFromFilename;
 
   //clear viewer
-  if Assigned(FBin) then
-  begin
-    FBin.OpenStream(nil, false);
-    FreeAndNil(FBin);
-
-    if Assigned(FBinStream) then
-      FreeAndNil(FBinStream);
-
-    Ed1.Show;
-  end;
+  DoDeactivateViewerMode;
 
   //clear picture
-  if Assigned(FImageBox) then
-  begin
-    FreeAndNil(FImageBox);
-    Ed1.Show;
-  end;
+  DoDeactivatePictureMode;
 
   //clear editors
   EditorClear(Ed1);
