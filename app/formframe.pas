@@ -3563,6 +3563,7 @@ end;
 
 procedure TEditorFrame.DoFileClose;
 begin
+  //clear adapters
   Lexer[Ed1]:= nil;
   if not EditorsLinked then
     Lexer[Ed2]:= nil;
@@ -3571,9 +3572,10 @@ begin
   FFileName2:= '';
   UpdateCaptionFromFilename;
 
+  //clear viewer
   if Assigned(FBin) then
   begin
-    FBin.OpenStream(nil);
+    FBin.OpenStream(nil, false);
     FreeAndNil(FBin);
 
     if Assigned(FBinStream) then
@@ -3582,6 +3584,14 @@ begin
     Ed1.Show;
   end;
 
+  //clear picture
+  if Assigned(FImageBox) then
+  begin
+    FreeAndNil(FImageBox);
+    Ed1.Show;
+  end;
+
+  //clear editors
   EditorClear(Ed1);
   if not EditorsLinked then
     EditorClear(Ed2);
