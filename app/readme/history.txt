@@ -5,7 +5,7 @@
 
 1.105.5 (2020/06)
 
-+ add: option "lexer_folding_max_lines" - when document has too many lines, parser totally disables fold-ranges, which gives much faster parsing
++ add: option "lexer_folding_max_lines" - when document has too many lines, parser doesn't find fold-blocks
 + add: reworked parser code which handles indentation-based folding (e.g. in Python); reworked lexer Python for this; all lexers in add-ons which use indentation-based folding will be reworked soon
 + add: documentation: readme/tutorial/LexerIndentFolding.odt
 + add: for Python lexer, fold-blocks endings now exclude commented lines
