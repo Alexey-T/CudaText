@@ -1282,7 +1282,7 @@ begin
   fn:= AppFile_OptionsUser;
   if not FileExistsUTF8(fn) then
   begin
-    FCreateFile(fn, true);
+    FCreateFileJSON(fn);
     if not FileExistsUTF8(fn) then exit;
   end;
 

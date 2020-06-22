@@ -5265,7 +5265,7 @@ begin
   fn:= AppFile_OptionsUser;
   if not FileExistsUTF8(fn) then
   begin
-    FCreateFile(fn, true);
+    FCreateFileJSON(fn);
     if not FileExistsUTF8(fn) then Exit;
   end;
 
@@ -5282,7 +5282,7 @@ begin
 
   if not FileExistsUTF8(NameUser) then
   begin
-    FCreateFile(NameUser, true);
+    FCreateFileJSON(NameUser);
     if not FileExistsUTF8(NameUser) then exit;
   end;
 
@@ -5311,7 +5311,7 @@ begin
 
   if not FileExistsUTF8(fn) then
   begin
-    FCreateFile(fn, true);
+    FCreateFileJSON(fn);
     if not FileExistsUTF8(fn) then exit;
   end;
 

@@ -17,7 +17,9 @@ uses
   ATStrings,
   CopyDir;
 
-function FCreateFile(const fn: string; AsJson: boolean = false): boolean;
+function FCreateFile(const fn: string): boolean;
+function FCreateFileJSON(const fn: string): boolean;
+
 procedure FCopyDir(const d1, d2: string);
 
 function IsFileContentText(const fn: string;
@@ -32,22 +34,15 @@ procedure FFileAttrRestore(const fn: string; attr: Longint);
 
 implementation
 
-function FCreateFile(const fn: string; AsJson: boolean): boolean;
+function FCreateFile(const fn: string): boolean;
 var
   L: TStringList;
 begin
-  Result:= true;
   L:= TStringList.Create;
   try
-    if AsJson then
-    begin
-      L.Add('{');
-      L.Add('');
-      L.Add('}');
-    end;
-
     try
       L.SaveToFile(fn);
+      Result:= true;
     except
       Result:= false;
     end;
@@ -55,6 +50,28 @@ begin
     FreeAndNil(L);
   end;
 end;
+
+function FCreateFileJSON(const fn: string): boolean;
+var
+  L: TStringList;
+begin
+  L:= TStringList.Create;
+  try
+    L.Add('{');
+    L.Add('');
+    L.Add('}');
+
+    try
+      L.SaveToFile(fn);
+      Result:= true;
+    except
+      Result:= false;
+    end;
+  finally
+    FreeAndNil(L);
+  end;
+end;
+
 
 type
   TFreqTable = array[$80 .. $FF] of Integer;
