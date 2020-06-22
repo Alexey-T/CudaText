@@ -39,7 +39,6 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <Libraries Value="\home\user\fpcupdeluxe\fpcupdeluxe\cross\lib\i386-linux\"/>
             <OtherUnitFiles Value="..\comp"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
@@ -69,6 +68,7 @@
           </Linking>
           <Other>
             <CustomOptions Value="-dcomplete_at_scroll"/>
+            <CompilerPath Value="\home\user\fpcupdeluxe_alt\fpcupdeluxe\fpc\bin\x86_64-linux\fpc.sh"/>
           </Other>
         </CompilerOptions>
       </Item2>
