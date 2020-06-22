@@ -135,9 +135,9 @@ begin
         if not ((Plugin.ItemLexers='') or IsLexerListed(SCurLexer, Plugin.ItemLexers)) then Continue;
 
         //check that OnKey event is called for supported keys
-        if KeyForFilter<>'' then
-          if (Plugin.ItemKeys<>'') and not IsLexerListed(KeyForFilter, Plugin.ItemKeys) then
-            Continue;
+        //don't allow empty KeyForFilter, it is empty for on_open_pre for filename w/o extension
+        if (Plugin.ItemKeys<>'') and not IsLexerListed(KeyForFilter, Plugin.ItemKeys) then
+          Continue;
 
         //call Python
         if bNeedGroup then
