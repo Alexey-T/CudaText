@@ -1941,6 +1941,7 @@ begin
   else
   begin
     FBin:= TATBinHex.Create(Self);
+    FBin.Hide; //reduce flicker with initial size
     FBin.OnKeyDown:= @BinaryOnKeyDown;
     FBin.OnScroll:= @BinaryOnScroll;
     FBin.OnOptionsChange:= @BinaryOnScroll;
@@ -1954,6 +1955,7 @@ begin
     FBin.TextPopupCaption[vpCmdCopy]:= cStrMenuitemCopy;
     FBin.TextPopupCaption[vpCmdCopyHex]:= cStrMenuitemCopy+' (hex)';
     FBin.TextPopupCaption[vpCmdSelectAll]:= cStrMenuitemSelectAll;
+    FBin.Show;
   end;
 
   if Assigned(FBinStream) then
