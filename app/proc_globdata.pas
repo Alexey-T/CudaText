@@ -1739,7 +1739,8 @@ begin
       exit;
     end;
 
-    c.DeletePath(path);
+    if c.GetValue(path+'/name', '')<>'' then
+      c.DeletePath(path);
   finally
     c.Free;
   end;
