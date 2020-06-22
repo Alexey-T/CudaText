@@ -276,7 +276,7 @@ const
       'Lazarus IDE:'+EOL+
       '  http://www.lazarus-ide.org'+EOL+
       ''+EOL+
-      'ATSynEdit, ATTabs, ATFlatControls, Python wrapper:'+EOL+
+      'ATSynEdit, ATTabs, ATFlatControls:'+EOL+
       '  Alexey Torgashin'+EOL+
       '  https://github.com/Alexey-T/'+EOL+
       ''+EOL+
@@ -297,6 +297,13 @@ const
       'Patches, Windows shell extension, plugins:'+EOL+
       '  Andreas Heim'+EOL+
       '  https://github.com/dinkumoil/'+EOL+
+      ''+EOL+
+      'Python for Delphi:'+EOL+
+      '  Dietmar Budelsky, Morgan Martinet, Kiriakos Vlahos'+EOL+
+      '  https://github.com/pyscripter/python4delphi'+EOL+
+      'Python for Lazarus:'+EOL+
+      '  Alexey Torgashin'+EOL+
+      '  https://github.com/Alexey-T/'+EOL+
       ''+EOL+
       '------------------------------'+EOL+
       ''+EOL+
