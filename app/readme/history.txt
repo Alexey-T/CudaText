@@ -5,6 +5,7 @@
 
 1.105.6 (2020/06)
 
+- fix: hotkeys with Num-keys did not work (thanks @tmsg)
 - fix: regression with option "nonword_chars" (thanks @hamasaki)
 
 1.105.5 (2020/06)
