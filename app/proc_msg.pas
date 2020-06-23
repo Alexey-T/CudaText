@@ -55,6 +55,9 @@ const
   msgDialogTitleSaveAs: string = 'Save file as';
   msgDialogTitleSelFolder: string = 'Select folder';
 
+  msgLinkOpenSite: string = 'Open link';
+  msgLinkOpenEmail: string = 'Send e-mail';
+
   msgTooltipClearFilter: string = 'Clear filter';
   msgTooltipCloseTab: string = 'Close tab';
   msgTooltipAddTab: string = 'Add tab';

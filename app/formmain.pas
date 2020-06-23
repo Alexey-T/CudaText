@@ -7141,12 +7141,19 @@ begin
   begin
     FCfmPanel:= TPanel.Create(Self);
     FCfmPanel.Hide;
+    FCfmPanel.BevelInner:= bvNone;
+    FCfmPanel.BevelOuter:= bvNone;
     FCfmPanel.Caption:= '??';
     FCfmPanel.Width:= cPanelW;
     FCfmPanel.Height:= cPanelH;
     FCfmPanel.OnClick:= @ConfirmButtonOkClick;
     FCfmPanel.OnMouseLeave:= @ConfirmPanelMouseLeave;
   end;
+
+  FCfmPanel.Color:= GetAppColor(apclButtonBgOver);
+  FCfmPanel.Font.Name:= UiOps.VarFontName;
+  FCfmPanel.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+  FCfmPanel.Font.Color:= GetAppColor(apclButtonFont);
 end;
 
 procedure TfmMain.ConfirmButtonOkClick(Sender: TObject);
@@ -7173,9 +7180,9 @@ begin
   FCfmPanel.Parent:= CurForm;
 
   if EditorLinkIsEmail(ALink) then
-    FCfmPanel.Caption:= '[send e-mail]'
+    FCfmPanel.Caption:= '['+msgLinkOpenEmail+']'
   else
-    FCfmPanel.Caption:= '[open link]';
+    FCfmPanel.Caption:= '['+msgLinkOpenSite+']';
 
   P:= Mouse.CursorPos;
   P:= CurForm.ScreenToClient(P);
