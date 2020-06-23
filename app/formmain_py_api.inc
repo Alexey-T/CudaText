@@ -7192,7 +7192,7 @@ begin
       case IdAction of
         EDACTION_UPDATE:
           begin
-            Ed.Update;
+            Ed.Update(AppStrToBool(StrText1));
             Result:= ReturnNone;
           end;
 

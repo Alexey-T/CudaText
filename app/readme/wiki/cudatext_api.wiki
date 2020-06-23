@@ -2744,6 +2744,7 @@ Possible values of "id":
 Performs some action in editor. Possible values of "id":
 
 * EDACTION_UPDATE: Repaint editor.
+** "param1": Can be empty or "1"; if "1", also WrapInfo internal structure will be updated. That is needed after text changes, if program did not detect the changes from API, in this case simple repaint will be incorrect.
 
 * EDACTION_FIND_ONE: Perform text search, get match as 4-tuple of int (start_x, start_y, end_x, end_y) or None if not found. This uses finder independent from CudaText Find/Replace dialog, you must configure this finder via options string.
 ** "param1": Search string.
@@ -3964,5 +3965,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.get_prop/set_prop: PROP_V_WIDTH_HEX, PROP_V_WIDTH_UHEX
 * add: Editor.set_prop: setting PROP_V_MODE for usual editor switches editor to viewer, with given mode
 * add: Editor.get_prop/set_prop: can switch from viewer to editor using new value VMODE_NONE 
+
+1.0.341 (app 1.150.6)
+* add: Editor.action: EDACTION_UPDATE handles "param1"
 
 [[Category:CudaText]]
