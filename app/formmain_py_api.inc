@@ -7083,11 +7083,14 @@ begin
           Finder.MatchEdPos.Y,
           Finder.MatchEdEnd.X,
           Finder.MatchEdEnd.Y);
-        if AUpdateCaret or bChange then
+        if bChange then
         begin
           Ed.Update(true);
-          Ed.DoEventChange();
-        end;
+          Ed.DoEventChange;
+        end
+        else
+        if AUpdateCaret then
+          Ed.Update;
       end
       else
         Result:= ReturnNone;
