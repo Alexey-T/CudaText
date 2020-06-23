@@ -264,10 +264,10 @@ type
 
     EscapeClose: boolean;
     EscapeCloseConsole: boolean;
-    //ConsoleCompact: boolean;
     ConsoleWordWrap: boolean;
     InputHeight: integer;
     InitialDir: string;
+    ConfirmLinksClicks: boolean;
 
     ExportHtmlNumbers: boolean;
     ExportHtmlFontName: string;
@@ -1418,10 +1418,10 @@ begin
 
     EscapeClose:= false;
     EscapeCloseConsole:= true;
-    //ConsoleCompact:= false;
     ConsoleWordWrap:= true;
     InputHeight:= 26;
     InitialDir:= '';
+    ConfirmLinksClicks:= true;
 
     ExportHtmlNumbers:= false;
     ExportHtmlFontSize:= 12;

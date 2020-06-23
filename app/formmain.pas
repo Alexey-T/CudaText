@@ -7173,6 +7173,12 @@ var
   P: TPoint;
   CurForm: TCustomForm;
 begin
+  if not UiOps.ConfirmLinksClicks then
+  begin
+    EditorOpenLink(ALink);
+    exit;
+  end;
+
   FCfmLink:= ALink;
   InitConfirmPanel;
 
