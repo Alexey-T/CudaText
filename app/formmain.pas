@@ -7135,7 +7135,7 @@ end;
 procedure TfmMain.InitConfirmPanel;
 const
   cW = 10; //in avg chars
-  cH = 2; //in avg chars
+  cH = 2.5; //in avg chars
 begin
   if FCfmPanel=nil then
   begin
@@ -7153,8 +7153,8 @@ begin
   FCfmPanel.Font.Size:= AppScaleFont(UiOps.VarFontSize);
   FCfmPanel.Font.Color:= GetAppColor(apclButtonFont);
 
-  FCfmPanel.Width:= AppScaleFont(UiOps.VarFontSize)*cW;
-  FCfmPanel.Height:= AppScaleFont(UiOps.VarFontSize)*cH;
+  //FCfmPanel.Width:= AppScaleFont(UiOps.VarFontSize)*cW;
+  FCfmPanel.Height:= Trunc(AppScaleFont(UiOps.VarFontSize)*cH);
 end;
 
 procedure TfmMain.ConfirmButtonOkClick(Sender: TObject);
