@@ -2744,7 +2744,7 @@ Possible values of "id":
 Performs some action in editor. Possible values of "id":
 
 * EDACTION_UPDATE: Repaint editor.
-** "param1": Can be empty or "1"; if "1", also WrapInfo internal structure will be updated. That is needed after text changes, if program did not detect the changes from API, in this case simple repaint will be incorrect.
+** "param1": Can be empty or "0" or "1". If "1", WrapInfo internal structure will be updated. WrapInfo update is needed after text changes, if program did not detect that changes automatically (in this case simple repaint will be incorrect).
 
 * EDACTION_FIND_ONE: Perform text search, get match as 4-tuple of int (start_x, start_y, end_x, end_y) or None if not found. This uses finder independent from CudaText Find/Replace dialog, you must configure this finder via options string.
 ** "param1": Search string.
