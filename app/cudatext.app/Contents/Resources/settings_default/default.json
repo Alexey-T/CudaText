@@ -110,6 +110,9 @@
   //Allow to run only one instance of CudaText
   "ui_one_instance": false,
 
+  //On clicking hyperlinks, show additional confirmation button, over clicked position
+  "ui_links_confirm": true,
+
   //[File/Notifications]
   //Enable notifications about file change in external programs
   //(changing to "true" requires app restart)
