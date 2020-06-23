@@ -6,6 +6,7 @@
 1.105.6 (2020/06)
 
 - fix: mouse click on selected block did not place caret on clicked pos (thanks @hycmos)
+- fix: plugin Session Manager was inited for filenames w/o extension
 - fix: hotkeys with Num-keys did not work (thanks @tmsg)
 - fix: regression with option "nonword_chars" (thanks @hamasaki)
 
