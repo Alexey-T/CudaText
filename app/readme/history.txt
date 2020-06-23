@@ -5,6 +5,7 @@
 
 1.105.6 (2020/06)
 
++ add: on opening URL (by click or dbl-click), app shows addditional confirmation button over URL
 + add: support combo-hotkeys with simple letter in 2nd/3rd part, e.g. Ctrl+Q H (thanks @tmsg) 
 - fix: mouse click on selected block did not place caret on clicked pos (thanks @hycmos)
 - fix: plugin Session Manager was inited for filenames w/o extension
