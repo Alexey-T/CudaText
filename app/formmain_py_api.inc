@@ -7084,7 +7084,10 @@ begin
           Finder.MatchEdEnd.X,
           Finder.MatchEdEnd.Y);
         if AUpdateCaret or bChange then
-          Ed.Update;
+        begin
+          Ed.Update(true);
+          Ed.DoEventChange();
+        end;
       end
       else
         Result:= ReturnNone;
@@ -7110,7 +7113,7 @@ begin
     begin
       NCount:= Finder.DoAction_ReplaceAll;
       if NCount>0 then
-        Ed.Update;
+        Ed.Update(true);
       Result:= PyInt_FromLong(NCount);
     end;
   finally
