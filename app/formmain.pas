@@ -7144,8 +7144,6 @@ begin
     FCfmPanel.BevelInner:= bvNone;
     FCfmPanel.BevelOuter:= bvNone;
     FCfmPanel.Caption:= '??';
-    FCfmPanel.Width:= cPanelW;
-    FCfmPanel.Height:= cPanelH;
     FCfmPanel.OnClick:= @ConfirmButtonOkClick;
     FCfmPanel.OnMouseLeave:= @ConfirmPanelMouseLeave;
   end;
@@ -7154,6 +7152,9 @@ begin
   FCfmPanel.Font.Name:= UiOps.VarFontName;
   FCfmPanel.Font.Size:= AppScaleFont(UiOps.VarFontSize);
   FCfmPanel.Font.Color:= GetAppColor(apclButtonFont);
+
+  FCfmPanel.Width:= AppScaleFont(cPanelW);
+  FCfmPanel.Height:= AppScaleFont(cPanelH);
 end;
 
 procedure TfmMain.ConfirmButtonOkClick(Sender: TObject);
