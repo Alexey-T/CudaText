@@ -474,6 +474,9 @@ begin
     DoLocString(cHtmlAutocompleteAttrib, ini, 'ui', 'html_atr');
     DoLocString(cHtmlAutocompleteValue, ini, 'ui', 'html_val');
 
+    DoLocString(msgLinkOpenSite, ini, 'ui', 'lnk_a');
+    DoLocString(msgLinkOpenEmail, ini, 'ui', 'lnk_e');
+
     DoLocMenuitem(mnuTextUndo, cStrMenuitemUndo);
     DoLocMenuitem(mnuTextRedo, cStrMenuitemRedo);
     DoLocMenuitem(mnuTextCut, cStrMenuitemCut);
