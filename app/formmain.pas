@@ -648,6 +648,8 @@ type
     FCodetreeDblClicking: boolean;
     FCodetreeModifiedVersion: integer;
     FCodetreeNeedsSelJump: boolean;
+    FCfmPanel: TPanel;
+    FCfmLink: string;
     FMenuVisible: boolean;
     FNewClickedEditor: TATSynEdit;
     FPyComplete_Editor: TATSynEdit;
@@ -673,6 +675,9 @@ type
     FOption_GroupPanelSize: TPoint;
     FOption_SidebarTab: string;
 
+    procedure ConfirmButtonOkClick(Sender: TObject);
+    procedure ConfirmPanelMouseLeave(Sender: TObject);
+    procedure FrameConfirmLink(Sender: TObject; const ALink: string);
     procedure FormEnter(Sender: TObject);
     procedure GetParamsForUniqueInstance(out AParams: TAppStringArray);
     procedure PythonEngineAfterInit(Sender: TObject);
@@ -1011,6 +1016,7 @@ type
     procedure DoApplyInitialGroupSizes;
     procedure DoApplyInitialSidebarPanel;
     procedure DoApplyInitialWindowPos;
+    procedure InitConfirmPanel;
     procedure InitPyEngine;
     procedure FrameOnChangeCaption(Sender: TObject);
     procedure FrameOnUpdateStatus(Sender: TObject);
@@ -7124,6 +7130,58 @@ begin
     LexersDetected:= TStringList.Create;
   LexersDetected.Assign(Lexers);
   Result:= 0;
+end;
+
+procedure TfmMain.InitConfirmPanel;
+const
+  cPanelW = 100;
+  cPanelH = 35;
+begin
+  if FCfmPanel=nil then
+  begin
+    FCfmPanel:= TPanel.Create(Self);
+    FCfmPanel.Hide;
+    FCfmPanel.Caption:= '??';
+    FCfmPanel.Width:= cPanelW;
+    FCfmPanel.Height:= cPanelH;
+    FCfmPanel.OnClick:= @ConfirmButtonOkClick;
+    FCfmPanel.OnMouseLeave:= @ConfirmPanelMouseLeave;
+  end;
+end;
+
+procedure TfmMain.ConfirmButtonOkClick(Sender: TObject);
+begin
+  FCfmPanel.Hide;
+  EditorOpenLink(FCfmLink);
+end;
+
+procedure TfmMain.ConfirmPanelMouseLeave(Sender: TObject);
+begin
+  FCfmPanel.Hide;
+end;
+
+procedure TfmMain.FrameConfirmLink(Sender: TObject; const ALink: string);
+var
+  P: TPoint;
+  CurForm: TCustomForm;
+begin
+  FCfmLink:= ALink;
+  InitConfirmPanel;
+
+  CurForm:= GetParentForm(Sender as TControl);
+  FCfmPanel.Hide;
+  FCfmPanel.Parent:= CurForm;
+
+  if EditorLinkIsEmail(ALink) then
+    FCfmPanel.Caption:= '[send e-mail]'
+  else
+    FCfmPanel.Caption:= '[open link]';
+
+  P:= Mouse.CursorPos;
+  P:= CurForm.ScreenToClient(P);
+  FCfmPanel.Left:= P.X - FCfmPanel.Width div 2;
+  FCfmPanel.Top:= P.Y - FCfmPanel.Height div 2;
+  FCfmPanel.Show;
 end;
 
 //----------------------------

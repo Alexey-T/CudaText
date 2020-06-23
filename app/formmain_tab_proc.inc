@@ -22,6 +22,7 @@ begin
   F.OnProgress:= @FinderOnProgress;
   F.OnInitAdapter:= @FrameOnInitAdapter;
   F.OnLexerChange:= @FrameLexerChange;
+  F.OnAppClickLink:= @FrameConfirmLink;
 
   F.Groups:= Groups;
   F.LexerChooseFunc:= @DoDialogMenuLexerChoose;

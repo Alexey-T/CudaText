@@ -150,6 +150,7 @@ type
     FBracketSymbols: string;
     FBracketMaxDistance: integer;
     FOnGetSaveDialog: TFrameGetSaveDialog;
+    FOnAppClickLink: TATSynEditClickLinkEvent;
 
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BinaryOnScroll(Sender: TObject);
@@ -395,6 +396,7 @@ type
     property OnPyEvent: TEditorFramePyEvent read FOnPyEvent write FOnPyEvent;
     property OnInitAdapter: TNotifyEvent read FOnInitAdapter write FOnInitAdapter;
     property OnLexerChange: TATEditorEvent read FOnLexerChange write FOnLexerChange;
+    property OnAppClickLink: TATSynEditClickLinkEvent read FOnAppClickLink write FOnAppClickLink;
   end;
 
 procedure GetFrameLocation(Frame: TEditorFrame;
@@ -1490,7 +1492,8 @@ begin
   Res:= DoPyEvent(Sender as TATSynEdit, cEventOnClickLink, Params);
   bHandled:= Res.Val=evrFalse;
   if not bHandled then
-    EditorOpenLink(ALink);
+    if Assigned(FOnAppClickLink) then
+      FOnAppClickLink(Sender, ALink);
 end;
 
 procedure TEditorFrame.EditorOnClickMicroMap(Sender: TObject; AX, AY: integer);
