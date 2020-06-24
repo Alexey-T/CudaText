@@ -382,7 +382,7 @@
   "minimap_sel_border": true,
 
   //Minimap: Width
-  //  value=0: autosize
+  //  value=0: auto-size
   //  value>0: fixed width in chars
   "minimap_char_width": 0,
 
@@ -399,20 +399,20 @@
   "minimap_tooltip_width": 60,
 
   //[View/Micromap]
-  //Micromap: show (small vertical bar at the right edge)
+  //Micromap (small vertical bar at the right side, showing "line states"): show it 
   "micromap_show": false,
 
   //[Text]
-  //Fixed margin (vertical line) column.
-  //Line is always shown, to hide: set to big value, e.g. 2000.
+  //Position of vertical line, "margin".
+  //It is always painted, set some big value (e.g. 2000) to hide it.
   "margin": 2000,
 
   //Additional vertical lines.
-  //List of column positions, space-separated, e.g. "20 40 50".
+  //List of column positions, space-separated, e.g. "60 80 100".
   "margin_string": "",
 
   //[View/Unprinted]
-  //Unprinted symbols: Global enabled flag for other unprinted_ options
+  //Unprinted symbols: Global enabling flag for other unprinted_ options.
   "unprinted_show": false,
 
   //Unprinted symbols: What info to show for unprinted symbols. Option is string.
