@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+
++ add: better detection of word-boundary in search (normal search, not RegEx), now it should be like in VSCode and others
+
 1.105.7 (2020/06)
 
 + add: on clicking hyperlinks, app shows additional confirmation button; this is controlled by new option "ui_links_confirm"
