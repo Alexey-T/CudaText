@@ -3065,6 +3065,7 @@ var
 begin
   Form:= TfmAbout.Create(Self);
   try
+    Form.EditorOnClickLink:= @FrameConfirmLink;
     Form.labelVersion.Caption:= cAppExeVersion;
     Form.ShowModal;
   finally

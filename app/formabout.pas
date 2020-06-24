@@ -48,9 +48,9 @@ type
   private
     { private declarations }
     procedure Localize;
-    procedure EditorOnClickLink(Sender: TObject; const ALink: string);
   public
     { public declarations }
+    EditorOnClickLink: TATSynEditClickLinkEvent;
     FLabelLink: TATLabelLink;
     FCredits: string;
   end;
@@ -86,11 +86,6 @@ begin
   end;
 end;
 
-procedure TfmAbout.EditorOnClickLink(Sender: TObject; const ALink: string);
-begin
-  EditorOpenLink(ALink);
-end;
-
 procedure TfmAbout.bOkClick(Sender: TObject);
 begin
   ModalResult:= mrCancel;
@@ -104,7 +99,6 @@ begin
   memo.Font.Name:= EditorOps.OpFontName;
   memo.Font.Size:= EditorOps.OpFontSize;
   memo.PopupText:= PopupText;
-  memo.OnClickLink:= @EditorOnClickLink;
   memo.OptMouseClickOpensURL:= true;
 
   FLabelLink:= TATLabelLink.Create(Self);
@@ -147,6 +141,7 @@ begin
   memo.DoCaretSingle(0, 0);
   memo.ModeReadOnly:= true;
   memo.Font.Name:= EditorOps.OpFontName;
+  memo.OnClickLink:= EditorOnClickLink;
 end;
 
 procedure TfmAbout.mnuTextCopyClick(Sender: TObject);
