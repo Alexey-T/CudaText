@@ -513,7 +513,7 @@ object SyntAnal7: TLibSyntAnalyzer
           TokenTypes = 1024
         end>
       BlockEnd = 'Simple tag block end'
-      NameFmt = '%s0'
+      NameFmt = '<%s0>'
       HighlightPos = cpBound
       DynSelectMin = True
       CollapseFmt = '%s0'
