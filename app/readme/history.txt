@@ -3,8 +3,10 @@
   - fixed
   * changed
 
+1.105.8
 
-+ add: better detection of word-boundary in search (normal search, not RegEx), now it should be like in VSCode and others
++ add: better "links_regex" value
++ add: better detection of word-boundary in search (normal search, not RegEx), to be like in VSCode and others
 
 1.105.7 (2020/06)
 
