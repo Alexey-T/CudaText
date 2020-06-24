@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.105.6 (2020/06)
+1.105.7 (2020/06)
 
 + add: on clicking hyperlinks, app shows additional confirmation button; this is controlled by new option "ui_links_confirm"
 + add: support combo-hotkeys with simple letter in 2nd/3rd part, e.g. Ctrl+Q H (thanks @tmsg)
