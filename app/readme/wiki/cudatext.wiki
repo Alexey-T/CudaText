@@ -39,11 +39,13 @@ Screenshot on Windows:
 * Markers in editor
 * Sessions system
 * Virtual caret position (after end of line)
+* Better support for encodings, including UTF-32
+* Correctly saves binary files
+* Viewer for files of unlimited size (including Hex mode)
 * Perfomance, see [[#Program_perfomance]]
 * Options Editor plugin
 * Can plug-in different Python engine
 * Character Map dialog
-* Better support for encodings, including UTF-32
 
 = Download =
 
