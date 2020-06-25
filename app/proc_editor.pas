@@ -538,6 +538,7 @@ begin
   Ed.Colors.RulerBG:= GetAppColor(apclEdRulerBg);
 
   Ed.Colors.GutterFoldLine:= GetAppColor(apclEdFoldLine);
+  Ed.Colors.GutterFoldLine2:= GetAppColor(apclEdFoldLine2);
   Ed.Colors.GutterFoldBG:= GetAppColor(apclEdFoldBg);
 
   Ed.Colors.MarginRight:= GetAppColor(apclEdMarginFixed);
