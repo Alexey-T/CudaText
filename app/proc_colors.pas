@@ -66,8 +66,6 @@ type
     apclEdRulerBg,
     apclEdFoldLine,
     apclEdFoldBg,
-    apclEdFoldPlusLine,
-    apclEdFoldPlusBg,
     apclEdMarginFixed,
     apclEdMarginCaret,
     apclEdMarginUser,
@@ -365,8 +363,6 @@ begin
   SetColor(apclEdRulerBg, nColorBack, 'EdRulerBg', 'editor, ruler BG');
   SetColor(apclEdFoldLine, nColorGutterFont, 'EdFoldLine', 'editor, gutter folding, lines');
   SetColor(apclEdFoldBg, nColorGutterBack, 'EdFoldBg', 'editor, gutter folding, BG');
-  SetColor(apclEdFoldPlusLine, nColorGutterFont, 'EdFoldPlusLine', 'editor, gutter folding, "plus" border');
-  SetColor(apclEdFoldPlusBg, nColorGutterBack, 'EdFoldPlusBg', 'editor, gutter folding, "plus" BG');
   SetColor(apclEdMarginFixed, clLtGray, 'EdMarginFixed', 'editor, margin, fixed position');
   SetColor(apclEdMarginCaret, $b0c0c0, 'EdMarginCaret', 'editor, margins, for carets');
   SetColor(apclEdMarginUser, $b0c0c0, 'EdMarginUser', 'editor, margins, user defined');

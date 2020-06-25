@@ -539,8 +539,6 @@ begin
 
   Ed.Colors.GutterFoldLine:= GetAppColor(apclEdFoldLine);
   Ed.Colors.GutterFoldBG:= GetAppColor(apclEdFoldBg);
-  Ed.Colors.GutterPlusBorder:= GetAppColor(apclEdFoldPlusLine);
-  Ed.Colors.GutterPlusBG:= GetAppColor(apclEdFoldPlusBg);
 
   Ed.Colors.MarginRight:= GetAppColor(apclEdMarginFixed);
   Ed.Colors.MarginCaret:= GetAppColor(apclEdMarginCaret);
@@ -596,8 +594,6 @@ begin
   if Id='EdRulerBg' then Ed.Colors.RulerBG:= AColor else
   if Id='EdFoldLine' then Ed.Colors.GutterFoldLine:= AColor else
   if Id='EdFoldBg' then Ed.Colors.GutterFoldBG:= AColor else
-  if Id='EdFoldPlusLine' then Ed.Colors.GutterPlusBorder:= AColor else
-  if Id='EdFoldPlusBg' then Ed.Colors.GutterPlusBG:= AColor else
   if Id='EdMarginFixed' then Ed.Colors.MarginRight:= AColor else
   if Id='EdMarginCaret' then Ed.Colors.MarginCaret:= AColor else
   if Id='EdMarginUser' then Ed.Colors.MarginUser:= AColor else
@@ -651,8 +647,6 @@ begin
   if Id='EdRulerBg' then exit(Ed.Colors.RulerBG);
   if Id='EdFoldLine' then exit(Ed.Colors.GutterFoldLine);
   if Id='EdFoldBg' then exit(Ed.Colors.GutterFoldBG);
-  if Id='EdFoldPlusLine' then exit(Ed.Colors.GutterPlusBorder);
-  if Id='EdFoldPlusBg' then exit(Ed.Colors.GutterPlusBG);
   if Id='EdMarginFixed' then exit(Ed.Colors.MarginRight);
   if Id='EdMarginCaret' then exit(Ed.Colors.MarginCaret);
   if Id='EdMarginUser' then exit(Ed.Colors.MarginUser);
