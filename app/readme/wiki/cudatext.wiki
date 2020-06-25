@@ -26,9 +26,24 @@ Screenshot on Windows:
 
 [[File:cudatext.png]]
 
-Screenshot on macOS Sierra:
+=Advantages over Sublime Text 3=
 
-[[File:CudaText macOS Sierra.png]]
+* Open source, more OS'es
+* Python API is easier to use
+* Python API allows to manage UI-controls, including CudaText editor control
+* Code-Tree for lot of lexers (ST has plugin for very limited set of languages)
+* Floating groups (3 groups of ui-tabs in floating windows)
+* Toolbar (configurable via plugin)
+* Powerful lexer format (easier to create+configure lexers for complex things)
+* Horizontal ruler above text
+* Markers in editor
+* Sessions system
+* Virtual caret position (after end of line)
+* Perfomance, see [[#Program_perfomance]]
+* Options Editor plugin
+* Can plug-in different Python engine
+* Character Map dialog
+* Better support for encodings, including UTF-32
 
 = Download =
 
