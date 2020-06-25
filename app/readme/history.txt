@@ -3,10 +3,11 @@
   - fixed
   * changed
 
-1.105.8
+1.105.8 (2020/06)
 
++ add: better detection of word-boundary in search (not RegEx), to be like in VSCode and others
 + add: better "links_regex" value
-+ add: better detection of word-boundary in search (normal search, not RegEx), to be like in VSCode and others
+- fix: regression in folding in HTML/XML lexers
 
 1.105.7 (2020/06)
 
