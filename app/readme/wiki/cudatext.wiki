@@ -30,9 +30,9 @@ Screenshot on Windows:
 
 * Open source, more OS'es
 * Python API is easier to use
-* Python API allows to manage UI-controls, including CudaText editor control
+* Python API allows to manage dialogs and UI-controls, including CudaText editor control
 * Code-Tree for lot of lexers (ST has plugin for very limited set of languages)
-* Floating groups (3 groups of ui-tabs in floating windows)
+* Floating groups (3 groups of UI-tabs in floating windows)
 * Toolbar (configurable via plugin)
 * Powerful lexer format (easier to create+configure lexers for complex things)
 * Horizontal ruler above text
@@ -41,8 +41,9 @@ Screenshot on Windows:
 * Virtual caret position (after end of line)
 * Better support for encodings, including UTF-32
 * Correctly saves binary files
-* Viewer for files of unlimited size (including Hex mode)
+* Viewer for files of unlimited size (including hex mode)
 * Perfomance, see [[#Program_perfomance]]
+* Coloring of UI-tab headers
 * Options Editor plugin
 * Can plug-in different Python engine
 * Character Map dialog
