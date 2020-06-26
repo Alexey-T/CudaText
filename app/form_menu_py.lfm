@@ -42,8 +42,6 @@ object fmMenuApi: TfmMenuApi
     Colors.GutterBG = 14737632
     Colors.GutterCaretFont = clGray
     Colors.GutterCaretBG = 13158600
-    Colors.GutterPlusBorder = clGray
-    Colors.GutterPlusBG = 16053492
     Colors.GutterFoldLine = clGray
     Colors.GutterFoldBG = 13158600
     Colors.GutterSeparatorBG = clBlack
