@@ -68,7 +68,6 @@
           </Linking>
           <Other>
             <CustomOptions Value="-dcomplete_at_scroll"/>
-            <CompilerPath Value="\home\user\fpcupdeluxe_alt\fpcupdeluxe\fpc\bin\x86_64-linux\fpc.sh"/>
           </Other>
         </CompilerOptions>
       </Item2>

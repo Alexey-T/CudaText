@@ -5549,7 +5549,8 @@ begin
   Ed.DoCaretSingle(-1, -1);
   Ed.DoEventCarets;
   Ed.Update;
-  Application.ProcessMessages;
+
+  //Application.ProcessMessages; //crashes, dont do it
 
   DoEditorExportToHTML(Ed, SFileName, STitle,
     UiOps.ExportHtmlFontName,
