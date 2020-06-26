@@ -11,6 +11,7 @@
 + add: on clicking hyperlinks, app shows additional confirmation button; this is controlled by new option "ui_links_confirm"
 + add: support combo-hotkeys with simple letter in 2nd/3rd part, e.g. Ctrl+Q H (thanks @tmsg)
 + add: encodings koi8, iso...15 added to viewer as well 
+- fix: crash in "export to HTML" (thanks @MiroslavMatas)
 - fix: regression in folding in HTML/XML lexers
 - fix: mouse click on selected block did not place caret on clicked pos (thanks @hycmos)
 - fix: plugin Session Manager was inited for filenames w/o extension
