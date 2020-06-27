@@ -183,7 +183,7 @@ object SyntAnal7: TLibSyntAnalyzer
       DisplayName = '<'
       StyleName = 'Tag bound'
       TokenType = 10
-      Expression = '<[/!\-]*'
+      Expression = '<[/!\-]*(?=\w)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -200,7 +200,7 @@ object SyntAnal7: TLibSyntAnalyzer
       StyleName = 'Number'
       BlockName = 'Tag begin'
       TokenType = 5
-      Expression = '\d+'
+      Expression = '\d+%?'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -868,6 +868,6 @@ object SyntAnal7: TLibSyntAnalyzer
   LexerName = 'HTML'
   Notes.Strings = (
     'Created by 480499497 from forum.wincmd.ru (named HTML_dev)'
-    'Heavily changed by Alexey (CudaText)')
+    'Fully reworked by Alexey (CudaText)')
   Charset = DEFAULT_CHARSET
 end
