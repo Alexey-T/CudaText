@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+
+- fix: lexer HTML: bug for '<table align=right width=30%>'; bug for '< not_tag' (thanks @Anonymoustus)
+
 1.106.0 (2020/06)
 
 + add: deepest fold-range, containing line of first caret, now has highlighted lines on gutter; added color in UI-theme for this
