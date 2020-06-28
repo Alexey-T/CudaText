@@ -3,8 +3,9 @@
   - fixed
   * changed
 
+1.106.1
 
-- fix: lexer HTML: bug for '<table align=right width=30%>'; bug for '< not_tag' (thanks @Anonymoustus)
+- fix: lexer HTML: bug for '<table width=30%>'; bug for '< nottag' (thanks @Anonymoustus)
 
 1.106.0 (2020/06)
 
