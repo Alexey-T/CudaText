@@ -2,8 +2,8 @@
 . ./cuda_ver.sh
 
 SIZE_MB=22
-TMP=~/m
-IMG=~/cudatext-macos-$cuda_ver.dmg
+TMP=~/_cudmac
+IMG=~/cudatext_build/cudatext-macos-$cuda_ver.dmg
 
 dd if=/dev/zero of=$IMG bs=1M count=$SIZE_MB status=progress
 mkfs.hfsplus -v CudaText $IMG
@@ -18,3 +18,4 @@ sudo ln -s /Applications $TMP/Applications
 
 sleep 20
 sudo umount $TMP
+rmdir $TMP
