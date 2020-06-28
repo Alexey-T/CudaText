@@ -10,8 +10,8 @@ mkfs.hfsplus -v CudaText $IMG
 mkdir -pv $TMP
 sudo mount -o loop $IMG $TMP
 
-sudo cp -a ~/cuda/cuda/app/cudatext.app $TMP
-sudo mkdir $TMP/cudatext.app/Contents/MacOS
-sudo cp -a ~/cuda/cuda/app/builds/macos-cocoa/cudatext $TMP/cudatext.app/Contents/MacOS
+sudo cp -a ~/cuda/cuda/app/cudatext.app $TMP/CudaText.app
+sudo mkdir $TMP/CudaText.app/Contents/MacOS
+sudo cp -a ~/cuda/cuda/app/builds/macos-cocoa/cudatext $TMP/CudaText.app/Contents/MacOS
 
 echo Must unnmount folder $TMP !
