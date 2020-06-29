@@ -1,4 +1,4 @@
-object SyntAnal43: TLibSyntAnalyzer
+object SyntAnal19: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Search'
@@ -37,7 +37,7 @@ object SyntAnal43: TLibSyntAnalyzer
       DisplayName = 'Search'
       StyleName = 'Search'
       AlwaysEnabled = True
-      Expression = '^[\x20\x09]* \+ .*'
+      Expression = '(?<=^[\x20\x09]*) \+ .*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -45,7 +45,7 @@ object SyntAnal43: TLibSyntAnalyzer
       DisplayName = 'File'
       StyleName = 'File'
       TokenType = 1
-      Expression = '^[\x20\x09]* < .*? >:?'
+      Expression = '(?<=^[\x20\x09]*) < .+? >:?'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -123,8 +123,8 @@ object SyntAnal43: TLibSyntAnalyzer
     #9'<c:\temp\try-ff\s1\t2-s1.txt>'
     #9'<c:\temp\try-ff\s1\s1-2\t-s1-2.txt>')
   TokenTypeNames.Strings = (
-    '1Search'
-    '1File'
+    '^Search'
+    '^File'
     'Text'
     'String')
   Extentions = 'cuda-findres'
