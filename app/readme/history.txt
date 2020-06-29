@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.106.1
+1.106.1 (2020/07)
 
+- fix: lexer "Search results" folding
 - fix: lexer HTML: bug for '<table width=30%>'; bug for '< nottag' (thanks @Anonymoustus)
 
 1.106.0 (2020/06)
