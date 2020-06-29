@@ -305,6 +305,7 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 
 ===Differences in lexer support in CudaText/SynWrite===
 
+* SynWrite has lexer engine with old/outdated "method" for indentation-based folding, so all lexers with indentation-based folding must be different in CudaText and SynWrite
 * SynWrite lexers need constructs like \x0D\x0A or \z (any line-break), while CudaText is OK with simple \n (because internal buffer never has CR char)
 * For CudaText you must avoid "system colors" in lexer styles (e.g. "window background", "window text", "hint background"), because OSes have different system colors
 * SynWrite lexer settings are not used in CudaText:
