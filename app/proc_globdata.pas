@@ -580,6 +580,7 @@ var
   AppFile_History: string;
   AppFile_HistoryFiles: string;
   AppFile_Hotkeys: string;
+  AppFile_PluginsIni: string;
 
 function GetAppLangFilename: string;
 function GetAppUndoFilename(const fn: string; IsRedo: boolean): string;
@@ -1123,6 +1124,7 @@ begin
   AppFile_History:= AppDir_Settings+DirectorySeparator+'history.json';
   AppFile_HistoryFiles:= AppDir_Settings+DirectorySeparator+'history files.json';
   AppFile_Hotkeys:= AppDir_Settings+DirectorySeparator+'keys.json';
+  AppFile_PluginsIni:= AppDir_Settings+DirectorySeparator+'plugins.ini';
 end;
 
 procedure InitEditorOps(var Op: TEditorOps);

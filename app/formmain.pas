@@ -885,7 +885,7 @@ type
     function SFindOptionsToTextHint: string;
     procedure DoOps_ShowEventPlugins;
     procedure DoOps_ResetLexerSpecificOptions;
-    procedure DoOps_LoadPluginFromInf(const fn_inf: string);
+    procedure DoOps_LoadPluginFromInf(const fn_inf: string; IniPlugins: TMemIniFile);
     procedure DoOps_LoadSidebarIcons;
     procedure DoOps_LoadCodetreeIcons;
     procedure DoOps_LoadToolbarIcons;

@@ -13,6 +13,7 @@ procedure TfmMain.DoOps_LoadPlugins;
 var
   list: TStringlist;
   SItem, fn, DirName: string;
+  IniPlugins: TMemIniFile;
 begin
   if not AppPython.Inited then exit;
 
@@ -23,6 +24,12 @@ begin
   AppEventList.Clear;
 
   list:= TStringlist.Create;
+
+  if FileExists(AppFile_PluginsIni) then
+    IniPlugins:= TMemIniFile.Create(AppFile_PluginsIni)
+  else
+    IniPlugins:= nil;
+
   try
     FindAllDirectories(list, AppDir_Py, false);
     list.Sort;
@@ -37,9 +44,10 @@ begin
 
       fn:= SItem+DirectorySeparator+'install.inf';
       if FileExists(fn) then
-        DoOps_LoadPluginFromInf(fn);
+        DoOps_LoadPluginFromInf(fn, IniPlugins);
     end;
   finally
+    FreeAndNil(IniPlugins);
     FreeAndNil(list);
   end;
 
@@ -49,7 +57,8 @@ begin
 end;
 
 
-procedure TfmMain.DoOps_LoadPluginFromInf(const fn_inf: string);
+procedure TfmMain.DoOps_LoadPluginFromInf(const fn_inf: string;
+  IniPlugins: TMemIniFile);
 type
   TAppInfSection = (
     sidNone,
@@ -189,6 +198,23 @@ begin
   finally
     FreeAndNil(sections);
     FreeAndNil(ini);
+  end;
+
+  //add events from plugins.ini
+  if Assigned(IniPlugins) then
+  begin
+    s_events:= IniPlugins.ReadString('events', s_module, '');
+    if s_events<>'' then
+    begin
+      EventItem:= TAppEventInfo.Create;
+      EventItem.ItemModule:= s_module;
+      AppEventStringToEventData(s_events,
+        EventItem.ItemEvents,
+        EventItem.ItemEventsPrior,
+        EventItem.ItemEventsLazy
+        );
+      AppEventList.Add(EventItem);
+    end;
   end;
 end;
 
