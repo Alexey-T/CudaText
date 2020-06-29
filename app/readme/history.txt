@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.106.0.1
+1.106.1 (2020/07)
 
++ add: API allows to register plugin events also in "settings/plugins.ini", this allows to avoid plugin start on CudaText start in some cases (for Project Manager, CudaLint)
 - fix: lexer "Search results" folding
 - fix: lexer HTML: bug for '<table width=30%>'; bug for '< nottag' (thanks @Anonymoustus)
 
