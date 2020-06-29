@@ -11,6 +11,8 @@ This is API for [[CudaText]] in Python.
 
 To make plugin react to some program event, add method to class Command, and register this event in "install.inf" file of plugin. For example, method "on_save" will be called by program event "on_save" (plus install.inf must register "on_save"). Event methods have param "ed_self": this is Editor object in which event occured. This object is the same as object "ed" in most cases, but in some cases event occurs in inactive editor, e.g. command "Save all tabs" calls event "on_save" for inactive tabs.
 
+Another way to subscribe to events is the file "settings/plugins.ini", its section [events] can contain lines like "cuda_modulename=event1,event2,...". Using this way, plugin can initially not handle e.g. on_start/on_open, and only after user turned on some options, plugin writes to plugins.ini: [events] cuda_somename=on_start,on_open. This is more preferred way than to always handle on_start/on_open, to speedup CudaText start when events are not used. File plugins.ini is read on plugins initialization, so after writing there, CudaText should be restarted.
+
 Another way to react to program events is dynamic subscribing to events in runtime. This way you don't need to register methods in install.inf. See description of PROC_SET_EVENTS in app_proc().
 
 Method return value is ignored is many cases, but sometimes return value True or False has special meaning. Usually the False return value blocks propagation of event to other plugins, so don't return False if not nessesary.
@@ -3961,12 +3963,15 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.get_token: TOKEN_LIST* return additional keys "ki", "ks"
 * add: lexer_proc: LEXER_GET_STYLES returns additional key "tkind"
 
-1.0.340 (app 1.150.3)
+1.0.340 (app 1.105.3)
 * add: Editor.get_prop/set_prop: PROP_V_WIDTH_HEX, PROP_V_WIDTH_UHEX
 * add: Editor.set_prop: setting PROP_V_MODE for usual editor switches editor to viewer, with given mode
 * add: Editor.get_prop/set_prop: can switch from viewer to editor using new value VMODE_NONE 
 
-1.0.341 (app 1.150.6)
+1.0.341 (app 1.105.6)
 * add: Editor.action: EDACTION_UPDATE handles "param1"
+
+1.0.342 (app 1.106.1)
+* add: support loading plugin events also from settings/plugins.ini [events] cuda_modulename=comma_separated_events
 
 [[Category:CudaText]]
