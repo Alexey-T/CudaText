@@ -1,10 +1,12 @@
-[map]
-Search=Id1
-File=Id2
-Text=Id
-Num=IdVar
 [comments]
 str1=
 str2=
 styles_cmt=
 styles_str=
+
+[map]
+Search=Id1
+File=Id2
+Coord=Id4
+Text=Id
+Num=Comment

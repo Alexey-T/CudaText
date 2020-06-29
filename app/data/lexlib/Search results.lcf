@@ -17,6 +17,14 @@ object SyntAnal19: TLibSyntAnalyzer
       Font.Style = []
     end
     item
+      DisplayName = 'Coord'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
       DisplayName = 'Text'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
@@ -38,6 +46,14 @@ object SyntAnal19: TLibSyntAnalyzer
       StyleName = 'Search'
       AlwaysEnabled = True
       Expression = '(?<=^[\x20\x09]*) \+ .*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Coord'
+      StyleName = 'Coord'
+      TokenType = 4
+      Expression = '(?<=^[\x20\x09]*) <\( .+? \)>:?'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -84,7 +100,7 @@ object SyntAnal19: TLibSyntAnalyzer
       DisplayName = 'block file'
       ConditionList = <
         item
-          TokenTypes = 2
+          TokenTypes = 18
         end>
       EndOfTextClose = True
       DisplayInTree = False
@@ -126,7 +142,8 @@ object SyntAnal19: TLibSyntAnalyzer
     '^Search'
     '^File'
     'Text'
-    'String')
+    'String'
+    '^Coord')
   Extentions = 'cuda-findres'
   LexerName = 'Search results'
   SkipSpaces = False
