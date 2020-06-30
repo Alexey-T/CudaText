@@ -9,13 +9,17 @@ This is API for [[CudaText]] in Python.
 
 =Event plugins=
 
-To make plugin react to some program event, add method to class Command, and register this event in "install.inf" file of plugin. For example, method "on_save" will be called by program event "on_save" (plus install.inf must register "on_save"). Event methods have param "ed_self": this is Editor object in which event occured. This object is the same as object "ed" in most cases, but in some cases event occurs in inactive editor, e.g. command "Save all tabs" calls event "on_save" for inactive tabs.
+To make plugin react to some program event, add method to class Command. For example, method "Command.on_save" will be called by program event "on_save" - if plugin is subscribed to that event. Event methods have param "ed_self": this is Editor object in which event occured. This object is the same as object "ed" in most cases ("ed" always refers to focused editor), but in some cases event occurs in inactive editor, e.g. command "Save all tabs" calls event "on_save" for passive tabs.
 
-Another way to subscribe to events is the file "settings/plugins.ini", its section [events] can contain lines like "cuda_modulename=event1,event2,...". Using this way, plugin can initially not handle e.g. on_start/on_open, and only after user turned on some options, plugin writes to plugins.ini: [events] cuda_somename=on_start,on_open. This is more preferred way than to always handle on_start/on_open, to speedup CudaText start when events are not used. File plugins.ini is read on plugins initialization, so after writing there, CudaText should be restarted.
+Plugin can subscribe to events in several ways:
 
-Another way to react to program events is dynamic subscribing to events in runtime. This way you don't need to register methods in install.inf. See description of PROC_SET_EVENTS in app_proc().
+* Static subscribing in "install.inf". This is used, when plugin needs to always react to some events, with any combination of its options.
 
-Method return value is ignored is many cases, but sometimes return value True or False has special meaning. Usually the False return value blocks propagation of event to other plugins, so don't return False if not nessesary.
+* Static subscribing via config file "settings/plugins.ini". This is used when plugin doesn't need some events initially, but after changing some options, it needs more events. File "plugins.ini" section [events] can contain lines like "cuda_modulename=event1,event2,...". File "plugins.ini" is read on plugins initialization, so after writing there, CudaText should be restarted.
+
+* Run-time subscribing/unsubscribing via API. See description of action PROC_SET_EVENTS in app_proc().
+
+Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases, but sometimes return value True or False has special meaning. Usually the False return value blocks propagation of event to other plugins, so don't return False if not nessesary.
 
 ==Events - General==
 
