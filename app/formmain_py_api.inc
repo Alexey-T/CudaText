@@ -7093,7 +7093,12 @@ begin
           Ed.Update;
       end
       else
-        Result:= ReturnNone;
+      begin
+        if Finder.IsRegexBad then
+          Result:= PyBool_FromLong(0)
+        else
+          Result:= ReturnNone;
+      end;
   finally
     FreeAndNil(Finder);
   end;
@@ -7117,6 +7122,11 @@ begin
       NCount:= Finder.DoAction_ReplaceAll;
       if NCount>0 then
         Ed.Update(true);
+
+      if NCount=0 then
+        if Finder.IsRegexBad then
+          exit(PyBool_FromLong(0));
+
       Result:= PyInt_FromLong(NCount);
     end;
   finally
@@ -7143,6 +7153,10 @@ begin
     Finder.MaxLineLen:= AMaxLineLen;
 
     Finder.DoAction_FindAll(ResList, false);
+
+    if ResList.Count=0 then
+      if Finder.IsRegexBad then
+        exit(AppPython.Engine.PyBool_FromLong(0));
 
     with AppPython.Engine do
     begin
