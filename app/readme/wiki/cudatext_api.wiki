@@ -2751,21 +2751,25 @@ Performs some action in editor. Possible values of "id":
 * EDACTION_FIND_ONE: Perform text search, get match as 4-tuple of int (start_x, start_y, end_x, end_y) or None if not found. This uses finder independent from CudaText Find/Replace dialog, you must configure this finder via options string.
 ** "param1": Search string.
 ** "param2": Search options, see [[#Finder_options_as_string]].
+** Note: returns False for incorrect RegEx.
 
 * EDACTION_REPLACE_ONE: Perform text search+replace, get match as 4-tuple of int (start_x, start_y, end_x, end_y) or None if not found. This uses finder independent from CudaText Find/Replace dialog, you must configure this finder via options string.
 ** "param1": String to find.
 ** "param2": String to replace with.
 ** "param3": Search options, see [[#Finder_options_as_string]].
+** Note: returns False for incorrect RegEx.
 
 * EDACTION_REPLACE_ALL: Perform text search+replace in the entire document (note: ignoring caret position), get count of replacements. This uses finder independent from CudaText Find/Replace dialog, you must configure this finder via options string.
 ** "param1": String to find.
 ** "param2": String to replace with.
 ** "param3": Search options, see [[#Finder_options_as_string]].
+** Note: returns False for incorrect RegEx.
 
 * EDACTION_FIND_ALL: Perform text search and get all matches in a list. Result list items are 4-tuples of int: (start_x, start_y, end_x, end_y). This uses finder independent from CudaText Find/Replace dialog, you must configure this finder via options string.
 ** "param1": Search string.
 ** "param2": Search options, see [[#Finder_options_as_string]].
 ** "param3": Optional. Maximal line length (default is 0x7FFFFFFF). Lines longer than this value will be skipped during search.
+** Note: returns False for incorrect RegEx.
 
 * EDACTION_FIND_BRACKETS: Find position of nearest opening bracket with its pair bracket. Returns 4-tuple (col_start, line_start, col_end, line_end), where line_end<0 if brackets not found.
 ** "param1": Text position as 2-tuple (column, line).
@@ -3973,5 +3977,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.342 (app 1.106.1)
 * add: support loading plugin events also from settings/plugins.ini [events] cuda_modulename=comma_separated_events
+* change: Editor.action: EDACTION_FIND* and EDACTION_REPLACE* return False for incorrect RegEx
 
 [[Category:CudaText]]
