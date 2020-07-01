@@ -5,10 +5,10 @@
 
 1.106.1 (2020/07)
 
-+ add: API allows to register plugin events also in "settings/plugins.ini", this allows to avoid plugin start on CudaText start in some cases (for Project Manager, CudaLint)
++ add: API allows to register plugin events also in settings/plugins.ini
 * change: Project Manager uses plugins.ini for events, so if you have used its options "Load on program start"/"On opening GIT/SVN repo...", check these options again in config dialog
-- fix: export to HTML: entities like &nbsp were lost
-- fix: lexer "Search results" folding
+- fix: export to HTML: HTML entities were lost
+- fix: lexer "Search results": folding
 - fix: lexer HTML: bug for '<table width=30%>'; bug for '< nottag' (thanks @Anonymoustus)
 
 1.106.0 (2020/06)
