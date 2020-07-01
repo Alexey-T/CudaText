@@ -8,7 +8,6 @@ from .sort_emails import *
 fn_ini = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
 op_section = 'sort'
 
-
 def get_offsets():
     if ed.get_sel_mode()==SEL_COLUMN:
         r = ed.get_sel_rect()
@@ -64,7 +63,19 @@ def get_input():
 
     if ed.get_prop(PROP_RO): return
 
+    max_cnt = 5000
+    try:
+        s = ini_read(fn_ini, op_section, 'max_lines', '')
+        max_cnt = max(int(s), max_cnt)
+    except:
+        pass
+
     op_sort_all = ini_read(fn_ini, op_section, 'allow_all', '0')=='1'
+    
+    if ed.get_line_count()>max_cnt:
+        msg_box('Document has too many lines. Plugin Sort will not work. Current value of option [sort] max_lines in "settings/plugins.ini" is %d.\n\nInstead of Sort plugin, use CudaText built-in commands: "(without undo) sort...".' %max_cnt,
+        MB_OK+MB_ICONERROR)
+        return
 
     is_all = False
     nlines = ed.get_line_count()
