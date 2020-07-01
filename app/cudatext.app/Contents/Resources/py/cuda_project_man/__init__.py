@@ -111,7 +111,6 @@ class Command:
     options = {
         "recent_projects": [],
         "masks_ignore": MASKS_IGNORE,
-        "on_start": False,
         "toolbar": True,
         "preview": True,
         "d_click": False,
@@ -685,6 +684,16 @@ class Command:
                     'vis': self.options.get('toolbar', True)
                     })
 
+            ev = []
+            if self.options['on_start']:
+                ev += ['on_start']
+            if self.options['check_git']:
+                ev += ['on_open']
+            if ev:
+                ini_write('plugins.ini', 'events', 'cuda_project_man', ','.join(ev))
+            else:
+                ini_proc(INI_DELETE_KEY, 'plugins.ini', 'events', 'cuda_project_man')
+
     def config_proj(self):
         if not self.tree:
             msg_status('Project not loaded')
@@ -701,9 +710,6 @@ class Command:
         return is_filename_mask_listed(fn, mask_list)
 
     def on_start(self, ed_self):
-        if not self.options.get("on_start", False):
-            return
-
         and_activate = self.options.get("on_start_activate", False)
         self.init_panel(and_activate)
 
@@ -1021,9 +1027,10 @@ class Command:
 
     def on_open(self, ed_self):
 
-        if self.options.get('check_git', True):
-            if not self.project_file_path:
-                self.action_project_for_git(ed_self.get_filename('*'))
+        self.init_panel(False)
+
+        if not self.project_file_path:
+            self.action_project_for_git(ed_self.get_filename('*'))
 
     def action_project_for_git(self, filename):
 

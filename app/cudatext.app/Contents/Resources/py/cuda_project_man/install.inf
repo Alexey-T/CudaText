@@ -10,10 +10,6 @@ hint=Project
 icon=project.png
 method=show_panel
 
-[item1]
-section=events
-events=on_start,on_open
-
 [item2]
 section=events
 events=on_open_pre

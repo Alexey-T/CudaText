@@ -36,6 +36,8 @@ history = [
     'https://github.com/kvichans/cuda_find_in_files',
     ]
 
+def rescan_plugins():
+    ed.cmd(cudatext_cmd.cmd_RescanPythonPluginsInfFiles)
 
 def do_install_from_github():
 
@@ -108,7 +110,8 @@ def do_install_from_github():
         if os.path.isdir(dir_plugin):
             after_install(module)
             save_history()
-            msg_box('Repo was cloned, restart CudaText to make this plugin visible', MB_OK+MB_ICONINFO)
+            rescan_plugins()
+            msg_box('Repo was cloned', MB_OK+MB_ICONINFO)
         else:
             msg_box('Could not clone the repo', MB_OK+MB_ICONERROR)
 
@@ -125,3 +128,4 @@ def do_install_from_github():
     file_open(fn)
     os.remove(fn) #cleanup temp
     after_install(module)
+    rescan_plugins()

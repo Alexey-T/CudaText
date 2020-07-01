@@ -55,7 +55,7 @@ def dialog_config(op):
         +[c1.join(['type=label', 'pos=6,54,500,0', 'cap=&Recent projects:'])]
         +[c1.join(['type=memo', 'pos=6,74,500,180',
             'val='+'\t'.join(op.get('recent_projects', [])) ])]
-        +[c1.join(['type=check', 'pos=6,186,400,0', 'cap=&Load on program start',
+        +[c1.join(['type=check', 'pos=6,186,400,0', 'cap=&Load on program start (*)',
             'val='+bool_to_str(op.get('on_start', False)) ])]
         +[c1.join(['type=check', 'pos=6,210,400,0', 'cap=&Show toolbar',
             'val='+bool_to_str(op.get('toolbar', True)) ])]
@@ -65,7 +65,7 @@ def dialog_config(op):
             'val='+bool_to_str(op.get('preview', True)) ])]
         +[c1.join(['type=check', 'pos=6,288,400,0', 'cap=Open files by &double-click',
             'val='+bool_to_str(op.get('d_click', False)) ])]
-        +[c1.join(['type=check', 'pos=6,314,400,0', 'cap=On opening file in Git/SVN repo, create project from repo',
+        +[c1.join(['type=check', 'pos=6,314,400,0', 'cap=On opening file in Git/SVN repo, create project from repo (*)',
             'val='+bool_to_str(op.get('check_git', True)) ])]
 
         +[c1.join(['type=label', 'pos=6,360,130,0', 'cap=File type icons:'])]
@@ -81,11 +81,12 @@ def dialog_config(op):
             ])]
 
         +[c1.join(['type=label', 'pos=6,416,600,0', 'cap=For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"'])]
-        +[c1.join(['type=button', 'pos=300,440,400,0', 'cap=&OK', 'props=1'])]
-        +[c1.join(['type=button', 'pos=406,440,502,0', 'cap=Cancel'])]
+        +[c1.join(['type=label', 'pos=6,440,600,0', 'cap=(*) - requires CudaText restart'])]
+        +[c1.join(['type=button', 'pos=300,470,400,0', 'cap=&OK', 'props=1'])]
+        +[c1.join(['type=button', 'pos=406,470,502,0', 'cap=Cancel'])]
     )
 
-    res = dlg_custom('Project Manager options', 508, 474, text, get_dict=True)
+    res = dlg_custom('Project Manager options', 508, 504, text, get_dict=True)
     if res is None:
         return
 
