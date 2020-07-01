@@ -5,6 +5,7 @@
 
 1.106.1 (2020/07)
 
++ add: Addon Manager "Install from GitHub" auto refreshes program plugins
 + add: API allows to register plugin events also in settings/plugins.ini
 * change: Project Manager uses plugins.ini for events, so if you have used its options "Load on program start"/"On opening GIT/SVN repo...", check these options again in config dialog
 - fix: export to HTML: entities like &nbsp; were lost on export
