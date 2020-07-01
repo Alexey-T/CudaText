@@ -299,7 +299,10 @@ begin
   begin
     DoFindMarkingInit(markingNone);
     NCounter:= FFinder.DoAction_CountAll(false);
-    MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]));
+    if (NCounter=0) and FFinder.IsRegexBad then
+      MsgStatusErrorInRegex
+    else
+      MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]));
   end;
 
   if Res=afoExtractAll then
@@ -320,6 +323,9 @@ begin
         end;
       end
       else
+      if FFinder.IsRegexBad then
+        MsgStatusErrorInRegex
+      else
         MsgStatus(msgCannotFindMatch);
     finally
       FreeAndNil(ListFound);
@@ -332,9 +338,12 @@ begin
     NCounter:= FFinder.DoAction_CountAll(true);
     DoFindMarkingInit(markingNone);
     FinderUpdateEditor(false);
-    MsgStatus(
-      Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]) +
-      ' ('+SFindOptionsToTextHint+')');
+    if (NCounter=0) and FFinder.IsRegexBad then
+      MsgStatusErrorInRegex
+    else
+      MsgStatus(
+        Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]) +
+        ' ('+SFindOptionsToTextHint+')');
     DoFindOptions_ResetInSelection;
   end;
 
@@ -344,9 +353,12 @@ begin
     NCounter:= FFinder.DoAction_CountAll(true);
     DoFindMarkingInit(markingNone);
     FinderUpdateEditor(false);
-    MsgStatus(
-      Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]) +
-      ' ('+SFindOptionsToTextHint+')');
+    if (NCounter=0) and FFinder.IsRegexBad then
+      MsgStatusErrorInRegex
+    else
+      MsgStatus(
+        Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]) +
+        ' ('+SFindOptionsToTextHint+')');
   end;
 
   UpdateAppForSearch(false, false, bFindMode);
@@ -645,6 +657,9 @@ begin
     FFinder.Editor.DoGotoCaret(cEdgeTop);
   end
   else
+  if FFinder.IsRegexBad then
+    MsgStatusErrorInRegex
+  else
     MsgStatus(msgCannotFindMatch+' ('+SOptions+'): '+Utf8Encode(FFinder.StrFind));
 end;
 
@@ -652,6 +667,9 @@ procedure TfmMain.DoFindResultSimple(ok: boolean);
 begin
   if ok then
     MsgStatus(msgStatusFoundNextMatch)
+  else
+  if FFinder.IsRegexBad then
+    MsgStatusErrorInRegex
   else
     MsgStatus(msgCannotFindMatch);
 end;
@@ -713,10 +731,12 @@ begin
     FFindConfirmAll:= Res;
 end;
 
-procedure TfmMain.FinderOnBadRegex(Sender: TObject; const Msg: string);
+procedure TfmMain.MsgStatusErrorInRegex;
 begin
   MsgBox(
-    msgStatusBadRegex+#10+Utf8Encode(FFinder.StrFind)+#10+Msg,
+    msgStatusBadRegex+#10+
+    Utf8Encode(FFinder.StrFind)+#10+
+    FFinder.RegexErrorMsg,
     MB_OK or MB_ICONERROR);
 end;
 

@@ -861,7 +861,6 @@ type
     procedure MenuMainClick(Sender: TObject);
     procedure MsgLogDebug(const AText: string);
     procedure MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
-    procedure MsgStatusAlt(const AText: string; ASeconds: integer);
     function GetStatusbarPrefix(Frame: TEditorFrame): string;
     procedure MsgStatusFileOpened(const AFileName1, AFileName2: string);
     procedure PopupListboxOutputCopyClick(Sender: TObject);
@@ -969,7 +968,6 @@ type
     procedure FinderShowReplaceReport(ACounter, ATime: integer);
     procedure FindDialogDone(Sender: TObject; Res: TAppFinderOperation);
     procedure FinderOnFound(Sender: TObject; APos1, APos2: TPoint);
-    procedure FinderOnBadRegex(Sender: TObject; const Msg: string);
     procedure FinderOnConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
       AForMany: boolean; var AConfirm, AContinue: boolean);
     procedure FinderOnProgress(Sender: TObject; const ACurPos, AMaxPos: Int64; var AContinue: boolean);
@@ -1028,6 +1026,8 @@ type
     procedure SetFrame(Frame: TEditorFrame);
     procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
     procedure MsgStatus(AText: string);
+    procedure MsgStatusAlt(const AText: string; ASeconds: integer);
+    procedure MsgStatusErrorInRegex;
     procedure UpdateStatusbarPanelsFromString(const AText: string);
     procedure UpdateStatusbarHints;
     procedure UpdateStatus_ForFrame(AStatus: TATStatus; F: TEditorFrame);
@@ -2289,7 +2289,6 @@ begin
   FFinder.OptRegex:= true;
   FFinder.OnConfirmReplace:= @FinderOnConfirmReplace;
   FFinder.OnProgress:= @FinderOnProgress;
-  FFinder.OnBadRegex:= @FinderOnBadRegex;
   FFinder.OnFound:=@FinderOnFound;
   FFinder.OnGetToken:= @FinderOnGetToken;
 
