@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.106.1 (2020/07)
+1.106.2 (2020/07)
 
 + add: Addon Manager "Install from GitHub" auto refreshes program plugins
 + add: API allows to register plugin events also in settings/plugins.ini
