@@ -12,7 +12,7 @@ unit proc_install_zip;
 interface
 
 uses
-  Classes, SysUtils, Forms, FileUtil,
+  Classes, SysUtils, Controls, Forms, FileUtil,
   proc_str,
   ec_SyntAnal;
 
@@ -52,6 +52,7 @@ implementation
 
 uses
   LCLIntf, LCLProc, LCLType,
+  InterfaceBase,
   StrUtils,
   IniFiles,
   Zipper,
@@ -573,9 +574,10 @@ var
   s_title, s_type, s_subdir, s_desc, s_api, s_os: string;
   s_allhotkeys: string;
   s_msgbox: string;
-  Num, NHotkeysCount, NMsgFlags: integer;
-  ok: boolean;
+  Num, NumHotkeys: integer;
   bAllowHotkeys: boolean;
+  Buttons: TDialogButtons;
+  ok: boolean;
 begin
   AStrReport:= '';
   AStrMessage:= '';
@@ -641,9 +643,9 @@ begin
     s_os:= ini.ReadString('info', 'os', '');
 
     s_allhotkeys:= '';
-    NHotkeysCount:= 0;
+    NumHotkeys:= 0;
     if not ASilent then
-      DoInstallPlugin_GetHotkeys(ini, s_allhotkeys, NHotkeysCount);
+      DoInstallPlugin_GetHotkeys(ini, s_allhotkeys, NumHotkeys);
   finally
     FreeAndNil(ini);
   end;
@@ -705,30 +707,42 @@ begin
   bAllowHotkeys:= false;
   if not ASilent then
   begin
-    s_msgbox:= msgStatusPackageContains+#10#10+
+    s_msgbox:=
+      msgStatusPackageContains+#10#10+
       msgStatusPackageName+' '+s_title+#10+
       IfThen(s_desc<>'', msgStatusPackageDesc+' '+s_desc+#10)+
-      msgStatusPackageType+' '+s_type+ IfThen(AAddonType=cAddonTypeData, ' / '+s_subdir);
+      msgStatusPackageType+' '+s_type+ IfThen(AAddonType=cAddonTypeData, ' / '+s_subdir)+
+      IfThen(NumHotkeys>0, #10+Format(msgConfirmWithHotkeys, [NumHotkeys, s_allhotkeys]))+
+      #10#10+msgConfirmInstallIt;
 
-    if NHotkeysCount>0 then
+    Buttons:= TDialogButtons.Create(TDialogButton);
+    with Buttons.Add do
     begin
-      s_msgbox+= #10#10+Format(msgConfirmWithHotkeys, [NHotkeysCount, s_allhotkeys]);
-      NMsgFlags:= MB_YESNOCANCEL or MB_ICONQUESTION;
-    end
-    else
+      Caption:= msgButtonOk;
+      ModalResult:= mrOk;
+    end;
+    if NumHotkeys>0 then
+      with Buttons.Add do
+      begin
+        Caption:= msgButtonOkNoHotkeys;
+        ModalResult:= mrNo;
+      end;
+    with Buttons.Add do
     begin
-      s_msgbox+= #10#10+msgConfirmInstallIt;
-      NMsgFlags:= MB_OKCANCEL or MB_ICONQUESTION;
+      Caption:= msgButtonCancel;
+      ModalResult:= mrCancel;
     end;
 
-    case MsgBox(s_msgbox, NMsgFlags) of
-      ID_YES, ID_OK:
+    case AskUser(msgTitle, s_msgbox, idDialogConfirm, Buttons, 0) of
+      mrOk:
         bAllowHotkeys:= true;
-      ID_NO:
+      mrNo:
         bAllowHotkeys:= false;
-      ID_CANCEL:
+      mrCancel:
         exit;
     end;
+
+    FreeAndNil(Buttons);
   end;
 
   AStrReport:= '';
