@@ -716,33 +716,35 @@ begin
       #10#10+msgConfirmInstallIt;
 
     Buttons:= TDialogButtons.Create(TDialogButton);
-    with Buttons.Add do
-    begin
-      Caption:= msgButtonOk;
-      ModalResult:= mrOk;
-    end;
-    if NumHotkeys>0 then
+    try
       with Buttons.Add do
       begin
-        Caption:= msgConfirmOkNoHotkeys;
-        ModalResult:= mrNo;
+        Caption:= msgButtonOk;
+        ModalResult:= mrOk;
       end;
-    with Buttons.Add do
-    begin
-      Caption:= msgButtonCancel;
-      ModalResult:= mrCancel;
-    end;
+      if NumHotkeys>0 then
+        with Buttons.Add do
+        begin
+          Caption:= msgConfirmOkNoHotkeys;
+          ModalResult:= mrNo;
+        end;
+      with Buttons.Add do
+      begin
+        Caption:= msgButtonCancel;
+        ModalResult:= mrCancel;
+      end;
 
-    case AskUser(msgTitle, s_msgbox, idDialogConfirm, Buttons, 0) of
-      mrOk:
-        bAllowHotkeys:= true;
-      mrNo:
-        bAllowHotkeys:= false;
-      mrCancel:
-        exit;
+      case AskUser(msgTitle, s_msgbox, idDialogConfirm, Buttons, 0) of
+        mrOk:
+          bAllowHotkeys:= true;
+        mrNo:
+          bAllowHotkeys:= false;
+        mrCancel:
+          exit;
+      end;
+    finally
+      FreeAndNil(Buttons);
     end;
-
-    FreeAndNil(Buttons);
   end;
 
   AStrReport:= '';
