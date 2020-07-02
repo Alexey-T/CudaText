@@ -733,6 +733,7 @@ begin
         Caption:= msgButtonCancel;
         ModalResult:= mrCancel;
       end;
+      Buttons.DefaultButton:= Buttons.Items[0];
 
       case AskUser(msgTitle, s_msgbox, idDialogConfirm, Buttons, 0) of
         mrOk:
