@@ -1629,6 +1629,8 @@ end;
 
 function DoLexerDetectByFilenameOrContent(const AFilename: string;
   AChooseFunc: TecLexerChooseFunc): TecSyntAnalyzer;
+const
+  cSignUTF8: string = #$EF#$BB#$BF;
 var
   Item: TAppKeyValue;
   ext, sLine, res: string;
@@ -1654,6 +1656,9 @@ begin
     sLine:= DoReadOneStringFromFile(AFilename);
     if sLine<>'' then
     begin
+      //skip UTF8 signature, needed for XMLs
+      if SBeginsWith(sLine, cSignUTF8) then
+        Delete(sLine, 1, Length(cSignUTF8));
       for i:= 0 to AppConfig_DetectLine.Count-1 do
       begin
         Item:= TAppKeyValue(AppConfig_DetectLine[i]);
