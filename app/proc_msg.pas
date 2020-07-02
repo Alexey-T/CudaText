@@ -257,7 +257,7 @@ const
   msgConfirmHotkeyBusy: string = 'Hotkey is already occupied by command:'#13'%s'#13#13'Overwrite it?';
   msgConfirmSyntaxThemeSameName: string = 'Syntax theme exists, with the same name as UI theme. Do you want to apply it too?';
   msgConfirmInstallIt: string = 'Do you want to install it?';
-  msgConfirmInstallHotkeys: string = 'Package "%s" suggests to set %d hotkey(s):'#10#10'%s'#10#10'Do you need them?';
+  msgConfirmWithHotkeys: string = '%d hotkey(s): %s'#10#10'Yes: install with hotkeys'#10'No: install without hotkeys';
   msgConfirmFileChangedOutside: string = 'File was changed outside:';
   msgConfirmReloadIt: string = 'Reopen it?';
   msgConfirmReloadYes: string = 'Reload';

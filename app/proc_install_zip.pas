@@ -270,24 +270,49 @@ begin
   end;
 end;
 
+procedure DoInstallPlugin_GetHotkeys(ini: TIniFile; out AHotkeys: string; out AHotkeysCount: integer);
+var
+  sections: TStringList;
+  sec, s_hotkey: string;
+begin
+  AHotkeys:= '';
+  AHotkeysCount:= 0;
+
+  sections:= TStringList.Create;
+  try
+    ini.ReadSections(sections);
+
+    for sec in sections do
+    begin
+      if not SRegexMatchesString(sec, 'item\d+', true) then Continue;
+      s_hotkey:= ini.ReadString(sec, 'hotkey', '');
+      if s_hotkey<>'' then
+      begin
+        Inc(AHotkeysCount);
+        if AHotkeys<>'' then
+          AHotkeys+= ', ';
+        AHotkeys+= s_hotkey;
+      end;
+    end;
+  finally
+    FreeAndNil(sections);
+  end;
+end;
 
 procedure DoInstallPlugin(
   const AFilenameInf: string;
   out AReport: string;
   out ADirTarget: string;
   out ANeedRestart: boolean;
-  const ASilent: boolean);
+  const AllowHotkeys: boolean);
 var
   ini: TIniFile;
   sections: TStringList;
   ini_section, s_section,
-  s_title, s_caption, s_module, s_method, s_events,
-  s_lexers, s_hotkey, s_lexer_item, s_caption_nice,
-  s_allhotkeys: string;
+  s_caption, s_module, s_method, s_events,
+  s_lexers, s_hotkey, s_lexer_item, s_caption_nice: string;
   Sep: TATStringSeparator;
   Keymap: TATKeymap;
-  bAllowHotkeys: boolean;
-  NumHotkeys: integer;
 begin
   AReport:= '';
   ADirTarget:= '';
@@ -297,36 +322,11 @@ begin
 
   try
     s_module:= ini.ReadString('info', 'subdir', '');
-    s_title:= ini.ReadString('info', 'title', '');
     if s_module='' then exit;
     ini.ReadSections(sections);
 
     ADirTarget:= AppDir_Py+DirectorySeparator+s_module;
     FCopyDir(ExtractFileDir(AFilenameInf), ADirTarget);
-
-    s_allhotkeys:= '';
-    NumHotkeys:= 0;
-
-    if not ASilent then
-      for ini_section in sections do
-      begin
-        if not SRegexMatchesString(ini_section, 'item\d+', true) then Continue;
-        s_hotkey:= ini.ReadString(ini_section, 'hotkey', '');
-        if s_hotkey<>'' then
-        begin
-          Inc(NumHotkeys);
-          if s_allhotkeys<>'' then
-            s_allhotkeys+= ', ';
-          s_allhotkeys+= s_hotkey;
-        end;
-      end;
-
-    if NumHotkeys=0 then
-      bAllowHotkeys:= true
-    else
-      bAllowHotkeys:= MsgBox(Format(msgConfirmInstallHotkeys,
-                      [s_title, NumHotkeys, s_allhotkeys]),
-                      MB_OKCANCEL or MB_ICONQUESTION) = ID_OK;
 
     for ini_section in sections do
     begin
@@ -337,7 +337,7 @@ begin
       s_method:= ini.ReadString(ini_section, 'method', '');
       s_events:= ini.ReadString(ini_section, 'events', '');
       s_lexers:= ini.ReadString(ini_section, 'lexers', '');
-      if bAllowHotkeys then
+      if AllowHotkeys then
         s_hotkey:= ini.ReadString(ini_section, 'hotkey', '')
       else
         s_hotkey:= '';
@@ -568,10 +568,14 @@ procedure DoInstallAddonFromZip(
 var
   unzip: TUnZipper;
   list: TStringlist;
+  ini: TIniFile;
   dir_temp, dir_zipped, fn_inf: string;
   s_title, s_type, s_subdir, s_desc, s_api, s_os: string;
+  s_allhotkeys: string;
+  s_msgbox: string;
+  Num, NHotkeysCount, NMsgFlags: integer;
   ok: boolean;
-  Num: integer;
+  bAllowHotkeys: boolean;
 begin
   AStrReport:= '';
   AStrMessage:= '';
@@ -627,16 +631,21 @@ begin
     unzip.Free;
   end;
 
-  with TIniFile.Create(fn_inf) do
+  ini:= TIniFile.Create(fn_inf);
   try
-    s_title:= ReadString('info', 'title', '');
-    s_desc:= ReadString('info', 'desc', '');
-    s_type:= ReadString('info', 'type', '');
-    s_subdir:= ReadString('info', 'subdir', '');
-    s_api:= ReadString('info', 'api', '');
-    s_os:= ReadString('info', 'os', '');
+    s_title:= ini.ReadString('info', 'title', '');
+    s_desc:= ini.ReadString('info', 'desc', '');
+    s_type:= ini.ReadString('info', 'type', '');
+    s_subdir:= ini.ReadString('info', 'subdir', '');
+    s_api:= ini.ReadString('info', 'api', '');
+    s_os:= ini.ReadString('info', 'os', '');
+
+    s_allhotkeys:= '';
+    NHotkeysCount:= 0;
+    if not ASilent then
+      DoInstallPlugin_GetHotkeys(ini, s_allhotkeys, NHotkeysCount);
   finally
-    Free
+    FreeAndNil(ini);
   end;
 
   if not CheckValue_OS(s_os) then
@@ -693,14 +702,34 @@ begin
     exit
   end;
 
+  bAllowHotkeys:= false;
   if not ASilent then
-  if MsgBox(msgStatusPackageContains+#10#10+
-    msgStatusPackageName+' '+s_title+#10+
-    IfThen(s_desc<>'', msgStatusPackageDesc+' '+s_desc+#10)+
-    msgStatusPackageType+' '+s_type+ IfThen(AAddonType=cAddonTypeData, ' / '+s_subdir)+ #10+
-    #10+
-    msgConfirmInstallIt,
-    MB_OKCANCEL or MB_ICONQUESTION)<>ID_OK then exit;
+  begin
+    s_msgbox:= msgStatusPackageContains+#10#10+
+      msgStatusPackageName+' '+s_title+#10+
+      IfThen(s_desc<>'', msgStatusPackageDesc+' '+s_desc+#10)+
+      msgStatusPackageType+' '+s_type+ IfThen(AAddonType=cAddonTypeData, ' / '+s_subdir);
+
+    if NHotkeysCount>0 then
+    begin
+      s_msgbox+= #10#10+Format(msgConfirmWithHotkeys, [NHotkeysCount, s_allhotkeys]);
+      NMsgFlags:= MB_YESNOCANCEL or MB_ICONQUESTION;
+    end
+    else
+    begin
+      s_msgbox+= #10#10+msgConfirmInstallIt;
+      NMsgFlags:= MB_OKCANCEL or MB_ICONQUESTION;
+    end;
+
+    case MsgBox(s_msgbox, NMsgFlags) of
+      ID_YES, ID_OK:
+        bAllowHotkeys:= true;
+      ID_NO:
+        bAllowHotkeys:= false;
+      ID_CANCEL:
+        exit;
+    end;
+  end;
 
   AStrReport:= '';
   case AAddonType of
@@ -717,7 +746,7 @@ begin
     cAddonTypePlugin:
       begin
         AStrMessage:= msgStatusInstalledNeedRestart;
-        DoInstallPlugin(fn_inf, AStrReport, ADirTarget, ANeedRestart, ASilent)
+        DoInstallPlugin(fn_inf, AStrReport, ADirTarget, ANeedRestart, bAllowHotkeys)
       end;
     cAddonTypeData:
       begin
