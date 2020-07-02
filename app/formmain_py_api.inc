@@ -208,6 +208,7 @@ var
 var
   dir, filenameSnips, filenameLorem,
   SSection: string;
+  SAbbreb: UnicodeString;
   bMulLine: boolean;
   NPos, NRes: integer;
 begin
@@ -268,7 +269,7 @@ begin
             exit(ReturnNone);
           if NPos<=0 then
             exit(ReturnNone);
-          EmmetHelper.EmmetFindAbbrev(StrText, NPos, NRes, Str2);
+          EmmetHelper.EmmetFindAbbrev(StrText, NPos, NRes, SAbbreb);
           Result:= PyInt_FromLong(NRes);
         end;
 
