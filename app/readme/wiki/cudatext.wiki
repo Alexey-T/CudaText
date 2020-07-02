@@ -36,17 +36,17 @@ Screenshot on Windows:
 * Toolbar (configurable via plugin)
 * Powerful lexer format (easier to create+configure lexers for complex things)
 * Horizontal ruler above text
-* Markers in editor
-* Sessions system
-* Virtual caret position (after end of line)
+* Markers in editor ([[#Markers]])
+* Sessions system ([[#Sessions]]) 
+* Caret position after end of line
 * Better support for encodings, including UTF-32
 * Correctly saves binary files
-* Viewer for files of unlimited size (including hex mode)
-* Perfomance, see [[#Program_perfomance]]
+* Viewer for files of unlimited size, including hex mode ([[#File_viewer]]) 
+* Perfomance ([[#Program_perfomance]])
 * Coloring of UI-tab headers
 * Options Editor plugin
 * Can plug-in different Python engine
-* Character Map dialog
+* Character Map dialog ([[#Char_map]])
 
 = Download =
 
