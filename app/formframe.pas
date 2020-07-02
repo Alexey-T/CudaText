@@ -49,6 +49,7 @@ uses
   proc_py,
   proc_py_const,
   proc_miscutils,
+  proc_lexer_styles,
   ec_SyntAnal,
   ec_proc_lexer,
   ec_lexerlist,
@@ -245,6 +246,8 @@ type
     procedure SetLexerLite(Ed: TATSynEdit; an: TATLiteLexer);
     procedure SetLexerName(Ed: TATSynEdit; const AValue: string);
     procedure UpdateTabTooltip;
+    function GetIsPreview: boolean;
+    procedure SetIsPreview(AValue: boolean);
 
     procedure DoSaveUndo(Ed: TATSynEdit; const AFileName: string);
     procedure DoLoadUndo(Ed: TATSynEdit);
@@ -277,6 +280,8 @@ type
     property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
     property TabCaptionFromApi: boolean read FTabCaptionFromApi write FTabCaptionFromApi;
     property TabId: integer read FTabId;
+    property TabIsPreview: boolean read GetIsPreview write SetIsPreview;
+
     property CachedTreeViewInited[Ed: TATSynEdit]: boolean read GetCachedTreeviewInited;
     property CachedTreeView[Ed: TATSynEdit]: TTreeView read GetCachedTreeview;
     property SaveHistory: boolean read FSaveHistory write FSaveHistory;
@@ -315,7 +320,6 @@ type
     property CodetreeFilterHistory: TStringList read FCodetreeFilterHistory;
     property ActivationTime: Int64 read FActivationTime write FActivationTime;
     function IsEmpty: boolean;
-    function IsPreview: boolean;
     procedure ApplyTheme;
     function IsEditorFocused: boolean;
     procedure SetFocus; reintroduce;
@@ -403,6 +407,8 @@ procedure GetFrameLocation(Frame: TEditorFrame;
   out AGroups: TATGroups; out APages: TATPages;
   out ALocalGroupIndex, AGlobalGroupIndex, ATabIndex: integer);
 
+procedure UpdateTabPreviewStyle(D: TATTabData; AValue: boolean);
+
 var
   //must be set in FormMain.OnShow
   AllowFrameParsing: boolean = false;
@@ -453,6 +459,15 @@ begin
   AGlobalGroupIndex:= ALocalGroupIndex;
   if AGroups.Tag<>0 then
     Inc(AGlobalGroupIndex, High(TATGroupsNums) + AGroups.Tag);
+end;
+
+procedure UpdateTabPreviewStyle(D: TATTabData; AValue: boolean);
+begin
+  D.TabSpecial:= AValue;
+  if AValue then
+    D.TabFontStyle:= StringToFontStyles(UiOps.TabPreviewFontStyle)
+  else
+    D.TabFontStyle:= [];
 end;
 
 
@@ -3306,8 +3321,7 @@ begin
   D:= Pages.Tabs.GetTabData(NTab);
   if Assigned(D) then
   begin
-    D.TabSpecial:= false;
-    D.TabFontStyle:= [];
+    UpdateTabPreviewStyle(D, false);
     Pages.Tabs.Invalidate;
   end;
 end;
@@ -3644,7 +3658,7 @@ begin
     DoHideNotificationPanel(i);
 end;
 
-function TEditorFrame.IsPreview: boolean;
+function TEditorFrame.GetIsPreview: boolean;
 var
   Gr: TATGroups;
   Pages: TATPages;
@@ -3660,6 +3674,29 @@ begin
       Result:= D.TabSpecial;
   end;
 end;
+
+procedure TEditorFrame.SetIsPreview(AValue: boolean);
+var
+  Gr: TATGroups;
+  Pages: TATPages;
+  NLocalGroups, NGlobalGroup, NTab: integer;
+  D: TATTabData;
+begin
+  //can change only to False!
+  if AValue then exit;
+
+  GetFrameLocation(Self, Gr, Pages, NLocalGroups, NGlobalGroup, NTab);
+  if NTab>=0 then
+  begin
+    D:= Pages.Tabs.GetTabData(NTab);
+    if Assigned(D) then
+    begin
+      UpdateTabPreviewStyle(D, AValue);
+      Pages.Tabs.Invalidate;
+    end;
+  end;
+end;
+
 
 function TEditorFrame.IsCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integer): boolean;
 var

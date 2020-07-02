@@ -3316,7 +3316,7 @@ begin
         PROP_PREVIEW:
           begin
             if Assigned(F) then
-              Result:= PyBool_FromLong(Ord(F.IsPreview))
+              Result:= PyBool_FromLong(Ord(F.TabIsPreview))
             else
               Result:= PyBool_FromLong(0);
           end;
@@ -3916,6 +3916,12 @@ begin
           begin
             if Assigned(F) then
               F.SaveHistory:= ValueBool;
+          end;
+
+        PROP_PREVIEW:
+          begin
+            if Assigned(F) then
+              F.TabIsPreview:= ValueBool;
           end;
 
         PROP_UNDO_GROUPED:

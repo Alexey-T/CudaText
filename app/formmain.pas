@@ -3614,8 +3614,7 @@ begin
       else
         D:= CreateTab(APages, 'pre', true, false);
       if not Assigned(D) then exit;
-      D.TabSpecial:= true;
-      D.TabFontStyle:= StringToFontStyles(UiOps.TabPreviewFontStyle);
+      UpdateTabPreviewStyle(D, true);
       Result:= D.TabObject as TEditorFrame;
     end;
 
