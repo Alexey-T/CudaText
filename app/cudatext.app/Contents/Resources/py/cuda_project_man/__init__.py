@@ -898,6 +898,8 @@ class Command:
     def tree_on_click_dbl(self, id_dlg, id_ctl, data='', info=''):
 
         if not self.options.get('d_click', False):
+            #turn off 'preview' tab kind on dbl-click
+            ed.set_prop(PROP_PREVIEW, False)
             return
         self.do_open_current_file(self.get_open_options())
 
