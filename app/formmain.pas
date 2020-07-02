@@ -4325,9 +4325,18 @@ begin
 end;
 
 procedure TfmMain.DisablePluginMenuItems;
+  //
+  procedure _Disable(mi: TMenuItem);
+  begin
+    if Assigned(mi) then
+      mi.Enabled:= false;
+  end;
+  //
 begin
-  if Assigned(mnuPlugins) then
-    mnuPlugins.Enabled:= false;
+  _Disable(mnuFileNewMenu);
+  _Disable(mnuFileOpenDir);
+  _Disable(mnuOpPlugins);
+  _Disable(mnuPlugins);
 end;
 
 procedure TfmMain.MenuEncNoReloadClick(Sender: TObject);
