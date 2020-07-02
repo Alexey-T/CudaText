@@ -2288,6 +2288,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_ONE_LINE: bool: editor has single-line mode.
 * PROP_MODERN_SCROLLBAR: bool: use custom-drawn themed scrollbars.
 * PROP_SAVE_HISTORY: bool: allows to save history (caret, scroll pos, folding etc) on file closing.
+* PROP_PREVIEW: bool: editor is inside "Preview tab" (it has italic caption). Currently only False value can be written.
 * PROP_UNDO_GROUPED: bool: editor undo/redo is grouped.
 * PROP_UNDO_LIMIT: int: max count of simple actions, which can be undone.
 * PROP_UNDO_DATA: str: string representation of Undo data.
@@ -3982,5 +3983,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.342 (app 1.106.1)
 * add: support loading plugin events also from settings/plugins.ini [events] cuda_modulename=comma_separated_events
 * change: Editor.action: EDACTION_FIND* and EDACTION_REPLACE* return False for incorrect RegEx
+
+1.0.343 (app 1.106.2)
+* add: Editor.set_prop: PROP_PREVIEW is writable now
 
 [[Category:CudaText]]
