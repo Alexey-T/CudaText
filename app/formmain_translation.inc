@@ -571,7 +571,8 @@ begin
 
     DoLocString(msgConfirmSyntaxThemeSameName    , ini, 'sc', 'ThemeSyntaxSame');
     DoLocString(msgConfirmInstallIt              , ini, 'sc', 'InstallIt');
-    //DoLocString(msgConfirmInstallHotkeys         , ini, 'sc', 'InstallHotkeys');
+    DoLocString(msgConfirmHotkeyList             , ini, 'sc', 'HotkeyList');
+    DoLocString(msgConfirmOkNoHotkeys            , ini, 'sc', 'OkWithoutKeys');
     DoLocString(msgConfirmFileChangedOutside     , ini, 'sc', 'FileChangedOutside');
     DoLocString(msgConfirmReloadIt               , ini, 'sc', 'ReloadIt');
     DoLocString(msgConfirmReloadYes              , ini, 'sc', 'ReloadYes');

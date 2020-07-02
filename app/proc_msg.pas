@@ -119,7 +119,6 @@ const
   msgButtonAbort: string = 'Abort';
   msgButtonRetry: string = 'Retry';
   msgButtonIgnore: string = 'Ignore';
-  msgButtonOkNoHotkeys: string = 'OK, w/o hotkeys';
 
   msgFileNew: string = 'New file';
   msgFileOpen: string = 'Open file...';
@@ -256,9 +255,10 @@ const
   msgStatusChangedLinesCount: string = 'Changed %d lines';
 
   msgConfirmHotkeyBusy: string = 'Hotkey is already occupied by command:'#13'%s'#13#13'Overwrite it?';
+  msgConfirmHotkeyList: string = 'hotkeys (%d): %s';
+  msgConfirmOkNoHotkeys: string = 'OK without hotkeys';
   msgConfirmSyntaxThemeSameName: string = 'Syntax theme exists, with the same name as UI theme. Do you want to apply it too?';
   msgConfirmInstallIt: string = 'Do you want to install it?';
-  msgConfirmWithHotkeys: string = 'hotkeys (%d): %s';
   msgConfirmFileChangedOutside: string = 'File was changed outside:';
   msgConfirmReloadIt: string = 'Reopen it?';
   msgConfirmReloadYes: string = 'Reload';

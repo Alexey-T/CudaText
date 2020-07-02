@@ -712,7 +712,7 @@ begin
       msgStatusPackageName+' '+s_title+#10+
       IfThen(s_desc<>'', msgStatusPackageDesc+' '+s_desc+#10)+
       msgStatusPackageType+' '+s_type+ IfThen(AAddonType=cAddonTypeData, ' / '+s_subdir)+
-      IfThen(NumHotkeys>0, #10+Format(msgConfirmWithHotkeys, [NumHotkeys, s_allhotkeys]))+
+      IfThen(NumHotkeys>0, #10+Format(msgConfirmHotkeyList, [NumHotkeys, s_allhotkeys]))+
       #10#10+msgConfirmInstallIt;
 
     Buttons:= TDialogButtons.Create(TDialogButton);
@@ -724,7 +724,7 @@ begin
     if NumHotkeys>0 then
       with Buttons.Add do
       begin
-        Caption:= msgButtonOkNoHotkeys;
+        Caption:= msgConfirmOkNoHotkeys;
         ModalResult:= mrNo;
       end;
     with Buttons.Add do
