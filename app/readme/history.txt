@@ -7,6 +7,7 @@
 
 + add: plugin Sort has new option [sort] max_lines=5000 in settings/plugins.ini, to avoid almost-hanging on huge documents
 + add: Project Manager: double click switches file-tab from "preview" to "normal" style (thanks @kostyarin_)
++ add: zip plugin installer: instead of 2nd confirmation about plugin hotkeys, show single confirmation with more buttons
 + add: auto-detect XML for UTF-8 BOM too
 + add: better value of "links_regex"
 + add: Addon Manager: "Install from GitHub" auto refreshes program plugins
