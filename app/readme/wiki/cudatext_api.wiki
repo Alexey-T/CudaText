@@ -586,7 +586,7 @@ Shows modal message-box with any number of buttons with any captions.
 ** MB_ICONQUESTION
 ** MB_ICONWARNING
 ** MB_ICONINFO
-* Param "focused": int: Index of focused button. Note: it doesn't work yet on GTK2 (Linux/BSD) due to Lazarus issue.
+* Param "focused": int: Index of focused button.
 
 Returns int index of pressed button (0-based), or None of cancelled.
 
@@ -3965,7 +3965,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.get_token: TOKEN_LIST_ALT
 
 1.0.338 (app 1.105.2)
-* add: msg_box_ex: added param "focused" but it doesn't work on GTK2 (Linux/BSD) yet due to Lazarus issue
+* add: msg_box_ex: added param "focused"
 
 1.0.339 (app 1.105.3)
 * deleted: Editor.get_token: TOKEN_LIST_ALT
