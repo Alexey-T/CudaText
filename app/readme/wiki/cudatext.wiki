@@ -33,8 +33,8 @@ Screenshot on Windows:
 * Python API allows to manage dialogs and UI-controls, including CudaText editor control
 * Code-Tree for lot of lexers (ST has plugin for very limited set of languages)
 * Floating groups (3 groups of UI-tabs in floating windows)
-* Toolbar (configurable via plugin)
-* Powerful lexer format (easier to create+configure lexers for complex things)
+* Powerful lexer format, and easier to configure (via dialogs in additional program)
+* Toolbar, configurable via plugin ([[#Toolbar]])
 * Horizontal ruler above text
 * Markers in editor ([[#Markers]])
 * Sessions system ([[#Sessions]]) 
