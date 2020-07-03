@@ -35,6 +35,7 @@ Screenshot on Windows:
 * Floating groups (3 groups of UI-tabs in floating windows)
 * Powerful lexer format, and easier to configure (via dialogs in additional program)
 * Toolbar, configurable via plugin ([[#Toolbar]])
+* Micromap ([[#Micromap]])
 * Horizontal ruler above text
 * Markers in editor ([[#Markers]])
 * Sessions system ([[#Sessions]]) 
