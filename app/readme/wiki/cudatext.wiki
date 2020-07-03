@@ -746,20 +746,29 @@ CudaText has option "ui_tab_switcher_dialog", which activates modern tab switche
 
 Alternative way is plugin CudaExt. Plugin gives command "Choose tab to switch to". You need to assign hotkey Ctrl+Tab to this command (hotkey will be removed from CudaText command). Plugin's dialog is richer than CudaText's dialog - it allows to switch to Console/Output/Validate panels, it allows to cancel the operation.
 
-==Minimap, Micromap==
+==Minimap==
+Minimap is wide vertical bar near editor's right side (it can be shown on the left side too, by the option). To show it:
 
-Minimap is wide vertical bar near editor's right (default) or left side. To show it, set option "minimap_show", or use menu item "View / Toggle minimap".
-If you drag mouse over minimap, editor will scroll entirely from top to bottom, even for huge files (it's made like in Sublime).
-Text in minimap is painted by 1-2 pixels per char, not by font rendering, so scale of minimap cannot change.
+* set the option "minimap_show" (show permamently)
+* use menu item "View / Toggle minimap" (show temporary, for the current document only)
 
-Micromap is thin (about 12 pixels) vertical bar near editor's right side (near vert scrollbar). To show it, set option "micromap_show".
+If you drag mouse over minimap, editor will scroll entirely from top to bottom, even for huge documents (mimics Sublime Text behaviour).
+Text in minimap is painted by 1-2 pixels per character, not by font rendering, so scale of minimap cannot be changed.
 
-Colored marks on micromap:
+==Micromap==
+Micromap is thin (about 12 pixels) vertical bar near editor's right side. It is not scrollable, it shows overview of entire document from top to bottom. To show it:
+
+* set the option "micromap_show" (show permanently)
+* use menu item "View / Toggle micromap" (show temporary, for the current document only)
+
+Micromap shows tiny colored marks:
 
 * wide+tall mark: current visible area of editor
-* on left side: line-states marks (3 states: line changed, line added, line saved)
-* on right side: marks for selections (made e.g. by "Find/ Select all", usually blue)
-* on right side: marks from Spell Checker plugin (usually red)
+* on the left side: line-states marks ([[#Line_states]])
+* on the right side: marks for selections (made e.g. by "Find / Select all", usually blue)
+* on the right side: marks from Spell Checker plugin (usually red)
+
+Plugins can place marks on micromap, e.g. plugin "Highlight Occurrences" places marks for highlighted fragments, plugin "Spell Checker" places marks for misspelled words.
 
 == Paste with middle-button-click ==
 
