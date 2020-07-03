@@ -862,11 +862,47 @@ Project Manager shows file/folder icons, using default file-type-icons theme. Yo
 ===Preview tab===
 To see preview tab, call "File / Open folder" and choose a folder with text files. Folder will open in the side panel "Project". Make single click on files in this panel, they will open in "preview tab". Single preview tab is shared by all clicked files in "Project". It has italic caption. When you begin to edit file in this preview tab, tab becomes "normal".
 
-==CudaLint plugin==
-CudaLint allows to check syntax of source code files. It was initially ported from SublimeLinter 2.x plugin for Sublime Text. It requires sub-plugins, "linters", for each lexer. When a linter works, it adds output lines to the "Validate" panel of CudaText, and puts yellow/red bookmarks on warning/error lines.
+==Linters==
+CudaLint plugin allows to check correctness of documents in many syntaxes.
+It was initially ported from SublimeLinter 2.x plugin for Sublime Text. 
+Each lexer must be supported with additionally installed linter, for example:
 
-Linters are Python modules, in the "py" folder, with names "cuda_lint_"+something.
+* JavaScript is supported with linter based on JSLint tool,
+* HTML is supported with linter based on HTML Tidy tool,
+* CSS is supported with linter based on CSSLint tool,
+* etc
 
+You will find all linters in the Addon Manager: "Plugins / Addon Manager / Install".
+Linters are installable like other plugins but they don't add commands, they only add folders
+"[CudaText]/py/cuda_lint_*", which are automatically used by CudaLint.
+After you install a linter, see readme in its folder, maybe how-to-use info is written there.
+
+===Linters - usage===
+To run linting, use menu item "Plugins / CudaLint / Lint", or set hotkey to this command
+(in CudaText Command Palette, press F9). You will see statusbar message, which tells how many errors
+linter found. For each found error, you'll see yellow/red bookmark (you can use usual commands
+for these bookmarks). Plugin also shows list of errors in the "Validate" panel
+(to show Validate panel, click V icon on the CudaText sidebar).
+
+Linting can also be run by events:
+
+* after opening file
+* on saving file
+* after text is changed + pause passed
+
+Events aren't used by default (to not slowdown usual work). To use events, you must enable them in config.
+Call config by menu item in "Options / Settings-plugins".
+
+===Linters - Node.js===
+Some linters require Node.js, so for those linters, you must install Node first.
+Those linters are sometimes shipped with Node modules preinstalled (in plugin folder)
+and sometimes you need to install Node modules via NPM.
+See linter's readme file for details.
+
+* Windows: "node.exe" must be in PATH, command "node -v" must work in console.
+* Linux: "nodejs" package must be installed, command "nodejs -v" must work in terminal.
+
+===Linters - authoring===
 To support more lexers, it's a good idea to port linter from SublimeLinter. To port a linter, most you need is:
 
 * Fix "imports" to use "cuda_lint" module, instead of SublimeLinter modules. cuda_lint gives almost the same classes which SublimeLinter gives. Except Node.js linter class - it's not supported yet. Usual Linter and PythonLinter classes are supported.
@@ -874,7 +910,7 @@ To support more lexers, it's a good idea to port linter from SublimeLinter. To p
 * Remove in linter usage of Sublime Text API to read settings (often used in linters). You can add usage of settings via CudaText API ini_read, or via json module.
 * If linter was using Node.js, take some code to run Node, from cuda_lint_csslint linter.
 
-===Linters per project===
+===Linters - per project===
 How to configure linters per project? In your project (Project Manager plugin), right-click root node of project treeview, call menu item "Project file / Project properties...". In this dialog, in the "Variablies" field, enter variable(s) like this:
 
  linter_css=csslint
