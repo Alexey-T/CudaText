@@ -16,6 +16,7 @@ sudo cp -a ~/cuda/cuda/app/builds/macos-cocoa/cudatext $TMP/CudaText.app/Content
 
 sudo ln -s /Applications $TMP/Applications
 
+echo Wait 20 sec...
 sleep 20
 sudo umount $TMP
 rmdir $TMP
