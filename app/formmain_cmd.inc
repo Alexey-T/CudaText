@@ -83,7 +83,7 @@ begin
       begin
         if not AppPython.Inited then
         begin
-          MsgBox(msgCommandNeedsPython, MB_OK+MB_ICONERROR);
+          MsgStatusAlt(msgCommandNeedsPython, UiOps.StatusAltTime);
           exit;
         end;
 
