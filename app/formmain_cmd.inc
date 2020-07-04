@@ -81,6 +81,12 @@ begin
 
     cmd_FileOpenFolder:
       begin
+        if not AppPython.Inited then
+        begin
+          MsgBox(msgCommandNeedsPython, MB_OK+MB_ICONERROR);
+          exit;
+        end;
+
         SetLength(Params, 0);
         DoPyCommand('cuda_project_man', 'new_project_open_dir', Params);
       end;

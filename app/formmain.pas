@@ -4333,8 +4333,6 @@ procedure TfmMain.DisablePluginMenuItems;
   end;
   //
 begin
-  _Disable(mnuFileNewMenu);
-  _Disable(mnuFileOpenDir);
   _Disable(mnuOpPlugins);
   _Disable(mnuPlugins);
 end;
@@ -6554,6 +6552,12 @@ procedure TfmMain.DoFileNewMenu(Sender: TObject);
 var
   Params: TAppVariantArray;
 begin
+  if not AppPython.Inited then
+  begin
+    MsgBox(msgCommandNeedsPython, MB_OK+MB_ICONERROR);
+    exit;
+  end;
+
   SetLength(Params, 0);
   DoPyCommand('cuda_new_file', 'menu', Params);
 end;

@@ -276,6 +276,11 @@ const
   msgConfirmRemoveStylesFromBackup: string = 'Remove checked styles from backup file?';
   msgConfirmReplaceGlobal: string = 'This will perform mass replace in all opened documents. This will also reset all selections. Continue?';
 
+  msgCommandNeedsPython: string =
+    'This command works only with installed Python engine.'+
+    ' You need to write proper value of "pylib*" to user.json.'+
+    ' Call menu item "Options / Settings-default" and read in default.json information about option "pylib".';
+
   msgAboutCredits =
       'Lazarus IDE:'+EOL+
       '  http://www.lazarus-ide.org'+EOL+
