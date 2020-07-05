@@ -519,6 +519,11 @@
   //Keep caret on visible screen area, on commands "Scroll line up/down"
   "caret_keep_visible_on_scroll": true,
 
+  //Mode of column selection, value makes difference for wrapped lines
+  //and lines with full-width (e.g. CJK) chars. If "true", it behaves much like
+  //Sublime Text. Value "false" is also useful, it mimics some Windows editors.
+  "carets_primitive_column_sel": true,
+
   //[Find]
   //Find dialog: show window, not docked to app bottom (applied after restart)
   "find_separate_form": false,
