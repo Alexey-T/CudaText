@@ -481,6 +481,7 @@ type
     OpCaretMulti: boolean;
     OpCaretAfterPasteColumn: integer;
     OpCaretsAddedToColumnSel: boolean;
+    OpCaretsPrimitiveColumnSel: boolean;
     OpCaretKeepVisibleOnScroll: boolean;
 
     //general
@@ -1228,6 +1229,7 @@ begin
     OpCaretAfterPasteColumn:= Ord(cPasteCaretColumnRight);
     OpCaretsAddedToColumnSel:= true;
     OpCaretKeepVisibleOnScroll:= true;
+    OpCaretsPrimitiveColumnSel:= true;
 
     OpShowCurLine:= false;
     OpShowCurLineMinimal:= true;

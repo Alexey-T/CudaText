@@ -242,6 +242,7 @@ begin
   Ed.OptCaretVirtual:= Op.OpCaretVirtual;
   Ed.OptCaretManyAllowed:= Op.OpCaretMulti;
   Ed.OptCaretsAddedToColumnSelection:= Op.OpCaretsAddedToColumnSel;
+  Ed.OptCaretsPrimitiveColumnSelection:= Op.OpCaretsPrimitiveColumnSel;
   Ed.OptScrollLineCommandsKeepCaretOnScreen:= Op.OpCaretKeepVisibleOnScroll;
 
   Ed.OptShowCurLine:= Op.OpShowCurLine;

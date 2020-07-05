@@ -847,6 +847,7 @@ begin
   Op.OpCaretMulti:= cfg.GetValue('caret_multi', Op.OpCaretMulti);
   Op.OpCaretAfterPasteColumn:= cfg.GetValue('caret_after_paste_column', Op.OpCaretAfterPasteColumn);
   Op.OpCaretsAddedToColumnSel:= cfg.GetValue('carets_with_column_sel', Op.OpCaretsAddedToColumnSel);
+  Op.OpCaretsPrimitiveColumnSel:= cfg.GetValue('carets_primitive_column_sel', Op.OpCaretsPrimitiveColumnSel);
   Op.OpCaretKeepVisibleOnScroll:= cfg.GetValue('caret_keep_visible_on_scroll', Op.OpCaretKeepVisibleOnScroll);
 
   Op.OpShowCurLine:= cfg.GetValue('show_cur_line', Op.OpShowCurLine);
