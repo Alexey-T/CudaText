@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.106.6 (2020/07)
+
++ add: option "carets_primitive_column_sel", which activates mode of column selection like in Sublime Text
+
 1.106.5 (2020/07)
 
 + add: plugin Sort has new option [sort] max_lines=5000 in settings/plugins.ini, to avoid almost-hanging on huge documents
