@@ -1764,7 +1764,7 @@ CudaText gives two modes of column selection, which have differences when you se
 
 * Value "true": "pritimive mode" which behaves much like Sublime Text. In this mode editor places multi-selections over visual rectangle of characters. In this mode, one line can have 6 chars selected, and another line can have 8 chars selected. This depends on visual positions of chars in those lines.
 
-* Value "false": in this mode, all affected lines have the same number of selected chars. But this mode may look weird. When full-width characters (CJK or other Unicode) are present in text, selection may look weird. Here is an example picture where starting lines are ASCII and ending lines have full-width characters.
+* Value "false": in this mode, all affected lines have the same number of selected chars. But when full-width chars (e.g. CJK) are present in text, selection may look weird. Here is an example picture where starting lines are ASCII and ending lines have full-width chars.
 
 [[File:cudatext-column-sel-cjk.png]]
 
