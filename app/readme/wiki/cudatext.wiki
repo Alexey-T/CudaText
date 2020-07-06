@@ -1758,9 +1758,13 @@ What CudaText folder to pack?
 
 Make the bug reproducable on your CudaText folder on your test file(s). Put your test file(s) in ZIP too. If needed to reproduce the bug, create the [[#Sessions|session]] using Session Manager plugin (bug may be visible only with some session). Put session file in ZIP too (usually it's already in the "settings" subfolder).
 
-==Why column selection looks weird sometimes==
+==Behaviour of column selection==
 
-When full-width characters (CJK or other Unicode) are present in text, column (vertical) selection may look weird. Here is an example picture where starting lines are ASCII and ending lines have full-width characters.
+CudaText gives two modes of column selection, which have differences when you select over wrapped lines, or lines with full-width characters. This is controlled by the option "carets_primitive_column_sel".
+
+* Value "true": "pritimive mode" which behaves much like Sublime Text. In this mode editor places multi-selections over visual rectangle of characters. In this mode, one line can have 6 chars selected, and another line can have 8 chars selected. This depends on visual positions of chars in those lines.
+
+* Value "false": in this mode, all affected lines have the same number of selected chars. But this mode may look weird. When full-width characters (CJK or other Unicode) are present in text, selection may look weird. Here is an example picture where starting lines are ASCII and ending lines have full-width characters.
 
 [[File:cudatext-column-sel-cjk.png]]
 
