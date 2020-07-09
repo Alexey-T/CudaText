@@ -190,6 +190,9 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_CONFIG_NEWDOC_ENC_GET: Returns str: encoding of newly created documents (app option "newdoc_encoding").
 * PROC_CONFIG_NEWDOC_ENC_SET: Sets str: encoding of newly created documents.
 
+* PROC_CONFIG_SCALE_GET: Returns UI scales, as 2-tuple (int_scale_UI, int_scale_font). Both values are in percents, defaults are 100.
+* PROC_CONFIG_SCALE_SET: Sets UI scales, value must be 2-tuple (int_scale_UI, int_scale_font).
+
 ====Search properties====
 
 Actions work with props of Find/Replace dialog, and props of low-level search engine. When user runs some search command in the dialog, dialog applies its props to the search engine. So most of the time, props of dialog and search engine are sync'ed. But they aren't sync'ed if user just typed new text in the dialog. They also aren't sync'ed if user runs some search command via Command Palette or hotkey (e.g. "find current word, previous").
@@ -3984,5 +3987,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: support loading plugin events also from settings/plugins.ini [events] cuda_modulename=comma_separated_events
 * change: Editor.action: EDACTION_FIND* and EDACTION_REPLACE* return False for incorrect RegEx
 * add: Editor.set_prop: PROP_PREVIEW is writable now
+
+1.0.343 (app 1.106.7)
+* add: app_proc: PROC_CONFIG_SCALE_GET, PROC_CONFIG_SCALE_SET
 
 [[Category:CudaText]]
