@@ -85,6 +85,7 @@ const
   cConsolePrompt = '>>> ';
   cConsolePrintPrefix = '=';
   cConsoleTracebackMsg = 'Traceback (most recent call last):';
+  cConsoleSyntaxErrorMsg = 'SyntaxError: ';
 
 implementation
 
@@ -152,7 +153,8 @@ begin
 
     ModeReadOnly:= true;
 
-    if AText=cConsoleTracebackMsg then
+    if (AText=cConsoleTracebackMsg) or
+      SBeginsWith(AText, cConsoleSyntaxErrorMsg) then
     begin
       Inc(ErrorCounter);
       if Assigned(FOnNumberChange) then
