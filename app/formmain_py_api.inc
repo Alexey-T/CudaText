@@ -4846,10 +4846,24 @@ begin
           begin
             Result:= PyString_FromString(PChar(UiOps.NewdocEnc));
           end;
+
         APP_PROC_CONFIG_NEWDOC_ENC_SET:
           begin
             UiOps.NewdocEnc:= Str;
             Result:= ReturnNone;
+          end;
+
+        APP_PROC_CONFIG_SCALE_GET:
+          begin
+            Result:= Py_BuildValue('(ii)', UiOps.Scale, UiOps.ScaleFont);
+          end;
+
+        APP_PROC_CONFIG_SCALE_SET:
+          begin
+            Sep.Init(Str);
+            Sep.GetItemInt(UiOps.Scale, 100, 80, 500);
+            Sep.GetItemInt(UiOps.ScaleFont, 100, 80, 500);
+            fmMain.DoApplyUiOps;
           end;
 
         else
