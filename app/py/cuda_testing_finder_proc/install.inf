@@ -1,0 +1,11 @@
+[info]
+title=Testing finder_proc
+desc=(Fill the description)
+type=cudatext-plugin
+subdir=cuda_testing_finder_proc
+homepage=(Fill the GitHub repo URL)
+
+[item2]
+section=commands
+caption=Testing finder_proc
+method=run
