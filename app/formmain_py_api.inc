@@ -8437,7 +8437,29 @@ begin
           begin
             Finder.Clear;
             Result:= ReturnNone;
-          end
+          end;
+
+        FINDER_SET_FINDTEXT:
+          begin
+            Finder.StrFind:= StrValue;
+            Result:= ReturnNone;
+          end;
+
+        FINDER_GET_FINDTEXT:
+          begin
+            Result:= PyUnicode_FromWideString(Finder.StrFind);
+          end;
+
+        FINDER_SET_REPTEXT:
+          begin
+            Finder.StrReplace:= StrValue;
+            Result:= ReturnNone;
+          end;
+
+        FINDER_GET_REPTEXT:
+          begin
+            Result:= PyUnicode_FromWideString(Finder.StrReplace);
+          end;
 
         else
           Result:= ReturnNone;
