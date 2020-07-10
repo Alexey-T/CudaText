@@ -8532,6 +8532,7 @@ begin
 
               Pnt1:= Finder.MatchEdPos;
               Pnt2:= Finder.MatchEdEnd;
+
               Result:= Py_BuildValue('(iiii)', Pnt1.X, Pnt1.Y, Pnt2.X, Pnt2.Y);
             end
             else
@@ -8554,10 +8555,12 @@ begin
 
               Pnt1:= Finder.MatchEdPos;
               Pnt2:= Finder.MatchEdEnd;
+
               if bChanged then
                 PntAfter:= Finder.MatchEdPosAfterRep
               else
                 PntAfter:= Point(-1, -1);
+
               Result:= Py_BuildValue('(iiiiii)', Pnt1.X, Pnt1.Y, Pnt2.X, Pnt2.Y, PntAfter.X, PntAfter.Y);
             end
             else
