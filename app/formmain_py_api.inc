@@ -8419,7 +8419,7 @@ begin
 
       if (IdFinder=0) and (IdAction<>FINDER_CREATE) then
         exit(ReturnNone);
-      Finder:= TATEditorFinder(IdFinder);
+      Finder:= TATEditorFinder(PtrInt(IdFinder));
 
       case IdAction of
         FINDER_CREATE:
