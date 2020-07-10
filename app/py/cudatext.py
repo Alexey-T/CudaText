@@ -830,6 +830,29 @@ INI_GET_KEYS         = 1
 INI_DELETE_KEY       = 2
 INI_DELETE_SECTION   = 3
 
+FINDER_CREATE           = 0
+FINDER_FREE             = 1
+FINDER_CLEAR            = 2
+FINDER_SET_FINDTEXT     = 4
+FINDER_GET_FINDTEXT     = 5
+FINDER_SET_REPTEXT      = 6
+FINDER_GET_REPTEXT      = 7
+FINDER_SET_ED           = 8
+FINDER_GET_ED           = 9
+FINDER_SET_OPT          = 10
+FINDER_GET_OPT          = 11
+FINDER_SET_MAXLEN       = 12
+FINDER_GET_MAXLEN       = 13
+FINDER_SET_CARETS       = 14
+FINDER_GET_CARETS       = 15
+FINDER_SET_REP_CALLBACK = 20
+FINDER_FIND             = 30
+FINDER_FIND_REP         = 31
+FINDER_FIND_ALL         = 32
+FINDER_COUNT            = 33
+FINDER_REP_ALL          = 38
+FINDER_REP_ALL_EX       = 39
+
 API, EXE_VER = ct.app_ver()
 
 def app_exe_version():
