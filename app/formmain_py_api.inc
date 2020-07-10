@@ -8593,6 +8593,15 @@ begin
               Result:= PyInt_FromLong(i);
           end;
 
+        FINDER_REP_ALL:
+          begin
+            i:= Finder.DoAction_ReplaceAll;
+            if (i=0) and Finder.IsRegexBad then
+              Result:= PyBool_FromLong(0)
+            else
+              Result:= PyInt_FromLong(i);
+          end;
+
         else
           Result:= ReturnNone;
       end;
