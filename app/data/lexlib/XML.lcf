@@ -1,4 +1,4 @@
-object SyntAnal20: TLibSyntAnalyzer
+object SyntAnal29: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -540,10 +540,11 @@ object SyntAnal20: TLibSyntAnalyzer
     'Attrib value'
     'CDATA end')
   Extentions = 
-    'xml xsl xslt mmpa mmpr sti bdsproj xsd rss wml svg xul xsd axl r' +
-    'df xaml vcproj dproj plist storyboard msc csproj manifest lpi lp' +
-    'k sublime-snippet tmLanguage jsproj appxmanifest kml menu owl mx' +
-    'ml fxml vcxproj vcxproj.filters'
+    'xml appxmanifest axl bdsproj csproj dae dproj fsproj fxml jsproj' +
+    ' kml lpi lpk manifest menu mmpa mmpr msc mxml owl plist props rd' +
+    'f rss sqlproj sti storyboard sublime-snippet svg targets tmLangu' +
+    'age tmPreferences tmSnippet tmTheme vbproj vcproj vcxproj vcxpro' +
+    'j.filters wml xaml xsd xsl xslt xul'
   LexerName = 'XML'
   Notes.Strings = (
     'Based on original XML lexer from EControl'
