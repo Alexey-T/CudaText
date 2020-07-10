@@ -8527,6 +8527,7 @@ begin
             bResult:= Finder.DoAction_FindOrReplace(bNext, false, false, bChanged, bSetCaret);
             if bResult then
             begin
+              Finder.Editor.Update;
               Pnt1:= Finder.MatchEdPos;
               Pnt2:= Finder.MatchEdEnd;
               Result:= Py_BuildValue('(iiii)', Pnt1.X, Pnt1.Y, Pnt2.X, Pnt2.Y);
@@ -8546,6 +8547,7 @@ begin
             bResult:= Finder.DoAction_FindOrReplace(bNext, true, false, bChanged, bSetCaret);
             if bResult then
             begin
+              Finder.Editor.Update(bChanged);
               Pnt1:= Finder.MatchEdPos;
               Pnt2:= Finder.MatchEdEnd;
               if bChanged then
@@ -8614,7 +8616,10 @@ begin
             if (i=0) and Finder.IsRegexBad then
               Result:= PyBool_FromLong(0)
             else
+            begin
+              Finder.Editor.Update(true);
               Result:= PyInt_FromLong(i);
+            end;
           end;
 
         else
