@@ -160,6 +160,8 @@ begin
     Strs:= Ed.Strings;
     NLen:= Strs.Count;
     Result:= PyList_New(NLen);
+    if not Assigned(Result) then
+      raise EPythonError.Create(msgPythonListError);
     for i:= 0 to NLen-1 do
     begin
       PyList_SetItem(Result, i, PyInt_FromLong(Ord(Strs.LinesState[i])));
@@ -177,6 +179,8 @@ begin
     Strs:= Ed.Strings;
     NLen:= Strs.Count;
     Result:= PyList_New(NLen);
+    if not Assigned(Result) then
+      raise EPythonError.Create(msgPythonListError);
     for i:= 0 to NLen-1 do
     begin
       PyList_SetItem(Result, i, PyBool_FromLong(Ord(Strs.LinesUpdated[i])));
@@ -2584,6 +2588,8 @@ begin
           begin
             NLen:= Prop^.Listbox.Items.Count;
             Result:= PyList_New(NLen);
+            if not Assigned(Result) then
+              raise EPythonError.Create(msgPythonListError);
             for i:= 0 to NLen-1 do
             begin
               Obj:= Prop^.Listbox.Items.Objects[i];
@@ -5790,6 +5796,8 @@ begin
         LISTBOX_GET_COLUMNS:
           begin
             Result:= PyList_New(Length(Listbox.ColumnSizes));
+            if not Assigned(Result) then
+              raise EPythonError.Create(msgPythonListError);
             for i:= 0 to Length(Listbox.ColumnSizes)-1 do
               PyList_SetItem(Result, i, PyLong_FromLongLong(Int64(Listbox.ColumnSizes[i])));
           end;
@@ -7182,6 +7190,8 @@ begin
     with AppPython.Engine do
     begin
       Result:= PyList_New(ResList.Count);
+      if not Assigned(Result) then
+        raise EPythonError.Create(msgPythonListError);
       for i:= 0 to ResList.Count-1 do
       begin
         Res:= ResList[i];
@@ -7362,6 +7372,8 @@ begin
           begin
             NCount:= Length(Ed.Micromap.Columns);
             Result:= PyList_New(NCount);
+            if not Assigned(Result) then
+              raise EPythonError.Create(msgPythonListError);
             for i:= 0 to NCount-1 do
               with Ed.Micromap.Columns[i] do
                 PyList_SetItem(Result, i,
@@ -7671,6 +7683,8 @@ begin
         TOOLBAR_GET_BUTTON_HANDLES:
           begin
             Result:= PyList_New(FToolbar.ButtonCount);
+            if not Assigned(Result) then
+              raise EPythonError.Create(msgPythonListError);
             for NIndex1:= 0 to FToolbar.ButtonCount-1 do
               PyList_SetItem(Result, NIndex1, PyLong_FromLongLong(Int64(PtrInt(FToolbar.Buttons[NIndex1]))));
           end;
