@@ -8409,7 +8409,8 @@ var
   Finder: TATEditorFinder;
   PtrValue: PChar;
   StrValue: string;
-  NNext, NSetCaret, N: integer;
+  NNext, NSetCaret: integer;
+  NValue: Int64;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lisii:finder_proc', @IdFinder, @IdAction, @PtrValue, @NNext, @NSetCaret)) then
@@ -8459,6 +8460,31 @@ begin
         FINDER_GET_REPTEXT:
           begin
             Result:= PyUnicode_FromWideString(Finder.StrReplace);
+          end;
+
+        FINDER_SET_ED:
+          begin
+            NValue:= StrToInt64Def(StrValue, -1); //0 is allowed, ed's handle
+            if NValue=-1 then
+              exit(ReturnNone);
+            Finder.Editor:= PyEditor(NValue);
+            Result:= ReturnNone;
+          end;
+
+        FINDER_GET_ED:
+          begin
+            Result:= PyLong_FromLongLong(PtrInt(Finder.Editor));
+          end;
+
+        FINDER_SET_OPT:
+          begin
+            FinderOptionsFromString(Finder, StrValue);
+            Result:= ReturnNone;
+          end;
+
+        FINDER_GET_OPT:
+          begin
+            Result:= PyString_FromString(PChar(FinderOptionsToString(Finder)));
           end;
 
         else
