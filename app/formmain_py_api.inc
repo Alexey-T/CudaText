@@ -8500,6 +8500,17 @@ begin
             Result:= PyInt_FromLong(Finder.MaxLineLen);
           end;
 
+        FINDER_SET_CARETS:
+          begin
+            Finder.VirtualCaretsAsString:= StrValue;
+            Result:= ReturnNone;
+          end;
+
+        FINDER_GET_CARETS:
+          begin
+            Result:= PyString_FromString(PChar(Finder.VirtualCaretsAsString));
+          end;
+
         else
           Result:= ReturnNone;
       end;
