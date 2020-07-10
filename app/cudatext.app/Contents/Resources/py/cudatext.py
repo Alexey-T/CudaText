@@ -378,6 +378,8 @@ PROC_CONFIG_NEWDOC_EOL_GET = 170
 PROC_CONFIG_NEWDOC_EOL_SET = 171
 PROC_CONFIG_NEWDOC_ENC_GET = 172
 PROC_CONFIG_NEWDOC_ENC_SET = 173
+PROC_CONFIG_SCALE_GET      = 175
+PROC_CONFIG_SCALE_SET      = 176
 
 TREE_ITEM_ENUM             = 1
 TREE_ITEM_ADD              = 2
@@ -828,6 +830,29 @@ INI_GET_KEYS         = 1
 INI_DELETE_KEY       = 2
 INI_DELETE_SECTION   = 3
 
+FINDER_CREATE           = 0
+FINDER_FREE             = 1
+FINDER_CLEAR            = 2
+FINDER_SET_FINDTEXT     = 4
+FINDER_GET_FINDTEXT     = 5
+FINDER_SET_REPTEXT      = 6
+FINDER_GET_REPTEXT      = 7
+FINDER_SET_ED           = 8
+FINDER_GET_ED           = 9
+FINDER_SET_OPT          = 10
+FINDER_GET_OPT          = 11
+FINDER_SET_MAXLEN       = 12
+FINDER_GET_MAXLEN       = 13
+FINDER_SET_CARETS       = 14
+FINDER_GET_CARETS       = 15
+FINDER_SET_REP_CALLBACK = 20
+FINDER_FIND             = 30
+FINDER_FIND_REP         = 31
+FINDER_FIND_ALL         = 32
+FINDER_COUNT            = 33
+FINDER_REP_ALL          = 38
+FINDER_REP_ALL_EX       = 39
+
 API, EXE_VER = ct.app_ver()
 
 def app_exe_version():
@@ -1101,6 +1126,8 @@ def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name=''):
         _dlg_proc_wait(id_dialog)
     return res
 
+def finder_proc(id_finder, id_action, value="", next=False, setcaret=True):
+    return ct.finder_proc(id_finder, id_action, to_str(value), next, setcaret)
 
 def esc_z(s):
     # temp solution for null chars, later replace it to full solution with app patch
