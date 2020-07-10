@@ -8413,7 +8413,7 @@ var
   NValue: Int64;
   bNext, bSetCaret: boolean;
   bResult, bChanged: boolean;
-  Pnt1, Pnt2: TPoint;
+  Pnt1, Pnt2, PntAfter: TPoint;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lisii:finder_proc', @IdFinder, @IdAction, @PtrValue, @NNext, @NSetCaret)) then
@@ -8524,6 +8524,26 @@ begin
               Pnt1:= Finder.MatchEdPos;
               Pnt2:= Finder.MatchEdEnd;
               Result:= Py_BuildValue('(iiii)', Pnt1.X, Pnt1.Y, Pnt2.X, Pnt2.Y);
+            end
+            else
+            if Finder.IsRegexBad then
+              Result:= PyBool_FromLong(0)
+            else
+              Result:= ReturnNone;
+          end;
+
+        FINDER_FIND_REP:
+          begin
+            bResult:= Finder.DoAction_FindOrReplace(bNext, true, false, bChanged, bSetCaret);
+            if bResult then
+            begin
+              Pnt1:= Finder.MatchEdPos;
+              Pnt2:= Finder.MatchEdEnd;
+              if bChanged then
+                PntAfter:= Finder.MatchEdPosAfterRep
+              else
+                PntAfter:= Point(-1, -1);
+              Result:= Py_BuildValue('(iiii)', Pnt1.X, Pnt1.Y, Pnt2.X, Pnt2.Y, PntAfter.X, PntAfter.Y);
             end
             else
             if Finder.IsRegexBad then
