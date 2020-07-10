@@ -8527,7 +8527,9 @@ begin
             bResult:= Finder.DoAction_FindOrReplace(bNext, false, false, bChanged, bSetCaret);
             if bResult then
             begin
-              Finder.Editor.Update;
+              if bSetCaret then
+                Finder.Editor.Update;
+
               Pnt1:= Finder.MatchEdPos;
               Pnt2:= Finder.MatchEdEnd;
               Result:= Py_BuildValue('(iiii)', Pnt1.X, Pnt1.Y, Pnt2.X, Pnt2.Y);
@@ -8547,7 +8549,9 @@ begin
             bResult:= Finder.DoAction_FindOrReplace(bNext, true, false, bChanged, bSetCaret);
             if bResult then
             begin
-              Finder.Editor.Update(bChanged);
+              if bSetCaret or bChanged then
+                Finder.Editor.Update(bChanged);
+
               Pnt1:= Finder.MatchEdPos;
               Pnt2:= Finder.MatchEdEnd;
               if bChanged then
@@ -8617,7 +8621,7 @@ begin
               Result:= PyBool_FromLong(0)
             else
             begin
-              Finder.Editor.Update(true);
+              Finder.Editor.Update(i>0);
               Result:= PyInt_FromLong(i);
             end;
           end;
