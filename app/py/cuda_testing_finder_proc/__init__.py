@@ -28,13 +28,13 @@ class Command:
         
         finder_proc(self.fnd, FINDER_SET_ED, self.edh)
 
-        v=dlg_proc(self.dlg, DLG_CTL_PROP_GET, name='what')['val']
-        finder_proc(self.fnd, FINDER_SET_FINDTEXT, v)
+        s_find=self.edfind.get_text_all()
+        finder_proc(self.fnd, FINDER_SET_FINDTEXT, s_find)
 
-        v=dlg_proc(self.dlg, DLG_CTL_PROP_GET, name='repl')['val']
-        finder_proc(self.fnd, FINDER_SET_REPTEXT, v)
+        s_rep=self.edrep.get_text_all()
+        finder_proc(self.fnd, FINDER_SET_REPTEXT, s_rep)
         
-        print('finder: opt: "'+op+'", find what: "'+finder_proc(self.fnd, FINDER_GET_FINDTEXT)+'", replace: "'+finder_proc(self.fnd, FINDER_GET_REPTEXT)+'"')
+        print('finder: opt: "'+op+'", find what: "'+s_find+'", replace: "'+s_rep+'"')
         
     def do_count(self, id_dlg, id_ctl, data='', info=''):
 
@@ -108,14 +108,22 @@ class Command:
         idc=dlg_proc(idd, DLG_CTL_ADD,"label");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
         'name':'wha_', 'x':5, 'y':30, 'w':200, 'h':17, 'cap':'&Find what'})
 
-        idc=dlg_proc(idd, DLG_CTL_ADD,"memo");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
-        'name':'what', 'x':5, 'y':50, 'w':200, 'h':70, 'val': 'aa'})
+        idc=dlg_proc(idd, DLG_CTL_ADD,"editor");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
+        'name':'what', 'x':5, 'y':50, 'w':200, 'h':70})
+        h=dlg_proc(idd, DLG_CTL_HANDLE, name='what')
+        self.edfind=Editor(h)
+        self.edfind.set_text_all('aa')
+        self.edfind.set_prop(PROP_GUTTER_ALL, False)
 
         idc=dlg_proc(idd, DLG_CTL_ADD,"label");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
         'name':'rep_', 'x':230, 'y':30, 'w':200, 'h':17, 'cap':'&Replace with'})
 
-        idc=dlg_proc(idd, DLG_CTL_ADD,"memo");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
-        'name':'repl', 'x':230, 'y':50, 'w':200, 'h':70, 'val': 'dd'})
+        idc=dlg_proc(idd, DLG_CTL_ADD,"editor");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
+        'name':'repl', 'x':230, 'y':50, 'w':200, 'h':70 })
+        h=dlg_proc(idd, DLG_CTL_HANDLE, name='repl')
+        self.edrep=Editor(h)
+        self.edrep.set_text_all('[..]')
+        self.edrep.set_prop(PROP_GUTTER_ALL, False)
 
         idc=dlg_proc(idd, DLG_CTL_ADD,"label");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
         'name':'crt_', 'x':5, 'y':120, 'w':200, 'h':17, 'cap':'&Carets'})
