@@ -33,6 +33,12 @@ class Command:
 
         s_rep=self.edrep.get_text_all()
         finder_proc(self.fnd, FINDER_SET_REPTEXT, s_rep)
+
+        v=dlg_proc(self.dlg, DLG_CTL_PROP_GET, name='crts')
+        s=v['val']
+        if s:
+            print('finder carets:', s)
+        finder_proc(self.fnd, FINDER_SET_CARETS, s)
         
         print('finder: opt: "'+op+'", find what: "'+s_find+'", replace: "'+s_rep+'"')
         
@@ -126,7 +132,7 @@ class Command:
         self.edrep.set_prop(PROP_GUTTER_ALL, False)
 
         idc=dlg_proc(idd, DLG_CTL_ADD,"label");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
-        'name':'crt_', 'x':5, 'y':120, 'w':200, 'h':17, 'cap':'&Carets'})
+        'name':'crt_', 'x':5, 'y':120, 'w':200, 'h':17, 'cap':'&Virtual carets:'})
 
         idc=dlg_proc(idd, DLG_CTL_ADD,"edit");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
         'name':'crts', 'x':5, 'y':140, 'w':200, 'h':25})
