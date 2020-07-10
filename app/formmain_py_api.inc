@@ -8401,6 +8401,53 @@ begin
 end;
 
 
+//finder_proc(id_finder, id_action, value="", next=False, setcaret=True)
+function Py_finder_proc(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  IdFinder: Int64;
+  IdAction: integer;
+  Finder: TATEditorFinder;
+  PtrValue: PChar;
+  StrValue: string;
+  NNext, NSetCaret, N: integer;
+begin
+  with AppPython.Engine do
+    if Bool(PyArg_ParseTuple(Args, 'Lisii:finder_proc', @IdFinder, @IdAction, @PtrValue, @NNext, @NSetCaret)) then
+    begin
+      StrValue:= string(PtrValue);
+
+      if (IdFinder=0) and (IdAction<>FINDER_CREATE) then
+        exit(ReturnNone);
+      Finder:= TATEditorFinder(IdFinder);
+
+      case IdAction of
+        FINDER_CREATE:
+          begin
+            Finder:= TATEditorFinder.Create;
+            Result:= PyLong_FromLongLong(PtrInt(Finder));
+          end;
+
+        FINDER_FREE:
+          begin
+            FreeAndNil(Finder);
+            Result:= ReturnNone;
+          end;
+
+        FINDER_CLEAR:
+          begin
+            Finder.Clear;
+            Result:= ReturnNone;
+          end
+
+        else
+          Result:= ReturnNone;
+      end;
+    end
+    else
+      Result:= ReturnNone;
+end;
+
+
 //func at end (uses funcs above)
 procedure TfmMain.PythonModuleInitialization(Sender: TObject);
 begin
@@ -8493,6 +8540,7 @@ begin
     AddMethod('imagelist_proc', @Py_imagelist_proc, '');
     AddMethod('image_proc', @Py_image_proc, '');
     AddMethod('button_proc', @Py_button_proc, '');
+    AddMethod('finder_proc', @Py_finder_proc, '');
   end;
 end;
 

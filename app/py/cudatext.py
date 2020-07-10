@@ -1126,6 +1126,8 @@ def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name=''):
         _dlg_proc_wait(id_dialog)
     return res
 
+def finder_proc(id_finder, id_action, value="", next=False, setcaret=True):
+    return ct.finder_proc(id_finder, id_action, to_str(value), next, setcaret)
 
 def esc_z(s):
     # temp solution for null chars, later replace it to full solution with app patch
