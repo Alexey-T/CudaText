@@ -26,17 +26,19 @@ class Command:
         
         finder_proc(self.fnd, FINDER_SET_ED, self.edh)
 
-        v=dlg_proc(self.dlg, DLG_CTL_PROP_GET, name='wha_')['val']
+        v=dlg_proc(self.dlg, DLG_CTL_PROP_GET, name='what')['val']
         finder_proc(self.fnd, FINDER_SET_FINDTEXT, v)
 
-        v=dlg_proc(self.dlg, DLG_CTL_PROP_GET, name='rep_')['val']
+        v=dlg_proc(self.dlg, DLG_CTL_PROP_GET, name='repl')['val']
         finder_proc(self.fnd, FINDER_SET_REPTEXT, v)
         
+        print('finder: what: "'+finder_proc(self.fnd, FINDER_GET_FINDTEXT)+'", repl: "'+finder_proc(self.fnd, FINDER_GET_REPTEXT)+'"')
         
     def do_find(self, id_dlg, id_ctl, data='', info=''):
 
         self.apply_opt()
-        finder_proc(self.fnd, FINDER_FIND)
+        res=finder_proc(self.fnd, FINDER_FIND, next=False, setcaret=True)
+        print('finder_find:', res)
         pass
     
     def run(self):
