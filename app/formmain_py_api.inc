@@ -8487,6 +8487,19 @@ begin
             Result:= PyString_FromString(PChar(FinderOptionsToString(Finder)));
           end;
 
+        FINDER_SET_MAXLEN:
+          begin
+            NValue:= StrToIntDef(StrValue, 0);
+            if NValue>0 then
+              Finder.MaxLineLen:= NValue;
+            Result:= ReturnNone;
+          end;
+
+        FINDER_GET_MAXLEN:
+          begin
+            Result:= PyInt_FromLong(Finder.MaxLineLen);
+          end;
+
         else
           Result:= ReturnNone;
       end;
