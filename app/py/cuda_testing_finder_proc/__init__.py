@@ -7,7 +7,7 @@ class Command:
     edh=0
     edtext=None
     
-    def apply_opt(self):
+    def apply_opt(self, back, from_caret):
 
         op=''
         v=dlg_proc(self.dlg, DLG_CTL_PROP_GET, name='reex')
@@ -20,6 +20,9 @@ class Command:
         if v['val']=='1': op+='s'
         v=dlg_proc(self.dlg, DLG_CTL_PROP_GET, name='wrap')
         if v['val']=='1': op+='a'
+        
+        if back: op+='b'
+        if from_caret: op+='f'
         
         print('finder options:', op)
         finder_proc(self.fnd, FINDER_SET_OPT, op)
@@ -36,10 +39,27 @@ class Command:
         
     def do_find(self, id_dlg, id_ctl, data='', info=''):
 
-        self.apply_opt()
+        self.apply_opt(False, False)
         res=finder_proc(self.fnd, FINDER_FIND, next=False, setcaret=True)
-        print('finder_find:', res)
-        pass
+        if res is not None:
+            self.edtext.action(EDACTION_SHOW_POS, (res[0], res[1]))
+        print('find-first:', res)
+    
+    def do_find_next(self, id_dlg, id_ctl, data='', info=''):
+
+        self.apply_opt(False, True)
+        res=finder_proc(self.fnd, FINDER_FIND, next=False, setcaret=True)
+        if res is not None:
+            self.edtext.action(EDACTION_SHOW_POS, (res[0], res[1]))
+        print('find-next:', res)
+    
+    def do_find_prev(self, id_dlg, id_ctl, data='', info=''):
+
+        self.apply_opt(True, True)
+        res=finder_proc(self.fnd, FINDER_FIND, next=False, setcaret=True)
+        if res is not None:
+            self.edtext.action(EDACTION_SHOW_POS, (res[0], res[1]))
+        print('find-prev:', res)
     
     def run(self):
         
@@ -79,13 +99,13 @@ class Command:
         'name':'crts', 'x':5, 'y':140, 'w':200, 'h':25})
 
         idc=dlg_proc(idd, DLG_CTL_ADD,"button");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
-        'name':'frst', 'x':5, 'y':170, 'w':100, 'h':25, 'cap':'Find first', 'on_change': self.do_find})
+        'name':'frst', 'x':5, 'y':170, 'w':100, 'h':25, 'cap':'Find first', 'on_change': self.do_find })
 
         idc=dlg_proc(idd, DLG_CTL_ADD,"button");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
-        'name':'next', 'x':5, 'y':200, 'w':100, 'h':25, 'cap':'Find next'})
+        'name':'next', 'x':5, 'y':200, 'w':100, 'h':25, 'cap':'Find next', 'on_change': self.do_find_next })
 
         idc=dlg_proc(idd, DLG_CTL_ADD,"button");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
-        'name':'prev', 'x':105, 'y':170, 'w':100, 'h':25, 'cap':'Find prev'})
+        'name':'prev', 'x':105, 'y':170, 'w':100, 'h':25, 'cap':'Find prev', 'on_change': self.do_find_prev })
 
         idc=dlg_proc(idd, DLG_CTL_ADD,"button");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
         'name':'fall', 'x':105, 'y':200, 'w':100, 'h':25, 'cap':'Find all'})
