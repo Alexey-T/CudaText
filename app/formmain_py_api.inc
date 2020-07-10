@@ -8414,6 +8414,9 @@ var
   bNext, bSetCaret: boolean;
   bResult, bChanged: boolean;
   Pnt1, Pnt2, PntAfter: TPoint;
+  ResList: TATFinderResults;
+  ResItem: TATFinderResult;
+  i: integer;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lisii:finder_proc', @IdFinder, @IdAction, @PtrValue, @NNext, @NSetCaret)) then
@@ -8550,6 +8553,35 @@ begin
               Result:= PyBool_FromLong(0)
             else
               Result:= ReturnNone;
+          end;
+
+        FINDER_FIND_ALL:
+          begin
+            ResList:= TATFinderResults.Create;
+            try
+              Finder.DoAction_FindAll(ResList, true);
+              if (ResList.Count=0) and Finder.IsRegexBad then
+                Result:= PyBool_FromLong(0)
+              else
+              begin
+                Result:= PyList_New(ResList.Count);
+                if not Assigned(Result) then
+                  raise EPythonError.Create(msgPythonListError);
+                for i:= 0 to ResList.Count-1 do
+                begin
+                  ResItem:= ResList[i];
+                  PyList_SetItem(Result, i,
+                    Py_BuildValue('(iiii)',
+                      ResItem.FPos.X,
+                      ResItem.FPos.Y,
+                      ResItem.FEnd.X,
+                      ResItem.FEnd.Y
+                      ));
+                end;
+              end;
+            finally
+              FreeAndNil(ResList);
+            end;
           end;
 
         else
