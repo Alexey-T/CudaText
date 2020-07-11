@@ -705,7 +705,8 @@ const
 
 type
   TAppPyEventResult = record
-    Val: (evrTrue, evrFalse, evrString, evrOther);
+    Val: (evrTrue, evrFalse, evrInt, evrString, evrOther);
+    Int: integer;
     Str: string;
   end;
 

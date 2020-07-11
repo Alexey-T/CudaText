@@ -707,6 +707,11 @@ const
   FINDER_REP_ALL          = 38;
   FINDER_REP_ALL_EX       = 39;
 
+  HOWREP_REPLACE_WORK = 0;
+  HOWREP_REPLACE_STOP = 1;
+  HOWREP_SKIP_WORK    = 2;
+  HOWREP_SKIP_STOP    = 3;
+
 implementation
 
 end.

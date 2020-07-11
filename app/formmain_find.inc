@@ -699,11 +699,29 @@ begin
   Params[3]:= AppVariant(APos2.Y);
 
   EventRes:= DoPyEvent(Ed, cEventOnConfirmReplace, Params);
-  if EventRes.Val=evrTrue then
-    AConfirm:= true
-  else
-  if EventRes.Val=evrFalse then
-    AConfirm:= false;
+  if EventRes.Val=evrInt then
+    case EventRes.Int of
+      HOWREP_REPLACE_WORK:
+        begin
+          AConfirm:= true;
+          AContinue:= true;
+        end;
+      HOWREP_REPLACE_STOP:
+        begin
+          AConfirm:= true;
+          AContinue:= false;
+        end;
+      HOWREP_SKIP_WORK:
+        begin
+          AConfirm:= false;
+          AContinue:= true;
+        end;
+      HOWREP_SKIP_STOP:
+        begin
+          AConfirm:= false;
+          AContinue:= false;
+        end;
+    end;
 end;
 
 procedure TfmMain.FinderOnConfirmReplace(Sender: TObject; APos1, APos2: TPoint;

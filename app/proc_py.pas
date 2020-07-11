@@ -277,6 +277,13 @@ begin
       begin
         Result.Val:= evrString;
         Result.Str:= PyUnicode_AsWideString(Obj);
+      end
+      else
+      if (Obj^.ob_type=PyInt_Type) or
+        (Obj^.ob_type=PyLong_Type) then
+      begin
+        Result.Val:= evrInt;
+        Result.Int:= PyInt_AsLong(Obj);
       end;
     finally
       Py_XDECREF(Obj);
