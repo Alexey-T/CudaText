@@ -8435,6 +8435,8 @@ var
   ResList2: TATFinderResults2;
   ResItem2: TATFinderResult2;
   Sep: TATStringSeparator;
+  Caret: TATCaretItem;
+  OldX, OldY: integer;
   i: integer;
 begin
   with AppPython.Engine do
@@ -8447,6 +8449,21 @@ begin
       if (IdFinder=0) and (IdAction<>FINDER_CREATE) then
         exit(ReturnNone);
       Finder:= TATEditorFinder(PtrInt(IdFinder));
+
+      if IdAction in [
+         FINDER_FIND,
+         FINDER_FIND_ALL,
+         FINDER_FIND_REP,
+         FINDER_REP_ALL,
+         FINDER_REP_ALL_EX,
+         FINDER_COUNT
+         ] then
+      begin
+        if Finder.Editor=nil then
+          exit(ReturnNone);
+        if Finder.Editor.Carets.Count=0 then
+          exit(ReturnNone);
+      end;
 
       case IdAction of
         FINDER_CREATE:
@@ -8675,6 +8692,10 @@ begin
             if Finder.StrFind='' then
               exit(ReturnNone);
 
+            Caret:= Finder.Editor.Carets[0];
+            OldX:= Caret.PosX;
+            OldY:= Caret.PosY;
+
             ResList2:= TATFinderResults2.Create;
             try
               bResult:= Finder.DoAction_FindOrReplace(false, true, false, bChanged, false);
@@ -8698,8 +8719,6 @@ begin
                 bResult:= Finder.DoAction_FindOrReplace(true, true, false, bChanged, false);
               until not bResult;
 
-              Finder.Editor.Update(true);
-
               Result:= PyList_New(ResList2.Count);
               if not Assigned(Result) then
                 raise EPythonError.Create(msgPythonListError);
@@ -8719,6 +8738,9 @@ begin
             finally
               FreeAndNil(ResList2);
             end;
+
+            Finder.Editor.Update(true);
+            Finder.Editor.DoCaretSingle(OldX, OldY);
           end;
 
         else
