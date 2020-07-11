@@ -47,7 +47,6 @@ type
     function IsLoadedLocal(const S: string): boolean;
     function MethodEvalEx(const AObject, AMethod: string; const AParams: array of PPyObject): TAppPyEventResult;
     function MethodEvalObjects(const AObject, AFunc: string; const AParams: array of PPyObject): PPyObject;
-    procedure SetResultFromObject(Obj: PPyObject; out R: TAppPyEventResult);
   public
     constructor Create;
     destructor Destroy; override;
@@ -76,6 +75,7 @@ type
 
     function ValueFromString(const S: string): PPyObject;
     function ValueToString(Obj: PPyObject; QuoteStrings: boolean): string;
+    procedure ValueToRecord(Obj: PPyObject; out R: TAppPyEventResult);
 
     procedure SetPath(const Dirs: array of string; DoAdd: boolean);
     procedure ClearCache;
@@ -114,7 +114,7 @@ begin
     FEngine:= GetPythonEngine;
 end;
 
-procedure TAppPython.SetResultFromObject(Obj: PPyObject; out R: TAppPyEventResult);
+procedure TAppPython.ValueToRecord(Obj: PPyObject; out R: TAppPyEventResult);
 begin
   R.Val:= evrOther;
   R.Str:= '';
@@ -292,7 +292,7 @@ var
   Obj: PPyObject;
 begin
   Obj:= MethodEvalObjects(AObject, AMethod, AParams);
-  SetResultFromObject(Obj, Result);
+  ValueToRecord(Obj, Result);
 end;
 
 
