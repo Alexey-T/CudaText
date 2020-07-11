@@ -70,7 +70,7 @@ function TfmMain.DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
 const
   cTheseEventsStoppedByTrue = [cEventOnComplete{, cEventOnTabSwitch}];
   cTheseEventsNeedGroupingUndo = [cEventOnComplete, cEventOnSnippet];
-  cTheseEventsDontRequireFrame = [cEventOnConfirmReplace];
+  cTheseEventsDontRequireFrame = [cEventOnFinderReplace];
 var
   SCurLexer, KeyForFilter: string;
   bNeedGroup: boolean;

@@ -12,4 +12,4 @@ method=run
 
 [item10]
 section=events
-events=on_confirm_rep
+events=on_finder_rep

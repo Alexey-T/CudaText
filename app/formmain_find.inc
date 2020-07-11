@@ -698,7 +698,7 @@ begin
   Params[2]:= AppVariant(APos2.X);
   Params[3]:= AppVariant(APos2.Y);
 
-  EventRes:= DoPyEvent(Ed, cEventOnConfirmReplace, Params);
+  EventRes:= DoPyEvent(Ed, cEventOnFinderReplace, Params);
   if EventRes.Val=evrInt then
     case EventRes.Int of
       HOWREP_REPLACE_WORK:
