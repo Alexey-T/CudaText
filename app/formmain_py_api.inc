@@ -8415,7 +8415,7 @@ begin
 end;
 
 
-//finder_proc(id_finder, id_action, value="", next=False, setcaret=True)
+//finder_proc(id_finder, id_action, value="", setcaret=True)
 function Py_finder_proc(Self, Args: PPyObject): PPyObject; cdecl;
 const
   cDefIndent=2;
@@ -8425,9 +8425,9 @@ var
   Finder: TATEditorFinder;
   PtrValue: PChar;
   StrValue: string;
-  NNext, NSetCaret: integer;
+  NSetCaret: integer;
   NValue: Int64;
-  bNext, bSetCaret: boolean;
+  bSetCaret: boolean;
   bResult, bChanged: boolean;
   Pnt1, Pnt2, PntAfter: TPoint;
   ResList: TATFinderResults;
@@ -8440,10 +8440,9 @@ var
   i: integer;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'Lisii:finder_proc', @IdFinder, @IdAction, @PtrValue, @NNext, @NSetCaret)) then
+    if Bool(PyArg_ParseTuple(Args, 'Lisi:finder_proc', @IdFinder, @IdAction, @PtrValue, @NSetCaret)) then
     begin
       StrValue:= string(PtrValue);
-      bNext:= Bool(NNext);
       bSetCaret:= Bool(NSetCaret);
 
       if (IdFinder=0) and (IdAction<>FINDER_CREATE) then

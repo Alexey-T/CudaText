@@ -53,19 +53,19 @@ class Command:
     def do_find(self, id_dlg, id_ctl, data='', info=''):
 
         self.apply_opt(False, False)
-        res=finder_proc(self.fnd, FINDER_FIND, next=False, setcaret=True)
+        res=finder_proc(self.fnd, FINDER_FIND, setcaret=True)
         print('find-first:', res)
     
     def do_find_next(self, id_dlg, id_ctl, data='', info=''):
 
         self.apply_opt(False, True)
-        res=finder_proc(self.fnd, FINDER_FIND, next=False, setcaret=True)
+        res=finder_proc(self.fnd, FINDER_FIND, setcaret=True)
         print('find-next:', res)
     
     def do_find_prev(self, id_dlg, id_ctl, data='', info=''):
 
         self.apply_opt(True, True)
-        res=finder_proc(self.fnd, FINDER_FIND, next=False, setcaret=True)
+        res=finder_proc(self.fnd, FINDER_FIND, setcaret=True)
         print('find-prev:', res)
     
     def do_find_all(self, id_dlg, id_ctl, data='', info=''):
@@ -77,7 +77,7 @@ class Command:
     def do_rep(self, id_dlg, id_ctl, data='', info=''):
 
         self.apply_opt(False, True)
-        res=finder_proc(self.fnd, FINDER_FIND_REP, next=False, setcaret=True)
+        res=finder_proc(self.fnd, FINDER_FIND_REP, setcaret=True)
         print('replace-next:', res)
     
     def do_rep_all(self, id_dlg, id_ctl, data='', info=''):
