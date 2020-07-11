@@ -110,7 +110,7 @@ class Command:
         'name':'wrap', 'x':205, 'y':5, 'w':50, 'h':28, 'cap':'wrap'})
 
         idc=dlg_proc(idd, DLG_CTL_ADD,"label");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
-        'name':'wha_', 'x':5, 'y':30, 'w':200, 'h':17, 'cap':'&Find what'})
+        'name':'wha_', 'x':5, 'y':30, 'w':200, 'h':17, 'cap':'&Find what:'})
 
         idc=dlg_proc(idd, DLG_CTL_ADD,"editor");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
         'name':'what', 'x':5, 'y':50, 'w':200, 'h':70})
@@ -120,7 +120,7 @@ class Command:
         self.edfind.set_prop(PROP_GUTTER_ALL, False)
 
         idc=dlg_proc(idd, DLG_CTL_ADD,"label");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
-        'name':'rep_', 'x':230, 'y':30, 'w':200, 'h':17, 'cap':'&Replace with'})
+        'name':'rep_', 'x':230, 'y':30, 'w':200, 'h':17, 'cap':'&Replace with:'})
 
         idc=dlg_proc(idd, DLG_CTL_ADD,"editor");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
         'name':'repl', 'x':230, 'y':50, 'w':200, 'h':70 })
@@ -130,10 +130,10 @@ class Command:
         self.edrep.set_prop(PROP_GUTTER_ALL, False)
 
         idc=dlg_proc(idd, DLG_CTL_ADD,"label");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
-        'name':'crt_', 'x':5, 'y':120, 'w':200, 'h':17, 'cap':'&Virtual carets:'})
+        'name':'crt_', 'x':5, 'y':120, 'w':200, 'h':17, 'cap':'&Virtual carets: "x1,y1,x2,y2;x1,y1,x2,y2;..."'})
 
         idc=dlg_proc(idd, DLG_CTL_ADD,"edit");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
-        'name':'crts', 'x':5, 'y':140, 'w':200, 'h':25})
+        'name':'crts', 'x':5, 'y':140, 'w':200 })
 
         idc=dlg_proc(idd, DLG_CTL_ADD,"button");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
         'name':'frst', 'x':5, 'y':170, 'w':100, 'h':25, 'cap':'Find first', 'on_change': self.do_find })
