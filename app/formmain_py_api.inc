@@ -8437,7 +8437,7 @@ var
   Sep: TATStringSeparator;
   Caret: TATCaretItem;
   OldX, OldY: integer;
-  OldFromCaret: boolean;
+  OldFromCaret, OldBack: boolean;
   i: integer;
 begin
   with AppPython.Engine do
@@ -8691,7 +8691,9 @@ begin
             OldX:= Caret.PosX;
             OldY:= Caret.PosY;
             OldFromCaret:= Finder.OptFromCaret;
+            OldBack:= Finder.OptBack;
             Finder.OptFromCaret:= true;
+            Finder.OptBack:= false;
 
             ResList2:= TATFinderResults2.Create;
             try
@@ -8739,6 +8741,7 @@ begin
             Finder.Editor.DoCaretSingle(OldX, OldY);
             Finder.Editor.Update(true);
             Finder.OptFromCaret:= OldFromCaret;
+            Finder.OptBack:= OldBack;
           end;
 
         else
