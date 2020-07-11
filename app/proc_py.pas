@@ -47,7 +47,7 @@ type
     function IsLoadedLocal(const S: string): boolean;
     function MethodEvalEx(const AObject, AMethod: string; const AParams: array of PPyObject): TAppPyEventResult;
     function MethodEvalObjects(const AObject, AFunc: string; const AParams: array of PPyObject): PPyObject;
-    procedure SetResultFromObject(Obj: PPyObject; var R: TAppPyEventResult);
+    procedure SetResultFromObject(Obj: PPyObject; out R: TAppPyEventResult);
   public
     constructor Create;
     destructor Destroy; override;
@@ -114,8 +114,11 @@ begin
     FEngine:= GetPythonEngine;
 end;
 
-procedure TAppPython.SetResultFromObject(Obj: PPyObject; var R: TAppPyEventResult);
+procedure TAppPython.SetResultFromObject(Obj: PPyObject; out R: TAppPyEventResult);
 begin
+  R.Val:= evrOther;
+  R.Str:= '';
+
   with FEngine do
     if Assigned(Obj) then
     try
@@ -136,9 +139,7 @@ begin
       begin
         R.Val:= evrInt;
         R.Int:= PyInt_AsLong(Obj);
-      end
-      else
-        R.Val:= evrOther;
+      end;
     finally
       Py_XDECREF(Obj);
     end;
@@ -290,9 +291,6 @@ function TAppPython.MethodEvalEx(const AObject, AMethod: string;
 var
   Obj: PPyObject;
 begin
-  Result.Val:= evrOther;
-  Result.Str:= '';
-
   Obj:= MethodEvalObjects(AObject, AMethod, AParams);
   SetResultFromObject(Obj, Result);
 end;
