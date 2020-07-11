@@ -702,30 +702,25 @@ begin
   Params[3]:= AppVariant(APos2.Y);
   Params[4]:= AppVariant(AReplacement);
 
-  //EventRes:= DoPyEvent(Ed, cEventOnFinderReplace, Params);
   EventRes:= DoPyCallbackFromAPI_2(Callback, Ed, Params);
 
-  if EventRes.Val=evrInt then
-    case EventRes.Int of
-      HOWREP_CANCEL:
-        begin
-          AContinue:= false;
-          AConfirm:= false;
-        end;
-      HOWREP_REPLACE:
-        begin
-          AContinue:= true;
-          AConfirm:= true;
-        end;
-      HOWREP_SKIP:
-        begin
-          AContinue:= true;
-          AConfirm:= false;
-        end;
-    end;
-
-  if EventRes.Val=evrString then
-    AReplacement:= EventRes.Str;
+  case EventRes.Val of
+    evrInt:
+      case EventRes.Int of
+        HOWREP_CANCEL:
+          begin
+            AContinue:= false;
+            AConfirm:= false;
+          end;
+        HOWREP_SKIP:
+          begin
+            AContinue:= true;
+            AConfirm:= false;
+          end;
+      end;
+    evrString:
+      AReplacement:= EventRes.Str;
+  end;
 end;
 
 procedure TfmMain.FinderOnConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
