@@ -673,8 +673,9 @@ begin
     MsgStatus(msgCannotFindMatch);
 end;
 
-procedure TfmMain.FinderOnConfirmReplace_API(Sender: TObject; APos1, APos2: TPoint;
-  AForMany: boolean; var AConfirm, AContinue: boolean);
+procedure TfmMain.FinderOnConfirmReplace_API(Sender: TObject; APos1,
+  APos2: TPoint; AForMany: boolean; var AConfirm, AContinue: boolean;
+  var AReplacement: UnicodeString);
 var
   ThisFinder: TATEditorFinder;
   Params: TAppVariantArray;
@@ -694,11 +695,12 @@ begin
   Ed.DoShowPos(APos1, ThisFinder.IndentHorz, ThisFinder.IndentVert, false);
   Ed.Update(true);
 
-  SetLength(Params, 4);
+  SetLength(Params, 5);
   Params[0]:= AppVariant(APos1.X);
   Params[1]:= AppVariant(APos1.Y);
   Params[2]:= AppVariant(APos2.X);
   Params[3]:= AppVariant(APos2.Y);
+  Params[4]:= AppVariant(AReplacement);
 
   //EventRes:= DoPyEvent(Ed, cEventOnFinderReplace, Params);
   EventRes:= DoPyCallbackFromAPI_2(Callback, Ed, Params);
@@ -721,10 +723,14 @@ begin
           AConfirm:= false;
         end;
     end;
+
+  if EventRes.Val=evrString then
+    AReplacement:= EventRes.Str;
 end;
 
 procedure TfmMain.FinderOnConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
-  AForMany: boolean; var AConfirm, AContinue: boolean);
+  AForMany: boolean; var AConfirm, AContinue: boolean;
+  var AReplacement: UnicodeString);
 var
   Res: TModalResult;
   Ed: TATSynEdit;

@@ -1086,9 +1086,9 @@ type
     function DoPyLexerDetection(const Filename: string; Lexers: TStringList): integer;
     procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATTokenKind);
     procedure FinderOnConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
-      AForMany: boolean; var AConfirm, AContinue: boolean);
+      AForMany: boolean; var AConfirm, AContinue: boolean; var AReplacement: UnicodeString);
     procedure FinderOnConfirmReplace_API(Sender: TObject; APos1, APos2: TPoint;
-      AForMany: boolean; var AConfirm, AContinue: boolean);
+      AForMany: boolean; var AConfirm, AContinue: boolean; var AReplacement: UnicodeString);
   end;
 
 var

@@ -42,7 +42,7 @@ class Command:
             print('finder carets:', s)
         finder_proc(self.fnd, FINDER_SET_CARETS, s)
         
-        finder_proc(self.fnd, FINDER_SET_ON_REPLACE, 'cuda_testing_finder_proc.on_finder_rep')
+        finder_proc(self.fnd, FINDER_SET_ON_REPLACE, 'cuda_testing_finder_proc.finder_confirm')
         
         print('finder: opt: "'+op+'", find what: "'+s_find+'", replace: "'+s_rep+'"')
         
@@ -245,9 +245,12 @@ bbb b bbbbb b b bbb
         dlg_proc(idd, DLG_FREE)
         
         
-    def on_finder_rep(self, ed_self, x1, y1, x2, y2):
-        r = msg_box('Total lines: %d'%ed_self.get_line_count()+
-                    '\nReplace text at (%d,%d)-(%d,%d) ?'%(x1, y1, x2, y2),
+    def finder_confirm(self, ed_self, x1, y1, x2, y2, text):
+        
+        if x1==0:
+            return '[line begin]'
+        
+        r = msg_box('Replace text at Line %d Col %d?'%(y1+1, x1+1),
                     MB_YESNOCANCEL+MB_ICONQUESTION) 
         if r==ID_YES:
             return HOWREP_REPLACE
