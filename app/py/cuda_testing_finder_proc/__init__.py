@@ -244,24 +244,11 @@ bbb b bbbbb b b bbb
         
         
     def on_finder_rep(self, ed_self, x1, y1, x2, y2):
-        val = [
-            HOWREP_REPLACE_WORK, 
-            HOWREP_REPLACE_STOP, 
-            HOWREP_SKIP_WORK, 
-            HOWREP_SKIP_STOP
-            ]
-        r = msg_box_ex(
-            'Replace confirmation', 
-            'Replace at (%d,%d)-(%d,%d) ?'%(x1, y1, x2, y2), 
-            [
-                'Replace/continue', 
-                'Replace/stop', 
-                'Skip/continue', 
-                'Skip/stop'
-            ],
-            MB_ICONQUESTION,
-            0)
-        if r is None:
-            return HOWREP_SKIP_STOP
+        r = msg_box('Replace text at (%d,%d)-(%d,%d) ?'%(x1, y1, x2, y2),
+                    MB_YESNOCANCEL+MB_ICONQUESTION) 
+        if r==ID_CANCEL:
+            return HOWREP_STOP
+        elif r==ID_YES:
+            return HOWREP_REPLACE
         else:
-            return val[r]
+            return HOWREP_SKIP

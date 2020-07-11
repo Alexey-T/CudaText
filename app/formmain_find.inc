@@ -700,25 +700,20 @@ begin
   EventRes:= DoPyEvent(Ed, cEventOnFinderReplace, Params);
   if EventRes.Val=evrInt then
     case EventRes.Int of
-      HOWREP_REPLACE_WORK:
+      HOWREP_CANCEL:
         begin
-          AConfirm:= true;
-          AContinue:= true;
-        end;
-      HOWREP_REPLACE_STOP:
-        begin
-          AConfirm:= true;
           AContinue:= false;
-        end;
-      HOWREP_SKIP_WORK:
-        begin
           AConfirm:= false;
+        end;
+      HOWREP_REPLACE:
+        begin
           AContinue:= true;
+          AConfirm:= true;
         end;
-      HOWREP_SKIP_STOP:
+      HOWREP_SKIP:
         begin
+          AContinue:= true;
           AConfirm:= false;
-          AContinue:= false;
         end;
     end;
 end;
