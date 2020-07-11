@@ -246,7 +246,8 @@ bbb b bbbbb b b bbb
         
         
     def on_finder_rep(self, ed_self, x1, y1, x2, y2):
-        r = msg_box('Replace text at (%d,%d)-(%d,%d) ?'%(x1, y1, x2, y2),
+        r = msg_box('Total lines: %d'%ed_self.get_line_count()+
+                    '\nReplace text at (%d,%d)-(%d,%d) ?'%(x1, y1, x2, y2),
                     MB_YESNOCANCEL+MB_ICONQUESTION) 
         if r==ID_YES:
             return HOWREP_REPLACE
