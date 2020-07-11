@@ -70,6 +70,7 @@ function TfmMain.DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
 const
   cTheseEventsStoppedByTrue = [cEventOnComplete{, cEventOnTabSwitch}];
   cTheseEventsNeedGroupingUndo = [cEventOnComplete, cEventOnSnippet];
+  cTheseEventsDontRequireFrame = [cEventOnConfirmReplace];
 var
   SCurLexer, KeyForFilter: string;
   bNeedGroup: boolean;
@@ -94,9 +95,16 @@ begin
   if Assigned(AEd) then
   begin
     Frame:= GetEditorFrame(AEd);
-    if Frame=nil then exit;
-    SCurLexer:= Frame.LexerName[AEd];
-    bNeedGroup:= AEvent in cTheseEventsNeedGroupingUndo;
+    if Frame=nil then
+    begin
+      if not (AEvent in cTheseEventsDontRequireFrame) then
+        exit;
+    end
+    else
+    begin
+      SCurLexer:= Frame.LexerName[AEd];
+      bNeedGroup:= AEvent in cTheseEventsNeedGroupingUndo;
+    end;
   end
   else
   begin

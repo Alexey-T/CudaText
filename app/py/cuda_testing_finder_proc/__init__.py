@@ -20,6 +20,8 @@ class Command:
         if v['val']=='1': op+='s'
         v=dlg_proc(self.dlg, DLG_CTL_PROP_GET, name='wrap')
         if v['val']=='1': op+='a'
+        v=dlg_proc(self.dlg, DLG_CTL_PROP_GET, name='cfm')
+        if v['val']=='1': op+='o'
         
         if back: op+='b'
         if from_caret: op+='f'
@@ -108,6 +110,9 @@ class Command:
 
         idc=dlg_proc(idd, DLG_CTL_ADD,"checkbutton");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
         'name':'wrap', 'x':205, 'y':5, 'w':50, 'h':28, 'cap':'wrap'})
+
+        idc=dlg_proc(idd, DLG_CTL_ADD,"checkbutton");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
+        'name':'cfm', 'x':255, 'y':5, 'w':100, 'h':28, 'cap':'confirm-repl'})
 
         idc=dlg_proc(idd, DLG_CTL_ADD,"label");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
         'name':'wha_', 'x':5, 'y':30, 'w':200, 'h':17, 'cap':'&Find what:'})
@@ -237,3 +242,7 @@ bbb b bbbbb b b bbb
         dlg_proc(idd, DLG_SHOW_MODAL)
         dlg_proc(idd, DLG_FREE)
         
+        
+    def on_confirm_rep(self, ed_self, x1, y1, x2, y2):
+        r=msg_box('Replace at (%d,%d)-(%d,%d) ?'%(x1, y1, x2, y2), MB_OKCANCEL)
+        return r==ID_OK
