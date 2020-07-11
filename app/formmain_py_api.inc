@@ -8417,6 +8417,8 @@ end;
 
 //finder_proc(id_finder, id_action, value="", next=False, setcaret=True)
 function Py_finder_proc(Self, Args: PPyObject): PPyObject; cdecl;
+const
+  cDefIndent=2;
 var
   IdFinder: Int64;
   IdAction: integer;
@@ -8430,6 +8432,7 @@ var
   Pnt1, Pnt2, PntAfter: TPoint;
   ResList: TATFinderResults;
   ResItem: TATFinderResult;
+  Sep: TATStringSeparator;
   i: integer;
 begin
   with AppPython.Engine do
@@ -8531,6 +8534,21 @@ begin
         FINDER_GET_CARETS:
           begin
             Result:= PyString_FromString(PChar(Finder.VirtualCaretsAsString));
+          end;
+
+        FINDER_SET_INDENTS:
+          begin
+            Sep.Init(StrValue);
+            Sep.GetItemInt(i, cDefIndent);
+            Finder.IndentHorz:= i;
+            Sep.GetItemInt(i, cDefIndent);
+            Finder.IndentVert:= i;
+            Result:= ReturnNone;
+          end;
+
+        FINDER_GET_INDENTS:
+          begin
+            Result:= Py_BuildValue('(ii)', Finder.IndentHorz, Finder.IndentVert);
           end;
 
         FINDER_FIND:
