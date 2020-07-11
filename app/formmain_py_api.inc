@@ -8437,6 +8437,7 @@ var
   Sep: TATStringSeparator;
   Caret: TATCaretItem;
   OldX, OldY: integer;
+  OldFromCaret: boolean;
   i: integer;
 begin
   with AppPython.Engine do
@@ -8689,10 +8690,12 @@ begin
             Caret:= Finder.Editor.Carets[0];
             OldX:= Caret.PosX;
             OldY:= Caret.PosY;
+            OldFromCaret:= Finder.OptFromCaret;
+            Finder.OptFromCaret:= true;
 
             ResList2:= TATFinderResults2.Create;
             try
-              bResult:= Finder.DoAction_FindOrReplace(true, false, bChanged, false);
+              bResult:= Finder.DoAction_FindOrReplace(true, false, bChanged, true);
               if not bResult then
               begin
                 if Finder.IsRegexBad then
@@ -8710,7 +8713,7 @@ begin
                   ResItem2.PosAfter:= Point(-1, -1);
                 ResList2.Add(ResItem2);
 
-                bResult:= Finder.DoAction_FindOrReplace(true, false, bChanged, false);
+                bResult:= Finder.DoAction_FindOrReplace(true, false, bChanged, true);
               until not bResult;
 
               Result:= PyList_New(ResList2.Count);
@@ -8733,8 +8736,9 @@ begin
               FreeAndNil(ResList2);
             end;
 
-            Finder.Editor.Update(true);
             Finder.Editor.DoCaretSingle(OldX, OldY);
+            Finder.Editor.Update(true);
+            Finder.OptFromCaret:= OldFromCaret;
           end;
 
         else
