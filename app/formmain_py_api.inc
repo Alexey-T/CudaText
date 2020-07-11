@@ -8463,6 +8463,8 @@ begin
           exit(ReturnNone);
         if Finder.Editor.Carets.Count=0 then
           exit(ReturnNone);
+        if Finder.StrFind='' then
+          exit(ReturnNone);
       end;
 
       case IdAction of
@@ -8573,9 +8575,6 @@ begin
 
         FINDER_FIND:
           begin
-            if Finder.StrFind='' then
-              exit(ReturnNone);
-
             bResult:= Finder.DoAction_FindOrReplace(bNext, false, false, bChanged, bSetCaret);
             if bResult then
             begin
@@ -8599,9 +8598,6 @@ begin
 
         FINDER_FIND_REP:
           begin
-            if Finder.StrFind='' then
-              exit(ReturnNone);
-
             bResult:= Finder.DoAction_FindOrReplace(bNext, true, false, bChanged, bSetCaret);
             if bResult then
             begin
@@ -8630,9 +8626,6 @@ begin
 
         FINDER_FIND_ALL:
           begin
-            if Finder.StrFind='' then
-              exit(ReturnNone);
-
             ResList:= TATFinderResults.Create;
             try
               Finder.DoAction_FindAll(ResList, true);
@@ -8662,9 +8655,6 @@ begin
 
         FINDER_COUNT:
           begin
-            if Finder.StrFind='' then
-              exit(ReturnNone);
-
             i:= Finder.DoAction_CountAll(false);
             if (i=0) and Finder.IsRegexBad then
               Result:= PyBool_FromLong(0)
@@ -8674,9 +8664,6 @@ begin
 
         FINDER_REP_ALL:
           begin
-            if Finder.StrFind='' then
-              exit(ReturnNone);
-
             i:= Finder.DoAction_ReplaceAll;
             if (i=0) and Finder.IsRegexBad then
               Result:= PyBool_FromLong(0)
@@ -8689,9 +8676,6 @@ begin
 
         FINDER_REP_ALL_EX:
           begin
-            if Finder.StrFind='' then
-              exit(ReturnNone);
-
             Caret:= Finder.Editor.Carets[0];
             OldX:= Caret.PosX;
             OldY:= Caret.PosY;
