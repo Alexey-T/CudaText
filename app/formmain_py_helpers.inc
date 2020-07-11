@@ -70,7 +70,7 @@ function TfmMain.DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
 const
   cTheseEventsStoppedByTrue = [cEventOnComplete{, cEventOnTabSwitch}];
   cTheseEventsNeedGroupingUndo = [cEventOnComplete, cEventOnSnippet];
-  cTheseEventsDontRequireFrame = [cEventOnFinderReplace];
+  cTheseEventsDontRequireFrame = [];
 var
   SCurLexer, KeyForFilter: string;
   bNeedGroup: boolean;
@@ -237,6 +237,29 @@ begin
     end;
 end;
 
+
+function DoPyCallbackFromAPI_2(const ACallback: string;
+  AEd: TATSynEdit;
+  const AParams: TAppVariantArray): TAppPyEventResult;
+const
+  cRegex_DotCommand = '([a-z_]\w*)\.([a-z_]\w*)$';
+var
+  RegexParts: TRegexParts;
+  SModule, SFunc: string;
+begin
+  FillChar(Result, SizeOf(Result), 0);
+
+  if SRegexFindParts(cRegex_DotCommand, ACallback, RegexParts) then
+  begin
+    SModule:= RegexParts[1].Str;
+    SFunc:= RegexParts[2].Str;
+
+    Result:= AppPython.RunEvent(SModule, SFunc, AEd, AParams, false);
+    exit;
+  end;
+
+  MsgLogConsole(Format(msgCallbackBad, [ACallback]));
+end;
 
 function DoPyCallbackFromAPI(const ACallback: string;
   const AParamVars: TAppVariantArray;

@@ -8584,6 +8584,17 @@ begin
             Result:= PyString_FromString(PChar(Finder.DataString));
           end;
 
+        FINDER_SET_ON_REPLACE:
+          begin
+            Finder.CallbackString:= StrValue;
+            Result:= ReturnNone;
+          end;
+
+        FINDER_GET_ON_REPLACE:
+          begin
+            Result:= PyString_FromString(PChar(Finder.CallbackString));
+          end;
+
         FINDER_FIND:
           begin
             bResult:= Finder.DoAction_FindOrReplace(false, false, bChanged, bSetCaret);

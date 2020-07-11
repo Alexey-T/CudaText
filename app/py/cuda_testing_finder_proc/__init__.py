@@ -42,6 +42,8 @@ class Command:
             print('finder carets:', s)
         finder_proc(self.fnd, FINDER_SET_CARETS, s)
         
+        finder_proc(self.fnd, FINDER_SET_ON_REPLACE, 'cuda_testing_finder_proc.on_finder_rep')
+        
         print('finder: opt: "'+op+'", find what: "'+s_find+'", replace: "'+s_rep+'"')
         
     def do_count(self, id_dlg, id_ctl, data='', info=''):

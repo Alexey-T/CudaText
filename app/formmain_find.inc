@@ -678,6 +678,7 @@ procedure TfmMain.FinderOnConfirmReplace_API(Sender: TObject; APos1, APos2: TPoi
 var
   ThisFinder: TATEditorFinder;
   Params: TAppVariantArray;
+  Callback: string;
   EventRes: TAppPyEventResult;
   Ed: TATSynEdit;
 begin
@@ -686,6 +687,8 @@ begin
 
   ThisFinder:= Sender as TATEditorFinder;
   Ed:= ThisFinder.Editor;
+  Callback:= ThisFinder.CallbackString;
+  if Callback='' then exit;
 
   Ed.DoCaretSingle(APos1.X, APos1.Y, APos2.X, APos2.Y);
   Ed.DoShowPos(APos1, ThisFinder.IndentHorz, ThisFinder.IndentVert, false);
@@ -697,7 +700,9 @@ begin
   Params[2]:= AppVariant(APos2.X);
   Params[3]:= AppVariant(APos2.Y);
 
-  EventRes:= DoPyEvent(Ed, cEventOnFinderReplace, Params);
+  //EventRes:= DoPyEvent(Ed, cEventOnFinderReplace, Params);
+  EventRes:= DoPyCallbackFromAPI_2(Callback, Ed, Params);
+
   if EventRes.Val=evrInt then
     case EventRes.Int of
       HOWREP_CANCEL:

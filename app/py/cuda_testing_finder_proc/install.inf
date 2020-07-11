@@ -9,7 +9,3 @@ homepage=(Fill the GitHub repo URL)
 section=commands
 caption=Testing finder_proc
 method=run
-
-[item10]
-section=events
-events=on_finder_rep

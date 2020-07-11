@@ -701,6 +701,8 @@ const
   FINDER_GET_INDENTS      = 17;
   FINDER_SET_TAG          = 18;
   FINDER_GET_TAG          = 19;
+  FINDER_SET_ON_REPLACE   = 20;
+  FINDER_GET_ON_REPLACE   = 21;
   FINDER_FIND             = 30;
   FINDER_FIND_REP         = 31;
   FINDER_FIND_ALL         = 32;
