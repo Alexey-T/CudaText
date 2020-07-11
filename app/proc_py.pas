@@ -47,6 +47,7 @@ type
     function IsLoadedLocal(const S: string): boolean;
     function MethodEvalEx(const AObject, AMethod: string; const AParams: array of PPyObject): TAppPyEventResult;
     function MethodEvalObjects(const AObject, AFunc: string; const AParams: array of PPyObject): PPyObject;
+    procedure SetResultFromObject(Obj: PPyObject; var R: TAppPyEventResult);
   public
     constructor Create;
     destructor Destroy; override;
@@ -111,6 +112,36 @@ begin
   FInited:= PythonOK;
   if FInited then
     FEngine:= GetPythonEngine;
+end;
+
+procedure TAppPython.SetResultFromObject(Obj: PPyObject; var R: TAppPyEventResult);
+begin
+  with FEngine do
+    if Assigned(Obj) then
+    try
+      if Pointer(Obj)=Pointer(Py_True) then
+        R.Val:= evrTrue
+      else
+      if Pointer(Obj)=Pointer(Py_False) then
+        R.Val:= evrFalse
+      else
+      if Obj^.ob_type=PyUnicode_Type then
+      begin
+        R.Val:= evrString;
+        R.Str:= PyUnicode_AsWideString(Obj);
+      end
+      else
+      if (Obj^.ob_type=PyInt_Type) or
+        (Obj^.ob_type=PyLong_Type) then
+      begin
+        R.Val:= evrInt;
+        R.Int:= PyInt_AsLong(Obj);
+      end
+      else
+        R.Val:= evrOther;
+    finally
+      Py_XDECREF(Obj);
+    end;
 end;
 
 function TAppPython.IsLoadedLocal(const S: string): boolean; inline;
@@ -262,33 +293,8 @@ begin
   Result.Val:= evrOther;
   Result.Str:= '';
 
-  with FEngine do
-  begin
-    Obj:= MethodEvalObjects(AObject, AMethod, AParams);
-    if Assigned(Obj) then
-    try
-      if Pointer(Obj)=Pointer(Py_True) then
-        Result.Val:= evrTrue
-      else
-      if Pointer(Obj)=Pointer(Py_False) then
-        Result.Val:= evrFalse
-      else
-      if Obj^.ob_type=PyUnicode_Type then
-      begin
-        Result.Val:= evrString;
-        Result.Str:= PyUnicode_AsWideString(Obj);
-      end
-      else
-      if (Obj^.ob_type=PyInt_Type) or
-        (Obj^.ob_type=PyLong_Type) then
-      begin
-        Result.Val:= evrInt;
-        Result.Int:= PyInt_AsLong(Obj);
-      end;
-    finally
-      Py_XDECREF(Obj);
-    end;
-  end;
+  Obj:= MethodEvalObjects(AObject, AMethod, AParams);
+  SetResultFromObject(Obj, Result);
 end;
 
 
