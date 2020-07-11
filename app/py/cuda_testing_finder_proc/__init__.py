@@ -261,4 +261,7 @@ bbb b bbbbb b b bbb
             ],
             MB_ICONQUESTION,
             0)
-        return val[r]
+        if r is None:
+            return HOWREP_SKIP_STOP
+        else:
+            return val[r]
