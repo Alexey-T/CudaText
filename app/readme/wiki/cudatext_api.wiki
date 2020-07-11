@@ -3988,7 +3988,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * change: Editor.action: EDACTION_FIND* and EDACTION_REPLACE* return False for incorrect RegEx
 * add: Editor.set_prop: PROP_PREVIEW is writable now
 
-1.0.343 (app 1.106.7)
+1.0.343 (app 1.107.0)
 * add: app_proc: PROC_CONFIG_SCALE_GET, PROC_CONFIG_SCALE_SET
+* add: finder_proc()
 
 [[Category:CudaText]]
