@@ -7105,7 +7105,7 @@ begin
     Finder.OnGetToken:= @fmMain.FinderOnGetToken;
 
     with AppPython.Engine do
-      if Finder.DoAction_FindOrReplace(false, AReplace, false, bChange, AUpdateCaret) then
+      if Finder.DoAction_FindOrReplace(AReplace, false, bChange, AUpdateCaret) then
       begin
         Result:= Py_BuildValue('(iiii)',
           Finder.MatchEdPos.X,
@@ -8586,7 +8586,7 @@ begin
 
         FINDER_FIND:
           begin
-            bResult:= Finder.DoAction_FindOrReplace(bNext, false, false, bChanged, bSetCaret);
+            bResult:= Finder.DoAction_FindOrReplace(false, false, bChanged, bSetCaret);
             if bResult then
             begin
               Pnt1:= Finder.MatchEdPos;
@@ -8609,7 +8609,7 @@ begin
 
         FINDER_FIND_REP:
           begin
-            bResult:= Finder.DoAction_FindOrReplace(bNext, true, false, bChanged, bSetCaret);
+            bResult:= Finder.DoAction_FindOrReplace(true, false, bChanged, bSetCaret);
             if bResult then
             begin
               Pnt1:= Finder.MatchEdPos;
@@ -8693,7 +8693,7 @@ begin
 
             ResList2:= TATFinderResults2.Create;
             try
-              bResult:= Finder.DoAction_FindOrReplace(false, true, false, bChanged, false);
+              bResult:= Finder.DoAction_FindOrReplace(true, false, bChanged, false);
               if not bResult then
               begin
                 if Finder.IsRegexBad then
@@ -8711,7 +8711,7 @@ begin
                   ResItem2.PosAfter:= Point(-1, -1);
                 ResList2.Add(ResItem2);
 
-                bResult:= Finder.DoAction_FindOrReplace(true, true, false, bChanged, false);
+                bResult:= Finder.DoAction_FindOrReplace(true, false, bChanged, false);
               until not bResult;
 
               Result:= PyList_New(ResList2.Count);

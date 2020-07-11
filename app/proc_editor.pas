@@ -1662,7 +1662,7 @@ begin
     Finder.OptInSelection:= false;
     Finder.OptTokens:= cTokensAll;
 
-    Result:= Finder.DoAction_FindOrReplace(false, false, false, bFlag, false{UpdateCaret});
+    Result:= Finder.DoAction_FindOrReplace(false, false, bFlag, false{UpdateCaret});
     if Result then
       Ed.DoGotoPos(
         Finder.MatchEdEnd,
