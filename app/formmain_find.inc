@@ -680,11 +680,17 @@ var
   ThisFinder: TATEditorFinder;
   Params: TAppVariantArray;
   EventRes: TAppPyEventResult;
+  Ed: TATSynEdit;
 begin
   AConfirm:= true;
   AContinue:= true;
 
   ThisFinder:= Sender as TATEditorFinder;
+  Ed:= ThisFinder.Editor;
+
+  Ed.DoCaretSingle(APos1.X, APos1.Y, APos2.X, APos2.Y);
+  Ed.DoShowPos(APos1, ThisFinder.IndentHorz, ThisFinder.IndentVert, false);
+  Ed.Update(true);
 
   SetLength(Params, 4);
   Params[0]:= AppVariant(APos1.X);
@@ -692,7 +698,7 @@ begin
   Params[2]:= AppVariant(APos2.X);
   Params[3]:= AppVariant(APos2.Y);
 
-  EventRes:= DoPyEvent(ThisFinder.Editor, cEventOnConfirmReplace, Params);
+  EventRes:= DoPyEvent(Ed, cEventOnConfirmReplace, Params);
   if EventRes.Val=evrTrue then
     AConfirm:= true
   else
