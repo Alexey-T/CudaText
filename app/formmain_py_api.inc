@@ -8573,6 +8573,17 @@ begin
             Result:= Py_BuildValue('(ii)', Finder.IndentHorz, Finder.IndentVert);
           end;
 
+        FINDER_SET_TAG:
+          begin
+            Finder.DataString:= StrValue;
+            Result:= ReturnNone;
+          end;
+
+        FINDER_GET_TAG:
+          begin
+            Result:= PyString_FromString(PChar(Finder.DataString));
+          end;
+
         FINDER_FIND:
           begin
             bResult:= Finder.DoAction_FindOrReplace(bNext, false, false, bChanged, bSetCaret);

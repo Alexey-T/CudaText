@@ -699,7 +699,8 @@ const
   FINDER_GET_CARETS       = 15;
   FINDER_SET_INDENTS      = 16;
   FINDER_GET_INDENTS      = 17;
-  FINDER_SET_REP_CALLBACK = 20;
+  FINDER_SET_TAG          = 18;
+  FINDER_GET_TAG          = 19;
   FINDER_FIND             = 30;
   FINDER_FIND_REP         = 31;
   FINDER_FIND_ALL         = 32;
