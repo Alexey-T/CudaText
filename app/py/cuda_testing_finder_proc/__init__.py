@@ -245,9 +245,9 @@ bbb b bbbbb b b bbb
         
     def on_finder_rep(self, ed_self, x1, y1, x2, y2):
         r = msg_box_ex(
-            'Replace confirm', 
+            'Replace confirmation', 
             'Replace at (%d,%d)-(%d,%d) ?'%(x1, y1, x2, y2), 
-            ['Replace, continue', 'Replace, stop', 'Skip, continue', 'Skip, stop'],
+            ['Replace/continue', 'Replace/stop', 'Skip/continue', 'Skip/stop'],
             MB_ICONQUESTION,
             0)
         return r
