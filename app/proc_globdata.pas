@@ -751,6 +751,7 @@ type
     cEventOnOutputNav,
     cEventOnSnippet,
     cEventOnMacro,
+    cEventOnConfirmReplace,
     cEventOnExit
     );
   TAppPyEvents = set of TAppPyEvent;
@@ -803,6 +804,7 @@ const
     'on_output_nav',
     'on_snippet',
     'on_macro',
+    'on_confirm_rep',
     'on_exit'
     );
 

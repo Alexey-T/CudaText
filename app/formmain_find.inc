@@ -674,6 +674,32 @@ begin
     MsgStatus(msgCannotFindMatch);
 end;
 
+procedure TfmMain.FinderOnConfirmReplace_API(Sender: TObject; APos1, APos2: TPoint;
+  AForMany: boolean; var AConfirm, AContinue: boolean);
+var
+  ThisFinder: TATEditorFinder;
+  Params: TAppVariantArray;
+  EventRes: TAppPyEventResult;
+begin
+  AConfirm:= true;
+  AContinue:= true;
+
+  ThisFinder:= Sender as TATEditorFinder;
+
+  SetLength(Params, 4);
+  Params[0]:= AppVariant(APos1.X);
+  Params[1]:= AppVariant(APos1.Y);
+  Params[2]:= AppVariant(APos2.X);
+  Params[3]:= AppVariant(APos2.Y);
+
+  EventRes:= DoPyEvent(ThisFinder.Editor, cEventOnConfirmReplace, Params);
+  if EventRes.Val=evrTrue then
+    AConfirm:= true
+  else
+  if EventRes.Val=evrFalse then
+    AConfirm:= false;
+end;
+
 procedure TfmMain.FinderOnConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
   AForMany: boolean; var AConfirm, AContinue: boolean);
 var

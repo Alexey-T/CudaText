@@ -968,8 +968,6 @@ type
     procedure FinderShowReplaceReport(ACounter, ATime: integer);
     procedure FindDialogDone(Sender: TObject; Res: TAppFinderOperation);
     procedure FinderOnFound(Sender: TObject; APos1, APos2: TPoint);
-    procedure FinderOnConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
-      AForMany: boolean; var AConfirm, AContinue: boolean);
     procedure FinderOnProgress(Sender: TObject; const ACurPos, AMaxPos: Int64; var AContinue: boolean);
     procedure FinderUpdateEditor(AUpdateText: boolean; AUpdateStatusbar: boolean=true);
     procedure FrameOnSaveFile(Sender: TObject);
@@ -1087,6 +1085,10 @@ type
     function DoPyTreeHelper(Frame: TEditorFrame): boolean;
     function DoPyLexerDetection(const Filename: string; Lexers: TStringList): integer;
     procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATTokenKind);
+    procedure FinderOnConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
+      AForMany: boolean; var AConfirm, AContinue: boolean);
+    procedure FinderOnConfirmReplace_API(Sender: TObject; APos1, APos2: TPoint;
+      AForMany: boolean; var AConfirm, AContinue: boolean);
   end;
 
 var

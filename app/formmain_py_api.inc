@@ -8452,6 +8452,7 @@ begin
         FINDER_CREATE:
           begin
             Finder:= TATEditorFinder.Create;
+            Finder.OnConfirmReplace:= @fmMain.FinderOnConfirmReplace_API;
             Result:= PyLong_FromLongLong(PtrInt(Finder));
           end;
 
