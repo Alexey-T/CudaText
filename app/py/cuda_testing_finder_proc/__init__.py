@@ -246,9 +246,9 @@ bbb b bbbbb b b bbb
     def on_finder_rep(self, ed_self, x1, y1, x2, y2):
         r = msg_box('Replace text at (%d,%d)-(%d,%d) ?'%(x1, y1, x2, y2),
                     MB_YESNOCANCEL+MB_ICONQUESTION) 
-        if r==ID_CANCEL:
-            return HOWREP_STOP
-        elif r==ID_YES:
+        if r==ID_YES:
             return HOWREP_REPLACE
-        else:
+        elif r==ID_NO:
             return HOWREP_SKIP
+        else:
+            return HOWREP_CANCEL
