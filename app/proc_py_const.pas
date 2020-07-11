@@ -697,6 +697,8 @@ const
   FINDER_GET_MAXLEN       = 13;
   FINDER_SET_CARETS       = 14;
   FINDER_GET_CARETS       = 15;
+  FINDER_SET_INDENTS      = 16;
+  FINDER_GET_INDENTS      = 17;
   FINDER_SET_REP_CALLBACK = 20;
   FINDER_FIND             = 30;
   FINDER_FIND_REP         = 31;
