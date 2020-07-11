@@ -8432,6 +8432,8 @@ var
   Pnt1, Pnt2, PntAfter: TPoint;
   ResList: TATFinderResults;
   ResItem: TATFinderResult;
+  ResList2: TATFinderResults2;
+  ResItem2: TATFinderResult2;
   Sep: TATStringSeparator;
   i: integer;
 begin
@@ -8664,6 +8666,57 @@ begin
             begin
               Finder.Editor.Update(i>0);
               Result:= PyInt_FromLong(i);
+            end;
+          end;
+
+        FINDER_REP_ALL_EX:
+          begin
+            if Finder.StrFind='' then
+              exit(ReturnNone);
+
+            ResList2:= TATFinderResults2.Create;
+            try
+              bResult:= Finder.DoAction_FindOrReplace(false, true, false, bChanged, false);
+              if not bResult then
+              begin
+                if Finder.IsRegexBad then
+                  exit(PyBool_FromLong(0))
+                else
+                  exit(PyList_New(0));
+              end;
+
+              repeat
+                ResItem2.Pos:= Finder.MatchEdPos;
+                ResItem2.PosEnd:= Finder.MatchEdEnd;
+                if bChanged then
+                  ResItem2.PosAfter:= Finder.MatchEdPosAfterRep
+                else
+                  ResItem2.PosAfter:= Point(-1, -1);
+                ResList2.Add(ResItem2);
+
+                bResult:= Finder.DoAction_FindOrReplace(true, true, false, bChanged, false);
+              until not bResult;
+
+              Finder.Editor.Update(true);
+
+              Result:= PyList_New(ResList2.Count);
+              if not Assigned(Result) then
+                raise EPythonError.Create(msgPythonListError);
+              for i:= 0 to ResList2.Count-1 do
+              begin
+                ResItem2:= ResList2[i];
+                PyList_SetItem(Result, i,
+                  Py_BuildValue('(iiiiii)',
+                    ResItem2.Pos.X,
+                    ResItem2.Pos.Y,
+                    ResItem2.PosEnd.X,
+                    ResItem2.PosEnd.Y,
+                    ResItem2.PosAfter.X,
+                    ResItem2.PosAfter.Y
+                    ));
+              end;
+            finally
+              FreeAndNil(ResList2);
             end;
           end;
 

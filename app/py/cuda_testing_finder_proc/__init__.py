@@ -84,6 +84,12 @@ class Command:
         res=finder_proc(self.fnd, FINDER_REP_ALL)
         print('replace-all:', res)
     
+    def do_rep_all_ex(self, id_dlg, id_ctl, data='', info=''):
+
+        self.apply_opt(False, False)
+        res=finder_proc(self.fnd, FINDER_REP_ALL_EX)
+        print('replace-all-ex:', res)
+    
     def run(self):
         
         idd=dlg_proc(0, DLG_CREATE)
@@ -146,6 +152,9 @@ class Command:
 
         idc=dlg_proc(idd, DLG_CTL_ADD,"button");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
         'name':'rall', 'x':230, 'y':200, 'w':100, 'h':25, 'cap':'Replace all', 'on_change': self.do_rep_all })
+
+        idc=dlg_proc(idd, DLG_CTL_ADD,"button");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
+        'name':'rone', 'x':335, 'y':170, 'w':100, 'h':25, 'cap':'Replace all ex', 'on_change': self.do_rep_all_ex })
 
         idc=dlg_proc(idd, DLG_CTL_ADD,"button");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
         'name':'coun', 'x':335, 'y':200, 'w':100, 'h':25, 'cap':'Count', 'on_change': self.do_count })
