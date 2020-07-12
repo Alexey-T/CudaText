@@ -596,7 +596,8 @@ begin
 end;
 
 
-procedure DoControl_ApplyEditorProps(Ed: TATSynEdit; AForm: TFormDummy);
+procedure DoControl_ApplyEditorProps(Ed: TATSynEdit; AForm: TFormDummy;
+  AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering, AOneLiner: boolean);
 begin
   Ed.DoubleBuffered:= UiOps.DoubleBuffered;
   Ed.OnChange:= @AForm.DoOnEditorChange;
@@ -617,7 +618,8 @@ begin
   end;
 
   EditorApplyTheme(Ed);
-  EditorApplyOps(Ed, EditorOps, true, true, false);
+  EditorApplyOps(Ed, EditorOps,
+    AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering, AOneLiner);
 end;
 
 procedure DoControl_CreateNew(
@@ -648,7 +650,7 @@ begin
   if S='editor' then
   begin
     Ctl:= TATSynEdit.Create(AForm);
-    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm);
+    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, true, true, false, false);
 
     Adapter:= TATAdapterEControl.Create(Ctl);
     Adapter.EnabledSublexerTreeNodes:= UiOps.TreeSublexers;
@@ -662,14 +664,14 @@ begin
   if S='editor_edit' then
   begin
     Ctl:= TATEdit.Create(AForm);
-    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm);
+    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, false, false, false, true);
     exit;
   end;
 
   if S='editor_combo' then
   begin
     Ctl:= TATComboEdit.Create(AForm);
-    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm);
+    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, false, false, false, true);
     exit;
   end;
 

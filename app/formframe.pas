@@ -1688,8 +1688,8 @@ begin
   Adapter1.AddEditor(Ed2);
 
   //load options
-  EditorApplyOps(Ed1, EditorOps, true, true, AApplyCentering);
-  EditorApplyOps(Ed2, EditorOps, true, true, AApplyCentering);
+  EditorApplyOps(Ed1, EditorOps, true, true, AApplyCentering, false);
+  EditorApplyOps(Ed2, EditorOps, true, true, AApplyCentering, false);
   EditorApplyTheme(Ed1);
   EditorApplyTheme(Ed2);
 

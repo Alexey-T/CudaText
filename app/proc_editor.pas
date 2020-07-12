@@ -47,7 +47,7 @@ procedure EditorSetFont(F: TFont; const AParams: string);
 procedure EditorClear(Ed: TATSynEdit);
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
-  AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering: boolean);
+  AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering, AOneLiner: boolean);
 
 function EditorGetFoldString(Ed: TATSynEdit): string;
 procedure EditorSetFoldString(Ed: TATSynEdit; const AText: string);
@@ -125,7 +125,7 @@ function EditorFindCurrentWordOrSel(Ed: TATSynEdit;
 implementation
 
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
-  AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering: boolean);
+  AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering, AOneLiner: boolean);
 var
   Sep: TATStringSeparator;
   N: integer;
@@ -154,39 +154,42 @@ begin
   Ed.OptOverwriteSel:= Op.OpOverwriteSel;
   Ed.OptOverwriteAllowedOnPaste:= Op.OpOverwriteOnPaste;
 
-  Ed.OptGutterVisible:= Op.OpGutterShow;
-  Ed.OptGutterShowFoldAlways:= Op.OpGutterFoldAlways;
-  Ed.OptGutterIcons:= TATGutterIconsKind(Op.OpGutterFoldIcons);
-  Ed.Gutter[Ed.GutterBandBookmarks].Visible:= Op.OpGutterBookmarks;
-  Ed.Gutter[Ed.GutterBandFolding].Visible:= Op.OpGutterFold;
-  Ed.Gutter[Ed.GutterBandNumbers].Visible:= Op.OpNumbersShow;
-  Ed.Gutter.Update;
+  if not AOneLiner then
+  begin
+    Ed.OptGutterVisible:= Op.OpGutterShow;
+    Ed.OptGutterShowFoldAlways:= Op.OpGutterFoldAlways;
+    Ed.OptGutterIcons:= TATGutterIconsKind(Op.OpGutterFoldIcons);
+    Ed.Gutter[Ed.GutterBandBookmarks].Visible:= Op.OpGutterBookmarks;
+    Ed.Gutter[Ed.GutterBandFolding].Visible:= Op.OpGutterFold;
+    Ed.Gutter[Ed.GutterBandNumbers].Visible:= Op.OpNumbersShow;
+    Ed.Gutter.Update;
 
-  if Op.OpNumbersStyle<=Ord(High(TATSynNumbersStyle)) then
-    Ed.OptNumbersStyle:= TATSynNumbersStyle(Op.OpNumbersStyle);
-  Ed.OptNumbersShowCarets:= Op.OpNumbersForCarets;
-  if Op.OpNumbersCenter then
-    Ed.OptNumbersAlignment:= taCenter
-  else
-    Ed.OptNumbersAlignment:= taRightJustify;
+    if Op.OpNumbersStyle<=Ord(High(TATSynNumbersStyle)) then
+      Ed.OptNumbersStyle:= TATSynNumbersStyle(Op.OpNumbersStyle);
+    Ed.OptNumbersShowCarets:= Op.OpNumbersForCarets;
+    if Op.OpNumbersCenter then
+      Ed.OptNumbersAlignment:= taCenter
+    else
+      Ed.OptNumbersAlignment:= taRightJustify;
 
-  Ed.OptRulerVisible:= Op.OpRulerShow;
-  Ed.OptRulerNumeration:= TATRulerNumeration(Op.OpRulerNumeration);
-  Ed.OptRulerMarkSizeCaret:= Op.OpRulerMarkCaret;
+    Ed.OptRulerVisible:= Op.OpRulerShow;
+    Ed.OptRulerNumeration:= TATRulerNumeration(Op.OpRulerNumeration);
+    Ed.OptRulerMarkSizeCaret:= Op.OpRulerMarkCaret;
 
-  Ed.OptMinimapVisible:= Op.OpMinimapShow;
-  Ed.OptMinimapShowSelAlways:= Op.OpMinimapShowSelAlways;
-  Ed.OptMinimapShowSelBorder:= Op.OpMinimapShowSelBorder;
-  Ed.OptMinimapCharWidth:= Op.OpMinimapCharWidth;
-  Ed.OptMinimapAtLeft:= Op.OpMinimapAtLeft;
-  Ed.OptMinimapTooltipVisible:= Op.OpMinimapTooltipShow;
-  Ed.OptMinimapTooltipLinesCount:= Op.OpMinimapTooltipLineCount;
-  Ed.OptMinimapTooltipWidthPercents:= Op.OpMinimapTooltipWidth;
+    Ed.OptMinimapVisible:= Op.OpMinimapShow;
+    Ed.OptMinimapShowSelAlways:= Op.OpMinimapShowSelAlways;
+    Ed.OptMinimapShowSelBorder:= Op.OpMinimapShowSelBorder;
+    Ed.OptMinimapCharWidth:= Op.OpMinimapCharWidth;
+    Ed.OptMinimapAtLeft:= Op.OpMinimapAtLeft;
+    Ed.OptMinimapTooltipVisible:= Op.OpMinimapTooltipShow;
+    Ed.OptMinimapTooltipLinesCount:= Op.OpMinimapTooltipLineCount;
+    Ed.OptMinimapTooltipWidthPercents:= Op.OpMinimapTooltipWidth;
 
-  Ed.OptMicromapVisible:= Op.OpMicromapShow;
+    Ed.OptMicromapVisible:= Op.OpMicromapShow;
 
-  Ed.OptMarginRight:= Op.OpMarginFixed;
-  Ed.OptMarginString:= Op.OpMarginString;
+    Ed.OptMarginRight:= Op.OpMarginFixed;
+    Ed.OptMarginString:= Op.OpMarginString;
+  end;
 
   Ed.OptShowURLs:= Op.OpLinks;
   Ed.OptShowURLsRegex:= Op.OpLinksRegex;
@@ -239,17 +242,21 @@ begin
   if Op.OpCaretAfterPasteColumn<=Ord(High(TATPasteCaret)) then
     Ed.OptCaretPosAfterPasteColumn:= TATPasteCaret(Op.OpCaretAfterPasteColumn);
 
-  Ed.OptCaretVirtual:= Op.OpCaretVirtual;
-  Ed.OptCaretManyAllowed:= Op.OpCaretMulti;
-  Ed.OptCaretsAddedToColumnSelection:= Op.OpCaretsAddedToColumnSel;
-  Ed.OptCaretsPrimitiveColumnSelection:= Op.OpCaretsPrimitiveColumnSel;
-  Ed.OptScrollLineCommandsKeepCaretOnScreen:= Op.OpCaretKeepVisibleOnScroll;
+  if not AOneLiner then
+  begin
+    Ed.OptCaretVirtual:= Op.OpCaretVirtual;
+    Ed.OptCaretManyAllowed:= Op.OpCaretMulti;
+    Ed.OptCaretsAddedToColumnSelection:= Op.OpCaretsAddedToColumnSel;
+    Ed.OptCaretsPrimitiveColumnSelection:= Op.OpCaretsPrimitiveColumnSel;
+    Ed.OptScrollLineCommandsKeepCaretOnScreen:= Op.OpCaretKeepVisibleOnScroll;
 
-  Ed.OptShowCurLine:= Op.OpShowCurLine;
-  Ed.OptShowCurLineMinimal:= Op.OpShowCurLineMinimal;
-  Ed.OptShowCurLineOnlyFocused:= Op.OpShowCurLineOnlyFocused;
-  Ed.OptShowCurColumn:= Op.OpShowCurCol;
-  Ed.OptLastLineOnTop:= Op.OpShowLastLineOnTop;
+    Ed.OptShowCurLine:= Op.OpShowCurLine;
+    Ed.OptShowCurLineMinimal:= Op.OpShowCurLineMinimal;
+    Ed.OptShowCurLineOnlyFocused:= Op.OpShowCurLineOnlyFocused;
+    Ed.OptShowCurColumn:= Op.OpShowCurCol;
+    Ed.OptLastLineOnTop:= Op.OpShowLastLineOnTop;
+  end;
+
   Ed.OptShowFullWidthForSelection:= Op.OpShowFullBackgroundSel;
   Ed.OptShowFullWidthForSyntaxHilite:= Op.OpShowFullBackgroundSyntax;
   Ed.OptShowMouseSelFrame:= Op.OpShowMouseSelFrame;
