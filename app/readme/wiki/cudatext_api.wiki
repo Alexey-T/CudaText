@@ -2205,6 +2205,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_RECT_CLIENT: 4-tuple of int: rectangle of entire editor area, relative to editor.
 * PROP_RECT_TEXT: 4-tuple of int: rectangle of text-only editor area (excluding gutter/minimap/etc), relative to editor.
 
+* PROP_COMBO_ITEMS: only for "editor_combo" control, contents of drop-down list. On getting: list of str. On setting: value must be str with '\n'-separated items.
+
 * PROP_V_MODE: int: mode of binary viewer. Reading it for editor, returns VMODE_NONE. Reading it for viewer, returns one of: VMODE_TEXT, VMODE_BINARY, VMODE_HEX, VMODE_UNICODE, VMODE_UNICODE_HEX.
 * PROP_V_POS: int: for binary viewer, scroll position.
 * PROP_V_SEL_START: int: for binary viewer, selection start offset.
@@ -2313,6 +2315,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_SAVING_FORCE_FINAL_EOL: bool: on saving file, ensure the newline at end of document.
 * PROP_SAVING_TRIM_SPACES: bool: on saving file, trim trailing whitespaces.
 * PROP_SAVING_TRIM_FINAL_EMPTY_LINES: bool: on saving file, trim redundant empty lines at end of document.
+
+* PROP_COMBO_ITEMS: only for "editor_combo" control, contents of drop-down list. On getting: list of str. On setting: value must be str with '\n'-separated items.
 
 * PROP_V_MODE: int: mode of binary viewer. Setting it for viewer to one of VMODE_ values, changes viewer mode. Setting it for editor to one of VMODE_ values, switches editor to viewer in the given mode. Setting it for viewer to VMODE_NONE, switches viewer to editor.
 * PROP_V_POS: int: for binary viewer, scroll position.
@@ -3996,5 +4000,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.344 (app 1.107.0)
 * add: dlg_proc: controls "editor_edit", "editor_combo"
+* add: Editor.get_prop/set_prop: PROP_COMBO_ITEMS
 
 [[Category:CudaText]]
