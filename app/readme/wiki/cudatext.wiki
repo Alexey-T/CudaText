@@ -1247,6 +1247,25 @@ Tool properties:
 * Capture output: Output panel
 * Encoding: the same as file's encoding: e.g. utf_8 or cp1251 (cp1251 is Russian ANSI codepage)
 
+==Tool to compile by Free Pascal==
+
+This tool is for Free Pascal 3.x on Linux x64.
+
+Properties:
+
+* Name: FPC - compile
+* File name:
+** for FPC installed system-wide: fpc
+** for FPC installed via fpcupdeluxe: ~/fpcupdeluxe/fpcupdeluxe/fpc/bin/x86_64-linux/fpc.sh
+* Shell command: unchecked
+* Parameters: {FileNameOnly}
+* Initial folder: {FileDir}
+* Lexers: Pascal
+* Capture output: Output panel
+* Encoding: utf_8
+
+Optionally, configure "Pattern", so double click in the Output panel will put caret to the source code. In the "Tool properties" dialog, press "Set" button near the "Pattern" and choose there ready preset for Free Pascal.
+
 ==Tool to call file-compare utility ==
 Tools, which call file-compare utility, to compare 2 files: active files in group-1 and group-2.
 
