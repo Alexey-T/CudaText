@@ -189,10 +189,10 @@ begin
 
     Ed.OptMarginRight:= Op.OpMarginFixed;
     Ed.OptMarginString:= Op.OpMarginString;
-  end;
 
-  Ed.OptShowURLs:= Op.OpLinks;
-  Ed.OptShowURLsRegex:= Op.OpLinksRegex;
+    Ed.OptShowURLs:= Op.OpLinks;
+    Ed.OptShowURLsRegex:= Op.OpLinksRegex;
+  end;
 
   if AApplyUnprintedAndWrap then
   begin
@@ -235,15 +235,15 @@ begin
   Ed.OptCaretBlinkTime:= Op.OpCaretBlinkTime;
   Ed.OptCaretBlinkEnabled:= Op.OpCaretBlinkEn;
 
-  EditorCaretPropsFromString(Ed.CaretPropsNormal, Op.OpCaretViewNormal);
-  EditorCaretPropsFromString(Ed.CaretPropsOverwrite, Op.OpCaretViewOverwrite);
-  EditorCaretPropsFromString(Ed.CaretPropsReadonly, Op.OpCaretViewReadonly);
-
-  if Op.OpCaretAfterPasteColumn<=Ord(High(TATPasteCaret)) then
-    Ed.OptCaretPosAfterPasteColumn:= TATPasteCaret(Op.OpCaretAfterPasteColumn);
-
   if not AOneLiner then
   begin
+    EditorCaretPropsFromString(Ed.CaretPropsNormal, Op.OpCaretViewNormal);
+    EditorCaretPropsFromString(Ed.CaretPropsOverwrite, Op.OpCaretViewOverwrite);
+    EditorCaretPropsFromString(Ed.CaretPropsReadonly, Op.OpCaretViewReadonly);
+
+    if Op.OpCaretAfterPasteColumn<=Ord(High(TATPasteCaret)) then
+      Ed.OptCaretPosAfterPasteColumn:= TATPasteCaret(Op.OpCaretAfterPasteColumn);
+
     Ed.OptCaretVirtual:= Op.OpCaretVirtual;
     Ed.OptCaretManyAllowed:= Op.OpCaretMulti;
     Ed.OptCaretsAddedToColumnSelection:= Op.OpCaretsAddedToColumnSel;
@@ -271,35 +271,39 @@ begin
   Ed.OptScrollStyleHorz:= TATSynEditScrollStyle(Op.OpScrollStyleHorz);
   Ed.OptTextCenteringCharWidth:= IfThen(AApplyCentering, Op.OpCenteringWidth, 0);
   Ed.OptNonWordChars:= Op.OpNonWordChars;
-  Ed.OptFoldStyle:= TATFoldStyle(Op.OpFoldStyle);
-  Ed.OptFoldTooltipVisible:= Op.OpFoldTooltipShow;
 
-  Ed.OptStapleStyle:= TATLineStyle(Op.OpStaplesStyle);
+  if not AOneLiner then
+  begin
+    Ed.OptFoldStyle:= TATFoldStyle(Op.OpFoldStyle);
+    Ed.OptFoldTooltipVisible:= Op.OpFoldTooltipShow;
 
-  Sep.Init(Op.OpStaplesProps);
-  Sep.GetItemInt(N, 0);
-  Ed.OptStapleIndent:= N;
-  Sep.GetItemInt(N, 40);
-  Ed.OptStapleWidthPercent:= N;
-  Sep.GetItemInt(N, 1);
-  Ed.OptStapleEdge1:= TATStapleEdge(N);
-  Sep.GetItemInt(N, 1);
-  Ed.OptStapleEdge2:= TATStapleEdge(N);
+    Ed.OptStapleStyle:= TATLineStyle(Op.OpStaplesStyle);
 
-  Ed.OptAutoIndent:= Op.OpIndentAuto;
-  if Op.OpIndentAutoKind<=Ord(High(TATAutoIndentKind)) then
-    Ed.OptAutoIndentKind:= TATAutoIndentKind(Op.OpIndentAutoKind);
-  Ed.OptAutoIndentBetterBracketsCurly:= Op.OpIndentAuto; //no separate option
-  Ed.OptAutoIndentRegexRule:= Op.OpIndentAutoRule;
+    Sep.Init(Op.OpStaplesProps);
+    Sep.GetItemInt(N, 0);
+    Ed.OptStapleIndent:= N;
+    Sep.GetItemInt(N, 40);
+    Ed.OptStapleWidthPercent:= N;
+    Sep.GetItemInt(N, 1);
+    Ed.OptStapleEdge1:= TATStapleEdge(N);
+    Sep.GetItemInt(N, 1);
+    Ed.OptStapleEdge2:= TATStapleEdge(N);
 
-  Ed.OptZebraActive:= Op.OpZebra>0;
-  if Ed.OptZebraActive then
-    Ed.OptZebraAlphaBlend:= Op.OpZebra;
-  Ed.OptZebraStep:= Op.OpZebraStep;
+    Ed.OptAutoIndent:= Op.OpIndentAuto;
+    if Op.OpIndentAutoKind<=Ord(High(TATAutoIndentKind)) then
+      Ed.OptAutoIndentKind:= TATAutoIndentKind(Op.OpIndentAutoKind);
+    Ed.OptAutoIndentBetterBracketsCurly:= Op.OpIndentAuto; //no separate option
+    Ed.OptAutoIndentRegexRule:= Op.OpIndentAutoRule;
 
-  Ed.OptIndentSize:= Op.OpIndentSize;
-  Ed.OptIndentKeepsAlign:= Op.OpUnIndentKeepsAlign;
-  Ed.OptIndentMakesWholeLinesSelection:= Op.OpIndentMakesWholeLineSel;
+    Ed.OptZebraActive:= Op.OpZebra>0;
+    if Ed.OptZebraActive then
+      Ed.OptZebraAlphaBlend:= Op.OpZebra;
+    Ed.OptZebraStep:= Op.OpZebraStep;
+
+    Ed.OptIndentSize:= Op.OpIndentSize;
+    Ed.OptIndentKeepsAlign:= Op.OpUnIndentKeepsAlign;
+    Ed.OptIndentMakesWholeLinesSelection:= Op.OpIndentMakesWholeLineSel;
+  end;
 
   Ed.OptMouse2ClickDragSelectsWords:= Op.OpMouse2ClickDragSelectsWords;
   Ed.OptMouseDragDrop:= Op.OpMouseDragDrop;
