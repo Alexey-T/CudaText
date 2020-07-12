@@ -3440,6 +3440,14 @@ begin
             Result:= Py_rect(Ed.RectMain);
           end;
 
+        PROP_COMBO_ITEMS:
+          begin
+            if Ed is TATComboEdit then
+              Result:= StringsToPyList(TATComboEdit(Ed).Items)
+            else
+              Result:= ReturnNone;
+          end;
+
         PROP_CODETREE_MODIFIED_VERSION:
           Result:= PyInt_FromLong(fmMain.FCodetreeModifiedVersion);
 
@@ -3988,6 +3996,12 @@ begin
           begin
             Ed.OptMouseClickOpensURL:= ValueInt=1;
             Ed.OptMouse2ClickOpensURL:= ValueInt=2;
+          end;
+
+        PROP_COMBO_ITEMS:
+          begin
+            if Ed is TATComboEdit then
+              TATComboEdit(Ed).Items.Text:= Str;
           end;
 
         PROP_CODETREE_SUBLEXER:

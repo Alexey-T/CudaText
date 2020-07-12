@@ -216,6 +216,7 @@ const
   PROP_HANDLE_PARENT      = 113;
   PROP_RECT_CLIENT        = 115;
   PROP_RECT_TEXT          = 116;
+  PROP_COMBO_ITEMS        = 119;
   PROP_CODETREE_MODIFIED_VERSION = 120;
   PROP_CODETREE_SUBLEXER         = 121;
   PROP_FONT                      = 122;
