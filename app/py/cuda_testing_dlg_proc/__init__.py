@@ -791,7 +791,7 @@ class Command:
 
         n=dlg_proc(h, DLG_CTL_ADD, 'editor')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
-            'name': 'ed',
+            'name': 'ed_main',
             'align': ALIGN_TOP,
             'sp_a': 6,
             'h': 350,
@@ -807,7 +807,7 @@ class Command:
             'on_menu': self.callback_editor_on_menu,
             })
 
-        h_editor = dlg_proc(h, DLG_CTL_HANDLE, name='ed')
+        h_editor = dlg_proc(h, DLG_CTL_HANDLE, name='ed_main')
         ed0 = Editor(h_editor)
         ed0.set_text_all(
 r"""#include <stdio.h>
@@ -826,7 +826,28 @@ int main(int argc, char *argv[])
         ed0.set_prop(PROP_LEXER_FILE, 'C++')
         self.do_editor_gap(ed0, 2)
 
-        dlg_proc(h, DLG_CTL_FOCUS, name='ed')
+        #-----------------------------------------
+        idc=dlg_proc(h, DLG_CTL_ADD,"editor_edit");
+        dlg_proc(h, DLG_CTL_PROP_SET, index=idc, prop={
+            'name':'ed_edit', 'x':5, 'y':370, 'w':200, 'h':26
+            })
+        eh=dlg_proc(h, DLG_CTL_HANDLE, name='ed_edit')
+        e1=Editor(eh)
+        e1.set_prop(PROP_COMBO_ITEMS, '\n'.join(('aa','bb','ee')) ) 
+        e1.set_text_all('editor_edit')
+
+        #-----------------------------------------
+        idc=dlg_proc(h, DLG_CTL_ADD,"editor_combo");
+        dlg_proc(h, DLG_CTL_PROP_SET, index=idc, prop={
+            'name':'ed_combo', 'x':5, 'y':400, 'w':200, 'h':26
+            })
+
+        eh=dlg_proc(h, DLG_CTL_HANDLE, name='ed_combo')
+        e2=Editor(eh)
+        e2.set_prop(PROP_COMBO_ITEMS, '\n'.join(('aa','bb','dd')) ) 
+        e2.set_text_all('editor_combo')
+
+        dlg_proc(h, DLG_CTL_FOCUS, name='ed_main')
 
         return h
 
