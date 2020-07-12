@@ -763,7 +763,7 @@ Notes:
 * Control "listbox_ex" don't have "items"/"value": to work with it, you must get handle of control via DLG_CTL_HANDLE, and pass it to listbox_proc().
 * Control "toolbar" don't have "items"/"value": to work with it, you must get handle via DLG_CTL_HANDLE, and pass it to toolbar_proc().
 * Control "statusbar" don't have "items"/"value": to work with it, you must get handle via DLG_CTL_HANDLE, and pass it to statusbar_proc().
-* Control "editor" don't have "items"/"value": to work with it, you must get handle via DLG_CTL_HANDLE, and pass it to Editor() to make editor object.
+* Controls "editor"/"editor_edit"/"editor_combo" don't have "items"/"value": to work with it, you must get handle via DLG_CTL_HANDLE, and pass it to Editor() to make editor object.
 * Control "paintbox" is empty area, plugin can paint on it. Get canvas_id via DLG_CTL_HANDLE, and use it in canvas_proc().
 * Control property "name" is required for "filter_nnnnn" controls: must set name of listbox/listview, and name of its filter - to the same name with prefix "f_" (e.g. listbox name "mylist" with filter name "f_mylist").
 
@@ -782,7 +782,7 @@ Parameter "text" is "\n"-separated items, one item per control. Each item is chr
 * "en": enabled state, bool
 * "vis": visible state, bool
 * "hint": hint string for mouse-over. Can be multiline, "\r"-separated.
-* "texthint": text, shown with italic+pale font when value of control is empty. For "edit", "memo", "editor". Cannot be multi-line.
+* "texthint": text, shown with italic+pale font when value of control is empty. For "edit", "memo", "editor", "editor_edit", "editor_combo". Cannot be multi-line.
 * "color": background color
 * "autosize": control is auto-sized (by width and/or height, it's control-specific)
 * "font_name": font name
@@ -953,7 +953,9 @@ Often the function works with some control. To pass some control here, use one o
 Possible types of UI controls are described in dlg_custom, see [[#Types]]. Additional types only for dlg_proc:
 
 * "button_ex": button, application-themed, works via button_proc()
-* "editor": full featured editor, works via Editor class
+* "editor": full-featured multi-line editor, accessible via Editor API
+* "editor_edit": one-line variant of "editor"
+* "editor_combo": one-line variant of "editor", with drop-down arrow
 * "listbox_ex": listbox, application-themed, works via listbox_proc()
 * "paintbox": control which must be painted by plugin via canvas_proc()
 * "statusbar": statusbar: panel with one horizontal row of cells, works via statusbar_proc()
@@ -1090,7 +1092,7 @@ Special events for control "treeview":
 * "on_fold", "on_unfold": Called before treeview node is folded/unfolded. Param "data" is int handle of treeview node.
 * "on_select": Called after selection is changed.
 
-Special events for control "editor":
+Special events for control "editor"/"editor_edit"/"editor_combo":
 
 * "on_change": Called after text is changed.
 * "on_caret": Called after caret position and/or selection is changed.
@@ -1161,7 +1163,7 @@ Possible values of "id_action":
 * DLG_CTL_FIND: Returns index of control by name, or -1 if cannot find. Param "prop" is name.
 * DLG_CTL_HANDLE: Returns int "handle" of control on a form. Control must be specified by name or index. This handle is currently useful for types:
 ** type "button_ex": pass handle to button_proc()
-** type "editor": pass handle to Editor() constructor
+** types "editor"/"editor_edit"/"editor_combo": pass handle to Editor() constructor
 ** type "listbox_ex": pass handle to listbox_proc()
 ** type "paintbox": pass handle to canvas_proc()
 ** type "statusbar": pass handle to statusbar_proc()
@@ -3988,8 +3990,11 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * change: Editor.action: EDACTION_FIND* and EDACTION_REPLACE* return False for incorrect RegEx
 * add: Editor.set_prop: PROP_PREVIEW is writable now
 
-1.0.343 (app 1.107.0)
+1.0.343 (app 1.106.8)
 * add: app_proc: PROC_CONFIG_SCALE_GET, PROC_CONFIG_SCALE_SET
 * add: finder_proc()
+
+1.0.344 (app 1.107.0)
+* add: dlg_proc: controls "editor_edit", "editor_combo"
 
 [[Category:CudaText]]
