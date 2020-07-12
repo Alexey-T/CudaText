@@ -26,6 +26,7 @@ uses
   ATGauge,
   ATStatusBar,
   ATSynEdit,
+  ATSynEdit_Edits,
   ATSynEdit_Adapter_EControl,
   proc_customdialog_dummy,
   proc_miscutils,
@@ -655,6 +656,20 @@ begin
     Adapter.DynamicHiliteMaxLines:= EditorOps.OpLexerDynamicHiliteMaxLines;
     Adapter.AddEditor(TATSynEdit(Ctl));
 
+    exit;
+  end;
+
+  if S='editor_edit' then
+  begin
+    Ctl:= TATEdit.Create(AForm);
+    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm);
+    exit;
+  end;
+
+  if S='editor_combo' then
+  begin
+    Ctl:= TATComboEdit.Create(AForm);
+    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm);
     exit;
   end;
 
