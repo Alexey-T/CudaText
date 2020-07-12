@@ -618,8 +618,8 @@ begin
   end;
 
   EditorApplyTheme(Ed);
-  EditorApplyOps(Ed, EditorOps,
-    AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering, AOneLiner);
+  if not AOneLiner then
+    EditorApplyOps(Ed, EditorOps, AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering, AOneLiner);
 end;
 
 procedure DoControl_CreateNew(
