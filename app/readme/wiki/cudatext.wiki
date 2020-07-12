@@ -1256,7 +1256,7 @@ Properties:
 * Name: FPC - compile
 * File name:
 ** for FPC installed system-wide: fpc
-** for FPC installed via fpcupdeluxe: ~/fpcupdeluxe/fpcupdeluxe/fpc/bin/x86_64-linux/fpc.sh
+** for FPC installed via fpcupdeluxe: /home/user/fpcupdeluxe/fpcupdeluxe/fpc/bin/x86_64-linux/fpc.sh
 * Shell command: unchecked
 * Parameters: {FileNameOnly}
 * Initial folder: {FileDir}
