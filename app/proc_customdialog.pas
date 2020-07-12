@@ -594,6 +594,31 @@ begin
   end;
 end;
 
+
+procedure DoControl_ApplyEditorProps(Ed: TATSynEdit; AForm: TFormDummy);
+begin
+  Ed.DoubleBuffered:= UiOps.DoubleBuffered;
+  Ed.OnChange:= @AForm.DoOnEditorChange;
+  Ed.OnChangeCaretPos:= @AForm.DoOnEditorChangeCaretPos;
+  Ed.OnKeyDown:= @AForm.DoOnEditorKeyDown;
+  Ed.OnKeyUp:= @AForm.DoOnEditorKeyUp;
+  Ed.OnClickGutter:= @AForm.DoOnEditorClickGutter;
+  Ed.OnClickGap:= @AForm.DoOnEditorClickGap;
+  Ed.OnClickLink:= @AForm.DoOnEditorClickLink;
+  Ed.OnScroll:= @AForm.DoOnEditorScroll;
+  Ed.OnPaste:= @AForm.DoOnEditorPaste;
+
+  Ed.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
+  if UiOps.ShowActiveBorder then
+  begin
+    //Ed.OptBorderWidth:= 1;
+    Ed.OptBorderWidthFocused:= 1;
+  end;
+
+  EditorApplyTheme(Ed);
+  EditorApplyOps(Ed, EditorOps, true, true, false);
+end;
+
 procedure DoControl_CreateNew(
   const S: string;
   AForm: TFormDummy;
@@ -622,27 +647,7 @@ begin
   if S='editor' then
   begin
     Ctl:= TATSynEdit.Create(AForm);
-
-    TATSynEdit(Ctl).DoubleBuffered:= UiOps.DoubleBuffered;
-    TATSynEdit(Ctl).OnChange:= @AForm.DoOnEditorChange;
-    TATSynEdit(Ctl).OnChangeCaretPos:= @AForm.DoOnEditorChangeCaretPos;
-    TATSynEdit(Ctl).OnKeyDown:= @AForm.DoOnEditorKeyDown;
-    TATSynEdit(Ctl).OnKeyUp:= @AForm.DoOnEditorKeyUp;
-    TATSynEdit(Ctl).OnClickGutter:= @AForm.DoOnEditorClickGutter;
-    TATSynEdit(Ctl).OnClickGap:= @AForm.DoOnEditorClickGap;
-    TATSynEdit(Ctl).OnClickLink:= @AForm.DoOnEditorClickLink;
-    TATSynEdit(Ctl).OnScroll:= @AForm.DoOnEditorScroll;
-    TATSynEdit(Ctl).OnPaste:= @AForm.DoOnEditorPaste;
-
-    TATSynEdit(Ctl).OptBorderFocusedActive:= UiOps.ShowActiveBorder;
-    if UiOps.ShowActiveBorder then
-    begin
-      //TATSynEdit(Ctl).OptBorderWidth:= 1;
-      TATSynEdit(Ctl).OptBorderWidthFocused:= 1;
-    end;
-
-    EditorApplyTheme(TATSynEdit(Ctl));
-    EditorApplyOps(TATSynEdit(Ctl), EditorOps, true, true, false);
+    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm);
 
     Adapter:= TATAdapterEControl.Create(Ctl);
     Adapter.EnabledSublexerTreeNodes:= UiOps.TreeSublexers;
