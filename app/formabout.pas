@@ -12,16 +12,14 @@ unit formabout;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Menus, ButtonPanel, IniFiles,
-  LCLProc, LCLType, LCLIntf, ScrollingText,
+  Classes, SysUtils, Forms, Controls, Graphics, StdCtrls,
+  ButtonPanel, IniFiles,
+  LCLProc, LCLType, LCLIntf,
+  ScrollingText,
   proc_msg,
   proc_globdata,
-  proc_editor,
   proc_customdialog,
-  ATLinkLabel,
-  ATSynEdit,
-  ATSynEdit_Commands;
+  ATLinkLabel;
 
 type
   { TfmAbout }
@@ -31,12 +29,6 @@ type
     labelName: TLabel;
     labelPlatform: TLabel;
     labelVersion: TLabel;
-    MenuItem37: TMenuItem;
-    mnuTextCopy: TMenuItem;
-    mnuTextOpenUrl: TMenuItem;
-    mnuTextSel: TMenuItem;
-    PopupText: TPopupMenu;
-    Credits: TScrollingText;
     procedure bCreditsClick(Sender: TObject);
     procedure bOkClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -44,10 +36,10 @@ type
     procedure FormShow(Sender: TObject);
   private
     { private declarations }
+    Credits: TScrollingText;
     procedure Localize;
   public
     { public declarations }
-    EditorOnClickLink: TATSynEditClickLinkEvent;
     FLabelLink: TATLabelLink;
   end;
 
@@ -73,10 +65,6 @@ begin
     Caption:= ini.ReadString(section, '_', Caption);
     with ButtonPanel1.OKButton do Caption:= msgButtonOk;
     with ButtonPanel1.HelpButton do Caption:= ini.ReadString(section, 'cre', Caption);
-
-    with mnuTextCopy do Caption:= ini.ReadString('m_e', 'cp', Caption);
-    with mnuTextSel do Caption:= ini.ReadString('m_se', 'al', Caption);
-    with mnuTextOpenUrl do Caption:= ini.ReadString('ct', 'url', Caption);
   finally
     FreeAndNil(ini);
   end;
@@ -107,8 +95,11 @@ begin
     {$I %FPCVersion%}
     ]);
 
+  Credits:= TScrollingText.Create(Self);
   Credits.Hide;
+  Credits.Parent:= Self;
   Credits.Align:= alClient;
+  Credits.Lines.LoadFromFile(AppDir_DataLang+DirectorySeparator+'credits.txt');
 end;
 
 procedure TfmAbout.FormKeyDown(Sender: TObject; var Key: Word;
