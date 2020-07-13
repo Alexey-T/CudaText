@@ -279,62 +279,6 @@ const
   msgCommandNeedsPython: string =
     'This command requires Python engine.'+
     ' Set proper value of "pylib*" in user.json.';
-    //' Call menu item "Options / Settings-default" and read in default.json information about option "pylib".';
-
-  msgAboutCredits =
-      'Lazarus IDE:'+EOL+
-      '  http://www.lazarus-ide.org'+EOL+
-      ''+EOL+
-      'ATSynEdit, ATTabs, ATFlatControls:'+EOL+
-      '  Alexey Torgashin'+EOL+
-      '  https://github.com/Alexey-T/'+EOL+
-      ''+EOL+
-      'EControl syntax parser:'+EOL+
-      '  Delphi version by Michael Zakharov'+EOL+
-      '  http://www.econtrol.ru'+EOL+
-      '  Lazarus port by Alexey Torgashin'+EOL+
-      '  https://github.com/Alexey-T/'+EOL+
-      ''+EOL+
-      'Python plugins, QA:'+EOL+
-      '  Andrey Kvichanskiy'+EOL+
-      '  https://github.com/kvichans/'+EOL+
-      ''+EOL+
-      'Optimizations of Python wrapper, plugins:'+EOL+
-      '  Artem Gavrilov'+EOL+
-      '  https://github.com/Artem3213212'+EOL+
-      ''+EOL+
-      'Patches, Windows shell extension, plugins:'+EOL+
-      '  Andreas Heim'+EOL+
-      '  https://github.com/dinkumoil/'+EOL+
-      ''+EOL+
-      'Python for Delphi:'+EOL+
-      '  Dietmar Budelsky, Morgan Martinet, Kiriakos Vlahos'+EOL+
-      '  https://github.com/pyscripter/python4delphi'+EOL+
-      'Python for Lazarus:'+EOL+
-      '  Alexey Torgashin'+EOL+
-      '  https://github.com/Alexey-T/'+EOL+
-      ''+EOL+
-      '------------------------------'+EOL+
-      ''+EOL+
-      'Main icon:'+EOL+
-      '  FTurtle'+EOL+
-      ''+EOL+
-      'Theme for LibreOffice:'+EOL+
-      '  https://github.com/libodesign/icons'+EOL+
-      '  License: Creative Commons BY-SA 3.0, http://creativecommons.org/licenses/by-sa/3.0/'+EOL+
-      ''+EOL+
-      'Octicons:'+EOL+
-      '  https://octicons.github.com/'+EOL+
-      '  License: MIT License'+EOL+
-      ''+EOL+
-      'Visual Studio Code icons:'+EOL+
-      '  https://github.com/vscode-icons/vscode-icons'+EOL+
-      '  License: MIT License'+EOL+
-      ''+EOL+
-      'Hourglass/floppy icons:'+EOL+
-      '  https://www.iconfinder.com/snipicons'+EOL+
-      '  License: Creative Commons BY-NC 3.0 Unported, http://creativecommons.org/licenses/by-nc/3.0/'+EOL+
-      '';
 
   msgCommandLineHelp =
       'Usage:'+EOL+
