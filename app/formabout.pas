@@ -76,6 +76,8 @@ begin
 end;
 
 procedure TfmAbout.FormCreate(Sender: TObject);
+var
+  fn: string;
 begin
   Localize;
 
@@ -99,7 +101,16 @@ begin
   Credits.Hide;
   Credits.Parent:= Self;
   Credits.Align:= alClient;
-  Credits.Lines.LoadFromFile(AppDir_DataLang+DirectorySeparator+'credits.txt');
+
+  fn:= AppDir_DataLang+DirectorySeparator+'credits.txt';
+  if FileExists(fn) then
+    Credits.Lines.LoadFromFile(fn)
+  else
+  begin
+    Credits.Lines.Clear;
+    Credits.Lines.Add(msgCannotFindFile);
+    Credits.Lines.Add(fn);
+  end;
 end;
 
 procedure TfmAbout.FormKeyDown(Sender: TObject; var Key: Word;
