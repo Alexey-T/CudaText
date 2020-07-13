@@ -36,17 +36,17 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs,
-  ExtCtrls, LCLIntf,LCLTranslator,AboutScrolltextunit;
+  ExtCtrls, LCLIntf, LCLTranslator;
 
 const
   C_TEXTFILENAME = 'scrolling.txt';
   C_TEXTRESOURCENAME = 'scrolltext'; //Note: LResources unit needed
-  C_VERSION = '1.0.2.0';
+  C_VERSION = '1.0.2.1';
 
 type
   TTextSource = (stStringlist, stTextfile, stResource);
 
-  TScrollingText = class(TAboutScrollText)
+  TScrollingText = class(TGraphicControl)
   private
     FActive: boolean;
     FActiveLine: integer;   //the line over which the mouse hovers
