@@ -1367,7 +1367,7 @@ begin
       Ed:= PyEditor(H);
 
       Ed.DoSelect_None;
-      Ed.DoSelect_ColumnBlock(Point(X1, Y1), Point(X2, Y2));
+      Ed.DoSelect_ColumnBlock_FromPoints(Point(X1, Y1), Point(X2, Y2));
       Ed.DoEventCarets;
       Ed.Update;
 

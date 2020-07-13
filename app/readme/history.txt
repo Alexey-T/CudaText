@@ -3,12 +3,12 @@
   - fixed
   * changed
 
-- fix: issues with commands "move lines up/down" with the final line w/o eol
+1.107.0 (2020/07)
 
-1.106.6 (2020/07)
-
-+ add: option "carets_primitive_column_sel", which activates mode of column selection like in Sublime Text
++ add: option "carets_primitive_column_sel", which activates mode of column selection like in Sublime Text (thanks @tmsg)
 * change: new option is "true" by default, mode of column selection is changed
++ add: API finder_proc, to replace old finder APIs (it may speedup plugin FindInFiles later) (thanks @kvichans)
+- fix: issues with commands "move lines up/down", occuring on the final line w/o EOL
 
 1.106.5 (2020/07)
 
