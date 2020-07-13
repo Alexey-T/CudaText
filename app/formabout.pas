@@ -141,7 +141,8 @@ begin
   memo.DoCaretSingle(0, 0);
   memo.ModeReadOnly:= true;
   memo.Font.Name:= EditorOps.OpFontName;
-  memo.Font.Size:= EditorOps.OpFontSize-2;
+  memo.Font.Size:= EditorOps.OpFontSize-1; //smaller font for credits
+  memo.OptMarginRight:= 2000;
   memo.OnClickLink:= EditorOnClickLink;
 end;
 
