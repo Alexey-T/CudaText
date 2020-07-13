@@ -257,6 +257,7 @@ PROP_HANDLE_SECONDARY   = 112
 PROP_HANDLE_PARENT      = 113
 PROP_RECT_CLIENT        = 115
 PROP_RECT_TEXT          = 116
+PROP_COMBO_ITEMS        = 119
 PROP_CODETREE_MODIFIED_VERSION = 120
 PROP_CODETREE_SUBLEXER         = 121
 PROP_FONT                      = 122
@@ -845,13 +846,22 @@ FINDER_SET_MAXLEN       = 12
 FINDER_GET_MAXLEN       = 13
 FINDER_SET_CARETS       = 14
 FINDER_GET_CARETS       = 15
-FINDER_SET_REP_CALLBACK = 20
+FINDER_SET_INDENTS      = 16
+FINDER_GET_INDENTS      = 17
+FINDER_SET_TAG          = 18
+FINDER_GET_TAG          = 19
+FINDER_SET_ON_REPLACE   = 20
+FINDER_GET_ON_REPLACE   = 21
 FINDER_FIND             = 30
 FINDER_FIND_REP         = 31
 FINDER_FIND_ALL         = 32
 FINDER_COUNT            = 33
 FINDER_REP_ALL          = 38
 FINDER_REP_ALL_EX       = 39
+
+HOWREP_CANCEL  = 0
+HOWREP_REPLACE = 1
+HOWREP_SKIP    = 2
 
 API, EXE_VER = ct.app_ver()
 
@@ -1126,8 +1136,8 @@ def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name=''):
         _dlg_proc_wait(id_dialog)
     return res
 
-def finder_proc(id_finder, id_action, value="", next=False, setcaret=True):
-    return ct.finder_proc(id_finder, id_action, to_str(value), next, setcaret)
+def finder_proc(id_finder, id_action, value="", setcaret=True):
+    return ct.finder_proc(id_finder, id_action, to_str(value), setcaret)
 
 def esc_z(s):
     # temp solution for null chars, later replace it to full solution with app patch
