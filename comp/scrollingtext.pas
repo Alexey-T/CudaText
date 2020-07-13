@@ -376,22 +376,6 @@ begin
   fTextSource := stStringlist;
   SendToBack;
 
-    // About dialog
-  AboutBoxComponentName:='ScrollingText component';
-  AboutBoxWidth:=400;
-//  AboutBoxHeight (integer)
-  AboutBoxDescription:='Component that shows a scrolling window.' + LineEnding +
-  'Use Lines property to set text and Active=True' + LineEnding +
-  'to use the component';
-  AboutBoxBackgroundColor:=clWindow;
-  AboutBoxFontName:='Arial';
-  AboutBoxFontSize:=10;
-  AboutBoxVersion:=C_VERSION;
-  AboutBoxAuthorname:='Gordon Bamber and Andrey Gunenko';
-  AboutBoxOrganisation:='Public Domain';
-  AboutBoxAuthorEmail:='minesadorada@charcodelvalle.com';
-  AboutBoxLicenseType:='MODIFIEDGPL';
-
 end;
 
 destructor TScrollingText.Destroy;
