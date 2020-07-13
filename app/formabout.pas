@@ -14,7 +14,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
   Menus, ButtonPanel, IniFiles,
-  LCLProc, LCLType, LCLIntf,
+  LCLProc, LCLType, LCLIntf, ScrollingText,
   proc_msg,
   proc_globdata,
   proc_editor,
@@ -28,23 +28,20 @@ type
 
   TfmAbout = class(TForm)
     ButtonPanel1: TButtonPanel;
-    LabelName: TLabel;
+    labelName: TLabel;
     labelPlatform: TLabel;
     labelVersion: TLabel;
-    memo: TATSynEdit;
     MenuItem37: TMenuItem;
     mnuTextCopy: TMenuItem;
     mnuTextOpenUrl: TMenuItem;
     mnuTextSel: TMenuItem;
     PopupText: TPopupMenu;
+    Credits: TScrollingText;
     procedure bCreditsClick(Sender: TObject);
     procedure bOkClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
-    procedure mnuTextCopyClick(Sender: TObject);
-    procedure mnuTextOpenUrlClick(Sender: TObject);
-    procedure mnuTextSelClick(Sender: TObject);
   private
     { private declarations }
     procedure Localize;
@@ -52,7 +49,6 @@ type
     { public declarations }
     EditorOnClickLink: TATSynEditClickLinkEvent;
     FLabelLink: TATLabelLink;
-    FCredits: string;
   end;
 
 implementation
@@ -95,17 +91,11 @@ procedure TfmAbout.FormCreate(Sender: TObject);
 begin
   Localize;
 
-  memo.DoubleBuffered:= UiOps.DoubleBuffered;
-  memo.Font.Name:= EditorOps.OpFontName;
-  memo.Font.Size:= EditorOps.OpFontSize;
-  memo.PopupText:= PopupText;
-  memo.OptMouseClickOpensURL:= true;
-
   FLabelLink:= TATLabelLink.Create(Self);
   FLabelLink.Parent:= Self;
   FLabelLink.Caption:= 'UVviewsoft.com';
   FLabelLink.Link:= 'http://uvviewsoft.com';
-  FLabelLink.Left:= LabelName.Left;
+  FLabelLink.Left:= labelName.Left;
   FLabelLink.AnchorSideTop.Control:= labelPlatform;
   FLabelLink.AnchorSideTop.Side:= asrBottom;
   FLabelLink.BorderSpacing.Top:= labelPlatform.BorderSpacing.Top;
@@ -116,6 +106,9 @@ begin
     GetLCLWidgetTypeName,
     {$I %FPCVersion%}
     ]);
+
+  Credits.Hide;
+  Credits.Align:= alClient;
 end;
 
 procedure TfmAbout.FormKeyDown(Sender: TObject; var Key: Word;
@@ -134,41 +127,23 @@ begin
   labelName.Font.Style:= [fsBold];
   labelName.Font.Size:= 20;
 
-  memo.Hide;
-  memo.Align:= alClient;
-  memo.Strings.Clear;
-  memo.Strings.LoadFromString(msgAboutCredits);
-  memo.DoCaretSingle(0, 0);
-  memo.ModeReadOnly:= true;
-  memo.Font.Name:= EditorOps.OpFontName;
-  memo.Font.Size:= EditorOps.OpFontSize-1; //smaller font for credits
-  memo.OptMarginRight:= 2000;
-  memo.OnClickLink:= EditorOnClickLink;
-end;
-
-procedure TfmAbout.mnuTextCopyClick(Sender: TObject);
-begin
-  memo.DoCommand(cCommand_ClipboardCopy);
-end;
-
-procedure TfmAbout.mnuTextOpenUrlClick(Sender: TObject);
-var
-  Str: string;
-begin
-  Str:= EditorGetLinkAtScreenCoord(memo, PopupText.PopupPoint);
-  if Str<>'' then
-    OpenURL(Str);
-end;
-
-procedure TfmAbout.mnuTextSelClick(Sender: TObject);
-begin
-  memo.DoCommand(cCommand_SelectAll);
+  with Credits do
+  begin
+    LinkFont.Color:= clBlue;
+    LinkFont.Style:= [fsUnderline];
+  end;
 end;
 
 procedure TfmAbout.bCreditsClick(Sender: TObject);
 begin
-  memo.Show;
+  labelName.Hide;
+  labelVersion.Hide;
+  labelPlatform.Hide;
+  FLabelLink.Hide;
   ButtonPanel1.HelpButton.Enabled:= false;
+
+  Credits.Show;
+  Credits.Active:= true;
 end;
 
 end.

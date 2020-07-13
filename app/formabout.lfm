@@ -17,42 +17,42 @@ object fmAbout: TfmAbout
   ShowInTaskBar = stNever
   LCLVersion = '2.1.0.0'
   Scaled = False
-  object LabelName: TLabel
+  object labelName: TLabel
     Left = 152
-    Height = 15
+    Height = 17
     Top = 64
-    Width = 49
+    Width = 62
     Caption = 'CudaText'
     ParentColor = False
   end
   object labelVersion: TLabel
-    AnchorSideLeft.Control = LabelName
-    AnchorSideTop.Control = LabelName
+    AnchorSideLeft.Control = labelName
+    AnchorSideTop.Control = labelName
     AnchorSideTop.Side = asrBottom
     Left = 152
-    Height = 15
-    Top = 91
-    Width = 38
+    Height = 17
+    Top = 93
+    Width = 51
     BorderSpacing.Top = 12
     Caption = 'Version'
     ParentColor = False
   end
   object labelPlatform: TLabel
-    AnchorSideLeft.Control = LabelName
+    AnchorSideLeft.Control = labelName
     AnchorSideTop.Control = labelVersion
     AnchorSideTop.Side = asrBottom
     Left = 152
-    Height = 15
-    Top = 109
-    Width = 46
+    Height = 17
+    Top = 113
+    Width = 61
     BorderSpacing.Top = 3
     Caption = 'Platform'
     ParentColor = False
   end
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 26
-    Top = 238
+    Height = 33
+    Top = 231
     Width = 453
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -68,90 +68,102 @@ object fmAbout: TfmAbout
     ShowGlyphs = []
     ShowBevel = False
   end
-  object memo: TATSynEdit
-    Left = 288
-    Height = 160
-    Top = 24
-    Width = 293
-    BorderSpacing.Around = 6
-    DoubleBuffered = True
-    Font.Height = -12
-    Font.Name = 'Courier New'
-    ParentFont = False
-    TabOrder = 1
-    TabStop = True
-    Colors.TextFont = clBlack
-    Colors.TextBG = clWhite
-    Colors.TextDisabledFont = clGray
-    Colors.TextDisabledBG = 15790320
-    Colors.TextSelFont = clHighlightText
-    Colors.TextSelBG = clHighlight
-    Colors.Caret = clBlack
-    Colors.Markers = 192
-    Colors.GutterFont = clGray
-    Colors.GutterBG = 14737632
-    Colors.GutterCaretFont = clGray
-    Colors.GutterCaretBG = 13158600
-    Colors.GutterFoldLine = clGray
-    Colors.GutterFoldBG = 13158600
-    Colors.GutterSeparatorBG = clBlack
-    Colors.CurrentLineBG = 14741744
-    Colors.MarginRight = clSilver
-    Colors.MarginCaret = clLime
-    Colors.MarginUser = clYellow
-    Colors.IndentVertLines = clMedGray
-    Colors.BookmarkBG = clMoneyGreen
-    Colors.RulerFont = clGray
-    Colors.RulerBG = 14737632
-    Colors.CollapseLine = 10510432
-    Colors.CollapseMarkFont = 14712960
-    Colors.CollapseMarkBG = clCream
-    Colors.CollapseMarkBorder = 14712960
-    Colors.UnprintedFont = 5263600
-    Colors.UnprintedBG = 14737632
-    Colors.UnprintedHexFont = clMedGray
-    Colors.MinimapBorder = clSilver
-    Colors.MinimapSelBG = 15658734
-    Colors.MinimapTooltipBG = clMoneyGreen
-    Colors.MinimapTooltipBorder = clGray
-    Colors.StateChanged = 61680
-    Colors.StateAdded = 2146336
-    Colors.StateSaved = clMedGray
-    Colors.BlockStaple = clMedGray
-    Colors.BlockStapleForCaret = clNone
-    Colors.BlockSepLine = clMedGray
-    Colors.Links = clBlue
-    Colors.LockedBG = 14737632
-    Colors.TextHintFont = clGray
-    Colors.MarkedLinesBG = 15786160
-    Colors.BorderLine = clMedGray
-    Colors.BorderLineFocused = clNavy
-    Colors.ComboboxArrow = clGray
-    Colors.ComboboxArrowBG = 15790320
-    OptNonWordChars = '-+*=/\()[]{}<>"''.,:;~?!@#$%^&|`'#8230
-    OptShowURLsRegex = '\b(https?://|ftp://|magnet:\?|www\.)\w[^<>''"\s\(\)]+'
-    OptGutterVisible = False
-    OptRulerVisible = False
-    OptNumbersSkippedChar = '.'
-    OptUnprintedVisible = False
+  object Credits: TScrollingText
+    Left = 246
+    Height = 108
+    Top = 21
+    Width = 275
+    About.Description.Strings = (
+      'Component that shows a scrolling window.'#10'Use Lines property to set text and Active=True'#10'to use the component'
+    )
+    About.Title = 'About About About ScrollingText component'
+    About.Height = 280
+    About.Width = 400
+    About.Font.Color = clNavy
+    About.Font.Height = -13
+    About.Font.Name = 'Arial'
+    About.BackGroundColor = clWindow
+    About.Version = '1.0.2.0'
+    About.Authorname = 'Gordon Bamber and Andrey Gunenko'
+    About.Organisation = 'Public Domain'
+    About.AuthorEmail = 'minesadorada@charcodelvalle.com'
+    About.ComponentName = 'ScrollingText component'
+    About.LicenseType = abModifiedGPL
+    Active = False
+    Lines.Strings = (
+      'Lazarus IDE:'
+      'http://www.lazarus-ide.org'
+      ''
+      'ATSynEdit, ATTabs, ATFlatControls:'
+      'Alexey Torgashin'
+      'https://github.com/Alexey-T/'
+      ''
+      'EControl syntax parser:'
+      'Delphi version by Michael Zakharov'
+      'http://www.econtrol.ru'
+      'Lazarus port by Alexey Torgashin'
+      'https://github.com/Alexey-T/'
+      ''
+      'Python plugins, QA:'
+      'Andrey Kvichanskiy'
+      'https://github.com/kvichans/'
+      ''
+      'Optimizations of Python wrapper, plugins:'
+      'Artem Gavrilov'
+      'https://github.com/Artem3213212'
+      ''
+      'Patches, Windows shell extension, plugins:'
+      'Andreas Heim'
+      'https://github.com/dinkumoil/'
+      ''
+      'Python for Delphi:'
+      'Dietmar Budelsky, Morgan Martinet, Kiriakos Vlahos'
+      'https://github.com/pyscripter/python4delphi'
+      ''
+      'Python for Lazarus:'
+      'Alexey Torgashin'
+      'https://github.com/Alexey-T/'
+      ''
+      '------------------------------'
+      ''
+      'Main icon:'
+      'FTurtle'
+      ''
+      'Theme for LibreOffice:'
+      'https://github.com/libodesign/icons'
+      'License: Creative Commons BY-SA 3.0'
+      'http://creativecommons.org/licenses/by-sa/3.0/'
+      ''
+      'Octicons:'
+      'https://octicons.github.com/'
+      'License: MIT License'
+      ''
+      'Visual Studio Code icons:'
+      'https://github.com/vscode-icons/vscode-icons'
+      'License: MIT License'
+      ''
+      'Hourglass/floppy icons:'
+      'https://www.iconfinder.com/snipicons'
+      'License: Creative Commons BY-NC 3.0 Unported'
+      'http://creativecommons.org/licenses/by-nc/3.0/'
+    )
+    Font.Height = -13
+    LinkFont.Height = -13
   end
   object PopupText: TPopupMenu
     Left = 240
     Top = 144
     object mnuTextCopy: TMenuItem
       Caption = 'Copy'
-      OnClick = mnuTextCopyClick
     end
     object mnuTextSel: TMenuItem
       Caption = 'Select all'
-      OnClick = mnuTextSelClick
     end
     object MenuItem37: TMenuItem
       Caption = '-'
     end
     object mnuTextOpenUrl: TMenuItem
       Caption = 'Open URL'
-      OnClick = mnuTextOpenUrlClick
     end
   end
 end
