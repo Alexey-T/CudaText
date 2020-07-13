@@ -8,6 +8,7 @@
 + add: option "carets_primitive_column_sel", which activates mode of column selection like in Sublime Text (thanks @tmsg)
 * change: new option is "true" by default, mode of column selection is changed
 + add: API finder_proc, to replace old finder APIs (it may speedup plugin FindInFiles later) (thanks @kvichans)
++ add: modern credits list in About dialog
 - fix: issues with commands "move lines up/down", occuring on the final line w/o EOL
 
 1.106.5 (2020/07)
