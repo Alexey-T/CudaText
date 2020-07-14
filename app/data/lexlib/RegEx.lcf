@@ -83,6 +83,14 @@ object SyntAnal22: TLibSyntAnalyzer
       Font.Name = 'Courier New'
       Font.Style = [fsStrikeOut]
       BgColor = clYellow
+    end
+    item
+      DisplayName = 'Comment'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -102,10 +110,18 @@ object SyntAnal22: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Comment'
+      StyleName = 'Comment'
+      TokenType = 5
+      Expression = '\(\?\#.*?\)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Brackets'
       StyleName = 'Brackets'
       TokenType = 1
-      Expression = '\((\?<?[!=])? | \)'
+      Expression = '\(\?: | \((\?<?[!=])? | \)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -206,7 +222,8 @@ object SyntAnal22: TLibSyntAnalyzer
       '?<!\n)$'
     '[^df] dd [a-b\n\r $^.] '
     'd{2} d{2, d{2,4} d-'
-    '\xC0 \u{F0F0} \cK')
+    '\xC0 \u{F0F0} \cK'
+    '(?:non_capturing) (?#comment)$')
   TokenTypeNames.Strings = (
     'Text'
     'Brackets'
