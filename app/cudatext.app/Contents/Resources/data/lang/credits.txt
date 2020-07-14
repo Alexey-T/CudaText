@@ -1,55 +1,55 @@
-Lazarus IDE:
+#Lazarus IDE
 http://www.lazarus-ide.org
 
-ATSynEdit, ATTabs, ATFlatControls:
+#ATSynEdit, ATTabs, ATFlatControls
 Alexey Torgashin
 https://github.com/Alexey-T/
 
-EControl syntax parser:
+#EControl syntax parser
 Delphi version by Michael Zakharov
 http://www.econtrol.ru
 Lazarus port by Alexey Torgashin
 https://github.com/Alexey-T/
 
-Python plugins, QA:
+#Python plugins, QA
 Andrey Kvichanskiy
 https://github.com/kvichans/
 
-Optimizations of Python wrapper, plugins:
+#Optimizations of Python wrapper, plugins
 Artem Gavrilov
 https://github.com/Artem3213212
 
-Patches, Windows shell extension, plugins:
+#Patches, Windows shell extension, plugins
 Andreas Heim
 https://github.com/dinkumoil/
 
-Python for Delphi:
+#Python for Delphi
 Dietmar Budelsky, Morgan Martinet, Kiriakos Vlahos
 https://github.com/pyscripter/python4delphi
 
-Python for Lazarus:
+#Python for Lazarus
 Alexey Torgashin
 https://github.com/Alexey-T/
 
-------------------------------
+————————————————————————
 
-Main icon:
+#Main icon
 FTurtle
 
-Theme for LibreOffice:
+#Theme for LibreOffice
 https://github.com/libodesign/icons
 License: Creative Commons BY-SA 3.0
 http://creativecommons.org/licenses/by-sa/3.0/
 
-Octicons:
+#Octicons
 https://octicons.github.com/
 License: MIT License
 
-Visual Studio Code icons:
+#Visual Studio Code icons
 https://github.com/vscode-icons/vscode-icons
 License: MIT License
 
-Hourglass/floppy icons:
+#Hourglass/floppy icons
 https://www.iconfinder.com/snipicons
 License: Creative Commons BY-NC 3.0 Unported
 http://creativecommons.org/licenses/by-nc/3.0/
