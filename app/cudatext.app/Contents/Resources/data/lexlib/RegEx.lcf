@@ -1,0 +1,241 @@
+object SyntAnal22: TLibSyntAnalyzer
+  Formats = <
+    item
+      DisplayName = 'Brackets'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Modifiers'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Multi'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Escaped'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = clMoneyGreen
+    end
+    item
+      DisplayName = 'Text'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Comment'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end
+    item
+      DisplayName = 'SpecChar'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'CharClass'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'CharClass BG'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = 11008203
+      FormatType = ftBackGround
+    end
+    item
+      DisplayName = '{}'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Error'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsStrikeOut]
+      BgColor = clYellow
+    end>
+  TokenRules = <
+    item
+      DisplayName = 'Escaped'
+      StyleName = 'Escaped'
+      TokenType = 4
+      Expression = '\\x\h{2} | \\u\{\h{1,4}\} | \\.'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Modifiers'
+      StyleName = 'Modifiers'
+      TokenType = 2
+      Expression = '\(\?\w+\)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Brackets'
+      StyleName = 'Brackets'
+      TokenType = 1
+      Expression = '\((\?<?[!=])? | \)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Multi'
+      StyleName = 'Multi'
+      TokenType = 3
+      Expression = '[\+\?\*]\??'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Comment'
+      StyleName = 'Comment'
+      TokenType = 5
+      Expression = '\#.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'SpecChar'
+      StyleName = 'SpecChar'
+      TokenType = 6
+      Expression = '[\.\^\$]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = '['
+      StyleName = 'CharClass'
+      TokenType = 7
+      Expression = '\['
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = ']'
+      StyleName = 'CharClass'
+      TokenType = 8
+      Expression = '\]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = '{}'
+      StyleName = '{}'
+      TokenType = 9
+      Expression = '\{\d+,?\d*\}'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Dash'
+      StyleName = 'SpecChar'
+      BlockName = '['
+      TokenType = 6
+      Expression = '\-'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Errors'
+      StyleName = 'Error'
+      Expression = '[\{\}]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Text'
+      StyleName = 'Text'
+      Expression = '.'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <
+    item
+      DisplayName = '['
+      StyleName = 'CharClass BG'
+      ConditionList = <
+        item
+          TokenTypes = 128
+        end>
+      BlockEnd = ']'
+      DisplayInTree = False
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = ']'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TokenTypes = 256
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    
+      '(?si) ^(\r\n dd+? dd*? dd+ t.t.t?t+) (?=\n)(?!\n)(?<=\n)(?<!\n) ' +
+      '$'
+    '[^df] dd [a-b\n\r] '
+    'd{2} d{2, d{2,4} d-'
+    '\xC0 \u{F0F0}'
+    '#comment')
+  TokenTypeNames.Strings = (
+    'Text'
+    'Brackets'
+    'Modifiers'
+    'Multi'
+    'Escaped'
+    'Comment'
+    'SpecChar'
+    '['
+    ']'
+    '{}')
+  LexerName = 'RegEx'
+  Notes.Strings = (
+    'Alexey (CudaText)')
+  RestartFromLineStart = True
+  Charset = DEFAULT_CHARSET
+end

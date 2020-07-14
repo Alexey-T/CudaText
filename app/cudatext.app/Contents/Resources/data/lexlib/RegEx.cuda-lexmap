@@ -1,0 +1,18 @@
+[comments]
+str1=
+str2=
+styles_cmt=
+styles_str=
+
+[map]
+Brackets=Symbol2
+Modifiers=CommentDoc
+Multi=IdVar
+Escaped=IncludeBG1
+Text=Id
+Comment=Comment
+SpecChar=Id4
+CharClass=String
+CharClass BG=SectionBG1
+{}=IdVar
+Error=SymbolBad
