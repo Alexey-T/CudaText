@@ -3998,9 +3998,11 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: app_proc: PROC_CONFIG_SCALE_GET, PROC_CONFIG_SCALE_SET
 * add: finder_proc()
 
-1.0.344 (app 1.107.0)
+1.0.344 (app 1.106.8)
 * add: dlg_proc: controls "editor_edit", "editor_combo"
 * add: Editor.get_prop/set_prop: PROP_COMBO_ITEMS
+
+1.0.345 (app 1.107.0)
 * add: override Python's builtins.input() with CudaText implementation
 
 [[Category:CudaText]]
