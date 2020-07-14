@@ -5,10 +5,11 @@
 
 1.107.0 (2020/07)
 
-+ add: option "carets_primitive_column_sel", which activates mode of column selection like in Sublime Text (thanks @tmsg)
++ add: option "carets_primitive_column_sel", which activates new mode of column selection (thanks @tmsg)
++ add: wiki topic https://wiki.freepascal.org/CudaText#Behaviour_of_column_selection
 * change: new option is "true" by default, mode of column selection is changed
-+ add: API finder_proc, to replace old finder APIs (it may speedup plugin FindInFiles later) (thanks @kvichans)
-+ add: modern credits list in About dialog
++ add: API finder_proc, to replace old finder APIs (thanks @kvichans)
++ add: modern credits list in the About dialog
 - fix: issues with commands "move lines up/down", occuring on the final line w/o EOL
 
 1.106.5 (2020/07)
