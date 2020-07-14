@@ -10,7 +10,6 @@ Modifiers=CommentDoc
 Multi=IdVar
 Escaped=IncludeBG1
 Text=Id
-Comment=Comment
 SpecChar=Id4
 CharClass=String
 CharClass BG=SectionBG1

@@ -42,14 +42,6 @@ object SyntAnal22: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Comment'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGray
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsItalic]
-    end
-    item
       DisplayName = 'SpecChar'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
@@ -122,14 +114,6 @@ object SyntAnal22: TLibSyntAnalyzer
       StyleName = 'Multi'
       TokenType = 3
       Expression = '[\+\?\*]\??'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Comment'
-      StyleName = 'Comment'
-      TokenType = 5
-      Expression = '\#.*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -215,13 +199,10 @@ object SyntAnal22: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
-    
-      '(?si) ^(\r\n dd+? dd*? dd+ t.t.t?t+) (?=\n)(?!\n)(?<=\n)(?<!\n) ' +
-      '$'
+    '(?si) ^(\r\n dd+? dd*? dd+ t.t?t+) (?=\n)(?!\n)(?<=\n)(?<!\n)$'
     '[^df] dd [a-b\n\r] '
     'd{2} d{2, d{2,4} d-'
-    '\xC0 \u{F0F0}'
-    '#comment')
+    '\xC0 \u{F0F0}')
   TokenTypeNames.Strings = (
     'Text'
     'Brackets'
