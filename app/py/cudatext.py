@@ -1349,10 +1349,9 @@ ed = Editor(0)
 ed_con_log = Editor(7)
 ed_con_in = Editor(8)
 
-#built-ins override
-def cud_input(s):
-    r = dlg_input(s, '')
-    return r or ''
+#support input() in plugins
+def _input(s):
+    return dlg_input(s, '') or ''
 
 import builtins
-builtins.input = cud_input
+builtins.input = _input
