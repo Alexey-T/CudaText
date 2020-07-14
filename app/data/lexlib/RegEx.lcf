@@ -97,7 +97,7 @@ object SyntAnal22: TLibSyntAnalyzer
       DisplayName = 'Modifiers'
       StyleName = 'Modifiers'
       TokenType = 2
-      Expression = '\(\?\w+\)'
+      Expression = '\(\?(\-?\w)+\)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -199,7 +199,9 @@ object SyntAnal22: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
-    '(?si) ^(\r\n dd+? dd*? dd+ t.t?t+) (?=\n)(?!\n)(?<=\n)(?<!\n)$'
+    
+      '(?si) (?-si-x) ^(\r\n dd+? dd*? dd+ t.t?t+) (?=\n)(?!\n)(?<=\n)(' +
+      '?<!\n)$'
     '[^df] dd [a-b\n\r] '
     'd{2} d{2, d{2,4} d-'
     '\xC0 \u{F0F0}')
