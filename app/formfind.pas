@@ -21,6 +21,7 @@ uses
   ATSynEdit_Edits,
   ATSynEdit_Commands,
   ATSynEdit_Finder,
+  ATSynEdit_Adapter_EControl,
   proc_msg,
   proc_globdata,
   proc_miscutils,
@@ -166,12 +167,15 @@ type
     FNarrow: boolean;
     FOnResult: TAppFinderOperationEvent;
     FOnChangeOptions: TNotifyEvent;
+    Adapter: TATAdapterEControl;
+    AdapterActive: boolean;
     procedure DoResult(Str: TAppFinderOperation);
     procedure SetIsDoubleBuffered(AValue: boolean);
     procedure SetMultiLine(AValue: boolean);
     procedure SetNarrow(AValue: boolean);
     procedure SetReplace(AValue: boolean);
     procedure UpdateButtonBold;
+    procedure UpdateRegexHighlight;
   public
     { public declarations }
     FCaptionFind,
@@ -458,6 +462,9 @@ begin
   bTokens.TextAlign:= taCenter;
   bTokens.ItemIndex:= 0;
   bTokens.Checkable:= true;
+
+  Adapter:= TATAdapterEControl.Create(Self);
+  Adapter.Lexer:= AppManager.FindLexerByName('RegEx');
 end;
 
 
@@ -920,6 +927,32 @@ begin
 
   UpdateButtonBold;
   UpdateFormHeight;
+
+  UpdateRegexHighlight;
+end;
+
+procedure TfmFind.UpdateRegexHighlight;
+var
+  bActive: boolean;
+begin
+  bActive:= chkRegex.Checked;
+  if AdapterActive<>bActive then
+  begin
+    AdapterActive:= bActive;
+    if AdapterActive then
+    begin
+      Adapter.AddEditor(edFind);
+      edFind.DoEventChange();
+      edFind.InvalidateHilitingCache;
+      Adapter.DoAnalyzeFromLine(0, true);
+    end
+    else
+    begin
+      edFind.AdapterForHilite:= nil;
+      Adapter.AddEditor(nil);
+    end;
+    edFind.Update;
+  end;
 end;
 
 procedure TfmFind.UpdateButtonBold;
