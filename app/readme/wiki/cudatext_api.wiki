@@ -4001,5 +4001,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.344 (app 1.107.0)
 * add: dlg_proc: controls "editor_edit", "editor_combo"
 * add: Editor.get_prop/set_prop: PROP_COMBO_ITEMS
+* add: override Python's builtins.input() with CudaText implementation
 
 [[Category:CudaText]]
