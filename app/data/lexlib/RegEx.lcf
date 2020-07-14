@@ -120,6 +120,8 @@ object SyntAnal22: TLibSyntAnalyzer
     item
       DisplayName = 'SpecChar'
       StyleName = 'SpecChar'
+      BlockName = '['
+      NotParent = True
       TokenType = 6
       Expression = '[\.\^\$]'
       ColumnFrom = 0
@@ -129,7 +131,7 @@ object SyntAnal22: TLibSyntAnalyzer
       DisplayName = '['
       StyleName = 'CharClass'
       TokenType = 7
-      Expression = '\['
+      Expression = '\[\^?'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -202,7 +204,7 @@ object SyntAnal22: TLibSyntAnalyzer
     
       '(?si) (?-si-x) ^(\r\n dd+? dd*? dd+ t.t?t+) (?=\n)(?!\n)(?<=\n)(' +
       '?<!\n)$'
-    '[^df] dd [a-b\n\r] '
+    '[^df] dd [a-b\n\r $^.] '
     'd{2} d{2, d{2,4} d-'
     '\xC0 \u{F0F0} \cK')
   TokenTypeNames.Strings = (
