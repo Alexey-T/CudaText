@@ -1,0 +1,17 @@
+[comments]
+str1=
+str2=
+styles_cmt=
+styles_str=
+
+[map]
+Brackets=Symbol2
+Modifiers=CommentDoc
+Multi=IdVar
+Escaped=IncludeBG1
+Text=Id
+Comment=Comment
+SpecChar=Id3
+CharClass=String
+CharClass BG=IncludeBG2
+{}=IdVar
