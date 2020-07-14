@@ -89,7 +89,7 @@ object SyntAnal22: TLibSyntAnalyzer
       DisplayName = 'Escaped'
       StyleName = 'Escaped'
       TokenType = 4
-      Expression = '\\x\h{2} | \\u\{\h{1,4}\} | \\.'
+      Expression = '\\c[a-z] | \\x\h{2} | \\u\{\h{1,4}\} | \\.'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -145,7 +145,7 @@ object SyntAnal22: TLibSyntAnalyzer
       DisplayName = '{}'
       StyleName = '{}'
       TokenType = 9
-      Expression = '\{\d+,?\d*\}'
+      Expression = '\{\d+,?\d*\}\??'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -204,7 +204,7 @@ object SyntAnal22: TLibSyntAnalyzer
       '?<!\n)$'
     '[^df] dd [a-b\n\r] '
     'd{2} d{2, d{2,4} d-'
-    '\xC0 \u{F0F0}')
+    '\xC0 \u{F0F0} \cK')
   TokenTypeNames.Strings = (
     'Text'
     'Brackets'
@@ -218,7 +218,8 @@ object SyntAnal22: TLibSyntAnalyzer
     '{}')
   LexerName = 'RegEx'
   Notes.Strings = (
-    'Alexey (CudaText)')
+    'Alexey (CudaText)'
+    'RegEx flavor supported by Free Pascal TRegExpr')
   RestartFromLineStart = True
   Charset = DEFAULT_CHARSET
 end
