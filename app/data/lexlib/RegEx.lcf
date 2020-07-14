@@ -1,4 +1,4 @@
-object SyntAnal31: TLibSyntAnalyzer
+object SyntAnal22: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Brackets'
@@ -82,6 +82,15 @@ object SyntAnal31: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Error'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsStrikeOut]
+      BgColor = clYellow
     end>
   TokenRules = <
     item
@@ -157,6 +166,22 @@ object SyntAnal31: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Dash'
+      StyleName = 'SpecChar'
+      BlockName = '['
+      TokenType = 6
+      Expression = '\-'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Errors'
+      StyleName = 'Error'
+      Expression = '[\{\}]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Text'
       StyleName = 'Text'
       Expression = '.'
@@ -190,9 +215,11 @@ object SyntAnal31: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
-    '(?si) ^(\r\n dd+? dd*? dd+ t.t.t?t+) (?=d)(?!d)(?<=d)(?<!d) $'
+    
+      '(?si) ^(\r\n dd+? dd*? dd+ t.t.t?t+) (?=\n)(?!\n)(?<=\n)(?<!\n) ' +
+      '$'
     '[^df] dd [a-b\n\r] '
-    'd{2} d{2,} d{2,4}'
+    'd{2} d{2, d{2,4} d-'
     '\xC0 \u{F0F0}'
     '#comment')
   TokenTypeNames.Strings = (
@@ -209,5 +236,6 @@ object SyntAnal31: TLibSyntAnalyzer
   LexerName = 'RegEx'
   Notes.Strings = (
     'Alexey (CudaText)')
+  RestartFromLineStart = True
   Charset = DEFAULT_CHARSET
 end
