@@ -11,6 +11,7 @@
 + add: Find dialog shows "Find" field syntax-highlighted in RegEx mode
 + add: API finder_proc, to replace old finder APIs (thanks @kvichans)
 + add: modern credits list in the About dialog
+- fix: lexer Bash: comments inside backticks `..`
 - fix: issues with commands "move lines up/down", occuring on the final line w/o EOL
 
 1.106.5 (2020/07)
