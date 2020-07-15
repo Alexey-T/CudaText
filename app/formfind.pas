@@ -170,7 +170,6 @@ type
     FOnChangeOptions: TNotifyEvent;
     Adapter: TATAdapterEControl;
     AdapterActive: boolean;
-    procedure DoHighlightBadBrackets;
     procedure DoResult(Str: TAppFinderOperation);
     procedure SetIsDoubleBuffered(AValue: boolean);
     procedure SetMultiLine(AValue: boolean);
@@ -235,32 +234,6 @@ begin
     if Str=cAppFinderOperationString[op] then
       exit(op);
   Result:= afoNone;
-end;
-
-procedure DeleteArrayItem(var Ar: TATIntArray; Val: integer);
-var
-  i, j: integer;
-begin
-  for i:= High(Ar) downto Low(Ar) do
-    if Ar[i]=Val then
-    begin
-      for j:= i to High(Ar)-1 do
-        Ar[j]:= Ar[j+1];
-      SetLength(Ar, Length(Ar)-1);
-      Break;
-    end;
-end;
-
-procedure DeleteArrayLastItem(var Ar: TATIntArray);
-begin
-  if Length(Ar)>0 then
-    SetLength(Ar, Length(Ar)-1);
-end;
-
-procedure AddArrayItem(var Ar: TATIntArray; Val: integer);
-begin
-  SetLength(Ar, Length(Ar)+1);
-  Ar[High(Ar)]:= Val;
 end;
 
 { TfmFind }
@@ -397,7 +370,7 @@ procedure TfmFind.edFindChange(Sender: TObject);
 begin
   UpdateState;
   if AdapterActive then
-    DoHighlightBadBrackets;
+    EditorHighlightBadRegexBrackets(edFind);
 end;
 
 procedure TfmFind.edFindCommand(Sender: TObject; ACommand: integer;
@@ -1076,94 +1049,6 @@ begin
   bRep.AutoSize:= true;
   bRepAll.AutoSize:= true;
   bRepGlobal.AutoSize:= true;
-end;
-
-procedure TfmFind.DoHighlightBadBrackets;
-const
-  cTag = 10;
-var
-  Ed: TATSynEdit;
-  Bads: TATIntArray;
-  OpenedRound: TATIntArray;
-  OpenedSquare: TATIntArray;
-  LevelRound, LevelSquare: integer;
-  PartObj: TATLinePartClass;
-  S: UnicodeString;
-  ch: WideChar;
-  i: integer;
-begin
-  Ed:= edFind;
-  S:= Ed.Text;
-  SetLength(Bads, 0);
-  SetLength(OpenedRound, 0);
-  SetLength(OpenedSquare, 0);
-  LevelRound:= 0;
-  LevelSquare:= 0;
-  i:= 0;
-
-  while i<Length(S) do
-  begin
-    Inc(i);
-    if S[i]='\' then
-    begin
-      Inc(i);
-      Continue;
-    end;
-    ch:= S[i];
-
-    if ch='(' then
-    begin
-      AddArrayItem(OpenedRound, i);
-      Inc(LevelRound);
-      Continue;
-    end;
-
-    if ch=')' then
-    begin
-      if LevelRound<1 then
-        AddArrayItem(Bads, i);
-      if LevelRound>0 then
-        Dec(LevelRound);
-      DeleteArrayLastItem(OpenedRound);
-      Continue;
-    end;
-
-    if ch='[' then
-    begin
-      AddArrayItem(OpenedSquare, i);
-      Inc(LevelSquare);
-      Continue;
-    end;
-
-    if ch=']' then
-    begin
-      if LevelSquare<1 then
-        AddArrayItem(Bads, i);
-      if LevelSquare>0 then
-        Dec(LevelSquare);
-      DeleteArrayLastItem(OpenedSquare);
-      Continue;
-    end;
-  end;
-
-  for i:= 0 to High(OpenedRound) do
-    AddArrayItem(Bads, OpenedRound[i]);
-  for i:= 0 to High(OpenedSquare) do
-    AddArrayItem(Bads, OpenedSquare[i]);
-
-  Ed.Attribs.DeleteWithTag(cTag);
-
-  if Length(Bads)>0 then
-  begin
-    for i:= 0 to High(Bads) do
-    begin
-      PartObj:= TATLinePartClass.Create;
-      ApplyPartStyleFromEcontrolStyle(PartObj.Data, GetAppStyle(apstSymbolBad));
-      PartObj.Data.ColorBG:= clNone;
-      Ed.Attribs.Add(Bads[i]-1, 0, cTag, 1, 0, PartObj);
-    end;
-    Ed.Invalidate;
-  end;
 end;
 
 end.
