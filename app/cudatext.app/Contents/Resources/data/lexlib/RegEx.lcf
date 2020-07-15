@@ -104,6 +104,8 @@ object SyntAnal22: TLibSyntAnalyzer
     item
       DisplayName = 'Modifiers'
       StyleName = 'Modifiers'
+      BlockName = '['
+      NotParent = True
       TokenType = 2
       Expression = '\(\?(\-?\w)+\)'
       ColumnFrom = 0
@@ -120,6 +122,8 @@ object SyntAnal22: TLibSyntAnalyzer
     item
       DisplayName = 'Brackets'
       StyleName = 'Brackets'
+      BlockName = '['
+      NotParent = True
       TokenType = 1
       Expression = '\(\?: | \((\?<?[!=])? | \)'
       ColumnFrom = 0
@@ -128,6 +132,8 @@ object SyntAnal22: TLibSyntAnalyzer
     item
       DisplayName = 'Multi'
       StyleName = 'Multi'
+      BlockName = '['
+      NotParent = True
       TokenType = 3
       Expression = '[\+\?\*]\??'
       ColumnFrom = 0
@@ -160,15 +166,17 @@ object SyntAnal22: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = '{}'
+      DisplayName = '{n,m}'
       StyleName = '{}'
+      BlockName = '['
+      NotParent = True
       TokenType = 9
       Expression = '\{\d+,?\d*\}\??'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Dash'
+      DisplayName = 'Dash in []'
       StyleName = 'SpecChar'
       BlockName = '['
       TokenType = 6
@@ -179,6 +187,8 @@ object SyntAnal22: TLibSyntAnalyzer
     item
       DisplayName = 'Errors'
       StyleName = 'Error'
+      BlockName = '['
+      NotParent = True
       Expression = '[\{\}]'
       ColumnFrom = 0
       ColumnTo = 0
