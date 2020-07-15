@@ -373,7 +373,7 @@ procedure TfmFind.edFindChange(Sender: TObject);
 begin
   UpdateState;
   if AdapterActive then
-    EditorHighlightBadRegexBrackets(edFind);
+    EditorHighlightBadRegexBrackets(edFind, false);
 end;
 
 procedure TfmFind.edFindCommand(Sender: TObject; ACommand: integer;
@@ -964,6 +964,7 @@ begin
     begin
       edFind.AdapterForHilite:= nil;
       Adapter.AddEditor(nil);
+      EditorHighlightBadRegexBrackets(edFind, true);
     end;
     edFind.Update;
   end;

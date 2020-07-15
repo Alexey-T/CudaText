@@ -72,7 +72,7 @@ function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boole
 function EditorAutoCloseBracket(Ed: TATSynEdit; CharBegin: atChar): boolean;
 procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer);
 procedure EditorCopyLine(Ed: TATSynEdit);
-procedure EditorHighlightBadRegexBrackets(Ed: TATSynEdit);
+procedure EditorHighlightBadRegexBrackets(Ed: TATSynEdit; AOnlyClear: boolean);
 
 procedure EditorCaretPropsFromString(Props: TATCaretProps; const AText: string);
 procedure EditorCaretPropsFromPyTuple(Props: TATCaretProps; const AText: string);
@@ -1725,7 +1725,7 @@ begin
   Ar[High(Ar)]:= Val;
 end;
 
-procedure EditorHighlightBadRegexBrackets(Ed: TATSynEdit);
+procedure EditorHighlightBadRegexBrackets(Ed: TATSynEdit; AOnlyClear: boolean);
 const
   cTag = 10;
 var
@@ -1739,6 +1739,9 @@ var
   ch: WideChar;
   i: integer;
 begin
+  Ed.Attribs.DeleteWithTag(cTag);
+  if AOnlyClear then exit;
+
   S:= Ed.Text;
   SetLength(Bads, 0);
   SetLength(OpenedRound, 0);
@@ -1796,8 +1799,6 @@ begin
     AddArrayItem(Bads, OpenedRound[i]);
   for i:= 0 to High(OpenedSquare) do
     AddArrayItem(Bads, OpenedSquare[i]);
-
-  Ed.Attribs.DeleteWithTag(cTag);
 
   if Length(Bads)>0 then
   begin
