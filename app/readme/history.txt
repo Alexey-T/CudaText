@@ -5,13 +5,12 @@
 
 1.107.0 (2020/07)
 
-+ add: option "carets_primitive_column_sel", which activates new mode of column selection (thanks @tmsg)
-+ add: wiki topic https://wiki.freepascal.org/CudaText#Behaviour_of_column_selection
++ add: Find dialog shows "Find" field syntax-highlighted in RegEx mode; program also does underlining of mismatched ()[] brackets there
++ add: option "carets_primitive_column_sel", which activates new mode of column selection; see new wiki topic https://wiki.freepascal.org/CudaText#Behaviour_of_column_selection
 * change: new option is "true" by default, mode of column selection is changed
-+ add: Find dialog shows "Find" field syntax-highlighted in RegEx mode
-+ add: API finder_proc, to replace old finder APIs (thanks @kvichans)
++ add: API finder_proc (thanks @kvichans)
 + add: modern credits list in the About dialog
-- fix: lexer Bash: comments inside backticks `..`
++ add: lexer Bash: support comments inside `backticks`
 - fix: issues with commands "move lines up/down", occuring on the final line w/o EOL
 
 1.106.5 (2020/07)
