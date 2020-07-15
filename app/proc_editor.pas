@@ -1725,11 +1725,8 @@ begin
   Ar[High(Ar)]:= Val;
 end;
 
-const
-  cBadRegexTag = 10;
-
 procedure EditorHighlightCharsInLine(Ed: TATSynEdit; AY: integer;
-  const AX: TATIntArray; AStyle: TAppThemeStyleId);
+  const AX: TATIntArray; AStyle: TAppThemeStyleId; ATag: integer);
 var
   PartObj: TATLinePartClass;
   Part: TATLinePart;
@@ -1745,13 +1742,15 @@ begin
   begin
     PartObj:= TATLinePartClass.Create;
     PartObj.Data:= Part;
-    Ed.Attribs.Add(AX[i], AY, cBadRegexTag, 1, 0, PartObj);
+    Ed.Attribs.Add(AX[i], AY, ATag, 1, 0, PartObj);
   end;
 
   Ed.Invalidate;
 end;
 
 procedure EditorHighlightBadRegexBrackets(Ed: TATSynEdit; AOnlyClear: boolean);
+const
+  cBadRegexTag = 10;
 var
   Bads: TATIntArray;
   OpenedRound: TATIntArray;
@@ -1830,7 +1829,7 @@ begin
   begin
     for i:= 0 to High(Bads) do
       Dec(Bads[i]);
-    EditorHighlightCharsInLine(Ed, 0, Bads, apstSymbolBad);
+    EditorHighlightCharsInLine(Ed, 0, Bads, apstSymbolBad, cBadRegexTag);
   end;
 end;
 
