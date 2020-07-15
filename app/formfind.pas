@@ -1159,6 +1159,7 @@ begin
     begin
       PartObj:= TATLinePartClass.Create;
       ApplyPartStyleFromEcontrolStyle(PartObj.Data, GetAppStyle(apstSymbolBad));
+      PartObj.Data.ColorBG:= clNone;
       Ed.Attribs.Add(Bads[i]-1, 0, cTag, 1, 0, PartObj);
     end;
     Ed.Invalidate;
