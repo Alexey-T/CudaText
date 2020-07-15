@@ -168,6 +168,7 @@ object fmFind: TfmFind
       Colors.GutterCaretFont = clGray
       Colors.GutterCaretBG = 13158600
       Colors.GutterFoldLine = clGray
+      Colors.GutterFoldLine2 = 9453632
       Colors.GutterFoldBG = 13158600
       Colors.GutterSeparatorBG = clBlack
       Colors.CurrentLineBG = 14741744
@@ -266,6 +267,7 @@ object fmFind: TfmFind
       Colors.GutterCaretFont = clGray
       Colors.GutterCaretBG = 13158600
       Colors.GutterFoldLine = clGray
+      Colors.GutterFoldLine2 = 9453632
       Colors.GutterFoldBG = 13158600
       Colors.GutterSeparatorBG = clBlack
       Colors.CurrentLineBG = 14741744

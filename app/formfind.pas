@@ -22,6 +22,7 @@ uses
   ATSynEdit_Commands,
   ATSynEdit_Finder,
   ATSynEdit_Adapter_EControl,
+  ATSynEdit_CanvasProc,
   proc_msg,
   proc_globdata,
   proc_miscutils,
@@ -169,6 +170,7 @@ type
     FOnChangeOptions: TNotifyEvent;
     Adapter: TATAdapterEControl;
     AdapterActive: boolean;
+    procedure DoHighlightBadBrackets;
     procedure DoResult(Str: TAppFinderOperation);
     procedure SetIsDoubleBuffered(AValue: boolean);
     procedure SetMultiLine(AValue: boolean);
@@ -233,6 +235,32 @@ begin
     if Str=cAppFinderOperationString[op] then
       exit(op);
   Result:= afoNone;
+end;
+
+procedure DeleteArrayItem(var Ar: TATIntArray; Val: integer);
+var
+  i, j: integer;
+begin
+  for i:= High(Ar) downto Low(Ar) do
+    if Ar[i]=Val then
+    begin
+      for j:= i to High(Ar)-1 do
+        Ar[j]:= Ar[j+1];
+      SetLength(Ar, Length(Ar)-1);
+      Break;
+    end;
+end;
+
+procedure DeleteArrayLastItem(var Ar: TATIntArray);
+begin
+  if Length(Ar)>0 then
+    SetLength(Ar, Length(Ar)-1);
+end;
+
+procedure AddArrayItem(var Ar: TATIntArray; Val: integer);
+begin
+  SetLength(Ar, Length(Ar)+1);
+  Ar[High(Ar)]:= Val;
 end;
 
 { TfmFind }
@@ -368,6 +396,8 @@ end;
 procedure TfmFind.edFindChange(Sender: TObject);
 begin
   UpdateState;
+  if AdapterActive then
+    DoHighlightBadBrackets;
 end;
 
 procedure TfmFind.edFindCommand(Sender: TObject; ACommand: integer;
@@ -1046,6 +1076,70 @@ begin
   bRep.AutoSize:= true;
   bRepAll.AutoSize:= true;
   bRepGlobal.AutoSize:= true;
+end;
+
+procedure TfmFind.DoHighlightBadBrackets;
+const
+  cTag = 10;
+var
+  Ed: TATSynEdit;
+  Bads: array of integer;
+  Opened: array of integer;
+  i: integer;
+  S: UnicodeString;
+  ch: WideChar;
+  LevelRound: integer;
+  PartObj: TATLinePartClass;
+begin
+  Ed:= edFind;
+  S:= Ed.Text;
+  SetLength(Bads, 0);
+  SetLength(Opened, 0);
+  LevelRound:= 0;
+  i:= 0;
+
+  while i<Length(S) do
+  begin
+    Inc(i);
+    if S[i]='\' then
+    begin
+      Inc(i);
+      Continue;
+    end;
+    ch:= S[i];
+
+    if ch='(' then
+    begin
+      AddArrayItem(Opened, i);
+      Inc(LevelRound);
+      Continue;
+    end;
+
+    if ch=')' then
+    begin
+      if LevelRound<1 then
+        AddArrayItem(Bads, i);
+      Dec(LevelRound);
+      DeleteArrayLastItem(Opened);
+      Continue;
+    end;
+  end;
+
+  for i:= 0 to High(Opened) do
+    AddArrayItem(Bads, Opened[i]);
+
+  Ed.Attribs.DeleteWithTag(cTag);
+
+  if Length(Bads)>0 then
+  begin
+    for i:= 0 to High(Bads) do
+    begin
+      PartObj:= TATLinePartClass.Create;
+      ApplyPartStyleFromEcontrolStyle(PartObj.Data, GetAppStyle(apstSymbolBad));
+      Ed.Attribs.Add(Bads[i]-1, 0, cTag, 1, 0, PartObj);
+    end;
+    Ed.Invalidate;
+  end;
 end;
 
 end.
