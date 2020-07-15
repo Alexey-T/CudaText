@@ -1802,12 +1802,14 @@ begin
       end;
     end;
 
-    if ch='[' then
-    begin
-      AddArrayItem(OpenedSquare, i);
-      Inc(LevelSquare);
-      Continue;
-    end;
+    //no pairs of [], only one level is allowed
+    if LevelSquare=0 then
+      if ch='[' then
+      begin
+        AddArrayItem(OpenedSquare, i);
+        Inc(LevelSquare);
+        Continue;
+      end;
 
     if ch=']' then
     begin
