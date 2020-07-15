@@ -1782,21 +1782,25 @@ begin
     end;
     ch:= S[i];
 
-    if ch='(' then
+    //regex allows any () inside char-class []
+    if LevelSquare<1 then
     begin
-      AddArrayItem(OpenedRound, i);
-      Inc(LevelRound);
-      Continue;
-    end;
+      if ch='(' then
+      begin
+        AddArrayItem(OpenedRound, i);
+        Inc(LevelRound);
+        Continue;
+      end;
 
-    if ch=')' then
-    begin
-      if LevelRound<1 then
-        AddArrayItem(Bads, i);
-      if LevelRound>0 then
-        Dec(LevelRound);
-      DeleteArrayLastItem(OpenedRound);
-      Continue;
+      if ch=')' then
+      begin
+        if LevelRound<1 then
+          AddArrayItem(Bads, i);
+        if LevelRound>0 then
+          Dec(LevelRound);
+        DeleteArrayLastItem(OpenedRound);
+        Continue;
+      end;
     end;
 
     if ch='[' then
