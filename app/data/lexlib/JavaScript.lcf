@@ -844,7 +844,7 @@ object SyntAnal9: TLibSyntAnalyzer
     'PHP tag'
     'Symbol ( )'
     'Symbol { }')
-  Extentions = 'js htc _js es6 pjs'
+  Extentions = 'js htc es6 pjs mjs'
   LexerName = 'JavaScript'
   Notes.Strings = (
     'Based on lexer from EControl, by Alexey (CudaText)')
