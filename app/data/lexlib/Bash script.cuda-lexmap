@@ -1,7 +1,8 @@
 [comments]
 styles_cmt=Comment
 styles_str=String
-
+str1=
+str2=
 [map]
 Comment=Comment
 Comment shebang=Comment2
