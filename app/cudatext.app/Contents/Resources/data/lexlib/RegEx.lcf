@@ -42,14 +42,6 @@ object SyntAnal22: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Comment'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGray
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsItalic]
-    end
-    item
       DisplayName = 'SpecChar'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
@@ -91,13 +83,21 @@ object SyntAnal22: TLibSyntAnalyzer
       Font.Name = 'Courier New'
       Font.Style = [fsStrikeOut]
       BgColor = clYellow
+    end
+    item
+      DisplayName = 'Comment'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
       DisplayName = 'Escaped'
       StyleName = 'Escaped'
       TokenType = 4
-      Expression = '\\x\h{2} | \\u\{\h{1,4}\} | \\.'
+      Expression = '\\c[a-z] | \\x\h{2} | \\u\{\h{1,4}\} | \\.'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -105,7 +105,15 @@ object SyntAnal22: TLibSyntAnalyzer
       DisplayName = 'Modifiers'
       StyleName = 'Modifiers'
       TokenType = 2
-      Expression = '\(\?\w+\)'
+      Expression = '\(\?(\-?\w)+\)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Comment'
+      StyleName = 'Comment'
+      TokenType = 5
+      Expression = '\(\?\#.*?\)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -113,7 +121,7 @@ object SyntAnal22: TLibSyntAnalyzer
       DisplayName = 'Brackets'
       StyleName = 'Brackets'
       TokenType = 1
-      Expression = '\((\?<?[!=])? | \)'
+      Expression = '\(\?: | \((\?<?[!=])? | \)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -126,18 +134,12 @@ object SyntAnal22: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Comment'
-      StyleName = 'Comment'
-      TokenType = 5
-      Expression = '\#.*'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'SpecChar'
       StyleName = 'SpecChar'
+      BlockName = '['
+      NotParent = True
       TokenType = 6
-      Expression = '[\.\^\$]'
+      Expression = '[\.\^\$\|]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -145,7 +147,7 @@ object SyntAnal22: TLibSyntAnalyzer
       DisplayName = '['
       StyleName = 'CharClass'
       TokenType = 7
-      Expression = '\['
+      Expression = '\[\^?'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -161,7 +163,7 @@ object SyntAnal22: TLibSyntAnalyzer
       DisplayName = '{}'
       StyleName = '{}'
       TokenType = 9
-      Expression = '\{\d+,?\d*\}'
+      Expression = '\{\d+,?\d*\}\??'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -216,12 +218,12 @@ object SyntAnal22: TLibSyntAnalyzer
   SubAnalyzers = <>
   SampleText.Strings = (
     
-      '(?si) ^(\r\n dd+? dd*? dd+ t.t.t?t+) (?=\n)(?!\n)(?<=\n)(?<!\n) ' +
-      '$'
-    '[^df] dd [a-b\n\r] '
+      '(?si) (?-si-x) ^(\r\n dd+? dd*? dd+ t.t?t+) (?=\n)(?!\n)(?<=\n)(' +
+      '?<!\n)$'
+    '[^df] dd [a-b\n\r $^.] '
     'd{2} d{2, d{2,4} d-'
-    '\xC0 \u{F0F0}'
-    '#comment')
+    '\xC0 | \u{F0F0} | \cK'
+    '(?:non_capturing) (?#comment)$')
   TokenTypeNames.Strings = (
     'Text'
     'Brackets'
@@ -235,7 +237,8 @@ object SyntAnal22: TLibSyntAnalyzer
     '{}')
   LexerName = 'RegEx'
   Notes.Strings = (
-    'Alexey (CudaText)')
+    'Alexey (CudaText)'
+    'RegEx flavor supported by Free Pascal TRegExpr')
   RestartFromLineStart = True
   Charset = DEFAULT_CHARSET
 end
