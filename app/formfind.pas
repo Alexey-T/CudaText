@@ -15,19 +15,21 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
   StdCtrls, ExtCtrls,
   LclType, LclProc, IniFiles, Math,
-  ATButtons, ATPanelSimple,
+  ATButtons,
+  ATPanelSimple,
   ATStringProc,
   ATSynEdit,
   ATSynEdit_Edits,
   ATSynEdit_Commands,
   ATSynEdit_Finder,
   ATSynEdit_Adapter_EControl,
-  ATSynEdit_CanvasProc,
   proc_msg,
   proc_globdata,
   proc_miscutils,
   proc_colors,
-  proc_editor;
+  proc_editor,
+  ec_SyntAnal,
+  formlexerstylemap;
 
 type
   TAppFinderOperation = (
@@ -168,6 +170,7 @@ type
     FNarrow: boolean;
     FOnResult: TAppFinderOperationEvent;
     FOnChangeOptions: TNotifyEvent;
+    FLexerRegexThemed: boolean;
     Adapter: TATAdapterEControl;
     AdapterActive: boolean;
     procedure DoResult(Str: TAppFinderOperation);
@@ -937,6 +940,7 @@ end;
 procedure TfmFind.UpdateRegexHighlight;
 var
   bActive: boolean;
+  TempLexer: TecSyntAnalyzer;
 begin
   bActive:= chkRegex.Checked;
   if AdapterActive<>bActive then
@@ -944,6 +948,13 @@ begin
     AdapterActive:= bActive;
     if AdapterActive then
     begin
+      if not FLexerRegexThemed then
+      begin
+        FLexerRegexThemed:= true;
+        if Assigned(Adapter.Lexer) then
+          DoApplyLexerStylesMap(Adapter.Lexer, TempLexer);
+      end;
+
       Adapter.AddEditor(edFind);
       edFind.DoEventChange();
       edFind.InvalidateHilitingCache;
