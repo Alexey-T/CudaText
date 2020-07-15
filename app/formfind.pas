@@ -1083,19 +1083,22 @@ const
   cTag = 10;
 var
   Ed: TATSynEdit;
-  Bads: array of integer;
-  Opened: array of integer;
-  i: integer;
+  Bads: TATIntArray;
+  OpenedRound: TATIntArray;
+  OpenedSquare: TATIntArray;
+  LevelRound, LevelSquare: integer;
+  PartObj: TATLinePartClass;
   S: UnicodeString;
   ch: WideChar;
-  LevelRound: integer;
-  PartObj: TATLinePartClass;
+  i: integer;
 begin
   Ed:= edFind;
   S:= Ed.Text;
   SetLength(Bads, 0);
-  SetLength(Opened, 0);
+  SetLength(OpenedRound, 0);
+  SetLength(OpenedSquare, 0);
   LevelRound:= 0;
+  LevelSquare:= 0;
   i:= 0;
 
   while i<Length(S) do
@@ -1110,7 +1113,7 @@ begin
 
     if ch='(' then
     begin
-      AddArrayItem(Opened, i);
+      AddArrayItem(OpenedRound, i);
       Inc(LevelRound);
       Continue;
     end;
@@ -1119,14 +1122,34 @@ begin
     begin
       if LevelRound<1 then
         AddArrayItem(Bads, i);
-      Dec(LevelRound);
-      DeleteArrayLastItem(Opened);
+      if LevelRound>0 then
+        Dec(LevelRound);
+      DeleteArrayLastItem(OpenedRound);
+      Continue;
+    end;
+
+    if ch='[' then
+    begin
+      AddArrayItem(OpenedSquare, i);
+      Inc(LevelSquare);
+      Continue;
+    end;
+
+    if ch=']' then
+    begin
+      if LevelSquare<1 then
+        AddArrayItem(Bads, i);
+      if LevelSquare>0 then
+        Dec(LevelSquare);
+      DeleteArrayLastItem(OpenedSquare);
       Continue;
     end;
   end;
 
-  for i:= 0 to High(Opened) do
-    AddArrayItem(Bads, Opened[i]);
+  for i:= 0 to High(OpenedRound) do
+    AddArrayItem(Bads, OpenedRound[i]);
+  for i:= 0 to High(OpenedSquare) do
+    AddArrayItem(Bads, OpenedSquare[i]);
 
   Ed.Attribs.DeleteWithTag(cTag);
 
