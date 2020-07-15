@@ -1725,21 +1725,43 @@ begin
   Ar[High(Ar)]:= Val;
 end;
 
-procedure EditorHighlightBadRegexBrackets(Ed: TATSynEdit; AOnlyClear: boolean);
 const
-  cTag = 10;
+  cBadRegexTag = 10;
+
+procedure EditorHighlightCharsInLine(Ed: TATSynEdit; AY: integer;
+  const AX: TATIntArray; AStyle: TAppThemeStyleId);
+var
+  PartObj: TATLinePartClass;
+  Part: TATLinePart;
+  i: integer;
+begin
+  if Length(AX)=0 then exit;
+
+  FillChar(Part, SizeOf(Part), 0);
+  ApplyPartStyleFromEcontrolStyle(Part, GetAppStyle(AStyle));
+  Part.ColorBG:= clNone;
+
+  for i:= 0 to High(AX) do
+  begin
+    PartObj:= TATLinePartClass.Create;
+    PartObj.Data:= Part;
+    Ed.Attribs.Add(AX[i], AY, cBadRegexTag, 1, 0, PartObj);
+  end;
+
+  Ed.Invalidate;
+end;
+
+procedure EditorHighlightBadRegexBrackets(Ed: TATSynEdit; AOnlyClear: boolean);
 var
   Bads: TATIntArray;
   OpenedRound: TATIntArray;
   OpenedSquare: TATIntArray;
   LevelRound, LevelSquare: integer;
-  PartObj: TATLinePartClass;
-  Part: TATLinePart;
   S: UnicodeString;
   ch: WideChar;
   i: integer;
 begin
-  Ed.Attribs.DeleteWithTag(cTag);
+  Ed.Attribs.DeleteWithTag(cBadRegexTag);
   if AOnlyClear then exit;
 
   S:= Ed.Text;
@@ -1802,18 +1824,9 @@ begin
 
   if Length(Bads)>0 then
   begin
-    FillChar(Part, SizeOf(Part), 0);
-    ApplyPartStyleFromEcontrolStyle(Part, GetAppStyle(apstSymbolBad));
-    Part.ColorBG:= clNone;
-
     for i:= 0 to High(Bads) do
-    begin
-      PartObj:= TATLinePartClass.Create;
-      PartObj.Data:= Part;
-      Ed.Attribs.Add(Bads[i]-1, 0, cTag, 1, 0, PartObj);
-    end;
-
-    Ed.Invalidate;
+      Dec(Bads[i]);
+    EditorHighlightCharsInLine(Ed, 0, Bads, apstSymbolBad);
   end;
 end;
 
