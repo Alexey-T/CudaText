@@ -152,6 +152,8 @@ object SyntAnal22: TLibSyntAnalyzer
     item
       DisplayName = '['
       StyleName = 'CharClass'
+      BlockName = '['
+      NotParent = True
       TokenType = 7
       Expression = '\[\^?'
       ColumnFrom = 0
@@ -227,12 +229,11 @@ object SyntAnal22: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
-    
-      '(?si) (?-si-x) ^(\r\n dd+? dd*? dd+ t.t?t+) (?=\n)(?!\n)(?<=\n)(' +
-      '?<!\n)$'
-    '[^df] dd [a-b\n\r $^.] '
+    '(?si) (?-si-x) ^(\r\n dd+? dd*? dd+ t.t?t+)'
+    '(?=\n)(?!\n)(?<=\n)(?<!\n)$'
+    '[^re] , [a-b\n\r $^.] , [[[[] '
     'd{2} d{2, d{2,4} d-'
-    '\xC0 | \u{F0F0} | \cK'
+    '\1 | \xC0 | \u{F0F0} | \cK'
     '(?:non_capturing) (?#comment)$')
   TokenTypeNames.Strings = (
     'Text'
