@@ -1682,6 +1682,15 @@ It's good to use these commands with hotkeys Alt+Left and Alt+Right (assign it i
 
 ==Unix specific topics==
 
+===Difference between gtk2/qt5/etc versions===
+
+Versions for gtk2/qt5/etc are compiled for different widget-sets, all functions are the same.
+
+* Different widget-sets make different look of native UI controls (e.g. buttons - but only native buttons, note that Find/Replace dialog has not native buttons), native scrollbars, native File-Open/Save dialogs.
+* Different widget-sets need different value of "ui_buffered*" option. So one value of "ui_buffered__linux" is OK for gtk2, while may be worse for qt5.
+
+So far, different widget-sets are supported for Linux only.
+
 ===Linux keyboard input is duplicated===
 
 This is known problem, related to some Input Methods (IM) in Linux.
