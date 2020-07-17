@@ -6,6 +6,7 @@
 1.107.1 (2020/07)
 
 + add: option "ui_tab_padding" (thanks @wb027)
++ add: option "ui_tab_font_scale" (thanks @wb027)
 
 1.107.0 (2020/07)
 
