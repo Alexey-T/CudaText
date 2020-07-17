@@ -653,6 +653,9 @@
   //UI tabs: Feature "Set tab color" colorizes the entire tab height
   "ui_tab_fullcolor": false,
 
+  //UI tabs: Additional scaling of tab title font
+  "ui_tab_font_scale": 100,
+
   //UI tabs: Double-click closes tab
   "ui_tab_2click_closes": false,
 

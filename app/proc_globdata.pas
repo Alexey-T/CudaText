@@ -231,6 +231,7 @@ type
     TabSpaceBeforeText: integer;
     TabPosition: integer;
     TabColorFull: boolean;
+    TabFontScale: integer;
     TabShowX: integer;
     TabShowXSize: integer;
     TabShowPlus: boolean;
@@ -1390,6 +1391,7 @@ begin
     TabSpaceBeforeText:= 6;
     TabPosition:= 0;
     TabColorFull:= false;
+    TabFontScale:= 100;
     TabShowX:= 1; //show all
     TabShowXSize:= 14;
     TabShowPlus:= true;

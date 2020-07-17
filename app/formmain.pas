@@ -3102,6 +3102,7 @@ begin
   G.SetTabOption(tabOptionShowXButtons, UiOps.TabShowX);
   G.SetTabOption(tabOptionShowPlus, Ord(UiOps.TabShowPlus and not UiOps.TabsDisabled));
   G.SetTabOption(tabOptionShowEntireColor, Ord(UiOps.TabColorFull));
+  G.SetTabOption(tabOptionFontScale, UiOps.TabFontScale);
   G.SetTabOption(tabOptionDoubleClickClose, Ord(UiOps.TabDblClickClose));
   G.SetTabOption(tabOptionWidthNormal, UiOps.TabWidth);
   G.SetTabOption(tabOptionWidthMin, UiOps.TabWidthMin);
