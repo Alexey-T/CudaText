@@ -1720,8 +1720,8 @@ So the "installation" is like this:
 
 The GTK2 and Qt5 binaries can also be installed via the AUR if you are on an Arch Linux based system:
 
-- https://aur.archlinux.org/packages/cudatext-gtk2-bin/
-- https://aur.archlinux.org/packages/cudatext-qt5-bin/
+* https://aur.archlinux.org/packages/cudatext-gtk2-bin/
+* https://aur.archlinux.org/packages/cudatext-qt5-bin/
 
 Currently, CudaText gtk2 build runs very slowly on Arch Linux, about 20-25 sec, the reason is unknown yet. Better use Qt5 build.
 
