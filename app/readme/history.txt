@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.107.1 (2020/07)
+
++ add: option "ui_tab_padding" (thanks @wb027)
+
 1.107.0 (2020/07)
 
 + add: Find dialog shows "Find" field syntax-highlighted in RegEx mode; program also does underlining of mismatched ()[] brackets there
