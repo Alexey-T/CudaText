@@ -1567,24 +1567,24 @@ subdir=langmenu
 Submit that zip file to CudaText GutHub page, or post it to the forum.
 
 ==Color themes==
-Two kinds of themes exist:
+There are two kinds of themes:
 
 * UI themes, file extension .cuda-theme-ui
 * Syntax themes, file extension .cuda-theme-syntax
 
 Two dialogs allow to paint these kinds of themes. To paint a theme:
 
-* Call dialog: "Options/ Settings - more/ Settings - theme - nnnnn"
+* Call dialog: "Options / Settings - more / Settings - theme - nnnnn"
 * For UI themes: customize colors in dialog
 * For syntax themes: customize lexer-styles in dialog
-* For syntax themes: test theme at last on JS/HTML/CSS/C/Pascal/Ini/Markdown/Go lexers.
+* For syntax themes: test theme at least on JavaScript/HTML/CSS/C/Pascal/Ini/Markdown lexers. On what files to test:
 ** You can use sample codes in the Lexer Properties dialog.
 ** You can use sample files from https://github.com/Alexey-T/lexer_tests/tree/master/test_CudaText_color_themes
-* New theme files are saved in the subdir "data/themes"
+* New theme files are saved in the subfolder "data/themes"
 
-Don't configure custom lexer styles in Lexer Properties dialog, if option "ui_lexer_themes" is on, because syntax-theme will override all your colors from that dialog. You can config these colors though, if option is off.
+Don't configure custom lexer styles in the Lexer Properties dialog, if option "ui_lexer_themes" is on (usually it's on), because syntax-theme will override all your colors from that dialog. You can configure colors there, if option is off.
 
-===How to make theme package===
+===How to create theme package===
 
 * Make such file "install.inf":
 
