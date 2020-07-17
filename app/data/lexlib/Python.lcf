@@ -208,8 +208,8 @@ object SyntAnal21: TLibSyntAnalyzer
       StyleName = 'Number'
       TokenType = 5
       Expression = 
-        '\b \d[_\d]* \.\d[_\d]* (e[\-\+]?\d[_\d]*)?j? \b |'#13#10'\b\d[_\d]*[\.' +
-        'Lj]?\b |'#13#10'\.\d[_\d]*\b |'
+        '\b \d[_\d]* \.(\d[_\d]*)? (e[\-\+]?\d[_\d]*)?j? \b |'#13#10'\B\.\d[_\d' +
+        ']* (e[\-\+]?\d[_\d]*)?j? \b |'#13#10'\b\d[_\d]*\.? ([Lj]\b)?'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -658,9 +658,8 @@ object SyntAnal21: TLibSyntAnalyzer
   Extentions = 'py pyw rpy cpy sconstruct pyi'
   LexerName = 'Python'
   Notes.Strings = (
-    'Python lexer by Alexey (CudaText)'
-    'For indent-based folding lexer was imporved:'
-    'see SynWrite lexer documentation about these tweaks.')
+    'Python lexer by Alexey (CudaText)')
+  RestartFromLineStart = True
   LineComment = '#'
   Charset = DEFAULT_CHARSET
   Left = 144
