@@ -228,6 +228,7 @@ type
     TabHeight: integer;
     TabHeightInner: integer;
     TabSpacer: integer;
+    TabSpaceBeforeText: integer;
     TabPosition: integer;
     TabColorFull: boolean;
     TabShowX: integer;
@@ -1386,6 +1387,7 @@ begin
     TabHeight:= 26;
     TabHeightInner:= TabHeight-1;
     TabSpacer:= 2;
+    TabSpaceBeforeText:= 6;
     TabPosition:= 0;
     TabColorFull:= false;
     TabShowX:= 1; //show all
