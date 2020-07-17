@@ -1708,15 +1708,24 @@ To fix: change IM from e.g."XIM" to "none" in the Language Support settings, the
 ** This plugin has options to copy selection to a) usual clipboard, b) GTK primary selection (CudaText GTK builds only)
 
 === Linux installation ===
-On Linux you can install program, not using installers, in such way:
+On Linux you can "install" the program, so that "cudatext" is runnable from Terminal.
+If program runs and cannot find "data/lexlib" near executable, it opens folders from "~/.config/cudatext".
+So the "installation" is like this:
 
-* copy file "cudatext" to folder /usr/bin
-* copy dirs [data, readme, settings_default] to "~/.config/cudatext"
-* dir "~/.config/cudatext/settings" will appear automatically on run
+* copy file "cudatext" to /usr/bin
+* copy folders "data", "settings_default" to "~/.config/cudatext"
+* folder "~/.config/cudatext/settings" will be created automatically
 
-If program runs and cannot find "data/lexlib" near executable, it opens dirs from "~/.config/cudatext". This allows to install binary to PATH, and data dirs to homedir.
+=== Arch Linux packages ===
 
-=== Linux Qt build ===
+The GTK2 and Qt5 binaries can also be installed via the AUR if you are on an Arch Linux based system:
+
+- https://aur.archlinux.org/packages/cudatext-gtk2-bin/
+- https://aur.archlinux.org/packages/cudatext-qt5-bin/
+
+Currently, CudaText gtk2 build runs very slowly on Arch Linux, about 20-25 sec, the reason is unknown yet. Better use Qt5 build.
+
+=== Linux Qt5 build ===
 For CudaText Qt5 version, library libQt5Pas is required.
 
 * For Ubuntu:
