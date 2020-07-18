@@ -1175,6 +1175,12 @@
   //Note: this option takes effect only after program restart
   "ui_menu_show": true,
 
+  //Side-panel's visible state on program start
+  //  0: Restore visible state from history file
+  //  1: Always show
+  //  2: Hide, but plugins can show side-panel if needed
+  "ui_sidepanel_on_start": 0,
+
   //[Find/Hotkeys]
   //Hotkeys in Find/Replace dialog
   "find_hotkey_find_dlg": "Ctrl+F",

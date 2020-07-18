@@ -4338,7 +4338,7 @@ begin
 
         APP_PROC_LOAD_SESSION:
           begin
-            ParamBool:= fmMain.DoOps_LoadSession(Str);
+            ParamBool:= fmMain.DoOps_LoadSession(Str, true);
             Result:= PyBool_FromLong(Ord(ParamBool));
           end;
 

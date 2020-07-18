@@ -896,7 +896,7 @@ type
     procedure DoOps_LoadHistory;
     procedure DoOps_LoadHistory_GroupView(cfg: TJsonConfig);
     function DoOps_SaveSession(const AFileName: string): boolean;
-    function DoOps_LoadSession(const AFileName: string): boolean;
+    function DoOps_LoadSession(const AFileName: string; AllowShowSidepanel: boolean): boolean;
     procedure DoOps_LoadOptionsAndApplyAll;
     procedure DoOps_LoadOptionsLexerSpecific(F: TEditorFrame; Ed: TATSynEdit);
     procedure DoOps_OpenFile_LexerSpecific;
@@ -2735,7 +2735,7 @@ procedure TfmMain.FormShow(Sender: TObject);
     //after on_start (so HTML Tooltips with on_open can work)
     //after loading keymap-main and keymap for none-lexer
     if UiOps.ReopenSession and FOption_AllowSession then
-      DoOps_LoadSession(GetSessionFilename);
+      DoOps_LoadSession(GetSessionFilename, false);
   end;
   //
   procedure _Init_FrameFocus;

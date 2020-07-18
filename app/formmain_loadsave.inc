@@ -291,7 +291,8 @@ begin
   Result:= StrToIntDef(s, -1)>=0;
 end;
 
-function TfmMain.DoOps_LoadSession(const AFileName: string): boolean;
+function TfmMain.DoOps_LoadSession(const AFileName: string;
+  AllowShowSidepanel: boolean): boolean;
 var
   cfg: TJSONConfig;
   Frame: TEditorFrame;
@@ -475,7 +476,8 @@ begin
     end;
 
     //restore panel sizes
-    AppPanels[cPaneSide].Visible:= cfg.GetValue('/panels/side_show', AppPanels[cPaneSide].Visible);
+    if AllowShowSidepanel then
+      AppPanels[cPaneSide].Visible:= cfg.GetValue('/panels/side_show', AppPanels[cPaneSide].Visible);
     AppPanels[cPaneOut].Visible:= cfg.GetValue('/panels/bottom_show', AppPanels[cPaneOut].Visible);
 
     with AppPanels[cPaneSide] do
@@ -571,6 +573,7 @@ procedure TfmMain.DoOps_LoadHistory;
 //was maximized (Win32).
 var
   cfg: TJSONConfig;
+  bFlag: boolean;
 begin
   cfg:= TJSONConfig.Create(nil);
   try
@@ -609,7 +612,13 @@ begin
     FFinder.OptTokens:= TATFinderTokensAllowed(cfg.GetValue('/finder/tokens', 0));
 
     ////state
-    AppPanels[cPaneSide].Visible:= cfg.GetValue('show_sidepanel', true);
+    case UiOps.SidepanelOnStart of
+      0: bFlag:= cfg.GetValue('show_sidepanel', true);
+      1: bFlag:= true;
+      2: bFlag:= false;
+    end;
+    AppPanels[cPaneSide].Visible:= bFlag;
+
     AppPanels[cPaneOut].Visible:= cfg.GetValue('show_bottom', false);
 
     AppPanels[cPaneSide].PanelSize:= Min(cfg.GetValue('size_side', 200), ClientWidth div 2);
@@ -1026,6 +1035,7 @@ begin
   UiOps.SidebarShow:= cfg.GetValue('ui_sidebar_show', UiOps.SidebarShow);
   UiOps.SidebarOnRight:= cfg.GetValue('ui_sidebar_on_right', UiOps.SidebarOnRight);
   UiOps.SidebarTheme:= cfg.GetValue('ui_sidebar_theme', UiOps.SidebarTheme);
+  UiOps.SidepanelOnStart:= cfg.GetValue('ui_sidepanel_on_start', UiOps.SidepanelOnStart);
   UiOps.TreeTheme:= cfg.GetValue('ui_tree_theme', UiOps.TreeTheme);
   UiOps.ToolBarTheme:= cfg.GetValue('ui_toolbar_theme', UiOps.ToolBarTheme);
 
