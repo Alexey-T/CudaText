@@ -568,7 +568,7 @@ object fmMain: TfmMain
         Caption = 'Settings - &hotkeys'
       end
       object mnuOpThemeUi: TMenuItem
-        Caption = 'Settings - theme - &ui'
+        Caption = 'Settings - theme - u&i'
       end
       object mnuOpThemeSyntax: TMenuItem
         Caption = 'Settings - theme - &syntax'
