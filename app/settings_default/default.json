@@ -1153,18 +1153,18 @@
   //Console panel (Ctrl+`): word-wrap mode
   "ui_console_wrap": true,
 
-  //[Ui/Toolbars]
-  //Show sidebar (vertical bar on the left side)
+  //[Ui/Panels]
+  //Show sidebar (vertical bar with buttons on the left side)
   "ui_sidebar_show": true,
 
-  //Show sidebar on the right side
+  //Place sidebar on the right side
   "ui_sidebar_on_right": false,
 
   //Sidebar icons theme
   //Folders from: sideicons
   "ui_sidebar_theme": "common_20x20",
 
-  //Show toolbar (horizontal bar, below window title)
+  //Show toolbar (horizontal bar with buttons, below window title)
   "ui_toolbar_show": false,
 
   //Toolbar icons theme
