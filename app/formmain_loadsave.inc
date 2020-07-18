@@ -621,7 +621,12 @@ begin
     end;
     AppPanels[cPaneSide].Visible:= bFlag;
 
-    AppPanels[cPaneOut].Visible:= cfg.GetValue('show_bottom', false);
+    case UiOps.BottomOnStart of
+      0: bFlag:= cfg.GetValue('show_bottom', false);
+      1: bFlag:= true;
+      2: bFlag:= false;
+    end;
+    AppPanels[cPaneOut].Visible:= bFlag;
 
     AppPanels[cPaneSide].PanelSize:= Min(cfg.GetValue('size_side', 200), ClientWidth div 2);
     AppPanels[cPaneOut].PanelSize:= Min(cfg.GetValue('size_bottom', 200), ClientHeight div 2);
@@ -1038,6 +1043,7 @@ begin
   UiOps.SidebarOnRight:= cfg.GetValue('ui_sidebar_on_right', UiOps.SidebarOnRight);
   UiOps.SidebarTheme:= cfg.GetValue('ui_sidebar_theme', UiOps.SidebarTheme);
   UiOps.SidepanelOnStart:= cfg.GetValue('ui_sidepanel_on_start', UiOps.SidepanelOnStart);
+  UiOps.BottomOnStart:= cfg.GetValue('ui_bottom_on_start', UiOps.BottomOnStart);
   UiOps.TreeTheme:= cfg.GetValue('ui_tree_theme', UiOps.TreeTheme);
   UiOps.ToolBarTheme:= cfg.GetValue('ui_toolbar_theme', UiOps.ToolBarTheme);
 

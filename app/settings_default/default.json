@@ -1178,8 +1178,14 @@
   //Side-panel's visible state on program start
   //  0: Restore state from history file
   //  1: Show
-  //  2: Hide, plugins can show panel if needed
+  //  2: Hide, program shows panel if needed
   "ui_sidepanel_on_start": 0,
+
+  //Bottom-panel's visible state on program start
+  //  0: Restore state from history file
+  //  1: Show
+  //  2: Hide, program shows panel if needed
+  "ui_bottom_on_start": 0,
 
   //[Find/Hotkeys]
   //Hotkeys in Find/Replace dialog

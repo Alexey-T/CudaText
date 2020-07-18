@@ -192,6 +192,7 @@ type
     SidebarOnRight: boolean;
     SidebarTheme: string;
     SidepanelOnStart: integer;
+    BottomOnStart: integer;
     PictureTypes: string;
     MaxFileSizeToOpen: integer;
     MaxFileSizeForLexer: integer;
@@ -1342,6 +1343,7 @@ begin
     SidebarOnRight:= false;
     SidebarTheme:= 'common_20x20';
     SidepanelOnStart:= 0;
+    BottomOnStart:= 0;
     TreeTheme:= 'default_16x16';
     ToolBarTheme:= 'default_24x24';
 
