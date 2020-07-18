@@ -1176,9 +1176,9 @@
   "ui_menu_show": true,
 
   //Side-panel's visible state on program start
-  //  0: Restore visible state from history file
-  //  1: Always show
-  //  2: Hide, but plugins can show side-panel if needed
+  //  0: Restore state from history file
+  //  1: Show
+  //  2: Hide, plugins can show panel if needed
   "ui_sidepanel_on_start": 0,
 
   //[Find/Hotkeys]

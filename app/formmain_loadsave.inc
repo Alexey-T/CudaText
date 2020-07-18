@@ -292,7 +292,7 @@ begin
 end;
 
 function TfmMain.DoOps_LoadSession(const AFileName: string;
-  AllowShowSidepanel: boolean): boolean;
+  AllowShowPanels: boolean): boolean;
 var
   cfg: TJSONConfig;
   Frame: TEditorFrame;
@@ -476,9 +476,11 @@ begin
     end;
 
     //restore panel sizes
-    if AllowShowSidepanel then
+    if AllowShowPanels then
+    begin
       AppPanels[cPaneSide].Visible:= cfg.GetValue('/panels/side_show', AppPanels[cPaneSide].Visible);
-    AppPanels[cPaneOut].Visible:= cfg.GetValue('/panels/bottom_show', AppPanels[cPaneOut].Visible);
+      AppPanels[cPaneOut].Visible:= cfg.GetValue('/panels/bottom_show', AppPanels[cPaneOut].Visible);
+    end;
 
     with AppPanels[cPaneSide] do
       PanelSize:= Min(cfg.GetValue('/panels/side_size', PanelSize), ClientWidth div 2);
