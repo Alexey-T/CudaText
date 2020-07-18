@@ -78,6 +78,7 @@ type
     apclSideBadgeBg,
     apclSideBadgeFont,
     apclTabFont,
+    apclTabFontActive,
     apclTabFontMod,
     apclTabActive,
     apclTabActiveOthers,
@@ -376,6 +377,7 @@ begin
   SetColor(apclSideBadgeBg, clNavy, 'SideBadgeBg', 'side-toolbar, button badges BG');
   SetColor(apclSideBadgeFont, clWhite, 'SideBadgeFont', 'side-toolbar, button badges font');
   SetColor(apclTabFont, nColorText, 'TabFont', 'tabs, font');
+  SetColor(apclTabFontActive, clNone, 'TabFontActive', 'tabs, font, active tab');
   SetColor(apclTabFontMod, $a00000, 'TabFontMod', 'tabs, font, modified tab');
   SetColor(apclTabActive, nColorBack, 'TabActive', 'tabs, active tab BG');
   SetColor(apclTabActiveOthers, $e4d0d0, 'TabActiveOthers', 'tabs, active tab BG, inactive groups');

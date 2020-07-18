@@ -29,6 +29,7 @@ end;
 procedure TfmMain.DoApplyThemeToGroups(G: TATGroups);
 begin
   G.SetTabOption(tabColorText, GetAppColor(apclTabFont));
+  G.SetTabOption(tabColorTextActive, GetAppColor(apclTabFontActive));
   G.SetTabOption(tabColorTextModified, GetAppColor(apclTabFontMod));
   G.SetTabOption(tabColorBg, GetAppColor(apclTabBg));
   G.SetTabOption(tabColorBgActive, GetAppColor(apclTabActive));
