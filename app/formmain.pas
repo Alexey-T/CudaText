@@ -2736,8 +2736,9 @@ procedure TfmMain.FormShow(Sender: TObject);
     //load session
     //after on_start (so HTML Tooltips with on_open can work)
     //after loading keymap-main and keymap for none-lexer
-    if UiOps.ReopenSession and FOption_AllowSession then
-      DoOps_LoadSession(GetSessionFilename, false);
+    if FCmdlineFileCount=0 then //don't load session if command-line files passed
+      if UiOps.ReopenSession and FOption_AllowSession then
+        DoOps_LoadSession(GetSessionFilename, false);
   end;
   //
   procedure _Init_FrameFocus;
