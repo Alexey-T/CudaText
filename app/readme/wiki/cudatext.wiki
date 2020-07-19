@@ -632,8 +632,8 @@ Option buttons have hotkeys too. Hover mouse over them to see floating tooltips 
 
 * ".*" - Regular expressions - Alt+R
 * "aA" - Case sensitive search - Alt+C
-* "w" - Search for whole words only - Alt+W
-* "O" - Wrap search, ie search from beginning after reaching the end, and vice versa - Alt+N
+* "w" - Search for whole words only, ie both sides of found match must be "word boundaries" - Alt+W
+* "O" - Wrapped search: search from beginning after reaching the end (with forward search), and search from end after reaching the beginning (with backward search) - Alt+N
 * "[..]" - Search in selection only - Alt+X
 * "+" - Toggle multi-line mode for both dialog input fields (to add a newline in multi-line fields, press Ctrl+Enter) - Alt+M
 * "?!" - Show confirmation on each replace - Alt+Y
