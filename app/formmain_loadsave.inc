@@ -1076,6 +1076,7 @@ begin
   UiOps.FindMultiLineScale:= cfg.GetValue('find_multiline_scale', UiOps.FindMultiLineScale);
   UiOps.FindSeparateForm:= cfg.GetValue('find_separate_form', UiOps.FindSeparateForm);
 
+  ShowTabsMain:= cfg.GetValue('ui_tab_show', ShowTabsMain);
   UiOps.TabsDisabled:= cfg.GetValue('ui_tab_disabled', UiOps.TabsDisabled);
   UiOps.TabVarWidth:= cfg.GetValue('ui_tab_variable_width', UiOps.TabVarWidth);
   UiOps.TabMultiline:= cfg.GetValue('ui_tab_multiline', UiOps.TabMultiline);

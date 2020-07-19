@@ -586,6 +586,9 @@
   "ui_scale_font__mac": 100,
 
   //[Ui/Tabs]
+  //UI tabs: global visible flag for ui-tabs
+  "ui_tab_show": true,
+
   //UI tabs: use tab switcher dialog on Ctrl+Tab, Ctrl+Shift+Tab;
   //otherwise switch tab ignoring recently used order
   "ui_tab_switcher_dialog": true,
