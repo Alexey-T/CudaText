@@ -64,6 +64,7 @@ type
     DisableFuzzy: boolean;
     DisableFullFilter: boolean;
     CollapseMode: TATCollapseStringMode;
+    UseEditorFont: boolean;
     property Multiline: boolean read FMultiline write FMultiline;
     property ListCaption: string write SetListCaption;
   end;
@@ -83,6 +84,9 @@ begin
     list.ItemHeightPercents:= 185
   else
     list.ItemHeightPercents:= 100;
+
+  if UseEditorFont then
+    list.ItemHeight:= AppScale(EditorOps.OpFontSize)*18 div 10;
 
   DoFilter;
 
@@ -244,6 +248,12 @@ var
   bCurrentFuzzy: boolean;
   n, i: integer;
 begin
+  if UseEditorFont then
+  begin
+    c.Font.Name:= EditorOps.OpFontName;
+    c.Font.Size:= AppScaleFont(EditorOps.OpFontSize);
+  end;
+
   if AIndex<0 then exit;
   if AIndex=list.ItemIndex then
   begin

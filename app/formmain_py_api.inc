@@ -2459,6 +2459,7 @@ begin
             Props.NoFuzzy:= (NId and MENU_NO_FUZZY)<>0;
             Props.NoFullFilter:= (NId and MENU_NO_FULLFILTER)<>0;
             Props.ShowCentered:= (NId and MENU_CENTERED)<>0;
+            Props.UseEditorFont:= (NId and MENU_EDITORFONT)<>0;
             Props.Collapse:= TATCollapseStringMode(NCollapse);
             Props.W:= NW;
             Props.H:= NH;

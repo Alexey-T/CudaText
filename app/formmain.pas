@@ -165,6 +165,7 @@ type
     NoFuzzy: boolean;
     NoFullFilter: boolean;
     ShowCentered: boolean;
+    UseEditorFont: boolean;
     Collapse: TATCollapseStringMode;
     W, H: integer;
   end;
@@ -5606,6 +5607,7 @@ begin
     Form.DisableFuzzy:= AProps.NoFuzzy;
     Form.DisableFullFilter:= AProps.NoFullFilter;
     Form.CollapseMode:= AProps.Collapse;
+    Form.UseEditorFont:= AProps.UseEditorFont;
 
     if AProps.W>0 then
       Form.Width:= AProps.W;
