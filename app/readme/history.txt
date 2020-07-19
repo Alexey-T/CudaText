@@ -5,11 +5,13 @@
 
 1.107.2 (2020/07)
 
++ add: option "ui_tab_show"
 + add: option "ui_sidepanel_on_start" (thanks @CoMPi)
 + add: option "ui_bottom_on_start"
 + add: option "ui_tab_padding" (thanks @wb027)
 + add: option "ui_tab_font_scale" (thanks @wb027)
 + add: ui-theme item "tabs, font, active tab" (thanks @wb027)
++ add: command "toggle ui-tabs"
 * change: if command-line files/folders passed, don't load session on start (thanks @wb027)
 - fix: lexer Python: number-rule fix (thanks @kvichans)
 
