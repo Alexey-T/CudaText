@@ -674,6 +674,7 @@ Additional flags to add to "id" value:
 * MENU_NO_FUZZY: Disable fuzzy search in the items list.
 * MENU_NO_FULLFILTER: Disable filtering by second part of items (after "\t"), filter only by first part.
 * MENU_CENTERED: Show menu centered on screen (otherwise it's aligned to current editor).
+* MENU_EDITORFONT: Use editor's font (monospaced) for list items, instead of variable-width UI font.
 
 Parameters:
 
@@ -4004,5 +4005,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.345 (app 1.107.0)
 * add: override Python's builtins.input() with CudaText implementation
+
+1.0.346 (app 1.107.2)
+* add: dlg_menu: option MENU_EDITORFONT
 
 [[Category:CudaText]]
