@@ -7,7 +7,8 @@ Copyright (c) Alexey Torgashin
 *)
 {$ifdef nn}begin end;{$endif}
 
-procedure TfmMain.DoLoadCommandLineBaseOptions(out AWindowPos: string; out AAllowSession: boolean);
+procedure TfmMain.DoLoadCommandLineBaseOptions(out AWindowPos: string; out AAllowSession: boolean;
+  out AFileFolderCount: integer);
 // Function handles these options: -v -h -w -el -ns
 // Option -n is handled via var proc_globdata.AppAlwaysNewInstance
 var
@@ -16,12 +17,16 @@ var
 begin
   AWindowPos:= '';
   AAllowSession:= true;
+  AFileFolderCount:= 0;
 
   for i:= 1 to ParamCount do
   begin
     SParam:= ParamStr(i);
     if not SBeginsWith(SParam, '-') then
+    begin
+      Inc(AFileFolderCount);
       Continue;
+    end;
 
     if (SParam='--version') or (SParam='-v') then
     begin

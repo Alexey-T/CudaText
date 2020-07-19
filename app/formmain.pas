@@ -674,6 +674,7 @@ type
     FOption_GroupSizes: TATGroupsPoints;
     FOption_GroupPanelSize: TPoint;
     FOption_SidebarTab: string;
+    FCmdlineFileCount: integer;
 
     procedure ConfirmButtonOkClick(Sender: TObject);
     procedure ConfirmPanelMouseLeave(Sender: TObject);
@@ -949,7 +950,8 @@ type
     procedure DoFileOpenDialog_NoPlugins;
     function DoFileSaveAll: boolean;
     procedure DoFileReopen(Ed: TATSynEdit);
-    procedure DoLoadCommandLineBaseOptions(out AWindowPos: string; out AAllowSession: boolean);
+    procedure DoLoadCommandLineBaseOptions(out AWindowPos: string;
+      out AAllowSession: boolean; out AFileFolderCount: integer);
     procedure DoLoadCommandParams(const AParams: array of string; AOpenOptions: string);
     procedure DoLoadCommandLine;
     //procedure DoToggleMenu;
@@ -2332,7 +2334,7 @@ end;
 procedure TfmMain.DoOps_OnCreate;
 begin
   //must load window position in OnCreate to fix flickering with maximized window, Win10
-  DoLoadCommandLineBaseOptions(FOption_WindowPos, FOption_AllowSession);
+  DoLoadCommandLineBaseOptions(FOption_WindowPos, FOption_AllowSession, FCmdlineFileCount);
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps); //before LoadHistory
   DoOps_LoadLexerLib(true); //before LoadHistory
   DoFileOpen('', '', nil, '/nolexernewdoc'); //before LoadHistory
