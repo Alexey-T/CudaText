@@ -967,6 +967,7 @@ type
     procedure DoToggleSidebar;
     procedure DoToggleToolbar;
     procedure DoToggleStatusbar;
+    procedure DoToggleUiTabs;
     function FinderReplaceAll(Ed: TATSynEdit; AResetCaret: boolean): integer;
     procedure FinderShowReplaceReport(ACounter, ATime: integer);
     procedure FindDialogDone(Sender: TObject; Res: TAppFinderOperation);
@@ -4982,6 +4983,11 @@ procedure TfmMain.DoToggleStatusbar;
 begin
   ShowStatus:= not ShowStatus;
   DoOps_SaveOptionBool('/ui_statusbar_show', ShowStatus);
+end;
+
+procedure TfmMain.DoToggleUiTabs;
+begin
+  ShowTabsMain:= not ShowTabsMain;
 end;
 
 procedure TfmMain.DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string);

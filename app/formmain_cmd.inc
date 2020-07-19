@@ -213,6 +213,8 @@ begin
       DoToggleToolbar;
     cmd_ToggleStatusbar:
       DoToggleStatusbar;
+    cmd_ToggleUiTabs:
+      DoToggleUiTabs;
     cmd_ToggleOnTop:
       DoToggleOnTop;
     cmd_ToggleFloatSide:

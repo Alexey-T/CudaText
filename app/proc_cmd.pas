@@ -119,6 +119,7 @@ const
   cmd_ChooseTranslation = 2570;
   cmd_ChooseThemeUI     = 2571;
 
+  cmd_ToggleUiTabs = 2575;
   cmd_ToggleFocusSplitEditors = 2576;
   cmd_FocusEditor = 2577;
   cmd_FocusNotificationPanel = 2578;
@@ -392,6 +393,7 @@ begin
   M.Add(cmd_ToggleSidebar, 'ui: toggle sidebar', [], []);
   M.Add(cmd_ToggleToolbar, 'ui: toggle toolbar', [], []);
   M.Add(cmd_ToggleStatusbar, 'ui: toggle statusbar', [], []);
+  M.Add(cmd_ToggleUiTabs, 'ui: toggle ui-tabs', [], []);
   //M.Add(cmd_ToggleMenu, 'ui: toggle menu bar', [], []);
   M.Add(cmd_ToggleOnTop, 'ui: toggle window always on top', [], []);
   M.Add(cmd_ToggleFloatSide, 'ui: toggle floating side panel', [], []);
@@ -697,6 +699,7 @@ begin
     cmd_ToggleSidebar,
     cmd_ToggleToolbar,
     cmd_ToggleStatusbar,
+    cmd_ToggleUiTabs,
     cmd_ResetPythonPlugins,
     cmd_DialogCharMap,
     cmd_RunLastCommandPlugin,
@@ -820,6 +823,7 @@ begin
     cmd_ToggleSidebar,
     cmd_ToggleStatusbar,
     cmd_ToggleToolbar,
+    cmd_ToggleUiTabs,
     cmd_Groups1,
     cmd_Groups2horz,
     cmd_Groups2vert,
