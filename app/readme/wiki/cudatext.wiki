@@ -2,7 +2,7 @@
 
 CudaText is a cross-platform text editor, written in Lazarus.
 
-* Syntax highlighting for lot of languages ([http://sourceforge.net/p/synwrite/wiki/Lexers%20list/ 230+ lexers exist])
+* Syntax highlighting for a lot of languages ([http://sourceforge.net/p/synwrite/wiki/Lexers%20list/ 230+ lexers exist])
 * Code folding
 * Code tree (list of functions/classes/etc, if lexer supports this)
 * Multi-carets, multi-selections
@@ -12,13 +12,13 @@ CudaText is a cross-platform text editor, written in Lazarus.
 * Command palette
 * Configs in JSON files
 * Interface and syntax themes
-* Based on [[ATSynEdit]] engine
+* Based on the [[ATSynEdit]] engine
 
 Features for HTML/CSS coding:
 
 * Built-in HTML and CSS auto-completion
 * HTML tags completion with Tab-key
-* HTML color codes underlining
+* HTML color code underlining
 * HTML tooltips on mouse-over
 * Viewer for picture files (jpeg, png, gif, bmp, ico)
 
@@ -28,26 +28,26 @@ Screenshot on Windows:
 
 =Advantages over Sublime Text 3=
 
-* Open source, more OS'es
-* Python API is easier to use
-* Python API allows to manage dialogs and UI-controls, including CudaText editor control
+* Open source, more operating systems
+* The Python API is easier to use
+* The Python API allows management of dialogs and UI-controls, including the CudaText editor control
 * Code-Tree for lot of lexers (ST has plugin for very limited set of languages)
 * Floating groups (3 groups of UI-tabs in floating windows)
 * Powerful lexer format, and easier to configure (via dialogs in additional program)
-* Toolbar, configurable via plugin ([[#Toolbar]])
-* Micromap ([[#Micromap]])
+* Toolbar, configurable via plugin ([[#Toolbar|Toolbar]])
+* Micromap ([[#Micromap|Micromap]])
 * Horizontal ruler above text
-* Markers in editor ([[#Markers]])
-* Sessions system ([[#Sessions]]) 
+* Markers in editor ([[#Markers|Markers]])
+* Sessions system ([[#Sessions|Sessions]]) 
 * Caret position after end of line
 * Better support for encodings, including UTF-32
 * Correctly saves binary files
-* Viewer for files of unlimited size, including hex mode ([[#File_viewer]]) 
-* Perfomance ([[#Program_perfomance]])
+* Viewer for files of unlimited size, including hex mode ([[#File_viewer|File viewer]]) 
+* Perfomance ([[#Program_perfomance|Program performance]])
 * Coloring of UI-tab headers
 * Options Editor plugin
-* Can plug-in different Python engine
-* Character Map dialog ([[#Char_map]])
+* Can plug-in a different Python engine
+* Character Map dialog ([[#Char_map|Character Map]])
 
 = Download =
 
