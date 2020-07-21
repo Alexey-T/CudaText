@@ -1708,13 +1708,16 @@ To fix: change IM from e.g."XIM" to "none" in the Language Support settings, the
 ** This plugin has options to copy selection to a) usual clipboard, b) GTK primary selection (CudaText GTK builds only)
 
 === Linux installation ===
-On Linux you can "install" the program, so that "cudatext" is runnable from Terminal.
-If program runs and cannot find "data/lexlib" near executable, it opens folders from "~/.config/cudatext".
-So the "installation" is like this:
+It's not needed in most cases, but on Linux you can "install" the program, so that "cudatext" will be runnable from Terminal.
+When CudaText runs and cannot find "data/lexlib" near executable, it opens folders from "~/.config/cudatext".
+So the "installation" is:
 
+* unpack CudaText archive (.xz) to some temp folder
 * copy file "cudatext" to /usr/bin
-* copy folders "data", "settings_default" to "~/.config/cudatext"
-* folder "~/.config/cudatext/settings" will be created automatically
+* copy folders "py", "data", "settings_default" to "~/.config/cudatext"
+* delete that temp folder
+
+When you run "cudatext" (from /usr/bin), settings folder "~/.config/cudatext/settings" will be created automatically.
 
 === Arch Linux packages ===
 
