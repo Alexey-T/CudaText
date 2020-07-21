@@ -60,7 +60,7 @@ Screenshot on Windows:
 CudaText has configuration system in JSON files: call menu item "Settings-default" and you'll see '''default config'''. Copy any lines to config called by "Settings-user" and edit this '''user config''' - it's actial config file. You can copy JSON comments too. Default config is not read by CudaText, it's only to show possible options.
 
 * '''User config'''. File "settings/user.json". Can be opened via menu item "Options / Settings-user".
-* '''Default config'''. File "settings_default/default.json". Can be opened via menu item "Options / Settings-default". CudaText doesn't read this config, but it's parsed by plugin "Options Editor".
+* '''Default config'''. File "settings_default/default.json". Can be opened via menu item "Options / Settings-default". CudaText doesn't use this file, it's only for user reference. CudaText only opens this file by the command, and this file is parsed by plugin "Options Editor".
 * '''Lexer specific configs'''. Files "settings/lexer NNN.json". It is layer which is read after user config, when user activates some lexer. E.g. if you open C file, config file "lexer C.json" is read. You should not write "ui_" options to lexer specific configs (it may give weird effects on changing lexer), and some other global options.
 ** For (None) lexer, config file is named "lexer -.json".
 ** For lite lexers, config files are named with suffix, e.g. "lexer XML ^.json".
