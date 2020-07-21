@@ -586,6 +586,9 @@
   "ui_scale_font__mac": 100,
 
   //[Ui/Tabs]
+  //UI tabs: global visible flag for ui-tabs
+  "ui_tab_show": true,
+
   //UI tabs: use tab switcher dialog on Ctrl+Tab, Ctrl+Shift+Tab;
   //otherwise switch tab ignoring recently used order
   "ui_tab_switcher_dialog": true,
@@ -633,6 +636,9 @@
   //  3: right
   "ui_tab_position": 0,
 
+  //UI tabs: indent between tab edge and text beginning
+  "ui_tab_padding": 6,
+
   //UI tabs: When to show "x" buttons on tabs
   //  0: don't show
   //  1: show for all tabs
@@ -649,6 +655,9 @@
 
   //UI tabs: Feature "Set tab color" colorizes the entire tab height
   "ui_tab_fullcolor": false,
+
+  //UI tabs: Additional scaling of tab title font
+  "ui_tab_font_scale": 100,
 
   //UI tabs: Double-click closes tab
   "ui_tab_2click_closes": false,
@@ -1117,7 +1126,7 @@
   "links_hilite": true,
 
   //Regular expression, which finds hyperlinks
-  "links_regex": "\\b(mailto:)?\\w[\\w\\-\\.]*@\\w[\\w\\-\\.]*\\.\\w{2,}\\b|\\b(https?://|ftp://|magnet:\\?|www\\.|ftp\\.)\\w[\\w\\-\\.@]*(:\\d+)?(/[\\w\\.\\-\\+\\/%]*)?(\\?[^<>'\"\\s]+)?(\\#[\\w\\-]*)?",
+  "links_regex": "\\b(mailto:)?\\w[\\w\\-\\.]*@\\w[\\w\\-\\.]*\\.\\w{2,}\\b|\\b(https?://|ftp://|magnet:\\?|www\\.|ftp\\.)\\w[\\w\\-\\.@]*(:\\d+)?(/[~\\w\\.\\-\\+\\/%]*)?(\\?[^<>'\"\\s]+)?(\\#[\\w\\-]*)?",
 
   //[File]
   //Maximal file size, allowed to open, in Mb
@@ -1147,18 +1156,18 @@
   //Console panel (Ctrl+`): word-wrap mode
   "ui_console_wrap": true,
 
-  //[Ui/Toolbars]
-  //Show sidebar (vertical bar on the left side)
+  //[Ui/Panels]
+  //Show sidebar (vertical bar with buttons on the left side)
   "ui_sidebar_show": true,
 
-  //Show sidebar on the right side
+  //Place sidebar on the right side
   "ui_sidebar_on_right": false,
 
   //Sidebar icons theme
   //Folders from: sideicons
   "ui_sidebar_theme": "common_20x20",
 
-  //Show toolbar (horizontal bar, below window title)
+  //Show toolbar (horizontal bar with buttons, below window title)
   "ui_toolbar_show": false,
 
   //Toolbar icons theme
@@ -1168,6 +1177,18 @@
   //Show main menu bar
   //Note: this option takes effect only after program restart
   "ui_menu_show": true,
+
+  //Side-panel's visible state on program start
+  //  0: Restore state from history file
+  //  1: Show
+  //  2: Hide, program shows panel if needed
+  "ui_sidepanel_on_start": 0,
+
+  //Bottom-panel's visible state on program start
+  //  0: Restore state from history file
+  //  1: Show
+  //  2: Hide, program shows panel if needed
+  "ui_bottom_on_start": 0,
 
   //[Find/Hotkeys]
   //Hotkeys in Find/Replace dialog
