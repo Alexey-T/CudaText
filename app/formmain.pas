@@ -4988,6 +4988,7 @@ end;
 procedure TfmMain.DoToggleUiTabs;
 begin
   ShowTabsMain:= not ShowTabsMain;
+  DoOps_SaveOptionBool('/ui_tab_show', ShowTabsMain);
 end;
 
 procedure TfmMain.DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string);
