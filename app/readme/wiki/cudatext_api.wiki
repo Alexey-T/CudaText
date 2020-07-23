@@ -4011,7 +4011,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.346 (app 1.107.2)
 * add: dlg_menu: option MENU_EDITORFONT
 
-1.0.347 (app 1.107.3)
-* add: app_proc: PROC_GET_FINDER_PROP/PROC_SET_FINDER_PROP handle new keys: "find_h", "rep_h"
+1.0.347 (app 1.107.6)
+* add: app_proc: PROC_GET_FINDER_PROP/PROC_SET_FINDER_PROP support new keys: "find_h", "rep_h"
 
 [[Category:CudaText]]
