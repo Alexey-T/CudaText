@@ -7,15 +7,19 @@ import webbrowser
 import cudatext as app
 from .work_remote import *
 
-p = sys.platform
+OS = platform.system()
 X64 = platform.architecture()[0]=='64bit'
 
 DOWNLOAD_PAGE = 'https://www.fosshub.com/CudaText.html'
 
-TEXT_CPU = 'x64' if X64 else 'x32'
 REGEX_GROUP_VER = 1
 
-DOWNLOAD_REGEX = ' href="(https://.+?=cudatext-win-'+TEXT_CPU+'-(.+?)\.zip)"'
+FILE_RES = {
+    'Windows': ' href="(https://.+?=cudatext-win-.+-([^\-]+)\.zip)"',
+    'Linux': ' href="(https://.+?=cudatext-linux-.+-([^\-]+)\.tar\.xz)"',
+    'Darwin': ' href="(https://.+?=cudatext-macos-([^\-]+)\.dmg)"',
+    }
+FILE_RE = FILE_RES.get(OS)
 
 
 def versions_ordered(s1, s2):
@@ -29,9 +33,6 @@ def versions_ordered(s1, s2):
 
 def check_cudatext():
 
-    if os.name!='nt':
-        return
-        
     fn = os.path.join(tempfile.gettempdir(), 'cudatext_download.html')
     app.msg_status('Downloading: '+DOWNLOAD_PAGE, True)
     get_url(DOWNLOAD_PAGE, fn, True)
@@ -41,8 +42,8 @@ def check_cudatext():
         app.msg_status('Cannot download: '+DOWNLOAD_PAGE)
         return
 
-    text = open(fn, encoding='utf8').read()
-    items = re.findall(DOWNLOAD_REGEX, text)
+    text = open(fn, encoding='utf8', errors='replace').read()
+    items = re.findall(FILE_RE, text)
     if not items:
         app.msg_status('Cannot find download links')
         return

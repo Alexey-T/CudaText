@@ -875,8 +875,8 @@ def app_api_version():
 def app_path(id):
     return ct.app_path(id)
 
-def app_proc(id, text):
-    return ct.app_proc(id, to_str(text))
+def app_proc(id, val):
+    return ct.app_proc(id, to_str(val))
 
 def app_log(id, text, tag=0, panel=''):
     return ct.app_log(id, text, tag, panel)
@@ -1069,23 +1069,24 @@ def to_str(v, escape=False):
     if isinstance(v, bool):
         return ('1' if v else '0')
 
-    if isinstance(v, list) or isinstance(v, tuple):
-        return ','.join(map(to_str, v))
+    if isinstance(v, (list, tuple)):
+        l = [to_str(i, escape) for i in v]
+        return ','.join(l)
 
-    if isinstance(v, dict):
+    def _o(k):
         #props must go first: *min* *max* p
         #props must go last: val
-        def _order(k):
-            if k in ('p', 'w_min', 'w_max', 'h_min', 'h_max'):
-                return 0
-            if k in ('val', 'columns'):
-                return 2
-            return 1
+        if k in ('p', 'w_min', 'w_max', 'h_min', 'h_max'):
+            return 0
+        if k in ('val', 'columns'):
+            return 2
+        return 1
 
+    if isinstance(v, dict):
         res = chr(1).join(
-            [_pair(k, vv) for k,vv in v.items() if _order(k)==0 ] +
-            [_pair(k, vv) for k,vv in v.items() if _order(k)==1 ] +
-            [_pair(k, vv) for k,vv in v.items() if _order(k)==2 ]
+            [_pair(k, vv) for k,vv in v.items() if _o(k)==0 ] +
+            [_pair(k, vv) for k,vv in v.items() if _o(k)==1 ] +
+            [_pair(k, vv) for k,vv in v.items() if _o(k)==2 ]
             )
         return '{'+res+'}'
 
