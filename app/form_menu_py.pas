@@ -76,21 +76,22 @@ implementation
 { TfmMenuApi }
 
 procedure TfmMenuApi.FormShow(Sender: TObject);
+var
+  N: integer;
 begin
   UpdateFormOnTop(Self);
   FixFormPositionToDesktop(Self);
 
   if FMultiline then
-    list.ItemHeightPercents:= 185
+    N:= 185
   else
-    list.ItemHeightPercents:= 100;
+    N:= 100;
 
   if UseEditorFont then
-  begin
     //don't set list.ItemHeight, it don't work for multiline mode
-    list.ItemHeightPercents:= list.ItemHeightPercents *
-      EditorOps.OpFontSize div UiOps.VarFontSize;
-  end;
+    N:= Abs(N * EditorOps.OpFontSize div UiOps.VarFontSize);
+
+  list.ItemHeightPercents:= N;
 
   DoFilter;
 
