@@ -41,6 +41,7 @@ Screenshot on Windows:
 * Sessions system ([[#Sessions|Sessions]]) 
 * Caret position after end of line
 * Better support for encodings, including UTF-32
+* Better support national keyboards on Linux
 * Correctly saves binary files
 * Viewer for files of unlimited size, including hex mode ([[#File_viewer|File viewer]]) 
 * Perfomance ([[#Program_perfomance|Program performance]])
@@ -48,6 +49,7 @@ Screenshot on Windows:
 * Options Editor plugin
 * Can plug-in a different Python engine
 * Character Map dialog ([[#Char_map|Character Map]])
+* Single-instance mode is supported on all OS'es
 
 = Download =
 
