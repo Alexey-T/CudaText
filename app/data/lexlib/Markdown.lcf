@@ -578,8 +578,18 @@ object SyntAnal13: TLibSyntAnalyzer
       StartExpression = '(?s)<style\b.*?>'
       EndExpression = '</style>'
       SyntAnalyzer = SyntAnal6
+    end
+    item
+      DisplayName = 'YAML front matter'
+      StartExpression = '\A---$'
+      EndExpression = '^---$'
+      SyntAnalyzer = SyntAnal22
     end>
   SampleText.Strings = (
+    '---'
+    'layout: post'
+    'title: Some text'
+    '---'
     '[![Test](link here)](link here)'
     ''
     '# Header'
