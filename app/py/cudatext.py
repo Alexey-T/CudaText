@@ -876,7 +876,8 @@ def app_path(id):
     return ct.app_path(id)
 
 def app_proc(id, text):
-    return ct.app_proc(id, to_str(text))
+    esc = id==PROC_SET_FINDER_PROP
+    return ct.app_proc(id, to_str(text, escape=esc))
 
 def app_log(id, text, tag=0, panel=''):
     return ct.app_log(id, text, tag, panel)

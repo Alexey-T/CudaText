@@ -959,6 +959,34 @@ begin
           end;
         end;
 
+      'find_h':
+        begin
+          if Assigned(fmFind) then
+          begin
+            fmFind.edFind.Items.Clear;
+            Sep.Init(SValue);
+            while Sep.GetItemStr(SItem) do
+            begin
+              SItem:= StringReplace(SItem, #2, ',', [rfReplaceAll]);
+              fmFind.edFind.Items.Add(SItem);
+            end;
+          end;
+        end;
+
+      'rep_h':
+        begin
+          if Assigned(fmFind) then
+          begin
+            fmFind.edRep.Items.Clear;
+            Sep.Init(SValue);
+            while Sep.GetItemStr(SItem) do
+            begin
+              SItem:= StringReplace(SItem, #2, ',', [rfReplaceAll]);
+              fmFind.edRep.Items.Add(SItem);
+            end;
+          end;
+        end;
+
       'op_case':
         FFinder.OptCase:= AppStrToBool(SValue);
       'op_back':
