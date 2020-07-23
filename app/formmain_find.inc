@@ -852,6 +852,7 @@ end;
 function TfmMain.DoFindOptions_GetDict: PPyObject;
 var
   oFind, oRep,
+  oFindHist, oRepHist,
   bCase, bWord, bRegex, bCfm,
   bInSel, bWrap, bMulLine, oTokens: PPyObject;
 begin
@@ -862,6 +863,8 @@ begin
 
     oFind:= ReturnNone;
     oRep:= ReturnNone;
+    oFindHist:= ReturnNone;
+    oRepHist:= ReturnNone;
     bCase:= ReturnNone;
     bWord:= ReturnNone;
     bRegex:= ReturnNone;
@@ -875,6 +878,8 @@ begin
     begin
       oFind:= PyUnicode_FromWideString(fmFind.edFind.Text);
       oRep:= PyUnicode_FromWideString(fmFind.edRep.Text);
+      oFindHist:= StringsToPyList(fmFind.edFind.Items);
+      oRepHist:= StringsToPyList(fmFind.edRep.Items);
       bCase:= PyBool_FromLong(Ord(fmFind.chkCase.Checked));
       bWord:= PyBool_FromLong(Ord(fmFind.chkWords.Checked));
       bRegex:= PyBool_FromLong(Ord(fmFind.chkRegex.Checked));
@@ -885,12 +890,14 @@ begin
       oTokens:= PyInt_FromLong(Ord(fmFind.bTokens.ItemIndex));
     end;
 
-    Result:= Py_BuildValue('{sOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsO}',
+    Result:= Py_BuildValue('{sOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsO}',
       'find', PyUnicode_FromWideString(FFinder.StrFind),
       'rep', PyUnicode_FromWideString(FFinder.StrReplace),
 
       'find_d', oFind,
       'rep_d', oRep,
+      'find_h', oFindHist,
+      'rep_h', oRepHist,
 
       'op_case', PyBool_FromLong(Ord(FFinder.OptCase)),
       'op_back', PyBool_FromLong(Ord(FFinder.OptBack)),
