@@ -17,6 +17,11 @@ REGEX_GROUP_VER = 1
 FILE_RES = {
     'Windows': ' href="(https://.+?=cudatext-win-.+-([^\-]+)\.zip)"',
     'Linux': ' href="(https://.+?=cudatext-linux-.+-([^\-]+)\.tar\.xz)"',
+    'FreeBSD': ' href="(https://.+?=cudatext-freebsd-.+-([^\-]+)\.tar\.xz)"',
+    'OpenBSD': ' href="(https://.+?=cudatext-openbsd-.+-([^\-]+)\.tar\.xz)"',
+    'NetBSD': ' href="(https://.+?=cudatext-netbsd-.+-([^\-]+)\.tar\.xz)"',
+    'DragonFlyBSD': ' href="(https://.+?=cudatext-dragonflybsd-.+-([^\-]+)\.tar\.xz)"',
+    'Solaris': ' href="(https://.+?=cudatext-solaris-.+-([^\-]+)\.tar\.xz)"',
     'Darwin': ' href="(https://.+?=cudatext-macos-([^\-]+)\.dmg)"',
     }
 FILE_RE = FILE_RES.get(OS)
