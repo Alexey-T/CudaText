@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.107.6
+
++ add: lexer YAML is preinstalled
+
 1.107.5 (2020/07)
 
 + add: option "ui_tab_show"
