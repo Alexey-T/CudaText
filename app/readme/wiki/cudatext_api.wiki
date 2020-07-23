@@ -200,10 +200,10 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 * PROC_GET_FINDER_PROP: Returns properties of Find/Replace dialog and search engine. Returns dict with keys:
 ** "find": string "what to find" of search engine
 ** "rep": string "replace with" of search engine
-** "find_d": string "what to find" of dialog, None if dialog not inited
-** "rep_d": string "replace with" of dialog, None if dialog not inited
-** "find_h": drop-down history list of "what to find" field, None if dialog not inited
-** "rep_h": drop-down history list of "replace with" field, None if dialog not inited
+** "find_d": string "what to find" of dialog field, None if dialog not inited
+** "rep_d": string "replace with" of dialog field, None if dialog not inited
+** "find_h": drop-down history list of "what to find" dialog field, None if dialog not inited
+** "rep_h": drop-down history list of "replace with" dialog field, None if dialog not inited
 ** "op_case": option "case sensitive" of search engine
 ** "op_word": option "whole words" of search engine
 ** "op_regex": option "reg.ex." of search engine
