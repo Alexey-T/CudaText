@@ -31,7 +31,7 @@ def dialog_config(op):
     RES_CHECK_GIT = 9
     RES_ICONS = 11
     RES_ICONS_TB = 13
-    RES_OK = 15
+    RES_OK = 16
 
     themes = get_themes_filetype()
     try:

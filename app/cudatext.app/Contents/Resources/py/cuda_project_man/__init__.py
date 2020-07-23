@@ -676,7 +676,7 @@ class Command:
 
         from .projman_dlg import dialog_config
         if dialog_config(self.options):
-            #print('ProjectManager: saving options')
+            print('ProjectManager: saving options')
             self.save_options()
 
             if self.h_dlg:
