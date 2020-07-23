@@ -86,7 +86,11 @@ begin
     list.ItemHeightPercents:= 100;
 
   if UseEditorFont then
-    list.ItemHeight:= AppScale(EditorOps.OpFontSize)*18 div 10;
+  begin
+    //don't set list.ItemHeight, it don't work for multiline mode
+    list.ItemHeightPercents:= list.ItemHeightPercents *
+      EditorOps.OpFontSize div UiOps.VarFontSize;
+  end;
 
   DoFilter;
 
