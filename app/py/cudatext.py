@@ -1073,20 +1073,20 @@ def to_str(v, escape=False):
         l = [to_str(i, escape) for i in v]
         return ','.join(l)
 
-    if isinstance(v, dict):
+    def _o(k):
         #props must go first: *min* *max* p
         #props must go last: val
-        def _order(k):
-            if k in ('p', 'w_min', 'w_max', 'h_min', 'h_max'):
-                return 0
-            if k in ('val', 'columns'):
-                return 2
-            return 1
+        if k in ('p', 'w_min', 'w_max', 'h_min', 'h_max'):
+            return 0
+        if k in ('val', 'columns'):
+            return 2
+        return 1
 
+    if isinstance(v, dict):
         res = chr(1).join(
-            [_pair(k, vv) for k,vv in v.items() if _order(k)==0 ] +
-            [_pair(k, vv) for k,vv in v.items() if _order(k)==1 ] +
-            [_pair(k, vv) for k,vv in v.items() if _order(k)==2 ]
+            [_pair(k, vv) for k,vv in v.items() if _o(k)==0 ] +
+            [_pair(k, vv) for k,vv in v.items() if _o(k)==1 ] +
+            [_pair(k, vv) for k,vv in v.items() if _o(k)==2 ]
             )
         return '{'+res+'}'
 
