@@ -875,9 +875,8 @@ def app_api_version():
 def app_path(id):
     return ct.app_path(id)
 
-def app_proc(id, text):
-    esc = id==PROC_SET_FINDER_PROP
-    return ct.app_proc(id, to_str(text, escape=esc))
+def app_proc(id, val):
+    return ct.app_proc(id, to_str(val))
 
 def app_log(id, text, tag=0, panel=''):
     return ct.app_log(id, text, tag, panel)
@@ -1070,8 +1069,9 @@ def to_str(v, escape=False):
     if isinstance(v, bool):
         return ('1' if v else '0')
 
-    if isinstance(v, list) or isinstance(v, tuple):
-        return ','.join(map(to_str, v))
+    if isinstance(v, (list, tuple)):
+        l = [to_str(i, escape) for i in v]
+        return ','.join(l)
 
     if isinstance(v, dict):
         #props must go first: *min* *max* p

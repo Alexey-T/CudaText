@@ -926,13 +926,17 @@ procedure TfmMain.DoFindOptions_ApplyDict(const AText: string);
 var
   Sep: TATStringSeparator;
   SItem, SKey, SValue: string;
+  bListValue: boolean;
 begin
   //text is '{key1:value1;key2:value2}' from to_str()
   Sep.Init(SDeleteCurlyBrackets(AText), #1);
   repeat
     if not Sep.GetItemStr(SItem) then Break;
     SSplitByChar(SItem, ':', SKey, SValue);
-    SValue:= StringReplace(SValue, #2, ',', [rfReplaceAll]);
+
+    bListValue:= (SKey='find_h') or (SKey='rep_h');
+    if not bListValue then
+      SValue:= StringReplace(SValue, #2, ',', [rfReplaceAll]);
 
     case SKey of
       'find':
@@ -949,6 +953,7 @@ begin
             fmFind.DoOnChange;
           end;
         end;
+
       'rep_d':
         begin
           if Assigned(fmFind) then
