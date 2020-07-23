@@ -85,7 +85,6 @@ procedure TfmMain.DoOnTabAdd(Sender: TObject);
 var
   Pages: TATPages;
   Data: TATTabData;
-  Frame: TEditorFrame;
 begin
   Pages:= (Sender as TATTabs).Parent as TATPages;
   Data:= CreateTab(Pages, '');

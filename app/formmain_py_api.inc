@@ -8184,7 +8184,7 @@ end;
 
 
 type
-  TFormHack = class(TForm);
+  TFormHack = class(TFormDummy);
 
 //dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name='')
 function Py_dlg_proc(Self, Args: PPyObject): PPyObject; cdecl;

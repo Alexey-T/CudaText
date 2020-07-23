@@ -925,7 +925,6 @@ var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
   Ada: TATAdapterEControl;
-  NRanges: integer;
 begin
   if AConsiderTreeVisible then
     if not AppPanels[cPaneSide].Visible then exit;
@@ -948,8 +947,8 @@ begin
     exit;
   end;
 
-  NRanges:= Ada.AnClient.RangeCount;
   {
+  NRanges:= Ada.AnClient.RangeCount;
   if (NRanges>UiOps.MaxRangesForCodeTree) then
   begin
     ClearTreeviewWithData(CodeTree.Tree);
