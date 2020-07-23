@@ -2094,9 +2094,6 @@ begin
   mnuApple.Add(mnuApple_About);
   mnuHelpAbout.Visible:= false;
 
-  //"Check for Updates" sopported only on Windows/Linux
-  mnuHelpCheckUpd.Visible:= false;
-
   //macOS adds "Quit" item in Apple menu, "Exit" not needed
   mnuFileExit.Visible:= false;
 end;
@@ -2108,7 +2105,12 @@ var
 begin
   OnEnter:= @FormEnter;
 
-  mnuHelpCheckUpd.Enabled:= {$if defined(windows) or defined(linux)}true{$else}false{$endif};
+  mnuHelpCheckUpd.Enabled:=
+    {$if defined(windows) or defined(linux) or defined(darwin)}
+    true
+    {$else}
+    false
+    {$endif};
 
   with AppPanels[cPaneSide] do
   begin

@@ -7,18 +7,21 @@ import webbrowser
 import cudatext as app
 from .work_remote import *
 
-p = sys.platform
+OS = platform.system()
 X64 = platform.architecture()[0]=='64bit'
 
 DOWNLOAD_PAGE = 'https://www.fosshub.com/CudaText.html'
 
-TEXT_CPU = 'x64' if X64 else 'x32'
 REGEX_GROUP_VER = 1
 
-if os.name=='nt':
-    DOWNLOAD_REGEX = ' href="(https://.+?=cudatext-win-'+TEXT_CPU+'-(.+?)\.zip)"'
-else:
+if OS=='Windows':
+    DOWNLOAD_REGEX = ' href="(https://.+?=cudatext-win-.+-([^\-]+)\.zip)"'
+elif OS=='Linux':
     DOWNLOAD_REGEX = ' href="(https://.+?=cudatext-linux-.+-([^\-]+)\.tar\.xz)"'
+elif OS=='Darwin':
+    DOWNLOAD_REGEX = ' href="(https://.+?=cudatext-macos-([^\-]+)\.dmg)"'
+else:
+    DOWNLOAD_REGEX = ''
 
 
 def versions_ordered(s1, s2):
