@@ -15,7 +15,10 @@ DOWNLOAD_PAGE = 'https://www.fosshub.com/CudaText.html'
 TEXT_CPU = 'x64' if X64 else 'x32'
 REGEX_GROUP_VER = 1
 
-DOWNLOAD_REGEX = ' href="(https://.+?=cudatext-win-'+TEXT_CPU+'-(.+?)\.zip)"'
+if os.name=='nt':
+    DOWNLOAD_REGEX = ' href="(https://.+?=cudatext-win-'+TEXT_CPU+'-(.+?)\.zip)"'
+else:
+    DOWNLOAD_REGEX = ' href="(https://.+?=cudatext-linux-.+-([^\-]+)\.tar\.xz)"'
 
 
 def versions_ordered(s1, s2):
@@ -29,9 +32,6 @@ def versions_ordered(s1, s2):
 
 def check_cudatext():
 
-    if os.name!='nt':
-        return
-        
     fn = os.path.join(tempfile.gettempdir(), 'cudatext_download.html')
     app.msg_status('Downloading: '+DOWNLOAD_PAGE, True)
     get_url(DOWNLOAD_PAGE, fn, True)
@@ -41,7 +41,7 @@ def check_cudatext():
         app.msg_status('Cannot download: '+DOWNLOAD_PAGE)
         return
 
-    text = open(fn, encoding='utf8').read()
+    text = open(fn, encoding='utf8', errors='replace').read()
     items = re.findall(DOWNLOAD_REGEX, text)
     if not items:
         app.msg_status('Cannot find download links')
