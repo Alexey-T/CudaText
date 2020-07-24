@@ -306,6 +306,7 @@ var
   Pages: TATPages;
   bModified: boolean;
   sText: UnicodeString;
+  bExist, bExist2: boolean;
   sDateSaved, sDateCurrent: string;
   Params: TAppVariantArray;
   nTick: QWord;
@@ -315,7 +316,7 @@ const
 begin
   Result:= false;
   if AFileName='' then exit;
-  if not FileExists(AFileName) then exit;
+  if not FileExistsUTF8(AFileName) then exit;
 
   nCountFilesBefore:= FrameCount;
   if nCountFilesBefore=1 then
@@ -356,16 +357,18 @@ begin
       sFilename:= cfg.GetValue(item_path+'file', '');
       sFilename:= SExpandHomeDirInFilename(sFilename);
 
-      if (sFilename<>'') and not FileExists(sFilename) then
+      bExist:= (sFilename<>'') and FileExistsUTF8(sFilename);
+      bExist2:= (sFilename2<>'') and FileExistsUTF8(sFilename2);
+
+      if (sFilename<>'') and not bExist then
       begin
         MsgLogConsole(Format(msgCannotFindSessionFile, [sFilename]));
-        Continue;
       end;
 
       sFilename2:= cfg.GetValue(item_path2+'file', '');
       sFilename2:= SExpandHomeDirInFilename(sFilename2);
 
-      if (sFilename2<>'') and not FileExists(sFilename2) then
+      if (sFilename2<>'') and not bExist2 then
       begin
         MsgLogConsole(Format(msgCannotFindSessionFile, [sFilename2]));
         sFilename2:= '';
@@ -381,7 +384,7 @@ begin
       nIndex:= cfg.GetValue(item_path+'group', 1)-1;
 
       //check, if text saved in session, but file was changed outside
-      if bModified and (sFilename<>'') then
+      if bModified and bExist then
       begin
         sDateSaved:= cfg.GetValue(item_path+'file_date', '');
         sDateCurrent:= FormatFileDateAsNiceString(sFilename);
@@ -427,7 +430,7 @@ begin
       end
       else
       //unmodified+named tabs must load file again
-      if FileExistsUTF8(sFilename) then
+      if bExist then
       begin
         Inc(nCountFiles);
         if sFilename2<>'' then
