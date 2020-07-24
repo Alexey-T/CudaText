@@ -46,6 +46,7 @@ const
   msgPluginIgnored = 'NOTE: plugin %s ignored, remove it';
   msgCannotFindLexers = 'NOTE: Cannot find lexers: %s';
   msgCannotFindData = 'NOTE: Cannot find data: %s';
+  msgCannotFindSessionFile = 'NOTE: File from session not found: %s';
 
   msgTitle = 'CudaText'; //no i18n
   msgModified: array[boolean] of string = ('', '*'); //no i18n

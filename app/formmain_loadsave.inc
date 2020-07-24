@@ -356,10 +356,20 @@ begin
       sFilename:= cfg.GetValue(item_path+'file', '');
       sFilename:= SExpandHomeDirInFilename(sFilename);
 
+      if (sFilename<>'') and not FileExists(sFilename) then
+      begin
+        MsgLogConsole(Format(msgCannotFindSessionFile, [sFilename]));
+        Continue;
+      end;
+
       sFilename2:= cfg.GetValue(item_path2+'file', '');
       sFilename2:= SExpandHomeDirInFilename(sFilename2);
-      if not FileExistsUTF8(sFilename2) then
+
+      if (sFilename2<>'') and not FileExists(sFilename2) then
+      begin
+        MsgLogConsole(Format(msgCannotFindSessionFile, [sFilename2]));
         sFilename2:= '';
+      end;
 
       sText:= cfg.GetValue(item_path+'text', '');
       sKind:= cfg.GetValue(item_path+'kind', '');
@@ -371,7 +381,7 @@ begin
       nIndex:= cfg.GetValue(item_path+'group', 1)-1;
 
       //check, if text saved in session, but file was changed outside
-      if bModified and (sFilename<>'') and FileExistsUTF8(sFileName) then
+      if bModified and (sFilename<>'') then
       begin
         sDateSaved:= cfg.GetValue(item_path+'file_date', '');
         sDateCurrent:= FormatFileDateAsNiceString(sFilename);
