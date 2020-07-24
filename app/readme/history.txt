@@ -3,11 +3,13 @@
   - fixed
   * changed
 
-1.107.6
+1.108.0
 
 + add: lexer YAML is preinstalled
 + add: lexer Markdown: support YAML frontmatter
 + add: command "Check for updates" is supported on Linux/macOS
++ add: on loading session with missing files, show 'NOTE: File from session not found' errors in console
++ add: show number over Console sidebar button for 'NOTE:' lines too
 - fix: Project Manager options dialog could not save options
 
 1.107.5 (2020/07)
