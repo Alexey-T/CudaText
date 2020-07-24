@@ -309,6 +309,7 @@ var
   bExist, bExist2: boolean;
   sDateSaved, sDateCurrent: string;
   Params: TAppVariantArray;
+  CurTabs: TATTabs;
   nTick: QWord;
 const
   SOptionPassive = '/passive /nonear';
@@ -456,10 +457,10 @@ begin
     //restore tab-index in all groups
     for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
     begin
+      CurTabs:= Groups.Pages[i].Tabs;
       nIndex:= cfg.GetValue('/tab_index/g'+IntToStr(i), -1);
-      if (nIndex<0) or (nIndex>=Groups.Pages[i].Tabs.TabCount) then
-        nIndex:= 0;
-      with Groups.Pages[i].Tabs do
+      nIndex:= Max(0, Min(nIndex, CurTabs.TabCount-1));
+      with CurTabs do
         if TabIndex<>nIndex then
           TabIndex:= nIndex
         else
