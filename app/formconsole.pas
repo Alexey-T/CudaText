@@ -86,6 +86,7 @@ const
   cConsolePrintPrefix = '=';
   cConsoleTracebackMsg = 'Traceback (most recent call last):';
   cConsoleSyntaxErrorMsg = 'SyntaxError: ';
+  cConsoleNoteMsg = 'NOTE: ';
 
 implementation
 
@@ -103,7 +104,7 @@ begin
   Str:= Ed.Strings.Lines[ALineIndex];
 
   bMsgPrompt:= SBeginsWith(Str, cConsolePrompt);
-  bMsgNote:= SBeginsWith(Str, 'NOTE: ');
+  bMsgNote:= SBeginsWith(Str, cConsoleNoteMsg);
   bMsgError:= (Str=cConsoleTracebackMsg) or
     SRegexMatchesString(Str, '^[a-zA-Z][\w\.]*Error: .+', true);
 
@@ -154,7 +155,8 @@ begin
     ModeReadOnly:= true;
 
     if (AText=cConsoleTracebackMsg) or
-      SBeginsWith(AText, cConsoleSyntaxErrorMsg) then
+      SBeginsWith(AText, cConsoleSyntaxErrorMsg) or
+      SBeginsWith(AText, cConsoleNoteMsg) then
     begin
       Inc(ErrorCounter);
       if Assigned(FOnNumberChange) then
