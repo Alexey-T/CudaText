@@ -221,6 +221,7 @@ begin
     begin
       Inc(nCountFiles);
       Frame:= Frames[i];
+      if Frame.IsEmpty then Continue;
       path:= '/'+Format('%3.3d', [i]);
 
       GetFrameLocation(Frame, Gr, Pages, nLocalGroup, nGlobalGroup, nTab);
