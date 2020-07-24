@@ -10,19 +10,19 @@ from .work_remote import *
 OS = platform.system()
 X64 = platform.architecture()[0]=='64bit'
 WIN_CPU = 'x64' if X64 else 'x32'
+UNIX_CPU = 'amd64' if X64 else 'i386'
 
 DOWNLOAD_PAGE = 'https://www.fosshub.com/CudaText.html'
-
 REGEX_GROUP_VER = 1
 
 FILE_RES = {
-    'Windows': ' href="(https://.+?=cudatext-win-'+WIN_CPU+'-(.+?)\.zip)"',
-    'Linux': ' href="(https://.+?=cudatext-linux-.+-([^\-]+)\.tar\.xz)"',
-    'FreeBSD': ' href="(https://.+?=cudatext-freebsd-.+-([^\-]+)\.tar\.xz)"',
-    'OpenBSD': ' href="(https://.+?=cudatext-openbsd-.+-([^\-]+)\.tar\.xz)"',
-    'NetBSD': ' href="(https://.+?=cudatext-netbsd-.+-([^\-]+)\.tar\.xz)"',
-    'DragonFlyBSD': ' href="(https://.+?=cudatext-dragonflybsd-.+-([^\-]+)\.tar\.xz)"',
-    'Solaris': ' href="(https://.+?=cudatext-solaris-.+-([^\-]+)\.tar\.xz)"',
+    'Windows': ' href="(https://.+?=cudatext-win-'+WIN_CPU+'-([^\-]+)\.zip)"',
+    'Linux': ' href="(https://.+?=cudatext-linux-.+-'+UNIX_CPU+'-([^\-]+)\.tar\.xz)"',
+    'FreeBSD': ' href="(https://.+?=cudatext-freebsd-.+-'+UNIX_CPU+'-([^\-]+)\.tar\.xz)"',
+    'OpenBSD': ' href="(https://.+?=cudatext-openbsd-.+-'+UNIX_CPU+'-([^\-]+)\.tar\.xz)"',
+    'NetBSD': ' href="(https://.+?=cudatext-netbsd-.+-'+UNIX_CPU+'-([^\-]+)\.tar\.xz)"',
+    'DragonFlyBSD': ' href="(https://.+?=cudatext-dragonflybsd-.+-'+UNIX_CPU+'-([^\-]+)\.tar\.xz)"',
+    'Solaris': ' href="(https://.+?=cudatext-solaris-.+-'+UNIX_CPU+'-([^\-]+)\.tar\.xz)"',
     'Darwin': ' href="(https://.+?=cudatext-macos-([^\-]+)\.dmg)"',
     }
 FILE_RE = FILE_RES.get(OS)
