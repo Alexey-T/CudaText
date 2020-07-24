@@ -24,6 +24,7 @@ begin
     SParam:= ParamStr(i);
     if not SBeginsWith(SParam, '-') then
     begin
+      AAllowSession:= false; //block loading last session if any filenames present
       Inc(AFileFolderCount);
       Continue;
     end;
