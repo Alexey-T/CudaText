@@ -3,6 +3,7 @@ styles_cmt=Comment
 styles_str=String
 str1=
 str2=
+
 [map]
 Comment=Comment
 Comment shebang=Comment2
@@ -18,3 +19,5 @@ Command std=Id1
 Command param=Id2
 Func name=Id4
 Symbol2=Symbol2
+Var %=Id3
+Math BG=SectionBG3
