@@ -936,17 +936,7 @@
       <Version Value="2"/>
     </PublishOptions>
     <RunParams>
-      <local>
-        <Display Use="True"/>
-      </local>
       <FormatVersion Value="2"/>
-      <Modes Count="1">
-        <Mode0 Name="default">
-          <local>
-            <Display Use="True"/>
-          </local>
-        </Mode0>
-      </Modes>
     </RunParams>
     <RequiredPackages Count="11">
       <Item1>
