@@ -16,13 +16,13 @@ DOWNLOAD_PAGE = 'https://www.fosshub.com/CudaText.html'
 REGEX_GROUP_VER = 1
 
 FILE_RES = {
-    'Windows':      ' href="(https://.+?=cudatext-win-'            +WIN_CPU+ '-([^\-]+)\.zip)"',
-    'Linux':        ' href="(https://.+?=cudatext-linux-.+-'       +UNIX_CPU+'-([^\-]+)\.tar\.xz)"',
-    'FreeBSD':      ' href="(https://.+?=cudatext-freebsd-.+-'     +UNIX_CPU+'-([^\-]+)\.tar\.xz)"',
-    'OpenBSD':      ' href="(https://.+?=cudatext-openbsd-.+-'     +UNIX_CPU+'-([^\-]+)\.tar\.xz)"',
-    'NetBSD':       ' href="(https://.+?=cudatext-netbsd-.+-'      +UNIX_CPU+'-([^\-]+)\.tar\.xz)"',
-    'DragonFlyBSD': ' href="(https://.+?=cudatext-dragonflybsd-.+-'+UNIX_CPU+'-([^\-]+)\.tar\.xz)"',
-    'Solaris':      ' href="(https://.+?=cudatext-solaris-.+-'     +UNIX_CPU+'-([^\-]+)\.tar\.xz)"',
+    'Windows':      ' href="(https://.+?=cudatext-win-'              +WIN_CPU+ '-([^\-]+)\.zip)"',
+    'Linux':        ' href="(https://.+?=cudatext-linux-gtk2-'       +UNIX_CPU+'-([^\-]+)\.tar\.xz)"',
+    'FreeBSD':      ' href="(https://.+?=cudatext-freebsd-gtk2-'     +UNIX_CPU+'-([^\-]+)\.tar\.xz)"',
+    'OpenBSD':      ' href="(https://.+?=cudatext-openbsd-gtk2-'     +UNIX_CPU+'-([^\-]+)\.tar\.xz)"',
+    'NetBSD':       ' href="(https://.+?=cudatext-netbsd-gtk2-'      +UNIX_CPU+'-([^\-]+)\.tar\.xz)"',
+    'DragonFlyBSD': ' href="(https://.+?=cudatext-dragonflybsd-gtk2-'+UNIX_CPU+'-([^\-]+)\.tar\.xz)"',
+    'Solaris':      ' href="(https://.+?=cudatext-solaris-gtk2-'     +UNIX_CPU+'-([^\-]+)\.tar\.xz)"',
     'Darwin':       ' href="(https://.+?=cudatext-macos-([^\-]+)\.dmg)"',
     }
 FILE_RE = FILE_RES.get(OS)
