@@ -287,7 +287,6 @@ object SyntAnal2: TLibSyntAnalyzer
       StyleName = 'Symbol'
       BlockName = '(('
       NotParent = True
-      StatesAdd = 8
       TokenType = 4
       Expression = '<<\-?'
       ColumnFrom = 0
@@ -332,7 +331,7 @@ object SyntAnal2: TLibSyntAnalyzer
       BlockName = '(('
       NotParent = True
       TokenType = 13
-      Expression = '(?<=<<\-?\x20*['#39'"]?)\w+'
+      Expression = '(?<=<<\-?\x20*) ('#39'\w+'#39'|"\w+"|\w+)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -347,7 +346,6 @@ object SyntAnal2: TLibSyntAnalyzer
     item
       DisplayName = 'String'
       StyleName = 'String'
-      StatesAbsent = 8
       TokenType = 5
       Expression = '(?s)\$?("|'#39') (\\\\|\\\1|.)*? (\1|\Z)'
       ColumnFrom = 0
@@ -821,6 +819,7 @@ object SyntAnal2: TLibSyntAnalyzer
     end
     item
       DisplayName = '${'
+      StyleName = 'Var block BG'
       ConditionList = <
         item
           TagList.Strings = (
@@ -830,6 +829,7 @@ object SyntAnal2: TLibSyntAnalyzer
       BlockEnd = '}'
       NotCollapsed = True
       DisplayInTree = False
+      DynHighlight = dhRange
       HighlightPos = cpAny
       IgnoreAsParent = False
     end
@@ -959,7 +959,6 @@ object SyntAnal2: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Heredoc end'
-      StatesRemove = 8
       BlockType = btRangeEnd
       ConditionList = <
         item
@@ -1028,8 +1027,7 @@ object SyntAnal2: TLibSyntAnalyzer
     '    indented_without_expansions'
     ''
     'variable=$(cat <<SETVAR'
-    'This variable'
-    'runs over multiple lines.'
+    'HereDoc'
     'SETVAR'
     ')')
   TokenTypeNames.Strings = (
