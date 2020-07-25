@@ -133,6 +133,24 @@ object SyntAnal2: TLibSyntAnalyzer
       Font.Style = []
       BgColor = clYellow
       FormatType = ftBackGround
+    end
+    item
+      DisplayName = 'Heredoc BG'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = 9495763
+      FormatType = ftBackGround
+    end
+    item
+      DisplayName = 'Heredoc begin'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
     end>
   TokenRules = <
     item
@@ -239,6 +257,15 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Heredoc <<'
+      StyleName = 'Symbol'
+      StatesAdd = 8
+      TokenType = 4
+      Expression = '<<\-?\x20*?'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Symbol single'
       StyleName = 'Symbol'
       TokenType = 4
@@ -263,8 +290,25 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Heredoc begin'
+      StyleName = 'Heredoc begin'
+      TokenType = 13
+      Expression = '(?<=<<\-?\x20*['#39'"]?)\w+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Heredoc end'
+      StyleName = 'Command'
+      TokenType = 12
+      Expression = '(?<=^[\x20\x09]*)[a-z_]\w*$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'String'
       StyleName = 'String'
+      StatesAbsent = 8
       TokenType = 5
       Expression = '(?s)\$?("|'#39') (\\\\|\\\1|.)*? (\1|\Z)'
       ColumnFrom = 0
@@ -834,6 +878,33 @@ object SyntAnal2: TLibSyntAnalyzer
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Heredoc begin'
+      StyleName = 'Heredoc BG'
+      ConditionList = <
+        item
+          TokenTypes = 8192
+        end>
+      BlockEnd = 'Heredoc end'
+      NotCollapsed = True
+      DisplayInTree = False
+      RefToCondEnd = True
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Heredoc end'
+      StatesRemove = 8
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TokenTypes = 4096
+        end>
+      SameIdent = True
+      HighlightPos = cpAny
+      IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <>
@@ -861,7 +932,17 @@ object SyntAnal2: TLibSyntAnalyzer
     '  if [[ "$len" -lt "$MINLEN" && "$line" =~ \[*\.\] ]]'
     '    then echo'
     '  fi'
-    'done')
+    'done'
+    ''
+    'cat <<-  '#39'indented_without_expansions'#39
+    '    ${foo}'
+    '    indented_without_expansions'
+    ''
+    'variable=$(cat <<SETVAR'
+    'This variable'
+    'runs over multiple lines.'
+    'SETVAR'
+    ')')
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
@@ -874,7 +955,10 @@ object SyntAnal2: TLibSyntAnalyzer
     '(('
     '))'
     '[['
-    ']]')
+    ']]'
+    'Heredoc end'
+    'Heredoc begin'
+    '$')
   Extentions = 
     'sh bash zsh fish csh command /.bashrc /.zshrc /.bash_aliases /.b' +
     'ash_completions /.bash_functions /.bash_login /.bash_logout /.ba' +
