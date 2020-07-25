@@ -151,6 +151,14 @@ object SyntAnal2: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'String regexp'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clLime
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -216,6 +224,8 @@ object SyntAnal2: TLibSyntAnalyzer
     item
       DisplayName = 'Command param'
       StyleName = 'Command param'
+      BlockName = '(('
+      NotParent = True
       Expression = '(?<=\x20)(\-{1,2}|\+)[a-z][\w\-]*'
       ColumnFrom = 0
       ColumnTo = 0
@@ -231,7 +241,7 @@ object SyntAnal2: TLibSyntAnalyzer
     item
       DisplayName = '))'
       StyleName = 'Symbol'
-      BlockName = 'var begin'
+      BlockName = '$('
       NotParent = True
       TokenType = 9
       Expression = '\)\)'
@@ -249,7 +259,7 @@ object SyntAnal2: TLibSyntAnalyzer
     item
       DisplayName = ']]'
       StyleName = 'Symbol'
-      BlockName = 'var begin'
+      BlockName = '$('
       NotParent = True
       TokenType = 11
       Expression = '\]\]'
@@ -257,11 +267,38 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Heredoc <<'
+      DisplayName = 'Escaped'
       StyleName = 'Symbol'
+      TokenType = 4
+      Expression = '\\.?'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = '<<<'
+      StyleName = 'Symbol'
+      TokenType = 4
+      Expression = '<<<'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = '<< heredoc'
+      StyleName = 'Symbol'
+      BlockName = '(('
+      NotParent = True
       StatesAdd = 8
       TokenType = 4
-      Expression = '<<\-?\x20*?'
+      Expression = '<<\-?'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Regexp'
+      StyleName = 'String regexp'
+      BlockName = '[['
+      TokenType = 14
+      Expression = '(?<=\=~\x20*)\S+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -285,13 +322,15 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 4
-      Expression = '\\.? | [\+\*\{&:%\#\?\-!~]+'
+      Expression = '[\+\*\{&:%\#\?\-!~]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'Heredoc begin'
       StyleName = 'Heredoc begin'
+      BlockName = '(('
+      NotParent = True
       TokenType = 13
       Expression = '(?<=<<\-?\x20*['#39'"]?)\w+'
       ColumnFrom = 0
@@ -349,8 +388,17 @@ object SyntAnal2: TLibSyntAnalyzer
     item
       DisplayName = 'Command'
       StyleName = 'Command'
+      BlockName = '(('
+      NotParent = True
       TokenType = 2
       Expression = '[a-z_\.][\w\-\.]*\w'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Id'
+      StyleName = 'Command'
+      Expression = '[a-z_]\w*'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -363,6 +411,7 @@ object SyntAnal2: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'case'
+            'coproc'
             'do'
             'done'
             'elif'
@@ -379,7 +428,7 @@ object SyntAnal2: TLibSyntAnalyzer
             'time'
             'until'
             'while')
-          TokenTypes = 4
+          TokenTypes = 4100
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
@@ -648,7 +697,7 @@ object SyntAnal2: TLibSyntAnalyzer
             'zcat'
             'zip'
             'zless')
-          TokenTypes = 4
+          TokenTypes = 4100
         end>
       HighlightPos = cpBound
       IgnoreAsParent = False
@@ -658,6 +707,7 @@ object SyntAnal2: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
+            'coproc'
             'function')
           TokenTypes = 4
         end>
@@ -690,7 +740,7 @@ object SyntAnal2: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'esac')
-          TokenTypes = 4
+          TokenTypes = 4100
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
@@ -718,7 +768,7 @@ object SyntAnal2: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'fi')
-          TokenTypes = 4
+          TokenTypes = 4100
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
@@ -735,6 +785,7 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayInTree = False
       NameFmt = '%sz0'
       HighlightPos = cpAny
+      DrawStaple = True
       CollapseFmt = '%sz0 ...'
       IgnoreAsParent = False
     end
@@ -745,22 +796,21 @@ object SyntAnal2: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'done')
-          TokenTypes = 4
+          TokenTypes = 4100
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'var begin'
+      DisplayName = '$('
       StyleName = 'Var block BG'
       ConditionList = <
         item
           TagList.Strings = (
-            '$('
-            '${')
+            '$(')
           TokenTypes = 16
         end>
-      BlockEnd = 'var end'
+      BlockEnd = ')'
       NotCollapsed = True
       DisplayInTree = False
       RefToCondEnd = True
@@ -770,13 +820,26 @@ object SyntAnal2: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'var end'
+      DisplayName = '${'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '${')
+          TokenTypes = 16
+        end>
+      BlockEnd = '}'
+      NotCollapsed = True
+      DisplayInTree = False
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = ')'
       BlockType = btRangeEnd
       ConditionList = <
         item
           TagList.Strings = (
-            ')'
-            '}')
+            ')')
           TokenTypes = 16
         end>
       HighlightPos = cpAny
@@ -824,7 +887,7 @@ object SyntAnal2: TLibSyntAnalyzer
             '(')
           TokenTypes = 16
         end>
-      BlockEnd = 'var end'
+      BlockEnd = ')'
       NotCollapsed = True
       DisplayInTree = False
       HighlightPos = cpAny
@@ -905,6 +968,32 @@ object SyntAnal2: TLibSyntAnalyzer
       SameIdent = True
       HighlightPos = cpAny
       IgnoreAsParent = False
+    end
+    item
+      DisplayName = '{'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 16
+        end>
+      BlockEnd = '}'
+      DisplayInTree = False
+      HighlightPos = cpAny
+      CollapseFmt = '{ ... }'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '}'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '}')
+          TokenTypes = 16
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <>
@@ -914,11 +1003,11 @@ object SyntAnal2: TLibSyntAnalyzer
     '/ddd/ddd.sh, "test'
     'string"'
     '+= -= /= *= &= |= ^= ~= == != >= <= ( ) [ ] { } $( ) + - / | < >'
-    'test `dirname $var 20+30`, `more $var(20)`'
+    'test `dirname $var 20+30`, `more $var(20) \'#39'escape\` `'
     '$@, $$, $@, $?, $-, $!, $*'
     '%, %%, %+, %-, %1, %ce, %?ce'
     '!!, !-1, !50, !w'
-    '(( 1%2 )) (( !2 ))  [[ $str -~ ^$'#39'ab'#39' ]]'
+    '(( 1 -s --d )) (( !2 ))  [[ $str =~ ^$'#39'ab'#39' ]]'
     ''
     'function echo {'
     #9'git -a --test "path"'
@@ -958,7 +1047,7 @@ object SyntAnal2: TLibSyntAnalyzer
     ']]'
     'Heredoc end'
     'Heredoc begin'
-    '$')
+    'Regexp')
   Extentions = 
     'sh bash zsh fish csh command /.bashrc /.zshrc /.bash_aliases /.b' +
     'ash_completions /.bash_functions /.bash_login /.bash_logout /.ba' +
