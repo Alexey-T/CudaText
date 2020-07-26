@@ -400,6 +400,16 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = '2>'
+      StyleName = 'Symbol2'
+      BlockName = '(('
+      NotParent = True
+      TokenType = 4
+      Expression = '(?<=\x20)2>'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Number base-n'
       StyleName = 'Number'
       TokenType = 6
@@ -784,7 +794,7 @@ object SyntAnal2: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'case')
-          TokenTypes = 4
+          TokenTypes = 4100
         end>
       BlockEnd = 'case end'
       DisplayInTree = False
@@ -840,7 +850,7 @@ object SyntAnal2: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'do')
-          TokenTypes = 4
+          TokenTypes = 4100
         end>
       BlockEnd = 'do end'
       DisplayInTree = False
@@ -1059,12 +1069,11 @@ object SyntAnal2: TLibSyntAnalyzer
     '+= -= /= *= &= |= ^= ~= == != >= <= ( ) [ ] { } $( ) + - / | < >'
     'test `dirname $var 20+30`, `more $var(20) \'#39'escape\` `'
     '$@, $$, $@, $?, $-, $!, $*'
-    '%, %%, %+, %-, %1, %ce, %?ce'
-    '!!, !-1, !50, !w'
+    '%, %%, %+, %-, %1, %ce, %?ce, !!, !-1, !50, 2>'
     '(( 1 -s --d )) (( !2 ))  [[ $str =~ ^$'#39'ab'#39' ]]'
     ''
     'function echo {'
-    #9'git -a --test "path"'
+    #9'git -a --test "path\"path"'
     '}'
     ''
     'func_name() {'
@@ -1072,12 +1081,11 @@ object SyntAnal2: TLibSyntAnalyzer
     ''
     'while read line  #comment'
     'do'
-    '  test $(test "$line"); '
-    '  test "test\"test" '
-    '  len=${#line} $(text here)'
-    '  if [[ "$len" -lt "$MINLEN" && "$line" =~ \[*\.\] ]]'
-    '    then echo'
-    '  fi'
+    '   test $(test "$line")'
+    '   len=${#line} $(text here)'
+    '   if [[ "$len" -lt "$MINLEN" && "$line" =~ \[*\.\] ]]'
+    '     then echo'
+    '   fi'
     'done'
     ''
     'cat <<-  '#39'indented_without_expansions'#39
@@ -1116,7 +1124,7 @@ object SyntAnal2: TLibSyntAnalyzer
   SkipSpaces = False
   Notes.Strings = (
     'Initial by: Matthias Eberhardt (SynWrite admin)'
-    'Reworked by: Alexey (CudaText)')
+    'Fully reworked by Alexey (CudaText)')
   RestartFromLineStart = True
   LineComment = '#'
   Charset = DEFAULT_CHARSET
