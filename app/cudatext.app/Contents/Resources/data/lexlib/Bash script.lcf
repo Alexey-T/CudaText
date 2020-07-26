@@ -267,6 +267,38 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = '('
+      StyleName = 'Symbol'
+      TokenType = 15
+      Expression = '\('
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = ')'
+      StyleName = 'Symbol'
+      TokenType = 16
+      Expression = '\)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = '{'
+      StyleName = 'Symbol'
+      TokenType = 17
+      Expression = '\{'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = '}'
+      StyleName = 'Symbol'
+      TokenType = 18
+      Expression = '\}'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Escaped'
       StyleName = 'Symbol'
       TokenType = 4
@@ -305,7 +337,7 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'Symbol single'
       StyleName = 'Symbol'
       TokenType = 4
-      Expression = '\\[\x20\x09]\# | \\. | [,;`\(\)\[\]\}@] | \$\( | \$\{'
+      Expression = '\\[\x20\x09]\# | \\. | [,;`\[\]@] | \$\( | \$\{'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -321,7 +353,7 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 4
-      Expression = '[\+\*\{&:%\#\?\-!~]+'
+      Expression = '[\+\*&:%\#\?\-!~]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -336,7 +368,7 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Heredoc end'
+      DisplayName = 'Id at line start'
       StyleName = 'Command'
       TokenType = 12
       Expression = '(?<=^[\x20\x09]*)[a-z_]\w*$'
@@ -372,14 +404,6 @@ object SyntAnal2: TLibSyntAnalyzer
       StyleName = 'Number'
       TokenType = 6
       Expression = '\d+\b'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Func name'
-      StyleName = 'Func name'
-      TokenType = 7
-      Expression = '(?<=\bfunction\x20+)\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -701,18 +725,51 @@ object SyntAnal2: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'func begin'
+      DisplayName = 'func w/keyword'
       ConditionList = <
+        item
+          TokenTypes = 131072
+        end
+        item
+          TokenTypes = 4
+        end
         item
           TagList.Strings = (
             'coproc'
             'function')
           TokenTypes = 4
         end>
-      NameFmt = '%sz0'
+      NameFmt = '%s0 %s-1'
       RefToCondEnd = True
       HighlightPos = cpAny
       CollapseFmt = '%sz0'
+      NoEndRule = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'func w/o keyword'
+      ConditionList = <
+        item
+          TokenTypes = 131072
+        end
+        item
+          TokenTypes = 65536
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 118
+        end
+        item
+          TokenTypes = 32768
+        end
+        item
+          TokenTypes = 4
+        end>
+      NameFmt = '%s0'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CollapseFmt = '%sz0'
+      NoEndRule = True
       IgnoreAsParent = False
     end
     item
@@ -834,64 +891,49 @@ object SyntAnal2: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = ')'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            ')')
-          TokenTypes = 16
-        end>
-      HighlightPos = cpAny
-      CancelNextRules = True
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'tick begin'
-      StyleName = 'Ticks block BG'
-      StatesAdd = 2
-      StatesAbsent = 2
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '`')
-          TokenTypes = 16
-        end>
-      BlockEnd = 'tick end'
-      NotCollapsed = True
-      DisplayInTree = False
-      DynHighlight = dhRange
-      HighlightPos = cpAny
-      CancelNextRules = True
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'tick end'
-      StatesRemove = 2
-      StatesPresent = 2
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '`')
-          TokenTypes = 16
-        end>
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
       DisplayName = '('
       ConditionList = <
         item
-          TagList.Strings = (
-            '(')
-          TokenTypes = 16
+          TokenTypes = 32768
         end>
       BlockEnd = ')'
       NotCollapsed = True
       DisplayInTree = False
       HighlightPos = cpAny
       CancelNextRules = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = ')'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TokenTypes = 65536
+        end>
+      HighlightPos = cpAny
+      CancelNextRules = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '{'
+      ConditionList = <
+        item
+          TokenTypes = 131072
+        end>
+      BlockEnd = '}'
+      DisplayInTree = False
+      HighlightPos = cpAny
+      CollapseFmt = '{ ... }'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '}'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TokenTypes = 262144
+        end>
+      HighlightPos = cpAny
       IgnoreAsParent = False
     end
     item
@@ -943,6 +985,39 @@ object SyntAnal2: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = 'tick begin'
+      StyleName = 'Ticks block BG'
+      StatesAdd = 2
+      StatesAbsent = 2
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '`')
+          TokenTypes = 16
+        end>
+      BlockEnd = 'tick end'
+      NotCollapsed = True
+      DisplayInTree = False
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      CancelNextRules = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'tick end'
+      StatesRemove = 2
+      StatesPresent = 2
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '`')
+          TokenTypes = 16
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = 'Heredoc begin'
       StyleName = 'Heredoc BG'
       ConditionList = <
@@ -965,32 +1040,6 @@ object SyntAnal2: TLibSyntAnalyzer
           TokenTypes = 4096
         end>
       SameIdent = True
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = '{'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '{')
-          TokenTypes = 16
-        end>
-      BlockEnd = '}'
-      DisplayInTree = False
-      HighlightPos = cpAny
-      CollapseFmt = '{ ... }'
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = '}'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '}')
-          TokenTypes = 16
-        end>
       HighlightPos = cpAny
       IgnoreAsParent = False
     end>
@@ -1043,9 +1092,13 @@ object SyntAnal2: TLibSyntAnalyzer
     '))'
     '[['
     ']]'
-    'Heredoc end'
+    'Id at line start'
     'Heredoc begin'
-    'Regexp')
+    'Regexp'
+    '('
+    ')'
+    '{'
+    '}')
   Extentions = 
     'sh bash zsh fish csh command /.bashrc /.zshrc /.bash_aliases /.b' +
     'ash_completions /.bash_functions /.bash_login /.bash_logout /.ba' +
