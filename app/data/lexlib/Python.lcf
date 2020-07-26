@@ -1,4 +1,4 @@
-object SyntAnal21: TLibSyntAnalyzer
+object SyntAnal16: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Number'
@@ -67,7 +67,7 @@ object SyntAnal21: TLibSyntAnalyzer
     item
       DisplayName = 'Id func name'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlue
+      Font.Color = clMaroon
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -148,6 +148,14 @@ object SyntAnal21: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Id func name'
+      StyleName = 'Id func name'
+      TokenType = 13
+      Expression = '(?r)(?<=\bclass\x20+)\w+ |'#13#10'(?r)(?<=\bdef\x20+)\w+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = '^Id'
       StyleName = 'Id'
       TokenType = 2
@@ -168,14 +176,6 @@ object SyntAnal21: TLibSyntAnalyzer
       StyleName = 'Symbol'
       TokenType = 8
       Expression = '[\(\)\[\]\{\}]'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Id func name'
-      StyleName = 'Id func name'
-      TokenType = 2
-      Expression = '(?r)(?<=\bclass\x20+)\w+ |'#13#10'(?r)(?<=\bdef\x20+)\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -530,7 +530,7 @@ object SyntAnal21: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 1534
+          TokenTypes = 9726
         end
         item
           TokenTypes = 2048
@@ -553,7 +553,7 @@ object SyntAnal21: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 1534
+          TokenTypes = 9726
         end
         item
           TokenTypes = 2048
@@ -654,7 +654,8 @@ object SyntAnal21: TLibSyntAnalyzer
     'Usual :'
     '^Id keyword'
     '^Id tree'
-    'Ending :')
+    'Ending :'
+    'Id func name')
   Extentions = 'py pyw rpy cpy sconstruct pyi'
   LexerName = 'Python'
   Notes.Strings = (
