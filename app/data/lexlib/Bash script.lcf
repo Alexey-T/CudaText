@@ -368,6 +368,22 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Id func name'
+      StyleName = 'Func name'
+      TokenType = 7
+      Expression = '(?<=function\x20+)[a-z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Id func name 2'
+      StyleName = 'Func name'
+      TokenType = 7
+      Expression = '^[a-z_]\w* (?=\x20*\()'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Id at line start'
       StyleName = 'Command'
       TokenType = 12
@@ -731,7 +747,7 @@ object SyntAnal2: TLibSyntAnalyzer
           TokenTypes = 131072
         end
         item
-          TokenTypes = 4
+          TokenTypes = 128
         end
         item
           TagList.Strings = (
@@ -750,20 +766,10 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'func w/o keyword'
       ConditionList = <
         item
-          TokenTypes = 131072
-        end
-        item
-          TokenTypes = 65536
-        end
-        item
-          CondType = tcSkip
-          TokenTypes = 118
-        end
-        item
           TokenTypes = 32768
         end
         item
-          TokenTypes = 4
+          TokenTypes = 128
         end>
       NameFmt = '%s0'
       RefToCondEnd = True
@@ -1059,6 +1065,9 @@ object SyntAnal2: TLibSyntAnalyzer
     ''
     'function echo {'
     #9'git -a --test "path"'
+    '}'
+    ''
+    'func_name() {'
     '}'
     ''
     'while read line  #comment'
