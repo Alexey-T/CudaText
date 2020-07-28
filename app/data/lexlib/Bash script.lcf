@@ -103,7 +103,7 @@ object SyntAnal2: TLibSyntAnalyzer
     item
       DisplayName = 'Func name'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlue
+      Font.Color = clMaroon
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -379,7 +379,7 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'Id func name 2'
       StyleName = 'Func name'
       TokenType = 7
-      Expression = '^[a-z_]\w* (?=\x20*\()'
+      Expression = '(?<=^[\x20\x09]*)[a-z_]\w* (?=\x20*\()'
       ColumnFrom = 0
       ColumnTo = 0
     end
