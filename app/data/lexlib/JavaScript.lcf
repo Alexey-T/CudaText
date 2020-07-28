@@ -310,7 +310,7 @@ object SyntAnal9: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\+\-\*:=<>&\|\^~!%\#@]+'
+      Expression = '[\-\+\*/=<>&\|\^]=? | [~!%\#@]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -499,6 +499,7 @@ object SyntAnal9: TLibSyntAnalyzer
       CancelNextRules = True
       CollapseFmt = 'func <arrow>'
       NoEndRule = True
+      TreeItemImage = 5
       IgnoreAsParent = False
     end
     item
@@ -523,6 +524,7 @@ object SyntAnal9: TLibSyntAnalyzer
       HighlightPos = cpAny
       CancelNextRules = True
       CollapseFmt = 'func <arrow>'
+      TreeItemImage = 5
       IgnoreAsParent = False
     end
     item
@@ -556,6 +558,7 @@ object SyntAnal9: TLibSyntAnalyzer
       CancelNextRules = True
       CollapseFmt = 'func <arrow>'
       NoEndRule = True
+      TreeItemImage = 5
       IgnoreAsParent = False
     end
     item
@@ -591,6 +594,7 @@ object SyntAnal9: TLibSyntAnalyzer
       HighlightPos = cpAny
       CancelNextRules = True
       CollapseFmt = 'func <arrow>'
+      TreeItemImage = 5
       IgnoreAsParent = False
     end
     item
@@ -638,6 +642,7 @@ object SyntAnal9: TLibSyntAnalyzer
       HighlightPos = cpAny
       CancelNextRules = True
       CollapseFmt = 'func %s0'
+      TreeItemImage = 5
       IgnoreAsParent = False
     end
     item
@@ -677,6 +682,7 @@ object SyntAnal9: TLibSyntAnalyzer
       HighlightPos = cpAny
       CancelNextRules = True
       CollapseFmt = 'func <anon>'
+      TreeItemImage = 5
       IgnoreAsParent = False
     end
     item
@@ -720,6 +726,7 @@ object SyntAnal9: TLibSyntAnalyzer
       HighlightPos = cpBound
       CancelNextRules = True
       CollapseFmt = 'func %s-11~s[)]'
+      TreeItemImage = 5
       IgnoreAsParent = False
     end
     item
@@ -765,6 +772,7 @@ object SyntAnal9: TLibSyntAnalyzer
       NameFmt = '%s0 %s-1'
       HighlightPos = cpAny
       NoEndRule = True
+      TreeItemImage = 0
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
@@ -847,7 +855,8 @@ object SyntAnal9: TLibSyntAnalyzer
   Extentions = 'js htc es6 pjs mjs'
   LexerName = 'JavaScript'
   Notes.Strings = (
-    'Based on lexer from EControl, by Alexey (CudaText)')
+    'Based on lexer from EControl'
+    'Reworked by Alexey (CudaText)')
   LineComment = '//'
   Charset = DEFAULT_CHARSET
 end
