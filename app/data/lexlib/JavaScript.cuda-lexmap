@@ -21,6 +21,6 @@ Comment=Comment
 Comment doc=CommentDoc
 Current block=BracketBG
 PHP tag=TagInclude
-Id func name=Id4
+Id func name=Label
 HTML tag name=TagId
 Id upcase const=Id3
