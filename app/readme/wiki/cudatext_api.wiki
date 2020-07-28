@@ -4014,4 +4014,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.347 (app 1.107.6)
 * add: app_proc: PROC_GET_FINDER_PROP/PROC_SET_FINDER_PROP support new keys: "find_h", "rep_h"
 
+1.0.348 (app 1.108.0)
+* add: Editor.action: EDACTION_UNDOGROUP_BEGIN, EDACTION_UNDOGROUP_END
+
 [[Category:CudaText]]
