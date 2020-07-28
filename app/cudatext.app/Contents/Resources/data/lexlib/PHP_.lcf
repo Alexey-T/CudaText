@@ -160,7 +160,9 @@ object SyntAnal14: TLibSyntAnalyzer
       DisplayName = 'Float'
       StyleName = 'Number'
       TokenType = 2
-      Expression = '\d+ \.? \d+ e [\+\-]? \d+ |'#13#10'\d+ \. \d+'
+      Expression = 
+        '\d[\d_]* \.? (\d[\d_]*)? e[\+\-]? \d[\d_]* \b |'#13#10'(\d[\d_]*)? \. ' +
+        '\d[\d_]* e[\+\-]? \d[\d_]* \b |'#13#10'(\d[\d_]*)? \. \d[\d_]*\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -168,7 +170,7 @@ object SyntAnal14: TLibSyntAnalyzer
       DisplayName = 'Integer'
       StyleName = 'Number'
       TokenType = 2
-      Expression = '0x[0-9a-f]+ |'#13#10'0b[01]+ |'#13#10'\d+'
+      Expression = '0x\h[\h_]*\b |'#13#10'0b[01][01_]*\b |'#13#10'\d+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -200,7 +202,7 @@ object SyntAnal14: TLibSyntAnalyzer
       DisplayName = 'Symbol op'
       StyleName = 'Symbol operator'
       TokenType = 4
-      Expression = '[!/\+\-\*:=<>&/\|\^~\@\%\?\.]+'
+      Expression = '[!/\+\-\*:=<>&/\|\^~\@\%\?]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -208,7 +210,7 @@ object SyntAnal14: TLibSyntAnalyzer
       DisplayName = 'Symbol single'
       StyleName = 'Symbol single'
       TokenType = 5
-      Expression = '[\(\)\[\],\\]'
+      Expression = '[\(\)\[\]\.,\\]'
       ColumnFrom = 0
       ColumnTo = 0
     end
