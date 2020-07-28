@@ -400,16 +400,6 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = '2>'
-      StyleName = 'Symbol2'
-      BlockName = '(('
-      NotParent = True
-      TokenType = 4
-      Expression = '(?<=\x20)2>'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Number base-n'
       StyleName = 'Number'
       TokenType = 6
