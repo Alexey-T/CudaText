@@ -777,7 +777,7 @@ object SyntAnal9: TLibSyntAnalyzer
     end
     item
       DisplayName = 'JSDoc'
-      StartExpression = '/\*\*[^/]'
+      StartExpression = '/\*\*[^/\*]'
       EndExpression = '\*/'
       SyntAnalyzer = SyntAnal10
     end>
