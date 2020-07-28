@@ -7256,6 +7256,18 @@ begin
             Result:= ReturnNone;
           end;
 
+        EDACTION_UNDOGROUP_BEGIN:
+          begin
+            Ed.Strings.BeginUndoGroup;
+            Result:= ReturnNone;
+          end;
+
+        EDACTION_UNDOGROUP_END:
+          begin
+            Ed.Strings.EndUndoGroup;
+            Result:= ReturnNone;
+          end;
+
         EDACTION_FIND_ONE:
           begin
             Result:= Py_FindOrReplaceOne(Ed, StrText1, '', StrText2, false{Replace}, false);
