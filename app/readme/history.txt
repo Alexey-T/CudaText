@@ -10,7 +10,7 @@
 + add: lexer Bash: highlight (( )) blocks, [[ ]] blocks; highlight meta-chars starting with ! and %; support \ escape; fold brackets {}
 + add: lexer Bash: highlight HereDoc blocks (almost all kinds, even with quoted block id)
 + add: lexer Bash: show in code-tree funcs w/o keyword "function"
-+ add: lexer PHP: support _ in numbers, fixes
++ add: lexer PHP: support _ in numbers; reworked HereDoc support; fixes
 + add: command "Check for updates" is supported on Linux/macOS/BSD
 + add: on loading session with missing files, show 'NOTE: File from session not found' errors in console
 + add: show number over Console sidebar button for 'NOTE:' lines too
