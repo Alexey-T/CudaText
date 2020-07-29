@@ -183,6 +183,14 @@ object SyntAnal14: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Symbol ,'
+      StyleName = 'Symbol single'
+      TokenType = 9
+      Expression = ','
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Symbol ;'
       StyleName = 'Symbol single'
       TokenType = 8
@@ -195,6 +203,14 @@ object SyntAnal14: TLibSyntAnalyzer
       StyleName = 'Symbol single'
       TokenType = 7
       Expression = '[\{\}]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Symbol ()'
+      StyleName = 'Symbol single'
+      TokenType = 10
+      Expression = '[\(\)]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -592,7 +608,7 @@ object SyntAnal14: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 127
+          TokenTypes = 1663
         end
         item
           TagList.Strings = (
@@ -727,7 +743,9 @@ object SyntAnal14: TLibSyntAnalyzer
     'Symbol single'
     'Var'
     'Symbol {}'
-    'Symbol ;')
+    'Symbol ;'
+    'Symbol ,'
+    'Symbol ()')
   LexerName = 'PHP_'
   Notes.Strings = (
     'Created by 480499497 from forum.wincmd.ru (named PHP_dev)'
