@@ -119,6 +119,14 @@ object SyntAnal14: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'Heredoc begin'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
     end>
   TokenRules = <
     item
@@ -175,14 +183,6 @@ object SyntAnal14: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'String heredoc'
-      StyleName = 'String heredoc'
-      TokenType = 3
-      Expression = '(?sm)<<<\x20?['#39'"]?(\w+)\b['#39'"]?\z.+?\z\x20*\1\b'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Symbol ,'
       StyleName = 'Symbol single'
       TokenType = 9
@@ -227,6 +227,22 @@ object SyntAnal14: TLibSyntAnalyzer
       StyleName = 'Symbol single'
       TokenType = 5
       Expression = '[\(\)\[\]\.,\\]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Heredoc begin'
+      StyleName = 'Heredoc begin'
+      TokenType = 13
+      Expression = '(?<=<<<\x20*) ([a-z_]\w*|'#39'[a-z_]\w*'#39'|"[a-z_]\w*")'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Heredoc end'
+      StyleName = 'Id'
+      TokenType = 12
+      Expression = '(?<=^[\x20\x09]*)[a-z_]\w*(?=;$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -692,6 +708,29 @@ object SyntAnal14: TLibSyntAnalyzer
       NoEndRule = True
       TreeItemImage = 4
       IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'heredoc begin'
+      ConditionList = <
+        item
+          TokenTypes = 8192
+        end>
+      BlockEnd = 'heredoc end'
+      DisplayInTree = False
+      HighlightPos = cpAny
+      CollapseFmt = '%sz0 ...'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'heredoc end'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TokenTypes = 4096
+        end>
+      SameIdent = True
+      HighlightPos = cpAny
+      IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <>
@@ -761,7 +800,9 @@ object SyntAnal14: TLibSyntAnalyzer
     'Symbol ;'
     'Symbol ,'
     'Symbol ()'
-    'Id after ::')
+    'Id after ::'
+    'Heredoc end'
+    'Heredoc begin')
   LexerName = 'PHP_'
   Notes.Strings = (
     'Created by 480499497 from forum.wincmd.ru (named PHP_dev)'
