@@ -49,14 +49,6 @@ object SyntAnal14: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'String heredoc'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = 4210816
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-    end
-    item
       DisplayName = 'String exec'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clFuchsia
