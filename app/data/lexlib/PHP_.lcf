@@ -247,6 +247,14 @@ object SyntAnal14: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Id after ::'
+      StyleName = 'Id'
+      TokenType = 11
+      Expression = '(?<=::)[a-z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Id'
       StyleName = 'Id'
       TokenType = 1
@@ -587,14 +595,21 @@ object SyntAnal14: TLibSyntAnalyzer
             'interface'
             'trait')
           TokenTypes = 2
+        end
+        item
+          TagList.Strings = (
+            'new')
+          CondType = tcNotEqual
+          TokenTypes = 2
         end>
+      BlockOffset = -1
       BlockEnd = '}'
       EndOfTextClose = True
-      NameFmt = '%s0 %s-1'
+      NameFmt = '%s-1 %s-2'
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
-      CollapseFmt = '%sz0'
+      CollapseFmt = '%sz-1'
       TreeItemImage = 0
       IgnoreAsParent = False
     end
@@ -745,7 +760,8 @@ object SyntAnal14: TLibSyntAnalyzer
     'Symbol {}'
     'Symbol ;'
     'Symbol ,'
-    'Symbol ()')
+    'Symbol ()'
+    'Id after ::')
   LexerName = 'PHP_'
   Notes.Strings = (
     'Created by 480499497 from forum.wincmd.ru (named PHP_dev)'
