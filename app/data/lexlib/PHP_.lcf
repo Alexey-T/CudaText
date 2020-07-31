@@ -119,6 +119,16 @@ object SyntAnal14: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Heredoc BG'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = 12648447
+      FormatType = ftBackGround
     end>
   TokenRules = <
     item
@@ -703,12 +713,15 @@ object SyntAnal14: TLibSyntAnalyzer
     end
     item
       DisplayName = 'heredoc begin'
+      StyleName = 'Heredoc BG'
       ConditionList = <
         item
           TokenTypes = 8192
         end>
       BlockEnd = 'heredoc end'
+      NotCollapsed = True
       DisplayInTree = False
+      DynHighlight = dhRange
       HighlightPos = cpAny
       CollapseFmt = '%sz0 ...'
       IgnoreAsParent = False

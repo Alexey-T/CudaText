@@ -19,5 +19,5 @@ Id standard types=Id2
 Id standard const=Id4
 Id standard class=Id1
 Id modifier=Id3
-Bracket BG=BracketBG
 Heredoc begin=TagInclude
+Heredoc BG=SectionBG4
