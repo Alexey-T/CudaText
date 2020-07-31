@@ -156,6 +156,14 @@ object SyntAnal16: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Id after .'
+      StyleName = 'Id'
+      TokenType = 14
+      Expression = '(?r)(?<=\.)[a-z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = '^Id'
       StyleName = 'Id'
       TokenType = 2
@@ -625,7 +633,7 @@ object SyntAnal16: TLibSyntAnalyzer
     ''
     'def func(num):      #cmt  '
     '    for n in range(len(sys.argv)):'
-    '      print "Arg %s" % sys.argv[n]'
+    '      print("Arg %s" % s)'
     '      if n>2:'
     '        return True'
     '    return False'
@@ -655,7 +663,8 @@ object SyntAnal16: TLibSyntAnalyzer
     '^Id keyword'
     '^Id tree'
     'Ending :'
-    'Id func name')
+    'Id func name'
+    'Id after .')
   Extentions = 'py pyw rpy cpy sconstruct pyi'
   LexerName = 'Python'
   Notes.Strings = (
