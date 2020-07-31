@@ -99,6 +99,7 @@ var
   value: string;
   st: TecSyntaxFormat;
   iStyle: TAppThemeStyleId;
+  anSub: TecSyntAnalyzer;
   i: integer;
 begin
   Result:= true;
@@ -113,11 +114,15 @@ begin
   //work for sublexers
   for i:= 0 to an.SubAnalyzers.Count-1 do
     if Assigned(an.SubAnalyzers[i]) then
-      if not DoApplyLexerStylesMap(an.SubAnalyzers[i].SyntAnalyzer, anNotCorrect) then
+    begin
+      anSub:= an.SubAnalyzers[i].SyntAnalyzer;
+      if not DoApplyLexerStylesMap(anSub, anNotCorrect) then
       begin
-        anNotCorrect:= an.SubAnalyzers[i].SyntAnalyzer;
-        Result:= false; //not exit
+        anNotCorrect:= anSub;
+        Result:= false;
+        exit;
       end;
+    end;
 
   for i:= 0 to an.Formats.Count-1 do
   begin
@@ -127,8 +132,8 @@ begin
     if value='' then
     begin
       anNotCorrect:= an;
-      Result:= false; //not exit
-      Continue;
+      Result:= false;
+      exit;
     end;
 
     for iStyle:= Low(iStyle) to High(iStyle) do
