@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.108.1 (2020/08)
+
++ add: lexer Python: don't highlight words after dot (e.g. 'type' 'len'); fold "async for"
+
 1.108.0 (2020/07)
 
 + add: lexer YAML is preinstalled
