@@ -340,6 +340,7 @@ begin
   InitModuleMain;
 
   FRunning:= true;
+  tick:= 0;
   TimeTrackBegin(tick);
 
   FLastCommandModule:= AModule;
@@ -459,6 +460,7 @@ begin
   InitModuleMain;
 
   FRunning:= true;
+  tick:= 0;
   TimeTrackBegin(tick);
 
   ObjName:= NamePrefix+AModule;
@@ -690,7 +692,7 @@ end;
 procedure TAppPython.MaskFPU(AValue: boolean);
 //needed for plugin cuda_palette on Win64, to avoid "floating point exception"
 begin
-  {$if defined(windows) and defined(CPU64)}
+  {$if defined(windows)}
   MaskFPUExceptions(AValue);
   {$endif}
 end;
