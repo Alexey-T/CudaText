@@ -3849,6 +3849,7 @@ begin
             ScrollInfo:= Ed.ScrollVert;
             ScrollInfo.NPos:= ValueInt;
             Ed.ScrollVert:= ScrollInfo;
+            Ed.UpdateScrollbars(true);
           end;
 
         PROP_SCROLL_HORZ:
@@ -3856,6 +3857,7 @@ begin
             ScrollInfo:= Ed.ScrollHorz;
             ScrollInfo.NPos:= ValueInt;
             Ed.ScrollHorz:= ScrollInfo;
+            Ed.UpdateScrollbars(true);
           end;
 
         PROP_SCROLL_VERT_SMOOTH:
@@ -3863,6 +3865,7 @@ begin
             ScrollInfo:= Ed.ScrollVert;
             Ed.UpdateScrollInfoFromSmoothPos(ScrollInfo, ValueInt);
             Ed.ScrollVert:= ScrollInfo;
+            Ed.UpdateScrollbars(false);
           end;
 
         PROP_SCROLL_HORZ_SMOOTH:
@@ -3870,6 +3873,7 @@ begin
             ScrollInfo:= Ed.ScrollHorz;
             Ed.UpdateScrollInfoFromSmoothPos(ScrollInfo, ValueInt);
             Ed.ScrollHorz:= ScrollInfo;
+            Ed.UpdateScrollbars(false);
           end;
 
         PROP_SCALE_FONT:
