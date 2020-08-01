@@ -1235,7 +1235,8 @@
   //Add indentation to nested tags (example: ul>li*6)
   "emmet_indent_nested": true,
 
-  //Comment tags, containing class/id attributes (example: .name)
+  //For abbreviations with class/id attributes (example: .name),
+  //add HTML comment near result
   "emmet_comment_tags": false,
 
   //Expand everything to a single line of code
