@@ -8894,6 +8894,7 @@ var
   Par1, Par2, Obj: PPyObject;
 begin
   Result:= -1;
+  if not AppPython.Inited then exit;
 
   with TIniFile.Create(GetAppLangFilename) do
   try
