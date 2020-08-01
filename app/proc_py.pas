@@ -38,6 +38,7 @@ type
     ModuleCud: PPyObject;
     GlobalsMain: PPyObject;
     GlobalsCud: PPyObject;
+    procedure MaskFPU(AValue: boolean);
     procedure TimeTrackBegin(var tick: QWord);
     procedure TimeTrackEnd(const AModule: string; var tick: QWord);
     procedure InitModuleMain;
@@ -267,6 +268,7 @@ begin
               RaiseError;
 
           try
+            MaskFPU(true);
             Result:=PyObject_Call(Func,Params,nil);
             if Result = nil then
               CheckError(False);
@@ -311,6 +313,7 @@ begin
         ObjClass:= PyDict_GetItemString(ObjDict, 'Command');
         if Assigned(ObjClass) then
         try
+          MaskFPU(true);
           ObjObject:= PyObject_CallObject(ObjClass, nil);
           if Assigned(ObjObject) then
             PyDict_SetItemString(GlobalsMain, PChar(AObjectName), ObjObject);
@@ -434,6 +437,7 @@ var
         ObjEditorArgs:= PyTuple_New(1);
         try
           PyTuple_SetItem(ObjEditorArgs, 0, PyLong_FromLongLong(PtrInt(AEd)));
+          MaskFPU(true);
           ParamsObj[0]:= PyObject_CallObject(ObjEditor, ObjEditorArgs);
         finally
           Py_XDECREF(ObjEditorArgs);
@@ -541,6 +545,7 @@ begin
                   for i:=0 to Length(AParamNames)-1 do
                     if PyDict_SetItemString(ParamsDic,PChar(AParamNames[i]),AParams[UnnamedCount+i])<>0 then
                       RaiseError;
+                  MaskFPU(true);
                   Result:=PyObject_Call(Func,Params,ParamsDic);
                 finally
                   Py_DECREF(ParamsDic);
@@ -580,6 +585,7 @@ begin
             for i:=0 to Length(AParams)-1 do
               if PyTuple_SetItem(Params,i,AParams[i])<>0 then
                 RaiseError;
+            MaskFPU(true);
             Result:=PyObject_Call(Func,Params,nil);
           finally
             Py_DECREF(Params);
@@ -681,6 +687,13 @@ begin
   Exec(Str+';print("Python %d.%d"%sys.version_info[:2])');
 end;
 
+procedure TAppPython.MaskFPU(AValue: boolean);
+//needed for plugin cuda_palette on Win64, to avoid "floating point exception"
+begin
+  {$if defined(windows) and defined(CPU64)}
+  MaskFPUExceptions(AValue);
+  {$endif}
+end;
 
 initialization
 
