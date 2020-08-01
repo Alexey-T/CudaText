@@ -17,8 +17,8 @@ def dialog_github_install(history):
     id_edit = 1
     id_ok = 2
     id_cancel = 3
-    res = dlg_custom('Install from GitHub', 456, 90, '\n'.join([]
-      + [c1.join(['type=label', 'cap=&GitHub repo URL', 'pos=6,6,400,0'])]
+    res = dlg_custom('Install from Github', 456, 90, '\n'.join([]
+      + [c1.join(['type=label', 'cap=&Github repo URL', 'pos=6,6,400,0'])]
       + [c1.join(['type=combo', 'items='+'\t'.join(history), 'pos=6,26,450,0', 'cap='+history[0]])]
       + [c1.join(['type=button', 'cap=OK', 'pos=246,60,346,0', 'props=1'])]
       + [c1.join(['type=button', 'cap=Cancel', 'pos=350,60,450,0'])]
@@ -60,6 +60,9 @@ def do_install_from_github():
 
     url = dialog_github_install(history)
     if not url: return
+    if '://' not in url: return
+    save_history()
+
     module_from_url = os.path.basename(url)
 
     fn = os.path.join(tempfile.gettempdir(), 'cudatext_addon.zip')
@@ -111,7 +114,6 @@ def do_install_from_github():
 
         if os.path.isdir(dir_plugin):
             after_install(module)
-            save_history()
             #rescan_plugins()
             msg_box('Repo was cloned.\nRestart CudaText to make this plugin visible.', MB_OK+MB_ICONINFO)
         else:
@@ -125,10 +127,8 @@ def do_install_from_github():
         msg_status('Cannot download zip file')
         return
 
-    save_history()
-
     file_open(fn)
     os.remove(fn) #cleanup temp
     after_install(module)
-    
+
     #rescan_plugins()
