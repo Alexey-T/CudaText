@@ -177,9 +177,9 @@ class Tr :
             Tr.se_fmt       = '{:'+str(3+Tr.sec_digs)+'.'+str(Tr.sec_digs)+'f}"'
             Tr.mise_fmt     = "{:2d}'"+Tr.se_fmt
             Tr.homise_fmt   = "{:2d}h"+Tr.mise_fmt
-        h = int( secs / 3600 )
+        h = secs // 3600
         secs = secs % 3600
-        m = int( secs / 60 )
+        m = secs // 60
         s = secs % 60
         return Tr.se_fmt.format(s) \
                 if 0==h+m else \
