@@ -17,8 +17,8 @@ def dialog_github_install(history):
     id_edit = 1
     id_ok = 2
     id_cancel = 3
-    res = dlg_custom('Install from Github', 456, 90, '\n'.join([]
-      + [c1.join(['type=label', 'cap=&Github repo URL', 'pos=6,6,400,0'])]
+    res = dlg_custom('Install from GitHub', 456, 90, '\n'.join([]
+      + [c1.join(['type=label', 'cap=&GitHub repo URL', 'pos=6,6,400,0'])]
       + [c1.join(['type=combo', 'items='+'\t'.join(history), 'pos=6,26,450,0', 'cap='+history[0]])]
       + [c1.join(['type=button', 'cap=OK', 'pos=246,60,346,0', 'props=1'])]
       + [c1.join(['type=button', 'cap=Cancel', 'pos=350,60,450,0'])]
