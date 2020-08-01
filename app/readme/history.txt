@@ -6,7 +6,7 @@
 1.108.1 (2020/08)
 
 + add: lexer Python: don't highlight words after dot (e.g. 'type' 'len'); fold "async for"
-- fix: "floating point exception" in Python on Win x64 (thanks @John)
+- fix: "floating point exception" in Python on Win10 2004 (thanks @John)
 
 1.108.0 (2020/07)
 
