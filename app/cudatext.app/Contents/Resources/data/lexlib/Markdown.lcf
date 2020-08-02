@@ -417,7 +417,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StyleName = 'Crossed out'
       StatesAbsent = 3
       TokenType = 1
-      Expression = '(?s)~+[^\x20\x09\n\r~\\].*? ~+'
+      Expression = '(?s)~+[^\x20\x09\n\r~\\][^\n\r~\\]*? ~+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -688,5 +688,6 @@ object SyntAnal13: TLibSyntAnalyzer
   Notes.Strings = (
     'Based on original lexer by NoSi (2014)'
     'Fully reworked by Alexey (CudaText)')
+  RestartFromLineStart = True
   Charset = DEFAULT_CHARSET
 end
