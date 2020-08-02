@@ -35,7 +35,7 @@ Screenshot on Windows:
 * Powerful lexer format, and easier to configure (via GUI in external program)
 * Floating groups of UI-tabs in separate windows
 * Floating mode of side panel and bottom panel
-* Toolbar, configurable via plugin ([[#Toolbar|Toolbar]])
+* [[#Toolbar|Toolbar]], configurable via plugin 
 * [[#Configurable_statusbar|Configurable statusbar]]
 * Horizontal ruler above text
 * [[#Micromap|Micromap]]
@@ -45,7 +45,7 @@ Screenshot on Windows:
 * Better support for encodings, including UTF-32
 * Better support national keyboards on Linux
 * Correctly saves binary files
-* Viewer for files of unlimited size, including hex mode ([[#File_viewer|File viewer]]) 
+* [[#File_viewer|Viewer for files of unlimited size]]
 * [[#Program_perfomance|Program performance]]
 * [[#Hex_display_of_special_chars|Hex display of special chars]]
 * Coloring of UI-tab headers
