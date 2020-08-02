@@ -36,6 +36,7 @@ Screenshot on Windows:
 * Floating groups of UI-tabs in separate windows
 * Floating mode of side panel and bottom panel
 * Toolbar, configurable via plugin ([[#Toolbar|Toolbar]])
+* Statusbar is configurable ([[#Configurable_statusbar|Configurable statusbar]])
 * Micromap ([[#Micromap|Micromap]])
 * Horizontal ruler above text
 * Markers in editor ([[#Markers|Markers]])
