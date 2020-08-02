@@ -967,6 +967,53 @@ CudaText has toolbar on the top, which can be shown by menu item "View / Toggle 
 
 Plugin also gives command "Hide standard buttons" which allows to hide default CudaText buttons from toolbar. This command shows input box for space-separated indexes of buttons. What are these indexes? Indexes are 0-based numbers of all toolbar items: first button (New File) is index 0, next item (dropdown near New File) is index 1, next item (Open File) is index 2, etc (all separators also have index). So for example, to hide 3rd + 10th items, enter "2 9" into that input box.
 
+==Configurable statusbar==
+
+Statusbar is fully configurable: you can change order/visibility of cells, width and alignment of cells. Option "ui_statusbar_panels" configures set of cells. Predefined cells are:
+
+* Caret(s) info
+* Encoding name
+* Line ends characters
+* Lexer name
+* Tab-char size
+* Insert/Overwrite mode (toggled by Ins key)
+* Shows "-" for normal selection mode, "||" for column selection mode
+* State of wrap mode: no wrap, wrap at window edge, wrap at fixed margin
+* Message from CudaText or plugins (panel is auto-sized)
+
+The cell "carets info" shows value of one of options:
+
+* "ui_statusbar_no_sel": Used when there is no selection
+* "ui_statusbar_small_sel": Used when there is single-line selection
+* "ui_statusbar_str_sel": Used when selection is multi-line
+* "ui_statusbar_col_sel": Used for column-selection mode
+* "ui_statusbar_carets": Used when 2 or more carets are placed
+
+In the above "ui_statusbar_" options, macros are supported:
+
+* {y}: line index of first caret
+* {y2}: line index of last caret
+* {yb}: line index of first selection beginning
+* {ye}: line index of first selection ending
+* {x}: column index of first caret, tab-chars counted as 1
+* {xx}: column index of last caret, tab-chars expanded
+* {count}: total number of lines
+* {carets}: total number of carets
+* {sel}: number of lines affected by selection(s)
+* {selchars}: number of selected characters, for all kinds of selections
+* {cols}: number of columns in column selection
+* {char}: character at first caret (empty if no char)
+* {char_dec}: character at first caret - decimal code (empty if no char)
+* {char_hex}: character at first caret - 2...4-digit hex code (empty if no char)
+* {char_hex4}: character at first caret - 4-digit hex code (empty if no char)
+* {_ln}: localized string "Ln"
+* {_col}: localized string "Col"
+* {_sel}: localized string "sel"
+* {_linesel}: localized string "lines sel"
+* {_carets}: localized string "carets"
+
+Also the option exists to change the delay for showing messages in statusbar. Plugin API allows to colorize statusbar cells (used in Vim Mode plugin), and to show icons there.
+
 ==File viewer==
 CudaText has internal file viewer, for files on unlimited size. Only visible portion of file is loaded into memory, so viewer is fast for all files. Viewer has several modes:
 
