@@ -36,21 +36,22 @@ Screenshot on Windows:
 * Floating groups of UI-tabs in separate windows
 * Floating mode of side panel and bottom panel
 * Toolbar, configurable via plugin ([[#Toolbar|Toolbar]])
-* Statusbar is configurable ([[#Configurable_statusbar|Configurable statusbar]])
-* Micromap ([[#Micromap|Micromap]])
+* [[#Configurable_statusbar|Configurable statusbar]]
 * Horizontal ruler above text
-* Markers in editor ([[#Markers|Markers]])
-* Sessions system ([[#Sessions|Sessions]]) 
+* [[#Micromap|Micromap]]
+* [[#Markers|Markers in editor]]
+* [[#Sessions|Sessions system]] 
 * Caret position after end of line
 * Better support for encodings, including UTF-32
 * Better support national keyboards on Linux
 * Correctly saves binary files
 * Viewer for files of unlimited size, including hex mode ([[#File_viewer|File viewer]]) 
-* Perfomance ([[#Program_perfomance|Program performance]])
+* [[#Program_perfomance|Program performance]]
+* [[#Hex_display_of_special_chars|Hex display of special chars]]
 * Coloring of UI-tab headers
 * Options Editor plugin
 * Can plug-in a different Python engine
-* Character Map dialog ([[#Char_map|Character Map]])
+* [[#Char_map|Character Map dialog]]
 * Single-instance mode is supported on all OS'es
 * Scrolling after middle-button click (called "Autoscrolling" in Firefox)
 * API to show pictures between the lines (plugin "Insert Pics")
