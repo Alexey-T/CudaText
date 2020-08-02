@@ -972,15 +972,15 @@ Plugin also gives command "Hide standard buttons" which allows to hide default C
 
 Statusbar is fully configurable: you can change order/visibility of cells, width and alignment of cells. Option "ui_statusbar_panels" configures set of cells. Predefined cells are:
 
-* Caret(s) info
-* Encoding name
-* Line ends characters
-* Lexer name
-* Tab-char size
-* Insert/Overwrite mode (toggled by Ins key)
-* Shows "-" for normal selection mode, "||" for column selection mode
-* State of wrap mode: no wrap, wrap at window edge, wrap at fixed margin
-* Message from CudaText or plugins (panel is auto-sized)
+* Caret(s) info. Click on it shows Go To dialog.
+* Encoding name. Click on it shows menu to change encoding of document.
+* Line ends characters. Click on it shows menu to change line-ends in entire document.
+* Lexer name. Click on it shows lexers menu.
+* Tab-char size. Click on it shows menu to change current document tab-size, change "tab as spaces", etc.
+* Text insert/overwrite mode (toggled by Ins key)
+* Mouse selection mode: "-" for normal mode, "||" for column mode (mouse dragging makes column selection even without Alt+ key)
+* Word-wrap mode: off, wrap at window edge, wrap at fixed margin
+* Message from program or plugins (usually it's last auto-sized cell)
 
 The cell "carets info" shows value of one of options:
 
