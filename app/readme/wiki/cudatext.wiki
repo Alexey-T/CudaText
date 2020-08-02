@@ -52,6 +52,7 @@ Screenshot on Windows:
 * Options Editor plugin
 * Can plug-in a different Python engine
 * [[#Char_map|Character Map dialog]]
+* UI can be scaled by option (up to 500%)
 * Single-instance mode is supported on all OS'es
 * Scrolling after middle-button click (called "Autoscrolling" in Firefox)
 * API to show pictures between the lines (plugin "Insert Pics")
