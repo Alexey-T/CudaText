@@ -1,7 +1,7 @@
 import itertools
 import re
 
-RE_TICKS = '^`{3,}\w*$'
+RE_TICKS = '^\s*`{3,}\s*\w*$'
 re_ticks = re.compile(RE_TICKS, 0)
 
 
