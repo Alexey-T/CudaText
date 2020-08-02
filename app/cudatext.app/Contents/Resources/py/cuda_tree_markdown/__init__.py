@@ -1,4 +1,8 @@
 import itertools
+import re
+
+RE_TICKS = '^\s*`{3,}\s*\w*$'
+re_ticks = re.compile(RE_TICKS, 0)
 
 
 def _is_pre(s, ch, need_space):
@@ -12,7 +16,7 @@ def _is_pre(s, ch, need_space):
 
 
 def is_line_ticks(s):
-    return _is_pre(s, '`', False)
+    return re_ticks.match(s) 
 
 
 def is_line_head(s):
