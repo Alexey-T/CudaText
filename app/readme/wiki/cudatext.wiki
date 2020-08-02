@@ -1178,6 +1178,18 @@ CudaText has the option "ui_reopen_session". When it is true, dialog "Save tabs?
 
 Also CudaText gives the command "dialog: save tabs" in the Command Palette. It shows the same dialog, the difference is that buttons do not close the program.
 
+==Hex display of special chars==
+
+Editor engine shows some characters in a "hex form", like "x2000" for character U+2000. For codes below 0xFF, hex form is shorter, like "x01". Hex form is painted with different color. These characters are:
+
+* U+0000...U+001F, except Tab-char U+0009
+* U+2000...U+200F: white spaces + specials
+* U+2028...U+202F: white spaces + specials
+* U+2066...U+2069
+* U+0085
+* U+061C
+* U+FEFF
+
 =External Tools=
 
 Several examples of external tools configs. Call dialog of External Tools plugin (menu "Tools / Config..."). Add a new tool. Set dialog properties as shown below. This must add menu item, for new tool, under Tools menu.
