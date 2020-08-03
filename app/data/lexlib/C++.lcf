@@ -146,8 +146,8 @@ object SyntAnal5: TLibSyntAnalyzer
       StyleName = 'Number'
       TokenType = 5
       Expression = 
-        '\d[\d'#39']* (\. [\d'#39']+)? e[\+\-]? \d+ f? |'#13#10'\. [\d'#39']+ e[\+\-]? \d+ ' +
-        'f? |'#13#10'\d[\d'#39']* \. (\d[\d'#39']*)? f? |'#13#10'\. \d[\d'#39']* f?'
+        '\d[\d'#39']* \.? [\d'#39']* e[\+\-]? [\d'#39']+ [Lf]? |'#13#10'\. [\d'#39']+ e[\+\-]? ' +
+        '\d+ [Lf]? |'#13#10'\d[\d'#39']* \. (\d[\d'#39']*)? [Lf]? |'#13#10'\. \d[\d'#39']* [Lf]?'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -227,7 +227,7 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'Symbol single'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\[\],~]'
+      Expression = '[\[\],~\.]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -235,7 +235,7 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\+\-=<>&\|\^\.!\?%\\:\*/]+'
+      Expression = '[\+\-=<>&\|\^!\?%\\:\*/]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -266,10 +266,10 @@ object SyntAnal5: TLibSyntAnalyzer
             'case'
             'catch'
             'class'
-            'compl'
             'co_await'
             'co_return'
             'co_yield'
+            'compl'
             'continue'
             'default'
             'delete'
@@ -579,20 +579,8 @@ object SyntAnal5: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'typedef struct'
+      DisplayName = 'struct'
       ConditionList = <
-        item
-          TokenTypes = 4
-        end
-        item
-          TagList.Strings = (
-            '}')
-          TokenTypes = 256
-        end
-        item
-          CondType = tcSkip
-          TokenTypes = 9790
-        end
         item
           TagList.Strings = (
             '{')
@@ -600,22 +588,22 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 6
+          TokenTypes = 518
+        end
+        item
+          TokenTypes = 4
         end
         item
           TagList.Strings = (
+            'namespace'
             'struct')
           TokenTypes = 4
-        end
-        item
-          TagList.Strings = (
-            'typedef')
-          TokenTypes = 4
         end>
-      NameFmt = '%sz-1'
+      BlockEnd = '}'
+      NameFmt = '%s0 %s-1'
       RefToCondEnd = True
       HighlightPos = cpAny
-      NoEndRule = True
+      CancelNextRules = True
       TreeItemImage = 3
       IgnoreAsParent = False
     end
