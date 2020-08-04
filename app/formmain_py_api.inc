@@ -1634,7 +1634,15 @@ begin
       Str:= string(Ptr);
 
       Ed.DoCommand(NCode, Str);
-      //Ed.Invalidate; //seems not needed
+
+      //many commands use timer, so immediate quit is not ok, app didn't finish command yet
+      //example of bug: plugin Differ uses cmd_FileClose and immediately after that it calls
+      //file_open for file-pair with the same file, it fails
+      if IsCommandNeedTimer(NCode) then
+      begin
+        Sleep(fmMain.TimerCmd.Interval+100);
+        Application.ProcessMessages;
+      end;
 
       Result:= ReturnNone;
     end
