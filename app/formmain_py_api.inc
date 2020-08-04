@@ -1635,9 +1635,9 @@ begin
 
       Ed.DoCommand(NCode, Str);
 
-      //many commands use timer, so immediate quit is not ok, app didn't finish command yet
-      //example of bug: plugin Differ uses cmd_FileClose and immediately after that it calls
-      //file_open for file-pair with the same file, it fails
+      //many commands use timer, so immediate quit is not ok, app didn't finish command yet.
+      //example of bug: plugin Differ uses ed.cmd(cmd_FileClose) and immediately after that it calls
+      //file_open for file-pair with the same file, it failed
       if IsCommandNeedTimer(NCode) then
       begin
         Sleep(fmMain.TimerCmd.Interval+100);
