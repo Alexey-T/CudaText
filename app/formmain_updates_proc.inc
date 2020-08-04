@@ -560,7 +560,8 @@ begin
   F.Adapter[F.Ed2].DynamicHiliteEnabled:= Op.OpLexerDynamicHiliteEnabled;
   F.Adapter[F.Ed2].DynamicHiliteMaxLines:= Op.OpLexerDynamicHiliteMaxLines;
 
-  F.BracketHilite:= Op.OpBracketHilite;
+  if not F.BracketHiliteUserChanged then
+    F.BracketHilite:= Op.OpBracketHilite;
   F.BracketSymbols:= Op.OpBracketSymbols;
   F.BracketDistance:= Op.OpBracketDistance;
 

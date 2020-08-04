@@ -494,17 +494,26 @@ begin
     cmd_BracketHighlightOn:
       begin
         if Assigned(Frame) then
+        begin
           Frame.BracketHilite:= true;
+          Frame.BracketHiliteUserChanged:= true;
+        end;
       end;
     cmd_BracketHighlightOff:
       begin
         if Assigned(Frame) then
+        begin
           Frame.BracketHilite:= false;
+          Frame.BracketHiliteUserChanged:= true;
+        end;
       end;
     cmd_BracketHighlightToggle:
       begin
         if Assigned(Frame) then
+        begin
           Frame.BracketHilite:= not Frame.BracketHilite;
+          Frame.BracketHiliteUserChanged:= true;
+        end;
       end;
     cmd_BracketJump:
       begin

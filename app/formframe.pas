@@ -148,6 +148,7 @@ type
     FCachedTreeview: array[0..1] of TTreeView;
     FLexerChooseFunc: TecLexerChooseFunc;
     FBracketHilite: boolean;
+    FBracketHiliteUserChanged: boolean;
     FBracketSymbols: string;
     FBracketMaxDistance: integer;
     FOnGetSaveDialog: TFrameGetSaveDialog;
@@ -333,6 +334,7 @@ type
     function BinaryFindNext(ABack: boolean): boolean;
     //
     property BracketHilite: boolean read FBracketHilite write SetBracketHilite;
+    property BracketHiliteUserChanged: boolean read FBracketHiliteUserChanged write FBracketHiliteUserChanged;
     property BracketSymbols: string read FBracketSymbols write FBracketSymbols;
     property BracketDistance: integer read FBracketMaxDistance write FBracketMaxDistance;
     procedure BracketJump(Ed: TATSynEdit);
