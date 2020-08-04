@@ -6,9 +6,9 @@
 1.108.2 (2020/08)
 
 + add: lexer Python: don't highlight words after dot (e.g. 'type' 'len'); fold "async for"
-- fix: fix API ed.cmd() for bug in plugin Differ (thanks @hycmos) 
+- fix: fixed API ed.cmd() for plugin Differ (thanks @hycmos)
 - fix: lexers C, C++: fixes for "struct" code-tree items, number literals
-- fix: treehelper for Markdown: bug for `code` at line start
+- fix: treehelper for Markdown: bug with `code` at line start
 - fix: "floating point error" in Python on Win10 2004 (thanks @John)
 
 1.108.0 (2020/07)
