@@ -6,6 +6,7 @@
 1.108.2 (2020/08)
 
 + add: lexer Python: don't highlight words after dot (e.g. 'type' 'len'); fold "async for"
+- fix: commands "brackets: pair highlight..." state was reset on tab switching (thanks @John)
 - fix: fixed API ed.cmd() for plugin Differ (thanks @hycmos)
 - fix: lexers C, C++: fixes for "struct" code-tree items, number literals
 - fix: treehelper for Markdown: bug with `code` at line start
