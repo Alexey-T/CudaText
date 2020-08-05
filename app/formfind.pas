@@ -525,6 +525,7 @@ procedure TfmFind.UpdateInputFind(const AText: UnicodeString);
 begin
   IsMultiLine:= Pos(#10, AText)>0;
   edFind.Text:= AText;
+  edFind.DoEventChange(); //for lexer RegEx
 end;
 
 procedure TfmFind.UpdateInputReplace(const AText: UnicodeString);
