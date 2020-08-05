@@ -8,6 +8,7 @@
 + add: lexer Python: don't highlight words after dot (e.g. 'type' 'len'); fold "async for"
 - fix: commands "brackets: pair highlight..." state was reset on tab switching (thanks @John)
 - fix: fixed API ed.cmd() for plugin Differ (thanks @hycmos)
+- fix: lexer YAML: folding
 - fix: lexers C, C++: fixes for "struct" code-tree items, number literals
 - fix: treehelper for Markdown: bug with `code` at line start
 - fix: "floating point error" in Python on Win10 2004 (thanks @John)
