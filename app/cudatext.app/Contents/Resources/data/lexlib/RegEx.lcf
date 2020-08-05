@@ -1,4 +1,4 @@
-object SyntAnal22: TLibSyntAnalyzer
+object SyntAnal17: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Brackets'
@@ -125,7 +125,7 @@ object SyntAnal22: TLibSyntAnalyzer
       BlockName = '['
       NotParent = True
       TokenType = 1
-      Expression = '\(\?: | \((\?<?[!=])? | \)'
+      Expression = '\(\?: | (?-i)\(\?P<\w+> | (?-i)\(\?P=\w+ | \((\?<?[!=])? | \)'
       ColumnFrom = 0
       ColumnTo = 0
     end
