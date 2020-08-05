@@ -804,7 +804,7 @@ object SyntAnal11: TLibSyntAnalyzer
       DisplayName = 'JavaScript'
       StyleName = 'Sublexer BG'
       AlwaysEnabled = True
-      StartExpression = '(?si)<script\s[^>]*javascript [^>\?]* > \s*(<!\-\-)?'
+      StartExpression = '(?si)<script\s[^>]*(j|java|ecma|paper)script [^>\?]*> \s*(<!\-\-)?'
       EndExpression = '(?i)(//)?(\-\->)?\s*</script\s*>'
       SyntAnalyzer = SyntAnal13
     end
