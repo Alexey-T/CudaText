@@ -1,4 +1,4 @@
-object SyntAnal27: TLibSyntAnalyzer
+object SyntAnal22: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -198,7 +198,7 @@ object SyntAnal27: TLibSyntAnalyzer
       DisplayName = '1st -'
       StyleName = 'Symbol'
       TokenType = 8
-      Expression = '(?<=[\x20\x09]*)\-'
+      Expression = '(?<=^[\x20\x09]*)\-\x20'
       ColumnFrom = 0
       ColumnTo = 0
     end
