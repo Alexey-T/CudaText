@@ -3,6 +3,14 @@
   - fixed
   * changed
 
+1.108.5 (2020/08)
+
++ add: improved RegExpr engine:
+    + support named groups: (?P<name>expr) and named references: (?P=name)
+    + support named groups in "replace with": ${name}
+    + support positive lookahead: foo(?=bar)
+    + support positive lookbehind: (?<=foo)bar
+
 1.108.2 (2020/08)
 
 + add: lexer Python: don't highlight words after dot (e.g. 'type' 'len'); fold "async for"
