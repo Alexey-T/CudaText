@@ -206,6 +206,10 @@ begin
   if not AppPython.Inited then exit;
 
   Ed:= Frame.Editor;
+
+  //don't run tree-helper on huge files
+  if Ed.Strings.Count>MaxLinesWhenParserEnablesFolding then exit;
+
   CurLexer:= Frame.LexerName[Ed];
   if CurLexer='' then exit;
   CurFilename:= Frame.GetFileName(Ed);
