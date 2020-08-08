@@ -5181,7 +5181,7 @@ begin
   bUntitled:= SFilename='';
   if bUntitled then
     bSaveAs:= true;
-  bFileExists:= FileExistsUTF8(SFilename);
+  bFileExists:= (SFilename<>'') and FileExistsUTF8(SFilename);
 
   //if file not exists, it's moved during Cud work, we must recreate it (like ST3)
   if Ed.Modified or bUntitled or not bFileExists then
