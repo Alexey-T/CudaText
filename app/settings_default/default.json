@@ -226,8 +226,9 @@
   //This makes much faster app start, if session loads lot of files.
   "lexer_postpone_until_shown": true,
 
-  //When number of lines in document is bigger than option value, lexer parser
-  //doesn't find any folding ranges, which makes parsing ~3 times faster
+  //When number of lines in document is bigger than the option value, lexer parser
+  //will not find folding ranges, which makes parsing 1.5-3 times faster.
+  //Also Python tree-helper will not run.
   "lexer_folding_max_lines": 10000,
 
   //Size of lexer highlighting cache, in lines.
