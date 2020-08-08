@@ -877,6 +877,7 @@ procedure FormPosSetFromString(Form: TForm; const S: string; AOnlySize: boolean)
 var
   Sep: TATStringSeparator;
   X, Y, W, H, NMax: integer;
+  R: TRect;
 begin
   if S='' then exit;
   Sep.Init(S);
@@ -893,7 +894,9 @@ begin
     NMax:= 0;
   end;
 
-  Form.BoundsRect:= Rect(X, Y, X+W, Y+H);
+  R:= Rect(X, Y, X+W, Y+H);
+  if Form.BoundsRect<>R then
+    Form.BoundsRect:= R;
 
   if bool(NMax) then
     Form.WindowState:= wsMaximized;
