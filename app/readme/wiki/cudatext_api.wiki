@@ -1176,8 +1176,8 @@ Possible values of "id_action":
 * DLG_COORD_LOCAL_TO_SCREEN: Converts x/y coordinates from form-related, to screen-related. Param "index" is x, "index2" is y. Returns tuple (x,y).
 * DLG_COORD_SCREEN_TO_LOCAL: Converts x/y coordinates from screen-related, to form-related. Param "index" is x, "index2" is y. Returns tuple (x,y).
 
-* DLG_POS_GET_STR: Returns form position / size / maximized state, as string (comma-separated: "x,y,w,h,max").
-* DLG_POS_SET_FROM_STR: Sets form position / size / maximized state, from string. Param "prop" is string value.
+* DLG_POS_GET_STR: Returns form position / size / maximized state, as string (comma-separated numbers: "x,y,w,h,max").
+* DLG_POS_SET_FROM_STR: Sets form position / size / maximized state, from string. Param "prop" is string value. It is faster than setting form properties "x", "y", "w", "h".
 
 ====Anchors====
 
