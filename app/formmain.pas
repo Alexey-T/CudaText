@@ -5167,7 +5167,8 @@ end;
 procedure TfmMain.DoFileSave(Ed: TATSynEdit);
 var
   Frame: TEditorFrame;
-  bNoName, bSaveAs: boolean;
+  bSaveAs, bUntitled, bFileExists: boolean;
+  SFilename: string;
 begin
   Frame:= GetEditorFrame(Ed);
   if Frame=nil then exit;
@@ -5176,11 +5177,14 @@ begin
   DoFileDialog_PrepareDir(SaveDlg);
 
   bSaveAs:= false;
-  bNoName:= Frame.GetFileName(Ed)='';
-  if bNoName then
+  SFilename:= Frame.GetFileName(Ed);
+  bUntitled:= SFilename='';
+  if bUntitled then
     bSaveAs:= true;
+  bFileExists:= FileExistsUTF8(SFilename);
 
-  if Ed.Modified or bNoName then
+  //if file not exists, it's moved during Cud work, we must recreate it (like ST3)
+  if Ed.Modified or bUntitled or not bFileExists then
   begin
     if Frame.DoFileSave_Ex(Ed, bSaveAs) then
       DoFileDialog_SaveDir(SaveDlg);
