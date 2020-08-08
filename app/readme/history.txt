@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.108.6 (2020/08)
+
++ add: if file was moved outside of CudaText, "Save" must re-create the file (thanks @Jairo-Martinez)
+
 1.108.5 (2020/08)
 
 + add: improved RegExpr engine:
