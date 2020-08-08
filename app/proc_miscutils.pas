@@ -879,7 +879,10 @@ begin
     Y:= R.Top;
   end;
 
-  R:= Rect(X, Y, X+W, Y+H);
+  R.Left:= X;
+  R.Top:= Y;
+  R.Right:= X+W;
+  R.Bottom:= Y+H;
 end;
 
 
