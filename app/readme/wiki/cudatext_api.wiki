@@ -1176,6 +1176,9 @@ Possible values of "id_action":
 * DLG_COORD_LOCAL_TO_SCREEN: Converts x/y coordinates from form-related, to screen-related. Param "index" is x, "index2" is y. Returns tuple (x,y).
 * DLG_COORD_SCREEN_TO_LOCAL: Converts x/y coordinates from screen-related, to form-related. Param "index" is x, "index2" is y. Returns tuple (x,y).
 
+* DLG_POS_GET_STR: Returns form position / size / maximized state, as string (comma-separated: "x,y,w,h,max").
+* DLG_POS_SET_FROM_STR: Sets form position / size / maximized state, from string. Param "prop" is string value.
+
 ====Anchors====
 
 Anchor is attaching of control's side to another control, or to the parent form, so control is auto positioned, initially and on form resize. Lazarus IDE has such Anchor Editor dialog:
@@ -4018,5 +4021,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.348 (app 1.108.0)
 * add: Editor.action: EDACTION_UNDOGROUP_BEGIN, EDACTION_UNDOGROUP_END
+
+1.0.349 (app 1.108.6)
+* add: dlg_proc: DLG_POS_GET_STR, DLG_POS_SET_FROM_STR
 
 [[Category:CudaText]]
