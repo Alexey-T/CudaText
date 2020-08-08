@@ -31,6 +31,9 @@ uses
   proc_py_const,
   proc_colors;
 
+function FormPosGetAsString(Form: TForm; AOnlySize: boolean): string;
+procedure FormPosSetFromString(Form: TForm; const S: string; AOnlySize: boolean);
+
 procedure FormHistorySave(F: TForm; const AConfigPath: string; AWithPos: boolean);
 procedure FormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean);
 
@@ -846,6 +849,54 @@ begin
   Result:= S;
   Result:= StringReplace(Result, '\', ': ', [rfReplaceAll]);
   Result:= StringReplace(Result, '&', '', [rfReplaceAll]);
+end;
+
+function FormPosGetAsString(Form: TForm; AOnlySize: boolean): string;
+var
+  X, Y, W, H, NMax: integer;
+begin
+  if AOnlySize then
+  begin
+    X:= 0;
+    Y:= 0;
+    NMax:= 0;
+  end
+  else
+  begin
+    X:= Form.Left;
+    Y:= Form.Top;
+    NMax:= Ord(Form.WindowState=wsMaximized);
+  end;
+  W:= Form.Width;
+  H:= Form.Height;
+
+  Result:= Format('%d,%d,%d,%d,%d', [X, Y, W, H, NMax]);
+end;
+
+procedure FormPosSetFromString(Form: TForm; const S: string; AOnlySize: boolean);
+var
+  Sep: TATStringSeparator;
+  X, Y, W, H, NMax: integer;
+begin
+  if S='' then exit;
+  Sep.Init(S);
+  Sep.GetItemInt(X, Form.Left);
+  Sep.GetItemInt(Y, Form.Top);
+  Sep.GetItemInt(W, Form.Width);
+  Sep.GetItemInt(H, Form.Height);
+  Sep.GetItemInt(NMax, 0);
+
+  if AOnlySize then
+  begin
+    X:= Form.Left;
+    Y:= Form.Top;
+    NMax:= 0;
+  end;
+
+  Form.BoundsRect:= Rect(X, Y, X+W, Y+H);
+
+  if bool(NMax) then
+    Form.WindowState:= wsMaximized;
 end;
 
 
