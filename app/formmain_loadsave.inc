@@ -63,7 +63,7 @@ begin
     if not ShowFullscreen then
     begin
       bMax:= WindowState=wsMaximized;
-      cfg.SetValue('/dialog/max', bMax);
+      cfg.SetValue('/pos/main_max', bMax);
       if bMax then
         cfg.SetValue('/pos/main_mon', Monitor.MonitorNum);
 
@@ -577,7 +577,7 @@ begin
       exit;
     end;
 
-    DoOps_LoadFormRect(cfg, '/pos/main', FBoundsMain, FLastMaximized);
+    DoOps_LoadFormRect(cfg, '/pos/main', FBoundsMain, bMax);
     DoOps_LoadFormRect(cfg, '/pos/side', AppPanels[cPaneSide].FormFloatBounds, bMax);
     DoOps_LoadFormRect(cfg, '/pos/bottom', AppPanels[cPaneOut].FormFloatBounds, bMax);
     DoOps_LoadFormRect(cfg, '/pos/g1', FBoundsFloatGroups1, bMax);
@@ -587,6 +587,7 @@ begin
     //note: BoundsRect change works very long (150-200ms) on Linux gtk2
     BoundsRect:= FBoundsMain;
 
+    FLastMaximized:= cfg.GetValue('/pos/main_max', false);
     FLastMaximizedMonitor:= cfg.GetValue('/pos/main_mon', 0);
 
     ////recents
