@@ -25,6 +25,33 @@ begin
   MsgLogConsole(Format(msgApiDeprecated, [s]));
 end;
 
+function DoFormPosGetAsString(Form: TForm): string;
+begin
+  Result:= Format('%d,%d,%d,%d,%d', [
+    Form.Left,
+    Form.Top,
+    Form.Width,
+    Form.Height,
+    Ord(Form.WindowState=wsMaximized)
+    ]);
+end;
+
+procedure DoFormPosSetFromString(Form: TForm; const S: string);
+var
+  Sep: TATStringSeparator;
+  X, Y, W, H, NMax: integer;
+begin
+  if S='' then exit;
+  Sep.Init(S);
+  Sep.GetItemInt(X, Form.Left);
+  Sep.GetItemInt(Y, Form.Top);
+  Sep.GetItemInt(W, Form.Width);
+  Sep.GetItemInt(H, Form.Height);
+  Sep.GetItemInt(NMax, 0);
+  Form.BoundsRect:= Rect(X, Y, X+W, Y+H);
+  if bool(NMax) then
+    Form.WindowState:= wsMaximized;
+end;
 
 function AppSendMessageFromString(const AText: string): integer;
 var
@@ -8444,6 +8471,17 @@ begin
             Pnt:= Point(NIndex, NIndex2);
             Pnt:= Form.ScreenToClient(Pnt);
             Result:= Py_BuildValue('(ii)', Pnt.X, Pnt.Y);
+          end;
+
+        DLG_POS_GET_STR:
+          begin
+            Result:= PyString_FromString(PChar(DoFormPosGetAsString(Form)));
+          end;
+
+        DLG_POS_SET_FROM_STR:
+          begin
+            DoFormPosSetFromString(Form, StrProp);
+            Result:= ReturnNone;
           end;
 
         else

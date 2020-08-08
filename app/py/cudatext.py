@@ -674,6 +674,8 @@ DLG_CTL_FIND       = 31
 DLG_CTL_HANDLE     = 32
 DLG_COORD_LOCAL_TO_SCREEN = 40
 DLG_COORD_SCREEN_TO_LOCAL = 41
+DLG_POS_GET_STR      = 45
+DLG_POS_SET_FROM_STR = 46
 
 #storage of live callbacks
 _live = {}
