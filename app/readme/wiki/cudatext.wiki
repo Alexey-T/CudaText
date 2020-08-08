@@ -226,14 +226,14 @@ Some details about this:
 |-
 ! Command
 ! Behaviour, when there're no selections
-! Behaviour, when at last one selection present
+! Behaviour, when at least one selection present
 |-
 | Copy to clipboard
-| Copies entire lines, containing carets. (Ignores multiple carets on same line.)
-| Copies only selections text. (Ignores carets without selections.)
+| Copies entire lines, containing carets. Ignores multiple carets on a same line.
+| Copies only selections text. Ignores carets without selections.
 |-
 | Cut to clipboard
-| Similarly to "Copy" w/o selections.
+| Similarly to "Copy" without selections.
 | Similarly to "Copy" with selections.
 |-
 | Paste from clipboard
@@ -241,7 +241,7 @@ Some details about this:
 |-
 | Delete char
 | Deletes one char at each caret position.
-| Deletes only selections text. (Ignores carets without selections.)
+| Deletes only selections text. Ignores carets without selections.
 |}
 
 == Lexers ==
