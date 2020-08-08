@@ -33,7 +33,7 @@ uses
 
 function FormPosGetAsString(Form: TForm; AOnlySize: boolean): string;
 procedure FormPosSetFromString(Form: TForm; const S: string; AOnlySize: boolean);
-procedure RectSetFromString(var R: TRect; var AMax: boolean; const S: string; AOnlySize: boolean);
+procedure RectSetFromString(var R: TRect; const S: string; AOnlySize: boolean);
 
 procedure FormHistorySave(F: TForm; const AConfigPath: string; AWithPos: boolean);
 procedure FormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean);
@@ -843,30 +843,28 @@ end;
 
 function FormPosGetAsString(Form: TForm; AOnlySize: boolean): string;
 var
-  X, Y, W, H, NMax: integer;
+  X, Y, W, H: integer;
 begin
   if AOnlySize then
   begin
     X:= 0;
     Y:= 0;
-    NMax:= 0;
   end
   else
   begin
     X:= Form.Left;
     Y:= Form.Top;
-    NMax:= Ord(Form.WindowState=wsMaximized);
   end;
   W:= Form.Width;
   H:= Form.Height;
 
-  Result:= Format('%d,%d,%d,%d,%d', [X, Y, W, H, NMax]);
+  Result:= Format('%d,%d,%d,%d', [X, Y, W, H]);
 end;
 
-procedure RectSetFromString(var R: TRect; var AMax: boolean; const S: string; AOnlySize: boolean);
+procedure RectSetFromString(var R: TRect; const S: string; AOnlySize: boolean);
 var
   Sep: TATStringSeparator;
-  X, Y, W, H, NMax: integer;
+  X, Y, W, H: integer;
 begin
   if S='' then exit;
   Sep.Init(S);
@@ -874,31 +872,25 @@ begin
   Sep.GetItemInt(Y, R.Top);
   Sep.GetItemInt(W, R.Width);
   Sep.GetItemInt(H, R.Height);
-  Sep.GetItemInt(NMax, 0);
 
   if AOnlySize then
   begin
     X:= R.Left;
     Y:= R.Top;
-    NMax:= 0;
   end;
 
   R:= Rect(X, Y, X+W, Y+H);
-  AMax:= bool(NMax);
 end;
 
 
 procedure FormPosSetFromString(Form: TForm; const S: string; AOnlySize: boolean);
 var
   R: TRect;
-  bMax: boolean;
 begin
   R:= Form.BoundsRect;
-  RectSetFromString(R, bMax, S, AOnlySize);
+  RectSetFromString(R, S, AOnlySize);
   if Form.BoundsRect<>R then
     Form.BoundsRect:= R;
-  if bMax then
-    Form.WindowState:= wsMaximized;
 end;
 
 

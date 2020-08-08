@@ -548,14 +548,14 @@ begin
 end;
 
 
-procedure DoOps_LoadFormRect(Cfg: TJSONConfig; const APath: string; var R: TRect; var AMaximized: boolean);
+procedure DoOps_LoadFormRect(Cfg: TJSONConfig; const APath: string; var R: TRect);
 var
   S: string;
 begin
   S:= Cfg.GetValue(APath, '');
   if S<>'' then
   begin
-    RectSetFromString(R, AMaximized, S, false);
+    RectSetFromString(R, S, false);
     FixRectPositionToDesktop(R);
   end;
 end;
@@ -567,7 +567,6 @@ procedure TfmMain.DoOps_LoadHistory;
 var
   cfg: TJSONConfig;
   bFlag: boolean;
-  bMax: boolean;
 begin
   cfg:= TJSONConfig.Create(nil);
   try
@@ -577,12 +576,12 @@ begin
       exit;
     end;
 
-    DoOps_LoadFormRect(cfg, '/pos/main', FBoundsMain, bMax);
-    DoOps_LoadFormRect(cfg, '/pos/side', AppPanels[cPaneSide].FormFloatBounds, bMax);
-    DoOps_LoadFormRect(cfg, '/pos/bottom', AppPanels[cPaneOut].FormFloatBounds, bMax);
-    DoOps_LoadFormRect(cfg, '/pos/g1', FBoundsFloatGroups1, bMax);
-    DoOps_LoadFormRect(cfg, '/pos/g2', FBoundsFloatGroups2, bMax);
-    DoOps_LoadFormRect(cfg, '/pos/g3', FBoundsFloatGroups3, bMax);
+    DoOps_LoadFormRect(cfg, '/pos/main', FBoundsMain);
+    DoOps_LoadFormRect(cfg, '/pos/side', AppPanels[cPaneSide].FormFloatBounds);
+    DoOps_LoadFormRect(cfg, '/pos/bottom', AppPanels[cPaneOut].FormFloatBounds);
+    DoOps_LoadFormRect(cfg, '/pos/g1', FBoundsFloatGroups1);
+    DoOps_LoadFormRect(cfg, '/pos/g2', FBoundsFloatGroups2);
+    DoOps_LoadFormRect(cfg, '/pos/g3', FBoundsFloatGroups3);
 
     //note: BoundsRect change works very long (150-200ms) on Linux gtk2
     BoundsRect:= FBoundsMain;
