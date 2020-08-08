@@ -90,12 +90,12 @@ end;
 
 procedure TfmSaveTabs.DoLoadSize;
 begin
-  FormHistoryLoad(Self, '/dlg_savetabs', false);
+  FormHistoryLoad(Self, '/pos/savetabs', false);
 end;
 
 procedure TfmSaveTabs.DoSaveSize;
 begin
-  FormHistorySave(Self, '/dlg_savetabs', false);
+  FormHistorySave(Self, '/pos/savetabs', false);
 end;
 
 procedure TfmSaveTabs.FormKeyDown(Sender: TObject; var Key: Word;

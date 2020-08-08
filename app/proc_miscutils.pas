@@ -33,6 +33,7 @@ uses
 
 function FormPosGetAsString(Form: TForm; AOnlySize: boolean): string;
 procedure FormPosSetFromString(Form: TForm; const S: string; AOnlySize: boolean);
+procedure RectSetFromString(var R: TRect; var AMax: boolean; const S: string; AOnlySize: boolean);
 
 procedure FormHistorySave(F: TForm; const AConfigPath: string; AWithPos: boolean);
 procedure FormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean);
@@ -702,6 +703,7 @@ end;
 procedure FormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean);
 var
   c: TJSONConfig;
+  S: string;
 begin
   c:= TJSONConfig.Create(nil);
   try
@@ -711,14 +713,9 @@ begin
       exit;
     end;
 
-    F.Width:= c.GetValue(AConfigPath+'/sizex', F.Width);
-    F.Height:= c.GetValue(AConfigPath+'/sizey', F.Height);
-
-    if AWithPos then
-    begin
-      F.Left:= c.GetValue(AConfigPath+'/posx', F.Left);
-      F.Top:= c.GetValue(AConfigPath+'/posy', F.Top);
-    end;
+    S:= c.GetValue(AConfigPath, '');
+    if S<>'' then
+      FormPosSetFromString(F, S, not AWithPos);
   finally
     c.Free;
   end;
@@ -736,14 +733,7 @@ begin
       exit;
     end;
 
-    c.SetValue(AConfigPath+'/sizex', F.Width);
-    c.SetValue(AConfigPath+'/sizey', F.Height);
-
-    if AWithPos then
-    begin
-      c.SetValue(AConfigPath+'/posx', F.Left);
-      c.SetValue(AConfigPath+'/posy', F.Top);
-    end;
+    c.SetValue(AConfigPath, FormPosGetAsString(F, not AWithPos));
   finally
     c.Free;
   end;
@@ -873,32 +863,41 @@ begin
   Result:= Format('%d,%d,%d,%d,%d', [X, Y, W, H, NMax]);
 end;
 
-procedure FormPosSetFromString(Form: TForm; const S: string; AOnlySize: boolean);
+procedure RectSetFromString(var R: TRect; var AMax: boolean; const S: string; AOnlySize: boolean);
 var
   Sep: TATStringSeparator;
   X, Y, W, H, NMax: integer;
-  R: TRect;
 begin
   if S='' then exit;
   Sep.Init(S);
-  Sep.GetItemInt(X, Form.Left);
-  Sep.GetItemInt(Y, Form.Top);
-  Sep.GetItemInt(W, Form.Width);
-  Sep.GetItemInt(H, Form.Height);
+  Sep.GetItemInt(X, R.Left);
+  Sep.GetItemInt(Y, R.Top);
+  Sep.GetItemInt(W, R.Width);
+  Sep.GetItemInt(H, R.Height);
   Sep.GetItemInt(NMax, 0);
 
   if AOnlySize then
   begin
-    X:= Form.Left;
-    Y:= Form.Top;
+    X:= R.Left;
+    Y:= R.Top;
     NMax:= 0;
   end;
 
   R:= Rect(X, Y, X+W, Y+H);
+  AMax:= bool(NMax);
+end;
+
+
+procedure FormPosSetFromString(Form: TForm; const S: string; AOnlySize: boolean);
+var
+  R: TRect;
+  bMax: boolean;
+begin
+  R:= Form.BoundsRect;
+  RectSetFromString(R, bMax, S, AOnlySize);
   if Form.BoundsRect<>R then
     Form.BoundsRect:= R;
-
-  if bool(NMax) then
+  if bMax then
     Form.WindowState:= wsMaximized;
 end;
 

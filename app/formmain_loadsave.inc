@@ -65,48 +65,22 @@ begin
       bMax:= WindowState=wsMaximized;
       cfg.SetValue('/dialog/max', bMax);
       if bMax then
-        cfg.SetValue('/dialog/max_mon', Monitor.MonitorNum);
+        cfg.SetValue('/pos/main_mon', Monitor.MonitorNum);
 
       if not IsWindowMaximizedOrFullscreen then
-      begin
-        cfg.SetValue('/dialog/posx', Left);
-        cfg.SetValue('/dialog/posy', Top);
-        cfg.SetValue('/dialog/sizex', Width);
-        cfg.SetValue('/dialog/sizey', Height);
-      end;
+        cfg.SetValue('/pos/main', FormPosGetAsString(Self, false));
 
       if AppPanels[cPaneSide].Floating then
-      begin
-        cfg.SetValue('/dialog/fl_side/posx',  AppPanels[cPaneSide].FormFloat.Left);
-        cfg.SetValue('/dialog/fl_side/posy',  AppPanels[cPaneSide].FormFloat.Top);
-        cfg.SetValue('/dialog/fl_side/sizex', AppPanels[cPaneSide].FormFloat.Width);
-        cfg.SetValue('/dialog/fl_side/sizey', AppPanels[cPaneSide].FormFloat.Height);
-      end;
+        cfg.SetValue('/pos/side', FormPosGetAsString(AppPanels[cPaneSide].FormFloat, false));
 
       if AppPanels[cPaneOut].Floating then
-      begin
-        cfg.SetValue('/dialog/fl_btm/posx',  AppPanels[cPaneOut].FormFloat.Left);
-        cfg.SetValue('/dialog/fl_btm/posy',  AppPanels[cPaneOut].FormFloat.Top);
-        cfg.SetValue('/dialog/fl_btm/sizex', AppPanels[cPaneOut].FormFloat.Width);
-        cfg.SetValue('/dialog/fl_btm/sizey', AppPanels[cPaneOut].FormFloat.Height);
-      end;
+        cfg.SetValue('/pos/bottom', FormPosGetAsString(AppPanels[cPaneOut].FormFloat, false));
 
       if FloatGroups then
       begin
-        cfg.SetValue('/dialog/fl_g1/posx',  FFormFloatGroups1.Left);
-        cfg.SetValue('/dialog/fl_g1/posy',  FFormFloatGroups1.Top);
-        cfg.SetValue('/dialog/fl_g1/sizex', FFormFloatGroups1.Width);
-        cfg.SetValue('/dialog/fl_g1/sizey', FFormFloatGroups1.Height);
-
-        cfg.SetValue('/dialog/fl_g2/posx',  FFormFloatGroups2.Left);
-        cfg.SetValue('/dialog/fl_g2/posy',  FFormFloatGroups2.Top);
-        cfg.SetValue('/dialog/fl_g2/sizex', FFormFloatGroups2.Width);
-        cfg.SetValue('/dialog/fl_g2/sizey', FFormFloatGroups2.Height);
-
-        cfg.SetValue('/dialog/fl_g3/posx',  FFormFloatGroups3.Left);
-        cfg.SetValue('/dialog/fl_g3/posy',  FFormFloatGroups3.Top);
-        cfg.SetValue('/dialog/fl_g3/sizex', FFormFloatGroups3.Width);
-        cfg.SetValue('/dialog/fl_g3/sizey', FFormFloatGroups3.Height);
+        cfg.SetValue('/pos/g1', FormPosGetAsString(FFormFloatGroups1, false));
+        cfg.SetValue('/pos/g2', FormPosGetAsString(FFormFloatGroups2, false));
+        cfg.SetValue('/pos/g3', FormPosGetAsString(FFormFloatGroups3, false));
       end;
 
       cfg.SetValue('show_sidepanel', AppPanels[cPaneSide].Visible);
@@ -574,14 +548,16 @@ begin
 end;
 
 
-procedure DoOps_LoadFormRect(cfg: TJSONConfig; const path: string; var R: TRect);
+procedure DoOps_LoadFormRect(Cfg: TJSONConfig; const APath: string; var R: TRect; var AMaximized: boolean);
+var
+  S: string;
 begin
-  R.Left:= cfg.GetValue(path+'/posx', R.Left);
-  R.Top:= cfg.GetValue(path+'/posy', R.Top);
-  R.Width:= cfg.GetValue(path+'/sizex', R.Width);
-  R.Height:= cfg.GetValue(path+'/sizey', R.Height);
-
-  FixRectPositionToDesktop(R);
+  S:= Cfg.GetValue(APath, '');
+  if S<>'' then
+  begin
+    RectSetFromString(R, AMaximized, S, false);
+    FixRectPositionToDesktop(R);
+  end;
 end;
 
 
@@ -591,6 +567,7 @@ procedure TfmMain.DoOps_LoadHistory;
 var
   cfg: TJSONConfig;
   bFlag: boolean;
+  bMax: boolean;
 begin
   cfg:= TJSONConfig.Create(nil);
   try
@@ -600,18 +577,17 @@ begin
       exit;
     end;
 
-    DoOps_LoadFormRect(cfg, '/dialog', FBoundsMain);
-    DoOps_LoadFormRect(cfg, '/dialog/fl_side', AppPanels[cPaneSide].FormFloatBounds);
-    DoOps_LoadFormRect(cfg, '/dialog/fl_btm', AppPanels[cPaneOut].FormFloatBounds);
-    DoOps_LoadFormRect(cfg, '/dialog/fl_g1', FBoundsFloatGroups1);
-    DoOps_LoadFormRect(cfg, '/dialog/fl_g2', FBoundsFloatGroups2);
-    DoOps_LoadFormRect(cfg, '/dialog/fl_g3', FBoundsFloatGroups3);
+    DoOps_LoadFormRect(cfg, '/pos/main', FBoundsMain, FLastMaximized);
+    DoOps_LoadFormRect(cfg, '/pos/side', AppPanels[cPaneSide].FormFloatBounds, bMax);
+    DoOps_LoadFormRect(cfg, '/pos/bottom', AppPanels[cPaneOut].FormFloatBounds, bMax);
+    DoOps_LoadFormRect(cfg, '/pos/g1', FBoundsFloatGroups1, bMax);
+    DoOps_LoadFormRect(cfg, '/pos/g2', FBoundsFloatGroups2, bMax);
+    DoOps_LoadFormRect(cfg, '/pos/g3', FBoundsFloatGroups3, bMax);
 
     //note: BoundsRect change works very long (150-200ms) on Linux gtk2
     BoundsRect:= FBoundsMain;
 
-    FLastMaximized:= cfg.GetValue('/dialog/max', false);
-    FLastMaximizedMonitor:= cfg.GetValue('/dialog/max_mon', 0);
+    FLastMaximizedMonitor:= cfg.GetValue('/pos/main_mon', 0);
 
     ////recents
     cfg.GetValue('/recent_files', AppListRecents, '');

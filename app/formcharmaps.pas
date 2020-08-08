@@ -370,7 +370,7 @@ begin
 
   DoShowAnsi;
 
-  FormHistoryLoad(Self, '/dlg_charmap', false);
+  FormHistoryLoad(Self, '/pos/charmap', false);
 end;
 
 procedure TfmCharmaps.FormKeyDown(Sender: TObject; var Key: Word;
@@ -480,7 +480,7 @@ end;
 
 procedure TfmCharmaps.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-  FormHistorySave(Self, '/dlg_charmap', false);
+  FormHistorySave(Self, '/pos/charmap', false);
 end;
 
 procedure TfmCharmaps.btnAnsiClick(Sender: TObject);
