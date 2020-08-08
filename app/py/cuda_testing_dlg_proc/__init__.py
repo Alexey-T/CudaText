@@ -255,6 +255,13 @@ class Command:
     def callback_maindlg_paint_click(self, id_dlg, id_ctl, data='', info=''):
         self.do_paint_mark(id_dlg, id_ctl)
 
+    def callback_maindlg_pos_save(self, id_dlg, id_ctl, data='', info=''):
+        self.pos_str = dlg_proc(id_dlg, DLG_POS_GET_STR)
+
+    def callback_maindlg_pos_load(self, id_dlg, id_ctl, data='', info=''):
+        if hasattr(self, 'pos_str'):
+            dlg_proc(id_dlg, DLG_POS_SET_FROM_STR, self.pos_str)
+
     def callback_tempdlg_on_key_down(self, id_dlg, id_ctl, data='', info=''):
         print('callback_tempdlg_on_key_down')
 
@@ -425,7 +432,7 @@ class Command:
             'x': 100,
             'y': 50,
             'w': 400,
-            'h': 300,
+            'h': 380,
             'w_min': 200,
             'h_min': 300,
             'border': DBORDER_SIZE,
@@ -546,6 +553,26 @@ class Command:
             'y': 260,
             'w': 100,
             'on_change': self.callback_maindlg_paint_click
+            })
+            
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_pos_save',
+            'cap': 'pos: to str',
+            'x': 10,
+            'y': 290,
+            'w': 100,
+            'on_change': self.callback_maindlg_pos_save
+            })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_pos_load',
+            'cap': 'pos: from str',
+            'x': 10,
+            'y': 320,
+            'w': 100,
+            'on_change': self.callback_maindlg_pos_load
             })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
