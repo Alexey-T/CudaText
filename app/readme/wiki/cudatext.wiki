@@ -217,10 +217,10 @@ Animation shows this:
 
 [[File:atsynedit-sel.gif]]
 
-===Clipboard commands with selections===
+===Commands with selections===
 
-Clipboard-related commands work with carets, both with selections and without them.
-Some details about this:
+Clipboard commands work with multi-carets and multi-selections the special way.
+Also "Delete char" commands (Delete/Backspace keys) works the special way.
 
 {| class="wikitable"
 |-
@@ -239,7 +239,7 @@ Some details about this:
 | Paste from clipboard
 | colspan="2" | First, selections are cleared (deleted). Then, command pastes text into each caret position. Special case is when clipboard lines count equals to carets count - in this case, first line is inserted at first caret, second line is inserted at 2nd caret, etc.
 |-
-| Delete char
+| Delete char left (Backspace) / Delete char right
 | Deletes one char at each caret position.
 | Deletes only selections text. Ignores carets without selections.
 |}
