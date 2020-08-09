@@ -109,12 +109,8 @@ begin
       cfg.SetValue('/list_find', fmFind.edFind.Items);
       cfg.SetValue('/list_replace', fmFind.edRep.Items);
       if fmFind.IsNarrow then
-      begin
-        cfg.SetValue('/find/pos_x', fmFind.Left);
-        cfg.SetValue('/find/pos_y', fmFind.Top);
-        cfg.SetValue('/find/size_x', fmFind.Width);
-      end;
-      cfg.SetValue('/find/multi_line', fmFind.IsMultiLine);
+        cfg.SetValue('/dlg/find', FormPosGetAsString(fmFind, false));
+      cfg.SetValue('/finder/mline', fmFind.IsMultiLine);
     end;
 
     cfg.SetValue('/list_console', fmConsole.EdInput.Items);
