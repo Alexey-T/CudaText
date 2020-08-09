@@ -233,6 +233,8 @@ object SyntAnal2: TLibSyntAnalyzer
     item
       DisplayName = '(('
       StyleName = 'Symbol'
+      BlockName = '$('
+      NotParent = True
       TokenType = 8
       Expression = '\(\('
       ColumnFrom = 0
@@ -241,6 +243,8 @@ object SyntAnal2: TLibSyntAnalyzer
     item
       DisplayName = '))'
       StyleName = 'Symbol'
+      BlockName = '$('
+      NotParent = True
       TokenType = 9
       Expression = '\)\)'
       ColumnFrom = 0
@@ -1057,6 +1061,7 @@ object SyntAnal2: TLibSyntAnalyzer
     '$@, $$, $@, $?, $-, $!, $*'
     '%, %%, %+, %-, %1, %ce, %?ce, !!, !-1, !50, 2>'
     '(( 1 -s --d )) (( !2 ))  [[ $str =~ ^$'#39'ab'#39' ]]'
+    '$(echo $(pwd)) ; $( [[ -n $1 ]] )'
     ''
     'function echo {'
     #9'git -a --test "path\"path"'
