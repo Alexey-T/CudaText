@@ -9,7 +9,7 @@
 + add: don't run tree-helper on huge files (re-use option "lexer_folding_max_lines")
 + add: if file was deleted/renamed outside of CudaText, "Save" should re-create the file (thanks @Jairo-Martinez)
 - fix: bug in rendering unprinted "trailing only" whitespace (thanks @Jairo-Martinez)
-- fix: lexer Bash: [[ ]] and (( )) blocks (thanks @VicDobrov)
+- fix: lexer Bash: (( )) blocks inside $() (thanks @VicDobrov)
 
 1.108.5 (2020/08)
 
