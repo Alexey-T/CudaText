@@ -410,7 +410,7 @@ begin
         cfg.GetValue('/list_find', fmFind.edFind.Items, '');
         cfg.GetValue('/list_replace', fmFind.edRep.Items, '');
         if fmFind.IsNarrow then
-          FormPosSetFromString(fmFind, cfg.GetValue('/dlg/find', ''), false);
+          FormPosSetFromString(fmFind, cfg.GetValue('/pos/find', ''), false);
         fmFind.IsMultiLine:= cfg.GetValue('/finder/mline', false);
       except
       end;

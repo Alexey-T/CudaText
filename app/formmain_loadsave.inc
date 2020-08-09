@@ -109,7 +109,7 @@ begin
       cfg.SetValue('/list_find', fmFind.edFind.Items);
       cfg.SetValue('/list_replace', fmFind.edRep.Items);
       if fmFind.IsNarrow then
-        cfg.SetValue('/dlg/find', FormPosGetAsString(fmFind, false));
+        cfg.SetValue('/pos/find', FormPosGetAsString(fmFind, false));
       cfg.SetValue('/finder/mline', fmFind.IsMultiLine);
     end;
 
