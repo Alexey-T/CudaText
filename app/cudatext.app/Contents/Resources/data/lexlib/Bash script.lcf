@@ -241,8 +241,6 @@ object SyntAnal2: TLibSyntAnalyzer
     item
       DisplayName = '))'
       StyleName = 'Symbol'
-      BlockName = '$('
-      NotParent = True
       TokenType = 9
       Expression = '\)\)'
       ColumnFrom = 0
@@ -259,8 +257,6 @@ object SyntAnal2: TLibSyntAnalyzer
     item
       DisplayName = ']]'
       StyleName = 'Symbol'
-      BlockName = '$('
-      NotParent = True
       TokenType = 11
       Expression = '\]\]'
       ColumnFrom = 0
@@ -337,7 +333,7 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'Symbol single'
       StyleName = 'Symbol'
       TokenType = 4
-      Expression = '\\[\x20\x09]\# | \\. | [,;`\[\]@] | \$\( | \$\{'
+      Expression = '\\[\x20\x09]\# | \\. | [,;`\[\]@] | \$[\[\(\{]'
       ColumnFrom = 0
       ColumnTo = 0
     end
