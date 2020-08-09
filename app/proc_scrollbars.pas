@@ -97,6 +97,7 @@ end;
 
 destructor TAppTreeContainer.Destroy;
 begin
+  Tree.Container:= nil;
   FreeAndNil(Tree);
   FreeAndNil(FScrollbarVert);
   FreeAndNil(FScrollbarHorz);
@@ -140,9 +141,9 @@ end;
 
 procedure TAppTreeContainer.UpdateScrollbars;
 begin
-  if not Assigned(Tree) then exit;
-  if not Assigned(FScrollbarVert) then exit;
-  if not Assigned(FScrollbarHorz) then exit;
+  if Tree=nil then exit;
+  if FScrollbarVert=nil then exit;
+  if FScrollbarHorz=nil then exit;
 
   FScrollbarVert.Min:= 0;
   FScrollbarVert.PageSize:= Tree.Height;
