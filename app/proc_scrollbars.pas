@@ -21,8 +21,11 @@ uses
 
 type
   { TAppTreeView }
+  TAppTreeContainer = class;
 
   TAppTreeView = class(TTreeView)
+  private
+    procedure UpdateBars; inline;
   protected
     procedure DoSelectionChanged; override;
     procedure Resize; override;
@@ -34,6 +37,7 @@ type
     procedure DoEnter; override;
     procedure DoExit; override;
   public
+    Container: TAppTreeContainer;
   end;
 
 type
@@ -67,18 +71,19 @@ constructor TAppTreeContainer.Create(AOwner: TComponent);
 begin
   inherited;
 
-  Tree:= TAppTreeView.Create(Self);
+  Tree:= TAppTreeView.Create(nil);
   Tree.Parent:= Self;
   Tree.Align:= alClient;
+  Tree.Container:= Self;
 
-  FScrollbarVert:= TATScrollbar.Create(Self);
+  FScrollbarVert:= TATScrollbar.Create(nil);
   FScrollbarVert.Parent:= Self;
   FScrollbarVert.Kind:= sbVertical;
   FScrollbarVert.Align:= alRight;
   FScrollbarVert.Width:= UiOps.ScrollbarWidth;
   FScrollbarVert.OnChange:= @ScrollVertChange;
 
-  FScrollbarHorz:= TATScrollbar.Create(Self);
+  FScrollbarHorz:= TATScrollbar.Create(nil);
   FScrollbarHorz.Parent:= Self;
   FScrollbarHorz.Kind:= sbHorizontal;
   FScrollbarHorz.Align:= alBottom;
@@ -153,29 +158,37 @@ begin
   FScrollbarHorz.Update;
 end;
 
+{ TAppTreeView }
+
+procedure TAppTreeView.UpdateBars;
+begin
+  if Assigned(Container) then
+    Container.UpdateScrollbars;
+end;
+
 procedure TAppTreeView.DoSelectionChanged;
 begin
   inherited;
-  (Owner as TAppTreeContainer).UpdateScrollbars;
+  UpdateBars;
 end;
 
 procedure TAppTreeView.Resize;
 begin
   inherited;
-  (Owner as TAppTreeContainer).UpdateScrollbars;
+  UpdateBars;
 end;
 
 procedure TAppTreeView.CMChanged(var Message: TLMessage);
 begin
   inherited;
-  (Owner as TAppTreeContainer).UpdateScrollbars;
+  UpdateBars;
 end;
 
 function TAppTreeView.DoMouseWheel(Shift: TShiftState; WheelDelta: Integer;
   MousePos: TPoint): Boolean;
 begin
   Result:= inherited;
-  (Owner as TAppTreeContainer).UpdateScrollbars;
+  UpdateBars;
 end;
 
 procedure TAppTreeView.DoEnter;
@@ -193,13 +206,13 @@ end;
 procedure TAppTreeView.Collapse(Node: TTreeNode);
 begin
   inherited;
-  (Owner as TAppTreeContainer).UpdateScrollbars;
+  UpdateBars;
 end;
 
 procedure TAppTreeView.Expand(Node: TTreeNode);
 begin
   inherited;
-  (Owner as TAppTreeContainer).UpdateScrollbars;
+  UpdateBars;
 end;
 
 
