@@ -6,6 +6,7 @@
 1.108.6 (2020/08)
 
 * change: changed location+format of saved window positions in history.json (main window, floating panels, resizable dialogs)
++ add: options for font of statusbar: "ui_font_statusbar_name"/"ui_font_statusbar_size", defaults to UI font name/size (thanks @VicDobrov)
 + add: don't run tree-helper on huge files (re-use option "lexer_folding_max_lines")
 + add: if file was deleted/renamed outside of CudaText, "Save" should re-create the file (thanks @Jairo-Martinez)
 - fix: bug in rendering unprinted "trailing only" whitespace (thanks @Jairo-Martinez)
