@@ -408,9 +408,6 @@ begin
   if Assigned(fmFind) then fmFind.UpdateFonts;
 end;
 
-var
-  ATFlatTheme_St: TATFlatTheme;
-
 procedure TfmMain.DoApplyFont_Ui;
 var
   id: TAppPanelId;
@@ -451,18 +448,28 @@ begin
 
   if Assigned(fmFind) then fmFind.UpdateFonts;
 
-  ATFlatTheme_St:= ATFlatTheme;
-  if UiOps.StatusbarFontName<>'' then
-    ATFlatTheme_St.FontName:= UiOps.StatusbarFontName
-  else
-    ATFlatTheme_St.FontName:= UiOps.VarFontName;
-  if UiOps.StatusbarFontSize>0 then
-    ATFlatTheme_St.FontSize:= UiOps.StatusbarFontSize
-  else
-    ATFlatTheme_St.FontSize:= UiOps.VarFontSize;
-  Status.Theme:= @ATFlatTheme_St;
+  DoApplyFont_UiStatusbar;
+end;
 
-  Status.HeightInitial:= ATFlatTheme_St.FontSize * UiOps.StatusHeightPercents div 100 + 3;
+var
+  _ThemeStatus: TATFlatTheme;
+
+procedure TfmMain.DoApplyFont_UiStatusbar;
+begin
+  _ThemeStatus:= ATFlatTheme;
+  Status.Theme:= @_ThemeStatus;
+
+  if UiOps.StatusbarFontName<>'' then
+    _ThemeStatus.FontName:= UiOps.StatusbarFontName
+  else
+    _ThemeStatus.FontName:= UiOps.VarFontName;
+
+  if UiOps.StatusbarFontSize>0 then
+    _ThemeStatus.FontSize:= UiOps.StatusbarFontSize
+  else
+    _ThemeStatus.FontSize:= UiOps.VarFontSize;
+
+  Status.HeightInitial:= _ThemeStatus.FontSize * UiOps.StatusHeightPercents div 100 + 3;
   Status.Height:= Status.HeightInitial;
 end;
 

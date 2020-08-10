@@ -780,6 +780,7 @@ type
     procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps; AForceApply: boolean);
     procedure DoApplyFont_Text;
     procedure DoApplyFont_Ui;
+    procedure DoApplyFont_UiStatusbar;
     procedure DoApplyFont_Output;
     procedure DoApplyAllOps;
     procedure DoApplyTheme;
