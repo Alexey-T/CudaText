@@ -958,7 +958,6 @@ begin
   UiOps.StatusColSel:= cfg.GetValue('ui_statusbar_col_sel', UiOps.StatusColSel);
   UiOps.StatusCarets:= cfg.GetValue('ui_statusbar_carets', UiOps.StatusCarets);
   UiOps.StatusPanels:= cfg.GetValue('ui_statusbar_panels', UiOps.StatusPanels);
-  //UiOps.StatusHeight:= cfg.GetValue('ui_statusbar_height', UiOps.StatusHeight); //assigned from "ui_tab_size_y"
   UiOps.StatusTime:= Max(1, Min(60, cfg.GetValue('ui_statusbar_time', UiOps.StatusTime)));
 
   UiOps.ShowActiveBorder:= cfg.GetValue('ui_active_border', UiOps.ShowActiveBorder);
@@ -1077,7 +1076,6 @@ begin
   UiOps.TabWidthMin:= cfg.GetValue('ui_tab_size_x_min', UiOps.TabWidthMin);
   UiOps.TabWidthMax:= cfg.GetValue('ui_tab_size_x_max', UiOps.TabWidthMax);
   UiOps.TabHeight:= cfg.GetValue('ui_tab_size_y', UiOps.TabHeight);
-   UiOps.StatusHeight:= UiOps.TabHeight;
   UiOps.TabHeightInner:= UiOps.TabHeight-1;
   UiOps.TabSpaceBeforeText:= cfg.GetValue('ui_tab_padding', UiOps.TabSpaceBeforeText);
   UiOps.TabPosition:= cfg.GetValue('ui_tab_position', UiOps.TabPosition);

@@ -461,6 +461,9 @@ begin
   else
     ATFlatTheme_St.FontSize:= UiOps.VarFontSize;
   Status.Theme:= @ATFlatTheme_St;
+
+  Status.HeightInitial:= ATFlatTheme_St.FontSize * UiOps.StatusHeightPercents div 100 + 3;
+  Status.Height:= Status.HeightInitial;
 end;
 
 

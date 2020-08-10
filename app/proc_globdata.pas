@@ -301,9 +301,9 @@ type
     StatusColSel: string;
     StatusCarets: string;
     StatusPanels: string;
-    StatusHeight: integer;
     StatusTime: integer;
     StatusAltTime: integer;
+    StatusHeightPercents: integer;
 
     ScrollbarWidth: integer;
     ScrollbarBorderSize: integer;
@@ -1473,9 +1473,9 @@ begin
     StatusCarets:= '{carets} {_carets}, {sel} {_linesel}';
 
     StatusPanels:= 'caret,C,180|enc,C,125|ends,A,45|lexer,C,140|tabsize,A,75|selmode,A,15|msg,L,4000';
-    StatusHeight:= TabHeight;
     StatusTime:= 5;
     StatusAltTime:= 7;
+    StatusHeightPercents:= 180;
 
     ScrollbarWidth:= 14;
     ScrollbarBorderSize:= 0;

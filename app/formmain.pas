@@ -2272,8 +2272,6 @@ begin
   Status.Parent:= Self;
   Status.Align:= alBottom;
   Status.Top:= Height;
-  Status.Height:= UiOps.StatusHeight;
-  Status.HeightInitial:= Status.Height;
   Status.Padding:= 2;
   Status.OnPanelClick:= @StatusPanelClick;
   Status.ShowHint:= true;
@@ -3273,8 +3271,6 @@ begin
   end;
 
   PanelCodeTreeTop.Height:= AppScale(UiOps.InputHeight);
-
-  Status.HeightInitial:= UiOps.StatusHeight;
 
   TimerStatusClear.Interval:= UiOps.StatusTime*1000;
 
