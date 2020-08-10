@@ -92,6 +92,18 @@
   "ui_font_output_size__linux" : 9,
   "ui_font_output_size__mac" : 9,
 
+  //Statusbar font name [has suffix]
+  //If empty, value of "ui_font_name" is used
+  "ui_font_statusbar_name" : "",
+  "ui_font_statusbar_name__linux" : "",
+  "ui_font_statusbar_name__mac" : "",
+
+  //Statusbar font size [has suffix]
+  //If 0, value of "ui_font_size" is used
+  "ui_font_statusbar_size" : 0,
+  "ui_font_statusbar_size__linux" : 0,
+  "ui_font_statusbar_size__mac" : 0,
+
   //Allows to use width of Unicode characters proportional to font
   "unicode_proportional": true,
 
