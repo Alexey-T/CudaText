@@ -53,6 +53,7 @@ end;
 procedure TfmMain.DoApplyTheme;
 var
   id: TAppPanelId;
+  NColor: TColor;
   i: integer;
 begin
   with ATScrollbarTheme do
@@ -98,7 +99,11 @@ begin
         Splitter.Invalidate;
       end;
 
-  Status.Color:= GetAppColor(apclTabBg);
+  NColor:= GetAppColor(apclStatusBg);
+  if NColor=clNone then
+    NColor:= GetAppColor(apclTabBg);
+  Status.Color:= NColor;
+
   Status.ColorBorderTop:= GetAppColor(apclButtonBorderPassive);
   Status.ColorBorderR:= GetAppColor(apclButtonBorderPassive);
 

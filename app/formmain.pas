@@ -1143,6 +1143,27 @@ const
     'cuda_brackets_hilite'
     );
 
+procedure UpdateThemeStatusbar;
+var
+  NColor: TColor;
+begin
+  AppThemeStatusbar:= ATFlatTheme;
+
+  if UiOps.StatusbarFontName<>'' then
+    AppThemeStatusbar.FontName:= UiOps.StatusbarFontName
+  else
+    AppThemeStatusbar.FontName:= UiOps.VarFontName;
+
+  if UiOps.StatusbarFontSize>0 then
+    AppThemeStatusbar.FontSize:= UiOps.StatusbarFontSize
+  else
+    AppThemeStatusbar.FontSize:= UiOps.VarFontSize;
+
+  NColor:= GetAppColor(apclStatusFont);
+  if NColor<>clNone then
+    AppThemeStatusbar.ColorFont:= NColor;
+end;
+
 procedure InitUniqueInstanceObject;
 begin
   {$ifdef unix}

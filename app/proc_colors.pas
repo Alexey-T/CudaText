@@ -118,6 +118,8 @@ type
     apclButtonBorderPassive,
     apclButtonBorderOver,
     apclButtonBorderFocused,
+    apclStatusFont,
+    apclStatusBg,
     apclScrollBack,
     apclScrollRect,
     apclScrollFill,
@@ -417,6 +419,8 @@ begin
   SetColor(apclButtonBorderPassive, nColorBorder, 'ButtonBorderPassive', 'buttons, border, passive');
   SetColor(apclButtonBorderOver, nColorBorder, 'ButtonBorderOver', 'buttons, border, mouse-over');
   SetColor(apclButtonBorderFocused, clGray, 'ButtonBorderFocused', 'buttons, border, focused');
+  SetColor(apclStatusFont, clNone, 'StatusFont', 'statusbar, font');
+  SetColor(apclStatusBg, clNone, 'StatusBg', 'statusbar, BG');
   SetColor(apclScrollBack, $d0d0d0, 'ScrollBack', 'scrollbar, BG');
   SetColor(apclScrollRect, nColorBorder, 'ScrollRect', 'scrollbar, thumb border');
   SetColor(apclScrollFill, nColorBack, 'ScrollFill', 'scrollbar, thumb fill');

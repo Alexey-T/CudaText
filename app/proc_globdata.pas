@@ -895,7 +895,6 @@ function AppEncodingFullnameToShortname(const S: string): string;
 function AppEncodingListAsString: string;
 
 procedure UpdateFormOnTop(F: TForm);
-procedure UpdateThemeStatusbar;
 procedure DoStatusbarTextByTag(AStatus: TATStatus; ATag: PtrInt; const AText: string);
 procedure DoStatusbarHintByTag(AStatus: TATStatus; ATag: PtrInt; const AText: string);
 function IsFileTooBigForOpening(const AFilename: string): boolean;
@@ -2266,21 +2265,6 @@ begin
     F.FormStyle:= fsSystemStayOnTop
   else
     F.FormStyle:= fsNormal;
-end;
-
-procedure UpdateThemeStatusbar;
-begin
-  AppThemeStatusbar:= ATFlatTheme;
-
-  if UiOps.StatusbarFontName<>'' then
-    AppThemeStatusbar.FontName:= UiOps.StatusbarFontName
-  else
-    AppThemeStatusbar.FontName:= UiOps.VarFontName;
-
-  if UiOps.StatusbarFontSize>0 then
-    AppThemeStatusbar.FontSize:= UiOps.StatusbarFontSize
-  else
-    AppThemeStatusbar.FontSize:= UiOps.VarFontSize;
 end;
 
 procedure DoStatusbarTextByTag(AStatus: TATStatus; ATag: PtrInt; const AText: string);
