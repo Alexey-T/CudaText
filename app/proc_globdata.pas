@@ -164,6 +164,8 @@ type
     VarFontSize: integer;
     OutputFontName: string;
     OutputFontSize: integer;
+    StatusbarFontName: string;
+    StatusbarFontSize: integer;
     DoubleBuffered: boolean;
 
     PyLibrary: string;
@@ -384,6 +386,8 @@ const
   str_UiFontSize = 'ui_font_size'+cOptionSystemSuffix;
   str_UiFontOutputName = 'ui_font_output_name'+cOptionSystemSuffix;
   str_UiFontOutputSize = 'ui_font_output_size'+cOptionSystemSuffix;
+  str_UiFontStatusbarName = 'ui_font_statusbar_name'+cOptionSystemSuffix;
+  str_UiFontStatusbarSize = 'ui_font_statusbar_size'+cOptionSystemSuffix;
   str_UiDoubleBuffered = 'ui_buffered'+cOptionSystemSuffix;
   str_DefEncodingIsUtf8 = 'def_encoding_utf8'+cOptionSystemSuffix;
 

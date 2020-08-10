@@ -943,8 +943,12 @@ var
 begin
   UiOps.VarFontName:= cfg.GetValue(str_UiFontName, UiOps.VarFontName);
   UiOps.VarFontSize:= Abs(cfg.GetValue(str_UiFontSize, UiOps.VarFontSize)); //Abs for macOS
+
   UiOps.OutputFontName:= cfg.GetValue(str_UiFontOutputName, UiOps.OutputFontName);
   UiOps.OutputFontSize:= Abs(cfg.GetValue(str_UiFontOutputSize, UiOps.OutputFontSize)); //Abs for macOS
+
+  UiOps.StatusbarFontName:= cfg.GetValue(str_UiFontStatusbarName, UiOps.StatusbarFontName);
+  UiOps.StatusbarFontSize:= Abs(cfg.GetValue(str_UiFontStatusbarSize, UiOps.StatusbarFontSize)); //Abs for macOS
 
   UiOps.DoubleBuffered:= cfg.GetValue(str_UiDoubleBuffered, UiOps.DoubleBuffered);
 

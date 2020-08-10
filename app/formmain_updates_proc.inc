@@ -408,6 +408,8 @@ begin
   if Assigned(fmFind) then fmFind.UpdateFonts;
 end;
 
+var
+  ATFlatTheme_St: TATFlatTheme;
 
 procedure TfmMain.DoApplyFont_Ui;
 var
@@ -448,6 +450,17 @@ begin
   ATFlatTheme.ScaleFontPercents:= UiOps.ScaleFont;
 
   if Assigned(fmFind) then fmFind.UpdateFonts;
+
+  ATFlatTheme_St:= ATFlatTheme;
+  if UiOps.StatusbarFontName<>'' then
+    ATFlatTheme_St.FontName:= UiOps.StatusbarFontName
+  else
+    ATFlatTheme_St.FontName:= UiOps.VarFontName;
+  if UiOps.StatusbarFontSize>0 then
+    ATFlatTheme_St.FontSize:= UiOps.StatusbarFontSize
+  else
+    ATFlatTheme_St.FontSize:= UiOps.VarFontSize;
+  Status.Theme:= @ATFlatTheme_St;
 end;
 
 
