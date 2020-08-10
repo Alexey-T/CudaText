@@ -2276,6 +2276,7 @@ begin
   Status.Padding:= 2;
   Status.OnPanelClick:= @StatusPanelClick;
   Status.ShowHint:= true;
+  Status.Theme:= @AppThemeStatusbar;
 
   Groups:= TATGroups.Create(Self);
   Groups.Parent:= PanelEditors;

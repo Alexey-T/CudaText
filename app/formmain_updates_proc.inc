@@ -451,25 +451,10 @@ begin
   DoApplyFont_UiStatusbar;
 end;
 
-var
-  _ThemeStatus: TATFlatTheme;
-
 procedure TfmMain.DoApplyFont_UiStatusbar;
 begin
-  _ThemeStatus:= ATFlatTheme;
-  Status.Theme:= @_ThemeStatus;
-
-  if UiOps.StatusbarFontName<>'' then
-    _ThemeStatus.FontName:= UiOps.StatusbarFontName
-  else
-    _ThemeStatus.FontName:= UiOps.VarFontName;
-
-  if UiOps.StatusbarFontSize>0 then
-    _ThemeStatus.FontSize:= UiOps.StatusbarFontSize
-  else
-    _ThemeStatus.FontSize:= UiOps.VarFontSize;
-
-  Status.HeightInitial:= _ThemeStatus.FontSize * UiOps.StatusHeightPercents div 100 + 3;
+  UpdateThemeStatusbar;
+  Status.HeightInitial:= AppThemeStatusbar.FontSize * UiOps.StatusHeightPercents div 100 + 3;
   Status.Height:= Status.HeightInitial;
 end;
 
