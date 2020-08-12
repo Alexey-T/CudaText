@@ -244,7 +244,7 @@ object SyntAnal14: TLibSyntAnalyzer
       DisplayName = 'Heredoc end'
       StyleName = 'Id'
       TokenType = 12
-      Expression = '(?<=^[\x20\x09]*)[a-z_]\w*\b'
+      Expression = '(?<=^[\x20\x09]*)[a-z_]\w*(?=[;,\)])'
       ColumnFrom = 0
       ColumnTo = 0
     end
