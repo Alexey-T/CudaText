@@ -6,6 +6,7 @@
 1.109.1 (2020/08)
 
 + add: macOS: system dialog from menu item "Edit / Special characters" is now supported (thanks Lazarus developer Dmitry) 
+- fix: lexer Python: regression, some blocks not folded
 - fix: lexer PHP: HereDoc blocks
 
 1.109.0 (2020/08)
