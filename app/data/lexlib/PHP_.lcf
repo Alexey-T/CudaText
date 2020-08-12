@@ -276,7 +276,7 @@ object SyntAnal14: TLibSyntAnalyzer
       DisplayName = 'Id'
       StyleName = 'Id'
       TokenType = 1
-      Expression = '[a-z_]\w*'
+      Expression = '[a-z_\x80-\x{ffff}][a-z_0-9\x80-\x{ffff}]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
