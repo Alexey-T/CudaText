@@ -1536,7 +1536,13 @@ Sublime Text 3.2:
 * memory used after file loading: ~1.3G
 * peak memory used on sorting: ~3.3G
 
-==How to compile program==
+==How to open files in a new tab instead of a new window==
+
+Option "ui_one_instance" controls it, so change it to 'true' (without quotes, in "user.json").
+This option is here for several years already, but people are asking this question again and again (forum, GitHub, Linux forums).
+Seems the term "instance" is not known very good, people cannot find this option easily.
+
+==How to compile CudaText==
 
 There is Linux script CudaText_up https://github.com/Alexey-T/CudaText_up - it downloads all  sources into ~/cudatext_up, then calls Lazarus (at least 1.8.4) to compile them. You can use it with FPC cross-compilers, installed from FpcUpDeluxe, script will compile CudaText for any of available platforms. Without cross-compilers, script makes CudaText only for the current platform. It puts result to ~/cudatext_up/bin.
 
