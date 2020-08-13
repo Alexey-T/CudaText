@@ -368,6 +368,14 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Id keyword line-start'
+      StyleName = 'Keywords'
+      TokenType = 2
+      Expression = '(?<=^[\x20\x09]*)(for|if) (?=\x20*\()'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Id func name'
       StyleName = 'Func name'
       TokenType = 7

@@ -8,6 +8,7 @@
 + add: macOS: system dialog from menu item "Edit / Special characters" is now supported (thanks Lazarus developer Dmitry) 
 + add: lexer PHP: fixed HereDoc blocks; supported Unicode Ids
 - fix: lexer Python: regression with some blocks folding
+- fix: lexer Bash: wrong style of "if()", "for()" 
 
 1.109.0 (2020/08)
 
