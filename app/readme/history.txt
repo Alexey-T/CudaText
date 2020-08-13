@@ -8,7 +8,7 @@
 + add: lexer JSON: fully reworked, now it underlines all invalid chars, invalid float numbers, identifiers
 + add: lexer PHP: fixed HereDoc blocks; supported Unicode class names
 + add: macOS: system dialog from menu item "Edit / Special characters" is now supported (thanks Lazarus developer Dmitry)
-- fix: regression: cannot continue column-selection after carets are moved by arrow
+- fix: regression: cannot continue column-selection after carets are moved (thanks @kvichans)
 - fix: lexer Python: regression with some blocks folding
 - fix: lexer Bash: regression with style of "if(", "for(" 
 
