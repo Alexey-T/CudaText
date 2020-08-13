@@ -9,6 +9,6 @@ Symbol=Symbol
 Number=Number
 String=String
 String key=String2
-Id=Id
 Id keyword=IdKeyword
 Comment=Comment
+Symbol bad=IdBad

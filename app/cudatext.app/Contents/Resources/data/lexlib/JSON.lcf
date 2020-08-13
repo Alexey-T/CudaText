@@ -1,4 +1,4 @@
-object SyntAnal12: TLibSyntAnalyzer
+object SyntAnal11: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -33,20 +33,12 @@ object SyntAnal12: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Id'
+      DisplayName = 'Id keyword'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = []
-    end
-    item
-      DisplayName = 'Id keyword'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clNavy
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
+      Font.Style = [fsBold]
     end
     item
       DisplayName = 'Comment'
@@ -55,6 +47,16 @@ object SyntAnal12: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
+    end
+    item
+      DisplayName = 'Symbol bad'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BorderTypeBottom = blSolid
+      BorderColorBottom = clRed
     end>
   TokenRules = <
     item
@@ -77,31 +79,23 @@ object SyntAnal12: TLibSyntAnalyzer
       DisplayName = 'String'
       StyleName = 'String'
       TokenType = 4
-      Expression = '"(\\"|.)*?("|$)'
+      Expression = '"(\\"|.)*?"'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Id'
-      StyleName = 'Id'
+      DisplayName = 'Id keyword'
+      StyleName = 'Id keyword'
       TokenType = 2
-      Expression = '[a-z_]\w*'
+      Expression = '(?-i)\b(true|false|null)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Float'
+      DisplayName = 'Number'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '(\d+ \.)? \d+ e [\+\-]? \d+ |'#13#10'\d+ \. \d+'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Integer'
-      StyleName = 'Number'
-      TokenType = 5
-      Expression = '\d+'
+      Expression = '\d+(\.\d+)?(e[\+\-]?\d+)?\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -114,37 +108,21 @@ object SyntAnal12: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Symbol single'
+      DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\[\]\(\)]'
+      Expression = '[\[\]\(\)\-:,]'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Symbol'
-      StyleName = 'Symbol'
-      TokenType = 3
-      Expression = '[/\+\-\*:=<>&/\|\^\.,;!%~\^\?]+'
+      DisplayName = 'Symbol bad'
+      StyleName = 'Symbol bad'
+      Expression = '.'
       ColumnFrom = 0
       ColumnTo = 0
     end>
   BlockRules = <
-    item
-      DisplayName = 'keywords'
-      StyleName = 'Id keyword'
-      BlockType = btTagDetect
-      ConditionList = <
-        item
-          TagList.Strings = (
-            'false'
-            'null'
-            'true')
-          TokenTypes = 4
-        end>
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
     item
       DisplayName = 'dict key {'
       ConditionList = <
@@ -256,23 +234,21 @@ object SyntAnal12: TLibSyntAnalyzer
   SampleText.Strings = (
     '{'
     '    "glossary": {'
-    '        "title": "example glossary",'
+    '        "bool": false,'
+    '        "bool2": TRue,'
     #9#9'"GlossDiv": {'
-    '            "title": "S",'
     #9#9#9'"GlossList": {'
     '                "GlossEntry": {'
-    '                    "ID": "SGML",'
-    #9#9#9#9#9'"SortAs": "SGML",'
-    #9#9#9#9#9'"GlossTerm": "Standard Generalized Markup Language",'
-    #9#9#9#9#9'"GlossDef": {'
-    
-      '                        "para": "A meta-markup language, used to' +
-      ' create markup languages such as DocBook.",'
-    #9#9#9#9#9#9'"GlossSeeAlso": ["GML", "XML"]'
+    '                    "Id": null,'
+    #9#9#9#9#9'"Bad": [1. , .1, ~1, 1%, '#39'text'#39' ] ,'
+    #9#9#9#9#9'"GlossTerm": "Text",'
+    #9#9#9#9#9'"K1": {'
+    '                        "Str": "Text\"Test\\\"Test",'
+    #9#9#9#9#9#9'"S2": ["aa", "bb"]'
     '                    },'
     '                    "ArrayId": ['
-    '                      {"id": "1"},'
-    '                      {"id": "2", "Text": "TT"}'
+    '                      {"id": 1e2},'
+    '                      {"id": 1.2e-3,"id2": 10 }'
     '                    ]                    '
     '                }'
     '            }'
@@ -282,7 +258,7 @@ object SyntAnal12: TLibSyntAnalyzer
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
-    'Identifier'
+    'Id'
     'Symbol'
     'String'
     'Number'
@@ -293,9 +269,8 @@ object SyntAnal12: TLibSyntAnalyzer
   LexerName = 'JSON'
   Notes.Strings = (
     'Alexey (CudaText)'
-    'Tests'
-    'http://json.org/example.html'
-    'http://www.jquery4u.com/json/10-example-json-files/')
+    'Tests: http://json.org/example.html')
+  RestartFromLineStart = True
   LineComment = '//'
   Charset = DEFAULT_CHARSET
 end
