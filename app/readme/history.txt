@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+
++ add: lexer Bash: highlight invalid hex/octal literals (thanks @VicDobrov)
+
 1.109.2 (2020/08)
 
 + add: lexer JSON: fully reworked, now it underlines all invalid chars, invalid float numbers, identifiers
