@@ -842,6 +842,9 @@ begin
   //sync Find dialog with text
   if Assigned(fmFind) then
     fmFind.UpdateInputFind(Str);
+
+  //make command "find next" working with new text
+  FFinder.StrFind:= Str;
 end;
 
 
