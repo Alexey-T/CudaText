@@ -2314,7 +2314,6 @@ begin
   Groups.OnTabGetTick:= @DoOnTabGetTick;
 
   FFinder:= TATEditorFinder.Create;
-  FFinder.OptRegex:= true;
   FFinder.OnConfirmReplace:= @FinderOnConfirmReplace;
   FFinder.OnProgress:= @FinderOnProgress;
   FFinder.OnFound:=@FinderOnFound;
