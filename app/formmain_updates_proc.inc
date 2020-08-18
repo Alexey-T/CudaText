@@ -454,7 +454,7 @@ end;
 procedure TfmMain.DoApplyFont_UiStatusbar;
 begin
   UpdateThemeStatusbar;
-  Status.HeightInitial:= AppThemeStatusbar.FontSize * UiOps.StatusHeightPercents div 100 + 3;
+  Status.HeightInitial:= AppThemeStatusbar.FontSize * UiOps.StatusHeightPercents div 100 + UiOps.StatusHeightIncrement;
   Status.Height:= Status.HeightInitial;
 end;
 
