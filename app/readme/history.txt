@@ -3,10 +3,11 @@
   - fixed
   * changed
 
-1.109.2.4 (2020/08)
+1.109.3 (2020/08)
 
-+ add: lexer reStructuredText: fix 2 kinds of code-blocks; add rule for table blocks; add rule for local links 
++ add: lexer reStructuredText: fix 2 kinds of code-blocks; add rule for table blocks; add rule for local links
 + add: lexer Bash: highlight invalid hex/octal literals (thanks @VicDobrov)
+- fix: after command "find cur selection next", command "find next" must reuse text (thanks @kvichans)
 - fix: search engine bug when search text is multi-line + Unicode (thanks @kvichans)
 
 1.109.2 (2020/08)
@@ -16,7 +17,7 @@
 + add: macOS: system dialog from menu item "Edit / Special characters" is now supported (thanks Lazarus developer Dmitry)
 - fix: regression: cannot continue column-selection after carets are moved (thanks @kvichans)
 - fix: lexer Python: regression with some blocks folding
-- fix: lexer Bash: regression with style of "if(", "for(" 
+- fix: lexer Bash: regression with style of "if(", "for("
 
 1.109.0 (2020/08)
 
@@ -107,7 +108,7 @@
 + add: better "links_regex" value (thanks @Jairo-Martinez)
 + add: on clicking hyperlinks, app shows additional confirmation button; this is controlled by new option "ui_links_confirm"
 + add: support combo-hotkeys with simple letter in 2nd/3rd part, e.g. Ctrl+Q H (thanks @tmsg)
-+ add: encodings koi8, iso...15 added to viewer as well 
++ add: encodings koi8, iso...15 added to viewer as well
 - fix: crash in "export to HTML" (thanks @MiroslavMatas)
 - fix: regression in folding in HTML/XML lexers
 - fix: mouse click on selected block did not place caret on clicked pos (thanks @hycmos)
@@ -125,7 +126,7 @@
 + add: documentation: readme/tutorial/LexerIndentFolding.odt
 * change: removed option "ui_max_ranges_codetree" (use "lexer_folding_max_lines" instead)
 - fix: slow rendering of viewer control under GTK2 (Linux/BSD)
-- fix: ui-tab dirty flag was not updated sometimes (thanks @dinkumoil @OlehL) 
+- fix: ui-tab dirty flag was not updated sometimes (thanks @dinkumoil @OlehL)
 - fix: broken folding after running "move line up/down" many times fastly (thanks @OlehL)
 - fix: replace with confirmation: did not respect options "find_indent_*"
 - fix: regressions in hotkey system (thanks @tmsg)
@@ -175,7 +176,7 @@
 - fix: commands "find current word/selection next/previous" did not respect options "find_indent_*" (thanks @kvichans)
 
 1.103.0 (2020/06)
- 
+
 + add: better logic of "line states": now "added" lines don't change state to "modified" during editing (thanks @tmsg)
 + add: allow to disable storing some elements to history/session, via new option "ui_history_disabled" (thanks @tmsg)
 + add: allow to specify underscore "_" as non-word char, by placing at as _first_ in "nonword_chars" option (thanks @tmsg)
@@ -228,7 +229,7 @@
 + add: command line: support key -s to specify custom settings folder (thanks @tmsg)
 + add: command line: support file masks with '*', e.g. "cudatext readme/test*.htm*" (thanks @tmsg)
 + add: when "unprinted symbols" are visible, render curved-arrow for wrapped parts of long lines (thanks @tmsg)
-+ add: paired file tabs (2 files in a single tab) now correctly save/restore to/from sessions 
++ add: paired file tabs (2 files in a single tab) now correctly save/restore to/from sessions
 + add: for stability, when user removes lexer in Lexer Library dialog, app doesn't deallocate lexer object but only "marks" it (prevents access to deallocated memory objects)
 + add: Wiki topic: https://wiki.freepascal.org/CudaText#Dialog_.22Save_tabs.22
 * change: changed format and file extensions of persistent undo/redo (used with "undo_persistent":true)
@@ -313,14 +314,14 @@
 1.97.0 (2020/03)
 
 + add: several commands, they work fast and don't keep Undo, they are intended for huge text files. All these commands don't consume additional memory (unlike in many other editors).
-    + add: commands "(without undo) sort asc. / desc. / asc. ignore case / desc. ignore case". 
-    + add: command "(without undo) delete all blank lines" 
-    + add: command "(without undo) delete adjacent blank lines" 
-    + add: command "(without undo) delete all duplicate lines" 
-    + add: command "(without undo) delete all duplicate lines, keep blanks" 
-    + add: command "(without undo) delete adjacent duplicate lines" 
-    + add: command "(without undo) reverse lines" 
-    + add: command "(without undo) shuffle lines" 
+    + add: commands "(without undo) sort asc. / desc. / asc. ignore case / desc. ignore case".
+    + add: command "(without undo) delete all blank lines"
+    + add: command "(without undo) delete adjacent blank lines"
+    + add: command "(without undo) delete all duplicate lines"
+    + add: command "(without undo) delete all duplicate lines, keep blanks"
+    + add: command "(without undo) delete adjacent duplicate lines"
+    + add: command "(without undo) reverse lines"
+    + add: command "(without undo) shuffle lines"
 + add: lexers HTML/XML show folded tags better (and old option "fold_style" allows to show them even better)
 + fix: fixed selection by mouse, when mouse cursor is after folded block rectangle
 + add: added plugin "Lexer Detecter" which is used when file is opened and it has no lexer, plugin suggests to download+install lexer from addons (it has database of all existing lexers)
@@ -368,7 +369,7 @@
 - fix: lexers HTML/PHP/XML produced elements with newlines which gave some slowdown
 - fix: command "find next" with regex and zero-length match
 - fix: regex replace to "\n" in single line file
-- fix: regex replace to "\t" 
+- fix: regex replace to "\t"
 - fix: broken code-tree look if "ui_tab_position" is left/right
 - fix: macro recording gave error when Find dialog button was pressed
 - fix: editor restored bad scroll pos, on opening file from command line with wrap=on (years old bug)
@@ -395,7 +396,7 @@
 - fix: command line param -n was broken on Windows
 - fix: auto-completion was broken in PHP block (bad default of "autocomplete_html_lexers")
 - fix: command "settings: reload/apply config" (thanks @OlehL)
-- fix: commands didn't support paired file-tab: "save file", "save file as", "reopen file", "copy filename", "lexer properties" 
+- fix: commands didn't support paired file-tab: "save file", "save file as", "reopen file", "copy filename", "lexer properties"
 
 1.93.0 (2020/01)
 
