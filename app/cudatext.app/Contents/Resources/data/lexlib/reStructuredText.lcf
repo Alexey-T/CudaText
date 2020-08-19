@@ -134,6 +134,15 @@ object SyntAnal18: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'List head'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = 10084526
     end>
   TokenRules = <
     item
@@ -275,8 +284,8 @@ object SyntAnal18: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Other header'
-      StyleName = 'List'
+      DisplayName = 'List head'
+      StyleName = 'List head'
       TokenType = 12
       Expression = '^\.\.\x20\w[\w\-\x20]+:+'
       ColumnFrom = 0
@@ -419,7 +428,7 @@ object SyntAnal18: TLibSyntAnalyzer
     'Link wiki'
     'Table begin'
     'Table end'
-    'Other')
+    'List head')
   Extentions = 'rst'
   LexerName = 'reStructuredText'
   SkipSpaces = False
