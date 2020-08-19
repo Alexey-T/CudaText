@@ -1,4 +1,4 @@
-object SyntAnal21: TLibSyntAnalyzer
+object SyntAnal18: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Head'
@@ -93,17 +93,44 @@ object SyntAnal21: TLibSyntAnalyzer
       Font.Style = []
     end
     item
+      DisplayName = 'Table BG'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = clMoneyGreen
+      FormatType = ftBackGround
+    end
+    item
       DisplayName = 'Sign'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+      BgColor = clYellow
     end
     item
       DisplayName = 'Var'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Link'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Link wiki'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clFuchsia
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -121,7 +148,7 @@ object SyntAnal21: TLibSyntAnalyzer
     item
       DisplayName = 'Head 2'
       StyleName = 'Head'
-      Expression = '^\w.+$ \z'#13#10'^[\*\#=\-\+\^\"`~!"'#39']{2,}$'
+      Expression = '^\w.+$ \z'#13#10'^[\*\#=\-\+\^\"`~!"'#39']{2,}$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -160,18 +187,18 @@ object SyntAnal21: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Quote 1'
+      DisplayName = 'Quote'
       StyleName = 'Quote'
       TokenType = 3
-      Expression = '(?s)``[^`]+``'
+      Expression = '(?s)``[^`\n]+``'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Quote 2'
-      StyleName = 'Quote'
-      TokenType = 3
-      Expression = '`[^`]+`_*'
+      DisplayName = 'Link'
+      StyleName = 'Link'
+      TokenType = 8
+      Expression = '`[^`\n]+`_*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -200,19 +227,18 @@ object SyntAnal21: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Code'
-      Enabled = False
+      DisplayName = 'Code ::'
       StyleName = 'Code'
       TokenType = 4
-      Expression = '^[\x20\x09]{2,} .*'
+      Expression = '(?s)^::$\z\z.+?\z(?=\z^\w)'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Code dot'
+      DisplayName = 'Code ..'
       StyleName = 'Code dot'
       TokenType = 4
-      Expression = '^\.+ .*'
+      Expression = '(?s)^\.\.[^\n\r]*$.+?$(?=\z^\w)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -221,6 +247,30 @@ object SyntAnal21: TLibSyntAnalyzer
       StyleName = 'Table'
       TokenType = 7
       Expression = '^\x20*[\+\|] [\-\+=]*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Link wiki'
+      StyleName = 'Link wiki'
+      TokenType = 9
+      Expression = '[a-z]\w*_\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Table begin'
+      StyleName = 'Table'
+      TokenType = 10
+      Expression = '^(==[=\x20\xA0]*\z)\w.*?\z\1'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Table end'
+      StyleName = 'Table'
+      TokenType = 11
+      Expression = '^==[=\x20\xA0]*$'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -234,8 +284,35 @@ object SyntAnal21: TLibSyntAnalyzer
       EndOfTextClose = True
       NameFmt = '%sz0'
       HighlightPos = cpAny
+      CancelNextRules = True
       CollapseFmt = '%sz0'
       SelfClose = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Table begin'
+      StyleName = 'Table BG'
+      ConditionList = <
+        item
+          TokenTypes = 1024
+        end>
+      BlockEnd = 'Table end'
+      DisplayInTree = False
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      CancelNextRules = True
+      CollapseFmt = 'Table...'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Table end'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TokenTypes = 2048
+        end>
+      HighlightPos = cpAny
+      CancelNextRules = True
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
@@ -304,7 +381,21 @@ object SyntAnal21: TLibSyntAnalyzer
       '              |'
     
       '+-----------------------+---------------------------------------' +
-      '--------------+')
+      '--------------+'
+    ''
+    '=== =='
+    'Tst Tt'
+    '=== =='
+    'aaa bb'
+    '=== =='
+    ''
+    '=== =='
+    'Tst Tt'
+    '=== =='
+    'aaa bb'
+    'aa   b'
+    '=== =='
+    '')
   TokenTypeNames.Strings = (
     'Head'
     'Text'
@@ -313,12 +404,17 @@ object SyntAnal21: TLibSyntAnalyzer
     'Code'
     'Block'
     'List'
-    'Table')
+    'Table'
+    'Link'
+    'Link wiki'
+    'Table begin'
+    'Table end')
   Extentions = 'rst'
   LexerName = 'reStructuredText'
   SkipSpaces = False
   Notes.Strings = (
     'Alexey (CudaText)'
-    'Test: https://github.com/jkbrzt/httpie/blob/master/README.rst')
+    'Test: https://github.com/jkbrzt/httpie/blob/master/README.rst'
+    'Tests: https://github.com/andgineer/TRegExpr/tree/master/docs')
   Charset = DEFAULT_CHARSET
 end

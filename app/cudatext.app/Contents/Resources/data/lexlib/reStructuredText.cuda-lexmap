@@ -1,3 +1,9 @@
+[comments]
+str1=
+str2=
+styles_cmt=
+styles_str=
+
 [map]
 Head=IdKeyword
 Comment=Comment
@@ -10,5 +16,8 @@ Italic=TextItalic
 Bold-Italic=TextBoldItalic
 Crossed=TextCross
 Table=Symbol
-Sign=LightBG2
+Table BG=SectionBG1
+Sign=Color
 Var=IdVar
+Link=String2
+Link wiki=Label
