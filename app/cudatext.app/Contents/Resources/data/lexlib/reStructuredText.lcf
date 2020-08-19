@@ -198,7 +198,7 @@ object SyntAnal18: TLibSyntAnalyzer
       DisplayName = 'Link'
       StyleName = 'Link'
       TokenType = 8
-      Expression = '`[^`\n]+`_*'
+      Expression = '`[^`]+`_+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -230,7 +230,7 @@ object SyntAnal18: TLibSyntAnalyzer
       DisplayName = 'Code ::'
       StyleName = 'Code'
       TokenType = 4
-      Expression = '(?s)^::$\z\z.+?\z(?=\z^\w)'
+      Expression = '(?s)^::$\z\z.+?\z(?=\z^\S)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -238,7 +238,7 @@ object SyntAnal18: TLibSyntAnalyzer
       DisplayName = 'Code ..'
       StyleName = 'Code dot'
       TokenType = 4
-      Expression = '(?s)^\.\.[^\n\r]*$.+?$(?=\z^\w)'
+      Expression = '(?s)^\.\.\x20code-block::[^\n\r]*$.+?$(?=\z^\S)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -262,7 +262,7 @@ object SyntAnal18: TLibSyntAnalyzer
       DisplayName = 'Table begin'
       StyleName = 'Table'
       TokenType = 10
-      Expression = '^(==[=\x20\xA0]*\z)\w.*?\z\1'
+      Expression = '^(\x20*==[=\x20\xA0]*\z)[^=\n].*?\z\1'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -270,7 +270,15 @@ object SyntAnal18: TLibSyntAnalyzer
       DisplayName = 'Table end'
       StyleName = 'Table'
       TokenType = 11
-      Expression = '^==[=\x20\xA0]*$'
+      Expression = '^\x20*==[=\x20\xA0]*$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Other header'
+      StyleName = 'List'
+      TokenType = 12
+      Expression = '^\.\.\x20\w[\w\-\x20]+:+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -318,7 +326,9 @@ object SyntAnal18: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
-    ':field name: This is field.'
+    '.. _note:'
+    '  :field name: This is field.'
+    ''
     'Head'
     '+++++'
     ''
@@ -408,7 +418,8 @@ object SyntAnal18: TLibSyntAnalyzer
     'Link'
     'Link wiki'
     'Table begin'
-    'Table end')
+    'Table end'
+    'Other')
   Extentions = 'rst'
   LexerName = 'reStructuredText'
   SkipSpaces = False
