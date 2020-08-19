@@ -761,6 +761,7 @@ begin
   Op.OpFontQuality:= TFontQuality(cfg.GetValue(str_FontQuality, Ord(Op.OpFontQuality)));
   Op.OpFontLigatures:= cfg.GetValue(str_FontLigatures, Op.OpFontLigatures);
 
+  OptCanvasTextoutNeedsOffsets:= cfg.GetValue(str_TextoutNeedsOffsets, OptCanvasTextoutNeedsOffsets);
   OptCharSizeProportional:= cfg.GetValue('unicode_proportional', OptCharSizeProportional);
   OptCharScaleFullWidth:= cfg.GetValue('unicode_full_width', OptCharScaleFullWidth);
 

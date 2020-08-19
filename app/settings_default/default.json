@@ -60,6 +60,14 @@
   //Option has effect only on Windows. On Unix: on, or depends on OS.
   "font_ligatures": true,
 
+  //Text rendering needs "offsets for all characters" [has suffix]
+  //Set "true" if you see that syntax elements are rendered too wide/narrow.
+  //On Windows and macOS, "true" should not decrease rendering speed.
+  //On Linux GTK2, "true" decreases rendering speed.
+  "textout_needs_offsets": true,
+  "textout_needs_offsets__linux": false,
+  "textout_needs_offsets__mac": true,
+
   //Text font rendering quality [has suffix]
   //  0: Default
   //  1: Draft
