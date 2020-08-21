@@ -8266,6 +8266,8 @@ begin
 
         DLG_FREE:
           begin
+            if Form.Visible then
+              Form.Hide;
             Form.Free;
             Result:= ReturnNone;
           end;
