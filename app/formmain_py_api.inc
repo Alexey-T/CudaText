@@ -2023,7 +2023,7 @@ begin
           begin
             if Ed.ImagesGutterDecor=nil then
               Ed.ImagesGutterDecor:= TImageList.Create(Ed);
-            Result:= PyLong_FromLongLong(PtrInt(Ed.ImagesGutterDecor));
+            Result:= Py_ObjectHandle(Ed.ImagesGutterDecor);
           end;
 
         else
@@ -2058,7 +2058,7 @@ begin
       if Ed=nil then
         Result:= ReturnNone
       else
-        Result:= PyLong_FromLongLong(PtrInt(Ed));
+        Result:= Py_ObjectHandle(Ed);
     end
   else
     Result:= ReturnNone;
@@ -3397,27 +3397,27 @@ begin
 
         PROP_HANDLE_SELF:
           begin
-            Result:= PyLong_FromLongLong(PtrInt(Ed));
+            Result:= Py_ObjectHandle(Ed);
           end;
 
         PROP_HANDLE_PRIMARY:
           begin
             if Assigned(F) then
-              Result:= PyLong_FromLongLong(PtrInt(F.Ed1))
+              Result:= Py_ObjectHandle(F.Ed1)
             else
               Result:= ReturnNone;
           end;
         PROP_HANDLE_SECONDARY:
           begin
             if Assigned(F) then
-              Result:= PyLong_FromLongLong(PtrInt(F.Ed2))
+              Result:= Py_ObjectHandle(F.Ed2)
             else
               Result:= ReturnNone;
           end;
 
         PROP_HANDLE_PARENT:
           begin
-            Result:= PyLong_FromLongLong(PtrInt(Ed.Parent));
+            Result:= Py_ObjectHandle(Ed.Parent);
           end;
 
         PROP_SCROLLSTYLE_HORZ:
@@ -5931,7 +5931,7 @@ begin
 
         BTN_GET_IMAGELIST:
           begin
-            Result:= PyLong_FromLongLong(PtrInt(Btn.Images));
+            Result:= Py_ObjectHandle(Btn.Images);
           end;
 
         BTN_SET_IMAGELIST:
@@ -6313,7 +6313,7 @@ begin
               Node1.Index:= NIndex;
 
             TreeCont.Tree.Invalidate;
-            Result:= PyLong_FromLongLong(PtrInt(Node1));
+            Result:= Py_ObjectHandle(Node1);
           end;
 
         TREE_ITEM_DELETE:
@@ -6360,7 +6360,7 @@ begin
         TREE_ITEM_GET_SELECTED:
           begin
             if Assigned(TreeCont.Tree.Selected) then
-              Result:= PyLong_FromLongLong(PtrInt(TreeCont.Tree.Selected))
+              Result:= Py_ObjectHandle(TreeCont.Tree.Selected)
             else
               Result:= ReturnNone;
           end;
@@ -8261,7 +8261,7 @@ begin
         DLG_CREATE:
           begin
             Form:= TFormDummy.Create(fmMain);
-            Result:= PyLong_FromLongLong(PtrInt(Form));
+            Result:= Py_ObjectHandle(Form);
           end;
 
         DLG_FREE:
@@ -8528,7 +8528,7 @@ begin
           begin
             Finder:= TATEditorFinder.Create;
             Finder.OnConfirmReplace:= @fmMain.FinderOnConfirmReplace_API;
-            Result:= PyLong_FromLongLong(PtrInt(Finder));
+            Result:= Py_ObjectHandle(Finder);
           end;
 
         FINDER_FREE:
@@ -8576,7 +8576,7 @@ begin
 
         FINDER_GET_ED:
           begin
-            Result:= PyLong_FromLongLong(PtrInt(Finder.Editor));
+            Result:= Py_ObjectHandle(Finder.Editor);
           end;
 
         FINDER_SET_OPT:
