@@ -20,6 +20,12 @@ var
 var
   AppEmmet: TEmmet = nil;
 
+function Py_ObjectHandle(Obj: TObject): PPyObject; inline;
+begin
+  with AppPython.Engine do
+    Result:= PyLong_FromLongLong(Int64(PtrInt(Obj)))
+end;
+
 procedure MsgOldApi(const s: string);
 begin
   MsgLogConsole(Format(msgApiDeprecated, [s]));
@@ -7713,7 +7719,7 @@ begin
         TOOLBAR_GET_BUTTON_HANDLE:
           begin
             if FToolbar.IsIndexOk(NIndex1) then
-              Result:= PyLong_FromLongLong(Int64(PtrInt(FToolbar.Buttons[NIndex1])))
+              Result:= Py_ObjectHandle(FToolbar.Buttons[NIndex1])
             else
               Result:= ReturnNone;
           end;
@@ -7724,7 +7730,8 @@ begin
             if not Assigned(Result) then
               raise EPythonError.Create(msgPythonListError);
             for NIndex1:= 0 to FToolbar.ButtonCount-1 do
-              PyList_SetItem(Result, NIndex1, PyLong_FromLongLong(Int64(PtrInt(FToolbar.Buttons[NIndex1]))));
+              PyList_SetItem(Result, NIndex1,
+                Py_ObjectHandle(FToolbar.Buttons[NIndex1]));
           end;
 
         TOOLBAR_GET_COUNT:
@@ -7746,14 +7753,14 @@ begin
 
         TOOLBAR_ADD_ITEM:
           begin
-            DoToolbar_AddButton(FToolbar, '', '', '', NIndex1, -1);
-            Result:= ReturnNone;
+            Result:= Py_ObjectHandle(
+              DoToolbar_AddButton(FToolbar, '', '', '', NIndex1, -1));
           end;
 
         TOOLBAR_ADD_MENU:
           begin
-            DoToolbar_AddMenu(FToolbar, '', '', '', NIndex1, -1);
-            Result:= ReturnNone;
+            Result:= Py_ObjectHandle(
+              DoToolbar_AddMenu(FToolbar, '', '', '', NIndex1, -1));
           end;
 
         TOOLBAR_GET_VERTICAL:
@@ -7780,7 +7787,7 @@ begin
 
         TOOLBAR_GET_IMAGELIST:
           begin
-            Result:= PyLong_FromLongLong(Int64(PtrInt(FToolbar.Images)));
+            Result:= Py_ObjectHandle(FToolbar.Images);
           end;
 
         TOOLBAR_THEME:
