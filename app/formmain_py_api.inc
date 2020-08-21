@@ -4487,12 +4487,12 @@ begin
 
         APP_PROC_GET_TAB_IMAGELIST:
           begin
-            Result:= PyLong_FromLongLong(Int64(PtrInt(fmMain.ImageListTabs)));
+            Result:= Py_ObjectHandle(fmMain.ImageListTabs);
           end;
 
         APP_PROC_GET_CODETREE:
           begin
-            Result:= PyLong_FromLongLong(Int64(PtrInt(fmMain.CodeTree)));
+            Result:= Py_ObjectHandle(fmMain.CodeTree);
           end;
 
         APP_PROC_WINDOW_TOPMOST_GET:
@@ -6019,7 +6019,7 @@ begin
 
         BTN_GET_MENU:
           begin
-            Result:= PyLong_FromLongLong(Int64(PtrInt(Btn.PopupMenu.Items)));
+            Result:= Py_ObjectHandle(Btn.PopupMenu.Items);
           end;
 
         BTN_SET_MENU:
@@ -6178,7 +6178,7 @@ begin
         else
           Obj:= TComponent(PtrInt(Num64));
         List:= TImageList.Create(Obj);
-        exit(PyLong_FromLongLong(Int64(PtrInt(List))));
+        exit(Py_ObjectHandle(List));
       end;
 
       //other actions require id_list param
@@ -6473,7 +6473,7 @@ begin
 
         TREE_GET_IMAGELIST:
           begin
-            Result:= PyLong_FromLongLong(Int64(PtrInt(TreeCont.Tree.Images)));
+            Result:= Py_ObjectHandle(TreeCont.Tree.Images);
           end;
 
         TREE_LOCK:
@@ -6872,7 +6872,7 @@ begin
         else
           Obj:= TComponent(PtrInt(Num64));
         Image:= TImage.Create(Obj);
-        exit(PyLong_FromLongLong(Int64(PtrInt(Image))));
+        exit(Py_ObjectHandle(Image));
       end;
 
       //other actions require id_image param
@@ -7885,7 +7885,7 @@ begin
         STATUSBAR_GET_IMAGELIST:
           begin
             ImgList:= FBar.Images;
-            Result:= PyLong_FromLongLong(Int64(PtrInt(ImgList)));
+            Result:= Py_ObjectHandle(ImgList);
           end;
 
         STATUSBAR_SET_CELL_SIZE:
