@@ -1699,19 +1699,6 @@ Param "id_action" possible values:
 * TOOLBAR_SET_WRAP: Sets wrappable state of toolbar (implemented for horizontal toolbar only). Param "index": bool value.
 * TOOLBAR_THEME: Applies current UI theme to toolbar.
 
-====Example====
-
-Example adds button to show About dialog:
-
- toolbar_proc('top', TOOLBAR_ADD_BUTTON, text='About', text2='about program...', index2=4, command=2700)
-
-Example adds button with dropdown submenu, which has 2 items:
-
- toolbar_proc('top', TOOLBAR_ADD_BUTTON, text='Dropdown', index2=4, command="toolmenu:drop")
- menu_proc('toolmenu:drop', MENU_CLEAR)
- menu_proc('toolmenu:drop', MENU_ADD, caption='About...', command=2700)
- menu_proc('toolmenu:drop', MENU_ADD, caption='Edit plugin...', command="cuda_addonman,do_edit")
-
 ===statusbar_proc===
 
  statusbar_proc(id_statusbar, id_action, index=-1, tag=0, value="")
