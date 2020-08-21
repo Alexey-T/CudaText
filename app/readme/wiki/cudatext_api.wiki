@@ -1690,8 +1690,8 @@ Param "id_action" possible values:
 * TOOLBAR_GET_BUTTON_HANDLES: Returns list of handles of all buttons.
 * TOOLBAR_DELETE_ALL: Deletes all buttons.
 * TOOLBAR_DELETE_BUTTON: Deletes one button. Param "index": button index.
-* TOOLBAR_ADD_ITEM: Adds one button, usual. Param "index": button index at which to insert, -1 to append. You need to get handle of this button, and customize button via button_proc().
-* TOOLBAR_ADD_MENU: Adds one button, with submenu. Param "index": button index at which to insert, -1 to append.
+* TOOLBAR_ADD_ITEM: Adds one button, of usual kind. Returns its handle. Param "index": button index at which to insert, -1 to append.
+* TOOLBAR_ADD_MENU: Adds one button, with submenu. Returns its handle. Param "index": button index at which to insert, -1 to append.
 * TOOLBAR_UPDATE: Updates buttons positions and sizes (for current size of image-list, current captions etc).
 * TOOLBAR_GET_VERTICAL: Returns vertical state of toolbar.
 * TOOLBAR_SET_VERTICAL: Sets vertical state of toolbar. Param "index": bool value.
@@ -4026,5 +4026,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.349 (app 1.108.6)
 * add: dlg_proc: DLG_POS_GET_STR, DLG_POS_SET_FROM_STR
+
+1.0.350 (app 1.110.0)
+* add: toolbar_proc: actions TOOLBAR_ADD_ITEM, TOOLBAR_ADD_MENU return handle of new button
 
 [[Category:CudaText]]
