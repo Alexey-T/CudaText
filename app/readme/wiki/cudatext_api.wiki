@@ -4016,5 +4016,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.350 (app 1.110.0)
 * add: toolbar_proc: actions TOOLBAR_ADD_ITEM, TOOLBAR_ADD_MENU return handle of new button
+* change: Editor.complete: "tooltip" line part is now shown only in tooltip, but not in listbox
+* add: Editor.complete: "tooltip" line part can be multi-line, separator is chr(2)
 
 [[Category:CudaText]]
