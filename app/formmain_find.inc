@@ -843,9 +843,9 @@ begin
   if Assigned(fmFind) then
     fmFind.UpdateInputFind(Str);
 
-  //make command "find next" working with new text
+  //make command "find next" working with new text (issue #2803)
   FFinder.StrFind:= Str;
-  //and clear regex option
+  //and clear regex option (issue #2812)
   FFinder.OptRegex:= false;
 end;
 
