@@ -138,20 +138,7 @@ begin
 end;
 
 function DoControl_GetState_Memo(C: TMemo): string;
-//var
-//  L: TStringList;
 begin
-  {
-  //why this complex code? skip last EOL? on linux - not needed
-  L:= TStringList.Create;
-  try
-    L.SkipLastLineBreak:= true;
-    L.Assign(C.Lines);
-    Result:= L.Text;
-  finally
-    L.Free;
-  end;
-  }
   Result:= C.Lines.Text;
 
   Result:= StringReplace(Result, #9, #3, [rfReplaceAll]);
