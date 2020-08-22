@@ -845,6 +845,8 @@ begin
 
   //make command "find next" working with new text
   FFinder.StrFind:= Str;
+  //and clear regex option
+  FFinder.OptRegex:= false;
 end;
 
 
