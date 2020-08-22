@@ -138,8 +138,8 @@ begin
 end;
 
 function DoControl_GetState_Memo(C: TMemo): string;
-var
-  L: TStringList;
+//var
+//  L: TStringList;
 begin
   {
   //why this complex code? skip last EOL? on linux - not needed
