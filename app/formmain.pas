@@ -2802,7 +2802,7 @@ begin
   _Init_FixSplitters;
 
   if FHandledOnShowPartly then exit;
-  DoControlLock(Self);
+  FormLock(Self);
 
   _Init_WindowMaximized;
 
@@ -2846,7 +2846,7 @@ begin
   _Init_FramesOnShow;
 
   FHandledUntilFirstFocus:= true;
-  DoControlUnlock(Self);
+  FormUnlock(Self);
 
   _Init_FrameFocus;
   _Init_ShowStartupTimes;

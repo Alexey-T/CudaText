@@ -12,6 +12,9 @@ unit proc_miscutils;
 interface
 
 uses
+  {$ifdef windows}
+  Windows, Messages,
+  {$endif}
   Classes, SysUtils, Controls, StdCtrls, ComCtrls, Graphics,
   ImgList, Dialogs, Forms, Menus, ExtCtrls,
   LclIntf, LclType, LazFileUtils, StrUtils,
@@ -34,6 +37,9 @@ uses
 function FormPosGetAsString(Form: TForm; AOnlySize: boolean): string;
 procedure FormPosSetFromString(Form: TForm; const S: string; AOnlySize: boolean);
 procedure RectSetFromString(var R: TRect; const S: string; AOnlySize: boolean);
+
+procedure FormLock(Ctl: TForm);
+procedure FormUnlock(Ctl: TForm);
 
 procedure FormHistorySave(F: TForm; const AConfigPath: string; AWithPos: boolean);
 procedure FormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean);
@@ -896,6 +902,25 @@ begin
     Form.BoundsRect:= R;
 end;
 
+procedure FormLock(Ctl: TForm);
+begin
+  Ctl.DisableAutoSizing;
+
+  {$ifdef windows}
+  Ctl.Perform(WM_SetRedraw, 0, 0);
+  {$endif}
+end;
+
+procedure FormUnlock(Ctl: TForm);
+begin
+  Ctl.EnableAutoSizing;
+
+  {$ifdef windows}
+  Ctl.Perform(WM_SetRedraw, 1, 0);
+  SetWindowPos(Ctl.Handle, 0, 0, 0, 0, 0,
+    SWP_FRAMECHANGED or SWP_NOCOPYBITS or SWP_NOMOVE or SWP_NOZORDER or SWP_NOSIZE);
+  {$endif}
+end;
 
 end.
 
