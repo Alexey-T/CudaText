@@ -9,7 +9,7 @@
 + add: option "renderer_offsets", to fix rarely visible artifacts on Linux (thanks @VicDobrov)
 + add: lexer reStructuredText: fix 2 kinds of code-blocks; add rule for table blocks; add rule for local links
 + add: lexer Bash: highlight invalid hex/octal literals (thanks @VicDobrov)
-- fix: incorrect horiz caret pos, when line with unicode chars is scrolled horizontally (thanks @David-Croose)
+- fix: bug from 2017 year, incorrect horiz caret pos, when line with full-width chars is scrolled horizontally (thanks @David-Croose)
 - fix: after command "find cur selection next", command "find next" must reuse text (thanks @kvichans)
 - fix: search engine bug when search text is multi-line + Unicode (thanks @kvichans)
 
