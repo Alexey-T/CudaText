@@ -345,6 +345,21 @@ begin
   end;
 end;
 
+function Py_MenuFromId(const Str: string): TMenu;
+var
+  Obj: TObject;
+  N: PtrInt;
+begin
+  Result:= nil;
+  N:= StrToInt64Def(Str, 0);
+  if N<>0 then
+  begin
+    Obj:= TObject(N);
+    if Obj is TMenu then
+      exit(TMenu(Obj));
+  end;
+end;
+
 function Py_MenuItemFromId(Str: string): TMenuItem;
 const
   cPrefixToolmenu = 'toolmenu:';
@@ -5931,6 +5946,7 @@ var
   PtrValue: PChar;
   StrValue: string;
   Btn: TATButton;
+  Mnu: TMenu;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:button_proc', @IdBtn, @IdAction, @PtrValue)) then
@@ -6051,7 +6067,9 @@ begin
 
         BTN_SET_MENU:
           begin
-            Btn.PopupMenu:= TMenu(PtrInt(StrToInt64Def(StrValue, 0))).Owner as TPopupMenu;
+            Mnu:= Py_MenuFromId(StrValue);
+            if Assigned(Mnu) and Assigned(Mnu.Owner) then
+              Btn.PopupMenu:= Mnu.Owner as TPopupMenu;
             Result:= ReturnNone;
           end;
 
