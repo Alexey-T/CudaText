@@ -3,6 +3,7 @@
 function DoToolbar_GetToolbarFromId(const Str: string): TATFlatToolbar;
 var
   N: PtrInt;
+  Obj: TObject;
 begin
   Result:= nil;
 
@@ -11,7 +12,13 @@ begin
 
   N:= StrToInt64Def(Str, 0);
   if N<>0 then
-    exit(TATFlatToolbar(N));
+  begin
+    Obj:= TObject(N);
+    if Obj is TATFlatToolbar then
+      exit(TATFlatToolbar(Obj))
+    else
+      exit;
+  end;
 end;
 
 

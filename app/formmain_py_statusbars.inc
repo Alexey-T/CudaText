@@ -3,6 +3,7 @@
 function DoStatusbar_GetStatusbarFromId(const Str: string): TATStatus;
 var
   N: PtrInt;
+  Obj: TObject;
 begin
   Result:= nil;
 
@@ -11,7 +12,13 @@ begin
 
   N:= StrToInt64Def(Str, 0);
   if N<>0 then
-    exit(TATStatus(N));
+  begin
+    Obj:= TObject(N);
+    if Obj is TATStatus then
+      exit(TATStatus(Obj))
+    else
+      exit;
+  end;
 end;
 
 

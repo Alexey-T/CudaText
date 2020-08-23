@@ -335,12 +335,20 @@ function Py_MenuItemFromId(Str: string): TMenuItem;
 const
   cPrefixToolmenu = 'toolmenu:';
 var
+  Obj: TObject;
   N: PtrInt;
 begin
   Result:= nil;
 
   N:= StrToInt64Def(Str, 0);
-  if N<>0 then exit(TMenuItem(N));
+  if N<>0 then
+  begin
+    Obj:= TObject(N);
+    if Obj is TMenuItem then
+      exit(TMenuItem(Obj))
+    else
+      exit;
+  end;
 
   if Str=PyMenuId_Top then exit(fmMain.MainMenu.Items);
   if Str=PyMenuId_TopEdit then exit(fmMain.mnuEdit);
