@@ -330,6 +330,20 @@ begin
   end;
 end;
 
+function Py_ImagelistFromId(const Str: string): TImageList;
+var
+  Obj: TObject;
+  N: PtrInt;
+begin
+  Result:= nil;
+  N:= StrToInt64Def(Str, 0);
+  if N<>0 then
+  begin
+    Obj:= TObject(N);
+    if Obj is TImageList then
+      exit(TImageList(Obj));
+  end;
+end;
 
 function Py_MenuItemFromId(Str: string): TMenuItem;
 const
@@ -5522,7 +5536,9 @@ begin
 
         MENU_SHOW:
           begin
-            PopupItem:= TMenuItem(PtrInt(StrToInt64Def(StrMenu, 0)));
+            PopupItem:= Py_MenuItemFromId(StrMenu);
+            if not Assigned(PopupItem) then
+              exit(ReturnNone);
             Popup:= PopupItem.Owner as TPopupMenu;
             if StrCmd='' then
               Popup.PopUp //at cursor position
@@ -5547,8 +5563,10 @@ begin
 
         MENU_SET_IMAGELIST:
           begin
-            ImgList:= TImageList(PtrInt(StrToInt64Def(StrCmd, 0)));
-            PopupItem:= TMenuItem(PtrInt(StrToInt64Def(StrMenu, 0)));
+            ImgList:= Py_ImagelistFromId(StrCmd);
+            PopupItem:= Py_MenuItemFromId(StrMenu);
+            if PopupItem=nil then
+              exit(ReturnNone);
 
             //TPopupMenu - then menuitem.owner is set to popupmenu by Cud,
             //TMainMenu - then menuitem.owner is fmMain
@@ -5567,8 +5585,9 @@ begin
 
         MENU_SET_IMAGEINDEX:
           begin
-            PopupItem:= TMenuItem(PtrInt(StrToInt64Def(StrMenu, 0)));
-            PopupItem.ImageIndex:= NIndex;
+            PopupItem:= Py_MenuItemFromId(StrMenu);
+            if Assigned(PopupItem) then
+              PopupItem.ImageIndex:= NIndex;
             Result:= ReturnNone;
           end;
 
@@ -5944,7 +5963,7 @@ begin
 
         BTN_SET_IMAGELIST:
           begin
-            Btn.Images:= TImageList(PtrInt(StrToInt64Def(StrValue, 0)));
+            Btn.Images:= Py_ImagelistFromId(StrValue);
             Result:= ReturnNone;
           end;
 
@@ -7885,7 +7904,7 @@ begin
 
         STATUSBAR_SET_IMAGELIST:
           begin
-            ImgList:= TImageList(PtrInt(StrToInt64Def(StrValue, 0)));
+            ImgList:= Py_ImagelistFromId(StrValue);
             FBar.Images:= ImgList;
             Result:= ReturnNone;
           end;
