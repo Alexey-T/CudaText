@@ -3,6 +3,14 @@
   - fixed
   * changed
 
+1.110.3 (2020/08)
+
++ add: improved TRegExpr engine:
+    + regexp: supported Unicode characters after U+FFFF (ie surrogate pairs) for '.', '\W', '\S', '\D' etc.
+    + regexp: supported "atomic groups": (?>foo|bar|ok)
+    + regexp: supported "nagative lookahead": foo(?!bar)
+- fix: lexer Python: regression in code-tree (thanks @OlehL)
+
 1.110.0 (2020/08)
 
 + add: improved TRegExpr engine: supported Unicode categories \pL \p{L} \p{Lu}, and negative variant with \P. List of available categories: https://www.compart.com/en/unicode/category/ 
