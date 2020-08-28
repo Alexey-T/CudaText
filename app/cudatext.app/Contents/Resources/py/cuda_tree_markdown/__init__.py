@@ -16,7 +16,7 @@ def _is_pre(s, ch, need_space):
 
 
 def is_line_ticks(s):
-    return re_ticks.match(s) 
+    return re_ticks.match(s) is not None 
 
 
 def is_line_head(s):
