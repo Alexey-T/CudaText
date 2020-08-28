@@ -10,6 +10,7 @@
     + regexp: supported "atomic groups": (?>foo|bar|ok)
     + regexp: supported "nagative lookahead": foo(?!bar)
 - fix: lexer Python: regression in code-tree (thanks @OlehL)
+- fix: regression in Markdown tree-helper (thanks @kvichans)
 
 1.110.0 (2020/08)
 
