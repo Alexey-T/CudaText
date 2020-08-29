@@ -1367,11 +1367,13 @@ Tools, which call file-compare utility, to compare 2 files: active files in grou
 
 ==Tool to run Python scripts==
 
-Tool uses Python 3 installation on Linux. For Windows, change "File name" field to the full path to "python.exe" file. Also on Windows you may need to toggle checkbox "Shell command".
-
 * Name: Python3
-* File name: python3
-* Shell command: unchecked
+* File name:
+** on Windows: full path to "python.exe"
+** on Unix: python3
+* Shell command:
+** on Windows: checked
+** on Unix: unchecked
 * Parameters: "{FileNameOnly}"
 * Initial folder: {FileDir}
 * Lexers: Python
