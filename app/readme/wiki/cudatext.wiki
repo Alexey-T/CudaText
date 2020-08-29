@@ -2219,7 +2219,7 @@ CudaText: You need to install plugin "Configure Menu". In its dialog, create "me
 
 ST3: Use built-in command "Find in files".
 
-CudaText: Use plugin FindInFiles v3 or FindInFiles v4 (totally new plugin, it has bugs yet).
+CudaText: Use plugin FindInFiles. It has 2 major versions: v3 is frozen, and new v4 is evolving.
 
 ==How to find file in a project?==
 
