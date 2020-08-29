@@ -2366,6 +2366,24 @@ CudaText:
 * Keyboard commands: "column select: up / down / left / right / ....".
 * Click the statusbar cell "-", it will toggle to "||", and usual mouse selection will perform column selection. 
 
+==How to swap line up/down==
+
+ST3: Commands "Edit / Line / Swap Line Up/Down".
+
+CudaText: Commands "Edit / Line operations / Move line(s) up/down".
+
+==How to show menu of tabs, project files, symbols==
+
+ST3: "Goto anything" (Ctrl+P) for all stuff.
+
+CudaText:
+
+* List of opened tabs: command "ui: switch tab, dialog".
+* List of files in the current project: "plugin: Project Manager: Go to file".
+* List of "symbols" in the current document: "plugin: Cuda-Ext: Code Tree: Symbols list" (shows the same symbols as code-tree can show).
+
+CudaText doesn't create indexes in any way, so it cannot show symbols in other files.
+
 [[Category: CudaText]]
 [[Category: Applications written in Free Pascal]]
 [[Category: Applications created with Lazarus]]
