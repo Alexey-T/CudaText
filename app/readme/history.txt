@@ -3,9 +3,10 @@
   - fixed
   * changed
 
-1.110.3 (2020/08)
+1.110.4 (2020/08)
 
 + add: improved TRegExpr engine:
+    + regexp: supported possessive quantifier: a++ a*+ a?+ a{n,m}+
     + regexp: supported Unicode characters after U+FFFF (ie surrogate pairs) for '.', '\W', '\S', '\D' etc.
     + regexp: supported "atomic groups": (?>foo|bar|ok)
     + regexp: supported "nagative lookahead": foo(?!bar)
