@@ -3,11 +3,14 @@
   - fixed
   * changed
 
-1.110.5 (2020/08)
+1.111.0 (2020/09)
 
 + add: improved TRegExpr engine:
+    + regexp: added error message for unknown meta-chars (like \X \E \z)
     + regexp: supported recursion: (?R) with alias (?0)
+    + regexp: supported subroutine calls: (?1) ... (?89)
     + regexp: supported possessive quantifier: a++ a*+ a?+ a{n,m}+
+    + regexp: supported Perl syntax for named groups: (?'name'expr) and subroutine calls: (?&name)
     + regexp: supported Unicode characters after U+FFFF (ie surrogate pairs) for '.', '\W', '\S', '\D' etc.
     + regexp: supported "atomic groups": (?>foo|bar|ok)
     + regexp: supported "nagative lookahead": foo(?!bar)
