@@ -7,6 +7,7 @@
 
 + add: improved TRegExpr engine:
     + regexp: added error message for unknown meta-chars (like \X \E \z)
+    + regexp: added metachar \z; changed behavior of \Z (match also before final line-break)
     + regexp: supported recursion: (?R) with alias (?0)
     + regexp: supported subroutine calls: (?1) ... (?89)
     + regexp: supported possessive quantifier: a++ a*+ a?+ a{n,m}+
