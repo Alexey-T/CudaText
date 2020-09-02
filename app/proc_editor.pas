@@ -17,6 +17,7 @@ uses
   Dialogs, Forms,
   Clipbrd,
   ATSynEdit,
+  ATSynEdit_LineParts,
   ATSynEdit_CanvasProc,
   ATSynEdit_Carets,
   ATSynEdit_Markers,

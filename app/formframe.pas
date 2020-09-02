@@ -27,6 +27,7 @@ uses
   ATSynEdit_Carets,
   ATSynEdit_Gaps,
   ATSynEdit_Markers,
+  ATSynEdit_LineParts,
   ATSynEdit_CanvasProc,
   ATSynEdit_Commands,
   ATSynEdit_Bookmarks,
