@@ -15,7 +15,7 @@
     + regexp: supported Unicode characters after U+FFFF (ie surrogate pairs) for '.', '\W', '\S', '\D' etc.
     + regexp: supported "atomic groups": (?>foo|bar|ok)
     + regexp: supported "nagative lookahead": foo(?!bar)
-- fix: lexer Log files: no coloring after horiz scrolling (thanks @skarasov)
+- fix: major issue in engine of lite lexers: broken highlighting after horiz scrolling / word wrapping (thanks @skarasov)
 - fix: lexer Python: code-tree for func "def name(param: type)" (thanks @skarasov)
 - fix: lexer Python: regression in code-tree (thanks @OlehL)
 - fix: regression in Markdown tree-helper (thanks @kvichans)
