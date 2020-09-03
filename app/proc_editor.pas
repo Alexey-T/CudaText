@@ -1584,7 +1584,9 @@ begin
   if bSel then
     if Ed.Strings.IsIndexValid(Y1) then
     begin
-      bWholeWord:= STextWholeWordSelection(Ed.Strings.Lines[Y1], X1, X2, Ed.OptNonWordChars);
+      bWholeWord:=
+        IsFinderWholeWordRange(Ed.Strings.Lines[Y1], X1+1, X2+1);
+        //STextWholeWordSelection(Ed.Strings.Lines[Y1], X1, X2, Ed.OptNonWordChars);
       sText:= Ed.Strings.TextSubstring(X1, Y1, X2, Y2);
     end;
 
