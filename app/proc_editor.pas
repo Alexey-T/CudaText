@@ -1571,8 +1571,24 @@ var
   Finder: TATEditorFinder;
   X1, Y1, X2, Y2: integer;
   bSel, bForwardSel: boolean;
+  bWholeWord: boolean;
+  sText: UnicodeString;
 begin
   Result:= true;
+  bWholeWord:= false;
+  sText:= '';
+
+  //issue #2828: detect WholeWord by first caret, not last
+  Caret:= Ed.Carets[0];
+  Caret.GetRange(X1, Y1, X2, Y2, bSel);
+  if bSel then
+    if Ed.Strings.IsIndexValid(Y1) then
+    begin
+      bWholeWord:= STextWholeWordSelection(Ed.Strings.Lines[Y1], X1, X2, Ed.OptNonWordChars);
+      sText:= Ed.Strings.TextSubstring(X1, Y1, X2, Y2);
+    end;
+
+  //now we need coords of last caret
   Caret:= Ed.Carets[Ed.Carets.Count-1];
   Caret.GetRange(X1, Y1, X2, Y2, bSel);
   //pos are sorted: (X1,Y1) <= (X2,Y2)
@@ -1588,16 +1604,11 @@ begin
     try
       bForwardSel:= Caret.IsForwardSelection;
 
-      Finder.StrFind:= Ed.Strings.TextSubstring(X1, Y1, X2, Y2);
+      Finder.StrFind:= sText;
       Finder.StrReplace:= '';
       Finder.Editor:= Ed;
 
-      Finder.OptWords:= STextWholeWordSelection(
-        Ed.Strings.Lines[Y1],
-        X1,
-        X2,
-        Ed.OptNonWordChars
-        );
+      Finder.OptWords:= bWholeWord;
       Finder.OptRegex:= false;
       Finder.OptCase:= true;
       Finder.OptBack:= false;
