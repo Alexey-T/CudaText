@@ -135,7 +135,7 @@ begin
     cfg.Free;
   end;
 
-  if UiOps.ReopenSession then
+  if UiOps.ReopenSession and FOption_AllowSession then
     DoOps_SaveSession(GetSessionFilename);
 end;
 
