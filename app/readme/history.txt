@@ -6,7 +6,7 @@
 1.111.0 (2020/09)
 
 + add: improved TRegExpr engine:
-    + regexp: added error message for unknown meta-chars (like \X \E \z)
+    + regexp: added error message for unknown meta-chars (like \X \E)
     + regexp: added metachar \z; changed behavior of \Z (match also before final line-break)
     + regexp: supported recursion: (?R) with alias (?0)
     + regexp: supported subroutine calls: (?1) ... (?89)
