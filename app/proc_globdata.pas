@@ -323,6 +323,7 @@ type
     ScaleFont: integer;
 
     ReopenSession: boolean;
+    ReopenSessionWithCmdLine: boolean;
     AutoSaveSession: boolean;
     ShowFormsOnTop: boolean;
     ShowMenuDialogsWithBorder: boolean;
@@ -1498,6 +1499,7 @@ begin
     ScaleFont:= 100;
 
     ReopenSession:= true;
+    ReopenSessionWithCmdLine:= false;
     AutoSaveSession:= false;
     ShowFormsOnTop:= false;
     ShowMenuDialogsWithBorder:= {$ifdef LCLGTK2} true {$else} false {$endif};

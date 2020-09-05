@@ -970,6 +970,9 @@ begin
    UiOps.Scale:= 100*Screen.PixelsPerInch div 96;
 
   UiOps.ReopenSession:= cfg.GetValue('ui_reopen_session', UiOps.ReopenSession);
+  UiOps.ReopenSessionWithCmdLine:= cfg.GetValue('ui_reopen_session_cmdline', UiOps.ReopenSessionWithCmdLine);
+  if UiOps.ReopenSessionWithCmdLine then
+    FOption_AllowSession:= true;
   UiOps.AutoSaveSession:= cfg.GetValue('ui_auto_save_session', UiOps.AutoSaveSession);
   //UiOps.FloatGroupsInTaskbar:= cfg.GetValue('ui_float_groups_in_taskbar', UiOps.FloatGroupsInTaskbar);
   UiOps.OneInstance:= cfg.GetValue('ui_one_instance', UiOps.OneInstance);
