@@ -16,6 +16,7 @@
     + regexp: supported "atomic groups": (?>foo|bar|ok)
     + regexp: supported "nagative lookahead": foo(?!bar)
 
++ add: option "ui_reopen_session_cmdline"
 + add: before: editor doesn't load last session when command-line file is opened; now: it also doesn't save current (empty) session in this case, so old big session is not lost (thanks @notteumani)
 - fix: issue with "Add next occurrence of selected word" (thanks @Jairo-Martinez)
 - fix: engine of lite lexers: broken highlighting after horizontal scrolling (thanks @skarasov)
