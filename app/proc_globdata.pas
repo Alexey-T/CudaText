@@ -1106,12 +1106,17 @@ begin
   if OpDirLocal<>OpDirExe then
     if IsDistroUpdateNeeded then
       if DirectoryExistsUTF8(OpDirPrecopy) then
+      begin
         RunCommand('cp', ['-R', '-u', '-t',
           OpDirLocal,
           '/usr/share/cudatext/py',
           '/usr/share/cudatext/data',
           '/usr/share/cudatext/settings_default'
           ], S);
+        fpChmod(OpDirLocal+'/py', &755);
+        fpChmod(OpDirLocal+'/data', &755);
+        fpChmod(OpDirLocal+'/settings_default', &755);
+      end;
   {$endif}
   {$ifdef darwin}
   if IsDistroUpdateNeeded then
