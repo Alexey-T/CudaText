@@ -16,6 +16,8 @@ interface
 uses
   {$ifdef windows}
   Windows,
+  {$else}
+  BaseUnix,
   {$endif}
   Classes, SysUtils, Forms, Controls, Menus,
   Dialogs, Graphics,
@@ -1077,6 +1079,8 @@ begin
 
     OpDirLocal:= HomeConfig+'cudatext';
     CreateDirUTF8(OpDirLocal);
+    //set permissions 755 because original dir may have 555
+    fpChmod(OpDirLocal, &755);
   end;
   {$endif}
   {$ifdef darwin}
