@@ -17,7 +17,7 @@ uses
   {$ifdef windows}
   Windows,
   {$else}
-  BaseUnix,
+  //BaseUnix,
   {$endif}
   Classes, SysUtils, Forms, Controls, Menus,
   Dialogs, Graphics,
@@ -1079,8 +1079,6 @@ begin
 
     OpDirLocal:= HomeConfig+'cudatext';
     CreateDirUTF8(OpDirLocal);
-    //set permissions 755 because original dir may have 555
-    fpChmod(OpDirLocal, &755);
   end;
   {$endif}
   {$ifdef darwin}
@@ -1113,9 +1111,8 @@ begin
           '/usr/share/cudatext/data',
           '/usr/share/cudatext/settings_default'
           ], S);
-        fpChmod(OpDirLocal+'/py', &755);
-        fpChmod(OpDirLocal+'/data', &755);
-        fpChmod(OpDirLocal+'/settings_default', &755);
+        //set permissions to 755 for dir + all subdirs
+        RunCommand('chmod', ['-R', '755', OpDirLocal], S);
       end;
   {$endif}
   {$ifdef darwin}
