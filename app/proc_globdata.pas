@@ -1111,8 +1111,8 @@ begin
           '/usr/share/cudatext/data',
           '/usr/share/cudatext/settings_default'
           ], S);
-        //set permissions to 755 for dir + all subdirs
-        RunCommand('chmod', ['-R', '755', OpDirLocal], S);
+        //set permissions +w for dir+subdirs
+        RunCommand('chmod', ['-R', '+w', OpDirLocal], S);
       end;
   {$endif}
   {$ifdef darwin}
