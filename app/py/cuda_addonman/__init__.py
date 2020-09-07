@@ -54,10 +54,12 @@ STD_LEXERS = (
   'PHP_',
   'PowerShell',
   'Python',
+  'RegEx',
   'reStructuredText',
   'Search results',
   'VBScript',
   'XML',
+  'YAML',
 )
 STD_LEXERS_LITE = (
   'JSON',

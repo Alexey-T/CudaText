@@ -1005,6 +1005,11 @@
   //This also shows "Don't save / Keep in session" button in the "Save tabs?" dialog.
   "ui_reopen_session": true,
 
+  //Allow to restore last session even if some file/folder was passed in command line.
+  //Note, this gives bad behaviour: N program instances will reopen the same last
+  //session + passed command-line file.
+  "ui_reopen_session_cmdline": false,
+
   //Allow to close program without confirmation, with saving modified documents
   //to the session. In details: if a) "ui_auto_save_session":true,
   //b) "ui_reopen_session":true,
