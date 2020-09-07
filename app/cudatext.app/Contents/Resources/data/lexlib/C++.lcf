@@ -227,7 +227,7 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'Symbol single'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\[\],~\.]'
+      Expression = '\[\[ | \]\] | [\[\],~\.]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -270,6 +270,7 @@ object SyntAnal5: TLibSyntAnalyzer
             'co_return'
             'co_yield'
             'compl'
+            'concept'
             'continue'
             'default'
             'delete'
@@ -286,6 +287,7 @@ object SyntAnal5: TLibSyntAnalyzer
             'operator'
             'or'
             'or_eq'
+            'requires'
             'return'
             'sizeof'
             'struct'
@@ -326,7 +328,9 @@ object SyntAnal5: TLibSyntAnalyzer
             '__thiscall'
             'const'
             'const_cast'
+            'consteval'
             'constexpr'
+            'constinit'
             'decltype'
             'dynamic_cast'
             'explicit'
@@ -373,6 +377,7 @@ object SyntAnal5: TLibSyntAnalyzer
             'char'
             'char16_t'
             'char32_t'
+            'char8_t'
             'cin'
             'cout'
             'double'
