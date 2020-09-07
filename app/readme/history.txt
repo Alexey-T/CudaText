@@ -18,7 +18,7 @@
 
 + add: option "ui_reopen_session_cmdline" (thanks @notteumani)
 + add: before: editor doesn't load last session when command-line file is opened; now: it also doesn't save current (empty) session in this case, so old big session is not lost (thanks @notteumani)
-+ add: lexer C++: better support C++20
++ add: lexer C++: keywords of C++20
 - fix: issue with "Add next occurrence of selected word" (thanks @Jairo-Martinez)
 - fix: engine of lite lexers: broken highlighting after horizontal scrolling (thanks @skarasov)
 - fix: lexer Python: code-tree for func "def name(param: type)" (thanks @skarasov)
