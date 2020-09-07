@@ -6,15 +6,15 @@
 1.111.0 (2020/09)
 
 + add: improved TRegExpr engine:
-    + regexp: added error message for unknown meta-chars (like \X \E)
-    + regexp: added metachar \z; changed behavior of \Z (match also before final line-break)
     + regexp: supported recursion: (?R) with alias (?0)
     + regexp: supported subroutine calls: (?1) ... (?89)
     + regexp: supported possessive quantifier: a++ a*+ a?+ a{n,m}+
+    + regexp: supported atomic groups: (?>foo|bar|ok)
+    + regexp: supported negative lookahead: foo(?!bar)
     + regexp: supported Perl syntax for named groups: (?'name'expr) and subroutine calls: (?&name)
     + regexp: supported Unicode characters after U+FFFF (ie surrogate pairs) for '.', '\W', '\S', '\D' etc.
-    + regexp: supported "atomic groups": (?>foo|bar|ok)
-    + regexp: supported "nagative lookahead": foo(?!bar)
+    + regexp: added \z; changed behavior of \Z (match also before final line-break)
+    + regexp: added error message for unknown metachars (like \X \E)
 
 + add: option "ui_reopen_session_cmdline" (thanks @notteumani)
 + add: before: editor doesn't load last session when command-line file is opened; now: it also doesn't save current session in this case, so old session is not lost (thanks @notteumani)
