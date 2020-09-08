@@ -456,7 +456,7 @@ class Command:
             if path.is_dir():
                 isbad = is_locked(str(path))
             else:
-                isbad = not path.is_file()
+                isbad = not path.is_file() or is_locked(str(path))
 
             if isbad:
                 imageindex = self.ICON_BAD
