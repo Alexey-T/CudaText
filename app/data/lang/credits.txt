@@ -31,6 +31,9 @@ https://github.com/pyscripter/python4delphi
 Alexey Torgashin
 https://github.com/Alexey-T/
 
+#BGRABitmap
+https://bgrabitmap.github.io/
+
 ————————————————————————
 
 #Main icon
