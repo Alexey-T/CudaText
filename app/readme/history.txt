@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+
++ removed option "renderer_cache_lines"
+
 1.111.0 (2020/09)
 
 + add: improved TRegExpr engine:

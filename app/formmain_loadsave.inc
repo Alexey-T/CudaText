@@ -772,7 +772,6 @@ begin
   Op.OpTabMaxPosExpanded:= cfg.GetValue('tab_max_pos_expanded', Op.OpTabMaxPosExpanded);
   Op.OpMaxLineLenForAccurateCharWidths:= cfg.GetValue('max_line_len_for_accurate_width', Op.OpMaxLineLenForAccurateCharWidths);
   Op.OpMaxLineLenToTokenize:= cfg.GetValue('max_line_len_parsed', Op.OpMaxLineLenToTokenize);
-  Op.OpRendererCacheLines:= Max(0, cfg.GetValue('renderer_cache_lines', Op.OpRendererCacheLines));
 
   Op.OpOverwriteSel:= cfg.GetValue('ovr_sel', Op.OpOverwriteSel);
   Op.OpOverwriteOnPaste:= cfg.GetValue('ovr_on_paste', Op.OpOverwriteOnPaste);

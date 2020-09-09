@@ -421,7 +421,6 @@ type
     OpMaxLineLenForAccurateCharWidths: integer;
     OpMaxLineLenForBracketFinder: integer;
     OpMaxLineLenToTokenize: integer;
-    OpRendererCacheLines: integer;
 
     OpOverwriteSel: boolean;
     OpOverwriteOnPaste: boolean;
@@ -1176,7 +1175,6 @@ begin
     OpMaxLineLenForAccurateCharWidths:= 500;
     OpMaxLineLenForBracketFinder:= 1000;
     OpMaxLineLenToTokenize:= 4000;
-    OpRendererCacheLines:= 100;
 
     OpOverwriteSel:= true;
     OpOverwriteOnPaste:= false;

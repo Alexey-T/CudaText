@@ -251,13 +251,6 @@
   //Also Python tree-helper will not run.
   "lexer_folding_max_lines": 10000,
 
-  //Size of lexer highlighting cache, in lines.
-  //Value should cover all editor's visible lines. If minimap is visible,
-  //value should be bigger (approx. by number of lines in minimap)
-  //to make cache effective.
-  //Too big value may slowdown the rendering.
-  "renderer_cache_lines": 100,
-
   //[Text]
   //Style of folded blocks
   //  0: if fold-hint empty: [...] from fold position, otherwise hint
