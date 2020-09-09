@@ -4,7 +4,10 @@
   * changed
 
 
-+ removed option "renderer_cache_lines"
+1.111.2
+
++ add: reworked cache of highlighted lines, now it works faster and has auto-adjusted size (it changes to big value on toggling minimap on)
+- removed option "renderer_cache_lines"
 
 1.111.0 (2020/09)
 
