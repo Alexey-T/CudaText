@@ -437,7 +437,6 @@ object SyntAnal5: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
-            ':'
             '{')
           TokenTypes = 264
         end
@@ -490,7 +489,6 @@ object SyntAnal5: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
-            ':'
             '{')
           TokenTypes = 264
         end
