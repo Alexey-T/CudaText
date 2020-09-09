@@ -450,9 +450,11 @@ type
     OpMinimapShowSelBorder: boolean;
     OpMinimapCharWidth: integer;
     OpMinimapAtLeft: boolean;
+    OpMinimapScale: integer;
     OpMinimapTooltipShow: boolean;
     OpMinimapTooltipLineCount: integer;
     OpMinimapTooltipWidth: integer;
+
     OpMicromapShow: boolean;
     OpMicromapWidthSmall: integer;
     OpMarginFixed: integer;
@@ -1204,6 +1206,7 @@ begin
     OpMinimapShowSelBorder:= true;
     OpMinimapCharWidth:= 0;
     OpMinimapAtLeft:= false;
+    OpMinimapScale:= 0;
     OpMinimapTooltipShow:= false;
     OpMinimapTooltipLineCount:= 6;
     OpMinimapTooltipWidth:= 60;
