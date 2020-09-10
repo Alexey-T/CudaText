@@ -5619,6 +5619,7 @@ var
   Form: TfmMenuApi;
   Sep: TATStringSeparator;
   SItem: string;
+  DeskRect: TRect;
 begin
   Form:= TfmMenuApi.Create(nil);
   try
@@ -5640,10 +5641,12 @@ begin
     Form.CollapseMode:= AProps.Collapse;
     Form.UseEditorFont:= AProps.UseEditorFont;
 
+    DeskRect:= Screen.WorkAreaRect;
+
     if AProps.W>0 then
-      Form.Width:= AProps.W;
+      Form.Width:= Min(AProps.W, DeskRect.Width);
     if AProps.H>0 then
-      Form.Height:= AProps.H;
+      Form.Height:= Min(AProps.H, DeskRect.Height);
 
     Form.ShowModal;
     Result:= Form.ResultCode;
