@@ -804,6 +804,7 @@ begin
   Op.OpMinimapShowSelBorder:= cfg.GetValue('minimap_sel_border', Op.OpMinimapShowSelBorder);
   Op.OpMinimapCharWidth:= cfg.GetValue('minimap_char_width', Op.OpMinimapCharWidth);
   Op.OpMinimapAtLeft:= cfg.GetValue('minimap_at_left', Op.OpMinimapAtLeft);
+  Op.OpMinimapScale:= cfg.GetValue('minimap_scale', Op.OpMinimapScale);
   Op.OpMinimapTooltipShow:= cfg.GetValue('minimap_tooltip_show', Op.OpMinimapTooltipShow);
   Op.OpMinimapTooltipLineCount:= cfg.GetValue('minimap_tooltip_line_count', Op.OpMinimapTooltipLineCount);
   Op.OpMinimapTooltipWidth:= cfg.GetValue('minimap_tooltip_width', Op.OpMinimapTooltipWidth);

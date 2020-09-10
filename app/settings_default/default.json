@@ -403,6 +403,9 @@
   //Minimap: Place minimap to the left side
   "minimap_at_left": false,
 
+  //Minimap: Custom scale in percents, if value>100
+  "minimap_scale": 0,
+
   //Minimap: Show "tooltip panel", when mouse cursor moves over minimap
   "minimap_tooltip_show": false,
 
