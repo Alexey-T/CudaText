@@ -2487,12 +2487,12 @@ var
   PtrItems, PtrCaption: PChar;
   StrItems, StrCaption: string;
   NId, NIndex: integer;
-  NCollapse, NW, NH: integer;
+  NCollapse, NSizeW, NSizeH: integer;
   Props: TDlgMenuProps;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'isisiii:dlg_menu', @NId, @PtrItems, @NIndex, @PtrCaption,
-                             @NCollapse, @NW, @NH)) then
+                             @NCollapse, @NSizeW, @NSizeH)) then
     begin
       StrItems:= string(PtrItems);
       StrCaption:= string(PtrCaption);
@@ -2511,8 +2511,8 @@ begin
             Props.ShowCentered:= (NId and MENU_CENTERED)<>0;
             Props.UseEditorFont:= (NId and MENU_EDITORFONT)<>0;
             Props.Collapse:= TATCollapseStringMode(NCollapse);
-            Props.W:= NW;
-            Props.H:= NH;
+            Props.W:= NSizeW;
+            Props.H:= NSizeH;
 
             NIndex:= fmMain.DoDialogMenuApi(Props);
             Application.ProcessMessages; //force hide dialog
