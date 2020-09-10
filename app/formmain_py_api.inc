@@ -1033,6 +1033,7 @@ var
   NFontBold, NFontItalic, NFontStrike, NColumn, NMapOnly: integer;
   Obj: TATLinePartClass;
   SepX, SepY, SepLen: TATStringSeparator;
+  NStyles: byte;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liisssiiiiiiiiiiii:attr',
@@ -1070,9 +1071,9 @@ begin
                     Obj.Data.ColorFont,
                     Obj.Data.ColorBG,
                     Obj.Data.ColorBorder,
-                    Ord(Obj.Data.FontBold),
-                    Ord(Obj.Data.FontItalic),
-                    Ord(Obj.Data.FontStrikeOut),
+                    Ord((Obj.Data.FontStyles and afsFontBold)<>0),
+                    Ord((Obj.Data.FontStyles and afsFontItalic)<>0),
+                    Ord((Obj.Data.FontStyles and afsFontCrossed)<>0),
                     Ord(Obj.Data.BorderLeft),
                     Ord(Obj.Data.BorderRight),
                     Ord(Obj.Data.BorderDown),
@@ -1113,11 +1114,11 @@ begin
                   'color_border',
                   Obj.Data.ColorBorder,
                   'font_bold',
-                  PyBool_FromLong(Ord(Obj.Data.FontBold)),
+                  PyBool_FromLong(Ord((Obj.Data.FontStyles and afsFontBold)<>0)),
                   'font_italic',
-                  PyBool_FromLong(Ord(Obj.Data.FontItalic)),
+                  PyBool_FromLong(Ord((Obj.Data.FontStyles and afsFontItalic)<>0)),
                   'font_strikeout',
-                  PyBool_FromLong(Ord(Obj.Data.FontStrikeOut)),
+                  PyBool_FromLong(Ord((Obj.Data.FontStyles and afsFontCrossed)<>0)),
                   'border_left',
                   Ord(Obj.Data.BorderLeft),
                   'border_right',
@@ -1143,9 +1144,16 @@ begin
               Obj.Data.ColorBorder:= NColorBorder
             else
               Obj.Data.ColorBorder:= Ed.Colors.TextFont;
-            Obj.Data.FontBold:= Bool(NFontBold);
-            Obj.Data.FontItalic:= Bool(NFontItalic);
-            Obj.Data.FontStrikeOut:= Bool(NFontStrike);
+
+            NStyles:= 0;
+            if Bool(NFontBold) then
+              NStyles:= NStyles or afsFontBold;
+            if Bool(NFontItalic) then
+              NStyles:= NStyles or afsFontItalic;
+            if Bool(NFontStrike) then
+              NStyles:= NStyles or afsFontCrossed;
+            Obj.Data.FontStyles:= NStyles;
+
             Obj.Data.BorderLeft:= TATLineStyle(NBorderL);
             Obj.Data.BorderRight:= TATLineStyle(NBorderR);
             Obj.Data.BorderDown:= TATLineStyle(NBorderD);
@@ -1181,9 +1189,16 @@ begin
                 Obj.Data.ColorBorder:= NColorBorder
               else
                 Obj.Data.ColorBorder:= Ed.Colors.TextFont;
-              Obj.Data.FontBold:= Bool(NFontBold);
-              Obj.Data.FontItalic:= Bool(NFontItalic);
-              Obj.Data.FontStrikeOut:= Bool(NFontStrike);
+
+              NStyles:= 0;
+              if Bool(NFontBold) then
+                NStyles:= NStyles or afsFontBold;
+              if Bool(NFontItalic) then
+                NStyles:= NStyles or afsFontItalic;
+              if Bool(NFontStrike) then
+                NStyles:= NStyles or afsFontCrossed;
+              Obj.Data.FontStyles:= NStyles;
+
               Obj.Data.BorderLeft:= TATLineStyle(NBorderL);
               Obj.Data.BorderRight:= TATLineStyle(NBorderR);
               Obj.Data.BorderDown:= TATLineStyle(NBorderD);
