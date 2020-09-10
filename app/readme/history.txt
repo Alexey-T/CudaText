@@ -6,8 +6,8 @@
 1.111.5 (2020/09)
 
 + add: to improve rendering speed, minimap is now rendered via BGRABitmap library (much faster, but program size is bigger by ~1.5Mb)
-+ add: to improve scrolling speed, reworked cache of highlighted lines; now it works faster and has auto-adjusted size (it changes to big value on toggling minimap on)
-+ add: mouse-wheel scrolling goes smoothly over inter-line gaps (pictures in them)
++ add: reworked cache of highlighted lines; now it works faster and has auto-adjusted size (it's changed to big value on toggling minimap on)
++ add: mouse-wheel scrolling goes smoothly over inter-line gaps
 + add: option "minimap_scale"
 - removed option "renderer_cache_lines"
 
