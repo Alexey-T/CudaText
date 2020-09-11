@@ -3793,7 +3793,7 @@ begin
     dlg.Title:= msgDialogTitleOpen;
     dlg.Options:= [
       ofAllowMultiSelect,
-      //ofPathMustExist, //user has bug with OneDrive if this is used
+      ofPathMustExist,
       ofEnableSizing
       ];
     dlg.FileName:= '';
@@ -7138,7 +7138,7 @@ begin
   begin
     SaveDlg:= TSaveDialog.Create(Self);
     SaveDlg.Title:= msgDialogTitleSaveAs;
-    SaveDlg.Options:= [ofOverwritePrompt,{ofPathMustExist,}ofEnableSizing,ofDontAddToRecent,ofViewDetail];
+    SaveDlg.Options:= [ofOverwritePrompt,ofPathMustExist,ofEnableSizing,ofDontAddToRecent,ofViewDetail];
   end;
 end;
 
