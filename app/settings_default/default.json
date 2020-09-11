@@ -667,6 +667,9 @@
   //UI tabs: Size of "x" buttons
   "ui_tab_show_x_size": 14,
 
+  //UI tabs: Show "x" marks in circles (otherwise in squares)
+  "ui_tab_x_rounded": true,
+
   //UI tabs: Show "+" pseudo-tab (its click creates new tab)
   "ui_tab_show_plus": true,
 

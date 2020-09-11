@@ -241,6 +241,7 @@ type
     TabFontScale: integer;
     TabShowX: integer;
     TabShowXSize: integer;
+    TabShowXRounded: boolean;
     TabShowPlus: boolean;
     TabDblClickClose: boolean;
     TabNumbers: boolean;
@@ -1413,6 +1414,7 @@ begin
     TabFontScale:= 100;
     TabShowX:= 1; //show all
     TabShowXSize:= 14;
+    TabShowXRounded:= true;
     TabShowPlus:= true;
     TabDblClickClose:= false;
     TabNumbers:= false;
