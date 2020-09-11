@@ -3,8 +3,11 @@
   - fixed
   * changed
 
+1.111.6 (2020/09)
+
++ add: option "ui_tab_x_rounded"
 - fix: few minor visual bugs with minimap (thanks @xcme)
-- fix: Windows: "Restore window" bug (Lazarus bug, thanks @Jairo-Martinez)
+- fix: Windows "Restore window" bug (Lazarus bug, thanks @Jairo-Martinez)
 
 1.111.5 (2020/09)
 
