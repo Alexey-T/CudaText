@@ -2141,7 +2141,7 @@ begin
       begin
         Dlg:= TOpenDialog.Create(nil);
         Dlg.Title:= msgDialogTitleOpen;
-        Dlg.Options:= Dlg.Options+[ofHideReadOnly, ofPathMustExist];
+        Dlg.Options:= Dlg.Options+[ofHideReadOnly{, ofPathMustExist}];
         if not IsAllowAny then
           Dlg.Options:= Dlg.Options+[ofFileMustExist];
       end
@@ -2149,7 +2149,7 @@ begin
       begin
         Dlg:= TSaveDialog.Create(nil);
         Dlg.Title:= msgDialogTitleSaveAs;
-        Dlg.Options:= Dlg.Options+[ofHideReadOnly, ofPathMustExist, ofOverwritePrompt];
+        Dlg.Options:= Dlg.Options+[ofHideReadOnly{, ofPathMustExist}, ofOverwritePrompt];
       end;
 
       try

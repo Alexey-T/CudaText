@@ -7138,7 +7138,7 @@ begin
   begin
     SaveDlg:= TSaveDialog.Create(Self);
     SaveDlg.Title:= msgDialogTitleSaveAs;
-    SaveDlg.Options:= [ofOverwritePrompt,ofPathMustExist,ofEnableSizing,ofDontAddToRecent,ofViewDetail];
+    SaveDlg.Options:= [ofOverwritePrompt,{ofPathMustExist,}ofEnableSizing,ofDontAddToRecent,ofViewDetail];
   end;
 end;
 
