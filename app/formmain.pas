@@ -3791,7 +3791,11 @@ begin
   dlg:= TOpenDialog.Create(nil);
   try
     dlg.Title:= msgDialogTitleOpen;
-    dlg.Options:= [ofAllowMultiSelect, ofPathMustExist, ofEnableSizing];
+    dlg.Options:= [
+      ofAllowMultiSelect,
+      //ofPathMustExist, //user has bug with OneDrive if this is used
+      ofEnableSizing
+      ];
     dlg.FileName:= '';
 
     DoFileDialog_PrepareDir(dlg);
