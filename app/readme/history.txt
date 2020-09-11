@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+- fix: few minor visual bugs with minimap (thanks @xcme)
+- fix: Windows: "Restore window" bug (Lazarus bug, thanks @Jairo-Martinez)
+
 1.111.5 (2020/09)
 
 + add: to improve rendering speed, minimap is now rendered via BGRABitmap library (much faster, but program size is bigger by ~1.5Mb)
