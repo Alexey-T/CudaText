@@ -2739,7 +2739,7 @@ end;
 
 procedure TEditorFrame.EditorDrawMicromap(Sender: TObject; ACanvas: TCanvas; const ARect: TRect);
 type
-  TAppMicromapMark = (markFull, markLeft, markRight);
+  TAppMicromapMark = (markColumn, markFull, markLeft, markRight);
 const
   cTagOccurrences = 101; //see plugin Hilite Occurrences
   cTagSpellChecker = 105; //see plugin SpellChecker
@@ -2849,12 +2849,12 @@ begin
     case Mark.Tag of
       cTagSpellChecker:
         begin
-          R1:= GetItemRect(1{column-1}, NLine1, NLine2, markFull);
+          R1:= GetItemRect(1{column-1}, NLine1, NLine2, markColumn);
           FMicromapBmp.FillRect(R1, XColorSpell);
         end;
       cTagOccurrences:
         begin
-          R1:= GetItemRect(1{column-1}, NLine1, NLine2, markFull);
+          R1:= GetItemRect(1{column-1}, NLine1, NLine2, markColumn);
           FMicromapBmp.FillRect(R1, XColorOccur);
         end;
       else
@@ -2865,7 +2865,7 @@ begin
             if NIndex>=0 then
             begin
               XColor.FromColor(Obj.Data.ColorBG);
-              R1:= GetItemRect(NIndex, NLine1, NLine2, markFull);
+              R1:= GetItemRect(NIndex, NLine1, NLine2, markColumn);
               FMicromapBmp.FillRect(R1, XColor);
             end;
           end
