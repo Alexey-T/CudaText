@@ -38,6 +38,8 @@ uses
   ATBinHex,
   ATStreamSearch,
   ATImageBox,
+  BGRABitmap,
+  BGRABitmapTypes,
   proc_appvariant,
   proc_globdata,
   proc_editor,
@@ -151,6 +153,7 @@ type
     FBracketHiliteUserChanged: boolean;
     FBracketSymbols: string;
     FBracketMaxDistance: integer;
+    FMicromapBmp: TBGRABitmap;
     FOnGetSaveDialog: TFrameGetSaveDialog;
     FOnAppClickLink: TATSynEditClickLinkEvent;
 
@@ -167,7 +170,7 @@ type
     procedure DoOnUpdateStatus;
     procedure EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
-    procedure EditorDrawMicromap(Sender: TObject; C: TCanvas; const ARect: TRect);
+    procedure EditorDrawMicromap(Sender: TObject; ACanvas: TCanvas; const ARect: TRect);
     function EditorObjToTreeviewIndex(Ed: TATSynEdit): integer; inline;
     procedure EditorOnChange(Sender: TObject);
     procedure EditorOnChangeModified(Sender: TObject);
@@ -1724,6 +1727,9 @@ begin
     FreeAndNil(FBin);
   end;
 
+  if Assigned(FMicromapBmp) then
+    FreeAndNil(FMicromapBmp);
+
   if Assigned(FBinStream) then
     FreeAndNil(FBinStream);
 
@@ -2731,8 +2737,7 @@ begin
   end;
 end;
 
-procedure TEditorFrame.EditorDrawMicromap(Sender: TObject; C: TCanvas;
-  const ARect: TRect);
+procedure TEditorFrame.EditorDrawMicromap(Sender: TObject; ACanvas: TCanvas; const ARect: TRect);
 type
   TAppMicromapMark = (markFull, markLeft, markRight);
 const
@@ -2746,6 +2751,7 @@ var
   function GetItemRect(AColumn, NLine1, NLine2: integer; APos: TAppMicromapMark): TRect; inline;
   begin
     Result:= Ed.RectMicromapMark(AColumn, NLine1, NLine2);
+    OffsetRect(Result, -ARect.Left, -ARect.Top);
     case APos of
       markLeft:
         Result.Right:= Result.Left + NWidthSmall;
@@ -2758,11 +2764,11 @@ var
 //
 var
   St: TATStrings;
-  NColor: TColor;
   Caret: TATCaretItem;
   State: TATLineState;
   Mark: TATMarkerItem;
-  NColorSelected, NColorOccur, NColorSpell: TColor;
+  XColor, XColorSelected, XColorOccur, XColorSpell: TBGRAPixel;
+  NColor: TColor;
   R1: TRect;
   NLine1, NLine2, NIndex, i: integer;
   Obj: TATLinePartClass;
@@ -2772,20 +2778,24 @@ begin
   if St.Count=0 then exit;
   NWidthSmall:= EditorScale(EditorOps.OpMicromapWidthSmall);
 
-  C.Brush.Color:= GetAppColor(apclEdMicromapBg);
-  C.FillRect(ARect);
+  if FMicromapBmp=nil then
+    FMicromapBmp:= TBGRABitmap.Create;
+  FMicromapBmp.SetSize(ARect.Width, ARect.Height);
+
+  XColor.FromColor(GetAppColor(apclEdMicromapBg));
+  FMicromapBmp.Fill(XColor);
 
   //paint full-width area of current view
   R1:= GetItemRect(0, Ed.LineTop, Ed.LineBottom, markFull);
-  R1.Left:= ARect.Left;
-  R1.Right:= ARect.Right;
+  R1.Left:= 0;
+  R1.Right:= ARect.Width;
 
-  C.Brush.Color:= GetAppColor(apclEdMicromapViewBg);
-  C.FillRect(R1);
+  XColor.FromColor(GetAppColor(apclEdMicromapViewBg));
+  FMicromapBmp.FillRect(R1, XColor);
 
-  NColorSelected:= Ed.Colors.TextSelBG;
-  NColorOccur:= GetAppColor(apclEdMicromapOccur);
-  NColorSpell:= GetAppColor(apclEdMicromapSpell);
+  XColorSelected.FromColor(Ed.Colors.TextSelBG);
+  XColorOccur.FromColor(GetAppColor(apclEdMicromapOccur));
+  XColorSpell.FromColor(GetAppColor(apclEdMicromapSpell));
 
   //paint line states
   for i:= 0 to St.Count-1 do
@@ -2793,24 +2803,22 @@ begin
     State:= St.LinesState[i];
     case State of
       cLineStateNone: Continue;
-      cLineStateAdded: NColor:= Ed.Colors.StateAdded;
-      cLineStateChanged: NColor:= Ed.Colors.StateChanged;
-      cLineStateSaved: NColor:= Ed.Colors.StateSaved;
+      cLineStateAdded: XColor.FromColor(Ed.Colors.StateAdded);
+      cLineStateChanged: XColor.FromColor(Ed.Colors.StateChanged);
+      cLineStateSaved: XColor.FromColor(Ed.Colors.StateSaved);
       else Continue;
     end;
-    C.Brush.Color:= NColor;
-    C.FillRect(GetItemRect(0, i, i, markLeft));
+    FMicromapBmp.FillRect(GetItemRect(0, i, i, markLeft), XColor);
   end;
 
   //paint selections
-  C.Brush.Color:= NColorSelected;
   for i:= 0 to Ed.Carets.Count-1 do
   begin
     Caret:= Ed.Carets[i];
     Caret.GetSelLines(NLine1, NLine2, false);
     if NLine1<0 then Continue;
     R1:= GetItemRect(0, NLine1, NLine2, markRight);
-    C.FillRect(R1);
+    FMicromapBmp.FillRect(R1, XColorSelected);
   end;
 
   //paint background of columns
@@ -2819,9 +2827,9 @@ begin
     NColor:= Ed.Micromap.Columns[i].NColor;
     if NColor<>clNone then
     begin
-      C.Brush.Color:= NColor;
+      XColor.FromColor(NColor);
       R1:= Ed.RectMicromapMark(i, -1, -1);
-      C.FillRect(R1);
+      FMicromapBmp.FillRect(R1, XColor);
     end;
   end;
 
@@ -2840,15 +2848,13 @@ begin
     case Mark.Tag of
       cTagSpellChecker:
         begin
-          C.Brush.Color:= NColorSpell;
           R1:= GetItemRect(1{column-1}, NLine1, NLine2, markFull);
-          C.FillRect(R1);
+          FMicromapBmp.FillRect(R1, XColorSpell);
         end;
       cTagOccurrences:
         begin
-          C.Brush.Color:= NColorOccur;
           R1:= GetItemRect(1{column-1}, NLine1, NLine2, markFull);
-          C.FillRect(R1);
+          FMicromapBmp.FillRect(R1, XColorOccur);
         end;
       else
         begin
@@ -2857,9 +2863,9 @@ begin
             NIndex:= Ed.Micromap.ColumnFromTag(Obj.ColumnTag);
             if NIndex>=0 then
             begin
-              C.Brush.Color:= Obj.Data.ColorBG;
+              XColor.FromColor(Obj.Data.ColorBG);
               R1:= GetItemRect(NIndex, NLine1, NLine2, markFull);
-              C.FillRect(R1);
+              FMicromapBmp.FillRect(R1, XColor);
             end;
           end
           else
@@ -2868,12 +2874,15 @@ begin
             R1:= GetItemRect(0, NLine1, NLine2, markFull);
             R1.Left:= ARect.Left;
             R1.Right:= ARect.Right;
-            NColor:= Obj.Data.ColorBG;
-            CanvasInvertRect(C, R1, NColor);
+            //todo: test it with BGRABitmap
+            XColor.FromColor(Obj.Data.ColorBG);
+            FMicromapBmp.FillRect(R1, XColor, dmDrawWithTransparency, $8000);
           end;
         end;
       end;
   end;
+
+  FMicromapBmp.Draw(ACanvas, ARect.Left, ARect.Top);
 end;
 
 procedure TEditorFrame.EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
