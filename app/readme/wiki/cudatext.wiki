@@ -1564,6 +1564,7 @@ And here is the old way to compile:
 ** download FpcUpDeluxe. On Windows, you must unlock .exe file in the Windows Explorer dialog. https://github.com/newpascal/fpcupdeluxe/releases
 ** in FpcUpDeluxe, choose FPC 3.0.4 or "trunk", and Lazarus 2.0.4 or "trunk", install them both.
 * download GitHub repos:
+** https://github.com/bgrabitmap/bgrabitmap
 ** https://github.com/Alexey-T/Python-for-Lazarus (install first)
 ** https://github.com/Alexey-T/ATFlatControls
 ** https://github.com/Alexey-T/EncConv
