@@ -2872,9 +2872,9 @@ begin
           if Obj.ColumnTag=cTagColumnFullsized then
           begin
             R1:= GetItemRect(0, NLine1, NLine2, markFull);
-            R1.Left:= ARect.Left;
-            R1.Right:= ARect.Right;
-            //todo: test it with BGRABitmap
+            R1.Left:= 0;
+            R1.Right:= ARect.Width;
+            //todo: not tested with BGRABitmap - it must give inverted colors
             XColor.FromColor(Obj.Data.ColorBG);
             FMicromapBmp.FillRect(R1, XColor, dmDrawWithTransparency, $8000);
           end;
