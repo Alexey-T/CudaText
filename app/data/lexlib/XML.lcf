@@ -1,4 +1,4 @@
-object SyntAnal29: TLibSyntAnalyzer
+object SyntAnal22: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -272,7 +272,7 @@ object SyntAnal29: TLibSyntAnalyzer
     item
       DisplayName = 'Text'
       StyleName = 'CDATA text'
-      Expression = '[^<>&\n]+'
+      Expression = '[^<>&\n\[\]]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
