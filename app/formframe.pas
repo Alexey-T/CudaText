@@ -2758,7 +2758,10 @@ var
       markRight:
         Result.Left:= Result.Right - NWidthSmall;
       markFull:
-        begin end;
+        begin
+          Result.Left:= 0;
+          Result.Right:= ARect.Width;
+        end;
     end;
   end;
 //
@@ -2787,8 +2790,6 @@ begin
 
   //paint full-width area of current view
   R1:= GetItemRect(0, Ed.LineTop, Ed.LineBottom, markFull);
-  R1.Left:= 0;
-  R1.Right:= ARect.Width;
 
   XColor.FromColor(GetAppColor(apclEdMicromapViewBg));
   FMicromapBmp.FillRect(R1, XColor);
@@ -2872,8 +2873,6 @@ begin
           if Obj.ColumnTag=cTagColumnFullsized then
           begin
             R1:= GetItemRect(0, NLine1, NLine2, markFull);
-            R1.Left:= 0;
-            R1.Right:= ARect.Width;
             //todo: not tested with BGRABitmap - it must give inverted colors
             XColor.FromColor(Obj.Data.ColorBG);
             FMicromapBmp.FillRect(R1, XColor, dmDrawWithTransparency, $8000);
