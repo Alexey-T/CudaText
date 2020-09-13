@@ -926,16 +926,15 @@ end;
 function Canvas_TextMultilineExtent(C: TCanvas; const AText: string): TPoint;
 var
   Sep: TATStringSeparator;
-  Item: string;
-  H: integer;
+  SItem: string;
   Ext: Types.TSize;
 begin
-  Result:= Point(0, 0);
-  H:= C.TextHeight('W');
+  Result.X:= 0;
+  Result.Y:= 0;
   Sep.Init(AText, #10);
-  while Sep.GetItemStr(Item) do
+  while Sep.GetItemStr(SItem) do
   begin
-    Ext:= C.TextExtent(Item);
+    Ext:= C.TextExtent(SItem);
     Inc(Result.Y, Ext.cy);
     Result.X:= Max(Result.X, Ext.cx);
   end;
