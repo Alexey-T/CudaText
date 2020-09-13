@@ -2686,6 +2686,7 @@ end;
 procedure TfmMain.FormResize(Sender: TObject);
 begin
   FixMainLayout;
+  DoTooltipHide;
 end;
 
 procedure TfmMain.FixMainLayout;
