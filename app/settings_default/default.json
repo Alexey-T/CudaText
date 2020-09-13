@@ -1215,6 +1215,9 @@
   //  2: Hide, program shows panel if needed
   "ui_bottom_on_start": 0,
 
+  //Pause of tooltip, which is shown by command "show function-hint"
+  "ui_func_hint_time": 9,
+
   //[Find/Hotkeys]
   //Hotkeys in Find/Replace dialog
   "find_hotkey_find_dlg": "Ctrl+F",
