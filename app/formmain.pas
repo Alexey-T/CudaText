@@ -2661,6 +2661,11 @@ begin
       fmConsole.EdInput.Focused or
       fmConsole.EdMemo.Focused;
 
+    //hide hint from msg_status_alt()
+    if Assigned(StatusForm) then
+      if StatusForm.Visible then
+        StatusForm.Hide;
+
     if not bEditorActive then
     begin
       DoFocusEditor(CurrentEditor);
