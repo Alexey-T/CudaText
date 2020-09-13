@@ -777,7 +777,6 @@ type
     procedure DoGotoFromInput(const AInput: string);
     procedure DoGotoDefinition(Ed: TATSynEdit);
     procedure DoShowFuncHint(Ed: TATSynEdit);
-    procedure DoTooltipHide;
     procedure DoApplyGutterVisible(AValue: boolean);
     procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps; AForceApply: boolean);
     procedure DoApplyFont_Text;
@@ -1031,7 +1030,8 @@ type
     procedure SetFrame(Frame: TEditorFrame);
     procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
     procedure MsgStatus(AText: string);
-    procedure DoTooltip(const AText: string; ASeconds: integer; AGotoBracket: boolean);
+    procedure DoTooltipShow(const AText: string; ASeconds: integer; AGotoBracket: boolean);
+    procedure DoTooltipHide;
     procedure MsgStatusErrorInRegex;
     procedure UpdateStatusbarPanelsFromString(const AText: string);
     procedure UpdateStatusbarHints;
@@ -4619,7 +4619,7 @@ begin
   end;
 end;
 
-procedure TfmMain.DoTooltip(const AText: string; ASeconds: integer; AGotoBracket: boolean);
+procedure TfmMain.DoTooltipShow(const AText: string; ASeconds: integer; AGotoBracket: boolean);
 const
   cMaxSeconds = 30;
   cSpacing = 3;
@@ -4627,6 +4627,7 @@ var
   Ed: TATSynEdit;
   WorkRect: TRect;
   NCellSize, NSizeX, NSizeY: integer;
+  NewX, NewY: integer;
   SLine: atString;
   P: TPoint;
 begin
@@ -4687,14 +4688,13 @@ begin
         if AGotoBracket then
           if Ed.Strings.IsIndexValid(P.Y) then
           begin
-            SLine:= Ed.Strings.Lines[P.Y];
-            if P.X<Length(SLine) then
-            begin
-              while (P.X>0) and (SLine[P.X+1]<>'(') do
-                Dec(P.X);
-              if SLine[P.X+1]='(' then
-                Inc(P.X);
-            end;
+            EditorBracket_FindOpeningBracketBackward(Ed,
+              P.X, P.Y,
+              '()',
+              P.X,
+              NewX, NewY);
+            if NewX>=0 then
+              P.X:= NewX+1;
           end;
         P:= Ed.CaretPosToClientPos(P);
         P:= Ed.ClientToScreen(P);
@@ -6201,7 +6201,7 @@ begin
   SetLength(Params, 0);
   S:= DoPyEvent(Ed, cEventOnFuncHint, Params).Str;
   if S='' then exit;
-  DoTooltip(S, UiOps.AltTooltipTime, true);
+  DoTooltipShow(S, UiOps.AltTooltipTime, true);
 end;
 
 procedure TfmMain.DoTooltipHide;
