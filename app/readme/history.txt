@@ -5,9 +5,9 @@
 
 1.112.0 (2020/09)
 
-+ add: tooltip of "show function-hint" has OS-themed colors
-+ add: tooltip of "show function-hint" has new option "ui_alt_hint_time" (thanks @OlehL)
++ add: tooltip of "show function-hint" has changed colors, font, position near the caret (thanks @OlehL)
 + add: tooltip of "show function-hint" hides by keys Esc/Up/Down/PgUp/PgDown/Enter and by window move/resize (thanks @OlehL)
++ add: option "ui_alt_hint_time"
 + add: option "ui_tab_x_rounded"
 - fix: few minor visual bugs with minimap (thanks @xcme)
 - fix: Windows "Restore window" bug (Lazarus bug, thanks @Jairo-Martinez)
