@@ -1031,7 +1031,7 @@ type
     procedure SetFrame(Frame: TEditorFrame);
     procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
     procedure MsgStatus(AText: string);
-    procedure DoTooltip(const AText: string; ASeconds: integer);
+    procedure DoTooltip(const AText: string; ASeconds: integer; AGotoBracket: boolean);
     procedure MsgStatusErrorInRegex;
     procedure UpdateStatusbarPanelsFromString(const AText: string);
     procedure UpdateStatusbarHints;
@@ -4619,7 +4619,7 @@ begin
   end;
 end;
 
-procedure TfmMain.DoTooltip(const AText: string; ASeconds: integer);
+procedure TfmMain.DoTooltip(const AText: string; ASeconds: integer; AGotoBracket: boolean);
 const
   cMaxSeconds = 30;
   cSpacing = 3;
@@ -4627,6 +4627,7 @@ var
   Ed: TATSynEdit;
   WorkRect: TRect;
   NCellSize, NSizeX, NSizeY: integer;
+  SLine: atString;
   P: TPoint;
 begin
   WorkRect:= Screen.WorkAreaRect;
@@ -4680,8 +4681,21 @@ begin
       begin
         Ed:= CurrentEditor;
         NCellSize:= Ed.TextCharSize.Y;
+        if Ed.Carets.Count=0 then exit;
         P.X:= Ed.Carets[0].PosX;
         P.Y:= Ed.Carets[0].PosY;
+        if AGotoBracket then
+          if Ed.Strings.IsIndexValid(P.Y) then
+          begin
+            SLine:= Ed.Strings.Lines[P.Y];
+            if P.X<Length(SLine) then
+            begin
+              while (P.X>0) and (SLine[P.X+1]<>'(') do
+                Dec(P.X);
+              if SLine[P.X+1]='(' then
+                Inc(P.X);
+            end;
+          end;
         P:= Ed.CaretPosToClientPos(P);
         P:= Ed.ClientToScreen(P);
         Dec(P.Y, NSizeY);
@@ -6187,7 +6201,7 @@ begin
   SetLength(Params, 0);
   S:= DoPyEvent(Ed, cEventOnFuncHint, Params).Str;
   if S='' then exit;
-  DoTooltip(S, UiOps.AltTooltipTime);
+  DoTooltip(S, UiOps.AltTooltipTime, true);
 end;
 
 procedure TfmMain.DoTooltipHide;
