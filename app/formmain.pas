@@ -6601,7 +6601,7 @@ var
 begin
   if not AppPython.Inited then
   begin
-    MsgStatusAlt(msgCommandNeedsPython, UiOps.StatusAltTime);
+    MsgStatus(msgCommandNeedsPython);
     exit;
   end;
 
