@@ -1030,7 +1030,7 @@ type
     procedure SetFrame(Frame: TEditorFrame);
     procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
     procedure MsgStatus(AText: string);
-    procedure MsgStatusAlt(const AText: string; ASeconds: integer);
+    procedure MsgStatusAlt(const AText: string; ASeconds: integer; AOnTop: boolean);
     procedure MsgStatusErrorInRegex;
     procedure UpdateStatusbarPanelsFromString(const AText: string);
     procedure UpdateStatusbarHints;
@@ -4617,7 +4617,7 @@ begin
   end;
 end;
 
-procedure TfmMain.MsgStatusAlt(const AText: string; ASeconds: integer);
+procedure TfmMain.MsgStatusAlt(const AText: string; ASeconds: integer; AOnTop: boolean);
 const
   cMaxSeconds = 30;
   cSpacing = 3;
@@ -4654,8 +4654,6 @@ begin
   if ASeconds>cMaxSeconds then
     ASeconds:= cMaxSeconds;
 
-  P:= Self.ClientToScreen(Point(0, 0));
-  StatusForm.Top:= P.Y;
   StatusForm.Left:= Self.Left;
   StatusForm.Width:= Self.Width;
   StatusFormLabel.Caption:= AText;
@@ -4663,6 +4661,13 @@ begin
   StatusForm.Height:=
     //StatusFormLabel.Height + 2*cSpacing;
     StatusFormLabel.Canvas.TextHeight('W') * (SFindCharCount(AText, #10)+1) + 2*cSpacing;
+
+  if AOnTop then
+    P:= Self.ClientToScreen(Point(0, 0))
+  else
+    P:= Status.ClientToScreen(Point(0, 0));
+  P.Y:= Min(P.Y, Screen.WorkAreaRect.Bottom-StatusForm.Height);
+  StatusForm.Top:= P.Y;
 
   //get focus back from StatusForm
   LCLIntf.SetForegroundWindow(Self.Handle);
@@ -6155,7 +6160,7 @@ begin
   SetLength(Params, 0);
   S:= DoPyEvent(Ed, cEventOnFuncHint, Params).Str;
   if S<>'' then
-    MsgStatusAlt(S, UiOps.FunctionHintTime);
+    MsgStatusAlt(S, UiOps.FunctionHintTime, UiOps.StatusAltOnTop);
 end;
 
 procedure TfmMain.PopupTextPopup(Sender: TObject);

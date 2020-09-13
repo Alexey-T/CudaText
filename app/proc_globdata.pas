@@ -309,6 +309,7 @@ type
     StatusTime: integer;
     StatusHeightPercents: integer;
     StatusHeightMin: integer;
+    StatusAltOnTop: boolean;
 
     ScrollbarWidth: integer;
     ScrollbarBorderSize: integer;
@@ -1490,6 +1491,7 @@ begin
     StatusTime:= 5;
     StatusHeightPercents:= 180;
     StatusHeightMin:= 20;
+    StatusAltOnTop:= false;
 
     ScrollbarWidth:= 14;
     ScrollbarBorderSize:= 0;
