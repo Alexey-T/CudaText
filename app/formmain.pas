@@ -581,13 +581,13 @@ type
     FSessionIsLoading: boolean;
     FColorDialog: TColorDialog;
     Status: TATStatus;
-    FFormTooltip: TForm;
-    FLabelTooltip: TLabel;
     Groups: TATGroups;
     GroupsCtx: TATGroups;
     GroupsF1: TATGroups;
     GroupsF2: TATGroups;
     GroupsF3: TATGroups;
+    FFormTooltip: TForm;
+    FLabelTooltip: TLabel;
 
     mnuApple: TMenuItem;
     mnuApple_About: TMenuItem;
@@ -2897,9 +2897,25 @@ begin
 end;
 
 procedure TfmMain.FrameOnChangeCaretPos(Sender: TObject);
+var
+  Ed: TATSynEdit;
+  Caret: TATCaretItem;
+  NLine: integer;
 begin
   if FCodetreeDblClicking then exit;
   FCodetreeNeedsSelJump:= true;
+
+  Ed:= Sender as TATSynEdit;
+  if Ed.Carets.Count>0 then
+  begin
+    Caret:= Ed.Carets[0];
+    NLine:= Ed.LastTooltipLine;
+    if (NLine>=0) and (Caret.PosY<>NLine) then
+    begin
+      Ed.LastTooltipLine:= -1;
+      DoTooltipHide;
+    end;
+  end;
 end;
 
 procedure TfmMain.FrameOnMsgStatus(Sender: TObject; const AStr: string);
@@ -6221,7 +6237,10 @@ begin
   S:= DoPyEvent(Ed, cEventOnFuncHint, Params).Str;
   S:= Trim(S);
   if S<>'' then
+  begin
+    Ed.LastTooltipLine:= Ed.Carets[0].PosY;
     DoTooltipShow(S, UiOps.AltTooltipTime, atpCaret, true);
+  end;
 end;
 
 procedure TfmMain.DoTooltipHide;

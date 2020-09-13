@@ -1006,16 +1006,6 @@ begin
         end;
       end;
 
-    cCommand_KeyEnter,
-    cCommand_KeyUp,
-    cCommand_KeyDown,
-    cCommand_KeyPageUp,
-    cCommand_KeyPageDown:
-      begin
-        DoTooltipHide;
-        AHandled:= false;
-      end;
-
     cmd_MouseClickAtCursor:
       EditorMouseClick_AtCursor(Ed, false);
     cmd_MouseClickAtCursorAndSelect:
