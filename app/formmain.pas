@@ -4661,10 +4661,11 @@ begin
     ASeconds:= cMaxSeconds;
 
   StatusFormLabel.Caption:= AText;
-  NSizeX:= StatusFormLabel.Canvas.TextWidth(AText) + 3*cSpacing;
-  NSizeY:= StatusFormLabel.Canvas.TextHeight('W') * (SFindCharCount(AText, #10)+1) + 2*cSpacing;
-  StatusForm.Width:= NSizeX;
-  StatusForm.Height:= NSizeY;
+  P:= Canvas_TextMultilineExtent(StatusFormLabel.Canvas, AText);
+  NSizeX:= P.X + 4*cSpacing;
+  NSizeY:= P.Y + 3*cSpacing;
+  StatusForm.ClientWidth:= NSizeX;
+  StatusForm.ClientHeight:= NSizeY;
 
   case UiOps.AltTooltipPosition of
     0:

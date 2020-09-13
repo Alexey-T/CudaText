@@ -15,8 +15,8 @@ uses
   {$ifdef windows}
   Windows, Messages,
   {$endif}
-  Classes, SysUtils, Controls, StdCtrls, ComCtrls, Graphics,
-  ImgList, Dialogs, Forms, Menus, ExtCtrls,
+  Classes, SysUtils, Controls, StdCtrls, ComCtrls, Graphics, Types,
+  ImgList, Dialogs, Forms, Menus, ExtCtrls, Math,
   LclIntf, LclType, LazFileUtils, StrUtils,
   at__jsonConf,
   ATSynEdit,
@@ -44,6 +44,7 @@ procedure FormUnlock(Ctl: TForm);
 procedure FormHistorySave(F: TForm; const AConfigPath: string; AWithPos: boolean);
 procedure FormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean);
 
+function Canvas_TextMultilineExtent(C: TCanvas; const AText: string): TPoint;
 function Canvas_NumberToFontStyles(Num: integer): TFontStyles;
 procedure Canvas_PaintPolygonFromSting(C: TCanvas; const AText: string);
 procedure Canvas_PaintImageInRect(C: TCanvas; APic: TGraphic; const ARect: TRect);
@@ -920,6 +921,24 @@ begin
   SetWindowPos(Ctl.Handle, 0, 0, 0, 0, 0,
     SWP_FRAMECHANGED or SWP_NOCOPYBITS or SWP_NOMOVE or SWP_NOZORDER or SWP_NOSIZE);
   {$endif}
+end;
+
+function Canvas_TextMultilineExtent(C: TCanvas; const AText: string): TPoint;
+var
+  Sep: TATStringSeparator;
+  Item: string;
+  H: integer;
+  Ext: Types.TSize;
+begin
+  Result:= Point(0, 0);
+  H:= C.TextHeight('W');
+  Sep.Init(AText, #10);
+  while Sep.GetItemStr(Item) do
+  begin
+    Ext:= C.TextExtent(Item);
+    Inc(Result.Y, Ext.cy);
+    Result.X:= Max(Result.X, Ext.cx);
+  end;
 end;
 
 end.
