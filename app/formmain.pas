@@ -671,6 +671,7 @@ type
     FLastMaximized: boolean;
     FLastMaximizedMonitor: integer;
     FLastFocusedFrame: TComponent;
+    FLastTooltipLine: integer;
     FInvalidateShortcuts: boolean;
     FInvalidateShortcutsForce: boolean;
     FLexerProgressIndex: integer;
@@ -2339,6 +2340,7 @@ begin
 
   FLastDirOfOpenDlg:= '';
   FLastLexerForPluginsMenu:= '-';
+  FLastTooltipLine:= -1;
 
   UpdateMenuItemHint(mnuFile, 'top-file');
   UpdateMenuItemHint(mnuEdit, 'top-edit');
@@ -2900,7 +2902,6 @@ procedure TfmMain.FrameOnChangeCaretPos(Sender: TObject);
 var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
-  NLine: integer;
 begin
   if FCodetreeDblClicking then exit;
   FCodetreeNeedsSelJump:= true;
@@ -2909,12 +2910,8 @@ begin
   if Ed.Carets.Count>0 then
   begin
     Caret:= Ed.Carets[0];
-    NLine:= Ed.LastTooltipLine;
-    if (NLine>=0) and (Caret.PosY<>NLine) then
-    begin
-      Ed.LastTooltipLine:= -1;
+    if (FLastTooltipLine>=0) and (Caret.PosY<>FLastTooltipLine) then
       DoTooltipHide;
-    end;
   end;
 end;
 
@@ -6238,7 +6235,7 @@ begin
   S:= Trim(S);
   if S<>'' then
   begin
-    Ed.LastTooltipLine:= Ed.Carets[0].PosY;
+    FLastTooltipLine:= Ed.Carets[0].PosY;
     DoTooltipShow(S, UiOps.AltTooltipTime, atpCaret, true);
   end;
 end;
@@ -6248,6 +6245,7 @@ begin
   TimerStatusAlt.Enabled:= false;
   if Assigned(FFormTooltip) then
     FFormTooltip.Hide;
+  FLastTooltipLine:= -1;
 end;
 
 procedure TfmMain.PopupTextPopup(Sender: TObject);
