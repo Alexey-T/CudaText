@@ -1016,6 +1016,12 @@
   //program will save modified documents to the session, on closing, without confirmation.
   "ui_auto_save_session": false,
 
+  //Position of hint, of command "show function-hint", is on top
+  "ui_alt_hint_on_top": false,
+
+  //Pause of hint, of command "show function-hint"
+  "ui_alt_hint_time": 9,
+
   //[Lexers]
   //Allow to apply color-theme to lexer's styles (and auto-show dialog "Lexer styles mapping")
   "ui_lexer_themes": true,
@@ -1214,9 +1220,6 @@
   //  1: Show
   //  2: Hide, program shows panel if needed
   "ui_bottom_on_start": 0,
-
-  //Pause of tooltip, which is shown by command "show function-hint"
-  "ui_func_hint_time": 9,
 
   //[Find/Hotkeys]
   //Hotkeys in Find/Replace dialog

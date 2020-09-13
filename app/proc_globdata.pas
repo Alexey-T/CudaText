@@ -298,7 +298,6 @@ type
 
     DefaultEncUtf8: boolean;
     ViewerBinaryWidth: integer;
-    FunctionHintTime: integer;
 
     StatusNoSel: string;
     StatusSmallSel: string;
@@ -309,7 +308,9 @@ type
     StatusTime: integer;
     StatusHeightPercents: integer;
     StatusHeightMin: integer;
-    StatusAltOnTop: boolean;
+
+    AltTooltipOnTop: boolean;
+    AltTooltipTime: integer;
 
     ScrollbarWidth: integer;
     ScrollbarBorderSize: integer;
@@ -1479,7 +1480,6 @@ begin
 
     DefaultEncUtf8:= {$ifdef windows} false {$else} true {$endif};
     ViewerBinaryWidth:= 100;
-    FunctionHintTime:= 9;
 
     StatusNoSel:= '{_ln} {y}, {_col} {xx}';
     StatusSmallSel:= '{_ln} {y}, {_col} {xx}, {_sel}';
@@ -1491,7 +1491,9 @@ begin
     StatusTime:= 5;
     StatusHeightPercents:= 180;
     StatusHeightMin:= 20;
-    StatusAltOnTop:= false;
+
+    AltTooltipOnTop:= false;
+    AltTooltipTime:= 9;
 
     ScrollbarWidth:= 14;
     ScrollbarBorderSize:= 0;
