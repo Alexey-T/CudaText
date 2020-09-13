@@ -4645,10 +4645,10 @@ begin
   end;
 
   StatusForm.FormStyle:= fsSystemStayOnTop;
-  StatusForm.Color:= GetAppColor(apclListBg);
-  StatusForm.Font.Name:= UiOps.VarFontName;
-  StatusForm.Font.Size:= AppScaleFont(UiOps.VarFontSize);
-  StatusForm.Font.Color:= GetAppColor(apclListFont);
+  StatusForm.Color:= clInfoBk; //GetAppColor(apclListBg);
+  StatusForm.Font.Name:= EditorOps.OpFontName;
+  StatusForm.Font.Size:= AppScaleFont(EditorOps.OpFontSize);
+  StatusForm.Font.Color:= clInfoText; //GetAppColor(apclListFont);
 
   if ASeconds<=0 then
   begin
@@ -4660,11 +4660,9 @@ begin
   if ASeconds>cMaxSeconds then
     ASeconds:= cMaxSeconds;
 
-  StatusForm.Width:= Self.Width;
   StatusFormLabel.Caption:= AText;
-  StatusForm.Height:=
-    //StatusFormLabel.Height + 2*cSpacing;
-    StatusFormLabel.Canvas.TextHeight('W') * (SFindCharCount(AText, #10)+1) + 2*cSpacing;
+  StatusForm.Width:= StatusFormLabel.Canvas.TextWidth(AText)+30;
+  StatusForm.Height:= StatusFormLabel.Canvas.TextHeight('W') * (SFindCharCount(AText, #10)+1) + 2*cSpacing;
 
   case UiOps.AltTooltipPosition of
     0:
@@ -4678,7 +4676,7 @@ begin
     2:
       begin
         Ed:= CurrentEditor;
-        NCellSize:= Ed.TextCharSize.Y+2;
+        NCellSize:= Ed.TextCharSize.Y+2*cSpacing;
         P.X:= Ed.Carets[0].PosX;
         P.Y:= Ed.Carets[0].PosY;
         P:= Ed.CaretPosToClientPos(P);
@@ -4686,12 +4684,12 @@ begin
         Dec(P.Y, NCellSize);
         if P.Y<=WorkRect.Top then
           Inc(P.Y, 2*NCellSize);
-        //smaller width
-        StatusForm.Width:= StatusFormLabel.Canvas.TextWidth(AText)+30;
       end;
   end;
 
+  P.X:= Min(P.X, WorkRect.Right-StatusForm.Width);
   P.Y:= Min(P.Y, WorkRect.Bottom-StatusForm.Height);
+
   StatusForm.Left:= P.X;
   StatusForm.Top:= P.Y;
 
