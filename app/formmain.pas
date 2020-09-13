@@ -4642,6 +4642,12 @@ var
   TempX, TempY: integer;
   P: TPoint;
 begin
+  if ASeconds<=0 then
+  begin
+    DoTooltipHide;
+    Exit
+  end;
+
   WorkRect:= Screen.WorkAreaRect;
   if FFormTooltip=nil then
   begin
@@ -4670,13 +4676,6 @@ begin
   FFormTooltip.FormStyle:= fsSystemStayOnTop;
   FFormTooltip.Font.Name:= EditorOps.OpFontName;
   FFormTooltip.Font.Size:= AppScaleFont(EditorOps.OpFontSize);
-
-  if ASeconds<=0 then
-  begin
-    TimerStatusAlt.Enabled:= false;
-    FFormTooltip.Hide;
-    Exit
-  end;
 
   if ASeconds>cMaxSeconds then
     ASeconds:= cMaxSeconds;
