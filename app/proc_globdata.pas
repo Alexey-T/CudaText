@@ -298,6 +298,7 @@ type
 
     DefaultEncUtf8: boolean;
     ViewerBinaryWidth: integer;
+    FunctionHintTime: integer;
 
     StatusNoSel: string;
     StatusSmallSel: string;
@@ -306,7 +307,6 @@ type
     StatusCarets: string;
     StatusPanels: string;
     StatusTime: integer;
-    StatusAltTime: integer;
     StatusHeightPercents: integer;
     StatusHeightMin: integer;
 
@@ -1478,6 +1478,7 @@ begin
 
     DefaultEncUtf8:= {$ifdef windows} false {$else} true {$endif};
     ViewerBinaryWidth:= 100;
+    FunctionHintTime:= 9;
 
     StatusNoSel:= '{_ln} {y}, {_col} {xx}';
     StatusSmallSel:= '{_ln} {y}, {_col} {xx}, {_sel}';
@@ -1487,7 +1488,6 @@ begin
 
     StatusPanels:= 'caret,C,180|enc,C,125|ends,A,45|lexer,C,140|tabsize,A,75|selmode,A,15|msg,L,4000';
     StatusTime:= 5;
-    StatusAltTime:= 7;
     StatusHeightPercents:= 180;
     StatusHeightMin:= 20;
 

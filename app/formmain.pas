@@ -6155,7 +6155,7 @@ begin
   SetLength(Params, 0);
   S:= DoPyEvent(Ed, cEventOnFuncHint, Params).Str;
   if S<>'' then
-    MsgStatusAlt(S, UiOps.StatusAltTime);
+    MsgStatusAlt(S, UiOps.FunctionHintTime);
 end;
 
 procedure TfmMain.PopupTextPopup(Sender: TObject);
