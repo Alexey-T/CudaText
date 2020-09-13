@@ -4635,6 +4635,7 @@ const
   cMaxSeconds = 30;
   cSpacing = 3;
 var
+  PanelBg: TPanel;
   Ed: TATSynEdit;
   WorkRect: TRect;
   NCellSize, NSizeX, NSizeY: integer;
@@ -4647,20 +4648,28 @@ begin
     FFormTooltip:= TForm.CreateNew(nil);
     FFormTooltip.BorderStyle:= bsNone;
     FFormTooltip.ShowInTaskBar:= stNever;
+    FFormTooltip.Color:= clInfoText;
+
+    PanelBg:= TPanel.Create(FFormTooltip);
+    PanelBg.BevelInner:= bvNone;
+    PanelBg.BevelOuter:= bvNone;
+    PanelBg.BorderSpacing.Around:= 1; //make 1 px frame
+    PanelBg.Align:= alClient;
+    PanelBg.Parent:= FFormTooltip;
+    PanelBg.Color:= clInfoBk;
+
     FLabelTooltip:= TLabel.Create(FFormTooltip);
-    FLabelTooltip.Parent:= FFormTooltip;
+    FLabelTooltip.Parent:= PanelBg;
     FLabelTooltip.Align:= alClient;
     FLabelTooltip.AutoSize:= true;
     FLabelTooltip.Alignment:= taCenter;
-    FLabelTooltip.BorderSpacing.Around:= cSpacing;
-    FLabelTooltip.ParentFont:= true;
+    FLabelTooltip.BorderSpacing.Around:= cSpacing-1;
+    FLabelTooltip.Font.Color:= clInfoText;
   end;
 
   FFormTooltip.FormStyle:= fsSystemStayOnTop;
-  FFormTooltip.Color:= clInfoBk; //GetAppColor(apclListBg);
   FFormTooltip.Font.Name:= EditorOps.OpFontName;
   FFormTooltip.Font.Size:= AppScaleFont(EditorOps.OpFontSize);
-  FFormTooltip.Font.Color:= clInfoText; //GetAppColor(apclListFont);
 
   if ASeconds<=0 then
   begin
