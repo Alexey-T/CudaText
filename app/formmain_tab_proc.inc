@@ -86,6 +86,8 @@ var
   Pages: TATPages;
   Data: TATTabData;
 begin
+  DoTooltipHide;
+
   Pages:= (Sender as TATTabs).Parent as TATPages;
   Data:= CreateTab(Pages, '');
 
@@ -200,6 +202,8 @@ begin
   Frame:= (D.TabObject as TEditorFrame);
   bNeedTreeUpd:= Frame.Visible;
   bSavedOk:= true;
+
+  DoTooltipHide;
 
   if Frame.Editor.IsLocked then
   begin
