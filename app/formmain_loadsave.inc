@@ -1146,7 +1146,6 @@ begin
   UiOps.DefaultEncUtf8:= cfg.GetValue(str_DefEncodingIsUtf8, UiOps.DefaultEncUtf8);
   UiOps.ViewerBinaryWidth:= cfg.GetValue('viewer_binary_width', UiOps.ViewerBinaryWidth);
 
-  UiOps.AltTooltipPosition:= cfg.GetValue('ui_alt_hint_position', UiOps.AltTooltipPosition);
   UiOps.AltTooltipTime:= cfg.GetValue('ui_alt_hint_time', UiOps.AltTooltipTime);
 
   S:= cfg.GetValue('ui_theme', '?');

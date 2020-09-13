@@ -309,7 +309,6 @@ type
     StatusHeightPercents: integer;
     StatusHeightMin: integer;
 
-    AltTooltipPosition: integer;
     AltTooltipTime: integer;
 
     ScrollbarWidth: integer;
@@ -1492,7 +1491,6 @@ begin
     StatusHeightPercents:= 180;
     StatusHeightMin:= 20;
 
-    AltTooltipPosition:= 2;
     AltTooltipTime:= 9;
 
     ScrollbarWidth:= 14;

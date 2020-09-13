@@ -145,6 +145,9 @@ var
 {$endif}
 
 type
+  TAppTooltipPos = (atpWindowTop, atpWindowBottom, atpCaret);
+
+type
   TATFindMarkingMode = (
     markingNone,
     markingSelections,
@@ -1031,7 +1034,8 @@ type
     procedure SetFrame(Frame: TEditorFrame);
     procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
     procedure MsgStatus(AText: string);
-    procedure DoTooltipShow(const AText: string; ASeconds: integer; AGotoBracket: boolean);
+    procedure DoTooltipShow(const AText: string; ASeconds: integer;
+      APosition: TAppTooltipPos; AGotoBracket: boolean);
     procedure DoTooltipHide;
     procedure MsgStatusErrorInRegex;
     procedure UpdateStatusbarPanelsFromString(const AText: string);
@@ -4625,7 +4629,8 @@ begin
   end;
 end;
 
-procedure TfmMain.DoTooltipShow(const AText: string; ASeconds: integer; AGotoBracket: boolean);
+procedure TfmMain.DoTooltipShow(const AText: string; ASeconds: integer;
+  APosition: TAppTooltipPos; AGotoBracket: boolean);
 const
   cMaxSeconds = 30;
   cSpacing = 3;
@@ -4674,16 +4679,16 @@ begin
   FFormTooltip.ClientWidth:= NSizeX;
   FFormTooltip.ClientHeight:= NSizeY;
 
-  case UiOps.AltTooltipPosition of
-    0:
+  case APosition of
+    atpWindowTop:
       begin
         P:= Self.ClientToScreen(Point(0, 0));
       end;
-    1:
+    atpWindowBottom:
       begin
         P:= Status.ClientToScreen(Point(0, 0));
       end;
-    2:
+    atpCaret:
       begin
         Ed:= CurrentEditor;
         NCellSize:= Ed.TextCharSize.Y;
@@ -6206,7 +6211,7 @@ begin
   S:= DoPyEvent(Ed, cEventOnFuncHint, Params).Str;
   S:= Trim(S);
   if S<>'' then
-    DoTooltipShow(S, UiOps.AltTooltipTime, true);
+    DoTooltipShow(S, UiOps.AltTooltipTime, atpCaret, true);
 end;
 
 procedure TfmMain.DoTooltipHide;
