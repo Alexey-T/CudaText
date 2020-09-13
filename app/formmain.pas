@@ -429,6 +429,7 @@ type
     procedure FrameAddRecent(Sender: TObject);
     procedure FrameOnMsgStatus(Sender: TObject; const AStr: string);
     procedure FrameOnChangeCaretPos(Sender: TObject);
+    procedure FrameOnScroll(Sender: TObject);
     procedure FrameOnInitAdapter(Sender: TObject);
     procedure FrameParseDone(Sender: TObject);
     procedure ListboxOutClick(Sender: TObject);
@@ -2913,6 +2914,11 @@ begin
     if (FLastTooltipLine>=0) and (Caret.PosY<>FLastTooltipLine) then
       DoTooltipHide;
   end;
+end;
+
+procedure TfmMain.FrameOnScroll(Sender: TObject);
+begin
+  DoTooltipHide;
 end;
 
 procedure TfmMain.FrameOnMsgStatus(Sender: TObject; const AStr: string);

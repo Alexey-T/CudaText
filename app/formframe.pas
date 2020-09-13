@@ -118,6 +118,7 @@ type
     FOnFocusEditor: TNotifyEvent;
     FOnEditorCommand: TATSynEditCommandEvent;
     FOnEditorChangeCaretPos: TNotifyEvent;
+    FOnEditorScroll: TNotifyEvent;
     FOnSaveFile: TNotifyEvent;
     FOnAddRecent: TNotifyEvent;
     FOnPyEvent: TEditorFramePyEvent;
@@ -400,6 +401,7 @@ type
     property OnUpdateStatus: TNotifyEvent read FOnUpdateStatus write FOnUpdateStatus;
     property OnEditorCommand: TATSynEditCommandEvent read FOnEditorCommand write FOnEditorCommand;
     property OnEditorChangeCaretPos: TNotifyEvent read FOnEditorChangeCaretPos write FOnEditorChangeCaretPos;
+    property OnEditorScroll: TNotifyEvent read FOnEditorScroll write FOnEditorScroll;
     property OnSaveFile: TNotifyEvent read FOnSaveFile write FOnSaveFile;
     property OnAddRecent: TNotifyEvent read FOnAddRecent write FOnAddRecent;
     property OnPyEvent: TEditorFramePyEvent read FOnPyEvent write FOnPyEvent;
@@ -630,6 +632,9 @@ procedure TEditorFrame.EditorOnScroll(Sender: TObject);
 var
   Params: TAppVariantArray;
 begin
+  if Assigned(FOnEditorScroll) then
+    FOnEditorScroll(Sender);
+
   SetLength(Params, 0);
   DoPyEvent(Sender as TATSynEdit, cEventOnScroll, Params);
 end;
