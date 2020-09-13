@@ -1031,7 +1031,7 @@ type
     procedure SetFrame(Frame: TEditorFrame);
     procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
     procedure MsgStatus(AText: string);
-    procedure MsgStatusAlt(const AText: string; ASeconds: integer; AOnTop: boolean);
+    procedure MsgStatusAlt(const AText: string; ASeconds: integer);
     procedure MsgStatusErrorInRegex;
     procedure UpdateStatusbarPanelsFromString(const AText: string);
     procedure UpdateStatusbarHints;
@@ -4619,13 +4619,17 @@ begin
   end;
 end;
 
-procedure TfmMain.MsgStatusAlt(const AText: string; ASeconds: integer; AOnTop: boolean);
+procedure TfmMain.MsgStatusAlt(const AText: string; ASeconds: integer);
 const
   cMaxSeconds = 30;
   cSpacing = 3;
 var
+  Ed: TATSynEdit;
   P: TPoint;
+  WorkRect: TRect;
+  NCellSize: integer;
 begin
+  WorkRect:= Screen.WorkAreaRect;
   if StatusForm=nil then
   begin
     StatusForm:= TForm.CreateNew(nil);
@@ -4656,21 +4660,42 @@ begin
   if ASeconds>cMaxSeconds then
     ASeconds:= cMaxSeconds;
 
-  StatusForm.Left:= Self.Left;
   StatusForm.Width:= Self.Width;
   StatusFormLabel.Caption:= AText;
-  StatusForm.Show;
   StatusForm.Height:=
     //StatusFormLabel.Height + 2*cSpacing;
     StatusFormLabel.Canvas.TextHeight('W') * (SFindCharCount(AText, #10)+1) + 2*cSpacing;
 
-  if AOnTop then
-    P:= Self.ClientToScreen(Point(0, 0))
-  else
-    P:= Status.ClientToScreen(Point(0, 0));
-  P.Y:= Min(P.Y, Screen.WorkAreaRect.Bottom-StatusForm.Height);
+  case UiOps.AltTooltipPosition of
+    0:
+      begin
+        P:= Self.ClientToScreen(Point(0, 0));
+      end;
+    1:
+      begin
+        P:= Status.ClientToScreen(Point(0, 0));
+      end;
+    2:
+      begin
+        Ed:= CurrentEditor;
+        NCellSize:= Ed.TextCharSize.Y+2;
+        P.X:= Ed.Carets[0].PosX;
+        P.Y:= Ed.Carets[0].PosY;
+        P:= Ed.CaretPosToClientPos(P);
+        P:= Ed.ClientToScreen(P);
+        Dec(P.Y, NCellSize);
+        if P.Y<=WorkRect.Top then
+          Inc(P.Y, 2*NCellSize);
+        //smaller width
+        StatusForm.Width:= StatusFormLabel.Canvas.TextWidth(AText)+30;
+      end;
+  end;
+
+  P.Y:= Min(P.Y, WorkRect.Bottom-StatusForm.Height);
+  StatusForm.Left:= P.X;
   StatusForm.Top:= P.Y;
 
+  StatusForm.Show;
   //get focus back from StatusForm
   LCLIntf.SetForegroundWindow(Self.Handle);
 
@@ -6161,8 +6186,8 @@ var
 begin
   SetLength(Params, 0);
   S:= DoPyEvent(Ed, cEventOnFuncHint, Params).Str;
-  if S<>'' then
-    MsgStatusAlt(S, UiOps.AltTooltipTime, UiOps.AltTooltipOnTop);
+  if S='' then exit;
+  MsgStatusAlt(S, UiOps.AltTooltipTime);
 end;
 
 procedure TfmMain.DoHideFuncHint;

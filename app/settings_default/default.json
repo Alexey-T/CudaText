@@ -1016,8 +1016,11 @@
   //program will save modified documents to the session, on closing, without confirmation.
   "ui_auto_save_session": false,
 
-  //Position of hint, of command "show function-hint", is on top
-  "ui_alt_hint_on_top": false,
+  //Position of hint, of command "show function-hint"
+  //  0: panel on the window top
+  //  1: panel on the window bottom
+  //  2: tooltip near the editor caret
+  "ui_alt_hint_position": 0,
 
   //Pause of hint, of command "show function-hint"
   "ui_alt_hint_time": 9,

@@ -590,7 +590,7 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'si:msg_status_alt', @Ptr, @Num)) then
     begin
       Str:= string(Ptr);
-      fmMain.MsgStatusAlt(Str, Num, UiOps.AltTooltipOnTop);
+      fmMain.MsgStatusAlt(Str, Num);
       Application.ProcessMessages; //PluginManager calls loop with msg_status
     end;
     Result:= ReturnNone;
