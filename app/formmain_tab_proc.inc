@@ -9,12 +9,12 @@ Copyright (c) Alexey Torgashin
 
 procedure TfmMain.InitFrameEvents(F: TEditorFrame);
 begin
-  F.OnFocusEditor:= @FrameOnFocus;
+  F.OnFocusEditor:= @FrameOnEditorFocus;
   F.OnChangeCaption:= @FrameOnChangeCaption;
   F.OnUpdateStatus:= @FrameOnUpdateStatus;
-  F.OnEditorCommand:= @FrameOnCommand;
-  F.OnEditorChangeCaretPos:= @FrameOnChangeCaretPos;
-  F.OnEditorScroll:= @FrameOnScroll;
+  F.OnEditorCommand:= @FrameOnEditorCommand;
+  F.OnEditorChangeCaretPos:= @FrameOnEditorChangeCaretPos;
+  F.OnEditorScroll:= @FrameOnEditorScroll;
   F.OnSaveFile:= @FrameOnSaveFile;
   F.OnAddRecent:= @FrameAddRecent;
   F.OnPyEvent:= @DoPyEvent;

@@ -428,8 +428,8 @@ type
     procedure FormShow(Sender: TObject);
     procedure FrameAddRecent(Sender: TObject);
     procedure FrameOnMsgStatus(Sender: TObject; const AStr: string);
-    procedure FrameOnChangeCaretPos(Sender: TObject);
-    procedure FrameOnScroll(Sender: TObject);
+    procedure FrameOnEditorChangeCaretPos(Sender: TObject);
+    procedure FrameOnEditorScroll(Sender: TObject);
     procedure FrameOnInitAdapter(Sender: TObject);
     procedure FrameParseDone(Sender: TObject);
     procedure ListboxOutClick(Sender: TObject);
@@ -944,7 +944,7 @@ type
     procedure DoShowOutput(AndFocus: boolean);
     procedure DoShowValidate(AndFocus: boolean);
     function FrameOfPopup: TEditorFrame;
-    procedure FrameOnCommand(Sender: TObject; ACommand: integer; const AText: string; var AHandled: boolean);
+    procedure FrameOnEditorCommand(Sender: TObject; ACommand: integer; const AText: string; var AHandled: boolean);
     function DoFileCloseAll(AWithCancel: boolean): boolean;
     procedure DoDialogFind(AReplaceMode: boolean);
     procedure DoDialogFind_Hide;
@@ -1031,7 +1031,7 @@ type
     function CreateTab(APages: TATPages; const ACaption: string;
       AndActivate: boolean=true;
       AAllowNearCurrent: boolean=true): TATTabData;
-    procedure FrameOnFocus(Sender: TObject);
+    procedure FrameOnEditorFocus(Sender: TObject);
     function GetFrame(AIndex: integer): TEditorFrame;
     procedure SetFrame(Frame: TEditorFrame);
     procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
@@ -2899,7 +2899,7 @@ begin
   UpdateMenuRecent(Sender as TATSynEdit);
 end;
 
-procedure TfmMain.FrameOnChangeCaretPos(Sender: TObject);
+procedure TfmMain.FrameOnEditorChangeCaretPos(Sender: TObject);
 var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
@@ -2916,7 +2916,7 @@ begin
   end;
 end;
 
-procedure TfmMain.FrameOnScroll(Sender: TObject);
+procedure TfmMain.FrameOnEditorScroll(Sender: TObject);
 begin
   DoTooltipHide;
 end;

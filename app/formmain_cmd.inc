@@ -581,7 +581,7 @@ begin
  UpdateStatus;
 end;
 
-procedure TfmMain.FrameOnCommand(Sender: TObject; ACommand: integer;
+procedure TfmMain.FrameOnEditorCommand(Sender: TObject; ACommand: integer;
   const AText: string; var AHandled: boolean);
 var
   Ed: TATSynEdit;

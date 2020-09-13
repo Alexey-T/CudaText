@@ -40,7 +40,7 @@ begin
   F.Adapter[F.Editor].StopTreeUpdate;
 end;
 
-procedure TfmMain.FrameOnFocus(Sender: TObject);
+procedure TfmMain.FrameOnEditorFocus(Sender: TObject);
 var
   F: TEditorFrame;
   Ed: TATSynEdit;
