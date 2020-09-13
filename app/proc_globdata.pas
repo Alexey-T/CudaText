@@ -1492,7 +1492,7 @@ begin
     StatusHeightPercents:= 180;
     StatusHeightMin:= 20;
 
-    AltTooltipPosition:= 0;
+    AltTooltipPosition:= 2;
     AltTooltipTime:= 9;
 
     ScrollbarWidth:= 14;
