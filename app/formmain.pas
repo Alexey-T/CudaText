@@ -6198,6 +6198,7 @@ var
 begin
   SetLength(Params, 0);
   S:= DoPyEvent(Ed, cEventOnFuncHint, Params).Str;
+  S:= Trim(S);
   if S='' then exit;
   DoTooltipShow(S, UiOps.AltTooltipTime, true);
 end;
