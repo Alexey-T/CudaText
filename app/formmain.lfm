@@ -13,6 +13,7 @@ object fmMain: TfmMain
   KeyPreview = True
   Menu = MainMenu
   OnActivate = FormActivate
+  OnChangeBounds = FormChangeBounds
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate

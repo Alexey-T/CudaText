@@ -413,6 +413,7 @@ type
     procedure AppPropsQueryEndSession(var Cancel: Boolean);
     procedure ButtonCancelClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
+    procedure FormChangeBounds(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCloseQuery(Sender: TObject; var ACanClose: boolean);
     procedure FormColorsApply(const AColors: TAppTheme);
@@ -2437,6 +2438,11 @@ begin
   AppActiveForm:= Sender;
 end;
 
+procedure TfmMain.FormChangeBounds(Sender: TObject);
+begin
+  DoTooltipHide;
+end;
+
 procedure TfmMain.AppPropsActivate(Sender: TObject);
 var
   F: TEditorFrame;
@@ -2686,7 +2692,6 @@ end;
 procedure TfmMain.FormResize(Sender: TObject);
 begin
   FixMainLayout;
-  DoTooltipHide;
 end;
 
 procedure TfmMain.FixMainLayout;
