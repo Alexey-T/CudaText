@@ -4654,7 +4654,9 @@ begin
     FFormTooltip:= TForm.CreateNew(nil);
     FFormTooltip.BorderStyle:= bsNone;
     FFormTooltip.ShowInTaskBar:= stNever;
-    FFormTooltip.Color:= clInfoText;
+    FFormTooltip.Color:=
+      //clInfoText;
+      ColorBlendHalf(ColorToRGB(clInfoBk), ColorToRGB(clInfoText)); //nicer frame color
 
     PanelBg:= TPanel.Create(FFormTooltip);
     PanelBg.BevelInner:= bvNone;
