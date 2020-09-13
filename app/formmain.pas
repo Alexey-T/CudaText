@@ -777,7 +777,7 @@ type
     procedure DoGotoFromInput(const AInput: string);
     procedure DoGotoDefinition(Ed: TATSynEdit);
     procedure DoShowFuncHint(Ed: TATSynEdit);
-    procedure DoHideFuncHint;
+    procedure DoTooltipHide;
     procedure DoApplyGutterVisible(AValue: boolean);
     procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps; AForceApply: boolean);
     procedure DoApplyFont_Text;
@@ -1031,7 +1031,7 @@ type
     procedure SetFrame(Frame: TEditorFrame);
     procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
     procedure MsgStatus(AText: string);
-    procedure MsgStatusAlt(const AText: string; ASeconds: integer);
+    procedure DoTooltip(const AText: string; ASeconds: integer);
     procedure MsgStatusErrorInRegex;
     procedure UpdateStatusbarPanelsFromString(const AText: string);
     procedure UpdateStatusbarHints;
@@ -1995,7 +1995,7 @@ end;
 
 procedure TfmMain.TimerStatusAltTimer(Sender: TObject);
 begin
-  DoHideFuncHint;
+  DoTooltipHide;
 end;
 
 procedure TfmMain.TimerStatusWorkTimer(Sender: TObject);
@@ -2661,7 +2661,7 @@ begin
       fmConsole.EdInput.Focused or
       fmConsole.EdMemo.Focused;
 
-    DoHideFuncHint;
+    DoTooltipHide;
 
     if not bEditorActive then
     begin
@@ -4619,7 +4619,7 @@ begin
   end;
 end;
 
-procedure TfmMain.MsgStatusAlt(const AText: string; ASeconds: integer);
+procedure TfmMain.DoTooltip(const AText: string; ASeconds: integer);
 const
   cMaxSeconds = 30;
   cSpacing = 3;
@@ -6187,10 +6187,10 @@ begin
   SetLength(Params, 0);
   S:= DoPyEvent(Ed, cEventOnFuncHint, Params).Str;
   if S='' then exit;
-  MsgStatusAlt(S, UiOps.AltTooltipTime);
+  DoTooltip(S, UiOps.AltTooltipTime);
 end;
 
-procedure TfmMain.DoHideFuncHint;
+procedure TfmMain.DoTooltipHide;
 begin
   TimerStatusAlt.Enabled:= false;
   if Assigned(StatusForm) then

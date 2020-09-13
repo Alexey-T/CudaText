@@ -1012,7 +1012,7 @@ begin
     cCommand_KeyPageUp,
     cCommand_KeyPageDown:
       begin
-        DoHideFuncHint;
+        DoTooltipHide;
         AHandled:= false;
       end;
 
