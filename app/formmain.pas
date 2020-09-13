@@ -4625,9 +4625,9 @@ const
   cSpacing = 3;
 var
   Ed: TATSynEdit;
-  P: TPoint;
   WorkRect: TRect;
-  NCellSize: integer;
+  NCellSize, NSizeX, NSizeY: integer;
+  P: TPoint;
 begin
   WorkRect:= Screen.WorkAreaRect;
   if StatusForm=nil then
@@ -4661,8 +4661,10 @@ begin
     ASeconds:= cMaxSeconds;
 
   StatusFormLabel.Caption:= AText;
-  StatusForm.Width:= StatusFormLabel.Canvas.TextWidth(AText)+30;
-  StatusForm.Height:= StatusFormLabel.Canvas.TextHeight('W') * (SFindCharCount(AText, #10)+1) + 2*cSpacing;
+  NSizeX:= StatusFormLabel.Canvas.TextWidth(AText) + 3*cSpacing;
+  NSizeY:= StatusFormLabel.Canvas.TextHeight('W') * (SFindCharCount(AText, #10)+1) + 2*cSpacing;
+  StatusForm.Width:= NSizeX;
+  StatusForm.Height:= NSizeY;
 
   case UiOps.AltTooltipPosition of
     0:
@@ -4676,20 +4678,19 @@ begin
     2:
       begin
         Ed:= CurrentEditor;
-        NCellSize:= Ed.TextCharSize.Y+2*cSpacing;
+        NCellSize:= Ed.TextCharSize.Y;
         P.X:= Ed.Carets[0].PosX;
         P.Y:= Ed.Carets[0].PosY;
         P:= Ed.CaretPosToClientPos(P);
         P:= Ed.ClientToScreen(P);
-        Dec(P.Y, NCellSize);
+        Dec(P.Y, NSizeY);
         if P.Y<=WorkRect.Top then
-          Inc(P.Y, 2*NCellSize);
+          Inc(P.Y, NSizeY+NCellSize);
       end;
   end;
 
-  P.X:= Min(P.X, WorkRect.Right-StatusForm.Width);
-  P.Y:= Min(P.Y, WorkRect.Bottom-StatusForm.Height);
-
+  P.X:= Min(P.X, WorkRect.Right-NSizeX);
+  P.Y:= Min(P.Y, WorkRect.Bottom-NSizeY);
   StatusForm.Left:= P.X;
   StatusForm.Top:= P.Y;
 
