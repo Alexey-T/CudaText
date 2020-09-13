@@ -577,8 +577,8 @@ type
     FSessionIsLoading: boolean;
     FColorDialog: TColorDialog;
     Status: TATStatus;
-    StatusForm: TForm;
-    StatusFormLabel: TLabel;
+    FFormTooltip: TForm;
+    FLabelTooltip: TLabel;
     Groups: TATGroups;
     GroupsCtx: TATGroups;
     GroupsF1: TATGroups;
@@ -4630,42 +4630,42 @@ var
   P: TPoint;
 begin
   WorkRect:= Screen.WorkAreaRect;
-  if StatusForm=nil then
+  if FFormTooltip=nil then
   begin
-    StatusForm:= TForm.CreateNew(nil);
-    StatusForm.BorderStyle:= bsNone;
-    StatusForm.ShowInTaskBar:= stNever;
-    StatusFormLabel:= TLabel.Create(StatusForm);
-    StatusFormLabel.Parent:= StatusForm;
-    StatusFormLabel.Align:= alClient;
-    StatusFormLabel.AutoSize:= true;
-    StatusFormLabel.Alignment:= taCenter;
-    StatusFormLabel.BorderSpacing.Around:= cSpacing;
-    StatusFormLabel.ParentFont:= true;
+    FFormTooltip:= TForm.CreateNew(nil);
+    FFormTooltip.BorderStyle:= bsNone;
+    FFormTooltip.ShowInTaskBar:= stNever;
+    FLabelTooltip:= TLabel.Create(FFormTooltip);
+    FLabelTooltip.Parent:= FFormTooltip;
+    FLabelTooltip.Align:= alClient;
+    FLabelTooltip.AutoSize:= true;
+    FLabelTooltip.Alignment:= taCenter;
+    FLabelTooltip.BorderSpacing.Around:= cSpacing;
+    FLabelTooltip.ParentFont:= true;
   end;
 
-  StatusForm.FormStyle:= fsSystemStayOnTop;
-  StatusForm.Color:= clInfoBk; //GetAppColor(apclListBg);
-  StatusForm.Font.Name:= EditorOps.OpFontName;
-  StatusForm.Font.Size:= AppScaleFont(EditorOps.OpFontSize);
-  StatusForm.Font.Color:= clInfoText; //GetAppColor(apclListFont);
+  FFormTooltip.FormStyle:= fsSystemStayOnTop;
+  FFormTooltip.Color:= clInfoBk; //GetAppColor(apclListBg);
+  FFormTooltip.Font.Name:= EditorOps.OpFontName;
+  FFormTooltip.Font.Size:= AppScaleFont(EditorOps.OpFontSize);
+  FFormTooltip.Font.Color:= clInfoText; //GetAppColor(apclListFont);
 
   if ASeconds<=0 then
   begin
     TimerStatusAlt.Enabled:= false;
-    StatusForm.Hide;
+    FFormTooltip.Hide;
     Exit
   end;
 
   if ASeconds>cMaxSeconds then
     ASeconds:= cMaxSeconds;
 
-  StatusFormLabel.Caption:= AText;
-  P:= Canvas_TextMultilineExtent(StatusFormLabel.Canvas, AText);
+  FLabelTooltip.Caption:= AText;
+  P:= Canvas_TextMultilineExtent(FLabelTooltip.Canvas, AText);
   NSizeX:= P.X + 4*cSpacing;
   NSizeY:= P.Y + 3*cSpacing;
-  StatusForm.ClientWidth:= NSizeX;
-  StatusForm.ClientHeight:= NSizeY;
+  FFormTooltip.ClientWidth:= NSizeX;
+  FFormTooltip.ClientHeight:= NSizeY;
 
   case UiOps.AltTooltipPosition of
     0:
@@ -4692,11 +4692,11 @@ begin
 
   P.X:= Min(P.X, WorkRect.Right-NSizeX);
   P.Y:= Min(P.Y, WorkRect.Bottom-NSizeY);
-  StatusForm.Left:= P.X;
-  StatusForm.Top:= P.Y;
+  FFormTooltip.Left:= P.X;
+  FFormTooltip.Top:= P.Y;
 
-  StatusForm.Show;
-  //get focus back from StatusForm
+  FFormTooltip.Show;
+  //get focus back from FFormTooltip
   LCLIntf.SetForegroundWindow(Self.Handle);
 
   TimerStatusAlt.Interval:= ASeconds*1000;
@@ -6193,9 +6193,9 @@ end;
 procedure TfmMain.DoTooltipHide;
 begin
   TimerStatusAlt.Enabled:= false;
-  if Assigned(StatusForm) then
-    if StatusForm.Visible then
-      StatusForm.Hide;
+  if Assigned(FFormTooltip) then
+    if FFormTooltip.Visible then
+      FFormTooltip.Hide;
 end;
 
 procedure TfmMain.PopupTextPopup(Sender: TObject);

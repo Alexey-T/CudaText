@@ -291,7 +291,7 @@ begin
     Form.Position:= poDesigned;
     P:= Frames[0].ClientToScreen(Point(0, 0));
 
-    if Assigned(StatusForm) and StatusForm.Visible then
+    if Assigned(FFormTooltip) and FFormTooltip.Visible then
       Inc(P.Y, UiOps.TabHeight*2);
 
     Form.Left:= Left + Width div 2 - Form.Width div 2;
