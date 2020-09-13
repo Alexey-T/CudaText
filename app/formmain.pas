@@ -6199,16 +6199,15 @@ begin
   SetLength(Params, 0);
   S:= DoPyEvent(Ed, cEventOnFuncHint, Params).Str;
   S:= Trim(S);
-  if S='' then exit;
-  DoTooltipShow(S, UiOps.AltTooltipTime, true);
+  if S<>'' then
+    DoTooltipShow(S, UiOps.AltTooltipTime, true);
 end;
 
 procedure TfmMain.DoTooltipHide;
 begin
   TimerStatusAlt.Enabled:= false;
   if Assigned(FFormTooltip) then
-    if FFormTooltip.Visible then
-      FFormTooltip.Hide;
+    FFormTooltip.Hide;
 end;
 
 procedure TfmMain.PopupTextPopup(Sender: TObject);
