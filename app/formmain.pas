@@ -777,6 +777,7 @@ type
     procedure DoGotoFromInput(const AInput: string);
     procedure DoGotoDefinition(Ed: TATSynEdit);
     procedure DoShowFuncHint(Ed: TATSynEdit);
+    procedure DoHideFuncHint;
     procedure DoApplyGutterVisible(AValue: boolean);
     procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps; AForceApply: boolean);
     procedure DoApplyFont_Text;
@@ -1994,8 +1995,7 @@ end;
 
 procedure TfmMain.TimerStatusAltTimer(Sender: TObject);
 begin
-  TimerStatusAlt.Enabled:= false;
-  StatusForm.Hide;
+  DoHideFuncHint;
 end;
 
 procedure TfmMain.TimerStatusWorkTimer(Sender: TObject);
@@ -2661,10 +2661,7 @@ begin
       fmConsole.EdInput.Focused or
       fmConsole.EdMemo.Focused;
 
-    //hide hint from msg_status_alt()
-    if Assigned(StatusForm) then
-      if StatusForm.Visible then
-        StatusForm.Hide;
+    DoHideFuncHint;
 
     if not bEditorActive then
     begin
@@ -6166,6 +6163,14 @@ begin
   S:= DoPyEvent(Ed, cEventOnFuncHint, Params).Str;
   if S<>'' then
     MsgStatusAlt(S, UiOps.AltTooltipTime, UiOps.AltTooltipOnTop);
+end;
+
+procedure TfmMain.DoHideFuncHint;
+begin
+  TimerStatusAlt.Enabled:= false;
+  if Assigned(StatusForm) then
+    if StatusForm.Visible then
+      StatusForm.Hide;
 end;
 
 procedure TfmMain.PopupTextPopup(Sender: TObject);

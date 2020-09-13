@@ -5,7 +5,7 @@
 
 1.111.7 (2020/09)
 
-+ add: Esc press hides tooltip from Pythin IntelliSense 
++ add: keys Esc/Up/Down/PgUp/PgDown/Enter hide tooltip from Python IntelliSense 
 + add: option "ui_alt_hint_on_top", to specify position of tooltip in plugin Python IntelliSense
 + add: option "ui_alt_hint_time"
 + add: option "ui_tab_x_rounded"
