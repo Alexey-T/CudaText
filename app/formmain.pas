@@ -4627,8 +4627,7 @@ var
   Ed: TATSynEdit;
   WorkRect: TRect;
   NCellSize, NSizeX, NSizeY: integer;
-  NewX, NewY: integer;
-  SLine: atString;
+  TempX, TempY: integer;
   P: TPoint;
 begin
   WorkRect:= Screen.WorkAreaRect;
@@ -4686,16 +4685,15 @@ begin
         P.X:= Ed.Carets[0].PosX;
         P.Y:= Ed.Carets[0].PosY;
         if AGotoBracket then
-          if Ed.Strings.IsIndexValid(P.Y) then
-          begin
-            EditorBracket_FindOpeningBracketBackward(Ed,
-              P.X, P.Y,
-              '()',
-              P.X,
-              NewX, NewY);
-            if NewX>=0 then
-              P.X:= NewX+1;
-          end;
+        begin
+          EditorBracket_FindOpeningBracketBackward(Ed,
+            P.X, P.Y,
+            '()',
+            P.X,
+            TempX, TempY);
+          if TempX>=0 then
+            P.X:= TempX+1;
+        end;
         P:= Ed.CaretPosToClientPos(P);
         P:= Ed.ClientToScreen(P);
         Dec(P.Y, NSizeY);
