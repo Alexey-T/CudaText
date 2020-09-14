@@ -4651,7 +4651,7 @@ end;
 procedure TfmMain.DoTooltipShow(const AText: string; ASeconds: integer;
   APosition: TAppTooltipPos; AGotoBracket: boolean);
 const
-  cMaxSeconds = 30;
+  cMaxSeconds = 60;
   cPaddingX = 6;
   cPaddingY = 3;
 var
@@ -4666,6 +4666,8 @@ begin
     DoTooltipHide;
     Exit
   end;
+  if ASeconds>cMaxSeconds then
+    ASeconds:= cMaxSeconds;
 
   WorkRect:= Screen.WorkAreaRect;
   if FFormTooltip=nil then
@@ -4681,9 +4683,6 @@ begin
     FTooltipPanel.PaddingX:= cPaddingX;
     FTooltipPanel.PaddingY:= cPaddingY;
   end;
-
-  if ASeconds>cMaxSeconds then
-    ASeconds:= cMaxSeconds;
 
   FTooltipPanel.Font.Name:= EditorOps.OpFontName;
   FTooltipPanel.Font.Size:= AppScaleFont(EditorOps.OpFontSize);
