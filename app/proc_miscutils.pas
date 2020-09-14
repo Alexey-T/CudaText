@@ -112,9 +112,7 @@ type
 
   TAppPanelEx = class(TPanel)
   public
-    ColorBg: TColor;
     ColorFrame: TColor;
-    ColorFont: TColor;
     PaddingX: integer;
     PaddingY: integer;
     constructor Create(TheOwner: TComponent); override;
@@ -963,9 +961,8 @@ begin
   BevelInner:= bvNone;
   BevelOuter:= bvNone;
   BorderStyle:= bsNone;
-  ColorBg:= clYellow;
+  Color:= clYellow;
   ColorFrame:= clRed;
-  ColorFont:= clNavy;
   PaddingX:= 1;
   PaddingY:= 1;
 end;
@@ -980,11 +977,10 @@ var
 begin
   R:= ClientRect;
   C:= Canvas;
-  C.Brush.Color:= ColorBg;
+  C.Brush.Color:= Color;
   C.Pen.Color:= ColorFrame;
   C.Rectangle(R);
   C.Font.Assign(Self.Font);
-  C.Font.Color:= ColorFont;
   InflateRect(R, -1, -1);
 
   NX:= PaddingX;

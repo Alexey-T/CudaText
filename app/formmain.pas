@@ -4686,8 +4686,8 @@ begin
 
   FTooltipPanel.Font.Name:= EditorOps.OpFontName;
   FTooltipPanel.Font.Size:= AppScaleFont(EditorOps.OpFontSize);
-  FTooltipPanel.ColorBg:= clInfoBk;
-  FTooltipPanel.ColorFont:= clInfoText;
+  FTooltipPanel.Font.Color:= clInfoText;
+  FTooltipPanel.Color:= clInfoBk;
   FTooltipPanel.ColorFrame:= ColorBlendHalf(ColorToRGB(clInfoBk), ColorToRGB(clInfoText));
   FTooltipPanel.Caption:= AText;
 
