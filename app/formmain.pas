@@ -4715,6 +4715,7 @@ begin
         if Ed.Carets.Count=0 then exit;
         P.X:= Ed.Carets[0].PosX;
         P.Y:= Ed.Carets[0].PosY;
+        FLastTooltipLine:= P.Y;
         if AGotoBracket then
         begin
           EditorBracket_FindOpeningBracketBackward(Ed,
@@ -6231,10 +6232,7 @@ begin
   S:= DoPyEvent(Ed, cEventOnFuncHint, Params).Str;
   S:= Trim(S);
   if S<>'' then
-  begin
-    FLastTooltipLine:= Ed.Carets[0].PosY;
     DoTooltipShow(S, UiOps.AltTooltipTime, atpCaret, true);
-  end;
 end;
 
 procedure TfmMain.DoTooltipHide;
