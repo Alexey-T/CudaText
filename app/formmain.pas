@@ -2888,7 +2888,7 @@ begin
     Frame:= Frames[0];
     if Frame.IsEmpty then
     begin
-      Frame.TabCaption:= '(welcome)';
+      Frame.TabCaption:= msgWelcomeTabTitle;
       Frame.Ed1.Strings.LoadFromString(msgFirstStartInfo);
     end;
   end;

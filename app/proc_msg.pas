@@ -42,6 +42,7 @@ const
   msgErrorInTheme = 'Warning for theme "%s": missed item "%s"';
   msgCmdPalettePrefixHelp = '#p – plugins'+EOL+'#l – lexers'+EOL+'#f – opened files'+EOL+'#r – recent files';
   msgRescannedAllPlugins = 'Rescanned all plugins';
+  msgWelcomeTabTitle = '(welcome)';
 
   msgPluginIgnored = 'NOTE: plugin %s ignored, remove it';
   msgCannotFindLexers = 'NOTE: Cannot find lexers: %s';
