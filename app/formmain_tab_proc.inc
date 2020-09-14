@@ -107,6 +107,8 @@ begin
   D:= Tabs.GetTabData(Tabs.TabIndex);
   if D=nil then exit;
 
+  DoTooltipHide;
+
   F:= D.TabObject as TEditorFrame;
 
   //avoid duplicate calls when session is loaded (and TabIndex is set there 2 times)
