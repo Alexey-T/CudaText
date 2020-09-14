@@ -31,6 +31,7 @@ _test/
 /app/cudatext
 /app/cudatext-mac
 
+cudatext-mac-cocoa/
 cuda_python_intel/
 cuda_ext/
 cuda_exttools/
@@ -62,3 +63,6 @@ cuda_emmet_lite
 cuda_stata*
 cuda_test_*
 cuda_tree*
+cuda_differ/
+cuda_insert_pics/
+cuda_hilite*
