@@ -976,8 +976,7 @@ var
   R: TRect;
   Sep: TATStringSeparator;
   SItem: string;
-  Ext: Types.TSize;
-  NX, NY: integer;
+  H, NX, NY: integer;
 begin
   R:= ClientRect;
   C:= Canvas;
@@ -987,15 +986,16 @@ begin
   C.Font.Assign(Self.Font);
   C.Font.Color:= ColorFont;
   InflateRect(R, -1, -1);
+
   NX:= PaddingX;
   NY:= PaddingY;
+  H:= C.TextHeight('Wj');
 
   Sep.Init(Caption, #10);
   while Sep.GetItemStr(SItem) do
   begin
-    Ext:= C.TextExtent(SItem);
     C.TextOut(NX, NY, SItem);
-    Inc(NY, Ext.cy);
+    Inc(NY, H);
   end;
 end;
 
