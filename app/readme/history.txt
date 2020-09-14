@@ -5,6 +5,7 @@
 
 1.112.0 (2020/09)
 
++ add: improved TRegExpr engine: supported negative lookbehind: (?<!foo)bar
 + add: tooltip of "show function-hint" has changed colors, font, position near the caret (thanks @OlehL)
 + add: tooltip of "show function-hint" hides by Esc, by moving caret to another line, by window moving/resizing (thanks @OlehL)
 + add: option "ui_alt_hint_time"
