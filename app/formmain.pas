@@ -145,7 +145,7 @@ var
 {$endif}
 
 type
-  TAppTooltipPos = (atpWindowTop, atpWindowBottom, atpCaret);
+  TAppTooltipPos = (atpWindowTop, atpWindowBottom, atpEditorCaret);
 
 type
   TATFindMarkingMode = (
@@ -4707,7 +4707,7 @@ begin
       begin
         P:= Status.ClientToScreen(Point(0, 0));
       end;
-    atpCaret:
+    atpEditorCaret:
       begin
         Ed:= CurrentEditor;
         NCellSize:= Ed.TextCharSize.Y;
@@ -6231,7 +6231,7 @@ begin
   S:= DoPyEvent(Ed, cEventOnFuncHint, Params).Str;
   S:= Trim(S);
   if S<>'' then
-    DoTooltipShow(S, UiOps.AltTooltipTime, atpCaret, true);
+    DoTooltipShow(S, UiOps.AltTooltipTime, atpEditorCaret, true);
 end;
 
 procedure TfmMain.DoTooltipHide;
