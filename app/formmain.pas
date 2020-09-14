@@ -4721,6 +4721,8 @@ begin
             P.X:= TempX+1;
         end;
         P:= Ed.CaretPosToClientPos(P);
+        if P.Y<0 then exit;
+        if not PtInRect(Ed.ClientRect, P) then exit;
         P:= Ed.ClientToScreen(P);
         Dec(P.Y, NSizeY);
         if P.Y<=WorkRect.Top then
