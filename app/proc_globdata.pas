@@ -310,6 +310,9 @@ type
     StatusHeightMin: integer;
 
     AltTooltipTime: integer;
+    AltTooltipTimeMax: integer;
+    AltTooltipPaddingX: integer;
+    AltTooltipPaddingY: integer;
 
     ScrollbarWidth: integer;
     ScrollbarBorderSize: integer;
@@ -1492,6 +1495,9 @@ begin
     StatusHeightMin:= 20;
 
     AltTooltipTime:= 9;
+    AltTooltipTimeMax:= 60;
+    AltTooltipPaddingX:= 6;
+    AltTooltipPaddingY:= 3;
 
     ScrollbarWidth:= 14;
     ScrollbarBorderSize:= 0;

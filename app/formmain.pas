@@ -4650,10 +4650,6 @@ end;
 
 procedure TfmMain.DoTooltipShow(const AText: string; ASeconds: integer;
   APosition: TAppTooltipPos; AGotoBracket: boolean);
-const
-  cMaxSeconds = 60;
-  cPaddingX = 6;
-  cPaddingY = 3;
 var
   Ed: TATSynEdit;
   WorkRect: TRect;
@@ -4666,8 +4662,7 @@ begin
     DoTooltipHide;
     Exit
   end;
-  if ASeconds>cMaxSeconds then
-    ASeconds:= cMaxSeconds;
+  ASeconds:= Min(ASeconds, UiOps.AltTooltipTimeMax);
 
   WorkRect:= Screen.WorkAreaRect;
   if FFormTooltip=nil then
@@ -4680,8 +4675,8 @@ begin
     FTooltipPanel:= TAppPanelEx.Create(FFormTooltip);
     FTooltipPanel.Align:= alClient;
     FTooltipPanel.Parent:= FFormTooltip;
-    FTooltipPanel.PaddingX:= cPaddingX;
-    FTooltipPanel.PaddingY:= cPaddingY;
+    FTooltipPanel.PaddingX:= UiOps.AltTooltipPaddingX;
+    FTooltipPanel.PaddingY:= UiOps.AltTooltipPaddingY;
   end;
 
   FTooltipPanel.Font.Name:= EditorOps.OpFontName;
@@ -4693,8 +4688,8 @@ begin
 
   P:= Canvas_TextMultilineExtent(FTooltipPanel.Canvas, AText);
 
-  NSizeX:= P.X + 2*cPaddingX;
-  NSizeY:= P.Y + 2*cPaddingY;
+  NSizeX:= P.X + 2*UiOps.AltTooltipPaddingX;
+  NSizeY:= P.Y + 2*UiOps.AltTooltipPaddingY;
   FFormTooltip.ClientWidth:= NSizeX;
   FFormTooltip.ClientHeight:= NSizeY;
 
