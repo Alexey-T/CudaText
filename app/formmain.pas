@@ -403,7 +403,7 @@ type
     mnuFileClose: TMenuItem;
     PopupText: TPopupMenu;
     PopupRecents: TPopupMenu;
-    TimerStatusAlt: TTimer;
+    TimerTooltip: TTimer;
     TimerTreeFill: TTimer;
     TimerCmd: TTimer;
     TimerStatusClear: TTimer;
@@ -484,7 +484,7 @@ type
     procedure StatusPanelClick(Sender: TObject; AIndex: Integer);
     procedure TimerAppIdleTimer(Sender: TObject);
     procedure TimerCmdTimer(Sender: TObject);
-    procedure TimerStatusAltTimer(Sender: TObject);
+    procedure TimerTooltipTimer(Sender: TObject);
     procedure TimerStatusWorkTimer(Sender: TObject);
     procedure TimerStatusClearTimer(Sender: TObject);
     procedure TimerTreeFillTimer(Sender: TObject);
@@ -2000,7 +2000,7 @@ begin
   TimerStatusClear.Enabled:= false;
 end;
 
-procedure TfmMain.TimerStatusAltTimer(Sender: TObject);
+procedure TfmMain.TimerTooltipTimer(Sender: TObject);
 begin
   DoTooltipHide;
 end;
@@ -2509,7 +2509,7 @@ begin
   TimerAppIdle.AutoEnabled:=false;
   TimerStatusClear.Enabled:= false;
   TimerStatusWork.Enabled:= false;
-  TimerStatusAlt.Enabled:= false;
+  TimerTooltip.Enabled:= false;
   TimerTreeFill.Enabled:= false;
   TimerAppIdle.Enabled:= false;
   TimerCmd.Enabled:= false;
@@ -4751,9 +4751,9 @@ begin
   //get focus back from FFormTooltip
   LCLIntf.SetForegroundWindow(Self.Handle);
 
-  TimerStatusAlt.Interval:= ASeconds*1000;
-  TimerStatusAlt.Enabled:= false;
-  TimerStatusAlt.Enabled:= true;
+  TimerTooltip.Interval:= ASeconds*1000;
+  TimerTooltip.Enabled:= false;
+  TimerTooltip.Enabled:= true;
 end;
 
 procedure TfmMain.PopupListboxOutputCopyClick(Sender: TObject);
@@ -6248,7 +6248,7 @@ end;
 
 procedure TfmMain.DoTooltipHide;
 begin
-  TimerStatusAlt.Enabled:= false;
+  TimerTooltip.Enabled:= false;
   if Assigned(FFormTooltip) then
     FFormTooltip.Hide;
   FLastTooltipLine:= -1;
