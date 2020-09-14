@@ -106,6 +106,21 @@ function IntArrayToString(const A: TATIntArray): string;
 function FinderOptionsToString(F: TATEditorFinder): string;
 procedure FinderOptionsFromString(F: TATEditorFinder; const S: string);
 
+type
+
+  { TAppPanelEx }
+
+  TAppPanelEx = class(TPanel)
+  public
+    ColorBg: TColor;
+    ColorFrame: TColor;
+    ColorFont: TColor;
+    PaddingX: integer;
+    PaddingY: integer;
+    constructor Create(TheOwner: TComponent); override;
+    procedure Paint; override;
+  end;
+
 implementation
 
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
@@ -937,6 +952,50 @@ begin
     Ext:= C.TextExtent(SItem);
     Inc(Result.Y, Ext.cy);
     Result.X:= Max(Result.X, Ext.cx);
+  end;
+end;
+
+{ TAppPanelEx }
+
+constructor TAppPanelEx.Create(TheOwner: TComponent);
+begin
+  inherited;
+  BevelInner:= bvNone;
+  BevelOuter:= bvNone;
+  BorderStyle:= bsNone;
+  ColorBg:= clYellow;
+  ColorFrame:= clRed;
+  ColorFont:= clNavy;
+  PaddingX:= 1;
+  PaddingY:= 1;
+end;
+
+procedure TAppPanelEx.Paint;
+var
+  C: TCanvas;
+  R: TRect;
+  Sep: TATStringSeparator;
+  SItem: string;
+  Ext: Types.TSize;
+  NX, NY: integer;
+begin
+  R:= ClientRect;
+  C:= Canvas;
+  C.Brush.Color:= ColorBg;
+  C.Pen.Color:= ColorFrame;
+  C.Rectangle(R);
+  C.Font.Assign(Self.Font);
+  C.Font.Color:= ColorFont;
+  InflateRect(R, -1, -1);
+  NX:= PaddingX;
+  NY:= PaddingY;
+
+  Sep.Init(Caption, #10);
+  while Sep.GetItemStr(SItem) do
+  begin
+    Ext:= C.TextExtent(SItem);
+    C.TextOut(NX, NY, SItem);
+    Inc(NY, Ext.cy);
   end;
 end;
 

@@ -588,7 +588,7 @@ type
     GroupsF2: TATGroups;
     GroupsF3: TATGroups;
     FFormTooltip: TForm;
-    FLabelTooltip: TLabel;
+    FTooltipPanel: TAppPanelEx;
 
     mnuApple: TMenuItem;
     mnuApple_About: TMenuItem;
@@ -4652,9 +4652,9 @@ procedure TfmMain.DoTooltipShow(const AText: string; ASeconds: integer;
   APosition: TAppTooltipPos; AGotoBracket: boolean);
 const
   cMaxSeconds = 30;
-  cSpacing = 3;
+  cPaddingX = 6;
+  cPaddingY = 3;
 var
-  PanelBg: TPanel;
   Ed: TATSynEdit;
   WorkRect: TRect;
   NCellSize, NSizeX, NSizeY: integer;
@@ -4673,38 +4673,29 @@ begin
     FFormTooltip:= TForm.CreateNew(nil);
     FFormTooltip.BorderStyle:= bsNone;
     FFormTooltip.ShowInTaskBar:= stNever;
-    FFormTooltip.Color:=
-      //clInfoText;
-      ColorBlendHalf(ColorToRGB(clInfoBk), ColorToRGB(clInfoText)); //nicer frame color
+    FFormTooltip.FormStyle:= fsSystemStayOnTop;
 
-    PanelBg:= TPanel.Create(FFormTooltip);
-    PanelBg.BevelInner:= bvNone;
-    PanelBg.BevelOuter:= bvNone;
-    PanelBg.BorderSpacing.Around:= 1; //make 1 px frame
-    PanelBg.Align:= alClient;
-    PanelBg.Parent:= FFormTooltip;
-    PanelBg.Color:= clInfoBk;
-
-    FLabelTooltip:= TLabel.Create(FFormTooltip);
-    FLabelTooltip.Parent:= PanelBg;
-    FLabelTooltip.Align:= alClient;
-    FLabelTooltip.AutoSize:= true;
-    FLabelTooltip.Alignment:= taCenter;
-    FLabelTooltip.BorderSpacing.Around:= cSpacing-1;
-    FLabelTooltip.Font.Color:= clInfoText;
+    FTooltipPanel:= TAppPanelEx.Create(FFormTooltip);
+    FTooltipPanel.Align:= alClient;
+    FTooltipPanel.Parent:= FFormTooltip;
+    FTooltipPanel.PaddingX:= cPaddingX;
+    FTooltipPanel.PaddingY:= cPaddingY;
   end;
-
-  FFormTooltip.FormStyle:= fsSystemStayOnTop;
-  FFormTooltip.Font.Name:= EditorOps.OpFontName;
-  FFormTooltip.Font.Size:= AppScaleFont(EditorOps.OpFontSize);
 
   if ASeconds>cMaxSeconds then
     ASeconds:= cMaxSeconds;
 
-  FLabelTooltip.Caption:= AText;
-  P:= Canvas_TextMultilineExtent(FLabelTooltip.Canvas, AText);
-  NSizeX:= P.X + 4*cSpacing;
-  NSizeY:= P.Y + 3*cSpacing;
+  FTooltipPanel.Font.Name:= EditorOps.OpFontName;
+  FTooltipPanel.Font.Size:= AppScaleFont(EditorOps.OpFontSize);
+  FTooltipPanel.ColorBg:= clInfoBk;
+  FTooltipPanel.ColorFont:= clInfoText;
+  FTooltipPanel.ColorFrame:= ColorBlendHalf(ColorToRGB(clInfoBk), ColorToRGB(clInfoText));
+  FTooltipPanel.Caption:= AText;
+
+  P:= Canvas_TextMultilineExtent(FTooltipPanel.Canvas, AText);
+
+  NSizeX:= P.X + 2*cPaddingX;
+  NSizeY:= P.Y + 2*cPaddingY;
   FFormTooltip.ClientWidth:= NSizeX;
   FFormTooltip.ClientHeight:= NSizeY;
 
