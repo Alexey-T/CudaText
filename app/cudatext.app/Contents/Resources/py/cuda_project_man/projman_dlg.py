@@ -21,17 +21,19 @@ def get_themes_toolbar():
 
 def dialog_config(op):
 
-    RES_IGNORE = 1
-    RES_RECENTS = 3
-    RES_ON_START = 4
-    RES_TOOLBAR = 5
-    RES_GOTO_OPEN = 6
-    RES_PREVIEW = 7
-    RES_D_CLICK = 8
-    RES_CHECK_GIT = 9
-    RES_ICONS = 11
-    RES_ICONS_TB = 13
-    RES_OK = 16
+    RES_NO_FILES = 1
+    RES_NO_DIRS = 3
+    RES_NO_HIDDEN = 4
+    RES_RECENTS = 6
+    RES_ON_START = 7
+    RES_TOOLBAR = 8
+    RES_GOTO_OPEN = 9
+    RES_PREVIEW = 10
+    RES_D_CLICK = 11
+    RES_CHECK_GIT = 12
+    RES_ICONS = 14
+    RES_ICONS_TB = 16
+    RES_OK = 19
 
     themes = get_themes_filetype()
     try:
@@ -49,11 +51,17 @@ def dialog_config(op):
 
     c1 = chr(1)
     text = '\n'.join([]
-        +[c1.join(['type=label', 'pos=6,6,500,0', 'cap=&File/folder masks to ignore (space-separated):'])]
-        +[c1.join(['type=edit', 'pos=6,24,500,0',
-            'val='+op.get('masks_ignore', MASKS_IGNORE)])]
-        +[c1.join(['type=label', 'pos=6,54,500,0', 'cap=&Recent projects:'])]
-        +[c1.join(['type=memo', 'pos=6,74,500,180',
+        +[c1.join(['type=label', 'pos=6,4,110,0', 'cap=Ignore &files:'])]
+        +[c1.join(['type=edit', 'pos=116,4,500,0', 'val='+op.get('no_files', '')])]
+
+        +[c1.join(['type=label', 'pos=6,34,110,0', 'cap=Ignore fold&ers:'])]
+        +[c1.join(['type=edit', 'pos=116,34,500,0', 'val='+op.get('no_dirs', '.git;.svn')])]
+
+        +[c1.join(['type=check', 'pos=6,62,500,84', 'cap=Ignore all &hidden files/folders',
+          'val='+bool_to_str(op.get('no_hidden', True))])]
+        
+        +[c1.join(['type=label', 'pos=6,88,500,0', 'cap=&Recent projects:'])]
+        +[c1.join(['type=memo', 'pos=6,104,500,180',
             'val='+'\t'.join(op.get('recent_projects', [])) ])]
         +[c1.join(['type=check', 'pos=6,186,400,0', 'cap=&Load on program start (*)',
             'val='+bool_to_str(op.get('on_start', False)) ])]
@@ -93,10 +101,9 @@ def dialog_config(op):
     if res['clicked'] != RES_OK:
         return
 
-    s = res[RES_IGNORE].strip()
-    while '  ' in s:
-        s = s.replace('  ', ' ')
-    op['masks_ignore'] = s
+    op['no_files'] = res[RES_NO_FILES].strip()
+    op['no_dirs'] = res[RES_NO_DIRS].strip()
+    op['no_hidden'] = str_to_bool(res[RES_NO_HIDDEN])
 
     s = res[RES_RECENTS].split('\t')
     op['recent_projects'] = s

@@ -3,6 +3,7 @@ import re
 import collections
 import json
 import stat
+from fnmatch import fnmatch
 from pathlib import Path, PurePosixPath
 from .projman_glob import *
 
@@ -52,12 +53,18 @@ def nice_filename(path):
     return os.path.basename(path) + ' ('+ dir + ')'
 
 
-def is_filename_mask_listed(name, mask_list):
-    #s = os.path.basename(name)
-    s = name.lower() #enough for s.endswith
-    for item in mask_list.split(' '):
-        #if fnmatch(s, item): #slow, lets do it faster
-        if s.endswith(item):
+def is_simple_listed(name, masks):
+    s = name.lower()
+    for mask in masks.split(' '):
+        if s.endswith(mask):
+            return True
+    return False
+
+def is_mask_listed(s, masks):
+    for mask in masks.split(';'):
+        r = fnmatch(s, mask)
+        #print("fnmatch('%s', '%s') = %d"%(s, mask, int(r)))
+        if r:
             return True
     return False
 
@@ -134,7 +141,9 @@ class Command:
 
     options = {
         "recent_projects": [],
-        "masks_ignore": MASKS_IGNORE,
+        "no_files": "",
+        "no_dirs": ".git;.svn",
+        "no_hidden": True,
         "toolbar": True,
         "preview": True,
         "d_click": False,
@@ -477,25 +486,24 @@ class Command:
 
         for path in map(Path, nodes):
 
-            #print('node: '+str(path))
+            spath = str(path)
             sname = path.name
-            if is_win_root(str(path)):
-                sname = str(path)
-            elif is_hidden(str(path)):
-                #print('Project Manager: skip hidden: '+str(path))
+            if is_win_root(spath):
+                sname = spath
+            elif self.options.get("no_hidden", True) and is_hidden(spath):
                 continue
-            elif self.is_filename_ignored(path.name):
+            elif self.is_filename_ignored(spath):
                 continue
 
-            if is_locked(str(path)):
+            if is_locked(spath):
                 imageindex = self.ICON_BAD
             elif path.is_dir():
                 imageindex = self.ICON_DIR
-            elif is_filename_mask_listed(path.name, MASKS_IMAGES):
+            elif is_simple_listed(path.name, MASKS_IMAGES):
                 imageindex = self.ICON_IMG
-            elif is_filename_mask_listed(path.name, MASKS_ZIP):
+            elif is_simple_listed(path.name, MASKS_ZIP):
                 imageindex = self.ICON_ZIP
-            elif is_filename_mask_listed(path.name, MASKS_BINARY):
+            elif is_simple_listed(path.name, MASKS_BINARY):
                 imageindex = self.ICON_BIN
             else:
                 lexname = lexer_proc(LEXER_DETECT, path.name)
@@ -753,8 +761,14 @@ class Command:
                 self.action_save_project_as(self.project_file_path)
 
     def is_filename_ignored(self, fn):
-        mask_list = self.options.get("masks_ignore", MASKS_IGNORE)
-        return is_filename_mask_listed(fn, mask_list)
+        if os.path.isdir(fn):
+            msk = self.options.get("no_dirs", "")
+        else:
+            msk = self.options.get("no_files", "")
+        if msk:
+            return is_mask_listed(os.path.basename(fn), msk)
+        else:
+            return False
 
     def on_start(self, ed_self):
         and_activate = self.options.get("on_start_activate", False)
