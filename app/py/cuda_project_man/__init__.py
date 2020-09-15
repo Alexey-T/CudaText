@@ -61,6 +61,19 @@ def is_filename_mask_listed(name, mask_list):
             return True
     return False
 
+def is_hidden(s):
+    if IS_WIN:
+        if s=='':
+            return False
+        if s.endswith(':\\'):
+            return False
+        try:
+            return bool(os.stat(s).st_file_attributes & stat.FILE_ATTRIBUTE_HIDDEN)
+        except:
+            return True
+    else:
+        return not os.path.basename(s).startswith('.')
+
 def is_locked(s):
     if IS_WIN:
         # allow 'C:\'
@@ -460,6 +473,9 @@ class Command:
             self.top_nodes = {}
 
         for path in map(Path, nodes):
+            if is_hidden(str(path)):
+                #print('Project Manager: skip hidden: '+str(path))
+                continue
             if self.is_filename_ignored(path.name):
                 continue
 
