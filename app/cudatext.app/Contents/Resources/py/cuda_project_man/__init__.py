@@ -2,12 +2,14 @@ import os
 import re
 import collections
 import json
+import stat
 from pathlib import Path, PurePosixPath
 from .projman_glob import *
 
 from cudatext import *
 import cudatext_cmd
 
+IS_WIN = os.name == 'nt'
 PROJECT_EXTENSION = ".cuda-proj"
 PROJECT_DIALOG_FILTER = "CudaText projects|*"+PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = "(Unsaved project)"
@@ -60,7 +62,12 @@ def is_filename_mask_listed(name, mask_list):
     return False
 
 def is_locked(s):
-    return not os.access(s, os.R_OK)
+    if IS_WIN:
+        mask = stat.FILE_ATTRIBUTE_HIDDEN | stat.FILE_ATTRIBUTE_SYSTEM
+        #mask = stat.FILE_ATTRIBUTE_SYSTEM
+        return bool(os.stat(s).st_file_attributes & mask)
+    else:
+        return not os.access(s, os.R_OK)
 
 
 def _toolbar_add_btn(h_bar, hint, icon=-1, command=''):
@@ -486,9 +493,12 @@ class Command:
             if nodes is self.project["nodes"]:
                 self.top_nodes[index] = path
 
-            if (imageindex == self.ICON_DIR) and (depth > 1):
-                sub_nodes = sorted(path.iterdir(), key=Command.node_ordering)
-                self.action_refresh(index, sub_nodes, depth - 1)
+            try:
+                if (imageindex == self.ICON_DIR) and (depth > 1):
+                    sub_nodes = sorted(path.iterdir(), key=Command.node_ordering)
+                    self.action_refresh(index, sub_nodes, depth - 1)
+            except PermissionError:
+                pass
 
         if unfold:
             tree_proc(self.tree, TREE_ITEM_UNFOLD, parent)
@@ -652,10 +662,16 @@ class Command:
         app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
 
     def open_dir(self, dirname, new_proj=False):
+
         if not os.path.isdir(dirname):
             return
+
         #expand "." to fully qualified name
         dirname = os.path.abspath(dirname)
+
+        if is_locked(dirname):
+            msg_box('Folder "%s" is locked or hidden'%dirname, MB_OK+MB_ICONERROR)
+            return
 
         self.init_panel()
         if new_proj:
