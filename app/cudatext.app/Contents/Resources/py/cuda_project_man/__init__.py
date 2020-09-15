@@ -61,10 +61,27 @@ def is_filename_mask_listed(name, mask_list):
             return True
     return False
 
+def is_hidden(s):
+    if IS_WIN:
+        if s=='':
+            return False
+        if s.endswith(':\\'):
+            return False
+        try:
+            return bool(os.stat(s).st_file_attributes & stat.FILE_ATTRIBUTE_HIDDEN)
+        except:
+            return True
+    else:
+        return not os.path.basename(s).startswith('.')
+
+def is_win_root(s):
+    return IS_WIN and s.endswith(':\\')
+
 def is_locked(s):
     if IS_WIN:
+        if s.endswith(':\\'):
+            return False
         mask = stat.FILE_ATTRIBUTE_HIDDEN | stat.FILE_ATTRIBUTE_SYSTEM
-        #mask = stat.FILE_ATTRIBUTE_SYSTEM
         return bool(os.stat(s).st_file_attributes & mask)
     else:
         return not os.access(s, os.R_OK)
@@ -434,7 +451,9 @@ class Command:
     def action_refresh(self, parent=None, nodes=None, depth=2):
         unfold = parent is None
         if parent is None:
+            # clear tree
             tree_proc(self.tree, TREE_ITEM_DELETE, 0)
+
             if self.project_file_path is None:
                 project_name = PROJECT_UNSAVED_NAME
             else:
@@ -457,15 +476,18 @@ class Command:
             self.top_nodes = {}
 
         for path in map(Path, nodes):
-            if self.is_filename_ignored(path.name):
+
+            #print('node: '+str(path))
+            sname = path.name
+            if is_win_root(str(path)):
+                sname = str(path)
+            elif is_hidden(str(path)):
+                #print('Project Manager: skip hidden: '+str(path))
+                continue
+            elif self.is_filename_ignored(path.name):
                 continue
 
-            if path.is_dir():
-                isbad = is_locked(str(path))
-            else:
-                isbad = not path.is_file() or is_locked(str(path))
-
-            if isbad:
+            if is_locked(str(path)):
                 imageindex = self.ICON_BAD
             elif path.is_dir():
                 imageindex = self.ICON_DIR
@@ -487,7 +509,7 @@ class Command:
                 TREE_ITEM_ADD,
                 parent,
                 -1,
-                path.name,
+                sname,
                 imageindex
             )
             if nodes is self.project["nodes"]:
@@ -655,22 +677,31 @@ class Command:
         tree_proc(self.tree, TREE_ITEM_SELECT, items[0][0])
 
     def new_project_open_dir(self):
+
+        fn = dlg_dir("")
+        if fn is None: return
+
+        if is_locked(fn):
+            print('Project Manager: folder is locked: '+fn)
+            return
+
         self.init_panel()
         self.action_new_project()
-        self.action_add_folder()
+        self.add_node(lambda: fn)
         self.do_unfold_first()
         app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
 
     def open_dir(self, dirname, new_proj=False):
 
         if not os.path.isdir(dirname):
+            print('Project Manager: folder not found: '+dirname)
             return
 
         #expand "." to fully qualified name
         dirname = os.path.abspath(dirname)
 
         if is_locked(dirname):
-            msg_box('Folder "%s" is locked or hidden'%dirname, MB_OK+MB_ICONERROR)
+            print('Project Manager: folder is locked: '+dirname)
             return
 
         self.init_panel()
