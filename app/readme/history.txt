@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.112.1 (2020/09)
+
+- fix: Project Manager: handling of Windows permission errors (thanks Henrik)
+
 1.112.0 (2020/09)
 
 + add: improved TRegExpr engine: supported negative lookbehind: (?<!foo)bar
