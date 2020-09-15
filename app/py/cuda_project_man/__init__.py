@@ -76,11 +76,9 @@ def is_hidden(s):
 
 def is_locked(s):
     if IS_WIN:
-        # allow 'C:\'
         if s.endswith(':\\'):
             return False
         mask = stat.FILE_ATTRIBUTE_HIDDEN | stat.FILE_ATTRIBUTE_SYSTEM
-        #mask = stat.FILE_ATTRIBUTE_SYSTEM
         return bool(os.stat(s).st_file_attributes & mask)
     else:
         return not os.access(s, os.R_OK)
@@ -479,12 +477,7 @@ class Command:
             if self.is_filename_ignored(path.name):
                 continue
 
-            if path.is_dir():
-                isbad = is_locked(str(path))
-            else:
-                isbad = not path.is_file() or is_locked(str(path))
-
-            if isbad:
+            if is_locked(str(path)):
                 imageindex = self.ICON_BAD
             elif path.is_dir():
                 imageindex = self.ICON_DIR
