@@ -713,6 +713,7 @@ type
     procedure DoFindOptions_ResetInSelection;
     function DoFindOptions_GetDict: PPyObject;
     procedure DoFolderOpen(const ADirName: string; ANewProject: boolean);
+    procedure DoFolderAdd;
     procedure DoGetSaveDialog(var ASaveDlg: TSaveDialog);
     procedure DoGroupsChangeMode(Sender: TObject);
     procedure DoOnLexerParseProgress(Sender: TObject; AProgress: integer);
@@ -3380,6 +3381,20 @@ begin
   Params[1]:= AppVariant(ANewProject);
 
   DoPyCommand('cuda_project_man', 'open_dir', Params);
+end;
+
+procedure TfmMain.DoFolderAdd;
+var
+  Params: TAppVariantArray;
+begin
+  if not AppPython.Inited then
+  begin
+    MsgStatus(msgCommandNeedsPython);
+    exit;
+  end;
+
+  SetLength(Params, 0);
+  DoPyCommand('cuda_project_man', 'new_project_open_dir', Params);
 end;
 
 procedure TfmMain.DoGroupsChangeMode(Sender: TObject);

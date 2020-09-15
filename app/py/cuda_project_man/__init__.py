@@ -664,13 +664,14 @@ class Command:
     def open_dir(self, dirname, new_proj=False):
 
         if not os.path.isdir(dirname):
+            print('Project Manager: folder not found: '+dirname)
             return
 
         #expand "." to fully qualified name
         dirname = os.path.abspath(dirname)
 
         if is_locked(dirname):
-            msg_box('Folder "%s" is locked or hidden'%dirname, MB_OK+MB_ICONERROR)
+            print('Project Manager: folder is locked: '+dirname)
             return
 
         self.init_panel()

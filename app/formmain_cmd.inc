@@ -80,16 +80,7 @@ begin
       DoFileOpenDialog('/view-unicode /nozip /nopictures');
 
     cmd_FileOpenFolder:
-      begin
-        if not AppPython.Inited then
-        begin
-          MsgStatus(msgCommandNeedsPython);
-          exit;
-        end;
-
-        SetLength(Params, 0);
-        DoPyCommand('cuda_project_man', 'new_project_open_dir', Params);
-      end;
+      DoFolderAdd;
 
     cmd_FileOpen_NoPlugins:
       DoFileOpenDialog_NoPlugins;
