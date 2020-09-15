@@ -5,9 +5,10 @@
 
 1.112.1 (2020/09)
 
-+ add: Project Manager: read folders much faster (avoid reading additional subdir level)
++ add: Project Manager: read folders much faster (avoid reading additional subfolder level)
 + add: Project Manager: option "File masks to ignore" replaced with 3 options: "Ignore files", "Ignore folders" (both are ;-separated Unix wildcards) and "Ignore all hidden files/folders"
 - fix: Project Manager: handle Windows permission errors, fix showing root dirs like C:\ (thanks Henrik)
+- fix: regression on minimap painting
 
 1.112.0 (2020/09)
 
