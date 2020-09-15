@@ -63,6 +63,9 @@ def is_filename_mask_listed(name, mask_list):
 
 def is_locked(s):
     if IS_WIN:
+        # allow 'C:\'
+        if s.endswith(':\\'):
+            return False
         mask = stat.FILE_ATTRIBUTE_HIDDEN | stat.FILE_ATTRIBUTE_SYSTEM
         #mask = stat.FILE_ATTRIBUTE_SYSTEM
         return bool(os.stat(s).st_file_attributes & mask)
@@ -655,9 +658,17 @@ class Command:
         tree_proc(self.tree, TREE_ITEM_SELECT, items[0][0])
 
     def new_project_open_dir(self):
+
+        fn = dlg_dir("")
+        if fn is None: return
+
+        if is_locked(fn):
+            print('Project Manager: folder is locked: '+fn)
+            return
+
         self.init_panel()
         self.action_new_project()
-        self.action_add_folder()
+        self.add_node(lambda: fn)
         self.do_unfold_first()
         app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
 
