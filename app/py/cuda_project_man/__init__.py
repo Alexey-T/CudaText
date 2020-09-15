@@ -74,6 +74,9 @@ def is_hidden(s):
     else:
         return not os.path.basename(s).startswith('.')
 
+def is_win_root(s):
+    return IS_WIN and s.endswith(':\\')
+
 def is_locked(s):
     if IS_WIN:
         if s.endswith(':\\'):
@@ -448,7 +451,9 @@ class Command:
     def action_refresh(self, parent=None, nodes=None, depth=2):
         unfold = parent is None
         if parent is None:
+            # clear tree
             tree_proc(self.tree, TREE_ITEM_DELETE, 0)
+
             if self.project_file_path is None:
                 project_name = PROJECT_UNSAVED_NAME
             else:
@@ -471,10 +476,15 @@ class Command:
             self.top_nodes = {}
 
         for path in map(Path, nodes):
-            if is_hidden(str(path)):
+
+            #print('node: '+str(path))
+            sname = path.name
+            if is_win_root(str(path)):
+                sname = str(path)
+            elif is_hidden(str(path)):
                 #print('Project Manager: skip hidden: '+str(path))
                 continue
-            if self.is_filename_ignored(path.name):
+            elif self.is_filename_ignored(path.name):
                 continue
 
             if is_locked(str(path)):
@@ -499,7 +509,7 @@ class Command:
                 TREE_ITEM_ADD,
                 parent,
                 -1,
-                path.name,
+                sname,
                 imageindex
             )
             if nodes is self.project["nodes"]:
