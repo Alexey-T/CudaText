@@ -72,7 +72,7 @@ def is_hidden(s):
         except:
             return True
     else:
-        return not os.path.basename(s).startswith('.')
+        return os.path.basename(s).startswith('.')
 
 def is_win_root(s):
     return IS_WIN and s.endswith(':\\')
