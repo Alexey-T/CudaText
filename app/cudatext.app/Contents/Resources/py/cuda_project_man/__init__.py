@@ -457,7 +457,7 @@ class Command:
         msg_status('Called "Find in Files" for "%s"' % location)
         fif.show_dlg(what="", opts={"fold": location})
 
-    def action_refresh(self, parent=None, nodes=None, depth=2):
+    def action_refresh(self, parent=None):
         unfold = parent is None
         if parent is None:
             # clear tree
@@ -483,9 +483,17 @@ class Command:
 
             nodes = self.project["nodes"]
             self.top_nodes = {}
+        else:
+            fn = self.get_location_by_index(parent)
+            if not fn: return
+            #print('Reading dir:', fn)
+            try:
+                nodes = sorted(Path(fn).iterdir(), key=Command.node_ordering)
+            except:
+                tree_proc(self.tree, TREE_ITEM_SET_ICON, parent, image_index=self.ICON_BAD)
+                return
 
         for path in map(Path, nodes):
-
             spath = str(path)
             sname = path.name
             if is_win_root(spath):
@@ -519,16 +527,20 @@ class Command:
                 -1,
                 sname,
                 imageindex
-            )
+                )
             if nodes is self.project["nodes"]:
                 self.top_nodes[index] = path
 
-            try:
-                if (imageindex == self.ICON_DIR) and (depth > 1):
-                    sub_nodes = sorted(path.iterdir(), key=Command.node_ordering)
-                    self.action_refresh(index, sub_nodes, depth - 1)
-            except PermissionError:
-                pass
+            # dummy nested node for folders
+            if imageindex == self.ICON_DIR:
+                tree_proc(
+                    self.tree,
+                    TREE_ITEM_ADD,
+                    index,
+                    -1,
+                    'dummy',
+                    -1
+                    )
 
         if unfold:
             tree_proc(self.tree, TREE_ITEM_UNFOLD, parent)
@@ -908,8 +920,7 @@ class Command:
         if items:
             for handle, _ in items:
                 tree_proc(self.tree, TREE_ITEM_DELETE, handle)
-        sub_nodes = sorted(path.iterdir(), key=Command.node_ordering)
-        self.action_refresh(data, sub_nodes)
+        self.action_refresh(data)
 
     def tree_on_menu(self, id_dlg, id_ctl, data='', info=''):
 
