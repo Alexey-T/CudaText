@@ -5,7 +5,7 @@
 
 1.112.1 (2020/09)
 
-- fix: Project Manager: handling of Windows permission errors (thanks Henrik)
+- fix: Project Manager: handle Windows permission errors, fix showing root dirs like C:\ (thanks Henrik)
 
 1.112.0 (2020/09)
 
