@@ -1237,7 +1237,13 @@ UI tab titles can be colored, by calling tab's context menu, and "Set tab color.
 
 =External Tools=
 
-Several examples of external tools configs. Call dialog of External Tools plugin (menu "Tools / Config..."). Add a new tool. Set dialog properties as shown below. This must add menu item, for new tool, under Tools menu.
+Several examples of external tools configs. Call dialog of External Tools plugin (menu "Tools / Config..."). Add a new tool. Set dialog properties as shown below.
+
+[[File:cudatext-tools-props.png]]
+
+This must add menu item for tool, in the "Tools" menu (Tools menu appears after you install the plugin).
+
+[[File:cudatext-tools-menuitem.png]]
 
 ==Tool to compile by GCC==
 
