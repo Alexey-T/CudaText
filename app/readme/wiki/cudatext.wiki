@@ -789,6 +789,8 @@ Micromap shows tiny colored marks:
 * on the right side: marks for selections (made e.g. by "Find / Select all", usually blue)
 * on the right side: marks from Spell Checker plugin (usually red)
 
+[[File:cudatext-micromap.png]]
+
 Plugins can place marks on micromap, e.g. plugin "Highlight Occurrences" places marks for highlighted fragments, plugin "Spell Checker" places marks for misspelled words.
 
 == Paste with middle-button-click ==
@@ -1195,7 +1197,10 @@ CudaText gives such commands in the Command Palette:
 * "markers: select to last marker": Makes text selection from caret position to the position of last placed marker.
 * "markers: delete to last marker": Deletes text from caret position to the position of last placed marker.
 
-Markers are utilized by the Snippets plugin. 
+Markers are utilized by the Snippets plugin.
+
+[[File:cudatext-markers-html.png]]
+ 
 Snippets plugin finds tab-stops in the inserting snippet text, and places markers for them.  
 After markers are placed by Snippets plugin, Tab-key works special - it jumps to the next marker ("next" by the order of tab-stop: 1, 2, 3... tab-stop 0 is the last). When user "collects" all those markers by Tab-key, this special mode deactivates and Tab-key works as usual again. Command "markers: remove all" also deactivates that mode.
 
