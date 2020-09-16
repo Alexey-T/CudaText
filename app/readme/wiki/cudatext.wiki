@@ -48,7 +48,7 @@ Screenshot on Windows:
 * [[#File_viewer|Viewer for files of unlimited size]]
 * [[#Program_perfomance|Program performance]]
 * [[#Hex_display_of_special_chars|Hex display of special chars]]
-* Coloring of UI-tab headers
+* [[#Colored_UI_tabs|Colored UI tabs]]
 * Options Editor plugin
 * Can plug-in a different Python engine
 * [[#Char_map|Character Map dialog]]
@@ -1211,6 +1211,12 @@ Editor engine shows some characters in a "hex form", like "x2000" for character 
 * U+0085
 * U+061C
 * U+FEFF
+
+==Colored UI tabs==
+
+UI tab titles can be colored, by calling tab's context menu, and "Set tab color..." menu item. Internally, it calls plugin cuda_palette to choose the color, then color is applied. Plugin dialog has several modes (even simplest mode named "60 colors" is enough). By default, only thin line at the edge of tabs is colored, but you can colorize the entire tab using CudaText option "ui_tab_fullcolor". Coloring is saved to session (tab color is usual property of editor).
+
+[[File:cudatext-tab-colors.png]]
 
 =External Tools=
 
