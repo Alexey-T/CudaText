@@ -1214,6 +1214,8 @@ Editor engine shows some characters in a "hex form", like "x2000" for character 
 * U+061C
 * U+FEFF
 
+[[File:cudatext-hex-chars.png]]
+
 ==Colored UI tabs==
 
 UI tab titles can be colored, by calling tab's context menu, and "Set tab color..." menu item. Internally, it calls plugin cuda_palette to choose the color, then color is applied. Plugin dialog has several modes (even simplest mode named "60 colors" is enough). By default, only thin line at the edge of tabs is colored, but you can colorize the entire tab using CudaText option "ui_tab_fullcolor". Coloring is saved to session (tab color is usual property of editor).
