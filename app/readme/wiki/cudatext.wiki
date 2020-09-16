@@ -767,11 +767,13 @@ Alternative way is plugin CudaExt. Plugin gives command "Choose tab to switch to
 ==Minimap==
 Minimap is wide vertical bar near editor's right side (it can be shown on the left side too, by the option). To show it:
 
-* set the option "minimap_show" (show permamently)
-* use menu item "View / Toggle minimap" (show temporary, for the current document only)
+* Set the option "minimap_show" (show permamently)
+* Use menu item "View / Toggle minimap" (show temporary, for the current document only)
 
 If you drag mouse over minimap, editor will scroll entirely from top to bottom, even for huge documents (mimics Sublime Text behaviour).
-Text in minimap is painted by 1-2 pixels per character, not by font rendering, so scale of minimap cannot be changed.
+Text in minimap is painted by pixels, not by font rendering. Minimap is scaled according to CudaText UI, but can be scaled separately too (option "minimap_scale"). Screenshot shows 2 windows with different minimap scale.
+
+[[File:cudatext-minimap.png]]
 
 ==Micromap==
 Micromap is thin (about 12 pixels) vertical bar near editor's right side. It is not scrollable, it shows overview of entire document from top to bottom. To show it:
