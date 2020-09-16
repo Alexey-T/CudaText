@@ -260,7 +260,7 @@ object SyntAnal22: TLibSyntAnalyzer
             'yes'
             'Yes'
             'YES')
-          TokenTypes = 68
+          TokenTypes = 4
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
@@ -274,6 +274,7 @@ object SyntAnal22: TLibSyntAnalyzer
     '0x10_af + 0b1_01 + 12.2e+3'
     '- !foo "Str"'
     '- !!str "Tst"'
+    'y: y # first '#39'y'#39' must not be hilited, it'#39's a key'
     '&anchor'
     '%Yaml'
     '*Alias'
