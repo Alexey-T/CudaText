@@ -1234,6 +1234,22 @@ UI tab titles can be colored, by calling tab's context menu, and "Set tab color.
 
 [[File:cudatext-tab-colors.png]]
 
+==Tabs features==
+
+Control of UI tabs is named ATTabs, and has many features:
+
+* Pseudo-tab "+" at the end. Option "ui_tab_show_plus".
+* Scrolling arrows on the left side, to scroll tabs left/right when there are lot of them and they don't fit by width. Thin scroll indicator auto-appears at the top (default color is red).
+* Drop-down arrow on the right side, to show menu of all tabs in the current group.
+* Layout of arrows on both sides is customizable. Option "ui_tab_button_layout". Also button "+" is available, to replace "+" pseudo-tab, this button is always visible (pseudo-tab can be scrolled away).
+* Tabs can be placed on all 4 sides. Option "ui_tab_position".
+* Tabs can be multi-line (number of rows is limited). Option "ui_tab_multiline".
+* Tabs can have fixed or variable width. Option "ui_tab_variable_width". Minimal/maximal width of fixed tabs is customizable.
+* Tabs can be shaped and bordered, or be flat. Option "ui_tab_flat".
+* Tabs can be colored (using tab context menu item) for entire tab height. Option "ui_tab_fullcolor".
+* Tabs can be dragged by mouse to other groups (use "=" top menu item). And can be moved to specified group index using tab context menu items "Move tab to group n".
+* Program can be used without tabs at all. Options "ui_tab_show" and "ui_tab_disabled".
+
 =External Tools=
 
 Several examples of external tools configs. Call dialog of External Tools plugin (menu "Tools / Config..."). Add a new tool. Set dialog properties as shown below.
