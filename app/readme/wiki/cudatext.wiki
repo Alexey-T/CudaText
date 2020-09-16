@@ -988,7 +988,11 @@ Screenshot with icons of main toolbar, sidebar, Project Manager toolbar:
 ** Restart CudaText.
 
 ==Toolbar==
-CudaText has toolbar on the top, which can be shown by menu item "View / Toggle toolbar". To customize it, install plugin "Config Toolbar" from Addon Manager. Plugin gives command (menu "Plugins / Config Toolbar / Customize buttons") to customize toolbar contents: simple buttons, buttons with dropdown menus, separators,  icons for buttons.
+CudaText has toolbar on the top, which can be shown by menu item "View / Toggle toolbar".
+
+[[File:cudatext-toolbar.png]]
+
+To customize it, install plugin "Config Toolbar" from Addon Manager. Plugin gives command (menu "Plugins / Config Toolbar / Customize buttons") to customize toolbar contents: simple buttons, buttons with dropdown menus, separators,  icons for buttons.
 
 Plugin also gives command "Hide standard buttons" which allows to hide default CudaText buttons from toolbar. This command shows input box for space-separated indexes of buttons. What are these indexes? Indexes are 0-based numbers of all toolbar items: first button (New File) is index 0, next item (dropdown near New File) is index 1, next item (Open File) is index 2, etc (all separators also have index). So for example, to hide 3rd + 10th items, enter "2 9" into that input box.
 
