@@ -850,14 +850,16 @@ If you use "virtualenv" from "conda" with isolated Python, CudaText cannot detec
 
 ==Line states==
 
-In the gutter bar, you can see colored thin bars next to line numbers: green, yellow. It is line states. They show state of lines:
+In the gutter bar, you can see colored thin bars next to line numbers: greenish, yellowish. It is line states. They show state of lines:
 
-* usual lines (not changed)
-* changed lines
-* newly added lines
-* changed or added lines, and file was saved after it
+* normal lines (not changed since last saving)
+* changed lines (edited since last saving)
+* newly inserted/added lines
+
+[[File:cudatext-line-states.png]]
 
 Line states help to see which lines were edited since the last opening of a file / last saving of a file. CudaExt plugin gives few commands for line states:
+
 * "Jump: to next/previous changed lines"
 * "Jump: to next/previous working lines"
 * "Jump: to next/previous saved lines"
