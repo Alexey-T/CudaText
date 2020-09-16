@@ -887,14 +887,15 @@ Plugin has context menu on its panel, with items:
 
 Any project can have "main file", you can choose it in the context menu: "Selected file / Set as main file". Main file's path is used by plugin External Tools, when some tool is configured with macro {ProjMainFile}. This allows tools to run compilation of the main file.
 
-Project Manager shows file/folder icons, using default file-type-icons theme. You can change this theme in the plugin's Config dialog. But first, you must install additional file-type-icons theme from Addons Manager. Example of such theme: VSCode Material 24x24.
-
-Project Manager options dialog:
+===Project Manager options dialog===
 
 * "Ignore files": ";"-separated shell wildcards, which are [https://docs.python.org/3/library/fnmatch.html documented here]. If file name (without path) matches any of these wildcards, it will not be listed in the treeview.
 * "Ignore folders": ";"-separated shell wildcards. If folder name matches any of these wildcards, it will not be listed in the treeview.
 * "Ignore all hidden files/folders": Additionally don't list all hidden items. On Unix, hidden mean "beginning with dot". On Windows, hidden means having file-system "hidden" attribute.
 * "Use preview tab on item clicking": If option is on, single click on treeview file item, will open file in "preview tab". Preview tab is single such tab, it's shared by all files, it has italic+underlined tab title. If option is off, clicking file item will open normal tab, separate normal tabs per each file.
+* "Open file after 'Go to file' command": If turned on, command "Project Manager: Go to file" will not only jump to chosen file in the treeview, but also open that file in editor.
+* "File type icons": Set of file/folder icons for treeview. You can install additional themes from Addons Manager, see category "filetypeicons" there. Example of such theme: "VSCode Material 24x24". This option shows  themes, which are present in the folder "data/filetypeicons".
+* "Toolbar theme": Set of icons for Project Manager toolbar buttons. You can install additional themes from Addon Manager, see the category "projtoolbaricons" there. This option shows themes, which are present in the folder "data/projtoolbaricons".
 
 ===Preview tab===
 To see preview tab, call "File / Open folder" and choose a folder with text files. Folder will open in the side panel "Project". Make single click on files in this panel, they will open in "preview tab". Single preview tab is shared by all clicked files in "Project". It has italic caption. When you begin to edit file in this preview tab, tab becomes "normal".
