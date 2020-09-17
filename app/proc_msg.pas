@@ -57,6 +57,9 @@ const
   msgDialogTitleSaveAs: string = 'Save file as';
   msgDialogTitleSelFolder: string = 'Select folder';
 
+  msgFileMaybeNotText: string = 'File is maybe not text:';
+  msgFileTooBig: string = 'File is too big to edit:';
+
   msgLinkOpenSite: string = 'Open link';
   msgLinkOpenEmail: string = 'Send e-mail';
 

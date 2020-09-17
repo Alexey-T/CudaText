@@ -52,10 +52,6 @@ implementation
 
 {$R *.lfm}
 
-var
-  MsgFileNotText: string = 'File is maybe not text:';
-  MsgFileTooBig: string = 'File is too big to edit:';
-
 function DoDialogConfirmBinaryFile(const AFilename: string; ATooBig: boolean): TAppConfirmBinary;
 var
   F: TfmConfirmBinary;
@@ -64,9 +60,9 @@ begin
   F:= TfmConfirmBinary.Create(nil);
   try
     if ATooBig then
-      S:= MsgFileTooBig + Format(' (%d M)', [FileSize(AFilename) div (1024*1024)])
+      S:= msgFileTooBig + Format(' (%d M)', [FileSize(AFilename) div (1024*1024)])
     else
-      S:= MsgFileNotText;
+      S:= msgFileMaybeNotText;
 
     F.LabelText.Caption:= S;
     F.LabelFN.Caption:= ExtractFileName(AFilename);
@@ -145,8 +141,8 @@ begin
     with btnViewHex do Caption:= ini.ReadString(section, 'hex', Caption);
     with btnViewUnicode do Caption:= ini.ReadString(section, 'uni', Caption);
     with btnCancel do Caption:= msgButtonCancel;
-    MsgFileNotText:= ini.ReadString(section, 'ntxt', MsgFileNotText);
-    MsgFileTooBig:= ini.ReadString(section, 'big', MsgFileTooBig);
+    msgFileMaybeNotText:= ini.ReadString(section, 'ntxt', msgFileMaybeNotText);
+    msgFileTooBig:= ini.ReadString(section, 'big', msgFileTooBig);
   finally
     FreeAndNil(ini);
   end;

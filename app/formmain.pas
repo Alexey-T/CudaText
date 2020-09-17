@@ -3498,6 +3498,13 @@ begin
   bFileTooBig:= IsFileTooBigForOpening(AFileName);
   bFileTooBig2:= IsFileTooBigForOpening(AFileName2);
 
+  //we cannot open too big _second_ file, viewer is for first file
+  if bFileTooBig2 then
+  begin
+    MsgBox(msgFileTooBig+#10+AFileName2, MB_OK+MB_ICONERROR);
+    AFileName2:= '';
+  end;
+
   CurGroups:= CurrentGroups;
 
   bSilent:= Pos('/silent', AOptions)>0;
