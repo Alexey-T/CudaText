@@ -279,7 +279,7 @@ You can modify/create lexers. But not in CudaText. Install SynWrite (needed Wine
 
 Screenshot of SynWrite dialog:
 
-[[File:synwrite-lexer-editor.png]]
+[[File:cudatext-lexer-editor-dlg.png]]
 
 === How to setup styles of hidden sublexer ===
 
