@@ -48,7 +48,7 @@ Screenshot on Windows:
 * [[#File_viewer|Viewer for files of unlimited size]]
 * [[#Program_perfomance|Program performance]]
 * [[#Hex_display_of_special_chars|Hex display of special chars]]
-* [[#Colored_UI_tabs|Colored UI tabs]]
+* [[#Tabs_features|Colored UI tabs]]
 * Options Editor plugin
 * Can plug-in a different Python engine
 * [[#Char_map|Character Map dialog]]
@@ -1230,12 +1230,6 @@ Editor engine shows some characters in a "hex form", like "x2000" for character 
 
 [[File:cudatext-hex-chars.png]]
 
-==Colored UI tabs==
-
-UI tab titles can be colored, by calling tab's context menu, and "Set tab color..." menu item. Internally, it calls plugin cuda_palette to choose the color, then color is applied. Plugin dialog has several modes (even simplest mode named "60 colors" is enough). By default, only thin line at the edge of tabs is colored, but you can colorize the entire tab using CudaText option "ui_tab_fullcolor". Coloring is saved to session (tab color is usual property of editor).
-
-[[File:cudatext-tab-colors.png]]
-
 ==Tabs features==
 
 Control of UI tabs is named ATTabs, and has many features:
@@ -1243,20 +1237,26 @@ Control of UI tabs is named ATTabs, and has many features:
 * Pseudo-tab "+" at the end. Option "ui_tab_show_plus".
 * Scrolling arrows on the left, to scroll tabs left/right when there are lot of them and they don't fit by width. Thin scrolling indicator auto-appears on the top (default color is red).
 * Drop-down arrow on the right side, to show menu of all tabs in the current group.
+* Tabs can be placed on all 4 sides. Option "ui_tab_position".
+
+[[File:cudatext-tabs-left_.png]]
+
 * Layout of arrows is customizable. Option "ui_tab_button_layout". Button "+" is available, to replace "+" pseudo-tab, this button is always visible (pseudo-tab can be scrolled away). Button "x" is available, to close current tab.
 
 [[File:cudatext-tabs-layout.png]]
 
-* Tabs can be placed on all 4 sides. Option "ui_tab_position".
 * Tabs can be multi-line (height of all tabs is limited by 2/3 of window height). Option "ui_tab_multiline".
 
 [[File:cudatext-tabs-multiline.png]]
 
 * Tabs can have fixed or variable width. Option "ui_tab_variable_width". Minimal/maximal width of fixed tabs is customizable.
 * Tabs can be shaped and bordered, or be flat. Option "ui_tab_flat".
-* Tabs can be colored (using tab context menu item) for entire tab height. Option "ui_tab_fullcolor".
 * Tabs can be dragged by mouse: inside original group or to another groups (use "=" top menu item). And can be moved to specified group index using tab context menu items "Move tab to group n".
 * Program can be used without tabs at all. Options "ui_tab_show" and "ui_tab_disabled".
+
+* Tabs can be colored, by calling tab's context menu, and "Set tab color..." menu item. Internally, it calls plugin cuda_palette to choose the color, then color is applied. Plugin dialog has several modes (even simplest mode named "60 colors" is enough). By default, only thin line at the edge of tabs is colored, but you can colorize the entire tab using CudaText option "ui_tab_fullcolor". Coloring is saved to session (tab color is usual property of editor).
+
+[[File:cudatext-tab-colors.png]]
 
 =External Tools=
 
