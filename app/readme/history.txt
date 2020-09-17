@@ -3,6 +3,12 @@
   - fixed
   * changed
 
+1.112.2 (2020/09)
+
++ add: for files bigger than 50Mb, editor won't detect file encoding and force UTF8
++ add: dialog "File is too big" shows file size in Mb
++ add: dialog "File is maybe not text" must not appear at all for too big files
+
 1.112.1 (2020/09)
 
 + add: Project Manager: read folders much faster (avoid reading additional subfolder level)
