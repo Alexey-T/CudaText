@@ -3501,7 +3501,9 @@ begin
   //we cannot open too big _second_ file, viewer is for first file
   if bFileTooBig2 then
   begin
-    MsgBox(msgFileTooBig+#10+AFileName2, MB_OK+MB_ICONERROR);
+    MsgBox(
+      msgFileTooBig+#10+AFileName2+#10+Format('(%d M)', [FileSize(AFileName2) div (1024*1024)]),
+      MB_OK+MB_ICONERROR);
     AFileName2:= '';
   end;
 
