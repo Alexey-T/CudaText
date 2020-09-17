@@ -1047,6 +1047,7 @@ begin
   {$endif}
 
   UiOps.PictureTypes:= cfg.GetValue('picture_types', UiOps.PictureTypes);
+
   UiOps.MaxFileSizeToOpen:= cfg.GetValue('ui_max_size_open', UiOps.MaxFileSizeToOpen);
   UiOps.MaxFileSizeForLexer:= cfg.GetValue('ui_max_size_lexer', UiOps.MaxFileSizeForLexer);
 
