@@ -629,7 +629,7 @@ These panels have hotkeys:
 * Ctrl+D: copy to clipboard selected line
 * Esc: focus editor
 
-==Dialogs Find/Replace==
+==Dialog Find/Replace==
 
 Find/Replace dialog has hotkeys, which work only inside this dialog. They can be customized via options "find_hotkey_nnnn".
 
@@ -644,6 +644,8 @@ Find/Replace dialog has hotkeys, which work only inside this dialog. They can be
 * Alt+E: Select all
 * Alt+K: Mark all
 * Alt+Q: Extract
+
+[[File:cudatext-find-dlg.png]]
 
 Option buttons have hotkeys too. Hover mouse over them to see floating tooltips about button functions.
 
