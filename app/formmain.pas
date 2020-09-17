@@ -3483,6 +3483,7 @@ var
   bEnableEventPre, bEnableEventOpened, bEnableEventOpenedNone,
   bAllowZip, bAllowPics, bAllowLexerDetect, bDetectedPics,
   bAndActivate, bAllowNear: boolean;
+  bFileTooBig, bFileTooBig2: boolean;
   OpenMode, NonTextMode: TAppOpenMode;
   CurGroups: TATGroups;
   Params: TAppVariantArray;
@@ -3493,6 +3494,9 @@ begin
   Result:= nil;
   AppDir_LastInstalledAddon:= '';
   if Application.Terminated then exit;
+
+  bFileTooBig:= IsFileTooBigForOpening(AFileName);
+  bFileTooBig2:= IsFileTooBigForOpening(AFileName2);
 
   CurGroups:= CurrentGroups;
 
@@ -3599,6 +3603,7 @@ begin
     bDetectedPics:= bAllowPics and IsFilenameListedInExtensionList(AFileName, UiOps.PictureTypes);
 
     //non-text option
+    if not bFileTooBig then
     if not bDetectedPics then
     if UiOps.NonTextFiles<>1 then
       if not IsFileContentText(
@@ -3614,7 +3619,7 @@ begin
         else
         case UiOps.NonTextFiles of
           0:
-            case DoDialogConfirmBinaryFile(AFileName, false) of
+            case DoDialogConfirmBinaryFile(AFileName, bFileTooBig) of
               ConfirmBinaryViewText: OpenMode:= cOpenModeViewText;
               ConfirmBinaryViewBinary: OpenMode:= cOpenModeViewBinary;
               ConfirmBinaryViewHex: OpenMode:= cOpenModeViewHex;
@@ -3633,9 +3638,9 @@ begin
       end;
 
     //too big size?
-    if (OpenMode=cOpenModeEditor) and IsFileTooBigForOpening(AFileName) then
+    if (OpenMode=cOpenModeEditor) and bFileTooBig then
     begin
-      case DoDialogConfirmBinaryFile(AFileName, true) of
+      case DoDialogConfirmBinaryFile(AFileName, bFileTooBig) of
         ConfirmBinaryViewText: OpenMode:= cOpenModeViewText;
         ConfirmBinaryViewBinary: OpenMode:= cOpenModeViewBinary;
         ConfirmBinaryViewHex: OpenMode:= cOpenModeViewHex;
