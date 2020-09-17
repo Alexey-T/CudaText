@@ -7,6 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
   IniFiles,
+  FileUtil,
   proc_msg,
   proc_globdata;
 
@@ -63,7 +64,7 @@ begin
   F:= TfmConfirmBinary.Create(nil);
   try
     if ATooBig then
-      S:= MsgFileTooBig
+      S:= MsgFileTooBig + Format(' (%d M)', [FileSize(AFilename) div (1024*1024)])
     else
       S:= MsgFileNotText;
 
