@@ -1244,8 +1244,14 @@ Control of UI tabs is named ATTabs, and has many features:
 * Scrolling arrows on the left, to scroll tabs left/right when there are lot of them and they don't fit by width. Thin scrolling indicator auto-appears on the top (default color is red).
 * Drop-down arrow on the right side, to show menu of all tabs in the current group.
 * Layout of arrows is customizable. Option "ui_tab_button_layout". Button "+" is available, to replace "+" pseudo-tab, this button is always visible (pseudo-tab can be scrolled away). Button "x" is available, to close current tab.
+
+[[File:cudatext-tabs-layout.png]]
+
 * Tabs can be placed on all 4 sides. Option "ui_tab_position".
 * Tabs can be multi-line (height of all tabs is limited by 2/3 of window height). Option "ui_tab_multiline".
+
+[[File:cudatext-tabs-multiline.png]]
+
 * Tabs can have fixed or variable width. Option "ui_tab_variable_width". Minimal/maximal width of fixed tabs is customizable.
 * Tabs can be shaped and bordered, or be flat. Option "ui_tab_flat".
 * Tabs can be colored (using tab context menu item) for entire tab height. Option "ui_tab_fullcolor".
