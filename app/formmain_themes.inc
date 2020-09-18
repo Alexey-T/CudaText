@@ -174,6 +174,15 @@ begin
 
   CompletionOps.ColorFontPrefix:= GetAppColor(apclListCompletePrefix);
   CompletionOps.ColorFontParams:= GetAppColor(apclListCompleteParams);
+
+  {$ifdef windows}
+  MenuStylerTheme.ColorBk:= GetAppColor(apclButtonBgPassive);
+  MenuStylerTheme.ColorBkSelected:= GetAppColor(apclButtonBgChecked);
+  MenuStylerTheme.ColorFont:= GetAppColor(apclButtonFont);
+  MenuStylerTheme.ColorFontDisabled:= GetAppColor(apclButtonFontDisabled);
+  MenuStylerTheme.ColorFontShortcut:= GetAppColor(apclButtonFont);
+  MenuStyler.ApplyToForm(Self, true);
+  {$endif}
 end;
 
 procedure TfmMain.DoDialogMenuThemes_ThemeUiSelect(const AStr: string);

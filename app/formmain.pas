@@ -19,6 +19,7 @@ interface
 uses
   {$ifdef windows}
   Windows,
+  win32menustyler,
   {$endif}
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
   StdCtrls, Buttons, ComCtrls, ExtCtrls, Menus,
