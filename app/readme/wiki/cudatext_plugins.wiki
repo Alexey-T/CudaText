@@ -1,4 +1,4 @@
-=Comments=
+== Comments ==
 
 You can add/remove code comments, via "Comments" plugin. Plugin is preinstalled in CudaText. It gives about 6 commands in menu "Plugins / Comments". Plugin supports only adding/removing of comments, not syntax highlighting for them (highlighting is lexer's work).
 
@@ -17,7 +17,7 @@ Comment chars are saved:
 * Line comments: in lexer file data/lexlib/nnn.lcf.
 * Range comments: in files data/lexlib/nnn.cuda-lexmap.
 
-=Macros=
+== Macros ==
 
 Macro is a sequence of CudaText actions, which can be saved to a file and invoked later by some command.
 To use macros, you must install plugin "Macros" from Addon Manager. It adds "Macros" menu to CudaText main menu bar. This menu gives items:
@@ -47,7 +47,7 @@ To playback macro:
 * call menu item "Macros / (macro name)", the end of this menu lists all available/saved macros
 * or call dialog "Macros / Macros..." which allows to run available macros: it can be simple running, running N times, or running in loop ([x] While text changes, [x] Until caret on last line)
 
-=Project Manager=
+== Project Manager ==
 
 This plugin is preinstalled in CudaText. It shows panel "Project" in the sidebar (to show this panel, call plugin by any command, or set plugin's option "Load on program start" and restart, CudaText sidebar will have Project button). On the project panel, on its tree-view, you can add several "root nodes", each node must be existing file or folder. For folder nodes, plugin auto shows all nested folders. You cannot add nodes on other levels (like SynWrite editor does).
 
@@ -72,7 +72,7 @@ Plugin has context menu on its panel, with items:
 
 Any project can have "main file", you can choose it in the context menu: "Selected file / Set as main file". Main file's path is used by plugin External Tools, when some tool is configured with macro {ProjMainFile}. This allows tools to run compilation of the main file.
 
-==Project Manager options dialog==
+=== Project Manager options dialog ===
 
 * "Ignore files": ";"-separated shell wildcards, which are [https://docs.python.org/3/library/fnmatch.html documented here]. If file name (without path) matches any of these wildcards, it will not be listed in the treeview.
 * "Ignore folders": ";"-separated shell wildcards. If folder name matches any of these wildcards, it will not be listed in the treeview.
@@ -84,10 +84,11 @@ Any project can have "main file", you can choose it in the context menu: "Select
 * "File type icons": Set of file/folder icons for treeview. You can install additional themes from Addons Manager, see category "filetypeicons" there. Example of such theme: "VSCode Material 24x24". This option shows  themes, which are present in the folder "data/filetypeicons".
 * "Toolbar theme": Set of icons for Project Manager toolbar buttons. You can install additional themes from Addon Manager, see the category "projtoolbaricons" there. This option shows themes, which are present in the folder "data/projtoolbaricons".
 
-==Preview tab==
+=== Preview tab ===
+
 To see preview tab, call "File / Open folder" and choose a folder with text files. Folder will open in the side panel "Project". Make single click on files in this panel, they will open in "preview tab". Single preview tab is shared by all clicked files in "Project". It has italic caption. When you begin to edit file in this preview tab, tab becomes "normal".
 
-=Snippets=
+== Snippets ==
 
 To use snippets you need:
 
@@ -104,7 +105,7 @@ Dialog of Snippets plugin:
 
 Texts of snippets usually have tab-stop(s), e.g. ${1:some_text}. Plugin Snippets finds tab-stops and places "markers" for them. After markers are placed, Tab-key works special in editor, it jumps to next marker. See detailed information in the [[#Markers]].
 
-==Snippets for HTML tags==
+=== Snippets for HTML tags ===
 
 CudaText has preinstalled 120+ snippets for HTML tags. (You still need to install Snippets plugin.) They are enabled with HTML lexer. Just type tag name without a bracket, press Tab, and snippet is inserted. E.g. "a"<Tab> will insert:
 
@@ -112,7 +113,7 @@ CudaText has preinstalled 120+ snippets for HTML tags. (You still need to instal
 
 These snippets have markers, so Tab key jumps to the next marker. Last marker is usually placed after the entire tag, ie after ">" bracket.
 
-=Snippet Panel=
+== Snippet Panel ==
 
 Plugin "Snippet Panel" is preinstalled in CudaText. It gives an alternative way to use short text fragments (only simple ones) in editor. It adds button to sidebar, and command "Plugins / Snippet Panel". When called, plugin shows panel in the sidebar, with a drop-down list of folders, which contain several "snippets". You can double-click snippets to insert them into text (multi-carets are supported).
 
@@ -139,7 +140,8 @@ Plugin looks for its folders in two places:
 
 Each snippet folder can contain one or more .txt files, in UTF-8 (no BOM) or UTF-16 (with BOM) encoding. Files have snippet per line, in the form "name=value" or simply "name" (if value missed, it equals to name). Each snippet can be simple short string, or string with ${sel} macro to replace selected text. This allows to quote currently selected text by calling snippets from "Quote selection" folder.
 
-=CudaLint=
+== CudaLint ==
+
 CudaLint plugin allows to check correctness of documents in many syntaxes.
 It was initially ported from SublimeLinter 2.x plugin for Sublime Text. 
 Each lexer must be supported with additionally installed linter, for example:
@@ -154,7 +156,8 @@ Linters are installable like other plugins but they don't add commands, they onl
 "[CudaText]/py/cuda_lint_*", which are automatically used by CudaLint.
 After you install a linter, see readme in its folder, maybe how-to-use info is written there.
 
-==Linters - usage==
+=== Linters - usage ===
+
 To run linting, use menu item "Plugins / CudaLint / Lint", or set hotkey to this command
 (in CudaText Command Palette, press F9). You will see statusbar message, which tells how many errors
 linter found. For each found error, you'll see yellow/red bookmark (you can use usual commands
@@ -170,7 +173,8 @@ Linting can also be run by events:
 Events aren't used by default (to not slowdown usual work). To use events, you must enable them in config.
 Call config by menu item in "Options / Settings-plugins".
 
-==Linters - Node.js==
+=== Linters - Node.js ===
+
 Some linters require Node.js, so for those linters, you must install Node first.
 Those linters are sometimes shipped with Node modules preinstalled (in plugin folder)
 and sometimes you need to install Node modules via NPM.
@@ -179,7 +183,8 @@ See linter's readme file for details.
 * Windows: "node.exe" must be in PATH, command "node -v" must work in console.
 * Linux: "nodejs" package must be installed, command "nodejs -v" must work in terminal.
 
-==Linters - authoring==
+=== Linters - authoring ===
+
 To support more lexers, it's a good idea to port linter from SublimeLinter. To port a linter, most you need is:
 
 * Fix "imports" to use "cuda_lint" module, instead of SublimeLinter modules. cuda_lint gives almost the same classes which SublimeLinter gives. Except Node.js linter class - it's not supported yet. Usual Linter and PythonLinter classes are supported.
@@ -187,7 +192,8 @@ To support more lexers, it's a good idea to port linter from SublimeLinter. To p
 * Remove in linter usage of Sublime Text API to read settings (often used in linters). You can add usage of settings via CudaText API ini_read, or via json module.
 * If linter was using Node.js, take some code to run Node, from cuda_lint_csslint linter.
 
-==Linters - per project==
+=== Linters - per project ===
+
 How to configure linters per project? In your project (Project Manager plugin), right-click root node of project treeview, call menu item "Project file / Project properties...". In this dialog, in the "Variablies" field, enter variable(s) like this:
 
  linter_css=csslint
@@ -196,8 +202,9 @@ Variable prefix "linter_" required, after goes lower-case lexer name (CSS). Valu
 
 In this example, CudaLint plugin allows, for mentioned lexer CSS, only linter "csslint", even if another CSS linter (e.g. "csstree") is installed and found first.
 
-=External Tools=
-==Introduction==
+== External Tools ==
+
+=== Introduction ===
 
 Plugin "External Tools" (ExtTools) can be installed from Addon Manager. It allows to run external programs, catch their output, and display this output in the Output/Validate panels of CudaText. Or to insert/replace some text in the editor.
 Plugin adds "Tools" top menu (near "Plugins"), it has item to configure all tools, and items for individual tools.
@@ -208,7 +215,7 @@ Some external tools configs are shown in topics below. Enter these strings in th
 
 [[File:cudatext-tools-props.png]]
 
-==Tool to compile by GCC==
+=== Tool to compile by GCC ===
 
 You can test how this tool works on any Linux, because GCC is preinstalled. Test the tool on C++ example, which is created from CudaText by menu "File / New from template / C++".
 
@@ -227,7 +234,7 @@ Optionally, configure "Pattern", so double click in the Output panel will put ca
 
 * Pattern: (?P<file>[^:]+):(?P<line>\d+):(?P<col>\d+): .+
 
-==Tool to run C program==
+=== Tool to run C program ===
 
 Tool is for Linux, so "File name" don't have an extension. For Windows, change "File name" field to "{FileNameNoExt}.exe".
 
@@ -243,11 +250,12 @@ Tool will catch the program output in the Output panel, program text input will 
 * Encoding: utf_8
 * Pattern: (empty)
 
-==Tool to run C program, on Windows, with input in terminal==
+=== Tool to run C program, on Windows, with input in terminal ===
 
 Tool is for Windows, it allows to run compiled C/C++ program in new console window. Text input will work in this console.
 
 Example C++ program:
+
 <syntaxhighlight lang="C++">
 #include <stdio.h>
 int main ()
@@ -274,11 +282,12 @@ Tool props:
 * Encoding: utf_8
 * Pattern: (empty)
 
-==Tool to run C program, on Linux, with input in terminal==
+=== Tool to run C program, on Linux, with input in terminal ===
 
 Tool is for Linux, it allows to run compiled C/C++ program in new terminal window. Text input will work in this terminal window.
 
 Example C++ program:
+
 <syntaxhighlight lang="C++">
 #include <stdio.h>
 int main ()
@@ -308,7 +317,7 @@ Tool props:
 * Encoding: utf_8
 * Pattern: (empty)
 
-==Tool to compile+run C program==
+=== Tool to compile+run C program ===
 
 In the External Tools dialog, press Join button, to join 2 tools created in above steps. Properties of joined tool:
 
@@ -316,7 +325,8 @@ In the External Tools dialog, press Join button, to join 2 tools created in abov
 * Series: C - compile; C - run
 * Lexers: C,C++
 
-==Tool to run current Batch file==
+=== Tool to run current Batch file ===
+
 Tool properties:
 
 * Name: Run batch file
@@ -328,7 +338,7 @@ Tool properties:
 * Capture output: Output panel
 * Encoding: the same as file's encoding: e.g. utf_8 or cp1251 (cp1251 is Russian ANSI codepage)
 
-==Tool to compile by Free Pascal==
+=== Tool to compile by Free Pascal ===
 
 This tool is for Free Pascal 3.x on Linux x64.
 
@@ -347,10 +357,11 @@ Properties:
 
 Optionally, configure "Pattern", so double click in the Output panel will put caret to the source code. In the "Tool properties" dialog, press "Set" button near the "Pattern" and choose there ready preset for Free Pascal.
 
-==Tool to call file-compare utility ==
+=== Tool to call file-compare utility ===
+
 Tools, which call file-compare utility, to compare 2 files: active files in group-1 and group-2.
 
-===WinMerge, KDiff, Kompare===
+==== WinMerge, KDiff, Kompare====
 
 * Name: Compare files in G1, G2
 * File name: (full name of executable file)
@@ -359,7 +370,7 @@ Tools, which call file-compare utility, to compare 2 files: active files in grou
 * Initial folder: (empty)
 * Capture output: Ignore
 
-===Meld===
+==== Meld ====
 
 * Name: Compare files in G1, G2
 * File name: (full name of executable file)
@@ -368,7 +379,7 @@ Tools, which call file-compare utility, to compare 2 files: active files in grou
 * Initial folder: (empty)
 * Capture output: Ignore
 
-===diff===
+==== diff ====
 
 * Name: Compare files in G1, G2
 * File name: diff
@@ -377,7 +388,7 @@ Tools, which call file-compare utility, to compare 2 files: active files in grou
 * Initial folder: (empty)
 * Capture output: Copy to new document
 
-==Tool to run Python scripts==
+=== Tool to run Python scripts ===
 
 * Name: Python3
 * File name:
@@ -393,7 +404,7 @@ Tools, which call file-compare utility, to compare 2 files: active files in grou
 * Encoding: utf_8
 * Pattern: \s*File "(?P<file>.+)", line (?P<line>\d+)
 
-==Tool to open PHP documentation with given topic==
+=== Tool to open PHP documentation with given topic ===
 
 Tool to open PHP documentation, in .chm format, for the word under editor's caret. For Windows only. You need to install KeyHH from http://keyworks.helpmvp.com/ , it is stable tool mentioned on several sites. Program "keyhh.exe" will be in your system PATH.
 
@@ -412,7 +423,7 @@ Tool properties:
 * Save before: Nothing
 * Capture output: Ignore
 
-==Tool to open AutoIt documentation with given topic==
+=== Tool to open AutoIt documentation with given topic ===
 
 Tool to open AutoIt documentation, in .chm format, for the word under editor's caret. For Windows only. You need to install KeyHH from http://keyworks.helpmvp.com/ , it is stable tool mentioned on several sites. Program "keyhh.exe" will be in your system PATH.
 
@@ -429,7 +440,7 @@ Tool properties:
 * Save before: Nothing
 * Capture output: Ignore
 
-==Tool to open .chm documentation for all lexers==
+=== Tool to open .chm documentation for all lexers ===
 
 See above example about tool for PHP documentation. Create the similar tool
 
@@ -440,17 +451,19 @@ See above example about tool for PHP documentation. Create the similar tool
 
 This tool needs renamed .chm files: for lexer AutoIt it needs "AutoIt.chm" and so on. It needs .chm files in a single folder relative to CudaText folder.
 
-==URL for Google search==
+=== URL for Google search ===
 
 This is URL, not tool. In the External Tools dialog, press URL button, then press Add to add a new URL.
 
 * Name: Google find
 * URL:
+
 <syntaxhighlight lang="text">
 http://google.com/search?q={SelectedText|q}
 </syntaxhighlight>
 
-==Tool to open folder of current file in Windows Explorer==
+=== Tool to open folder of current file in Windows Explorer ===
+
 Tool properties:
 
 * Name: Open cur dir in Explorer
@@ -459,7 +472,8 @@ Tool properties:
 * Parameters: {FileDir}
 * Initial folder: {FileDir}
 
-==Tool to go to current file in FreeCommander==
+=== Tool to go to current file in FreeCommander ===
+
 * Name: Go to file in FreeCommander
 * File name: path\to\FreeCommander.exe
 * Shell command: unchecked
