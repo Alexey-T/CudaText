@@ -219,8 +219,8 @@ object SyntAnal9: TLibSyntAnalyzer
       StyleName = 'Id func name'
       TokenType = 2
       Expression = 
-        '(?r)(?<=\bfunction\x20+)[\$\w\x{200C}\x{200D}]+ | (?<=\bclass\x2' +
-        '0+)[\$\w\x{200C}\x{200D}]+'
+        '(?r)(?<=\bfunction\*?\x20+)[\$\w\x{200C}\x{200D}]+ | (?<=\bclass' +
+        '\x20+)[\$\w\x{200C}\x{200D}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -713,6 +713,12 @@ object SyntAnal9: TLibSyntAnalyzer
         end
         item
           TokenTypes = 4
+        end
+        item
+          TagList.Strings = (
+            '*')
+          CondType = tcSkip
+          TokenTypes = 8
         end
         item
           TagList.Strings = (
