@@ -3,12 +3,13 @@
   - fixed
   * changed
 
-1.112.3 (2020/09)
+1.112.5 (2020/09)
 
-+ add: Windows: top menu bar is themed too
-+ add: for files bigger than 50Mb, editor won't detect file encoding and force UTF8
++ add: option "numbers_style" has additional value for "relative" line numbers, almost like in VSCode
++ add: Windows: top menu bar is themed
 + add: dialog "File is too big" shows file size in Mb
 + add: dialog "File is maybe not text" must not appear at all for too big files
++ add: for files bigger than 50Mb, editor won't detect file encoding and force UTF8 (reason: much slower loading for non-UTF8 encoding)
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Tabs_features
 - fix: few bugs in lexers C++, JavaScript
 

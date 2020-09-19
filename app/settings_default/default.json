@@ -348,6 +348,7 @@
   //  1: don't show
   //  2: show for each 10th line
   //  3: show for each 5th line
+  //  4: show relative numbers: exact number for first caret, and deltas for other lines
   "numbers_style": 0,
 
   //Always show numbers for line(s) with caret(s)
