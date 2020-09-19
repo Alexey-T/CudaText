@@ -10,6 +10,7 @@
 + add: dialog "File is too big" shows file size in Mb
 + add: dialog "File is maybe not text" must not appear at all for too big files
 + add: for files bigger than 50Mb, editor won't detect file encoding and force UTF8 (reason: much slower loading for non-UTF8 encoding)
++ add: Wiki page https://wiki.freepascal.org/CudaText_plugins
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Tabs_features
 - fix: few bugs in lexers C++, JavaScript
 
