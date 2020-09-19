@@ -176,12 +176,15 @@ begin
   CompletionOps.ColorFontParams:= GetAppColor(apclListCompleteParams);
 
   {$ifdef windows}
-  MenuStylerTheme.ColorBk:= GetAppColor(apclTabBg);
-  MenuStylerTheme.ColorBkSelected:= GetAppColor(apclTabOver);
-  MenuStylerTheme.ColorFont:= GetAppColor(apclTabFont);
-  MenuStylerTheme.ColorFontDisabled:= GetAppColor(apclTabBorderPassive);
-  MenuStylerTheme.ColorFontShortcut:= GetAppColor(apclTabFontActive);
-  MenuStyler.ApplyToForm(Self, true);
+  if UiOps.ThemedMainMenu then
+  begin
+    MenuStylerTheme.ColorBk:= GetAppColor(apclTabBg);
+    MenuStylerTheme.ColorBkSelected:= GetAppColor(apclTabOver);
+    MenuStylerTheme.ColorFont:= GetAppColor(apclTabFont);
+    MenuStylerTheme.ColorFontDisabled:= GetAppColor(apclTabBorderPassive);
+    MenuStylerTheme.ColorFontShortcut:= GetAppColor(apclTabFontActive);
+    MenuStyler.ApplyToForm(Self, true);
+  end;
   {$endif}
 end;
 

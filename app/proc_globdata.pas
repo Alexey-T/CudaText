@@ -192,6 +192,7 @@ type
     ThemeSyntax: string;
     ThemeUi_Loaded: boolean;
     ThemeSyntax_Loaded: boolean;
+    ThemedMainMenu: boolean;
 
     SidebarShow: boolean;
     SidebarOnRight: boolean;
@@ -1372,6 +1373,7 @@ begin
     ThemeSyntax:= '';
     ThemeUi_Loaded:= false;
     ThemeSyntax_Loaded:= false;
+    ThemedMainMenu:= true;
 
     AutocompleteHtml_Lexers:= '.*HTML.*|\bPHP\b';
     AutocompleteCss_Lexers:= 'CSS';
