@@ -16,6 +16,7 @@ uses
   StrUtils,
   LazFileUtils,
   ATStringProc,
+  ATStringProc_Separator,
   ATSynEdit_RegExpr,
   ec_RegExpr;
 

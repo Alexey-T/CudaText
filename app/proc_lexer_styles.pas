@@ -17,6 +17,7 @@ uses
   ec_syntax_format,
   proc_globdata,
   ATStringProc,
+  ATStringProc_Separator,
   ATStringProc_HtmlColor;
 
 procedure DoSaveLexerStyleToFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string);

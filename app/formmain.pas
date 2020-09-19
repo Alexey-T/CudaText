@@ -79,6 +79,7 @@ uses
   ATStatusBar,
   ATStrings,
   ATStringProc,
+  ATStringProc_Separator,
   ATGauge,
   ATBinHex,
   proc_str,

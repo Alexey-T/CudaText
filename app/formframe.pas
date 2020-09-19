@@ -32,6 +32,7 @@ uses
   ATSynEdit_Bookmarks,
   ATStrings,
   ATStringProc,
+  ATStringProc_Separator,
   ATStringProc_HtmlColor,
   ATCanvasPrimitives,
   ATButtons,

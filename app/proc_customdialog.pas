@@ -22,6 +22,7 @@ uses
   ATFlatToolbar,
   ATLinkLabel,
   ATStringProc,
+  ATStringProc_Separator,
   ATPanelColor,
   ATGauge,
   ATStatusBar,

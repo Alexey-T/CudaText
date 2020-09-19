@@ -23,6 +23,7 @@ uses
   ATSynEdit_Adapter_EControl,
   ATSynEdit_Finder,
   ATStringProc,
+  ATStringProc_Separator,
   ATListbox,
   ATPanelSimple,
   ATButtons,

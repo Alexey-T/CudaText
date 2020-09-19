@@ -34,6 +34,7 @@ uses
   ATSynEdit_Keymap_Init,
   ATSynEdit_Adapter_litelexer,
   ATStringProc,
+  ATStringProc_Separator,
   ATFlatThemes,
   ATListbox,
   ATStatusBar,

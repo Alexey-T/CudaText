@@ -57,6 +57,7 @@ uses
   IniFiles,
   Zipper,
   ATStringProc,
+  ATStringProc_Separator,
   ATSynEdit_Keymap,
   proc_files,
   proc_globdata,

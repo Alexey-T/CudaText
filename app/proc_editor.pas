@@ -29,6 +29,7 @@ uses
   ATSynEdit_Finder,
   ATStrings,
   ATStringProc,
+  ATStringProc_Separator,
   proc_globdata,
   proc_colors,
   proc_msg,
