@@ -5259,7 +5259,9 @@ begin
     BoundsRect:= FOrigBounds; //again
   end;
 
+  {$ifdef windows}
   MenuStyler.ApplyToForm(Self, true);
+  {$endif}
 end;
 
 function TfmMain.GetShowTabsMain: boolean;
