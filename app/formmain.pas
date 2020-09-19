@@ -5258,6 +5258,8 @@ begin
     BorderStyle:= bsSizeable;
     BoundsRect:= FOrigBounds; //again
   end;
+
+  MenuStyler.ApplyToForm(Self, true);
 end;
 
 function TfmMain.GetShowTabsMain: boolean;
