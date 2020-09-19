@@ -21,11 +21,13 @@ type
     ColorFontShortcut: TColor;
     CharCheckmark: WideChar;
     CharRadiomark: WideChar;
+    CharSubmenu: WideChar;
     FontName: string;
     FontSize: integer;
     IndentMinPercents: integer;
     IndentBigPercents: integer;
     IndentRightPercents: integer;
+    IndentSubmenuArrowPercents: integer;
   end;
 
 type
@@ -207,6 +209,27 @@ begin
       PChar(BufA),
       Length(BufA));
   end;
+
+  if (not mi.IsInMenuBar) and (mi.Count > 0) then
+  begin
+    if odDisabled in AState then
+      ACanvas.Font.Color:= MenuStylerTheme.ColorFontDisabled
+    else
+      ACanvas.Font.Color:= MenuStylerTheme.ColorFont;
+
+    Windows.TextOutW(ACanvas.Handle,
+      ARect.Right - Ext1.cx*MenuStylerTheme.IndentSubmenuArrowPercents div 100,
+      Y,
+      @MenuStylerTheme.CharSubmenu,
+      1);
+
+    //block OS drawing of submenu arrow
+    Windows.ExcludeClipRect(ACanvas.Handle,
+      ARect.Right - Ext1.cx*MenuStylerTheme.IndentRightPercents div 100,
+      ARect.Top,
+      ARect.Right,
+      ARect.Bottom);
+  end;
 end;
 
 initialization
@@ -221,12 +244,14 @@ initialization
     ColorFontDisabled:= clMedGray;
     ColorFontShortcut:= clYellow;
     CharCheckmark:= #$2713;
-    CharRadiomark:= #$25CF; //#$2022;
+    CharRadiomark:= #$25CF;
+    CharSubmenu:= #$2BC8;
     FontName:= 'default';
     FontSize:= 9;
     IndentMinPercents:= 50;
     IndentBigPercents:= 300;
     IndentRightPercents:= 250;
+    IndentSubmenuArrowPercents:= 150;
   end;
 
 finalization
