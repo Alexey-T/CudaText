@@ -140,6 +140,7 @@ var
   BufA: string;
   BufW: UnicodeString;
   Ext1, Ext2, ExtTall: Types.TSize;
+  NDrawFlags: UINT;
   R: TRect;
 begin
   mi:= Sender as TMenuItem;
@@ -179,12 +180,16 @@ begin
 
   Y:= (ARect.Top+ARect.Bottom-ExtTall.cy) div 2;
 
+  NDrawFlags:= 0;
+  if odNoAccel in AState then
+    NDrawFlags:= DT_HIDEPREFIX;
+
   BufW:= UTF8Decode(mi.Caption);
   R.Left:= ARect.Left+dx;
   R.Top:= Y;
   R.Right:= ARect.Right;
   R.Bottom:= ARect.Bottom;
-  Windows.DrawTextW(ACanvas.Handle, PWideChar(BufW), Length(BufW), R, 0);
+  Windows.DrawTextW(ACanvas.Handle, PWideChar(BufW), Length(BufW), R, NDrawFlags);
 
   if mi.Checked then
   begin
