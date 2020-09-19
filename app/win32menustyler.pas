@@ -23,6 +23,9 @@ type
     CharRadiomark: WideChar;
     FontName: string;
     FontSize: integer;
+    IndentMinPercents: integer;
+    IndentBigPercents: integer;
+    IndentRightPercents: integer;
   end;
 
 type
@@ -127,14 +130,14 @@ procedure TWin32MenuStyler.HandleMenuDrawItem(Sender: TObject; ACanvas: TCanvas;
   ARect: TRect; AState: TOwnerDrawState);
 const
   cSampleShort = '0';
-  cSampleBig = 'Wj';
+  cSampleTall = 'Wj';
 var
   mi: TMenuItem;
-  dx1, dx2, dxMin, Y: integer;
+  dx, dxMin, Y: integer;
   mark: WideChar;
   BufA: string;
   BufW: UnicodeString;
-  Ext1, Ext2: Types.TSize;
+  Ext1, Ext2, ExtTall: Types.TSize;
   R: TRect;
 begin
   mi:= Sender as TMenuItem;
@@ -146,8 +149,7 @@ begin
   ACanvas.FillRect(ARect);
 
   Windows.GetTextExtentPoint(ACanvas.Handle, PChar(cSampleShort), Length(cSampleShort), Ext1);
-  dx1:= Ext1.cx;
-  dxMin:= dx1 div 3;
+  dxMin:= Ext1.cx * MenuStylerTheme.IndentMinPercents div 100;
 
   if mi.IsLine then
   begin
@@ -166,17 +168,17 @@ begin
   ACanvas.Font.Size:= MenuStylerTheme.FontSize;
   ACanvas.Font.Style:= [];
 
-  Windows.GetTextExtentPoint(ACanvas.Handle, PChar(cSampleBig), Length(cSampleBig), Ext2);
+  Windows.GetTextExtentPoint(ACanvas.Handle, PChar(cSampleTall), Length(cSampleTall), ExtTall);
 
   if mi.IsInMenuBar then
-    dx2:= dx1
+    dx:= Ext1.cx
   else
-    dx2:= Ext2.cx;
+    dx:= Ext1.cx * MenuStylerTheme.IndentBigPercents div 100;
 
-  Y:= (ARect.Top+ARect.Bottom-Ext2.cy) div 2;
+  Y:= (ARect.Top+ARect.Bottom-ExtTall.cy) div 2;
 
   BufW:= UTF8Decode(mi.Caption);
-  R.Left:= ARect.Left+dx2;
+  R.Left:= ARect.Left+dx;
   R.Top:= Y;
   R.Right:= ARect.Right;
   R.Bottom:= ARect.Bottom;
@@ -193,10 +195,17 @@ begin
 
   if mi.ShortCut<>0 then
   begin
+    if odDisabled in AState then
+      ACanvas.Font.Color:= MenuStylerTheme.ColorFontDisabled
+    else
+      ACanvas.Font.Color:= MenuStylerTheme.ColorFontShortcut;
     BufA:= ShortCutToText(mi.Shortcut);
-    ACanvas.Font.Color:= MenuStylerTheme.ColorFontShortcut;
     Windows.GetTextExtentPoint(ACanvas.Handle, PChar(BufA), Length(BufA), Ext2);
-    Windows.TextOut(ACanvas.Handle, ARect.Right-dx2-Ext2.cx, Y, PChar(BufA), Length(BufA));
+    Windows.TextOut(ACanvas.Handle,
+      ARect.Right - Ext2.cx - Ext1.cx*MenuStylerTheme.IndentRightPercents div 100,
+      Y,
+      PChar(BufA),
+      Length(BufA));
   end;
 end;
 
@@ -215,6 +224,9 @@ initialization
     CharRadiomark:= #$25CF; //#$2022;
     FontName:= 'default';
     FontSize:= 9;
+    IndentMinPercents:= 50;
+    IndentBigPercents:= 300;
+    IndentRightPercents:= 250;
   end;
 
 finalization
