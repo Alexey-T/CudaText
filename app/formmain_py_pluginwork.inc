@@ -343,48 +343,48 @@ begin
   if Assigned(mnuOpPlugins) then
     mnuOpPlugins.Clear;
 
-    for i:= 0 to AppCommandList.Count-1 do
+  for i:= 0 to AppCommandList.Count-1 do
+  begin
+    CmdItem:= TAppCommandInfo(AppCommandList[i]);
+    if CmdItem.ItemModule='' then Break;
+    if CmdItem.ItemFromApi then Continue;
+
+    SCaption:= CmdItem.ItemCaption;
+    SInMenu:= CmdItem.ItemInMenu;
+    if SInMenu='0' then Continue;
+
+    //translate menu items using files data/langmenu/cuda_nnnnn/ru_RU.ini
+    if LastModule<>CmdItem.ItemModule then
     begin
-      CmdItem:= TAppCommandInfo(AppCommandList[i]);
-      if CmdItem.ItemModule='' then Break;
-      if CmdItem.ItemFromApi then Continue;
+      LastModule:= CmdItem.ItemModule;
 
-      SCaption:= CmdItem.ItemCaption;
-      SInMenu:= CmdItem.ItemInMenu;
-      if SInMenu='0' then Continue;
+      LangFN:= '';
+      if UiOps.LangName<>'' then
+        LangFN:= AppDir_Data+DirectorySeparator+
+                 'langmenu'+DirectorySeparator+
+                 CmdItem.ItemModule+DirectorySeparator+
+                 UiOps.LangName+'.ini';
 
-      //translate menu items using files data/langmenu/cuda_nnnnn/ru_RU.ini
-      if LastModule<>CmdItem.ItemModule then
+      if Assigned(LangFile) then
+        FreeAndNil(LangFile);
+
+      if (LangFN<>'') and FileExists(LangFN) then
       begin
-        LastModule:= CmdItem.ItemModule;
-
-        LangFN:= '';
-        if UiOps.LangName<>'' then
-          LangFN:= AppDir_Data+DirectorySeparator+
-                   'langmenu'+DirectorySeparator+
-                   CmdItem.ItemModule+DirectorySeparator+
-                   UiOps.LangName+'.ini';
-
-        if Assigned(LangFile) then
-          FreeAndNil(LangFile);
-
-        if (LangFN<>'') and FileExists(LangFN) then
-        begin
-          //ShowMessage('create ini: '+LangFN);
-          LangFile:= TMemIniFile.Create(LangFN
-            {$if FPC_FULLVERSION>=30200}, TEncoding.UTF8 {$endif});
-        end;
+        //ShowMessage('create ini: '+LangFN);
+        LangFile:= TMemIniFile.Create(LangFN
+          {$if FPC_FULLVERSION>=30200}, TEncoding.UTF8 {$endif});
       end;
-
-      //add to Plugins
-      if (SInMenu='') or (Pos('p', SInMenu)>0) then
-        DoOps_AddPluginMenuItem(GroupValue(SCaption)+SCaption, mnuPlugins, LangFile, i);
-
-      //add to Settings-plugins
-      if Assigned(mnuOpPlugins) then
-      if Pos('o', SInMenu)>0 then
-        DoOps_AddPluginMenuItem(SCaption, mnuOpPlugins, LangFile, i);
     end;
+
+    //add to Plugins
+    if (SInMenu='') or (Pos('p', SInMenu)>0) then
+      DoOps_AddPluginMenuItem(GroupValue(SCaption)+SCaption, mnuPlugins, LangFile, i);
+
+    //add to Settings-plugins
+    if Assigned(mnuOpPlugins) then
+    if Pos('o', SInMenu)>0 then
+      DoOps_AddPluginMenuItem(SCaption, mnuOpPlugins, LangFile, i);
+  end;
 end;
 
 procedure TfmMain.UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean = false);
