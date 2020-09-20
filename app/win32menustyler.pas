@@ -140,7 +140,7 @@ const
 var
   mi: TMenuItem;
   Images: TCustomImageList;
-  IconW, IconH: integer;
+  IconW: integer;
   dx, dxCell, dxMin, dxBig, Y: integer;
   ExtCell, ExtTall, Ext2: Types.TSize;
   NDrawFlags: UINT;
@@ -153,6 +153,7 @@ begin
   bDisabled:= odDisabled in AState;
   bInBar:= mi.IsInMenuBar;
   bHasSubmenu:= (not bInBar) and (mi.Count>0);
+  IconW:= 0;
 
   if odSelected in AState then
     ACanvas.Brush.Color:= MenuStylerTheme.ColorBkSelected
@@ -165,21 +166,12 @@ begin
   dxMin:= dxCell * MenuStylerTheme.IndentMinPercents div 100;
   dxBig:= dxCell * MenuStylerTheme.IndentBigPercents div 100;
 
-  IconW:= 0;
-  IconH:= 0;
-
   if Assigned(mi.Bitmap) then
-  begin
     IconW:= mi.Bitmap.Width;
-    IconH:= mi.Bitmap.Height;
-  end;
 
   Images:= mi.GetParentMenu.Images;
   if Assigned(Images) then
-  begin
     IconW:= Max(IconW, Images.Width);
-    IconH:= Max(IconH, Images.Height);
-  end;
 
   if IconW>0 then
     dxBig:= Max(dxBig, IconW + dxCell * MenuStylerTheme.IndentIconPercents * 2 div 100);
