@@ -140,6 +140,7 @@ const
 var
   mi: TMenuItem;
   Images: TCustomImageList;
+  IconW, IconH: integer;
   dx, dxCell, dxMin, dxBig, Y: integer;
   ExtCell, ExtTall, Ext2: Types.TSize;
   NDrawFlags: UINT;
@@ -164,9 +165,24 @@ begin
   dxMin:= dxCell * MenuStylerTheme.IndentMinPercents div 100;
   dxBig:= dxCell * MenuStylerTheme.IndentBigPercents div 100;
 
+  IconW:= 0;
+  IconH:= 0;
+
+  if Assigned(mi.Bitmap) then
+  begin
+    IconW:= mi.Bitmap.Width;
+    IconH:= mi.Bitmap.Height;
+  end;
+
   Images:= mi.GetParentMenu.Images;
   if Assigned(Images) then
-    dxBig:= Max(dxBig, Images.Width + dxCell * MenuStylerTheme.IndentIconPercents * 2 div 100);
+  begin
+    IconW:= Max(IconW, Images.Width);
+    IconH:= Max(IconH, Images.Height);
+  end;
+
+  if IconW>0 then
+    dxBig:= Max(dxBig, IconW + dxCell * MenuStylerTheme.IndentIconPercents * 2 div 100);
 
   if mi.IsLine then
   begin
@@ -206,10 +222,18 @@ begin
   R.Bottom:= ARect.Bottom;
   Windows.DrawTextW(ACanvas.Handle, PWideChar(BufW), Length(BufW), R, NDrawFlags);
 
+  if (not bInBar) and Assigned(mi.Bitmap) and (mi.Bitmap.Width>0) then
+  begin
+    ACanvas.Draw(
+      ARect.Left + (dx-mi.Bitmap.Width) div 2,
+      (ARect.Top+ARect.Bottom-mi.Bitmap.Height) div 2,
+      mi.Bitmap);
+  end
+  else
   if (not bInBar) and Assigned(Images) and (mi.ImageIndex>=0) then
   begin
     Images.Draw(ACanvas,
-      dxCell * MenuStylerTheme.IndentIconPercents div 100,
+      ARect.Left + (dx-Images.Width) div 2,
       (ARect.Top+ARect.Bottom-Images.Height) div 2,
       mi.ImageIndex, not bDisabled);
   end
