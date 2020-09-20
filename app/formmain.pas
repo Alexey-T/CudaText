@@ -7378,7 +7378,8 @@ end;
 procedure TfmMain.UpdateMainMenuTheming(AllowResize: boolean);
 begin
   {$ifdef windows}
-  MenuStyler.ApplyToForm(Self, AllowResize);
+  if UiOps.ThemedMainMenu then
+    MenuStyler.ApplyToForm(Self, AllowResize);
   {$endif}
 end;
 
