@@ -1007,6 +1007,7 @@ type
     procedure SplitterOnPaint_Gr(Sender: TObject);
     procedure SplitterOnPaint_Main(Sender: TObject);
     procedure StopAllTimers;
+    procedure UpdateMainMenuTheming(AllowResize: boolean);
     procedure UpdateMenuRecents(sub: TMenuItem);
     procedure UpdateSidebarButtonOverlay;
     procedure UpdateEditorTabsize(AValue: integer);
@@ -5260,9 +5261,7 @@ begin
     BoundsRect:= FOrigBounds; //again
   end;
 
-  {$ifdef windows}
-  MenuStyler.ApplyToForm(Self, true);
-  {$endif}
+  UpdateMainMenuTheming(true);
 end;
 
 function TfmMain.GetShowTabsMain: boolean;
@@ -7374,6 +7373,13 @@ begin
   FCfmPanel.Left:= P.X - FCfmPanel.Width div 2;
   FCfmPanel.Top:= P.Y - FCfmPanel.Height div 2;
   FCfmPanel.Show;
+end;
+
+procedure TfmMain.UpdateMainMenuTheming(AllowResize: boolean);
+begin
+  {$ifdef windows}
+  MenuStyler.ApplyToForm(Self, AllowResize);
+  {$endif}
 end;
 
 //----------------------------

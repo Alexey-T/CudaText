@@ -183,7 +183,7 @@ begin
     MenuStylerTheme.ColorFont:= GetAppColor(apclTabFont);
     MenuStylerTheme.ColorFontDisabled:= GetAppColor(apclTabBorderPassive);
     MenuStylerTheme.ColorFontShortcut:= GetAppColor(apclTabFontActive);
-    MenuStyler.ApplyToForm(Self, true);
+    UpdateMainMenuTheming(true);
   end;
   {$endif}
 end;

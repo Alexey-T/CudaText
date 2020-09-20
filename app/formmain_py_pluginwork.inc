@@ -385,6 +385,7 @@ begin
     if Pos('o', SInMenu)>0 then
       DoOps_AddPluginMenuItem(SCaption, mnuOpPlugins, LangFile, i);
   end;
+
 end;
 
 procedure TfmMain.UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean = false);
