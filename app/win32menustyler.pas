@@ -17,6 +17,7 @@ type
   TWin32MenuStylerTheme = record
     ColorBk: TColor;
     ColorBkSelected: TColor;
+    ColorBorder: TColor; //used only if <>clNone
     ColorFont: TColor;
     ColorFontDisabled: TColor;
     ColorFontShortcut: TColor;
@@ -25,11 +26,12 @@ type
     CharSubmenu: WideChar;
     FontName: string;
     FontSize: integer;
-    IndentMinPercents: integer;
-    IndentBigPercents: integer;
-    IndentIconPercents: integer;
-    IndentRightPercents: integer;
-    IndentSubmenuArrowPercents: integer;
+    //indents in percents of avarage char width
+    IndentMinPercents: integer; //indent from edges to separator line
+    IndentBigPercents: integer; //indent from left edge to caption
+    IndentIconPercents: integer; //indents around the icon
+    IndentRightPercents: integer; //indent from right edge to end of shortcut text
+    IndentSubmenuArrowPercents: integer; //indent from right edge to submenu '>' char
   end;
 
 type
@@ -156,10 +158,19 @@ begin
   IconW:= 0;
 
   if odSelected in AState then
-    ACanvas.Brush.Color:= MenuStylerTheme.ColorBkSelected
+  begin
+    ACanvas.Brush.Color:= MenuStylerTheme.ColorBkSelected;
+    if MenuStylerTheme.ColorBorder<>clNone then
+      ACanvas.Pen.Color:= MenuStylerTheme.ColorBorder
+    else
+      ACanvas.Pen.Color:= MenuStylerTheme.ColorBkSelected;
+    ACanvas.Rectangle(ARect);
+  end
   else
+  begin
     ACanvas.Brush.Color:= MenuStylerTheme.ColorBk;
-  ACanvas.FillRect(ARect);
+    ACanvas.FillRect(ARect);
+  end;
 
   Windows.GetTextExtentPoint(ACanvas.Handle, PChar(cSampleShort), Length(cSampleShort), ExtCell);
   dxCell:= ExtCell.cx;
@@ -262,7 +273,7 @@ begin
       ACanvas.Font.Color:= MenuStylerTheme.ColorFont;
 
     Windows.TextOutW(ACanvas.Handle,
-      ARect.Right - dxCell*MenuStylerTheme.IndentSubmenuArrowPercents div 100,
+      ARect.Right - dxCell*MenuStylerTheme.IndentSubmenuArrowPercents div 100 - 2,
       Y,
       @MenuStylerTheme.CharSubmenu,
       1);
@@ -294,6 +305,7 @@ initialization
   begin
     ColorBk:= clDkGray;
     ColorBkSelected:= clNavy;
+    ColorBorder:= clNone;
     ColorFont:= clWhite;
     ColorFontDisabled:= clMedGray;
     ColorFontShortcut:= clYellow;
