@@ -133,8 +133,8 @@ object fmMain: TfmMain
     end
   end
   object MainMenu: TMainMenu
-    Left = 496
-    Top = 16
+    left = 496
+    top = 16
     object mnuFile: TMenuItem
       Caption = '&File'
       object mnuFileNew: TMenuItem
@@ -697,15 +697,15 @@ object fmMain: TfmMain
   object TimerStatusClear: TTimer
     Enabled = False
     OnTimer = TimerStatusClearTimer
-    Left = 240
-    Top = 32
+    left = 240
+    top = 32
   end
   object TimerCmd: TTimer
     Enabled = False
     Interval = 150
     OnTimer = TimerCmdTimer
-    Left = 320
-    Top = 16
+    left = 320
+    top = 16
   end
   object AppProps: TApplicationProperties
     ShowButtonGlyphs = sbgNever
@@ -713,25 +713,25 @@ object fmMain: TfmMain
     OnDeactivate = AppPropsActivate
     OnEndSession = AppPropsEndSession
     OnQueryEndSession = AppPropsQueryEndSession
-    Left = 520
-    Top = 424
+    left = 520
+    top = 424
   end
   object PopupRecents: TPopupMenu
     OnPopup = PopupRecentsPopup
-    Left = 560
-    Top = 32
+    left = 560
+    top = 32
   end
   object TimerTreeFill: TTimer
     Enabled = False
     Interval = 2000
     OnTimer = TimerTreeFillTimer
-    Left = 320
-    Top = 72
+    left = 320
+    top = 72
   end
   object ImageListBm: TImageList
     AllocBy = 10
-    Left = 664
-    Top = 232
+    left = 664
+    top = 232
     Bitmap = {
       4C7A0A00000010000000100000002D0200000000000078DAED994F4B024118C6
       FD187E003F8374113A78B54BD2A13F1008116187CC20940E5D3A441478088282
@@ -756,8 +756,8 @@ object fmMain: TfmMain
   end
   object PopupText: TPopupMenu
     OnPopup = PopupTextPopup
-    Left = 560
-    Top = 96
+    left = 560
+    top = 96
     object mnuTextUndo: TMenuItem
       Caption = 'Undo'
     end
@@ -796,20 +796,20 @@ object fmMain: TfmMain
     Enabled = False
     Interval = 6000
     OnTimer = TimerTooltipTimer
-    Left = 240
-    Top = 88
+    left = 240
+    top = 88
   end
   object ImageListSide: TImageList
     AllocBy = 8
     Height = 20
     Width = 20
-    Left = 721
-    Top = 263
+    left = 721
+    top = 263
   end
   object ImageListTabs: TImageList
     AllocBy = 20
-    Left = 736
-    Top = 216
+    left = 736
+    top = 216
     Bitmap = {
       4C7A0200000010000000100000008D0000000000000078DAED934B0EC0200844
       393CF7C6D8804203F8DB348D18E28637026600FE1B884850CF092B67874758D6
@@ -823,14 +823,14 @@ object fmMain: TfmMain
     AutoEnabled = True
     Interval = 300
     OnTimer = TimerAppIdleTimer
-    Left = 392
-    Top = 88
+    left = 392
+    top = 88
   end
   object TimerStatusWork: TTimer
     Enabled = False
     Interval = 300
     OnTimer = TimerStatusWorkTimer
-    Left = 392
-    Top = 32
+    left = 392
+    top = 32
   end
 end

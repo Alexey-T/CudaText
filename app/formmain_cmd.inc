@@ -302,6 +302,8 @@ begin
       DoOps_FontSizeChange(-1);
     cmd_OpsFontSizeReset:
       DoOps_FontSizeReset;
+    cmd_FindPythonLib:
+      DoOps_FindPythonLib;
 
     cmd_ResetPythonPlugins:
       DoPyResetPlugins;

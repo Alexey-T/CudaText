@@ -905,6 +905,7 @@ type
     procedure DoOps_SaveHistory;
     procedure DoOps_SaveHistory_GroupView(cfg: TJsonConfig);
     procedure DoOps_SaveOptionBool(const APath: string; AValue: boolean);
+    procedure DoOps_SaveOptionString(const APath, AValue: string);
     procedure DoOps_SaveThemes;
     procedure DoOps_LoadHistory;
     procedure DoOps_LoadHistory_GroupView(cfg: TJsonConfig);
@@ -926,6 +927,7 @@ type
     procedure DoOps_LoadOptions(const fn: string; var Op: TEditorOps;
       AllowUiOps: boolean=true; AllowGlobalOps: boolean=true);
     procedure DoOps_LoadOptionsFromString(const AString: string);
+    procedure DoOps_FindPythonLib;
     procedure DoEditorsLock(ALock: boolean);
     procedure DoFindCurrentWordOrSel(Ed: TATSynEdit; ANext, AWordOrSel: boolean);
     procedure DoDialogCommands;
@@ -7382,6 +7384,44 @@ begin
     MenuStyler.ApplyToForm(Self, AllowResize);
   {$endif}
 end;
+
+procedure TfmMain.DoOps_FindPythonLib;
+const
+  SInitDir = '/usr';
+  SFileMask = 'libpython3.*so*';
+var
+  L: TStringList;
+  N: integer;
+  S: string;
+begin
+  {$ifdef windows}
+  exit;
+  {$endif}
+
+  if MsgBox(
+    Format(msgPythonCommandIsSlow, [SFileMask, SInitDir]),
+    MB_OKCANCEL+MB_ICONQUESTION) <> ID_OK then exit;
+
+  L:= TStringList.Create;
+  try
+    FindAllFiles(L, SInitDir, SFileMask, true{SubDirs});
+    if L.Count=0 then
+    begin
+      MsgStatus(msgCannotFindPython);
+      exit
+    end;
+
+    N:= DoDialogMenuList(msgPythonLibsList, L, 0);
+    if N<0 then exit;
+    S:= L[N];
+
+    DoOps_SaveOptionString('pylib'+cOptionSystemSuffix, S);
+    MsgStatus(msgSavedTheOption);
+  finally
+    FreeAndNil(L);
+  end;
+end;
+
 
 //----------------------------
 {$I formmain_loadsave.inc}

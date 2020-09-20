@@ -115,6 +115,7 @@ const
   cmd_ShowPanelValidate_AndFocus  = 2563;
   cmd_ToggleSidePanelAndSyntaxTree = 2565;
   cmd_OpsFontSizeReset = 2566;
+  cmd_FindPythonLib = 2567;
 
   cmd_ChooseTranslation = 2570;
   cmd_ChooseThemeUI     = 2571;
@@ -383,6 +384,7 @@ begin
   M.Add(cmd_ResetPythonPlugins, 'plugins: reset python plugins', [], []);
   M.Add(cmd_RunLastCommandPlugin, 'plugins: run last command plugin', [], []);
   M.Add(cmd_RescanPythonPluginsInfFiles, 'plugins: rescan python plugins inf-files', [], []);
+  M.Add(cmd_FindPythonLib, 'plugins: find python library in OS', [], []);
 
   M.Add(cmd_ToggleFullScreen, 'ui: toggle full-screen mode', [{$ifndef darwin}'F11'{$else}'Ctrl+Meta+F'{$endif}], []);
   M.Add(cmd_ToggleDistractionFree, 'ui: toggle distraction-free mode', [{$ifndef darwin}'Alt+F11'{$else}'Ctrl+Meta+G'{$endif}], []);
@@ -700,10 +702,12 @@ begin
     cmd_ToggleToolbar,
     cmd_ToggleStatusbar,
     cmd_ToggleUiTabs,
-    cmd_ResetPythonPlugins,
     cmd_DialogCharMap,
     cmd_RunLastCommandPlugin,
+
+    cmd_ResetPythonPlugins,
     cmd_RescanPythonPluginsInfFiles,
+    cmd_FindPythonLib,
 
     cmd_DialogGotoBookmark,
     cmd_DialogCommands,
@@ -851,6 +855,9 @@ begin
     cmd_MenuEnc,
     cmd_MenuEnds,
     cmd_MenuLexers,
+    cmd_ResetPythonPlugins,
+    cmd_RescanPythonPluginsInfFiles,
+    cmd_FindPythonLib,
     cmd_HelpAbout,
     cmd_HelpCheckUpdates,
     cmd_HelpForum,

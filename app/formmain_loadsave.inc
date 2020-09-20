@@ -26,6 +26,26 @@ begin
   end;
 end;
 
+procedure TfmMain.DoOps_SaveOptionString(const APath, AValue: string);
+var
+  cfg: TJSONConfig;
+begin
+  cfg:= TJSONConfig.Create(nil);
+  try
+    try
+      cfg.Formatted:= true; //needs last at__jsonconf.pp
+      cfg.Filename:= AppFile_OptionsUser;
+    except
+      exit;
+    end;
+
+    cfg.SetValue(APath, AValue);
+  finally
+    cfg.Free;
+  end;
+end;
+
+
 procedure TfmMain.DoOps_SaveThemes;
 var
   cfg: TJSONConfig;
@@ -715,7 +735,6 @@ begin
     DeleteFileUTF8(fn);
   end;
 end;
-
 
 procedure TfmMain.DoOps_LoadOptions_Global(cfg: TJSONConfig);
 var
