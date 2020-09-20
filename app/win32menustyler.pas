@@ -10,7 +10,8 @@ interface
 
 uses
   Windows, SysUtils, Classes, Graphics, Menus, Forms,
-  Types, LCLType, LCLProc;
+  Types, LCLType, LCLProc,
+  ImgList;
 
 type
   TWin32MenuStylerTheme = record
@@ -135,15 +136,20 @@ const
   cSampleTall = 'Wj';
 var
   mi: TMenuItem;
-  dx, dxMin, Y: integer;
+  dx, dxCell, dxMin, dxBig, Y: integer;
   mark: WideChar;
   BufA: string;
   BufW: UnicodeString;
-  Ext1, Ext2, ExtTall: Types.TSize;
+  ExtCell, ExtTall, Ext2: Types.TSize;
   NDrawFlags: UINT;
+  Images: TCustomImageList;
+  bDisabled, bInBar, bHasSubmenu: boolean;
   R: TRect;
 begin
   mi:= Sender as TMenuItem;
+  bDisabled:= odDisabled in AState;
+  bInBar:= mi.IsInMenuBar;
+  bHasSubmenu:= (not bInBar) and (mi.Count>0);
 
   if odSelected in AState then
     ACanvas.Brush.Color:= MenuStylerTheme.ColorBkSelected
@@ -151,8 +157,14 @@ begin
     ACanvas.Brush.Color:= MenuStylerTheme.ColorBk;
   ACanvas.FillRect(ARect);
 
-  Windows.GetTextExtentPoint(ACanvas.Handle, PChar(cSampleShort), Length(cSampleShort), Ext1);
-  dxMin:= Ext1.cx * MenuStylerTheme.IndentMinPercents div 100;
+  Windows.GetTextExtentPoint(ACanvas.Handle, PChar(cSampleShort), Length(cSampleShort), ExtCell);
+  dxCell:= ExtCell.cx;
+  dxMin:= dxCell * MenuStylerTheme.IndentMinPercents div 100;
+  dxBig:= dxCell * MenuStylerTheme.IndentBigPercents div 100;
+
+  Images:= mi.GetParentMenu.Images;
+  if Assigned(Images) then
+    dxBig:= Max(dxBig, Images.Width + dxCell div 2);
 
   if mi.IsLine then
   begin
@@ -162,7 +174,7 @@ begin
     exit;
   end;
 
-  if odDisabled in AState then
+  if bDisabled then
     ACanvas.Font.Color:= MenuStylerTheme.ColorFontDisabled
   else
     ACanvas.Font.Color:= MenuStylerTheme.ColorFont;
@@ -173,16 +185,17 @@ begin
 
   Windows.GetTextExtentPoint(ACanvas.Handle, PChar(cSampleTall), Length(cSampleTall), ExtTall);
 
-  if mi.IsInMenuBar then
-    dx:= Ext1.cx
+  if bInBar then
+    dx:= dxCell
   else
-    dx:= Ext1.cx * MenuStylerTheme.IndentBigPercents div 100;
+    dx:= dxBig;
 
   Y:= (ARect.Top+ARect.Bottom-ExtTall.cy) div 2;
 
-  NDrawFlags:= 0;
   if odNoAccel in AState then
-    NDrawFlags:= DT_HIDEPREFIX;
+    NDrawFlags:= DT_HIDEPREFIX
+  else
+    NDrawFlags:= 0;
 
   BufW:= UTF8Decode(mi.Caption);
   R.Left:= ARect.Left+dx;
@@ -191,6 +204,12 @@ begin
   R.Bottom:= ARect.Bottom;
   Windows.DrawTextW(ACanvas.Handle, PWideChar(BufW), Length(BufW), R, NDrawFlags);
 
+  if (not bInBar) and Assigned(Images) and (mi.ImageIndex>=0) then
+  begin
+    Images.Draw(ACanvas, 0, (ARect.Top+ARect.Bottom-Images.Height) div 2,
+      mi.ImageIndex, not bDisabled);
+  end
+  else
   if mi.Checked then
   begin
     if mi.RadioItem then
@@ -202,35 +221,35 @@ begin
 
   if mi.ShortCut<>0 then
   begin
-    if odDisabled in AState then
+    if bDisabled then
       ACanvas.Font.Color:= MenuStylerTheme.ColorFontDisabled
     else
       ACanvas.Font.Color:= MenuStylerTheme.ColorFontShortcut;
     BufA:= ShortCutToText(mi.Shortcut);
     Windows.GetTextExtentPoint(ACanvas.Handle, PChar(BufA), Length(BufA), Ext2);
     Windows.TextOut(ACanvas.Handle,
-      ARect.Right - Ext2.cx - Ext1.cx*MenuStylerTheme.IndentRightPercents div 100,
+      ARect.Right - Ext2.cx - dxCell*MenuStylerTheme.IndentRightPercents div 100,
       Y,
       PChar(BufA),
       Length(BufA));
   end;
 
-  if (not mi.IsInMenuBar) and (mi.Count > 0) then
+  if bHasSubmenu then
   begin
-    if odDisabled in AState then
+    if bDisabled then
       ACanvas.Font.Color:= MenuStylerTheme.ColorFontDisabled
     else
       ACanvas.Font.Color:= MenuStylerTheme.ColorFont;
 
     Windows.TextOutW(ACanvas.Handle,
-      ARect.Right - Ext1.cx*MenuStylerTheme.IndentSubmenuArrowPercents div 100,
+      ARect.Right - dxCell*MenuStylerTheme.IndentSubmenuArrowPercents div 100,
       Y,
       @MenuStylerTheme.CharSubmenu,
       1);
 
     //block OS drawing of submenu arrow
     Windows.ExcludeClipRect(ACanvas.Handle,
-      ARect.Right - Ext1.cx*MenuStylerTheme.IndentRightPercents div 100,
+      ARect.Right - dxCell*MenuStylerTheme.IndentRightPercents div 100,
       ARect.Top,
       ARect.Right,
       ARect.Bottom);
