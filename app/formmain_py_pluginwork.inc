@@ -386,6 +386,7 @@ begin
       DoOps_AddPluginMenuItem(SCaption, mnuOpPlugins, LangFile, i);
   end;
 
+  UpdateMainMenuTheming(false);
 end;
 
 procedure TfmMain.UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean = false);
