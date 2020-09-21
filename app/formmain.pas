@@ -928,7 +928,7 @@ type
     procedure DoOps_LoadOptions(const fn: string; var Op: TEditorOps;
       AllowUiOps: boolean=true; AllowGlobalOps: boolean=true);
     procedure DoOps_LoadOptionsFromString(const AString: string);
-    procedure DoOps_FindPythonLib;
+    procedure DoOps_FindPythonLib(Sender: TObject);
     procedure DoEditorsLock(ALock: boolean);
     procedure DoFindCurrentWordOrSel(Ed: TATSynEdit; ANext, AWordOrSel: boolean);
     procedure DoDialogCommands;
@@ -4424,16 +4424,19 @@ begin
 end;
 
 procedure TfmMain.DisablePluginMenuItems;
-  //
-  procedure _Disable(mi: TMenuItem);
-  begin
-    if Assigned(mi) then
-      mi.Enabled:= false;
-  end;
-  //
+var
+  mi: TMenuItem;
 begin
-  _Disable(mnuOpPlugins);
-  _Disable(mnuPlugins);
+  if Assigned(mnuOpPlugins) then
+    mnuOpPlugins.Enabled:= false;
+
+  if Assigned(mnuPlugins) then
+  begin
+    mi:= TMenuItem.Create(Self);
+    mi.Caption:= 'Find Python engine in OS...';
+    mi.OnClick:= @DoOps_FindPythonLib;
+    mnuPlugins.Add(mi);
+  end;
 end;
 
 procedure TfmMain.MenuEncNoReloadClick(Sender: TObject);
@@ -7386,7 +7389,7 @@ begin
   {$endif}
 end;
 
-procedure TfmMain.DoOps_FindPythonLib;
+procedure TfmMain.DoOps_FindPythonLib(Sender: TObject);
 const
   SFileMask = 'libpython3.*so*';
 var
@@ -7425,7 +7428,7 @@ begin
     S:= L[N];
 
     DoOps_SaveOptionString('pylib'+cOptionSystemSuffix, S);
-    MsgStatus(msgSavedTheOption);
+    MsgBox('Saved the option "pylib'+cOptionSystemSuffix+'". Restart CudaText to apply it.', MB_OK+MB_ICONINFORMATION);
   finally
     FreeAndNil(L);
   end;

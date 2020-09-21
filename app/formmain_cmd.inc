@@ -303,7 +303,7 @@ begin
     cmd_OpsFontSizeReset:
       DoOps_FontSizeReset;
     cmd_FindPythonLib:
-      DoOps_FindPythonLib;
+      DoOps_FindPythonLib(nil);
 
     cmd_ResetPythonPlugins:
       DoPyResetPlugins;
