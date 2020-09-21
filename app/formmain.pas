@@ -4419,6 +4419,8 @@ begin
     FConsoleMustShow:= true;
     MsgLogConsole(msgCannotInitPython1);
     MsgLogConsole(msgCannotInitPython2);
+    if msgCannotInitPython2b<>'' then
+      MsgLogConsole(msgCannotInitPython2b);
     DisablePluginMenuItems;
   end;
 end;

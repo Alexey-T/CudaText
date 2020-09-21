@@ -158,9 +158,11 @@ const
   {$else}
     {$ifdef windows}
     msgCannotInitPython2: string = 'place near cudatext.exe: python3x.dll, python3x.zip, python3xdlls\*.pyd, MS VS Runtime.';
+    msgCannotInitPython2b: string = '';
     {$else}
-    msgCannotInitPython2: string = 'write option "pylib'+cOptionSystemSuffix+
-                                   '" to user.json. See info in default config: Options / Settings-default.';
+    msgCannotInitPython2: string = ' - write "pylib'+cOptionSystemSuffix+
+                                   '" to user.json. See info in default config: "Options / Settings-default".';
+    msgCannotInitPython2b: string = ' - or use menu item "Plugins / Find Python library".';
     {$endif}
   {$endif}
 
