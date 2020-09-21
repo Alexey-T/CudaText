@@ -17,7 +17,7 @@ uses
   ATSynEdit;
 
 const
-  cAppExeVersion = '1.113.0.0';
+  cAppExeVersion = '1.113.1.0';
   cAppApiVersion = 350;
 
 const
@@ -148,10 +148,9 @@ const
   msgTabsizeConvTabs: string = 'Convert indentation to spaces';
   msgTabsizeConvSpaces: string = 'Convert indentation to tabs';
 
-  msgPythonLibsList: string = 'Python library files';
+  msgPythonFindCaption: string = 'Find Python library';
   msgPythonFindFromDir: string = 'Search from folder:';
   msgCannotFindPython: string = 'Cannot find Python library';
-  msgSavedTheOption: string = 'Saved the option';
 
   msgCannotInitPython1: string = 'NOTE: No Python 3 engine found. Python plugins don''t work now. To fix this:';
   {$ifdef darwin}

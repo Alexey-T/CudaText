@@ -4432,10 +4432,15 @@ begin
 
   if Assigned(mnuPlugins) then
   begin
+    {$ifdef windows}
+    mnuPlugins.Enabled:= false;
+    {$else}
     mi:= TMenuItem.Create(Self);
-    mi.Caption:= 'Find Python engine in OS...';
+    mi.Caption:= msgPythonFindCaption+'...';
     mi.OnClick:= @DoOps_FindPythonLib;
+    mnuPlugins.Clear;
     mnuPlugins.Add(mi);
+    {$endif}
   end;
 end;
 
@@ -7403,7 +7408,7 @@ begin
   {$endif}
 
   SDir:= '/usr/lib';
-  if not InputQuery(msgPythonLibsList, msgPythonFindFromDir, SDir) then exit;
+  if not InputQuery(msgPythonFindCaption, msgPythonFindFromDir, SDir) then exit;
 
   L:= TStringList.Create;
   try
@@ -7423,7 +7428,7 @@ begin
       exit
     end;
 
-    N:= DoDialogMenuList(msgPythonLibsList, L, 0);
+    N:= DoDialogMenuList(msgPythonFindCaption, L, 0);
     if N<0 then exit;
     S:= L[N];
 
