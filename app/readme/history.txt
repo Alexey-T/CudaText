@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.113.1 (2020/09)
+
++ add: when Python engine is not found on Unix, app adds menu item "Plugins / Find Python engine in OS". It calls new command "find python library" (available in Command Palette). This command finds the library, suggests several possible filenames, and writes chosen filename to user.json.
+
 1.113.0 (2020/09)
 
 + add: option "numbers_style" has additional value for "relative" line numbers, almost like in VSCode
