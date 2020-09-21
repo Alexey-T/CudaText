@@ -880,6 +880,7 @@ type
     procedure PopupListboxOutputClearClick(Sender: TObject);
     procedure PopupListboxValidateClearClick(Sender: TObject);
     procedure PopupListboxValidateCopyClick(Sender: TObject);
+    procedure SearcherDirectoryEnter(FileIterator: TFileIterator);
     procedure SetShowFloatGroup1(AValue: boolean);
     procedure SetShowFloatGroup2(AValue: boolean);
     procedure SetShowFloatGroup3(AValue: boolean);
@@ -7387,24 +7388,32 @@ end;
 
 procedure TfmMain.DoOps_FindPythonLib;
 const
-  SInitDir = '/usr';
   SFileMask = 'libpython3.*so*';
 var
   L: TStringList;
+  Searcher: TListFileSearcher;
   N: integer;
-  S: string;
+  SDir, S: string;
 begin
   {$ifdef windows}
   exit;
   {$endif}
 
-  if MsgBox(
-    Format(msgPythonCommandIsSlow, [SFileMask, SInitDir]),
-    MB_OKCANCEL+MB_ICONQUESTION) <> ID_OK then exit;
+  SDir:= '/usr/lib';
+  if not InputQuery(msgPythonLibsList, msgPythonFindFromDir, SDir) then exit;
 
   L:= TStringList.Create;
   try
-    FindAllFiles(L, SInitDir, SFileMask, true{SubDirs});
+    Searcher:= TListFileSearcher.Create(L);
+    try
+      Searcher.FollowSymLink:= false;
+      Searcher.OnDirectoryEnter:= @SearcherDirectoryEnter;
+      Searcher.Search(SDir, SFileMask, true{SubDirs}, true{CaseSens});
+      MsgStatus('');
+    finally
+      Searcher.Free;
+    end;
+
     if L.Count=0 then
     begin
       MsgStatus(msgCannotFindPython);
@@ -7419,6 +7428,18 @@ begin
     MsgStatus(msgSavedTheOption);
   finally
     FreeAndNil(L);
+  end;
+end;
+
+procedure TfmMain.SearcherDirectoryEnter(FileIterator: TFileIterator);
+const
+  NCount: integer = 0;
+begin
+  Inc(NCount);
+  if NCount mod 30 = 0 then
+  begin
+    MsgStatus('Searching: '+FileIterator.FileName);
+    Application.ProcessMessages;
   end;
 end;
 

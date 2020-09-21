@@ -148,8 +148,8 @@ const
   msgTabsizeConvTabs: string = 'Convert indentation to spaces';
   msgTabsizeConvSpaces: string = 'Convert indentation to tabs';
 
-  msgPythonCommandIsSlow: string = 'This will search for files "%s" from the directory "%s". This is slow operation. Continue?';
   msgPythonLibsList: string = 'Python library files';
+  msgPythonFindFromDir: string = 'Search from folder:';
   msgCannotFindPython: string = 'Cannot find Python library';
   msgSavedTheOption: string = 'Saved the option';
 
