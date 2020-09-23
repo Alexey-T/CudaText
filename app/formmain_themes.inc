@@ -181,6 +181,8 @@ begin
   MenuStylerTheme.ColorFont:= GetAppColor(apclTabFont);
   MenuStylerTheme.ColorFontDisabled:= GetAppColor(apclTabBorderPassive);
   MenuStylerTheme.ColorFontShortcut:= GetAppColor(apclTabFontActive);
+  MenuStylerTheme.CharRadiomark:= '*';
+  MenuStylerTheme.CharSubmenu:= '>';
   UpdateMainMenuTheming(true);
   {$endif}
 end;
