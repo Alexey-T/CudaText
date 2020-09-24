@@ -180,8 +180,8 @@ begin
   MenuStylerTheme.ColorBkSelected:= GetAppColor(apclTabOver);
   MenuStylerTheme.ColorFont:= GetAppColor(apclTabFont);
   MenuStylerTheme.ColorFontDisabled:= GetAppColor(apclTabBorderPassive);
-  MenuStylerTheme.ColorFontShortcut:= GetAppColor(apclTabFontActive);
-  MenuStylerTheme.CharSubmenu:= '>';
+  MenuStylerTheme.ColorFontShortcut:= GetAppColor(apclTabFontMod);
+  MenuStylerTheme.CharSubmenu:= '>'; //old Win don't have triangle char in default font
   UpdateMainMenuTheming(true);
   {$endif}
 end;
