@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.113.1 (2020/09)
+1.113.2 (2020/09)
 
 + add: Windows: option "ui_menu_themed" (thanks @tmsg)
 + add: Unix: when Python engine is not detected, app adds menu item "Plugins / Find Python library". It calls new command "find python library" (available in Command Palette). This command finds the library, suggests several possible filenames, and writes chosen filename to user.json.
