@@ -1059,6 +1059,7 @@ begin
   UiOps.BottomOnStart:= cfg.GetValue('ui_bottom_on_start', UiOps.BottomOnStart);
   UiOps.TreeTheme:= cfg.GetValue('ui_tree_theme', UiOps.TreeTheme);
   UiOps.ToolBarTheme:= cfg.GetValue('ui_toolbar_theme', UiOps.ToolBarTheme);
+  UiOps.ThemedMainMenu:= cfg.GetValue('ui_menu_themed', UiOps.ThemedMainMenu);
 
   {$ifndef windows}
   //option is ignored on win
