@@ -19,7 +19,7 @@
       "style": "IdKeyword"
     },
     "id_storage": {
-      "regex": "\\b(bigint|bigserial|bit|boolean|box|bytea|char|character|cidr|circle|date|datetime|decimal|double|float|inet|int|integer|interval|line|lseg|macaddr|money|ntext|number|numeric|nvarchar|oid|path|point|polygon|precision|real|serial|smallint|sysdate|sysname|text|timestamp|tinyint|var|varbinary|varchar|varying)\\b",
+      "regex": "\\b(bigint|bigserial|bit|bool|boolean|box|bytea|char|character|cidr|circle|date|datetime|decimal|enum|double|float|inet|int|integer|interval|line|longtext|lseg|macaddr|money|ntext|number|numeric|nvarchar|oid|path|point|polygon|precision|real|serial|smallint|sysdate|sysname|text|timestamp|tinyint|tinytext|var|varbinary|varchar|varying)\\b",
       "style": "Id2"
     },
     "id_func": {
