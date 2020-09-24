@@ -367,7 +367,6 @@ object SyntAnal9: TLibSyntAnalyzer
             'for'
             'from'
             'function'
-            'goto'
             'if'
             'implements'
             'import'
