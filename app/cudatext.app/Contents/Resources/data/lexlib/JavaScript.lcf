@@ -1,4 +1,4 @@
-object SyntAnal11: TLibSyntAnalyzer
+object SyntAnal9: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -237,6 +237,14 @@ object SyntAnal11: TLibSyntAnalyzer
       StyleName = 'Id upcase const'
       TokenType = 2
       Expression = '(?-i)[A-Z_\$][A-Z0-9_\$]*[A-Z][A-Z0-9_\$]* (?=[^\w\(])'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Id after .'
+      StyleName = 'Identifier'
+      TokenType = 9
+      Expression = '(?<=\.)[a-z_]\w*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -773,6 +781,26 @@ object SyntAnal11: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = 'class anon'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'extends')
+          TokenTypes = 4
+        end
+        item
+          TagList.Strings = (
+            'class')
+          TokenTypes = 4
+        end>
+      NameFmt = '%s0 <anon>'
+      HighlightPos = cpAny
+      CancelNextRules = True
+      NoEndRule = True
+      TreeItemImage = 0
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = 'class'
       ConditionList = <
         item
@@ -795,13 +823,13 @@ object SyntAnal11: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal17
+      SyntAnalyzer = SyntAnal14
     end
     item
       DisplayName = 'JSDoc'
       StartExpression = '/\*\*[^/\*]'
       EndExpression = '\*/'
-      SyntAnalyzer = SyntAnal12
+      SyntAnalyzer = SyntAnal10
     end>
   SampleText.Strings = (
     '#!/bin/bash                         '
@@ -865,7 +893,8 @@ object SyntAnal11: TLibSyntAnalyzer
     'Number'
     'PHP tag'
     'Symbol ( )'
-    'Symbol { }')
+    'Symbol { }'
+    'Id after.')
   Extentions = 'js htc es6 pjs mjs'
   LexerName = 'JavaScript'
   Notes.Strings = (
