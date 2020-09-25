@@ -1306,6 +1306,9 @@ var
 begin
   FoundX:= -1;
   FoundY:= -1;
+  CharFrom:= #0;
+  CharTo:= #0;
+  Kind:= bracketUnknown;
 
   if PosX<0 then exit;
   if not Ed.Strings.IsIndexValid(PosY) then exit;
@@ -1314,7 +1317,6 @@ begin
   if (PosX=Length(S)) and (PosX>0) then
     Dec(PosX);
 
-  Kind:= bracketUnknown;
   if PosX<Length(S) then
   begin
     CharFrom:= S[PosX+1];

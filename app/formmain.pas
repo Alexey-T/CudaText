@@ -3233,7 +3233,9 @@ end;
 procedure TfmMain.DoApplyUiOps;
 var
   id: TAppPanelId;
+  {$ifdef unix}
   CmdParams: TAppStringArray;
+  {$endif}
   i: integer;
 begin
   cAdapterIdleInterval:= UiOps.LexerDelayedParsingPause;
@@ -3745,9 +3747,10 @@ begin
       //  msg:= msg+' ('+IntToStr(tick)+'s)';
       MsgStatusFileOpened(AFileName, AFileName2);
 
+      SetLength(Params, 0);
+
       if bEnableEventOpened then
       begin
-        SetLength(Params, 0);
         DoPyEvent(F.Ed1, cEventOnOpen, Params);
       end;
 
@@ -3788,9 +3791,10 @@ begin
   //  msg:= msg+' ('+IntToStr(tick)+'s)';
   MsgStatusFileOpened(AFileName, AFileName2);
 
+  SetLength(Params, 0);
+
   if bEnableEventOpened then
   begin
-    SetLength(Params, 0);
     DoPyEvent(F.Ed1, cEventOnOpen, Params);
   end;
 
@@ -4426,8 +4430,10 @@ begin
 end;
 
 procedure TfmMain.DisablePluginMenuItems;
+{$ifndef windows}
 var
   mi: TMenuItem;
+{$endif}
 begin
   if Assigned(mnuOpPlugins) then
     mnuOpPlugins.Enabled:= false;
@@ -4908,7 +4914,7 @@ procedure TfmMain.DoFileReopen(Ed: TATSynEdit);
 var
   F: TEditorFrame;
   fn: string;
-  PrevRO: boolean;
+  bPrevRO, bChangedRO: boolean;
   PrevLexer: string;
 begin
   F:= GetEditorFrame(Ed);
@@ -4929,14 +4935,15 @@ begin
       MB_OKCANCEL or MB_ICONQUESTION
       ) <> ID_OK then exit;
 
-  if Ed.IsReadOnlyChanged then
-    PrevRO:= F.ReadOnly[Ed];
+  bChangedRO:= Ed.IsReadOnlyChanged;
+  if bChangedRO then
+    bPrevRO:= F.ReadOnly[Ed];
   PrevLexer:= F.LexerName[Ed];
   F.ReadOnly[Ed]:= false;
   F.DoFileReload(Ed);
   F.LexerName[Ed]:= PrevLexer;
-  if Ed.IsReadOnlyChanged then
-    F.ReadOnly[Ed]:= PrevRO;
+  if bChangedRO then
+    F.ReadOnly[Ed]:= bPrevRO;
   Ed.Modified:= false;
 
   UpdateStatus;

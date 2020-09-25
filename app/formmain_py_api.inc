@@ -1461,7 +1461,9 @@ begin
       Ed.Update(true);
 
       Result:= ReturnNone;
-    end;
+    end
+    else
+      Result:= ReturnNone;
 end;
 
 function Py_ed_set_text_line(Self, Args: PPyObject): PPyObject; cdecl;
@@ -2260,6 +2262,7 @@ var
   i: integer;
 begin
   //find index-th line
+  StrLine:= '';
   Sep.Init(FPyComplete_Text, #10);
   for i:= 0 to ASnippetIndex do
     Sep.GetItemStr(StrLine);
@@ -4954,6 +4957,7 @@ begin
             Sep.GetItemInt(UiOps.Scale, 100, 80, 500);
             Sep.GetItemInt(UiOps.ScaleFont, 100, 80, 500);
             fmMain.DoApplyUiOps;
+            Result:= ReturnNone;
           end;
 
         else
@@ -7512,7 +7516,9 @@ begin
         else
           Result:= ReturnNone;
       end;
-    end;
+    end
+    else
+      Result:= ReturnNone;
 end;
 
 function Py_ed_folding(Self, Args: PPyObject): PPyObject; cdecl;

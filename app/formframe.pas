@@ -3596,8 +3596,10 @@ end;
 
 function TEditorFrame.BinaryFindNext(ABack: boolean): boolean;
 begin
-  if FBinStream=nil then exit;
-  Result:= FBin.FindNext(ABack);
+  if FBinStream=nil then
+    Result:= false
+  else
+    Result:= FBin.FindNext(ABack);
 end;
 
 procedure TEditorFrame.DoFileClose;
