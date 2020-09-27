@@ -155,6 +155,7 @@ const
   msgCannotInitPython1: string = 'NOTE: No Python 3 engine found. Python plugins don''t work now. To fix this:';
   {$ifdef darwin}
   msgCannotInitPython2: string = 'install Python 3.x from www.python.org, it should be found by CudaText then.';
+  msgCannotInitPython2b: string = '';
   {$else}
     {$ifdef windows}
     msgCannotInitPython2: string = 'place near cudatext.exe: python3x.dll, python3x.zip, python3xdlls\*.pyd, MS VS Runtime.';
