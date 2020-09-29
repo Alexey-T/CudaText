@@ -15,6 +15,7 @@
 + add: Unix: when Python engine is not detected, app adds menu item "Plugins / Find Python library". It calls new command "find python library" (available in Command Palette). This command finds the library, suggests several possible filenames, and writes chosen filename to user.json.
 + add: if caret is at the end of long line, and we toggle word-wrap, editor should scroll to new caret pos
 + add: lexer JavaScript: don't highlight "class" after dot, better detect reg-ex tokens
++ add: JSON library don't allow invalid strings (chars 0...31), booleans (True, False), numbers
 - fix: regression in regex engine with ^ and $ (thanks @hycmos)
 
 1.113.0 (2020/09)
