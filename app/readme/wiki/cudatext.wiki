@@ -1518,6 +1518,17 @@ There are several ways to perfrom it:
 
 4. Copy fragment (can contain line-breaks) which you need to find, to clipboard. Call command in CudaExt plugin: "Find clipbrd: next".
 
+==How to create macros and call them via toolbar==
+
+Q: I've used Boxer Editor for over a decade. Its strength is you can create macros that can be assigned to buttons that you can place onto the toolbar. I don’t know of any other text editors that can do that. ?
+
+This can be done in CudaText like this:
+
+* Install plugin "Macros". Restart CudaText.
+* Use new menu "Macros" in the top menu, to record some macro(s). This will create command(s) "plugin: Macros: ..." in the Command Palette.
+* Install plugin "Config Toolbar".
+* Call config dialog via "Plugins / Config Toolbar / Configure buttons". In that dialog, add a button. In the button properties, choose your recorded macro command ("Choose command" button). This will add toolbar button for your macro. Customize this button as you wish (any icon, caption, tooltip).
+
 =Formats of files=
 ==Format of auto-completion acp file==
 
