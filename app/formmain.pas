@@ -5580,27 +5580,26 @@ var
   FileHtml, FileCss, FileCssSel, FileAcp: string;
   Caret: TATCaretItem;
   Params: TAppVariantArray;
-  TokenKind: TATTokenKind;
 begin
   Frame:= GetEditorFrame(Ed);
   if Frame=nil then exit;
+  Caret:= Ed.Carets[0];
+
+  //disable completion in comments
+  if EditorGetTokenKind(Ed, Caret.PosX, Caret.PosY)=atkComment then exit;
 
   CompletionOps.CommitChars:= UiOps.AutocompleteCommitChars; //before DoPyEvent
   CompletionOps.CloseChars:= UiOps.AutocompleteCloseChars; //before DoPyEvent
 
+  //call auto-completion plugins
   SetLength(Params, 0);
   if DoPyEvent(Ed, cEventOnComplete, Params).Val = evrTrue then exit;
 
-  //py event may handle auto-completion without lexer
+  //disable completion w/o lexer
+  //plugins can handle completion without lexer, so check is lower
   if Frame.Lexer[Ed]=nil then exit;
-
-  Caret:= Ed.Carets[0];
   LexName:= Frame.LexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
   if LexName='' then exit;
-
-  //disable completion in comments
-  TokenKind:= EditorGetTokenKind(Ed, Caret.PosX, Caret.PosY);
-  if TokenKind=atkComment then exit;
 
   IsHtml:= UiOps.AutocompleteHtml and SRegexMatchesString(LexName, UiOps.AutocompleteHtml_Lexers, false);
   IsCss:= UiOps.AutocompleteCss and SRegexMatchesString(LexName, UiOps.AutocompleteCss_Lexers, false);
