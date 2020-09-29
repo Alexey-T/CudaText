@@ -10,11 +10,11 @@
     b) added completion for CSS @-rules and pseudo-elements beginning with ":" and "::" (thanks @d-mal)
     c) don't suggest CSS props/values outside of {} brackets
 + add: any auto-completion is disabled for position inside comments
++ add: updated FreePascal JSON library, now it don't allow incorrect strings/booleans/numbers
 + add: Windows: UI theme has additional 5 colors "top menu ...", all "none" by default to use "tabs ..." colors
 + add: Windows: option "ui_menu_themed" (thanks @tmsg)
 + add: Unix: when Python engine is not detected, app adds menu item "Plugins / Find Python library". It calls new command "find python library" (available in Command Palette). This command finds the library, suggests several possible filenames, and writes chosen filename to user.json.
 + add: if caret is at the end of long line, and we toggle word-wrap, editor should scroll to new caret pos
-+ add: updated JSON library, now it don't allow incorrect strings/booleans/numbers
 + add: lexer JavaScript: don't highlight "class" after dot, better detect reg-ex tokens
 - fix: regression in regex engine with ^ and $ (thanks @hycmos)
 
