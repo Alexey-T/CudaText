@@ -7,7 +7,7 @@
 
 + add: CSS auto-completion:
     a) added lot of missed CSS props/values (by @d-mal)
-    b) added completion for CSS at-rules (e.g. @font-face) and pseudo-elements beginning with ":" and "::"
+    b) added completion for CSS @-rules and pseudo-elements beginning with ":" and "::" (thanks @d-mal)
     c) don't suggest CSS props/values outside of {} brackets
 + add: UI theme has additional 5 colors "top menu:..." (for Windows), all "none" by default to use "tabs:..." colors
 + add: Windows: option "ui_menu_themed" (thanks @tmsg)
