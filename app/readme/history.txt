@@ -9,6 +9,7 @@
     a) added lot of missed CSS props/values (by @d-mal)
     b) added completion for CSS @-rules and pseudo-elements beginning with ":" and "::" (thanks @d-mal)
     c) don't suggest CSS props/values outside of {} brackets
++ add: any auto-completion is disabled for position inside comments
 + add: Windows: UI theme has additional 5 colors "top menu ...", all "none" by default to use "tabs ..." colors
 + add: Windows: option "ui_menu_themed" (thanks @tmsg)
 + add: Unix: when Python engine is not detected, app adds menu item "Plugins / Find Python library". It calls new command "find python library" (available in Command Palette). This command finds the library, suggests several possible filenames, and writes chosen filename to user.json.
