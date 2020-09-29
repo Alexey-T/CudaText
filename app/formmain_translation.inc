@@ -470,9 +470,13 @@ begin
     DoLocString(msgButtonRetry,  ini, 'ui', 'b_re');
     DoLocString(msgButtonIgnore, ini, 'ui', 'b_ig');
 
-    DoLocString(cHtmlAutocompleteTag, ini, 'ui', 'html_tag');
-    DoLocString(cHtmlAutocompleteAttrib, ini, 'ui', 'html_atr');
-    DoLocString(cHtmlAutocompleteValue, ini, 'ui', 'html_val');
+    DoLocString(CompletionOpsHtml.PrefixTag, ini, 'ui', 'html_tag');
+    DoLocString(CompletionOpsHtml.PrefixAttrib, ini, 'ui', 'html_atr');
+    DoLocString(CompletionOpsHtml.PrefixValue, ini, 'ui', 'html_val');
+
+    CompletionOpsCss.PrefixProp:= CompletionOpsHtml.PrefixAttrib;
+    CompletionOpsCss.PrefixAtRule:= CompletionOpsHtml.PrefixValue;
+    CompletionOpsCss.PrefixPseudo:= CompletionOpsHtml.PrefixValue;
 
     DoLocString(msgLinkOpenSite, ini, 'ui', 'lnk_a');
     DoLocString(msgLinkOpenEmail, ini, 'ui', 'lnk_e');
