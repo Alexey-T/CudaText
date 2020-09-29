@@ -5583,6 +5583,8 @@ var
 begin
   Frame:= GetEditorFrame(Ed);
   if Frame=nil then exit;
+
+  if Ed.Carets.Count=0 then exit;
   Caret:= Ed.Carets[0];
 
   //disable completion in comments
