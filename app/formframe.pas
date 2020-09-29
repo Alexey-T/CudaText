@@ -2282,7 +2282,7 @@ begin
     end
     else
     begin
-      SaveDialog.DefaultExt:= '.txt';
+      SaveDialog.DefaultExt:= '';
       SaveDialog.Filter:= '';
     end;
 

@@ -17,6 +17,7 @@
 + add: if caret is at the end of long line, and we toggle word-wrap, editor should scroll to new caret pos
 + add: lexer JavaScript: don't highlight "class" after dot, better detect reg-ex tokens
 - fix: regression in regex engine with ^ and $ (thanks @hycmos)
+- fix: save-as dialog forced .txt extension for names w/o extension (thanks @tmsg)
 
 1.113.0 (2020/09)
 
