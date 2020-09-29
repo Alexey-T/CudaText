@@ -5580,6 +5580,7 @@ var
   FileHtml, FileCss, FileCssSel, FileAcp: string;
   Caret: TATCaretItem;
   Params: TAppVariantArray;
+  //TokenKind: TATTokenKind;
 begin
   Frame:= GetEditorFrame(Ed);
   if Frame=nil then exit;
@@ -5596,6 +5597,14 @@ begin
   Caret:= Ed.Carets[0];
   LexName:= Frame.LexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
   if LexName='' then exit;
+
+  {
+  //disable completion in comments--
+  //NOT OK, it finds next comment (next line) for caret on empty line!
+  //due to GRangeList<GRange>.PriorAt
+  TokenKind:= EditorGetTokenKind(Ed, Caret.PosX, Caret.PosY);
+  if TokenKind=atkComment then exit;
+  }
 
   IsHtml:= UiOps.AutocompleteHtml and SRegexMatchesString(LexName, UiOps.AutocompleteHtml_Lexers, false);
   IsCss:= UiOps.AutocompleteCss and SRegexMatchesString(LexName, UiOps.AutocompleteCss_Lexers, false);
