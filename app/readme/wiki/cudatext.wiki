@@ -1158,14 +1158,18 @@ Seems the term "instance" is not known very good, people cannot find this option
 
 ==How to compile CudaText==
 
-There is Linux script CudaText_up https://github.com/Alexey-T/CudaText_up - it downloads all  sources into ~/cudatext_up, then calls Lazarus (at least 1.8.4) to compile them. You can use it with FPC cross-compilers, installed from FpcUpDeluxe, script will compile CudaText for any of available platforms. Without cross-compilers, script makes CudaText only for the current platform. It puts result to ~/cudatext_up/bin.
+Install FPC and Lazarus:
 
-And here is the old way to compile:
+* [https://github.com/newpascal/fpcupdeluxe/releases download FpcUpDeluxe]. On Windows, you must unlock .exe file in the Windows Explorer dialog. 
+* in FpcUpDeluxe, choose FPC 3.0.4 or 3.2.0, install it first.
+* in FpcUpDeluxe, choose Lazarus 2.0 or "trunk", install it next.
 
-* install FPC and Lazarus:
-** [https://github.com/newpascal/fpcupdeluxe/releases download FpcUpDeluxe]. On Windows, you must unlock .exe file in the Windows Explorer dialog. 
-** in FpcUpDeluxe, choose FPC 3.0.4 or 3.2.0, install it first.
-** in FpcUpDeluxe, choose Lazarus 2.0 or "trunk", install it next.
+Modern way for app sources.
+
+There is [https://github.com/Alexey-T/CudaText_up Linux script CudaText_up] - it downloads sources to ~/cudatext_up, then calls Lazarus to compile them. You can use it with FPC cross-compilers, installed from FpcUpDeluxe, script will compile CudaText for any of available platforms. Without cross-compilers, script makes CudaText only for the current platform. It puts result to ~/cudatext_up/bin.
+
+Old way for app sources.
+
 * download GitHub repos:
 ** https://github.com/bgrabitmap/bgrabitmap
 ** https://github.com/Alexey-T/Python-for-Lazarus (install first)
