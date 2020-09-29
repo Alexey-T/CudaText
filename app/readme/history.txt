@@ -9,7 +9,7 @@
     a) added lot of missed CSS props/values (by @d-mal)
     b) added completion for CSS at-rules (e.g. @font-face) and pseudo-elements beginning with ":" and "::"
     c) don't suggest CSS props/values outside of {} brackets
-+ add: Windows: UI theme as additional 5 colors "top menu: ...", all "none" by default
++ add: UI theme has additional 5 colors "top menu:..." (for Windows), all "none" by default to use "tabs:..." colors
 + add: Windows: option "ui_menu_themed" (thanks @tmsg)
 + add: Unix: when Python engine is not detected, app adds menu item "Plugins / Find Python library". It calls new command "find python library" (available in Command Palette). This command finds the library, suggests several possible filenames, and writes chosen filename to user.json.
 + add: if caret is at the end of long line, and we toggle word-wrap, editor should scroll to new caret pos
