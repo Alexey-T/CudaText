@@ -118,6 +118,11 @@ type
     apclButtonBorderPassive,
     apclButtonBorderOver,
     apclButtonBorderFocused,
+    apclMenuFont,
+    apclMenuFontHotkey,
+    apclMenuFontDisabled,
+    apclMenuBg,
+    apclMenuSelBg,
     apclStatusFont,
     apclStatusBg,
     apclScrollBack,
@@ -419,6 +424,11 @@ begin
   SetColor(apclButtonBorderPassive, nColorBorder, 'ButtonBorderPassive', 'buttons, border, passive');
   SetColor(apclButtonBorderOver, nColorBorder, 'ButtonBorderOver', 'buttons, border, mouse-over');
   SetColor(apclButtonBorderFocused, clGray, 'ButtonBorderFocused', 'buttons, border, focused');
+  SetColor(apclMenuFont, clNone, 'MenuFont', 'top menu, font');
+  SetColor(apclMenuFontHotkey, clNone, 'MenuFontHotkey', 'top menu, font, hotkey');
+  SetColor(apclMenuFontDisabled, clNone, 'MenuFontDisabled', 'top menu, font, disabled state');
+  SetColor(apclMenuBg, clNone, 'MenuBg', 'top menu, BG');
+  SetColor(apclMenuSelBg, clNone, 'MenuSelBg', 'top menu, BG, selected');
   SetColor(apclStatusFont, clNone, 'StatusFont', 'statusbar, font');
   SetColor(apclStatusBg, clNone, 'StatusBg', 'statusbar, BG');
   SetColor(apclScrollBack, $d0d0d0, 'ScrollBack', 'scrollbar, BG');

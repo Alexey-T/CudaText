@@ -176,11 +176,33 @@ begin
   CompletionOps.ColorFontParams:= GetAppColor(apclListCompleteParams);
 
   {$ifdef windows}
-  MenuStylerTheme.ColorBk:= GetAppColor(apclTabBg);
-  MenuStylerTheme.ColorBkSelected:= GetAppColor(apclTabOver);
-  MenuStylerTheme.ColorFont:= GetAppColor(apclTabFont);
-  MenuStylerTheme.ColorFontDisabled:= GetAppColor(apclTabBorderPassive);
-  MenuStylerTheme.ColorFontShortcut:= GetAppColor(apclTabFontMod);
+  NColor:= GetAppColor(apclMenuBg);
+  if NColor=clNone then
+    NColor:= GetAppColor(apclTabBg);
+  MenuStylerTheme.ColorBk:= NColor;
+
+  NColor:= GetAppColor(apclMenuSelBg);
+  if NColor=clNone then
+    NColor:= GetAppColor(apclTabOver);
+  MenuStylerTheme.ColorBkSelected:= NColor;
+
+  NColor:= GetAppColor(apclMenuFont);
+  if NColor=clNone then
+    NColor:= GetAppColor(apclTabFont);
+  MenuStylerTheme.ColorFont:= NColor;
+
+  NColor:= GetAppColor(apclMenuFontDisabled);
+  if NColor=clNone then
+    NColor:= GetAppColor(apclTabBorderPassive);
+  MenuStylerTheme.ColorFontDisabled:= NColor;
+
+  NColor:= GetAppColor(apclMenuFontHotkey);
+  if NColor=clNone then
+    NColor:= GetAppColor(apclMenuFont);
+  if NColor=clNone then
+    NColor:= GetAppColor(apclTabFontMod);
+  MenuStylerTheme.ColorFontShortcut:= NColor;
+
   MenuStylerTheme.CharSubmenu:= '>'; //old Win don't have triangle char in default font
   UpdateMainMenuTheming(true);
   {$endif}
