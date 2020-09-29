@@ -39,7 +39,7 @@ const
   msgCallbackBad = 'Bad API callback, report to plugin author: %s'; //no i18n
   msgCallbackDeprecated = 'Deprecated API callback, report to plugin author: %s'; //no i18n
   msgApiDeprecated = 'Deprecated API usage: %s'; //no i18n
-  msgErrorInTheme = 'Warning for theme "%s": missed item "%s"';
+  msgErrorInTheme = 'NOTE: theme "%s" misses item "%s"';
   msgCmdPalettePrefixHelp = '#p – plugins'+EOL+'#l – lexers'+EOL+'#f – opened files'+EOL+'#r – recent files';
   msgRescannedAllPlugins = 'Rescanned all plugins';
   msgWelcomeTabTitle = '(welcome)';
