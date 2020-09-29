@@ -1163,8 +1163,9 @@ There is Linux script CudaText_up https://github.com/Alexey-T/CudaText_up - it d
 And here is the old way to compile:
 
 * install FPC and Lazarus:
-** download FpcUpDeluxe. On Windows, you must unlock .exe file in the Windows Explorer dialog. https://github.com/newpascal/fpcupdeluxe/releases
-** in FpcUpDeluxe, choose FPC 3.0.4 or "trunk", and Lazarus 2.0.4 or "trunk", install them both.
+** [https://github.com/newpascal/fpcupdeluxe/releases download FpcUpDeluxe]. On Windows, you must unlock .exe file in the Windows Explorer dialog. 
+** in FpcUpDeluxe, choose FPC 3.0.4 or 3.2.0, install it first.
+** in FpcUpDeluxe, choose Lazarus 2.0 or "trunk", install it next.
 * download GitHub repos:
 ** https://github.com/bgrabitmap/bgrabitmap
 ** https://github.com/Alexey-T/Python-for-Lazarus (install first)
