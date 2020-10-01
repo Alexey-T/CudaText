@@ -934,12 +934,7 @@ begin
     chkInSel.Enabled:= false;
   end;
 
-  //auto-size PanelBtn to all its buttons
-  //it don't work ok if set in design-time (height becomes big)
-  N:= 0;
-  for i:= 0 to PanelBtn.ControlCount-1 do
-    Inc(N, PanelBtn.Controls[i].Width);
-  PanelBtn.Width:= N;
+  ControlAutosizeOnlyByWidth(PanelBtn);
 
   UpdateButtonBold;
   UpdateFormHeight;

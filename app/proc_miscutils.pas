@@ -41,6 +41,7 @@ procedure RectSetFromString(var R: TRect; const S: string; AOnlySize: boolean);
 
 procedure FormLock(Ctl: TForm);
 procedure FormUnlock(Ctl: TForm);
+procedure ControlAutosizeOnlyByWidth(C: TWinControl);
 
 procedure FormHistorySave(F: TForm; const AConfigPath: string; AWithPos: boolean);
 procedure FormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean);
@@ -935,6 +936,16 @@ begin
   SetWindowPos(Ctl.Handle, 0, 0, 0, 0, 0,
     SWP_FRAMECHANGED or SWP_NOCOPYBITS or SWP_NOMOVE or SWP_NOZORDER or SWP_NOSIZE);
   {$endif}
+end;
+
+procedure ControlAutosizeOnlyByWidth(C: TWinControl);
+var
+  N, i: integer;
+begin
+  N:= 0;
+  for i:= 0 to C.ControlCount-1 do
+    Inc(N, C.Controls[i].Width);
+  C.Width:= N;
 end;
 
 function Canvas_TextMultilineExtent(C: TCanvas; const AText: string): TPoint;
