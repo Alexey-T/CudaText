@@ -132,19 +132,24 @@ object fmFind: TfmFind
     end
   end
   object PanelAll: TATPanelSimple
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
     Left = 225
     Height = 118
     Top = 30
-    Width = 2272
+    Width = 964
     Align = alLeft
+    Anchors = [akTop, akLeft, akRight, akBottom]
     object edFind: TATComboEdit
       AnchorSideTop.Control = PanelBtn
+      AnchorSideRight.Control = PanelBtn
       AnchorSideBottom.Control = PanelBtn
       AnchorSideBottom.Side = asrBottom
       Left = 80
       Height = 25
       Top = 4
-      Width = 308
+      Width = 242
+      Anchors = [akTop, akLeft, akRight]
       DoubleBuffered = True
       Font.Height = -12
       Font.Name = 'Courier New'
@@ -241,7 +246,7 @@ object fmFind: TfmFind
       Left = 80
       Height = 25
       Top = 33
-      Width = 308
+      Width = 242
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 4
       DoubleBuffered = True
@@ -332,11 +337,15 @@ object fmFind: TfmFind
     object PanelBtn: TATPanelSimple
       AnchorSideLeft.Control = edFind
       AnchorSideLeft.Side = asrBottom
-      Left = 396
+      AnchorSideRight.Control = PanelAll
+      AnchorSideRight.Side = asrBottom
+      Left = 328
       Height = 25
       Top = 4
-      Width = 616
-      BorderSpacing.Left = 8
+      Width = 630
+      Anchors = [akTop, akRight]
+      BorderSpacing.Left = 6
+      BorderSpacing.Right = 6
       object bFindFirst: TATButton
         Left = 0
         Height = 25
@@ -418,10 +427,13 @@ object fmFind: TfmFind
     object PanelBtnRep: TATPanelSimple
       AnchorSideLeft.Control = PanelBtn
       AnchorSideTop.Control = edRep
-      Left = 396
+      AnchorSideRight.Control = PanelBtn
+      AnchorSideRight.Side = asrBottom
+      Left = 328
       Height = 25
       Top = 33
-      Width = 400
+      Width = 630
+      Anchors = [akTop, akLeft, akRight]
       object bRep: TATButton
         Left = 0
         Height = 25
