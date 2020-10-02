@@ -3,13 +3,13 @@
   - fixed
   * changed
 
-1.114.0 (2020/09)
+1.114.0 (2020/10)
 
 + add: CSS auto-completion:
     a) added lot of missed CSS props/values (by @d-mal)
     b) added completion for CSS @-rules and pseudo-elements beginning with ":" and "::" (thanks @d-mal)
     c) don't suggest CSS props/values outside of {} brackets
-+ add: any auto-completion is disabled for position inside comments
++ add: all auto-completions are disabled if caret is inside comments
 * change: Find dialog: action buttons are aligned to the right
 * change: several options "find_show_nnnn" replaced with single string option "find_hidden_buttons"; more buttons can be hidden now
 + add: don't treat ASCII Ctrl+Z char as non-text char
