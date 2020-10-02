@@ -12,6 +12,7 @@ interface
 uses
   SysUtils, Classes, Graphics,
   LazFileUtils,
+  at_sysutils,
   at__jsonconf,
   ec_SyntAnal,
   ec_syntax_format,
@@ -123,7 +124,7 @@ begin
   try
     try
       fn_lexer:= GetAppLexerFilename(an.LexerName);
-      if FileExistsUTF8(fn_lexer) then
+      if FileExists(fn_lexer) then
         an_orig.LoadFromFile(fn_lexer);
 
       conf.Formatted:= true;

@@ -60,7 +60,7 @@ var
   ini: TIniFile;
 begin
   fn:= GetAppLangFilename;
-  if FileExistsUTF8(fn) then
+  if FileExists(fn) then
   begin
     ini:= TIniFile.Create(fn);
     try
@@ -101,7 +101,7 @@ var
   Sep: TATStringSeparator;
 begin
   fn:= GetAppLangFilename;
-  if not FileExistsUTF8(fn) then exit;
+  if not FileExists(fn) then exit;
 
   ini:= TIniFile.Create(fn);
   try

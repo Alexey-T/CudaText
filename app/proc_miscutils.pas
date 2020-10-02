@@ -124,6 +124,9 @@ type
 
 implementation
 
+uses
+  at_sysutils;
+
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
 var
   i: Integer;
@@ -308,7 +311,7 @@ var
   ext: string;
 begin
   Result:= nil;
-  if not FileExistsUTF8(AFilename) then exit;
+  if not FileExists(AFilename) then exit;
   ext:= LowerCase(ExtractFileExt(AFilename));
 
   if ext='.png' then

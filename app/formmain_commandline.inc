@@ -193,7 +193,7 @@ begin
       DoFolderOpen(SParam, False);
     end
     else
-    if FileExistsUTF8(SParam) then
+    if FileExists(SParam) then
     begin
       Frame:= DoFileOpen(SParam, '', nil, AOpenOptions);
       if Assigned(Frame) then

@@ -307,7 +307,7 @@ const
 begin
   Result:= false;
   if AFileName='' then exit;
-  if not FileExistsUTF8(AFileName) then exit;
+  if not FileExists(AFileName) then exit;
 
   nCountFilesBefore:= FrameCount;
   if nCountFilesBefore=1 then
@@ -348,8 +348,8 @@ begin
       sFilename:= cfg.GetValue(item_path+'file', '');
       sFilename:= SExpandHomeDirInFilename(sFilename);
 
-      bExist:= (sFilename<>'') and FileExistsUTF8(sFilename);
-      bExist2:= (sFilename2<>'') and FileExistsUTF8(sFilename2);
+      bExist:= (sFilename<>'') and FileExists(sFilename);
+      bExist2:= (sFilename2<>'') and FileExists(sFilename2);
 
       if (sFilename<>'') and not bExist then
       begin
@@ -727,7 +727,7 @@ begin
     Free;
   end;
 
-  if FileExistsUTF8(fn) then
+  if FileExists(fn) then
   try
     DoOps_LoadOptions(fn, EditorOps);
     DoApplyAllOps;
@@ -1244,8 +1244,8 @@ begin
   FilenameDefault:= GetAppLexerSpecificConfig(CurLexer, true);
   FilenameUser:= GetAppLexerSpecificConfig(CurLexer, false);
 
-  bExistsDefault:= FileExistsUTF8(FilenameDefault);
-  bExistsUser:= FileExistsUTF8(FilenameUser);
+  bExistsDefault:= FileExists(FilenameDefault);
+  bExistsUser:= FileExists(FilenameUser);
 
   if bExistsDefault or bExistsUser then
   begin
@@ -1328,10 +1328,10 @@ var
   fn: string;
 begin
   fn:= AppFile_OptionsUser;
-  if not FileExistsUTF8(fn) then
+  if not FileExists(fn) then
   begin
     FCreateFileJSON(fn);
-    if not FileExistsUTF8(fn) then exit;
+    if not FileExists(fn) then exit;
   end;
 
   dlg:= TFontDialog.Create(nil);

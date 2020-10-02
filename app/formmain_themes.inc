@@ -310,7 +310,7 @@ begin
   else
     Ext:= AppExtensionThemeSyntax;
 
-  Result:= FileExistsUTF8(AppDir_DataThemes+DirectorySeparator+AName+Ext);
+  Result:= FileExists(AppDir_DataThemes+DirectorySeparator+AName+Ext);
 end;
 
 procedure TfmMain.mnuEditClick(Sender: TObject);

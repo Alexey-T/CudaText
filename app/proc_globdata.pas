@@ -40,6 +40,7 @@ uses
   ATStatusBar,
   ATScrollBar,
   ATTabs,
+  at_sysutils,
   at__jsonconf,
   proc_cmd,
   proc_msg,
@@ -1651,7 +1652,7 @@ var
   L: TStringList;
 begin
   Result:= '';
-  if not FileExistsUTF8(AFilename) then exit;
+  if not FileExists(AFilename) then exit;
 
   L:= TStringList.Create;
   try

@@ -2082,9 +2082,9 @@ begin
   if Assigned(FImageBox) then
     FImageBox.Hide;
 
-  if not FileExistsUTF8(AFileName) then exit;
+  if not FileExists(AFileName) then exit;
   if (AFileName2<>'') then
-    if not FileExistsUTF8(AFileName2) then exit;
+    if not FileExists(AFileName2) then exit;
 
   Lexer[Ed1]:= nil;
   if not EditorsLinked then
@@ -2304,7 +2304,7 @@ begin
         NameTemp:= SaveDialog.InitialDir+DirectorySeparator+
                    NameInitial+IfThen(NameCounter>0, IntToStr(NameCounter))+
                    SaveDialog.DefaultExt; //DefaultExt with dot
-        if not FileExistsUTF8(NameTemp) then
+        if not FileExists(NameTemp) then
         begin
           SaveDialog.FileName:= ExtractFileName(NameTemp);
           Break
@@ -2430,7 +2430,7 @@ begin
   SFileName:= GetFileName(Ed);
   if SFileName='' then exit(false);
 
-  if not FileExistsUTF8(SFileName) then
+  if not FileExists(SFileName) then
   begin
     OnMsgStatus(Self, msgCannotFindFile+' '+ExtractFileName(SFileName));
     exit(false);
@@ -3101,7 +3101,7 @@ begin
   end
   else
   begin
-    if FileExistsUTF8(fn) then
+    if FileExists(fn) then
       DeleteFile(fn);
   end;
 end;
@@ -3290,11 +3290,11 @@ begin
   if IsFilenameListedInExtensionList(SFileName, UiOps.UndoPersistent) then
   begin
     STemp:= GetAppUndoFilename(SFileName, false);
-    if FileExistsUTF8(STemp) then
+    if FileExists(STemp) then
       Ed.UndoAsString:= DoReadContentFromFile(STemp);
 
     STemp:= GetAppUndoFilename(SFileName, true);
-    if FileExistsUTF8(STemp) then
+    if FileExists(STemp) then
       Ed.RedoAsString:= DoReadContentFromFile(STemp);
   end;
 end;

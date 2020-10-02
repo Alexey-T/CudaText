@@ -233,8 +233,8 @@ begin
       dir:= AppDir_DataAutocompleteSpec;
       filenameSnips:= dir+DirectorySeparator+'emmet_snippets.ini';
       filenameLorem:= dir+DirectorySeparator+'emmet_lorem.txt';
-      if not FileExistsUTF8(filenameSnips) then exit(ReturnNone);
-      if not FileExistsUTF8(filenameLorem) then exit(ReturnNone);
+      if not FileExists(filenameSnips) then exit(ReturnNone);
+      if not FileExists(filenameLorem) then exit(ReturnNone);
       AppEmmet:= TEmmet.Create(filenameSnips, filenameLorem);
     end;
 
@@ -7183,7 +7183,7 @@ begin
     NColorNums
     );
 
-  Result:= FileExistsUTF8(SFileName);
+  Result:= FileExists(SFileName);
 end;
 
 

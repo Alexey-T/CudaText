@@ -2614,7 +2614,7 @@ begin
     if DirectoryExistsUTF8(SName) then
       DoFolderOpen(SName, False)
     else
-    if FileExistsUTF8(SName) then
+    if FileExists(SName) then
       DoFileOpen(SName, '', Pages);
   end;
 end;
@@ -2656,7 +2656,7 @@ begin
     if DirectoryExistsUTF8(SName) then
       DoFolderOpen(SName, False)
     else
-    if FileExistsUTF8(SName) then
+    if FileExists(SName) then
       DoFileOpen(SName, '', Gr.Pages[0]);
   end;
 end;
@@ -3582,7 +3582,7 @@ begin
   if AFileName<>'' then
   begin
     AFileName:= ResolveWindowsLinkTarget(ExpandFileName(AFileName));
-    if not FileExistsUTF8(AFileName) then
+    if not FileExists(AFileName) then
     begin
       MsgBox(msgCannotFindFile+#10+AFileName, MB_OK or MB_ICONERROR);
       Exit
@@ -3592,7 +3592,7 @@ begin
   if AFileName2<>'' then
   begin
     AFileName2:= ResolveWindowsLinkTarget(ExpandFileName(AFileName2));
-    if not FileExistsUTF8(AFileName2) then
+    if not FileExists(AFileName2) then
     begin
       MsgBox(msgCannotFindFile+#10+AFileName2, MB_OK or MB_ICONERROR);
       Exit
@@ -3886,7 +3886,7 @@ begin
       for i:= 0 to NFileCount-1 do
       begin
         fn:= dlg.Files[i];
-        if not FileExistsUTF8(fn) then Continue;
+        if not FileExists(fn) then Continue;
         bZip:= bZipAllowed and (ExtractFileExt(fn)='.zip');
         if bZip then
         begin
@@ -3905,7 +3905,7 @@ begin
     end
     else
     begin
-      if FileExistsUTF8(dlg.FileName) then
+      if FileExists(dlg.FileName) then
         DoFileOpen(dlg.FileName, '', nil, AOptions)
       else
       if MsgBox(
@@ -4924,7 +4924,7 @@ begin
   fn:= F.GetFileName(Ed);
   if fn='' then exit;
 
-  if not FileExistsUTF8(fn) then
+  if not FileExists(fn) then
   begin
     MsgStatus(msgCannotFindFile+' '+ExtractFileName(fn));
     exit;
@@ -5047,7 +5047,7 @@ var
 begin
   n:= (Sender as TComponent).Tag;
   fn:= SExpandHomeDirInFilename(AppListRecents[n]);
-  if FileExistsUTF8(fn) then
+  if FileExists(fn) then
     DoFileOpen(fn, '')
   else
   begin
@@ -5333,7 +5333,7 @@ begin
   bUntitled:= SFilename='';
   if bUntitled then
     bSaveAs:= true;
-  bFileExists:= (SFilename<>'') and FileExistsUTF8(SFilename);
+  bFileExists:= (SFilename<>'') and FileExists(SFilename);
 
   //if file not exists, it's moved during Cud work, we must recreate it (like ST3)
   if Ed.Modified or bUntitled or not bFileExists then
@@ -5445,10 +5445,10 @@ var
   fn: string;
 begin
   fn:= AppFile_OptionsUser;
-  if not FileExistsUTF8(fn) then
+  if not FileExists(fn) then
   begin
     FCreateFileJSON(fn);
-    if not FileExistsUTF8(fn) then Exit;
+    if not FileExists(fn) then Exit;
   end;
 
   DoFileOpen(fn, '');
@@ -5462,10 +5462,10 @@ begin
   NameDef:= AppFile_OptionsDefault;
   NameUser:= AppFile_OptionsUser;
 
-  if not FileExistsUTF8(NameUser) then
+  if not FileExists(NameUser) then
   begin
     FCreateFileJSON(NameUser);
-    if not FileExistsUTF8(NameUser) then exit;
+    if not FileExists(NameUser) then exit;
   end;
 
   F:= DoFileOpen(NameDef, NameUser);
@@ -5491,13 +5491,13 @@ begin
   fn:= GetAppLexerSpecificConfig(CurLexer, false);
   fn_def:= GetAppLexerSpecificConfig(CurLexer, true);
 
-  if not FileExistsUTF8(fn) then
+  if not FileExists(fn) then
   begin
     FCreateFileJSON(fn);
-    if not FileExistsUTF8(fn) then exit;
+    if not FileExists(fn) then exit;
   end;
 
-  if FileExistsUTF8(fn_def) then
+  if FileExists(fn_def) then
     DoFileOpen(fn_def, fn)
   else
     DoFileOpen(fn, '');
@@ -7309,7 +7309,7 @@ var
 begin
   //load *.cuda-lexops
   fn_ops:= GetAppLexerOpsFilename(ALexer.LexerName);
-  if FileExistsUTF8(fn_ops) then
+  if FileExists(fn_ops) then
     DoLoadLexerStylesFromFile_JsonLexerOps(ALexer, fn_ops, UiOps.LexerThemes);
 end;
 

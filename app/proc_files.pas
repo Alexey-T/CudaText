@@ -15,6 +15,7 @@ uses
   Classes, SysUtils,
   LazFileUtils,
   ATStrings,
+  at_sysutils,
   CopyDir;
 
 function FCreateFile(const fn: string): boolean;
@@ -198,7 +199,7 @@ var
   temp_attr: Longint;
 begin
   attr:= 0;
-  if not FileExistsUTF8(fn) then exit;
+  if not FileExists(fn) then exit;
 
   temp_attr:= FileGetAttrUTF8(fn);
   if (temp_attr and spec)=0 then exit;
