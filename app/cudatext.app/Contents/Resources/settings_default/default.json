@@ -561,20 +561,13 @@
   //  2: use option from Find dialog
   "find_sel_case": 2,
 
-  //Find dialog: show "Find" (ie, Find first) button
-  "find_show_findfirst": true,
-
-  //Find dialog: show "Select all" button
-  "find_show_select_all": true,
-
-  //Find dialog: show "Mark all" button
-  "find_show_mark_all": true,
-
-  //Find dialog: show "Extract" button
-  "find_show_extract": true,
-
-  //Find dialog: show "Replace global" button
-  "find_show_replace_global": true,
+  //Find dialog: which buttons to hide.
+  //  if "f" in value: "Find first" button
+  //  if "e" in value: "Extract" button
+  //  if "s" in value: "Select all" button
+  //  if "m" in value: "Mark all" button
+  //  if "g" in value: "Replace global" button
+  "find_hidden_buttons": "",
 
   //Find dialog: multi-line mode: how height of inputs is increased
   "find_multiline_scale": 2.5,

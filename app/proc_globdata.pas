@@ -264,8 +264,9 @@ type
     FindSuggestWord: boolean;
     FindSuggestInSelection: boolean;
     FindSelCase: integer;
+    FindHiddenButtons: string;
     FindShow_FindFirst: boolean;
-    FindShow_MarkALl: boolean;
+    FindShow_MarkAll: boolean;
     FindShow_SelectAll: boolean;
     FindShow_Extract: boolean;
     FindShow_ReplaceGlobal: boolean;
@@ -1443,8 +1444,9 @@ begin
     FindSuggestWord:= true;
     FindSuggestInSelection:= false;
     FindSelCase:= 2;
+    FindHiddenButtons:= '';
     FindShow_FindFirst:= true;
-    FindShow_MarkALl:= true;
+    FindShow_MarkAll:= true;
     FindShow_SelectAll:= true;
     FindShow_Extract:= true;
     FindShow_ReplaceGlobal:= true;

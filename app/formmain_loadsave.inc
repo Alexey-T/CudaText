@@ -1081,11 +1081,14 @@ begin
   UiOps.FindSuggestWord:= cfg.GetValue('find_suggest_cur_word', UiOps.FindSuggestWord);
   UiOps.FindSuggestInSelection:= cfg.GetValue('find_suggest_in_selection', UiOps.FindSuggestInSelection);
   UiOps.FindSelCase:= cfg.GetValue('find_sel_case', UiOps.FindSelCase);
-  UiOps.FindShow_FindFirst:= cfg.GetValue('find_show_findfirst', UiOps.FindShow_FindFirst);
-  UiOps.FindShow_MarkALl:= cfg.GetValue('find_show_mark_all', UiOps.FindShow_MarkALl);
-  UiOps.FindShow_SelectAll:= cfg.GetValue('find_show_select_all', UiOps.FindShow_SelectAll);
-  UiOps.FindShow_Extract:= cfg.GetValue('find_show_extract', UiOps.FindShow_Extract);
-  UiOps.FindShow_ReplaceGlobal:= cfg.GetValue('find_show_replace_global', UiOps.FindShow_ReplaceGlobal);
+
+  UiOps.FindHiddenButtons:= cfg.GetValue('find_hidden_buttons', UiOps.FindHiddenButtons);
+  UiOps.FindShow_FindFirst:=     Pos('f', UiOps.FindHiddenButtons)=0;
+  UiOps.FindShow_MarkAll:=       Pos('m', UiOps.FindHiddenButtons)=0;
+  UiOps.FindShow_SelectAll:=     Pos('s', UiOps.FindHiddenButtons)=0;
+  UiOps.FindShow_Extract:=       Pos('e', UiOps.FindHiddenButtons)=0;
+  UiOps.FindShow_ReplaceGlobal:= Pos('g', UiOps.FindHiddenButtons)=0;
+
   UiOps.FindIndentVert:= cfg.GetValue('find_indent_vert', UiOps.FindIndentVert);
   UiOps.FindIndentHorz:= cfg.GetValue('find_indent_horz', UiOps.FindIndentHorz);
   UiOps.FindMultiLineScale:= cfg.GetValue('find_multiline_scale', UiOps.FindMultiLineScale);
