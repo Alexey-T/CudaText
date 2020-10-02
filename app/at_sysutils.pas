@@ -11,13 +11,14 @@ unit at_sysutils;
 interface
 
 {$ifdef windows}
-Function FileExists (Const FileName : RawByteString; FollowLink : Boolean = True) : Boolean;
+function FileExists(Const FileName: string): Boolean;
 {$endif}
 
 implementation
 
 {$ifdef windows}
-uses Windows, SysUtils;
+uses
+  Windows, SysUtils;
   
 type
   TSymLinkResult = (
@@ -184,17 +185,17 @@ begin
 end;
 
 
-Function FileExists (Const FileName : UnicodeString; FollowLink : Boolean) : Boolean;
+Function _FileExists (Const FileName : UnicodeString; FollowLink : Boolean) : Boolean;
 begin
   Result := FileOrDirExists(FileName, False, FollowLink);
 end;
            
 
-Function FileExists (Const FileName : RawByteString; FollowLink : Boolean) : Boolean;
+function FileExists (Const FileName: string): Boolean;
 begin
-  Result:=FileExists(UnicodeString(FileName), FollowLink);
+  Result:= _FileExists(UTF8Decode(FileName), True);
 end;
-     
+
 {$endif}
 
 end.
