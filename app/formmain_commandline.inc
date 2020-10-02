@@ -179,6 +179,8 @@ begin
     if SBeginsWith(SParam, '-') then
       Continue;
 
+    AppExpandWin32RelativeRootFilename(SParam);
+
     //here we assume that SParam is filename/dirname/filemask
     if not IsOsFullPath(SParam) then
       SParam:= GetCurrentDirUTF8+DirectorySeparator+SParam;

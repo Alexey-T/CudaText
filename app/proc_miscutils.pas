@@ -53,6 +53,7 @@ procedure Canvas_PaintImageInRect(C: TCanvas; APic: TGraphic; const ARect: TRect
 function DoPictureLoadFromFile(const AFilename: string): TGraphic;
 procedure DoScalePanelControls(APanel: TWinControl);
 procedure AppScaleSplitter(C: TSplitter);
+procedure AppExpandWin32RelativeRootFilename(var fn: string);
 
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
 procedure LexerEnumStyles(An: TecSyntAnalyzer; List: TStringList);
@@ -1005,6 +1006,15 @@ begin
     C.TextOut(NX, NY, SItem);
     Inc(NY, H);
   end;
+end;
+
+procedure AppExpandWin32RelativeRootFilename(var fn: string);
+//this fixes issue #2862, expand '\name.txt'
+begin
+  {$ifdef windows}
+  if (Length(fn)>1) and (fn[1]='\') and (fn[2]<>'\') then
+    Insert(ExtractFileDrive(GetCurrentDir), fn, 1);
+  {$endif}
 end;
 
 end.

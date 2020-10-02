@@ -11,10 +11,6 @@ unit at_sysutils;
 interface
 
 {$ifdef windows}
-type
-  PathStr = string;
-
-function ExpandFileName (Const FileName : PathStr): PathStr;
 Function FileExists (Const FileName : RawByteString; FollowLink : Boolean = True) : Boolean;
 {$endif}
 
@@ -22,16 +18,7 @@ implementation
 
 {$ifdef windows}
 uses Windows, SysUtils;
-{$I fexpand.inc}
-
-function ExpandFileName (Const FileName : PathStr): PathStr;
-Var S : PathStr;
-Begin
- S:=FileName;
- DoDirSeparators(S);
- Result:=Fexpand(S);
-end;
-
+  
 type
   TSymLinkResult = (
     slrOk,
