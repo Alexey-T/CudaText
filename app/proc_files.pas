@@ -132,9 +132,10 @@ begin
           if (n < 32)
             and (n <> 07) //BELL char
             and (n <> 09)
-            and (n <> 13)
             and (n <> 10)
-            and (n <> 26) then //Ctrl-Z char, used often
+            and (n <> 13)
+            and (n <> 12) //FormFeed char
+            and (n <> 26) then //EOF char
             begin
               Result:= False;
               Break

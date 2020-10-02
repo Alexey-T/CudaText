@@ -12,7 +12,7 @@
 + add: all auto-completions are disabled if caret is inside comments
 * change: Find dialog: action buttons are aligned to the right
 * change: several options "find_show_nnnn" replaced with single string option "find_hidden_buttons"; more buttons can be hidden now
-+ add: don't treat ASCII Ctrl+Z char as non-text char
++ add: don't treat ASCII chars "end of file" and "form feed" as non-text
 + add: updated FreePascal JSON library, now it don't allow incorrect strings/booleans/numbers
 + add: Windows: UI theme has additional 5 colors "top menu ...", all "none" by default to use "tabs ..." colors
 + add: Windows: option "ui_menu_themed" (thanks @tmsg)
