@@ -76,8 +76,19 @@ end;
 type
   TFreqTable = array[$80 .. $FF] of Integer;
 
+function IsAsciiControlChar(n: integer): boolean; inline;
 const
-  cAllowedControlChars: set of byte = [7 {Bell}, 9, 10, 13, 12 {FormFeed}, 26 {EOF}];
+  cAllowedControlChars: set of byte = [
+    7, //Bell
+    9,
+    10,
+    13,
+    12, //FormFeed
+    26 //EOF
+    ];
+begin
+  Result:= (n < 32) and not (byte(n) in cAllowedControlChars);
+end;
 
 function IsFileContentText(const fn: string; BufSizeKb: integer;
   BufSizeWords: integer;
@@ -90,10 +101,11 @@ var
   TableSize: Integer;
   Str: TFileStream;
   SSign: string;
-  IsOEM, IsLE: boolean;
+  //IsOEM,
+  IsLE: boolean;
 begin
   Result:= False;
-  IsOEM:= False;
+  //IsOEM:= False;
   Str:= nil;
   Buffer:= nil;
 
@@ -132,7 +144,7 @@ begin
           n:= Ord(Buffer[i]);
 
           //If control chars present, then non-text
-          if (n < 32) and not (byte(n) in cAllowedControlChars) then
+          if IsAsciiControlChar(n) then
           begin
             Result:= False;
             Break
@@ -156,7 +168,10 @@ begin
           Table[i]:= Table[i] * 100 div TableSize;
           if ((i >= $B0) and (i <= $DF)) or (i = $FF) or (i = $A9) then
             if Table[i] >= 18 then
-              begin IsOEM:= True; Break end;
+            begin
+              //IsOEM:= True;
+              Break
+            end;
         end;
 
   finally
