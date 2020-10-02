@@ -76,6 +76,9 @@ end;
 type
   TFreqTable = array[$80 .. $FF] of Integer;
 
+const
+  cAllowedControlChars: set of byte = [7 {Bell}, 9, 10, 13, 12 {FormFeed}, 26 {EOF}];
+
 function IsFileContentText(const fn: string; BufSizeKb: integer;
   BufSizeWords: integer;
   DetectOEM: boolean): Boolean;
@@ -129,17 +132,11 @@ begin
           n:= Ord(Buffer[i]);
 
           //If control chars present, then non-text
-          if (n < 32)
-            and (n <> 07) //BELL char
-            and (n <> 09)
-            and (n <> 10)
-            and (n <> 13)
-            and (n <> 12) //FormFeed char
-            and (n <> 26) then //EOF char
-            begin
-              Result:= False;
-              Break
-            end;
+          if (n < 32) and not (byte(n) in cAllowedControlChars) then
+          begin
+            Result:= False;
+            Break
+          end;
 
           //Calculate freq table
           if DetectOEM then
