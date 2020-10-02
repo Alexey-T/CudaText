@@ -1084,9 +1084,13 @@ begin
 
   UiOps.FindHiddenButtons:= cfg.GetValue('find_hidden_buttons', UiOps.FindHiddenButtons);
   UiOps.FindShow_FindFirst:=     Pos('f', UiOps.FindHiddenButtons)=0;
+  UiOps.FindShow_FindNext:=      Pos('n', UiOps.FindHiddenButtons)=0;
+  UiOps.FindShow_FindPrev:=      Pos('p', UiOps.FindHiddenButtons)=0;
+  UiOps.FindShow_Count:=         Pos('c', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_MarkAll:=       Pos('m', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_SelectAll:=     Pos('s', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_Extract:=       Pos('e', UiOps.FindHiddenButtons)=0;
+  UiOps.FindShow_ReplaceAll:=    Pos('a', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_ReplaceGlobal:= Pos('g', UiOps.FindHiddenButtons)=0;
 
   UiOps.FindIndentVert:= cfg.GetValue('find_indent_vert', UiOps.FindIndentVert);

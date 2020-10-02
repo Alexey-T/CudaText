@@ -563,9 +563,13 @@
 
   //Find dialog: which buttons to hide.
   //  if "f" in value: "Find first" button
+  //  if "n" in value: "Find next" button
+  //  if "p" in value: "Find prev" button
+  //  if "c" in value: "Count" button
   //  if "e" in value: "Extract" button
   //  if "s" in value: "Select all" button
   //  if "m" in value: "Mark all" button
+  //  if "a" in value: "Replace all" button
   //  if "g" in value: "Replace global" button
   "find_hidden_buttons": "",
 
