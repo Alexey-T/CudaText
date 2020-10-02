@@ -134,8 +134,11 @@ begin
             and (n <> 09)
             and (n <> 13)
             and (n <> 10)
-            and (n <> 27 {other editors allow ESC char}) then
-            begin Result:= False; Break end;
+            and (n <> 26) then //Ctrl-Z char, used often
+            begin
+              Result:= False;
+              Break
+            end;
 
           //Calculate freq table
           if DetectOEM then
