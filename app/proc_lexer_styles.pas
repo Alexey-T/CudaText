@@ -12,7 +12,6 @@ interface
 uses
   SysUtils, Classes, Graphics,
   LazFileUtils,
-  at_sysutils,
   at__jsonconf,
   ec_SyntAnal,
   ec_syntax_format,

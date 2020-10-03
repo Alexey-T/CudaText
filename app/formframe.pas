@@ -424,9 +424,6 @@ var
 
 implementation
 
-uses
-  at_sysutils;
-
 {$R *.lfm}
 
 const

@@ -1126,7 +1126,6 @@ procedure DoOnLexerLoaded(Sender: TObject; ALexer: TecSyntAnalyzer);
 implementation
 
 uses
-  at_sysutils,
   Emmet,
   EmmetHelper;
 

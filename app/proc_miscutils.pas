@@ -124,9 +124,6 @@ type
 
 implementation
 
-uses
-  at_sysutils;
-
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
 var
   i: Integer;

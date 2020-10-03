@@ -15,7 +15,6 @@ uses
   Classes, SysUtils,
   LazFileUtils,
   ATStrings,
-  at_sysutils,
   CopyDir;
 
 function FCreateFile(const fn: string): boolean;
