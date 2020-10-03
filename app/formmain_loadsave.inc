@@ -155,7 +155,7 @@ begin
     cfg.Free;
   end;
 
-  if UiOps.ReopenSession and FOption_AllowSession then
+  if UiOps.ReopenSession and (FOption_AllowSession=aalsEnable) then
     DoOps_SaveSession(GetSessionFilename);
 end;
 
@@ -657,7 +657,7 @@ begin
     if UiOps.LangName<>'' then
       DoLocalize;
 
-    if FOption_AllowSession then
+    if FOption_AllowSession=aalsEnable then
     begin
       AppSessionName:= cfg.GetValue('session', AppSessionName);
       FLastSelectedCommand:= cfg.GetValue('last_cmd', FLastSelectedCommand);
@@ -991,7 +991,8 @@ begin
   UiOps.ReopenSession:= cfg.GetValue('ui_reopen_session', UiOps.ReopenSession);
   UiOps.ReopenSessionWithCmdLine:= cfg.GetValue('ui_reopen_session_cmdline', UiOps.ReopenSessionWithCmdLine);
   if UiOps.ReopenSessionWithCmdLine then
-    FOption_AllowSession:= true;
+    if FOption_AllowSession=aalsNotGood then
+      FOption_AllowSession:= aalsEnable;
   UiOps.AutoSaveSession:= cfg.GetValue('ui_auto_save_session', UiOps.AutoSaveSession);
   //UiOps.FloatGroupsInTaskbar:= cfg.GetValue('ui_float_groups_in_taskbar', UiOps.FloatGroupsInTaskbar);
   UiOps.OneInstance:= cfg.GetValue('ui_one_instance', UiOps.OneInstance);

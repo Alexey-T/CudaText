@@ -138,6 +138,8 @@ type
 
   TAppStringArray = array of string;
 
+  TAppAllowLoadSession = (aalsEnable, aalsDisable, aalsNotGood);
+
 var
   AppNotifThread: TAppNotifThread = nil;
 
@@ -679,7 +681,7 @@ type
     FInvalidateShortcutsForce: boolean;
     FLexerProgressIndex: integer;
     FOption_WindowPos: string;
-    FOption_AllowSession: boolean;
+    FOption_AllowSession: TAppAllowLoadSession;
     FOption_GroupMode: TATGroupsMode;
     FOption_GroupSizes: TATGroupsPoints;
     FOption_GroupPanelSize: TPoint;
@@ -965,8 +967,8 @@ type
     procedure DoFileOpenDialog_NoPlugins;
     function DoFileSaveAll: boolean;
     procedure DoFileReopen(Ed: TATSynEdit);
-    procedure DoLoadCommandLineBaseOptions(out AWindowPos: string;
-      out AAllowSession: boolean; out AFileFolderCount: integer);
+    procedure DoLoadCommandLineBaseOptions(out AWindowPos: string; out
+      AAllowSession: TAppAllowLoadSession; out AFileFolderCount: integer);
     procedure DoLoadCommandParams(const AParams: array of string; AOpenOptions: string);
     procedure DoLoadCommandLine;
     //procedure DoToggleMenu;
@@ -2784,7 +2786,7 @@ procedure TfmMain.FormShow(Sender: TObject);
     //load session
     //after on_start (so HTML Tooltips with on_open can work)
     //after loading keymap-main and keymap for none-lexer
-    if UiOps.ReopenSession and FOption_AllowSession then
+    if UiOps.ReopenSession and (FOption_AllowSession=aalsEnable) then
       DoOps_LoadSession(GetSessionFilename, false);
   end;
   //
