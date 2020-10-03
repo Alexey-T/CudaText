@@ -19,6 +19,7 @@ uses
   LazUTF8,
   proc_globdata,
   proc_msg,
+  proc_miscutils,
   at__jsonconf,
   LazFileUtils,
   {$endif}
@@ -493,6 +494,8 @@ begin
           begin
             param := ParamStrUTF8(i);
             if param = '' then Continue;
+
+            AppExpandWin32RelativeRootFilename(param);
 
             bAddDir :=
               (param[1] <> '-') and // https://github.com/Alexey-T/CudaText/issues/2578

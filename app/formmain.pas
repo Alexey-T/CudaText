@@ -3222,10 +3222,13 @@ begin
   begin
     S:= ParamStrUTF8(i);
 
+    AppExpandWin32RelativeRootFilename(S);
+
     bAddDir :=
       (S[1] <> '-') and
       (WorkDir <> '') and
       not IsOsFullPath(S);
+
     if bAddDir then
       S:= WorkDir+DirectorySeparator+S;
 
