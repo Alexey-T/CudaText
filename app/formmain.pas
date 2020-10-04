@@ -1106,6 +1106,7 @@ type
     property ThemeUi: string write SetThemeUi;
     property ThemeSyntax: string write SetThemeSyntax;
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
+    procedure DoPyEvent_AppActivate(AEvent: TAppPyEvent);
     procedure DoPyCommand(const AModule, AMethod: string; const AParams: TAppVariantArray);
     function DoPyTreeHelper(Frame: TEditorFrame): boolean;
     function DoPyLexerDetection(const Filename: string; Lexers: TStringList): integer;
@@ -2461,11 +2462,23 @@ begin
   DoTooltipHide;
 end;
 
+procedure TfmMain.DoPyEvent_AppActivate(AEvent: TAppPyEvent);
+var
+  Tick: QWord;
+  Params: TAppVariantArray;
+begin
+  Tick:= GetTickCount64;
+  if (Tick-FLastAppActivate)>500 then //workaround for too many calls in LCL, on Ubuntu 20.04
+  begin
+    FLastAppActivate:= Tick;
+    SetLength(Params, 0);
+    DoPyEvent(nil, AEvent, Params);
+  end;
+end;
+
 procedure TfmMain.AppPropsActivate(Sender: TObject);
 var
   F: TEditorFrame;
-  Tick: QWord;
-  Params: TAppVariantArray;
 begin
   if EditorOps.OpShowCurLineOnlyFocused then
   begin
@@ -2474,20 +2487,12 @@ begin
     F.Editor.Update;
   end;
 
-  Tick:= GetTickCount64;
-  if (Tick-FLastAppActivate)>500 then //workaround for too many calls in LCL
-  begin
-    FLastAppActivate:= Tick;
-    SetLength(Params, 0);
-    DoPyEvent(nil, cEventOnAppActivate, Params);
-  end;
+  DoPyEvent_AppActivate(cEventOnAppActivate);
 end;
 
 procedure TfmMain.AppPropsDeactivate(Sender: TObject);
 var
   F: TEditorFrame;
-  Tick: QWord;
-  Params: TAppVariantArray;
 begin
   if EditorOps.OpShowCurLineOnlyFocused then
   begin
@@ -2496,13 +2501,7 @@ begin
     F.Editor.Update;
   end;
 
-  Tick:= GetTickCount64;
-  if (Tick-FLastAppActivate)>500 then //workaround for too many calls in LCL
-  begin
-    FLastAppActivate:= Tick;
-    SetLength(Params, 0);
-    DoPyEvent(nil, cEventOnAppDeactivate, Params);
-  end;
+  DoPyEvent_AppActivate(cEventOnAppDeactivate);
 end;
 
 procedure TfmMain.AppPropsEndSession(Sender: TObject);
