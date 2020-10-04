@@ -10,7 +10,7 @@
     b) added completion for CSS @-rules and pseudo-elements beginning with ":" and "::" (thanks @d-mal)
     c) don't suggest CSS props/values outside of {} brackets
 + add: all auto-completions are disabled if caret is inside comments
-* change: before, "Save" command was ignored if called on unmodified file; it gave the issue when file was modified by external program, and was not like in Sublime. Now "Save" always saves. (thanks @gh_origin)
+* change: before, "Save" command was ignored if called on unmodified file. It confused users, when file was modified by external program, and was not like in ST3. Now "Save" always saves. (thanks @gh_origin)
 * change: Find dialog: action buttons are aligned to the right
 * change: several options "find_show_nnnn" replaced with single string option "find_hidden_buttons"; more buttons can be hidden now
 + add: don't treat ASCII chars "end of file" and "form feed" as non-text
