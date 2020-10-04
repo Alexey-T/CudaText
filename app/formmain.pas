@@ -5344,7 +5344,9 @@ begin
   begin
     if Frame.DoFileSave_Ex(Ed, bSaveAs) then
       DoFileDialog_SaveDir(SaveDlg);
-  end;
+  end
+  else
+    MsgStatus(msgStatusFileNotSavedYet);
 end;
 
 procedure TfmMain.DoFileSaveAs(Ed: TATSynEdit);
