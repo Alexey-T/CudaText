@@ -5346,7 +5346,7 @@ begin
       DoFileDialog_SaveDir(SaveDlg);
   end
   else
-    MsgStatus(msgStatusFileNotSavedYet);
+    MsgStatus(msgStatusSaveIsIgnored);
 end;
 
 procedure TfmMain.DoFileSaveAs(Ed: TATSynEdit);
