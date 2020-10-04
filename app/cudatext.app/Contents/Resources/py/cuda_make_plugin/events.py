@@ -1,4 +1,6 @@
 EVENTS = [
+    'on_app_activate',
+    'on_app_deactivate',
     'on_caret',
     'on_change',
     'on_change_slow',
