@@ -342,6 +342,7 @@ type
     ShowFormsOnTop: boolean;
     ShowMenuDialogsWithBorder: boolean;
     UndoPersistent: string;
+    AllowSavingWithoutDirtyState: boolean;
 
     FloatGroupsInTaskbar: boolean;
     OneInstance: boolean;
@@ -1534,6 +1535,7 @@ begin
     ShowFormsOnTop:= false;
     ShowMenuDialogsWithBorder:= {$ifdef LCLGTK2} true {$else} false {$endif};
     UndoPersistent:= '';
+    AllowSavingWithoutDirtyState:= true;
 
     FloatGroupsInTaskbar:= true;
     OneInstance:= false;
