@@ -5340,7 +5340,7 @@ begin
   bFileExists:= (SFilename<>'') and FileExists(SFilename);
 
   //if file not exists, it's moved during Cud work, we must recreate it (like ST3)
-  if UiOps.AllowSavingWithoutDirtyState or
+  if UiOps.AllowSaveOfUnmodifiedFile or
     (Ed.Modified or bUntitled or not bFileExists) then
   begin
     if Frame.DoFileSave_Ex(Ed, bSaveAs) then
