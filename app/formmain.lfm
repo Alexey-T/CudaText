@@ -710,7 +710,7 @@ object fmMain: TfmMain
   object AppProps: TApplicationProperties
     ShowButtonGlyphs = sbgNever
     OnActivate = AppPropsActivate
-    OnDeactivate = AppPropsActivate
+    OnDeactivate = AppPropsDeactivate
     OnEndSession = AppPropsEndSession
     OnQueryEndSession = AppPropsQueryEndSession
     left = 520

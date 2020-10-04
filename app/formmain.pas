@@ -416,6 +416,7 @@ type
     ToolbarSideLow: TATFlatToolbar;
     ToolbarSideTop: TATFlatToolbar;
     procedure AppPropsActivate(Sender: TObject);
+    procedure AppPropsDeactivate(Sender: TObject);
     procedure AppPropsEndSession(Sender: TObject);
     procedure AppPropsQueryEndSession(var Cancel: Boolean);
     procedure ButtonCancelClick(Sender: TObject);
@@ -677,6 +678,7 @@ type
     FLastMaximizedMonitor: integer;
     FLastFocusedFrame: TComponent;
     FLastTooltipLine: integer;
+    FLastAppActivate: QWord;
     FInvalidateShortcuts: boolean;
     FInvalidateShortcutsForce: boolean;
     FLexerProgressIndex: integer;
@@ -2462,12 +2464,44 @@ end;
 procedure TfmMain.AppPropsActivate(Sender: TObject);
 var
   F: TEditorFrame;
+  Tick: QWord;
+  Params: TAppVariantArray;
 begin
   if EditorOps.OpShowCurLineOnlyFocused then
   begin
     F:= CurrentFrame;
     if F=nil then exit;
     F.Editor.Update;
+  end;
+
+  Tick:= GetTickCount64;
+  if (Tick-FLastAppActivate)>500 then //workaround for too many calls in LCL
+  begin
+    FLastAppActivate:= Tick;
+    SetLength(Params, 0);
+    DoPyEvent(nil, cEventOnAppActivate, Params);
+  end;
+end;
+
+procedure TfmMain.AppPropsDeactivate(Sender: TObject);
+var
+  F: TEditorFrame;
+  Tick: QWord;
+  Params: TAppVariantArray;
+begin
+  if EditorOps.OpShowCurLineOnlyFocused then
+  begin
+    F:= CurrentFrame;
+    if F=nil then exit;
+    F.Editor.Update;
+  end;
+
+  Tick:= GetTickCount64;
+  if (Tick-FLastAppActivate)>500 then //workaround for too many calls in LCL
+  begin
+    FLastAppActivate:= Tick;
+    SetLength(Params, 0);
+    DoPyEvent(nil, cEventOnAppDeactivate, Params);
   end;
 end;
 

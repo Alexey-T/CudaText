@@ -780,6 +780,8 @@ type
     cEventOnOutputNav,
     cEventOnSnippet,
     cEventOnMacro,
+    cEventOnAppActivate,
+    cEventOnAppDeactivate,
     cEventOnExit
     );
   TAppPyEvents = set of TAppPyEvent;
@@ -832,6 +834,8 @@ const
     'on_output_nav',
     'on_snippet',
     'on_macro',
+    'on_app_activate',
+    'on_app_deactivate',
     'on_exit'
     );
 
