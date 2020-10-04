@@ -997,6 +997,7 @@ begin
   //UiOps.FloatGroupsInTaskbar:= cfg.GetValue('ui_float_groups_in_taskbar', UiOps.FloatGroupsInTaskbar);
   UiOps.OneInstance:= cfg.GetValue('ui_one_instance', UiOps.OneInstance);
   UiOps.UndoPersistent:= cfg.GetValue('undo_persistent', UiOps.UndoPersistent);
+  UiOps.AllowSaveOfUnmodifiedFile:= cfg.GetValue('ui_allow_save_always', UiOps.AllowSaveOfUnmodifiedFile);
 
   UiOps.NotificationEnabled:= cfg.GetValue('ui_notif', UiOps.NotificationEnabled);
   UiOps.NotificationTimeSeconds:= Max(1, cfg.GetValue('ui_notif_time', UiOps.NotificationTimeSeconds)); //don't allow 0
