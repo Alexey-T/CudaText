@@ -19,7 +19,7 @@
 + add: Windows: option "ui_menu_themed" (thanks @tmsg)
 + add: Unix: when Python engine is not detected, app adds menu item "Plugins / Find Python library". It calls new command "find python library" (available in Command Palette). This command finds the library, suggests several possible filenames, and writes chosen filename to user.json.
 + add: if caret is at the end of long line, and we toggle word-wrap, editor should scroll to new caret pos
-+ add: lexer JavaScript: don't highlight "class" after dot, better detect reg-ex tokens
++ add: lexer JavaScript: don't highlight "class" after dot, better detect RegEx literals
 - fix: command-line option -ns must win over "ui_reopen_session_cmdline":true (thanks @tmsg)
 - fix: Windows: error with command-line filename '\name.ext' (thanks @tmsg)
 - fix: regression in regex engine with ^ and $ (thanks @hycmos)
