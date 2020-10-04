@@ -170,7 +170,7 @@
 
   //Command "File / Save" works always, even with unmodified state of document.
   //Otherwise, it works only for modified (dirty) documents, of if the file was deleted outside.
-  "ui_allow_save_always": true,
+  "ui_save_always": true,
 
   //[Lexers]
   //Group lexers menu by first char of name
