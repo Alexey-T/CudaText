@@ -945,7 +945,8 @@ var
 begin
   N:= 0;
   for i:= 0 to C.ControlCount-1 do
-    Inc(N, C.Controls[i].Width);
+    if C.Controls[i].Visible then
+      Inc(N, C.Controls[i].Width);
   C.Width:= N;
 end;
 

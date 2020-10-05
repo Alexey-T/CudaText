@@ -450,16 +450,6 @@ begin
   InitFormFind;
   with fmFind do
   begin
-    bFindFirst.Visible:= UiOps.FindShow_FindFirst;
-    bFindNext.Visible:= UiOps.FindShow_FindNext;
-    bFindPrev.Visible:= UiOps.FindShow_FindPrev;
-    bCount.Visible:= UiOps.FindShow_Count;
-    bExtract.Visible:= UiOps.FindShow_Extract;
-    bSelectAll.Visible:= UiOps.FindShow_SelectAll;
-    bMarkAll.Visible:= UiOps.FindShow_MarkAll;
-    bRepAll.Visible:= UiOps.FindShow_ReplaceAll;
-    bRepGlobal.Visible:= UiOps.FindShow_ReplaceGlobal;
-
     //change Find field only if options SuggestSel/SuggestWord on,
     //else dont touch Find field
     if UiOps.FindSuggestSel and (StrSel<>'') then
