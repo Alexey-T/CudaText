@@ -17,8 +17,10 @@ type
   TWin32MenuStylerTheme = record
     ColorBk: TColor;
     ColorBkSelected: TColor;
-    ColorBorder: TColor; //used only if <>clNone
+    ColorBkSelectedDisabled: TColor; //used only if <>clNone
+    ColorSelBorder: TColor; //used only if <>clNone
     ColorFont: TColor;
+    ColorFontSelected: TColor; //used only if <>clNone
     ColorFontDisabled: TColor;
     ColorFontShortcut: TColor;
     CharCheckmark: WideChar;
@@ -26,7 +28,7 @@ type
     CharSubmenu: WideChar;
     FontName: string;
     FontSize: integer;
-    //indents in percents of avarage char width
+    //indents in percents of average char width
     IndentMinPercents: integer; //indent from edges to separator line
     IndentBigPercents: integer; //indent from left edge to caption
     IndentIconPercents: integer; //indents around the icon
@@ -146,24 +148,28 @@ var
   dx, dxCell, dxMin, dxBig, Y: integer;
   ExtCell, ExtTall, Ext2: Types.TSize;
   NDrawFlags: UINT;
-  bDisabled, bInBar, bHasSubmenu: boolean;
+  bSel, bDisabled, bInBar, bHasSubmenu: boolean;
   BufW: UnicodeString;
   mark: WideChar;
   R: TRect;
 begin
   mi:= Sender as TMenuItem;
+  bSel:= odSelected in AState;
   bDisabled:= odDisabled in AState;
   bInBar:= mi.IsInMenuBar;
   bHasSubmenu:= (not bInBar) and (mi.Count>0);
   IconW:= 0;
 
-  if odSelected in AState then
+  if bSel then
   begin
-    ACanvas.Brush.Color:= MenuStylerTheme.ColorBkSelected;
-    if MenuStylerTheme.ColorBorder<>clNone then
-      ACanvas.Pen.Color:= MenuStylerTheme.ColorBorder
+    if bDisabled and (MenuStylerTheme.ColorBkSelectedDisabled<>clNone) then
+      ACanvas.Brush.Color:= MenuStylerTheme.ColorBkSelectedDisabled
     else
-      ACanvas.Pen.Color:= MenuStylerTheme.ColorBkSelected;
+      ACanvas.Brush.Color:= MenuStylerTheme.ColorBkSelected;
+    if MenuStylerTheme.ColorSelBorder<>clNone then
+      ACanvas.Pen.Color:= MenuStylerTheme.ColorSelBorder
+    else
+      ACanvas.Pen.Color:= ACanvas.Brush.Color;
     ACanvas.Rectangle(ARect);
   end
   else
@@ -197,6 +203,9 @@ begin
 
   if bDisabled then
     ACanvas.Font.Color:= MenuStylerTheme.ColorFontDisabled
+  else
+  if bSel and (MenuStylerTheme.ColorFontSelected<>clNone) then
+    ACanvas.Font.Color:= MenuStylerTheme.ColorFontSelected
   else
     ACanvas.Font.Color:= MenuStylerTheme.ColorFont;
 
@@ -305,8 +314,10 @@ initialization
   begin
     ColorBk:= clDkGray;
     ColorBkSelected:= clNavy;
-    ColorBorder:= clNone;
+    ColorBkSelectedDisabled:= clNone;
+    ColorSelBorder:= clNone;
     ColorFont:= clWhite;
+    ColorFontSelected:= clNone;
     ColorFontDisabled:= clMedGray;
     ColorFontShortcut:= clYellow;
     CharCheckmark:= #$2713;
