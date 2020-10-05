@@ -204,7 +204,7 @@ begin
   MenuStylerTheme.ColorFontShortcut:= NColor;
 
   MenuStylerTheme.CharSubmenu:= '>'; //old Win don't have triangle char in default font
-  UpdateMainMenuTheming(true);
+  UpdateMenuTheming_MainMenu(true);
   {$endif}
 end;
 

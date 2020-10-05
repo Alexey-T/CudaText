@@ -45,6 +45,8 @@ begin
 
   Menu_Copy(MainMenu, PopupSidebarClone);
   Pnt:= ClientToScreen(Point(0, 0));
+
+  UpdateMenuTheming(PopupSidebarClone);
   PopupSidebarClone.Popup(Pnt.X, Pnt.Y);
 end;
 

@@ -1014,7 +1014,8 @@ type
     procedure SplitterOnPaint_Gr(Sender: TObject);
     procedure SplitterOnPaint_Main(Sender: TObject);
     procedure StopAllTimers;
-    procedure UpdateMainMenuTheming(AllowResize: boolean);
+    procedure UpdateMenuTheming(AMenu: TPopupMenu);
+    procedure UpdateMenuTheming_MainMenu(AllowResize: boolean);
     procedure UpdateMenuRecents(sub: TMenuItem);
     procedure UpdateSidebarButtonOverlay;
     procedure UpdateEditorTabsize(AValue: integer);
@@ -5319,7 +5320,7 @@ begin
     BoundsRect:= FOrigBounds; //again
   end;
 
-  UpdateMainMenuTheming(true);
+  UpdateMenuTheming_MainMenu(true);
 end;
 
 function TfmMain.GetShowTabsMain: boolean;
@@ -7443,14 +7444,6 @@ begin
   FCfmPanel.Show;
 end;
 
-procedure TfmMain.UpdateMainMenuTheming(AllowResize: boolean);
-begin
-  {$ifdef windows}
-  if UiOps.ThemedMainMenu then
-    MenuStyler.ApplyToForm(Self, AllowResize);
-  {$endif}
-end;
-
 procedure TfmMain.DoOps_FindPythonLib(Sender: TObject);
 const
   SFileMask = 'libpython3.*so*';
@@ -7506,6 +7499,23 @@ begin
     MsgStatus('Searching: '+FileIterator.FileName);
     Application.ProcessMessages;
   end;
+end;
+
+
+procedure TfmMain.UpdateMenuTheming(AMenu: TPopupMenu);
+begin
+  {$ifdef windows}
+  if UiOps.ThemedMainMenu then
+    MenuStyler.ApplyToMenu(AMenu);
+  {$endif}
+end;
+
+procedure TfmMain.UpdateMenuTheming_MainMenu(AllowResize: boolean);
+begin
+  {$ifdef windows}
+  if UiOps.ThemedMainMenu then
+    MenuStyler.ApplyToForm(Self, AllowResize);
+  {$endif}
 end;
 
 
