@@ -652,11 +652,12 @@ Session file contains data:
 * For each document:
 ** kind of document: text in editor, picture file, text in viewer (and viewer mode: text/binary/hex/unicode)
 ** read-only state
-** caret position
+** first caret position
 ** encoding
 ** word-wrap mode
 ** lexer
 ** bookmarks
+** markers
 ** index of top visible line
 ** tab size and "tab as spaces" state
 ** minimap and micromap visible state
