@@ -93,13 +93,14 @@ type
     ahhLineNumbers,
     ahhScale,
     ahhFolding,
+    ahhMarkers,
     ahhTabColor,
     ahhCodeTreeFilter
     );
 
 const
   cAppHistoryElementChar: array[TAppHistoryElement] of char =
-    'tchsTeblwMmrunSfCF';
+    'tchsTeblwMmrunSfkCF';
 
 var
   //ATSynEdit has range for bookmarks 0..63, 0=none

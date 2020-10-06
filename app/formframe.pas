@@ -258,7 +258,9 @@ type
     procedure DoSaveUndo(Ed: TATSynEdit; const AFileName: string);
     procedure DoLoadUndo(Ed: TATSynEdit);
     procedure DoSaveHistory_Caret(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
+    procedure DoSaveHistory_Markers(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
     procedure DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
+    procedure DoLoadHistory_Markers(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
 
   protected
     procedure DoOnResize; override;
@@ -444,6 +446,7 @@ const
   cHistory_Unpri_Ends   = '/unprinted_ends';
   cHistory_Unpri_Detail = '/unprinted_end_details';
   cHistory_Caret       = '/crt';
+  cHistory_Markers     = '/mrk';
   cHistory_TabColor    = '/color';
   cHistory_Bookmark    = '/bm';
   cHistory_BookmarkKind = '/bm_kind';
@@ -2972,6 +2975,50 @@ begin
    end;
 end;
 
+procedure TEditorFrame.DoLoadHistory_Markers(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
+var
+  Sep: TATStringSeparator;
+  Ar: TATInt64Array;
+  Len: integer;
+  N: Int64;
+  i: integer;
+  S: string;
+begin
+  S:= c.GetValue(path+cHistory_Markers, '');
+  if S='' then exit;
+
+  Len:= SFindCharCount(S, ',');
+  if Len=0 then exit;
+  SetLength(Ar, Len);
+
+  Sep.Init(S);
+  for i:= 0 to Len-1 do
+  begin
+    Sep.GetItemInt64(N, 0);
+    Ar[i]:= N;
+  end;
+
+  Ed.Markers.AsArray:= Ar;
+end;
+
+procedure TEditorFrame.DoSaveHistory_Markers(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
+var
+  Ar: TATInt64Array;
+  S: string;
+  i: integer;
+begin
+  if Ed.Markers.Count>0 then
+  begin
+    Ar:= Ed.Markers.AsArray;
+    S:= '';
+    for i:= 0 to High(Ar) do
+      S+= IntToStr(Ar[i])+',';
+    c.SetValue(path+cHistory_Markers, S);
+  end
+  else
+    c.DeleteValue(path+cHistory_Markers);
+end;
+
 procedure TEditorFrame.DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
 var
   items, items2: TStringList;
@@ -3065,6 +3112,9 @@ begin
 
   if UiOps.HistoryItems[ahhCaret] then
     DoSaveHistory_Caret(Ed, c, path);
+
+  if UiOps.HistoryItems[ahhMarkers] then
+    DoSaveHistory_Markers(Ed, c, path);
 
   if UiOps.HistoryItems[ahhBookmarks] then
     DoSaveHistory_Bookmarks(Ed, c, path);
@@ -3161,6 +3211,9 @@ begin
   sCarets:= c.GetValue(path+cHistory_Caret, '');
   FInHistory:= sCarets<>'';
   if not FInHistory then exit;
+
+  //markers
+  DoLoadHistory_Markers(Ed, c, path);
 
   //lexer
   str0:= LexerName[Ed];
