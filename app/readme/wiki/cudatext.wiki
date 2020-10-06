@@ -1006,7 +1006,7 @@ Markers are utilized by the Snippets plugin.
 [[File:cudatext-markers-html.png]]
  
 Snippets plugin finds tab-stops in the inserting snippet text, and places markers for them.  
-After markers are placed by Snippets plugin, Tab-key works special - it jumps to the next marker ("next" by the order of tab-stop: 1, 2, 3... tab-stop 0 is the last). When user "collects" all those markers by Tab-key, this special mode deactivates and Tab-key works as usual again. Command "markers: remove all" also deactivates that mode.
+After markers are placed by Snippets plugin, Tab-key works in special way - it runs command "collect last marker", ie it jumps to the next marker ("next" by the order of tab-stop: 1, 2, 3... tab-stop 0 is the last). When user collects all markers by Tab-key, this special mode deactivates and Tab-key works as usual again. Command "markers: remove all" also deactivates that mode.
 
 ==Dialog "Save tabs"==
 
