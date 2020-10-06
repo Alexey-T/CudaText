@@ -746,6 +746,7 @@
   //  if 'n' in value: Line numbers visible state
   //  if 'S' in value: Font scale in %
   //  if 'f' in value: List of folded ranges
+  //  if 'k' in value: Markers (see Wiki topic "Markers")
   //  if 'C' in value: Custom color of ui-tab header
   //  if 'F' in value: Code-tree filter: string and history
   "ui_history_disabled": "",
