@@ -5663,12 +5663,7 @@ begin
   MsgStatus(msgStatusTryingAutocomplete+' '+LexName);
 
   if IsHtml then
-  begin
-    if EditorHasCssAtCaret(Ed) then
-      DoEditorCompletionCss(Ed)
-    else
-      DoEditorCompletionHtml(Ed);
-  end
+    DoEditorCompletionHtml(Ed)
   else
   if IsCss then
     DoEditorCompletionCss(Ed)
