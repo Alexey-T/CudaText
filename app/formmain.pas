@@ -5619,7 +5619,6 @@ var
   Frame: TEditorFrame;
   LexName: string;
   IsCss, IsHtml, IsCaseSens: boolean;
-  FileAcp: string;
   Caret: TATCaretItem;
   Params: TAppVariantArray;
 begin
@@ -5648,12 +5647,12 @@ begin
   IsHtml:= UiOps.AutocompleteHtml and SRegexMatchesString(LexName, UiOps.AutocompleteHtml_Lexers, false);
   IsCss:= UiOps.AutocompleteCss and SRegexMatchesString(LexName, UiOps.AutocompleteCss_Lexers, false);
   IsCaseSens:= false; //cannot detect it yet
+
   CompletionOpsCss.FilenameCssList:= AppDir_DataAutocompleteSpec+DirectorySeparator+'css_list.ini';
   CompletionOpsCss.FilenameCssSelectors:= AppDir_DataAutocompleteSpec+DirectorySeparator+'css_sel.ini';
   CompletionOpsHtml.FilenameHtmlList:= AppDir_DataAutocompleteSpec+DirectorySeparator+'html_list.ini';
-  FileAcp:= GetAppLexerAcpFilename(LexName);
 
-  //allow autocompletion with carets, only in HTML
+  //allow autocompletion with multi-carets only in HTML
   if Ed.Carets.Count>1 then
     if not IsHtml then
     begin
@@ -5668,7 +5667,7 @@ begin
   if IsCss then
     DoEditorCompletionCss(Ed)
   else
-    DoEditorCompletionAcp(Ed, FileAcp, IsCaseSens);
+    DoEditorCompletionAcp(Ed, GetAppLexerAcpFilename(LexName), IsCaseSens);
 end;
 
 procedure TfmMain.mnuTreeFold2Click(Sender: TObject);
