@@ -1172,8 +1172,8 @@ There is [https://github.com/Alexey-T/CudaText_up Linux script CudaText_up] - it
 Old way for app sources.
 
 * download GitHub repos:
-** https://github.com/bgrabitmap/bgrabitmap
-** https://github.com/Alexey-T/Python-for-Lazarus (install first)
+** https://github.com/bgrabitmap/bgrabitmap (install first)
+** https://github.com/Alexey-T/Python-for-Lazarus
 ** https://github.com/Alexey-T/ATFlatControls
 ** https://github.com/Alexey-T/EncConv
 ** https://github.com/Alexey-T/ATSynEdit (install after ATFlatControls and EncConv)
