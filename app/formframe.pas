@@ -429,16 +429,16 @@ implementation
 const
   cHistory_Lexer       = '/lexer';
   cHistory_Enc         = '/enc';
-  cHistory_Top         = '/top';
+  cHistory_TopLine     = '/top';
   cHistory_Wrap        = '/wrap_mode';
-  cHistory_RO          = '/ro';
+  cHistory_ReadOnly    = '/ro';
   cHistory_Ruler       = '/ruler';
   cHistory_Minimap     = '/minimap';
   cHistory_Micromap    = '/micromap';
   cHistory_TabSize     = '/tab_size';
   cHistory_TabSpace    = '/tab_spaces';
-  cHistory_Nums        = '/nums';
-  cHistory_Scale       = '/scale';
+  cHistory_LineNums    = '/nums';
+  cHistory_FontScale   = '/scale';
   cHistory_Unpri        = '/unprinted_show';
   cHistory_Unpri_Spaces = '/unprinted_spaces';
   cHistory_Unpri_Ends   = '/unprinted_ends';
@@ -3016,13 +3016,13 @@ begin
     c.SetValue(path+cHistory_Enc, Ed.EncodingName);
 
   if UiOps.HistoryItems[ahhTopLine] then
-    c.SetDeleteValue(path+cHistory_Top, Ed.LineTop, 0);
+    c.SetDeleteValue(path+cHistory_TopLine, Ed.LineTop, 0);
 
   if UiOps.HistoryItems[ahhWordWrap] then
     c.SetDeleteValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode), 0);
 
   if not Ed.IsReadOnlyAutodetected then
-    c.SetDeleteValue(path+cHistory_RO, ReadOnly[Ed], false);
+    c.SetDeleteValue(path+cHistory_ReadOnly, ReadOnly[Ed], false);
 
   if UiOps.HistoryItems[ahhRuler] then
     c.SetDeleteValue(path+cHistory_Ruler, Ed.OptRulerVisible, false);
@@ -3048,10 +3048,10 @@ begin
   end;
 
   if UiOps.HistoryItems[ahhLineNumbers] then
-    c.SetDeleteValue(path+cHistory_Nums, Ed.Gutter[Ed.GutterBandNumbers].Visible, true);
+    c.SetDeleteValue(path+cHistory_LineNums, Ed.Gutter[Ed.GutterBandNumbers].Visible, true);
 
   if UiOps.HistoryItems[ahhScale] then
-    c.SetDeleteValue(path+cHistory_Scale, Ed.OptScaleFont, 0);
+    c.SetDeleteValue(path+cHistory_FontScale, Ed.OptScaleFont, 0);
 
   if UiOps.HistoryItems[ahhFolding] then
     c.SetDeleteValue(path+cHistory_Fold, EditorGetFoldString(Ed), '');
@@ -3198,7 +3198,7 @@ begin
   TabColor:= StringToColorDef(c.GetValue(path+cHistory_TabColor, ''), clNone);
 
   if not Ed.IsReadOnlyAutodetected then
-    ReadOnly[Ed]:= c.GetValue(path+cHistory_RO, ReadOnly[Ed]);
+    ReadOnly[Ed]:= c.GetValue(path+cHistory_ReadOnly, ReadOnly[Ed]);
 
   if not FileWasBig[Ed] then
   begin
@@ -3215,11 +3215,11 @@ begin
   Ed.OptUnprintedEndsDetails:= c.GetValue(path+cHistory_Unpri_Detail, Ed.OptUnprintedEndsDetails);
 
   with Ed.Gutter[Ed.GutterBandNumbers] do
-    Visible:= c.GetValue(path+cHistory_Nums, Visible);
+    Visible:= c.GetValue(path+cHistory_LineNums, Visible);
 
-  Ed.OptScaleFont:= c.GetValue(path+cHistory_Scale, 0);
+  Ed.OptScaleFont:= c.GetValue(path+cHistory_FontScale, 0);
 
-  nTop:= c.GetValue(path+cHistory_Top, 0);
+  nTop:= c.GetValue(path+cHistory_TopLine, 0);
   if Assigned(Lexer[Ed]) then
   begin
     FFoldTodo:= c.GetValue(path+cHistory_Fold, '');
