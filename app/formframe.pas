@@ -2976,47 +2976,13 @@ begin
 end;
 
 procedure TEditorFrame.DoLoadHistory_Markers(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
-var
-  Sep: TATStringSeparator;
-  Ar: TATInt64Array;
-  Len: integer;
-  N: Int64;
-  i: integer;
-  S: string;
 begin
-  S:= c.GetValue(path+cHistory_Markers, '');
-  if S='' then exit;
-
-  Len:= SFindCharCount(S, ',');
-  if Len=0 then exit;
-  SetLength(Ar, Len);
-
-  Sep.Init(S);
-  for i:= 0 to Len-1 do
-  begin
-    Sep.GetItemInt64(N, 0);
-    Ar[i]:= N;
-  end;
-
-  Ed.Markers.AsArray:= Ar;
+  Ed.Markers.AsString:= c.GetValue(path+cHistory_Markers, '');
 end;
 
 procedure TEditorFrame.DoSaveHistory_Markers(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
-var
-  Ar: TATInt64Array;
-  S: string;
-  i: integer;
 begin
-  if Ed.Markers.Count>0 then
-  begin
-    Ar:= Ed.Markers.AsArray;
-    S:= '';
-    for i:= 0 to High(Ar) do
-      S+= IntToStr(Ar[i])+',';
-    c.SetValue(path+cHistory_Markers, S);
-  end
-  else
-    c.DeleteValue(path+cHistory_Markers);
+  c.SetDeleteValue(path+cHistory_Markers, Ed.Markers.AsString, '');
 end;
 
 procedure TEditorFrame.DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
