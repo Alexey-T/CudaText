@@ -5619,7 +5619,7 @@ var
   Frame: TEditorFrame;
   LexName: string;
   IsCss, IsHtml, IsCaseSens: boolean;
-  FileHtml, FileCss, FileCssSel, FileAcp: string;
+  FileAcp: string;
   Caret: TATCaretItem;
   Params: TAppVariantArray;
 begin
@@ -5648,9 +5648,9 @@ begin
   IsHtml:= UiOps.AutocompleteHtml and SRegexMatchesString(LexName, UiOps.AutocompleteHtml_Lexers, false);
   IsCss:= UiOps.AutocompleteCss and SRegexMatchesString(LexName, UiOps.AutocompleteCss_Lexers, false);
   IsCaseSens:= false; //cannot detect it yet
-  FileCss:= AppDir_DataAutocompleteSpec+DirectorySeparator+'css_list.ini';
-  FileCssSel:= AppDir_DataAutocompleteSpec+DirectorySeparator+'css_sel.ini';
-  FileHtml:= AppDir_DataAutocompleteSpec+DirectorySeparator+'html_list.ini';
+  CompletionOpsCss.FilenameCssList:= AppDir_DataAutocompleteSpec+DirectorySeparator+'css_list.ini';
+  CompletionOpsCss.FilenameCssSelectors:= AppDir_DataAutocompleteSpec+DirectorySeparator+'css_sel.ini';
+  CompletionOpsHtml.FilenameHtmlList:= AppDir_DataAutocompleteSpec+DirectorySeparator+'html_list.ini';
   FileAcp:= GetAppLexerAcpFilename(LexName);
 
   //allow autocompletion with carets, only in HTML
@@ -5665,13 +5665,13 @@ begin
   if IsHtml then
   begin
     if EditorHasCssAtCaret(Ed) then
-      DoEditorCompletionCss(Ed, FileCss, FileCssSel)
+      DoEditorCompletionCss(Ed)
     else
-      DoEditorCompletionHtml(Ed, FileHtml);
+      DoEditorCompletionHtml(Ed);
   end
   else
   if IsCss then
-    DoEditorCompletionCss(Ed, FileCss, FileCssSel)
+    DoEditorCompletionCss(Ed)
   else
     DoEditorCompletionAcp(Ed, FileAcp, IsCaseSens);
 end;
