@@ -258,9 +258,7 @@ type
     procedure DoSaveUndo(Ed: TATSynEdit; const AFileName: string);
     procedure DoLoadUndo(Ed: TATSynEdit);
     procedure DoSaveHistory_Caret(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
-    procedure DoSaveHistory_Markers(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
     procedure DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
-    procedure DoLoadHistory_Markers(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
 
   protected
     procedure DoOnResize; override;
@@ -2975,16 +2973,6 @@ begin
    end;
 end;
 
-procedure TEditorFrame.DoLoadHistory_Markers(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
-begin
-  Ed.Markers.AsString:= c.GetValue(path+cHistory_Markers, '');
-end;
-
-procedure TEditorFrame.DoSaveHistory_Markers(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
-begin
-  c.SetDeleteValue(path+cHistory_Markers, Ed.Markers.AsString, '');
-end;
-
 procedure TEditorFrame.DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
 var
   items, items2: TStringList;
@@ -3080,7 +3068,7 @@ begin
     DoSaveHistory_Caret(Ed, c, path);
 
   if UiOps.HistoryItems[ahhMarkers] then
-    DoSaveHistory_Markers(Ed, c, path);
+    c.SetDeleteValue(path+cHistory_Markers, Ed.Markers.AsString, '');
 
   if UiOps.HistoryItems[ahhBookmarks] then
     DoSaveHistory_Bookmarks(Ed, c, path);
@@ -3179,7 +3167,7 @@ begin
   if not FInHistory then exit;
 
   //markers
-  DoLoadHistory_Markers(Ed, c, path);
+  Ed.Markers.AsString:= c.GetValue(path+cHistory_Markers, '');
 
   //lexer
   str0:= LexerName[Ed];
