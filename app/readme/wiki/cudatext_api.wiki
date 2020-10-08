@@ -2060,10 +2060,12 @@ Returns number of lines.
 
  get_filename(options="")
 
-Returns filename (str) of the editor. 
-Returns empty string for untitled tabs, for tabs with binary viewer (editor is actually hidden), for tabs with picture viewer (editor is actually hidden).
+Returns filename (str) of the editor.
 
-Param "options" is ignored.
+* Returns empty string for untitled tab.
+* Returns string "?" if tab contains not normal text editor. See: get_prop(PROP_KIND).
+
+If param "options" contains char "*", the real file name is always returned, even in hex/picture viewer mode.
 
 ===Editor.get_prop===
 
@@ -4022,8 +4024,5 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.351 (app 1.114.0)
 * add: event on_app_activate
 * add: event on_app_deactivate
-
-1.0.352 (app 1.114.2)
-* change: Editor.get_filename: param "options" is ignored; result is empty str for tabs with binary viewer, or picture viewer
 
 [[Category:CudaText]]
