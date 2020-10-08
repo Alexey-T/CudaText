@@ -1653,25 +1653,12 @@ var
   H: Int64;
   Ed: TATSynEdit;
   PtrOps: PChar;
-  StrOps: string;
-  F: TEditorFrame;
-  Str: string;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Ls:get_filename', @H, @PtrOps)) then
     begin
       Ed:= PyEditor(H);
-      F:= GetEditorFrame(Ed);
-      StrOps:= string(PtrOps);
-
-      if F=nil then
-        exit(ReturnNone);
-      if F.IsText or (Pos('*', StrOps)>0) then
-        Str:= F.GetFileName(Ed)
-      else
-        Str:= '?';
-
-      Result:= PyString_FromString(PChar(Str));
+      Result:= PyString_FromString(PChar(Ed.FileName));
     end
   else
     Result:= ReturnNone;
