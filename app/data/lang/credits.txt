@@ -14,6 +14,8 @@ https://github.com/Alexey-T/
 #Python plugins, QA
 Andrey Kvichanskiy
 https://github.com/kvichans/
+Oleh Lutsak
+https://github.com/OlehL
 
 #Optimizations of Python wrapper, plugins
 Artem Gavrilov
