@@ -7486,12 +7486,13 @@ end;
 
 procedure TfmMain.SearcherDirectoryEnter(FileIterator: TFileIterator);
 const
+  NDirCountToShow = 30;
   NCount: integer = 0;
 begin
   Inc(NCount);
-  if NCount mod 30 = 0 then
+  if NCount mod NDirCountToShow = 0 then
   begin
-    MsgStatus('Searching: '+FileIterator.FileName);
+    MsgStatus(msgSearchingInDir+' '+FileIterator.FileName);
     Application.ProcessMessages;
   end;
 end;

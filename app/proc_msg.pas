@@ -44,6 +44,7 @@ const
   msgRescannedAllPlugins = 'Rescanned all plugins';
   msgWelcomeTabTitle = '(welcome)';
   msgSavedPythonLibOption = 'Saved the option "pylib'+cOptionSystemSuffix+'". Restart CudaText to apply it.';
+  msgSearchingInDir = 'Searching:';
 
   msgPluginIgnored = 'NOTE: plugin %s ignored, remove it';
   msgCannotFindLexers = 'NOTE: Cannot find lexers: %s';
