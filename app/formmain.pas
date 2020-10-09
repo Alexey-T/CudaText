@@ -7478,7 +7478,7 @@ begin
     S:= L[N];
 
     DoOps_SaveOptionString('pylib'+cOptionSystemSuffix, S);
-    MsgBox('Saved the option "pylib'+cOptionSystemSuffix+'". Restart CudaText to apply it.', MB_OK+MB_ICONINFORMATION);
+    MsgBox(msgSavedPythonLibOption, MB_OK+MB_ICONINFORMATION);
   finally
     FreeAndNil(L);
   end;

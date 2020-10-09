@@ -43,6 +43,7 @@ const
   msgCmdPalettePrefixHelp = '#p – plugins'+EOL+'#l – lexers'+EOL+'#f – opened files'+EOL+'#r – recent files';
   msgRescannedAllPlugins = 'Rescanned all plugins';
   msgWelcomeTabTitle = '(welcome)';
+  msgSavedPythonLibOption = 'Saved the option "pylib'+cOptionSystemSuffix+'". Restart CudaText to apply it.';
 
   msgPluginIgnored = 'NOTE: plugin %s ignored, remove it';
   msgCannotFindLexers = 'NOTE: Cannot find lexers: %s';
