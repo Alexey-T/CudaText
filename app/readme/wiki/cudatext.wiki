@@ -1761,15 +1761,19 @@ Special macros are handled by Snippets plugin in snippet text:
 
 * ${sel} - Text selected before snippet insertion (if snippet called with Tab key, it's empty string)
 * ${cp} - Current clipboard contents
-* ${date:nnn} - Current date/time formatted by string nnn; see [http://strftime.org/ Python docs]
+
 * ${cmt_start} - Current lexer's "block comment" start symbols (or empty string)
 * ${cmt_end} - Current lexer's "block comment" end symbols (or empty string)
 * ${cmt_line} - Current lexer's "line comment" symbols (or empty string)
+
 * ${fname} - File name only, without path
 * ${fpath} - Full file name, with path
 * ${fdir} - Directory of file
 * ${fext} - Extension of file
 * ${psep} - OS path separator: backslash on Windows, slash on Unix
+
+* ${date:nnnn} - Current date/time formatted by string "nnnn"; see [http://strftime.org/ Python docs]
+* ${env:nnnn} - Value of OS environment variable "nnnn"
 
 The following macros from Sublime Text editor are supported. They can be written as $NAME or as ${NAME}.
 
