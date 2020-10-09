@@ -3,9 +3,10 @@
   - fixed
   * changed
 
-1.114.1 (2020/10)
+1.115.0 (2020/10)
 
-+ add: Undo/Redo handles markers too (format of "persistent undo" files is extended, but it's backward compatible)
++ add: HTML auto-completion supports completions inside 1) A HREF="...", 2) LINK HREF="...", 3) IMG SRC="..."; it shows there folder names and file names with appropriate extensions (HTML, PHP, CSS, pictures)
++ add: Undo/Redo handles markers too; format of "persistent undo" files is extended, but it's backward compatible
 + add: session also holds markers; this can be disabled by new char in the option "ui_history_disabled"
 - fix: cannot scroll to the left by mouse selection; now it works if cursor is on bookmark column or folding column (thanks @MrPiccad)
 
