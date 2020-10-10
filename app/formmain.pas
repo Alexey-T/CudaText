@@ -2419,7 +2419,7 @@ begin
     Sleep(cThreadSleepTime+10);
   end;
 
-  //maybe no need too? done in DoCloseAllTabs
+  //maybe no need? it's done in DoCloseAllTabs call below?
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
@@ -2430,18 +2430,6 @@ begin
 
   //after UpdateMenuRecent
   DoOps_SaveHistory;
-
-  (*
-  //no need, done via DoCloseAllTabs
-  for i:= FrameCount-1 downto 0 do
-  begin
-    F:= Frames[i];
-    //make sure adapters don't block closing
-    F.Editor.AdapterForHilite:= nil;
-    F.Editor2.AdapterForHilite:= nil;
-    F.Adapter.Stop;
-  end;
-  *)
 
   DoCloseAllTabs;
   SetLength(Params, 0);
