@@ -2419,7 +2419,8 @@ begin
     Sleep(cThreadSleepTime+10);
   end;
 
-  //maybe no need? it's done in DoCloseAllTabs call below?
+  //save history of all frames,
+  //update recent-files list
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
