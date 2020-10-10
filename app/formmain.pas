@@ -3059,7 +3059,6 @@ var
   F: TEditorFrame;
   Form: TfmSaveTabs;
   SCaption: string;
-  res: TModalResult;
   i: integer;
 begin
   Result:= false;
@@ -3077,8 +3076,7 @@ begin
       Form.List.Checked[Form.List.Count-1]:= true;
     end;
 
-    res:= Form.ShowModal;
-    case res of
+    case Form.ShowModal of
       //"Don't save/ Keep in session"
       mrClose:
         Result:= true;
