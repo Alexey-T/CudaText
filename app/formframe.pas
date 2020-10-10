@@ -445,7 +445,7 @@ const
   cHistory_Unpri_Ends   = '/unprinted_ends';
   cHistory_Unpri_Detail = '/unprinted_end_details';
   cHistory_Caret       = '/crt';
-  cHistory_Markers     = '/mrk';
+  //cHistory_Markers     = '/mrk';
   cHistory_TabColor    = '/color';
   cHistory_Bookmark    = '/bm';
   cHistory_BookmarkKind = '/bm_kind';
@@ -3068,8 +3068,13 @@ begin
   if UiOps.HistoryItems[ahhCaret] then
     DoSaveHistory_Caret(Ed, c, path);
 
+  {
+  //it's bad to save markers along with other history items,
+  //because if a snippet (with markers) inserted + file was not saved after it,
+  //we have wrong markers to save
   if UiOps.HistoryItems[ahhMarkers] then
     c.SetDeleteValue(path+cHistory_Markers, Ed.Markers.AsString, '');
+  }
 
   if UiOps.HistoryItems[ahhBookmarks] then
     DoSaveHistory_Bookmarks(Ed, c, path);
@@ -3110,8 +3115,10 @@ begin
     if ACaret then
       cfg.DeleteValue(path+cHistory_Caret);
 
+    {
     if AMarkers then
       cfg.DeleteValue(path+cHistory_Markers);
+      }
 
   finally
     FreeAndNil(cfg);
@@ -3200,8 +3207,12 @@ begin
   FInHistory:= sCarets<>'';
   if not FInHistory then exit;
 
+  {
   //markers
+  //it's bad to save markers along with other history items,
+  //so this is commented
   Ed.Markers.AsString:= c.GetValue(path+cHistory_Markers, '');
+  }
 
   //lexer
   str0:= LexerName[Ed];
