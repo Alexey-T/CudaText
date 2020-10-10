@@ -453,17 +453,17 @@ First group cannot be empty, at least one tab exists in it. Other groups can be 
 
 Command "auto-completion menu" (default hotkey: Ctrl+Space) shows auto-completion listbox. It works in several sutiations differently.
 
-1) IntelliSense.
+====IntelliSense====
 
 Intelligent completion is supported via plugins. For the end of 2020 year, such plugins exist for: Python (plugin "Python IntelliSense"), AutoIt ("AutoIt Helper"), SPIR ("SPIR Helper").
 
 Microsoft LSP protocol is not yet supported by CudaText nor by plugins.
 
-2) Static auto-completion files.
+====Static auto-completion files====
 
 Some lexers (e.g. PHP, Pascal, Clojure) provide .acp files, which are fixed set of special words, to show in completion listbox. This is very simple completion, which ignores current context, it only suggests matching strings for the word (or string) under caret. These .acp files are stored in the folder "data/autocomplete".
 
-3) Special HTML auto-completion.
+====Special HTML auto-completion====
 
 Lexer HTML (and lexers with "HTML" in name, see the option "autocomplete_html_lexers") has its special logic, which is built-in in CudaText. It uses data files in the folder "data/autocompletespec". Completion listbox shows different information depending on context: 
 
@@ -485,12 +485,12 @@ Lexer HTML (and lexers with "HTML" in name, see the option "autocomplete_html_le
 
 To use auto-completion of DIV and CLASS names (ie suggest already mentioned names for partially typed names), you need the plugin "HTML Completion".
 
-4) Special CSS auto-completion.
+====Special CSS auto-completion====
 
 Lexer CSS (see the option "autocomplete_css_lexers") has its special logic, which is built-in in CudaText. It uses data files in the folder "data/autocompletespec".
 
-* Caret is on CSS property name, inside {} brackets. Listbox shows list of properties, beginning with that property.
-* Caret is after CSS property name and ":", inside {} brackets. Listbox shows list of values for that property (for fixed set of values), beginning with partially typed value.
+* Caret is on CSS property name, inside {} brackets. Listbox shows list of properties (beginning with typed value).
+* Caret is after CSS property (with fixed set of values) and ":", inside {} brackets. Listbox shows list of values for that property (beginning with typed value).
 * Caret is after tag name with char "@". Listbox shows list of CSS at-rules.
 * Caret is after tag name with char ":". Listbox shows list of CSS pseudo-elements, beginning with ":" and "::".
 
