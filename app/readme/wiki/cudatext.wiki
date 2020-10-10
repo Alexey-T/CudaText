@@ -657,7 +657,6 @@ Session file contains data:
 ** word-wrap mode
 ** lexer
 ** bookmarks
-** markers
 ** index of top visible line
 ** tab size and "tab as spaces" state
 ** minimap and micromap visible state
