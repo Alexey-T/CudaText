@@ -2845,6 +2845,12 @@ procedure TfmMain.FormShow(Sender: TObject);
       (NTick-NTickInitial) div 10 * 10,
       AppPython.GetTimingReport
       ]));
+
+    {
+    MsgLogConsole('Toolbar updates: '+
+      IntToStr(AppPanels[cPaneSide].ToolbarUpdateCount + AppPanels[cPaneOut].ToolbarUpdateCount)+' times, '+
+      IntToStr(AppPanels[cPaneSide].ToolbarUpdateTime + AppPanels[cPaneOut].ToolbarUpdateTime)+'ms');
+      }
   end;
   //
 begin

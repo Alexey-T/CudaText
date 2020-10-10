@@ -48,6 +48,8 @@ type
   private
     FOwner: TComponent;
     FAlign: TAlign;
+    FToolbarUpdateCount: integer;
+    FToolbarUpdateTime: QWord;
     function GetFloating: boolean;
     function GetPanelSize: integer;
     function GetVisible: boolean;
@@ -91,6 +93,9 @@ type
     procedure UpdateSplitter;
     function UpdatePanels(const ACaption: string; AndFocus: boolean; ACheckExists: boolean): boolean;
     procedure InitFormFloat;
+    procedure UpdateToolbarControls;
+    property ToolbarUpdateCount: integer read FToolbarUpdateCount;
+    property ToolbarUpdateTime: QWord read FToolbarUpdateTime;
   end;
 
 var
@@ -204,7 +209,7 @@ end;
 procedure TAppPanelHost.SetVisible(AValue: boolean);
 var
   Panel: TAppPanelItem;
-  Btn: TATButton;
+  //Btn: TATButton;
   N: integer;
 begin
   if GetVisible=AValue then exit;
@@ -350,7 +355,7 @@ begin
   if not bExist then
   begin
     Toolbar.AddButton(AImageIndex, @HandleButtonClick, ACaption, ACaption, '', false);
-    Toolbar.UpdateControls;
+    UpdateToolbarControls;
   end;
 
   Result:= true;
@@ -374,7 +379,7 @@ begin
   Toolbar.AddButton(AImageIndex, @HandleButtonClick, ACaption, ACaption,
     AModule+'.'+AMethod,
     false);
-  Toolbar.UpdateControls;
+  UpdateToolbarControls;
 
   Result:= true;
 end;
@@ -388,7 +393,7 @@ begin
   if Result then
   begin
     Toolbar.Buttons[Num].Free;
-    Toolbar.UpdateControls;
+    UpdateToolbarControls;
 
     for i:= 0 to Panels.Count-1 do
       with TAppPanelItem(Panels[i]) do
@@ -483,6 +488,25 @@ begin
     FormFloat.ShowInTaskBar:= stNever;
     FormFloat.OnClose:= OnCloseFloatForm;
   end;
+end;
+
+procedure TAppPanelHost.UpdateToolbarControls;
+{
+var
+  tick: QWord;
+  }
+begin
+  {
+  tick:= GetTickCount64;
+  }
+
+  Toolbar.UpdateControls;
+
+  {
+  tick:= GetTickCount64-tick;
+  Inc(FToolbarUpdateCount);
+  Inc(FToolbarUpdateTime, tick);
+  }
 end;
 
 procedure TAppPanelHost.HandleButtonClick(Sender: TObject);
