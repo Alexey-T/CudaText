@@ -474,10 +474,11 @@ Lexer HTML (and lexers with "HTML" in name, see the option "autocomplete_html_le
 * Caret is after tag's attribute, after "=". Listbox shows list of possible values of attribute, for fixed set of values.
 * Caret is inside attribute's quoted value.
 ** Some tag/attribute with fixed set of values. Listbox shows list of possible values (beginning with typed value).
-** Tag A/FRAME/IFRAME, attribute HREF. Listbox shows list of folders and HTML/PHP/ASP files. 
+** Tag A, attribute HREF. Listbox shows list of folders and all files (all files can be hyper-linked). 
 ** Tag LINK, attribute HREF. Listbox shows list of folders and CSS files.
-** Tag IMG/INPUT, attribute SRC. Listbox shows list of folders and picture files.
 ** Tag SCRIPT, attribute SRC. Listbox shows list of folders and JS files.
+** Tag IMG/INPUT, attribute SRC. Listbox shows list of folders and picture files.
+** Tag FRAME/IFRAME, attribute SRC. Listbox shows list of folders and HTML/PHP/ASP files.
 ** Tag AUDIO, attribute SRC. Listbox shows list of folders and audio files (HTML supports few extensions).
 ** Tag VIDEO, attribute SRC. Listbox shows list of folders and video files (HTML supports few extensions).
 ** Tag SOURCE, attribute SRC. Listbox shows list of folders and audio+video files (code doesn't detect the outer tag: audio, video etc).
