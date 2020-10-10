@@ -473,6 +473,8 @@ begin
     DoLocString(CompletionOpsHtml.PrefixTag, ini, 'ui', 'html_tag');
     DoLocString(CompletionOpsHtml.PrefixAttrib, ini, 'ui', 'html_atr');
     DoLocString(CompletionOpsHtml.PrefixValue, ini, 'ui', 'html_val');
+    DoLocString(CompletionOpsHtml.PrefixFile, ini, 'ui', 'html_file');
+    DoLocString(CompletionOpsHtml.PrefixDir, ini, 'ui', 'html_dir');
 
     CompletionOpsCss.PrefixProp:= CompletionOpsHtml.PrefixAttrib;
     CompletionOpsCss.PrefixAtRule:= CompletionOpsHtml.PrefixValue;
