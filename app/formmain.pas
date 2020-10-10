@@ -3079,15 +3079,19 @@ begin
 
     res:= Form.ShowModal;
     case res of
+      //"Don't save/ Keep in session"
       mrClose:
         Result:= true;
+      //"Cancel"
       mrCancel:
         Result:= false;
+      //"Don't save"
       mrNoToAll:
         begin
           Result:= true; //like for mrClose
           UiOps.ReopenSession:= false; //dont save tabs to session
         end;
+      //"Save"
       mrOk:
         begin
           Result:= true;

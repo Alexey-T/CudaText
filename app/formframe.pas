@@ -375,6 +375,7 @@ type
     //history
     procedure DoSaveHistory(Ed: TATSynEdit);
     procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
+    procedure DoClearHistoryEx(Ed: TATSynEdit; ACaret, AMarkers: boolean);
     procedure DoLoadHistory(Ed: TATSynEdit; AllowEnc: boolean);
     procedure DoLoadHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString; AllowEnc: boolean);
     //misc
@@ -3081,6 +3082,39 @@ begin
       c.SetValue(path+cHistory_CodeTreeFilters, FCodetreeFilterHistory)
     else
       c.DeleteValue(path+cHistory_CodeTreeFilters);
+  end;
+end;
+
+procedure TEditorFrame.DoClearHistoryEx(Ed: TATSynEdit; ACaret, AMarkers: boolean);
+var
+  cfg: TJSONConfig;
+  SFileName: string;
+  path: string;
+begin
+  if not FSaveHistory then exit;
+
+  SFileName:= GetFileName(Ed);
+  if SFileName='' then exit;
+  path:= SMaskFilenameSlashes(SFileName);
+
+  cfg:= TJsonConfig.Create(nil);
+  try
+    try
+      cfg.Formatted:= true;
+      cfg.Filename:= AppFile_HistoryFiles;
+    except
+      MsgBadConfig(AppFile_HistoryFiles);
+      exit
+    end;
+
+    if ACaret then
+      cfg.DeleteValue(path+cHistory_Caret);
+
+    if AMarkers then
+      cfg.DeleteValue(path+cHistory_Markers);
+
+  finally
+    FreeAndNil(cfg);
   end;
 end;
 
