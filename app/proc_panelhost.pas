@@ -92,8 +92,8 @@ type
     procedure UpdateButtons;
     procedure UpdateSplitter;
     function UpdatePanels(const ACaption: string; AndFocus: boolean; ACheckExists: boolean): boolean;
-    procedure InitFormFloat;
     procedure UpdateToolbarControls;
+    procedure InitFormFloat;
     property ToolbarUpdateCount: integer read FToolbarUpdateCount;
     property ToolbarUpdateTime: QWord read FToolbarUpdateTime;
   end;
@@ -490,25 +490,6 @@ begin
   end;
 end;
 
-procedure TAppPanelHost.UpdateToolbarControls;
-{
-var
-  tick: QWord;
-  }
-begin
-  {
-  tick:= GetTickCount64;
-  }
-
-  Toolbar.UpdateControls;
-
-  {
-  tick:= GetTickCount64-tick;
-  Inc(FToolbarUpdateCount);
-  Inc(FToolbarUpdateTime, tick);
-  }
-end;
-
 procedure TAppPanelHost.HandleButtonClick(Sender: TObject);
 var
   Btn: TATButton;
@@ -578,6 +559,26 @@ begin
   if Assigned(FormFloat) then
     FormFloat.Caption:= S+' - '+msgTitle;
 end;
+
+procedure TAppPanelHost.UpdateToolbarControls;
+{
+var
+  tick: QWord;
+  }
+begin
+  {
+  tick:= GetTickCount64;
+  }
+
+  Toolbar.UpdateControls;
+
+  {
+  tick:= GetTickCount64-tick;
+  Inc(FToolbarUpdateCount);
+  Inc(FToolbarUpdateTime, tick);
+  }
+end;
+
 
 var
   id: TAppPanelId;
