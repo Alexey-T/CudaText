@@ -467,19 +467,20 @@ Some lexers (e.g. PHP, Pascal, Clojure) provide .acp files, which are fixed set 
 
 Lexer HTML (and lexers with "HTML" in name, see the option "autocomplete_html_lexers") has its special logic, which is built-in in CudaText. It uses data files in the folder "data/autocompletespec". Completion listbox shows different information depending on context: 
 
-* Caret is on empty space or after "<". Listbox show list of HTML tags.
-* Caret is on tag name (opening or closing). Listbox shows list of HTML tags, beginning with the tag under caret.
+* Caret is on empty space or after "<". Listbox show list of tags.
+* Caret is on tag name (opening or closing). Listbox shows list of tags (beginning with typed tag).
 * Caret is after opening tag, before closing bracket, on empty space. Listbox shows list of tag's attributes.
-* Caret is on tag's attribute, before "=". Listbox shows list if attributes beginning with current attribute.
-* Caret is after tag's attribute, after "=". Listbox shows list of possible values of attribute (for fixed set of values, when it's not any string).
-* Caret is inside attribute's quoted value. Special handling for the following cases:
+* Caret is on tag's attribute, before "=". Listbox shows list of attributes (beginning with typed attribute).
+* Caret is after tag's attribute, after "=". Listbox shows list of possible values of attribute, for fixed set of values.
+* Caret is inside attribute's quoted value.
+** Some tag/attribute with fixed set of values. Listbox shows list of possible values (beginning with typed value).
 ** Tag A/FRAME/IFRAME, attribute HREF. Listbox shows list of folders and HTML/PHP/ASP files. 
 ** Tag LINK, attribute HREF. Listbox shows list of folders and CSS files.
 ** Tag IMG/INPUT, attribute SRC. Listbox shows list of folders and picture files.
 ** Tag SCRIPT, attribute SRC. Listbox shows list of folders and JS files.
 ** Tag AUDIO, attribute SRC. Listbox shows list of folders and audio files (HTML supports few extensions).
 ** Tag VIDEO, attribute SRC. Listbox shows list of folders and video files (HTML supports few extensions).
-** Tag SOURCE, attribute SRC. Listbox shows list of folders and audio+video files (code doesn't detect the outer tag: audio/video/etc).
+** Tag SOURCE, attribute SRC. Listbox shows list of folders and audio+video files (code doesn't detect the outer tag: audio, video etc).
 
 To use auto-completion of DIV and CLASS names (ie suggest already mentioned names for partially typed names), you need the plugin "HTML Completion".
 
