@@ -1213,11 +1213,6 @@ begin
   ImageListSide.Height:= StrToIntDef(Parts[2].Str, ImageListSide.Height);
   ImageListSide.Clear;
 
-  //set ButtonWidth for vertical bars
-  ToolbarSideTop.ButtonWidth:= AppScale(ImageListSide.Width+8);
-  ToolbarSideLow.ButtonWidth:= ToolbarSideTop.ButtonWidth;
-  ToolbarSideMid.ButtonWidth:= ToolbarSideTop.ButtonWidth;
-
   Str:= AppDir_DataSidebarIcons+DirectorySeparator+UiOps.SidebarTheme;
   if not DirectoryExists(Str) then
   begin
