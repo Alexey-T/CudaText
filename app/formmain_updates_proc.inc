@@ -443,10 +443,10 @@ begin
 
   ATFlatTheme.FontName:= UiOps.VarFontName;
   ATFlatTheme.FontSize:= UiOps.VarFontSize;
-  ATFlatTheme.ScalePercents:= UiOps.Scale;
-  ATFlatTheme.ScaleFontPercents:= UiOps.ScaleFont;
+  DoApplyUiOps_Scales;
 
-  if Assigned(fmFind) then fmFind.UpdateFonts;
+  if Assigned(fmFind) then
+    fmFind.UpdateFonts;
 
   DoApplyFont_UiStatusbar;
 end;

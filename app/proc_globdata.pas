@@ -2476,14 +2476,6 @@ begin
     Result:= AValue * UiOps.ScaleFont div 100;
 end;
 
-{
-procedure AppScaleScrollbar(C: TATScroll);
-begin
-  C.WidthInitial:= UiOps.ScrollbarWidth;
-  C.ScalePercents:= UiOps.Scale;
-end;
-}
-
 procedure DoMenuitemEllipsis(c: TMenuItem);
 var
   s: string;
