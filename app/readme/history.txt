@@ -7,6 +7,7 @@
 
 + add: HTML auto-completion works also inside 1) A HREF="...", 2) LINK HREF="...", 3) IMG/SCRIPT/INPUT/FRAME/IFRAME/AUDIO/VIDEO/SOURCE SRC="..."; it shows there folder names and file names with appropriate types (depends on tag)
 + add: Undo/Redo handles markers too; format of "persistent undo" files is extended, but it's backward compatible
+- fix: scaling of sidebar buttons (thanks @th-schall)
 - fix: cannot scroll to the left by mouse selection; now it works if cursor is on bookmark column or folding column (thanks @MrPiccad)
 
 1.114.0 (2020/10)
