@@ -455,7 +455,7 @@ Command "auto-completion menu" (default hotkey: Ctrl+Space) shows auto-completio
 
 1) IntelliSense.
 
-This is supported via plugins. For the end of 2020 year, such plugins exist for: Python (plugin "Python IntelliSense"), AutoIt ("AutoIt Helper"), SPIR ("SPIR Helper").
+Intelligent completion is supported via plugins. For the end of 2020 year, such plugins exist for: Python (plugin "Python IntelliSense"), AutoIt ("AutoIt Helper"), SPIR ("SPIR Helper").
 
 Microsoft LSP protocol is not yet supported by CudaText nor by plugins.
 
@@ -473,15 +473,15 @@ Lexer HTML (and lexers with "HTML" in name, see the option "autocomplete_html_le
 * Caret is on tag's attribute, before "=". Listbox shows list if attributes beginning with current attribute.
 * Caret is after tag's attribute, after "=". Listbox shows list of possible values of attribute (for fixed set of values, when it's not any string).
 * Caret is inside attribute's quoted value. Special handling for the following cases:
-** Tag A/FRAME/IFRAME, attribute HREF. Listbox shows list of folders and HTML/PHP files. 
+** Tag A/FRAME/IFRAME, attribute HREF. Listbox shows list of folders and HTML/PHP/ASP files. 
 ** Tag LINK, attribute HREF. Listbox shows list of folders and CSS files.
 ** Tag IMG/INPUT, attribute SRC. Listbox shows list of folders and picture files.
 ** Tag SCRIPT, attribute SRC. Listbox shows list of folders and JS files.
 ** Tag AUDIO, attribute SRC. Listbox shows list of folders and audio files (HTML supports few extensions).
 ** Tag VIDEO, attribute SRC. Listbox shows list of folders and video files (HTML supports few extensions).
-** Tag SOURCE, attribute SRC. Listbox shows list of folders and audio+video files, code doesn't detect where the tag SOURCE is nested.
+** Tag SOURCE, attribute SRC. Listbox shows list of folders and audio+video files (code doesn't detect the outer tag: audio/video/etc).
 
-To use auto-completion of DIV and CLASS names (suggest already mentioned names for partially typed names), you need the plugin "HTML Completion".
+To use auto-completion of DIV and CLASS names (ie suggest already mentioned names for partially typed names), you need the plugin "HTML Completion".
 
 4) Special CSS auto-completion.
 
@@ -490,7 +490,7 @@ Lexer CSS (see the option "autocomplete_css_lexers") has its special logic, whic
 * Caret is on CSS property name, inside {} brackets. Listbox shows list of properties, beginning with that property.
 * Caret is after CSS property name and ":", inside {} brackets. Listbox shows list of values for that property (for fixed set of values), beginning with partially typed value.
 * Caret is after tag name with char "@". Listbox shows list of CSS at-rules.
-* Caret is after tag name with char ":". Listbox shows list of CSS pseudo-elements, beginning with ":" or "::".
+* Caret is after tag name with char ":". Listbox shows list of CSS pseudo-elements, beginning with ":" and "::".
 
 == Code Tree ==
 
