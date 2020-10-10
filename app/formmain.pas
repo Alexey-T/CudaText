@@ -3263,15 +3263,7 @@ end;
 
 procedure TfmMain.DoApplyUiOps_Scales;
 begin
-  if ATFlatTheme.ScalePercents<>UiOps.Scale then
-  begin
-    ATFlatTheme.ScalePercents:= UiOps.Scale;
-    //apply ATFlatTheme.ScalePercents to sidebar
-    ToolbarSideTop.UpdateControls;
-    ToolbarSideLow.UpdateControls;
-    ToolbarSideMid.UpdateControls;
-  end;
-
+  ATFlatTheme.ScalePercents:= UiOps.Scale;
   ATFlatTheme.ScaleFontPercents:= UiOps.ScaleFont;
 
   ATScrollbar.ATScrollbarTheme.ScalePercents:= UiOps.Scale;
@@ -3420,6 +3412,11 @@ begin
     end;
   end;
   {$endif}
+
+  //apply UiOps.Scale to sidebar
+  ToolbarSideTop.UpdateControls;
+  ToolbarSideLow.UpdateControls;
+  ToolbarSideMid.UpdateControls;
 
   DoApplyTheme;
 end;
