@@ -1032,7 +1032,6 @@ type
     procedure UpdateMenuChecks;
     procedure UpdateMenuEnc(AMenu: TMenuItem);
     procedure DoApplyUiOps;
-    procedure DoApplyUiOps_Scales;
     procedure DoApplyUiOpsToGroups(G: TATGroups);
     procedure DoApplyInitialGroupSizes;
     procedure DoApplyInitialSidebarPanel;
@@ -3267,17 +3266,6 @@ begin
   end;
 end;
 
-procedure TfmMain.DoApplyUiOps_Scales;
-begin
-  ATFlatTheme.ScalePercents:= UiOps.Scale;
-  ATFlatTheme.ScaleFontPercents:= UiOps.ScaleFont;
-
-  ATScrollbar.ATScrollbarTheme.ScalePercents:= UiOps.Scale;
-
-  EditorScalePercents:= UiOps.Scale;
-  EditorScaleFontPercents:= UiOps.ScaleFont;
-end;
-
 procedure TfmMain.DoApplyUiOps;
 var
   id: TAppPanelId;
@@ -3389,7 +3377,8 @@ begin
 
   ATFlatTheme.FontName:= UiOps.VarFontName;
   ATFlatTheme.FontSize:= UiOps.VarFontSize;
-  DoApplyUiOps_Scales;
+  ATFlatTheme.ScalePercents:= UiOps.Scale;
+  ATFlatTheme.ScaleFontPercents:= UiOps.ScaleFont;
 
   {$ifndef windows}
   ATFlatTheme.EnableColorBgOver:= false;
@@ -3397,9 +3386,13 @@ begin
 
   ATScrollbar.ATScrollbarTheme.InitialSize:= UiOps.ScrollbarWidth;
   ATScrollbar.ATScrollbarTheme.BorderSize:= UiOps.ScrollbarBorderSize;
+  ATScrollbar.ATScrollbarTheme.ScalePercents:= UiOps.Scale;
 
   CompletionOps.FormSizeX:= AppScale(UiOps.ListboxCompleteSizeX);
   CompletionOps.FormSizeY:= AppScale(UiOps.ListboxCompleteSizeY);
+
+  EditorScalePercents:= UiOps.Scale;
+  EditorScaleFontPercents:= UiOps.ScaleFont;
 
   {$ifdef unix}
   if not AppAlwaysNewInstance and UiOps.OneInstance then
