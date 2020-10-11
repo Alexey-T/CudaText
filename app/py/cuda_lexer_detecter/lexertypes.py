@@ -1,5 +1,4 @@
 TYPES = {
-    "": ['Regular_expressions', 'Pascal script', 'HTML Handlebars internal', 'OneC (1C)', 'RPG_IV_(Free_Syntax)', 'Adobe Flash', 'HTML Smarty internal', 'HTML Laravel Blade internal', 'Text with indentation', 'HTML Django DTL internal', 'ASAP2 Meta Language', 'MusicBrainz Picard Tagger Script', 'HTML Embedded JS internal', 'HTML Liquid internal', 'Text Russian detector'],
     "/.htaccess": ['Apache config'],
     "/.htpasswd": ['Apache config'],
     "/Dockerfile": ['Dockerfile'],
