@@ -113,6 +113,110 @@ CudaText has preinstalled 120+ snippets for HTML tags. (You still need to instal
 
 These snippets have markers, so Tab key jumps to the next marker. Last marker is usually placed after the entire tag, ie after ">" bracket.
 
+===Format of snippet files===
+
+====Snippets tab-stops====
+
+Specify tab-stops in the snippet text like this:
+
+* ${NN}
+* ${NN:default text}
+
+This places markers (AKA tab-stops) in the editor, marker index NN should be from 0 to 40.
+After snippet insertion, tab-key goes to next marker(s) and deletes it.
+
+* Markers can be listed in any order (e.g. marker 4 can be between 1 and 2).
+* Tab-key first goes to marker 1, 2, 3... and marker 0 is always the last.
+* Markers with the same indexes will place multi-carets.
+* Nested markers (with default text) are allowed, but only with one nesting level, e.g. ${2:text is {$3:here}}.
+* Marker with default text ${NN:...} can specify multi-line default text (character "}" is on another line of snippet).
+
+====Snippets macros====
+Special macros are handled by Snippets plugin in snippet text:
+
+* ${sel} - Text selected before snippet insertion (if snippet called with Tab key, it's empty string)
+* ${cp} - Current clipboard contents
+
+* ${cmt_start} - Current lexer's "block comment" start symbols (or empty string)
+* ${cmt_end} - Current lexer's "block comment" end symbols (or empty string)
+* ${cmt_line} - Current lexer's "line comment" symbols (or empty string)
+
+* ${fname} - File name only, without path
+* ${fpath} - Full file name, with path
+* ${fdir} - Directory of file
+* ${fext} - Extension of file
+* ${psep} - OS path separator: backslash on Windows, slash on Unix
+
+* ${date:nnnn} - Current date/time formatted by string "nnnn"; see [http://strftime.org/ Python docs]
+* ${env:nnnn} - Value of OS environment variable "nnnn"
+
+The following macros from Sublime Text editor are supported. They can be written as $NAME or as ${NAME}.
+
+* $TM_SELECTED_TEXT - The currently selected text or the empty string
+* $TM_CURRENT_LINE - The contents of the current line
+* $TM_CURRENT_WORD - The contents of the word under cursor or the empty string
+* $TM_LINE_INDEX - The zero-based line number
+* $TM_LINE_NUMBER - The one-based line number
+* $TM_FILEPATH - The full file path of the current document
+* $TM_DIRECTORY - The directory of the current document
+* $TM_FILENAME - The filename of the current document
+* $TM_FILENAME_BASE - The filename of the current document without its extensions
+* $CLIPBOARD - The contents of your clipboard
+* $WORKSPACE_NAME - The name of the opened workspace or folder
+
+* $BLOCK_COMMENT_START - Current lexer's "block comment" start symbols (or empty string)
+* $BLOCK_COMMENT_END - Current lexer's "block comment" end symbols (or empty string)
+* $LINE_COMMENT - Current lexer's "line comment" symbols (or empty string)
+
+For inserting the current date and time:
+* $CURRENT_YEAR - The current year
+* $CURRENT_YEAR_SHORT - The current year's last two digits
+* $CURRENT_MONTH - The month as two digits (e.g. '02')
+* $CURRENT_MONTH_NAME - The full name of the month (e.g. 'July')
+* $CURRENT_MONTH_NAME_SHORT - The short name of the month (e.g. 'Jul')
+* $CURRENT_DATE - The day of the month
+* $CURRENT_DAY_NAME - The name of day (e.g. 'Monday')
+* $CURRENT_DAY_NAME_SHORT - The short name of the day (e.g. 'Mon')
+* $CURRENT_HOUR - The current hour in 24-hour clock format
+* $CURRENT_MINUTE - The current minute
+* $CURRENT_SECOND - The current second
+* $CURRENT_SECONDS_UNIX - The number of seconds since the Unix epoch
+
+====Snippets file names====
+
+Snippets are stored in separate files with extensions:
+
+* .cuda-snippet or .synw-snippet: main format.
+* .cuda-snips: compact format for collections of tiny snippets.
+
+Encoding is UTF-8, no BOM. Files can be placed in any subfolder of "data/snippets" folder, file/folder names have no meaning, but it's recommented to name subfolders like AuthorName.SyntaxName, so users can easily find newly installed snippets.
+
+====Format of .cuda-snippet====
+
+First lines have format "key=value" (no spaces around "="), where "key" is one of strings:
+
+* "name": snippet full name, shown in dialog.
+* "id": snippet short alias for Tab-key (latin letters, digits, "_.$"), line is optional.
+* "lex": lexers list, comma-separated, for which snippet is active, line is optional, empty means snippet always active.
+
+Then follows the line "text=" without value, and all next lines - are snippet contents.
+
+* Trailing blank lines are discarded.
+* Use tab-chars in text indents, they are auto replaced to spaces if current editor configured so.
+
+====Format of .cuda-snips====
+
+File contains one or several lines, one snippet per line. Empty lines, lines starting with "#" or space, are ignored. Format of lines:
+
+* id text
+* /N=name text
+* id /N=name text
+* id /L=lexers text
+* id /L=lexers /N=name text
+* id /L="lexers" /N="name" text
+
+Here "id" is short alias for Tab-key, "name" (if not set, it's the same as "id") is full name for dialog, "lexers" is comma-separated lexer list, "text" is snippet contents. Contents can have escaped special chars: "\n", "\r", "\t" (tab-char), "\\" (backslash).
+
 == Snippet Panel ==
 
 Plugin "Snippet Panel" is preinstalled in CudaText. It gives an alternative way to use short text fragments (only simple ones) in editor. It adds button to sidebar, and command "Plugins / Snippet Panel". When called, plugin shows panel in the sidebar, with a drop-down list of folders, which contain several "snippets". You can double-click snippets to insert them into text (multi-carets are supported).
