@@ -8,6 +8,7 @@
 + add: HTML auto-completion works also inside 1) A HREF="...", 2) LINK HREF="...", 3) IMG/SCRIPT/INPUT/FRAME/IFRAME/AUDIO/VIDEO/SOURCE SRC="..."; it shows there folder names and file names with appropriate types (depends on tag)
 + add: rewritten Wiki topic https://wiki.freepascal.org/CudaText#Auto-completion
 + add: Undo/Redo handles markers too; format of "persistent undo" files is extended, but it's backward compatible
+- fix: if caret is at the end of long line, and we toggle word-wrap, editor should scroll to new caret pos (thanks @xcme)
 - fix: scaling of sidebar buttons (thanks @th-schall)
 - fix: cannot scroll to the left by mouse selection; now it works if cursor is on bookmark column or folding column (thanks @MrPiccad)
 
@@ -26,7 +27,6 @@
 + add: Windows: UI theme has additional 5 colors "top menu ...", all "none" by default to use "tabs ..." colors
 + add: Windows: option "ui_menu_themed" (thanks @tmsg)
 + add: Unix: when Python engine is not detected, app adds menu item "Plugins / Find Python library". It calls new command "find python library" (available in Command Palette). This command finds the library, suggests several possible filenames, and writes chosen filename to user.json.
-+ add: if caret is at the end of long line, and we toggle word-wrap, editor should scroll to new caret pos
 + add: lexer JavaScript: don't highlight "class" after dot, better detect RegEx literals
 - fix: command-line option -ns must win over "ui_reopen_session_cmdline":true (thanks @tmsg)
 - fix: Windows: error with command-line filename '\name.ext' (thanks @tmsg)
