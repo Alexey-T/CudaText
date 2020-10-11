@@ -483,7 +483,7 @@ Lexer HTML (and lexers with "HTML" in name, see the option "autocomplete_html_le
 ** Tag VIDEO, attribute SRC. Listbox shows list of folders and video files (HTML supports few extensions).
 ** Tag SOURCE, attribute SRC. Listbox shows list of folders and audio+video files (code doesn't detect the outer tag: audio, video etc).
 
-To use auto-completion of DIV and CLASS names (ie suggest already mentioned names for partially typed names), you need the plugin "HTML Completion".
+To use auto-completion of CLASS= and ID= names (ie suggest mentioned names for partially typed names), you need the plugin "HTML Completion".
 
 ====Special CSS auto-completion====
 
