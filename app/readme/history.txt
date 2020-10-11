@@ -7,8 +7,8 @@
 
 + add: HTML auto-completion works also inside 1) A HREF="...", 2) LINK HREF="...", 3) IMG/SCRIPT/INPUT/FRAME/IFRAME/AUDIO/VIDEO/SOURCE SRC="..."; it shows there folder names and file names with appropriate types (depends on tag)
 + add: rewritten Wiki topic https://wiki.freepascal.org/CudaText#Auto-completion
-+ add: Undo/Redo handles markers too; format of "persistent undo" files is extended, but it's backward compatible
 + add: Windows shell extension: CudaText context menu entry now shows up in context menu of drives, folders, background of a folder's Explorer window and the Desktop. (by Andreas Heim @dinkumoil)
++ add: Undo/Redo handles markers too; format of "persistent undo" files is extended, but it's backward compatible
 - fix: if caret is at the end of long line, and we toggle word-wrap, editor should scroll to new caret pos (thanks @xcme)
 - fix: scaling of sidebar buttons (thanks @th-schall)
 - fix: cannot scroll to the left by mouse selection; now it works if cursor is on bookmark column or folding column (thanks @MrPiccad)
