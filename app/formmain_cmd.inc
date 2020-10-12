@@ -20,8 +20,10 @@ begin
 
  repeat
   case AppCommandGet(Ed, Cmd) of
-    acgNoCommands: Exit;
-    acgBadCommand: Continue;
+    acgNoCommands:
+      Break;
+    acgBadCommand:
+      Continue;
   end;
 
   Frame:= GetEditorFrame(Ed);
