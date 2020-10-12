@@ -352,7 +352,7 @@ This tells lexer to re-scan entire document, on editing in any document place, w
 
 * "tree helpers": Plugins which show Code Tree structure for some lexer (useful if language is complex, and lexer cannot handle all language complexity).
 
-* "snippets". Collections of text fragments, for Snippets plugin. Install Snippets plugin first. Each addon supports some lexer(s). See details in the [[#Snippets]] topic.
+* "snippets". Collections of text fragments, for Snippets plugin. Install Snippets plugin first. Each addon supports some lexer(s). See details in the [[CudaText_plugins#Snippets]].
 
 * "translations". CudaText UI translations. For ex, JP translation changes all menuitems + dialogs to JP language. Dialogs of plugins are not affected (but authors can support translation in their plugins).
 
