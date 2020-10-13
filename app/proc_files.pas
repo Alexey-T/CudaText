@@ -32,7 +32,13 @@ function IsFileReadonly(const fn: string): boolean;
 procedure FFileAttrPrepare(const fn: string; out attr: Longint);
 procedure FFileAttrRestore(const fn: string; attr: Longint);
 
+function AppExpandFilename(const fn: string): string;
+
+
 implementation
+
+uses
+  proc_windows_link;
 
 function FCreateFile(const fn: string): boolean;
 var
@@ -218,6 +224,11 @@ begin
   if attr=0 then exit;
   FileSetAttrUTF8(fn, attr);
   {$endif}
+end;
+
+function AppExpandFilename(const fn: string): string;
+begin
+  Result:= ResolveWindowsLinkTarget(ExpandFileName(fn));
 end;
 
 procedure FCopyDir(const d1, d2: string);
