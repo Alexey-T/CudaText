@@ -38,8 +38,13 @@ def do_sort_sep_values():
 
         break
 
+    n1, n2 = ed.get_sel_lines()
+    if n1<0:
+        n1 = 0
+        n2 = ed.get_line_count()-1
+
     cnt = 0
-    for i in range(ed.get_line_count()):
+    for i in range(n1, n2+1):
         s = ed.get_text_line(i)
         s2 = _sort(s, sep_k, sep_v)
         if s!=s2:
