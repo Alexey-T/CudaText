@@ -2,24 +2,33 @@ from cudatext import *
 
 def _sort(s, sep_k, sep_v):
 
-    if not sep_k in s:
-        return s
-    key, val = s.split(sep_k, 1)
-    vals = sorted(val.split(sep_v))
-    return key+sep_k+sep_v.join(vals)
+    if sep_k:
+        if not sep_k in s:
+            return s
+        key, val = s.split(sep_k, 1)
+        vals = sorted(val.split(sep_v))
+        return key+sep_k+sep_v.join(vals)
+    else:
+        vals = sorted(s.split(sep_v))
+        return sep_v.join(vals)
+
 
 def do_sort_sep_values():
 
     while 1:
         res = dlg_input_ex(2,
             'Sort: separator chars',
-            'Separator of prefix, to skip prefix:', '=',
+            'Separator of prefix, to skip prefix (optional):', '=',
             'Separator of values after prefix:', ',')
         if res is None:
             return
         sep_k, sep_v = res
 
-        if len(sep_k)!=1 or len(sep_v)!=1:
+        if len(sep_k)>1:
+            msg_status('Separators must have length=1')
+            continue
+
+        if len(sep_v)!=1:
             msg_status('Separators must have length=1')
             continue
 
