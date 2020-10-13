@@ -10,8 +10,8 @@
 + add: CSS auto-completion: more complete colors list for color-properties (thanks @d-mal)
 + add: CSS auto-completion: add standard values to all properties: inherit, initial, unsert, var() (thanks @d-mal)
 + add: CSS auto-completion: better auto-inserting of bracket for functions
-+ add: Unix: support paths "~/somename" in command-line (didn't work if app was run by external tools)
-+ add: lexer CSS: highlight CSS4 "system colors"
++ add: Unix: better support paths with ~/ (didn't work if app was run by external tools)
++ add: lexer CSS: highlight "system colors"
 
 1.115.0 (2020/10)
 
