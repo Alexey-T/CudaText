@@ -47,6 +47,6 @@ def do_sort_sep_values():
             cnt += 1
 
     if cnt>0:
-        msg_status('Sorted, changed %d line(s)'%cnt)
+        msg_status('Changed %d line(s)'%cnt)
     else:
-        msg_status('Lines are already sorted')
+        msg_status('No lines were changed')
