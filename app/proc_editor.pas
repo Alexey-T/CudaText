@@ -1514,6 +1514,12 @@ begin
   Ops.ShowNumbers:= Ed.Gutter.Items[Ed.GutterBandNumbers].Visible;
   Ops.ShowFolding:= Ed.Gutter.Items[Ed.GutterBandFolding].Visible;
   Ops.ShowUnprinted:= Ed.OptUnprintedVisible;
+
+  Ops.UnprintedSpaces:= Ed.OptUnprintedSpaces;
+  Ops.UnprintedSpacesTrail:= Ed.OptUnprintedSpacesTrailing;
+  Ops.UnprintedSpacesInSel:= Ed.OptUnprintedSpacesOnlyInSelection;
+  Ops.UnprintedEnds:= Ed.OptUnprintedEnds;
+  Ops.UnprintedEndsDetails:= Ed.OptUnprintedEndsDetails;
 end;
 
 procedure EditorRestoreTempOptions(Ed: TATSynEdit; const ANew, AOld: TATEditorTempOptions);
@@ -1534,6 +1540,17 @@ begin
     Ed.Gutter.Items[Ed.GutterBandFolding].Visible:= ANew.ShowFolding;
   if AOld.ShowUnprinted<>ANew.ShowUnprinted then
     Ed.OptUnprintedVisible:= ANew.ShowUnprinted;
+
+  if AOld.UnprintedSpaces<>ANew.UnprintedSpaces then
+    Ed.OptUnprintedSpaces:= ANew.UnprintedSpaces;
+  if AOld.UnprintedSpacesTrail<>ANew.UnprintedSpacesTrail then
+    Ed.OptUnprintedSpacesTrailing:= ANew.UnprintedSpacesTrail;
+  if AOld.UnprintedSpacesInSel<>ANew.UnprintedSpacesInSel then
+    Ed.OptUnprintedSpacesOnlyInSelection:= ANew.UnprintedSpacesInSel;
+  if AOld.UnprintedEnds<>ANew.UnprintedEnds then
+    Ed.OptUnprintedEnds:= ANew.UnprintedEnds;
+  if AOld.UnprintedEndsDetails<>ANew.UnprintedEndsDetails then
+    Ed.OptUnprintedEndsDetails:= ANew.UnprintedEndsDetails;
 end;
 
 procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer);
