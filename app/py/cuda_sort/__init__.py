@@ -4,6 +4,7 @@ from cudatext import *
 from .app_specific import *
 from .sort_ini import *
 from .sort_emails import *
+from .sort_sep import *
 
 fn_ini = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
 op_section = 'sort'
@@ -347,3 +348,6 @@ class Command:
 
     def sort_emails(self):
         do_sort_emails()
+
+    def sort_sep_values(self):
+        do_sort_sep_values()

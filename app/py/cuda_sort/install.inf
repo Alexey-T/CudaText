@@ -136,6 +136,11 @@ section=commands
 caption=Sort\Sort e-mail list by domain
 method=sort_emails
 
+[item97]
+section=commands
+caption=Sort\Sort char-separated values in all lines
+method=sort_sep_values
+
 
 [item101]
 section=commands
