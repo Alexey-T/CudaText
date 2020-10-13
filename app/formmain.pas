@@ -5084,7 +5084,7 @@ var
   n: integer;
 begin
   n:= (Sender as TComponent).Tag;
-  fn:= SExpandHomeDirInFilename(AppListRecents[n]);
+  fn:= AppExpandHomeDirInFilename(AppListRecents[n]);
   if FileExists(fn) then
     DoFileOpen(fn, '')
   else

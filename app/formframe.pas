@@ -962,13 +962,13 @@ begin
     if EditorsLinked then
     begin
       if FFileName<>'' then
-        SHint:= SCollapseHomeDirInFilename(FFileName);
+        SHint:= AppCollapseHomeDirInFilename(FFileName);
     end
     else
     begin
       if (FFileName<>'') or (FFileName2<>'') then
-        SHint:= SCollapseHomeDirInFilename(FFileName) + #10 +
-                SCollapseHomeDirInFilename(FFileName2);
+        SHint:= AppCollapseHomeDirInFilename(FFileName) + #10 +
+                AppCollapseHomeDirInFilename(FFileName2);
     end;
 
     D.TabHint:= SHint;

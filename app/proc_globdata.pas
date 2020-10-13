@@ -665,8 +665,8 @@ function DoReadOneStringFromFile(const AFilename: string): string;
 function DoReadContentFromFile(const AFilename: string): string;
 procedure DoWriteStringToFile(const AFilename, AText: string);
 
-function SCollapseHomeDirInFilename(const fn: string): string;
-function SExpandHomeDirInFilename(const fn: string): string;
+function AppCollapseHomeDirInFilename(const fn: string): string;
+function AppExpandHomeDirInFilename(const fn: string): string;
 
 var
   AppManager: TecLexerList = nil;
@@ -1016,7 +1016,7 @@ begin
   Result:= '';
 end;
 
-function SCollapseHomeDirInFilename(const fn: string): string;
+function AppCollapseHomeDirInFilename(const fn: string): string;
 var
   S: string;
 begin
@@ -1028,7 +1028,7 @@ begin
   {$endif}
 end;
 
-function SExpandHomeDirInFilename(const fn: string): string;
+function AppExpandHomeDirInFilename(const fn: string): string;
 begin
   Result:= fn;
   {$ifndef windows}
@@ -1064,7 +1064,7 @@ begin
     if SBeginsWith(S, cParam) then
     begin
       Delete(S, 1, Length(cParam));
-      exit(SExpandHomeDirInFilename(S));
+      exit(AppExpandHomeDirInFilename(S));
     end;
   end;
 end;

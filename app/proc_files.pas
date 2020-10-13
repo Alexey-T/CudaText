@@ -258,7 +258,7 @@ begin
     {$ifdef windows}
     AppExpandWin32RelativeRootFilename(
     {$else}
-    SExpandHomeDirInFilename(
+    AppExpandHomeDirInFilename(
     {$endif}
     fn
     )));

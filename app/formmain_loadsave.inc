@@ -218,7 +218,7 @@ begin
       bModified:= Frame.Ed1.Modified or ((Frame.GetFileName(Frame.Ed1)='') and not Frame.IsEmpty);
 
       cfg.SetValue(path+'/modified', bModified);
-      cfg.SetValue(path+'/file', SCollapseHomeDirInFilename(Frame.FileName));
+      cfg.SetValue(path+'/file', AppCollapseHomeDirInFilename(Frame.FileName));
 
       if bModified then
         cfg.SetValue(path+'/tab_title', Frame.TabCaption);
@@ -248,7 +248,7 @@ begin
 
         bModified:= Frame.Ed2.Modified;
         cfg.SetValue(path+'/modified', bModified);
-        cfg.SetValue(path+'/file', SCollapseHomeDirInFilename(Frame.FileName2));
+        cfg.SetValue(path+'/file', AppCollapseHomeDirInFilename(Frame.FileName2));
 
         if UiOps.HistoryItems[ahhText] then
          if bModified then
@@ -346,7 +346,7 @@ begin
       item_path2:= item_path+'pair/';
 
       sFilename:= cfg.GetValue(item_path+'file', '');
-      sFilename:= SExpandHomeDirInFilename(sFilename);
+      sFilename:= AppExpandHomeDirInFilename(sFilename);
 
       bExist:= (sFilename<>'') and FileExists(sFilename);
       bExist2:= (sFilename2<>'') and FileExists(sFilename2);
@@ -357,7 +357,7 @@ begin
       end;
 
       sFilename2:= cfg.GetValue(item_path2+'file', '');
-      sFilename2:= SExpandHomeDirInFilename(sFilename2);
+      sFilename2:= AppExpandHomeDirInFilename(sFilename2);
 
       if (sFilename2<>'') and not bExist2 then
       begin

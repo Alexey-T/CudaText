@@ -519,7 +519,7 @@ begin
 
   if not Frame.InSession then
     SAddStringToHistory(
-      SCollapseHomeDirInFilename(SFileName),
+      AppCollapseHomeDirInFilename(SFileName),
       AppListRecents,
       UiOps.MaxHistoryMenu);
 end;

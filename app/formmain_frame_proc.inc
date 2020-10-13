@@ -215,7 +215,7 @@ begin
   MsgStatus(
     msgStatusSavedFile+' '+
     ExtractFileName_Fixed(fn)+
-    ' ('+SCollapseHomeDirInFilename(ExtractFileDir_Fixed(fn))+')'
+    ' ('+AppCollapseHomeDirInFilename(ExtractFileDir_Fixed(fn))+')'
     );
 
   //if it's user.json, reread app config (using timer!)
