@@ -8,6 +8,7 @@
 + add: plugin "Sort" has new command "Sort char-separated values in all lines"
 + add: CSS auto-completion: add standard values: inherit, initial, unsert, var() (thanks @d-mal)
 + add: CSS auto-completion: better auto-inserting of bracket, for values like rgb() var()
++ add: CSS auto-completion: better colors list
 
 1.115.0 (2020/10)
 
