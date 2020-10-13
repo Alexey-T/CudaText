@@ -180,7 +180,7 @@ begin
     if SBeginsWith(SParam, '-') then
       Continue;
 
-    AppExpandWin32RelativeRootFilename(SParam);
+    SParam:= AppExpandFilename(SParam);
 
     //here we assume that SParam is filename/dirname/filemask
     if not IsOsFullPath(SParam) then

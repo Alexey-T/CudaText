@@ -38,6 +38,7 @@ function AppExpandFilename(const fn: string): string;
 implementation
 
 uses
+  proc_globdata,
   proc_windows_link;
 
 function FCreateFile(const fn: string): boolean;
@@ -226,11 +227,6 @@ begin
   {$endif}
 end;
 
-function AppExpandFilename(const fn: string): string;
-begin
-  Result:= ResolveWindowsLinkTarget(ExpandFileName(fn));
-end;
-
 procedure FCopyDir(const d1, d2: string);
 var
   c: TCopyDir;
@@ -241,6 +237,31 @@ begin
   finally
     c.Free;
   end;
+end;
+
+function AppExpandWin32RelativeRootFilename(const fn: string): string;
+//this fixes issue #2862, expand '\name.txt'
+begin
+  Result:= fn;
+  {$ifdef windows}
+  if (Length(Result)>1) and (Result[1]='\') and (Result[2]<>'\') then
+    Insert(ExtractFileDrive(GetCurrentDir), Result, 1);
+  {$endif}
+end;
+
+function AppExpandFilename(const fn: string): string;
+begin
+  if fn='' then exit('');
+  Result:=
+    ResolveWindowsLinkTarget(
+    ExpandFileName(
+    {$ifdef windows}
+    AppExpandWin32RelativeRootFilename(
+    {$else}
+    SExpandHomeDirInFilename(
+    {$endif}
+    fn
+    )));
 end;
 
 

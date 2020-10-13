@@ -3250,8 +3250,7 @@ begin
   for i:= 1 to N do
   begin
     S:= ParamStrUTF8(i);
-
-    AppExpandWin32RelativeRootFilename(S);
+    S:= AppExpandFilename(S);
 
     bAddDir :=
       (S[1] <> '-') and
