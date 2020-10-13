@@ -175,7 +175,7 @@ begin
   ADirTarget:= AppDir_Data;
   if SSubDir<>'' then
     ADirTarget+= DirectorySeparator+SSubDir;
-  FCopyDir(SDirFrom, ADirTarget);
+  AppCopyDir(SDirFrom, ADirTarget);
 
   AReport:= msgStatusPackageData+' '+ADirTarget;
 end;
@@ -218,7 +218,7 @@ begin
     FreeAndNil(List);
   end;
 
-  FCopyDir(SDirFrom, ADirTarget);
+  AppCopyDir(SDirFrom, ADirTarget);
 
   AReport+= msgStatusPackagePackage+' '+ADirTarget;
 end;
@@ -328,7 +328,7 @@ begin
     ini.ReadSections(sections);
 
     ADirTarget:= AppDir_Py+DirectorySeparator+s_module;
-    FCopyDir(ExtractFileDir(AFilenameInf), ADirTarget);
+    AppCopyDir(ExtractFileDir(AFilenameInf), ADirTarget);
 
     for ini_section in sections do
     begin

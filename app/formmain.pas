@@ -3662,7 +3662,7 @@ begin
     if not bFileTooBig then
     if not bDetectedPics then
     if UiOps.NonTextFiles<>1 then
-      if not IsFileContentText(
+      if not AppIsFileContentText(
                AFileName,
                UiOps.NonTextFilesBufferKb,
                GlobalDetectUf16BufferWords,
@@ -3950,7 +3950,7 @@ begin
         Format(msgConfirmCreateNewFile, [dlg.FileName]),
         MB_OKCANCEL or MB_ICONQUESTION)=ID_OK then
       begin
-        FCreateFile(dlg.FileName);
+        AppCreateFile(dlg.FileName);
         DoFileOpen(dlg.FileName, '', nil, AOptions);
       end;
     end;
@@ -5488,7 +5488,7 @@ begin
   fn:= AppFile_OptionsUser;
   if not FileExists(fn) then
   begin
-    FCreateFileJSON(fn);
+    AppCreateFileJSON(fn);
     if not FileExists(fn) then Exit;
   end;
 
@@ -5505,7 +5505,7 @@ begin
 
   if not FileExists(NameUser) then
   begin
-    FCreateFileJSON(NameUser);
+    AppCreateFileJSON(NameUser);
     if not FileExists(NameUser) then exit;
   end;
 
@@ -5534,7 +5534,7 @@ begin
 
   if not FileExists(fn) then
   begin
-    FCreateFileJSON(fn);
+    AppCreateFileJSON(fn);
     if not FileExists(fn) then exit;
   end;
 

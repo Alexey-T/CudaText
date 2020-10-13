@@ -1332,7 +1332,7 @@ begin
   fn:= AppFile_OptionsUser;
   if not FileExists(fn) then
   begin
-    FCreateFileJSON(fn);
+    AppCreateFileJSON(fn);
     if not FileExists(fn) then exit;
   end;
 

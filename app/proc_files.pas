@@ -11,26 +11,20 @@ unit proc_files;
 
 interface
 
-uses
-  Classes, SysUtils,
-  LazFileUtils,
-  ATStrings,
-  CopyDir;
+function AppCreateFile(const fn: string): boolean;
+function AppCreateFileJSON(const fn: string): boolean;
 
-function FCreateFile(const fn: string): boolean;
-function FCreateFileJSON(const fn: string): boolean;
+procedure AppCopyDir(const d1, d2: string);
 
-procedure FCopyDir(const d1, d2: string);
-
-function IsFileContentText(const fn: string;
+function AppIsFileContentText(const fn: string;
   BufSizeKb: integer;
   BufSizeWords: integer;
   DetectOEM: boolean): Boolean;
 
-function IsFileReadonly(const fn: string): boolean;
+function AppIsFileReadonly(const fn: string): boolean;
 
-procedure FFileAttrPrepare(const fn: string; out attr: Longint);
-procedure FFileAttrRestore(const fn: string; attr: Longint);
+procedure AppFileAttrPrepare(const fn: string; out attr: Longint);
+procedure AppFileAttrRestore(const fn: string; attr: Longint);
 
 function AppExpandFilename(const fn: string): string;
 
@@ -38,10 +32,14 @@ function AppExpandFilename(const fn: string): string;
 implementation
 
 uses
+  Classes, SysUtils,
+  LazFileUtils,
+  ATStrings,
   proc_globdata,
-  proc_windows_link;
+  proc_windows_link,
+  CopyDir;
 
-function FCreateFile(const fn: string): boolean;
+function AppCreateFile(const fn: string): boolean;
 var
   L: TStringList;
 begin
@@ -58,7 +56,7 @@ begin
   end;
 end;
 
-function FCreateFileJSON(const fn: string): boolean;
+function AppCreateFileJSON(const fn: string): boolean;
 var
   L: TStringList;
 begin
@@ -97,7 +95,7 @@ begin
   Result:= (n < 32) and not (byte(n) in cAllowedControlChars);
 end;
 
-function IsFileContentText(const fn: string; BufSizeKb: integer;
+function AppIsFileContentText(const fn: string; BufSizeKb: integer;
   BufSizeWords: integer;
   DetectOEM: boolean): Boolean;
 var
@@ -188,7 +186,7 @@ begin
   end;
 end;
 
-function IsFileReadonly(const fn: string): boolean;
+function AppIsFileReadonly(const fn: string): boolean;
 begin
   {$ifdef windows}
   Result:= FileIsReadOnlyUTF8(fn);
@@ -213,13 +211,13 @@ begin
   FileSetAttrUTF8(fn, temp_attr and not spec);
 end;
 {$else}
-procedure FFileAttrPrepare(const fn: string; out attr: Longint);
+procedure AppFileAttrPrepare(const fn: string; out attr: Longint);
 begin
   attr:= 0;
 end;
 {$endif}
 
-procedure FFileAttrRestore(const fn: string; attr: Longint);
+procedure AppFileAttrRestore(const fn: string; attr: Longint);
 begin
   {$ifdef windows}
   if attr=0 then exit;
@@ -227,7 +225,7 @@ begin
   {$endif}
 end;
 
-procedure FCopyDir(const d1, d2: string);
+procedure AppCopyDir(const d1, d2: string);
 var
   c: TCopyDir;
 begin

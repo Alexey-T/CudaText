@@ -2178,7 +2178,7 @@ var
   b: boolean;
 begin
   if Ed.IsReadOnlyChanged then exit;
-  b:= IsFileReadonly(GetFileName(Ed));
+  b:= AppIsFileReadonly(GetFileName(Ed));
   ReadOnly[Ed]:= b;
   if b then
     Ed.IsReadOnlyAutodetected:= true;
@@ -2346,7 +2346,7 @@ begin
 
   while true do
   try
-    FFileAttrPrepare(SFileName, attr);
+    AppFileAttrPrepare(SFileName, attr);
     Ed.BeginUpdate;
     try
       try
@@ -2365,7 +2365,7 @@ begin
     finally
       Ed.EndUpdate;
     end;
-    FFileAttrRestore(SFileName, attr);
+    AppFileAttrRestore(SFileName, attr);
     Break;
   except
     if MsgBox(msgCannotSaveFile+#10+SFileName,

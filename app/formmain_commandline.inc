@@ -237,7 +237,7 @@ begin
     if bAllowCreate then
       if MsgBox(Format(msgConfirmCreateNewFile, [SParam]),
               MB_OKCANCEL or MB_ICONQUESTION) = ID_OK then
-        if FCreateFile(SParam) then
+        if AppCreateFile(SParam) then
         begin
           Frame:= DoFileOpen(SParam, '', nil, AOpenOptions);
           if Assigned(Frame) then
