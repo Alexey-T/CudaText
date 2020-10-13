@@ -473,7 +473,6 @@ Lexer HTML (and lexers with "HTML" in name, see the option "autocomplete_html_le
 * Caret is on tag's attribute, before "=". Listbox shows list of attributes (beginning with typed attribute).
 * Caret is after tag's attribute, after "=". Listbox shows list of possible values of attribute, for fixed set of values.
 * Caret is inside attribute's quoted value. Possible cases:
-** Attribute STYLE value. This runs the CSS auto-completion for that value.
 ** Some tag/attribute with fixed set of values. Listbox shows list of possible values (beginning with typed value).
 ** Tag A, attribute HREF. Listbox shows list of folders and all files (all files can be hyper-linked). 
 ** Tag LINK, attribute HREF. Listbox shows list of folders and CSS files.
