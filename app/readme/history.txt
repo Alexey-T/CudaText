@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.115.1 (2020/10)
+
++ add: CSS auto-completion: add var() function
++ add: CSS auto-completion: after inserting function with '()' [e.g. rgb(), var()], put caret inside brackets
+
 1.115.0 (2020/10)
 
 + add: HTML auto-completion works also inside 1) A HREF="...", 2) LINK HREF="...", 3) IMG/SCRIPT/INPUT/FRAME/IFRAME/AUDIO/VIDEO/SOURCE SRC="..."; it shows there folder names and file names with appropriate types (depends on tag)
