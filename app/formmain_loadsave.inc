@@ -155,8 +155,8 @@ begin
     cfg.Free;
   end;
 
-  if UiOps.ReopenSession
-    //and (FOption_AllowSession=aalsEnable)
+  if UiOps.ReopenSession and
+    ((FOption_AllowSession=aalsEnable) or not IsDefaultSessionActive)
     //// see http://synwrite.sourceforge.net/forums/viewtopic.php?f=20&t=2576
     //// @tmsg wants to save session always, even with -ns cmdline opt
   then

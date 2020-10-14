@@ -694,6 +694,7 @@ type
     procedure FrameConfirmLink(Sender: TObject; const ALink: string);
     procedure FormEnter(Sender: TObject);
     procedure GetParamsForUniqueInstance(out AParams: TAppStringArray);
+    function IsDefaultSessionActive: boolean;
     procedure PythonEngineAfterInit(Sender: TObject);
     procedure PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
     procedure PythonModuleInitialization(Sender: TObject);
@@ -2115,6 +2116,12 @@ begin
     Result:= AppDir_Settings+DirectorySeparator+Result;
 end;
 
+function TfmMain.IsDefaultSessionActive: boolean;
+begin
+  Result:=
+    (AppSessionName='') or
+    (AppSessionName=cAppSessionDefault);
+end;
 
 procedure TfmMain.InitAppleMenu;
 var
