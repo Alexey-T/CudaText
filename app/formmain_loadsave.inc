@@ -155,7 +155,11 @@ begin
     cfg.Free;
   end;
 
-  if UiOps.ReopenSession and (FOption_AllowSession=aalsEnable) then
+  if UiOps.ReopenSession
+    //and (FOption_AllowSession=aalsEnable)
+    //// see http://synwrite.sourceforge.net/forums/viewtopic.php?f=20&t=2576
+    //// @tmsg wants to save session always, even with -ns cmdline opt
+  then
     DoOps_SaveSession(GetSessionFilename);
 end;
 
