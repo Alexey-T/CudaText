@@ -156,15 +156,14 @@ Example of version check:
 
 Returns file-system path. Possible values of "id":
 
-* APP_DIR_EXE: Dir of program executable.
-* APP_DIR_SETTINGS: Dir "settings".
-* APP_DIR_DATA: Dir "data".
-* APP_DIR_PY: Dir "py" with Python files.
-* APP_DIR_INSTALLED_ADDON: Dir of last installed addon (for plugins it is folder in "py", for data-files it is folder in "data", for lexers it is folder "lexlib"). This dir is updated only if addon installed via file_open() or from app (Open dialog or command line).
+* APP_DIR_EXE: Folder of program executable.
+* APP_DIR_SETTINGS: Folder "settings", which contains user.json file.
+* APP_DIR_SETTINGS_DEF: Folder "settings_default", which contains default.json file.
+* APP_DIR_DATA: Folder "data".
+* APP_DIR_PY: Folder "py" with Python files.
+* APP_DIR_INSTALLED_ADDON: Folder of last installed addon (for plugins it is folder in "py", for data-files it is folder in "data", for lexers it is folder "lexlib"). This dir is updated only if addon installed via file_open() or from app (Open dialog or command line).
 * APP_FILE_SESSION: Filename of current session. Default filename is "history session.json" without path. Missing path means that folder "settings" will be used.
 * APP_FILE_RECENTS: Str: "\n"-separated filenames of recent files.
-
-Note: to get path of dir "settings_default", use base dir of "settings".
 
 ===app_proc===
 
@@ -4024,5 +4023,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.351 (app 1.114.0)
 * add: event on_app_activate
 * add: event on_app_deactivate
+
+1.0.352 (app 1.115.3)
+* add: app_path: APP_DIR_SETTINGS_DEF
 
 [[Category:CudaText]]
