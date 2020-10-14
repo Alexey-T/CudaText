@@ -532,9 +532,7 @@ def _get_log_file():
 
 def get_def_setting_dir():
     pass;                     #LOG and log('os.path.dirname(app.app_path(app.APP_DIR_SETTINGS))={}', os.path.dirname(app.app_path(app.APP_DIR_SETTINGS)))
-    return os.path.join(
-                os.path.dirname(app.app_path(app.APP_DIR_SETTINGS))
-            ,   'settings_default' )
+    return app.app_path(app.APP_DIR_SETTINGS_DEF)
     #def get_def_setting_dir
 
 def _opt_for_keys(dct_tree, keys=(), def_val=None):
