@@ -84,8 +84,9 @@ begin
     if Items.Count>0 then
       ItemIndex:= 0;
 
-  //btnDontSave.Visible:= not UiOps.ReopenSession;
-  btnDontSaveKeep.Visible:= UiOps.ReopenSession and UiOps.HistoryItems[ahhText];
+  btnDontSaveKeep.Visible:= UiOps.ReopenSession; //and UiOps.HistoryItems[ahhText];
+    ////let's show this btn even w/o ahhText, see
+    //// http://synwrite.sourceforge.net/forums/viewtopic.php?f=20&t=2576
 end;
 
 procedure TfmSaveTabs.DoLoadSize;
