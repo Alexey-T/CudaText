@@ -150,19 +150,6 @@ const
   AppExtensionThemeUi = '.cuda-theme-ui';
   AppExtensionThemeSyntax = '.cuda-theme-syntax';
 
-const
-  AppDefaultMonospacedFont =
-    {$ifdef windows} 
-    'Consolas' 
-    {$else}
-      {$ifdef darwin}
-      'Monaco'
-      {$else}
-      'Courier New'
-      {$endif}
-    {$endif}
-    ;
-
 type
   TUiOps = record
     VarFontName: string;
@@ -1166,11 +1153,38 @@ begin
   AppFile_PluginsIni:= AppDir_Settings+DirectorySeparator+'plugins.ini';
 end;
 
+const
+  AppDefaultEdFont: string = '';
+  AppDefaultEdFonts: array[0..2] of string =
+    {$ifdef windows}
+    ('Consolas', 'Courier New', 'Courier');
+    {$else}
+      {$ifdef darwin}
+      ('Monaco', 'Liberation Mono', 'DejaVu Sans Mono');
+      {$else}
+      ('DejaVu Sans Mono', 'Liberation Mono', 'Courier New');
+      {$endif}
+    {$endif}
+
+function InitAppDefaultEdFont: string;
+var
+  i: integer;
+begin
+  for i:= 0 to High(AppDefaultEdFonts) do
+  begin
+    Result:= AppDefaultEdFonts[i];
+    if Screen.Fonts.IndexOf(Result)>=0 then exit;
+  end;
+end;
+
 procedure InitEditorOps(var Op: TEditorOps);
 begin
+  if AppDefaultEdFont='' then
+    AppDefaultEdFont:= InitAppDefaultEdFont;
+
   with Op do
   begin
-    OpFontName:= AppDefaultMonospacedFont;
+    OpFontName:= AppDefaultEdFont;
     OpFontName_i:= '';
     OpFontName_b:= '';
     OpFontName_bi:= '';
