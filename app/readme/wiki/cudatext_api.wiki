@@ -145,8 +145,7 @@ Example of version check:
 
 <syntaxhighlight lang="python">
   from cudatext import *
-
-  if app_api_version() < '1.0.140':
+  if API < 350:
       msg_box('Plugin needs newer program version', MB_OK+MB_ICONWARNING)
 </syntaxhighlight>
 
