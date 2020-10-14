@@ -328,10 +328,7 @@ const
       '           \____\__,_|\__,_|\__,_||_|\___/_/\_\\__|'+EOL+
       '---------------------------------------------------------------'+EOL+
       'This is the first CudaText start (file history.json not found).'+EOL+
-      'You can easily install popular add-ons'+EOL+
-      {$ifdef unix}
-      '(if Python option "pylib'+cOptionSystemSuffix+'" is set up)'+EOL+
-      {$endif}
+      'If Python engine is set up, you can install popular add-ons'+EOL+
       'using menu item "Plugins / Multi Installer".'+EOL+
       '---------------------------------------------------------------'+EOL;
 

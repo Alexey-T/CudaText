@@ -2919,14 +2919,22 @@ end;
 procedure TfmMain.DoShowFirstStartInfo;
 var
   Frame: TEditorFrame;
+  Ed: TATSynEdit;
 begin
   if not FileExists(AppFile_History) then
   begin
     Frame:= Frames[0];
     if Frame.IsEmpty then
     begin
+      Ed:= Frame.Ed1;
       Frame.TabCaption:= msgWelcomeTabTitle;
-      Frame.Ed1.Strings.LoadFromString(msgFirstStartInfo);
+      Ed.Strings.LoadFromString(msgFirstStartInfo);
+      if not AppPython.Inited then
+      begin
+        Ed.Strings.LineAdd(msgCannotInitPython1);
+        Ed.Strings.LineAdd(msgCannotInitPython2);
+        Ed.Strings.LineAdd(msgCannotInitPython2b);
+      end;
     end;
   end;
 end;
