@@ -321,6 +321,11 @@ const
       'Sessions (.cuda-session) can be passed, if Session Manager installed.'+EOL;
 
   msgFirstStartInfo =
+      '            ____          _      _____         _   '+EOL+
+      '           / ___|   _  __| | __ |_   _|____  _| |_ '+EOL+
+      '          | |  | | | |/ _` |/ _` || |/ _ \ \/ / __|'+EOL+
+      '          | |__| |_| | (_| | (_| || |  __/>  <| |_ '+EOL+
+      '           \____\__,_|\__,_|\__,_||_|\___/_/\_\\__|'+EOL+
       '---------------------------------------------------------------'+EOL+
       'This is the first CudaText start (file history.json not found).'+EOL+
       'You can easily install popular add-ons'+EOL+
