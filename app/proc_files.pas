@@ -249,7 +249,11 @@ end;
 
 function AppExpandFilename(const fn: string): string;
 begin
-  if fn='' then exit('');
+  if fn='' then exit(fn);
+
+  //handle cmd-line options here
+  if fn[1]='-' then exit(fn);
+
   Result:=
     ResolveWindowsLinkTarget(
     ExpandFileName(
