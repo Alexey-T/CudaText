@@ -13,7 +13,7 @@
 + add: Unix: better support paths with ~/ (didn't work if app was run by external tools)
 + add: dialog "Save tabs?" shows button "don't save/ keep in session" more often, now ignoring "t" in "ui_history_disabled" (thanks @tmsg)
 + add: lexer CSS: highlight "system colors"
-- fix: some plugin crashes when app was run with -s=somedir
+- fix: some plugins crashed when app was run with -s=somedir
 - fix: don't reset "View / Toggle unprinted" flags on switching tabs (thanks @xcme)
 
 1.115.0 (2020/10)
