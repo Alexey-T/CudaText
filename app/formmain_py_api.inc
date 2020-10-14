@@ -446,6 +446,8 @@ begin
           Result:= PyString_FromString(PChar(ExtractFileDir(Application.ExeName)));
         APP_DIR_SETTINGS:
           Result:= PyString_FromString(PChar(AppDir_Settings));
+        APP_DIR_SETTINGS_DEF:
+          Result:= PyString_FromString(PChar(AppDir_SettingsDefault));
         APP_DIR_DATA:
           Result:= PyString_FromString(PChar(AppDir_Data));
         APP_DIR_PY:
