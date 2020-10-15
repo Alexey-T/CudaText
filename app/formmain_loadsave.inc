@@ -1385,7 +1385,7 @@ begin
   DoPyEvent(nil, cEventOnState, Params);
 
   if bDisFree then
-    SetFullScreen_Ex(true, true);
+    SetShowDistractionFree_Forced;
 end;
 
 

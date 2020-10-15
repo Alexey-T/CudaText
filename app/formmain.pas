@@ -895,6 +895,7 @@ type
     procedure SetShowSidebarOnRight(AValue: boolean);
     procedure SetSidebarPanel(const ACaption: string);
     procedure SetShowDistractionFree(AValue: boolean);
+    procedure SetShowDistractionFree_Forced;
     procedure SetShowFullScreen(AValue: boolean);
     procedure SetFullScreen_Ex(AValue: boolean; AHideAll: boolean);
     procedure SetFullScreen_Universal(AValue: boolean);
@@ -5241,6 +5242,11 @@ begin
   SetFullScreen_Ex(AValue, true);
 end;
 
+procedure TfmMain.SetShowDistractionFree_Forced;
+begin
+  SetFullScreen_Ex(true, true);
+end;
+
 function TfmMain.GetShowDistractionFree: boolean;
 begin
   Result:= FShowFullScreen and FShowFullScreen_DisFree;
@@ -6567,7 +6573,7 @@ begin
   UpdateMenuPlugins_Shortcuts;
 
   if bDisFree then
-    SetFullScreen_Ex(true, true);
+    SetShowDistractionFree_Forced;
 end;
 
 
