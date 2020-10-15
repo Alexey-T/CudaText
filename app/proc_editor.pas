@@ -1541,15 +1541,17 @@ begin
   if AOld.ShowUnprinted<>ANew.ShowUnprinted then
     Ed.OptUnprintedVisible:= ANew.ShowUnprinted;
 
-  if AOld.UnprintedSpaces<>ANew.UnprintedSpaces then
+  //let's not compare AOld.*<>ANew.*, to fix issue #2908
+
+  //if AOld.UnprintedSpaces<>ANew.UnprintedSpaces then
     Ed.OptUnprintedSpaces:= ANew.UnprintedSpaces;
-  if AOld.UnprintedSpacesTrail<>ANew.UnprintedSpacesTrail then
+  //if AOld.UnprintedSpacesTrail<>ANew.UnprintedSpacesTrail then
     Ed.OptUnprintedSpacesTrailing:= ANew.UnprintedSpacesTrail;
-  if AOld.UnprintedSpacesInSel<>ANew.UnprintedSpacesInSel then
+  //if AOld.UnprintedSpacesInSel<>ANew.UnprintedSpacesInSel then
     Ed.OptUnprintedSpacesOnlyInSelection:= ANew.UnprintedSpacesInSel;
-  if AOld.UnprintedEnds<>ANew.UnprintedEnds then
+  //if AOld.UnprintedEnds<>ANew.UnprintedEnds then
     Ed.OptUnprintedEnds:= ANew.UnprintedEnds;
-  if AOld.UnprintedEndsDetails<>ANew.UnprintedEndsDetails then
+  //if AOld.UnprintedEndsDetails<>ANew.UnprintedEndsDetails then
     Ed.OptUnprintedEndsDetails:= ANew.UnprintedEndsDetails;
 end;
 
