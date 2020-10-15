@@ -641,6 +641,7 @@ type
     FFindMarkingMode: TATFindMarkingMode;
     FFindMarkingCaret1st: boolean;
     FShowFullScreen: boolean;
+    FShowFullScreen_DisFree: boolean;
     FOrigBounds: TRect;
     FOrigWndState: TWindowState;
     FOrigShowToolbar: boolean;
@@ -5227,6 +5228,7 @@ procedure TfmMain.SetShowFullScreen(AValue: boolean);
 begin
   if FShowFullScreen=AValue then Exit;
   FShowFullScreen:= AValue;
+  FShowFullScreen_DisFree:= false;
   SetFullScreen_Ex(AValue, false);
 end;
 
@@ -5234,6 +5236,7 @@ procedure TfmMain.SetShowDistractionFree(AValue: boolean);
 begin
   if FShowFullScreen=AValue then Exit;
   FShowFullScreen:= AValue;
+  FShowFullScreen_DisFree:= AValue;
   SetFullScreen_Ex(AValue, true);
 end;
 
@@ -6511,10 +6514,13 @@ var
   SFileName: string;
   {$endif}
   SLexerName: string;
+  bDisFree: boolean;
 begin
   Ed:= Sender;
   Frame:= GetEditorFrame(Ed);
   if Frame=nil then exit;
+
+  bDisFree:= FShowFullScreen and FShowFullScreen_DisFree;
 
   {$ifdef debug_on_lexer}
   SFileName:= Frame.GetFileName(Ed);
@@ -6553,6 +6559,9 @@ begin
     Ed.Keymap:= Keymap;
 
   UpdateMenuPlugins_Shortcuts;
+
+  if bDisFree then
+    SetFullScreen_Ex(true, true);
 end;
 
 
