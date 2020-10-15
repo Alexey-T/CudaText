@@ -1373,7 +1373,9 @@ procedure TfmMain.DoOps_LoadOptionsAndApplyAll;
 // called by command "settings: reload/apply config"
 var
   Params: TAppVariantArray;
+  bDisFree: boolean;
 begin
+  bDisFree:= ShowDistractionFree;
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps);
   DoApplyAllOps;
 
@@ -1381,6 +1383,9 @@ begin
   SetLength(Params, 1);
   Params[0]:= AppVariant(APPSTATE_CONFIG_REREAD);
   DoPyEvent(nil, cEventOnState, Params);
+
+  if bDisFree then
+    SetFullScreen_Ex(true, true);
 end;
 
 
