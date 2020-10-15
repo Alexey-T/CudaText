@@ -695,6 +695,7 @@ type
     procedure FrameConfirmLink(Sender: TObject; const ALink: string);
     procedure FormEnter(Sender: TObject);
     procedure GetParamsForUniqueInstance(out AParams: TAppStringArray);
+    function GetShowDistractionFree: boolean;
     function IsDefaultSessionActive: boolean;
     procedure PythonEngineAfterInit(Sender: TObject);
     procedure PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
@@ -1099,7 +1100,7 @@ type
     property ShowMenu: boolean read FMenuVisible write SetShowMenu;
     property ShowOnTop: boolean read GetShowOnTop write SetShowOnTop;
     property ShowFullscreen: boolean read FShowFullScreen write SetShowFullScreen;
-    property ShowDistractionFree: boolean read FShowFullScreen write SetShowDistractionFree;
+    property ShowDistractionFree: boolean read GetShowDistractionFree write SetShowDistractionFree;
     property ShowSideBar: boolean read GetShowSideBar write SetShowSideBar;
     property ShowSideBarOnRight: boolean read GetShowSidebarOnRight write SetShowSidebarOnRight;
     property ShowToolbar: boolean read GetShowToolbar write SetShowToolbar;
@@ -5234,10 +5235,15 @@ end;
 
 procedure TfmMain.SetShowDistractionFree(AValue: boolean);
 begin
-  if FShowFullScreen=AValue then Exit;
+  if GetShowDistractionFree=AValue then Exit;
   FShowFullScreen:= AValue;
   FShowFullScreen_DisFree:= AValue;
   SetFullScreen_Ex(AValue, true);
+end;
+
+function TfmMain.GetShowDistractionFree: boolean;
+begin
+  Result:= FShowFullScreen and FShowFullScreen_DisFree;
 end;
 
 
@@ -6520,7 +6526,7 @@ begin
   Frame:= GetEditorFrame(Ed);
   if Frame=nil then exit;
 
-  bDisFree:= FShowFullScreen and FShowFullScreen_DisFree;
+  bDisFree:= ShowDistractionFree;
 
   {$ifdef debug_on_lexer}
   SFileName:= Frame.GetFileName(Ed);
