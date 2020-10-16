@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.115.5 (2020/10)
+1.116.0 (2020/10)
 
++ add: Find dialog: when "search in selection" is checked, and "find first"/"find next" is called, editor places marker instead of caret, so we don't break the selection, and can "find next" all matches (thanks @xcme)
 + add: plugin "Sort" has new command "Sort char-separated values in lines"
 + add: command "duplicate line(s)" supports multi-carets
 + add: CSS auto-completion: more complete colors list for color-properties (thanks @d-mal)
