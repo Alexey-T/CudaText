@@ -772,11 +772,12 @@ But it works only for "editor frame", and don't work for: Console read-only edit
 There are two menu items in the View menu:
 
 * Toggle '''Full-screen'''. This maximizes app window (in a special way, OS-dependant, even OS taskbar hides), and also, optionally, turns off some UI elements: toolbar, statusbar, sidebar, side panels (Tree, Project, FTP), bottom panels (Console) etc. Option "ui_fullscreen" has set of chars, each char for one UI element to hide. E.g. option value "tp" hides 2 UI elements ("t" for toolbar, "p" for side panels).
-* Toggle '''Distraction-free'''. Like full-screen, but all UI elements hide. No option currently to configure which elements.
+* Toggle '''Distraction-free'''. Like full-screen, but also all UI elements hide (gutter, statusbar, toolbar, sidebar, side panels). No option currently to configure which elements hide.
 
 Notes:
 
-* On macOS full-screen modes hide top menu. To show it w/o returning back, just move the mouse cursor to the top of the screen and hold a little.
+* In the Distraction-free mode, app uses option "centering_for_distraction_free" to center the text visually. If you want this centering w/o Distraction-free mode, use the option "centering_width". 
+* On macOS full-screen modes hide the top menu bar. To show it w/o returning back, just move the mouse cursor to the top of the screen and hold there for few seconds.
 
 ==Python integration==
 ===Python on Windows===
