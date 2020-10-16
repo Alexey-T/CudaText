@@ -644,6 +644,12 @@ Button "Mark all". It's visible if CudaText option "find_show_mark_all":true. It
 
 Button "Replace global". It's visible if CudaText option "find_show_replace_global":true. It performs replacement in all opened documents in all editor groups. After additional confirmation. 
 
+===Text searcher features===
+
+Search engine supports all actions with multi-selections. For example, "Find next"/"Find prev" go to next/previous selection when needed. "Find all"/"Replace all" work too.
+
+Search engine (in CudaText 1.116+) has the feature, which is rarely implemented in text editors. When invoked on text selection(s) with the option "Search in selection only", engine doesn't place caret+selection on found match, instead it places marker ([[#Markers]]). The marker is placed with the underline (triangle with a line to the left), which shows the length of the found match. Commands "Find next"/"Find previuos"/"Replace" work "in selection only" too, they move that mentioned marker. Note that this feature may not work OK, if you have some markers already placed.
+
 Second click on the "Search" sidebar button toggles dialog between Find and Replace modes.
 
 ==Dialog "Go to"==
