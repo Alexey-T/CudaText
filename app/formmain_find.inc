@@ -16,6 +16,8 @@ begin
   case FFindMarkingMode of
     markingNone:
       begin
+        //don't do Ed.DoGotoPos here, because it resets selection,
+        //while we need to keep sel, on 'find next' with 'in selection'
         Ed.DoShowPos(
           APos1,
           UiOps.FindIndentHorz,
