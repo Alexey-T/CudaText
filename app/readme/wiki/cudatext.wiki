@@ -607,12 +607,12 @@ These panels have hotkeys:
 
 ==Dialog Find/Replace==
 
-Find/Replace dialog has hotkeys, which work only inside this dialog. They can be customized via options "find_hotkey_nnnn".
+Find/Replace dialog has hotkeys, which work only when this dialog is focused. Hotkeys can be customized via options "find_hotkey_nnnn".
 
 * Alt+Enter: Find first
 * Enter: Find next/ Replace next (depends of focused input)
 * Shift+Enter: Find previous
-* Ctrl+Enter: Add new line in multi-line input
+* Ctrl+Enter: Add new line in multi-line input (multi-line mode is activated by "+" button)
 * Alt+Z: Replace, and find next
 * Ctrl+Alt+Z: Replace, and don't find next
 * Alt+A: Replace all
@@ -629,7 +629,7 @@ Option buttons have hotkeys too. Hover mouse over them to see floating tooltips 
 * "aA" - Case sensitive search - Alt+C
 * "w" - Search for whole words only, ie both sides of found match must be "word boundaries" - Alt+W
 * "O" - Wrapped search: search from beginning after reaching the end (with forward search), and search from end after reaching the beginning (with backward search) - Alt+N
-* "[..]" - Search in selection - Alt+X
+* "[..]" - Search in selection only - Alt+X
 * "+" - Toggle multi-line mode for both dialog input fields (to add a newline in multi-line fields, press Ctrl+Enter) - Alt+M
 * "?!" - Show confirmation on each replace - Alt+Y
 * "*" - Choose allowed syntax elements: Any / Only comments / Only strings / Only comments+strings / etc. This feature must be supported by lexer (and some lexers are limited, support only "comments" or only "strings" syntax elements). Syntax element is detected from left edge position of a found match.
@@ -648,7 +648,7 @@ Button "Replace global". It's visible if CudaText option "find_show_replace_glob
 
 Search engine supports actions with multi-selections. This makes sense mainly for mass-search actions (Find all, Select all, Mark all, Replace all).
 
-Search engine (in CudaText 1.116+) has the feature, which is rarely implemented in text editors. When invoked on text selection(s) with the option "Search in selection only", engine doesn't place caret+selection on found match, instead it places marker ([[#Markers]]). The marker is placed with the underline (triangle with a line to the left), which shows the length of the found match. Actions "Find next"/"Find previuos"/"Replace" support "in selection" too, they move that mentioned marker. Note that this feature checks the presence of a single marker in text, it may not work OK if you have some markers already placed.
+Search engine (in CudaText 1.116+) has the feature, which is rarely implemented in text editors. When invoked on text selection(s) with the option "Search in selection only", engine doesn't place caret+selection on found match, instead it places marker ([[#Markers]]). The marker is placed with the underline (triangle with a line to the left), which shows the length of the found match. Actions "Find next"/"Find previuos"/"Replace" support "in selection only" too, they move that mentioned marker. Note that this feature checks the presence of a single marker in text, it may not work OK if you have some markers already placed.
 
 Second click on the "Search" sidebar button toggles dialog between Find and Replace modes.
 
