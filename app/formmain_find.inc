@@ -16,12 +16,10 @@ begin
   case FFindMarkingMode of
     markingNone:
       begin
-        Ed.DoGotoPos(
+        Ed.DoShowPos(
           APos1,
-          APos2,
           UiOps.FindIndentHorz,
           UiOps.FindIndentVert,
-          true,
           true
           );
       end;
@@ -57,10 +55,12 @@ end;
 
 procedure TfmMain.DoFindOptions_ResetInSelection;
 begin
-  //todo: maybe rework and dont reset opt
+  //2020.10: don't reset sel, "find next" supports "in selection"
+  {
   FFinder.OptInSelection:= false;
   if Assigned(fmFind) then
     fmFind.chkInSel.Checked:= false;
+    }
 end;
 
 
