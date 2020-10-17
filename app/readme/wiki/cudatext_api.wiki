@@ -2509,7 +2509,7 @@ Returns list of dict, or None. Dict items has keys:
 
 ===Editor.markers===
 
- markers(id, x=0, y=0, tag=0, len_x=0, len_y=0)
+ markers(id, x=0, y=0, tag=0, len_x=0, len_y=0, line_len=0)
 
 Controls markers (used e.g. in Snippets plugin). Possible values of "id":
 
@@ -2523,11 +2523,12 @@ Controls markers (used e.g. in Snippets plugin). Possible values of "id":
 ** "micromap": Marker is shown only on micromap.
 
 * MARKERS_ADD: Adds marker. Also returns number of markers. Params:
-** "x", "y": Start of marker (like caret pos).
-** "tag">0 is needed if you want to place multi-carets when command "goto last marker (and delete)" runs. All markers with the same tag>0 will get multi-carets (after markers will be deleted).
-** "len_x", "len_y" are needed if you want to place selection at marker, when "goto last marker" command goes to this marker.
+** "x", "y": Position of marker (like caret position).
+** "tag": Some int value attached to marker. Value>0 is needed if you want to place multi-carets when command "goto last marker (and delete)" runs. All markers with the same tag>0 will get multi-carets (after markers will be deleted).
+** "len_x", "len_y": Selection length. It's applied when marker is "collected" by command "goto last marker".
 *** if len_y==0: len_x is length of selection (single line),
 *** if len_y>0: len_y is y-delta of selection-end, and len_x is absolute x-pos of selection-end.
+** "line_len": Line length, in chars. If 0, not used. If <0, line is painted to the left. If >0, line is painted to the right.
 
 * MARKERS_DELETE_ALL: Deletes all markers.
 * MARKERS_DELETE_LAST: Deletes last added marker.

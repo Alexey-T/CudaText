@@ -1285,8 +1285,8 @@ class Editor:
         res = [ (r[4], int(r[0]), int(r[1]), int(r[2]), int(r[3])) for r in res ]
         return res
 
-    def markers(self, id, x=0, y=0, tag=0, len_x=0, len_y=0):
-        return ct.ed_markers(self.h, id, x, y, tag, len_x, len_y)
+    def markers(self, id, x=0, y=0, tag=0, len_x=0, len_y=0, line_len=0):
+        return ct.ed_markers(self.h, id, x, y, tag, len_x, len_y, line_len)
 
     def attr(self, id, tag=0, x=0, y=0, len=1,
              color_font=COLOR_NONE, color_bg=COLOR_NONE, color_border=COLOR_NONE,

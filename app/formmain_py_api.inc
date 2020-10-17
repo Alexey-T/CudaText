@@ -933,10 +933,10 @@ var
   Id: Integer;
   Ed: TATSynEdit;
   Mark: TATMarkerItem;
-  X, Y, NTag, NLenX, NLenY, i: integer;
+  X, Y, NTag, NLenX, NLenY, NLineLen, i: integer;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'Liiiiii:markers', @H, @Id, @X, @Y, @NTag, @NLenX, @NLenY)) then
+    if Bool(PyArg_ParseTuple(Args, 'Liiiiiii:markers', @H, @Id, @X, @Y, @NTag, @NLenX, @NLenY, @NLineLen)) then
     begin
       Ed:= PyEditor(H);
 
@@ -997,7 +997,7 @@ begin
 
         MARKERS_ADD:
           begin
-            Ed.Markers.Add(X, Y, NTag, NLenX, NLenY);
+            Ed.Markers.Add(X, Y, NTag, NLenX, NLenY, nil, 0, false, NLineLen);
             Ed.Update;
             Result:= PyInt_FromLong(Ed.Markers.Count);
           end;
