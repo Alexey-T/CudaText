@@ -635,7 +635,6 @@ begin
   begin
     MsgStatus(msgStatusFoundNextMatch+FinderOptionsToHint);
 
-    FFinder.Editor.DoUnfoldLine(FFinder.MatchEdPos.Y);
     FFinder.Editor.EndUpdate;
     Application.ProcessMessages;
 
