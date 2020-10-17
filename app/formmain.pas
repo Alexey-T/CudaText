@@ -137,7 +137,7 @@ type
 
   TAppStringArray = array of string;
 
-  TAppAllowLoadSession = (aalsEnable, aalsDisable, aalsNotGood);
+  TAppAllowSomething = (aalsEnable, aalsDisable, aalsNotGood);
 
 var
   AppNotifThread: TAppNotifThread = nil;
@@ -683,7 +683,8 @@ type
     FInvalidateShortcutsForce: boolean;
     FLexerProgressIndex: integer;
     FOption_WindowPos: string;
-    FOption_AllowSession: TAppAllowLoadSession;
+    FOption_AllowSessionLoad: TAppAllowSomething;
+    FOption_AllowSessionSave: TAppAllowSomething;
     FOption_GroupMode: TATGroupsMode;
     FOption_GroupSizes: TATGroupsPoints;
     FOption_GroupPanelSize: TPoint;
@@ -972,8 +973,9 @@ type
     procedure DoFileOpenDialog_NoPlugins;
     function DoFileSaveAll: boolean;
     procedure DoFileReopen(Ed: TATSynEdit);
-    procedure DoLoadCommandLineBaseOptions(out AWindowPos: string; out
-      AAllowSession: TAppAllowLoadSession; out AFileFolderCount: integer);
+    procedure DoLoadCommandLineBaseOptions(out AWindowPos: string;
+      out AAllowSessionLoad, AAllowSessionSave: TAppAllowSomething;
+      out AFileFolderCount: integer);
     procedure DoLoadCommandParams(const AParams: array of string; AOpenOptions: string);
     procedure DoLoadCommandLine;
     //procedure DoToggleMenu;
@@ -2389,7 +2391,11 @@ end;
 procedure TfmMain.DoOps_OnCreate;
 begin
   //must load window position in OnCreate to fix flickering with maximized window, Win10
-  DoLoadCommandLineBaseOptions(FOption_WindowPos, FOption_AllowSession, FCmdlineFileCount);
+  DoLoadCommandLineBaseOptions(
+    FOption_WindowPos,
+    FOption_AllowSessionLoad,
+    FOption_AllowSessionSave,
+    FCmdlineFileCount);
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps); //before LoadHistory
   DoOps_LoadLexerLib(true); //before LoadHistory
   DoFileOpen('', '', nil, '/nolexernewdoc'); //before LoadHistory
@@ -2817,7 +2823,7 @@ procedure TfmMain.FormShow(Sender: TObject);
     //load session
     //after on_start (so HTML Tooltips with on_open can work)
     //after loading keymap-main and keymap for none-lexer
-    if UiOps.ReopenSession and (FOption_AllowSession=aalsEnable) then
+    if UiOps.ReopenSession and (FOption_AllowSessionLoad=aalsEnable) then
       DoOps_LoadSession(GetSessionFilename, false);
   end;
   //

@@ -308,7 +308,9 @@ const
       '  -el             - Show supported encoding names and exit'+EOL+
       '  -n              - Ignore option "ui_one_instance", open new app window'+EOL+
       '  -nh             - Ignore saved file history'+EOL+
-      '  -ns             - Ignore saved session'+EOL+
+      '  -nsl            - No session loading on start'+EOL+
+      '  -nss            - No session saving on exit'+EOL+
+      '  -ns             - No session loading+saving'+EOL+
       '  -nn             - Don''t suggest to create new file if param not found'+EOL+
       '  -s=folder       - Specify full path of "settings" folder'+EOL+
       '  -i              - Open contents of stdin in new tab (Unix only)'+EOL+

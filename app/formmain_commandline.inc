@@ -7,7 +7,8 @@ Copyright (c) Alexey Torgashin
 *)
 {$ifdef nn}begin end;{$endif}
 
-procedure TfmMain.DoLoadCommandLineBaseOptions(out AWindowPos: string; out AAllowSession: TAppAllowLoadSession;
+procedure TfmMain.DoLoadCommandLineBaseOptions(out AWindowPos: string;
+  out AAllowSessionLoad, AAllowSessionSave: TAppAllowSomething;
   out AFileFolderCount: integer);
 // Function handles these options: -v -h -w -el -ns
 // Option -n is handled via var proc_globdata.AppAlwaysNewInstance
@@ -16,7 +17,8 @@ var
   i: integer;
 begin
   AWindowPos:= '';
-  AAllowSession:= aalsEnable;
+  AAllowSessionLoad:= aalsEnable;
+  AAllowSessionSave:= aalsEnable;
   AFileFolderCount:= 0;
 
   for i:= 1 to ParamCount do
@@ -24,8 +26,8 @@ begin
     SParam:= ParamStr(i);
     if not SBeginsWith(SParam, '-') then
     begin
-      if AAllowSession=aalsEnable then
-        AAllowSession:= aalsNotGood; //block loading last session if any filenames present
+      if AAllowSessionLoad=aalsEnable then
+        AAllowSessionLoad:= aalsNotGood; //block loading last session if any filenames present
       Inc(AFileFolderCount);
       Continue;
     end;
@@ -56,7 +58,20 @@ begin
 
     if (SParam='-ns') then
     begin
-      AAllowSession:= aalsDisable;
+      AAllowSessionLoad:= aalsDisable;
+      AAllowSessionSave:= aalsDisable;
+      Continue;
+    end;
+
+    if (SParam='-nsl') then
+    begin
+      AAllowSessionLoad:= aalsDisable;
+      Continue;
+    end;
+
+    if (SParam='-nss') then
+    begin
+      AAllowSessionSave:= aalsDisable;
       Continue;
     end;
   end;
