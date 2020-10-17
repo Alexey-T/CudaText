@@ -10,6 +10,7 @@
 + add: plugin "Sort" has new command "Sort char-separated values in lines"
 + add: command "duplicate line(s)" supports multi-carets
 + add: command-line options -nsl and -nss (option -ns is a shortcut to both of them) (thanks @tmsg)
++ add: command-line option -z=uhex
 + add: CSS auto-completion: more complete colors list for color-properties (thanks @d-mal)
 + add: CSS auto-completion: add standard values to all properties: inherit, initial, unsert, var() (thanks @d-mal)
 + add: CSS auto-completion: better auto-inserting of bracket for functions
