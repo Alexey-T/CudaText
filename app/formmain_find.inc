@@ -241,7 +241,7 @@ begin
     ok:= FFinder.DoAction_FindOrReplace(
       false, false, bChanged, true);
     FinderUpdateEditor(false);
-    DoFindResult(ok);
+    MsgStatus_FinderResult(ok);
     if ok then
       DoFindOptions_ResetInSelection;
   end;
@@ -255,7 +255,7 @@ begin
       if ok then
         ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
     FinderUpdateEditor(true);
-    DoFindResult(ok);
+    MsgStatus_FinderResult(ok);
     if ok then
       DoFindOptions_ResetInSelection;
   end;
@@ -520,7 +520,7 @@ begin
 
   ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
   FinderUpdateEditor(false);
-  DoFindResult(ok);
+  MsgStatus_FinderResult(ok);
 end;
 
 procedure TfmMain.DoFindNext(ANext: boolean);
@@ -545,7 +545,7 @@ begin
 
   ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
   FinderUpdateEditor(false);
-  DoFindResult(ok);
+  MsgStatus_FinderResult(ok);
 end;
 
 procedure TfmMain.DoFindMarkingInit(AMode: TATFindMarkingMode);
@@ -632,7 +632,7 @@ begin
   Result:= ' ('+Result+')';
 end;
 
-procedure TfmMain.DoFindResult(ok: boolean);
+procedure TfmMain.MsgStatus_FinderResult(ok: boolean);
 begin
   if ok then
   begin

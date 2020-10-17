@@ -963,7 +963,7 @@ type
     function DoFileCloseAll(AWithCancel: boolean): boolean;
     procedure DoDialogFind(AReplaceMode: boolean);
     procedure DoDialogFind_Hide;
-    procedure DoFindResult(ok: boolean);
+    procedure MsgStatus_FinderResult(ok: boolean);
     procedure DoFindResultSimple(ok: boolean);
     procedure DoFindFirst;
     procedure DoFindNext(ANext: boolean);
