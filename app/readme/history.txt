@@ -8,6 +8,7 @@
 + add: Find dialog: when "search in selection" is checked, and "find first"/"find next" is called, editor places marker instead of caret, so we don't break the selection, and can "find next" all matches (thanks @xcme)
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Text_searcher_features
 + add: plugin "Sort" has new command "Sort char-separated values in lines"
++ add: option "marker_size"
 + add: command "duplicate line(s)" supports multi-carets
 + add: command-line options -nsl and -nss (option -ns is a shortcut to both of them) (thanks @tmsg)
 + add: command-line option -z=uhex
