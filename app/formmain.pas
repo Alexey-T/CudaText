@@ -904,7 +904,7 @@ type
     procedure SetFullScreen_Win32(AValue: boolean);
     procedure SetThemeSyntax(const AValue: string);
     procedure SetThemeUi(const AValue: string);
-    function SFindOptionsToTextHint: string;
+    function FinderOptionsToHint: string;
     procedure DoOps_ShowEventPlugins;
     procedure DoOps_ResetLexerSpecificOptions;
     procedure DoOps_LoadPluginFromInf(const fn_inf: string; IniPlugins: TMemIniFile);

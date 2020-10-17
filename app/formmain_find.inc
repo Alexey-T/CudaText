@@ -344,7 +344,7 @@ begin
     else
       MsgStatus(
         Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]) +
-        ' ('+SFindOptionsToTextHint+')');
+        ' ('+FinderOptionsToHint+')');
     DoFindOptions_ResetInSelection;
   end;
 
@@ -359,7 +359,7 @@ begin
     else
       MsgStatus(
         Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]) +
-        ' ('+SFindOptionsToTextHint+')');
+        ' ('+FinderOptionsToHint+')');
   end;
 
   UpdateAppForSearch(false, false, bFindMode);
@@ -615,7 +615,7 @@ begin
     AContinue:= false;
 end;
 
-function TfmMain.SFindOptionsToTextHint: string;
+function TfmMain.FinderOptionsToHint: string;
 const
   Sep=', ';
 begin
@@ -635,7 +635,7 @@ procedure TfmMain.DoFindResult(ok: boolean);
 var
   SOptions: string;
 begin
-  SOptions:= SFindOptionsToTextHint;
+  SOptions:= FinderOptionsToHint;
 
   if ok then
   begin
