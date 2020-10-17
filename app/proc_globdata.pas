@@ -1250,7 +1250,7 @@ begin
     OpMarginFixed:= 2000; //hide margin
     OpMarginString:= '';
 
-    OpMarkerSize:= 25;
+    OpMarkerSize:= 30;
     OpStaplesStyle:= 1; //Ord(cLineStyleSolid)
     OpStaplesProps:= '-1,40,1,1';
 

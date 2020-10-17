@@ -362,8 +362,8 @@
   "numbers_center": true,
 
   //[Text]
-  //Marker size (Wiki "Markers" topic), in percents of character size
-  "marker_size": 25,
+  //Marker size (Wiki "Markers" topic), in percents of line height
+  "marker_size": 30,
 
   //Style of block staples (aka indentation guides)
   //  0: don't show
