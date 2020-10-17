@@ -461,6 +461,7 @@ type
     OpMarginFixed: integer;
     OpMarginString: string;
 
+    OpMarkerSize: integer;
     OpStaplesStyle: integer;
     OpStaplesProps: string;
 
@@ -1249,6 +1250,7 @@ begin
     OpMarginFixed:= 2000; //hide margin
     OpMarginString:= '';
 
+    OpMarkerSize:= 25;
     OpStaplesStyle:= 1; //Ord(cLineStyleSolid)
     OpStaplesProps:= '-1,40,1,1';
 

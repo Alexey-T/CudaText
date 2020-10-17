@@ -281,6 +281,7 @@ begin
     Ed.OptFoldStyle:= TATFoldStyle(Op.OpFoldStyle);
     Ed.OptFoldTooltipVisible:= Op.OpFoldTooltipShow;
 
+    Ed.OptMarkersSize:= Op.OpMarkerSize;
     Ed.OptStapleStyle:= TATLineStyle(Op.OpStaplesStyle);
 
     Sep.Init(Op.OpStaplesProps);

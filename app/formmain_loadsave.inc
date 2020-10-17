@@ -836,6 +836,7 @@ begin
 
   Op.OpMarginFixed:= cfg.GetValue('margin', Op.OpMarginFixed);
   Op.OpMarginString:= cfg.GetValue('margin_string', Op.OpMarginString);
+  Op.OpMarkerSize:= cfg.GetValue('marker_size', Op.OpMarkerSize);
   Op.OpStaplesStyle:= cfg.GetValue('staples_style', Op.OpStaplesStyle);
   Op.OpStaplesProps:= cfg.GetValue('staples_props', Op.OpStaplesProps);
 

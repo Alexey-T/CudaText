@@ -362,6 +362,9 @@
   "numbers_center": true,
 
   //[Text]
+  //Marker size (Wiki "Markers" topic), in percents of character size
+  "marker_size": 25,
+
   //Style of block staples (aka indentation guides)
   //  0: don't show
   //  1: normal lines
