@@ -195,11 +195,11 @@ begin
 
     case Res of
       afoFindFirst:
-        DoFindResultSimple(Frame.BinaryFindFirst(FFinder, false));
+        MsgStatus_FinderResultSimple(Frame.BinaryFindFirst(FFinder, false));
 
       afoFindNext,
       afoFindPrev:
-        DoFindResultSimple(Frame.BinaryFindNext(Res=afoFindPrev));
+        MsgStatus_FinderResultSimple(Frame.BinaryFindNext(Res=afoFindPrev));
     end;
 
     UpdateAppForSearch(false, false, true);
@@ -324,10 +324,7 @@ begin
         end;
       end
       else
-      if FFinder.IsRegexBad then
-        MsgStatusErrorInRegex
-      else
-        MsgStatus(msgCannotFindMatch+FinderOptionsToHint);
+        MsgStatus_FinderResult(false);
     finally
       FreeAndNil(ListFound);
     end;
@@ -585,7 +582,7 @@ begin
 
   if FFinder.StrFind='' then
   begin
-    MsgStatus(msgCannotFindMatch+FinderOptionsToHint);
+    MsgStatus_FinderResult(false);
     Exit
   end;
 
@@ -655,15 +652,12 @@ begin
     MsgStatus(msgCannotFindMatch+FinderOptionsToHint+': '+Utf8Encode(FFinder.StrFind));
 end;
 
-procedure TfmMain.DoFindResultSimple(ok: boolean);
+procedure TfmMain.MsgStatus_FinderResultSimple(ok: boolean);
 begin
   if ok then
     MsgStatus(msgStatusFoundNextMatch)
   else
-  if FFinder.IsRegexBad then
-    MsgStatusErrorInRegex
-  else
-    MsgStatus(msgCannotFindMatch+FinderOptionsToHint);
+    MsgStatus_FinderResult(false);
 end;
 
 procedure TfmMain.FinderOnConfirmReplace_API(Sender: TObject; APos1,
@@ -827,7 +821,7 @@ begin
   end;
 
   ok:= EditorFindCurrentWordOrSel(Ed, ANext, AWordOrSel, bCase, FFinder.OptWrapped, Str);
-  DoFindResultSimple(ok);
+  MsgStatus_FinderResultSimple(ok);
 
   //sync Find dialog with text
   if Assigned(fmFind) then
