@@ -966,6 +966,35 @@ begin
               Result:= ReturnNone;
           end;
 
+        MARKERS_GET_DICT:
+          begin
+            NLenX:= Ed.Markers.Count;
+            Result:= PyList_New(NLenX);
+            if not Assigned(Result) then
+              raise EPythonError.Create(msgPythonListError);
+            for i:= 0 to NLenX-1 do
+            begin
+              Mark:= Ed.Markers[i];
+              PyList_SetItem(Result, i,
+                Py_BuildValue('{sisisisisLsisO}',
+                  PChar(string('x')),
+                  Mark.PosX,
+                  PChar(string('y')),
+                  Mark.PosY,
+                  'len_x',
+                  Mark.LenX,
+                  'len_y',
+                  Mark.LenY,
+                  'tag',
+                  Mark.Tag,
+                  'line_len',
+                  Mark.LineLen,
+                  'micromap',
+                  PyBool_FromLong(Ord(Mark.MicromapOnly))
+                  ));
+            end;
+          end;
+
         MARKERS_ADD:
           begin
             Ed.Markers.Add(X, Y, NTag, NLenX, NLenY);

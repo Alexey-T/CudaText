@@ -2515,6 +2515,13 @@ Controls markers (used e.g. in Snippets plugin). Possible values of "id":
 
 * MARKERS_GET: Returns list of markers. Each list item is [x, y, len_x, len_y, tag]. Returns None if no markers.
 
+* MARKERS_GET_DICT: Returns list of markers. Each list item is dict with the following keys:
+** "x", "y": Position of markers.
+** "len_x", "len_y": Length of selection, which is applied when this marker is "collected". See description of MARKERS_ADD.
+** "tag": Tag of marker.
+** "line_len": Line-length of marker. If <0, line is painted to the left. If >0, line is painted to the right.
+** "micromap": Marker is shown only on micromap.
+
 * MARKERS_ADD: Adds marker. Also returns number of markers. Params:
 ** "x", "y": Start of marker (like caret pos).
 ** "tag">0 is needed if you want to place multi-carets when command "goto last marker (and delete)" runs. All markers with the same tag>0 will get multi-carets (after markers will be deleted).
@@ -4027,5 +4034,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.352 (app 1.115.6)
 * add: app_path: APP_DIR_SETTINGS_DEF
 * add: file_open: added possible option "/nontext-view-uhex"
+
+1.0.353 (app 1.115.7)
+* add: Editor.markers: MARKERS_GET_DICT
 
 [[Category:CudaText]]
