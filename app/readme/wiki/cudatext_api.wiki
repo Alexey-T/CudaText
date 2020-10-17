@@ -1292,6 +1292,7 @@ For zip file (only first filename is checked for it), returns True only if zip f
 ** If it has "/nontext-view-binary", then in the case of non-text file, file will open in internal viewer, binary (fixed width) mode.
 ** If it has "/nontext-view-hex", then in the case of non-text file, file will open in internal viewer, hex mode.
 ** If it has "/nontext-view-unicode", then in the case of non-text file, file will open in internal viewer, unicode mode.
+** If it has "/nontext-view-uhex", then in the case of non-text file, file will open in internal viewer, unicode+hex mode.
 ** If it has "/nontext-cancel", then in the case of non-text file, function will fail and return False.
 
 Note: "ed" is always the current editor, after file_open() current editor changes, and "ed" is the new cur editor.
@@ -4023,7 +4024,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: event on_app_activate
 * add: event on_app_deactivate
 
-1.0.352 (app 1.115.3)
+1.0.352 (app 1.115.6)
 * add: app_path: APP_DIR_SETTINGS_DEF
+* add: file_open: added possible option "/nontext-view-uhex"
 
 [[Category:CudaText]]
