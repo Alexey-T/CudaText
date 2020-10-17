@@ -344,7 +344,7 @@ begin
     else
       MsgStatus(
         Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]) +
-        ' ('+FinderOptionsToHint+')');
+        FinderOptionsToHint);
     DoFindOptions_ResetInSelection;
   end;
 
@@ -359,7 +359,7 @@ begin
     else
       MsgStatus(
         Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]) +
-        ' ('+FinderOptionsToHint+')');
+        FinderOptionsToHint);
   end;
 
   UpdateAppForSearch(false, false, bFindMode);
@@ -629,17 +629,14 @@ begin
   if FFinder.OptFromCaret then Result:= Result+msgFinderHintFromCaret+Sep;
   if SEndsWith(Result, Sep) then
     SetLength(Result, Length(Result)-Length(Sep));
+  Result:= ' ('+Result+')';
 end;
 
 procedure TfmMain.DoFindResult(ok: boolean);
-var
-  SOptions: string;
 begin
-  SOptions:= FinderOptionsToHint;
-
   if ok then
   begin
-    MsgStatus(msgStatusFoundNextMatch+' ('+SOptions+')');
+    MsgStatus(msgStatusFoundNextMatch+FinderOptionsToHint);
 
     //these 3 lines- to scroll to found pos
     //(was bad, if found pos in folded blk)
@@ -655,7 +652,7 @@ begin
   if FFinder.IsRegexBad then
     MsgStatusErrorInRegex
   else
-    MsgStatus(msgCannotFindMatch+' ('+SOptions+'): '+Utf8Encode(FFinder.StrFind));
+    MsgStatus(msgCannotFindMatch+FinderOptionsToHint+': '+Utf8Encode(FFinder.StrFind));
 end;
 
 procedure TfmMain.DoFindResultSimple(ok: boolean);
