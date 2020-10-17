@@ -303,7 +303,7 @@ begin
     if (NCounter=0) and FFinder.IsRegexBad then
       MsgStatusErrorInRegex
     else
-      MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]));
+      MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter])+FinderOptionsToHint);
   end;
 
   if Res=afoExtractAll then
@@ -327,7 +327,7 @@ begin
       if FFinder.IsRegexBad then
         MsgStatusErrorInRegex
       else
-        MsgStatus(msgCannotFindMatch);
+        MsgStatus(msgCannotFindMatch+FinderOptionsToHint);
     finally
       FreeAndNil(ListFound);
     end;
@@ -585,7 +585,7 @@ begin
 
   if FFinder.StrFind='' then
   begin
-    MsgStatus(msgCannotFindMatch);
+    MsgStatus(msgCannotFindMatch+FinderOptionsToHint);
     Exit
   end;
 
@@ -598,7 +598,7 @@ begin
   DoFindMarkingInit(markingNone);
 
   FinderUpdateEditor(false);
-  MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt]));
+  MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt])+FinderOptionsToHint);
 end;
 
 
@@ -663,7 +663,7 @@ begin
   if FFinder.IsRegexBad then
     MsgStatusErrorInRegex
   else
-    MsgStatus(msgCannotFindMatch);
+    MsgStatus(msgCannotFindMatch+FinderOptionsToHint);
 end;
 
 procedure TfmMain.FinderOnConfirmReplace_API(Sender: TObject; APos1,
