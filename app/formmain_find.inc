@@ -22,6 +22,7 @@ begin
           APos1,
           UiOps.FindIndentHorz,
           UiOps.FindIndentVert,
+          true,
           true
           );
       end;
@@ -643,6 +644,7 @@ begin
       FFinder.MatchEdPos,
       FFinder.IndentHorz,
       FFinder.IndentVert,
+      true,
       true);
   end
   else
@@ -679,7 +681,7 @@ begin
   if Callback='' then exit;
 
   Ed.DoCaretSingle(APos1.X, APos1.Y, APos2.X, APos2.Y);
-  Ed.DoShowPos(APos1, ThisFinder.IndentHorz, ThisFinder.IndentVert, false);
+  Ed.DoShowPos(APos1, ThisFinder.IndentHorz, ThisFinder.IndentVert, true, false);
   Ed.Update(true);
 
   SetLength(Params, 5);
@@ -797,6 +799,7 @@ begin
     FFinder.MatchEdPos,
     FFinder.IndentHorz,
     FFinder.IndentVert,
+    true,
     true
     );
 

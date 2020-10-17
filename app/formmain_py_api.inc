@@ -7426,7 +7426,7 @@ begin
             Sep.GetItemInt(N2, 0);
             if (NX>=0) and Ed.Strings.IsIndexValid(NY) then
             begin
-              ok:= Ed.DoShowPos(Point(NX, NY), N1, N2, true);
+              ok:= Ed.DoShowPos(Point(NX, NY), N1, N2, true, true);
               Result:= PyBool_FromLong(Ord(ok));
             end
             else
@@ -8760,7 +8760,7 @@ begin
 
               if bSetCaret then
               begin
-                Finder.Editor.DoShowPos(Pnt1, Finder.IndentHorz, Finder.IndentVert, false);
+                Finder.Editor.DoShowPos(Pnt1, Finder.IndentHorz, Finder.IndentVert, true, false);
                 Finder.Editor.Update;
               end;
 
@@ -8787,7 +8787,7 @@ begin
                 PntAfter:= Point(-1, -1);
 
               if bSetCaret then
-                Finder.Editor.DoShowPos(Pnt1, Finder.IndentHorz, Finder.IndentVert, false);
+                Finder.Editor.DoShowPos(Pnt1, Finder.IndentHorz, Finder.IndentVert, true, false);
 
               if bSetCaret or bChanged then
                 Finder.Editor.Update(bChanged);
