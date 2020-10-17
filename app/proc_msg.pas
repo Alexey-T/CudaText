@@ -302,7 +302,7 @@ const
       'Supported keys:'+EOL+
       '  -h, --help      - Show this help and exit'+EOL+
       '  -v, --version   - Show application version and exit'+EOL+
-      '  -z=[text|binary|hex|unicode] - Open arguments in internal viewer'+EOL+
+      '  -z=[text|binary|hex|unicode|uhex] - Open arguments in internal viewer'+EOL+
       '  -r              - Open arguments in read-only mode'+EOL+
       '  -e=value        - Open arguments in given encoding'+EOL+
       '  -el             - Show supported encoding names and exit'+EOL+

@@ -3604,6 +3604,9 @@ begin
   if Pos('/view-unicode', AOptions)>0 then
     OpenMode:= cOpenModeViewUnicode
   else
+  if Pos('/view-uhex', AOptions)>0 then
+    OpenMode:= cOpenModeViewUHex
+  else
     OpenMode:= cOpenModeEditor;
 
   if Pos('/nontext-view-text', AOptions)>0 then
@@ -3617,6 +3620,9 @@ begin
   else
   if Pos('/nontext-view-unicode', AOptions)>0 then
     NonTextMode:= cOpenModeViewUnicode
+  else
+  if Pos('/nontext-view-uhex', AOptions)>0 then
+    NonTextMode:= cOpenModeViewUHex
   else
   if Pos('/nontext-cancel', AOptions)>0 then
     NonTextMode:= cOpenModeNone
@@ -3700,11 +3706,18 @@ begin
         case UiOps.NonTextFiles of
           0:
             case DoDialogConfirmBinaryFile(AFileName, bFileTooBig) of
-              ConfirmBinaryViewText: OpenMode:= cOpenModeViewText;
-              ConfirmBinaryViewBinary: OpenMode:= cOpenModeViewBinary;
-              ConfirmBinaryViewHex: OpenMode:= cOpenModeViewHex;
-              ConfirmBinaryViewUnicode: OpenMode:= cOpenModeViewUnicode;
-              ConfirmBinaryCancel: Exit;
+              ConfirmBinaryViewText:
+                OpenMode:= cOpenModeViewText;
+              ConfirmBinaryViewBinary:
+                OpenMode:= cOpenModeViewBinary;
+              ConfirmBinaryViewHex:
+                OpenMode:= cOpenModeViewHex;
+              ConfirmBinaryViewUnicode:
+                OpenMode:= cOpenModeViewUnicode;
+              ConfirmBinaryViewUHex:
+                OpenMode:= cOpenModeViewUHex;
+              ConfirmBinaryCancel:
+                Exit;
             end;
           2:
             Exit;
@@ -3721,11 +3734,18 @@ begin
     if (OpenMode=cOpenModeEditor) and bFileTooBig then
     begin
       case DoDialogConfirmBinaryFile(AFileName, bFileTooBig) of
-        ConfirmBinaryViewText: OpenMode:= cOpenModeViewText;
-        ConfirmBinaryViewBinary: OpenMode:= cOpenModeViewBinary;
-        ConfirmBinaryViewHex: OpenMode:= cOpenModeViewHex;
-        ConfirmBinaryViewUnicode: OpenMode:= cOpenModeViewUnicode;
-        ConfirmBinaryCancel: Exit;
+        ConfirmBinaryViewText:
+          OpenMode:= cOpenModeViewText;
+        ConfirmBinaryViewBinary:
+          OpenMode:= cOpenModeViewBinary;
+        ConfirmBinaryViewHex:
+          OpenMode:= cOpenModeViewHex;
+        ConfirmBinaryViewUnicode:
+          OpenMode:= cOpenModeViewUnicode;
+        ConfirmBinaryViewUHex:
+          OpenMode:= cOpenModeViewUHex;
+        ConfirmBinaryCancel:
+          Exit;
       end;
     end;
   end; //not binary

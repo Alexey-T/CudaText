@@ -72,7 +72,8 @@ type
     cOpenModeViewText,
     cOpenModeViewBinary,
     cOpenModeViewHex,
-    cOpenModeViewUnicode
+    cOpenModeViewUnicode,
+    cOpenModeViewUHex
     );
 
 type
@@ -2109,6 +2110,11 @@ begin
         DoFileOpen_AsBinary(AFileName, vbmodeUnicode);
         exit;
       end;
+    cOpenModeViewUHex:
+      begin
+        DoFileOpen_AsBinary(AFileName, vbmodeUHex);
+        exit;
+      end;
   end;
 
   if IsFilenameListedInExtensionList(AFileName, UiOps.PictureTypes) then
@@ -2462,6 +2468,8 @@ begin
         Mode:= cOpenModeViewHex;
       vbmodeUnicode:
         Mode:= cOpenModeViewUnicode;
+      vbmodeUHex:
+        Mode:= cOpenModeViewUHex;
       else
         Mode:= cOpenModeViewHex;
     end;

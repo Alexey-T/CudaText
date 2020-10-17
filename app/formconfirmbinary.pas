@@ -43,7 +43,8 @@ type
     ConfirmBinaryViewText,
     ConfirmBinaryViewBinary,
     ConfirmBinaryViewHex,
-    ConfirmBinaryViewUnicode
+    ConfirmBinaryViewUnicode,
+    ConfirmBinaryViewUHex
     );
 
 function DoDialogConfirmBinaryFile(const AFilename: string; ATooBig: boolean): TAppConfirmBinary;
