@@ -305,14 +305,14 @@ const
       '  -z=[text|binary|hex|unicode|uhex] - Open arguments in internal viewer'+EOL+
       '  -r              - Open arguments in read-only mode'+EOL+
       '  -e=value        - Open arguments in given encoding'+EOL+
-      '  -el             - Show supported encoding names and exit'+EOL+
+      '  -el             - Show supported encoding names, exit'+EOL+
       '  -n              - Ignore option "ui_one_instance", open new app window'+EOL+
       '  -nh             - Ignore saved file history'+EOL+
       '  -nsl            - No session loading on start'+EOL+
       '  -nss            - No session saving on exit'+EOL+
-      '  -ns             - No session loading+saving'+EOL+
-      '  -nn             - Don''t suggest to create new file if param not found'+EOL+
-      '  -s=folder       - Specify full path of "settings" folder'+EOL+
+      '  -ns             - The same as -nsl and -nss'+EOL+
+      '  -nn             - Don''t suggest to create new file if filename not found'+EOL+
+      '  -s=folder       - Set full path of "settings" folder'+EOL+
       '  -i              - Open contents of stdin in new tab (Unix only)'+EOL+
       '  -id=name - Set single-instance id, for groups of instances (Unix, default: cudatext.0)'+EOL+
       '  -w=left,top,width,height - Set position/size of app window'+EOL+
