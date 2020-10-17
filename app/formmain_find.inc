@@ -645,7 +645,11 @@ begin
     //(was bad, if found pos in folded blk)
     FFinder.Editor.EndUpdate;
     Application.ProcessMessages;
-    FFinder.Editor.DoGotoCaret(cEdgeTop);
+    FFinder.Editor.DoShowPos( //not DoGotoPos, we may need to show marker, not caret
+      FFinder.MatchEdPos,
+      FFinder.IndentHorz,
+      FFinder.IndentVert,
+      true);
   end
   else
   if FFinder.IsRegexBad then
@@ -803,12 +807,12 @@ begin
   end;
 
   Ed.Update(AUpdateText);
-  Ed.DoGotoPos(
+
+  //not Ed.DoGotoPos, because we may need to show marker (find-next 'in selection'), not caret
+  Ed.DoShowPos(
     Pnt,
-    Point(-1, -1),
     UiOps.FindIndentHorz,
     UiOps.FindIndentVert,
-    false,
     true
     );
 
