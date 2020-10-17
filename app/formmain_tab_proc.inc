@@ -121,7 +121,8 @@ begin
   if not F.IsEditorFocused then
   begin
     //prevent ListIndexError on file_open(..)
-    ClearTreeviewWithData(CodeTree.Tree);
+    if not FDisableTreeClearing then
+      ClearTreeviewWithData(CodeTree.Tree);
 
     if F.CanFocus and F.CanSetFocus then
       F.SetFocus;
@@ -355,7 +356,7 @@ begin
   //force 2 groups if only one
   if (AGroupIndex=1) and (Groups.Mode=gmOne) then
   begin
-    Groups.Mode:= gm2v;
+    UpdateGroupsMode(gm2v);
     Groups.Update; //maybe no need
   end;
 

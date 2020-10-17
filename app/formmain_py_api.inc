@@ -4462,7 +4462,7 @@ begin
           end;
         APP_PROC_SET_GROUPING:
           begin
-            fmMain.Groups.Mode:= TATGroupsMode(StrToIntDef(Str, 1));
+            fmMain.UpdateGroupsMode(TATGroupsMode(StrToIntDef(Str, 1)));
             fmMain.UpdateStatus;
             Result:= ReturnNone;
           end;

@@ -679,6 +679,7 @@ type
     FLastFocusedFrame: TComponent;
     FLastTooltipLine: integer;
     FLastAppActivate: QWord;
+    FDisableTreeClearing: boolean;
     FInvalidateShortcuts: boolean;
     FInvalidateShortcutsForce: boolean;
     FLexerProgressIndex: integer;
@@ -1019,6 +1020,7 @@ type
     procedure SplitterOnPaint_Gr(Sender: TObject);
     procedure SplitterOnPaint_Main(Sender: TObject);
     procedure StopAllTimers;
+    procedure UpdateGroupsMode(AMode: TATGroupsMode);
     procedure UpdateMenuTheming(AMenu: TPopupMenu);
     procedure UpdateMenuTheming_MainMenu(AllowResize: boolean);
     procedure UpdateMenuRecents(sub: TMenuItem);
@@ -7577,6 +7579,19 @@ begin
   {$endif}
 end;
 
+procedure TfmMain.UpdateGroupsMode(AMode: TATGroupsMode);
+begin
+  if AMode=Groups.Mode then exit;
+
+  //during group-mode change, we get redundant OnTabFocus call which
+  //clears the tree; FDisableTreeClearing fixes it
+  FDisableTreeClearing:= true;
+  try
+    Groups.Mode:= AMode;
+  finally
+    FDisableTreeClearing:= false;
+  end;
+end;
 
 //----------------------------
 {$I formmain_loadsave.inc}

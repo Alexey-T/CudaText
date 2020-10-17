@@ -711,7 +711,7 @@ end;
 procedure TfmMain.DoApplyInitialGroupSizes;
 //groups sizes must be restored in OnShow, OnCreate is too early
 begin
-  Groups.Mode:= FOption_GroupMode;
+  UpdateGroupsMode(FOption_GroupMode);
   Groups.SetSizes(FOption_GroupPanelSize, FOption_GroupSizes);
   Groups.SaveSplitPos; //apply current sizes to internal Groups vars
 end;

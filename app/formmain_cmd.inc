@@ -315,31 +315,31 @@ begin
       DoPyRescanPlugins;
 
     cmd_Groups1:
-      Groups.Mode:= gmOne;
+      UpdateGroupsMode(gmOne);
     cmd_Groups2horz:
-      Groups.Mode:= gm2h;
+      UpdateGroupsMode(gm2h);
     cmd_Groups2vert:
-      Groups.Mode:= gm2v;
+      UpdateGroupsMode(gm2v);
     cmd_Groups3horz:
-      Groups.Mode:= gm3h;
+      UpdateGroupsMode(gm3h);
     cmd_Groups3vert:
-      Groups.Mode:= gm3v;
+      UpdateGroupsMode(gm3v);
     cmd_Groups3plus:
-      Groups.Mode:= gm1plus2v;
+      UpdateGroupsMode(gm1plus2v);
     cmd_Groups3plushorz:
-      Groups.Mode:= gm1plus2h;
+      UpdateGroupsMode(gm1plus2h);
     cmd_Groups4horz:
-      Groups.Mode:= gm4h;
+      UpdateGroupsMode(gm4h);
     cmd_Groups4vert:
-      Groups.Mode:= gm4v;
+      UpdateGroupsMode(gm4v);
     cmd_Groups4grid:
-      Groups.Mode:= gm4grid;
+      UpdateGroupsMode(gm4grid);
     cmd_Groups6horz:
-      Groups.Mode:= gm6h;
+      UpdateGroupsMode(gm6h);
     cmd_Groups6vert:
-      Groups.Mode:= gm6v;
+      UpdateGroupsMode(gm6v);
     cmd_Groups6grid:
-      Groups.Mode:= gm6grid;
+      UpdateGroupsMode(gm6grid);
 
     cmd_GroupActivateNext:
       Groups.PagesSetNext(true);
