@@ -794,25 +794,18 @@ end;
 procedure TfmMain.FinderUpdateEditor(AUpdateText: boolean; AUpdateStatusbar: boolean=true);
 var
   Ed: TATSynEdit;
-  Pnt: TPoint;
 begin
   Ed:= FFinder.Editor;
   if AUpdateText then
     Ed.DoEventChange;
 
-  with Ed.Carets[0] do
-  begin
-    Pnt.X:= PosX;
-    Pnt.Y:= PosY;
-  end;
-
   Ed.Update(AUpdateText);
 
-  //not Ed.DoGotoPos, because we may need to show marker (find-next 'in selection'), not caret
+  //not DoGotoPos, we may need to show marker, not caret
   Ed.DoShowPos(
-    Pnt,
-    UiOps.FindIndentHorz,
-    UiOps.FindIndentVert,
+    FFinder.MatchEdPos,
+    FFinder.IndentHorz,
+    FFinder.IndentVert,
     true
     );
 
