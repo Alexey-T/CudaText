@@ -635,11 +635,12 @@ begin
   begin
     MsgStatus(msgStatusFoundNextMatch+FinderOptionsToHint);
 
-    //these 3 lines- to scroll to found pos
-    //(was bad, if found pos in folded blk)
+    FFinder.Editor.DoUnfoldLine(FFinder.MatchEdPos.Y);
     FFinder.Editor.EndUpdate;
     Application.ProcessMessages;
-    FFinder.Editor.DoShowPos( //not DoGotoPos, we may need to show marker, not caret
+
+    //not DoGotoPos, we may need to show marker, not caret
+    FFinder.Editor.DoShowPos(
       FFinder.MatchEdPos,
       FFinder.IndentHorz,
       FFinder.IndentVert,
