@@ -40,12 +40,12 @@ begin
 
     markingMarkers:
       begin
-        //marker selection is single line
+        //show marker line, if range is one-liner
         if APos2.Y=APos1.Y then
-          NLen:= Abs(APos2.X-APos1.X)
+          NLen:= APos1.X-APos2.X
         else
           NLen:= 0;
-        Ed.Markers.Add(APos1.X, APos1.Y, 0, NLen, 0);
+        Ed.Markers.Add(APos2.X, APos2.Y, 0, 0, 0, nil, 0, false, NLen);
       end;
 
     markingBookmarks:
