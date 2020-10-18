@@ -452,13 +452,17 @@ object SyntAnal9: TLibSyntAnalyzer
             'arguments'
             'default'
             'false'
+            'frames'
+            'globalThis'
             'Infinity'
             'NaN'
             'null'
+            'self'
             'super'
             'this'
             'true'
-            'undefined')
+            'undefined'
+            'window')
           TokenTypes = 4
         end>
       HighlightPos = cpAny
