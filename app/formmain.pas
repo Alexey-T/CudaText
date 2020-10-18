@@ -963,8 +963,8 @@ type
     function DoFileCloseAll(AWithCancel: boolean): boolean;
     procedure DoDialogFind(AReplaceMode: boolean);
     procedure DoDialogFind_Hide;
-    procedure MsgStatus_FinderResult(ok: boolean);
-    procedure MsgStatus_FinderResultSimple(ok: boolean);
+    procedure ShowFinderResult(ok: boolean);
+    procedure ShowFinderResultSimple(ok: boolean);
     procedure DoFindFirst;
     procedure DoFindNext(ANext: boolean);
     procedure DoFindMarkAll(AMode: TATFindMarkingMode);

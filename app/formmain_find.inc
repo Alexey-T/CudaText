@@ -196,11 +196,11 @@ begin
 
     case Res of
       afoFindFirst:
-        MsgStatus_FinderResultSimple(Frame.BinaryFindFirst(FFinder, false));
+        ShowFinderResultSimple(Frame.BinaryFindFirst(FFinder, false));
 
       afoFindNext,
       afoFindPrev:
-        MsgStatus_FinderResultSimple(Frame.BinaryFindNext(Res=afoFindPrev));
+        ShowFinderResultSimple(Frame.BinaryFindNext(Res=afoFindPrev));
     end;
 
     UpdateAppForSearch(false, false, true);
@@ -242,7 +242,7 @@ begin
     ok:= FFinder.DoAction_FindOrReplace(
       false, false, bChanged, true);
     FinderUpdateEditor(false);
-    MsgStatus_FinderResult(ok);
+    ShowFinderResult(ok);
     if ok then
       DoFindOptions_ResetInSelection;
   end;
@@ -256,7 +256,7 @@ begin
       if ok then
         ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
     FinderUpdateEditor(true);
-    MsgStatus_FinderResult(ok);
+    ShowFinderResult(ok);
     if ok then
       DoFindOptions_ResetInSelection;
   end;
@@ -325,7 +325,7 @@ begin
         end;
       end
       else
-        MsgStatus_FinderResult(false);
+        ShowFinderResult(false);
     finally
       FreeAndNil(ListFound);
     end;
@@ -524,7 +524,7 @@ begin
 
   ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
   FinderUpdateEditor(false);
-  MsgStatus_FinderResult(ok);
+  ShowFinderResult(ok);
 end;
 
 procedure TfmMain.DoFindNext(ANext: boolean);
@@ -549,7 +549,7 @@ begin
 
   ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
   FinderUpdateEditor(false);
-  MsgStatus_FinderResult(ok);
+  ShowFinderResult(ok);
 end;
 
 procedure TfmMain.DoFindMarkingInit(AMode: TATFindMarkingMode);
@@ -589,7 +589,7 @@ begin
 
   if FFinder.StrFind='' then
   begin
-    MsgStatus_FinderResult(false);
+    ShowFinderResult(false);
     Exit
   end;
 
@@ -636,7 +636,7 @@ begin
   Result:= ' ('+Result+')';
 end;
 
-procedure TfmMain.MsgStatus_FinderResult(ok: boolean);
+procedure TfmMain.ShowFinderResult(ok: boolean);
 begin
   if ok then
   begin
@@ -660,12 +660,12 @@ begin
     MsgStatus(msgCannotFindMatch+FinderOptionsToHint+': '+Utf8Encode(FFinder.StrFind));
 end;
 
-procedure TfmMain.MsgStatus_FinderResultSimple(ok: boolean);
+procedure TfmMain.ShowFinderResultSimple(ok: boolean);
 begin
   if ok then
     MsgStatus(msgStatusFoundNextMatch)
   else
-    MsgStatus_FinderResult(false);
+    ShowFinderResult(false);
 end;
 
 procedure TfmMain.FinderOnConfirmReplace_API(Sender: TObject; APos1,
@@ -830,7 +830,7 @@ begin
   end;
 
   ok:= EditorFindCurrentWordOrSel(Ed, ANext, AWordOrSel, bCase, FFinder.OptWrapped, Str);
-  MsgStatus_FinderResultSimple(ok);
+  ShowFinderResultSimple(ok);
 
   //sync Find dialog with text
   if Assigned(fmFind) then

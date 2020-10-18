@@ -277,7 +277,7 @@ begin
       DoFindCurrentWordOrSel(Ed, false, false);
 
     cmd_SelectExpandToWord:
-      MsgStatus_FinderResultSimple(EditorExpandSelectionToWord(Ed));
+      ShowFinderResultSimple(EditorExpandSelectionToWord(Ed));
 
     cmd_OpsClearRecent:
       DoClearRecentFileHistory;
