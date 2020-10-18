@@ -453,7 +453,10 @@ begin
     //change Find field only if options SuggestSel/SuggestWord on,
     //else dont touch Find field
     if UiOps.FindSuggestSel and (StrSel<>'') then
-      UpdateInputFind(StrSel)
+    begin
+      if not FFinder.OptInSelection then
+        UpdateInputFind(StrSel);
+    end
     else
     if UiOps.FindSuggestWord and (StrWord<>'') then
       UpdateInputFind(StrWord);

@@ -6886,8 +6886,10 @@ end;
 
 procedure TfmMain.MsgLogDebug(const AText: string);
 begin
+  {
   if UiOps.LogDebug then
     MsgLogToFilename(AText, FFileNameLogDebug, true);
+    }
 end;
 
 
