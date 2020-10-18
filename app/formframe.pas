@@ -2858,8 +2858,8 @@ begin
     NLine1:= Mark.PosY;
     NLine2:= NLine1;
     //negative LenX means we need multiline mark, its height is abs(LenX)
-    if Mark.LenX<0 then
-      Inc(NLine2, -Mark.LenX-1);
+    if Mark.SelX<0 then
+      Inc(NLine2, -Mark.SelX-1);
 
     case Mark.Tag of
       cTagSpellChecker:
