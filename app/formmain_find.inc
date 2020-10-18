@@ -434,9 +434,6 @@ begin
   StrWord:= Ed.TextCurrentWord;
   StrSel:= Ed.TextSelected;
 
-  //ignore multi-line sel
-  //if Pos(#10, StrSel)>0 then StrSel:= '';
-
   if not Ed.IsSelRectEmpty then StrSel:= '';
 
   bMultiLineSel:= false;
@@ -450,6 +447,12 @@ begin
   InitFormFind;
   with fmFind do
   begin
+    if StrSel='' then
+    begin
+      fmFind.chkInSel.Checked:= false;
+      FFinder.OptInSelection:= false;
+    end;
+
     //change Find field only if options SuggestSel/SuggestWord on,
     //else dont touch Find field
     if UiOps.FindSuggestSel and (StrSel<>'') then
