@@ -427,7 +427,6 @@ var
   Ed: TATSynEdit;
   StrSel, StrWord: atString;
   bMultiLineSel: boolean;
-  Caret: TATCaretItem;
 begin
   Ed:= CurrentEditor;
 
@@ -438,10 +437,7 @@ begin
 
   bMultiLineSel:= false;
   if Ed.Carets.Count=1 then
-  begin
-    Caret:= Ed.Carets[0];
-    bMultiLineSel:= (Caret.EndY>=0) and (Caret.EndY<>Caret.PosY);
-  end;
+    bMultiLineSel:= Ed.Carets[0].IsMultilineSelection;
 
   MsgLogDebug('find dlg: init');
   InitFormFind;
