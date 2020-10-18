@@ -450,7 +450,7 @@ class OptEdD:
     COL_FIL = 6
     COL_LEXR= _('Lexer')
     COL_FILE= _('File "{}"')
-    COL_NMS = (_('Section'), _('Option'), '!', _('Default'), ('User'), COL_LEXR, COL_FILE)
+    COL_NMS = (_('Section'), _('Option'), '!', _('Default'), _('User'), COL_LEXR, COL_FILE)
     COL_MWS = [   70,           210,       25,    120,         120,       70,         50]   # Min col widths
 #   COL_MWS = [   70,           150,       25,    120,         120,       70,         50]   # Min col widths
     COL_N   = len(COL_MWS)
