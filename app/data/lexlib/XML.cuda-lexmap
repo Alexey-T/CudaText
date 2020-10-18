@@ -2,7 +2,7 @@
 str1=<!--
 str2=-->
 styles_cmt=Comment
-styles_str=Tag val
+styles_str=Text,Tag val
 
 [map]
 Comment=Comment
@@ -11,13 +11,12 @@ Tag id=TagId
 Tag param=TagProp
 Tag val=String
 CDATA bound=IncludeBG1
-CDATA text=Id
+CDATA text=Id1
 Error content=IdBad
 Current tag=SectionBG1
 Current tag id=BracketBG
 DTD element type=String2
 DTD bound=Symbol
-Tree item (attribute)=-
-Tree item (tag)=-
 Spec char=Id4
 Comment doc=CommentDoc
+Text=Id

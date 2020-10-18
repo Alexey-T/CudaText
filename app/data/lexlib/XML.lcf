@@ -1,4 +1,4 @@
-object SyntAnal22: TLibSyntAnalyzer
+object SyntAnal21: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -52,7 +52,7 @@ object SyntAnal22: TLibSyntAnalyzer
     item
       DisplayName = 'CDATA text'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clTeal
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -114,23 +114,6 @@ object SyntAnal22: TLibSyntAnalyzer
       Font.Style = [fsBold]
     end
     item
-      DisplayName = 'Tree item (attribute)'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlue
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-      FormatType = ftColor
-    end
-    item
-      DisplayName = 'Tree item (tag)'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsBold]
-    end
-    item
       DisplayName = 'Spec char'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clMaroon
@@ -145,6 +128,14 @@ object SyntAnal22: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
+    end
+    item
+      DisplayName = 'Text'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -271,8 +262,8 @@ object SyntAnal22: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Text'
-      StyleName = 'CDATA text'
-      Expression = '[^<>&\n\[\]]+'
+      StyleName = 'Text'
+      Expression = '[^<>&\n\[\]\(\)\{\},;/\*]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -398,7 +389,6 @@ object SyntAnal22: TLibSyntAnalyzer
       DynHighlight = dhBound
       HighlightPos = cpRange
       DynSelectMin = True
-      TreeItemStyle = 'Tree item (tag)'
       IgnoreAsParent = False
       AutoCloseMode = acmCloseOpened
       AutoCloseText = '</%s0>'
@@ -475,29 +465,6 @@ object SyntAnal22: TLibSyntAnalyzer
       NameFmt = '%s-1'
       HighlightPos = cpBound
       CollapseFmt = 'CDATA'
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Tag attribute'
-      Enabled = False
-      StyleName = 'Tag val'
-      BlockName = 'Tag begin'
-      ConditionList = <
-        item
-          TokenTypes = 16
-        end
-        item
-          TokenTypes = 8
-        end
-        item
-          TokenTypes = 4
-        end>
-      DisplayInTree = False
-      NameFmt = '%s0 %s-1 %s-2'
-      RefToCondEnd = True
-      HighlightPos = cpBound
-      NoEndRule = True
-      TreeItemStyle = 'Tree item (attribute)'
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
