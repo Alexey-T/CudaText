@@ -956,8 +956,8 @@ begin
                   Py_BuildValue('(iiiiL)',
                     Mark.PosX,
                     Mark.PosY,
-                    Mark.LenX,
-                    Mark.LenY,
+                    Mark.SelX,
+                    Mark.SelY,
                     Mark.Tag
                     ));
               end;
@@ -982,9 +982,9 @@ begin
                   PChar(string('y')),
                   Mark.PosY,
                   'len_x',
-                  Mark.LenX,
+                  Mark.SelX,
                   'len_y',
-                  Mark.LenY,
+                  Mark.SelY,
                   'tag',
                   Mark.Tag,
                   'line_len',
@@ -1098,7 +1098,7 @@ begin
                     Mark.Tag,
                     Mark.PosX,
                     Mark.PosY,
-                    Mark.LenX,
+                    Mark.SelX,
                     Obj.Data.ColorFont,
                     Obj.Data.ColorBG,
                     Obj.Data.ColorBorder,
@@ -1137,7 +1137,7 @@ begin
                   PChar(string('y')),
                   Mark.PosY,
                   'len',
-                  Mark.LenX,
+                  Mark.SelX,
                   'color_font',
                   Obj.Data.ColorFont,
                   'color_bg',
@@ -6658,7 +6658,7 @@ begin
                 PyList_SetItem(Result, i,
                   Py_BuildValue('(iii)',
                     Item.PosY,
-                    Item.PosY+Item.LenY-1,
+                    Item.PosY+Item.SelY-1,
                     Item.Value
                     ));
               end;
