@@ -17,6 +17,7 @@
 + add: CSS auto-completion: add standard values to all properties: inherit, initial, unsert, var() (thanks @d-mal)
 + add: CSS auto-completion: better auto-inserting of bracket for functions
 + add: Unix: better support paths with ~/ (didn't work if app was run by external tools)
++ add: dialog Find/Replace: second press of Ctrl+F / Ctrl+R returns focus to editor (thanks @xcme)
 + add: dialog "Save tabs?" shows button "don't save/ keep in session" more often, now ignoring "t" in "ui_history_disabled" (thanks @tmsg)
 + add: lexer CSS: highlight names of "system colors" (thanks @d-mal)
 + add: lexer XML: better support Spell Checker (thanks @EcherArt)
