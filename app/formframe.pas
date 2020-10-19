@@ -1262,7 +1262,7 @@ end;
 
 procedure TEditorFrame.EditorOnChange(Sender: TObject);
 var
-  Ed: TATSynEdit;
+  Ed, EdOther: TATSynEdit;
   Params: TAppVariantArray;
 begin
   Ed:= Sender as TATSynEdit;
@@ -1270,10 +1270,16 @@ begin
   if FBracketHilite then
     EditorBracket_ClearHilite(Ed);
 
-  if (Ed=Ed1) and Splitted and EditorsLinked then
+  //sync changes in 2 editors, when frame is splitted
+  if Splitted and EditorsLinked then
   begin
-    Ed2.DoCaretsFixIncorrectPos(false);
-    Ed2.Update(true);
+    if Ed=Ed1 then
+      EdOther:= Ed2
+    else
+      EdOther:= Ed1;
+
+    EdOther.DoCaretsFixIncorrectPos(false);
+    EdOther.Update(true);
   end;
 
   SetLength(Params, 0);
