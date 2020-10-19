@@ -102,6 +102,7 @@ var
   D: TATTabData;
   F: TEditorFrame;
   Params: TAppVariantArray;
+  SFrameFilterText: UnicodeString;
 begin
   Tabs:= Sender as TATTabs;
   D:= Tabs.GetTabData(Tabs.TabIndex);
@@ -128,9 +129,13 @@ begin
       F.SetFocus;
   end;
 
-  CodeTreeFilterInput.Text:= UTF8Decode(F.CodetreeFilter);
-  CodeTreeFilter_OnChange(nil);
-  CodeTreeFilterInput.Items.Assign(F.CodetreeFilterHistory);
+  SFrameFilterText:= UTF8Decode(F.CodetreeFilter);
+  if CodeTreeFilterInput.Text<>SFrameFilterText then
+  begin
+    CodeTreeFilterInput.Text:= SFrameFilterText;
+    CodeTreeFilter_OnChange(nil);
+    CodeTreeFilterInput.Items.Assign(F.CodetreeFilterHistory);
+  end;
 
   //load lexer-specific config+keymap
   DoOps_LoadOptionsLexerSpecific(F, F.Editor);
