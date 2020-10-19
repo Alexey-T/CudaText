@@ -1245,16 +1245,16 @@ begin
     if FEditorsLinked then
     begin
       Ed2.Strings:= Ed1.Strings;
-      Ed1.BrotherEditor:= Ed2;
-      Ed2.BrotherEditor:= Ed1;
+      //Ed1.BrotherEditor:= Ed2;
+      //Ed2.BrotherEditor:= Ed1;
     end;
   end
   else
   begin
     //disable linking
     Ed2.Strings:= nil;
-    Ed1.BrotherEditor:= nil;
-    Ed2.BrotherEditor:= nil;
+    //Ed1.BrotherEditor:= nil;
+    //Ed2.BrotherEditor:= nil;
   end;
 
   Ed2.Update(true);
