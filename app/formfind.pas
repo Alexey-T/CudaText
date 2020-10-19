@@ -170,9 +170,11 @@ type
     FNarrow: boolean;
     FOnResult: TAppFinderOperationEvent;
     FOnChangeOptions: TNotifyEvent;
+    FOnFocusEditor: TNotifyEvent;
     FLexerRegexThemed: boolean;
     Adapter: TATAdapterEControl;
     AdapterActive: boolean;
+    procedure DoFocusEditor;
     procedure DoResult(Str: TAppFinderOperation);
     procedure SetIsDoubleBuffered(AValue: boolean);
     procedure SetMultiLine(AValue: boolean);
@@ -195,6 +197,7 @@ type
     procedure UpdateInputReplace(const AText: UnicodeString);
     property OnResult: TAppFinderOperationEvent read FOnResult write FOnResult;
     property OnChangeOptions: TNotifyEvent read FOnChangeOptions write FOnChangeOptions;
+    property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
     property IsReplace: boolean read FReplace write SetReplace;
     property IsMultiLine: boolean read FMultiLine write SetMultiLine;
     property IsNarrow: boolean read FNarrow write SetNarrow;
@@ -597,16 +600,26 @@ begin
 
   if Str=UiOps.HotkeyFindDialog then
   begin
-    IsReplace:= false;
-    UpdateState;
+    if not IsReplace then
+      DoFocusEditor
+    else
+    begin
+      IsReplace:= false;
+      UpdateState;
+    end;
     key:= 0;
     exit;
   end;
 
   if Str=UiOps.HotkeyReplaceDialog then
   begin
-    IsReplace:= true;
-    UpdateState;
+    if IsReplace then
+      DoFocusEditor
+    else
+    begin
+      IsReplace:= true;
+      UpdateState;
+    end;
     key:= 0;
     exit;
   end;
@@ -1075,6 +1088,12 @@ begin
   bRep.AutoSize:= true;
   bRepAll.AutoSize:= true;
   bRepGlobal.AutoSize:= true;
+end;
+
+procedure TfmFind.DoFocusEditor;
+begin
+  if Assigned(FOnFocusEditor) then
+    FOnFocusEditor(nil);
 end;
 
 end.

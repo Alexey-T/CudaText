@@ -380,6 +380,7 @@ begin
     fmFind:= TfmFind.Create(Self);
     fmFind.OnResult:= @FindDialogDone;
     fmFind.OnChangeOptions:= @DoFindOptions_OnChange;
+    fmFind.OnFocusEditor:= @FindDialogFocusEditor;
     fmFind.Color:= GetAppColor(apclTabBg);
 
     UiOps.HotkeyFindDialog:= ShortcutToText(AppKeymapMain.GetShortcutFromCommand(cmd_DialogFind));
@@ -1114,4 +1115,8 @@ begin
   end;
 end;
 
+procedure TfmMain.FindDialogFocusEditor(Sender: TObject);
+begin
+  DoFocusEditor(CurrentEditor);
+end;
 

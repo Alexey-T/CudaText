@@ -694,6 +694,7 @@ type
 
     procedure ConfirmButtonOkClick(Sender: TObject);
     procedure ConfirmPanelMouseLeave(Sender: TObject);
+    procedure FindDialogFocusEditor(Sender: TObject);
     procedure FrameConfirmLink(Sender: TObject; const ALink: string);
     procedure FormEnter(Sender: TObject);
     procedure GetParamsForUniqueInstance(out AParams: TAppStringArray);
