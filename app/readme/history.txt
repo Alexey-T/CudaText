@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.116.1 (2020/10)
+
+- fix: some plugin API didn't shift carets+markers property (thanks @MiroslavMatas)
+
 1.116.0 (2020/10)
 
 + add: Find dialog: when "search in selection" is checked, and "find first"/"find next" is called, editor places marker instead of caret, so we don't break the selection, and can "find next" all matches (thanks @xcme)
