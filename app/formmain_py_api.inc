@@ -169,7 +169,7 @@ begin
       raise EPythonError.Create(msgPythonListError);
     for i:= 0 to NLen-1 do
     begin
-      PyList_SetItem(Result, i, PyInt_FromLong(Ord(Strs.LinesState[i])));
+      PyList_SetItem(Result, i, PyLong_FromLong(Ord(Strs.LinesState[i])));
     end;
   end;
 end;
@@ -268,7 +268,7 @@ begin
             AppEmmetOptions(Str1)
             );
           StrText:= StringReplace(StrText, #13#10, #10, [rfReplaceAll]);
-          Result:= PyString_FromString(PChar(StrText));
+          Result:= PyUnicode_FromString(StrText);
         end;
 
       EMMET_GET_POS:
@@ -279,7 +279,7 @@ begin
           if NPos<=0 then
             exit(ReturnNone);
           EmmetHelper.EmmetFindAbbrev(StrText, NPos, NRes, SAbbreb);
-          Result:= PyInt_FromLong(NRes);
+          Result:= PyLong_FromLong(NRes);
         end;
 
       else
@@ -423,7 +423,7 @@ end;
 function Py_app_exe_version(Self, Args : PPyObject): PPyObject; cdecl;
 begin
   with AppPython.Engine do
-    Result:= PyString_FromString(cAppExeVersion);
+    Result:= PyUnicode_FromString(cAppExeVersion);
 end;
 
 function Py_app_ver(Self, Args : PPyObject): PPyObject; cdecl;
@@ -443,21 +443,21 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'i:app_path', @Id)) then
       case Id of
         APP_DIR_EXE:
-          Result:= PyString_FromString(PChar(ExtractFileDir(Application.ExeName)));
+          Result:= PyUnicode_FromString(ExtractFileDir(Application.ExeName));
         APP_DIR_SETTINGS:
-          Result:= PyString_FromString(PChar(AppDir_Settings));
+          Result:= PyUnicode_FromString(AppDir_Settings);
         APP_DIR_SETTINGS_DEF:
-          Result:= PyString_FromString(PChar(AppDir_SettingsDefault));
+          Result:= PyUnicode_FromString(AppDir_SettingsDefault);
         APP_DIR_DATA:
-          Result:= PyString_FromString(PChar(AppDir_Data));
+          Result:= PyUnicode_FromString(AppDir_Data);
         APP_DIR_PY:
-          Result:= PyString_FromString(PChar(AppDir_Py));
+          Result:= PyUnicode_FromString(AppDir_Py);
         APP_FILE_SESSION:
-          Result:= PyString_FromString(PChar(fmMain.GetSessionFilename));
+          Result:= PyUnicode_FromString(fmMain.GetSessionFilename);
         APP_DIR_INSTALLED_ADDON:
-          Result:= PyString_FromString(PChar(AppDir_LastInstalledAddon));
+          Result:= PyUnicode_FromString(AppDir_LastInstalledAddon);
         APP_FILE_RECENTS:
-          Result:= PyString_FromString(PChar(AppListRecents.Text));
+          Result:= PyUnicode_FromString(AppListRecents.Text);
 
         else
           Result:= ReturnNone;
@@ -494,7 +494,7 @@ begin
       StrCaption:= string(P1);
       StrVal:= string(P2);
       if InputQuery(msgTitle, StrCaption, StrVal) then
-        Result:= PyString_FromString(PChar(StrVal))
+        Result:= PyUnicode_FromString(StrVal)
       else
         Result:= ReturnNone;
     end
@@ -554,7 +554,7 @@ begin
     begin
       str:= DoDialogCharmapModal;
       if str<>'' then
-        Result:= PyString_FromString(PChar(str))
+        Result:= PyUnicode_FromString(str)
       else
         Result:= ReturnNone;
     end
@@ -610,7 +610,7 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'si:msg_box', @Ptr, @Flags)) then
     begin
       Str:= string(Ptr);
-      Result:= PyInt_FromLong(MsgBox(Str, Flags));
+      Result:= PyLong_FromLong(MsgBox(Str, Flags));
     end
   else
     Result:= ReturnNone;
@@ -678,7 +678,7 @@ begin
       if Res=mrCancel then
         Result:= ReturnNone
       else
-        Result:= PyInt_FromLong(Res-cResultDelta);
+        Result:= PyLong_FromLong(Res-cResultDelta);
     end
     else
       Result:= ReturnNone;
@@ -771,7 +771,7 @@ begin
         if (MaxLen=0) or (Strs.LinesLen[Index]<=MaxLen) then
           Result:= PyUnicode_FromWideString(Strs.Lines[Index])
         else
-          Result:= PyString_FromString('');
+          Result:= PyUnicode_FromString('');
       end
       else
         Result:= ReturnNone;
@@ -854,7 +854,7 @@ begin
           begin
             Ed.Carets.Add(X1, Y1, X2, Y2);
             Ed.Carets.Sort;
-            Result:= PyInt_FromLong(Ed.Carets.Count);
+            Result:= PyLong_FromLong(Ed.Carets.Count);
           end;
 
         CARET_SET_INDEX..CARET_DELETE_INDEX-1:
@@ -999,7 +999,7 @@ begin
           begin
             Ed.Markers.Add(X, Y, NTag, NLenX, NLenY, nil, 0, false, NLineLen);
             Ed.Update;
-            Result:= PyInt_FromLong(Ed.Markers.Count);
+            Result:= PyLong_FromLong(Ed.Markers.Count);
           end;
 
         MARKERS_DELETE_ALL:
@@ -1196,7 +1196,7 @@ begin
             NLen:= StrToIntDef(StrLen, 1);
             Ed.Attribs.Add(X, Y, NTag, NLen, 0, Obj, 0, Bool(NMapOnly));
             Ed.Update;
-            Result:= PyInt_FromLong(Ed.Attribs.Count);
+            Result:= PyLong_FromLong(Ed.Attribs.Count);
           end;
 
         MARKERS_ADD_MANY:
@@ -1240,7 +1240,7 @@ begin
             until false;
 
             Ed.Update;
-            Result:= PyInt_FromLong(Ed.Attribs.Count);
+            Result:= PyLong_FromLong(Ed.Attribs.Count);
           end;
 
         MARKERS_DELETE_ALL:
@@ -1403,7 +1403,7 @@ begin
         N:= SEL_NORMAL
       else
         N:= SEL_COLUMN;
-      Result:= PyInt_FromLong(N);
+      Result:= PyLong_FromLong(N);
     end
   else
     Result:= ReturnNone;
@@ -1681,7 +1681,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_line_count', @H)) then
     begin
-      Result:= PyInt_FromLong(PyEditor(H).Strings.Count);
+      Result:= PyLong_FromLong(PyEditor(H).Strings.Count);
     end
   else
     Result:= ReturnNone;
@@ -1711,7 +1711,7 @@ begin
       else
         Str:= '?';
 
-      Result:= PyString_FromString(PChar(Str));
+      Result:= PyUnicode_FromString(Str);
     end
   else
     Result:= ReturnNone;
@@ -1961,7 +1961,7 @@ begin
                 raise EPythonError.Create(msgPythonListError);
               for i:= 0 to NCount-1 do
                 PyList_SetItem(Result, i,
-                  PyInt_FromLong(Strs.Bookmarks[i].Data.LineNum)
+                  PyLong_FromLong(Strs.Bookmarks[i].Data.LineNum)
                   );
             end
             else
@@ -2211,7 +2211,7 @@ begin
           if (ofAllowMultiSelect in Dlg.Options) and (Dlg.Files.Count>1) then
             Result:= StringsToPyList(Dlg.Files)
           else
-            Result:= PyString_FromString(PChar(Dlg.FileName));
+            Result:= PyUnicode_FromString(Dlg.FileName);
         end
         else
           Result:= ReturnNone;
@@ -2241,7 +2241,7 @@ begin
           Dlg.Title:= msgDialogTitleSelFolder;
         Dlg.InitialDir:= StrFolder;
         if Dlg.Execute then
-          Result:= PyString_FromString(PChar(Dlg.FileName))
+          Result:= PyUnicode_FromString(Dlg.FileName)
         else
           Result:= ReturnNone;
       finally
@@ -2432,7 +2432,7 @@ begin
         else
         begin
           StrVal:= ini.ReadString(StrSess, StrKey, StrVal);
-          Result:= PyString_FromString(PChar(StrVal));
+          Result:= PyUnicode_FromString(StrVal);
         end;
       finally
         FreeAndNil(ini);
@@ -2532,7 +2532,7 @@ begin
         fmMain.FColorDialog:= TColorDialog.Create(fmMain);
       fmMain.FColorDialog.Color:= NCode;
       if fmMain.FColorDialog.Execute then
-        Result:= PyInt_FromLong(fmMain.FColorDialog.Color)
+        Result:= PyLong_FromLong(fmMain.FColorDialog.Color)
       else
         Result:= ReturnNone;
     end
@@ -2575,7 +2575,7 @@ begin
             NIndex:= fmMain.DoDialogMenuApi(Props);
             Application.ProcessMessages; //force hide dialog
             if NIndex>=0 then
-              Result:= PyInt_FromLong(NIndex)
+              Result:= PyLong_FromLong(NIndex)
             else
               Result:= ReturnNone;
           end
@@ -2711,7 +2711,7 @@ begin
 
         LOG_GET_LINEINDEX:
           begin
-            Result:= PyInt_FromLong(Prop^.Listbox.ItemIndex);
+            Result:= PyLong_FromLong(Prop^.Listbox.ItemIndex);
           end;
 
         LOG_SET_LINEINDEX:
@@ -2781,7 +2781,7 @@ begin
       S:= string(Ptr);
       S:= DoDialogHotkeyInput(S);
       if S<>'' then
-        Result:= PyString_FromString(PChar(S))
+        Result:= PyUnicode_FromString(S)
       else
         Result:= ReturnNone;
     end
@@ -2850,7 +2850,7 @@ begin
       if Str='' then
         Result:= ReturnNone
       else
-        Result:= PyString_FromString(PChar(Str));
+        Result:= PyUnicode_FromString(Str);
     end
   else
     Result:= ReturnNone;
@@ -2998,7 +2998,7 @@ begin
           Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandBookmarks].Visible));
 
         PROP_WRAP:
-          Result:= PyInt_FromLong(Ord(Ed.OptWrapMode));
+          Result:= PyLong_FromLong(Ord(Ed.OptWrapMode));
 
         PROP_RO:
           Result:= PyBool_FromLong(Ord(Ed.ModeReadOnly));
@@ -3007,13 +3007,13 @@ begin
           Result:= PyBool_FromLong(Ord(Ed.OptTabSpaces));
 
         PROP_TAB_SIZE:
-          Result:= PyInt_FromLong(Ed.OptTabSize);
+          Result:= PyLong_FromLong(Ed.OptTabSize);
 
         PROP_MARGIN:
-          Result:= PyInt_FromLong(Ed.OptMarginRight);
+          Result:= PyLong_FromLong(Ed.OptMarginRight);
 
         PROP_MARGIN_STRING:
-          Result:= PyString_FromString(PChar(Ed.OptMarginString));
+          Result:= PyUnicode_FromString(Ed.OptMarginString);
 
         PROP_INSERT:
           Result:= PyBool_FromLong(Ord(not Ed.ModeOverwrite));
@@ -3031,7 +3031,7 @@ begin
           begin
             Num1:= StrToIntDef(Str, -1);
             if Ed.Strings.IsIndexValid(Num1) then
-              Result:= PyInt_FromLong(Ord(Ed.Strings.LinesState[Num1]))
+              Result:= PyLong_FromLong(Ord(Ed.Strings.LinesState[Num1]))
             else
               Result:= ReturnNone;
           end;
@@ -3048,26 +3048,26 @@ begin
               Num1:= Ed.OptZebraAlphaBlend
             else
               Num1:= 0;
-            Result:= PyInt_FromLong(Num1);
+            Result:= PyLong_FromLong(Num1);
           end;
 
         PROP_ZEBRA_STEP:
-          Result:= PyInt_FromLong(Ed.OptZebraStep);
+          Result:= PyLong_FromLong(Ed.OptZebraStep);
 
         PROP_COLOR:
           begin
             Num1:= EditorGetColorById(Ed, Str);
             if Num1<>-1 then
-              Result:= PyInt_FromLong(Num1)
+              Result:= PyLong_FromLong(Num1)
             else
               Result:= ReturnNone;
           end;
 
         PROP_LINE_TOP:
-          Result:= PyInt_FromLong(Ed.LineTop);
+          Result:= PyLong_FromLong(Ed.LineTop);
 
         PROP_LINE_NUMBERS:
-          Result:= PyInt_FromLong(Ord(Ed.OptNumbersStyle));
+          Result:= PyLong_FromLong(Ord(Ed.OptNumbersStyle));
 
         PROP_LEXER_FILE:
           begin
@@ -3075,7 +3075,7 @@ begin
             if Assigned(F) then
             begin
               Str:= F.LexerName[Ed];
-              Result:= PyString_FromString(PChar(Str));
+              Result:= PyUnicode_FromString(Str);
             end
             else
             if Ed.AdapterForHilite is TATAdapterEControl then
@@ -3083,12 +3083,12 @@ begin
               Ada:= Ed.AdapterForHilite as TATAdapterEControl;
               Lex:= Ada.Lexer;
               if Assigned(Lex) then
-                Result:= PyString_FromString(PChar(Lex.LexerName))
+                Result:= PyUnicode_FromString(Lex.LexerName)
               else
-                Result:= PyString_FromString('');
+                Result:= PyUnicode_FromString('');
             end
             else
-              Result:= PyString_FromString('');
+              Result:= PyUnicode_FromString('');
           end;
 
         PROP_LEXER_POS:
@@ -3098,19 +3098,19 @@ begin
             Sep.GetItemInt(Pnt.Y, 0);
             //if editor in frame, use frame's prop
             if Assigned(F) then
-              Result:= PyString_FromString(PChar(F.LexerNameAtPos(Ed, Pnt)))
+              Result:= PyUnicode_FromString(F.LexerNameAtPos(Ed, Pnt))
             else
             if Ed.AdapterForHilite is TATAdapterEControl then
             begin
               Ada:= Ed.AdapterForHilite as TATAdapterEControl;
               Lex:= Ada.LexerAtPos(Pnt);
               if Assigned(Lex) then
-                Result:= PyString_FromString(PChar(Lex.LexerName))
+                Result:= PyUnicode_FromString(Lex.LexerName)
               else
-                Result:= PyString_FromString('');
+                Result:= PyUnicode_FromString('');
             end
             else
-              Result:= PyString_FromString('');
+              Result:= PyUnicode_FromString('');
           end;
 
         PROP_LEXER_CARET:
@@ -3122,25 +3122,25 @@ begin
             end;
             //if editor in frame, use frame's prop
             if Assigned(F) then
-              Result:= PyString_FromString(PChar(F.LexerNameAtPos(Ed, Pnt)))
+              Result:= PyUnicode_FromString(F.LexerNameAtPos(Ed, Pnt))
             else
             if Ed.AdapterForHilite is TATAdapterEControl then
             begin
               Ada:= Ed.AdapterForHilite as TATAdapterEControl;
               Lex:= Ada.LexerAtPos(Pnt);
               if Assigned(Lex) then
-                Result:= PyString_FromString(PChar(Lex.LexerName))
+                Result:= PyUnicode_FromString(Lex.LexerName)
               else
-                Result:= PyString_FromString('');
+                Result:= PyUnicode_FromString('');
             end
             else
-              Result:= PyString_FromString('');
+              Result:= PyUnicode_FromString('');
           end;
 
         PROP_TAB_COLOR:
           begin
             if Assigned(F) then
-              Result:= PyInt_FromLong(F.TabColor)
+              Result:= PyLong_FromLong(F.TabColor)
             else
               Result:= ReturnNone;
           end;
@@ -3148,7 +3148,7 @@ begin
         PROP_TAB_TITLE:
           begin
             if Assigned(F) then
-              Result:= PyString_FromString(PChar(F.TabCaption))
+              Result:= PyUnicode_FromString(F.TabCaption)
             else
               Result:= ReturnNone;
           end;
@@ -3164,7 +3164,7 @@ begin
         PROP_ENC:
           begin
             Str:= AppEncodingFullnameToShortname(Ed.EncodingName);
-            Result:= PyString_FromString(PChar(Str));
+            Result:= PyUnicode_FromString(Str);
           end;
 
         PROP_IN_SESSION:
@@ -3193,7 +3193,7 @@ begin
               else
                 Str:= 'lf';
             end;
-            Result:= PyString_FromString(PChar(Str));
+            Result:= PyUnicode_FromString(Str);
           end;
 
         PROP_INDEX_GROUP:
@@ -3218,12 +3218,12 @@ begin
               Str:= 'pic'
             else
               Str:= 'text';
-            Result:= PyString_FromString(PChar(Str));
+            Result:= PyUnicode_FromString(Str);
           end;
 
         PROP_TAG:
           begin
-            Result:= PyString_FromString(PChar(Ed.TagString));
+            Result:= PyUnicode_FromString(Ed.TagString);
           end;
 
         PROP_UNPRINTED_SHOW:
@@ -3293,25 +3293,25 @@ begin
           Result:= PyBool_FromLong(Ord(Ed.OptMicromapVisible));
 
         PROP_VISIBLE_LINES:
-          Result:= PyInt_FromLong(Ed.GetVisibleLines);
+          Result:= PyLong_FromLong(Ed.GetVisibleLines);
 
         PROP_VISIBLE_COLUMNS:
-          Result:= PyInt_FromLong(Ed.GetVisibleColumns);
+          Result:= PyLong_FromLong(Ed.GetVisibleColumns);
 
         PROP_LINE_BOTTOM:
-          Result:= PyInt_FromLong(Ed.LineBottom);
+          Result:= PyLong_FromLong(Ed.LineBottom);
 
         PROP_SCROLL_VERT:
-          Result:= PyInt_FromLong(Ed.ScrollVert.NPos);
+          Result:= PyLong_FromLong(Ed.ScrollVert.NPos);
 
         PROP_SCROLL_HORZ:
-          Result:= PyInt_FromLong(Ed.ScrollHorz.NPos);
+          Result:= PyLong_FromLong(Ed.ScrollHorz.NPos);
 
         PROP_SCROLL_VERT_SMOOTH:
-          Result:= PyInt_FromLong(Ed.ScrollVert.SmoothPos);
+          Result:= PyLong_FromLong(Ed.ScrollVert.SmoothPos);
 
         PROP_SCROLL_HORZ_SMOOTH:
-          Result:= PyInt_FromLong(Ed.ScrollHorz.SmoothPos);
+          Result:= PyLong_FromLong(Ed.ScrollHorz.SmoothPos);
 
         PROP_SCROLL_VERT_INFO:
           Result:= Py_GetScrollInfo(Ed.ScrollVert);
@@ -3320,7 +3320,7 @@ begin
           Result:= Py_GetScrollInfo(Ed.ScrollHorz);
 
         PROP_SCALE_FONT:
-          Result:= PyInt_FromLong(Ed.OptScaleFont);
+          Result:= PyLong_FromLong(Ed.OptScaleFont);
 
         PROP_LAST_LINE_ON_TOP:
           Result:= PyBool_FromLong(Ord(Ed.OptLastLineOnTop));
@@ -3367,7 +3367,7 @@ begin
             Sep.GetItemInt(Pnt.X, -1);
             Sep.GetItemInt(Pnt.Y, -1);
             Str:= Ed.DoGetLinkAtPos(Pnt.X, Pnt.Y);
-            Result:= PyString_FromString(PChar(Str));
+            Result:= PyUnicode_FromString(Str);
           end;
 
         PROP_PICTURE:
@@ -3393,7 +3393,7 @@ begin
 
         PROP_INDENT_SIZE:
           begin
-            Result:= PyInt_FromLong(Ed.OptIndentSize);
+            Result:= PyLong_FromLong(Ed.OptIndentSize);
           end;
 
         PROP_INDENT_KEEP_ALIGN:
@@ -3408,7 +3408,7 @@ begin
 
         PROP_INDENT_KIND:
           begin
-            Result:= PyInt_FromLong(Ord(Ed.OptAutoIndentKind));
+            Result:= PyLong_FromLong(Ord(Ed.OptAutoIndentKind));
           end;
 
         PROP_CELL_SIZE:
@@ -3441,13 +3441,13 @@ begin
           Result:= PyBool_FromLong(Ord(Ed.OptUndoGrouped));
 
         PROP_UNDO_LIMIT:
-          Result:= PyInt_FromLong(Ed.OptUndoLimit);
+          Result:= PyLong_FromLong(Ed.OptUndoLimit);
 
         PROP_UNDO_DATA:
-          Result:= PyString_FromString(PChar(Ed.UndoAsString));
+          Result:= PyUnicode_FromString(Ed.UndoAsString);
 
         PROP_REDO_DATA:
-          Result:= PyString_FromString(PChar(Ed.RedoAsString));
+          Result:= PyUnicode_FromString(Ed.RedoAsString);
 
         PROP_SPLIT:
           begin
@@ -3529,7 +3529,7 @@ begin
           Result:= PyBool_FromLong(Ord(Ed.OptShowURLs));
 
         PROP_LINKS_REGEX:
-          Result:= PyString_FromString(PChar(Ed.OptShowURLsRegex));
+          Result:= PyUnicode_FromString(Ed.OptShowURLsRegex);
 
         PROP_LINKS_CLICKS:
           begin
@@ -3537,7 +3537,7 @@ begin
             if Ed.OptMouseClickOpensURL then Num1:= 1
             else
             if Ed.OptMouse2ClickOpensURL then Num1:= 2;
-            Result:= PyInt_FromLong(Num1);
+            Result:= PyLong_FromLong(Num1);
           end;
 
         PROP_RECT_CLIENT:
@@ -3558,7 +3558,7 @@ begin
           end;
 
         PROP_CODETREE_MODIFIED_VERSION:
-          Result:= PyInt_FromLong(fmMain.FCodetreeModifiedVersion);
+          Result:= PyLong_FromLong(fmMain.FCodetreeModifiedVersion);
 
         PROP_CODETREE_SUBLEXER:
           begin
@@ -3583,7 +3583,7 @@ begin
               Num1:= Ord(F.Binary.Mode)
             else
               Num1:= VMODE_NONE;
-            Result:= PyInt_FromLong(Num1);
+            Result:= PyLong_FromLong(Num1);
           end;
 
         PROP_V_POS:
@@ -4422,7 +4422,7 @@ begin
         APP_PROC_GET_CLIP:
           begin
             Str:= Clipboard.AsText;
-            Result:= PyString_FromString(PChar(Str));
+            Result:= PyUnicode_FromString(Str);
           end;
         APP_PROC_SET_CLIP:
           begin
@@ -4491,12 +4491,12 @@ begin
             Str:= AppPython.LastCommandModule+','+AppPython.LastCommandMethod;
             if AppPython.LastCommandParam<>'' then
               Str+= ','+AppPython.LastCommandParam;
-            Result:= PyString_FromString(PChar(Str));
+            Result:= PyUnicode_FromString(Str);
           end;
 
         APP_PROC_GET_GROUPING:
           begin
-            Result:= PyInt_FromLong(Ord(fmMain.Groups.Mode));
+            Result:= PyLong_FromLong(Ord(fmMain.Groups.Mode));
           end;
         APP_PROC_SET_GROUPING:
           begin
@@ -4555,14 +4555,14 @@ begin
           begin
             i:= DoControl_GetAutoHeight(Str);
             if i>0 then
-              Result:= PyInt_FromLong(i)
+              Result:= PyLong_FromLong(i)
             else
               Result:= ReturnNone;
           end;
 
         APP_PROC_GET_SYSTEM_PPI:
           begin
-            Result:= PyInt_FromLong(Screen.PixelsPerInch);
+            Result:= PyLong_FromLong(Screen.PixelsPerInch);
           end;
 
         APP_PROC_PROGRESSBAR:
@@ -4640,7 +4640,7 @@ begin
             Str:= '';
             for i:= 0 to fmMain.ToolbarSideTop.ButtonCount-1 do
               Str:= Str + IfThen(i>0, #10) + fmMain.ToolbarSideTop.Buttons[i].Caption;
-            Result:= PyString_FromString(PChar(Str));
+            Result:= PyUnicode_FromString(Str);
           end;
 
         APP_PROC_SIDEPANEL_GET_CONTROL:
@@ -4655,7 +4655,7 @@ begin
         APP_PROC_SIDEPANEL_GET:
           begin
             Str:= AppPanels[cPaneSide].LastActivePanel;
-            Result:= PyString_FromString(PChar(Str));
+            Result:= PyUnicode_FromString(Str);
           end;
 
         //-------------------
@@ -4704,24 +4704,24 @@ begin
             Str:= '';
             for i:= 0 to fmMain.ToolbarSideLow.ButtonCount-1 do
               Str:= Str + IfThen(i>0, #10) + fmMain.ToolbarSideLow.Buttons[i].Caption;
-            Result:= PyString_FromString(PChar(Str));
+            Result:= PyUnicode_FromString(Str);
           end;
 
         APP_PROC_BOTTOMPANEL_GET:
           begin
             Str:= AppPanels[cPaneOut].LastActivePanel;
-            Result:= PyString_FromString(PChar(Str));
+            Result:= PyUnicode_FromString(Str);
           end;
 
         //-------------------
         APP_PROC_GET_LANG:
           begin
-            Result:= PyString_FromString(PChar(UiOps.LangName));
+            Result:= PyUnicode_FromString(UiOps.LangName);
           end;
 
         APP_PROC_GET_HOTKEY:
           begin
-            Result:= PyString_FromString(PChar(Keymap_GetHotkey(AppKeymapMain, Str)));
+            Result:= PyUnicode_FromString(Keymap_GetHotkey(AppKeymapMain, Str));
           end;
         APP_PROC_SET_HOTKEY:
           begin
@@ -4731,12 +4731,12 @@ begin
         APP_PROC_GET_KEYSTATE:
           begin
             Str:= ConvertShiftStateToString(KeyboardStateToShiftState);
-            Result:= PyString_FromString(PChar(Str));
+            Result:= PyUnicode_FromString(Str);
           end;
 
         APP_PROC_THEME_UI_GET:
           begin
-            Result:= PyString_FromString(PChar(UiOps.ThemeUi));
+            Result:= PyUnicode_FromString(UiOps.ThemeUi);
           end;
         APP_PROC_THEME_UI_SET:
           begin
@@ -4745,7 +4745,7 @@ begin
           end;
         APP_PROC_THEME_SYNTAX_GET:
           begin
-            Result:= PyString_FromString(PChar(UiOps.ThemeSyntax));
+            Result:= PyUnicode_FromString(UiOps.ThemeSyntax);
           end;
         APP_PROC_THEME_SYNTAX_SET:
           begin
@@ -4756,12 +4756,12 @@ begin
         APP_PROC_HOTKEY_INT_TO_STR:
           begin
             Str:= ShortCutToText(StrToIntDef(Str, 0));
-            Result:= PyString_FromString(PChar(Str));
+            Result:= PyUnicode_FromString(Str);
           end;
         APP_PROC_HOTKEY_STR_TO_INT:
           begin
             Str:= IntToStr(TextToShortCut(Str));
-            Result:= PyString_FromString(PChar(Str));
+            Result:= PyUnicode_FromString(Str);
           end;
 
         APP_PROC_GET_MOUSE_POS:
@@ -4927,7 +4927,7 @@ begin
           Result:= StringsToPyList(Screen.Fonts);
 
         APP_PROC_SEND_MESSAGE:
-          Result:= PyInt_FromLong(AppSendMessageFromString(Str));
+          Result:= PyLong_FromLong(AppSendMessageFromString(Str));
 
         APP_PROC_SPLITTER_GET:
           begin
@@ -4967,7 +4967,7 @@ begin
 
         APP_PROC_CONFIG_NEWDOC_EOL_GET:
           begin
-            Result:= PyInt_FromLong(Ord(UiOps.NewdocEnds));
+            Result:= PyLong_FromLong(Ord(UiOps.NewdocEnds));
           end;
         APP_PROC_CONFIG_NEWDOC_EOL_SET:
           begin
@@ -4977,7 +4977,7 @@ begin
 
         APP_PROC_CONFIG_NEWDOC_ENC_GET:
           begin
-            Result:= PyString_FromString(PChar(UiOps.NewdocEnc));
+            Result:= PyUnicode_FromString(UiOps.NewdocEnc);
           end;
 
         APP_PROC_CONFIG_NEWDOC_ENC_SET:
@@ -5259,7 +5259,7 @@ begin
               Result:= StringsToPyTuple(fmMain.LexersDetected)
             else
             if SName<>'' then
-              Result:= PyString_FromString(PChar(SName))
+              Result:= PyUnicode_FromString(SName)
             else
               Result:= ReturnNone;
           end;
@@ -5497,7 +5497,7 @@ begin
               [ PntStart.X, PntStart.Y,
                 PntEnd.X, PntEnd.Y,
                 LexName ]);
-        Result:= PyString_FromString(PChar(Str));
+        Result:= PyUnicode_FromString(Str);
       end
       else
         Result:= ReturnNone;
@@ -5544,7 +5544,7 @@ begin
         MENU_ADD:
           begin
             StrResult:= fmMain.DoMenuAdd_Params(StrMenu, StrCmd, StrCaption, StrHotkey, StrTag, NIndex);
-            Result:= PyString_FromString(PChar(StrResult));
+            Result:= PyUnicode_FromString(StrResult);
           end;
 
         MENU_REMOVE:
@@ -5557,7 +5557,7 @@ begin
           begin
             Popup:= TPopupMenu.Create(fmMain);
             StrResult:= IntToStr(PtrInt(Popup.Items));
-            Result:= PyString_FromString(PChar(StrResult));
+            Result:= PyUnicode_FromString(StrResult);
           end;
 
         MENU_SET_CAPTION:
@@ -5722,7 +5722,7 @@ begin
       case IdAction of
         LISTBOX_GET_COUNT:
           begin
-            Result:= PyInt_FromLong(Listbox.Items.Count);
+            Result:= PyLong_FromLong(Listbox.Items.Count);
           end;
 
         LISTBOX_ADD:
@@ -5733,7 +5733,7 @@ begin
             if IndexOk then
               Listbox.Items.InsertObject(NIndex, StrText, TATListboxItemProp.Create(NTag, false, ''));
             Listbox.Invalidate;
-            Result:= PyInt_FromLong(Listbox.Items.Count);
+            Result:= PyLong_FromLong(Listbox.Items.Count);
           end;
 
         LISTBOX_DELETE:
@@ -5797,7 +5797,7 @@ begin
 
         LISTBOX_GET_SEL:
           begin
-            Result:= PyInt_FromLong(Listbox.ItemIndex);
+            Result:= PyLong_FromLong(Listbox.ItemIndex);
           end;
 
         LISTBOX_SET_SEL:
@@ -5857,12 +5857,12 @@ begin
                 Listbox.Items.InsertObject(NIndex, StrText, Obj);
               Listbox.Invalidate;
             end;
-            Result:= PyInt_FromLong(Listbox.Items.Count);
+            Result:= PyLong_FromLong(Listbox.Items.Count);
           end;
 
         LISTBOX_GET_TOP:
           begin
-            Result:= PyInt_FromLong(Listbox.ItemTop);
+            Result:= PyLong_FromLong(Listbox.ItemTop);
           end;
 
         LISTBOX_SET_TOP:
@@ -5877,7 +5877,7 @@ begin
 
         LISTBOX_GET_ITEM_H:
           begin
-            Result:= PyInt_FromLong(Listbox.ItemHeight);
+            Result:= PyLong_FromLong(Listbox.ItemHeight);
           end;
 
         LISTBOX_SET_ITEM_H:
@@ -5913,7 +5913,7 @@ begin
 
         LISTBOX_GET_COLUMN_SEP:
           begin
-            Result:= PyString_FromString(PChar(string(Listbox.ColumnSeparator)));
+            Result:= PyUnicode_FromString(Listbox.ColumnSeparator);
           end;
 
         LISTBOX_SET_COLUMN_SEP:
@@ -5944,7 +5944,7 @@ begin
 
         LISTBOX_GET_SHOW_X:
           begin
-            Result:= PyInt_FromLong(Ord(Listbox.ShowXMark));
+            Result:= PyLong_FromLong(Ord(Listbox.ShowXMark));
           end;
 
         LISTBOX_SET_SHOW_X:
@@ -5980,7 +5980,7 @@ begin
 
         LISTBOX_GET_SCROLLPOS_HORZ:
           begin
-            Result:= PyInt_FromLong(Listbox.ScrollHorz);
+            Result:= PyLong_FromLong(Listbox.ScrollHorz);
           end;
 
         LISTBOX_SET_SCROLLPOS_HORZ:
@@ -6055,7 +6055,7 @@ begin
 
         BTN_GET_KIND:
           begin
-            Result:= PyInt_FromLong(Ord(Btn.Kind));
+            Result:= PyLong_FromLong(Ord(Btn.Kind));
           end;
 
         BTN_SET_KIND:
@@ -6099,7 +6099,7 @@ begin
 
         BTN_GET_TEXT:
           begin
-            Result:= PyString_FromString(PChar(Btn.Caption));
+            Result:= PyUnicode_FromString(Btn.Caption);
           end;
 
         BTN_SET_TEXT:
@@ -6110,7 +6110,7 @@ begin
 
         BTN_GET_HINT:
           begin
-            Result:= PyString_FromString(PChar(Btn.Hint));
+            Result:= PyUnicode_FromString(Btn.Hint);
           end;
 
         BTN_SET_HINT:
@@ -6134,7 +6134,7 @@ begin
 
         BTN_GET_DATA1:
           begin
-            Result:= PyString_FromString(PChar(Btn.DataString));
+            Result:= PyUnicode_FromString(Btn.DataString);
           end;
 
         BTN_SET_DATA1:
@@ -6145,7 +6145,7 @@ begin
 
         BTN_GET_DATA2:
           begin
-            Result:= PyString_FromString(PChar(Btn.DataString2));
+            Result:= PyUnicode_FromString(Btn.DataString2);
           end;
 
         BTN_SET_DATA2:
@@ -6167,7 +6167,7 @@ begin
 
         BTN_GET_ARROW_ALIGN:
           begin
-            Result:= PyString_FromString(PChar(AppAlignmentToString(Btn.ArrowAlign)));
+            Result:= PyUnicode_FromString(AppAlignmentToString(Btn.ArrowAlign));
           end;
 
         BTN_SET_ARROW_ALIGN:
@@ -6200,7 +6200,7 @@ begin
 
         BTN_GET_WIDTH:
           begin
-            Result:= PyInt_FromLong(Btn.Width);
+            Result:= PyLong_FromLong(Btn.Width);
           end;
 
         BTN_SET_WIDTH:
@@ -6214,7 +6214,7 @@ begin
 
         BTN_GET_ITEMS:
           begin
-            Result:= PyString_FromString(PChar(Btn.Items.Text));
+            Result:= PyUnicode_FromString(Btn.Items.Text);
           end;
 
         BTN_SET_ITEMS:
@@ -6225,7 +6225,7 @@ begin
 
         BTN_GET_ITEMINDEX:
           begin
-            Result:= PyInt_FromLong(Btn.ItemIndex);
+            Result:= PyLong_FromLong(Btn.ItemIndex);
           end;
 
         BTN_SET_ITEMINDEX:
@@ -6292,7 +6292,7 @@ begin
       case IdAction of
         IMAGELIST_COUNT:
           begin
-            Result:= PyInt_FromLong(List.Count);
+            Result:= PyLong_FromLong(List.Count);
           end;
 
         IMAGELIST_GET_SIZE:
@@ -6328,7 +6328,7 @@ begin
           begin
             NX:= UpdateImagelistWithIconFromFile(List, StrValue);
             if NX>=0 then
-              Result:= PyInt_FromLong(NX)
+              Result:= PyLong_FromLong(NX)
             else
               Result:= ReturnNone;
           end;
@@ -6799,7 +6799,7 @@ begin
         TOKEN_GET_KIND:
           begin
             TokenKind:= EditorGetTokenKind(Ed, NIndex1, NIndex2);
-            Result:= PyString_FromString(PChar(cPyTokenKind[TokenKind]));
+            Result:= PyUnicode_FromString(cPyTokenKind[TokenKind]);
           end;
 
         TOKEN_LIST:
@@ -7292,7 +7292,7 @@ begin
         if Finder.IsRegexBad then
           exit(PyBool_FromLong(0));
 
-      Result:= PyInt_FromLong(NCount);
+      Result:= PyLong_FromLong(NCount);
     end;
   finally
     FreeAndNil(Finder);
@@ -7659,7 +7659,7 @@ begin
             if Ed.Strings.IsIndexValid(NY) then
               NX:= Ed.Fold.FindRangeWithPlusAtLine(NY);
             if NX>=0 then
-              Result:= PyInt_FromLong(NX)
+              Result:= PyLong_FromLong(NX)
             else
               Result:= ReturnNone;
           end;
@@ -7842,7 +7842,7 @@ begin
 
         TOOLBAR_GET_COUNT:
           begin
-            Result:= PyInt_FromLong(FToolbar.ButtonCount);
+            Result:= PyLong_FromLong(FToolbar.ButtonCount);
           end;
 
         TOOLBAR_DELETE_ALL:
@@ -7943,7 +7943,7 @@ begin
 
       case NAction of
         STATUSBAR_GET_COUNT:
-          Result:= PyInt_FromLong(FBar.PanelCount);
+          Result:= PyLong_FromLong(FBar.PanelCount);
 
         STATUSBAR_DELETE_ALL:
           begin
@@ -7966,9 +7966,9 @@ begin
 
             FBar.AddPanel(NIndex, 100, taLeftJustify, '', -1, NTag);
             if NIndex<0 then
-              Result:= PyInt_FromLong(FBar.PanelCount-1)
+              Result:= PyLong_FromLong(FBar.PanelCount-1)
             else
-              Result:= PyInt_FromLong(NIndex);
+              Result:= PyLong_FromLong(NIndex);
           end;
 
         STATUSBAR_FIND_CELL:
@@ -7976,7 +7976,7 @@ begin
             NTag:= StrToIntDef(StrValue, -1);
             NIndex:= FBar.FindPanel(NTag);
             if NIndex>=0 then
-              Result:= PyInt_FromLong(NIndex)
+              Result:= PyLong_FromLong(NIndex)
             else
               Result:= ReturnNone;
           end;
@@ -8130,7 +8130,7 @@ begin
           begin
             Data:= FBar.GetPanelData(NIndex);
             if Assigned(Data) then
-              Result:= PyInt_FromLong(Data.Width)
+              Result:= PyLong_FromLong(Data.Width)
             else
               Result:= ReturnNone;
           end;
@@ -8139,7 +8139,7 @@ begin
           begin
             Data:= FBar.GetPanelData(NIndex);
             if Assigned(Data) then
-              Result:= PyString_FromString(PChar(AppAlignmentToString(Data.Align)))
+              Result:= PyUnicode_FromString(AppAlignmentToString(Data.Align))
             else
               Result:= ReturnNone;
           end;
@@ -8148,7 +8148,7 @@ begin
           begin
             Data:= FBar.GetPanelData(NIndex);
             if Assigned(Data) then
-              Result:= PyString_FromString(PChar(Data.Caption))
+              Result:= PyUnicode_FromString(Data.Caption)
             else
               Result:= ReturnNone;
           end;
@@ -8157,7 +8157,7 @@ begin
           begin
             Data:= FBar.GetPanelData(NIndex);
             if Assigned(Data) then
-              Result:= PyString_FromString(PChar(Data.Hint))
+              Result:= PyUnicode_FromString(Data.Hint)
             else
               Result:= ReturnNone;
           end;
@@ -8166,7 +8166,7 @@ begin
           begin
             Data:= FBar.GetPanelData(NIndex);
             if Assigned(Data) then
-              Result:= PyInt_FromLong(Data.ImageIndex)
+              Result:= PyLong_FromLong(Data.ImageIndex)
             else
               Result:= ReturnNone;
           end;
@@ -8175,7 +8175,7 @@ begin
           begin
             Data:= FBar.GetPanelData(NIndex);
             if Assigned(Data) then
-              Result:= PyInt_FromLong(Data.ColorBack)
+              Result:= PyLong_FromLong(Data.ColorBack)
             else
               Result:= ReturnNone;
           end;
@@ -8184,7 +8184,7 @@ begin
           begin
             Data:= FBar.GetPanelData(NIndex);
             if Assigned(Data) then
-              Result:= PyInt_FromLong(Data.ColorFont)
+              Result:= PyLong_FromLong(Data.ColorFont)
             else
               Result:= ReturnNone;
           end;
@@ -8220,7 +8220,7 @@ begin
           begin
             Data:= FBar.GetPanelData(NIndex);
             if Assigned(Data) then
-              Result:= PyString_FromString(PChar(Data.FontName))
+              Result:= PyUnicode_FromString(Data.FontName)
             else
               Result:= ReturnNone;
           end;
@@ -8229,7 +8229,7 @@ begin
           begin
             Data:= FBar.GetPanelData(NIndex);
             if Assigned(Data) then
-              Result:= PyInt_FromLong(Data.FontSize)
+              Result:= PyLong_FromLong(Data.FontSize)
             else
               Result:= ReturnNone;
           end;
@@ -8238,32 +8238,32 @@ begin
         //get color
         STATUSBAR_GET_COLOR_BACK:
           begin
-            Result:= PyInt_FromLong(FBar.Color);
+            Result:= PyLong_FromLong(FBar.Color);
           end;
 
         STATUSBAR_GET_COLOR_BORDER_TOP:
           begin
-            Result:= PyInt_FromLong(FBar.ColorBorderTop);
+            Result:= PyLong_FromLong(FBar.ColorBorderTop);
           end;
 
         STATUSBAR_GET_COLOR_BORDER_L:
           begin
-            Result:= PyInt_FromLong(FBar.ColorBorderL);
+            Result:= PyLong_FromLong(FBar.ColorBorderL);
           end;
 
         STATUSBAR_GET_COLOR_BORDER_R:
           begin
-            Result:= PyInt_FromLong(FBar.ColorBorderR);
+            Result:= PyLong_FromLong(FBar.ColorBorderR);
           end;
 
         STATUSBAR_GET_COLOR_BORDER_U:
           begin
-            Result:= PyInt_FromLong(FBar.ColorBorderU);
+            Result:= PyLong_FromLong(FBar.ColorBorderU);
           end;
 
         STATUSBAR_GET_COLOR_BORDER_D:
           begin
-            Result:= PyInt_FromLong(FBar.ColorBorderD);
+            Result:= PyLong_FromLong(FBar.ColorBorderD);
           end;
 
         //set color
@@ -8427,7 +8427,7 @@ begin
 
         DLG_CTL_COUNT:
           begin
-            Result:= PyInt_FromLong(Form.ComponentCount);
+            Result:= PyLong_FromLong(Form.ComponentCount);
           end;
 
         DLG_CTL_ADD:
@@ -8437,7 +8437,7 @@ begin
             begin
               Ctl.Parent:= Form;
               DoForm_AdjustLabelForNewControl(Form, Ctl);
-              Result:= PyInt_FromLong(Form.ComponentCount-1);
+              Result:= PyLong_FromLong(Form.ComponentCount-1);
             end
             else
               Result:= ReturnNone;
@@ -8529,7 +8529,7 @@ begin
 
         DLG_CTL_FIND:
           begin
-            Result:= PyInt_FromLong(Form.FindControlIndexByOurName(StrProp));
+            Result:= PyLong_FromLong(Form.FindControlIndexByOurName(StrProp));
           end;
 
         DLG_CTL_HANDLE:
@@ -8562,7 +8562,7 @@ begin
 
         DLG_POS_GET_STR:
           begin
-            Result:= PyString_FromString(PChar(FormPosGetAsString(Form, false)));
+            Result:= PyUnicode_FromString(FormPosGetAsString(Form, false));
           end;
 
         DLG_POS_SET_FROM_STR:
@@ -8695,7 +8695,7 @@ begin
 
         FINDER_GET_OPT:
           begin
-            Result:= PyString_FromString(PChar(FinderOptionsToString(Finder)));
+            Result:= PyUnicode_FromString(FinderOptionsToString(Finder));
           end;
 
         FINDER_SET_MAXLEN:
@@ -8708,7 +8708,7 @@ begin
 
         FINDER_GET_MAXLEN:
           begin
-            Result:= PyInt_FromLong(Finder.MaxLineLen);
+            Result:= PyLong_FromLong(Finder.MaxLineLen);
           end;
 
         FINDER_SET_CARETS:
@@ -8719,7 +8719,7 @@ begin
 
         FINDER_GET_CARETS:
           begin
-            Result:= PyString_FromString(PChar(Finder.VirtualCaretsAsString));
+            Result:= PyUnicode_FromString(Finder.VirtualCaretsAsString);
           end;
 
         FINDER_SET_INDENTS:
@@ -8745,7 +8745,7 @@ begin
 
         FINDER_GET_TAG:
           begin
-            Result:= PyString_FromString(PChar(Finder.DataString));
+            Result:= PyUnicode_FromString(Finder.DataString);
           end;
 
         FINDER_SET_ON_REPLACE:
@@ -8756,7 +8756,7 @@ begin
 
         FINDER_GET_ON_REPLACE:
           begin
-            Result:= PyString_FromString(PChar(Finder.CallbackString));
+            Result:= PyUnicode_FromString(Finder.CallbackString);
           end;
 
         FINDER_FIND:
@@ -8845,7 +8845,7 @@ begin
             if (i=0) and Finder.IsRegexBad then
               Result:= PyBool_FromLong(0)
             else
-              Result:= PyInt_FromLong(i);
+              Result:= PyLong_FromLong(i);
           end;
 
         FINDER_REP_ALL:
@@ -8856,7 +8856,7 @@ begin
             else
             begin
               Finder.Editor.Update(i>0);
-              Result:= PyInt_FromLong(i);
+              Result:= PyLong_FromLong(i);
             end;
           end;
 
@@ -9042,14 +9042,14 @@ begin
 
   with AppPython.Engine do
   begin
-    Par1:= PyString_FromString(PChar(SCaption));
-    Par2:= PyInt_FromLong(AColor);
+    Par1:= PyUnicode_FromString(SCaption);
+    Par2:= PyLong_FromLong(AColor);
 
     Obj:= AppPython.RunModuleFunction('cuda_palette', 'dlg_color_palette', [Par1, Par2]);
     if Assigned(Obj) then
     try
-      if PyInt_Check(Obj) then
-        Result:= PyInt_AsLong(Obj);
+      if PyLong_Check(Obj) then
+        Result:= PyLong_AsLong(Obj);
     finally
       Py_DECREF(Obj);
     end;

@@ -135,11 +135,10 @@ begin
         R.Str:= PyUnicode_AsWideString(Obj);
       end
       else
-      if (Obj^.ob_type=PyInt_Type) or
-        (Obj^.ob_type=PyLong_Type) then
+      if (Obj^.ob_type=PyLong_Type) then
       begin
         R.Val:= evrInt;
-        R.Int:= PyInt_AsLong(Obj);
+        R.Int:= PyLong_AsLong(Obj);
       end;
     finally
       Py_XDECREF(Obj);
@@ -611,7 +610,7 @@ begin
       Result:= ReturnNone
     else
     if (S[1]='"') or (S[1]='''') then
-      Result:= PyString_FromString(PChar( Copy(S, 2, Length(S)-2) ))
+      Result:= PyUnicode_FromString( Copy(S, 2, Length(S)-2) )
     else
     if S='False' then
       Result:= PyBool_FromLong(0)
@@ -648,8 +647,8 @@ begin
     end;
 
     s:= PyObject_Str(Obj);
-    if Assigned(s) and PyString_Check(s) then
-      Result:= PyString_AsDelphiString(s);
+    if Assigned(s) and PyUnicode_Check(s) then
+      Result:= PyUnicode_AsWideString(s);
     Py_XDECREF(s);
   end;
 end;

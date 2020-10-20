@@ -201,7 +201,7 @@ begin
       avdInt:
         Result:= PyLong_FromLongLong(V.Int);
       avdStr:
-        Result:= PyString_FromString(PChar(string(V.Str)));
+        Result:= PyUnicode_FromString(string(V.Str));
       avdRect:
         Result:= Py_BuildValue('(iiii)', V.Rect.Left, V.Rect.Top, V.Rect.Right, V.Rect.Bottom);
       else
@@ -222,7 +222,7 @@ begin
         Result:= PyLong_FromLongLong(V.Int);
 
       avrStr:
-        Result:= PyString_FromString(PChar(string(V.Str)));
+        Result:= PyUnicode_FromString(string(V.Str));
 
       avrBool:
         Result:= PyBool_FromLong(Ord(V.Bool));

@@ -878,7 +878,7 @@ begin
       bInSel:= PyBool_FromLong(Ord(fmFind.chkInSel.Checked));
       bWrap:= PyBool_FromLong(Ord(fmFind.chkWrap.Checked));
       bMulLine:= PyBool_FromLong(Ord(fmFind.chkMulLine.Checked));
-      oTokens:= PyInt_FromLong(Ord(fmFind.bTokens.ItemIndex));
+      oTokens:= PyLong_FromLong(Ord(fmFind.bTokens.ItemIndex));
     end;
 
     Result:= Py_BuildValue('{sOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsO}',
@@ -898,7 +898,7 @@ begin
       'op_fromcaret', PyBool_FromLong(Ord(FFinder.OptFromCaret)),
       'op_insel', PyBool_FromLong(Ord(FFinder.OptInSelection)),
       'op_wrap', PyBool_FromLong(Ord(FFinder.OptWrapped)),
-      'op_tokens', PyInt_FromLong(Ord(FFinder.OptTokens)),
+      'op_tokens', PyLong_FromLong(Ord(FFinder.OptTokens)),
 
       'op_case_d', bCase,
       'op_word_d', bWord,

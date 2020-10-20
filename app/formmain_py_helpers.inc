@@ -221,7 +221,7 @@ begin
       if not IsLexerListed(CurLexer, Helper.ItemLexers) then Continue;
 
       ParamText:= EditorTextToPyObject(Ed);
-      ParamFilename:= PyString_FromString(PChar(CurFilename));
+      ParamFilename:= PyUnicode_FromString(CurFilename);
 
       try
         TreeData:= AppPython.RunModuleFunction(Helper.ItemModule, Helper.ItemProc, [ParamFilename, ParamText]);

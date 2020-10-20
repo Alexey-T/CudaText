@@ -6654,9 +6654,9 @@ begin
   with AppPython.Engine do
   begin
     if NCommand>0 then
-      CmdObject:= PyInt_FromLong(NCommand)
+      CmdObject:= PyLong_FromLong(NCommand)
     else
-      CmdObject:= PyString_FromString(PChar(SCommand));
+      CmdObject:= PyUnicode_FromString(SCommand);
 
     Result:= Py_BuildValue('{sLsssisssssssOsOsOsOsO}',
       'id',
@@ -7178,13 +7178,13 @@ begin
         DataTitle:= PyTuple_GetItem(DataItem, 2);
         DataIcon:= PyTuple_GetItem(DataItem, 3);
 
-        NX1:= PyInt_AsLong(PyTuple_GetItem(DataPos, 0));
-        NY1:= PyInt_AsLong(PyTuple_GetItem(DataPos, 1));
-        NX2:= PyInt_AsLong(PyTuple_GetItem(DataPos, 2));
-        NY2:= PyInt_AsLong(PyTuple_GetItem(DataPos, 3));
-        NLevel:= PyInt_AsLong(DataLevel);
-        STitle:= PyString_AsAnsiString(DataTitle);
-        NIcon:= PyInt_AsLong(DataIcon);
+        NX1:= PyLong_AsLong(PyTuple_GetItem(DataPos, 0));
+        NY1:= PyLong_AsLong(PyTuple_GetItem(DataPos, 1));
+        NX2:= PyLong_AsLong(PyTuple_GetItem(DataPos, 2));
+        NY2:= PyLong_AsLong(PyTuple_GetItem(DataPos, 3));
+        NLevel:= PyLong_AsLong(DataLevel);
+        STitle:= PyUnicode_AsWideString(DataTitle);
+        NIcon:= PyLong_AsLong(DataIcon);
 
         if (Node=nil) or (NLevel<=1) then
           NodeParent:= nil
