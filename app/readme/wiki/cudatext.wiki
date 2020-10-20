@@ -1434,6 +1434,11 @@ It's good to use these commands with hotkeys Alt+Left and Alt+Right (assign it i
 
 ==Unix specific topics==
 
+===How to reinstall missed files===
+
+Sometimes it's needed to reinstall missed files, e.g. when you have deleted some lexers from "Lexer library" dialog.
+Simple re-run of .deb installer works, but it will not reinstall deleted data-files. Why? App has copy of its data-files in ~/.config/cudatext (see the topic about location of data+settings dirs). Binary (not deb installer!) makes this copy - only when binary version is not equal to the version stored to settings/packages.ini, "app" section. After you delete that "app" section, and run the binary (not deb installer), binary will refresh files from /usr/share/... to ~/.config/cudatext/...
+
 ===Difference between gtk2/qt5/etc versions===
 
 Versions for gtk2/qt5/etc are compiled for different widget-sets, all functions are the same.
