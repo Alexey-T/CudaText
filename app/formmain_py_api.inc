@@ -1484,6 +1484,8 @@ begin
 
       //don't keep Undo, not needed in set_text_all
       Ed.DoCaretSingle(0, 0);
+      Ed.Markers.Clear;
+      Ed.Attribs.Clear;
       Ed.Strings.LoadFromString(StrW);
 
       Ed.DoCaretsFixIncorrectPos(false);
@@ -1555,6 +1557,8 @@ begin
         exit(ReturnNone);
 
       Ed.Strings.TextDeleteRange(X1, Y1, X2, Y2, Shift, PosAfter);
+      Ed.DoCaretsShift(0, X1, Y1, Shift.X, Shift.Y, PosAfter);
+
       Ed.DoEventChange;
       Ed.Update(true);
 
@@ -1590,7 +1594,10 @@ begin
       if Y1>=Strs.Count then
         Strs.TextAppend(Str, Shift, PosAfter)
       else
+      begin
         Strs.TextInsert(X1, Y1, Str, false, Shift, PosAfter);
+        Ed.DoCaretsShift(0, X1, Y1, Shift.X, Shift.Y, PosAfter);
+      end;
 
       Ed.DoEventChange;
       Ed.Update(true);
@@ -1621,6 +1628,7 @@ begin
 
       Ed.Strings.TextReplaceRange(X1, Y1, X2, Y2,
         UTF8Decode(StrText), Shift, PosAfter, true);
+      Ed.DoCaretsShift(0, X1, Y1, Shift.X, Shift.Y, PosAfter);
 
       Ed.DoEventChange;
       Ed.Update(true);
@@ -1652,6 +1660,7 @@ begin
       try
         PyListToStrings(ListPy, Lines);
         Res:= Ed.Strings.TextReplaceLines_UTF8(Y1, Y2, Lines);
+        Ed.DoCaretsShift(0, 0, Y1, 0, Lines.Count-(Y2-Y1+1), Point(0, Y1+Lines.Count));
 
         Ed.DoEventChange;
       finally
