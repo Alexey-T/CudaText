@@ -2954,6 +2954,7 @@ begin
         Ed.Strings.LineAdd(msgCannotInitPython2);
         Ed.Strings.LineAdd(msgCannotInitPython2b);
       end;
+      Ed.Modified:= false;
     end;
   end;
 end;
