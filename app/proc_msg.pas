@@ -33,6 +33,18 @@ const
     {$ifdef haiku} '__haiku' {$endif}
     ;
 
+  cSystemLibDir =
+    {$ifdef windows} '' {$endif}
+    {$ifdef linux} '/usr/lib' {$endif}
+    {$ifdef darwin} '/' {$endif}
+    {$ifdef freebsd} '/usr/local/lib' {$endif}
+    {$ifdef netbsd} '/usr/pkg/lib' {$endif}
+    {$ifdef openbsd} '/usr/local/lib' {$endif}
+    {$ifdef dragonfly} '/usr/lib' {$endif}
+    {$ifdef solaris} '/usr/local/lib' {$endif}
+    {$ifdef haiku} '/system/lib' {$endif}
+    ;
+
 const
   EOL = #10;
   msgPythonListError = 'Cannot create new list object'; //no need i18n

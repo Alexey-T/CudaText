@@ -7519,7 +7519,7 @@ begin
   exit;
   {$endif}
 
-  SDir:= '/usr/lib';
+  SDir:= cSystemLibDir;
   if not InputQuery(msgPythonFindCaption, msgPythonFindFromDir, SDir) then exit;
 
   L:= TStringList.Create;
