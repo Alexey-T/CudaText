@@ -737,7 +737,7 @@ type
     procedure DoOps_LoadOptions_Global(cfg: TJSONConfig);
     procedure DoOps_LoadOptions_Ui(cfg: TJSONConfig);
     procedure DoOps_LoadOptions_UiAutoCompletion(cfg: TJSONConfig);
-    procedure DoShowFirstStartInfo;
+    procedure ShowWelcomeInfo;
     procedure DoOps_OnCreate;
     function FindFrameOfFilename(const AName: string): TEditorFrame;
     procedure FixMainLayout;
@@ -2924,7 +2924,7 @@ begin
   _Init_ShowStartupTimes;
 
   AppPython.DisableTiming;
-  DoShowFirstStartInfo;
+  ShowWelcomeInfo;
 
   if UiOps.NotificationEnabled then
   begin
@@ -2935,10 +2935,11 @@ begin
   FHandledOnShowFully:= true;
 end;
 
-procedure TfmMain.DoShowFirstStartInfo;
+procedure TfmMain.ShowWelcomeInfo;
 var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
+  SText: string;
 begin
   if not FileExists(AppFile_History) then
   begin
@@ -2947,14 +2948,13 @@ begin
     begin
       Ed:= Frame.Ed1;
       Frame.TabCaption:= msgWelcomeTabTitle;
-      Ed.Strings.LoadFromString(msgFirstStartInfo);
+      SText:= msgFirstStartInfo;
       if not AppPython.Inited then
-      begin
-        Ed.Strings.LineAdd(msgCannotInitPython1);
-        Ed.Strings.LineAdd(msgCannotInitPython2);
-        Ed.Strings.LineAdd(msgCannotInitPython2b);
-      end;
+        SText+= #10+msgCannotInitPython1+#10+msgCannotInitPython2+#10+msgCannotInitPython2b;
+      Ed.Strings.LoadFromString(SText);
       Ed.Modified:= false;
+      Frame.InSession:= false;
+      Frame.InHistory:= false;
     end;
   end;
 end;
