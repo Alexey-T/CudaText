@@ -127,7 +127,7 @@ begin
     end;
 
     if Str.Size<=2 then exit(true);
-    if IsStreamWithUt8NoBom(Str, BufSizeKb) then exit(true);
+    if IsStreamWithUt8NoBom(Str, BufSizeKb)=TBufferUTF8State.u8sYes then exit(true);
     if IsStreamWithUtf16NoBom(Str, BufSizeWords, IsLE) then exit(true);
     Str.Position:= 0;
 
