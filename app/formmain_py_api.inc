@@ -268,7 +268,7 @@ begin
             AppEmmetOptions(Str1)
             );
           StrText:= StringReplace(StrText, #13#10, #10, [rfReplaceAll]);
-          Result:= PyUnicode_FromString(StrText);
+          Result:= PyUnicodeFromString(StrText);
         end;
 
       EMMET_GET_POS:
@@ -423,7 +423,7 @@ end;
 function Py_app_exe_version(Self, Args : PPyObject): PPyObject; cdecl;
 begin
   with AppPython.Engine do
-    Result:= PyUnicode_FromString(cAppExeVersion);
+    Result:= PyUnicodeFromString(cAppExeVersion);
 end;
 
 function Py_app_ver(Self, Args : PPyObject): PPyObject; cdecl;
@@ -443,21 +443,21 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'i:app_path', @Id)) then
       case Id of
         APP_DIR_EXE:
-          Result:= PyUnicode_FromString(ExtractFileDir(Application.ExeName));
+          Result:= PyUnicodeFromString(ExtractFileDir(Application.ExeName));
         APP_DIR_SETTINGS:
-          Result:= PyUnicode_FromString(AppDir_Settings);
+          Result:= PyUnicodeFromString(AppDir_Settings);
         APP_DIR_SETTINGS_DEF:
-          Result:= PyUnicode_FromString(AppDir_SettingsDefault);
+          Result:= PyUnicodeFromString(AppDir_SettingsDefault);
         APP_DIR_DATA:
-          Result:= PyUnicode_FromString(AppDir_Data);
+          Result:= PyUnicodeFromString(AppDir_Data);
         APP_DIR_PY:
-          Result:= PyUnicode_FromString(AppDir_Py);
+          Result:= PyUnicodeFromString(AppDir_Py);
         APP_FILE_SESSION:
-          Result:= PyUnicode_FromString(fmMain.GetSessionFilename);
+          Result:= PyUnicodeFromString(fmMain.GetSessionFilename);
         APP_DIR_INSTALLED_ADDON:
-          Result:= PyUnicode_FromString(AppDir_LastInstalledAddon);
+          Result:= PyUnicodeFromString(AppDir_LastInstalledAddon);
         APP_FILE_RECENTS:
-          Result:= PyUnicode_FromString(AppListRecents.Text);
+          Result:= PyUnicodeFromString(AppListRecents.Text);
 
         else
           Result:= ReturnNone;
@@ -494,7 +494,7 @@ begin
       StrCaption:= string(P1);
       StrVal:= string(P2);
       if InputQuery(msgTitle, StrCaption, StrVal) then
-        Result:= PyUnicode_FromString(StrVal)
+        Result:= PyUnicodeFromString(StrVal)
       else
         Result:= ReturnNone;
     end
@@ -554,7 +554,7 @@ begin
     begin
       str:= DoDialogCharmapModal;
       if str<>'' then
-        Result:= PyUnicode_FromString(str)
+        Result:= PyUnicodeFromString(str)
       else
         Result:= ReturnNone;
     end
@@ -749,7 +749,7 @@ var
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_text_sel', @H)) then
-      Result:= PyUnicode_FromWideString(PyEditor(H).TextSelected)
+      Result:= PyUnicodeFromString(PyEditor(H).TextSelected)
   else
     Result:= ReturnNone;
 end;
@@ -769,9 +769,9 @@ begin
       if Strs.IsIndexValid(Index) then
       begin
         if (MaxLen=0) or (Strs.LinesLen[Index]<=MaxLen) then
-          Result:= PyUnicode_FromWideString(Strs.Lines[Index])
+          Result:= PyUnicodeFromString(Strs.Lines[Index])
         else
-          Result:= PyUnicode_FromString('');
+          Result:= PyUnicodeFromString('');
       end
       else
         Result:= ReturnNone;
@@ -789,7 +789,7 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'L:get_text_all', @H)) then
     begin
       Ed:= PyEditor(H);
-      Result:= PyUnicode_FromWideString(Ed.Strings.TextString_Unicode);
+      Result:= PyUnicodeFromString(Ed.Strings.TextString_Unicode);
     end
   else
     Result:= ReturnNone;
@@ -808,7 +808,7 @@ begin
     begin
       Ed:= PyEditor(H);
       Str:= Ed.Strings.TextSubstring(X1, Y1, X2, Y2);
-      Result:= PyUnicode_FromWideString(Str);
+      Result:= PyUnicodeFromString(Str);
     end
   else
     Result:= ReturnNone;
@@ -1711,7 +1711,7 @@ begin
       else
         Str:= '?';
 
-      Result:= PyUnicode_FromString(Str);
+      Result:= PyUnicodeFromString(Str);
     end
   else
     Result:= ReturnNone;
@@ -2211,7 +2211,7 @@ begin
           if (ofAllowMultiSelect in Dlg.Options) and (Dlg.Files.Count>1) then
             Result:= StringsToPyList(Dlg.Files)
           else
-            Result:= PyUnicode_FromString(Dlg.FileName);
+            Result:= PyUnicodeFromString(Dlg.FileName);
         end
         else
           Result:= ReturnNone;
@@ -2241,7 +2241,7 @@ begin
           Dlg.Title:= msgDialogTitleSelFolder;
         Dlg.InitialDir:= StrFolder;
         if Dlg.Execute then
-          Result:= PyUnicode_FromString(Dlg.FileName)
+          Result:= PyUnicodeFromString(Dlg.FileName)
         else
           Result:= ReturnNone;
       finally
@@ -2432,7 +2432,7 @@ begin
         else
         begin
           StrVal:= ini.ReadString(StrSess, StrKey, StrVal);
-          Result:= PyUnicode_FromString(StrVal);
+          Result:= PyUnicodeFromString(StrVal);
         end;
       finally
         FreeAndNil(ini);
@@ -2781,7 +2781,7 @@ begin
       S:= string(Ptr);
       S:= DoDialogHotkeyInput(S);
       if S<>'' then
-        Result:= PyUnicode_FromString(S)
+        Result:= PyUnicodeFromString(S)
       else
         Result:= ReturnNone;
     end
@@ -2850,7 +2850,7 @@ begin
       if Str='' then
         Result:= ReturnNone
       else
-        Result:= PyUnicode_FromString(Str);
+        Result:= PyUnicodeFromString(Str);
     end
   else
     Result:= ReturnNone;
@@ -3013,7 +3013,7 @@ begin
           Result:= PyLong_FromLong(Ed.OptMarginRight);
 
         PROP_MARGIN_STRING:
-          Result:= PyUnicode_FromString(Ed.OptMarginString);
+          Result:= PyUnicodeFromString(Ed.OptMarginString);
 
         PROP_INSERT:
           Result:= PyBool_FromLong(Ord(not Ed.ModeOverwrite));
@@ -3075,7 +3075,7 @@ begin
             if Assigned(F) then
             begin
               Str:= F.LexerName[Ed];
-              Result:= PyUnicode_FromString(Str);
+              Result:= PyUnicodeFromString(Str);
             end
             else
             if Ed.AdapterForHilite is TATAdapterEControl then
@@ -3083,12 +3083,12 @@ begin
               Ada:= Ed.AdapterForHilite as TATAdapterEControl;
               Lex:= Ada.Lexer;
               if Assigned(Lex) then
-                Result:= PyUnicode_FromString(Lex.LexerName)
+                Result:= PyUnicodeFromString(Lex.LexerName)
               else
-                Result:= PyUnicode_FromString('');
+                Result:= PyUnicodeFromString('');
             end
             else
-              Result:= PyUnicode_FromString('');
+              Result:= PyUnicodeFromString('');
           end;
 
         PROP_LEXER_POS:
@@ -3098,19 +3098,19 @@ begin
             Sep.GetItemInt(Pnt.Y, 0);
             //if editor in frame, use frame's prop
             if Assigned(F) then
-              Result:= PyUnicode_FromString(F.LexerNameAtPos(Ed, Pnt))
+              Result:= PyUnicodeFromString(F.LexerNameAtPos(Ed, Pnt))
             else
             if Ed.AdapterForHilite is TATAdapterEControl then
             begin
               Ada:= Ed.AdapterForHilite as TATAdapterEControl;
               Lex:= Ada.LexerAtPos(Pnt);
               if Assigned(Lex) then
-                Result:= PyUnicode_FromString(Lex.LexerName)
+                Result:= PyUnicodeFromString(Lex.LexerName)
               else
-                Result:= PyUnicode_FromString('');
+                Result:= PyUnicodeFromString('');
             end
             else
-              Result:= PyUnicode_FromString('');
+              Result:= PyUnicodeFromString('');
           end;
 
         PROP_LEXER_CARET:
@@ -3122,19 +3122,19 @@ begin
             end;
             //if editor in frame, use frame's prop
             if Assigned(F) then
-              Result:= PyUnicode_FromString(F.LexerNameAtPos(Ed, Pnt))
+              Result:= PyUnicodeFromString(F.LexerNameAtPos(Ed, Pnt))
             else
             if Ed.AdapterForHilite is TATAdapterEControl then
             begin
               Ada:= Ed.AdapterForHilite as TATAdapterEControl;
               Lex:= Ada.LexerAtPos(Pnt);
               if Assigned(Lex) then
-                Result:= PyUnicode_FromString(Lex.LexerName)
+                Result:= PyUnicodeFromString(Lex.LexerName)
               else
-                Result:= PyUnicode_FromString('');
+                Result:= PyUnicodeFromString('');
             end
             else
-              Result:= PyUnicode_FromString('');
+              Result:= PyUnicodeFromString('');
           end;
 
         PROP_TAB_COLOR:
@@ -3148,7 +3148,7 @@ begin
         PROP_TAB_TITLE:
           begin
             if Assigned(F) then
-              Result:= PyUnicode_FromString(F.TabCaption)
+              Result:= PyUnicodeFromString(F.TabCaption)
             else
               Result:= ReturnNone;
           end;
@@ -3164,7 +3164,7 @@ begin
         PROP_ENC:
           begin
             Str:= AppEncodingFullnameToShortname(Ed.EncodingName);
-            Result:= PyUnicode_FromString(Str);
+            Result:= PyUnicodeFromString(Str);
           end;
 
         PROP_IN_SESSION:
@@ -3193,7 +3193,7 @@ begin
               else
                 Str:= 'lf';
             end;
-            Result:= PyUnicode_FromString(Str);
+            Result:= PyUnicodeFromString(Str);
           end;
 
         PROP_INDEX_GROUP:
@@ -3218,12 +3218,12 @@ begin
               Str:= 'pic'
             else
               Str:= 'text';
-            Result:= PyUnicode_FromString(Str);
+            Result:= PyUnicodeFromString(Str);
           end;
 
         PROP_TAG:
           begin
-            Result:= PyUnicode_FromString(Ed.TagString);
+            Result:= PyUnicodeFromString(Ed.TagString);
           end;
 
         PROP_UNPRINTED_SHOW:
@@ -3367,7 +3367,7 @@ begin
             Sep.GetItemInt(Pnt.X, -1);
             Sep.GetItemInt(Pnt.Y, -1);
             Str:= Ed.DoGetLinkAtPos(Pnt.X, Pnt.Y);
-            Result:= PyUnicode_FromString(Str);
+            Result:= PyUnicodeFromString(Str);
           end;
 
         PROP_PICTURE:
@@ -3444,10 +3444,10 @@ begin
           Result:= PyLong_FromLong(Ed.OptUndoLimit);
 
         PROP_UNDO_DATA:
-          Result:= PyUnicode_FromString(Ed.UndoAsString);
+          Result:= PyUnicodeFromString(Ed.UndoAsString);
 
         PROP_REDO_DATA:
-          Result:= PyUnicode_FromString(Ed.RedoAsString);
+          Result:= PyUnicodeFromString(Ed.RedoAsString);
 
         PROP_SPLIT:
           begin
@@ -3529,7 +3529,7 @@ begin
           Result:= PyBool_FromLong(Ord(Ed.OptShowURLs));
 
         PROP_LINKS_REGEX:
-          Result:= PyUnicode_FromString(Ed.OptShowURLsRegex);
+          Result:= PyUnicodeFromString(Ed.OptShowURLsRegex);
 
         PROP_LINKS_CLICKS:
           begin
@@ -4422,7 +4422,7 @@ begin
         APP_PROC_GET_CLIP:
           begin
             Str:= Clipboard.AsText;
-            Result:= PyUnicode_FromString(Str);
+            Result:= PyUnicodeFromString(Str);
           end;
         APP_PROC_SET_CLIP:
           begin
@@ -4491,7 +4491,7 @@ begin
             Str:= AppPython.LastCommandModule+','+AppPython.LastCommandMethod;
             if AppPython.LastCommandParam<>'' then
               Str+= ','+AppPython.LastCommandParam;
-            Result:= PyUnicode_FromString(Str);
+            Result:= PyUnicodeFromString(Str);
           end;
 
         APP_PROC_GET_GROUPING:
@@ -4640,7 +4640,7 @@ begin
             Str:= '';
             for i:= 0 to fmMain.ToolbarSideTop.ButtonCount-1 do
               Str:= Str + IfThen(i>0, #10) + fmMain.ToolbarSideTop.Buttons[i].Caption;
-            Result:= PyUnicode_FromString(Str);
+            Result:= PyUnicodeFromString(Str);
           end;
 
         APP_PROC_SIDEPANEL_GET_CONTROL:
@@ -4655,7 +4655,7 @@ begin
         APP_PROC_SIDEPANEL_GET:
           begin
             Str:= AppPanels[cPaneSide].LastActivePanel;
-            Result:= PyUnicode_FromString(Str);
+            Result:= PyUnicodeFromString(Str);
           end;
 
         //-------------------
@@ -4704,24 +4704,24 @@ begin
             Str:= '';
             for i:= 0 to fmMain.ToolbarSideLow.ButtonCount-1 do
               Str:= Str + IfThen(i>0, #10) + fmMain.ToolbarSideLow.Buttons[i].Caption;
-            Result:= PyUnicode_FromString(Str);
+            Result:= PyUnicodeFromString(Str);
           end;
 
         APP_PROC_BOTTOMPANEL_GET:
           begin
             Str:= AppPanels[cPaneOut].LastActivePanel;
-            Result:= PyUnicode_FromString(Str);
+            Result:= PyUnicodeFromString(Str);
           end;
 
         //-------------------
         APP_PROC_GET_LANG:
           begin
-            Result:= PyUnicode_FromString(UiOps.LangName);
+            Result:= PyUnicodeFromString(UiOps.LangName);
           end;
 
         APP_PROC_GET_HOTKEY:
           begin
-            Result:= PyUnicode_FromString(Keymap_GetHotkey(AppKeymapMain, Str));
+            Result:= PyUnicodeFromString(Keymap_GetHotkey(AppKeymapMain, Str));
           end;
         APP_PROC_SET_HOTKEY:
           begin
@@ -4731,12 +4731,12 @@ begin
         APP_PROC_GET_KEYSTATE:
           begin
             Str:= ConvertShiftStateToString(KeyboardStateToShiftState);
-            Result:= PyUnicode_FromString(Str);
+            Result:= PyUnicodeFromString(Str);
           end;
 
         APP_PROC_THEME_UI_GET:
           begin
-            Result:= PyUnicode_FromString(UiOps.ThemeUi);
+            Result:= PyUnicodeFromString(UiOps.ThemeUi);
           end;
         APP_PROC_THEME_UI_SET:
           begin
@@ -4745,7 +4745,7 @@ begin
           end;
         APP_PROC_THEME_SYNTAX_GET:
           begin
-            Result:= PyUnicode_FromString(UiOps.ThemeSyntax);
+            Result:= PyUnicodeFromString(UiOps.ThemeSyntax);
           end;
         APP_PROC_THEME_SYNTAX_SET:
           begin
@@ -4756,12 +4756,12 @@ begin
         APP_PROC_HOTKEY_INT_TO_STR:
           begin
             Str:= ShortCutToText(StrToIntDef(Str, 0));
-            Result:= PyUnicode_FromString(Str);
+            Result:= PyUnicodeFromString(Str);
           end;
         APP_PROC_HOTKEY_STR_TO_INT:
           begin
             Str:= IntToStr(TextToShortCut(Str));
-            Result:= PyUnicode_FromString(Str);
+            Result:= PyUnicodeFromString(Str);
           end;
 
         APP_PROC_GET_MOUSE_POS:
@@ -4977,7 +4977,7 @@ begin
 
         APP_PROC_CONFIG_NEWDOC_ENC_GET:
           begin
-            Result:= PyUnicode_FromString(UiOps.NewdocEnc);
+            Result:= PyUnicodeFromString(UiOps.NewdocEnc);
           end;
 
         APP_PROC_CONFIG_NEWDOC_ENC_SET:
@@ -5259,7 +5259,7 @@ begin
               Result:= StringsToPyTuple(fmMain.LexersDetected)
             else
             if SName<>'' then
-              Result:= PyUnicode_FromString(SName)
+              Result:= PyUnicodeFromString(SName)
             else
               Result:= ReturnNone;
           end;
@@ -5347,7 +5347,7 @@ begin
         CONVERT_LINE_TABS_TO_SPACES:
           begin
             StrTemp:= Ed.TabHelper.TabsToSpaces(-1, UTF8Decode(StrValue));
-            Result:= PyUnicode_FromWideString(StrTemp);
+            Result:= PyUnicodeFromString(StrTemp);
           end;
 
         CONVERT_SCREEN_TO_LOCAL:
@@ -5497,7 +5497,7 @@ begin
               [ PntStart.X, PntStart.Y,
                 PntEnd.X, PntEnd.Y,
                 LexName ]);
-        Result:= PyUnicode_FromString(Str);
+        Result:= PyUnicodeFromString(Str);
       end
       else
         Result:= ReturnNone;
@@ -5544,7 +5544,7 @@ begin
         MENU_ADD:
           begin
             StrResult:= fmMain.DoMenuAdd_Params(StrMenu, StrCmd, StrCaption, StrHotkey, StrTag, NIndex);
-            Result:= PyUnicode_FromString(StrResult);
+            Result:= PyUnicodeFromString(StrResult);
           end;
 
         MENU_REMOVE:
@@ -5557,7 +5557,7 @@ begin
           begin
             Popup:= TPopupMenu.Create(fmMain);
             StrResult:= IntToStr(PtrInt(Popup.Items));
-            Result:= PyUnicode_FromString(StrResult);
+            Result:= PyUnicodeFromString(StrResult);
           end;
 
         MENU_SET_CAPTION:
@@ -5913,7 +5913,7 @@ begin
 
         LISTBOX_GET_COLUMN_SEP:
           begin
-            Result:= PyUnicode_FromString(Listbox.ColumnSeparator);
+            Result:= PyUnicodeFromString(Listbox.ColumnSeparator);
           end;
 
         LISTBOX_SET_COLUMN_SEP:
@@ -6099,7 +6099,7 @@ begin
 
         BTN_GET_TEXT:
           begin
-            Result:= PyUnicode_FromString(Btn.Caption);
+            Result:= PyUnicodeFromString(Btn.Caption);
           end;
 
         BTN_SET_TEXT:
@@ -6110,7 +6110,7 @@ begin
 
         BTN_GET_HINT:
           begin
-            Result:= PyUnicode_FromString(Btn.Hint);
+            Result:= PyUnicodeFromString(Btn.Hint);
           end;
 
         BTN_SET_HINT:
@@ -6134,7 +6134,7 @@ begin
 
         BTN_GET_DATA1:
           begin
-            Result:= PyUnicode_FromString(Btn.DataString);
+            Result:= PyUnicodeFromString(Btn.DataString);
           end;
 
         BTN_SET_DATA1:
@@ -6145,7 +6145,7 @@ begin
 
         BTN_GET_DATA2:
           begin
-            Result:= PyUnicode_FromString(Btn.DataString2);
+            Result:= PyUnicodeFromString(Btn.DataString2);
           end;
 
         BTN_SET_DATA2:
@@ -6167,7 +6167,7 @@ begin
 
         BTN_GET_ARROW_ALIGN:
           begin
-            Result:= PyUnicode_FromString(AppAlignmentToString(Btn.ArrowAlign));
+            Result:= PyUnicodeFromString(AppAlignmentToString(Btn.ArrowAlign));
           end;
 
         BTN_SET_ARROW_ALIGN:
@@ -6214,7 +6214,7 @@ begin
 
         BTN_GET_ITEMS:
           begin
-            Result:= PyUnicode_FromString(Btn.Items.Text);
+            Result:= PyUnicodeFromString(Btn.Items.Text);
           end;
 
         BTN_SET_ITEMS:
@@ -6799,7 +6799,7 @@ begin
         TOKEN_GET_KIND:
           begin
             TokenKind:= EditorGetTokenKind(Ed, NIndex1, NIndex2);
-            Result:= PyUnicode_FromString(cPyTokenKind[TokenKind]);
+            Result:= PyUnicodeFromString(cPyTokenKind[TokenKind]);
           end;
 
         TOKEN_LIST:
@@ -8139,7 +8139,7 @@ begin
           begin
             Data:= FBar.GetPanelData(NIndex);
             if Assigned(Data) then
-              Result:= PyUnicode_FromString(AppAlignmentToString(Data.Align))
+              Result:= PyUnicodeFromString(AppAlignmentToString(Data.Align))
             else
               Result:= ReturnNone;
           end;
@@ -8148,7 +8148,7 @@ begin
           begin
             Data:= FBar.GetPanelData(NIndex);
             if Assigned(Data) then
-              Result:= PyUnicode_FromString(Data.Caption)
+              Result:= PyUnicodeFromString(Data.Caption)
             else
               Result:= ReturnNone;
           end;
@@ -8157,7 +8157,7 @@ begin
           begin
             Data:= FBar.GetPanelData(NIndex);
             if Assigned(Data) then
-              Result:= PyUnicode_FromString(Data.Hint)
+              Result:= PyUnicodeFromString(Data.Hint)
             else
               Result:= ReturnNone;
           end;
@@ -8220,7 +8220,7 @@ begin
           begin
             Data:= FBar.GetPanelData(NIndex);
             if Assigned(Data) then
-              Result:= PyUnicode_FromString(Data.FontName)
+              Result:= PyUnicodeFromString(Data.FontName)
             else
               Result:= ReturnNone;
           end;
@@ -8562,7 +8562,7 @@ begin
 
         DLG_POS_GET_STR:
           begin
-            Result:= PyUnicode_FromString(FormPosGetAsString(Form, false));
+            Result:= PyUnicodeFromString(FormPosGetAsString(Form, false));
           end;
 
         DLG_POS_SET_FROM_STR:
@@ -8659,7 +8659,7 @@ begin
 
         FINDER_GET_FINDTEXT:
           begin
-            Result:= PyUnicode_FromWideString(Finder.StrFind);
+            Result:= PyUnicodeFromString(Finder.StrFind);
           end;
 
         FINDER_SET_REPTEXT:
@@ -8670,7 +8670,7 @@ begin
 
         FINDER_GET_REPTEXT:
           begin
-            Result:= PyUnicode_FromWideString(Finder.StrReplace);
+            Result:= PyUnicodeFromString(Finder.StrReplace);
           end;
 
         FINDER_SET_ED:
@@ -8695,7 +8695,7 @@ begin
 
         FINDER_GET_OPT:
           begin
-            Result:= PyUnicode_FromString(FinderOptionsToString(Finder));
+            Result:= PyUnicodeFromString(FinderOptionsToString(Finder));
           end;
 
         FINDER_SET_MAXLEN:
@@ -8719,7 +8719,7 @@ begin
 
         FINDER_GET_CARETS:
           begin
-            Result:= PyUnicode_FromString(Finder.VirtualCaretsAsString);
+            Result:= PyUnicodeFromString(Finder.VirtualCaretsAsString);
           end;
 
         FINDER_SET_INDENTS:
@@ -8745,7 +8745,7 @@ begin
 
         FINDER_GET_TAG:
           begin
-            Result:= PyUnicode_FromString(Finder.DataString);
+            Result:= PyUnicodeFromString(Finder.DataString);
           end;
 
         FINDER_SET_ON_REPLACE:
@@ -8756,7 +8756,7 @@ begin
 
         FINDER_GET_ON_REPLACE:
           begin
-            Result:= PyUnicode_FromString(Finder.CallbackString);
+            Result:= PyUnicodeFromString(Finder.CallbackString);
           end;
 
         FINDER_FIND:
@@ -9042,7 +9042,7 @@ begin
 
   with AppPython.Engine do
   begin
-    Par1:= PyUnicode_FromString(SCaption);
+    Par1:= PyUnicodeFromString(SCaption);
     Par2:= PyLong_FromLong(AColor);
 
     Obj:= AppPython.RunModuleFunction('cuda_palette', 'dlg_color_palette', [Par1, Par2]);

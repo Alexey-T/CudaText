@@ -610,7 +610,7 @@ begin
       Result:= ReturnNone
     else
     if (S[1]='"') or (S[1]='''') then
-      Result:= PyUnicode_FromString( Copy(S, 2, Length(S)-2) )
+      Result:= PyUnicodeFromString( Copy(S, 2, Length(S)-2) )
     else
     if S='False' then
       Result:= PyBool_FromLong(0)

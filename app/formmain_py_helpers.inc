@@ -187,7 +187,7 @@ begin
     Result:= PyList_New(Count);
     for i:= 0 to Count-1 do
     begin
-      PyList_SetItem(Result, i, PyUnicode_FromWideString(Strs.Lines[i]));
+      PyList_SetItem(Result, i, PyUnicodeFromString(Strs.Lines[i]));
     end;
   end;
 end;
@@ -221,7 +221,7 @@ begin
       if not IsLexerListed(CurLexer, Helper.ItemLexers) then Continue;
 
       ParamText:= EditorTextToPyObject(Ed);
-      ParamFilename:= PyUnicode_FromString(CurFilename);
+      ParamFilename:= PyUnicodeFromString(CurFilename);
 
       try
         TreeData:= AppPython.RunModuleFunction(Helper.ItemModule, Helper.ItemProc, [ParamFilename, ParamText]);

@@ -6656,7 +6656,7 @@ begin
     if NCommand>0 then
       CmdObject:= PyLong_FromLong(NCommand)
     else
-      CmdObject:= PyUnicode_FromString(SCommand);
+      CmdObject:= PyUnicodeFromString(SCommand);
 
     Result:= Py_BuildValue('{sLsssisssssssOsOsOsOsO}',
       'id',

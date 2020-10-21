@@ -867,8 +867,8 @@ begin
 
     if Assigned(fmFind) then
     begin
-      oFind:= PyUnicode_FromWideString(fmFind.edFind.Text);
-      oRep:= PyUnicode_FromWideString(fmFind.edRep.Text);
+      oFind:= PyUnicodeFromString(fmFind.edFind.Text);
+      oRep:= PyUnicodeFromString(fmFind.edRep.Text);
       oFindHist:= StringsToPyList(fmFind.edFind.Items);
       oRepHist:= StringsToPyList(fmFind.edRep.Items);
       bCase:= PyBool_FromLong(Ord(fmFind.chkCase.Checked));
@@ -882,8 +882,8 @@ begin
     end;
 
     Result:= Py_BuildValue('{sOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsO}',
-      'find', PyUnicode_FromWideString(FFinder.StrFind),
-      'rep', PyUnicode_FromWideString(FFinder.StrReplace),
+      'find', PyUnicodeFromString(FFinder.StrFind),
+      'rep', PyUnicodeFromString(FFinder.StrReplace),
 
       'find_d', oFind,
       'rep_d', oRep,
