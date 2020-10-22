@@ -5,7 +5,8 @@
 
 1.116.1 (2020/10)
 
-- fix: even with "def_encoding_utf8":true, don't activate UTF8 if file has clearly not the UTF8 encoding (thanks @tmsg)
++ add: Wiki topic https://wiki.freepascal.org/CudaText#Encoding_detection
+- fix: even with "def_encoding_utf8":true, app must not activate UTF8 if file has clearly not the UTF8 encoding (thanks @tmsg)
 - fix: some plugin API didn't shift carets+markers property (thanks @MiroslavMatas)
 
 1.116.0 (2020/10)
