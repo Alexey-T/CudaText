@@ -1207,6 +1207,53 @@ Sublime Text 3.2:
 * memory used after file loading: ~1.3G
 * peak memory used on sorting: ~3.3G
 
+==Encoding detection==
+
+Encoding detection works by this pseudo-code:
+
+<pre>
+  if file_size > 50M then
+    return(UTF8)
+  
+  if file_has_signature(UTF8) then
+    return(UTF8)
+
+  if file_has_signature(UTF32_LE) then
+    return(UTF32_LE)
+
+  if file_has_signature(UTF32_BE) then
+    return(UTF32_BE)
+
+  if file_has_signature(UTF16_LE) then
+    return(UTF16_LE)
+
+  if file_has_signature(UTF16_BE) then
+    return(UTF16_BE)
+
+  if option 'def_encoding_utf8':true then
+    enc = UTF8
+  else
+    enc = ANSI // OS depentant
+   
+  detect = file_detect_utf8_characters // in first 64K, option "ui_non_text_buffer":64
+  // it can get 3 values: 
+  //     Unknown (only ASCII chars present)
+  //     Yes (correct UTF8, non-ASCII, chars present)
+  //     No (broken UTF8 chars present)
+  if detect == Yes then
+    return(UTF8)
+  if detect == No then
+    enc = ANSI
+      
+  detect = file_detect_utf16_characters // in first 64K
+  if (detect == UTF16_LE) or (detect == UTF16_BE) then
+    enc = detect
+  
+  return(enc)
+</pre>
+
+Corresponding source code is in repository ATSynEdit, file atstrings_load.inc, procedure DoDetectStreamEncoding and procedure TATStrings.DoLoadFromStream.
+
 ==How to open files in a new tab instead of a new window==
 
 Option "ui_one_instance" controls it, so change it to 'true' (without quotes, in "user.json").
