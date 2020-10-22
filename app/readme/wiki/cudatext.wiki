@@ -1213,7 +1213,7 @@ Encoding detection works by this pseudo-code:
 
 <pre>
   if file_size > 50M then
-    return(UTF8)
+    return(ANSI)
   
   if file_has_signature(UTF8) then
     return(UTF8)
