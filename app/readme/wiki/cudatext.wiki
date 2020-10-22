@@ -1212,8 +1212,11 @@ Sublime Text 3.2:
 Encoding detection works by this pseudo-code:
 
 <pre>
+  // Corresponding source code is in repository ATSynEdit, file atstrings_load.inc,
+  // procedure DoDetectStreamEncoding and procedure TATStrings.DoLoadFromStream
+
   if file_size > 50M then
-    return(ANSI)
+    return(UTF8)
   
   if file_has_signature(UTF8) then
     return(UTF8)
@@ -1230,12 +1233,12 @@ Encoding detection works by this pseudo-code:
   if file_has_signature(UTF16_BE) then
     return(UTF16_BE)
 
-  if option 'def_encoding_utf8':true then
+  if option "def_encoding_utf8":true then
     enc = UTF8
   else
     enc = ANSI // OS depentant
    
-  detect = file_detect_utf8_characters // in first 64K, option "ui_non_text_buffer":64
+  detect = file_detect_utf8_characters // in first 64K
   // it can get 3 values: 
   //     Unknown (only ASCII chars present)
   //     Yes (correct UTF8, non-ASCII, chars present)
@@ -1252,7 +1255,10 @@ Encoding detection works by this pseudo-code:
   return(enc)
 </pre>
 
-Corresponding source code is in repository ATSynEdit, file atstrings_load.inc, procedure DoDetectStreamEncoding and procedure TATStrings.DoLoadFromStream.
+Initial UTF8 detection works by first 64K of file, it is option "ui_non_text_buffer":64.
+Even if encoding was detected as UTF8, the file loading code double-checks the content (the entire file size now) for UTF8 chars correctness, and if it finds "not correct UTF8 chars", encoding will be changed to ANSI.
+
+ANSI maps to one of real codepages, it depends on current Windows locale. On non-Windows OS, ANSI maps to cp1252.
 
 ==How to open files in a new tab instead of a new window==
 
