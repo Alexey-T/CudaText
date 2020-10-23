@@ -1238,7 +1238,7 @@ Encoding detection works by this pseudo-code:
   else
     enc = ANSI // OS depentant
    
-  detect = file_detect_utf8_characters // in first 64K
+  detect = file_detect_utf8_characters // in first 8K
   // it can get 3 values: 
   //     Unknown (only ASCII chars present)
   //     Yes (correct UTF8, non-ASCII, chars present)
@@ -1248,15 +1248,15 @@ Encoding detection works by this pseudo-code:
   if detect == No then
     enc = ANSI
       
-  detect = file_detect_utf16_characters // in first 64K
+  detect = file_detect_utf16_characters // in first 5K
   if (detect == UTF16_LE) or (detect == UTF16_BE) then
     enc = detect
   
   return(enc)
 </pre>
 
-Initial UTF8 detection works by first 64K of file, it is option "ui_non_text_buffer":64.
-Even if encoding was detected as UTF8, the file loading code double-checks the content (the entire file size now) for UTF8 chars correctness, and if it finds "not correct UTF8 chars", encoding will be changed to ANSI.
+Initial UTF8 detection works by first 8K of file.
+If encoding was detected as UTF8, the file loader checks the content again (the entire file size now) for UTF8 chars correctness, and if it finds "not correct UTF8 chars", encoding will be changed to ANSI.
 
 ANSI maps to one of real codepages, it depends on current Windows locale. On non-Windows OS, ANSI maps to cp1252.
 
