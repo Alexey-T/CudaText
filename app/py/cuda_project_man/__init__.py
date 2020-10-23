@@ -1076,7 +1076,7 @@ class Command:
                 f = glob.glob(os.path.join(root, '**', '*'), recursive=True)
                 f = [fn for fn in f if os.path.isfile(fn)]
                 files.extend(f)
-            else:
+            elif os.path.isfile(root):
                 files.append(root)
 
         return files
