@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.116.2 (2020/10)
+
++ add: options "find_indent_vert"/"find_indent_horz" are now respected in Undo/Redo commands (thanks @xcme)
+
 1.116.1 (2020/10)
 
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Encoding_detection

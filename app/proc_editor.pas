@@ -235,6 +235,8 @@ begin
   Ed.OptUndoLimit:= Op.OpUndoLimit;
   Ed.OptUndoGrouped:= Op.OpUndoGrouped;
   Ed.OptUndoAfterSave:= Op.OpUndoAfterSave;
+  Ed.OptUndoIndentVert:= Op.OpUndoIndentVert;
+  Ed.OptUndoIndentHorz:= Op.OpUndoIndentHorz;
 
   Ed.OptCaretBlinkTime:= Op.OpCaretBlinkTime;
   Ed.OptCaretBlinkEnabled:= Op.OpCaretBlinkEn;

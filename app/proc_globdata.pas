@@ -487,6 +487,8 @@ type
     OpUndoLimit: integer;
     OpUndoGrouped: boolean;
     OpUndoAfterSave: boolean;
+    OpUndoIndentVert: integer;
+    OpUndoIndentHorz: integer;
 
     //caret
     OpCaretBlinkTime: integer;
@@ -1272,6 +1274,8 @@ begin
     OpUndoLimit:= 5000;
     OpUndoGrouped:= true;
     OpUndoAfterSave:= true;
+    OpUndoIndentVert:= -5;
+    OpUndoIndentHorz:= 10;
 
     OpCaretBlinkTime:= cInitCaretBlinkTime;
     OpCaretBlinkEn:= true;
