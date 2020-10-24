@@ -585,6 +585,7 @@
 
   //When doing "Go to" or "Find", and new position is out of current screen,
   //scroll vertically by N lines from new position.
+  //  for big values N, where abs(N)>=100, make centering vertically
   //  for N<0: abs(N) is indent of new position from top
   //  for N>=0: N is indent from top (go to up) or bottom (go to down)
   "find_indent_vert": -5,
