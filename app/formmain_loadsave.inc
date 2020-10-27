@@ -349,8 +349,8 @@ begin
       item_path:= '/'+item_path+'/';
       item_path2:= item_path+'pair/';
 
-      sFilename:= cfg.GetValue(item_path+'file', '');
-      sFilename:= AppExpandHomeDirInFilename(sFilename);
+      sFilename:= AppExpandHomeDirInFilename(cfg.GetValue(item_path+'file', ''));
+      sFilename2:= AppExpandHomeDirInFilename(cfg.GetValue(item_path2+'file', ''));
 
       bExist:= (sFilename<>'') and FileExists(sFilename);
       bExist2:= (sFilename2<>'') and FileExists(sFilename2);
@@ -359,9 +359,6 @@ begin
       begin
         MsgLogConsole(Format(msgCannotFindSessionFile, [sFilename]));
       end;
-
-      sFilename2:= cfg.GetValue(item_path2+'file', '');
-      sFilename2:= AppExpandHomeDirInFilename(sFilename2);
 
       if (sFilename2<>'') and not bExist2 then
       begin

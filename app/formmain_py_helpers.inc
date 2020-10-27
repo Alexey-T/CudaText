@@ -251,7 +251,7 @@ var
   RegexParts: TRegexParts;
   SModule, SFunc: string;
 begin
-  FillChar(Result, SizeOf(Result), 0);
+  FillChar(Result{%H-}, SizeOf(Result), 0);
 
   if SRegexFindParts(cRegex_DotCommand, ACallback, RegexParts) then
   begin

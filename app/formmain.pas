@@ -7527,7 +7527,7 @@ begin
   try
     Searcher:= TListFileSearcher.Create(L);
     try
-      Searcher.FileAttribute:= faAnyFile and not faHidden;
+      Searcher.FileAttribute:= faAnyFile and not faHidden{%H-};
       Searcher.FollowSymLink:= false;
       Searcher.OnDirectoryEnter:= @SearcherDirectoryEnter;
       Searcher.Search(SDir, SFileMask, true{SubDirs}, true{CaseSens});
