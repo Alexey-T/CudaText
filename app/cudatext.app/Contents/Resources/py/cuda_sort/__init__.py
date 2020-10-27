@@ -1,6 +1,7 @@
 import os
 from random import randint
 from cudatext import *
+from cudax_lib import _
 from .app_specific import *
 from .sort_ini import *
 from .sort_emails import *
@@ -74,7 +75,7 @@ def get_input():
     op_sort_all = ini_read(fn_ini, op_section, 'allow_all', '0')=='1'
     
     if ed.get_line_count()>max_cnt:
-        msg_box('Document has too many lines. Plugin Sort will not work. Current value of option [sort] max_lines in "settings/plugins.ini" is %d.\n\nInstead of Sort plugin, use CudaText built-in commands: "(without undo) sort...".' %max_cnt,
+        msg_box(_('Document has too many lines. Plugin Sort will not work. Current value of option [sort] max_lines in "settings/plugins.ini" is %d.\n\nInstead of Sort plugin, use CudaText built-in commands: "(without undo) sort...".') %max_cnt,
         MB_OK+MB_ICONERROR)
         return
 
@@ -86,10 +87,10 @@ def get_input():
         if op_sort_all:
             is_all = True
         else:
-            msg_status('Needed multiline selection')
+            msg_status(_('Needed multiline selection'))
             return
     elif line1>=line2:
-        msg_status('Needed multiline selection')
+        msg_status(_('Needed multiline selection'))
         return
 
     if is_all:
@@ -151,11 +152,11 @@ def do_line_op(op, keep_blanks=False):
                 del lines[i]
 
     else:
-        msg_status('Unknown operation: '+op)
+        msg_status(_('Unknown operation: ')+op)
         return
 
     set_output(lines, is_all, line1, line2)
-    msg_status('Lines operation: '+op)
+    msg_status(_('Lines operation: ')+op)
 
 
 def do_extract_op(op):
@@ -171,17 +172,17 @@ def do_extract_op(op):
     elif op=='unique':
         lines = get_uniq(lines)
     else:
-        msg_status('Unknown operation: '+op)
+        msg_status(_('Unknown operation: ')+op)
         return
 
     if not lines:
-        msg_status('Cannot extract any lines')
+        msg_status(_('Cannot extract any lines'))
         return
 
     file_open('')
     ed_set_tab_title(op)
     ed_set_text_all(lines)
-    msg_status('Extract lines: '+op)
+    msg_status(_('Extract lines: ')+op)
 
 
 def do_sort(
@@ -224,12 +225,12 @@ def do_sort(
     lines = sorted(lines, key=_key, reverse=is_reverse)
     set_output(lines, is_all, line1, line2)
 
-    text = 'Sorted' \
-        + (', all text' if is_all else '') \
-        + (', reverse' if is_reverse else '') \
-        + (', ignore case' if is_nocase else '') \
-        + (', numeric' if is_numeric else '') \
-        + (', offsets %d..%d' % (offset1, offset2) if (offset1>=0) or (offset2>=0) else '')
+    text = _('Sorted') \
+        + (', '+_('all text') if is_all else '') \
+        + (', '+_('reverse') if is_reverse else '') \
+        + (', '+_('ignore case') if is_nocase else '') \
+        + (', '+_('numeric') if is_numeric else '') \
+        + (', '+_('offsets') + ' %d..%d' % (offset1, offset2) if (offset1>=0) or (offset2>=0) else '')
     msg_status(text)
 
 
@@ -255,21 +256,21 @@ def do_dialog():
 
     c1 = chr(1)
     text = '\n'.join([
-      c1.join(['type=check', 'pos=6,6,300,0', 'cap=&Sort descending (reverse)', 'val='+op_rev]),
-      c1.join(['type=check', 'pos=6,30,300,0', 'cap=&Ignore case', 'val='+op_nocase]),
-      c1.join(['type=check', 'pos=6,54,300,0', 'cap=Delete d&uplicate lines', 'val='+op_del_dup]),
-      c1.join(['type=check', 'pos=6,78,300,0', 'cap=Delete &blank lines', 'val='+op_del_sp]),
-      c1.join(['type=check', 'pos=6,102,300,0', 'cap=Numeric (treat beginning as number)', 'val='+op_numeric]),
-      c1.join(['type=label', 'pos=6,130,300,0', 'cap=Sort only by substring, offsets 0-based:']),
-      c1.join(['type=label', 'pos=30,152,130,0', 'cap=&From:']),
+      c1.join(['type=check', 'pos=6,6,300,0', 'cap='+_('&Sort descending (reverse)'), 'val='+op_rev]),
+      c1.join(['type=check', 'pos=6,30,300,0', 'cap='+_('&Ignore case'), 'val='+op_nocase]),
+      c1.join(['type=check', 'pos=6,54,300,0', 'cap='+_('Delete d&uplicate lines'), 'val='+op_del_dup]),
+      c1.join(['type=check', 'pos=6,78,300,0', 'cap='+_('Delete &blank lines'), 'val='+op_del_sp]),
+      c1.join(['type=check', 'pos=6,102,300,0', 'cap='+_('Numeric (treat beginning as number)'), 'val='+op_numeric]),
+      c1.join(['type=label', 'pos=6,130,300,0', 'cap='+_('Sort only by substring, offsets 0-based:')]),
+      c1.join(['type=label', 'pos=30,152,130,0', 'cap='+_('&From:')]),
       c1.join(['type=spinedit', 'pos=30,170,110,0', 'props=-1,5000,1', 'val='+str(op_offset1)]),
-      c1.join(['type=label', 'pos=120,152,230,0', 'cap=&To:']),
+      c1.join(['type=label', 'pos=120,152,230,0', 'cap='+_('&To:')]),
       c1.join(['type=spinedit', 'pos=120,170,200,0', 'props=-1,5000,1', 'val='+str(op_offset2)]),
-      c1.join(['type=button', 'pos=60,210,160,0', 'cap=OK', 'props=1']),
-      c1.join(['type=button', 'pos=164,210,264,0', 'cap=Cancel']),
+      c1.join(['type=button', 'pos=60,210,160,0', 'cap='+_('OK'), 'props=1']),
+      c1.join(['type=button', 'pos=164,210,264,0', 'cap='+_('Cancel')]),
       ])
 
-    res = dlg_custom('Sort', size_x, size_y, text)
+    res = dlg_custom(_('Sort'), size_x, size_y, text)
     if res is None: return
     btn, text = res
     if btn != id_ok: return
@@ -290,7 +291,7 @@ def do_dialog():
     offset2 = int(text[id_offset2])
 
     if (offset1>=0) and (offset2>=0) and (offset1>=offset2):
-        msg_show_error('Incorrect offsets: %d..%d' % (offset1, offset2))
+        msg_show_error(_('Incorrect offsets: {}..{}').format(offset1, offset2))
         return
 
     return (is_rev, is_nocase, is_del_dup, is_del_sp, is_numeric, offset1, offset2)

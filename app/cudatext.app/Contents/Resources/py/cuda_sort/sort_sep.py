@@ -1,4 +1,5 @@
 from cudatext import *
+from cudax_lib import _
 
 def _sort(s, sep_k, sep_v):
 
@@ -17,23 +18,23 @@ def do_sort_sep_values():
 
     while 1:
         res = dlg_input_ex(2,
-            'Sort: separator chars',
-            'Separator of prefix, to skip prefix (optional):', '=',
-            'Separator of values after prefix:', ',')
+            _('Sort: separator chars'),
+            _('Separator of prefix, to skip prefix (optional):'), '=',
+            _('Separator of values after prefix:'), ',')
         if res is None:
             return
         sep_k, sep_v = res
 
         if len(sep_k)>1:
-            msg_status('Separators must have length=1')
+            msg_status(_('Separators must have length=1'))
             continue
 
         if len(sep_v)!=1:
-            msg_status('Separators must have length=1')
+            msg_status(_('Separators must have length=1'))
             continue
 
         if sep_k==sep_v:
-            msg_status('Separators cannot be the same')
+            msg_status(_('Separators cannot be the same'))
             continue
 
         break
@@ -52,6 +53,6 @@ def do_sort_sep_values():
             cnt += 1
 
     if cnt>0:
-        msg_status('Changed %d line(s)'%cnt)
+        msg_status(_('Changed %d line(s)') % cnt)
     else:
-        msg_status('No lines were changed')
+        msg_status(_('No lines were changed'))
