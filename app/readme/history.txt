@@ -7,6 +7,7 @@
 
 + add: options "find_indent_vert"/"find_indent_horz" are now respected in Undo/Redo commands (thanks @xcme)
 + add: option "find_indent_vert": big values >= 100 (or <= -100) now center position vertically
+* change: deleted static auto-completion files for JS and Python (data/autocomplete/*.acp), because they interferred with Snippets plugin and intelligent auto-completion plugins
 
 1.116.1 (2020/10)
 
