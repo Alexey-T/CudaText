@@ -392,8 +392,8 @@ def dlg_wrapper(title, w, h, cnts, in_vals={}, focus_cid=None):
             def ask_number(ask, def_val):
                 cnts=[dict(        tp='lb',tid='v',l=3 ,w=70,cap=ask)
                      ,dict(cid='v',tp='ed',t=3    ,l=73,w=70)
-                     ,dict(cid='!',tp='bt',t=45   ,l=3 ,w=70,cap='OK',props='1')
-                     ,dict(cid='-',tp='bt',t=45   ,l=73,w=70,cap='Cancel')]
+                     ,dict(cid='!',tp='bt',t=45   ,l=3 ,w=70,cap=_('OK'),props='1')
+                     ,dict(cid='-',tp='bt',t=45   ,l=73,w=70,cap=_('Cancel'))]
                 vals={'v':def_val}
                 while True:
                     btn,vals=dlg_wrapper('Example',146,75,cnts,vals,'v')
@@ -571,8 +571,8 @@ if __name__ == '__main__' :     # Tests
     def test_ask_number(ask, def_val):
         cnts=[dict(        tp='lb',tid='v',l=3 ,w=70,cap=ask)
              ,dict(cid='v',tp='ed',t=3    ,l=73,w=70)
-             ,dict(cid='!',tp='bt',t=45   ,l=3 ,w=70,cap='OK',props='1')
-             ,dict(cid='-',tp='bt',t=45   ,l=73,w=70,cap='Cancel')]
+             ,dict(cid='!',tp='bt',t=45   ,l=3 ,w=70,cap=_('OK'),props='1')
+             ,dict(cid='-',tp='bt',t=45   ,l=73,w=70,cap=_('Cancel'))]
         vals={'v':def_val}
         while True:
             btn,vals=dlg_wrapper('Example',146,75,cnts,vals,'v')
