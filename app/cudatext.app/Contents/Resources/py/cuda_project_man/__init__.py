@@ -447,15 +447,19 @@ class Command:
         self.jump_to_filename(str(location))
 
     def action_find_in_directory(self):
+        location = str(self.get_location_by_index(self.selected))
         try:
             import cuda_find_in_files as fif
+            msg_status('Called "Find in Files" for "%s"' % location)
+            fif.show_dlg(what="", opts={"fold": location})
         except ImportError:
-            msg_box('Plugin "Find in Files" not installed, install it first', MB_OK + MB_ICONERROR)
-            return
+            try:
+                from cuda_find_in_files4 import show_fif4
+                msg_status('Called "Find in Files 4" for "%s"' % location)
+                show_fif4({'in_wk':dict(in_what='', wk_fold=location, wk_incl='*')})
+            except ImportError:
+                msg_box('Plugin "Find in Files" or "Find in Files 4" is not installed, install it first', MB_OK + MB_ICONERROR)
 
-        location = str(self.get_location_by_index(self.selected))
-        msg_status('Called "Find in Files" for "%s"' % location)
-        fif.show_dlg(what="", opts={"fold": location})
 
     def action_refresh(self, parent=None):
         unfold = parent is None
