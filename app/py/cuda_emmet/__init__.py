@@ -1,6 +1,7 @@
 import os
 import webbrowser
 from cudatext import *
+from cudax_lib import _
 from .proc_snip_insert import *
 from .dlg_emmet import DialogEmmet
 
@@ -78,7 +79,7 @@ def do_expand_abbrev(abr):
 
         return s
 
-    msg_status('Cannot expand Emmet abbreviation: '+abr)
+    msg_status(_('Cannot expand Emmet abbreviation: ')+abr)
 
 
 class Command:
@@ -96,7 +97,7 @@ class Command:
     def help(self):
 
         webbrowser.open_new_tab('file://'+filename_help)
-        msg_status('Opened browser')
+        msg_status(_('Opened browser'))
 
 
     def wrap_abbrev(self):
@@ -109,10 +110,10 @@ class Command:
 
         text_sel = ed.get_text_sel()
         if not text_sel:
-            msg_status('Text not selected')
+            msg_status(_('Text not selected'))
             return
 
-        abr = dlg_input('Emmet abbreviation:', 'div')
+        abr = dlg_input(_('Emmet abbreviation:'), 'div')
         if not abr:
             return
 
@@ -131,7 +132,7 @@ class Command:
         abr = find_abr()
         if not abr:
             if with_msg:
-                msg_status('Cannot find Emmet abbreviation')
+                msg_status(_('Cannot find Emmet abbreviation'))
             return
 
         text = do_expand_abbrev(abr)

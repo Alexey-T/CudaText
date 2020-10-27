@@ -1,5 +1,6 @@
 import os
 from cudatext import *
+from cudax_lib import _
 import cudatext_cmd as cmds
 
 fn_ini = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
@@ -17,7 +18,7 @@ class DialogEmmet:
         dlg_proc(self.h, DLG_PROP_SET, prop={
             'w': W_all,
             'h': H_all,
-            'cap': 'Emmet preview dialog',
+            'cap': _('Emmet preview dialog'),
             'border': DBORDER_SIZE,
             'w_min': 300,
             'h_min': 150,
@@ -26,7 +27,7 @@ class DialogEmmet:
         n = dlg_proc(self.h, DLG_CTL_ADD, prop='label')
         dlg_proc(self.h, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'label1',
-            'cap': 'Abbreviation:',
+            'cap': _('Abbreviation:'),
             'x': 6,
             'y': 6,
         })
@@ -39,7 +40,7 @@ class DialogEmmet:
             'a_r': ('', ']'),
             'a_l': None,
             'sp_r': 6,
-            'cap': 'Insert',
+            'cap': _('Insert'),
             'ex0': True, #default for Enter
             'on_change': self.on_ok_click,
         })
@@ -51,7 +52,7 @@ class DialogEmmet:
             'a_r': ('btn_ok', ']'),
             'a_t': ('btn_ok', ']'),
             'sp_t': 6,
-            'cap': 'Copy',
+            'cap': _('Copy'),
             'on_change': self.on_copy_click,
         })
 
