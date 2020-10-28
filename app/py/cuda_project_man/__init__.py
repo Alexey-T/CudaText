@@ -456,7 +456,11 @@ class Command:
             try:
                 from cuda_find_in_files4 import show_fif4
                 msg_status('Called "Find in Files 4" for "%s"' % location)
-                show_fif4({'in_wk':dict(in_what='', wk_fold=location, wk_incl='*')})
+                show_fif4({'with': {
+                    'in_what': '',
+                    'wk_fold': location,
+                    'wk_incl': '*'
+                    }})
             except ImportError:
                 msg_box('Plugin "Find in Files" or "Find in Files 4" is not installed, install it first', MB_OK + MB_ICONERROR)
 
