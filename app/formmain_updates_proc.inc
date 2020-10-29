@@ -1236,7 +1236,8 @@ end;
 procedure TfmMain.DoOps_LoadCodetreeIcons;
 var
   Parts: TRegexParts;
-  Str: string;
+  SPath, SItem: string;
+  Sep: TATStringSeparator;
 begin
   SRegexFindParts('.+_(\d+)x(\d+)', UiOps.TreeTheme, Parts);
 
@@ -1246,22 +1247,17 @@ begin
   ImageListTree.Height:= StrToIntDef(Parts[2].Str, 16);
   ImageListTree.Clear;
 
-  Str:= AppDir_DataCodetreeIcons+DirectorySeparator+UiOps.TreeTheme;
-  if not DirectoryExists(Str) then
+  SPath:= AppDir_DataCodetreeIcons+DirectorySeparator+UiOps.TreeTheme;
+  if not DirectoryExists(SPath) then
   begin
-    MsgLogConsole(Format(msgCannotFindData, [Str]));
+    MsgLogConsole(Format(msgCannotFindData, [SPath]));
     exit;
   end;
-  Str+= DirectorySeparator;
+  SPath+= DirectorySeparator;
 
-  UpdateImagelistWithIconFromFile(ImageListTree, Str+'dir.png');
-  UpdateImagelistWithIconFromFile(ImageListTree, Str+'st1.png');
-  UpdateImagelistWithIconFromFile(ImageListTree, Str+'st2.png');
-  UpdateImagelistWithIconFromFile(ImageListTree, Str+'st3.png');
-  UpdateImagelistWithIconFromFile(ImageListTree, Str+'box.png');
-  UpdateImagelistWithIconFromFile(ImageListTree, Str+'fx.png');
-  UpdateImagelistWithIconFromFile(ImageListTree, Str+'ar1.png');
-  UpdateImagelistWithIconFromFile(ImageListTree, Str+'ar2.png');
+  Sep.Init(UiOps.TreeIconFilenames);
+  while Sep.GetItemStr(SItem) do
+    UpdateImagelistWithIconFromFile(ImageListTree, SPath+SItem+'.png');
 end;
 
 procedure TfmMain.DoOps_LoadToolbarIcons;

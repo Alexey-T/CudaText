@@ -286,6 +286,7 @@ type
     TreeShowTooltips: boolean;
     TreeFilterLayout: integer;
     TreeSublexers: boolean;
+    TreeIconFilenames: string;
 
     NewdocLexer: string;
     NewdocEnc: string;
@@ -1507,6 +1508,7 @@ begin
     TreeShowTooltips:= true;
     TreeFilterLayout:= 1;
     TreeSublexers:= false;
+    TreeIconFilenames:= 'dir,st1,st2,st3,box,fx,ar1,ar2,';
 
     PyChangeSlow:= 2000;
 
