@@ -7,12 +7,13 @@
 
 + add: options "find_indent_vert"/"find_indent_horz" are now respected in Undo/Redo commands (thanks @xcme)
 + add: option "find_indent_vert": big values >= 100 (or <= -100) now center position vertically
++ add: plugin Project Manager supports "Find in Files 4" with its command "Find in directory" (thanks @dhealey)
 + add: plugins Comments, Sort, Emmet are translatable like many others (thanks Markus)
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Encoding_detection
 + add: can assign hotkey to Left Backslash key on 102-key keyboard (thanks @xcme)
 * change: deleted static auto-completion files for JS and Python (data/autocomplete/*.acp), because they interferred with Snippets plugin and intelligent auto-completion plugins
 - fix: even with "def_encoding_utf8":true, app must not activate UTF8 if file has clearly not the UTF8 encoding (thanks @tmsg)
-- fix: some text insertion API didn't properly shift carets+markers (thanks @MiroslavMatas)
+- fix: some plugin APIs didn't properly shift carets+markers (thanks @MiroslavMatas)
 
 1.116.0 (2020/10)
 
