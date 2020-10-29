@@ -2354,6 +2354,9 @@ begin
     SetFileName(Ed, SFileName);
     bNameChanged:= true;
 
+    //remove read-only (it may be set for original file)
+    ReadOnly[Ed]:= false;
+
     //add to recents new filename
     if Assigned(FOnAddRecent) then
       FOnAddRecent(Ed);
