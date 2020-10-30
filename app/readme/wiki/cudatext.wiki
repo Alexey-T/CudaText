@@ -656,13 +656,17 @@ Option buttons have hotkeys too. Hover mouse over them to see floating tooltips 
 * "?!" - Show confirmation on each replace - Alt+Y
 * "*" - Choose allowed syntax elements: Any / Only comments / Only strings / Only comments+strings / etc. This feature must be supported by lexer (and some lexers are limited, support only "comments" or only "strings" syntax elements). Syntax element is detected from left edge position of a found match.
 
-Button "Find". It's visible if CudaText option "find_show_findfirst":true. It starts the search from document beginning, ignoring the caret position. While button "Find next" continues the search from caret position. 
+Button "First". It's visible if CudaText option "find_show_findfirst":true. It starts the search from document beginning, ignoring the caret position. While button "Find next" continues the search from caret position.
+
+Button "Next". Finds next match, ie continues search forward. 
+
+Button "Prev". Finds previous match, ie continues search backward. 
 
 Button "Extract". It's visible if CudaText option "find_show_extract":true. It's enabled only with RegEx option, and it does the following: all found matches are put to a list, list is sorted, duplicates are discarded, and list is written to a new document. Plugin "Extract Strings" does the same task but using Python RegEx engine.
 
-Button "Select all". It's visible if CudaText option "find_show_select_all":true. It finds all matches in a document and places multi-seletions on them.
+Button "Select". It's visible if CudaText option "find_show_select_all":true. It finds all matches in a document and places multi-seletions on them.
 
-Button "Mark all". It's visible if CudaText option "find_show_mark_all":true. It finds all matches in a document and places [[#Markers]] on them.
+Button "Mark". It's visible if CudaText option "find_show_mark_all":true. It finds all matches in a document and places [[#Markers]] on them.
 
 Button "Replace global". It's visible if CudaText option "find_show_replace_global":true. It performs replacement in all opened documents in all editor groups. After additional confirmation. 
 
