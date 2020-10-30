@@ -5,12 +5,12 @@
 
 1.117.0 (2020/10)
 
-+ add: detect encoding also by Python standard from https://docs.python.org/3/reference/lexical_analysis.html#encoding-declarations ; it supports the following line comments: // # ; -- (thanks @tmsg)
++ add: detect encoding also by Python standard from https://docs.python.org/3/reference/lexical_analysis.html#encoding-declarations (thanks @tmsg)
++ add: Wiki topic https://wiki.freepascal.org/CudaText#Encoding_detection
 + add: options "find_indent_vert"/"find_indent_horz" are now respected in Undo/Redo commands (thanks @xcme)
 + add: option "find_indent_vert": big values >= 100 (or <= -100) now center position vertically
 + add: plugin Project Manager supports "Find in Files 4" with its command "Find in directory" (thanks @dhealey)
 + add: plugins Comments, Sort, Emmet are translatable like many others (thanks Markus)
-+ add: Wiki topic https://wiki.freepascal.org/CudaText#Encoding_detection
 + add: can assign hotkey to Left Backslash key on 102-key keyboard (thanks @xcme)
 + add: after "save file as", clear read-only editor state (thanks @MrPiccad)
 * change: shortened button captions in Find dialog: "First", "Next", "Prev", "Select", "Mark"
