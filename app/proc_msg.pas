@@ -375,6 +375,15 @@ const
   msgConsoleToggleWrap: string = 'Toggle word wrap';
   msgConsoleNavigate: string = 'Navigate';
 
+  msgFindHint_Regex: string = 'Regular expressions';
+  msgFindHint_Case: string = 'Case sensitive';
+  msgFindHint_Words: string = 'Whole words';
+  msgFindHint_Wrapped: string = 'Wrapped search';
+  msgFindHint_ConfirmRep: string = 'Confirm on replace';
+  msgFindHint_MultiLine: string = 'Multi-line inputs (Ctrl+Enter for new-line)';
+  msgFindHint_InSelect: string = 'Search in selection';
+  msgFindHint_Tokens: string = 'Allowed syntax elements';
+
 function msgUntitledNumberedCaption: string;
 function msgTranslatedPanelCaption(const ACaption: string): string;
 

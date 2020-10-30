@@ -1012,28 +1012,10 @@ end;
 procedure TfmFind.Localize;
 const
   section = 'd_f';
-const
-  init_HintRegex = 'Regular expressions';
-  init_HintCase = 'Case sensitive';
-  init_HintWords = 'Whole words';
-  init_HintWrapped = 'Wrapped search';
-  init_HintConfRep = 'Confirm on replace';
-  init_HintMulLine = 'Multi-line inputs (Ctrl+Enter for new-line)';
-  init_HintInSelect = 'Search in selection';
-  init_HintTokens = 'Allowed syntax elements';
 var
   fn: string;
   ini: TIniFile;
 begin
-  with chkRegex do Hint:= init_HintRegex     +' - '+UiOps.HotkeyToggleRegex;
-  with chkCase do Hint:= init_HintCase       +' - '+UiOps.HotkeyToggleCaseSens;
-  with chkWords do Hint:= init_HintWords     +' - '+UiOps.HotkeyToggleWords;
-  with chkWrap do Hint:= init_HintWrapped    +' - '+UiOps.HotkeyToggleWrapped;
-  with chkConfirm do Hint:= init_HintConfRep +' - '+UiOps.HotkeyToggleConfirmRep;
-  with chkInSel do Hint:= init_HintInSelect  +' - '+UiOps.HotkeyToggleInSelect;
-  with chkMulLine do Hint:= init_HintMulLine +' - '+UiOps.HotkeyToggleMultiline;
-  with bTokens do Hint:= init_HintTokens     +' - '+UiOps.HotkeyToggleTokens;
-
   fn:= GetAppLangFilename;
   if FileExists(fn) then
   begin
@@ -1054,14 +1036,14 @@ begin
       with LabelFind do Caption:= ini.ReadString(section, 'f_tx', Caption);
       with LabelRep do Caption:= ini.ReadString(section, 'r_tx', Caption);
 
-      with chkRegex do Hint:= ini.ReadString(section, 'h_re', init_HintRegex)      +' - '+UiOps.HotkeyToggleRegex;
-      with chkCase do Hint:= ini.ReadString(section, 'h_ca', init_HintCase)        +' - '+UiOps.HotkeyToggleCaseSens;
-      with chkWords do Hint:= ini.ReadString(section, 'h_wo', init_HintWords)      +' - '+UiOps.HotkeyToggleWords;
-      with chkWrap do Hint:= ini.ReadString(section, 'h_wr', init_HintWrapped)     +' - '+UiOps.HotkeyToggleWrapped;
-      with chkConfirm do Hint:= ini.ReadString(section, 'h_cf', init_HintConfRep)  +' - '+UiOps.HotkeyToggleConfirmRep;
-      with chkInSel do Hint:= ini.ReadString(section, 'h_sel', init_HintInSelect)  +' - '+UiOps.HotkeyToggleInSelect;
-      with chkMulLine do Hint:= ini.ReadString(section, 'h_mul', init_HintMulLine) +' - '+UiOps.HotkeyToggleMultiline;
-      with bTokens do Hint:= ini.ReadString(section, 'h_tok', init_HintTokens)     +' - '+UiOps.HotkeyToggleTokens;
+      msgFindHint_Regex:= ini.ReadString(section, 'h_re', msgFindHint_Regex);
+      msgFindHint_Case:= ini.ReadString(section, 'h_ca', msgFindHint_Case);
+      msgFindHint_Words:= ini.ReadString(section, 'h_wo', msgFindHint_Words);
+      msgFindHint_Wrapped:= ini.ReadString(section, 'h_wr', msgFindHint_Wrapped);
+      msgFindHint_ConfirmRep:= ini.ReadString(section, 'h_cf', msgFindHint_ConfirmRep);
+      msgFindHint_InSelect:= ini.ReadString(section, 'h_sel', msgFindHint_InSelect);
+      msgFindHint_MultiLine:= ini.ReadString(section, 'h_mul', msgFindHint_MultiLine);
+      msgFindHint_Tokens:= ini.ReadString(section, 'h_tok', msgFindHint_Tokens);
 
       with bTokens do
       begin
@@ -1077,6 +1059,23 @@ begin
       FreeAndNil(ini);
     end;
   end;
+
+  with chkRegex do
+    Hint:= msgFindHint_Regex +' - '+UiOps.HotkeyToggleRegex;
+  with chkCase do
+    Hint:= msgFindHint_Case +' - '+UiOps.HotkeyToggleCaseSens;
+  with chkWords do
+    Hint:= msgFindHint_Words +' - '+UiOps.HotkeyToggleWords;
+  with chkWrap do
+    Hint:= msgFindHint_Wrapped +' - '+UiOps.HotkeyToggleWrapped;
+  with chkConfirm do
+    Hint:= msgFindHint_ConfirmRep +' - '+UiOps.HotkeyToggleConfirmRep;
+  with chkInSel do
+    Hint:= msgFindHint_InSelect +' - '+UiOps.HotkeyToggleInSelect;
+  with chkMulLine do
+    Hint:= msgFindHint_MultiLine +' - '+UiOps.HotkeyToggleMultiline;
+  with bTokens do
+    Hint:= msgFindHint_Tokens +' - '+UiOps.HotkeyToggleTokens;
 
   bFindFirst.AutoSize:= true;
   bFindNext.AutoSize:= true;
