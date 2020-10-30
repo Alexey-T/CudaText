@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.116.4 (2020/10)
+1.117.0 (2020/10)
 
 + add: detect encoding also by Python standard from https://docs.python.org/3/reference/lexical_analysis.html#encoding-declarations ; it supports the following line comments: // # ; -- (thanks @tmsg)
 + add: options "find_indent_vert"/"find_indent_horz" are now respected in Undo/Redo commands (thanks @xcme)
