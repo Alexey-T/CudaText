@@ -1,7 +1,7 @@
 object fmFind: TfmFind
-  Left = 89
+  Left = 88
   Height = 148
-  Top = 389
+  Top = 387
   Width = 1189
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSizeToolWin
@@ -352,7 +352,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
-        Caption = 'Find'
+        Caption = 'First'
         TabStop = True
         TabOrder = 0
         OnClick = bFindFirstClick
@@ -363,7 +363,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
-        Caption = 'Find next'
+        Caption = 'Next'
         TabStop = True
         TabOrder = 1
         OnClick = bFindNextClick
@@ -385,7 +385,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
-        Caption = 'Mark all'
+        Caption = 'Mark'
         TabStop = True
         TabOrder = 5
         OnClick = bMarkAllClick
@@ -396,7 +396,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
-        Caption = 'Find prev'
+        Caption = 'Prev'
         TabStop = True
         TabOrder = 2
         OnClick = bFindPrevClick
@@ -407,7 +407,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
-        Caption = 'Select all'
+        Caption = 'Select'
         TabStop = True
         TabOrder = 4
         OnClick = bSelectAllClick
