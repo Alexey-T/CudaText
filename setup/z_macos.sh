@@ -1,7 +1,7 @@
 #!/bin/bash
 . ./cuda_ver.sh
 
-SIZE_MB=22
+SIZE_MB=24
 TMP=~/_cudmac
 IMG=~/cudatext_build/cudatext-macos-$cuda_ver.dmg
 
