@@ -294,6 +294,7 @@ type
 
     DefaultEncUtf8: boolean;
     ViewerBinaryWidth: integer;
+    DeleteBookmarksOnDelLine: boolean;
 
     StatusNoSel: string;
     StatusSmallSel: string;
@@ -1523,6 +1524,7 @@ begin
 
     DefaultEncUtf8:= {$ifdef windows} false {$else} true {$endif};
     ViewerBinaryWidth:= 100;
+    DeleteBookmarksOnDelLine:= false;
 
     StatusNoSel:= '{_ln} {y}, {_col} {xx}';
     StatusSmallSel:= '{_ln} {y}, {_col} {xx}, {_sel}';

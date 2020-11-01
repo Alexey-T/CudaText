@@ -2626,7 +2626,7 @@ begin
   if DoPyEvent(Ed, cEventOnClickGutter, Params).Val = evrFalse then exit;
 
   if ABand=Ed.GutterBandBookmarks then
-    ed.BookmarkToggleForLine(ALine, 1, '', false, true, 0);
+    ed.BookmarkToggleForLine(ALine, 1, '', UiOps.DeleteBookmarksOnDelLine, true, 0);
 end;
 
 procedure TEditorFrame.EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer;
