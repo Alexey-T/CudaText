@@ -5,6 +5,7 @@
 
 1.117.1 (2020/10)
 
++ add: option "auto_delete_bookmarks"
 - fix: on deleting block with n bookmarks, bookmarks shifted upper too much
 
 1.117.0 (2020/10)
