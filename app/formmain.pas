@@ -2329,7 +2329,6 @@ begin
   Status.Parent:= Self;
   Status.Align:= alBottom;
   Status.Top:= Height;
-  Status.Padding:= 2;
   Status.ScaleFromFont:= true; //statusbar is autosized via its font size
   Status.OnPanelClick:= @StatusPanelClick;
   Status.ShowHint:= true;

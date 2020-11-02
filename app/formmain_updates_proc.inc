@@ -1097,7 +1097,7 @@ var
   NIndex, NSize, NTag: integer;
   Al: TAlignment;
   SepAll, SepItem: TATStringSeparator;
-  bAutoSize, bStretch: boolean;
+  bAutoSize, bStretch, bHotTrack: boolean;
 begin
   //complex deletion of panels, touch only CudaText std panels
   for NTag:= StatusbarTag_Caret{minimal tag} to StatusbarTag_Msg{maximal tag} do
@@ -1114,18 +1114,19 @@ begin
     NTag:= 0;
     NIndex:= Status.PanelCount;
     bStretch:= false;
+    bHotTrack:= false;
 
     SepItem.GetItemStr(SItem);
     case SItem of
-      'caret':   begin NTag:= StatusbarTag_Caret; end;
-      'enc':     begin NTag:= StatusbarTag_Enc; end;
-      'ends':    begin NTag:= StatusbarTag_LineEnds; end;
-      'lexer':   begin NTag:= StatusbarTag_Lexer; end;
-      'tabsize': begin NTag:= StatusbarTag_TabSize; end;
-      'ins':     begin NTag:= StatusbarTag_InsOvr; end;
+      'caret':   begin NTag:= StatusbarTag_Caret; bHotTrack:= true; end;
+      'enc':     begin NTag:= StatusbarTag_Enc; bHotTrack:= true; end;
+      'ends':    begin NTag:= StatusbarTag_LineEnds; bHotTrack:= true; end;
+      'lexer':   begin NTag:= StatusbarTag_Lexer; bHotTrack:= true; end;
+      'tabsize': begin NTag:= StatusbarTag_TabSize; bHotTrack:= true; end;
+      'ins':     begin NTag:= StatusbarTag_InsOvr; bHotTrack:= true; end;
       'msg':     begin NTag:= StatusbarTag_Msg; bStretch:= true; end;
-      'selmode': begin NTag:= StatusbarTag_SelMode; end;
-      'wrap':    begin NTag:= StatusbarTag_WrapMode; end;
+      'selmode': begin NTag:= StatusbarTag_SelMode; bHotTrack:= true; end;
+      'wrap':    begin NTag:= StatusbarTag_WrapMode; bHotTrack:= true; end;
       else Continue;
     end;
 
@@ -1139,7 +1140,7 @@ begin
     SepItem.GetItemStr(SItem);
     NSize:= Max(16, StrToIntDef(SItem, 200));
 
-    Status.AddPanel(-1, NSize, Al, '', -1, NTag, bAutoSize, bStretch);
+    Status.AddPanel(-1, NSize, Al, '', -1, NTag, bAutoSize, bStretch, clNone, bHotTrack);
   until false;
 end;
 
