@@ -5,8 +5,9 @@
 
 1.117.1 (2020/10)
 
-+ add: option "auto_delete_bookmarks"
++ add: option "auto_delete_bookmarks" (thanks @Jairo-Martinez)
 - fix: on deleting block with n bookmarks, bookmarks shifted upper too much
+- fix: CudaText didn't calculate path of "settings" on *BSD systems (thanks @Peter2121)
 
 1.117.0 (2020/10)
 
