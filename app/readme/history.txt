@@ -5,6 +5,7 @@
 
 1.117.1 (2020/10)
 
++ add: mouse hover highlight for statusbar cells
 + add: option "auto_delete_bookmarks" (thanks @Jairo-Martinez)
 + add: support CudaText work via symlink on Unix systems (thanks @Peter2121)
 - fix: on deleting block with n bookmarks, bookmarks shifted upper too much
