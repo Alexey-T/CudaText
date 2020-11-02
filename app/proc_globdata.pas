@@ -1076,25 +1076,24 @@ begin
   AppDir_Home:= GetEnvironmentVariable('HOME');
   If AppDir_Home<>'' then
     AppDir_Home:= IncludeTrailingPathDelimiter(AppDir_Home);
-  {$endif}
 
-  {$ifdef linux}
-  //not portable folder of app
-  if not DirectoryExistsUTF8(OpDirExe+DirectorySeparator+'data'+DirectorySeparator+'lexlib') then
-  begin
-    HomeConfig:= GetEnvironmentVariable('XDG_CONFIG_HOME');
-    if HomeConfig='' then
-      HomeConfig:= AppDir_Home + '.config/'
-    else
-      HomeConfig:= IncludeTrailingPathDelimiter(HomeConfig);
-
-    OpDirLocal:= HomeConfig+'cudatext';
+    {$ifdef darwin}
+    OpDirLocal:= AppDir_Home+'Library/Application Support/CudaText';
     CreateDirUTF8(OpDirLocal);
-  end;
-  {$endif}
-  {$ifdef darwin}
-  OpDirLocal:= AppDir_Home+'Library/Application Support/CudaText';
-  CreateDirUTF8(OpDirLocal);
+    {$else}
+    //not portable folder of app
+    if not DirectoryExistsUTF8(OpDirExe+DirectorySeparator+'data'+DirectorySeparator+'lexlib') then
+    begin
+      HomeConfig:= GetEnvironmentVariable('XDG_CONFIG_HOME');
+      if HomeConfig='' then
+        HomeConfig:= AppDir_Home + '.config/'
+      else
+        HomeConfig:= IncludeTrailingPathDelimiter(HomeConfig);
+
+      OpDirLocal:= HomeConfig+'cudatext';
+      CreateDirUTF8(OpDirLocal);
+    end;
+    {$endif}
   {$endif}
 
   //support command line key -s=folder
