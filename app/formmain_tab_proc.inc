@@ -246,7 +246,7 @@ begin
   if Application.Terminated then
     Res:= ID_OK
   else
-  if not D.TabModified then
+  if not Frame.Modified then
     Res:= ID_OK
   else
   begin

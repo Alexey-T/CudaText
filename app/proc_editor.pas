@@ -39,6 +39,7 @@ uses
   math;
 
 function EditorIsEmpty(Ed: TATSynEdit): boolean;
+function EditorIsModifiedEx(Ed: TATSynEdit): boolean;
 procedure EditorSaveTempOptions(Ed: TATSynEdit; out Ops: TATEditorTempOptions);
 procedure EditorRestoreTempOptions(Ed: TATSynEdit; const ANew, AOld: TATEditorTempOptions);
 procedure EditorFocus(C: TWinControl);
@@ -1505,6 +1506,14 @@ begin
             )
       end;
   end;
+end;
+
+function EditorIsModifiedEx(Ed: TATSynEdit): boolean;
+begin
+  if Ed.FileName='' then
+    Result:= Ed.Modified and not EditorIsEmpty(Ed)
+  else
+    Result:= Ed.Modified;
 end;
 
 procedure EditorSaveTempOptions(Ed: TATSynEdit; out Ops: TATEditorTempOptions);

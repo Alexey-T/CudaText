@@ -275,6 +275,7 @@ type
     destructor Destroy; override;
     function Editor: TATSynEdit;
     function EditorBro: TATSynEdit;
+    function Modified: boolean;
     property Adapter[Ed: TATSynEdit]: TATAdapterEControl read GetAdapter;
     procedure EditorOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoShow;
@@ -3838,6 +3839,13 @@ begin
   end;
 end;
 
+function TEditorFrame.Modified: boolean;
+begin
+  if FEditorsLinked then
+    Result:= EditorIsModifiedEx(Ed1)
+  else
+    Result:= EditorIsModifiedEx(Ed1) or EditorIsModifiedEx(Ed2);
+end;
 
 end.
 

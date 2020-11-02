@@ -3056,7 +3056,7 @@ begin
   Result:= 0;
   for i:= 0 to FrameCount-1 do
     with Frames[i] do
-      if Ed1.Modified or Ed2.Modified then
+      if Modified then
         Inc(Result);
 end;
 
@@ -3089,7 +3089,7 @@ begin
     for i:= 0 to FrameCount-1 do
     begin
       F:= Frames[i];
-      if not (F.Ed1.Modified or F.Ed2.Modified) then Continue;
+      if not F.Modified then Continue;
       SCaption:= F.TabCaption;
       if F.Filename<>'' then
         SCaption+= '  ('+ExtractFileDir(F.Filename)+')';
