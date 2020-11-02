@@ -513,14 +513,12 @@ var
   iStyle: TAppThemeStyleId;
   st: TecSyntaxFormat;
 begin
-  if FileExists(AFileName) then
-    DeleteFile(AFileName);
-
   cfg:= TJSONConfig.Create(nil);
   try
     try
       cfg.Formatted:= true;
       cfg.Filename:= AFileName;
+      cfg.Clear; //avoid file deletion, to support symlinks for files
     except
       MsgBadConfig(AFileName);
       exit;
