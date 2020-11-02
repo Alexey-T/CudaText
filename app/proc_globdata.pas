@@ -991,6 +991,7 @@ begin
 end;
 
 var
+  OpFileExe: string = '';
   OpDirExe: string = '';
   OpDirLocal: string = '';
   OpDirPrecopy: string = '';
@@ -1064,8 +1065,10 @@ end;
 procedure InitDirs;
 var
   S, HomeConfig: string;
+  SPath: RawByteString;
 begin
-  OpDirExe:= ExtractFileDir(ParamStr(0));
+  OpFileExe:= ParamStr(0);
+  OpDirExe:= ExtractFileDir(OpFileExe);
   OpDirPrecopy:= GetDirPrecopy;
   OpDirLocal:= OpDirExe;
 
@@ -1081,7 +1084,14 @@ begin
     OpDirLocal:= AppDir_Home+'Library/Application Support/CudaText';
     CreateDirUTF8(OpDirLocal);
     {$else}
-    //not portable folder of app
+    //symlink? get path of original dir
+    if FileGetSymLinkTarget(OpFileExe, SPath) then
+    begin
+      MsgStdout('CudaText starts via symlink to: '+SPath);
+      OpDirLocal:= ExtractFileDir(SPath);
+    end
+    else
+    //not portable folder of app?
     if not DirectoryExistsUTF8(OpDirExe+DirectorySeparator+'data'+DirectorySeparator+'lexlib') then
     begin
       HomeConfig:= GetEnvironmentVariable('XDG_CONFIG_HOME');
@@ -1092,6 +1102,7 @@ begin
 
       OpDirLocal:= HomeConfig+'cudatext';
       CreateDirUTF8(OpDirLocal);
+      MsgStdout('CudaText starts not portable: '+OpDirLocal);
     end;
     {$endif}
   {$endif}
