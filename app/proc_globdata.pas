@@ -1062,6 +1062,48 @@ begin
   end;
 end;
 
+function Which(const Executable: string): string;
+var
+  ExeName,FoundExe:string;
+  //Output: string;
+begin
+  result:='';
+
+  ExeName:=Executable;
+
+  {$ifdef Windows}
+  if ExtractFileExt(ExeName)='' then ExeName:=ExeName+'.exe';
+  {$endif}
+
+  if FileExists(ExeName) then
+    exit(ExeName)
+  else
+  begin
+    FoundExe := ExeSearch(ExeName, '');
+    if FileExists(FoundExe) then
+      result:=FoundExe
+    else
+      result:=FindDefaultExecutablePath(ExeName);
+  end;
+
+  (*
+  {$IFNDEF FREEBSD}
+  if (NOT FileIsExecutable(result)) then result:='';
+  {$ENDIF}
+  *)
+
+  (*
+  {$IFDEF UNIX}
+  if (NOT FileExists(result)) then
+  begin
+    RunCommand('which',[ExeName],Output,[poUsePipes, poStderrToOutPut]{$IF DEFINED(FPC_FULLVERSION) AND (FPC_FULLVERSION >= 30200)},swoHide{$ENDIF});
+    Output:=Trim(Output);
+    if ((Output<>'') and FileExists(Output)) then result:=Output;
+  end;
+  {$ENDIF}
+  *)
+end;
+
 procedure InitDirs;
 var
   S, HomeConfig: string;
@@ -1084,8 +1126,9 @@ begin
     OpDirLocal:= AppDir_Home+'Library/Application Support/CudaText';
     CreateDirUTF8(OpDirLocal);
     {$else}
-    //symlink? get path of original dir
-    if FileGetSymLinkTarget(OpFileExe, SPath) then
+    SPath:= Which(OpFileExe);
+    //MsgStdout('CudaText binary: '+SPath);
+    if FileGetSymLinkTarget(SPath, SPath) then
     begin
       MsgStdout('CudaText starts via symlink to: '+SPath);
       OpDirLocal:= ExtractFileDir(SPath);
@@ -1102,7 +1145,7 @@ begin
 
       OpDirLocal:= HomeConfig+'cudatext';
       CreateDirUTF8(OpDirLocal);
-      MsgStdout('CudaText starts not portable: '+OpDirLocal);
+      //MsgStdout('CudaText starts not portable: '+OpDirLocal);
     end;
     {$endif}
   {$endif}
