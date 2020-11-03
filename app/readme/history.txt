@@ -9,6 +9,7 @@
 + add: mouse hover highlighting for statusbar cells
 + add: can work if CudaText runs via symlink on Unix systems (thanks @Peter2121)
 + add: option "auto_delete_bookmarks" (thanks @Jairo-Martinez)
+- fix: dragging of sel-rect in minimap was wrong if mouse goes lefter/righter of minimap 
 - fix: on deleting block with n bookmarks, bookmarks shifted upper too much
 
 1.117.0 (2020/10)
