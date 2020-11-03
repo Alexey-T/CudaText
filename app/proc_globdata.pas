@@ -1107,7 +1107,7 @@ end;
 procedure InitDirs;
 var
   S, HomeConfig: string;
-  SPath: RawByteString;
+  SPathOrig, SPath: RawByteString;
 begin
   OpFileExe:= ParamStr(0);
   OpDirExe:= ExtractFileDir(OpFileExe);
@@ -1126,10 +1126,13 @@ begin
     OpDirLocal:= AppDir_Home+'Library/Application Support/CudaText';
     CreateDirUTF8(OpDirLocal);
     {$else}
-    SPath:= Which(OpFileExe);
-    //MsgStdout('CudaText binary: '+SPath);
-    if FileGetSymLinkTarget(SPath, SPath) then
+    SPathOrig:= Which(OpFileExe);
+    //MsgStdout('CudaText binary: '+SPathOrig);
+    if FileGetSymLinkTarget(SPathOrig, SPath) then
     begin
+      //support relative target of symlink like '../dir/cudatext'
+      if not SBeginsWith(SPath, '/') then
+        SPath:= ExtractFilePath(SPathOrig)+SPath;
       MsgStdout('CudaText starts via symlink to: '+SPath);
       OpDirLocal:= ExtractFileDir(SPath);
     end
