@@ -5,7 +5,7 @@
 
 1.117.2 (2020/11)
 
-+ add: if new tab was opened without disk file, it was edited, then content was erased, don't show confirmation to save that tab on closing (thanks @dinkumoil)
++ add: if new tab was opened without disk file, it was edited, its content was erased, then don't show confirmation to save that tab on closing (thanks @dinkumoil)
 + add: mouse hover highlighting for statusbar cells
 + add: can work if CudaText runs via symlink on Unix systems (thanks @Peter2121)
 + add: option "auto_delete_bookmarks" (thanks @Jairo-Martinez)
