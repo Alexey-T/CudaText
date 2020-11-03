@@ -53,6 +53,7 @@ object fmColorSetup: TfmColorSetup
       BorderSpacing.Around = 6
       ItemHeight = 0
       OnKeyDown = ListKeyDown
+      OnSelectionChange = ListSelectionChange
       TabOrder = 0
     end
     object bChange: TButton

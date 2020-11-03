@@ -136,6 +136,17 @@ type
     apclExportHtmlNumbers
     );
 
+const
+  cAppThemeColorsWhichAllowNone: set of TAppThemeColorId =
+    [
+    apclEdBlockStapleActive,
+    apclTabFontActive,
+    apclTabCloseBg,
+    apclMenuFont..apclMenuSelBg,
+    apclStatusFont,
+    apclStatusBg
+    ];
+
 type
   TAppThemeStyleId = (
     apstId,
