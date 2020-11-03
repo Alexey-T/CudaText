@@ -1128,6 +1128,8 @@ begin
     {$else}
     SPathOrig:= Which(OpFileExe);
     //MsgStdout('CudaText binary: '+SPathOrig);
+    {$if FPC_FULLVERSION>30200}
+    //FileGetSymLinkTarget was added in FPC 3.2
     if FileGetSymLinkTarget(SPathOrig, SPath) then
     begin
       //support relative target of symlink like '../dir/cudatext'
@@ -1137,6 +1139,7 @@ begin
       OpDirLocal:= ExtractFileDir(SPath);
     end
     else
+    {$endif}
     //not portable folder of app?
     if not DirectoryExistsUTF8(OpDirExe+DirectorySeparator+'data'+DirectorySeparator+'lexlib') then
     begin
