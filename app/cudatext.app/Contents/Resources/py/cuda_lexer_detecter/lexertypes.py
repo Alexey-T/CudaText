@@ -283,6 +283,7 @@ TYPES = {
     "prototxt": ['Caffe Prototxt'],
     "ps": ['PostScript'],
     "ps1": ['PowerShell'],
+    "psc": ['Papyrus'],
     "pug": ['Pug'],
     "pwn": ['Pawn'],
     "q": ['Apache Hive'],
