@@ -2359,7 +2359,14 @@ Many get_prop/set_prop ids correspond to CudaText options. List of correspoding 
 
 Controls bookmarks. Possible values of "id":
 
-* BOOKMARK_GET_ALL: Returns list of bookmarks, as list of dict. Param "nline" ignored. Dict keys are: "line", "kind", "tag", "hint", "auto_del", "show_in_list".
+* BOOKMARK_GET_ALL: Returns list of bookmarks, as list of dict. Param "nline" ignored. Dict keys are:
+** "line": int
+** "kind": int
+** "tag": int
+** "hint": str
+** "auto_delx": enum, 0: don't auto-delete; 1: auto-delete; 2: auto-delete if global option is set
+** "auto_del" (deprecated): bool, True if "auto_delx" is 1
+** "show_in_list": bool
 * BOOKMARK_GET_LIST: Returns list of line indexes, which have bookmarks. Param "nline" ignored.
 * BOOKMARK_GET_PROP: Returns properties of bookmark at line index, given by param "nline". Returns dict, like for BOOKMARK_GET_ALL, or None.
 
@@ -4039,5 +4046,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.353 (app 1.115.7)
 * add: Editor.markers: add param "line_len"
 * add: Editor.markers: MARKERS_GET_DICT
+
+1.0.354 (app 1.117.2)
+* add: Editor.bookmark: BOOKMARK_GET_ALL gets additional dict key "auto_delx"
 
 [[Category:CudaText]]
