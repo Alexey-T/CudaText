@@ -397,8 +397,6 @@ TYPES = {
     "xsl": ['XSLT'],
     "xslt": ['XSLT'],
     "y": ['Yacc'],
-    "yaml": ['YAML'],
-    "yml": ['YAML'],
     "zep": ['Zephir'],
     "zs": ['ZenScript (MineTweaker)'],
 }
