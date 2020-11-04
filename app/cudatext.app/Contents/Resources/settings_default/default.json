@@ -343,8 +343,8 @@
   //Gutter: Show gutter's bookmarks column
   "gutter_bookmarks": true,
 
-  //Automatically delete bookmarks when their lines are deleted, otherwise only shift
-  //bookmarks upper. Change of the option applies only to newly placed bookmarks.
+  //Bookmarks: Automatically delete bookmarks when their lines are deleted,
+  //otherwise only shift bookmarks upper
   "auto_delete_bookmarks": false,
 
   //[View/LineNumbers]
