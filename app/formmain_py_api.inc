@@ -1810,7 +1810,7 @@ end;
 function Py_ed_bookmark_getitem(BmItem: TATBookmarkItem): PPyObject;
 begin
   with AppPython.Engine do
-    Result:= Py_BuildValue('{sisLsisssOsO}',
+    Result:= Py_BuildValue('{sisLsisssOsisO}',
       'line',
       BmItem.Data.LineNum,
       'tag',
@@ -1820,7 +1820,9 @@ begin
       'hint',
       PChar(string(BmItem.Data.Hint)),
       'auto_del',
-      PyBool_FromLong(Ord(BmItem.Data.DeleteOnDelLine)),
+      PyBool_FromLong(Ord(BmItem.Data.AutoDelete=bmadDelete)),
+      'auto_delx',
+      Ord(BmItem.Data.AutoDelete),
       'show_in_list',
       PyBool_FromLong(Ord(BmItem.Data.ShowInBookmarkList))
       );
@@ -1858,15 +1860,16 @@ var
   Ed: TATSynEdit;
   Strs: TATStrings;
   NId, NLine, NKind, NColor, NCount,
-  NDeleteIfDelLine, NShowInList: integer;
+  NAutoDelete, NShowInList: integer;
   NTag: Int64;
   BmItem: TATBookmarkItem;
+  AutoDel: TATBookmarkAutoDelete;
   i: integer;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'LiiiisiiL:bookmark',
             @H, @NId, @NLine, @NKind, @NColor, @PtrText,
-            @NDeleteIfDelLine, @NShowInList, @NTag)) then
+            @NAutoDelete, @NShowInList, @NTag)) then
     begin
       Ed:= PyEditor(H);
       Strs:= Ed.Strings;
@@ -1877,6 +1880,11 @@ begin
         NKind:= Low(AppBookmarkSetup);
       if NKind>High(AppBookmarkSetup) then
         NKind:= High(AppBookmarkSetup);
+
+      if Bool(NAutoDelete) then
+        AutoDel:= bmadDelete
+      else
+        AutoDel:= bmadOption;
 
       case NId of
         BOOKMARK_GET_PROP:
@@ -1905,7 +1913,7 @@ begin
         BOOKMARK_SET:
           begin
             ed.BookmarkSetForLine(NLine, NKind, StrText,
-                Bool(NDeleteIfDelLine),
+                AutoDel,
                 Bool(NShowInList),
                 NTag
                 );
@@ -1914,7 +1922,7 @@ begin
         BOOKMARK2_SET:
           begin
             ed.BookmarkSetForLine_2(NLine, NKind, StrText,
-                Bool(NDeleteIfDelLine),
+                AutoDel,
                 Bool(NShowInList),
                 NTag
                 );

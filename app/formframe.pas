@@ -2627,7 +2627,7 @@ begin
   if DoPyEvent(Ed, cEventOnClickGutter, Params).Val = evrFalse then exit;
 
   if ABand=Ed.GutterBandBookmarks then
-    ed.BookmarkToggleForLine(ALine, 1, '', UiOps.DeleteBookmarksOnDelLine, true, 0);
+    ed.BookmarkToggleForLine(ALine, 1, '', bmadOption, true, 0);
 end;
 
 procedure TEditorFrame.EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer;
@@ -3302,6 +3302,7 @@ begin
       begin
         BmData.LineNum:= nTop;
         BmData.Kind:= nKind;
+        BmData.AutoDelete:= bmadOption;
         Ed.Strings.Bookmarks.Add(BmData);
       end;
     end;
