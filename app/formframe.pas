@@ -185,7 +185,6 @@ type
     procedure EditorOnClickDouble(Sender: TObject; var AHandled: boolean);
     procedure EditorOnClickLink(Sender: TObject; const ALink: string);
     procedure EditorOnClickMicroMap(Sender: TObject; AX, AY: integer);
-    procedure EditorOnClickMiddle(Sender: TObject; var AHandled: boolean);
     procedure EditorOnCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
     procedure EditorOnCommandAfter(Sender: TObject; ACommand: integer; const AText: string);
     procedure EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer; const ARect: TRect);
@@ -1553,18 +1552,6 @@ begin
     );
 end;
 
-procedure TEditorFrame.EditorOnClickMiddle(Sender: TObject; var AHandled: boolean);
-begin
-  AHandled:= false;
-  if EditorOps.OpMouseMiddleClickPaste then
-  begin
-    AHandled:= true;
-    (Sender as TATSynEdit).DoCommand(cmd_MouseClickAtCursor);
-    (Sender as TATSynEdit).DoCommand(cCommand_ClipboardAltPaste); //uses PrimarySelection:TClipboard
-    exit;
-  end;
-end;
-
 procedure TEditorFrame.EditorOnClickGap(Sender: TObject;
   AGapItem: TATGapItem; APos: TPoint);
 var
@@ -1640,7 +1627,6 @@ begin
   ed.OnClick:= @EditorOnClick;
   ed.OnClickLink:=@EditorOnClickLink;
   ed.OnClickDouble:= @EditorOnClickDouble;
-  ed.OnClickMiddle:= @EditorOnClickMiddle;
   ed.OnClickMoveCaret:= @EditorClickMoveCaret;
   ed.OnClickEndSelect:= @EditorClickEndSelect;
   ed.OnClickGap:= @EditorOnClickGap;
