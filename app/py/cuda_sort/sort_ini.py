@@ -1,5 +1,7 @@
 ﻿from cudatext import *
-from cudax_lib import _
+from cudax_lib import get_translation
+
+_   = get_translation(__file__)  # I18N
 
 # author: Michal Niklas
 # adapted to CudaText: Alexey T.
