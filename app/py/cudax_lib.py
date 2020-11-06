@@ -19,7 +19,7 @@ ToDo: (see end of file)
 import  cudatext        as app
 from    cudatext    import ed
 import  cudatext_cmd    as cmds
-import  os, json, re, sys, collections
+import  os, json, re, sys, collections, gettext
 odict       = collections.OrderedDict
 
 # Overridden option tools:
@@ -705,7 +705,6 @@ def get_translation(plug_file):
     return _
    #def get_translation
 
-_   = get_translation(__file__)  # I18N
 
 '''
 ToDo
