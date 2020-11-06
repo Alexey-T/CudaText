@@ -1,9 +1,12 @@
 import os
 from cudatext import *
 import cudax_lib as apx
+from   cudax_lib import get_translation
 import cuda_addonman
 import urllib.request
 import tempfile
+
+_   = get_translation(__file__)  # I18N
 
 URL_DB = 'https://raw.githubusercontent.com/Alexey-T/CudaText-registry/master/multi_inst/db.py'
 COLUMN_LEN = 20
@@ -33,7 +36,7 @@ class Command:
 
         self.h_wait = dlg_proc(0, DLG_CREATE)
         dlg_proc(self.h_wait, DLG_PROP_SET, prop={
-            'cap':'CudaText Multi Installer',
+            'cap':_('CudaText Multi Installer'),
             'w': 360,
             'h': 410,
             })
@@ -43,7 +46,7 @@ class Command:
             'x': 100,
             'y': 190,
             'w': 300,
-            'cap': 'Downloading data...',
+            'cap': _('Downloading data...'),
         })
 
         dlg_proc(self.h_wait, DLG_SHOW_NONMODAL)
@@ -111,13 +114,13 @@ class Command:
 
     def install(self,kind,name):
 
-        url, version = self.get_url(kind,name)
+        url, version = self.get_url(kind, name)
         if not url:
-            print('Not found: %s %s'%(kind, name))
+            print(_('Not found: {} {}').format(kind, name))
             self.error_count+=1
             return
 
-        state='Installing: %s %s'%(kind,name)
+        state=_('Installing: {} {}').format(kind, name)
         print(state)
         self.show_progress()
 
@@ -141,7 +144,7 @@ class Command:
 
         self.load_repo()
         if not self.packets:
-            msg_status('Multi Installer: cannot download list')
+            msg_status(_('Multi Installer: cannot download list'))
             return
 
         langs = list(PLUGINS.keys())
@@ -155,14 +158,14 @@ class Command:
         RES_LIST = 2
         RES_NEXT = 4
 
-        res = dlg_custom('CudaText Multi Installer', 360, 410, '\n'.join([
-            '\1'.join(['type=label','pos=5,5,350,0','cap=Select groups of add-ons needed for you.']),
-            '\1'.join(['type=label','pos=5,25,350,0','cap=Next steps will suggest group items.']),
+        res = dlg_custom(_('CudaText Multi Installer'), 360, 410, '\n'.join([
+            '\1'.join(['type=label','pos=5,5,350,0','cap='+_('Select groups of add-ons needed for you.')]),
+            '\1'.join(['type=label','pos=5,25,350,0','cap='+_('Next steps will suggest group items.')]),
             '\1'.join(['type=checklistbox','pos=5,48,355,370','items='+
                 '\t'.join(langs)
                 ]),
-            '\1'.join(['type=button','pos=5,375,85,0','cap=Cancel']),
-            '\1'.join(['type=button','pos=275,375,355,0','cap=Next']),
+            '\1'.join(['type=button','pos=5,375,85,0','cap='+_('Cancel')]),
+            '\1'.join(['type=button','pos=275,375,355,0','cap='+_('Next')]),
             ]),
             get_dict=True
             )
@@ -225,19 +228,19 @@ class Command:
                 UI = ['\1'.join([
                             'type=button',
                             'pos=%d,%d,%d,%d'%(COLUMN_W*(cl+1)-86, line*h+5, COLUMN_W*(cl+1)-6, line*20+25),
-                            'cap=Next'
+                            'cap=#'+_('Next')
                             ])] +\
                     UI +\
                     ['\1'.join([
                             'type=label',
                             'pos=%d,%d,%d,0'%(COLUMN_W*(cl+1)-180, line*h+8, COLUMN_W*(cl+1)-90),
-                            'cap=Step %d of %d'%(step_index,step_count)
+                            'cap='+_('Step {} of {}').format(step_index,step_count)
                             ])]
                 line+=1
                 cl+=1
                 step_index += 1
                 res2 = dlg_custom(
-                        'Select add-ons - '+langs[i],
+                        _('Select add-ons - ')+langs[i],
                         COLUMN_W*cl,
                         line*h+15,
                         '\n'.join(UI),
@@ -295,24 +298,24 @@ class Command:
             dlg_proc(self.h_pro, DLG_HIDE)
             dlg_proc(self.h_pro, DLG_FREE)
 
-            msg_status('Multi Installer: done', True)
+            msg_status(_('Multi Installer: done'), True)
 
             s = 'Multi Installer:'
             if self.ok_count>0:
-                s += '\n%d add-on(s) installed'%self.ok_count
+                s += _('\n{} add-on(s) installed').format(self.ok_count)
             if self.error_count>0:
-                s += '\n%d download error(s) (SF.net has problems?)'%self.error_count
+                s += _('\n{} download error(s) (SF.net has problems?)').format(self.error_count)
             msg_box(s, MB_OK+MB_ICONINFO)
 
         else:
-            msg_status('Multi Installer: nothing selected', True)
+            msg_status(_('Multi Installer: nothing selected'), True)
 
 
     def init_progress(self):
 
         self.h_pro = dlg_proc(0, DLG_CREATE)
         dlg_proc(self.h_pro, DLG_PROP_SET, prop={
-            'cap': 'Multi Installer',
+            'cap': _('Multi Installer'),
             'w': 400,
             'h': 110,
             'topmost': True,
@@ -321,7 +324,7 @@ class Command:
         n = dlg_proc(self.h_pro, DLG_CTL_ADD, prop='label')
         dlg_proc(self.h_pro, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'inf',
-            'cap': 'Installing...',
+            'cap': _('Installing...'),
             'x': 10,
             'y': 30,
             })
