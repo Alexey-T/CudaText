@@ -1,9 +1,11 @@
 import os
 import webbrowser
 from cudatext import *
-from cudax_lib import _
+from cudax_lib import get_translation
 from .proc_snip_insert import *
 from .dlg_emmet import DialogEmmet
+
+_   = get_translation(__file__)  # I18N
 
 lexers_xml = ['XML', 'XML ^', 'XSL', 'XSLT']
 lexers_css = ['CSS', 'SCSS', 'SASS', 'Sass', 'Stylus', 'LESS']
