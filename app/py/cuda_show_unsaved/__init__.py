@@ -1,6 +1,9 @@
 import os
 import difflib
 from cudatext import *
+from cudax_lib import get_translation
+
+_   = get_translation(__file__)  # I18N
 
 fn_ini = 'plugins.ini'
 
@@ -49,11 +52,11 @@ class Command:
             lineterm=''))
 
         if diff==[]:
-            msg_box('File is not changed', MB_OK+MB_ICONINFO)
+            msg_box(_('File is not changed'), MB_OK+MB_ICONINFO)
             return
 
         self.show_dialog(
-            'Unsaved changes: '+fn_base,
+            _('Unsaved changes: ')+fn_base,
             '\n'.join(diff)+'\n',
             fn_base,
             'Diff'
@@ -110,7 +113,7 @@ class Command:
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'btn_close',
-            'cap': 'Close',
+            'cap': _('Close'),
             'w': 110,
             'a_l': None,
             'a_t': None,
@@ -123,7 +126,7 @@ class Command:
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'btn_save',
-            'cap': 'Save as...',
+            'cap': _('Save as...'),
             'w': 110,
             'a_l': None,
             'a_t': None,
@@ -150,7 +153,7 @@ class Command:
 
         with open(res, 'w') as f:
             f.write(self.text)
-        msg_status('Saved: '+res)
+        msg_status(_('Saved: ')+res)
 
 
     def pos_load(self):
