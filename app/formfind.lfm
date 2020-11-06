@@ -230,7 +230,7 @@ object fmFind: TfmFind
       OptNumbersSkippedChar = '.'
       OptUnprintedVisible = False
       OptMouseDragDrop = False
-      OptMouseNiceScroll = False
+      OptMouseMiddleClickScrolling = False
       OptMouseWheelZooms = False
       OptAllowReadOnly = False
       OptUndoLimit = 200
@@ -329,7 +329,7 @@ object fmFind: TfmFind
       OptNumbersSkippedChar = '.'
       OptUnprintedVisible = False
       OptMouseDragDrop = False
-      OptMouseNiceScroll = False
+      OptMouseMiddleClickScrolling = False
       OptMouseWheelZooms = False
       OptAllowReadOnly = False
       OptUndoLimit = 200
