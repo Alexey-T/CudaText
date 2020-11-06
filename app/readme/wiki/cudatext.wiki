@@ -676,7 +676,9 @@ Button "Replace global". Performs replacement in all opened documents in all edi
 
 Search engine supports actions with multi-selections. This makes sense mainly for mass-search actions (Find all, Select all, Mark all, Replace all).
 
-Search engine (in CudaText 1.116+) has the feature, which is rarely implemented in text editors. When invoked on text selection(s) with the option "Search in selection only", engine doesn't place caret+selection on found match, instead it places marker ([[#Markers]]). The marker is placed with the underline (triangle with a line to the left), which shows the length of the found match. Actions "Find next"/"Find previuos"/"Replace" support "in selection only" too, they move that mentioned marker. Note that this feature checks the presence of a single marker in text, it may not work OK if you have some markers already placed.
+Search engine has the feature, which is rarely implemented in text editors. When invoked on text selection(s) with the option "Search in selection only", engine doesn't place caret+selection on found match, instead it places marker ([[#Markers]]). The marker is placed with the underline (triangle with a line to the left), which shows the length of the found match. Actions "Find next"/"Find previuos"/"Replace" support "in selection only" too, they move that mentioned marker. Note that this feature checks the presence of a single marker in text, it may not work OK if you have some markers already placed.
+
+[[File:cudatext-find-markers.png]]
 
 Second click on the "Search" sidebar button toggles dialog between Find and Replace modes.
 
