@@ -73,7 +73,7 @@ var
   sectionId: TAppInfSection;
   ini_section, dir_inf: string;
   s_itemkind, s_caption, s_module, s_method, s_lexers,
-  s_events, s_keys, s_inmenu, s_icon: string;
+  s_events, s_keys, s_inmenu, s_icon, s_os: string;
   CmdItem: TAppCommandInfo;
   EventItem: TAppEventInfo;
   TreeHelper: TAppTreeHelper;
@@ -85,6 +85,10 @@ begin
   ini:= TMemIniFile.Create(fn_inf);
   sections:= TStringList.Create;
   try
+    //ignore plugin for unsupported OS
+    s_os:= ini.ReadString('info', 'os', '');
+    if not CheckValue_OS(s_os) then exit;
+
     ini.ReadSections(sections);
 
     for ini_section in sections do

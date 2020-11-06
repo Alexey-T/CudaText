@@ -48,6 +48,8 @@ procedure DoInstallAddonFromZip(
   out ANeedRestart: boolean;
   const ASilent: boolean);
 
+function CheckValue_OS(S: string): boolean;
+
 implementation
 
 uses

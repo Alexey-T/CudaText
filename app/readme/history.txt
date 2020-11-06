@@ -5,6 +5,7 @@
 
 1.117.5 (2020/11)
 
++ add: if some plugin is installed and it is Windows-only, just ignore it on non-Windows (and the same for other OSes)
 + add: if option "mouse_mid_click_paste":true, don't set caret pos on middle-button-click, just paste (thanks @Ordu)
 + add: if new tab was opened without disk file, it was edited, its content was erased, then don't show confirmation to save that tab on closing (thanks @dinkumoil)
 + add: mouse hover highlighting for statusbar cells
