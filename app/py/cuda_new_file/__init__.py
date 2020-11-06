@@ -1,5 +1,8 @@
 import os
 from cudatext import *
+from cudax_lib import get_translation
+
+_   = get_translation(__file__)  # I18N
 
 DIR_NEWDOC = os.path.join(app_path(APP_DIR_DATA), 'newdoc')
 
@@ -8,7 +11,7 @@ class Command:
         if not os.path.isdir(DIR_NEWDOC): return
         files = os.listdir(DIR_NEWDOC)
         if not files:
-            msg_status('No files in data/newdoc')
+            msg_status(_('No files in data/newdoc'))
             return
         
         infos = []
@@ -23,7 +26,7 @@ class Command:
         lexers = sorted(list(set([item[1] for item in infos if item[1]])))
         if not lexers: return
         
-        res = dlg_menu(MENU_LIST, lexers, caption='Templates')
+        res = dlg_menu(MENU_LIST, lexers, caption=_('Templates'))
         if res is None: return
         
         lexer = lexers[res]
@@ -33,11 +36,11 @@ class Command:
         if len(files)==1:
             fn = files[0]
         else:
-            res = dlg_menu(MENU_LIST, files, caption='Templates: %s'%lexer)
+            res = dlg_menu(MENU_LIST, files, caption=_('Templates: {}').format(lexer))
             if res is None: return
             fn = files[res]
             
-        msg_status('New file from "%s", lexer "%s"' % (fn, lexer))
+        msg_status(_('New file from "{}", lexer "{}"').format(fn, lexer))
 
         fn = os.path.join(DIR_NEWDOC, fn)
         file_open('')
