@@ -273,6 +273,7 @@ type
     InputHeight: integer;
     InitialDir: string;
     ConfirmLinksClicks: boolean;
+    ConfirmSaveEmptyUntitledTab: boolean;
 
     ExportHtmlNumbers: boolean;
     ExportHtmlFontName: string;
@@ -1555,6 +1556,7 @@ begin
     InputHeight:= 26;
     InitialDir:= '';
     ConfirmLinksClicks:= true;
+    ConfirmSaveEmptyUntitledTab:= false;
 
     ExportHtmlNumbers:= false;
     ExportHtmlFontSize:= 12;

@@ -1511,7 +1511,7 @@ end;
 
 function EditorIsModifiedEx(Ed: TATSynEdit): boolean;
 begin
-  if Ed.FileName='' then
+  if (Ed.FileName='') and (not UiOps.ConfirmSaveEmptyUntitledTab) then
     Result:= Ed.Modified and not EditorIsEmpty(Ed)
   else
     Result:= Ed.Modified;
