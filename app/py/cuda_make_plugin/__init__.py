@@ -1,7 +1,10 @@
 import os
 from cudatext import *
+from cudax_lib import get_translation
 from .dlg import *
 from .events import *
+
+_   = get_translation(__file__)  # I18N
 
 fn_sample_begin = os.path.join(os.path.dirname(__file__), 'sample_begin.py')
 fn_sample_body = os.path.join(os.path.dirname(__file__), 'sample_body.py')
@@ -22,13 +25,13 @@ class Command:
         # create dir
         dir_plugin = os.path.join(dir_py, s_module)
         if os.path.isdir(dir_plugin):
-            msg_box('Cannot create plugin, folder already exists:\n' + dir_plugin, MB_OK+MB_ICONERROR)
+            msg_box(_('Cannot create plugin, folder already exists:\n') + dir_plugin, MB_OK+MB_ICONERROR)
             return
 
         try:
             os.mkdir(dir_plugin)
         except:
-            msg_box('Cannot create dir:\n' + dir_plugin, MB_OK+MB_ICONERROR)
+            msg_box(_('Cannot create dir:\n') + dir_plugin, MB_OK+MB_ICONERROR)
             return
 
         #-------------
@@ -62,10 +65,10 @@ class Command:
         with open(fn_inf, 'w') as f:
             f.write('[info]\n')
             f.write('title='+s_caption+'\n')
-            f.write('desc=(Fill the description)\n')
+            f.write('desc='+_('(Fill the description)\n'))
             f.write('type=cudatext-plugin\n')
             f.write('subdir='+s_module+'\n')
-            f.write('homepage=(Fill the GitHub repo URL)\n')
+            f.write('homepage='+_('(Fill the GitHub repo URL)\n'))
             f.write('\n')
 
             if event_list:
@@ -95,4 +98,4 @@ class Command:
         #------------
         # done
         file_open(fn_py)
-        msg_box('Plugin was created.\nMenu item(s) will appear after restart of program.', MB_OK+MB_ICONINFO)
+        msg_box(_('Plugin was created.\nMenu item(s) will appear after restart of program.'), MB_OK+MB_ICONINFO)
