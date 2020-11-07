@@ -565,7 +565,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           TagList.Strings = (
-            ';'
+            ','
             ':'
             '.'
             '}')
