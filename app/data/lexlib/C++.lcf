@@ -568,7 +568,10 @@ object SyntAnal5: TLibSyntAnalyzer
             ','
             ':'
             '.'
-            '}')
+            '}'
+            '<'
+            '='
+            '>')
           CondType = tcNotEqual
           TokenTypes = 8456
         end>
