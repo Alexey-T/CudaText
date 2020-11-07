@@ -1,6 +1,5 @@
 import os
 from cudatext import *
-from cudax_lib import _
 import cudatext_cmd as cmds
 
 fn_ini = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')

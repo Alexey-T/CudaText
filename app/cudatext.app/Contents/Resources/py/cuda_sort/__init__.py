@@ -1,11 +1,13 @@
 import os
 from random import randint
 from cudatext import *
-from cudax_lib import _
+from cudax_lib import get_translation
 from .app_specific import *
 from .sort_ini import *
 from .sort_emails import *
 from .sort_sep import *
+
+_   = get_translation(__file__)  # I18N
 
 fn_ini = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
 op_section = 'sort'
@@ -226,11 +228,11 @@ def do_sort(
     set_output(lines, is_all, line1, line2)
 
     text = _('Sorted') \
-        + (', '+_('all text') if is_all else '') \
-        + (', '+_('reverse') if is_reverse else '') \
-        + (', '+_('ignore case') if is_nocase else '') \
-        + (', '+_('numeric') if is_numeric else '') \
-        + (', '+_('offsets') + ' %d..%d' % (offset1, offset2) if (offset1>=0) or (offset2>=0) else '')
+        + (_(', all text') if is_all else '') \
+        + (_(', reverse') if is_reverse else '') \
+        + (_(', ignore case') if is_nocase else '') \
+        + (_(', numeric') if is_numeric else '') \
+        + (_(', offsets ') + '%d..%d' % (offset1, offset2) if (offset1>=0) or (offset2>=0) else '')
     msg_status(text)
 
 

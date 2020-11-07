@@ -22,6 +22,7 @@ DATA_DIRS = (
     ('lang', '.ini'),
     ('newdoc', ''),
     ('snippets', ''),
+    ('snippetsx', ''),
     ('themes', ''),
     )
 
@@ -157,6 +158,7 @@ def get_installed_addons(ignore={}):
     exclude_themes = ignore.get('themes', [])
     exclude_translations = ignore.get('lang', [])
     exclude_snippets = ignore.get('snippets', [])
+    exclude_snippetsx = ignore.get('snippetsx', [])
 
     d = app_path(APP_DIR_PY)
     l = get_installed_modules()
@@ -205,6 +207,18 @@ def get_installed_addons(ignore={}):
     l = sorted(l)
     res += [{
         'kind': 'snippets',
+        'name': i,
+        'files': [
+            os.path.join(d, i)+'/',
+            ],
+        } for i in l]
+
+    d = os.path.join(app_path(APP_DIR_DATA), 'snippetsx')
+    l = os.listdir(d)
+    l = [i for i in l if not i in exclude_snippetsx]
+    l = sorted(l)
+    res += [{
+        'kind': 'snippetsx',
         'name': i,
         'files': [
             os.path.join(d, i)+'/',

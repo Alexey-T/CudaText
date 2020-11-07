@@ -1,8 +1,11 @@
 import os
 from cudatext import *
 import cudatext_cmd as cmds
+from cudax_lib import get_translation
 from .utils import *
 from .snips import *
+
+_   = get_translation(__file__)  # I18N
 
 fn_config = 'plugins.ini'
 fn_icon = os.path.join(os.path.dirname(__file__), 'snip.png')
@@ -25,7 +28,7 @@ class Command:
         self.update_combo()
         self.callback_btn_change(0, 0)
 
-        title = 'Snippet Panel'
+        title = _('Snippet Panel')
         app_proc(PROC_SIDEPANEL_ADD_DIALOG, (title, self.h_dlg, fn_icon) )
         app_proc(PROC_SIDEPANEL_ACTIVATE, title)
 
@@ -100,7 +103,7 @@ class Command:
             return
         clip = self.clips[index]
 
-        msg_status('Inserting: '+clip['name'])
+        msg_status(_('Inserting: ')+clip['name'])
         text = clip['text']
 
         sel = ed.get_text_sel()

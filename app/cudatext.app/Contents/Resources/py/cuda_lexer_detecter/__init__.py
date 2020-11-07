@@ -1,6 +1,10 @@
 import os
+import cudatext as app
 from cudatext import *
+from cudax_lib import get_translation
 from .lexertypes import *
+
+_   = get_translation(__file__)  # I18N
 
 config_file = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
 config_section = 'lexer_detecter_ignore'
@@ -48,10 +52,10 @@ class Command:
         if not lexers:
             return
 
-        items = ['Download lexer: '+s for s in lexers]
-        items += ['Cancel', 'Cancel, don\'t suggest anymore for *.%s'%ext1]
+        items = [_('Download lexer: ')+s for s in lexers]
+        items += [_('Cancel'), _('Cancel, don\'t suggest anymore for *.%s') % ext1]
 
-        res = dlg_menu(MENU_LIST, items, caption='Lexer(s) for "%s"' % name_orig)
+        res = dlg_menu(MENU_LIST, items, caption=_('Lexer(s) for "%s"') % name_orig)
         if res is None:
             return
 
@@ -75,7 +79,7 @@ class Command:
         tempname = tempfile.gettempdir()+os.sep+'cudatext_lexer.zip'
         get_url(url, tempname, True)
         if not os.path.isfile(tempname):
-            msg_box('Could not download/install lexer "%s" from add-ons'%lex, MB_OK+MB_ICONERROR)
+            msg_box(_('Could not download/install lexer "%s" from add-ons') % lex, MB_OK+MB_ICONERROR)
             return
 
         file_open(tempname, options='/silent')
