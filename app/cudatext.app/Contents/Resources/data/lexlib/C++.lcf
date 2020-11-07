@@ -565,12 +565,17 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           TagList.Strings = (
-            ';'
+            ','
             ':'
             '.'
-            '}')
+            '('
+            '}'
+            '<'
+            '='
+            '=='
+            '>')
           CondType = tcNotEqual
-          TokenTypes = 8456
+          TokenTypes = 9480
         end>
       BlockOffset = -1
       BlockEnd = '}'
@@ -612,6 +617,32 @@ object SyntAnal5: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = 'operator'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 256
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 1038
+        end
+        item
+          TagList.Strings = (
+            'operator')
+          TokenTypes = 4
+        end>
+      BlockEnd = '}'
+      NameFmt = '%sz0'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      CollapseFmt = '%sz0'
+      TreeItemImage = 7
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = '{'
       ConditionList = <
         item
@@ -637,38 +668,6 @@ object SyntAnal5: TLibSyntAnalyzer
             '}')
           TokenTypes = 256
         end>
-      HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Block comment'
-      Enabled = False
-      BlockName = 'Block comment'
-      NotParent = True
-      AlwaysEnabled = True
-      ConditionList = <
-        item
-          TokenTypes = 2
-        end>
-      BlockEnd = 'Block comment end'
-      DisplayInTree = False
-      HighlightPos = cpBound
-      CollapseFmt = '/* ... */'
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Block comment end'
-      Enabled = False
-      BlockName = 'Block comment'
-      StrictParent = True
-      AlwaysEnabled = True
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          CondType = tcNotEqual
-          TokenTypes = 2
-        end>
-      BlockOffset = 1
       HighlightPos = cpBound
       IgnoreAsParent = False
     end>
