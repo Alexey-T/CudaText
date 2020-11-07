@@ -567,6 +567,7 @@ object SyntAnal5: TLibSyntAnalyzer
           TagList.Strings = (
             ';'
             ':'
+            '.'
             '}')
           CondType = tcNotEqual
           TokenTypes = 8456
