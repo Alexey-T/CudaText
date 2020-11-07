@@ -568,12 +568,14 @@ object SyntAnal5: TLibSyntAnalyzer
             ','
             ':'
             '.'
+            '('
             '}'
             '<'
             '='
+            '=='
             '>')
           CondType = tcNotEqual
-          TokenTypes = 8456
+          TokenTypes = 9480
         end>
       BlockOffset = -1
       BlockEnd = '}'
