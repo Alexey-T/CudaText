@@ -174,84 +174,90 @@ def get_installed_addons(ignore={}):
 
     d = os.path.join(app_path(APP_DIR_DATA), 'lexlib')
     d_acp = os.path.join(app_path(APP_DIR_DATA), 'autocomplete')
-    l = os.listdir(d)
-    l = [i.split('.')[0] for i in l if i.endswith('.lcf')]
-    l = [i for i in l if not i in exclude_lexers]
-    l = sorted(l)
-    res += [{
-        'kind': 'lexer',
-        'name': i,
-        'files': [
-            os.path.join(d, i+'.lcf'),
-            os.path.join(d, i+'.cuda-lexmap'),
-            os.path.join(d_acp, i+'.acp'),
-            ],
-        } for i in l]
+    if os.path.isdir(d):
+        l = os.listdir(d)
+        l = [i.split('.')[0] for i in l if i.endswith('.lcf')]
+        l = [i for i in l if not i in exclude_lexers]
+        l = sorted(l)
+        res += [{
+            'kind': 'lexer',
+            'name': i,
+            'files': [
+                os.path.join(d, i+'.lcf'),
+                os.path.join(d, i+'.cuda-lexmap'),
+                os.path.join(d_acp, i+'.acp'),
+                ],
+            } for i in l]
 
     d = os.path.join(app_path(APP_DIR_DATA), 'lexliblite')
-    l = os.listdir(d)
-    l = [i.split('.')[0] for i in l if i.endswith('.cuda-litelexer')]
-    l = [i for i in l if not i in exclude_lexers_lite]
-    l = sorted(l)
-    res += [{
-        'kind': 'lexer',
-        'name': i+' ^',
-        'files': [
-            os.path.join(d, i+'.cuda-litelexer'),
-            ],
-        } for i in l]
+    if os.path.isdir(d):
+        l = os.listdir(d)
+        l = [i.split('.')[0] for i in l if i.endswith('.cuda-litelexer')]
+        l = [i for i in l if not i in exclude_lexers_lite]
+        l = sorted(l)
+        res += [{
+            'kind': 'lexer',
+            'name': i+' ^',
+            'files': [
+                os.path.join(d, i+'.cuda-litelexer'),
+                ],
+            } for i in l]
 
     d = os.path.join(app_path(APP_DIR_DATA), 'snippets')
-    l = os.listdir(d)
-    l = [i for i in l if not i in exclude_snippets]
-    l = sorted(l)
-    res += [{
-        'kind': 'snippets',
-        'name': i,
-        'files': [
-            os.path.join(d, i)+'/',
-            ],
-        } for i in l]
+    if os.path.isdir(d):
+        l = os.listdir(d)
+        l = [i for i in l if not i in exclude_snippets]
+        l = sorted(l)
+        res += [{
+            'kind': 'snippets',
+            'name': i,
+            'files': [
+                os.path.join(d, i)+'/',
+                ],
+            } for i in l]
 
     d = os.path.join(app_path(APP_DIR_DATA), 'snippetsx')
-    l = os.listdir(d)
-    l = [i for i in l if not i in exclude_snippetsx]
-    l = sorted(l)
-    res += [{
-        'kind': 'snippetsx',
-        'name': i,
-        'files': [
-            os.path.join(d, i)+'/',
-            ],
-        } for i in l]
+    if os.path.isdir(d):
+        l = os.listdir(d)
+        l = [i for i in l if not i in exclude_snippetsx]
+        l = sorted(l)
+        res += [{
+            'kind': 'snippetsx',
+            'name': i,
+            'files': [
+                os.path.join(d, i)+'/',
+                ],
+            } for i in l]
 
     d = os.path.join(app_path(APP_DIR_DATA), 'themes')
-    l = os.listdir(d)
-    l = [i.split('.')[0] for i in l if i.endswith('.cuda-theme-syntax') or i.endswith('.cuda-theme-ui')]
-    l = [i for i in l if not i in exclude_themes]
-    l = list(set(l)) # del duplicates
-    l = sorted(l)
-    res += [{
-        'kind': 'theme',
-        'name': i,
-        'files': [
-            os.path.join(d, i+'.cuda-theme-syntax'),
-            os.path.join(d, i+'.cuda-theme-ui'),
-            ],
-        } for i in l]
+    if os.path.isdir(d):
+        l = os.listdir(d)
+        l = [i.split('.')[0] for i in l if i.endswith('.cuda-theme-syntax') or i.endswith('.cuda-theme-ui')]
+        l = [i for i in l if not i in exclude_themes]
+        l = list(set(l)) # del duplicates
+        l = sorted(l)
+        res += [{
+            'kind': 'theme',
+            'name': i,
+            'files': [
+                os.path.join(d, i+'.cuda-theme-syntax'),
+                os.path.join(d, i+'.cuda-theme-ui'),
+                ],
+            } for i in l]
 
     d = os.path.join(app_path(APP_DIR_DATA), 'lang')
-    l = os.listdir(d)
-    l = [i.split('.')[0] for i in l if i.endswith('.ini')]
-    l = [i for i in l if not i in exclude_translations]
-    l = sorted(l)
-    res += [{
-        'kind': 'translation',
-        'name': i,
-        'files': [
-            os.path.join(d, i+'.ini'),
-            ],
-        } for i in l]
+    if os.path.isdir(d):
+        l = os.listdir(d)
+        l = [i.split('.')[0] for i in l if i.endswith('.ini')]
+        l = [i for i in l if not i in exclude_translations]
+        l = sorted(l)
+        res += [{
+            'kind': 'translation',
+            'name': i,
+            'files': [
+                os.path.join(d, i+'.ini'),
+                ],
+            } for i in l]
 
     return res
 
