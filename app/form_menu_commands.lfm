@@ -100,7 +100,6 @@ object fmCommands: TfmCommands
     OptNumbersSkippedChar = '.'
     OptUnprintedVisible = False
     OptMouseDragDrop = False
-    OptMouseMiddleClickScrolling = False
     OptMouseWheelZooms = False
     OptAllowReadOnly = False
     OptUndoLimit = 200

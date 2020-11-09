@@ -862,11 +862,12 @@
   //Double-click and immediately drag, makes selection by words
   "mouse_2click_drag_select_words": true,
 
-  //Middle-click shows circle picture, then mouse-move near that circle does auto-scrolling
-  "mouse_mid_click_scroll": true,
-
-  //Middle-click does paste from clipboard (usual in Linux apps)
-  "mouse_mid_click_paste": false,
+  //Middle-click action
+  //  0: None
+  //  1: Scrolling: shows circle picture, then mouse-move near that circle does auto-scrolling
+  //  2: Paste (without caret placement)
+  //  3: Goto-definition command
+  "mouse_middle_click": 1,
 
   //Enable selection of vertical blocks (Alt+drag)
   "mouse_column_selection": true,

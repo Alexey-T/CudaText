@@ -316,8 +316,7 @@ begin
   Ed.OptMouse2ClickDragSelectsWords:= Op.OpMouse2ClickDragSelectsWords;
   Ed.OptMouseDragDrop:= Op.OpMouseDragDrop;
   ATSynEdit.OptMouseDragDropFocusesTargetEditor:= Op.OpMouseDragDropFocusTarget;
-  Ed.OptMouseMiddleClickScrolling:= Op.OpMouseMiddleClickNiceScroll;
-  Ed.OptMouseMiddleClickPaste:= Op.OpMouseMiddleClickPaste;
+  Ed.OptMouseMiddleClickAction:= TATMiddleClickAction(Op.OpMouseMiddleClickAction);
   Ed.OptMouseRightClickMovesCaret:= Op.OpMouseRightClickMovesCaret;
   Ed.OptMouseEnableColumnSelection:= Op.OpMouseEnableColumnSelection;
   Ed.OptMouseHideCursorOnType:= Op.OpMouseHideCursorOnType;

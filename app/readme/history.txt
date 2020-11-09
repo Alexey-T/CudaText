@@ -3,10 +3,11 @@
   - fixed
   * changed
 
-1.117.5 (2020/11)
+1.117.6 (2020/11)
 
++ add/change: option "mouse_middle_click", it replaces 2 options "mouse_mid_click_scroll"/"mouse_mid_click_paste", and adds choice "goto definition"
++ add/change: with option "paste on middle click", don't set caret pos, just paste (thanks @Ordu)
 + add: on Unix, just ignore Windows-only plugins (they can be installed e.g. by syncing 2 PCs)
-+ add: if option "mouse_mid_click_paste":true, don't set caret pos on middle-button-click, just paste (thanks @Ordu)
 + add: if new tab was opened without disk file, it was edited, its content was erased, then don't show confirmation to save that tab on closing (thanks @dinkumoil)
 + add: mouse hover highlighting for statusbar cells
 + add: can work if CudaText runs via symlink on Unix systems (thanks @Peter2121)

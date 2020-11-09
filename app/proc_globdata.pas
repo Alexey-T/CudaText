@@ -33,6 +33,7 @@ uses
   ATSynEdit_Keymap,
   ATSynEdit_Keymap_Init,
   ATSynEdit_Adapter_litelexer,
+  ATSynEdit_Commands,
   ATStringProc,
   ATStringProc_Separator,
   ATFlatThemes,
@@ -547,8 +548,7 @@ type
     OpMouse2ClickDragSelectsWords: boolean;
     OpMouseDragDrop: boolean;
     OpMouseDragDropFocusTarget: boolean;
-    OpMouseMiddleClickNiceScroll: boolean;
-    OpMouseMiddleClickPaste: boolean;
+    OpMouseMiddleClickAction: integer;
     OpMouseRightClickMovesCaret: boolean;
     OpMouseEnableColumnSelection: boolean;
     OpMouseHideCursorOnType: boolean; //don't work on lin
@@ -1389,8 +1389,7 @@ begin
     OpMouse2ClickDragSelectsWords:= true;
     OpMouseDragDrop:= true;
     OpMouseDragDropFocusTarget:= true;
-    OpMouseMiddleClickNiceScroll:= true;
-    OpMouseMiddleClickPaste:= false;
+    OpMouseMiddleClickAction:= Ord(TATMiddleClickAction.mcaScrolling);
     OpMouseRightClickMovesCaret:= false;
     OpMouseEnableColumnSelection:= true;
     OpMouseHideCursorOnType:= false;
@@ -2843,6 +2842,8 @@ initialization
 
   AppApiFlatTheme:= ATFlatTheme;
   AppListRecents:= TStringList.Create;
+
+  ATSynEdit_Commands.cCommand_GotoDefinition:= cmd_GotoDefinition;
 
 finalization
 

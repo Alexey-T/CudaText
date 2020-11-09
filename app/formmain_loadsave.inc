@@ -917,8 +917,7 @@ begin
   Op.OpMouse2ClickDragSelectsWords:= cfg.GetValue('mouse_2click_drag_select_words', Op.OpMouse2ClickDragSelectsWords);
   Op.OpMouseDragDrop:= cfg.GetValue('mouse_drag_drop', Op.OpMouseDragDrop);
   Op.OpMouseDragDropFocusTarget:= cfg.GetValue('mouse_drag_drop_focus_target', Op.OpMouseDragDropFocusTarget);
-  Op.OpMouseMiddleClickNiceScroll:= cfg.GetValue('mouse_mid_click_scroll', Op.OpMouseMiddleClickNiceScroll);
-  Op.OpMouseMiddleClickPaste:= cfg.GetValue('mouse_mid_click_paste', Op.OpMouseMiddleClickPaste);
+  Op.OpMouseMiddleClickAction:= cfg.GetValue('mouse_middle_click', Op.OpMouseMiddleClickAction);
   Op.OpMouseRightClickMovesCaret:= cfg.GetValue('mouse_rt_click_moves_caret', Op.OpMouseRightClickMovesCaret);
   Op.OpMouseEnableColumnSelection:= cfg.GetValue('mouse_column_selection', Op.OpMouseEnableColumnSelection);
   Op.OpMouseHideCursorOnType:= cfg.GetValue('mouse_hide_cursor', Op.OpMouseHideCursorOnType);
