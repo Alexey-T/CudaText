@@ -1,6 +1,9 @@
 import os
 from cudatext import *
 import cudatext_cmd
+from cudax_lib import get_translation
+
+_   = get_translation(__file__)  # I18N
 
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_tabs_list.ini')
 fn_icon = 'tabs.png'
@@ -11,7 +14,7 @@ def str_to_bool(s): return s=='1'
 THEME = app_proc(PROC_THEME_UI_DICT_GET, '')
 
 class Command:
-    title = 'Tabs'
+    title = _('Tabs')
     h_dlg = None
     h_list = None
     h_menu = None
@@ -106,11 +109,11 @@ class Command:
 
         self.h_menu = menu_proc(0, MENU_CREATE)
         menu_proc(self.h_menu, MENU_CLEAR)
-        menu_proc(self.h_menu, MENU_ADD, caption='Close', command='cuda_tabs_list.menu_close_sel')
-        menu_proc(self.h_menu, MENU_ADD, caption='Close others', command='cuda_tabs_list.menu_close_others')
+        menu_proc(self.h_menu, MENU_ADD, caption=_('Close'), command='cuda_tabs_list.menu_close_sel')
+        menu_proc(self.h_menu, MENU_ADD, caption=_('Close others'), command='cuda_tabs_list.menu_close_others')
         menu_proc(self.h_menu, MENU_ADD, caption='-', command='')
-        menu_proc(self.h_menu, MENU_ADD, caption='Copy filename only', command='cuda_tabs_list.menu_copy_file_name')
-        menu_proc(self.h_menu, MENU_ADD, caption='Copy full filepath', command='cuda_tabs_list.menu_copy_file_path')
+        menu_proc(self.h_menu, MENU_ADD, caption=_('Copy filename only'), command='cuda_tabs_list.menu_copy_file_name')
+        menu_proc(self.h_menu, MENU_ADD, caption=_('Copy full filepath'), command='cuda_tabs_list.menu_copy_file_path')
 
     def on_focus(self, ed_self):
         self.update()
