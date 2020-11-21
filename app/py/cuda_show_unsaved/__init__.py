@@ -114,7 +114,7 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'btn_close',
             'cap': _('Close'),
-            'w': 110,
+            'w': 120,
             'a_l': None,
             'a_t': None,
             'a_b': ('', ']'),
@@ -127,7 +127,7 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'btn_save',
             'cap': _('Save as...'),
-            'w': 110,
+            'w': 120,
             'a_l': None,
             'a_t': None,
             'a_b': ('', ']'),
