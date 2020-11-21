@@ -10,10 +10,13 @@ from .projman_glob import *
 from cudatext import *
 import cudatext_cmd
 
+from cudax_lib import get_translation
+_   = get_translation(__file__)  # i18n
+
 IS_WIN = os.name == 'nt'
 PROJECT_EXTENSION = ".cuda-proj"
-PROJECT_DIALOG_FILTER = "CudaText projects|*"+PROJECT_EXTENSION
-PROJECT_UNSAVED_NAME = "(Unsaved project)"
+PROJECT_DIALOG_FILTER = _("CudaText projects|*") + PROJECT_EXTENSION
+PROJECT_UNSAVED_NAME = _("(Unsaved project)")
 NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
 global_project_info = {}
 
@@ -109,34 +112,35 @@ def _toolbar_add_btn(h_bar, hint, icon=-1, command=''):
 
 class Command:
 
-    title = "Project"
+    title ="Project"    # No _() here, the translation is offered in "translation template.ini".
     menuitems = (
-        ("New project"          , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
-        ("Open project..."      , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
-        ("Recent projects"      , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
-        ("Save project as..."   , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        #   item_caption , item_parent , item_types , item_action
+        (_("New project")          , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_new_project"),
+        (_("Open project...")      , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_open_project"),
+        (_("Recent projects")      , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "collect_recent_projects"),
+        (_("Save project as...")   , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_save_project_as"),
 
-        ("Add folder..."        , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
-        ("Add file..."          , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
-        ("Clear project"        , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
-        ("Remove node"          , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        (_("Add folder...")        , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_folder"),
+        (_("Add file...")          , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_file"),
+        (_("Clear project")        , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_clear_project"),
+        (_("Remove node")          , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_node"),
 
-        ("New file..."          , "dir", [NODE_DIR]),
-        ("Rename..."            , "dir", [NODE_DIR]),
-        ("Delete directory"     , "dir", [NODE_DIR]),
-        ("New directory..."     , "dir", [NODE_DIR]),
-        ("Find in directory..." , "dir", [NODE_DIR]),
+        (_("New file...")          , "dir", [NODE_DIR], "cuda_project_man.action_new_file"),
+        (_("Rename...")            , "dir", [NODE_DIR], "cuda_project_man.action_rename"),
+        (_("Delete directory")     , "dir", [NODE_DIR], "cuda_project_man.action_delete_directory"),
+        (_("New directory...")     , "dir", [NODE_DIR], "cuda_project_man.action_new_directory"),
+        (_("Find in directory...") , "dir", [NODE_DIR], "cuda_project_man.action_find_in_directory"),
 
-        ("Rename..."            , "file", [NODE_FILE]),
-        ("Delete file"          , "file", [NODE_FILE]),
-        ("Set as main file"     , "file", [NODE_FILE]),
+        (_("Rename...")            , "file", [NODE_FILE], "cuda_project_man.action_rename"),
+        (_("Delete file")          , "file", [NODE_FILE], "cuda_project_man.action_delete_file"),
+        (_("Set as main file")     , "file", [NODE_FILE], "cuda_project_man.action_set_as_main_file"),
 
-        ("-"                    , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
-        ("Refresh"              , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
-        ("-"                    , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
-        ("Go to file..."        , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
-        ("Project properties...", "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
-        ("Config..."            , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("-"                       , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], ""),
+        (_("Refresh")              , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_refresh"),
+        ("-"                       , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], ""),
+        (_("Go to file...")        , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_go_to_file"),
+        (_("Project properties..."), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_project_properties"),
+        (_("Config...")            , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_config"),
     )
 
     options = {
@@ -197,14 +201,14 @@ class Command:
         icon_cfg = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'cfg.png'))
 
         toolbar_proc(self.h_bar, TOOLBAR_THEME)
-        _toolbar_add_btn(self.h_bar, hint='Open project', icon=icon_open, command='cuda_project_man.action_open_project' )
-        _toolbar_add_btn(self.h_bar, hint='Save project as', icon=icon_save, command='cuda_project_man.action_save_project_as' )
+        _toolbar_add_btn(self.h_bar, hint=_('Open project'), icon=icon_open, command='cuda_project_man.action_open_project' )
+        _toolbar_add_btn(self.h_bar, hint=_('Save project as'), icon=icon_save, command='cuda_project_man.action_save_project_as' )
         _toolbar_add_btn(self.h_bar, hint='-' )
-        _toolbar_add_btn(self.h_bar, hint='Add folder', icon=icon_add_dir, command='cuda_project_man.action_add_folder' )
-        _toolbar_add_btn(self.h_bar, hint='Add file', icon=icon_add_file, command='cuda_project_man.action_add_file' )
-        _toolbar_add_btn(self.h_bar, hint='Remove node', icon=icon_del, command='cuda_project_man.action_remove_node' )
+        _toolbar_add_btn(self.h_bar, hint=_('Add folder'), icon=icon_add_dir, command='cuda_project_man.action_add_folder' )
+        _toolbar_add_btn(self.h_bar, hint=_('Add file'), icon=icon_add_file, command='cuda_project_man.action_add_file' )
+        _toolbar_add_btn(self.h_bar, hint=_('Remove node'), icon=icon_del, command='cuda_project_man.action_remove_node' )
         _toolbar_add_btn(self.h_bar, hint='-' )
-        _toolbar_add_btn(self.h_bar, hint='Config', icon=icon_cfg, command='cuda_project_man.action_config' )
+        _toolbar_add_btn(self.h_bar, hint=_('Config'), icon=icon_cfg, command='cuda_project_man.action_config' )
         toolbar_proc(self.h_bar, TOOLBAR_UPDATE)
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
@@ -288,17 +292,18 @@ class Command:
 
         menu_all = self.h_menu
         menu_proc(menu_all, MENU_CLEAR)
-        menu_proj = self.add_context_menu_node(menu_all, "0", "Project file")
-        menu_nodes = self.add_context_menu_node(menu_all, "0", "Root nodes")
+        menu_proj = self.add_context_menu_node(menu_all, "0", _("Project file"))
+        menu_nodes = self.add_context_menu_node(menu_all, "0", _("Root nodes"))
         if node_type == NODE_FILE:
-            menu_file = self.add_context_menu_node(menu_all, "0", "Selected file")
+            menu_file = self.add_context_menu_node(menu_all, "0", _("Selected file"))
         if node_type == NODE_DIR:
-            menu_dir = self.add_context_menu_node(menu_all, "0", "Selected directory")
+            menu_dir = self.add_context_menu_node(menu_all, "0", _("Selected directory"))
 
         for item in self.menuitems:
             item_caption = item[0]
             item_parent = item[1]
             item_types = item[2]
+            item_action = item[3]
             if node_type not in item_types:
                 continue
 
@@ -313,15 +318,13 @@ class Command:
             else:
                 menu_use = menu_all
 
-            if item_caption in ["-", "Recent projects"]:
-                action_name = ""
+            if item_action == "collect_recent_projects":
                 action = ""
             else:
-                action_name = item_caption.lower().replace(" ", "_").rstrip(".")
-                action = "cuda_project_man.action_" + action_name
+                action = item_action
 
             menu_added = self.add_context_menu_node(menu_use, action, item_caption)
-            if item_caption == "Recent projects":
+            if item_action == "collect_recent_projects":
                 for path in self.options["recent_projects"]:
                     if os.sep in path:
                         action = str.format("module=cuda_project_man;cmd=action_open_project;info={};", path)
@@ -337,7 +340,7 @@ class Command:
         if path is not None:
             if path in self.project["nodes"]:
                 return
-            msg_status("Adding to project: " + path, True)
+            msg_status(_("Adding to project: ") + path, True)
             self.project["nodes"].append(path)
             self.project["nodes"].sort(key=Command.node_ordering)
             self.action_refresh()
@@ -363,12 +366,12 @@ class Command:
         if location.is_file():
             location = location.parent
 
-        result = dlg_input("New file:", "")
+        result = dlg_input(_("New file:"), "")
         if not result:
             return
 
         if os.sep in result:
-            msg_status("Incorrect file name")
+            msg_status(_("Incorrect file name"))
             return
 
         path = location / result
@@ -382,7 +385,7 @@ class Command:
 
     def action_rename(self):
         location = Path(self.get_location_by_index(self.selected))
-        result = dlg_input("Rename to", str(location.name))
+        result = dlg_input(_("Rename to"), str(location.name))
         if not result:
             return
 
@@ -397,11 +400,11 @@ class Command:
 
         self.action_refresh()
         self.jump_to_filename(str(new_location))
-        msg_status("Renamed to: " + str(new_location.name))
+        msg_status(_("Renamed to: ") + str(new_location.name))
 
     def action_delete_file(self):
         location = Path(self.get_location_by_index(self.selected))
-        if msg_box("Delete file from disk:\n" + str(location), MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
+        if msg_box(_("Delete file from disk:\n") + str(location), MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
             return
 
         location.unlink()
@@ -410,7 +413,7 @@ class Command:
         else:
             self.action_refresh()
             self.jump_to_filename(str(location.parent))
-        msg_status("Deleted file: " + str(location.name))
+        msg_status(_("Deleted file: ") + str(location.name))
 
     def do_delete_dir(self, location):
         for path in location.glob("*"):
@@ -422,7 +425,7 @@ class Command:
 
     def action_delete_directory(self):
         location = Path(self.get_location_by_index(self.selected))
-        if msg_box("Delete directory from disk:\n" + str(location), MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
+        if msg_box(_("Delete directory from disk:\n") + str(location), MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
             return
 
         self.do_delete_dir(location)
@@ -431,13 +434,13 @@ class Command:
         else:
             self.action_refresh()
             self.jump_to_filename(str(location.parent))
-        msg_status("Deleted dir: " + str(location.name))
+        msg_status(_("Deleted dir: ") + str(location.name))
 
     def action_new_directory(self):
         location = Path(self.get_location_by_index(self.selected))
         if location.is_file():
             location = location.parent
-        result = dlg_input("New directory", "")
+        result = dlg_input(_("New directory"), "")
         if not result:
             return
 
@@ -450,19 +453,19 @@ class Command:
         location = str(self.get_location_by_index(self.selected))
         try:
             import cuda_find_in_files as fif
-            msg_status('Called "Find in Files" for "%s"' % location)
+            msg_status(_('Called "Find in Files" for "%s"') % location)
             fif.show_dlg(what="", opts={"fold": location})
         except ImportError:
             try:
                 from cuda_find_in_files4 import show_fif4
-                msg_status('Called "Find in Files 4" for "%s"' % location)
+                msg_status(_('Called "Find in Files 4" for "%s"') % location)
                 show_fif4({'with': {
                     'in_what': '',
                     'wk_fold': location,
                     'wk_incl': '*'
                     }})
             except ImportError:
-                msg_box('Plugin "Find in Files" or "Find in Files 4" is not installed, install it first', MB_OK + MB_ICONERROR)
+                msg_box(_('Plugin "Find in Files" or "Find in Files 4" is not installed, install it first'), MB_OK + MB_ICONERROR)
 
 
     def action_refresh(self, parent=None):
@@ -563,7 +566,7 @@ class Command:
             path = dlg_file(True, "", "", PROJECT_DIALOG_FILTER)
         if path:
             if Path(path).exists():
-                print('Loading project: '+path)
+                print(_('Loading project: ') + path)
                 with open(path, encoding='utf8') as fin:
                     self.project = json.load(fin)
                     self.project_file_path = Path(path)
@@ -578,9 +581,9 @@ class Command:
                         app_proc(PROC_SET_FOLDER, fn)
                         break
 
-                msg_status("Project opened: " + path)
+                msg_status(_("Project opened: ") + path)
             else:
-                msg_status("Recent item not found: " + path)
+                msg_status(_("Recent item not found: ") + path)
 
     def action_add_folder(self):
         self.add_node(lambda: dlg_dir(""))
@@ -632,8 +635,8 @@ class Command:
                 json.dump(self.project, fout, indent=4)
 
             self.update_global_data()
-            print('Saving project: '+str(path))
-            msg_status("Project saved")
+            print(_('Saving project: ') + str(path))
+            msg_status(_("Project saved"))
 
             if need_refresh:
                 self.add_recent(str(path))
@@ -710,7 +713,7 @@ class Command:
         if fn is None: return
 
         if is_locked(fn):
-            print('Project Manager: folder is locked: '+fn)
+            print(_('Project Manager: folder is locked: ') + fn)
             return
 
         self.init_panel()
@@ -722,14 +725,14 @@ class Command:
     def open_dir(self, dirname, new_proj=False):
 
         if not os.path.isdir(dirname):
-            print('Project Manager: folder not found: '+dirname)
+            print(_('Project Manager: folder not found: ') + dirname)
             return
 
         #expand "." to fully qualified name
         dirname = os.path.abspath(dirname)
 
         if is_locked(dirname):
-            print('Project Manager: folder is locked: '+dirname)
+            print(_('Project Manager: folder is locked: ') + dirname)
             return
 
         self.init_panel()
@@ -751,7 +754,7 @@ class Command:
 
         from .projman_dlg import dialog_config
         if dialog_config(self.options):
-            print('ProjectManager: saving options')
+            print(_('ProjectManager: saving options'))
             self.save_options()
 
             if self.h_dlg:
@@ -771,7 +774,7 @@ class Command:
 
     def config_proj(self):
         if not self.tree:
-            msg_status('Project not loaded')
+            msg_status(_('Project not loaded'))
             return
 
         from .projman_dlg import dialog_proj_prop
@@ -860,19 +863,19 @@ class Command:
         return True
 
     def menu_goto(self):
-        '''Show menu-dialog with all files in project, and jump to chosen file'''
+        """ Show menu-dialog with all files in project, and jump to chosen file """
         if not self.tree:
-            msg_status('Project not opened')
+            msg_status(_('Project not opened'))
             return
 
         files = self.enum_all_files()
         if not files:
-            msg_status('Project is empty')
+            msg_status(_('Project is empty'))
             return
 
         files_nice = [os.path.basename(fn)+'\t'+os.path.dirname(fn) for fn in files]
         # disable fuzzy search in menu
-        res = dlg_menu(MENU_LIST_ALT+MENU_NO_FUZZY, files_nice, caption='Go to file')
+        res = dlg_menu(MENU_LIST_ALT+MENU_NO_FUZZY, files_nice, caption=_('Go to file'))
         if res is None:
             return
 
@@ -880,7 +883,7 @@ class Command:
         self.jump_to_filename(files[res], and_open)
 
     def jump_to_filename(self, filename, and_open=False):
-        '''Find filename in entire project and focus its tree node'''
+        """ Find filename in entire project and focus its tree node """
         dir_need = os.path.dirname(filename)
 
         def callback_find(fn, item):
@@ -897,19 +900,19 @@ class Command:
 
             return True
 
-        msg_status('Jumping to: '+filename)
+        msg_status(_('Jumping to: ') + filename)
         return self.enum_all(callback_find)
 
     def sync_to_ed(self):
-        '''Jump to active editor file, if it's in project'''
+        """ Jump to active editor file, if it's in project """
         if not self.tree:
-            msg_status('Project not loaded')
+            msg_status(_('Project not loaded'))
             return
 
         fn = ed.get_filename()
         if fn:
             if self.jump_to_filename(fn): #gets False if found
-                msg_status('Cannot jump to file: '+fn)
+                msg_status(_('Cannot jump to file: ') + fn)
 
 
     def tree_on_unfold(self, id_dlg, id_ctl, data='', info=''):
@@ -988,10 +991,10 @@ class Command:
 
         res = re.match('^\S+x(\d+)$', theme_name)
         if not res:
-            return msg_box('Project Manager: bad icons folder name: "%s"'%theme_name, MB_OK+MB_ICONERROR)
+            return msg_box(_('Project Manager: bad icons folder name: "%s"') % theme_name, MB_OK+MB_ICONERROR)
         n = int(res.group(1))
         if not 8<=n<=64:
-            return msg_box('Project Manager: bad icons size: "%s"'%theme_name, MB_OK+MB_ICONERROR)
+            return msg_box(_('Project Manager: bad icons size: "%s"') % theme_name, MB_OK+MB_ICONERROR)
 
         imagelist_proc(imglist, IMAGELIST_SET_SIZE, (n, n))
 
@@ -1024,7 +1027,7 @@ class Command:
         fn = os.path.join(self.icon_dir, fn)
         n = imagelist_proc(self.tree_imglist, IMAGELIST_ADD, value=fn)
         if n is None:
-            print('ProjectManager: incorrect filetype icon:', fn)
+            print(_('ProjectManager: incorrect filetype icon:'), fn)
             n = self.ICON_ALL
         self.icon_indexes[key] = n
         return n
@@ -1058,12 +1061,12 @@ class Command:
 
     def goto_main(self):
         if not self.tree:
-            msg_status('Project not opened')
+            msg_status(_('Project not opened'))
             return
 
         fn = self.project.get('mainfile', '')
         if not fn:
-            msg_status('Project main file is not set')
+            msg_status(_('Project main file is not set'))
             return
         self.jump_to_filename(fn)
 
@@ -1072,7 +1075,7 @@ class Command:
         if fn:
             file_open(fn)
         else:
-            msg_status('Project main file is not set')
+            msg_status(_('Project main file is not set'))
 
     def enum_all_files(self):
 
@@ -1091,15 +1094,15 @@ class Command:
 
     def open_all(self):
         if not self.tree:
-            msg_status('Project not opened')
+            msg_status(_('Project not opened'))
             return
 
         files = self.enum_all_files()
         if not files:
-            msg_status('Project is empty')
+            msg_status(_('Project is empty'))
             return
 
-        if msg_box('Open all %d file(s) in editor?'%len(files), MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
+        if msg_box(_('Open all %d file(s) in editor?') % len(files), MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
             return
 
         for (i, fn) in enumerate(files):
