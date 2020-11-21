@@ -1,6 +1,10 @@
 import os
 from cudatext import *
+from cudax_lib import get_translation
 from .projman_glob import *
+
+_   = get_translation(__file__)  # i18n
+
 
 def bool_to_str(b):
     return '1' if b else '0'
@@ -51,50 +55,50 @@ def dialog_config(op):
 
     c1 = chr(1)
     text = '\n'.join([]
-        +[c1.join(['type=label', 'pos=6,4,110,0', 'cap=Ignore &files:'])]
+        +[c1.join(['type=label', 'pos=6,4,110,0', 'cap='+_('Ignore &files:')])]
         +[c1.join(['type=edit', 'pos=116,4,500,0', 'val='+op.get('no_files', '')])]
 
-        +[c1.join(['type=label', 'pos=6,34,110,0', 'cap=Ignore fold&ers:'])]
+        +[c1.join(['type=label', 'pos=6,34,110,0', 'cap='+_('Ignore fold&ers:')])]
         +[c1.join(['type=edit', 'pos=116,34,500,0', 'val='+op.get('no_dirs', '.git;.svn')])]
 
-        +[c1.join(['type=check', 'pos=6,62,500,84', 'cap=Ignore all &hidden files/folders',
+        +[c1.join(['type=check', 'pos=6,62,500,84', 'cap='+_('Ignore all &hidden files/folders'),
           'val='+bool_to_str(op.get('no_hidden', True))])]
         
-        +[c1.join(['type=label', 'pos=6,88,500,0', 'cap=&Recent projects:'])]
+        +[c1.join(['type=label', 'pos=6,88,500,0', 'cap='+_('&Recent projects:')])]
         +[c1.join(['type=memo', 'pos=6,104,500,180',
             'val='+'\t'.join(op.get('recent_projects', [])) ])]
-        +[c1.join(['type=check', 'pos=6,186,400,0', 'cap=&Load on program start (*)',
+        +[c1.join(['type=check', 'pos=6,186,400,0', 'cap='+_('&Load on program start (*)'),
             'val='+bool_to_str(op.get('on_start', False)) ])]
-        +[c1.join(['type=check', 'pos=6,210,400,0', 'cap=&Show toolbar',
+        +[c1.join(['type=check', 'pos=6,210,400,0', 'cap='+_('&Show toolbar'),
             'val='+bool_to_str(op.get('toolbar', True)) ])]
-        +[c1.join(['type=check', 'pos=6,236,400,0', 'cap=Open file after "&Go to file" command',
+        +[c1.join(['type=check', 'pos=6,236,400,0', 'cap='+_('Open file after "&Go to file" command'),
             'val='+bool_to_str(op.get('goto_open', False)) ])]
-        +[c1.join(['type=check', 'pos=6,262,400,0', 'cap=&Use "preview tab" on item clicking',
+        +[c1.join(['type=check', 'pos=6,262,400,0', 'cap='+_('&Use "preview tab" on item clicking'),
             'val='+bool_to_str(op.get('preview', True)) ])]
-        +[c1.join(['type=check', 'pos=6,288,400,0', 'cap=Open files by &double-click',
+        +[c1.join(['type=check', 'pos=6,288,400,0', 'cap='+_('Open files by &double-click'),
             'val='+bool_to_str(op.get('d_click', False)) ])]
-        +[c1.join(['type=check', 'pos=6,314,400,0', 'cap=On opening file in Git/SVN repo, create project from repo (*)',
+        +[c1.join(['type=check', 'pos=6,314,400,0', 'cap='+_('On opening file in Git/SVN repo, create project from repo (*)'),
             'val='+bool_to_str(op.get('check_git', True)) ])]
 
-        +[c1.join(['type=label', 'pos=6,360,130,0', 'cap=File type icons:'])]
+        +[c1.join(['type=label', 'pos=6,360,130,0', 'cap='+_('File type icons:')])]
         +[c1.join(['type=combo_ro', 'pos=160,355,400,0',
             'items='+'\t'.join(themes),
             'val='+str(theme_index)
             ])]
 
-        +[c1.join(['type=label', 'pos=6,390,130,0', 'cap=Toolbar icons:'])]
+        +[c1.join(['type=label', 'pos=6,390,130,0', 'cap='+_('Toolbar icons:')])]
         +[c1.join(['type=combo_ro', 'pos=160,385,400,0',
             'items='+'\t'.join(themes_tb),
             'val='+str(theme_index_tb)
             ])]
 
-        +[c1.join(['type=label', 'pos=6,416,600,0', 'cap=For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"'])]
-        +[c1.join(['type=label', 'pos=6,440,600,0', 'cap=(*) - requires CudaText restart'])]
-        +[c1.join(['type=button', 'pos=300,470,400,0', 'cap=&OK', 'props=1'])]
-        +[c1.join(['type=button', 'pos=406,470,502,0', 'cap=Cancel'])]
+        +[c1.join(['type=label', 'pos=6,416,600,0', 'cap='+_('For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"')])]
+        +[c1.join(['type=label', 'pos=6,440,600,0', 'cap='+_('(*) - requires CudaText restart')])]
+        +[c1.join(['type=button', 'pos=300,470,400,0', 'cap='+_('&OK'), 'props=1'])]
+        +[c1.join(['type=button', 'pos=406,470,502,0', 'cap='+_('Cancel')])]
     )
 
-    res = dlg_custom('Project Manager options', 508, 504, text, get_dict=True)
+    res = dlg_custom(_('Project Manager options'), 508, 504, text, get_dict=True)
     if res is None:
         return
 
@@ -136,15 +140,15 @@ def dialog_proj_prop(prop):
 
     c1 = chr(1)
     text = '\n'.join([]
-        +[c1.join(['type=label', 'pos=6,6,500,0', 'cap=&Variables (in form Name=Value)'])]
+        +[c1.join(['type=label', 'pos=6,6,500,0', 'cap='+_('&Variables (in form Name=Value)')])]
         +[c1.join(['type=memo', 'pos=6,26,500,180', 'val='+'\t'.join(list_vars) ])]
-        +[c1.join(['type=label', 'pos=6,186,500,0', 'cap=&Main file (read-only, change in context menu)'])]
+        +[c1.join(['type=label', 'pos=6,186,500,0', 'cap='+_('&Main file (read-only, change in context menu)')])]
         +[c1.join(['type=edit', 'pos=6,206,500,0', 'props=1,0,1', 'val='+main_file])]
-        +[c1.join(['type=button', 'pos=300,300,400,0', 'cap=&OK', 'props=1'])]
-        +[c1.join(['type=button', 'pos=406,300,502,0', 'cap=Cancel'])]
+        +[c1.join(['type=button', 'pos=300,300,400,0', 'cap='+_('&OK'), 'props=1'])]
+        +[c1.join(['type=button', 'pos=406,300,502,0', 'cap='+_('Cancel')])]
     )
 
-    res = dlg_custom('Project properties', 508, 330, text, get_dict=True)
+    res = dlg_custom(_('Project properties'), 508, 330, text, get_dict=True)
     if res is None:
         return
 
