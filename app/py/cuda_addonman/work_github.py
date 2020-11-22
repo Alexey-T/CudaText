@@ -1,4 +1,5 @@
 import os
+import json
 import tempfile
 import subprocess
 from datetime import datetime
@@ -63,6 +64,24 @@ def do_install_from_github():
     if '://' not in url: return
     save_history()
 
+    fn = os.path.join(tempfile.gettempdir(), 'cudatext_git_branches.json')
+    url_branches = url.replace('http://', 'https://').replace('//github.com/', '//api.github.com/repos/') + '/branches'
+    get_url(url_branches, fn, True)
+    if not os.path.isfile(fn):
+        msg_box('Cannot read GitHub list of branches for that repo', MB_OK+MB_ICONERROR)
+        return
+        
+    with open(fn, 'r') as f:
+        data = json.load(f)
+        os.remove(fn)
+        if not data:
+            msg_box('Got empty GitHub list of branches for that repo', MB_OK+MB_ICONERROR)
+            return
+        branch = data[0].get('name')
+        if not branch:
+            msg_box('Got empty GitHub list of branches for that repo', MB_OK+MB_ICONERROR)
+            return
+
     module_from_url = os.path.basename(url)
 
     fn = os.path.join(tempfile.gettempdir(), 'cudatext_addon.zip')
@@ -71,14 +90,15 @@ def do_install_from_github():
     dir_plugin = ''
     msg_status('Downloading...')
 
-    get_url(
-        url.replace('http://', 'https://').replace('https://github.com/', 'https://raw.githubusercontent.com/')
-        + '/master/install.inf', fn_inf, True)
+    url_inf = url.replace('http://', 'https://').replace('https://github.com/', 'https://raw.githubusercontent.com/') + '/' + branch + '/install.inf'
+    get_url(url_inf, fn_inf, True)
+
     valid = os.path.isfile(fn_inf) \
         and ini_read(fn_inf, 'info', 'type', '')=='cudatext-plugin'
 
     if valid:
         module = ini_read(fn_inf, 'info', 'subdir', '')
+        os.remove(fn_inf)
         if module!=module_from_url:
             msg_box('Mismatch:\ninstall.inf "module": '+module+'\nrepo name: '+module_from_url, MB_OK+MB_ICONERROR)
             valid = False
