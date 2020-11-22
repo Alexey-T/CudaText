@@ -98,6 +98,8 @@ end;
 function AppIsFileContentText(const fn: string; BufSizeKb: integer;
   BufSizeWords: integer;
   DetectOEM: boolean): Boolean;
+const
+  cBadBytesAtEndAllowed = 2;
 var
   Buffer: PAnsiChar;
   BufSize, BytesRead, i: DWORD;
@@ -152,9 +154,8 @@ begin
 
           //If control chars present, then non-text
           if IsAsciiControlChar(n) then
-            //ignore bad bytes at the (end), (end minus 1)
-            // https://github.com/Alexey-T/CudaText/issues/2959
-            if not (bReadAllFile and (i>=BytesRead-2)) then
+            //ignore bad bytes at the end, https://github.com/Alexey-T/CudaText/issues/2959
+            if not (bReadAllFile and (i>=BytesRead-cBadBytesAtEndAllowed)) then
             begin
               Result:= False;
               Break
