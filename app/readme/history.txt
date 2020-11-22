@@ -4,6 +4,7 @@
   * changed
 
 
++ add: Addon Manager: support other git branch names in "Install from GitHub"
 + add: support translation for more std plugins: ProjManager, TabsList, ShowUnsavedChanges (thanks Markus)
 
 1.117.6 (2020/11)
