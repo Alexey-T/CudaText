@@ -106,6 +106,7 @@ var
   TableSize: Integer;
   Str: TFileStream;
   IsLE: boolean;
+  bReadAllFile: boolean;
 begin
   Result:= False;
   //IsOEM:= False;
@@ -137,6 +138,8 @@ begin
     BytesRead:= Str.Read(Buffer^, BufSize);
     if BytesRead > 0 then
       begin
+        bReadAllFile:= BytesRead=Str.Size;
+
         //Test UTF16 signature
         if ((Buffer[0]=#$ff) and (Buffer[1]=#$fe)) or
           ((Buffer[0]=#$fe) and (Buffer[1]=#$ff)) then
@@ -149,10 +152,13 @@ begin
 
           //If control chars present, then non-text
           if IsAsciiControlChar(n) then
-          begin
-            Result:= False;
-            Break
-          end;
+            //ignore bad bytes at the (end), (end minus 1)
+            // https://github.com/Alexey-T/CudaText/issues/2959
+            if not (bReadAllFile and (i>=BytesRead-2)) then
+            begin
+              Result:= False;
+              Break
+            end;
 
           //Calculate freq table
           if DetectOEM then
