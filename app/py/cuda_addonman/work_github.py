@@ -13,6 +13,28 @@ def get_datetime_short():
     t = datetime.now()
     return t.strftime('%Y.%m.%d')
 
+def get_branch(url):
+
+    fn = os.path.join(tempfile.gettempdir(), 'cudatext_git_branches.json')
+    url_branches = url.replace('http://', 'https://').replace('//github.com/', '//api.github.com/repos/') + '/branches'
+    get_url(url_branches, fn, True)
+    if not os.path.isfile(fn):
+        msg_box('Cannot read GitHub list of branches for that repo', MB_OK+MB_ICONERROR)
+        return
+        
+    with open(fn, 'r') as f:
+        data = json.load(f)
+        os.remove(fn)
+        if not isinstance(data, list):
+            msg_box('Got empty GitHub list of branches for that repo', MB_OK+MB_ICONERROR)
+            return
+        branch = data[0].get('name')
+        if not branch:
+            msg_box('Got empty GitHub list of branches for that repo', MB_OK+MB_ICONERROR)
+            return
+        return branch
+    
+
 def dialog_github_install(history):
     c1 = chr(1)
     id_edit = 1
@@ -64,23 +86,8 @@ def do_install_from_github():
     if '://' not in url: return
     save_history()
 
-    fn = os.path.join(tempfile.gettempdir(), 'cudatext_git_branches.json')
-    url_branches = url.replace('http://', 'https://').replace('//github.com/', '//api.github.com/repos/') + '/branches'
-    get_url(url_branches, fn, True)
-    if not os.path.isfile(fn):
-        msg_box('Cannot read GitHub list of branches for that repo', MB_OK+MB_ICONERROR)
-        return
-        
-    with open(fn, 'r') as f:
-        data = json.load(f)
-        os.remove(fn)
-        if not data:
-            msg_box('Got empty GitHub list of branches for that repo', MB_OK+MB_ICONERROR)
-            return
-        branch = data[0].get('name')
-        if not branch:
-            msg_box('Got empty GitHub list of branches for that repo', MB_OK+MB_ICONERROR)
-            return
+    branch = get_branch(url)
+    if not branch: return
 
     module_from_url = os.path.basename(url)
 
