@@ -5,8 +5,8 @@
 
 1.118
 
-+ add: non-text file detection: ignore bytes at the file end (thanks @ThomasHeinrichSchmidt)
-+ add: Addon Manager: support other git branch names in "Install from GitHub" (thanks @dinkumoil)
++ add: non-text file detection: ignore last 2 bytes at the file end (thanks @ThomasHeinrichSchmidt)
++ add: Addon Manager: support all git branch names in "Install from GitHub" (thanks @dinkumoil)
 + add: support translation for more std plugins: ProjManager, TabsList (thanks Markus)
 - fix: hex viewer cannot scroll big file to the end
 
