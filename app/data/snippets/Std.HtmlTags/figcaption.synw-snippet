@@ -1,5 +1,0 @@
-name=Tag figcaption
-id=figcaption
-lex=HTML,HTML_,PHP
-text=
-<figcaption>${0}</figcaption>

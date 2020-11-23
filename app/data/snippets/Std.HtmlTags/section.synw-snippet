@@ -1,7 +1,0 @@
-name=Tag section
-id=section
-lex=HTML,HTML_,PHP
-text=
-<section>
-	${0}
-</section>

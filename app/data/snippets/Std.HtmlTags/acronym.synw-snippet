@@ -1,5 +1,0 @@
-name=Tag acronym
-id=acronym
-lex=HTML,HTML_,PHP
-text=
-<acronym title="${1:Untitled}">${0}</acronym>

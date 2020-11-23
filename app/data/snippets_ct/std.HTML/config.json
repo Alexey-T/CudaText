@@ -1,0 +1,10 @@
+{
+    "name": "Std.HtmlTags",
+    "files": {
+        "HTML,HTML_,PHP.json": [
+            "HTML",
+            "HTML_",
+            "PHP"
+        ]
+    }
+}

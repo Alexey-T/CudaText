@@ -1,5 +1,0 @@
-name=Tag summary
-id=summary
-lex=HTML,HTML_,PHP
-text=
-<summary>${0}</summary>

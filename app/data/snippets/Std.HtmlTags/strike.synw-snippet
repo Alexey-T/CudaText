@@ -1,5 +1,0 @@
-name=Tag strike
-id=strike
-lex=HTML,HTML_,PHP
-text=
-<strike>${0}</strike>

@@ -1,5 +1,0 @@
-name=Tag wbr
-id=wbr
-lex=HTML,HTML_,PHP
-text=
-<wbr>${0}</wbr>

@@ -1,7 +1,0 @@
-name=Tag ruby
-id=ruby
-lex=HTML,HTML_,PHP
-text=
-<ruby>
-	${0}
-</ruby>

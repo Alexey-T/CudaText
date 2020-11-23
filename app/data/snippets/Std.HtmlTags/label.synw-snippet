@@ -1,5 +1,0 @@
-name=Tag label
-id=label
-lex=HTML,HTML_,PHP
-text=
-<label for="${1:test}">${0}test</label>

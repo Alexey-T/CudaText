@@ -1,0 +1,1067 @@
+{
+    "Tag a": {
+        "body": [
+            "<a href=\"${1:http://www.com/}\"${2: title=\"${3:Title}\"}${4: target=\"${5:_blank}\"}>${0}</a>"
+        ],
+        "prefix": [
+            "a"
+        ]
+    },
+    "Tag abbr": {
+        "body": [
+            "<abbr title=\"${1:Untitled}\">${0}</abbr>"
+        ],
+        "prefix": [
+            "abbr"
+        ]
+    },
+    "Tag acronym": {
+        "body": [
+            "<acronym title=\"${1:Untitled}\">${0}</acronym>"
+        ],
+        "prefix": [
+            "acronym"
+        ]
+    },
+    "Tag address": {
+        "body": [
+            "<address>${0}</address>"
+        ],
+        "prefix": [
+            "address"
+        ]
+    },
+    "Tag applet": {
+        "body": [
+            "<applet code=\"${1:name.class}\"${2: width=\"${3:500}\"}${4: height=\"${5:650}\"}>${0}",
+            "",
+            "</applet>"
+        ],
+        "prefix": [
+            "applet"
+        ]
+    },
+    "Tag area": {
+        "body": [
+            "<area shape=\"${1:rect}\"${2: coords=\"${3:0,0,10,10}\"}${4: href=\"${5:example.htm}\"}${6: target=\"${7:_blank}\"}${8: alt=\"${9:example}\"}/>${0}"
+        ],
+        "prefix": [
+            "area"
+        ]
+    },
+    "Tag article": {
+        "body": [
+            "<article>",
+            "\t${0}",
+            "</article>"
+        ],
+        "prefix": [
+            "article"
+        ]
+    },
+    "Tag aside": {
+        "body": [
+            "<aside style=\"${1:font-size:larger;font-style:italic;color:green;float:right;width:120px;}\">",
+            "\t${0}",
+            "</aside>"
+        ],
+        "prefix": [
+            "aside"
+        ]
+    },
+    "Tag audio": {
+        "body": [
+            "<audio src=\"${1:/music/sample.mp3}\"${2: controls=\"${3:controls}\"}>",
+            "\t${0}",
+            "</audio>"
+        ],
+        "prefix": [
+            "audio"
+        ]
+    },
+    "Tag b": {
+        "body": [
+            "<b>${0}</b>"
+        ],
+        "prefix": [
+            "b"
+        ]
+    },
+    "Tag base": {
+        "body": [
+            "<base href=\"${1:http://www.com}\"${2: target=\"${3:_blank}\"}/>${0}"
+        ],
+        "prefix": [
+            "base"
+        ]
+    },
+    "Tag basefont": {
+        "body": [
+            "<basefont face=\"${1:cursive,serif}\"${2: color=\"${3:#ff9900}\"}${4: size=\"${5:4}\"}/>${0}"
+        ],
+        "prefix": [
+            "basefont"
+        ]
+    },
+    "Tag bdi": {
+        "body": [
+            "<bdi>${0}</bdi>"
+        ],
+        "prefix": [
+            "bdi"
+        ]
+    },
+    "Tag bdo": {
+        "body": [
+            "<bdo dir=\"${1:rtl}\">${0}</bdo>"
+        ],
+        "prefix": [
+            "bdo"
+        ]
+    },
+    "Tag big": {
+        "body": [
+            "<big>${0}</big>"
+        ],
+        "prefix": [
+            "big"
+        ]
+    },
+    "Tag blockquote": {
+        "body": [
+            "<blockquote>${0}</blockquote>"
+        ],
+        "prefix": [
+            "blockquote"
+        ]
+    },
+    "Tag body": {
+        "body": [
+            "<body>",
+            "\t${0}",
+            "</body>"
+        ],
+        "prefix": [
+            "body"
+        ]
+    },
+    "Tag br": {
+        "body": [
+            "<br />${0}"
+        ],
+        "prefix": [
+            "br"
+        ]
+    },
+    "Tag button": {
+        "body": [
+            "<button name=\"${1:test}\"${2: type=\"${3:button}\"}${4: value=\"${5:val}\"}>${0}Button Text</button>"
+        ],
+        "prefix": [
+            "button"
+        ]
+    },
+    "Tag canvas": {
+        "body": [
+            "<canvas id=\"${1:myCanvas}\"${2: width=\"${3:300}\"}${4: height=\"${5:200}\"}>",
+            "\t${0}",
+            "</canvas>"
+        ],
+        "prefix": [
+            "canvas"
+        ]
+    },
+    "Tag caption": {
+        "body": [
+            "<caption>${0}</caption>"
+        ],
+        "prefix": [
+            "caption"
+        ]
+    },
+    "Tag center": {
+        "body": [
+            "<center>${0}</center>"
+        ],
+        "prefix": [
+            "center"
+        ]
+    },
+    "Tag cite": {
+        "body": [
+            "<cite>${0}</cite>"
+        ],
+        "prefix": [
+            "cite"
+        ]
+    },
+    "Tag code": {
+        "body": [
+            "<code>${0}</code>"
+        ],
+        "prefix": [
+            "code"
+        ]
+    },
+    "Tag col": {
+        "body": [
+            "<col width=\"${1:50}\">${0}</col>"
+        ],
+        "prefix": [
+            "col"
+        ]
+    },
+    "Tag colgroup": {
+        "body": [
+            "<colgroup span=\"${1:2}\">",
+            "\t${0}",
+            "</colgroup>"
+        ],
+        "prefix": [
+            "colgroup"
+        ]
+    },
+    "Tag command": {
+        "body": [
+            "<command type=\"${1:command}\"${2: label=\"${3:Save}\"}${4: onclick=\"${5:save()}\"}>${0}</command>"
+        ],
+        "prefix": [
+            "command"
+        ]
+    },
+    "Tag datalist": {
+        "body": [
+            "<datalist id=\"${1:name}\">",
+            "\t${0}",
+            "</datalist>"
+        ],
+        "prefix": [
+            "datalist"
+        ]
+    },
+    "Tag dd": {
+        "body": [
+            "<dd>${0}</dd>"
+        ],
+        "prefix": [
+            "dd"
+        ]
+    },
+    "Tag del": {
+        "body": [
+            "<del cite=\"${1:example.htm}\"${2: datetime=\"${3:YYYYMMDD}\"}>${0}</del>"
+        ],
+        "prefix": [
+            "del"
+        ]
+    },
+    "Tag details": {
+        "body": [
+            "<details>",
+            "\t${0}",
+            "</details>"
+        ],
+        "prefix": [
+            "details"
+        ]
+    },
+    "Tag dfn": {
+        "body": [
+            "<dfn>${0}</dfn>"
+        ],
+        "prefix": [
+            "dfn"
+        ]
+    },
+    "Tag dir": {
+        "body": [
+            "<dir>${0}</dir>"
+        ],
+        "prefix": [
+            "dir"
+        ]
+    },
+    "Tag div": {
+        "body": [
+            "<div id=\"${1:test}\"${2: class=\"${3:test}\"}>${0}",
+            "",
+            "</div>"
+        ],
+        "prefix": [
+            "div"
+        ]
+    },
+    "Tag dl": {
+        "body": [
+            "<dl>",
+            "\t${0}",
+            "</dl>"
+        ],
+        "prefix": [
+            "dl"
+        ]
+    },
+    "Tag doctype": {
+        "body": [
+            "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">",
+            "${0}"
+        ],
+        "prefix": [
+            "doctype"
+        ]
+    },
+    "Tag dt": {
+        "body": [
+            "<dt>${0}</dt>"
+        ],
+        "prefix": [
+            "dt"
+        ]
+    },
+    "Tag em": {
+        "body": [
+            "<em>${0}</em>"
+        ],
+        "prefix": [
+            "em"
+        ]
+    },
+    "Tag embed": {
+        "body": [
+            "<embed src=\"${1:flash.swf}\"/>${0}"
+        ],
+        "prefix": [
+            "embed"
+        ]
+    },
+    "Tag fieldset": {
+        "body": [
+            "<fieldset>",
+            "\t${0}",
+            "</fieldset>"
+        ],
+        "prefix": [
+            "fieldset"
+        ]
+    },
+    "Tag figcaption": {
+        "body": [
+            "<figcaption>${0}</figcaption>"
+        ],
+        "prefix": [
+            "figcaption"
+        ]
+    },
+    "Tag figure": {
+        "body": [
+            "<figure>",
+            "\t${0}",
+            "</figure>"
+        ],
+        "prefix": [
+            "figure"
+        ]
+    },
+    "Tag font": {
+        "body": [
+            "<font face=\"${1:cursive,serif}\"${2: color=\"${3:#ff9900}\"}${4: size=\"${5:4}\"}>${0}</font>"
+        ],
+        "prefix": [
+            "font"
+        ]
+    },
+    "Tag footer": {
+        "body": [
+            "<footer>",
+            "\t${0}",
+            "</footer>"
+        ],
+        "prefix": [
+            "footer"
+        ]
+    },
+    "Tag form": {
+        "body": [
+            "<form method=\"${1:post}\"${2: action=\"${3:testing.php}\"}${4: id=\"${5:test}\"}${6: name=\"${7:test}\"}>",
+            "\t${0}",
+            "</form>"
+        ],
+        "prefix": [
+            "form"
+        ]
+    },
+    "Tag frame": {
+        "body": [
+            "<frame src=\"${1:example.htm}\"${2: id=\"${3:test}\"}${4: name=\"${5:test}\"}/>${0}"
+        ],
+        "prefix": [
+            "frame"
+        ]
+    },
+    "Tag frameset": {
+        "body": [
+            "<frameset cols=\"${1:vals}\"${2: rows=\"${3:vals}\"}>",
+            "\t${0}",
+            "</frameset>"
+        ],
+        "prefix": [
+            "frameset"
+        ]
+    },
+    "Tag h1": {
+        "body": [
+            "<h1>${0}</h1>"
+        ],
+        "prefix": [
+            "h1"
+        ]
+    },
+    "Tag h2": {
+        "body": [
+            "<h2>${0}</h2>"
+        ],
+        "prefix": [
+            "h2"
+        ]
+    },
+    "Tag h3": {
+        "body": [
+            "<h3>${0}</h3>"
+        ],
+        "prefix": [
+            "h3"
+        ]
+    },
+    "Tag h4": {
+        "body": [
+            "<h4>${0}</h4>"
+        ],
+        "prefix": [
+            "h4"
+        ]
+    },
+    "Tag h5": {
+        "body": [
+            "<h5>${0}</h5>"
+        ],
+        "prefix": [
+            "h5"
+        ]
+    },
+    "Tag h6": {
+        "body": [
+            "<h6>${0}</h6>"
+        ],
+        "prefix": [
+            "h6"
+        ]
+    },
+    "Tag head": {
+        "body": [
+            "<head>",
+            "\t${0}",
+            "</head>"
+        ],
+        "prefix": [
+            "head"
+        ]
+    },
+    "Tag header": {
+        "body": [
+            "<header>",
+            "\t${0}",
+            "</header>"
+        ],
+        "prefix": [
+            "header"
+        ]
+    },
+    "Tag hgroup": {
+        "body": [
+            "<hgroup>",
+            "\t${0}",
+            "</hgroup>"
+        ],
+        "prefix": [
+            "hgroup"
+        ]
+    },
+    "Tag hr": {
+        "body": [
+            "<hr />${0}"
+        ],
+        "prefix": [
+            "hr"
+        ]
+    },
+    "Tag html": {
+        "body": [
+            "<!DOCTYPE html>",
+            "<html>",
+            "<head>",
+            "\t<title>${1}</title>",
+            "</head>",
+            "<body>",
+            "${0}",
+            "</body>",
+            "</html>"
+        ],
+        "prefix": [
+            "html"
+        ]
+    },
+    "Tag i": {
+        "body": [
+            "<i>${0}</i>"
+        ],
+        "prefix": [
+            "i"
+        ]
+    },
+    "Tag iframe": {
+        "body": [
+            "<iframe src=\"${1:example.htm}\"${2: width=\"${3:10}\"}${4: height=\"${5:10}\"}${6: id=\"${7:test}\"}${8: name=\"${9:test}\"}>${0}</iframe>"
+        ],
+        "prefix": [
+            "iframe"
+        ]
+    },
+    "Tag img": {
+        "body": [
+            "<img src=\"${1:images/untitled.jpg}\"${2: width=\"${3:10}\"}${4: height=\"${5:10}\"}${6: alt=\"${7:untitled}\"}/>${0}"
+        ],
+        "prefix": [
+            "img"
+        ]
+    },
+    "Tag input": {
+        "body": [
+            "<input type=\"${1:text}\"${2: name=\"${3:test}\"}${4: value=\"${5:value}\"}/>${0}"
+        ],
+        "prefix": [
+            "input"
+        ]
+    },
+    "Tag ins": {
+        "body": [
+            "<ins cite=\"${1:example.htm}\"${2: datetime=\"${3:YYYYMMDD}\"}>${0}</ins>"
+        ],
+        "prefix": [
+            "ins"
+        ]
+    },
+    "Tag kbd": {
+        "body": [
+            "<kbd>${0}</kbd>"
+        ],
+        "prefix": [
+            "kbd"
+        ]
+    },
+    "Tag keygen": {
+        "body": [
+            "<keygen name=\"${1:security}\"/>${0}"
+        ],
+        "prefix": [
+            "keygen"
+        ]
+    },
+    "Tag label": {
+        "body": [
+            "<label for=\"${1:test}\">${0}test</label>"
+        ],
+        "prefix": [
+            "label"
+        ]
+    },
+    "Tag legend": {
+        "body": [
+            "<legend>${0}</legend>"
+        ],
+        "prefix": [
+            "legend"
+        ]
+    },
+    "Tag li": {
+        "body": [
+            "<li>${0}</li>"
+        ],
+        "prefix": [
+            "li"
+        ]
+    },
+    "Tag link": {
+        "body": [
+            "<link rel=\"${1:stylesheet}\"${2: href=\"${3:global.css}\"}${4: type=\"${5:text/css}\"}/>${0}"
+        ],
+        "prefix": [
+            "link"
+        ]
+    },
+    "Tag map": {
+        "body": [
+            "<map id=\"${1:test}\"${2: name=\"${3:test}\"}>",
+            "\t${0}",
+            "</map>"
+        ],
+        "prefix": [
+            "map"
+        ]
+    },
+    "Tag mark": {
+        "body": [
+            "<mark>${0}</mark>"
+        ],
+        "prefix": [
+            "mark"
+        ]
+    },
+    "Tag menu": {
+        "body": [
+            "<menu>${0}</menu>"
+        ],
+        "prefix": [
+            "menu"
+        ]
+    },
+    "Tag meta": {
+        "body": [
+            "<meta http-equiv=\"${1:Content-type}\"${2: content=\"${3:text/html; charset=UTF-8}\"}/>${0}"
+        ],
+        "prefix": [
+            "meta"
+        ]
+    },
+    "Tag meter": {
+        "body": [
+            "<meter value=\"${1:2}\"${2: min=\"${3:0}\"}${4: max=\"${5:10}\"}>${0}</meter>"
+        ],
+        "prefix": [
+            "meter"
+        ]
+    },
+    "Tag nav": {
+        "body": [
+            "<nav>",
+            "\t${0}",
+            "</nav>"
+        ],
+        "prefix": [
+            "nav"
+        ]
+    },
+    "Tag nobr": {
+        "body": [
+            "<nobr>${0}</nobr>"
+        ],
+        "prefix": [
+            "nobr"
+        ]
+    },
+    "Tag noframes": {
+        "body": [
+            "<noframes>${0}</noframes>"
+        ],
+        "prefix": [
+            "noframes"
+        ]
+    },
+    "Tag noindex": {
+        "body": [
+            "<noindex>${0}</noindex>"
+        ],
+        "prefix": [
+            "noindex"
+        ]
+    },
+    "Tag noscript": {
+        "body": [
+            "<noscript>${0}</noscript>"
+        ],
+        "prefix": [
+            "noscript"
+        ]
+    },
+    "Tag object": {
+        "body": [
+            "<object width=\"${1:400}\"${2: height=\"${3:400}\"}${4: data=\"${5:flash.swf}\"}>${0}</object>"
+        ],
+        "prefix": [
+            "object"
+        ]
+    },
+    "Tag ol": {
+        "body": [
+            "<ol>",
+            "\t${0}",
+            "</ol>"
+        ],
+        "prefix": [
+            "ol"
+        ]
+    },
+    "Tag optgroup": {
+        "body": [
+            "<optgroup label=\"${1:Name}\">",
+            "\t${0}",
+            "</optgroup>"
+        ],
+        "prefix": [
+            "optgroup"
+        ]
+    },
+    "Tag option": {
+        "body": [
+            "<option value=\"${1:val}\"${2: selected=\"${3:selected}\"}>${0}</option>"
+        ],
+        "prefix": [
+            "option"
+        ]
+    },
+    "Tag output": {
+        "body": [
+            "<output name=\"${1:x}\"${2: for=\"${3:a b}\"}>${0}</output>"
+        ],
+        "prefix": [
+            "output"
+        ]
+    },
+    "Tag p": {
+        "body": [
+            "<p>${0}</p>"
+        ],
+        "prefix": [
+            "p"
+        ]
+    },
+    "Tag param": {
+        "body": [
+            "<param name=\"${1:test}\"${2: value=\"${3:val}\"}/>${0}"
+        ],
+        "prefix": [
+            "param"
+        ]
+    },
+    "Tag pre": {
+        "body": [
+            "<pre>${0}</pre>"
+        ],
+        "prefix": [
+            "pre"
+        ]
+    },
+    "Tag progress": {
+        "body": [
+            "<progress value=\"${1:22}\"${2: max=\"${3:100}\"}>${0}</progress>"
+        ],
+        "prefix": [
+            "progress"
+        ]
+    },
+    "Tag q": {
+        "body": [
+            "<q>${0}</q>"
+        ],
+        "prefix": [
+            "q"
+        ]
+    },
+    "Tag rp": {
+        "body": [
+            "<rp>${0}</rp>"
+        ],
+        "prefix": [
+            "rp"
+        ]
+    },
+    "Tag rt": {
+        "body": [
+            "<rt>${0}</rt>"
+        ],
+        "prefix": [
+            "rt"
+        ]
+    },
+    "Tag ruby": {
+        "body": [
+            "<ruby>",
+            "\t${0}",
+            "</ruby>"
+        ],
+        "prefix": [
+            "ruby"
+        ]
+    },
+    "Tag s": {
+        "body": [
+            "<s>${0}</s>"
+        ],
+        "prefix": [
+            "s"
+        ]
+    },
+    "Tag samp": {
+        "body": [
+            "<samp>${0}</samp>"
+        ],
+        "prefix": [
+            "samp"
+        ]
+    },
+    "Tag script": {
+        "body": [
+            "<script type=\"${1:text/javascript}\">",
+            "\t${0}",
+            "</script>"
+        ],
+        "prefix": [
+            "script"
+        ]
+    },
+    "Tag section": {
+        "body": [
+            "<section>",
+            "\t${0}",
+            "</section>"
+        ],
+        "prefix": [
+            "section"
+        ]
+    },
+    "Tag select": {
+        "body": [
+            "<select name=\"${1:test}\">",
+            "\t${0}",
+            "</select>"
+        ],
+        "prefix": [
+            "select"
+        ]
+    },
+    "Tag small": {
+        "body": [
+            "<small>${0}</small>"
+        ],
+        "prefix": [
+            "small"
+        ]
+    },
+    "Tag source": {
+        "body": [
+            "<source src=\"${1:song.mp3}\"${2: type=\"${3:audio/mpeg}\"}/>${0}"
+        ],
+        "prefix": [
+            "source"
+        ]
+    },
+    "Tag span": {
+        "body": [
+            "<span class=\"${1:test}\">${0}</span>"
+        ],
+        "prefix": [
+            "span"
+        ]
+    },
+    "Tag strike": {
+        "body": [
+            "<strike>${0}</strike>"
+        ],
+        "prefix": [
+            "strike"
+        ]
+    },
+    "Tag strong": {
+        "body": [
+            "<strong>${0}</strong>"
+        ],
+        "prefix": [
+            "strong"
+        ]
+    },
+    "Tag style": {
+        "body": [
+            "<style type=\"${1:text/css}\">",
+            "\t${0}",
+            "</style>"
+        ],
+        "prefix": [
+            "style"
+        ]
+    },
+    "Tag sub": {
+        "body": [
+            "<sub>${0}</sub>"
+        ],
+        "prefix": [
+            "sub"
+        ]
+    },
+    "Tag summary": {
+        "body": [
+            "<summary>${0}</summary>"
+        ],
+        "prefix": [
+            "summary"
+        ]
+    },
+    "Tag sup": {
+        "body": [
+            "<sup>${0}</sup>"
+        ],
+        "prefix": [
+            "sup"
+        ]
+    },
+    "Tag table": {
+        "body": [
+            "<table>",
+            "\t${0}",
+            "</table>"
+        ],
+        "prefix": [
+            "table"
+        ]
+    },
+    "Tag tbody": {
+        "body": [
+            "<tbody>",
+            "\t${0}",
+            "</tbody>"
+        ],
+        "prefix": [
+            "tbody"
+        ]
+    },
+    "Tag td": {
+        "body": [
+            "<td>${0}</td>"
+        ],
+        "prefix": [
+            "td"
+        ]
+    },
+    "Tag textarea": {
+        "body": [
+            "<textarea name=\"${1:test}\"${2: rows=\"${3:10}\"}${4: cols=\"${5:10}\"}>",
+            "\t${0}",
+            "</textarea>"
+        ],
+        "prefix": [
+            "textarea"
+        ]
+    },
+    "Tag tfoot": {
+        "body": [
+            "<tfoot>",
+            "\t${0}",
+            "</tfoot>"
+        ],
+        "prefix": [
+            "tfoot"
+        ]
+    },
+    "Tag th": {
+        "body": [
+            "<th>${0}</th>"
+        ],
+        "prefix": [
+            "th"
+        ]
+    },
+    "Tag thead": {
+        "body": [
+            "<thead>",
+            "\t${0}",
+            "</thead>"
+        ],
+        "prefix": [
+            "thead"
+        ]
+    },
+    "Tag time": {
+        "body": [
+            "<time>${0}</time>"
+        ],
+        "prefix": [
+            "time"
+        ]
+    },
+    "Tag title": {
+        "body": [
+            "<title>${0}</title>"
+        ],
+        "prefix": [
+            "title"
+        ]
+    },
+    "Tag tr": {
+        "body": [
+            "<tr>",
+            "\t${0}",
+            "</tr>"
+        ],
+        "prefix": [
+            "tr"
+        ]
+    },
+    "Tag track": {
+        "body": [
+            "<track src=\"${0:subtitles_en.vtt}\"${1: kind=\"${2:subtitles}\"}${3: srclang=\"${4:en}\"}${5: label=\"${6:English}\"}>"
+        ],
+        "prefix": [
+            "track"
+        ]
+    },
+    "Tag tt": {
+        "body": [
+            "<tt>${0}</tt>"
+        ],
+        "prefix": [
+            "tt"
+        ]
+    },
+    "Tag u": {
+        "body": [
+            "<u>${0}</u>"
+        ],
+        "prefix": [
+            "u"
+        ]
+    },
+    "Tag ul": {
+        "body": [
+            "<ul>",
+            "\t${0}",
+            "</ul>"
+        ],
+        "prefix": [
+            "ul"
+        ]
+    },
+    "Tag var": {
+        "body": [
+            "<var>${0}</var>"
+        ],
+        "prefix": [
+            "var"
+        ]
+    },
+    "Tag video": {
+        "body": [
+            "<video width=\"${1:320}\"${2: height=\"${3:240}\"}${4: controls=\"${5:controls}\"}>",
+            "\t${0}",
+            "</video>"
+        ],
+        "prefix": [
+            "video"
+        ]
+    },
+    "Tag wbr": {
+        "body": [
+            "<wbr>${0}</wbr>"
+        ],
+        "prefix": [
+            "wbr"
+        ]
+    }
+}

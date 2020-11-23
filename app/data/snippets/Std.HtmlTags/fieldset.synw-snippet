@@ -1,7 +1,0 @@
-name=Tag fieldset
-id=fieldset
-lex=HTML,HTML_,PHP
-text=
-<fieldset>
-	${0}
-</fieldset>

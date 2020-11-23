@@ -1,5 +1,0 @@
-name=Tag meta
-id=meta
-lex=HTML,HTML_,PHP
-text=
-<meta http-equiv="${1:Content-type}"${2: content="${3:text/html; charset=UTF-8}"}/>${0}

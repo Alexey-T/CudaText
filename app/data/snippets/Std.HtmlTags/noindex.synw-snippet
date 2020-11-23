@@ -1,5 +1,0 @@
-name=Tag noindex
-id=noindex
-lex=HTML,HTML_,PHP
-text=
-<noindex>${0}</noindex>

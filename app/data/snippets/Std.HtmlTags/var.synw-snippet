@@ -1,5 +1,0 @@
-name=Tag var
-id=var
-lex=HTML,HTML_,PHP
-text=
-<var>${0}</var>

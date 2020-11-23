@@ -1,7 +1,0 @@
-name=Tag canvas
-id=canvas
-lex=HTML,HTML_,PHP
-text=
-<canvas id="${1:myCanvas}"${2: width="${3:300}"}${4: height="${5:200}"}>
-	${0}
-</canvas>

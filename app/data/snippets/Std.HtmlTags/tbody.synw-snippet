@@ -1,7 +1,0 @@
-name=Tag tbody
-id=tbody
-lex=HTML,HTML_,PHP
-text=
-<tbody>
-	${0}
-</tbody>

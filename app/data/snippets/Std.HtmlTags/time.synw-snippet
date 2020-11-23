@@ -1,5 +1,0 @@
-name=Tag time
-id=time
-lex=HTML,HTML_,PHP
-text=
-<time>${0}</time>

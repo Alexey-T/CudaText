@@ -1,7 +1,0 @@
-name=Tag map
-id=map
-lex=HTML,HTML_,PHP
-text=
-<map id="${1:test}"${2: name="${3:test}"}>
-	${0}
-</map>

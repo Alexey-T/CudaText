@@ -1,7 +1,0 @@
-name=Tag table
-id=table
-lex=HTML,HTML_,PHP
-text=
-<table>
-	${0}
-</table>
