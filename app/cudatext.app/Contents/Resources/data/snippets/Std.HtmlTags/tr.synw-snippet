@@ -1,7 +1,0 @@
-name=Tag tr
-id=tr
-lex=HTML,HTML_,PHP
-text=
-<tr>
-	${0}
-</tr>

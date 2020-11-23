@@ -1,5 +1,0 @@
-name=Tag center
-id=center
-lex=HTML,HTML_,PHP
-text=
-<center>${0}</center>

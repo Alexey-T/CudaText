@@ -1,5 +1,0 @@
-name=Tag s
-id=s
-lex=HTML,HTML_,PHP
-text=
-<s>${0}</s>

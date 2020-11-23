@@ -1,5 +1,0 @@
-name=Tag noframes
-id=noframes
-lex=HTML,HTML_,PHP
-text=
-<noframes>${0}</noframes>

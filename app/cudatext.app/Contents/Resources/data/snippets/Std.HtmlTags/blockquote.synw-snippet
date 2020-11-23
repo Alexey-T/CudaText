@@ -1,5 +1,0 @@
-name=Tag blockquote
-id=blockquote
-lex=HTML,HTML_,PHP
-text=
-<blockquote>${0}</blockquote>

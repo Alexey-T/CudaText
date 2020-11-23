@@ -1,7 +1,0 @@
-name=Tag div
-id=div
-lex=HTML,HTML_,PHP
-text=
-<div id="${1:test}"${2: class="${3:test}"}>${0}
-
-</div>

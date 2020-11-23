@@ -1,5 +1,0 @@
-name=Tag menu
-id=menu
-lex=HTML,HTML_,PHP
-text=
-<menu>${0}</menu>

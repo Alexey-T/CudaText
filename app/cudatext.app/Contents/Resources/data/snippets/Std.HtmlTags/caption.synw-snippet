@@ -1,5 +1,0 @@
-name=Tag caption
-id=caption
-lex=HTML,HTML_,PHP
-text=
-<caption>${0}</caption>

@@ -1,5 +1,0 @@
-name=Tag img
-id=img
-lex=HTML,HTML_,PHP
-text=
-<img src="${1:images/untitled.jpg}"${2: width="${3:10}"}${4: height="${5:10}"}${6: alt="${7:untitled}"}/>${0}

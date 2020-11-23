@@ -1,5 +1,0 @@
-name=Tag dir
-id=dir
-lex=HTML,HTML_,PHP
-text=
-<dir>${0}</dir>

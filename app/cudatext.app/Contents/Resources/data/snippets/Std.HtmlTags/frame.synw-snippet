@@ -1,5 +1,0 @@
-name=Tag frame
-id=frame
-lex=HTML,HTML_,PHP
-text=
-<frame src="${1:example.htm}"${2: id="${3:test}"}${4: name="${5:test}"}/>${0}

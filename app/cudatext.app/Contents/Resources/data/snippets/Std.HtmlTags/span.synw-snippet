@@ -1,5 +1,0 @@
-name=Tag span
-id=span
-lex=HTML,HTML_,PHP
-text=
-<span class="${1:test}">${0}</span>

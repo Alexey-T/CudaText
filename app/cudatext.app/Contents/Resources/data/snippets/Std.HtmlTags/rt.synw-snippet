@@ -1,5 +1,0 @@
-name=Tag rt
-id=rt
-lex=HTML,HTML_,PHP
-text=
-<rt>${0}</rt>

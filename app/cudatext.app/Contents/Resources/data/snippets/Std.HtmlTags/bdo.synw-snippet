@@ -1,5 +1,0 @@
-name=Tag bdo
-id=bdo
-lex=HTML,HTML_,PHP
-text=
-<bdo dir="${1:rtl}">${0}</bdo>

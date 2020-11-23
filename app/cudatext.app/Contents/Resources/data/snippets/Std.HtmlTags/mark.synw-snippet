@@ -1,5 +1,0 @@
-name=Tag mark
-id=mark
-lex=HTML,HTML_,PHP
-text=
-<mark>${0}</mark>

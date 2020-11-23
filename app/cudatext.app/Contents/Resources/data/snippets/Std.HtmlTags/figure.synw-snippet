@@ -1,7 +1,0 @@
-name=Tag figure
-id=figure
-lex=HTML,HTML_,PHP
-text=
-<figure>
-	${0}
-</figure>

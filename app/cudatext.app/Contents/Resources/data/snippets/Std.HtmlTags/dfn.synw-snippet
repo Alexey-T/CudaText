@@ -1,5 +1,0 @@
-name=Tag dfn
-id=dfn
-lex=HTML,HTML_,PHP
-text=
-<dfn>${0}</dfn>

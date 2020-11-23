@@ -1,5 +1,0 @@
-name=Tag embed
-id=embed
-lex=HTML,HTML_,PHP
-text=
-<embed src="${1:flash.swf}"/>${0}

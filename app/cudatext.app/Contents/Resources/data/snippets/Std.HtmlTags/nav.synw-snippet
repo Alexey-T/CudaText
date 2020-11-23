@@ -1,7 +1,0 @@
-name=Tag nav
-id=nav
-lex=HTML,HTML_,PHP
-text=
-<nav>
-	${0}
-</nav>

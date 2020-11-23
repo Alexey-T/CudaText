@@ -1,5 +1,0 @@
-name=Tag pre
-id=pre
-lex=HTML,HTML_,PHP
-text=
-<pre>${0}</pre>

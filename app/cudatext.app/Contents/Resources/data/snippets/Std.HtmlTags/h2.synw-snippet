@@ -1,5 +1,0 @@
-name=Tag h2
-id=h2
-lex=HTML,HTML_,PHP
-text=
-<h2>${0}</h2>
