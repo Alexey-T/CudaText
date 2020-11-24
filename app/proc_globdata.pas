@@ -953,7 +953,7 @@ begin
   {$ifdef windows}
   //detect latest existing file python3x.dll in app folder
   S:= ExtractFilePath(Application.ExeName);
-  for N:= 8 downto 4 do
+  for N:= 9 downto 6 do
   begin
     SFile:= Format('python3%d.dll', [N]);
     //don't return full filename, this loads DLL with full filename and plugins cannot load
@@ -964,7 +964,7 @@ begin
   {$endif}
 
   {$ifdef darwin}
-  for N:= 5 to 8 do
+  for N:= 9 downto 5 do
   begin
     S:= Format('/Library/Frameworks/Python.framework/Versions/3.%d/lib/libpython3.%d.dylib',
       [N, N]);
