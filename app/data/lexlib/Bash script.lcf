@@ -224,6 +224,9 @@ object SyntAnal2: TLibSyntAnalyzer
     item
       DisplayName = 'Comment'
       StyleName = 'Comment'
+      BlockName = '(('
+      StrictParent = True
+      NotParent = True
       TokenType = 1
       Expression = 
         '^\#.* | (?<=[\x20\x09`])\# (?![\}\]]) (.*?(?=`)|.*$)'#13#10'#support c' +
@@ -244,7 +247,7 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = '(('
       StyleName = 'Symbol'
       TokenType = 8
-      Expression = '\(\('
+      Expression = '\$\(\(|\(\('
       ColumnFrom = 0
       ColumnTo = 0
     end
