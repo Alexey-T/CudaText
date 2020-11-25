@@ -522,6 +522,10 @@ begin
   SetLength(Params, 1);
   Params[0]:= AppVariant(APPSTATE_SESSION_LOAD);
 
+  //don't wait until plugin sets session name in PROC_SET_SESSION,
+  //it's needed in on_state
+  AppSessionName:= AFileName;
+
   if (nCountFilesBefore>0) or (nCountFiles>0) then
     DoPyEvent(nil, cEventOnState, Params);
 end;
