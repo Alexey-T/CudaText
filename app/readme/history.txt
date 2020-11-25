@@ -9,7 +9,7 @@
 + add: Addon Manager: support all git branch names in "Install from GitHub" (thanks @dinkumoil)
 + add: support translation for more std plugins: ProjManager, TabsList (thanks Markus)
 - fix: lexer Bash: (( #text ))
-- fix: bug in API on_state (thanks @Shovel)
+- fix: issue in API on_state (thanks @Shovel)
 - fix: hex viewer cannot scroll big file to the end
 
 1.117.6 (2020/11)
