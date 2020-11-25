@@ -2,6 +2,9 @@ import os
 import string
 from cudatext import *
 from .events import *
+from cudax_lib import get_translation
+
+_   = get_translation(__file__)  # I18N
 
 def is_correct_id(name):
     if not name:
