@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.118.2
+
++ add: option "ui_menu_themed_font_size", Windows only (thanks @dinkumoil)
+
 1.118.0 (2020/11)
 
 + add: non-text file detection: ignore last 2 bytes at the file end (thanks @ThomasHeinrichSchmidt)
