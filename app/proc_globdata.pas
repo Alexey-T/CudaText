@@ -1467,6 +1467,7 @@ begin
     ThemeUi_Loaded:= false;
     ThemeSyntax_Loaded:= false;
     ThemedMainMenu:= true;
+    ThemedMainMenuFontSize:= 9;
 
     AutocompleteHtml_Lexers:= '.*HTML.*|\bPHP\b';
     AutocompleteCss_Lexers:= 'CSS';

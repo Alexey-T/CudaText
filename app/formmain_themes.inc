@@ -184,6 +184,8 @@ var
   NColor: TColor;
 begin
   {$ifdef windows}
+  MenuStylerTheme.FontSize:= UiOps.ThemedMainMenuFontSize;
+
   NColor:= GetAppColor(apclMenuBg);
   if NColor=clNone then
     NColor:= GetAppColor(apclTabBg);
