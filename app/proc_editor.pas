@@ -244,9 +244,12 @@ begin
 
   if not AOneLiner then
   begin
-    EditorCaretPropsFromString(Ed.CaretPropsNormal, Op.OpCaretViewNormal);
-    EditorCaretPropsFromString(Ed.CaretPropsOverwrite, Op.OpCaretViewOverwrite);
-    EditorCaretPropsFromString(Ed.CaretPropsReadonly, Op.OpCaretViewReadonly);
+    if not Ed.IsCaretShapeChangedFromAPI then
+    begin
+      EditorCaretPropsFromString(Ed.CaretPropsNormal, Op.OpCaretViewNormal);
+      EditorCaretPropsFromString(Ed.CaretPropsOverwrite, Op.OpCaretViewOverwrite);
+      EditorCaretPropsFromString(Ed.CaretPropsReadonly, Op.OpCaretViewReadonly);
+    end;
 
     if Op.OpCaretAfterPasteColumn<=Ord(High(TATPasteCaret)) then
       Ed.OptCaretPosAfterPasteColumn:= TATPasteCaret(Op.OpCaretAfterPasteColumn);

@@ -3940,13 +3940,22 @@ begin
           end;
 
         PROP_CARET_VIEW:
-          EditorCaretPropsFromPyTuple(Ed.CaretPropsNormal, Str);
+          begin
+            EditorCaretPropsFromPyTuple(Ed.CaretPropsNormal, Str);
+            Ed.IsCaretShapeChangedFromAPI:= true;
+          end;
 
         PROP_CARET_VIEW_OVR:
-          EditorCaretPropsFromPyTuple(Ed.CaretPropsOverwrite, Str);
+          begin
+            EditorCaretPropsFromPyTuple(Ed.CaretPropsOverwrite, Str);
+            Ed.IsCaretShapeChangedFromAPI:= true;
+          end;
 
         PROP_CARET_VIEW_RO:
-          EditorCaretPropsFromPyTuple(Ed.CaretPropsReadonly, Str);
+          begin
+            EditorCaretPropsFromPyTuple(Ed.CaretPropsReadonly, Str);
+            Ed.IsCaretShapeChangedFromAPI:= true;
+          end;
 
         PROP_CARET_VIRTUAL:
           Ed.OptCaretVirtual:= ValueBool;
