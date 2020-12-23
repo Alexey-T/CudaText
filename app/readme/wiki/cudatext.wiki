@@ -1318,7 +1318,7 @@ Old way for app sources.
 
 First, you need to know GitHub repository (repo) URL of plugin. For example, https://github.com/kvichans/cuda_find_in_files . If you have plugin already, then you can see this URL in the plugin's install.inf (line "homepage=").
 
-Next, call CudaText menu item "Plugins / Addons Manager / Install from GitHub". Enter URL in the suggested dialog. Addons Manager will install latest version from GitHub "master" branch.
+Next, call CudaText menu item "Plugins / Addons Manager / Install from GitHub". Enter URL in the suggested dialog. Addons Manager will install latest version from GitHub. Addons Manager supports all branch names ("master", "main" and others), it will show menu of branch names if there are several branches in the repo.
 
 ==How to simply install many add-ons==
 
