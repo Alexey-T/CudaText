@@ -1320,6 +1320,8 @@ First, you need to know GitHub repository (repo) URL of plugin. For example, htt
 
 Next, call CudaText menu item "Plugins / Addons Manager / Install from GitHub". Enter URL in the suggested dialog. Addons Manager will install latest version from GitHub. Addons Manager supports all branch names ("master", "main" and others), it will show menu of branch names if there are several branches in the repo.
 
+The repo must have correct file "install.inf" in the root, otherwise Addons Manager may not detect the plugin in the repo.
+
 ==How to simply install many add-ons==
 
 * In the dialog "File / Open file", you can multi-select files in list - with Ctrl+click (on Windows) or Shift+arrows.
