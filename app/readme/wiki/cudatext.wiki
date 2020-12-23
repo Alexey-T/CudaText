@@ -1326,7 +1326,7 @@ The repo must have correct file "install.inf" in the root, otherwise Addons Mana
 
 * In the dialog "File / Open file", you can multi-select files in list - with Ctrl+click (on Windows) or Shift+arrows.
 * Use command "Plugins / Addons Manager / Download all", which saves all addons zip files to some folder. When done, install many addons from this folder using "File / Open file" multi-selection.
-* To download without SourceForge lags, use this page: http://totalcmd.net/plugring/CudaText_addons.html , but page is updated not often.
+* There is [https://sourceforge.net/projects/cudatext/files/addons_all/ this page] with zipped collection of all addons, but it is updated not often.
 
 ==How to make translation==
 
