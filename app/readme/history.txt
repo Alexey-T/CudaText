@@ -6,6 +6,7 @@
 1.118.2
 
 + add: option "ui_menu_themed_font_size", Windows only (thanks @dinkumoil)
++ add: lexer JS: tokenizing of new JS operators
 - fix: caret shape was reset even with Vim Mode plugin started (thanks @acicovic)
 
 1.118.0 (2020/11)
