@@ -26,7 +26,7 @@ begin
   if not AppAlwaysNewInstance then
     if IsAnotherInstanceRunning then Exit;
   if Screen.MonitorCount>1 then
-    Application.MainFormOnTaskBar:= True;
+    Application.{%H-}MainFormOnTaskBar:= True;
   {$IFEND}
   Application.Title:='CudaText';
   RequireDerivedFormResource:= True;

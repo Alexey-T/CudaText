@@ -175,6 +175,14 @@ begin
   CompletionOps.ColorFontPrefix:= GetAppColor(apclListCompletePrefix);
   CompletionOps.ColorFontParams:= GetAppColor(apclListCompleteParams);
 
+  DoApplyTheme_ThemedMainMenu;
+end;
+
+
+procedure TfmMain.DoApplyTheme_ThemedMainMenu;
+var
+  NColor: TColor;
+begin
   {$ifdef windows}
   NColor:= GetAppColor(apclMenuBg);
   if NColor=clNone then

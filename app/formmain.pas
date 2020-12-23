@@ -803,6 +803,7 @@ type
     procedure DoApplyFont_Output;
     procedure DoApplyAllOps;
     procedure DoApplyTheme;
+    procedure DoApplyTheme_ThemedMainMenu;
     procedure DoApplyThemeToGroups(G: TATGroups);
     procedure DoClearRecentFileHistory;
     function DoOnMessage(const AText: string): boolean;

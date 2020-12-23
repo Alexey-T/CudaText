@@ -183,6 +183,7 @@ type
     ThemeUi_Loaded: boolean;
     ThemeSyntax_Loaded: boolean;
     ThemedMainMenu: boolean;
+    ThemedMainMenuFontSize: integer;
 
     SidebarShow: boolean;
     SidebarOnRight: boolean;
