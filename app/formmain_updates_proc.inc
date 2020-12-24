@@ -248,8 +248,6 @@ begin
     BorderSpacing.Around:= 2;
     Kind:= gkVerticalBar;
     ShowText:= false;
-    MinValue:= 0;
-    MaxValue:= 100;
     Width:= UiOps.ProgressbarHeightSmall;
   end;
 
