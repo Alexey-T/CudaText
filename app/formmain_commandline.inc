@@ -317,7 +317,6 @@ begin
   {$ifend}
 end;
 
-
 procedure TfmMain.DoLoadCommandLine;
 const
   cOptionPassive = '/passive /nonear';

@@ -266,7 +266,7 @@ begin
   end;
 
   //LexerProgress.Hide;
-  StatusProgress.Hide;
+  UpdateGlobalProgressbar(0, false);
   ButtonCancel.Hide;
 end;
 
@@ -335,8 +335,7 @@ begin
     FFindStop:= false;
     FFindConfirmAll:= mrNone;
     ButtonCancel.Show;
-    StatusProgress.Show;
-    StatusProgress.Progress:= 0;
+    UpdateGlobalProgressbar(0, true);
     UpdateEnabledAll(false);
     if AEdLock then
     begin
@@ -347,7 +346,7 @@ begin
   else
   begin
     ButtonCancel.Hide;
-    StatusProgress.Hide;
+    UpdateGlobalProgressbar(0, false);
     UpdateEnabledAll(true);
     Ed.Enabled:= true;
     Ed.EndUpdate;

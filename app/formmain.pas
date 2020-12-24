@@ -692,6 +692,7 @@ type
     FOption_SidebarTab: string;
     FCmdlineFileCount: integer;
 
+    procedure UpdateGlobalProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
     procedure ConfirmButtonOkClick(Sender: TObject);
     procedure ConfirmPanelMouseLeave(Sender: TObject);
     procedure FindDialogFocusEditor(Sender: TObject);
@@ -3965,9 +3966,7 @@ begin
 
     if NFileCount>1 then
     begin
-      StatusProgress.Progress:= 0;
-      StatusProgress.MaxValue:= NFileCount;
-      StatusProgress.Show;
+      UpdateGlobalProgressbar(0, true, NFileCount);
 
       for i:= 0 to NFileCount-1 do
       begin
@@ -3977,13 +3976,13 @@ begin
         if bZip then
         begin
           Inc(NCountZip);
-          StatusProgress.Progress:= i+1;
+          UpdateGlobalProgressbar(i+1, true, NFileCount);
           Application.ProcessMessages;
         end;
         DoFileOpen(fn, '', nil, AOptions + SOptionPassive + IfThen(bZip, SOptionSilent));
       end;
 
-      StatusProgress.Hide;
+      UpdateGlobalProgressbar(0, false);
       if NCountZip>0 then
         MsgBox(
           Format(msgStatusAddonsInstalled, [NCountZip]),
@@ -7596,6 +7595,16 @@ begin
     FDisableTreeClearing:= false;
   end;
 end;
+
+procedure TfmMain.UpdateGlobalProgressbar(AValue: integer;
+  AVisible: boolean; AMaxValue: integer=100);
+begin
+  StatusProgress.Visible:= AVisible;
+  StatusProgress.MinValue:= 0;
+  StatusProgress.MaxValue:= AMaxValue;
+  StatusProgress.Progress:= AValue;
+end;
+
 
 //----------------------------
 {$I formmain_loadsave.inc}

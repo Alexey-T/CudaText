@@ -610,7 +610,7 @@ var
 begin
   if AMaxPos<=0 then exit;
   NValue:= ACurPos * 100 div AMaxPos;
-  StatusProgress.Progress:= NValue;
+  UpdateGlobalProgressbar(NValue, true);
   Application.ProcessMessages;
   if FFindStop or Application.Terminated then
     AContinue:= false;

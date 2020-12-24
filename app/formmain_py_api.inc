@@ -4586,14 +4586,9 @@ begin
           begin
             Num64:= StrToIntDef(Str, -1);
             if Num64<0 then
-              fmMain.StatusProgress.Hide
+              fmMain.UpdateGlobalProgressbar(0, false)
             else
-            begin
-              fmMain.StatusProgress.Show;
-              fmMain.StatusProgress.MinValue:= 0;
-              fmMain.StatusProgress.MaxValue:= 100;
-              fmMain.StatusProgress.Progress:= Num64;
-            end;
+              fmMain.UpdateGlobalProgressbar(Num64, true);
             Result:= ReturnNone;
           end;
 
