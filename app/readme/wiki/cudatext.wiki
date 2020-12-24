@@ -1318,9 +1318,14 @@ Old way for app sources.
 
 First, you need to know GitHub repository (repo) URL of plugin. For example, https://github.com/kvichans/cuda_find_in_files . If you have plugin already, then you can see this URL in the plugin's install.inf (line "homepage=").
 
-Next, call CudaText menu item "Plugins / Addons Manager / Install from GitHub". Enter URL in the suggested dialog. Addons Manager will install latest version from GitHub. Addons Manager supports all branch names ("master", "main" and others), it will show menu of branch names if there are several branches in the repo.
+Next, call CudaText menu item "Plugins / Addons Manager / Install from GitHub". Enter URL in the suggested dialog. Addons Manager will install latest version from GitHub. Addons Manager supports all branch names ("master", "main" and others), it will show menu of branch names if there are several branches in the repo. The repo must have correct file "install.inf" in the root, otherwise Addons Manager may not detect the plugin in the repo.
 
-The repo must have correct file "install.inf" in the root, otherwise Addons Manager may not detect the plugin in the repo.
+After you entered the URL, Addons Manager shows messagebox:
+
+ GitHub repository can be cloned (using "git clone") or can be downloaded as zip file.  If you clone, Addon Manager's Update dialog will update add-on using "git pull", which is recommended.
+ Buttons: Cancel / Download as zip / Clone repo.
+
+Better to choose "Clone repo" here, this will allow to update plugin directly from GitHub. Choosing the "Download as zip" is ok, but you cannot update plugin from GitHub, you can update plugin only from the released versions from SF.net.
 
 ==How to simply install many add-ons==
 
