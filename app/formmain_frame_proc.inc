@@ -243,7 +243,7 @@ var
   Frame: TEditorFrame;
   Params: TAppVariantArray;
 begin
-  LexerProgress.Progress:= 0;
+  UpdateLexerProgressbar(0, true);
   UpdateTreeContents;
 
   //restoring of folded state from history is here,

@@ -693,6 +693,7 @@ type
     FCmdlineFileCount: integer;
 
     procedure UpdateGlobalProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
+    procedure UpdateLexerProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
     procedure ConfirmButtonOkClick(Sender: TObject);
     procedure ConfirmPanelMouseLeave(Sender: TObject);
     procedure FindDialogFocusEditor(Sender: TObject);
@@ -7222,14 +7223,9 @@ procedure TfmMain.DoOnLexerParseProgress_Sync();
 begin
   if Application.Terminated then exit;
   if FLexerProgressIndex>=0 then
-  begin
-    LexerProgress.Progress:= FLexerProgressIndex;
-    //if FLexerProgressIndex>0 then
-    //  LexerProgress.Show;
-  end
+    UpdateLexerProgressbar(FLexerProgressIndex, true)
   else
-    //LexerProgress.Hide;
-    LexerProgress.Progress:= 0;
+    UpdateLexerProgressbar(0, true{false});
 end;
 
 function _FrameListCompare(List: TStringList; Index1, Index2: Integer): Integer;
@@ -7596,13 +7592,20 @@ begin
   end;
 end;
 
-procedure TfmMain.UpdateGlobalProgressbar(AValue: integer;
-  AVisible: boolean; AMaxValue: integer=100);
+procedure TfmMain.UpdateGlobalProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
 begin
   StatusProgress.Visible:= AVisible;
   StatusProgress.MinValue:= 0;
   StatusProgress.MaxValue:= AMaxValue;
   StatusProgress.Progress:= AValue;
+end;
+
+procedure TfmMain.UpdateLexerProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
+begin
+  LexerProgress.Visible:= AVisible;
+  LexerProgress.MinValue:= 0;
+  LexerProgress.MaxValue:= AMaxValue;
+  LexerProgress.Progress:= AValue;
 end;
 
 

@@ -265,7 +265,7 @@ begin
     Width:= UiOps.ProgressbarWidth;
   end;
 
-  //LexerProgress.Hide;
+  //UpdateLexerProgressbar(0, false);
   UpdateGlobalProgressbar(0, false);
   ButtonCancel.Hide;
 end;
