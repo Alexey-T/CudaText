@@ -36,7 +36,7 @@ uses
   LazFileUtils,
   ATStrings,
   proc_globdata,
-  proc_windows_link,
+  win32linkfiles,
   CopyDir;
 
 function AppCreateFile(const fn: string): boolean;
