@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.118.2
+1.118.2 (2020/12)
 
 + add: option "ui_menu_themed_font_size", Windows only (thanks @dinkumoil)
 - fix: caret shape was reset with Vim Mode plugin started (thanks @acicovic)
