@@ -3218,7 +3218,6 @@ procedure TfmMain.DoApplyUiOpsToGroups(G: TATGroups);
 begin
   G.SetTabFont(Self.Font);
   G.SetTabOption(tabOptionScalePercents, UiOps.Scale);
-  G.SetTabOption(tabOptionAnimationEn, Ord(UiOps.TabAnimation));
   G.SetTabOption(tabOptionShowHint, 1);
   G.SetTabOption(tabOptionVarWidth, Ord(UiOps.TabVarWidth));
   G.SetTabOption(tabOptionMultiline, Ord(UiOps.TabMultiline));

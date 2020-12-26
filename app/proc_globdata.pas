@@ -215,7 +215,6 @@ type
     ListboxFuzzySearch: boolean;
     ListboxHotkeyFontSizeDelta: integer;
 
-    TabAnimation: boolean;
     TabsDisabled: boolean;
     TabVarWidth: boolean;
     TabMultiline: boolean;
@@ -1496,7 +1495,6 @@ begin
     ListboxFuzzySearch:= true;
     ListboxHotkeyFontSizeDelta:= 0; //2 gives too small hotkey font on Lin/Win
 
-    TabAnimation:= false;
     TabsDisabled:= false;
     TabVarWidth:= false;
     TabMultiline:= false;
