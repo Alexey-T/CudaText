@@ -5,9 +5,8 @@
 
 1.118.5 (2020/12)
 
-* change: rename command "delete to file end" to "delete to document end"
-+ add: command "delete to document begin"
-- fix: command "delete to document end" was very slow on huge files
++ add: command "delete to document begin" (thanks @acicovic)
+- fix: command "delete to document end" was very slow on huge files; renamed this command to "delete to document end"
 
 1.118.2 (2020/12)
 
