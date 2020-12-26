@@ -65,6 +65,7 @@ cCommand_TextDeleteToLineEnd = 174 | _CmdFlag_SelReset
 cCommand_TextDeleteToTextEnd = 175 | _CmdFlag_SelReset
 cCommand_TextDeleteWordNext = 176 | _CmdFlag_SelReset
 cCommand_TextDeleteWordPrev = 177 | _CmdFlag_SelReset
+cCommand_TextDeleteToTextBegin = 178 | _CmdFlag_SelReset
 
 _base_GotoTextBegin = 200 | _CmdFlag_MovesCaret
 _base_GotoTextEnd   = 201 | _CmdFlag_MovesCaret
