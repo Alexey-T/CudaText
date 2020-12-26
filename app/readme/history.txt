@@ -3,6 +3,12 @@
   - fixed
   * changed
 
+1.118.5 (2020/12)
+
+* change: rename command "delete to file end" to "delete to document end"
++ add: command "delete to document begin"
+- fix: command "delete to document end" was very slow on huge files
+
 1.118.2 (2020/12)
 
 + add: option "ui_menu_themed_font_size", Windows only (thanks @dinkumoil)
