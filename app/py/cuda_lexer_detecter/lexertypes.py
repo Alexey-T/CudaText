@@ -326,6 +326,7 @@ TYPES = {
     "sln": ['MSVS Solution'],
     "smd": ['Scheme'],
     "sml": ['Standard ML', 'Caml'],
+    "snowql": ['Snowflake SQL'],
     "sol": ['Solidity'],
     "sp": ['SPICE'],
     "spf": ['nnCron'],
