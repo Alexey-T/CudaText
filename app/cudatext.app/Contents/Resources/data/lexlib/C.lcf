@@ -552,7 +552,7 @@ object SyntAnal4: TLibSyntAnalyzer
     'Id keyword'
     'Symbol {}'
     'Symbol ()')
-  Extentions = 'c h ch'
+  Extentions = 'c ch'
   LexerName = 'C'
   Notes.Strings = (
     'Based on original C lexer from EControl'
