@@ -799,7 +799,14 @@ begin
 
   Op.OpOverwriteSel:= cfg.GetValue('ovr_sel', Op.OpOverwriteSel);
   Op.OpOverwriteOnPaste:= cfg.GetValue('ovr_on_paste', Op.OpOverwriteOnPaste);
+
   Op.OpAutoCloseBrackets:= cfg.GetValue('auto_close_brackets', Op.OpAutoCloseBrackets);
+  Op.OpAutocompleteAutoshowCharCount:= cfg.GetValue('autocomplete_autoshow_chars', Op.OpAutocompleteAutoshowCharCount);
+  Op.OpAutocompleteTriggerChars:= cfg.GetValue('autocomplete_trigger_chars', Op.OpAutocompleteTriggerChars);
+  Op.OpAutocompleteCommitChars:= cfg.GetValue('autocomplete_commit_chars', Op.OpAutocompleteCommitChars);
+  Op.OpAutocompleteCloseChars:= cfg.GetValue('autocomplete_close_chars', Op.OpAutocompleteCloseChars);
+  Op.OpAutocompleteAddOpeningBracket:= cfg.GetValue('autocomplete_add_opening_bracket', Op.OpAutocompleteAddOpeningBracket);
+  Op.OpAutocompleteUpDownAtEdge:= cfg.GetValue('autocomplete_up_down_at_edge', Op.OpAutocompleteUpDownAtEdge);
 
   Op.OpUnderlineColorFiles:= cfg.GetValue('underline_color_files', Op.OpUnderlineColorFiles);
   Op.OpUnderlineColorSize:= cfg.GetValue('underline_color_size', Op.OpUnderlineColorSize);
@@ -949,17 +956,6 @@ begin
   Op.OpKeyLeftRightSwapSelAndSelect:= cfg.GetValue('key_left_right_swap_sel_and_select', Op.OpKeyLeftRightSwapSelAndSelect);
 end;
 
-
-procedure TfmMain.DoOps_LoadOptions_UiAutoCompletion(cfg: TJSONConfig);
-begin
-  UiOps.AutocompleteAutoshowCharCount:= cfg.GetValue('autocomplete_autoshow_chars', UiOps.AutocompleteAutoshowCharCount);
-  //UiOps.AutocompleteAutoshowLexers:= cfg.GetValue('autocomplete_autoshow_lexers', UiOps.AutocompleteAutoshowLexers);
-  UiOps.AutocompleteTriggerChars:= cfg.GetValue('autocomplete_trigger_chars', UiOps.AutocompleteTriggerChars);
-  UiOps.AutocompleteCommitChars:= cfg.GetValue('autocomplete_commit_chars', UiOps.AutocompleteCommitChars);
-  UiOps.AutocompleteCloseChars:= cfg.GetValue('autocomplete_close_chars', UiOps.AutocompleteCloseChars);
-  UiOps.AutocompleteAddOpeningBracket:= cfg.GetValue('autocomplete_add_opening_bracket', UiOps.AutocompleteAddOpeningBracket);
-  UiOps.AutocompleteUpDownAtEdge:= cfg.GetValue('autocomplete_up_down_at_edge', UiOps.AutocompleteUpDownAtEdge);
-end;
 
 procedure TfmMain.DoOps_LoadOptions_Ui(cfg: TJSONConfig);
 var
@@ -1226,7 +1222,6 @@ begin
     if AllowUiOps then
       DoOps_LoadOptions_Ui(cfg);
 
-    DoOps_LoadOptions_UiAutoCompletion(cfg);
     DoOps_LoadOptions_Editor(cfg, Op);
 
   finally
@@ -1234,15 +1229,6 @@ begin
   end;
 end;
 
-
-procedure TfmMain.DoOps_ResetLexerSpecificOptions;
-begin
-  //some options are for lexer-specific configs.
-  //they must reset on any lexer change.
-  //otherwise, option in NN lexer will be active in MM lexer (after tab with NN focuses).
-  UiOps.AutocompleteAutoshowCharCount:= 0;
-  UiOps.AutocompleteTriggerChars:= '';
-end;
 
 procedure TfmMain.DoOps_LoadOptionsLexerSpecific(F: TEditorFrame; Ed: TATSynEdit);
 var
@@ -1252,8 +1238,6 @@ var
   TempOps: TATEditorTempOptions;
 begin
   if F=nil then exit;
-
-  DoOps_ResetLexerSpecificOptions;
 
   CurLexer:= F.LexerName[Ed];
   FilenameDefault:= GetAppLexerSpecificConfig(CurLexer, true);

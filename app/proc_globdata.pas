@@ -199,13 +199,6 @@ type
     AutocompleteHtml_Lexers: string;
     AutocompleteCss_Lexers: string;
 
-    AutocompleteAutoshowCharCount: integer;
-    AutocompleteTriggerChars: string;
-    AutocompleteCommitChars: string;
-    AutocompleteCloseChars: string;
-    AutocompleteAddOpeningBracket: boolean;
-    AutocompleteUpDownAtEdge: integer;
-
     ListboxCentered: boolean;
     ListboxSizeX: integer;
     ListboxSizeY: integer;
@@ -427,7 +420,15 @@ type
 
     OpOverwriteSel: boolean;
     OpOverwriteOnPaste: boolean;
+
     OpAutoCloseBrackets: string;
+    OpAutocompleteAutoshowCharCount: integer;
+    OpAutocompleteTriggerChars: string;
+    OpAutocompleteCommitChars: string;
+    OpAutocompleteCloseChars: string;
+    OpAutocompleteAddOpeningBracket: boolean;
+    OpAutocompleteUpDownAtEdge: integer;
+
     OpUnderlineColorFiles: string;
     OpUnderlineColorSize: integer;
     OpLinks: boolean;
@@ -1276,7 +1277,14 @@ begin
 
     OpOverwriteSel:= true;
     OpOverwriteOnPaste:= false;
+
     OpAutoCloseBrackets:= '([{';
+    OpAutocompleteAutoshowCharCount:= 0;
+    OpAutocompleteTriggerChars:= '';
+    OpAutocompleteCommitChars:= ' ,;/\''"';
+    OpAutocompleteCloseChars:= '<>()[]{}=';
+    OpAutocompleteAddOpeningBracket:= true;
+    OpAutocompleteUpDownAtEdge:= 1; //cudWrap
 
     OpUnderlineColorFiles:= '*';
     OpUnderlineColorSize:= 3;
@@ -1480,12 +1488,6 @@ begin
 
     AutocompleteCss:= true;
     AutocompleteHtml:= true;
-    AutocompleteAutoshowCharCount:= 0;
-    AutocompleteTriggerChars:= '';
-    AutocompleteCommitChars:= ' ,;/\''"';
-    AutocompleteCloseChars:= '<>()[]{}=';
-    AutocompleteAddOpeningBracket:= true;
-    AutocompleteUpDownAtEdge:= 1; //cudWrap
 
     ListboxCentered:= true;
     ListboxSizeX:= 450;

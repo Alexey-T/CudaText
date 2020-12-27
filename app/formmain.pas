@@ -738,7 +738,6 @@ type
     procedure DoOps_LoadOptions_Editor(cfg: TJSONConfig; var Op: TEditorOps);
     procedure DoOps_LoadOptions_Global(cfg: TJSONConfig);
     procedure DoOps_LoadOptions_Ui(cfg: TJSONConfig);
-    procedure DoOps_LoadOptions_UiAutoCompletion(cfg: TJSONConfig);
     procedure ShowWelcomeInfo;
     procedure DoOps_OnCreate;
     function FindFrameOfFilename(const AName: string): TEditorFrame;
@@ -910,7 +909,6 @@ type
     procedure SetThemeUi(const AValue: string);
     function FinderOptionsToHint: string;
     procedure DoOps_ShowEventPlugins;
-    procedure DoOps_ResetLexerSpecificOptions;
     procedure DoOps_LoadPluginFromInf(const fn_inf: string; IniPlugins: TMemIniFile);
     procedure DoOps_LoadSidebarIcons;
     procedure DoOps_LoadCodetreeIcons;
@@ -3303,8 +3301,6 @@ var
 begin
   cAdapterIdleInterval:= UiOps.LexerDelayedParsingPause;
   cAdapterIdleTextSize:= UiOps.LexerDelayedParsingSize;
-  CompletionOps.AppendOpeningBracket:= UiOps.AutocompleteAddOpeningBracket;
-  CompletionOps.UpDownAtEdge:= TATCompletionUpDownAtEdge(UiOps.AutocompleteUpDownAtEdge);
 
   LexerProgress.Width:= AppScale(UiOps.ProgressbarHeightSmall);
   StatusProgress.Width:= AppScale(UiOps.ProgressbarWidth);
@@ -5690,8 +5686,10 @@ begin
   //disable completion in comments
   if EditorGetTokenKind(Ed, Caret.PosX, Caret.PosY)=atkComment then exit;
 
-  CompletionOps.CommitChars:= UiOps.AutocompleteCommitChars; //before DoPyEvent
-  CompletionOps.CloseChars:= UiOps.AutocompleteCloseChars; //before DoPyEvent
+  CompletionOps.AppendOpeningBracket:= Ed.OptAutocompleteAddOpeningBracket;
+  CompletionOps.UpDownAtEdge:= TATCompletionUpDownAtEdge(Ed.OptAutocompleteUpDownAtEdge);
+  CompletionOps.CommitChars:= Ed.OptAutocompleteCommitChars; //before DoPyEvent
+  CompletionOps.CloseChars:= Ed.OptAutocompleteCloseChars; //before DoPyEvent
 
   //call auto-completion plugins
   SetLength(Params, 0);

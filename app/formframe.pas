@@ -1440,8 +1440,8 @@ begin
     (Length(AText)=1) then
   begin
     //autoshow by trigger chars
-    if (UiOps.AutocompleteTriggerChars<>'') and
-      (Pos(AText[1], UiOps.AutocompleteTriggerChars)>0) then
+    if (Ed.OptAutocompleteTriggerChars<>'') and
+      (Pos(AText[1], Ed.OptAutocompleteTriggerChars)>0) then
     begin
       //check that we are not inside comment/string
       if IsCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit;
@@ -1481,7 +1481,7 @@ begin
     *)
 
     //autoshow for others, when typed N chars
-    if (UiOps.AutocompleteAutoshowCharCount>0) then
+    if (Ed.OptAutocompleteAutoshowCharCount>0) then
     begin
       //ignore if number typed
       bIdentChar:= bWordChar and not IsCharDigit(AText[1]);
@@ -1491,7 +1491,7 @@ begin
       if IsCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit;
 
       Inc(FTextCharsTyped);
-      if FTextCharsTyped=UiOps.AutocompleteAutoshowCharCount then
+      if FTextCharsTyped=Ed.OptAutocompleteAutoshowCharCount then
       begin
         FTextCharsTyped:= 0;
         Ed.DoCommand(cmd_AutoComplete);

@@ -157,7 +157,14 @@ begin
 
   Ed.OptOverwriteSel:= Op.OpOverwriteSel;
   Ed.OptOverwriteAllowedOnPaste:= Op.OpOverwriteOnPaste;
+
   Ed.OptAutoCloseBrackets:= Op.OpAutoCloseBrackets;
+  Ed.OptAutocompleteAutoshowCharCount:= Op.OpAutocompleteAutoshowCharCount;
+  Ed.OptAutocompleteTriggerChars:= Op.OpAutocompleteTriggerChars;
+  Ed.OptAutocompleteCommitChars:= Op.OpAutocompleteCommitChars;
+  Ed.OptAutocompleteCloseChars:= Op.OpAutocompleteCloseChars;
+  Ed.OptAutocompleteAddOpeningBracket:= Op.OpAutocompleteAddOpeningBracket;
+  Ed.OptAutocompleteUpDownAtEdge:= Op.OpAutocompleteUpDownAtEdge;
 
   if not AOneLiner then
   begin
