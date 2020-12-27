@@ -627,7 +627,6 @@ function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
 procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
 procedure AppUpdateWatcherFrames;
 
-function FixFontMonospaced(const AName: string): string;
 procedure FixFormPositionToDesktop(F: TForm);
 procedure FixRectPositionToDesktop(var F: TRect);
 
@@ -2449,19 +2448,6 @@ begin
   else
   if Assigned(LexerLite) then
     LexerName:= LexerLite.LexerName+msgLiteLexerSuffix;
-end;
-
-
-function FixFontMonospaced(const AName: string): string; inline;
-begin
-  Result:= AName;
-  {
-  //commented, it slows down start by 10-20ms
-  if (AName='') or (Screen.Fonts.IndexOf(AName)>=0) then
-    Result:= AName
-  else
-    Result:= 'Courier';
-    }
 end;
 
 

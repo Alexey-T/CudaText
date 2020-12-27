@@ -768,10 +768,10 @@ procedure TfmMain.DoOps_LoadOptions_Editor(cfg: TJSONConfig; var Op: TEditorOps)
 var
   Sep: TATStringSeparator;
 begin
-  Op.OpFontName:= FixFontMonospaced(cfg.GetValue(str_FontName, Op.OpFontName));
-  Op.OpFontName_i:= FixFontMonospaced(cfg.GetValue(str_FontName_i, Op.OpFontName_i));
-  Op.OpFontName_b:= FixFontMonospaced(cfg.GetValue(str_FontName_b, Op.OpFontName_b));
-  Op.OpFontName_bi:= FixFontMonospaced(cfg.GetValue(str_FontName_bi, Op.OpFontName_bi));
+  Op.OpFontName:= cfg.GetValue(str_FontName, Op.OpFontName);
+  Op.OpFontName_i:= cfg.GetValue(str_FontName_i, Op.OpFontName_i);
+  Op.OpFontName_b:= cfg.GetValue(str_FontName_b, Op.OpFontName_b);
+  Op.OpFontName_bi:= cfg.GetValue(str_FontName_bi, Op.OpFontName_bi);
 
   Op.OpFontSize:= Abs(cfg.GetValue(str_FontSize, Op.OpFontSize)); //Abs() for macOS
   Op.OpFontSize_i:= Abs(cfg.GetValue(str_FontSize_i, Op.OpFontSize_i));
