@@ -611,9 +611,9 @@ begin
 
   //auto-close brackets
   if (ACommand=cCommand_TextInsert) and
-    (UiOps.AutoCloseBrackets<>'') and
+    (Ed.OptAutoCloseBrackets<>'') and
     (Length(AText)=1) and
-    (Pos(AText[1], UiOps.AutoCloseBrackets)>0) then
+    (Pos(AText[1], Ed.OptAutoCloseBrackets)>0) then
   begin
     if EditorAutoCloseBracket(Ed, AText[1]) then
     begin

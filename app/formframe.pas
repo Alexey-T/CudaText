@@ -1363,7 +1363,7 @@ begin
           if Length(AText)=1 then
           begin
             ch:= EditorBracket_GetPairForClosingBracketOrQuote(AText[1]);
-            if (ch<>#0) and (Pos(ch, UiOps.AutoCloseBrackets)>0) then
+            if (ch<>#0) and (Pos(ch, Ed.OptAutoCloseBrackets)>0) then
             begin
               Str:= Ed.Strings.Lines[Caret.PosY];
               if (Caret.PosX<Length(Str)) then

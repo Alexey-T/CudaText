@@ -205,7 +205,6 @@ type
     AutocompleteCloseChars: string;
     AutocompleteAddOpeningBracket: boolean;
     AutocompleteUpDownAtEdge: integer;
-    AutoCloseBrackets: string;
 
     ListboxCentered: boolean;
     ListboxSizeX: integer;
@@ -428,6 +427,7 @@ type
 
     OpOverwriteSel: boolean;
     OpOverwriteOnPaste: boolean;
+    OpAutoCloseBrackets: string;
     OpUnderlineColorFiles: string;
     OpUnderlineColorSize: integer;
     OpLinks: boolean;
@@ -1276,6 +1276,7 @@ begin
 
     OpOverwriteSel:= true;
     OpOverwriteOnPaste:= false;
+    OpAutoCloseBrackets:= '([{';
 
     OpUnderlineColorFiles:= '*';
     OpUnderlineColorSize:= 3;
@@ -1485,7 +1486,6 @@ begin
     AutocompleteCloseChars:= '<>()[]{}=';
     AutocompleteAddOpeningBracket:= true;
     AutocompleteUpDownAtEdge:= 1; //cudWrap
-    AutoCloseBrackets:= '([{';
 
     ListboxCentered:= true;
     ListboxSizeX:= 450;

@@ -799,6 +799,7 @@ begin
 
   Op.OpOverwriteSel:= cfg.GetValue('ovr_sel', Op.OpOverwriteSel);
   Op.OpOverwriteOnPaste:= cfg.GetValue('ovr_on_paste', Op.OpOverwriteOnPaste);
+  Op.OpAutoCloseBrackets:= cfg.GetValue('auto_close_brackets', Op.OpAutoCloseBrackets);
 
   Op.OpUnderlineColorFiles:= cfg.GetValue('underline_color_files', Op.OpUnderlineColorFiles);
   Op.OpUnderlineColorSize:= cfg.GetValue('underline_color_size', Op.OpUnderlineColorSize);
@@ -958,7 +959,6 @@ begin
   UiOps.AutocompleteCloseChars:= cfg.GetValue('autocomplete_close_chars', UiOps.AutocompleteCloseChars);
   UiOps.AutocompleteAddOpeningBracket:= cfg.GetValue('autocomplete_add_opening_bracket', UiOps.AutocompleteAddOpeningBracket);
   UiOps.AutocompleteUpDownAtEdge:= cfg.GetValue('autocomplete_up_down_at_edge', UiOps.AutocompleteUpDownAtEdge);
-  UiOps.AutoCloseBrackets:= cfg.GetValue('auto_close_brackets', UiOps.AutoCloseBrackets);
 end;
 
 procedure TfmMain.DoOps_LoadOptions_Ui(cfg: TJSONConfig);

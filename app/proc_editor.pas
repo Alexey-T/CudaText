@@ -157,6 +157,7 @@ begin
 
   Ed.OptOverwriteSel:= Op.OpOverwriteSel;
   Ed.OptOverwriteAllowedOnPaste:= Op.OpOverwriteOnPaste;
+  Ed.OptAutoCloseBrackets:= Op.OpAutoCloseBrackets;
 
   if not AOneLiner then
   begin
