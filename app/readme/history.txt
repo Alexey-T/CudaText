@@ -6,7 +6,8 @@
 1.118.5 (2020/12)
 
 + add: command "delete to document begin" (thanks @acicovic)
-- fix: command "delete to document end" was very slow on huge files; renamed this command to "delete to document end"
+- fix: command "delete to file end" was very slow on huge files; renamed this command to "delete to document end"
+- fix: option "auto_close_brackets" was working bad with lexer-specific configs (thanks @Shovel)
 
 1.118.2 (2020/12)
 
