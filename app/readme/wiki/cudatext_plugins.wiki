@@ -586,7 +586,7 @@ Tool properties:
 
 =FindInFiles=
 
-==FiF v3 and FiF v4: comparision and future==
+==FiF3 and FiF4: comparision and future==
 CudaText now has two plugins to search in files/tabs:
 
 * FindInFiles-v3 (FiF3)
@@ -594,10 +594,10 @@ CudaText now has two plugins to search in files/tabs:
 
 Important:
 
-* FiF3 is almost **frozen**. Only serious bugs will be fixed. No plans to hide/delete FiF3. 
-* FiF4 **will supersede** FiF3. Now FiF4  has only one disadvantage - it has no `Replace`. `Replace` will appear later (maybe in the summer).
+* FiF3 is almost frozen. Only serious bugs will be fixed. No plans to hide/delete FiF3. 
+* FiF4 will supersede FiF3. Now FiF4 has only one disadvantage - it has no "Replace" functionality. "Replace" will appear later.
 
-Details of comparison:
+Details of comparison.
 
 Common features:
 
