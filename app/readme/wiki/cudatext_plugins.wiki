@@ -584,4 +584,41 @@ Tool properties:
 * Parameters: "/L={FileName}" /C
 * Initial folder: {FileDir}
 
+=FindInFiles=
+
+==FiF v3 and FiF v4: comparision and future==
+CudaText now has two plugins to search in files/tabs:
+
+* FindInFiles-v3 (FiF3)
+* FindInFiles-v4 (FiF4)
+
+Important:
+
+* FiF3 is almost **frozen**. Only serious bugs will be fixed. No plans to hide/delete FiF3. 
+* FiF4 **will supersede** FiF3. Now FiF4  has only one disadvantage - it has no `Replace`. `Replace` will appear later (maybe in the summer).
+
+Details of comparison:
+
+Common features:
+
+* Speed of search. Speed of FiF3 is stable. FiF4 can search faster or slower depending on the settings. In the "slow" mode FiF4 gives more complex Results or uses more complex filters.
+* Encoding detection. FiF4 allows to set more flexible plan (see submenu `=/Encoding plan`). 
+* Presets. Both versions allow to define and restore named set of search parameters. FiF4 allows to run dialog and start **immediate search** with parameters from a preset (see main menu command `Find by preset...`). FiF4 allows to restore [pre]previous parameters (runtime **auto saving**).
+* Results/Source. FiF3 allows to put Results in old/new tab or in dialog editor control. FiF4 allows to put Results only in dialog editor control and has a command to copy Results to new tab. Both allow to open the source file for specified fragment in new tab. FiF3 can place Results and Source vertically or horizontally. FiF4 has only one way.
+* FiF3 has commands to **count fragments** and to show only filenames. FiF4 skips such commands as unnecessary.
+* FiF3 can search **in project** folder(s). FiF4 will do that soon. **UPD GitHub version is fixed: `{p}` will be replaced with project folders`**
+* FiF3 can save **dialog layouts**. FiF4 saves layout as part of preset.
+
+Main new features:
+
+* FiF4 can report the found fragment with its **around lines** (see `-?+?` button).
+* FiF4 can search **multi-line fragments** (see `+` button).
+* FiF4 can search in **many start folders**.
+* FiF4 allows to use **lexer data** to filter and report fragments (in/out string/comment, lexer path).
+* FiF4 allows to show lines in the Results with its **lexer colors** from source files.
+* FiF4 allows to use **macro-variables** (OS environments, properties of current file/tab and free-set names) in any editable fields . 
+* FiF4 has **statusbar** to show statistics of the last search: folders/files/fragments/timing.
+* FiF4 allows to **reformat Results** (change tree type and more) without new search.
+* FiF4 allows to show **modification time** of files in the Results.
+
 [[Category:CudaText]]
