@@ -1128,6 +1128,19 @@ Control of UI tabs is named ATTabs, and has many features:
 
 [[File:cudatext-tab-colors.png]]
 
+==Activating internet links==
+CudaText allows to activate internet links (URLs) and e-mails (e-mail can be with the 'mailto:' and without it).
+This feature needs that links are automatically underlined in the editor.
+After the double-click on an underlined link, editor shows small button over the link 
+(button with caption "Open link" or "Send e-mail"), and clicking on this temporary button activates the link.
+This works with the default values of 2 options:
+
+* "links_regex": it must include RegEx, which detects and underlines links
+* "mouse_click_links": it gives choices:
+** don't activate links by clicks
+** activate by single click
+** activate by double click
+
 =Major plugins=
 
 See separate Wiki page about major plugins: [[CudaText plugins]].
