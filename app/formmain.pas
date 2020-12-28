@@ -708,7 +708,7 @@ type
     procedure CodeTreeFilter_OnChange(Sender: TObject);
     procedure CodeTreeFilter_ResetOnClick(Sender: TObject);
     procedure CodeTreeFilter_OnCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
-    procedure DisablePluginMenuItems;
+    procedure DisablePluginMenuItems(AddFindLibraryItem: boolean);
     procedure DoApplyNewdocLexer(F: TEditorFrame);
     procedure DoApplyCenteringOption;
     procedure DoApplyLexerStyleMaps(AndApplyTheme: boolean);
@@ -4495,6 +4495,13 @@ begin
   PythonModule.ModuleName:= 'cudatext_api';
   PythonModule.OnInitialization:= @PythonModuleInitialization;
 
+  //handle special empty value of "pylib"
+  if UiOps.PyLibrary='' then
+  begin
+    DisablePluginMenuItems(false);
+    exit;
+  end;
+
   PythonEng.UseLastKnownVersion:= False;
   PythonEng.DllPath:= ExtractFilePath(UiOps.PyLibrary);
   PythonEng.DllName:= ExtractFileName(UiOps.PyLibrary);
@@ -4507,11 +4514,11 @@ begin
     MsgLogConsole(msgCannotInitPython2);
     if msgCannotInitPython2b<>'' then
       MsgLogConsole(msgCannotInitPython2b);
-    DisablePluginMenuItems;
+    DisablePluginMenuItems(true);
   end;
 end;
 
-procedure TfmMain.DisablePluginMenuItems;
+procedure TfmMain.DisablePluginMenuItems(AddFindLibraryItem: boolean);
 {$ifndef windows}
 var
   mi: TMenuItem;
@@ -4520,18 +4527,19 @@ begin
   if Assigned(mnuOpPlugins) then
     mnuOpPlugins.Enabled:= false;
 
-  if Assigned(mnuPlugins) then
-  begin
-    {$ifdef windows}
-    mnuPlugins.Enabled:= false;
-    {$else}
-    mi:= TMenuItem.Create(Self);
-    mi.Caption:= msgPythonFindCaption+'...';
-    mi.OnClick:= @DoOps_FindPythonLib;
-    mnuPlugins.Clear;
-    mnuPlugins.Add(mi);
-    {$endif}
-  end;
+  if AddFindLibraryItem then
+    if Assigned(mnuPlugins) then
+    begin
+      {$ifdef windows}
+      mnuPlugins.Enabled:= false;
+      {$else}
+      mi:= TMenuItem.Create(Self);
+      mi.Caption:= msgPythonFindCaption+'...';
+      mi.OnClick:= @DoOps_FindPythonLib;
+      mnuPlugins.Clear;
+      mnuPlugins.Add(mi);
+      {$endif}
+    end;
 end;
 
 procedure TfmMain.MenuEncNoReloadClick(Sender: TObject);
@@ -7511,6 +7519,9 @@ begin
   {$ifdef windows}
   exit;
   {$endif}
+
+  //with empty value of "pylib", disable "find python library" command
+  if UiOps.PyLibrary='' then exit;
 
   SDir:= cSystemLibDir;
   if not InputQuery(msgPythonFindCaption, msgPythonFindFromDir, SDir) then exit;

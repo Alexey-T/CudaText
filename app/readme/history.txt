@@ -6,6 +6,7 @@
 1.118.5 (2020/12)
 
 + add: command "delete to document begin" (thanks @acicovic)
++ add: allow empty-string value of "pylib" option to disable Python engine (thanks @xcme)
 - fix: command "delete to file end" was very slow on huge files; renamed this command to "delete to document end"
 - fix: options "auto_close_brackets" and all "autocomplete_*" were working bad with lexer-specific configs (thanks @Shovel)
 
