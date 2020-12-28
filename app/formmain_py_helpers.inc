@@ -386,6 +386,8 @@ var
   L: TStringList;
   Params: TAppVariantArray;
 begin
+  if not AppPython.Inited then exit;
+
   fn:= AppDir_Py+DirectorySeparator+'cudatext_reset_plugins.py';
   if not FileExists(fn) then
   begin
@@ -412,6 +414,7 @@ end;
 
 procedure TfmMain.DoPyRescanPlugins;
 begin
+  if not AppPython.Inited then exit;
   DoOps_LoadPlugins;
   UpdateMenuPlugins;
   MsgStatus(msgRescannedAllPlugins);
@@ -421,6 +424,7 @@ procedure TfmMain.DoPyRunLastPlugin;
 var
   Params: TAppVariantArray;
 begin
+  if not AppPython.Inited then exit;
   if AppPython.LastCommandModule='' then exit;
   if AppPython.LastCommandParam<>'' then
   begin
