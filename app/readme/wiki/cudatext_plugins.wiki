@@ -595,7 +595,7 @@ CudaText now has two plugins to search in files/tabs:
 Important:
 
 * FiF3 is almost frozen. Only serious bugs will be fixed. No plans to hide/delete FiF3. 
-* FiF4 will supersede FiF3. Now FiF4 has only one disadvantage - it has no "Replace" functionality. "Replace" will appear later.
+* FiF4 supersedes FiF3.
 
 Details of comparison.
 
@@ -606,8 +606,9 @@ Common features:
 * Presets. Both versions allow to define and restore named set of search parameters. FiF4 allows to run dialog and start '''immediate search''' with parameters from a preset (see main menu command "Find by preset..."). FiF4 allows to restore [pre]previous parameters (runtime '''auto saving''').
 * Results/Source. FiF3 allows to put Results in old/new tab or in dialog editor control. FiF4 allows to put Results only in dialog editor control and has a command to copy Results to new tab. Both allow to open the source file for specified fragment in new tab. FiF3 can place Results and Source vertically or horizontally. FiF4 has only one way.
 * FiF3 has commands to '''count fragments''' and to show only filenames. FiF4 skips such commands as unnecessary.
-* FiF3 can search '''in project''' folder(s). FiF4 will do that soon.
 * FiF3 can save '''dialog layouts'''. FiF4 saves layout as part of preset.
+* Like FiF3, FiF4 has the "Replace" functionality.
+* Like FiF3, FiF4 can search '''in project''' folder(s).
 
 Main new features:
 
