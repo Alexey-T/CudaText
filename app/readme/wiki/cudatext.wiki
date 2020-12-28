@@ -56,7 +56,8 @@ Screenshot on Windows:
 * Single-instance mode is supported on all OS'es
 * Scrolling after middle-button click (called "Autoscrolling" in Firefox)
 * API to show pictures between the lines (plugin "Insert Pics")
-* Zebra mode
+* Zebra mode as an option
+* Double-clicking on URL or e-mail shows confirmation to activate it
 
 = Download =
 
