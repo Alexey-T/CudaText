@@ -1,2 +1,2 @@
 #!/bin/sh
-cuda_ver=1.118.4.0
+cuda_ver=1.119.0.0

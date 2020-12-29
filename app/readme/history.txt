@@ -3,16 +3,13 @@
   - fixed
   * changed
 
-1.118.5 (2020/12)
+1.119.0 (2020/12)
 
 + add: command "delete to document begin" (thanks @acicovic)
 + add: allow empty-string value of "pylib" option to disable Python engine (thanks @xcme)
++ add: option "ui_menu_themed_font_size", Windows only (thanks @dinkumoil)
 - fix: command "delete to file end" was very slow on huge files; renamed this command to "delete to document end"
 - fix: options "auto_close_brackets" and all "autocomplete_*" were working bad with lexer-specific configs (thanks @Shovel)
-
-1.118.2 (2020/12)
-
-+ add: option "ui_menu_themed_font_size", Windows only (thanks @dinkumoil)
 - fix: caret shape was reset with Vim Mode plugin started (thanks @acicovic)
 - fix: Windows: error in "Addons Manager / Install from GitHub" (thanks @acicovic)
 - fix: lexer JS: tokenizing of some new JS operators
