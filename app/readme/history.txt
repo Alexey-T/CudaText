@@ -8,6 +8,7 @@
 + add: command "delete to document begin" (thanks @acicovic)
 + add: allow empty-string value of "pylib" option to disable Python engine (thanks @xcme)
 + add: option "ui_menu_themed_font_size", Windows only (thanks @dinkumoil)
++ add: wiki topic: https://wiki.freepascal.org/CudaText#Activating_internet_links
 - fix: command "delete to file end" was very slow on huge files; renamed this command to "delete to document end"
 - fix: options "auto_close_brackets" and all "autocomplete_*" were working bad with lexer-specific configs (thanks @Shovel)
 - fix: caret shape was reset with Vim Mode plugin started (thanks @acicovic)
