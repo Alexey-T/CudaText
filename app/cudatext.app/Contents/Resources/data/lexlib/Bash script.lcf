@@ -159,16 +159,6 @@ object SyntAnal2: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-    end
-    item
-      DisplayName = 'Id bad'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-      BorderTypeBottom = blSolid
-      BorderColorBottom = clRed
     end>
   TokenRules = <
     item
