@@ -306,10 +306,11 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 4
         end>
       HighlightPos = cpBound
+      TokenType = 7
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'id keywords2'
+      DisplayName = 'id modifiers'
       StyleName = 'Id special'
       BlockType = btTagDetect
       ConditionList = <
@@ -358,6 +359,7 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 4
         end>
       HighlightPos = cpAny
+      TokenType = 11
       IgnoreAsParent = False
     end
     item
@@ -422,7 +424,7 @@ object SyntAnal5: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'class')
-          TokenTypes = 4
+          TokenTypes = 128
         end>
       BlockEnd = '}'
       NameFmt = 'class %s-1~[{]1'
@@ -480,7 +482,7 @@ object SyntAnal5: TLibSyntAnalyzer
       HighlightPos = cpAny
       CancelNextRules = True
       CollapseFmt = '%sz0...'
-      TreeItemImage = 5
+      TreeItemImage = 6
       TreeGroupImage = 1
       IgnoreAsParent = False
     end
@@ -494,7 +496,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 70
+          TokenTypes = 2246
         end
         item
           TagList.Strings = (
@@ -503,7 +505,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 574
+          TokenTypes = 2622
         end
         item
           TagList.Strings = (
@@ -526,7 +528,7 @@ object SyntAnal5: TLibSyntAnalyzer
       HighlightPos = cpBound
       CancelNextRules = True
       CollapseFmt = '%sz0...'
-      TreeItemImage = 5
+      TreeItemImage = 6
       TreeGroupImage = 1
       IgnoreAsParent = False
     end
@@ -540,7 +542,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 4686
+          TokenTypes = 6734
         end
         item
           TagList.Strings = (
@@ -549,7 +551,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 574
+          TokenTypes = 2622
         end
         item
           TagList.Strings = (
@@ -597,23 +599,46 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 518
-        end
-        item
-          TokenTypes = 4
+          TokenTypes = 526
         end
         item
           TagList.Strings = (
-            'namespace'
             'struct')
-          TokenTypes = 4
+          TokenTypes = 128
         end>
       BlockEnd = '}'
-      NameFmt = '%s0 %s-1'
+      NameFmt = '%s0~[{]1'
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
+      CollapseFmt = '%sz0'
       TreeItemImage = 3
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'namespace'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 256
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 6
+        end
+        item
+          TagList.Strings = (
+            'namespace')
+          TokenTypes = 128
+        end>
+      BlockEnd = '}'
+      NameFmt = '%s0~[{]1'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      CollapseFmt = '%sz0'
+      TreeItemImage = 0
       IgnoreAsParent = False
     end
     item
@@ -626,12 +651,12 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 1038
+          TokenTypes = 3086
         end
         item
           TagList.Strings = (
             'operator')
-          TokenTypes = 4
+          TokenTypes = 128
         end>
       BlockEnd = '}'
       NameFmt = '%sz0'
@@ -699,13 +724,11 @@ object SyntAnal5: TLibSyntAnalyzer
     'double CNested1::CMonitor(MonitorIT* part) {'
     '}'
     ''
-    'void CNested2::CMonitor::connectMonitorIT(MonitorIT* part) {'
+    'void CNested2::CMonitor::getMonitor(MonitorIT* part) {'
     '  return this;'
     '}'
     ''
-    
-      'floatFlowInterface* CNested2::CMonitor::getItsFloatFlowInterface' +
-      '() {'
+    'floatInterface* CNested2::CMonitor::getFlow() {'
     '  return this;'
     '}'
     ''
@@ -719,10 +742,7 @@ object SyntAnal5: TLibSyntAnalyzer
     '    }'
     '}'
     '      '
-    'void __fastcall CForm->Button1Click(Sender: TObject) {'
-    '}'
-    ''
-    'void main(int argc; char* argv) {'
+    'void main(int argc, char* argv) {'
     '}'
     ''
     'struct Books {'
@@ -751,7 +771,7 @@ object SyntAnal5: TLibSyntAnalyzer
     'Symbol {}'
     'Symbol ::'
     'Symbol ()'
-    'Generic param'
+    'Id modifier'
     'Symbol ->'
     'Symbol ;')
   Extentions = 'cpp cxx h hh hpp hxx inl cc cp c++ h++ inl ipp'
@@ -760,8 +780,8 @@ object SyntAnal5: TLibSyntAnalyzer
     'Reworked C++ lexer by Alexey (CudaText)'
     'Notes:'
     
-      '- rules "block comments" disabled, they missed up func rules a l' +
-      'ittle'
+      '- rules "block comments" are disabled, they mess with func rules' +
+      ' a little'
     
       '- many token types "symbol ..." is for rules: so rules can skip ' +
       'most symbols but not all (; -> {} etc)')
