@@ -6,7 +6,7 @@
 
 1.119.1 (2021/01)
 
-+ add: lexer C++: code-tree improvement: change icons for "namespace"; detect "struct name<T>"; avoid items "requires" in code-tree
++ add: lexer C++: code-tree improvement: change icons for "namespace"; detect "struct name<T>"; avoid C++ keywords "requires" in code-tree
 + add: lexer C++: highlight labels, in "goto label;" and "label: statement;"
 + add: lexer Bash: highlight numbers in form like "100suffix"
 + add: sync Asian code-page convertion code with Lazarus patch (Support EUDC to PUA Microsoft mapping) by @powerpcer
