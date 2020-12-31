@@ -42,7 +42,7 @@
 + add: can work if CudaText runs via symlink on Unix systems (thanks @Peter2121)
 + add: option "auto_delete_bookmarks" (thanks @Jairo-Martinez)
 + add: lexer C++: fixes for code-tree
-- fix: fixes for standard plugins' translation (thanks Markus)
+- fix: fixes for standard plugins' translation (patch by Markus)
 - fix: dragging of sel-rect in minimap stopped when mouse goes lefter/righter of minimap 
 - fix: on deleting block with n bookmarks, bookmarks shifted upper too much
 
@@ -52,8 +52,8 @@
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Encoding_detection
 + add: options "find_indent_vert"/"find_indent_horz" are now respected in Undo/Redo commands (thanks @xcme)
 + add: option "find_indent_vert": big values >= 100 (or <= -100) now center position vertically
-+ add: plugin Project Manager supports "Find in Files 4" with its command "Find in directory" (thanks @dhealey)
-+ add: plugins Comments, Sort, Emmet are translatable like many others (thanks Markus)
++ add: plugin Project Manager supports "Find in Files 4" with its command "Find in directory" (thanks @dhealey, @kvichans)
++ add: plugins Comments, Sort, Emmet are translatable like many others (patch by Markus)
 + add: can assign hotkey to Left Backslash key on 102-key keyboard (thanks @xcme)
 + add: after "save file as", clear read-only editor state (thanks @MrPiccad)
 * change: shortened button captions in Find dialog: "First", "Next", "Prev", "Select", "Mark"
