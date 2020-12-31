@@ -8,7 +8,7 @@
 
 + add: lexer C++: code-tree improvement: change icons for "namespace"; detect "struct name<T>"; avoid items "requires" in code-tree
 + add: lexer C++: highlight labels, in "goto label;" and "label: statement;"
-- fix: lexer Bash: highlight numbers in form like '100kb'
++ add: lexer Bash: highlight numbers in form like "100suffix"
 
 1.119.0 (2020/12)
 
