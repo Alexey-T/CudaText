@@ -81,6 +81,14 @@ object SyntAnal5: TLibSyntAnalyzer
       Font.Style = []
       BgColor = 14938312
       FormatType = ftBackGround
+    end
+    item
+      DisplayName = 'Label'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -112,6 +120,22 @@ object SyntAnal5: TLibSyntAnalyzer
       StyleName = 'Id keyword'
       TokenType = 7
       Expression = '\b(catch|else|for|if|switch|while)\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Label'
+      StyleName = 'Label'
+      TokenType = 14
+      Expression = '(?<=^[\x20\x09]*)[a-z_]\w*(?=:)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Label 2'
+      StyleName = 'Label'
+      TokenType = 14
+      Expression = '(?<=\bgoto\x20+)[a-z_]\w*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -717,8 +741,9 @@ object SyntAnal5: TLibSyntAnalyzer
       'n = 1e2 + 0.12e+2 + 0xA'#39'B + 0b11'#39'00 + 1'#39'12'#39'23 + 0.1'#39'2f + 0xF.Ap3' +
       ';  '
     ''
-    'Id Template::getTemplate(const string &id) const { '
-    '  return id;'
+    'Id Template::getTemplate(const string &id) const {'
+    '  goto next;'
+    '  next: return id;'
     '}'
     ''
     'double CNested1::CMonitor(MonitorIT* part) {'
@@ -773,7 +798,8 @@ object SyntAnal5: TLibSyntAnalyzer
     'Symbol ()'
     'Id modifier'
     'Symbol ->'
-    'Symbol ;')
+    'Symbol ;'
+    'Goto label')
   Extentions = 'cpp cxx h hh hpp hxx inl cc cp c++ h++ inl ipp'
   LexerName = 'C++'
   Notes.Strings = (

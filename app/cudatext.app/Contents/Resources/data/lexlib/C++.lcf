@@ -81,6 +81,14 @@ object SyntAnal5: TLibSyntAnalyzer
       Font.Style = []
       BgColor = 14938312
       FormatType = ftBackGround
+    end
+    item
+      DisplayName = 'Label'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -112,6 +120,22 @@ object SyntAnal5: TLibSyntAnalyzer
       StyleName = 'Id keyword'
       TokenType = 7
       Expression = '\b(catch|else|for|if|switch|while)\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Label'
+      StyleName = 'Label'
+      TokenType = 14
+      Expression = '(?<=^[\x20\x09]*)[a-z_]\w*(?=:)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Label 2'
+      StyleName = 'Label'
+      TokenType = 14
+      Expression = '(?<=\bgoto\x20+)[a-z_]\w*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -306,10 +330,11 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 4
         end>
       HighlightPos = cpBound
+      TokenType = 7
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'id keywords2'
+      DisplayName = 'id modifiers'
       StyleName = 'Id special'
       BlockType = btTagDetect
       ConditionList = <
@@ -358,6 +383,7 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 4
         end>
       HighlightPos = cpAny
+      TokenType = 11
       IgnoreAsParent = False
     end
     item
@@ -422,7 +448,7 @@ object SyntAnal5: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'class')
-          TokenTypes = 4
+          TokenTypes = 128
         end>
       BlockEnd = '}'
       NameFmt = 'class %s-1~[{]1'
@@ -480,7 +506,7 @@ object SyntAnal5: TLibSyntAnalyzer
       HighlightPos = cpAny
       CancelNextRules = True
       CollapseFmt = '%sz0...'
-      TreeItemImage = 5
+      TreeItemImage = 6
       TreeGroupImage = 1
       IgnoreAsParent = False
     end
@@ -494,7 +520,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 70
+          TokenTypes = 2246
         end
         item
           TagList.Strings = (
@@ -503,7 +529,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 574
+          TokenTypes = 2622
         end
         item
           TagList.Strings = (
@@ -526,7 +552,7 @@ object SyntAnal5: TLibSyntAnalyzer
       HighlightPos = cpBound
       CancelNextRules = True
       CollapseFmt = '%sz0...'
-      TreeItemImage = 5
+      TreeItemImage = 6
       TreeGroupImage = 1
       IgnoreAsParent = False
     end
@@ -540,7 +566,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 4686
+          TokenTypes = 6734
         end
         item
           TagList.Strings = (
@@ -549,7 +575,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 574
+          TokenTypes = 2622
         end
         item
           TagList.Strings = (
@@ -597,23 +623,46 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 518
-        end
-        item
-          TokenTypes = 4
+          TokenTypes = 526
         end
         item
           TagList.Strings = (
-            'namespace'
             'struct')
-          TokenTypes = 4
+          TokenTypes = 128
         end>
       BlockEnd = '}'
-      NameFmt = '%s0 %s-1'
+      NameFmt = '%s0~[{]1'
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
+      CollapseFmt = '%sz0'
       TreeItemImage = 3
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'namespace'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 256
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 6
+        end
+        item
+          TagList.Strings = (
+            'namespace')
+          TokenTypes = 128
+        end>
+      BlockEnd = '}'
+      NameFmt = '%s0~[{]1'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      CollapseFmt = '%sz0'
+      TreeItemImage = 0
       IgnoreAsParent = False
     end
     item
@@ -626,12 +675,12 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 1038
+          TokenTypes = 3086
         end
         item
           TagList.Strings = (
             'operator')
-          TokenTypes = 4
+          TokenTypes = 128
         end>
       BlockEnd = '}'
       NameFmt = '%sz0'
@@ -692,20 +741,19 @@ object SyntAnal5: TLibSyntAnalyzer
       'n = 1e2 + 0.12e+2 + 0xA'#39'B + 0b11'#39'00 + 1'#39'12'#39'23 + 0.1'#39'2f + 0xF.Ap3' +
       ';  '
     ''
-    'Id Template::getTemplate(const string &id) const { '
-    '  return id;'
+    'Id Template::getTemplate(const string &id) const {'
+    '  goto next;'
+    '  next: return id;'
     '}'
     ''
     'double CNested1::CMonitor(MonitorIT* part) {'
     '}'
     ''
-    'void CNested2::CMonitor::connectMonitorIT(MonitorIT* part) {'
+    'void CNested2::CMonitor::getMonitor(MonitorIT* part) {'
     '  return this;'
     '}'
     ''
-    
-      'floatFlowInterface* CNested2::CMonitor::getItsFloatFlowInterface' +
-      '() {'
+    'floatInterface* CNested2::CMonitor::getFlow() {'
     '  return this;'
     '}'
     ''
@@ -719,10 +767,7 @@ object SyntAnal5: TLibSyntAnalyzer
     '    }'
     '}'
     '      '
-    'void __fastcall CForm->Button1Click(Sender: TObject) {'
-    '}'
-    ''
-    'void main(int argc; char* argv) {'
+    'void main(int argc, char* argv) {'
     '}'
     ''
     'struct Books {'
@@ -751,17 +796,18 @@ object SyntAnal5: TLibSyntAnalyzer
     'Symbol {}'
     'Symbol ::'
     'Symbol ()'
-    'Generic param'
+    'Id modifier'
     'Symbol ->'
-    'Symbol ;')
+    'Symbol ;'
+    'Goto label')
   Extentions = 'cpp cxx h hh hpp hxx inl cc cp c++ h++ inl ipp'
   LexerName = 'C++'
   Notes.Strings = (
     'Reworked C++ lexer by Alexey (CudaText)'
     'Notes:'
     
-      '- rules "block comments" disabled, they missed up func rules a l' +
-      'ittle'
+      '- rules "block comments" are disabled, they mess with func rules' +
+      ' a little'
     
       '- many token types "symbol ..." is for rules: so rules can skip ' +
       'most symbols but not all (; -> {} etc)')

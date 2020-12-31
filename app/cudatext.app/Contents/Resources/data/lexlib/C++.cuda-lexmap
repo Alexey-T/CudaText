@@ -18,3 +18,4 @@ Id special=Id3
 Comment=Comment
 Preprocessor=Comment2
 Asm BG=IncludeBG1
+Label=Label
