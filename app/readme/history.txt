@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+
++ add: lexer C++: code-tree improvement: change icons for "namespace"; detect "struct name<T>"; avoid items "requires" in code-tree
+- fix: lexer Bash: support tokens like '100kb'
+
 1.119.0 (2020/12)
 
 + add: command "delete to document begin" (thanks @acicovic)
