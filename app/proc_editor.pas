@@ -1762,6 +1762,10 @@ var
   Style: TecSyntaxFormat;
 begin
   Ed:= AFinder.Editor;
+
+  if Ed.Strings.Count>=UiOps.FindMaxEditorLinesForHighlightMatches then
+    exit;
+
   Results:= TATFinderResults.Create;
   try
     try
