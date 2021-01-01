@@ -952,6 +952,8 @@ begin
 end;
 
 procedure TfmFind.UpdateState;
+var
+  Ed: TATSynEdit;
 begin
   if IsReplace then
     Caption:= FCaptionReplace
@@ -978,11 +980,15 @@ begin
   bRepAll.Enabled:= IsReplace;
   bRepGlobal.Enabled:= IsReplace;
 
+  FOnGetMainEditor(Ed);
+  chkHiAll.Enabled:= Ed.Strings.Count<UiOps.FindMaxEditorLinesForHighlightMatches;
+
   if FBinaryMode then
   begin
     chkRegex.Enabled:= false;
     chkWrap.Enabled:= false;
     chkInSel.Enabled:= false;
+    chkHiAll.Enabled:= false;
   end;
 
   bFindFirst.Visible:= UiOps.FindShow_FindFirst;
@@ -1143,41 +1149,35 @@ var
   Finder: TATEditorFinder;
 begin
   if edFind.Text='' then exit;
+  if not chkHiAll.Enabled then exit;
 
-  if Assigned(FOnGetMainEditor) then
+  FOnGetMainEditor(Ed);
+  if Ed.Attribs.Count>0 then
   begin
-    FOnGetMainEditor(Ed);
+    Ed.Attribs.DeleteWithTag(UiOps.FindAttribTagForHighlightMatches);
+    Ed.Update;
+  end;
 
-    chkHiAll.Enabled:= Ed.Strings.Count<UiOps.FindMaxEditorLinesForHighlightMatches;
-    if not chkHiAll.Enabled then exit;
-
-    if Ed.Attribs.Count>0 then
-    begin
-      Ed.Attribs.DeleteWithTag(UiOps.FindAttribTagForHighlightMatches);
-      Ed.Update;
-    end;
-
-    if chkHiAll.Checked then
-    begin
-      Finder:= TATEditorFinder.Create;
-      try
-        Finder.Editor:= Ed;
-        Finder.StrFind:= edFind.Text;
-        Finder.OptConfirmReplace:= false;
-        Finder.OptFromCaret:= false;
-        Finder.OptInSelection:= chkInSel.Checked;
-        Finder.OptPutBackwardSelection:= false;
-        Finder.OptBack:= false;
-        Finder.OptCase:= chkCase.Checked;
-        Finder.OptWords:= chkWords.Checked;
-        Finder.OptRegex:= chkRegex.Checked;
-        Finder.OptTokens:= TATFinderTokensAllowed(bTokens.ItemIndex);
-        Finder.OptWrapped:= false;
-        Finder.OnGetToken:= FOnGetToken;
-        EditorFindHighlightMatches(Finder);
-      finally
-        FreeAndNil(Finder);
-      end;
+  if IsHiAll then
+  begin
+    Finder:= TATEditorFinder.Create;
+    try
+      Finder.Editor:= Ed;
+      Finder.StrFind:= edFind.Text;
+      Finder.OptConfirmReplace:= false;
+      Finder.OptFromCaret:= false;
+      Finder.OptInSelection:= chkInSel.Checked;
+      Finder.OptPutBackwardSelection:= false;
+      Finder.OptBack:= false;
+      Finder.OptCase:= chkCase.Checked;
+      Finder.OptWords:= chkWords.Checked;
+      Finder.OptRegex:= chkRegex.Checked;
+      Finder.OptTokens:= TATFinderTokensAllowed(bTokens.ItemIndex);
+      Finder.OptWrapped:= false;
+      Finder.OnGetToken:= FOnGetToken;
+      EditorFindHighlightMatches(Finder);
+    finally
+      FreeAndNil(Finder);
     end;
   end;
 end;
