@@ -223,6 +223,9 @@ implementation
 
 {$R *.lfm}
 
+var
+  cPadding: integer = 4;
+
 const
   cTokensDesc: array[TATFinderTokensAllowed] of string = (
     'Any',
@@ -792,9 +795,9 @@ begin
     BtnSize(bRepGlobal);
 
   if LabelFind.Visible then
-    edFind.Left:= Max(LabelFind.Width, LabelRep.Width)+4
+    edFind.Left:= Max(LabelFind.Width, LabelRep.Width)+cPadding
   else
-    edFind.Left:= 3;
+    edFind.Left:= cPadding;
 
   edFind.Width:= Max(45,
     ClientWidth
@@ -995,6 +998,8 @@ begin
   else
     Caption:= FCaptionFind;
 
+  cPadding:= 4*UiOps.Scale div 100;
+
   PanelTop.Visible:= IsNarrow;
   PanelOps.Visible:= not IsNarrow;
   chkWords.Enabled:= not chkRegex.Checked and (edFind.Strings.Count<2); //disable "w" for multi-line input
@@ -1048,12 +1053,12 @@ begin
   LabelRep.Visible:= UiOps.FindShow_EditLabels;
   if not LabelFind.Visible then
   begin
-    edFind.Left:= 3;
+    edFind.Left:= cPadding;
     edFind.OptTextHint:= _StripLastColon(LabelFind.Caption);
   end;
   if not LabelRep.Visible then
   begin
-    edRep.Left:= 3;
+    edRep.Left:= cPadding;
     edRep.OptTextHint:= _StripLastColon(LabelRep.Caption);
   end;
 
