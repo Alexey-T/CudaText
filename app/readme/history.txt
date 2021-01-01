@@ -6,8 +6,9 @@
 
 1.119.5 (2021/01)
 
-+ add: Find dialog has new toggle button "Hi", it means "Highlight all matches". Matches are highlighted with a rounded border, which color is taken from "SeparLine" syntax theme item.
-+ add: Find dialog: option "find_hotkey_op_hi_matches" for "Hi" button
++ add: Find dialog has new toggle button "Hi", it means "Highlight all matches". Matches are highlighted with a rounded border, which color is taken from "SeparLine" syntax theme item. (thanks @xcme)
++ add: option "find_max_lines_for_hi_matches"
++ add: option "find_hotkey_op_hi_matches" for "Hi" button
 + add: lexer C++: code-tree improvement: change icons for "namespace"; detect "struct name<T>"; avoid C++ keywords "requires" in code-tree
 + add: lexer C++: highlight labels, in "goto label;" and "label: statement;"
 + add: lexer Bash: highlight numbers in form like "100suffix"
