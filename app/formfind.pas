@@ -179,6 +179,7 @@ type
     FLexerRegexThemed: boolean;
     Adapter: TATAdapterEControl;
     AdapterActive: boolean;
+    procedure ControlAutosizeOptionsByWidth;
     procedure DoFocusEditor;
     procedure DoResult(Str: TAppFinderOperation);
     function GetHiAll: boolean;
@@ -951,6 +952,29 @@ begin
   Height:= N;
 end;
 
+procedure TfmFind.ControlAutosizeOptionsByWidth;
+var
+  Ar: array of TATButton;
+  N, i: integer;
+begin
+  SetLength(Ar, 8);
+  Ar[0]:= chkRegex;
+  Ar[1]:= chkCase;
+  Ar[2]:= chkWords;
+  Ar[3]:= chkWrap;
+  Ar[4]:= chkInSel;
+  Ar[5]:= chkMulLine;
+  Ar[6]:= bTokens;
+  Ar[7]:= chkHiAll;
+
+  N:= 10; //indents left/right
+  for i:= 0 to High(Ar) do
+    if Ar[i].Visible then
+      Inc(N, Ar[i].Width);
+  PanelOps.Width:= N;
+end;
+
+
 procedure TfmFind.UpdateState;
 var
   Ed: TATSynEdit;
@@ -1001,6 +1025,13 @@ begin
   bRepAll.Visible:= UiOps.FindShow_ReplaceAll;
   bRepGlobal.Visible:= UiOps.FindShow_ReplaceGlobal;
   ControlAutosizeOnlyByWidth(PanelBtn);
+
+  chkWrap.Visible:= UiOps.FindShow_Wrapped;
+  chkInSel.Visible:= UiOps.FindShow_InSel;
+  chkMulLine.Visible:= UiOps.FindShow_MultiLine;
+  bTokens.Visible:= UiOps.FindShow_SyntaxElements;
+  chkHiAll.Visible:= UiOps.FindShow_HiAll;
+  ControlAutosizeOptionsByWidth;
 
   UpdateButtonBold;
   UpdateFormHeight;

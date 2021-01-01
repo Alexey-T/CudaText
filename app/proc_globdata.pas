@@ -245,6 +245,7 @@ type
     FindSuggestWord: boolean;
     FindSuggestInSelection: boolean;
     FindSelCase: integer;
+
     FindHiddenButtons: string;
     FindShow_FindFirst: boolean;
     FindShow_FindNext: boolean;
@@ -255,6 +256,12 @@ type
     FindShow_Extract: boolean;
     FindShow_ReplaceAll: boolean;
     FindShow_ReplaceGlobal: boolean;
+    FindShow_Wrapped: boolean;
+    FindShow_InSel: boolean;
+    FindShow_MultiLine: boolean;
+    FindShow_SyntaxElements: boolean;
+    FindShow_HiAll: boolean;
+
     FindIndentVert: integer;
     FindIndentHorz: integer;
     FindMultiLineScale: double;
@@ -1538,6 +1545,7 @@ begin
     FindSuggestWord:= true;
     FindSuggestInSelection:= false;
     FindSelCase:= 2;
+
     FindHiddenButtons:= '';
     FindShow_FindFirst:= true;
     FindShow_FindNext:= true;
@@ -1548,6 +1556,12 @@ begin
     FindShow_Extract:= true;
     FindShow_ReplaceAll:= true;
     FindShow_ReplaceGlobal:= true;
+    FindShow_Wrapped:= true;
+    FindShow_InSel:= true;
+    FindShow_MultiLine:= true;
+    FindShow_SyntaxElements:= true;
+    FindShow_HiAll:= true;
+
     FindIndentVert:= -5;
     FindIndentHorz:= 10;
     FindMultiLineScale:= 2.5;
