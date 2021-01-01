@@ -1764,6 +1764,7 @@ var
   iRes, iLine: integer;
 begin
   Ed:= AFinder.Editor;
+  if Ed=nil then exit;
   TagValue:= UiOps.FindAttribTagForHighlightMatches;
 
   if Ed.Strings.Count>=UiOps.FindMaxEditorLinesForHighlightMatches then

@@ -167,6 +167,7 @@ begin
     if IsFocusedFind then
       Frame.SetFocus;
     fmFind.Hide;
+    fmFind.ClearHiAll;
     UpdateAppForSearch(false, false, bFindMode);
     Exit;
   end;

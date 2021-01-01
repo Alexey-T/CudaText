@@ -190,7 +190,7 @@ type
     procedure SetReplace(AValue: boolean);
     procedure UpdateButtonBold;
     procedure UpdateRegexHighlight;
-    procedure UpdateHiMatches;
+    procedure UpdateHiAll;
   public
     { public declarations }
     FCaptionFind,
@@ -204,6 +204,7 @@ type
     procedure UpdateFocus(AFindMode: boolean);
     procedure UpdateInputFind(const AText: UnicodeString);
     procedure UpdateInputReplace(const AText: UnicodeString);
+    procedure ClearHiAll;
     property OnResult: TAppFinderOperationEvent read FOnResult write FOnResult;
     property OnChangeOptions: TNotifyEvent read FOnChangeOptions write FOnChangeOptions;
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
@@ -447,7 +448,21 @@ end;
 procedure TfmFind.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   CloseAction:= caHide;
+  ClearHiAll;
 end;
+
+procedure TfmFind.ClearHiAll;
+var
+  Ed: TATSynEdit;
+begin
+  FOnGetMainEditor(Ed);
+  if Assigned(Ed) and (Ed.Attribs.Count>0) then
+  begin
+    Ed.Attribs.DeleteWithTag(UiOps.FindAttribTagForHighlightMatches);
+    Ed.Update;
+  end;
+end;
+
 
 procedure TfmFind.FormCreate(Sender: TObject);
 var
@@ -832,9 +847,8 @@ begin
   begin
     edFind.DoAddLineToHistory(edFind.Text, UiOps.MaxHistoryEdits);
     edRep.DoAddLineToHistory(edRep.Text, UiOps.MaxHistoryEdits);
+    UpdateState;
   end;
-
-  UpdateState;
 end;
 
 function TfmFind.GetHiAll: boolean;
@@ -1067,7 +1081,7 @@ begin
 
   UpdateRegexHighlight;
 
-  UpdateHiMatches;
+  UpdateHiAll;
 end;
 
 procedure TfmFind.UpdateRegexHighlight;
@@ -1203,26 +1217,19 @@ begin
     FOnFocusEditor(nil);
 end;
 
-procedure TfmFind.UpdateHiMatches;
+procedure TfmFind.UpdateHiAll;
 var
-  Ed: TATSynEdit;
   Finder: TATEditorFinder;
 begin
+  ClearHiAll;
   if edFind.Text='' then exit;
   if not chkHiAll.Enabled then exit;
-
-  FOnGetMainEditor(Ed);
-  if Ed.Attribs.Count>0 then
-  begin
-    Ed.Attribs.DeleteWithTag(UiOps.FindAttribTagForHighlightMatches);
-    Ed.Update;
-  end;
 
   if IsHiAll then
   begin
     Finder:= TATEditorFinder.Create;
     try
-      Finder.Editor:= Ed;
+      FOnGetMainEditor(Finder.Editor);
       Finder.StrFind:= edFind.Text;
       Finder.OptConfirmReplace:= false;
       Finder.OptFromCaret:= false;
