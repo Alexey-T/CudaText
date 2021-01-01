@@ -1144,9 +1144,14 @@ var
   Ed: TATSynEdit;
   Finder: TATEditorFinder;
 begin
+  if edFind.Text='' then exit;
+
   if Assigned(FOnGetMainEditor) then
   begin
     FOnGetMainEditor(Ed);
+
+    chkHiAll.Enabled:= Ed.Strings.Count<UiOps.FindMaxEditorLinesForHighlightMatches;
+    if not chkHiAll.Enabled then exit;
 
     if Ed.Attribs.Count>0 then
     begin

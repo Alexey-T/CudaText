@@ -1838,7 +1838,13 @@ begin
         end;
     end;
 
-    Ed.Update;
+    Ed.DoShowPos(
+      Results.First.FPos,
+      UiOps.FindIndentHorz,
+      100{big value to venter vertically},
+      true{AUnfold},
+      true{AllowUpdate}
+      );
   finally
     FreeAndNil(Results);
   end;
