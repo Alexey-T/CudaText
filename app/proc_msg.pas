@@ -383,7 +383,7 @@ const
   msgFindHint_MultiLine: string = 'Multi-line inputs (Ctrl+Enter for new-line)';
   msgFindHint_InSelect: string = 'Search in selection';
   msgFindHint_Tokens: string = 'Allowed syntax elements';
-  msgFindHint_HiMatches: string = 'Highlight all matches in active editor';
+  msgFindHint_HiAll: string = 'Highlight all matches';
 
 function msgUntitledNumberedCaption: string;
 function msgTranslatedPanelCaption(const ACaption: string): string;

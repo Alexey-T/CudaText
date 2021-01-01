@@ -1154,7 +1154,7 @@ begin
   with bTokens do
     Hint:= msgFindHint_Tokens +' - '+UiOps.HotkeyToggleTokens;
   with chkHiAll do
-    Hint:= msgFindHint_HiMatches +' - '+UiOps.HotkeyToggleHiAll;
+    Hint:= msgFindHint_HiAll +' - '+UiOps.HotkeyToggleHiAll;
 
   bFindFirst.AutoSize:= true;
   bFindNext.AutoSize:= true;
