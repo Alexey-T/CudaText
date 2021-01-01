@@ -600,7 +600,7 @@
 
   //Maximal count of editor lines, for which Find dialog button "Hi"
   //(Highlight all matches) works
-  "find_max_lines_for_hi_matches": 2000,
+  "find_max_lines_for_hi_matches": 1000,
 
   //[Ui]
   //UI scale factor in %, 70 to 500. [has suffix]
