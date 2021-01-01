@@ -382,6 +382,7 @@ begin
     fmFind.OnChangeOptions:= @DoFindOptions_OnChange;
     fmFind.OnFocusEditor:= @FindDialogFocusEditor;
     fmFind.OnGetMainEditor:= @FindDialogGetMainEditor;
+    fmFind.OnGetToken:= @FinderOnGetToken;
     fmFind.Color:= GetAppColor(apclTabBg);
 
     UiOps.HotkeyFindDialog:= ShortcutToText(AppKeymapMain.GetShortcutFromCommand(cmd_DialogFind));

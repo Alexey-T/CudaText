@@ -175,6 +175,7 @@ type
     FOnChangeOptions: TNotifyEvent;
     FOnFocusEditor: TNotifyEvent;
     FOnGetMainEditor: TAppFinderGetEditor;
+    FOnGetToken: TATFinderGetToken;
     FLexerRegexThemed: boolean;
     Adapter: TATAdapterEControl;
     AdapterActive: boolean;
@@ -206,6 +207,7 @@ type
     property OnChangeOptions: TNotifyEvent read FOnChangeOptions write FOnChangeOptions;
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
     property OnGetMainEditor: TAppFinderGetEditor read FOnGetMainEditor write FOnGetMainEditor;
+    property OnGetToken: TATFinderGetToken read FOnGetToken write FOnGetToken;
     property IsReplace: boolean read FReplace write SetReplace;
     property IsMultiLine: boolean read FMultiLine write SetMultiLine;
     property IsNarrow: boolean read FNarrow write SetNarrow;
@@ -317,6 +319,7 @@ end;
 
 procedure TfmFind.bTokensClick(Sender: TObject);
 begin
+  UpdateState;
   DoOnChange;
 end;
 
@@ -1167,6 +1170,7 @@ begin
         Finder.OptRegex:= chkRegex.Checked;
         Finder.OptTokens:= TATFinderTokensAllowed(bTokens.ItemIndex);
         Finder.OptWrapped:= false;
+        Finder.OnGetToken:= FOnGetToken;
         EditorFindHighlightMatches(Finder);
       finally
         FreeAndNil(Finder);
