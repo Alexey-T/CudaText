@@ -791,7 +791,11 @@ begin
     BtnSize(bRepAll)+
     BtnSize(bRepGlobal);
 
-  edFind.Left:= Max(LabelFind.Width, LabelRep.Width)+4;
+  if LabelFind.Visible then
+    edFind.Left:= Max(LabelFind.Width, LabelRep.Width)+4
+  else
+    edFind.Left:= 3;
+
   edFind.Width:= Max(45,
     ClientWidth
     - edFind.Left
@@ -975,6 +979,13 @@ begin
 end;
 
 
+function _StripLastColon(const s: string): string;
+begin
+  Result:= s;
+  while SEndsWith(Result, ':') do
+    SetLength(Result, Length(Result)-1);
+end;
+
 procedure TfmFind.UpdateState;
 var
   Ed: TATSynEdit;
@@ -1032,6 +1043,19 @@ begin
   bTokens.Visible:= UiOps.FindShow_SyntaxElements;
   chkHiAll.Visible:= UiOps.FindShow_HiAll;
   ControlAutosizeOptionsByWidth;
+
+  LabelFind.Visible:= UiOps.FindShow_EditLabels;
+  LabelRep.Visible:= UiOps.FindShow_EditLabels;
+  if not LabelFind.Visible then
+  begin
+    edFind.Left:= 3;
+    edFind.OptTextHint:= _StripLastColon(LabelFind.Caption);
+  end;
+  if not LabelRep.Visible then
+  begin
+    edRep.Left:= 3;
+    edRep.OptTextHint:= _StripLastColon(LabelRep.Caption);
+  end;
 
   UpdateButtonBold;
   UpdateFormHeight;

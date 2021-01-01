@@ -261,6 +261,7 @@ type
     FindShow_MultiLine: boolean;
     FindShow_SyntaxElements: boolean;
     FindShow_HiAll: boolean;
+    FindShow_EditLabels: boolean;
 
     FindIndentVert: integer;
     FindIndentHorz: integer;
@@ -1561,6 +1562,7 @@ begin
     FindShow_MultiLine:= true;
     FindShow_SyntaxElements:= true;
     FindShow_HiAll:= true;
+    FindShow_EditLabels:= true;
 
     FindIndentVert:= -5;
     FindIndentHorz:= 10;
