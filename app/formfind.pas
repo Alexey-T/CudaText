@@ -1130,7 +1130,13 @@ begin
   if Assigned(FOnGetMainEditor) then
   begin
     FOnGetMainEditor(Ed);
-    Ed.Attribs.DeleteWithTag(UiOps.FindAttribTagForHighlightMatches);
+
+    if Ed.Attribs.Count>0 then
+    begin
+      Ed.Attribs.DeleteWithTag(UiOps.FindAttribTagForHighlightMatches);
+      Ed.Update;
+    end;
+
     if chkHiAll.Checked then
     begin
       Finder:= TATEditorFinder.Create;

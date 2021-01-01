@@ -1757,27 +1757,38 @@ var
   Results: TATFinderResults;
   Res: TATFinderResult;
   SelX, SelY, i: integer;
-  Ptr: TATLinePartClass;
+  AttrRec: TATLinePart;
+  AttrObj: TATLinePartClass;
+  Style: TecSyntaxFormat;
 begin
   Ed:= AFinder.Editor;
   Results:= TATFinderResults.Create;
   try
-    AFinder.DoAction_FindAll(Results, false);
+    try
+      AFinder.DoAction_FindAll(Results, false);
+    except
+      exit;
+    end;
     if Results.Count=0 then exit;
+
+    // 'SeparLine' syntax item is used for borders of highlighted matches
+    Style:= GetAppStyle(apstSeparLine);
+
+    FillChar(AttrRec, SizeOf(AttrRec), 0);
+    AttrRec.ColorBG:= clNone;
+    AttrRec.ColorFont:= clNone;
+    AttrRec.ColorBorder:= Style.BgColor;
+    AttrRec.BorderDown:= cLineStyleRounded;
+    AttrRec.BorderLeft:= cLineStyleRounded;
+    AttrRec.BorderRight:= cLineStyleRounded;
+    AttrRec.BorderUp:= cLineStyleRounded;
 
     for i:= 0 to Results.Count-1 do
     begin
       Res:= Results[i];
 
-      Ptr:= TATLinePartClass.Create;
-      FillChar(Ptr.Data, SizeOf(Ptr.Data), 0);
-      Ptr.Data.ColorBG:= clNone;
-      Ptr.Data.ColorFont:= clBlack;
-      Ptr.Data.ColorBorder:= clYellow;
-      Ptr.Data.BorderDown:= cLineStyleRounded;
-      Ptr.Data.BorderLeft:= cLineStyleRounded;
-      Ptr.Data.BorderRight:= cLineStyleRounded;
-      Ptr.Data.BorderUp:= cLineStyleRounded;
+      AttrObj:= TATLinePartClass.Create;
+      AttrObj.Data:= AttrRec;
 
       if Res.FPos.Y=Res.FEnd.Y then
       begin
@@ -1796,7 +1807,7 @@ begin
         UiOps.FindAttribTagForHighlightMatches,
         SelX,
         SelY,
-        Ptr
+        AttrObj
         );
     end;
 
