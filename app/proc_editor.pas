@@ -1756,12 +1756,15 @@ var
   Ed: TATSynEdit;
   Results: TATFinderResults;
   Res: TATFinderResult;
-  SelX, SelY, i: integer;
+  PosX, PosY, SelX, SelY: integer;
   AttrRec: TATLinePart;
   AttrObj: TATLinePartClass;
   Style: TecSyntaxFormat;
+  TagValue: Int64;
+  iRes, iLine: integer;
 begin
   Ed:= AFinder.Editor;
+  TagValue:= UiOps.FindAttribTagForHighlightMatches;
 
   if Ed.Strings.Count>=UiOps.FindMaxEditorLinesForHighlightMatches then
     exit;
@@ -1787,34 +1790,65 @@ begin
     AttrRec.BorderRight:= cLineStyleRounded;
     AttrRec.BorderUp:= cLineStyleRounded;
 
-    for i:= 0 to Results.Count-1 do
+    for iRes:= 0 to Results.Count-1 do
     begin
-      Res:= Results[i];
-
-      AttrObj:= TATLinePartClass.Create;
-      AttrObj.Data:= AttrRec;
-
+      Res:= Results[iRes];
+      //single line attr
       if Res.FPos.Y=Res.FEnd.Y then
       begin
+        AttrObj:= TATLinePartClass.Create;
+        AttrObj.Data:= AttrRec;
+        PosX:= Res.FPos.X;
+        PosY:= Res.FPos.Y;
         SelY:= 0;
         SelX:= Abs(Res.FEnd.X-Res.FPos.X);
+        Ed.Attribs.Add(
+          PosX,
+          PosY,
+          TagValue,
+          SelX,
+          SelY,
+          AttrObj
+          );
       end
       else
-      if Ed.Strings.IsIndexValid(Res.FPos.Y) then
-      begin
-        //ATSynEdit cannot render multi-line attr, make it longest in one line
-        SelY:= 0;
-        SelX:= Ed.Strings.LinesLen[Res.FPos.Y];
-      end;
-
-      Ed.Attribs.Add(
-        Res.FPos.X,
-        Res.FPos.Y,
-        UiOps.FindAttribTagForHighlightMatches,
-        SelX,
-        SelY,
-        AttrObj
-        );
+      //add N attrs per each line of a match
+      for iLine:= Res.FPos.Y to Res.FEnd.Y do
+        if Ed.Strings.IsIndexValid(iLine) then
+        begin
+          AttrObj:= TATLinePartClass.Create;
+          AttrObj.Data:= AttrRec;
+          if iLine=Res.FPos.Y then
+          begin
+            PosX:= Res.FPos.X;
+            PosY:= iLine;
+            SelY:= 0;
+            SelX:= Ed.Strings.LinesLen[iLine];
+          end
+          else
+          if iLine=Res.FEnd.Y then
+          begin
+            PosX:= 0;
+            PosY:= iLine;
+            SelY:= 0;
+            SelX:= Res.FEnd.X;
+          end
+          else
+          begin
+            PosX:= 0;
+            PosY:= iLine;
+            SelY:= 0;
+            SelX:= Ed.Strings.LinesLen[iLine];
+          end;
+          Ed.Attribs.Add(
+            PosX,
+            PosY,
+            TagValue,
+            SelX,
+            SelY,
+            AttrObj
+            );
+        end;
     end;
 
     Ed.Update;
