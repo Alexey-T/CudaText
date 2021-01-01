@@ -124,6 +124,7 @@ function EditorExpandSelectionToWord(Ed: TATSynEdit): boolean;
 function EditorFindCurrentWordOrSel(Ed: TATSynEdit;
   ANext, AWordOrSel, AOptCase, AOptWrapped: boolean;
   out Str: UnicodeString): boolean;
+procedure EditorFindHighlightMatches(AFinder: TATEditorFinder);
 
 
 implementation
@@ -1748,6 +1749,63 @@ begin
     FreeAndNil(Finder);
   end;
 end;
+
+
+procedure EditorFindHighlightMatches(AFinder: TATEditorFinder);
+var
+  Ed: TATSynEdit;
+  Results: TATFinderResults;
+  Res: TATFinderResult;
+  SelX, SelY, i: integer;
+  Ptr: TATLinePartClass;
+begin
+  Ed:= AFinder.Editor;
+  Results:= TATFinderResults.Create;
+  try
+    AFinder.DoAction_FindAll(Results, false);
+    if Results.Count=0 then exit;
+
+    for i:= 0 to Results.Count-1 do
+    begin
+      Res:= Results[i];
+
+      Ptr:= TATLinePartClass.Create;
+      FillChar(Ptr.Data, SizeOf(Ptr.Data), 0);
+      Ptr.Data.ColorBG:= clNone;
+      Ptr.Data.ColorFont:= clBlack;
+      Ptr.Data.ColorBorder:= clYellow;
+      Ptr.Data.BorderDown:= cLineStyleRounded;
+      Ptr.Data.BorderLeft:= cLineStyleRounded;
+      Ptr.Data.BorderRight:= cLineStyleRounded;
+      Ptr.Data.BorderUp:= cLineStyleRounded;
+
+      if Res.FPos.Y=Res.FEnd.Y then
+      begin
+        SelY:= 0;
+        SelX:= Abs(Res.FEnd.X-Res.FPos.X);
+      end
+      else
+      begin
+        SelY:= Abs(Res.FEnd.Y-Res.FPos.Y);
+        SelX:= Res.FEnd.X;
+      end;
+
+      Ed.Attribs.Add(
+        Res.FPos.X,
+        Res.FPos.Y,
+        UiOps.FindAttribTagForHighlightMatches,
+        SelX,
+        SelY,
+        Ptr
+        );
+    end;
+
+    Ed.Update;
+  finally
+    FreeAndNil(Results);
+  end;
+end;
+
 
 function EditorIsEmpty(Ed: TATSynEdit): boolean;
 var

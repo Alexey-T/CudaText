@@ -179,7 +179,6 @@ type
     Adapter: TATAdapterEControl;
     AdapterActive: boolean;
     procedure DoFocusEditor;
-    procedure DoHighlightAll;
     procedure DoResult(Str: TAppFinderOperation);
     procedure SetIsDoubleBuffered(AValue: boolean);
     procedure SetMultiLine(AValue: boolean);
@@ -187,6 +186,7 @@ type
     procedure SetReplace(AValue: boolean);
     procedure UpdateButtonBold;
     procedure UpdateRegexHighlight;
+    procedure UpdateHiMatches;
   public
     { public declarations }
     FCaptionFind,
@@ -338,7 +338,7 @@ begin
   with chkHiAll do
     Checked:= not Checked;
   UpdateState;
-  DoHighlightAll;
+  DoOnChange;
 end;
 
 procedure TfmFind.chkInSelClick(Sender: TObject);
@@ -985,6 +985,8 @@ begin
   UpdateFormHeight;
 
   UpdateRegexHighlight;
+
+  UpdateHiMatches;
 end;
 
 procedure TfmFind.UpdateRegexHighlight;
@@ -1120,9 +1122,10 @@ begin
     FOnFocusEditor(nil);
 end;
 
-procedure TfmFind.DoHighlightAll;
+procedure TfmFind.UpdateHiMatches;
 var
   Ed: TATSynEdit;
+  Finder: TATEditorFinder;
 begin
   if Assigned(FOnGetMainEditor) then
   begin
@@ -1130,9 +1133,25 @@ begin
     Ed.Attribs.DeleteWithTag(UiOps.FindAttribTagForHighlightMatches);
     if chkHiAll.Checked then
     begin
-
+      Finder:= TATEditorFinder.Create;
+      try
+        Finder.Editor:= Ed;
+        Finder.StrFind:= edFind.Text;
+        Finder.OptConfirmReplace:= false;
+        Finder.OptFromCaret:= false;
+        Finder.OptInSelection:= chkInSel.Checked;
+        Finder.OptPutBackwardSelection:= false;
+        Finder.OptBack:= false;
+        Finder.OptCase:= chkCase.Checked;
+        Finder.OptWords:= chkWords.Checked;
+        Finder.OptRegex:= chkRegex.Checked;
+        Finder.OptTokens:= TATFinderTokensAllowed(bTokens.ItemIndex);
+        Finder.OptWrapped:= false;
+        EditorFindHighlightMatches(Finder);
+      finally
+        FreeAndNil(Finder);
+      end;
     end;
-    Ed.Update;
   end;
 end;
 
