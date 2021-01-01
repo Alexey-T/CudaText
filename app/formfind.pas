@@ -998,7 +998,7 @@ begin
   else
     Caption:= FCaptionFind;
 
-  cPadding:= 4*UiOps.Scale div 100;
+  cPadding:= AppScale(4);
 
   PanelTop.Visible:= IsNarrow;
   PanelOps.Visible:= not IsNarrow;
