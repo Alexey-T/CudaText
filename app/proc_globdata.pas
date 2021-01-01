@@ -1552,8 +1552,8 @@ begin
     FindIndentHorz:= 10;
     FindMultiLineScale:= 2.5;
     FindSeparateForm:= false;
-    FindMaxEditorLinesForHighlightMatches:= 2000;
-    FindAttribTagForHighlightMatches:= 1001;
+    FindMaxEditorLinesForHighlightMatches:= 1000;
+    FindAttribTagForHighlightMatches:= 505; //some rarely used int tag
 
     EscapeClose:= false;
     EscapeCloseConsole:= true;
