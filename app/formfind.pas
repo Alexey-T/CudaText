@@ -93,6 +93,7 @@ const
 
 type
   TAppFinderOperationEvent = procedure(Sender: TObject; Op: TAppFinderOperation) of object;
+  TAppFinderGetEditor = procedure(out AEditor: TATSynEdit) of object;
 
 function AppFinderOperationFromString(const Str: string): TAppFinderOperation;
 
@@ -113,6 +114,7 @@ type
     chkCase: TATButton;
     chkConfirm: TATButton;
     chkInSel: TATButton;
+    chkHiAll: TATButton;
     chkMulLine: TATButton;
     bTokens: TATButton;
     chkRegex: TATButton;
@@ -143,6 +145,7 @@ type
     procedure bTokensClick(Sender: TObject);
     procedure chkCaseClick(Sender: TObject);
     procedure chkConfirmClick(Sender: TObject);
+    procedure chkHiAllClick(Sender: TObject);
     procedure chkInSelClick(Sender: TObject);
     procedure chkMulLineClick(Sender: TObject);
     procedure chkRegexClick(Sender: TObject);
@@ -171,10 +174,12 @@ type
     FOnResult: TAppFinderOperationEvent;
     FOnChangeOptions: TNotifyEvent;
     FOnFocusEditor: TNotifyEvent;
+    FOnGetMainEditor: TAppFinderGetEditor;
     FLexerRegexThemed: boolean;
     Adapter: TATAdapterEControl;
     AdapterActive: boolean;
     procedure DoFocusEditor;
+    procedure DoHighlightAll;
     procedure DoResult(Str: TAppFinderOperation);
     procedure SetIsDoubleBuffered(AValue: boolean);
     procedure SetMultiLine(AValue: boolean);
@@ -198,6 +203,7 @@ type
     property OnResult: TAppFinderOperationEvent read FOnResult write FOnResult;
     property OnChangeOptions: TNotifyEvent read FOnChangeOptions write FOnChangeOptions;
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
+    property OnGetMainEditor: TAppFinderGetEditor read FOnGetMainEditor write FOnGetMainEditor;
     property IsReplace: boolean read FReplace write SetReplace;
     property IsMultiLine: boolean read FMultiLine write SetMultiLine;
     property IsNarrow: boolean read FNarrow write SetNarrow;
@@ -325,6 +331,14 @@ begin
     Checked:= not Checked;
   UpdateState;
   DoOnChange;
+end;
+
+procedure TfmFind.chkHiAllClick(Sender: TObject);
+begin
+  with chkHiAll do
+    Checked:= not Checked;
+  UpdateState;
+  DoHighlightAll;
 end;
 
 procedure TfmFind.chkInSelClick(Sender: TObject);
@@ -680,6 +694,14 @@ begin
     exit
   end;
 
+  if Str=UiOps.HotkeyToggleHiAll then
+  begin
+    chkHiAll.Click;
+    UpdateState;
+    key:= 0;
+    exit
+  end;
+
   if Str=UiOps.HotkeyToggleMultiline then
   begin
     chkMulLineClick(Self);
@@ -863,6 +885,7 @@ begin
     chkInSel.Parent:= PanelTopOps;
     chkMulLine.Parent:= PanelTopOps;
     bTokens.Parent:= PanelTopOps;
+    chkHiAll.Parent:= PanelTopOps;
     chkConfirm.Parent:= PanelTopOps;
     chkConfirm.Left:= 400; //to right
   end;
@@ -1076,6 +1099,8 @@ begin
     Hint:= msgFindHint_MultiLine +' - '+UiOps.HotkeyToggleMultiline;
   with bTokens do
     Hint:= msgFindHint_Tokens +' - '+UiOps.HotkeyToggleTokens;
+  with chkHiAll do
+    Hint:= msgFindHint_HiMatches +' - '+UiOps.HotkeyToggleHiAll;
 
   bFindFirst.AutoSize:= true;
   bFindNext.AutoSize:= true;
@@ -1093,6 +1118,22 @@ procedure TfmFind.DoFocusEditor;
 begin
   if Assigned(FOnFocusEditor) then
     FOnFocusEditor(nil);
+end;
+
+procedure TfmFind.DoHighlightAll;
+var
+  Ed: TATSynEdit;
+begin
+  if Assigned(FOnGetMainEditor) then
+  begin
+    FOnGetMainEditor(Ed);
+    Ed.Attribs.DeleteWithTag(UiOps.FindAttribTagForHighlightMatches);
+    if chkHiAll.Checked then
+    begin
+
+    end;
+    Ed.Update;
+  end;
 end;
 
 end.

@@ -23,7 +23,7 @@ object fmFind: TfmFind
     Left = 0
     Height = 118
     Top = 30
-    Width = 225
+    Width = 252
     Align = alLeft
     object PanelOps2: TATPanelSimple
       AnchorSideLeft.Control = PanelOps1
@@ -50,7 +50,7 @@ object fmFind: TfmFind
       Left = 8
       Height = 25
       Top = 4
-      Width = 216
+      Width = 248
       object chkRegex: TATButton
         Left = 0
         Height = 25
@@ -129,15 +129,26 @@ object fmFind: TfmFind
         Kind = abuTextChoice
         OnClick = bTokensClick
       end
+      object chkHiAll: TATButton
+        Left = 210
+        Height = 25
+        Top = 0
+        Width = 30
+        Align = alLeft
+        Caption = 'Hi'
+        TabStop = True
+        TabOrder = 7
+        OnClick = chkHiAllClick
+      end
     end
   end
   object PanelAll: TATPanelSimple
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 225
+    Left = 252
     Height = 118
     Top = 30
-    Width = 964
+    Width = 937
     Align = alLeft
     Anchors = [akTop, akLeft, akRight, akBottom]
     object edFind: TATComboEdit
@@ -148,7 +159,7 @@ object fmFind: TfmFind
       Left = 80
       Height = 25
       Top = 4
-      Width = 242
+      Width = 215
       Anchors = [akTop, akLeft, akRight]
       DoubleBuffered = True
       Font.Height = -12
@@ -210,6 +221,9 @@ object fmFind: TfmFind
       Colors.ComboboxArrow = clGray
       Colors.ComboboxArrowBG = 15790320
       WantTabs = False
+      OptAutoCloseBrackets = '([{'
+      OptAutocompleteCommitChars = ' ,;/\''"'
+      OptAutocompleteCloseChars = '<>()[]{}='
       OptNonWordChars = '-+*=/\()[]{}<>"''.,:;~?!@#$%^&|`'#8230
       OptTextOffsetLeft = 2
       OptTextOffsetTop = 5
@@ -230,6 +244,7 @@ object fmFind: TfmFind
       OptNumbersSkippedChar = '.'
       OptUnprintedVisible = False
       OptMouseDragDrop = False
+      OptMouseMiddleClickAction = mcaNone
       OptMouseWheelZooms = False
       OptAllowReadOnly = False
       OptUndoLimit = 200
@@ -245,7 +260,7 @@ object fmFind: TfmFind
       Left = 80
       Height = 25
       Top = 33
-      Width = 242
+      Width = 215
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 4
       DoubleBuffered = True
@@ -308,6 +323,9 @@ object fmFind: TfmFind
       Colors.ComboboxArrow = clGray
       Colors.ComboboxArrowBG = 15790320
       WantTabs = False
+      OptAutoCloseBrackets = '([{'
+      OptAutocompleteCommitChars = ' ,;/\''"'
+      OptAutocompleteCloseChars = '<>()[]{}='
       OptNonWordChars = '-+*=/\()[]{}<>"''.,:;~?!@#$%^&|`'#8230
       OptTextOffsetLeft = 2
       OptTextOffsetTop = 5
@@ -328,6 +346,7 @@ object fmFind: TfmFind
       OptNumbersSkippedChar = '.'
       OptUnprintedVisible = False
       OptMouseDragDrop = False
+      OptMouseMiddleClickAction = mcaNone
       OptMouseWheelZooms = False
       OptAllowReadOnly = False
       OptUndoLimit = 200
@@ -337,7 +356,7 @@ object fmFind: TfmFind
       AnchorSideLeft.Side = asrBottom
       AnchorSideRight.Control = PanelAll
       AnchorSideRight.Side = asrBottom
-      Left = 328
+      Left = 301
       Height = 25
       Top = 4
       Width = 630
@@ -427,7 +446,7 @@ object fmFind: TfmFind
       AnchorSideTop.Control = edRep
       AnchorSideRight.Control = PanelBtn
       AnchorSideRight.Side = asrBottom
-      Left = 328
+      Left = 301
       Height = 25
       Top = 33
       Width = 630
@@ -505,7 +524,7 @@ object fmFind: TfmFind
       Left = 104
       Height = 25
       Top = 4
-      Width = 250
+      Width = 296
     end
   end
 end

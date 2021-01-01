@@ -259,6 +259,8 @@ type
     FindIndentHorz: integer;
     FindMultiLineScale: double;
     FindSeparateForm: boolean;
+    FindMaxEditorLinesForHighlightMatches: integer;
+    FindAttribTagForHighlightMatches: Int64;
 
     EscapeClose: boolean;
     EscapeCloseConsole: boolean;
@@ -366,7 +368,8 @@ type
     HotkeyToggleInSelect,
     HotkeyToggleMultiline,
     HotkeyToggleConfirmRep,
-    HotkeyToggleTokens
+    HotkeyToggleTokens,
+    HotkeyToggleHiAll
       : string;
   end;
 var
@@ -1549,6 +1552,8 @@ begin
     FindIndentHorz:= 10;
     FindMultiLineScale:= 2.5;
     FindSeparateForm:= false;
+    FindMaxEditorLinesForHighlightMatches:= 2000;
+    FindAttribTagForHighlightMatches:= 1001;
 
     EscapeClose:= false;
     EscapeCloseConsole:= true;
@@ -1665,6 +1670,7 @@ begin
     HotkeyToggleMultiline:= 'Alt+M';
     HotkeyToggleConfirmRep:= 'Alt+Y';
     HotkeyToggleTokens:= 'Alt+T';
+    HotkeyToggleHiAll:= 'Alt+H';
   end;
 end;
 

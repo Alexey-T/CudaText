@@ -697,6 +697,7 @@ type
     procedure ConfirmButtonOkClick(Sender: TObject);
     procedure ConfirmPanelMouseLeave(Sender: TObject);
     procedure FindDialogFocusEditor(Sender: TObject);
+    procedure FindDialogGetMainEditor(out AEditor: TATSynEdit);
     procedure FrameConfirmLink(Sender: TObject; const ALink: string);
     procedure FormEnter(Sender: TObject);
     procedure GetParamsForUniqueInstance(out AParams: TAppStringArray);
@@ -7614,6 +7615,11 @@ begin
   LexerProgress.MinValue:= 0;
   LexerProgress.MaxValue:= AMaxValue;
   LexerProgress.Progress:= AValue;
+end;
+
+procedure TfmMain.FindDialogGetMainEditor(out AEditor: TATSynEdit);
+begin
+  AEditor:= CurrentEditor;
 end;
 
 
