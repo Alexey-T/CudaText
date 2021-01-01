@@ -1843,8 +1843,9 @@ begin
       UiOps.FindIndentHorz,
       100{big value to venter vertically},
       true{AUnfold},
-      true{AllowUpdate}
+      false{AllowUpdate}
       );
+    Ed.Update;
   finally
     FreeAndNil(Results);
   end;
