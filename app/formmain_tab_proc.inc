@@ -143,6 +143,10 @@ begin
   UpdateStatus;
   SetLength(Params, 0);
   DoPyEvent(F.Editor, cEventOnTabChange, Params);
+
+  //apply "Highlight all matches" on focusing new tab
+  if Assigned(fmFind) and fmFind.Visible then
+    fmFind.UpdateState;
 end;
 
 procedure TfmMain.UpdateTabsActiveColor(F: TEditorFrame);
