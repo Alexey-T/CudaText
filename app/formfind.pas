@@ -180,6 +180,8 @@ type
     AdapterActive: boolean;
     procedure DoFocusEditor;
     procedure DoResult(Str: TAppFinderOperation);
+    function GetHiAll: boolean;
+    procedure SetHiAll(AValue: boolean);
     procedure SetIsDoubleBuffered(AValue: boolean);
     procedure SetMultiLine(AValue: boolean);
     procedure SetNarrow(AValue: boolean);
@@ -207,6 +209,7 @@ type
     property IsReplace: boolean read FReplace write SetReplace;
     property IsMultiLine: boolean read FMultiLine write SetMultiLine;
     property IsNarrow: boolean read FNarrow write SetNarrow;
+    property IsHiAll: boolean read GetHiAll write SetHiAll;
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
   end;
 
@@ -821,6 +824,17 @@ begin
   end;
 
   UpdateState;
+end;
+
+function TfmFind.GetHiAll: boolean;
+begin
+  Result:= chkHiAll.Checked;
+end;
+
+procedure TfmFind.SetHiAll(AValue: boolean);
+begin
+  if chkHiAll.Checked<>AValue then
+    chkHiAll.Click;
 end;
 
 procedure TfmFind.SetIsDoubleBuffered(AValue: boolean);

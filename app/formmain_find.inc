@@ -414,6 +414,7 @@ begin
         if fmFind.IsNarrow then
           FormPosSetFromString(fmFind, cfg.GetValue('/pos/find', ''), false);
         fmFind.IsMultiLine:= cfg.GetValue('/finder/mline', false);
+        fmFind.IsHiAll:= cfg.GetValue('/finder/hi', false);
       except
       end;
     finally

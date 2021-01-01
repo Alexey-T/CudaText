@@ -131,6 +131,7 @@ begin
       if fmFind.IsNarrow then
         cfg.SetValue('/pos/find', FormPosGetAsString(fmFind, false));
       cfg.SetValue('/finder/mline', fmFind.IsMultiLine);
+      cfg.SetValue('/finder/hi', fmFind.IsHiAll);
     end;
 
     cfg.SetValue('/list_console', fmConsole.EdInput.Items);
