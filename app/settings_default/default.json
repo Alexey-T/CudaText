@@ -573,10 +573,10 @@
   "find_sel_case": 2,
 
   //Find dialog: which buttons to hide.
-  //  if "W" in value: "Wrapped search" option button
+  //  if "O" in value: "Wrapped search" option button
   //  if "I" in value: "Search in selection" option button
   //  if "M" in value: "Multi-line inputs" option button
-  //  if "S" in value: "Allowed syntax elements" option button
+  //  if "X" in value: "Allowed syntax elements" option button
   //  if "H" in value: "Highlight all matches" option button
   //  if "f" in value: "Find first" button
   //  if "n" in value: "Find next" button

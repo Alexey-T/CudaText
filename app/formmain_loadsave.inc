@@ -1101,10 +1101,10 @@ begin
   UiOps.FindShow_Extract:=       Pos('e', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_ReplaceAll:=    Pos('a', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_ReplaceGlobal:= Pos('g', UiOps.FindHiddenButtons)=0;
-  UiOps.FindShow_Wrapped:=       Pos('W', UiOps.FindHiddenButtons)=0;
+  UiOps.FindShow_Wrapped:=       Pos('O', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_InSel:=         Pos('I', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_MultiLine:=     Pos('M', UiOps.FindHiddenButtons)=0;
-  UiOps.FindShow_SyntaxElements:=Pos('S', UiOps.FindHiddenButtons)=0;
+  UiOps.FindShow_SyntaxElements:=Pos('X', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_HiAll:=         Pos('H', UiOps.FindHiddenButtons)=0;
 
   UiOps.FindIndentVert:= cfg.GetValue('find_indent_vert', UiOps.FindIndentVert);
