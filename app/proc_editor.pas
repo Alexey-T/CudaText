@@ -1802,14 +1802,7 @@ begin
         PosY:= Res.FPos.Y;
         SelY:= 0;
         SelX:= Abs(Res.FEnd.X-Res.FPos.X);
-        Ed.Attribs.Add(
-          PosX,
-          PosY,
-          TagValue,
-          SelX,
-          SelY,
-          AttrObj
-          );
+        Ed.Attribs.Add(PosX, PosY, TagValue, SelX, SelY, AttrObj);
       end
       else
       //add N attrs per each line of a match
@@ -1818,36 +1811,30 @@ begin
         begin
           AttrObj:= TATLinePartClass.Create;
           AttrObj.Data:= AttrRec;
+
+          PosY:= iLine;
+          SelY:= 0;
+          //attr on first line
           if iLine=Res.FPos.Y then
           begin
             PosX:= Res.FPos.X;
-            PosY:= iLine;
-            SelY:= 0;
             SelX:= Ed.Strings.LinesLen[iLine];
           end
           else
+          //attr in final line
           if iLine=Res.FEnd.Y then
           begin
             PosX:= 0;
-            PosY:= iLine;
-            SelY:= 0;
             SelX:= Res.FEnd.X;
           end
           else
+          //attr on middle line
           begin
             PosX:= 0;
-            PosY:= iLine;
-            SelY:= 0;
             SelX:= Ed.Strings.LinesLen[iLine];
           end;
-          Ed.Attribs.Add(
-            PosX,
-            PosY,
-            TagValue,
-            SelX,
-            SelY,
-            AttrObj
-            );
+
+          Ed.Attribs.Add(PosX, PosY, TagValue, SelX, SelY, AttrObj);
         end;
     end;
 
