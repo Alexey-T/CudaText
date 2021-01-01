@@ -952,8 +952,6 @@ begin
 end;
 
 procedure TfmFind.UpdateState;
-var
-  N, i: integer;
 begin
   if IsReplace then
     Caption:= FCaptionReplace
