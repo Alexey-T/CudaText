@@ -1800,9 +1800,11 @@ begin
         SelX:= Abs(Res.FEnd.X-Res.FPos.X);
       end
       else
+      if Ed.Strings.IsIndexValid(Res.FPos.Y) then
       begin
-        SelY:= Abs(Res.FEnd.Y-Res.FPos.Y);
-        SelX:= Res.FEnd.X;
+        //ATSynEdit cannot render multi-line attr, make it longest in one line
+        SelY:= 0;
+        SelX:= Ed.Strings.LinesLen[Res.FPos.Y];
       end;
 
       Ed.Attribs.Add(
