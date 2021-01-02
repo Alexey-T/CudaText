@@ -56,17 +56,6 @@ begin
 end;
 
 
-procedure TfmMain.DoFindOptions_ResetInSelection;
-begin
-  //2020.10: don't reset sel, "find next" supports "in selection"
-  {
-  FFinder.OptInSelection:= false;
-  if Assigned(fmFind) then
-    fmFind.chkInSel.Checked:= false;
-    }
-end;
-
-
 function TfmMain.FinderReplaceAll(Ed: TATSynEdit; AResetCaret: boolean): integer;
 var
   NTop, NLeft: integer;
@@ -244,8 +233,6 @@ begin
       false, false, bChanged, true);
     FinderUpdateEditor(false);
     ShowFinderResult(ok);
-    if ok then
-      DoFindOptions_ResetInSelection;
   end;
 
   if (Res=afoReplace) or (Res=afoReplaceStop) then
@@ -258,8 +245,6 @@ begin
         ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
     FinderUpdateEditor(true);
     ShowFinderResult(ok);
-    if ok then
-      DoFindOptions_ResetInSelection;
   end;
 
   if Res=afoReplaceAll then
@@ -344,7 +329,6 @@ begin
       MsgStatus(
         Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]) +
         FinderOptionsToHint);
-    DoFindOptions_ResetInSelection;
   end;
 
   if Res=afoFindMarkAll then
