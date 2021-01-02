@@ -213,6 +213,7 @@ type
 
 var
   AppTheme: TAppTheme;
+  AppHiAll_ThemeStyleId: TAppThemeStyleId = apstSeparLine;
 
 procedure AppThemeInit(var D: TAppTheme);
 procedure AppThemeLoadFromFile(const AFileName: string; var D: TAppTheme; IsThemeUI: boolean);

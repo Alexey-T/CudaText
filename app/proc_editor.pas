@@ -1783,7 +1783,7 @@ begin
     if Results.Count=0 then exit;
 
     // 'SeparLine' syntax item is used for borders of highlighted matches
-    Style:= GetAppStyle(apstSeparLine);
+    Style:= GetAppStyle(AppHiAll_ThemeStyleId);
 
     FillChar(AttrRec, SizeOf(AttrRec), 0);
     AttrRec.ColorBG:= clNone;
