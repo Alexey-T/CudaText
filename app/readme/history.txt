@@ -7,6 +7,7 @@
 1.119.5 (2021/01)
 
 + add: Find dialog has new toggle button "Hi", it means "Highlight all matches". Matches are highlighted with a rounded border, which color is taken from "SeparLine" syntax theme item. Editor also auto-scrolls to the first match, like in Sublime. (thanks @xcme)
++ add: command "find next" in multi-selections now supports "in selection"+"wrapped search" (with the forward search)
 + add: option "find_max_lines_for_hi_matches"
 + add: option "find_hotkey_op_hi_matches" for "Hi" button
 + add: option "find_hidden_buttons" is extended, it can now hide several toggle-button options
