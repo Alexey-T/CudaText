@@ -1,7 +1,7 @@
 [comments]
 str1=<!--
 str2=-->
-styles_cmt=Comment
+styles_cmt=Comment,Comment doc
 styles_str=Text,Tag val
 
 [map]
