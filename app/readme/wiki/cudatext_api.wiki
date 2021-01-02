@@ -2548,7 +2548,7 @@ Controls markers (used e.g. in Snippets plugin). Possible values of "id":
       color_font=COLOR_NONE, color_bg=COLOR_NONE, color_border=COLOR_NONE,
       font_bold=0, font_italic=0, font_strikeout=0,
       border_left=0, border_right=0, border_down=0, border_up=0,
-      show_on_map=False, map_only=False )
+      show_on_map=False, map_only=0 )
 
 Controls additional color attributes. Possible values of "id":
 
@@ -2566,7 +2566,7 @@ Controls additional color attributes. Possible values of "id":
 *** int value=-2: Show on micromap as full-width fragment (over full micromap width). Fragment color will be XOR'ed with colors of all micromap columns.
 *** True: Show on micromap column 1.
 *** False: Don't show on micromap.
-** "map_only": bool: Fragment will be rendered only on micromap.
+** "map_only": int: 0: Show on text area only; 1: Show on micromap only; 2: Show both on text area and micromap. 
 
 * MARKERS_ADD_MANY: Adds one or multiple fragments at once. Also returns number of fragments. Parameters:
 ** "x", "y", "len": The same as for MARKERS_ADD, but can be also list/tuple of int. Lists/tuples must contain the equal number of elements (otherwise the minimal number of elements will be used).
@@ -4049,5 +4049,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.354 (app 1.117.2)
 * add: Editor.bookmark: BOOKMARK_GET_ALL gets additional dict key "auto_delx"
+
+1.0.355 (app 1.119.5)
+* change: Editor.attr: change param 'map_only' type from bool to int (enum)
 
 [[Category:CudaText]]
