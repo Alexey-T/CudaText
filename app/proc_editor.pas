@@ -1763,7 +1763,8 @@ var
   TagValue: Int64;
   iRes, iLine: integer;
 const
-  bOnMicromap = false;
+  MicromapMode: TATMarkerMicromapMode = mmmShowInTextAndMicromap;
+  MicromapColumn = 1;
 begin
   Ed:= AFinder.Editor;
   if Ed=nil then exit;
@@ -1801,11 +1802,12 @@ begin
       begin
         AttrObj:= TATLinePartClass.Create;
         AttrObj.Data:= AttrRec;
+        AttrObj.ColumnTag:= MicromapColumn;
         PosX:= Res.FPos.X;
         PosY:= Res.FPos.Y;
         SelY:= 0;
         SelX:= Abs(Res.FEnd.X-Res.FPos.X);
-        Ed.Attribs.Add(PosX, PosY, TagValue, SelX, SelY, AttrObj, 0, bOnMicromap);
+        Ed.Attribs.Add(PosX, PosY, TagValue, SelX, SelY, AttrObj, 0, MicromapMode);
       end
       else
       //add N attrs per each line of a match
@@ -1814,6 +1816,7 @@ begin
         begin
           AttrObj:= TATLinePartClass.Create;
           AttrObj.Data:= AttrRec;
+          AttrObj.ColumnTag:= MicromapColumn;
 
           PosY:= iLine;
           SelY:= 0;
@@ -1837,7 +1840,7 @@ begin
             SelX:= Ed.Strings.LinesLen[iLine];
           end;
 
-          Ed.Attribs.Add(PosX, PosY, TagValue, SelX, SelY, AttrObj, 0, bOnMicromap);
+          Ed.Attribs.Add(PosX, PosY, TagValue, SelX, SelY, AttrObj, 0, MicromapMode);
         end;
     end;
 

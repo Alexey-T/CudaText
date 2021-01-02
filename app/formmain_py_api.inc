@@ -976,7 +976,7 @@ begin
             begin
               Mark:= Ed.Markers[i];
               PyList_SetItem(Result, i,
-                Py_BuildValue('{sisisisisLsisO}',
+                Py_BuildValue('{sisisisisLsisi}',
                   PChar(string('x')),
                   Mark.PosX,
                   PChar(string('y')),
@@ -990,14 +990,14 @@ begin
                   'line_len',
                   Mark.LineLen,
                   'micromap',
-                  PyBool_FromLong(Ord(Mark.MicromapOnly))
+                  Ord(Mark.MicromapMode)
                   ));
             end;
           end;
 
         MARKERS_ADD:
           begin
-            Ed.Markers.Add(X, Y, NTag, NLenX, NLenY, nil, 0, false, NLineLen);
+            Ed.Markers.Add(X, Y, NTag, NLenX, NLenY, nil, 0, mmmShowInTextOnly, NLineLen);
             Ed.Update;
             Result:= PyLong_FromLong(Ed.Markers.Count);
           end;
@@ -1061,7 +1061,7 @@ var
   Id, X, Y, NTag, NLen, i: integer;
   NColorFont, NColorBg, NColorBorder: integer;
   NBorderL, NBorderR, NBorderD, NBorderU: integer;
-  NFontBold, NFontItalic, NFontStrike, NColumn, NMapOnly: integer;
+  NFontBold, NFontItalic, NFontStrike, NColumn, NMicromapMode: integer;
   Obj: TATLinePartClass;
   SepX, SepY, SepLen: TATStringSeparator;
   NStyles: byte;
@@ -1072,7 +1072,7 @@ begin
       @NColorFont, @NColorBg, @NColorBorder,
       @NFontBold, @NFontItalic, @NFontStrike,
       @NBorderL, @NBorderR, @NBorderD, @NBorderU,
-      @NColumn, @NMapOnly
+      @NColumn, @NMicromapMode
       )) then
     begin
       Ed:= PyEditor(H);
@@ -1110,7 +1110,7 @@ begin
                     Ord(Obj.Data.BorderDown),
                     Ord(Obj.Data.BorderUp),
                     Ord(Obj.ColumnTag),
-                    Ord(Mark.MicromapOnly)
+                    Ord(Mark.MicromapMode)
                     ));
               end;
             end
@@ -1129,7 +1129,7 @@ begin
               Mark:= Ed.Attribs[i];
               Obj:= TATLinePartClass(Mark.Ptr);
               PyList_SetItem(Result, i,
-                Py_BuildValue('{sLsisisisisisisOsOsOsisisisisisO}',
+                Py_BuildValue('{sLsisisisisisisOsOsOsisisisisisi}',
                   'tag',
                   Mark.Tag,
                   PChar(string('x')),
@@ -1161,7 +1161,7 @@ begin
                   'show_on_map',
                   Ord(Obj.ColumnTag),
                   'map_only',
-                  PyBool_FromLong(Ord(Mark.MicromapOnly))
+                  Ord(Mark.MicromapMode)
                   ));
             end;
           end;
@@ -1194,7 +1194,7 @@ begin
             X:= StrToIntDef(StrX, 0);
             Y:= StrToIntDef(StrY, 0);
             NLen:= StrToIntDef(StrLen, 1);
-            Ed.Attribs.Add(X, Y, NTag, NLen, 0, Obj, 0, Bool(NMapOnly));
+            Ed.Attribs.Add(X, Y, NTag, NLen, 0, Obj, 0, TATMarkerMicromapMode(NMicromapMode));
             Ed.Update;
             Result:= PyLong_FromLong(Ed.Attribs.Count);
           end;
@@ -1236,7 +1236,7 @@ begin
               Obj.Data.BorderUp:= TATLineStyle(NBorderU);
               Obj.ColumnTag:= NColumn;
 
-              Ed.Attribs.Add(X, Y, NTag, NLen, 0, Obj, 0, Bool(NMapOnly));
+              Ed.Attribs.Add(X, Y, NTag, NLen, 0, Obj, 0, TATMarkerMicromapMode(NMicromapMode));
             until false;
 
             Ed.Update;
