@@ -267,8 +267,8 @@ type
     FindIndentHorz: integer;
     FindMultiLineScale: double;
     FindSeparateForm: boolean;
-    FindMaxEditorLinesForHighlightMatches: integer;
-    FindAttribTagForHighlightMatches: Int64;
+    FindHiAll_MaxLines: integer;
+    FindHiAll_TagValue: Int64;
 
     EscapeClose: boolean;
     EscapeCloseConsole: boolean;
@@ -1568,8 +1568,8 @@ begin
     FindIndentHorz:= 10;
     FindMultiLineScale:= 2.5;
     FindSeparateForm:= false;
-    FindMaxEditorLinesForHighlightMatches:= 1000;
-    FindAttribTagForHighlightMatches:= 505; //some rarely used int tag
+    FindHiAll_MaxLines:= 1000;
+    FindHiAll_TagValue:= 505; //some rarely used int tag
 
     EscapeClose:= false;
     EscapeCloseConsole:= true;

@@ -458,7 +458,7 @@ begin
   FOnGetMainEditor(Ed);
   if Assigned(Ed) and (Ed.Attribs.Count>0) then
   begin
-    Ed.Attribs.DeleteWithTag(UiOps.FindAttribTagForHighlightMatches);
+    Ed.Attribs.DeleteWithTag(UiOps.FindHiAll_TagValue);
     Ed.Update;
   end;
 end;
@@ -1035,7 +1035,7 @@ begin
   bRepGlobal.Enabled:= IsReplace;
 
   FOnGetMainEditor(Ed);
-  chkHiAll.Enabled:= Ed.Strings.Count<UiOps.FindMaxEditorLinesForHighlightMatches;
+  chkHiAll.Enabled:= Ed.Strings.Count<UiOps.FindHiAll_MaxLines;
 
   if FBinaryMode then
   begin

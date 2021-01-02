@@ -1768,9 +1768,9 @@ const
 begin
   Ed:= AFinder.Editor;
   if Ed=nil then exit;
-  TagValue:= UiOps.FindAttribTagForHighlightMatches;
+  TagValue:= UiOps.FindHiAll_TagValue;
 
-  if Ed.Strings.Count>=UiOps.FindMaxEditorLinesForHighlightMatches then
+  if Ed.Strings.Count>=UiOps.FindHiAll_MaxLines then
     exit;
 
   Results:= TATFinderResults.Create;
