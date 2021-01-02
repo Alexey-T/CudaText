@@ -1292,7 +1292,7 @@ class Editor:
              color_font=COLOR_NONE, color_bg=COLOR_NONE, color_border=COLOR_NONE,
              font_bold=0, font_italic=0, font_strikeout=0,
              border_left=0, border_right=0, border_down=0, border_up=0,
-             show_on_map=False, map_only=False
+             show_on_map=False, map_only=0
              ):
 
         if id==MARKERS_ADD_MANY:
