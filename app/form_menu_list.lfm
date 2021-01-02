@@ -1,7 +1,7 @@
 object fmMenuList: TfmMenuList
-  Left = 252
+  Left = 229
   Height = 233
-  Top = 482
+  Top = 488
   Width = 500
   BorderStyle = bsNone
   Caption = 'Goto list'
@@ -25,6 +25,7 @@ object fmMenuList: TfmMenuList
     BorderSpacing.Around = 6
     OwnerDrawn = True
     ParentColor = False
+    ParentFont = False
     OnClick = ListClick
     OnDrawItem = ListDrawItem
   end
