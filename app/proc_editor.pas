@@ -1762,6 +1762,8 @@ var
   Style: TecSyntaxFormat;
   TagValue: Int64;
   iRes, iLine: integer;
+const
+  bOnMicromap = false;
 begin
   Ed:= AFinder.Editor;
   if Ed=nil then exit;
@@ -1803,7 +1805,7 @@ begin
         PosY:= Res.FPos.Y;
         SelY:= 0;
         SelX:= Abs(Res.FEnd.X-Res.FPos.X);
-        Ed.Attribs.Add(PosX, PosY, TagValue, SelX, SelY, AttrObj);
+        Ed.Attribs.Add(PosX, PosY, TagValue, SelX, SelY, AttrObj, 0, bOnMicromap);
       end
       else
       //add N attrs per each line of a match
@@ -1835,7 +1837,7 @@ begin
             SelX:= Ed.Strings.LinesLen[iLine];
           end;
 
-          Ed.Attribs.Add(PosX, PosY, TagValue, SelX, SelY, AttrObj);
+          Ed.Attribs.Add(PosX, PosY, TagValue, SelX, SelY, AttrObj, 0, bOnMicromap);
         end;
     end;
 
