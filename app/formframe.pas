@@ -2881,7 +2881,11 @@ begin
             NIndex:= Ed.Micromap.ColumnFromTag(Obj.ColumnTag);
             if NIndex>=0 then
             begin
-              XColor.FromColor(Obj.Data.ColorBG);
+              //if ColorBG=none, it may be find-all-matches with custom border color, use border color
+              if Obj.Data.ColorBG<>clNone then
+                XColor.FromColor(Obj.Data.ColorBG)
+              else
+                XColor.FromColor(Obj.Data.ColorBorder);
               R1:= GetItemRect(NIndex, NLine1, NLine2, markColumn);
               FMicromapBmp.FillRect(R1, XColor);
             end;
