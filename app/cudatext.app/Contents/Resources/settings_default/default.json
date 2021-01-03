@@ -1270,8 +1270,8 @@
   "find_hotkey_op_in_sel": "Alt+X",
   "find_hotkey_op_multiline": "Alt+M",
   "find_hotkey_op_confirm_rep": "Alt+Y",
-  "find_hotkey_op_tokens": "Alt+T",
-  "find_hotkey_op_hi_matches": "Alt+H",
+  "find_hotkey_op_tokens": "",
+  "find_hotkey_op_hi_matches": "",
 
   //[Viewer]
   //Viewer text width in binary mode

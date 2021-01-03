@@ -1685,8 +1685,8 @@ begin
     HotkeyToggleInSelect:= 'Alt+X';
     HotkeyToggleMultiline:= 'Alt+M';
     HotkeyToggleConfirmRep:= 'Alt+Y';
-    HotkeyToggleTokens:= 'Alt+T';
-    HotkeyToggleHiAll:= 'Alt+H';
+    HotkeyToggleTokens:= '';
+    HotkeyToggleHiAll:= '';
   end;
 end;
 
