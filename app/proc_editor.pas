@@ -1847,17 +1847,18 @@ begin
         end;
     end;
 
+    Res:= Results.First;
+
     if UiOps.FindHiAll_MoveCaret then
     begin
-      Res:= Results[0];
       Ed.DoCaretSingle(Res.FPos.X, Res.FPos.Y);
       Ed.DoEventCarets;
     end;
 
     Ed.DoShowPos(
-      Results.First.FPos,
+      Res.FPos,
       UiOps.FindIndentHorz,
-      100{big value to venter vertically},
+      100{big value to center vertically},
       true{AUnfold},
       false{AllowUpdate}
       );
