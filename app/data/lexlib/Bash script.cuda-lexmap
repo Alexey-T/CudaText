@@ -1,5 +1,5 @@
 [comments]
-styles_cmt=Comment
+styles_cmt=Comment,Comment shebang
 styles_str=String
 str1=
 str2=
