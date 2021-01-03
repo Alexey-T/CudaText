@@ -1551,8 +1551,8 @@ begin
     for element:= Low(element) to High(element) do
       HistoryItems[element]:= true;
 
-    FindSuggestSel:= false;
-    FindSuggestWord:= true;
+    FindSuggestSel:= true;
+    FindSuggestWord:= false;
     FindSuggestInSelection:= false;
     FindSelCase:= 2;
 

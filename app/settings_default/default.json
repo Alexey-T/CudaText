@@ -558,10 +558,10 @@
   "find_separate_form": false,
 
   //Find dialog: suggest selection (of first caret) as initial search text
-  "find_suggest_sel": false,
+  "find_suggest_sel": true,
 
   //Find dialog: suggest current word (at first caret) as initial search text
-  "find_suggest_cur_word": true,
+  "find_suggest_cur_word": false,
 
   //Find dialog: check option "Search in selection", if editor has single caret with multi-line selection
   "find_suggest_in_selection": false,
