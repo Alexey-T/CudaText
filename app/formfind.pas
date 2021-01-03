@@ -1245,7 +1245,7 @@ begin
       Finder.OptTokens:= TATFinderTokensAllowed(bTokens.ItemIndex);
       Finder.OptWrapped:= false;
       Finder.OnGetToken:= FOnGetToken;
-      EditorFindHighlightMatches(Finder);
+      EditorHighlightAllMatches(Finder);
     finally
       FreeAndNil(Finder);
     end;

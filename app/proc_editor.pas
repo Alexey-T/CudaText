@@ -124,7 +124,7 @@ function EditorExpandSelectionToWord(Ed: TATSynEdit): boolean;
 function EditorFindCurrentWordOrSel(Ed: TATSynEdit;
   ANext, AWordOrSel, AOptCase, AOptWrapped: boolean;
   out Str: UnicodeString): boolean;
-procedure EditorFindHighlightMatches(AFinder: TATEditorFinder);
+procedure EditorHighlightAllMatches(AFinder: TATEditorFinder);
 
 
 implementation
@@ -1754,118 +1754,18 @@ begin
 end;
 
 
-procedure EditorFindHighlightMatches(AFinder: TATEditorFinder);
+procedure EditorHighlightAllMatches(AFinder: TATEditorFinder);
 var
-  Ed: TATSynEdit;
-  Results: TATFinderResults;
-  Res: TATFinderResult;
-  PosX, PosY, SelX, SelY: integer;
-  AttrRec: TATLinePart;
-  AttrObj: TATLinePartClass;
-  Style: TecSyntaxFormat;
-  TagValue: Int64;
-  iRes, iLine: integer;
-const
-  MicromapMode: TATMarkerMicromapMode = mmmShowInTextAndMicromap;
-  MicromapColumn = 1;
+  ColorBorder: TColor;
+  TagValue: integer;
+  MaxLines: integer;
+  bMoveCaret: boolean;
 begin
-  Ed:= AFinder.Editor;
-  if Ed=nil then exit;
+  ColorBorder:= GetAppStyle(AppHiAll_ThemeStyleId).BgColor;
   TagValue:= UiOps.FindHiAll_TagValue;
-
-  if Ed.Strings.Count>=UiOps.FindHiAll_MaxLines then
-    exit;
-
-  Results:= TATFinderResults.Create;
-  try
-    try
-      AFinder.DoAction_FindAll(Results, false);
-    except
-      exit;
-    end;
-    if Results.Count=0 then exit;
-
-    // 'SeparLine' syntax item is used for borders of highlighted matches
-    Style:= GetAppStyle(AppHiAll_ThemeStyleId);
-
-    FillChar(AttrRec, SizeOf(AttrRec), 0);
-    AttrRec.ColorBG:= clNone;
-    AttrRec.ColorFont:= clNone;
-    AttrRec.ColorBorder:= Style.BgColor;
-    AttrRec.BorderDown:= cLineStyleRounded;
-    AttrRec.BorderLeft:= cLineStyleRounded;
-    AttrRec.BorderRight:= cLineStyleRounded;
-    AttrRec.BorderUp:= cLineStyleRounded;
-
-    for iRes:= 0 to Results.Count-1 do
-    begin
-      Res:= Results[iRes];
-      //single line attr
-      if Res.FPos.Y=Res.FEnd.Y then
-      begin
-        AttrObj:= TATLinePartClass.Create;
-        AttrObj.Data:= AttrRec;
-        AttrObj.ColumnTag:= MicromapColumn;
-        PosX:= Res.FPos.X;
-        PosY:= Res.FPos.Y;
-        SelY:= 0;
-        SelX:= Abs(Res.FEnd.X-Res.FPos.X);
-        Ed.Attribs.Add(PosX, PosY, TagValue, SelX, SelY, AttrObj, 0, MicromapMode);
-      end
-      else
-      //add N attrs per each line of a match
-      for iLine:= Res.FPos.Y to Res.FEnd.Y do
-        if Ed.Strings.IsIndexValid(iLine) then
-        begin
-          AttrObj:= TATLinePartClass.Create;
-          AttrObj.Data:= AttrRec;
-          AttrObj.ColumnTag:= MicromapColumn;
-
-          PosY:= iLine;
-          SelY:= 0;
-          //attr on first line
-          if iLine=Res.FPos.Y then
-          begin
-            PosX:= Res.FPos.X;
-            SelX:= Ed.Strings.LinesLen[iLine];
-          end
-          else
-          //attr in final line
-          if iLine=Res.FEnd.Y then
-          begin
-            PosX:= 0;
-            SelX:= Res.FEnd.X;
-          end
-          else
-          //attr on middle line
-          begin
-            PosX:= 0;
-            SelX:= Ed.Strings.LinesLen[iLine];
-          end;
-
-          Ed.Attribs.Add(PosX, PosY, TagValue, SelX, SelY, AttrObj, 0, MicromapMode);
-        end;
-    end;
-
-    Res:= Results.First;
-
-    if UiOps.FindHiAll_MoveCaret then
-    begin
-      Ed.DoCaretSingle(Res.FPos.X, Res.FPos.Y);
-      Ed.DoEventCarets;
-    end;
-
-    Ed.DoShowPos(
-      Res.FPos,
-      UiOps.FindIndentHorz,
-      100{big value to center vertically},
-      true{AUnfold},
-      false{AllowUpdate}
-      );
-    Ed.Update;
-  finally
-    FreeAndNil(Results);
-  end;
+  MaxLines:= UiOps.FindHiAll_MaxLines;
+  bMoveCaret:= UiOps.FindHiAll_MoveCaret;
+  AFinder.DoAction_HighlightAllEditorMatches(ColorBorder, TagValue, MaxLines, bMoveCaret);
 end;
 
 
