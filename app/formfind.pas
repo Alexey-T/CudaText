@@ -1164,6 +1164,7 @@ begin
       msgFindHint_InSelect:= ini.ReadString(section, 'h_sel', msgFindHint_InSelect);
       msgFindHint_MultiLine:= ini.ReadString(section, 'h_mul', msgFindHint_MultiLine);
       msgFindHint_Tokens:= ini.ReadString(section, 'h_tok', msgFindHint_Tokens);
+      msgFindHint_HiAll:= ini.ReadString(section, 'h_hi', msgFindHint_HiAll);
 
       with bTokens do
       begin
