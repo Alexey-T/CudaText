@@ -563,13 +563,14 @@
   //Find dialog: suggest current word (at first caret) as initial search text
   "find_suggest_cur_word": false,
 
-  //Find dialog: check option "Search in selection", if editor has single caret with multi-line selection
+  //Find dialog: check the option "Search in selection", if editor has single caret
+  //with multi-line selection
   "find_suggest_in_selection": false,
 
   //Commands "Find current selection next / previous": case-sensitive state
   //  0: case-sensitive off
   //  1: case-sensitive on
-  //  2: use option from Find dialog
+  //  2: use the option from Find dialog
   "find_sel_case": 2,
 
   //Find dialog: which buttons to hide.
