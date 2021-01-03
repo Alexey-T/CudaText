@@ -605,9 +605,12 @@
   //scroll horizontally by N chars from new position. Value must be >=0.
   "find_indent_horz": 10,
 
-  //Maximal count of editor lines, for which Find dialog button "Hi"
-  //(Highlight all matches) works
-  "find_max_lines_for_hi_matches": 1000,
+  //Find dialog option "Highlight all matches": maximal count of document lines,
+  //for which "Highlight all matches" still works
+  "find_hi_max_lines": 1000,
+
+  //Find dialog option "Highlight all matches": also move caret to the first found match
+  "find_hi_move_caret": true,
 
   //[Ui]
   //UI scale factor in %, 70 to 500. [has suffix]
@@ -1275,7 +1278,7 @@
   "find_hotkey_op_multiline": "Alt+M",
   "find_hotkey_op_confirm_rep": "Alt+Y",
   "find_hotkey_op_tokens": "",
-  "find_hotkey_op_hi_matches": "",
+  "find_hotkey_op_hi": "",
 
   //[Viewer]
   //Viewer text width in binary mode
