@@ -1116,7 +1116,8 @@ begin
   UiOps.FindIndentHorz:= cfg.GetValue('find_indent_horz', UiOps.FindIndentHorz);
   UiOps.FindMultiLineScale:= cfg.GetValue('find_multiline_scale', UiOps.FindMultiLineScale);
   UiOps.FindSeparateForm:= cfg.GetValue('find_separate_form', UiOps.FindSeparateForm);
-  UiOps.FindHiAll_MaxLines:= cfg.GetValue('find_max_lines_for_hi_matches', UiOps.FindHiAll_MaxLines);
+  UiOps.FindHiAll_MaxLines:= cfg.GetValue('find_hi_max_lines', UiOps.FindHiAll_MaxLines);
+  UiOps.FindHiAll_MoveCaret:= cfg.GetValue('find_hi_move_caret', UiOps.FindHiAll_MoveCaret);
 
   EditorOps.OpUndoIndentVert:= UiOps.FindIndentVert;
   EditorOps.OpUndoIndentHorz:= UiOps.FindIndentHorz;

@@ -1847,6 +1847,13 @@ begin
         end;
     end;
 
+    if UiOps.FindHiAll_MoveCaret then
+    begin
+      Res:= Results[0];
+      Ed.DoCaretSingle(Res.FPos.X, Res.FPos.Y);
+      Ed.DoEventCarets;
+    end;
+
     Ed.DoShowPos(
       Results.First.FPos,
       UiOps.FindIndentHorz,
