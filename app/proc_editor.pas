@@ -1757,15 +1757,14 @@ end;
 procedure EditorHighlightAllMatches(AFinder: TATEditorFinder);
 var
   ColorBorder: TColor;
-  TagValue: integer;
-  MaxLines: integer;
-  bMoveCaret: boolean;
 begin
   ColorBorder:= GetAppStyle(AppHiAll_ThemeStyleId).BgColor;
-  TagValue:= UiOps.FindHiAll_TagValue;
-  MaxLines:= UiOps.FindHiAll_MaxLines;
-  bMoveCaret:= UiOps.FindHiAll_MoveCaret;
-  AFinder.DoAction_HighlightAllEditorMatches(ColorBorder, TagValue, MaxLines, bMoveCaret);
+  AFinder.DoAction_HighlightAllEditorMatches(
+    ColorBorder,
+    UiOps.FindHiAll_TagValue,
+    UiOps.FindHiAll_MaxLines,
+    UiOps.FindHiAll_MoveCaret
+    );
 end;
 
 
