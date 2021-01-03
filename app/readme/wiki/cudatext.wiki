@@ -1353,16 +1353,17 @@ Better to choose "Clone repo" here, this will allow to update plugin directly fr
 
 ==How to make translation==
 
-Translation template-file is in dir "data/lang".
-How to make translation zip package:
+Translation template file is in the folder "data/lang".
+The template file cannot be activated from "Options / Translations".
+How to prepare the translation zip package:
 
-* make file "nn_NN.ini" (utf-8 with bom)
-* use standard locale names in filename, e.g. ru_RU pt_PT ja_JP (needed for plugins which uses Python translation API)
-* write your contacts in first commented lines. Comments must begin with ";" at line start. Also you can add other comments.
-* to set accelerator-chars for menus/dialogs, use "&" char (e.g. "Open &file"). If needed "&" as is, write "&&".
-* note: Linux Ubuntu font is 1.3x times wider (than WinXP)
+* make the file "nn_NN.ini" (UTF-8 with BOM)
+* use standard locale names in filename, e.g. ru_RU pt_PT ja_JP (this is needed for plugins which use Python translation API)
+* write your contacts in the first commented lines. Comments must begin with ";" at line start. Also you can add other comments.
+* to set accelerator-chars for menus/dialogs, use "&" char (e.g. "Open &file"). If needed "&" char as is, duplicate it as "&&".
+* note: Linux Ubuntu font is about 1.3 times wider, than on Windows
 
-* make "install.inf" with such text:
+* make the file "install.inf" with such text:
 
 <syntaxhighlight lang="ini">
 [info]
@@ -1371,10 +1372,10 @@ type=cudatext-data
 subdir=lang
 </syntaxhighlight>
 
-* make zip file "translation.nn_NN.zip" with files nn_NN.ini, install.inf
-* test this zip: open it in CudaText, and check it's installed
-* publish zip at CudaText forum or https://github.com/Alexey-T/CudaText/issues
-* if package ok, it will be at SF.net downloads, and in Addon Manager
+* make the zip file "translation.nn_NN.zip", it must contain files nn_NN.ini, install.inf
+* test this zip file: open it in CudaText via "File / Open", and check it's installed
+* publish this zip file, at CudaText forum or at GitHub issues https://github.com/Alexey-T/CudaText/issues
+* if package is OK, it will be at SourceForge downloads, and in Addon Manager
 
 ==How to make translation of Plugins menu==
 CudaText supports translation of Plugins menu items. For example, you have plugin with module cuda_nnn, which has "install.inf" with such menu items:
