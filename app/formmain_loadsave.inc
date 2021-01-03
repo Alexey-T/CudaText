@@ -786,6 +786,11 @@ begin
   Op.OpFontQuality:= TFontQuality(cfg.GetValue(str_FontQuality, Ord(Op.OpFontQuality)));
   Op.OpFontLigatures:= cfg.GetValue(str_FontLigatures, Op.OpFontLigatures);
 
+  Op.OpActiveBorderRaw:= cfg.GetValue('ui_active_border', Op.OpActiveBorderRaw);
+  Op.OpActiveBorderInControls:= Op.OpActiveBorderRaw > 0;
+  Op.OpActiveBorderInEditor:= Op.OpActiveBorderRaw >= 100;
+  Op.OpActiveBorderWidth:= Op.OpActiveBorderRaw mod 100;
+
   OptCanvasTextoutNeedsOffsets:= cfg.GetValue(str_TextoutNeedsOffsets, OptCanvasTextoutNeedsOffsets);
   OptCharSizeProportional:= cfg.GetValue('unicode_proportional', OptCharSizeProportional);
   OptCharScaleFullWidth:= cfg.GetValue('unicode_full_width', OptCharScaleFullWidth);
@@ -982,7 +987,6 @@ begin
   UiOps.StatusPanels:= cfg.GetValue('ui_statusbar_panels', UiOps.StatusPanels);
   UiOps.StatusTime:= Max(1, Min(60, cfg.GetValue('ui_statusbar_time', UiOps.StatusTime)));
 
-  UiOps.ShowActiveBorder:= cfg.GetValue('ui_active_border', UiOps.ShowActiveBorder);
   UiOps.ShowTitlePath:= cfg.GetValue('ui_title_path', UiOps.ShowTitlePath);
 
   UiOps.Scale:= cfg.GetValue('ui_scale'+cOptionSystemSuffix, 0);

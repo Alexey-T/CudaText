@@ -324,7 +324,6 @@ type
     ShowMenubar: boolean;
     ShowStatusbar: boolean;
     ShowToolbar: boolean;
-    ShowActiveBorder: boolean;
     ShowTitlePath: boolean;
     Scale: integer;
     ScaleFont: integer;
@@ -428,6 +427,11 @@ type
     OpMaxLineLenForAccurateCharWidths: integer;
     OpMaxLineLenForBracketFinder: integer;
     OpMaxLineLenToTokenize: integer;
+
+    OpActiveBorderRaw: integer;
+    OpActiveBorderInControls: boolean;
+    OpActiveBorderInEditor: boolean;
+    OpActiveBorderWidth: integer;
 
     OpOverwriteSel: boolean;
     OpOverwriteOnPaste: boolean;
@@ -1285,6 +1289,11 @@ begin
     OpMaxLineLenForBracketFinder:= 1000;
     OpMaxLineLenToTokenize:= 4000;
 
+    OpActiveBorderRaw:= 1;
+    OpActiveBorderInControls:= true;
+    OpActiveBorderInEditor:= false;
+    OpActiveBorderWidth:= 1;
+
     OpOverwriteSel:= true;
     OpOverwriteOnPaste:= false;
 
@@ -1632,7 +1641,6 @@ begin
     ShowMenubar:= true;
     ShowStatusbar:= true;
     ShowToolbar:= false;
-    ShowActiveBorder:= true;
     ShowTitlePath:= false;
 
     Scale:= 100;

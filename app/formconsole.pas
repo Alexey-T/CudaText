@@ -264,9 +264,9 @@ begin
   EdMemo.OptUndoLimit:= 0;
 
   EdMemo.OptTabSize:= 4;
+  EdMemo.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
+  EdMemo.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
   EdMemo.OptBorderWidth:= 0;
-  EdMemo.OptBorderWidthFocused:= 1;
-  EdMemo.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   EdMemo.OptShowURLs:= false;
   EdMemo.OptCaretManyAllowed:= false;
   EdMemo.OptGutterVisible:= false;

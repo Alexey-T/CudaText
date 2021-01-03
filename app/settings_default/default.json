@@ -1203,7 +1203,10 @@
 
   //Highlight border of focused input box
   //(Find/Replace dialog, Console panel, Code Tree filter input)
-  "ui_active_border": true,
+  //  value=0: don't highlight
+  //  value>0: highlight with the specified border width, in pixels
+  //  if 100 is added, then highlight in the main editor too (and plugins' editors)
+  "ui_active_border": 1,
 
   //Console panel (Ctrl+`): word-wrap mode
   "ui_console_wrap": true,

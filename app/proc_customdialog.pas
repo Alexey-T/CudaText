@@ -598,12 +598,8 @@ begin
   Ed.OnScroll:= @AForm.DoOnEditorScroll;
   Ed.OnPaste:= @AForm.DoOnEditorPaste;
 
-  Ed.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
-  if UiOps.ShowActiveBorder then
-  begin
-    //Ed.OptBorderWidth:= 1;
-    Ed.OptBorderWidthFocused:= 1;
-  end;
+  Ed.OptBorderFocusedActive:= EditorOps.OpActiveBorderInEditor;
+  Ed.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
 
   EditorApplyTheme(Ed);
   if not AOneLiner then

@@ -3345,13 +3345,16 @@ begin
   CodeTree.Tree.ToolTips:= UiOps.TreeShowTooltips;
   CodeTree.Invalidate;
 
-  CodeTreeFilterInput.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
+  CodeTreeFilterInput.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
+  CodeTreeFilterInput.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
   CodeTreeFilterReset.Width:= AppScale(UiOps.ScrollbarWidth);
 
   EditorCaretPropsFromString(fmConsole.EdMemo.CaretPropsReadonly, EditorOps.OpCaretViewReadonly);
-  fmConsole.EdMemo.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
+  fmConsole.EdMemo.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
+  fmConsole.EdMemo.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
   fmConsole.EdInput.Height:= AppScale(UiOps.InputHeight);
-  fmConsole.EdInput.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
+  fmConsole.EdInput.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
+  fmConsole.EdInput.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
   fmConsole.MemoWordWrap:= UiOps.ConsoleWordWrap;
 
   DoApplyUiOpsToGroups(Groups);

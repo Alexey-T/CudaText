@@ -156,6 +156,9 @@ begin
     Ed.OptTabSpaces:= Op.OpTabSpaces;
   end;
 
+  Ed.OptBorderFocusedActive:= Op.OpActiveBorderInEditor;
+  Ed.OptBorderWidthFocused:= AppScale(Op.OpActiveBorderWidth);
+
   Ed.OptOverwriteSel:= Op.OpOverwriteSel;
   Ed.OptOverwriteAllowedOnPaste:= Op.OpOverwriteOnPaste;
 
