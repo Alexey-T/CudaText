@@ -16,6 +16,7 @@
 + add: lexer C++: highlight labels, in "goto label;" and "label: statement;"
 + add: lexer Bash: highlight numbers in form like "100suffix"
 + add: sync Asian code-page convertion code with Lazarus patch (Support EUDC to PUA Microsoft mapping) by @powerpcer
+* change: option "ui_active_border" changed to integer, to allow setting the border width in pixels
 
 1.119.0 (2020/12)
 
