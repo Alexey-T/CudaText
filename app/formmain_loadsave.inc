@@ -1047,7 +1047,7 @@ begin
   UiOps.HotkeyToggleMultiline:= cfg.GetValue('find_hotkey_op_multiline', UiOps.HotkeyToggleMultiline);
   UiOps.HotkeyToggleConfirmRep:= cfg.GetValue('find_hotkey_op_confirm_rep', UiOps.HotkeyToggleConfirmRep);
   UiOps.HotkeyToggleTokens:= cfg.GetValue('find_hotkey_op_tokens', UiOps.HotkeyToggleTokens);
-  UiOps.HotkeyToggleHiAll:= cfg.GetValue('find_hotkey_op_hi_matches', UiOps.HotkeyToggleHiAll);
+  UiOps.HotkeyToggleHiAll:= cfg.GetValue('find_hotkey_op_hi', UiOps.HotkeyToggleHiAll);
 
   UiOps.LexerThemes:= cfg.GetValue('ui_lexer_themes', UiOps.LexerThemes);
   UiOps.LexerMenuGrouped:= cfg.GetValue('ui_lexers_grouped', UiOps.LexerMenuGrouped);
