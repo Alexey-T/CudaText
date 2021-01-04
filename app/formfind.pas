@@ -1132,6 +1132,14 @@ begin
 end;
 
 procedure TfmFind.Localize;
+  //
+  function _MakeHint(const AText, AHotkey: string): string;
+  begin
+    Result:= AText;
+    if AHotkey<>'' then
+      Result+= ' - '+AHotkey;
+  end;
+  //
 const
   section = 'd_f';
 var
@@ -1184,23 +1192,23 @@ begin
   end;
 
   with chkRegex do
-    Hint:= msgFindHint_Regex +' - '+UiOps.HotkeyToggleRegex;
+    Hint:= _MakeHint(msgFindHint_Regex, UiOps.HotkeyToggleRegex);
   with chkCase do
-    Hint:= msgFindHint_Case +' - '+UiOps.HotkeyToggleCaseSens;
+    Hint:= _MakeHint(msgFindHint_Case, UiOps.HotkeyToggleCaseSens);
   with chkWords do
-    Hint:= msgFindHint_Words +' - '+UiOps.HotkeyToggleWords;
+    Hint:= _MakeHint(msgFindHint_Words, UiOps.HotkeyToggleWords);
   with chkWrap do
-    Hint:= msgFindHint_Wrapped +' - '+UiOps.HotkeyToggleWrapped;
+    Hint:= _MakeHint(msgFindHint_Wrapped, UiOps.HotkeyToggleWrapped);
   with chkConfirm do
-    Hint:= msgFindHint_ConfirmRep +' - '+UiOps.HotkeyToggleConfirmRep;
+    Hint:= _MakeHint(msgFindHint_ConfirmRep, UiOps.HotkeyToggleConfirmRep);
   with chkInSel do
-    Hint:= msgFindHint_InSelect +' - '+UiOps.HotkeyToggleInSelect;
+    Hint:= _MakeHint(msgFindHint_InSelect, UiOps.HotkeyToggleInSelect);
   with chkMulLine do
-    Hint:= msgFindHint_MultiLine +' - '+UiOps.HotkeyToggleMultiline;
+    Hint:= _MakeHint(msgFindHint_MultiLine, UiOps.HotkeyToggleMultiline);
   with bTokens do
-    Hint:= msgFindHint_Tokens +' - '+UiOps.HotkeyToggleTokens;
+    Hint:= _MakeHint(msgFindHint_Tokens, UiOps.HotkeyToggleTokens);
   with chkHiAll do
-    Hint:= msgFindHint_HiAll +' - '+UiOps.HotkeyToggleHiAll;
+    Hint:= _MakeHint(msgFindHint_HiAll, UiOps.HotkeyToggleHiAll);
 
   bFindFirst.AutoSize:= true;
   bFindNext.AutoSize:= true;
