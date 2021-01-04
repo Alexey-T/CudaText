@@ -656,23 +656,23 @@ Option buttons have hotkeys too. Hover mouse over them to see floating tooltips 
 * "+" - Toggle multi-line mode for both dialog input fields (to add a newline in multi-line fields, press Ctrl+Enter) - Alt+M
 * "?!" - Show confirmation on each replace - Alt+Y
 * "*" - Choose allowed syntax elements: Any / Only comments / Only strings / Only comments+strings / etc. This feature must be supported by lexer (and some lexers are limited, support only "comments" or only "strings" syntax elements). Syntax element is detected from left edge position of a found match.
-* "Hi" - Find and highlight all matches for the current search options. Matches are highlighted in the current editor, with the rounded borders, using the color of "SeparLine" syntax theme item. This highlight is updated on changing the "find what" text, so it is incremental. Editor auto-scrolls to the first found match (pretty much like ST3 editor).
+* "Hi" - Find and highlight all matches for the current search options. Matches are highlighted in the current editor, with the rounded borders, using the color of "SeparLine" syntax theme item. This highlight is updated on changing the "find what" text, so it is incremental. Editor auto-scrolls to the first found match (pretty much like ST3 editor). The limitation of this feature: a highlighted match has the single font color for the entire match, so if a match lays over several syntax tokens (e.g. number, dot, normal word), the entire match will have the single font color anyway.
 
 Action buttons in dialog:
 
-Button "First". Starts the search from document beginning, ignoring the caret position.
+* Button "First". Starts the search from document beginning, ignoring the caret position.
 
-Button "Next". Finds next match, ie continues search forward. 
+* Button "Next". Finds next match, ie continues search forward. 
 
-Button "Prev". Finds previous match, ie continues search backward. 
+* Button "Prev". Finds previous match, ie continues search backward. 
 
-Button "Extract". It's enabled only with RegEx option. Finds all matches, all found matches are put to an internal  list, list is sorted, duplicates are discarded, and list is put to a new document. Plugin "Extract Strings" does the same task but using the Python RegEx engine.
+* Button "Extract". It's enabled only with RegEx option. Finds all matches, all found matches are put to an internal  list, list is sorted, duplicates are discarded, and list is put to a new document. Plugin "Extract Strings" does the same task but using the Python RegEx engine.
 
-Button "Select". Finds all matches in a document and places multi-seletions on them.
+* Button "Select". Finds all matches in a document and places multi-seletions on them.
 
-Button "Mark". Finds all matches in a document and places [[#Markers]] on them.
+* Button "Mark". Finds all matches in a document and places [[#Markers]] on them.
 
-Button "Replace global". Performs replacement in all opened documents in all editor groups. After showing the additional confirmation. 
+* Button "Replace global". Performs replacement in all opened documents in all editor groups. After showing the additional confirmation. 
 
 ===Text searcher features===
 
