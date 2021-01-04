@@ -1191,24 +1191,15 @@ begin
     end;
   end;
 
-  with chkRegex do
-    Hint:= _MakeHint(msgFindHint_Regex, UiOps.HotkeyToggleRegex);
-  with chkCase do
-    Hint:= _MakeHint(msgFindHint_Case, UiOps.HotkeyToggleCaseSens);
-  with chkWords do
-    Hint:= _MakeHint(msgFindHint_Words, UiOps.HotkeyToggleWords);
-  with chkWrap do
-    Hint:= _MakeHint(msgFindHint_Wrapped, UiOps.HotkeyToggleWrapped);
-  with chkConfirm do
-    Hint:= _MakeHint(msgFindHint_ConfirmRep, UiOps.HotkeyToggleConfirmRep);
-  with chkInSel do
-    Hint:= _MakeHint(msgFindHint_InSelect, UiOps.HotkeyToggleInSelect);
-  with chkMulLine do
-    Hint:= _MakeHint(msgFindHint_MultiLine, UiOps.HotkeyToggleMultiline);
-  with bTokens do
-    Hint:= _MakeHint(msgFindHint_Tokens, UiOps.HotkeyToggleTokens);
-  with chkHiAll do
-    Hint:= _MakeHint(msgFindHint_HiAll, UiOps.HotkeyToggleHiAll);
+  chkRegex.Hint:= _MakeHint(msgFindHint_Regex, UiOps.HotkeyToggleRegex);
+  chkCase.Hint:= _MakeHint(msgFindHint_Case, UiOps.HotkeyToggleCaseSens);
+  chkWords.Hint:= _MakeHint(msgFindHint_Words, UiOps.HotkeyToggleWords);
+  chkWrap.Hint:= _MakeHint(msgFindHint_Wrapped, UiOps.HotkeyToggleWrapped);
+  chkConfirm.Hint:= _MakeHint(msgFindHint_ConfirmRep, UiOps.HotkeyToggleConfirmRep);
+  chkInSel.Hint:= _MakeHint(msgFindHint_InSelect, UiOps.HotkeyToggleInSelect);
+  chkMulLine.Hint:= _MakeHint(msgFindHint_MultiLine, UiOps.HotkeyToggleMultiline);
+  bTokens.Hint:= _MakeHint(msgFindHint_Tokens, UiOps.HotkeyToggleTokens);
+  chkHiAll.Hint:= _MakeHint(msgFindHint_HiAll, UiOps.HotkeyToggleHiAll);
 
   bFindFirst.AutoSize:= true;
   bFindNext.AutoSize:= true;
