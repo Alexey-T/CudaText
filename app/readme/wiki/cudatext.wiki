@@ -276,6 +276,265 @@ http://sourceforge.net/projects/synwrite-addons/files/Lexers/
 
 These zip packages can be installed in CudaText: open any zip file via "File / Open" and confirm installation.
 
+=== List of lexers ===
+
+The following lexers (counting only important ones) exist for SynWrite and CudaText.
+Most of them are located in Addons Manager "Install" list.
+
+* ABAP
+* Abaqus Keywords
+* ABC Notation
+* ActionScript
+* Acu Cobol
+* Ada
+* Apache config
+* Apache Hive
+* Apache Pig
+* AppleScript
+* Arduino
+* AsciiDoc
+* Assembly
+* Assembly ARM
+* Assembly AVR
+* Assembly FASM
+* Assembly JWASM
+* Assembly MASM x86
+* Assembly MIPS
+* Assembly Motorola 68k
+* Assembly NASM x86
+* Assembly PowerPC
+* Assembly RISC-V
+* Assembly SHARC DSP
+* Assembly SPARC
+* Assembly Z80 SjASM
+* Assembly Z80 RGBDS
+* Asymptote
+* Autoconf M4
+* AutoHotkey
+* AutoIt
+* Automake
+* AviSynth
+* AWK
+* Ballerina
+* Bash script
+* Batch files
+* BibTeX
+* Bitsquid SJSON
+* Bohemia SQF
+* Boo
+* Brainfuck
+* C
+* C#
+* C++
+* Caffe Prototxt
+* Caml
+* Clarion
+* Clavier
+* Clipper
+* Clojure
+* CMake
+* Cobol
+* CodeVisionAVR
+* CoffeeScript
+* ColdFusion
+* CRF files
+* CSS
+* CUDA C++
+* D
+* Dart
+* Delphi resources
+* Dhall
+* Diff
+* Dockerfile
+* Eiffel
+* Elixir
+* Elm
+* Erlang
+* etlua Template
+* Euphoria
+* F#
+* Factor
+* Falcon
+* Fish
+* Forth
+* Fortran
+* FoxPro
+* FreeBASIC
+* GAMS
+* GDScript
+* Gherkin (Cucumber; Behat)
+* GHS.com MULTI IDE (3 lexers)
+* GLSL
+* Gnuplot
+* Go
+* Gold Parser
+* Graphviz DOT
+* GraphQL
+* Great Cow Basic
+* Groovy (Gradle)
+* Grub4Dos
+* Haml
+* Harbour
+* Haskell
+* Haxe
+* HJSON
+* HLSL
+* HTML
+* HTML Diafan
+* HTML Django DTL
+* HTML Embedded JS
+* HTML Handlebars
+* HTML Laravel Blade
+* HTML Liquid
+* HTML Mustache
+* HTML Ruby-ERB
+* HTML Smarty
+* IDL files
+* IDL language
+* Informix 4GL
+* Ini files
+* Inno Setup
+* Intel HEX
+* Jade
+* Jasmine JVM Assembler
+* Java
+* Java Velocity
+* JavaScript
+* JavaScript Babel/ React JSX
+* JCL
+* Jinja2
+* JQ
+* JSON
+* Jsonnet
+* Julia
+* Kivy
+* KiXtart
+* Kontakt Script Processor (KSP)
+* Kotlin
+* LaTeX
+* LESS
+* Lisp
+* LiveCode script
+* Log files
+* Logstash DSL
+* Lola-2
+* LS-DYNA
+* Lua
+* Macro Scheduler script
+* Makefile
+* Markdown
+* MATLAB
+* MediaWiki
+* Metafont
+* MIB files
+* MikroTik Script
+* MiniZinc
+* Modelica
+* Modula 2
+* Monkey
+* MSVS Solution
+* MySQL
+* Nemerle
+* NFO files
+* Nginx
+* Nim
+* Nix
+* nnCron
+* NSIS
+* NSL Assembler
+* Oberon
+* Objective-C
+* OpenCL
+* OpenEdge
+* OpenSCAD
+* Org-mode
+* Papyrus (for Skyrim game)
+* Parser3
+* Pascal
+* Pawn
+* PECmd script
+* Perl
+* PHP
+* PICL
+* Pike
+* PKGBUILD
+* PL/SQL
+* PlantUML
+* Pony
+* PostScript
+* Power Query M
+* PowerShell
+* Prolog
+* Properties
+* Pug
+* Puppet
+* PyMOL
+* Python
+* R
+* R Markdown
+* Racket
+* Rainmeter
+* Ragel
+* Raku (Perl 6)
+* Razor
+* reStructuredText
+* RON
+* RPG/IV
+* RTF (RichText)
+* Ruby
+* Rust
+* Sass
+* Scala
+* Scheme
+* Scilab
+* SCSS
+* SFZ Format
+* Singularity
+* Slim
+* Smalltalk
+* Snowflake SQL
+* Solidity (Ethereum)
+* Specman
+* SPICE (PSpice, HSPICE)
+* SPIR
+* SQL
+* Squirrel
+* SRT Subtitles
+* Standard ML
+* Stata
+* Strace
+* Stylus
+* Swift
+* T-SQL
+* TAGML
+* TakeCommand
+* Tcl/Tk
+* Textile
+* TOML
+* Tree
+* Twig
+* TypeScript
+* V
+* Vala
+* VBScript
+* Verilog HDL
+* VHDL
+* VimL (Vimscript)
+* Virgil
+* Visual Basic
+* Visual dBase
+* Vue
+* WikidPad
+* WinBuilder script
+* Windows Resource Script
+* WSH script
+* XML
+* XSLT
+* Yacc (Bison)
+* YAML 
+* ZenScript (MineTweaker)
+* Zephir
+
 === Lexers editing ===
 
 You can modify/create lexers. But not in CudaText. Install SynWrite (needed Wine on Linux) and in it you have lexer editor dialog.
