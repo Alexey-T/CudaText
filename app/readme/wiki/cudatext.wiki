@@ -848,6 +848,10 @@ so you need to write to the "user.json" option "pylib__mac" by hands. Example:
 
    "pylib__mac": "/usr/local/Cellar/python@3.9/3.9.1_3/Frameworks/Python.framework/Versions/3.9/lib/libpython3.9.dylib",
 
+If you use "virtualenv" from Anaconda with isolated Python, CudaText cannot detect it, so you need to write to the "user.json" option "pylib__mac" by hands. Example:
+
+   "pylib__mac": "/miniconda2/envs/py3/lib/libpython3.7m.dylib",
+
 Note: Please remember to change your version in the variable string to match the version you have installed.
 
 ==Line states==
