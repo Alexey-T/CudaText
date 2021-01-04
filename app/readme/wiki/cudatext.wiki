@@ -843,9 +843,12 @@ On macOS you must install Python 3, from official site python.org. Versions 3.6.
 
    "pylib__mac": "/Library/Frameworks/Python.framework/Versions/3.5/lib/libpython3.5.dylib",
 
-If you use "virtualenv" from "conda" with isolated Python, CudaText cannot detect it, so you need to write to the user.json option "pylib__mac" by hands. Example:
+If you use Homebrew to install Python on MacOS, CudaText cannot detect it,
+so you need to write to the "user.json" option "pylib__mac" by hands. Example:
 
-   "pylib__mac": "/miniconda2/envs/py3/lib/libpython3.7m.dylib",
+   "pylib__mac": "/usr/local/Cellar/python@3.9/3.9.1_3/Frameworks/Python.framework/Versions/3.9/lib/libpython3.9.dylib",
+
+Note: Please remember to change your version in the variable string to match the version you have installed.
 
 ==Line states==
 
