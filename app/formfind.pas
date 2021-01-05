@@ -879,24 +879,20 @@ begin
     BtnSize(bFindNext)+
     BtnSize(bFindPrev)+
     BtnSize(bMore);
+
   Size2:=
     BtnSize(bRep)+
     BtnSize(bRepAll)+
     BtnSize(bRepGlobal);
+  if not IsReplace then
+    Size2:= 0;
 
   if LabelFind.Visible then
     edFind.Left:= Max(LabelFind.Width, LabelRep.Width)+cPadding
   else
     edFind.Left:= cPadding;
 
-  edFind.Width:= Max(45,
-    ClientWidth
-    - edFind.Left
-    - Max(Size1, Size2)
-    - IfThen(not IsNarrow, PanelOps.Width)
-    - 12
-    );
-  edRep.Width:= edFind.Width;
+  PanelBtn.Width:= Max(Size1, Size2);
 
   PanelTopOps.Left:= edFind.Left;
 end;
@@ -1097,9 +1093,6 @@ begin
   LabelRep.Visible:= IsReplace;
   PanelBtnRep.Visible:= IsReplace;
   chkConfirm.Enabled:= IsReplace;
-  //bCount.Enabled:= not IsReplace;
-  //bSelectAll.Enabled:= not IsReplace;
-  //bMarkAll.Enabled:= not IsReplace;
 
   bFindFirst.Enabled:= true;
   bFindNext.Enabled:= true;
@@ -1124,7 +1117,6 @@ begin
   bFindPrev.Visible:= UiOps.FindShow_FindPrev;
   bRepAll.Visible:= UiOps.FindShow_ReplaceAll;
   bRepGlobal.Visible:= UiOps.FindShow_ReplaceGlobal;
-  ControlAutosizeOnlyByWidth(PanelBtn);
 
   chkWrap.Visible:= UiOps.FindShow_Wrapped;
   chkInSel.Visible:= UiOps.FindShow_InSel;
@@ -1148,6 +1140,7 @@ begin
 
   UpdateButtonBold;
   UpdateFormHeight;
+  FormResize(nil);
 
   UpdateRegexHighlight;
 

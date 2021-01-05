@@ -159,7 +159,7 @@ object fmFind: TfmFind
       Left = 80
       Height = 25
       Top = 4
-      Width = 202
+      Width = 458
       Anchors = [akTop, akLeft, akRight]
       DoubleBuffered = True
       Font.Height = -12
@@ -206,7 +206,7 @@ object fmFind: TfmFind
       Left = 80
       Height = 25
       Top = 33
-      Width = 202
+      Width = 458
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 4
       DoubleBuffered = True
@@ -248,10 +248,10 @@ object fmFind: TfmFind
       AnchorSideLeft.Side = asrBottom
       AnchorSideRight.Control = PanelAll
       AnchorSideRight.Side = asrBottom
-      Left = 288
+      Left = 544
       Height = 25
       Top = 4
-      Width = 630
+      Width = 374
       Anchors = [akTop, akRight]
       BorderSpacing.Left = 6
       BorderSpacing.Right = 6
@@ -305,10 +305,10 @@ object fmFind: TfmFind
       AnchorSideTop.Control = edRep
       AnchorSideRight.Control = PanelBtn
       AnchorSideRight.Side = asrBottom
-      Left = 288
+      Left = 544
       Height = 25
       Top = 33
-      Width = 630
+      Width = 374
       Anchors = [akTop, akLeft, akRight]
       object bRep: TATButton
         Left = 0
@@ -327,7 +327,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
-        Caption = 'Replace all'
+        Caption = 'Rep all'
         TabStop = True
         TabOrder = 1
         OnClick = bRepAllClick
@@ -338,7 +338,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
-        Caption = 'Replace global'
+        Caption = 'Rep global'
         TabStop = True
         TabOrder = 2
         OnClick = bRepGlobalClick

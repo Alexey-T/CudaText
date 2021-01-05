@@ -41,7 +41,7 @@ procedure RectSetFromString(var R: TRect; const S: string; AOnlySize: boolean);
 
 procedure FormLock(Ctl: TForm);
 procedure FormUnlock(Ctl: TForm);
-procedure ControlAutosizeOnlyByWidth(C: TWinControl);
+//procedure ControlAutosizeOnlyByWidth(C: TWinControl);
 
 procedure FormHistorySave(F: TForm; const AConfigPath: string; AWithPos: boolean);
 procedure FormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean);
@@ -938,6 +938,7 @@ begin
   {$endif}
 end;
 
+{
 procedure ControlAutosizeOnlyByWidth(C: TWinControl);
 var
   N, i: integer;
@@ -948,6 +949,7 @@ begin
       Inc(N, C.Controls[i].Width);
   C.Width:= N;
 end;
+}
 
 function Canvas_TextMultilineExtent(C: TCanvas; const AText: string): TPoint;
 var
