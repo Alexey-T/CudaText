@@ -1184,6 +1184,9 @@ begin
       msgFindHint_FindFirst:= ini.ReadString(section, 'h_f1', msgFindHint_FindFirst);
       msgFindHint_FindNext:= ini.ReadString(section, 'h_fn', msgFindHint_FindNext);
       msgFindHint_FindPrev:= ini.ReadString(section, 'h_fp', msgFindHint_FindPrev);
+      msgFindHint_Rep:= ini.ReadString(section, 'h_r', msgFindHint_Rep);
+      msgFindHint_RepAll:= ini.ReadString(section, 'h_r_a', msgFindHint_RepAll);
+      msgFindHint_RepGlobal:= ini.ReadString(section, 'h_r_g', msgFindHint_RepGlobal);
       msgFindHint_Regex:= ini.ReadString(section, 'h_re', msgFindHint_Regex);
       msgFindHint_Case:= ini.ReadString(section, 'h_ca', msgFindHint_Case);
       msgFindHint_Words:= ini.ReadString(section, 'h_wo', msgFindHint_Words);
@@ -1212,6 +1215,11 @@ begin
   bFindFirst.Hint:= _MakeHint(msgFindHint_FindFirst, UiOps.HotkeyFindFirst);
   bFindNext.Hint:= _MakeHint(msgFindHint_FindNext, UiOps.HotkeyFindNext);
   bFindPrev.Hint:= _MakeHint(msgFindHint_FindPrev, UiOps.HotkeyFindPrev);
+
+  bRep.Hint:= _MakeHint(msgFindHint_Rep, UiOps.HotkeyReplaceAndFindNext);
+  bRepAll.Hint:= _MakeHint(msgFindHint_RepAll, UiOps.HotkeyReplaceAll);
+  bRepGlobal.Hint:= _MakeHint(msgFindHint_RepGlobal, UiOps.HotkeyReplaceGlobal);
+
   chkRegex.Hint:= _MakeHint(msgFindHint_Regex, UiOps.HotkeyToggleRegex);
   chkCase.Hint:= _MakeHint(msgFindHint_Case, UiOps.HotkeyToggleCaseSens);
   chkWords.Hint:= _MakeHint(msgFindHint_Words, UiOps.HotkeyToggleWords);

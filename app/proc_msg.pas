@@ -380,6 +380,9 @@ const
   msgFindHint_FindFirst: string = 'Find first';
   msgFindHint_FindNext: string = 'Find next';
   msgFindHint_FindPrev: string = 'Find previous';
+  msgFindHint_Rep: string = 'Replace next match';
+  msgFindHint_RepAll: string = 'Replace all matches in current document';
+  msgFindHint_RepGlobal: string = 'Replace all matches in all opened tabs';
   msgFindHint_Regex: string = 'Regular expressions';
   msgFindHint_Case: string = 'Case sensitive';
   msgFindHint_Words: string = 'Whole words';
