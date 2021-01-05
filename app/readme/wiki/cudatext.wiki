@@ -931,9 +931,9 @@ Action buttons in dialog:
 ** "Select all". Finds all matches in a document and places multi-seletions on them.
 ** "Mark all". Finds all matches in a document and places [[#Markers]] on them.
 
-* Button "Replace all". Performs replacement of all matches in the current document.
+* Button "Rep all". Performs replacement of all matches in the current document.
 
-* Button "Replace global". Performs replacement of all matches in all opened documents in all editor groups. After showing the additional confirmation.
+* Button "Rep global". Performs replacement of all matches in all opened documents in all editor groups. After showing the additional confirmation.
 
 ===Text searcher features===
 
