@@ -474,7 +474,7 @@ begin
     IsReplace:= AReplaceMode;
 
     MsgLogDebug('find dlg: update state');
-    UpdateState;
+    UpdateState(true);
     MsgLogDebug('find dlg: show');
     Show;
     MsgLogDebug('find dlg: focus');
@@ -942,7 +942,7 @@ begin
           if Assigned(fmFind) then
           begin
             fmFind.UpdateInputFind(UTF8Decode(SValue));
-            fmFind.UpdateState;
+            fmFind.UpdateState(false);
             fmFind.DoOnChange;
           end;
         end;
@@ -952,7 +952,7 @@ begin
           if Assigned(fmFind) then
           begin
             fmFind.UpdateInputReplace(UTF8Decode(SValue));
-            fmFind.UpdateState;
+            fmFind.UpdateState(false);
             fmFind.DoOnChange;
           end;
         end;
@@ -1009,7 +1009,7 @@ begin
           if Assigned(fmFind) then
           begin
             fmFind.chkCase.Checked:= AppStrToBool(SValue);
-            fmFind.UpdateState;
+            fmFind.UpdateState(false);
             fmFind.DoOnChange;
           end;
         end;
@@ -1018,7 +1018,7 @@ begin
           if Assigned(fmFind) then
           begin
             fmFind.chkWords.Checked:= AppStrToBool(SValue);
-            fmFind.UpdateState;
+            fmFind.UpdateState(false);
             fmFind.DoOnChange;
           end;
         end;
@@ -1027,7 +1027,7 @@ begin
           if Assigned(fmFind) then
           begin
             fmFind.chkRegex.Checked:= AppStrToBool(SValue);
-            fmFind.UpdateState;
+            fmFind.UpdateState(false);
             fmFind.DoOnChange;
           end;
         end;
@@ -1036,7 +1036,7 @@ begin
           if Assigned(fmFind) then
           begin
             fmFind.chkConfirm.Checked:= AppStrToBool(SValue);
-            fmFind.UpdateState;
+            fmFind.UpdateState(false);
             fmFind.DoOnChange;
           end;
         end;
@@ -1045,7 +1045,7 @@ begin
           if Assigned(fmFind) then
           begin
             fmFind.chkInSel.Checked:= AppStrToBool(SValue);
-            fmFind.UpdateState;
+            fmFind.UpdateState(false);
             fmFind.DoOnChange;
           end;
         end;
@@ -1054,7 +1054,7 @@ begin
           if Assigned(fmFind) then
           begin
             fmFind.chkWrap.Checked:= AppStrToBool(SValue);
-            fmFind.UpdateState;
+            fmFind.UpdateState(false);
             fmFind.DoOnChange;
           end;
         end;

@@ -194,7 +194,7 @@ type
     procedure SetReplace(AValue: boolean);
     procedure UpdateButtonBold;
     procedure UpdateRegexHighlight;
-    procedure UpdateHiAll;
+    procedure UpdateHiAll(AMoveCaret: boolean);
   public
     { public declarations }
     FCaptionFind,
@@ -203,7 +203,7 @@ type
     procedure Localize;
     procedure DoOnChange;
     procedure UpdateFormHeight;
-    procedure UpdateState;
+    procedure UpdateState(AMoveCaret: boolean);
     procedure UpdateFonts;
     procedure UpdateFocus(AFindMode: boolean);
     procedure UpdateInputFind(const AText: UnicodeString);
@@ -276,7 +276,7 @@ procedure TfmFind.chkRegexClick(Sender: TObject);
 begin
   with chkRegex do
     Checked:= not Checked;
-  UpdateState;
+  UpdateState(true);
   DoOnChange;
 end;
 
@@ -405,7 +405,7 @@ end;
 
 procedure TfmFind.bTokensClick(Sender: TObject);
 begin
-  UpdateState;
+  UpdateState(true);
   DoOnChange;
 end;
 
@@ -413,7 +413,7 @@ procedure TfmFind.chkCaseClick(Sender: TObject);
 begin
   with chkCase do
     Checked:= not Checked;
-  UpdateState;
+  UpdateState(true);
   DoOnChange;
 end;
 
@@ -421,7 +421,7 @@ procedure TfmFind.chkConfirmClick(Sender: TObject);
 begin
   with chkConfirm do
     Checked:= not Checked;
-  UpdateState;
+  UpdateState(false);
   DoOnChange;
 end;
 
@@ -429,7 +429,7 @@ procedure TfmFind.chkHiAllClick(Sender: TObject);
 begin
   with chkHiAll do
     Checked:= not Checked;
-  UpdateState;
+  UpdateState(true);
   DoOnChange;
 end;
 
@@ -437,7 +437,7 @@ procedure TfmFind.chkInSelClick(Sender: TObject);
 begin
   with chkInSel do
     Checked:= not Checked;
-  UpdateState;
+  UpdateState(true);
   DoOnChange;
 end;
 
@@ -449,7 +449,7 @@ end;
 
 procedure TfmFind.chkRepChange(Sender: TObject);
 begin
-  UpdateState;
+  UpdateState(false);
 end;
 
 procedure TfmFind.bFindFirstClick(Sender: TObject);
@@ -459,14 +459,14 @@ end;
 
 procedure TfmFind.chkRepClick(Sender: TObject);
 begin
-  UpdateState;
+  UpdateState(false);
 end;
 
 procedure TfmFind.chkWordsClick(Sender: TObject);
 begin
   with chkWords do
     Checked:= not Checked;
-  UpdateState;
+  UpdateState(true);
   DoOnChange;
 end;
 
@@ -474,13 +474,13 @@ procedure TfmFind.chkWrapClick(Sender: TObject);
 begin
   with chkWrap do
     Checked:= not Checked;
-  UpdateState;
+  UpdateState(false);
   DoOnChange;
 end;
 
 procedure TfmFind.edFindChange(Sender: TObject);
 begin
-  UpdateState;
+  UpdateState(true);
   if AdapterActive then
     EditorHighlightBadRegexBrackets(edFind, false);
 end;
@@ -715,7 +715,7 @@ begin
     else
     begin
       IsReplace:= false;
-      UpdateState;
+      UpdateState(true);
     end;
     key:= 0;
     exit;
@@ -728,7 +728,7 @@ begin
     else
     begin
       IsReplace:= true;
-      UpdateState;
+      UpdateState(true);
     end;
     key:= 0;
     exit;
@@ -737,7 +737,7 @@ begin
   if Str=UiOps.HotkeyToggleRegex then
   begin
     chkRegexClick(Self);
-    UpdateState;
+    UpdateState(true);
     key:= 0;
     exit
   end;
@@ -745,7 +745,7 @@ begin
   if Str=UiOps.HotkeyToggleCaseSens then
   begin
     chkCaseClick(Self);
-    UpdateState;
+    UpdateState(true);
     key:= 0;
     exit
   end;
@@ -753,7 +753,7 @@ begin
   if Str=UiOps.HotkeyToggleWords then
   begin
     chkWordsClick(Self);
-    UpdateState;
+    UpdateState(true);
     key:= 0;
     exit
   end;
@@ -761,7 +761,7 @@ begin
   if Str=UiOps.HotkeyToggleConfirmRep then
   begin
     chkConfirmClick(Self);
-    UpdateState;
+    UpdateState(false);
     key:= 0;
     exit
   end;
@@ -769,7 +769,7 @@ begin
   if Str=UiOps.HotkeyToggleWrapped then
   begin
     chkWrapClick(Self);
-    UpdateState;
+    UpdateState(false);
     key:= 0;
     exit
   end;
@@ -777,7 +777,7 @@ begin
   if Str=UiOps.HotkeyToggleInSelect then
   begin
     chkInSelClick(Self);
-    UpdateState;
+    UpdateState(true);
     key:= 0;
     exit
   end;
@@ -785,7 +785,7 @@ begin
   if Str=UiOps.HotkeyToggleTokens then
   begin
     bTokens.Click;
-    UpdateState;
+    UpdateState(true);
     key:= 0;
     exit
   end;
@@ -793,7 +793,7 @@ begin
   if Str=UiOps.HotkeyToggleHiAll then
   begin
     chkHiAll.Click;
-    UpdateState;
+    UpdateState(true);
     key:= 0;
     exit
   end;
@@ -801,7 +801,7 @@ begin
   if Str=UiOps.HotkeyToggleMultiline then
   begin
     chkMulLineClick(Self);
-    UpdateState;
+    UpdateState(false);
     key:= 0;
     exit
   end;
@@ -809,7 +809,7 @@ begin
   if (Str=UiOps.HotkeyReplaceAll) and IsReplace then
   begin
     bRepAllClick(Self);
-    UpdateState;
+    UpdateState(false);
     key:= 0;
     exit
   end;
@@ -817,7 +817,7 @@ begin
   if (Str=UiOps.HotkeyReplaceGlobal) and IsReplace then
   begin
     bRepGlobalClick(Self);
-    UpdateState;
+    UpdateState(false);
     key:= 0;
     exit
   end;
@@ -825,7 +825,7 @@ begin
   if Str=UiOps.HotkeyCountAll then
   begin
     bCountClick(Self);
-    UpdateState;
+    UpdateState(false);
     key:= 0;
     exit
   end;
@@ -833,7 +833,7 @@ begin
   if (Str=UiOps.HotkeyExtractAll) and chkRegex.Checked then
   begin
     bExtractClick(Self);
-    UpdateState;
+    UpdateState(false);
     key:= 0;
     exit
   end;
@@ -841,7 +841,7 @@ begin
   if Str=UiOps.HotkeySelectAll then
   begin
     bSelectAllClick(Self);
-    UpdateState;
+    UpdateState(false);
     key:= 0;
     exit
   end;
@@ -849,7 +849,7 @@ begin
   if Str=UiOps.HotkeyMarkAll then
   begin
     bMarkAllClick(Self);
-    UpdateState;
+    UpdateState(false);
     key:= 0;
     exit
   end;
@@ -902,11 +902,11 @@ begin
   if Assigned(FOnResult) then
     FOnResult(Self, Str);
 
-  if Str<>afoCloseDlg then
+  if (Str<>afoCloseDlg) then
   begin
     edFind.DoAddLineToHistory(edFind.Text, UiOps.MaxHistoryEdits);
     edRep.DoAddLineToHistory(edRep.Text, UiOps.MaxHistoryEdits);
-    UpdateState;
+    UpdateState(false);
   end;
 end;
 
@@ -966,7 +966,7 @@ begin
   edFind.Height:= NSizeY;
   edRep.Height:= NSizeY;
 
-  UpdateState;
+  UpdateState(false);
 end;
 
 procedure TfmFind.SetNarrow(AValue: boolean);
@@ -1001,7 +1001,7 @@ begin
     if edFind.CanFocus then
       edFind.SetFocus;
 
-  UpdateState;
+  UpdateState(false);
 end;
 
 procedure TfmFind.UpdateFormHeight;
@@ -1055,7 +1055,7 @@ begin
 end;
 
 
-procedure TfmFind.UpdateState;
+procedure TfmFind.UpdateState(AMoveCaret: boolean);
 var
   Ed: TATSynEdit;
 begin
@@ -1116,7 +1116,7 @@ begin
 
   UpdateRegexHighlight;
 
-  UpdateHiAll;
+  UpdateHiAll(AMoveCaret);
 end;
 
 procedure TfmFind.UpdateRegexHighlight;
@@ -1248,7 +1248,7 @@ begin
     FOnFocusEditor(nil);
 end;
 
-procedure TfmFind.UpdateHiAll;
+procedure TfmFind.UpdateHiAll(AMoveCaret: boolean);
 var
   Finder: TATEditorFinder;
   NMatches: integer;
@@ -1274,7 +1274,7 @@ begin
       Finder.OptTokens:= TATFinderTokensAllowed(bTokens.ItemIndex);
       Finder.OptWrapped:= false;
       Finder.OnGetToken:= FOnGetToken;
-      EditorHighlightAllMatches(Finder, NMatches);
+      EditorHighlightAllMatches(Finder, AMoveCaret, NMatches);
       if Assigned(FOnShowMatchesCount) then
         FOnShowMatchesCount(NMatches);
     finally

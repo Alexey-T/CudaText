@@ -146,7 +146,7 @@ begin
 
   //apply "Highlight all matches" on focusing new tab
   if Assigned(fmFind) and fmFind.Visible then
-    fmFind.UpdateState;
+    fmFind.UpdateState(true);
 end;
 
 procedure TfmMain.UpdateTabsActiveColor(F: TEditorFrame);
