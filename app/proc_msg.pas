@@ -375,6 +375,9 @@ const
   msgConsoleToggleWrap: string = 'Toggle word wrap';
   msgConsoleNavigate: string = 'Navigate';
 
+  msgFindHint_FindFirst: string = 'Find first';
+  msgFindHint_FindNext: string = 'Find next';
+  msgFindHint_FindPrev: string = 'Find previous';
   msgFindHint_Regex: string = 'Regular expressions';
   msgFindHint_Case: string = 'Case sensitive';
   msgFindHint_Words: string = 'Whole words';

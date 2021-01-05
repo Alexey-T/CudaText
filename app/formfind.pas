@@ -1219,6 +1219,9 @@ begin
       with LabelFind do Caption:= ini.ReadString(section, 'f_tx', Caption);
       with LabelRep do Caption:= ini.ReadString(section, 'r_tx', Caption);
 
+      msgFindHint_FindFirst:= ini.ReadString(section, 'h_f1', msgFindHint_FindFirst);
+      msgFindHint_FindNext:= ini.ReadString(section, 'h_fn', msgFindHint_FindNext);
+      msgFindHint_FindPrev:= ini.ReadString(section, 'h_fp', msgFindHint_FindPrev);
       msgFindHint_Regex:= ini.ReadString(section, 'h_re', msgFindHint_Regex);
       msgFindHint_Case:= ini.ReadString(section, 'h_ca', msgFindHint_Case);
       msgFindHint_Words:= ini.ReadString(section, 'h_wo', msgFindHint_Words);
@@ -1244,6 +1247,9 @@ begin
     end;
   end;
 
+  bFindFirst.Hint:= _MakeHint(msgFindHint_FindFirst, UiOps.HotkeyFindFirst);
+  bFindNext.Hint:= _MakeHint(msgFindHint_FindNext, UiOps.HotkeyFindNext);
+  bFindPrev.Hint:= _MakeHint(msgFindHint_FindPrev, UiOps.HotkeyFindPrev);
   chkRegex.Hint:= _MakeHint(msgFindHint_Regex, UiOps.HotkeyToggleRegex);
   chkCase.Hint:= _MakeHint(msgFindHint_Case, UiOps.HotkeyToggleCaseSens);
   chkWords.Hint:= _MakeHint(msgFindHint_Words, UiOps.HotkeyToggleWords);
