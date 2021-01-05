@@ -40,7 +40,7 @@ mkdir $dd/usr/share/cudatext/py/sys
 mkdir $dd/usr/share/pixmaps
 mkdir $dd/usr/share/applications
 
-cp ../app/cudatext $dd/usr/bin
+cp ../app/builds/linux-x64-gtk2/cudatext $dd/usr/bin
 cp debfiles/cudatext.desktop $dd/usr/share/applications
 cp debfiles/cudatext-512.png $dd/usr/share/pixmaps
 cp -r ../app/data $dd/usr/share/cudatext
