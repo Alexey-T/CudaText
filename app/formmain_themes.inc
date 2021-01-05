@@ -146,7 +146,6 @@ begin
   if assigned(fmFind) then
   begin
     fmFind.Color:= GetAppColor(apclTabBg);
-    fmFind.LabelFind.Font.Color:= GetAppColor(apclListFont);
     EditorApplyTheme(fmFind.edFind);
     EditorApplyTheme(fmFind.edRep);
     fmFind.Invalidate;

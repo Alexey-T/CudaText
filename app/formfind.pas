@@ -119,8 +119,6 @@ type
     chkWrap: TATButton;
     edFind: TATComboEdit;
     edRep: TATComboEdit;
-    LabelFind: TLabel;
-    LabelRep: TLabel;
     PanelAll: TATPanelSimple;
     PanelBtn: TATPanelSimple;
     PanelBtnRep: TATPanelSimple;
@@ -594,14 +592,6 @@ end;
 
 procedure TfmFind.UpdateFonts;
 begin
-  with LabelFind do
-  begin
-    Font.Name:= UiOps.VarFontName;
-    Font.Size:= AppScaleFont(UiOps.VarFontSize);
-    Font.Color:= GetAppColor(apclTabFont);
-  end;
-  LabelRep.Font.Assign(LabelFind.Font);
-
   with edFind do
   begin
     Font.Name:= EditorOps.OpFontName;
@@ -887,13 +877,8 @@ begin
   if not IsReplace then
     Size2:= 0;
 
-  if LabelFind.Visible then
-    edFind.Left:= Max(LabelFind.Width, LabelRep.Width)+cPadding
-  else
-    edFind.Left:= cPadding;
-
+  edFind.Left:= cPadding;
   PanelBtn.Width:= Max(Size1, Size2);
-
   PanelTopOps.Left:= edFind.Left;
 end;
 
@@ -1067,13 +1052,6 @@ begin
 end;
 
 
-function _StripLastColon(const s: string): string;
-begin
-  Result:= s;
-  while SEndsWith(Result, ':') do
-    SetLength(Result, Length(Result)-1);
-end;
-
 procedure TfmFind.UpdateState;
 var
   Ed: TATSynEdit;
@@ -1090,7 +1068,6 @@ begin
   chkWords.Enabled:= not chkRegex.Checked and (edFind.Strings.Count<2); //disable "w" for multi-line input
   chkConfirm.Visible:= IsReplace or IsNarrow;
   edRep.Visible:= IsReplace;
-  LabelRep.Visible:= IsReplace;
   PanelBtnRep.Visible:= IsReplace;
   chkConfirm.Enabled:= IsReplace;
 
@@ -1125,18 +1102,10 @@ begin
   chkHiAll.Visible:= UiOps.FindShow_HiAll;
   ControlAutosizeOptionsByWidth;
 
-  LabelFind.Visible:= UiOps.FindShow_EditLabels;
-  LabelRep.Visible:= UiOps.FindShow_EditLabels;
-  if not LabelFind.Visible then
-  begin
-    edFind.Left:= cPadding;
-    edFind.OptTextHint:= _StripLastColon(LabelFind.Caption);
-  end;
-  if not LabelRep.Visible then
-  begin
-    edRep.Left:= cPadding;
-    edRep.OptTextHint:= _StripLastColon(LabelRep.Caption);
-  end;
+  edFind.Left:= cPadding;
+  edRep.Left:= cPadding;
+  edFind.OptTextHint:= msgFindHint_InputFind;
+  edRep.OptTextHint:= msgFindHint_InputRep;
 
   UpdateButtonBold;
   UpdateFormHeight;
@@ -1209,9 +1178,9 @@ begin
       with bRep do Caption:= ini.ReadString(section, 'r_c', Caption);
       with bRepAll do Caption:= ini.ReadString(section, 'r_a', Caption);
       with bRepGlobal do Caption:= ini.ReadString(section, 'r_gl', Caption);
-      with LabelFind do Caption:= ini.ReadString(section, 'f_tx', Caption);
-      with LabelRep do Caption:= ini.ReadString(section, 'r_tx', Caption);
 
+      msgFindHint_InputFind:= ini.ReadString(section, 'h_xf', msgFindHint_InputFind);
+      msgFindHint_InputRep:= ini.ReadString(section, 'h_xr', msgFindHint_InputRep);
       msgFindHint_FindFirst:= ini.ReadString(section, 'h_f1', msgFindHint_FindFirst);
       msgFindHint_FindNext:= ini.ReadString(section, 'h_fn', msgFindHint_FindNext);
       msgFindHint_FindPrev:= ini.ReadString(section, 'h_fp', msgFindHint_FindPrev);

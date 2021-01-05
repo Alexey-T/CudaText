@@ -2,12 +2,12 @@ object fmFind: TfmFind
   Left = 20
   Height = 148
   Top = 420
-  Width = 1176
+  Width = 963
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSizeToolWin
   Caption = 'Find/Replace'
   ClientHeight = 148
-  ClientWidth = 1176
+  ClientWidth = 963
   FormStyle = fsStayOnTop
   KeyPreview = True
   OnClose = FormClose
@@ -148,7 +148,7 @@ object fmFind: TfmFind
     Left = 252
     Height = 118
     Top = 30
-    Width = 924
+    Width = 711
     Align = alLeft
     Anchors = [akTop, akLeft, akRight, akBottom]
     object edFind: TATComboEdit
@@ -156,10 +156,10 @@ object fmFind: TfmFind
       AnchorSideRight.Control = PanelBtn
       AnchorSideBottom.Control = PanelBtn
       AnchorSideBottom.Side = asrBottom
-      Left = 80
+      Left = 0
       Height = 25
       Top = 4
-      Width = 458
+      Width = 325
       Anchors = [akTop, akLeft, akRight]
       DoubleBuffered = True
       Font.Height = -12
@@ -203,10 +203,10 @@ object fmFind: TfmFind
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = PanelBtnRep
       AnchorSideBottom.Side = asrBottom
-      Left = 80
+      Left = 0
       Height = 25
       Top = 33
-      Width = 458
+      Width = 325
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 4
       DoubleBuffered = True
@@ -248,7 +248,7 @@ object fmFind: TfmFind
       AnchorSideLeft.Side = asrBottom
       AnchorSideRight.Control = PanelAll
       AnchorSideRight.Side = asrBottom
-      Left = 544
+      Left = 331
       Height = 25
       Top = 4
       Width = 374
@@ -305,7 +305,7 @@ object fmFind: TfmFind
       AnchorSideTop.Control = edRep
       AnchorSideRight.Control = PanelBtn
       AnchorSideRight.Side = asrBottom
-      Left = 544
+      Left = 331
       Height = 25
       Top = 33
       Width = 374
@@ -344,40 +344,12 @@ object fmFind: TfmFind
         OnClick = bRepGlobalClick
       end
     end
-    object LabelFind: TLabel
-      AnchorSideLeft.Control = PanelAll
-      AnchorSideTop.Control = edFind
-      AnchorSideTop.Side = asrCenter
-      AnchorSideRight.Control = edFind
-      Left = 43
-      Height = 17
-      Top = 8
-      Width = 33
-      Anchors = [akTop, akRight]
-      BorderSpacing.Right = 4
-      Caption = 'Find:'
-      ParentColor = False
-    end
-    object LabelRep: TLabel
-      AnchorSideLeft.Control = LabelFind
-      AnchorSideTop.Control = edRep
-      AnchorSideTop.Side = asrCenter
-      AnchorSideRight.Control = edRep
-      Left = 19
-      Height = 17
-      Top = 37
-      Width = 57
-      Anchors = [akTop, akRight]
-      BorderSpacing.Right = 4
-      Caption = 'Replace:'
-      ParentColor = False
-    end
   end
   object PanelTop: TATPanelSimple
     Left = 0
     Height = 30
     Top = 0
-    Width = 1176
+    Width = 963
     Align = alTop
     object PanelTopOps: TATPanelSimple
       Left = 104

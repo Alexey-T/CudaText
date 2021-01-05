@@ -375,6 +375,8 @@ const
   msgConsoleToggleWrap: string = 'Toggle word wrap';
   msgConsoleNavigate: string = 'Navigate';
 
+  msgFindHint_InputFind: string = 'Find what';
+  msgFindHint_InputRep: string = 'Replace with';
   msgFindHint_FindFirst: string = 'Find first';
   msgFindHint_FindNext: string = 'Find next';
   msgFindHint_FindPrev: string = 'Find previous';
