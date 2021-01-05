@@ -261,7 +261,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
-        Caption = 'First'
+        Caption = '1st'
         TabStop = True
         TabOrder = 0
         OnClick = bFindFirstClick
@@ -272,7 +272,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
-        Caption = 'Next'
+        Caption = ' → '
         TabStop = True
         TabOrder = 1
         OnClick = bFindNextClick
@@ -305,7 +305,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
-        Caption = 'Prev'
+        Caption = ' ← '
         TabStop = True
         TabOrder = 2
         OnClick = bFindPrevClick

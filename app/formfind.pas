@@ -1154,8 +1154,8 @@ begin
       FCaptionFind:= ini.ReadString(section, '_f', FCaptionFind);
       FCaptionReplace:= ini.ReadString(section, '_r', FCaptionReplace);
       with bFindFirst do Caption:= ini.ReadString(section, 'f_f', Caption);
-      with bFindNext do Caption:= ini.ReadString(section, 'f_n', Caption);
-      with bFindPrev do Caption:= ini.ReadString(section, 'f_p', Caption);
+      //with bFindNext do Caption:= ini.ReadString(section, 'f_n', Caption);
+      //with bFindPrev do Caption:= ini.ReadString(section, 'f_p', Caption);
       with bCount do Caption:= ini.ReadString(section, 'cnt', Caption);
       with bExtract do Caption:= ini.ReadString(section, 'get', Caption);
       with bSelectAll do Caption:= ini.ReadString(section, 'sel', Caption);
