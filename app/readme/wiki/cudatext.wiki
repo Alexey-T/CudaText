@@ -919,11 +919,11 @@ Option buttons have hotkeys too. Hover mouse over them to see floating tooltips 
 
 Action buttons in dialog:
 
-* Button "First". Starts the search from document beginning, ignoring the caret position.
+* Button "1st". Starts the search from document beginning, ignoring the caret position.
 
-* Button "Next". Finds next match, ie continues search forward. 
+* Button " → ". Finds next match, ie continues search forward.
 
-* Button "Prev". Finds previous match, ie continues search backward. 
+* Button " ← ". Finds previous match, ie continues search backward.
 
 * Button "Extract". It's enabled only with RegEx option. Finds all matches, all found matches are put to an internal  list, list is sorted, duplicates are discarded, and list is put to a new document. Plugin "Extract Strings" does the same task but using the Python RegEx engine.
 
@@ -931,7 +931,9 @@ Action buttons in dialog:
 
 * Button "Mark". Finds all matches in a document and places [[#Markers]] on them.
 
-* Button "Replace global". Performs replacement in all opened documents in all editor groups. After showing the additional confirmation. 
+* Button "Replace all". Performs replacement of all matches in the current document.
+
+* Button "Replace global". Performs replacement of all matches in all opened documents in all editor groups. After showing the additional confirmation.
 
 ===Text searcher features===
 
