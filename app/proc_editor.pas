@@ -1773,7 +1773,8 @@ begin
     StyleBorder,
     UiOps.FindHiAll_TagValue,
     UiOps.FindHiAll_MaxLines,
-    UiOps.FindHiAll_MoveCaret and AMoveCaret
+    AMoveCaret,
+    AMoveCaret and UiOps.FindHiAll_MoveCaret
     );
 end;
 
