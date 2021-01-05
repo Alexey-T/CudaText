@@ -1757,21 +1757,21 @@ end;
 procedure EditorHighlightAllMatches(AFinder: TATEditorFinder; out AMatchesCount: integer);
 var
   ColorBorder: TColor;
-  LineStyle: TATLineStyle;
+  StyleBorder: TATLineStyle;
 begin
   ColorBorder:= GetAppStyle(AppHiAll_ThemeStyleId).BgColor;
 
   if EditorOps.OpActiveBorderWidth>1 then
-    LineStyle:= cLineStyleSolid2px
+    StyleBorder:= cLineStyleSolid2px
   else
-    LineStyle:= cLineStyleRounded;
+    StyleBorder:= cLineStyleRounded;
 
   AMatchesCount:= AFinder.DoAction_HighlightAllEditorMatches(
     ColorBorder,
+    StyleBorder,
     UiOps.FindHiAll_TagValue,
     UiOps.FindHiAll_MaxLines,
-    UiOps.FindHiAll_MoveCaret,
-    LineStyle
+    UiOps.FindHiAll_MoveCaret
     );
 end;
 
