@@ -186,6 +186,7 @@ type
     procedure DoFocusEditor;
     procedure DoResult(Str: TAppFinderOperation);
     function GetHiAll: boolean;
+    procedure InitPopupMore;
     procedure SetHiAll(AValue: boolean);
     procedure SetIsDoubleBuffered(AValue: boolean);
     procedure SetMultiLine(AValue: boolean);
@@ -261,6 +262,13 @@ begin
   Result:= afoNone;
 end;
 
+function _MakeHint(const AText, AHotkey: string): string;
+begin
+  Result:= AText;
+  if AHotkey<>'' then
+    Result+= ' - '+AHotkey;
+end;
+
 { TfmFind }
 
 procedure TfmFind.chkRegexClick(Sender: TObject);
@@ -297,28 +305,50 @@ begin
   DoResult(afoFindMarkAll);
 end;
 
-procedure TfmFind.bMoreClick(Sender: TObject);
+procedure TfmFind.InitPopupMore;
+const
+  section = 'd_f';
 var
-  P: TPoint;
+  fn: string;
+  ini: TIniFile;
+  SCaptionCount,
+  SCaptionExtract,
+  SCaptionSelect,
+  SCaptionMark: string;
 begin
+  SCaptionCount:= 'Count all';
+  SCaptionExtract:= 'Extract RegEx matches';
+  SCaptionSelect:= 'Select all';
+  SCaptionMark:= 'Mark all';
+
+  fn:= GetAppLangFilename;
+  if FileExists(fn) then
+  begin
+    ini:= TIniFile.Create(fn);
+    try
+      SCaptionCount:= ini.ReadString(section, 'cnt', SCaptionCount);
+      SCaptionExtract:= ini.ReadString(section, 'get', SCaptionExtract);
+      SCaptionSelect:= ini.ReadString(section, 'sel', SCaptionSelect);
+      SCaptionMark:= ini.ReadString(section, 'mk', SCaptionMark);
+    finally
+      FreeAndNil(ini);
+    end;
+  end;
+
   if not Assigned(FPopupMore) then
   begin
     FPopupMore:= TPopupMenu.Create(Self);
 
     FMenuitemCount:= TMenuItem.Create(Self);
-    FMenuitemCount.Caption:= 'Count all';
     FMenuitemCount.OnClick:= @bCountClick;
 
     FMenuitemExtract:= TMenuItem.Create(Self);
-    FMenuitemExtract.Caption:= 'Extract RegEx matches';
     FMenuitemExtract.OnClick:= @bExtractClick;
 
     FMenuitemSelectAll:= TMenuItem.Create(Self);
-    FMenuitemSelectAll.Caption:= 'Select all';
     FMenuitemSelectAll.OnClick:= @bSelectAllClick;
 
     FMenuitemMarkAll:= TMenuItem.Create(Self);
-    FMenuitemMarkAll.Caption:= 'Mark all';
     FMenuitemMarkAll.OnClick:= @bMarkAllClick;
 
     FPopupMore.Items.Add(FMenuitemCount);
@@ -327,6 +357,17 @@ begin
     FPopupMore.Items.Add(FMenuitemMarkAll);
   end;
 
+  FMenuitemCount.Caption:= _MakeHint(SCaptionCount, UiOps.HotkeyCountAll);
+  FMenuitemExtract.Caption:= _MakeHint(SCaptionExtract, UiOps.HotkeyExtractAll);
+  FMenuitemSelectAll.Caption:= _MakeHint(SCaptionSelect, UiOps.HotkeySelectAll);
+  FMenuitemMarkAll.Caption:= _MakeHint(SCaptionMark, UiOps.HotkeyMarkAll);
+end;
+
+procedure TfmFind.bMoreClick(Sender: TObject);
+var
+  P: TPoint;
+begin
+  InitPopupMore;
   FMenuitemExtract.Enabled:= chkRegex.Checked;
 
   P:= bMore.ClientToScreen(Point(0, 0));
@@ -1159,14 +1200,6 @@ begin
 end;
 
 procedure TfmFind.Localize;
-  //
-  function _MakeHint(const AText, AHotkey: string): string;
-  begin
-    Result:= AText;
-    if AHotkey<>'' then
-      Result+= ' - '+AHotkey;
-  end;
-  //
 const
   section = 'd_f';
 var
@@ -1180,7 +1213,6 @@ begin
     try
       FCaptionFind:= ini.ReadString(section, '_f', FCaptionFind);
       FCaptionReplace:= ini.ReadString(section, '_r', FCaptionReplace);
-      //with bFindFirst do Caption:= ini.ReadString(section, 'f_f', Caption);
       with bRep do Caption:= ini.ReadString(section, 'r_c', Caption);
       with bRepAll do Caption:= ini.ReadString(section, 'r_a', Caption);
       with bRepGlobal do Caption:= ini.ReadString(section, 'r_gl', Caption);
