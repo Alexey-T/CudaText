@@ -266,7 +266,7 @@ function _MakeHint(const AText, AHotkey: string): string;
 begin
   Result:= AText;
   if AHotkey<>'' then
-    Result+= ' - '+AHotkey;
+    Result+= ' ['+AHotkey+']';
 end;
 
 { TfmFind }
