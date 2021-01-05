@@ -267,7 +267,7 @@ object fmFind: TfmFind
         OnClick = bFindFirstClick
       end
       object bFindNext: TATButton
-        Left = 90
+        Left = 180
         Height = 25
         Top = 0
         Width = 90
@@ -278,7 +278,7 @@ object fmFind: TfmFind
         OnClick = bFindNextClick
       end
       object bFindPrev: TATButton
-        Left = 180
+        Left = 90
         Height = 25
         Top = 0
         Width = 90
