@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, ExtCtrls,
+  StdCtrls, ExtCtrls, Menus,
   LclType, LclProc, IniFiles, Math,
   ATButtons,
   ATPanelSimple,
@@ -101,16 +101,13 @@ type
   { TfmFind }
 
   TfmFind = class(TForm)
-    bCount: TATButton;
-    bExtract: TATButton;
     bFindFirst: TATButton;
     bFindNext: TATButton;
     bFindPrev: TATButton;
-    bMarkAll: TATButton;
+    bMore: TATButton;
     bRep: TATButton;
     bRepAll: TATButton;
     bRepGlobal: TATButton;
-    bSelectAll: TATButton;
     chkCase: TATButton;
     chkConfirm: TATButton;
     chkInSel: TATButton;
@@ -136,6 +133,7 @@ type
     procedure bFindNextClick(Sender: TObject);
     procedure bFindPrevClick(Sender: TObject);
     procedure bMarkAllClick(Sender: TObject);
+    procedure bMoreClick(Sender: TObject);
     procedure bRepClick(Sender: TObject);
     procedure bRepAllClick(Sender: TObject);
     procedure bCountClick(Sender: TObject);
@@ -168,6 +166,11 @@ type
     procedure FormShow(Sender: TObject);
   private
     { private declarations }
+    FPopupMore: TPopupMenu;
+    FMenuitemCount: TMenuItem;
+    FMenuitemExtract: TMenuItem;
+    FMenuitemSelectAll: TMenuItem;
+    FMenuitemMarkAll: TMenuItem;
     FReplace: boolean;
     FMultiLine: boolean;
     FNarrow: boolean;
@@ -292,6 +295,42 @@ end;
 procedure TfmFind.bMarkAllClick(Sender: TObject);
 begin
   DoResult(afoFindMarkAll);
+end;
+
+procedure TfmFind.bMoreClick(Sender: TObject);
+var
+  P: TPoint;
+begin
+  if not Assigned(FPopupMore) then
+  begin
+    FPopupMore:= TPopupMenu.Create(Self);
+
+    FMenuitemCount:= TMenuItem.Create(Self);
+    FMenuitemCount.Caption:= 'Count all';
+    FMenuitemCount.OnClick:= @bCountClick;
+
+    FMenuitemExtract:= TMenuItem.Create(Self);
+    FMenuitemExtract.Caption:= 'Extract RegEx matches';
+    FMenuitemExtract.OnClick:= @bExtractClick;
+
+    FMenuitemSelectAll:= TMenuItem.Create(Self);
+    FMenuitemSelectAll.Caption:= 'Select all';
+    FMenuitemSelectAll.OnClick:= @bSelectAllClick;
+
+    FMenuitemMarkAll:= TMenuItem.Create(Self);
+    FMenuitemMarkAll.Caption:= 'Mark all';
+    FMenuitemMarkAll.OnClick:= @bMarkAllClick;
+
+    FPopupMore.Items.Add(FMenuitemCount);
+    FPopupMore.Items.Add(FMenuitemExtract);
+    FPopupMore.Items.Add(FMenuitemSelectAll);
+    FPopupMore.Items.Add(FMenuitemMarkAll);
+  end;
+
+  FMenuitemExtract.Enabled:= chkRegex.Checked;
+
+  P:= bMore.ClientToScreen(Point(0, 0));
+  FPopupMore.Popup(P.X, P.Y);
 end;
 
 procedure TfmFind.bRepAllClick(Sender: TObject);
@@ -494,10 +533,6 @@ begin
   bRep.Hint:= UiOps.HotkeyReplaceAndFindNext;
   bRepAll.Hint:= UiOps.HotkeyReplaceAll;
   bRepGlobal.Hint:= UiOps.HotkeyReplaceGlobal;
-  bCount.Hint:= UiOps.HotkeyCountAll;
-  bExtract.Hint:= UiOps.HotkeyExtractAll;
-  bSelectAll.Hint:= UiOps.HotkeySelectAll;
-  bMarkAll.Hint:= UiOps.HotkeyMarkAll;
 
   for kind in TATFinderTokensAllowed do
   begin
@@ -761,7 +796,7 @@ begin
     exit
   end;
 
-  if (Str=UiOps.HotkeyExtractAll) and bExtract.Enabled then
+  if (Str=UiOps.HotkeyExtractAll) and chkRegex.Checked then
   begin
     bExtractClick(Self);
     UpdateState;
@@ -802,10 +837,7 @@ begin
     BtnSize(bFindFirst)+
     BtnSize(bFindNext)+
     BtnSize(bFindPrev)+
-    BtnSize(bCount)+
-    BtnSize(bExtract)+
-    BtnSize(bSelectAll)+
-    BtnSize(bMarkAll);
+    BtnSize(bMore);
   Size2:=
     BtnSize(bRep)+
     BtnSize(bRepAll)+
@@ -1030,7 +1062,6 @@ begin
 
   bFindFirst.Enabled:= true;
   bFindNext.Enabled:= true;
-  bExtract.Enabled:= chkRegex.Checked;
   edRep.Enabled:= IsReplace;
   bRep.Enabled:= IsReplace;
   bRepAll.Enabled:= IsReplace;
@@ -1050,10 +1081,6 @@ begin
   bFindFirst.Visible:= UiOps.FindShow_FindFirst;
   bFindNext.Visible:= UiOps.FindShow_FindNext;
   bFindPrev.Visible:= UiOps.FindShow_FindPrev;
-  bCount.Visible:= UiOps.FindShow_Count;
-  bExtract.Visible:= UiOps.FindShow_Extract;
-  bSelectAll.Visible:= UiOps.FindShow_SelectAll;
-  bMarkAll.Visible:= UiOps.FindShow_MarkAll;
   bRepAll.Visible:= UiOps.FindShow_ReplaceAll;
   bRepGlobal.Visible:= UiOps.FindShow_ReplaceGlobal;
   ControlAutosizeOnlyByWidth(PanelBtn);
@@ -1153,13 +1180,7 @@ begin
     try
       FCaptionFind:= ini.ReadString(section, '_f', FCaptionFind);
       FCaptionReplace:= ini.ReadString(section, '_r', FCaptionReplace);
-      with bFindFirst do Caption:= ini.ReadString(section, 'f_f', Caption);
-      //with bFindNext do Caption:= ini.ReadString(section, 'f_n', Caption);
-      //with bFindPrev do Caption:= ini.ReadString(section, 'f_p', Caption);
-      with bCount do Caption:= ini.ReadString(section, 'cnt', Caption);
-      with bExtract do Caption:= ini.ReadString(section, 'get', Caption);
-      with bSelectAll do Caption:= ini.ReadString(section, 'sel', Caption);
-      with bMarkAll do Caption:= ini.ReadString(section, 'mk', Caption);
+      //with bFindFirst do Caption:= ini.ReadString(section, 'f_f', Caption);
       with bRep do Caption:= ini.ReadString(section, 'r_c', Caption);
       with bRepAll do Caption:= ini.ReadString(section, 'r_a', Caption);
       with bRepGlobal do Caption:= ini.ReadString(section, 'r_gl', Caption);
@@ -1204,10 +1225,7 @@ begin
   bFindFirst.AutoSize:= true;
   bFindNext.AutoSize:= true;
   bFindPrev.AutoSize:= true;
-  bCount.AutoSize:= true;
-  bExtract.AutoSize:= true;
-  bSelectAll.AutoSize:= true;
-  bMarkAll.AutoSize:= true;
+  bMore.AutoSize:= true;
   bRep.AutoSize:= true;
   bRepAll.AutoSize:= true;
   bRepGlobal.AutoSize:= true;

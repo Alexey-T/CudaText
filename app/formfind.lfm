@@ -1,13 +1,13 @@
 object fmFind: TfmFind
-  Left = 91
+  Left = 20
   Height = 148
-  Top = 429
-  Width = 1189
+  Top = 420
+  Width = 1176
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSizeToolWin
   Caption = 'Find/Replace'
   ClientHeight = 148
-  ClientWidth = 1189
+  ClientWidth = 1176
   FormStyle = fsStayOnTop
   KeyPreview = True
   OnClose = FormClose
@@ -148,7 +148,7 @@ object fmFind: TfmFind
     Left = 252
     Height = 118
     Top = 30
-    Width = 937
+    Width = 924
     Align = alLeft
     Anchors = [akTop, akLeft, akRight, akBottom]
     object edFind: TATComboEdit
@@ -159,7 +159,7 @@ object fmFind: TfmFind
       Left = 80
       Height = 25
       Top = 4
-      Width = 215
+      Width = 202
       Anchors = [akTop, akLeft, akRight]
       DoubleBuffered = True
       Font.Height = -12
@@ -206,7 +206,7 @@ object fmFind: TfmFind
       Left = 80
       Height = 25
       Top = 33
-      Width = 215
+      Width = 202
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 4
       DoubleBuffered = True
@@ -248,7 +248,7 @@ object fmFind: TfmFind
       AnchorSideLeft.Side = asrBottom
       AnchorSideRight.Control = PanelAll
       AnchorSideRight.Side = asrBottom
-      Left = 301
+      Left = 288
       Height = 25
       Top = 4
       Width = 630
@@ -261,7 +261,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
-        Caption = '1st'
+        Caption = ' |< '
         TabStop = True
         TabOrder = 0
         OnClick = bFindFirstClick
@@ -272,32 +272,10 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
-        Caption = ' → '
+        Caption = ' > '
         TabStop = True
         TabOrder = 1
         OnClick = bFindNextClick
-      end
-      object bCount: TATButton
-        Left = 270
-        Height = 25
-        Top = 0
-        Width = 90
-        Align = alLeft
-        Caption = 'Count'
-        TabStop = True
-        TabOrder = 3
-        OnClick = bCountClick
-      end
-      object bMarkAll: TATButton
-        Left = 540
-        Height = 25
-        Top = 0
-        Width = 90
-        Align = alLeft
-        Caption = 'Mark'
-        TabStop = True
-        TabOrder = 5
-        OnClick = bMarkAllClick
       end
       object bFindPrev: TATButton
         Left = 180
@@ -305,32 +283,21 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
-        Caption = ' ← '
+        Caption = ' < '
         TabStop = True
         TabOrder = 2
         OnClick = bFindPrevClick
       end
-      object bSelectAll: TATButton
-        Left = 450
+      object bMore: TATButton
+        Left = 270
         Height = 25
         Top = 0
         Width = 90
         Align = alLeft
-        Caption = 'Select'
+        Caption = ' ... '
         TabStop = True
-        TabOrder = 4
-        OnClick = bSelectAllClick
-      end
-      object bExtract: TATButton
-        Left = 360
-        Height = 25
-        Top = 0
-        Width = 90
-        Align = alLeft
-        Caption = 'Extract'
-        TabStop = True
-        TabOrder = 6
-        OnClick = bExtractClick
+        TabOrder = 3
+        OnClick = bMoreClick
       end
     end
     object PanelBtnRep: TATPanelSimple
@@ -338,7 +305,7 @@ object fmFind: TfmFind
       AnchorSideTop.Control = edRep
       AnchorSideRight.Control = PanelBtn
       AnchorSideRight.Side = asrBottom
-      Left = 301
+      Left = 288
       Height = 25
       Top = 33
       Width = 630
@@ -410,7 +377,7 @@ object fmFind: TfmFind
     Left = 0
     Height = 30
     Top = 0
-    Width = 1189
+    Width = 1176
     Align = alTop
     object PanelTopOps: TATPanelSimple
       Left = 104

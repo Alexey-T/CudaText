@@ -250,10 +250,6 @@ type
     FindShow_FindFirst: boolean;
     FindShow_FindNext: boolean;
     FindShow_FindPrev: boolean;
-    FindShow_Count: boolean;
-    FindShow_MarkAll: boolean;
-    FindShow_SelectAll: boolean;
-    FindShow_Extract: boolean;
     FindShow_ReplaceAll: boolean;
     FindShow_ReplaceGlobal: boolean;
     FindShow_Wrapped: boolean;
@@ -1561,10 +1557,6 @@ begin
     FindShow_FindFirst:= true;
     FindShow_FindNext:= true;
     FindShow_FindPrev:= true;
-    FindShow_Count:= true;
-    FindShow_MarkAll:= true;
-    FindShow_SelectAll:= true;
-    FindShow_Extract:= true;
     FindShow_ReplaceAll:= true;
     FindShow_ReplaceGlobal:= true;
     FindShow_Wrapped:= true;

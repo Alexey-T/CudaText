@@ -301,7 +301,7 @@ begin
       if ListFound.Count>0 then
       begin
         FrameNew:= DoFileOpen('', '');
-        FrameNew.TabCaption:= fmFind.bExtract.Caption;
+        FrameNew.TabCaption:= 'Extract matches';
         Ed:= FrameNew.Editor;
         try
           Ed.Strings.LoadFromStrings(ListFound, cEndUnix);
