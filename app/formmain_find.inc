@@ -226,7 +226,10 @@ begin
     FFinder.Editor.Strings.EndUndoGroup;
   end;
 
-  if (Res=afoFindFirst) or (Res=afoFindNext) or (Res=afoFindPrev) then
+ case Res of
+  afoFindFirst,
+  afoFindNext,
+  afoFindPrev:
   begin
     FFinder.OptBack:= (Res=afoFindPrev);
     ok:= FFinder.DoAction_FindOrReplace(
@@ -235,7 +238,8 @@ begin
     ShowFinderResult(ok);
   end;
 
-  if (Res=afoReplace) or (Res=afoReplaceStop) then
+  afoReplace,
+  afoReplaceStop:
   begin
     //replace match
     ok:= FFinder.DoAction_ReplaceSelected(true);
@@ -247,7 +251,7 @@ begin
     ShowFinderResult(ok);
   end;
 
-  if Res=afoReplaceAll then
+  afoReplaceAll:
   begin
     NTick:= GetTickCount64;
     NCounter:= FinderReplaceAll(FFinder.Editor, false);
@@ -256,7 +260,7 @@ begin
     FinderShowReplaceReport(NCounter, NTime);
   end;
 
-  if Res=afoReplaceGlobal then
+  afoReplaceGlobal:
   begin
     NCounter:= 0;
     NTick:= GetTickCount64;
@@ -283,7 +287,7 @@ begin
     FinderShowReplaceReport(NCounter, NTime);
   end;
 
-  if Res=afoCountAll then
+  afoCountAll:
   begin
     DoFindMarkingInit(markingNone);
     NCounter:= FFinder.DoAction_CountAll(false);
@@ -293,7 +297,7 @@ begin
       MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter])+FinderOptionsToHint);
   end;
 
-  if Res=afoExtractAll then
+  afoExtractAll:
   begin
     ListFound:= TStringList.Create;
     try
@@ -317,7 +321,7 @@ begin
     end;
   end;
 
-  if Res=afoFindSelectAll then
+  afoFindSelectAll:
   begin
     DoFindMarkingInit(markingSelections);
     NCounter:= FFinder.DoAction_CountAll(true);
@@ -331,7 +335,7 @@ begin
         FinderOptionsToHint);
   end;
 
-  if Res=afoFindMarkAll then
+  afoFindMarkAll:
   begin
     DoFindMarkingInit(markingMarkers);
     NCounter:= FFinder.DoAction_CountAll(true);
@@ -344,6 +348,7 @@ begin
         Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]) +
         FinderOptionsToHint);
   end;
+ end; //case Res of
 
   UpdateAppForSearch(false, false, bFindMode);
 
