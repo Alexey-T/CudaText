@@ -94,6 +94,7 @@ const
 type
   TAppFinderOperationEvent = procedure(Sender: TObject; Op: TAppFinderOperation) of object;
   TAppFinderGetEditor = procedure(out AEditor: TATSynEdit) of object;
+  TAppFinderShowMatchesCount = procedure(AValue: integer) of object;
 
 function AppFinderOperationFromString(const Str: string): TAppFinderOperation;
 
@@ -177,6 +178,7 @@ type
     FOnFocusEditor: TNotifyEvent;
     FOnGetMainEditor: TAppFinderGetEditor;
     FOnGetToken: TATFinderGetToken;
+    FOnShowMatchesCount: TAppFinderShowMatchesCount;
     FLexerRegexThemed: boolean;
     Adapter: TATAdapterEControl;
     AdapterActive: boolean;
@@ -212,6 +214,7 @@ type
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
     property OnGetMainEditor: TAppFinderGetEditor read FOnGetMainEditor write FOnGetMainEditor;
     property OnGetToken: TATFinderGetToken read FOnGetToken write FOnGetToken;
+    property OnShowMatchesCount: TAppFinderShowMatchesCount read FOnShowMatchesCount write FOnShowMatchesCount;
     property IsReplace: boolean read FReplace write SetReplace;
     property IsMultiLine: boolean read FMultiLine write SetMultiLine;
     property IsNarrow: boolean read FNarrow write SetNarrow;
@@ -1248,6 +1251,7 @@ end;
 procedure TfmFind.UpdateHiAll;
 var
   Finder: TATEditorFinder;
+  NMatches: integer;
 begin
   ClearHiAll;
   if edFind.Text='' then exit;
@@ -1270,7 +1274,9 @@ begin
       Finder.OptTokens:= TATFinderTokensAllowed(bTokens.ItemIndex);
       Finder.OptWrapped:= false;
       Finder.OnGetToken:= FOnGetToken;
-      EditorHighlightAllMatches(Finder);
+      EditorHighlightAllMatches(Finder, NMatches);
+      if Assigned(FOnShowMatchesCount) then
+        FOnShowMatchesCount(NMatches);
     finally
       FreeAndNil(Finder);
     end;

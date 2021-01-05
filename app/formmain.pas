@@ -967,6 +967,7 @@ type
     procedure DoDialogFind_Hide;
     procedure ShowFinderResult(ok: boolean);
     procedure ShowFinderResultSimple(ok: boolean);
+    procedure ShowFinderMatchesCount(AValue: integer);
     procedure DoFindFirst;
     procedure DoFindNext(ANext: boolean);
     procedure DoFindMarkAll(AMode: TATFindMarkingMode);

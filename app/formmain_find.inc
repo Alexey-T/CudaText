@@ -373,6 +373,7 @@ begin
     fmFind.OnFocusEditor:= @FindDialogFocusEditor;
     fmFind.OnGetMainEditor:= @FindDialogGetMainEditor;
     fmFind.OnGetToken:= @FinderOnGetToken;
+    fmFind.OnShowMatchesCount:= @ShowFinderMatchesCount;
     fmFind.Color:= GetAppColor(apclTabBg);
 
     UiOps.HotkeyFindDialog:= ShortcutToText(AppKeymapMain.GetShortcutFromCommand(cmd_DialogFind));
@@ -656,6 +657,14 @@ begin
     MsgStatus(msgStatusFoundNextMatch)
   else
     ShowFinderResult(false);
+end;
+
+procedure TfmMain.ShowFinderMatchesCount(AValue: integer);
+begin
+  if AValue>0 then
+    MsgStatus(Format(msgStatusFoundFragments, [AValue]))
+  else
+    MsgStatus(msgCannotFindMatch);
 end;
 
 procedure TfmMain.FinderOnConfirmReplace_API(Sender: TObject; APos1,

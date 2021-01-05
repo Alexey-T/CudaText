@@ -124,7 +124,7 @@ function EditorExpandSelectionToWord(Ed: TATSynEdit): boolean;
 function EditorFindCurrentWordOrSel(Ed: TATSynEdit;
   ANext, AWordOrSel, AOptCase, AOptWrapped: boolean;
   out Str: UnicodeString): boolean;
-procedure EditorHighlightAllMatches(AFinder: TATEditorFinder);
+procedure EditorHighlightAllMatches(AFinder: TATEditorFinder; out AMatchesCount: integer);
 
 
 implementation
@@ -1754,12 +1754,12 @@ begin
 end;
 
 
-procedure EditorHighlightAllMatches(AFinder: TATEditorFinder);
+procedure EditorHighlightAllMatches(AFinder: TATEditorFinder; out AMatchesCount: integer);
 var
   ColorBorder: TColor;
 begin
   ColorBorder:= GetAppStyle(AppHiAll_ThemeStyleId).BgColor;
-  AFinder.DoAction_HighlightAllEditorMatches(
+  AMatchesCount:= AFinder.DoAction_HighlightAllEditorMatches(
     ColorBorder,
     UiOps.FindHiAll_TagValue,
     UiOps.FindHiAll_MaxLines,
