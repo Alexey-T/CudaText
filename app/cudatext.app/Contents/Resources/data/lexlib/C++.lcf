@@ -127,7 +127,7 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'Label'
       StyleName = 'Label'
       TokenType = 14
-      Expression = '(?<=^[\x20\x09]*)[a-z_]\w*(?=:)'
+      Expression = '(?<=^[\x20\x09]*)[a-z_]\w*(?=:[^:])'
       ColumnFrom = 0
       ColumnTo = 0
     end
