@@ -252,7 +252,6 @@ cmd_OpsClearRecent     = 2520
 cmd_OpsOpenDefault     = 2521
 cmd_OpsOpenUser        = 2522
 cmd_OpsOpenLexerOvr    = 2523
-cmd_OpsOpenFileTypes   = 2524
 cmd_OpsFontText        = 2525
 cmd_OpsFontUi          = 2526
 cmd_OpsFontOutput      = 2527
@@ -299,7 +298,9 @@ cmd_FindPythonLib = 2567
 
 cmd_ChooseTranslation = 2570
 cmd_ChooseThemeUI     = 2571
-cmd_ChooseThemeSyntax = 2572 # deleted in app
+
+cmd_OpsClearSearchHistory = 2573
+cmd_OpsClearConsoleHistory = 2574
 
 cmd_ToggleUiTabs = 2575
 cmd_ToggleFocusSplitEditors = 2576

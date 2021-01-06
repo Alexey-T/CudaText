@@ -65,6 +65,53 @@ begin
   end;
 end;
 
+procedure TfmMain.DoOps_ClearConfigHistory(const AMode: TAppConfigHistoryElement);
+var
+  cfg: TJSONConfig;
+begin
+  cfg:= TJSONConfig.Create(nil);
+  try
+    try
+      cfg.Formatted:= true; //needs last at__jsonconf.pp
+      cfg.Filename:= AppFile_History;
+    except
+      exit;
+    end;
+
+    case AMode of
+      acheRecentFiles:
+        begin
+          cfg.DeleteValue('/recent_files');
+          //
+          AppListRecents.Clear;
+          UpdateMenuRecent(nil);
+          //
+          DeleteFileUTF8(AppFile_HistoryFiles);
+        end;
+
+      acheSearch:
+        begin
+          cfg.DeleteValue('/list_find');
+          cfg.DeleteValue('/list_replace');
+          if Assigned(fmFind) then
+          begin
+            fmFind.edFind.Items.Clear;
+            fmFind.edRep.Items.Clear;
+          end;
+        end;
+
+      acheConsole:
+        begin
+          cfg.DeleteValue('/list_console');
+          if Assigned(fmConsole) then
+            fmConsole.EdInput.Items.Clear;
+        end;
+    end;
+  finally
+    cfg.Free;
+  end;
+end;
+
 procedure TfmMain.DoOps_SaveHistory;
 var
   cfg: TJSONConfig;

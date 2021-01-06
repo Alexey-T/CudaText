@@ -139,6 +139,8 @@ type
 
   TAppAllowSomething = (aalsEnable, aalsDisable, aalsNotGood);
 
+  TAppConfigHistoryElement = (acheRecentFiles, acheSearch, acheConsole);
+
 var
   AppNotifThread: TAppNotifThread = nil;
 
@@ -806,8 +808,6 @@ type
     procedure DoApplyTheme;
     procedure DoApplyTheme_ThemedMainMenu;
     procedure DoApplyThemeToGroups(G: TATGroups);
-    procedure DoClearRecentFileHistory;
-    procedure DoClearSearchHistory;
     function DoOnMessage(const AText: string): boolean;
     function DoOnConsoleNav(const Str: string): boolean;
     procedure DoOnConsoleNumberChange(Sender: TObject);
@@ -916,6 +916,7 @@ type
     procedure DoOps_LoadToolbarIcons;
     procedure DoOps_LoadLexerLib(AOnCreate: boolean);
     procedure DoOps_SaveHistory;
+    procedure DoOps_ClearConfigHistory(const AMode: TAppConfigHistoryElement);
     procedure DoOps_SaveHistory_GroupView(cfg: TJsonConfig);
     procedure DoOps_SaveOptionBool(const APath: string; AValue: boolean);
     procedure DoOps_SaveOptionString(const APath, AValue: string);
@@ -2995,24 +2996,7 @@ end;
 
 procedure TfmMain.MenuRecentsClear(Sender: TObject);
 begin
-  DoClearRecentFileHistory;
-end;
-
-procedure TfmMain.DoClearRecentFileHistory;
-begin
-  AppListRecents.Clear;
-  UpdateMenuRecent(nil);
-  //
-  DeleteFileUTF8(AppFile_HistoryFiles);
-end;
-
-procedure TfmMain.DoClearSearchHistory;
-begin
-  if Assigned(fmFind) then
-  begin
-    fmFind.edFind.Items.Clear;
-    fmFind.edRep.Items.Clear;
-  end;
+  DoOps_ClearConfigHistory(acheRecentFiles);
 end;
 
 function TfmMain.DoFileInstallZip(const fn: string; out DirTarget: string;

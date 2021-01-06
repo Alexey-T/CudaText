@@ -74,7 +74,6 @@ const
   cmd_OpsOpenDefault     = 2521;
   cmd_OpsOpenUser        = 2522;
   cmd_OpsOpenLexerSpecific = 2523;
-  cmd_OpsClearSearchHistory = 2524;
   cmd_OpsFontText        = 2525;
   cmd_OpsFontUi          = 2526;
   cmd_OpsFontOutput      = 2527;
@@ -120,6 +119,9 @@ const
 
   cmd_ChooseTranslation = 2570;
   cmd_ChooseThemeUI     = 2571;
+
+  cmd_OpsClearSearchHistory = 2573;
+  cmd_OpsClearConsoleHistory = 2574;
 
   cmd_ToggleUiTabs = 2575;
   cmd_ToggleFocusSplitEditors = 2576;
@@ -369,7 +371,8 @@ begin
 
   M.Add(cmd_OpsReloadAndApply, 'settings: reload/apply config', [], []);
   M.Add(cmd_OpsClearRecent, 'settings: clear recent files history', [], []);
-  M.Add(cmd_OpsClearSearchHistory, 'settings: clear find/replace history', [], []);
+  M.Add(cmd_OpsClearSearchHistory, 'settings: clear find/replace dialog history', [], []);
+  M.Add(cmd_OpsClearConsoleHistory, 'settings: clear console input history', [], []);
   M.Add(cmd_OpsOpenDefault, 'settings: open default config', [], []);
   M.Add(cmd_OpsOpenUser, 'settings: open user config', [], []);
   M.Add(cmd_OpsOpenDefaultAndUser, 'settings: open default/user configs', [], []);
@@ -678,6 +681,7 @@ begin
 
     cmd_OpsClearRecent,
     cmd_OpsClearSearchHistory,
+    cmd_OpsClearConsoleHistory,
     cmd_OpsOpenDefault,
     cmd_OpsOpenUser,
     cmd_OpsOpenDefaultAndUser,

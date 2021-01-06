@@ -4,7 +4,10 @@
   * changed
 
 
-+ add: command "settings: clear find/replace history"
+1.120.1 (2021/01)
+
++ add: command "settings: clear console input history"
++ add: command "settings: clear find/replace dialog history"
 + add: Find dialog: when undocked, show search messages also in Find dialog caption (thanks @kvichans)
 + add: Find dialog: "Highlight all" action shows working time in msec (thanks @tmsg)
 - fix: code-tree selection was not updated via Find buttons "find next/previous" (thanks @Jairo-Martinez)
