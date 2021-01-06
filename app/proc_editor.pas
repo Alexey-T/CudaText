@@ -125,7 +125,7 @@ function EditorFindCurrentWordOrSel(Ed: TATSynEdit;
   ANext, AWordOrSel, AOptCase, AOptWrapped: boolean;
   out Str: UnicodeString): boolean;
 procedure EditorHighlightAllMatches(AFinder: TATEditorFinder;
-  AMoveCaret: boolean; out AMatchesCount: integer);
+  AScroll: boolean; out AMatchesCount: integer);
 
 
 implementation
@@ -1756,7 +1756,7 @@ end;
 
 
 procedure EditorHighlightAllMatches(AFinder: TATEditorFinder;
-  AMoveCaret: boolean; out AMatchesCount: integer);
+  AScroll: boolean; out AMatchesCount: integer);
 var
   ColorBorder: TColor;
   StyleBorder: TATLineStyle;
@@ -1773,8 +1773,8 @@ begin
     StyleBorder,
     UiOps.FindHiAll_TagValue,
     UiOps.FindHiAll_MaxLines,
-    AMoveCaret,
-    AMoveCaret and UiOps.FindHiAll_MoveCaret
+    AScroll,
+    UiOps.FindHiAll_MoveCaret
     );
 end;
 
