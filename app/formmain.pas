@@ -4778,8 +4778,6 @@ begin
 end;
 
 procedure TfmMain.MsgStatus(AText: string; AFinderMessage: boolean=false);
-var
-  S: string;
 begin
   SReplaceAll(AText, #10, ' ');
   SReplaceAll(AText, #13, ' ');
@@ -4794,16 +4792,10 @@ begin
     TimerStatusClear.Enabled:= true;
   end;
 
-  //also show message in Find dialog caption
+  //also show message in Find dialog caption, if it's undocked
   if AFinderMessage then
     if Assigned(fmFind) and not Assigned(fmFind.Parent) then
-    begin
-      if fmFind.IsReplace then
-        S:= fmFind.FCaptionReplace
-      else
-        S:= fmFind.FCaptionFind;
-      fmFind.Caption:= S+': '+AText;
-    end;
+      fmFind.Caption:= fmFind.CurrentCaption+': '+AText;
 end;
 
 procedure TfmMain.DoTooltipShow(const AText: string; ASeconds: integer;

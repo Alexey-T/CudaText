@@ -209,6 +209,7 @@ type
     procedure UpdateInputFind(const AText: UnicodeString);
     procedure UpdateInputReplace(const AText: UnicodeString);
     procedure ClearHiAll;
+    function CurrentCaption: string;
     property OnResult: TAppFinderOperationEvent read FOnResult write FOnResult;
     property OnChangeOptions: TNotifyEvent read FOnChangeOptions write FOnChangeOptions;
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
@@ -1054,16 +1055,19 @@ begin
   PanelOps.Width:= N;
 end;
 
+function TfmFind.CurrentCaption: string;
+begin
+  if IsReplace then
+    Result:= FCaptionReplace
+  else
+    Result:= FCaptionFind;
+end;
 
 procedure TfmFind.UpdateState(AMoveCaret: boolean);
 var
   Ed: TATSynEdit;
 begin
-  if IsReplace then
-    Caption:= FCaptionReplace
-  else
-    Caption:= FCaptionFind;
-
+  Caption:= CurrentCaption;
   cPadding:= AppScale(4);
 
   PanelTop.Visible:= IsNarrow;
