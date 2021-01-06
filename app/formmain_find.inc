@@ -636,7 +636,9 @@ procedure TfmMain.ShowFinderResult(ok: boolean);
 begin
   if ok then
   begin
-    MsgStatus(msgStatusFoundNextMatch+FinderOptionsToHint);
+    MsgStatus(
+      msgStatusFoundNextMatch+FinderOptionsToHint,
+      true);
 
     FFinder.Editor.EndUpdate;
     Application.ProcessMessages;
@@ -653,13 +655,15 @@ begin
   if FFinder.IsRegexBad then
     MsgStatusErrorInRegex
   else
-    MsgStatus(msgCannotFindMatch+FinderOptionsToHint+': '+Utf8Encode(FFinder.StrFind));
+    MsgStatus(
+      msgCannotFindMatch+FinderOptionsToHint+': '+Utf8Encode(FFinder.StrFind),
+      true);
 end;
 
 procedure TfmMain.ShowFinderResultSimple(ok: boolean);
 begin
   if ok then
-    MsgStatus(msgStatusFoundNextMatch)
+    MsgStatus(msgStatusFoundNextMatch, true)
   else
     ShowFinderResult(false);
 end;
