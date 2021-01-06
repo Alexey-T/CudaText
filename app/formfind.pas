@@ -94,7 +94,7 @@ const
 type
   TAppFinderOperationEvent = procedure(Sender: TObject; Op: TAppFinderOperation) of object;
   TAppFinderGetEditor = procedure(out AEditor: TATSynEdit) of object;
-  TAppFinderShowMatchesCount = procedure(AValue: integer) of object;
+  TAppFinderShowMatchesCount = procedure(AMatchCount, ATime: integer) of object;
 
 function AppFinderOperationFromString(const Str: string): TAppFinderOperation;
 
@@ -1252,6 +1252,7 @@ procedure TfmFind.UpdateHiAll(AMoveCaret: boolean);
 var
   Finder: TATEditorFinder;
   NMatches: integer;
+  NTick: QWord;
 begin
   ClearHiAll;
   if edFind.Text='' then exit;
@@ -1274,9 +1275,13 @@ begin
       Finder.OptTokens:= TATFinderTokensAllowed(bTokens.ItemIndex);
       Finder.OptWrapped:= false;
       Finder.OnGetToken:= FOnGetToken;
+
+      NTick:= GetTickCount64;
       EditorHighlightAllMatches(Finder, AMoveCaret, NMatches);
+      NTick:= GetTickCount64-NTick;
+
       if Assigned(FOnShowMatchesCount) then
-        FOnShowMatchesCount(NMatches);
+        FOnShowMatchesCount(NMatches, NTick);
     finally
       FreeAndNil(Finder);
     end;

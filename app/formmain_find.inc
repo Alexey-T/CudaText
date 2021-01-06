@@ -659,12 +659,16 @@ begin
     ShowFinderResult(false);
 end;
 
-procedure TfmMain.ShowFinderMatchesCount(AValue: integer);
+procedure TfmMain.ShowFinderMatchesCount(AMatchCount, ATime: integer);
+var
+  S: string;
 begin
-  if AValue>0 then
-    MsgStatus(Format(msgStatusFoundFragments, [AValue]))
+  if AMatchCount>0 then
+    S:= Format(msgStatusFoundFragments, [AMatchCount])
   else
-    MsgStatus(msgCannotFindMatch);
+    S:= msgCannotFindMatch;
+  S+= Format(' (%dms)', [ATime]);
+  MsgStatus(S);
 end;
 
 procedure TfmMain.FinderOnConfirmReplace_API(Sender: TObject; APos1,
