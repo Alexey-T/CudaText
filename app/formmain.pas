@@ -1057,7 +1057,7 @@ type
     function GetFrame(AIndex: integer): TEditorFrame;
     procedure SetFrame(Frame: TEditorFrame);
     procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
-    procedure MsgStatus(AText: string);
+    procedure MsgStatus(AText: string; AFinderMessage: boolean=false);
     procedure DoTooltipShow(const AText: string; ASeconds: integer;
       APosition: TAppTooltipPos; AGotoBracket: boolean);
     procedure DoTooltipHide;
@@ -4777,7 +4777,9 @@ begin
   end;
 end;
 
-procedure TfmMain.MsgStatus(AText: string);
+procedure TfmMain.MsgStatus(AText: string; AFinderMessage: boolean=false);
+var
+  S: string;
 begin
   SReplaceAll(AText, #10, ' ');
   SReplaceAll(AText, #13, ' ');
@@ -4791,6 +4793,17 @@ begin
     TimerStatusClear.Enabled:= false;
     TimerStatusClear.Enabled:= true;
   end;
+
+  //also show message in Find dialog caption
+  if AFinderMessage then
+    if Assigned(fmFind) and not Assigned(fmFind.Parent) then
+    begin
+      if fmFind.IsReplace then
+        S:= fmFind.FCaptionReplace
+      else
+        S:= fmFind.FCaptionFind;
+      fmFind.Caption:= S+': '+AText;
+    end;
 end;
 
 procedure TfmMain.DoTooltipShow(const AText: string; ASeconds: integer;

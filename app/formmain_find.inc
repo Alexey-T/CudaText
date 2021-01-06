@@ -103,7 +103,8 @@ procedure TfmMain.FinderShowReplaceReport(ACounter, ATime: integer);
 begin
   MsgStatus(
     Format(msgStatusReplaceCount, [ACounter])+
-    Format(' (%d s)', [ATime]) );
+    Format(' (%d s)', [ATime]),
+    true);
 end;
 
 
@@ -294,7 +295,7 @@ begin
       if (NCounter=0) and FFinder.IsRegexBad then
         MsgStatusErrorInRegex
       else
-        MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter])+FinderOptionsToHint);
+        MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter])+FinderOptionsToHint, true);
     end;
 
     afoExtractAll:
@@ -309,7 +310,7 @@ begin
           Ed:= FrameNew.Editor;
           try
             Ed.Strings.LoadFromStrings(ListFound, cEndUnix);
-            MsgStatus(Format(msgStatusFoundFragments, [ListFound.Count]));
+            MsgStatus(Format(msgStatusFoundFragments, [ListFound.Count]), true);
           finally
             Ed.DoEventChange;
           end;
@@ -332,7 +333,8 @@ begin
       else
         MsgStatus(
           Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]) +
-          FinderOptionsToHint);
+          FinderOptionsToHint,
+          true);
     end;
 
     afoFindMarkAll:
@@ -346,7 +348,8 @@ begin
       else
         MsgStatus(
           Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]) +
-          FinderOptionsToHint);
+          FinderOptionsToHint,
+          true);
     end;
   end; //case Res of
 
@@ -593,7 +596,9 @@ begin
   DoFindMarkingInit(markingNone);
 
   FinderUpdateEditor(false);
-  MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt])+FinderOptionsToHint);
+  MsgStatus(
+    Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt])+FinderOptionsToHint,
+    true);
 end;
 
 
@@ -668,7 +673,7 @@ begin
   else
     S:= msgCannotFindMatch;
   S+= Format(' (%dms)', [ATime]);
-  MsgStatus(S);
+  MsgStatus(S, true);
 end;
 
 procedure TfmMain.FinderOnConfirmReplace_API(Sender: TObject; APos1,
