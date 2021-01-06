@@ -4,6 +4,8 @@
   * changed
 
 
++ add: if Find dialog is undocked, show finder messages also in Find dialog caption (thanks @kvichans)
+
 1.120.0 (2021/01)
 
 + add: Find dialog has new toggle button "Hi", it means "Highlight all matches". Matches are highlighted with a rounded border, which color is taken from "SeparLine" syntax theme item. Editor also auto-scrolls to the first match, like in Sublime. (thanks @xcme, @tmsg)
