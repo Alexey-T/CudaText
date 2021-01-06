@@ -274,7 +274,7 @@ object fmFind: TfmFind
         Align = alLeft
         Caption = '  >  '
         TabStop = True
-        TabOrder = 1
+        TabOrder = 2
         OnClick = bFindNextClick
       end
       object bFindPrev: TATButton
@@ -285,7 +285,7 @@ object fmFind: TfmFind
         Align = alLeft
         Caption = '  <  '
         TabStop = True
-        TabOrder = 2
+        TabOrder = 1
         OnClick = bFindPrevClick
       end
       object bMore: TATButton
