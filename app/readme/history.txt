@@ -4,7 +4,8 @@
   * changed
 
 
-+ add: if Find dialog is undocked, show finder messages also in Find dialog caption (thanks @kvichans)
++ add: Find dialog: when undocked, show search messages also in Find dialog caption (thanks @kvichans)
++ add: Find dialog: "Highlight all" action shows working time in msec (thanks @tmsg)
 
 1.120.0 (2021/01)
 
