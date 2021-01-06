@@ -807,6 +807,7 @@ type
     procedure DoApplyTheme_ThemedMainMenu;
     procedure DoApplyThemeToGroups(G: TATGroups);
     procedure DoClearRecentFileHistory;
+    procedure DoClearSearchHistory;
     function DoOnMessage(const AText: string): boolean;
     function DoOnConsoleNav(const Str: string): boolean;
     procedure DoOnConsoleNumberChange(Sender: TObject);
@@ -3003,6 +3004,15 @@ begin
   UpdateMenuRecent(nil);
   //
   DeleteFileUTF8(AppFile_HistoryFiles);
+end;
+
+procedure TfmMain.DoClearSearchHistory;
+begin
+  if Assigned(fmFind) then
+  begin
+    fmFind.edFind.Items.Clear;
+    fmFind.edRep.Items.Clear;
+  end;
 end;
 
 function TfmMain.DoFileInstallZip(const fn: string; out DirTarget: string;

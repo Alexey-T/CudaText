@@ -282,6 +282,9 @@ begin
     cmd_OpsClearRecent:
       DoClearRecentFileHistory;
 
+    cmd_OpsClearSearchHistory:
+      DoClearSearchHistory;
+
     cmd_OpsOpenDefault:
       DoOps_OpenFile_Default;
     cmd_OpsOpenUser:

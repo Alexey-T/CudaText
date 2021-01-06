@@ -4,6 +4,7 @@
   * changed
 
 
++ add: command "settings: clear find/replace history"
 + add: Find dialog: when undocked, show search messages also in Find dialog caption (thanks @kvichans)
 + add: Find dialog: "Highlight all" action shows working time in msec (thanks @tmsg)
 - fix: code-tree selection was not updated via Find buttons "find next/previous" (thanks @Jairo-Martinez)

@@ -74,6 +74,7 @@ const
   cmd_OpsOpenDefault     = 2521;
   cmd_OpsOpenUser        = 2522;
   cmd_OpsOpenLexerSpecific = 2523;
+  cmd_OpsClearSearchHistory = 2524;
   cmd_OpsFontText        = 2525;
   cmd_OpsFontUi          = 2526;
   cmd_OpsFontOutput      = 2527;
@@ -368,6 +369,7 @@ begin
 
   M.Add(cmd_OpsReloadAndApply, 'settings: reload/apply config', [], []);
   M.Add(cmd_OpsClearRecent, 'settings: clear recent files history', [], []);
+  M.Add(cmd_OpsClearSearchHistory, 'settings: clear find/replace history', [], []);
   M.Add(cmd_OpsOpenDefault, 'settings: open default config', [], []);
   M.Add(cmd_OpsOpenUser, 'settings: open user config', [], []);
   M.Add(cmd_OpsOpenDefaultAndUser, 'settings: open default/user configs', [], []);
@@ -675,6 +677,7 @@ begin
     cmd_HideNotificationPanels,
 
     cmd_OpsClearRecent,
+    cmd_OpsClearSearchHistory,
     cmd_OpsOpenDefault,
     cmd_OpsOpenUser,
     cmd_OpsOpenDefaultAndUser,
