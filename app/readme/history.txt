@@ -12,6 +12,7 @@
 + add: Find dialog: when undocked, show search messages also in Find dialog caption (thanks @kvichans)
 + add: Find dialog: "Highlight all" action shows working time in msec (thanks @tmsg)
 - fix: Find dialog: code-tree selection was not updated via buttons "find next/previous" (thanks @Jairo-Martinez)
+- fix: lexer C++: highlight of several operators, like <=> ||= &&= : # ##
 
 1.120.0 (2021/01)
 

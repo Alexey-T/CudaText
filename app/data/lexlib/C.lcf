@@ -95,7 +95,7 @@ object SyntAnal4: TLibSyntAnalyzer
       DisplayName = 'String in define'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?<=\#include\x20)<.+?>'
+      Expression = '(?<=\#include\x20*)<.+?>'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -155,7 +155,7 @@ object SyntAnal4: TLibSyntAnalyzer
       DisplayName = 'Preprocessor'
       StyleName = 'Preprocessor'
       TokenType = 6
-      Expression = '\#\s*\w+'
+      Expression = '^[\x20\x09]*\#\s*\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -192,18 +192,12 @@ object SyntAnal4: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Symbol single'
-      StyleName = 'Symbol'
-      TokenType = 3
-      Expression = '[\[\],;:\.]'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\+\-\*=<>&\|\^!\\\?%~/]+'
+      Expression = 
+        '\[\[| \]\]| \.\.\.| [\[\],~\.:\\\?] |<=> |'#13#10'[\-\+<>\|\&]{2}=? | ' +
+        '\#{1,2}|'#13#10'[\+\-\*/&\|\^!<>=~%]=?'
       ColumnFrom = 0
       ColumnTo = 0
     end
