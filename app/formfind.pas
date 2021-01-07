@@ -174,6 +174,7 @@ type
     FMenuitemSelectAll: TMenuItem;
     FMenuitemMarkAll: TMenuItem;
     FMenuitemRep: TMenuItem;
+    FMenuitemRepStop: TMenuItem;
     FMenuitemRepAll: TMenuItem;
     FMenuitemRepGlobal: TMenuItem;
     FReplace: boolean;
@@ -188,6 +189,7 @@ type
     FLexerRegexThemed: boolean;
     Adapter: TATAdapterEControl;
     AdapterActive: boolean;
+    procedure bRepStopClick(Sender: TObject);
     procedure ControlAutosizeOptionsByWidth;
     procedure DoFocusEditor;
     procedure DoResult(Str: TAppFinderOperation);
@@ -294,6 +296,12 @@ begin
     DoResult(afoReplace);
 end;
 
+procedure TfmFind.bRepStopClick(Sender: TObject);
+begin
+  if IsReplace then
+    DoResult(afoReplaceStop);
+end;
+
 procedure TfmFind.bFindNextClick(Sender: TObject);
 begin
   DoResult(afoFindNext);
@@ -398,6 +406,9 @@ begin
     FMenuitemRep:= TMenuItem.Create(Self);
     FMenuitemRep.OnClick:= @bRepClick;
 
+    FMenuitemRepStop:= TMenuItem.Create(Self);
+    FMenuitemRepStop.OnClick:= @bRepStopClick;
+
     FMenuitemRepAll:= TMenuItem.Create(Self);
     FMenuitemRepAll.OnClick:= @bRepAllClick;
 
@@ -414,6 +425,7 @@ begin
     FPopupMore.Items.Add(FMenuitemMarkAll);
     FPopupMore.Items.Add(Sep2);
     FPopupMore.Items.Add(FMenuitemRep);
+    FPopupMore.Items.Add(FMenuitemRepStop);
     FPopupMore.Items.Add(FMenuitemRepAll);
     FPopupMore.Items.Add(FMenuitemRepGlobal);
   end;
@@ -426,6 +438,7 @@ begin
   FMenuitemSelectAll.Caption:= _MakeHint(SCaptionSelect, UiOps.HotkeySelectAll);
   FMenuitemMarkAll.Caption:= _MakeHint(SCaptionMark, UiOps.HotkeyMarkAll);
   FMenuitemRep.Caption:= _MakeHint(SCaptionRep, UiOps.HotkeyReplaceAndFindNext);
+  FMenuitemRepStop.Caption:= _MakeHint(SCaptionRep+', stop', UiOps.HotkeyReplaceNoFindNext);
   FMenuitemRepAll.Caption:= _MakeHint(SCaptionRepAll, UiOps.HotkeyReplaceAll);
   FMenuitemRepGlobal.Caption:= _MakeHint(SCaptionRepGlobal, UiOps.HotkeyReplaceGlobal);
 end;
