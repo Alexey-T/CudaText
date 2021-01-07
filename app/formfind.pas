@@ -1002,6 +1002,7 @@ begin
     if edFind.CanFocus then
       edFind.SetFocus;
 
+  Caption:= CurrentCaption;
   UpdateState(false);
 end;
 
@@ -1067,7 +1068,6 @@ procedure TfmFind.UpdateState(AMoveCaret: boolean);
 var
   Ed: TATSynEdit;
 begin
-  Caption:= CurrentCaption;
   cPadding:= AppScale(4);
 
   PanelTop.Visible:= IsNarrow;

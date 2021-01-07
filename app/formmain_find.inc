@@ -295,7 +295,9 @@ begin
       if (NCounter=0) and FFinder.IsRegexBad then
         MsgStatusErrorInRegex
       else
-        MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter])+FinderOptionsToHint, true);
+        MsgStatus(
+          Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter])+FinderOptionsToHint,
+          true);
     end;
 
     afoExtractAll:
