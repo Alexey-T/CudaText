@@ -187,7 +187,7 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'Preprocessor'
       StyleName = 'Preprocessor'
       TokenType = 6
-      Expression = '^\#[\x20\x09]*\w+'
+      Expression = '^[\x20\x09]*\#\s*\w+|'#13#10'\#\s*(include|define)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
