@@ -173,6 +173,9 @@ type
     FMenuitemExtract: TMenuItem;
     FMenuitemSelectAll: TMenuItem;
     FMenuitemMarkAll: TMenuItem;
+    FMenuitemRep: TMenuItem;
+    FMenuitemRepAll: TMenuItem;
+    FMenuitemRepGlobal: TMenuItem;
     FReplace: boolean;
     FMultiLine: boolean;
     FNarrow: boolean;
@@ -323,7 +326,12 @@ var
   SCaptionCount,
   SCaptionExtract,
   SCaptionSelect,
-  SCaptionMark: string;
+  SCaptionMark,
+  SCaptionRep,
+  SCaptionRepAll,
+  SCaptionRepGlobal: string;
+  Sep1: TMenuItem;
+  Sep2: TMenuItem;
 begin
   SCaptionFindFirst:= 'Find first';
   SCaptionFindPrev:= 'Find previous';
@@ -332,6 +340,9 @@ begin
   SCaptionExtract:= 'Extract RegEx matches';
   SCaptionSelect:= 'Select all';
   SCaptionMark:= 'Mark all';
+  SCaptionRep:= 'Replace next';
+  SCaptionRepAll:= 'Replace all';
+  SCaptionRepGlobal:= 'Replace global';
 
   fn:= GetAppLangFilename;
   if FileExists(fn) then
@@ -345,6 +356,9 @@ begin
       SCaptionExtract:= ini.ReadString(section, 'get', SCaptionExtract);
       SCaptionSelect:= ini.ReadString(section, 'sel', SCaptionSelect);
       SCaptionMark:= ini.ReadString(section, 'mk', SCaptionMark);
+      SCaptionRep:= ini.ReadString(section, 'h_r', SCaptionRep);
+      SCaptionRepAll:= ini.ReadString(section, 'h_r_a', SCaptionRepAll);
+      SCaptionRepGlobal:= ini.ReadString(section, 'h_r_g', SCaptionRepGlobal);
     finally
       FreeAndNil(ini);
     end;
@@ -363,6 +377,12 @@ begin
     FMenuitemFindNext:= TMenuItem.Create(Self);
     FMenuitemFindNext.OnClick:= @bFindNextClick;
 
+    Sep1:= TMenuItem.Create(Self);
+    Sep1.Caption:= '-';
+
+    Sep2:= TMenuItem.Create(Self);
+    Sep2.Caption:= '-';
+
     FMenuitemCount:= TMenuItem.Create(Self);
     FMenuitemCount.OnClick:= @bCountClick;
 
@@ -375,13 +395,27 @@ begin
     FMenuitemMarkAll:= TMenuItem.Create(Self);
     FMenuitemMarkAll.OnClick:= @bMarkAllClick;
 
+    FMenuitemRep:= TMenuItem.Create(Self);
+    FMenuitemRep.OnClick:= @bRepClick;
+
+    FMenuitemRepAll:= TMenuItem.Create(Self);
+    FMenuitemRepAll.OnClick:= @bRepAllClick;
+
+    FMenuitemRepGlobal:= TMenuItem.Create(Self);
+    FMenuitemRepGlobal.OnClick:= @bRepGlobalClick;
+
     FPopupMore.Items.Add(FMenuitemFindFirst);
     FPopupMore.Items.Add(FMenuitemFindPrev);
     FPopupMore.Items.Add(FMenuitemFindNext);
+    FPopupMore.Items.Add(Sep1);
     FPopupMore.Items.Add(FMenuitemCount);
     FPopupMore.Items.Add(FMenuitemExtract);
     FPopupMore.Items.Add(FMenuitemSelectAll);
     FPopupMore.Items.Add(FMenuitemMarkAll);
+    FPopupMore.Items.Add(Sep2);
+    FPopupMore.Items.Add(FMenuitemRep);
+    FPopupMore.Items.Add(FMenuitemRepAll);
+    FPopupMore.Items.Add(FMenuitemRepGlobal);
   end;
 
   FMenuitemFindFirst.Caption:= _MakeHint(SCaptionFindFirst, UiOps.HotkeyFindFirst);
@@ -391,6 +425,9 @@ begin
   FMenuitemExtract.Caption:= _MakeHint(SCaptionExtract, UiOps.HotkeyExtractAll);
   FMenuitemSelectAll.Caption:= _MakeHint(SCaptionSelect, UiOps.HotkeySelectAll);
   FMenuitemMarkAll.Caption:= _MakeHint(SCaptionMark, UiOps.HotkeyMarkAll);
+  FMenuitemRep.Caption:= _MakeHint(SCaptionRep, UiOps.HotkeyReplaceAndFindNext);
+  FMenuitemRepAll.Caption:= _MakeHint(SCaptionRepAll, UiOps.HotkeyReplaceAll);
+  FMenuitemRepGlobal.Caption:= _MakeHint(SCaptionRepGlobal, UiOps.HotkeyReplaceGlobal);
 end;
 
 procedure TfmFind.bMoreClick(Sender: TObject);
