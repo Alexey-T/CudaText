@@ -208,6 +208,7 @@ type
     procedure UpdateFocus(AFindMode: boolean);
     procedure UpdateInputFind(const AText: UnicodeString);
     procedure UpdateInputReplace(const AText: UnicodeString);
+    procedure UpdateCaption(const AText: string);
     procedure ClearHiAll;
     function CurrentCaption: string;
     property OnResult: TAppFinderOperationEvent read FOnResult write FOnResult;
@@ -1290,6 +1291,12 @@ begin
       FreeAndNil(Finder);
     end;
   end;
+end;
+
+procedure TfmFind.UpdateCaption(const AText: string);
+begin
+  if not Assigned(Parent) then //show text only when dlg is not docked
+    Caption:= CurrentCaption+': '+AText;
 end;
 
 end.

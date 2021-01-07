@@ -4787,10 +4787,9 @@ begin
     TimerStatusClear.Enabled:= true;
   end;
 
-  //also show message in Find dialog caption, if it's undocked
   if AFinderMessage then
-    if Assigned(fmFind) and not Assigned(fmFind.Parent) then
-      fmFind.Caption:= fmFind.CurrentCaption+': '+AText;
+    if Assigned(fmFind) then
+      fmFind.UpdateCaption(AText);
 end;
 
 procedure TfmMain.DoTooltipShow(const AText: string; ASeconds: integer;
