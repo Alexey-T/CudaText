@@ -176,6 +176,14 @@ object SyntAnal4: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Symbol ;'
+      StyleName = 'Symbol'
+      TokenType = 10
+      Expression = ';'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Symbol {}'
       StyleName = 'Symbol'
       TokenType = 8
@@ -545,7 +553,8 @@ object SyntAnal4: TLibSyntAnalyzer
     'Preprocessor'
     'Id keyword'
     'Symbol {}'
-    'Symbol ()')
+    'Symbol ()'
+    'Symbol ;')
   Extentions = 'c ch'
   LexerName = 'C'
   Notes.Strings = (
