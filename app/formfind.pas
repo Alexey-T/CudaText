@@ -166,6 +166,9 @@ type
   private
     { private declarations }
     FPopupMore: TPopupMenu;
+    FMenuitemFindFirst: TMenuItem;
+    FMenuitemFindPrev: TMenuItem;
+    FMenuitemFindNext: TMenuItem;
     FMenuitemCount: TMenuItem;
     FMenuitemExtract: TMenuItem;
     FMenuitemSelectAll: TMenuItem;
@@ -314,11 +317,17 @@ const
 var
   fn: string;
   ini: TIniFile;
+  SCaptionFindFirst,
+  SCaptionFindPrev,
+  SCaptionFindNext,
   SCaptionCount,
   SCaptionExtract,
   SCaptionSelect,
   SCaptionMark: string;
 begin
+  SCaptionFindFirst:= 'Find first';
+  SCaptionFindPrev:= 'Find previous';
+  SCaptionFindNext:= 'Find next';
   SCaptionCount:= 'Count all';
   SCaptionExtract:= 'Extract RegEx matches';
   SCaptionSelect:= 'Select all';
@@ -329,6 +338,9 @@ begin
   begin
     ini:= TIniFile.Create(fn);
     try
+      SCaptionFindFirst:= ini.ReadString(section, 'h_f1', SCaptionFindFirst);
+      SCaptionFindPrev:= ini.ReadString(section, 'h_fp', SCaptionFindPrev);
+      SCaptionFindNext:= ini.ReadString(section, 'h_fn', SCaptionFindNext);
       SCaptionCount:= ini.ReadString(section, 'cnt', SCaptionCount);
       SCaptionExtract:= ini.ReadString(section, 'get', SCaptionExtract);
       SCaptionSelect:= ini.ReadString(section, 'sel', SCaptionSelect);
@@ -342,6 +354,15 @@ begin
   begin
     FPopupMore:= TPopupMenu.Create(Self);
 
+    FMenuitemFindFirst:= TMenuItem.Create(Self);
+    FMenuitemFindFirst.OnClick:= @bFindFirstClick;
+
+    FMenuitemFindPrev:= TMenuItem.Create(Self);
+    FMenuitemFindPrev.OnClick:= @bFindPrevClick;
+
+    FMenuitemFindNext:= TMenuItem.Create(Self);
+    FMenuitemFindNext.OnClick:= @bFindNextClick;
+
     FMenuitemCount:= TMenuItem.Create(Self);
     FMenuitemCount.OnClick:= @bCountClick;
 
@@ -354,12 +375,18 @@ begin
     FMenuitemMarkAll:= TMenuItem.Create(Self);
     FMenuitemMarkAll.OnClick:= @bMarkAllClick;
 
+    FPopupMore.Items.Add(FMenuitemFindFirst);
+    FPopupMore.Items.Add(FMenuitemFindPrev);
+    FPopupMore.Items.Add(FMenuitemFindNext);
     FPopupMore.Items.Add(FMenuitemCount);
     FPopupMore.Items.Add(FMenuitemExtract);
     FPopupMore.Items.Add(FMenuitemSelectAll);
     FPopupMore.Items.Add(FMenuitemMarkAll);
   end;
 
+  FMenuitemFindFirst.Caption:= _MakeHint(SCaptionFindFirst, UiOps.HotkeyFindFirst);
+  FMenuitemFindPrev.Caption:= _MakeHint(SCaptionFindPrev, UiOps.HotkeyFindPrev);
+  FMenuitemFindNext.Caption:= _MakeHint(SCaptionFindNext, UiOps.HotkeyFindNext);
   FMenuitemCount.Caption:= _MakeHint(SCaptionCount, UiOps.HotkeyCountAll);
   FMenuitemExtract.Caption:= _MakeHint(SCaptionExtract, UiOps.HotkeyExtractAll);
   FMenuitemSelectAll.Caption:= _MakeHint(SCaptionSelect, UiOps.HotkeySelectAll);
