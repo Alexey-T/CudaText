@@ -13,13 +13,12 @@
 + add: Find dialog: "Highlight all" action shows working time in msec (thanks @tmsg)
 + add: lexers C, C++: highlight of several operators, like <=> ||= &&= : # ##
 + add: lexers C, C++: highlight of preprocessor directives
-- fix: regression in Find dialog, caused by addition in 1.120.0: command "find next" in multi-selections now supports "in selection"+"wrapped search"
+- fix: regression in Find dialog, caused by addition in 1.120.0 (thanks @hamasaki)
 - fix: Find dialog: code-tree selection was not updated via buttons "find next/previous" (thanks @Jairo-Martinez)
 
 1.120.0 (2021/01)
 
 + add: Find dialog has new toggle button "Hi", it means "Highlight all matches". Matches are highlighted with a rounded border, which color is taken from "SeparLine" syntax theme item. Editor also auto-scrolls to the first match, like in Sublime. (thanks @xcme, @tmsg)
-+ add: command "find next" in multi-selections now supports "in selection"+"wrapped search" (with the forward search)
 * change: Find dialog has changed layout: removed input-field labels; shortened button captions to "|<" (find first), ">" (find next), "<" (find previous), "..." (show menu with "count all", "extract all" etc) (thanks @OlehL, @myCrack)
 + add: option "find_hi_max_lines"
 + add: option "find_hi_move_caret" (thanks @xcme)
