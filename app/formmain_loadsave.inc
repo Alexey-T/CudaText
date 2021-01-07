@@ -65,7 +65,7 @@ begin
   end;
 end;
 
-procedure TfmMain.DoOps_ClearConfigHistory(const AMode: TAppConfigHistoryElement);
+procedure TfmMain.DoOps_ClearConfigHistory(AMode: TAppConfigHistoryElements);
 var
   cfg: TJSONConfig;
 begin
@@ -78,34 +78,32 @@ begin
       exit;
     end;
 
-    case AMode of
-      acheRecentFiles:
-        begin
-          cfg.DeleteValue('/recent_files');
-          //
-          AppListRecents.Clear;
-          UpdateMenuRecent(nil);
-          //
-          DeleteFileUTF8(AppFile_HistoryFiles);
-        end;
+    if acheRecentFiles in AMode then
+    begin
+      cfg.DeleteValue('/recent_files');
+      //
+      AppListRecents.Clear;
+      UpdateMenuRecent(nil);
+      //
+      DeleteFileUTF8(AppFile_HistoryFiles);
+    end;
 
-      acheSearch:
-        begin
-          cfg.DeleteValue('/list_find');
-          cfg.DeleteValue('/list_replace');
-          if Assigned(fmFind) then
-          begin
-            fmFind.edFind.Items.Clear;
-            fmFind.edRep.Items.Clear;
-          end;
-        end;
+    if acheSearch in AMode then
+    begin
+      cfg.DeleteValue('/list_find');
+      cfg.DeleteValue('/list_replace');
+      if Assigned(fmFind) then
+      begin
+        fmFind.edFind.Items.Clear;
+        fmFind.edRep.Items.Clear;
+      end;
+    end;
 
-      acheConsole:
-        begin
-          cfg.DeleteValue('/list_console');
-          if Assigned(fmConsole) then
-            fmConsole.EdInput.Items.Clear;
-        end;
+    if acheConsole in AMode then
+    begin
+      cfg.DeleteValue('/list_console');
+      if Assigned(fmConsole) then
+        fmConsole.EdInput.Items.Clear;
     end;
   finally
     cfg.Free;

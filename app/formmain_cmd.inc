@@ -280,11 +280,11 @@ begin
       ShowFinderResultSimple(EditorExpandSelectionToWord(Ed));
 
     cmd_OpsClearRecent:
-      DoOps_ClearConfigHistory(acheRecentFiles);
+      DoOps_ClearConfigHistory([acheRecentFiles]);
     cmd_OpsClearSearchHistory:
-      DoOps_ClearConfigHistory(acheSearch);
+      DoOps_ClearConfigHistory([acheSearch]);
     cmd_OpsClearConsoleHistory:
-      DoOps_ClearConfigHistory(acheConsole);
+      DoOps_ClearConfigHistory([acheConsole]);
 
     cmd_OpsOpenDefault:
       DoOps_OpenFile_Default;

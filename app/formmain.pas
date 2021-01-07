@@ -140,6 +140,7 @@ type
   TAppAllowSomething = (aalsEnable, aalsDisable, aalsNotGood);
 
   TAppConfigHistoryElement = (acheRecentFiles, acheSearch, acheConsole);
+  TAppConfigHistoryElements = set of TAppConfigHistoryElement;
 
 var
   AppNotifThread: TAppNotifThread = nil;
@@ -916,7 +917,7 @@ type
     procedure DoOps_LoadToolbarIcons;
     procedure DoOps_LoadLexerLib(AOnCreate: boolean);
     procedure DoOps_SaveHistory;
-    procedure DoOps_ClearConfigHistory(const AMode: TAppConfigHistoryElement);
+    procedure DoOps_ClearConfigHistory(AMode: TAppConfigHistoryElements);
     procedure DoOps_SaveHistory_GroupView(cfg: TJsonConfig);
     procedure DoOps_SaveOptionBool(const APath: string; AValue: boolean);
     procedure DoOps_SaveOptionString(const APath, AValue: string);
@@ -2996,7 +2997,7 @@ end;
 
 procedure TfmMain.MenuRecentsClear(Sender: TObject);
 begin
-  DoOps_ClearConfigHistory(acheRecentFiles);
+  DoOps_ClearConfigHistory([acheRecentFiles]);
 end;
 
 function TfmMain.DoFileInstallZip(const fn: string; out DirTarget: string;
