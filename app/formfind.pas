@@ -336,6 +336,7 @@ var
   SCaptionSelect,
   SCaptionMark,
   SCaptionRep,
+  SCaptionRepStop,
   SCaptionRepAll,
   SCaptionRepGlobal: string;
   Sep1: TMenuItem;
@@ -348,7 +349,8 @@ begin
   SCaptionExtract:= 'Extract RegEx matches';
   SCaptionSelect:= 'Select all';
   SCaptionMark:= 'Mark all';
-  SCaptionRep:= 'Replace next';
+  SCaptionRep:= 'Replace next, find next';
+  SCaptionRepStop:= 'Replace next, don''t find next';
   SCaptionRepAll:= 'Replace all';
   SCaptionRepGlobal:= 'Replace global';
 
@@ -365,6 +367,7 @@ begin
       SCaptionSelect:= ini.ReadString(section, 'sel', SCaptionSelect);
       SCaptionMark:= ini.ReadString(section, 'mk', SCaptionMark);
       SCaptionRep:= ini.ReadString(section, 'h_r', SCaptionRep);
+      SCaptionRepStop:= ini.ReadString(section, 'h_r2', SCaptionRepStop);
       SCaptionRepAll:= ini.ReadString(section, 'h_r_a', SCaptionRepAll);
       SCaptionRepGlobal:= ini.ReadString(section, 'h_r_g', SCaptionRepGlobal);
     finally
@@ -438,7 +441,7 @@ begin
   FMenuitemSelectAll.Caption:= _MakeHint(SCaptionSelect, UiOps.HotkeySelectAll);
   FMenuitemMarkAll.Caption:= _MakeHint(SCaptionMark, UiOps.HotkeyMarkAll);
   FMenuitemRep.Caption:= _MakeHint(SCaptionRep, UiOps.HotkeyReplaceAndFindNext);
-  FMenuitemRepStop.Caption:= _MakeHint(SCaptionRep+', stop', UiOps.HotkeyReplaceNoFindNext);
+  FMenuitemRepStop.Caption:= _MakeHint(SCaptionRepStop, UiOps.HotkeyReplaceNoFindNext);
   FMenuitemRepAll.Caption:= _MakeHint(SCaptionRepAll, UiOps.HotkeyReplaceAll);
   FMenuitemRepGlobal.Caption:= _MakeHint(SCaptionRepGlobal, UiOps.HotkeyReplaceGlobal);
 end;
