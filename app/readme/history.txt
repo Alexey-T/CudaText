@@ -4,16 +4,16 @@
   * changed
 
 
-1.120.1 (2021/01)
+1.120.2 (2021/01)
 
-+ add: command "settings: clear console input history"
 + add: command "settings: clear find/replace dialog history"
-+ add: Find dialog: add almost all actions to "..." menu (thanks @kvichans) 
++ add: command "settings: clear console input history"
++ add: Find dialog: add all search actions to "..." menu (thanks @kvichans) 
 + add: Find dialog: when undocked, show search messages also in Find dialog caption (thanks @kvichans)
 + add: Find dialog: "Highlight all" action shows working time in msec (thanks @tmsg)
++ add: lexers C, C++: highlight of several operators, like <=> ||= &&= : # ##
++ add: lexers C, C++: highlight of preprocessor directives
 - fix: Find dialog: code-tree selection was not updated via buttons "find next/previous" (thanks @Jairo-Martinez)
-- fix: lexers C, C++: highlight of several operators, like <=> ||= &&= : # ##
-- fix: lexers C, C++: highlight of preproc directives
 
 1.120.0 (2021/01)
 
