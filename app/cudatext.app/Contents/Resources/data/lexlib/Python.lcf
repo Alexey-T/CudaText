@@ -554,7 +554,7 @@ object SyntAnal16: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 26622
+          TokenTypes = 59390
         end
         item
           TokenTypes = 2048
@@ -577,7 +577,7 @@ object SyntAnal16: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 26622
+          TokenTypes = 59390
         end
         item
           TokenTypes = 2048
@@ -600,7 +600,7 @@ object SyntAnal16: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 26622
+          TokenTypes = 59390
         end
         item
           TokenTypes = 1024
@@ -681,7 +681,7 @@ object SyntAnal16: TLibSyntAnalyzer
     'Ending :'
     'Id func name'
     'Id after .'
-    'Id='
+    'Id before ='
     '@Id')
   Extentions = 'py pyw rpy cpy sconstruct pyi'
   LexerName = 'Python'
