@@ -115,6 +115,7 @@ class Command:
         sel_txt = ed.get_text_substr(cFr, rFr, cTo, rTo)
         pass;                  #LOG and log('sel_txt={}',repr(sel_txt))
         ed.insert(cFr, rFr, sel_txt)
+        ed.set_caret(cCrt, rCrt, cEnd, rEnd)
        #def duplicate
 
     #class Command
