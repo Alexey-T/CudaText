@@ -4,9 +4,9 @@
   * changed
 
 
-+ add: lexer Python: don't highlight words before '=' char, e.g. 'func(type=value)' (thanks @APEC)
-+ add: lexer Python: highlight decorators: '@name' or '@Decor.call' (thanks @APEC)
-- fix: command "duplicate line (advanced)" behaviour was changed when with selection (thanks @kvichans)
++ add: lexer Python: don't find special words before '=', e.g. in 'func(type=value)' (thanks @APEC)
++ add: lexer Python: highligth decorators ('@name' or '@Decor.call') with special color (thanks @APEC)
+- fix: command "duplicate line (advanced)" regression (thanks @kvichans)
 
 1.120.2 (2021/01)
 
