@@ -1165,7 +1165,6 @@ begin
   PanelTop.Visible:= IsNarrow;
   PanelOps.Visible:= not IsNarrow;
   chkWords.Enabled:= not chkRegex.Checked and (edFind.Strings.Count<2); //disable "w" for multi-line input
-  chkConfirm.Visible:= IsReplace or IsNarrow;
   edRep.Visible:= IsReplace;
   PanelBtnRep.Visible:= IsReplace;
   chkConfirm.Enabled:= IsReplace;
@@ -1199,6 +1198,7 @@ begin
   chkMulLine.Visible:= UiOps.FindShow_MultiLine;
   bTokens.Visible:= UiOps.FindShow_SyntaxElements;
   chkHiAll.Visible:= UiOps.FindShow_HiAll;
+  chkConfirm.Visible:= (IsReplace or IsNarrow) and UiOps.FindShow_ConfirmRep;
   ControlAutosizeOptionsByWidth;
 
   edFind.Left:= cPadding;
