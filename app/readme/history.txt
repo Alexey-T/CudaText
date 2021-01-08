@@ -4,6 +4,9 @@
   * changed
 
 
+1.120.3
+
++ add: lexer Python and others with indentation-based folding: implement proposal where blocks can be closed only when brackets ()[]{} are fully closed
 + add: lexer Python: don't find special words before '=', e.g. in 'func(type=value)' (thanks @APEC)
 + add: lexer Python: highligth decorators ('@name' or '@Decor.call') with special color (thanks @APEC)
 - fix: command "duplicate line (advanced)" regression (thanks @kvichans)
