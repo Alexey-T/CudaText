@@ -172,6 +172,8 @@ type
     FMenuitemOptWrapped: TMenuItem;
     FMenuitemOptInSel: TMenuItem;
     FMenuitemOptMulti: TMenuItem;
+    FMenuitemOptTokens: TMenuItem;
+    FMenuitemOptTokensSub: array[TATFinderTokensAllowed] of TMenuItem;
     FMenuitemOptHiAll: TMenuItem;
     FMenuitemFindFirst: TMenuItem;
     FMenuitemFindPrev: TMenuItem;
@@ -202,6 +204,7 @@ type
     procedure DoResult(Str: TAppFinderOperation);
     function GetHiAll: boolean;
     procedure InitPopupMore;
+    procedure MenuitemTokensClick(Sender: TObject);
     procedure SetHiAll(AValue: boolean);
     procedure SetIsDoubleBuffered(AValue: boolean);
     procedure SetMultiLine(AValue: boolean);
@@ -357,6 +360,7 @@ var
   Sep1: TMenuItem;
   Sep2: TMenuItem;
   Sep3: TMenuItem;
+  kind: TATFinderTokensAllowed;
 begin
   SCaptionOptRegex:= 'Regular expression';
   SCaptionOptCase:= 'Case sensitive';
@@ -364,6 +368,7 @@ begin
   SCaptionOptWrapped:= 'Wrapped search';
   SCaptionOptInSel:= 'Search in selection';
   SCaptionOptMulti:= 'Multi-line inputs';
+  SCaptionOptTokens:= 'Allowed syntax elements';
   SCaptionOptHiAll:= 'Highlight all matches';
   SCaptionFindFirst:= 'Find first';
   SCaptionFindPrev:= 'Find previous';
@@ -388,6 +393,7 @@ begin
       SCaptionOptWrapped:= ini.ReadString(section, 'h_wr', SCaptionOptWrapped);
       SCaptionOptInSel:= ini.ReadString(section, 'h_sel', SCaptionOptInSel);
       SCaptionOptMulti:= ini.ReadString(section, 'h_mul', SCaptionOptMulti);
+      SCaptionOptTokens:= ini.ReadString(section, 'h_tok', SCaptionOptTokens);
       SCaptionOptHiAll:= ini.ReadString(section, 'h_hi', SCaptionOptHiAll);
       SCaptionFindFirst:= ini.ReadString(section, 'h_f1', SCaptionFindFirst);
       SCaptionFindPrev:= ini.ReadString(section, 'h_fp', SCaptionFindPrev);
@@ -426,6 +432,16 @@ begin
 
     FMenuitemOptMulti:= TMenuItem.Create(Self);
     FMenuitemOptMulti.OnClick:= @chkMulLineClick;
+
+    FMenuitemOptTokens:= TMenuItem.Create(Self);
+    for kind in TATFinderTokensAllowed do
+    begin
+      FMenuitemOptTokensSub[kind]:= TMenuItem.Create(Self);
+      FMenuitemOptTokensSub[kind].Tag:= Ord(kind);
+      FMenuitemOptTokensSub[kind].OnClick:= @MenuitemTokensClick;
+      FMenuitemOptTokensSub[kind].RadioItem:= true;
+      FMenuitemOptTokens.Add(FMenuitemOptTokensSub[kind]);
+    end;
 
     FMenuitemOptHiAll:= TMenuItem.Create(Self);
     FMenuitemOptHiAll.OnClick:= @chkHiAllClick;
@@ -478,6 +494,7 @@ begin
     FPopupMore.Items.Add(FMenuitemOptWrapped);
     FPopupMore.Items.Add(FMenuitemOptInSel);
     FPopupMore.Items.Add(FMenuitemOptMulti);
+    FPopupMore.Items.Add(FMenuitemOptTokens);
     FPopupMore.Items.Add(FMenuitemOptHiAll);
     FPopupMore.Items.Add(Sep1);
     FPopupMore.Items.Add(FMenuitemFindFirst);
@@ -513,6 +530,13 @@ begin
   FMenuitemOptMulti.Caption:= SCaptionOptMulti;
   FMenuitemOptMulti.Checked:= chkMulLine.Checked;
   FMenuitemOptMulti.ShortCut:= TextToShortCut(UiOps.HotkeyToggleMultiline);
+  FMenuitemOptTokens.Caption:= SCaptionOptTokens;
+  FMenuitemOptTokens.ShortCut:= TextToShortCut(UiOps.HotkeyToggleTokens);
+  for kind in TATFinderTokensAllowed do
+  begin
+    FMenuitemOptTokensSub[kind].Caption:= bTokens.Items[Ord(kind)];
+    FMenuitemOptTokensSub[kind].Checked:= bTokens.ItemIndex=Ord(kind);
+  end;
   FMenuitemOptHiAll.Caption:= SCaptionOptHiAll;
   FMenuitemOptHiAll.Checked:= chkHiAll.Checked;
   FMenuitemOptHiAll.ShortCut:= TextToShortCut(UiOps.HotkeyToggleHiAll);
@@ -539,6 +563,12 @@ begin
   FMenuitemRepAll.Shortcut:= TextToShortcut(UiOps.HotkeyReplaceAll);
   FMenuitemRepGlobal.Caption:= SCaptionRepGlobal;
   FMenuitemRepGlobal.Shortcut:= TextToShortcut(UiOps.HotkeyReplaceGlobal);
+end;
+
+procedure TfmFind.MenuitemTokensClick(Sender: TObject);
+begin
+  bTokens.ItemIndex:= (Sender as TMenuItem).Tag;
+  bTokens.Invalidate;
 end;
 
 procedure TfmFind.bMoreClick(Sender: TObject);
