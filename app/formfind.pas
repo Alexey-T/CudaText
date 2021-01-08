@@ -166,6 +166,13 @@ type
   private
     { private declarations }
     FPopupMore: TPopupMenu;
+    FMenuitemOptRegex: TMenuItem;
+    FMenuitemOptCase: TMenuItem;
+    FMenuitemOptWords: TMenuItem;
+    FMenuitemOptWrapped: TMenuItem;
+    FMenuitemOptInSel: TMenuItem;
+    FMenuitemOptMulti: TMenuItem;
+    FMenuitemOptHiAll: TMenuItem;
     FMenuitemFindFirst: TMenuItem;
     FMenuitemFindPrev: TMenuItem;
     FMenuitemFindNext: TMenuItem;
@@ -328,6 +335,14 @@ const
 var
   fn: string;
   ini: TIniFile;
+  SCaptionOptRegex,
+  SCaptionOptCase,
+  SCaptionOptWords,
+  SCaptionOptWrapped,
+  SCaptionOptInSel,
+  SCaptionOptMulti,
+  SCaptionOptTokens,
+  SCaptionOptHiAll,
   SCaptionFindFirst,
   SCaptionFindPrev,
   SCaptionFindNext,
@@ -341,7 +356,15 @@ var
   SCaptionRepGlobal: string;
   Sep1: TMenuItem;
   Sep2: TMenuItem;
+  Sep3: TMenuItem;
 begin
+  SCaptionOptRegex:= 'Regular expression';
+  SCaptionOptCase:= 'Case sensitive';
+  SCaptionOptWords:= 'Whole words';
+  SCaptionOptWrapped:= 'Wrapped search';
+  SCaptionOptInSel:= 'Search in selection';
+  SCaptionOptMulti:= 'Multi-line inputs';
+  SCaptionOptHiAll:= 'Highlight all matches';
   SCaptionFindFirst:= 'Find first';
   SCaptionFindPrev:= 'Find previous';
   SCaptionFindNext:= 'Find next';
@@ -359,6 +382,13 @@ begin
   begin
     ini:= TIniFile.Create(fn);
     try
+      SCaptionOptRegex:= ini.ReadString(section, 'h_re', SCaptionOptRegex);
+      SCaptionOptCase:= ini.ReadString(section, 'h_ca', SCaptionOptCase);
+      SCaptionOptWords:= ini.ReadString(section, 'h_wo', SCaptionOptWords);
+      SCaptionOptWrapped:= ini.ReadString(section, 'h_wr', SCaptionOptWrapped);
+      SCaptionOptInSel:= ini.ReadString(section, 'h_sel', SCaptionOptInSel);
+      SCaptionOptMulti:= ini.ReadString(section, 'h_mul', SCaptionOptMulti);
+      SCaptionOptHiAll:= ini.ReadString(section, 'h_hi', SCaptionOptHiAll);
       SCaptionFindFirst:= ini.ReadString(section, 'h_f1', SCaptionFindFirst);
       SCaptionFindPrev:= ini.ReadString(section, 'h_fp', SCaptionFindPrev);
       SCaptionFindNext:= ini.ReadString(section, 'h_fn', SCaptionFindNext);
@@ -379,6 +409,27 @@ begin
   begin
     FPopupMore:= TPopupMenu.Create(Self);
 
+    FMenuitemOptRegex:= TMenuItem.Create(Self);
+    FMenuitemOptRegex.OnClick:= @chkRegexClick;
+
+    FMenuitemOptCase:= TMenuItem.Create(Self);
+    FMenuitemOptCase.OnClick:= @chkCaseClick;
+
+    FMenuitemOptWords:= TMenuItem.Create(Self);
+    FMenuitemOptWords.OnClick:= @chkWordsClick;
+
+    FMenuitemOptWrapped:= TMenuItem.Create(Self);
+    FMenuitemOptWrapped.OnClick:= @chkWrapClick;
+
+    FMenuitemOptInSel:= TMenuItem.Create(Self);
+    FMenuitemOptInSel.OnClick:= @chkInSelClick;
+
+    FMenuitemOptMulti:= TMenuItem.Create(Self);
+    FMenuitemOptMulti.OnClick:= @chkMulLineClick;
+
+    FMenuitemOptHiAll:= TMenuItem.Create(Self);
+    FMenuitemOptHiAll.OnClick:= @chkHiAllClick;
+
     FMenuitemFindFirst:= TMenuItem.Create(Self);
     FMenuitemFindFirst.OnClick:= @bFindFirstClick;
 
@@ -393,6 +444,9 @@ begin
 
     Sep2:= TMenuItem.Create(Self);
     Sep2.Caption:= '-';
+
+    Sep3:= TMenuItem.Create(Self);
+    Sep3.Caption:= '-';
 
     FMenuitemCount:= TMenuItem.Create(Self);
     FMenuitemCount.OnClick:= @bCountClick;
@@ -418,20 +472,50 @@ begin
     FMenuitemRepGlobal:= TMenuItem.Create(Self);
     FMenuitemRepGlobal.OnClick:= @bRepGlobalClick;
 
+    FPopupMore.Items.Add(FMenuitemOptRegex);
+    FPopupMore.Items.Add(FMenuitemOptCase);
+    FPopupMore.Items.Add(FMenuitemOptWords);
+    FPopupMore.Items.Add(FMenuitemOptWrapped);
+    FPopupMore.Items.Add(FMenuitemOptInSel);
+    FPopupMore.Items.Add(FMenuitemOptMulti);
+    FPopupMore.Items.Add(FMenuitemOptHiAll);
+    FPopupMore.Items.Add(Sep1);
     FPopupMore.Items.Add(FMenuitemFindFirst);
     FPopupMore.Items.Add(FMenuitemFindPrev);
     FPopupMore.Items.Add(FMenuitemFindNext);
-    FPopupMore.Items.Add(Sep1);
+    FPopupMore.Items.Add(Sep2);
     FPopupMore.Items.Add(FMenuitemCount);
     FPopupMore.Items.Add(FMenuitemExtract);
     FPopupMore.Items.Add(FMenuitemSelectAll);
     FPopupMore.Items.Add(FMenuitemMarkAll);
-    FPopupMore.Items.Add(Sep2);
+    FPopupMore.Items.Add(Sep3);
     FPopupMore.Items.Add(FMenuitemRep);
     FPopupMore.Items.Add(FMenuitemRepStop);
     FPopupMore.Items.Add(FMenuitemRepAll);
     FPopupMore.Items.Add(FMenuitemRepGlobal);
   end;
+
+  FMenuitemOptRegex.Caption:= SCaptionOptRegex;
+  FMenuitemOptRegex.Checked:= chkRegex.Checked;
+  FMenuitemOptRegex.ShortCut:= TextToShortCut(UiOps.HotkeyToggleRegex);
+  FMenuitemOptCase.Caption:= SCaptionOptCase;
+  FMenuitemOptCase.Checked:= chkCase.Checked;
+  FMenuitemOptCase.ShortCut:= TextToShortCut(UiOps.HotkeyToggleCaseSens);
+  FMenuitemOptWords.Caption:= SCaptionOptWords;
+  FMenuitemOptWords.Checked:= chkWords.Checked;
+  FMenuitemOptWords.ShortCut:= TextToShortCut(UiOps.HotkeyToggleWords);
+  FMenuitemOptWrapped.Caption:= SCaptionOptWrapped;
+  FMenuitemOptWrapped.Checked:= chkWrap.Checked;
+  FMenuitemOptWrapped.ShortCut:= TextToShortCut(UiOps.HotkeyToggleWrapped);
+  FMenuitemOptInSel.Caption:= SCaptionOptInSel;
+  FMenuitemOptInSel.Checked:= chkInSel.Checked;
+  FMenuitemOptInSel.ShortCut:= TextToShortCut(UiOps.HotkeyToggleInSelect);
+  FMenuitemOptMulti.Caption:= SCaptionOptMulti;
+  FMenuitemOptMulti.Checked:= chkMulLine.Checked;
+  FMenuitemOptMulti.ShortCut:= TextToShortCut(UiOps.HotkeyToggleMultiline);
+  FMenuitemOptHiAll.Caption:= SCaptionOptHiAll;
+  FMenuitemOptHiAll.Checked:= chkHiAll.Checked;
+  FMenuitemOptHiAll.ShortCut:= TextToShortCut(UiOps.HotkeyToggleHiAll);
 
   FMenuitemFindFirst.Caption:= SCaptionFindFirst;
   FMenuitemFindFirst.ShortCut:= TextToShortCut(UiOps.HotkeyFindFirst);
