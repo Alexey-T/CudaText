@@ -1,6 +1,9 @@
 import os
 from cudatext import *
 import cudatext_cmd as cmds
+from cudax_lib import get_translation
+
+_   = get_translation(__file__)  # I18N
 
 fn_ini = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
 W_all = 650
