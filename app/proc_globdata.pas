@@ -252,6 +252,9 @@ type
     FindShow_FindPrev: boolean;
     FindShow_ReplaceAll: boolean;
     FindShow_ReplaceGlobal: boolean;
+    FindShow_RegEx: boolean;
+    FindShow_CaseSens: boolean;
+    FindShow_WholeWords: boolean;
     FindShow_Wrapped: boolean;
     FindShow_InSel: boolean;
     FindShow_MultiLine: boolean;
@@ -1559,6 +1562,9 @@ begin
     FindShow_FindPrev:= true;
     FindShow_ReplaceAll:= true;
     FindShow_ReplaceGlobal:= true;
+    FindShow_RegEx:= true;
+    FindShow_CaseSens:= true;
+    FindShow_WholeWords:= true;
     FindShow_Wrapped:= true;
     FindShow_InSel:= true;
     FindShow_MultiLine:= true;

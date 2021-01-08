@@ -1193,6 +1193,9 @@ begin
   bRepAll.Visible:= UiOps.FindShow_ReplaceAll;
   bRepGlobal.Visible:= UiOps.FindShow_ReplaceGlobal;
 
+  chkRegex.Visible:= UiOps.FindShow_RegEx;
+  chkCase.Visible:= UiOps.FindShow_CaseSens;
+  chkWords.Visible:= UiOps.FindShow_WholeWords;
   chkWrap.Visible:= UiOps.FindShow_Wrapped;
   chkInSel.Visible:= UiOps.FindShow_InSel;
   chkMulLine.Visible:= UiOps.FindShow_MultiLine;

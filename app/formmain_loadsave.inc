@@ -1146,6 +1146,9 @@ begin
   UiOps.FindShow_FindPrev:=      Pos('p', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_ReplaceAll:=    Pos('a', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_ReplaceGlobal:= Pos('g', UiOps.FindHiddenButtons)=0;
+  UiOps.FindShow_RegEx:=         Pos('R', UiOps.FindHiddenButtons)=0;
+  UiOps.FindShow_CaseSens:=      Pos('S', UiOps.FindHiddenButtons)=0;
+  UiOps.FindShow_WholeWords:=    Pos('W', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_Wrapped:=       Pos('O', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_InSel:=         Pos('I', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_MultiLine:=     Pos('M', UiOps.FindHiddenButtons)=0;
