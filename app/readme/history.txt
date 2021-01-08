@@ -4,6 +4,8 @@
   * changed
 
 
+- fix: lexer Python: don't highlight words before '=' char, e.g. 'func(type=value)' (thanks @APEC)
+
 1.120.2 (2021/01)
 
 + add: command "settings: clear find/replace dialog history"
