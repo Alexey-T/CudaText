@@ -1,5 +1,8 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2021.01.07
++ [d_f] h_r2
+
 2021.01.05
 * delete [d_f] f_f, f_n, f_p, f_tx, r_tx
 + [d_f] h_f1, h_fn, h_fp, h_xf, h_xr, h_r, h_r_a, h_r_g, h_hi

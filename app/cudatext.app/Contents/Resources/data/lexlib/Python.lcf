@@ -148,6 +148,14 @@ object SyntAnal16: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Id before ='
+      StyleName = 'Id'
+      TokenType = 15
+      Expression = '[a-z_]\w*(?=\x20*=)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Id func name'
       StyleName = 'Id func name'
       TokenType = 13
@@ -664,7 +672,8 @@ object SyntAnal16: TLibSyntAnalyzer
     '^Id tree'
     'Ending :'
     'Id func name'
-    'Id after .')
+    'Id after .'
+    'Id=')
   Extentions = 'py pyw rpy cpy sconstruct pyi'
   LexerName = 'Python'
   Notes.Strings = (
