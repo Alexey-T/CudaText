@@ -1,6 +1,8 @@
 [comments]
 styles_cmt=Comment
 styles_str=String
+str1=
+str2=
 
 [map]
 Number=Number
@@ -14,3 +16,4 @@ Id function=Id4
 Id func name=Label
 Id types=Id2
 Id exception=Id3
+Decorator=TagId

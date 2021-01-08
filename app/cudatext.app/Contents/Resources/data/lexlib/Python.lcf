@@ -87,6 +87,14 @@ object SyntAnal16: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'Decorator'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 51200
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -180,14 +188,6 @@ object SyntAnal16: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = '^Attrib'
-      StyleName = 'Symbol'
-      TokenType = 8
-      Expression = '@'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = '^Symbol'
       StyleName = 'Symbol'
       TokenType = 8
@@ -249,7 +249,7 @@ object SyntAnal16: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[/\*,\.;=<>\+\-\^@!%\\\|~&]+'
+      Expression = '[/\*,\.;=<>\+\-\^!%\\\|~&]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -258,6 +258,14 @@ object SyntAnal16: TLibSyntAnalyzer
       StyleName = 'Symbol'
       TokenType = 9
       Expression = ':'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Decorator'
+      StyleName = 'Decorator'
+      TokenType = 16
+      Expression = '(?r)@\w[\w\.]*'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -652,7 +660,7 @@ object SyntAnal16: TLibSyntAnalyzer
     '        return await response.read()'
     ''
     'class MyName(object):      '
-    '  @staticmethod'
+    '  @Decor.name('#39'test'#39')'
     '  def func1(num):'
     '    pass'
     '   '
@@ -673,7 +681,8 @@ object SyntAnal16: TLibSyntAnalyzer
     'Ending :'
     'Id func name'
     'Id after .'
-    'Id=')
+    'Id='
+    '@Id')
   Extentions = 'py pyw rpy cpy sconstruct pyi'
   LexerName = 'Python'
   Notes.Strings = (
