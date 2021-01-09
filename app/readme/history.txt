@@ -6,6 +6,7 @@
 
 1.121.0 (2021/01)
 
++ add: command "delete word" (ie delete entire words under carets) like in VSCode
 + add: command "settings: clear find/replace dialog history"
 + add: command "settings: clear console input history"
 + add: Find dialog: add search options+actions to '...' menu (thanks @kvichans)
