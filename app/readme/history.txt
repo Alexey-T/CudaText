@@ -4,27 +4,23 @@
   * changed
 
 
-1.120.3
-
-+ add: Find dialog: allow to hide more buttons (RegEx, Case, Words, Confirm Replace) via "find_hidden_buttons" (thanks @kvichans)
-+ add: Find dialog: add search options to '...' menu (thanks @kvichans)
-+ add: lexer Python and others with indentation-based folding: implement proposal where blocks can be closed only when brackets ()[]{} are fully closed
-+ add: lexer Python: don't find special words before '=', e.g. in 'f(type=v)' (thanks @APEC)
-+ add: lexer Python: highlight decorators ('@ddd', '@Ddd.ddd') with special color (thanks @APEC)
-- fix: command "duplicate line (advanced)" regression (thanks @kvichans)
-- fix: plugin Emmet crash
-
-1.120.2 (2021/01)
+1.121.0 (2021/01)
 
 + add: command "settings: clear find/replace dialog history"
 + add: command "settings: clear console input history"
-+ add: Find dialog: add all search actions to "..." menu (thanks @kvichans) 
++ add: Find dialog: add search options+actions to '...' menu (thanks @kvichans)
++ add: Find dialog: allow to hide more buttons (regex, case, words, confirm replace) via "find_hidden_buttons" (thanks @kvichans)
 + add: Find dialog: when undocked, show search messages also in Find dialog caption (thanks @kvichans)
 + add: Find dialog: "Highlight all" action shows working time in msec (thanks @tmsg)
++ add: lexer Python and others with indentation-based folding: implement proposal where blocks can be closed only when brackets ()[]{} are fully closed
++ add: lexer Python: don't find special words before '=', e.g. in 'f(type=v)' (thanks @APEC)
++ add: lexer Python: highlight decorators ('@ddd', '@Ddd.ddd') with special color (thanks @APEC)
 + add: lexers C, C++: highlight of several operators, like <=> ||= &&= : # ##
 + add: lexers C, C++: highlight of preprocessor directives
-- fix: regression in Find dialog, caused by addition in 1.120.0 (thanks @hamasaki)
+- fix: command "duplicate line (advanced)" regression (thanks @kvichans)
+- fix: Find dialog: regression caused by addition in 1.120.0 (thanks @hamasaki)
 - fix: Find dialog: code-tree selection was not updated via buttons "find next/previous" (thanks @Jairo-Martinez)
+- fix: plugin Emmet crash
 
 1.120.0 (2021/01)
 
