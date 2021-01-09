@@ -306,6 +306,7 @@ Most of them are located in Addons Manager "Install" list.
 * Assembly RISC-V
 * Assembly SHARC DSP
 * Assembly SPARC
+* Assembly STM32
 * Assembly Z80 SjASM
 * Assembly Z80 RGBDS
 * Asymptote
