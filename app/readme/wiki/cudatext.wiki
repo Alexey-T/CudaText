@@ -970,6 +970,7 @@ CudaText shows name of current session in its window title like "filename.txt {s
 Program has options:
 
 * "ui_reopen_session": Save last session on closing, and restore it on start.
+* "ui_reopen_session_cmdline": Allow to restore last session even if some file/folder was passed in the command line (or from the Windows Shell Extension). Note, this gives weird behaviour: N program instances will reopen the same last session + passed command-line file. So this option is mainly for the single instance mode.
 * "ui_auto_save_session": On program closing, save current session without asking.
 
 If some session is opened, program stores document states, on program closing, to session file.
