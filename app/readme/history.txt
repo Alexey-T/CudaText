@@ -15,11 +15,11 @@
 + add: lexer Python and others with indentation-based folding: implement proposal where blocks can be closed only when brackets ()[]{} are fully closed
 + add: lexer Python: don't find special words before '=', e.g. in 'f(type=v)' (thanks @APEC)
 + add: lexer Python: highlight decorators ('@ddd', '@Ddd.ddd') with special color (thanks @APEC)
-+ add: lexers C, C++: highlight of several operators, like <=> ||= &&= : # ##
-+ add: lexers C, C++: highlight of preprocessor directives
-- fix: command "duplicate line (advanced)" regression (thanks @kvichans)
++ add: lexers C, C++: better highlight of several operators, like <=> ||= &&= : # ##
++ add: lexers C, C++: better highlight of preprocessor directives
 - fix: Find dialog: regression caused by addition in 1.120.0 (thanks @hamasaki)
 - fix: Find dialog: code-tree selection was not updated via buttons "find next/previous" (thanks @Jairo-Martinez)
+- fix: command "duplicate line (advanced)" regression (thanks @kvichans)
 - fix: plugin Emmet crash
 
 1.120.0 (2021/01)
