@@ -1,4 +1,4 @@
-object SyntAnal12: TLibSyntAnalyzer
+object SyntAnal13: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -400,37 +400,6 @@ object SyntAnal12: TLibSyntAnalyzer
           TokenTypes = 4
         end>
       HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Block comment'
-      BlockName = 'Block comment'
-      NotParent = True
-      AlwaysEnabled = True
-      ConditionList = <
-        item
-          TokenTypes = 2
-        end>
-      BlockEnd = 'Block comment end'
-      EndOfTextClose = True
-      DisplayInTree = False
-      HighlightPos = cpBound
-      CollapseFmt = '/* ... */'
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Block comment end'
-      BlockName = 'Block comment'
-      StrictParent = True
-      AlwaysEnabled = True
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          CondType = tcNotEqual
-          TokenTypes = 2
-        end>
-      BlockOffset = 1
-      HighlightPos = cpBound
       IgnoreAsParent = False
     end
     item
