@@ -1,4 +1,4 @@
-object SyntAnal4: TLibSyntAnalyzer
+object SyntAnal5: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -458,36 +458,6 @@ object SyntAnal4: TLibSyntAnalyzer
       NoEndRule = True
       TreeItemImage = 3
       IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Block comment'
-      BlockName = 'Block comment'
-      NotParent = True
-      AlwaysEnabled = True
-      ConditionList = <
-        item
-          TokenTypes = 2
-        end>
-      BlockEnd = 'Block comment end'
-      DisplayInTree = False
-      HighlightPos = cpBound
-      CollapseFmt = '{ ... }'
-      GrammaRuleName = 'comments'
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Block comment end'
-      BlockName = 'Block comment'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          CondType = tcNotEqual
-          TokenTypes = 2
-          IgnoreCase = True
-        end>
-      BlockOffset = 1
-      HighlightPos = cpBound
-      IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <
@@ -496,7 +466,7 @@ object SyntAnal4: TLibSyntAnalyzer
       StyleName = 'Asm BG'
       StartExpression = '\#asm\s*\(\s*"'
       EndExpression = '"\)'
-      SyntAnalyzer = SyntAnal1
+      SyntAnalyzer = SyntAnal2
     end
     item
       DisplayName = 'asm-endasm'
@@ -504,7 +474,7 @@ object SyntAnal4: TLibSyntAnalyzer
       StyleName = 'Preprocessor'
       StartExpression = '\#asm'
       EndExpression = '\#endasm'
-      SyntAnalyzer = SyntAnal1
+      SyntAnalyzer = SyntAnal2
     end>
   SampleText.Strings = (
     '/* Test */'
