@@ -228,7 +228,7 @@ class Command:
                 UI = ['\1'.join([
                             'type=button',
                             'pos=%d,%d,%d,%d'%(COLUMN_W*(cl+1)-86, line*h+5, COLUMN_W*(cl+1)-6, line*20+25),
-                            'cap=#'+_('Next')
+                            'cap='+_('Next')
                             ])] +\
                     UI +\
                     ['\1'.join([
