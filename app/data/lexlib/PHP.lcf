@@ -1,4 +1,4 @@
-object SyntAnal15: TLibSyntAnalyzer
+object SyntAnal16: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Text'
@@ -570,29 +570,6 @@ object SyntAnal15: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'Comment begin'
-      ConditionList = <
-        item
-          TokenTypes = 2
-        end>
-      BlockEnd = 'Comment end'
-      DisplayInTree = False
-      HighlightPos = cpBound
-      DynSelectMin = True
-      CollapseFmt = '<!--  ...  -->'
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Comment end'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TokenTypes = 2
-        end>
-      HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
       DisplayName = 'Tag attribute'
       BlockName = 'Tag begin'
       ConditionList = <
@@ -781,7 +758,7 @@ object SyntAnal15: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal14
+      SyntAnalyzer = SyntAnal15
     end
     item
       DisplayName = 'CSS'
@@ -789,7 +766,7 @@ object SyntAnal15: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<style[^>]*>'
       EndExpression = '</style>'
-      SyntAnalyzer = SyntAnal6
+      SyntAnalyzer = SyntAnal7
     end
     item
       DisplayName = 'JavaScript'
@@ -797,14 +774,14 @@ object SyntAnal15: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<script[^>]*javascript [^>]* [^\?] > \s*(<!--)?'
       EndExpression = '(?i)(//)?(-->)?\s*</script>'
-      SyntAnalyzer = SyntAnal9
+      SyntAnalyzer = SyntAnal10
     end
     item
       DisplayName = 'JavaScript simple'
       StyleName = 'Sublexer BG'
       StartExpression = '<script>'
       EndExpression = '</script>'
-      SyntAnalyzer = SyntAnal9
+      SyntAnalyzer = SyntAnal10
     end>
   SampleText.Strings = (
     '<!doctype test="123">'
