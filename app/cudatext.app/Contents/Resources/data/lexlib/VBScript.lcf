@@ -1,4 +1,4 @@
-object SyntAnal19: TLibSyntAnalyzer
+object SyntAnal21: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -402,36 +402,6 @@ object SyntAnal19: TLibSyntAnalyzer
           IgnoreCase = True
         end>
       LinePos = lbBottom
-      HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Block comment'
-      BlockName = 'Block comment'
-      NotParent = True
-      ConditionList = <
-        item
-          TokenTypes = 2
-          IgnoreCase = True
-        end>
-      BlockEnd = 'Block comment end'
-      DisplayInTree = False
-      HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Block comment end'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TokenTypes = 1021
-          IgnoreCase = True
-        end
-        item
-          TokenTypes = 2
-          IgnoreCase = True
-        end>
-      BlockOffset = 1
       HighlightPos = cpBound
       IgnoreAsParent = False
     end

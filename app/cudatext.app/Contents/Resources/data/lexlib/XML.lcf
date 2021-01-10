@@ -1,4 +1,4 @@
-object SyntAnal21: TLibSyntAnalyzer
+object SyntAnal22: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -420,27 +420,6 @@ object SyntAnal21: TLibSyntAnalyzer
           TokenTypes = 1024
         end>
       BlockEnd = 'Tag block begin'
-      HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Comment begin'
-      ConditionList = <
-        item
-          TokenTypes = 2
-        end>
-      BlockEnd = 'Comment end'
-      DisplayInTree = False
-      HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Comment end'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TokenTypes = 2
-        end>
       HighlightPos = cpBound
       IgnoreAsParent = False
     end
