@@ -923,6 +923,7 @@ begin
   if S='statusbar' then
   begin
     Ctl:= TATStatus.Create(AForm);
+    TATStatus(Ctl).OnPanelClick:= @AForm.DoOnStatusbarPanelClick;
     exit;
   end;
 

@@ -25,6 +25,7 @@ uses
   proc_scrollbars,
   ATSynEdit,
   ATSynEdit_Gaps,
+  ATStatusBar,
   ATListbox;
 
 type
@@ -142,6 +143,7 @@ type
     procedure DoOnTreeviewSelect(Sender: TObject);
     procedure DoOnTreeviewExpanding(Sender: TObject; Node: TTreeNode; var AllowExpansion: Boolean);
     procedure DoOnTreeviewCollapsing(Sender: TObject; Node: TTreeNode; var AllowCollapse: Boolean);
+    procedure DoOnStatusbarPanelClick(Sender: TObject; AIndex: integer);
     procedure DoOnControlSelect(Sender: TObject);
     procedure DoOnControlFocusEnter(Sender: TObject);
     procedure DoOnControlFocusExit(Sender: TObject);
@@ -933,6 +935,26 @@ begin
   IdControl:= FindControlIndexByOurObject(Sender);
   Data:= AppVariant(PtrInt(Node));
   DoEvent(IdControl, Props.FEventOnFold, Data);
+end;
+
+procedure TFormDummy.DoOnStatusbarPanelClick(Sender: TObject; AIndex: integer);
+var
+  Bar: TATStatus;
+  BarData: TATStatusData;
+  //Props: TAppControlProps;
+  IdControl: integer;
+  Data: TAppVariant;
+begin
+  if not (Sender is TATStatus) then exit;
+  Bar:= Sender as TATStatus;
+  BarData:= Bar.GetPanelData(AIndex);
+  if BarData.Callback<>'' then
+  begin
+    //Props:= TAppControlProps((Sender as TControl).Tag);
+    IdControl:= FindControlIndexByOurObject(Sender);
+    Data:= AppVariant(AIndex);
+    DoEvent(IdControl, BarData.Callback, Data);
+  end;
 end;
 
 procedure TFormDummy.DoOnTreeviewSelect(Sender: TObject);

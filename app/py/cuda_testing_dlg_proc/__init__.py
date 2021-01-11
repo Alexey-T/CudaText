@@ -303,6 +303,9 @@ class Command:
             print('  tempdlg end')
 
 
+    def callback_statusbar_click(self, id_dlg, id_ctl, data='', info=''):
+        print('callback_statusbar_click', 'data:', data)
+
     def init_buttondlg(self):
         h=dlg_proc(0, DLG_CREATE)
         dlg_proc(h, DLG_PROP_SET, prop={
@@ -1064,6 +1067,9 @@ int main(int argc, char *argv[])
         statusbar_proc(sb_id, STATUSBAR_ADD_CELL, tag=11)
         statusbar_proc(sb_id, STATUSBAR_ADD_CELL, tag=22)
         statusbar_proc(sb_id, STATUSBAR_ADD_CELL, tag=33)
+        
+        statusbar_proc(sb_id, STATUSBAR_SET_CELL_CALLBACK, tag=33, value=
+            'module=cuda_testing_dlg_proc;cmd=callback_statusbar_click;')
 
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_SIZE, tag=11, value=150)
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_COLOR_BACK, tag=11, value=0xff00)
