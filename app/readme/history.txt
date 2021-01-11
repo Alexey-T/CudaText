@@ -8,6 +8,7 @@
 
 + add: option "auto_fold_comments", it automatically creates folding-ranges for N commented lines
 * change: deleted similar settings (fold commented lines) from some lexers (C, Lua, PHP, Python), it gave much less flexibility
++ add: trying to hide caret for unfocused editors (thanks @OlehL for idea)
 
 1.121.0 (2021/01)
 
