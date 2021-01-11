@@ -4,6 +4,9 @@
   * changed
 
 
++ add: program now automatically folds comment lines, when >=5 nearest lines are comments (any kind of comments: line or stream)
+* change: deleted similar settings from some lexers (C, Lua, PHP, Python), it gave less flexibility
+
 1.121.0 (2021/01)
 
 + add: command "delete word" (ie delete entire words under carets) like in VSCode
