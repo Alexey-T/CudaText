@@ -603,7 +603,12 @@ begin
 
   EditorApplyTheme(Ed);
   if not AOneLiner then
-    EditorApplyOps(Ed, EditorOps, AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering, AOneLiner);
+    EditorApplyOps(Ed, EditorOps, AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering, AOneLiner)
+  else
+  begin
+    Ed.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
+    Ed.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
+  end;
 end;
 
 procedure DoControl_CreateNew(

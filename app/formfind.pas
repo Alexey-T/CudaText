@@ -1095,6 +1095,11 @@ end;
 
 procedure TfmFind.FormShow(Sender: TObject);
 begin
+  edFind.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
+  edRep.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
+  edFind.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
+  edRep.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
+
   UpdateFormHeight;
   UpdateFonts;
   FixFormPositionToDesktop(Self);
