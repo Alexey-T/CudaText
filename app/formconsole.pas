@@ -268,12 +268,12 @@ begin
   EdMemo.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
   EdMemo.OptBorderWidth:= 0;
   EdMemo.OptShowURLs:= false;
+  EdMemo.OptCaretVirtual:= false;
   EdMemo.OptCaretManyAllowed:= false;
   EdMemo.OptGutterVisible:= false;
   EdMemo.OptRulerVisible:= false;
   EdMemo.OptUnprintedVisible:= false;
   EdMemo.OptMarginRight:= 2000;
-  EdMemo.OptCaretVirtual:= false;
   EdMemo.ModeReadOnly:= true;
   EdMemo.OptMouseRightClickMovesCaret:= true;
   EdMemo.OptMouseWheelZooms:= false;

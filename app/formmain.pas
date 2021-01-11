@@ -3334,6 +3334,14 @@ begin
     fmFind.IsDoubleBuffered:= UiOps.DoubleBuffered;
   //end apply DoubleBuffered
 
+  if Assigned(fmFind) then
+  begin
+    fmFind.edFind.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
+    fmFind.edRep.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
+    fmFind.edFind.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
+    fmFind.edRep.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
+  end;
+
   UpdateStatusbarPanelsFromString(UiOps.StatusPanels);
   UpdateStatusbarHints;
 
@@ -3343,14 +3351,20 @@ begin
 
   CodeTreeFilterInput.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
   CodeTreeFilterInput.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
+  CodeTreeFilterInput.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
+  CodeTreeFilterInput.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
   CodeTreeFilterReset.Width:= AppScale(UiOps.ScrollbarWidth);
 
   EditorCaretPropsFromString(fmConsole.EdMemo.CaretPropsReadonly, EditorOps.OpCaretViewReadonly);
   fmConsole.EdMemo.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
   fmConsole.EdMemo.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
+  fmConsole.EdMemo.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
+  fmConsole.EdMemo.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
   fmConsole.EdInput.Height:= AppScale(UiOps.InputHeight);
   fmConsole.EdInput.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
   fmConsole.EdInput.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
+  fmConsole.EdInput.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
+  fmConsole.EdInput.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
   fmConsole.MemoWordWrap:= UiOps.ConsoleWordWrap;
 
   DoApplyUiOpsToGroups(Groups);
