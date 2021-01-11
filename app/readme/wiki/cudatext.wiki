@@ -854,14 +854,17 @@ You can type those "hash tags" at begin or end of the field, even without separa
 
 ==Regular expressions==
 
-Lexer parser uses regex engine from EControl engine. You use this regex syntax only in lexer configuration dialog, not in CudaText normal usage. Engine has custom features:
+Lexer parser uses EControl regex engine. You use this regex syntax only in the "Lexer Properties" dialog in SynWrite, not in the CudaText normal usage. EControl regex has custom features:
 
 * classes \A, \Z: begin/end of document
 * lookahead/lookbehind can find match of variable length
 * modifier (?r): treat \w as all national characters too
 * modifier (?g): greedy
 
-CudaText search/replace uses [https://regex.sorokin.engineer/en/latest/regular_expressions.html TRegExpr engine] (by Sorokin). To perform replacements with regex groups, write groups in the "Replace" field as $0 (entire match) and $1 to $9 (first 9 groups).
+CudaText search/replace uses [https://regex.sorokin.engineer/en/latest/regular_expressions.html TRegExpr engine] (by Sorokin, later improved by Alexey Torgashin).
+
+* To refer to regex groups in the regular expression itself, in the "Find what" field, use syntax \1 ... \9 (and \0 for entire match).
+* To perform replacements with groups, in the "Replace with" field, use syntax $1 ... $9 (and $0 for entire match).
 
 ===Change case on replaces===
 
