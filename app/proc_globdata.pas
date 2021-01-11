@@ -436,6 +436,7 @@ type
     OpOverwriteSel: boolean;
     OpOverwriteOnPaste: boolean;
 
+    OpAutoFoldComments: integer;
     OpAutoCloseBrackets: string;
     OpAutocompleteAutoshowCharCount: integer;
     OpAutocompleteTriggerChars: string;
@@ -1297,6 +1298,7 @@ begin
     OpOverwriteSel:= true;
     OpOverwriteOnPaste:= false;
 
+    OpAutoFoldComments:= 5;
     OpAutoCloseBrackets:= '([{';
     OpAutocompleteAutoshowCharCount:= 0;
     OpAutocompleteTriggerChars:= '';

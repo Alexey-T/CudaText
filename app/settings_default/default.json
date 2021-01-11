@@ -1172,6 +1172,10 @@
   //Function doesn't work if after caret is word char.
   "auto_close_brackets": "([{",
 
+  //Allow N (N>1) consecutive commented lines to automatically create the folding range
+  //Note: option is global, not per-lexer
+  "auto_fold_comments": 5,
+
   //[File]
   //Extensions of picture files (they show as pictures)
   "picture_types": "bmp,png,jpg,jpeg,jpe,gif,ico",

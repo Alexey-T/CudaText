@@ -4,8 +4,10 @@
   * changed
 
 
-+ add: program now automatically folds comment lines, when >=5 nearest lines are comments (any kind of comments: line or stream)
-* change: deleted similar settings from some lexers (C, Lua, PHP, Python), it gave less flexibility
+1.121.5
+
++ add: option "auto_fold_comments", it automatically creates folding-ranges for N commented lines
+* change: deleted similar settings (fold commented lines) from some lexers (C, Lua, PHP, Python), it gave much less flexibility
 
 1.121.0 (2021/01)
 
