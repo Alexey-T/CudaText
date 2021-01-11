@@ -4,7 +4,7 @@
   * changed
 
 
-1.121.5
+1.121.1
 
 + add: option "auto_fold_comments", it automatically creates folding-ranges for N commented lines
 * change: deleted similar settings (fold commented lines) from some lexers (C, Lua, PHP, Python), it gave much less flexibility
