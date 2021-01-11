@@ -304,7 +304,8 @@ class Command:
 
 
     def callback_statusbar_click(self, id_dlg, id_ctl, data='', info=''):
-        print('callback_statusbar_click', 'data:', data)
+        print('callback_statusbar_click: id_dlg={}; id_ctl={}; data={}; info={};'.format(
+            id_dlg, id_ctl, data, info))
 
     def init_buttondlg(self):
         h=dlg_proc(0, DLG_CREATE)

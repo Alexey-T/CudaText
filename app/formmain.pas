@@ -1129,6 +1129,7 @@ type
       AForMany: boolean; var AConfirm, AContinue: boolean; var AReplacement: UnicodeString);
     procedure FinderOnConfirmReplace_API(Sender: TObject; APos1, APos2: TPoint;
       AForMany: boolean; var AConfirm, AContinue: boolean; var AReplacement: UnicodeString);
+    procedure PyStatusbarPanelClick(Sender: TObject; const ATag: Int64);
   end;
 
 var
@@ -1947,6 +1948,10 @@ begin
             OptWrapMode:= Succ(OptWrapMode);
           UpdateStatus;
         end;
+      end;
+    21..MaxInt:
+      begin
+        PyStatusbarPanelClick(Sender, Data.Tag);
       end;
   end;
 end;
@@ -7637,6 +7642,38 @@ procedure TfmMain.FindDialogGetMainEditor(out AEditor: TATSynEdit);
 begin
   AEditor:= CurrentEditor;
 end;
+
+procedure TfmMain.PyStatusbarPanelClick(Sender: TObject; const ATag: Int64);
+var
+  Bar: TATStatus;
+  BarData: TATStatusData;
+  ParamVars: TAppVariantArray;
+  ParamNames: array of string;
+  NCell: integer;
+begin
+  if not (Sender is TATStatus) then exit;
+  Bar:= Sender as TATStatus;
+
+  NCell:= Bar.FindPanel(ATag);
+  if NCell<0 then exit;
+
+  BarData:= Bar.GetPanelData(NCell);
+  if Assigned(BarData) and (BarData.Callback<>'') then
+  begin
+    SetLength(ParamVars, 4);
+    ParamVars[0]:= AppVariant(0);
+    ParamVars[1]:= AppVariant(0);
+    ParamVars[2]:= AppVariant(ATag);
+    ParamVars[3]:= AppVariant(0);
+    SetLength(ParamNames, 4);
+    ParamNames[0]:= 'id_dlg';
+    ParamNames[1]:= 'id_ctl';
+    ParamNames[2]:= 'data';
+    ParamNames[3]:= 'info';
+    DoPyCallbackFromAPI(BarData.Callback, ParamVars, ParamNames);
+  end;
+end;
+
 
 
 //----------------------------

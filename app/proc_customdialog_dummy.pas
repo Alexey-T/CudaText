@@ -948,11 +948,11 @@ begin
   if not (Sender is TATStatus) then exit;
   Bar:= Sender as TATStatus;
   BarData:= Bar.GetPanelData(AIndex);
-  if BarData.Callback<>'' then
+  if Assigned(BarData) and (BarData.Callback<>'') then
   begin
     //Props:= TAppControlProps((Sender as TControl).Tag);
     IdControl:= FindControlIndexByOurObject(Sender);
-    Data:= AppVariant(AIndex);
+    Data:= AppVariant(BarData.Tag);
     DoEvent(IdControl, BarData.Callback, Data);
   end;
 end;
