@@ -6,9 +6,9 @@
 
 1.121.1
 
-+ add: option "auto_fold_comments", it automatically creates folding-ranges for N commented lines
-* change: deleted similar settings (fold commented lines) from some lexers (C, Lua, PHP, Python), it gave much less flexibility
-+ add: trying to hide caret for unfocused editors (thanks @OlehL for idea)
++ add: attempt to hide caret for unfocused editors, looks better but not on all themes (thanks @OlehL)
++ add: option "auto_fold_comments", it automatically creates folding-ranges for many commented lines
+* change: deleted settings "fold commented lines" from standard lexers (C, Lua, PHP, Python), this gave much less flexibility than "auto_fold_comments"
 - fix: options "caret_blink_time", "caret_blink_en" were not applied to Console, Find/Replace, API editors (thanks @kvichans)
 
 1.121.0 (2021/01)
