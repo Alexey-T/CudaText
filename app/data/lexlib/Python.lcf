@@ -159,7 +159,7 @@ object SyntAnal17: TLibSyntAnalyzer
       DisplayName = '^Id='
       StyleName = 'Id'
       TokenType = 15
-      Expression = '(?r)[a-z_]\w*(?=\x20*=)'
+      Expression = '(?r)(?<!:\x20*)[a-z_]\w*(?=\x20*=)'
       ColumnFrom = 0
       ColumnTo = 0
     end
