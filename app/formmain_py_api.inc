@@ -8137,6 +8137,16 @@ begin
             Result:= ReturnNone;
           end;
 
+        STATUSBAR_SET_CELL_CALLBACK:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+            begin
+              Data.Callback:= StrValue;
+            end;
+            Result:= ReturnNone;
+          end;
+
 
         STATUSBAR_GET_CELL_SIZE:
           begin
@@ -8242,6 +8252,15 @@ begin
             Data:= FBar.GetPanelData(NIndex);
             if Assigned(Data) then
               Result:= PyLong_FromLong(Data.FontSize)
+            else
+              Result:= ReturnNone;
+          end;
+
+        STATUSBAR_GET_CELL_CALLBACK:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+              Result:= PyUnicodeFromString(Data.Callback)
             else
               Result:= ReturnNone;
           end;
