@@ -653,9 +653,13 @@ If you see lexer config in SynWrite, you will find that we need styles "Comment"
 
 ==Location of folders 'settings', 'py', 'data'==
 
-When CudaText runs in portable mode (executable file is located near folder "data"), then portable folders are used. Otherwise these locations are used:
+Non-portable CudaText installation exists
 
-* Windows: %AppData%\CudaText
+* for Linux - .deb package, which copies several folders to system folder
+* for macOS
+
+All other CudaText packages are portable. When program runs, it first detects "am I in portable mode?" (executable file is located near folder "data"). And if "not portable", these locations of 'data' and 'py' folders are used:
+
 * Linux, *BSD, Solaris: ~/.config/cudatext, or $XDG_CONFIG_HOME/cudatext if this OS variable is set
 * macOS: ~/Library/Application Support/CudaText
 
