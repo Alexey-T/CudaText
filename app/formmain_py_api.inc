@@ -8143,6 +8143,7 @@ begin
             if Assigned(Data) then
             begin
               Data.Callback:= StrValue;
+              Data.HotTrack:= StrValue<>'';
             end;
             Result:= ReturnNone;
           end;
