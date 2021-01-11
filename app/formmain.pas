@@ -7661,10 +7661,10 @@ begin
   if Assigned(BarData) and (BarData.Callback<>'') then
   begin
     SetLength(ParamVars, 4);
-    ParamVars[0]:= AppVariant(0);
-    ParamVars[1]:= AppVariant(0);
-    ParamVars[2]:= AppVariant(ATag);
-    ParamVars[3]:= AppVariant(0);
+    ParamVars[0]:= AppVariant(0); //id_dlg
+    ParamVars[1]:= AppVariant(PtrInt(fmMain.Status)); //id_ctl
+    ParamVars[2]:= AppVariant(ATag); //data
+    ParamVars[3]:= AppVariant(0); //info
     SetLength(ParamNames, 4);
     ParamNames[0]:= 'id_dlg';
     ParamNames[1]:= 'id_ctl';
