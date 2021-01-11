@@ -1750,6 +1750,7 @@ Param "id_action" can be:
 * STATUSBAR_GET_CELL_FONT_NAME: Returns special font name of cell (if empty str, not used).
 * STATUSBAR_GET_CELL_FONT_SIZE: Returns special font size of cell (if <=0, not used).
 * STATUSBAR_GET_CELL_TAG: Returns int tag of cell.
+* STATUSBAR_GET_CELL_CALLBACK: Returns callback string of cell.
 
 * STATUSBAR_SET_CELL_SIZE: Sets width of cell. Param "value": int.
 * STATUSBAR_SET_CELL_AUTOSIZE: Sets auto-size of cell. Param "value": bool.
@@ -1763,6 +1764,7 @@ Param "id_action" can be:
 * STATUSBAR_SET_CELL_FONT_NAME: Sets special font name of cell (if empty str, not used). Param "value": str.
 * STATUSBAR_SET_CELL_FONT_SIZE: Sets special font size of cell (if <=0, not used). Param "value": int.
 * STATUSBAR_SET_CELL_TAG: Sets tag of cell. Param "value": int.
+* STATUSBAR_SET_CELL_CALLBACK: Sets callback string of cell.
 
 Notes:
 
@@ -4052,5 +4054,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.355 (app 1.119.5)
 * change: Editor.attr: change param 'map_only' type from bool to int (enum)
+
+1.0.356 (app 1.121.1)
+* add: statusbar_proc: added STATUSBAR_SET_CELL_CALLBACK, STATUSBAR_GET_CELL_CALLBACK
 
 [[Category:CudaText]]
