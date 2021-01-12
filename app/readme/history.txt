@@ -6,8 +6,8 @@
 
 1.121.4 (2021/01)
 
-* change: Addon Manager: removed command "Re-install...", now all addons are in the "Install..."; already installed items are marked with "◄local ?►", and items with updates are marked with "◄local ?, web ?►" (thanks @cser, @kvichans) 
-+ add: attempt to hide caret for unfocused editors, looks better but not on all themes (thanks @OlehL)
+* add/change: Addon Manager: removed command "Re-install...", now all addons are in the "Install..."; already installed items are marked with "◄local ?►", and items with updates are marked with "◄local ?, web ?►" (thanks @cser, @kvichans) 
++ add: hide caret for unfocused editor controls (very old issue; thanks @OlehL)
 + add: option "auto_fold_comments", it automatically creates folding-ranges for many commented lines (thanks @Jairo-Martinez for tests)
 * change: deleted settings "fold commented lines" from standard lexers (C, Lua, PHP, Python), this gave much less flexibility than "auto_fold_comments"
 + add: TRegExpr engine allows to escape the underscore char (thanks @SlMaker)
