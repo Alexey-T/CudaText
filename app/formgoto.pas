@@ -133,6 +133,9 @@ begin
   edInput.BorderStyle:= bsNone;
   edInput.OnCheckInput:= @EditCheckInput;
 
+  edInput.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
+  edInput.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
+
   IsDoubleBuffered:= UiOps.DoubleBuffered;
 end;
 

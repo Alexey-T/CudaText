@@ -117,6 +117,10 @@ begin
   edit.Font.Name:= EditorOps.OpFontName;
   edit.Font.Size:= EditorOps.OpFontSize;
   edit.Font.Quality:= EditorOps.OpFontQuality;
+
+  edit.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
+  edit.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
+
   panelCaption.Font.Name:= UiOps.VarFontName;
   panelCaption.Font.Size:= AppScaleFont(UiOps.VarFontSize);
 

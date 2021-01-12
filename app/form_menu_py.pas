@@ -137,6 +137,9 @@ begin
   edit.Colors.TextSelBG:= GetAppColor(apclEdSelBg);
   edit.Colors.BorderLine:= GetAppColor(apclEdBorder);
 
+  edit.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
+  edit.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
+
   PanelCaption.Height:= AppScale(26);
   PanelCaption.Font.Name:= UiOps.VarFontName;
   PanelCaption.Font.Size:= AppScaleFont(UiOps.VarFontSize);
