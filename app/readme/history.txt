@@ -4,7 +4,7 @@
   * changed
 
 
-1.121.1
+1.121.4 (2021/01)
 
 + add: attempt to hide caret for unfocused editors, looks better but not on all themes (thanks @OlehL)
 + add: option "auto_fold_comments", it automatically creates folding-ranges for many commented lines
