@@ -7,10 +7,10 @@
 1.121.4 (2021/01)
 
 + add: attempt to hide caret for unfocused editors, looks better but not on all themes (thanks @OlehL)
-+ add: option "auto_fold_comments", it automatically creates folding-ranges for many commented lines
++ add: option "auto_fold_comments", it automatically creates folding-ranges for many commented lines (thanks @Jairo-Martinez for tests)
 * change: deleted settings "fold commented lines" from standard lexers (C, Lua, PHP, Python), this gave much less flexibility than "auto_fold_comments"
 + add: TRegExpr engine allows to escape the underscore char (thanks @SlMaker)
-+ add: plugins API allows to catch clicks on statusbar cells (thanks @xcme)
++ add: plugins API allows to catch clicks on statusbar cells (thanks @xcme for idea)
 - fix: options "caret_blink_time", "caret_blink_en" were not applied to Console, Find/Replace, API editors (thanks @kvichans)
 
 1.121.0 (2021/01)
