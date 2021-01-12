@@ -626,12 +626,14 @@ If you see lexer config in SynWrite, you will find that we need styles "Comment"
 ===Automatic folding of comments===
 
 There is an option "auto_fold_comments" (default is 5) which allows to automatically
-create folding ranges from n consecutive lines, which are all "syntax comments".
-This works for both line-comments and stream-comments, they can be even mixed (one comment after another).
-Previously, editor allowed this feature via lexer configuration: all needed lexers must have
-special settings inside them, and this worked for 2+ lines, not for any n.
-Limitation: several comments, separated by only blank line(s), will not be folded in one block.
-After the CudaText option is appeared, all 3rd-party lexers should be stripped of those old settings.
+create folding ranges from N consecutive lines, which are all "syntax comments".
+This works for both line-comments and stream-comments, they can be even mixed
+(one comment after another, with any amount of blank lines in between,
+but not for several stream-comments on a single line).
+
+Previously, CudaText allowed something like this, via lexer configuration: all needed lexers must have
+special settings inside them, and this worked for 2+ lines, not for custom value.
+After the option "auto_fold_comments" appeared, all 3rd-party lexers should be stripped of those old settings.
 
 ==Add-on types==
 
