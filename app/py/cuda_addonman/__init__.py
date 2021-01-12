@@ -186,14 +186,27 @@ class Command:
         msg_box(text, MB_OK+MB_ICONINFO)
 
 
-    def do_install_addon(self):
+    def get_item_label(self, item, installed_modules, installed_lexers):
 
-        def is_item_installed(item, installed_modules, installed_lexers):
+        def is_item_installed(item):
 
             if item['kind']=='lexer':
                 return item['name'] in installed_lexers
             else:
                 return item.get('module', '') in installed_modules
+
+        if not is_item_installed(item):
+            return ''
+        v_remote = item.get('v', '')
+        v_local = work_local.get_addon_version(item.get('url', ''))
+        if not v_remote or v_local>=v_remote:
+            res = ' ◄local {}►'.format(v_local or '?')
+        else:
+            res = ' ◄local {}, web {}►'.format(v_local or '?', v_remote)
+        return res
+
+
+    def do_install_addon(self):
 
         caption = 'Install'
         msg_status('Downloading list...')
@@ -213,18 +226,10 @@ class Command:
         installed_modules = [i['module'] for i in installed if i['kind']=='plugin']
         installed_lexers = [i['name'].replace(' ', '_') for i in installed if i['kind']=='lexer']
 
-        def v_info(item):
-            if not is_item_installed(item, installed_modules, installed_lexers):
-                return ''
-            v_remote = item.get('v', '')
-            v_local = work_local.get_addon_version(item.get('url', ''))
-            if not v_remote or v_local>=v_remote:
-                res = ' ◄local {}►'.format(v_local or '?')
-            else:
-                res = ' ◄local {}, web {}►'.format(v_local or '?', v_remote)
-            return res                 
-
-        names = ['<Category>'] + [ i['kind']+': '+i['name']+v_info(i)+'\t'+ i['desc'] for i in items ]
+        names = ['<Category>'] + \
+            [ i['kind'] + ': ' + i['name'] + \
+            self.get_item_label(i, installed_modules, installed_lexers) + \
+            '\t' + i['desc'] for i in items ]
 
         res = dlg_menu(
             MENU_LIST_ALT+MENU_NO_FUZZY+MENU_NO_FULLFILTER,
