@@ -6,12 +6,12 @@
 
 1.121.4 (2021/01)
 
-* change: Addon Manager: removed command "Re-install...", now all addons are in the "Install..."; already installed items are marked with "◄local ?►", and updatable items are marked with "◄local ?, web ?►" (thanks @cser, @kvichans) 
+* change: Addon Manager: removed command "Re-install...", now all addons are in the "Install..."; already installed items are marked with "◄local ?►", and items with updates are marked with "◄local ?, web ?►" (thanks @cser, @kvichans) 
 + add: attempt to hide caret for unfocused editors, looks better but not on all themes (thanks @OlehL)
 + add: option "auto_fold_comments", it automatically creates folding-ranges for many commented lines (thanks @Jairo-Martinez for tests)
 * change: deleted settings "fold commented lines" from standard lexers (C, Lua, PHP, Python), this gave much less flexibility than "auto_fold_comments"
 + add: TRegExpr engine allows to escape the underscore char (thanks @SlMaker)
-+ add: plugins API allows to catch clicks on statusbar cells (thanks @xcme for idea)
++ add: plugins API allows to catch clicks on statusbar cells (thanks @xcme)
 - fix: options "caret_blink_time", "caret_blink_en" were not applied to Console, Find/Replace, API editors (thanks @kvichans)
 
 1.121.0 (2021/01)
