@@ -213,9 +213,16 @@ class Command:
         installed_modules = [i['module'] for i in installed if i['kind']=='plugin']
         installed_lexers = [i['name'].replace(' ', '_') for i in installed if i['kind']=='lexer']
 
-        #items = [i for i in items if not is_item_installed(i, installed_modules, installed_lexers)]
         def v_info(item):
-            return ' ◄Installed►' if is_item_installed(item, installed_modules, installed_lexers) else ''
+            if not is_item_installed(item, installed_modules, installed_lexers):
+                return ''
+            v_remote = item.get('v', '')
+            v_local = work_local.get_addon_version(item.get('url', ''))
+            if not v_remote or v_local>=v_remote:
+                res = ' ◄local {}►'.format(v_local or '?')
+            else:
+                res = ' ◄local {}, web {}►'.format(v_local or '?', v_remote)
+            return res                 
 
         names = ['<Category>'] + [ i['kind']+': '+i['name']+v_info(i)+'\t'+ i['desc'] for i in items ]
 
