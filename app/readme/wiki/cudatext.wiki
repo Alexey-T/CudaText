@@ -57,7 +57,8 @@ Screenshot on Windows:
 * Scrolling after middle-button click (called "Autoscrolling" in Firefox)
 * API to show pictures between the lines (plugin "Insert Pics")
 * Zebra mode as an option
-* Double-clicking on URL or e-mail shows confirmation to activate it
+* [[#Activating_internet_links|Activating internet links]]
+* [[#Automatic_folding_of_comments|Automatic folding of comments]]
 
 = Download =
 
