@@ -8,10 +8,6 @@ subdir=cuda_addonman
 section=commands
 caption=Addons Manager\Install...
 method=do_install_addon
-[item2]
-section=commands
-caption=Addons Manager\Re-install...
-method=do_reinstall_addon
 [item5]
 section=commands
 caption=Addons Manager\Update...

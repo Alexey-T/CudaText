@@ -186,10 +186,7 @@ class Command:
         msg_box(text, MB_OK+MB_ICONINFO)
 
 
-    def do_reinstall_addon(self):
-        self.do_install_addon(True)
-
-    def do_install_addon(self, reinstall=False):
+    def do_install_addon(self):
 
         def is_item_installed(item, installed_modules, installed_lexers):
 
@@ -198,7 +195,7 @@ class Command:
             else:
                 return item.get('module', '') in installed_modules
 
-        caption = 'Re-install' if reinstall else 'Install'
+        caption = 'Install'
         msg_status('Downloading list...')
         items = get_remote_addons_list(opt.ch_def+opt.ch_user)
         msg_status('')
@@ -216,12 +213,11 @@ class Command:
         installed_modules = [i['module'] for i in installed if i['kind']=='plugin']
         installed_lexers = [i['name'].replace(' ', '_') for i in installed if i['kind']=='lexer']
 
-        if reinstall:
-            items = [i for i in items if is_item_installed(i, installed_modules, installed_lexers)]
-        else:
-            items = [i for i in items if not is_item_installed(i, installed_modules, installed_lexers)]
+        #items = [i for i in items if not is_item_installed(i, installed_modules, installed_lexers)]
+        def v_info(item):
+            return ' ◄Installed►' if is_item_installed(item, installed_modules, installed_lexers) else ''
 
-        names = ['<Category>'] + [ i['kind']+': '+i['name']+'\t'+i['desc'] for i in items ]
+        names = ['<Category>'] + [ i['kind']+': '+i['name']+v_info(i)+'\t'+ i['desc'] for i in items ]
 
         res = dlg_menu(
             MENU_LIST_ALT+MENU_NO_FUZZY+MENU_NO_FULLFILTER,
