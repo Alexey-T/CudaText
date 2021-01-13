@@ -2544,6 +2544,8 @@ Controls markers (used e.g. in Snippets plugin). Possible values of "id":
 * MARKERS_DELETE_BY_TAG: Deletes all markers with the given tag. Param "tag": tag value.
 * MARKERS_DELETE_BY_INDEX: Deletes marker by its index in the markers list. Param "tag": index (0-based).
 
+* MARKERS_GET_UNIQ_TAG: Gets integer tag value, which is unique for the current CudaText process (it starts with 100, increasing with each call).
+
 ===Editor.attr===
 
  attr(id, tag=0, x=0, y=0, len=1,
@@ -4055,7 +4057,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.355 (app 1.119.5)
 * change: Editor.attr: change param 'map_only' type from bool to int (enum)
 
-1.0.356 (app 1.121.1)
+1.0.357 (app 1.121.4)
 * add: statusbar_proc: added STATUSBAR_SET_CELL_CALLBACK, STATUSBAR_GET_CELL_CALLBACK
+* add: Editor.markers: added MARKERS_GET_UNIQ_TAG
 
 [[Category:CudaText]]
