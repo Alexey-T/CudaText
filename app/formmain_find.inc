@@ -602,6 +602,8 @@ begin
   MsgStatus(
     Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt])+FinderOptionsToHint,
     true);
+
+  UpdateAppForSearch(false, false, true); //hide search progressbar
 end;
 
 
