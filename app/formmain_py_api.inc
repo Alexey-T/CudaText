@@ -11,6 +11,7 @@ const
   cPyEditorHandleMin = 10;
   cPyEditorHandleMax = 10000;
   cPyTokenKind: array[TATTokenKind] of string = ('a', 'c', 's');
+  cPyUniqueTag: Int64 = 100;
 
 var
   PyEscapeFlag: boolean = false;
@@ -926,9 +927,6 @@ begin
     Result:= ReturnNone;
 end;
 
-const
-  _LastUniqueTag: Int64 = 100;
-
 function Py_ed_markers(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
@@ -1042,12 +1040,6 @@ begin
               Ed.Update;
             end;
             Result:= ReturnNone;
-          end;
-
-        MARKERS_GET_UNIQ_TAG:
-          begin
-            Inc(_LastUniqueTag);
-            Result:= PyLong_FromLongLong(_LastUniqueTag);
           end;
 
         else
@@ -4941,6 +4933,12 @@ begin
           begin
             fmMain.DoOps_LoadOptionsFromString(Str);
             Result:= ReturnNone;
+          end;
+
+        APP_PROC_GET_UNIQUE_TAG:
+          begin
+            Inc(cPyUniqueTag);
+            Result:= PyLong_FromLongLong(cPyUniqueTag);
           end;
 
         APP_PROC_ENUM_FONTS:
