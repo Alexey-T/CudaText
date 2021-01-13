@@ -55,7 +55,7 @@ Screenshot on Windows:
 * UI can be scaled by option (up to 500%)
 * Single-instance mode is supported on all OS'es
 * Scrolling after middle-button click (called "Autoscrolling" in Firefox)
-* API to show pictures between the lines (plugin "Insert Pics")
+* [[#Show_pictures_in_the_text|Show pictures in the text]]
 * Zebra mode as an option
 * [[#Activating_internet_links|Activating internet links]]
 * [[#Automatic_folding_of_comments|Automatic folding of comments]]
@@ -1420,6 +1420,20 @@ Control of UI tabs is named ATTabs, and has many features:
 * Tabs can be colored, by calling tab's context menu, and "Set tab color..." menu item. Internally, it calls plugin cuda_palette to choose the color, then color is applied. Plugin dialog has several modes (even simplest mode named "60 colors" is enough). By default, only thin line at the edge of tabs is colored, but you can colorize the entire tab using CudaText option "ui_tab_fullcolor". Coloring is saved to session (tab color is usual property of editor).
 
 [[File:cudatext-tab-colors.png]]
+
+==Show pictures in the text==
+CudaText gives the plugin API to show pictures between the text lines.
+These spaces between lines are called "gaps".
+Plugin "Insert Pics" exists to show picture files in gaps,
+it saves pictures in the "helper files" (using Base64 encoding) 
+near the original text file. It looks like this:
+
+[[File:cudatext-insert-pics.png]]
+
+* You can use any lexer for files with pictures.
+* You can add the unlimited number of pictures. But only one picture per "gap".
+* You can add/delete pictures later, using plugin's commands in menu "Plugins / Insert Pics".
+* When you delete the "helper file" (located in the same folder), all pictures will be lost for plugin.
 
 ==Activating internet links==
 CudaText allows to activate internet links (URLs) and e-mails (e-mail can be with the 'mailto:' and without it).
