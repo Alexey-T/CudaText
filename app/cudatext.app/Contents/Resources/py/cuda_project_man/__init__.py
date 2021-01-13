@@ -106,7 +106,7 @@ def is_locked(s):
     if IS_WIN:
         if s.endswith(':\\'):
             return False
-        return has_hidden_attribute(s)
+        return is_hidden_win32(s)
     else:
         return not os.access(s, os.R_OK)
 
