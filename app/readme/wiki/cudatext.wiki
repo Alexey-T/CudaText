@@ -2397,8 +2397,6 @@ CudaText:
 * List of files in the current project: "plugin: Project Manager: Go to file".
 * List of "symbols" in the current document: "plugin: Cuda-Ext: Code Tree: Symbols list" (shows the same symbols as code-tree can show).
 
-CudaText doesn't create indexes in any way, so it cannot show symbols in other files.
-
 [[Category: CudaText]]
 [[Category: Applications written in Free Pascal]]
 [[Category: Applications created with Lazarus]]
