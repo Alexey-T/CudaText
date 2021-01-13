@@ -92,10 +92,10 @@ Note: To run each on_macro item (with number) later, call ed.cmd(): number is co
 
 ==Events priority==
 
-By default all events in all plugins have prior=0. So for any event, if 2+ plugins have this event, they're called in order on module names (e.g. cuda_aa, then cuda_dd, then cuda_mmm).
+By default all events in all plugins have priority=0. So for any event, if 2+ plugins handle this event, they're called in the order on module names (e.g. cuda_aa, then cuda_dd, then cuda_mmm).
 
 You may want to handle some event first.
-To change prior for your plugin event, write in install.inf event like this: "on_key+", "on_key++"... with any number of "+" up to 4. Each "+" makes higher prior. So first called "on_key" with maximal number of "+", last called "on_key" w/o "+".
+To change priority for your plugin event, write in install.inf event like this: "on_key+", "on_key++"... with any number of "+" up to 4. Each "+" makes higher priority. So first called "on_key" with maximal number of "+", last called "on_key" without "+".
 
 ==Lazy events==
 
@@ -231,6 +231,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 * PROC_GET_GUI_HEIGHT: Returns height (pixels) of GUI element for dlg_custom(). Possible values of 'text': 'button', 'label', 'linklabel', 'combo', 'combo_ro', 'edit', 'spinedit', 'check', 'radio', 'checkbutton', 'filter_listbox', 'filter_listview'. Special value 'scrollbar' gets size of OS scrollbar. Returns None for other values.
 * PROC_GET_MOUSE_POS: Returns mouse cursor position in screen-related coordinates, as (x, y) tuple.
 * PROC_SEND_MESSAGE: For Windows. Sends message to a window by its handle. Param "text" must be 4-tuple of int (window_handle, msg_code, param1, param2).
+* PROC_GET_UNIQUE_TAG: Gets integer value, which is unique for the current CudaText process (it starts with 100, increasing with each call). Use this value for Editor.markers() and Editor.attr() tag values.
 
 ====Clipboard====
 
@@ -4055,7 +4056,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.355 (app 1.119.5)
 * change: Editor.attr: change param 'map_only' type from bool to int (enum)
 
-1.0.356 (app 1.121.1)
-* add: statusbar_proc: added STATUSBAR_SET_CELL_CALLBACK, STATUSBAR_GET_CELL_CALLBACK
+1.0.357 (app 1.121.4)
+* add: statusbar_proc: STATUSBAR_SET_CELL_CALLBACK, STATUSBAR_GET_CELL_CALLBACK
+* add: app_proc: PROC_GET_UNIQUE_TAG
 
 [[Category:CudaText]]
