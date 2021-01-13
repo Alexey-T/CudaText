@@ -546,6 +546,7 @@ begin
   ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
   FinderUpdateEditor(false);
   ShowFinderResult(ok);
+  UpdateAppForSearch(false, false, true); //hide search progressbar
 end;
 
 procedure TfmMain.DoFindMarkingInit(AMode: TATFindMarkingMode);
