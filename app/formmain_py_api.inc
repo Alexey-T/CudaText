@@ -926,6 +926,8 @@ begin
     Result:= ReturnNone;
 end;
 
+const
+  _LastUniqueTag: Int64 = 100;
 
 function Py_ed_markers(Self, Args: PPyObject): PPyObject; cdecl;
 var
@@ -1040,6 +1042,12 @@ begin
               Ed.Update;
             end;
             Result:= ReturnNone;
+          end;
+
+        MARKERS_GET_UNIQ_TAG:
+          begin
+            Inc(_LastUniqueTag);
+            Result:= PyLong_FromLongLong(_LastUniqueTag);
           end;
 
         else
