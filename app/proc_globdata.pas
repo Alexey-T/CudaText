@@ -969,7 +969,7 @@ begin
   {$ifdef windows}
   //detect latest existing file python3x.dll in app folder
   S:= ExtractFilePath(Application.ExeName);
-  for N:= 9 downto 6 do
+  for N:= 9 downto 4 do //support Python 3.4 for WinXP
   begin
     SFile:= Format('python3%d.dll', [N]);
     //don't return full filename, this loads DLL with full filename and plugins cannot load
