@@ -12,7 +12,7 @@
 * change: deleted settings "fold commented lines" from standard lexers (C, Lua, PHP, Python), this gave much less flexibility than "auto_fold_comments"
 + add: TRegExpr engine allows to escape the underscore char (thanks @SlMaker)
 + add: plugins API allows to catch clicks on statusbar cells (thanks @xcme)
-+ add: support package which adds Windows Python 3.4 libs (thanks @tiun)
++ add: support package with Windows Python 3.4, it's needed for Windows XP (thanks @tiun)
 - fix: options "caret_blink_time", "caret_blink_en" were not applied to Console, Find/Replace, API editors (thanks @kvichans)
 - fix: commands "find next", "find all and select" left the progressbar visible (thanks @kvichans)
 - fix: Project Manager silently failed with Windows Python 3.4 (thanks @pohmelie)
