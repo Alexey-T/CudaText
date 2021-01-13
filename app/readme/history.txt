@@ -10,9 +10,9 @@
 + add: hide caret for unfocused editor controls (very old issue; thanks @OlehL)
 + add: option "auto_fold_comments", it automatically creates folding-ranges for many commented lines (thanks @Jairo-Martinez for tests)
 * change: deleted settings "fold commented lines" from standard lexers (C, Lua, PHP, Python), to better support "auto_fold_comments"
-+ add: TRegExpr engine allows to escape the underscore char (thanks @SlMaker)
 + add: plugins API allows to catch clicks on statusbar cells (thanks @xcme)
-+ add: support package with Windows Python 3.4, it's needed for Windows XP (thanks @tiun)
++ add: support Windows Python 3.4, if such a package is installed from addons (thanks @tiun)
++ add: TRegExpr engine allows to escape the underscore char (thanks @SlMaker)
 - fix: options "caret_blink_time", "caret_blink_en" were not applied to Console, Find/Replace, API editors (thanks @kvichans)
 - fix: commands "find next", "find all and select" left the progressbar visible (thanks @kvichans)
 - fix: Project Manager silently failed with Windows Python 3.4 (thanks @pohmelie)
