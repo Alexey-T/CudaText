@@ -13,6 +13,7 @@
 + add: TRegExpr engine allows to escape the underscore char (thanks @SlMaker)
 + add: plugins API allows to catch clicks on statusbar cells (thanks @xcme)
 - fix: options "caret_blink_time", "caret_blink_en" were not applied to Console, Find/Replace, API editors (thanks @kvichans)
+- fix: commands "find next", "find all and select" left the progressbar visible (thanks @kvichans)
 
 1.121.0 (2021/01)
 
