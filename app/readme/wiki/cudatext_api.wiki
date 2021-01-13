@@ -92,10 +92,10 @@ Note: To run each on_macro item (with number) later, call ed.cmd(): number is co
 
 ==Events priority==
 
-By default all events in all plugins have prior=0. So for any event, if 2+ plugins have this event, they're called in order on module names (e.g. cuda_aa, then cuda_dd, then cuda_mmm).
+By default all events in all plugins have priority=0. So for any event, if 2+ plugins handle this event, they're called in the order on module names (e.g. cuda_aa, then cuda_dd, then cuda_mmm).
 
 You may want to handle some event first.
-To change prior for your plugin event, write in install.inf event like this: "on_key+", "on_key++"... with any number of "+" up to 4. Each "+" makes higher prior. So first called "on_key" with maximal number of "+", last called "on_key" w/o "+".
+To change priority for your plugin event, write in install.inf event like this: "on_key+", "on_key++"... with any number of "+" up to 4. Each "+" makes higher priority. So first called "on_key" with maximal number of "+", last called "on_key" without "+".
 
 ==Lazy events==
 
