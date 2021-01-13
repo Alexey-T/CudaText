@@ -1341,6 +1341,43 @@ class Editor:
     def micromap(self, id, param1=0, param2=0, param3=0):
         return ct.ed_micromap(self.h, id, param1, param2, param3)
 
+    def __len__(self):
+        """Return count of lines."""
+        return self.get_line_count()
+
+    def __getitem__(self, key):
+        """Return line/list[lines] of editor
+
+        .. code-block:: python
+
+           # get text line by index 12
+           s = ed[12]
+           # get list of text lines by indexes 0:4
+           s = ed[0:4]
+        """
+        if isinstance(key, int):
+            if key < 0:
+                return self.get_text_all().splitlines()[key]
+            return self.get_text_line(key)
+        elif isinstance(key, slice):
+            return self.get_text_all().splitlines()[key]
+        else:
+            raise TypeError('Index must be int or slice, not {}'.format(type(key).__name__))
+
+    def __setitem__(self, key, value):
+        """Set line/list of lines by index
+
+        .. code-block:: python
+
+           # set text line by index 12
+           ed[12] = 'hello word'
+        """
+        if isinstance(value, list):
+            value = '\n'.join(value)
+        if not isinstance(value, str):
+            raise TypeError("Value must be list or str, not {}".format(type(value).__name__))
+        self.set_text_line(key, value)
+
     def __str__(self):
         return '<Editor id:{} title:"{}" gr:{} tab:{}>'.format(
             self.get_prop(PROP_TAB_ID),
