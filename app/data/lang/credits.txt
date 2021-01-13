@@ -25,6 +25,8 @@ https://github.com/Artem3213212
 Andreas Heim
 https://github.com/dinkumoil/
 
+————————————————————————
+
 #Python for Delphi
 Dietmar Budelsky, Morgan Martinet, Kiriakos Vlahos
 https://github.com/pyscripter/python4delphi
@@ -35,6 +37,10 @@ https://github.com/Alexey-T/
 
 #BGRABitmap
 https://bgrabitmap.github.io/
+
+#Emmet for Pascal
+Rickard Johansson
+https://rj-texted.se/
 
 ————————————————————————
 
