@@ -11,7 +11,7 @@ const
   cPyEditorHandleMin = 10;
   cPyEditorHandleMax = 10000;
   cPyTokenKind: array[TATTokenKind] of string = ('a', 'c', 's');
-  cPyUniqueTag: Int64 = 100;
+  cPyUniqueTag: Int64 = 120;
 
 var
   PyEscapeFlag: boolean = false;
