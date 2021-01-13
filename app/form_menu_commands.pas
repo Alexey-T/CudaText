@@ -56,7 +56,7 @@ type
     FColorFontSel: TColor;
     FColorFontHilite: TColor;
     FColorFontHotkey: TColor;
-    PanelInfo: TLabel;
+    PanelInfo: TStaticText;
     procedure DoConfigKey(Cmd: integer);
     procedure DoFilter;
     procedure DoResetKey(K: TATKeymapItem);
@@ -185,7 +185,7 @@ begin
 
   keymapList:= TFPList.Create;
 
-  PanelInfo:= TLabel.Create(Self);
+  PanelInfo:= TStaticText.Create(Self);
   PanelInfo.Hide;
   PanelInfo.Parent:= Self;
   PanelInfo.Align:= alClient;
