@@ -3,7 +3,6 @@ import re
 import collections
 import json
 import stat
-import ctypes
 from fnmatch import fnmatch
 from pathlib import Path, PurePosixPath
 from .projman_glob import *
@@ -72,16 +71,17 @@ def is_mask_listed(s, masks):
             return True
     return False
 
-# only Python 3.5 supports os.stat(s).st_file_attributes
+# only Py 3.5 supports os.stat(s).st_file_attributes
 # so this is to support Py 3.4
-def has_hidden_attribute(filepath):
+def is_hidden_win32(s):
+    import ctypes # import here to avoid it on Unix
     try:
-        attrs = ctypes.windll.kernel32.GetFileAttributesW(filepath)
+        attrs = ctypes.windll.kernel32.GetFileAttributesW(s)
         assert attrs != -1
-        result = bool(attrs & 2)
+        res = bool(attrs & 2)
     except (AttributeError, AssertionError):
-        result = False
-    return result
+        res = False
+    return res
 
 def is_hidden(s):
     if IS_WIN:
@@ -90,7 +90,7 @@ def is_hidden(s):
         if s.endswith(':\\'):
             return False
 
-        return has_hidden_attribute(s)
+        return is_hidden_win32(s)
         #try:
         #    return bool(os.stat(s).st_file_attributes & stat.FILE_ATTRIBUTE_HIDDEN)
         #except:
