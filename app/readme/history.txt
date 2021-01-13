@@ -14,6 +14,7 @@
 + add: plugins API allows to catch clicks on statusbar cells (thanks @xcme)
 - fix: options "caret_blink_time", "caret_blink_en" were not applied to Console, Find/Replace, API editors (thanks @kvichans)
 - fix: commands "find next", "find all and select" left the progressbar visible (thanks @kvichans)
+- fix: Project Manager didn't work ok with Windows Python 3.4 (thanks @pohmelie)
 
 1.121.0 (2021/01)
 
