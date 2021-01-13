@@ -231,6 +231,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 * PROC_GET_GUI_HEIGHT: Returns height (pixels) of GUI element for dlg_custom(). Possible values of 'text': 'button', 'label', 'linklabel', 'combo', 'combo_ro', 'edit', 'spinedit', 'check', 'radio', 'checkbutton', 'filter_listbox', 'filter_listview'. Special value 'scrollbar' gets size of OS scrollbar. Returns None for other values.
 * PROC_GET_MOUSE_POS: Returns mouse cursor position in screen-related coordinates, as (x, y) tuple.
 * PROC_SEND_MESSAGE: For Windows. Sends message to a window by its handle. Param "text" must be 4-tuple of int (window_handle, msg_code, param1, param2).
+* PROC_GET_UNIQUE_TAG: Gets integer value, which is unique for the current CudaText process (it starts with 100, increasing with each call). Use this value for Editor.markers() and Editor.attr() tag values.
 
 ====Clipboard====
 
@@ -2544,8 +2545,6 @@ Controls markers (used e.g. in Snippets plugin). Possible values of "id":
 * MARKERS_DELETE_BY_TAG: Deletes all markers with the given tag. Param "tag": tag value.
 * MARKERS_DELETE_BY_INDEX: Deletes marker by its index in the markers list. Param "tag": index (0-based).
 
-* MARKERS_GET_UNIQ_TAG: Gets integer tag value, which is unique for the current CudaText process (it starts with 100, increasing with each call).
-
 ===Editor.attr===
 
  attr(id, tag=0, x=0, y=0, len=1,
@@ -4058,7 +4057,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * change: Editor.attr: change param 'map_only' type from bool to int (enum)
 
 1.0.357 (app 1.121.4)
-* add: statusbar_proc: added STATUSBAR_SET_CELL_CALLBACK, STATUSBAR_GET_CELL_CALLBACK
-* add: Editor.markers: added MARKERS_GET_UNIQ_TAG
+* add: statusbar_proc: STATUSBAR_SET_CELL_CALLBACK, STATUSBAR_GET_CELL_CALLBACK
+* add: app_proc: PROC_GET_UNIQUE_TAG
 
 [[Category:CudaText]]
