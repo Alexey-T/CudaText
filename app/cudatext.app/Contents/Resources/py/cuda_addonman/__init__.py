@@ -248,7 +248,9 @@ class Command:
 
             need_kind = kinds[res]
             items = [ i for i in items if i['kind']==need_kind ]
-            names = [ i['kind']+': '+i['name']+'\t'+i['desc'] for i in items ]
+            names = [ i['kind'] + ': ' + i['name'] + \
+                self.get_item_label(i, installed_modules, installed_lexers) + \
+                '\t' + i['desc'] for i in items ]
 
             res = dlg_menu(
                 MENU_LIST_ALT+MENU_NO_FUZZY+MENU_NO_FULLFILTER,
