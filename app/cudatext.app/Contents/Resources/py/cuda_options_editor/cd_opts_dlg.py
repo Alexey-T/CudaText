@@ -2,7 +2,7 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '2.3.13 2019-05-24'
+    '2.3.14 2021-01-24'
 ToDo: (see end of file)
 '''
 
@@ -18,14 +18,7 @@ import  cudax_lib           as apx
 from    .cd_plug_lib    import *
 
 d   = dict
-class odict(collections.OrderedDict):
-    def __init__(self, *args, **kwargs):
-        if     args:super().__init__(*args)
-        elif kwargs:super().__init__(kwargs.items())
-    def __str__(self):
-        return '{%s}' % (', '.join("'%s':%r" % (k,v) for k,v in self.items()))
-    def __repr__(self):
-        return self.__str__()
+odict = collections.OrderedDict
 
 pass;                           LOG     = (-1== 1) or apx.get_opt('_opts_dlg_log',False)    # Do or dont logging.
 pass;                           from pprint import pformat
