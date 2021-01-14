@@ -426,6 +426,7 @@ Most of them are located in Addons Manager "Install" list.
 * Makefile
 * Markdown
 * MATLAB
+* Maya
 * MediaWiki
 * Metafont
 * MIB files
