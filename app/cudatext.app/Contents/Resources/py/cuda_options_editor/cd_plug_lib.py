@@ -1,8 +1,9 @@
 ''' Lib for Plugin
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
+    Alexey - minor fixes (CudaText)
 Version:
-    '2.1.16 2018-05-14'
+    '2.1.17 2021-01-14'
 Content
     log                 Logger with timing
     get_translation     i18n
@@ -2178,7 +2179,9 @@ def get_hist(key_or_path, default=None, module_name='_auto_detect', to_file=PLIN
         pass;                   log('not load: {}',sys.exc_info())
         return default
     if module_name=='_auto_detect':
-        caller_globals  = inspect.stack()[1].frame.f_globals
+        # commented is for Py3.5+, fails on Py3.4
+        # caller_globals  = inspect.stack()[1].frame.f_globals
+        caller_globals  = inspect.stack()[1][0].f_globals
         module_name = inspect.getmodulename(caller_globals['__file__']) \
                         if '__file__' in caller_globals else None
     keys    = [key_or_path] if type(key_or_path)==str   else key_or_path
@@ -2246,7 +2249,9 @@ def set_hist(key_or_path, value, module_name='_auto_detect', kill=False, to_file
               odict()
 
     if module_name=='_auto_detect':
-        caller_globals  = inspect.stack()[1].frame.f_globals
+        # commented is for Py3.5+, fails of Py3.4
+        # caller_globals  = inspect.stack()[1].frame.f_globals
+        caller_globals  = inspect.stack()[1][0].f_globals
         module_name = inspect.getmodulename(caller_globals['__file__']) \
                         if '__file__' in caller_globals else None
     keys    = [key_or_path] if type(key_or_path)==str   else key_or_path
