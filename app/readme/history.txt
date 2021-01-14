@@ -4,7 +4,7 @@
   * changed
 
 
-1.121.4 (2021/01)
+1.122.0 (2021/01)
 
 * add/change: Addon Manager: removed command "Re-install...", now all addons are in the "Install..."; already installed items are marked with "◄local ?►", and items with updates are marked with "◄local ?, web ?►" (thanks @cser, @kvichans) 
 + add: hide caret for unfocused editor controls (very old issue; thanks @OlehL)
@@ -16,6 +16,7 @@
 - fix: options "caret_blink_time", "caret_blink_en" were not applied to Console, Find/Replace, API editors (thanks @kvichans)
 - fix: commands "find next", "find all and select" left the progressbar visible (thanks @kvichans)
 - fix: Project Manager silently failed with Windows Python 3.4 (thanks @pohmelie)
+- fix: Options Editor failed with Python 3.4
 
 1.121.0 (2021/01)
 
