@@ -78,6 +78,9 @@ begin
   edInput.Font.Size:= EditorOps.OpFontSize;
   edInput.Font.Quality:= EditorOps.OpFontQuality;
 
+  edInput.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
+  edInput.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
+
   Color:= GetAppColor(apclListBg);
   EditorApplyTheme(edInput);
 
