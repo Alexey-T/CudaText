@@ -133,7 +133,7 @@ type
     FTabColor: TColor;
     FTabSizeChanged: boolean;
     FFoldTodo: string;
-    FTopLineTodo: integer;
+    //FTopLineTodo: integer;
     FTabKeyCollectMarkers: boolean;
     FInSession: boolean;
     FInHistory: boolean;
@@ -320,7 +320,7 @@ type
     property TabKeyCollectMarkers: boolean read GetTabKeyCollectMarkers write FTabKeyCollectMarkers;
     property InSession: boolean read FInSession write FInSession;
     property InHistory: boolean read FInHistory write FInHistory;
-    property TopLineTodo: integer read FTopLineTodo write FTopLineTodo; //always use it instead of Ed.LineTop
+    //property TopLineTodo: integer read FTopLineTodo write FTopLineTodo; //always use it instead of Ed.LineTop
     property TextCharsTyped: integer read FTextCharsTyped write FTextCharsTyped;
     property EnabledCodeTree[Ed: TATSynEdit]: boolean read GetEnabledCodeTree write SetEnabledCodeTree;
     property CodetreeFilter: string read FCodetreeFilter write FCodetreeFilter;
@@ -2717,11 +2717,14 @@ begin
     EditorSetFoldString(Ed, S);
   end;
 
+  {
+  //disabled for issue http://synwrite.sourceforge.net/forums/viewtopic.php?f=5&t=2620
   if FTopLineTodo>0 then
   begin
     Ed.LineTop:= FTopLineTodo;
     FTopLineTodo:= 0;
   end;
+  }
 end;
 
 procedure TEditorFrame.DoMacroStart;
@@ -3248,7 +3251,7 @@ begin
     FFoldTodo:= c.GetValue(path+cHistory_Fold, '');
     if nTop>0 then
     begin
-      FTopLineTodo:= nTop; //restore LineTop after parsing done
+      //FTopLineTodo:= nTop; //restore LineTop after parsing done
       Ed.LineTop:= nTop; //scroll immediately
     end;
   end
@@ -3528,7 +3531,7 @@ begin
   if APosX<0 then APosX:= 0; //allow x<0
 
   Ed.LineTop:= APosY;
-  TopLineTodo:= APosY; //check is it still needed
+  //TopLineTodo:= APosY; //check is it still needed
   Ed.DoGotoPos(
     Point(APosX, APosY),
     Point(-1, -1),

@@ -3761,9 +3761,12 @@ begin
 
         PROP_LINE_TOP:
           begin
+            {
+            //disabled, http://synwrite.sourceforge.net/forums/viewtopic.php?f=5&t=2620
             if Assigned(F) then
               if F.IsParsingBusy then
                 F.TopLineTodo:= ValueInt;
+                }
             Ed.LineTop:= ValueInt;
           end;
 
