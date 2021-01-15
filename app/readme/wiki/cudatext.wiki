@@ -436,9 +436,9 @@ Most of them are located in Addons Manager "Install" list.
 * Modula 2
 * Monkey
 * MSVS Solution
+* MusicBrainz Picard Tagger Script
 * MySQL
 * Nemerle
-* NFO files
 * Nginx
 * Nim
 * Nix
