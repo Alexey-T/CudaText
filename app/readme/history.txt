@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+1.122.1
+
+- fix: editor snaps twice to line specified as command line param, e.g. 'cudatext my.cpp:20' (thanks @Shovel)
 
 1.122.0 (2021/01)
 
