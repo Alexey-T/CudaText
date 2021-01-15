@@ -6,6 +6,7 @@
 1.122.1
 
 + add: Addon Manager supports translation too (patch by Markus)
++ add: updated Python libraries in py/sys/
 - fix: editor snaps twice to line specified as command line param, e.g. 'cudatext my.cpp:20' (thanks @Shovel)
 - fix: crash on exit, if "pylib__linux" was "/path/libpython3.so" or "/path/libpython3.6m.so" (thanks @sikmir, @Shovel)
 
