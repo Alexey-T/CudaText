@@ -8,6 +8,8 @@ import cudatext_cmd
 from .work_remote import get_url
 from .work_install_helper import after_install
 
+from cudax_lib import get_translation
+_   = get_translation(__file__)  # i18n
 
 def get_datetime_short():
     t = datetime.now()
@@ -19,13 +21,13 @@ def get_branch(url):
     url_branches = url.replace('http://', 'https://').replace('//github.com/', '//api.github.com/repos/') + '/branches'
     get_url(url_branches, fn, True)
     if not os.path.isfile(fn):
-        msg_box('Cannot read GitHub list of branches for that repo', MB_OK+MB_ICONERROR)
+        msg_box(_('Cannot read GitHub list of branches for that repo'), MB_OK+MB_ICONERROR)
         return
 
     with open(fn, 'r') as f:
         data = json.load(f)
         if not isinstance(data, list):
-            msg_box('Got empty GitHub list of branches for that repo', MB_OK+MB_ICONERROR)
+            msg_box(_('Got empty GitHub list of branches for that repo'), MB_OK+MB_ICONERROR)
             return
             
         items = [i.get('name') for i in data]
@@ -33,7 +35,7 @@ def get_branch(url):
             branch = items[0]
         else:
             items2 = ['Git branch "%s"'%s for s in items]
-            res = dlg_menu(MENU_LIST, items2, caption='Git branches in repo')
+            res = dlg_menu(MENU_LIST, items2, caption=_('Git branches in repo'))
             if res is None: return
             branch = items[res]
 
@@ -45,11 +47,11 @@ def dialog_github_install(history):
     id_edit = 1
     id_ok = 2
     id_cancel = 3
-    res = dlg_custom('Install from GitHub', 456, 90, '\n'.join([]
-      + [c1.join(['type=label', 'cap=&GitHub repo URL', 'pos=6,6,400,0'])]
+    res = dlg_custom(_('Install from GitHub'), 456, 90, '\n'.join([]
+      + [c1.join(['type=label', 'cap='+_('&GitHub repo URL'), 'pos=6,6,400,0'])]
       + [c1.join(['type=combo', 'items='+'\t'.join(history), 'pos=6,26,450,0', 'cap='+history[0]])]
-      + [c1.join(['type=button', 'cap=OK', 'pos=246,60,346,0', 'props=1'])]
-      + [c1.join(['type=button', 'cap=Cancel', 'pos=350,60,450,0'])]
+      + [c1.join(['type=button', 'cap='+_('OK'), 'pos=246,60,346,0', 'props=1'])]
+      + [c1.join(['type=button', 'cap='+_('Cancel'), 'pos=350,60,450,0'])]
       ))
     if not res: return
     btn, text = res
@@ -100,7 +102,7 @@ def do_install_from_github():
     fn_inf = os.path.join(tempfile.gettempdir(), 'cudatext_addon.inf')
     dir_py = app_path(APP_DIR_PY)
     dir_plugin = ''
-    msg_status('Downloading...')
+    msg_status(_('Downloading...'))
 
     url_inf = url.replace('http://', 'https://').replace('https://github.com/', 'https://raw.githubusercontent.com/') + '/' + branch + '/install.inf'
     get_url(url_inf, fn_inf, True)
@@ -112,25 +114,25 @@ def do_install_from_github():
         module = ini_read(fn_inf, 'info', 'subdir', '')
         os.remove(fn_inf)
         if module!=module_from_url:
-            msg_box('Mismatch:\ninstall.inf "module": '+module+'\nrepo name: '+module_from_url, MB_OK+MB_ICONERROR)
+            msg_box(_('Mismatch:\ninstall.inf "module": {}\nrepo name: {}').format(module, module_from_url), MB_OK+MB_ICONERROR)
             valid = False
             return
         dir_plugin = os.path.join(dir_py, module)
     else:
-        msg_box('GitHub repository branch "%s" doesn\'t contain valid "install.inf" file. Cannot proceed.'%branch, MB_OK+MB_ICONERROR)
+        msg_box(_('GitHub repository branch "%s" doesn\'t contain valid "install.inf" file. Cannot proceed.')%branch, MB_OK+MB_ICONERROR)
         return
 
     if os.path.isdir(os.path.join(dir_plugin, '.git')):
-        msg_box('This repository is already cloned to your "py" folder, cannot proceed', MB_OK+MB_ICONERROR)
+        msg_box(_('This repository is already cloned to your "py" folder, cannot proceed'), MB_OK+MB_ICONERROR)
         return
 
     do_clone = False
     if not os.path.isdir(dir_plugin):
         res = msg_box_ex(
-                'Addon Manager',
-                'GitHub repository can be cloned (using "git clone") or can be downloaded as zip file. '+
-                ' If you clone, Addon Manager\'s Update dialog will update add-on using "git pull", which is recommended.',
-                ['Clone repo', 'Download as zip', 'Cancel'],
+                _('Addon Manager'),
+                _('GitHub repository can be cloned (using "git clone") or can be downloaded as zip file. '+
+                ' If you clone, Addon Manager\'s Update dialog will update add-on using "git pull", which is recommended.'),
+                [_('Clone repo'), _('Download as zip'), _('Cancel')],
                 MB_ICONQUESTION)
         if res==2 or res==None:
             return
@@ -141,22 +143,22 @@ def do_install_from_github():
         try:
             subprocess.call(['git', 'clone', url], cwd=dir_py)
         except:
-            msg_box('Error running Git command', MB_OK+MB_ICONERROR)
+            msg_box(_('Error running Git command'), MB_OK+MB_ICONERROR)
             return
 
         if os.path.isdir(dir_plugin):
             after_install(module)
             #rescan_plugins()
-            msg_box('Repo was cloned.\nRestart CudaText to make this plugin visible.', MB_OK+MB_ICONINFO)
+            msg_box(_('Repo was cloned.\nRestart CudaText to make this plugin visible.'), MB_OK+MB_ICONINFO)
         else:
-            msg_box('Could not clone the repo', MB_OK+MB_ICONERROR)
+            msg_box(_('Could not clone the repo'), MB_OK+MB_ICONERROR)
 
         return
 
     get_url(url+'/zipball/master', fn, True)
     msg_status('')
     if not os.path.isfile(fn):
-        msg_status('Cannot download zip file')
+        msg_status(_('Cannot download zip file'))
         return
 
     file_open(fn)

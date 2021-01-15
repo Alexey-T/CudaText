@@ -8,6 +8,8 @@ from urllib.parse import unquote
 import cudatext as app
 from . import opt
 
+from cudax_lib import get_translation
+_   = get_translation(__file__)  # i18n
 
 def get_url(url, fn, del_first=False):
     fn_temp = fn+'.download'
@@ -38,7 +40,7 @@ def get_url(url, fn, del_first=False):
             return
 
         except Exception as e:
-            res = app.msg_box('Cannot download:\n%s\n%s\n\nRetry?' % (url, str(e)),
+            res = app.msg_box(_('Cannot download:\n{}\n{}\n\nRetry?').format(url, str(e)),
                 app.MB_ABORTRETRYIGNORE + app.MB_ICONWARNING)
             if res==app.ID_IGNORE: return
             if res==app.ID_ABORT: return False
@@ -82,10 +84,10 @@ def get_channel(url):
 
     #download if not cached or cache is aged
     if file_aged(temp_fn):
-        print('  getting:', cap)
+        print(_('  getting:'), cap)
         get_url(url, temp_fn, True)
     else:
-        print('  cached:', cap)
+        print(_('  cached:'), cap)
     if not os.path.isfile(temp_fn): return
 
     text = open(temp_fn, encoding='utf8').read()
@@ -101,7 +103,7 @@ def get_channel(url):
 
 def get_remote_addons_list(channels):
     res = []
-    print('Read channels:')
+    print(_('Read channels:'))
     for ch in channels:
         items = get_channel(ch)
         if items:

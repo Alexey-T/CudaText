@@ -6,6 +6,9 @@ import tempfile
 import configparser
 from cudatext import *
 
+from cudax_lib import get_translation
+_   = get_translation(__file__)  # i18n
+
 README_NAMES = (
     'readme.txt',
     'readme.md',
@@ -105,7 +108,7 @@ def do_remove_dir(dir):
     move folder to py/__trash
     (make copy with _ suffix if nessesary)
     """
-    #print('Deleting folder:', dir)
+    #print(_('Deleting folder:'), dir)
     if not os.path.isdir(dir):
         return
 
@@ -120,7 +123,7 @@ def do_remove_dir(dir):
     try:
         os.rename(dir, dir_dest)
     except OSError:
-        msg_box('Cannot remove folder:\n'+dir, MB_OK+MB_ICONERROR)
+        msg_box(_('Cannot remove folder:\n')+dir, MB_OK+MB_ICONERROR)
         return
     return True
 

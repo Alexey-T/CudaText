@@ -15,6 +15,9 @@ from .work_cudatext_updates__fosshub import check_cudatext
 from .work_install_helper import after_install
 from . import opt
 
+from cudax_lib import get_translation
+_   = get_translation(__file__)  # i18n
+
 dir_for_all = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman.json')
 
@@ -115,11 +118,11 @@ class Command:
 
     def do_show_links(self):
 
-        msg_status('Downloading list...')
+        msg_status(_('Downloading list...'))
         items = get_remote_addons_list(opt.ch_def+opt.ch_user)
         msg_status('')
         if not items:
-            msg_status('Cannot download list')
+            msg_status(_('Cannot download list'))
             return
 
         res = sorted([item['url'] for item in items])
@@ -129,20 +132,20 @@ class Command:
 
     def do_download_all(self):
         global dir_for_all
-        res = dlg_input('Folder to save files:', dir_for_all)
+        res = dlg_input(_('Folder to save files:'), dir_for_all)
         if not res: return
         dir_for_all = res
         if not os.path.isdir(dir_for_all):
             os.mkdir(dir_for_all)
         if not os.path.isdir(dir_for_all):
-            msg_box('Cannot create dir: '+dir_for_all, MB_OK+MB_ICONERROR)
+            msg_box(_('Cannot create dir: ')+dir_for_all, MB_OK+MB_ICONERROR)
             return
 
-        msg_status('Downloading list...')
+        msg_status(_('Downloading list...'))
         items = get_remote_addons_list(opt.ch_def+opt.ch_user)
         msg_status('')
         if not items:
-            msg_status('Cannot download list')
+            msg_status(_('Cannot download list'))
             return
 
         self.init_progress()
@@ -158,11 +161,11 @@ class Command:
 
             if self.stopped:
                 self.stopped_force = True
-                self.stopped_msg = '(got %d of %d files)' % (i+1, len(items))
+                self.stopped_msg = _('(got {} of {} files)').format(i+1, len(items))
                 break
 
             percent = (i+1)*100//len(items)
-            text = 'Downloading: %d/%d'%(i+1, len(items))
+            text = _('Downloading: {}/{}').format(i+1, len(items))
             self.show_progress(percent, text)
 
             name = unquote(url.split('/')[-1])
@@ -175,14 +178,14 @@ class Command:
                 break
             if not os.path.isfile(fn):
                 err += 1
-                print('Cannot download file: '+url)
+                print(_('Cannot download file: ')+url)
                 continue
 
         self.hide_progress()
 
-        text = 'Download complete' if not self.stopped_force else 'Download stopped '+self.stopped_msg
+        text = _('Download complete') if not self.stopped_force else _('Download stopped ')+self.stopped_msg
         if err>0:
-            text += '\nErrors occured, see Python console'
+            text += _('\nErrors occured, see Python console')
         msg_box(text, MB_OK+MB_ICONINFO)
 
 
@@ -208,12 +211,12 @@ class Command:
 
     def do_install_addon(self):
 
-        caption = 'Install'
-        msg_status('Downloading list...')
+        caption = _('Install')
+        msg_status(_('Downloading list...'))
         items = get_remote_addons_list(opt.ch_def+opt.ch_user)
         msg_status('')
         if not items:
-            msg_status('Cannot download list')
+            msg_status(_('Cannot download list'))
             return
 
         items = sorted(items,
@@ -226,7 +229,7 @@ class Command:
         installed_modules = [i['module'] for i in installed if i['kind']=='plugin']
         installed_lexers = [i['name'].replace(' ', '_') for i in installed if i['kind']=='lexer']
 
-        names = ['<Category>'] + \
+        names = [_('<Category>')] + \
             [ i['kind'] + ': ' + i['name'] + \
             self.get_item_label(i, installed_modules, installed_lexers) + \
             '\t' + i['desc'] for i in items ]
@@ -242,7 +245,7 @@ class Command:
             res = dlg_menu(
                 MENU_LIST,
                 kinds,
-                caption='Category'
+                caption=_('Category')
                 )
             if res is None: return
 
@@ -255,7 +258,7 @@ class Command:
             res = dlg_menu(
                 MENU_LIST_ALT+MENU_NO_FUZZY+MENU_NO_FULLFILTER,
                 names,
-                caption=caption+' / Category "'+need_kind+'"'
+                caption=caption+_(' / Category "{}"').format(need_kind)
                 )
             if res is None: return
 
@@ -279,7 +282,7 @@ class Command:
 
         if req_items:
             req_names = ', '.join([i['kind']+': '+i['name'] for i in req_items])
-            if msg_box('Add-on "%s" requires:\n%s\n\nRequirements will be auto-installed. Proceed?' % (name, req_names),
+            if msg_box(_('Add-on "{}" requires:\n{}\n\nRequirements will be auto-installed. Proceed?').format(name, req_names),
                 MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
                 return
 
@@ -295,25 +298,25 @@ class Command:
         #check for CudaLint
         if 'linter.' in url:
             if not 'cuda_lint' in get_installed_modules():
-                msg_box('This is linter, it requires CudaLint plugin installed', MB_OK+MB_ICONWARNING)
+                msg_box(_('This is linter, it requires CudaLint plugin installed'), MB_OK+MB_ICONWARNING)
                 return
 
         #check for CudaFormatter
         if 'formatter.' in url:
             if not 'cuda_fmt' in get_installed_modules():
-                msg_box('This is formatter, it requires CudaFormatter plugin installed', MB_OK+MB_ICONWARNING)
+                msg_box(_('This is formatter, it requires CudaFormatter plugin installed'), MB_OK+MB_ICONWARNING)
                 return
 
         #download
         fn = get_plugin_zip(url)
         if not os.path.isfile(fn):
-            msg_status('Cannot download file')
+            msg_status(_('Cannot download file'))
             return
 
         s_options = '/silent' if is_silent else ''
         ok = file_open(fn, options=s_options)
 
-        msg_status('Addon installed' if ok else 'Installation cancelled')
+        msg_status(_('Addon installed') if ok else _('Installation cancelled'))
         if not ok:
             os.remove(fn)
             return
@@ -332,10 +335,10 @@ class Command:
                 names = []
                 fn = get_readme_of_module(m)
                 if fn:
-                    names.append((get_name_of_module(m)+': view readme', fn))
+                    names.append((get_name_of_module(m)+_(': view readme'), fn))
                 fn = get_history_of_module(m)
                 if fn:
-                    names.append((get_name_of_module(m)+': view history', fn))
+                    names.append((get_name_of_module(m)+_(': view history'), fn))
 
                 if names:
                     res = dlg_menu(MENU_LIST, [s[0] for s in names])
@@ -369,11 +372,11 @@ class Command:
             })
         desc = [i['kind']+': '+i['name'] for i in items]
 
-        res = dlg_menu(MENU_LIST, desc, caption='Remove add-on')
+        res = dlg_menu(MENU_LIST, desc, caption=_('Remove add-on'))
         if res is None: return
 
         item = items[res]
-        if msg_box('Remove '+item['kind']+': '+item['name'], MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
+        if msg_box(_('Remove {}: {}').format(item['kind'], item['name']), MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
             return
 
         module = item.get('module', '')
@@ -389,44 +392,44 @@ class Command:
                 if os.path.isfile(fn):
                     os.remove(fn)
         if ok:
-            msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
+            msg_box(_('Removed, restart program to see changes'), MB_OK+MB_ICONINFO)
 
 
     def do_edit(self):
-        m = get_installed_choice('Edit')
+        m = get_installed_choice(_('Edit'))
         if m is None: return
         fn = get_initpy_of_module(m)
         file_open(fn)
-        msg_status('Opened: '+fn)
+        msg_status(_('Opened: ')+fn)
 
     def do_homepage(self):
-        m = get_installed_choice('Visit homepage')
+        m = get_installed_choice(_('Visit homepage'))
         if m is None: return
         s = get_homepage_of_module(m)
         if s:
             webbrowser.open_new_tab(s)
-            msg_status('Opened browser: '+s)
+            msg_status(_('Opened browser: ')+s)
         else:
-            msg_box('Plugin "%s" doesn\'t have "homepage" field in install.inf' % \
+            msg_box(_('Plugin "%s" doesn\'t have "homepage" field in install.inf') % \
               get_name_of_module(m), MB_OK+MB_ICONWARNING)
 
     def do_readme(self):
-        m = get_installed_choice('Open readme')
+        m = get_installed_choice(_('Open readme'))
         if m is None: return
         s = get_readme_of_module(m)
         if s:
             file_open(s)
         else:
-            msg_status('Plugin "%s" doesn\'t have readme' % get_name_of_module(m))
+            msg_status(_('Plugin "%s" doesn\'t have readme') % get_name_of_module(m))
 
     def do_history(self):
-        m = get_installed_choice('Open history')
+        m = get_installed_choice(_('Open history'))
         if m is None: return
         s = get_history_of_module(m)
         if s:
             file_open(s)
         else:
-            msg_status('Plugin "%s" doesn\'t have history' % get_name_of_module(m))
+            msg_status(_('Plugin "%s" doesn\'t have history') % get_name_of_module(m))
 
 
     def do_update(self):
@@ -443,11 +446,11 @@ class Command:
         dir_data = app_path(APP_DIR_DATA)
         dir_py = app_path(APP_DIR_PY)
 
-        msg_status('Downloading list...')
+        msg_status(_('Downloading list...'))
         addons = get_remote_addons_list(opt.ch_def+opt.ch_user)
         msg_status('')
         if not addons:
-            msg_status('Cannot download list')
+            msg_status(_('Cannot download list'))
             return
 
         modules = get_installed_modules()
@@ -503,7 +506,7 @@ class Command:
             d['check'] = False
             addons.append(d)
 
-        text_headers = '\r'.join(('Name=260', 'Folder=180', 'Local=125', 'Available=125'))
+        text_headers = '\r'.join((_('Name=260'), _('Folder=180'), _('Local=125'), _('Available=125')))
         text_columns = ['\r'.join(('['+i['kind']+'] '+i['name'], i['dir'], i['v_local'], i['v'])) for i in addons]
         text_items = '\t'.join([text_headers]+text_columns)
         text_checks = ['1' if i['check'] else '0' for i in addons]
@@ -519,14 +522,14 @@ class Command:
 
         while True:
             text = '\n'.join([
-              c1.join(['type=button', 'pos=514,500,614,0', 'cap=Update', 'props=1']),
-              c1.join(['type=button', 'pos=620,500,720,0', 'cap=Cancel']),
+              c1.join(['type=button', 'pos=514,500,614,0', 'cap='+_('Update'), 'props=1']),
+              c1.join(['type=button', 'pos=620,500,720,0', 'cap='+_('Cancel')]),
               c1.join(['type=checklistview', 'pos=6,6,720,490', 'items='+text_items, 'val='+text_val, 'props=1']),
-              c1.join(['type=button', 'pos=6,500,100,0', 'cap=Deselect all']),
-              c1.join(['type=button', 'pos=106,500,200,0', 'cap=Select new']),
+              c1.join(['type=button', 'pos=6,500,100,0', 'cap='+_('Deselect all')]),
+              c1.join(['type=button', 'pos=106,500,200,0', 'cap='+_('Select new')]),
               ])
 
-            res = dlg_custom('Update add-ons', 726, 532, text)
+            res = dlg_custom(_('Update add-ons'), 726, 532, text)
             if res is None: return
 
             res, text = res
@@ -547,25 +550,25 @@ class Command:
         addons = [a for (i, a) in enumerate(addons) if 0<=i<len(text) and text[i]=='1']
         if not addons:
             return
-        print('Updating addons:')
+        print(_('Updating addons:'))
         fail_count = 0
 
         for a in addons:
             print('  [%s] %s' % (a['kind'], a['name']))
-            msg_status('Updating: [%s] %s' % (a['kind'], a['name']), True)
+            msg_status(_('Updating: [{}] {}').format(a['kind'], a['name']), True)
 
             m = a.get('module', '')
             if m:
                 # special update for Git repos
                 m_dir = os.path.join(app_path(APP_DIR_PY), m)
                 if os.path.isdir(os.path.join(m_dir, '.git')):
-                    msg_status('Running "git pull" in "%s"'%m_dir, True)
+                    msg_status(_('Running "git pull" in "%s"')%m_dir, True)
                     try:
                         subprocess.call(['git', 'stash', 'save'], cwd=m_dir)
                         subprocess.call(['git', 'pull'], cwd=m_dir)
                     except:
-                        msg_status('Error running Git', True)
-                        print('  Error running Git')
+                        msg_status(_('Error running Git'), True)
+                        print(_('  Error running Git'))
                 else:
                     # delete old dir
                     do_remove_dir(m_dir)
@@ -580,11 +583,11 @@ class Command:
                 do_save_version(url, fn, a['v'])
             else:
                 fail_count += 1
-                print('  Update failed: [%s] %s' % (a['kind'], a['name']) )
+                print(_('  Update failed: [{}] {}').format(a['kind'], a['name']) )
 
-        s = 'Done'
+        s = _('Done')
         if fail_count>0:
-            s += ', with %d fail(s)'%fail_count
+            s += _(', with %d fail(s)')%fail_count
         print(s)
         msg_status(s)
 
@@ -601,7 +604,7 @@ class Command:
 
         self.h_pro = dlg_proc(0, DLG_CREATE)
         dlg_proc(self.h_pro, DLG_PROP_SET, prop={
-            'cap': 'Download add-ons',
+            'cap': _('Download add-ons'),
             'w': 400,
             'h': 110,
             'topmost': True,
@@ -611,7 +614,7 @@ class Command:
         n = dlg_proc(self.h_pro, DLG_CTL_ADD, prop='label')
         dlg_proc(self.h_pro, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'inf',
-            'cap': 'Downloading...',
+            'cap': _('Downloading...'),
             'x': 10,
             'y': 25,
             })
@@ -631,7 +634,7 @@ class Command:
         n = dlg_proc(self.h_pro, DLG_CTL_ADD, prop='button')
         dlg_proc(self.h_pro, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'btn',
-            'cap': 'Cancel',
+            'cap': _('Cancel'),
             'x': 150,
             'w': 100,
             'y': 80,
