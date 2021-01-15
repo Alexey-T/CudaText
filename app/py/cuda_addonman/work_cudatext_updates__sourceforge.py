@@ -7,6 +7,9 @@ import webbrowser
 import cudatext as app
 from .work_remote import *
 
+from cudax_lib import get_translation
+_   = get_translation(__file__)  # i18n
+
 p = sys.platform
 X64 = platform.architecture()[0]=='64bit'
 ##p = 'win32'
@@ -42,22 +45,22 @@ def versions_ordered(s1, s2):
 def check_cudatext():
 
     fn = os.path.join(tempfile.gettempdir(), 'cudatext_download.html')
-    app.msg_status('Downloading: '+DOWNLOAD_PAGE, True)
+    app.msg_status(_('Downloading: ')+DOWNLOAD_PAGE, True)
     get_url(DOWNLOAD_PAGE, fn, True)
     app.msg_status('')
 
     if not os.path.isfile(fn):
-        app.msg_status('Cannot download: '+DOWNLOAD_PAGE)
+        app.msg_status(_('Cannot download: ')+DOWNLOAD_PAGE)
         return
 
     text = open(fn, encoding='utf8').read()
     items = re.findall(DOWNLOAD_REGEX, text)
     if not items:
-        app.msg_status('Cannot find download links')
+        app.msg_status(_('Cannot find download links'))
         return
 
     items = sorted(items, key=lambda i:i[REGEX_GROUP_VER], reverse=True)
-    print('Found links:')
+    print(_('Found links:'))
     for i in items:
         print('  '+i[0])
 
@@ -66,11 +69,11 @@ def check_cudatext():
     ver_local = app.app_exe_version()
 
     if versions_ordered(ver_inet, ver_local):
-        app.msg_box('Latest CudaText is already here.\nLocal: %s\nInternet: %s'
-                   %(ver_local, ver_inet), app.MB_OK+app.MB_ICONINFO)
+        app.msg_box(_('Latest CudaText is already here.\nLocal: {}\nInternet: {}')
+                   .format(ver_local, ver_inet), app.MB_OK+app.MB_ICONINFO)
         return
 
-    if app.msg_box('CudaText update is available.\nLocal: %s\nInternet: %s\n\nOpen download URL in browser?'
-                  %(ver_local, ver_inet), app.MB_YESNO+app.MB_ICONINFO) == app.ID_YES:
+    if app.msg_box(_('CudaText update is available.\nLocal: {}\nInternet: {}\n\nOpen download URL in browser?')
+                  .format(ver_local, ver_inet), app.MB_YESNO+app.MB_ICONINFO) == app.ID_YES:
         webbrowser.open_new_tab(url)
-        print('Opened download URL')
+        print(_('Opened download URL'))
