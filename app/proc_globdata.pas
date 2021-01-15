@@ -270,6 +270,7 @@ type
     FindHiAll_TagValue: Int64;
     FindHiAll_MoveCaret: boolean;
 
+    AllowProgramUpdates: boolean;
     EscapeClose: boolean;
     EscapeCloseConsole: boolean;
     ConsoleWordWrap: boolean;
@@ -1582,6 +1583,7 @@ begin
     FindHiAll_TagValue:= 505; //some rarely used int tag
     FindHiAll_MoveCaret:= true;
 
+    AllowProgramUpdates:= true;
     EscapeClose:= false;
     EscapeCloseConsole:= true;
     ConsoleWordWrap:= true;

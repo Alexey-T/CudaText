@@ -543,8 +543,11 @@ begin
 
     cmd_HelpCheckUpdates:
       begin
-        SetLength(Params, 0);
-        DoPyCommand('cuda_addonman', 'check_cudatext_updates', Params);
+        if UiOps.AllowProgramUpdates then
+        begin
+          SetLength(Params, 0);
+          DoPyCommand('cuda_addonman', 'check_cudatext_updates', Params);
+        end;
       end;
 
     cmdFirstLexerCommand..

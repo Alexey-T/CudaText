@@ -2172,14 +2172,7 @@ var
 begin
   OnEnter:= @FormEnter;
 
-  (*
-  mnuHelpCheckUpd.Enabled:=
-    {$if defined(windows) or defined(linux) or defined(darwin)}
-    true
-    {$else}
-    false
-    {$endif};
-    *)
+  mnuHelpCheckUpd.Enabled:= UiOps.AllowProgramUpdates;
 
   with AppPanels[cPaneSide] do
   begin
