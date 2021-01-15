@@ -6,6 +6,7 @@
 1.122.1
 
 - fix: editor snaps twice to line specified as command line param, e.g. 'cudatext my.cpp:20' (thanks @Shovel)
+- fix: crash on exit, if "pylib__linux" was "/path/libpython3.so" without minor version (thanks @sikmir)
 
 1.122.0 (2021/01)
 
@@ -16,7 +17,6 @@
 + add: plugins API allows to catch clicks on statusbar cells (thanks @xcme)
 + add: support Windows Python 3.4, if such a package is installed from addons (package made by @tiun)
 + add: regex engine allows to escape the underscore char (thanks @SlMaker)
-- fix: bug in Python wrapper detection of Py version (thanks @sikmir)
 - fix: options "caret_blink_time", "caret_blink_en" were not applied to Console, Find/Replace, API editors (thanks @kvichans)
 - fix: commands "find next", "find all and select" left the progressbar visible (thanks @kvichans)
 - fix: Project Manager failed with Windows Python 3.4 (thanks @pohmelie)
