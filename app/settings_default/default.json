@@ -112,10 +112,12 @@
   "ui_font_statusbar_size__linux" : 0,
   "ui_font_statusbar_size__mac" : 0,
 
-  //Allows to use width of Unicode characters proportional to font
+  //Allows to use width of Unicode characters proportional to font.
+  //Note: this option is global, not per-lexer.
   "unicode_proportional": true,
 
-  //If "unicode_proportional":false, sets width (in percents) of full-width characters
+  //If "unicode_proportional":false, sets width (in percents) of full-width characters.
+  //Note: this option is global, not per-lexer.
   "unicode_full_width": 190,
 
   //[Ui]
@@ -253,6 +255,7 @@
   //When number of lines in document is bigger than the option value, lexer parser
   //will not find folding ranges, which makes parsing 1.5-3 times faster.
   //Also Python tree-helper will not run.
+  //Note: this option is global, not per-lexer.
   "lexer_folding_max_lines": 10000,
 
   //[Text]
@@ -897,7 +900,8 @@
   //Mouse wheel scrolling speed, horizontal (in chars)
   "mouse_wheel_speed_horz": 10,
 
-  //Mouse scrolling speed, when selection is dragged out of editor top/bottom edge
+  //Mouse scrolling speed, when selection is dragged out of editor top/bottom edge.
+  //Note: this option is global, not per-lexer.
   "mouse_scroll_speed_vert": 1,
 
   //Call "Go to definition" command, by click with modifier key
@@ -1172,8 +1176,8 @@
   //Function doesn't work if after caret is word char.
   "auto_close_brackets": "([{",
 
-  //Allow N (N>1) consecutive commented lines to automatically create the folding range
-  //Note: option is global, not per-lexer
+  //Allow N (N>1) consecutive commented lines to automatically create the folding range.
+  //Note: option is global, not per-lexer.
   "auto_fold_comments": 5,
 
   //[File]
