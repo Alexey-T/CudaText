@@ -5713,6 +5713,7 @@ begin
   CompletionOps.UpDownAtEdge:= TATCompletionUpDownAtEdge(Ed.OptAutocompleteUpDownAtEdge);
   CompletionOps.CommitChars:= Ed.OptAutocompleteCommitChars; //before DoPyEvent
   CompletionOps.CloseChars:= Ed.OptAutocompleteCloseChars; //before DoPyEvent
+  CompletionOps.CommitIfSingleItem:= Ed.OptAutocompleteCommitIfSingleItem; //before DoPyEvent
 
   //call auto-completion plugins
   SetLength(Params, 0);

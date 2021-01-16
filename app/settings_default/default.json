@@ -1170,6 +1170,9 @@
   //  2: close auto-completion
   "autocomplete_up_down_at_edge": 1,
 
+  //If completion listbox has just single item, then commit it w/o showing menus
+  "autocomplete_commit_single_item": false,
+
   //Auto-close brackets/quotes. Value can have only chars: ( [ { ' " `
   //(Don't forget that JSON config needs double-quote escaped.)
   //Function doesn't work on escaped chars (after backslash).

@@ -445,6 +445,7 @@ type
     OpAutocompleteCloseChars: string;
     OpAutocompleteAddOpeningBracket: boolean;
     OpAutocompleteUpDownAtEdge: integer;
+    OpAutocompleteCommitIfSingleItem: boolean;
 
     OpUnderlineColorFiles: string;
     OpUnderlineColorSize: integer;
@@ -1307,6 +1308,7 @@ begin
     OpAutocompleteCloseChars:= '<>()[]{}=';
     OpAutocompleteAddOpeningBracket:= true;
     OpAutocompleteUpDownAtEdge:= 1; //cudWrap
+    OpAutocompleteCommitIfSingleItem:= false;
 
     OpUnderlineColorFiles:= '*';
     OpUnderlineColorSize:= 3;

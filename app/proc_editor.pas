@@ -171,6 +171,7 @@ begin
   Ed.OptAutocompleteCloseChars:= Op.OpAutocompleteCloseChars;
   Ed.OptAutocompleteAddOpeningBracket:= Op.OpAutocompleteAddOpeningBracket;
   Ed.OptAutocompleteUpDownAtEdge:= Op.OpAutocompleteUpDownAtEdge;
+  Ed.OptAutocompleteCommitIfSingleItem:= Op.OpAutocompleteCommitIfSingleItem;
 
   if not AOneLiner then
   begin
