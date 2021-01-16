@@ -5,6 +5,7 @@
 
 1.122.1 (2021/01)
 
++ add: when selection is adding with Ctrl+mouse_drag, ignore unpressing of Ctrl during drag (thanks @tiun)
 + add: option "autocomplete_commit_single_item" (thanks @MiroslavMatas)
 + add: Addon Manager supports translation too (patch by Markus)
 + add: updated Python libraries in py/sys/
