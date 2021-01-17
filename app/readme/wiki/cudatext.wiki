@@ -68,7 +68,9 @@ Screenshot on Windows:
 
 = Configs =
 
-CudaText has configuration system in JSON files: call menu item "Settings-default" and you'll see '''default config'''. Copy any lines to config called by "Settings-user" and edit this '''user config''' - it's actial config file. You can copy JSON comments too. Default config is not read by CudaText, it's only to show possible options.
+CudaText has configuration system in JSON files: call menu item "Options / Settings - default" and you'll see the '''default config'''. You should copy lines from this file to the file from "Options / Settings - user" and edit this '''user config''' - this is the actial config file. Default config is not read by CudaText, it's only to show possible options.
+
+You can copy JSON comments too. In the user config, include useful lines in the curly braces "{ }", this is JSON format. Trailing comma before "}" is allowed here.
 
 * '''User config'''. File "settings/user.json". Can be opened via menu item "Options / Settings-user".
 * '''Default config'''. File "settings_default/default.json". Can be opened via menu item "Options / Settings-default". CudaText doesn't use this file, it's only for user reference. CudaText only opens this file by the command, and this file is parsed by plugin "Options Editor".
