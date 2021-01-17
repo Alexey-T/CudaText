@@ -8,7 +8,7 @@
 + add: option "autocomplete_commit_single_item" (thanks @MiroslavMatas)
 + add: Addon Manager supports translation too (patch by Markus)
 + add: updated Python libraries in py/sys/
-- fix: when selection is adding with Ctrl+mouse_drag, unpressing of Ctrl gave the weird effect (thanks @tiun)
+- fix: when selection is being added with Ctrl+drag, unpressing of Ctrl gave the weird effect (thanks @tiun)
 - fix: editor snaps twice to line specified as command line param, e.g. 'cudatext my.cpp:20' (thanks @Shovel)
 - fix: regression: not working Python, if "pylib__linux" has some special form (thanks @sikmir, @Shovel)
 
