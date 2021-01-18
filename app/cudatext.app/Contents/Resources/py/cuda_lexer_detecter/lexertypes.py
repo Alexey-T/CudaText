@@ -184,6 +184,7 @@ TYPES = {
     "ini": ['Rainmeter'],
     "ino": ['Arduino'],
     "inp": ['Abaqus Keywords'],
+    "ion": ['Amazon Ion'],
     "iss": ['Inno Setup'],
     "iuml": ['PlantUML'],
     "j": ['Jasmine JVM Assembler'],
