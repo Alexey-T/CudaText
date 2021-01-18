@@ -2707,12 +2707,15 @@ end;
 procedure TEditorFrame.DoRestoreFolding(Ed: TATSynEdit);
 var
   S: string;
+  NLine: integer;
 begin
   if FFoldTodo<>'' then
   begin
     S:= FFoldTodo;
     FFoldTodo:= '';
+    NLine:= Ed.LineTop;
     EditorSetFoldString(Ed, S);
+    Ed.LineTop:= NLine;
   end;
 end;
 
