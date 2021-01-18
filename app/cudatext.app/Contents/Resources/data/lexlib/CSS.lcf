@@ -870,16 +870,16 @@ object SyntAnal6: TLibSyntAnalyzer
             'scroll'
             'scroll-behavior'
             'scroll-padding'
-            'scroll-padding-inline'
             'scroll-padding-block'
-            'scroll-padding-left'
-            'scroll-padding-bottom'
-            'scroll-padding-right'
-            'scroll-padding-top'
-            'scroll-padding-inline-end'
-            'scroll-padding-inline-start'
             'scroll-padding-block-end'
             'scroll-padding-block-start'
+            'scroll-padding-bottom'
+            'scroll-padding-inline'
+            'scroll-padding-inline-end'
+            'scroll-padding-inline-start'
+            'scroll-padding-left'
+            'scroll-padding-right'
+            'scroll-padding-top'
             'scroll-position'
             'scroll-snap-coordinate'
             'scroll-snap-destination'
@@ -2023,7 +2023,7 @@ object SyntAnal6: TLibSyntAnalyzer
         end>
       BlockEnd = '}'
       NameFmt = '%s0~[{]1'
-      GroupFmt = '\@Rules'
+      GroupFmt = '\Media'
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
