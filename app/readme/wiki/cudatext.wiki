@@ -291,6 +291,8 @@ Most of them are located in Addons Manager "Install" list.
 * ActionScript
 * Acu Cobol
 * Ada
+* Adobe Flash
+* Amazon Ion
 * Apache config
 * Apache Hive
 * Apache Pig
