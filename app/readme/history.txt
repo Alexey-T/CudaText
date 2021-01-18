@@ -4,6 +4,7 @@
   * changed
 
 + add: lexer CSS: more known properties; fix highlighting inside @media blocks
+- fix: Lexer Detecter didn't detect 'Dockerfile'
 
 1.122.1 (2021/01)
 
