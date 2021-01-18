@@ -1817,9 +1817,10 @@ homepage=https://github.com/nnnn/pppp
 
 ==How to use on Windows XP==
 
-Q: I have Windows XP, what version of CudaText and Python should I have?
+Q: How to use CudaText on Windows XP?
 
-A: You need CudaText 1.86 or newer, and older Python 3.4 files. Currently Addon Manager contains packages for Python 3.5 and 3.7, but not for 3.4. Make the package using examples: https://sourceforge.net/projects/cudatext/files/addons/packages/ . No option is needed to configure CudaText for Python 3.4, but you need to delete all newer Pythons from CudaText folder.
+A: You need CudaText 1.122.0 or newer, and you must install (from Addons Manager) the package named "Windows Python34 32bit".
+No options are needed to configure, but you need to delete all newer Pythons from CudaText folder (ie delete their files: *.dll *.pyd *.zip; MS Visual Studio runtime can be left as is).
 
 ==How to copy word under caret to clipboard==
 
