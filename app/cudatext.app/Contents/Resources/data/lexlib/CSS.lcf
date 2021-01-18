@@ -1,4 +1,4 @@
-object SyntAnal8: TLibSyntAnalyzer
+object SyntAnal6: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Style'
@@ -2007,6 +2007,30 @@ object SyntAnal8: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = '{ @media'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 1
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 1164
+        end
+        item
+          TokenTypes = 32
+        end>
+      BlockEnd = '}'
+      NameFmt = '%s0~[{]1'
+      GroupFmt = '\@Rules'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      CollapseFmt = '%sz0'
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = '{'
       StyleName = 'Current block'
       ConditionList = <
@@ -2131,7 +2155,7 @@ object SyntAnal8: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal17
+      SyntAnalyzer = SyntAnal15
     end>
   SampleText.Strings = (
     '/* Comment */'
