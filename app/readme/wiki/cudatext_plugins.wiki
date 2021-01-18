@@ -103,7 +103,7 @@ Dialog of Snippets plugin:
 
 [[File:cudatext_snippets_menu.png]]
 
-Texts of snippets usually have tab-stop(s), e.g. ${1:some_text}. Plugin Snippets finds tab-stops and places "markers" for them. After markers are placed, Tab-key works special in editor, it jumps to next marker. See detailed information in the [[#Markers]].
+Texts of snippets usually have tab-stop(s), e.g. ${1:some_text}. Plugin Snippets finds tab-stops and places "markers" for them. After markers are placed, Tab-key works special in editor, it jumps to next marker. See detailed information in the [[CudaText#Markers]].
 
 === Snippets for HTML tags ===
 
