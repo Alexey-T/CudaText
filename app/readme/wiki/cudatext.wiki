@@ -59,6 +59,7 @@ Screenshot on Windows:
 * Zebra mode as an option
 * [[#Activating_internet_links|Activating internet links]]
 * [[#Automatic_folding_of_comments|Automatic folding of comments]]
+* Macros plugin also records actions performed in the Find/Replace dialog
 
 = Download =
 
