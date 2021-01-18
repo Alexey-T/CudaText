@@ -2713,7 +2713,7 @@ begin
   begin
     S:= FFoldTodo;
     FFoldTodo:= '';
-    NLine:= Ed.LineTop;
+    NLine:= Ed.LineTop; //keep LineTop! issue #3055.
     EditorSetFoldString(Ed, S);
     Ed.LineTop:= NLine;
   end;
