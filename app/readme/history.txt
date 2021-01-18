@@ -5,7 +5,7 @@
 
 1.122.2 (2021/01)
 
-+ add: added internal option "max count of carets to allow Undo for editing operation", default is 500; editing commands (typing letter, BackSp, Delete, Enter) are now much faster for >500 carets
++ add: added internal option "max count of carets to allow Undo for editing operation", default is 200; many editing commands (typing letter, BackSp, Delete, Enter) are now much faster for >200 carets
 + add: lexer CSS: more known properties; fix highlighting inside @media blocks
 - fix: Lexer Detecter didn't detect 'Dockerfile'
 
