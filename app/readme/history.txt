@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+1.122.2 (2021/01)
+
++ add: added internal option (not public yet) "max count of carets to allow Undo for editing operation", default is 500
 + add: lexer CSS: more known properties; fix highlighting inside @media blocks
 - fix: Lexer Detecter didn't detect 'Dockerfile'
 
