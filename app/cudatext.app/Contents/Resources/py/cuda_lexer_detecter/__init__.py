@@ -35,7 +35,7 @@ class Command:
         #print('name, ext1, ext2:', name, ext1, ext2)
         lexers = []
 
-        lex = TYPES.get('/'+name, '')
+        lex = TYPES.get('/'+name_orig, '')
         if lex:
             lexers += lex
 
