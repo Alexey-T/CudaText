@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: lexer CSS: more known properties; fix highlighting inside @media blocks
+
 1.122.1 (2021/01)
 
 + add: option "autocomplete_commit_single_item" (thanks @MiroslavMatas)
