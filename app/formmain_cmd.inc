@@ -454,7 +454,7 @@ begin
         if Assigned(Frame) then
         begin
           Frame.DoMacroStop(false);
-          DoOnMacro(Frame, Frame.MacroString);
+          DoOnMacro(Frame, Frame.MacroStrings.Text);
           MsgStatus('');
         end;
       end;
@@ -604,7 +604,7 @@ begin
         Str:= IntToStr(ACommand);
         if ACommand=cCommand_TextInsert then
           Str:= Str+','+AText;
-        Frame.MacroString:= Frame.MacroString+(Str+#10);
+        Frame.MacroStrings.Add(Str);
       end;
 
   if (ACommand=cCommand_TextInsert) and

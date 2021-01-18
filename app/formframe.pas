@@ -137,7 +137,6 @@ type
     FInSession: boolean;
     FInHistory: boolean;
     FMacroRecord: boolean;
-    FMacroString: string;
     FImageBox: TATImageBox;
     FBin: TATBinHex;
     FBinStream: TFileStream;
@@ -268,6 +267,7 @@ type
     Groups: TATGroups;
     FileProps: TAppFileProps;
     FileProps2: TAppFileProps;
+    MacroStrings: TStringList;
 
     constructor Create(AOwner: TComponent; AApplyCentering: boolean); reintroduce;
     destructor Destroy; override;
@@ -389,7 +389,6 @@ type
     procedure DoMacroStart;
     procedure DoMacroStop(ACancel: boolean);
     property MacroRecord: boolean read FMacroRecord;
-    property MacroString: string read FMacroString write FMacroString;
 
     //events
     property OnGetSaveDialog: TFrameGetSaveDialog read FOnGetSaveDialog write FOnGetSaveDialog;
@@ -1669,6 +1668,9 @@ begin
   FCachedTreeview[0]:= nil;
   FCachedTreeview[1]:= nil;
 
+  MacroStrings:= TStringList.Create;
+  MacroStrings.TextLineBreakStyle:= tlbsLF;
+
   FBracketHilite:= EditorOps.OpBracketHilite;
   FBracketSymbols:= EditorOps.OpBracketSymbols;
   FBracketMaxDistance:= EditorOps.OpBracketDistance;
@@ -1758,6 +1760,7 @@ begin
     DoPyEvent(Ed1, cEventOnClose, Params);
   end;
 
+  FreeAndNil(MacroStrings);
   FreeAndNil(FCodetreeFilterHistory);
 
   inherited;
@@ -2722,14 +2725,14 @@ end;
 procedure TEditorFrame.DoMacroStart;
 begin
   FMacroRecord:= true;
-  FMacroString:= '';
+  MacroStrings.Clear;
 end;
 
 procedure TEditorFrame.DoMacroStop(ACancel: boolean);
 begin
   FMacroRecord:= false;
   if ACancel then
-    FMacroString:= '';
+    MacroStrings.Clear;
 end;
 
 procedure TEditorFrame.DoOnUpdateStatus;
@@ -2745,7 +2748,7 @@ begin
   if MacroRecord then
   begin
     Pnt:= ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt);
-    FMacroString+= Format('%d,%d,%d', [cmd_MouseClickNearCaret, Pnt.X, Pnt.Y])+#10;
+    MacroStrings.Add(Format('%d,%d,%d', [cmd_MouseClickNearCaret, Pnt.X, Pnt.Y]));
   end;
 end;
 
@@ -2907,7 +2910,7 @@ begin
   if MacroRecord then
   begin
     Pnt:= ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt);
-    FMacroString+= Format('%d,%d,%d', [cmd_MouseClickNearCaretAndSelect, Pnt.X, Pnt.Y])+#10;
+    MacroStrings.Add(Format('%d,%d,%d', [cmd_MouseClickNearCaretAndSelect, Pnt.X, Pnt.Y]));
   end;
 end;
 

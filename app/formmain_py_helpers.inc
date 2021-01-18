@@ -20,7 +20,7 @@ begin
     SParam:= '';
     if Length(AParams)>0 then
       SParam:= AppVariantToString(AParams[0]);
-    Frame.MacroString:= Frame.MacroString+ ('py:'+AModule+','+AMethod+','+SParam+#10);
+    Frame.MacroStrings.Add('py:'+AModule+','+AMethod+','+SParam);
   end;
 
   Ed.Strings.BeginUndoGroup;

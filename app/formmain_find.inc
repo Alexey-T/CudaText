@@ -205,13 +205,13 @@ begin
   //format must be this:
   // https://wiki.freepascal.org/CudaText_API#Format_of_text_for_cmd_FinderAction
   if Frame.MacroRecord then
-    Frame.MacroString:= Frame.MacroString+
-       (IntToStr(cmd_FinderAction)+','+
+    Frame.MacroStrings.Add(
+        IntToStr(cmd_FinderAction)+','+
         cAppFinderOperationString[Res]+#1+
         FFinder.StrFind+#1+
         FFinder.StrReplace+#1+
-        FinderOptionsToString(FFinder)+
-        #10);
+        FinderOptionsToString(FFinder)
+        );
 
   bDoLock:=
     //(Res=afoReplace) or //don't lock for single replace, issue #1216
