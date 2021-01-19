@@ -4695,7 +4695,7 @@ begin
 
     {
     if NCountNormal+NCountLite>0 then
-      MsgLogConsole(Format(msgLoadedLexers, [NCountNormal, NTickNormal, NCountLite, NTickLite]));
+      MsgLogConsole(Format('Loaded lexers: %d (%dms) + %d (%dms)', [NCountNormal, NTickNormal, NCountLite, NTickLite]));
       }
 
     if Assigned(ListBackup) then

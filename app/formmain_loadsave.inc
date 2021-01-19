@@ -1293,7 +1293,7 @@ begin
     if AllowUiOps and AllowGlobalOps then
     begin
       NTick:= GetTickCount64-NTick;
-      MsgLogConsole(Format(msgLoadedConfigs, [NTick]));
+      MsgLogConsole(Format('Loaded configs: %dms', [NTick]));
     end;
     }
   finally

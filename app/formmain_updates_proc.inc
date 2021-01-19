@@ -1263,7 +1263,10 @@ var
   Parts: TRegexParts;
   Str: string;
   Img: TImageList;
+  NTick: QWord;
 begin
+  NTick:= GetTickCount64;
+
   SRegexFindParts('.+_(\d+)x(\d+)', UiOps.ToolBarTheme, Parts);
 
   Str:= AppDir_DataToolbarIcons+DirectorySeparator+UiOps.ToolBarTheme;
@@ -1294,6 +1297,11 @@ begin
   UpdateImagelistWithIconFromFile(Img, Str+'case.png');
   UpdateImagelistWithIconFromFile(Img, Str+'comment.png');
   UpdateImagelistWithIconFromFile(Img, Str+'opt.png');
+
+  {
+  NTick:= GetTickCount64-NTick;
+  MsgLogConsole(Format('Load toolbar icons: %dms', [NTick]));
+  }
 end;
 
 

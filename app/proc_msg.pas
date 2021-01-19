@@ -62,8 +62,6 @@ const
   msgCannotFindLexers = 'NOTE: Cannot find lexers: %s';
   msgCannotFindData = 'NOTE: Cannot find data: %s';
   msgCannotFindSessionFile = 'NOTE: File from session not found: %s';
-  msgLoadedLexers = 'Loaded lexers: %d (%dms) + %d (%dms)';
-  msgLoadedConfigs = 'Loaded configs: %dms';
 
   msgTitle = 'CudaText'; //no i18n
   msgModified: array[boolean] of string = ('', '*'); //no i18n
