@@ -2168,6 +2168,7 @@ end;
 
 procedure TfmMain.FormCreate(Sender: TObject);
 var
+  NTick: QWord;
   i: integer;
 begin
   OnEnter:= @FormEnter;
@@ -2301,9 +2302,13 @@ begin
   ListboxVal.OnKeyDown:= @ListboxOutKeyDown;
   ListboxVal.OnContextPopup:= @ListboxValidateContextPopup;
 
+  NTick:= GetTickCount64;
   fmConsole:= TfmConsole.Create(Self);
   fmConsole.OnConsoleNav:= @DoOnConsoleNav;
   fmConsole.OnNumberChange:= @DoOnConsoleNumberChange;
+  NTick:= GetTickCount64-NTick;
+  if UiOps.LogConsoleDetailedStartupTime then
+    MsgLogConsole(Format('Loaded console form: %dms', [NTick]));
 
   InitSidebar; //after initing PanelCodeTreeAll, ListboxOut, ListboxVal, fmConsole
 
@@ -4482,7 +4487,11 @@ begin
 end;
 
 procedure TfmMain.InitPyEngine;
+var
+  NTick: QWord;
 begin
+  NTick:= GetTickCount64;
+
   {$ifdef windows}
   Windows.SetEnvironmentVariable('PYTHONIOENCODING', 'UTF-8');
   {$endif}
@@ -4527,6 +4536,10 @@ begin
       MsgLogConsole(msgCannotInitPython2b);
     DisablePluginMenuItems(true);
   end;
+
+  NTick:= GetTickCount64-NTick;
+  if UiOps.LogConsoleDetailedStartupTime then
+    MsgLogConsole(Format('Loaded Python library: %dms', [NTick]));
 end;
 
 procedure TfmMain.DisablePluginMenuItems(AddFindLibraryItem: boolean);
