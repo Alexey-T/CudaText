@@ -1366,7 +1366,7 @@ begin
     OpWrapIndented:= true;
     OpWrapEnabledMaxLines:= 60*1000;
 
-    OpUndoLimit:= 5000;
+    OpUndoLimit:= cInitUndoLimit;
     OpUndoGrouped:= true;
     OpUndoAfterSave:= true;
     OpUndoMaxCarets:= cInitUndoMaxCarets;
