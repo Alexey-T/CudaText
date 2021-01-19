@@ -504,6 +504,10 @@
   //Undo: Undo is enabled even after file saving
   "undo_after_save": true,
 
+  //Undo: When multi-carets editing is performing, and count of carets is too big,
+  //clear Undo-information, to keep rather big operation speed
+  "undo_max_carets": 200,
+
   //Undo: For which files Undo is saved to disk (files in .cudatext folder).
   //Value can be "": disabled, "*": enabled for all files,
   //or ","-separated file extensions like "c,h,txt".

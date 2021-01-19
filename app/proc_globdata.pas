@@ -509,6 +509,7 @@ type
     OpUndoLimit: integer;
     OpUndoGrouped: boolean;
     OpUndoAfterSave: boolean;
+    OpUndoMaxCarets: integer;
     OpUndoIndentVert: integer;
     OpUndoIndentHorz: integer;
 
@@ -1368,6 +1369,7 @@ begin
     OpUndoLimit:= 5000;
     OpUndoGrouped:= true;
     OpUndoAfterSave:= true;
+    OpUndoMaxCarets:= cInitUndoMaxCarets;
     OpUndoIndentVert:= -5;
     OpUndoIndentHorz:= 10;
 

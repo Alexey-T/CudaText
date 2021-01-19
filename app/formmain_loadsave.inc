@@ -927,6 +927,7 @@ begin
   Op.OpUndoLimit:= cfg.GetValue('undo_limit', Op.OpUndoLimit);
   Op.OpUndoGrouped:= cfg.GetValue('undo_grouped', Op.OpUndoGrouped);
   Op.OpUndoAfterSave:= cfg.GetValue('undo_after_save', Op.OpUndoAfterSave);
+  Op.OpUndoMaxCarets:= cfg.GetValue('undo_max_carets', Op.OpUndoMaxCarets);
 
   Op.OpCaretBlinkTime:= cfg.GetValue('caret_blink_time', Op.OpCaretBlinkTime);
   Op.OpCaretBlinkEn:= cfg.GetValue('caret_blink_en', Op.OpCaretBlinkEn);

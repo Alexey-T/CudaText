@@ -251,6 +251,7 @@ begin
   Ed.OptUndoLimit:= Op.OpUndoLimit;
   Ed.OptUndoGrouped:= Op.OpUndoGrouped;
   Ed.OptUndoAfterSave:= Op.OpUndoAfterSave;
+  Ed.OptUndoMaxCarets:= Op.OpUndoMaxCarets;
   Ed.OptUndoIndentVert:= Op.OpUndoIndentVert;
   Ed.OptUndoIndentHorz:= Op.OpUndoIndentHorz;
 
