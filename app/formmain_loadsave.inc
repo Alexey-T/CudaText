@@ -1264,7 +1264,10 @@ procedure TfmMain.DoOps_LoadOptions(const fn: string; var Op: TEditorOps;
   AllowUiOps: boolean=true; AllowGlobalOps: boolean=true);
 var
   cfg: TJsonConfig;
+  NTick: QWord;
 begin
+  NTick:= GetTickCount64;
+
   cfg:= TJsonConfig.Create(nil);
   try
     try
@@ -1285,6 +1288,14 @@ begin
 
     DoOps_LoadOptions_Editor(cfg, Op);
 
+    {
+    //don't show if we only load lexer-specific config
+    if AllowUiOps and AllowGlobalOps then
+    begin
+      NTick:= GetTickCount64-NTick;
+      MsgLogConsole(Format(msgLoadedConfigs, [NTick]));
+    end;
+    }
   finally
     cfg.Free;
   end;
