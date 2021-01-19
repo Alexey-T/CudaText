@@ -2306,9 +2306,11 @@ begin
   fmConsole:= TfmConsole.Create(Self);
   fmConsole.OnConsoleNav:= @DoOnConsoleNav;
   fmConsole.OnNumberChange:= @DoOnConsoleNumberChange;
-  NTick:= GetTickCount64-NTick;
   if UiOps.LogConsoleDetailedStartupTime then
+  begin
+    NTick:= GetTickCount64-NTick;
     MsgLogConsole(Format('Loaded console form: %dms', [NTick]));
+  end;
 
   InitSidebar; //after initing PanelCodeTreeAll, ListboxOut, ListboxVal, fmConsole
 
