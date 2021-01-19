@@ -1288,14 +1288,13 @@ begin
 
     DoOps_LoadOptions_Editor(cfg, Op);
 
-    {
     //don't show if we only load lexer-specific config
-    if AllowUiOps and AllowGlobalOps then
-    begin
-      NTick:= GetTickCount64-NTick;
-      MsgLogConsole(Format('Loaded configs: %dms', [NTick]));
-    end;
-    }
+    if UiOps.LogConsoleDetailedStartupTime then
+      if AllowUiOps and AllowGlobalOps then
+      begin
+        NTick:= GetTickCount64-NTick;
+        MsgLogConsole(Format('Loaded configs: %dms', [NTick]));
+      end;
   finally
     cfg.Free;
   end;

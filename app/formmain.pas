@@ -4693,10 +4693,9 @@ begin
     if NCountNormal=0 then
       MsgLogConsole(Format(msgCannotFindLexers, [AppDir_Lexers]));
 
-    {
-    if NCountNormal+NCountLite>0 then
-      MsgLogConsole(Format('Loaded lexers: %d (%dms) + %d (%dms)', [NCountNormal, NTickNormal, NCountLite, NTickLite]));
-      }
+    if UiOps.LogConsoleDetailedStartupTime then
+      if NCountNormal+NCountLite>0 then
+        MsgLogConsole(Format('Loaded lexers: %dms+%dms', [NTickNormal, NTickLite]));
 
     if Assigned(ListBackup) then
       DoOps_LexersRestoreInFrames(ListBackup);

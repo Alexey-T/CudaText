@@ -1205,7 +1205,10 @@ procedure TfmMain.DoOps_LoadSidebarIcons;
 var
   Parts: TRegexParts;
   Str: string;
+  NTick: QWord;
 begin
+  NTick:= GetTickCount64;
+
   SRegexFindParts('.+_(\d+)x(\d+)', UiOps.SidebarTheme, Parts);
 
   ImageListSide.Width:= StrToIntDef(Parts[1].Str, ImageListSide.Width);
@@ -1228,6 +1231,12 @@ begin
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'validate.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'find.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'menu.png');
+
+  if UiOps.LogConsoleDetailedStartupTime then
+  begin
+    NTick:= GetTickCount64-NTick;
+    MsgLogConsole(Format('Loaded sidebar icons: %dms', [NTick]));
+  end;
 end;
 
 
@@ -1298,10 +1307,11 @@ begin
   UpdateImagelistWithIconFromFile(Img, Str+'comment.png');
   UpdateImagelistWithIconFromFile(Img, Str+'opt.png');
 
-  {
-  NTick:= GetTickCount64-NTick;
-  MsgLogConsole(Format('Load toolbar icons: %dms', [NTick]));
-  }
+  if UiOps.LogConsoleDetailedStartupTime then
+  begin
+    NTick:= GetTickCount64-NTick;
+    MsgLogConsole(Format('Loaded toolbar icons: %dms', [NTick]));
+  end;
 end;
 
 

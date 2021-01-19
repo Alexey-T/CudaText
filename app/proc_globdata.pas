@@ -168,6 +168,7 @@ type
     LogSessions: boolean;
     LogDebug: boolean;
     LogConsole: boolean;
+    LogConsoleDetailedStartupTime: boolean;
 
     LexerThemes: boolean;
     LexerMenuGrouped: boolean;
@@ -1615,6 +1616,7 @@ begin
     LogSessions:= true;
     LogDebug:= false;
     LogConsole:= false;
+    LogConsoleDetailedStartupTime:= false; //true;
 
     NewdocLexer:= '';
     NewdocEnc:= 'utf8';
