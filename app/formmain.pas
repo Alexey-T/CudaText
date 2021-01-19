@@ -4661,6 +4661,8 @@ end;
 procedure TfmMain.DoOps_LoadLexerLib(AOnCreate: boolean);
 var
   ListBackup: TStringlist;
+  NCountNormal, NCountLite: integer;
+  NTickNormal, NTickLite: QWord;
 begin
   if not AOnCreate then
     ListBackup:= TStringList.Create
@@ -4672,16 +4674,29 @@ begin
       DoOps_LexersDisableInFrames(ListBackup);
 
     //load lite lexers
+    NTickLite:= GetTickCount64;
     AppManagerLite.Clear;
     AppManagerLite.LoadFromDir(AppDir_LexersLite);
-    if AppManagerLite.LexerCount=0 then
+
+    NTickLite:= GetTickCount64-NTickLite;
+    NCountLite:= AppManagerLite.LexerCount;
+    if NCountLite=0 then
       MsgLogConsole(Format(msgCannotFindLexers, [AppDir_LexersLite]));
 
     //load EControl lexers
+    NTickNormal:= GetTickCount64;
     AppManager.OnLexerLoaded:= @DoOnLexerLoaded;
     AppManager.InitLibrary(AppDir_Lexers);
-    if AppManager.LexerCount=0 then
+
+    NTickNormal:= GetTickCount64-NTickNormal;
+    NCountNormal:= AppManager.LexerCount;
+    if NCountNormal=0 then
       MsgLogConsole(Format(msgCannotFindLexers, [AppDir_Lexers]));
+
+    {
+    if NCountNormal+NCountLite>0 then
+      MsgLogConsole(Format(msgLoadedLexers, [NCountNormal, NTickNormal, NCountLite, NTickLite]));
+      }
 
     if Assigned(ListBackup) then
       DoOps_LexersRestoreInFrames(ListBackup);
