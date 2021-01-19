@@ -634,7 +634,10 @@ procedure TfmMain.DoOps_LoadHistory;
 var
   cfg: TJSONConfig;
   bFlag: boolean;
+  NTick: QWord;
 begin
+  NTick:= GetTickCount64;
+
   cfg:= TJSONConfig.Create(nil);
   try
     try
@@ -718,6 +721,12 @@ begin
     FOption_SidebarTab:= cfg.GetValue('tab_left', '');
   finally
     cfg.Free;
+  end;
+
+  if UiOps.LogConsoleDetailedStartupTime then
+  begin
+    NTick:= GetTickCount64-NTick;
+    MsgLogConsole(Format('Loaded history: %dms', [NTick]));
   end;
 end;
 
