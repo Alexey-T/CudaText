@@ -5,7 +5,7 @@
 
 1.122.3 (2021/01)
 
-* add/change: added option "undo_max_carets" (default is 200); many editing commands (typing character, BackSp, Delete, etc) are now much faster for >200 carets (before, such commands could last for several minutes, with 30K carets)
+* add/change: added option "undo_max_carets" (default is 200). Many editing commands are now much faster for >200 carets (before, such commands could last for several minutes, with 30K carets). But now you will loose the undo-information with >200 (by option) carets.
 + add: added option "autocomplete_commit_single_item" (thanks @MiroslavMatas)
 + add: Addon Manager supports translation too (patch by Markus)
 + add: updated Python libraries in py/sys/
