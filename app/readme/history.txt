@@ -7,14 +7,11 @@
 
 + add: added option "undo_max_carets" (default is 200); many editing commands (typing character, BackSp, Delete, etc) are now much faster for >200 carets (before, such commands could last for several minutes, with 30K carets)
 + add: lexer CSS: more known properties; fix highlighting inside @media blocks
-- fix: Lexer Detecter didn't detect 'Dockerfile'
-
-1.122.1 (2021/01)
-
 + add: option "autocomplete_commit_single_item" (thanks @MiroslavMatas)
 + add: Addon Manager supports translation too (patch by Markus)
 + add: updated Python libraries in py/sys/
-- fix: when selection is being added with Ctrl+drag, unpressing of Ctrl gave the weird effect (thanks @tiun)
+- fix: Lexer Detecter didn't detect 'Dockerfile'
+- fix: when selection is performed with Ctrl+drag, unpressing of Ctrl gave the weird effect (thanks @tiun)
 - fix: editor snaps twice to line specified as command line param, e.g. 'cudatext my.cpp:20' (thanks @Shovel)
 - fix: regression: not working Python, if "pylib__linux" has some special form (thanks @sikmir, @Shovel)
 
