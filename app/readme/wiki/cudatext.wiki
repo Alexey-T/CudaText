@@ -1460,7 +1460,13 @@ This works with the default values of 2 options:
 
 =Major plugins=
 
-See separate Wiki page about major plugins: [[CudaText plugins]].
+See Wiki page about major plugins: [[CudaText plugins]].
+
+==Entire plugins list==
+
+See separate
+[https://github.com/halfbrained/cudatext_plugins_list GitHub repository with the readme-file]
+about all published plugins.
 
 =Tech topics=
 
