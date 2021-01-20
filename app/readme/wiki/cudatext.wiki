@@ -1432,6 +1432,9 @@ This works with the default values of 2 options:
 
 =Add-ons=
 
+==Python API==
+See [[CudaText API|Wiki page about Python API]].
+
 ==Major plugins Wiki==
 See [[CudaText plugins|Wiki page about major plugins]].
 
@@ -1469,10 +1472,6 @@ You can make Pull-Request there, if needed.
 * "code tree icons": Icon sets for the Code Tree (icons are visible in the Code Tree with some lexers, e.g. C#).
 
 =Tech topics=
-
-== Python API ==
-
-Separate big page about Python API is [[CudaText API]].
 
 ==Program perfomance==
 
