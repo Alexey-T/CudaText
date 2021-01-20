@@ -6,7 +6,7 @@
 1.122.4
 
 + add: Project Manager: sort files by extension (thanks @GHNewbiee)
-- fix: "duplicate lines" command with forward/backward selection gave much different selections (thanks @Jairo-Martinez)
+- fix: command "duplicate lines" with forward/backward selection gave different selections (thanks @Jairo-Martinez)
 
 1.122.3 (2021/01)
 
