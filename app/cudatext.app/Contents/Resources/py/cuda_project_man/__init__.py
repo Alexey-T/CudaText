@@ -346,8 +346,15 @@ class Command:
 
     @staticmethod
     def node_ordering(node):
+
+        def _ext(s):
+            if '.' in s:
+                return s.split('.')[-1].upper()
+            else:
+                return ''
+
         path = Path(node)
-        return path.is_file(), path.name.upper()
+        return path.is_file(), _ext(path.name), path.name.upper()
 
     def add_node(self, dialog):
         path = dialog()
