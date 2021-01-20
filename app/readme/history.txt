@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.122.4
+
++ add: Project Manager: sort files by extension (thanks @GHNewbiee)
+- fix: "duplicate lines" command with forward/backward selection gave much different selections (thanks @Jairo-Martinez)
+
 1.122.3 (2021/01)
 
 * add/change: added option "undo_max_carets" (default is 200). Many editing commands are now much faster for >200 carets (before, such commands could last for several minutes, with 30K carets). But now you will loose the undo-information with >200 (by option) carets.
