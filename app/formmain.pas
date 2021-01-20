@@ -4537,11 +4537,13 @@ begin
     if msgCannotInitPython2b<>'' then
       MsgLogConsole(msgCannotInitPython2b);
     DisablePluginMenuItems(true);
-  end;
-
-  NTick:= GetTickCount64-NTick;
+  end
+  else
   if UiOps.LogConsoleDetailedStartupTime then
+  begin
+    NTick:= GetTickCount64-NTick;
     MsgLogConsole(Format('Loaded Python library: %dms', [NTick]));
+  end;
 end;
 
 procedure TfmMain.DisablePluginMenuItems(AddFindLibraryItem: boolean);
