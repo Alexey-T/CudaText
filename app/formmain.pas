@@ -1961,8 +1961,9 @@ var
   PntScreen, PntLocal: TPoint;
   Ed: TATSynEdit;
   S: UnicodeString;
-  NCnt, i: integer;
   Params: TAppVariantArray;
+  Frame: TEditorFrame;
+  NCnt, i: integer;
 begin
   //in Lazarus 2.1 trunk on Linux x64 gtk2/qt5, TimerAppIdle.Timer is called too early,
   //when Handle is not created
@@ -2012,11 +2013,13 @@ begin
 
   AppUpdateWatcherFrames;
 
-  if FCodetreeNeedsSelJump then
-  begin
-    FCodetreeNeedsSelJump:= false;
-    UpdateTree(false);
-  end;
+  Frame:= CurrentFrame;
+  if Assigned(Frame) and not (Frame.IsTreeBusy or Frame.IsParsingBusy) then
+    if FCodetreeNeedsSelJump then
+    begin
+      FCodetreeNeedsSelJump:= false;
+      UpdateTree(false);
+    end;
 
   if FInvalidateShortcuts then
   begin
