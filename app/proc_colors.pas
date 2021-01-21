@@ -449,7 +449,7 @@ begin
   SetColor(apclScrollArrow, nColorArrow, 'ScrollArrow', 'scrollbar, arrows');
   SetColor(apclScrollScrolled, $c0c0a0, 'ScrollScrolled', 'scrollbar, scrolling area');
   SetColor(apclSplitMain, nColorBack2, 'SplitMain', 'splitters, main');
-  SetColor(apclSplitGroups, nColorBack2, 'SplitGroups', 'splitters, groups');
+  SetColor(apclSplitGroups, $d8d8d8, 'SplitGroups', 'splitters, groups');
   SetColor(apclExportHtmlBg, clWhite, 'ExportHtmlBg', 'export to html, BG');
   SetColor(apclExportHtmlNumbers, clMedGray, 'ExportHtmlNumbers', 'export to html, line numbers');
 
