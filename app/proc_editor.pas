@@ -1763,6 +1763,7 @@ procedure EditorHighlightAllMatches(AFinder: TATEditorFinder;
 var
   ColorBorder: TColor;
   StyleBorder: TATLineStyle;
+  bMoveCaret: boolean;
 begin
   ColorBorder:= GetAppStyle(AppHiAll_ThemeStyleId).BgColor;
 
@@ -1771,13 +1772,15 @@ begin
   else
     StyleBorder:= cLineStyleRounded;
 
+  bMoveCaret:= UiOps.FindHiAll_MoveCaret and not AFinder.Editor.Carets.IsSelection;
+
   AMatchesCount:= AFinder.DoAction_HighlightAllEditorMatches(
     ColorBorder,
     StyleBorder,
     UiOps.FindHiAll_TagValue,
     UiOps.FindHiAll_MaxLines,
     AScroll,
-    UiOps.FindHiAll_MoveCaret
+    bMoveCaret
     );
 end;
 

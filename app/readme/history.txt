@@ -11,6 +11,7 @@
 + add: Addon Manager: supports translation too (patch by Markus)
 + add: lexer CSS: more known properties; fix highlighting inside '@media{}' blocks
 + add: updated Python libraries in py/sys/
+- fix: Find dialog option "Hi" did reset the selection (thanks @MiroslavMatas)
 - fix: added range-checks in newly added code (thanks @OlehL)
 - fix: color of groups-splitters in few ui-themes (thanks @GHNewbiee)
 - fix: command "duplicate lines" with forward/backward selection gave different selections (thanks @Jairo-Martinez)
