@@ -5,7 +5,7 @@
 
 1.122.4 (2021/01)
 
-* add/change: added option "undo_max_carets" (default is 5000). Many editing commands are now much faster for >5000 carets (before, such commands could last for several minutes, with 30K carets). WARNING: this clears the undo-information when you have >5000 carets.
+* change: added option "undo_max_carets" (default is 5000). Many editing commands are now much faster for >5000 carets (before, such commands could last for several minutes, with 30K carets). WARNING: this clears the undo-information when you have >5000 carets.
 * change: changed default of "auto_fold_comments" to 0; one crash was fixed regarding to this (thanks @OlehL)
 + add: added option "autocomplete_commit_single_item" (thanks @MiroslavMatas)
 + add: Project Manager: sort files by extension (thanks @GHNewbiee)
