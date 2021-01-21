@@ -1302,7 +1302,7 @@ begin
     OpOverwriteSel:= true;
     OpOverwriteOnPaste:= false;
 
-    OpAutoFoldComments:= 5;
+    OpAutoFoldComments:= 0; //disabled by default, issue #3074
     OpAutoCloseBrackets:= '([{';
     OpAutocompleteAutoshowCharCount:= 0;
     OpAutocompleteTriggerChars:= '';
