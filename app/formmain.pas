@@ -2043,7 +2043,15 @@ begin
 end;
 
 procedure TfmMain.TimerTreeFillTimer(Sender: TObject);
+var
+  Frame: TEditorFrame;
+  bBusy: boolean;
 begin
+  Frame:= CurrentFrame;
+  if Frame=nil then exit;
+  bBusy:= Frame.IsTreeBusy or Frame.IsParsingBusy;
+  if bBusy then exit;
+
   TimerTreeFill.Enabled:= false;
   UpdateTree(true);
 end;

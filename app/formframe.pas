@@ -359,6 +359,7 @@ type
     property WasVisible: boolean read FWasVisible;
     function GetTabPages: TATPages;
     function GetTabGroups: TATGroups;
+    function IsTreeBusy: boolean;
     function IsParsingBusy: boolean;
     //file
     procedure DoFileClose;
@@ -3747,6 +3748,17 @@ var
 begin
   Kind:= EditorGetTokenKind(Ed, AX, AY);
   Result:= (Kind=atkComment) or (Kind=atkString);
+end;
+
+function TEditorFrame.IsTreeBusy: boolean;
+begin
+  if EditorsLinked then
+    Result:=
+      Assigned(Adapter1) and Adapter1.TreeBusy
+  else
+    Result:=
+      (Assigned(Adapter1) and Adapter1.TreeBusy) or
+      (Assigned(Adapter2) and Adapter2.TreeBusy);
 end;
 
 function TEditorFrame.IsParsingBusy: boolean;
