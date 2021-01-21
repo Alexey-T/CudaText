@@ -53,9 +53,7 @@
               <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
               <OverflowChecks Value="True"/>
-              <StackChecks Value="True"/>
             </Checks>
-            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="x86_64"/>
           </CodeGeneration>
           <Linking>
@@ -100,9 +98,7 @@
               <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
               <OverflowChecks Value="True"/>
-              <StackChecks Value="True"/>
             </Checks>
-            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="i386"/>
             <TargetOS Value="linux"/>
           </CodeGeneration>
@@ -146,9 +142,7 @@
               <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
               <OverflowChecks Value="True"/>
-              <StackChecks Value="True"/>
             </Checks>
-            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="linux"/>
           </CodeGeneration>
@@ -195,9 +189,7 @@
               <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
               <OverflowChecks Value="True"/>
-              <StackChecks Value="True"/>
             </Checks>
-            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="linux"/>
           </CodeGeneration>
@@ -244,9 +236,7 @@
               <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
               <OverflowChecks Value="True"/>
-              <StackChecks Value="True"/>
             </Checks>
-            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="i386"/>
             <TargetOS Value="linux"/>
           </CodeGeneration>
@@ -293,9 +283,7 @@
               <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
               <OverflowChecks Value="True"/>
-              <StackChecks Value="True"/>
             </Checks>
-            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="linux"/>
           </CodeGeneration>
@@ -339,9 +327,7 @@
               <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
               <OverflowChecks Value="True"/>
-              <StackChecks Value="True"/>
             </Checks>
-            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="arm"/>
             <TargetOS Value="linux"/>
           </CodeGeneration>
@@ -385,9 +371,7 @@
               <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
               <OverflowChecks Value="True"/>
-              <StackChecks Value="True"/>
             </Checks>
-            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="aarch64"/>
             <TargetOS Value="linux"/>
           </CodeGeneration>
@@ -431,9 +415,7 @@
               <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
               <OverflowChecks Value="True"/>
-              <StackChecks Value="True"/>
             </Checks>
-            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="win64"/>
           </CodeGeneration>
@@ -477,9 +459,7 @@
               <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
               <OverflowChecks Value="True"/>
-              <StackChecks Value="True"/>
             </Checks>
-            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="i386"/>
             <TargetOS Value="win32"/>
           </CodeGeneration>
@@ -523,9 +503,7 @@
               <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
               <OverflowChecks Value="True"/>
-              <StackChecks Value="True"/>
             </Checks>
-            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="aarch64"/>
             <TargetOS Value="win64"/>
           </CodeGeneration>
@@ -572,9 +550,7 @@
               <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
               <OverflowChecks Value="True"/>
-              <StackChecks Value="True"/>
             </Checks>
-            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="darwin"/>
           </CodeGeneration>
@@ -618,9 +594,7 @@
               <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
               <OverflowChecks Value="True"/>
-              <StackChecks Value="True"/>
             </Checks>
-            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="i386"/>
             <TargetOS Value="freebsd"/>
           </CodeGeneration>
@@ -664,9 +638,7 @@
               <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
               <OverflowChecks Value="True"/>
-              <StackChecks Value="True"/>
             </Checks>
-            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="freebsd"/>
           </CodeGeneration>
@@ -710,9 +682,7 @@
               <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
               <OverflowChecks Value="True"/>
-              <StackChecks Value="True"/>
             </Checks>
-            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="openbsd"/>
           </CodeGeneration>
@@ -756,9 +726,7 @@
               <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
               <OverflowChecks Value="True"/>
-              <StackChecks Value="True"/>
             </Checks>
-            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="netbsd"/>
           </CodeGeneration>
@@ -802,9 +770,7 @@
               <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
               <OverflowChecks Value="True"/>
-              <StackChecks Value="True"/>
             </Checks>
-            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="dragonfly"/>
           </CodeGeneration>
@@ -845,13 +811,16 @@
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Checks>
+              <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
             </Checks>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="solaris"/>
           </CodeGeneration>
           <Linking>
             <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
@@ -886,13 +855,16 @@
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Checks>
+              <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
             </Checks>
             <TargetCPU Value="sparc"/>
             <TargetOS Value="solaris"/>
           </CodeGeneration>
           <Linking>
             <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
@@ -930,13 +902,16 @@
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Checks>
+              <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
             </Checks>
             <TargetCPU Value="i386"/>
             <TargetOS Value="haiku"/>
           </CodeGeneration>
           <Linking>
             <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
@@ -974,13 +949,16 @@
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Checks>
+              <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
             </Checks>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="haiku"/>
           </CodeGeneration>
           <Linking>
             <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
@@ -1366,9 +1344,7 @@
         <IOChecks Value="True"/>
         <RangeChecks Value="True"/>
         <OverflowChecks Value="True"/>
-        <StackChecks Value="True"/>
       </Checks>
-      <VerifyObjMethodCallValidity Value="True"/>
     </CodeGeneration>
     <Linking>
       <Debugging>
