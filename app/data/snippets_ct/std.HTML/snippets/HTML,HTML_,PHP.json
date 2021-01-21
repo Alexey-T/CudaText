@@ -499,6 +499,8 @@
             "<!DOCTYPE html>",
             "<html>",
             "<head>",
+            "\t<meta charset=\"utf-8\">",
+            "\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">",
             "\t<title>${1}</title>",
             "</head>",
             "<body>",
