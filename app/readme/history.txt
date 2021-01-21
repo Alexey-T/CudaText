@@ -3,9 +3,11 @@
   - fixed
   * changed
 
-1.122.4
+1.122.4 (2021/01)
 
 + add: Project Manager: sort files by extension (thanks @GHNewbiee)
+- fix: added range-checks in newly added code
+- fix: color of groups-splitters in few themes (thanks @GHNewbiee)
 - fix: command "duplicate lines" with forward/backward selection gave different selections (thanks @Jairo-Martinez)
 
 1.122.3 (2021/01)
