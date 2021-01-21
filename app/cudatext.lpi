@@ -49,6 +49,13 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
+            <Checks>
+              <IOChecks Value="True"/>
+              <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
+            </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="x86_64"/>
           </CodeGeneration>
           <Linking>
@@ -90,13 +97,18 @@
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Checks>
+              <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
             </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="i386"/>
             <TargetOS Value="linux"/>
           </CodeGeneration>
           <Linking>
             <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
@@ -131,13 +143,14 @@
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Checks>
+              <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
             </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="linux"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
@@ -179,16 +192,18 @@
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Checks>
+              <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
             </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="linux"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
@@ -226,16 +241,18 @@
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Checks>
+              <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
             </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="i386"/>
             <TargetOS Value="linux"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
@@ -273,16 +290,18 @@
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Checks>
+              <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
             </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="linux"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
@@ -317,16 +336,18 @@
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Checks>
+              <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
             </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="arm"/>
             <TargetOS Value="linux"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
@@ -361,16 +382,18 @@
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Checks>
+              <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
             </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="aarch64"/>
             <TargetOS Value="linux"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
@@ -405,16 +428,18 @@
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Checks>
+              <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
             </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="win64"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
@@ -449,16 +474,18 @@
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Checks>
+              <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
             </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="i386"/>
             <TargetOS Value="win32"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
@@ -493,16 +520,18 @@
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Checks>
+              <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
             </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="aarch64"/>
             <TargetOS Value="win64"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
@@ -540,16 +569,18 @@
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Checks>
+              <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
             </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="darwin"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
@@ -584,16 +615,18 @@
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Checks>
+              <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
             </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="i386"/>
             <TargetOS Value="freebsd"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
@@ -628,16 +661,18 @@
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Checks>
+              <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
             </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="freebsd"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
@@ -672,16 +707,18 @@
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Checks>
+              <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
             </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="openbsd"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
@@ -716,16 +753,18 @@
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Checks>
+              <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
             </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="netbsd"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
@@ -760,16 +799,18 @@
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Checks>
+              <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
             </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="dragonfly"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
@@ -808,9 +849,6 @@
             </Checks>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="solaris"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
@@ -852,9 +890,6 @@
             </Checks>
             <TargetCPU Value="sparc"/>
             <TargetOS Value="solaris"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
@@ -899,9 +934,6 @@
             </Checks>
             <TargetCPU Value="i386"/>
             <TargetOS Value="haiku"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
@@ -946,9 +978,6 @@
             </Checks>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="haiku"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
@@ -1340,9 +1369,6 @@
         <StackChecks Value="True"/>
       </Checks>
       <VerifyObjMethodCallValidity Value="True"/>
-      <Optimizations>
-        <OptimizationLevel Value="2"/>
-      </Optimizations>
     </CodeGeneration>
     <Linking>
       <Debugging>
