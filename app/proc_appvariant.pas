@@ -80,21 +80,21 @@ end;
 
 function AppVariant(Value: boolean): TAppVariant;
 begin
-  FillChar(Result, SizeOf(Result), 0);
+  FillChar(Result{%H-}, SizeOf(Result), 0);
   Result.Typ:= avrBool;
   Result.Bool:= Value;
 end;
 
 function AppVariant(const Value: Int64): TAppVariant;
 begin
-  FillChar(Result, SizeOf(Result), 0);
+  FillChar(Result{%H-}, SizeOf(Result), 0);
   Result.Typ:= avrInt;
   Result.Int:= Value;
 end;
 
 function AppVariant(const Value: string): TAppVariant;
 begin
-  FillChar(Result, SizeOf(Result), 0);
+  FillChar(Result{%H-}, SizeOf(Result), 0);
   Result.Typ:= avrStr;
   Result.Str:= Value;
 end;
@@ -103,7 +103,7 @@ function AppVariant(const Value: array of integer): TAppVariant;
 var
   i: integer;
 begin
-  FillChar(Result, SizeOf(Result), 0);
+  FillChar(Result{%H-}, SizeOf(Result), 0);
   Result.Typ:= avrTuple;
   SetLength(Result.Items, Length(Value));
   for i:= 0 to Length(Value)-1 do

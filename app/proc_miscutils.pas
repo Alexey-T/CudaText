@@ -775,7 +775,7 @@ var
   Sep: TATStringSeparator;
   N: integer;
 begin
-  SetLength(Result, 0);
+  SetLength(Result{%H-}, 0);
   Sep.Init(AText);
   repeat
     if not Sep.GetItemInt(N, 0) then Break;

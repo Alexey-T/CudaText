@@ -179,8 +179,10 @@ end;
 
 
 procedure TfmMain.DoApplyTheme_ThemedMainMenu;
+{$ifdef windows}
 var
   NColor: TColor;
+{$endif}
 begin
   {$ifdef windows}
   MenuStylerTheme.FontSize:= UiOps.ThemedMainMenuFontSize;

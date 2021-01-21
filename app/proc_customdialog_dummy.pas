@@ -180,7 +180,7 @@ implementation
 
 function AppVariant_KeyData(AKey: word; AShift: TShiftState): TAppVariant;
 begin
-  FillChar(Result, SizeOf(Result), 0);
+  FillChar(Result{%H-}, SizeOf(Result), 0);
   Result.Typ:= avrTuple;
   SetLength(Result.Items, 2);
 
@@ -194,7 +194,7 @@ end;
 
 function AppVariant_MouseData(AButton: TMouseButton; AShift: TShiftState; AX, AY: Integer): TAppVariant;
 begin
-  FillChar(Result, SizeOf(Result), 0);
+  FillChar(Result{%H-}, SizeOf(Result), 0);
   Result.Typ:= avrDict;
   SetLength(Result.Items, 4);
 
@@ -652,8 +652,10 @@ begin
 end;
 
 procedure TFormDummy.FixPositionIfOutOfScreen;
+{$ifdef windows}
 var
   R: TRect;
+  {$endif}
 begin
   {$ifdef windows}
   MoveToDefaultPosition;

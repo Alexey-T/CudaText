@@ -253,12 +253,12 @@ begin
     Result := false;
     Exit;
   end;
-  if (__fileAttributes and faHidden <> 0) and not self._copyHidden then
+  if (__fileAttributes and faHidden{%H-} <> 0) and not self._copyHidden then
   begin
     Result := false;
     Exit;
   end;
-  if (__fileAttributes and faSysFile <> 0) and not self._copySystem then
+  if (__fileAttributes and faSysFile{%H-} <> 0) and not self._copySystem then
   begin
     Result := false;
     Exit;
