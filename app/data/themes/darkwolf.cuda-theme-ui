@@ -109,7 +109,7 @@
   "ScrollArrow" : "#808080",
   "ScrollScrolled" : "#C8C8C8",
   "SplitMain" : "#404E51",
-  "SplitGroups" : "#404E51",
+  "SplitGroups" : "#505050",
   "ExportHtmlBg" : "#404E51",
   "ExportHtmlNumbers" : "#A0A0A4"
 }
