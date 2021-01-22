@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-- fix: option "saving_trim_spaces didn't move caret to new line end (thanks @GHNewbiee)
+- fix: option "saving_trim_spaces" didn't move caret to new line end (thanks @GHNewbiee)
 
 1.122.5 (2021/01)
 
