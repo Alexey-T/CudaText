@@ -20,6 +20,11 @@ PROJECT_UNSAVED_NAME = _("(Unsaved project)")
 NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
 global_project_info = {}
 
+def _file_open(fn, options=''):
+    gr = ed.get_prop(PROP_INDEX_GROUP)
+    #print('Opening file in group %d'%gr)
+    file_open(fn, group=gr, options=options)
+
 def project_variables():
     """
     gives dict with "project variables", which is ok for using from other plugins,
@@ -396,7 +401,7 @@ class Command:
         #open new file
         self.jump_to_filename(str(path))
         if os.path.isfile(str(path)):
-            file_open(str(path))
+            _file_open(str(path))
 
     def action_rename(self):
         location = Path(self.get_location_by_index(self.selected))
@@ -906,7 +911,7 @@ class Command:
                 tree_proc(self.tree, TREE_ITEM_SELECT, item)
                 tree_proc(self.tree, TREE_ITEM_SHOW, item)
                 if and_open:
-                    file_open(fn)
+                    _file_open(fn)
                 return False
 
             # unfold only required tree nodes
@@ -970,7 +975,7 @@ class Command:
             tree_proc(self.tree, TREE_ITEM_SET_ICON, self.selected, image_index=self.ICON_BAD)
             return
 
-        file_open(str(path), options=options)
+        _file_open(str(path), options=options)
 
 
     def get_open_options(self):
@@ -1088,7 +1093,7 @@ class Command:
     def open_main(self):
         fn = self.project.get('mainfile', '')
         if fn:
-            file_open(fn)
+            _file_open(fn)
         else:
             msg_status(_('Project main file is not set'))
 
@@ -1121,7 +1126,7 @@ class Command:
             return
 
         for (i, fn) in enumerate(files):
-            file_open(fn, options="/nontext-cancel")
+            _file_open(fn, options="/nontext-cancel")
             if i%10==0:
                 app_idle(False)
 
