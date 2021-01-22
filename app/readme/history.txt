@@ -3,8 +3,8 @@
   - fixed
   * changed
 
-- fix: commands "indent selection"/"unindent selection" didn't support multi-carets
-- fix: commands "undo"/"redo" now don't scroll to last caret (thanks @Jairo-Martinez)
++ add: commands "indent selection"/"unindent selection" didn't support multi-carets
++ add: commands "undo"/"redo" now don't scroll to last caret, like in ST3 (thanks @Jairo-Martinez)
 - fix: option "saving_trim_spaces" didn't move caret to new line end (thanks @GHNewbiee)
 
 1.122.5 (2021/01)
