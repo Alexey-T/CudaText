@@ -3,6 +3,7 @@
   - fixed
   * changed
 
+- fix: commands "indent selection"/"unindent selection" didn't support multi-carets
 - fix: commands "undo"/"redo" now don't scroll to last caret (thanks @Jairo-Martinez)
 - fix: option "saving_trim_spaces" didn't move caret to new line end (thanks @GHNewbiee)
 
