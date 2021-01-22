@@ -744,6 +744,7 @@ type
     procedure ShowWelcomeInfo;
     procedure DoOps_OnCreate;
     function FindFrameOfFilename(const AName: string): TEditorFrame;
+    function FindFrameOfPreviewTab: TEditorFrame;
     procedure FixMainLayout;
     procedure FormFloatGroups1_OnEmpty(Sender: TObject);
     procedure FormFloatGroups2_OnEmpty(Sender: TObject);
@@ -5582,6 +5583,19 @@ begin
     if not F.EditorsLinked then
       if SameFileName(AName, F.FileName2) then
         exit(F);
+  end;
+end;
+
+function TfmMain.FindFrameOfPreviewTab: TEditorFrame;
+var
+  F: TEditorFrame;
+  i: integer;
+begin
+  Result:= nil;
+  for i:= 0 to FrameCount-1 do
+  begin
+    F:= Frames[i];
+    if F.TabIsPreview then exit(F);
   end;
 end;
 
