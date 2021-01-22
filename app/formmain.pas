@@ -2892,11 +2892,12 @@ begin
   _Init_FixSplitters;
 
   if FHandledOnShowPartly then exit;
+
+  DoApplyInitialGroupSizes; //before FormLock to solve bad group-splitters pos, issue #3067
   FormLock(Self);
 
   _Init_WindowMaximized;
 
-  DoApplyInitialGroupSizes;
   DoApplyFont_Text;
   DoApplyFont_Ui;
   DoApplyFont_Output;
