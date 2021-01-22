@@ -3802,23 +3802,13 @@ begin
     Exit
   end;
 
-  //preview-tab
+  //get preview-tab, create it if not yet opened
   if bPreviewTab then
   begin
-    APages:= Groups.Pages1; //open preview tab in 1st group
-    for i:= 0 to APages.Tabs.TabCount-1 do
-    begin
-      D:= APages.Tabs.GetTabData(i);
-      if D.TabSpecial then
-      begin
-        Result:= D.TabObject as TEditorFrame;
-        SetFrame(Result);
-        Break
-      end;
-    end;
-
+    Result:= FindFrameOfPreviewTab;
     if Result=nil then
     begin
+      APages:= Groups.Pages1; //open preview tab in 1st group
       if UiOps.TabsDisabled then
         D:= APages.Tabs.GetTabData(0)
       else
