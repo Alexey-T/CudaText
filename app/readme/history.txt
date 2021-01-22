@@ -3,6 +3,7 @@
   - fixed
   * changed
 
+- fix: commands "undo"/"redo" now don't scroll to last caret (thanks @Jairo-Martinez)
 - fix: option "saving_trim_spaces" didn't move caret to new line end (thanks @GHNewbiee)
 
 1.122.5 (2021/01)
