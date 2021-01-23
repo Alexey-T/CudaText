@@ -4,10 +4,11 @@ object fmColorSetup: TfmColorSetup
   Top = 186
   Width = 558
   BorderIcons = [biSystemMenu]
-  BorderStyle = bsDialog
   Caption = 'Color theme'
   ClientHeight = 529
   ClientWidth = 558
+  Constraints.MinHeight = 200
+  Constraints.MinWidth = 200
   OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever
@@ -41,15 +42,17 @@ object fmColorSetup: TfmColorSetup
     ClientWidth = 520
     TabOrder = 1
     object List: TColorListBox
+      AnchorSideRight.Control = bChange
       Left = 6
       Height = 230
       Top = 6
-      Width = 362
+      Width = 392
       ColorRectWidth = 32
       ColorRectOffset = 1
       NoneColorColor = clNone
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
       Align = alLeft
+      Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Around = 6
       ItemHeight = 0
       OnKeyDown = ListKeyDown
@@ -57,15 +60,14 @@ object fmColorSetup: TfmColorSetup
       TabOrder = 0
     end
     object bChange: TButton
-      AnchorSideLeft.Control = List
       AnchorSideLeft.Side = asrBottom
       AnchorSideRight.Control = PanelUi
       AnchorSideRight.Side = asrBottom
-      Left = 374
+      Left = 404
       Height = 29
       Top = 120
-      Width = 140
-      Anchors = [akTop, akLeft, akRight]
+      Width = 110
+      Anchors = [akTop, akRight]
       AutoSize = True
       BorderSpacing.Around = 6
       Caption = '&Change color...'
@@ -78,10 +80,10 @@ object fmColorSetup: TfmColorSetup
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = bChange
       AnchorSideRight.Side = asrBottom
-      Left = 374
+      Left = 404
       Height = 29
       Top = 155
-      Width = 140
+      Width = 110
       Anchors = [akTop, akLeft, akRight]
       AutoSize = True
       Caption = 'Set "&none color"'
@@ -99,29 +101,30 @@ object fmColorSetup: TfmColorSetup
     ClientWidth = 538
     TabOrder = 2
     object ListStyles: TListBox
+      AnchorSideRight.Control = bStyle
       Left = 6
       Height = 182
       Top = 6
-      Width = 360
+      Width = 418
       Align = alLeft
+      Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Around = 6
       ItemHeight = 0
       OnDrawItem = ListStylesDrawItem
-      ScrollWidth = 358
+      ScrollWidth = 416
       Style = lbOwnerDrawFixed
       TabOrder = 0
       TopIndex = -1
     end
     object bStyle: TButton
-      AnchorSideLeft.Control = ListStyles
       AnchorSideLeft.Side = asrBottom
       AnchorSideRight.Control = PanelSyntax
       AnchorSideRight.Side = asrBottom
-      Left = 372
+      Left = 430
       Height = 29
       Top = 136
-      Width = 160
-      Anchors = [akTop, akLeft, akRight]
+      Width = 102
+      Anchors = [akTop, akRight]
       AutoSize = True
       BorderSpacing.Around = 6
       Caption = '&Config style...'
