@@ -28,6 +28,7 @@ type
     procedure chkEnableLexChange(Sender: TObject);
     procedure chkSyncChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ListboxSyntaxClick(Sender: TObject);
     procedure ListboxUIClick(Sender: TObject);
@@ -85,6 +86,11 @@ begin
     FreeAndNil(Files_ui);
     FreeAndNil(Files_sy);
   end;
+end;
+
+procedure TfmChooseTheme.FormResize(Sender: TObject);
+begin
+  GroupUI.Width:= Max(100, ClientWidth div 2);
 end;
 
 procedure TfmChooseTheme.chkEnableLexChange(Sender: TObject);

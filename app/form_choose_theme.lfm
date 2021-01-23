@@ -1,13 +1,15 @@
 object fmChooseTheme: TfmChooseTheme
-  Left = 862
+  Left = 724
   Height = 580
-  Top = 158
-  Width = 504
-  BorderStyle = bsDialog
+  Top = 157
+  Width = 556
   Caption = 'Themes'
   ClientHeight = 580
-  ClientWidth = 504
+  ClientWidth = 556
+  Constraints.MinHeight = 200
+  Constraints.MinWidth = 200
   OnCreate = FormCreate
+  OnResize = FormResize
   OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '2.1.0.0'
@@ -15,48 +17,48 @@ object fmChooseTheme: TfmChooseTheme
     Left = 6
     Height = 479
     Top = 6
-    Width = 242
+    Width = 274
     Align = alLeft
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
     BorderSpacing.Bottom = 6
     Caption = 'UI themes'
     ClientHeight = 460
-    ClientWidth = 238
+    ClientWidth = 270
     TabOrder = 0
     object ListboxUI: TListBox
       Left = 0
       Height = 460
       Top = 0
-      Width = 238
+      Width = 270
       Align = alClient
       ItemHeight = 0
       OnClick = ListboxUIClick
-      ScrollWidth = 236
+      ScrollWidth = 268
       TabOrder = 0
       TopIndex = -1
     end
   end
   object GroupSyntax: TGroupBox
-    Left = 254
+    Left = 286
     Height = 479
     Top = 6
-    Width = 244
+    Width = 264
     Align = alClient
     BorderSpacing.Around = 6
     Caption = 'Syntax themes'
     ClientHeight = 460
-    ClientWidth = 240
+    ClientWidth = 260
     TabOrder = 1
     object ListboxSyntax: TListBox
       Left = 0
       Height = 460
       Top = 0
-      Width = 240
+      Width = 260
       Align = alClient
       ItemHeight = 0
       OnClick = ListboxSyntaxClick
-      ScrollWidth = 238
+      ScrollWidth = 258
       TabOrder = 0
       TopIndex = -1
     end
@@ -65,7 +67,7 @@ object fmChooseTheme: TfmChooseTheme
     Left = 6
     Height = 29
     Top = 545
-    Width = 492
+    Width = 544
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
     HelpButton.Name = 'HelpButton'
@@ -82,7 +84,7 @@ object fmChooseTheme: TfmChooseTheme
     Left = 6
     Height = 24
     Top = 515
-    Width = 492
+    Width = 544
     Align = alBottom
     BorderSpacing.Left = 6
     BorderSpacing.Right = 6
@@ -94,7 +96,7 @@ object fmChooseTheme: TfmChooseTheme
     Left = 6
     Height = 24
     Top = 491
-    Width = 492
+    Width = 544
     Align = alBottom
     BorderSpacing.Left = 6
     BorderSpacing.Right = 6
