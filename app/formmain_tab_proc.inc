@@ -67,10 +67,14 @@ begin
       NToIndex:= APages.Tabs.TabIndex+1;
 
   Data:= TATTabData.Create(nil);
-  Data.TabObject:= F;
-  Data.TabCaption:= F.TabCaption;
+  try
+    Data.TabObject:= F;
+    Data.TabCaption:= F.TabCaption;
+    NToIndex:= APages.AddTab(NToIndex, Data, AndActivate);
+  finally
+    Data.Free;
+  end;
 
-  NToIndex:= APages.AddTab(NToIndex, Data, AndActivate);
   APages.Tabs.MakeVisible(NToIndex);
 
   AppFrameList1.Add(F);
