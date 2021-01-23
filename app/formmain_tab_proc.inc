@@ -42,6 +42,7 @@ function TfmMain.CreateTab(APages: TATPages; const ACaption: string;
   AndActivate: boolean; AAllowNearCurrent: boolean): TATTabData;
 var
   F: TEditorFrame;
+  Data: TATTabData;
   NToIndex: integer;
 begin
   if (Groups.Pages1.Tabs.TabCount>0) and UiOps.TabsDisabled then
@@ -65,16 +66,11 @@ begin
     if APages.Tabs.TabIndex<APages.Tabs.TabCount-1 then
       NToIndex:= APages.Tabs.TabIndex+1;
 
-  NToIndex:= APages.AddTab(
-    NToIndex,
-    F,
-    F.TabCaption,
-    false,
-    clNone,
-    -1,
-    '',
-    AndActivate
-    );
+  Data:= TATTabData.Create(nil);
+  Data.TabObject:= F;
+  Data.TabCaption:= F.TabCaption;
+
+  NToIndex:= APages.AddTab(NToIndex, Data, AndActivate);
   APages.Tabs.MakeVisible(NToIndex);
 
   AppFrameList1.Add(F);
