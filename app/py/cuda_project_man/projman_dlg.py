@@ -67,7 +67,7 @@ def dialog_config(op):
         +[c1.join(['type=label', 'pos=6,88,500,0', 'cap='+_('&Recent projects:')])]
         +[c1.join(['type=memo', 'pos=6,104,500,180',
             'val='+'\t'.join(op.get('recent_projects', [])) ])]
-        +[c1.join(['type=check', 'pos=6,186,400,0', 'cap='+_('&Load on program start (*)'),
+        +[c1.join(['type=check', 'pos=6,186,400,0', 'cap='+_('&Load on app start, reopen last project (*)'),
             'val='+bool_to_str(op.get('on_start', False)) ])]
         +[c1.join(['type=check', 'pos=6,210,400,0', 'cap='+_('&Show toolbar'),
             'val='+bool_to_str(op.get('toolbar', True)) ])]
