@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: few dialogs (e.g. "Themes") made resizable (thanks @Lastique)
+
 1.122.6 (2021/01)
 
 + add: commands "indent selection"/"unindent selection" now support multi-carets
