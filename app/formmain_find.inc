@@ -472,7 +472,10 @@ begin
     bTokens.ItemIndex:= Ord(FFinder.OptTokens);
 
     if UiOps.FindSuggestInSelection and bMultiLineSel then
-      chkInSel.Checked:= true
+    begin
+      chkInSel.Checked:= true;
+      edFind.Text:= '';
+    end
     else
       chkInSel.Checked:= FFinder.OptInSelection;
 
