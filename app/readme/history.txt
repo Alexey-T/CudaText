@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-- fix: few dialogs (e.g. "Themes") made resizable (thanks @Lastique)
++ add: few dialogs (e.g. "Themes") are now resizable; dialog "Themes" is scalable (thanks @Lastique)
 
 1.122.6 (2021/01)
 
