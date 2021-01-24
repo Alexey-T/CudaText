@@ -351,6 +351,26 @@ begin
   end;
 end;
 
+function DoControl_GetIcons_ListView(C: TListView): string;
+var
+  L: TStringList;
+  i: integer;
+begin
+  Result:= '';
+  if C.Items.Count=0 then exit;
+
+  L:= TStringList.Create;
+  try
+    for i:= 0 to C.Items.Count-1 do
+      L.Add(IntToStr(C.Items[i].ImageIndex));
+
+    L.LineBreak:= #9;
+    Result:= L.Text;
+  finally
+    FreeAndNil(L);
+  end;
+end;
+
 
 function DoControl_GetColumns_ListView(C: TListView): string;
 const
@@ -1281,6 +1301,30 @@ begin
   end;
 end;
 
+procedure DoControl_SetIconsFromString(C: TControl; const AValue: string);
+var
+  Sep: TATStringSeparator;
+  ListView: TListView;
+  ListItem: TListItem;
+  NItem: integer;
+  i: integer;
+begin
+  Sep.Init(AValue, #9);
+
+  if C is TListView then
+  begin
+    ListView:= TListView(C);
+    for i:= 0 to ListView.Items.Count-1 do
+    begin
+      if not Sep.GetItemInt(NItem, -1) then
+        Break;
+      ListItem:= ListView.Items[i];
+      ListItem.ImageIndex:= NItem;
+    end;
+    exit
+  end;
+end;
+
 procedure DoControl_SetItemsFromString(C: TControl; const AValue: string);
 var
   Sep: TATStringSeparator;
@@ -1593,6 +1637,12 @@ begin
   if AName='val' then
   begin
     DoControl_SetStateFromString(C, AValue);
+    exit;
+  end;
+
+  if AName='imageindexes' then
+  begin
+    DoControl_SetIconsFromString(TListView(C), AValue);
     exit;
   end;
 
@@ -2272,6 +2322,13 @@ begin
   until false;
 end;
 
+//TODO: remove duplicate func, see the same in formmain_py_api.inc
+function Py_ObjectHandle(Obj: TObject): PPyObject; inline;
+begin
+  with AppPython.Engine do
+    Result:= PyLong_FromLongLong(Int64(PtrInt(Obj)))
+end;
+
 
 function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
 var
@@ -2331,6 +2388,20 @@ begin
       'items', PChar(SItems),
       'columns', PChar(SColumns)
       );
+
+    if C is TListView then
+    begin
+      if TListView(C).SmallImages=nil then
+        TListView(C).SmallImages:= TImageList.Create(C);
+      if TListView(C).LargeImages=nil then
+        TListView(C).LargeImages:= TImageList.Create(C);
+
+      PyDict_SetItemString(Result, 'imagelist_small', Py_ObjectHandle(TListView(C).SmallImages));
+      PyDict_SetItemString(Result, 'imagelist_large', Py_ObjectHandle(TListView(C).LargeImages));
+
+      SColumns:= DoControl_GetIcons_ListView(TListView(C));
+      PyDict_SetItemString(Result, 'imageindexes', PyUnicodeFromString(SColumns));
+    end;
   end;
 end;
 

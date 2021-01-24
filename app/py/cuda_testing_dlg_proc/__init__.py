@@ -985,7 +985,7 @@ int main(int argc, char *argv[])
         dlg_proc(id, DLG_FREE)
 
     def test_toolbar(self):
-        dir_icons = os.path.join(app_path(APP_DIR_DATA), 'sideicons', 'octicons_24x24')
+        dir_icons = os.path.join(app_path(APP_DIR_DATA), 'sideicons', 'octicons_20x20')
         fn_icon1 = os.path.join(dir_icons, 'console.png')
         fn_icon2 = os.path.join(dir_icons, 'find.png')
         print('icon1:', fn_icon1)
@@ -1015,10 +1015,10 @@ int main(int argc, char *argv[])
         tb_id = dlg_proc(id, DLG_CTL_HANDLE, index=n)
 
         imglist_id = toolbar_proc(tb_id, TOOLBAR_GET_IMAGELIST)
-        imagelist_proc(imglist_id, IMAGELIST_SET_SIZE, value=(24,24))
+        imagelist_proc(imglist_id, IMAGELIST_SET_SIZE, value=(20,20))
         icon1 = imagelist_proc(imglist_id, IMAGELIST_ADD, value=fn_icon1)
         icon2 = imagelist_proc(imglist_id, IMAGELIST_ADD, value=fn_icon2)
-        #print('icon indexes:', icon1, icon2)
+        print('icon indexes:', icon1, icon2)
 
         toolbar_proc(tb_id, TOOLBAR_ADD_ITEM)
         count = toolbar_proc(tb_id, TOOLBAR_GET_COUNT)
@@ -1245,6 +1245,28 @@ int main(int argc, char *argv[])
                 ]),
             'on_click_header': when_click_header
             })
+
+        #after ListView creation, get its ImageList handles
+        props = dlg_proc(id, DLG_CTL_PROP_GET, index=n)
+        id_listview1 = props['imagelist_small']
+        id_listview2 = props['imagelist_large']
+        
+        dir_icons = os.path.join(app_path(APP_DIR_DATA), 'sideicons', 'octicons_20x20')
+        fn_icon1 = os.path.join(dir_icons, 'console.png')
+        fn_icon2 = os.path.join(dir_icons, 'find.png')
+        print('icon1:', fn_icon1)
+        print('icon2:', fn_icon2)
+        
+        imagelist_proc(id_listview1, IMAGELIST_SET_SIZE, value=(20,20))
+        icon1 = imagelist_proc(id_listview1, IMAGELIST_ADD, value=fn_icon1)
+        icon2 = imagelist_proc(id_listview1, IMAGELIST_ADD, value=fn_icon2)
+        print('icon indexes:', icon1, icon2)        
+        
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
+            'imageindexes': '\t'.join([str(icon1), str(icon2)])    
+            })
+        props = dlg_proc(id, DLG_CTL_PROP_GET, index=n)
+        print('Listview props:', props)
 
         #s = dlg_proc(id, DLG_CTL_PROP_GET, index=n)['columns']
         #print(repr(s))
