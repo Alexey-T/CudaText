@@ -188,7 +188,7 @@ type
     procedure EditorOnCommandAfter(Sender: TObject; ACommand: integer; const AText: string);
     procedure EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer; const ARect: TRect);
     procedure EditorOnEnter(Sender: TObject);
-    procedure EditorOnDrawLine(Sender: TObject; C: TCanvas; AX, AY: integer;
+    procedure EditorOnDrawLine(Sender: TObject; C: TCanvas; ALineIndex, AX, AY: integer;
       const AStr: atString; ACharSize: TPoint; const AExtent: TATIntArray);
     procedure EditorOnCalcBookmarkColor(Sender: TObject; ABookmarkKind: integer; var AColor: TColor);
     procedure EditorOnHotspotEnter(Sender: TObject; AHotspotIndex: integer);
@@ -792,10 +792,11 @@ begin
 end;
 
 
-procedure TEditorFrame.EditorOnDrawLine(Sender: TObject; C: TCanvas; AX,
-  AY: integer; const AStr: atString; ACharSize: TPoint;
+procedure TEditorFrame.EditorOnDrawLine(Sender: TObject; C: TCanvas;
+  ALineIndex, AX, AY: integer; const AStr: atString; ACharSize: TPoint;
   const AExtent: TATIntArray);
 var
+  Ed: TATSynEdit;
   NLineWidth: integer;
   bColorizeBack: boolean;
   X1, X2, Y, NLen: integer;
@@ -805,8 +806,16 @@ var
   i: integer;
 begin
   if AStr='' then Exit;
+
   if not IsFilenameListedInExtensionList(FileName, EditorOps.OpUnderlineColorFiles)
     then exit;
+
+  //avoid color underlines (and background hilite) for line with selection
+  if Sender=nil then
+    raise Exception.Create('Sender=nil in TEditorFrame.EditorOnDrawLine');
+  Ed:= Sender as TATSynEdit;
+  if Ed.Carets.IsLineWithSelection(ALineIndex) then exit;
+
   NLineWidth:= EditorOps.OpUnderlineColorSize;
   bColorizeBack:= NLineWidth>=10;
 
