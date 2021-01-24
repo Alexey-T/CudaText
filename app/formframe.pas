@@ -810,14 +810,17 @@ begin
   if not IsFilenameListedInExtensionList(FileName, EditorOps.OpUnderlineColorFiles)
     then exit;
 
-  //avoid color underlines (and background hilite) for line with selection
-  if Sender=nil then
-    raise Exception.Create('Sender=nil in TEditorFrame.EditorOnDrawLine');
-  Ed:= Sender as TATSynEdit;
-  if Ed.Carets.IsLineWithSelection(ALineIndex) then exit;
-
   NLineWidth:= EditorOps.OpUnderlineColorSize;
   bColorizeBack:= NLineWidth>=10;
+
+  //avoid background hilite for lines with selection
+  if bColorizeBack then
+  begin
+    if Sender=nil then
+      raise Exception.Create('Sender=nil in TEditorFrame.EditorOnDrawLine');
+    Ed:= Sender as TATSynEdit;
+    if Ed.Carets.IsLineWithSelection(ALineIndex) then exit;
+  end;
 
   for i:= 1 to Length(AStr)-3 do
   begin
