@@ -791,11 +791,11 @@ begin
   Result:= cValue[bLight];
 end;
 
+
 procedure TEditorFrame.EditorOnDrawLine(Sender: TObject; C: TCanvas; AX,
   AY: integer; const AStr: atString; ACharSize: TPoint;
   const AExtent: TATIntArray);
 const
-  cRegexRGB = 'rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(,\s*[\.\d]+\s*)?\)';
   cRegexHSL = 'hsla?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*(,\s*[\.\d%]+\s*)?\)';
 var
   NLineWidth: integer;
@@ -855,16 +855,9 @@ begin
       ((i=1) or not IsCharWord(AStr[i-1], cDefaultNonWordChars)) //word boundary
     then
     begin
-      if SRegexFindParts(cRegexRGB, Copy(AStr, i, MaxInt), Parts) then
-        if Parts[0].Pos=1 then //need at i-th char
+      NColor:= SHtmlColor_ParseString_RGB(AStr, i, NLen);
+      if NColor<>clNone then
         begin
-          ValueR:= Min(255, StrToIntDef(Parts[1].Str, 0));
-          ValueG:= Min(255, StrToIntDef(Parts[2].Str, 0));
-          ValueB:= Min(255, StrToIntDef(Parts[3].Str, 0));
-
-          NColor:= RGB(ValueR, ValueG, ValueB);
-          NLen:= Parts[0].Len;
-
           if i-2>=0 then
             X1:= AX+AExtent[i-2]
           else
