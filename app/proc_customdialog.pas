@@ -2322,14 +2322,6 @@ begin
   until false;
 end;
 
-//TODO: remove duplicate func, see the same in formmain_py_api.inc
-function Py_ObjectHandle(Obj: TObject): PPyObject; inline;
-begin
-  with AppPython.Engine do
-    Result:= PyLong_FromLongLong(Int64(PtrInt(Obj)))
-end;
-
-
 function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
 var
   bTabStop, bFocused: boolean;
@@ -2396,8 +2388,8 @@ begin
       if TListView(C).LargeImages=nil then
         TListView(C).LargeImages:= TImageList.Create(C);
 
-      PyDict_SetItemString(Result, 'imagelist_small', Py_ObjectHandle(TListView(C).SmallImages));
-      PyDict_SetItemString(Result, 'imagelist_large', Py_ObjectHandle(TListView(C).LargeImages));
+      PyDict_SetItemString(Result, 'imagelist_small', AppPython.ObjectToPyInt(TListView(C).SmallImages));
+      PyDict_SetItemString(Result, 'imagelist_large', AppPython.ObjectToPyInt(TListView(C).LargeImages));
 
       SColumns:= DoControl_GetIcons_ListView(TListView(C));
       PyDict_SetItemString(Result, 'imageindexes', PyUnicodeFromString(SColumns));

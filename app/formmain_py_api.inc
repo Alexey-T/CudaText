@@ -23,8 +23,7 @@ var
 
 function Py_ObjectHandle(Obj: TObject): PPyObject; inline;
 begin
-  with AppPython.Engine do
-    Result:= PyLong_FromLongLong(Int64(PtrInt(Obj)))
+  Result:= AppPython.ObjectToPyInt(Obj);
 end;
 
 procedure MsgOldApi(const s: string);
