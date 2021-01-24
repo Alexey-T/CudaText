@@ -24,7 +24,7 @@ object EditorFrame: TEditorFrame
     Enabled = False
     Interval = 2000
     OnTimer = TimerChangeTimer
-    left = 32
-    top = 56
+    Left = 32
+    Top = 56
   end
 end

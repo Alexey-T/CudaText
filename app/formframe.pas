@@ -780,6 +780,16 @@ begin
   DoPyEvent(Sender as TATSynEdit, cEventOnHotspot, Params);
 end;
 
+function _ContrastColor(AColor: TColor): TColor;
+const
+  cValue: array[boolean] of TColor = ($E0E0E0, $101010);
+var
+  bLight: boolean;
+begin
+  bLight:= ((AColor and $FF) + (AColor shr 8 and $FF) + (AColor shr 16 and $FF)) >= $180;
+  Result:= cValue[bLight];
+end;
+
 procedure TEditorFrame.EditorOnDrawLine(Sender: TObject; C: TCanvas; AX,
   AY: integer; const AStr: atString; ACharSize: TPoint;
   const AExtent: TATIntArray);
@@ -788,6 +798,7 @@ const
   cRegexHSL = 'hsla?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*(,\s*[\.\d%]+\s*)?\)';
 var
   NLineWidth: integer;
+  bColorizeBack: boolean;
   X1, X2, Y, NLen: integer;
   NColor: TColor;
   Parts: TRegexParts;
@@ -801,6 +812,7 @@ begin
   if not IsFilenameListedInExtensionList(FileName, EditorOps.OpUnderlineColorFiles)
     then exit;
   NLineWidth:= EditorOps.OpUnderlineColorSize;
+  bColorizeBack:= NLineWidth>=10;
 
   for i:= 1 to Length(AStr)-3 do
   begin
@@ -820,8 +832,17 @@ begin
       X2:= AX+AExtent[i-1+NLen];
       Y:= AY+ACharSize.Y;
 
-      C.Brush.Color:= NColor;
-      C.FillRect(X1, Y-NLineWidth, X2, Y);
+      if bColorizeBack then
+      begin
+        C.Font.Color:= _ContrastColor(NColor);
+        C.Brush.Color:= NColor;
+        C.TextOut(X1, AY, Copy(AStr, i, NLen+1));
+      end
+      else
+      begin
+        C.Brush.Color:= NColor;
+        C.FillRect(X1, Y-NLineWidth, X2, Y);
+      end;
     end
     else
     //find rgb(...), rgba(...)
@@ -850,8 +871,17 @@ begin
           X2:= AX+AExtent[i-2+NLen];
           Y:= AY+ACharSize.Y;
 
-          C.Brush.Color:= NColor;
-          C.FillRect(X1, Y-NLineWidth, X2, Y);
+          if bColorizeBack then
+          begin
+            C.Font.Color:= _ContrastColor(NColor);
+            C.Brush.Color:= NColor;
+            C.TextOut(X1, AY, Copy(AStr, i, NLen));
+          end
+          else
+          begin
+            C.Brush.Color:= NColor;
+            C.FillRect(X1, Y-NLineWidth, X2, Y);
+          end;
         end;
     end
     else
@@ -871,7 +901,7 @@ begin
             ValueS:= StrToIntDef(Parts[2].Str, 0) * 255 div 100; //percents -> 0..255
             ValueL:= StrToIntDef(Parts[3].Str, 0) * 255 div 100; //percents -> 0..255
 
-            NColor:= HLStoColor(ValueH, ValueL, ValueS);
+            NColor:= HLStoColor(byte(ValueH), byte(ValueL), byte(ValueS));
             NLen:= Parts[0].Len;
 
             if i-2>=0 then
@@ -881,8 +911,17 @@ begin
             X2:= AX+AExtent[i-2+NLen];
             Y:= AY+ACharSize.Y;
 
-            C.Brush.Color:= NColor;
-            C.FillRect(X1, Y-NLineWidth, X2, Y);
+            if bColorizeBack then
+            begin
+              C.Font.Color:= _ContrastColor(NColor);
+              C.Brush.Color:= NColor;
+              C.TextOut(X1, AY, Copy(AStr, i, NLen));
+            end
+            else
+            begin
+              C.Brush.Color:= NColor;
+              C.FillRect(X1, Y-NLineWidth, X2, Y);
+            end;
           end;
       end;
   end;
