@@ -818,7 +818,7 @@ begin
     if (Ch='#') and IsCharHexDigit(AStr[i+1]) then
     begin
       Substr:= Copy(AStr, i+1, 8+1);
-      NColor:= SHtmlColorToColor(PChar(Substr), NLen, clNone);
+      NColor:= TATHtmlColorParser.ParseTokenRGB(PChar(Substr), NLen, clNone);
       if NColor=clNone then Continue;
 
       if i-2>=0 then
