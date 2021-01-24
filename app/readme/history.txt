@@ -9,6 +9,7 @@
 + add: few dialogs (e.g. "Themes") are now resizable; dialog "Themes" is scalable (thanks @Lastique)
 + add: commands "indent selection"/"unindent selection" now support multi-carets
 + add: commands "undo"/"redo" now don't scroll to last caret, like in ST3 (thanks @Jairo-Martinez)
+- fix: 'preview tab' could not work if dragged to another tab-group
 - fix: bad positioning of tab-groups 'splitters' on start (thanks @GHNewbiee)
 - fix: option "saving_trim_spaces" didn't move caret to new line end (thanks @GHNewbiee)
 
