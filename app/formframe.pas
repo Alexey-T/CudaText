@@ -30,6 +30,7 @@ uses
   ATSynEdit_LineParts,
   ATSynEdit_Commands,
   ATSynEdit_Bookmarks,
+  ATSynEdit_CanvasProc,
   ATStrings,
   ATStringProc,
   ATStringProc_Separator,
@@ -782,7 +783,7 @@ end;
 
 function _ContrastColor(AColor: TColor): TColor;
 const
-  cValue: array[boolean] of TColor = ($E0E0E0, $101010);
+  cValue: array[boolean] of TColor = ($F0F0F0, $101010);
 var
   bLight: boolean;
 begin
@@ -836,7 +837,7 @@ begin
       begin
         C.Font.Color:= _ContrastColor(NColor);
         C.Brush.Color:= NColor;
-        C.TextOut(X1, AY, Copy(AStr, i, NLen+1));
+        CanvasTextOutSimplest(C, X1, AY, Copy(AStr, i, NLen+1));
       end
       else
       begin
@@ -875,7 +876,7 @@ begin
           begin
             C.Font.Color:= _ContrastColor(NColor);
             C.Brush.Color:= NColor;
-            C.TextOut(X1, AY, Copy(AStr, i, NLen));
+            CanvasTextOutSimplest(C, X1, AY, Copy(AStr, i, NLen));
           end
           else
           begin
@@ -915,7 +916,7 @@ begin
             begin
               C.Font.Color:= _ContrastColor(NColor);
               C.Brush.Color:= NColor;
-              C.TextOut(X1, AY, Copy(AStr, i, NLen));
+              CanvasTextOutSimplest(C, X1, AY, Copy(AStr, i, NLen));
             end
             else
             begin
