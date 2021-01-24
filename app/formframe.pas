@@ -787,6 +787,7 @@ const
   cRegexRGB = 'rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(,\s*[\.\d]+\s*)?\)';
   cRegexHSL = 'hsla?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*(,\s*[\.\d%]+\s*)?\)';
 var
+  NLineWidth: integer;
   X1, X2, Y, NLen: integer;
   NColor: TColor;
   Parts: TRegexParts;
@@ -799,6 +800,7 @@ begin
   if AStr='' then Exit;
   if not IsFilenameListedInExtensionList(FileName, EditorOps.OpUnderlineColorFiles)
     then exit;
+  NLineWidth:= EditorOps.OpUnderlineColorSize;
 
   for i:= 1 to Length(AStr)-3 do
   begin
@@ -819,7 +821,7 @@ begin
       Y:= AY+ACharSize.Y;
 
       C.Brush.Color:= NColor;
-      C.FillRect(X1, Y-EditorOps.OpUnderlineColorSize, X2, Y);
+      C.FillRect(X1, Y-NLineWidth, X2, Y);
     end
     else
     //find rgb(...), rgba(...)
@@ -849,7 +851,7 @@ begin
           Y:= AY+ACharSize.Y;
 
           C.Brush.Color:= NColor;
-          C.FillRect(X1, Y-EditorOps.OpUnderlineColorSize, X2, Y);
+          C.FillRect(X1, Y-NLineWidth, X2, Y);
         end;
     end
     else
@@ -880,7 +882,7 @@ begin
             Y:= AY+ACharSize.Y;
 
             C.Brush.Color:= NColor;
-            C.FillRect(X1, Y-EditorOps.OpUnderlineColorSize, X2, Y);
+            C.FillRect(X1, Y-NLineWidth, X2, Y);
           end;
       end;
   end;
