@@ -1060,7 +1060,9 @@
   //comma-separated, w/o dot. "*" for all files, empty str to disable.
   "underline_color_files": "*",
 
-  //Width of line, pixels
+  //How to paint HTML color codes:
+  //  if value>=10: colorize the text background,
+  //  otherwise: paint the underline of specified width, in pixels
   "underline_color_size": 3,
 
   //[View/Brackets]
