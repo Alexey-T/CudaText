@@ -795,17 +795,12 @@ end;
 procedure TEditorFrame.EditorOnDrawLine(Sender: TObject; C: TCanvas; AX,
   AY: integer; const AStr: atString; ACharSize: TPoint;
   const AExtent: TATIntArray);
-const
-  cRegexHSL = 'hsla?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*(,\s*[\.\d%]+\s*)?\)';
 var
   NLineWidth: integer;
   bColorizeBack: boolean;
   X1, X2, Y, NLen: integer;
   NColor: TColor;
-  Parts: TRegexParts;
   Ch: atChar;
-  ValueR, ValueG, ValueB: byte;
-  ValueH, ValueS, ValueL: word;
   Substr: string;
   i: integer;
 begin
@@ -855,7 +850,7 @@ begin
       ((i=1) or not IsCharWord(AStr[i-1], cDefaultNonWordChars)) //word boundary
     then
     begin
-      NColor:= SHtmlColor_ParseString_RGB(AStr, i, NLen);
+      NColor:= TATHtmlColorParser.ParseFunctionRGB(AStr, i, NLen);
       if NColor<>clNone then
         begin
           if i-2>=0 then
@@ -888,16 +883,9 @@ begin
       ((i=1) or not IsCharWord(AStr[i-1], cDefaultNonWordChars)) //word boundary
       then
       begin
-        if SRegexFindParts(cRegexHSL, Copy(AStr, i, MaxInt), Parts) then
-          if Parts[0].Pos=1 then //need at i-th char
+        NColor:= TATHtmlColorParser.ParseFunctionHSL(AStr, i, NLen);
+        if NColor<>clNone then
           begin
-            ValueH:= StrToIntDef(Parts[1].Str, 0) * 255 div 360; //degrees -> 0..255
-            ValueS:= StrToIntDef(Parts[2].Str, 0) * 255 div 100; //percents -> 0..255
-            ValueL:= StrToIntDef(Parts[3].Str, 0) * 255 div 100; //percents -> 0..255
-
-            NColor:= HLStoColor(byte(ValueH), byte(ValueL), byte(ValueS));
-            NLen:= Parts[0].Len;
-
             if i-2>=0 then
               X1:= AX+AExtent[i-2]
             else
