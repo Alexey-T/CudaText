@@ -7,9 +7,6 @@
 
 + add: if option "underline_color_size" value>=10, paint color in text background, like VS Code and Sublime (thanks @pagewerk)
 + add: few dialogs (e.g. "Themes") are now resizable; dialog "Themes" is scalable (thanks @Lastique)
-
-1.122.6 (2021/01)
-
 + add: commands "indent selection"/"unindent selection" now support multi-carets
 + add: commands "undo"/"redo" now don't scroll to last caret, like in ST3 (thanks @Jairo-Martinez)
 - fix: bad positioning of tab-groups 'splitters' on start (thanks @GHNewbiee)
