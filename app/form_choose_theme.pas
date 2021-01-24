@@ -9,6 +9,7 @@ uses
   FileUtil, LazFileUtils, IniFiles, Math,
   at__jsonConf,
   proc_msg,
+  proc_customdialog,
   proc_globdata;
 
 type
@@ -61,6 +62,7 @@ var
   s: string;
 begin
   Localize;
+  DoForm_ScaleAuto(Self, false);
 
   ListboxUI.Items.Clear;
   ListboxSyntax.Items.Clear;
@@ -90,7 +92,7 @@ end;
 
 procedure TfmChooseTheme.FormResize(Sender: TObject);
 begin
-  GroupUI.Width:= Max(100, ClientWidth div 2);
+  GroupUI.Width:= Max(100, (ClientWidth - 2*6) div 2);
 end;
 
 procedure TfmChooseTheme.chkEnableLexChange(Sender: TObject);
