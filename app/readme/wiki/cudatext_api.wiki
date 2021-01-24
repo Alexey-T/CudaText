@@ -1064,6 +1064,12 @@ How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=
 
 * "p": str: Name of control's parent control, or empty if the form is used as a parent. Coordinates x/y of a control are relative to the current parent, so control is attached to its parent. For example, you can place several controls on a "panel" control (panel can have hidden border), then change this panel's coordinates to visually move all child controls. Special case: to place control on PageControl's page with index N, specify such parent: pages_name+"."+str(N).
 
+Special properties for control "listview":
+
+* "imagelist_small": int: handle of ImageList with small icons. This ImageList is used in usual "report" mode of listview.
+* "imagelist_large": int: handle of ImageList with large icons. This ImageList is used in "big icons" mode of listview.
+* "imageindexes": str: string with '\t'-separated numbers. Each number is icon index, or -1 if icon is not used.
+
 ====Control events====
 
 Events of controls are also properties, but values of these properties must be Python functions (ie callables). Signature of these functions are shown below.
@@ -4059,5 +4065,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.357 (app 1.121.4)
 * add: statusbar_proc: STATUSBAR_SET_CELL_CALLBACK, STATUSBAR_GET_CELL_CALLBACK
 * add: app_proc: PROC_GET_UNIQUE_TAG
+
+1.0.358 (app 1.122.6)
+* add: dlg_proc: added props for control "listview": "imagelist_small", "imagelist_large", "imageindexes"
 
 [[Category:CudaText]]
