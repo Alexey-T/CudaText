@@ -842,7 +842,7 @@ begin
             (AStr[i+2]='b') and
             ((i=1) or not IsCharWord(AStr[i-1], cDefaultNonWordChars)) //word boundary
           then
-            NColor:= TATHtmlColorParserW.ParseFunctionRGB(AStr, i, NLen)
+            NColor:= TATHtmlColorParserW.ParseFunctionRGB(AStr, i, NLen);
         end;
       'h':
         begin
@@ -868,6 +868,7 @@ begin
       if bColorizeBack then
       begin
         C.Font.Color:= _ContrastColor(NColor);
+        C.Font.Style:= [];
         C.Brush.Color:= NColor;
         CanvasTextOutSimplest(C, X1, AY, Copy(AStr, i, NLen));
       end
