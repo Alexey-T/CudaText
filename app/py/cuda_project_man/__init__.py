@@ -875,11 +875,11 @@ class Command:
         Callback for all subitems of given item.
         Until callback gets false.
         """
-        items = tree_proc(self.tree, TREE_ITEM_ENUM, item)
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, item)
         if items:
             for i in items:
-                subitem = i[0]
-                fn = str(self.get_location_by_index(subitem))
+                subitem = i['id']
+                fn = i.get('data', '')
                 if not callback(fn, subitem):
                     return False
                 if not self.enum_subitems(subitem, callback):
