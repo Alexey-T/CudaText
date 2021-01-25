@@ -98,9 +98,9 @@ begin
 
   cfg.SetValue(skey+'Type', Integer(st.FormatType));
   cfg.SetValue(skey+'Styles', FontStylesToString(st.Font.Style));
-  cfg.SetValue(skey+'CFont', TATHtmlColorParser.ColorToHtmlString(st.Font.Color));
-  cfg.SetValue(skey+'CBack', TATHtmlColorParser.ColorToHtmlString(st.BgColor));
-  cfg.SetValue(skey+'CBorder', TATHtmlColorParser.ColorToHtmlString(st.BorderColorBottom));
+  cfg.SetValue(skey+'CFont', TATHtmlColorParserA.ColorToHtmlString(st.Font.Color));
+  cfg.SetValue(skey+'CBack', TATHtmlColorParserA.ColorToHtmlString(st.BgColor));
+  cfg.SetValue(skey+'CBorder', TATHtmlColorParserA.ColorToHtmlString(st.BorderColorBottom));
 
   cfg.SetValue(skey+'Border', Format('%d,%d,%d,%d', [
     Ord(st.BorderTypeLeft),
@@ -296,13 +296,13 @@ begin
   st.Font.Style:= StringToFontStyles(cfg.GetValue(skey+'Styles', FontStylesToString(st.Font.Style)));
 
   s:= cfg.GetValue(skey+'CFont', '');
-  st.Font.Color:= TATHtmlColorParser.ParseTokenRGB(PChar(s), Len, st.Font.Color);
+  st.Font.Color:= TATHtmlColorParserA.ParseTokenRGB(PChar(s), Len, st.Font.Color);
 
   s:= cfg.GetValue(skey+'CBack', '');
-  st.BgColor:= TATHtmlColorParser.ParseTokenRGB(PChar(s), Len, clNone);
+  st.BgColor:= TATHtmlColorParserA.ParseTokenRGB(PChar(s), Len, clNone);
 
   s:= cfg.GetValue(skey+'CBorder', '');
-  st.BorderColorBottom:= TATHtmlColorParser.ParseTokenRGB(PChar(s), Len, st.BorderColorBottom);
+  st.BorderColorBottom:= TATHtmlColorParserA.ParseTokenRGB(PChar(s), Len, st.BorderColorBottom);
 
   st.BorderColorLeft:= st.BorderColorBottom;
   st.BorderColorRight:= st.BorderColorBottom;

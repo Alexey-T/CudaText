@@ -802,7 +802,6 @@ var
   X1, X2, Y, NLen: integer;
   NColor: TColor;
   Ch: atChar;
-  Substr: string;
   i: integer;
 begin
   if AStr='' then Exit;
@@ -834,10 +833,8 @@ begin
           //find #rgb, #rrggbb
           if IsCharHexDigit(AStr[i+1]) then
           begin
-            Substr:= Copy(AStr, i+1, 8+1);
-            NColor:= TATHtmlColorParser.ParseTokenRGB(PChar(Substr), NLen, clNone);
-            if NColor<>clNone then
-              Inc(NLen);
+            NColor:= TATHtmlColorParserW.ParseTokenRGB(@AStr[i+1], NLen, clNone);
+            Inc(NLen);
           end;
         end;
       'r':
@@ -849,7 +846,7 @@ begin
             ((AStr[i+3]='(') or ((AStr[i+3]='a') and (AStr[i+4]='('))) and
             ((i=1) or not IsCharWord(AStr[i-1], cDefaultNonWordChars)) //word boundary
           then
-            NColor:= TATHtmlColorParser.ParseFunctionRGB(AStr, i, NLen)
+            NColor:= TATHtmlColorParserW.ParseFunctionRGB(AStr, i, NLen)
         end;
       'h':
         begin
@@ -860,7 +857,7 @@ begin
             ((AStr[i+3]='(') or ((AStr[i+3]='a') and (AStr[i+4]='('))) and
             ((i=1) or not IsCharWord(AStr[i-1], cDefaultNonWordChars)) //word boundary
           then
-            NColor:= TATHtmlColorParser.ParseFunctionHSL(AStr, i, NLen);
+            NColor:= TATHtmlColorParserW.ParseFunctionHSL(AStr, i, NLen);
         end;
     end;
 

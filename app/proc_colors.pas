@@ -246,7 +246,7 @@ var
     if s='' then
       Val:= clNone
     else
-      Val:= TATHtmlColorParser.ParseTokenRGB(PChar(s), len, Val);
+      Val:= TATHtmlColorParserA.ParseTokenRGB(PChar(s), len, Val);
   end;
   //
 var
@@ -539,7 +539,7 @@ begin
     if IsThemeUI then
     begin
       for iColor:= Low(iColor) to High(iColor) do
-        cfg.SetValue(D.Colors[iColor].name, TATHtmlColorParser.ColorToHtmlString(D.Colors[iColor].color));
+        cfg.SetValue(D.Colors[iColor].name, TATHtmlColorParserA.ColorToHtmlString(D.Colors[iColor].color));
     end
     else
     begin
