@@ -106,7 +106,7 @@ def get_homepage_of_module(mod):
 def do_remove_dir(dir):
     """
     move folder to py/__trash
-    (make copy with _ suffix if nessesary)
+    (make copy with _ suffix if necessary)
     """
     #print(_('Deleting folder:'), dir)
     if not os.path.isdir(dir):

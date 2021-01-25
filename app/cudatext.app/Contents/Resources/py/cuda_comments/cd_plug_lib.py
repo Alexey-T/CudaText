@@ -241,7 +241,7 @@ def get_desktop_environment():
         return "mac"
     else: #Most likely either a POSIX system or something not much common
         desktop_session = os.environ.get("DESKTOP_SESSION")
-        if desktop_session is not None: #easier to match if we doesn't have  to deal with caracter cases
+        if desktop_session is not None: #easier to match if we doesn't have  to deal with character cases
             desktop_session = desktop_session.lower()
             if desktop_session in ["gnome","unity", "cinnamon", "mate", "xfce4", "lxde", "fluxbox", 
                                    "blackbox", "openbox", "icewm", "jwm", "afterstep","trinity", "kde"]:

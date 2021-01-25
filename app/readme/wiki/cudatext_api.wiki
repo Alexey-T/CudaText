@@ -19,7 +19,7 @@ Plugin can subscribe to events in several ways:
 
 * Run-time subscribing/unsubscribing via API. See description of action PROC_SET_EVENTS in app_proc().
 
-Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases, but sometimes return value True or False has special meaning. Usually the False return value blocks propagation of event to other plugins, so don't return False if not nessesary.
+Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases, but sometimes return value True or False has special meaning. Usually the False return value blocks propagation of event to other plugins, so don't return False if not necessary.
 
 ==Events - General==
 
