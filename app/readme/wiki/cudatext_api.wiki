@@ -1413,11 +1413,14 @@ Possible values of "id_action":
 * TREE_ITEM_ENUM: Enumerates subitems of given item. Params: "id_item". Returns list of 2-tuples, or None.
 ** tuple item 0: int: handle of item.
 ** tuple item 1: string: caption of item.
+
 * TREE_ITEM_ENUM_EX: Enumerates subitems of given item. Params: "id_item". Returns list of dict, or None. Dict keys are:
 ** "id": int: handle of item.
 ** "text": str: caption of item
 ** "data": str: data string of item.
 ** "img": int: icon index of item, or -1 if icon not used.
+** "sub_items": bool: item has the sub-items.
+
 * TREE_ITEM_ADD: Adds subitem as item's child. Returns int handle of subitem.
 ** Param "id_item": handle of item.
 ** Param "index": at which subitem index to insert (0-based), or -1 to append.
