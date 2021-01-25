@@ -893,6 +893,7 @@ class Command:
             msg_status(_('Project is empty'))
             return
 
+        files.sort()
         files_nice = [os.path.basename(fn)+'\t'+os.path.dirname(fn) for fn in files]
         # disable fuzzy search in menu
         res = dlg_menu(MENU_LIST_ALT+MENU_NO_FUZZY, files_nice, caption=_('Go to file'))
