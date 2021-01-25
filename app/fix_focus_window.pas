@@ -43,7 +43,7 @@ instance.
 
 -    Now the new instance performs a blocking wait until it becomes the owner
 of a certain Windows mutex object. If there is no other CudaText process that
-owns that mutex object rightnow, the blocking wait terminates immediatly.
+owns that mutex object rightnow, the blocking wait terminates immediately.
 
 -    After that the new instance writes the name(s) of the file(s) to open to
 shared memory (backed by the page file) and sets a Windows event object to the
