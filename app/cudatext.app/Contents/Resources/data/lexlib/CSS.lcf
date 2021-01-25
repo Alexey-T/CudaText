@@ -882,6 +882,7 @@ object SyntAnal6: TLibSyntAnalyzer
             'scroll-padding-right'
             'scroll-padding-top'
             'scroll-position'
+            'scroll-snap-align'
             'scroll-snap-coordinate'
             'scroll-snap-destination'
             'scroll-snap-type'
