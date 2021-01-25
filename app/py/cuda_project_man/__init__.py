@@ -355,9 +355,8 @@ class Command:
         path = Path(node)
         return path.is_file(), path.suffix.upper(), path.name.upper()
 
-    def add_node(self, dialog):
-        path = dialog()
-        if path is not None:
+    def add_node(self, path):
+        if path:
             if path in self.project["nodes"]:
                 return
             msg_status(_("Adding to project: ") + path, True)
@@ -416,7 +415,7 @@ class Command:
         location.replace(new_location)
         if location in self.top_nodes.values():
             self.action_remove_node()
-            self.add_node(lambda: str(new_location))
+            self.add_node(str(new_location))
 
         self.action_refresh()
         self.jump_to_filename(str(new_location))
@@ -607,10 +606,12 @@ class Command:
                 msg_status(_("Recent item not found: ") + path)
 
     def action_add_folder(self):
-        self.add_node(lambda: dlg_dir(""))
+        fn = dlg_dir("")
+        self.add_node(fn)
 
     def action_add_file(self):
-        self.add_node(lambda: dlg_file(True, "", "", ""))
+        fn = dlg_file(True, "", "", "")
+        self.add_node(fn)
 
     def action_remove_node(self):
         index = self.selected
@@ -742,7 +743,7 @@ class Command:
 
         self.init_panel()
         self.action_new_project()
-        self.add_node(lambda: fn)
+        self.add_node(fn)
         self.do_unfold_first()
         app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
 
@@ -762,7 +763,7 @@ class Command:
         self.init_panel()
         if new_proj:
             self.action_new_project()
-        self.add_node(lambda: dirname)
+        self.add_node(dirname)
         if new_proj:
             self.do_unfold_first()
 
@@ -1104,8 +1105,7 @@ class Command:
             self.init_panel(False)
 
         fn = ed.get_filename()
-        if fn:
-            self.add_node(lambda: fn)
+        self.add_node(fn)
 
     def add_opened_files(self):
 
@@ -1115,8 +1115,7 @@ class Command:
         for h in ed_handles():
             e = Editor(h)
             fn = e.get_filename()
-            if fn:
-                self.add_node(lambda: fn)
+            self.add_node(fn)
 
 
     def goto_main(self):
@@ -1186,7 +1185,7 @@ class Command:
             if os.path.isdir(fn) or os.path.isdir(fn2):
                 self.init_panel()
                 self.new_project()
-                self.add_node(lambda: dir)
+                self.add_node(dir)
                 self.jump_to_filename(filename)
                 return
 
