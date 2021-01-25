@@ -796,8 +796,8 @@ procedure TEditorFrame.EditorOnDrawLine(Sender: TObject; C: TCanvas;
 var
   Ed: TATSynEdit;
   NLineWidth: integer;
-  bColorizeBack: boolean;
-  X1, X2, Y, NLen: integer;
+  bColorizeBack, bColorizeInBrackets, bFoundBrackets: boolean;
+  X1, X2, Y, NLen, NStartPos: integer;
   NColor: TColor;
   i: integer;
 begin
@@ -808,6 +808,7 @@ begin
 
   NLineWidth:= EditorOps.OpUnderlineColorSize;
   bColorizeBack:= NLineWidth>=10;
+  bColorizeInBrackets:= NLineWidth=11;
 
   //avoid background hilite for lines with selection
   if bColorizeBack then
@@ -821,7 +822,9 @@ begin
   for i:= 1 to Length(AStr)-3 do
   begin
     NColor:= clNone;
+    NStartPos:= 0;
     NLen:= 0;
+    bFoundBrackets:= false;
 
     case AStr[i] of
       '#':
@@ -840,7 +843,10 @@ begin
             (AStr[i+2]='b') and
             ((i=1) or not IsCharWord(AStr[i-1], cDefaultNonWordChars)) //word boundary
           then
+          begin
             NColor:= TATHtmlColorParserW.ParseFunctionRGB(AStr, i, NLen);
+            bFoundBrackets:= true;
+          end;
         end;
       'h':
         begin
@@ -849,18 +855,29 @@ begin
             (AStr[i+2]='l') and
             ((i=1) or not IsCharWord(AStr[i-1], cDefaultNonWordChars)) //word boundary
           then
+          begin
             NColor:= TATHtmlColorParserW.ParseFunctionHSL(AStr, i, NLen);
+            bFoundBrackets:= true;
+          end;
         end;
     end;
 
     //render the found color
     if NColor<>clNone then
     begin
-      if i-2>=0 then
-        X1:= AX+AExtent[i-2]
+      if bColorizeInBrackets and bFoundBrackets then
+      begin
+        NStartPos:= PosEx('(', AStr, i+2)+1;
+        NLen:= Max(1, NLen-1-(NStartPos-i))
+      end
+      else
+        NStartPos:= i;
+
+      if NStartPos-2>=0 then
+        X1:= AX+AExtent[NStartPos-2]
       else
         X1:= AX;
-      X2:= AX+AExtent[i-2+NLen];
+      X2:= AX+AExtent[NStartPos-2+NLen];
       Y:= AY+ACharSize.Y;
 
       if bColorizeBack then
@@ -868,7 +885,7 @@ begin
         C.Font.Color:= _ContrastColor(NColor);
         C.Font.Style:= [];
         C.Brush.Color:= NColor;
-        CanvasTextOutSimplest(C, X1, AY, Copy(AStr, i, NLen));
+        CanvasTextOutSimplest(C, X1, AY, Copy(AStr, NStartPos, NLen));
       end
       else
       begin

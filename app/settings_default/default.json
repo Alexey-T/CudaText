@@ -1061,8 +1061,9 @@
   "underline_color_files": "*",
 
   //How to paint HTML color codes:
-  //  if value>=10: colorize the text background,
-  //  otherwise: paint the underline of specified width, in pixels
+  //  value<10: paint the underline of specified width, in pixels
+  //  value=10: colorize the text background
+  //  value=11: colorize the text background, but inside the function brackets
   "underline_color_size": 3,
 
   //[View/Brackets]
