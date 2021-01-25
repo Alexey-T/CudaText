@@ -6,12 +6,12 @@
 1.122.7
 
 + add: support HTML color-codes highlighting in text background, option "underline_color_size" needs value>=10 for this (thanks @pagewerk)
-+ add: few dialogs (e.g. "Themes") are now resizable; dialog "Themes" is scalable (thanks @Lastique)
-+ add: commands 'indent selection'/'unindent selection' now support multi-carets
 + add: commands 'typing a char'/'backspace'/'delete'/'undo'/'redo' now don't scroll to last caret, like in Sublime (thanks @Jairo-Martinez)
-- fix: 'preview tab' could not work if dragged to another tab-group
++ add: commands 'indent selection'/'unindent selection' now support multi-carets
++ add: few dialogs (e.g. "Themes") are now resizable; dialog "Themes" is scalable (thanks @Lastique)
 - fix: regression with bad positioning of tab-groups 'splitters' on start (thanks @GHNewbiee)
 - fix: option "saving_trim_spaces" didn't move caret to shorter line end (thanks @GHNewbiee)
+- fix: 'preview tab' could not work if dragged to another tab-group
 
 1.122.5 (2021/01)
 
