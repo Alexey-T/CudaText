@@ -801,7 +801,6 @@ var
   bColorizeBack: boolean;
   X1, X2, Y, NLen: integer;
   NColor: TColor;
-  Ch: atChar;
   i: integer;
 begin
   if AStr='' then Exit;
@@ -823,11 +822,10 @@ begin
 
   for i:= 1 to Length(AStr)-3 do
   begin
-    Ch:= AStr[i];
     NColor:= clNone;
     NLen:= 0;
 
-    case Ch of
+    case AStr[i] of
       '#':
         begin
           //find #rgb, #rrggbb
