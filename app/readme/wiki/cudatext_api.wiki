@@ -1403,22 +1403,33 @@ Possible values of "id":
 
 Perform action on treeview UI-control.
 
-* Param id_tree is int handle of treeview.
-* Param id_item is int handle of tree-item. Can be 0 for invisible root-item:
+* Param "id_tree": int handle of treeview.
+* Param "id_item": int handle of tree-item. Can be 0 for invisible root-item:
 ** can clear entire tree using root-item
 ** can enumerate root level using root-item.
 
 Possible values of "id_action":
 
-* TREE_ITEM_ENUM: Enumerates subitems on given item. Param id_item. Returns list of 2-tuples: (int_handle, str_caption), or None.
-* TREE_ITEM_ADD: Adds subitem as item's child. Param id_item. Param index: at which subitem index to insert (0-based), or -1 to append. Param text: caption of item. Param image_index: index in tree's icon list or -1 to not show icon. Returns int handle of subitem.
-* TREE_ITEM_DELETE: Deletes item (with all subitems). Param id_item.
-* TREE_ITEM_SET_TEXT: Sets item's text. Params: id_item, text.
-* TREE_ITEM_SET_ICON: Sets item's icon. Params: id_item, image_index.
+* TREE_ITEM_ENUM: Enumerates subitems of given item. Params: "id_item". Returns list of 2-tuples, or None.
+** tuple item 0: int: handle of item.
+** tuple item 1: string: caption of item.
+* TREE_ITEM_ENUM_EX: Enumerates subitems of given item. Params: "id_item". Returns list of dict, or None. Dict keys are:
+** "id": int: handle of item.
+** "text": str: caption of item
+** "data": str: data string of item.
+** "img": int: icon index of item, or -1 if icon not used.
+* TREE_ITEM_ADD: Adds subitem as item's child. Returns int handle of subitem.
+** Param "id_item": handle of item.
+** Param "index": at which subitem index to insert (0-based), or -1 to append.
+** Param "text": caption of item.
+** Param "image_index": index in tree's icon list or -1 to not show icon.
+* TREE_ITEM_DELETE: Deletes item (with all subitems). Params: "id_item".
+* TREE_ITEM_SET_TEXT: Sets item's text. Params: "id_item", "text".
+* TREE_ITEM_SET_ICON: Sets item's icon. Params: "id_item", "image_index".
 
 * TREE_ITEM_SELECT: Selects item.
 * TREE_ITEM_SHOW: Makes item visible, ie scrolls control to this item.
-* TREE_ITEM_GET_SELECTED: Returns int handle of selected item (id_item ignored). Returns None if none selected.
+* TREE_ITEM_GET_SELECTED: Returns int handle of selected item (param "id_item" is ignored). Returns None if nothing is selected.
 
 * TREE_ITEM_GET_PROPS: Returns props of item, as dict. Dict keys are:
 ** "text": str: caption of item
@@ -4068,5 +4079,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.358 (app 1.122.6)
 * add: dlg_proc: added props for control "listview": "imagelist_small", "imagelist_large", "imageindexes"
+* add: tree_proc: added TREE_ITEM_ENUM_EX
 
 [[Category:CudaText]]
