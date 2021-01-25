@@ -385,6 +385,7 @@ PROC_CONFIG_NEWDOC_ENC_SET = 173
 PROC_CONFIG_SCALE_GET      = 175
 PROC_CONFIG_SCALE_SET      = 176
 
+TREE_ITEM_ENUM_EX          = 0
 TREE_ITEM_ENUM             = 1
 TREE_ITEM_ADD              = 2
 TREE_ITEM_DELETE           = 3
@@ -1012,8 +1013,8 @@ def imagelist_proc(id_list, id_action, value=''):
 def image_proc(id_image, id_action, value=''):
     return ct.image_proc(id_image, id_action, to_str(value))
 
-def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1):
-    return ct.tree_proc(id_tree, id_action, id_item, index, to_str(text), image_index)
+def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1, data=''):
+    return ct.tree_proc(id_tree, id_action, id_item, index, to_str(text), image_index, data)
 
 def _menu_proc_callback_proxy(info=''):
     if info in _live:

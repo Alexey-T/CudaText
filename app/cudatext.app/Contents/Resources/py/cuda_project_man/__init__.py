@@ -557,7 +557,8 @@ class Command:
                 parent,
                 -1,
                 sname,
-                imageindex
+                imageindex,
+                data=spath
                 )
             if nodes is self.project["nodes"]:
                 self.top_nodes[index] = path
@@ -687,6 +688,7 @@ class Command:
             return NodeInfo(info['text'], info['icon'])
 
     def get_location_by_index(self, index):
+        '''
         path = []
         while index and index not in self.top_nodes:
             path.append(self.get_info(index).caption)
@@ -697,7 +699,9 @@ class Command:
         full_path = Path(node / str.join(os.sep, path)) if node else Path('')
 
         return full_path
-
+        '''
+        p = tree_proc(self.tree, TREE_ITEM_GET_PROPS, index)
+        return Path(p.get('data', ''))
 
     def save_options(self):
         with self.options_filename.open(mode="w", encoding='utf8') as fout:
@@ -871,15 +875,62 @@ class Command:
         Callback for all subitems of given item.
         Until callback gets false.
         """
-        items = tree_proc(self.tree, TREE_ITEM_ENUM, item)
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, item)
         if items:
             for i in items:
-                subitem = i[0]
-                fn = str(self.get_location_by_index(subitem))
+                subitem = i['id']
+                fn = i.get('data', '')
                 if not callback(fn, subitem):
                     return False
                 if not self.enum_subitems(subitem, callback):
                     return False
+        return True
+
+    def enum_all_fn(self, filename, and_open):
+        """
+        Callback for all items.
+        Find 'filename', and focus its node.
+        """
+        items = tree_proc(self.tree, TREE_ITEM_ENUM, 0)
+        if items:
+            return self.enum_subitems_fn(items[0][0], filename, and_open)
+
+    def enum_subitems_fn(self, item, filename, and_open):
+        """
+        Callback for all subitems of given item.
+        When found 'filename', focus it and return False
+        """
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, item)
+        items_found = [i for i in items if i['data']==filename]
+
+        if items_found:
+            props = items_found[0]
+            node = props['id']
+            #print('GoToFile: found result:', props['data'])
+
+            tree_proc(self.tree, TREE_ITEM_SELECT, node)
+            tree_proc(self.tree, TREE_ITEM_SHOW, node)
+
+            # unfold only required tree nodes
+            if os.path.isdir(filename):
+                tree_proc(self.tree, TREE_ITEM_UNFOLD, node)
+
+            if and_open:
+                _file_open(fn)
+            return False
+
+        def _need(dirpath):
+            return filename.startswith(dirpath+os.sep)
+
+        items_dirs = [i for i in items if i['sub_items'] and _need(i['data'])]
+        if items_dirs:
+            node = items_dirs[0]['id']
+            dirpath = items_dirs[0]['data']
+            tree_proc(self.tree, TREE_ITEM_UNFOLD, node)
+            #print('Unfolding subdir:', dirpath)
+            if not self.enum_subitems_fn(node, filename, and_open):
+                return False
+
         return True
 
     def menu_goto(self):
@@ -909,25 +960,8 @@ class Command:
 
     def jump_to_filename(self, filename, and_open=False):
         """ Find filename in entire project and focus its tree node """
-        dir_need = os.path.dirname(filename)
-
-        def callback_find(fn, item):
-            #print('callback_find for', fn)
-            if fn==filename:
-                tree_proc(self.tree, TREE_ITEM_SELECT, item)
-                tree_proc(self.tree, TREE_ITEM_SHOW, item)
-                if and_open:
-                    _file_open(fn)
-                return False
-
-            # unfold only required tree nodes
-            if os.path.isdir(fn) and (fn+os.sep in dir_need+os.sep):
-                tree_proc(self.tree, TREE_ITEM_UNFOLD, item)
-
-            return True
-
         msg_status(_('Jumping to: ') + filename)
-        return self.enum_all(callback_find)
+        return self.enum_all_fn(filename, and_open)
 
     def sync_to_ed(self):
         """ Jump to active editor file, if it's in project """
