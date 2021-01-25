@@ -1399,7 +1399,7 @@ Possible values of "id":
 
 ===tree_proc===
 
- tree_proc(id_tree, id_action, id_item=0, index=0, text="", image_index=-1)
+ tree_proc(id_tree, id_action, id_item=0, index=0, text="", image_index=-1, data="")
 
 Perform action on treeview UI-control.
 
@@ -1423,6 +1423,7 @@ Possible values of "id_action":
 ** Param "index": at which subitem index to insert (0-based), or -1 to append.
 ** Param "text": caption of item.
 ** Param "image_index": index in tree's icon list or -1 to not show icon.
+** Param "data": optional data string attached to item.
 * TREE_ITEM_DELETE: Deletes item (with all subitems). Params: "id_item".
 * TREE_ITEM_SET_TEXT: Sets item's text. Params: "id_item", "text".
 * TREE_ITEM_SET_ICON: Sets item's icon. Params: "id_item", "image_index".
@@ -4079,6 +4080,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.358 (app 1.122.6)
 * add: dlg_proc: added props for control "listview": "imagelist_small", "imagelist_large", "imageindexes"
+* add: tree_proc: added param "data" for TREE_ITEM_ADD
 * add: tree_proc: added TREE_ITEM_ENUM_EX
 
 [[Category:CudaText]]
