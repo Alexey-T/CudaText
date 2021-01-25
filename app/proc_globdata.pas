@@ -199,6 +199,7 @@ type
     AutocompleteCss: boolean;
     AutocompleteHtml_Lexers: string;
     AutocompleteCss_Lexers: string;
+    HtmlBackgroundColorPair: array[boolean] of TColor;
 
     ListboxCentered: boolean;
     ListboxSizeX: integer;
@@ -1506,6 +1507,8 @@ begin
 
     AutocompleteHtml_Lexers:= '.*HTML.*|\bPHP\b';
     AutocompleteCss_Lexers:= 'CSS';
+    HtmlBackgroundColorPair[false]:= $F0F0F0;
+    HtmlBackgroundColorPair[true]:= $101010;
 
     PyLibrary:= InitPyLibraryPath;
     PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico';

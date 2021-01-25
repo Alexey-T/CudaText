@@ -782,13 +782,11 @@ begin
 end;
 
 function _ContrastColor(AColor: TColor): TColor;
-const
-  cValue: array[boolean] of TColor = ($F0F0F0, $101010);
 var
   bLight: boolean;
 begin
   bLight:= ((AColor and $FF) + (AColor shr 8 and $FF) + (AColor shr 16 and $FF)) >= $180;
-  Result:= cValue[bLight];
+  Result:= UiOps.HtmlBackgroundColorPair[bLight];
 end;
 
 
