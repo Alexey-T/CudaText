@@ -10,8 +10,8 @@
 + add: commands 'indent selection'/'unindent selection' now support multi-carets
 + add: commands 'typing a char'/'backspace'/'delete'/'undo'/'redo' now don't scroll to last caret, like in Sublime (thanks @Jairo-Martinez)
 - fix: 'preview tab' could not work if dragged to another tab-group
-- fix: bad positioning of tab-groups 'splitters' on start (thanks @GHNewbiee)
-- fix: option "saving_trim_spaces" didn't move caret to new line end (thanks @GHNewbiee)
+- fix: regression with bad positioning of tab-groups 'splitters' on start (thanks @GHNewbiee)
+- fix: option "saving_trim_spaces" didn't move caret to shorter line end (thanks @GHNewbiee)
 
 1.122.5 (2021/01)
 
