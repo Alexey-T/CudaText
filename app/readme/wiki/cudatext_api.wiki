@@ -4079,9 +4079,10 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: statusbar_proc: STATUSBAR_SET_CELL_CALLBACK, STATUSBAR_GET_CELL_CALLBACK
 * add: app_proc: PROC_GET_UNIQUE_TAG
 
-1.0.358 (app 1.122.6)
+1.0.358 (app 1.123.0)
 * add: dlg_proc: added props for control "listview": "imagelist_small", "imagelist_large", "imageindexes"
 * add: tree_proc: added param "data" for TREE_ITEM_ADD
+* add: tree_proc: added result key "data" for TREE_ITEM_GET_PROPS
 * add: tree_proc: added TREE_ITEM_ENUM_EX
 
 [[Category:CudaText]]
