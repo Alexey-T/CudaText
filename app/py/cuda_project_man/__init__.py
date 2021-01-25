@@ -557,7 +557,8 @@ class Command:
                 parent,
                 -1,
                 sname,
-                imageindex
+                imageindex,
+                data=spath
                 )
             if nodes is self.project["nodes"]:
                 self.top_nodes[index] = path
@@ -687,6 +688,7 @@ class Command:
             return NodeInfo(info['text'], info['icon'])
 
     def get_location_by_index(self, index):
+        '''
         path = []
         while index and index not in self.top_nodes:
             path.append(self.get_info(index).caption)
@@ -697,7 +699,9 @@ class Command:
         full_path = Path(node / str.join(os.sep, path)) if node else Path('')
 
         return full_path
-
+        '''
+        p = tree_proc(self.tree, TREE_ITEM_GET_PROPS, index)
+        return Path(p.get('data', ''))        
 
     def save_options(self):
         with self.options_filename.open(mode="w", encoding='utf8') as fout:
