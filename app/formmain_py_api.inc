@@ -6378,7 +6378,7 @@ var
   IdAction, NIndex, NImageIndex: integer;
   Pnt1, Pnt2: TPoint;
   PtrText, PtrData: PChar;
-  StrText: string;
+  StrText, StrData: string;
   TreeCont: TAppTreeContainer;
   TreeNode, Node1: TTreeNode;
   ItemList: TFPList;
@@ -6412,11 +6412,56 @@ begin
               Result:= PyList_New(ItemList.Count);
               if not Assigned(Result) then
                 raise EPythonError.Create(msgPythonListError);
+
               for i:= 0 to ItemList.Count-1 do
                 PyList_SetItem(Result, i,
                   Py_BuildValue('(Ls)',
                     Int64(PtrInt(ItemList[i])),
                     PChar(TTreeNode(ItemList[i]).Text) ));
+            finally
+              FreeAndNil(ItemList);
+            end;
+          end;
+
+        TREE_ITEM_ENUM_EX:
+          begin
+            if Assigned(TreeNode) then
+              Node1:= TreeNode.GetFirstChild
+            else
+              Node1:= TreeCont.Tree.Items.GetFirstNode;
+            if Node1=nil then exit(ReturnNone);
+
+            ItemList:= TFPList.Create;
+            try
+              repeat
+                ItemList.Add(Node1);
+                Node1:= TreeNode.GetNextChild(Node1);
+              until Node1=nil;
+
+              Result:= PyList_New(ItemList.Count);
+              if not Assigned(Result) then
+                raise EPythonError.Create(msgPythonListError);
+
+              for i:= 0 to ItemList.Count-1 do
+              begin
+                Node1:= TTreeNode(ItemList[i]);
+                if Node1.Data=nil then
+                  StrData:= ''
+                else
+                  StrData:= TAppTreeNodeData(Node1.Data).DataString;
+
+                PyList_SetItem(Result, i,
+                  Py_BuildValue('{sLsssssi}',
+                    'id',
+                    Int64(PtrInt(Node1)),
+                    'text',
+                    PChar(Node1.Text),
+                    'data',
+                    PChar(StrData),
+                    'img',
+                    Node1.ImageIndex
+                    ));
+              end;
             finally
               FreeAndNil(ItemList);
             end;
