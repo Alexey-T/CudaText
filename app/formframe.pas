@@ -822,8 +822,6 @@ begin
   for i:= 1 to Length(AStr)-3 do
   begin
     NColor:= clNone;
-    NStartPos:= 0;
-    NLen:= 0;
     bFoundBrackets:= false;
 
     case AStr[i] of
