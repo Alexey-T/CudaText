@@ -1028,7 +1028,10 @@ class Command:
     def tree_on_click(self, id_dlg, id_ctl, data='', info=''):
 
         # set folder in project as current folder for Open/Save-as dialogs
-        s = str(self.get_location_by_index(self.selected))
+        node = self.selected
+        if not node: # may be from some OnClick events
+            return
+        s = str(self.get_location_by_index(node))
         if s and not s.startswith('.'): # skip parasitic '.' for project root node
             if os.path.isdir(s):
                 app_proc(PROC_SET_FOLDER, s)
