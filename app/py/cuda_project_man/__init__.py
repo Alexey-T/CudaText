@@ -919,11 +919,15 @@ class Command:
                 _file_open(fn)
             return False
 
-        items_dirs = [i for i in items if i['sub_items']]
-        for i in items_dirs:
-            node = i['id']
+        def _need(dirpath):
+            return filename.startswith(dirpath+os.sep)
+
+        items_dirs = [i for i in items if i['sub_items'] and _need(i['data'])]
+        if items_dirs:
+            node = items_dirs[0]['id']
+            dirpath = items_dirs[0]['data']
             tree_proc(self.tree, TREE_ITEM_UNFOLD, node)
-            #print('GoToFile: found dir:', i['data'])
+            #print('Unfolding subdir:', dirpath)
             if not self.enum_subitems_fn(node, filename, and_open):
                 return False
 
