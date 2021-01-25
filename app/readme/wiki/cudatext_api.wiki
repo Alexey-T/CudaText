@@ -1432,8 +1432,9 @@ Possible values of "id_action":
 * TREE_ITEM_SHOW: Makes item visible, ie scrolls control to this item.
 * TREE_ITEM_GET_SELECTED: Returns int handle of selected item (param "id_item" is ignored). Returns None if nothing is selected.
 
-* TREE_ITEM_GET_PROPS: Returns props of item, as dict. Dict keys are:
+* TREE_ITEM_GET_PROPS: Returns properties of item, as dict. Dict keys are:
 ** "text": str: caption of item
+** "data": str: data string of item
 ** "icon": int: index of icon in tree's imagelist object, or -1 for none
 ** "level": int: how deep this item is nested (how many parents this item has)
 ** "parent": int: id of parent item, or 0 if no parent
