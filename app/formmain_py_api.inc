@@ -6539,7 +6539,13 @@ begin
         TREE_ITEM_GET_PROPS:
           begin
             if Assigned(TreeNode) then
-              Result:= Py_BuildValue('{sssisisisisLsOsOsO}',
+            begin
+              if Assigned(TreeNode.Data) then
+                StrData:= TAppTreeNodeData(TreeNode.Data).DataString
+              else
+                StrData:= '';
+
+              Result:= Py_BuildValue('{sssisisisisLsOsOsOss}',
                        'text',
                        PChar(TreeNode.Text),
                        'index',
@@ -6557,8 +6563,11 @@ begin
                        'selected',
                        PyBool_FromLong(Ord(TreeNode.Selected)),
                        'sub_items',
-                       PyBool_FromLong(Ord(TreeNode.HasChildren))
+                       PyBool_FromLong(Ord(TreeNode.HasChildren)),
+                       'data',
+                       PChar(StrData)
                        )
+            end
             else
               Result:= ReturnNone;
           end;
