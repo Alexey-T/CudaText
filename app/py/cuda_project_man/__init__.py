@@ -895,8 +895,12 @@ class Command:
 
         files.sort()
         files_nice = [os.path.basename(fn)+'\t'+os.path.dirname(fn) for fn in files]
+
         # disable fuzzy search in menu
-        res = dlg_menu(MENU_LIST_ALT+MENU_NO_FUZZY, files_nice, caption=_('Go to file'))
+        res = dlg_menu(MENU_LIST_ALT+MENU_NO_FUZZY+MENU_NO_FULLFILTER,
+                       files_nice,
+                       caption=_('Go to file')
+                       )
         if res is None:
             return
 
@@ -908,6 +912,7 @@ class Command:
         dir_need = os.path.dirname(filename)
 
         def callback_find(fn, item):
+            #print('callback_find for', fn)
             if fn==filename:
                 tree_proc(self.tree, TREE_ITEM_SELECT, item)
                 tree_proc(self.tree, TREE_ITEM_SHOW, item)
