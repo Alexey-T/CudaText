@@ -6377,16 +6377,17 @@ var
   IdTree, IdItem: Int64;
   IdAction, NIndex, NImageIndex: integer;
   Pnt1, Pnt2: TPoint;
-  PtrText: PChar;
+  PtrText, PtrData: PChar;
   StrText: string;
   TreeCont: TAppTreeContainer;
   TreeNode, Node1: TTreeNode;
   ItemList: TFPList;
   Sep: TATStringSeparator;
+  ObjData: TAppTreeNodeData;
   i: integer;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'LiLisi:tree_proc', @IdTree, @IdAction, @IdItem, @NIndex, @PtrText, @NImageIndex)) then
+    if Bool(PyArg_ParseTuple(Args, 'LiLisis:tree_proc', @IdTree, @IdAction, @IdItem, @NIndex, @PtrText, @NImageIndex, @PtrData)) then
     begin
       StrText:= string(PtrText);
       TreeCont:= TAppTreeContainer(PtrInt(IdTree));
@@ -6429,6 +6430,13 @@ begin
             Node1.SelectedIndex:= NImageIndex;
             if NIndex>=0 then
               Node1.Index:= NIndex;
+
+            if Assigned(PtrData) then
+            begin
+              ObjData:= TAppTreeNodeData.Create;
+              ObjData.DataString:= string(PtrData);
+              Node1.Data:= ObjData;
+            end;
 
             TreeCont.Tree.Invalidate;
             Result:= Py_ObjectHandle(Node1);

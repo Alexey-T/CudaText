@@ -58,6 +58,10 @@ procedure DoForm_FocusControl(F: TForm; C: TControl);
 procedure DoForm_ScaleAuto(F: TForm; ASimpleResize: boolean=false);
 procedure DoForm_CloseDockedForms(F: TForm);
 
+type
+  TAppTreeNodeData = class
+    DataString: string;
+  end;
 
 //var
 //  CustomDialog_Listbox_OnDrawItem: TATListboxDrawItemEvent = nil;
@@ -831,6 +835,7 @@ begin
     TAppTreeContainer(Ctl).Tree.OnSelectionChanged:= @AForm.DoOnTreeviewSelect;
     TAppTreeContainer(Ctl).Tree.OnCollapsing:= @AForm.DoOnTreeviewCollapsing;
     TAppTreeContainer(Ctl).Tree.OnExpanding:= @AForm.DoOnTreeviewExpanding;
+    TAppTreeContainer(Ctl).Tree.OnDeletion:= @AForm.DoOnTreeviewDeletion;
     TAppTreeContainer(Ctl).Tree.DefaultItemHeight:= AppScale(DefaultTreeNodeHeight);
     TAppTreeContainer(Ctl).Invalidate;
     exit
