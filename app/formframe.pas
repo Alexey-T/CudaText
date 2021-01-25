@@ -825,99 +825,67 @@ begin
   for i:= 1 to Length(AStr)-3 do
   begin
     Ch:= AStr[i];
+    NColor:= clNone;
+    NLen:= 0;
 
-    //find #rgb, #rrggbb
-    if (Ch='#') and IsCharHexDigit(AStr[i+1]) then
+    case Ch of
+      '#':
+        begin
+          //find #rgb, #rrggbb
+          if IsCharHexDigit(AStr[i+1]) then
+          begin
+            Substr:= Copy(AStr, i+1, 8+1);
+            NColor:= TATHtmlColorParser.ParseTokenRGB(PChar(Substr), NLen, clNone);
+            if NColor<>clNone then
+              Inc(NLen);
+          end;
+        end;
+      'r':
+        begin
+          //find rgb(...), rgba(...)
+          if (i+6<=Length(AStr)) and
+            (AStr[i+1]='g') and
+            (AStr[i+2]='b') and
+            ((AStr[i+3]='(') or ((AStr[i+3]='a') and (AStr[i+4]='('))) and
+            ((i=1) or not IsCharWord(AStr[i-1], cDefaultNonWordChars)) //word boundary
+          then
+            NColor:= TATHtmlColorParser.ParseFunctionRGB(AStr, i, NLen)
+        end;
+      'h':
+        begin
+          //find hsl(...), hsla(...)
+          if (i+6<=Length(AStr)) and
+            (AStr[i+1]='s') and
+            (AStr[i+2]='l') and
+            ((AStr[i+3]='(') or ((AStr[i+3]='a') and (AStr[i+4]='('))) and
+            ((i=1) or not IsCharWord(AStr[i-1], cDefaultNonWordChars)) //word boundary
+          then
+            NColor:= TATHtmlColorParser.ParseFunctionHSL(AStr, i, NLen);
+        end;
+    end;
+
+    //render the found color
+    if NColor<>clNone then
     begin
-      Substr:= Copy(AStr, i+1, 8+1);
-      NColor:= TATHtmlColorParser.ParseTokenRGB(PChar(Substr), NLen, clNone);
-      if NColor=clNone then Continue;
-
       if i-2>=0 then
         X1:= AX+AExtent[i-2]
       else
         X1:= AX;
-      X2:= AX+AExtent[i-1+NLen];
+      X2:= AX+AExtent[i-2+NLen];
       Y:= AY+ACharSize.Y;
 
       if bColorizeBack then
       begin
         C.Font.Color:= _ContrastColor(NColor);
         C.Brush.Color:= NColor;
-        CanvasTextOutSimplest(C, X1, AY, Copy(AStr, i, NLen+1));
+        CanvasTextOutSimplest(C, X1, AY, Copy(AStr, i, NLen));
       end
       else
       begin
         C.Brush.Color:= NColor;
         C.FillRect(X1, Y-NLineWidth, X2, Y);
       end;
-    end
-    else
-    //find rgb(...), rgba(...)
-    if (Ch='r') and
-      (i+6<=Length(AStr)) and
-      (AStr[i+1]='g') and
-      (AStr[i+2]='b') and
-      ((AStr[i+3]='(') or ((AStr[i+3]='a') and (AStr[i+4]='('))) and
-      ((i=1) or not IsCharWord(AStr[i-1], cDefaultNonWordChars)) //word boundary
-    then
-    begin
-      NColor:= TATHtmlColorParser.ParseFunctionRGB(AStr, i, NLen);
-      if NColor<>clNone then
-        begin
-          if i-2>=0 then
-            X1:= AX+AExtent[i-2]
-          else
-            X1:= AX;
-          X2:= AX+AExtent[i-2+NLen];
-          Y:= AY+ACharSize.Y;
-
-          if bColorizeBack then
-          begin
-            C.Font.Color:= _ContrastColor(NColor);
-            C.Brush.Color:= NColor;
-            CanvasTextOutSimplest(C, X1, AY, Copy(AStr, i, NLen));
-          end
-          else
-          begin
-            C.Brush.Color:= NColor;
-            C.FillRect(X1, Y-NLineWidth, X2, Y);
-          end;
-        end;
-    end
-    else
-    //find hsl(...), hsla(...)
-    if (Ch='h') and
-      (i+6<=Length(AStr)) and
-      (AStr[i+1]='s') and
-      (AStr[i+2]='l') and
-      ((AStr[i+3]='(') or ((AStr[i+3]='a') and (AStr[i+4]='('))) and
-      ((i=1) or not IsCharWord(AStr[i-1], cDefaultNonWordChars)) //word boundary
-      then
-      begin
-        NColor:= TATHtmlColorParser.ParseFunctionHSL(AStr, i, NLen);
-        if NColor<>clNone then
-          begin
-            if i-2>=0 then
-              X1:= AX+AExtent[i-2]
-            else
-              X1:= AX;
-            X2:= AX+AExtent[i-2+NLen];
-            Y:= AY+ACharSize.Y;
-
-            if bColorizeBack then
-            begin
-              C.Font.Color:= _ContrastColor(NColor);
-              C.Brush.Color:= NColor;
-              CanvasTextOutSimplest(C, X1, AY, Copy(AStr, i, NLen));
-            end
-            else
-            begin
-              C.Brush.Color:= NColor;
-              C.FillRect(X1, Y-NLineWidth, X2, Y);
-            end;
-          end;
-      end;
+    end;
   end;
 end;
 
