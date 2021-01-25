@@ -6451,7 +6451,7 @@ begin
                   StrData:= TAppTreeNodeData(Node1.Data).DataString;
 
                 PyList_SetItem(Result, i,
-                  Py_BuildValue('{sLsssssi}',
+                  Py_BuildValue('{sLsssssisO}',
                     'id',
                     Int64(PtrInt(Node1)),
                     'text',
@@ -6459,7 +6459,9 @@ begin
                     'data',
                     PChar(StrData),
                     'img',
-                    Node1.ImageIndex
+                    Node1.ImageIndex,
+                    'sub_items',
+                    PyBool_FromLong(Ord(Node1.HasChildren))
                     ));
               end;
             finally
