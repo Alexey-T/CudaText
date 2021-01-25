@@ -6,6 +6,9 @@
 1.123.0 (2021/01)
 
 + add: support HTML color-codes highlighting in text background, option "underline_color_size" needs special value for this (thanks @pagewerk)
++ add: Wiki topic https://wiki.freepascal.org/CudaText#HTML_color_codes_underlining
++ add: Wiki topic https://wiki.freepascal.org/CudaText#Automatic_folding_of_comments
++ add: Wiki topic https://wiki.freepascal.org/CudaText#Show_pictures_in_the_text
 + add: commands 'typing a char'/'backspace'/'delete'/'undo'/'redo' now don't scroll to last caret, like in Sublime (thanks @Jairo-Martinez)
 + add: commands 'indent selection'/'unindent selection' now support multi-carets
 + add: auto scale 'margin lines' width (thanks @Shovel)
