@@ -86,7 +86,11 @@ Any project can have "main file", you can choose it in the context menu: "Select
 
 === Preview tab ===
 
-To see preview tab, call "File / Open folder" and choose a folder with text files. Folder will open in the side panel "Project". Make single click on files in this panel, they will open in "preview tab". Single preview tab is shared by all clicked files in "Project". It has italic caption. When you begin to edit file in this preview tab, tab becomes "normal".
+To see the "preview tab", call "File / Open folder" and choose a folder with some files. Folder will be opened in the side panel "Project". Make single click on a file in this project, it will open in "preview tab". Single preview tab is shared by all clicked files in the project. It has italic font style of the caption (font style is customizable). When you begin to edit file in the preview tab, tab becomes "normal" and looses its special status.
+
+Preview tab is always created in the first tab-group. Even if the focused editor is located in different tab-group.
+It was made so to avoid the situation when preview tab jumps from one tab-group to another.
+Preview tab can be dragged to another tab-group, it should work there too, it will show there all "previewed" files.
 
 == Snippets ==
 
