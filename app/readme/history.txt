@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.122.7
+1.123.0 (2021/01)
 
 + add: support HTML color-codes highlighting in text background, option "underline_color_size" needs value>=10 for this (thanks @pagewerk)
 + add: commands 'typing a char'/'backspace'/'delete'/'undo'/'redo' now don't scroll to last caret, like in Sublime (thanks @Jairo-Martinez)
