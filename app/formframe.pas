@@ -840,10 +840,8 @@ begin
       'r':
         begin
           //find rgb(...), rgba(...)
-          if (i+6<=Length(AStr)) and
-            (AStr[i+1]='g') and
+          if (AStr[i+1]='g') and
             (AStr[i+2]='b') and
-            ((AStr[i+3]='(') or ((AStr[i+3]='a') and (AStr[i+4]='('))) and
             ((i=1) or not IsCharWord(AStr[i-1], cDefaultNonWordChars)) //word boundary
           then
             NColor:= TATHtmlColorParserW.ParseFunctionRGB(AStr, i, NLen)
@@ -851,10 +849,8 @@ begin
       'h':
         begin
           //find hsl(...), hsla(...)
-          if (i+6<=Length(AStr)) and
-            (AStr[i+1]='s') and
+          if (AStr[i+1]='s') and
             (AStr[i+2]='l') and
-            ((AStr[i+3]='(') or ((AStr[i+3]='a') and (AStr[i+4]='('))) and
             ((i=1) or not IsCharWord(AStr[i-1], cDefaultNonWordChars)) //word boundary
           then
             NColor:= TATHtmlColorParserW.ParseFunctionHSL(AStr, i, NLen);
