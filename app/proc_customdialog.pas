@@ -2449,6 +2449,15 @@ begin
     begin
       Pnt:= Mouse.CursorPos;
       Pnt:= C.ScreenToClient(Pnt);
+
+      //hack to fix the -1 value
+      // https://bugs.freepascal.org/view.php?id=38403
+      {$ifdef windows}
+      Pnt.Y:= -5;
+      {$else}
+      Pnt.Y:= -10;
+      {$endif}
+
       N:= TTabControl(C).IndexOfTabAt(Pnt);
       PyDict_SetItemString(Result, 'tab_hovered', PyLong_FromLong(N));
     end;
