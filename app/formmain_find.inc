@@ -425,13 +425,14 @@ end;
 procedure TfmMain.DoDialogFind(AReplaceMode: boolean);
 var
   Ed: TATSynEdit;
-  StrSel, StrWord: atString;
+  StrSel, StrWord, StrSuggested: atString;
   bMultiLineSel: boolean;
 begin
   Ed:= CurrentEditor;
 
   StrWord:= Ed.TextCurrentWord;
   StrSel:= Ed.TextSelected;
+  StrSuggested:= '';
 
   if not Ed.IsSelRectEmpty then StrSel:= '';
 
@@ -441,6 +442,7 @@ begin
 
   MsgLogDebug('find dlg: init');
   InitFormFind;
+
   with fmFind do
   begin
     if StrSel='' then
@@ -454,11 +456,11 @@ begin
     if UiOps.FindSuggestSel and (StrSel<>'') then
     begin
       if not FFinder.OptInSelection then
-        UpdateInputFind(StrSel);
+        StrSuggested:= StrSel;
     end
     else
     if UiOps.FindSuggestWord and (StrWord<>'') then
-      UpdateInputFind(StrWord);
+      StrSuggested:= StrWord;
 
     MsgLogDebug('find dlg: select all in input');
     edFind.DoCommand(cCommand_SelectAll);
@@ -474,11 +476,12 @@ begin
     if UiOps.FindSuggestInSelection and bMultiLineSel then
     begin
       chkInSel.Checked:= true;
-      edFind.Text:= '';
+      StrSuggested:= '';
     end
     else
       chkInSel.Checked:= FFinder.OptInSelection;
 
+    UpdateInputFind(StrSuggested);
     IsReplace:= AReplaceMode;
 
     MsgLogDebug('find dlg: update state');

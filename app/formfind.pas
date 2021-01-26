@@ -842,8 +842,12 @@ begin
 end;
 
 procedure TfmFind.UpdateInputFind(const AText: UnicodeString);
+var
+  bMultiLineText: boolean;
 begin
-  IsMultiLine:= Pos(#10, AText)>0;
+  bMultiLineText:= Pos(#10, AText)>0;
+  IsMultiLine:= bMultiLineText;
+
   edFind.Text:= AText;
   edFind.DoEventChange(); //for lexer RegEx
 end;
