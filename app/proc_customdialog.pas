@@ -405,6 +405,40 @@ begin
   end;
 end;
 
+function DoControl_GetColumns_TabControl(C: TCustomTabControl): string;
+var
+  L: TStringList;
+  R: TRect;
+  NCount, i: integer;
+begin
+  Result:= '';
+  L:= TStringList.Create;
+  try
+    L.LineBreak:= #9;
+    L.SkipLastLineBreak:= true;
+
+    if C is TTabControl then
+      NCount:= TTabControl(C).Tabs.Count
+    else
+    if C is TPageControl then
+      NCount:= TPageControl(C).PageCount
+    else
+      NCount:= 0;
+
+    for i:= 0 to NCount-1 do
+    begin
+      R:= C.TabRect(i);
+      L.Add(IntToStr(R.Left));
+      L.Add(IntToStr(R.Top));
+      L.Add(IntToStr(R.Right));
+      L.Add(IntToStr(R.Bottom));
+    end;
+    Result:= L.Text;
+  finally
+    FreeAndNil(L);
+  end;
+end;
+
 function SGetCharCount(const S: string; ch: char): integer;
 var
   i: integer;
@@ -477,6 +511,12 @@ begin
 
   if C is TRadioGroup then
     exit(IntToStr(TRadioGroup(C).Columns));
+
+  if C is TTabControl then
+    exit(DoControl_GetColumns_TabControl(TTabControl(C)));
+
+  if C is TPageControl then
+    exit(DoControl_GetColumns_TabControl(TPageControl(C)));
 end;
 
 

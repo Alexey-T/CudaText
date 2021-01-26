@@ -1168,6 +1168,7 @@ int main(int argc, char *argv[])
         dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='tab_label', prop={
             'cap': '(clicked tab-'+str(n+1)+')',
             })
+        print('Tab-control rects:', prop['columns'])
 
     def test_sidepanel(self):
         print('test_sidepanel')
