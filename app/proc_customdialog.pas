@@ -512,11 +512,14 @@ begin
   if C is TRadioGroup then
     exit(IntToStr(TRadioGroup(C).Columns));
 
+  {
+  //for TabControl/PageControl, I get result rects as (-1,-1,-1,-1) for linux gtk2, (0,0,0,0) for win32
   if C is TTabControl then
     exit(DoControl_GetColumns_TabControl(TTabControl(C)));
 
   if C is TPageControl then
     exit(DoControl_GetColumns_TabControl(TPageControl(C)));
+    }
 end;
 
 
