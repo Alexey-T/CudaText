@@ -763,12 +763,16 @@ Lexer HTML (and lexers with "HTML" in name, see the option "autocomplete_html_le
 ** Tag VIDEO, attribute SRC. Listbox shows list of folders and video files (HTML supports few extensions).
 ** Tag SOURCE, attribute SRC. Listbox shows list of folders and audio+video files (code doesn't detect the outer tag: audio, video etc).
 
+[[File:cudatext-complete-pics.png]]
+
 About folders/filenames completion. Listbox items list depends on part of the quoted value before the caret. Folder/file names are taken from the folder/subfolder/up-folder of the current editor's document. Some examples, where caret is shown as "|".
 
 * Value "|end": All filenames.
 * Value "ab|end": Filenames beginning with "ab".
 * Value "bar/foo/|end": All filenames, from subfolder "bar/foo".
 * Value "../foo/bar/ab|end": Filenames beginning with "ab", from relative folder "../foo/bar".
+
+[[File:cudatext-complete-filenames.png]]
 
 To use auto-completion of CLASS= and ID= names (ie suggest mentioned names for partially typed names), you need the plugin "HTML Completion".
 
