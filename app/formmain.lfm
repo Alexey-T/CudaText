@@ -459,6 +459,10 @@ object fmMain: TfmMain
       object SepV1: TMenuItem
         Caption = '-'
       end
+      object mnuViewGlobLoc: TMenuItem
+        Caption = '---- Current tab properties ---'
+        Enabled = False
+      end
       object mnuViewWrap: TMenuItem
         Caption = 'Toggle &word-wrap'
       end
