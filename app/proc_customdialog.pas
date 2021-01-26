@@ -2377,6 +2377,8 @@ var
   SItems, SColumns: string;
   SParent: string;
   Props: TAppControlProps;
+  Pnt: TPoint;
+  N: integer;
 begin
   bFocused:= false;
   bTabStop:= false;
@@ -2441,6 +2443,22 @@ begin
 
       SColumns:= DoControl_GetIcons_ListView(TListView(C));
       PyDict_SetItemString(Result, 'imageindexes', PyUnicodeFromString(SColumns));
+    end;
+
+    if C is TTabControl then
+    begin
+      Pnt:= Mouse.CursorPos;
+      Pnt:= C.ScreenToClient(Pnt);
+      N:= TTabControl(C).IndexOfTabAt(Pnt);
+      PyDict_SetItemString(Result, 'tab_hovered', PyLong_FromLong(N));
+    end;
+
+    if C is TPageControl then
+    begin
+      Pnt:= Mouse.CursorPos;
+      Pnt:= C.ScreenToClient(Pnt);
+      N:= TPageControl(C).IndexOfTabAt(Pnt);
+      PyDict_SetItemString(Result, 'tab_hovered', PyLong_FromLong(N));
     end;
   end;
 end;

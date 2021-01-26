@@ -1160,15 +1160,18 @@ int main(int argc, char *argv[])
 
     def callback_pages_on_change(self, id_dlg, id_ctl, data='', info=''):
         print('pages on_change')
+        prop = dlg_proc(id_dlg, DLG_CTL_PROP_GET, name='mypages')
+        print('tab hovered:', prop['tab_hovered'])
 
     def callback_tabs_on_change(self, id_dlg, id_ctl, data='', info=''):
         print('tabs on_change')
         prop = dlg_proc(id_dlg, DLG_CTL_PROP_GET, name='mytabs')
+        print('tab hovered:', prop['tab_hovered'])
+
         n = int(prop['val'])
         dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='tab_label', prop={
             'cap': '(clicked tab-'+str(n+1)+')',
             })
-        print('Tab-control rects:', prop['columns'])
 
     def test_sidepanel(self):
         print('test_sidepanel')
