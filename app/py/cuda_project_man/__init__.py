@@ -896,40 +896,34 @@ class Command:
         if items:
             return self.enum_subitems_fn(items[0][0], filename, and_open)
 
-    def enum_subitems_fn(self, item, filename, and_open):
+    def enum_subitems_fn(self, item_src, filename, and_open):
         """
-        Callback for all subitems of given item.
+        Callback for all subitems of given item_src.
         When found 'filename', focus it and return False
         """
-        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, item)
-        items_found = [i for i in items if i['data']==filename]
-
-        if items_found:
-            props = items_found[0]
-            node = props['id']
-            #print('GoToFile: found result:', props['data'])
-
-            tree_proc(self.tree, TREE_ITEM_SELECT, node)
-            tree_proc(self.tree, TREE_ITEM_SHOW, node)
-
-            # unfold only required tree nodes
-            if os.path.isdir(filename):
-                tree_proc(self.tree, TREE_ITEM_UNFOLD, node)
-
-            if and_open:
-                _file_open(fn)
-            return False
-
         def _need(dirpath):
             return filename.startswith(dirpath+os.sep)
 
-        items_dirs = [i for i in items if i['sub_items'] and _need(i['data'])]
-        if items_dirs:
-            node = items_dirs[0]['id']
-            dirpath = items_dirs[0]['data']
-            tree_proc(self.tree, TREE_ITEM_UNFOLD, node)
-            #print('Unfolding subdir:', dirpath)
-            if not self.enum_subitems_fn(node, filename, and_open):
+        prop_list = tree_proc(self.tree, TREE_ITEM_ENUM_EX, item_src) or []
+        for prop in prop_list:
+            fn = prop['data']
+            is_dir = prop['sub_items']
+
+            if is_dir:
+                if _need(fn):
+                    node = prop['id']
+                    tree_proc(self.tree, TREE_ITEM_UNFOLD, node)
+                    if not self.enum_subitems_fn(node, filename, and_open):
+                        return False
+
+            elif fn==filename:
+                node = prop['id']
+                tree_proc(self.tree, TREE_ITEM_SELECT, node)
+                tree_proc(self.tree, TREE_ITEM_SHOW, node)
+                if is_dir:
+                    tree_proc(self.tree, TREE_ITEM_UNFOLD, node)
+                if and_open:
+                    _file_open(fn)
                 return False
 
         return True
