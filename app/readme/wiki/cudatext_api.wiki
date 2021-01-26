@@ -825,6 +825,8 @@ Action DLG_CTL_PROP_GET also returns key "items" (in the same format) for these 
 
 * For "radiogroup", it is number of vertical columns of radiobuttons.
 
+* For "tabs", "pages": "\t"-separated numbers, which show rectangles of tabs. For each rectangle, 4 numbers (left, top, right, bottom) are in the string, all "\t"-separated too. So for N tabs, you will get string with 4*N separated numbers.
+
 Action DLG_CTL_PROP_GET also returns key "columns" in the same format.
 
 Action DLG_CTL_PROP_SET, for "listview", allows both "items" (it sets columns) and "columns", and "columns" is applied last.
@@ -4087,5 +4089,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: tree_proc: added param "data" for TREE_ITEM_ADD
 * add: tree_proc: added result key "data" for TREE_ITEM_GET_PROPS
 * add: tree_proc: added TREE_ITEM_ENUM_EX
+
+1.0.359 (app 1.123.0)
+* add: dlg_proc: controls "tabs" and "pages" now also return property "columns"
 
 [[Category:CudaText]]
