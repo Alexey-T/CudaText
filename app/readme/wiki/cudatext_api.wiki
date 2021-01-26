@@ -1070,6 +1070,10 @@ Special properties for control "listview":
 * "imagelist_large": int: handle of ImageList with large icons. This ImageList is used in "big icons" mode of listview.
 * "imageindexes": str: string with '\t'-separated numbers. Each number is icon index, or -1 if icon is not used.
 
+Special properties for controls "tabs", "pages":
+
+* "tab_hovered": int: index of tab under mouse cursor.
+
 ====Control events====
 
 Events of controls are also properties, but values of these properties must be Python functions (ie callables). Signature of these functions are shown below.
@@ -4087,5 +4091,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: tree_proc: added param "data" for TREE_ITEM_ADD
 * add: tree_proc: added result key "data" for TREE_ITEM_GET_PROPS
 * add: tree_proc: added TREE_ITEM_ENUM_EX
+
+1.0.359 (app 1.123.0)
+* add: dlg_proc: controls "tabs"/"pages" give property "tab_hovered"
 
 [[Category:CudaText]]
