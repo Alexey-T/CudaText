@@ -690,7 +690,7 @@ begin
     AppPanels[cPaneOut].Visible:= bFlag;
 
     AppPanels[cPaneSide].PanelSize:= Min(cfg.GetValue('size_side', 200), ClientWidth div 2);
-    AppPanels[cPaneOut].PanelSize:= Min(cfg.GetValue('size_bottom', 200), ClientHeight div 2);
+    AppPanels[cPaneOut].PanelSize:= Min(cfg.GetValue('size_bottom', 120), ClientHeight div 2);
 
     AppPanels[cPaneSide].Floating:= cfg.GetValue('float_side', false);
     AppPanels[cPaneOut].Floating:= cfg.GetValue('float_bottom', false);
