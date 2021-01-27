@@ -460,7 +460,7 @@ object fmMain: TfmMain
         Caption = '-'
       end
       object mnuViewGlobLoc: TMenuItem
-        Caption = '---- Current tab properties ---'
+        Caption = '--- Current tab properties ---'
         Enabled = False
       end
       object mnuViewWrap: TMenuItem
