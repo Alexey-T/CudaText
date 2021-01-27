@@ -439,7 +439,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 2110
+          TokenTypes = 2622
         end
         item
           TagList.Strings = (
@@ -451,6 +451,7 @@ object SyntAnal5: TLibSyntAnalyzer
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
+      CollapseFmt = '%sz0'
       TreeItemImage = 1
       IgnoreAsParent = False
     end
@@ -501,7 +502,7 @@ object SyntAnal5: TLibSyntAnalyzer
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
-      CollapseFmt = '%sz0...'
+      CollapseFmt = '%sz0'
       TreeItemImage = 6
       TreeGroupImage = 1
       IgnoreAsParent = False
@@ -547,7 +548,7 @@ object SyntAnal5: TLibSyntAnalyzer
       RefToCondEnd = True
       HighlightPos = cpBound
       CancelNextRules = True
-      CollapseFmt = '%sz0...'
+      CollapseFmt = '%sz0'
       TreeItemImage = 6
       TreeGroupImage = 1
       IgnoreAsParent = False
