@@ -344,6 +344,10 @@ const
       'This is the first CudaText start (file history.json not found).'+EOL+
       'If Python engine is set up, you can install popular add-ons'+EOL+
       'using menu item "Plugins / Multi Installer".'+EOL+
+      '---------------------------------------------------------------'+EOL+
+      'You can double-click these video links:'+EOL+
+      '* long tour in 14 minutes: https://www.youtube.com/watch?v=q8edzSd400Y'+EOL+
+      '* micro review in 3 minutes: https://www.youtube.com/watch?v=ts0z7CsflT4'+EOL+
       '---------------------------------------------------------------'+EOL;
 
 const
