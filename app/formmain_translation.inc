@@ -270,7 +270,8 @@ begin
     DoLocMenuitem(ini, mnuViewSplitDo, 'm_v', 's_s');
     DoLocMenuitem(ini, mnuViewSplitHorz, 'm_v', 's_h');
 
-    DoLocMenuitem(ini, mnuViewGlobLoc, 'm_v', 'st_l');
+    DoLocMenuitem(ini, mnuViewHint1, 'm_v', 'st_l');
+    DoLocMenuitem(ini, mnuViewHint2, 'm_v', 'st_g');
 
     DoLocMenuitem(ini, mnuViewWrap, 'm_v', 't_ww');
     DoLocMenuitem(ini, mnuViewNums, 'm_v', 't_nu');

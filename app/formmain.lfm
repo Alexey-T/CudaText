@@ -459,7 +459,7 @@ object fmMain: TfmMain
       object SepV1: TMenuItem
         Caption = '-'
       end
-      object mnuViewGlobLoc: TMenuItem
+      object mnuViewHint1: TMenuItem
         Caption = '--- Current tab properties ---'
         Enabled = False
       end
@@ -504,6 +504,10 @@ object fmMain: TfmMain
       end
       object SepV2: TMenuItem
         Caption = '-'
+      end
+      object mnuViewHint2: TMenuItem
+        Caption = '--- Global properties ---'
+        Enabled = False
       end
       object mnuViewToolbar: TMenuItem
         Caption = 'Toggle &toolbar'

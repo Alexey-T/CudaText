@@ -204,7 +204,8 @@ type
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
     ButtonCancel: TATButton;
-    mnuViewGlobLoc: TMenuItem;
+    mnuViewHint2: TMenuItem;
+    mnuViewHint1: TMenuItem;
     mnuOpThemes: TMenuItem;
     mnuOpLangs: TMenuItem;
     mnuViewSidebar: TMenuItem;
