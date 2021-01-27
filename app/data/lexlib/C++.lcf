@@ -140,6 +140,14 @@ object SyntAnal5: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = '~Id'
+      StyleName = 'Id'
+      TokenType = 15
+      Expression = '(?<=^\s*)~[a-z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Id'
       StyleName = 'Id'
       TokenType = 2
@@ -584,7 +592,7 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 2
         end
         item
-          TokenTypes = 4
+          TokenTypes = 32772
         end
         item
           TagList.Strings = (
@@ -796,7 +804,8 @@ object SyntAnal5: TLibSyntAnalyzer
     'Id modifier'
     'Symbol ->'
     'Symbol ;'
-    'Goto label')
+    'Goto label'
+    'Id after ~')
   Extentions = 'cpp cxx h hh hpp hxx inl cc cp c++ h++ inl ipp'
   LexerName = 'C++'
   Notes.Strings = (
