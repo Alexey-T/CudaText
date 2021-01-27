@@ -1,13 +1,13 @@
 object fmSaveTabs: TfmSaveTabs
-  Left = 437
+  Left = 266
   Height = 350
   Top = 232
-  Width = 720
+  Width = 891
   ActiveControl = btnSave
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Save tabs?'
   ClientHeight = 350
-  ClientWidth = 720
+  ClientWidth = 891
   Constraints.MinHeight = 150
   Constraints.MinWidth = 300
   KeyPreview = True
@@ -20,9 +20,9 @@ object fmSaveTabs: TfmSaveTabs
   LCLVersion = '2.1.0.0'
   object List: TCheckListBox
     Left = 6
-    Height = 299
+    Height = 303
     Top = 6
-    Width = 708
+    Width = 879
     Align = alClient
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
@@ -33,16 +33,16 @@ object fmSaveTabs: TfmSaveTabs
   end
   object Panel1: TATPanelSimple
     Left = 0
-    Height = 45
-    Top = 305
-    Width = 720
+    Height = 41
+    Top = 309
+    Width = 891
     Align = alBottom
     AutoSize = True
     object btnSave: TButton
       AnchorSideTop.Control = btnDontSave
       AnchorSideRight.Control = btnDontSaveKeep
-      Left = 227
-      Height = 33
+      Left = 402
+      Height = 29
       Top = 6
       Width = 90
       Anchors = [akTop, akRight]
@@ -57,8 +57,8 @@ object fmSaveTabs: TfmSaveTabs
     object btnDontSave: TButton
       AnchorSideTop.Control = btnCancel
       AnchorSideRight.Control = btnCancel
-      Left = 528
-      Height = 33
+      Left = 699
+      Height = 29
       Top = 6
       Width = 90
       Anchors = [akTop, akRight]
@@ -73,8 +73,8 @@ object fmSaveTabs: TfmSaveTabs
       AnchorSideTop.Control = Panel1
       AnchorSideRight.Control = Panel1
       AnchorSideRight.Side = asrBottom
-      Left = 624
-      Height = 33
+      Left = 795
+      Height = 29
       Top = 6
       Width = 90
       Anchors = [akTop, akRight]
@@ -89,10 +89,10 @@ object fmSaveTabs: TfmSaveTabs
     object btnDontSaveKeep: TButton
       AnchorSideTop.Control = btnCancel
       AnchorSideRight.Control = btnDontSave
-      Left = 323
-      Height = 33
+      Left = 498
+      Height = 29
       Top = 6
-      Width = 199
+      Width = 195
       Anchors = [akTop, akRight]
       AutoSize = True
       BorderSpacing.Right = 6
@@ -104,9 +104,9 @@ object fmSaveTabs: TfmSaveTabs
     object btnToggle: TButton
       AnchorSideTop.Control = btnDontSave
       Left = 6
-      Height = 33
+      Height = 29
       Top = 6
-      Width = 60
+      Width = 56
       AutoSize = True
       BorderSpacing.Left = 6
       Caption = 'Toggle'
