@@ -14,6 +14,8 @@
 + add: auto scale 'margin lines' width (thanks @Shovel)
 + add: Project Manager: big speed up of "Go to file" with ~1000 files (thanks @dopm)
 + add: dialogs "Themes", "Color theme" are now resizable; dialog "Themes" is now scalable (thanks @Lastique)
+- fix: Qt5 version: plugin dialogs blinking on Alt+Tab (thanks @Lastique)
+- fix: Windows XP: themed menu font size was incorrect (thanks @zanud)
 - fix: regression with commands "left"/"right" not scrolling to caret (thanks @Jairo-Martinez)
 - fix: regression with bad positioning of tab-groups 'splitters' on start (thanks @GHNewbiee)
 - fix: option "saving_trim_spaces" didn't move caret to shorter line end (thanks @GHNewbiee)
