@@ -184,6 +184,7 @@ type
     ThemeUi_Loaded: boolean;
     ThemeSyntax_Loaded: boolean;
     ThemedMainMenu: boolean;
+    ThemedMainMenuFontName: string;
     ThemedMainMenuFontSize: integer;
 
     SidebarShow: boolean;
@@ -1470,6 +1471,20 @@ begin
   Result:= WidgetSet.GetLCLCapability(lcCanDrawOutsideOnPaint) = LCL_CAPABILITY_YES;
 end;
 
+{$ifdef windows}
+procedure Win32GetUserFont(var AFontName: string; var AFontSize: Integer);
+// https://github.com/Alexey-T/CudaText/issues/3039
+var
+  lf: LOGFONT;
+begin
+  ZeroMemory(@lf, SizeOf(lf));
+  if SystemParametersInfo(SPI_GETICONTITLELOGFONT, SizeOf(lf), @lf, 0) then
+  begin
+    AFontName := PChar(Addr(lf.lfFaceName[0]));
+    AFontSize := MulDiv(-lf.lfHeight, 72, GetDeviceCaps(GetDC(0), LOGPIXELSY));
+  end;
+end;
+{$endif}
 
 procedure InitUiOps(var Op: TUiOps);
 var
@@ -1506,42 +1521,12 @@ begin
     ThemeSyntax_Loaded:= false;
 
     ThemedMainMenu:= true;
+    ThemedMainMenuFontName:= 'default';
     ThemedMainMenuFontSize:= 9;
     {$ifdef windows}
-    {
-    maybe read the actual menu font size from registry,
-    https://github.com/Alexey-T/CudaText/issues/3039
-    On Windows it is encoded in a first byte of
-    HKCU\Control Panel\Desktop\WindowMetrics\MenuFont
-    binary (REG_BINARY) parameter, and can be calculated from it as
-    256 - V - (258 - V) DIV 4
-    where V is value of the above mentioned byte, or selected from a lookup table:
-
-    ff -> 1
-
-    fd -> 2
-    fc -> 3
-    fb -> 4
-
-    f9 -> 5
-    f8 -> 6
-    f7 -> 7
-
-    f5 -> 8
-    f4 -> 9
-    f3 -> 10
-
-    f1 -> 11
-    f0 -> 12
-    ef -> 13
-
-    ed -> 14
-    ec -> 15
-    eb -> 16
-    etc.
-    }
-    if Win32MajorVersion<6 then //WinXP: default menu font size is 8
+    if Win32MajorVersion<6 then //Win XP
       ThemedMainMenuFontSize:= 8;
+    Win32GetUserFont(ThemedMainMenuFontName, ThemedMainMenuFontSize);
     {$endif}
 
     AutocompleteHtml_Lexers:= '.*HTML.*|\bPHP\b';

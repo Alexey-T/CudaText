@@ -185,6 +185,7 @@ var
 {$endif}
 begin
   {$ifdef windows}
+  MenuStylerTheme.FontName:= UiOps.ThemedMainMenuFontName;
   MenuStylerTheme.FontSize:= UiOps.ThemedMainMenuFontSize;
 
   NColor:= GetAppColor(apclMenuBg);
