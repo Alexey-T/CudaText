@@ -9,7 +9,7 @@
 + add: Wiki topic https://wiki.freepascal.org/CudaText#HTML_color_codes_underlining
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Automatic_folding_of_comments
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Show_pictures_in_the_text
-+ add: commands 'typing a char'/'backspace'/'delete'/'undo'/'redo' now don't scroll to last caret, like in Sublime (thanks @Jairo-Martinez)
++ add: commands 'type a char'/'backspace'/'delete'/'undo'/'redo'/'left'/'right', when with multi-carets, should not scroll to first(last) caret (thanks @Jairo-Martinez)
 + add: commands 'indent selection'/'unindent selection' now support multi-carets
 + add: auto scale 'margin lines' width (thanks @Shovel)
 + add: Project Manager: big speed up of "Go to file" with ~1000 files (thanks @dopm)
