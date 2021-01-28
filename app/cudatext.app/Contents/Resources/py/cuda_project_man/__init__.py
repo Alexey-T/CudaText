@@ -714,7 +714,7 @@ class Command:
             return
 
         items_nice = [os.path.basename(fn)+'\t'+os.path.dirname(fn) for fn in items]
-        res = dlg_menu(MENU_LIST, '\n'.join(items_nice), caption='Recent projects')
+        res = dlg_menu(MENU_LIST, items_nice, caption=_('Recent projects'))
         if res is None:
             return
 
@@ -942,8 +942,7 @@ class Command:
         files.sort()
         files_nice = [os.path.basename(fn)+'\t'+os.path.dirname(fn) for fn in files]
 
-        # disable fuzzy search in menu
-        res = dlg_menu(MENU_LIST_ALT+MENU_NO_FUZZY+MENU_NO_FULLFILTER,
+        res = dlg_menu(MENU_LIST_ALT+MENU_NO_FULLFILTER, #fuzzy search is needed for users
                        files_nice,
                        caption=_('Go to file')
                        )
