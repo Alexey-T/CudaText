@@ -1720,7 +1720,7 @@ Param "id_action" possible values:
 * TOOLBAR_DELETE_ALL: Deletes all buttons.
 * TOOLBAR_DELETE_BUTTON: Deletes one button. Param "index": button index.
 * TOOLBAR_ADD_ITEM: Adds one button, of usual kind. Returns its handle. Param "index": button index at which to insert, -1 to append.
-* TOOLBAR_ADD_MENU: Adds one button, with submenu. Returns its handle. Param "index": button index at which to insert, -1 to append.
+* TOOLBAR_ADD_MENU: Adds one button, with submenu appearing by left click (not context menu). Returns its handle. Param "index": button index at which to insert, -1 to append.
 * TOOLBAR_UPDATE: Updates buttons positions and sizes (for current size of image-list, current captions etc).
 * TOOLBAR_GET_VERTICAL: Returns vertical state of toolbar.
 * TOOLBAR_SET_VERTICAL: Sets vertical state of toolbar. Param "index": bool value.
