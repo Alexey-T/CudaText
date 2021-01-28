@@ -7918,6 +7918,11 @@ begin
                 Py_ObjectHandle(FToolbar.Buttons[NIndex1]));
           end;
 
+        TOOLBAR_GET_INDEX_HOVERED:
+          begin
+            Result:= PyLong_FromLong(FToolbar.ButtonWithMouseOver);
+          end;
+
         TOOLBAR_GET_COUNT:
           begin
             Result:= PyLong_FromLong(FToolbar.ButtonCount);
