@@ -852,41 +852,41 @@ Deprecated. Tuple of advanced control-specific properties. See description of pr
 
 Props "ex0"..."ex9" are control-specific. They have different simple type (str, bool, int...).
 
-* button:
+* "button":
 ** "ex0": bool: default for Enter key
-* edit, memo:
+* "edit", "memo":
 ** "ex0": bool: read-only
 ** "ex1": bool: font is monospaced
 ** "ex2": bool: show border
-* spinedit:
+* "spinedit":
 ** "ex0": int: min value
 ** "ex1": int: max value
 ** "ex2": int: increment
-* label:
+* "label":
 ** "ex0": bool: right aligned
-* linklabel:
+* "linklabel":
 ** "ex0": str: URL. Should not have ",". Clicking on http:/mailto: URLs should work, result of clicking on other kinds depends on OS.
-* listview:
+* "listview":
 ** "ex0": bool: show grid lines
-* radiogroup:
+* "radiogroup":
 ** "ex0": int: 0: arrange items horizontally then vertically (default); 1: opposite
-* tabs:
-** "ex0": bool: show tabs at bottom
-* colorpanel:
+* "tabs", "pages":
+** "ex0": int: 0: tab position on top, 1: on bottom, 2: on left, 3: on right
+* "colorpanel":
 ** "ex0": int: border width (from 0)
 ** "ex1": int: color of fill
 ** "ex2": int: color of font
 ** "ex3": int: color of border
-* filter_listview:
+* "filter_listview":
 ** "ex0": bool: filter works for all columns
-* image:
+* "image":
 ** "ex0": bool: center picture
 ** "ex1": bool: stretch picture
 ** "ex2": bool: allow stretch in
 ** "ex3": bool: allow stretch out
 ** "ex4": bool: keep origin x, when big picture clipped
 ** "ex5": bool: keep origin y, when big picture clipped
-* trackbar:
+* "trackbar":
 ** "ex0": int: orientation (0: horz, 1: vert)
 ** "ex1": int: min value
 ** "ex2": int: max value
@@ -895,7 +895,7 @@ Props "ex0"..."ex9" are control-specific. They have different simple type (str, 
 ** "ex5": bool: reversed
 ** "ex6": int: tick marks position (0: bottom-right, 1: top-left, 2: both)
 ** "ex7": int: tick style (0: none, 1: auto, 2: manual)
-* progressbar:
+* "progressbar":
 ** "ex0": int: orientation (0: horz, 1: vert, 2: right-to-left, 3: top-down)
 ** "ex1": int: min value
 ** "ex2": int: max value
@@ -903,7 +903,7 @@ Props "ex0"..."ex9" are control-specific. They have different simple type (str, 
 ** "ex4": int: step
 ** "ex5": int: style (0: normal, 1: marquee)
 ** "ex6": bool: show text (only for some OSes)
-* progressbar_ex:
+* "progressbar_ex":
 ** "ex0": int: style (0: text only, 1: horz bar, 2: vert bar, 3: pie, 4: needle, 5: half-pie)
 ** "ex1": int: min value
 ** "ex2": int: max value
@@ -911,9 +911,9 @@ Props "ex0"..."ex9" are control-specific. They have different simple type (str, 
 ** "ex4": int: color of background
 ** "ex5": int: color of foreground
 ** "ex6": int: color of border
-* bevel:
+* "bevel":
 ** "ex0": int: shape (0: sunken panel, 1: 4 separate lines - use it as border for group of controls, 2: top line, 3: bottom line, 4: left line, 5: right line, 6: no lines, empty space)
-* splitter:
+* "splitter":
 ** "ex0": bool: paint border
 ** "ex1": bool: on mouse drag, use instant repainting (else splitter paints after mouse released)
 ** "ex2": bool: auto jump to edge, when size of linked control becomes < min size
@@ -4092,7 +4092,9 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: tree_proc: added result key "data" for TREE_ITEM_GET_PROPS
 * add: tree_proc: added TREE_ITEM_ENUM_EX
 
-1.0.359 (app 1.123.0)
+1.0.360 (app 1.123.0)
 * add: dlg_proc: controls "tabs"/"pages" give property "tab_hovered"
+* change: dlg_proc: control "tabs" gives prop "ex0" with 4 values '0'..'3', previously it was bool '0'/'1'
+* add: dlg_proc: control "pages" gives property "ex0" for tab-position
 
 [[Category:CudaText]]
