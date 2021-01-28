@@ -829,14 +829,16 @@ Example of 3 entered lines and their log in console:
 
 Command Palette is a dialog which shows all embedded and external (plugin) commands in a single list. To call it, use hotkey Ctrl+Shift+P (or alias hotkey F1). To configure hotkey for some command in Palette, focus this command in listbox and press F9 - additional dialog will appear. CudaText remembers last chosen listbox item in the history file.
 
-Command Palette (and menu-like dialog in Python API) has filter field. Filter supports fuzzy search, if the option "ui_listbox_fuzzy" is on. "Fuzzy" means that filter leaves only those listbox items, which contain all filter chars in ascending order. Example of fuzzy matches:
+Command Palette (and menu-like dialog in Python API) has the filter field. Filter supports fuzzy search, if the option "ui_listbox_fuzzy" is on. "Fuzzy" means that filter leaves only those listbox items, which contain all filter chars in ascending order. Example of fuzzy matches:
 
 * "fop" matches "<font color=red>f</font>ile: <font color=red>op</font>en file"
 * "gttb" matches "<font color=red>g</font>o<font color=red>t</font>o <font color=red>t</font>ext <font color=red>b</font>egin"
 
 If option is off, filter uses normal search. "Normal" means that filter leaves only those listbox items, which contain all words from the filter (in any order).
 
-[[File:cudatext cmd dlg.png]]
+Screenshot shows two Command Palette calls with some filtering: one when the "fuzzy" is on, and another when it's off.
+
+[[File:cudatext-fuzzy-and-normal.png]]
 
 Filter field can find hotkeys too. Enter only hotkey substring, with first "@" char. E.g. "@ho" finds "Ctrl+Home". This search is not fuzzy.
 
