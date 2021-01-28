@@ -307,6 +307,13 @@ class Command:
         print('callback_statusbar_click: id_dlg={}; id_ctl={}; data={}; info={};'.format(
             id_dlg, id_ctl, data, info))
 
+    def callback_toolbar_menu(self, id_dlg, id_ctl, data='', info=''):
+        print('callback_toolbar_menu')
+        id_bar = dlg_proc(id_dlg, DLG_CTL_HANDLE, name='tb')
+        cnt = toolbar_proc(id_bar, TOOLBAR_GET_COUNT)
+        index = toolbar_proc(id_bar, TOOLBAR_GET_INDEX_HOVERED)
+        print('buttons count: %d, index hovered: %d'%(cnt, index))
+
     def init_buttondlg(self):
         h=dlg_proc(0, DLG_CREATE)
         dlg_proc(h, DLG_PROP_SET, prop={
@@ -1010,6 +1017,7 @@ int main(int argc, char *argv[])
             'h': 40,
             'align': ALIGN_TOP,
             'color': 0x80B080,
+            'on_menu': self.callback_toolbar_menu,
             })
 
         tb_id = dlg_proc(id, DLG_CTL_HANDLE, index=n)
