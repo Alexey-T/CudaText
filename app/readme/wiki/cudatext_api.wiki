@@ -1716,6 +1716,7 @@ Param "id_action" possible values:
 * TOOLBAR_GET_IMAGELIST: Returns int handle of image-list object.
 * TOOLBAR_GET_BUTTON_HANDLE: Returns int handle of button to use in button_proc(), or None if index not correct. Param "index": button index.
 * TOOLBAR_GET_BUTTON_HANDLES: Returns list of handles of all buttons.
+* TOOLBAR_GET_INDEX_HOVERED: Returns index of button under mouse cursor, or -1 if none.
 * TOOLBAR_DELETE_ALL: Deletes all buttons.
 * TOOLBAR_DELETE_BUTTON: Deletes one button. Param "index": button index.
 * TOOLBAR_ADD_ITEM: Adds one button, of usual kind. Returns its handle. Param "index": button index at which to insert, -1 to append.
@@ -4096,7 +4097,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.360 (app 1.123.0)
 * add: dlg_proc: controls "tabs"/"pages" give property "tab_hovered"
-* change: dlg_proc: control "tabs" gives prop "ex0" with 4 values '0'..'3', previously it was bool '0'/'1'
 * add: dlg_proc: control "pages" gives property "ex0" for tab-position
+* change: dlg_proc: control "tabs" gives prop "ex0" with 4 values '0'..'3', previously it was bool '0'/'1'
+* add: toolbar_proc: add TOOLBAR_GET_INDEX_HOVERED
 
 [[Category:CudaText]]
