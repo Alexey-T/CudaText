@@ -1877,7 +1877,9 @@ Possible values of "id_action":
 * BTN_SET_FOCUSABLE: Sets focusable state. Param "value" must be bool.
 * BTN_GET_FLAT: Returns flat state, bool.
 * BTN_SET_FLAT: Sets flat state. Param "value" must be bool.
-* BTN_GET_DATA1: Returns data1 string. Data1 contains str(integer_command_code), or string with [[#Callback_param]].
+* BTN_GET_DATA1: Returns data1 string. Data1 contains:
+** str(integer_command_code) to run command by number like Editor.cmd()
+** or string with [[#Callback_param]]. Note: not any callback form, only string callback form
 * BTN_SET_DATA1: Sets data1 string. See BTN_GET_DATA1.
 * BTN_GET_DATA2: Returns data2 string. Data2 is currently not used by CudaText.
 * BTN_SET_DATA2: Sets data2 string. See BTN_GET_DATA2.
