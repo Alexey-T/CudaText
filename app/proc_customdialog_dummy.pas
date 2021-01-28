@@ -290,7 +290,7 @@ begin
   Position:= poMainFormCenter;
   ShowHint:= true;
   Scaled:= false;
-  ShowInTaskBar:= stNever;
+  ShowInTaskBar:= UiOps.PluginDialogsShowInTaskbar;
 
   IsDlgCustom:= false;
   IsFormShownAlready:= false;

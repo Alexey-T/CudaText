@@ -1057,7 +1057,7 @@ begin
     if FOption_AllowSessionLoad=aalsNotGood then
       FOption_AllowSessionLoad:= aalsEnable;
   UiOps.AutoSaveSession:= cfg.GetValue('ui_auto_save_session', UiOps.AutoSaveSession);
-  //UiOps.FloatGroupsInTaskbar:= cfg.GetValue('ui_float_groups_in_taskbar', UiOps.FloatGroupsInTaskbar);
+
   UiOps.OneInstance:= cfg.GetValue('ui_one_instance', UiOps.OneInstance);
   UiOps.UndoPersistent:= cfg.GetValue('undo_persistent', UiOps.UndoPersistent);
   UiOps.AllowSaveOfUnmodifiedFile:= cfg.GetValue('ui_save_always', UiOps.AllowSaveOfUnmodifiedFile);

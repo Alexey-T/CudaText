@@ -339,7 +339,8 @@ type
     UndoPersistent: string;
     AllowSaveOfUnmodifiedFile: boolean;
 
-    FloatGroupsInTaskbar: boolean;
+    PluginDialogsShowInTaskbar: TShowInTaskbar;
+    FloatGroupsShowInTaskbar: TShowInTaskbar;
     OneInstance: boolean;
     NotificationEnabled: boolean;
     NotificationTimeSeconds: integer;
@@ -1704,7 +1705,8 @@ begin
     UndoPersistent:= '';
     AllowSaveOfUnmodifiedFile:= true;
 
-    FloatGroupsInTaskbar:= true;
+    PluginDialogsShowInTaskbar:= stNever;
+    FloatGroupsShowInTaskbar:= stAlways;
     OneInstance:= false;
     NotificationEnabled:= true;
     NotificationTimeSeconds:= 2;

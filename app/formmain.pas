@@ -7101,11 +7101,7 @@ begin
 
     F.AllowDropFiles:= true;
     F.OnDropFiles:= @FormFloatGroups_OnDropFiles;
-
-    if UiOps.FloatGroupsInTaskbar then
-      F.ShowInTaskBar:= stAlways
-    else
-      F.ShowInTaskBar:= stNever;
+    F.ShowInTaskBar:= UiOps.FloatGroupsShowInTaskbar;
 
     G:= TATGroups.Create(Self);
     G.Pages1.EnabledEmpty:= true;
