@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Controls, StdCtrls, ExtCtrls, Forms,
-  CheckLst, Spin, ComCtrls, Dialogs,
+  CheckLst, Spin, ComCtrls, Dialogs, Math,
   ListFilterEdit,
   ListViewFilterEdit,
   LclIntf, LclProc, LclType,
@@ -1096,6 +1096,8 @@ end;
 procedure DoControl_SetEx(C: TControl; const S: string; AIndex: integer);
 const
   cResizeStyle: array[boolean] of TResizeStyle = (rsPattern, rsUpdate);
+var
+  N: integer;
 begin
   if C is TButton then
   begin
@@ -1172,13 +1174,15 @@ begin
     exit
   end;
 
-  if (C is TTabControl) then
+  if (C is TCustomTabControl) then
   begin
     case AIndex of
       0:
         begin
-          if AppStrToBool(S) then
-            TTabControl(C).TabPosition:= tpBottom;
+          //possible values: '0'..'3'
+          N:= StrToIntDef(S, 0);
+          N:= Max(0, Min(3, N));
+          TCustomTabControl(C).TabPosition:= TTabPosition(N);
         end;
     end;
     exit
