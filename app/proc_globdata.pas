@@ -340,6 +340,7 @@ type
     AllowSaveOfUnmodifiedFile: boolean;
 
     PluginDialogsShowInTaskbar: TShowInTaskbar;
+    PluginDialogsModalFormStyle: TFormStyle;
     FloatGroupsShowInTaskbar: TShowInTaskbar;
     OneInstance: boolean;
     NotificationEnabled: boolean;
@@ -1706,6 +1707,7 @@ begin
     AllowSaveOfUnmodifiedFile:= true;
 
     PluginDialogsShowInTaskbar:= stNever;
+    PluginDialogsModalFormStyle:= {$ifdef LCLQT5} fsNormal {$else} fsStayOnTop {$endif};
     FloatGroupsShowInTaskbar:= stAlways;
     OneInstance:= false;
     NotificationEnabled:= true;

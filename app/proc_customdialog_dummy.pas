@@ -885,7 +885,7 @@ begin
     end;
   end;
 
-  FormStyle:= fsStayOnTop;
+  FormStyle:= UiOps.PluginDialogsModalFormStyle;
   Show;
 end;
 
