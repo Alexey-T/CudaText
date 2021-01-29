@@ -6383,6 +6383,7 @@ var
   TreeNode, Node1: TTreeNode;
   ItemList: TFPList;
   Sep: TATStringSeparator;
+  Obj: TObject;
   ObjData: TAppTreeNodeData;
   i: integer;
 begin
@@ -6542,10 +6543,15 @@ begin
           begin
             if Assigned(TreeNode) then
             begin
+              StrData:= '';
               if Assigned(TreeNode.Data) then
-                StrData:= TAppTreeNodeData(TreeNode.Data).DataString
-              else
-                StrData:= '';
+              begin
+                Obj:= TObject(TreeNode.Data);
+                if Obj is TAppTreeNodeData then
+                  StrData:= TAppTreeNodeData(Obj).DataString;
+                //else
+                //  MsgLogConsole('NOTE: tree_proc(TREE_ITEM_GET_PROPS,...) get wrong type for Data');
+              end;
 
               Result:= Py_BuildValue('{sssisisisisLsOsOsOss}',
                        'text',
