@@ -6446,10 +6446,14 @@ begin
               for i:= 0 to ItemList.Count-1 do
               begin
                 Node1:= TTreeNode(ItemList[i]);
-                if Node1.Data=nil then
-                  StrData:= ''
-                else
-                  StrData:= TAppTreeNodeData(Node1.Data).DataString;
+
+                StrData:= '';
+                if Node1.Data<>nil then
+                begin
+                  Obj:= TObject(Node1.Data);
+                  if Obj is TAppTreeNodeData then
+                    StrData:= (Obj as TAppTreeNodeData).DataString;
+                end;
 
                 PyList_SetItem(Result, i,
                   Py_BuildValue('{sLsssssisO}',
@@ -6544,13 +6548,11 @@ begin
             if Assigned(TreeNode) then
             begin
               StrData:= '';
-              if Assigned(TreeNode.Data) then
+              if TreeNode.Data<>nil then
               begin
                 Obj:= TObject(TreeNode.Data);
                 if Obj is TAppTreeNodeData then
-                  StrData:= TAppTreeNodeData(Obj).DataString;
-                //else
-                //  MsgLogConsole('NOTE: tree_proc(TREE_ITEM_GET_PROPS,...) get wrong type for Data');
+                  StrData:= (Obj as TAppTreeNodeData).DataString;
               end;
 
               Result:= Py_BuildValue('{sssisisisisLsOsOsOss}',
