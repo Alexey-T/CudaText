@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: allow multi-selections to touch (thanks @Jairo-Martinez)
+
 1.123.0 (2021/01)
 
 + add: support HTML color-codes highlighting in text background, option "underline_color_size" needs special value for this (thanks @pagewerk)
