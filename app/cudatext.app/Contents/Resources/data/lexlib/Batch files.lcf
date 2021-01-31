@@ -71,6 +71,14 @@ object SyntAnal3: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'Exec block'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -101,7 +109,7 @@ object SyntAnal3: TLibSyntAnalyzer
       DisplayName = 'Variable'
       StyleName = 'Var'
       TokenType = 7
-      Expression = '%\d | %\w+%'
+      Expression = '%\d | %~\w+ | %%\w+ | %\w[\w\(\):~\.\,]*%'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -145,6 +153,14 @@ object SyntAnal3: TLibSyntAnalyzer
       StyleName = 'Number'
       TokenType = 5
       Expression = '0x[0-9a-f]+\b | \d+\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Exec'
+      StyleName = 'Exec block'
+      TokenType = 8
+      Expression = '`.+?`'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -448,7 +464,12 @@ object SyntAnal3: TLibSyntAnalyzer
     'if %errorlevel% equ 2 echo File not found'
     'if errorlevel 1 echo Error in copy action'
     'goto label'
-    'ping 10.10.10.100')
+    'ping 10.10.10.100'
+    
+      'for /f "usebackq" %%i in (`PowerShell ^(Get-Date^).ToString^('#39'yy' +
+      #39'^)`) do set datestamp=%%i'
+    'set revision=%1'
+    'set package_version=11.0.1-%revision:~0,8%')
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
@@ -457,7 +478,8 @@ object SyntAnal3: TLibSyntAnalyzer
     'String'
     'Number'
     'Symbol'
-    'Var')
+    'Var'
+    'Exec')
   Extentions = 'bat cmd'
   LexerName = 'Batch files'
   SkipSpaces = False
