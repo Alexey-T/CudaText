@@ -4593,6 +4593,14 @@ begin
             Result:= Py_ObjectHandle(fmMain.ImageListTabs);
           end;
 
+        APP_PROC_GET_CONSOLE_FORM:
+          begin
+            if Assigned(fmConsole) then
+              Result:= Py_ObjectHandle(fmConsole)
+            else
+              Result:= ReturnNone;
+          end;
+
         APP_PROC_GET_CODETREE:
           begin
             Result:= Py_ObjectHandle(fmMain.CodeTree);
