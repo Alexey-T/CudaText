@@ -2038,6 +2038,40 @@ This can be done in CudaText like this:
 * Install plugin "Config Toolbar".
 * Call config dialog via "Plugins / Config Toolbar / Configure buttons". In that dialog, add a button. In the button properties, choose your recorded macro command ("Choose command" button). This will add toolbar button for your macro. Customize this button as you wish (any icon, caption, tooltip).
 
+==Troubleshooting the Windows shell extension for CudaText==
+Question of a user: Why on my PC, CudaText context menu item does not work, but some error message is shown?
+
+Answer from the author of shell extension: What kind of item did you right-click when the above error message appeared? The context menu item works for all types of files, folders, disk drives, desktop links to these items, the desktop background and the background of an Explorer window showing a folder's content. Other kinds of right-clicked items should not show the context menu item.
+
+In your screenshot it seems like the CudaText context menu entry has no icon. Is this correct? Since the icon is extracted from the file cudatext.exe, the absence of the icon would confirm that cudatext.exe wasn't found by the shell extension.
+
+In case you right-clicked a suitable item and the icon is missing from the context menu item, let's try to install the shell extension manually. To do that please follow the steps below.
+
+At first ensure that all the files
+
+* cudatext.exe
+* cudatext_shell64.dll
+* install_shell64.cmd
+* uninstall_shell64.cmd
+
+are stored in the same folder (I guess C:\cudatext in your case). Now execute uninstall_shell64.cmd by double-clicking it and confirm the UAC dialog (asking for admin rights) popping up. This uninstalls the failing shell extension. Close all programs and log off or restart Windows.
+
+Login in again and ensure that the CudaText context menu item has disappeared. If this is not the case stop at this point and come back to obtain further instructions.
+
+Now start a Windows console with administrative rights. If you don't know how to do that search in Yandex or Google to learn it.
+
+Now use the CD command to navigate to the folder where the above files are stored (I guess C:\cudatext in your case). You should end up with a command prompt that looks like
+
+ C:\cudatext>
+
+Now type the following command into your console window:
+
+ regsvr32 "C:\cudatext\cudatext_shell64.dll"
+
+You should see a confirmation message that indicates a successful registration of the DLL or an error message. In the latter case, please come back and post the original error message.
+
+In case of success, check the Explorer context menu to see if there is a CudaText menu item that has an icon. Right click for example a *.txt file and select Open with CudaText from the context menu.
+
 =Formats of files=
 ==Format of auto-completion acp file==
 
