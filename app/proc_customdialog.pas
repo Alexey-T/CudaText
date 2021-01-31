@@ -51,6 +51,8 @@ function DoControl_GetAutoHeight(const Id: string): integer;
 procedure DoControl_CreateNew(const S: string; AForm: TFormDummy; out Ctl: TControl);
 function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
 procedure DoControl_SetPropsFromStringDict(C: TControl; const AText: string);
+procedure DoControl_InitPropsObject(Ctl: TControl; AForm: TFormDummy; const ATypeName: string);
+
 function DoForm_GetPropsAsStringDict(F: TFormDummy): PPyObject;
 procedure DoForm_SetPropsFromStringDict(F: TFormDummy; const AText: string);
 procedure DoForm_AdjustLabelForNewControl(F: TForm; Ctl: TControl);

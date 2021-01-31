@@ -28,6 +28,7 @@ uses
   proc_str,
   proc_colors,
   proc_globdata,
+  proc_customdialog,
   proc_customdialog_dummy,
   proc_msg;
 
@@ -250,6 +251,7 @@ begin
     FAdapter.OnGetLineColor:= @DoGetLineColor;
 
     EdInput:= TATComboEdit.Create(fmConsole);
+    EdInput.Name:= 'input';
     EdInput.Parent:= fmConsole;
     EdInput.Align:= alBottom;
     EdInput.WantTabs:= false;
@@ -261,6 +263,7 @@ begin
     EdInput.OptBorderWidthFocused:= 1;
 
     EdMemo:= TATSynEdit.Create(fmConsole);
+    EdMemo.Name:= 'memo';
     EdMemo.Parent:= fmConsole;
     EdMemo.Align:= alClient;
     EdMemo.BorderStyle:= bsNone;
@@ -294,6 +297,9 @@ begin
     EdMemo.OnClickDouble:= @MemoClickDbl;
     EdMemo.OnCommand:= @MemoCommand;
     EdMemo.OnContextPopup:= @MemoContextPopup;
+
+    DoControl_InitPropsObject(EdInput, fmConsole, 'editor_edit');
+    DoControl_InitPropsObject(EdMemo, fmConsole, 'editor');
 
     try
       cfg:= TJSONConfig.Create(nil);
