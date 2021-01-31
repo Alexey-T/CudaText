@@ -4,6 +4,7 @@
   * changed
 
 + add: allow multi-selections to touch, without joining them (thanks @Jairo-Martinez, @cser)
++ add: lexer Batch: highlight `tick_blocks`; highlight variables with chars ~.,()
 
 1.123.0 (2021/01)
 
