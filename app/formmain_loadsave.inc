@@ -661,7 +661,6 @@ begin
 
     ////recents
     cfg.GetValue('/recent_files', AppListRecents, '');
-    cfg.GetValue('/list_console', fmConsole.EdInput.Items, '');
     UpdateMenuRecent(nil);
 
     ////finder

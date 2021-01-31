@@ -78,8 +78,11 @@ begin
   ListboxVal.Invalidate;
 
   EditorApplyTheme(CodeTreeFilterInput);
-  EditorApplyTheme(fmConsole.EdInput);
-  EditorApplyTheme(fmConsole.EdMemo);
+  if Assigned(fmConsole) then
+  begin
+    EditorApplyTheme(fmConsole.EdInput);
+    EditorApplyTheme(fmConsole.EdMemo);
+  end;
 
   ToolbarMain.Color:= GetAppColor(apclTabBg);
   Self.Color:= ToolbarMain.Color;

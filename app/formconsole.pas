@@ -15,6 +15,7 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   Menus, LclType,
   PythonEngine,
+  at__jsonConf,
   ATStrings,
   ATSynEdit,
   ATSynEdit_Edits,
@@ -27,6 +28,7 @@ uses
   proc_str,
   proc_colors,
   proc_globdata,
+  proc_customdialog_dummy,
   proc_msg;
 
 type
@@ -36,9 +38,8 @@ type
 
 type
   { TfmConsole }
-  TfmConsole = class(TForm)
-    panelConsole: TPanel;
-    procedure FormCreate(Sender: TObject);
+
+  TfmConsole = class(TFormDummy)
   private
     { private declarations }
     FAdapter: TATAdapterSimple;
@@ -77,7 +78,9 @@ type
   end;
 
 var
-  fmConsole: TfmConsole;
+  fmConsole: TfmConsole = nil;
+
+procedure InitConsole;
 
 const
   cConsoleMaxLines = 1000;
@@ -90,7 +93,7 @@ const
 
 implementation
 
-{$R *.lfm}
+//{$R *.lfm} //not needed for console
 
 { TfmConsole }
 
@@ -232,56 +235,77 @@ begin
 end;
 
 
-procedure TfmConsole.FormCreate(Sender: TObject);
+procedure InitConsole;
+var
+  cfg: TJSONConfig;
 begin
-  FAdapter:= TATAdapterSimple.Create(Self);
-  FAdapter.OnGetLineColor:= @DoGetLineColor;
+  if Assigned(fmConsole) then exit;
+  fmConsole:= TfmConsole.Create(nil);
+  with fmConsole do
+  begin
+    ShowInTaskBar:= stNever;
+    BorderStyle:= bsNone;
 
-  EdInput:= TATComboEdit.Create(Self);
-  EdInput.Parent:= Self;
-  EdInput.Align:= alBottom;
-  EdInput.WantTabs:= false;
-  EdInput.TabStop:= true;
-  EdInput.OnCommand:= @ComboCommand;
+    FAdapter:= TATAdapterSimple.Create(fmConsole);
+    FAdapter.OnGetLineColor:= @DoGetLineColor;
 
-  EdInput.OptTabSize:= 4;
-  EdInput.OptBorderWidth:= 1;
-  EdInput.OptBorderWidthFocused:= 1;
+    EdInput:= TATComboEdit.Create(fmConsole);
+    EdInput.Parent:= fmConsole;
+    EdInput.Align:= alBottom;
+    EdInput.WantTabs:= false;
+    EdInput.TabStop:= true;
+    EdInput.OnCommand:= @ComboCommand;
 
-  EdMemo:= TATSynEdit.Create(Self);
-  EdMemo.Parent:= Self;
-  EdMemo.Align:= alClient;
-  EdMemo.BorderStyle:= bsNone;
+    EdInput.OptTabSize:= 4;
+    EdInput.OptBorderWidth:= 1;
+    EdInput.OptBorderWidthFocused:= 1;
 
-  EdMemo.WantTabs:= false;
-  EdMemo.TabStop:= true;
-  EdMemo.AdapterForHilite:= FAdapter;
+    EdMemo:= TATSynEdit.Create(fmConsole);
+    EdMemo.Parent:= fmConsole;
+    EdMemo.Align:= alClient;
+    EdMemo.BorderStyle:= bsNone;
 
-  IsDoubleBuffered:= UiOps.DoubleBuffered;
+    EdMemo.WantTabs:= false;
+    EdMemo.TabStop:= true;
+    EdMemo.AdapterForHilite:= FAdapter;
 
-  EdMemo.OptWrapMode:= cWrapOn;
-  EdMemo.OptScrollbarsNew:= true;
-  EdMemo.OptUndoLimit:= 0;
+    IsDoubleBuffered:= UiOps.DoubleBuffered;
 
-  EdMemo.OptTabSize:= 4;
-  EdMemo.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
-  EdMemo.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
-  EdMemo.OptBorderWidth:= 0;
-  EdMemo.OptShowURLs:= false;
-  EdMemo.OptCaretVirtual:= false;
-  EdMemo.OptCaretManyAllowed:= false;
-  EdMemo.OptGutterVisible:= false;
-  EdMemo.OptRulerVisible:= false;
-  EdMemo.OptUnprintedVisible:= false;
-  EdMemo.OptMarginRight:= 2000;
-  EdMemo.ModeReadOnly:= true;
-  EdMemo.OptMouseRightClickMovesCaret:= true;
-  EdMemo.OptMouseWheelZooms:= false;
-  EdMemo.OptShowMouseSelFrame:= false;
+    EdMemo.OptWrapMode:= cWrapOn;
+    EdMemo.OptScrollbarsNew:= true;
+    EdMemo.OptUndoLimit:= 0;
 
-  EdMemo.OnClickDouble:= @MemoClickDbl;
-  EdMemo.OnCommand:= @MemoCommand;
-  EdMemo.OnContextPopup:= @MemoContextPopup;
+    EdMemo.OptTabSize:= 4;
+    EdMemo.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
+    EdMemo.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
+    EdMemo.OptBorderWidth:= 0;
+    EdMemo.OptShowURLs:= false;
+    EdMemo.OptCaretVirtual:= false;
+    EdMemo.OptCaretManyAllowed:= false;
+    EdMemo.OptGutterVisible:= false;
+    EdMemo.OptRulerVisible:= false;
+    EdMemo.OptUnprintedVisible:= false;
+    EdMemo.OptMarginRight:= 2000;
+    EdMemo.ModeReadOnly:= true;
+    EdMemo.OptMouseRightClickMovesCaret:= true;
+    EdMemo.OptMouseWheelZooms:= false;
+    EdMemo.OptShowMouseSelFrame:= false;
+
+    EdMemo.OnClickDouble:= @MemoClickDbl;
+    EdMemo.OnCommand:= @MemoCommand;
+    EdMemo.OnContextPopup:= @MemoContextPopup;
+
+    try
+      cfg:= TJSONConfig.Create(nil);
+      try
+        cfg.Filename:= AppFile_History;
+        cfg.GetValue('/list_console', EdInput.Items, '');
+      finally
+        FreeAndNil(cfg);
+      end;
+    except
+    end;
+  end;
 end;
 
 procedure TfmConsole.ComboCommand(Sender: TObject; ACmd: integer;

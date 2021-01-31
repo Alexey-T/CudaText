@@ -2315,7 +2315,7 @@ begin
   ListboxVal.OnContextPopup:= @ListboxValidateContextPopup;
 
   NTick:= GetTickCount64;
-  fmConsole:= TfmConsole.Create(Self);
+  InitConsole;
   fmConsole.OnConsoleNav:= @DoOnConsoleNav;
   fmConsole.OnNumberChange:= @DoOnConsoleNumberChange;
   if UiOps.LogConsoleDetailedStartupTime then
