@@ -4104,5 +4104,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.361 (app 1.123.1)
 * add: app_proc: PROC_GET_CONSOLE_FORM
+* deleted: editor objects "ed_con_log", "ed_con_in"
 
 [[Category:CudaText]]
