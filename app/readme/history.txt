@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-+ add: allow multi-selections to touch (thanks @Jairo-Martinez)
++ add: allow multi-selections to touch, without joining them (thanks @Jairo-Martinez, @cser)
 
 1.123.0 (2021/01)
 
