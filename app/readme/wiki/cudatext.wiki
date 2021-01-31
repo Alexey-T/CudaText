@@ -640,6 +640,8 @@ This works for both line-comments and stream-comments, they can be even mixed
 (one comment after another, with any amount of blank lines in between,
 but not for several stream-comments on a single line).
 
+[[File:cudatext-fold-comments.png]]
+
 Previously, CudaText allowed something like this, via lexer configuration: all needed lexers must have
 special settings inside them, and this worked for 2+ lines, not for custom value.
 After the option "auto_fold_comments" appeared, all 3rd-party lexers should be stripped of those old settings.
