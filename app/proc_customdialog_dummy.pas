@@ -524,7 +524,9 @@ end;
 
 procedure TFormDummy.DoOnResize;
 begin
-  if not (BorderStyle in [bsSizeable, bsSizeToolWin]) then exit;
+  //bsNone needed too: issue #3119
+  if not (BorderStyle in [bsNone, bsSizeable, bsSizeToolWin]) then exit;
+
   if not IsFormShownAlready then exit;
   DoEvent(-1, FEventOnResize, AppVariantNil);
 end;
