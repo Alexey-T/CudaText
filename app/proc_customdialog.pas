@@ -651,6 +651,7 @@ var
   Props: TAppControlProps;
 begin
   Props:= TAppControlProps.Create(ATypeName);
+  Props.FName:= Ctl.Name;
   if SBeginsWith(ATypeName, 'button') then
     Props.FActive:= true;
   Ctl.Tag:= PtrInt(Props);
