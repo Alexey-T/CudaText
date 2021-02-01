@@ -2735,14 +2735,17 @@ begin
 
         LOG_CONSOLE_CLEAR:
           begin
-            if (StrText='') or (Pos('m', StrText)>0) then
-              fmConsole.DoClearMemo(nil);
+            if Assigned(fmConsole) then
+            begin
+              if (StrText='') or (Pos('m', StrText)>0) then
+                fmConsole.DoClearMemo(nil);
 
-            if (StrText='') or (Pos('e', StrText)>0) then
-              fmConsole.DoClearInput(nil);
+              if (StrText='') or (Pos('e', StrText)>0) then
+                fmConsole.DoClearInput(nil);
 
-            if (StrText='') or (Pos('h', StrText)>0) then
-              fmConsole.DoClearHistory;
+              if (StrText='') or (Pos('h', StrText)>0) then
+                fmConsole.DoClearHistory;
+            end;
 
             Result:= ReturnNone;
           end;
@@ -2772,7 +2775,8 @@ begin
             List:= TStringList.Create;
             try
               List.TextLineBreakStyle:= tlbsLF;
-              List.Text:= UTF8Encode(fmConsole.EdMemo.Text);
+              if Assigned(fmConsole) then
+                List.Text:= UTF8Encode(fmConsole.EdMemo.Text);
               Result:= StringsToPyList(List);
             finally
               FreeAndNil(List);

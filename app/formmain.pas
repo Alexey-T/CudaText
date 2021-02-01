@@ -1977,6 +1977,7 @@ begin
   end;
 
   //flush saved Python "print" results to console
+  if Assigned(fmConsole) then
   if not AppConsoleQueue.IsEmpty() then
   begin
     //avoid output of huge items count at once
@@ -2614,7 +2615,10 @@ begin
     else
     if Btn.Caption=msgPanelConsole_Init then
     begin
-      NCount:= fmConsole.ErrorCounter;
+      if Assigned(fmConsole) then
+        NCount:= fmConsole.ErrorCounter
+      else
+        NCount:= 0;
       if NCount>0 then
         Btn.TextOverlay:= IntToStr(NCount)
       else
@@ -2743,8 +2747,8 @@ begin
       (ActiveControl.Parent is TEditorFrame);
     bConsoleActive:=
       Assigned(fmConsole) and
-      fmConsole.EdInput.Focused or
-      fmConsole.EdMemo.Focused;
+      (fmConsole.EdInput.Focused or
+       fmConsole.EdMemo.Focused);
 
     DoTooltipHide;
 
