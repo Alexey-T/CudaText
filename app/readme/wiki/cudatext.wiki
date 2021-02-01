@@ -2079,10 +2079,10 @@ In case a suitable item has been right-clicked and the icon is missing from the 
 
 At first ensure that all the files
 
-  * cudatext.exe
-  * CudaText_shell64.dll
-  * install_shell64.cmd
-  * uninstall_shell64.cmd
+* cudatext.exe
+* CudaText_shell64.dll
+* install_shell64.cmd
+* uninstall_shell64.cmd
 
 are stored in the same folder.
 
