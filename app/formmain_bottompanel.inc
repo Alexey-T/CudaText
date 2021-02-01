@@ -10,6 +10,7 @@ Copyright (c) Alexey Torgashin
 function TfmMain.IsFocusedBottom: boolean;
 begin
   Result:=
+    Assigned(fmConsole) and
     fmConsole.EdInput.Focused or
     fmConsole.EdMemo.Focused or
     ListboxOut.Focused or

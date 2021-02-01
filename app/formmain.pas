@@ -2742,6 +2742,7 @@ begin
       (ActiveControl is TATSynEdit) and
       (ActiveControl.Parent is TEditorFrame);
     bConsoleActive:=
+      Assigned(fmConsole) and
       fmConsole.EdInput.Focused or
       fmConsole.EdMemo.Focused;
 
@@ -3373,17 +3374,20 @@ begin
   CodeTreeFilterInput.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
   CodeTreeFilterReset.Width:= AppScale(UiOps.ScrollbarWidth);
 
-  EditorCaretPropsFromString(fmConsole.EdMemo.CaretPropsReadonly, EditorOps.OpCaretViewReadonly);
-  fmConsole.EdMemo.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
-  fmConsole.EdMemo.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
-  fmConsole.EdMemo.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
-  fmConsole.EdMemo.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
-  fmConsole.EdInput.Height:= AppScale(UiOps.InputHeight);
-  fmConsole.EdInput.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
-  fmConsole.EdInput.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
-  fmConsole.EdInput.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
-  fmConsole.EdInput.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
-  fmConsole.MemoWordWrap:= UiOps.ConsoleWordWrap;
+  if Assigned(fmConsole) then
+  begin
+    EditorCaretPropsFromString(fmConsole.EdMemo.CaretPropsReadonly, EditorOps.OpCaretViewReadonly);
+    fmConsole.EdMemo.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
+    fmConsole.EdMemo.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
+    fmConsole.EdMemo.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
+    fmConsole.EdMemo.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
+    fmConsole.EdInput.Height:= AppScale(UiOps.InputHeight);
+    fmConsole.EdInput.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
+    fmConsole.EdInput.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
+    fmConsole.EdInput.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
+    fmConsole.EdInput.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
+    fmConsole.MemoWordWrap:= UiOps.ConsoleWordWrap;
+  end;
 
   DoApplyUiOpsToGroups(Groups);
   if FloatGroups then

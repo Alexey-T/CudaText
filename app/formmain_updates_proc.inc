@@ -366,11 +366,14 @@ var
   F: TEditorFrame;
   i: integer;
 begin
-  fmConsole.Font.Name:= EditorOps.OpFontName;
-  fmConsole.Font.Size:= EditorOps.OpFontSize;
-  fmConsole.Font.Quality:= EditorOps.OpFontQuality;
-  fmConsole.EdInput.Font:= fmConsole.Font;
-  fmConsole.EdMemo.Font:= fmConsole.Font;
+  if Assigned(fmConsole) then
+  begin
+    fmConsole.Font.Name:= EditorOps.OpFontName;
+    fmConsole.Font.Size:= EditorOps.OpFontSize;
+    fmConsole.Font.Quality:= EditorOps.OpFontQuality;
+    fmConsole.EdInput.Font:= fmConsole.Font;
+    fmConsole.EdMemo.Font:= fmConsole.Font;
+  end;
 
   for i:= 0 to FrameCount-1 do
   begin

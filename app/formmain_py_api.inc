@@ -73,9 +73,15 @@ begin
     }
 
     7: //"ed_con_log"
-      Result:= fmConsole.EdMemo;
+      begin
+        if Assigned(fmConsole) then
+          Result:= fmConsole.EdMemo;
+      end;
     8: //"ed_con_in"
-      Result:= fmConsole.EdInput;
+      begin
+        if Assigned(fmConsole) then
+          Result:= fmConsole.EdInput
+      end;
 
     cPyEditorHandleMin..cPyEditorHandleMax:
       begin
@@ -2742,18 +2748,23 @@ begin
           end;
 
         LOG_CONSOLE_ADD:
-          with fmMain do
           begin
-            MsgLogConsole(cConsolePrompt+StrText);
-            fmConsole.EdInput.DoAddLineToHistory(StrText, cConsoleMaxComboboxItems);
-            fmConsole.EdInput.Text:= '';
-            fmConsole.EdInput.Update(true);
+            if Assigned(fmConsole) then
+            begin
+              MsgLogConsole(cConsolePrompt+StrText);
+              fmConsole.EdInput.DoAddLineToHistory(StrText, cConsoleMaxComboboxItems);
+              fmConsole.EdInput.Text:= '';
+              fmConsole.EdInput.Update(true);
+            end;
             Result:= ReturnNone;
           end;
 
         LOG_CONSOLE_GET_COMBO_LINES:
           begin
-            Result:= StringsToPyList(fmConsole.EdInput.Items);
+            if Assigned(fmConsole) then
+              Result:= StringsToPyList(fmConsole.EdInput.Items)
+            else
+              Result:= ReturnNone;
           end;
 
         LOG_CONSOLE_GET_MEMO_LINES:

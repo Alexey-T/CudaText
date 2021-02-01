@@ -179,7 +179,8 @@ begin
       cfg.SetValue('/finder/hi', fmFind.IsHiAll);
     end;
 
-    cfg.SetValue('/list_console', fmConsole.EdInput.Items);
+    if Assigned(fmConsole) then
+      cfg.SetValue('/list_console', fmConsole.EdInput.Items);
 
     ////finder
     cfg.SetValue('/finder/regex', FFinder.OptRegex);
@@ -658,6 +659,10 @@ begin
 
     FLastMaximized:= cfg.GetValue('/pos/main_max', false);
     FLastMaximizedMonitor:= cfg.GetValue('/pos/main_mon', 0);
+
+    //console
+    if Assigned(fmConsole) then
+      cfg.GetValue('/list_console', fmConsole.EdInput.Items, '');
 
     ////recents
     cfg.GetValue('/recent_files', AppListRecents, '');

@@ -15,7 +15,6 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   Menus, LclType,
   PythonEngine,
-  at__jsonConf,
   ATStrings,
   ATSynEdit,
   ATSynEdit_Edits,
@@ -237,8 +236,6 @@ end;
 
 
 procedure InitConsole;
-var
-  cfg: TJSONConfig;
 begin
   if Assigned(fmConsole) then exit;
   fmConsole:= TfmConsole.Create(nil);
@@ -300,17 +297,6 @@ begin
 
     DoControl_InitPropsObject(EdInput, fmConsole, 'editor_edit');
     DoControl_InitPropsObject(EdMemo, fmConsole, 'editor');
-
-    try
-      cfg:= TJSONConfig.Create(nil);
-      try
-        cfg.Filename:= AppFile_History;
-        cfg.GetValue('/list_console', EdInput.Items, '');
-      finally
-        FreeAndNil(cfg);
-      end;
-    except
-    end;
   end;
 end;
 
