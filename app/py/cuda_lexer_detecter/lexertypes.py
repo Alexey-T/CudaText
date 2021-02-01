@@ -401,5 +401,6 @@ TYPES = {
     "xslt": ['XSLT'],
     "y": ['Yacc'],
     "zep": ['Zephir'],
+    "zig": ['Zig'],
     "zs": ['ZenScript (MineTweaker)'],
 }
