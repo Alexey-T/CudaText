@@ -1359,8 +1359,6 @@ class Editor:
 
 #objects
 ed = Editor(0)
-#ed_con_log = Editor(7)
-#ed_con_in = Editor(8)
 
 #support input() in plugins
 def _input(s):

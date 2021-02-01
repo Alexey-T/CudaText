@@ -1901,8 +1901,6 @@ Note: Toolbars contain several "button_ex" objects, which are anchored one to an
 Editor class has methods to work with editor. Global objects of Editor exist:
 
 * "ed": refers to currently focused editor (in any tab).
-* "ed_con_log": refers to log field (multi-line) in the "Console" panel.
-* "ed_con_in": refers to input field (single line) in the "Console" panel.
 
 ==Carets==
 ===Editor.get_carets===

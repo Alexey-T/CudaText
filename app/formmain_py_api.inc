@@ -62,26 +62,6 @@ begin
   case Handle of
     0: //"ed"
       Result:= fmMain.CurrentEditor;
-    {
-    1: //"ed_bro"
-      Result:= GetEditorBrother(fmMain.CurrentEditor);
-
-    2: //"ed_1st"
-      Result:= GetEditorFirstSecond(fmMain.CurrentEditor, true);
-    3: //"ed_2nd"
-      Result:= GetEditorFirstSecond(fmMain.CurrentEditor, false);
-    }
-
-    7: //"ed_con_log"
-      begin
-        if Assigned(fmConsole) then
-          Result:= fmConsole.EdMemo;
-      end;
-    8: //"ed_con_in"
-      begin
-        if Assigned(fmConsole) then
-          Result:= fmConsole.EdInput
-      end;
 
     cPyEditorHandleMin..cPyEditorHandleMax:
       begin
