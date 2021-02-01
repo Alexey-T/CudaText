@@ -2039,39 +2039,75 @@ This can be done in CudaText like this:
 * Install plugin "Config Toolbar".
 * Call config dialog via "Plugins / Config Toolbar / Configure buttons". In that dialog, add a button. In the button properties, choose your recorded macro command ("Choose command" button). This will add toolbar button for your macro. Customize this button as you wish (any icon, caption, tooltip).
 
-==Troubleshooting the Windows shell extension for CudaText==
-Question of a user: Why on my PC, CudaText context menu item does not work, but some error message is shown?
+=Troubleshooting the Windows shell extension for CudaText=
 
-Answer from the author of shell extension: What kind of item did you right-click when the above error message appeared? The context menu item works for all types of files, folders, disk drives, desktop links to these items, the desktop background and the background of an Explorer window showing a folder's content. Other kinds of right-clicked items should not show the context menu item.
+There may be rare cases where CudaText's menu item shows up in Windows Explorer context menu but the entry's icon is missing and an error message states that the provided file name was not found.
 
-In your screenshot it seems like the CudaText context menu entry has no icon. Is this correct? Since the icon is extracted from the file cudatext.exe, the absence of the icon would confirm that cudatext.exe wasn't found by the shell extension.
+==File sets information==
 
-In case you right-clicked a suitable item and the icon is missing from the context menu item, let's try to install the shell extension manually. To do that please follow the steps below.
+If you download a 32 bit version of CudaText, you will notice that there are two sets of files belonging to the shell extension.
 
-At first ensure that all the files
+Set 1 consists of these files:
 
-* cudatext.exe
-* cudatext_shell64.dll
+* CudaText_shell32.dll
+* install_shell32.cmd
+* uninstall_shell32.cmd
+
+Set 2 consists of these files:
+
+* CudaText_shell64.dll
 * install_shell64.cmd
 * uninstall_shell64.cmd
 
-are stored in the same folder (I guess C:\cudatext in your case). Now execute uninstall_shell64.cmd by double-clicking it and confirm the UAC dialog (asking for admin rights) popping up. This uninstalls the failing shell extension. Close all programs and log off or restart Windows.
+Since 32 bit versions of CudaText can be run on both 32 bit and 64 bit versions of Windows, two sets of files are needed. Use set 1 if you run CudaText on a 32 bit version and set 2 if you run it on a 64 bit version of Windows.
 
-Login in again and ensure that the CudaText context menu item has disappeared. If this is not the case stop at this point and come back to obtain further instructions.
+The download package of CudaText 64 bit contains only set 2 since this version can only be run on a 64 bit version of Windows.
 
-Now start a Windows console with administrative rights. If you don't know how to do that search in Yandex or Google to learn it.
+'''Please note:''' It is ''not'' possible to install the 32 bit version of the shell extension on 64 bit Windows or vice versa.
 
-Now use the CD command to navigate to the folder where the above files are stored (I guess C:\cudatext in your case). You should end up with a command prompt that looks like
+==Common information==
+
+The context menu item works for all types of files, folders, disk drives, desktop links to these items, the desktop background and the background of an Explorer window showing a folder's content. Other kinds of right-clicked items don't show the context menu item.
+
+The context menu entry's icon is extracted from the file "cudatext.exe", the absence of the icon indicates that "cudatext.exe" wasn't found by the shell extension. That's also the reason for the error message mentioned above.
+
+==Fixing installation error==
+
+'''Please note:''' In the following only the 64 bit version of the shell extension running on 64 bit Windows is dealt with. If you want to install the 32 bit shell extension on 32 bit Windows you have to select the appropriate file names.
+
+In case a suitable item has been right-clicked and the icon is missing from the context menu item, it is possible to install the shell extension manually. To do that please follow the steps below.
+
+At first ensure that all the files
+
+  * cudatext.exe
+  * CudaText_shell64.dll
+  * install_shell64.cmd
+  * uninstall_shell64.cmd
+
+are stored in the same folder.
+
+Start a Windows console with administrative permissions. If you don't know how to do that search the internet to learn it.
+
+Use the "CD" command to navigate to the folder where the above files are stored (it should be your CudaText folder). You should end up with a command prompt that looks for example like this:
 
  C:\cudatext>
 
-Now type the following command into your console window:
+Type the following command into your console window and hit Enter:
 
- regsvr32 "C:\cudatext\cudatext_shell64.dll"
+ regsvr32 /u "<Path-to-CudaText-folder>\cudatext_shell64.dll"
 
-You should see a confirmation message that indicates a successful registration of the DLL or an error message. In the latter case, please come back and post the original error message.
+This uninstalls the failing shell extension. You should see a confirmation message that indicates a successful deregistration of the DLL.
 
-In case of success, check the Explorer context menu to see if there is a CudaText menu item that has an icon. Right click for example a *.txt file and select Open with CudaText from the context menu.
+Close all programs and log off or restart Windows. Login in again and ensure that the CudaText context menu item has disappeared.
+
+Start a Windows console with administrative permissions again and use the "CD" command to navigate to your CudaText folder (the folder where the above files are stored).
+
+Type the following command into your console window and hit Enter:
+
+ regsvr32 "<Path-to-CudaText-folder>\cudatext_shell64.dll"
+
+You should see a confirmation message that indicates a successful registration of the DLL. Check the Explorer context menu to see if there is a CudaText menu item that has an icon. Right click for example a *.txt file and select "Open with CudaText" from the context menu.
+
 
 =Formats of files=
 ==Format of auto-completion acp file==
