@@ -39,6 +39,7 @@ type
 type
   { TfmConsole }
 
+  //inherit from TFormDummy to support dlg_proc API for this form
   TfmConsole = class(TFormDummy)
   private
     { private declarations }
@@ -295,6 +296,7 @@ begin
     EdMemo.OnCommand:= @MemoCommand;
     EdMemo.OnContextPopup:= @MemoContextPopup;
 
+    //support dlg_proc API, it needs PropsObject
     DoControl_InitPropsObject(EdInput, fmConsole, 'editor_edit');
     DoControl_InitPropsObject(EdMemo, fmConsole, 'editor');
   end;
