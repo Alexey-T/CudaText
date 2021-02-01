@@ -263,6 +263,12 @@ begin
       Inc(nCountFiles);
       Frame:= Frames[i];
       if Frame.IsEmpty then Continue;
+      if GetAppFilenameIsIgnoredForSession(Frame.FileName) then
+      begin
+        MsgLogConsole(Format('NOTE: file "%s" is not saved to session', [Frame.FileName]));
+        Continue;
+      end;
+
       path:= '/'+Format('%3.3d', [i]);
 
       GetFrameLocation(Frame, Gr, Pages, nLocalGroup, nGlobalGroup, nTab);

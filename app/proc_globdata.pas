@@ -638,6 +638,7 @@ function GetAppLexerMapFilename(const ALexName: string): string;
 function GetAppLexerOpsFilename(const ALexName: string): string;
 function GetAppLexerAcpFilename(const ALexName: string): string;
 function GetAppLexerSpecificConfig(ALexer: string; ADefaultConfig: boolean=false): string;
+function GetAppFilenameIsIgnoredForSession(const AFilename: string): boolean;
 
 function MsgBox(const Str: string; Flags: Longint): integer;
 procedure MsgBadConfig(const fn: string);
@@ -1763,6 +1764,16 @@ begin
     dir:= AppDir_Settings;
 
   Result:= dir+DirectorySeparator+'lexer '+ALexer+'.json';
+end;
+
+function GetAppFilenameIsIgnoredForSession(const AFilename: string): boolean;
+var
+  SName: string;
+begin
+  SName:= ExtractFileName(AFilename);
+  Result:= SameFileName(ExtractFileDir(AFilename), AppDir_Settings) and
+    ( SameFileName(SName, 'history.json') or
+      SameFileName(SName, 'history session.json') );
 end;
 
 function AppFile_HotkeysForLexer(AName: string): string;
