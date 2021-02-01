@@ -544,6 +544,7 @@ Most of them are located in Addons Manager "Install" list.
 * YAML 
 * ZenScript (MineTweaker)
 * Zephir
+* Zig
 
 === Lexers editing ===
 
