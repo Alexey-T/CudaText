@@ -190,6 +190,16 @@ object SyntAnal14: TLibSyntAnalyzer
       FormatType = ftColor
     end
     item
+      DisplayName = 'Table BG'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = clMoneyGreen
+      FormatType = ftBackGround
+    end
+    item
       DisplayName = '``` edge'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clRed
@@ -573,7 +583,7 @@ object SyntAnal14: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Table begin'
-      StyleName = 'List'
+      StyleName = 'Table BG'
       ConditionList = <
         item
           TokenTypes = 1048576
