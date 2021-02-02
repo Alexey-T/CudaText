@@ -62,6 +62,7 @@ Screenshot on Windows:
 * [[#Special_HTML_auto-completion|HTML auto-completion suggests file/folder names]]
 * [[#HTML_color_codes_underlining|HTML color codes underlining]]
 * Macros plugin also records actions performed in the Find/Replace dialog, and mouse clicks
+* Plugins do not disappear due to GitHub repository deletions
 
 = Download =
 
