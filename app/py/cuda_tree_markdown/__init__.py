@@ -16,7 +16,7 @@ def _is_pre(s, ch, need_space):
 
 
 def is_line_ticks(s):
-    return re_ticks.match(s) is not None 
+    return re_ticks.match(s) is not None
 
 
 def is_line_head(s):
@@ -40,9 +40,21 @@ def get_headers(filename, lines):
     res = []
     tick = False
     tick_r = 0
+    pre = False
+
     for i, s in enumerate(lines):
-        if not s.strip():
+        s0 = s.strip()
+        if not s0:
             continue
+        if s0=='<pre>':
+            pre = True
+            continue
+        if s0=='</pre>':
+            pre = False
+            continue
+        if pre:
+            continue
+
         r = is_line_ticks(s)
         if r:
             if tick and r == tick_r:
