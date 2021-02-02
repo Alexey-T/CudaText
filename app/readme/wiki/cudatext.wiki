@@ -63,6 +63,7 @@ Screenshot on Windows:
 * [[#HTML_color_codes_underlining|HTML color codes underlining]]
 * Macros plugin also records actions performed in the Find/Replace dialog, and mouse clicks
 * Add-ons do not disappear due to GitHub repository deletions
+* CudaText and its plugins support i18n (text strings can be translated) 
 
 = Download =
 
