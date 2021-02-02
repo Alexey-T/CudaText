@@ -440,6 +440,22 @@ object SyntAnal14: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Table begin'
+      StyleName = 'Symbols'
+      TokenType = 20
+      Expression = '^\|'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Table end'
+      StyleName = 'Symbols'
+      TokenType = 21
+      Expression = '\|$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Symbols'
       StyleName = 'Symbols'
       StatesAbsent = 3
@@ -551,6 +567,30 @@ object SyntAnal14: TLibSyntAnalyzer
       ConditionList = <
         item
           TokenTypes = 524288
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Table begin'
+      StyleName = 'List'
+      ConditionList = <
+        item
+          TokenTypes = 1048576
+        end>
+      BlockEnd = 'Table end'
+      NotCollapsed = True
+      DisplayInTree = False
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Table end'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TokenTypes = 2097152
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
@@ -681,7 +721,9 @@ object SyntAnal14: TLibSyntAnalyzer
     '`begin'
     '`end'
     '~begin'
-    '~end')
+    '~end'
+    'Table begin'
+    'Table end')
   Extentions = 'md markdown mkd'
   LexerName = 'Markdown'
   SkipSpaces = False
