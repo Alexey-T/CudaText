@@ -1095,6 +1095,13 @@ Python engine requires Visual C++ Redistributable for Visual Studio 2015 (32-bit
 
 Note for Windows 7. You also need the Update for Universal C Runtime in Windows (KB2999226). Download it from the Microsoft site.
 
+===Python on Windows XP===
+You need CudaText 1.122.0 or newer, and you must install (from Addons Manager) the package named "Windows Python34 32bit". No options are needed to configure, but you need to delete all newer Pythons from CudaText folder:
+                                                                                                   
+* python*.dll - must be deleted
+* python*.zip - can be left as is
+* *.pyd - can be left as is
+
 ===Python on Linux, BSD, Solaris===
 Linux/*BSD/Solaris version uses Python library from OS. Install Python 3.x (usually already installed). Instruction, if Python library was not automatically used:
 
@@ -1850,13 +1857,6 @@ homepage=https://github.com/nnnn/pppp
 * TextItalic: Style with italic font.
 * TextBoldItalic: Style with bold+italic font.
 * TextCross: Style with crossed/strikeout font.
-
-==How to use on Windows XP==
-
-Q: How to use CudaText on Windows XP?
-
-A: You need CudaText 1.122.0 or newer, and you must install (from Addons Manager) the package named "Windows Python34 32bit".
-No options are needed to configure, but you need to delete all newer Pythons from CudaText folder (ie delete their files: *.dll *.pyd *.zip; MS Visual Studio runtime can be left as is).
 
 ==How to copy word under caret to clipboard==
 
