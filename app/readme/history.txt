@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.123.1 (2021/02)
+1.123.2 (2021/02)
 
 + add: API allows much more access to Console panel fields (thanks @Shovel) 
 + add: allow multi-selections to touch, without joining them (thanks @Jairo-Martinez, @cser)
