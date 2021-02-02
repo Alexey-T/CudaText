@@ -81,6 +81,12 @@ type
 const
   cControlBorderStyles: array[boolean] of TBorderStyle = (bsNone, bsSingle);
 
+procedure _SetDictKey(Obj: PPyObject; const AKey, AValue: string);
+begin
+  if AValue<>'' then
+    with AppPython.Engine do
+      PyDict_SetItemString(Obj, PChar(AKey), PyUnicodeFromString(AValue));
+end;
 
 function DoControl_Target(C: TControl): TControl; inline;
 begin
@@ -2329,6 +2335,16 @@ begin
       PChar(string('p')), PyLong_FromLongLong(PtrInt(F.Parent))
       );
   end;
+
+  _SetDictKey(Result, 'on_close', F.FEventOnClose);
+  _SetDictKey(Result, 'on_close_query', F.FEventOnCloseQuery);
+  _SetDictKey(Result, 'on_key_down', F.FEventOnKeyDown);
+  _SetDictKey(Result, 'on_key_up', F.FEventOnKeyUp);
+  _SetDictKey(Result, 'on_resize', F.FEventOnResize);
+  _SetDictKey(Result, 'on_mouse_enter', F.FEventOnMouseEnter);
+  _SetDictKey(Result, 'on_mouse_exit', F.FEventOnMouseExit);
+  _SetDictKey(Result, 'on_show', F.FEventOnShow);
+  _SetDictKey(Result, 'on_hide', F.FEventOnHide);
 end;
 
 
@@ -2345,13 +2361,6 @@ begin
     SValue:= StringReplace(SValue, #2, ',', [rfReplaceAll]);
     DoForm_SetPropFromPair(F, SKey, SValue);
   until false;
-end;
-
-procedure _SetDictKey(Obj: PPyObject; const AKey, AValue: string);
-begin
-  if AValue<>'' then
-    with AppPython.Engine do
-      PyDict_SetItemString(Obj, PChar(AKey), PyUnicodeFromString(AValue));
 end;
 
 function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
