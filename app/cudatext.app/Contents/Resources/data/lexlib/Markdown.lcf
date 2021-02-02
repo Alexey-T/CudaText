@@ -1,4 +1,4 @@
-object SyntAnal13: TLibSyntAnalyzer
+object SyntAnal14: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Heading'
@@ -444,7 +444,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StyleName = 'Symbols'
       StatesAbsent = 3
       TokenType = 15
-      Expression = '[\|\-\+:=%\*!~<>&]+'
+      Expression = '[<>]|[\|\-\+:=%\*!~&]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -562,7 +562,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '<\?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal14
+      SyntAnalyzer = SyntAnal17
       IncludeBounds = True
     end
     item
@@ -570,7 +570,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '(?s)<script\b.*?>'
       EndExpression = '</script>'
-      SyntAnalyzer = SyntAnal9
+      SyntAnalyzer = SyntAnal10
     end
     item
       DisplayName = 'CSS'
@@ -583,7 +583,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'YAML front matter'
       StartExpression = '\A---$'
       EndExpression = '^---$'
-      SyntAnalyzer = SyntAnal22
+      SyntAnalyzer = SyntAnal25
     end>
   SampleText.Strings = (
     '---'
