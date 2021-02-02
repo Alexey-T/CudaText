@@ -4101,8 +4101,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: toolbar_proc: add TOOLBAR_GET_INDEX_HOVERED
 
 1.0.362 (app 1.123.2)
-* add: dlg_proc: DLG_PROP_GET returns also events: about 10 keys 'on_xxxxx'
-* add: dlg_proc: DLG_CTL_PROP_GET returns also events: about 20 keys 'on_xxxxx'
+* add: dlg_proc: DLG_PROP_GET returns also events, if they are set: 'on_close', 'on_close_query', 'on_key_down', 'on_key_up', 'on_resize', 'on_mouse_enter', 'on_mouse_exit', 'on_show', 'on_hide' 
+* add: dlg_proc: DLG_CTL_PROP_GET returns also events, if they are set: 'on_change', 'on_click', 'on_click_dbl', 'on_focus_enter', 'on_focus_exit', 'on_menu', 'on_select', 'on_fold', 'on_unfold', 'on_listbox_draw_item', 'on_mouse_enter', 'on_mouse_exit', 'on_mouse_down', 'on_mouse_up', 'on_editor_caret', 'on_editor_scroll', 'on_editor_key_down', 'on_editor_key_up', 'on_editor_click_gutter', 'on_editor_click_gap', 'on_editor_click_link', 'on_editor_paste'
 * add: app_proc: add PROC_GET_CONSOLE_FORM
 * deleted: editor objects "ed_con_log", "ed_con_in"
 
