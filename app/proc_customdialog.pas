@@ -2347,6 +2347,13 @@ begin
   until false;
 end;
 
+procedure _SetDictKey(Obj: PPyObject; const AKey, AValue: string);
+begin
+  if AValue<>'' then
+    with AppPython.Engine do
+      PyDict_SetItemString(Obj, PChar(AKey), PyUnicodeFromString(AValue));
+end;
+
 function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
 var
   bTabStop, bFocused: boolean;
@@ -2448,6 +2455,29 @@ begin
       N:= TPageControl(C).IndexOfTabAt(Pnt);
       PyDict_SetItemString(Result, 'tab_hovered', PyLong_FromLong(N));
     end;
+
+    _SetDictKey(Result, 'on_change', Props.FEventOnChange);
+    _SetDictKey(Result, 'on_click', Props.FEventOnClick);
+    _SetDictKey(Result, 'on_click_dbl', Props.FEventOnClickDbl);
+    _SetDictKey(Result, 'on_focus_enter', Props.FEventOnFocusEnter);
+    _SetDictKey(Result, 'on_focus_exit', Props.FEventOnFocusExit);
+    _SetDictKey(Result, 'on_menu', Props.FEventOnMenu);
+    _SetDictKey(Result, 'on_select', Props.FEventOnSelect);
+    _SetDictKey(Result, 'on_fold', Props.FEventOnFold);
+    _SetDictKey(Result, 'on_unfold', Props.FEventOnUnfold);
+    _SetDictKey(Result, 'on_listbox_draw_item', Props.FEventOnListboxDrawItem);
+    _SetDictKey(Result, 'on_mouse_enter', Props.FEventOnMouseEnter);
+    _SetDictKey(Result, 'on_mouse_exit', Props.FEventOnMouseExit);
+    _SetDictKey(Result, 'on_mouse_down', Props.FEventOnMouseDown);
+    _SetDictKey(Result, 'on_mouse_up', Props.FEventOnMouseUp);
+    _SetDictKey(Result, 'on_editor_caret', Props.FEventOnEditorCaret);
+    _SetDictKey(Result, 'on_editor_scroll', Props.FEventOnEditorScroll);
+    _SetDictKey(Result, 'on_editor_key_down', Props.FEventOnEditorKeyDown);
+    _SetDictKey(Result, 'on_editor_key_up', Props.FEventOnEditorKeyUp);
+    _SetDictKey(Result, 'on_editor_click_gutter', Props.FEventOnEditorClickGutter);
+    _SetDictKey(Result, 'on_editor_click_gap', Props.FEventOnEditorClickGap);
+    _SetDictKey(Result, 'on_editor_click_link', Props.FEventOnEditorClickLink);
+    _SetDictKey(Result, 'on_editor_paste', Props.FEventOnEditorPaste);
   end;
 end;
 
