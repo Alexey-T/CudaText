@@ -6,6 +6,7 @@
 1.123.3
 
 + add: save to session also UI-tab splitted state (on/off, vert/horz, percents of window size) (thanks @GHNewbiee)
+* change: default UI-tab split mode changed to 'vertical'
 
 1.123.2 (2021/02)
 
