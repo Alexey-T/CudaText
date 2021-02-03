@@ -14,6 +14,9 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Spin,
   ComCtrls, FormFrame,
+  IniFiles,
+  proc_globdata,
+  proc_msg,
   proc_customdialog;
 
 type
@@ -38,6 +41,7 @@ type
     SplitHorz: boolean;
     SplitPercent: integer;
     procedure DoChanged;
+    procedure Localize;
   public
     WorkFrame: TEditorFrame;
   end;
@@ -91,6 +95,8 @@ end;
 
 procedure TfmTabSplit.FormShow(Sender: TObject);
 begin
+  Localize;
+
   if Application.MainForm.FormStyle=fsStayOnTop then
     FormStyle:= fsStayOnTop;
 
@@ -113,6 +119,29 @@ begin
     WorkFrame.SplitPos:= (100-SplitPercent)/100;
   end;
 end;
+
+procedure TfmTabSplit.Localize;
+const
+  section = 'd_tab_color';
+var
+  ini: TIniFile;
+  fn: string;
+begin
+  fn:= GetAppLangFilename;
+  if not FileExists(fn) then exit;
+  ini:= TIniFile.Create(fn);
+  try
+    Caption:= ini.ReadString(section, 'sp_', Caption);
+    with btnNoSplit do Caption:= ini.ReadString(section, 'sp_n', Caption);
+    with btnVert do Caption:= ini.ReadString(section, 'sp_v', Caption);
+    with btnHorz do Caption:= ini.ReadString(section, 'sp_h', Caption);
+    with btnClose do Caption:= msgButtonOk;
+  finally
+    FreeAndNil(ini);
+  end;
+end;
+
+
 
 end.
 
