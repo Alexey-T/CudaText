@@ -1035,9 +1035,13 @@ Click any cell in the grid to insert this char at caret position. Or select a ce
 
 == Tab switcher ==
 
-CudaText has option "ui_tab_switcher_dialog", which activates modern tab switcher for Ctrl+Tab hotkey. This is dialog which allows to switch tab using visit history. For example: press Ctrl, Tab, Tab, Tab, release Ctrl: this goes 3 steps back in visit history. Visit history is updated on tabs activation (activated tab moves to the top of history).
+CudaText has option "ui_tab_switcher_dialog", which activates modern tab switcher for Ctrl+Tab hotkey. This is dialog which allows to switch tab using visit history. For example: press Ctrl, Tab, Tab, Tab, release Ctrl: this goes 3 steps back in the visit history. Visit history is updated on tabs activation (activated tab moves to the top of history).
 
-Alternative way is plugin CudaExt. Plugin gives command "Choose tab to switch to". You need to assign hotkey Ctrl+Tab to this command (hotkey will be removed from CudaText command). Plugin's dialog is richer than CudaText's dialog - it allows to switch to Console/Output/Validate panels, it allows to cancel the operation.
+Dialog lists documents from all tab-groups, with prefixes: "[3-1] /home/user/filename.cpp" for 1st tab in 3rd group.
+
+[[File:cudatext-tab-switcher.png]]
+
+Alternative way is plugin CudaExt. Plugin gives the command "Choose tab to switch to". You need to assign hotkey Ctrl+Tab to this command (hotkey will be removed from CudaText command). Plugin's dialog is richer than CudaText's dialog: it allows to switch to Console/Output/Validate panels, it allows to cancel the operation.
 
 ==Minimap==
 Minimap is wide vertical bar near editor's right side (it can be shown on the left side too, by the option). To show it:
