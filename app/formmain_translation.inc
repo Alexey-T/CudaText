@@ -267,8 +267,8 @@ begin
     DoLocMenuitem(ini, mnuGr6, 'm_v', 'g6');
 
     DoLocMenuitem(ini, mnuViewSplitSub, 'm_v', 's_');
-    DoLocMenuitem(ini, mnuViewSplitDo, 'm_v', 's_s');
-    DoLocMenuitem(ini, mnuViewSplitHorz, 'm_v', 's_h');
+    if Assigned(mnuViewSplitSub) then
+      mnuViewSplitSub.Caption:= mnuViewSplitSub.Caption+'...';
 
     DoLocMenuitem(ini, mnuViewHint1, 'm_v', 'st_l');
     DoLocMenuitem(ini, mnuViewHint2, 'm_v', 'st_g');

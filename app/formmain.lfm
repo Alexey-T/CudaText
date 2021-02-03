@@ -447,18 +447,6 @@ object fmMain: TfmMain
     end
     object mnuView: TMenuItem
       Caption = '&View'
-      object mnuViewSplitSub: TMenuItem
-        Caption = '&Split tab'
-        object mnuViewSplitDo: TMenuItem
-          Caption = 'Toggle &split'
-        end
-        object mnuViewSplitHorz: TMenuItem
-          Caption = 'Toggle &horizontal/vertical'
-        end
-      end
-      object SepV1: TMenuItem
-        Caption = '-'
-      end
       object mnuViewHint1: TMenuItem
         Caption = '--- Current tab properties ---'
         Enabled = False
@@ -501,6 +489,9 @@ object fmMain: TfmMain
         object mnuViewUnpriEndsDet: TMenuItem
           Caption = 'Show ends &details'
         end
+      end
+      object mnuViewSplitSub: TMenuItem
+        Caption = '&Split tab...'
       end
       object SepV2: TMenuItem
         Caption = '-'

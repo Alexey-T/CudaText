@@ -37,7 +37,7 @@ type
     SplitPercent: integer;
     procedure DoChanged;
   public
-    Frame: TEditorFrame;
+    WorkFrame: TEditorFrame;
   end;
 
 implementation
@@ -87,21 +87,24 @@ begin
   if Application.MainForm.FormStyle=fsStayOnTop then
     FormStyle:= fsStayOnTop;
 
-  Splitted:= Frame.Splitted;
-  SplitHorz:= Frame.SplitHorz;
-  SplitPercent:= round(Frame.SplitPos*100);
+  Splitted:= WorkFrame.Splitted;
+  SplitHorz:= WorkFrame.SplitHorz;
+  SplitPercent:= round(WorkFrame.SplitPos*100);
 
   btnNoSplit.Checked:= not Splitted;
   btnHorz.Checked:= Splitted and SplitHorz;
   btnVert.Checked:= Splitted and not SplitHorz;
-  barValue.Position:= SplitPercent;
+  barValue.Position:= 100-SplitPercent;
 end;
 
 procedure TfmTabSplit.DoChanged;
 begin
-  Frame.Splitted:= Splitted;
-  Frame.SplitHorz:= SplitHorz;
-  Frame.SplitPos:= SplitPercent/100;
+  WorkFrame.Splitted:= Splitted;
+  if WorkFrame.Splitted then
+  begin
+    WorkFrame.SplitHorz:= SplitHorz;
+    WorkFrame.SplitPos:= (100-SplitPercent)/100;
+  end;
 end;
 
 end.

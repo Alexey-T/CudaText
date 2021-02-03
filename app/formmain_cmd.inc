@@ -848,6 +848,20 @@ begin
         AHandled:= true;
         exit
       end;
+
+    cmd_SplitTabDialog:
+      begin
+        with TfmTabSplit.Create(nil) do
+        try
+          WorkFrame:= Frame;
+          ShowModal;
+        finally
+          Free;
+        end;
+        AHandled:= true;
+        exit
+      end;
+
     cmd_SplitTab3070:
       begin
         Frame.SplitPos:= 0.7;

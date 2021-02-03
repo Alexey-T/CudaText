@@ -160,6 +160,7 @@ const
   cmd_SwitchTab_Dialog     = 2614;
   cmd_SwitchTab_Recent     = 2615;
 
+  cmd_SplitTabDialog   = 2619;
   cmd_SplitTabToggle   = 2620;
   cmd_SplitTabHorzVert = 2621;
   cmd_SplitTab3070     = 2622;

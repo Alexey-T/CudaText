@@ -780,9 +780,7 @@ begin
   UpdateMenuItemHotkey(mnuGr6H, cmd_Groups6horz);
   UpdateMenuItemHotkey(mnuGr6, cmd_Groups6grid);
 
-  UpdateMenuItemHotkey(mnuViewSplitDo, cmd_SplitTabToggle);
-  UpdateMenuItemHotkey(mnuViewSplitHorz, cmd_SplitTabHorzVert);
-
+  UpdateMenuItemHotkey(mnuViewSplitSub, cmd_SplitTabDialog);
   UpdateMenuItemHotkey(mnuViewWrap, cCommand_ToggleWordWrap);
   UpdateMenuItemHotkey(mnuViewNums, cCommand_ToggleLineNums);
   UpdateMenuItemHotkey(mnuViewFold, cCommand_ToggleFolding);
@@ -882,9 +880,6 @@ begin
   UpdateMenuItemChecked(mnuViewRuler, mnuViewRuler_Alt, Ed.OptRulerVisible);
   UpdateMenuItemChecked(mnuViewMinimap, mnuViewMinimap_Alt, Ed.OptMinimapVisible);
   UpdateMenuItemChecked(mnuViewMicromap, mnuViewMicromap_Alt, Ed.OptMicromapVisible);
-
-  UpdateMenuItemChecked(mnuViewSplitDo, mnuViewSplitDo_Alt, F.Splitted);
-  UpdateMenuItemChecked(mnuViewSplitHorz, mnuViewSplitHorz_Alt, F.SplitHorz);
 
   UpdateMenuItemChecked(mnuViewUnpriShow, mnuViewUnpriShow_Alt, Ed.OptUnprintedVisible);
   UpdateMenuItemChecked(mnuViewUnpriSpaces, mnuViewUnpriSpaces_Alt, Ed.OptUnprintedSpaces);

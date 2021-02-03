@@ -120,6 +120,7 @@ uses
   form_menu_py,
   form_addon_report,
   form_choose_theme,
+  form_tabsplit,
   Math;
 
 type
@@ -373,14 +374,11 @@ type
     mnuViewMinimap: TMenuItem;
     mnuViewSplitSub: TMenuItem;
     MenuItem10: TMenuItem;
-    SepV1: TMenuItem;
     mnuViewUnpriShow: TMenuItem;
     mnuViewUnpriSpaces: TMenuItem;
     mnuViewUnpriEnds: TMenuItem;
     mnuViewUnpriEndsDet: TMenuItem;
     mnuViewUnpri: TMenuItem;
-    mnuViewSplitDo: TMenuItem;
-    mnuViewSplitHorz: TMenuItem;
     mnuHelp: TMenuItem;
     mnuView: TMenuItem;
     mnuViewBottom: TMenuItem;
