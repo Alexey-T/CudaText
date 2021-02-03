@@ -4,6 +4,7 @@ object fmTabSplit: TfmTabSplit
   Top = 228
   Width = 186
   BorderStyle = bsToolWindow
+  Caption = 'Split tab'
   ClientHeight = 161
   ClientWidth = 186
   OnClose = FormClose
@@ -44,31 +45,31 @@ object fmTabSplit: TfmTabSplit
   end
   object btnHorz: TRadioButton
     AnchorSideLeft.Control = btnNoSplit
+    AnchorSideTop.Control = btnVert
+    AnchorSideTop.Side = asrBottom
+    Left = 8
+    Height = 24
+    Top = 56
+    Width = 108
+    Caption = 'Horizontally'
+    OnChange = btnHorzChange
+    TabOrder = 2
+  end
+  object btnVert: TRadioButton
+    AnchorSideLeft.Control = btnNoSplit
     AnchorSideTop.Control = btnNoSplit
     AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 24
     Top = 32
-    Width = 140
-    Caption = 'Split horizontally'
-    OnChange = btnHorzChange
-    TabOrder = 1
-  end
-  object btnVert: TRadioButton
-    AnchorSideLeft.Control = btnNoSplit
-    AnchorSideTop.Control = btnHorz
-    AnchorSideTop.Side = asrBottom
-    Left = 8
-    Height = 24
-    Top = 56
-    Width = 121
-    Caption = 'Split vertically'
+    Width = 89
+    Caption = 'Vertically'
     OnChange = btnVertChange
-    TabOrder = 2
+    TabOrder = 1
   end
   object barValue: TTrackBar
     AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = btnVert
+    AnchorSideTop.Control = btnHorz
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
@@ -81,7 +82,7 @@ object fmTabSplit: TfmTabSplit
     Min = 15
     OnChange = barValueChange
     PageSize = 10
-    Position = 15
+    Position = 50
     ShowSelRange = False
     TickStyle = tsNone
     Anchors = [akTop, akLeft, akRight]
