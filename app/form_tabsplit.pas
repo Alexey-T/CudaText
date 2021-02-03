@@ -103,6 +103,8 @@ begin
   Splitted:= WorkFrame.Splitted;
   SplitHorz:= WorkFrame.SplitHorz;
   SplitPercent:= round(WorkFrame.SplitPos*100);
+  if SplitPercent<3 then
+    SplitPercent:= 50;
 
   btnNoSplit.Checked:= not Splitted;
   btnHorz.Checked:= Splitted and SplitHorz;
