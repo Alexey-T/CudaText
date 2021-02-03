@@ -1,15 +1,17 @@
 object fmTabSplit: TfmTabSplit
   Left = 1530
-  Height = 173
+  Height = 166
   Top = 228
   Width = 186
   BorderStyle = bsToolWindow
-  ClientHeight = 173
+  ClientHeight = 166
   ClientWidth = 186
   OnClose = FormClose
+  OnCreate = FormCreate
   OnShow = FormShow
   Position = poMainFormCenter
   LCLVersion = '2.1.0.0'
+  Scaled = False
   object btnClose: TButton
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
@@ -17,14 +19,16 @@ object fmTabSplit: TfmTabSplit
     AnchorSideBottom.Side = asrBottom
     Left = 131
     Height = 29
-    Top = 138
+    Top = 131
     Width = 49
     Anchors = [akRight, akBottom]
     AutoSize = True
     BorderSpacing.Around = 6
+    Cancel = True
     Caption = 'Close'
+    Default = True
     OnClick = btnCloseClick
-    TabOrder = 0
+    TabOrder = 4
   end
   object btnNoSplit: TRadioButton
     Left = 8
@@ -34,7 +38,7 @@ object fmTabSplit: TfmTabSplit
     Caption = 'Not splitted'
     Checked = True
     OnChange = btnNoSplitChange
-    TabOrder = 1
+    TabOrder = 0
     TabStop = True
   end
   object btnHorz: TRadioButton
@@ -47,7 +51,7 @@ object fmTabSplit: TfmTabSplit
     Width = 140
     Caption = 'Split horizontally'
     OnChange = btnHorzChange
-    TabOrder = 2
+    TabOrder = 1
   end
   object btnVert: TRadioButton
     AnchorSideLeft.Control = btnNoSplit
@@ -59,19 +63,28 @@ object fmTabSplit: TfmTabSplit
     Width = 121
     Caption = 'Split vertically'
     OnChange = btnVertChange
-    TabOrder = 3
+    TabOrder = 2
   end
   object barValue: TTrackBar
-    Left = 8
-    Height = 46
-    Top = 88
-    Width = 168
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = btnVert
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 34
+    Top = 86
+    Width = 174
     LineSize = 5
     Max = 85
     Min = 15
     OnChange = barValueChange
     PageSize = 10
     Position = 15
-    TabOrder = 4
+    ShowSelRange = False
+    TickStyle = tsNone
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Around = 6
+    TabOrder = 3
   end
 end

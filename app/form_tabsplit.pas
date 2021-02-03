@@ -13,7 +13,8 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Spin,
-  ComCtrls, FormFrame;
+  ComCtrls, FormFrame,
+  proc_customdialog;
 
 type
   { TfmTabSplit }
@@ -30,6 +31,7 @@ type
     procedure btnNoSplitChange(Sender: TObject);
     procedure btnVertChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
     Splitted: boolean;
@@ -48,7 +50,7 @@ implementation
 
 procedure TfmTabSplit.btnCloseClick(Sender: TObject);
 begin
-  Close;
+  ModalResult:= mrOk;
 end;
 
 procedure TfmTabSplit.barValueChange(Sender: TObject);
@@ -80,6 +82,11 @@ end;
 procedure TfmTabSplit.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   CloseAction:= caFree;
+end;
+
+procedure TfmTabSplit.FormCreate(Sender: TObject);
+begin
+  DoForm_ScaleAuto(Self, true);
 end;
 
 procedure TfmTabSplit.FormShow(Sender: TObject);
