@@ -1324,6 +1324,7 @@
         <Filename Value="form_tabsplit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmTabSplit"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit57>
     </Units>

@@ -3,11 +3,14 @@ object fmTabSplit: TfmTabSplit
   Height = 133
   Top = 228
   Width = 241
+  BorderStyle = bsToolWindow
   ClientHeight = 133
   ClientWidth = 241
+  OnClose = FormClose
+  OnShow = FormShow
   Position = poMainFormCenter
   LCLVersion = '2.1.0.0'
-  object Button1: TButton
+  object btnClose: TButton
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
@@ -20,54 +23,60 @@ object fmTabSplit: TfmTabSplit
     AutoSize = True
     BorderSpacing.Around = 6
     Caption = 'Close'
+    OnClick = btnCloseClick
     TabOrder = 0
   end
-  object RadioButton1: TRadioButton
+  object btnNoSplit: TRadioButton
     Left = 16
     Height = 24
     Top = 8
     Width = 108
     Caption = 'Not splitted'
     Checked = True
+    OnChange = btnNoSplitChange
     TabOrder = 1
+    TabStop = True
   end
-  object RadioButton2: TRadioButton
-    AnchorSideLeft.Control = RadioButton1
-    AnchorSideTop.Control = RadioButton1
+  object btnHorz: TRadioButton
+    AnchorSideLeft.Control = btnNoSplit
+    AnchorSideTop.Control = btnNoSplit
     AnchorSideTop.Side = asrBottom
     Left = 16
     Height = 24
     Top = 32
     Width = 140
     Caption = 'Split horizontally'
+    OnChange = btnHorzChange
     TabOrder = 2
   end
-  object RadioButton3: TRadioButton
-    AnchorSideLeft.Control = RadioButton1
-    AnchorSideTop.Control = RadioButton2
+  object btnVert: TRadioButton
+    AnchorSideLeft.Control = btnNoSplit
+    AnchorSideTop.Control = btnHorz
     AnchorSideTop.Side = asrBottom
     Left = 16
     Height = 24
     Top = 56
     Width = 121
     Caption = 'Split vertically'
+    OnChange = btnVertChange
     TabOrder = 3
   end
-  object SpinEdit1: TSpinEdit
+  object edPercent: TSpinEdit
     Left = 40
     Height = 26
     Top = 93
     Width = 79
-    Increment = 10
-    MaxValue = 80
-    MinValue = 20
+    Increment = 5
+    MaxValue = 85
+    MinValue = 15
+    OnChange = edPercentChange
     TabOrder = 4
     Value = 20
   end
-  object Label1: TLabel
-    AnchorSideLeft.Control = SpinEdit1
+  object LabelPercent: TLabel
+    AnchorSideLeft.Control = edPercent
     AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = SpinEdit1
+    AnchorSideTop.Control = edPercent
     AnchorSideTop.Side = asrCenter
     Left = 125
     Height = 17
