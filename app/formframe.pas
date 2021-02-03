@@ -451,6 +451,7 @@ const
   cHistory_Fold        = '/folded';
   cHistory_CodeTreeFilter = '/codetree_filter';
   cHistory_CodeTreeFilters = '/codetree_filters';
+  cHistory_TabSplit    = '/split';
 
 var
   FLastTabId: integer = 0;
@@ -3030,6 +3031,17 @@ end;
 
 procedure TEditorFrame.DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
 begin
+  if UiOps.HistoryItems[ahhTabSplit] then
+  begin
+    if Splitted then
+      c.SetValue(path+cHistory_TabSplit, Format('%s,%d', [
+        BoolToStr(SplitHorz, '1', '0'),
+        Round(SplitPos*1e5)
+        ]))
+    else
+      c.DeleteValue(path+cHistory_TabSplit);
+  end;
+
   if UiOps.HistoryItems[ahhLexer] then
     c.SetDeleteValue(path+cHistory_Lexer, LexerName[Ed], '');
 
@@ -3198,6 +3210,19 @@ begin
   //so this is commented
   Ed.Markers.AsString:= c.GetValue(path+cHistory_Markers, '');
   }
+
+  //split state
+  str:= c.GetValue(path+cHistory_TabSplit, '');
+  if str<>'' then
+  begin
+    Sep.Init(str);
+    Sep.GetItemInt(i, 0);
+    SplitHorz:= i=1;
+    Splitted:= true;
+    Sep.GetItemInt(i, 0);
+    if i>0 then
+      SplitPos:= i/1e5;
+  end;
 
   //lexer
   str0:= LexerName[Ed];
