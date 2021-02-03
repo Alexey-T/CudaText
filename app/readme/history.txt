@@ -5,7 +5,7 @@
 
 1.123.3 (2021/02)
 
-* change: menu items "View / Split tab / ...." are replaced with single item "View / Split tab...", which shows new dialog to customize tab splitting options
+* change: menu items "View / Split tab / ...." replaced with single item "View / Split tab...", which shows new dialog to configure UI-tab splitting
 + add: save to session also UI-tab splitted state (on/off, vert/horz, percents of window size) (thanks @GHNewbiee)
 
 1.123.2 (2021/02)
