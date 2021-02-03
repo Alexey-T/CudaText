@@ -3,10 +3,10 @@
   - fixed
   * changed
 
-1.123.3
+1.123.3 (2021/02)
 
+* change: menu items "View / Split tab / ...." are replaced with single item "View / Split tab...", which shows new dialog to customize tab splitting options
 + add: save to session also UI-tab splitted state (on/off, vert/horz, percents of window size) (thanks @GHNewbiee)
-* change: default UI-tab split mode changed to 'vertical'
 
 1.123.2 (2021/02)
 
