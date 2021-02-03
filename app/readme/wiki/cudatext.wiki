@@ -49,14 +49,12 @@ Screenshot on Windows:
 * [[#Program_perfomance|Program performance]]
 * [[#Hex_display_of_special_chars|Hex display of special chars]]
 * [[#Tabs_features|Colored UI tabs]]
-* Options Editor plugin
-* Can plug-in a different Python engine
+* Plugin "Options Editor" to configure CudaText via GUI
 * [[#Char_map|Character Map dialog]]
 * UI can be scaled by option (up to 500%)
 * Single-instance mode is supported on all OS'es
 * Scrolling after middle-button click (called "Autoscrolling" in Firefox)
 * [[#Show_pictures_in_the_text|Show pictures in the text]]
-* Zebra mode as an option
 * [[#Activating_internet_links|Activating internet links]]
 * [[#Automatic_folding_of_comments|Automatic folding of comments]]
 * [[#Special_HTML_auto-completion|HTML auto-completion suggests file/folder names]]
@@ -64,6 +62,9 @@ Screenshot on Windows:
 * [[CudaText_plugins#Macros|Macros plugin]] also records actions performed in the Find/Replace dialog, and mouse clicks
 * CudaText and its plugins support i18n (text strings can be translated)
 * Function "Find in files" is [[CudaText_plugins#FindInFiles|implemented in plugin]], with much more features
+* [[#Tab_switcher|Tab switcher]] dialog
+* Option for "zebra mode"
+* Can plug-in a different Python engine (packages in add-ons)
 * Add-ons do not disappear due to GitHub repository deletions
 
 = Download =
