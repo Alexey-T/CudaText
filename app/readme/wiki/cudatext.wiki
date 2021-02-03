@@ -1476,7 +1476,7 @@ Two options configure this feature:
 * "underline_color_files": Specifies which file extensions are supported by the feature.
 * "underline_color_size": Specifies the size of colored block in the editor area. It can be simple underline below the color code, or a background highlighting. Background highlighting can be in 2 variants: for entire text, for the fragment inside brackets.
 
-Pictire shows all 3 variants, in different CudaText windows:
+Screenshot shows all 3 variants in different CudaText windows:
 
 [[File:cudatext-color-underline.png]]
 
