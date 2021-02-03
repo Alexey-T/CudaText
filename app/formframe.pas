@@ -427,6 +427,9 @@ implementation
 {$R *.lfm}
 
 const
+  cSplitHorzToAlign: array[boolean] of TAlign = (alRight, alBottom);
+
+const
   cHistory_Lexer       = '/lexer';
   cHistory_Enc         = '/enc';
   cHistory_TopLine     = '/top';
@@ -1197,10 +1200,7 @@ begin
   FSplitHorz:= AValue;
   if not IsText then exit;
 
-  if FSplitHorz then
-    al:= alBottom
-  else
-    al:= alRight;
+  al:= cSplitHorzToAlign[AValue];
   Splitter.Align:= al;
   Ed2.Align:= al;
 
@@ -1694,16 +1694,16 @@ begin
 
   Ed2.Visible:= false;
   Splitter.Visible:= false;
-  Ed1.Align:= alClient;
-  Ed2.Align:= alBottom;
 
   Ed1.EditorIndex:= 0;
   Ed2.EditorIndex:= 1;
 
-  Splitter.OnMoved:= @SplitterMoved;
-
-  FSplitHorz:= true;
+  FSplitHorz:= UiOps.DefaultTabSplitIsHorz;
   Splitted:= false;
+  Ed1.Align:= alClient;
+  Ed2.Align:= cSplitHorzToAlign[FSplitHorz];
+  Splitter.Align:= cSplitHorzToAlign[FSplitHorz];
+  Splitter.OnMoved:= @SplitterMoved;
 
   Adapter1:= TATAdapterEControl.Create(Self);
   Adapter1.EnabledSublexerTreeNodes:= UiOps.TreeSublexers;

@@ -194,6 +194,7 @@ type
     SidepanelOnStart: integer;
     BottomOnStart: integer;
     PictureTypes: string;
+    DefaultTabSplitIsHorz: boolean;
     MaxFileSizeToOpen: integer;
     MaxFileSizeForLexer: integer;
 
@@ -1539,6 +1540,7 @@ begin
     PyLibrary:= InitPyLibraryPath;
     PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico';
 
+    DefaultTabSplitIsHorz:= false;
     MaxFileSizeToOpen:= 500;
     MaxFileSizeForLexer:= 2;
 
