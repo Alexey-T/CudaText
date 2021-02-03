@@ -1023,7 +1023,7 @@
         <PackageName Value="LCL"/>
       </Item12>
     </RequiredPackages>
-    <Units Count="57">
+    <Units Count="58">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1320,6 +1320,12 @@
         <Filename Value="proc_panelhost.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit56>
+      <Unit57>
+        <Filename Value="form_tabsplit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fmTabSplit"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit57>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

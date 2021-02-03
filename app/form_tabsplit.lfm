@@ -1,0 +1,80 @@
+object fmTabSplit: TfmTabSplit
+  Left = 1530
+  Height = 133
+  Top = 228
+  Width = 241
+  ClientHeight = 133
+  ClientWidth = 241
+  Position = poMainFormCenter
+  LCLVersion = '2.1.0.0'
+  object Button1: TButton
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 186
+    Height = 29
+    Top = 98
+    Width = 49
+    Anchors = [akRight, akBottom]
+    AutoSize = True
+    BorderSpacing.Around = 6
+    Caption = 'Close'
+    TabOrder = 0
+  end
+  object RadioButton1: TRadioButton
+    Left = 16
+    Height = 24
+    Top = 8
+    Width = 108
+    Caption = 'Not splitted'
+    Checked = True
+    TabOrder = 1
+  end
+  object RadioButton2: TRadioButton
+    AnchorSideLeft.Control = RadioButton1
+    AnchorSideTop.Control = RadioButton1
+    AnchorSideTop.Side = asrBottom
+    Left = 16
+    Height = 24
+    Top = 32
+    Width = 140
+    Caption = 'Split horizontally'
+    TabOrder = 2
+  end
+  object RadioButton3: TRadioButton
+    AnchorSideLeft.Control = RadioButton1
+    AnchorSideTop.Control = RadioButton2
+    AnchorSideTop.Side = asrBottom
+    Left = 16
+    Height = 24
+    Top = 56
+    Width = 121
+    Caption = 'Split vertically'
+    TabOrder = 3
+  end
+  object SpinEdit1: TSpinEdit
+    Left = 40
+    Height = 26
+    Top = 93
+    Width = 79
+    Increment = 10
+    MaxValue = 80
+    MinValue = 20
+    TabOrder = 4
+    Value = 20
+  end
+  object Label1: TLabel
+    AnchorSideLeft.Control = SpinEdit1
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = SpinEdit1
+    AnchorSideTop.Side = asrCenter
+    Left = 125
+    Height = 17
+    Top = 98
+    Width = 13
+    BorderSpacing.Around = 6
+    Caption = '%'
+    ParentColor = False
+  end
+end
