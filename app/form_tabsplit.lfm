@@ -1,11 +1,11 @@
 object fmTabSplit: TfmTabSplit
   Left = 1530
-  Height = 133
+  Height = 173
   Top = 228
-  Width = 241
+  Width = 186
   BorderStyle = bsToolWindow
-  ClientHeight = 133
-  ClientWidth = 241
+  ClientHeight = 173
+  ClientWidth = 186
   OnClose = FormClose
   OnShow = FormShow
   Position = poMainFormCenter
@@ -15,9 +15,9 @@ object fmTabSplit: TfmTabSplit
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 186
+    Left = 131
     Height = 29
-    Top = 98
+    Top = 138
     Width = 49
     Anchors = [akRight, akBottom]
     AutoSize = True
@@ -27,7 +27,7 @@ object fmTabSplit: TfmTabSplit
     TabOrder = 0
   end
   object btnNoSplit: TRadioButton
-    Left = 16
+    Left = 8
     Height = 24
     Top = 8
     Width = 108
@@ -41,7 +41,7 @@ object fmTabSplit: TfmTabSplit
     AnchorSideLeft.Control = btnNoSplit
     AnchorSideTop.Control = btnNoSplit
     AnchorSideTop.Side = asrBottom
-    Left = 16
+    Left = 8
     Height = 24
     Top = 32
     Width = 140
@@ -53,7 +53,7 @@ object fmTabSplit: TfmTabSplit
     AnchorSideLeft.Control = btnNoSplit
     AnchorSideTop.Control = btnHorz
     AnchorSideTop.Side = asrBottom
-    Left = 16
+    Left = 8
     Height = 24
     Top = 56
     Width = 121
@@ -61,29 +61,17 @@ object fmTabSplit: TfmTabSplit
     OnChange = btnVertChange
     TabOrder = 3
   end
-  object edPercent: TSpinEdit
-    Left = 40
-    Height = 26
-    Top = 93
-    Width = 79
-    Increment = 5
-    MaxValue = 85
-    MinValue = 15
-    OnChange = edPercentChange
+  object barValue: TTrackBar
+    Left = 8
+    Height = 46
+    Top = 88
+    Width = 168
+    LineSize = 5
+    Max = 85
+    Min = 15
+    OnChange = barValueChange
+    PageSize = 10
+    Position = 15
     TabOrder = 4
-    Value = 20
-  end
-  object LabelPercent: TLabel
-    AnchorSideLeft.Control = edPercent
-    AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = edPercent
-    AnchorSideTop.Side = asrCenter
-    Left = 125
-    Height = 17
-    Top = 98
-    Width = 13
-    BorderSpacing.Around = 6
-    Caption = '%'
-    ParentColor = False
   end
 end

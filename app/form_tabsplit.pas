@@ -12,33 +12,32 @@ unit form_tabsplit;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Spin;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Spin,
+  ComCtrls, FormFrame;
 
 type
   { TfmTabSplit }
 
   TfmTabSplit = class(TForm)
     btnClose: TButton;
-    LabelPercent: TLabel;
     btnNoSplit: TRadioButton;
     btnHorz: TRadioButton;
     btnVert: TRadioButton;
-    edPercent: TSpinEdit;
+    barValue: TTrackBar;
+    procedure barValueChange(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure btnHorzChange(Sender: TObject);
     procedure btnNoSplitChange(Sender: TObject);
     procedure btnVertChange(Sender: TObject);
-    procedure edPercentChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormShow(Sender: TObject);
   private
-    FOnChanged: TNotifyEvent;
-    procedure DoChanged;
-  public
     Splitted: boolean;
     SplitHorz: boolean;
     SplitPercent: integer;
-    property OnChanged: TNotifyEvent read FOnChanged write FOnChanged;
+    procedure DoChanged;
+  public
+    Frame: TEditorFrame;
   end;
 
 implementation
@@ -52,16 +51,20 @@ begin
   Close;
 end;
 
+procedure TfmTabSplit.barValueChange(Sender: TObject);
+begin
+  SplitPercent:= barValue.Position;
+  DoChanged;
+end;
+
 procedure TfmTabSplit.btnNoSplitChange(Sender: TObject);
 begin
-  edPercent.Enabled:= false;
   Splitted:= false;
   DoChanged;
 end;
 
 procedure TfmTabSplit.btnHorzChange(Sender: TObject);
 begin
-  edPercent.Enabled:= true;
   Splitted:= true;
   SplitHorz:= true;
   DoChanged;
@@ -69,15 +72,8 @@ end;
 
 procedure TfmTabSplit.btnVertChange(Sender: TObject);
 begin
-  edPercent.Enabled:= true;
   Splitted:= true;
   SplitHorz:= false;
-  DoChanged;
-end;
-
-procedure TfmTabSplit.edPercentChange(Sender: TObject);
-begin
-  SplitPercent:= edPercent.Value;
   DoChanged;
 end;
 
@@ -90,12 +86,22 @@ procedure TfmTabSplit.FormShow(Sender: TObject);
 begin
   if Application.MainForm.FormStyle=fsStayOnTop then
     FormStyle:= fsStayOnTop;
+
+  Splitted:= Frame.Splitted;
+  SplitHorz:= Frame.SplitHorz;
+  SplitPercent:= round(Frame.SplitPos*100);
+
+  btnNoSplit.Checked:= not Splitted;
+  btnHorz.Checked:= Splitted and SplitHorz;
+  btnVert.Checked:= Splitted and not SplitHorz;
+  barValue.Position:= SplitPercent;
 end;
 
 procedure TfmTabSplit.DoChanged;
 begin
-  if Assigned(FOnChanged) then
-    FOnChanged(Self);
+  Frame.Splitted:= Splitted;
+  Frame.SplitHorz:= SplitHorz;
+  Frame.SplitPos:= SplitPercent/100;
 end;
 
 end.
