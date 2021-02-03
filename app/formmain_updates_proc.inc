@@ -640,8 +640,6 @@ begin
     cCommand_ToggleRuler : DoSave(mi, mnuViewRuler_Alt);
     cCommand_ToggleMinimap : DoSave(mi, mnuViewMinimap_Alt);
     cCommand_ToggleMicromap : DoSave(mi, mnuViewMicromap_Alt);
-    cmd_SplitTabToggle : DoSave(mi, mnuViewSplitDo_Alt);
-    cmd_SplitTabHorzVert : DoSave(mi, mnuViewSplitHorz_Alt);
     cCommand_ToggleUnprinted : DoSave(mi, mnuViewUnpriShow_Alt);
     cCommand_ToggleUnprintedSpaces : DoSave(mi, mnuViewUnpriSpaces_Alt);
     cCommand_ToggleUnprintedSpacesTrailing : DoSave(mi, mnuViewUnpriSpacesTail_Alt);

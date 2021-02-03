@@ -607,8 +607,6 @@ type
     mnuViewRuler_Alt,
     mnuViewMinimap_Alt,
     mnuViewMicromap_Alt,
-    mnuViewSplitDo_Alt,
-    mnuViewSplitHorz_Alt,
     mnuViewUnpriShow_Alt,
     mnuViewUnpriSpaces_Alt,
     mnuViewUnpriSpacesTail_Alt,

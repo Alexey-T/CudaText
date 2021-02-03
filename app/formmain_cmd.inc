@@ -849,6 +849,21 @@ begin
         exit
       end;
 
+    cmd_SplitTabHorz:
+      begin
+        Frame.SplitHorz:= true;
+        Frame.Splitted:= true;
+        AHandled:= true;
+        exit
+      end;
+    cmd_SplitTabVert:
+      begin
+        Frame.SplitHorz:= false;
+        Frame.Splitted:= true;
+        AHandled:= true;
+        exit
+      end;
+
     cmd_SplitTabDialog:
       begin
         with TfmTabSplit.Create(nil) do

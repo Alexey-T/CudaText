@@ -160,6 +160,8 @@ const
   cmd_SwitchTab_Dialog     = 2614;
   cmd_SwitchTab_Recent     = 2615;
 
+  cmd_SplitTabHorz     = 2617;
+  cmd_SplitTabVert     = 2618;
   cmd_SplitTabDialog   = 2619;
   cmd_SplitTabToggle   = 2620;
   cmd_SplitTabHorzVert = 2621;
@@ -521,7 +523,9 @@ begin
 
   M.Add(cmd_SplitTabDialog, 'split tab: dialog', [], []);
   M.Add(cmd_SplitTabToggle, 'split tab: toggle splitted state', [], []);
-  M.Add(cmd_SplitTabHorzVert, 'split tab: toggle horizontal/vertical', [], []);
+  M.Add(cmd_SplitTabHorzVert, 'split tab: toggle horizontally/vertically', [], []);
+  M.Add(cmd_SplitTabHorz, 'split tab: split horizontally', [], []);
+  M.Add(cmd_SplitTabVert, 'split tab: split vertically', [], []);
   M.Add(cmd_SplitTab3070, 'split tab: 30/70', [], []);
   M.Add(cmd_SplitTab4060, 'split tab: 40/60', [], []);
   M.Add(cmd_SplitTab5050, 'split tab: 50/50', [], []);
@@ -721,6 +725,9 @@ begin
     cmd_DialogGotoBookmark,
     cmd_DialogCommands,
 
+    cmd_SplitTabDialog,
+    cmd_SplitTabHorz,
+    cmd_SplitTabVert,
     cmd_SplitTabToggle,
     cmd_SplitTabHorzVert,
     cmd_SplitTab3070,
