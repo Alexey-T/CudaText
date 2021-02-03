@@ -452,6 +452,7 @@ const
   cHistory_CodeTreeFilter = '/codetree_filter';
   cHistory_CodeTreeFilters = '/codetree_filters';
   cHistory_TabSplit    = '/split';
+  cHistory_TabSplit_Mul = 1e5; //instead of float 0.6, save as int 0.6*1e5
 
 var
   FLastTabId: integer = 0;
@@ -3036,7 +3037,7 @@ begin
     if Splitted then
       c.SetValue(path+cHistory_TabSplit, Format('%s,%d', [
         BoolToStr(SplitHorz, '1', '0'),
-        Round(SplitPos*1e5)
+        Round(SplitPos*cHistory_TabSplit_Mul)
         ]))
     else
       c.DeleteValue(path+cHistory_TabSplit);
@@ -3221,7 +3222,7 @@ begin
     Splitted:= true;
     Sep.GetItemInt(i, 0);
     if i>0 then
-      SplitPos:= i/1e5;
+      SplitPos:= i/cHistory_TabSplit_Mul;
   end;
 
   //lexer
