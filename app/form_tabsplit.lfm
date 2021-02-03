@@ -1,10 +1,10 @@
 object fmTabSplit: TfmTabSplit
   Left = 1530
-  Height = 166
+  Height = 161
   Top = 228
   Width = 186
   BorderStyle = bsToolWindow
-  ClientHeight = 166
+  ClientHeight = 161
   ClientWidth = 186
   OnClose = FormClose
   OnCreate = FormCreate
@@ -17,15 +17,16 @@ object fmTabSplit: TfmTabSplit
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 131
+    Left = 100
     Height = 29
-    Top = 131
-    Width = 49
+    Top = 126
+    Width = 80
     Anchors = [akRight, akBottom]
     AutoSize = True
     BorderSpacing.Around = 6
     Cancel = True
-    Caption = 'Close'
+    Caption = 'OK'
+    Constraints.MinWidth = 80
     Default = True
     OnClick = btnCloseClick
     TabOrder = 4
@@ -34,8 +35,8 @@ object fmTabSplit: TfmTabSplit
     Left = 8
     Height = 24
     Top = 8
-    Width = 108
-    Caption = 'Not splitted'
+    Width = 104
+    Caption = 'Do not split'
     Checked = True
     OnChange = btnNoSplitChange
     TabOrder = 0
