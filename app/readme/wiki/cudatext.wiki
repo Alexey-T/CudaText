@@ -32,9 +32,9 @@ Screenshot on Windows:
 * The Python API is easier to use
 * The Python API allows management of dialogs and UI-controls, including the CudaText editor control
 * Code-Tree for most of lexers (ST has only plugin for very limited set of languages)
-* Powerful lexer format, and easier to configure (via GUI in external program)
-* Floating groups of UI-tabs in separate windows
-* Floating mode of side panel and bottom panel
+* Powerful EControl lexer format, and easier to configure (GUI in external program)
+* Floating (separate window) mode of side panel and bottom panel
+* Floating (separate window) groups of UI-tabs (in addition to normal 6 groups)
 * [[#Toolbar|Toolbar]], configurable via plugin 
 * [[#Configurable_statusbar|Configurable statusbar]]
 * Horizontal ruler above text
