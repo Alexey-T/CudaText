@@ -491,7 +491,16 @@ object fmMain: TfmMain
         end
       end
       object mnuViewSplitSub: TMenuItem
-        Caption = '&Split tab...'
+        Caption = '&Split tab'
+        object mnuViewSplitNo: TMenuItem
+          Caption = 'Do not split'
+        end
+        object mnuViewSplitV: TMenuItem
+          Caption = 'Vertically'
+        end
+        object mnuViewSplitH: TMenuItem
+          Caption = 'Horizontally'
+        end
       end
       object SepV2: TMenuItem
         Caption = '-'

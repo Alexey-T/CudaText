@@ -120,7 +120,6 @@ uses
   form_menu_py,
   form_addon_report,
   form_choose_theme,
-  form_tabsplit,
   Math;
 
 type
@@ -205,6 +204,9 @@ type
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
     ButtonCancel: TATButton;
+    mnuViewSplitNo: TMenuItem;
+    mnuViewSplitV: TMenuItem;
+    mnuViewSplitH: TMenuItem;
     mnuViewHint2: TMenuItem;
     mnuViewHint1: TMenuItem;
     mnuOpThemes: TMenuItem;

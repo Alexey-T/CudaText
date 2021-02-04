@@ -342,7 +342,7 @@ cmd_SwitchTab_Recent     = 2615
 
 cmd_SplitTabHorz     = 2617
 cmd_SplitTabVert     = 2618
-cmd_SplitTabDialog   = 2619
+cmd_SplitTabNo       = 2619
 cmd_SplitTabToggle   = 2620
 cmd_SplitTabHorzVert = 2621
 cmd_SplitTab3070     = 2622

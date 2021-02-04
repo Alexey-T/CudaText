@@ -863,10 +863,9 @@ begin
         AHandled:= true;
         exit
       end;
-
-    cmd_SplitTabDialog:
+    cmd_SplitTabNo:
       begin
-        DoDialogTabSplit(Frame);
+        Frame.Splitted:= false;
         AHandled:= true;
         exit
       end;

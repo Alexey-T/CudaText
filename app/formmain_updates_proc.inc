@@ -778,7 +778,10 @@ begin
   UpdateMenuItemHotkey(mnuGr6H, cmd_Groups6horz);
   UpdateMenuItemHotkey(mnuGr6, cmd_Groups6grid);
 
-  UpdateMenuItemHotkey(mnuViewSplitSub, cmd_SplitTabDialog);
+  UpdateMenuItemHotkey(mnuViewSplitNo, cmd_SplitTabNo);
+  UpdateMenuItemHotkey(mnuViewSplitV, cmd_SplitTabVert);
+  UpdateMenuItemHotkey(mnuViewSplitH, cmd_SplitTabHorz);
+
   UpdateMenuItemHotkey(mnuViewWrap, cCommand_ToggleWordWrap);
   UpdateMenuItemHotkey(mnuViewNums, cCommand_ToggleLineNums);
   UpdateMenuItemHotkey(mnuViewFold, cCommand_ToggleFolding);
