@@ -77,12 +77,11 @@ object fmTabSplit: TfmTabSplit
     Height = 34
     Top = 86
     Width = 174
-    LineSize = 5
-    Max = 85
-    Min = 15
+    LineSize = 2
+    Max = 100
     OnChange = barValueChange
     PageSize = 10
-    Position = 50
+    Position = 0
     ShowSelRange = False
     TickStyle = tsNone
     Anchors = [akTop, akLeft, akRight]

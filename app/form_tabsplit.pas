@@ -58,8 +58,10 @@ begin
 end;
 
 procedure TfmTabSplit.barValueChange(Sender: TObject);
+const
+  cStep=2;
 begin
-  SplitPercent:= barValue.Position;
+  SplitPercent:= barValue.Position div cStep * cStep;
   DoChanged;
 end;
 
@@ -89,7 +91,12 @@ begin
 end;
 
 procedure TfmTabSplit.FormCreate(Sender: TObject);
+const
+  cMin = 10;
 begin
+  barValue.Min:= cMin;
+  barValue.Max:= 100-cMin;
+
   DoForm_ScaleAuto(Self, true);
 end;
 
