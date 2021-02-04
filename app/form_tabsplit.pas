@@ -59,7 +59,7 @@ end;
 
 procedure TfmTabSplit.barValueChange(Sender: TObject);
 const
-  cStep=2;
+  cStep=2; //bigger step--less flicker on resize
 begin
   SplitPercent:= barValue.Position div cStep * cStep;
   DoChanged;
