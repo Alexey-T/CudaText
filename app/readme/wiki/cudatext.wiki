@@ -1013,6 +1013,7 @@ Session file contains data:
 ** tab title (if not default)
 ** modified state
 ** code-tree filter string and history of last filters
+** splitting to 2 editors: on/off, vertical/horizontal, percents of size
 * For each modified document: date of modification, full document text
 * Layout/sizes of side panel and bottom panel
 * Layout/sizes of editor groups
