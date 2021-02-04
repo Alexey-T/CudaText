@@ -197,7 +197,6 @@ type
     DefaultTabSplitIsHorz: boolean;
     MaxFileSizeToOpen: integer;
     MaxFileSizeForLexer: integer;
-    AtomicSaving: boolean;
 
     AutocompleteHtml: boolean;
     AutocompleteCss: boolean;
@@ -559,6 +558,7 @@ type
     OpLexerLineSeparators: boolean;
     OpZebra: integer;
     OpZebraStep: integer;
+    OpAtomicFileSave: boolean;
 
     OpNonWordChars: UnicodeString;
     OpFoldStyle: integer;
@@ -1418,6 +1418,7 @@ begin
     OpLexerLineSeparators:= false;
     OpZebra:= 0;
     OpZebraStep:= 2;
+    OpAtomicFileSave:= false;
 
     OpNonWordChars:= cDefaultNonWordChars;
     OpFoldStyle:= 1;
@@ -1544,7 +1545,6 @@ begin
     DefaultTabSplitIsHorz:= false;
     MaxFileSizeToOpen:= 500;
     MaxFileSizeForLexer:= 2;
-    AtomicSaving:= false;
 
     AutocompleteCss:= true;
     AutocompleteHtml:= true;
