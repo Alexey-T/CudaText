@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, StrUtils,
-  Controls,
+  Controls, LCLType,
   Dialogs, Forms,
   Clipbrd,
   ATSynEdit,
@@ -34,11 +34,12 @@ uses
   proc_colors,
   proc_msg,
   proc_str,
+  proc_files,
   ec_SyntAnal,
   ec_syntax_format,
   math;
 
-procedure EditorSaveFileAs(Ed: TATSynEdit; const AFilename: string);
+function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
 function EditorIsEmpty(Ed: TATSynEdit): boolean;
 function EditorIsModifiedEx(Ed: TATSynEdit): boolean;
 procedure EditorSaveTempOptions(Ed: TATSynEdit; out Ops: TATEditorTempOptions);
@@ -1934,10 +1935,49 @@ begin
 end;
 
 
-procedure EditorSaveFileAs(Ed: TATSynEdit; const AFilename: string);
-//TODO: atomic save
+function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
+  //
+  procedure DoSave;
+  begin
+    Ed.SaveToFile(AFileName);
+  end;
+  //
+var
+  NameTemp: string;
+  attr: Longint;
 begin
-  Ed.SaveToFile(AFileName);
+  Result:= true;
+  while true do
+  try
+    AppFileAttrPrepare(AFileName, attr);
+    Ed.BeginUpdate;
+    try
+      try
+        DoSave;
+      except
+        on E: EConvertError do
+          begin
+            NameTemp:= Ed.EncodingName;
+            Ed.EncodingName:= cEncNameUtf8_NoBom;
+            DoSave;
+            MsgBox(Format(msgCannotSaveFileWithEnc, [NameTemp]), MB_OK or MB_ICONWARNING);
+          end
+        else
+          raise;
+      end;
+    finally
+      Ed.EndUpdate;
+    end;
+    AppFileAttrRestore(AFileName, attr);
+    Break;
+  except
+    if MsgBox(msgCannotSaveFile+#10+AFileName,
+      MB_RETRYCANCEL or MB_ICONERROR) = IDCANCEL then
+    begin
+      Result:= false;
+      Break;
+    end;
+  end;
 end;
 
 

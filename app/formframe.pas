@@ -2271,7 +2271,6 @@ end;
 function TEditorFrame.DoFileSave_Ex(Ed: TATSynEdit; ASaveAs: boolean): boolean;
 var
   An: TecSyntAnalyzer;
-  attr: integer;
   PrevEnabled, bNameChanged: boolean;
   NameCounter: integer;
   SFileName, NameTemp, NameInitial: string;
@@ -2364,37 +2363,7 @@ begin
   PrevEnabled:= NotifEnabled;
   NotifEnabled:= false;
 
-  while true do
-  try
-    AppFileAttrPrepare(SFileName, attr);
-    Ed.BeginUpdate;
-    try
-      try
-        EditorSaveFileAs(Ed, SFileName);
-      except
-        on E: EConvertError do
-          begin
-            NameTemp:= Ed.EncodingName;
-            Ed.EncodingName:= cEncNameUtf8_NoBom;
-            EditorSaveFileAs(Ed, SFileName);
-            MsgBox(Format(msgCannotSaveFileWithEnc, [NameTemp]), MB_OK or MB_ICONWARNING);
-          end
-        else
-          raise;
-      end;
-    finally
-      Ed.EndUpdate;
-    end;
-    AppFileAttrRestore(SFileName, attr);
-    Break;
-  except
-    if MsgBox(msgCannotSaveFile+#10+SFileName,
-      MB_RETRYCANCEL or MB_ICONERROR) = IDCANCEL then
-    begin
-      Result:= false;
-      Break;
-    end;
-  end;
+  Result:= EditorSaveFileAs(Ed, SFileName);
 
   if bNameChanged then
     DoLexerFromFilename(Ed, GetFileName(Ed));
