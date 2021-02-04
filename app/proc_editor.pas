@@ -1950,12 +1950,12 @@ function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
   //
 var
   OldEncoding: string;
-  attr: Longint;
+  OldAttr: Longint;
 begin
   Result:= true;
   while true do
   try
-    AppFileAttrPrepare(AFileName, attr);
+    AppFileAttrPrepare(AFileName, OldAttr);
     Ed.BeginUpdate;
     try
       try
@@ -1974,7 +1974,7 @@ begin
     finally
       Ed.EndUpdate;
     end;
-    AppFileAttrRestore(AFileName, attr);
+    AppFileAttrRestore(AFileName, OldAttr);
     Break;
   except
     if MsgBox(msgCannotSaveFile+#10+AFileName,
