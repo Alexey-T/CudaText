@@ -197,6 +197,7 @@ type
     DefaultTabSplitIsHorz: boolean;
     MaxFileSizeToOpen: integer;
     MaxFileSizeForLexer: integer;
+    AtomicSaving: boolean;
 
     AutocompleteHtml: boolean;
     AutocompleteCss: boolean;
@@ -1543,6 +1544,7 @@ begin
     DefaultTabSplitIsHorz:= false;
     MaxFileSizeToOpen:= 500;
     MaxFileSizeForLexer:= 2;
+    AtomicSaving:= false;
 
     AutocompleteCss:= true;
     AutocompleteHtml:= true;

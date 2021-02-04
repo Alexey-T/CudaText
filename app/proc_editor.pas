@@ -38,6 +38,7 @@ uses
   ec_syntax_format,
   math;
 
+procedure EditorSaveFileAs(Ed: TATSynEdit; const AFilename: string);
 function EditorIsEmpty(Ed: TATSynEdit): boolean;
 function EditorIsModifiedEx(Ed: TATSynEdit): boolean;
 procedure EditorSaveTempOptions(Ed: TATSynEdit; out Ops: TATEditorTempOptions);
@@ -1929,6 +1930,13 @@ begin
       Dec(Bads[i]);
     EditorHighlightCharsInLine(Ed, 0, Bads, apstSymbolBad, cBadRegexTag);
   end;
+end;
+
+
+procedure EditorSaveFileAs(Ed: TATSynEdit; const AFilename: string);
+//TODO: atomic save
+begin
+  Ed.SaveToFile(AFileName);
 end;
 
 

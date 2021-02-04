@@ -2370,13 +2370,13 @@ begin
     Ed.BeginUpdate;
     try
       try
-        Ed.SaveToFile(SFileName);
+        EditorSaveFileAs(Ed, SFileName);
       except
         on E: EConvertError do
           begin
             NameTemp:= Ed.EncodingName;
             Ed.EncodingName:= cEncNameUtf8_NoBom;
-            Ed.SaveToFile(SFileName);
+            EditorSaveFileAs(Ed, SFileName);
             MsgBox(Format(msgCannotSaveFileWithEnc, [NameTemp]), MB_OK or MB_ICONWARNING);
           end
         else
