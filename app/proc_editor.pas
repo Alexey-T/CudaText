@@ -1939,8 +1939,13 @@ function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
   //
   procedure DoSave;
   begin
+    {
     //TODO: atomic saving
-    Ed.SaveToFile(AFileName);
+    if Ed.OptAtomicFileSave then
+      ....
+    else
+    }
+      Ed.SaveToFile(AFileName);
   end;
   //
 var
