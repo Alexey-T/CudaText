@@ -2549,18 +2549,18 @@ begin
       StrCaption:= string(PtrCaption);
 
       case (NId and 1) of
-        MENU_LIST,
-        MENU_LIST_ALT:
+        DMENU_LIST,
+        DMENU_LIST_ALT:
           begin
             FillChar(Props, SizeOf(Props), 0);
             Props.ItemsText:= StrItems;
             Props.Caption:= StrCaption;
             Props.InitialIndex:= NIndex;
-            Props.Multiline:= (NId and 1)=MENU_LIST_ALT;
-            Props.NoFuzzy:= (NId and MENU_NO_FUZZY)<>0;
-            Props.NoFullFilter:= (NId and MENU_NO_FULLFILTER)<>0;
-            Props.ShowCentered:= (NId and MENU_CENTERED)<>0;
-            Props.UseEditorFont:= (NId and MENU_EDITORFONT)<>0;
+            Props.Multiline:= (NId and 1)=DMENU_LIST_ALT;
+            Props.NoFuzzy:= (NId and DMENU_NO_FUZZY)<>0;
+            Props.NoFullFilter:= (NId and DMENU_NO_FULLFILTER)<>0;
+            Props.ShowCentered:= (NId and DMENU_CENTERED)<>0;
+            Props.UseEditorFont:= (NId and DMENU_EDITORFONT)<>0;
             Props.Collapse:= TATCollapseStringMode(NCollapse);
             Props.W:= NSizeW;
             Props.H:= NSizeH;
