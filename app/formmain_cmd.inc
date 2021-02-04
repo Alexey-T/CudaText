@@ -866,13 +866,7 @@ begin
 
     cmd_SplitTabDialog:
       begin
-        with TfmTabSplit.Create(nil) do
-        try
-          WorkFrame:= Frame;
-          ShowModal;
-        finally
-          Free;
-        end;
+        DoDialogTabSplit(Frame);
         AHandled:= true;
         exit
       end;

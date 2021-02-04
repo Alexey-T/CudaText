@@ -46,9 +46,22 @@ type
     WorkFrame: TEditorFrame;
   end;
 
+procedure DoDialogTabSplit(AFrame: TEditorFrame);
+
 implementation
 
 {$R *.lfm}
+
+procedure DoDialogTabSplit(AFrame: TEditorFrame);
+begin
+  with TfmTabSplit.Create(nil) do
+  try
+    WorkFrame:= AFrame;
+    ShowModal;
+  finally
+    Free;
+  end;
+end;
 
 { TfmTabSplit }
 
