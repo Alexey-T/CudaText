@@ -1,7 +1,7 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 2021.02.04
-+ [d_tab_color] sp_*
++ [m_v] sp_n, sp_v, sp_h
 * delete [m_v] s_s, s_h
 
 2021.01.26
