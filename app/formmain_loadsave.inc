@@ -987,7 +987,9 @@ begin
 
   Op.OpZebra:= cfg.GetValue('zebra', Op.OpZebra);
   Op.OpZebraStep:= cfg.GetValue('zebra_step', Op.OpZebraStep);
-  Op.OpAtomicFileSave:= cfg.GetValue('atomic_save', Op.OpAtomicFileSave);
+
+  //enable when 'atomic save' will be implemented
+  //Op.OpAtomicFileSave:= cfg.GetValue('atomic_save', Op.OpAtomicFileSave);
 
   Op.OpNonWordChars:= cfg.GetValue('nonword_chars', Op.OpNonWordChars);
   Op.OpFoldStyle:= cfg.GetValue('fold_style', Op.OpFoldStyle);
