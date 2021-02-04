@@ -4106,4 +4106,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: app_proc: add PROC_GET_CONSOLE_FORM
 * deleted: editor objects "ed_con_log", "ed_con_in"
 
+1.0.363 (app 1.123.3)
+* change: dlg_menu: make aliases of MENU_* constants to DMENU_*; old MENU_ names are deprecated
+
 [[Category:CudaText]]
