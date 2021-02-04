@@ -9,6 +9,7 @@
 + add: save to session also UI-tab splitted state (on/off, vert/horz, percents of window size) (thanks @GHNewbiee)
 + add: command "split tab: split horizontally" (thanks @Jairo-Martinez)
 + add: command "split tab: split vertically"
++ add: command "split tab: don't split"
 + add: API allows much more access to Console panel fields (thanks @Shovel)
 + add: allow multi-selections to touch, without joining them (thanks @Jairo-Martinez, @cser)
 + add: lexer Batch: highlight `tick_blocks`; highlight variables with chars ~.,()
