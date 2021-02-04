@@ -1939,11 +1939,12 @@ function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
   //
   procedure DoSave;
   begin
+    //TODO: atomic saving
     Ed.SaveToFile(AFileName);
   end;
   //
 var
-  NameTemp: string;
+  OldEncoding: string;
   attr: Longint;
 begin
   Result:= true;
@@ -1957,10 +1958,10 @@ begin
       except
         on E: EConvertError do
           begin
-            NameTemp:= Ed.EncodingName;
+            OldEncoding:= Ed.EncodingName;
             Ed.EncodingName:= cEncNameUtf8_NoBom;
             DoSave;
-            MsgBox(Format(msgCannotSaveFileWithEnc, [NameTemp]), MB_OK or MB_ICONWARNING);
+            MsgBox(Format(msgCannotSaveFileWithEnc, [OldEncoding]), MB_OK or MB_ICONWARNING);
           end
         else
           raise;
