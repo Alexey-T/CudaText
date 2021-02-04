@@ -70,7 +70,7 @@ WRAP_ON_WINDOW = 1
 WRAP_ON_MARGIN = 2
 
 #dlg_menu
-###deprecated-- delete after 2021.04
+###deprecated-- were used until API 362-- to delete after 2021.04
 MENU_LIST     = 0
 MENU_LIST_ALT = 1
 MENU_NO_FUZZY = 16
