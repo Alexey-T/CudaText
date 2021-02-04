@@ -670,15 +670,15 @@ Shows menu-like dialog. Returns index of selected item (0-based), or None if can
 
 Possible values of "id":
 
-* MENU_LIST: Dialog with listbox and filter.
-* MENU_LIST_ALT: Dialog with listbox and filter, but each item has double height, and instead of right-aligning, 2nd part of an item shows below.
+* DMENU_LIST: Dialog with listbox and filter.
+* DMENU_LIST_ALT: Dialog with listbox and filter, but each item has double height, and instead of right-aligning, 2nd part of an item shows below.
 
-Additional flags to add to "id" value:
+Additional flags to '''add''' to above "id" values:
 
-* MENU_NO_FUZZY: Disable fuzzy search in the items list.
-* MENU_NO_FULLFILTER: Disable filtering by second part of items (after "\t"), filter only by first part.
-* MENU_CENTERED: Show menu centered on screen (otherwise it's aligned to current editor).
-* MENU_EDITORFONT: Use editor's font (monospaced) for list items, instead of variable-width UI font.
+* DMENU_NO_FUZZY: Disable fuzzy search in the items list.
+* DMENU_NO_FULLFILTER: Disable filtering by second part of items (after "\t"), filter only by first part.
+* DMENU_CENTERED: Show menu centered on screen (otherwise it's aligned to current editor).
+* DMENU_EDITORFONT: Use editor's font (monospaced) for list items, instead of variable-width UI font.
 
 Parameters:
 
