@@ -2363,6 +2363,9 @@ begin
   PrevEnabled:= NotifEnabled;
   NotifEnabled:= false;
 
+  //EditorSaveFileAs is big:
+  //handles save errors,
+  //handles exception from encoding conversion (saves in UTF8 if exception)
   Result:= EditorSaveFileAs(Ed, SFileName);
 
   if bNameChanged then
