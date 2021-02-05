@@ -494,12 +494,15 @@ object fmMain: TfmMain
         Caption = '&Split tab'
         object mnuViewSplitNo: TMenuItem
           Caption = 'Do not split'
+          RadioItem = True
         end
         object mnuViewSplitV: TMenuItem
           Caption = 'Vertically'
+          RadioItem = True
         end
         object mnuViewSplitH: TMenuItem
           Caption = 'Horizontally'
+          RadioItem = True
         end
       end
       object SepV2: TMenuItem
