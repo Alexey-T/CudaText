@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+
++ add: if user.json does not exist yet, the file "settings_default/userinit.json" (if exists) is copied to user.json
+
 1.123.3.2 (2021/02)
 
 * change: changed submenu "View / Split tab / ..." to new 3 items: "Don't split", "Vertically", "Horizontally" (thanks @OlehL)
