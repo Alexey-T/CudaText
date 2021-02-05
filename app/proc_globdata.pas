@@ -428,6 +428,7 @@ type
     OpFontQuality: TFontQuality;
     OpFontLigatures: boolean;
 
+    OpScrollbarsNew: boolean;
     OpSpacingY: integer;
     OpTabSize: integer;
     OpTabSpaces: boolean;
@@ -1298,6 +1299,7 @@ begin
     OpFontQuality:= fqDefault;
     OpFontLigatures:= true;
 
+    OpScrollbarsNew:= true;
     OpSpacingY:= 1;
 
     OpTabSize:= 4;

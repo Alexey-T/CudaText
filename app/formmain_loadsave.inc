@@ -859,6 +859,7 @@ begin
   OptCharSizeProportional:= cfg.GetValue('unicode_proportional', OptCharSizeProportional);
   OptCharScaleFullWidth:= cfg.GetValue('unicode_full_width', OptCharScaleFullWidth);
 
+  Op.OpScrollbarsNew:= cfg.GetValue('scrollbar_themed', Op.OpScrollbarsNew);
   Op.OpSpacingY:= cfg.GetValue('spacing_y'+cOptionSystemSuffix, Op.OpSpacingY);
 
   Op.OpTabSize:= cfg.GetValue('tab_size', Op.OpTabSize);

@@ -151,6 +151,7 @@ begin
   Ed.Font.Quality:= Op.OpFontQuality;
   Ed.OptShowFontLigatures:= Op.OpFontLigatures;
 
+  Ed.OptScrollbarsNew:= Op.OpScrollbarsNew;
   Ed.OptCharSpacingY:= Op.OpSpacingY;
 
   if AApplyTabSize then
