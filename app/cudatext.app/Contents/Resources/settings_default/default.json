@@ -200,9 +200,6 @@
   //Show additional dotted frame on mouse selection of block
   "show_mouse_sel_frame": true,
 
-  //Use smooth, per-pixel, scrolling. Otherwise, scrolling is per-line.
-  "smooth_scroll": true,
-
   //Allow last line to scroll to the top of window
   "show_last_line_on_top": true,
 
@@ -369,13 +366,16 @@
   "numbers_center": true,
 
   //[View/ScrollBars]
-  //Visibility of editor's horizontal scrollbar
+  //Use smooth, per-pixel, scrolling. Otherwise, scrolling is per-line.
+  "smooth_scroll": true,
+
+  //Visibility of editor's horizontal scrollbar.
   //  0: Always hide
   //  1: Always show
   //  2: Show automatically
   "scroll_style_horz": 2,
 
-  //Use custom-painted scrollbars in editor, instead of OS-themed scrollbars
+  //Use custom-painted scrollbars in editor, instead of OS-themed scrollbars.
   "scrollbar_themed": true,
 
   //Style of arrows in editor's themed scrollbars.
