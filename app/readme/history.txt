@@ -3,10 +3,12 @@
   - fixed
   * changed
 
+1.123.4 (2021/02)
 
 + add: if user.json does not exist yet, the file "settings_default/userinit.json" (if exists) is copied to user.json
+- fix: Linux: minimizing modal plugin's dialogs could freeze the CudaText (thanks @GHNewbiee)
 
-1.123.3.2 (2021/02)
+1.123.3 (2021/02)
 
 * change: changed submenu "View / Split tab / ..." to new 3 items: "Don't split", "Vertically", "Horizontally" (thanks @OlehL)
 + add: save to session also UI-tab splitted state (on/off, vert/horz, percents of window size) (thanks @GHNewbiee)
