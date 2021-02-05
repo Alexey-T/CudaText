@@ -887,6 +887,9 @@ begin
     end;
   end;
 
+  //turn off 'minimize icon', it will be a problem for modal form on Linux
+  BorderIcons:= BorderIcons-[biMinimize];
+
   FormStyle:= UiOps.PluginDialogsModalFormStyle;
   Show;
 end;
