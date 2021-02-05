@@ -625,6 +625,7 @@ var
   AppDir_DataToolbarIcons: string;
   AppDir_LastInstalledAddon: string = '';
   AppFile_OptionsDefault: string;
+  AppFile_OptionsUserInit: string;
   AppFile_OptionsUser: string;
   AppFile_History: string;
   AppFile_HistoryFiles: string;
@@ -1237,11 +1238,16 @@ begin
   AppDir_DataCodetreeIcons:= AppDir_Data+DirectorySeparator+'codetreeicons';
   AppDir_DataToolbarIcons:= AppDir_Data+DirectorySeparator+'toolbaricons';
   AppFile_OptionsDefault:= AppDir_SettingsDefault+DirectorySeparator+'default.json';
+  AppFile_OptionsUserInit:= AppDir_SettingsDefault+DirectorySeparator+'userinit.json';
   AppFile_OptionsUser:= AppDir_Settings+DirectorySeparator+'user.json';
   AppFile_History:= AppDir_Settings+DirectorySeparator+'history.json';
   AppFile_HistoryFiles:= AppDir_Settings+DirectorySeparator+'history files.json';
   AppFile_Hotkeys:= AppDir_Settings+DirectorySeparator+'keys.json';
   AppFile_PluginsIni:= AppDir_Settings+DirectorySeparator+'plugins.ini';
+
+  if not FileExists(AppFile_OptionsUser)
+    and FileExists(AppFile_OptionsUserInit) then
+    CopyFile(AppFile_OptionsUserInit, AppFile_OptionsUser, [], false);
 end;
 
 const
