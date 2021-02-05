@@ -89,7 +89,6 @@ type
   TFormDummy = class(TForm)
   private
     IsFormShownAlready: boolean;
-    FModalEmulated: boolean;
     procedure DoOnFormActivate(Sender: TObject);
     procedure DoOnFormDeactivate(Sender: TObject);
     procedure DoOnFormShow(Sender: TObject);
@@ -106,6 +105,7 @@ type
       const AEventKind: TAppCtlMouseEvent; const AData: TAppVariant);
   public
     IsDlgCustom: boolean;
+    IsDlgModalEmulated: boolean;
     IdClicked: integer;
     FEventOnClose: string;
     FEventOnCloseQuery: string;
@@ -543,7 +543,7 @@ procedure TFormDummy.DoOnFormWindowStateChange(Sender: TObject);
 begin
   //this is for https://github.com/Alexey-T/CudaText/issues/3078
   //prevent minimizing the modal-emulated form
-  if FModalEmulated then
+  if IsDlgModalEmulated then
     if WindowState=wsMinimized then
     begin
       WindowState:= wsNormal;
@@ -906,7 +906,7 @@ begin
   BorderIcons:= BorderIcons-[biMinimize];
 
   FormStyle:= UiOps.PluginDialogsModalFormStyle;
-  FModalEmulated:= true;
+  IsDlgModalEmulated:= true;
   Show;
 end;
 
@@ -917,7 +917,7 @@ begin
   for i:= PrevForms.Count-1 downto 0 do
     TForm(PrevForms[i]).Enabled:= true;
   PrevForms.Clear;
-  FModalEmulated:= false;
+  IsDlgModalEmulated:= false;
 end;
 
 procedure TFormDummy.DoOnTreeviewChange(Sender: TObject; Node: TTreeNode);
