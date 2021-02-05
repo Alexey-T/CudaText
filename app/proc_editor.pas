@@ -328,7 +328,6 @@ begin
     if Ed.OptZebraActive then
       Ed.OptZebraAlphaBlend:= Op.OpZebra;
     Ed.OptZebraStep:= Op.OpZebraStep;
-    Ed.OptAtomicFileSave:= Op.OpAtomicFileSave;
 
     Ed.OptIndentSize:= Op.OpIndentSize;
     Ed.OptIndentKeepsAlign:= Op.OpUnIndentKeepsAlign;
@@ -1940,8 +1939,9 @@ function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
   procedure DoSave;
   begin
     {
-    //TODO: atomic saving
-    if Ed.OptAtomicFileSave then
+    //atomic file saving is NOT a good thing, people write they loose file properties,
+    //and even loose data
+    if UiOps.AtomicFileSave then
       ....
     else
     }
