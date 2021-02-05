@@ -5,8 +5,9 @@
 
 1.123.4 (2021/02)
 
-+ add: if user.json does not exist yet, the file "settings_default/userinit.json" (if exists) is copied to user.json
++ add: option "scrollbar_themed"
 + add: option "ui_dialogs_in_taskbar"
++ add: if user.json does not exist yet, the file "settings_default/userinit.json" (if exists) is copied to user.json
 - fix: Linux: minimizing modal plugin's dialogs could freeze the CudaText (thanks @GHNewbiee)
 
 1.123.3 (2021/02)

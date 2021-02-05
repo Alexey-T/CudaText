@@ -374,6 +374,10 @@
   //Center line numbers on gutter column
   "numbers_center": true,
 
+  //[View/Scrollbars]
+  //Show custom-painted scrollbars in editor, instead of OS scrollbars
+  "scrollbar_themed": true,
+
   //[Text]
   //Marker size (Wiki "Markers" topic), in percents of line height
   "marker_size": 30,
