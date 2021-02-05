@@ -89,6 +89,7 @@ type
   TFormDummy = class(TForm)
   private
     IsFormShownAlready: boolean;
+    FModalEmulated: boolean;
     procedure DoOnFormActivate(Sender: TObject);
     procedure DoOnFormDeactivate(Sender: TObject);
     procedure DoOnFormShow(Sender: TObject);
@@ -99,6 +100,7 @@ type
     procedure DoOnFormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnFormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure DoOnFormCloseQuery(Sender: TObject; var CanClose: boolean);
+    procedure DoOnFormWindowStateChange(Sender: TObject);
     procedure _HandleClickEvent(Sender: TObject; ADblClick: boolean);
     procedure _HandleMouseEvent(Sender: TObject;
       const AEventKind: TAppCtlMouseEvent; const AData: TAppVariant);
@@ -307,6 +309,7 @@ begin
   OnDeactivate:= @DoOnFormDeactivate;
   OnMouseEnter:= @DoOnFormMouseEnter;
   OnMouseLeave:= @DoOnFormMouseLeave;
+  OnWindowStateChange:= @DoOnFormWindowStateChange;
 
   PrevBorderStyle:= BorderStyle;
   PrevForms:= TFPList.Create;
@@ -534,6 +537,18 @@ end;
 procedure TFormDummy.DoOnFormCloseQuery(Sender: TObject; var CanClose: boolean);
 begin
   CanClose:= DoEvent(-1, FEventOnCloseQuery, AppVariantNil);
+end;
+
+procedure TFormDummy.DoOnFormWindowStateChange(Sender: TObject);
+begin
+  //this is for https://github.com/Alexey-T/CudaText/issues/3078
+  //prevent minimizing the modal-emulated form
+  if FModalEmulated then
+    if WindowState=wsMinimized then
+    begin
+      WindowState:= wsNormal;
+      Show;
+    end;
 end;
 
 procedure TFormDummy.DoOnControlMenu(Sender: TObject; MousePos: TPoint;
@@ -891,6 +906,7 @@ begin
   BorderIcons:= BorderIcons-[biMinimize];
 
   FormStyle:= UiOps.PluginDialogsModalFormStyle;
+  FModalEmulated:= true;
   Show;
 end;
 
@@ -901,6 +917,7 @@ begin
   for i:= PrevForms.Count-1 downto 0 do
     TForm(PrevForms[i]).Enabled:= true;
   PrevForms.Clear;
+  FModalEmulated:= false;
 end;
 
 procedure TFormDummy.DoOnTreeviewChange(Sender: TObject; Node: TTreeNode);
