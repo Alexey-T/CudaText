@@ -3386,6 +3386,7 @@ begin
     fmConsole.EdMemo.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
     fmConsole.EdMemo.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
     fmConsole.EdMemo.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
+    fmConsole.EdMemo.OptScrollbarsNew:= EditorOps.OpScrollbarsNew;
     fmConsole.EdInput.Height:= AppScale(UiOps.InputHeight);
     fmConsole.EdInput.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
     fmConsole.EdInput.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
