@@ -646,6 +646,10 @@ begin
     cCommand_ToggleUnprintedEnds : DoSave(mi, mnuViewUnpriEnds_Alt);
     cCommand_ToggleUnprintedEndDetails : DoSave(mi, mnuViewUnpriEndsDet_Alt);
 
+    cmd_SplitTabNo: DoSave(mi, mnuViewSplitNo_Alt);
+    cmd_SplitTabVert: DoSave(mi, mnuViewSplitV_Alt);
+    cmd_SplitTabHorz: DoSave(mi, mnuViewSplitH_Alt);
+
     cmd_ToggleToolbar : DoSave(mi, mnuViewToolbar_Alt);
     cmd_ToggleStatusbar : DoSave(mi, mnuViewStatus_Alt);
     cmd_ToggleFullScreen : DoSave(mi, mnuViewFullscr_Alt);
@@ -887,6 +891,10 @@ begin
   UpdateMenuItemChecked(mnuViewUnpriSpacesTail, mnuViewUnpriSpacesTail_Alt, Ed.OptUnprintedSpacesTrailing);
   UpdateMenuItemChecked(mnuViewUnpriEnds, mnuViewUnpriEnds_Alt, Ed.OptUnprintedEnds);
   UpdateMenuItemChecked(mnuViewUnpriEndsDet, mnuViewUnpriEndsDet_Alt, Ed.OptUnprintedEndsDetails);
+
+  UpdateMenuItemChecked(mnuViewSplitNo, mnuViewSplitNo_Alt, not F.Splitted);
+  UpdateMenuItemChecked(mnuViewSplitV, mnuViewSplitV_Alt, F.Splitted and not F.SplitHorz);
+  UpdateMenuItemChecked(mnuViewSplitH, mnuViewSplitH_Alt, F.Splitted and F.SplitHorz);
 
   UpdateMenuItemChecked(mnuViewToolbar, mnuViewToolbar_Alt, ShowToolbar);
   UpdateMenuItemChecked(mnuViewStatus, mnuViewStatus_Alt, ShowStatus);
