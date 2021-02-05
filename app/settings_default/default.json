@@ -132,6 +132,12 @@
   //Allow to run only one instance of CudaText
   "ui_one_instance": false,
 
+  //Show modal plugin's dialogs with separate taskbar button [has suffix]
+  //Note: Linux desktop Cinnamon has problem if you set 'false'
+  "ui_dialogs_in_taskbar": false,
+  "ui_dialogs_in_taskbar__linux": true,
+  "ui_dialogs_in_taskbar__mac": true,
+
   //On clicking hyperlinks, show additional confirmation button, over clicked position
   "ui_links_confirm": true,
 

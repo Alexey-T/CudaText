@@ -1071,6 +1071,7 @@ begin
       FOption_AllowSessionLoad:= aalsEnable;
   UiOps.AutoSaveSession:= cfg.GetValue('ui_auto_save_session', UiOps.AutoSaveSession);
 
+  UiOps.PluginDialogsShowInTaskbar:= cfg.GetValue('ui_dialogs_in_taskbar'+cOptionSystemSuffix, UiOps.PluginDialogsShowInTaskbar);
   UiOps.OneInstance:= cfg.GetValue('ui_one_instance', UiOps.OneInstance);
   UiOps.UndoPersistent:= cfg.GetValue('undo_persistent', UiOps.UndoPersistent);
   UiOps.AllowSaveOfUnmodifiedFile:= cfg.GetValue('ui_save_always', UiOps.AllowSaveOfUnmodifiedFile);

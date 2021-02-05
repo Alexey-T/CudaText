@@ -283,6 +283,8 @@ end;
 { TFormDummy }
 
 constructor TFormDummy.Create(TheOwner: TComponent);
+const
+  cTaskbarModes: array[boolean] of TShowInTaskbar = (stNever, stAlways);
 begin
   inherited CreateNew(TheOwner);
 
@@ -292,7 +294,7 @@ begin
   Position:= poMainFormCenter;
   ShowHint:= true;
   Scaled:= false;
-  ShowInTaskBar:= UiOps.PluginDialogsShowInTaskbar;
+  ShowInTaskBar:= cTaskbarModes[UiOps.PluginDialogsShowInTaskbar];
 
   IsDlgCustom:= false;
   IsFormShownAlready:= false;
