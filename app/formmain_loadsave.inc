@@ -832,6 +832,8 @@ end;
 procedure TfmMain.DoOps_LoadOptions_Editor(cfg: TJSONConfig; var Op: TEditorOps);
 var
   Sep: TATStringSeparator;
+  Str: string;
+  N: integer;
 begin
   Op.OpFontName:= cfg.GetValue(str_FontName, Op.OpFontName);
   Op.OpFontName_i:= cfg.GetValue(str_FontName_i, Op.OpFontName_i);
@@ -861,6 +863,16 @@ begin
 
   Op.OpScrollbarsNew:= cfg.GetValue('scrollbar_themed', Op.OpScrollbarsNew);
   Op.OpSpacingY:= cfg.GetValue('spacing_y'+cOptionSystemSuffix, Op.OpSpacingY);
+
+  Str:= cfg.GetValue('scrollbar_arrows', '');
+  if Str<>'' then
+  begin
+    Sep.Init(Str, ',');
+    if Sep.GetItemInt(N, 0) then
+      byte(ATScrollbarTheme.ArrowStyleH):= N;
+    if Sep.GetItemInt(N, 0) then
+      byte(ATScrollbarTheme.ArrowStyleV):= N;
+  end;
 
   Op.OpTabSize:= cfg.GetValue('tab_size', Op.OpTabSize);
   Op.OpTabSpaces:= cfg.GetValue('tab_spaces', Op.OpTabSpaces);

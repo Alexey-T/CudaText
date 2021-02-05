@@ -215,12 +215,6 @@
   //On dragging vertical scrollbar, show line number tooltip in the top-right corner
   "show_hint_on_vert_scroll": false,
 
-  //Style of editor's horizontal scrollbar
-  //  0: Always hide
-  //  1: Always show
-  //  2: Show automatically
-  "scroll_style_horz": 2,
-
   //Shift text area to the right, so part of text will look "centered".
   //  If value=0: no shifting.
   //  If value>0, text area is shifted, so N first characters in lines look "centered".
@@ -374,9 +368,20 @@
   //Center line numbers on gutter column
   "numbers_center": true,
 
-  //[View/Scrollbars]
-  //Show custom-painted scrollbars in editor, instead of OS scrollbars
+  //[View/ScrollBars]
+  //Visibility of editor's horizontal scrollbar
+  //  0: Always hide
+  //  1: Always show
+  //  2: Show automatically
+  "scroll_style_horz": 2,
+
+  //Use custom-painted scrollbars in editor, instead of OS-themed scrollbars
   "scrollbar_themed": true,
+
+  //Style of arrows in editor's themed scrollbars.
+  //Value is 2 numbers ","-separated, for horizontal/vertical bars.
+  //Numbers: 0: normal position of arrows; 1: both below; 2: both above; 3: hide arrows.
+  "scrollbar_arrows": "0,0",
 
   //[Text]
   //Marker size (Wiki "Markers" topic), in percents of line height
