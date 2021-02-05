@@ -1423,7 +1423,10 @@ Control of UI tabs is named ATTabs, and has many features:
 [[File:cudatext-tabs-multiline.png]]
 
 * Tabs can have fixed or variable width. Option "ui_tab_variable_width". Minimal/maximal width of fixed tabs is customizable.
-* Tabs can be shaped and bordered, or be flat. Option "ui_tab_flat".
+* Tabs can be shaped/bordered, or can be flat. Option "ui_tab_flat". Flat tabs are painted with additional colored underline for the active document.
+
+[[File:cudatext-tabs-flat.png]]
+
 * Tabs can be dragged by mouse: inside original group or to another groups (use "=" top menu item). And can be moved to specified group index using tab context menu items "Move tab to group n".
 * Program can be used without tabs at all. Options "ui_tab_show" and "ui_tab_disabled".
 
