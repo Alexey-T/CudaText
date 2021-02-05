@@ -1701,7 +1701,7 @@ begin
     UndoPersistent:= '';
     AllowSaveOfUnmodifiedFile:= true;
 
-    PluginDialogsShowInTaskbar:= stNever;
+    PluginDialogsShowInTaskbar:= {$ifdef windows} stNever {$else} stAlways {$endif}; //'always' is to fix issue #3078 on Linux
     PluginDialogsModalFormStyle:= {$ifdef LCLQT5} fsNormal {$else} fsStayOnTop {$endif};
     FloatGroupsShowInTaskbar:= stAlways;
     OneInstance:= false;
