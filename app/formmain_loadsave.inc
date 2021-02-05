@@ -867,11 +867,13 @@ begin
   Str:= cfg.GetValue('scrollbar_arrows', '');
   if Str<>'' then
   begin
-    Sep.Init(Str, ',');
-    if Sep.GetItemInt(N, 0) then
-      byte(ATScrollbarTheme.ArrowStyleH):= N;
-    if Sep.GetItemInt(N, 0) then
-      byte(ATScrollbarTheme.ArrowStyleV):= N;
+    Sep.Init(Str);
+    if Sep.GetItemInt(N, -1) then
+      if (N>=0) and (N<=Ord(High(TATScrollbarArrowsStyle))) then
+        ATScrollbarTheme.ArrowStyleH:= TATScrollbarArrowsStyle(N);
+    if Sep.GetItemInt(N, -1) then
+      if (N>=0) and (N<=Ord(High(TATScrollbarArrowsStyle))) then
+        ATScrollbarTheme.ArrowStyleV:= TATScrollbarArrowsStyle(N);
   end;
 
   Op.OpTabSize:= cfg.GetValue('tab_size', Op.OpTabSize);
