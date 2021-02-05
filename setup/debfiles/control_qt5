@@ -1,0 +1,11 @@
+Package: cudatext
+Version: 1.123.3.2-1
+Section: editors
+Priority: optional
+Architecture: amd64
+Maintainer: Alexey Torgashin <support@uvviewsoft.com>
+Homepage: http://uvviewsoft.com/
+Depends: libqt5pas-dev
+Installed-Size: 15000
+Description: CudaText editor
+ Text/code editor with lite UI. Syntax highlighting for 200+ languages. Config system in JSON files. Multi-carets and multi-selections. Search and replace with RegEx. Extendable by Python plugins and themes.
