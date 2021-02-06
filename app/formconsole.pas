@@ -105,20 +105,24 @@ implementation
 
 function TfmConsole.ParseLine(const S: string): TAppConsoleLineKind;
 const
-  cConsoleTracebackMsg = 'Traceback (most recent call last):';
-  cConsoleSyntaxErrorMsg = 'SyntaxError: ';
-  cConsoleNoteMsg = 'NOTE: ';
+  cTraceback = 'Traceback (most recent call last):';
+  cSyntaxError = 'SyntaxError: ';
+  cNote = 'NOTE: ';
 begin
   if SBeginsWith(S, cConsolePrompt) then
     exit(acLinePrompt);
 
-  if SBeginsWith(S, cConsoleNoteMsg) then
+  if SBeginsWith(S, cNote) then
     exit(acLineNote);
 
   //SEndsWith is better, to find FindInFiles4 log string added to 'traceback'
-  if SEndsWith(S, cConsoleTracebackMsg) or
-    SBeginsWith(S, cConsoleSyntaxErrorMsg) or
-    SRegexMatchesString(S, '^[a-zA-Z][\w\.]*Error: .+', true) then
+  if SEndsWith(S, cTraceback) or
+    (Pos('Error: ', S)>1) //it's faster than 2 checks commented below
+    {
+    SBeginsWith(S, cSyntaxError) or
+    SRegexMatchesString(S, '^[a-zA-Z][\w\.]*Error: .+', true))
+    }
+    then
       exit(acLineError);
 
   Result:= acLineUsual;
