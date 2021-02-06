@@ -5,6 +5,7 @@
 
 1.124.0 (2021/02)
 
++ add: option "dim_unfocused", allows to dim background color of unfocused editors
 + add: option "scrollbar_themed"
 + add: option "scrollbar_arrows"
 + add: option "ui_dialogs_in_taskbar"

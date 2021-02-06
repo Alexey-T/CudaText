@@ -329,6 +329,7 @@ begin
     if Ed.OptZebraActive then
       Ed.OptZebraAlphaBlend:= Op.OpZebra;
     Ed.OptZebraStep:= Op.OpZebraStep;
+    Ed.OptDimUnfocusedBack:= Op.OpDimUnfocused;
 
     Ed.OptIndentSize:= Op.OpIndentSize;
     Ed.OptIndentKeepsAlign:= Op.OpUnIndentKeepsAlign;

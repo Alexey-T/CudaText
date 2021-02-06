@@ -228,6 +228,10 @@
   //Zebra mode: step, in lines
   "zebra_step": 2,
 
+  //For unfocused editors (in passive tab-groups), dim background color, ie mix with font color
+  //Value: 0 (option is inactive) ... 240
+  "dim_unfocused": 0,
+
   //[Lexers]
   //Enable caret-depending highlightings.
   //- e.g. Pascal highlightes "begin"/"end" with green when caret is inside block

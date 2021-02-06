@@ -1002,6 +1002,7 @@ begin
 
   Op.OpZebra:= cfg.GetValue('zebra', Op.OpZebra);
   Op.OpZebraStep:= cfg.GetValue('zebra_step', Op.OpZebraStep);
+  Op.OpDimUnfocused:= cfg.GetValue('dim_unfocused', Op.OpDimUnfocused);
 
   //enable when 'atomic save' will be implemented
   //Op.OpAtomicFileSave:= cfg.GetValue('atomic_save', Op.OpAtomicFileSave);

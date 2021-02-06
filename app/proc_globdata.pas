@@ -559,6 +559,7 @@ type
     OpLexerLineSeparators: boolean;
     OpZebra: integer;
     OpZebraStep: integer;
+    OpDimUnfocused: integer;
 
     OpNonWordChars: UnicodeString;
     OpFoldStyle: integer;
@@ -1425,6 +1426,7 @@ begin
     OpLexerLineSeparators:= false;
     OpZebra:= 0;
     OpZebraStep:= 2;
+    OpDimUnfocused:= 0;
 
     OpNonWordChars:= cDefaultNonWordChars;
     OpFoldStyle:= 1;
