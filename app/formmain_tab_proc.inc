@@ -156,6 +156,7 @@ var
   NColorTabActive, NColorTabOther: TColor;
   NColorMarkActive, NColorMarkOther: TColor;
   NLocalGroups, NGlobalGroup, NTab, i: integer;
+  bGroupActive: boolean;
 begin
   NColorTabActive:= GetAppColor(apclTabActive);
   NColorTabOther:= GetAppColor(apclTabActiveOthers);
@@ -168,8 +169,9 @@ begin
   for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
     with Gr.Pages[i] do
     begin
-      Tabs.ColorTabActive:= IfThen(i=NLocalGroups, NColorTabActive, NColorTabOther);
-      Tabs.ColorActiveMark:= IfThen(i=NLocalGroups, NColorMarkActive, NColorMarkOther);
+      bGroupActive:= i=NLocalGroups;
+      Tabs.ColorTabActive:= IfThen(bGroupActive, NColorTabActive, NColorTabOther);
+      Tabs.ColorActiveMark:= IfThen(bGroupActive, NColorMarkActive, NColorMarkOther);
       Tabs.Invalidate;
     end;
 end;
