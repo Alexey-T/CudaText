@@ -60,7 +60,7 @@
   "TabFontMod" : "#80A0D0",
   "TabActive" : "#272822",
   "TabActiveOthers" : "#181818",
-  "TabPassive" : "#40403D",
+  "TabPassive" : "#181818",
   "TabOver" : "#50504D",
   "TabBorderActive" : "#42433E",
   "TabBorderPassive" : "#4E4E4C",
