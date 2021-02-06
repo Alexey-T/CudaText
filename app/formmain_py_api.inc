@@ -4419,6 +4419,7 @@ var
   Num64: Int64;
   Pnt: TPoint;
   Sep: TATStringSeparator;
+  Picture: TPicture;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'is:app_proc', @Id, @Ptr)) then
@@ -4453,6 +4454,21 @@ begin
             if Clipboard.HasPictureFormat then
               Str1+= 'p';
             Result:= PyUnicodeFromString(Str1);
+          end;
+
+        APP_PROC_CLIP_SAVE_PICTURE:
+          begin
+            if FileExists(Str) then
+              DeleteFileUTF8(Str);
+            with TPicture.Create do
+            try
+              Assign(Clipboard);
+              SaveToFile(Str);
+            finally
+              Free;
+            end;
+            ok:= FileExists(Str);
+            Result:= PyBool_FromLong(Ord(ok));
           end;
 
         APP_PROC_GET_COMMANDS:
