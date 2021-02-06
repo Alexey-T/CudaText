@@ -2541,6 +2541,16 @@ CudaText:
 * List of files in the current project: "plugin: Project Manager: Go to file".
 * List of "symbols" in the current document: "plugin: Cuda-Ext: Code Tree: Symbols list" (shows the same symbols as code-tree can show).
 
+==How to use 'atomic saving'==
+'Atomic' file saving is saving to a temporary file, then renaming that file to the destination.
+'Atomic' saving is not implemented in CudaText, because users of Sublime Text 3 consider it as harmful feature.
+
+* It drops NTFS extended file attributes, on Windows (and Unixes too?)
+* It drops NTFS file streams, on Windows
+* Problems with files located on Network drives, on Windows
+* Problems with symlinks
+* It needs additional options like "on which drives to use atomic saving"
+
 [[Category: CudaText]]
 [[Category: Applications written in Free Pascal]]
 [[Category: Applications created with Lazarus]]
