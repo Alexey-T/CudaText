@@ -109,7 +109,8 @@ begin
 
   bMsgPrompt:= SBeginsWith(Str, cConsolePrompt);
   bMsgNote:= SBeginsWith(Str, cConsoleNoteMsg);
-  bMsgError:= (Str=cConsoleTracebackMsg) or
+  //SEndsWith is better, to find FIF4 log string appended to 'traceback'
+  bMsgError:= SEndsWith(Str, cConsoleTracebackMsg) or
     SRegexMatchesString(Str, '^[a-zA-Z][\w\.]*Error: .+', true);
 
   if bMsgPrompt then
@@ -158,7 +159,8 @@ begin
 
     ModeReadOnly:= true;
 
-    if (AText=cConsoleTracebackMsg) or
+    //SEndsWith is better, to find FIF4 log string appended to 'traceback'
+    if SEndsWith(AText, cConsoleTracebackMsg) or
       SBeginsWith(AText, cConsoleSyntaxErrorMsg) or
       SBeginsWith(AText, cConsoleNoteMsg) then
     begin
