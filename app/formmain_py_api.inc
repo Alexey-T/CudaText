@@ -4458,16 +4458,21 @@ begin
 
         APP_PROC_CLIP_SAVE_PICTURE:
           begin
-            if FileExists(Str) then
-              DeleteFileUTF8(Str);
-            with TPicture.Create do
-            try
-              Assign(Clipboard);
-              SaveToFile(Str);
-            finally
-              Free;
-            end;
-            ok:= FileExists(Str);
+            if Clipboard.HasPictureFormat then
+            begin
+              if FileExists(Str) then
+                DeleteFileUTF8(Str);
+              with TPicture.Create do
+              try
+                Assign(Clipboard);
+                SaveToFile(Str);
+              finally
+                Free;
+              end;
+              ok:= FileExists(Str);
+            end
+            else
+              ok:= false;
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
