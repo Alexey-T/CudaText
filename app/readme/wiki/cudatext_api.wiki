@@ -243,6 +243,13 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** CudaText Paste commands get text from usual clipboard.
 ** CudaText Paste with option "mouse_mid_click_paste":true gets text from primary selection.
 
+* PROC_CLIP_ENUM: Returns string, where each char represents a format stored in Clipboard.
+** "t": Text format.
+** "h": HTML format.
+** "p": Picture format.
+
+* PROC_CLIP_SAVE_PICTURE: If Clipboard has a picture format, save it as a given filename (recommended the .png extension). Returns bool: file was saved.
+
 ====Plugin calls====
 
 * PROC_SET_EVENTS: Subscribes plugin to events. First it removes all subscribed events for specified module name (even those from install.inf file) and then adds specified events (if event list is not empty). Param "text" must be 4 values ";"-separated: "module_name;event_list;lexer_list;filter".
@@ -4106,7 +4113,9 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: app_proc: add PROC_GET_CONSOLE_FORM
 * deleted: editor objects "ed_con_log", "ed_con_in"
 
-1.0.363 (app 1.123.3)
+1.0.364 (app 1.123.5)
 * change: dlg_menu: make aliases of MENU_* constants to DMENU_*; old MENU_ names are deprecated
+* add: app_proc: PROC_CLIP_ENUM
+* add: app_proc: PROC_CLIP_SAVE_PICTURE
 
 [[Category:CudaText]]
