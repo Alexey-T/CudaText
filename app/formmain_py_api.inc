@@ -4404,7 +4404,6 @@ begin
   end;
 end;
 
-
 function Py_app_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Id, i: integer;
@@ -4419,7 +4418,6 @@ var
   Num64: Int64;
   Pnt: TPoint;
   Sep: TATStringSeparator;
-  Picture: TPicture;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'is:app_proc', @Id, @Ptr)) then
@@ -4446,33 +4444,12 @@ begin
 
         APP_PROC_CLIP_ENUM:
           begin
-            Str1:= '';
-            if Clipboard.HasFormat(CF_Text) then
-              Str1+= 't';
-            if Clipboard.HasFormat(CF_HTML) then
-              Str1+= 'h';
-            if Clipboard.HasPictureFormat then
-              Str1+= 'p';
-            Result:= PyUnicodeFromString(Str1);
+            Result:= PyUnicodeFromString(DoClipboardFormatsAsString);
           end;
 
         APP_PROC_CLIP_SAVE_PIC:
           begin
-            if Clipboard.HasPictureFormat then
-            begin
-              if FileExists(Str) then
-                DeleteFileUTF8(Str);
-              with TPicture.Create do
-              try
-                Assign(Clipboard);
-                SaveToFile(Str);
-              finally
-                Free;
-              end;
-              ok:= FileExists(Str);
-            end
-            else
-              ok:= false;
+            ok:= DoClipboardSavePictureToFile(Str);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 

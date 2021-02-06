@@ -18,6 +18,7 @@ uses
   Classes, SysUtils, Controls, StdCtrls, ComCtrls, Graphics, Types,
   ImgList, Dialogs, Forms, Menus, ExtCtrls, Math,
   LclIntf, LclType, LazFileUtils, StrUtils,
+  Clipbrd,
   at__jsonConf,
   ATSynEdit,
   ATSynEdit_Adapter_EControl,
@@ -51,6 +52,9 @@ function Canvas_NumberToFontStyles(Num: integer): TFontStyles;
 procedure Canvas_PaintPolygonFromSting(C: TCanvas; const AText: string);
 procedure Canvas_PaintImageInRect(C: TCanvas; APic: TGraphic; const ARect: TRect);
 function DoPictureLoadFromFile(const AFilename: string): TGraphic;
+function DoClipboardSavePictureToFile(const fn: string): boolean;
+function DoClipboardFormatsAsString: string;
+
 procedure DoScalePanelControls(APanel: TWinControl);
 procedure AppScaleSplitter(C: TSplitter);
 
@@ -333,6 +337,26 @@ begin
 end;
 
 
+function DoClipboardSavePictureToFile(const fn: string): boolean;
+begin
+  if Clipboard.HasPictureFormat then
+  begin
+    if FileExists(fn) then
+      DeleteFileUTF8(fn);
+    with TPicture.Create do
+    try
+      Assign(Clipboard);
+      SaveToFile(fn);
+    finally
+      Free;
+    end;
+    Result:= FileExists(fn);
+  end
+  else
+    Result:= false;
+end;
+
+
 procedure Canvas_PaintImageInRect(C: TCanvas; APic: TGraphic; const ARect: TRect);
 var
   Bitmap: TBitmap;
@@ -441,6 +465,16 @@ begin
   C.Invalidate;
 end;
 
+function DoClipboardFormatsAsString: string;
+begin
+  Result:= '';
+  if Clipboard.HasFormat(CF_Text) then
+    Result+= 't';
+  if Clipboard.HasFormat(CF_HTML) then
+    Result+= 'h';
+  if Clipboard.HasPictureFormat then
+    Result+= 'p';
+end;
 
 procedure DoScalePanelControls(APanel: TWinControl);
 var
