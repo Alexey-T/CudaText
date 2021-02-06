@@ -408,8 +408,8 @@ begin
     C.Font.Size:= UiOps.VarFontSize;
     C.Font.Color:= GetAppColor(apclTreeFont);
     C.BackgroundColor:= GetAppColor(apclTreeBg);
-    C.SelectionFontColor:= GetAppColor(apclTreeSelFont); //lew Laz
-    C.SelectionFontColorUsed:= true; //new Laz
+    C.SelectionFontColor:= GetAppColor(apclTreeSelFont);
+    C.SelectionFontColorUsed:= true;
     if C.Focused then
       C.SelectionColor:= GetAppColor(apclTreeSelBg)
     else
