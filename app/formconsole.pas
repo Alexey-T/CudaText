@@ -108,6 +108,7 @@ begin
   Result:= false;
   N:= Pos('Error: ', S);
   if N<=1 then exit;
+  if S[1]='.' then exit;
   for i:= 1 to N-1 do
     if not (S[i] in ['.', 'a'..'z', 'A'..'Z', '_']) then
       exit;
