@@ -153,18 +153,23 @@ procedure TfmMain.UpdateTabsActiveColor(F: TEditorFrame);
 var
   Gr: TATGroups;
   Pages: TATPages;
-  NColorAct, NColorOther: TColor;
+  NColorTabActive, NColorTabOther: TColor;
+  NColorMarkActive, NColorMarkOther: TColor;
   NLocalGroups, NGlobalGroup, NTab, i: integer;
 begin
-  NColorAct:= GetAppColor(apclTabActive);
-  NColorOther:= GetAppColor(apclTabActiveOthers);
+  NColorTabActive:= GetAppColor(apclTabActive);
+  NColorTabOther:= GetAppColor(apclTabActiveOthers);
+
+  NColorMarkActive:= GetAppColor(apclTabActiveMark);
+  NColorMarkOther:= ColorBlendHalf(NColorMarkActive, NColorTabOther);
 
   GetFrameLocation(F, Gr, Pages, NLocalGroups, NGlobalGroup, NTab);
 
   for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
     with Gr.Pages[i] do
     begin
-      Tabs.ColorTabActive:= IfThen(i=NLocalGroups, NColorAct, NColorOther);
+      Tabs.ColorTabActive:= IfThen(i=NLocalGroups, NColorTabActive, NColorTabOther);
+      Tabs.ColorActiveMark:= IfThen(i=NLocalGroups, NColorMarkActive, NColorMarkOther);
       Tabs.Invalidate;
     end;
 end;
