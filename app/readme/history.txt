@@ -17,6 +17,7 @@
 + add: API allows much more access to Console panel fields (thanks @Shovel)
 + add: allow multi-selections to touch, without joining them (thanks @Jairo-Martinez, @cser)
 + add: lexer Batch: highlight `tick_blocks`; highlight variables with chars ~.,()
+* change: hide micromap when there is only one line (in multi-line editors)
 * change: changed submenu "View / Split tab / ..." to new 3 items: "Don't split", "Vertically", "Horizontally" (thanks @OlehL)
 * change: program will not save to session filenames from CudaText: "settings/history.json", "settings/history session.json"
 - fix: Linux: minimizing modal plugin's dialogs could freeze the CudaText (thanks @GHNewbiee)
