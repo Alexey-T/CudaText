@@ -4443,6 +4443,18 @@ begin
             Result:= ReturnNone;
           end;
 
+        APP_PROC_CLIP_ENUM:
+          begin
+            Str1:= '';
+            if Clipboard.HasFormat(CF_Text) then
+              Str1+= 't';
+            if Clipboard.HasFormat(CF_HTML) then
+              Str1+= 'h';
+            if Clipboard.HasPictureFormat then
+              Str1+= 'p';
+            Result:= PyUnicodeFromString(Str1);
+          end;
+
         APP_PROC_GET_COMMANDS:
           begin
             Keymap_UpdateDynamic(categ_Lexer);
