@@ -101,29 +101,35 @@ implementation
 
 //{$R *.lfm} //not needed for console
 
+function IsConsoleErrorLine(const S: string): boolean;
+var
+  N, i: integer;
+begin
+  Result:= false;
+  N:= Pos('Error: ', S);
+  if N<=1 then exit;
+  for i:= 1 to N-1 do
+    if not (S[i] in ['.', 'a'..'z', 'A'..'Z', '_']) then
+      exit;
+  Result:= true;
+end;
+
 { TfmConsole }
 
 function TfmConsole.ParseLine(const S: string): TAppConsoleLineKind;
-const
-  cTraceback = 'Traceback (most recent call last):';
-  cSyntaxError = 'SyntaxError: ';
-  cNote = 'NOTE: ';
 begin
   if SBeginsWith(S, cConsolePrompt) then
     exit(acLinePrompt);
 
-  if SBeginsWith(S, cNote) then
+  if SBeginsWith(S, 'NOTE: ') then
     exit(acLineNote);
 
   //SEndsWith is better, to find FindInFiles4 log string added to 'traceback'
-  if SEndsWith(S, cTraceback) or
-    (Pos('Error: ', S)>1) //it's faster than 2 checks commented below
-    {
-    SBeginsWith(S, cSyntaxError) or
-    SRegexMatchesString(S, '^[a-zA-Z][\w\.]*Error: .+', true))
-    }
-    then
-      exit(acLineError);
+  if SEndsWith(S, 'Traceback (most recent call last):') then
+    exit(acLineError);
+
+  if IsConsoleErrorLine(S) then
+    exit(acLineError);
 
   Result:= acLineUsual;
 end;
