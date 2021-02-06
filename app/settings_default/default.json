@@ -209,9 +209,6 @@
   //Highlight syntax-defined blocks background till the right window edge (otherwise: till line end)
   "show_full_syntax_bg": true,
 
-  //On dragging vertical scrollbar, show line number tooltip in the top-right corner
-  "show_hint_on_vert_scroll": false,
-
   //Shift text area to the right, so part of text will look "centered".
   //  If value=0: no shifting.
   //  If value>0, text area is shifted, so N first characters in lines look "centered".
@@ -370,6 +367,9 @@
   "numbers_center": true,
 
   //[View/ScrollBars]
+  //On dragging vertical scrollbar, show line number tooltip in the top-right corner
+  "show_hint_on_vert_scroll": false,
+
   //Use smooth, per-pixel, scrolling. Otherwise, scrolling is per-line.
   "smooth_scroll": true,
 
