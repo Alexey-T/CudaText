@@ -36,6 +36,13 @@ type
   TAppConsoleEvent = function(const Str: string): boolean of object;
   TAppConsoleCommandEvent = procedure(ACommand: integer; const AText: string; var AHandled: boolean) of object;
 
+  TAppConsoleLineKind = (
+    acLineUsual,
+    acLinePrompt,
+    acLineNote,
+    acLineError
+    );
+
 type
   { TfmConsole }
 
@@ -57,6 +64,7 @@ type
     procedure MemoContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure DoNavigate(Sender: TObject);
     procedure DoToggleWrap(Sender: TObject);
+    function ParseLine(const S: string): TAppConsoleLineKind;
     procedure SetIsDoubleBuffered(AValue: boolean);
     function GetWordWrap: boolean;
     procedure SetWordWrap(AValue: boolean);
@@ -88,9 +96,6 @@ const
   cConsoleMaxComboboxItems: integer = 20;
   cConsolePrompt = '>>> ';
   cConsolePrintPrefix = '=';
-  cConsoleTracebackMsg = 'Traceback (most recent call last):';
-  cConsoleSyntaxErrorMsg = 'SyntaxError: ';
-  cConsoleNoteMsg = 'NOTE: ';
 
 implementation
 
@@ -98,42 +103,55 @@ implementation
 
 { TfmConsole }
 
+function TfmConsole.ParseLine(const S: string): TAppConsoleLineKind;
+const
+  cConsoleTracebackMsg = 'Traceback (most recent call last):';
+  cConsoleSyntaxErrorMsg = 'SyntaxError: ';
+  cConsoleNoteMsg = 'NOTE: ';
+begin
+  if SBeginsWith(S, cConsolePrompt) then
+    exit(acLinePrompt);
+
+  if SBeginsWith(S, cConsoleNoteMsg) then
+    exit(acLineNote);
+
+  //SEndsWith is better, to find FindInFiles4 log string added to 'traceback'
+  if SEndsWith(S, cConsoleTracebackMsg) or
+    SBeginsWith(S, cConsoleSyntaxErrorMsg) or
+    SRegexMatchesString(S, '^[a-zA-Z][\w\.]*Error: .+', true) then
+      exit(acLineError);
+
+  Result:= acLineUsual;
+end;
+
 procedure TfmConsole.DoGetLineColor(Ed: TATSynEdit; ALineIndex: integer;
   var AColorFont, AColorBg: TColor);
 var
   Str: atString;
   fmt: TecSyntaxFormat;
-  bMsgPrompt, bMsgNote, bMsgError: boolean;
 begin
   Str:= Ed.Strings.Lines[ALineIndex];
-
-  bMsgPrompt:= SBeginsWith(Str, cConsolePrompt);
-  bMsgNote:= SBeginsWith(Str, cConsoleNoteMsg);
-  //SEndsWith is better, to find FIF4 log string appended to 'traceback'
-  bMsgError:= SEndsWith(Str, cConsoleTracebackMsg) or
-    SRegexMatchesString(Str, '^[a-zA-Z][\w\.]*Error: .+', true);
-
-  if bMsgPrompt then
-  begin
-    fmt:= GetAppStyle(apstId2);
-    AColorFont:= fmt.Font.Color;
-    exit;
-  end;
-
-  if bMsgNote then
-  begin
-    fmt:= GetAppStyle(apstLightBG2);
-    AColorFont:= fmt.Font.Color;
-    AColorBg:= fmt.BgColor;
-    exit
-  end;
-
-  if bMsgError then
-  begin
-    fmt:= GetAppStyle(apstLightBG1);
-    AColorFont:= fmt.Font.Color;
-    AColorBg:= fmt.BgColor;
-    exit
+  case ParseLine(Str) of
+    acLinePrompt:
+      begin
+        fmt:= GetAppStyle(apstId2);
+        AColorFont:= fmt.Font.Color;
+        exit;
+      end;
+    acLineNote:
+      begin
+        fmt:= GetAppStyle(apstLightBG2);
+        AColorFont:= fmt.Font.Color;
+        AColorBg:= fmt.BgColor;
+        exit
+      end;
+    acLineError:
+      begin
+        fmt:= GetAppStyle(apstLightBG1);
+        AColorFont:= fmt.Font.Color;
+        AColorBg:= fmt.BgColor;
+        exit
+      end;
   end;
 end;
 
@@ -159,10 +177,7 @@ begin
 
     ModeReadOnly:= true;
 
-    //SEndsWith is better, to find FIF4 log string appended to 'traceback'
-    if SEndsWith(AText, cConsoleTracebackMsg) or
-      SBeginsWith(AText, cConsoleSyntaxErrorMsg) or
-      SBeginsWith(AText, cConsoleNoteMsg) then
+    if ParseLine(AText) in [acLineError, acLineNote] then
     begin
       Inc(ErrorCounter);
       if Assigned(FOnNumberChange) then
