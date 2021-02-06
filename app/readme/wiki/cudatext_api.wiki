@@ -248,7 +248,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** "h": HTML format.
 ** "p": Picture format.
 
-* PROC_CLIP_SAVE_PICTURE: If Clipboard has a picture format, save it as a given filename (recommended the .png extension). Returns bool: file was saved.
+* PROC_CLIP_SAVE_PIC: If Clipboard has a picture format, saves it to given filename (recommended the .png extension). Returns bool: clipboard has a picture, file is saved.
 
 ====Plugin calls====
 
@@ -4116,6 +4116,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.364 (app 1.123.5)
 * change: dlg_menu: make aliases of MENU_* constants to DMENU_*; old MENU_ names are deprecated
 * add: app_proc: PROC_CLIP_ENUM
-* add: app_proc: PROC_CLIP_SAVE_PICTURE
+* add: app_proc: PROC_CLIP_SAVE_PIC
 
 [[Category:CudaText]]

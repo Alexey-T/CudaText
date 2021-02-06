@@ -4456,7 +4456,7 @@ begin
             Result:= PyUnicodeFromString(Str1);
           end;
 
-        APP_PROC_CLIP_SAVE_PICTURE:
+        APP_PROC_CLIP_SAVE_PIC:
           begin
             if Clipboard.HasPictureFormat then
             begin
