@@ -9,13 +9,14 @@
 + add: option "scrollbar_themed", it allows to use OS native scrollbars
 + add: option "scrollbar_arrows"
 + add: option "ui_dialogs_in_taskbar"
++ add: when ui-tabs are 'flat', show underline for passive groups with dimmed color (thanks @JairoMartinezA)
 + add: if user.json does not exist yet, the file "settings_default/userinit.json" (if exists) is copied to user.json
 + add: save to session also UI-tab splitted state (on/off, vert/horz, percents of window size) (thanks @GHNewbiee)
-+ add: command "split tab: split horizontally" (thanks @Jairo-Martinez)
++ add: command "split tab: split horizontally" (thanks @JairoMartinezA)
 + add: command "split tab: split vertically"
 + add: command "split tab: don't split"
 + add: API allows much more access to Console panel fields (thanks @Shovel)
-+ add: allow multi-selections to touch, without joining them (thanks @Jairo-Martinez, @cser)
++ add: allow multi-selections to touch, without joining them (thanks @JairoMartinezA, @cser)
 + add: lexer Batch: highlight `tick_blocks`; highlight variables with chars ~.,()
 * change: hide micromap when there is only one line (in multi-line editors)
 * change: changed submenu "View / Split tab / ..." to new 3 items: "Don't split", "Vertically", "Horizontally" (thanks @OlehL)
@@ -29,15 +30,15 @@
 + add: Wiki topic https://wiki.freepascal.org/CudaText#HTML_color_codes_underlining
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Automatic_folding_of_comments
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Show_pictures_in_the_text
-+ add: commands 'type a char'/'backspace'/'delete'/'undo'/'redo'/'left'/'right', when with multi-carets, should not scroll to first(last) caret (thanks @Jairo-Martinez)
++ add: commands 'type a char'/'backspace'/'delete'/'undo'/'redo'/'left'/'right', when with multi-carets, should not scroll to first(last) caret (thanks @JairoMartinezA)
 + add: commands 'indent selection'/'unindent selection' now support multi-carets
 + add: auto scale 'margin lines' width (thanks @Shovel)
 + add: Project Manager: big speed up of "Go to file" with ~1000 files (thanks @dopm)
 + add: dialogs "Themes", "Color theme" are now resizable; dialog "Themes" is now scalable (thanks @Lastique)
 - fix: Qt5 version: plugin dialogs flickering (thanks @Lastique)
 - fix: Windows XP: themed menu font size was incorrect (thanks @zanud)
-- fix: regression with restoring "index of top line" from session, with word-wrap and w/o it (thanks @Jairo-Martinez)
-- fix: regression with commands "left"/"right" not scrolling to caret (thanks @Jairo-Martinez)
+- fix: regression with restoring "index of top line" from session, with word-wrap and w/o it (thanks @JairoMartinezA)
+- fix: regression with commands "left"/"right" not scrolling to caret (thanks @JairoMartinezA)
 - fix: regression with bad positioning of tab-groups 'splitters' on start (thanks @GHNewbiee)
 - fix: option "saving_trim_spaces" didn't move caret to shorter line end (thanks @GHNewbiee)
 - fix: 'preview tab' could not work if dragged to another tab-group
@@ -53,7 +54,7 @@
 + add: updated Python libraries in py/sys/
 - fix: Find dialog option "Hi" did reset the selection (thanks @MiroslavMatas)
 - fix: color of groups-splitters in few ui-themes (thanks @GHNewbiee)
-- fix: command "duplicate lines" with forward/backward selection gave different selections (thanks @Jairo-Martinez)
+- fix: command "duplicate lines" with forward/backward selection gave different selections (thanks @JairoMartinezA)
 - fix: Lexer Detecter didn't detect 'Dockerfile'
 - fix: when selection is performed with Ctrl+drag, unpressing of Ctrl gave the weird effect (thanks @tiun)
 - fix: editor snaps twice to line specified as command line param, e.g. 'cudatext my.cpp:20' (thanks @Shovel)
@@ -63,7 +64,7 @@
 
 * add/change: Addon Manager: removed command "Re-install...", now all addons are in the "Install..."; already installed items are marked with "◄local ?►", and items with updates are marked with "◄local ?, web ?►" (thanks @cser, @kvichans)
 + add: hide caret for unfocused editor controls (very old issue; thanks @OlehL)
-+ add: option "auto_fold_comments", it automatically creates folding-ranges for many commented lines (thanks @Jairo-Martinez for tests)
++ add: option "auto_fold_comments", it automatically creates folding-ranges for many commented lines (thanks @JairoMartinezA for tests)
 * change: deleted settings "fold commented lines" from standard lexers (C, Lua, PHP, Python), to better support "auto_fold_comments"
 + add: plugins API allows to catch clicks on statusbar cells (thanks @xcme)
 + add: support Windows Python 3.4, if such a package is installed from addons (package made by @tiun)
@@ -88,7 +89,7 @@
 + add: lexers C, C++: better highlight of several operators, like <=> ||= &&= : # ##
 + add: lexers C, C++: better highlight of preprocessor directives
 - fix: Find dialog: regression caused by addition in 1.120.0 (thanks @hamasaki)
-- fix: Find dialog: code-tree selection was not updated via buttons "find next/previous" (thanks @Jairo-Martinez)
+- fix: Find dialog: code-tree selection was not updated via buttons "find next/previous" (thanks @JairoMartinezA)
 - fix: command "duplicate line (advanced)" regression (thanks @kvichans)
 - fix: plugin Emmet crash
 
@@ -137,7 +138,7 @@
 + add: if new tab was opened without disk file, it was edited, its content was erased, then don't show confirmation to save that tab on closing (thanks @dinkumoil)
 + add: mouse hover highlighting for statusbar cells
 + add: can work if CudaText runs via symlink on Unix systems (thanks @Peter2121)
-+ add: option "auto_delete_bookmarks" (thanks @Jairo-Martinez)
++ add: option "auto_delete_bookmarks" (thanks @JairoMartinezA)
 + add: lexer C++: fixes for code-tree
 - fix: fixes for standard plugins' translation (patch by Markus)
 - fix: dragging of sel-rect in minimap stopped when mouse goes lefter/righter of minimap
@@ -177,7 +178,7 @@
 + add: lexer CSS: highlight names of "system colors" (thanks @d-mal)
 + add: lexer XML: better support Spell Checker (thanks @EcherArt)
 - fix: crash and not sync'ed editors when in splitted view (thanks @xcme)
-- fix: code-tree was reset on change grouping mode to "1+2" (thanks @Jairo-Martinez)
+- fix: code-tree was reset on change grouping mode to "1+2" (thanks @JairoMartinezA)
 - fix: "distraction-free mode" was partially reset: by Option Editor plugin call, by lexer changing
 - fix: some plugins crashed when app was run with -s= command-line param
 - fix: flags in "View / Toggle unprinted chars" were reset on switching tabs (thanks @xcme)
@@ -239,7 +240,7 @@
 + add: option "ui_alt_hint_time"
 + add: option "ui_tab_x_rounded"
 - fix: few minor visual bugs with minimap (thanks @xcme)
-- fix: Windows "Restore window" bug (Lazarus bug, thanks @Jairo-Martinez)
+- fix: Windows "Restore window" bug (Lazarus bug, thanks @JairoMartinezA)
 
 1.111.5 (2020/09)
 
@@ -265,7 +266,7 @@
 + add: option "ui_reopen_session_cmdline" (thanks @notteumani)
 + add: before: editor doesn't load last session when command-line file is opened; now: it also doesn't save current session in this case, so old session is not lost (thanks @notteumani)
 + add: lexer C++: keywords of C++20
-- fix: issue with "Add next occurrence of selected word" (thanks @Jairo-Martinez)
+- fix: issue with "Add next occurrence of selected word" (thanks @JairoMartinezA)
 - fix: engine of lite lexers: broken highlighting after horizontal scrolling (thanks @skarasov)
 - fix: lexer Python: code-tree for func "def name(param: type)" (thanks @skarasov)
 - fix: lexer Python: code-tree for "class name(dotted.name)" (thanks @OlehL)
@@ -296,8 +297,8 @@
 + add: options for statusbar font: "ui_font_statusbar_name"/"ui_font_statusbar_size", defaults are UI font name/size (thanks @VicDobrov)
 + add: theme colors for statusbar font/background, defaults are "none"
 + add: don't run tree-helper on huge files, re-use option "lexer_folding_max_lines"
-+ add: if file was deleted/renamed outside of CudaText, "Save" should re-create the file (thanks @Jairo-Martinez)
-- fix: bug in rendering unprinted "trailing only" whitespace (thanks @Jairo-Martinez)
++ add: if file was deleted/renamed outside of CudaText, "Save" should re-create the file (thanks @JairoMartinezA)
+- fix: bug in rendering unprinted "trailing only" whitespace (thanks @JairoMartinezA)
 - fix: lexer Bash: (( )) blocks inside $() (thanks @VicDobrov)
 
 1.108.5 (2020/08)
@@ -376,7 +377,7 @@
 
 + add: deepest fold-range, containing line of first caret, now has highlighted lines on gutter; added color in UI-theme for this
 + add: better detection of word-boundary in search (not RegEx), to be like in VSCode and others
-+ add: better "links_regex" value (thanks @Jairo-Martinez)
++ add: better "links_regex" value (thanks @JairoMartinezA)
 + add: on clicking hyperlinks, app shows additional confirmation button; this is controlled by new option "ui_links_confirm"
 + add: support combo-hotkeys with simple letter in 2nd/3rd part, e.g. Ctrl+Q H (thanks @tmsg)
 + add: encodings koi8, iso...15 added to viewer as well
@@ -415,7 +416,7 @@
 - fix: input of complex hotkeys (like "Alt+1 * Alt+2") had "shared history" for all documents
 - fix: width of some Unicode chars (thanks @ritmation)
 - fix: Linux/BSD: rendering of tab-chars (thanks @tmsg)
-- fix: lexer Markdown: rule for ``` (thanks @Jairo-Martinez)
+- fix: lexer Markdown: rule for ``` (thanks @JairoMartinezA)
 
 1.104.0 (2020/06)
 
@@ -507,7 +508,7 @@
 - fix: bug in regex engine with regex like [\.-] and [.\-] (thanks @SlMaker)
 - fix: lexer Batch issues
 - fix: several editor settings (wrap mode, show minimap/micromap/ruler/line-numbers/folding/unprinted) could not load from lexer-specific configs (thanks @tmsg)
-- fix: Project Manager crash on calling Project Properties (thanks @Jairo-Martinez)
+- fix: Project Manager crash on calling Project Properties (thanks @JairoMartinezA)
 
 1.100.0 (2020/05)
 
@@ -524,7 +525,7 @@
 * change: replaced 3 rarely needed options "unprinted_xxxx_scale" with single option "unprinted_symbols_scale"
 * change: ui tabs: mouse wheel scroll step is now 20% of width
 * change: toolbar button "Sort" was removed. It gave the same commands as "Plugins / Sort" but it had only 5 of all 20 commands.
-- fix: plugin "Open URL" didn't catch double-click sometimes (thanks @Jairo-Martinez)
+- fix: plugin "Open URL" didn't catch double-click sometimes (thanks @JairoMartinezA)
 - fix: folding icon on gutter did not work in some cases
 - fix: Project Manager cannot open files in binary viewer sometimes
 - fix: Project Managet cannot open recent projects
@@ -558,10 +559,10 @@
 
 + add: number of errors in Console (number of lines "Traceback (most recent call last)") is shown over Console sidebar button
 - fix: plugin "New File" bug with lexer XSLT (thanks @dinkumoil)
-- fix: behaviour of Left/Right keys on multi-selection (thanks @Jairo-Martinez)
+- fix: behaviour of Left/Right keys on multi-selection (thanks @JairoMartinezA)
 - fix: bug in API timer_proc (thanks @kvichans)
 - fix: can't open files from project when "ui_tab_disabled":true (thanks @Cauterite)
-- fix: lexer Python: folding (thanks @Jairo-Martinez)
+- fix: lexer Python: folding (thanks @JairoMartinezA)
 - fix: lexer PHP: keywords
 - fix: lexer HTML: JS in script tag
 
