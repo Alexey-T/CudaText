@@ -2796,6 +2796,7 @@ begin
   XColorSpell.FromColor(GetAppColor(apclEdMicromapSpell));
 
   //paint line states
+  if St.Count>=Ed.OptMicromapShowForMinCount then
   for i:= 0 to St.Count-1 do
   begin
     State:= St.LinesState[i];
