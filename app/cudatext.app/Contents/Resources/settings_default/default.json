@@ -366,7 +366,7 @@
   //Center line numbers on gutter column
   "numbers_center": true,
 
-  //[View/ScrollBars]
+  //[View/Scrolling]
   //On dragging vertical scrollbar, show line number tooltip in the top-right corner
   "show_hint_on_vert_scroll": false,
 
