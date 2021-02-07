@@ -184,7 +184,7 @@
   //Group lexers menu by first char of name
   "ui_lexers_grouped": true,
 
-  //[Text]
+  //[Text/Look]
   //Highlight background of lines with carets
   "show_cur_line": false,
 
@@ -193,9 +193,6 @@
 
   //Highlight background of lines with carets: only for focused editor
   "show_cur_line_only_focused": false,
-
-  //Show additional vertical lines at all caret(s) position(s)
-  "show_cur_column": false,
 
   //Show additional dotted frame on mouse selection of block
   "show_mouse_sel_frame": true,
@@ -256,7 +253,7 @@
   //Note: this option is global, not per-lexer.
   "lexer_folding_max_lines": 10000,
 
-  //[Text]
+  //[Text/Folding]
   //Style of folded blocks
   //  0: if fold-hint empty: [...] from fold position, otherwise hint
   //  1: if fold-hint empty: [line...] from fold position, otherwise hint
@@ -287,7 +284,7 @@
   //then pasted text overwrites editor text
   "ovr_on_paste": false,
 
-  //[File/Save]
+  //[File/Saving]
   //On saving file: delete spaces at lines ends
   "saving_trim_spaces": false,
 
@@ -303,12 +300,14 @@
   //Option should be used in lexer-specific config.
   "nonword_chars": "-+*=/\\()[]{}<>\"'.,:;~?!@#$%^&|`…",
 
+  //[Text/Look]
   //Additional vertical spacing per each line, in pixels [has suffix]
   //Can be negative too
   "spacing_y": 1,
   "spacing_y__linux": 1,
   "spacing_y__mac": 1,
 
+  //[Text/Tabulations]
   //Tab-char width
   "tab_size": 4,
 
@@ -319,10 +318,12 @@
   //(after this X position, tab-chars expand to 1 space)
   "tab_max_pos_expanded": 500,
 
+  //[Text]
   //Maximal line length, for which char-width calculations are slow+correct.
   //This has effect for lines with CJK or another "wide" characters.
   "max_line_len_for_accurate_width": 500,
 
+  //[Lexers]
   //Maximal line length, which will be parsed (and syntax highlighted) by lexers
   "max_line_len_parsed": 4000,
 
@@ -387,7 +388,7 @@
   //Numbers: 0: normal position of arrows; 1: both below; 2: both above; 3: hide arrows.
   "scrollbar_arrows": "0,0",
 
-  //[Text]
+  //[Text/Look]
   //Marker size (Wiki "Markers" topic), in percents of line height
   "marker_size": 30,
 
@@ -453,9 +454,13 @@
   //Micromap (small vertical bar at the right side, showing "line states"): show
   "micromap_show": false,
 
-  //[Text]
-  //Position of vertical line, "margin".
-  //It is always painted, set some big value (e.g. 2000) to hide it.
+  //[Text/VerticalLines]
+  //Show additional vertical lines at all carets positions
+  "show_cur_column": false,
+
+  //Position of vertical line called "margin".
+  //It is used in "word-wrap by margin" mode, and by some plugins.
+  //To hide this line, set some big value (e.g. 2000).
   "margin": 2000,
 
   //Additional vertical lines.
@@ -835,7 +840,7 @@
   //Used for example for JavaScript inside PHP. Requires program restart.
   "ui_tree_sublexers": false,
 
-  //[Text/NewDoc]
+  //[Text/NewDocument]
   //New tabs: Lexer name
   "newdoc_lexer": "",
 
