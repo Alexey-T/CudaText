@@ -1078,9 +1078,9 @@ Special properties for control "listview":
 * "imagelist_large": int: handle of ImageList with large icons. This ImageList is used in "big icons" mode of listview.
 * "imageindexes": str: string with '\t'-separated numbers. Each number is icon index, or -1 if icon is not used.
 
-Special properties for controls "tabs", "pages":
+Special properties for controls "tabs", "pages", "toolbar", "statusbar":
 
-* "tab_hovered": int: index of tab under mouse cursor.
+* "tab_hovered": int: index of tab/cell under mouse cursor. Property is missed if no such tab/cell.
 
 ====Control events====
 
@@ -4117,5 +4117,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * change: dlg_menu: make aliases of MENU_* constants to DMENU_*; old MENU_ names are deprecated
 * add: app_proc: PROC_CLIP_ENUM
 * add: app_proc: PROC_CLIP_SAVE_PIC
+
+1.0.365 (app 1.124.0.2)
++ add: dlg_proc: property 'tab_hovered' is returned also for 'toolbar', 'statusbar'
 
 [[Category:CudaText]]
