@@ -1165,6 +1165,7 @@ Possible values of "id_action":
 * DLG_SHOW_NONMODAL: Shows form in non-modal mode. Returns immediately.
 * DLG_FOCUS: Focuses form (in non-modal mode).
 * DLG_SCALE: Scales form, with all controls, for the current OS high-DPI value. E.g. of OS scale is 150%, all will be scaled by 1.5.
+* DLG_TO_FRONT: Puts form to the foreground (in Z-order of forms).
 
 * DLG_PROP_GET: Returns form props, as dict. See example plugin, which props are returned.
 * DLG_PROP_SET: Sets form props, from dict. Param "prop" is dict. Only props mentioned in "prop" are applied, other props don't change.
@@ -1191,6 +1192,9 @@ Possible values of "id_action":
 ** type "statusbar": pass handle to statusbar_proc()
 ** type "treeview": pass handle to tree_proc()
 ** type "toolbar": pass handle to toolbar_proc()
+
+* DLG_CTL_TO_FRONT: Puts control to the foreground (in Z-order of controls).
+* DLG_CTL_TO_BACK: Puts control to the background (in Z-order of controls).
 
 * DLG_COORD_LOCAL_TO_SCREEN: Converts x/y coordinates from form-related, to screen-related. Param "index" is x, "index2" is y. Returns tuple (x,y).
 * DLG_COORD_SCREEN_TO_LOCAL: Converts x/y coordinates from screen-related, to form-related. Param "index" is x, "index2" is y. Returns tuple (x,y).
@@ -4124,6 +4128,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.365 (app 1.124.0.2)
 + add: dlg_proc: property 'tab_hovered' is returned also for 'toolbar', 'statusbar'
++ add: dlg_proc: DLG_TO_FRONT
++ add: dlg_proc: DLG_CTL_TO_FRONT, DLG_CTL_TO_BACK
 + add: Editor.get_prop: PROP_RECT_GUTTER, PROP_RECT_MINIMAP, PROP_RECT_MICROMAP, PROP_RECT_RULER
 
 [[Category:CudaText]]
