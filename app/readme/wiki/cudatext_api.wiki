@@ -2237,7 +2237,11 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 
 * PROP_COORDS: 4-tuple of int: rectangle of entire editor area, relative to screen.
 * PROP_RECT_CLIENT: 4-tuple of int: rectangle of entire editor area, relative to editor.
-* PROP_RECT_TEXT: 4-tuple of int: rectangle of text-only editor area (excluding gutter/minimap/etc), relative to editor.
+* PROP_RECT_TEXT: 4-tuple of int: rectangle of "main text" editor area (excluding gutter/minimap/micromap/ruler), relative to editor.
+* PROP_RECT_GUTTER: 4-tuple of int: rectangle of "gutter" editor area (all gutter columns at once), relative to editor. It is (0,0,0,0) if area is hidden.
+* PROP_RECT_MINIMAP: 4-tuple of int: rectangle of "minimap" editor area, relative to editor. It is (0,0,0,0) if area is hidden.
+* PROP_RECT_MICROMAP: 4-tuple of int: rectangle of "micromap" editor area, relative to editor. It is (0,0,0,0) if area is hidden.
+* PROP_RECT_RULER: 4-tuple of int: rectangle of "horizontal ruler" editor area, relative to editor. It is (0,0,0,0) if area is hidden.
 
 * PROP_COMBO_ITEMS: only for "editor_combo" control, contents of drop-down list. On getting: list of str. On setting: value must be str with '\n'-separated items.
 
@@ -4120,5 +4124,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.365 (app 1.124.0.2)
 + add: dlg_proc: property 'tab_hovered' is returned also for 'toolbar', 'statusbar'
++ add: Editor.get_prop: PROP_RECT_GUTTER, PROP_RECT_MINIMAP, PROP_RECT_MICROMAP, PROP_RECT_RULER
 
 [[Category:CudaText]]
