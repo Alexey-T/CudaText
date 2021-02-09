@@ -553,12 +553,16 @@ const
   DLG_PROP_SET       = 11;
   DLG_DOCK           = 12;
   DLG_UNDOCK         = 13;
+  DLG_TO_FRONT       = 14;
+  //DLG_TO_BACK        = 15;
   DLG_CTL_COUNT      = 20;
   DLG_CTL_ADD        = 21;
   DLG_CTL_PROP_GET   = 22;
   DLG_CTL_PROP_SET   = 23;
   DLG_CTL_DELETE     = 24;
   DLG_CTL_DELETE_ALL = 25;
+  DLG_CTL_TO_FRONT   = 26;
+  DLG_CTL_TO_BACK    = 27;
   DLG_CTL_FOCUS      = 30;
   DLG_CTL_FIND       = 31;
   DLG_CTL_HANDLE     = 32;

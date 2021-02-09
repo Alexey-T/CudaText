@@ -8660,6 +8660,19 @@ begin
             Result:= ReturnNone;
           end;
 
+        DLG_TO_FRONT:
+          begin
+            Form.BringToFront;
+            Result:= ReturnNone;
+          end;
+        {
+        DLG_TO_BACK:
+          begin
+            Form.SendToBack;
+            Result:= ReturnNone;
+          end;
+          }
+
         DLG_CTL_FOCUS:
           begin
             if Assigned(Ctl) then
@@ -8684,6 +8697,19 @@ begin
             end
             else
               Result:= ReturnNone;
+          end;
+
+        DLG_CTL_TO_FRONT:
+          begin
+            if Assigned(Ctl) then
+              Ctl.BringToFront;
+            Result:= ReturnNone;
+          end;
+        DLG_CTL_TO_BACK:
+          begin
+            if Assigned(Ctl) then
+              Ctl.SendToBack;
+            Result:= ReturnNone;
           end;
 
         DLG_COORD_LOCAL_TO_SCREEN:
