@@ -225,6 +225,15 @@ const
   PROP_FONT_B                    = 123;
   PROP_FONT_I                    = 124;
   PROP_FONT_BI                   = 125;
+  PROP_RECT_GUTTER      = 130;
+  PROP_RECT_GUTTER_NUMS = 131;
+  PROP_RECT_GUTTER_FOLD = 132;
+  PROP_RECT_GUTTER_BM   = 133;
+  PROP_RECT_MINIMAP     = 135;
+  PROP_RECT_MICROMAP    = 136;
+  PROP_RECT_RULER       = 137;
+  PROP_RECT_SCROLL_HORZ = 138;
+  PROP_RECT_SCROLL_VERT = 139;
   PROP_V_WIDTH_HEX        = 140;
   PROP_V_WIDTH_UHEX       = 141;
 
