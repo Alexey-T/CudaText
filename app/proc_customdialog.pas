@@ -476,6 +476,29 @@ begin
 end;
 
 
+function DoControl_GetIndexHovered(C: TControl): integer;
+var
+  P: TPoint;
+begin
+  Result:= -1;
+
+  if C is TTabControl then
+  begin
+    P:= Mouse.CursorPos;
+    P:= C.ScreenToClient(P);
+    Result:= TTabControl(C).IndexOfTabAt(P);
+    exit
+  end;
+
+  if C is TPageControl then
+  begin
+    P:= Mouse.CursorPos;
+    P:= C.ScreenToClient(P);
+    Result:= TPageControl(C).IndexOfTabAt(P);
+    exit
+  end;
+end;
+
 function DoControl_GetColumns(C: TControl): string;
 begin
   Result:= '';
@@ -2438,32 +2461,9 @@ begin
       PyDict_SetItemString(Result, 'imageindexes', PyUnicodeFromString(SColumns));
     end;
 
-    if C is TTabControl then
-    begin
-      Pnt:= Mouse.CursorPos;
-      Pnt:= C.ScreenToClient(Pnt);
-
-      (*
-      //hack to fix the -1 value
-      // https://bugs.freepascal.org/view.php?id=38403
-      {$ifdef windows}
-      Pnt.Y:= -5;
-      {$else}
-      Pnt.Y:= -10;
-      {$endif}
-      *)
-
-      N:= TTabControl(C).IndexOfTabAt(Pnt);
+    N:= DoControl_GetIndexHovered(C);
+    if N>=0 then
       PyDict_SetItemString(Result, 'tab_hovered', PyLong_FromLong(N));
-    end;
-
-    if C is TPageControl then
-    begin
-      Pnt:= Mouse.CursorPos;
-      Pnt:= C.ScreenToClient(Pnt);
-      N:= TPageControl(C).IndexOfTabAt(Pnt);
-      PyDict_SetItemString(Result, 'tab_hovered', PyLong_FromLong(N));
-    end;
 
     _SetDictKey(Result, 'on_change', Props.FEventOnChange);
     _SetDictKey(Result, 'on_click', Props.FEventOnClick);
