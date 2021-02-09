@@ -503,6 +503,14 @@ begin
     Result:= TATFlatToolbar(C).ButtonWithMouseOver;
     exit
   end;
+
+  if C is TATStatus then
+  begin
+    P:= Mouse.CursorPos;
+    P:= C.ScreenToClient(P);
+    Result:= TATStatus(C).GetPanelAt(P.X, P.Y);
+    exit
+  end;
 end;
 
 function DoControl_GetColumns(C: TControl): string;
