@@ -3550,6 +3550,22 @@ begin
           begin
             Result:= Py_rect(Ed.RectMain);
           end;
+        PROP_RECT_GUTTER:
+          begin
+            Result:= Py_rect(Ed.RectGutter);
+          end;
+        PROP_RECT_MINIMAP:
+          begin
+            Result:= Py_rect(Ed.RectMinimap);
+          end;
+        PROP_RECT_MICROMAP:
+          begin
+            Result:= Py_rect(Ed.RectMicromap);
+          end;
+        PROP_RECT_RULER:
+          begin
+            Result:= Py_rect(Ed.RectRuler);
+          end;
 
         PROP_COMBO_ITEMS:
           begin
