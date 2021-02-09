@@ -497,6 +497,12 @@ begin
     Result:= TPageControl(C).IndexOfTabAt(P);
     exit
   end;
+
+  if C is TATFlatToolbar then
+  begin
+    Result:= TATFlatToolbar(C).ButtonWithMouseOver;
+    exit
+  end;
 end;
 
 function DoControl_GetColumns(C: TControl): string;
