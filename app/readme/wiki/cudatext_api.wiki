@@ -1823,7 +1823,7 @@ Possible values of "id_action":
 * IMAGELIST_COUNT: Returns int number of icons in image-list.
 * IMAGELIST_GET_SIZE: Returns current icon size as 2-tuple (width, height).
 * IMAGELIST_SET_SIZE: Sets new icon size, and clears image-list. Param "value" must be 2-tuple of int (width, height). Returns new icon size (corrected by minimal value) as 2-tuple.
-* IMAGELIST_ADD: Loads image into image-list. Param "value" must be full path to png/bmp image file. Image size should be the same as size in image-list (but not required). Returns int icon index, or None if cannot load.
+* IMAGELIST_ADD: Loads image into image-list. Param "value" must be full path to PNG/BMP image file. Size of image should be the same as size of image-list (otherwise image will be loaded cropped or maybe stretched, it depends on IDE). Returns int icon index, or None if cannot load.
 * IMAGELIST_DELETE: Deletes one icon. Param "value" is int icon index (0-based).
 * IMAGELIST_DELETE_ALL: Deletes all icons.
 * IMAGELIST_PAINT: Paints single icon on given canvas, at given coords. Param "value" must be tuple (canvas_id, x, y, icon_index). Value canvas_id can be 0 for testing paintbox in CudaText.
