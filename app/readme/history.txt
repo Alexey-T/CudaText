@@ -5,7 +5,8 @@
 
 1.124.2
 
-+ add: API to support new plugin "Terminal Plis"
++ add: auto-completion for URI with prefix 'file:///'
++ add: API to support new plugin "Terminal Plus"
 + add: lexer CSS: better word lists (from Atom's lexer)
 + add: CSS auto-completion: more pseudo-classes 
 
