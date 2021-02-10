@@ -4420,6 +4420,35 @@ begin
   end;
 end;
 
+function Py_EnumSidebar(AToolbar: TATFlatToolbar; APanelHost: TAppPanelHost): PPyObject;
+var
+  NCount, i: integer;
+  NHandle: Int64;
+  Btn: TATButton;
+begin
+  with AppPython.Engine do
+  begin
+    NCount:= AToolbar.ButtonCount;
+    Result:= PyList_New(NCount);
+    for i:= 0 to NCount-1 do
+    begin
+      Btn:= AToolbar.Buttons[i];
+      NHandle:= APanelHost.CaptionToControlHandle(Btn.Caption);
+
+      PyList_SetItem(Result, i, Py_BuildValue('{sssssLsi}',
+        'cap',
+        PChar(Btn.Caption),
+        'hint',
+        PChar(Btn.Hint),
+        'dlg',
+        NHandle,
+        'img',
+        Btn.ImageIndex
+        ));
+    end;
+  end;
+end;
+
 function Py_app_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Id, i: integer;
@@ -4689,6 +4718,11 @@ begin
             for i:= 0 to fmMain.ToolbarSideTop.ButtonCount-1 do
               Str:= Str + IfThen(i>0, #10) + fmMain.ToolbarSideTop.Buttons[i].Caption;
             Result:= PyUnicodeFromString(Str);
+          end;
+
+        APP_PROC_SIDEPANEL_ENUM_ALL:
+          begin
+            Result:= Py_EnumSidebar(fmMain.ToolbarSideTop, AppPanels[cPaneSide]);
           end;
 
         APP_PROC_SIDEPANEL_GET_CONTROL:
