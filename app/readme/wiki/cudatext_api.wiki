@@ -343,7 +343,7 @@ Session is a set of opened files + untitled tabs, with some properties of editor
 General notes:
 
 * Word "tab" here means: sidebar button with attached embedded dialog, which looks like a tab.
-* Actions find "tabs" by caption, caption is some latin text, which is not affected by CudaText translation. E.g. caption "Code tree" always refer to Code-Tree tab, with any active translation.
+* Actions find "tabs" by caption, caption is some latin text, which is not affected by CudaText translation. E.g. caption "Code tree" always refers to Code-Tree tab, with any active translation.
 * Name of icon file: path of PNG/BMP file. Icon size/dimensions should be equal to the size of current sidebar imagelist. Default is 20x20. You can detect size of this imagelist, by using PROC_SIDEBAR_GET_IMAGELIST and passing returned handle to imagelist_proc(). If filename is without path, CudaText subfolder "data/sideicons" is used.
 
 Actions:
