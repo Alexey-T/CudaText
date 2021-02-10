@@ -338,34 +338,38 @@ Session is a set of opened files + untitled tabs, with some properties of editor
 * PROC_LOAD_SESSION: Loads session from file with given name (closes all tabs first). Returns bool: tabs closed w/o pressing Cancel, session was loaded.
 * PROC_SET_SESSION: Tells to app filename of session. Session with this filename will be saved on exit, loaded on start, shown in app title in {} brackets. Don't set here empty string. Default filename is "history session.json" without path. Missing path means that folder "settings" will be used.
 
-====Side panel====
+====Sidebar panels====
 
-* PROC_SIDEPANEL_ADD_DIALOG: Adds tab, with embedded dialog, to sidebar. Returns bool: params correct, tab was added. Text must be 3-tuple (tab_caption, id_dlg, icon_filename):
-** Caption of tab (must not contain ",")
-** Handle of dialog, from dlg_proc()
-** Name of icon file (must not contain ",")
+General notes:
 
-* PROC_SIDEPANEL_REMOVE: Removes tab. Text is caption of tab. (Note: actually it hides tab, dialog for this tab is still in memory). Returns bool: tab was found/removed.
-* PROC_SIDEPANEL_ACTIVATE: Activates tab in sidebar. Returns bool: tab was found/activated. Text can be:
-** str: tab_caption.
-** 2-tuple (tab_caption, bool_set_focus). Default for bool_set_focus is False.
+* Word "tab" here means: sidebar button with attached embedded dialog, which looks like a tab.
+* Actions find "tabs" by caption, caption is some latin text, which is not affected by CudaText translation. E.g. caption "Code tree" always refer to Code-Tree tab, with any active translation.
+* Name of icon file: path of PNG/BMP file. Icon size/dimensions should be equal to the size of current sidebar imagelist. Default is 20x20. You can detect size of this imagelist, by using PROC_SIDEBAR_GET_IMAGELIST and passing returned handle to imagelist_proc(). If filename is without path, CudaText subfolder "data/sideicons" is used.
+
+Actions:
+
+* PROC_SIDEPANEL_ADD_DIALOG: Adds tab, with embedded dialog. Returns bool: all parameters are correct, tab was added. Text must be 3-tuple (tab_caption, int_dialog_handle, icon_filename):
+** Item[0]: Caption of tab (must not contain ",")
+** Item[1]: Handle of dialog, from dlg_proc()
+** Item[2]: Name of icon file (must not contain ",")
+
+* PROC_SIDEPANEL_REMOVE: Removes tab. Param "text" is caption of tab. (Note: actually it hides tab, dialog for this tab is still in memory). Returns bool: tab was found/removed.
+* PROC_SIDEPANEL_ACTIVATE: Activates tab. Returns bool: tab was found/activated. Param "text" can be string or tuple:
+** str: caption.
+** 2-tuple (caption, bool_set_focus). Default for bool_set_focus is False.
 
 * PROC_SIDEPANEL_ENUM: Enumerates tabs. Returns str, "\n"-separated captions of tabs.
-* PROC_SIDEPANEL_GET_CONTROL: Returns int handle of dialog, inserted into tab. Text is caption of tab. Returns None if cannot find tab.
+* PROC_SIDEPANEL_GET_CONTROL: Returns int handle of dialog, inserted into tab. Param "text" is caption of tab. Returns None if cannot find tab.
 * PROC_SIDEPANEL_GET: Returns caption of last activated tab.
 
-* PROC_SIDEPANEL_SET_PROP: Changes properties of sidebar button. Returns bool: button was found/changed. Text must be 3-tuple (tab_caption, imageindex, tooltip):
-** Caption of tab (must not contain ",")
-** Int index of button's icon in sidebar's imagelist, or -1 to keep old value
-** Floating tooltip string (it's independent from caption), or empty str to keep old value
+* PROC_SIDEPANEL_SET_PROP: Changes properties of sidebar button. Returns bool: button was found/changed. Param "text" must be 3-tuple (tab_caption, image_index, tooltip):
+** Item[0]: Caption of tab (must not contain ",").
+** Item[1]: Int index of button's icon in sidebar's imagelist, or -1 to keep old value.
+** Item[2]: Floating tooltip string (it's independent from caption), or empty str to keep old value.
 
 * PROC_SIDEPANEL_GET_IMAGELIST: Returns int handle of sidebar's imagelist object. Use this handle with imagelist_proc().
 
-Notes:
-
-* Name of icon file: name of png/bmp file. Icon size should be equal to size of current sidebar icon set, it's default is 20x20 (to detect size of icon set, you can read and parse CudaText option). If filename is without path, CudaText sub-dir "data/sideicons" is used (so only a standard icon name can be without path).
-
-==== Bottom panel====
+==== Bottom-bar panels====
 
 * PROC_BOTTOMPANEL_ADD_DIALOG: Adds tab. Same as for PROC_SIDEPANEL_ADD_DIALOG.
 * PROC_BOTTOMPANEL_REMOVE: Removes tab. Same as for PROC_SIDEPANEL_REMOVE.
