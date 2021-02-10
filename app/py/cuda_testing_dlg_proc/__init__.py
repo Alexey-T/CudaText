@@ -262,6 +262,19 @@ class Command:
         if hasattr(self, 'pos_str'):
             dlg_proc(id_dlg, DLG_POS_SET_FROM_STR, self.pos_str)
 
+    def callback_maindlg_setprops(self, id_dlg, id_ctl, data='', info=''):
+        res = dlg_input_ex(2, 
+            'Set sidebar icon props', 
+            'ImageIndex:', 
+            '0',
+            'Hint:',
+            'test_panel')
+        if res is None: return
+        index = str(res[0])
+        title = res[1]
+        print('set sidebar props:', index, title)
+        app_proc(PROC_SIDEPANEL_SET_PROP, ('Side dialog', index, title))
+
     def callback_tempdlg_on_key_down(self, id_dlg, id_ctl, data='', info=''):
         print('callback_tempdlg_on_key_down')
 
@@ -584,6 +597,16 @@ class Command:
             'y': 320,
             'w': 100,
             'on_change': self.callback_maindlg_pos_load
+            })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_setprops',
+            'cap': 'sidebar icon...',
+            'x': 10,
+            'y': 350,
+            'w': 100,
+            'on_change': self.callback_maindlg_setprops
             })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
