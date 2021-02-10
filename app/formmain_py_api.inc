@@ -4658,6 +4658,17 @@ begin
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
+        APP_PROC_SIDEPANEL_SET_PROP:
+          begin
+            Sep.Init(Str);
+            Sep.GetItemStr(StrCaption); //caption
+            Sep.GetItemInt(i, -1); //imageindex
+            Sep.GetItemStr(StrIndex); //hint
+
+            ok:= AppPanels[cPaneSide].SetProp(StrCaption, i, StrIndex);
+            Result:= PyBool_FromLong(Ord(ok));
+          end;
+
         APP_PROC_SIDEPANEL_REMOVE:
           begin
             StrCaption:= Str;
@@ -4719,6 +4730,17 @@ begin
               nil
               );
 
+            Result:= PyBool_FromLong(Ord(ok));
+          end;
+
+        APP_PROC_BOTTOMPANEL_SET_PROP:
+          begin
+            Sep.Init(Str);
+            Sep.GetItemStr(StrCaption); //caption
+            Sep.GetItemInt(i, -1); //imageindex
+            Sep.GetItemStr(StrIndex); //hint
+
+            ok:= AppPanels[cPaneOut].SetProp(StrCaption, i, StrIndex);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 

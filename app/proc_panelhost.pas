@@ -89,6 +89,7 @@ type
     function Add(const ACaption: string; AImageIndex: integer; AHandle: PtrInt; AOnPanelShow: TNotifyEvent): boolean;
     function AddEmpty(const ACaption: string; AImageIndex: integer; const AModule, AMethod: string): boolean;
     function Delete(const ACaption: string): boolean;
+    function SetProp(const ACaption: string; AImageIndex: integer; const AHint: string): boolean;
     procedure UpdateButtons;
     procedure UpdateSplitter;
     function UpdatePanels(const ACaption: string; AndFocus: boolean; ACheckExists: boolean): boolean;
@@ -404,6 +405,22 @@ begin
           Panels.Delete(i);
           Break;
         end;
+  end;
+end;
+
+function TAppPanelHost.SetProp(const ACaption: string; AImageIndex: integer;
+  const AHint: string): boolean;
+var
+  Num: integer;
+begin
+  Num:= CaptionToButtonIndex(ACaption);
+  Result:= Num>=0;
+  if Result then
+  begin
+    if AImageIndex>=0 then
+      Toolbar.Buttons[Num].ImageIndex:= AImageIndex;
+    if AHint<>'' then
+      Toolbar.Buttons[Num].Hint:= AHint;
   end;
 end;
 
