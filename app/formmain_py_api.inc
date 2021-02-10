@@ -4706,6 +4706,11 @@ begin
             Result:= PyUnicodeFromString(Str);
           end;
 
+        APP_PROC_SIDEPANEL_GET_IMAGELIST:
+          begin
+            Result:= Py_ObjectHandle(fmMain.ImageListSide);
+          end;
+
         //-------------------
         APP_PROC_BOTTOMPANEL_GET_CONTROL:
           begin

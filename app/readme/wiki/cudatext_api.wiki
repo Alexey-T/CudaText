@@ -178,7 +178,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_GET_GROUPING: Returns grouping mode in program, one of GROUPS_nnnn int contants.
 * PROC_SET_GROUPING: Sets grouping mode in program, one of GROUPS_nnnn int contants.
 * PROC_PROGRESSBAR: Changes state of the progress-bar (hidden by default), which is located on the status-bar right corner. Int value<0: progressbar hides, value in 0..100: progressbar shows with the given value.
-* PROC_GET_TAB_IMAGELIST: Returns int handle of imagelist, for file-tabs. Use imagelist_proc() to work with it. Use PROP_TAB_ICON property to get/set file-tab icon index (index in this imagelist).
+* PROC_GET_TAB_IMAGELIST: Returns int handle of imagelist, containing icons of all UI-tabs. Use imagelist_proc() to work with it. Use PROP_TAB_ICON property to get/set file-tab icon index (index in this imagelist).
 * PROC_GET_CODETREE: Returns int handle of built-in code-tree UI control. Use tree_proc() to work with it.
 * PROC_GET_CONSOLE_FORM: Returns int handle of built-in Console form. Use dlg_proc() to work with it.
 * PROC_SET_FOLDER: Sets path of folder which will be used as initial folder in program's Open/Save-as dialogs.
@@ -349,13 +349,17 @@ Session is a set of opened files + untitled tabs, with some properties of editor
 * PROC_SIDEPANEL_ACTIVATE: Activates tab in sidebar. Returns bool: tab was found/activated. Text can be:
 ** str: tab_caption.
 ** 2-tuple (tab_caption, bool_set_focus). Default for bool_set_focus is False.
+
 * PROC_SIDEPANEL_ENUM: Enumerates tabs. Returns str, "\n"-separated captions of tabs.
 * PROC_SIDEPANEL_GET_CONTROL: Returns int handle of dialog, inserted into tab. Text is caption of tab. Returns None if cannot find tab.
 * PROC_SIDEPANEL_GET: Returns caption of last activated tab.
+
 * PROC_SIDEPANEL_SET_PROP: Changes properties of sidebar button. Returns bool: button was found/changed. Text must be 3-tuple (tab_caption, imageindex, tooltip):
 ** Caption of tab (must not contain ",")
 ** Int index of button's icon in sidebar's imagelist, or -1 to keep old value
 ** Floating tooltip string (it's independent from caption), or empty str to keep old value
+
+* PROC_SIDEPANEL_GET_IMAGELIST: Returns int handle of sidebar's imagelist object. Use this handle with imagelist_proc().
 
 Notes:
 
@@ -4137,5 +4141,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 + add: dlg_proc: DLG_CTL_TO_FRONT, DLG_CTL_TO_BACK
 + add: Editor.get_prop: PROP_RECT_GUTTER, PROP_RECT_MINIMAP, PROP_RECT_MICROMAP, PROP_RECT_RULER
 + add: app_proc: PROC_SIDEPANEL_SET_PROP, PROC_BOTTOMPANEL_SET_PROP
++ add: app_proc: PROC_SIDEPANEL_GET_IMAGELIST
 
 [[Category:CudaText]]
