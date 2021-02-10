@@ -366,6 +366,8 @@ Actions:
 ** "hint": str: Floating tooltip (it changes when translation is applied).
 ** "dlg": int: Handle of dialog. Can be 0, if dialog is not yet created, like for plugins "Tabs", "Snippet panel".
 ** "img": int: Image-index in the imagelist.
+** "module": str: Python module name, or empty str.
+** "method": str: Python method name, or empty str.
 
 * PROC_SIDEPANEL_GET_CONTROL: Returns int handle of dialog, inserted into tab. Param "text" is caption of tab. Returns None if cannot find tab.
 * PROC_SIDEPANEL_GET: Returns caption of last activated tab.
