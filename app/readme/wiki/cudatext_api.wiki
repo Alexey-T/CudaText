@@ -359,7 +359,7 @@ Actions:
 ** str: caption.
 ** 2-tuple (caption, bool_set_focus). Default for bool_set_focus is False.
 
-* PROC_SIDEPANEL_ENUM: Enumerates tabs. Returns str, "\n"-separated captions of tabs.
+* (deprecated) PROC_SIDEPANEL_ENUM: Enumerates tabs. Returns str, "\n"-separated captions of tabs.
 
 * PROC_SIDEPANEL_ENUM_ALL: Enumerates tabs. Returns list of dict, each dict item has keys:
 ** "cap": str: Caption.
@@ -382,7 +382,7 @@ Actions:
 * PROC_BOTTOMPANEL_ADD_DIALOG: Adds tab. Same as for PROC_SIDEPANEL_ADD_DIALOG.
 * PROC_BOTTOMPANEL_REMOVE: Removes tab. Same as for PROC_SIDEPANEL_REMOVE.
 * PROC_BOTTOMPANEL_ACTIVATE: Activates tab. Same as for PROC_SIDEPANEL_ACTIVATE.
-* PROC_BOTTOMPANEL_ENUM: Enumerates tabs. Same as for PROC_SIDEPANEL_ENUM.
+* (deprecated) PROC_BOTTOMPANEL_ENUM: Enumerates tabs. Same as for PROC_SIDEPANEL_ENUM.
 * PROC_BOTTOMPANEL_ENUM_ELL: Enumerates tabs. Same as for PROC_SIDEPANEL_ENUM_ALL.
 * PROC_BOTTOMPANEL_GET_CONTROL: Returns int handle of control. Same as for PROC_SIDEPANEL_GET_CONTROL.
 * PROC_BOTTOMPANEL_GET: Returns caption of last activated tab. Same as for PROC_SIDEPANEL_GET.
@@ -4153,10 +4153,14 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 + add: dlg_proc: DLG_TO_FRONT
 + add: dlg_proc: DLG_CTL_TO_FRONT, DLG_CTL_TO_BACK
 + add: Editor.get_prop: PROP_RECT_GUTTER, PROP_RECT_MINIMAP, PROP_RECT_MICROMAP, PROP_RECT_RULER
-+ add: app_proc: PROC_SIDEPANEL_SET_PROP, PROC_BOTTOMPANEL_SET_PROP
++ add: app_proc: PROC_SIDEPANEL_SET_PROP
++ add: app_proc: PROC_BOTTOMPANEL_SET_PROP
 + add: app_proc: PROC_SIDEPANEL_GET_IMAGELIST
 
 1.0.366 (app 1.124.1)
-+ add: app_proc: PROC_SIDEPANEL_ENUM_ALL, PROC_BOTTOMPANEL_ENUM_ALL
++ add: app_proc: PROC_SIDEPANEL_ENUM_ALL
++ add: app_proc: PROC_BOTTOMPANEL_ENUM_ALL
+* deprecated: app_proc: PROC_SIDEPANEL_ENUM
+* deprecated: app_proc: PROC_BOTTOMPANEL_ENUM
 
 [[Category:CudaText]]
