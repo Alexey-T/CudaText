@@ -4805,6 +4805,11 @@ begin
             Result:= PyUnicodeFromString(Str);
           end;
 
+        APP_PROC_BOTTOMPANEL_ENUM_ALL:
+          begin
+            Result:= Py_EnumSidebar(fmMain.ToolbarSideLow, AppPanels[cPaneOut]);
+          end;
+
         APP_PROC_BOTTOMPANEL_GET:
           begin
             Str:= AppPanels[cPaneOut].LastActivePanel;
