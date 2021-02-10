@@ -74,6 +74,7 @@ uses
   ATSynEdit_Cmp_AcpFiles,
   ATSynEdit_Cmp_CSS,
   ATSynEdit_Cmp_HTML,
+  ATSynEdit_Cmp_FileURI,
   ATTabs,
   ATGroups,
   ATStatusBar,
@@ -5753,9 +5754,11 @@ procedure TfmMain.DoAutoComplete(Ed: TATSynEdit);
 var
   Frame: TEditorFrame;
   LexName: string;
+  SFileName: UnicodeString;
   IsCss, IsHtml, IsCaseSens: boolean;
   Caret: TATCaretItem;
   Params: TAppVariantArray;
+  N1, N2: integer;
 begin
   Frame:= GetEditorFrame(Ed);
   if Frame=nil then exit;
@@ -5805,6 +5808,9 @@ begin
   else
   if IsCss then
     DoEditorCompletionCss(Ed)
+  else
+  if DoEditorCompletionFileURIContext(Ed, SFileName, N1, N2) then
+    DoEditorCompletionFileURI(Ed)
   else
     DoEditorCompletionAcp(Ed, GetAppLexerAcpFilename(LexName), IsCaseSens);
 end;
