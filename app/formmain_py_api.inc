@@ -4422,9 +4422,11 @@ end;
 
 function Py_EnumSidebar(AToolbar: TATFlatToolbar; APanelHost: TAppPanelHost): PPyObject;
 var
-  NCount, i: integer;
+  NCount, NPanelIndex, i: integer;
   NHandle: Int64;
+  SModule, SMethod: string;
   Btn: TATButton;
+  PanelItem: TAppPanelItem;
 begin
   with AppPython.Engine do
   begin
@@ -4433,9 +4435,20 @@ begin
     for i:= 0 to NCount-1 do
     begin
       Btn:= AToolbar.Buttons[i];
-      NHandle:= APanelHost.CaptionToControlHandle(Btn.Caption);
+      SModule:= '';
+      SMethod:= '';
+      NHandle:= 0;
+      NPanelIndex:= APanelHost.CaptionToPanelIndex(Btn.Caption);
 
-      PyList_SetItem(Result, i, Py_BuildValue('{sssssLsi}',
+      if NPanelIndex>=0 then
+      begin
+        PanelItem:= TAppPanelItem(APanelHost.Panels[NPanelIndex]);
+        SModule:= PanelItem.ItemModule;
+        SMethod:= PanelItem.ItemMethod;
+        NHandle:= Int64(PtrInt(PanelItem.ItemControl));
+      end;
+
+      PyList_SetItem(Result, i, Py_BuildValue('{sssssLsissss}',
         'cap',
         PChar(Btn.Caption),
         'hint',
@@ -4443,7 +4456,11 @@ begin
         'dlg',
         NHandle,
         'img',
-        Btn.ImageIndex
+        Btn.ImageIndex,
+        'module',
+        PChar(SModule),
+        'method',
+        PChar(SMethod)
         ));
     end;
   end;
