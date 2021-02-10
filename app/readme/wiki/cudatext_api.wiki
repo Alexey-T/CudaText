@@ -352,6 +352,10 @@ Session is a set of opened files + untitled tabs, with some properties of editor
 * PROC_SIDEPANEL_ENUM: Enumerates tabs. Returns str, "\n"-separated captions of tabs.
 * PROC_SIDEPANEL_GET_CONTROL: Returns int handle of dialog, inserted into tab. Text is caption of tab. Returns None if cannot find tab.
 * PROC_SIDEPANEL_GET: Returns caption of last activated tab.
+* PROC_SIDEPANEL_SET_PROP: Changes properties of sidebar button. Returns bool: button was found/changed. Text must be 3-tuple (tab_caption, imageindex, tooltip):
+** Caption of tab (must not contain ",")
+** Int index of button's icon in sidebar's image-list, or -1 to keep old value
+** Floating tooltip string (it's independent from caption), or empty str to keep old value
 
 Notes:
 
@@ -365,6 +369,7 @@ Notes:
 * PROC_BOTTOMPANEL_ENUM: Enumerates tabs. Same as for PROC_SIDEPANEL_ENUM.
 * PROC_BOTTOMPANEL_GET_CONTROL: Returns int handle of control. Same as for PROC_SIDEPANEL_GET_CONTROL.
 * PROC_BOTTOMPANEL_GET: Returns caption of last activated tab. Same as for PROC_SIDEPANEL_GET.
+* PROC_BOTTOMPANEL_SET_PROP: Sets sidebar's button properties. Same as for PROC_SIDEPANEL_SET_PROP. 
 
 ====Splitters====
 
@@ -4126,10 +4131,11 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: app_proc: PROC_CLIP_ENUM
 * add: app_proc: PROC_CLIP_SAVE_PIC
 
-1.0.365 (app 1.124.0.2)
-+ add: dlg_proc: property 'tab_hovered' is returned also for 'toolbar', 'statusbar'
+1.0.365 (app 1.124.1)
++ add: dlg_proc: property 'tab_hovered' is now returned also for controls 'toolbar', 'statusbar'
 + add: dlg_proc: DLG_TO_FRONT
 + add: dlg_proc: DLG_CTL_TO_FRONT, DLG_CTL_TO_BACK
 + add: Editor.get_prop: PROP_RECT_GUTTER, PROP_RECT_MINIMAP, PROP_RECT_MICROMAP, PROP_RECT_RULER
++ add: app_proc: PROC_SIDEPANEL_SET_PROP, PROC_BOTTOMPANEL_SET_PROP
 
 [[Category:CudaText]]
