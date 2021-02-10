@@ -354,7 +354,7 @@ Session is a set of opened files + untitled tabs, with some properties of editor
 * PROC_SIDEPANEL_GET: Returns caption of last activated tab.
 * PROC_SIDEPANEL_SET_PROP: Changes properties of sidebar button. Returns bool: button was found/changed. Text must be 3-tuple (tab_caption, imageindex, tooltip):
 ** Caption of tab (must not contain ",")
-** Int index of button's icon in sidebar's image-list, or -1 to keep old value
+** Int index of button's icon in sidebar's imagelist, or -1 to keep old value
 ** Floating tooltip string (it's independent from caption), or empty str to keep old value
 
 Notes:
@@ -1473,7 +1473,7 @@ Possible values of "id_action":
 * TREE_ITEM_FOLD_LEVEL: Folds all items (id_item ignored) from level with specified index, 1 or bigger. (This is what CudaText commands "fold level N" do for code-tree).
 * TREE_ITEM_UNFOLD: Unfolds item w/o subitems.
 * TREE_ITEM_UNFOLD_DEEP: Unfolds item with subitems. Root-item allowed too.
-* TREE_GET_IMAGELIST: Returns int handle of image-list object.
+* TREE_GET_IMAGELIST: Returns int handle of imagelist object.
 * TREE_PROP_SHOW_ROOT: This allows to hide lines for invisible root-item. If hidden, tree (folded) looks like listbox. Param text: "0"/"1" to hide/show.
 * TREE_LOCK: Disables repainting of control.
 * TREE_UNLOCK: Enables repainting of control.
@@ -1697,8 +1697,8 @@ Possible values of "id_action":
 * MENU_SET_HOTKEY: Changes hotkey of menu item. Param "command" must be str value, e.g. "Ctrl+Alt+F1".
 * MENU_SET_CHECKED: Changes checked state of menu item. When item is checked, it shows a checkmark. Param "command" must be bool value.
 * MENU_SET_RADIOITEM: Changes radio kind of menu item. When item has radio kind, its checkmark is round (in checked state). Param "command" must be bool value.
-* MENU_SET_IMAGELIST: Changes image-list object of menu, which contains menu item. Param "command" must be image-list handle.
-* MENU_SET_IMAGEINDEX: Changes icon index of menu item (index in image-list). Param "index" must be icon index.
+* MENU_SET_IMAGELIST: Changes imagelist object of menu, which contains menu item. Param "command" must be imagelist handle.
+* MENU_SET_IMAGEINDEX: Changes icon index of menu item (index in imagelist). Param "index" must be icon index.
 
 ====Example====
 
@@ -1730,7 +1730,7 @@ Param "id_toolbar": int handle of toolbar. Can be "top" for main app toolbar. Fu
 Param "id_action" possible values:
 
 * TOOLBAR_GET_COUNT: Returns number of buttons in toolbar.
-* TOOLBAR_GET_IMAGELIST: Returns int handle of image-list object.
+* TOOLBAR_GET_IMAGELIST: Returns int handle of imagelist object.
 * TOOLBAR_GET_BUTTON_HANDLE: Returns int handle of button to use in button_proc(), or None if index not correct. Param "index": button index.
 * TOOLBAR_GET_BUTTON_HANDLES: Returns list of handles of all buttons.
 * TOOLBAR_GET_INDEX_HOVERED: Returns index of button under mouse cursor, or -1 if none.
@@ -1738,7 +1738,7 @@ Param "id_action" possible values:
 * TOOLBAR_DELETE_BUTTON: Deletes one button. Param "index": button index.
 * TOOLBAR_ADD_ITEM: Adds one button, of usual kind. Returns its handle. Param "index": button index at which to insert, -1 to append.
 * TOOLBAR_ADD_MENU: Adds one button, with submenu appearing by left click (not context menu). Returns its handle. Param "index": button index at which to insert, -1 to append.
-* TOOLBAR_UPDATE: Updates buttons positions and sizes (for current size of image-list, current captions etc).
+* TOOLBAR_UPDATE: Updates buttons positions and sizes (for current size of imagelist, current captions etc).
 * TOOLBAR_GET_VERTICAL: Returns vertical state of toolbar.
 * TOOLBAR_SET_VERTICAL: Sets vertical state of toolbar. Param "index": bool value.
 * TOOLBAR_GET_WRAP: Returns wrappable state of toolbar.
@@ -1764,8 +1764,8 @@ Param "id_action" can be:
 * STATUSBAR_ADD_CELL: Adds one cell. Param "index": -1: cell will be appended; >=0: cell will be inserted at given index. Param "tag" has special meaning: it is tag value of a new cell. Returns index of new cell, or None if cannot add (e.g. "tag" is busy).
 * STATUSBAR_FIND_CELL: Returns index if cell from tag, or None. Param "value": int tag. Params "index", "tag" ignored.
 
-* STATUSBAR_GET_IMAGELIST: Returns handle of image-list object, attached to statusbar, or 0 for none.
-* STATUSBAR_SET_IMAGELIST: Sets handle if image-list object. Param "value": handle.
+* STATUSBAR_GET_IMAGELIST: Returns handle of imagelist object, attached to statusbar, or 0 for none.
+* STATUSBAR_SET_IMAGELIST: Sets handle if imagelist object. Param "value": handle.
 
 * STATUSBAR_GET_COLOR_BACK: Returns color of background.
 * STATUSBAR_GET_COLOR_FONT: Returns color of font.
@@ -1789,7 +1789,7 @@ Param "id_action" can be:
 * STATUSBAR_GET_CELL_ALIGN: Returns alignment of cell. One of str values: "L" (left), "C" (center), "R" (right).
 * STATUSBAR_GET_CELL_TEXT: Returns text of cell.
 * STATUSBAR_GET_CELL_HINT: Returns hint of cell.
-* STATUSBAR_GET_CELL_IMAGEINDEX: Returns icon index (inside image-list) of cell, -1 for none.
+* STATUSBAR_GET_CELL_IMAGEINDEX: Returns icon index (inside imagelist) of cell, -1 for none.
 * STATUSBAR_GET_CELL_COLOR_FONT: Returns font color of cell, COLOR_NONE if not set.
 * STATUSBAR_GET_CELL_COLOR_BACK: Returns background color of cell, COLOR_NONE if not set.
 * STATUSBAR_GET_CELL_FONT_NAME: Returns special font name of cell (if empty str, not used).
@@ -1803,7 +1803,7 @@ Param "id_action" can be:
 * STATUSBAR_SET_CELL_ALIGN: Sets alignment of cell. Param "value": str constant: "L", "C", "R".
 * STATUSBAR_SET_CELL_TEXT: Sets text of cell. Param "value": str.
 * STATUSBAR_SET_CELL_HINT: Sets hint of cell. Param "value": str.
-* STATUSBAR_SET_CELL_IMAGEINDEX: Sets icon index (inside image-list) of cell, -1 for none. Param "value": int.
+* STATUSBAR_SET_CELL_IMAGEINDEX: Sets icon index (inside imagelist) of cell, -1 for none. Param "value": int.
 * STATUSBAR_SET_CELL_COLOR_FONT: Sets font color of cell. Param "value": int color or COLOR_NONE.
 * STATUSBAR_SET_CELL_COLOR_BACK: Sets background color of cell. Param "value": int color or COLOR_NONE.
 * STATUSBAR_SET_CELL_FONT_NAME: Sets special font name of cell (if empty str, not used). Param "value": str.
@@ -1819,20 +1819,20 @@ Notes:
 
  imagelist_proc(id_list, id_action, value="")
 
-Perform action on image-list object.
+Perform action on imagelist object.
 
-Param "id_list" is int handle of image-list. It is required for all actions, except IMAGELIST_CREATE, where it should be 0.
+Param "id_list" is int handle of imagelist. It is required for all actions, except IMAGELIST_CREATE, where it should be 0.
 
 Possible values of "id_action":
 
-* IMAGELIST_CREATE: Creates new image-list object with default icon size 16x16. Returns int handle of this image-list. Param "value" must be int handle of owner form of object.
+* IMAGELIST_CREATE: Creates new imagelist object with default icon size 16x16. Returns int handle of this imagelist. Param "value" must be int handle of owner form of object.
 ** If it is form handle from dlg_proc, object will be deleted after deletion of this form.
 ** If it is 0, main application form is used as owner, and object will be persistent.
 
-* IMAGELIST_COUNT: Returns int number of icons in image-list.
+* IMAGELIST_COUNT: Returns int number of icons in imagelist.
 * IMAGELIST_GET_SIZE: Returns current icon size as 2-tuple (width, height).
-* IMAGELIST_SET_SIZE: Sets new icon size, and clears image-list. Param "value" must be 2-tuple of int (width, height). Returns new icon size (corrected by minimal value) as 2-tuple.
-* IMAGELIST_ADD: Loads image into image-list. Param "value" must be full path to PNG/BMP image file. Size of image should be the same as size of image-list (otherwise image will be loaded cropped or maybe stretched, it depends on IDE). Returns int icon index, or None if cannot load.
+* IMAGELIST_SET_SIZE: Sets new icon size, and clears imagelist. Param "value" must be 2-tuple of int (width, height). Returns new icon size (corrected by minimal value) as 2-tuple.
+* IMAGELIST_ADD: Loads image into imagelist. Param "value" must be full path to PNG/BMP image file. Size of image should be the same as size of imagelist (otherwise image will be loaded cropped or maybe stretched, it depends on IDE). Returns int icon index, or None if cannot load.
 * IMAGELIST_DELETE: Deletes one icon. Param "value" is int icon index (0-based).
 * IMAGELIST_DELETE_ALL: Deletes all icons.
 * IMAGELIST_PAINT: Paints single icon on given canvas, at given coords. Param "value" must be tuple (canvas_id, x, y, icon_index). Value canvas_id can be 0 for testing paintbox in CudaText.
@@ -1877,9 +1877,9 @@ Possible values of "id_action":
 * BTN_SET_VISIBLE: Sets visible state. Param "value" must be bool.
 * BTN_GET_CHECKED: Returns checked state, bool.
 * BTN_SET_CHECKED: Sets checked state. Param "value" must be bool.
-* BTN_GET_IMAGELIST: Returns handle of image-list for button.
-* BTN_SET_IMAGELIST: Sets handle of image-list. Param "value" must be int handle.
-* BTN_GET_IMAGEINDEX: Returns icon index (in attached image-list).
+* BTN_GET_IMAGELIST: Returns handle of imagelist for button.
+* BTN_SET_IMAGELIST: Sets handle of imagelist. Param "value" must be int handle.
+* BTN_GET_IMAGEINDEX: Returns icon index (in attached imagelist).
 * BTN_SET_IMAGEINDEX: Sets icon index. Param "value" must be int index (0-based), or -1 for none. To show icon, you must also set appropriate kind of button.
 * BTN_GET_MENU: Returns int handle of submenu. It can be passed to menu_proc(h, MENU_SHOW).
 * BTN_SET_MENU: Sets int handle of submenu. It can be handle created by menu_proc(0, MENU_CREATE).
@@ -2468,13 +2468,13 @@ Controls decorations on gutter. It is used to show some visual marks, which look
 ** "color": int, color of text decoration.
 ** "bold": bool, use bold font for text decoration.
 ** "italic": bool, use italic font for text decoration.
-** "image": int, icon index from decoration image-list; decoration will be icon, if text is empty.
+** "image": int, icon index from decoration imagelist; decoration will be icon, if text is empty.
 ** "auto_del": bool, auto-delete decoration, when its line is deleted.
 
 * DECOR_DELETE_BY_LINE: Deletes single decoration for given line. Params used: "line".
 * DECOR_DELETE_BY_TAG: Deletes all decorations for given tag. Param used: "tag".
 * DECOR_DELETE_ALL: Deletes all decorations.
-* DECOR_GET_IMAGELIST: Returns int handle of decoration image-list (default size is 16x16).
+* DECOR_GET_IMAGELIST: Returns int handle of decoration imagelist (default size is 16x16).
 
 ===Editor.folding===
 
@@ -2913,7 +2913,7 @@ Getter must return list of tuples: (pos, level, caption, icon).
 * field "pos": tuple of int (x1, y1, x2, y2): range for tree node.
 * field "level": 1-based level of node, node of level K+1 is nested into (nearest upper) node of level K.
 * field "caption": caption of node.
-* field "icon": 0-based index of icon from standard image-list, or -1 if icon not used.
+* field "icon": 0-based index of icon from standard imagelist, or -1 if icon not used.
 ** 0: folder
 ** 1: parts1
 ** 2: parts2
