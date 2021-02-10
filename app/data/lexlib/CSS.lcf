@@ -285,7 +285,6 @@ object SyntAnal6: TLibSyntAnalyzer
             'alias'
             'align-content'
             'align-items'
-            'alignment-baseline'
             'align-self'
             'all'
             'all-petite-caps'
@@ -330,7 +329,6 @@ object SyntAnal6: TLibSyntAnalyzer
             'backwards'
             'balance'
             'baseline'
-            'baseline-shift'
             'before-edge'
             'below'
             'bevel'
@@ -433,10 +431,7 @@ object SyntAnal6: TLibSyntAnalyzer
             'color-adjust'
             'color-burn'
             'color-dodge'
-            'color-interpolation'
             'color-interpolation-filters'
-            'color-profile'
-            'color-rendering'
             'col-resize'
             'column'
             'column-count'
@@ -467,8 +462,6 @@ object SyntAnal6: TLibSyntAnalyzer
             'crisp-edges'
             'crosshair'
             'cursor'
-            'cx'
-            'cy'
             'cyclic'
             'darken'
             'dashed'
@@ -487,7 +480,6 @@ object SyntAnal6: TLibSyntAnalyzer
             'distribute-all-lines'
             'distribute-letter'
             'distribute-space'
-            'dominant-baseline'
             'dot'
             'dotted'
             'double'
@@ -542,6 +534,7 @@ object SyntAnal6: TLibSyntAnalyzer
             'float'
             'flood-color'
             'flood-opacity'
+            'flow-root'
             'font'
             'font-display'
             'font-family'
@@ -656,6 +649,7 @@ object SyntAnal6: TLibSyntAnalyzer
             'jis83'
             'jis90'
             'justify'
+            'justify-all'
             'justify-content'
             'justify-items'
             'justify-self'
@@ -869,7 +863,6 @@ object SyntAnal6: TLibSyntAnalyzer
             'proportional-width'
             'proximity'
             'quotes'
-            'r'
             'radial'
             'range'
             'recto'
@@ -877,7 +870,8 @@ object SyntAnal6: TLibSyntAnalyzer
             'relative'
             'remove'
             'repeat'
-            'repeat-'
+            'repeat-x'
+            'repeat-y'
             'reset-size'
             'resize'
             'reverse'
@@ -904,8 +898,6 @@ object SyntAnal6: TLibSyntAnalyzer
             'ruby-text-container'
             'run-in'
             'running'
-            'rx'
-            'ry'
             'saturation'
             'scale'
             'scale-down'
@@ -1123,7 +1115,6 @@ object SyntAnal6: TLibSyntAnalyzer
             'x-small'
             'xx-large'
             'xx-small'
-            'xy'
             'y'
             'zero'
             'z-index'
@@ -1854,6 +1845,60 @@ object SyntAnal6: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = 'Id props SVG'
+      StyleName = 'Prop correct'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'alignment-baseline'
+            'baseline-shift'
+            'clip-rule'
+            'color-interpolation'
+            'color-interpolation-filters'
+            'color-profile'
+            'color-rendering'
+            'cx'
+            'cy'
+            'dominant-baseline'
+            'enable-background'
+            'fill'
+            'fill-opacity'
+            'fill-rule'
+            'flood-color'
+            'flood-opacity'
+            'glyph-orientation-horizontal'
+            'glyph-orientation-vertical'
+            'height'
+            'kerning'
+            'lighting-color'
+            'marker-end'
+            'marker-mid'
+            'marker-start'
+            'r'
+            'rx'
+            'ry'
+            'shape-rendering'
+            'stop-color'
+            'stop-opacity'
+            'stroke'
+            'stroke-dasharray'
+            'stroke-dashoffset'
+            'stroke-linecap'
+            'stroke-linejoin'
+            'stroke-miterlimit'
+            'stroke-opacity'
+            'stroke-width'
+            'text-anchor'
+            'width'
+            'x'
+            'y')
+          TokenTypes = 512
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = 'Id colors'
       StyleName = 'Color'
       BlockType = btTagDetect
@@ -2283,6 +2328,9 @@ object SyntAnal6: TLibSyntAnalyzer
     'Known properties: http://htmlbook.ru'
     
       'Known vendor prefixes: http://peter.sh/experiments/vendor-prefix' +
-      'ed-css-property-overview/')
+      'ed-css-property-overview/'
+    
+      'Atom lexer props: https://github.com/atom/language-css/blob/mast' +
+      'er/grammars/css.cson')
   Charset = DEFAULT_CHARSET
 end
