@@ -3,6 +3,12 @@
   - fixed
   * changed
 
+1.124.2
+
++ add: API to support new plugin "Terminal Plis"
++ add: lexer CSS: better word lists (from Atom's lexer)
++ add: CSS auto-completion: more pseudo-classes 
+
 1.124.0 (2021/02)
 
 + add: option "dim_unfocused", it allows to dim background color of editors in passive tab-groups
