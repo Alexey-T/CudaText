@@ -5809,8 +5809,8 @@ begin
   if IsCss then
     DoEditorCompletionCss(Ed)
   else
-  if DoEditorCompletionFileURIContext(Ed, SFileName, N1, N2) then
-    DoEditorCompletionFileURI(Ed)
+  if DoEditorCompletionFileURI(Ed) then
+    begin end
   else
     DoEditorCompletionAcp(Ed, GetAppLexerAcpFilename(LexName), IsCaseSens);
 end;
