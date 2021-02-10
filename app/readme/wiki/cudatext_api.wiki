@@ -343,15 +343,16 @@ Session is a set of opened files + untitled tabs, with some properties of editor
 General notes:
 
 * Word "tab" here means: sidebar button with attached embedded dialog, which looks like a tab.
+* Caption of "tab" must not contain ",". Name of icon file - too. Tooltip string - too.
 * Actions find "tabs" by caption, caption is some latin text, which is not affected by CudaText translation. E.g. caption "Code tree" always refers to Code-Tree tab, with any active translation.
 * Name of icon file: path of PNG/BMP file. Icon size/dimensions should be equal to the size of current sidebar imagelist. Default is 20x20. You can detect size of this imagelist, by using PROC_SIDEBAR_GET_IMAGELIST and passing returned handle to imagelist_proc(). If filename is without path, CudaText subfolder "data/sideicons" is used.
 
 Actions:
 
 * PROC_SIDEPANEL_ADD_DIALOG: Adds tab, with embedded dialog. Returns bool: all parameters are correct, tab was added. Param "text" must be 3-tuple:
-** Item[0]: Caption of tab (must not contain ",").
+** Item[0]: Caption of tab.
 ** Item[1]: Int handle of dialog, from dlg_proc().
-** Item[2]: Name of icon file (must not contain ",").
+** Item[2]: Name of icon file.
 
 * PROC_SIDEPANEL_REMOVE: Removes tab. Param "text" is caption of tab. (Note: actually it hides tab, dialog for this tab is still in memory). Returns bool: tab was found/removed.
 * PROC_SIDEPANEL_ACTIVATE: Activates tab. Returns bool: tab was found/activated. Param "text" can be string or tuple:
@@ -362,12 +363,12 @@ Actions:
 * PROC_SIDEPANEL_GET_CONTROL: Returns int handle of dialog, inserted into tab. Param "text" is caption of tab. Returns None if cannot find tab.
 * PROC_SIDEPANEL_GET: Returns caption of last activated tab.
 
-* PROC_SIDEPANEL_SET_PROP: Changes properties of sidebar button. Returns bool: button was found/changed. Param "text" must be 3-tuple (tab_caption, image_index, tooltip):
-** Item[0]: Caption of tab (must not contain ",").
+* PROC_SIDEPANEL_SET_PROP: Changes properties of sidebar button. Returns bool: button was found/changed. Param "text" must be 3-tuple:
+** Item[0]: Caption of tab.
 ** Item[1]: Int index of button's icon in sidebar's imagelist, or -1 to keep old value.
 ** Item[2]: Floating tooltip string (it's independent from caption), or empty str to keep old value.
 
-* PROC_SIDEPANEL_GET_IMAGELIST: Returns int handle of sidebar's imagelist object. Use this handle with imagelist_proc().
+* PROC_SIDEPANEL_GET_IMAGELIST: Returns int handle of sidebar's imagelist. Use this handle with imagelist_proc().
 
 ==== Bottom-bar panels====
 
