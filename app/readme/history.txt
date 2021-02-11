@@ -5,7 +5,8 @@
 
 1.124.3 (2021/02)
 
-+ add: auto-completion for URI file://, new Wiki topic https://wiki.freepascal.org/CudaText#File_URI_auto-completion
++ add: auto-completion for file URI file:///dir/path
++ add: Wiki topic https://wiki.freepascal.org/CudaText#File_URI_auto-completion
 + add: API to support new plugin "Terminal Plus"
 + add: lexer CSS: better word lists (from Atom's lexer)
 + add: CSS auto-completion: more pseudo-classes 
