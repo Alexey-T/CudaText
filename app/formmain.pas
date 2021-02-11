@@ -5753,10 +5753,11 @@ end;
 procedure TfmMain.DoAutoComplete(Ed: TATSynEdit);
 var
   Frame: TEditorFrame;
-  LexName: string;
-  IsCss, IsHtml, IsCaseSens: boolean;
+  SLexer: string;
+  IsCss, IsHtml, IsCaseSens, IsAcpFiles: boolean;
   Caret: TATCaretItem;
   Params: TAppVariantArray;
+  bWithLexer: boolean;
 begin
   Frame:= GetEditorFrame(Ed);
   if Frame=nil then exit;
@@ -5777,30 +5778,39 @@ begin
   SetLength(Params, 0);
   if DoPyEvent(Ed, cEventOnComplete, Params).Val = evrTrue then exit;
 
-  //disable completion w/o lexer
-  //plugins can handle completion without lexer, so check is lower
-  if Frame.Lexer[Ed]=nil then exit;
-  LexName:= Frame.LexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
-  if LexName='' then exit;
-
-  IsHtml:= UiOps.AutocompleteHtml and SRegexMatchesString(LexName, UiOps.AutocompleteHtml_Lexers, false);
-  IsCss:= UiOps.AutocompleteCss and SRegexMatchesString(LexName, UiOps.AutocompleteCss_Lexers, false);
+  IsHtml:= false;
+  IsCss:= false;
   IsCaseSens:= false; //cannot detect it yet
+  IsAcpFiles:= false;
+  SLexer:= '';
+  bWithLexer:= Frame.Lexer[Ed]<>nil;
 
-  CompletionOpsCss.FilenameCssList:= AppDir_DataAutocompleteSpec+DirectorySeparator+'css_list.ini';
-  CompletionOpsCss.FilenameCssColors:= AppDir_DataAutocompleteSpec+DirectorySeparator+'css_colors.ini';
-  CompletionOpsCss.FilenameCssSelectors:= AppDir_DataAutocompleteSpec+DirectorySeparator+'css_sel.ini';
-  CompletionOpsHtml.FilenameHtmlList:= AppDir_DataAutocompleteSpec+DirectorySeparator+'html_list.ini';
+  if bWithLexer then
+  begin
+    SLexer:= Frame.LexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
+    if SLexer='' then exit;
 
-  //allow autocompletion with multi-carets only in HTML
-  if Ed.Carets.Count>1 then
-    if not IsHtml then
-    begin
-      MsgStatus(msgCannotAutocompleteMultiCarets);
-      exit;
-    end;
-  MsgStatus(msgStatusTryingAutocomplete+' '+LexName);
+    IsHtml:= UiOps.AutocompleteHtml and SRegexMatchesString(SLexer, UiOps.AutocompleteHtml_Lexers, false);
+    IsCss:= UiOps.AutocompleteCss and SRegexMatchesString(SLexer, UiOps.AutocompleteCss_Lexers, false);
+    IsAcpFiles:= true;
 
+    CompletionOpsCss.FilenameCssList:= AppDir_DataAutocompleteSpec+DirectorySeparator+'css_list.ini';
+    CompletionOpsCss.FilenameCssColors:= AppDir_DataAutocompleteSpec+DirectorySeparator+'css_colors.ini';
+    CompletionOpsCss.FilenameCssSelectors:= AppDir_DataAutocompleteSpec+DirectorySeparator+'css_sel.ini';
+    CompletionOpsHtml.FilenameHtmlList:= AppDir_DataAutocompleteSpec+DirectorySeparator+'html_list.ini';
+
+    //allow autocompletion with multi-carets only in HTML
+    if Ed.Carets.Count>1 then
+      if not IsHtml then
+      begin
+        MsgStatus(msgCannotAutocompleteMultiCarets);
+        exit;
+      end;
+    MsgStatus(msgStatusTryingAutocomplete+' '+SLexer);
+  end;
+
+  //completion for HTML, CSS, .acp - is available only with lexer
+  //completion for file URI - is available for all files
   if IsHtml then
     DoEditorCompletionHtml(Ed)
   else
@@ -5811,7 +5821,8 @@ begin
     DoEditorCompletionFileURI(Ed) then
     begin end
   else
-    DoEditorCompletionAcp(Ed, GetAppLexerAcpFilename(LexName), IsCaseSens);
+  if IsAcpFiles then
+    DoEditorCompletionAcp(Ed, GetAppLexerAcpFilename(SLexer), IsCaseSens);
 end;
 
 procedure TfmMain.mnuTreeFold2Click(Sender: TObject);
