@@ -9,6 +9,8 @@
 + add: API to support new plugin "Terminal Plus"
 + add: lexer CSS: better word lists (from Atom's lexer)
 + add: CSS auto-completion: more pseudo-classes 
+- fix: auto-completion must scroll to caret after the text insertion
+- fix: auto-completion issue with "dim_unfocused"
 
 1.124.0 (2021/02)
 
