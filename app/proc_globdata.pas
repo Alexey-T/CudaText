@@ -202,6 +202,7 @@ type
     AutocompleteCss: boolean;
     AutocompleteHtml_Lexers: string;
     AutocompleteCss_Lexers: string;
+    AutocompleteFileURI: boolean;
     HtmlBackgroundColorPair: array[boolean] of TColor;
 
     ListboxCentered: boolean;
@@ -1542,8 +1543,12 @@ begin
     Win32GetUserFont(ThemedMainMenuFontName, ThemedMainMenuFontSize);
     {$endif}
 
+    AutocompleteCss:= true;
+    AutocompleteHtml:= true;
     AutocompleteHtml_Lexers:= '.*HTML.*|\bPHP\b';
     AutocompleteCss_Lexers:= 'CSS';
+    AutocompleteFileURI:= true;
+
     HtmlBackgroundColorPair[false]:= $F0F0F0;
     HtmlBackgroundColorPair[true]:= $101010;
 
@@ -1553,9 +1558,6 @@ begin
     DefaultTabSplitIsHorz:= false;
     MaxFileSizeToOpen:= 500;
     MaxFileSizeForLexer:= 2;
-
-    AutocompleteCss:= true;
-    AutocompleteHtml:= true;
 
     ListboxCentered:= true;
     ListboxSizeX:= 450;

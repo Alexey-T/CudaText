@@ -5809,7 +5809,8 @@ begin
   if IsCss then
     DoEditorCompletionCss(Ed)
   else
-  if DoEditorCompletionFileURI(Ed) then
+  if UiOps.AutocompleteFileURI and
+    DoEditorCompletionFileURI(Ed) then
     begin end
   else
     DoEditorCompletionAcp(Ed, GetAppLexerAcpFilename(LexName), IsCaseSens);
