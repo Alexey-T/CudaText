@@ -58,6 +58,7 @@ Screenshot on Windows:
 * [[#Activating_internet_links|Activating internet links]]
 * [[#Automatic_folding_of_comments|Automatic folding of comments]]
 * [[#Special_HTML_auto-completion|HTML auto-completion suggests file/folder names]]
+* [[#File_URI_auto-completion|File URI file:/// auto-completion]]
 * [[#HTML_color_codes_underlining|HTML color codes underlining]]
 * [[CudaText_plugins#Macros|Macros plugin]] also records actions performed in the Find/Replace dialog, and mouse clicks
 * CudaText and its plugins support i18n (text strings can be translated)
@@ -791,6 +792,16 @@ Lexer CSS (see the option "autocomplete_css_lexers") has its special logic, whic
 * Caret is after CSS property (with fixed set of values) and ":", inside {} brackets. Listbox shows list of values for that property (beginning with typed value).
 * Caret is after tag name with char "@". Listbox shows list of CSS at-rules.
 * Caret is after tag name with char ":". Listbox shows list of CSS pseudo-elements, beginning with ":" and "::".
+
+====File URI auto-completion====
+
+File URI is file path in the form like 'file://localhost/dir/filename' or 'file:///dir/filename'.
+On Windows URI can look like 'file:///c:/dir/filename'.
+
+CudaText supports auto-completion for such URIs, when caret is on 'dir/filename' part,
+and file path exists on user's PC.
+Auto-completion work for this case is described in the
+[[#Special_HTML_auto-completion|topic about HTML completion]], see "folders/filenames completion".
 
 == Code Tree ==
 
