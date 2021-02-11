@@ -484,6 +484,9 @@ begin
     CompletionOpsCss.PrefixAtRule:= CompletionOpsHtml.PrefixValue;
     CompletionOpsCss.PrefixPseudo:= CompletionOpsHtml.PrefixValue;
 
+    CompletionOpsFile.PrefixDir:= CompletionOpsHtml.PrefixDir;
+    CompletionOpsFile.PrefixFile:= CompletionOpsHtml.PrefixFile;
+
     DoLocString(msgLinkOpenSite, ini, 'ui', 'lnk_a');
     DoLocString(msgLinkOpenEmail, ini, 'ui', 'lnk_e');
 
