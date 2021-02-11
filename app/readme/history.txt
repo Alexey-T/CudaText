@@ -3,9 +3,9 @@
   - fixed
   * changed
 
-1.124.2
+1.124.3 (2021/02)
 
-+ add: auto-completion for URI with prefix 'file:///'
++ add: auto-completion for file URI 'file://hostname/path' ('hostname' should be empty or 'localhost')
 + add: API to support new plugin "Terminal Plus"
 + add: lexer CSS: better word lists (from Atom's lexer)
 + add: CSS auto-completion: more pseudo-classes 
