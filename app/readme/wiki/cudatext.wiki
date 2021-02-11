@@ -795,14 +795,15 @@ Lexer CSS (see the option "autocomplete_css_lexers") has its special logic, whic
 
 ====File URI auto-completion====
 
-File URI is file path in the form like 'file://localhost/dir/filename' or 'file:///dir/filename'.
+File URI is file path in the form like 'file://localhost/dir/filename' or 'file:///dir/filename' (host name 'localhost' is often missed).
 On Windows URI can look like 'file:///c:/dir/filename'.
+
+CudaText supports auto-completion for file URIs, when caret is on 'dir/filename' part,
+and file path exists on local user's PC.
 
 [[File:cudatext-complete-fileuri.png]]
 
-CudaText supports auto-completion for such URIs, when caret is on 'dir/filename' part,
-and file path exists on user's PC.
-Auto-completion work for this case is described in the
+Auto-completion behaviour for this case is described in the
 [[#Special_HTML_auto-completion|topic about HTML completion]], see "folders/filenames completion".
 
 == Code Tree ==
