@@ -5763,16 +5763,30 @@ var
   SLexer: string;
   bNeedCss, bNeedHtml, bNeedAcp: boolean;
   Caret: TATCaretItem;
+  TokenKind: TATTokenKind;
   bWithLexer: boolean;
 begin
   Frame:= GetEditorFrame(Ed);
   if Frame=nil then exit;
-
   if Ed.Carets.Count=0 then exit;
-  Caret:= Ed.Carets[0];
 
-  //disable completion in comments
-  if EditorGetTokenKind(Ed, Caret.PosX, Caret.PosY)=atkComment then exit;
+  //disable completion in comments/strings
+  if not UiOps.AutocompleteInComments or
+    not UiOps.AutocompleteInStrings then
+  begin
+    Caret:= Ed.Carets[0];
+    TokenKind:= EditorGetTokenKind(Ed, Caret.PosX, Caret.PosY);
+    case TokenKind of
+      atkComment:
+        begin
+          if not UiOps.AutocompleteInComments then exit;
+        end;
+      atkString:
+        begin
+          if not UiOps.AutocompleteInStrings then exit;
+        end;
+    end;
+  end;
 
   CompletionOps.AppendOpeningBracket:= Ed.OptAutocompleteAddOpeningBracket;
   CompletionOps.UpDownAtEdge:= TATCompletionUpDownAtEdge(Ed.OptAutocompleteUpDownAtEdge);

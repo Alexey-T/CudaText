@@ -203,6 +203,9 @@ type
     AutocompleteHtml_Lexers: string;
     AutocompleteCss_Lexers: string;
     AutocompleteFileURI: boolean;
+    AutocompleteInComments: boolean;
+    AutocompleteInStrings: boolean;
+
     HtmlBackgroundColorPair: array[boolean] of TColor;
 
     ListboxCentered: boolean;
@@ -1548,6 +1551,8 @@ begin
     AutocompleteHtml_Lexers:= '.*HTML.*|\bPHP\b';
     AutocompleteCss_Lexers:= 'CSS';
     AutocompleteFileURI:= true;
+    AutocompleteInComments:= false;
+    AutocompleteInStrings:= true;
 
     HtmlBackgroundColorPair[false]:= $F0F0F0;
     HtmlBackgroundColorPair[true]:= $101010;
