@@ -4277,7 +4277,7 @@ begin
 end;
 
 
-function Py_CommandList: PPyObject; cdecl;
+function PyHelper_CommandList: PPyObject; cdecl;
 var
   Item, ItemInitial: TATKeymapItem;
   ItemPlugin: TAppCommandInfo;
@@ -4438,7 +4438,7 @@ begin
   end;
 end;
 
-function Py_EnumSidebar(AToolbar: TATFlatToolbar; APanelHost: TAppPanelHost): PPyObject;
+function PyHelper_EnumSidebar(AToolbar: TATFlatToolbar; APanelHost: TAppPanelHost): PPyObject;
 var
   NCount, NPanelIndex, i: integer;
   NHandle: Int64;
@@ -4538,7 +4538,7 @@ begin
             Keymap_UpdateDynamic(categ_Lexer);
             Keymap_UpdateDynamic(categ_OpenedFile);
             Keymap_UpdateDynamic(categ_RecentFile);
-            Result:= Py_CommandList;
+            Result:= PyHelper_CommandList;
           end;
 
         APP_PROC_SAVE_SESSION:
@@ -4757,7 +4757,7 @@ begin
 
         APP_PROC_SIDEPANEL_ENUM_ALL:
           begin
-            Result:= Py_EnumSidebar(fmMain.ToolbarSideTop, AppPanels[cPaneSide]);
+            Result:= PyHelper_EnumSidebar(fmMain.ToolbarSideTop, AppPanels[cPaneSide]);
           end;
 
         APP_PROC_SIDEPANEL_GET_CONTROL:
@@ -4842,7 +4842,7 @@ begin
 
         APP_PROC_BOTTOMPANEL_ENUM_ALL:
           begin
-            Result:= Py_EnumSidebar(fmMain.ToolbarSideLow, AppPanels[cPaneOut]);
+            Result:= PyHelper_EnumSidebar(fmMain.ToolbarSideLow, AppPanels[cPaneOut]);
           end;
 
         APP_PROC_BOTTOMPANEL_GET:
@@ -5153,7 +5153,7 @@ begin
 end;
 
 
-function Py_GetLexerProps(An: TecSyntAnalyzer): PPyObject;
+function PyHelper_GetLexerProps(An: TecSyntAnalyzer): PPyObject;
 var
   Str1, Str2: string;
   List: TStringList;
@@ -5233,7 +5233,7 @@ begin
   end;
 end;
 
-function Py_GetLiteLexerProps(An: TATLiteLexer): PPyObject;
+function PyHelper_GetLiteLexerProps(An: TATLiteLexer): PPyObject;
 var
   Str1, Str2: string;
   List: TStringList;
@@ -5298,7 +5298,7 @@ begin
 end;
 
 
-function Py_GetLexerStylesProps(An: TecSyntAnalyzer): PPyObject;
+function PyHelper_GetLexerStylesProps(An: TecSyntAnalyzer): PPyObject;
 var
   Fmt: TecSyntaxFormat;
   i: integer;
@@ -5362,7 +5362,7 @@ begin
               SetLength(StrValue, Length(StrValue)-Length(msgLiteLexerSuffix));
               LexerLite:= AppManagerLite.FindLexerByName(StrValue);
               if Assigned(LexerLite) then
-                Result:= Py_GetLiteLexerProps(LexerLite)
+                Result:= PyHelper_GetLiteLexerProps(LexerLite)
               else
                 Result:= ReturnNone;
             end
@@ -5370,7 +5370,7 @@ begin
             begin
               Lexer:= AppManager.FindLexerByName(StrValue);
               if Assigned(Lexer) then
-                Result:= Py_GetLexerProps(Lexer)
+                Result:= PyHelper_GetLexerProps(Lexer)
               else
                 Result:= ReturnNone;
             end;
@@ -5384,7 +5384,7 @@ begin
             begin
               Lexer:= AppManager.FindLexerByName(StrValue);
               if Assigned(Lexer) then
-                Result:= Py_GetLexerStylesProps(Lexer)
+                Result:= PyHelper_GetLexerStylesProps(Lexer)
               else
                 Result:= ReturnNone;
             end;
@@ -5535,7 +5535,7 @@ begin
     Result:= ReturnNone;
 end;
 
-procedure Py_ed_folding_SetItem(AObj: PPyObject; AListIndex: integer; AItem: PATSynRange);
+procedure PyHelper_Folding_SetItem(AObj: PPyObject; AListIndex: integer; AItem: PATSynRange);
 begin
   with AppPython.Engine do
     PyList_SetItem(AObj, AListIndex,
@@ -5548,7 +5548,7 @@ begin
         ));
 end;
 
-function Py_ed_folding_GetAll(Ed: TATSynEdit): PPyObject; cdecl;
+function PyHelper_Folding_GetAll(Ed: TATSynEdit): PPyObject; cdecl;
 var
   Item: PATSynRange;
   NLen, i: integer;
@@ -5564,7 +5564,7 @@ begin
       for i:= 0 to NLen-1 do
       begin
         Item:= Ed.Fold.ItemPtr(i);
-        Py_ed_folding_SetItem(Result, i, Item);
+        PyHelper_Folding_SetItem(Result, i, Item);
       end;
     end
     else
@@ -5572,7 +5572,7 @@ begin
   end;
 end;
 
-function Py_ed_folding_GetFiltered(Ed: TATSynEdit; NeedY, NeedY2: integer): PPyObject; cdecl;
+function PyHelper_Folding_GetFiltered(Ed: TATSynEdit; NeedY, NeedY2: integer): PPyObject; cdecl;
 var
   L: TFPList;
   Item: PATSynRange;
@@ -5601,7 +5601,7 @@ begin
         for i:= 0 to NLen-1 do
         begin
           Item:= PATSynRange(L[i]);
-          Py_ed_folding_SetItem(Result, i, Item);
+          PyHelper_Folding_SetItem(Result, i, Item);
         end;
       end
       else
@@ -5818,7 +5818,7 @@ begin
 end;
 
 
-procedure ListboxItem_SetFromString(AItem: TATListboxItemProp; const AText: string);
+procedure PyHelper_ListboxItem_SetFromString(AItem: TATListboxItemProp; const AText: string);
 var
   Sep: TATStringSeparator;
   SItem, SKey, SValue: string;
@@ -5982,7 +5982,7 @@ begin
             begin
               Listbox.Items[NIndex]:= StrText;
               Obj:= Listbox.Items.Objects[NIndex];
-              ListboxItem_SetFromString(Obj as TATListboxItemProp, StrTag);
+              PyHelper_ListboxItem_SetFromString(Obj as TATListboxItemProp, StrTag);
               Listbox.Invalidate;
             end;
             Result:= ReturnNone;
@@ -5993,7 +5993,7 @@ begin
             if (NIndex=-1) or IndexOk then
             begin
               Obj:= TATListboxItemProp.Create(0, false, '');
-              ListboxItem_SetFromString(Obj as TATListboxItemProp, StrTag);
+              PyHelper_ListboxItem_SetFromString(Obj as TATListboxItemProp, StrTag);
               if NIndex=-1 then
                 Listbox.Items.AddObject(StrText, Obj)
               else
@@ -6387,7 +6387,7 @@ begin
 end;
 
 
-function Py_CanvasId_to_CanvasObject(const IdCanvas: Int64): TCanvas;
+function PyHelper_CanvasId_to_CanvasObject(const IdCanvas: Int64): TCanvas;
 begin
   if IdCanvas=0 then //support PaintBox for plugins debugging
   begin
@@ -6481,7 +6481,7 @@ begin
           begin
             Sep.Init(StrValue);
             Sep.GetItemInt64(Num64, 0);
-            Canvas:= Py_CanvasId_to_CanvasObject(Num64);
+            Canvas:= PyHelper_CanvasId_to_CanvasObject(Num64);
             Sep.GetItemInt(NX, 0);
             Sep.GetItemInt(NY, 0);
             Sep.GetItemInt(NIndex, 0);
@@ -6900,7 +6900,7 @@ begin
     Result:= ReturnNone;
 end;
 
-procedure _FindTokenRange(An: TecClientSyntAnalyzer; ALineFrom, ALineTo: integer;
+procedure PyHelper_FindTokenRange(An: TecClientSyntAnalyzer; ALineFrom, ALineTo: integer;
   out ResFrom, ResTo: integer);
 var
   NMaxLine: integer;
@@ -6932,7 +6932,7 @@ begin
     ResTo:= An.TagCount-1;
 end;
 
-function Py_GetTokenList(Adapter: TATAdapterEControl; ALineFrom, ALineTo: integer): PPyObject;
+function PyHelper_GetTokenList(Adapter: TATAdapterEControl; ALineFrom, ALineTo: integer): PPyObject;
 var
   An: TecClientSyntAnalyzer;
   Token: PecSyntToken;
@@ -6946,7 +6946,7 @@ begin
     An:= Adapter.AnClient;
     if An=nil then exit(ReturnNone);
 
-    _FindTokenRange(An, ALineFrom, ALineTo, NIndexFrom, NIndexTo);
+    PyHelper_FindTokenRange(An, ALineFrom, ALineTo, NIndexFrom, NIndexTo);
     if NIndexFrom<0 then
       exit(PyList_New(0));
 
@@ -7020,12 +7020,12 @@ begin
 
         TOKEN_LIST:
           begin
-            Result:= Py_GetTokenList(Adapter, 0, MaxInt)
+            Result:= PyHelper_GetTokenList(Adapter, 0, MaxInt)
           end;
 
         TOKEN_LIST_SUB:
           begin
-            Result:= Py_GetTokenList(Adapter, NIndex1, NIndex2)
+            Result:= PyHelper_GetTokenList(Adapter, NIndex1, NIndex2)
           end;
 
         else
@@ -7050,7 +7050,7 @@ begin
               @IdCanvas, @IdAction, @PtrText, @NColor, @NSize,
               @NX, @NY, @NX2, @NY2, @NStyle, @NP1, @NP2)) then
     begin
-      C:= Py_CanvasId_to_CanvasObject(IdCanvas);
+      C:= PyHelper_CanvasId_to_CanvasObject(IdCanvas);
       StrText:= string(PtrText);
 
       case IdAction of
@@ -7218,7 +7218,7 @@ begin
           begin
             Sep.Init(StrValue);
             Sep.GetItemInt64(Num64, 0);
-            Canvas:= Py_CanvasId_to_CanvasObject(Num64);
+            Canvas:= PyHelper_CanvasId_to_CanvasObject(Num64);
             Sep.GetItemInt(NX, 0);
             Sep.GetItemInt(NY, 0);
             Canvas.Draw(NX, NY, Image.Picture.Graphic);
@@ -7229,7 +7229,7 @@ begin
           begin
             Sep.Init(StrValue);
             Sep.GetItemInt64(Num64, 0);
-            Canvas:= Py_CanvasId_to_CanvasObject(Num64);
+            Canvas:= PyHelper_CanvasId_to_CanvasObject(Num64);
             Sep.GetItemInt(NX, 0);
             Sep.GetItemInt(NY, 0);
             Sep.GetItemInt(NX2, 0);
@@ -7795,15 +7795,15 @@ begin
       case Id of
         FOLDING_GET_LIST:
           begin
-            Result:= Py_ed_folding_GetAll(Ed);
+            Result:= PyHelper_Folding_GetAll(Ed);
           end;
 
         FOLDING_GET_LIST_FILTERED:
           begin
             if NY<0 then
-              Result:= Py_ed_folding_GetAll(Ed)
+              Result:= PyHelper_Folding_GetAll(Ed)
             else
-              Result:= Py_ed_folding_GetFiltered(Ed, NY, NY2);
+              Result:= PyHelper_Folding_GetFiltered(Ed, NY, NY2);
           end;
 
         FOLDING_FOLD:
