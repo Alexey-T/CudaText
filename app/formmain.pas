@@ -6431,7 +6431,7 @@ var
   ResLine, ResCol: integer;
 begin
   Listbox:= Sender as TATListbox;
-  Prop:= GetAppPanelProps_ByListbox(Listbox);
+  Prop:= PyHelper_GetPanelProps_ByListbox(Listbox);
   if Prop=nil then exit;
   if AIndex<0 then exit;
 

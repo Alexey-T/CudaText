@@ -1801,7 +1801,7 @@ begin
 end;
 
 
-function Py_ed_bookmark_getitem(BmItem: TATBookmarkItem): PPyObject;
+function PyHelper_BookmarkGetItem(BmItem: TATBookmarkItem): PPyObject;
 begin
   with AppPython.Engine do
     Result:= Py_BuildValue('{sisLsisssOsisO}',
@@ -1822,7 +1822,7 @@ begin
       );
 end;
 
-function Py_ed_bookmark_getall(ABookmarks: TATBookmarks): PPyObject;
+function PyHelper_BookmarkGetAll(ABookmarks: TATBookmarks): PPyObject;
 var
   NCount, i: integer;
   BmItem: TATBookmarkItem;
@@ -1838,7 +1838,7 @@ begin
       for i:= 0 to NCount-1 do
       begin
         BmItem:= ABookmarks[i];
-        PyList_SetItem(Result, i, Py_ed_bookmark_getitem(BmItem));
+        PyList_SetItem(Result, i, PyHelper_BookmarkGetItem(BmItem));
       end;
     end
     else
@@ -1887,7 +1887,7 @@ begin
             if i>=0 then
             begin
               BmItem:= Strs.Bookmarks[i];
-              Result:= Py_ed_bookmark_getitem(BmItem);
+              Result:= PyHelper_BookmarkGetItem(BmItem);
             end
             else
               Result:= ReturnNone;
@@ -1898,7 +1898,7 @@ begin
             if i>=0 then
             begin
               BmItem:= Strs.Bookmarks2[i];
-              Result:= Py_ed_bookmark_getitem(BmItem);
+              Result:= PyHelper_BookmarkGetItem(BmItem);
             end
             else
               Result:= ReturnNone;
@@ -1972,11 +1972,11 @@ begin
 
         BOOKMARK_GET_ALL:
           begin
-            Result:= Py_ed_bookmark_getall(Strs.Bookmarks);
+            Result:= PyHelper_BookmarkGetAll(Strs.Bookmarks);
           end;
         BOOKMARK2_GET_ALL:
           begin
-            Result:= Py_ed_bookmark_getall(Strs.Bookmarks2);
+            Result:= PyHelper_BookmarkGetAll(Strs.Bookmarks2);
           end;
 
         BOOKMARK_DELETE_BY_TAG:
@@ -1999,7 +1999,7 @@ begin
 end;
 
 
-function Py_ed_decor_getitem(Item: TATGutterDecorItem): PPyObject;
+function PyHelper_DecorGetItem(Item: TATGutterDecorItem): PPyObject;
 begin
   with AppPython.Engine do
     Result:= Py_BuildValue('{sisLsssOsOsisisO}',
@@ -2051,7 +2051,7 @@ begin
                 raise EPythonError.Create(msgPythonListError);
               for i:= 0 to NCount-1 do
                 PyList_SetItem(Result, i,
-                  Py_ed_decor_getitem(Ed.GutterDecor[i])
+                  PyHelper_DecorGetItem(Ed.GutterDecor[i])
                   );
             end
             else
@@ -2062,7 +2062,7 @@ begin
           begin
             i:= Ed.GutterDecor.Find(NLine);
             if i>=0 then
-              Result:= Py_ed_decor_getitem(Ed.GutterDecor[i])
+              Result:= PyHelper_DecorGetItem(Ed.GutterDecor[i])
             else
               Result:= ReturnNone;
           end;
@@ -2401,7 +2401,7 @@ begin
 end;
 
 
-function Py_ini_readwrite(Self, Args: PPyObject; AWrite: boolean): PPyObject; cdecl;
+function PyHelper_IniReadWrite(Self, Args: PPyObject; AWrite: boolean): PPyObject; cdecl;
 var
   P1, P2, P3, P4: PChar;
   StrFN, StrSess, StrKey, StrVal: string;
@@ -2447,12 +2447,12 @@ end;
 
 function Py_ini_read(Self, Args: PPyObject): PPyObject; cdecl;
 begin
-  Result:= Py_ini_readwrite(Self, Args, false);
+  Result:= PyHelper_IniReadWrite(Self, Args, false);
 end;
 
 function Py_ini_write(Self, Args: PPyObject): PPyObject; cdecl;
 begin
-  Result:= Py_ini_readwrite(Self, Args, true);
+  Result:= PyHelper_IniReadWrite(Self, Args, true);
 end;
 
 function Py_ini_proc(Self, Args: PPyObject): PPyObject; cdecl;
@@ -2595,7 +2595,7 @@ var
   AppPanelActive: string = '0';
 
 
-function GetAppPanelProps_ByCaption(const ACaption: string): PAppPanelProps;
+function PyHelper_GetPanelProps_ByCaption(const ACaption: string): PAppPanelProps;
 begin
   Result:= nil;
   if ACaption='0' then
@@ -2605,7 +2605,7 @@ begin
     Result:= @AppPanelProp_Val;
 end;
 
-function GetAppPanelProps_ByListbox(AListbox: TATListbox): PAppPanelProps;
+function PyHelper_GetPanelProps_ByListbox(AListbox: TATListbox): PAppPanelProps;
 begin
   Result:= nil;
   if AListbox=fmMain.ListboxOut then
@@ -2632,9 +2632,9 @@ begin
       StrPanel:= string(PtrPanel);
 
       if StrPanel<>'' then
-        Prop:= GetAppPanelProps_ByCaption(StrPanel)
+        Prop:= PyHelper_GetPanelProps_ByCaption(StrPanel)
       else
-        Prop:= GetAppPanelProps_ByCaption(AppPanelActive);
+        Prop:= PyHelper_GetPanelProps_ByCaption(AppPanelActive);
       if Prop=nil then
         exit(ReturnNone);
 
@@ -2953,7 +2953,7 @@ begin
 end;
 
 
-function Py_GetScrollInfo(const AInfo: TATSynScrollInfo): PPyObject;
+function PyHelper_GetScrollInfo(const AInfo: TATSynScrollInfo): PPyObject;
 begin
   with AppPython.Engine do
   begin
@@ -3325,10 +3325,10 @@ begin
           Result:= PyLong_FromLong(Ed.ScrollHorz.SmoothPos);
 
         PROP_SCROLL_VERT_INFO:
-          Result:= Py_GetScrollInfo(Ed.ScrollVert);
+          Result:= PyHelper_GetScrollInfo(Ed.ScrollVert);
 
         PROP_SCROLL_HORZ_INFO:
-          Result:= Py_GetScrollInfo(Ed.ScrollHorz);
+          Result:= PyHelper_GetScrollInfo(Ed.ScrollHorz);
 
         PROP_SCALE_FONT:
           Result:= PyLong_FromLong(Ed.OptScaleFont);
