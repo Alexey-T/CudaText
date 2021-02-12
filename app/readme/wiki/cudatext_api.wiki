@@ -4169,5 +4169,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.367 (app 1.124.3)
 * add: Editor.get_prop/set_prop: PROP_FOCUSED
+* fix: control 'statusbar' crashed with "align" left/right/client
 
 [[Category:CudaText]]
