@@ -1,11 +1,11 @@
 object fmMain: TfmMain
-  Left = 44
+  Left = 52
   Height = 518
   Top = 88
   Width = 1236
   AllowDropFiles = True
   Caption = 'CudaText'
-  ClientHeight = 495
+  ClientHeight = 493
   ClientWidth = 1236
   Constraints.MinHeight = 200
   Constraints.MinWidth = 300
@@ -26,7 +26,7 @@ object fmMain: TfmMain
   Visible = True
   object PanelSide: TATPanelSimple
     Left = 0
-    Height = 495
+    Height = 493
     Top = 0
     Width = 75
     Align = alLeft
@@ -37,7 +37,7 @@ object fmMain: TfmMain
       AnchorSideBottom.Side = asrBottom
       Left = 0
       Height = 30
-      Top = 465
+      Top = 463
       Width = 75
       Anchors = [akLeft, akBottom]
       AutoSize = True
@@ -51,7 +51,7 @@ object fmMain: TfmMain
       AnchorSideTop.Control = PanelSide
       AnchorSideBottom.Control = ToolbarSideMid
       Left = 0
-      Height = 435
+      Height = 433
       Top = 0
       Width = 75
       Anchors = [akTop, akLeft, akBottom]
@@ -70,7 +70,7 @@ object fmMain: TfmMain
       AnchorSideBottom.Control = ToolbarSideLow
       Left = 0
       Height = 30
-      Top = 435
+      Top = 433
       Width = 75
       Anchors = [akLeft, akBottom]
       AutoSize = True
@@ -82,7 +82,7 @@ object fmMain: TfmMain
   end
   object PanelAll: TATPanelSimple
     Left = 75
-    Height = 495
+    Height = 493
     Top = 0
     Width = 1161
     Align = alClient
@@ -100,7 +100,7 @@ object fmMain: TfmMain
     end
     object PanelMain: TATPanelSimple
       Left = 0
-      Height = 471
+      Height = 469
       Top = 24
       Width = 1161
       Align = alClient
@@ -125,7 +125,7 @@ object fmMain: TfmMain
       end
       object PanelEditors: TATPanelSimple
         Left = 0
-        Height = 471
+        Height = 469
         Top = 0
         Width = 1161
         Align = alClient
@@ -505,6 +505,9 @@ object fmMain: TfmMain
           RadioItem = True
         end
       end
+      object mnuLexers: TMenuItem
+        Caption = 'Le&xers...'
+      end
       object SepV2: TMenuItem
         Caption = '-'
       end
@@ -544,12 +547,6 @@ object fmMain: TfmMain
       end
       object mnuViewOnTop: TMenuItem
         Caption = 'Toggle always on top'
-      end
-      object SepV3: TMenuItem
-        Caption = '-'
-      end
-      object mnuLexers: TMenuItem
-        Caption = 'Le&xers...'
       end
     end
     object mnuPlugins: TMenuItem

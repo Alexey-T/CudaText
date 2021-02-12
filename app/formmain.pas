@@ -247,7 +247,6 @@ type
     PanelMain: TATPanelSimple;
     PanelEditors: TATPanelSimple;
     PanelSide: TATPanelSimple;
-    SepV3: TMenuItem;
     mnuLexers: TMenuItem;
     mnuHelpIssues: TMenuItem;
     mnuOpLexMap: TMenuItem;
