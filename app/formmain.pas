@@ -795,6 +795,7 @@ type
     procedure DoBottom_OnHide(Sender: TObject);
     procedure DoBottom_OnCloseFloatForm(Sender: TObject; var CloseAction: TCloseAction);
     procedure DoBottom_FindClick(Sender: TObject);
+    function DoAutoComplete_FromPlugins(Ed: TATSynEdit): boolean;
     procedure DoAutoComplete(Ed: TATSynEdit);
     procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string);
     procedure DoDialogCharMap;
@@ -5748,13 +5749,20 @@ begin
 end;
 
 
+function TfmMain.DoAutoComplete_FromPlugins(Ed: TATSynEdit): boolean;
+var
+  Params: TAppVariantArray;
+begin
+  SetLength(Params, 0);
+  Result:= DoPyEvent(Ed, cEventOnComplete, Params).Val = evrTrue;
+end;
+
 procedure TfmMain.DoAutoComplete(Ed: TATSynEdit);
 var
   Frame: TEditorFrame;
   SLexer: string;
   IsCss, IsHtml, IsCaseSens, IsAcpFiles: boolean;
   Caret: TATCaretItem;
-  Params: TAppVariantArray;
   bWithLexer: boolean;
 begin
   Frame:= GetEditorFrame(Ed);
@@ -5772,9 +5780,12 @@ begin
   CompletionOps.CloseChars:= Ed.OptAutocompleteCloseChars; //before DoPyEvent
   CompletionOps.CommitIfSingleItem:= Ed.OptAutocompleteCommitIfSingleItem; //before DoPyEvent
 
-  //call auto-completion plugins
-  SetLength(Params, 0);
-  if DoPyEvent(Ed, cEventOnComplete, Params).Val = evrTrue then exit;
+  //auto-completion for file:///, before plugins
+  if UiOps.AutocompleteFileURI and
+    DoEditorCompletionFileURI(Ed) then exit;
+
+  //auto-completion plugins
+  if DoAutoComplete_FromPlugins(Ed) then exit;
 
   IsHtml:= false;
   IsCss:= false;
@@ -5814,10 +5825,6 @@ begin
   else
   if IsCss then
     DoEditorCompletionCss(Ed)
-  else
-  if UiOps.AutocompleteFileURI and
-    DoEditorCompletionFileURI(Ed) then
-    begin end
   else
   if IsAcpFiles then
     DoEditorCompletionAcp(Ed, GetAppLexerAcpFilename(SLexer), IsCaseSens);
