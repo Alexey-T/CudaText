@@ -21,7 +21,7 @@ var
 var
   AppEmmet: TEmmet = nil;
 
-function Py_ObjectHandle(Obj: TObject): PPyObject; inline;
+function PyHelper_ObjectHandle(Obj: TObject): PPyObject; inline;
 begin
   Result:= AppPython.ObjectToPyInt(Obj);
 end;
@@ -48,7 +48,7 @@ begin
   Result:= SendMessage(HWND(H), Cardinal(Msg), Param1, Param2);
 end;
 
-procedure PyEditorSetFocus(Ed: TATSynEdit);
+procedure PyHelper_EditorFocus(Ed: TATSynEdit);
 var
   F: TEditorFrame;
 begin
@@ -67,7 +67,7 @@ begin
 end;
 
 //func at begin
-function PyEditor(Handle: Int64): TATSynEdit;
+function PyHelper_EditorFromHandle(Handle: Int64): TATSynEdit;
 var
   nTab: Integer;
 begin
@@ -90,21 +90,21 @@ begin
   end;
 end;
 
-function Py_rect(const R: TRect): PPyObject; cdecl;
+function PyHelper_Rect(const R: TRect): PPyObject; cdecl;
 begin
   with AppPython.Engine do
     Result:= Py_BuildValue('(iiii)', R.Left, R.Top, R.Right, R.Bottom);
 end;
 
-function Py_rect_monitor(N: Integer): PPyObject; cdecl;
+function PyHelper_RectOfMonitor(N: Integer): PPyObject; cdecl;
 begin
   if (N>=0) and (N<Screen.MonitorCount) then
-    Result:= Py_rect(Screen.Monitors[N].BoundsRect)
+    Result:= PyHelper_Rect(Screen.Monitors[N].BoundsRect)
   else
     Result:= AppPython.Engine.ReturnNone;
 end;
 
-function Py_rect_control(C: TControl): PPyObject; cdecl;
+function PyHelper_RectOfControl(C: TControl): PPyObject; cdecl;
 var
   Pnt: TPoint;
   R: TRect;
@@ -114,7 +114,7 @@ begin
   R.Top:= Pnt.Y;
   R.Right:= Pnt.X + C.Width;
   R.Bottom:= Pnt.Y + C.Height;
-  Result:= Py_rect(R);
+  Result:= PyHelper_Rect(R);
 end;
 
 function Py_GetCaretProps(Props: TATCaretProps): PPyObject;
@@ -728,7 +728,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Ls:save', @H, @PtrName)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       Frame:= GetEditorFrame(Ed);
       if Frame=nil then exit(ReturnNone);
       StrName:= string(PtrName);
@@ -753,7 +753,7 @@ var
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_text_sel', @H)) then
-      Result:= PyUnicodeFromString(PyEditor(H).TextSelected)
+      Result:= PyUnicodeFromString(PyHelper_EditorFromHandle(H).TextSelected)
   else
     Result:= ReturnNone;
 end;
@@ -768,7 +768,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lii:get_text_line', @H, @Index, @MaxLen)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       Strs:= Ed.Strings;
       if Strs.IsIndexValid(Index) then
       begin
@@ -792,7 +792,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_text_all', @H)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       Result:= PyUnicodeFromString(Ed.Strings.TextString_Unicode);
     end
   else
@@ -810,7 +810,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liiii:get_text_substr', @H, @X1, @Y1, @X2, @Y2)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       Str:= Ed.Strings.TextSubstring(X1, Y1, X2, Y2);
       Result:= PyUnicodeFromString(Str);
     end
@@ -828,7 +828,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liiiiii:set_caret', @H, @X1, @Y1, @X2, @Y2, @Id, @NOptions)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
 
       case Id of
         CARET_DELETE_ALL:
@@ -909,7 +909,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_carets', @H)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       NLen:= Ed.Carets.Count;
       if NLen>0 then
       begin
@@ -941,7 +941,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liiiiiii:markers', @H, @Id, @X, @Y, @NTag, @NLenX, @NLenY, @NLineLen)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
 
       case Id of
         MARKERS_GET:
@@ -1078,7 +1078,7 @@ begin
       @NColumn, @NMicromapMode
       )) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       StrX:= string(PtrX);
       StrY:= string(PtrY);
       StrLen:= string(PtrLen);
@@ -1313,7 +1313,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'LiLss:hotspots', @H, @Id, @NTag, @PtrTag, @PtrPos)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       StrTag:= string(PtrTag);
       StrPos:= string(PtrPos);
 
@@ -1401,7 +1401,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_sel_mode', @H)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       if Ed.IsSelRectEmpty then
         N:= SEL_NORMAL
       else
@@ -1420,7 +1420,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_sel_rect', @H)) then
     begin
-      R:= PyEditor(H).SelRect;
+      R:= PyHelper_EditorFromHandle(H).SelRect;
       Result:= Py_BuildValue('(iiii)', R.Left, R.Top, R.Right, R.Bottom);
     end
   else
@@ -1437,7 +1437,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_sel_lines', @H)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       Caret:= Ed.Carets[0];
       Caret.GetSelLines(N1, N2, false);
       Result:= Py_BuildValue('(ii)', N1, N2);
@@ -1455,7 +1455,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liiii:set_sel_rect', @H, @X1, @Y1, @X2, @Y2)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
 
       Ed.DoSelect_None;
       Ed.DoSelect_ColumnBlock_FromPoints(Point(X1, Y1), Point(X2, Y2));
@@ -1479,7 +1479,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Ls:set_text_all', @H, @PtrText)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       if Ed.ModeReadOnly then
         exit(ReturnNone);
 
@@ -1514,7 +1514,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:set_text_line', @H, @N, @Ptr)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       Str:= UTF8Decode(string(Ptr));
       Strs:= Ed.Strings;
       if Ed.ModeReadOnly then
@@ -1555,7 +1555,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liiii:delete', @H, @X1, @Y1, @X2, @Y2)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       if Ed.ModeReadOnly then
         exit(ReturnNone);
 
@@ -1584,7 +1584,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liis:insert', @H, @X1, @Y1, @Ptr)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       Str:= UTF8Decode(string(Ptr));
       Strs:= Ed.Strings;
       if Ed.ModeReadOnly then
@@ -1624,7 +1624,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liiiis:replace', @H, @X1, @Y1, @X2, @Y2, @PtrText)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       StrText:= string(PtrText);
       if Ed.ModeReadOnly then
         exit(ReturnNone);
@@ -1655,7 +1655,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'LiiO:replace_lines', @H, @Y1, @Y2, @ListPy)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       if Ed.ModeReadOnly then
         exit(ReturnNone);
 
@@ -1684,7 +1684,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_line_count', @H)) then
     begin
-      Result:= PyLong_FromLong(PyEditor(H).Strings.Count);
+      Result:= PyLong_FromLong(PyHelper_EditorFromHandle(H).Strings.Count);
     end
   else
     Result:= ReturnNone;
@@ -1703,7 +1703,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Ls:get_filename', @H, @PtrOps)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       F:= GetEditorFrame(Ed);
       StrOps:= string(PtrOps);
 
@@ -1732,7 +1732,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:cmd', @H, @NCode, @Ptr)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       Str:= string(Ptr);
 
       Ed.DoCommand(NCode, Str);
@@ -1760,7 +1760,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'L:lock', @H)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       Ed.BeginUpdate;
       Result:= ReturnNone;
     end
@@ -1776,7 +1776,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'L:unlock', @H)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       Ed.EndUpdate;
       Result:= ReturnNone;
     end
@@ -1792,8 +1792,8 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'L:focus', @H)) then
     begin
-      Ed:= PyEditor(H);
-      PyEditorSetFocus(Ed);
+      Ed:= PyHelper_EditorFromHandle(H);
+      PyHelper_EditorFocus(Ed);
       Result:= ReturnNone;
     end
   else
@@ -1865,7 +1865,7 @@ begin
             @H, @NId, @NLine, @NKind, @NColor, @PtrText,
             @NAutoDelete, @NShowInList, @NTag)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       Strs:= Ed.Strings;
       StrText:= string(PtrText);
 
@@ -2038,7 +2038,7 @@ begin
             @H, @NId, @NLine, @NTag, @PtrText, @NColor, @NFontBold, @NFontItalic,
             @NImageIndex, @NAutoDelete)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
 
       case NId of
         DECOR_GET_ALL:
@@ -2119,7 +2119,7 @@ begin
           begin
             if Ed.ImagesGutterDecor=nil then
               Ed.ImagesGutterDecor:= TImageList.Create(Ed);
-            Result:= Py_ObjectHandle(Ed.ImagesGutterDecor);
+            Result:= PyHelper_ObjectHandle(Ed.ImagesGutterDecor);
           end;
 
         else
@@ -2154,7 +2154,7 @@ begin
       if Ed=nil then
         Result:= ReturnNone
       else
-        Result:= Py_ObjectHandle(Ed);
+        Result:= PyHelper_ObjectHandle(Ed);
     end
   else
     Result:= ReturnNone;
@@ -2350,7 +2350,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lsiiii:complete', @H, @Ptr, @NChars1, @NChars2, @NSelIndex, @NAltOrder)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       Str:= string(Ptr);
 
       fmMain.FPyComplete_Editor:= Ed;
@@ -2380,7 +2380,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lssii:complete_alt', @H, @PtrText, @PtrId, @NChars, @NSelIndex)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       StrText:= string(PtrText);
       StrId:= string(PtrId);
 
@@ -2924,7 +2924,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_wrapinfo', @H)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       NLen:= Ed.WrapInfo.Count;
       if NLen>0 then
       begin
@@ -2988,7 +2988,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:get_prop', @H, @Id, @Ptr)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       Str:= string(Ptr);
       F:= GetEditorFrame(Ed);
 
@@ -3397,7 +3397,7 @@ begin
 
         PROP_COORDS:
           begin
-            Result:= Py_rect_control(Ed);
+            Result:= PyHelper_RectOfControl(Ed);
           end;
 
         PROP_ONE_LINE:
@@ -3506,27 +3506,27 @@ begin
 
         PROP_HANDLE_SELF:
           begin
-            Result:= Py_ObjectHandle(Ed);
+            Result:= PyHelper_ObjectHandle(Ed);
           end;
 
         PROP_HANDLE_PRIMARY:
           begin
             if Assigned(F) then
-              Result:= Py_ObjectHandle(F.Ed1)
+              Result:= PyHelper_ObjectHandle(F.Ed1)
             else
               Result:= ReturnNone;
           end;
         PROP_HANDLE_SECONDARY:
           begin
             if Assigned(F) then
-              Result:= Py_ObjectHandle(F.Ed2)
+              Result:= PyHelper_ObjectHandle(F.Ed2)
             else
               Result:= ReturnNone;
           end;
 
         PROP_HANDLE_PARENT:
           begin
-            Result:= Py_ObjectHandle(Ed.Parent);
+            Result:= PyHelper_ObjectHandle(Ed.Parent);
           end;
 
         PROP_SCROLLSTYLE_HORZ:
@@ -3556,27 +3556,27 @@ begin
 
         PROP_RECT_CLIENT:
           begin
-            Result:= Py_rect(Ed.ClientRect);
+            Result:= PyHelper_Rect(Ed.ClientRect);
           end;
         PROP_RECT_TEXT:
           begin
-            Result:= Py_rect(Ed.RectMain);
+            Result:= PyHelper_Rect(Ed.RectMain);
           end;
         PROP_RECT_GUTTER:
           begin
-            Result:= Py_rect(Ed.RectGutter);
+            Result:= PyHelper_Rect(Ed.RectGutter);
           end;
         PROP_RECT_MINIMAP:
           begin
-            Result:= Py_rect(Ed.RectMinimap);
+            Result:= PyHelper_Rect(Ed.RectMinimap);
           end;
         PROP_RECT_MICROMAP:
           begin
-            Result:= Py_rect(Ed.RectMicromap);
+            Result:= PyHelper_Rect(Ed.RectMicromap);
           end;
         PROP_RECT_RULER:
           begin
-            Result:= Py_rect(Ed.RectRuler);
+            Result:= PyHelper_Rect(Ed.RectRuler);
           end;
 
         PROP_COMBO_ITEMS:
@@ -3699,7 +3699,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:set_prop', @H, @Id, @Ptr)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       F:= GetEditorFrame(Ed);
       Str:= string(Ptr);
 
@@ -4029,7 +4029,7 @@ begin
         PROP_FOCUSED:
           begin
             if ValueBool then
-              PyEditorSetFocus(Ed);
+              PyHelper_EditorFocus(Ed);
           end;
 
         PROP_HILITE_CUR_COL:
@@ -4675,20 +4675,20 @@ begin
 
         APP_PROC_GET_TAB_IMAGELIST:
           begin
-            Result:= Py_ObjectHandle(fmMain.ImageListTabs);
+            Result:= PyHelper_ObjectHandle(fmMain.ImageListTabs);
           end;
 
         APP_PROC_GET_CONSOLE_FORM:
           begin
             if Assigned(fmConsole) then
-              Result:= Py_ObjectHandle(fmConsole)
+              Result:= PyHelper_ObjectHandle(fmConsole)
             else
               Result:= ReturnNone;
           end;
 
         APP_PROC_GET_CODETREE:
           begin
-            Result:= Py_ObjectHandle(fmMain.CodeTree);
+            Result:= PyHelper_ObjectHandle(fmMain.CodeTree);
           end;
 
         APP_PROC_WINDOW_TOPMOST_GET:
@@ -4777,7 +4777,7 @@ begin
 
         APP_PROC_SIDEPANEL_GET_IMAGELIST:
           begin
-            Result:= Py_ObjectHandle(fmMain.ImageListSide);
+            Result:= PyHelper_ObjectHandle(fmMain.ImageListSide);
           end;
 
         //-------------------
@@ -5030,7 +5030,7 @@ begin
 
         APP_PROC_COORD_WINDOW_GET:
           begin
-            Result:= Py_rect(Application.MainForm.BoundsRect);
+            Result:= PyHelper_Rect(Application.MainForm.BoundsRect);
           end;
         APP_PROC_COORD_WINDOW_SET:
           begin
@@ -5043,17 +5043,17 @@ begin
             Result:= ReturnNone;
           end;
         APP_PROC_COORD_DESKTOP:
-          Result:= Py_rect(Screen.DesktopRect);
+          Result:= PyHelper_Rect(Screen.DesktopRect);
         APP_PROC_COORD_MONITOR:
-          Result:= Py_rect(fmMain.Monitor.BoundsRect);
+          Result:= PyHelper_Rect(fmMain.Monitor.BoundsRect);
         APP_PROC_COORD_MONITOR0:
-          Result:= Py_rect_monitor(0);
+          Result:= PyHelper_RectOfMonitor(0);
         APP_PROC_COORD_MONITOR1:
-          Result:= Py_rect_monitor(1);
+          Result:= PyHelper_RectOfMonitor(1);
         APP_PROC_COORD_MONITOR2:
-          Result:= Py_rect_monitor(2);
+          Result:= PyHelper_RectOfMonitor(2);
         APP_PROC_COORD_MONITOR3:
-          Result:= Py_rect_monitor(3);
+          Result:= PyHelper_RectOfMonitor(3);
 
         APP_PROC_CONFIG_READ:
           begin
@@ -5465,7 +5465,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liiis:convert', @H, @Id, @X, @Y, @PtrValue)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       Strs:= Ed.Strings;
       StrValue:= string(PtrValue);
 
@@ -5625,7 +5625,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_sublexer_ranges', @H)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
 
       if not (Ed.AdapterForHilite is TATAdapterEControl) then
         exit(ReturnNone);
@@ -6177,7 +6177,7 @@ begin
 
         BTN_GET_IMAGELIST:
           begin
-            Result:= Py_ObjectHandle(Btn.Images);
+            Result:= PyHelper_ObjectHandle(Btn.Images);
           end;
 
         BTN_SET_IMAGELIST:
@@ -6265,7 +6265,7 @@ begin
 
         BTN_GET_MENU:
           begin
-            Result:= Py_ObjectHandle(Btn.PopupMenu.Items);
+            Result:= PyHelper_ObjectHandle(Btn.PopupMenu.Items);
           end;
 
         BTN_SET_MENU:
@@ -6426,7 +6426,7 @@ begin
         else
           Obj:= TComponent(PtrInt(Num64));
         List:= TImageList.Create(Obj);
-        exit(Py_ObjectHandle(List));
+        exit(PyHelper_ObjectHandle(List));
       end;
 
       //other actions require id_list param
@@ -6621,7 +6621,7 @@ begin
             end;
 
             TreeCont.Tree.Invalidate;
-            Result:= Py_ObjectHandle(Node1);
+            Result:= PyHelper_ObjectHandle(Node1);
           end;
 
         TREE_ITEM_DELETE:
@@ -6668,7 +6668,7 @@ begin
         TREE_ITEM_GET_SELECTED:
           begin
             if Assigned(TreeCont.Tree.Selected) then
-              Result:= Py_ObjectHandle(TreeCont.Tree.Selected)
+              Result:= PyHelper_ObjectHandle(TreeCont.Tree.Selected)
             else
               Result:= ReturnNone;
           end;
@@ -6793,7 +6793,7 @@ begin
 
         TREE_GET_IMAGELIST:
           begin
-            Result:= Py_ObjectHandle(TreeCont.Tree.Images);
+            Result:= PyHelper_ObjectHandle(TreeCont.Tree.Images);
           end;
 
         TREE_LOCK:
@@ -6839,7 +6839,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liiii:dim', @H, @Id, @NIndex1, @NIndex2, @NValue)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
 
       case Id of
         DIM_ADD:
@@ -7006,7 +7006,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liii:get_token', @H, @Id, @NIndex1, @NIndex2)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       if not (Ed.AdapterForHilite is TATAdapterEControl) then
         exit(ReturnNone);
       Adapter:= Ed.AdapterForHilite as TATAdapterEControl;
@@ -7192,7 +7192,7 @@ begin
         else
           Obj:= TComponent(PtrInt(Num64));
         Image:= TImage.Create(Obj);
-        exit(Py_ObjectHandle(Image));
+        exit(PyHelper_ObjectHandle(Image));
       end;
 
       //other actions require id_image param
@@ -7310,7 +7310,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'LiLLLii:gap', @H, @Id, @Num1, @Num2, @NTag, @NSize, @NColor)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
 
       case Id of
         GAP_GET_ALL:
@@ -7580,7 +7580,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lisss:action', @HEditor, @IdAction, @PtrText1, @PtrText2, @PtrText3)) then
     begin
-      Ed:= PyEditor(HEditor);
+      Ed:= PyHelper_EditorFromHandle(HEditor);
       StrText1:= string(PtrText1);
       StrText2:= string(PtrText2);
       StrText3:= string(PtrText3);
@@ -7729,7 +7729,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'LiLLL:micromap', @HEditor, @IdAction, @Num1, @Num2, @Num3)) then
     begin
-      Ed:= PyEditor(HEditor);
+      Ed:= PyHelper_EditorFromHandle(HEditor);
 
       case IdAction of
         MICROMAP_GET:
@@ -7789,7 +7789,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liiiiiis:folding', @H, @Id, @NItem, @NX, @NY, @NY2, @NStaple, @PtrText)) then
     begin
-      Ed:= PyEditor(H);
+      Ed:= PyHelper_EditorFromHandle(H);
       StrText:= string(PtrText);
 
       case Id of
@@ -8041,7 +8041,7 @@ begin
         TOOLBAR_GET_BUTTON_HANDLE:
           begin
             if FToolbar.IsIndexOk(NIndex1) then
-              Result:= Py_ObjectHandle(FToolbar.Buttons[NIndex1])
+              Result:= PyHelper_ObjectHandle(FToolbar.Buttons[NIndex1])
             else
               Result:= ReturnNone;
           end;
@@ -8053,7 +8053,7 @@ begin
               raise EPythonError.Create(msgPythonListError);
             for NIndex1:= 0 to FToolbar.ButtonCount-1 do
               PyList_SetItem(Result, NIndex1,
-                Py_ObjectHandle(FToolbar.Buttons[NIndex1]));
+                PyHelper_ObjectHandle(FToolbar.Buttons[NIndex1]));
           end;
 
         TOOLBAR_GET_INDEX_HOVERED:
@@ -8080,13 +8080,13 @@ begin
 
         TOOLBAR_ADD_ITEM:
           begin
-            Result:= Py_ObjectHandle(
+            Result:= PyHelper_ObjectHandle(
               DoToolbar_AddButton(FToolbar, '', '', '', NIndex1, -1));
           end;
 
         TOOLBAR_ADD_MENU:
           begin
-            Result:= Py_ObjectHandle(
+            Result:= PyHelper_ObjectHandle(
               DoToolbar_AddMenu(FToolbar, '', '', '', NIndex1, -1));
           end;
 
@@ -8114,7 +8114,7 @@ begin
 
         TOOLBAR_GET_IMAGELIST:
           begin
-            Result:= Py_ObjectHandle(FToolbar.Images);
+            Result:= PyHelper_ObjectHandle(FToolbar.Images);
           end;
 
         TOOLBAR_THEME:
@@ -8212,7 +8212,7 @@ begin
         STATUSBAR_GET_IMAGELIST:
           begin
             ImgList:= FBar.Images;
-            Result:= Py_ObjectHandle(ImgList);
+            Result:= PyHelper_ObjectHandle(ImgList);
           end;
 
         STATUSBAR_SET_CELL_SIZE:
@@ -8608,7 +8608,7 @@ begin
         DLG_CREATE:
           begin
             Form:= TFormDummy.Create(fmMain);
-            Result:= Py_ObjectHandle(Form);
+            Result:= PyHelper_ObjectHandle(Form);
           end;
 
         DLG_FREE:
@@ -8903,7 +8903,7 @@ begin
           begin
             Finder:= TATEditorFinder.Create;
             Finder.OnConfirmReplace:= @fmMain.FinderOnConfirmReplace_API;
-            Result:= Py_ObjectHandle(Finder);
+            Result:= PyHelper_ObjectHandle(Finder);
           end;
 
         FINDER_FREE:
@@ -8945,13 +8945,13 @@ begin
             NValue:= StrToInt64Def(StrValue, -1); //0 is allowed, ed's handle
             if NValue=-1 then
               exit(ReturnNone);
-            Finder.Editor:= PyEditor(NValue);
+            Finder.Editor:= PyHelper_EditorFromHandle(NValue);
             Result:= ReturnNone;
           end;
 
         FINDER_GET_ED:
           begin
-            Result:= Py_ObjectHandle(Finder.Editor);
+            Result:= PyHelper_ObjectHandle(Finder.Editor);
           end;
 
         FINDER_SET_OPT:
