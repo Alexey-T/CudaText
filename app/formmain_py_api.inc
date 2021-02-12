@@ -9297,7 +9297,7 @@ begin
 
   with TIniFile.Create(GetAppLangFilename) do
   try
-    SCaption:= ReadString('d_tab_color', '_', 'Colors');
+    SCaption:= ReadString('d_about', '_clr', 'Colors');
   finally
     Free
   end;
