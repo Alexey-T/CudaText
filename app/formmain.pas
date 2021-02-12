@@ -796,6 +796,7 @@ type
     procedure DoBottom_OnCloseFloatForm(Sender: TObject; var CloseAction: TCloseAction);
     procedure DoBottom_FindClick(Sender: TObject);
     function DoAutoComplete_FromPlugins(Ed: TATSynEdit): boolean;
+    function DoAutoComplete_CaretOnBadElement(Ed: TATSynEdit): boolean;
     procedure DoAutoComplete(Ed: TATSynEdit);
     procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string);
     procedure DoDialogCharMap;
@@ -5757,36 +5758,43 @@ begin
   Result:= DoPyEvent(Ed, cEventOnComplete, Params).Val = evrTrue;
 end;
 
-procedure TfmMain.DoAutoComplete(Ed: TATSynEdit);
+function TfmMain.DoAutoComplete_CaretOnBadElement(Ed: TATSynEdit): boolean;
 var
-  Frame: TEditorFrame;
-  SLexer: string;
-  bNeedCss, bNeedHtml, bNeedAcp: boolean;
   Caret: TATCaretItem;
   TokenKind: TATTokenKind;
-  bWithLexer: boolean;
 begin
-  Frame:= GetEditorFrame(Ed);
-  if Frame=nil then exit;
-  if Ed.Carets.Count=0 then exit;
-
-  //disable completion in comments/strings
+  Result:= false;
   if not UiOps.AutocompleteInComments or
     not UiOps.AutocompleteInStrings then
   begin
+    if Ed.Carets.Count=0 then exit;
     Caret:= Ed.Carets[0];
     TokenKind:= EditorGetTokenKind(Ed, Caret.PosX, Caret.PosY);
     case TokenKind of
       atkComment:
-        begin
-          if not UiOps.AutocompleteInComments then exit;
-        end;
+        Result:= not UiOps.AutocompleteInComments;
       atkString:
-        begin
-          if not UiOps.AutocompleteInStrings then exit;
-        end;
+        Result:= not UiOps.AutocompleteInStrings;
     end;
   end;
+end;
+
+procedure TfmMain.DoAutoComplete(Ed: TATSynEdit);
+var
+  Frame: TEditorFrame;
+  SLexer: string;
+  Caret: TATCaretItem;
+  bNeedCss, bNeedHtml, bNeedAcp: boolean;
+  bWithLexer: boolean;
+begin
+  Frame:= GetEditorFrame(Ed);
+  if Frame=nil then exit;
+
+  if Ed.Carets.Count=0 then exit;
+  Caret:= Ed.Carets[0];
+
+  //disable completion in comments/strings
+  if DoAutoComplete_CaretOnBadElement(Ed) then exit;
 
   CompletionOps.AppendOpeningBracket:= Ed.OptAutocompleteAddOpeningBracket;
   CompletionOps.UpDownAtEdge:= TATCompletionUpDownAtEdge(Ed.OptAutocompleteUpDownAtEdge);
