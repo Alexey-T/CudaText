@@ -64,6 +64,7 @@ Screenshot on Windows:
 * CudaText and its plugins support i18n (text strings can be translated)
 * Function "Find in files" is [[CudaText_plugins#FindInFiles|implemented in plugin]], with much more features
 * [[#Tab_switcher|Tab switcher]] dialog
+* Can split single UI-tab, for single file or 2 different files (helps to work with Differ plugin)
 * Option for "zebra mode"
 * Can plug-in a different Python engine (packages in add-ons)
 * Add-ons do not disappear due to GitHub repository deletions
