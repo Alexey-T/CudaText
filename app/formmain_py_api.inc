@@ -48,6 +48,24 @@ begin
   Result:= SendMessage(HWND(H), Cardinal(Msg), Param1, Param2);
 end;
 
+procedure PyEditorSetFocus(Ed: TATSynEdit);
+var
+  F: TEditorFrame;
+begin
+  F:= GetEditorFrame(Ed);
+  //support editors in frames, activate tab too
+  if Assigned(F) then
+  begin
+    fmMain.SetFrame(F);
+    F.SetFocus;
+    fmMain.UpdateFrameEx(F, false);
+    fmMain.UpdateStatus;
+  end
+  else
+  //support editors from dlg_proc
+    EditorFocus(Ed);
+end;
+
 //func at begin
 function PyEditor(Handle: Int64): TATSynEdit;
 var
@@ -1770,21 +1788,12 @@ function Py_ed_focus(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
-  F: TEditorFrame;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'L:focus', @H)) then
     begin
       Ed:= PyEditor(H);
-      F:= GetEditorFrame(Ed);
-      if Assigned(F) then
-      begin
-        fmMain.SetFrame(F);
-        F.SetFocus;
-        fmMain.UpdateFrameEx(F, false);
-        fmMain.UpdateStatus;
-      end;
-
+      PyEditorSetFocus(Ed);
       Result:= ReturnNone;
     end
   else
@@ -3327,6 +3336,9 @@ begin
         PROP_LAST_LINE_ON_TOP:
           Result:= PyBool_FromLong(Ord(Ed.OptLastLineOnTop));
 
+        PROP_FOCUSED:
+          Result:= PyBool_FromLong(Ord(Ed.Focused));
+
         PROP_HILITE_CUR_COL:
           Result:= PyBool_FromLong(Ord(Ed.OptShowCurColumn));
 
@@ -4013,6 +4025,12 @@ begin
 
         PROP_LAST_LINE_ON_TOP:
           Ed.OptLastLineOnTop:= ValueBool;
+
+        PROP_FOCUSED:
+          begin
+            if ValueBool then
+              PyEditorSetFocus(Ed);
+          end;
 
         PROP_HILITE_CUR_COL:
           Ed.OptShowCurColumn:= ValueBool;

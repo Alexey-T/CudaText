@@ -189,6 +189,7 @@ const
   PROP_HILITE_CUR_LINE_IF_FOCUS  = 80;
   PROP_CARET_STOP_UNFOCUSED      = 81;
   PROP_ACTIVATION_TIME           = 82;
+  PROP_FOCUSED                   = 83;
   PROP_MODERN_SCROLLBAR          = 85;
   PROP_SAVE_HISTORY              = 86;
   PROP_PREVIEW                   = 87;
