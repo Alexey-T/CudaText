@@ -7249,7 +7249,7 @@ begin
 end;
 
 
-function Py_ed_gap_GetDict(Ed: TATSynEdit): PPyObject; cdecl;
+function PyHelper_GapGetDict(Ed: TATSynEdit): PPyObject; cdecl;
 var
   Item: TATGapItem;
   NLen, NSizeX, NSizeY, i: Integer;
@@ -7315,7 +7315,7 @@ begin
       case Id of
         GAP_GET_ALL:
           begin
-            Result:= Py_ed_gap_GetDict(Ed);
+            Result:= PyHelper_GapGetDict(Ed);
           end;
 
         GAP_MAKE_BITMAP:
@@ -7391,7 +7391,7 @@ begin
 end;
 
 
-function Py_ed_action_ExportHtml(Ed: TATSynEdit; const SParams: string): boolean;
+function PyHelper_ExportHtml(Ed: TATSynEdit; const SParams: string): boolean;
 var
   SItem, SKey, SValue: string;
   SFileName, STitle, SFontName: string;
@@ -7443,7 +7443,7 @@ begin
 end;
 
 
-function Py_FindOrReplaceOne(Ed: TATSynEdit; const ATextFrom, ATextTo, AOptions: string; AReplace, AUpdateCaret: boolean): PPyObject;
+function PyHelper_FindOrReplaceOne(Ed: TATSynEdit; const ATextFrom, ATextTo, AOptions: string; AReplace, AUpdateCaret: boolean): PPyObject;
 var
   Finder: TATEditorFinder;
   bChange: boolean;
@@ -7485,7 +7485,7 @@ begin
   end;
 end;
 
-function Py_ReplaceAll(Ed: TATSynEdit; const ATextFrom, ATextTo, AOptions: string): PPyObject;
+function PyHelper_ReplaceAll(Ed: TATSynEdit; const ATextFrom, ATextTo, AOptions: string): PPyObject;
 var
   Finder: TATEditorFinder;
   NCount: integer;
@@ -7517,7 +7517,7 @@ end;
 
 
 
-function Py_FindAllMatches(Ed: TATSynEdit; const AText, AOptions: string; AMaxLineLen: integer): PPyObject;
+function PyHelper_FindAllMatches(Ed: TATSynEdit; const AText, AOptions: string; AMaxLineLen: integer): PPyObject;
 var
   Finder: TATEditorFinder;
   ResList: TATFinderResults;
@@ -7607,22 +7607,22 @@ begin
 
         EDACTION_FIND_ONE:
           begin
-            Result:= Py_FindOrReplaceOne(Ed, StrText1, '', StrText2, false{Replace}, false);
+            Result:= PyHelper_FindOrReplaceOne(Ed, StrText1, '', StrText2, false{Replace}, false);
           end;
 
         EDACTION_REPLACE_ONE:
           begin
-            Result:= Py_FindOrReplaceOne(Ed, StrText1, StrText2, StrText3, true{Replace}, false);
+            Result:= PyHelper_FindOrReplaceOne(Ed, StrText1, StrText2, StrText3, true{Replace}, false);
           end;
 
         EDACTION_FIND_ALL:
           begin
-            Result:= Py_FindAllMatches(Ed, StrText1, StrText2, StrToIntDef(StrText3, MaxInt));
+            Result:= PyHelper_FindAllMatches(Ed, StrText1, StrText2, StrToIntDef(StrText3, MaxInt));
           end;
 
         EDACTION_REPLACE_ALL:
           begin
-            Result:= Py_ReplaceAll(Ed, StrText1, StrText2, StrText3);
+            Result:= PyHelper_ReplaceAll(Ed, StrText1, StrText2, StrText3);
           end;
 
         EDACTION_FIND_BRACKETS:
@@ -7704,7 +7704,7 @@ begin
 
         EDACTION_EXPORT_HTML:
           begin
-            Ok:= Py_ed_action_ExportHtml(Ed, StrText1);
+            Ok:= PyHelper_ExportHtml(Ed, StrText1);
             Result:= PyBool_FromLong(Ord(Ok));
           end;
 
@@ -9292,7 +9292,7 @@ begin
 end;
 
 
-function Py_DialogColorPicker(AColor: integer): integer;
+function PyHelper_DialogColorPicker(AColor: integer): integer;
 var
   SCaption: string;
   Par1, Par2, Obj: PPyObject;

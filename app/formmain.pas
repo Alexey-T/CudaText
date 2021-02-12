@@ -6302,7 +6302,7 @@ begin
   F:= FrameOfPopup;
   if F=nil then exit;
 
-  NColor:= Py_DialogColorPicker(F.TabColor);
+  NColor:= PyHelper_DialogColorPicker(F.TabColor);
   if NColor<0 then exit;
 
   if NColor=clNone then
