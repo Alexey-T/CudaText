@@ -5761,7 +5761,7 @@ procedure TfmMain.DoAutoComplete(Ed: TATSynEdit);
 var
   Frame: TEditorFrame;
   SLexer: string;
-  IsCss, IsHtml, IsCaseSens, IsAcpFiles: boolean;
+  bNeedCss, bNeedHtml, bNeedAcp: boolean;
   Caret: TATCaretItem;
   bWithLexer: boolean;
 begin
@@ -5787,10 +5787,9 @@ begin
   //auto-completion plugins
   if DoAutoComplete_FromPlugins(Ed) then exit;
 
-  IsHtml:= false;
-  IsCss:= false;
-  IsCaseSens:= false; //cannot detect it yet
-  IsAcpFiles:= false;
+  bNeedHtml:= false;
+  bNeedCss:= false;
+  bNeedAcp:= false;
   SLexer:= '';
   bWithLexer:= Frame.Lexer[Ed]<>nil;
 
@@ -5799,9 +5798,9 @@ begin
     SLexer:= Frame.LexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
     if SLexer='' then exit;
 
-    IsHtml:= UiOps.AutocompleteHtml and SRegexMatchesString(SLexer, UiOps.AutocompleteHtml_Lexers, false);
-    IsCss:= UiOps.AutocompleteCss and SRegexMatchesString(SLexer, UiOps.AutocompleteCss_Lexers, false);
-    IsAcpFiles:= true;
+    bNeedHtml:= UiOps.AutocompleteHtml and SRegexMatchesString(SLexer, UiOps.AutocompleteHtml_Lexers, false);
+    bNeedCss:= UiOps.AutocompleteCss and SRegexMatchesString(SLexer, UiOps.AutocompleteCss_Lexers, false);
+    bNeedAcp:= true;
 
     CompletionOpsCss.FilenameCssList:= AppDir_DataAutocompleteSpec+DirectorySeparator+'css_list.ini';
     CompletionOpsCss.FilenameCssColors:= AppDir_DataAutocompleteSpec+DirectorySeparator+'css_colors.ini';
@@ -5810,7 +5809,7 @@ begin
 
     //allow autocompletion with multi-carets only in HTML
     if Ed.Carets.Count>1 then
-      if not IsHtml then
+      if not bNeedHtml then
       begin
         MsgStatus(msgCannotAutocompleteMultiCarets);
         exit;
@@ -5819,15 +5818,14 @@ begin
   end;
 
   //completion for HTML, CSS, .acp - is available only with lexer
-  //completion for file URI - is available for all files
-  if IsHtml then
+  if bNeedHtml then
     DoEditorCompletionHtml(Ed)
   else
-  if IsCss then
+  if bNeedCss then
     DoEditorCompletionCss(Ed)
   else
-  if IsAcpFiles then
-    DoEditorCompletionAcp(Ed, GetAppLexerAcpFilename(SLexer), IsCaseSens);
+  if bNeedAcp then
+    DoEditorCompletionAcp(Ed, GetAppLexerAcpFilename(SLexer), false{CaseSens});
 end;
 
 procedure TfmMain.mnuTreeFold2Click(Sender: TObject);
