@@ -424,12 +424,6 @@ begin
 end;
 
 
-function Py_app_exe_version(Self, Args : PPyObject): PPyObject; cdecl;
-begin
-  with AppPython.Engine do
-    Result:= PyUnicodeFromString(cAppExeVersion);
-end;
-
 function api_app_ver(Self, Args : PPyObject): PPyObject; cdecl;
 begin
   with AppPython.Engine do
@@ -549,7 +543,8 @@ begin
 end;
 
 
-function Py_dlg_charmap(Self, Args : PPyObject): PPyObject; cdecl;
+//this is not exported in API
+function api_dlg_charmap(Self, Args : PPyObject): PPyObject; cdecl;
 var
   str: string;
 begin
