@@ -2219,7 +2219,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_FOLD_ICONS: int: icon set for "folding" gutter bar. Possible values: 0, 1.
 * PROP_FOLD_TOOLTIP_SHOW: bool: show floating tooltip when mouse hovers [...] mark for folded block.
 * PROP_LAST_LINE_ON_TOP: bool: allow to scroll control, so last line shows on top.
-* PROP_FOCUSED: bool: editor is focused. For editor in UI-tab, focuses also editor's tab.
+* PROP_FOCUSED: bool: editor is focused. When changing: for editor in UI-tab it focuses also editor's tab. Cannot change True to False.
 * PROP_HILITE_CUR_COL: bool: highlight current column.
 * PROP_HILITE_CUR_LINE: bool: highlight current line.
 * PROP_HILITE_CUR_LINE_MINIMAL: bool: highlight current line, only minimal part of line.
@@ -2353,7 +2353,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_FOLD_ICONS: int: icon set for "folding" gutter bar. Possible values: 0, 1.
 * PROP_FOLD_TOOLTIP_SHOW: bool: show floating tooltip when mouse hovers [...] mark for folded block.
 * PROP_LAST_LINE_ON_TOP: bool: allow to scroll control, so last line shows on top.
-* PROP_FOCUSED: bool: editor is focused. For editor in UI-tab, focuses also editor's tab.
+* PROP_FOCUSED: bool: editor is focused. When changing: for editor in UI-tab it focuses also editor's tab. Cannot change True to False.
 * PROP_HILITE_CUR_COL: bool: highlight current column.
 * PROP_HILITE_CUR_LINE: bool: highlight current line.
 * PROP_HILITE_CUR_LINE_MINIMAL: bool: highlight current line, only minimal part of line.
