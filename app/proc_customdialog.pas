@@ -790,12 +790,14 @@ begin
   begin
     Ctl:= TEdit.Create(AForm);
     TEdit(Ctl).EchoMode:= emPassword;
+    TEdit(Ctl).OnChange:= @AForm.DoOnChange;
     exit;
   end;
 
   if S='spinedit' then
   begin
     Ctl:= TSpinEdit.Create(AForm);
+    TSpinEdit(Ctl).OnChange:= @AForm.DoOnChange;
     exit;
   end;
 
@@ -804,6 +806,7 @@ begin
     Ctl:= TMemo.Create(AForm);
     TMemo(Ctl).WordWrap:= false;
     TMemo(Ctl).ScrollBars:= ssBoth;
+    TMemo(Ctl).OnChange:= @AForm.DoOnChange;
     exit;
   end;
 
