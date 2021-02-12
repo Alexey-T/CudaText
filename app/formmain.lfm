@@ -573,9 +573,6 @@ object fmMain: TfmMain
       object SepOp2: TMenuItem
         Caption = '-'
       end
-      object mnuOpKeys: TMenuItem
-        Caption = 'Settings - &hotkeys'
-      end
       object mnuOpThemeUi: TMenuItem
         Caption = 'Settings - theme - u&i'
       end

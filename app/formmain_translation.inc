@@ -308,7 +308,7 @@ begin
     DoLocMenuitem(ini, mnuOpLexer, 'm_o', 'lx');
     DoLocMenuitem(ini, mnuOpThemeUi, 'm_o', 'cou');
     DoLocMenuitem(ini, mnuOpThemeSyntax, 'm_o', 'cos');
-    DoLocMenuitem(ini, mnuOpKeys, 'm_o', 'ke');
+    //DoLocMenuitem(ini, mnuOpKeys, 'm_o', 'ke');
 
     DoLocMenuitem(ini, mnuFontSub, 'm_o', 'f_');
     DoLocMenuitem(ini, mnuFontText, 'm_o', 'f_t');
@@ -338,7 +338,7 @@ begin
 
     DoMenuitemEllipsis(mnuOpThemeUi);
     DoMenuitemEllipsis(mnuOpThemeSyntax);
-    DoMenuitemEllipsis(mnuOpKeys);
+    //DoMenuitemEllipsis(mnuOpKeys);
     DoMenuitemEllipsis(mnuOpThemes);
     DoMenuitemEllipsis(mnuOpLangs);
 

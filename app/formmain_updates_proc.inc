@@ -815,7 +815,7 @@ begin
   UpdateMenuItemHotkey(mnuOpUser, cmd_OpsOpenUser);
   UpdateMenuItemHotkey(mnuOpDefaultUser, cmd_OpsOpenDefaultAndUser);
   UpdateMenuItemHotkey(mnuOpLexer, cmd_OpsOpenLexerSpecific);
-  UpdateMenuItemHotkey(mnuOpKeys, cmd_HelpHotkeys);
+  //UpdateMenuItemHotkey(mnuOpKeys, cmd_HelpHotkeys);
 
   UpdateMenuItemHotkey(mnuFontText, cmd_OpsFontText);
   UpdateMenuItemHotkey(mnuFontUi, cmd_OpsFontUi);

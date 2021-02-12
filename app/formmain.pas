@@ -282,7 +282,6 @@ type
     mnuTextGotoDef: TMenuItem;
     mnuPlugins: TMenuItem;
     mnuViewSide: TMenuItem;
-    mnuOpKeys: TMenuItem;
     mnuHelpWiki: TMenuItem;
     mnuOpThemeUi: TMenuItem;
     mnuEditTrimL: TMenuItem;
@@ -2223,7 +2222,7 @@ begin
 
   DoMenuitemEllipsis(mnuOpThemeUi);
   DoMenuitemEllipsis(mnuOpThemeSyntax);
-  DoMenuitemEllipsis(mnuOpKeys);
+  //DoMenuitemEllipsis(mnuOpKeys);
   DoMenuitemEllipsis(mnuOpThemes);
   DoMenuitemEllipsis(mnuOpLangs);
 
