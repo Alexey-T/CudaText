@@ -117,7 +117,7 @@ begin
   Result:= PyHelper_Rect(R);
 end;
 
-function Py_GetCaretProps(Props: TATCaretProps): PPyObject;
+function PyHelper_GetCaretProps(Props: TATCaretProps): PPyObject;
 begin
   with AppPython.Engine do
     Result:= Py_BuildValue('(iiO)',
@@ -127,13 +127,13 @@ begin
       );
 end;
 
-function Py_GetFontProps(F: TFont): PPyObject;
+function PyHelper_GetFontProps(F: TFont): PPyObject;
 begin
   with AppPython.Engine do
     Result:= Py_BuildValue('(si)', PChar(F.Name), F.Size);
 end;
 
-function Py_GetThemeDict_UI: PPyObject;
+function PyHelper_GetThemeDict_UI: PPyObject;
 var
   iColor: TAppThemeColorId;
   ColorItem: TAppThemeColor;
@@ -159,7 +159,7 @@ begin
 end;
 
 
-function Py_GetLineStateList(Ed: TATSynEdit): PPyObject;
+function PyHelper_GetLineStateList(Ed: TATSynEdit): PPyObject;
 var
   Strs: TATStrings;
   NLen, i: integer;
@@ -178,7 +178,7 @@ begin
   end;
 end;
 
-function Py_GetLineUpdatedList(Ed: TATSynEdit): PPyObject;
+function PyHelper_GetLineUpdatedList(Ed: TATSynEdit): PPyObject;
 var
   Strs: TATStrings;
   NLen, i: integer;
@@ -295,7 +295,7 @@ begin
 end;
 
 
-function Py_GetThemeDict_Syntax: PPyObject;
+function PyHelper_GetThemeDict_Syntax: PPyObject;
 var
   iStyle: TAppThemeStyleId;
   St: TecSyntaxFormat;
@@ -334,7 +334,7 @@ begin
   end;
 end;
 
-function Py_ImagelistFromId(const Str: string): TImageList;
+function PyHelper_ImagelistFromId(const Str: string): TImageList;
 var
   Obj: TObject;
   N: PtrInt;
@@ -349,7 +349,7 @@ begin
   end;
 end;
 
-function Py_MenuFromId(const Str: string): TMenu;
+function PyHelper_MenuFromId(const Str: string): TMenu;
 var
   Obj: TObject;
   N: PtrInt;
@@ -364,7 +364,7 @@ begin
   end;
 end;
 
-function Py_MenuItemFromId(Str: string): TMenuItem;
+function PyHelper_MenuItemFromId(Str: string): TMenuItem;
 const
   cPrefixToolmenu = 'toolmenu:';
 var
@@ -621,7 +621,7 @@ begin
 end;
 
 
-function ConvertButtonIcon_MB_to_ID(N: integer): integer;
+function PyHelper_ConvertButtonIcon_MB_to_ID(N: integer): integer;
 begin
   case N of
     MB_ICONWARNING:
@@ -674,7 +674,7 @@ begin
       Res:= AskUser(
         StrCaption,
         StrText,
-        ConvertButtonIcon_MB_to_ID(NIcon),
+        PyHelper_ConvertButtonIcon_MB_to_ID(NIcon),
         Buttons,
         0);
       FreeAndNil(Buttons);
@@ -3048,10 +3048,10 @@ begin
           end;
 
         PROP_LINE_STATES:
-          Result:= Py_GetLineStateList(Ed);
+          Result:= PyHelper_GetLineStateList(Ed);
 
         PROP_LINE_STATES_UPDATED:
-          Result:= Py_GetLineUpdatedList(Ed);
+          Result:= PyHelper_GetLineUpdatedList(Ed);
 
         PROP_ZEBRA:
           begin
@@ -3289,13 +3289,13 @@ begin
           Result:= PyBool_FromLong(Ord(Ed.OptCaretStopUnfocused));
 
         PROP_CARET_VIEW:
-          Result:= Py_GetCaretProps(Ed.CaretPropsNormal);
+          Result:= PyHelper_GetCaretProps(Ed.CaretPropsNormal);
 
         PROP_CARET_VIEW_OVR:
-          Result:= Py_GetCaretProps(Ed.CaretPropsOverwrite);
+          Result:= PyHelper_GetCaretProps(Ed.CaretPropsOverwrite);
 
         PROP_CARET_VIEW_RO:
-          Result:= Py_GetCaretProps(Ed.CaretPropsReadonly);
+          Result:= PyHelper_GetCaretProps(Ed.CaretPropsReadonly);
 
         PROP_MINIMAP:
           Result:= PyBool_FromLong(Ord(Ed.OptMinimapVisible));
@@ -3599,13 +3599,13 @@ begin
           end;
 
         PROP_FONT:
-          Result:= Py_GetFontProps(Ed.Font);
+          Result:= PyHelper_GetFontProps(Ed.Font);
         PROP_FONT_B:
-          Result:= Py_GetFontProps(Ed.FontBold);
+          Result:= PyHelper_GetFontProps(Ed.FontBold);
         PROP_FONT_I:
-          Result:= Py_GetFontProps(Ed.FontItalic);
+          Result:= PyHelper_GetFontProps(Ed.FontItalic);
         PROP_FONT_BI:
-          Result:= Py_GetFontProps(Ed.FontBoldItalic);
+          Result:= PyHelper_GetFontProps(Ed.FontBoldItalic);
 
         PROP_V_MODE:
           begin
@@ -5101,12 +5101,12 @@ begin
 
         APP_PROC_THEME_UI_DICT_GET:
           begin
-            Result:= Py_GetThemeDict_UI;
+            Result:= PyHelper_GetThemeDict_UI;
           end;
 
         APP_PROC_THEME_SYNTAX_DICT_GET:
           begin
-            Result:= Py_GetThemeDict_Syntax;
+            Result:= PyHelper_GetThemeDict_Syntax;
           end;
 
         APP_PROC_CONFIG_NEWDOC_EOL_GET:
@@ -5706,7 +5706,7 @@ begin
 
         MENU_SET_CAPTION:
           begin
-            PopupItem:= Py_MenuItemFromId(StrMenu);
+            PopupItem:= PyHelper_MenuItemFromId(StrMenu);
             if Assigned(PopupItem) then
               PopupItem.Caption:= StrCmd;
             Result:= ReturnNone;
@@ -5714,7 +5714,7 @@ begin
 
         MENU_SET_VISIBLE:
           begin
-            PopupItem:= Py_MenuItemFromId(StrMenu);
+            PopupItem:= PyHelper_MenuItemFromId(StrMenu);
             if Assigned(PopupItem) then
               PopupItem.Visible:= AppStrToBool(StrCmd);
             Result:= ReturnNone;
@@ -5722,7 +5722,7 @@ begin
 
         MENU_SET_ENABLED:
           begin
-            PopupItem:= Py_MenuItemFromId(StrMenu);
+            PopupItem:= PyHelper_MenuItemFromId(StrMenu);
             if Assigned(PopupItem) then
               PopupItem.Enabled:= AppStrToBool(StrCmd);
             Result:= ReturnNone;
@@ -5730,7 +5730,7 @@ begin
 
         MENU_SET_CHECKED:
           begin
-            PopupItem:= Py_MenuItemFromId(StrMenu);
+            PopupItem:= PyHelper_MenuItemFromId(StrMenu);
             if Assigned(PopupItem) then
               PopupItem.Checked:= AppStrToBool(StrCmd);
             Result:= ReturnNone;
@@ -5738,7 +5738,7 @@ begin
 
         MENU_SET_RADIOITEM:
           begin
-            PopupItem:= Py_MenuItemFromId(StrMenu);
+            PopupItem:= PyHelper_MenuItemFromId(StrMenu);
             if Assigned(PopupItem) then
               PopupItem.RadioItem:= AppStrToBool(StrCmd);
             Result:= ReturnNone;
@@ -5746,7 +5746,7 @@ begin
 
         MENU_SET_HOTKEY:
           begin
-            PopupItem:= Py_MenuItemFromId(StrMenu);
+            PopupItem:= PyHelper_MenuItemFromId(StrMenu);
             if Assigned(PopupItem) then
               PopupItem.ShortCut:= TextToShortCut(StrCmd);
             Result:= ReturnNone;
@@ -5754,7 +5754,7 @@ begin
 
         MENU_SHOW:
           begin
-            PopupItem:= Py_MenuItemFromId(StrMenu);
+            PopupItem:= PyHelper_MenuItemFromId(StrMenu);
             if not Assigned(PopupItem) then
               exit(ReturnNone);
             Popup:= PopupItem.Owner as TPopupMenu;
@@ -5772,7 +5772,7 @@ begin
 
         MENU_GET_PROP:
           begin
-            PopupItem:= Py_MenuItemFromId(StrMenu);
+            PopupItem:= PyHelper_MenuItemFromId(StrMenu);
             if Assigned(PopupItem) then
               Result:= fmMain.DoMenu_GetPyProps(PopupItem)
             else
@@ -5781,8 +5781,8 @@ begin
 
         MENU_SET_IMAGELIST:
           begin
-            ImgList:= Py_ImagelistFromId(StrCmd);
-            PopupItem:= Py_MenuItemFromId(StrMenu);
+            ImgList:= PyHelper_ImagelistFromId(StrCmd);
+            PopupItem:= PyHelper_MenuItemFromId(StrMenu);
             if PopupItem=nil then
               exit(ReturnNone);
 
@@ -5803,7 +5803,7 @@ begin
 
         MENU_SET_IMAGEINDEX:
           begin
-            PopupItem:= Py_MenuItemFromId(StrMenu);
+            PopupItem:= PyHelper_MenuItemFromId(StrMenu);
             if Assigned(PopupItem) then
               PopupItem.ImageIndex:= NIndex;
             Result:= ReturnNone;
@@ -6182,7 +6182,7 @@ begin
 
         BTN_SET_IMAGELIST:
           begin
-            Btn.Images:= Py_ImagelistFromId(StrValue);
+            Btn.Images:= PyHelper_ImagelistFromId(StrValue);
             Result:= ReturnNone;
           end;
 
@@ -6270,7 +6270,7 @@ begin
 
         BTN_SET_MENU:
           begin
-            Mnu:= Py_MenuFromId(StrValue);
+            Mnu:= PyHelper_MenuFromId(StrValue);
             if Assigned(Mnu) and Assigned(Mnu.Owner) then
               Btn.PopupMenu:= Mnu.Owner as TPopupMenu;
             Result:= ReturnNone;
@@ -8204,7 +8204,7 @@ begin
 
         STATUSBAR_SET_IMAGELIST:
           begin
-            ImgList:= Py_ImagelistFromId(StrValue);
+            ImgList:= PyHelper_ImagelistFromId(StrValue);
             FBar.Images:= ImgList;
             Result:= ReturnNone;
           end;

@@ -6790,7 +6790,7 @@ begin
 
   with AppPython.Engine do
   begin
-    mi:= Py_MenuItemFromId(AMenuId);
+    mi:= PyHelper_MenuItemFromId(AMenuId);
     if not Assigned(mi) then
       exit(ReturnNone);
 
@@ -6811,7 +6811,7 @@ procedure TfmMain.DoMenuClear(const AMenuId: string);
 var
   mi: TMenuItem;
 begin
-  mi:= Py_MenuItemFromId(AMenuId);
+  mi:= PyHelper_MenuItemFromId(AMenuId);
   if Assigned(mi) then
   begin
     mi.Clear;
@@ -6871,7 +6871,7 @@ var
   Num: integer;
 begin
   Result:= '';
-  miMain:= Py_MenuItemFromId(AMenuId);
+  miMain:= PyHelper_MenuItemFromId(AMenuId);
   if Assigned(miMain) and (AMenuCaption<>'') then
   begin
     mi:= TMenuItem.Create(Self);
@@ -6930,7 +6930,7 @@ procedure TfmMain.DoMenu_Remove(const AMenuId: string);
 var
   mi: TMenuItem;
 begin
-  mi:= Py_MenuItemFromId(AMenuId);
+  mi:= PyHelper_MenuItemFromId(AMenuId);
   mi.Free;
 end;
 
