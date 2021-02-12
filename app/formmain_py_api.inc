@@ -31,7 +31,7 @@ begin
   MsgLogConsole(Format(msgApiDeprecated, [s]));
 end;
 
-function AppSendMessageFromString(const AText: string): integer;
+function PyHelper_SendMessageFromString(const AText: string): integer;
 var
   H: Int64;
   Msg: DWord;
@@ -213,7 +213,7 @@ begin
   Result.AlwaysReturnIndexedTabStops:= true;
 end;
 
-function Py_emmet(Self, Args: PPyObject): PPyObject; cdecl;
+function api_emmet(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Id: integer;
   PtrText, Ptr1, Ptr2: PChar;
@@ -430,7 +430,7 @@ begin
     Result:= PyUnicodeFromString(cAppExeVersion);
 end;
 
-function Py_app_ver(Self, Args : PPyObject): PPyObject; cdecl;
+function api_app_ver(Self, Args : PPyObject): PPyObject; cdecl;
 begin
   with AppPython.Engine do
     Result:= Py_BuildValue('(is)',
@@ -439,7 +439,7 @@ begin
       );
 end;
 
-function Py_app_path(Self, Args : PPyObject): PPyObject; cdecl;
+function api_app_path(Self, Args : PPyObject): PPyObject; cdecl;
 var
   Id: integer;
 begin
@@ -471,7 +471,7 @@ begin
 end;
 
 
-function Py_app_idle(Self, Args: PPyObject): PPyObject; cdecl;
+function api_app_idle(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Flag: LongBool;
 begin
@@ -487,7 +487,7 @@ begin
 end;
 
 
-function Py_dlg_input(Self, Args : PPyObject): PPyObject; cdecl;
+function api_dlg_input(Self, Args : PPyObject): PPyObject; cdecl;
 var
   P1, P2: PChar;
   StrCaption, StrVal: string;
@@ -506,7 +506,7 @@ begin
     Result:= ReturnNone;
 end;
 
-function Py_dlg_input_ex(Self, Args : PPyObject): PPyObject; cdecl;
+function api_dlg_input_ex(Self, Args : PPyObject): PPyObject; cdecl;
 var
   Number, i: integer;
   PCaption: PChar;
@@ -566,7 +566,7 @@ begin
     Result:= ReturnNone;
 end;
 
-function Py_msg_status(Self, Args: PPyObject): PPyObject; cdecl;
+function api_msg_status(Self, Args: PPyObject): PPyObject; cdecl;
 var
   P: PChar;
   Str: string;
@@ -585,7 +585,7 @@ begin
   end;
 end;
 
-function Py_msg_status_alt(Self, Args: PPyObject): PPyObject; cdecl;
+function api_msg_status_alt(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Ptr: PChar;
   Str: string;
@@ -604,7 +604,7 @@ begin
 end;
 
 
-function Py_msg_box(Self, Args: PPyObject): PPyObject; cdecl;
+function api_msg_box(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Ptr: PChar;
   Str: string;
@@ -635,7 +635,7 @@ begin
   end;
 end;
 
-function Py_msg_box_ex(Self, Args: PPyObject): PPyObject; cdecl;
+function api_msg_box_ex(Self, Args: PPyObject): PPyObject; cdecl;
 const
   cResultDelta = 100;
 var
@@ -689,7 +689,7 @@ begin
 end;
 
 
-function Py_file_open(Self, Args: PPyObject): PPyObject; cdecl;
+function api_file_open(Self, Args: PPyObject): PPyObject; cdecl;
 var
   PtrFile, PtrFile2, PtrArgs: PChar;
   StrFile, StrFile2, StrArgs: string;
@@ -716,7 +716,7 @@ begin
 end;
 
 
-function Py_ed_save(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_save(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
@@ -747,7 +747,7 @@ begin
 end;
 
 
-function Py_ed_get_text_sel(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_get_text_sel(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
 begin
@@ -758,7 +758,7 @@ begin
     Result:= ReturnNone;
 end;
 
-function Py_ed_get_text_line(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_get_text_line(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Index, MaxLen: Integer;
@@ -784,7 +784,7 @@ begin
     Result:= ReturnNone;
 end;
 
-function Py_ed_get_text_all(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_get_text_all(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
@@ -800,7 +800,7 @@ begin
 end;
 
 
-function Py_ed_get_text_substr(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_get_text_substr(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   X1, Y1, X2, Y2: Integer;
@@ -818,7 +818,7 @@ begin
     Result:= ReturnNone;
 end;
 
-function Py_ed_set_caret(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_set_caret(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Id, NCaret, NOptions: Integer;
@@ -899,7 +899,7 @@ begin
 end;
 
 
-function Py_ed_get_carets(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_get_carets(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
@@ -930,7 +930,7 @@ begin
     Result:= ReturnNone;
 end;
 
-function Py_ed_markers(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_markers(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Id: Integer;
@@ -1054,7 +1054,7 @@ begin
 end;
 
 
-function Py_ed_attr(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_attr(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
@@ -1298,7 +1298,7 @@ begin
 end;
 
 
-function Py_ed_hotspots(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_hotspots(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
@@ -1392,7 +1392,7 @@ begin
 end;
 
 
-function Py_ed_get_sel_mode(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_get_sel_mode(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   N: Integer;
@@ -1412,7 +1412,7 @@ begin
     Result:= ReturnNone;
 end;
 
-function Py_ed_get_sel_rect(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_get_sel_rect(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   R: TRect;
@@ -1427,7 +1427,7 @@ begin
     Result:= ReturnNone;
 end;
 
-function Py_ed_get_sel_lines(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_get_sel_lines(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   N1, N2: Integer;
@@ -1446,7 +1446,7 @@ begin
     Result:= ReturnNone;
 end;
 
-function Py_ed_set_sel_rect(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_set_sel_rect(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   X1, Y1, X2, Y2: Integer;
@@ -1469,7 +1469,7 @@ begin
 end;
 
 
-function Py_ed_set_text_all(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_set_text_all(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
@@ -1502,7 +1502,7 @@ begin
       Result:= ReturnNone;
 end;
 
-function Py_ed_set_text_line(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_set_text_line(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   N, i: Integer;
@@ -1545,7 +1545,7 @@ begin
 end;
 
 
-function Py_ed_delete(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_delete(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   X1, Y1, X2, Y2: Integer;
@@ -1571,7 +1571,7 @@ begin
     Result:= ReturnNone;
 end;
 
-function Py_ed_insert(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_insert(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   X1, Y1: Integer;
@@ -1612,7 +1612,7 @@ begin
 end;
 
 
-function Py_ed_replace(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_replace(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   X1, Y1, X2, Y2: Integer;
@@ -1643,7 +1643,7 @@ begin
 end;
 
 
-function Py_ed_replace_lines(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_replace_lines(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Y1, Y2: Integer;
@@ -1677,7 +1677,7 @@ begin
 end;
 
 
-function Py_ed_get_line_count(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_get_line_count(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
 begin
@@ -1691,7 +1691,7 @@ begin
 end;
 
 
-function Py_ed_get_filename(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_get_filename(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
@@ -1721,7 +1721,7 @@ begin
 end;
 
 
-function Py_ed_cmd(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_cmd(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
@@ -1752,7 +1752,7 @@ begin
     Result:= ReturnNone;
 end;
 
-function Py_ed_lock(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_lock(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
@@ -1768,7 +1768,7 @@ begin
     Result:= ReturnNone;
 end;
 
-function Py_ed_unlock(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_unlock(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
@@ -1784,7 +1784,7 @@ begin
     Result:= ReturnNone;
 end;
 
-function Py_ed_focus(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_focus(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
@@ -1846,7 +1846,7 @@ begin
   end;
 end;
 
-function Py_ed_bookmark(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_bookmark(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   PtrText: PChar;
@@ -2022,7 +2022,7 @@ begin
       );
 end;
 
-function Py_ed_decor(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_decor(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   PtrText: PChar;
@@ -2131,7 +2131,7 @@ begin
 end;
 
 
-function Py_ed_handles(Self, Args : PPyObject): PPyObject; cdecl;
+function api_ed_handles(Self, Args : PPyObject): PPyObject; cdecl;
 var
   nMin, nMax: integer;
 begin
@@ -2142,7 +2142,7 @@ begin
     Result:= Py_BuildValue('(ii)', nMin, nMax);
 end;
 
-function Py_ed_group(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_group(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Index: Longint;
   Ed: TATSynEdit;
@@ -2161,7 +2161,7 @@ begin
 end;
 
 
-function Py_dlg_file(Self, Args: PPyObject): PPyObject; cdecl;
+function api_dlg_file(Self, Args: PPyObject): PPyObject; cdecl;
 var
   PtrFilename, PtrFolder, PtrFilter, PtrCaption: PChar;
   StrFilename, StrFolder, StrFilter, StrCaption: string;
@@ -2224,7 +2224,7 @@ begin
 end;
 
 
-function Py_dlg_dir(Self, Args: PPyObject): PPyObject; cdecl;
+function api_dlg_dir(Self, Args: PPyObject): PPyObject; cdecl;
 var
   PtrFolder, PtrCaption: PChar;
   StrFolder, StrCaption: string;
@@ -2339,7 +2339,7 @@ begin
 end;
 
 
-function Py_ed_complete(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_complete(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ptr: PChar;
@@ -2369,7 +2369,7 @@ begin
     Result:= ReturnNone;
 end;
 
-function Py_ed_complete_alt(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_complete_alt(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   PtrText, PtrId: PChar;
@@ -2445,17 +2445,17 @@ begin
   end;
 end;
 
-function Py_ini_read(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ini_read(Self, Args: PPyObject): PPyObject; cdecl;
 begin
   Result:= PyHelper_IniReadWrite(Self, Args, false);
 end;
 
-function Py_ini_write(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ini_write(Self, Args: PPyObject): PPyObject; cdecl;
 begin
   Result:= PyHelper_IniReadWrite(Self, Args, true);
 end;
 
-function Py_ini_proc(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ini_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Id: Longint;
   PtrFN, PtrSection, PtrKey: PChar;
@@ -2523,7 +2523,7 @@ begin
 end;
 
 
-function Py_dlg_color(Self, Args : PPyObject): PPyObject; cdecl;
+function api_dlg_color(Self, Args : PPyObject): PPyObject; cdecl;
 var
   NCode: Longint;
 begin
@@ -2542,7 +2542,7 @@ begin
     Result:= ReturnNone;
 end;
 
-function Py_dlg_menu(Self, Args: PPyObject): PPyObject; cdecl;
+function api_dlg_menu(Self, Args: PPyObject): PPyObject; cdecl;
 var
   PtrItems, PtrCaption: PChar;
   StrItems, StrCaption: string;
@@ -2615,7 +2615,7 @@ begin
 end;
 
 
-function Py_app_log(Self, Args: PPyObject): PPyObject; cdecl;
+function api_app_log(Self, Args: PPyObject): PPyObject; cdecl;
 var
   PtrText, PtrPanel: PChar;
   StrText, StrPanel: string;
@@ -2781,7 +2781,7 @@ begin
 end;
 
 
-function Py_dlg_hotkey(Self, Args: PPyObject): PPyObject; cdecl;
+function api_dlg_hotkey(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Ptr: PChar;
   S: string;
@@ -2800,7 +2800,7 @@ begin
     Result:= ReturnNone;
 end;
 
-function Py_dlg_hotkeys(Self, Args : PPyObject): PPyObject; cdecl;
+function api_dlg_hotkeys(Self, Args : PPyObject): PPyObject; cdecl;
 var
   PtrCommand, PtrLexer: PChar;
   StrCommand, StrLexer: string;
@@ -2826,7 +2826,7 @@ begin
 end;
 
 
-function Py_dlg_commands(Self, Args : PPyObject): PPyObject; cdecl;
+function api_dlg_commands(Self, Args : PPyObject): PPyObject; cdecl;
 var
   NOps: integer;
   PtrTitle: PChar;
@@ -2889,7 +2889,7 @@ end;
 *)
 
 
-function Py_dlg_custom(Self, Args : PPyObject): PPyObject; cdecl;
+function api_dlg_custom(Self, Args : PPyObject): PPyObject; cdecl;
 var
   PtrTitle, PtrText: PChar;
   StrTitle, StrText, StrResult: string;
@@ -2914,7 +2914,7 @@ begin
 end;
 
 
-function Py_ed_get_wrapinfo(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_get_wrapinfo(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
@@ -2972,7 +2972,7 @@ begin
   end;
 end;
 
-function Py_ed_get_prop(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_get_prop(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Id, Num1, Num2: integer;
@@ -3678,7 +3678,7 @@ begin
     Result:= ReturnNone;
 end;
 
-function Py_ed_set_prop(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_set_prop(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Id: integer;
@@ -4484,7 +4484,7 @@ begin
   end;
 end;
 
-function Py_app_proc(Self, Args: PPyObject): PPyObject; cdecl;
+function api_app_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Id, i: integer;
   Ptr: PChar;
@@ -5071,7 +5071,7 @@ begin
           Result:= StringsToPyList(Screen.Fonts);
 
         APP_PROC_SEND_MESSAGE:
-          Result:= PyLong_FromLong(AppSendMessageFromString(Str));
+          Result:= PyLong_FromLong(PyHelper_SendMessageFromString(Str));
 
         APP_PROC_SPLITTER_GET:
           begin
@@ -5337,7 +5337,7 @@ begin
   end;
 end;
 
-function Py_lexer_proc(Self, Args : PPyObject): PPyObject; cdecl;
+function api_lexer_proc(Self, Args : PPyObject): PPyObject; cdecl;
 var
   Id: integer;
   PtrValue: PChar;
@@ -5450,7 +5450,7 @@ begin
     end;
 end;
 
-function Py_ed_convert(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_convert(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
@@ -5613,7 +5613,7 @@ begin
 end;
 
 
-function Py_ed_get_sublexer_ranges(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_get_sublexer_ranges(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
@@ -5652,7 +5652,7 @@ end;
 
 
 //menu_proc(id_menu, id_action, command, caption, index, hotkey, tag)
-function Py_menu_proc(Self, Args: PPyObject): PPyObject; cdecl;
+function api_menu_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   PtrMenu, PtrCaption, PtrCmd, PtrHotkey, PtrTag: PChar;
   StrMenu, StrCaption, StrCmd, StrHotkey, StrTag, StrResult: string;
@@ -5843,7 +5843,7 @@ end;
 
 
 //listbox_proc(id_listbox, id_action, index, text)
-function Py_listbox_proc(Self, Args: PPyObject): PPyObject; cdecl;
+function api_listbox_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   IdList, NTag: Int64;
   IdAction, NIndex, i: integer;
@@ -6142,7 +6142,7 @@ begin
 end;
 
 
-function Py_button_proc(Self, Args: PPyObject): PPyObject; cdecl;
+function api_button_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   IdBtn: Int64;
   IdAction: integer;
@@ -6401,7 +6401,7 @@ begin
 end;
 
 
-function Py_imagelist_proc(Self, Args: PPyObject): PPyObject; cdecl;
+function api_imagelist_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   IdList, Num64: Int64;
   IdAction: integer;
@@ -6502,7 +6502,7 @@ end;
 type
   TTreeviewAccess = class(TAppTreeView);
 
-function Py_tree_proc(Self, Args: PPyObject): PPyObject; cdecl;
+function api_tree_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   IdTree, IdItem: Int64;
   IdAction, NIndex, NImageIndex: integer;
@@ -6829,7 +6829,7 @@ begin
     end;
 end;
 
-function Py_ed_dim(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_dim(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
@@ -6995,7 +6995,7 @@ begin
   end;
 end;
 
-function Py_ed_get_token(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_get_token(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
@@ -7037,7 +7037,7 @@ begin
 end;
 
 
-function Py_canvas_proc(Self, Args: PPyObject): PPyObject; cdecl;
+function api_canvas_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   C: TCanvas;
   IdCanvas: Int64;
@@ -7166,7 +7166,7 @@ begin
 end;
 
 
-function Py_image_proc(Self, Args: PPyObject): PPyObject; cdecl;
+function api_image_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   IdImage, Num64: Int64;
   IdAction: integer;
@@ -7299,7 +7299,7 @@ begin
 end;
 
 
-function Py_ed_gap(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_gap(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H, Num1, Num2, NTag: Int64;
   Id, NColor, NSize: integer;
@@ -7558,7 +7558,7 @@ begin
 end;
 
 
-function Py_ed_action(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_action(Self, Args: PPyObject): PPyObject; cdecl;
 var
   HEditor: Int64;
   IdAction: integer;
@@ -7717,7 +7717,7 @@ begin
 end;
 
 
-function Py_ed_micromap(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_micromap(Self, Args: PPyObject): PPyObject; cdecl;
 var
   HEditor: Int64;
   IdAction: integer;
@@ -7777,7 +7777,7 @@ begin
       Result:= ReturnNone;
 end;
 
-function Py_ed_folding(Self, Args: PPyObject): PPyObject; cdecl;
+function api_ed_folding(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Id, NItem, NX, NY, NY2, NStaple: integer;
@@ -7923,7 +7923,7 @@ begin
 end;
 
 
-function Py_timer_proc(Self, Args: PPyObject): PPyObject; cdecl;
+function api_timer_proc(Self, Args: PPyObject): PPyObject; cdecl;
 const
   cMinInterval = 150;
 var
@@ -8009,7 +8009,7 @@ end;
 
 
 //toolbar_proc(id_toolbar, id_action, text="", text2="", command="", index=-1, index2=-1)
-function Py_toolbar_proc(Self, Args: PPyObject): PPyObject; cdecl;
+function api_toolbar_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   PtrToolbar, PtrText, PtrText2, PtrCmd: PChar;
   StrToolbar: string;
@@ -8135,7 +8135,7 @@ end;
 
 
 //statusbar_proc(id_statusbar, id_action, index=-1, tag=0, value="")
-function Py_statusbar_proc(Self, Args: PPyObject): PPyObject; cdecl;
+function api_statusbar_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   PtrBar, PtrValue: PChar;
   StrBar, StrValue: string;
@@ -8564,7 +8564,7 @@ type
   TFormHack = class(TFormDummy);
 
 //dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name='')
-function Py_dlg_proc(Self, Args: PPyObject): PPyObject; cdecl;
+function api_dlg_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Form: TFormDummy;
   PtrProp, PtrName: PChar;
@@ -8847,7 +8847,7 @@ end;
 
 
 //finder_proc(id_finder, id_action, value="", setcaret=True)
-function Py_finder_proc(Self, Args: PPyObject): PPyObject; cdecl;
+function api_finder_proc(Self, Args: PPyObject): PPyObject; cdecl;
 const
   cDefIndent=2;
 var
@@ -9200,94 +9200,94 @@ procedure TfmMain.PythonModuleInitialization(Sender: TObject);
 begin
   with Sender as TPythonModule do
   begin
-    AddMethod('app_ver', @Py_app_ver, '');
-    AddMethod('app_path', @Py_app_path, '');
-    AddMethod('app_proc', @Py_app_proc, '');
-    AddMethod('app_log', @Py_app_log, '');
-    AddMethod('app_idle', @Py_app_idle, '');
-    AddMethod('emmet', @Py_emmet, '');
+    AddMethod('app_ver', @api_app_ver, '');
+    AddMethod('app_path', @api_app_path, '');
+    AddMethod('app_proc', @api_app_proc, '');
+    AddMethod('app_log', @api_app_log, '');
+    AddMethod('app_idle', @api_app_idle, '');
+    AddMethod('emmet', @api_emmet, '');
 
-    AddMethod('msg_status', @Py_msg_status, '');
-    AddMethod('msg_status_alt', @Py_msg_status_alt, '');
-    AddMethod('msg_box', @Py_msg_box, '');
-    AddMethod('msg_box_ex', @Py_msg_box_ex, '');
-    AddMethod('dlg_input', @Py_dlg_input, '');
-    AddMethod('dlg_input_ex', @Py_dlg_input_ex, '');
-    AddMethod('dlg_file', @Py_dlg_file, '');
-    AddMethod('dlg_dir', @Py_dlg_dir, '');
-    AddMethod('dlg_menu', @Py_dlg_menu, '');
-    AddMethod('dlg_color', @Py_dlg_color, '');
-    AddMethod('dlg_hotkey', @Py_dlg_hotkey, '');
-    AddMethod('dlg_hotkeys', @Py_dlg_hotkeys, '');
-    AddMethod('dlg_custom', @Py_dlg_custom, '');
-    AddMethod('dlg_commands', @Py_dlg_commands, '');
+    AddMethod('msg_status', @api_msg_status, '');
+    AddMethod('msg_status_alt', @api_msg_status_alt, '');
+    AddMethod('msg_box', @api_msg_box, '');
+    AddMethod('msg_box_ex', @api_msg_box_ex, '');
+    AddMethod('dlg_input', @api_dlg_input, '');
+    AddMethod('dlg_input_ex', @api_dlg_input_ex, '');
+    AddMethod('dlg_file', @api_dlg_file, '');
+    AddMethod('dlg_dir', @api_dlg_dir, '');
+    AddMethod('dlg_menu', @api_dlg_menu, '');
+    AddMethod('dlg_color', @api_dlg_color, '');
+    AddMethod('dlg_hotkey', @api_dlg_hotkey, '');
+    AddMethod('dlg_hotkeys', @api_dlg_hotkeys, '');
+    AddMethod('dlg_custom', @api_dlg_custom, '');
+    AddMethod('dlg_commands', @api_dlg_commands, '');
 
-    AddMethod('ed_get_carets', @Py_ed_get_carets, '');
-    AddMethod('ed_set_caret', @Py_ed_set_caret, '');
+    AddMethod('ed_get_carets', @api_ed_get_carets, '');
+    AddMethod('ed_set_caret', @api_ed_set_caret, '');
 
-    AddMethod('ed_get_sel_mode', @Py_ed_get_sel_mode, '');
-    AddMethod('ed_get_sel_rect', @Py_ed_get_sel_rect, '');
-    AddMethod('ed_get_sel_lines', @Py_ed_get_sel_lines, '');
-    AddMethod('ed_set_sel_rect', @Py_ed_set_sel_rect, '');
+    AddMethod('ed_get_sel_mode', @api_ed_get_sel_mode, '');
+    AddMethod('ed_get_sel_rect', @api_ed_get_sel_rect, '');
+    AddMethod('ed_get_sel_lines', @api_ed_get_sel_lines, '');
+    AddMethod('ed_set_sel_rect', @api_ed_set_sel_rect, '');
 
-    AddMethod('ed_get_text_all', @Py_ed_get_text_all, '');
-    AddMethod('ed_set_text_all', @Py_ed_set_text_all, '');
-    AddMethod('ed_get_text_sel', @Py_ed_get_text_sel, '');
-    Addmethod('ed_get_text_line', @Py_ed_get_text_line, '');
-    Addmethod('ed_set_text_line', @Py_ed_set_text_line, '');
-    Addmethod('ed_get_text_substr', @Py_ed_get_text_substr, '');
-    Addmethod('ed_get_line_count', @Py_ed_get_line_count, '');
-    AddMethod('ed_delete', @Py_ed_delete, '');
-    AddMethod('ed_insert', @Py_ed_insert, '');
-    AddMethod('ed_replace', @Py_ed_replace, '');
-    AddMethod('ed_replace_lines', @Py_ed_replace_lines, '');
+    AddMethod('ed_get_text_all', @api_ed_get_text_all, '');
+    AddMethod('ed_set_text_all', @api_ed_set_text_all, '');
+    AddMethod('ed_get_text_sel', @api_ed_get_text_sel, '');
+    Addmethod('ed_get_text_line', @api_ed_get_text_line, '');
+    Addmethod('ed_set_text_line', @api_ed_set_text_line, '');
+    Addmethod('ed_get_text_substr', @api_ed_get_text_substr, '');
+    Addmethod('ed_get_line_count', @api_ed_get_line_count, '');
+    AddMethod('ed_delete', @api_ed_delete, '');
+    AddMethod('ed_insert', @api_ed_insert, '');
+    AddMethod('ed_replace', @api_ed_replace, '');
+    AddMethod('ed_replace_lines', @api_ed_replace_lines, '');
 
-    Addmethod('ed_get_filename', @Py_ed_get_filename, '');
-    AddMethod('ed_get_prop', @Py_ed_get_prop, '');
-    AddMethod('ed_set_prop', @Py_ed_set_prop, '');
-    AddMethod('ed_folding', @Py_ed_folding, '');
-    AddMethod('ed_get_sublexer_ranges', @Py_ed_get_sublexer_ranges, '');
-    AddMethod('ed_get_token', @Py_ed_get_token, '');
-    AddMethod('ed_get_wrapinfo', @Py_ed_get_wrapinfo, '');
+    Addmethod('ed_get_filename', @api_ed_get_filename, '');
+    AddMethod('ed_get_prop', @api_ed_get_prop, '');
+    AddMethod('ed_set_prop', @api_ed_set_prop, '');
+    AddMethod('ed_folding', @api_ed_folding, '');
+    AddMethod('ed_get_sublexer_ranges', @api_ed_get_sublexer_ranges, '');
+    AddMethod('ed_get_token', @api_ed_get_token, '');
+    AddMethod('ed_get_wrapinfo', @api_ed_get_wrapinfo, '');
 
-    AddMethod('ed_save', @Py_ed_save, '');
-    AddMethod('ed_cmd', @Py_ed_cmd, '');
-    AddMethod('ed_lock', @Py_ed_lock, '');
-    AddMethod('ed_unlock', @Py_ed_unlock, '');
-    AddMethod('ed_bookmark', @Py_ed_bookmark, '');
-    AddMethod('ed_decor', @Py_ed_decor, '');
-    AddMethod('ed_focus', @Py_ed_focus, '');
-    AddMethod('ed_complete', @Py_ed_complete, '');
-    AddMethod('ed_complete_alt', @Py_ed_complete_alt, '');
-    AddMethod('ed_convert', @Py_ed_convert, '');
-    AddMethod('ed_markers', @Py_ed_markers, '');
-    AddMethod('ed_attr', @Py_ed_attr, '');
-    AddMethod('ed_gap', @Py_ed_gap, '');
-    AddMethod('ed_dim', @Py_ed_dim, '');
-    AddMethod('ed_hotspots', @Py_ed_hotspots, '');
-    AddMethod('ed_action', @Py_ed_action, '');
-    AddMethod('ed_micromap', @Py_ed_micromap, '');
+    AddMethod('ed_save', @api_ed_save, '');
+    AddMethod('ed_cmd', @api_ed_cmd, '');
+    AddMethod('ed_lock', @api_ed_lock, '');
+    AddMethod('ed_unlock', @api_ed_unlock, '');
+    AddMethod('ed_bookmark', @api_ed_bookmark, '');
+    AddMethod('ed_decor', @api_ed_decor, '');
+    AddMethod('ed_focus', @api_ed_focus, '');
+    AddMethod('ed_complete', @api_ed_complete, '');
+    AddMethod('ed_complete_alt', @api_ed_complete_alt, '');
+    AddMethod('ed_convert', @api_ed_convert, '');
+    AddMethod('ed_markers', @api_ed_markers, '');
+    AddMethod('ed_attr', @api_ed_attr, '');
+    AddMethod('ed_gap', @api_ed_gap, '');
+    AddMethod('ed_dim', @api_ed_dim, '');
+    AddMethod('ed_hotspots', @api_ed_hotspots, '');
+    AddMethod('ed_action', @api_ed_action, '');
+    AddMethod('ed_micromap', @api_ed_micromap, '');
 
-    AddMethod('file_open', @Py_file_open, '');
-    AddMethod('ed_handles', @Py_ed_handles, '');
-    AddMethod('ed_group', @Py_ed_group, '');
-    AddMethod('ini_read', @Py_ini_read, '');
-    AddMethod('ini_write', @Py_ini_write, '');
-    AddMethod('ini_proc', @Py_ini_proc, '');
+    AddMethod('file_open', @api_file_open, '');
+    AddMethod('ed_handles', @api_ed_handles, '');
+    AddMethod('ed_group', @api_ed_group, '');
+    AddMethod('ini_read', @api_ini_read, '');
+    AddMethod('ini_write', @api_ini_write, '');
+    AddMethod('ini_proc', @api_ini_proc, '');
 
-    AddMethod('lexer_proc', @Py_lexer_proc, '');
-    AddMethod('tree_proc', @Py_tree_proc, '');
-    AddMethod('menu_proc', @Py_menu_proc, '');
-    AddMethod('toolbar_proc', @Py_toolbar_proc, '');
-    AddMethod('statusbar_proc', @Py_statusbar_proc, '');
-    AddMethod('listbox_proc', @Py_listbox_proc, '');
-    AddMethod('canvas_proc', @Py_canvas_proc, '');
-    AddMethod('timer_proc', @Py_timer_proc, '');
-    AddMethod('dlg_proc', @Py_dlg_proc, '');
-    AddMethod('imagelist_proc', @Py_imagelist_proc, '');
-    AddMethod('image_proc', @Py_image_proc, '');
-    AddMethod('button_proc', @Py_button_proc, '');
-    AddMethod('finder_proc', @Py_finder_proc, '');
+    AddMethod('lexer_proc', @api_lexer_proc, '');
+    AddMethod('tree_proc', @api_tree_proc, '');
+    AddMethod('menu_proc', @api_menu_proc, '');
+    AddMethod('toolbar_proc', @api_toolbar_proc, '');
+    AddMethod('statusbar_proc', @api_statusbar_proc, '');
+    AddMethod('listbox_proc', @api_listbox_proc, '');
+    AddMethod('canvas_proc', @api_canvas_proc, '');
+    AddMethod('timer_proc', @api_timer_proc, '');
+    AddMethod('dlg_proc', @api_dlg_proc, '');
+    AddMethod('imagelist_proc', @api_imagelist_proc, '');
+    AddMethod('image_proc', @api_image_proc, '');
+    AddMethod('button_proc', @api_button_proc, '');
+    AddMethod('finder_proc', @api_finder_proc, '');
   end;
 end;
 
