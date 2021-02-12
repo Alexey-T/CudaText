@@ -796,7 +796,7 @@ type
     procedure DoBottom_OnCloseFloatForm(Sender: TObject; var CloseAction: TCloseAction);
     procedure DoBottom_FindClick(Sender: TObject);
     function DoAutoComplete_FromPlugins(Ed: TATSynEdit): boolean;
-    function DoAutoComplete_CaretOnBadElement(Ed: TATSynEdit): boolean;
+    function DoAutoComplete_PosOnBadToken(Ed: TATSynEdit; AX, AY: integer): boolean;
     procedure DoAutoComplete(Ed: TATSynEdit);
     procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string);
     procedure DoDialogCharMap;
@@ -5758,18 +5758,15 @@ begin
   Result:= DoPyEvent(Ed, cEventOnComplete, Params).Val = evrTrue;
 end;
 
-function TfmMain.DoAutoComplete_CaretOnBadElement(Ed: TATSynEdit): boolean;
+function TfmMain.DoAutoComplete_PosOnBadToken(Ed: TATSynEdit; AX, AY: integer): boolean;
 var
-  Caret: TATCaretItem;
   TokenKind: TATTokenKind;
 begin
   Result:= false;
   if not UiOps.AutocompleteInComments or
     not UiOps.AutocompleteInStrings then
   begin
-    if Ed.Carets.Count=0 then exit;
-    Caret:= Ed.Carets[0];
-    TokenKind:= EditorGetTokenKind(Ed, Caret.PosX, Caret.PosY);
+    TokenKind:= EditorGetTokenKind(Ed, AX, AY);
     case TokenKind of
       atkComment:
         Result:= not UiOps.AutocompleteInComments;
@@ -5794,7 +5791,7 @@ begin
   Caret:= Ed.Carets[0];
 
   //disable completion in comments/strings
-  if DoAutoComplete_CaretOnBadElement(Ed) then exit;
+  if DoAutoComplete_PosOnBadToken(Ed, Caret.PosX, Caret.PosY) then exit;
 
   CompletionOps.AppendOpeningBracket:= Ed.OptAutocompleteAddOpeningBracket;
   CompletionOps.UpDownAtEdge:= TATCompletionUpDownAtEdge(Ed.OptAutocompleteUpDownAtEdge);
