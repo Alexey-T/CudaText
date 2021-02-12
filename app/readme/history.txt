@@ -7,6 +7,7 @@
 
 + add: auto-completion for file URI file:///dir/path
 + add: Wiki topic https://wiki.freepascal.org/CudaText#File_URI_auto-completion
++ add: option "autocomplete_file_uri"
 + add: API to support new plugin "Terminal Plus"
 + add: lexer CSS: better word lists (from Atom's lexer)
 + add: CSS auto-completion: more pseudo-classes 

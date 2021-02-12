@@ -1173,9 +1173,9 @@ begin
 
   UiOps.AutocompleteHtml:= cfg.GetValue('autocomplete_html', UiOps.AutocompleteHtml);
   UiOps.AutocompleteCss:= cfg.GetValue('autocomplete_css', UiOps.AutocompleteCss);
-
   UiOps.AutocompleteHtml_Lexers:= cfg.GetValue('autocomplete_html_lexers', UiOps.AutocompleteHtml_Lexers);
   UiOps.AutocompleteCss_Lexers:= cfg.GetValue('autocomplete_css_lexers', UiOps.AutocompleteCss_Lexers);
+  UiOps.AutocompleteFileURI:= cfg.GetValue('autocomplete_file_uri', UiOps.AutocompleteFileURI);
 
   UiOps.FindSuggestSel:= cfg.GetValue('find_suggest_sel', UiOps.FindSuggestSel);
   UiOps.FindSuggestWord:= cfg.GetValue('find_suggest_cur_word', UiOps.FindSuggestWord);
