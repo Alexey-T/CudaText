@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Types,
-  StdCtrls, ExtCtrls, Dialogs,
+  StdCtrls, ExtCtrls, Dialogs, IniFiles,
   ATSynEdit,
   ATSynEdit_Edits,
   ATSynEdit_Keymap,
@@ -64,6 +64,7 @@ type
     function GetResultCmd: integer;
     function IsFiltered(Item: TATKeymapItem): boolean;
     procedure DoMsgStatus(const S: string);
+    procedure Localize;
     procedure SetListCaption(const AValue: string);
   public
     { public declarations }
@@ -113,6 +114,8 @@ procedure TfmCommands.FormShow(Sender: TObject);
 var
   i: integer;
 begin
+  Localize;
+
   edit.Height:= AppScale(UiOps.InputHeight);
   edit.Font.Name:= EditorOps.OpFontName;
   edit.Font.Size:= EditorOps.OpFontSize;
@@ -196,6 +199,8 @@ begin
 
   Width:= AppScale(UiOps.ListboxSizeX);
   Height:= AppScale(UiOps.ListboxSizeY);
+
+  edit.OptTextHint:= 'F9: set hotkey; input "@hotkey": search';
 end;
 
 procedure TfmCommands.editChange(Sender: TObject);
@@ -530,6 +535,25 @@ begin
   begin
     PanelCaption.Caption:= AValue;
     PanelCaption.Visible:= AValue<>'';
+  end;
+end;
+
+procedure TfmCommands.Localize;
+const
+  section = 'd_about';
+var
+  fn: string;
+  ini: TIniFile;
+begin
+  fn:= GetAppLangFilename;
+  if FileExists(fn) then
+  begin
+    ini:= TIniFile.Create(fn);
+    try
+      edit.OptTextHint:= ini.ReadString(section, 'cmd_tip', edit.OptTextHint);
+    finally
+      FreeAndNil(ini);
+    end;
   end;
 end;
 
