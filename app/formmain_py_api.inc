@@ -3718,7 +3718,7 @@ begin
           Ed.Gutter[Ed.GutterBandBookmarks].Visible:= ValueBool;
 
         PROP_WRAP:
-          Ed.OptWrapMode:= TATSynWrapMode(ValueInt);
+          Ed.OptWrapMode:= TATEditorWrapMode(ValueInt);
 
         PROP_RO:
           Ed.ModeReadOnly:= ValueBool;
@@ -3783,7 +3783,7 @@ begin
 
         PROP_LINE_NUMBERS:
           begin
-            Ed.OptNumbersStyle:= TATSynNumbersStyle(ValueInt);
+            Ed.OptNumbersStyle:= TATEditorNumbersStyle(ValueInt);
           end;
 
         PROP_LINE_STATE:
@@ -4131,10 +4131,10 @@ begin
           Ed.OptGutterIcons:= TATGutterIconsKind(ValueInt);
 
         PROP_SCROLLSTYLE_HORZ:
-          Ed.OptScrollStyleHorz:= TATSynEditScrollStyle(ValueInt);
+          Ed.OptScrollStyleHorz:= TATEditorScrollbarStyle(ValueInt);
 
         PROP_SCROLLSTYLE_VERT:
-          Ed.OptScrollStyleVert:= TATSynEditScrollStyle(ValueInt);
+          Ed.OptScrollStyleVert:= TATEditorScrollbarStyle(ValueInt);
 
         PROP_LINKS_SHOW:
           Ed.OptShowURLs:= ValueBool;
@@ -5455,7 +5455,7 @@ var
   StrValue: string;
   StrTemp: UnicodeString;
   Pnt: TPoint;
-  Details: TATPosDetails;
+  Details: TATEditorPosDetails;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liiis:convert', @H, @Id, @X, @Y, @PtrValue)) then

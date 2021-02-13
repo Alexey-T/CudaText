@@ -3230,7 +3230,7 @@ begin
 
   if not FileWasBig[Ed] then
   begin
-    Ed.OptWrapMode:= TATSynWrapMode(c.GetValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode)));
+    Ed.OptWrapMode:= TATEditorWrapMode(c.GetValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode)));
     Ed.OptMinimapVisible:= c.GetValue(path+cHistory_Minimap, Ed.OptMinimapVisible);
     Ed.OptMicromapVisible:= c.GetValue(path+cHistory_Micromap, Ed.OptMicromapVisible);
   end;

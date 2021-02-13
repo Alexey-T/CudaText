@@ -186,8 +186,8 @@ begin
     Ed.Gutter[Ed.GutterBandNumbers].Visible:= Op.OpNumbersShow;
     Ed.Gutter.Update;
 
-    if Op.OpNumbersStyle<=Ord(High(TATSynNumbersStyle)) then
-      Ed.OptNumbersStyle:= TATSynNumbersStyle(Op.OpNumbersStyle);
+    if Op.OpNumbersStyle<=Ord(High(TATEditorNumbersStyle)) then
+      Ed.OptNumbersStyle:= TATEditorNumbersStyle(Op.OpNumbersStyle);
     Ed.OptNumbersShowCarets:= Op.OpNumbersForCarets;
     if Op.OpNumbersCenter then
       Ed.OptNumbersAlignment:= taCenter
@@ -245,8 +245,8 @@ begin
 
   if AApplyUnprintedAndWrap then
   begin
-    if Op.OpWrapMode<=Ord(High(TATSynWrapMode)) then
-      Ed.OptWrapMode:= TATSynWrapMode(Op.OpWrapMode);
+    if Op.OpWrapMode<=Ord(High(TATEditorWrapMode)) then
+      Ed.OptWrapMode:= TATEditorWrapMode(Op.OpWrapMode);
   end;
   Ed.OptWrapIndented:= Op.OpWrapIndented;
   Ed.OptWrapEnabledForMaxLines:= Op.OpWrapEnabledMaxLines;
@@ -297,7 +297,7 @@ begin
   Ed.OptSavingForceFinalEol:= Op.OpSavingForceFinalEol;
   Ed.OptShowScrollHint:= Op.OpShowHintOnVertScroll;
   Ed.OptScrollSmooth:= Op.OpSmoothScroll;
-  Ed.OptScrollStyleHorz:= TATSynEditScrollStyle(Op.OpScrollStyleHorz);
+  Ed.OptScrollStyleHorz:= TATEditorScrollbarStyle(Op.OpScrollStyleHorz);
   Ed.OptTextCenteringCharWidth:= IfThen(AApplyCentering, Op.OpCenteringWidth, 0);
   Ed.OptNonWordChars:= Op.OpNonWordChars;
 
@@ -359,8 +359,8 @@ begin
   Ed.OptKeyHomeEndNavigateWrapped:= Op.OpKeyHomeEndNavigateWrapped;
   Ed.OptKeyEndToNonSpace:= Op.OpKeyEndToNonSpace;
   Ed.OptKeyPageKeepsRelativePos:= Op.OpKeyPageKeepsRelativePos;
-  if Op.OpKeyPageUpDownSize<=Ord(High(TATPageUpDownSize)) then
-    Ed.OptKeyPageUpDownSize:= TATPageUpDownSize(Op.OpKeyPageUpDownSize);
+  if Op.OpKeyPageUpDownSize<=Ord(High(TATEditorPageDownSize)) then
+    Ed.OptKeyPageUpDownSize:= TATEditorPageDownSize(Op.OpKeyPageUpDownSize);
   Ed.OptKeyUpDownKeepColumn:= Op.OpKeyUpDownKeepColumn;
   Ed.OptKeyUpDownNavigateWrapped:= Op.OpKeyUpDownNavigateWrapped;
   Ed.OptKeyLeftRightGoToNextLineWithCarets:= Op.OpKeyLeftRightGoToNextLineWithCarets;
@@ -775,7 +775,7 @@ end;
 procedure EditorMouseClick_AtCursor(Ed: TATSynEdit; AAndSelect: boolean);
 var
   Pnt: TPoint;
-  Details: TATPosDetails;
+  Details: TATEditorPosDetails;
   Caret: TATCaretItem;
 begin
   if Ed.Carets.Count=0 then exit;
@@ -846,7 +846,7 @@ end;
 
 function EditorGetLinkAtScreenCoord(Ed: TATSynEdit; P: TPoint): atString;
 var
-  Details: TATPosDetails;
+  Details: TATEditorPosDetails;
 begin
   Result:= '';
   P:= Ed.ScreenToClient(P);

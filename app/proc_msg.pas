@@ -214,7 +214,7 @@ const
   msgStatusbarTextLinesSel: string = 'lines sel';
   msgStatusbarTextCarets: string = 'carets';
 
-  msgStatusbarWrapStates: array[0..Ord(High(TATSynWrapMode))] of string =
+  msgStatusbarWrapStates: array[0..Ord(High(TATEditorWrapMode))] of string =
     ('no wrap', 'wrap', 'margin', 'wnd/mrg');
 
   msgStatusbarHintCaret: string = 'Caret position, selection';
