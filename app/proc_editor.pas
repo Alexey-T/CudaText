@@ -1604,11 +1604,23 @@ begin
 end;
 
 function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer): TATTokenKind;
+var
+  NLen: integer;
 begin
+  Result:= atkOther;
   if Ed.AdapterForHilite is TATAdapterEControl then
+  begin
+    if not Ed.Strings.IsIndexValid(AY) then
+      exit;
+    NLen:= Ed.Strings.LinesLen[AY];
+    if NLen=0 then
+      exit;
+    if AX>NLen then
+      exit;
+    if AX=NLen then //caret at line end: decrement X
+      Dec(AX);
     Result:= TATAdapterEControl(Ed.AdapterForHilite).GetTokenKindAtPos(Point(AX, AY))
-  else
-    Result:= atkOther;
+  end;
 end;
 
 
