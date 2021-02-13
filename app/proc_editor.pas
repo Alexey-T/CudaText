@@ -1605,10 +1605,10 @@ end;
 
 function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer): TATTokenKind;
 begin
-  if not (Ed.AdapterForHilite is TATAdapterEControl) then
-    exit(atkOther);
-
-  Result:= TATAdapterEControl(Ed.AdapterForHilite).GetTokenKindAtPos(Point(AX, AY));
+  if Ed.AdapterForHilite is TATAdapterEControl then
+    Result:= TATAdapterEControl(Ed.AdapterForHilite).GetTokenKindAtPos(Point(AX, AY))
+  else
+    Result:= atkOther;
 end;
 
 
