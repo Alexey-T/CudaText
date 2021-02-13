@@ -322,6 +322,10 @@ procedure TfmMain.UpdateMenuPlugins;
   begin
     Result:= '';
     SSplitByChar(AValue, '\', SName, SAll);
+
+    //strip '&' for accelerators in caption
+    SName:= StringReplace(SName, '&', '', []);
+
     for i:= 0 to AppConfig_PGroups.Count-1 do
     begin
       Item:= TAppKeyValue(AppConfig_PGroups[i]);
