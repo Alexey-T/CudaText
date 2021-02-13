@@ -3,6 +3,9 @@ from datetime import datetime
 from time import strftime, gmtime
 import cudatext as app
 from cudatext import ed
+from cudax_lib import get_translation
+
+_   = get_translation(__file__)  # i18n
 
 DEF_CONFIG = '''#Documentation about formats: http://strftime.org/
 %d/%m/%Y %H:%M:%S
@@ -62,7 +65,7 @@ class Command:
         else:
             ed.insert(x, y, s)
 
-        app.msg_status('Date/time inserted')
+        app.msg_status(_('Date/time inserted'))
 
 
     def dialog(self):
@@ -70,7 +73,7 @@ class Command:
         lines = get_format_lines()
         lines = [do_format(s) for s in lines]
 
-        res = app.dlg_menu(app.MENU_LIST, lines, caption='Insert Time')
+        res = app.dlg_menu(app.MENU_LIST, lines, caption=_('Insert Time'))
         if res is None: return
         self.do_insert(lines[res])
 
@@ -79,7 +82,7 @@ class Command:
 
         fmt = get_default_format()
         if not fmt:
-            app.msg_box('No default time format is specified. To specify it, open config file (menu Options / Settings-plugins / Insert Time), and prefix some format with @ char.',
+            app.msg_box(_('No default time format is specified. To specify it, open config file (menu Options / Settings-plugins / Insert Time), and prefix some format with @ char.'),
               app.MB_OK or app.MB_ICONINFO)
             return
 
