@@ -4096,6 +4096,7 @@ function TfmMain.DoDialogCommands_Py(var AProps: TDlgCommandsProps): string;
 var
   F: TEditorFrame;
   NCmd, NIndex: integer;
+  Category: TAppCommandCategory;
 begin
   Result:= '';
 
@@ -4105,9 +4106,12 @@ begin
   AProps.LexerName:= F.LexerName[F.Editor];
   NCmd:= DoDialogCommands_Custom(F.Editor, AProps);
   if NCmd<=0 then exit;
+  Category:= AppCommandCategory(NCmd);
 
-  case AppCommandCategory(NCmd) of
-    categ_Plugin:
+  case Category of
+    //PluginSub is needed here, e.g. for ExtTools plugin with its subcommands
+    categ_Plugin,
+    categ_PluginSub:
       begin
         NIndex:= NCmd-cmdFirstPluginCommand;
         with TAppCommandInfo(AppCommandList[NIndex]) do
@@ -4116,6 +4120,7 @@ begin
           else
             Result:= Format('p:%s.%s', [ItemModule, ItemProc]);
       end;
+
     categ_Lexer:
       begin
         NIndex:= NCmd-cmdFirstLexerCommand;
@@ -4130,6 +4135,7 @@ begin
             Result:= 'c:'+IntToStr(NCmd);
         end;
       end;
+
     categ_OpenedFile:
       begin
         NIndex:= NCmd-cmdFirstFileCommand;
@@ -4138,6 +4144,7 @@ begin
         else
           Result:= 'c:'+IntToStr(NCmd);
       end;
+
     categ_RecentFile:
       begin
         NIndex:= NCmd-cmdFirstRecentCommand;
@@ -4146,6 +4153,7 @@ begin
         else
           Result:= 'c:'+IntToStr(NCmd);
       end;
+
     else
       Result:= 'c:'+IntToStr(NCmd);
   end;
