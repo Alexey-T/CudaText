@@ -26,7 +26,7 @@ class Command:
         lexers = sorted(list(set([item[1] for item in infos if item[1]])))
         if not lexers: return
         
-        res = dlg_menu(MENU_LIST, lexers, caption=_('Templates'))
+        res = dlg_menu(DMENU_LIST, lexers, caption=_('Templates'))
         if res is None: return
         
         lexer = lexers[res]
@@ -36,7 +36,7 @@ class Command:
         if len(files)==1:
             fn = files[0]
         else:
-            res = dlg_menu(MENU_LIST, files, caption=_('Templates: {}').format(lexer))
+            res = dlg_menu(DMENU_LIST, files, caption=_('Templates: {}').format(lexer))
             if res is None: return
             fn = files[res]
             

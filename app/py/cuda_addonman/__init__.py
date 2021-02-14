@@ -235,7 +235,7 @@ class Command:
             '\t' + i['desc'] for i in items ]
 
         res = dlg_menu(
-            MENU_LIST_ALT+MENU_NO_FUZZY+MENU_NO_FULLFILTER,
+            DMENU_LIST_ALT+DMENU_NO_FUZZY+DMENU_NO_FULLFILTER,
             names,
             caption=caption
             )
@@ -243,7 +243,7 @@ class Command:
 
         if res==0:
             res = dlg_menu(
-                MENU_LIST,
+                DMENU_LIST,
                 kinds,
                 caption=_('Category')
                 )
@@ -256,7 +256,7 @@ class Command:
                 '\t' + i['desc'] for i in items ]
 
             res = dlg_menu(
-                MENU_LIST_ALT+MENU_NO_FUZZY+MENU_NO_FULLFILTER,
+                DMENU_LIST_ALT+DMENU_NO_FUZZY+DMENU_NO_FULLFILTER,
                 names,
                 caption=caption+_(' / Category "{}"').format(need_kind)
                 )
@@ -341,7 +341,7 @@ class Command:
                     names.append((get_name_of_module(m)+_(': view history'), fn))
 
                 if names:
-                    res = dlg_menu(MENU_LIST, [s[0] for s in names])
+                    res = dlg_menu(DMENU_LIST, [s[0] for s in names])
                     if res is None: return
                     file_open(names[res][1])
 
@@ -352,7 +352,7 @@ class Command:
         items = get_avail_list()
         items = [l for l in items if l[0].startswith('Lexer:')]
 
-        res = dlg_menu(MENU_LIST, [l[0] for l in items])
+        res = dlg_menu(DMENU_LIST, [l[0] for l in items])
         if res is None: return
         res = items[res]
         url = get_item_url(res[2])
@@ -372,7 +372,7 @@ class Command:
             })
         desc = [i['kind']+': '+i['name'] for i in items]
 
-        res = dlg_menu(MENU_LIST, desc, caption=_('Remove add-on'))
+        res = dlg_menu(DMENU_LIST, desc, caption=_('Remove add-on'))
         if res is None: return
 
         item = items[res]

@@ -147,7 +147,7 @@ def get_installed_choice(caption, exclude_list=None):
     if exclude_list:
         lmod = [i for i in lmod if not i in exclude_list]
     ldesc = [get_name_of_module(l) for l in lmod]
-    res = dlg_menu(MENU_LIST, ldesc, caption=caption)
+    res = dlg_menu(DMENU_LIST, ldesc, caption=caption)
     if res is None:
         return None
     return lmod[res]

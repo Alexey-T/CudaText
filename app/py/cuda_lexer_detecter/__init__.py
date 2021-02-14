@@ -55,7 +55,7 @@ class Command:
         items = [_('Download lexer: ')+s for s in lexers]
         items += [_('Cancel'), _('Cancel, don\'t suggest anymore for *.%s') % ext1]
 
-        res = dlg_menu(MENU_LIST, items, caption=_('Lexer(s) for "%s"') % name_orig)
+        res = dlg_menu(DMENU_LIST, items, caption=_('Lexer(s) for "%s"') % name_orig)
         if res is None:
             return
 

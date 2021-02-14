@@ -35,7 +35,7 @@ def get_branch(url):
             branch = items[0]
         else:
             items2 = ['Git branch "%s"'%s for s in items]
-            res = dlg_menu(MENU_LIST, items2, caption=_('Git branches in repo'))
+            res = dlg_menu(DMENU_LIST, items2, caption=_('Git branches in repo'))
             if res is None: return
             branch = items[res]
 
