@@ -803,6 +803,10 @@
   //  if 'i' in value: Splitted state of UI tab (horiz/vert, percents of size)
   "ui_history_disabled": "",
 
+  //Remember (in the current session only) last 'filter text'
+  //in the Command Palette dialog
+  "ui_cmdpalette_filter_keep": false,
+
   //[Ui]
   //Close program by Esc key
   "ui_esc_close": false,

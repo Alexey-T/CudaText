@@ -15,6 +15,7 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Types,
   StdCtrls, ExtCtrls, Dialogs, IniFiles,
   ATSynEdit,
+  ATSynEdit_Commands,
   ATSynEdit_Edits,
   ATSynEdit_Keymap,
   ATStringProc,
@@ -72,6 +73,7 @@ type
     ResultCommand: integer;
     ResultHotkeysChanged: boolean;
     CurrentLexerName: string;
+    CurrentFilterText: string;
     OptShowUsual: boolean;
     OptShowPlugins: boolean;
     OptShowLexers: boolean;
@@ -138,6 +140,9 @@ begin
 
   UpdateFormOnTop(Self);
   FixFormPositionToDesktop(Self);
+
+  edit.Text:= CurrentFilterText;
+  edit.DoCommand(cCommand_GotoTextEnd);
 
   DoFilter;
 
@@ -207,6 +212,7 @@ procedure TfmCommands.editChange(Sender: TObject);
 var
   bHelp: boolean;
 begin
+  CurrentFilterText:= edit.Text;
   bHelp:= edit.Text='#';
   PanelInfo.Visible:= bHelp;
   list.Visible:= not bHelp;

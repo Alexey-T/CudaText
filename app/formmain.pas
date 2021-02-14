@@ -4153,6 +4153,9 @@ begin
     fmCommands.Keymap:= Ed.Keymap;
     fmCommands.ListCaption:= AProps.Caption;
 
+    if UiOps.CmdPaletteFilterKeep then
+      fmCommands.CurrentFilterText:= UiOps.CmdPaletteFilterText;
+
     if AProps.ShowCentered then
       fmCommands.Position:= poScreenCenter;
 
@@ -4162,6 +4165,8 @@ begin
       fmCommands.Height:= AProps.H;
 
     fmCommands.ShowModal;
+
+    UiOps.CmdPaletteFilterText:= fmCommands.CurrentFilterText;
     Result:= fmCommands.ResultCommand;
     bKeysChanged:= fmCommands.ResultHotkeysChanged;
   finally
