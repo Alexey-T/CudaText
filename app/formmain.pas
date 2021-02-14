@@ -697,6 +697,7 @@ type
     FOption_SidebarTab: string;
     FCmdlineFileCount: integer;
 
+    function IsTooManyTabsOpened: boolean;
     procedure UpdateGlobalProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
     procedure UpdateLexerProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
     procedure ConfirmButtonOkClick(Sender: TObject);
@@ -3603,11 +3604,11 @@ var
   Params: TAppVariantArray;
   //tick: QWord;
   //msg: string;
-  i: integer;
 begin
   Result:= nil;
   AppDir_LastInstalledAddon:= '';
   if Application.Terminated then exit;
+  if IsTooManyTabsOpened then exit;
 
   bFileTooBig:= IsFileTooBigForOpening(AFileName);
   bFileTooBig2:= IsFileTooBigForOpening(AFileName2);

@@ -9,7 +9,7 @@ Copyright (c) Alexey Torgashin
 
 const
   cPyEditorHandleMin = 10;
-  cPyEditorHandleMax = 10000;
+  cPyEditorHandleMax = 10000; //maximal API editor handle; (max-min) limits count of opened ui-tabs
   cPyTokenKind: array[TATTokenKind] of string = ('a', 'c', 's');
   cPyUniqueTag: Int64 = 120; //initial value returned by app_proc(PROC_GET_UNIQUE_TAG)
 

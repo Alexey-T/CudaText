@@ -82,12 +82,21 @@ begin
   Result:= APages.Tabs.GetTabData(NToIndex);
 end;
 
+function TfmMain.IsTooManyTabsOpened: boolean;
+begin
+  Result:= FrameCount>(cPyEditorHandleMax-cPyEditorHandleMin);
+  if Result then
+    MsgLogConsole(msgCannotAddEditorTab);
+end;
+
 procedure TfmMain.DoOnTabAdd(Sender: TObject);
 var
   Pages: TATPages;
   Data: TATTabData;
 begin
   DoTooltipHide;
+
+  if IsTooManyTabsOpened then exit;
 
   Pages:= (Sender as TATTabs).Parent as TATPages;
   Data:= CreateTab(Pages, '');
