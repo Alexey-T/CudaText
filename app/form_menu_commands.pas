@@ -458,14 +458,59 @@ begin
   end;
 end;
 
+function IsIgnoredCommand(N: integer): boolean;
+begin
+  case N of
+    cCommand_KeyLeft,
+    cCommand_KeyLeft_Sel,
+    cCommand_KeyRight,
+    cCommand_KeyRight_Sel,
+    cCommand_KeyUp,
+    cCommand_KeyUp_Sel,
+    cCommand_KeyDown,
+    cCommand_KeyDown_Sel,
+    cCommand_KeyHome,
+    cCommand_KeyHome_Sel,
+    cCommand_KeyEnd,
+    cCommand_KeyEnd_Sel,
+    cCommand_KeyPageUp,
+    cCommand_KeyPageUp_Sel,
+    cCommand_KeyPageDown,
+    cCommand_KeyPageDown_Sel,
+
+    cCommand_ColSelectLeft,
+    cCommand_ColSelectRight,
+    cCommand_ColSelectUp,
+    cCommand_ColSelectDown,
+    cCommand_ColSelectPageUp,
+    cCommand_ColSelectPageDown,
+    cCommand_ColSelectToLineBegin,
+    cCommand_ColSelectToLineEnd,
+
+    cCommand_KeyBackspace,
+    cCommand_KeyDelete,
+    cCommand_KeyEnter,
+    cCommand_KeyTab:
+      Result:= true;
+    else
+      Result:= false;
+  end;
+end;
+
 procedure TfmCommands.DoFilter;
 var
+  Item: TATKeymapItem;
   i: integer;
 begin
   keymapList.Clear;
   for i:= 0 to keymap.Count-1 do
-    if IsFiltered(keymap.Items[i]) then
-      keymapList.Add(keymap.Items[i]);
+  begin
+    Item:= keymap.Items[i];
+    if IsIgnoredCommand(Item.Command) then
+      Continue;
+    if IsFiltered(Item) then
+      keymapList.Add(Item);
+  end;
 
   list.ItemIndex:= 0;
   list.ItemTop:= 0;
