@@ -86,7 +86,7 @@ function TfmMain.IsTooManyTabsOpened: boolean;
 begin
   Result:= FrameCount>(cPyEditorHandleMax-cPyEditorHandleMin);
   if Result then
-    MsgLogConsole(msgCannotAddEditorTab);
+    MsgLogConsole(msgErrorTooManyFileTabs);
 end;
 
 procedure TfmMain.DoOnTabAdd(Sender: TObject);

@@ -58,8 +58,8 @@ const
   msgSavedPythonLibOption = 'Saved the option "pylib'+cOptionSystemSuffix+'". Restart CudaText to apply it.';
   msgSearchingInDir = 'Searching:';
 
-  msgPluginIgnored = 'NOTE: plugin %s ignored, remove it';
-  msgCannotAddEditorTab = 'NOTE: Too many editor-tabs are opened, cannot add tab';
+  msgErrorPluginIgnored = 'NOTE: plugin %s ignored, remove it';
+  msgErrorTooManyFileTabs = 'NOTE: Too many editor-tabs are opened, cannot add tab';
   msgCannotFindLexers = 'NOTE: Cannot find lexers: %s';
   msgCannotFindData = 'NOTE: Cannot find data: %s';
   msgCannotFindSessionFile = 'NOTE: File from session not found: %s';
