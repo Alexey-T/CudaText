@@ -7,10 +7,10 @@
 
 + add: auto-completion for file URI file:///, controlled by new option "autocomplete_file_uri"
 + add: Wiki topic https://wiki.freepascal.org/CudaText#File_URI_auto-completion
-+ add: API to support new plugin "Terminal Plus"
++ add: API to support new plugin "Terminal Plus" (thanks @Shovel)
 + add: option "ui_cmdpalette_filter_keep" (thanks @JairoMartinezA)
++ add: feature "plugin_groups": char '&' is now stripped before RegEx check (thanks @JairoMartinezA)
 + add: lexer CSS: better std properties lists
-+ add: "plugin_groups" feature: char '&' for menu item accelerator is now stripped before RegEx check (thanks @JairoMartinezA)
 * change: removed menu item "Options / Settings-hotkeys", added text-hint in the Command Palette instead (thanks @JairoMartinezA)
 - fix: auto-completion must not work in 'comments', but it worked at the end of 'comment' line
 - fix: auto-completion must scroll to caret after the text insertion
