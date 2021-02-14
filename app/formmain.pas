@@ -8,6 +8,7 @@ Copyright (c) Alexey Torgashin
 unit FormMain;
 
 {$mode objfpc}{$H+}
+{$ModeSwitch advancedrecords}
 
 {$IFDEF DEBUG}
 {$INLINE OFF}
@@ -194,6 +195,17 @@ type
     ShowCentered: boolean;
     FocusedCommand: integer;
     W, H: integer;
+  end;
+
+  { TAppCompletionApiProps }
+
+  TAppCompletionApiProps = record
+    Editor: TATSynEdit;
+    Text: string;
+    CharsLeft: integer;
+    CharsRight: integer;
+    CaretPos: TPoint;
+    procedure Clear;
   end;
 
 const
@@ -669,11 +681,7 @@ type
     FCfmLink: string;
     FMenuVisible: boolean;
     FNewClickedEditor: TATSynEdit;
-    FPyComplete_Editor: TATSynEdit;
-    FPyComplete_Text: string;
-    FPyComplete_CharsLeft: integer;
-    FPyComplete_CharsRight: integer;
-    FPyComplete_CaretPos: TPoint;
+    FPyCompletionProps: TAppCompletionApiProps;
     FLastDirOfOpenDlg: string;
     FLastLexerForPluginsMenu: string;
     FLastStatusbarMessage: string;
@@ -1505,6 +1513,17 @@ begin
     Map:= TATKeymap(AppKeymapLexers.Objects[i]);
     Keymap_UpdateDynamicEx(Map, ACategory);
   end;
+end;
+
+{ TAppCompletionApiProps }
+
+procedure TAppCompletionApiProps.Clear;
+begin
+  Editor:= nil;
+  Text:= '';
+  CharsLeft:= 0;
+  CharsRight:= 0;
+  CaretPos:= Point(0, 0);
 end;
 
 { TAppNotifThread }

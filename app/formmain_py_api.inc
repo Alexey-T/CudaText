@@ -2259,35 +2259,35 @@ begin
   ACharsLeft:= 0;
   ACharsRight:= 0;
 
-  Ed:= FPyComplete_Editor; //can be not CurrentEditor
+  Ed:= FPyCompletionProps.Editor; //can be not CurrentEditor
   Caret:= Ed.Carets[0];
 
   //if caret moved by 1 char: repeat auto-complete
-  if (Abs(Caret.PosX-FPyComplete_CaretPos.X)=1) and
-     (Caret.PosY=FPyComplete_CaretPos.Y) then
+  if (Abs(Caret.PosX-FPyCompletionProps.CaretPos.X)=1) and
+     (Caret.PosY=FPyCompletionProps.CaretPos.Y) then
   begin
-    PrevCharsLeft:= FPyComplete_CharsLeft;
+    PrevCharsLeft:= FPyCompletionProps.CharsLeft;
     SetLength(Params, 0);
     DoPyEvent(Ed, cEventOnComplete, Params);
 
     //this check- to close listbox when no more matches after typing too much
     //MsgStatus(Format('prev %d now %d', [PrevCharsLeft, FPyComplete_CharsLeft]));
-    if Abs(PrevCharsLeft-FPyComplete_CharsLeft)<>1 then exit;
+    if Abs(PrevCharsLeft-FPyCompletionProps.CharsLeft)<>1 then exit;
 
-    AText:= FPyComplete_Text;
-    ACharsLeft:= FPyComplete_CharsLeft;
-    ACharsRight:= FPyComplete_CharsRight;
+    AText:= FPyCompletionProps.Text;
+    ACharsLeft:= FPyCompletionProps.CharsLeft;
+    ACharsRight:= FPyCompletionProps.CharsRight;
     exit
   end;
 
   //stop doing, if caret moved
-  if (Caret.PosX<>FPyComplete_CaretPos.X) or
-     (Caret.PosY<>FPyComplete_CaretPos.Y) then
+  if (Caret.PosX<>FPyCompletionProps.CaretPos.X) or
+     (Caret.PosY<>FPyCompletionProps.CaretPos.Y) then
     exit;
 
-  AText:= FPyComplete_Text;
-  ACharsLeft:= FPyComplete_CharsLeft;
-  ACharsRight:= FPyComplete_CharsRight;
+  AText:= FPyCompletionProps.Text;
+  ACharsLeft:= FPyCompletionProps.CharsLeft;
+  ACharsRight:= FPyCompletionProps.CharsRight;
 end;
 
 procedure TfmMain.PyCompletionOnResult(Sender: TObject;
@@ -2300,7 +2300,7 @@ var
 begin
   //find index-th line
   StrLine:= '';
-  Sep.Init(FPyComplete_Text, #10);
+  Sep.Init(FPyCompletionProps.Text, #10);
   for i:= 0 to ASnippetIndex do
     Sep.GetItemStr(StrLine);
 
@@ -2315,7 +2315,8 @@ begin
   Params[0]:= AppVariant(ASnippetId);
   Params[1]:= AppVariant(StrSnippet);
 
-  DoPyEvent(FPyComplete_Editor, cEventOnSnippet, Params);
+  DoPyEvent(FPyCompletionProps.Editor, cEventOnSnippet, Params);
+  FPyCompletionProps.Clear;
 end;
 
 
@@ -2348,12 +2349,13 @@ begin
       Ed:= PyHelper_EditorFromHandle(H);
       Str:= string(Ptr);
 
-      fmMain.FPyComplete_Editor:= Ed;
-      fmMain.FPyComplete_Text:= Str;
-      fmMain.FPyComplete_CharsLeft:= NChars1;
-      fmMain.FPyComplete_CharsRight:= NChars2;
+      fmMain.FPyCompletionProps.Clear;
+      fmMain.FPyCompletionProps.Editor:= Ed;
+      fmMain.FPyCompletionProps.Text:= Str;
+      fmMain.FPyCompletionProps.CharsLeft:= NChars1;
+      fmMain.FPyCompletionProps.CharsRight:= NChars2;
       with Ed.Carets[0] do
-        fmMain.FPyComplete_CaretPos:= Point(PosX, PosY);
+        fmMain.FPyCompletionProps.CaretPos:= Point(PosX, PosY);
 
       DoApplyCompletionListboxStyle(Bool(NAltOrder));
       DoEditorCompletionListbox(Ed, @fmMain.PyCompletionOnGetProp, nil, '_', NSelIndex);
@@ -2379,12 +2381,13 @@ begin
       StrText:= string(PtrText);
       StrId:= string(PtrId);
 
-      fmMain.FPyComplete_Editor:= Ed;
-      fmMain.FPyComplete_Text:= StrText;
-      fmMain.FPyComplete_CharsLeft:= NChars;
-      fmMain.FPyComplete_CharsRight:= 0;
+      fmMain.FPyCompletionProps.Clear;
+      fmMain.FPyCompletionProps.Editor:= Ed;
+      fmMain.FPyCompletionProps.Text:= StrText;
+      fmMain.FPyCompletionProps.CharsLeft:= NChars;
+      fmMain.FPyCompletionProps.CharsRight:= 0;
       with Ed.Carets[0] do
-        fmMain.FPyComplete_CaretPos:= Point(PosX, PosY);
+        fmMain.FPyCompletionProps.CaretPos:= Point(PosX, PosY);
 
       DoApplyCompletionListboxStyle(false);
       DoEditorCompletionListbox(Ed, @fmMain.PyCompletionOnGetProp, @fmMain.PyCompletionOnResult, StrId, NSelIndex);
