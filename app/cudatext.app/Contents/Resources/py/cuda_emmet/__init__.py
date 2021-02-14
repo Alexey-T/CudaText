@@ -90,7 +90,7 @@ class Command:
 
     def profiles(self):
 
-        n = dlg_menu(MENU_LIST, '\n'.join(profiles))
+        n = dlg_menu(DMENU_LIST, '\n'.join(profiles))
         if n is None: return
         item = profiles[n]
         ini_write(fn_ini, ini_section, ini_key_profile, item)
