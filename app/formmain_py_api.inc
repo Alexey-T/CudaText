@@ -11,12 +11,12 @@ const
   cPyEditorHandleMin = 10;
   cPyEditorHandleMax = 10000;
   cPyTokenKind: array[TATTokenKind] of string = ('a', 'c', 's');
-  cPyUniqueTag: Int64 = 120;
+  cPyUniqueTag: Int64 = 120; //initial value returned by app_proc(PROC_GET_UNIQUE_TAG)
 
 var
-  PyEscapeFlag: boolean = false;
-  PyEditorMaybeDeleted: boolean = false;
-  PyCurrentFolder: string = '';
+  PyEscapeFlag: boolean = false; //Esc key was pressed in application
+  PyEditorMaybeDeleted: boolean = false; //command plugin maybe deleted the editor e.g. by 'close file' command
+  PyCurrentFolder: string = ''; //initial folder of API Open/SaveAs dialogs
 
 var
   AppEmmet: TEmmet = nil;
