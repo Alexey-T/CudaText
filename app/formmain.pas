@@ -4063,7 +4063,6 @@ var
 begin
   F:= CurrentFrame;
   Ed:= F.Editor;
-  MsgStatus(msgStatusHelpOnShowCommands);
 
   Keymap_UpdateDynamic(categ_Lexer);
   Keymap_UpdateDynamic(categ_OpenedFile);

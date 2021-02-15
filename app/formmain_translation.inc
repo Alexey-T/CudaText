@@ -560,7 +560,6 @@ begin
     DoLocString(msgStatusFoundNextMatch          , ini, 'si', 'FoundNextMatch');
     DoLocString(msgStatusFoundFragments          , ini, 'si', 'FoundFragments');
     DoLocString(msgStatusTryingAutocomplete      , ini, 'si', 'TryingAutocomplete');
-    DoLocString(msgStatusHelpOnShowCommands      , ini, 'si', 'HelpOnShowCommands');
     DoLocString(msgStatusNoLineCmtDefined        , ini, 'si', 'NoLineCmtDefined');
     DoLocString(msgStatusReplaceCount            , ini, 'si', 'ReplaceCount');
     DoLocString(msgStatusFindCount               , ini, 'si', 'FindCount');

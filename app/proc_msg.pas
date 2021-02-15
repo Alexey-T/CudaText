@@ -258,7 +258,6 @@ const
   msgStatusBadRegex: string = 'Incorrect regex passed:';
   msgStatusFoundNextMatch: string = 'Found next match';
   msgStatusTryingAutocomplete: string = 'Trying auto-complete for:';
-  msgStatusHelpOnShowCommands: string = 'Commands: F9 to configure keys; "@key" to find hotkey';
   msgStatusNoLineCmtDefined: string = 'No line comment defined for lexer';
   msgStatusReplaceCount: string = 'Replaces made: %d';
   msgStatusFindCount: string = 'Count of "%s": %d';
