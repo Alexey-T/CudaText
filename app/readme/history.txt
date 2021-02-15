@@ -12,7 +12,7 @@
 + add: option "ui_cmdpalette_filter_keep" (thanks @JairoMartinezA)
 + add: feature "plugin_groups": char '&' is now stripped before RegEx check (thanks @JairoMartinezA)
 + add: lexer CSS: better std properties lists
-* change: Command Palette now hides very simple commands: arrows, Shift+Arrows, Enter, BackSp, Tab etc.
+* change: Command Palette now hides very simple commands: arrows, Enter, Delete, BackSp, Tab, Home, End, PageUp, PageDown, Shift+arrows, Shift+Home etc.
 * change: removed menu item "Options / Settings-hotkeys", added text-hint in the Command Palette instead (thanks @JairoMartinezA)
 - fix: if "wrap_mode" is set, app could not correctly restore "index of top line" for session files
 - fix: if plugins ConfigToolbar + ExternalTools were used, and toolbar button was created for ext-tool, it was stored to ConfigToolbar config wrong (thanks Markus F.). You _must_ update all ConfigToolbar buttons which refer to tools: ie press "Command" button and choose a tool again, then OK.
