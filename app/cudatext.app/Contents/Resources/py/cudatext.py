@@ -1385,6 +1385,9 @@ class Editor:
 
     def __repr__(self):
         return self.__str__()
+
+    def __eq__(self, other):
+        return other and type(other) is Editor and self.get_prop(PROP_HANDLE_SELF) == other.get_prop(PROP_HANDLE_SELF)
     #end
 
 #objects

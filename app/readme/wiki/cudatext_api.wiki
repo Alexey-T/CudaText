@@ -4171,4 +4171,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.get_prop/set_prop: PROP_FOCUSED
 * fix: control 'statusbar' crashed with "align" left/right/client
 
+1.0.368 (app 1.125.0)
+* add: can compare Editor objects by ==, it will be correct now because tests PROP_HANDLE_SELF values
+
 [[Category:CudaText]]
