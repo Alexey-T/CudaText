@@ -114,7 +114,7 @@ def do_install_from_github():
         module = ini_read(fn_inf, 'info', 'subdir', '')
         os.remove(fn_inf)
         if module!=module_from_url:
-            msg_box(_('Mismatch:\ninstall.inf "module": {}\nrepo name: {}').format(module, module_from_url), MB_OK+MB_ICONERROR)
+            msg_box(_('Cannot install add-on due to mismatch:\n 1) install.inf "module":\n{}\n 2) repo name:\n{}').format(module, module_from_url), MB_OK+MB_ICONERROR)
             valid = False
             return
         dir_plugin = os.path.join(dir_py, module)
