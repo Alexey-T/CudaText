@@ -8,6 +8,7 @@
 + add: auto-completion for file URI file:///, controlled by new option "autocomplete_file_uri"
 + add: Wiki topic https://wiki.freepascal.org/CudaText#File_URI_auto-completion
 + add: API to support new plugin "Terminal Plus" (thanks @Shovel)
++ add: on window resizing, editor keeps "index of top line"
 + add: option "ui_cmdpalette_filter_keep" (thanks @JairoMartinezA)
 + add: feature "plugin_groups": char '&' is now stripped before RegEx check (thanks @JairoMartinezA)
 + add: lexer CSS: better std properties lists
