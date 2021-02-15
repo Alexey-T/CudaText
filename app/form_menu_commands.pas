@@ -126,8 +126,8 @@ begin
   edit.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
   edit.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
 
-  panelCaption.Font.Name:= UiOps.VarFontName;
-  panelCaption.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+  PanelCaption.Font.Name:= UiOps.VarFontName;
+  PanelCaption.Font.Size:= AppScaleFont(UiOps.VarFontSize);
 
   self.Color:= FColorBg;
   edit.Colors.TextFont:= GetAppColor(apclEdTextFont);
@@ -136,7 +136,8 @@ begin
   edit.Colors.TextSelBG:= GetAppColor(apclEdSelBg);
   edit.Colors.BorderLine:= GetAppColor(apclEdBorder);
   list.Color:= FColorBg;
-  panelCaption.Font.Color:= FColorFont;
+  PanelCaption.Font.Color:= FColorFont;
+  PanelInfo.Font.Color:= FColorFont;
 
   UpdateFormOnTop(Self);
   FixFormPositionToDesktop(Self);
