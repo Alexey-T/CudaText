@@ -117,7 +117,7 @@ begin
   Result:= PyHelper_Rect(R);
 end;
 
-function PyHelper_GetCaretProps(Props: TATCaretProps): PPyObject;
+function PyHelper_GetCaretProps(Props: TATEditorCaretProps): PPyObject;
 begin
   with AppPython.Engine do
     Result:= Py_BuildValue('(iiO)',
@@ -2951,7 +2951,7 @@ begin
 end;
 
 
-function PyHelper_GetScrollInfo(const AInfo: TATSynScrollInfo): PPyObject;
+function PyHelper_GetScrollInfo(const AInfo: TATEditorScrollInfo): PPyObject;
 begin
   with AppPython.Engine do
   begin
@@ -3687,7 +3687,7 @@ var
   An, AnOut: TecSyntAnalyzer;
   ValueBool: boolean;
   ValueInt: Int64;
-  ScrollInfo: TATSynScrollInfo;
+  ScrollInfo: TATEditorScrollInfo;
   Gr: TATGroups;
   Pages, PagesTo: TATPages;
   NLocalGroup, NGlobalGroup, NTab, NIndexNew, N1, N2: integer;
@@ -4067,7 +4067,7 @@ begin
           Ed.OptAutoIndent:= ValueBool;
 
         PROP_INDENT_KIND:
-          Ed.OptAutoIndentKind:= TATAutoIndentKind(ValueInt);
+          Ed.OptAutoIndentKind:= TATEditorAutoIndentKind(ValueInt);
 
         PROP_MARKED_RANGE:
           begin
@@ -4131,7 +4131,7 @@ begin
           Ed.OptGutterShowFoldAlways:= ValueBool;
 
         PROP_FOLD_ICONS:
-          Ed.OptGutterIcons:= TATGutterIconsKind(ValueInt);
+          Ed.OptGutterIcons:= TATEditorGutterIcons(ValueInt);
 
         PROP_SCROLLSTYLE_HORZ:
           Ed.OptScrollStyleHorz:= TATEditorScrollbarStyle(ValueInt);
@@ -7336,7 +7336,7 @@ var
   Id, NColor, NSize: integer;
   Ed: TATSynEdit;
   Bmp: TBitmap;
-  ScrollInfo: TATSynScrollInfo;
+  ScrollInfo: TATEditorScrollInfo;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'LiLLLii:gap', @H, @Id, @Num1, @Num2, @NTag, @NSize, @NColor)) then

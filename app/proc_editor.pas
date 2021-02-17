@@ -79,8 +79,8 @@ procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer
 procedure EditorCopyLine(Ed: TATSynEdit);
 procedure EditorHighlightBadRegexBrackets(Ed: TATSynEdit; AOnlyClear: boolean);
 
-procedure EditorCaretPropsFromString(Props: TATCaretProps; const AText: string);
-procedure EditorCaretPropsFromPyTuple(Props: TATCaretProps; const AText: string);
+procedure EditorCaretPropsFromString(Props: TATEditorCaretProps; const AText: string);
+procedure EditorCaretPropsFromPyTuple(Props: TATEditorCaretProps; const AText: string);
 
 type
   TATEditorBracketKind = (
@@ -180,7 +180,7 @@ begin
   begin
     Ed.OptGutterVisible:= Op.OpGutterShow;
     Ed.OptGutterShowFoldAlways:= Op.OpGutterFoldAlways;
-    Ed.OptGutterIcons:= TATGutterIconsKind(Op.OpGutterFoldIcons);
+    Ed.OptGutterIcons:= TATEditorGutterIcons(Op.OpGutterFoldIcons);
     Ed.Gutter[Ed.GutterBandBookmarks].Visible:= Op.OpGutterBookmarks;
     Ed.Gutter[Ed.GutterBandFolding].Visible:= Op.OpGutterFold;
     Ed.Gutter[Ed.GutterBandNumbers].Visible:= Op.OpNumbersShow;
@@ -270,8 +270,8 @@ begin
       EditorCaretPropsFromString(Ed.CaretPropsReadonly, Op.OpCaretViewReadonly);
     end;
 
-    if Op.OpCaretAfterPasteColumn<=Ord(High(TATPasteCaret)) then
-      Ed.OptCaretPosAfterPasteColumn:= TATPasteCaret(Op.OpCaretAfterPasteColumn);
+    if Op.OpCaretAfterPasteColumn<=Ord(High(TATEditorPasteCaret)) then
+      Ed.OptCaretPosAfterPasteColumn:= TATEditorPasteCaret(Op.OpCaretAfterPasteColumn);
 
     Ed.OptCaretVirtual:= Op.OpCaretVirtual;
     Ed.OptCaretManyAllowed:= Op.OpCaretMulti;
@@ -303,7 +303,7 @@ begin
 
   if not AOneLiner then
   begin
-    Ed.OptFoldStyle:= TATFoldStyle(Op.OpFoldStyle);
+    Ed.OptFoldStyle:= TATEditorFoldStyle(Op.OpFoldStyle);
     Ed.OptFoldTooltipVisible:= Op.OpFoldTooltipShow;
 
     Ed.OptMarkersSize:= Op.OpMarkerSize;
@@ -315,13 +315,13 @@ begin
     Sep.GetItemInt(N, 40);
     Ed.OptStapleWidthPercent:= N;
     Sep.GetItemInt(N, 1);
-    Ed.OptStapleEdge1:= TATStapleEdge(N);
+    Ed.OptStapleEdge1:= TATEditorStapleEdge(N);
     Sep.GetItemInt(N, 1);
-    Ed.OptStapleEdge2:= TATStapleEdge(N);
+    Ed.OptStapleEdge2:= TATEditorStapleEdge(N);
 
     Ed.OptAutoIndent:= Op.OpIndentAuto;
-    if Op.OpIndentAutoKind<=Ord(High(TATAutoIndentKind)) then
-      Ed.OptAutoIndentKind:= TATAutoIndentKind(Op.OpIndentAutoKind);
+    if Op.OpIndentAutoKind<=Ord(High(TATEditorAutoIndentKind)) then
+      Ed.OptAutoIndentKind:= TATEditorAutoIndentKind(Op.OpIndentAutoKind);
     Ed.OptAutoIndentBetterBracketsCurly:= Op.OpIndentAuto; //no separate option
     Ed.OptAutoIndentRegexRule:= Op.OpIndentAutoRule;
 
@@ -746,7 +746,7 @@ end;
 procedure EditorSetFoldString(Ed: TATSynEdit; const AText: string);
 var
   Sep: TATStringSeparator;
-  ScrollInfo: TATSynScrollInfo;
+  ScrollInfo: TATEditorScrollInfo;
   n: integer;
 begin
   Ed.DoCommand(cCommand_UnfoldAll);
@@ -1126,7 +1126,7 @@ begin
 end;
 
 
-procedure EditorCaretPropsFromString(Props: TATCaretProps; const AText: string);
+procedure EditorCaretPropsFromString(Props: TATEditorCaretProps; const AText: string);
 var
   Sep: TATStringSeparator;
   S: string;
@@ -1139,7 +1139,7 @@ begin
 end;
 
 
-procedure EditorCaretPropsFromPyTuple(Props: TATCaretProps; const AText: string);
+procedure EditorCaretPropsFromPyTuple(Props: TATEditorCaretProps; const AText: string);
 var
   Sep: TATStringSeparator;
   S: string;
