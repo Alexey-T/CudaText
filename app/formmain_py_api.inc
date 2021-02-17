@@ -6376,6 +6376,17 @@ begin
             Result:= ReturnNone;
           end;
 
+        BTN_GET_OVERLAY:
+          begin
+            Result:= PyUnicodeFromString(Btn.TextOverlay);
+          end;
+
+        BTN_SET_OVERLAY:
+          begin
+            Btn.TextOverlay:= StrValue;
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
