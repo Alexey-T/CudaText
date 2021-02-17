@@ -1448,7 +1448,7 @@ begin
     OpMouse2ClickDragSelectsWords:= true;
     OpMouseDragDrop:= true;
     OpMouseDragDropFocusTarget:= true;
-    OpMouseMiddleClickAction:= Ord(TATMiddleClickAction.mcaScrolling);
+    OpMouseMiddleClickAction:= Ord(TATEditorMiddleClickAction.mcaScrolling);
     OpMouseRightClickMovesCaret:= false;
     OpMouseEnableColumnSelection:= true;
     OpMouseHideCursorOnType:= false;

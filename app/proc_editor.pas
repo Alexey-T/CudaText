@@ -195,7 +195,7 @@ begin
       Ed.OptNumbersAlignment:= taRightJustify;
 
     Ed.OptRulerVisible:= Op.OpRulerShow;
-    Ed.OptRulerNumeration:= TATRulerNumeration(Op.OpRulerNumeration);
+    Ed.OptRulerNumeration:= TATEditorRulerNumeration(Op.OpRulerNumeration);
     Ed.OptRulerMarkSizeCaret:= Op.OpRulerMarkCaret;
 
     Ed.OptMinimapVisible:= Op.OpMinimapShow;
@@ -339,7 +339,7 @@ begin
   Ed.OptMouse2ClickDragSelectsWords:= Op.OpMouse2ClickDragSelectsWords;
   Ed.OptMouseDragDrop:= Op.OpMouseDragDrop;
   ATSynEdit.OptMouseDragDropFocusesTargetEditor:= Op.OpMouseDragDropFocusTarget;
-  Ed.OptMouseMiddleClickAction:= TATMiddleClickAction(Op.OpMouseMiddleClickAction);
+  Ed.OptMouseMiddleClickAction:= TATEditorMiddleClickAction(Op.OpMouseMiddleClickAction);
   Ed.OptMouseRightClickMovesCaret:= Op.OpMouseRightClickMovesCaret;
   Ed.OptMouseEnableColumnSelection:= Op.OpMouseEnableColumnSelection;
   Ed.OptMouseHideCursorOnType:= Op.OpMouseHideCursorOnType;
