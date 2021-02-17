@@ -1932,8 +1932,12 @@ Possible values of "id_action":
 * BTN_SET_ITEMS: Sets choice items. Param "value" must be str, "\n"-separated strings.
 * BTN_GET_ITEMINDEX: Returns choice index, used for kind=BTNKIND_TEXT_CHOICE.
 * BTN_SET_ITEMINDEX: Sets choice index. Param "value" must be int >=0, or -1 for none.
-* BTN_GET_OVERLAY: Returns overlay text of button.
-* BTN_SET_OVERLAY: Sets overlay text of button.
+* BTN_GET_OVERLAY: Returns overlay text.
+* BTN_SET_OVERLAY: Sets overlay text.
+* BTN_GET_COLOR_LINE: Returns color of line-top.
+* BTN_SET_COLOR_LINE: Sets color of line-top.
+* BTN_GET_COLOR_LINE2: Returns color of line-bottom.
+* BTN_SET_COLOR_LINE2: Sets color of line-bottom.
 
 Note: Toolbars contain several "button_ex" objects, which are anchored one to another (horizontally or vertically). You can also construct such toolbar by hands. API toolbar_proc() don't allow to specify kind of buttons, it sets kind from button properties.
 
@@ -4191,5 +4195,9 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: statusbar_proc: STATUSBAR_SET_CELL_OVERLAY
 * add: button_proc: BTN_GET_OVERLAY
 * add: button_proc: BTN_SET_OVERLAY
+* add: button_proc: BTN_GET_COLOR_LINE
+* add: button_proc: BTN_SET_COLOR_LINE
+* add: button_proc: BTN_GET_COLOR_LINE2
+* add: button_proc: BTN_SET_COLOR_LINE2
 
 [[Category:CudaText]]
