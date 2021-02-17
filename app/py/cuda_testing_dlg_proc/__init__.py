@@ -61,8 +61,9 @@ class Command:
             dlg_proc(h, DLG_PROP_SET, prop={'border': val} )
 
         if id_ctl==n_btn_icon:
-            #toggle button's checked
             id_btn = dlg_proc(h, DLG_CTL_HANDLE, name='btn_icon')
+
+            #toggle button's checked
             b = button_proc(id_btn, BTN_GET_CHECKED)
             button_proc(id_btn, BTN_SET_CHECKED, not b)
             button_proc(id_btn, BTN_SET_BOLD, not b)
@@ -76,6 +77,12 @@ class Command:
             #set overlay text
             self.btn_overlay+=1
             button_proc(id_btn, BTN_SET_OVERLAY, self.btn_overlay)
+
+            #set colored lines
+            color1 = 0x00ff00
+            color2 = 0x0000ff
+            button_proc(id_btn, BTN_SET_COLOR_LINE, color1)
+            button_proc(id_btn, BTN_SET_COLOR_LINE2, color2)
             
 
     def callback_splitter_left(self, id_dlg, id_ctl, data='', info=''):

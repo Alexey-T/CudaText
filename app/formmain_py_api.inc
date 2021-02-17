@@ -6387,6 +6387,28 @@ begin
             Result:= ReturnNone;
           end;
 
+        BTN_GET_COLOR_LINE:
+          begin
+            Result:= PyLong_FromLong(Btn.ColorLine);
+          end;
+
+        BTN_SET_COLOR_LINE:
+          begin
+            Btn.ColorLine:= StrToIntDef(StrValue, clNone);
+            Result:= ReturnNone;
+          end;
+
+        BTN_GET_COLOR_LINE2:
+          begin
+            Result:= PyLong_FromLong(Btn.ColorLine2);
+          end;
+
+        BTN_SET_COLOR_LINE2:
+          begin
+            Btn.ColorLine2:= StrToIntDef(StrValue, clNone);
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
