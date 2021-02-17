@@ -1811,6 +1811,8 @@ Param "id_action" can be:
 * STATUSBAR_GET_CELL_IMAGEINDEX: Returns icon index (inside imagelist) of cell, -1 for none.
 * STATUSBAR_GET_CELL_COLOR_FONT: Returns font color of cell, COLOR_NONE if not set.
 * STATUSBAR_GET_CELL_COLOR_BACK: Returns background color of cell, COLOR_NONE if not set.
+* STATUSBAR_GET_CELL_COLOR_LINE: Returns line-top color of cell, COLOR_NONE if not set.
+* STATUSBAR_GET_CELL_COLOR_LINE2: Returns line-bottom color of cell, COLOR_NONE if not set.
 * STATUSBAR_GET_CELL_FONT_NAME: Returns special font name of cell (if empty str, not used).
 * STATUSBAR_GET_CELL_FONT_SIZE: Returns special font size of cell (if <=0, not used).
 * STATUSBAR_GET_CELL_TAG: Returns int tag of cell.
@@ -1825,6 +1827,8 @@ Param "id_action" can be:
 * STATUSBAR_SET_CELL_IMAGEINDEX: Sets icon index (inside imagelist) of cell, -1 for none. Param "value": int.
 * STATUSBAR_SET_CELL_COLOR_FONT: Sets font color of cell. Param "value": int color or COLOR_NONE.
 * STATUSBAR_SET_CELL_COLOR_BACK: Sets background color of cell. Param "value": int color or COLOR_NONE.
+* STATUSBAR_SET_CELL_COLOR_LINE: Sets line-top color of cell. Param "value": int color or COLOR_NONE.
+* STATUSBAR_SET_CELL_COLOR_LINE2: Sets line-bottom color of cell. Param "value": int color or COLOR_NONE.
 * STATUSBAR_SET_CELL_FONT_NAME: Sets special font name of cell (if empty str, not used). Param "value": str.
 * STATUSBAR_SET_CELL_FONT_SIZE: Sets special font size of cell (if <=0, not used). Param "value": int.
 * STATUSBAR_SET_CELL_TAG: Sets tag of cell. Param "value": int.
@@ -4173,5 +4177,11 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.368 (app 1.125.0)
 * add: can compare Editor objects by ==, it will be correct now because tests PROP_HANDLE_SELF values
+
+1.0.369 (app 1.125.0)
+* add: statusbar_proc: STATUSBAR_GET_CELL_COLOR_LINE
+* add: statusbar_proc: STATUSBAR_SET_CELL_COLOR_LINE
+* add: statusbar_proc: STATUSBAR_GET_CELL_COLOR_LINE2
+* add: statusbar_proc: STATUSBAR_SET_CELL_COLOR_LINE2
 
 [[Category:CudaText]]
