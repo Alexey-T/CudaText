@@ -30,6 +30,7 @@ def callback_main_menu(id_dlg, id_ctl, data='', info=''):
 
 class Command:
     border = True
+    btn_overlay = 0
 
     def run_modal(self):
         print('run_modal begin')
@@ -71,6 +72,11 @@ class Command:
             button_proc(id_btn, BTN_SET_KIND, BTNKIND_TEXT_ICON_VERT)
             button_proc(id_btn, BTN_SET_IMAGELIST, id_imglist)
             button_proc(id_btn, BTN_SET_IMAGEINDEX, int(b))
+            
+            #set overlay text
+            self.btn_overlay+=1
+            button_proc(id_btn, BTN_SET_OVERLAY, self.btn_overlay)
+            
 
     def callback_splitter_left(self, id_dlg, id_ctl, data='', info=''):
         h = id_dlg
@@ -340,20 +346,20 @@ class Command:
         n=dlg_proc(h, DLG_CTL_ADD, 'button_ex')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'btn_border',
-            'cap':'toggle border',
+            'cap':'toggle window border',
             'x': 10,
             'y': 20,
-            'w': 120,
+            'w': 200,
             'on_change': 'cuda_testing_dlg_proc.callback_buttondlg'
             })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button_ex')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'btn_icon',
-            'cap':'test of icon',
+            'cap':'toggle bold/icon/overlay',
             'x': 10,
             'y': 50,
-            'w': 120,
+            'w': 200,
             'h': 50,
             'on_change': 'cuda_testing_dlg_proc.callback_buttondlg'
             })
