@@ -1112,7 +1112,7 @@ Events of controls are also properties, but values of these properties must be P
 
 General events for all controls:
 
-* "on_change": Called after "value" of control is changed.
+* "on_change": Called after "value" of control is changed. For buttons, "on_change" is called on button click, instead of "on_click".
 * "on_click": Called after mouse click on control, for non-active controls, which don't change "value" by click. Param "data" is tuple (x, y) with control-related coordinates of click.
 * "on_click_dbl": Called after mouse double-click on control. Param "data" is tuple (x, y) with control-related coordinates.
 * "on_mouse_down": Called when mouse button pressed. Param "data" is dict: { "btn": int_button_code, "state": str_keyboard_state, "x": int, "y": int }. Button code: 0: left; 1: right; 2: middle. Keyboard state: value like in global event "on_key".
