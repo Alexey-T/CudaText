@@ -8377,6 +8377,14 @@ begin
             Result:= ReturnNone;
           end;
 
+        STATUSBAR_SET_CELL_OVERLAY:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+              Data.OverlayText:= StrValue;
+            Result:= ReturnNone;
+          end;
+
 
         STATUSBAR_GET_CELL_SIZE:
           begin
@@ -8509,6 +8517,15 @@ begin
             Data:= FBar.GetPanelData(NIndex);
             if Assigned(Data) then
               Result:= PyUnicodeFromString(Data.Callback)
+            else
+              Result:= ReturnNone;
+          end;
+
+        STATUSBAR_GET_CELL_OVERLAY:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+              Result:= PyUnicodeFromString(Data.OverlayText)
             else
               Result:= ReturnNone;
           end;
