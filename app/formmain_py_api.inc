@@ -8289,6 +8289,28 @@ begin
             Result:= ReturnNone;
           end;
 
+        STATUSBAR_SET_CELL_COLOR_LINE:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+            begin
+              Data.ColorLine:= StrToIntDef(StrValue, clNone);
+              FBar.Invalidate;
+            end;
+            Result:= ReturnNone;
+          end;
+
+        STATUSBAR_SET_CELL_COLOR_LINE2:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+            begin
+              Data.ColorLine2:= StrToIntDef(StrValue, clNone);
+              FBar.Invalidate;
+            end;
+            Result:= ReturnNone;
+          end;
+
         STATUSBAR_SET_CELL_TAG:
           begin
             Data:= FBar.GetPanelData(NIndex);
@@ -8415,6 +8437,24 @@ begin
             Data:= FBar.GetPanelData(NIndex);
             if Assigned(Data) then
               Result:= PyLong_FromLong(Data.ColorFont)
+            else
+              Result:= ReturnNone;
+          end;
+
+        STATUSBAR_GET_CELL_COLOR_LINE:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+              Result:= PyLong_FromLong(Data.ColorLine)
+            else
+              Result:= ReturnNone;
+          end;
+
+        STATUSBAR_GET_CELL_COLOR_LINE2:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+              Result:= PyLong_FromLong(Data.ColorLine2)
             else
               Result:= ReturnNone;
           end;
