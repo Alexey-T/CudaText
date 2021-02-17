@@ -1817,6 +1817,7 @@ Param "id_action" can be:
 * STATUSBAR_GET_CELL_FONT_SIZE: Returns special font size of cell (if <=0, not used).
 * STATUSBAR_GET_CELL_TAG: Returns int tag of cell.
 * STATUSBAR_GET_CELL_CALLBACK: Returns callback string of cell.
+* STATUSBAR_GET_CELL_OVERLAY: Returns overlay string of cell.
 
 * STATUSBAR_SET_CELL_SIZE: Sets width of cell. Param "value": int.
 * STATUSBAR_SET_CELL_AUTOSIZE: Sets auto-size of cell. Param "value": bool.
@@ -1833,6 +1834,7 @@ Param "id_action" can be:
 * STATUSBAR_SET_CELL_FONT_SIZE: Sets special font size of cell (if <=0, not used). Param "value": int.
 * STATUSBAR_SET_CELL_TAG: Sets tag of cell. Param "value": int.
 * STATUSBAR_SET_CELL_CALLBACK: Sets callback string of cell.
+* STATUSBAR_SET_CELL_OVERLAY: Sets overlay string of cell.
 
 Notes:
 
@@ -4183,5 +4185,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: statusbar_proc: STATUSBAR_SET_CELL_COLOR_LINE
 * add: statusbar_proc: STATUSBAR_GET_CELL_COLOR_LINE2
 * add: statusbar_proc: STATUSBAR_SET_CELL_COLOR_LINE2
+* add: statusbar_proc: STATUSBAR_GET_CELL_OVERLAY
+* add: statusbar_proc: STATUSBAR_SET_CELL_OVERLAY
 
 [[Category:CudaText]]
