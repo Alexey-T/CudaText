@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.125.1
+
++ add: Addon Manager: better handle requirements of CudaLint, CudaFormatter
+- fix: bug in detecting lexers 'PKGBUILD', 'Dockerfile' (thanks @Nori13) 
+
 1.125.0 (2021/02)
 
 + add: auto-completion for file URI file:///, controlled by new option "autocomplete_file_uri"
