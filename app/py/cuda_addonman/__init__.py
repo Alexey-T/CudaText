@@ -242,6 +242,7 @@ class Command:
         if res is None: return
 
         if res==0:
+            #chosen item 'Category', show menu again
             res = dlg_menu(
                 DMENU_LIST,
                 kinds,
@@ -261,22 +262,14 @@ class Command:
                 caption=caption+_(' / Category "{}"').format(need_kind)
                 )
             if res is None: return
-
-            name = items[res]['name']
-            url = items[res]['url']
-            version = items[res]['v']
-            kind = items[res]['kind']
-            req = items[res].get('req', '')
-
         else:
+            #for choice not from 'category', skip 1 first item 'Category'
             res -= 1
-            name = items[res]['name']
-            url = items[res]['url']
-            version = items[res]['v']
-            kind = items[res]['kind']
-            req = items[res].get('req', '')
 
         info = items[res]
+        #print('Chosen addon:', info)
+        name = info['name']
+        req = info.get('req', '')
         req_names = req.split(',')
         if info['kind']=='linter':
             req_names.append('plugin.CudaLint')
