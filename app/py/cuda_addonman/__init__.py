@@ -281,8 +281,8 @@ class Command:
             req_items += [i for i in items if s+'.zip'==os.path.basename(i['url']) ]
 
         if req_items:
-            nice_names = ', '.join([i['kind']+': '+i['name'] for i in req_items])
-            if msg_box(_('Add-on "{}" requires:\n{}\n\nRequirements will be auto-installed. Proceed?').format(name, nice_names),
+            nice_names = '* '+'\n* '.join([i['kind']+' '+i['name'] for i in req_items])
+            if msg_box(_('Add-on "{}" requires:\n\n{}\n\nRequirements will be auto-installed. Proceed?').format(name, nice_names),
                 MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
                 return
 
