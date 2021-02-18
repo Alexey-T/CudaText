@@ -276,20 +276,27 @@ class Command:
             kind = items[res]['kind']
             req = items[res].get('req', '')
 
+        info = items[res]
+        req_names = req.split(',')
+        if info['kind']=='linter':
+            req_names.append('plugin.CudaLint')
+        if info['kind']=='formatter':
+            req_names.append('plugin.CudaFormatter')
+
         req_items = []
-        for req_name in req.split(','):
-            req_items += [i for i in items if req_name+'.zip'==os.path.basename(i['url']) ]
+        for s in req_names:
+            req_items += [i for i in items if s+'.zip'==os.path.basename(i['url']) ]
 
         if req_items:
-            req_names = ', '.join([i['kind']+': '+i['name'] for i in req_items])
-            if msg_box(_('Add-on "{}" requires:\n{}\n\nRequirements will be auto-installed. Proceed?').format(name, req_names),
+            nice_names = ', '.join([i['kind']+': '+i['name'] for i in req_items])
+            if msg_box(_('Add-on "{}" requires:\n{}\n\nRequirements will be auto-installed. Proceed?').format(name, nice_names),
                 MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
                 return
 
             for item in req_items:
                 self.do_install_single(item, True, False)
 
-        self.do_install_single(items[res],
+        self.do_install_single(info,
             not opt.install_confirm,
             opt.suggest_readme)
 
@@ -300,18 +307,6 @@ class Command:
         url = info['url']
         version = info['v']
         kind = info['kind']
-
-        #check for CudaLint
-        if kind=='linter':
-            if not 'cuda_lint' in get_installed_modules():
-                msg_box(_('This is linter, it requires CudaLint plugin installed'), MB_OK+MB_ICONWARNING)
-                return
-
-        #check for CudaFormatter
-        if kind=='formatter':
-            if not 'cuda_fmt' in get_installed_modules():
-                msg_box(_('This is formatter, it requires CudaFormatter plugin installed'), MB_OK+MB_ICONWARNING)
-                return
 
         #download
         fn = get_plugin_zip(url)
