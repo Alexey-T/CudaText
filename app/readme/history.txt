@@ -5,6 +5,7 @@
 
 1.125.1 (2021/02)
 
++ add: UI-tabs in "multi-line" style can now be scrolled too, vertically
 + add: added API useful for plugin "Terminal Plus" (thanks @Shovel)
 + add: Addon Manager: better handle requirements of CudaLint, CudaFormatter
 - fix: bug in detecting lexers 'PKGBUILD', 'Dockerfile' (thanks @Nori13) 
