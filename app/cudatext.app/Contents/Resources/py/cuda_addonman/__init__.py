@@ -287,22 +287,28 @@ class Command:
                 return
 
             for item in req_items:
-                self.do_install_single(item['name'], item['url'], item['v'], item['kind'], True, False)
+                self.do_install_single(item, True, False)
 
-        self.do_install_single(name, url, version, kind,
+        self.do_install_single(items[res],
             not opt.install_confirm,
             opt.suggest_readme)
 
 
-    def do_install_single(self, name, url, version, kind, is_silent, suggest_readme):
+    def do_install_single(self, info, is_silent, suggest_readme):
+
+        name = info['name']
+        url = info['url']
+        version = info['v']
+        kind = info['kind']
+
         #check for CudaLint
-        if 'linter.' in url:
+        if kind=='linter':
             if not 'cuda_lint' in get_installed_modules():
                 msg_box(_('This is linter, it requires CudaLint plugin installed'), MB_OK+MB_ICONWARNING)
                 return
 
         #check for CudaFormatter
-        if 'formatter.' in url:
+        if kind=='formatter':
             if not 'cuda_fmt' in get_installed_modules():
                 msg_box(_('This is formatter, it requires CudaFormatter plugin installed'), MB_OK+MB_ICONWARNING)
                 return
