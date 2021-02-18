@@ -276,45 +276,25 @@ class Command:
             kind = items[res]['kind']
             req = items[res].get('req', '')
 
-        temps = [item for item in items if item['name']=='CudaLint']
-        info_lnt = temps[0] if temps else None
-        if not info_lnt:
-            msg_box(_('Cannot find CudaLint in the remote add-ons list. Cannot continue.'), MB_OK+MB_ICONERROR)
-            return
-
-        temps = [item for item in items if item['name']=='CudaFormatter']
-        info_fmt = temps[0] if temps else None
-        if not info_fmt:
-            msg_box(_('Cannot find CudaFormatter in the remote add-ons list. Cannot continue.'), MB_OK+MB_ICONERROR)
-            return
+        info = items[res]
+        req_names = req.split(',')
+        if info['kind']=='linter':
+            req_names.append('plugin.CudaLint')
+        if info['kind']=='formatter':
+            req_names.append('plugin.CudaFormatter')
 
         req_items = []
-        for req_name in req.split(','):
-            req_items += [i for i in items if req_name+'.zip'==os.path.basename(i['url']) ]
+        for s in req_names:
+            req_items += [i for i in items if s+'.zip'==os.path.basename(i['url']) ]
 
         if req_items:
-            req_names = ', '.join([i['kind']+': '+i['name'] for i in req_items])
-            if msg_box(_('Add-on "{}" requires:\n{}\n\nRequirements will be auto-installed. Proceed?').format(name, req_names),
+            nice_names = ', '.join([i['kind']+': '+i['name'] for i in req_items])
+            if msg_box(_('Add-on "{}" requires:\n{}\n\nRequirements will be auto-installed. Proceed?').format(name, nice_names),
                 MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
                 return
 
             for item in req_items:
                 self.do_install_single(item, True, False)
-
-        info = items[res]
-        if info['kind']=='linter':
-            if not 'cuda_lint' in get_installed_modules():
-                if msg_box(_('This is linter, it requires CudaLint installed. Press OK to install CudaLint first.'), MB_OKCANCEL+MB_ICONINFO)==ID_OK:
-                    self.do_install_single(info_lnt, True, False)
-                else:
-                    return
-        
-        if info['kind']=='formatter':
-            if not 'cuda_fmt' in get_installed_modules():
-                if msg_box(_('This is formatter, it requires CudaFormatter installed. Press OK to install CudaFormatter first.'), MB_OKCANCEL+MB_ICONINFO)==ID_OK:
-                    self.do_install_single(info_fmt, True, False)
-                else:
-                    return
 
         self.do_install_single(info,
             not opt.install_confirm,
