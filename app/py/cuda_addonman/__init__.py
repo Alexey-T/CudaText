@@ -302,13 +302,13 @@ class Command:
         kind = info['kind']
 
         #check for CudaLint
-        if 'linter.' in url:
+        if kind=='linter':
             if not 'cuda_lint' in get_installed_modules():
                 msg_box(_('This is linter, it requires CudaLint plugin installed'), MB_OK+MB_ICONWARNING)
                 return
 
         #check for CudaFormatter
-        if 'formatter.' in url:
+        if kind=='formatter':
             if not 'cuda_fmt' in get_installed_modules():
                 msg_box(_('This is formatter, it requires CudaFormatter plugin installed'), MB_OK+MB_ICONWARNING)
                 return
