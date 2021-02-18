@@ -276,6 +276,18 @@ class Command:
             kind = items[res]['kind']
             req = items[res].get('req', '')
 
+        temps = [item for item in items if item['name']=='CudaLint']
+        info_lnt = temps[0] if temps else None
+        if not info_lnt:
+            msg_box(_('Cannot find CudaLint in the remote add-ons list. Cannot continue.'), MB_OK+MB_ICONERROR)
+            return
+
+        temps = [item for item in items if item['name']=='CudaFormatter']
+        info_fmt = temps[0] if temps else None
+        if not info_fmt:
+            msg_box(_('Cannot find CudaFormatter in the remote add-ons list. Cannot continue.'), MB_OK+MB_ICONERROR)
+            return
+
         req_items = []
         for req_name in req.split(','):
             req_items += [i for i in items if req_name+'.zip'==os.path.basename(i['url']) ]
@@ -289,7 +301,22 @@ class Command:
             for item in req_items:
                 self.do_install_single(item, True, False)
 
-        self.do_install_single(items[res],
+        info = items[res]
+        if info['kind']=='linter':
+            if not 'cuda_lint' in get_installed_modules():
+                if msg_box(_('This is linter, it requires CudaLint installed. Press OK to install CudaLint first.'), MB_OKCANCEL+MB_ICONINFO)==ID_OK:
+                    self.do_install_single(info_lnt, True, False)
+                else:
+                    return
+        
+        if info['kind']=='formatter':
+            if not 'cuda_fmt' in get_installed_modules():
+                if msg_box(_('This is formatter, it requires CudaFormatter installed. Press OK to install CudaFormatter first.'), MB_OKCANCEL+MB_ICONINFO)==ID_OK:
+                    self.do_install_single(info_fmt, True, False)
+                else:
+                    return
+
+        self.do_install_single(info,
             not opt.install_confirm,
             opt.suggest_readme)
 
@@ -300,18 +327,6 @@ class Command:
         url = info['url']
         version = info['v']
         kind = info['kind']
-
-        #check for CudaLint
-        if kind=='linter':
-            if not 'cuda_lint' in get_installed_modules():
-                msg_box(_('This is linter, it requires CudaLint plugin installed'), MB_OK+MB_ICONWARNING)
-                return
-
-        #check for CudaFormatter
-        if kind=='formatter':
-            if not 'cuda_fmt' in get_installed_modules():
-                msg_box(_('This is formatter, it requires CudaFormatter plugin installed'), MB_OK+MB_ICONWARNING)
-                return
 
         #download
         fn = get_plugin_zip(url)
