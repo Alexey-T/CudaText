@@ -404,7 +404,7 @@ begin
     msgAllFiles:= ini.ReadString('ui', 'allf', msgAllFiles);
     msgThemeDefault:= ini.ReadString('ui', 'deft', msgThemeDefault);
     msgThemeName:= ini.ReadString('ui', 'th_nm', msgThemeName);
-    cTextEditorLocked:= ini.ReadString('ui', 'ed_w', cTextEditorLocked);
+    //cTextEditorLocked:= ini.ReadString('ui', 'ed_w', cTextEditorLocked);
     cTextHintScrollPrefix:= ini.ReadString('ui', 'line', cTextHintScrollPrefix);
     msgTooltipClearFilter:= ini.ReadString('ui', 'clr_f', msgTooltipClearFilter);
     CodeTreeFilterReset.Hint:= msgTooltipClearFilter;
