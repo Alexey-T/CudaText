@@ -1680,6 +1680,24 @@ ANSI maps to one of real codepages, it depends on current Windows locale. On non
 
 What is "detect by python standard"? It is detection [https://docs.python.org/3/reference/lexical_analysis.html#encoding-declarations by this standard]. Encoding name is searched by RegEx in the first 1-2 lines of file, if they are comment lines. Comments of these kinds are supported: // # ; --. For simplicity, comment chars are skipped, ignoring current lexer, so it works for all files and all lexers.
 
+==Optimizations for big files==
+
+CudaText has the following optimizations for big files and huge lines:
+
+* CudaText refuses to load files >500Mb. See the option "ui_max_size_open":500 (in Mbytes). Program allows to open such files in built-in viewer (without editing).
+
+* Word-wrap mode is automatically turned off, when total lines count in document is huge. See the option "wrap_enabled_max_lines":60000. When word-wrap mode is off, editor's work is much faster.
+
+* Program refuses to activate "normal" lexer for big files >2Mb. See the option "ui_max_size_lexer":2 (in Mbytes). Note that "lite" lexers with suffix "^" are still enabled for big files.
+
+* If file is loaded in "normal" lexer, but count of lines is big, program disables finding of fold-ranges. Syntax coloring works, but folding doesn't work. See the option "lexer_folding_max_lines":10000.
+
+* If file is loaded in "normal" lexer, huge lines are ignored by lexer parser. See the option "max_line_len_parsed":4000.
+
+* If file is loaded in "normal" lexer, dynamic highlightings are disabled in big files. See the option "lexer_dynamic_hilite_max_lines":2000.
+
+* For any files, when too many multi-carets are placed, program disables/clears the Undo-information for editing. See the option "undo_max_carets":5000.
+
 ==How to open files in a new tab instead of a new window==
 
 Option "ui_one_instance" controls it, so change it to 'true' (without quotes, in "user.json").
