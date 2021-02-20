@@ -5,6 +5,7 @@
 
 1.125.3 (2021/02)
 
++ add: tree-helper for Markdown was rewritten
 + add: better handle splitters moving in tab-group modes '3 vert', '3 horz', '6 grid' (not yet in modes '4v', '4h', '6v', '6h')
 + add: UI-tabs in "multi-line" style can now be scrolled too, vertically
 + add: added API useful for plugin "Terminal Plus" (thanks @Shovel)
