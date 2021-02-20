@@ -1037,8 +1037,7 @@ type
     procedure SetShowToolbar(AValue: boolean);
     procedure SetShowSideBar(AValue: boolean);
     procedure SetShowTabsMain(AValue: boolean);
-    procedure SplitterOnPaint_Gr(Sender: TObject);
-    procedure SplitterOnPaint_Main(Sender: TObject);
+    procedure SplitterOnPaintDummy(Sender: TObject);
     procedure StopAllTimers;
     procedure UpdateGroupsMode(AMode: TATGroupsMode);
     procedure UpdateMenuTheming(AMenu: TPopupMenu);
@@ -2219,7 +2218,7 @@ begin
     OnCloseFloatForm:= @DoSidebar_OnCloseFloatForm;
     OnGetTranslatedTitle:= @DoSidebar_GetFormTitle;
     Init(Self, alLeft);
-    Splitter.OnPaint:= @SplitterOnPaint_Main;
+    Splitter.OnPaint:= @SplitterOnPaintDummy;
   end;
 
   with AppPanels[cPaneOut] do
@@ -2231,7 +2230,7 @@ begin
     OnCloseFloatForm:= @DoBottom_OnCloseFloatForm;
     OnGetTranslatedTitle:= @DoSidebar_GetFormTitle;
     Init(Self, alBottom);
-    Splitter.OnPaint:= @SplitterOnPaint_Main;
+    Splitter.OnPaint:= @SplitterOnPaintDummy;
   end;
 
   LexerProgress:= TATGauge.Create(Self);
@@ -2403,12 +2402,6 @@ begin
 
   FFindStop:= false;
   FFindConfirmAll:= mrNone;
-
-  Groups.Splitter1.OnPaint:= @SplitterOnPaint_Gr;
-  Groups.Splitter2.OnPaint:= @SplitterOnPaint_Gr;
-  Groups.Splitter3.OnPaint:= @SplitterOnPaint_Gr;
-  Groups.Splitter4.OnPaint:= @SplitterOnPaint_Gr;
-  Groups.Splitter5.OnPaint:= @SplitterOnPaint_Gr;
 
   FLastDirOfOpenDlg:= '';
   FLastLexerForPluginsMenu:= '-';
@@ -6092,12 +6085,7 @@ begin
   end;
 end;
 
-procedure TfmMain.SplitterOnPaint_Gr(Sender: TObject);
-begin
-  //empty, to disable themed paint
-end;
-
-procedure TfmMain.SplitterOnPaint_Main(Sender: TObject);
+procedure TfmMain.SplitterOnPaintDummy(Sender: TObject);
 begin
   //empty, to disable themed paint
 end;

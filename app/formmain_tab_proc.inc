@@ -35,7 +35,7 @@ begin
 
   F.NotifEnabled:= false;
 
-  F.Splitter.OnPaint:= @SplitterOnPaint_Gr;
+  F.Splitter.OnPaint:=@SplitterOnPaintDummy;
 end;
 
 function TfmMain.CreateTab(APages: TATPages; const ACaption: string;
