@@ -28,7 +28,7 @@ class Command:
         self.update_combo()
         self.callback_btn_change(0, 0)
 
-        title = _('Snippet Panel')
+        title = 'Snippet Panel'    # No _(), the translation is offered in "translation template.ini".
         app_proc(PROC_SIDEPANEL_ADD_DIALOG, (title, self.h_dlg, fn_icon) )
         app_proc(PROC_SIDEPANEL_ACTIVATE, title)
 
