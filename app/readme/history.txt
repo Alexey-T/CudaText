@@ -3,11 +3,13 @@
   - fixed
   * changed
 
-1.125.2 (2021/02)
+1.125.3 (2021/02)
 
++ add: better handle splitters moving in tab-group modes '3 vert', '3 horz', '6 grid' (not yet in modes '4v', '4h', '6v', '6h')
 + add: UI-tabs in "multi-line" style can now be scrolled too, vertically
 + add: added API useful for plugin "Terminal Plus" (thanks @Shovel)
 + add: Addon Manager: better handle requirements of CudaLint, CudaFormatter
++ add: lexer PHP: support attributes of PHP 8: #[Name]
 - fix: bug in detecting lexers 'PKGBUILD', 'Dockerfile' (thanks @Nori13) 
 
 1.125.0 (2021/02)
