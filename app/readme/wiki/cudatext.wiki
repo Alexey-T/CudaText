@@ -1680,7 +1680,7 @@ ANSI maps to one of real codepages, it depends on current Windows locale. On non
 
 What is "detect by python standard"? It is detection [https://docs.python.org/3/reference/lexical_analysis.html#encoding-declarations by this standard]. Encoding name is searched by RegEx in the first 1-2 lines of file, if they are comment lines. Comments of these kinds are supported: // # ; --. For simplicity, comment chars are skipped, ignoring current lexer, so it works for all files and all lexers.
 
-==Optimizations for big files==
+==Reduced functionality for big files==
 
 CudaText has the following optimizations for big files and huge lines:
 
