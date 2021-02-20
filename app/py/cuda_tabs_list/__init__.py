@@ -1,8 +1,8 @@
 import os
 from cudatext import *
 import cudatext_cmd
-from cudax_lib import get_translation
 
+from cudax_lib import get_translation
 _   = get_translation(__file__)  # I18N
 
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_tabs_list.ini')
@@ -14,7 +14,7 @@ def str_to_bool(s): return s=='1'
 THEME = app_proc(PROC_THEME_UI_DICT_GET, '')
 
 class Command:
-    title = _('Tabs')
+    title = 'Tabs'    # No _(), the translation is offered in "translation template.ini".
     h_dlg = None
     h_list = None
     h_menu = None
