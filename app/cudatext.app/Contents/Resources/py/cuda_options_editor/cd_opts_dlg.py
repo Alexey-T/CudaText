@@ -178,7 +178,7 @@ def load_definitions(defn_path_or_json)->list:
             pass;              #LOG and log('ref_frm,pre_cmnt,cmnt={}',(ref_frm,pre_cmnt,cmnt))
             cmnt    = cmnt.lstrip('.'+l)
 
-            dfrm    = 'font-e' if dfrm=='font' and 'Empty string is allowed' in cmnt   else dfrm
+            dfrm    = 'font-e' if dfrm=='font' and _('Empty string is allowed') in cmnt   else dfrm
             
             kinf    = odict()
             kinfs  += [kinf]
@@ -671,7 +671,7 @@ class OptEdD:
         elif what=='out-rprt':
             if do_report(HTM_RPT_FILE, 'lexer '+m.lexr+'.json', m.ed):
                 webbrowser.open_new_tab('file://'         +HTM_RPT_FILE)
-                app.msg_status('Opened browser with file '+HTM_RPT_FILE)
+                app.msg_status(_('Opened browser with file ')+HTM_RPT_FILE)
 
         return []
        #def do_file
