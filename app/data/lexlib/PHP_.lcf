@@ -153,6 +153,14 @@ object SyntAnal14: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Attrib begin'
+      StyleName = 'Symbol single'
+      TokenType = 5
+      Expression = '\#\['
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Comment line 2'
       StyleName = 'Comment'
       Expression = '\#.*'#13#10
