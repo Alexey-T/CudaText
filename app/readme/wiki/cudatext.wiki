@@ -742,17 +742,17 @@ First group cannot be empty, at least one tab exists in it. Other groups can be 
 
 Command "auto-completion menu" (default hotkey: Ctrl+Space) shows auto-completion listbox. It works in several sutiations differently.
 
-====IntelliSense====
+===IntelliSense===
 
 Intelligent completion is supported via plugins. For the end of 2020 year, such plugins exist for: Python (plugin "Python IntelliSense"), AutoIt ("AutoIt Helper"), SPIR ("SPIR Helper").
 
 Microsoft LSP protocol is not yet supported by CudaText nor by plugins.
 
-====Static auto-completion files====
+===Static auto-completion files===
 
 Some lexers (e.g. PHP, Pascal, Clojure) provide .acp files, which are fixed set of special words, to show in completion listbox. This is very simple completion, which ignores current context, it only suggests matching strings for the word (or string) under caret. These .acp files are stored in the folder "data/autocomplete".
 
-====Special HTML auto-completion====
+===Special HTML auto-completion===
 
 Lexer HTML (and lexers with "HTML" in name, see the option "autocomplete_html_lexers") has its special logic, which is built-in in CudaText. It uses data files in the folder "data/autocompletespec". Completion listbox shows different information depending on context: 
 
@@ -785,7 +785,7 @@ About folders/filenames completion. Listbox items list depends on part of the qu
 
 To use auto-completion of CLASS= and ID= names (ie suggest mentioned names for partially typed names), you need the plugin "HTML Completion".
 
-====Special CSS auto-completion====
+===Special CSS auto-completion===
 
 Lexer CSS (see the option "autocomplete_css_lexers") has its special logic, which is built-in in CudaText. It uses data files in the folder "data/autocompletespec".
 
@@ -794,7 +794,7 @@ Lexer CSS (see the option "autocomplete_css_lexers") has its special logic, whic
 * Caret is after tag name with char "@". Listbox shows list of CSS at-rules.
 * Caret is after tag name with char ":". Listbox shows list of CSS pseudo-elements, beginning with ":" and "::".
 
-====File URI auto-completion====
+===File URI auto-completion===
 
 File URI is file path in the form like 'file://localhost/dir/filename' or 'file:///dir/filename' (host name 'localhost' is often missed).
 On Windows URI can look like 'file:///c:/dir/filename'.
