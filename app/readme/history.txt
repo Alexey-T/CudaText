@@ -10,6 +10,7 @@
 + add: added API useful for plugin "Terminal Plus" (thanks @Shovel)
 + add: Addon Manager: better handle requirements of CudaLint, CudaFormatter
 + add: lexer PHP: support attributes of PHP 8: #[Name]
+- fix: keys Up/Down, with selection overlapping editor border, caused wrong horizontal scrolling
 - fix: bug in detecting lexers 'PKGBUILD', 'Dockerfile' (thanks @Nori13) 
 
 1.125.0 (2021/02)
