@@ -7353,7 +7353,7 @@ function TfmMain.DoCodetree_ApplyTreeHelperInPascal(Ed: TATSynEdit;
 var
   Tree: TTreeView;
   Data: TATTreeHelperRecords;
-  DataItem: ^TATTreeHelperRecord;
+  DataItem: PATTreeHelperRecord;
   NX1, NY1, NX2, NY2, NLevel, NLevelPrev, NIcon: integer;
   STitle: string;
   Node, NodeParent: TTreeNode;

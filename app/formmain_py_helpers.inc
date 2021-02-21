@@ -207,7 +207,9 @@ begin
   Ed:= Frame.Editor;
   CurLexer:= Frame.LexerName[Ed];
   if CurLexer='' then exit;
-  CurFilename:= Frame.GetFileName(Ed);
+
+  //don't run tree-helper on huge files
+  if Ed.Strings.Count>MaxLinesWhenParserEnablesFolding then exit;
 
   //Pascal tree-helpers
   Result:= DoCodetree_ApplyTreeHelperInPascal(Ed, CurLexer);
@@ -215,15 +217,13 @@ begin
 
   //Python tree-helpers
   if not AppPython.Inited then exit;
-  //don't run tree-helper on huge files
-  if Ed.Strings.Count>MaxLinesWhenParserEnablesFolding then exit;
-
   with AppPython.Engine do
     for NHelper:= 0 to AppTreeHelpers.Count-1 do
     begin
       Helper:= TAppTreeHelper(AppTreeHelpers[NHelper]);
       if not IsLexerListed(CurLexer, Helper.ItemLexers) then Continue;
 
+      CurFilename:= Frame.GetFileName(Ed);
       ParamText:= EditorTextToPyObject(Ed);
       ParamFilename:= PyUnicodeFromString(CurFilename);
 
