@@ -193,7 +193,7 @@ begin
 end;
 
 
-function TfmMain.DoPyTreeHelper(Frame: TEditorFrame): boolean;
+function TfmMain.RunTreeHelper(Frame: TEditorFrame): boolean;
 var
   Ed: TATSynEdit;
   CurLexer, CurFilename: string;

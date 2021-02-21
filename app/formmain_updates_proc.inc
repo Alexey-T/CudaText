@@ -992,7 +992,7 @@ begin
      CodeTree.Tree.Images:= nil;
 
    FCodetreeModifiedVersion:= Ed.Strings.ModifiedVersion;
-   if not DoPyTreeHelper(Frame) then
+   if not RunTreeHelper(Frame) then
    begin
      if not Assigned(FCodetreeBuffer) then
        FCodetreeBuffer:= TTreeView.Create(Self);
