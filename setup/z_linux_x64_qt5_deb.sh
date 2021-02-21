@@ -34,7 +34,6 @@ mkdir $dd/usr/share/cudatext/py/cuda_project_man
 mkdir $dd/usr/share/cudatext/py/cuda_snippet_panel
 mkdir $dd/usr/share/cudatext/py/cuda_sort
 mkdir $dd/usr/share/cudatext/py/cuda_tabs_list
-mkdir $dd/usr/share/cudatext/py/cuda_tree_markdown
 mkdir $dd/usr/share/cudatext/py/cuda_show_unsaved
 mkdir $dd/usr/share/cudatext/py/sys
 mkdir $dd/usr/share/pixmaps
@@ -74,8 +73,6 @@ rm -rf ../app/py/cuda_sort/__pycache__
 cp -r ../app/py/cuda_sort $dd/usr/share/cudatext/py
 rm -rf ../app/py/cuda_tabs_list/__pycache__
 cp -r ../app/py/cuda_tabs_list $dd/usr/share/cudatext/py
-rm -rf ../app/py/cuda_tree_markdown/__pycache__
-cp -r ../app/py/cuda_tree_markdown $dd/usr/share/cudatext/py
 rm -rf ../app/py/cuda_show_unsaved/__pycache__
 cp -r ../app/py/cuda_show_unsaved $dd/usr/share/cudatext/py
 cp -r ../app/py/sys $dd/usr/share/cudatext/py
