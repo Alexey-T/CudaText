@@ -46,7 +46,18 @@ function TreeHelperInPascal(Ed: TATSynEdit; const ALexer: string;
 
 implementation
 
-function Markdown_IsHead(const S: UnicodeString): integer;
+type
+  TTreeHelperMarkdown = class
+  private
+    class function IsHead(const S: UnicodeString): integer;
+    class function IsTicks(const S: UnicodeString): boolean;
+    class function IsAfterHead(const S: UnicodeString; ch: WideChar): boolean;
+    class function TrimHead(const S: UnicodeString): UnicodeString;
+  public
+    class procedure GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
+  end;
+
+class function TTreeHelperMarkdown.IsHead(const S: UnicodeString): integer;
 var
   r, NLen: integer;
 begin
@@ -60,7 +71,7 @@ begin
     Result:= r;
 end;
 
-function Markdown_IsTicks(const S: UnicodeString): boolean;
+class function TTreeHelperMarkdown.IsTicks(const S: UnicodeString): boolean;
 //regex '^\s*`{3,}\s*\w*$'
 var
   NLen, i, r: integer;
@@ -80,7 +91,7 @@ begin
   Result:= r>=3;
 end;
 
-function Markdown_IsAfterHead(const S: UnicodeString; ch: WideChar): boolean;
+class function TTreeHelperMarkdown.IsAfterHead(const S: UnicodeString; ch: WideChar): boolean;
 var
   NLen, i: integer;
 begin
@@ -92,7 +103,7 @@ begin
   Result:= true;
 end;
 
-function Markdown_TrimHead(const S: UnicodeString): UnicodeString;
+class function TTreeHelperMarkdown.TrimHead(const S: UnicodeString): UnicodeString;
 var
   i: integer;
 begin
@@ -102,7 +113,7 @@ begin
   Result:= Copy(S, i, MaxInt);
 end;
 
-procedure Markdown_GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
+class procedure TTreeHelperMarkdown.GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
 var
   DataItem: TATTreeHelperRecord;
   St: TATStrings;
@@ -136,7 +147,7 @@ begin
     if pre then
       Continue;
 
-    r:= Markdown_IsTicks(S);
+    r:= IsTicks(S);
     if r then
     begin
       if tick and (r=tick_r) then
@@ -154,7 +165,7 @@ begin
     if tick then
       Continue;
 
-    head:= Markdown_IsHead(S);
+    head:= IsHead(S);
     if head>0 then
     begin
       DataItem.X1:= 0;
@@ -162,7 +173,7 @@ begin
       DataItem.X2:= 0;
       DataItem.Y2:= iLine+1;
       DataItem.Level:= head;
-      DataItem.Title:= Markdown_TrimHead(S);
+      DataItem.Title:= TrimHead(S);
       DataItem.Icon:= -1;
       Data.Add(DataItem)
     end
@@ -171,10 +182,10 @@ begin
       if (iLine+1<St.Count) and (S[1]<>'-') and (S[1]<>'=') then
       begin
         S2:= St.Lines[iLine+1];
-        if Markdown_IsAfterHead(S2, '=') then
+        if IsAfterHead(S2, '=') then
           head:= 1
         else
-        if Markdown_IsAfterHead(S2, '-') then
+        if IsAfterHead(S2, '-') then
           head:= 2
         else
           head:= 0;
@@ -195,7 +206,16 @@ begin
 end;
 
 
-function Mediawiki_TrimHead(const S: UnicodeString): UnicodeString;
+type
+  TTreeHelperMediawiki = class
+  private
+    class function TrimHead(const S: UnicodeString): UnicodeString;
+    class function GetHead(const S: UnicodeString): integer;
+  public
+    class procedure GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
+  end;
+
+class function TTreeHelperMediawiki.TrimHead(const S: UnicodeString): UnicodeString;
 var
   i, j: integer;
 begin
@@ -209,7 +229,7 @@ begin
 end;
 
 
-function Mediawiki_GetHead(const S: UnicodeString): integer;
+class function TTreeHelperMediawiki.GetHead(const S: UnicodeString): integer;
 var
   NLen, r, r2, i: integer;
 begin
@@ -232,7 +252,7 @@ begin
     Result:= 0;
 end;
 
-procedure Mediawiki_GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
+class procedure TTreeHelperMediawiki.GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
 var
   DataItem: TATTreeHelperRecord;
   St: TATStrings;
@@ -248,7 +268,7 @@ begin
     if S='' then Continue;
     if S[1]<>'=' then Continue;
     if S[Length(S)]<>'=' then Continue;
-    head:= Mediawiki_GetHead(S);
+    head:= GetHead(S);
     if head>0 then
     begin
       DataItem.X1:= 0;
@@ -256,15 +276,24 @@ begin
       DataItem.X2:= 0;
       DataItem.Y2:= iLine+1;
       DataItem.Level:= head;
-      DataItem.Title:= Mediawiki_TrimHead(S);
+      DataItem.Title:= TrimHead(S);
       DataItem.Icon:= -1;
       Data.Add(DataItem)
     end
   end;
 end;
 
+type
+  TTreeHelperRest = class
+  private
+    class function IsHead(const S: UnicodeString; ch: WideChar): boolean;
+    class function IsArr(const S: UnicodeString): boolean;
+    class function GetLevel(ch: WideChar): integer;
+  public
+    class procedure GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
+  end;
 
-function Rest_IsHead(const S: UnicodeString; ch: WideChar): boolean;
+class function TTreeHelperRest.IsHead(const S: UnicodeString; ch: WideChar): boolean;
 var
   i: integer;
 begin
@@ -276,19 +305,19 @@ begin
   Result:= true;
 end;
 
-function Rest_IsArr(const S: UnicodeString): boolean;
+class function TTreeHelperRest.IsArr(const S: UnicodeString): boolean;
 const
   arr: UnicodeString = '-=\''"`:^~_*+#<>';
 var
   i: integer;
 begin
   for i:= 1 to Length(arr) do
-    if Rest_IsHead(S, arr[i]) then
+    if IsHead(S, arr[i]) then
       exit(true);
   Result:= false;
 end;
 
-function Rest_Level(ch: WideChar): integer;
+class function TTreeHelperRest.GetLevel(ch: WideChar): integer;
 begin
   case ch of
     '=': Result:= 1;
@@ -299,7 +328,7 @@ begin
   end;
 end;
 
-procedure Rest_GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
+class procedure TTreeHelperRest.GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
 var
   DataItem: TATTreeHelperRecord;
   St: TATStrings;
@@ -312,7 +341,7 @@ begin
   begin
     S:= St.Lines[iLine];
     if S='' then Continue;
-    if Rest_IsArr(S) then
+    if IsArr(S) then
     begin
       NLen:= St.LinesLen[iLine-1];
       if (NLen>0) and (NLen<=Length(S)) then
@@ -321,7 +350,7 @@ begin
         DataItem.Y1:= iLine-1;
         DataItem.X2:= 0;
         DataItem.Y2:= iLine;
-        DataItem.Level:= Rest_Level(S[1]);
+        DataItem.Level:= GetLevel(S[1]);
         DataItem.Title:= St.Lines[iLine-1];
         DataItem.Icon:= -1;
         Data.Add(DataItem)
@@ -340,17 +369,17 @@ begin
     'Markdown':
       begin
         Result:= true;
-        Markdown_GetHeaders(Ed, Data);
+        TTreeHelperMarkdown.GetHeaders(Ed, Data);
       end;
     'MediaWiki':
       begin
         Result:= true;
-        Mediawiki_GetHeaders(Ed, Data);
+        TTreeHelperMediawiki.GetHeaders(Ed, Data);
       end;
     'reStructuredText':
       begin
         Result:= true;
-        Rest_GetHeaders(Ed, Data);
+        TTreeHelperRest.GetHeaders(Ed, Data);
       end;
   end;
 end;
