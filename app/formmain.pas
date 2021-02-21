@@ -792,6 +792,7 @@ type
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoCodetree_GotoBlockForCurrentNode(AndSelect: boolean);
     procedure DoCodetree_ApplyTreeHelperResults(Data: PPyObject);
+    function DoCodetree_ApplyTreeHelperInPascal(Ed: TATSynEdit; const ALexer: string): boolean;
     procedure DoSidebar_OnCloseFloatForm(Sender: TObject; var CloseAction: TCloseAction);
     function DoSidebar_GetFormTitle(const ACaption: string): string;
     procedure DoSidebar_OnPythonCall(const ACallback: string);
@@ -1158,7 +1159,8 @@ implementation
 
 uses
   Emmet,
-  EmmetHelper;
+  EmmetHelper,
+  TreeHelpers_Proc;
 
 {$R *.lfm}
 
@@ -7343,6 +7345,72 @@ begin
    Tree.EndUpdate;
   end;
 end;
+
+
+function TfmMain.DoCodetree_ApplyTreeHelperInPascal(Ed: TATSynEdit;
+  const ALexer: string): boolean;
+var
+  Tree: TTreeView;
+  Data: TATTreeHelperRecords;
+  DataItem: ^TATTreeHelperRecord;
+  NX1, NY1, NX2, NY2, NLevel, NLevelPrev, NIcon: integer;
+  STitle: string;
+  Node, NodeParent: TTreeNode;
+  Range: TATRangeInCodeTree;
+  iItem, iLevel: integer;
+begin
+  Tree:= CodeTree.Tree;
+  Data:= TATTreeHelperRecords.Create;
+  Tree.BeginUpdate;
+  try
+    Tree.Items.Clear;
+
+    Node:= nil;
+    NodeParent:= nil;
+    NLevelPrev:= 1;
+
+    TreeHelperInPascal(Ed, ALexer, Data);
+    if Data.Count>0 then
+    begin
+      for iItem:= 0 to Data.Count-1 do
+      begin
+        DataItem:= Data.ItemPtr[iItem];
+
+        NX1:= DataItem^.X1;
+        NY1:= DataItem^.Y1;
+        NX2:= DataItem^.X2;
+        NY2:= DataItem^.Y2;
+        NLevel:= DataItem^.Level;
+        STitle:= DataItem^.Title;
+        NIcon:= DataItem^.Icon;
+
+        if (Node=nil) or (NLevel<=1) then
+          NodeParent:= nil
+        else
+        begin
+          NodeParent:= Node;
+          for iLevel:= NLevel to NLevelPrev do
+            if Assigned(NodeParent) then
+              NodeParent:= NodeParent.Parent;
+        end;
+
+        Range:= TATRangeInCodeTree.Create;
+        Range.PosBegin:= Point(NX1, NY1);
+        Range.PosEnd:= Point(NX2, NY2);
+
+        Node:= Tree.Items.AddChildObject(NodeParent, STitle, Range);
+        Node.ImageIndex:= NIcon;
+        Node.SelectedIndex:= NIcon;
+
+        NLevelPrev:= NLevel;
+      end;
+    end;
+  finally
+    FreeAndNil(Data);
+    Tree.EndUpdate;
+  end;
+end;
+
 
 procedure TfmMain.DoOnLexerParseProgress(Sender: TObject; AProgress: integer);
 begin

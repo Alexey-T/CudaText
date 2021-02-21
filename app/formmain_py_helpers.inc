@@ -206,14 +206,18 @@ begin
   if not AppPython.Inited then exit;
 
   Ed:= Frame.Editor;
-
-  //don't run tree-helper on huge files
-  if Ed.Strings.Count>MaxLinesWhenParserEnablesFolding then exit;
-
   CurLexer:= Frame.LexerName[Ed];
   if CurLexer='' then exit;
   CurFilename:= Frame.GetFileName(Ed);
 
+  //support Pascal tree-helpers
+  if DoCodetree_ApplyTreeHelperInPascal(Ed, CurLexer) then
+    exit;
+
+  //don't run tree-helper on huge files
+  if Ed.Strings.Count>MaxLinesWhenParserEnablesFolding then exit;
+
+  //Python tree-helpers
   with AppPython.Engine do
     for NHelper:= 0 to AppTreeHelpers.Count-1 do
     begin
