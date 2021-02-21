@@ -203,21 +203,21 @@ var
   Helper: TAppTreeHelper;
 begin
   Result:= false;
-  if not AppPython.Inited then exit;
 
   Ed:= Frame.Editor;
   CurLexer:= Frame.LexerName[Ed];
   if CurLexer='' then exit;
   CurFilename:= Frame.GetFileName(Ed);
 
-  //support Pascal tree-helpers
-  if DoCodetree_ApplyTreeHelperInPascal(Ed, CurLexer) then
-    exit;
+  //Pascal tree-helpers
+  Result:= DoCodetree_ApplyTreeHelperInPascal(Ed, CurLexer);
+  if Result then exit;
 
+  //Python tree-helpers
+  if not AppPython.Inited then exit;
   //don't run tree-helper on huge files
   if Ed.Strings.Count>MaxLinesWhenParserEnablesFolding then exit;
 
-  //Python tree-helpers
   with AppPython.Engine do
     for NHelper:= 0 to AppTreeHelpers.Count-1 do
     begin

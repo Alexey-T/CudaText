@@ -39,8 +39,8 @@ type
     property ItemPtr[N: integer]: PATTreeHelperRecord read GetItemPtr;
   end;
 
-procedure TreeHelperInPascal(Ed: TATSynEdit; const ALexer: string;
-  Data: TATTreeHelperRecords);
+function TreeHelperInPascal(Ed: TATSynEdit; const ALexer: string;
+  Data: TATTreeHelperRecords): boolean;
 
 implementation
 
@@ -192,13 +192,15 @@ begin
   end;
 end;
 
-procedure TreeHelperInPascal(Ed: TATSynEdit; const ALexer: string;
-  Data: TATTreeHelperRecords);
+function TreeHelperInPascal(Ed: TATSynEdit; const ALexer: string;
+  Data: TATTreeHelperRecords): boolean;
 begin
+  Result:= false;
   Data.Clear;
   case ALexer of
     'Markdown':
       begin
+        Result:= true;
         Markdown_GetHeaders(Ed, Data);
       end;
   end;

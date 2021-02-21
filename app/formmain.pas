@@ -7370,8 +7370,8 @@ begin
     NodeParent:= nil;
     NLevelPrev:= 1;
 
-    TreeHelperInPascal(Ed, ALexer, Data);
-    if Data.Count>0 then
+    Result:= TreeHelperInPascal(Ed, ALexer, Data);
+    if Result and (Data.Count>0) then
     begin
       for iItem:= 0 to Data.Count-1 do
       begin
