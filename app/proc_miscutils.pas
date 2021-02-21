@@ -125,6 +125,15 @@ type
     procedure Paint; override;
   end;
 
+type
+  TAppIntPair = record
+    N1, N2: integer;
+  end;
+  TAppIntPairs = array of TAppIntPair;
+
+function DivideRangeByParts(A, B, Parts: integer): TAppIntPairs;
+
+
 implementation
 
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
@@ -1041,6 +1050,53 @@ begin
   begin
     C.TextOut(NX, NY, SItem);
     Inc(NY, H);
+  end;
+end;
+
+
+function DivideRangeByPartsFrom0(N, Parts: integer): TAppIntPairs;
+var
+  i, d: integer;
+begin
+  if Parts<1 then
+    Parts:= 1;
+  if N<0 then
+  begin
+    SetLength(Result, 0);
+    exit;
+  end;
+  if N+1<=Parts then
+  begin
+    SetLength(Result, N+1);
+    for i:= 0 to N do
+    begin
+      Result[i].N1:= i;
+      Result[i].N2:= i;
+    end;
+  end
+  else
+  begin
+    SetLength(Result, Parts);
+    Result[0].N1:= 0;
+    Result[High(Result)].N2:= N;
+    for i:= 1 to Parts-1 do
+    begin
+      d:= N * i div Parts;
+      Result[i-1].N2:= d;
+      Result[i].N1:= d+1;
+    end;
+  end;
+end;
+
+function DivideRangeByParts(A, B, Parts: integer): TAppIntPairs;
+var
+  i: integer;
+begin
+  Result:= DivideRangeByPartsFrom0(B-A, Parts);
+  for i:= 0 to High(Result) do
+  begin
+    Inc(Result[i].N1, A);
+    Inc(Result[i].N2, A);
   end;
 end;
 
