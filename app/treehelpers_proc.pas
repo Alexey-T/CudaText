@@ -26,7 +26,7 @@ type
     X1, Y1, X2, Y2: integer;
     Level: integer;
     Icon: integer;
-    Title: string[39];
+    Title: string[63];
     class operator =(const A, B: TATTreeHelperRecord): boolean;
   end;
 
