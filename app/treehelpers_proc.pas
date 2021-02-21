@@ -264,6 +264,73 @@ begin
 end;
 
 
+function Rest_IsHead(const S: UnicodeString; ch: WideChar): boolean;
+var
+  i: integer;
+begin
+  Result:= false;
+  if S='' then exit;
+  for i:= 1 to Length(S) do
+    if S[i]<>ch then
+      exit;
+  Result:= true;
+end;
+
+function Rest_IsArr(const S: UnicodeString): boolean;
+const
+  arr: UnicodeString = '-=\''"`:^~_*+#<>';
+var
+  i: integer;
+begin
+  for i:= 1 to Length(arr) do
+    if Rest_IsHead(S, arr[i]) then
+      exit(true);
+  Result:= false;
+end;
+
+function Rest_Level(ch: WideChar): integer;
+begin
+  case ch of
+    '=': Result:= 1;
+    '-': Result:= 2;
+    '~': Result:= 3;
+    '"': Result:= 4;
+    else Result:= 1;
+  end;
+end;
+
+procedure Rest_GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
+var
+  DataItem: TATTreeHelperRecord;
+  St: TATStrings;
+  S: UnicodeString;
+  NLen, iLine: integer;
+begin
+  Data.Clear;
+  St:= Ed.Strings;
+  for iLine:= 1{not 0} to St.Count-1 do
+  begin
+    S:= St.Lines[iLine];
+    if S='' then Continue;
+    if Rest_IsArr(S) then
+    begin
+      NLen:= St.LinesLen[iLine-1];
+      if (NLen>0) and (NLen<=Length(S)) then
+      begin
+        DataItem.X1:= 0;
+        DataItem.Y1:= iLine-1;
+        DataItem.X2:= 0;
+        DataItem.Y2:= iLine;
+        DataItem.Level:= Rest_Level(S[1]);
+        DataItem.Title:= St.Lines[iLine-1];
+        DataItem.Icon:= -1;
+        Data.Add(DataItem)
+      end;
+    end;
+  end;
+end;
+
+//--------------------------------------------------------------
 function TreeHelperInPascal(Ed: TATSynEdit; const ALexer: string;
   Data: TATTreeHelperRecords): boolean;
 begin
@@ -279,6 +346,11 @@ begin
       begin
         Result:= true;
         Mediawiki_GetHeaders(Ed, Data);
+      end;
+    'reStructuredText':
+      begin
+        Result:= true;
+        Rest_GetHeaders(Ed, Data);
       end;
   end;
 end;
