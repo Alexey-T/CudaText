@@ -30,6 +30,7 @@ type
     class operator =(const A, B: TATTreeHelperRecord): boolean;
   end;
 
+type
   { TATTreeHelperRecords }
 
   TATTreeHelperRecords = class(specialize TFPGList<TATTreeHelperRecord>)
@@ -41,6 +42,7 @@ type
 
 function TreeHelperInPascal(Ed: TATSynEdit; const ALexer: string;
   Data: TATTreeHelperRecords): boolean;
+
 
 implementation
 

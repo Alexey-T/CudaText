@@ -1321,8 +1321,9 @@
         <IsPartOfProject Value="True"/>
       </Unit56>
       <Unit57>
-        <Filename Value="pascal_treehelpers.pas"/>
+        <Filename Value="treehelpers_proc.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="TreeHelpers_Proc"/>
       </Unit57>
     </Units>
   </ProjectOptions>
