@@ -1,4 +1,4 @@
-object SyntAnal18: TLibSyntAnalyzer
+object SyntAnal19: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Head'
@@ -299,6 +299,7 @@ object SyntAnal18: TLibSyntAnalyzer
           TokenTypes = 1
         end>
       EndOfTextClose = True
+      DisplayInTree = False
       NameFmt = '%sz0'
       HighlightPos = cpAny
       CancelNextRules = True

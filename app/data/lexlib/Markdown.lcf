@@ -521,6 +521,20 @@ object SyntAnal13: TLibSyntAnalyzer
     end>
   BlockRules = <
     item
+      DisplayName = 'Header'
+      ConditionList = <
+        item
+          TokenTypes = 1
+        end>
+      EndOfTextClose = True
+      DisplayInTree = False
+      NameFmt = '%sz0'
+      HighlightPos = cpAny
+      CollapseFmt = '%sz0'
+      SelfClose = True
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = '`begin'
       StyleName = 'Codeblock'
       ConditionList = <
@@ -599,7 +613,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '<\?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal14
+      SyntAnalyzer = SyntAnal15
       IncludeBounds = True
     end
     item
@@ -620,7 +634,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'YAML front matter'
       StartExpression = '\A---$'
       EndExpression = '^---$'
-      SyntAnalyzer = SyntAnal22
+      SyntAnalyzer = SyntAnal23
     end>
   SampleText.Strings = (
     '---'
