@@ -37,7 +37,6 @@ STD_MODULES = (
   'cuda_snippet_panel',
   'cuda_sort',
   'cuda_tabs_list',
-  'cuda_tree_markdown',
   'cuda_lexer_detecter',
   )
 STD_LEXERS = (
