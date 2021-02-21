@@ -5,8 +5,8 @@ var
   i: integer;
 begin
   Result:= false;
-  for i:= 0 to High(BadPlugins) do
-    if S=BadPlugins[i] then exit(true);
+  for i:= 0 to High(IgnoredPlugins) do
+    if S=IgnoredPlugins[i] then exit(true);
 end;
 
 procedure TfmMain.DoOps_LoadPlugins;

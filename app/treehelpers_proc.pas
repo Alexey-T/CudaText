@@ -194,6 +194,76 @@ begin
   end;
 end;
 
+
+function Mediawiki_TrimHead(const S: UnicodeString): UnicodeString;
+var
+  i, j: integer;
+begin
+  i:= 1;
+  while (i<=Length(S)) and ((S[i]='=') or (S[i]=' ')) do
+    Inc(i);
+  j:= Length(S);
+  while (j>0) and ((S[j]='=') or (S[j]=' ')) do
+    Dec(j);
+  Result:= Copy(S, i, j-i+1);
+end;
+
+
+function Mediawiki_GetHead(const S: UnicodeString): integer;
+var
+  NLen, r, r2, i: integer;
+begin
+  NLen:= Length(S);
+  r:= 0;
+  while (r<NLen) and (S[r+1]='=') do
+    Inc(r);
+
+  r2:= 0;
+  i:= NLen;
+  while (i>0) and (s[i]='=') do
+  begin
+    Dec(i);
+    Inc(r2);
+  end;
+
+  if r2>=r then
+    Result:= r
+  else
+    Result:= 0;
+end;
+
+procedure Mediawiki_GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
+var
+  DataItem: TATTreeHelperRecord;
+  St: TATStrings;
+  head: integer;
+  S: UnicodeString;
+  iLine: integer;
+begin
+  Data.Clear;
+  St:= Ed.Strings;
+  for iLine:= 0 to St.Count-1 do
+  begin
+    S:= St.Lines[iLine];
+    if S='' then Continue;
+    if S[1]<>'=' then Continue;
+    if S[Length(S)]<>'=' then Continue;
+    head:= Mediawiki_GetHead(S);
+    if head>0 then
+    begin
+      DataItem.X1:= 0;
+      DataItem.Y1:= iLine;
+      DataItem.X2:= 0;
+      DataItem.Y2:= iLine+1;
+      DataItem.Level:= head;
+      DataItem.Title:= Mediawiki_TrimHead(S);
+      DataItem.Icon:= -1;
+      Data.Add(DataItem)
+    end
+  end;
+end;
+
+
 function TreeHelperInPascal(Ed: TATSynEdit; const ALexer: string;
   Data: TATTreeHelperRecords): boolean;
 begin
@@ -204,6 +274,11 @@ begin
       begin
         Result:= true;
         Markdown_GetHeaders(Ed, Data);
+      end;
+    'MediaWiki':
+      begin
+        Result:= true;
+        Mediawiki_GetHeaders(Ed, Data);
       end;
   end;
 end;

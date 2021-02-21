@@ -1189,10 +1189,11 @@ const
   StatusbarTag_Msg = 20;
 
 const
-  BadPlugins: array[0..2] of string = (
+  IgnoredPlugins: array[0..3] of string = (
     'cuda_tree', //replaced with built-in tree-helper engine
-    'cuda_tree_markdown', //replaced with built-in Markdown tree-helper
-    'cuda_brackets_hilite' //bracket hiliting is built-in
+    'cuda_tree_markdown', //built-in
+    'cuda_tree_mediawiki', //built-in
+    'cuda_brackets_hilite' //built-in
     );
 
 procedure UpdateThemeStatusbar;
