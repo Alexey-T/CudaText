@@ -11,7 +11,7 @@
 + add: better handle splitters moving in tab-group modes '3 vert', '3 horz', '6 grid' (not yet in modes '4v', '4h', '6v', '6h')
 + add: UI-tabs in "multi-line" style can now be scrolled too, vertically (thanks @GHNewbiee)
 + add: added API useful for plugin "Terminal Plus" (thanks @Shovel)
-+ add: Addon Manager: better handle requirements of CudaLint, CudaFormatter
++ add: Addon Manager: auto-install CudaLint/CudaFormatter when a linter/formatter is installing
 + add: lexer PHP: support attributes of PHP 8: #[Name]
 - fix: keys Up/Down, with selection overlapping editor border, caused wrong horizontal scrolling
 - fix: bug in detecting lexers 'PKGBUILD', 'Dockerfile' (thanks @Nori13) 
