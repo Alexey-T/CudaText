@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.125.4 (2021/02)
+1.126.0 (2021/02)
 
 + add: added built-in tree-helper for Markdown, and plugin cuda_tree_markdown is removed, it is in ignore-list now (thanks @GHNewbiee)
 + add: added built-in tree-helper for MediaWiki, and plugin cuda_tree_mediawiki is in ignore-list now
