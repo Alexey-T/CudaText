@@ -1428,7 +1428,8 @@ var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
   SLexerName: string;
-  bWordChar, bIdentChar: boolean;
+  bTypedChar, bWordChar, bIdentChar: boolean;
+  chWide: WideChar;
 begin
   Ed:= Sender as TATSynEdit;
   if Ed.Carets.Count<>1 then exit;
@@ -1443,9 +1444,12 @@ begin
     exit;
   end;
 
+  bTypedChar:= (ACommand=cCommand_TextInsert) and
+    (AText<>'') and
+    ((Length(AText)=1) or (UTF8Length(AText)=1));
+
   //autoshow autocompletion
-  if (ACommand=cCommand_TextInsert) and
-    (Length(AText)=1) then
+  if bTypedChar then
   begin
     //autoshow by trigger chars
     if (Ed.OptAutocompleteTriggerChars<>'') and
@@ -1460,11 +1464,15 @@ begin
     end;
 
     //other conditions need word-char
-    bWordChar:= IsCharWordInIdentifier(AText[1]);
-    if not bWordChar then
+    if bTypedChar then
     begin
-      FTextCharsTyped:= 0;
-      exit;
+      chWide:= UTF8Decode(AText)[1];
+      bWordChar:= IsCharWord(chWide, Ed.OptNonWordChars);
+      if not bWordChar then
+      begin
+        FTextCharsTyped:= 0;
+        exit;
+      end;
     end;
 
     SLexerName:= LexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
