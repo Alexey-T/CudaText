@@ -5,7 +5,8 @@
 
 1.126.1
 
-+ add: some internal changes in rendering (report any bugs)
+* change: minor internal changes in rendering, report any bugs
+- fix: Addon Manager: don't reinstall CudaLint/CudaFormatter when a linter/formatter is installing
 - fix: option "autocomplete_autoshow_chars" didn't work with national letters (thanks @tmsg)
 
 1.126.0 (2021/02)
