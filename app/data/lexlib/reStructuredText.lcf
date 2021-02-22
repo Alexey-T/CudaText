@@ -7,7 +7,6 @@ object SyntAnal19: TLibSyntAnalyzer
       Font.Height = -19
       Font.Name = 'Consolas'
       Font.Style = [fsBold]
-      FormatType = ftCustomFont
     end
     item
       DisplayName = 'Comment'
@@ -252,6 +251,14 @@ object SyntAnal19: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Code spaces'
+      StyleName = 'Code'
+      TokenType = 4
+      Expression = '^[\x20\x09]{4,}\S.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Table'
       StyleName = 'Table'
       TokenType = 7
@@ -287,7 +294,7 @@ object SyntAnal19: TLibSyntAnalyzer
       DisplayName = 'List head'
       StyleName = 'List head'
       TokenType = 12
-      Expression = '^\.\.\x20\w[\w\-\x20]+:+'
+      Expression = '^\.\.\x20\w[\w\.\-\x20]+:+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
