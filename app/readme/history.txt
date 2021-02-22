@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.126.1
+
++ add: some internal changes in rendering (report any bugs)
+- fix: option "autocomplete_autoshow_chars" didn't work with national letters (thanks @tmsg)
+
 1.126.0 (2021/02)
 
 + add: added built-in tree-helper for Markdown, and plugin cuda_tree_markdown is removed, it is in ignore-list now (thanks @GHNewbiee)
