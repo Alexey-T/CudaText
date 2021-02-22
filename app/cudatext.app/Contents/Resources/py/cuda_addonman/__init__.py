@@ -270,10 +270,14 @@ class Command:
         name = info['name']
         req = info.get('req', '')
         req_names = req.split(',')
+        
         if info['kind']=='linter':
-            req_names.append('plugin.CudaLint')
+            if not 'cuda_lint' in installed_modules:
+                req_names.append('plugin.CudaLint')
+
         if info['kind']=='formatter':
-            req_names.append('plugin.CudaFormatter')
+            if not 'cuda_fmt' in installed_modules:
+                req_names.append('plugin.CudaFormatter')
 
         req_items = []
         for s in req_names:
