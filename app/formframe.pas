@@ -1428,8 +1428,8 @@ var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
   SLexerName: string;
+  STextW: UnicodeString;
   bTypedChar, bWordChar, bIdentChar: boolean;
-  chWide: WideChar;
 begin
   Ed:= Sender as TATSynEdit;
   if Ed.Carets.Count<>1 then exit;
@@ -1464,10 +1464,10 @@ begin
     end;
 
     //other conditions need word-char
-    if bTypedChar then
+    STextW:= UTF8Decode(AText);
+    if Length(STextW)=1 then
     begin
-      chWide:= UTF8Decode(AText)[1];
-      bWordChar:= IsCharWord(chWide, Ed.OptNonWordChars);
+      bWordChar:= IsCharWord(STextW[1], Ed.OptNonWordChars);
       if not bWordChar then
       begin
         FTextCharsTyped:= 0;
