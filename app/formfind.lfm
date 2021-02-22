@@ -187,7 +187,6 @@ object fmFind: TfmFind
       OptRulerVisible = False
       OptMicromapVisible = True
       OptMarginRight = 1000
-      OptNumbersSkippedChar = '.'
       OptUnprintedVisible = False
       OptMouseDragDrop = False
       OptMouseMiddleClickAction = mcaNone
@@ -235,7 +234,6 @@ object fmFind: TfmFind
       OptRulerVisible = False
       OptMicromapVisible = True
       OptMarginRight = 1000
-      OptNumbersSkippedChar = '.'
       OptUnprintedVisible = False
       OptMouseDragDrop = False
       OptMouseMiddleClickAction = mcaNone

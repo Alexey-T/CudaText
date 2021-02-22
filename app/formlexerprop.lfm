@@ -140,7 +140,6 @@ object fmLexerProp: TfmLexerProp
         TabStop = True
         OptRulerVisible = False
         OptNumbersStyle = cNumbersNone
-        OptNumbersSkippedChar = '.'
         OptUnprintedVisible = False
       end
     end

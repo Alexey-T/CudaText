@@ -47,7 +47,6 @@ object fmCommands: TfmCommands
     OptBorderWidthFocused = 1
     OptRulerVisible = False
     OptMarginRight = 1000
-    OptNumbersSkippedChar = '.'
     OptUnprintedVisible = False
     OptMouseDragDrop = False
     OptMouseMiddleClickAction = mcaNone
