@@ -3425,10 +3425,8 @@ begin
     PanelInfo.Parent:= Self;
     PanelInfo.Align:= alTop;
     PanelInfo.Visible:= false;
-    PanelInfo.Height:= AppScale(30);
+    PanelInfo.Height:= AppScale(24);
     PanelInfo.BevelOuter:= bvNone;
-    PanelInfo.OnClick:= AOnClick;
-    PanelInfo.Caption:= AText
   end;
 
   PanelInfo.Color:= GetAppColor(apclListBg);
@@ -3436,7 +3434,10 @@ begin
   PanelInfo.Font.Size:= AppScaleFont(UiOps.VarFontSize);
   PanelInfo.Font.Color:= GetAppColor(apclListFont);
 
-  PanelInfo.Visible:= true;
+  PanelInfo.Caption:= AText;
+  PanelInfo.OnClick:= AOnClick;
+
+  PanelInfo.Show;
 end;
 
 procedure TEditorFrame.InitPanelReload(Index: integer);
