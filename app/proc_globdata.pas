@@ -164,6 +164,7 @@ type
 
     PyLibrary: string;
     PyChangeSlow: integer;
+    InfoAboutOptionsEditor: boolean;
 
     LogPluginIniting: boolean;
     LogSessions: boolean;
@@ -1663,6 +1664,7 @@ begin
     TreeIconFilenames:= 'dir,st1,st2,st3,box,fx,ar1,ar2,';
 
     PyChangeSlow:= 2000;
+    InfoAboutOptionsEditor:= true;
 
     LogPluginIniting:= true;
     LogSessions:= true;

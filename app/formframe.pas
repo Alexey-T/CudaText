@@ -2111,9 +2111,10 @@ begin
   if (AFileName2<>'') then
     if not FileExists(AFileName2) then exit;
 
-  if (CompareFilenames(AFileName, AppFile_OptionsUser)=0) or
-    (CompareFilenames(AFileName, AppFile_OptionsDefault)=0) then
-    InitPanelInfo(msgInfoOptionsEditor, @PanelInfoClick);
+  if UiOps.InfoAboutOptionsEditor then
+    if (CompareFilenames(AFileName, AppFile_OptionsUser)=0) or
+      (CompareFilenames(AFileName, AppFile_OptionsDefault)=0) then
+      InitPanelInfo(msgInfoOptionsEditor, @PanelInfoClick);
 
   Lexer[Ed1]:= nil;
   if not EditorsLinked then
