@@ -749,7 +749,7 @@ Intelligent completion is supported via plugins. For the end of 2020 year, such 
 * JavaScript lexer - "JS Tern"
 * Python lexer - "Python IntelliSense"
 * HTML lexer - "HTML Completion", gives additional completion for "id" and "class" names
-* AutoIt leer - "AutoIt Helper"
+* AutoIt lexer - "AutoIt Helper"
 * SPIR lexer - "SPIR Helper"
 * all files - "Complete From Text" and "Intext Complete"
 
