@@ -397,6 +397,8 @@ const
   msgFindHint_Tokens: string = 'Allowed syntax elements';
   msgFindHint_HiAll: string = 'Highlight all matches';
 
+  msgInfoOptionsEditor: string = '"Options Editor" provides handy dialog to customize CudaText - click to open it';
+
 function msgUntitledNumberedCaption: string;
 function msgTranslatedPanelCaption(const ACaption: string): string;
 

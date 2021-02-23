@@ -218,7 +218,7 @@ type
     function GetUnprintedSpaces: boolean;
     procedure InitEditor(var ed: TATSynEdit);
     procedure InitPanelReload(Index: integer);
-    procedure InitPanelInfo;
+    procedure InitPanelInfo(const AText: string; AOnClick: TNotifyEvent);
     function IsCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integer): boolean;
     procedure PanelInfoClick(Sender: TObject);
     procedure SetBracketHilite(AValue: boolean);
@@ -2111,8 +2111,9 @@ begin
   if (AFileName2<>'') then
     if not FileExists(AFileName2) then exit;
 
-  if CompareFilenames(AFileName, AppFile_OptionsUser)=0 then
-    InitPanelInfo();
+  if (CompareFilenames(AFileName, AppFile_OptionsUser)=0) or
+    (CompareFilenames(AFileName, AppFile_OptionsDefault)=0) then
+    InitPanelInfo(msgInfoOptionsEditor, @PanelInfoClick);
 
   Lexer[Ed1]:= nil;
   if not EditorsLinked then
@@ -3413,8 +3414,10 @@ begin
   end;
 end;
 
-procedure TEditorFrame.InitPanelInfo;
+procedure TEditorFrame.InitPanelInfo(const AText: string; AOnClick: TNotifyEvent);
 begin
+  if not AppPython.Inited then exit;
+
   if not Assigned(PanelInfo) then
   begin
     PanelInfo:= TPanel.Create(Self);
@@ -3423,8 +3426,8 @@ begin
     PanelInfo.Visible:= false;
     PanelInfo.Height:= AppScale(30);
     PanelInfo.BevelOuter:= bvNone;
-    PanelInfo.OnClick:= @PanelInfoClick;
-    PanelInfo.Caption:= '"Options Editor" provides handy dialog to customize CudaText - click to open it';
+    PanelInfo.OnClick:= AOnClick;
+    PanelInfo.Caption:= AText
   end;
 
   PanelInfo.Color:= GetAppColor(apclListBg);
