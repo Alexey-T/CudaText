@@ -96,6 +96,7 @@ type
     { private declarations }
     Adapter1: TATAdapterEControl;
     Adapter2: TATAdapterEControl;
+    PanelInfo: TPanel;
     PanelReload: array[0..1] of TPanel;
     LabelReload: array[0..1] of TLabel;
     btnReloadYes: array[0..1] of TATButton;
@@ -217,7 +218,9 @@ type
     function GetUnprintedSpaces: boolean;
     procedure InitEditor(var ed: TATSynEdit);
     procedure InitPanelReload(Index: integer);
+    procedure InitPanelInfo;
     function IsCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integer): boolean;
+    procedure PanelInfoClick(Sender: TObject);
     procedure SetBracketHilite(AValue: boolean);
     procedure SetEnabledCodeTree(Ed: TATSynEdit; AValue: boolean);
     procedure SetEnabledFolding(AValue: boolean);
@@ -2108,6 +2111,9 @@ begin
   if (AFileName2<>'') then
     if not FileExists(AFileName2) then exit;
 
+  if CompareFilenames(AFileName, AppFile_OptionsUser)=0 then
+    InitPanelInfo();
+
   Lexer[Ed1]:= nil;
   if not EditorsLinked then
     Lexer[Ed2]:= nil;
@@ -3407,6 +3413,28 @@ begin
   end;
 end;
 
+procedure TEditorFrame.InitPanelInfo;
+begin
+  if not Assigned(PanelInfo) then
+  begin
+    PanelInfo:= TPanel.Create(Self);
+    PanelInfo.Parent:= Self;
+    PanelInfo.Align:= alTop;
+    PanelInfo.Visible:= false;
+    PanelInfo.Height:= AppScale(30);
+    PanelInfo.BevelOuter:= bvNone;
+    PanelInfo.OnClick:= @PanelInfoClick;
+    PanelInfo.Caption:= '"Options Editor" provides handy dialog to customize CudaText - click to open it';
+  end;
+
+  PanelInfo.Color:= GetAppColor(apclListBg);
+  PanelInfo.Font.Name:= UiOps.VarFontName;
+  PanelInfo.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+  PanelInfo.Font.Color:= GetAppColor(apclListFont);
+
+  PanelInfo.Visible:= true;
+end;
+
 procedure TEditorFrame.InitPanelReload(Index: integer);
 var
   NPanelHeight, NBtnHeight: integer;
@@ -3862,6 +3890,13 @@ begin
   else
     Result:= EditorIsModifiedEx(Ed1) or EditorIsModifiedEx(Ed2);
 end;
+
+procedure TEditorFrame.PanelInfoClick(Sender: TObject);
+begin
+  PanelInfo.Hide;
+  AppPython.RunCommand('cuda_options_editor', 'dlg_cuda_options', []);
+end;
+
 
 end.
 
