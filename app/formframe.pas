@@ -189,7 +189,7 @@ type
     procedure EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer; const ARect: TRect);
     procedure EditorOnEnter(Sender: TObject);
     procedure EditorOnDrawLine(Sender: TObject; C: TCanvas; ALineIndex, AX, AY: integer;
-      const AStr: atString; ACharSize: TPoint; const AExtent: TATIntArray);
+      const AStr: atString; ACharSize: TPoint; constref AExtent: TATIntArrayFixed);
     procedure EditorOnCalcBookmarkColor(Sender: TObject; ABookmarkKind: integer; var AColor: TColor);
     procedure EditorOnHotspotEnter(Sender: TObject; AHotspotIndex: integer);
     procedure EditorOnHotspotExit(Sender: TObject; AHotspotIndex: integer);
@@ -797,7 +797,7 @@ end;
 
 procedure TEditorFrame.EditorOnDrawLine(Sender: TObject; C: TCanvas;
   ALineIndex, AX, AY: integer; const AStr: atString; ACharSize: TPoint;
-  const AExtent: TATIntArray);
+  constref AExtent: TATIntArrayFixed);
 var
   Ed: TATSynEdit;
   NLineWidth: integer;
@@ -876,11 +876,16 @@ begin
       else
         NStartPos:= i;
 
-      if NStartPos-2>=0 then
-        X1:= AX+AExtent[NStartPos-2]
+      if (NStartPos-2>=0) and (NStartPos-2<cMaxCharOffsets) then
+        X1:= AX+AExtent.Offsets[NStartPos-2]
       else
         X1:= AX;
-      X2:= AX+AExtent[NStartPos-2+NLen];
+
+      if NStartPos-2+NLen<cMaxCharOffsets then
+        X2:= AX+AExtent.Offsets[NStartPos-2+NLen]
+      else
+        X2:= 0;
+
       Y:= AY+ACharSize.Y;
 
       if bColorizeBack then
