@@ -5,10 +5,10 @@
 
 1.126.1
 
++ add: option "autocomplete_autoshow_chars" now works with national letters (thanks @tmsg)
++ add: Addon Manager: don't reinstall CudaLint/CudaFormatter when a linter/formatter is installing
 * change: minor internal changes in rendering, pls report any bugs
 * change: use monospaced font in Project Manager's menu dialogs
-- fix: Addon Manager: don't reinstall CudaLint/CudaFormatter when a linter/formatter is installing
-- fix: option "autocomplete_autoshow_chars" didn't work with national letters (thanks @tmsg)
 
 1.126.0 (2021/02)
 
