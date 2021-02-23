@@ -6,6 +6,7 @@
 1.126.2 (2021/02)
 
 + add: internal optimizations in renderer, pls report any bugs
++ add: on opening user.json or default.json, program shows information panel about "Options Editor" (thanks @Shovel)
 + add: option "autocomplete_autoshow_chars" now works with national letters (thanks @tmsg)
 + add: Addon Manager: don't reinstall CudaLint/CudaFormatter when a linter/formatter is installing
 
