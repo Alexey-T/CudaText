@@ -190,7 +190,7 @@ type
     procedure EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer; const ARect: TRect);
     procedure EditorOnEnter(Sender: TObject);
     procedure EditorOnDrawLine(Sender: TObject; C: TCanvas; ALineIndex, AX, AY: integer;
-      const AStr: atString; ACharSize: TPoint; constref AExtent: TATIntArrayFixed);
+      const AStr: atString; ACharSize: TPoint; constref AExtent: TATIntFixedArray);
     procedure EditorOnCalcBookmarkColor(Sender: TObject; ABookmarkKind: integer; var AColor: TColor);
     procedure EditorOnHotspotEnter(Sender: TObject; AHotspotIndex: integer);
     procedure EditorOnHotspotExit(Sender: TObject; AHotspotIndex: integer);
@@ -800,7 +800,7 @@ end;
 
 procedure TEditorFrame.EditorOnDrawLine(Sender: TObject; C: TCanvas;
   ALineIndex, AX, AY: integer; const AStr: atString; ACharSize: TPoint;
-  constref AExtent: TATIntArrayFixed);
+  constref AExtent: TATIntFixedArray);
 var
   Ed: TATSynEdit;
   NLineWidth: integer;
@@ -813,6 +813,13 @@ begin
 
   if not IsFilenameListedInExtensionList(FileName, EditorOps.OpUnderlineColorFiles)
     then exit;
+
+  //skip lines in binary files, e.g. *.dll
+  for i:= 1 to Length(AStr) do
+    case Ord(AStr[i]) of
+      0..8:
+        exit;
+    end;
 
   NLineWidth:= EditorOps.OpUnderlineColorSize;
   bColorizeBack:= NLineWidth>=10;
@@ -879,13 +886,13 @@ begin
       else
         NStartPos:= i;
 
-      if (NStartPos-2>=0) and (NStartPos-2<cMaxCharOffsets) then
-        X1:= AX+AExtent.Offsets[NStartPos-2]
+      if (NStartPos-2>=0) and (NStartPos-2<cMaxFixedArray) then
+        X1:= AX+AExtent.Data[NStartPos-2]
       else
         X1:= AX;
 
-      if NStartPos-2+NLen<cMaxCharOffsets then
-        X2:= AX+AExtent.Offsets[NStartPos-2+NLen]
+      if NStartPos-2+NLen<cMaxFixedArray then
+        X2:= AX+AExtent.Data[NStartPos-2+NLen]
       else
         X2:= 0;
 
