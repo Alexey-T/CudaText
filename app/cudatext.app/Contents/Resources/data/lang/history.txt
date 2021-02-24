@@ -1,5 +1,8 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2021.02.24
++ [si] CallOptEditor
+
 2021.02.15
 * delete [m_o] ke
 * delete [si] HelpOnKeysConfig, HelpOnShowCommands
