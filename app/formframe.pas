@@ -15,7 +15,7 @@ uses
   Classes, SysUtils, Graphics, Forms, Controls, Dialogs,
   ExtCtrls, Menus, StdCtrls, StrUtils, ComCtrls, Clipbrd,
   LCLIntf, LCLProc, LCLType, LazUTF8, LazFileUtils, FileUtil,
-  GraphUtil,
+  GraphUtil, IniFiles,
   ATTabs,
   ATGroups,
   ATSynEdit,
@@ -462,6 +462,28 @@ const
 
 var
   FLastTabId: integer = 0;
+
+function msgSuggestOptionsEditor: string;
+var
+  ini: TIniFile;
+  fn: string;
+  s: string;
+begin
+  S:= '"Options Editor" provides configuration dialog - click to open';
+
+  fn:= GetAppLangFilename;
+  if FileExists(fn) then
+  begin
+    ini:= TIniFile.Create(fn);
+    try
+      S:= ini.ReadString('si', 'CallOptEditor', S);
+    finally
+      FreeAndNil(ini);
+    end;
+  end;
+
+  Result:= S;
+end;
 
 
 procedure GetFrameLocation(Frame: TEditorFrame;
@@ -2121,7 +2143,7 @@ begin
   if UiOps.InfoAboutOptionsEditor then
     if (CompareFilenames(AFileName, AppFile_OptionsUser)=0) or
       (CompareFilenames(AFileName, AppFile_OptionsDefault)=0) then
-      InitPanelInfo(msgInfoOptionsEditor, @PanelInfoClick);
+      InitPanelInfo(msgSuggestOptionsEditor, @PanelInfoClick);
 
   Lexer[Ed1]:= nil;
   if not EditorsLinked then
@@ -3432,7 +3454,7 @@ begin
     PanelInfo.Parent:= Self;
     PanelInfo.Align:= alTop;
     PanelInfo.Visible:= false;
-    PanelInfo.Height:= AppScale(24);
+    PanelInfo.Height:= AppScale(26);
     PanelInfo.BevelOuter:= bvNone;
   end;
 

@@ -397,8 +397,6 @@ const
   msgFindHint_Tokens: string = 'Allowed syntax elements';
   msgFindHint_HiAll: string = 'Highlight all matches';
 
-  msgInfoOptionsEditor: string = '"Options Editor" provides configuration dialog - click to open';
-
 function msgUntitledNumberedCaption: string;
 function msgTranslatedPanelCaption(const ACaption: string): string;
 
@@ -435,6 +433,7 @@ begin
       Result:= ACaption;
   end;
 end;
+
 
 end.
 
