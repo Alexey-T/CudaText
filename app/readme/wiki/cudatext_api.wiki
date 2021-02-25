@@ -1106,9 +1106,7 @@ Special properties for controls "tabs", "pages", "toolbar", "statusbar":
 
 * "tab_hovered": int: index of tab/cell under mouse cursor. Property is missed if no such tab/cell.
 
-====Control events====
-
-Events of controls are also properties, but values of these properties must be Python functions (ie callables). Signature of these functions are shown below.
+====Control events - general====
 
 General events for all controls:
 
@@ -1122,6 +1120,8 @@ General events for all controls:
 * "on_focus_enter": Called when control gets focus. Not supported for controls (they don't have OS window handle): label, button, button_ex, panel, linklabel, colorpanel, bevel, image, progressbar_ex, paintbox, statusbar.
 * "on_focus_exit": Called when control looses focus. Supported for the same controls as "on_focus_enter".
 * "on_menu": Called before showing context menu, after right click or ContextMenu hotkey. Param "data": like in "on_mouse_down". Method can return False to disable default menu (if any).
+
+====Control events - for specific controls====
 
 Special events for controls "listview", "checklistview":
 
@@ -1138,6 +1138,8 @@ Special events for control "treeview":
 * "on_fold", "on_unfold": Called before treeview node is folded/unfolded. Param "data" is int handle of treeview node.
 * "on_select": Called after selection is changed.
 
+====Control events - for editor control====
+
 Special events for control "editor"/"editor_edit"/"editor_combo":
 
 * "on_change": Called after text is changed.
@@ -1150,7 +1152,7 @@ Special events for control "editor"/"editor_edit"/"editor_combo":
 * "on_click_link": Called on mouse click (single or double, depends on settings) over hyperlink (hyperlinks are defined via PROP_LINKS_SHOW, PROP_LINKS_REGEX). Param "data" is str.
 * "on_paste": Called before doing one of Paste commands. Param "data" is dict: {"keep_caret": bool, "sel_then": bool}. Method can return False to disable default operation.
 
-====Control events - signatures====
+====Signatures of event callbacks====
 
 Callbacks must be in forms shown in the topic [[#Callback_param]].
 
