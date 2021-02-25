@@ -3054,6 +3054,9 @@ end;
 
 procedure TEditorFrame.DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
 begin
+  //save 'split' value only when we have single file splitted,
+  //but not 2 different files (like user.json + default.json)
+  if FileName2='' then
   if UiOps.HistoryItems[ahhTabSplit] then
   begin
     if Splitted then
