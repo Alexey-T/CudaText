@@ -1594,7 +1594,7 @@ begin
     TabFontScale:= 100;
     TabShowX:= 1; //show all
     TabShowXSize:= 14;
-    TabShowXRounded:= true;
+    TabShowXRounded:= TabAngled_EnabledForOS;
     TabShowPlus:= true;
     TabDblClickClose:= false;
     TabNumbers:= false;

@@ -1226,7 +1226,8 @@ begin
   UiOps.TabFontScale:= cfg.GetValue('ui_tab_font_scale', UiOps.TabFontScale);
   UiOps.TabShowX:= cfg.GetValue('ui_tab_show_x', UiOps.TabShowX);
   UiOps.TabShowXSize:= cfg.GetValue('ui_tab_show_x_size', UiOps.TabShowXSize);
-  UiOps.TabShowXRounded:= cfg.GetValue('ui_tab_x_rounded', UiOps.TabShowXRounded);
+  if UiOps.TabAngled_EnabledForOS then
+    UiOps.TabShowXRounded:= cfg.GetValue('ui_tab_x_rounded', UiOps.TabShowXRounded);
   UiOps.TabShowPlus:= cfg.GetValue('ui_tab_show_plus', UiOps.TabShowPlus);
   UiOps.TabDblClickClose:= cfg.GetValue('ui_tab_2click_closes', UiOps.TabDblClickClose);
   UiOps.TabNumbers:= cfg.GetValue('ui_tab_numbers', UiOps.TabNumbers);
