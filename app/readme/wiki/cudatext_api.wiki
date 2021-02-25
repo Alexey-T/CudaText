@@ -105,13 +105,13 @@ By default all event handlers, except on_exit, are not "lazy". On_exit is always
 
 It's allowed to combine "+" and "~" suffixes, like on_focus~++
 
-=Callback param=
+=Callback parameter=
 
-Callback parameter is supported in several API functions: dlg_proc, timer_proc, menu_proc, button_proc (maybe more later).
+Callback parameter is supported in several API functions: dlg_proc, timer_proc, menu_proc, button_proc etc. For all functions, "string form" of callback is supported. For most but not all functions, "callable form" is supported too.
 
 Parameter can be in these forms:
 
-* callable, i.e. name of a function
+* callable, ie name of a Python function, or just "lambda". Internally, callable will be converted to a weird string. Note that some functions do not support "callable form".
 * string "module=mmm;cmd=nnn;" - to call method nnn (in class Command) in plugin mmm, where mmm is usually sub-dir in the "cudatext/py", but can be any module name
 * string "module=mmm;cmd=nnn;info=iii;" - the same, and callback will get param "info" with your value
 * string "mmm.nnn" - the same, to call method, short form
@@ -125,7 +125,7 @@ For example:
 
 Value after "info=" can be of any type, e.g. "info=20;" will pass int 20 to callback, "info='my';" will pass string 'my'.
 
-=Global funcs=
+=Global functions=
 
 ===version===
 
