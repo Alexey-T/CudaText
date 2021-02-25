@@ -2210,7 +2210,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_PICTURE: properties of picture file as 3-tuple: (picture_filename, size_x, size_y), or None if not picture loaded in tab. For picture ed.get_filename() returns "?".
 * PROP_MINIMAP: bool: minimap is visible.
 * PROP_MICROMAP: bool: micromap is visible.
-* PROP_LINK_AT_POS: str: URL string in the document, at given position. Value must be 2-tuple: (pos_x, pos_y).
+* PROP_LINK_AT_POS: str: hyperlink string in the document, at given position. Value must be 2-tuple: (pos_x, pos_y).
 * PROP_LINKS_SHOW: bool: enable hyperlinks underlining.
 * PROP_LINKS_REGEX: str: regular expression for hyperlinks.
 * PROP_LINKS_CLICKS: int: how mouse clicks activate hyperlinks. 0: disabled, 1: single click, 2: double click.
