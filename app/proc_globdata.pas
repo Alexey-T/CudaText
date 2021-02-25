@@ -220,7 +220,6 @@ type
     TabsDisabled: boolean;
     TabVarWidth: boolean;
     TabMultiline: boolean;
-    TabAngled_EnabledForOS: boolean;
     TabAngled: boolean;
     TabFlat: boolean;
     TabWidth: integer;
@@ -1579,8 +1578,7 @@ begin
     TabsDisabled:= false;
     TabVarWidth:= false;
     TabMultiline:= false;
-    TabAngled_EnabledForOS:= {$if defined(LCLQT5) or defined(LCLCocoa)} false {$else} true {$endif};
-    TabAngled:= TabAngled_EnabledForOS;
+    TabAngled:= true;
     TabFlat:= false;
     TabWidth:= 170;
     TabWidthMin:= 40;
@@ -1594,7 +1592,7 @@ begin
     TabFontScale:= 100;
     TabShowX:= 1; //show all
     TabShowXSize:= 14;
-    TabShowXRounded:= TabAngled_EnabledForOS;
+    TabShowXRounded:= true;
     TabShowPlus:= true;
     TabDblClickClose:= false;
     TabNumbers:= false;
@@ -2940,6 +2938,11 @@ initialization
   AppListRecents:= TStringList.Create;
 
   ATSynEdit_Commands.cCommand_GotoDefinition:= cmd_GotoDefinition;
+
+  {$if defined(LCLQT5) or defined(darwin)}
+  ATTabsStretchDrawEnabled:= false;
+  ATTabsCircleDrawEnabled:= false;
+  {$endif};
 
 finalization
 

@@ -1212,8 +1212,7 @@ begin
   UiOps.TabsDisabled:= cfg.GetValue('ui_tab_disabled', UiOps.TabsDisabled);
   UiOps.TabVarWidth:= cfg.GetValue('ui_tab_variable_width', UiOps.TabVarWidth);
   UiOps.TabMultiline:= cfg.GetValue('ui_tab_multiline', UiOps.TabMultiline);
-  if UiOps.TabAngled_EnabledForOS then
-    UiOps.TabAngled:= cfg.GetValue('ui_tab_angled', UiOps.TabAngled);
+  UiOps.TabAngled:= cfg.GetValue('ui_tab_angled', UiOps.TabAngled);
   UiOps.TabFlat:= cfg.GetValue('ui_tab_flat', UiOps.TabFlat);
   UiOps.TabWidth:= cfg.GetValue('ui_tab_size_x', UiOps.TabWidth);
   UiOps.TabWidthMin:= cfg.GetValue('ui_tab_size_x_min', UiOps.TabWidthMin);
@@ -1226,8 +1225,7 @@ begin
   UiOps.TabFontScale:= cfg.GetValue('ui_tab_font_scale', UiOps.TabFontScale);
   UiOps.TabShowX:= cfg.GetValue('ui_tab_show_x', UiOps.TabShowX);
   UiOps.TabShowXSize:= cfg.GetValue('ui_tab_show_x_size', UiOps.TabShowXSize);
-  if UiOps.TabAngled_EnabledForOS then
-    UiOps.TabShowXRounded:= cfg.GetValue('ui_tab_x_rounded', UiOps.TabShowXRounded);
+  UiOps.TabShowXRounded:= cfg.GetValue('ui_tab_x_rounded', UiOps.TabShowXRounded);
   UiOps.TabShowPlus:= cfg.GetValue('ui_tab_show_plus', UiOps.TabShowPlus);
   UiOps.TabDblClickClose:= cfg.GetValue('ui_tab_2click_closes', UiOps.TabDblClickClose);
   UiOps.TabNumbers:= cfg.GetValue('ui_tab_numbers', UiOps.TabNumbers);
