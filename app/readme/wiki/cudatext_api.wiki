@@ -111,7 +111,7 @@ Callback parameter is supported in several API functions: dlg_proc, timer_proc, 
 
 Parameter can be in these forms:
 
-* callable, ie name of a Python function, or just "lambda". Internally, callable will be converted to a weird string. Note that some functions do not support "callable form".
+* callable, ie name of a Python function, or just "lambda". Internally, callable will be converted to a weird string. Note that some functions do not support "callable form". You can detect this support by reading the code of "py/cudatext.py" module, which performs the convertions from callable to string.
 * string "module=mmm;cmd=nnn;" - to call method nnn (in class Command) in plugin mmm, where mmm is usually sub-dir in the "cudatext/py", but can be any module name
 * string "module=mmm;cmd=nnn;info=iii;" - the same, and callback will get param "info" with your value
 * string "mmm.nnn" - the same, to call method, short form
