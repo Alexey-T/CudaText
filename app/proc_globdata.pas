@@ -220,6 +220,7 @@ type
     TabsDisabled: boolean;
     TabVarWidth: boolean;
     TabMultiline: boolean;
+    TabAngled_EnabledForOS: boolean;
     TabAngled: boolean;
     TabFlat: boolean;
     TabWidth: integer;
@@ -1578,7 +1579,8 @@ begin
     TabsDisabled:= false;
     TabVarWidth:= false;
     TabMultiline:= false;
-    TabAngled:= {$ifdef darwin} false {$else} true {$endif};
+    TabAngled_EnabledForOS:= {$if defined(LCLQT5) or defined(LCLCocoa)} false {$else} true {$endif};
+    TabAngled:= TabAngled_EnabledForOS;
     TabFlat:= false;
     TabWidth:= 170;
     TabWidthMin:= 40;
