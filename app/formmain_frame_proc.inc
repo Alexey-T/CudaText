@@ -28,7 +28,8 @@ end;
 
 procedure TfmMain.FrameOnUpdateStatus(Sender: TObject);
 begin
-  UpdateStatus;
+  FLastStatusbarUpdated:= true;
+  //real updating will run on TimerIdle work
 end;
 
 procedure TfmMain.DoCodetree_StopUpdate;

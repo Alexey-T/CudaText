@@ -684,6 +684,7 @@ type
     FPyCompletionProps: TAppCompletionApiProps;
     FLastDirOfOpenDlg: string;
     FLastLexerForPluginsMenu: string;
+    FLastStatusbarUpdated: boolean;
     FLastStatusbarMessage: string;
     FLastSelectedCommand: integer;
     FLastMousePos: TPoint;
@@ -2044,6 +2045,15 @@ begin
   AppUpdateWatcherFrames;
 
   Frame:= CurrentFrame;
+
+  //frame requested to update statusbar
+  if FLastStatusbarUpdated then
+  begin
+    FLastStatusbarUpdated:= false;
+    TimerStatusWork.Enabled:= false;
+    UpdateStatus_RealWork;
+  end;
+
   if Assigned(Frame) and not (Frame.IsTreeBusy or Frame.IsParsingBusy) then
     if FCodetreeNeedsSelJump then
     begin
