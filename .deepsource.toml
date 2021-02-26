@@ -1,0 +1,17 @@
+version = 1
+
+exclude_patterns = [
+    "app/cudatext.app/Contents/Resources/py/sys/**",
+    "app/data/**",
+    "app/cudatext.app/Contents/Resources/data/**",
+    "app/py/sys/**",
+    "app_res/**",
+    "setup/**"
+]
+
+[[analyzers]]
+name = "python"
+enabled = true
+
+  [analyzers.meta]
+  runtime_version = "3.x.x"
