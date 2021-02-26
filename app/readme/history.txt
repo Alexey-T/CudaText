@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.127.0 (2021/02)
+
++ add: minimap is now painting in a thread, gives faster repaint
+
 1.126.4 (2021/02)
 
 + add: internal optimizations in renderer, pls report any bugs
