@@ -1707,7 +1707,7 @@ class DlgAgent(BaseDlgAgent):
        #def show_menu
 
     def _update_on_call(self, upds):
-        if isinstance(upds, tuple) or isinstance(upds, list) :          # Allow to use list of upd data
+        if isinstance(upds, (tuple, list)) :          # Allow to use list of upd data
             upds    = deep_upd(upds)
             pass;      #log('upds={}',(upds))
         ctrls_u = odict(upds.get('ctrls',  []))

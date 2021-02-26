@@ -173,7 +173,7 @@ class Command:
                 os.mkdir(dir)
             fn = os.path.join(dir, name)
             res = get_url(url, fn)
-            if res == False: #abort button
+            if res is False: #abort button
                 break
             if not os.path.isfile(fn):
                 err += 1

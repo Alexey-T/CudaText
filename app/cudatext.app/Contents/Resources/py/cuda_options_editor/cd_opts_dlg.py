@@ -1,4 +1,4 @@
-﻿''' Plugin for CudaText editor
+''' Plugin for CudaText editor
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
@@ -9,7 +9,7 @@ ToDo: (see end of file)
 import  re, os, sys, json, collections, itertools, webbrowser, tempfile, html, pickle, time, datetime
 from    itertools       import *
 from pathlib import PurePath as PPath
-from pathlib import     Path as  Path
+from pathlib import     Path
 def first_true(iterable, default=False, pred=None):return next(filter(pred, iterable), default) # 10.1.2. Itertools Recipes
 
 import  cudatext            as app
@@ -282,8 +282,7 @@ def load_vals(opt_dfns:list, lexr_json='', ed_=None, full=False, user_json='user
             return  ('bool'     if isinstance(val, bool)    else
                      'int'      if isinstance(val, int)     else
                      'float'    if isinstance(val, float)   else
-                     'json'     if isinstance(val, list)    or
-                                   isinstance(val, dict)    else
+                     'json'     if isinstance(val, (list, dict))    else
                      'hotk'     if '_hotkey_' in val        else
                      'font'     if isinstance(val, str)     and 
                                    reFontNm.search(val)     else
@@ -776,8 +775,8 @@ class OptEdD:
             elif frm in ('bool',):
                 vis['edrf'] = True
                 vis['edrt'] = True
-                vas['edrf'] = ulfvl_va==False
-                vas['edrt'] = ulfvl_va==True
+                vas['edrf'] = ulfvl_va is False
+                vas['edrt'] = ulfvl_va is True
             elif frm in ('int2s', 'str2s'):
                 vis['edcb'] = True
                 ens['edcb'] = True
@@ -1156,7 +1155,7 @@ class OptEdD:
                        ,lexr=m.lexr_l.index(m.lexr)     if m.lexr in m.lexr_l else -1
                        )
         if '+' in what:
-            rsp = dict()
+            rsp = {}
             if '+lvls' in what:
                 rsp.update(dict(
                         lvls=m.cur_in
@@ -2227,7 +2226,7 @@ def do_report(fn, lex='', ed_=ed):
             f.write(    '<td><pre>{}</pre></td>\n'.format(cmt_opts.get(opt, '')))
             f.write(    '</tr>\n')
             lex_opts.pop(opt, None)                                                                                     if lex else None
-        for opt in lex_opts.keys():
+        for opt in lex_opts:
             winner  = 'lex'
             f.write(    '<tr>\n')
             f.write(    '<td>{}</td>\n'.format(opt))
