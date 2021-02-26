@@ -5,7 +5,7 @@
 
 1.127.0 (2021/02)
 
-+ add: minimap is now painting in a thread, gives faster repaint
++ add: multi-threading is now used to paint the minimap
 
 1.126.4 (2021/02)
 
