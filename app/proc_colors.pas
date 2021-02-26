@@ -354,7 +354,7 @@ begin
   SetColor(apclEdUnprintFont, $a0a0b8, 'EdUnprintFont', 'editor, unprinted chars, font');
   SetColor(apclEdUnprintBg, $e0e0e0, 'EdUnprintBg', 'editor, unprinted chars, BG');
   SetColor(apclEdUnprintHexFont, clMedGray, 'EdUnprintHexFont', 'editor, special hex codes, font');
-  SetColor(apclEdMinimapBorder, clLtGray, 'EdMinimapBorder', 'editor, minimap, border');
+  SetColor(apclEdMinimapBorder, $b09090, 'EdMinimapBorder', 'editor, minimap, border');
   SetColor(apclEdMinimapSelBg, $eeeeee, 'EdMinimapSelBg', 'editor, minimap, view BG');
   SetColor(apclEdMinimapTooltipBg, clMoneyGreen, 'EdMinimapTooltipBg', 'editor, minimap, tooltip BG');
   SetColor(apclEdMinimapTooltipBorder, clMedGray, 'EdMinimapTooltipBorder', 'editor, minimap, tooltip border');
