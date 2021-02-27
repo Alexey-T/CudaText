@@ -673,8 +673,10 @@
   //UI tabs: Multi-line mode, ie tabs are wrappable to several lines, when lot of tabs
   "ui_tab_multiline": false,
 
-  //UI tabs: Show angled left/right sides (note: they paint much slower)
-  "ui_tab_angled": true,
+  //UI tabs: Show angled left/right sides.
+  //Note that some OS/desktops give problems with angled tabs rendering,
+  //so to avoid them, option is disabled for these OS/desktops: Windows, macOS, Qt5.
+  "ui_tab_angled": false,
 
   //UI tabs: Flat look
   "ui_tab_flat": false,
