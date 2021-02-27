@@ -674,8 +674,8 @@
   "ui_tab_multiline": false,
 
   //UI tabs: Show angled left/right sides.
-  //Note that some OS/desktops give problems with angled tabs rendering,
-  //so to avoid them, option is disabled for these OS/desktops: Windows, macOS, Qt5.
+  //Note: some OS/desktops give problems with angled tabs rendering,
+  //so to avoid them, option has no effect for: Windows, macOS, Linux Qt5.
   "ui_tab_angled": false,
 
   //UI tabs: Flat look
