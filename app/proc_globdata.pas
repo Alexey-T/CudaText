@@ -1510,7 +1510,7 @@ procedure InitUiOps(var Op: TUiOps);
 var
   element: TAppHistoryElement;
 begin
-  {$if defined(LCLQT5) or defined(darwin) or defined(windows)}
+  {$if defined(LCLQT5) or defined(darwin)}
   ATTabsStretchDrawEnabled:= false;
   {$endif};
   {$if defined(LCLQT5) or defined(darwin)}
