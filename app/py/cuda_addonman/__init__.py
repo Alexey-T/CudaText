@@ -60,7 +60,6 @@ STD_LEXERS = (
   'RegEx',
   'reStructuredText',
   'Search results',
-  'VBScript',
   'XML',
   'YAML',
 )
