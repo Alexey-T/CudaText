@@ -1585,7 +1585,7 @@ begin
     TabsDisabled:= false;
     TabVarWidth:= false;
     TabMultiline:= false;
-    TabAngled:= ATTabsStretchDrawEnabled;
+    TabAngled:= false;
     TabFlat:= false;
     TabWidth:= 170;
     TabWidthMin:= 40;
