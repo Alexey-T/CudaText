@@ -5,9 +5,9 @@
 
 1.127.0 (2021/02)
 
-+ add: multi-threading is now used to paint the minimap, gives faster painting with minimap
++ add: multi-threading is now used to paint the minimap, painting with minimap is now 2x faster
 * change: partially revert changes for tab-group splitters from 1.126.0 (thanks @Shovel)
-* change: lexer VBScript was removed to add-ons
+* change: remove lexer VBScript to add-ons
 - fix: error when PHP auto-completion is called after e.g. "0~" (thanks @Shovel)
 
 1.126.4 (2021/02)
