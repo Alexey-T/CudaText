@@ -9,6 +9,8 @@
 * change: partially revert changes for tab-group splitters from 1.126.0 (thanks @Shovel)
 * change: remove lexer VBScript to add-ons
 - fix: error when PHP auto-completion is called after e.g. "0~" (thanks @Shovel)
+- fix: regression, option "renderer_offsets" was ignored
+- fix: coloring of code-blocks in e.g. reST lexer 
 
 1.126.4 (2021/02)
 
