@@ -1510,6 +1510,13 @@ procedure InitUiOps(var Op: TUiOps);
 var
   element: TAppHistoryElement;
 begin
+  {$if defined(LCLQT5) or defined(darwin) or defined(windows)}
+  ATTabsStretchDrawEnabled:= false;
+  {$endif};
+  {$if defined(LCLQT5) or defined(darwin)}
+  ATTabsCircleDrawEnabled:= false;
+  {$endif};
+
   with Op do
   begin
     VarFontName:= 'default';
@@ -1578,7 +1585,7 @@ begin
     TabsDisabled:= false;
     TabVarWidth:= false;
     TabMultiline:= false;
-    TabAngled:= true;
+    TabAngled:= ATTabsStretchDrawEnabled;
     TabFlat:= false;
     TabWidth:= 170;
     TabWidthMin:= 40;
@@ -2938,13 +2945,6 @@ initialization
   AppListRecents:= TStringList.Create;
 
   ATSynEdit_Commands.cCommand_GotoDefinition:= cmd_GotoDefinition;
-
-  {$if defined(LCLQT5) or defined(darwin) or defined(windows)}
-  ATTabsStretchDrawEnabled:= false;
-  {$endif};
-  {$if defined(LCLQT5) or defined(darwin)}
-  ATTabsCircleDrawEnabled:= false;
-  {$endif};
 
 finalization
 

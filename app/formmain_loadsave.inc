@@ -1212,7 +1212,8 @@ begin
   UiOps.TabsDisabled:= cfg.GetValue('ui_tab_disabled', UiOps.TabsDisabled);
   UiOps.TabVarWidth:= cfg.GetValue('ui_tab_variable_width', UiOps.TabVarWidth);
   UiOps.TabMultiline:= cfg.GetValue('ui_tab_multiline', UiOps.TabMultiline);
-  UiOps.TabAngled:= cfg.GetValue('ui_tab_angled', UiOps.TabAngled);
+  if ATTabsStretchDrawEnabled then
+    UiOps.TabAngled:= cfg.GetValue('ui_tab_angled', UiOps.TabAngled);
   UiOps.TabFlat:= cfg.GetValue('ui_tab_flat', UiOps.TabFlat);
   UiOps.TabWidth:= cfg.GetValue('ui_tab_size_x', UiOps.TabWidth);
   UiOps.TabWidthMin:= cfg.GetValue('ui_tab_size_x_min', UiOps.TabWidthMin);
