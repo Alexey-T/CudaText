@@ -6,6 +6,7 @@
 1.127.0 (2021/02)
 
 + add: multi-threading is now used to paint the minimap, painting with minimap is now 2x faster
+* change: angled UI-tabs were not painted ok on some OS/desktops, so disabled them yet: on Windows, on Linux qt5, on macOS
 * change: partially revert changes for tab-group splitters from 1.126.0 (thanks @Shovel)
 * change: remove lexer VBScript to add-ons
 - fix: error when PHP auto-completion is called after e.g. "0~" (thanks @Shovel)
