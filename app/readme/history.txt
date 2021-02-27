@@ -10,6 +10,8 @@
 * change: 'angled' UI-tabs were not painted ok on some OS/desktops, so disabled them yet: on Linux Qt5, on macOS
 * change: partially revert changes for tab-group splitters from 1.126.0 (thanks @Shovel)
 * change: remove lexer VBScript to add-ons
+- fix: work with minimap after click on minimap-current-view-area (thanks @xcme)
+- fix: some pixel artifacts on 'flat' UI-tabs (thanks @JairoMartinezA)
 - fix: error when PHP auto-completion is called after e.g. "0~" (thanks @Shovel)
 - fix: regression, option "renderer_offsets" was ignored
 - fix: coloring of code-blocks in e.g. reST lexer 
