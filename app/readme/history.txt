@@ -5,7 +5,8 @@
 
 1.127.0 (2021/02)
 
-+ add: multi-threading is now used to paint the minimap
++ add: multi-threading is now used to paint the minimap, gives faster painting with minimap
+* change: partially revert changes for tab-group splitters from 1.126.0
 
 1.126.4 (2021/02)
 
