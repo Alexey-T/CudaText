@@ -2939,8 +2939,10 @@ initialization
 
   ATSynEdit_Commands.cCommand_GotoDefinition:= cmd_GotoDefinition;
 
-  {$if defined(LCLQT5) or defined(darwin)}
+  {$if defined(LCLQT5) or defined(darwin) or defined(windows)}
   ATTabsStretchDrawEnabled:= false;
+  {$endif};
+  {$if defined(LCLQT5) or defined(darwin)}
   ATTabsCircleDrawEnabled:= false;
   {$endif};
 
