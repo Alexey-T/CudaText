@@ -8,4 +8,4 @@ Type=Application
 StartupNotify=true
 MimeType=text/plain;
 Categories=Utility;TextEditor;
-Icon=cudatext-512
+Icon=cudatext-1024
