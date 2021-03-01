@@ -397,20 +397,10 @@ const
   msgFindHint_Tokens: string = 'Allowed syntax elements';
   msgFindHint_HiAll: string = 'Highlight all matches';
 
-function msgUntitledNumberedCaption: string;
 function msgTranslatedPanelCaption(const ACaption: string): string;
 
 
 implementation
-
-var
-  FUntitledCount: integer = 0;
-
-function msgUntitledNumberedCaption: string;
-begin
-  Inc(FUntitledCount);
-  Result:= msgUntitledTab+IntToStr(FUntitledCount);
-end;
 
 function msgTranslatedPanelCaption(const ACaption: string): string;
 begin

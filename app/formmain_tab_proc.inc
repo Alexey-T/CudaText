@@ -55,7 +55,7 @@ begin
 
   if ACaption='' then
   begin
-    F.TabCaptionUntitled:= msgUntitledNumberedCaption;
+    F.TabCaptionUntitled:= GetUntitledNumberedCaption;
     F.TabCaption:= F.TabCaptionUntitled;
   end;
 

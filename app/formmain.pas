@@ -707,6 +707,7 @@ type
     FCmdlineFileCount: integer;
 
     function IsTooManyTabsOpened: boolean;
+    function GetUntitledNumberedCaption: string;
     procedure UpdateGlobalProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
     procedure UpdateLexerProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
     procedure ConfirmButtonOkClick(Sender: TObject);
@@ -1177,6 +1178,7 @@ const
 
 const
   cAppSessionDefault = 'history session.json';
+  AppUntitledCount: integer = 0;
 
 const
   StatusbarTag_Caret = 10;
@@ -7860,6 +7862,30 @@ begin
   end;
 end;
 
+
+function TfmMain.GetUntitledNumberedCaption: string;
+var
+  S: string;
+  N: integer;
+begin
+  //reset the counter, when many tabs were opened, but were closed later
+  if FrameCount=1 then
+  begin
+    S:= Frames[0].TabCaption;
+    if SBeginsWith(S, msgUntitledTab) then
+    begin
+      Delete(S, 1, Length(msgUntitledTab));
+      N:= StrToIntDef(S, 0);
+      if N>0 then
+        AppUntitledCount:= N;
+    end
+    else
+      AppUntitledCount:= 0;
+  end;
+
+  Inc(AppUntitledCount);
+  Result:= msgUntitledTab+IntToStr(AppUntitledCount);
+end;
 
 
 //----------------------------
