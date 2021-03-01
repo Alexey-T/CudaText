@@ -1178,7 +1178,6 @@ const
 
 const
   cAppSessionDefault = 'history session.json';
-  AppUntitledCount: integer = 0;
 
 const
   StatusbarTag_Caret = 10;
@@ -7864,6 +7863,8 @@ end;
 
 
 function TfmMain.GetUntitledNumberedCaption: string;
+const
+  AppUntitledCount: integer = 0;
 var
   S: string;
   N: integer;
