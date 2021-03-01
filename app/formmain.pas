@@ -5956,7 +5956,7 @@ begin
 
   STitle:= ExtractFileName(F.GetFileName(Ed));
   if STitle='' then
-    STitle:= 'untitled';
+    STitle:= msgUntitledTab;
 
   Dlg:= TSaveDialog.Create(Self);
   try
