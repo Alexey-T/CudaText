@@ -205,7 +205,7 @@ end;
 {$ifdef windows}
 procedure AppFileAttrPrepare(const fn: string; out attr: Longint);
 const
-  spec = faReadOnly or faSysFile or faHidden;
+  spec = faReadOnly or faSysFile{%H-} or faHidden{%H-};
 var
   temp_attr: Longint;
 begin

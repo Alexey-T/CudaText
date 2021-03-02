@@ -1051,8 +1051,10 @@ begin
 end;
 
 function AppCollapseHomeDirInFilename(const fn: string): string;
+{$ifndef windows}
 var
   S: string;
+{$endif}
 begin
   Result:= fn;
   {$ifndef windows}
@@ -1160,7 +1162,7 @@ begin
   {$else}
   //from https://github.com/graemeg/freepascal/blob/master/rtl/unix/sysutils.pp
   AppDir_Home:= GetEnvironmentVariable('HOME');
-  If AppDir_Home<>'' then
+  if AppDir_Home<>'' then
     AppDir_Home:= IncludeTrailingPathDelimiter(AppDir_Home);
 
     {$ifdef darwin}

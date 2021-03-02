@@ -2410,7 +2410,6 @@ var
   SItems, SColumns: string;
   SParent: string;
   Props: TAppControlProps;
-  Pnt: TPoint;
   N: integer;
 begin
   bFocused:= false;
