@@ -2585,7 +2585,7 @@ CudaText:
 'Atomic' file saving is saving to a temporary file, then renaming that file to the destination.
 'Atomic' saving is not implemented in CudaText, because users of Sublime Text 3 consider it as harmful feature.
 
-* It drops NTFS extended file attributes, on Windows (and Unixes too?)
+* It drops extended file attributes (on NTFS on Windows; Unix-like have similar problem too?)
 * It drops NTFS file streams, on Windows
 * Problems with files located on Network drives, on Windows
 * Problems with symlinks
