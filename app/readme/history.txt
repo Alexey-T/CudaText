@@ -8,6 +8,7 @@
 + add: app icon updated, 3D effect removed (by @Shovel)
 + add: clicking on editor's scrollbar puts focus to editor (thanks @GHNewbiee)
 + add: tab title "UntitledN" counter is reset after tabs are closed, and only 1 tab is left (thanks @GHNewbiee) 
+- fix: render UI-tab 'rounded corner' for all tab positions (top/bottom/left/right)
 
 1.127.0 (2021/02)
 
