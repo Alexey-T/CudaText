@@ -864,6 +864,18 @@ begin
   Op.OpScrollbarsNew:= cfg.GetValue('scrollbar_themed', Op.OpScrollbarsNew);
   Op.OpSpacingY:= cfg.GetValue('spacing_y'+cOptionSystemSuffix, Op.OpSpacingY);
 
+  Str:= cfg.GetValue('scroll_animation', '');
+  if Str<>'' then
+  begin
+    Sep.Init(Str);
+    if Sep.GetItemInt(N, -1) then
+      if (N>=0) then
+        Op.OpScrollAnimationSteps:= N;
+    if Sep.GetItemInt(N, -1) then
+      if (N>=0) then
+        Op.OpScrollAnimationSleep:= N;
+  end;
+
   Str:= cfg.GetValue('scrollbar_arrows', '');
   if Str<>'' then
   begin

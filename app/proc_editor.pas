@@ -151,6 +151,9 @@ begin
   Ed.Font.Quality:= Op.OpFontQuality;
   Ed.OptShowFontLigatures:= Op.OpFontLigatures;
 
+  Ed.OptScrollAnimationSteps:= Op.OpScrollAnimationSteps;
+  Ed.OptScrollAnimationSleep:= Op.OpScrollAnimationSleep;
+
   Ed.OptScrollbarsNew:= Op.OpScrollbarsNew;
   Ed.OptCharSpacingY:= Op.OpSpacingY;
 

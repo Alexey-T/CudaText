@@ -380,6 +380,11 @@
   //  2: Show automatically
   "scroll_style_horz": 2,
 
+  //Scrolling animation for mouse-wheel-up/down. 2 options comma-separated:
+  //- number of animation steps; if value<2, animation is disabled.
+  //- delay (in msec) on each step, can be 0.
+  "scroll_animation": "4,10",
+
   //Use custom-painted scrollbars in editor, instead of OS-themed scrollbars.
   "scrollbar_themed": true,
 

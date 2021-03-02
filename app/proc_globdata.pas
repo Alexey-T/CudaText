@@ -436,6 +436,9 @@ type
     OpFontQuality: TFontQuality;
     OpFontLigatures: boolean;
 
+    OpScrollAnimationSteps: integer;
+    OpScrollAnimationSleep: integer;
+
     OpScrollbarsNew: boolean;
     OpSpacingY: integer;
     OpTabSize: integer;
@@ -1307,6 +1310,9 @@ begin
 
     OpFontQuality:= fqDefault;
     OpFontLigatures:= true;
+
+    OpScrollAnimationSteps:= cInitScrollAnimationSteps;
+    OpScrollAnimationSleep:= cInitScrollAnimationSleep;
 
     OpScrollbarsNew:= true;
     OpSpacingY:= 1;
