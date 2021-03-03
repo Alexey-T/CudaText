@@ -436,6 +436,7 @@ const
   cHistory_Lexer       = '/lexer';
   cHistory_Enc         = '/enc';
   cHistory_TopLine     = '/top';
+  cHistory_TopLine2    = '/top2';
   cHistory_Wrap        = '/wrap_mode';
   cHistory_ReadOnly    = '/ro';
   cHistory_Ruler       = '/ruler';
@@ -3075,7 +3076,11 @@ begin
     c.SetValue(path+cHistory_Enc, Ed.EncodingName);
 
   if UiOps.HistoryItems[ahhTopLine] then
+  begin
     c.SetDeleteValue(path+cHistory_TopLine, Ed.LineTop, 0);
+    if EditorsLinked and Splitted then
+      c.SetDeleteValue(path+cHistory_TopLine2, Ed2.LineTop, 0);
+  end;
 
   if UiOps.HistoryItems[ahhWordWrap] then
     c.SetDeleteValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode), 0);
@@ -3312,6 +3317,23 @@ begin
     //now it's not needed to do Ed.Update(true) nor Application.ProcessMessages
     if nTop>0 then
       Ed.LineTop:= nTop;
+  end;
+
+  if EditorsLinked and Splitted then
+  begin
+    nTop:= c.GetValue(path+cHistory_TopLine2, 0);
+    if Assigned(Lexer[Ed2]) then
+    begin
+      //FFoldTodo:= c.GetValue(path+cHistory_Fold, '');
+      if nTop>0 then
+        Ed2.LineTop:= nTop; //scroll immediately
+    end
+    else
+    begin
+      //now it's not needed to do Ed.Update(true) nor Application.ProcessMessages
+      if nTop>0 then
+        Ed2.LineTop:= nTop;
+    end;
   end;
 
   //caret
