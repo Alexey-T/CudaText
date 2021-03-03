@@ -3305,35 +3305,18 @@ begin
 
   Ed.OptScaleFont:= c.GetValue(path+cHistory_FontScale, 0);
 
-  nTop:= c.GetValue(path+cHistory_TopLine, 0);
   if Assigned(Lexer[Ed]) then
-  begin
     FFoldTodo:= c.GetValue(path+cHistory_Fold, '');
-    if nTop>0 then
-      Ed.LineTop:= nTop; //scroll immediately
-  end
-  else
-  begin
-    //now it's not needed to do Ed.Update(true) nor Application.ProcessMessages
-    if nTop>0 then
-      Ed.LineTop:= nTop;
-  end;
+
+  nTop:= c.GetValue(path+cHistory_TopLine, 0);
+  if nTop>0 then
+    Ed.LineTop:= nTop;
 
   if EditorsLinked and Splitted then
   begin
     nTop:= c.GetValue(path+cHistory_TopLine2, 0);
-    if Assigned(Lexer[Ed2]) then
-    begin
-      //FFoldTodo:= c.GetValue(path+cHistory_Fold, '');
-      if nTop>0 then
-        Ed2.LineTop:= nTop; //scroll immediately
-    end
-    else
-    begin
-      //now it's not needed to do Ed.Update(true) nor Application.ProcessMessages
-      if nTop>0 then
-        Ed2.LineTop:= nTop;
-    end;
+    if nTop>0 then
+      Ed2.LineTop:= nTop;
   end;
 
   //caret
