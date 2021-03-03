@@ -9,7 +9,7 @@
 + add: mouse wheel up/down now shows some animation (thanks @CrendKing); option "scroll_animation"
 + add: clicking on editor's scrollbar puts focus to editor (thanks @GHNewbiee)
 + add: tab title "UntitledN" counter is reset after tabs are closed, and only 1 tab is left (thanks @GHNewbiee) 
-- fix: issue with 'painting the ghost caret' in typing/deleting text (thanks @quesada)
+- fix: issue with painting of 'ghost caret' on typing/deleting text (thanks @quesada)
 - fix: render UI-tab 'rounded corner' for all tab positions (top/bottom/left/right)
 
 1.127.0 (2021/02)
