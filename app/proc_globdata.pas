@@ -2972,11 +2972,7 @@ begin
   NCountNormal:= AppManager.LexerCount;
   if NCountNormal=0 then
     MsgLogConsole(Format(msgCannotFindLexers, [AppDir_Lexers]));
-
-  if UiOps.LogConsoleDetailedStartupTime then
-    if NCountNormal+NCountLite>0 then
-      MsgLogConsole(Format('Loaded lexers: %dms+%dms', [NTickNormal, NTickLite]));
-      }
+    }
 end;
 
 
@@ -2986,10 +2982,8 @@ var
 begin
   Result:= -1;
   for iStyle:= Low(iStyle) to High(iStyle) do
-  begin
-    if AStyleName=AppTheme.Styles[iStyle].DisplayName then
+    if SameStr(AStyleName, AppTheme.Styles[iStyle].DisplayName) then
       exit(Ord(iStyle));
-  end;
 end;
 
 procedure LiteLexer_ApplyStyle(AStyleHash: integer; var APart: TATLinePart);
