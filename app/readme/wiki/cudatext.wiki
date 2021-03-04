@@ -2034,13 +2034,18 @@ Plugin "Configure Menu" (in Addon Manager) allows to change top menu and context
 
  ,{"cap":"&Save", "cmd":"cmd_FileSave"}
 
-How to add here built-in commands? See identifiers of CudaText commands in the file "py/cudatext_cmd.py", they have prefixes cCommand_ (low level commands) and cmd_ (high level commands). For example, cmd_FileSave is the command to save current file.
+How to add here built-in commands? See identifiers of CudaText commands in the file "py/cudatext_cmd.py", they have prefixes "cCommand_" (low level commands) and "cmd_" (high level commands). For example, "cmd_FileSave" is the command to save current file.
 
-How to add here plugin commands? For example, you have plugin "Comments", it is in the folder "py/cuda_comments". See plugin's file install.inf, and there find needed Python functions names. Then write  item like this:
+How to add here plugin commands? For example, you have plugin "Comments", it is in the folder "py/cuda_comments". See plugin's file install.inf, and find there needed Python methods. Then add in the "settings/menu.json" item like this:
 
  ,{"cap":"Toggle line comment", "cmd":"module=cuda_comments;cmd=cmt_toggle_line_body;"}
 
-Here "cuda_comments" is folder name, and "cmt_toggle_line_body" is Python function from install.inf.
+Here "cuda_comments" is plugin folder name, and "cmt_toggle_line_body" is Python method from install.inf.
+
+You can add items to the CudaText top-menu and/or context-menu, it is different sections in "menu.json".
+Example screenshot shows how "menu.json" will look with new items for context-menu:
+
+[[File:cudatext-editing-context-menu.png]]
 
 ==How to help the author to reproduce a bug==
 Bugs are often cannot be reproduced on author's PC because of different "user config", "lexer-specific configs", plugins configs.
