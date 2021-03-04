@@ -2444,14 +2444,14 @@ begin
     FOption_AllowSessionSave,
     FCmdlineFileCount);
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps); //before LoadHistory
-  DoFileOpen('', '', nil, '/nolexernewdoc'); //before LoadHistory
+  DoFileOpen('', '', nil); //before LoadHistory
 
   DoOps_LoadToolbarIcons;
   DoOps_LoadSidebarIcons; //before LoadPlugins (for sidebar icons)
 
   InitPyEngine; //before LoadPlugins
 
-  AppManagerThread.WaitFor; //before LoadPlugins
+  AppManagerThread.WaitFor; //before LoadPlugins (for LexerDetecter)
   DoOps_LoadPlugins; //before LoadHistory (for on_open for restored session)
   DoOps_LoadHistory;
 end;
