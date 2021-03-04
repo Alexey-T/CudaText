@@ -238,8 +238,6 @@ begin
 end;
 
 procedure TfmMain.FrameParseDone(Sender: TObject);
-const
-  cMinTime = 600;
 var
   Frame: TEditorFrame;
   Params: TAppVariantArray;
@@ -254,7 +252,7 @@ begin
   Frame.EdFoldTodo:= '';
 
   //do on_lexer_parsed only if parsing was long
-  if (Sender as TATAdapterEControl).LexerParsingElapsed>=cMinTime then
+  if (Sender as TATAdapterEControl).LexerParsingElapsed>=UiOps.LexerParsingMinTimeForEvent then
   begin
     SetLength(Params, 0);
     DoPyEvent(Frame.Editor, cEventOnLexerParsed, Params);

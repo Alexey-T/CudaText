@@ -177,6 +177,7 @@ type
     LexerDelayedParsingPause: integer;
     LexerDelayedParsingSize: integer;
     LexerPostponeUntilShown: boolean;
+    LexerParsingMinTimeForEvent: integer;
 
     ToolBarTheme: string;
     LangName: string;
@@ -1541,6 +1542,7 @@ begin
     LexerDelayedParsingPause:= 400;
     LexerDelayedParsingSize:= 100*1000;
     LexerPostponeUntilShown:= true;
+    LexerParsingMinTimeForEvent:= 600;
 
     SidebarShow:= true;
     SidebarOnRight:= false;
