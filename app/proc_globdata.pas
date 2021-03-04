@@ -969,15 +969,15 @@ procedure AppOnLexerLoaded(Sender: TObject; ALexer: TecSyntAnalyzer);
 procedure AppLoadLexers;
 
 type
-  { TAppLexerThread }
+  { TAppManagerThread }
 
-  TAppLexerThread = class(TThread)
+  TAppManagerThread = class(TThread)
   public
     procedure Execute; override;
   end;
 
 var
-  AppLexerThread: TAppLexerThread = nil;
+  AppManagerThread: TAppManagerThread = nil;
 
 implementation
 
@@ -2627,9 +2627,9 @@ begin
   F.Bottom:= F.Top+h;
 end;
 
-{ TAppLexerThread }
+{ TAppManagerThread }
 
-procedure TAppLexerThread.Execute;
+procedure TAppManagerThread.Execute;
 begin
   AppLoadLexers;
 end;
@@ -3054,11 +3054,11 @@ initialization
   AppManagerLite:= TATLiteLexers.Create(nil);
   AppManagerLite.OnGetStyleHash:= @LiteLexer_GetStyleHash;
   AppManagerLite.OnApplyStyle:= @LiteLexer_ApplyStyle;
-  AppLexerThread:= TAppLexerThread.Create(false);
+  AppManagerThread:= TAppManagerThread.Create(false);
 
 finalization
 
-  FreeAndNil(AppLexerThread);
+  FreeAndNil(AppManagerThread);
   FreeAndNil(AppManagerLite);
   FreeAndNil(AppManager);
 

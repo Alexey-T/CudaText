@@ -2451,7 +2451,7 @@ begin
 
   InitPyEngine; //before LoadPlugins
 
-  AppLexerThread.WaitFor; //before LoadPlugins
+  AppManagerThread.WaitFor; //before LoadPlugins
   DoOps_LoadPlugins; //before LoadHistory (for on_open for restored session)
   DoOps_LoadHistory;
 end;
