@@ -134,7 +134,6 @@ type
     FLocked: boolean;
     FTabColor: TColor;
     FTabSizeChanged: boolean;
-    FFoldTodo: string;
     FTabKeyCollectMarkers: boolean;
     FInSession: boolean;
     FInHistory: boolean;
@@ -271,6 +270,7 @@ type
     FileProps: TAppFileProps;
     FileProps2: TAppFileProps;
     MacroStrings: TStringList;
+    EdFoldTodo: string;
 
     constructor Create(AOwner: TComponent; AApplyCentering: boolean); reintroduce;
     destructor Destroy; override;
@@ -383,7 +383,6 @@ type
     //misc
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
     procedure DoGotoPos(Ed: TATSynEdit; APosX, APosY: integer);
-    procedure DoRestoreFolding(Ed: TATSynEdit);
     procedure DoRemovePreviewStyle;
     procedure DoToggleFocusSplitEditors;
     procedure DoFocusNotificationPanel;
@@ -2732,21 +2731,6 @@ begin
     FOnChangeCaption(Self);
 end;
 
-procedure TEditorFrame.DoRestoreFolding(Ed: TATSynEdit);
-var
-  S: string;
-  NLine: integer;
-begin
-  if FFoldTodo<>'' then
-  begin
-    S:= FFoldTodo;
-    FFoldTodo:= '';
-    NLine:= Ed.LineTop; //keep LineTop! issue #3055.
-    EditorSetFoldString(Ed, S);
-    Ed.LineTop:= NLine;
-  end;
-end;
-
 procedure TEditorFrame.DoMacroStart;
 begin
   FMacroRecord:= true;
@@ -3110,7 +3094,7 @@ begin
     c.SetDeleteValue(path+cHistory_FontScale, Ed.OptScaleFont, 0);
 
   if UiOps.HistoryItems[ahhFolding] then
-    c.SetDeleteValue(path+cHistory_Fold, EditorGetFoldString(Ed), '');
+    c.SetDeleteValue(path+cHistory_Fold, Ed.FoldingAsString, '');
 
   if UiOps.HistoryItems[ahhTabColor] then
   begin
@@ -3298,7 +3282,7 @@ begin
   Ed.OptScaleFont:= c.GetValue(path+cHistory_FontScale, 0);
 
   if Assigned(Lexer[Ed]) then
-    FFoldTodo:= c.GetValue(path+cHistory_Fold, '');
+    EdFoldTodo:= c.GetValue(path+cHistory_Fold, '');
 
   nTop:= c.GetValue(path+cHistory_TopLine, 0);
   if nTop>0 then

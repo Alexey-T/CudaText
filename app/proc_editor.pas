@@ -55,9 +55,6 @@ function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
   AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering, AOneLiner: boolean);
 
-function EditorGetFoldString(Ed: TATSynEdit): string;
-procedure EditorSetFoldString(Ed: TATSynEdit; const AText: string);
-
 function EditorGetLinkAtScreenCoord(Ed: TATSynEdit; P: TPoint): atString;
 function EditorGetLinkAtCaret(Ed: TATSynEdit): atString;
 
@@ -722,57 +719,6 @@ begin
   if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
   if (Caret.PosX<0) then exit;
   Result:= Ed.Strings.LineCharAt(Caret.PosY, Caret.PosX+1);
-end;
-
-
-function EditorGetFoldString(Ed: TATSynEdit): string;
-var
-  L: TStringList;
-  i: integer;
-  R: PATSynRange;
-begin
-  Result:= '';
-  L:= TStringList.Create;
-  try
-    L.LineBreak:= ',';
-    for i:= 0 to Ed.Fold.Count-1 do
-    begin
-      R:= Ed.Fold.ItemPtr(i);
-      if R^.Folded then
-        L.Add(IntToStr(R^.Y));
-    end;
-    Result:= L.Text;
-  finally
-    L.Free;
-  end;
-end;
-
-procedure EditorSetFoldString(Ed: TATSynEdit; const AText: string);
-var
-  Sep: TATStringSeparator;
-  ScrollInfo: TATEditorScrollInfo;
-  n: integer;
-begin
-  Ed.DoCommand(cCommand_UnfoldAll);
-
-  Sep.Init(AText);
-  repeat
-    if not Sep.GetItemInt(n, -1) then Break;
-
-    if not Ed.Strings.IsIndexValid(n) then Continue;
-
-    n:= Ed.Fold.FindRangeWithPlusAtLine(n);
-    if n<0 then Continue;
-
-    Ed.DoRangeFold(n);
-  until false;
-
-  //fix changed horz scroll, https://github.com/Alexey-T/CudaText/issues/1439
-  ScrollInfo:= Ed.ScrollHorz;
-  ScrollInfo.NPos:= 0;
-  Ed.ScrollHorz:= ScrollInfo;
-
-  Ed.Update;
 end;
 
 
