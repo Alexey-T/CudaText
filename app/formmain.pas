@@ -2451,7 +2451,7 @@ begin
     FOption_AllowSessionSave,
     FCmdlineFileCount);
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps); //before LoadHistory
-  DoOps_LoadLexerLib(true); //before LoadHistory
+  AppLoadLexers; //before LoadHistory
   DoFileOpen('', '', nil, '/nolexernewdoc'); //before LoadHistory
 
   DoOps_LoadToolbarIcons;
