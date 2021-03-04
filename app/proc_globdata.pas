@@ -966,7 +966,7 @@ procedure DoLexerDetect(const AFilename: string;
 procedure DoMenuitemEllipsis(c: TMenuItem);
 
 procedure AppOnLexerLoaded(Sender: TObject; ALexer: TecSyntAnalyzer);
-procedure AppLoadLexerManagers;
+procedure AppLoadLexers;
 
 implementation
 
@@ -2919,7 +2919,7 @@ begin
     DoLoadLexerStylesFromFile_JsonLexerOps(ALexer, fn_ops, UiOps.LexerThemes);
 end;
 
-procedure AppLoadLexerManagers;
+procedure AppLoadLexers;
 var
   NCountNormal, NCountLite: integer;
   NTickNormal, NTickLite: QWord;

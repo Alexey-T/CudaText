@@ -4741,7 +4741,7 @@ begin
     if Assigned(ListBackup) then
       DoOps_LexersDisableInFrames(ListBackup);
 
-    AppLoadLexerManagers;
+    AppLoadLexers;
 
     if Assigned(ListBackup) then
       DoOps_LexersRestoreInFrames(ListBackup);
