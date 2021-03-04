@@ -39,6 +39,7 @@ uses
   ec_syntax_format,
   math;
 
+procedure EditorAdjustForBigFile(Ed: TATSynEdit);
 function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
 function EditorIsEmpty(Ed: TATSynEdit): boolean;
 function EditorIsModifiedEx(Ed: TATSynEdit): boolean;
@@ -1950,6 +1951,12 @@ begin
   end;
 end;
 
+procedure EditorAdjustForBigFile(Ed: TATSynEdit);
+begin
+  Ed.OptWrapMode:= cWrapOff;
+  Ed.OptMicromapVisible:= false;
+  Ed.OptMinimapVisible:= false;
+end;
 
 function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
   //
