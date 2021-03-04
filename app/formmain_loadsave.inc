@@ -835,29 +835,29 @@ var
   Str: string;
   N: integer;
 begin
-  Op.OpFontName:= cfg.GetValue(str_FontName, Op.OpFontName);
-  Op.OpFontName_i:= cfg.GetValue(str_FontName_i, Op.OpFontName_i);
-  Op.OpFontName_b:= cfg.GetValue(str_FontName_b, Op.OpFontName_b);
-  Op.OpFontName_bi:= cfg.GetValue(str_FontName_bi, Op.OpFontName_bi);
+  Op.OpFontName:= cfg.GetValue(OpStr_FontName, Op.OpFontName);
+  Op.OpFontName_i:= cfg.GetValue(OpStr_FontName_i, Op.OpFontName_i);
+  Op.OpFontName_b:= cfg.GetValue(OpStr_FontName_b, Op.OpFontName_b);
+  Op.OpFontName_bi:= cfg.GetValue(OpStr_FontName_bi, Op.OpFontName_bi);
 
-  Op.OpFontSize:= Abs(cfg.GetValue(str_FontSize, Op.OpFontSize)); //Abs() for macOS
-  Op.OpFontSize_i:= Abs(cfg.GetValue(str_FontSize_i, Op.OpFontSize_i));
-  Op.OpFontSize_b:= Abs(cfg.GetValue(str_FontSize_b, Op.OpFontSize_b));
-  Op.OpFontSize_bi:= Abs(cfg.GetValue(str_FontSize_bi, Op.OpFontSize_bi));
+  Op.OpFontSize:= Abs(cfg.GetValue(OpStr_FontSize, Op.OpFontSize)); //Abs() for macOS
+  Op.OpFontSize_i:= Abs(cfg.GetValue(OpStr_FontSize_i, Op.OpFontSize_i));
+  Op.OpFontSize_b:= Abs(cfg.GetValue(OpStr_FontSize_b, Op.OpFontSize_b));
+  Op.OpFontSize_bi:= Abs(cfg.GetValue(OpStr_FontSize_bi, Op.OpFontSize_bi));
   Op.OpFontSize_original:= Op.OpFontSize;
   Op.OpFontSize_original_i:= Op.OpFontSize_i;
   Op.OpFontSize_original_b:= Op.OpFontSize_b;
   Op.OpFontSize_original_bi:= Op.OpFontSize_bi;
 
-  Op.OpFontQuality:= TFontQuality(cfg.GetValue(str_FontQuality, Ord(Op.OpFontQuality)));
-  Op.OpFontLigatures:= cfg.GetValue(str_FontLigatures, Op.OpFontLigatures);
+  Op.OpFontQuality:= TFontQuality(cfg.GetValue(OpStr_FontQuality, Ord(Op.OpFontQuality)));
+  Op.OpFontLigatures:= cfg.GetValue(OpStr_FontLigatures, Op.OpFontLigatures);
 
   Op.OpActiveBorderRaw:= cfg.GetValue('ui_active_border', Op.OpActiveBorderRaw);
   Op.OpActiveBorderInControls:= Op.OpActiveBorderRaw > 0;
   Op.OpActiveBorderInEditor:= Op.OpActiveBorderRaw >= 100;
   Op.OpActiveBorderWidth:= Op.OpActiveBorderRaw mod 100;
 
-  OptCanvasTextoutNeedsOffsets:= cfg.GetValue(str_TextoutNeedsOffsets, OptCanvasTextoutNeedsOffsets);
+  OptCanvasTextoutNeedsOffsets:= cfg.GetValue(OpStr_TextoutNeedsOffsets, OptCanvasTextoutNeedsOffsets);
   OptCharSizeProportional:= cfg.GetValue('unicode_proportional', OptCharSizeProportional);
   OptCharScaleFullWidth:= cfg.GetValue('unicode_full_width', OptCharScaleFullWidth);
 
@@ -1068,16 +1068,16 @@ var
   S: string;
   element: TAppHistoryElement;
 begin
-  UiOps.VarFontName:= cfg.GetValue(str_UiFontName, UiOps.VarFontName);
-  UiOps.VarFontSize:= Abs(cfg.GetValue(str_UiFontSize, UiOps.VarFontSize)); //Abs for macOS
+  UiOps.VarFontName:= cfg.GetValue(OpStr_UiFontName, UiOps.VarFontName);
+  UiOps.VarFontSize:= Abs(cfg.GetValue(OpStr_UiFontSize, UiOps.VarFontSize)); //Abs for macOS
 
-  UiOps.OutputFontName:= cfg.GetValue(str_UiFontOutputName, UiOps.OutputFontName);
-  UiOps.OutputFontSize:= Abs(cfg.GetValue(str_UiFontOutputSize, UiOps.OutputFontSize)); //Abs for macOS
+  UiOps.OutputFontName:= cfg.GetValue(OpStr_UiFontOutputName, UiOps.OutputFontName);
+  UiOps.OutputFontSize:= Abs(cfg.GetValue(OpStr_UiFontOutputSize, UiOps.OutputFontSize)); //Abs for macOS
 
-  UiOps.StatusbarFontName:= cfg.GetValue(str_UiFontStatusbarName, UiOps.StatusbarFontName);
-  UiOps.StatusbarFontSize:= Abs(cfg.GetValue(str_UiFontStatusbarSize, UiOps.StatusbarFontSize)); //Abs for macOS
+  UiOps.StatusbarFontName:= cfg.GetValue(OpStr_UiFontStatusbarName, UiOps.StatusbarFontName);
+  UiOps.StatusbarFontSize:= Abs(cfg.GetValue(OpStr_UiFontStatusbarSize, UiOps.StatusbarFontSize)); //Abs for macOS
 
-  UiOps.DoubleBuffered:= cfg.GetValue(str_UiDoubleBuffered, UiOps.DoubleBuffered);
+  UiOps.DoubleBuffered:= cfg.GetValue(OpStr_UiDoubleBuffered, UiOps.DoubleBuffered);
 
   UiOps.StatusNoSel:= cfg.GetValue('ui_statusbar_no_sel', UiOps.StatusNoSel);
   UiOps.StatusSmallSel:= cfg.GetValue('ui_statusbar_small_sel', UiOps.StatusSmallSel);
@@ -1297,7 +1297,7 @@ begin
   UiOps.NewdocEnc:= cfg.GetValue('newdoc_encoding', UiOps.NewdocEnc);
   UiOps.NewdocEnds:= cfg.GetValue('newdoc_ends', UiOps.NewdocEnds);
 
-  UiOps.DefaultEncUtf8:= cfg.GetValue(str_DefEncodingIsUtf8, UiOps.DefaultEncUtf8);
+  UiOps.DefaultEncUtf8:= cfg.GetValue(OpStr_DefEncodingIsUtf8, UiOps.DefaultEncUtf8);
   UiOps.ViewerBinaryWidth:= cfg.GetValue('viewer_binary_width', UiOps.ViewerBinaryWidth);
   OptBookmarksAutoDelete:= cfg.GetValue('auto_delete_bookmarks', OptBookmarksAutoDelete);
 
@@ -1398,8 +1398,8 @@ begin
   DoOps_DialogFont(
     EditorOps.OpFontName,
     EditorOps.OpFontSize,
-    str_FontName,
-    str_FontSize);
+    OpStr_FontName,
+    OpStr_FontSize);
   DoApplyFont_Text;
 end;
 
@@ -1408,8 +1408,8 @@ begin
   DoOps_DialogFont(
     UiOps.VarFontName,
     UiOps.VarFontSize,
-    str_UiFontName,
-    str_UiFontSize);
+    OpStr_UiFontName,
+    OpStr_UiFontSize);
   DoApplyFont_Ui;
 end;
 
@@ -1418,8 +1418,8 @@ begin
   DoOps_DialogFont(
     UiOps.OutputFontName,
     UiOps.OutputFontSize,
-    str_UiFontOutputName,
-    str_UiFontOutputSize);
+    OpStr_UiFontOutputName,
+    OpStr_UiFontOutputSize);
   DoApplyFont_Output;
 end;
 

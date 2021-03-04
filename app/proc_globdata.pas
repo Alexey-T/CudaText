@@ -399,25 +399,25 @@ var
   UiOps: TUiOps;
 
 const
-  str_FontName = 'font_name'+cOptionSystemSuffix;
-  str_FontName_i = 'font_name_i'+cOptionSystemSuffix;
-  str_FontName_b = 'font_name_b'+cOptionSystemSuffix;
-  str_FontName_bi = 'font_name_bi'+cOptionSystemSuffix;
-  str_FontSize = 'font_size'+cOptionSystemSuffix;
-  str_FontSize_i = 'font_size_i'+cOptionSystemSuffix;
-  str_FontSize_b = 'font_size_b'+cOptionSystemSuffix;
-  str_FontSize_bi = 'font_size_bi'+cOptionSystemSuffix;
-  str_FontQuality = 'font_quality'+cOptionSystemSuffix;
-  str_FontLigatures = 'font_ligatures'; //+cOptionSystemSuffix;
-  str_UiFontName = 'ui_font_name'+cOptionSystemSuffix;
-  str_UiFontSize = 'ui_font_size'+cOptionSystemSuffix;
-  str_UiFontOutputName = 'ui_font_output_name'+cOptionSystemSuffix;
-  str_UiFontOutputSize = 'ui_font_output_size'+cOptionSystemSuffix;
-  str_UiFontStatusbarName = 'ui_font_statusbar_name'+cOptionSystemSuffix;
-  str_UiFontStatusbarSize = 'ui_font_statusbar_size'+cOptionSystemSuffix;
-  str_UiDoubleBuffered = 'ui_buffered'+cOptionSystemSuffix;
-  str_DefEncodingIsUtf8 = 'def_encoding_utf8'+cOptionSystemSuffix;
-  str_TextoutNeedsOffsets = 'renderer_offsets'+cOptionSystemSuffix;
+  OpStr_FontName = 'font_name'+cOptionSystemSuffix;
+  OpStr_FontName_i = 'font_name_i'+cOptionSystemSuffix;
+  OpStr_FontName_b = 'font_name_b'+cOptionSystemSuffix;
+  OpStr_FontName_bi = 'font_name_bi'+cOptionSystemSuffix;
+  OpStr_FontSize = 'font_size'+cOptionSystemSuffix;
+  OpStr_FontSize_i = 'font_size_i'+cOptionSystemSuffix;
+  OpStr_FontSize_b = 'font_size_b'+cOptionSystemSuffix;
+  OpStr_FontSize_bi = 'font_size_bi'+cOptionSystemSuffix;
+  OpStr_FontQuality = 'font_quality'+cOptionSystemSuffix;
+  OpStr_FontLigatures = 'font_ligatures'; //+cOptionSystemSuffix;
+  OpStr_UiFontName = 'ui_font_name'+cOptionSystemSuffix;
+  OpStr_UiFontSize = 'ui_font_size'+cOptionSystemSuffix;
+  OpStr_UiFontOutputName = 'ui_font_output_name'+cOptionSystemSuffix;
+  OpStr_UiFontOutputSize = 'ui_font_output_size'+cOptionSystemSuffix;
+  OpStr_UiFontStatusbarName = 'ui_font_statusbar_name'+cOptionSystemSuffix;
+  OpStr_UiFontStatusbarSize = 'ui_font_statusbar_size'+cOptionSystemSuffix;
+  OpStr_UiDoubleBuffered = 'ui_buffered'+cOptionSystemSuffix;
+  OpStr_DefEncodingIsUtf8 = 'def_encoding_utf8'+cOptionSystemSuffix;
+  OpStr_TextoutNeedsOffsets = 'renderer_offsets'+cOptionSystemSuffix;
 
 type
   TEditorOps = record
