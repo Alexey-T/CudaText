@@ -968,6 +968,9 @@ procedure DoMenuitemEllipsis(c: TMenuItem);
 procedure AppOnLexerLoaded(Sender: TObject; ALexer: TecSyntAnalyzer);
 procedure AppLoadLexers;
 
+var
+  NTickLoadLexers: QWord;
+
 implementation
 
 uses
@@ -2924,6 +2927,8 @@ var
   NCountNormal, NCountLite: integer;
   NTickNormal, NTickLite: QWord;
 begin
+  NTickLoadLexers:= GetTickCount64;
+
   //load lite lexers
   NTickLite:= GetTickCount64;
   AppManagerLite.Clear;

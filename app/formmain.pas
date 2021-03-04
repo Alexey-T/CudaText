@@ -2460,6 +2460,12 @@ begin
   InitPyEngine; //before LoadPlugins
   DoOps_LoadPlugins; //before LoadHistory (for on_open for restored session)
 
+  if UiOps.LogConsoleDetailedStartupTime then
+  begin
+    NTickLoadLexers:= GetTickCount64-NTickLoadLexers;
+    MsgLogConsole(Format('Between lexers init/use: %dms', [NTickLoadLexers]));
+  end;
+
   DoOps_LoadHistory;
 end;
 
