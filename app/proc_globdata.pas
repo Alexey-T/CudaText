@@ -968,12 +968,24 @@ procedure DoMenuitemEllipsis(c: TMenuItem);
 procedure AppOnLexerLoaded(Sender: TObject; ALexer: TecSyntAnalyzer);
 procedure AppLoadLexers;
 
+type
+  { TAppLexerThread }
+
+  TAppLexerThread = class(TThread)
+  public
+    procedure Execute; override;
+  end;
+
 var
-  NTickLoadLexers: QWord;
+  AppLexerThread: TAppLexerThread = nil;
 
 implementation
 
 uses
+  ATSynEdit_LineParts,
+  ATSynEdit_Adapter_EControl,
+  ec_syntax_format,
+  proc_colors,
   proc_lexer_styles;
 
 function MsgBox(const Str: string; Flags: Longint): integer;
@@ -2615,6 +2627,13 @@ begin
   F.Bottom:= F.Top+h;
 end;
 
+{ TAppLexerThread }
+
+procedure TAppLexerThread.Execute;
+begin
+  AppLoadLexers;
+end;
+
 { TAppCommandInfo }
 
 function TAppCommandInfo.CommaStr: string;
@@ -2923,27 +2942,32 @@ begin
 end;
 
 procedure AppLoadLexers;
+{
 var
   NCountNormal, NCountLite: integer;
   NTickNormal, NTickLite: QWord;
+  }
 begin
-  NTickLoadLexers:= GetTickCount64;
+  //1) load lite lexers
+  //NTickLite:= GetTickCount64;
 
-  //load lite lexers
-  NTickLite:= GetTickCount64;
   AppManagerLite.Clear;
   AppManagerLite.LoadFromDir(AppDir_LexersLite);
 
+  {
   NTickLite:= GetTickCount64-NTickLite;
   NCountLite:= AppManagerLite.LexerCount;
   if NCountLite=0 then
     MsgLogConsole(Format(msgCannotFindLexers, [AppDir_LexersLite]));
+    }
 
-  //load EControl lexers
-  NTickNormal:= GetTickCount64;
+  //2) load EControl lexers
+  //NTickNormal:= GetTickCount64;
+
   AppManager.OnLexerLoaded:= @AppOnLexerLoaded;
   AppManager.InitLibrary(AppDir_Lexers);
 
+  {
   NTickNormal:= GetTickCount64-NTickNormal;
   NCountNormal:= AppManager.LexerCount;
   if NCountNormal=0 then
@@ -2952,6 +2976,29 @@ begin
   if UiOps.LogConsoleDetailedStartupTime then
     if NCountNormal+NCountLite>0 then
       MsgLogConsole(Format('Loaded lexers: %dms+%dms', [NTickNormal, NTickLite]));
+      }
+end;
+
+
+function LiteLexer_GetStyleHash(const AStyleName: string): integer;
+var
+  iStyle: TAppThemeStyleId;
+begin
+  Result:= -1;
+  for iStyle:= Low(iStyle) to High(iStyle) do
+  begin
+    if AStyleName=AppTheme.Styles[iStyle].DisplayName then
+      exit(Ord(iStyle));
+  end;
+end;
+
+procedure LiteLexer_ApplyStyle(AStyleHash: integer; var APart: TATLinePart);
+var
+  st: TecSyntaxFormat;
+begin
+  if AStyleHash<0 then exit;
+  st:= AppTheme.Styles[TAppThemeStyleId(AStyleHash)];
+  ApplyPartStyleFromEcontrolStyle(APart, st);
 end;
 
 
@@ -3009,7 +3056,17 @@ initialization
 
   ATSynEdit_Commands.cCommand_GotoDefinition:= cmd_GotoDefinition;
 
+  AppManager:= TecLexerList.Create(nil);
+  AppManagerLite:= TATLiteLexers.Create(nil);
+  AppManagerLite.OnGetStyleHash:= @LiteLexer_GetStyleHash;
+  AppManagerLite.OnApplyStyle:= @LiteLexer_ApplyStyle;
+  AppLexerThread:= TAppLexerThread.Create(false);
+
 finalization
+
+  FreeAndNil(AppLexerThread);
+  FreeAndNil(AppManagerLite);
+  FreeAndNil(AppManager);
 
   FreeAndNil(AppListRecents);
   FreeAndNil(AppEventWatcher);

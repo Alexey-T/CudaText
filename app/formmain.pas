@@ -887,8 +887,6 @@ type
     procedure ListboxValidateContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure PopupToolbarCaseOnPopup(Sender: TObject);
     procedure PopupToolbarCommentOnPopup(Sender: TObject);
-    procedure LiteLexer_ApplyStyle(Sender: TObject; AStyleHash: integer; var APart: TATLinePart);
-    function LiteLexer_GetStyleHash(Sender: TObject; const AStyleName: string): integer;
     procedure MenuRecentsClear(Sender: TObject);
     procedure MenuRecentsPopup(Sender: TObject);
     procedure MenuRecentItemClick(Sender: TObject);
@@ -2369,11 +2367,6 @@ begin
     AppBookmarkSetup[i].ImageIndex:= i-1;
   end;
 
-  AppManager:= TecLexerList.Create(Self);
-  AppManagerLite:= TATLiteLexers.Create(Self);
-  AppManagerLite.OnGetStyleHash:= @LiteLexer_GetStyleHash;
-  AppManagerLite.OnApplyStyle:= @LiteLexer_ApplyStyle;
-
   FMenuVisible:= true;
   AppSessionName:= '';
   FListTimers:= TStringList.Create;
@@ -2451,21 +2444,15 @@ begin
     FOption_AllowSessionSave,
     FCmdlineFileCount);
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps); //before LoadHistory
-  AppLoadLexers; //before LoadHistory
   DoFileOpen('', '', nil, '/nolexernewdoc'); //before LoadHistory
 
   DoOps_LoadToolbarIcons;
   DoOps_LoadSidebarIcons; //before LoadPlugins (for sidebar icons)
 
   InitPyEngine; //before LoadPlugins
+
+  AppLexerThread.WaitFor; //before LoadPlugins
   DoOps_LoadPlugins; //before LoadHistory (for on_open for restored session)
-
-  if UiOps.LogConsoleDetailedStartupTime then
-  begin
-    NTickLoadLexers:= GetTickCount64-NTickLoadLexers;
-    MsgLogConsole(Format('Between lexers init/use: %dms', [NTickLoadLexers]));
-  end;
-
   DoOps_LoadHistory;
 end;
 
@@ -6989,28 +6976,6 @@ end;
 procedure TfmMain.DoCommandsMsgStatus(Sender: TObject; const ARes: string);
 begin
   MsgStatus(ARes);
-end;
-
-function TfmMain.LiteLexer_GetStyleHash(Sender: TObject; const AStyleName: string): integer;
-var
-  iStyle: TAppThemeStyleId;
-begin
-  Result:= -1;
-  for iStyle:= Low(iStyle) to High(iStyle) do
-  begin
-    if AStyleName=AppTheme.Styles[iStyle].DisplayName then
-      exit(Ord(iStyle));
-  end;
-end;
-
-procedure TfmMain.LiteLexer_ApplyStyle(Sender: TObject; AStyleHash: integer;
-  var APart: TATLinePart);
-var
-  st: TecSyntaxFormat;
-begin
-  if AStyleHash<0 then exit;
-  st:= AppTheme.Styles[TAppThemeStyleId(AStyleHash)];
-  ApplyPartStyleFromEcontrolStyle(APart, st);
 end;
 
 procedure TfmMain.MenuTabsizeClick(Sender: TObject);

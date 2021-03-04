@@ -222,6 +222,7 @@ procedure AppThemeSaveToFile(const AFileName: string; const D: TAppTheme; IsThem
 function GetAppColor(id: TAppThemeColorId): TColor; inline;
 function GetAppStyle(id: TAppThemeStyleId): TecSyntaxFormat; inline;
 
+
 implementation
 
 uses
@@ -563,7 +564,6 @@ function GetAppStyle(id: TAppThemeStyleId): TecSyntaxFormat;
 begin
   Result:= AppTheme.Styles[id];
 end;
-
 
 initialization
 
