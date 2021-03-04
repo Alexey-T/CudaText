@@ -270,7 +270,6 @@ type
     FileProps: TAppFileProps;
     FileProps2: TAppFileProps;
     MacroStrings: TStringList;
-    EdFoldTodo: string;
 
     constructor Create(AOwner: TComponent; AApplyCentering: boolean); reintroduce;
     destructor Destroy; override;
@@ -3282,7 +3281,7 @@ begin
   Ed.OptScaleFont:= c.GetValue(path+cHistory_FontScale, 0);
 
   if Assigned(Lexer[Ed]) then
-    EdFoldTodo:= c.GetValue(path+cHistory_Fold, '');
+    Ed.FoldingAsStringTodo:= c.GetValue(path+cHistory_Fold, '');
 
   nTop:= c.GetValue(path+cHistory_TopLine, 0);
   if nTop>0 then

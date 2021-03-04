@@ -239,23 +239,25 @@ end;
 
 procedure TfmMain.FrameParseDone(Sender: TObject);
 var
-  Frame: TEditorFrame;
+  Ada: TATAdapterEControl;
+  Ed: TATSynEdit;
   Params: TAppVariantArray;
 begin
   UpdateLexerProgressbar(0, true);
   UpdateTreeContents;
 
-  //restoring of folded state from history is here,
-  //after parsing done
-  Frame:= (Sender as TATAdapterEControl).Owner as TEditorFrame;
-  Frame.Editor.FoldingAsString:= Frame.EdFoldTodo;
-  Frame.EdFoldTodo:= '';
+  Ada:= Sender as TATAdapterEControl;
+  Ed:= Ada.Editor;
+
+  //restoring of folded state from history is here, after parsing done
+  Ed.FoldingAsString:= Ed.FoldingAsStringTodo;
+  Ed.FoldingAsStringTodo:= '';
 
   //do on_lexer_parsed only if parsing was long
-  if (Sender as TATAdapterEControl).LexerParsingElapsed>=UiOps.LexerParsingMinTimeForEvent then
+  if Ada.LexerParsingElapsed>=UiOps.LexerParsingMinTimeForEvent then
   begin
     SetLength(Params, 0);
-    DoPyEvent(Frame.Editor, cEventOnLexerParsed, Params);
+    DoPyEvent(Ed, cEventOnLexerParsed, Params);
   end;
 end;
 
