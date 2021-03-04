@@ -1154,8 +1154,6 @@ var
 var
   NTickInitial: QWord = 0;
 
-procedure DoOnLexerLoaded(Sender: TObject; ALexer: TecSyntAnalyzer);
-
 
 implementation
 
@@ -4733,8 +4731,6 @@ end;
 procedure TfmMain.DoOps_LoadLexerLib(AOnCreate: boolean);
 var
   ListBackup: TStringlist;
-  NCountNormal, NCountLite: integer;
-  NTickNormal, NTickLite: QWord;
 begin
   if not AOnCreate then
     ListBackup:= TStringList.Create
@@ -4745,29 +4741,7 @@ begin
     if Assigned(ListBackup) then
       DoOps_LexersDisableInFrames(ListBackup);
 
-    //load lite lexers
-    NTickLite:= GetTickCount64;
-    AppManagerLite.Clear;
-    AppManagerLite.LoadFromDir(AppDir_LexersLite);
-
-    NTickLite:= GetTickCount64-NTickLite;
-    NCountLite:= AppManagerLite.LexerCount;
-    if NCountLite=0 then
-      MsgLogConsole(Format(msgCannotFindLexers, [AppDir_LexersLite]));
-
-    //load EControl lexers
-    NTickNormal:= GetTickCount64;
-    AppManager.OnLexerLoaded:= @DoOnLexerLoaded;
-    AppManager.InitLibrary(AppDir_Lexers);
-
-    NTickNormal:= GetTickCount64-NTickNormal;
-    NCountNormal:= AppManager.LexerCount;
-    if NCountNormal=0 then
-      MsgLogConsole(Format(msgCannotFindLexers, [AppDir_Lexers]));
-
-    if UiOps.LogConsoleDetailedStartupTime then
-      if NCountNormal+NCountLite>0 then
-        MsgLogConsole(Format('Loaded lexers: %dms+%dms', [NTickNormal, NTickLite]));
+    AppLoadLexerManagers;
 
     if Assigned(ListBackup) then
       DoOps_LexersRestoreInFrames(ListBackup);
@@ -7614,16 +7588,6 @@ begin
     CodeTree.Tree.Images:= ImageListTree;
     DoOps_LoadCodetreeIcons;
   end;
-end;
-
-procedure DoOnLexerLoaded(Sender: TObject; ALexer: TecSyntAnalyzer);
-var
-  fn_ops: string;
-begin
-  //load *.cuda-lexops
-  fn_ops:= GetAppLexerOpsFilename(ALexer.LexerName);
-  if FileExists(fn_ops) then
-    DoLoadLexerStylesFromFile_JsonLexerOps(ALexer, fn_ops, UiOps.LexerThemes);
 end;
 
 procedure TfmMain.DoCodetree_PanelOnEnter(Sender: TObject);

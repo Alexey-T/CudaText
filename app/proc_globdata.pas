@@ -965,8 +965,13 @@ procedure DoLexerDetect(const AFilename: string;
   AChooseFunc: TecLexerChooseFunc);
 procedure DoMenuitemEllipsis(c: TMenuItem);
 
+procedure AppOnLexerLoaded(Sender: TObject; ALexer: TecSyntAnalyzer);
+procedure AppLoadLexerManagers;
 
 implementation
+
+uses
+  proc_lexer_styles;
 
 function MsgBox(const Str: string; Flags: Longint): integer;
 begin
@@ -2901,6 +2906,47 @@ begin
   {$else}
   Result:= SBeginsWith(S, '/');
   {$endif}
+end;
+
+
+procedure AppOnLexerLoaded(Sender: TObject; ALexer: TecSyntAnalyzer);
+var
+  fn_ops: string;
+begin
+  //load *.cuda-lexops
+  fn_ops:= GetAppLexerOpsFilename(ALexer.LexerName);
+  if FileExists(fn_ops) then
+    DoLoadLexerStylesFromFile_JsonLexerOps(ALexer, fn_ops, UiOps.LexerThemes);
+end;
+
+procedure AppLoadLexerManagers;
+var
+  NCountNormal, NCountLite: integer;
+  NTickNormal, NTickLite: QWord;
+begin
+  //load lite lexers
+  NTickLite:= GetTickCount64;
+  AppManagerLite.Clear;
+  AppManagerLite.LoadFromDir(AppDir_LexersLite);
+
+  NTickLite:= GetTickCount64-NTickLite;
+  NCountLite:= AppManagerLite.LexerCount;
+  if NCountLite=0 then
+    MsgLogConsole(Format(msgCannotFindLexers, [AppDir_LexersLite]));
+
+  //load EControl lexers
+  NTickNormal:= GetTickCount64;
+  AppManager.OnLexerLoaded:= @AppOnLexerLoaded;
+  AppManager.InitLibrary(AppDir_Lexers);
+
+  NTickNormal:= GetTickCount64-NTickNormal;
+  NCountNormal:= AppManager.LexerCount;
+  if NCountNormal=0 then
+    MsgLogConsole(Format(msgCannotFindLexers, [AppDir_Lexers]));
+
+  if UiOps.LogConsoleDetailedStartupTime then
+    if NCountNormal+NCountLite>0 then
+      MsgLogConsole(Format('Loaded lexers: %dms+%dms', [NTickNormal, NTickLite]));
 end;
 
 
