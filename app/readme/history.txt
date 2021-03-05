@@ -4,7 +4,7 @@
   * changed
 
 
-1.127.4 (2021/03)
+1.128.0 (2021/03)
 
 + add: load lexers using multi-threading, this improved loading speed by 15-20%
 + add: update app icon (by @Shovel)
