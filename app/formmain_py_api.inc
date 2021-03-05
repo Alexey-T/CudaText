@@ -117,7 +117,7 @@ begin
   Result:= PyHelper_Rect(R);
 end;
 
-function PyHelper_GetCaretProps(Props: TATCaretShape): PPyObject;
+function PyHelper_GetCaretShape(Props: TATCaretShape): PPyObject;
 begin
   with AppPython.Engine do
     Result:= Py_BuildValue('(iiO)',
@@ -3287,13 +3287,13 @@ begin
           Result:= PyBool_FromLong(Ord(Ed.OptCaretStopUnfocused));
 
         PROP_CARET_VIEW:
-          Result:= PyHelper_GetCaretProps(Ed.CaretShapeNormal);
+          Result:= PyHelper_GetCaretShape(Ed.CaretShapeNormal);
 
         PROP_CARET_VIEW_OVR:
-          Result:= PyHelper_GetCaretProps(Ed.CaretShapeOverwrite);
+          Result:= PyHelper_GetCaretShape(Ed.CaretShapeOverwrite);
 
         PROP_CARET_VIEW_RO:
-          Result:= PyHelper_GetCaretProps(Ed.CaretShapeReadonly);
+          Result:= PyHelper_GetCaretShape(Ed.CaretShapeReadonly);
 
         PROP_MINIMAP:
           Result:= PyBool_FromLong(Ord(Ed.OptMinimapVisible));
@@ -3958,19 +3958,19 @@ begin
 
         PROP_CARET_VIEW:
           begin
-            EditorCaretPropsFromPyTuple(Ed.CaretShapeNormal, Str);
+            EditorCaretShapeFromPyTuple(Ed.CaretShapeNormal, Str);
             Ed.IsCaretShapeChangedFromAPI:= true;
           end;
 
         PROP_CARET_VIEW_OVR:
           begin
-            EditorCaretPropsFromPyTuple(Ed.CaretShapeOverwrite, Str);
+            EditorCaretShapeFromPyTuple(Ed.CaretShapeOverwrite, Str);
             Ed.IsCaretShapeChangedFromAPI:= true;
           end;
 
         PROP_CARET_VIEW_RO:
           begin
-            EditorCaretPropsFromPyTuple(Ed.CaretShapeReadonly, Str);
+            EditorCaretShapeFromPyTuple(Ed.CaretShapeReadonly, Str);
             Ed.IsCaretShapeChangedFromAPI:= true;
           end;
 

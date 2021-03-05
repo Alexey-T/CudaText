@@ -77,8 +77,8 @@ procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer
 procedure EditorCopyLine(Ed: TATSynEdit);
 procedure EditorHighlightBadRegexBrackets(Ed: TATSynEdit; AOnlyClear: boolean);
 
-procedure EditorCaretPropsFromString(Props: TATCaretShape; const AText: string);
-procedure EditorCaretPropsFromPyTuple(Props: TATCaretShape; const AText: string);
+procedure EditorCaretShapeFromString(Props: TATCaretShape; const AText: string);
+procedure EditorCaretShapeFromPyTuple(Props: TATCaretShape; const AText: string);
 
 type
   TATEditorBracketKind = (
@@ -266,9 +266,9 @@ begin
   begin
     if not Ed.IsCaretShapeChangedFromAPI then
     begin
-      EditorCaretPropsFromString(Ed.CaretShapeNormal, Op.OpCaretViewNormal);
-      EditorCaretPropsFromString(Ed.CaretShapeOverwrite, Op.OpCaretViewOverwrite);
-      EditorCaretPropsFromString(Ed.CaretShapeReadonly, Op.OpCaretViewReadonly);
+      EditorCaretShapeFromString(Ed.CaretShapeNormal, Op.OpCaretViewNormal);
+      EditorCaretShapeFromString(Ed.CaretShapeOverwrite, Op.OpCaretViewOverwrite);
+      EditorCaretShapeFromString(Ed.CaretShapeReadonly, Op.OpCaretViewReadonly);
     end;
 
     if Op.OpCaretAfterPasteColumn<=Ord(High(TATEditorPasteCaret)) then
@@ -1077,7 +1077,7 @@ begin
 end;
 
 
-procedure EditorCaretPropsFromString(Props: TATCaretShape; const AText: string);
+procedure EditorCaretShapeFromString(Props: TATCaretShape; const AText: string);
 var
   Sep: TATStringSeparator;
   S: string;
@@ -1090,7 +1090,7 @@ begin
 end;
 
 
-procedure EditorCaretPropsFromPyTuple(Props: TATCaretShape; const AText: string);
+procedure EditorCaretShapeFromPyTuple(Props: TATCaretShape; const AText: string);
 var
   Sep: TATStringSeparator;
   S: string;
