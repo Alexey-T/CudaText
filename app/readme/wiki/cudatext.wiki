@@ -72,8 +72,13 @@ Screenshot on Windows:
 = Download =
 
 * Homepage: http://uvviewsoft.com/cudatext/
-* Downloads: https://www.fosshub.com/CudaText.html . It has builds for Windows, Linux (x32, x64, ARM, AArch64), macOS, FreeBSD, NetBSD, Solaris.
-* GitHub repository: https://github.com/Alexey-T/CudaText . That account https://github.com/Alexey-T contains other packages needed to compile the app.
+* Downloads: https://www.fosshub.com/CudaText.html . It has builds for:
+** Windows (x32, x64)
+** Linux (x64, ARM, AArch64)
+** macOS (x64)
+** several BSD systems (x64)
+** Solaris (x64)
+* Main GitHub repository: https://github.com/Alexey-T/CudaText . Account https://github.com/Alexey-T contains other packages needed to compile the app.
 
 = Configs =
 
