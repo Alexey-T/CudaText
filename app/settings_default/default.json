@@ -995,6 +995,11 @@
   //like separate lines and try to jump to position above/below previous
   "key_up_down_nav_wrapped": true,
 
+  //Keys Up/Down:
+  //when Up key is pressed on first line - jump to the very beginning;
+  //when Down key is pressed on last line - jump to the very ending
+  "key_up_down_allow_edge": false,
+
   //Keys Left/Right: with "caret_after_end":false, option allows carets
   //(when at least 2 carets exist) go to next/previous line
   //(a: caret is at the line start and Left pressed,
