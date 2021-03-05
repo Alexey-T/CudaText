@@ -1,11 +1,11 @@
 object fmMain: TfmMain
-  Left = 52
+  Left = 44
   Height = 518
   Top = 88
   Width = 1236
   AllowDropFiles = True
   Caption = 'CudaText'
-  ClientHeight = 493
+  ClientHeight = 495
   ClientWidth = 1236
   Constraints.MinHeight = 200
   Constraints.MinWidth = 300
@@ -26,7 +26,7 @@ object fmMain: TfmMain
   Visible = True
   object PanelSide: TATPanelSimple
     Left = 0
-    Height = 493
+    Height = 495
     Top = 0
     Width = 75
     Align = alLeft
@@ -37,7 +37,7 @@ object fmMain: TfmMain
       AnchorSideBottom.Side = asrBottom
       Left = 0
       Height = 30
-      Top = 463
+      Top = 465
       Width = 75
       Anchors = [akLeft, akBottom]
       AutoSize = True
@@ -51,7 +51,7 @@ object fmMain: TfmMain
       AnchorSideTop.Control = PanelSide
       AnchorSideBottom.Control = ToolbarSideMid
       Left = 0
-      Height = 433
+      Height = 435
       Top = 0
       Width = 75
       Anchors = [akTop, akLeft, akBottom]
@@ -70,7 +70,7 @@ object fmMain: TfmMain
       AnchorSideBottom.Control = ToolbarSideLow
       Left = 0
       Height = 30
-      Top = 433
+      Top = 435
       Width = 75
       Anchors = [akLeft, akBottom]
       AutoSize = True
@@ -82,7 +82,7 @@ object fmMain: TfmMain
   end
   object PanelAll: TATPanelSimple
     Left = 75
-    Height = 493
+    Height = 495
     Top = 0
     Width = 1161
     Align = alClient
@@ -100,7 +100,7 @@ object fmMain: TfmMain
     end
     object PanelMain: TATPanelSimple
       Left = 0
-      Height = 469
+      Height = 471
       Top = 24
       Width = 1161
       Align = alClient
@@ -125,7 +125,7 @@ object fmMain: TfmMain
       end
       object PanelEditors: TATPanelSimple
         Left = 0
-        Height = 469
+        Height = 471
         Top = 0
         Width = 1161
         Align = alClient
@@ -815,14 +815,6 @@ object fmMain: TfmMain
     AllocBy = 20
     Left = 736
     Top = 216
-    Bitmap = {
-      4C7A0200000010000000100000008D0000000000000078DAED934B0EC0200844
-      393CF7C6D8804203F8DB348D18E28637026600FE1B884850CF092B67874758D6
-      7838CD7B1A8196F45C6FC3BF35B8269BB7F1A032E139EC2BCC7BBB0878ABA179
-      9AE641F7DC76C133EA1CFDC34CDD8DAFFB9FE88895DCF2FFBA86F57FA0116849
-      CFDDFF8106D764F336DEF83FE6BB77D53BCC7BBBC8FDEFF083FEAFFFF7A20014
-      C75FDC
-    }
   end
   object TimerAppIdle: TIdleTimer
     AutoEnabled = True
