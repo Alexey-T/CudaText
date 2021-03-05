@@ -1,4 +1,4 @@
-''' Plugin for CudaText editor
+﻿''' Plugin for CudaText editor
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
@@ -9,7 +9,7 @@ ToDo: (see end of file)
 import  re, os, sys, json, collections, itertools, webbrowser, tempfile, html, pickle, time, datetime
 from    itertools       import *
 from pathlib import PurePath as PPath
-from pathlib import     Path
+from pathlib import     Path as  Path
 def first_true(iterable, default=False, pred=None):return next(filter(pred, iterable), default) # 10.1.2. Itertools Recipes
 
 import  cudatext            as app
@@ -19,6 +19,14 @@ from    .cd_plug_lib    import *
 
 d   = dict
 odict = collections.OrderedDict
+#class odict(collections.OrderedDict):  py3.9 conflict
+#   def __init__(self, *args, **kwargs):
+#       if     args:super().__init__(*args)
+#       elif kwargs:super().__init__(kwargs.items())
+#   def __str__(self):
+#       return '{%s}' % (', '.join("'%s':%r" % (k,v) for k,v in self.items()))
+#   def __repr__(self):
+#       return self.__str__()
 
 pass;                           LOG     = (-1== 1) or apx.get_opt('_opts_dlg_log',False)    # Do or dont logging.
 pass;                           from pprint import pformat
@@ -1155,7 +1163,7 @@ class OptEdD:
                        ,lexr=m.lexr_l.index(m.lexr)     if m.lexr in m.lexr_l else -1
                        )
         if '+' in what:
-            rsp = {}
+            rsp = dict()
             if '+lvls' in what:
                 rsp.update(dict(
                         lvls=m.cur_in

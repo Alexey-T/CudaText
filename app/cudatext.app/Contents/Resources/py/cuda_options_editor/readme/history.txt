@@ -1,3 +1,7 @@
+2.3.14 (2021-01-24)
+fixed: i18n
+fixed: py3.4
+
 2.3.13 (2019-05-20)
 added: use "L" to mark defaults from "settings_default\lexer *.json" (in column "!")
 added: help information for "!" column
