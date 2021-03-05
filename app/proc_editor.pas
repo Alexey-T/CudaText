@@ -77,8 +77,8 @@ procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer
 procedure EditorCopyLine(Ed: TATSynEdit);
 procedure EditorHighlightBadRegexBrackets(Ed: TATSynEdit; AOnlyClear: boolean);
 
-procedure EditorCaretPropsFromString(Props: TATEditorCaretProps; const AText: string);
-procedure EditorCaretPropsFromPyTuple(Props: TATEditorCaretProps; const AText: string);
+procedure EditorCaretPropsFromString(Props: TATCaretShape; const AText: string);
+procedure EditorCaretPropsFromPyTuple(Props: TATCaretShape; const AText: string);
 
 type
   TATEditorBracketKind = (
@@ -1077,7 +1077,7 @@ begin
 end;
 
 
-procedure EditorCaretPropsFromString(Props: TATEditorCaretProps; const AText: string);
+procedure EditorCaretPropsFromString(Props: TATCaretShape; const AText: string);
 var
   Sep: TATStringSeparator;
   S: string;
@@ -1090,7 +1090,7 @@ begin
 end;
 
 
-procedure EditorCaretPropsFromPyTuple(Props: TATEditorCaretProps; const AText: string);
+procedure EditorCaretPropsFromPyTuple(Props: TATCaretShape; const AText: string);
 var
   Sep: TATStringSeparator;
   S: string;

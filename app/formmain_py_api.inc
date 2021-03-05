@@ -117,7 +117,7 @@ begin
   Result:= PyHelper_Rect(R);
 end;
 
-function PyHelper_GetCaretProps(Props: TATEditorCaretProps): PPyObject;
+function PyHelper_GetCaretProps(Props: TATCaretShape): PPyObject;
 begin
   with AppPython.Engine do
     Result:= Py_BuildValue('(iiO)',
