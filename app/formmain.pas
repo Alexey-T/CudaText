@@ -3402,7 +3402,7 @@ begin
 
   if Assigned(fmConsole) then
   begin
-    EditorCaretPropsFromString(fmConsole.EdMemo.CaretPropsReadonly, EditorOps.OpCaretViewReadonly);
+    EditorCaretPropsFromString(fmConsole.EdMemo.CaretShapeReadonly, EditorOps.OpCaretViewReadonly);
     fmConsole.EdMemo.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
     fmConsole.EdMemo.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
     fmConsole.EdMemo.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;

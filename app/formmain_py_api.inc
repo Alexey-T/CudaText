@@ -3287,13 +3287,13 @@ begin
           Result:= PyBool_FromLong(Ord(Ed.OptCaretStopUnfocused));
 
         PROP_CARET_VIEW:
-          Result:= PyHelper_GetCaretProps(Ed.CaretPropsNormal);
+          Result:= PyHelper_GetCaretProps(Ed.CaretShapeNormal);
 
         PROP_CARET_VIEW_OVR:
-          Result:= PyHelper_GetCaretProps(Ed.CaretPropsOverwrite);
+          Result:= PyHelper_GetCaretProps(Ed.CaretShapeOverwrite);
 
         PROP_CARET_VIEW_RO:
-          Result:= PyHelper_GetCaretProps(Ed.CaretPropsReadonly);
+          Result:= PyHelper_GetCaretProps(Ed.CaretShapeReadonly);
 
         PROP_MINIMAP:
           Result:= PyBool_FromLong(Ord(Ed.OptMinimapVisible));
@@ -3958,19 +3958,19 @@ begin
 
         PROP_CARET_VIEW:
           begin
-            EditorCaretPropsFromPyTuple(Ed.CaretPropsNormal, Str);
+            EditorCaretPropsFromPyTuple(Ed.CaretShapeNormal, Str);
             Ed.IsCaretShapeChangedFromAPI:= true;
           end;
 
         PROP_CARET_VIEW_OVR:
           begin
-            EditorCaretPropsFromPyTuple(Ed.CaretPropsOverwrite, Str);
+            EditorCaretPropsFromPyTuple(Ed.CaretShapeOverwrite, Str);
             Ed.IsCaretShapeChangedFromAPI:= true;
           end;
 
         PROP_CARET_VIEW_RO:
           begin
-            EditorCaretPropsFromPyTuple(Ed.CaretPropsReadonly, Str);
+            EditorCaretPropsFromPyTuple(Ed.CaretShapeReadonly, Str);
             Ed.IsCaretShapeChangedFromAPI:= true;
           end;
 

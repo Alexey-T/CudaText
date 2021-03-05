@@ -266,9 +266,9 @@ begin
   begin
     if not Ed.IsCaretShapeChangedFromAPI then
     begin
-      EditorCaretPropsFromString(Ed.CaretPropsNormal, Op.OpCaretViewNormal);
-      EditorCaretPropsFromString(Ed.CaretPropsOverwrite, Op.OpCaretViewOverwrite);
-      EditorCaretPropsFromString(Ed.CaretPropsReadonly, Op.OpCaretViewReadonly);
+      EditorCaretPropsFromString(Ed.CaretShapeNormal, Op.OpCaretViewNormal);
+      EditorCaretPropsFromString(Ed.CaretShapeOverwrite, Op.OpCaretViewOverwrite);
+      EditorCaretPropsFromString(Ed.CaretShapeReadonly, Op.OpCaretViewReadonly);
     end;
 
     if Op.OpCaretAfterPasteColumn<=Ord(High(TATEditorPasteCaret)) then
