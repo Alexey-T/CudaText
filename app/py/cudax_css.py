@@ -2421,8 +2421,12 @@ properties_dict = {
     ]
 }
 
-allowed_values = ['inherit', 'initial', 'unset', ['var()', 'var($1)']]
-
+add_values = [
+    'inherit', 
+    'initial', 
+    'unset', 
+    'var()'
+    ]
 
 def get_props():
     return list(properties_dict.keys())
@@ -2430,7 +2434,6 @@ def get_props():
 def get_values(name):
     r = []
     values = properties_dict.get(name, [])
-    values += allowed_values
     for val in values:
         if type(val) is str:
             if val.startswith('<') and val.endswith('>'):
@@ -2444,4 +2447,5 @@ def get_values(name):
                 r.append(val)
         elif type(val) is list:
             r.append(val[0])
+    r += add_values
     return r
