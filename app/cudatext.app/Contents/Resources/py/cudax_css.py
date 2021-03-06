@@ -2428,10 +2428,12 @@ add_values = [
     'var()'
     ]
 
-def get_props():
-    return list(properties_dict.keys())
-        
-def get_values(name):
+def get_data(name):
+    #get list of properties
+    if not name:
+        return list(properties_dict.keys())
+    
+    #get list of values for property
     r = []
     values = properties_dict.get(name, [])
     for val in values:

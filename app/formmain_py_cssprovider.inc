@@ -17,29 +17,8 @@ type
 { TATCssPythonProvider }
 
 procedure TATCssPythonProvider.GetProps(L: TStringList);
-var
-  FParamObjs: array of PPyObject;
-  FParamNames: array of string;
-  Obj: PPyObject;
-  NCount, i: integer;
 begin
-  L.Clear;
-
-  SetLength(FParamObjs, 0);
-  SetLength(FParamNames, 0);
-
-  Obj:= AppPython.RunModuleFunction('cudax_css', 'get_props', FParamObjs, FParamNames);
-  if Assigned(Obj) then
-    with AppPython.Engine do
-    begin
-      if PyList_Check(Obj) then
-      begin
-        NCount:= PyList_Size(Obj);
-        for i:= 0 to NCount-1 do
-          L.Add(PyObjectAsString(PyList_GetItem(Obj, i)));
-      end;
-      Py_DECREF(Obj);
-    end;
+  GetValues('', L);
 end;
 
 procedure TATCssPythonProvider.GetValues(const AProp: string; L: TStringList);
@@ -53,10 +32,11 @@ begin
 
   SetLength(FParamObjs, 1);
   SetLength(FParamNames, 1);
+
   FParamObjs[0]:= AppVariantToPyObject(AppVariant(AProp));
   FParamNames[0]:= 'name';
 
-  Obj:= AppPython.RunModuleFunction('cudax_css', 'get_values', FParamObjs, FParamNames);
+  Obj:= AppPython.RunModuleFunction('cudax_css', 'get_data', FParamObjs, FParamNames);
   if Assigned(Obj) then
     with AppPython.Engine do
     begin
