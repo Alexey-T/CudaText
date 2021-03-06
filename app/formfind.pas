@@ -1362,7 +1362,7 @@ begin
       Adapter.AddEditor(edFind);
       edFind.DoEventChange();
       edFind.InvalidateHilitingCache;
-      Adapter.DoAnalyzeFromLine(0, true);
+      Adapter.ParseFromLine(0, true);
     end
     else
     begin

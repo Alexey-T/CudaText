@@ -7728,7 +7728,7 @@ begin
               end;
 
               if Assigned(Ada) then
-                Ada.DoAnalyzeFromLine(NValue, true{Wait});
+                Ada.ParseFromLine(NValue, true{Wait});
             end;
             Result:= ReturnNone;
           end;

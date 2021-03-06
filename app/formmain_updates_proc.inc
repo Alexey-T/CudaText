@@ -978,7 +978,7 @@ begin
 
   if AForceUpdateAll then
   begin
-    Ada.InvokeParser(Ed, true);
+    Ada.ParseInvoke(Ed, true);
     //Ed.DoEventChange; //why it was needed?
   end;
 
