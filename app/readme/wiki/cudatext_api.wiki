@@ -827,7 +827,6 @@ Possible properties:
 * "font_style": font styles. String, each char can be: "b": bold, "i": italic, "u": underline, "s": strikeout.
 * "name": optional name of control. It may be not unique for all controls.
 * "ex0"..."ex9": advanced control-specific props. Described below.
-* "props": deprecated; advanced control-specific props. Described below.
 * "val": value of control. Described below.
 * "items": list of items. Described below.
 
@@ -872,13 +871,6 @@ Action DLG_CTL_PROP_SET, for "listview", allows both "items" (it sets columns) a
 * For "checklistbox", "checklistview": index + ";" + checked_states
 * For "tabs", "pages": index of active tab
 * For "trackbar", "progressbar": position, int value
-
-====Property "props" of dialog controls====
-
-Deprecated. Tuple of advanced control-specific properties. See description of prop "ex". If some control supports 4 props, "ex0" to "ex3", then "props" must be 4-tuple for it. If some control supports only "ex0", then "props" must be one value, same as "ex0".
-
-* For "dlg_custom", "props" must be str with ","-separated items, and "0"/"1" for bool items.
-* For "dlg_proc", "props" must be simple type or tuple of simple types, e.g. (True, False, 2).
 
 ====Properties "ex" of dialog controls====
 
@@ -1072,7 +1064,6 @@ How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=
 * "font_color": int: Font color.
 * "hint": str: Hint (tooltip) for mouse-over. Newlines must be "\r".
 * "ex0"..."ex9": Advanced control-specific props. Described in dlg_custom.
-* "props": Deprecated. Advanced control-specific props. Described in dlg_custom.
 * "items": str: Usually tab-separated items. Described in dlg_custom.
 * "val": str: Value of control. Described in dlg_custom.
 * "tag": str: Any string, set by plugin.
@@ -4202,5 +4193,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: button_proc: BTN_SET_COLOR_LINE
 * add: button_proc: BTN_GET_COLOR_LINE2
 * add: button_proc: BTN_SET_COLOR_LINE2
+
+1.0.370 (app 1.128.1)
+* deleted deprecated API: dlg_proc/dlg_custom "props" - now use "ex0"..."ex9"
 
 [[Category:CudaText]]

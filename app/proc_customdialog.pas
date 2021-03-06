@@ -1341,6 +1341,8 @@ begin
 end;
 
 
+{
+//deprecated api, to delete
 procedure DoControl_SetPropsFromString_Adv(C: TControl; const AValue: string);
 var
   Sep: TATStringSeparator;
@@ -1355,7 +1357,7 @@ begin
     Inc(NIndex);
   until false;
 end;
-
+}
 
 procedure DoControl_SetColumnsFromString(C: TControl; const S: string);
 begin
@@ -1688,8 +1690,8 @@ begin
 
   if AName='props' then
   begin
-    ////MsgLogConsole('Deprecated API: dlg_proc "props" for "'+Props.FTypeString+'"');
-    DoControl_SetPropsFromString_Adv(C, AValue);
+    MsgLogConsole('NOTE: Deleted API is used: dlg_proc "props" for "'+Props.FTypeString+'"');
+    //DoControl_SetPropsFromString_Adv(C, AValue);
     exit;
   end;
 
