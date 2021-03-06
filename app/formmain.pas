@@ -5852,7 +5852,8 @@ begin
   if bNeedCss then
   begin
     if CompletionOpsCss.Provider=nil then
-      CompletionOpsCss.Provider:= TATCssPythonProvider.Create; //uses cudax_css.py
+      if AppPython.Inited then
+        CompletionOpsCss.Provider:= TATCssPythonProvider.Create;
     DoEditorCompletionCss(Ed);
   end
   else
