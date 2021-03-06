@@ -250,8 +250,11 @@ begin
   Ed:= Ada.Editor;
 
   //restoring of folded state from history is here, after parsing done
-  Ed.FoldingAsString:= Ed.FoldingAsStringTodo;
-  Ed.FoldingAsStringTodo:= '';
+  if Ed.FoldingAsStringTodo<>'' then
+  begin
+    Ed.FoldingAsString:= Ed.FoldingAsStringTodo;
+    Ed.FoldingAsStringTodo:= '';
+  end;
 
   //do on_lexer_parsed only if parsing was long
   if Ada.LexerParsingElapsed>=UiOps.LexerParsingMinTimeForEvent then
