@@ -1611,6 +1611,7 @@ end;
 {$I formmain_py_statusbars.inc}
 {$I formmain_py_api.inc}
 {$I formmain_py_helpers.inc}
+{$I formmain_py_cssprovider.inc}
 {$I formmain_py_pluginwork.inc}
 
 procedure TfmMain.MenuViewerModeClick(Sender: TObject);
@@ -5849,7 +5850,11 @@ begin
     DoEditorCompletionHtml(Ed)
   else
   if bNeedCss then
-    DoEditorCompletionCss(Ed)
+  begin
+    if CompletionOpsCss.Provider=nil then
+      CompletionOpsCss.Provider:= TATCssPythonProvider.Create; //uses cudax_css.py
+    DoEditorCompletionCss(Ed);
+  end
   else
   if bNeedAcp then
     DoEditorCompletionAcp(Ed, GetAppLexerAcpFilename(SLexer), false{CaseSens});
