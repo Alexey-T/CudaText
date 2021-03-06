@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+1.128.1 (2021/03)
+
++ add: for CSS auto-completion, use another provider of CSS names/properties, now it's cudax_css.py module
 
 1.128.0 (2021/03)
 
