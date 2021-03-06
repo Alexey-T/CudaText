@@ -380,6 +380,7 @@ Most of them are located in Addons Manager "Install" list.
 * Fortran
 * FoxPro
 * FreeBASIC
+* G-code
 * GAMS
 * GDScript
 * Gherkin (Cucumber; Behat)
