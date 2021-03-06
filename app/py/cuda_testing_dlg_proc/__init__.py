@@ -437,7 +437,8 @@ class Command:
             'x': 210,
             'y': 0,
             'align': ALIGN_LEFT,
-            'props': (True,True),
+            'ex0': True,
+            'ex1': True,
             'act': True,
             'on_change': self.callback_splitter_left,
             })
@@ -448,7 +449,8 @@ class Command:
             'x': 220,
             'y': 0,
             'align': ALIGN_RIGHT,
-            'props': (True,True),
+            'ex0': True,
+            'ex1': True,
             })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'splitter')
@@ -457,7 +459,8 @@ class Command:
             'x': 0,
             'y': 0,
             'align': ALIGN_BOTTOM,
-            'props': (True,True),
+            'ex0': True,
+            'ex1': True,
             })
 
         return h
@@ -535,7 +538,8 @@ class Command:
             'y': 5,
             'w': 15,
             'h': 290,
-            'props': (1, 0xc0f0f0),
+            'ex0': 1,
+            'ex1': 0xc0f0f0,
             'on_mouse_enter': lambda id_dlg, id_ctl, data='', info='': print('panel on_mouse_enter'),
             'on_mouse_exit': lambda id_dlg, id_ctl, data='', info='': print('panel on_mouse_exit'),
             'on_mouse_down': lambda id_dlg, id_ctl, data='', info='': print('panel on_mouse_down', data),
