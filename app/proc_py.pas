@@ -686,7 +686,7 @@ begin
     Sign:= '=';
   Str:= Format('sys.path %s [%s]', [Sign, Str]);
 
-  Exec(Str+';print("Python %d.%d"%sys.version_info[:2])');
+  Exec(Str+';print("Python %d.%d.%d"%sys.version_info[:3])');
 end;
 
 procedure TAppPython.MaskFPU(AValue: boolean);
