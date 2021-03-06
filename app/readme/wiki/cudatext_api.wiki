@@ -753,11 +753,9 @@ Param "lexer" is optional lexer name. If not empty, dialog enables checkbox "For
 
  dlg_custom(title, size_x, size_y, text, focused=-1, get_dict=False)
 
-Shows dialog with controls of many types.
+Shows dialog with controls of many types. This is legacy API, it is recommended to use "dlg_proc" instead.
 
-====Types====
-
-Types of UI controls:
+====Types of dialog controls====
 
 * "button": simple button
 * "label": simple read-only text
@@ -791,7 +789,7 @@ Types of UI controls:
 * "pages": PageControl: set of tabs, with pages attached to them (only one of pages is visible)
 * "splitter": divider bar, which can be dragged by mouse. It finds "linked control", ie control with the same "parent" and "align", nearest to splitter. On mouse drag, splitter resizes this linked control. Recommended to place another control with "align": ALIGN_CLIENT, so splitter will resize two controls at once.
 
-Notes:
+Details:
 
 * Controls "combo", "combo_ro", "listbox": value is 0-based index of selected item, or -1 if none is selected.
 * Control "button_ex": to change advanced props, you must get handle via DLG_CTL_HANDLE, and pass it to button_proc().
@@ -803,9 +801,11 @@ Notes:
 * Control "paintbox" is empty area, plugin can paint on it. Get canvas_id via DLG_CTL_HANDLE, and use it in canvas_proc().
 * Control property "name" is required for "filter_nnnnn" controls: must set name of listbox/listview, and name of its filter - to the same name with prefix "f_" (e.g. listbox name "mylist" with filter name "f_mylist").
 
-==== Properties ====
+==== Properties of dialog controls ====
 
-Parameter "text" is "\n"-separated items, one item per control. Each item is chr(1)-separated props in the form "key=value". Possible props:
+Parameter "text" in "dlg_custom" is "\n"-separated items, one item per control.
+Each item is chr(1)-separated properties in the form "name=value".
+Possible properties:
 
 * "type": type of control; must be specified first
 * "cap": caption
@@ -831,20 +831,20 @@ Parameter "text" is "\n"-separated items, one item per control. Each item is chr
 * "val": value of control. Described below.
 * "items": list of items. Described below.
 
-====Prop "items"====
+====Property "items" of dialog controls====
 
-Possible values of "items":
+Possible values of "items" in "dlg_custom":
 
-* combo, combo_ro, listbox, checkgroup, radiogroup, checklistbox, tabs: "\t"-separated lines
-* listview, checklistview: "\t"-separated items.
+* For "combo", "combo_ro", "listbox", "checkgroup", "radiogroup", "checklistbox", "tabs": "\t"-separated lines
+* For "listview", "checklistview": "\t"-separated items.
 ** first item is column headers: title1+"="+size1 + "\r" + title2+"="+size2 + "\r" +...
 ** size1...sizeN can be with lead char to specify alignment of column: L (default), R, C
 ** other items are data: cell1+"\r"+cell2+"\r"+... (count of cells may be less than count of columns)
-* image: full path of picture file (png/gif/jpg/bmp)
+* For "image": full path of picture file (png/gif/jpg/bmp)
 
 Action DLG_CTL_PROP_GET also returns key "items" (in the same format) for these controls: "listbox", "checklistbox", "listview", "checklistview".
 
-====Prop "columns"====
+====Property "columns" of dialog controls====
 
 * For "listview", "checklistview": "\t"-separated items, each item is "\r"-separated props of a column:
 ** caption (must be without "\t", "\r", "\n")
@@ -861,28 +861,28 @@ Action DLG_CTL_PROP_GET also returns key "columns" in the same format.
 
 Action DLG_CTL_PROP_SET, for "listview", allows both "items" (it sets columns) and "columns", and "columns" is applied last.
 
-====Prop "val"====
+====Property "val" of dialog controls====
 
-* check: "0", "1" or "?" (grayed state)
-* radio, checkbutton: "0", "1"
-* edit, edit_pwd, spinedit, combo, filter_*: text
-* memo: "\t"-separated lines, in which "\t" chars must be replaced to chr(3)
-* combo_ro, listbox, radiogroup, listview: current index
-* checkgroup: ","-separated checked states ("0", "1")
-* checklistbox, checklistview: index + ";" + checked_states
-* tabs, pages: index of active tab
-* trackbar, progressbar: int position
+* For "check": checked state "0", "1" or "?" for grayed state
+* For "radio", "checkbutton": checked state "0", "1"
+* For "edit", "edit_pwd", "spinedit", "combo", "filter_*": text in control
+* For "memo": "\t"-separated lines, in lines "\t" chars must be replaced with chr(3)
+* For "combo_ro", "listbox", "radiogroup", "listview": index (0-based) of selected item
+* For "checkgroup": ","-separated checked states ("0", "1")
+* For "checklistbox", "checklistview": index + ";" + checked_states
+* For "tabs", "pages": index of active tab
+* For "trackbar", "progressbar": position, int value
 
-====Prop "props"====
+====Property "props" of dialog controls====
 
 Deprecated. Tuple of advanced control-specific properties. See description of prop "ex". If some control supports 4 props, "ex0" to "ex3", then "props" must be 4-tuple for it. If some control supports only "ex0", then "props" must be one value, same as "ex0".
 
-* For dlg_custom, "props" must be str with ","-separated items, and "0"/"1" for bool items.
-* For dlg_proc, "props" must be simple type or tuple of simple types, e.g. (True, False, 2).
+* For "dlg_custom", "props" must be str with ","-separated items, and "0"/"1" for bool items.
+* For "dlg_proc", "props" must be simple type or tuple of simple types, e.g. (True, False, 2).
 
-====Prop "ex"====
+====Properties "ex" of dialog controls====
 
-Props "ex0"..."ex9" are control-specific. They have different simple type (str, bool, int...).
+Properties "ex0"..."ex9" are control-specific. They have different simple type (str, bool, int...).
 
 * "button":
 ** "ex0": bool: default for Enter key
@@ -951,7 +951,7 @@ Props "ex0"..."ex9" are control-specific. They have different simple type (str, 
 ** "ex2": bool: auto jump to edge, when size of linked control becomes < min size
 ** "ex3": int: mininal size of linked control (controlled by splitter)
 
-====Result====
+====Return value of dlg_custom====
 
 Dialog is closed by clicking any button or by changing of any control which has "act=1".
 
@@ -977,16 +977,17 @@ Dialog is closed by clicking any button or by changing of any control which has 
 
  dlg_proc(id_dialog, id_action, prop="", index=-1, index2=-1, name="")
 
-Advanced work with dialogs (forms). More advanced than dlg_custom(), forms can show in modal/nonmodal way, controls can change their value during form showing.
+Advanced work with dialogs (forms). More advanced than "dlg_custom", forms can show in modal/nonmodal way, controls can change their value during form showing.
 
 Often the function works with some control. To pass some control here, use one of 2 methods:
 
 * Set param "name" to control's name. You give name to a control when you create this control. Param "name" is used if it's not empty.
 * Set param "index" to control's index. You get index of newly created control from dlg_proc call. You can find the index from name, using DLG_CTL_FIND action. Param "index" is used if it's >=0 and param "name" is empty.
 
-====Types====
+====Types of dlg_proc controls====
 
-Possible types of UI controls are described in dlg_custom, see [[#Types]]. Additional types only for dlg_proc:
+Possible types of UI controls are described in "dlg_custom" topic.
+Additional types, supported only by "dlg_proc":
 
 * "button_ex": button, application-themed, works via button_proc()
 * "editor": full-featured multi-line editor, accessible via Editor API
