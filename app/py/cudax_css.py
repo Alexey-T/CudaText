@@ -2424,10 +2424,10 @@ properties_dict = {
 allowed_values = ['inherit', 'initial', 'unset', ['var()', 'var($1)']]
 
 
-def get_props(self):
+def get_props():
     return list(properties_dict.keys())
         
-def get_prop_vals(self, name):
+def get_values(name):
     r = []
     values = properties_dict.get(name, [])
     values += allowed_values
