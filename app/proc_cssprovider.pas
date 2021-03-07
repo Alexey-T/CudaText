@@ -12,8 +12,7 @@ unit proc_cssprovider;
 interface
 
 uses
-  SysUtils, Classes,
-  ATSynEdit_Cmp_CSS,
+  Classes,
   ATSynEdit_Cmp_CSS_Provider;
 
 type
@@ -26,6 +25,7 @@ type
 implementation
 
 uses
+  SysUtils,
   PythonEngine,
   proc_appvariant,
   proc_py;
