@@ -2944,12 +2944,28 @@ begin
 end;
 
 procedure AppLoadLexers;
+var
+  cfg: TJsonConfig;
 {
 var
   NCountNormal, NCountLite: integer;
   NTickNormal, NTickLite: QWord;
   }
 begin
+  //must read UiOps.LexerThemes here, because it runs before loading all options,
+  //and we need this option already (for "ui_lexer_themes": false)
+  cfg:= TJsonConfig.Create(nil);
+  try
+    try
+      cfg.Filename:= AppFile_OptionsUser;
+    except
+      Exit
+    end;
+    UiOps.LexerThemes:= cfg.GetValue('ui_lexer_themes', UiOps.LexerThemes);
+  finally
+    cfg.Free;
+  end;
+
   //1) load lite lexers
   //NTickLite:= GetTickCount64;
 
