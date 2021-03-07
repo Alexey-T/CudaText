@@ -18,9 +18,16 @@ UNIX_CPU = 'amd64' if X64 else 'i386'
 DOWNLOAD_PAGE = 'https://www.fosshub.com/CudaText.html'
 REGEX_GROUP_VER = 1
 
+LINUX_FILEPATH = '-linux-gtk2-'+UNIX_CPU+'-([^\-]+)\.tar\.xz)"'
+if (OS == 'Linux'):
+    import subprocess
+    LSB_RELEASE = subprocess.check_output('cat /etc/lsb-release', shell=True).decode('utf-8')
+    if ("Ubuntu" in LSB_RELEASE or "Debian" in LSB_RELEASE) and (UNIX_CPU == 'amd64'):
+        LINUX_FILEPATH = '_(.+?)_gtk2_'+UNIX_CPU+'\.deb)"'
+
 FILE_RES = {
     'Windows':      ' href="(https://.+?=cudatext-win-'              +WIN_CPU+ '-([^\-]+)\.zip)"',
-    'Linux':        ' href="(https://.+?=cudatext-linux-gtk2-'       +UNIX_CPU+'-([^\-]+)\.tar\.xz)"',
+    'Linux':        ' href="(https://.+?=cudatext'                   +LINUX_FILEPATH,
     'FreeBSD':      ' href="(https://.+?=cudatext-freebsd-gtk2-'     +UNIX_CPU+'-([^\-]+)\.tar\.xz)"',
     'OpenBSD':      ' href="(https://.+?=cudatext-openbsd-gtk2-'     +UNIX_CPU+'-([^\-]+)\.tar\.xz)"',
     'NetBSD':       ' href="(https://.+?=cudatext-netbsd-gtk2-'      +UNIX_CPU+'-([^\-]+)\.tar\.xz)"',
