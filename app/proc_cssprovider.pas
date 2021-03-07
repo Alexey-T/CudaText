@@ -13,7 +13,8 @@ interface
 
 uses
   SysUtils, Classes,
-  ATSynEdit_Cmp_CSS;
+  ATSynEdit_Cmp_CSS,
+  ATSynEdit_Cmp_CSS_Provider;
 
 type
   TATCssPythonProvider = class(TATCssProvider)
