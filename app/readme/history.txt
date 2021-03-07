@@ -5,7 +5,8 @@
 
 1.128.1 (2021/03)
 
-* add/change: for CSS auto-completion, use another provider of CSS names/properties, now it's cudax_css.py module
+* change: for CSS auto-completion, use another provider of CSS names/properties, now it's cudax_css.py module
+* change: auto-completion for CSS and HTML was 70% rewritten, pls report any issues
 
 1.128.0 (2021/03)
 
