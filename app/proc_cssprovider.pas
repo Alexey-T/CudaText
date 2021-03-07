@@ -38,15 +38,12 @@ end;
 
 procedure TATCssPythonProvider.GetValues(const AProp: string; L: TStringList);
 var
-  FParamObjs: array of PPyObject;
-  FParamNames: array of string;
+  FParamObjs: array[0..0] of PPyObject;
+  FParamNames: array[0..0] of string;
   Obj: PPyObject;
   NCount, i: integer;
 begin
   L.Clear;
-
-  SetLength(FParamObjs, 1);
-  SetLength(FParamNames, 1);
 
   FParamObjs[0]:= AppVariantToPyObject(AppVariant(AProp));
   FParamNames[0]:= 'name';
