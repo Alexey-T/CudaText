@@ -2952,8 +2952,8 @@ var
   NTickNormal, NTickLite: QWord;
   }
 begin
-  //must read UiOps.LexerThemes here, because it runs before loading all options,
-  //and we need this option already (for "ui_lexer_themes": false)
+  //must read UiOps.LexerThemes here, AppLoadLexers runs in a thread
+  //before loading all options, and we need this option already
   cfg:= TJsonConfig.Create(nil);
   try
     try
