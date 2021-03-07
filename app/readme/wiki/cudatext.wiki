@@ -979,6 +979,9 @@ Action buttons in dialog:
 
 * Button "Rep global". Performs replacement of all matches in all opened documents in all editor groups. After showing the additional confirmation.
 
+Note that state of search options is saved in the history file, and is restored after app restart.
+But if "Hi" option is checked, the state of "O" (wrapped search) option will be unchecked.
+
 ===Text searcher features===
 
 Search engine supports actions with multi-selections. This makes sense mainly for mass-search actions (Find all, Select all, Mark all, Replace all).
