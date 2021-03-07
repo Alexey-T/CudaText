@@ -5,7 +5,15 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 Copyright (c) Alexey Torgashin
 *)
-{$ifdef nn}begin end;{$endif}
+unit proc_cssprovider;
+
+{$mode objfpc}{$H+}
+
+interface
+
+uses
+  SysUtils, Classes,
+  ATSynEdit_Cmp_CSS;
 
 type
   TATCssPythonProvider = class(TATCssProvider)
@@ -13,6 +21,13 @@ type
     procedure GetProps(L: TStringList); override;
     procedure GetValues(const AProp: string; L: TStringList); override;
   end;
+
+implementation
+
+uses
+  PythonEngine,
+  proc_appvariant,
+  proc_py;
 
 { TATCssPythonProvider }
 
@@ -49,4 +64,6 @@ begin
       Py_DECREF(Obj);
     end;
 end;
+
+end.
 

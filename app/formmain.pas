@@ -103,6 +103,7 @@ uses
   proc_customdialog,
   proc_customdialog_dummy,
   proc_scrollbars,
+  proc_cssprovider,
   formconsole,
   formframe,
   formgoto,
@@ -1611,7 +1612,6 @@ end;
 {$I formmain_py_statusbars.inc}
 {$I formmain_py_api.inc}
 {$I formmain_py_helpers.inc}
-{$I formmain_py_cssprovider.inc}
 {$I formmain_py_pluginwork.inc}
 
 procedure TfmMain.MenuViewerModeClick(Sender: TObject);
