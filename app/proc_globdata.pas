@@ -2958,10 +2958,9 @@ begin
   try
     try
       cfg.Filename:= AppFile_OptionsUser;
+      UiOps.LexerThemes:= cfg.GetValue('ui_lexer_themes', UiOps.LexerThemes);
     except
-      Exit
     end;
-    UiOps.LexerThemes:= cfg.GetValue('ui_lexer_themes', UiOps.LexerThemes);
   finally
     cfg.Free;
   end;
