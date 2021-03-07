@@ -340,7 +340,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StyleName = 'Image'
       StatesAbsent = 3
       TokenType = 11
-      Expression = '(?s)(?<=\])\(.+?\) (\{.*?\})?'
+      Expression = '(?s)(?<=\])\(.*?\) (\{.*?\})?'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -613,7 +613,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '<\?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal15
+      SyntAnalyzer = SyntAnal14
       IncludeBounds = True
     end
     item
@@ -634,7 +634,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'YAML front matter'
       StartExpression = '\A---$'
       EndExpression = '^---$'
-      SyntAnalyzer = SyntAnal23
+      SyntAnalyzer = SyntAnal21
     end>
   SampleText.Strings = (
     '---'
