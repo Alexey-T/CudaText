@@ -1219,7 +1219,7 @@
   //If completion listbox has just single item, then commit it w/o showing menus
   "autocomplete_commit_single_item": false,
 
-  //Auto-close brackets/quotes. Value can have only chars: ( [ { ' " `
+  //Auto-close brackets/quotes. Supported chars: ( [ { ' " ` ~ * #
   //(Don't forget that JSON config needs double-quote escaped.)
   //Function doesn't work on escaped chars (after backslash).
   //Function doesn't work if after caret is word char.
