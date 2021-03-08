@@ -17,7 +17,7 @@ def do_config_dialog():
 
     text = '\n'.join([]+
       [c1.join(['type=label', 'pos=6,6,250,0', 'cap='+_('&Default channels:')])]+
-      [c1.join(['type=memo', 'pos=6,24,%d,140'%(all_size_x-6), 'val='+'\t'.join(opt.ch_def), 'props=1,0,1'])]+
+      [c1.join(['type=memo', 'pos=6,24,%d,140'%(all_size_x-6), 'val='+'\t'.join(opt.ch_def), 'ex0=1', 'ex1=0', 'ex2=1'])]+
       [c1.join(['type=label', 'pos=6,146,256,0', 'cap='+_('&User channels:')])]+
       [c1.join(['type=memo', 'pos=%d,%d,%d,%d'%(6, 164, all_size_x-6, all_size_y-120), 'val='+'\t'.join(opt.ch_user)])]+
       [c1.join(['type=check', 'pos=%d,%d,%d,0'%(6, all_size_y-115, all_size_x-btn_size-12), 'cap='+_('Install: suggest &readme after'), 'val='+('1' if opt.suggest_readme else '0') ])]+

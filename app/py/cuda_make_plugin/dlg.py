@@ -60,7 +60,7 @@ def dlg_make_plugin():
           + [c1.join(['type=check', 'cap='+_('&Add "Config" menu item to "Options / Settings-plugins"'), 'pos=6,246,450,0'])]
           + [c1.join(['type=label', 'cap='+_('&Events to handle:'), 'pos=6,276,400,0'])]
           + [c1.join(['type=checklistbox', 'items='+'\t'.join(EVENTS), 'val='+s_events_checks, 'pos=6,294,450,450'])]
-          + [c1.join(['type=button', 'cap='+_('&OK'), 'props=1', 'pos=%d,%d,%d,%d'%(dlg_w-btn_w*2-12, dlg_h-30, dlg_w-btn_w-12, 0)])]
+          + [c1.join(['type=button', 'cap='+_('&OK'), 'ex0=1', 'pos=%d,%d,%d,%d'%(dlg_w-btn_w*2-12, dlg_h-30, dlg_w-btn_w-12, 0)])]
           + [c1.join(['type=button', 'cap='+_('Cancel'), 'pos=%d,%d,%d,%d'%(dlg_w-btn_w-6, dlg_h-30, dlg_w-6, 0)])]
           ) )
         if res is None: return

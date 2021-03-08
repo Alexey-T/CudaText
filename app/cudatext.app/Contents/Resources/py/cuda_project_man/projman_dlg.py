@@ -94,7 +94,7 @@ def dialog_config(op):
 
         +[c1.join(['type=label', 'pos=6,416,600,0', 'cap='+_('For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"')])]
         +[c1.join(['type=label', 'pos=6,440,600,0', 'cap='+_('(*) - requires CudaText restart')])]
-        +[c1.join(['type=button', 'pos=300,470,400,0', 'cap='+_('&OK'), 'props=1'])]
+        +[c1.join(['type=button', 'pos=300,470,400,0', 'cap='+_('&OK'), 'ex0=1'])]
         +[c1.join(['type=button', 'pos=406,470,502,0', 'cap='+_('Cancel')])]
     )
 
@@ -143,8 +143,8 @@ def dialog_proj_prop(prop):
         +[c1.join(['type=label', 'pos=6,6,500,0', 'cap='+_('&Variables (in form Name=Value)')])]
         +[c1.join(['type=memo', 'pos=6,26,500,180', 'val='+'\t'.join(list_vars) ])]
         +[c1.join(['type=label', 'pos=6,186,500,0', 'cap='+_('&Main file (read-only, change in context menu)')])]
-        +[c1.join(['type=edit', 'pos=6,206,500,0', 'props=1,0,1', 'val='+main_file])]
-        +[c1.join(['type=button', 'pos=300,300,400,0', 'cap='+_('&OK'), 'props=1'])]
+        +[c1.join(['type=edit', 'pos=6,206,500,0', 'ex0=1', 'ex1=0', 'ex2=1', 'val='+main_file])]
+        +[c1.join(['type=button', 'pos=300,300,400,0', 'cap='+_('&OK'), 'ex0=1'])]
         +[c1.join(['type=button', 'pos=406,300,502,0', 'cap='+_('Cancel')])]
     )
 

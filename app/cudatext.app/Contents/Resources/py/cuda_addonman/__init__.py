@@ -518,9 +518,9 @@ class Command:
 
         while True:
             text = '\n'.join([
-              c1.join(['type=button', 'pos=514,500,614,0', 'cap='+_('Update'), 'props=1']),
+              c1.join(['type=button', 'pos=514,500,614,0', 'cap='+_('Update'), 'ex0=1']),
               c1.join(['type=button', 'pos=620,500,720,0', 'cap='+_('Cancel')]),
-              c1.join(['type=checklistview', 'pos=6,6,720,490', 'items='+text_items, 'val='+text_val, 'props=1']),
+              c1.join(['type=checklistview', 'pos=6,6,720,490', 'items='+text_items, 'val='+text_val, 'ex0=1']),
               c1.join(['type=button', 'pos=6,500,100,0', 'cap='+_('Deselect all')]),
               c1.join(['type=button', 'pos=106,500,200,0', 'cap='+_('Select new')]),
               ])

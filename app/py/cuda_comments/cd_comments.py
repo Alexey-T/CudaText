@@ -55,7 +55,7 @@ class Command:
              [dict(cid='save',tp='ch'   ,t=5    ,l=5    ,w=600      ,cap=save_s ,hint=save_h) #
              ,dict(cid='vert',tp='ch'   ,t=5+25 ,l=5    ,w=600      ,cap=vert_s ,hint=vert_h) #
              ,dict(cid='down',tp='ch'   ,t=5+50 ,l=5    ,w=600      ,cap=down_s             ) #
-             ,dict(cid='!'   ,tp='bt'   ,t=80   ,l=610-165-5,w=80   ,cap=_('OK'),props='1'                                                          ) #     default
+             ,dict(cid='!'   ,tp='bt'   ,t=80   ,l=610-165-5,w=80   ,cap=_('OK'),ex0='1'                                                          ) #     default
              ,dict(cid='-'   ,tp='bt'   ,t=80   ,l=610 -80-5,w=80   ,cap=_('Cancel')                                                                )
              ], dict(save=save_bd_col
                     ,vert=at_min_bd

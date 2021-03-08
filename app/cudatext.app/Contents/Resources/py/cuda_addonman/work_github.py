@@ -50,7 +50,7 @@ def dialog_github_install(history):
     res = dlg_custom(_('Install from GitHub'), 456, 90, '\n'.join([]
       + [c1.join(['type=label', 'cap='+_('&GitHub repo URL'), 'pos=6,6,400,0'])]
       + [c1.join(['type=combo', 'items='+'\t'.join(history), 'pos=6,26,450,0', 'cap='+history[0]])]
-      + [c1.join(['type=button', 'cap='+_('OK'), 'pos=246,60,346,0', 'props=1'])]
+      + [c1.join(['type=button', 'cap='+_('OK'), 'pos=246,60,346,0', 'ex0=1'])]
       + [c1.join(['type=button', 'cap='+_('Cancel'), 'pos=350,60,450,0'])]
       ))
     if not res: return

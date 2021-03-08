@@ -265,10 +265,10 @@ def do_dialog():
       c1.join(['type=check', 'pos=6,102,300,0', 'cap='+_('Numeric (treat beginning as number)'), 'val='+op_numeric]),
       c1.join(['type=label', 'pos=6,130,300,0', 'cap='+_('Sort only by substring, offsets 0-based:')]),
       c1.join(['type=label', 'pos=30,152,130,0', 'cap='+_('&From:')]),
-      c1.join(['type=spinedit', 'pos=30,170,110,0', 'props=-1,5000,1', 'val='+str(op_offset1)]),
+      c1.join(['type=spinedit', 'pos=30,170,110,0', 'ex0=-1', 'ex1=5000', 'ex2=1', 'val='+str(op_offset1)]),
       c1.join(['type=label', 'pos=120,152,230,0', 'cap='+_('&To:')]),
-      c1.join(['type=spinedit', 'pos=120,170,200,0', 'props=-1,5000,1', 'val='+str(op_offset2)]),
-      c1.join(['type=button', 'pos=60,210,160,0', 'cap='+_('OK'), 'props=1']),
+      c1.join(['type=spinedit', 'pos=120,170,200,0', 'ex0=-1', 'ex1=5000', 'ex2=1', 'val='+str(op_offset2)]),
+      c1.join(['type=button', 'pos=60,210,160,0', 'cap='+_('OK'), 'ex0=1']),
       c1.join(['type=button', 'pos=164,210,264,0', 'cap='+_('Cancel')]),
       ])
 
