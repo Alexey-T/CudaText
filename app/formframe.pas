@@ -1394,7 +1394,8 @@ begin
     cCommand_TextInsert:
       begin
         //improve auto-closing brackets, avoid duplicate )]}
-        //when closing bracket is typed over itself
+        //when closing bracket )]} is typed over itself,
+        //and previous char is opening bracket ([{
         if Ed.Strings.IsIndexValid(Caret.PosY) then
           if Length(AText)=1 then
           begin
@@ -1403,7 +1404,8 @@ begin
             begin
               Str:= Ed.Strings.Lines[Caret.PosY];
               if (Caret.PosX<Length(Str)) then
-                if Str[Caret.PosX+1] = AText[1] then
+               if Str[Caret.PosX+1] = AText[1] then
+                if (Caret.PosX>0) and (Str[Caret.PosX]=ch) then //only if previous is ([{
                 begin
                   Ed.DoCommand(cCommand_KeyRight);
                   AHandled:= true;
