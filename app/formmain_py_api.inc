@@ -3610,6 +3610,11 @@ begin
         PROP_MASKCHAR_USED:
           Result:= PyBool_FromLong(Ord(Ed.OptMaskCharUsed));
 
+        PROP_NUMBERS_ONLY:
+          Result:= PyBool_FromLong(Ord(Ed.OptInputNumberOnly));
+        PROP_NUMBERS_NEGATIVE:
+          Result:= PyBool_FromLong(Ord(Ed.OptInputNumberAllowNegative));
+
         PROP_V_MODE:
           begin
             if Assigned(F) and F.IsBinary then
@@ -4180,11 +4185,17 @@ begin
         PROP_MASKCHAR:
           begin
             if Str<>'' then
-              Ed.OptMaskChar:= Str[1];
+              Ed.OptMaskChar:= UTF8Decode(Str)[1];
           end;
 
         PROP_MASKCHAR_USED:
           Ed.OptMaskCharUsed:= ValueBool;
+
+        PROP_NUMBERS_ONLY:
+          Ed.OptInputNumberOnly:= ValueBool;
+
+        PROP_NUMBERS_NEGATIVE:
+          Ed.OptInputNumberAllowNegative:= ValueBool;
 
         PROP_V_MODE:
           begin
