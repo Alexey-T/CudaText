@@ -885,7 +885,8 @@ begin
         if CharBegin='~' then CharEnd:= '~' else
          if CharBegin='*' then CharEnd:= '*' else
           if CharBegin='#' then CharEnd:= '#' else
-           exit;
+           if CharBegin='<' then CharEnd:= '>' else
+            exit;
 
   //cancel vertical selection
   Ed.DoSelect_ClearColumnBlock;
