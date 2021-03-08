@@ -3143,10 +3143,17 @@ begin
     case Form.ShowModal of
       //"Don't save/ Keep in session"
       mrClose:
-        Result:= true;
+        begin
+          Result:= true;
+          //set true, because user can call this dialog via CmdPalette,
+          //where he can choose "Don't save" before
+          UiOps.SaveModifiedTabsOnClose:= true;
+        end;
       //"Cancel"
       mrCancel:
-        Result:= false;
+        begin
+          Result:= false;
+        end;
       //"Don't save"
       mrNoToAll:
         begin
