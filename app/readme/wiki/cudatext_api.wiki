@@ -2280,6 +2280,9 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 
 * PROP_COMBO_ITEMS: only for "editor_combo" control, contents of drop-down list. On getting: list of str. On setting: value must be str with '\n'-separated items.
 
+* PROP_MASKCHAR: str: character to show in masked-mode.
+* PROP_MASKCHAR_USED: bool: masked-mode is activated.
+
 * PROP_V_MODE: int: mode of binary viewer. Reading it for editor, returns VMODE_NONE. Reading it for viewer, returns one of: VMODE_TEXT, VMODE_BINARY, VMODE_HEX, VMODE_UNICODE, VMODE_UNICODE_HEX.
 * PROP_V_POS: int: for binary viewer, scroll position.
 * PROP_V_SEL_START: int: for binary viewer, selection start offset.
@@ -2391,6 +2394,9 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_SAVING_TRIM_FINAL_EMPTY_LINES: bool: on saving file, trim redundant empty lines at end of document.
 
 * PROP_COMBO_ITEMS: only for "editor_combo" control, contents of drop-down list. On getting: list of str. On setting: value must be str with '\n'-separated items.
+
+* PROP_MASKCHAR: str: character to show in masked-mode.
+* PROP_MASKCHAR_USED: bool: masked-mode is activated.
 
 * PROP_V_MODE: int: mode of binary viewer. Setting it for viewer to one of VMODE_ values, changes viewer mode. Setting it for editor to one of VMODE_ values, switches editor to viewer in the given mode. Setting it for viewer to VMODE_NONE, switches viewer to editor.
 * PROP_V_POS: int: for binary viewer, scroll position.
@@ -4196,5 +4202,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.370 (app 1.128.1)
 * deleted deprecated API: dlg_proc/dlg_custom "props" - now use "ex0"..."ex9"
+
+1.0.371 (app 1.128.5)
+* add: Editor.get_prop/set_prop: PROP_MASKCHAR, PROP_MASKCHAR_USED
 
 [[Category:CudaText]]
