@@ -4210,9 +4210,11 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * deleted deprecated API: dlg_proc/dlg_custom "props" - now use "ex0"..."ex9"
 
 1.0.371 (app 1.128.5)
-* add: Editor.get_prop/set_prop: PROP_MASKCHAR, PROP_MASKCHAR_USED
+* add: Editor.get_prop/set_prop: PROP_MASKCHAR
+* add: Editor.get_prop/set_prop: PROP_MASKCHAR_USED
 
 1.0.372 (app 1.128.5)
-* add: Editor.get_prop/set_prop: PROP_NUMBERS_ONLY, PROP_NUMBERS_NEGATIVE
+* add: Editor.get_prop/set_prop: PROP_NUMBERS_ONLY
+* add: Editor.get_prop/set_prop: PROP_NUMBERS_NEGATIVE
 
 [[Category:CudaText]]
