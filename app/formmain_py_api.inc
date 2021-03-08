@@ -3605,6 +3605,11 @@ begin
         PROP_FONT_BI:
           Result:= PyHelper_GetFontProps(Ed.FontBoldItalic);
 
+        PROP_MASKCHAR:
+          Result:= PyUnicodeFromString(Ed.OptMaskChar);
+        PROP_MASKCHAR_USED:
+          Result:= PyBool_FromLong(Ord(Ed.OptMaskCharUsed));
+
         PROP_V_MODE:
           begin
             if Assigned(F) and F.IsBinary then
@@ -4171,6 +4176,15 @@ begin
           EditorSetFont(Ed.FontItalic, Str);
         PROP_FONT_BI:
           EditorSetFont(Ed.FontBoldItalic, Str);
+
+        PROP_MASKCHAR:
+          begin
+            if Str<>'' then
+              Ed.OptMaskChar:= Str[1];
+          end;
+
+        PROP_MASKCHAR_USED:
+          Ed.OptMaskCharUsed:= ValueBool;
 
         PROP_V_MODE:
           begin
