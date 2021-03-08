@@ -435,9 +435,14 @@ def dlg_wrapper(title, w, h, cnts, in_vals={}, focus_cid=None):
             
         lst     = ['type='+tp]
         # Simple props
-        for k in ['cap', 'hint', 'props']:
+        for k in ['cap', 'hint']:
             if k in cnt:
                 lst += [k+'='+str(cnt[k])]
+        # Alexey: support 'ex0'..'ex9'
+        if 'props' in cnt:
+            k = cnt['props'].split(',')
+            for (k_i, k_s) in enumerate(k):
+                lst += ['ex'+str(k_i)+'='+k_s]
         # Props with preparation
         # Position:
         #   t[op] or tid, l[eft] required
