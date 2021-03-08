@@ -932,7 +932,7 @@ type
     procedure DoOps_LoadCodetreeIcons;
     procedure DoOps_LoadToolbarIcons;
     procedure DoOps_LoadLexerLib(AOnCreate: boolean);
-    procedure DoOps_SaveHistory;
+    procedure DoOps_SaveHistory(ASaveModifiedTabs: boolean);
     procedure DoOps_ClearConfigHistory(AMode: TAppConfigHistoryElements);
     procedure DoOps_SaveHistory_GroupView(cfg: TJsonConfig);
     procedure DoOps_SaveOptionBool(const APath: string; AValue: boolean);
@@ -940,7 +940,7 @@ type
     procedure DoOps_SaveThemes;
     procedure DoOps_LoadHistory;
     procedure DoOps_LoadHistory_GroupView(cfg: TJsonConfig);
-    function DoOps_SaveSession(const AFileName: string): boolean;
+    function DoOps_SaveSession(const AFileName: string; ASaveModifiedTabs: boolean): boolean;
     function DoOps_LoadSession(const AFileName: string; AllowShowPanels: boolean): boolean;
     procedure DoOps_LoadOptionsAndApplyAll;
     procedure DoOps_LoadOptionsLexerSpecific(F: TEditorFrame; Ed: TATSynEdit);
@@ -2493,7 +2493,7 @@ begin
   end;
 
   //after UpdateMenuRecent
-  DoOps_SaveHistory;
+  DoOps_SaveHistory(UiOps.SaveModifiedTabsOnClose);
 
   DoCloseAllTabs;
   SetLength(Params, 0);
@@ -3151,7 +3151,7 @@ begin
       mrNoToAll:
         begin
           Result:= true; //like for mrClose
-          UiOps.ReopenSession:= false; //dont save tabs to session
+          UiOps.SaveModifiedTabsOnClose:= false;
         end;
       //"Save"
       mrOk:

@@ -346,6 +346,8 @@ type
     ReopenSession: boolean;
     ReopenSessionWithCmdLine: boolean;
     AutoSaveSession: boolean;
+    SaveModifiedTabsOnClose: boolean;
+
     ShowFormsOnTop: boolean;
     ShowMenuDialogsWithBorder: boolean;
     UndoPersistent: string;
@@ -1754,6 +1756,8 @@ begin
     ReopenSession:= true;
     ReopenSessionWithCmdLine:= false;
     AutoSaveSession:= false;
+    SaveModifiedTabsOnClose:= true;
+
     ShowFormsOnTop:= false;
     ShowMenuDialogsWithBorder:= {$ifdef LCLGTK2} true {$else} false {$endif};
     UndoPersistent:= '';

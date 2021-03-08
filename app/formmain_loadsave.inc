@@ -110,7 +110,7 @@ begin
   end;
 end;
 
-procedure TfmMain.DoOps_SaveHistory;
+procedure TfmMain.DoOps_SaveHistory(ASaveModifiedTabs: boolean);
 var
   cfg: TJSONConfig;
   bMax: boolean;
@@ -207,11 +207,12 @@ begin
     //// see http://synwrite.sourceforge.net/forums/viewtopic.php?f=20&t=2576
     //// @tmsg wants to save session always, even with -ns cmdline opt
   then
-    DoOps_SaveSession(GetSessionFilename);
+    DoOps_SaveSession(GetSessionFilename, ASaveModifiedTabs);
 end;
 
 
-function TfmMain.DoOps_SaveSession(const AFileName: string): boolean;
+function TfmMain.DoOps_SaveSession(const AFileName: string;
+  ASaveModifiedTabs: boolean): boolean;
 var
   cfg: TJSONConfig;
   Frame: TEditorFrame;
@@ -288,13 +289,12 @@ begin
       if Frame.IsPicture then value:= 'pic';
       cfg.SetValue(path+'/kind', value);
 
-      if UiOps.HistoryItems[ahhText] then
-       if bModified then
-       begin
+      if bModified and ASaveModifiedTabs and UiOps.HistoryItems[ahhText] then
+      begin
         cfg.SetValue(path+'/text', Frame.Editor.Text);
         if Frame.FileName<>'' then
           cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(Frame.FileName));
-       end;
+      end;
 
       Frame.DoSaveHistoryEx(Frame.Ed1, cfg, path);
 

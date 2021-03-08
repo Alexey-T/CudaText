@@ -4555,7 +4555,7 @@ begin
 
         APP_PROC_SAVE_SESSION:
           begin
-            ParamBool:= fmMain.DoOps_SaveSession(Str);
+            ParamBool:= fmMain.DoOps_SaveSession(Str, true);
             Result:= PyBool_FromLong(Ord(ParamBool));
           end;
 
