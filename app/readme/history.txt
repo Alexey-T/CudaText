@@ -11,6 +11,7 @@
 + add: option "auto_close_brackets" supports more chars: ~ * # <
 + add: detect Debian/Ubuntu to download deb-file in "Help / Check for updates" (thanks @ildarkhasanshin)
 + add: API to show "numbers only" editor fields (thanks @Shovel)
+- fix: Find dialog had reset "O" option after restart (thanks @xcme)
 - fix: minor issue with "Don't save" choice in "Save tabs?" dialog (thanks @GHNewbiee)
 - fix: regression with option "ui_lexer_themes":false (thanks @MiroslavMatas)
 - fix: few standard plugins were using deleted APIs (thanks @dinkumoil)
