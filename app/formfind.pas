@@ -1134,7 +1134,10 @@ end;
 procedure TfmFind.SetHiAll(AValue: boolean);
 begin
   if chkHiAll.Checked<>AValue then
-    chkHiAll.Click;
+  begin
+    chkHiAll.Checked:= AValue;
+    UpdateState(true);
+  end;
 end;
 
 procedure TfmFind.SetIsDoubleBuffered(AValue: boolean);
