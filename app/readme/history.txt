@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: multi-carets we not supported good for brackets auto-closing/auto-skipping (thanks @xcme) 
+
 1.128.5 (2021/03)
 
 * change: for CSS auto-completion, use another provider of CSS names/properties, now it's cudax_css.py module
