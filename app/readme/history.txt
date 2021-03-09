@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-- fix: multi-carets were not supported good for brackets auto-closing/auto-skipping (thanks @xcme) 
++ add: multi-carets now better support brackets auto-closing/auto-skipping (thanks @xcme, @JairoMartinezA) 
 
 1.128.5 (2021/03)
 
