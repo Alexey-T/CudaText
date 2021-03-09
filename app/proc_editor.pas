@@ -101,7 +101,9 @@ const
 type
   TATEditorGetTokenKind = function(Ed: TATSynEdit; AX, AY: integer): TATTokenKind of object;
 
+function EditorBracket_GetPairForOpeningBracketOrQuote(ch: char): char;
 function EditorBracket_GetPairForClosingBracketOrQuote(ch: char): char;
+
 procedure EditorBracket_ClearHilite(Ed: TATSynEdit);
 procedure EditorBracket_FindBoth(Ed: TATSynEdit;
   var PosX, PosY: integer;
@@ -870,9 +872,11 @@ var
   iCaret: integer;
 begin
   Result:= false;
+
   CharOpening:= EditorBracket_GetPairForClosingBracketOrQuote(CharClosing);
   if CharOpening=#0 then exit;
   if Pos(CharOpening, Ed.OptAutoCloseBrackets)=0 then exit;
+
   for iCaret:= Ed.Carets.Count-1 downto 0 do
   begin
     Caret:= Ed.Carets[iCaret];
@@ -908,17 +912,8 @@ begin
   //makes no sense to auto-close brackets in overwrite mode
   if Ed.ModeOverwrite then exit;
 
-  if CharBegin='(' then CharEnd:= ')' else
-   if CharBegin='[' then CharEnd:= ']' else
-    if CharBegin='{' then CharEnd:= '}' else
-     if CharBegin='"' then CharEnd:= '"' else
-      if CharBegin='''' then CharEnd:= '''' else
-       if CharBegin='`' then CharEnd:= '`' else
-        if CharBegin='~' then CharEnd:= '~' else
-         if CharBegin='*' then CharEnd:= '*' else
-          if CharBegin='#' then CharEnd:= '#' else
-           if CharBegin='<' then CharEnd:= '>' else
-            exit;
+  CharEnd:= EditorBracket_GetPairForOpeningBracketOrQuote(CharBegin);
+  if CharEnd=#0 then exit;
 
   //cancel vertical selection
   Ed.DoSelect_ClearColumnBlock;
@@ -1138,6 +1133,23 @@ begin
   Sep.GetItemInt(Props.Height, -100);
   Sep.GetItemStr(S);
   Props.EmptyInside:= S='1';
+end;
+
+function EditorBracket_GetPairForOpeningBracketOrQuote(ch: char): char;
+begin
+  case ch of
+    '(': Result:= ')';
+    '[': Result:= ']';
+    '{': Result:= '}';
+    '<': Result:= '>';
+    '"': Result:= '"';
+    '''': Result:= '''';
+    '`': Result:= '`';
+    '~': Result:= '~';
+    '*': Result:= '*';
+    '#': Result:= '#';
+    else Result:= #0;
+  end;
 end;
 
 function EditorBracket_GetPairForClosingBracketOrQuote(ch: char): char;
