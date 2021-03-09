@@ -613,7 +613,10 @@ begin
     SetLength(Params, 1);
     Params[0]:= AppVariant(AText);
     if DoPyEvent(Ed, cEventOnInsert, Params).Val = evrFalse then
-      begin AHandled:= true; exit end;
+    begin
+      AHandled:= true;
+      exit
+    end;
   end;
 
   //auto-close brackets
