@@ -932,17 +932,20 @@ begin
   CharEnd:= EditorBracket_GetPairForOpeningBracketOrQuote(CharBegin);
   if CharEnd=#0 then exit;
 
-  //make additional loop, to detect that ALL carets need pairing
-  //if at least one caret doesn't need, stop
+  //make additional loop, to detect that ALL carets need pairing.
+  //if at least one caret doesn't need, stop.
+  //it's needed to make pair for all or nothing.
   bNeedPairForAll:= true;
   for NCaret:= Ed.Carets.Count-1 downto 0 do
   begin
     Caret:= Ed.Carets[NCaret];
     if not Ed.Strings.IsIndexValid(Caret.PosY) then Continue;
-    Caret.GetRange(X1, Y1, X2, Y2, bSel);
-    if not bSel then
+    if Caret.EndY<0 then
       if not EditorAutoCloseBracket_NeedPair(Ed, Caret) then
+      begin
         bNeedPairForAll:= false;
+        Break
+      end;
   end;
   if not bNeedPairForAll then exit;
 
