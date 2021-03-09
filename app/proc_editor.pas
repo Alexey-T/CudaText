@@ -948,6 +948,8 @@ begin
       Ed.DoCaretsShift(NCaret, X1, Y1, Shift.X, Shift.Y, PosAfter);
 
       Caret.PosX:= Caret.PosX+1;
+      Caret.EndX:= -1;
+      Caret.EndY:= -1;
     end
     else
     begin
