@@ -1382,6 +1382,7 @@ procedure TEditorFrame.EditorOnCommand(Sender: TObject; ACmd: integer;
   const AText: string; var AHandled: boolean);
 var
   Ed: TATSynEdit;
+  ch: char;
 begin
   Ed:= Sender as TATSynEdit;
   if Ed.Carets.Count=0 then exit;
@@ -1391,9 +1392,21 @@ begin
       begin
         if Length(AText)=1 then
         begin
-          AHandled:= EditorAutoSkipClosingBracket(Ed, AText[1]);
-          if AHandled then
+          ch:= AText[1];
+
+          //auto-close bracket
+          if Pos(ch, Ed.OptAutoCloseBrackets)>0 then
+            if EditorAutoCloseBracket(Ed, ch) then
+            begin
+              AHandled:= true;
+              Ed.DoEventCarets; //to highlight pair brackets after typing bracket
+              exit
+            end;
+
+          //auto-skip closing bracket in case 'f(|)'
+          if EditorAutoSkipClosingBracket(Ed, ch) then
           begin
+            AHandled:= true;
             Ed.Update;
             exit;
           end;

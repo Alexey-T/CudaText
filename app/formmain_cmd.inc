@@ -619,20 +619,6 @@ begin
     end;
   end;
 
-  //auto-close brackets
-  if (ACommand=cCommand_TextInsert) and
-    (Ed.OptAutoCloseBrackets<>'') and
-    (Length(AText)=1) and
-    (Pos(AText[1], Ed.OptAutoCloseBrackets)>0) then
-  begin
-    if EditorAutoCloseBracket(Ed, AText[1]) then
-    begin
-      AHandled:= true;
-      Ed.DoEventCarets; //to highlight pair brackets after typing bracket
-      exit
-    end;
-  end;
-
   //handle commands cmd_
   case ACommand of
     cCommand_ToggleWordWrap,
