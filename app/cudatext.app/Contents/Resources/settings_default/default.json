@@ -664,18 +664,19 @@
   //otherwise switch tab ignoring recently used order
   "ui_tab_switcher_dialog": true,
 
-  //UI tabs: Don't create tabs (except the first one), ie use Single Document Interface
+  //UI tabs: Use Single Document Interface, ie don't create tabs except the first one
   "ui_tab_disabled": false,
 
-  //UI tabs: Use variable tabs width
+  //UI tabs: Use tabs of variable width (width depends on tab caption)
   "ui_tab_variable_width": false,
 
-  //UI tabs: Multi-line mode, ie tabs are wrappable to several lines, when lot of tabs
+  //UI tabs: Allow multi-line mode: tabs are wrapped to several lines,
+  //when there are lot of tabs.
   "ui_tab_multiline": false,
 
   //UI tabs: Show angled left/right sides.
   //Note: some OS/desktops give problems with angled tabs rendering,
-  //so to avoid them, option has no effect for: Windows, macOS, Linux Qt5.
+  //so to avoid them, option has no effect for: macOS, Linux Qt5.
   "ui_tab_angled": false,
 
   //UI tabs: Flat look
