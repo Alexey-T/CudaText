@@ -897,14 +897,31 @@ begin
   end;
 end;
 
+
+function EditorAutoCloseBracket_NeedPair(Ed: TATSynEdit; Caret: TATCaretItem): boolean;
+var
+  NPos: integer;
+  Str: atString;
+begin
+  Result:= true;
+  NPos:= Caret.PosX;
+  Str:= Ed.Strings.Lines[Caret.PosY];
+  //don't do, if before caret is \
+  if (NPos>=1) and (NPos<=Length(Str)) and (Str[NPos]='\') then
+    exit(false);
+  //don't do, if caret before text
+  if (NPos<Length(Str)) and
+    not Editor_NextCharAllowed_AutoCloseBracket(Str[NPos+1]) then
+      exit(false);
+end;
+
 function EditorAutoCloseBracket(Ed: TATSynEdit; CharBegin: atChar): boolean;
 var
   Caret: TATCaretItem;
   X1, Y1, X2, Y2: integer;
-  NPos, NCaret: integer;
+  NCaret: integer;
   bSel, bBackwardSel: boolean;
   CharEnd: atChar;
-  Str: atString;
   Shift, PosAfter: TPoint;
 begin
   Result:= false;
@@ -927,15 +944,7 @@ begin
     bBackwardSel:= not Caret.IsForwardSelection;
 
     if not bSel then
-    begin
-      NPos:= Caret.PosX;
-      Str:= Ed.Strings.Lines[Caret.PosY];
-      //don't do, if before caret is \
-      if (NPos>=1) and (NPos<=Length(Str)) and (Str[NPos]='\') then Continue;
-      //don't do, if caret before text
-      if (NPos<Length(Str)) and
-        not Editor_NextCharAllowed_AutoCloseBracket(Str[NPos+1]) then Continue;
-    end;
+      if not EditorAutoCloseBracket_NeedPair(Ed, Caret) then Continue;
 
     if not bSel then
     begin
