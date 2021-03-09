@@ -1384,35 +1384,44 @@ var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
   Str: atString;
-  ch: char;
+  NCarets, iCaret: integer;
+  CharClosing, CharOpening: char;
 begin
   Ed:= Sender as TATSynEdit;
-  if Ed.Carets.Count=0 then exit;
-  Caret:= Ed.Carets[0];
+  NCarets:= Ed.Carets.Count;
+  if NCarets=0 then exit;
 
   case ACmd of
     cCommand_TextInsert:
       begin
-        //improve auto-closing brackets, avoid duplicate )]}
-        //when closing bracket )]} is typed over itself,
-        //and previous char is opening bracket ([{
-        if Ed.Strings.IsIndexValid(Caret.PosY) then
-          if Length(AText)=1 then
+        if Length(AText)=1 then
+        begin
+          CharClosing:= AText[1];
+          CharOpening:= EditorBracket_GetPairForClosingBracketOrQuote(CharClosing);
+          if CharOpening=#0 then exit;
+          if Pos(CharOpening, Ed.OptAutoCloseBrackets)=0 then exit;
+          for iCaret:= NCarets-1 downto 0 do
           begin
-            ch:= EditorBracket_GetPairForClosingBracketOrQuote(AText[1]);
-            if (ch<>#0) and (Pos(ch, Ed.OptAutoCloseBrackets)>0) then
+            Caret:= Ed.Carets[iCaret];
+            //improve auto-closing brackets, avoid duplicate )]}
+            //when closing bracket )]} is typed over itself,
+            //and previous char is opening bracket ([{
+            if Ed.Strings.IsIndexValid(Caret.PosY) then
             begin
               Str:= Ed.Strings.Lines[Caret.PosY];
               if (Caret.PosX<Length(Str)) then
-               if Str[Caret.PosX+1] = AText[1] then
-                if (Caret.PosX>0) and (Str[Caret.PosX]=ch) then //only if previous is ([{
+               if Str[Caret.PosX+1]=CharClosing then
+                if (Caret.PosX>0) and (Str[Caret.PosX]=CharOpening) then //only if previous is ([{
                 begin
-                  Ed.DoCommand(cCommand_KeyRight);
+                  Caret.Change(Caret.PosX+1, Caret.PosY, -1, -1);
                   AHandled:= true;
-                  exit;
                 end;
             end;
           end;
+        end;
+        if AHandled then
+          Ed.Update;
+        exit;
       end;
 
     cCommand_KeyTab,
