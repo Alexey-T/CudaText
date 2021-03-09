@@ -7,7 +7,7 @@
 
 * change: for CSS auto-completion, use another provider of CSS names/properties, now it's cudax_css.py module
 * change: auto-completion for CSS and HTML was 70% rewritten, pls report any issues
-+ add: better logic of skipping brackets: skip ')' in case 'f(|)' but don't skip in case 'f(text|)` (thanks @xcme)
++ add: better logic of skipping brackets on typing: skip ')' in case 'f(|)' but don't skip in case 'f(text|)' (thanks @xcme)
 + add: option "auto_close_brackets" supports more chars: ~ * # <
 + add: detect Debian/Ubuntu to download deb-file in "Help / Check for updates" (thanks @ildarkhasanshin)
 + add: API to show "masked password" editor fields and "numbers only" editor fields (thanks @Shovel)
