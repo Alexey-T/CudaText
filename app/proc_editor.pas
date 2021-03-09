@@ -72,6 +72,7 @@ procedure EditorSetColorById(Ed: TATSynEdit; const Id: string; AColor: TColor);
 function EditorGetColorById(Ed: TATSynEdit; const Id: string): TColor;
 
 function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boolean;
+function EditorAutoSkipClosingBracket(Ed: TATSynEdit; CharClosing: char): boolean;
 function EditorAutoCloseBracket(Ed: TATSynEdit; CharBegin: atChar): boolean;
 procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer);
 procedure EditorCopyLine(Ed: TATSynEdit);
@@ -860,6 +861,37 @@ begin
   Result:= Pos(ch, ' ])};:.,=>'#9)>0;
 end;
 
+
+function EditorAutoSkipClosingBracket(Ed: TATSynEdit; CharClosing: char): boolean;
+var
+  Caret: TATCaretItem;
+  CharOpening: char;
+  Str: UnicodeString;
+  iCaret: integer;
+begin
+  Result:= false;
+  CharOpening:= EditorBracket_GetPairForClosingBracketOrQuote(CharClosing);
+  if CharOpening=#0 then exit;
+  if Pos(CharOpening, Ed.OptAutoCloseBrackets)=0 then exit;
+  for iCaret:= Ed.Carets.Count-1 downto 0 do
+  begin
+    Caret:= Ed.Carets[iCaret];
+    //improve auto-closing brackets, avoid duplicate )]}
+    //when closing bracket )]} is typed over itself,
+    //and previous char is opening bracket ([{
+    if Ed.Strings.IsIndexValid(Caret.PosY) then
+    begin
+      Str:= Ed.Strings.Lines[Caret.PosY];
+      if (Caret.PosX<Length(Str)) then
+       if Str[Caret.PosX+1]=CharClosing then
+        if (Caret.PosX>0) and (Str[Caret.PosX]=CharOpening) then //only if previous is ([{
+        begin
+          Caret.Change(Caret.PosX+1, Caret.PosY, -1, -1);
+          Result:= true;
+        end;
+    end;
+  end;
+end;
 
 function EditorAutoCloseBracket(Ed: TATSynEdit; CharBegin: atChar): boolean;
 var
