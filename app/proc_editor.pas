@@ -920,7 +920,7 @@ var
   Caret: TATCaretItem;
   X1, Y1, X2, Y2: integer;
   NCaret: integer;
-  bSel, bBackwardSel, bNeedPairForAll: boolean;
+  bSel, bBackwardSel: boolean;
   CharEnd: atChar;
   Shift, PosAfter: TPoint;
 begin
@@ -934,20 +934,15 @@ begin
 
   //make additional loop, to detect that ALL carets need pairing.
   //if at least one caret doesn't need, stop.
-  //it's needed to make pair for all or nothing.
-  bNeedPairForAll:= true;
+  //it's needed to make pair for all or nothing. issue #3219.
   for NCaret:= Ed.Carets.Count-1 downto 0 do
   begin
     Caret:= Ed.Carets[NCaret];
     if not Ed.Strings.IsIndexValid(Caret.PosY) then Continue;
     if Caret.EndY<0 then
       if not EditorAutoCloseBracket_NeedPair(Ed, Caret) then
-      begin
-        bNeedPairForAll:= false;
-        Break
-      end;
+        exit;
   end;
-  if not bNeedPairForAll then exit;
 
   //cancel vertical selection
   Ed.DoSelect_ClearColumnBlock;
