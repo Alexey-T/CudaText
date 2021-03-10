@@ -498,9 +498,9 @@
   //Value is string with comma-separated numbers:
   //- Scale of space-char "dots"
   //- Scale of end-of-line "dots"
-  //- Scale of end-of-line text marks "LF", "CRLF", "CR"
+  //- Scale of end-of-line text marks "LF", "CRLF", "CR", "EOF"
   //- Scale of tab-char arrow pointer
-  "unprinted_symbols_scale": "15,30,80,22,",
+  "unprinted_symbols_scale": "15,30,40,22,",
 
   //[Text/Wrap]
   //Long lines wrap mode:
