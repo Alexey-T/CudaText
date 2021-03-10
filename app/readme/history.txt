@@ -3,10 +3,12 @@
   - fixed
   * changed
 
+1.128.6 (2021/03)
+
 * change: disable auto-closing of brackets (and auto-skipping of closing bracket) for multi-carets (thanks @xcme, @JairoMartinezA)
-* change: changed default 3-rd item in "unprinted_symbols_scale"
-* change: end-of-line text marks ("LF", "CRLF" etc) are now painted by lines, not by font
-+ add: handle the case of config JSON files with UTF-8 BOM
+* change: changed default 3rd item in option "unprinted_symbols_scale"
++ add: paint end-of-line text marks ("LF", "CRLF", "CR", "EOF") by lines, not by font
++ add: handle config JSON files with UTF-8 BOM (patch goes to FreePascal as well)
 
 1.128.5 (2021/03)
 
