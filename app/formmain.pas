@@ -1159,6 +1159,7 @@ implementation
 uses
   Emmet,
   EmmetHelper,
+  TreeHelpers_Base,
   TreeHelpers_Proc;
 
 {$R *.lfm}
