@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-+ add: multi-carets now better support brackets auto-closing/auto-skipping (thanks @xcme, @JairoMartinezA) 
+* change: disable auto-closing of brackets (and auto-skipping of closing bracket) for multi-carets (thanks @xcme, @JairoMartinezA)
 
 1.128.5 (2021/03)
 
@@ -25,7 +25,7 @@
 + add: option "key_up_down_allow_edge" (thanks @kvichans)
 + add: UI-tabs: paint < > scroll arrows dimmed, when no scrolling is needed (thanks @d7_2_laz)
 + add: clicking on editor's scrollbar puts focus to editor (thanks @GHNewbiee)
-+ add: tab title "UntitledN" counter is reset after tabs are closed, and only 1 tab is left (thanks @GHNewbiee) 
++ add: tab title "UntitledN" counter is reset after tabs are closed, and only 1 tab is left (thanks @GHNewbiee)
 + add: save/restore history scroll-position for 2nd part of splitted UI-tab (thanks @GHNewbiee)
 - fix: sometimes, arrows up/down over tab-char could restore previous column wrong (thanks @tiun)
 - fix: issue with painting of 'ghost caret' on typing/deleting text (thanks @quesada)
@@ -43,7 +43,7 @@
 - fix: some pixel artifacts on 'flat' UI-tabs (thanks @JairoMartinezA)
 - fix: error when PHP auto-completion is called after e.g. "0~" (thanks @Shovel)
 - fix: regression, option "renderer_offsets" was ignored
-- fix: coloring of code-blocks in e.g. reST lexer 
+- fix: coloring of code-blocks in e.g. reST lexer
 
 1.126.4 (2021/02)
 
@@ -64,7 +64,7 @@
 + add: Addon Manager: auto-install CudaLint/CudaFormatter when a linter/formatter is installing
 + add: lexer PHP: support attributes of PHP 8: #[Name]
 - fix: keys Up/Down, with selection overlapping editor border, caused wrong horizontal scrolling
-- fix: bug in detecting lexers 'PKGBUILD', 'Dockerfile' (thanks @Nori13) 
+- fix: bug in detecting lexers 'PKGBUILD', 'Dockerfile' (thanks @Nori13)
 
 1.125.0 (2021/02)
 
