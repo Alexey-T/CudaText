@@ -1382,21 +1382,27 @@ procedure TEditorFrame.EditorOnCommand(Sender: TObject; ACmd: integer;
   const AText: string; var AHandled: boolean);
 var
   Ed: TATSynEdit;
+  NCarets: integer;
   ch: char;
 begin
   Ed:= Sender as TATSynEdit;
-  if Ed.Carets.Count=0 then exit;
+  NCarets:= Ed.Carets.Count;
+  if NCarets=0 then exit;
 
   case ACmd of
     cCommand_TextInsert:
       begin
+        if NCarets>1 then
+          if not Ed.OptAutoPairForMultiCarets then
+            exit;
+
         if Length(AText)=1 then
         begin
           ch:= AText[1];
 
           //auto-close bracket
-          if Pos(ch, Ed.OptAutoCloseBrackets)>0 then
-            if EditorAutoCloseBracket(Ed, ch) then
+          if Pos(ch, Ed.OptAutoPairChars)>0 then
+            if EditorAutoPairChar(Ed, ch) then
             begin
               AHandled:= true;
               Ed.DoEventCarets; //to highlight pair brackets after typing bracket

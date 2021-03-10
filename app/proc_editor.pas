@@ -73,7 +73,7 @@ function EditorGetColorById(Ed: TATSynEdit; const Id: string): TColor;
 
 function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boolean;
 function EditorAutoSkipClosingBracket(Ed: TATSynEdit; CharClosing: char): boolean;
-function EditorAutoCloseBracket(Ed: TATSynEdit; CharBegin: atChar): boolean;
+function EditorAutoPairChar(Ed: TATSynEdit; CharBegin: atChar): boolean;
 procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer);
 procedure EditorCopyLine(Ed: TATSynEdit);
 procedure EditorHighlightBadRegexBrackets(Ed: TATSynEdit; AOnlyClear: boolean);
@@ -171,7 +171,8 @@ begin
   Ed.OptOverwriteAllowedOnPaste:= Op.OpOverwriteOnPaste;
 
   ec_SyntAnal.AutoFoldComments:= Op.OpAutoFoldComments;
-  Ed.OptAutoCloseBrackets:= Op.OpAutoCloseBrackets;
+  Ed.OptAutoPairForMultiCarets:= Op.OpAutoCloseBracketsMultiCarets;
+  Ed.OptAutoPairChars:= Op.OpAutoCloseBrackets;
   Ed.OptAutocompleteAutoshowCharCount:= Op.OpAutocompleteAutoshowCharCount;
   Ed.OptAutocompleteTriggerChars:= Op.OpAutocompleteTriggerChars;
   Ed.OptAutocompleteCommitChars:= Op.OpAutocompleteCommitChars;
@@ -875,7 +876,7 @@ begin
 
   CharOpening:= EditorBracket_GetPairForClosingBracketOrQuote(CharClosing);
   if CharOpening=#0 then exit;
-  if Pos(CharOpening, Ed.OptAutoCloseBrackets)=0 then exit;
+  if Pos(CharOpening, Ed.OptAutoPairChars)=0 then exit;
 
   for iCaret:= Ed.Carets.Count-1 downto 0 do
   begin
@@ -915,7 +916,7 @@ begin
       exit(false);
 end;
 
-function EditorAutoCloseBracket(Ed: TATSynEdit; CharBegin: atChar): boolean;
+function EditorAutoPairChar(Ed: TATSynEdit; CharBegin: atChar): boolean;
 var
   Caret: TATCaretItem;
   X1, Y1, X2, Y2: integer;

@@ -460,6 +460,7 @@ type
     OpOverwriteOnPaste: boolean;
 
     OpAutoFoldComments: integer;
+    OpAutoCloseBracketsMultiCarets: boolean;
     OpAutoCloseBrackets: string;
     OpAutocompleteAutoshowCharCount: integer;
     OpAutocompleteTriggerChars: string;
@@ -1359,6 +1360,7 @@ begin
     OpOverwriteOnPaste:= false;
 
     OpAutoFoldComments:= 0; //disabled by default, issue #3074
+    OpAutoCloseBracketsMultiCarets:= false;
     OpAutoCloseBrackets:= '([{';
     OpAutocompleteAutoshowCharCount:= 0;
     OpAutocompleteTriggerChars:= '';
