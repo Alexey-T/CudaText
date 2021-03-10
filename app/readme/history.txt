@@ -4,6 +4,8 @@
   * changed
 
 * change: disable auto-closing of brackets (and auto-skipping of closing bracket) for multi-carets (thanks @xcme, @JairoMartinezA)
+* change: changed default 3-rd item in "unprinted_symbols_scale"
+* change: end-of-line text marks ("LF", "CRLF" etc) are now painted by lines, not by font
 + add: handle the case of config JSON files with UTF-8 BOM
 
 1.128.5 (2021/03)
