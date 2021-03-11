@@ -687,6 +687,7 @@ type
     FLastLexerForPluginsMenu: string;
     FLastStatusbarUpdated: boolean;
     FLastStatusbarMessage: string;
+    FLastStateUpdated: boolean;
     FLastSelectedCommand: integer;
     FLastMousePos: TPoint;
     FLastMaximized: boolean;
@@ -1068,6 +1069,7 @@ type
     procedure InitPyEngine;
     procedure FrameOnChangeCaption(Sender: TObject);
     procedure FrameOnUpdateStatus(Sender: TObject);
+    procedure FrameOnUpdateState(Sender: TObject);
     function CreateTab(APages: TATPages; const ACaption: string;
       AndActivate: boolean=true;
       AAllowNearCurrent: boolean=true): TATTabData;
@@ -2051,6 +2053,12 @@ begin
     FLastStatusbarUpdated:= false;
     TimerStatusWork.Enabled:= false;
     UpdateStatus_RealWork;
+  end;
+
+  if FLastStateUpdated then
+  begin
+    FLastStateUpdated:= false;
+    UpdateMenuChecks;
   end;
 
   if Assigned(Frame) and not (Frame.IsTreeBusy or Frame.IsParsingBusy) then

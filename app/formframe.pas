@@ -119,6 +119,7 @@ type
     FOnChangeCaption: TNotifyEvent;
     FOnProgress: TATFinderProgress;
     FOnUpdateStatus: TNotifyEvent;
+    FOnUpdateState: TNotifyEvent;
     FOnFocusEditor: TNotifyEvent;
     FOnEditorCommand: TATSynEditCommandEvent;
     FOnEditorChangeCaretPos: TNotifyEvent;
@@ -169,6 +170,7 @@ type
       AAllowLoadHistory, AAllowLoadHistoryEnc, AAllowLexerDetect, AAllowErrorMsgBox, AKeepScroll: boolean; AOpenMode: TAppOpenMode);
     procedure DoImageboxScroll(Sender: TObject);
     procedure DoOnChangeCaption;
+    procedure DoOnUpdateState;
     procedure DoOnUpdateStatus;
     procedure EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
@@ -400,6 +402,7 @@ type
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
     property OnChangeCaption: TNotifyEvent read FOnChangeCaption write FOnChangeCaption;
     property OnUpdateStatus: TNotifyEvent read FOnUpdateStatus write FOnUpdateStatus;
+    property OnUpdateState: TNotifyEvent read FOnUpdateState write FOnUpdateState;
     property OnEditorCommand: TATSynEditCommandEvent read FOnEditorCommand write FOnEditorCommand;
     property OnEditorChangeCaretPos: TNotifyEvent read FOnEditorChangeCaretPos write FOnEditorChangeCaretPos;
     property OnEditorScroll: TNotifyEvent read FOnEditorScroll write FOnEditorScroll;
@@ -1333,7 +1336,7 @@ end;
 
 procedure TEditorFrame.EditorOnChangeState(Sender: TObject);
 begin
-  //
+  DoOnUpdateState;
 end;
 
 procedure TEditorFrame.UpdateModified(Ed: TATSynEdit; AWithEvent: boolean);
@@ -2753,6 +2756,12 @@ procedure TEditorFrame.DoOnUpdateStatus;
 begin
   if Assigned(FOnUpdateStatus) then
     FOnUpdateStatus(Self);
+end;
+
+procedure TEditorFrame.DoOnUpdateState;
+begin
+  if Assigned(FOnUpdateState) then
+    FOnUpdateState(Self);
 end;
 
 procedure TEditorFrame.EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);

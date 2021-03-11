@@ -32,6 +32,11 @@ begin
   //real updating will run on TimerIdle work
 end;
 
+procedure TfmMain.FrameOnUpdateState(Sender: TObject);
+begin
+  FLastStateUpdated:= true;
+end;
+
 procedure TfmMain.DoCodetree_StopUpdate;
 var
   F: TEditorFrame;

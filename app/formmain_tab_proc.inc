@@ -12,6 +12,7 @@ begin
   F.OnFocusEditor:= @FrameOnEditorFocus;
   F.OnChangeCaption:= @FrameOnChangeCaption;
   F.OnUpdateStatus:= @FrameOnUpdateStatus;
+  F.OnUpdateState:= @FrameOnUpdateState;
   F.OnEditorCommand:= @FrameOnEditorCommand;
   F.OnEditorChangeCaretPos:= @FrameOnEditorChangeCaretPos;
   F.OnEditorScroll:= @FrameOnEditorScroll;
