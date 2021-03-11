@@ -11,7 +11,7 @@ procedure TfmMain.InitFrameEvents(F: TEditorFrame);
 begin
   F.OnFocusEditor:= @FrameOnEditorFocus;
   F.OnChangeCaption:= @FrameOnChangeCaption;
-  F.OnUpdateStatus:= @FrameOnUpdateStatus;
+  F.OnUpdateStatusbar:= @FrameOnUpdateStatus;
   F.OnUpdateState:= @FrameOnUpdateState;
   F.OnEditorCommand:= @FrameOnEditorCommand;
   F.OnEditorChangeCaretPos:= @FrameOnEditorChangeCaretPos;

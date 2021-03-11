@@ -118,7 +118,7 @@ type
     FNotifEnabled: boolean;
     FOnChangeCaption: TNotifyEvent;
     FOnProgress: TATFinderProgress;
-    FOnUpdateStatus: TNotifyEvent;
+    FOnUpdateStatusbar: TNotifyEvent;
     FOnUpdateState: TNotifyEvent;
     FOnFocusEditor: TNotifyEvent;
     FOnEditorCommand: TATSynEditCommandEvent;
@@ -171,7 +171,7 @@ type
     procedure DoImageboxScroll(Sender: TObject);
     procedure DoOnChangeCaption;
     procedure DoOnUpdateState;
-    procedure DoOnUpdateStatus;
+    procedure DoOnUpdateStatusbar;
     procedure EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorDrawMicromap(Sender: TObject; ACanvas: TCanvas; const ARect: TRect);
@@ -401,7 +401,7 @@ type
     property OnMsgStatus: TStrEvent read FOnMsgStatus write FOnMsgStatus;
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
     property OnChangeCaption: TNotifyEvent read FOnChangeCaption write FOnChangeCaption;
-    property OnUpdateStatus: TNotifyEvent read FOnUpdateStatus write FOnUpdateStatus;
+    property OnUpdateStatusbar: TNotifyEvent read FOnUpdateStatusbar write FOnUpdateStatusbar;
     property OnUpdateState: TNotifyEvent read FOnUpdateState write FOnUpdateState;
     property OnEditorCommand: TATSynEditCommandEvent read FOnEditorCommand write FOnEditorCommand;
     property OnEditorChangeCaretPos: TNotifyEvent read FOnEditorChangeCaretPos write FOnEditorChangeCaretPos;
@@ -772,7 +772,7 @@ begin
   if Assigned(FOnEditorChangeCaretPos) then
     FOnEditorChangeCaretPos(Sender);
 
-  DoOnUpdateStatus;
+  DoOnUpdateStatusbar;
 
   if FBracketHilite then
     EditorBracket_Action(Ed,
@@ -1357,7 +1357,7 @@ begin
     DoPyEvent(Ed, cEventOnStateEd, Params);
   end;
 
-  DoOnUpdateStatus;
+  DoOnUpdateStatusbar;
 end;
 
 procedure TEditorFrame.EditorOnEnter(Sender: TObject);
@@ -1369,7 +1369,7 @@ begin
   if IsEd2<>FActiveSecondaryEd then
   begin
     FActiveSecondaryEd:= IsEd2;
-    DoOnUpdateStatus;
+    DoOnUpdateStatusbar;
   end;
 
   if Assigned(FOnFocusEditor) then
@@ -2095,7 +2095,7 @@ end;
 
 procedure TEditorFrame.DoImageboxScroll(Sender: TObject);
 begin
-  DoOnUpdateStatus;
+  DoOnUpdateStatusbar;
 end;
 
 
@@ -2539,7 +2539,7 @@ begin
     false
     );
 
-  OnUpdateStatus(Self);
+  OnUpdateStatusbar(Self);
 
   SetLength(Params, 0);
   DoPyEvent(Ed, cEventOnChangeSlow, Params);
@@ -2752,10 +2752,10 @@ begin
     MacroStrings.Clear;
 end;
 
-procedure TEditorFrame.DoOnUpdateStatus;
+procedure TEditorFrame.DoOnUpdateStatusbar;
 begin
-  if Assigned(FOnUpdateStatus) then
-    FOnUpdateStatus(Self);
+  if Assigned(FOnUpdateStatusbar) then
+    FOnUpdateStatusbar(Self);
 end;
 
 procedure TEditorFrame.DoOnUpdateState;
@@ -3676,7 +3676,7 @@ end;
 
 procedure TEditorFrame.BinaryOnScroll(Sender: TObject);
 begin
-  DoOnUpdateStatus;
+  DoOnUpdateStatusbar;
 end;
 
 procedure TEditorFrame.BinaryOnProgress(const ACurrentPos,
