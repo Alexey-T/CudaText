@@ -1360,7 +1360,7 @@ begin
     OpOverwriteOnPaste:= false;
 
     OpAutoFoldComments:= 0; //disabled by default, issue #3074
-    OpAutoCloseBracketsMultiCarets:= false;
+    OpAutoCloseBracketsMultiCarets:= true; //must be 'true', issue #3235
     OpAutoCloseBrackets:= '([{';
     OpAutocompleteAutoshowCharCount:= 0;
     OpAutocompleteTriggerChars:= '';
