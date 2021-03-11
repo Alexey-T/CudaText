@@ -1418,7 +1418,7 @@ begin
     OpUnprintedTabArrowLen:= 1;
     OpUnprintedSpaceDotScale:= 15;
     OpUnprintedEndDotScale:= 30;
-    OpUnprintedEndFontScale:= 40;
+    OpUnprintedEndFontScale:= 80;
     OpUnprintedTabPointerScale:= 22;
 
     OpWrapMode:= 0;

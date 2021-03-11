@@ -243,7 +243,7 @@ begin
   OptUnprintedTabCharLength:= Op.OpUnprintedTabArrowLen;
   OptUnprintedSpaceDotScale:= Op.OpUnprintedSpaceDotScale;
   OptUnprintedEndDotScale:= Op.OpUnprintedEndDotScale;
-  OptUnprintedEndFontScale:= Op.OpUnprintedEndFontScale;
+  OptUnprintedEndFontScale:= Op.OpUnprintedEndFontScale * 6 div 10;
   OptUnprintedTabPointerScale:= Op.OpUnprintedTabPointerScale;
   OptUnprintedReplaceSpec:= Op.OpUnprintedReplaceSpec;
   OptUnprintedReplaceSpecToCode:= StrToInt('$'+Op.OpUnprintedReplaceToCode);
