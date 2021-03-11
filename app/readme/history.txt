@@ -7,6 +7,7 @@
 
 + add: handle config JSON files with UTF-8 BOM (patch goes to FreePascal as well)
 + add: better logic of brackets auto-closing (and selection surrounding) for case of multi-carets (thanks @xcme)
++ add: command "Install from GitHub" / "Download as zip" supports all branch names (thanks @Shovel) 
 * change: paint end-of-line text marks ("LF", "CRLF", "CR", "EOF") by lines, not by font
 - fix: crash in last change in "Help / Check for updates"
 

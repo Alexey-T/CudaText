@@ -155,7 +155,7 @@ def do_install_from_github():
 
         return
 
-    get_url(url+'/zipball/master', fn, True)
+    get_url(url+'/zipball/'+branch, fn, True)
     msg_status('')
     if not os.path.isfile(fn):
         msg_status(_('Cannot download zip file'))
