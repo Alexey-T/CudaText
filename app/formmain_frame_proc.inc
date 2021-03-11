@@ -29,12 +29,13 @@ end;
 procedure TfmMain.FrameOnUpdateStatus(Sender: TObject);
 begin
   FLastStatusbarUpdated:= true;
-  //real updating will run on TimerIdle work
+  //real updating will run on TimerAppIdle work
 end;
 
 procedure TfmMain.FrameOnUpdateState(Sender: TObject);
 begin
   FLastStateUpdated:= true;
+  //real updating will run on TimerAppIdle work
 end;
 
 procedure TfmMain.DoCodetree_StopUpdate;
