@@ -90,7 +90,6 @@ begin
   Ed:= F.Editor;
 
   UpdateTabCaptionsFromFolders; //maybe it's called too often here?
-  UpdateMenuChecks;
   UpdateSideButtonFind;
   UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible, true);
   UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleUnprinted, Ed.OptUnprintedVisible, true);
