@@ -3,12 +3,12 @@
   - fixed
   * changed
 
-1.128.6 (2021/03)
+1.129.0 (2021/03)
 
++ add: handle config JSON files with UTF-8 BOM (patch goes to FreePascal as well)
 * change: disable auto-closing of brackets (and auto-skipping of closing bracket) for multi-carets (thanks @xcme, @JairoMartinezA)
 * change: change default 3rd item in option "unprinted_symbols_scale"
-+ add: paint end-of-line text marks ("LF", "CRLF", "CR", "EOF") by lines, not by font
-+ add: handle config JSON files with UTF-8 BOM (patch goes to FreePascal as well)
+* change: paint end-of-line text marks ("LF", "CRLF", "CR", "EOF") by lines, not by font
 - fix: regression is last change in "Help / Check for updates"
 
 1.128.5 (2021/03)
