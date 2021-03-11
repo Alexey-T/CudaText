@@ -21,9 +21,12 @@ REGEX_GROUP_VER = 1
 LINUX_ENDING = '-linux-gtk2-'+UNIX_CPU+'-([^\-]+)\.tar\.xz'
 if OS == 'Linux':
     import subprocess
-    LSB_RELEASE = subprocess.check_output('cat /etc/lsb-release', shell=True).decode('utf-8')
-    if ("Ubuntu" in LSB_RELEASE or "Debian" in LSB_RELEASE) and (UNIX_CPU == 'amd64'):
-        LINUX_ENDING = '_([\d\.]+)-\d+_gtk2_'+UNIX_CPU+'\.deb'
+    try:
+        LSB_RELEASE = subprocess.check_output('cat /etc/lsb-release', shell=True).decode('utf-8')
+        if ("Ubuntu" in LSB_RELEASE or "Debian" in LSB_RELEASE) and (UNIX_CPU == 'amd64'):
+            LINUX_ENDING = '_([\d\.]+)-\d+_gtk2_'+UNIX_CPU+'\.deb'
+    except:
+        pass
 
 FILE_RES = {
     'Windows':      ' href="(https://.+?=cudatext-win-'              +WIN_CPU+ '-([^\-]+)\.zip)"',
