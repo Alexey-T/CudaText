@@ -9,7 +9,7 @@
 * change: paint end-of-line text marks ("LF", "CRLF", "CR", "EOF") by lines, not by font
 * change: disable auto-closing of brackets (and auto-skipping of closing bracket) for multi-carets (thanks @xcme, @JairoMartinezA)
 * change: change default 3rd item in option "unprinted_symbols_scale"
-- fix: regression is last change in "Help / Check for updates"
+- fix: crash in last change in "Help / Check for updates"
 
 1.128.5 (2021/03)
 
