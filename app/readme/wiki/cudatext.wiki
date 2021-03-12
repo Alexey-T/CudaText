@@ -1315,6 +1315,26 @@ There are several commands in the Command Palette:
 * brackets: select to pair
 * brackets: select to pair, inside (it makes selection smaller by 2 characters)
 
+===Brackets auto-pairing logic===
+Auto-pairing of brackets is controlled by the option "auto_close_brackets". 
+Option supports auto-pairing of brackets and some other chars (quotes, tilde etc).
+
+For single caret:
+
+* If no selection, and opening bracket is typed (not only bracket, any char from option), CudaText inserts 2 paired chars like "()", moving the caret inside that pair.
+** In context "\|" (backslash before caret), app doesn't do pairing.
+** In context "|text" (text after caret), app doesn't do pairing.
+* If selection is present, and opening bracket is typed, CudaText encloses the selection into 2 paired chars, like "(selection)".
+* If no selection, and closing bracket is typed, CudaText may ignore this char or not. This depends on context. 
+** In context "f(|)", app ignores closing bracket and only moves caret righter.
+** In context "f(text|)", new closing bracket is added.
+
+For multi-carets:
+
+CudaText first looks at contexts of all carets. If all carets allow pairing, app does the pairing.
+* For caret with selection, app considers "caret is OK", and action will enclose the selection for that caret.
+* If at least one caret has context not suitable for pairing, app will not do the pairing for all carets.
+
 ==Word jump commands==
 CudaText provides several word-jump commands, see them in the Command Palette by entering "go to word":
 
