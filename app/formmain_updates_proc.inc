@@ -93,6 +93,7 @@ begin
   UpdateSideButtonFind;
   UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible, true);
   UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleUnprinted, Ed.OptUnprintedVisible, true);
+  UpdateMenuChecks;
 
   ////Ed.UndoCount is 1 initially, but can be 0 too, so hard to check it
   //UpdateStatus_ToolButton(ToolbarMain, cCommand_Undo, false, Ed.UndoCount>0);
