@@ -93,7 +93,7 @@ begin
   UpdateSideButtonFind;
   UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible, true);
   UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleUnprinted, Ed.OptUnprintedVisible, true);
-  UpdateMenuChecks;
+  UpdateMenuChecks(F);
 
   ////Ed.UndoCount is 1 initially, but can be 0 too, so hard to check it
   //UpdateStatus_ToolButton(ToolbarMain, cCommand_Undo, false, Ed.UndoCount>0);
@@ -870,12 +870,10 @@ begin
   if Assigned(saved.item1) then saved.item1.Checked:= AValue;
 end;
 
-procedure TfmMain.UpdateMenuChecks;
+procedure TfmMain.UpdateMenuChecks(F: TEditorFrame);
 var
-  F: TEditorFrame;
   Ed: TATSynEdit;
 begin
-  F:= CurrentFrame;
   if F=nil then exit;
   Ed:= F.Editor;
 

@@ -1058,7 +1058,7 @@ type
     procedure UpdateMenuPlugins;
     procedure UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean=false);
     procedure UpdateMenuPlugins_Shortcuts_Work(AForceUpdate: boolean);
-    procedure UpdateMenuChecks;
+    procedure UpdateMenuChecks(F: TEditorFrame);
     procedure UpdateMenuEnc(AMenu: TMenuItem);
     procedure DoApplyUiOps;
     procedure DoApplyUiOpsToGroups(G: TATGroups);
@@ -2058,7 +2058,7 @@ begin
   if FLastStateUpdated then
   begin
     FLastStateUpdated:= false;
-    UpdateMenuChecks;
+    UpdateMenuChecks(Frame);
   end;
 
   if Assigned(Frame) and not (Frame.IsTreeBusy or Frame.IsParsingBusy) then
