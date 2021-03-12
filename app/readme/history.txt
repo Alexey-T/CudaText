@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: wiki topic https://wiki.freepascal.org/CudaText#Brackets_auto-pairing_logic
+
 1.129.0 (2021/03)
 
 + add: handle config JSON files with UTF-8 BOM (patch goes to FreePascal as well)
