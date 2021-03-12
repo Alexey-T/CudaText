@@ -26,7 +26,7 @@ begin
   UpdateCaption;
 end;
 
-procedure TfmMain.FrameOnUpdateStatus(Sender: TObject);
+procedure TfmMain.FrameOnUpdateStatusbar(Sender: TObject);
 begin
   FLastStatusbarUpdated:= true;
   //real updating will run on TimerAppIdle work

@@ -257,7 +257,7 @@ begin
       NTick:= GetTickCount64;
       NCounter:= FinderReplaceAll(FFinder.Editor, false);
       NTime:= (GetTickCount64-NTick) div 1000;
-      UpdateStatus;
+      UpdateStatusbar;
       FinderShowReplaceReport(NCounter, NTime);
     end;
 
@@ -284,7 +284,7 @@ begin
       NTime:= (GetTickCount64-NTick) div 1000;
       if bChangeFrame then
         SetFrame(FramePrev);
-      UpdateStatus;
+      UpdateStatusbar;
       FinderShowReplaceReport(NCounter, NTime);
     end;
 
@@ -838,7 +838,7 @@ begin
     );
 
   if AUpdateStatusbar then
-    UpdateStatus;
+    UpdateStatusbar;
 end;
 
 procedure TfmMain.DoFindCurrentWordOrSel(Ed: TATSynEdit; ANext, AWordOrSel: boolean);

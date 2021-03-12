@@ -580,7 +580,7 @@ begin
   end;
  until false;
 
- UpdateStatus;
+ UpdateStatusbar;
 end;
 
 procedure TfmMain.FrameOnEditorCommand(Sender: TObject; ACommand: integer;
@@ -624,7 +624,7 @@ begin
     cCommand_ToggleWordWrap,
     cCommand_ToggleWordWrapAlt:
       begin
-        UpdateStatus;
+        UpdateStatusbar;
         AHandled:= false;
         exit
       end;
@@ -723,7 +723,7 @@ begin
     cmd_Markers_DropAtCaret:
       begin
         Ed.MarkerDrop;
-        UpdateStatus;
+        UpdateStatusbar;
         AHandled:= true;
         exit
       end;
@@ -735,7 +735,7 @@ begin
           UiOps.FindIndentVert);
         if Ed.Markers.Count=0 then
           Frame.TabKeyCollectMarkers:= false;
-        UpdateStatus;
+        UpdateStatusbar;
         AHandled:= true;
         exit
       end;
@@ -746,7 +746,7 @@ begin
           UiOps.FindIndentHorz,
           UiOps.FindIndentVert
         );
-        UpdateStatus;
+        UpdateStatusbar;
         AHandled:= true;
         exit
       end;
@@ -755,7 +755,7 @@ begin
       begin
         Ed.MarkerClearAll;
         Frame.TabKeyCollectMarkers:= false;
-        UpdateStatus;
+        UpdateStatusbar;
         AHandled:= true;
         exit
       end;
@@ -763,7 +763,7 @@ begin
     cmd_Markers_SwapCaretAndMarker:
       begin
         Ed.MarkerSwap;
-        UpdateStatus;
+        UpdateStatusbar;
         AHandled:= true;
         exit
       end;
@@ -771,7 +771,7 @@ begin
     cmd_Markers_SelectToCaret:
       begin
         Ed.MarkerSelectToCaret;
-        UpdateStatus;
+        UpdateStatusbar;
         AHandled:= true;
         exit
       end;
@@ -779,7 +779,7 @@ begin
     cmd_Markers_DeleteToCaret:
       begin
         Ed.MarkerDeleteToCaret;
-        UpdateStatus;
+        UpdateStatusbar;
         AHandled:= true;
         exit
       end;

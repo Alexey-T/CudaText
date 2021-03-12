@@ -11,7 +11,7 @@ procedure TfmMain.InitFrameEvents(F: TEditorFrame);
 begin
   F.OnFocusEditor:= @FrameOnEditorFocus;
   F.OnChangeCaption:= @FrameOnChangeCaption;
-  F.OnUpdateStatusbar:= @FrameOnUpdateStatus;
+  F.OnUpdateStatusbar:= @FrameOnUpdateStatusbar;
   F.OnUpdateState:= @FrameOnUpdateState;
   F.OnEditorCommand:= @FrameOnEditorCommand;
   F.OnEditorChangeCaretPos:= @FrameOnEditorChangeCaretPos;
@@ -150,7 +150,7 @@ begin
   //load lexer-specific config+keymap
   DoOps_LoadOptionsLexerSpecific(F, F.Editor);
 
-  UpdateStatus;
+  UpdateStatusbar;
   SetLength(Params, 0);
   DoPyEvent(F.Editor, cEventOnTabChange, Params);
 

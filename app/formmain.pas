@@ -1068,7 +1068,7 @@ type
     procedure InitConfirmPanel;
     procedure InitPyEngine;
     procedure FrameOnChangeCaption(Sender: TObject);
-    procedure FrameOnUpdateStatus(Sender: TObject);
+    procedure FrameOnUpdateStatusbar(Sender: TObject);
     procedure FrameOnUpdateState(Sender: TObject);
     function CreateTab(APages: TATPages; const ACaption: string;
       AndActivate: boolean=true;
@@ -1084,10 +1084,10 @@ type
     procedure MsgStatusErrorInRegex;
     procedure UpdateStatusbarPanelsFromString(const AText: string);
     procedure UpdateStatusbarHints;
-    procedure UpdateStatus_ForFrame(AStatus: TATStatus; F: TEditorFrame);
-    procedure UpdateStatus_RealWork;
-    procedure UpdateStatus_ToolButton(AToolbar: TATFlatToolbar; ACmd: integer; AChecked, AEnabled: boolean);
-    procedure UpdateSideButtonFind;
+    procedure UpdateStatusbar_ForFrame(AStatus: TATStatus; F: TEditorFrame);
+    procedure UpdateStatusbar_RealWork;
+    procedure UpdateToolButton(AToolbar: TATFlatToolbar; ACmd: integer; AChecked, AEnabled: boolean);
+    procedure UpdateSidebarButtonFind;
     procedure UpdateTabCaptionsFromFolders;
     procedure UpdateTabsActiveColor(F: TEditorFrame);
     procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true; AForceUpdateAll: boolean=false);
@@ -1100,7 +1100,7 @@ type
     procedure UpdateFrameEx(F: TEditorFrame; AUpdatedText: boolean);
     procedure UpdateCurrentFrame(AUpdatedText: boolean= false);
     procedure UpdateAppForSearch(AStart, AEdLock, AFindMode: boolean);
-    procedure UpdateStatus;
+    procedure UpdateStatusbar;
     procedure InitStatusbarControls;
     procedure DoOnDeleteLexer(Sender: TObject; const ALexerName: string);
     procedure UpdateTreeFilter;
@@ -1625,7 +1625,7 @@ begin
   if F=nil then exit;
   if not F.IsBinary then exit;
   F.Binary.Mode:= TATBinHexMode((Sender as TComponent).Tag);
-  UpdateStatus;
+  UpdateStatusbar;
 end;
 
 procedure TfmMain.InitPopupListboxOutput;
@@ -1965,7 +1965,7 @@ begin
         with Frame.Editor do
         begin
           OptMouseColumnSelectionWithoutKey:= not OptMouseColumnSelectionWithoutKey;
-          UpdateStatus;
+          UpdateStatusbar;
         end;
       end;
     StatusbarTag_WrapMode:
@@ -1977,7 +1977,7 @@ begin
             OptWrapMode:= Low(OptWrapMode)
           else
             OptWrapMode:= Succ(OptWrapMode);
-          UpdateStatus;
+          UpdateStatusbar;
         end;
       end;
     21..MaxInt:
@@ -2052,7 +2052,7 @@ begin
   begin
     FLastStatusbarUpdated:= false;
     TimerStatusWork.Enabled:= false;
-    UpdateStatus_RealWork;
+    UpdateStatusbar_RealWork;
   end;
 
   if FLastStateUpdated then
@@ -2089,7 +2089,7 @@ end;
 procedure TfmMain.TimerStatusWorkTimer(Sender: TObject);
 begin
   TimerStatusWork.Enabled:= false;
-  UpdateStatus_RealWork;
+  UpdateStatusbar_RealWork;
 end;
 
 procedure TfmMain.TimerTreeFillTimer(Sender: TObject);
@@ -2964,7 +2964,7 @@ begin
 
   AppPanels[cPaneSide].UpdateButtons;
   AppPanels[cPaneOut].UpdateButtons;
-  UpdateStatus;
+  UpdateStatusbar;
   DoLoadCommandLine;
   DoApplyInitialWindowPos;
 
@@ -3192,7 +3192,7 @@ begin
     EditorOps.OpFontName,
     EditorOps.OpFontSize) then
   begin
-    UpdateStatus;
+    UpdateStatusbar;
     UpdateCurrentFrame;
   end;
 end;
@@ -3206,7 +3206,7 @@ begin
     @DoOnDeleteLexer
     ) then
   begin
-    UpdateStatus;
+    UpdateStatusbar;
     UpdateCurrentFrame;
   end;
 end;
@@ -3265,7 +3265,7 @@ procedure TfmMain.UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
 begin
   if Assigned(Frame) then
     Frame.LineEnds[Frame.Editor]:= AValue;
-  UpdateStatus;
+  UpdateStatusbar;
   MsgStatus(msgStatusEndsChanged);
 end;
 
@@ -3847,7 +3847,7 @@ begin
     SetFrame(F);
     Result:= F;
     Result.SetFocus;
-    UpdateStatus;
+    UpdateStatusbar;
     UpdateTreeContents;
     Exit
   end;
@@ -3895,7 +3895,7 @@ begin
       Result:= F;
       //tick:= (GetTickCount64-tick) div 1000;
 
-      UpdateStatus;
+      UpdateStatusbar;
       //if tick>2 then
       //  msg:= msg+' ('+IntToStr(tick)+'s)';
       MsgStatusFileOpened(AFileName, AFileName2);
@@ -3912,14 +3912,14 @@ begin
         begin
           if bEnableEventOpenedNone then
             DoPyEvent(F.Ed1, cEventOnOpenNone, Params);
-          UpdateStatus;
+          UpdateStatusbar;
         end;
 
       if AFileName2<>'' then
       begin
         if bEnableEventOpened then
           DoPyEvent(F.Ed2, cEventOnOpen, Params);
-        UpdateStatus;
+        UpdateStatusbar;
       end;
 
       Exit
@@ -3939,7 +3939,7 @@ begin
   Result:= F;
   //tick:= (GetTickCount64-tick) div 1000;
 
-  UpdateStatus;
+  UpdateStatusbar;
   //if tick>2 then
   //  msg:= msg+' ('+IntToStr(tick)+'s)';
   MsgStatusFileOpened(AFileName, AFileName2);
@@ -4670,7 +4670,7 @@ begin
 
   Ed.DoEventChange; //reanalyze all file
   UpdateFrameEx(Frame, false);
-  UpdateStatus;
+  UpdateStatusbar;
   MsgStatus(msgStatusEncChanged);
 end;
 
@@ -4699,7 +4699,7 @@ begin
     UpdateTreeContents;
 
   UpdateFrameEx(F, false);
-  UpdateStatus;
+  UpdateStatusbar;
 end;
 
 
@@ -5026,7 +5026,7 @@ procedure TfmMain.SetShowOnTop(AValue: boolean);
 begin
   UiOps.ShowFormsOnTop:= AValue;
   UpdateFormOnTop(Self);
-  UpdateStatus;
+  UpdateStatusbar;
 end;
 
 procedure TfmMain.SetSidebarPanel(const ACaption: string);
@@ -5121,7 +5121,7 @@ begin
     F.ReadOnly[Ed]:= bPrevRO;
   Ed.Modified:= false;
 
-  UpdateStatus;
+  UpdateStatusbar;
   MsgStatus(msgStatusReopened+' '+ExtractFileName(fn));
 end;
 
@@ -5499,7 +5499,7 @@ begin
   F.Ed1.Strings.LoadFromFile(fn);
   F.DoLexerFromFilename(F.Ed1, fn);
   UpdateFrameEx(F, true);
-  UpdateStatus;
+  UpdateStatusbar;
 end;
 
 procedure TfmMain.DoFileSave(Ed: TATSynEdit);
@@ -5743,7 +5743,7 @@ begin
     and (NCommand<>cmd_FileCloseAll) then
     UpdateFrameEx(F, false);
 
-  UpdateStatus;
+  UpdateStatusbar;
 end;
 
 procedure TfmMain.SetFrameLexerByIndex(Ed: TATSynEdit; AIndex: integer);
@@ -5771,7 +5771,7 @@ begin
   end;
 
   UpdateFrameEx(F, false);
-  UpdateStatus;
+  UpdateStatusbar;
 end;
 
 
@@ -6453,7 +6453,7 @@ begin
       Ed.DoCaretSingle(ResCol, ResLine);
       Ed.DoGotoCaret(cEdgeTop);
       Ed.Update;
-      UpdateStatus;
+      UpdateStatusbar;
     end;
   end
   else
@@ -6572,7 +6572,7 @@ begin
   Ed.DoCommand(cCommand_TextInsert, Utf8Decode(AStr));
 
   UpdateCurrentFrame(true);
-  UpdateStatus;
+  UpdateStatusbar;
 end;
 
 
@@ -6768,7 +6768,7 @@ begin
   end;
 
   UpdateCurrentFrame;
-  UpdateStatus;
+  UpdateStatusbar;
 end;
 
 
@@ -7541,7 +7541,7 @@ begin
     FreeAndNil(List);
   end;
 
-  UpdateStatus;
+  UpdateStatusbar;
 end;
 
 

@@ -59,7 +59,7 @@ begin
     fmMain.SetFrame(F);
     F.SetFocus;
     fmMain.UpdateFrameEx(F, false);
-    fmMain.UpdateStatus;
+    fmMain.UpdateStatusbar;
   end
   else
   //support editors from dlg_proc
@@ -3767,7 +3767,7 @@ begin
             if Assigned(F) then
             begin
               F.LexerName[Ed]:= Str;
-              fmMain.UpdateStatus;
+              fmMain.UpdateStatusbar;
             end
             else
             //for other editors
@@ -4289,7 +4289,7 @@ begin
       if Assigned(F) then
       begin
         fmMain.UpdateFrameEx(F, false);
-        fmMain.UpdateStatus;
+        fmMain.UpdateStatusbar;
       end;
       }
 
@@ -4622,7 +4622,7 @@ begin
         APP_PROC_SET_GROUPING:
           begin
             fmMain.UpdateGroupsMode(TATGroupsMode(StrToIntDef(Str, 1)));
-            fmMain.UpdateStatus;
+            fmMain.UpdateStatusbar;
             Result:= ReturnNone;
           end;
 

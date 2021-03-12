@@ -50,7 +50,7 @@ begin
 end;
 
 
-procedure TfmMain.UpdateStatus_ToolButton(AToolbar: TATFlatToolbar;
+procedure TfmMain.UpdateToolButton(AToolbar: TATFlatToolbar;
   ACmd: integer; AChecked, AEnabled: boolean);
 var
   Btn: TATButton;
@@ -69,18 +69,18 @@ begin
 end;
 
 
-procedure TfmMain.UpdateStatus;
+procedure TfmMain.UpdateStatusbar;
 begin
   TimerStatusWork.Enabled:= false;
   TimerStatusWork.Enabled:= true;
 end;
 
-procedure TfmMain.UpdateSideButtonFind;
+procedure TfmMain.UpdateSidebarButtonFind;
 begin
   ToolbarSideMid.Buttons[0].Checked:= Assigned(fmFind) and fmFind.Visible;
 end;
 
-procedure TfmMain.UpdateStatus_RealWork;
+procedure TfmMain.UpdateStatusbar_RealWork;
 var
   F: TEditorFrame;
   Ed: TATSynEdit;
@@ -90,16 +90,16 @@ begin
   Ed:= F.Editor;
 
   UpdateTabCaptionsFromFolders; //maybe it's called too often here?
-  UpdateSideButtonFind;
-  UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible, true);
-  UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleUnprinted, Ed.OptUnprintedVisible, true);
+  UpdateSidebarButtonFind;
+  UpdateToolButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible, true);
+  UpdateToolButton(ToolbarMain, cCommand_ToggleUnprinted, Ed.OptUnprintedVisible, true);
   UpdateMenuChecks(F);
 
   ////Ed.UndoCount is 1 initially, but can be 0 too, so hard to check it
-  //UpdateStatus_ToolButton(ToolbarMain, cCommand_Undo, false, Ed.UndoCount>0);
-  //UpdateStatus_ToolButton(ToolbarMain, cCommand_Redo, false, Ed.RedoCount>0);
+  //UpdateToolButton(ToolbarMain, cCommand_Undo, false, Ed.UndoCount>0);
+  //UpdateToolButton(ToolbarMain, cCommand_Redo, false, Ed.RedoCount>0);
 
-  UpdateStatus_ForFrame(Status, F);
+  UpdateStatusbar_ForFrame(Status, F);
 end;
 
 procedure TfmMain.UpdateStatusbarHints;
@@ -114,7 +114,7 @@ begin
   DoStatusbarHintByTag(Status, StatusbarTag_WrapMode, msgStatusbarHintWrap);
 end;
 
-procedure TfmMain.UpdateStatus_ForFrame(AStatus: TATStatus; F: TEditorFrame);
+procedure TfmMain.UpdateStatusbar_ForFrame(AStatus: TATStatus; F: TEditorFrame);
 const
   cColumnMarks: array[boolean] of string = ('-', '||');
 var
@@ -554,7 +554,7 @@ begin
       DoOps_LoadOptionsLexerSpecific(F, F.Ed2);
   end;
 
-  UpdateStatus;
+  UpdateStatusbar;
 end;
 
 procedure TfmMain.DoApplyFrameOps(F: TEditorFrame;
@@ -578,7 +578,7 @@ begin
   if F.Splitted then
     F.Ed2.Update;
 
-  UpdateStatus;
+  UpdateStatusbar;
 end;
 
 procedure TfmMain.UpdateMenuItemHint(mi: TMenuItem; const AHint: string);
@@ -860,7 +860,7 @@ begin
   F.TabSizeChanged:= true;
 
   UpdateFrameEx(F, false);
-  UpdateStatus;
+  UpdateStatusbar;
 end;
 
 procedure TfmMain.UpdateMenuItemChecked(mi: TMenuItem; saved: TATMenuItemsAlt; AValue: boolean);

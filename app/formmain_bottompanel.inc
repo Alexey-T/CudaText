@@ -33,7 +33,7 @@ begin
   else
     DoDialogFind(false);
 
-  UpdateSideButtonFind;
+  UpdateSidebarButtonFind;
 end;
 
 procedure TfmMain.DoBottom_OnHide(Sender: TObject);
