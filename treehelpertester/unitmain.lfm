@@ -51,6 +51,7 @@ object Form1: TForm1
       TabStop = True
       OnChange = EdChange
       OptShowCurLine = True
+      OptRulerVisible = False
       OptUnprintedVisible = False
     end
     object Panel2: TPanel
