@@ -30,6 +30,8 @@ _test/
 /app/builds
 /app/cudatext
 /app/cudatext-mac
+app
+app.res
 
 cudatext-mac-cocoa/
 cuda_python_intel/
