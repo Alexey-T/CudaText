@@ -709,6 +709,9 @@ type
     FOption_SidebarTab: string;
     FCmdlineFileCount: integer;
 
+    procedure DoCodetree_OnAdvDrawItem(Sender: TCustomTreeView;
+      Node: TTreeNode; State: TCustomDrawState; Stage: TCustomDrawStage;
+      var PaintImages, DefaultDraw: Boolean);
     function IsTooManyTabsOpened: boolean;
     function GetUntitledNumberedCaption: string;
     procedure UpdateGlobalProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
@@ -1163,7 +1166,8 @@ uses
   Emmet,
   EmmetHelper,
   TreeHelpers_Base,
-  TreeHelpers_Proc;
+  TreeHelpers_Proc,
+  ATStringProc_HtmlColor;
 
 {$R *.lfm}
 
@@ -2310,6 +2314,7 @@ begin
   CodeTree.Tree.OnMouseMove:= @DoCodetree_OnMouseMove;
   CodeTree.Tree.OnKeyDown:= @DoCodetree_OnKeyDown;
   CodeTree.Tree.OnContextPopup:= @DoCodetree_OnContextPopup;
+  CodeTree.Tree.OnAdvancedCustomDrawItem:=@DoCodetree_OnAdvDrawItem;
 
   PanelCodeTreeTop:= TATPanelSimple.Create(Self);
   PanelCodeTreeTop.Parent:= PanelCodeTreeAll;
@@ -6170,6 +6175,76 @@ begin
     true
     );
 end;
+
+procedure TfmMain.DoCodetree_OnAdvDrawItem(Sender: TCustomTreeView;
+  Node: TTreeNode; State: TCustomDrawState; Stage: TCustomDrawStage;
+  var PaintImages, DefaultDraw: Boolean);
+var
+  R: TRect;
+  S: string;
+  C: TCanvas;
+  bFoundBrackets: boolean;
+  NColor: TColor;
+  NLen, i: integer;
+begin
+  DefaultDraw:= not ((FCodetreeLexer='CSS') and (Stage=cdPostPaint));
+  if DefaultDraw then exit;
+
+  NColor:= clNone;
+  S:= Node.Text;
+  if Length(S)<4 then exit;
+
+  i:= 1;
+  case S[i] of
+    '#':
+      begin
+        //find #rgb, #rrggbb
+        if IsCharHexDigit(S[i+1]) then
+        begin
+          NColor:= TATHtmlColorParserA.ParseTokenRGB(@S[i+1], NLen, clNone);
+          Inc(NLen);
+        end;
+      end;
+    'r':
+      begin
+        //find rgb(...), rgba(...)
+        if (S[i+1]='g') and
+          (S[i+2]='b') and
+          ((i=1) or not IsCharWord(S[i-1], cDefaultNonWordChars)) //word boundary
+        then
+        begin
+          NColor:= TATHtmlColorParserA.ParseFunctionRGB(S, i, NLen);
+          bFoundBrackets:= true;
+        end;
+      end;
+    'h':
+      begin
+        //find hsl(...), hsla(...)
+        if (S[i+1]='s') and
+          (S[i+2]='l') and
+          ((i=1) or not IsCharWord(S[i-1], cDefaultNonWordChars)) //word boundary
+        then
+        begin
+          NColor:= TATHtmlColorParserA.ParseFunctionHSL(S, i, NLen);
+          bFoundBrackets:= true;
+        end;
+      end;
+  end;
+
+  if NColor<>clNone then
+  begin
+    R:= Node.DisplayRect(true);
+    Inc(R.Top);
+    Dec(R.Bottom);
+    R.Left:= R.Right+4;
+    R.Right:= R.Left+R.Height;
+
+    C:= (Sender as TTreeView).Canvas;
+    C.Brush.Color:= NColor;
+    C.FillRect(R);
+  end;
+end;
+
 
 procedure TfmMain.ListboxOutContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
 begin
