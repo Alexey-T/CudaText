@@ -986,6 +986,12 @@ begin
      FCodetreeLexer:= Ada.Lexer.LexerName
    else
      FCodetreeLexer:= '';
+   case FCodetreeLexer of
+     'CSS', 'SCSS', 'LESS':
+       FCodetreeLexerCSS:= true;
+     else
+       FCodetreeLexerCSS:= false;
+   end;
 
    InitImageListCodetree;
 

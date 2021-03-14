@@ -679,6 +679,7 @@ type
     FCodetreeModifiedVersion: integer;
     FCodetreeNeedsSelJump: boolean;
     FCodetreeLexer: string;
+    FCodetreeLexerCSS: boolean;
     FCfmPanel: TPanel;
     FCfmLink: string;
     FMenuVisible: boolean;
@@ -6183,11 +6184,10 @@ var
   R: TRect;
   S: string;
   C: TCanvas;
-  bFoundBrackets: boolean;
   NColor: TColor;
   NLen, i: integer;
 begin
-  DefaultDraw:= not ((FCodetreeLexer='CSS') and (Stage=cdPostPaint));
+  DefaultDraw:= not (FCodetreeLexerCSS and (Stage=cdPostPaint));
   if DefaultDraw then exit;
 
   NColor:= clNone;
@@ -6214,7 +6214,7 @@ begin
         then
         begin
           NColor:= TATHtmlColorParserA.ParseFunctionRGB(S, i, NLen);
-          bFoundBrackets:= true;
+          //bFoundBrackets:= true;
         end;
       end;
     'h':
@@ -6226,7 +6226,7 @@ begin
         then
         begin
           NColor:= TATHtmlColorParserA.ParseFunctionHSL(S, i, NLen);
-          bFoundBrackets:= true;
+          //bFoundBrackets:= true;
         end;
       end;
   end;
@@ -6236,12 +6236,13 @@ begin
     R:= Node.DisplayRect(true);
     Inc(R.Top);
     Dec(R.Bottom);
-    R.Left:= R.Right+4;
+    R.Left:= R.Right+2;
     R.Right:= R.Left+R.Height;
 
     C:= (Sender as TTreeView).Canvas;
+    C.Pen.Color:= clBlack;
     C.Brush.Color:= NColor;
-    C.FillRect(R);
+    C.Rectangle(R);
   end;
 end;
 
