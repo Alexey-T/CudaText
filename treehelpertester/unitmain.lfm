@@ -2,10 +2,10 @@ object Form1: TForm1
   Left = 1464
   Height = 609
   Top = 196
-  Width = 752
+  Width = 1000
   Caption = 'CudaText tree-helper tester'
   ClientHeight = 609
-  ClientWidth = 752
+  ClientWidth = 1000
   OnCreate = FormCreate
   Position = poScreenCenter
   LCLVersion = '2.1.0.0'
@@ -31,17 +31,17 @@ object Form1: TForm1
     Left = 264
     Height = 609
     Top = 0
-    Width = 488
+    Width = 736
     Align = alClient
     Caption = 'Panel1'
     ClientHeight = 609
-    ClientWidth = 488
+    ClientWidth = 736
     TabOrder = 2
     object Ed: TATSynEdit
       Left = 1
       Height = 568
       Top = 40
-      Width = 486
+      Width = 734
       Align = alClient
       DoubleBuffered = True
       Font.Height = -12
@@ -57,10 +57,10 @@ object Form1: TForm1
       Left = 1
       Height = 39
       Top = 1
-      Width = 486
+      Width = 734
       Align = alTop
       ClientHeight = 39
-      ClientWidth = 486
+      ClientWidth = 734
       TabOrder = 1
       object btnFile: TButton
         Left = 0
