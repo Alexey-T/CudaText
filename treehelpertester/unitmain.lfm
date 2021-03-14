@@ -1,0 +1,83 @@
+object Form1: TForm1
+  Left = 1464
+  Height = 609
+  Top = 196
+  Width = 752
+  Caption = 'CudaText tree-helper tester'
+  ClientHeight = 609
+  ClientWidth = 752
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  LCLVersion = '2.1.0.0'
+  object FTree: TTreeView
+    Left = 0
+    Height = 609
+    Top = 0
+    Width = 259
+    Align = alLeft
+    TabOrder = 0
+  end
+  object Splitter1: TSplitter
+    Left = 259
+    Height = 609
+    Top = 0
+    Width = 5
+  end
+  object Panel1: TPanel
+    Left = 264
+    Height = 609
+    Top = 0
+    Width = 488
+    Align = alClient
+    Caption = 'Panel1'
+    ClientHeight = 609
+    ClientWidth = 488
+    TabOrder = 2
+    object Ed: TATSynEdit
+      Left = 1
+      Height = 568
+      Top = 40
+      Width = 486
+      Align = alClient
+      DoubleBuffered = True
+      Font.Height = -12
+      Font.Name = 'Courier New'
+      ParentFont = False
+      TabOrder = 0
+      TabStop = True
+      OnChange = EdChange
+      OptUnprintedVisible = False
+    end
+    object Panel2: TPanel
+      Left = 1
+      Height = 39
+      Top = 1
+      Width = 486
+      Align = alTop
+      ClientHeight = 39
+      ClientWidth = 486
+      TabOrder = 1
+      object btnFile: TButton
+        Left = 0
+        Height = 25
+        Top = 8
+        Width = 104
+        Caption = 'Open file...'
+        OnClick = btnFileClick
+        TabOrder = 0
+      end
+      object Label1: TLabel
+        Left = 112
+        Height = 17
+        Top = 8
+        Width = 6
+        Caption = '?'
+        ParentColor = False
+      end
+    end
+  end
+  object OpenDialog1: TOpenDialog
+    Left = 344
+    Top = 96
+  end
+end
