@@ -15,7 +15,11 @@ object Form1: TForm1
     Top = 0
     Width = 259
     Align = alLeft
+    ReadOnly = True
+    RowSelect = True
     TabOrder = 0
+    OnDblClick = FTreeDblClick
+    Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoRowSelect, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
   end
   object Splitter1: TSplitter
     Left = 259
@@ -46,6 +50,7 @@ object Form1: TForm1
       TabOrder = 0
       TabStop = True
       OnChange = EdChange
+      OptShowCurLine = True
       OptUnprintedVisible = False
     end
     object Panel2: TPanel

@@ -6,7 +6,9 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ComCtrls, ExtCtrls,
-  StdCtrls, ATSynEdit,
+  StdCtrls,
+  ATSynEdit,
+  ATSynEdit_Carets,
   TreeHelpers_Base,
   TreeHelpers_Proc;
 
@@ -26,6 +28,7 @@ type
     procedure btnFileClick(Sender: TObject);
     procedure EdChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FTreeDblClick(Sender: TObject);
   private
     FFileName: string;
     FData: TATTreeHelperRecords;
@@ -42,14 +45,21 @@ implementation
 
 {$R *.lfm}
 
+type
+  TMyTreeInfo = class
+    X1, Y1, X2, Y2: integer;
+  end;
+
 function ApplyTreeHelperInPascal(Ed: TATSynEdit;
   const ALexer: string; Tree: TTreeView; Data: TATTreeHelperRecords): boolean;
 var
   DataItem: PATTreeHelperRecord;
-  NX1, NY1, NX2, NY2, NLevel, NLevelPrev, NIcon: integer;
+  NX1, NY1, NX2, NY2: integer;
+  NLevel, NLevelPrev, NIcon: integer;
   STitle: string;
   Node, NodeParent: TTreeNode;
   iItem, iLevel: integer;
+  Info: TMyTreeInfo;
 begin
   Tree.BeginUpdate;
   try
@@ -84,7 +94,13 @@ begin
               NodeParent:= NodeParent.Parent;
         end;
 
-        Node:= Tree.Items.AddChildObject(NodeParent, STitle, nil);
+        Info:= TMyTreeInfo.Create;
+        Info.X1:= NX1;
+        Info.X2:= NX2;
+        Info.Y1:= NY1;
+        Info.Y2:= NY2;
+
+        Node:= Tree.Items.AddChildObject(NodeParent, STitle, Info);
         Node.ImageIndex:= NIcon;
         Node.SelectedIndex:= NIcon;
 
@@ -131,6 +147,22 @@ end;
 procedure TForm1.FormCreate(Sender: TObject);
 begin
   FData:= TATTreeHelperRecords.Create;
+end;
+
+procedure TForm1.FTreeDblClick(Sender: TObject);
+var
+  Node: TTreeNode;
+  Info: TMyTreeInfo;
+  P: TPoint;
+begin
+  P:= FTree.ScreenToClient(Mouse.CursorPos);
+  Node:= FTree.GetNodeAt(P.X, P.Y);
+  if Assigned(Node) then
+  begin
+    Info:= TMyTreeInfo(Node.Data);
+    Ed.DoCaretSingle(Info.X1, Info.Y1, -1, -1);
+    Ed.DoGotoCaret(cEdgeTop);
+  end;
 end;
 
 procedure TForm1.UpdateTree;
