@@ -122,7 +122,6 @@ begin
   begin
     FFileName:= OpenDialog1.FileName;
     Ed.LoadFromFile(FFileName);
-    Label1.Caption:= ExtractFileName(FFileName);
 
     case ExtractFileExt(FFileName) of
       '.md':
@@ -132,8 +131,10 @@ begin
       '.rst':
         FLexer:= 'reStructuredText';
       else
-        exit;
+        FLexer:= 'none'
     end;
+
+    Label1.Caption:= Format('File "%s", Lexer "%s"', [ExtractFileName(FFileName), FLexer]);
 
     UpdateTree;
   end;
@@ -167,6 +168,7 @@ end;
 
 procedure TForm1.UpdateTree;
 begin
+  FTree.Items.Clear;
   FData.Clear;
   TreeHelperInPascal(Ed, FLexer, FData);
   ApplyTreeHelperInPascal(Ed, FLexer, FTree, FData);
