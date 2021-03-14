@@ -678,6 +678,7 @@ type
     FCodetreeDblClicking: boolean;
     FCodetreeModifiedVersion: integer;
     FCodetreeNeedsSelJump: boolean;
+    FCodetreeLexer: string;
     FCfmPanel: TPanel;
     FCfmLink: string;
     FMenuVisible: boolean;

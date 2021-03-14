@@ -982,6 +982,11 @@ begin
 
  if AFill then
  begin
+   if Assigned(Ada.Lexer) then
+     FCodetreeLexer:= Ada.Lexer.LexerName
+   else
+     FCodetreeLexer:= '';
+
    InitImageListCodetree;
 
    if UiOps.TreeShowIcons then
