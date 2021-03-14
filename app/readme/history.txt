@@ -3,7 +3,10 @@
   - fixed
   * changed
 
+1.129.1
+
 + add: wiki topic https://wiki.freepascal.org/CudaText#Brackets_auto-pairing_logic
++ add: lexer CSS: show color formats 'rgb', 'hsl', '#aabbccdd' in code-tree (thanks @NQUARE)
 
 1.129.0 (2021/03)
 
