@@ -175,6 +175,14 @@ object SyntAnal6: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'RGB color'
+      StyleName = 'Color'
+      TokenType = 6
+      Expression = '\b(rgba?|hsla?)\(.+?\)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Prop custom'
       StyleName = 'Prop user'
       TokenType = 2
@@ -2074,6 +2082,7 @@ object SyntAnal6: TLibSyntAnalyzer
           IgnoreCase = True
         end>
       HighlightPos = cpAny
+      TokenType = 6
       IgnoreAsParent = False
     end
     item
