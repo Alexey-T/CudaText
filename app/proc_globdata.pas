@@ -2639,7 +2639,9 @@ end;
 
 procedure TAppManagerThread.Execute;
 begin
+  AppManager.AllowedThreadId:= Self.ThreadID;
   AppLoadLexers;
+  AppManager.AllowedThreadId:= 0;
 end;
 
 { TAppCommandInfo }
