@@ -7,7 +7,7 @@
 
 + add: code-tree for CSS lexer shows colored squares near 'Colors' items (thanks @NQUARE)
 + add: lexer CSS: show color formats 'rgb', 'hsl', '#aabbccdd' in code-tree (thanks @NQUARE)
-+ add: reworked way how app saves/restores per-file-history for some properties: show line numbers, show folding column, show minimap, show micromap, show ruler
++ add: reworked the way how app saves/restores per-file-history for some properties: word wrap, show unprinted chars, show line numbers, show folding column, show minimap, show micromap, show ruler
 + add: wiki topic https://wiki.freepascal.org/CudaText#Brackets_auto-pairing_logic
 
 1.129.0 (2021/03)
