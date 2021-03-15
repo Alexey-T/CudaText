@@ -986,8 +986,9 @@ begin
      FCodetreeLexer:= Ada.Lexer.LexerName
    else
      FCodetreeLexer:= '';
+
    case FCodetreeLexer of
-     'CSS', 'SCSS', 'LESS':
+     'CSS': //we can add more lexers, but not needed yet
        FCodetreeLexerCSS:= true;
      else
        FCodetreeLexerCSS:= false;
