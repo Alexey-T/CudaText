@@ -3074,7 +3074,7 @@ begin
   end;
 
   if UiOps.HistoryItems[ahhWordWrap] then
-    c.SetDeleteValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode), 0);
+    c.SetDeleteValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode), Ord(EditorOps.OpWrapMode));
 
   if not Ed.IsReadOnlyAutodetected then
     c.SetDeleteValue(path+cHistory_ReadOnly, ReadOnly[Ed], false);
@@ -3096,7 +3096,7 @@ begin
 
   if UiOps.HistoryItems[ahhUnprinted] then
   begin
-    c.SetDeleteValue(path+cHistory_Unpri, Ed.OptUnprintedVisible, false);
+    c.SetDeleteValue(path+cHistory_Unpri, Ord(Ed.OptUnprintedVisible), Ord(EditorOps.OpUnprintedShow));
     c.SetDeleteValue(path+cHistory_Unpri_Spaces, Ed.OptUnprintedSpaces, true);
     c.SetDeleteValue(path+cHistory_Unpri_Ends, Ed.OptUnprintedEnds, true);
     c.SetDeleteValue(path+cHistory_Unpri_Detail, Ed.OptUnprintedEndsDetails, false);
@@ -3283,7 +3283,12 @@ begin
 
   if not FileWasBig[Ed] then
   begin
-    Ed.OptWrapMode:= TATEditorWrapMode(c.GetValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode)));
+    NFlag:= c.GetValue(path+cHistory_Wrap, -1);
+    if NFlag>=0 then
+    begin
+      Ed.OptWrapMode:= TATEditorWrapMode(NFlag);
+      Ed.ModifiedWrapMode:= true;
+    end;
 
     NFlag:= c.GetValue(path+cHistory_Minimap, -1);
     if NFlag>=0 then
@@ -3309,7 +3314,14 @@ begin
 
   Ed.OptTabSize:= c.GetValue(path+cHistory_TabSize, Ed.OptTabSize);
   Ed.OptTabSpaces:= c.GetValue(path+cHistory_TabSpace, Ed.OptTabSpaces);
-  Ed.OptUnprintedVisible:= c.GetValue(path+cHistory_Unpri, Ed.OptUnprintedVisible);
+
+  NFlag:= c.GetValue(path+cHistory_Unpri, -1);
+  if NFlag>=0 then
+  begin
+    Ed.OptUnprintedVisible:= NFlag=1;
+    Ed.ModifiedUnprintedVisible:= true;
+  end;
+
   Ed.OptUnprintedSpaces:= c.GetValue(path+cHistory_Unpri_Spaces, Ed.OptUnprintedSpaces);
   Ed.OptUnprintedEnds:= c.GetValue(path+cHistory_Unpri_Ends, Ed.OptUnprintedEnds);
   Ed.OptUnprintedEndsDetails:= c.GetValue(path+cHistory_Unpri_Detail, Ed.OptUnprintedEndsDetails);

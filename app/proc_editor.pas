@@ -230,7 +230,8 @@ begin
 
   if AApplyUnprintedAndWrap then
   begin
-    Ed.OptUnprintedVisible:= Op.OpUnprintedShow;
+    if not Ed.ModifiedUnprintedVisible then
+      Ed.OptUnprintedVisible:= Op.OpUnprintedShow;
     Ed.OptUnprintedSpaces:=         Pos('s', Op.OpUnprintedContent)>0;
     Ed.OptUnprintedSpacesTrailing:= Pos('t', Op.OpUnprintedContent)>0;
     Ed.OptUnprintedSpacesBothEnds:= Pos('l', Op.OpUnprintedContent)>0;
@@ -255,10 +256,10 @@ begin
   OptUnprintedReplaceSpecToCode:= StrToInt('$'+Op.OpUnprintedReplaceToCode);
 
   if AApplyUnprintedAndWrap then
-  begin
-    if Op.OpWrapMode<=Ord(High(TATEditorWrapMode)) then
-      Ed.OptWrapMode:= TATEditorWrapMode(Op.OpWrapMode);
-  end;
+    if not Ed.ModifiedWrapMode then
+      if (Op.OpWrapMode>=0) and (Op.OpWrapMode<=Ord(High(TATEditorWrapMode))) then
+        Ed.OptWrapMode:= TATEditorWrapMode(Op.OpWrapMode);
+
   Ed.OptWrapIndented:= Op.OpWrapIndented;
   Ed.OptWrapEnabledForMaxLines:= Op.OpWrapEnabledMaxLines;
 
