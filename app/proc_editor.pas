@@ -186,11 +186,11 @@ begin
     Ed.OptGutterVisible:= Op.OpGutterShow;
     Ed.OptGutterShowFoldAlways:= Op.OpGutterFoldAlways;
     Ed.OptGutterIcons:= TATEditorGutterIcons(Op.OpGutterFoldIcons);
-    if not Ed.Gutter[Ed.GutterBandBookmarks].VisibleModified then
+    if not Ed.ModifiedGutterBookmarksVisible then
       Ed.Gutter[Ed.GutterBandBookmarks].Visible:= Op.OpGutterBookmarks;
-    if not Ed.Gutter[Ed.GutterBandFolding].VisibleModified then
+    if not Ed.ModifiedGutterFoldingVisible then
       Ed.Gutter[Ed.GutterBandFolding].Visible:= Op.OpGutterFold;
-    if not Ed.Gutter[Ed.GutterBandNumbers].VisibleModified then
+    if not Ed.ModifiedGutterNumbersVisible then
       Ed.Gutter[Ed.GutterBandNumbers].Visible:= Op.OpNumbersShow;
     Ed.Gutter.Update;
 
@@ -202,11 +202,13 @@ begin
     else
       Ed.OptNumbersAlignment:= taRightJustify;
 
-    Ed.OptRulerVisible:= Op.OpRulerShow;
+    if not Ed.ModifiedRulerVisible then
+      Ed.OptRulerVisible:= Op.OpRulerShow;
     Ed.OptRulerNumeration:= TATEditorRulerNumeration(Op.OpRulerNumeration);
     Ed.OptRulerMarkSizeCaret:= Op.OpRulerMarkCaret;
 
-    Ed.OptMinimapVisible:= Op.OpMinimapShow;
+    if not Ed.ModifiedMinimapVisible then
+      Ed.OptMinimapVisible:= Op.OpMinimapShow;
     Ed.OptMinimapShowSelAlways:= Op.OpMinimapShowSelAlways;
     Ed.OptMinimapShowSelBorder:= Op.OpMinimapShowSelBorder;
     Ed.OptMinimapCharWidth:= Op.OpMinimapCharWidth;
@@ -216,7 +218,8 @@ begin
     Ed.OptMinimapTooltipLinesCount:= Op.OpMinimapTooltipLineCount;
     Ed.OptMinimapTooltipWidthPercents:= Op.OpMinimapTooltipWidth;
 
-    Ed.OptMicromapVisible:= Op.OpMicromapShow;
+    if not Ed.ModifiedMicromapVisible then
+      Ed.OptMicromapVisible:= Op.OpMicromapShow;
 
     Ed.OptMarginRight:= Op.OpMarginFixed;
     Ed.OptMarginString:= Op.OpMarginString;

@@ -3080,13 +3080,13 @@ begin
     c.SetDeleteValue(path+cHistory_ReadOnly, ReadOnly[Ed], false);
 
   if UiOps.HistoryItems[ahhRuler] then
-    c.SetDeleteValue(path+cHistory_Ruler, Ed.OptRulerVisible, false);
+    c.SetValue(path+cHistory_Ruler, Ord(Ed.OptRulerVisible));
 
   if UiOps.HistoryItems[ahhMinimap] then
-    c.SetDeleteValue(path+cHistory_Minimap, Ed.OptMinimapVisible, false);
+    c.SetValue(path+cHistory_Minimap, Ord(Ed.OptMinimapVisible));
 
   if UiOps.HistoryItems[ahhMicromap] then
-    c.SetDeleteValue(path+cHistory_Micromap, Ed.OptMicromapVisible, false);
+    c.SetValue(path+cHistory_Micromap, Ord(Ed.OptMicromapVisible));
 
   if UiOps.HistoryItems[ahhTabSize] then
   begin
@@ -3284,10 +3284,29 @@ begin
   if not FileWasBig[Ed] then
   begin
     Ed.OptWrapMode:= TATEditorWrapMode(c.GetValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode)));
-    Ed.OptMinimapVisible:= c.GetValue(path+cHistory_Minimap, Ed.OptMinimapVisible);
-    Ed.OptMicromapVisible:= c.GetValue(path+cHistory_Micromap, Ed.OptMicromapVisible);
+
+    NFlag:= c.GetValue(path+cHistory_Minimap, -1);
+    if NFlag>=0 then
+    begin
+      Ed.OptMinimapVisible:= NFlag=1;
+      Ed.ModifiedMinimapVisible:= true;
+    end;
+
+    NFlag:= c.GetValue(path+cHistory_Micromap, -1);
+    if NFlag>=0 then
+    begin
+      Ed.OptMicromapVisible:= NFlag=1;
+      Ed.ModifiedMicromapVisible:= true;
+    end;
   end;
-  Ed.OptRulerVisible:= c.GetValue(path+cHistory_Ruler, Ed.OptRulerVisible);
+
+  NFlag:= c.GetValue(path+cHistory_Ruler, -1);
+  if NFlag>=0 then
+  begin
+    Ed.OptRulerVisible:= NFlag=1;
+    Ed.ModifiedRulerVisible:= true;
+  end;
+
   Ed.OptTabSize:= c.GetValue(path+cHistory_TabSize, Ed.OptTabSize);
   Ed.OptTabSpaces:= c.GetValue(path+cHistory_TabSpace, Ed.OptTabSpaces);
   Ed.OptUnprintedVisible:= c.GetValue(path+cHistory_Unpri, Ed.OptUnprintedVisible);
@@ -3301,7 +3320,7 @@ begin
     if NFlag>=0 then
     begin
       Visible:= NFlag=1;
-      VisibleModified:= true;
+      Ed.ModifiedGutterNumbersVisible:= true;
     end;
   end;
 
@@ -3311,7 +3330,7 @@ begin
     if NFlag>=0 then
     begin
       Visible:= NFlag=1;
-      VisibleModified:= true;
+      Ed.ModifiedGutterFoldingVisible:= true;
     end;
   end;
 
