@@ -2468,7 +2468,9 @@ begin
 
   InitPyEngine; //before LoadPlugins
 
-  AppManagerThread.WaitFor; //before LoadPlugins (for LexerDetecter)
+  if not AppManagerThread.Finished then
+    AppManagerThread.WaitFor; //before LoadPlugins (for LexerDetecter)
+
   DoOps_LoadPlugins; //before LoadHistory (for on_open for restored session)
   DoOps_LoadHistory;
 end;
@@ -6236,8 +6238,8 @@ begin
     R:= Node.DisplayRect(true);
     Inc(R.Top);
     Dec(R.Bottom);
-    R.Left:= R.Right+2;
-    R.Right:= R.Left+R.Height;
+    R.Right:= R.Left-2;
+    R.Left:= R.Right-R.Height;
 
     C:= (Sender as TTreeView).Canvas;
     C.Pen.Color:= clBlack;
