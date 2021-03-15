@@ -186,9 +186,12 @@ begin
     Ed.OptGutterVisible:= Op.OpGutterShow;
     Ed.OptGutterShowFoldAlways:= Op.OpGutterFoldAlways;
     Ed.OptGutterIcons:= TATEditorGutterIcons(Op.OpGutterFoldIcons);
-    Ed.Gutter[Ed.GutterBandBookmarks].Visible:= Op.OpGutterBookmarks;
-    Ed.Gutter[Ed.GutterBandFolding].Visible:= Op.OpGutterFold;
-    Ed.Gutter[Ed.GutterBandNumbers].Visible:= Op.OpNumbersShow;
+    if not Ed.Gutter[Ed.GutterBandBookmarks].VisibleModified then
+      Ed.Gutter[Ed.GutterBandBookmarks].Visible:= Op.OpGutterBookmarks;
+    if not Ed.Gutter[Ed.GutterBandFolding].VisibleModified then
+      Ed.Gutter[Ed.GutterBandFolding].Visible:= Op.OpGutterFold;
+    if not Ed.Gutter[Ed.GutterBandNumbers].VisibleModified then
+      Ed.Gutter[Ed.GutterBandNumbers].Visible:= Op.OpNumbersShow;
     Ed.Gutter.Update;
 
     if Op.OpNumbersStyle<=Ord(High(TATEditorNumbersStyle)) then

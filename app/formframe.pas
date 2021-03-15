@@ -3214,6 +3214,7 @@ var
   items, items2: TStringlist;
   BmData: TATBookmarkData;
   Sep: TATStringSeparator;
+  bFlag: boolean;
 begin
   sFileName:= GetFileName(Ed);
 
@@ -3291,7 +3292,14 @@ begin
   Ed.OptUnprintedEndsDetails:= c.GetValue(path+cHistory_Unpri_Detail, Ed.OptUnprintedEndsDetails);
 
   with Ed.Gutter[Ed.GutterBandNumbers] do
-    Visible:= c.GetValue(path+cHistory_LineNums, Visible);
+  begin
+    bFlag:= c.GetValue(path+cHistory_LineNums, true);
+    if bFlag<>Visible then
+    begin
+      Visible:= bFlag;
+      VisibleModified:= true;
+    end;
+  end;
 
   Ed.OptScaleFont:= c.GetValue(path+cHistory_FontScale, 0);
 
