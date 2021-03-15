@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.129.1 (2021/03)
+1.129.3 (2021/03)
 
+- fix: major bug since 1.128.0: sometimes app crashes on start, with C#/ Pascal/ SQL lexers
 + add: code-tree for CSS lexer shows colored squares near 'Colors' items (thanks @NQUARE)
 + add: lexer CSS: show color formats 'rgb', 'hsl', '#aabbccdd' in code-tree (thanks @NQUARE)
 + add/change: reworked the way how app saves/restores per-file-history for properties: word wrap, show unprinted chars, show line numbers, show folding column, show minimap, show micromap, show ruler; format of JSON history: changed 'bool' values to 'int'
