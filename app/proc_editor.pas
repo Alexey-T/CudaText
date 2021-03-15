@@ -232,12 +232,19 @@ begin
   begin
     if not Ed.ModifiedUnprintedVisible then
       Ed.OptUnprintedVisible:= Op.OpUnprintedShow;
-    Ed.OptUnprintedSpaces:=         Pos('s', Op.OpUnprintedContent)>0;
+
+    if not Ed.ModifiedUnprintedSpaces then
+      Ed.OptUnprintedSpaces:= Pos('s', Op.OpUnprintedContent)>0;
+
+    if not Ed.ModifiedUnprintedEnds then
+      Ed.OptUnprintedEnds:= Pos('e', Op.OpUnprintedContent)>0;
+
+    if not Ed.ModifiedUnprintedEndDetails then
+      Ed.OptUnprintedEndsDetails:= Pos('d', Op.OpUnprintedContent)>0;
+
     Ed.OptUnprintedSpacesTrailing:= Pos('t', Op.OpUnprintedContent)>0;
     Ed.OptUnprintedSpacesBothEnds:= Pos('l', Op.OpUnprintedContent)>0;
     Ed.OptUnprintedSpacesOnlyInSelection:= Pos('x', Op.OpUnprintedContent)>0;
-    Ed.OptUnprintedEnds:=           Pos('e', Op.OpUnprintedContent)>0;
-    Ed.OptUnprintedEndsDetails:=    Pos('d', Op.OpUnprintedContent)>0;
   end;
 
   //global options

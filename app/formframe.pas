@@ -3097,9 +3097,9 @@ begin
   if UiOps.HistoryItems[ahhUnprinted] then
   begin
     c.SetDeleteValue(path+cHistory_Unpri, Ord(Ed.OptUnprintedVisible), Ord(EditorOps.OpUnprintedShow));
-    c.SetDeleteValue(path+cHistory_Unpri_Spaces, Ed.OptUnprintedSpaces, true);
-    c.SetDeleteValue(path+cHistory_Unpri_Ends, Ed.OptUnprintedEnds, true);
-    c.SetDeleteValue(path+cHistory_Unpri_Detail, Ed.OptUnprintedEndsDetails, false);
+    c.SetDeleteValue(path+cHistory_Unpri_Spaces, Ord(Ed.OptUnprintedSpaces),      Ord(Pos('s', EditorOps.OpUnprintedContent)>0));
+    c.SetDeleteValue(path+cHistory_Unpri_Ends, Ord(Ed.OptUnprintedEnds),          Ord(Pos('e', EditorOps.OpUnprintedContent)>0));
+    c.SetDeleteValue(path+cHistory_Unpri_Detail, Ord(Ed.OptUnprintedEndsDetails), Ord(Pos('d', EditorOps.OpUnprintedContent)>0));
   end;
 
   if UiOps.HistoryItems[ahhLineNumbers] then
@@ -3322,9 +3322,26 @@ begin
     Ed.ModifiedUnprintedVisible:= true;
   end;
 
-  Ed.OptUnprintedSpaces:= c.GetValue(path+cHistory_Unpri_Spaces, Ed.OptUnprintedSpaces);
-  Ed.OptUnprintedEnds:= c.GetValue(path+cHistory_Unpri_Ends, Ed.OptUnprintedEnds);
-  Ed.OptUnprintedEndsDetails:= c.GetValue(path+cHistory_Unpri_Detail, Ed.OptUnprintedEndsDetails);
+  NFlag:= c.GetValue(path+cHistory_Unpri_Spaces, -1);
+  if NFlag>=0 then
+  begin
+    Ed.OptUnprintedSpaces:= NFlag=1;
+    Ed.ModifiedUnprintedSpaces:= true;
+  end;
+
+  NFlag:= c.GetValue(path+cHistory_Unpri_Ends, -1);
+  if NFlag>=0 then
+  begin
+    Ed.OptUnprintedEnds:= NFlag=1;
+    Ed.ModifiedUnprintedEnds:= true;
+  end;
+
+  NFlag:= c.GetValue(path+cHistory_Unpri_Detail, -1);
+  if NFlag>=0 then
+  begin
+    Ed.OptUnprintedEndsDetails:= NFlag=1;
+    Ed.ModifiedUnprintedEndDetails:= true;
+  end;
 
   with Ed.Gutter[Ed.GutterBandNumbers] do
   begin
