@@ -3103,14 +3103,14 @@ begin
   end;
 
   if UiOps.HistoryItems[ahhLineNumbers] then
-    c.SetDeleteValue(path+cHistory_LineNums, Ed.Gutter[Ed.GutterBandNumbers].Visible, true);
+    c.SetDeleteValue(path+cHistory_LineNums, Ord(Ed.Gutter[Ed.GutterBandNumbers].Visible), 1);
 
   if UiOps.HistoryItems[ahhScale] then
     c.SetDeleteValue(path+cHistory_FontScale, Ed.OptScaleFont, 0);
 
   if UiOps.HistoryItems[ahhFolding] then
   begin
-    c.SetDeleteValue(path+cHistory_FoldingShow, Ed.Gutter[Ed.GutterBandFolding].Visible, true);
+    c.SetDeleteValue(path+cHistory_FoldingShow, Ord(Ed.Gutter[Ed.GutterBandFolding].Visible), 1);
     c.SetDeleteValue(path+cHistory_FoldedRanges, Ed.FoldingAsString, '');
   end;
 
@@ -3218,7 +3218,7 @@ var
   items, items2: TStringlist;
   BmData: TATBookmarkData;
   Sep: TATStringSeparator;
-  bFlag: boolean;
+  NFlag: integer;
 begin
   sFileName:= GetFileName(Ed);
 
@@ -3297,20 +3297,20 @@ begin
 
   with Ed.Gutter[Ed.GutterBandNumbers] do
   begin
-    bFlag:= c.GetValue(path+cHistory_LineNums, true);
-    if bFlag<>Visible then
+    NFlag:= c.GetValue(path+cHistory_LineNums, -1);
+    if NFlag>=0 then
     begin
-      Visible:= bFlag;
+      Visible:= NFlag=1;
       VisibleModified:= true;
     end;
   end;
 
   with Ed.Gutter[Ed.GutterBandFolding] do
   begin
-    bFlag:= c.GetValue(path+cHistory_FoldingShow, true);
-    if bFlag<>Visible then
+    NFlag:= c.GetValue(path+cHistory_FoldingShow, -1);
+    if NFlag>=0 then
     begin
-      Visible:= bFlag;
+      Visible:= NFlag=1;
       VisibleModified:= true;
     end;
   end;
