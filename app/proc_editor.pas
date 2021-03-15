@@ -186,11 +186,11 @@ begin
     Ed.OptGutterVisible:= Op.OpGutterShow;
     Ed.OptGutterShowFoldAlways:= Op.OpGutterFoldAlways;
     Ed.OptGutterIcons:= TATEditorGutterIcons(Op.OpGutterFoldIcons);
-    if not Ed.ModifiedGutterBookmarksVisible then
+    if not Ed.IsModifiedGutterBookmarksVisible then
       Ed.Gutter[Ed.GutterBandBookmarks].Visible:= Op.OpGutterBookmarks;
-    if not Ed.ModifiedGutterFoldingVisible then
+    if not Ed.IsModifiedGutterFoldingVisible then
       Ed.Gutter[Ed.GutterBandFolding].Visible:= Op.OpGutterFold;
-    if not Ed.ModifiedGutterNumbersVisible then
+    if not Ed.IsModifiedGutterNumbersVisible then
       Ed.Gutter[Ed.GutterBandNumbers].Visible:= Op.OpNumbersShow;
     Ed.Gutter.Update;
 
@@ -202,12 +202,12 @@ begin
     else
       Ed.OptNumbersAlignment:= taRightJustify;
 
-    if not Ed.ModifiedRulerVisible then
+    if not Ed.IsModifiedRulerVisible then
       Ed.OptRulerVisible:= Op.OpRulerShow;
     Ed.OptRulerNumeration:= TATEditorRulerNumeration(Op.OpRulerNumeration);
     Ed.OptRulerMarkSizeCaret:= Op.OpRulerMarkCaret;
 
-    if not Ed.ModifiedMinimapVisible then
+    if not Ed.IsModifiedMinimapVisible then
       Ed.OptMinimapVisible:= Op.OpMinimapShow;
     Ed.OptMinimapShowSelAlways:= Op.OpMinimapShowSelAlways;
     Ed.OptMinimapShowSelBorder:= Op.OpMinimapShowSelBorder;
@@ -218,7 +218,7 @@ begin
     Ed.OptMinimapTooltipLinesCount:= Op.OpMinimapTooltipLineCount;
     Ed.OptMinimapTooltipWidthPercents:= Op.OpMinimapTooltipWidth;
 
-    if not Ed.ModifiedMicromapVisible then
+    if not Ed.IsModifiedMicromapVisible then
       Ed.OptMicromapVisible:= Op.OpMicromapShow;
 
     Ed.OptMarginRight:= Op.OpMarginFixed;
@@ -230,16 +230,16 @@ begin
 
   if AApplyUnprintedAndWrap then
   begin
-    if not Ed.ModifiedUnprintedVisible then
+    if not Ed.IsModifiedUnprintedVisible then
       Ed.OptUnprintedVisible:= Op.OpUnprintedShow;
 
-    if not Ed.ModifiedUnprintedSpaces then
+    if not Ed.IsModifiedUnprintedSpaces then
       Ed.OptUnprintedSpaces:= Pos('s', Op.OpUnprintedContent)>0;
 
-    if not Ed.ModifiedUnprintedEnds then
+    if not Ed.IsModifiedUnprintedEnds then
       Ed.OptUnprintedEnds:= Pos('e', Op.OpUnprintedContent)>0;
 
-    if not Ed.ModifiedUnprintedEndDetails then
+    if not Ed.IsModifiedUnprintedEndDetails then
       Ed.OptUnprintedEndsDetails:= Pos('d', Op.OpUnprintedContent)>0;
 
     Ed.OptUnprintedSpacesTrailing:= Pos('t', Op.OpUnprintedContent)>0;
@@ -263,7 +263,7 @@ begin
   OptUnprintedReplaceSpecToCode:= StrToInt('$'+Op.OpUnprintedReplaceToCode);
 
   if AApplyUnprintedAndWrap then
-    if not Ed.ModifiedWrapMode then
+    if not Ed.IsModifiedWrapMode then
       if (Op.OpWrapMode>=0) and (Op.OpWrapMode<=Ord(High(TATEditorWrapMode))) then
         Ed.OptWrapMode:= TATEditorWrapMode(Op.OpWrapMode);
 
