@@ -3080,13 +3080,13 @@ begin
     c.SetDeleteValue(path+cHistory_ReadOnly, ReadOnly[Ed], false);
 
   if UiOps.HistoryItems[ahhRuler] then
-    c.SetValue(path+cHistory_Ruler, Ord(Ed.OptRulerVisible));
+    c.SetDeleteValue(path+cHistory_Ruler, Ord(Ed.OptRulerVisible), Ord(EditorOps.OpRulerShow));
 
   if UiOps.HistoryItems[ahhMinimap] then
-    c.SetValue(path+cHistory_Minimap, Ord(Ed.OptMinimapVisible));
+    c.SetDeleteValue(path+cHistory_Minimap, Ord(Ed.OptMinimapVisible), Ord(EditorOps.OpMinimapShow));
 
   if UiOps.HistoryItems[ahhMicromap] then
-    c.SetValue(path+cHistory_Micromap, Ord(Ed.OptMicromapVisible));
+    c.SetDeleteValue(path+cHistory_Micromap, Ord(Ed.OptMicromapVisible), Ord(EditorOps.OpMicromapShow));
 
   if UiOps.HistoryItems[ahhTabSize] then
   begin
