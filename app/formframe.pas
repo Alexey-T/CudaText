@@ -455,6 +455,7 @@ const
   cHistory_TabColor    = '/color';
   cHistory_Bookmark    = '/bm';
   cHistory_BookmarkKind = '/bm_kind';
+  cHistory_FoldingShow  = '/fold';
   cHistory_FoldedRanges = '/folded';
   cHistory_CodeTreeFilter = '/codetree_filter';
   cHistory_CodeTreeFilters = '/codetree_filters';
@@ -3108,7 +3109,10 @@ begin
     c.SetDeleteValue(path+cHistory_FontScale, Ed.OptScaleFont, 0);
 
   if UiOps.HistoryItems[ahhFolding] then
+  begin
+    c.SetDeleteValue(path+cHistory_FoldingShow, Ed.Gutter[Ed.GutterBandFolding].Visible, true);
     c.SetDeleteValue(path+cHistory_FoldedRanges, Ed.FoldingAsString, '');
+  end;
 
   if UiOps.HistoryItems[ahhTabColor] then
   begin
@@ -3294,6 +3298,16 @@ begin
   with Ed.Gutter[Ed.GutterBandNumbers] do
   begin
     bFlag:= c.GetValue(path+cHistory_LineNums, true);
+    if bFlag<>Visible then
+    begin
+      Visible:= bFlag;
+      VisibleModified:= true;
+    end;
+  end;
+
+  with Ed.Gutter[Ed.GutterBandFolding] do
+  begin
+    bFlag:= c.GetValue(path+cHistory_FoldingShow, true);
     if bFlag<>Visible then
     begin
       Visible:= bFlag;
