@@ -455,7 +455,7 @@ const
   cHistory_TabColor    = '/color';
   cHistory_Bookmark    = '/bm';
   cHistory_BookmarkKind = '/bm_kind';
-  cHistory_Fold        = '/folded';
+  cHistory_FoldedRanges = '/folded';
   cHistory_CodeTreeFilter = '/codetree_filter';
   cHistory_CodeTreeFilters = '/codetree_filters';
   cHistory_TabSplit    = '/split';
@@ -3108,7 +3108,7 @@ begin
     c.SetDeleteValue(path+cHistory_FontScale, Ed.OptScaleFont, 0);
 
   if UiOps.HistoryItems[ahhFolding] then
-    c.SetDeleteValue(path+cHistory_Fold, Ed.FoldingAsString, '');
+    c.SetDeleteValue(path+cHistory_FoldedRanges, Ed.FoldingAsString, '');
 
   if UiOps.HistoryItems[ahhTabColor] then
   begin
@@ -3304,7 +3304,7 @@ begin
   Ed.OptScaleFont:= c.GetValue(path+cHistory_FontScale, 0);
 
   if Assigned(Lexer[Ed]) then
-    Ed.FoldingAsStringTodo:= c.GetValue(path+cHistory_Fold, '');
+    Ed.FoldingAsStringTodo:= c.GetValue(path+cHistory_FoldedRanges, '');
 
   nTop:= c.GetValue(path+cHistory_TopLine, 0);
   if nTop>0 then
