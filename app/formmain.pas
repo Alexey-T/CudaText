@@ -1454,27 +1454,12 @@ begin
         end;
       end;
 
-    categ_Plugin:
-      for i:= 0 to AppCommandList.Count-1 do
-      begin
-        CmdItem:= TAppCommandInfo(AppCommandList[i]);
-        if CmdItem.ItemFromApi then Continue;
-        if CmdItem.ItemModule='' then Break;
-        if SEndsWith(CmdItem.ItemCaption, '-') then Continue;
-
-        AKeymap.Add(
-          cmdFirstPluginCommand+i,
-          'plugin: '+AppNicePluginCaption(CmdItem.ItemCaption),
-          [], []);
-
-        KeysBackup.Get(AKeymap[AKeymap.Count-1], CmdItem.CommaStr);
-      end;
-
+    categ_Plugin,
     categ_PluginSub:
       for i:= 0 to AppCommandList.Count-1 do
       begin
         CmdItem:= TAppCommandInfo(AppCommandList[i]);
-        if not CmdItem.ItemFromApi then Continue;
+        if CmdItem.ItemFromApi xor (ACategory=categ_PluginSub) then Continue;
         if CmdItem.ItemModule='' then Break;
         if SEndsWith(CmdItem.ItemCaption, '-') then Continue;
 
