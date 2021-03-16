@@ -1386,19 +1386,13 @@ begin
   Result:= acgOkCommand;
 end;
 
-procedure Keymap_UpdateDynamicEx(AKeymap: TATKeymap; ACategory: TAppCommandCategory);
+procedure Keymap_DeletePluginsWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
 var
   MapItem: TATKeymapItem;
   CmdItem: TAppCommandInfo;
-  Frame: TEditorFrame;
-  An: TecSyntAnalyzer;
-  KeysBackup: TAppHotkeyBackup;
-  sl: TStringList;
   Cmd, i: integer;
   NPluginIndex: integer;
 begin
-  KeysBackup:= TAppHotkeyBackup.Create;
-
   for i:= AKeymap.Count-1 downto 0 do
   begin
     MapItem:= AKeymap[i];
@@ -1412,12 +1406,45 @@ begin
       begin
         NPluginIndex:= Cmd-cmdFirstPluginCommand;
         CmdItem:= TAppCommandInfo(AppCommandList[NPluginIndex]);
-        KeysBackup.Add(MapItem, CmdItem.CommaStr);
+        ABackup.Add(MapItem, CmdItem.CommaStr);
       end;
 
       AKeymap.Delete(i);
     end;
   end;
+end;
+
+procedure Keymap_AddPluginsWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
+var
+  CmdItem: TAppCommandInfo;
+  i: integer;
+begin
+  for i:= 0 to AppCommandList.Count-1 do
+  begin
+    CmdItem:= TAppCommandInfo(AppCommandList[i]);
+    if CmdItem.ItemFromApi xor (ACategory=categ_PluginSub) then Continue;
+    if CmdItem.ItemModule='' then Break;
+    if SEndsWith(CmdItem.ItemCaption, '-') then Continue;
+
+    AKeymap.Add(
+      cmdFirstPluginCommand+i,
+      'plugin: '+AppNicePluginCaption(CmdItem.ItemCaption),
+      [], []);
+
+    ABackup.Get(AKeymap[AKeymap.Count-1], CmdItem.CommaStr);
+  end;
+end;
+
+procedure Keymap_UpdateDynamicEx(AKeymap: TATKeymap; ACategory: TAppCommandCategory);
+var
+  Frame: TEditorFrame;
+  An: TecSyntAnalyzer;
+  KeysBackup: TAppHotkeyBackup;
+  sl: TStringList;
+  i: integer;
+begin
+  KeysBackup:= TAppHotkeyBackup.Create;
+  Keymap_DeletePluginsWithHotkeyBackup(AKeymap, KeysBackup, ACategory);
 
   case ACategory of
     categ_Lexer:
@@ -1456,19 +1483,8 @@ begin
 
     categ_Plugin,
     categ_PluginSub:
-      for i:= 0 to AppCommandList.Count-1 do
       begin
-        CmdItem:= TAppCommandInfo(AppCommandList[i]);
-        if CmdItem.ItemFromApi xor (ACategory=categ_PluginSub) then Continue;
-        if CmdItem.ItemModule='' then Break;
-        if SEndsWith(CmdItem.ItemCaption, '-') then Continue;
-
-        AKeymap.Add(
-          cmdFirstPluginCommand+i,
-          'plugin: '+AppNicePluginCaption(CmdItem.ItemCaption),
-          [], []);
-
-        KeysBackup.Get(AKeymap[AKeymap.Count-1], CmdItem.CommaStr);
+        Keymap_AddPluginsWithHotkeyBackup(AKeymap, KeysBackup, ACategory);
       end;
 
     categ_OpenedFile:
