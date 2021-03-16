@@ -12,7 +12,7 @@ end;
 procedure TfmMain.DoOps_LoadPlugins(AKeepHotkeys: boolean);
 var
   ListFiles: TStringlist;
-  SItem, fn, DirName: string;
+  SItem, SFilenameInf, DirName: string;
   IniPlugins: TMemIniFile;
   KeysBackupMain,
   KeysBackupIgnored,
@@ -65,9 +65,9 @@ begin
         Continue;
       end;
 
-      fn:= SItem+DirectorySeparator+'install.inf';
-      if FileExists(fn) then
-        DoOps_LoadPluginFromInf(fn, IniPlugins);
+      SFilenameInf:= SItem+DirectorySeparator+'install.inf';
+      if FileExists(SFilenameInf) then
+        DoOps_LoadPluginFromInf(SFilenameInf, IniPlugins);
     end;
 
     if AKeepHotkeys then
