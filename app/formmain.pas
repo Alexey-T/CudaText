@@ -1386,7 +1386,7 @@ begin
   Result:= acgOkCommand;
 end;
 
-procedure Keymap_DeletePluginsWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
+procedure Keymap_DeleteCategoryWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
 var
   MapItem: TATKeymapItem;
   CmdItem: TAppCommandInfo;
@@ -1444,7 +1444,7 @@ var
   i: integer;
 begin
   KeysBackup:= TAppHotkeyBackup.Create;
-  Keymap_DeletePluginsWithHotkeyBackup(AKeymap, KeysBackup, ACategory);
+  Keymap_DeleteCategoryWithHotkeyBackup(AKeymap, KeysBackup, ACategory);
 
   case ACategory of
     categ_Lexer:
