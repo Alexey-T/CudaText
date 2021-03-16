@@ -22,12 +22,17 @@ var
 begin
   if not AppPython.Inited then exit;
 
-  KeysBackupMain:= TAppHotkeyBackup.Create;
-  KeysBackupIgnored:= TAppHotkeyBackup.Create;
-  KeysBackupLexers:= TFPList.Create;
+  KeysBackupMain:= nil;
+  KeysBackupIgnored:= nil;
+  KeysBackupTemp:= nil;
+  KeysBackupLexers:= nil;
 
   if AKeepHotkeys then
   begin
+    KeysBackupMain:= TAppHotkeyBackup.Create;
+    KeysBackupIgnored:= TAppHotkeyBackup.Create;
+    KeysBackupLexers:= TFPList.Create;
+
     //save hotkey-backup of main keymap
     Keymap_DeleteCategoryWithHotkeyBackup(AppKeymapMain, KeysBackupMain, categ_Plugin);
 
@@ -88,11 +93,17 @@ begin
   finally
     FreeAndNil(IniPlugins);
     FreeAndNil(ListFiles);
-    for i:= 0 to KeysBackupLexers.Count-1 do
-      TObject(KeysBackupLexers[i]).Free;
-    FreeAndNil(KeysBackupLexers);
-    FreeAndNil(KeysBackupIgnored);
-    FreeAndNil(KeysBackupMain);
+
+    if Assigned(KeysBackupLexers) then
+    begin
+      for i:= 0 to KeysBackupLexers.Count-1 do
+        TObject(KeysBackupLexers[i]).Free;
+      FreeAndNil(KeysBackupLexers);
+    end;
+    if Assigned(KeysBackupIgnored) then
+      FreeAndNil(KeysBackupIgnored);
+    if Assigned(KeysBackupMain) then
+      FreeAndNil(KeysBackupMain);
   end;
 
   AppEventsMaxPrioritiesUpdate;
