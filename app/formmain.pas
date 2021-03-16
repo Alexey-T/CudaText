@@ -3073,6 +3073,11 @@ var
   bFileLexer: boolean;
   bNeedRestart: boolean;
   ListBackup: TStringlist;
+  KeysBackupMain,
+  KeysBackupIgnored,
+  KeysBackupTemp: TAppHotkeyBackup;
+  KeysBackupLexers: TFPList;
+  i: integer;
 begin
   bNeedRestart:= false;
   bFileLexer:= true;
@@ -3100,7 +3105,43 @@ begin
 
     if AddonType=cAddonTypePlugin then
     begin
-      DoOps_LoadPlugins;
+      KeysBackupMain:= TAppHotkeyBackup.Create;
+      KeysBackupIgnored:= TAppHotkeyBackup.Create;
+      KeysBackupLexers:= TFPList.Create;
+      try
+        //save hotkey-backup of main keymap
+        Keymap_DeleteCategoryWithHotkeyBackup(AppKeymapMain, KeysBackupMain, categ_Plugin);
+
+        //save hotkey-backup of lexers keymaps
+        for i:= 0 to AppKeymapLexers.Count-1 do
+        begin
+          KeysBackupTemp:= TAppHotkeyBackup.Create;
+          KeysBackupLexers.Add(KeysBackupTemp);
+          Keymap_DeleteCategoryWithHotkeyBackup(AppKeymapLexers.Objects[i] as TATKeymap, KeysBackupTemp, categ_Plugin);
+        end;
+
+        //reload plugins, some hotkeys are lost, it's OK
+        DoOps_LoadPlugins;
+
+        //restore hotkey-backup of main keymap
+        Keymap_DeleteCategoryWithHotkeyBackup(AppKeymapMain, KeysBackupIgnored, categ_Plugin);
+        Keymap_AddPluginsWithHotkeyBackup(AppKeymapMain, KeysBackupMain, categ_Plugin);
+
+        //restore hotkey-backup of lexers keymaps
+        for i:= 0 to AppKeymapLexers.Count-1 do
+        begin
+          KeysBackupTemp:= TAppHotkeyBackup(KeysBackupLexers[i]);
+          Keymap_DeleteCategoryWithHotkeyBackup(AppKeymapLexers.Objects[i] as TATKeymap, KeysBackupIgnored, categ_Plugin);
+          Keymap_AddPluginsWithHotkeyBackup(AppKeymapLexers.Objects[i] as TATKeymap, KeysBackupTemp, categ_Plugin);
+        end;
+      finally
+        for i:= 0 to KeysBackupLexers.Count-1 do
+          TObject(KeysBackupLexers[i]).Free;
+        FreeAndNil(KeysBackupLexers);
+        FreeAndNil(KeysBackupIgnored);
+        FreeAndNil(KeysBackupMain);
+      end;
+
       UpdateMenuPlugins;
       UpdateMenuPlugins_Shortcuts(true);
     end;
