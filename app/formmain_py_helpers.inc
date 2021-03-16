@@ -419,7 +419,7 @@ end;
 procedure TfmMain.DoPyRescanPlugins;
 begin
   if not AppPython.Inited then exit;
-  DoOps_LoadPlugins;
+  DoOps_LoadPlugins(true);
   UpdateMenuPlugins;
   MsgStatus(msgRescannedAllPlugins);
 end;

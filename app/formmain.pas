@@ -951,7 +951,7 @@ type
     procedure DoOps_LoadOptionsAndApplyAll;
     procedure DoOps_LoadOptionsLexerSpecific(F: TEditorFrame; Ed: TATSynEdit);
     procedure DoOps_OpenFile_LexerSpecific;
-    procedure DoOps_LoadPlugins;
+    procedure DoOps_LoadPlugins(AKeepHotkeys: boolean);
     procedure DoOps_DialogFont(var OpName: string; var OpSize: integer; const AConfigStrName, AConfigStrSize: string);
     procedure DoOps_DialogFont_Text;
     procedure DoOps_DialogFont_Ui;
@@ -2472,7 +2472,7 @@ begin
   if not AppManagerThread.Finished then
     AppManagerThread.WaitFor; //before LoadPlugins (for LexerDetecter)
 
-  DoOps_LoadPlugins; //before LoadHistory (for on_open for restored session)
+  DoOps_LoadPlugins(false); //before LoadHistory (for on_open for restored session)
   DoOps_LoadHistory;
 end;
 
@@ -3073,11 +3073,6 @@ var
   bFileLexer: boolean;
   bNeedRestart: boolean;
   ListBackup: TStringlist;
-  KeysBackupMain,
-  KeysBackupIgnored,
-  KeysBackupTemp: TAppHotkeyBackup;
-  KeysBackupLexers: TFPList;
-  i: integer;
 begin
   bNeedRestart:= false;
   bFileLexer:= true;
@@ -3098,52 +3093,18 @@ begin
 
   if Result then
   begin
-    if AddonType in [cAddonTypeLexer, cAddonTypeLexerLite] then
-    begin
-      DoOps_LoadLexerLib(false);
-    end;
-
-    if AddonType=cAddonTypePlugin then
-    begin
-      KeysBackupMain:= TAppHotkeyBackup.Create;
-      KeysBackupIgnored:= TAppHotkeyBackup.Create;
-      KeysBackupLexers:= TFPList.Create;
-      try
-        //save hotkey-backup of main keymap
-        Keymap_DeleteCategoryWithHotkeyBackup(AppKeymapMain, KeysBackupMain, categ_Plugin);
-
-        //save hotkey-backup of lexers keymaps
-        for i:= 0 to AppKeymapLexers.Count-1 do
+    case AddonType of
+      cAddonTypeLexer,
+      cAddonTypeLexerLite:
         begin
-          KeysBackupTemp:= TAppHotkeyBackup.Create;
-          KeysBackupLexers.Add(KeysBackupTemp);
-          Keymap_DeleteCategoryWithHotkeyBackup(AppKeymapLexers.Objects[i] as TATKeymap, KeysBackupTemp, categ_Plugin);
+          DoOps_LoadLexerLib(false);
         end;
-
-        //reload plugins, some hotkeys are lost, it's OK
-        DoOps_LoadPlugins;
-
-        //restore hotkey-backup of main keymap
-        Keymap_DeleteCategoryWithHotkeyBackup(AppKeymapMain, KeysBackupIgnored, categ_Plugin);
-        Keymap_AddPluginsWithHotkeyBackup(AppKeymapMain, KeysBackupMain, categ_Plugin);
-
-        //restore hotkey-backup of lexers keymaps
-        for i:= 0 to AppKeymapLexers.Count-1 do
+      cAddonTypePlugin:
         begin
-          KeysBackupTemp:= TAppHotkeyBackup(KeysBackupLexers[i]);
-          Keymap_DeleteCategoryWithHotkeyBackup(AppKeymapLexers.Objects[i] as TATKeymap, KeysBackupIgnored, categ_Plugin);
-          Keymap_AddPluginsWithHotkeyBackup(AppKeymapLexers.Objects[i] as TATKeymap, KeysBackupTemp, categ_Plugin);
+          DoOps_LoadPlugins(true);
+          UpdateMenuPlugins;
+          UpdateMenuPlugins_Shortcuts(true);
         end;
-      finally
-        for i:= 0 to KeysBackupLexers.Count-1 do
-          TObject(KeysBackupLexers[i]).Free;
-        FreeAndNil(KeysBackupLexers);
-        FreeAndNil(KeysBackupIgnored);
-        FreeAndNil(KeysBackupMain);
-      end;
-
-      UpdateMenuPlugins;
-      UpdateMenuPlugins_Shortcuts(true);
     end;
 
     if not ASilent then

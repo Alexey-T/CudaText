@@ -9,13 +9,36 @@ begin
     if S=IgnoredPlugins[i] then exit(true);
 end;
 
-procedure TfmMain.DoOps_LoadPlugins;
+procedure TfmMain.DoOps_LoadPlugins(AKeepHotkeys: boolean);
 var
-  list: TStringlist;
+  ListFiles: TStringlist;
   SItem, fn, DirName: string;
   IniPlugins: TMemIniFile;
+  KeysBackupMain,
+  KeysBackupIgnored,
+  KeysBackupTemp: TAppHotkeyBackup;
+  KeysBackupLexers: TFPList;
+  i: integer;
 begin
   if not AppPython.Inited then exit;
+
+  KeysBackupMain:= TAppHotkeyBackup.Create;
+  KeysBackupIgnored:= TAppHotkeyBackup.Create;
+  KeysBackupLexers:= TFPList.Create;
+
+  if AKeepHotkeys then
+  begin
+    //save hotkey-backup of main keymap
+    Keymap_DeleteCategoryWithHotkeyBackup(AppKeymapMain, KeysBackupMain, categ_Plugin);
+
+    //save hotkey-backup of lexers keymaps
+    for i:= 0 to AppKeymapLexers.Count-1 do
+    begin
+      KeysBackupTemp:= TAppHotkeyBackup.Create;
+      KeysBackupLexers.Add(KeysBackupTemp);
+      Keymap_DeleteCategoryWithHotkeyBackup(AppKeymapLexers.Objects[i] as TATKeymap, KeysBackupTemp, categ_Plugin);
+    end;
+  end;
 
   //commands: don't clear all, leave items from API
   AppCommandsClearButKeepApiItems;
@@ -23,7 +46,7 @@ begin
   //events: clear all
   AppEventList.Clear;
 
-  list:= TStringlist.Create;
+  ListFiles:= TStringlist.Create;
 
   if FileExists(AppFile_PluginsIni) then
     IniPlugins:= TMemIniFile.Create(AppFile_PluginsIni)
@@ -31,9 +54,9 @@ begin
     IniPlugins:= nil;
 
   try
-    FindAllDirectories(list, AppDir_Py, false);
-    list.Sort;
-    for SItem in list do
+    FindAllDirectories(ListFiles, AppDir_Py, false);
+    ListFiles.Sort;
+    for SItem in ListFiles do
     begin
       DirName:= ExtractFileName(SItem);
       if IsPluginBad(DirName) then
@@ -46,9 +69,30 @@ begin
       if FileExists(fn) then
         DoOps_LoadPluginFromInf(fn, IniPlugins);
     end;
+
+    if AKeepHotkeys then
+    begin
+      //restore hotkey-backup of main keymap
+      Keymap_DeleteCategoryWithHotkeyBackup(AppKeymapMain, KeysBackupIgnored, categ_Plugin);
+      Keymap_AddPluginsWithHotkeyBackup(AppKeymapMain, KeysBackupMain, categ_Plugin);
+
+      //restore hotkey-backup of lexers keymaps
+      for i:= 0 to AppKeymapLexers.Count-1 do
+      begin
+        KeysBackupTemp:= TAppHotkeyBackup(KeysBackupLexers[i]);
+        Keymap_DeleteCategoryWithHotkeyBackup(AppKeymapLexers.Objects[i] as TATKeymap, KeysBackupIgnored, categ_Plugin);
+        Keymap_AddPluginsWithHotkeyBackup(AppKeymapLexers.Objects[i] as TATKeymap, KeysBackupTemp, categ_Plugin);
+      end;
+    end;
+
   finally
     FreeAndNil(IniPlugins);
-    FreeAndNil(list);
+    FreeAndNil(ListFiles);
+    for i:= 0 to KeysBackupLexers.Count-1 do
+      TObject(KeysBackupLexers[i]).Free;
+    FreeAndNil(KeysBackupLexers);
+    FreeAndNil(KeysBackupIgnored);
+    FreeAndNil(KeysBackupMain);
   end;
 
   AppEventsMaxPrioritiesUpdate;
