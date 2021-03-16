@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.129.4
+
+- fix: plugins hotkeys become broken in current app session, after any plugin installation (thanks @JairoMartinezA)
+
 1.129.3 (2021/03)
 
 + add: code-tree for CSS lexer shows colored squares near 'Colors' items (thanks @NQUARE)
