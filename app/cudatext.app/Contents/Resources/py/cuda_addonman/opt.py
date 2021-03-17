@@ -5,7 +5,6 @@ ch_def = [
   'https://raw.githubusercontent.com/Alexey-T/CudaText-registry/master/json/data.json',
   'https://raw.githubusercontent.com/Alexey-T/CudaText-registry/master/json/snippets.json',
   'https://raw.githubusercontent.com/Alexey-T/CudaText-registry/master/json/lexers.json',
-  'https://raw.githubusercontent.com/Alexey-T/CudaText-registry/master/json/bsystems.json',
   'https://raw.githubusercontent.com/kvichans/CudaText-registry/master/kv-addons.json',
   ]
 proxy = ''
