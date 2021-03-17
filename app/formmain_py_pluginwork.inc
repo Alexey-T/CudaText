@@ -15,7 +15,6 @@ var
   SItem, SFilenameInf, DirName: string;
   IniPlugins: TMemIniFile;
   BackupMain,
-  BackupIgnored,
   BackupTemp: TAppHotkeyBackup;
   BackupLexers: TFPList;
   i: integer;
@@ -23,14 +22,12 @@ begin
   if not AppPython.Inited then exit;
 
   BackupMain:= nil;
-  BackupIgnored:= nil;
   BackupTemp:= nil;
   BackupLexers:= nil;
 
   if AKeepHotkeys then
   begin
     BackupMain:= TAppHotkeyBackup.Create;
-    BackupIgnored:= TAppHotkeyBackup.Create;
     BackupLexers:= TFPList.Create;
 
     //save hotkey-backup of main keymap
@@ -78,14 +75,12 @@ begin
     if AKeepHotkeys then
     begin
       //restore hotkey-backup of main keymap
-      Keymap_DeleteCategoryWithHotkeyBackup(AppKeymapMain, BackupIgnored, categ_Plugin);
       Keymap_AddPluginsWithHotkeyBackup(AppKeymapMain, BackupMain, categ_Plugin);
 
       //restore hotkey-backup of lexers keymaps
       for i:= 0 to AppKeymapLexers.Count-1 do
       begin
         BackupTemp:= TAppHotkeyBackup(BackupLexers[i]);
-        Keymap_DeleteCategoryWithHotkeyBackup(AppKeymapLexers.Objects[i] as TATKeymap, BackupIgnored, categ_Plugin);
         Keymap_AddPluginsWithHotkeyBackup(AppKeymapLexers.Objects[i] as TATKeymap, BackupTemp, categ_Plugin);
       end;
     end;
@@ -100,8 +95,6 @@ begin
         TObject(BackupLexers[i]).Free;
       FreeAndNil(BackupLexers);
     end;
-    if Assigned(BackupIgnored) then
-      FreeAndNil(BackupIgnored);
     if Assigned(BackupMain) then
       FreeAndNil(BackupMain);
   end;
