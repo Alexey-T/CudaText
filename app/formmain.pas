@@ -7914,6 +7914,8 @@ begin
     if FrameCount=1 then
     begin
       S:= Frames[0].TabCaption;
+      if SBeginsWith(S, msgModified[true]) then
+        Delete(S, 1, 1);
       if SBeginsWith(S, msgUntitledTab) then
       begin
         Delete(S, 1, Length(msgUntitledTab));
