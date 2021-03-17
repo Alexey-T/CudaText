@@ -3,17 +3,14 @@
   - fixed
   * changed
 
-1.129.4
-
-- fix: plugins hotkeys become broken in current app session, after any plugin installation (thanks @JairoMartinezA)
-
-1.129.3 (2021/03)
+1.129.4 (2021/03)
 
 + add: code-tree for CSS lexer shows colored squares near 'Colors' items (thanks @NQUARE)
 + add: lexer CSS: show color formats 'rgb', 'hsl', '#aabbccdd' in code-tree (thanks @NQUARE)
 + add/change: reworked the way how app saves/restores per-file-history for properties: word wrap, show unprinted chars, show line numbers, show folding column, show minimap, show micromap, show ruler; format of JSON history: changed 'bool' values to 'int'
 + add: wiki topic https://wiki.freepascal.org/CudaText#Brackets_auto-pairing_logic
-- fix: major bug since 1.128.0: sometimes app crashes on start, with C#/ Pascal/ SQL lexers
+- fix: plugins hotkeys become broken in current app session, after any plugin installation (thanks @JairoMartinezA, @OlehL)
+- fix: major bug since 1.128.0: app crashes on start, if lexers have 'grammar' (examples: C#, Pascal, SQL)
 
 1.129.0 (2021/03)
 
