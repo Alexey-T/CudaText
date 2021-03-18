@@ -763,7 +763,7 @@ type
     procedure DoOps_LoadOptions_Ui(cfg: TJSONConfig);
     procedure ShowWelcomeInfo;
     procedure DoOps_OnCreate;
-    function FindFrameOfFilename(const AName: string): TEditorFrame;
+    function FindFrameOfFilename(const AFileName: string): TEditorFrame;
     function FindFrameOfPreviewTab: TEditorFrame;
     procedure FixMainLayout;
     procedure FormFloatGroups1_OnEmpty(Sender: TObject);
@@ -5608,21 +5608,35 @@ begin
 end;
 
 
-function TfmMain.FindFrameOfFilename(const AName: string): TEditorFrame;
+function TfmMain.FindFrameOfFilename(const AFileName: string): TEditorFrame;
 var
-  F: TEditorFrame;
+  Frame: TEditorFrame;
+  bEmptyPath, bOK: boolean;
   i: integer;
 begin
   Result:= nil;
-  if AName='' then exit;
+  if AFileName='' then exit;
+  bEmptyPath:= ExtractFileDir(AFileName)='';
+
   for i:= 0 to FrameCount-1 do
   begin
-    F:= Frames[i];
-    if SameFileName(AName, F.FileName) then
-      exit(F);
-    if not F.EditorsLinked then
-      if SameFileName(AName, F.FileName2) then
-        exit(F);
+    Frame:= Frames[i];
+    if bEmptyPath then
+    begin
+      bOK:= SameFileName(AFileName, ExtractFileName(Frame.FileName));
+      if not bOK then
+        if not Frame.EditorsLinked then
+          bOK:= SameFileName(AFileName, ExtractFileName(Frame.FileName2));
+    end
+    else
+    begin
+      bOK:= SameFileName(AFileName, Frame.FileName);
+      if not bOK then
+        if not Frame.EditorsLinked then
+          bOK:= SameFileName(AFileName, Frame.FileName2);
+    end;
+    if bOK then
+      exit(Frame);
   end;
 end;
 
@@ -6510,6 +6524,7 @@ var
   Ed: TATSynEdit;
   ItemProp: TATListboxItemProp;
   Params: TAppVariantArray;
+  Frame: TEditorFrame;
 begin
   Ed:= CurrentEditor;
 
@@ -6529,9 +6544,11 @@ begin
   if (ResFilename<>'') and (ResLine>=0) then
   begin
     MsgStatus(Format(msgStatusGotoFileLineCol, [ResFilename, ResLine+1, ResCol+1]));
-    if FileExists(ResFilename) then
+    Frame:= FindFrameOfFilename(ResFilename);
+    if Assigned(Frame) then
     begin
-      DoFileOpen(ResFilename, '');
+      Frame.SetFocus;
+      Ed:= Frame.Editor;
       Ed.DoCaretSingle(ResCol, ResLine);
       Ed.DoGotoCaret(cEdgeTop);
       Ed.Update;
