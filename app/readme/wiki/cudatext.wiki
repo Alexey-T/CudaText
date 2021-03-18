@@ -366,6 +366,7 @@ Most of them are located in Addons Manager "Install" list.
 * Dhall
 * Diff
 * Dockerfile
+* DOORS DXL
 * Eiffel
 * Elixir
 * Elm
