@@ -763,7 +763,7 @@ type
     procedure DoOps_LoadOptions_Ui(cfg: TJSONConfig);
     procedure ShowWelcomeInfo;
     procedure DoOps_OnCreate;
-    function FindFrameOfFilename(const AFileName: string): TEditorFrame;
+    function FindFrameOfFilename(const AFileName: string; AllowEmptyPath: boolean=false): TEditorFrame;
     function FindFrameOfPreviewTab: TEditorFrame;
     procedure FixMainLayout;
     procedure FormFloatGroups1_OnEmpty(Sender: TObject);
@@ -5608,7 +5608,7 @@ begin
 end;
 
 
-function TfmMain.FindFrameOfFilename(const AFileName: string): TEditorFrame;
+function TfmMain.FindFrameOfFilename(const AFileName: string; AllowEmptyPath: boolean=false): TEditorFrame;
 var
   Frame: TEditorFrame;
   bEmptyPath, bOK: boolean;
@@ -5616,7 +5616,9 @@ var
 begin
   Result:= nil;
   if AFileName='' then exit;
+
   bEmptyPath:= ExtractFileDir(AFileName)='';
+  if bEmptyPath and not AllowEmptyPath then exit;
 
   for i:= 0 to FrameCount-1 do
   begin
@@ -6525,9 +6527,8 @@ var
   ItemProp: TATListboxItemProp;
   Params: TAppVariantArray;
   Frame: TEditorFrame;
+  bFound: boolean;
 begin
-  Ed:= CurrentEditor;
-
   if Sender=ListboxOut then
     Prop:= @AppPanelProp_Out
   else
@@ -6544,8 +6545,22 @@ begin
   if (ResFilename<>'') and (ResLine>=0) then
   begin
     MsgStatus(Format(msgStatusGotoFileLineCol, [ResFilename, ResLine+1, ResCol+1]));
-    Frame:= FindFrameOfFilename(ResFilename);
-    if Assigned(Frame) then
+    bFound:= false;
+
+    //first check the active file-tab
+    Frame:= CurrentFrame;
+    if ExtractFileDir(ResFilename)='' then
+      if SameFileName(ResFilename, ExtractFileName(Frame.FileName)) then
+        bFound:= true;
+
+    //next, find in all file-tabs
+    if not bFound then
+    begin
+      Frame:= FindFrameOfFilename(ResFilename, true); //'true' is important here
+      bFound:= Assigned(Frame);
+    end;
+
+    if bFound then
     begin
       Frame.SetFocus;
       Ed:= Frame.Editor;
