@@ -143,7 +143,7 @@ begin
   FixFormPositionToDesktop(Self);
 
   edit.Text:= CurrentFilterText;
-  edit.DoCommand(cCommand_GotoTextEnd);
+  edit.DoSelect_All;
 
   DoFilter;
 
