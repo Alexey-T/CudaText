@@ -6894,7 +6894,9 @@ var
   CmdObject: PPyObject;
 begin
   NTag:= mi.Tag;
-  if NTag<>0 then
+  if NTag>10000 then
+    //'if NTag<>0' is not correct, because items in Plugins menu have tags like 235
+    //check for >10000 is ok, coz memory address is >10000
   begin
     NCommand:= TAppMenuProps(NTag).CommandCode;
     SCommand:= TAppMenuProps(NTag).CommandString;
