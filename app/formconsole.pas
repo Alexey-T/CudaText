@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  Menus, LclType,
+  StrUtils, Menus, LclType,
   PythonEngine,
   ATStrings,
   ATSynEdit,
@@ -119,17 +119,17 @@ end;
 
 function TfmConsole.ParseLine(const S: string): TAppConsoleLineKind;
 begin
-  if SBeginsWith(S, cConsolePrompt) then
+  if StartsStr(cConsolePrompt, S) then
     exit(acLinePrompt);
 
-  if SBeginsWith(S, 'NOTE: ') then
+  if StartsText('NOTE: ', S) then
     exit(acLineNote);
 
-  if SBeginsWith(S, 'ERROR: ') then
+  if StartsText('ERROR: ', S) then
     exit(acLineError);
 
-  //SEndsWith is better, to find FindInFiles4 log string added to 'traceback'
-  if SEndsWith(S, 'Traceback (most recent call last):') then
+  //EndsText is better than compare, to find FindInFiles4 log string added to 'traceback'
+  if EndsText('Traceback (most recent call last):', S) then
     exit(acLineError);
 
   if IsConsoleErrorLine(S) then
@@ -141,7 +141,7 @@ end;
 procedure TfmConsole.DoGetLineColor(Ed: TATSynEdit; ALineIndex: integer;
   var AColorFont, AColorBg: TColor);
 var
-  Str: atString;
+  Str: UnicodeString;
   fmt: TecSyntaxFormat;
 begin
   Str:= Ed.Strings.Lines[ALineIndex];
@@ -227,7 +227,7 @@ var
   bNoLog: boolean;
   bExpr: boolean;
 begin
-  bNoLog:= SEndsWith(Str, ';');
+  bNoLog:= EndsStr(';', Str);
   if bNoLog then
     Delete(Str, Length(Str), 1)
   else
@@ -237,7 +237,7 @@ begin
   DoUpdateMemo;
 
   try
-    if SBeginsWith(Str, cConsolePrintPrefix) then
+    if StartsStr(cConsolePrintPrefix, Str) then
     begin
       Str:= 'print('+Copy(Str, 2, MaxInt) + ')';
       bExpr:= false;
@@ -463,7 +463,7 @@ begin
   if EdMemo.Strings.IsIndexValid(n) then
   begin
     s:= EdMemo.Strings.Lines[n];
-    if SBeginsWith(s, cConsolePrompt) then
+    if StartsStr(cConsolePrompt, s) then
     begin
       Delete(s, 1, Length(cConsolePrompt));
       DoRunLine(s);
