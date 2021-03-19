@@ -227,10 +227,14 @@ begin
       if Result = nil then
         CheckError(False);
     except
-      if PyErr_Occurred <> nil then
-        CheckError(False)
-      else
-        raise;
+      on E: Exception do
+      begin
+        MsgLogConsole('NOTE: Exception in CudaText: '+E.Message);
+        if PyErr_Occurred <> nil then
+          CheckError(False)
+        else
+          raise;
+      end;
     end;
   end;
 end;
