@@ -125,6 +125,9 @@ begin
   if SBeginsWith(S, 'NOTE: ') then
     exit(acLineNote);
 
+  if SBeginsWith(S, 'ERROR: ') then
+    exit(acLineError);
+
   //SEndsWith is better, to find FindInFiles4 log string added to 'traceback'
   if SEndsWith(S, 'Traceback (most recent call last):') then
     exit(acLineError);
