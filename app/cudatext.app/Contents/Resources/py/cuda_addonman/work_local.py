@@ -12,22 +12,11 @@ _   = get_translation(__file__)  # i18n
 README_NAMES = (
     'readme.txt',
     'readme.md',
-    'README.md',
     )
 
 HISTORY_NAMES = (
     'history.txt',
-    'history.md',
 )
-
-DATA_DIRS = (
-    ('autocomplete', '.acp'),
-    ('lang', '.ini'),
-    ('newdoc', ''),
-    ('snippets', ''),
-    ('snippetsx', ''),
-    ('themes', ''),
-    )
 
 def _root_item(s):
 
