@@ -1602,7 +1602,7 @@ Possible values of "id_action":
 Perform action on timers. Many different timers allowed, they work at the same time, each uniq callback - makes new timer with its own interval. To stop some timer, you must specify same callback as on start.
 
 * "callback": Callback which is called on timer tick, see below.
-* "interval": Timer delay in msec, 50 or bigger. Specify it only on starting (ignored on stopping).
+* "interval": Timer delay in msec, 10 (msec) or bigger. Specify it only on starting (ignored on stopping).
 * "tag": Some string, if not empty, it will be parameter to callback. If empty, callback is called without additional params.
 
 Possible values of "id":
