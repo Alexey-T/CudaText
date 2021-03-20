@@ -8016,7 +8016,7 @@ begin
         TIMER_START_ONE:
           begin
             if NInterval<cMinInterval then
-              Exit(PyBool_FromLong(0));
+              NInterval:= cMinInterval;
 
             if Timer=nil then
             begin
