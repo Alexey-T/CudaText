@@ -277,10 +277,14 @@ begin
             if Result = nil then
               CheckError(False);
           except
-            if PyErr_Occurred <> nil then
-              CheckError(False)
-            else
-              raise;
+            on E: Exception do
+            begin
+              MsgLogConsole('ERROR: Exception in CudaText: '+E.Message);
+              if PyErr_Occurred <> nil then
+                CheckError(False)
+              else
+                raise;
+            end;
           end;
         finally
           Py_DECREF(Params);
@@ -381,10 +385,14 @@ begin
           Py_XDECREF(Obj);
         end;
     except
-      if FEngine.PyErr_Occurred <> nil then
-        FEngine.CheckError(False)
-      else
-        raise;
+      on E: Exception do
+      begin
+        MsgLogConsole(Format('ERROR: Exception in CudaText for %s.%s: ', [AModule, AMethod, E.Message]));
+        if FEngine.PyErr_Occurred <> nil then
+          FEngine.CheckError(False)
+        else
+          raise;
+      end;
     end;
   finally
     TimeTrackEnd(AModule, tick);
