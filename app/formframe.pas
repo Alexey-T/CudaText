@@ -1926,16 +1926,34 @@ var
   Params: TAppVariantArray;
 begin
   ada:= Adapter[Ed];
-  if Assigned(ada.Lexer) then
+  if Assigned(ada) and Assigned(ada.Lexer) then
     if not ada.Stop then exit;
 
-  if IsFileTooBigForLexer(GetFileName(Ed)) then
+  if (an=nil) or IsFileTooBigForLexer(GetFileName(Ed)) then
   begin
-    if EditorsLinked or (Ed=Ed1) then
-      Adapter1.Lexer:= nil
+    if EditorsLinked then
+    begin
+      Ed1.AdapterForHilite:= nil;
+      Ed2.AdapterForHilite:= nil;
+      if Assigned(Adapter1) then
+        Adapter1.Lexer:= nil;
+      if Assigned(Adapter2) then
+        Adapter2.Lexer:= nil;
+    end
     else
-    if Assigned(Adapter2) then
-      Adapter2.Lexer:= nil;
+    begin
+      Ed.AdapterForHilite:= nil;
+      if Ed=Ed1 then
+      begin
+        if Assigned(Adapter1) then
+          Adapter1.Lexer:= nil;
+      end
+      else
+      begin
+        if Assigned(Adapter2) then
+          Adapter2.Lexer:= nil;
+      end;
+    end;
     exit;
   end;
 
