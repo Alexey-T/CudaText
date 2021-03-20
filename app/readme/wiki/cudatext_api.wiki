@@ -4217,4 +4217,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.get_prop/set_prop: PROP_NUMBERS_ONLY
 * add: Editor.get_prop/set_prop: PROP_NUMBERS_NEGATIVE
 
+1.0.373 (app 1.129.4)
+* add: timer_proc: minimal interval is now 10 msec
+
 [[Category:CudaText]]
