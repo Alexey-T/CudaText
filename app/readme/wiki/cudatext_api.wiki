@@ -1599,7 +1599,7 @@ Possible values of "id_action":
 
  timer_proc(id, callback, interval, tag="")
 
-Perform action on timers. Many different timers allowed, they work at the same time, each uniq callback - makes new timer with its own interval. To stop some timer, you must specify same callback as on start.
+Perform action on timers. Many different timers are allowed, they work at the same time, each unique callback makes new timer with its own interval. To stop some timer, you must specify the same callback as you did on starting that timer.
 
 * "callback": Callback which is called on timer tick, see below.
 * "interval": Timer delay in msec, 10 (msec) or bigger. Specify it only on starting (ignored on stopping).
@@ -1612,7 +1612,7 @@ Possible values of "id":
 * TIMER_STOP - Stop timer (timer must be created before).
 * TIMER_DELETE - Stop timer, and delete it from list of timers. Usually don't use it, use only to save memory if created lot of timers.
 
-Result is True if params ok; False if params not ok (callback str incorrect, interval incorrect, not created callback on stopping); or None (for unknown id).
+Result is True if params are OK, False if params not OK (callback string incorrect, not created callback specified on stopping); or None (for unknown "id").
 
 ====Callbacks====
 
