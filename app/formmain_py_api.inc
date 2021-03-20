@@ -7981,7 +7981,7 @@ end;
 
 function api_timer_proc(Self, Args: PPyObject): PPyObject; cdecl;
 const
-  cMinInterval = 150;
+  cMinInterval = 50;
 var
   NIdAction, NInterval, N: integer;
   PtrCallback, PtrTag: PChar;
