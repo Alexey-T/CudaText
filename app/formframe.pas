@@ -2016,13 +2016,11 @@ procedure TEditorFrame.SetLexerLite(Ed: TATSynEdit; an: TATLiteLexer);
 begin
   Lexer[Ed]:= nil;
 
-  Ed.InvalidateHilitingCache;
   Ed.AdapterForHilite:= an;
   Ed.Update;
 
   if (Ed=Ed1) and EditorsLinked then
   begin
-    Ed2.InvalidateHilitingCache;
     Ed2.AdapterForHilite:= an;
     Ed2.Update;
   end;

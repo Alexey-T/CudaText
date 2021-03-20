@@ -1364,7 +1364,6 @@ begin
 
       Adapter.AddEditor(edFind);
       edFind.DoEventChange();
-      edFind.InvalidateHilitingCache;
       Adapter.ParseFromLine(0, true);
     end
     else
