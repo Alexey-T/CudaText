@@ -23,7 +23,7 @@ type
     X1, Y1, X2, Y2: integer;
     Level: integer;
     Icon: integer;
-    Title: string[63];
+    Title: string;
     class operator =(const A, B: TATTreeHelperRecord): boolean;
   end;
 
@@ -34,6 +34,7 @@ type
   private
     function GetItemPtr(N: integer): PATTreeHelperRecord;
   public
+    destructor Destroy; override;
     property ItemPtr[N: integer]: PATTreeHelperRecord read GetItemPtr;
   end;
 
@@ -51,6 +52,16 @@ end;
 function TATTreeHelperRecords.GetItemPtr(N: integer): PATTreeHelperRecord;
 begin
   Result:= PATTreeHelperRecord(InternalGet(N));
+end;
+
+destructor TATTreeHelperRecords.Destroy;
+var
+  i: integer;
+begin
+  //free strings
+  for i:= Count-1 downto 0 do
+    ItemPtr[i]^.Title:= '';
+  inherited Destroy;
 end;
 
 end.
