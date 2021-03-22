@@ -3,13 +3,14 @@
   - fixed
   * changed
 
-1.129.4 (2021/03)
+1.129.5 (2021/03)
 
 + add: code-tree for CSS lexer shows colored squares near 'Colors' items (thanks @NQUARE)
 + add: lexer CSS: show color formats 'rgb', 'hsl', '#aabbccdd' in code-tree (thanks @NQUARE)
 + add/change: reworked the way how app saves/restores per-file-history for properties: word wrap, show unprinted chars, show line numbers, show folding column, show minimap, show micromap, show ruler; format of JSON history: changed 'bool' values to 'int'
 + add: wiki topic https://wiki.freepascal.org/CudaText#Brackets_auto-pairing_logic
 - fix: issue with Redo (it could not redo sometimes) (thanks @xcme)
+- fix: problem with "CudaExt / Code-Tree Symbol list" and Unicode text in code-tree (thanks @kvichans)
 - fix: regression in Console's right-click menu (thanks @kvichans)
 - fix: major regression since 1.127.0, broken work of lite lexers with minimap (thanks @tmsg)
 - fix: major bug since 1.128.0: app crashes on start, if lexers have 'grammar' (examples: C#, Pascal, SQL)
