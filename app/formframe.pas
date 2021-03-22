@@ -471,7 +471,7 @@ var
   fn: string;
   s: string;
 begin
-  S:= '"Options Editor" provides configuration dialog - click to open';
+  S:= '"Options Editor" provides the dialog - click here to open';
 
   fn:= GetAppLangFilename;
   if FileExists(fn) then
