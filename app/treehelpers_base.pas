@@ -33,8 +33,9 @@ type
   TATTreeHelperRecords = class(specialize TFPGList<TATTreeHelperRecord>)
   private
     function GetItemPtr(N: integer): PATTreeHelperRecord;
+  protected
+    procedure Deref(Item: Pointer); override;
   public
-    destructor Destroy; override;
     property ItemPtr[N: integer]: PATTreeHelperRecord read GetItemPtr;
   end;
 
@@ -54,14 +55,9 @@ begin
   Result:= PATTreeHelperRecord(InternalGet(N));
 end;
 
-destructor TATTreeHelperRecords.Destroy;
-var
-  i: integer;
+procedure TATTreeHelperRecords.Deref(Item: Pointer);
 begin
-  //free strings
-  for i:= Count-1 downto 0 do
-    ItemPtr[i]^.Title:= '';
-  inherited Destroy;
+  PATTreeHelperRecord(Item)^.Title:= '';
 end;
 
 end.
