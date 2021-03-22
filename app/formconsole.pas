@@ -323,13 +323,14 @@ begin
     EdMemo.OptMouseWheelZooms:= false;
     EdMemo.OptShowMouseSelFrame:= false;
 
-    EdMemo.OnClickDouble:= @MemoClickDbl;
-    EdMemo.OnCommand:= @MemoCommand;
-    EdMemo.OnContextPopup:= @MemoContextPopup;
-
     //support dlg_proc API, it needs PropsObject
     DoControl_InitPropsObject(EdInput, fmConsole, 'editor_edit');
     DoControl_InitPropsObject(EdMemo, fmConsole, 'editor');
+
+    EdMemo.OnClickDouble:= @MemoClickDbl;
+    EdMemo.OnCommand:= @MemoCommand;
+    //after DoControl_InitPropsObject, because it did set custom OnContextMenu
+    EdMemo.OnContextPopup:= @MemoContextPopup;
   end;
 end;
 
