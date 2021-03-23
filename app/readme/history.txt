@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.129.6
+
++ add: make some pause on Undo/Redo action, and temporary highlight the line with Undo/Redo-change (thanks @xcme)
+
 1.129.5 (2021/03)
 
 + add: code-tree for CSS lexer shows colored squares near 'Colors' items (thanks @NQUARE)
