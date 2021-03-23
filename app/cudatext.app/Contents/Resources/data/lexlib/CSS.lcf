@@ -214,7 +214,7 @@ object SyntAnal6: TLibSyntAnalyzer
       StyleName = 'Color'
       BlockName = '{'
       TokenType = 6
-      Expression = '\#\h{3}\b|\#\h{6}\b|\#\h{8}\b'
+      Expression = '\#\h{3,4}\b|\#\h{6}\b|\#\h{8}\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -2334,7 +2334,6 @@ object SyntAnal6: TLibSyntAnalyzer
   LexerName = 'CSS'
   Notes.Strings = (
     'Alexey (CudaText)'
-    'Known properties: http://htmlbook.ru'
     
       'Known vendor prefixes: http://peter.sh/experiments/vendor-prefix' +
       'ed-css-property-overview/'
