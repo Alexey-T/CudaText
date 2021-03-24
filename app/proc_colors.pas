@@ -370,8 +370,8 @@ begin
   SetColor(apclEdBlockStapleActive, clNone, 'EdBlockStapleActive', 'editor, block staples, for caret');
   SetColor(apclEdComboArrow, nColorArrow, 'EdComboArrow', 'editor, combobox arrow-down');
   SetColor(apclEdComboArrowBg, nColorBack, 'EdComboArrowBg', 'editor, combobox arrow-down BG');
-  SetColor(apclEdBorder, nColorBorder, 'EdBorder', 'editor, combobox border');
-  SetColor(apclEdBorderFocused, clNavy, 'EdBorderFocused', 'editor, combobox border, focused');
+  SetColor(apclEdBorder, nColorBorder, 'EdBorder', 'editor, border');
+  SetColor(apclEdBorderFocused, clNavy, 'EdBorderFocused', 'editor, border, focused');
   SetColor(apclEdBlockSepLine, clMedGray, 'EdBlockSepLine', 'editor, separator line');
   SetColor(apclEdFoldMarkLine, $a06060, 'EdFoldMarkLine', 'editor, folded line');
   SetColor(apclEdFoldMarkFont, $e08080, 'EdFoldMarkFont', 'editor, folded block mark, font');
