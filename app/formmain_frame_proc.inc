@@ -20,6 +20,7 @@ begin
   D:= Pages.Tabs.GetTabData(NTab);
   if D=nil then Exit;
   D.TabCaption:= Frame.TabCaption;
+  D.TabCaptionAddon:= Frame.TabCaptionAddon;
   D.TabModified:= Frame.Ed1.Modified or Frame.Ed2.Modified;
   Pages.Invalidate;
 

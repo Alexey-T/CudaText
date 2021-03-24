@@ -103,6 +103,7 @@ type
     btnReloadNo: array[0..1] of TATButton;
     btnReloadNone: array[0..1] of TATButton;
     FTabCaption: string;
+    FTabCaptionAddon: string;
     FTabCaptionUntitled: string;
     FTabCaptionFromApi: boolean;
     FTabImageIndex: integer;
@@ -232,6 +233,7 @@ type
     procedure SetLocked(AValue: boolean);
     procedure SetPictureScale(AValue: integer);
     procedure SetReadOnly(Ed: TATSynEdit; AValue: boolean);
+    procedure SetTabCaptionAddon(const AValue: string);
     procedure SetTabColor(AColor: TColor);
     procedure SetTabImageIndex(AValue: integer);
     procedure SetUnprintedEnds(AValue: boolean);
@@ -286,6 +288,7 @@ type
     function EditorObjToIndex(Ed: TATSynEdit): integer;
     property ReadOnly[Ed: TATSynEdit]: boolean read GetReadOnly write SetReadOnly;
     property TabCaption: string read FTabCaption write SetTabCaption;
+    property TabCaptionAddon: string read FTabCaptionAddon write SetTabCaptionAddon;
     property TabCaptionUntitled: string read FTabCaptionUntitled write FTabCaptionUntitled;
     property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
     property TabCaptionFromApi: boolean read FTabCaptionFromApi write FTabCaptionFromApi;
@@ -533,6 +536,23 @@ begin
 
   DoOnChangeCaption;
 end;
+
+procedure TEditorFrame.SetTabCaptionAddon(const AValue: string);
+var
+  Gr: TATGroups;
+  Pages: TATPages;
+  NLocalGroups, NGlobalGroup, NTab: integer;
+  D: TATTabData;
+begin
+  if FTabCaptionAddon=AValue then Exit;
+  FTabCaptionAddon:= AValue;
+
+  GetFrameLocation(Self, Gr, Pages, NLocalGroups, NGlobalGroup, NTab);
+  D:= Pages.Tabs.GetTabData(NTab);
+  if Assigned(D) then
+    D.TabCaptionAddon:= FTabCaptionAddon;
+end;
+
 
 procedure TEditorFrame.UpdateCaptionFromFilename;
 var

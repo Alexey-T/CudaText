@@ -71,6 +71,7 @@ begin
   try
     Data.TabObject:= F;
     Data.TabCaption:= F.TabCaption;
+    Data.TabCaptionAddon:= F.TabCaptionAddon;
     NToIndex:= APages.AddTab(NToIndex, Data, AndActivate);
   finally
     Data.Free;
@@ -275,7 +276,7 @@ begin
     (Sender as TATTabs).TabIndex:= ATabIndex;
 
     if ACanContinue then Btn:= MB_YESNOCANCEL else Btn:= MB_OKCANCEL;
-    Msg:= Format(msgConfirmSaveModifiedTab, [D.TabCaption]);
+    Msg:= Format(msgConfirmSaveModifiedTab, [D.TabCaptionFull]);
     Res:= MsgBox(Msg, Btn or MB_ICONQUESTION);
     if (Res=ID_OK) or (Res=ID_YES) then
       bSavedOk:= Frame.DoFileSave(false, true);
@@ -524,95 +525,81 @@ begin
 end;
 
 
-function _LeveledTabCaption(const fn: string; NLevel: integer): string;
-const
-  cLine = ' • ';
-var
-  dir, dirs: string;
-  i: integer;
-begin
-  Result:= ExtractFileName(fn);
-  if NLevel>0 then
-  begin
-    dir:= ExtractFileDir(fn);
-    dirs:= ExtractFileName(dir);
-    for i:= 2 to NLevel do
-    begin
-      dir:= ExtractFileDir(dir);
-      if (dir='') or (dir='/') then Break;
-      dirs:= ExtractFileName(dir)+'/'+dirs;
-    end;
-    Result:= Result+cLine+dirs;
-  end;
-end;
+type
+  { TAppFrameX }
 
+  TAppFrameX = class
+  public
+    Frame: TEditorFrame;
+    FileName: string;
+    Level: integer;
+    function GetKey: string;
+  end;
+
+{ TAppFramePropX }
+
+function TAppFrameX.GetKey: string;
+begin
+  Result:= AppGetLeveledPath(FileName, Level);
+end;
 
 procedure TfmMain.UpdateTabCaptionsFromFolders;
 const
-  cMaxLevels = 5;
+  cMaxLevels = 3;
 var
   SName: string;
   Frame: TEditorFrame;
-  L_fn, L_cap: TStringList;
-  L_found: TFPList;
-  NLevel, i, j: integer;
+  L: TFPList;
+  Prop, Prop2: TAppFrameX;
+  bFoundPair: boolean;
+  iLevel, i, j: integer;
 begin
-  L_fn:= TStringList.Create;
-  L_cap:= TStringList.Create;
-  L_found:= TFPList.Create;
-
+  L:= TFPList.Create;
   try
     for i:= 0 to FrameCount-1 do
     begin
       Frame:= Frames[i];
       SName:= Frame.FileName;
-      L_fn.Add(SName);
       if (SName<>'') and Frame.EditorsLinked then
-        L_cap.Add(ExtractFileName(SName))
-      else
-        L_cap.Add(Frame.TabCaption);
+      begin
+        Prop:= TAppFrameX.Create;
+        Prop.Frame:= Frame;
+        Prop.FileName:= SName;
+        L.Add(Prop);
+      end;
     end;
 
-    for NLevel:= 0 to cMaxLevels do
-    begin
-      L_found.Clear;
-
-      for i:= 0 to L_cap.Count-2 do
-        if PtrInt(L_cap.Objects[i]) = NLevel then
-          for j:= i+1 to L_cap.Count-1 do
-            if L_cap[i]=L_cap[j] then
+    for iLevel:= 0 to cMaxLevels do
+      for i:= 0 to L.Count-2 do
+      begin
+        Prop:= TAppFrameX(L[i]);
+        bFoundPair:= false;
+        if Prop.Level = iLevel then
+          for j:= i+1 to L.Count-1 do
+          begin
+            Prop2:= TAppFrameX(L[j]);
+            if (Prop.Level=Prop2.Level) and SameFileName(Prop.GetKey, Prop2.GetKey) then
             begin
-              if L_found.IndexOf(Pointer(PtrInt(i)))<0 then
-                L_found.Add(Pointer(PtrInt(i)));
-              if L_found.IndexOf(Pointer(PtrInt(j)))<0 then
-                L_found.Add(Pointer(PtrInt(j)));
+              bFoundPair:= true;
+              Inc(Prop2.Level);
             end;
-
-      if L_found.Count=0 then Break;
-      for i:= 0 to L_found.Count-1 do
-      begin
-        j:= PtrInt(L_found[i]);
-        L_cap[j]:= _LeveledTabCaption(L_fn[j], NLevel+1);
-        L_cap.Objects[j]:= TObject(NLevel+1);
+          end;
+        if bFoundPair then
+          Inc(Prop.Level);
       end;
+
+    for i:= 0 to L.Count-1 do
+    begin
+      Prop:= TAppFrameX(L[i]);
+      if Prop.Level=0 then
+        Prop.Frame.TabCaptionAddon:= ''
+      else
+        Prop.Frame.TabCaptionAddon:= ExtractFileDir(Prop.GetKey);
     end;
-
-    for i:= 0 to L_fn.Count-1 do
-      if L_fn[i]<>'' then
-      begin
-        Frame:= Frames[i];
-        if Frame.EditorsLinked then
-          SName:= msgModified[Frame.Ed1.Modified] + L_cap[i]
-        else
-          SName:= L_cap[i];
-        if Frame.TabCaption<>SName then
-          if not Frame.TabCaptionFromApi then
-            Frame.TabCaption:= SName;
-      end;
   finally
-    FreeAndNil(L_found);
-    FreeAndNil(L_cap);
-    FreeAndNil(L_fn);
+    for i:= L.Count-1 downto 0 do
+      TObject(L[i]).Free;
+    FreeAndNil(L);
   end;
 end;
 

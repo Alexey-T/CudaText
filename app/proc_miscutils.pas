@@ -89,6 +89,7 @@ function AppNicePluginCaption(const S: string): string;
 function AppStrToBool(const S: string): boolean; inline;
 function AppStringToAlignment(const S: string): TAlignment;
 function AppAlignmentToString(const V: TAlignment): string;
+function AppGetLeveledPath(const AFileName: string; ALevel: integer): string;
 
 function ViewerGotoFromString(V: TATBinHex; SInput: string): boolean;
 procedure ViewerApplyTheme(V: TATBinHex);
@@ -1044,6 +1045,21 @@ begin
   end;
 end;
 
+function AppGetLeveledPath(const AFileName: string; ALevel: integer): string;
+var
+  N, i: integer;
+begin
+  Result:= '';
+  if AFileName='' then exit;
+  N:= Length(AFileName)+1;
+  for i:= 0 to ALevel do
+  begin
+    N:= RPosEx(DirectorySeparator, AFileName, N-1);
+    if N<0 then
+      Break;
+  end;
+  Result:= Copy(AFileName, N+1, MaxInt);
+end;
 
 end.
 
