@@ -1459,17 +1459,17 @@ Special characters are:
 Control of UI tabs is named ATTabs, and has many features:
 
 * Pseudo-tab "+" at the end. Option "ui_tab_show_plus".
-* Scrolling arrows on the left, to scroll tabs left/right when there are lot of them and they don't fit by width. Thin scrolling indicator auto-appears on the top (default color is red).
-* Drop-down arrow on the right side, to show menu of all tabs in the current group.
-* Tabs can be placed on all 4 sides. Option "ui_tab_position".
+* Scrolling arrows (on the left by default), to scroll tabs when there are lot of them and they don't fit. Thin scrolling indicator auto-appears on the top (default color is red).
+* Drop-down arrow (on the right by default), to show menu of all tabs in the current group.
+* Tabs can be placed on all 4 sides: top, bottom, left, right. Option "ui_tab_position".
 
 [[File:cudatext-tabs-left_.png]]
 
-* Layout of arrows is customizable. Option "ui_tab_button_layout". Button "+" is available, to replace "+" pseudo-tab, this button is always visible (pseudo-tab can be scrolled away). Button "x" is available, to close current tab.
+* Layout of "arrows" is customizable. Option "ui_tab_button_layout". Button "+" is available, to replace "+" pseudo-tab, this button is always visible (pseudo-tab can be scrolled away). Button "x" is available, to close current tab.
 
 [[File:cudatext-tabs-layout.png]]
 
-* Tabs can be multi-line (height of all tabs is limited by 2/3 of window height). Option "ui_tab_multiline".
+* Tabs can be multi-line. Height of all tabs is limited by 2/3 of window height. Option "ui_tab_multiline".
 
 [[File:cudatext-tabs-multiline.png]]
 
@@ -1484,6 +1484,10 @@ Control of UI tabs is named ATTabs, and has many features:
 * Tabs can be colored, by calling tab's context menu, and "Set tab color..." menu item. Internally, it calls plugin cuda_palette to choose the color, then color is applied. Plugin dialog has several modes (even simplest mode named "60 colors" is enough). By default, only thin line at the edge of tabs is colored, but you can colorize the entire tab using CudaText option "ui_tab_fullcolor". Coloring is saved to session (tab color is usual property of editor).
 
 [[File:cudatext-tab-colors.png]]
+
+* Tabs can show "path suffix" when there are several tabs for the same base filename. In the example picture, we have opened files "t.txt" from 3 different folders, and tabs show that folders after a bullet-char. Feature can show "path suffix" for up to 4 folder levels.
+
+[[File:cudatext-tabs-path-suffix.png]]
 
 ==Show pictures in the text==
 CudaText gives the plugin API to show pictures between the text lines.
