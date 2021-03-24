@@ -509,6 +509,7 @@ type
     OpMarkerSize: integer;
     OpStaplesStyle: integer;
     OpStaplesProps: string;
+    OpStapleIndentConsidersEnd: boolean;
 
     //unprinted
     OpUnprintedShow: boolean;
@@ -1410,6 +1411,7 @@ begin
     OpMarkerSize:= 30;
     OpStaplesStyle:= 1; //Ord(cLineStyleSolid)
     OpStaplesProps:= '-1,40,1,1';
+    OpStapleIndentConsidersEnd:= true;
 
     OpUnprintedShow:= false;
     OpUnprintedContent:= 'se';

@@ -328,6 +328,7 @@ begin
 
     Ed.OptMarkersSize:= Op.OpMarkerSize;
     Ed.OptStapleStyle:= TATLineStyle(Op.OpStaplesStyle);
+    Ed.OptStapleIndentConsidersEnd:= Op.OpStapleIndentConsidersEnd;
 
     Sep.Init(Op.OpStaplesProps);
     Sep.GetItemInt(N, 0);
