@@ -5,7 +5,8 @@
 
 1.129.6
 
-+ add: make some pause on Undo/Redo action, and temporary highlight the line with Undo/Redo-change; this is controlled by new option "undo_pause" (thanks @xcme)
++ add: added pause on Undo/Redo action, when this action scrolls the editor. And temporary highlighting of the line with Undo/Redo-change (when editor scrolls). This is controlled by new option "undo_pause". (thanks @xcme)
++ add: better work of the feature which shows UI-tab titles like "test.txt * folder1" / "test.txt * folder2", it does not flicker the UI tabs on file saving/reloading (thanks @kvichans)
 
 1.129.5 (2021/03)
 
