@@ -5,7 +5,7 @@
 
 1.129.6
 
-+ add: make some pause on Undo/Redo action, and temporary highlight the line with Undo/Redo-change (thanks @xcme)
++ add: make some pause on Undo/Redo action, and temporary highlight the line with Undo/Redo-change; this is controlled by new option "undo_pause" (thanks @xcme)
 
 1.129.5 (2021/03)
 
