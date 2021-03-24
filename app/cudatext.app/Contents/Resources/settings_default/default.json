@@ -537,9 +537,9 @@
   //or ","-separated file extensions like "c,h,txt".
   "undo_persistent": "",
 
-  //Undo/Redo: Pause (in msec) for Undo/Redo commands, to show minimalistic animation.
+  //Undo: Pause (in msec) for Undo/Redo commands, to show minimalistic animation.
   //If 0, pause is disabled.
-  "undo_pause": 300,
+  "undo_pause": 200,
 
   //[Text/Caret]
   //Allow to place caret after end-of-line (virtual caret position),
