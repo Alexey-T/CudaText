@@ -535,6 +535,7 @@ type
     OpUndoMaxCarets: integer;
     OpUndoIndentVert: integer;
     OpUndoIndentHorz: integer;
+    OpUndoPause: integer;
 
     //caret
     OpCaretBlinkTime: integer;
@@ -1431,6 +1432,7 @@ begin
     OpUndoMaxCarets:= cInitUndoMaxCarets;
     OpUndoIndentVert:= -5;
     OpUndoIndentHorz:= 10;
+    OpUndoPause:= cInitUndoPause;
 
     OpCaretBlinkTime:= cInitCaretBlinkTime;
     OpCaretBlinkEn:= true;
