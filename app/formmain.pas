@@ -5918,6 +5918,7 @@ begin
     CompletionOpsCss.FilenameCssSelectors:= AppDir_DataAutocompleteSpec+DirectorySeparator+'css_sel.ini';
     CompletionOpsHtml.FilenameHtmlList:= AppDir_DataAutocompleteSpec+DirectorySeparator+'html_list.ini';
     CompletionOpsHtml.FilenameHtmlEvents:= AppDir_DataAutocompleteSpec+DirectorySeparator+'html_events.ini';
+    CompletionOpsHtml.FilenameHtmlEntities:= AppDir_DataAutocompleteSpec+DirectorySeparator+'html_entities.ini';
 
     //allow autocompletion with multi-carets only in HTML
     if Ed.Carets.Count>1 then
