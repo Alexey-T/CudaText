@@ -2241,7 +2241,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_PREVIEW: bool: editor is inside "Preview tab" (it has italic caption).
 * PROP_UNDO_GROUPED: bool: editor undo/redo is grouped.
 * PROP_UNDO_LIMIT: int: max count of simple actions, which can be undone.
-* PROP_UNDO_DATA: str: string representation of Undo data.
+* PROP_UNDO_DATA: str: string representation of Undo data. See [[#Format_of_serialized_Undo]].
 * PROP_REDO_DATA: str: string representation of Redo data.
 * PROP_ZEBRA: int: if 0, "zebra" mode is not active; if >0, it is alpha-blend value (1..255) of active zebra mode.
 * PROP_ZEBRA_STEP: int: step (in lines) of "zebra" mode.
@@ -2378,7 +2378,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_PREVIEW: bool: editor is inside "Preview tab" (it has italic caption). Currently only False value can be written.
 * PROP_UNDO_GROUPED: bool: editor undo/redo is grouped.
 * PROP_UNDO_LIMIT: int: max count of simple actions, which can be undone.
-* PROP_UNDO_DATA: str: string representation of Undo data.
+* PROP_UNDO_DATA: str: string representation of Undo data. See [[#Format_of_serialized_Undo]].
 * PROP_REDO_DATA: str: string representation of Redo data.
 * PROP_ZEBRA: int: if 0, "zebra" mode is not active; if >0, it is alpha-blend value (1..255) of active zebra mode.
 * PROP_ZEBRA_STEP: int: step (in lines) of "zebra" mode.
@@ -3022,9 +3022,9 @@ Text is chr(1) separated items:
 * item 2: Text to replace with
 * item 3: Options string, see [[#Finder_options_as_string]]
 
-==Format of serialized Undo/Redo==
+==Format of serialized Undo==
 
-Text is "\n"-separated lines, each line is undo/redo item. Each line is "\t"-separated elements:
+Text is "\n"-separated undo/redo items. Each line is "\t"-separated elements:
 
 * editing action, number 0..4. 0: text change; 1: EOL change; 2: line insertion; 3: line deletion; 4: cleared document modified-flag.
 * line index, number from 0.
