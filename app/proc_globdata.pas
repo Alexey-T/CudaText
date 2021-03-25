@@ -199,6 +199,7 @@ type
     DefaultTabSplitIsHorz: boolean;
     MaxFileSizeToOpen: integer;
     MaxFileSizeForLexer: integer;
+    MaxStatusbarMessages: integer;
 
     AutocompleteHtml: boolean;
     AutocompleteCss: boolean;
@@ -1617,6 +1618,7 @@ begin
     DefaultTabSplitIsHorz:= false;
     MaxFileSizeToOpen:= 500;
     MaxFileSizeForLexer:= 2;
+    MaxStatusbarMessages:= 30;
 
     ListboxCentered:= true;
     ListboxSizeX:= 450;

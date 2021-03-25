@@ -599,6 +599,7 @@ type
     FBoundsFloatGroups2: TRect;
     FBoundsFloatGroups3: TRect;
     FListTimers: TStringList;
+    FLastStatusbarMessages: TStringList;
     FConsoleMustShow: boolean;
     FSessionIsLoading: boolean;
     FColorDialog: TColorDialog;
@@ -2388,6 +2389,7 @@ begin
   FMenuVisible:= true;
   AppSessionName:= '';
   FListTimers:= TStringList.Create;
+  FLastStatusbarMessages:= TStringList.Create;
 
   FillChar(AppPanelProp_Out, SizeOf(AppPanelProp_Out), 0);
   FillChar(AppPanelProp_Val, SizeOf(AppPanelProp_Val), 0);
@@ -2680,6 +2682,7 @@ procedure TfmMain.FormDestroy(Sender: TObject);
 var
   i: integer;
 begin
+  FreeAndNil(FLastStatusbarMessages);
   for i:= 0 to FListTimers.Count-1 do
     TTimer(FListTimers.Objects[i]).Enabled:= false;
   FreeAndNil(FListTimers);
@@ -4867,17 +4870,30 @@ begin
 end;
 
 procedure TfmMain.MsgStatus(AText: string; AFinderMessage: boolean=false);
+var
+  STime: string;
 begin
   SReplaceAll(AText, #10, ' ');
   SReplaceAll(AText, #13, ' ');
 
   if DoOnMessage(AText) then
   begin
-    FLastStatusbarMessage:= AText;
-    DoStatusbarColorByTag(Status, StatusbarTag_Msg, GetAppColor(apclStatusFont));
-    DoStatusbarTextByTag(Status, StatusbarTag_Msg, FormatDateTime('[HH:mm] ', Now)+GetStatusbarPrefix(CurrentFrame)+AText);
+    if AText='' then
+    begin
+      DoStatusbarTextByTag(Status, StatusbarTag_Msg, '');
+      exit;
+    end;
 
-    if AText='' then exit;
+    STime:= FormatDateTime('[HH:mm] ', Now);
+    while FLastStatusbarMessages.Count>UiOps.MaxStatusbarMessages do
+      FLastStatusbarMessages.Delete(0);
+    FLastStatusbarMessages.Add(STime+AText);
+    FLastStatusbarMessage:= AText;
+
+    DoStatusbarTextByTag(Status, StatusbarTag_Msg, {STime+}GetStatusbarPrefix(CurrentFrame)+AText);
+    DoStatusbarColorByTag(Status, StatusbarTag_Msg, GetAppColor(apclStatusFont));
+    DoStatusbarHintByTag(Status, StatusbarTag_Msg, FLastStatusbarMessages.Text);
+
     TimerStatusClear.Enabled:= false;
     TimerStatusClear.Enabled:= true;
   end;
