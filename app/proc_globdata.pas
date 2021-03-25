@@ -1618,7 +1618,7 @@ begin
     DefaultTabSplitIsHorz:= false;
     MaxFileSizeToOpen:= 500;
     MaxFileSizeForLexer:= 2;
-    MaxStatusbarMessages:= 30;
+    MaxStatusbarMessages:= 40;
 
     ListboxCentered:= true;
     ListboxSizeX:= 450;
