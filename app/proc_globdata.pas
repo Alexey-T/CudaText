@@ -1618,7 +1618,7 @@ begin
     DefaultTabSplitIsHorz:= false;
     MaxFileSizeToOpen:= 500;
     MaxFileSizeForLexer:= 2;
-    MaxStatusbarMessages:= 40;
+    MaxStatusbarMessages:= 35; //Linux gtk2 shows maximal ~38 lines in tooltip
 
     ListboxCentered:= true;
     ListboxSizeX:= 450;
