@@ -770,7 +770,7 @@ Some lexers (e.g. PHP, Pascal, Clojure) provide .acp files, which are fixed set 
 
 Lexer HTML (and lexers with "HTML" in name, see the option "autocomplete_html_lexers") has its special logic, which is built-in in CudaText. It uses data files in the folder "data/autocompletespec". Completion listbox shows different information depending on context: 
 
-* Caret is on empty space or after "<". Listbox show list of tags.
+* Caret is on empty space or after "<". Listbox shows list of tags.
 * Caret is on tag name (opening or closing). Listbox shows list of tags (beginning with typed tag).
 * Caret is after opening tag, before closing bracket, on empty space. Listbox shows list of tag's attributes.
 * Caret is on tag's attribute, before "=". Listbox shows list of attributes (beginning with typed attribute).
@@ -785,6 +785,7 @@ Lexer HTML (and lexers with "HTML" in name, see the option "autocomplete_html_le
 ** Tag AUDIO, attribute SRC. Listbox shows list of folders and audio files (HTML supports few extensions).
 ** Tag VIDEO, attribute SRC. Listbox shows list of folders and video files (HTML supports few extensions).
 ** Tag SOURCE, attribute SRC. Listbox shows list of folders and audio+video files (code doesn't detect the outer tag: audio, video etc).
+* Caret is after '&' char with optional word-chars after '&'. Listbox shows HTML entities.
 
 [[File:cudatext-complete-pics.png]]
 
