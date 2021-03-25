@@ -4882,6 +4882,7 @@ end;
 procedure TfmMain.MsgStatus(AText: string; AFinderMessage: boolean=false);
 var
   STime: string;
+  NColorFont: TColor;
 begin
   SReplaceAll(AText, #10, ' ');
   SReplaceAll(AText, #13, ' ');
@@ -4900,8 +4901,12 @@ begin
     FLastStatusbarMessages.Add(STime+AText);
     FLastStatusbarMessage:= AText;
 
+    NColorFont:= GetAppColor(apclStatusFont);
+    if NColorFont=clNone then
+      NColorFont:= ATFlatTheme.ColorFont;
+
     DoStatusbarTextByTag(Status, StatusbarTag_Msg, {STime+}GetStatusbarPrefix(CurrentFrame)+AText);
-    DoStatusbarColorByTag(Status, StatusbarTag_Msg, GetAppColor(apclStatusFont));
+    DoStatusbarColorByTag(Status, StatusbarTag_Msg, NColorFont);
     DoStatusbarHintByTag(Status, StatusbarTag_Msg, FLastStatusbarMessages.Text);
 
     TimerStatusClear.Enabled:= false;
