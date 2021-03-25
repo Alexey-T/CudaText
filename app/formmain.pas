@@ -2411,6 +2411,7 @@ begin
   AppSessionName:= '';
   FListTimers:= TStringList.Create;
   FLastStatusbarMessages:= TStringList.Create;
+  FLastStatusbarMessages.TextLineBreakStyle:= tlbsLF;
 
   FillChar(AppPanelProp_Out, SizeOf(AppPanelProp_Out), 0);
   FillChar(AppPanelProp_Val, SizeOf(AppPanelProp_Val), 0);
