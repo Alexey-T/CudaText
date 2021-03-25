@@ -7,8 +7,8 @@
 
 + add: HTML auto-completion supports HTML entities
 + add: added pause on Undo/Redo action, when this action scrolls the editor. And temporary highlighting of the line with Undo/Redo-change (when editor scrolls). This is controlled by new option "undo_pause". (thanks @xcme)
-+ add: better work of the feature which shows UI-tab titles like "test.txt * folder1" / "test.txt * folder2", fixed tabs flicker (thanks @kvichans)
-+ add: improved statusbar's "message" cell: instead of hiding the text it dims it; floating tooltip for that cell shows 40 last messages (thanks @Shovel)
++ add: better work of the feature which shows UI-tab titles like "test.txt * folder1" / "test.txt * folder2" (thanks @kvichans)
++ add: better statusbar "message" cell: instead of hiding the text it dims it; floating tooltip for that cell shows 30 last messages (thanks @Shovel)
 - fix: calculating width of some Unicode chars (thanks @cser)
 
 1.129.5 (2021/03)
