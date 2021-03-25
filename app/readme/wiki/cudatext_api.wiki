@@ -3024,16 +3024,30 @@ Text is chr(1) separated items:
 
 ==Format of serialized Undo==
 
-Text is "\n"-separated undo/redo items. Each line is "\t"-separated elements:
+Text is "\n"-separated undo/redo items. Each line is tab-separated elements:
 
-* editing action, number 0..4. 0: text change; 1: EOL change; 2: line insertion; 3: line deletion; 4: cleared document modified-flag.
-* line index, number from 0.
-* end-of-line kind, number 0..3. 0: none; 1: CRLF; 2: LF; 3: CR.
-* line state, number 0..3. 0: none; 1: changed; 2: added; 3: saved.
-* caret position(s). "x0,y0;"+"x1,y1;"+"x2,y2;"+... ie 2*N numbers for N carets.
+* editing action, number 0..5:
+** 0: line changed
+** 1: end-of-line mark changed
+** 2: line inserted
+** 3: line deleted
+** 4: cleared document "modified" flag
+** 5: mouse clicked
+* index of changed line (not for mouse clicks), 0-based.
+* end-of-line kind, number 0..3:
+** 0: none
+** 1: CRLF
+** 2: LF
+** 3: CR
+* line state, number 0..3:
+** 0: none
+** 1: changed
+** 2: added
+** 3: saved
+* caret position(s). "x0,y0;" + "x1,y1;" + "x2,y2;" + ... ie 2*N numbers for N carets.
 * soft mark flag, number 0/1 (boolean). Logic of soft/hard marks is described in wiki page [[ATSynEdit]].
 * hard mark flag, number 0/1.
-* line text, in UTF8. This text can have "\t", "\t" is not a separator here.
+* line text, in UTF8. This text can have tab-chars, tab-char is not separator.
 
 Note that field "line state" was inserted in API 1.0.328, new format of data became incompatible with old format.
 
