@@ -2084,7 +2084,7 @@ end;
 
 procedure TfmMain.TimerStatusClearTimer(Sender: TObject);
 begin
-  MsgStatus('');
+  DoStatusbarColorByTag(Status, StatusbarTag_Msg, GetAppColor(apclButtonFontDisabled));
   TimerStatusClear.Enabled:= false;
 end;
 
@@ -4874,7 +4874,8 @@ begin
   if DoOnMessage(AText) then
   begin
     FLastStatusbarMessage:= AText;
-    DoStatusbarTextByTag(Status, StatusbarTag_Msg, GetStatusbarPrefix(CurrentFrame)+AText);
+    DoStatusbarColorByTag(Status, StatusbarTag_Msg, GetAppColor(apclStatusFont));
+    DoStatusbarTextByTag(Status, StatusbarTag_Msg, FormatDateTime('[HH:mm] ', Now)+GetStatusbarPrefix(CurrentFrame)+AText);
 
     if AText='' then exit;
     TimerStatusClear.Enabled:= false;

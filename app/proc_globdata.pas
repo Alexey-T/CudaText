@@ -959,8 +959,11 @@ function AppEncodingFullnameToShortname(const S: string): string;
 function AppEncodingListAsString: string;
 
 procedure UpdateFormOnTop(F: TForm);
+
 procedure DoStatusbarTextByTag(AStatus: TATStatus; ATag: PtrInt; const AText: string);
 procedure DoStatusbarHintByTag(AStatus: TATStatus; ATag: PtrInt; const AText: string);
+procedure DoStatusbarColorByTag(AStatus: TATStatus; ATag: PtrInt; AColor: TColor);
+
 function IsFileTooBigForOpening(const AFilename: string): boolean;
 function IsFileTooBigForLexer(const AFilename: string): boolean;
 function IsOsFullPath(const S: string): boolean;
@@ -2565,6 +2568,20 @@ begin
   NIndex:= AStatus.FindPanel(ATag);
   if NIndex>=0 then
     AStatus.Hints[NIndex]:= AText;
+end;
+
+procedure DoStatusbarColorByTag(AStatus: TATStatus; ATag: PtrInt; AColor: TColor);
+var
+  NIndex: integer;
+  Data: TATStatusData;
+begin
+  NIndex:= AStatus.FindPanel(ATag);
+  if NIndex>=0 then
+  begin
+    Data:= AStatus.GetPanelData(NIndex);
+    Data.ColorFont:= AColor;
+    AStatus.Invalidate;
+  end;
 end;
 
 function IsFileTooBigForOpening(const AFilename: string): boolean;
