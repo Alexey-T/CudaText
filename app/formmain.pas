@@ -2084,8 +2084,18 @@ begin
 end;
 
 procedure TfmMain.TimerStatusClearTimer(Sender: TObject);
+var
+  NColorFont, NColorBg, NColorMix: TColor;
 begin
-  DoStatusbarColorByTag(Status, StatusbarTag_Msg, GetAppColor(apclButtonFontDisabled));
+  NColorFont:= GetAppColor(apclStatusFont);
+  if NColorFont=clNone then
+    NColorFont:= ATFlatTheme.ColorFont;
+  NColorBg:= GetAppColor(apclStatusBg);
+  if NColorBg=clNone then
+    NColorBg:= ATFlatTheme.ColorBgPassive;
+  NColorMix:= ColorBlendHalf(NColorFont, NColorBg);
+
+  DoStatusbarColorByTag(Status, StatusbarTag_Msg, NColorMix);
   TimerStatusClear.Enabled:= false;
 end;
 
