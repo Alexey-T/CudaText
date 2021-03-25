@@ -1206,6 +1206,27 @@ const
     'cuda_brackets_hilite' //built-in
     );
 
+function GetAppColorOfStatusbarFont: TColor;
+begin
+  Result:= GetAppColor(apclStatusFont);
+  if Result=clNone then
+    Result:= ATFlatTheme.ColorFont;
+end;
+
+function GetAppColorOfStatusbarDimmed: TColor;
+var
+  NColorFont, NColorBg: TColor;
+begin
+  NColorFont:= GetAppColorOfStatusbarFont;
+
+  NColorBg:= GetAppColor(apclStatusBg);
+  if NColorBg=clNone then
+    NColorBg:= ATFlatTheme.ColorBgPassive;
+
+  Result:= ColorBlendHalf(NColorFont, NColorBg);
+end;
+
+
 procedure UpdateThemeStatusbar;
 var
   NColor: TColor;
@@ -2084,18 +2105,8 @@ begin
 end;
 
 procedure TfmMain.TimerStatusClearTimer(Sender: TObject);
-var
-  NColorFont, NColorBg, NColorMix: TColor;
 begin
-  NColorFont:= GetAppColor(apclStatusFont);
-  if NColorFont=clNone then
-    NColorFont:= ATFlatTheme.ColorFont;
-  NColorBg:= GetAppColor(apclStatusBg);
-  if NColorBg=clNone then
-    NColorBg:= ATFlatTheme.ColorBgPassive;
-  NColorMix:= ColorBlendHalf(NColorFont, NColorBg);
-
-  DoStatusbarColorByTag(Status, StatusbarTag_Msg, NColorMix);
+  DoStatusbarColorByTag(Status, StatusbarTag_Msg, GetAppColorOfStatusbarDimmed);
   TimerStatusClear.Enabled:= false;
 end;
 
@@ -4882,7 +4893,6 @@ end;
 procedure TfmMain.MsgStatus(AText: string; AFinderMessage: boolean=false);
 var
   STime: string;
-  NColorFont: TColor;
 begin
   SReplaceAll(AText, #10, ' ');
   SReplaceAll(AText, #13, ' ');
@@ -4901,12 +4911,8 @@ begin
     FLastStatusbarMessages.Add(STime+AText);
     FLastStatusbarMessage:= AText;
 
-    NColorFont:= GetAppColor(apclStatusFont);
-    if NColorFont=clNone then
-      NColorFont:= ATFlatTheme.ColorFont;
-
     DoStatusbarTextByTag(Status, StatusbarTag_Msg, {STime+}GetStatusbarPrefix(CurrentFrame)+AText);
-    DoStatusbarColorByTag(Status, StatusbarTag_Msg, NColorFont);
+    DoStatusbarColorByTag(Status, StatusbarTag_Msg, GetAppColorOfStatusbarFont);
     DoStatusbarHintByTag(Status, StatusbarTag_Msg, FLastStatusbarMessages.Text);
 
     TimerStatusClear.Enabled:= false;
