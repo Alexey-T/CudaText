@@ -277,6 +277,7 @@ begin
   Ed.OptUndoIndentVert:= Op.OpUndoIndentVert;
   Ed.OptUndoIndentHorz:= Op.OpUndoIndentHorz;
   Ed.OptUndoPause:= Op.OpUndoPause;
+  Ed.OptUndoForCaretJump:= Op.OpUndoForCaretJump;
 
   Ed.OptCaretBlinkTime:= Op.OpCaretBlinkTime;
   Ed.OptCaretBlinkEnabled:= Op.OpCaretBlinkEn;

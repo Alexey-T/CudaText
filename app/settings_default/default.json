@@ -541,6 +541,9 @@
   //If 0, pause is disabled.
   "undo_pause": 300,
 
+  //Undo: Store to the Undo caret-jumps, performed by mouse clicks
+  "undo_for_caret_jump": true,
+
   //[Text/Caret]
   //Allow to place caret after end-of-line (virtual caret position),
   //and allow caret to go to previous line when Left is pressed at line start
