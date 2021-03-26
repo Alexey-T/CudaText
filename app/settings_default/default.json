@@ -539,7 +539,7 @@
 
   //Undo: Pause (in msec) for Undo/Redo commands, to show minimalistic animation.
   //If 0, pause is disabled.
-  "undo_pause": 200,
+  "undo_pause": 400,
 
   //[Text/Caret]
   //Allow to place caret after end-of-line (virtual caret position),

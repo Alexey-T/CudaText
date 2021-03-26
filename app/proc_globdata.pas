@@ -1438,7 +1438,7 @@ begin
     OpUndoMaxCarets:= cInitUndoMaxCarets;
     OpUndoIndentVert:= -5;
     OpUndoIndentHorz:= 10;
-    OpUndoPause:= 200;
+    OpUndoPause:= 400;
 
     OpCaretBlinkTime:= cInitCaretBlinkTime;
     OpCaretBlinkEn:= true;
