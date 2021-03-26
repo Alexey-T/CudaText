@@ -9,6 +9,8 @@ object fmColorSetup: TfmColorSetup
   ClientWidth = 558
   Constraints.MinHeight = 200
   Constraints.MinWidth = 200
+  OnClose = FormClose
+  OnCreate = FormCreate
   OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever

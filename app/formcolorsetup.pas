@@ -14,14 +14,15 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel,
   IniFiles, ColorBox, StdCtrls, ExtCtrls,
-  LazUTF8, LazFileUtils,
+  Types, LazUTF8, LazFileUtils,
   LCLType,
   ec_SyntAnal,
   ec_syntax_format,
   formlexerstyle,
   proc_msg,
   proc_globdata,
-  proc_colors, Types;
+  proc_colors,
+  proc_miscutils;
 
 type
   TApplyThemeEvent = procedure(const AColors: TAppTheme) of object;
@@ -42,6 +43,8 @@ type
     procedure bChangeClick(Sender: TObject);
     procedure bNoneClick(Sender: TObject);
     procedure bStyleClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure HelpButtonClick(Sender: TObject);
     procedure ListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -176,6 +179,16 @@ begin
   finally
     Free
   end;
+end;
+
+procedure TfmColorSetup.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  FormHistorySave(Self, '/pos/colortheme', false);
+end;
+
+procedure TfmColorSetup.FormCreate(Sender: TObject);
+begin
+  FormHistoryLoad(Self, '/pos/colortheme', false);
 end;
 
 procedure TfmColorSetup.FormShow(Sender: TObject);
