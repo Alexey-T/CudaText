@@ -541,7 +541,9 @@
   //If 0, pause is disabled.
   "undo_pause": 300,
 
-  //Undo: Store to the Undo caret-jumps, performed by mouse clicks
+  //Undo: Store to the Undo caret-jumps, performed by mouse clicks.
+  //If option is on, you need to perform additional "Undo" commands to revert
+  //to "unmodified" file state (if clicks were made).
   "undo_for_caret_jump": true,
 
   //[Text/Caret]
