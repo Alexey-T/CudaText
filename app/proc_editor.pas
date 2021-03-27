@@ -1040,7 +1040,7 @@ procedure EditorGotoLastEditingPos(Ed: TATSynEdit;
 var
   Caret: TATCaretItem;
 begin
-  Ed.Strings.DoGotoLastEditPos;
+  Ed.Strings.ActionGotoLastEditionPos;
   if Ed.Carets.Count>0 then
   begin
     Caret:= Ed.Carets[0];

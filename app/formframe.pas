@@ -1790,7 +1790,7 @@ begin
   end;
   Ed2.Strings.Endings:= Ed1.Strings.Endings;
 
-  Ed1.Strings.DoClearUndo;
+  Ed1.Strings.ClearUndo;
   Ed1.Strings.EncodingDetectDefaultUtf8:= UiOps.DefaultEncUtf8;
 
   Ed1.EncodingName:= AppEncodingShortnameToFullname(UiOps.NewdocEnc);

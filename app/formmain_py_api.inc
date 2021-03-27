@@ -1488,7 +1488,7 @@ begin
 
       Ed.DoCaretsFixIncorrectPos(false);
       Ed.DoEventChange;
-      Ed.Strings.DoSaveLastEditPos(0, 0);
+      Ed.Strings.ActionSaveLastEditionPos(0, 0);
       Ed.Update(true);
 
       Result:= ReturnNone;
@@ -1530,7 +1530,7 @@ begin
       end;
 
       Ed.DoEventChange;
-      Strs.DoSaveLastEditPos(0, N);
+      Strs.ActionSaveLastEditionPos(0, N);
       Ed.Update(true);
 
       Result:= ReturnNone;
@@ -3811,7 +3811,7 @@ begin
         PROP_LINE_STATES_UPDATED:
           begin
             if Str='' then
-              Ed.Strings.DoClearLineStatesUpdated;
+              Ed.Strings.ClearLineStatesUpdated;
           end;
 
         PROP_ZEBRA:
