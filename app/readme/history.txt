@@ -5,8 +5,8 @@
 
 1.130.0 (2021/03)
 
-+ add: HTML auto-completion: support HTML entities like &nbsp;
-+ add: HTML auto-completion: update tags/attribs lists, add more HTML global attribs (thanks @d-mal)
++ add: HTML auto-completion: support HTML entities (like &nbsp;)
++ add: HTML auto-completion: update tags/attribs lists (thanks @d-mal)
 + add: added some pause + animation when Undo/Redo scrolls to another area (with many editions across the document). This is controlled by new options "undo_pause" and "undo_for_caret_jump". (thanks @xcme)
 + add: better work of the feature which shows UI-tab titles like "test.txt * folder1" / "test.txt * folder2" (thanks @kvichans)
 + add: better statusbar "message" cell: instead of hiding the text it dims it; floating tooltip for that cell shows 30 last messages (thanks @Shovel)
