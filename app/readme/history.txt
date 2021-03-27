@@ -7,7 +7,12 @@
 
 + add: HTML auto-completion: support HTML entities (like &nbsp;)
 + add: HTML auto-completion: update tags/attribs lists (thanks @d-mal)
-+ add: added some pause + animation when Undo/Redo scrolls to another area (with many editions across the document). This is controlled by new options "undo_pause" and "undo_for_caret_jump". (thanks @xcme)
++ add: work on Undo/Redo (thanks @xcme)
+    + add: Undo: Caret movements were considered as actions that could be cancelled/repeated. It led to unneeded caret jumps. Now it looks more like undo/redo manages the content, not caret.
+    + add: Undo: If last change was performed in area which isn't visible now, then undo/redo actions will highlight for a while the line and insert a short delay before the undo/redo action.
+    + add: Undo: New options "undo_for_caret_jump" and "undo_pause".
+    + add: Undo: Paste followed by other editing were considered as single action, so undo cancelled both the pasting and the editing at once. Now these actions are separated.
+
 + add: better work of the feature which shows UI-tab titles like "test.txt * folder1" / "test.txt * folder2" (thanks @kvichans)
 + add: better statusbar "message" cell: instead of hiding the text it dims it; floating tooltip for that cell shows 30 last messages (thanks @Shovel)
 + add: option "undo_for_caret_jump"
