@@ -349,7 +349,7 @@ begin
   SetColor(apclEdLockedBg, nColorGutterBack, 'EdLockedBg', 'editor, locked state, BG');
   SetColor(apclEdCaret, clBlack, 'EdCaret', 'editor, caret');
   SetColor(apclEdMarkers, $6060d0, 'EdMarkers', 'editor, markers');
-  SetColor(apclEdCurLineBg, $eaf0f0, 'EdCurLineBg', 'editor, current line BG');
+  SetColor(apclEdCurLineBg, $e0e0d0, 'EdCurLineBg', 'editor, current line BG');
   SetColor(apclEdIndentVLine, clMedGray, 'EdIndentVLine', 'editor, wrapped line indent vert-lines');
   SetColor(apclEdUnprintFont, $a0a0b8, 'EdUnprintFont', 'editor, unprinted chars, font');
   SetColor(apclEdUnprintBg, $e0e0e0, 'EdUnprintBg', 'editor, unprinted chars, BG');
