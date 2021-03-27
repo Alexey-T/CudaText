@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.130.0 (2021/03)
+1.130.0 (2021/04)
 
 + add: HTML auto-completion: support HTML entities (like &nbsp;)
 + add: HTML auto-completion: update tags/attribs lists (thanks @d-mal)
@@ -15,7 +15,6 @@
 
 + add: better work of the feature which shows UI-tab titles like "test.txt * folder1" / "test.txt * folder2" (thanks @kvichans)
 + add: better statusbar "message" cell: instead of hiding the text it dims it; floating tooltip for that cell shows 30 last messages (thanks @Shovel)
-+ add: option "undo_for_caret_jump"
 - fix: calculating width of some Unicode chars (thanks @cser)
 
 1.129.5 (2021/03)
