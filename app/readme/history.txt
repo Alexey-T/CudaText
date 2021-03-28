@@ -12,6 +12,7 @@
     + add: Undo: If last change was performed in area which isn't visible now, then undo/redo actions will highlight for a while the line and insert a short delay before the undo/redo action.
     + add: Undo: New options "undo_for_caret_jump" and "undo_pause".
     + add: Undo: Paste followed by other editing were considered as single action, so undo cancelled both the pasting and the editing at once. Now these actions are separated.
+    + add: Undo: If pause (1500 msec) is passed between typing actions, undo them by steps.
 
 + add: better work of the feature which shows UI-tab titles like "test.txt * folder1" / "test.txt * folder2" (thanks @kvichans)
 + add: better statusbar "message" cell: instead of hiding the text it dims it; floating tooltip for that cell shows 30 last messages (thanks @Shovel)
