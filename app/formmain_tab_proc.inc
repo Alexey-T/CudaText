@@ -592,9 +592,11 @@ begin
     begin
       Prop:= TAppFrameX(L[i]);
       if Prop.Level=0 then
-        Prop.Frame.TabCaptionAddon:= ''
+        SName:= ''
       else
-        Prop.Frame.TabCaptionAddon:= ExtractFileDir(Prop.GetKey);
+        SName:= ExtractFileDir(Prop.GetKey);
+      Prop.Frame.TabCaptionAddon:= SName;
+      Prop.Frame.GetTabPages.Tabs.Invalidate;
     end;
   finally
     for i:= L.Count-1 downto 0 do
