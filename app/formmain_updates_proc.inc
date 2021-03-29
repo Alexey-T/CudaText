@@ -50,7 +50,7 @@ begin
 end;
 
 
-procedure TfmMain.UpdateToolButton(AToolbar: TATFlatToolbar;
+procedure TfmMain.UpdateToolbarButton(AToolbar: TATFlatToolbar;
   ACmd: integer; AChecked, AEnabled: boolean);
 var
   Btn: TATButton;
@@ -89,7 +89,7 @@ begin
   UpdateMenuChecks(F);
 end;
 
-procedure TfmMain.UpdateStateOfToolbarButtons(F: TEditorFrame);
+procedure TfmMain.UpdateToolbarButtons(F: TEditorFrame);
 var
   Ed: TATSynEdit;
   bEditable: boolean;
@@ -97,15 +97,15 @@ begin
   Ed:= F.Editor;
   bEditable:= not Ed.ModeReadOnly;
 
-  UpdateToolButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible, true);
-  UpdateToolButton(ToolbarMain, cCommand_ToggleUnprinted, Ed.OptUnprintedVisible, true);
+  UpdateToolbarButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible, true);
+  UpdateToolbarButton(ToolbarMain, cCommand_ToggleUnprinted, Ed.OptUnprintedVisible, true);
 
-  UpdateToolButton(ToolbarMain, cCommand_ClipboardCut, false, bEditable);
-  UpdateToolButton(ToolbarMain, cCommand_ClipboardPaste, false, bEditable);
-  UpdateToolButton(ToolbarMain, cCommand_Undo, false, bEditable and not Ed.Strings.UndoEmpty);
-  UpdateToolButton(ToolbarMain, cCommand_Redo, false, bEditable and not Ed.Strings.RedoEmpty);
-  UpdateToolButton(ToolbarMain, cCommand_TextIndent, false, bEditable);
-  UpdateToolButton(ToolbarMain, cCommand_TextUnindent, false, bEditable);
+  UpdateToolbarButton(ToolbarMain, cCommand_ClipboardCut, false, bEditable);
+  UpdateToolbarButton(ToolbarMain, cCommand_ClipboardPaste, false, bEditable);
+  UpdateToolbarButton(ToolbarMain, cCommand_Undo, false, bEditable and not Ed.Strings.UndoEmpty);
+  UpdateToolbarButton(ToolbarMain, cCommand_Redo, false, bEditable and not Ed.Strings.RedoEmpty);
+  UpdateToolbarButton(ToolbarMain, cCommand_TextIndent, false, bEditable);
+  UpdateToolbarButton(ToolbarMain, cCommand_TextUnindent, false, bEditable);
 end;
 
 procedure TfmMain.UpdateStatusbar_RealWork;

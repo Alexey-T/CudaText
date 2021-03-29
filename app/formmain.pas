@@ -1093,8 +1093,8 @@ type
     procedure UpdateStatusbarHints;
     procedure UpdateStatusbar_ForFrame(AStatus: TATStatus; F: TEditorFrame);
     procedure UpdateStatusbar_RealWork;
-    procedure UpdateStateOfToolbarButtons(F: TEditorFrame);
-    procedure UpdateToolButton(AToolbar: TATFlatToolbar; ACmd: integer; AChecked, AEnabled: boolean);
+    procedure UpdateToolbarButtons(F: TEditorFrame);
+    procedure UpdateToolbarButton(AToolbar: TATFlatToolbar; ACmd: integer; AChecked, AEnabled: boolean);
     procedure UpdateSidebarButtonFind;
     procedure UpdateTabCaptionsFromFolders;
     procedure UpdateTabsActiveColor(F: TEditorFrame);
@@ -2078,7 +2078,7 @@ begin
 
   Frame:= CurrentFrame;
 
-  UpdateStateOfToolbarButtons(Frame);
+  UpdateToolbarButtons(Frame);
 
   //frame requested to update statusbar
   if FLastStatusbarUpdated then
