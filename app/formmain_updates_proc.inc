@@ -81,15 +81,31 @@ begin
 end;
 
 procedure TfmMain.UpdateSomeStates(F: TEditorFrame);
+begin
+  UpdateTabCaptionsFromFolders;
+
+  UpdateSidebarButtonFind;
+
+  UpdateMenuChecks(F);
+end;
+
+procedure TfmMain.UpdateStateOfToolbarButtons(F: TEditorFrame);
 var
   Ed: TATSynEdit;
+  bEditable: boolean;
 begin
   Ed:= F.Editor;
-  UpdateTabCaptionsFromFolders;
-  UpdateSidebarButtonFind;
+  bEditable:= not Ed.ModeReadOnly;
+
   UpdateToolButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible, true);
   UpdateToolButton(ToolbarMain, cCommand_ToggleUnprinted, Ed.OptUnprintedVisible, true);
-  UpdateMenuChecks(F);
+
+  UpdateToolButton(ToolbarMain, cCommand_ClipboardCut, false, bEditable);
+  UpdateToolButton(ToolbarMain, cCommand_ClipboardPaste, false, bEditable);
+  UpdateToolButton(ToolbarMain, cCommand_Undo, false, bEditable and not Ed.Strings.UndoEmpty);
+  UpdateToolButton(ToolbarMain, cCommand_Redo, false, bEditable and not Ed.Strings.RedoEmpty);
+  UpdateToolButton(ToolbarMain, cCommand_TextIndent, false, bEditable);
+  UpdateToolButton(ToolbarMain, cCommand_TextUnindent, false, bEditable);
 end;
 
 procedure TfmMain.UpdateStatusbar_RealWork;
@@ -98,10 +114,6 @@ var
 begin
   F:= CurrentFrame;
   if F=nil then exit;
-
-  ////Ed.UndoCount is 1 initially, but can be 0 too, so hard to check it
-  //UpdateToolButton(ToolbarMain, cCommand_Undo, false, Ed.UndoCount>0);
-  //UpdateToolButton(ToolbarMain, cCommand_Redo, false, Ed.RedoCount>0);
 
   UpdateStatusbar_ForFrame(Status, F);
 end;
