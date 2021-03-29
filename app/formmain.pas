@@ -2077,12 +2077,13 @@ begin
 
   Frame:= CurrentFrame;
 
+  UpdateSomeStates(Frame);
+
   //frame requested to update statusbar
   if FLastStatusbarUpdated then
   begin
     FLastStatusbarUpdated:= false;
     TimerStatusWork.Enabled:= false;
-    UpdateSomeStates(Frame);
     UpdateStatusbar_RealWork;
   end;
 
