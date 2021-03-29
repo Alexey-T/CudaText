@@ -220,6 +220,7 @@ type
     ListboxHotkeyFontSizeDelta: integer;
 
     TabsShowFoldersSuffix: boolean;
+    TabsShowFoldersMaxLevels: integer;
     TabsResetUntitledCounter: boolean;
     TabsDisabled: boolean;
     TabVarWidth: boolean;
@@ -1632,6 +1633,7 @@ begin
     ListboxHotkeyFontSizeDelta:= 0; //2 gives too small hotkey font on Lin/Win
 
     TabsShowFoldersSuffix:= true;
+    TabsShowFoldersMaxLevels:= 3;
     TabsResetUntitledCounter:= true;
     TabsDisabled:= false;
     TabVarWidth:= false;

@@ -561,8 +561,6 @@ var
     end;
   end;
   //
-const
-  cMaxLevels = 3;
 var
   SName: string;
   Frame: TEditorFrame;
@@ -591,7 +589,7 @@ begin
       end;
     end;
 
-    for iLevel:= 0 to cMaxLevels do
+    for iLevel:= 0 to UiOps.TabsShowFoldersMaxLevels do
       for i:= 0 to L.Count-2 do
       begin
         Prop:= TAppFrameX(L[i]);
