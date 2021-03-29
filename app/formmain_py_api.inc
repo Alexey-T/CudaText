@@ -1072,38 +1072,33 @@ begin
         MARKERS_GET:
           begin
             NLen:= Ed.Attribs.Count;
-            if NLen>0 then
+            Result:= PyList_New(NLen);
+            if not Assigned(Result) then
+              raise EPythonError.Create(msgPythonListError);
+            for i:= 0 to NLen-1 do
             begin
-              Result:= PyList_New(NLen);
-              if not Assigned(Result) then
-                raise EPythonError.Create(msgPythonListError);
-              for i:= 0 to NLen-1 do
-              begin
-                Mark:= Ed.Attribs[i];
-                Obj:= TATLinePartClass(Mark.Ptr);
-                PyList_SetItem(Result, i,
-                  Py_BuildValue('(Liiiiiiiiiiiiiii)',
-                    Mark.Tag,
-                    Mark.PosX,
-                    Mark.PosY,
-                    Mark.SelX,
-                    Obj.Data.ColorFont,
-                    Obj.Data.ColorBG,
-                    Obj.Data.ColorBorder,
-                    Ord((Obj.Data.FontStyles and afsFontBold)<>0),
-                    Ord((Obj.Data.FontStyles and afsFontItalic)<>0),
-                    Ord((Obj.Data.FontStyles and afsFontCrossed)<>0),
-                    Ord(Obj.Data.BorderLeft),
-                    Ord(Obj.Data.BorderRight),
-                    Ord(Obj.Data.BorderDown),
-                    Ord(Obj.Data.BorderUp),
-                    Ord(Obj.ColumnTag),
-                    Ord(Mark.MicromapMode)
-                    ));
-              end;
-            end
-            else
-              Result:= ReturnNone;
+              Mark:= Ed.Attribs[i];
+              Obj:= TATLinePartClass(Mark.Ptr);
+              PyList_SetItem(Result, i,
+                Py_BuildValue('(Liiiiiiiiiiiiiii)',
+                  Mark.Tag,
+                  Mark.PosX,
+                  Mark.PosY,
+                  Mark.SelX,
+                  Obj.Data.ColorFont,
+                  Obj.Data.ColorBG,
+                  Obj.Data.ColorBorder,
+                  Ord((Obj.Data.FontStyles and afsFontBold)<>0),
+                  Ord((Obj.Data.FontStyles and afsFontItalic)<>0),
+                  Ord((Obj.Data.FontStyles and afsFontCrossed)<>0),
+                  Ord(Obj.Data.BorderLeft),
+                  Ord(Obj.Data.BorderRight),
+                  Ord(Obj.Data.BorderDown),
+                  Ord(Obj.Data.BorderUp),
+                  Ord(Obj.ColumnTag),
+                  Ord(Mark.MicromapMode)
+                  ));
+            end;
           end;
 
         MARKERS_GET_DICT:

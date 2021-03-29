@@ -4238,5 +4238,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.374 (app 1.130.0)
 * change: Editor.get_carets() returns [] if no items
 * change: Editor.markers(MARKERS_GET) returns [] if no items
+* change: Editor.attr(MARKERS_GET) returns [] if no items
 
 [[Category:CudaText]]
