@@ -554,9 +554,11 @@ var
   begin
     for i:= 0 to PagesCount-1 do
       if PagesArray[i]=Obj then exit;
-    Inc(PagesCount);
-    if PagesCount<=High(PagesArray) then
+    if PagesCount<Length(PagesArray) then
+    begin
+      Inc(PagesCount);
       PagesArray[PagesCount-1]:= Obj;
+    end;
   end;
   //
 const
