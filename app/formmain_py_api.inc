@@ -906,20 +906,15 @@ begin
     begin
       Ed:= PyHelper_EditorFromHandle(H);
       NLen:= Ed.Carets.Count;
-      if NLen>0 then
+      Result:= PyList_New(NLen);
+      if not Assigned(Result) then
+        raise EPythonError.Create(msgPythonListError);
+      for i:= 0 to NLen-1 do
       begin
-        Result:= PyList_New(NLen);
-        if not Assigned(Result) then
-          raise EPythonError.Create(msgPythonListError);
-        for i:= 0 to NLen-1 do
-        begin
-          Caret:= Ed.Carets[i];
-          PyList_SetItem(Result, i,
-            Py_BuildValue('(iiii)', Caret.PosX, Caret.PosY, Caret.EndX, Caret.EndY));
-        end;
-      end
-      else
-        Result:= ReturnNone;
+        Caret:= Ed.Carets[i];
+        PyList_SetItem(Result, i,
+          Py_BuildValue('(iiii)', Caret.PosX, Caret.PosY, Caret.EndX, Caret.EndY));
+      end;
     end
   else
     Result:= ReturnNone;
