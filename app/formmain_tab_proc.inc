@@ -595,8 +595,11 @@ begin
         SName:= ''
       else
         SName:= ExtractFileDir(Prop.GetKey);
-      Prop.Frame.TabCaptionAddon:= SName;
-      Prop.Frame.GetTabPages.Tabs.Invalidate;
+      if Prop.Frame.TabCaptionAddon<>SName then
+      begin
+        Prop.Frame.TabCaptionAddon:= SName;
+        Prop.Frame.GetTabPages.Tabs.Invalidate;
+      end;
     end;
   finally
     for i:= L.Count-1 downto 0 do
