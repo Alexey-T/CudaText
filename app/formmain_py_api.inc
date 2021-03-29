@@ -937,26 +937,21 @@ begin
         MARKERS_GET:
           begin
             NLenX:= Ed.Markers.Count;
-            if NLenX>0 then
+            Result:= PyList_New(NLenX);
+            if not Assigned(Result) then
+              raise EPythonError.Create(msgPythonListError);
+            for i:= 0 to NLenX-1 do
             begin
-              Result:= PyList_New(NLenX);
-              if not Assigned(Result) then
-                raise EPythonError.Create(msgPythonListError);
-              for i:= 0 to NLenX-1 do
-              begin
-                Mark:= Ed.Markers[i];
-                PyList_SetItem(Result, i,
-                  Py_BuildValue('(iiiiL)',
-                    Mark.PosX,
-                    Mark.PosY,
-                    Mark.SelX,
-                    Mark.SelY,
-                    Mark.Tag
-                    ));
-              end;
-            end
-            else
-              Result:= ReturnNone;
+              Mark:= Ed.Markers[i];
+              PyList_SetItem(Result, i,
+                Py_BuildValue('(iiiiL)',
+                  Mark.PosX,
+                  Mark.PosY,
+                  Mark.SelX,
+                  Mark.SelY,
+                  Mark.Tag
+                  ));
+            end;
           end;
 
         MARKERS_GET_DICT:

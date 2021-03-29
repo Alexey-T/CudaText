@@ -4236,6 +4236,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * change: timer_proc: specifying interval<10 will run timer with value 10
 
 1.0.374 (app 1.130.0)
-* change: Editor.get_carets() returns [] if no carets
+* change: Editor.get_carets() returns [] if no items
+* change: Editor.markers(MARKERS_GET) returns [] if no items
 
 [[Category:CudaText]]
