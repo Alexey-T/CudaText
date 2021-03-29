@@ -219,6 +219,7 @@ type
     ListboxFuzzySearch: boolean;
     ListboxHotkeyFontSizeDelta: integer;
 
+    TabsShowFoldersSuffix: boolean;
     TabsResetUntitledCounter: boolean;
     TabsDisabled: boolean;
     TabVarWidth: boolean;
@@ -1630,6 +1631,7 @@ begin
     ListboxFuzzySearch:= true;
     ListboxHotkeyFontSizeDelta:= 0; //2 gives too small hotkey font on Lin/Win
 
+    TabsShowFoldersSuffix:= true;
     TabsResetUntitledCounter:= true;
     TabsDisabled:= false;
     TabVarWidth:= false;

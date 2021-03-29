@@ -571,6 +571,8 @@ var
   bFoundPair: boolean;
   iLevel, i, j: integer;
 begin
+  if not UiOps.TabsShowFoldersSuffix then exit;
+
   FillChar(PagesArray, SizeOf(PagesArray), 0);
   PagesCount:= 0;
 
