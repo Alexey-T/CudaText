@@ -1,4 +1,4 @@
-object SyntAnal18: TLibSyntAnalyzer
+object SyntAnal22: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Number'
@@ -111,7 +111,7 @@ object SyntAnal18: TLibSyntAnalyzer
       TokenType = 10
       Expression = 
         '(?<=^[\x20\x09]*) (if|else|elif|for|async\x20+for|while|try|exce' +
-        'pt|finally|switch|case|with)\b'
+        'pt|finally|switch|case|with|async\x20+with)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
