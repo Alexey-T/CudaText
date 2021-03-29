@@ -1088,6 +1088,7 @@ type
       APosition: TAppTooltipPos; AGotoBracket: boolean);
     procedure DoTooltipHide;
     procedure MsgStatusErrorInRegex;
+    procedure UpdateSomeStates(F: TEditorFrame);
     procedure UpdateStatusbarPanelsFromString(const AText: string);
     procedure UpdateStatusbarHints;
     procedure UpdateStatusbar_ForFrame(AStatus: TATStatus; F: TEditorFrame);

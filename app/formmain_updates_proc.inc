@@ -80,20 +80,26 @@ begin
   ToolbarSideMid.Buttons[0].Checked:= Assigned(fmFind) and fmFind.Visible;
 end;
 
-procedure TfmMain.UpdateStatusbar_RealWork;
+procedure TfmMain.UpdateSomeStates(F: TEditorFrame);
 var
-  F: TEditorFrame;
   Ed: TATSynEdit;
 begin
-  F:= CurrentFrame;
-  if F=nil then exit;
   Ed:= F.Editor;
-
-  UpdateTabCaptionsFromFolders; //maybe it's called too often here?
+  UpdateTabCaptionsFromFolders;
   UpdateSidebarButtonFind;
   UpdateToolButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible, true);
   UpdateToolButton(ToolbarMain, cCommand_ToggleUnprinted, Ed.OptUnprintedVisible, true);
   UpdateMenuChecks(F);
+end;
+
+procedure TfmMain.UpdateStatusbar_RealWork;
+var
+  F: TEditorFrame;
+begin
+  F:= CurrentFrame;
+  if F=nil then exit;
+
+  UpdateSomeStates(F);
 
   ////Ed.UndoCount is 1 initially, but can be 0 too, so hard to check it
   //UpdateToolButton(ToolbarMain, cCommand_Undo, false, Ed.UndoCount>0);
