@@ -544,6 +544,21 @@ begin
 end;
 
 procedure TfmMain.UpdateTabCaptionsFromFolders;
+var
+  PagesArray: array[0..9] of TATPages; //6 main groups + 3 floating groups
+  PagesCount: integer;
+  //
+  procedure AddPagesToArray(Obj: TATPages);
+  var
+    i: integer;
+  begin
+    for i:= 0 to PagesCount-1 do
+      if PagesArray[i]=Obj then exit;
+    Inc(PagesCount);
+    if PagesCount<=High(PagesArray) then
+      PagesArray[PagesCount-1]:= Obj;
+  end;
+  //
 const
   cMaxLevels = 3;
 var
@@ -554,6 +569,9 @@ var
   bFoundPair: boolean;
   iLevel, i, j: integer;
 begin
+  FillChar(PagesArray, SizeOf(PagesArray), 0);
+  PagesCount:= 0;
+
   L:= TFPList.Create;
   try
     for i:= 0 to FrameCount-1 do
@@ -598,7 +616,7 @@ begin
       if Prop.Frame.TabCaptionAddon<>SName then
       begin
         Prop.Frame.TabCaptionAddon:= SName;
-        Prop.Frame.GetTabPages.Tabs.Invalidate;
+        AddPagesToArray(Prop.Frame.GetTabPages);
       end;
     end;
   finally
@@ -606,5 +624,8 @@ begin
       TObject(L[i]).Free;
     FreeAndNil(L);
   end;
+
+  for i:= 0 to PagesCount-1 do
+    PagesArray[i].Invalidate;
 end;
 
