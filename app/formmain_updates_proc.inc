@@ -99,8 +99,6 @@ begin
   F:= CurrentFrame;
   if F=nil then exit;
 
-  UpdateSomeStates(F);
-
   ////Ed.UndoCount is 1 initially, but can be 0 too, so hard to check it
   //UpdateToolButton(ToolbarMain, cCommand_Undo, false, Ed.UndoCount>0);
   //UpdateToolButton(ToolbarMain, cCommand_Redo, false, Ed.RedoCount>0);

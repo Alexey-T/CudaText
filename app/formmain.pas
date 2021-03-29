@@ -2082,6 +2082,7 @@ begin
   begin
     FLastStatusbarUpdated:= false;
     TimerStatusWork.Enabled:= false;
+    UpdateSomeStates(Frame);
     UpdateStatusbar_RealWork;
   end;
 
