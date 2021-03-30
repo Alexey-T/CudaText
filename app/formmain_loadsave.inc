@@ -505,6 +505,7 @@ begin
       nIndex:= cfg.GetValue('/tab_index/g'+IntToStr(i), -1);
       nIndex:= Max(0, Min(nIndex, CurTabs.TabCount-1));
       with CurTabs do
+       if TabCount>0 then
         if TabIndex<>nIndex then
           TabIndex:= nIndex
         else
@@ -516,6 +517,7 @@ begin
     //restore group-index
     nIndex:= cfg.GetValue('/tab_index/g_active', Low(TATGroupsNums));
     if (nIndex>=Low(TATGroupsNums)) and (nIndex<=High(TATGroupsNums)) then
+     if Groups.Pages[nIndex].Tabs.TabCount>0 then
       if Groups.PagesCurrent<>Groups.Pages[nIndex] then
       begin
         Groups.PagesCurrent:= Groups.Pages[nIndex];
