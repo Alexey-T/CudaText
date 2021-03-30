@@ -273,9 +273,9 @@ begin
     //need to activate tab, before msgbox
     (Sender as TATTabs).TabIndex:= ATabIndex;
 
-    if ACanContinue then Btn:= MB_YESNOCANCEL else Btn:= MB_OKCANCEL;
+    Btn:= MB_OKCANCEL;
     Msg:= Format(msgConfirmClosePinnedTab, [D.TabCaptionFull]);
-    Res:= MsgBox(Msg, Btn or MB_ICONQUESTION);
+    Res:= MsgBox(Msg, Btn or MB_ICONWARNING);
   end
   else
   if Frame.Modified then

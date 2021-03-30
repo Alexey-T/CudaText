@@ -3147,6 +3147,14 @@ begin
               Result:= ReturnNone;
           end;
 
+        PROP_TAB_PINNED:
+          begin
+            if Assigned(F) then
+              Result:= PyBool_FromLong(Ord(F.TabPinned))
+            else
+              Result:= ReturnNone;
+          end;
+
         PROP_TAB_ID:
           begin
             if Assigned(F) then
@@ -3828,6 +3836,12 @@ begin
               F.TabCaptionFromApi:= true;
               F.TabCaption:= Str;
             end;
+          end;
+
+        PROP_TAB_PINNED:
+          begin
+            if Assigned(F) then
+              F.TabPinned:= ValueBool;
           end;
 
         PROP_ENC:
