@@ -135,6 +135,7 @@ type
     FActiveSecondaryEd: boolean;
     FLocked: boolean;
     FTabColor: TColor;
+    FTabPinned: boolean;
     FTabSizeChanged: boolean;
     FTabKeyCollectMarkers: boolean;
     FInSession: boolean;
@@ -235,6 +236,7 @@ type
     procedure SetReadOnly(Ed: TATSynEdit; AValue: boolean);
     procedure SetTabCaptionAddon(const AValue: string);
     procedure SetTabColor(AColor: TColor);
+    procedure SetTabPinned(AValue: boolean);
     procedure SetTabImageIndex(AValue: integer);
     procedure SetUnprintedEnds(AValue: boolean);
     procedure SetUnprintedEndsDetails(AValue: boolean);
@@ -322,6 +324,7 @@ type
     property Locked: boolean read FLocked write SetLocked;
     property CommentString[Ed: TATSynEdit]: string read GetCommentString;
     property TabColor: TColor read FTabColor write SetTabColor;
+    property TabPinned: boolean read FTabPinned write SetTabPinned;
     property TabSizeChanged: boolean read FTabSizeChanged write FTabSizeChanged;
     property TabKeyCollectMarkers: boolean read GetTabKeyCollectMarkers write FTabKeyCollectMarkers;
     property InSession: boolean read FInSession write FInSession;
@@ -456,6 +459,7 @@ const
   cHistory_Caret       = '/crt';
   //cHistory_Markers     = '/mrk';
   cHistory_TabColor    = '/color';
+  cHistory_TabPinned   = '/pinned';
   cHistory_Bookmark    = '/bm';
   cHistory_BookmarkKind = '/bm_kind';
   cHistory_FoldingShow  = '/fold';
@@ -3158,6 +3162,8 @@ begin
       c.SetValue(path+cHistory_TabColor, ColorToString(TabColor));
   end;
 
+  c.SetDeleteValue(path+cHistory_TabPinned, TabPinned, false);
+
   if UiOps.HistoryItems[ahhCaret] then
     DoSaveHistory_Caret(Ed, c, path);
 
@@ -3313,6 +3319,8 @@ begin
   end;
 
   TabColor:= StringToColorDef(c.GetValue(path+cHistory_TabColor, ''), clNone);
+
+  TabPinned:= c.GetValue(path+cHistory_TabPinned, false);
 
   if not Ed.IsReadOnlyAutodetected then
     ReadOnly[Ed]:= c.GetValue(path+cHistory_ReadOnly, ReadOnly[Ed]);
@@ -3509,6 +3517,23 @@ begin
   if Assigned(D) then
   begin
     D.TabColor:= AColor;
+    Pages.Tabs.Invalidate;
+  end;
+end;
+
+procedure TEditorFrame.SetTabPinned(AValue: boolean);
+var
+  Gr: TATGroups;
+  Pages: TATPages;
+  NLocalGroups, NGlobalGroup, NTab: integer;
+  D: TATTabData;
+begin
+  FTabPinned:= AValue;
+  GetFrameLocation(Self, Gr, Pages, NLocalGroups, NGlobalGroup, NTab);
+  D:= Pages.Tabs.GetTabData(NTab);
+  if Assigned(D) then
+  begin
+    D.TabPinned:= AValue;
     Pages.Tabs.Invalidate;
   end;
 end;
