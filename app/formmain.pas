@@ -458,6 +458,7 @@ type
     procedure ListboxOutKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure mnuEditClick(Sender: TObject);
     procedure mnuTabColorClick(Sender: TObject);
+    procedure mnuTabPinnedClick(Sender: TObject);
     procedure mnuTabCopyDirClick(Sender: TObject);
     procedure mnuTabCopyFullPathClick(Sender: TObject);
     procedure mnuTabCopyNameClick(Sender: TObject);
@@ -537,6 +538,7 @@ type
     mnuTabCloseSub: TMenuItem;
     mnuTabCloseThis: TMenuItem;
     mnuTabColor: TMenuItem;
+    mnuTabPinned: TMenuItem;
     mnuTabCopyDir: TMenuItem;
     mnuTabCopyFullPath: TMenuItem;
     mnuTabCopyName: TMenuItem;
@@ -1915,6 +1917,11 @@ begin
     mnuTabColor.Caption:= 'Set tab color...';
     mnuTabColor.OnClick:= @mnuTabColorClick;
     PopupTab.Items.Add(mnuTabColor);
+
+    mnuTabPinned:= TMenuItem.Create(Self);
+    mnuTabPinned.Caption:= 'Pinned';
+    mnuTabPinned.OnClick:= @mnuTabPinnedClick;
+    PopupTab.Items.Add(mnuTabPinned);
   end;
 
   DoLocalizePopupTab;
@@ -4511,15 +4518,24 @@ begin
     AItem.Enabled:= AValue;
 end;
 
+procedure UpdateMenuChecked(AItem: TMenuItem; AValue: boolean); inline;
+begin
+  if Assigned(AItem) then
+    AItem.Checked:= AValue;
+end;
+
+
 procedure TfmMain.PopupTabPopup(Sender: TObject);
 var
   CurForm: TForm;
+  Frame: TEditorFrame;
   NVis, NCur: Integer;
 begin
-
   CurForm:= Screen.ActiveForm;
   GroupsCtx:= nil;
   NCur:= -1;
+
+  Frame:= CurrentFrame;
 
   if CurForm=Self then
   begin
@@ -4561,6 +4577,7 @@ begin
   UpdateMenuEnabled(mnuTabMoveF3, (NCur<>8));
   UpdateMenuEnabled(mnuTabMoveNext, (NVis>=2) and (NCur<6));
   UpdateMenuEnabled(mnuTabMovePrev, (NVis>=2) and (NCur<6));
+  UpdateMenuChecked(mnuTabPinned, Frame.TabPinned);
 end;
 
 procedure TfmMain.PythonEngineAfterInit(Sender: TObject);
@@ -6501,6 +6518,16 @@ begin
   else
     F.TabColor:= NColor;
 end;
+
+procedure TfmMain.mnuTabPinnedClick(Sender: TObject);
+var
+  F: TEditorFrame;
+begin
+  F:= FrameOfPopup;
+  if F=nil then exit;
+  F.TabPinned:= not F.TabPinned;
+end;
+
 
 procedure TfmMain.mnuTabCopyDirClick(Sender: TObject);
 var
