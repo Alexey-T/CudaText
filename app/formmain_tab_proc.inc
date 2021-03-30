@@ -276,6 +276,16 @@ begin
     Btn:= MB_OKCANCEL;
     Msg:= Format(msgConfirmClosePinnedTab, [D.TabCaptionFull]);
     Res:= MsgBox(Msg, Btn or MB_ICONWARNING);
+
+    //second confirm for pinned+modified tab
+    if Res=ID_OK then
+      if Frame.Modified then
+      begin
+        Btn:= MB_OKCANCEL;
+        Msg:= Format(msgConfirmSaveModifiedTab, [D.TabCaptionFull]);
+        if MsgBox(Msg, Btn or MB_ICONQUESTION)=ID_OK then
+          bSavedOk:= Frame.DoFileSave(false, true);
+      end;
   end
   else
   if Frame.Modified then
