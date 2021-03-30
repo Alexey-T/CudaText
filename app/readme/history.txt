@@ -15,6 +15,7 @@
     + add: Undo: If pause (1500 msec) is passed between typing actions, undo them by steps.
     * change: Multi-caret edition - undo all chars at once, like ST3.
 
++ add: tab's context menu has new item "Pinned" (thanks @kvichans)
 + add: better work of the feature which shows UI-tab titles like "test.txt * folder1" / "test.txt * folder2" (thanks @kvichans)
 + add: better statusbar "message" cell: instead of hiding the text it dims it; floating tooltip for that cell shows 30 last messages (thanks @Shovel)
 + add: app updates 'enabled state' of toolbar buttons (visible on colorful toolbar theme)
