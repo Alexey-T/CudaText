@@ -594,6 +594,7 @@ begin
     DoLocString(msgConfirmOpenCreatedDoc         , ini, 'sc', 'OpenCreatedDoc');
     DoLocString(msgConfirmSaveColorsToFile       , ini, 'sc', 'SaveColorsToFile');
     DoLocString(msgConfirmSaveModifiedTab        , ini, 'sc', 'SaveModifiedTab');
+    DoLocString(msgConfirmClosePinnedTab         , ini, 'sc', 'ClosePinned');
     DoLocString(msgConfirmReopenModifiedTab      , ini, 'sc', 'ReopenModifiedTab');
     DoLocString(msgConfirmReloadFileWithEnc      , ini, 'sc', 'ReloadFileWithEnc');
     DoLocString(msgConfirmCreateNewFile          , ini, 'sc', 'CreateNewFile');
