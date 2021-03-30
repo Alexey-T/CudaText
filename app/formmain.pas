@@ -5808,7 +5808,13 @@ begin
 
   NCommand:= TAppMenuProps(NTag).CommandCode;
   SCallback:= TAppMenuProps(NTag).CommandString;
+
   F:= CurrentFrame;
+
+  //note: F can be Nil here in some cases
+  //(e.g. loaded session with bad focused tab in group-2, and group-2 is empty)
+  if F=nil then
+    F:= Frames[0];
 
   //dont do editor commands here if ed not focused
   bFindFocused:= Assigned(fmFind) and
