@@ -268,9 +268,17 @@ begin
   if Application.Terminated then
     Res:= ID_OK
   else
-  if not Frame.Modified then
-    Res:= ID_OK
+  if Frame.TabPinned then
+  begin
+    //need to activate tab, before msgbox
+    (Sender as TATTabs).TabIndex:= ATabIndex;
+
+    if ACanContinue then Btn:= MB_YESNOCANCEL else Btn:= MB_OKCANCEL;
+    Msg:= Format(msgConfirmClosePinnedTab, [D.TabCaptionFull]);
+    Res:= MsgBox(Msg, Btn or MB_ICONQUESTION);
+  end
   else
+  if Frame.Modified then
   begin
     //need to activate tab, before msgbox
     (Sender as TATTabs).TabIndex:= ATabIndex;
@@ -280,7 +288,9 @@ begin
     Res:= MsgBox(Msg, Btn or MB_ICONQUESTION);
     if (Res=ID_OK) or (Res=ID_YES) then
       bSavedOk:= Frame.DoFileSave(false, true);
-  end;
+  end
+  else
+    Res:= ID_OK;
 
   ACanClose:= (Res<>ID_CANCEL) and bSavedOk;
   ACanContinue:= (Res<>ID_CANCEL);

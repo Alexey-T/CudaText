@@ -294,6 +294,7 @@ const
   msgConfirmOpenCreatedDoc: string = 'Open created document?';
   msgConfirmSaveColorsToFile: string = 'Save theme to file?';
   msgConfirmSaveModifiedTab: string = 'Tab is modified:'#13'%s'#13#13'Save it first?';
+  msgConfirmClosePinnedTab: string = 'Tab is pinned:'#13'%s'#13#13'Are you sure you want to close it?';
   msgConfirmReopenModifiedTab: string = 'Tab is modified:'#13'%s'#13#13'Reopen it?';
   msgConfirmReloadFileWithEnc: string = 'Encoding is changed in memory.'#13'Do you also want to reopen file?';
   msgConfirmCreateNewFile: string = 'File not found:'#13'"%s"'#13#13'Create it?';
