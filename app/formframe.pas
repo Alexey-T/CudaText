@@ -301,6 +301,7 @@ type
     property CachedTreeView[Ed: TATSynEdit]: TTreeView read GetCachedTreeview;
     property SaveHistory: boolean read FSaveHistory write FSaveHistory;
     procedure UpdateModified(Ed: TATSynEdit; AWithEvent: boolean= true);
+    procedure UpdatePinned(Ed: TATSynEdit; AWithEvent: boolean);
     procedure UpdateReadOnlyFromFile(Ed: TATSynEdit);
     procedure UpdateFrame(AUpdatedText: boolean);
     procedure FixLexerIfDeleted(Ed: TATSynEdit; const ALexerName: string);
@@ -1384,6 +1385,22 @@ begin
 
   DoOnUpdateStatusbar;
 end;
+
+procedure TEditorFrame.UpdatePinned(Ed: TATSynEdit; AWithEvent: boolean);
+var
+  Params: TAppVariantArray;
+begin
+  if TabPinned then
+    DoRemovePreviewStyle;
+
+  if AWithEvent then
+  begin
+    SetLength(Params, 1);
+    Params[0]:= AppVariant(EDSTATE_PINNED);
+    DoPyEvent(Ed, cEventOnStateEd, Params);
+  end;
+end;
+
 
 procedure TEditorFrame.EditorOnEnter(Sender: TObject);
 var
@@ -3528,7 +3545,9 @@ var
   NLocalGroups, NGlobalGroup, NTab: integer;
   D: TATTabData;
 begin
+  if FTabPinned=AValue then exit;
   FTabPinned:= AValue;
+
   GetFrameLocation(Self, Gr, Pages, NLocalGroups, NGlobalGroup, NTab);
   D:= Pages.Tabs.GetTabData(NTab);
   if Assigned(D) then
@@ -3536,6 +3555,8 @@ begin
     D.TabPinned:= AValue;
     Pages.Tabs.Invalidate;
   end;
+
+  UpdatePinned(Ed1, true);
 end;
 
 procedure TEditorFrame.DoRemovePreviewStyle;
