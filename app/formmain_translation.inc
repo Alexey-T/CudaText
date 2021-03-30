@@ -76,6 +76,7 @@ begin
       DoLocMenuitem(ini, mnuTabSave, 'ct', 'sv');
       DoLocMenuitem(ini, mnuTabSaveAs, 'ct', 'sv_as');
       DoLocMenuitem(ini, mnuTabColor, 'ct', 'col_t');
+      DoLocMenuitem(ini, mnuTabPinned, 'ct', 'pin');
 
       DoLocMenuitem(mnuTabCopySub, msgCopySub);
       DoLocMenuitem(mnuTabCopyFullPath, msgCopyFilenameFull);
