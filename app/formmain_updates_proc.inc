@@ -82,6 +82,8 @@ end;
 
 procedure TfmMain.UpdateSomeStates(F: TEditorFrame);
 begin
+  if F=nil then exit;
+
   UpdateTabCaptionsFromFolders;
 
   UpdateSidebarButtonFind;
@@ -94,6 +96,7 @@ var
   Ed: TATSynEdit;
   bEditable: boolean;
 begin
+  if F=nil then exit;
   Ed:= F.Editor;
   bEditable:= not Ed.ModeReadOnly;
 
