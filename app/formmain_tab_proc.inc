@@ -268,7 +268,7 @@ begin
   if Application.Terminated then
     Res:= ID_OK
   else
-  if Frame.TabPinned then
+  if Frame.TabPinned and not FSessionIsClosing then
   begin
     //need to activate tab, before msgbox
     (Sender as TATTabs).TabIndex:= ATabIndex;

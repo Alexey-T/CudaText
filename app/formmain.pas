@@ -604,6 +604,7 @@ type
     FLastStatusbarMessages: TStringList;
     FConsoleMustShow: boolean;
     FSessionIsLoading: boolean;
+    FSessionIsClosing: boolean;
     FColorDialog: TColorDialog;
     Status: TATStatus;
     Groups: TATGroups;

@@ -371,7 +371,12 @@ begin
     if Frames[0].IsEmpty then
       nCountFilesBefore:= 0;
 
-  if not DoFileCloseAll(true) then exit;
+  FSessionIsClosing:= true;
+  try
+    if not DoFileCloseAll(true) then exit;
+  finally
+    FSessionIsClosing:= false;
+  end;
 
   nTick:= GetTickCount64;
   nCountFiles:= 0;
