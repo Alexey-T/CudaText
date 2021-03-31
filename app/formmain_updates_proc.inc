@@ -44,6 +44,14 @@ begin
   else
     SSession:= '';
 
+  if SName='' then //CudaText #3280
+  begin
+    if F.FileName<>'' then
+      SName:= ExtractFileName(F.FileName)
+    else
+      SName:= msgUntitledTab;
+  end;
+
   Caption:= SName + SSession + ' - ' + msgTitle;
 
   Application.Title:= F.TabCaption + ' - ' + msgTitle;
