@@ -1125,9 +1125,11 @@ end;
 
 procedure TEditorFrame.SetReadOnly(Ed: TATSynEdit; AValue: boolean);
 begin
+  if Ed.ModeReadOnly=AValue then exit;
   Ed.ModeReadOnly:= AValue;
   if (Ed=Ed1) and EditorsLinked then
     Ed2.ModeReadOnly:= AValue;
+  //DoPyEventState(Ed, EDSTATE_READONLY);
 end;
 
 procedure TEditorFrame.UpdateEds(AUpdateWrapInfo: boolean = false);
