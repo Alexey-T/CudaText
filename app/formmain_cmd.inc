@@ -448,19 +448,10 @@ begin
       end;
     cmd_ResetTabColor:
       begin
-        Frame.TabColor:= clNone;
+        if Assigned(Frame) then
+          Frame.TabColor:= clNone;
       end;
 
-    cmd_SetTabPinned:
-      begin
-        if Assigned(Frame) then
-          Frame.TabPinned:= true;
-      end;
-    cmd_ResetTabPinned:
-      begin
-        if Assigned(Frame) then
-          Frame.TabPinned:= false;
-      end;
     cmd_ToggleTabPinned:
       begin
         if Assigned(Frame) then
