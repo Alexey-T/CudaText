@@ -390,6 +390,7 @@ type
     procedure DoLoadHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString; AllowEnc: boolean);
     //misc
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
+    procedure DoPyEventState(Ed: TATSynEdit; AState: integer);
     procedure DoGotoPos(Ed: TATSynEdit; APosX, APosY: integer);
     procedure DoRemovePreviewStyle;
     procedure DoToggleFocusSplitEditors;
@@ -524,20 +525,15 @@ end;
 
 procedure TEditorFrame.SetTabCaption(const AValue: string);
 var
-  Params: TAppVariantArray;
-  Upd: boolean;
+  bUpdate: boolean;
 begin
   if AValue='?' then Exit;
-  Upd:= FTabCaption<>AValue;
+  bUpdate:= FTabCaption<>AValue;
 
   FTabCaption:= AValue; //don't check Upd here (for Win32)
 
-  if Upd then
-  begin
-    SetLength(Params, 1);
-    Params[0]:= AppVariant(EDSTATE_TAB_TITLE);
-    DoPyEvent(Ed1, cEventOnStateEd, Params);
-  end;
+  if bUpdate then
+    DoPyEventState(Ed1, EDSTATE_TAB_TITLE);
 
   DoOnChangeCaption;
 end;
@@ -1366,8 +1362,6 @@ begin
 end;
 
 procedure TEditorFrame.UpdateModified(Ed: TATSynEdit; AWithEvent: boolean);
-var
-  Params: TAppVariantArray;
 begin
   //when modified, remove "Preview tab" style (italic caption)
   if (Ed=Ed1) and Ed.Modified then
@@ -1377,11 +1371,7 @@ begin
   DoOnChangeCaption;
 
   if AWithEvent then
-  begin
-    SetLength(Params, 1);
-    Params[0]:= AppVariant(EDSTATE_MODIFIED);
-    DoPyEvent(Ed, cEventOnStateEd, Params);
-  end;
+    DoPyEventState(Ed, EDSTATE_MODIFIED);
 
   DoOnUpdateStatusbar;
 end;
@@ -1394,11 +1384,7 @@ begin
     DoRemovePreviewStyle;
 
   if AWithEvent then
-  begin
-    SetLength(Params, 1);
-    Params[0]:= AppVariant(EDSTATE_PINNED);
-    DoPyEvent(Ed, cEventOnStateEd, Params);
-  end;
+    DoPyEventState(Ed, EDSTATE_PINNED);
 end;
 
 
@@ -3518,6 +3504,15 @@ begin
     Result.Val:= evrOther;
     Result.Str:= '';
   end;
+end;
+
+procedure TEditorFrame.DoPyEventState(Ed: TATSynEdit; AState: integer);
+var
+  Params: TAppVariantArray;
+begin
+  SetLength(Params, 1);
+  Params[0]:= AppVariant(AState);
+  DoPyEvent(Ed, cEventOnStateEd, Params);
 end;
 
 
