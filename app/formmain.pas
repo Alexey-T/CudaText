@@ -1914,15 +1914,15 @@ begin
     mnuTabMovePrev.OnClick:= @mnuTabMovePrevClick;
     mnuTabMoveSub.Add(mnuTabMovePrev);
 
-    mnuTabColor:= TMenuItem.Create(Self);
-    mnuTabColor.Caption:= 'Set tab color...';
-    mnuTabColor.OnClick:= @mnuTabColorClick;
-    PopupTab.Items.Add(mnuTabColor);
-
     mnuTabPinned:= TMenuItem.Create(Self);
     mnuTabPinned.Caption:= 'Pinned';
     mnuTabPinned.OnClick:= @mnuTabPinnedClick;
     PopupTab.Items.Add(mnuTabPinned);
+
+    mnuTabColor:= TMenuItem.Create(Self);
+    mnuTabColor.Caption:= 'Set tab color...';
+    mnuTabColor.OnClick:= @mnuTabColorClick;
+    PopupTab.Items.Add(mnuTabColor);
   end;
 
   DoLocalizePopupTab;
