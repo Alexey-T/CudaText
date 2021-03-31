@@ -3347,10 +3347,12 @@ begin
   begin
     NFlag:= c.GetValue(path+cHistory_Wrap, -1);
     if NFlag>=0 then
-    begin
-      Ed.OptWrapMode:= TATEditorWrapMode(NFlag);
-      Ed.IsModifiedWrapMode:= true;
-    end;
+      if Ed.OptWrapMode<>TATEditorWrapMode(NFlag) then
+      begin
+        Ed.OptWrapMode:= TATEditorWrapMode(NFlag);
+        Ed.IsModifiedWrapMode:= true;
+        DoPyEventState(Ed, EDSTATE_WRAP);
+      end;
 
     NFlag:= c.GetValue(path+cHistory_Minimap, -1);
     if NFlag>=0 then
