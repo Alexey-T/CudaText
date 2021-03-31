@@ -3351,7 +3351,7 @@ begin
       begin
         Ed.OptWrapMode:= TATEditorWrapMode(NFlag);
         Ed.IsModifiedWrapMode:= true;
-        DoPyEventState(Ed, EDSTATE_WRAP);
+        //DoPyEventState(Ed, EDSTATE_WRAP); //is not needed for session loading
       end;
 
     NFlag:= c.GetValue(path+cHistory_Minimap, -1);
