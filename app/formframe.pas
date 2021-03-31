@@ -1517,6 +1517,13 @@ begin
     exit;
   end;
 
+  if (ACommand=cCommand_ToggleWordWrap) or
+    (ACommand=cCommand_ToggleWordWrapAlt) then
+  begin
+    DoPyEventState(Ed, EDSTATE_WRAP);
+    exit;
+  end;
+
   bTypedChar:= (ACommand=cCommand_TextInsert) and
     (AText<>'') and
     ((Length(AText)=1) or (UTF8Length(AText)=1));
