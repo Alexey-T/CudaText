@@ -1490,6 +1490,9 @@ Control of UI tabs is named ATTabs, and has many features:
 
 [[File:cudatext-tabs-path-suffix.png]]
 
+* Tabs can be made "pinned" using tab's context menu item "Pinned" (CudaText 1.130 or newer). Pinned tab caption renders with a "!" prefix char. Commands "Close all tabs" and "Close other tabs" skip pinned tabs. Closing of a pinned tab shows additional confirmation like "Tab is pinned... Are you sure you want to close it?".
+** The plugin "Tab Icons" exists, which allows to set custom icons for tabs, and allows to auto-hide caption of pinned tabs.
+
 ==Show pictures in the text==
 CudaText gives the plugin API to show pictures between the text lines.
 These spaces between lines are called "gaps".
