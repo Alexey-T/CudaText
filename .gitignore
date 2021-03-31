@@ -30,6 +30,7 @@ _test/
 /app/builds
 /app/cudatext
 /app/cudatext-mac
+treehelpertester/app
 app.res
 
 cudatext-mac-cocoa/
@@ -45,6 +46,7 @@ cuda_html*/
 cuda_js*/
 cuda_yaml*/
 cuda_lorem/
+cuda_console_complete/
 cuda_lint*
 cuda_num*
 cuda_find*
