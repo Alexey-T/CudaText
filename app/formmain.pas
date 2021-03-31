@@ -6517,11 +6517,7 @@ begin
   if F=nil then exit;
 
   NColor:= PyHelper_DialogColorPicker(F.TabColor);
-  if NColor<0 then exit;
-
-  if NColor=clNone then
-    F.TabColor:= clNone
-  else
+  if NColor>=0 then
     F.TabColor:= NColor;
 end;
 

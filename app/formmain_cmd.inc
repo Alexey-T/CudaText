@@ -14,6 +14,7 @@ var
   Ed: TATSynEdit;
   EdGrp: TATGroups;
   NIndex: integer;
+  NColor: TColor;
   Params: TAppVariantArray;
 begin
  TimerCmd.Enabled:= false;
@@ -434,6 +435,36 @@ begin
       begin
         InitPopupLex;
         MenuShowAtEditorCorner(PopupLex, CurrentEditor);
+      end;
+
+    cmd_SetTabColor:
+      begin
+        if Assigned(Frame) then
+        begin
+          NColor:= PyHelper_DialogColorPicker(Frame.TabColor);
+          if NColor>=0 then
+            Frame.TabColor:= NColor;
+        end;
+      end;
+    cmd_ResetTabColor:
+      begin
+        Frame.TabColor:= clNone;
+      end;
+
+    cmd_SetTabPinned:
+      begin
+        if Assigned(Frame) then
+          Frame.TabPinned:= true;
+      end;
+    cmd_ResetTabPinned:
+      begin
+        if Assigned(Frame) then
+          Frame.TabPinned:= false;
+      end;
+    cmd_ToggleTabPinned:
+      begin
+        if Assigned(Frame) then
+          Frame.TabPinned:= not Frame.TabPinned;
       end;
 
     cmd_ChooseTranslation:
