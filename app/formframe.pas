@@ -1129,7 +1129,7 @@ begin
   Ed.ModeReadOnly:= AValue;
   if (Ed=Ed1) and EditorsLinked then
     Ed2.ModeReadOnly:= AValue;
-  //DoPyEventState(Ed, EDSTATE_READONLY);
+  DoPyEventState(Ed, EDSTATE_READONLY);
 end;
 
 procedure TEditorFrame.UpdateEds(AUpdateWrapInfo: boolean = false);
@@ -1508,6 +1508,12 @@ begin
   begin
     if FTextCharsTyped>0 then
       Dec(FTextCharsTyped);
+    exit;
+  end;
+
+  if (ACommand=cCommand_ToggleReadOnly) then
+  begin
+    DoPyEventState(Ed, EDSTATE_READONLY);
     exit;
   end;
 
