@@ -15,7 +15,7 @@
     + add: Undo: If pause (1500 msec) is passed between typing actions, undo them by steps.
     * change: Multi-caret edition - undo all chars at once, like ST3.
 
-+ add: tab's context menu has new item "Pinned" (thanks @kvichans)
++ add: tab's context menu has new item "Pinned"; pinned tabs captions show prefix "!" (thanks @kvichans)
 + add: command "set tab color..."
 + add: command "reset tab color"
 + add: command "toggle tab pinned state"
