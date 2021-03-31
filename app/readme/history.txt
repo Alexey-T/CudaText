@@ -18,8 +18,6 @@
 + add: tab's context menu has new item "Pinned" (thanks @kvichans)
 + add: command "set tab color..."
 + add: command "reset tab color"
-+ add: command "set tab pinned state"
-+ add: command "reset tab pinned state"
 + add: command "toggle tab pinned state"
 + add: better work of the feature which shows UI-tab titles like "test.txt * folder1" / "test.txt * folder2" (thanks @kvichans)
 + add: better statusbar "message" cell: instead of hiding the text it dims it; floating tooltip for that cell shows 30 last messages (thanks @Shovel)
