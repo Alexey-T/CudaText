@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: plugin Sort: new option [sort] ini_files_case_sensitive=0 for "Ini files: sort sections and keys"
+
 1.130.0 (2021/04)
 
 + add: HTML auto-completion: support HTML entities (like &nbsp;)
