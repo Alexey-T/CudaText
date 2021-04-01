@@ -310,6 +310,31 @@ Variable prefix "linter_" required, after goes lower-case lexer name (CSS). Valu
 
 In this example, CudaLint plugin allows, for mentioned lexer CSS, only linter "csslint", even if another CSS linter (e.g. "csstree") is installed and found first.
 
+== CudaFormatter ==
+CudaFormatter is plugin which uses 2nd-level plugin, "formatters", to change the source code. Each "formatter" supports one or several lexers, and provides one or several actions. For example, the Addon Manager contains two formatters for XML: XML IndentX and XML Pretty Print.
+
+For example, how to format code in XML?
+
+* Use "Plugins / Addon Manager / Install" to install the CudaFormatter, and formatter(s) for XML. Restart CudaText.
+* Open XML file.
+* Use "Plugins / CudaFormatter / Formatter (menu)". This will show the menu of actions from appropriate formatter(s) for current file.
+
+Formatters may change entire file text or only selected text. If selection is made, formatter changes only the selection, otherwise the entire text.
+
+===CudaFormatter commands===
+
+* Formatter (menu): Runs formatter for current editor file. If several formatters are found, menu dialog will suggest to choose one of them.
+
+* Formatter A...D: Runs formatter for current editor file, which has label (A, B, C, D) set. Labels are configurable by another command.
+
+* Configure on_save: Chooses which formatters are active on file saving. The first formatter, which is suitable for current lexer, and has the flag "on_save", will be used to format text on file saving.
+
+* Configure labels: Allows to assign labels (A, B, C, D) to formatters. Labels allow to use commands "Formatter A"..."Formatter D", e.g. via hotkeys. So you can use command "Formatter A" via some hotkey, and be sure that for all lexers "Formatter A" will use desired formatters.
+
+* Configure formatter: For those formatters which support config file, command will suggest to open global config file (in the folder "settings" of CudaText).
+
+* Configure formatter (local): For those formatters which suppots config file, command will suggest to open "local" config (in the folder of current editor file). If local config not exists, plugin will suggest to create it from global config.
+
 == External Tools ==
 
 === Introduction ===
