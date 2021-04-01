@@ -7,6 +7,8 @@
 
 + add: HTML auto-completion: support HTML entities (like &nbsp;)
 + add: HTML auto-completion: update tags/attribs lists (thanks @d-mal)
++ add: much faster multi-carets editing, with 100+ carets and heavy lexer (thanks @JairoMartinezA)
+
 + add: work on Undo/Redo (thanks @xcme)
     + add: Undo: Caret movements were considered as actions that could be cancelled/repeated. It led to unneeded caret jumps. Now it looks more like undo/redo manages the content, not caret.
     + add: Undo: If last change was performed in area which isn't visible now, then undo/redo actions will highlight for a while the line and insert a short delay before the undo/redo action.
