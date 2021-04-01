@@ -311,7 +311,7 @@ Variable prefix "linter_" required, after goes lower-case lexer name (CSS). Valu
 In this example, CudaLint plugin allows, for mentioned lexer CSS, only linter "csslint", even if another CSS linter (e.g. "csstree") is installed and found first.
 
 == CudaFormatter ==
-CudaFormatter is plugin which uses 2nd-level plugin, "formatters", to change the source code. Each "formatter" supports one or several lexers, and provides one or several actions. For example, the Addon Manager contains two formatters for XML: XML IndentX and XML Pretty Print.
+CudaFormatter is plugin which uses 2nd-level plugins, "formatters", to change the source code. Each "formatter" supports one or more lexers, and provides one or more actions. For example, the Addon Manager contains two formatters for XML: XML IndentX and XML Pretty Print.
 
 For example, how to format code in XML?
 
