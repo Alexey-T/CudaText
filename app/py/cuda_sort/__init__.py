@@ -317,6 +317,7 @@ class Command:
 
     def config(self):
         ini_write(fn_ini, op_section, 'allow_all', '0')
+        ini_write(fn_ini, op_section, op_ini_case, '0')
         file_open(fn_ini)
 
     def shuffle(self):

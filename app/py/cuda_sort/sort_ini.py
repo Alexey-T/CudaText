@@ -1,4 +1,5 @@
-﻿from cudatext import *
+﻿import os
+from cudatext import *
 from cudax_lib import get_translation
 
 _   = get_translation(__file__)  # I18N
@@ -6,7 +7,18 @@ _   = get_translation(__file__)  # I18N
 # author: Michal Niklas
 # adapted to CudaText: Alexey T.
 
+fn_ini = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
+op_section = 'sort'
+op_ini_case = 'ini_files_case_sensitive'
+
 def ini_sort_content(lines, and_keys):
+
+    case_sens = ini_read(fn_ini, op_section, op_ini_case, '0')=='1'
+    if case_sens:
+        sortkey = lambda s: s
+    else:
+        sortkey = str.casefold
+
     section = ''
     sections = {}
     for line in lines:
@@ -23,11 +35,11 @@ def ini_sort_content(lines, and_keys):
     if sections:
         res = []
         sk = list(sections.keys())
-        sk.sort()
+        sk.sort(key=sortkey)
         for k in sk:
             vals = sections[k]
             if and_keys:
-                vals.sort()
+                vals.sort(key=sortkey)
             res += [k]
             res += vals
             res += ['']
