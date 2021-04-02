@@ -2,7 +2,7 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '2.3.14 2021-01-24'
+    '2.3.15 2021-04-02'
 ToDo: (see end of file)
 '''
 
@@ -19,14 +19,12 @@ from    .cd_plug_lib    import *
 
 d   = dict
 odict = collections.OrderedDict
-#class odict(collections.OrderedDict):  py3.9 conflict
+#class odict(collections.OrderedDict):  #py3.9 conflict
 #   def __init__(self, *args, **kwargs):
 #       if     args:super().__init__(*args)
 #       elif kwargs:super().__init__(kwargs.items())
-#   def __str__(self):
-#       return '{%s}' % (', '.join("'%s':%r" % (k,v) for k,v in self.items()))
 #   def __repr__(self):
-#       return self.__str__()
+#       return '{%s}' % (', '.join("'%s':%r" % (k,v) for k,v in self.items()))
 
 pass;                           LOG     = (-1== 1) or apx.get_opt('_opts_dlg_log',False)    # Do or dont logging.
 pass;                           from pprint import pformat
@@ -121,7 +119,8 @@ def load_definitions(defn_path_or_json)->list:
             if not os.path.isdir(from_dir):
                 log(_('No folder "{}" from\n{}'), from_short, cmnt)
             else:
-                lstF    = [d for d in os.listdir(from_dir) if os.path.isdir(from_dir+os.sep+d) and d.strip()]
+                lstF    = [d for d in os.listdir(from_dir) 
+                           if os.path.isdir(from_dir+os.sep+d) and d.upper()!='README' and d.strip()]
                 lstF    = sorted(lstF)
                 pass;          #LOG and log('lstF={}',(lstF))
         frm,\
