@@ -1199,27 +1199,38 @@ Line states help to see which lines were edited since the last opening of a file
 
 ==How to change icons==
 
-Screenshot with icons of main toolbar, sidebar, Project Manager toolbar:
+Screenshot shows 3 icon sets at once:
+
+* on the main toolbar
+* on the sidebar
+* on the Project Manager toolbar
 
 [[File:cudatext_all_icons.png]]
 
 * Icons in the main toolbar. To change them:
 ** (Optional) Install add-on(s) of kind "toolbar theme" (each add-on gives additional icon set or several sets).
-** Change option "ui_toolbar_theme" in user.json. Option value is some subfolder in [cudatext]/data/toolbaricons.
+** Change option "ui_toolbar_theme" in user.json. Option value is some subfolder in data/toolbaricons.
 ** Restart CudaText.
 
-* Icons in the sidebar (vertical band on the left). To change them:
+Note that plugin "Options Editor" makes it easy - for options "ui_toolbar_theme"/"ui_sidebar_theme"/"ui_tree_theme" it shows the combobox dropdown, which is easy to change. 
+
+* Icons in the sidebar (vertical band on the left).
 ** (Optional) Install add-on(s) of kind "sidebar theme".
-** Change option "ui_sidebar_theme" in user.json. Option value is some subfolder in [cudatext]/data/sideicons.
+** Change option "ui_sidebar_theme" in user.json. Option value is some subfolder in data/sideicons.
 ** Restart CudaText.
 
-* Icons in the Project Manager toolbar. To change them:
+* Icons in the Code-Tree panel.
+** Install add-on(s) of kind "codetreeicons" (each add-on gives additional icon set).
+** Change option "ui_tree_theme" in user.json. Option value is some subfolder in data/codetreeicons.
+** Restart CudaText.
+
+* Icons in the Project Manager toolbar.
 ** (Optional) Install add-on(s) of kind "proj toolbar theme".
 ** Change option in the dialog: Options/ Settings-plugins/ Project Manager/ Config.
 ** Restart CudaText.
 
-* Icons in the Project Manager file list, and on file tab headers. To change them:
-** (Optional) Install add-on(s) of kind "file type icons".
+* Icons in the Project Manager file list, and on file tab headers.
+** Install add-on(s) of kind "file type icons".
 ** Change option in the dialog: Options/ Settings-plugins/ Project Manager/ Config.
 ** Restart CudaText.
 
