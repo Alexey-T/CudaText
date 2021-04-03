@@ -5,7 +5,7 @@ Based on:
 * ATSynEdit editor control
 * ATFlatControls GUI controls
 * EControl text parser
-* Python-for-Lazarus wrapper component
+* Python-for-Lazarus wrapper
 
 Links:
 
