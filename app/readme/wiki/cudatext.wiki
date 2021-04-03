@@ -758,7 +758,8 @@ Intelligent completion is supported via plugins. For the end of 2020 year, such 
 * HTML lexer - "HTML Completion", gives additional completion for "id" and "class" names
 * AutoIt lexer - "AutoIt Helper"
 * SPIR lexer - "SPIR Helper"
-* all files - "Complete From Text" and "Intext Complete"
+
+In the case of files without lexer, consider to use plugins "Complete From Text" and "Intext Complete". They suggest completions from all words from the current document (or all opened documents, by option).
 
 Microsoft LSP protocol is not yet supported by CudaText nor by plugins.
 
