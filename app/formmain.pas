@@ -4925,6 +4925,7 @@ begin
   begin
     if AText='' then
     begin
+      FLastStatusbarMessage:= '';
       DoStatusbarTextByTag(Status, StatusbarTag_Msg, '');
       exit;
     end;
