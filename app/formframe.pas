@@ -2723,7 +2723,7 @@ begin
   index:= Ed.Strings.Bookmarks.Find(ALineNum);
   if index<0 then exit;
 
-  kind:= Ed.Strings.Bookmarks[index].Data.Kind;
+  kind:= Ed.Strings.Bookmarks[index]^.Data.Kind;
   if kind<=1 then
   begin
     c.brush.color:= GetAppColor(apclEdBookmarkIcon);
@@ -3071,7 +3071,7 @@ end;
 procedure TEditorFrame.DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
 var
   items, items2: TStringList;
-  bookmark: TATBookmarkItem;
+  bookmark: PATBookmarkItem;
   i: integer;
 begin
   items:= TStringList.Create;
@@ -3081,9 +3081,9 @@ begin
     begin
       bookmark:= Ed.Strings.Bookmarks[i];
       //save usual bookmarks and numbered bookmarks (kind=1..10)
-      if (bookmark.Data.Kind>10) then Continue;
-      items.Add(IntToStr(bookmark.Data.LineNum));
-      items2.Add(IntToStr(bookmark.Data.Kind));
+      if (bookmark^.Data.Kind>10) then Continue;
+      items.Add(IntToStr(bookmark^.Data.LineNum));
+      items2.Add(IntToStr(bookmark^.Data.Kind));
     end;
 
     if items.Count>0 then

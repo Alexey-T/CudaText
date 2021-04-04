@@ -1781,31 +1781,31 @@ begin
 end;
 
 
-function PyHelper_BookmarkGetItem(BmItem: TATBookmarkItem): PPyObject;
+function PyHelper_BookmarkGetItem(BmItem: PATBookmarkItem): PPyObject;
 begin
   with AppPython.Engine do
     Result:= Py_BuildValue('{sisLsisssOsisO}',
       'line',
-      BmItem.Data.LineNum,
+      BmItem^.Data.LineNum,
       'tag',
-      BmItem.Data.Tag,
+      BmItem^.Data.Tag,
       'kind',
-      Integer(BmItem.Data.Kind),
+      Integer(BmItem^.Data.Kind),
       'hint',
-      PChar(string(BmItem.Data.Hint)),
+      PChar(string(BmItem^.Data.Hint)),
       'auto_del',
-      PyBool_FromLong(Ord(BmItem.Data.AutoDelete=bmadDelete)),
+      PyBool_FromLong(Ord(BmItem^.Data.AutoDelete=bmadDelete)),
       'auto_delx',
-      Ord(BmItem.Data.AutoDelete),
+      Ord(BmItem^.Data.AutoDelete),
       'show_in_list',
-      PyBool_FromLong(Ord(BmItem.Data.ShowInBookmarkList))
+      PyBool_FromLong(Ord(BmItem^.Data.ShowInBookmarkList))
       );
 end;
 
 function PyHelper_BookmarkGetAll(ABookmarks: TATBookmarks): PPyObject;
 var
   NCount, i: integer;
-  BmItem: TATBookmarkItem;
+  BmItem: PATBookmarkItem;
 begin
   with AppPython.Engine do
   begin
@@ -1836,7 +1836,7 @@ var
   NId, NLine, NKind, NColor, NCount,
   NAutoDelete, NShowInList: integer;
   NTag: Int64;
-  BmItem: TATBookmarkItem;
+  BmItem: PATBookmarkItem;
   AutoDel: TATBookmarkAutoDelete;
   i: integer;
 begin
@@ -1943,7 +1943,7 @@ begin
                 raise EPythonError.Create(msgPythonListError);
               for i:= 0 to NCount-1 do
                 PyList_SetItem(Result, i,
-                  PyLong_FromLong(Strs.Bookmarks[i].Data.LineNum)
+                  PyLong_FromLong(Strs.Bookmarks[i]^.Data.LineNum)
                   );
             end
             else

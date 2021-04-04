@@ -4383,7 +4383,7 @@ var
     Ed: TATSynEdit;
     SCaption: string;
     Prop: TAppBookmarkProp;
-    Mark: TATBookmarkItem;
+    Mark: PATBookmarkItem;
     NLine, i: integer;
   const
     cMaxLen = 150;
@@ -4392,9 +4392,9 @@ var
     for i:= 0 to Ed.Strings.Bookmarks.Count-1 do
     begin
       Mark:= Ed.Strings.Bookmarks[i];
-      if not Mark.Data.ShowInBookmarkList then Continue;
+      if not Mark^.Data.ShowInBookmarkList then Continue;
 
-      NLine:= Mark.Data.LineNum;
+      NLine:= Mark^.Data.LineNum;
       if not Ed.Strings.IsIndexValid(NLine) then Continue;
 
       SCaption:= Copy(Ed.Strings.Lines[NLine], 1, cMaxLen);
@@ -4408,7 +4408,7 @@ var
         SCaption+
         #9+
         Frame.TabCaption+': '+
-        NiceBookmarkKind(Mark.Data.Kind)+
+        NiceBookmarkKind(Mark^.Data.Kind)+
         IntToStr(NLine+1);
 
       ListItems.AddObject(Prop.MenuCaption, Prop);
