@@ -3,8 +3,10 @@
   - fixed
   * changed
 
-+ add: plugin Sort: new option ini_files_case_sensitive=0 for "Ini files: sort sections and keys" (thanks @BBServ)
+1.130.1 (2021/04)
+
 + add: plugin Comments: after toggling line comment, shift caret horizontally too (thanks @xcme)
++ add: plugin Sort: new option "ini_files_case_sensitive" for "Ini files: sort sections and keys" (thanks @BBServ)
 * change: changed default of "undo_for_caret_jump" to false (thanks @xcme)
 
 1.130.0 (2021/04)
