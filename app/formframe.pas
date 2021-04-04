@@ -3444,20 +3444,23 @@ begin
   end;
 
   //caret
-  if Ed.Carets.Count>0 then
+  Sep.Init(sCarets);
+  Sep.GetItemInt(NPosX, 0);
+  Sep.GetItemInt(NPosY, 0);
+  Sep.GetItemInt(NEndX, -1);
+  Sep.GetItemInt(NEndY, -1);
+
+  if Ed.Carets.Count<>1 then
+    Ed.DoCaretSingle(0, 0);
+  Caret:= Ed.Carets[0];
+  if Caret.Change(NPosX, NPosY, NEndX, NEndY) then
   begin
-    Sep.Init(sCarets);
-    Sep.GetItemInt(NPosX, 0);
-    Sep.GetItemInt(NPosY, 0);
-    Sep.GetItemInt(NEndX, -1);
-    Sep.GetItemInt(NEndY, -1);
-    caret:= Ed.Carets[0];
-    if caret.Change(NPosX, NPosY, NEndX, NEndY) then
-    begin
-      Ed.DoCaretsFixIncorrectPos(true);
-      Ed.DoEventCarets;
-    end;
+    Ed.DoCaretsFixIncorrectPos(true);
+    Ed.DoEventCarets;
   end;
+
+  //solve CudaText #3288, so Undo jumps to initial caret pos
+  Ed.Strings.ActionSaveLastEditionPos(NPosX, NPosY);
 
   //bookmarks
   items:= TStringList.create;
