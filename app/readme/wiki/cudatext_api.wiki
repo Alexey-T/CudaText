@@ -2500,8 +2500,8 @@ Notes:
 
 Controls decorations on gutter. It is used to show some visual marks, which look like bookmark icons, but independent of bookmarks. Possible values of "id":
 
-* DECOR_GET_ALL: Returns list of all decorations, as list of dict, or None.
-* DECOR_GET: Returns decoration for single line, as dict, or None. Params used: "line".
+* DECOR_GET_ALL: Returns list of all decorations, as list of dict.
+* DECOR_GET: Returns decoration for single line, as dict. Params used: "line".
 * DECOR_SET: Sets decoration for single line, overwriting existing item for that line. Returns bool: line index correct, item added. Params used:
 ** "line": int, line index.
 ** "tag": int, some value attached to item.
@@ -2597,7 +2597,7 @@ Possible values of "id":
 
 Gets info about wrapped lines. It allows to calculate, at which positions long lines are wrapped (when wrap mode is on). It allows to see, which text parts are folded.
 
-Returns list of dict, or None. Dict items has keys:
+Returns list of dict. Dict items has keys:
 
 * "line": int: Original line index, for this part.
 * "char": int: Char index (1-based, for UTF-16 stream of chars), at which this part starts. It is >1, for next parts of long wrapped line.
@@ -2692,7 +2692,7 @@ Possible values of "id":
 ** "tag": optional int value
 ** "tag_str": optional str value
 
-* HOTSPOT_GET_LIST: Returns list of hotspots, or None. Each item is dict with keys:
+* HOTSPOT_GET_LIST: Returns list of hotspots. Each item is dict with keys:
 ** "pos": 4-tuple of int
 ** "tag": int
 ** "tag_str": str
@@ -2800,7 +2800,7 @@ After user has chosen some item in the completion listbox, event "on_snippet" wi
 Performs action on inter-line gaps (they don't overlap text above/below).
 Possible values of "id":
 
-* GAP_GET_ALL: Returns list of gaps. List of dict, or None. Dict keys are:
+* GAP_GET_ALL: Returns list of gaps, as list of dict. Dict keys are:
 ** "line": int: Line index; or -1 for gap before the first line.
 ** "tag": int: Tag.
 ** "size": int: Height in pixels.
@@ -2854,7 +2854,7 @@ Possible values of "id":
 ** Param "value": dim value.
 * DIM_DELETE: Deletes one range. Param "index" is index of range (0-base).
 * DIM_DELETE_ALL: Deletes all ranges.
-* DIM_ENUM: Enumerates ranges. Gives list of 3-tuples (line_from, line_to, dim_value) or None.
+* DIM_ENUM: Enumerates ranges. Gives list of 3-tuples (line_from, line_to, dim_value).
 
 ===Editor.action===
 
