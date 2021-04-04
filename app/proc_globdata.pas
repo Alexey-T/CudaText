@@ -1442,7 +1442,7 @@ begin
     OpUndoIndentVert:= -5;
     OpUndoIndentHorz:= 10;
     OpUndoPause:= 300;
-    OpUndoForCaretJump:= true;
+    OpUndoForCaretJump:= false;
 
     OpCaretBlinkTime:= cInitCaretBlinkTime;
     OpCaretBlinkEn:= true;

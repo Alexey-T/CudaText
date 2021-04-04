@@ -543,9 +543,9 @@
   "undo_pause": 300,
 
   //Undo: Store to the Undo caret-jumps, performed by mouse clicks.
-  //If option is on, you need to perform additional "Undo" commands to revert
+  //If option is on, you may need to perform additional "Undo" commands to revert
   //to "unmodified" file state (if clicks were made).
-  "undo_for_caret_jump": true,
+  "undo_for_caret_jump": false,
 
   //[Text/Caret]
   //Allow to place caret after end-of-line (virtual caret position),
