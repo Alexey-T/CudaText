@@ -3271,9 +3271,10 @@ end;
 procedure TEditorFrame.DoLoadHistoryEx(Ed: TATSynEdit; c: TJsonConfig;
   const path: UnicodeString; AllowEnc: boolean);
 var
-  str, str0, sFileName, sCarets: string;
+  str, str0, sFileName, sCaretString: string;
   Caret: TATCaretItem;
-  NPosX, NPosY, NEndX, NEndY: integer;
+  NCaretPosX, NCaretPosY,
+  NCaretEndX, NCaretEndY: integer;
   nTop, nKind, i: integer;
   items, items2: TStringlist;
   BmData: TATBookmarkData;
@@ -3285,10 +3286,9 @@ begin
   FillChar(BmData, SizeOf(BmData), 0);
   BmData.ShowInBookmarkList:= true;
 
-  //file not listed in history file?
-  sCarets:= c.GetValue(path+cHistory_Caret, '');
-  FInHistory:= sCarets<>'';
-  if not FInHistory then exit;
+  //file not listed in history file? exit
+  sCaretString:= c.GetValue(path+cHistory_Caret, '');
+  if sCaretString='' then exit;
 
   {
   //markers
@@ -3444,23 +3444,23 @@ begin
   end;
 
   //caret
-  Sep.Init(sCarets);
-  Sep.GetItemInt(NPosX, 0);
-  Sep.GetItemInt(NPosY, 0);
-  Sep.GetItemInt(NEndX, -1);
-  Sep.GetItemInt(NEndY, -1);
+  Sep.Init(sCaretString);
+  Sep.GetItemInt(NCaretPosX, 0);
+  Sep.GetItemInt(NCaretPosY, 0);
+  Sep.GetItemInt(NCaretEndX, -1);
+  Sep.GetItemInt(NCaretEndY, -1);
 
   if Ed.Carets.Count<>1 then
     Ed.DoCaretSingle(0, 0);
   Caret:= Ed.Carets[0];
-  if Caret.Change(NPosX, NPosY, NEndX, NEndY) then
+  if Caret.Change(NCaretPosX, NCaretPosY, NCaretEndX, NCaretEndY) then
   begin
     Ed.DoCaretsFixIncorrectPos(true);
     Ed.DoEventCarets;
   end;
 
   //solve CudaText #3288, so Undo jumps to initial caret pos
-  Ed.Strings.ActionSaveLastEditionPos(NPosX, NPosY);
+  Ed.Strings.ActionSaveLastEditionPos(NCaretPosX, NCaretPosY);
 
   //bookmarks
   items:= TStringList.create;
