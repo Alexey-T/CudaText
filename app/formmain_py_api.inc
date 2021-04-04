@@ -1810,19 +1810,14 @@ begin
   with AppPython.Engine do
   begin
     NCount:= ABookmarks.Count;
-    if NCount>0 then
+    Result:= PyList_New(NCount);
+    if not Assigned(Result) then
+      raise EPythonError.Create(msgPythonListError);
+    for i:= 0 to NCount-1 do
     begin
-      Result:= PyList_New(NCount);
-      if not Assigned(Result) then
-        raise EPythonError.Create(msgPythonListError);
-      for i:= 0 to NCount-1 do
-      begin
-        BmItem:= ABookmarks[i];
-        PyList_SetItem(Result, i, PyHelper_BookmarkGetItem(BmItem));
-      end;
-    end
-    else
-      Result:= ReturnNone;
+      BmItem:= ABookmarks[i];
+      PyList_SetItem(Result, i, PyHelper_BookmarkGetItem(BmItem));
+    end;
   end;
 end;
 
@@ -1936,18 +1931,13 @@ begin
         BOOKMARK_GET_LIST:
           begin
             NCount:= Strs.Bookmarks.Count;
-            if NCount>0 then
-            begin
-              Result:= PyList_New(NCount);
-              if not Assigned(Result) then
-                raise EPythonError.Create(msgPythonListError);
-              for i:= 0 to NCount-1 do
-                PyList_SetItem(Result, i,
-                  PyLong_FromLong(Strs.Bookmarks[i]^.Data.LineNum)
-                  );
-            end
-            else
-              Result:= ReturnNone;
+            Result:= PyList_New(NCount);
+            if not Assigned(Result) then
+              raise EPythonError.Create(msgPythonListError);
+            for i:= 0 to NCount-1 do
+              PyList_SetItem(Result, i,
+                PyLong_FromLong(Strs.Bookmarks[i]^.Data.LineNum)
+                );
           end;
 
         BOOKMARK_GET_ALL:
