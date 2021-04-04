@@ -1335,10 +1335,8 @@ begin
           end;
 
         HOTSPOT_GET_LIST:
-          begin
-            NLen:= Ed.Hotspots.Count;
-            if NLen>0 then
             begin
+              NLen:= Ed.Hotspots.Count;
               Result:= PyList_New(NLen);
               if not Assigned(Result) then
                 raise EPythonError.Create(msgPythonListError);
@@ -1358,10 +1356,7 @@ begin
                     PChar(FItem.TagString)
                     ));
               end;
-            end
-            else
-              Result:= ReturnNone;
-          end;
+            end;
 
         else
           Result:= ReturnNone;
@@ -2012,10 +2007,8 @@ begin
 
       case NId of
         DECOR_GET_ALL:
-          begin
-            NCount:= Ed.GutterDecor.Count;
-            if NCount>0 then
             begin
+              NCount:= Ed.GutterDecor.Count;
               Result:= PyList_New(NCount);
               if not Assigned(Result) then
                 raise EPythonError.Create(msgPythonListError);
@@ -2023,10 +2016,7 @@ begin
                 PyList_SetItem(Result, i,
                   PyHelper_DecorGetItem(Ed.GutterDecor[i])
                   );
-            end
-            else
-              Result:= ReturnNone;
-          end;
+            end;
 
         DECOR_GET:
           begin
@@ -2896,11 +2886,9 @@ var
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_wrapinfo', @H)) then
-    begin
-      Ed:= PyHelper_EditorFromHandle(H);
-      NLen:= Ed.WrapInfo.Count;
-      if NLen>0 then
       begin
+        Ed:= PyHelper_EditorFromHandle(H);
+        NLen:= Ed.WrapInfo.Count;
         Result:= PyList_New(NLen);
         if not Assigned(Result) then
           raise EPythonError.Create(msgPythonListError);
@@ -2918,9 +2906,6 @@ begin
               ));
         end;
       end
-      else
-        Result:= ReturnNone;
-    end
   else
     Result:= ReturnNone;
 end;
@@ -4305,10 +4290,8 @@ begin
   end;
 
   with AppPython.Engine do
-  begin
-    NLen:= AppKeymapMain.Count;
-    if NLen>0 then
     begin
+      NLen:= AppKeymapMain.Count;
       Result:= PyList_New(NLen);
       if not Assigned(Result) then
         raise EPythonError.Create(msgPythonListError);
@@ -4444,10 +4427,7 @@ begin
             end;
         end;
     end
-    end
-    else
-      Result:= ReturnNone;
-  end;
+    end;
 end;
 
 function PyHelper_EnumSidebar(AToolbar: TATFlatToolbar; APanelHost: TAppPanelHost): PPyObject;
@@ -5566,10 +5546,8 @@ var
   NLen, i: integer;
 begin
   with AppPython.Engine do
-  begin
-    NLen:= Ed.Fold.Count;
-    if NLen>0 then
     begin
+      NLen:= Ed.Fold.Count;
       Result:= PyList_New(NLen);
       if not Assigned(Result) then
         raise EPythonError.Create(msgPythonListError);
@@ -5578,10 +5556,7 @@ begin
         Item:= Ed.Fold.ItemPtr(i);
         PyHelper_Folding_SetItem(Result, i, Item);
       end;
-    end
-    else
-      Result:= ReturnNone;
-  end;
+    end;
 end;
 
 function PyHelper_Folding_GetFiltered(Ed: TATSynEdit; NeedY, NeedY2: integer): PPyObject; cdecl;
@@ -5603,10 +5578,8 @@ begin
     end;
 
     with AppPython.Engine do
-    begin
-      NLen:= L.Count;
-      if NLen>0 then
       begin
+        NLen:= L.Count;
         Result:= PyList_New(NLen);
         if not Assigned(Result) then
           raise EPythonError.Create(msgPythonListError);
@@ -5615,10 +5588,7 @@ begin
           Item:= PATSynRange(L[i]);
           PyHelper_Folding_SetItem(Result, i, Item);
         end;
-      end
-      else
-        Result:= ReturnNone;
-    end;
+      end;
   finally
     FreeAndNil(L);
   end;
@@ -6915,10 +6885,8 @@ begin
           end;
 
         DIM_ENUM:
-          begin
-            NLen:= Ed.DimRanges.Count;
-            if NLen>0 then
             begin
+              NLen:= Ed.DimRanges.Count;
               Result:= PyList_New(NLen);
               if not Assigned(Result) then
                 raise EPythonError.Create(msgPythonListError);
@@ -6932,10 +6900,7 @@ begin
                     Item.Value
                     ));
               end;
-            end
-            else
-              Result:= ReturnNone;
-          end;
+            end;
 
         else
           Result:= ReturnNone;
@@ -7300,10 +7265,8 @@ var
   NLen, NSizeX, NSizeY, i: Integer;
 begin
   with AppPython.Engine do
-  begin
-    NLen:= Ed.Gaps.Count;
-    if NLen>0 then
     begin
+      NLen:= Ed.Gaps.Count;
       Result:= PyList_New(NLen);
       if not Assigned(Result) then
         raise EPythonError.Create(msgPythonListError);
@@ -7337,10 +7300,7 @@ begin
             Item.Color
             ));
       end;
-    end
-    else
-      Result:= ReturnNone;
-  end;
+    end;
 end;
 
 

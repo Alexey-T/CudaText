@@ -4250,7 +4250,12 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.376 (app 1.130.1)
 * add: on_func_hint() propagation can be stopped by returning True
-* change: Editor.bookmark(BOOKMARK_GET_LIST) returns [] if no items
-* change: Editor.bookmark(BOOKMARK_GET_ALL) returns [] if no items
+* change: Editor.bookmark returns [] if no items
+* change: Editor.hotspots returns [] if no items
+* change: Editor.decor returns [] if no items
+* change: Editor.get_wrapinfo returns [] if no items
+* change: Editor.folding returns [] if no items
+* change: Editor.dim returns [] if no items
+* change: Editor.gap returns [] if no items
 
 [[Category:CudaText]]
