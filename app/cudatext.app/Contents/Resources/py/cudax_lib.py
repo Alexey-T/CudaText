@@ -482,14 +482,13 @@ def _json_loads(s, **kw):
     try:
         ans = json.loads(s, **kw)
     except:
-        pass;                   LOG and log('FAIL: s={}',s)
-        pass;                   LOG and log('sys.exc_info()={}',sys.exc_info())
+        pass;                   #LOG and log('FAIL: s={}',s)
+        pass;                   #LOG and log('sys.exc_info()={}',sys.exc_info())
         log_file    = kw.get('log_file', _get_log_file())
         open(log_file, 'a').write('_json_loads FAIL: s=\n'+s)
-        print('Error on load json. See ',log_file)
-        ans = None
+        print('ERROR: error on loading json. Log file:', log_file)
+        ans = {}
     return ans
-#   return json.loads(s, **kw)
     #def _json_loads
 
 def get_tab_by_id(tab_id):
