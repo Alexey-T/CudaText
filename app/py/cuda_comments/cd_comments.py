@@ -130,7 +130,7 @@ class Command:
         save_bd_col = apx.get_opt('comment_save_column' , False)
         at_min_bd   = apx.get_opt('comment_equal_column', False)
         col_min_bd  = 1000 # infinity
-        bColKept = False # plugin applied the "Try to keep text position"
+        col_kept    = False # plugin applied the "Try to keep text position"
         if at_min_bd:
             for rWrk in rWrks:
                 line        = ed_.get_text_line(rWrk)
@@ -160,7 +160,7 @@ class Command:
                                       ' '==line[pos_body+len(cmt_sgn)]):
                     # Before or after cmt_sgn must be blank
                     line = line.replace(cmt_sgn, blnks4cmt, 1)
-                    bColKept = True
+                    col_kept = True
                 else:
                     line = line.replace(cmt_sgn, ''       , 1)
             else:
@@ -173,12 +173,12 @@ class Command:
                 if False:pass
                 elif cmt_type=='1st' and save_bd_col and line.startswith(blnks4cmt) :
                     line = line.replace(blnks4cmt, cmt_sgn, 1)
-                    bColKept = True
+                    col_kept = True
                #elif cmt_type=='1st' and save_bd_col #  !line.startswith(blnks4cmt) :
                 elif cmt_type=='1st':#  !save_bd_col
                     line = cmt_sgn+line
                 elif cmt_type=='bod' and save_bd_col and line.startswith(blnks4cmt):
-                    bColKept = True
+                    col_kept = True
                     pos_cmnt = col_min_bd if at_min_bd else pos_body
                     pass;          #LOG and log('pos_cmnt={}', (pos_cmnt))
                     if pos_cmnt>=len(cmt_sgn):
@@ -213,7 +213,7 @@ class Command:
             (cCrt, rCrt, cEnd, rEnd)    = crts[0]
             apx._move_caret_down(cCrt, rCrt)
         # shift caret horizontally if it's on the same line
-        if not bSkip and bEmpSel and not bColKept:
+        if not bSkip and bEmpSel and not col_kept:
             dx = len(cmt_sgn)
             if do_uncmt:
                 dx = -dx
