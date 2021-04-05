@@ -28,7 +28,7 @@ class Command:
         save_bd_col = apx.get_opt('comment_save_column'         , False)
         at_min_bd   = apx.get_opt('comment_equal_column'        , False)
         bUseFLn     = True
-        bSkip       = apx.get_opt('comment_move_down'           , True)
+        move_down   = apx.get_opt('comment_move_down'           , True)
 
         save_s      = _('(Line commands) Try to keep text position after (un)commenting')
         save_h      = _('Try to replace only blank(s) to keep text positions:'
@@ -59,12 +59,12 @@ class Command:
              ,dict(cid='-'   ,tp='bt'   ,t=80   ,l=610 -80-5,w=80   ,cap=_('Cancel')                                                                )
              ], dict(save=save_bd_col
                     ,vert=at_min_bd
-                    ,down=bSkip
+                    ,down=move_down
              ), focus_cid='save')
         if aid is None or aid=='-': return
         if vals['save'] != save_bd_col: apx.set_opt('comment_save_column'       , vals['save'])
         if vals['vert'] != at_min_bd:   apx.set_opt('comment_equal_column'      , vals['vert'])
-        if vals['down'] != bSkip:       apx.set_opt('comment_move_down'         , vals['down'])
+        if vals['down'] != move_down:   apx.set_opt('comment_move_down'         , vals['down'])
        #def dlg_config
 
     def cmt_toggle_line_1st(self):
@@ -217,12 +217,12 @@ class Command:
             else:
                 ed_.replace_lines(y1, y2, lines)
         # move caret down
-        bSkip    = apx.get_opt('comment_move_down', True)
-        if empty_sel and bSkip:
+        move_down = apx.get_opt('comment_move_down', True)
+        if empty_sel and move_down:
             (cCrt, rCrt, cEnd, rEnd)    = crts[0]
             apx._move_caret_down(cCrt, rCrt)
         # shift caret horizontally if it's on the same line
-        if not bSkip and empty_sel and not col_kept:
+        if not move_down and empty_sel and not col_kept:
             dx = len(cmt_sgn)
             if do_uncmt:
                 dx = -dx
@@ -350,9 +350,9 @@ class Command:
             else:
                 ed.set_caret(cNSel1, rNSel1, cNSel2, rNSel2, app.CARET_SET_INDEX+icrt)
            #for icrt
-        bSkip    = apx.get_opt('comment_move_down', True)
+        move_down = apx.get_opt('comment_move_down', True)
         if False:pass
-        elif 1==len(crts) and empty_sel and bUseFLn and bSkip:
+        elif 1==len(crts) and empty_sel and bUseFLn and move_down:
             apx._move_caret_down(cCrt, rCrt)
             if bOnlyLn and not do_uncmt:
                 crt=ed.get_carets()[0]; apx._move_caret_down(crt[0], crt[1])
