@@ -9,7 +9,7 @@
 + add: plugin Sort: new option "ini_files_case_sensitive" for "Ini files: sort sections and keys" (thanks @BBServ)
 + add: now app uses configs in ~/.config if it was copied to /opt/SomeFolder (thanks linux.org.ru)
 * change: changed default of "undo_for_caret_jump" to false (thanks @xcme)
-- fix: default of option "renderer_offsets__linux" must be "false" for Qt5 version
+* change: default of option "renderer_offsets__linux" must be "true" for Qt5 version
 
 1.130.0 (2021/04)
 
