@@ -7059,24 +7059,23 @@ procedure TfmMain.DoMenuClear(const AMenuId: string);
     if mi.Tag<>0 then
     begin
       Obj:= TObject(mi.Tag);
-      if Obj is TAppMenuProps then
-      begin
-        TAppMenuProps(Obj).CommandString:= '';
-        TAppMenuProps(Obj).TagString:= '';
-        Obj.Free;
-        mi.Tag:= 0;
-      end;
+      Obj.Free;
+      mi.Tag:= 0;
     end;
     mi.Clear;
   end;
   //
 var
   mi: TMenuItem;
+  i: integer;
 begin
   mi:= PyHelper_MenuItemFromId(AMenuId);
   if Assigned(mi) then
   begin
-    ClearMenuItem(mi);
+    for i:= mi.Count-1 downto 0 do
+      ClearMenuItem(mi.Items[i]);
+    mi.Clear;
+
     if AMenuId=PyMenuId_Top then
     begin
       mnuFileOpenSub:= nil;
