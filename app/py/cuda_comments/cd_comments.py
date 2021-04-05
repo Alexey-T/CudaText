@@ -69,14 +69,19 @@ class Command:
 
     def cmt_toggle_line_1st(self):
         return self._cmt_toggle_line('bgn', '1st')
+
     def cmt_add_line_1st(self):
         return self._cmt_toggle_line('add', '1st')
+
     def cmt_toggle_line_body(self):
         return self._cmt_toggle_line('bgn', 'bod')
+
     def cmt_add_line_body(self):
         return self._cmt_toggle_line('add', 'bod')
+
     def cmt_del_line(self):
         return self._cmt_toggle_line('del')
+
     def _cmt_toggle_line(self, cmt_act, cmt_type='', ed_=ed):
         ''' Add/Remove full line comment
             Params
@@ -88,16 +93,20 @@ class Command:
         '''
 #       if not apx._check_API('1.0.108'):    return
         lex         = ed_.get_prop(app.PROP_LEXER_CARET)
+        if not lex:
+            return
         prop        = app.lexer_proc(app.LEXER_GET_PROP, lex)
-        cmt_sgn     = prop['c_line'] if prop else None
+        if not prop:
+            return
+        cmt_sgn     = prop['c_line']
         pass;                  #log('cmt_type, lex, cmt_sgn={}', (cmt_type, lex, cmt_sgn))
         if not cmt_sgn:
             return app.msg_status(f(_('Lexer "{}" don\'t support "line comments"'), lex))
         # Analize
         empty_sel   = False
         rWrks       = []
-        bUseRepLns  = True
-        y1,y2,lines = (-1, -1, []) if bUseRepLns else (None, None, None) # To use API replace_lines
+        use_rep_lines = True # use API replace_lines()
+        y1,y2,lines = (-1, -1, []) if use_rep_lines else (None, None, None)
         pass;                  #LOG and log('ed_.get_sel_mode(),app.SEL_NORMAL,app.SEL_COLUMN={}', (ed_.get_sel_mode(),app.SEL_NORMAL,app.SEL_COLUMN))
         crts        = ed_.get_carets()
         if False:pass
@@ -109,7 +118,7 @@ class Command:
                 if -1!=rEnd and rCrt>rEnd and 0==cCrt:
                     rCrtMax = rCrtMax-1    # For direct section along left bound
                 rWrks      += list(range(rCrtMin, rCrtMax+1))
-            bUseRepLns  = bUseRepLns and 1==len(crts)
+            use_rep_lines  = use_rep_lines and 1==len(crts)
         elif ed_.get_sel_mode() == app.SEL_COLUMN:
             (cBgn
             ,rSelBgn
@@ -119,7 +128,7 @@ class Command:
         if not rWrks:
             rWrks       = [crts[0][1]]
         pass;                  #log('rWrks={}', (rWrks))
-        y1,y2       = (rWrks[0],rWrks[-1]) if bUseRepLns else (y1,y2)
+        y1,y2       = (rWrks[0],rWrks[-1]) if use_rep_lines else (y1,y2)
         pass;                  #LOG and log('y1,y2,lines={}', (y1,y2,lines))
         do_uncmt    = ed_.get_text_line(rWrks[0]).lstrip().startswith(cmt_sgn) \
                         if cmt_act=='bgn' else \
@@ -150,7 +159,7 @@ class Command:
                 # Uncomment!
                 if not line[pos_body:].startswith(cmt_sgn):
                     # Already no comment
-                    if bUseRepLns:
+                    if use_rep_lines:
                         lines += [line]
                     continue    #for rWrk
                 if False:pass
@@ -167,7 +176,7 @@ class Command:
                 # Comment!
                 if cmt_type=='bod' and line[pos_body:].startswith(cmt_sgn):
                     # Body comment already sets - willnot double it
-                    if bUseRepLns:
+                    if use_rep_lines:
                         lines += [line]
                     continue    #for rWrk
                 if False:pass
@@ -195,13 +204,13 @@ class Command:
                    #line = line[:pos_body]             +cmt_sgn+line[pos_body:]
 
             pass;              #LOG and log('new line={}', (line))
-            if bUseRepLns:
+            if use_rep_lines:
                 lines += [line]
             else:
                 pass;           log('line={}',(line))
                 ed_.set_text_line(rWrk, line)
             #for rWrk
-        if bUseRepLns:
+        if use_rep_lines:
             pass;              #log('y1, y2, len(lines), lines={}',(y1, y2, len(lines), lines))
             if y1==y2:
                 ed_.set_text_line(y1, lines[0])
