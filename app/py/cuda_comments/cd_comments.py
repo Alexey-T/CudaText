@@ -94,7 +94,7 @@ class Command:
         if not cmt_sgn:
             return app.msg_status(f(_('Lexer "{}" don\'t support "line comments"'), lex))
         # Analize
-        bEmpSel     = False
+        empty_sel   = False
         rWrks       = []
         bUseRepLns  = True
         y1,y2,lines = (-1, -1, []) if bUseRepLns else (None, None, None) # To use API replace_lines
@@ -102,7 +102,7 @@ class Command:
         crts        = ed_.get_carets()
         if False:pass
         elif ed_.get_sel_mode() == app.SEL_NORMAL:
-            bEmpSel     = 1==len(crts) and -1==crts[0][3]
+            empty_sel     = 1==len(crts) and -1==crts[0][3]
             for (cCrt, rCrt ,cEnd, rEnd) in crts:
                 (rCrtMin
                 ,rCrtMax)   = apx.minmax(rCrt, rEnd if -1!=rEnd else rCrt)
@@ -209,11 +209,11 @@ class Command:
                 ed_.replace_lines(y1, y2, lines)
         # move caret down
         bSkip    = apx.get_opt('comment_move_down', True)
-        if bEmpSel and bSkip:
+        if empty_sel and bSkip:
             (cCrt, rCrt, cEnd, rEnd)    = crts[0]
             apx._move_caret_down(cCrt, rCrt)
         # shift caret horizontally if it's on the same line
-        if not bSkip and bEmpSel and not col_kept:
+        if not bSkip and empty_sel and not col_kept:
             dx = len(cmt_sgn)
             if do_uncmt:
                 dx = -dx
@@ -237,22 +237,22 @@ class Command:
         pass;                  #LOG and log('(bgn_sgn,end_sgn),bOnlyLn,bUseFLn={}', ((bgn_sgn,end_sgn),bOnlyLn,bUseFLn))
         for icrt, (cCrt, rCrt, cEnd, rEnd) in enumerate(crts):
             pass;              #LOG and log('(cCrt, rCrt), (cEnd, rEnd)={}', ((cCrt, rCrt), (cEnd, rEnd)))
-            bEmpSel     = -1==rEnd
+            empty_sel     = -1==rEnd
             bDrtSel     = -1==rEnd or (rCrt, cCrt)>(rEnd, cEnd)
             bEntireLn   = (rEnd>=0) and (cEnd==0) and (cCrt==0)
             bEntireLn1  = bEntireLn and abs(rEnd-rCrt)==1
             bEntireLn2  = bEntireLn and abs(rEnd-rCrt)>1
             if False:pass
-            elif bEmpSel and (bUseFLn or bOnlyLn):
+            elif empty_sel and (bUseFLn or bOnlyLn):
                 # Use full line
                 line        = ed.get_text_line(rCrt)
                 (cTx1, rTx1), (cTx2, rTx2) = (0, rCrt), (len(line), rCrt)
-            elif bOnlyLn: # and not bEmpSel
+            elif bOnlyLn: # and not empty_sel
                 # Only full lines
                 rTx1, rTx2  = apx.minmax(rCrt, rEnd)
                 line    = ed.get_text_line(rTx2)
                 (cTx1, rTx1), (cTx2, rTx2) = (0, rTx1), (len(line), rTx2)
-            elif bEmpSel: # and not bUseFLn and not bOnlyLn
+            elif empty_sel: # and not bUseFLn and not bOnlyLn
                 continue
             else:
                 (rTx1, cTx1), (rTx2, cTx2) = apx.minmax((rCrt, cCrt), (rEnd, cEnd))
@@ -343,7 +343,7 @@ class Command:
            #for icrt
         bSkip    = apx.get_opt('comment_move_down', True)
         if False:pass
-        elif 1==len(crts) and bEmpSel and bUseFLn and bSkip:
+        elif 1==len(crts) and empty_sel and bUseFLn and bSkip:
             apx._move_caret_down(cCrt, rCrt)
             if bOnlyLn and not do_uncmt:
                 crt=ed.get_carets()[0]; apx._move_caret_down(crt[0], crt[1])
