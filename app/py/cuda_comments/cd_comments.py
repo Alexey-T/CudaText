@@ -92,7 +92,7 @@ class Command:
         cmt_sgn     = prop['c_line'] if prop else None
         pass;                  #log('cmt_type, lex, cmt_sgn={}', (cmt_type, lex, cmt_sgn))
         if not cmt_sgn:
-            return app.msg_status(f(_('No line comment for lexer "{}"'), lex))
+            return app.msg_status(f(_('Lexer "{}" don\'t support "line comments"'), lex))
         # Analize
         bEmpSel     = False
         rWrks       = []
