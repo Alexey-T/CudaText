@@ -1185,6 +1185,7 @@ procedure InitDirs;
 var
   S, HomeConfig: string;
   SPathOrig, SPath: RawByteString;
+  bAppPortable: boolean;
 begin
   OpFileExe:= ParamStr(0);
   OpDirExe:= ExtractFileDir(OpFileExe);
@@ -1217,18 +1218,21 @@ begin
     end
     else
     {$endif}
-    //not portable folder of app?
-    if not DirectoryExistsUTF8(OpDirExe+DirectorySeparator+'data'+DirectorySeparator+'lexlib') then
     begin
-      HomeConfig:= GetEnvironmentVariable('XDG_CONFIG_HOME');
-      if HomeConfig='' then
-        HomeConfig:= AppDir_Home + '.config/'
-      else
-        HomeConfig:= IncludeTrailingPathDelimiter(HomeConfig);
+      bAppPortable:= DirectoryExists(OpDirExe+'/data/lexlib') and
+        not SBeginsWith(OpDirExe, '/opt/');
+      if not bAppPortable then
+      begin
+        HomeConfig:= GetEnvironmentVariable('XDG_CONFIG_HOME');
+        if HomeConfig='' then
+          HomeConfig:= AppDir_Home + '.config/'
+        else
+          HomeConfig:= IncludeTrailingPathDelimiter(HomeConfig);
 
-      OpDirLocal:= HomeConfig+'cudatext';
-      CreateDirUTF8(OpDirLocal);
-      //MsgStdout('CudaText starts not portable: '+OpDirLocal);
+        OpDirLocal:= HomeConfig+'cudatext';
+        CreateDirUTF8(OpDirLocal);
+        //MsgStdout('CudaText starts not portable: '+OpDirLocal);
+      end;
     end;
     {$endif}
   {$endif}
