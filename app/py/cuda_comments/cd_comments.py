@@ -1,9 +1,9 @@
 ''' Plugin for CudaText editor
 Authors:
-    Andrey Kvichansky    (kvichans on github.com)
+    Andrey Kvichansky (kvichans on github.com)
     Alexey Torgashin (CudaText)
 Version:
-    '0.8.8 2018-03-05'
+    '0.8.9 2021-04-05'
 ToDo: (see end of file)
 '''
 
@@ -96,7 +96,7 @@ class Command:
         # Analize
         bEmpSel     = False
         rWrks       = []
-        bUseRepLns  = app.app_api_version()>='1.0.177'
+        bUseRepLns  = True
         y1,y2,lines = (-1, -1, []) if bUseRepLns else (None, None, None) # To use API replace_lines
         pass;                  #LOG and log('ed_.get_sel_mode(),app.SEL_NORMAL,app.SEL_COLUMN={}', (ed_.get_sel_mode(),app.SEL_NORMAL,app.SEL_COLUMN))
         crts        = ed_.get_carets()
