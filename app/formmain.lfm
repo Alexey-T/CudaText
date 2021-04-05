@@ -551,10 +551,6 @@ object fmMain: TfmMain
     end
     object mnuPlugins: TMenuItem
       Caption = '&Plugins'
-      object mnuPluginsEmpty: TMenuItem
-        Caption = '(cannot load Python engine)'
-        Enabled = False
-      end
     end
     object mnuOp: TMenuItem
       Caption = '&Options'

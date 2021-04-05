@@ -247,7 +247,6 @@ type
     SepV4: TMenuItem;
     mnuBmPlaceOnCarets: TMenuItem;
     mnuFileNewMenu: TMenuItem;
-    mnuPluginsEmpty: TMenuItem;
     ImageListSide: TImageList;
     ImageListBm: TImageList;
     MainMenu: TMainMenu;
