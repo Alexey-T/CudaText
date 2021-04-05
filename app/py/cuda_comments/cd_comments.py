@@ -4,7 +4,6 @@ Authors:
     Alexey Torgashin (CudaText)
 Version:
     '0.8.9 2021-04-05'
-ToDo: (see end of file)
 '''
 
 import  os
@@ -27,7 +26,6 @@ class Command:
     def dlg_config(self):
         save_bd_col = apx.get_opt('comment_save_column'         , False)
         at_min_bd   = apx.get_opt('comment_equal_column'        , False)
-        bUseFLn     = True
         move_down   = apx.get_opt('comment_move_down'           , True)
 
         save_s      = _('(Line commands) Try to keep text position after (un)commenting')
@@ -240,7 +238,6 @@ class Command:
         ,bOnlyLn)=self._get_cmt_pair(lex)
         if not bgn_sgn:
             return app.msg_status(f(_('No stream comment for lexer "{}"'), lex))
-        bUseFLn = True
         crts    = ed.get_carets()
         pass;                  #LOG and log('lex, get_carets()={}', (lex, crts))
         pass;                  #LOG and log('(bgn_sgn,end_sgn),bOnlyLn,bUseFLn={}', ((bgn_sgn,end_sgn),bOnlyLn,bUseFLn))
@@ -252,7 +249,7 @@ class Command:
             bEntireLn1  = bEntireLn and abs(rEnd-rCrt)==1
             bEntireLn2  = bEntireLn and abs(rEnd-rCrt)>1
             if False:pass
-            elif empty_sel and (bUseFLn or bOnlyLn):
+            elif empty_sel:
                 # Use full line
                 line        = ed.get_text_line(rCrt)
                 (cTx1, rTx1), (cTx2, rTx2) = (0, rCrt), (len(line), rCrt)
@@ -352,7 +349,7 @@ class Command:
            #for icrt
         move_down = apx.get_opt('comment_move_down', True)
         if False:pass
-        elif 1==len(crts) and empty_sel and bUseFLn and move_down:
+        elif 1==len(crts) and empty_sel and move_down:
             apx._move_caret_down(cCrt, rCrt)
             if bOnlyLn and not do_uncmt:
                 crt=ed.get_carets()[0]; apx._move_caret_down(crt[0], crt[1])
@@ -380,9 +377,3 @@ class Command:
             self.pair4lex[lex] = (pair, only_ln)
         return self.pair4lex[lex]
        #def _get_cmt_pair
-
-
-'''
-ToDo
-[ ][kv-kv][13sep16] Start
-'''
