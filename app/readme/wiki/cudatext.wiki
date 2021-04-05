@@ -66,6 +66,7 @@ Screenshot on Windows:
 * [[#Tab_switcher|Tab switcher]] dialog
 * Can split single UI-tab, for single file or 2 different files (helps to work with Differ plugin)
 * Option for "zebra mode"
+* Can drag-and-drop block of text inside the editor
 * Can plug-in a different Python engine (packages in add-ons)
 * Add-ons do not disappear due to GitHub repository deletions
 
