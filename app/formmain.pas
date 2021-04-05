@@ -7048,13 +7048,35 @@ end;
 
 
 procedure TfmMain.DoMenuClear(const AMenuId: string);
+  //
+  procedure ClearMenuItem(mi: TMenuItem);
+  var
+    Obj: TObject;
+    i: integer;
+  begin
+    for i:= mi.Count-1 downto 0 do
+      ClearMenuItem(mi.Items[i]);
+    if mi.Tag<>0 then
+    begin
+      Obj:= TObject(mi.Tag);
+      if Obj is TAppMenuProps then
+      begin
+        TAppMenuProps(Obj).CommandString:= '';
+        TAppMenuProps(Obj).TagString:= '';
+        Obj.Free;
+        mi.Tag:= 0;
+      end;
+    end;
+    mi.Clear;
+  end;
+  //
 var
   mi: TMenuItem;
 begin
   mi:= PyHelper_MenuItemFromId(AMenuId);
   if Assigned(mi) then
   begin
-    mi.Clear;
+    ClearMenuItem(mi);
     if AMenuId=PyMenuId_Top then
     begin
       mnuFileOpenSub:= nil;
