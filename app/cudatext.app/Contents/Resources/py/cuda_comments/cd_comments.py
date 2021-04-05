@@ -215,9 +215,9 @@ class Command:
             else:
                 ed_.replace_lines(y1, y2, lines)
         # move caret down
-        move_down = apx.get_opt('comment_move_down', True)
+        (cCrt, rCrt, cEnd, rEnd) = crts[0]
+        move_down = apx.get_opt('comment_move_down', True) and (rCrt+1 < ed_.get_line_count())
         if empty_sel and move_down:
-            (cCrt, rCrt, cEnd, rEnd)    = crts[0]
             apx._move_caret_down(cCrt, rCrt)
         # shift caret horizontally if it's on the same line
         if not move_down and empty_sel and not col_kept:
