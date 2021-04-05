@@ -7,7 +7,7 @@
 
 + add: plugin Comments: after toggling line comment, shift caret horizontally too (thanks @xcme)
 + add: plugin Sort: new option "ini_files_case_sensitive" for "Ini files: sort sections and keys" (thanks @BBServ)
-+ add: now app uses configs in ~/.config if it was copied to /opt/SomeFolder (thanks linux.org.ru)
++ add: app uses configs in ~/.config if it was run from /opt/AnyDir (thanks linux.org.ru)
 * change: changed default of "undo_for_caret_jump" to false (thanks @xcme)
 * change: changed default of "renderer_offsets__linux" to true for Qt5 version
 
