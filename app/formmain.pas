@@ -7076,50 +7076,52 @@ begin
       ClearMenuItem(mi.Items[i]);
     mi.Clear;
 
-    if AMenuId=PyMenuId_Top then
-    begin
-      mnuFileOpenSub:= nil;
-      mnuFileEnc:= nil;
-      mnuPlugins:= nil;
-      mnuOpPlugins:= nil;
-      mnuLexers:= nil;
-    end;
-    if AMenuId=PyMenuId_TopOptions then
-    begin
-    end;
-    if AMenuId=PyMenuId_TopFile then
-    begin
-      mnuFileOpenSub:= nil;
-    end;
-    if AMenuId=PyMenuId_TopView then
-    begin
-      mnuLexers:= nil;
-    end;
-    if AMenuId=PyMenuId_Text then
-    begin
-      mnuTextCopy:= nil;
-      mnuTextCut:= nil;
-      mnuTextDelete:= nil;
-      mnuTextPaste:= nil;
-      mnuTextUndo:= nil;
-      mnuTextRedo:= nil;
-      mnuTextSel:= nil;
-      mnuTextGotoDef:= nil;
-      mnuTextOpenUrl:= nil;
-    end;
-    if AMenuId=PyMenuId_Tab then
-    begin
-      mnuTabMove1:= nil;
-      mnuTabMove2:= nil;
-      mnuTabMove3:= nil;
-      mnuTabMove4:= nil;
-      mnuTabMove5:= nil;
-      mnuTabMove6:= nil;
-      mnuTabMoveF1:= nil;
-      mnuTabMoveF2:= nil;
-      mnuTabMoveF3:= nil;
-      mnuTabMoveNext:= nil;
-      mnuTabMovePrev:= nil;
+    case AMenuId of
+      PyMenuId_Top:
+        begin
+          mnuFileOpenSub:= nil;
+          mnuFileEnc:= nil;
+          mnuPlugins:= nil;
+          mnuOpPlugins:= nil;
+          mnuLexers:= nil;
+        end;
+      PyMenuId_TopOptions:
+        begin
+        end;
+      PyMenuId_TopFile:
+        begin
+          mnuFileOpenSub:= nil;
+        end;
+      PyMenuId_TopView:
+        begin
+          mnuLexers:= nil;
+        end;
+      PyMenuId_Text:
+        begin
+          mnuTextCopy:= nil;
+          mnuTextCut:= nil;
+          mnuTextDelete:= nil;
+          mnuTextPaste:= nil;
+          mnuTextUndo:= nil;
+          mnuTextRedo:= nil;
+          mnuTextSel:= nil;
+          mnuTextGotoDef:= nil;
+          mnuTextOpenUrl:= nil;
+        end;
+      PyMenuId_Tab:
+        begin
+          mnuTabMove1:= nil;
+          mnuTabMove2:= nil;
+          mnuTabMove3:= nil;
+          mnuTabMove4:= nil;
+          mnuTabMove5:= nil;
+          mnuTabMove6:= nil;
+          mnuTabMoveF1:= nil;
+          mnuTabMoveF2:= nil;
+          mnuTabMoveF3:= nil;
+          mnuTabMoveNext:= nil;
+          mnuTabMovePrev:= nil;
+        end;
     end;
   end;
 end;
