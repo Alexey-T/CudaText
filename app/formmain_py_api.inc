@@ -1450,6 +1450,7 @@ var
   Ed: TATSynEdit;
   PtrText: PChar;
   StrW: atString;
+  Strs: TATStrings;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Ls:set_text_all', @H, @PtrText)) then
@@ -1457,6 +1458,8 @@ begin
       Ed:= PyHelper_EditorFromHandle(H);
       if Ed.ModeReadOnly then
         exit(ReturnNone);
+      Strs:= Ed.Strings;
+      Strs.SetNewCommandMark;
 
       StrW:= UTF8Decode(string(PtrText));
 
@@ -1464,11 +1467,11 @@ begin
       Ed.DoCaretSingle(0, 0);
       Ed.Markers.Clear;
       Ed.Attribs.Clear;
-      Ed.Strings.LoadFromString(StrW);
+      Strs.LoadFromString(StrW);
 
       Ed.DoCaretsFixIncorrectPos(false);
       Ed.DoEventChange;
-      Ed.Strings.ActionSaveLastEditionPos(0, 0);
+      Strs.ActionSaveLastEditionPos(0, 0);
       Ed.Update(true);
 
       Result:= ReturnNone;
@@ -1494,6 +1497,7 @@ begin
       Strs:= Ed.Strings;
       if Ed.ModeReadOnly then
         exit(ReturnNone);
+      Strs.SetNewCommandMark;
 
       //replace \n \r to "_"
       for i:= 1 to Length(Str) do
@@ -1595,6 +1599,7 @@ var
   Shift, PosAfter: TPoint;
   PtrText: PChar;
   StrText: string;
+  Strs: TATStrings;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liiiis:replace', @H, @X1, @Y1, @X2, @Y2, @PtrText)) then
@@ -1603,8 +1608,10 @@ begin
       StrText:= string(PtrText);
       if Ed.ModeReadOnly then
         exit(ReturnNone);
+      Strs:= Ed.Strings;
+      Strs.SetNewCommandMark;
 
-      Ed.Strings.TextReplaceRange(X1, Y1, X2, Y2,
+      Strs.TextReplaceRange(X1, Y1, X2, Y2,
         UTF8Decode(StrText), Shift, PosAfter, true);
       Ed.DoCaretsShift(0, X1, Y1, Shift.X, Shift.Y, PosAfter);
 
@@ -1626,6 +1633,7 @@ var
   Lines: TStringList;
   ListPy: PPyObject;
   Res: boolean;
+  Strs: TATStrings;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'LiiO:replace_lines', @H, @Y1, @Y2, @ListPy)) then
@@ -1633,11 +1641,13 @@ begin
       Ed:= PyHelper_EditorFromHandle(H);
       if Ed.ModeReadOnly then
         exit(ReturnNone);
+      Strs:= Ed.Strings;
+      Strs.SetNewCommandMark;
 
       Lines:= TStringList.Create;
       try
         PyListToStrings(ListPy, Lines);
-        Res:= Ed.Strings.TextReplaceLines_UTF8(Y1, Y2, Lines);
+        Res:= Strs.TextReplaceLines_UTF8(Y1, Y2, Lines);
         Ed.DoCaretsShift(0, 0, Y1, 0, Lines.Count-(Y2-Y1+1), Point(0, Y1+Lines.Count));
 
         Ed.DoEventChange;
