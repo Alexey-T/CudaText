@@ -3,12 +3,12 @@
   - fixed
   * changed
 
-1.130.1 (2021/04)
+1.130.5 (2021/04)
 
 + add: plugin Comments: after toggling line comment, shift caret horizontally too (thanks @xcme)
 + add: plugin Sort: new option "ini_files_case_sensitive" for "Ini files: sort sections and keys" (thanks @BBServ)
 + add: app uses configs in ~/.config if it was run from /opt/AnyDir (thanks linux.org.ru)
-+ add: option "dim_unfocused" value<0 is allowed (thanks @kvichans)
++ add: option "dim_unfocused" allows value<0 (thanks @kvichans)
 * change: renamed option "undo_for_caret_jump" to "undo_mouse_clicks", changed its default (thanks @xcme)
 * change: changed default of "renderer_offsets__linux" to true for Qt5 version
 
