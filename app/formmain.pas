@@ -688,11 +688,11 @@ type
     FMenuVisible: boolean;
     FNewClickedEditor: TATSynEdit;
     FPyCompletionProps: TAppCompletionApiProps;
+    FNeedUpdateStatuses: boolean;
+    FNeedUpdateMenuChecks: boolean;
     FLastDirOfOpenDlg: string;
     FLastLexerForPluginsMenu: string;
-    FLastStatusbarUpdated: boolean;
     FLastStatusbarMessage: string;
-    FLastStateUpdated: boolean;
     FLastSelectedCommand: integer;
     FLastMousePos: TPoint;
     FLastMaximized: boolean;
@@ -2088,17 +2088,17 @@ begin
   UpdateToolbarButtons(Frame);
 
   //frame requested to update statusbar
-  if FLastStatusbarUpdated then
+  if FNeedUpdateStatuses then
   begin
-    FLastStatusbarUpdated:= false;
+    FNeedUpdateStatuses:= false;
     TimerStatusWork.Enabled:= false;
     UpdateSomeStates(Frame);
     UpdateStatusbar_RealWork;
   end;
 
-  if FLastStateUpdated then
+  if FNeedUpdateMenuChecks then
   begin
-    FLastStateUpdated:= false;
+    FNeedUpdateMenuChecks:= false;
     UpdateMenuChecks(Frame);
   end;
 
