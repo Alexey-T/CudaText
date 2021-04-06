@@ -223,7 +223,7 @@
   "zebra_step": 2,
 
   //For unfocused editors (in passive tab-groups), dim the background color
-  //Value: 0 (option is inactive) ... 240
+  //Value: 0: not used; 1...250: blend with black; -1...-250: blend with white
   "dim_unfocused": 0,
 
   //[Lexers]
