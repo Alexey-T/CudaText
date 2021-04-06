@@ -4258,4 +4258,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * change: Editor.dim returns [] if no items
 * change: Editor.gap returns [] if no items
 
+1.0.377 (app 1.130.5)
+* change: changed values of cCommand_MoveSelection* commands
+
 [[Category:CudaText]]

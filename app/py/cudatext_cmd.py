@@ -131,8 +131,8 @@ cCommand_SelectInverted = 264 | _CmdFlag_MovesCaret
 cCommand_SelectSplitToLines = 265 | _CmdFlag_MovesCaret
 cCommand_SelectExtendByLine = 266 | _CmdFlag_MovesCaret
 
-cCommand_MoveSelectionUp = 268 | _CmdFlag_MovesCaret
-cCommand_MoveSelectionDown = 269 | _CmdFlag_MovesCaret
+cCommand_MoveSelectionUp = 268 # | _CmdFlag_MovesCaret
+cCommand_MoveSelectionDown = 269 # | _CmdFlag_MovesCaret
 cCommand_TextInsertEmptyAbove = 270 | _CmdFlag_SelReset | _CmdFlag_MovesCaret
 cCommand_TextInsertEmptyBelow = 271 | _CmdFlag_SelReset | _CmdFlag_MovesCaret
 
