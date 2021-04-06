@@ -9,7 +9,7 @@
 + add: plugin Sort: new option "ini_files_case_sensitive" for "Ini files: sort sections and keys" (thanks @BBServ)
 + add: app uses configs in ~/.config if it was run from /opt/AnyDir (thanks linux.org.ru)
 + add: option "dim_unfocused" value<0 is allowed (thanks @kvichans)
-* change: changed default of "undo_for_caret_jump" to false (thanks @xcme)
+* change: renamed option "undo_for_caret_jump" to "undo_mouse_clicks", changed its default (thanks @xcme)
 * change: changed default of "renderer_offsets__linux" to true for Qt5 version
 
 1.130.0 (2021/04)
