@@ -2036,13 +2036,7 @@ The GTK2 and Qt5 binaries can also be installed via the AUR if you are on an Arc
 === Linux Qt5 build ===
 For CudaText Qt5 version, library libQt5Pas is required.
 
-* For Ubuntu:
-
- $ sudo apt install libqt5pas-dev
-
-* For Fedora:
-
- $ sudo yum install qt5pas
+You need the latest libQt5Pas [https://sourceforge.net/projects/cudatext/files/release_libs/ from these packages].
 
 ===App cannot run on FreeBSD===
 
