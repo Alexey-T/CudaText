@@ -2254,6 +2254,8 @@ begin
     Splitted:= true;
     DoFileOpen_Ex(Ed2, AFileName2, AAllowLoadHistory, AAllowLoadHistory, AAllowLexerDetect, AAllowErrorMsgBox, false, AOpenMode);
   end;
+
+  DoOnUpdateStatusbar;
 end;
 
 procedure TEditorFrame.DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string;
