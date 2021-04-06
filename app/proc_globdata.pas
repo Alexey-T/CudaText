@@ -540,7 +540,7 @@ type
     OpUndoIndentVert: integer;
     OpUndoIndentHorz: integer;
     OpUndoPause: integer;
-    OpUndoForCaretJump: boolean;
+    OpUndoMouseClicks: boolean;
 
     //caret
     OpCaretBlinkTime: integer;
@@ -1446,7 +1446,7 @@ begin
     OpUndoIndentVert:= -5;
     OpUndoIndentHorz:= 10;
     OpUndoPause:= 300;
-    OpUndoForCaretJump:= false;
+    OpUndoMouseClicks:= false;
 
     OpCaretBlinkTime:= cInitCaretBlinkTime;
     OpCaretBlinkEn:= true;
