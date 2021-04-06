@@ -1530,6 +1530,7 @@ var
   X1, Y1, X2, Y2: Integer;
   Ed: TATSynEdit;
   Shift, PosAfter: TPoint;
+  Strs: TATStrings;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liiii:delete', @H, @X1, @Y1, @X2, @Y2)) then
@@ -1537,8 +1538,10 @@ begin
       Ed:= PyHelper_EditorFromHandle(H);
       if Ed.ModeReadOnly then
         exit(ReturnNone);
+      Strs:= Ed.Strings;
+      Strs.SetNewCommandMark;
 
-      Ed.Strings.TextDeleteRange(X1, Y1, X2, Y2, Shift, PosAfter);
+      Strs.TextDeleteRange(X1, Y1, X2, Y2, Shift, PosAfter);
       Ed.DoCaretsShift(0, X1, Y1, Shift.X, Shift.Y, PosAfter);
 
       Ed.DoEventChange;
@@ -1568,6 +1571,7 @@ begin
       Strs:= Ed.Strings;
       if Ed.ModeReadOnly then
         Exit(ReturnNone);
+      Strs.SetNewCommandMark;
 
       if Y1<0 then
         Exit(ReturnNone);
