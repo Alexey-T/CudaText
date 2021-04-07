@@ -6,6 +6,7 @@
 1.130.5 (2021/04)
 
 + add: improved the way how option "undo_limit" is applied. Now Undo limit is not N simple items, but N complex actions, where 'complex action' is one mass-replacement, one multi-caret editing and so on. (thanks @tmsg)
++ add: Output/Validate panels have context menu item "Copy one line" (thanks @jkeks)
 + add: plugin Comments: after toggling line comment, shift caret horizontally too (thanks @xcme)
 + add: plugin Sort: new option "ini_files_case_sensitive" for "Ini files: sort sections and keys" (thanks @BBServ)
 + add: app uses configs in ~/.config if it was run from /opt/AnyDir (thanks linux.org.ru)
