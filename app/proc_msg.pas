@@ -148,6 +148,7 @@ const
   msgCopyFilenameName: string = 'Copy filename only';
   msgCopyFilenameDir: string = 'Copy filepath only';
   msgCopyFilenameFull: string = 'Copy full filepath';
+  msgCopyOneLine: string = 'Copy one line';
 
   msgEncReloadAs: string = 'Reload as';
   msgEncConvertTo: string = 'Convert to';
