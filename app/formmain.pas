@@ -3377,6 +3377,19 @@ begin
 end;
 
 procedure TfmMain.DoApplyUiOps;
+  //
+  procedure ApplyEditorUiOps(Ed: TATSynEdit);
+  begin
+    Ed.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
+    Ed.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
+    Ed.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
+    Ed.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
+    Ed.OptScrollbarsNew:= EditorOps.OpScrollbarsNew;
+    Ed.DoubleBuffered:= UiOps.DoubleBuffered;
+    Ed.Font.Size:= EditorOps.OpFontSize;
+    Ed.Invalidate;
+  end;
+  //
 var
   id: TAppPanelId;
   {$ifdef unix}
@@ -3425,10 +3438,8 @@ begin
 
   if Assigned(fmFind) then
   begin
-    fmFind.edFind.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
-    fmFind.edRep.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
-    fmFind.edFind.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
-    fmFind.edRep.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
+    ApplyEditorUiOps(fmFind.edFind);
+    ApplyEditorUiOps(fmFind.edRep);
   end;
 
   UpdateStatusbarPanelsFromString(UiOps.StatusPanels);
@@ -3438,35 +3449,20 @@ begin
   CodeTree.Tree.ToolTips:= UiOps.TreeShowTooltips;
   CodeTree.Invalidate;
 
-  CodeTreeFilterInput.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
-  CodeTreeFilterInput.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
-  CodeTreeFilterInput.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
-  CodeTreeFilterInput.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
+  ApplyEditorUiOps(CodeTreeFilterInput);
   CodeTreeFilterReset.Width:= AppScale(UiOps.ScrollbarWidth);
 
   if Assigned(fmConsole) then
   begin
     EditorCaretShapeFromString(fmConsole.EdMemo.CaretShapeReadonly, EditorOps.OpCaretViewReadonly);
-    fmConsole.EdMemo.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
-    fmConsole.EdMemo.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
-    fmConsole.EdMemo.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
-    fmConsole.EdMemo.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
-    fmConsole.EdMemo.OptScrollbarsNew:= EditorOps.OpScrollbarsNew;
+    ApplyEditorUiOps(fmConsole.EdMemo);
+    ApplyEditorUiOps(fmConsole.EdInput);
     fmConsole.EdInput.Height:= AppScale(UiOps.InputHeight);
-    fmConsole.EdInput.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
-    fmConsole.EdInput.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
-    fmConsole.EdInput.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
-    fmConsole.EdInput.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
     fmConsole.MemoWordWrap:= UiOps.ConsoleWordWrap;
   end;
 
-  EditorOutput.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
-  EditorOutput.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
-  EditorOutput.OptScrollbarsNew:= EditorOps.OpScrollbarsNew;
-
-  EditorValidate.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
-  EditorValidate.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
-  EditorValidate.OptScrollbarsNew:= EditorOps.OpScrollbarsNew;
+  ApplyEditorUiOps(EditorOutput);
+  ApplyEditorUiOps(EditorValidate);
 
   DoApplyUiOpsToGroups(Groups);
   if FloatGroups then
