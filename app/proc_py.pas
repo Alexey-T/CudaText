@@ -360,29 +360,18 @@ begin
 
   ObjName:= NamePrefix+AModule;
 
-  if not IsLoadedLocal(ObjName) then
-  begin
-    try
-      ImportCommand(ObjName, AModule);
-      LoadedLocals.Add(ObjName);
-    except
-      on E: Exception do
-      begin
-        MsgLogConsole(Format('ERROR: Exception in CudaText for %s.%s: %s', [AModule, AMethod, E.Message]));
-        if FEngine.PyErr_Occurred <> nil then
-          FEngine.CheckError(False)
-        else
-          raise;
-      end;
-    end;
-  end;
-
   try
-    SetLength(ParamObjs, Length(AParams));
-    for i:= 0 to Length(AParams)-1 do
-      ParamObjs[i]:= AppVariantToPyObject(AParams[i]);
-
     try
+      if not IsLoadedLocal(ObjName) then
+      begin
+        ImportCommand(ObjName, AModule);
+        LoadedLocals.Add(ObjName);
+      end;
+
+      SetLength(ParamObjs, Length(AParams));
+      for i:= 0 to Length(AParams)-1 do
+        ParamObjs[i]:= AppVariantToPyObject(AParams[i]);
+
       //Obj:= MethodEval(ObjName, AMethod, AppVariantArrayToString(AParams));
       Obj:= MethodEvalObjects(ObjName, AMethod, ParamObjs);
       if Assigned(Obj) then
