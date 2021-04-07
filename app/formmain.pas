@@ -715,6 +715,7 @@ type
     procedure PopupBottomClearClick(Sender: TObject);
     procedure PopupBottomCopyClick(Sender: TObject);
     procedure PopupBottomSelectAllClick(Sender: TObject);
+    procedure PopupBottomWrapClick(Sender: TObject);
     procedure UpdateGlobalProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
     procedure UpdateLexerProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
     procedure ConfirmButtonOkClick(Sender: TObject);
@@ -1668,6 +1669,15 @@ begin
     mi:= TMenuItem.Create(AEditor);
     mi.Caption:= 'Select all';
     mi.OnClick:=@PopupBottomSelectAllClick;
+    AMenu.Items.Add(mi);
+
+    mi:= TMenuItem.Create(AEditor);
+    mi.Caption:= 'Toggle word wrap';
+    mi.OnClick:=@PopupBottomWrapClick;
+    AMenu.Items.Add(mi);
+
+    mi:= TMenuItem.Create(AEditor);
+    mi.Caption:= '-';
     AMenu.Items.Add(mi);
 
     mi:= TMenuItem.Create(AEditor);
@@ -7927,6 +7937,14 @@ var
 begin
   Ed:= (Sender as TMenuItem).Owner as TATSynEdit;
   Ed.DoCommand(cCommand_SelectAll);
+end;
+
+procedure TfmMain.PopupBottomWrapClick(Sender: TObject);
+var
+  Ed: TATSynEdit;
+begin
+  Ed:= (Sender as TMenuItem).Owner as TATSynEdit;
+  Ed.DoCommand(cCommand_ToggleWordWrap);
 end;
 
 
