@@ -7941,6 +7941,7 @@ begin
   Ed.OptShowMouseSelFrame:= false;
   Ed.OptShowCurLine:= true;
   Ed.OptCaretManyAllowed:= false;
+  Ed.OptMarginRight:= 2000;
   Ed.ModeReadOnly:= true;
 
   InitPopupBottomEditor(PopupBottomEditor, Ed);
