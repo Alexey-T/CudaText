@@ -6357,7 +6357,7 @@ procedure TfmMain.ListboxOutContextPopup(Sender: TObject; MousePos: TPoint; var 
 begin
   InitPopupListboxOutput;
   mnuContextOutputCopy.Caption:= cStrMenuitemCopy;
-  mnuContextOutputCopyOne.Caption:= msgCopyOneLine;
+  mnuContextOutputCopyOne.Caption:= msgCopyCurrentLine;
   mnuContextOutputClear.Caption:= msgFileClearList;
   PopupListboxOutput.Popup;
   Handled:= true;
@@ -6367,7 +6367,7 @@ procedure TfmMain.ListboxValidateContextPopup(Sender: TObject; MousePos: TPoint;
 begin
   InitPopupListboxValidate;
   mnuContextValidateCopy.Caption:= cStrMenuitemCopy;
-  mnuContextValidateCopyOne.Caption:= msgCopyOneLine;
+  mnuContextValidateCopyOne.Caption:= msgCopyCurrentLine;
   mnuContextValidateClear.Caption:= msgFileClearList;
   PopupListboxValidate.Popup;
   Handled:= true;
