@@ -7905,7 +7905,7 @@ var
   Prop: ^TAppPanelProps;
 begin
   Ed:= (Sender as TMenuItem).Owner as TATSynEdit;
-  Prop:= PyHelper_FindPanelProps(Ed);
+  Prop:= PyHelper_FindPanelProps_ByObject(Ed);
   if Assigned(Prop) then
   begin
     Prop^.Clear;

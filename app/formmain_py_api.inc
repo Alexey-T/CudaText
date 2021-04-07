@@ -2572,7 +2572,7 @@ var
   AppPanelActive: string = '0';
 
 
-function PyHelper_GetPanelProps_ByCaption(const ACaption: string): PAppPanelProps;
+function PyHelper_FindPanelProps_ByCaption(const ACaption: string): PAppPanelProps;
 begin
   Result:= nil;
   if ACaption='0' then
@@ -2582,7 +2582,7 @@ begin
     Result:= @AppPanelProp_Val;
 end;
 
-function PyHelper_FindPanelProps(Ed: TATSynEdit): PAppPanelProps;
+function PyHelper_FindPanelProps_ByObject(Ed: TATSynEdit): PAppPanelProps;
 begin
   Result:= nil;
   if Ed=fmMain.EditorOutput then
@@ -2609,9 +2609,9 @@ begin
       StrPanel:= string(PtrPanel);
 
       if StrPanel<>'' then
-        Prop:= PyHelper_GetPanelProps_ByCaption(StrPanel)
+        Prop:= PyHelper_FindPanelProps_ByCaption(StrPanel)
       else
-        Prop:= PyHelper_GetPanelProps_ByCaption(AppPanelActive);
+        Prop:= PyHelper_FindPanelProps_ByCaption(AppPanelActive);
       if Prop=nil then
         exit(ReturnNone);
 
