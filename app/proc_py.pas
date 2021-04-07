@@ -279,7 +279,7 @@ begin
           except
             on E: Exception do
             begin
-              MsgLogConsole('ERROR: Exception in CudaText: '+E.Message);
+              MsgLogConsole(Format('ERROR: Exception in CudaText for %s: %s', [AFunc, E.Message]));
               if PyErr_Occurred <> nil then
                 CheckError(False)
               else
@@ -366,6 +366,14 @@ begin
       ImportCommand(ObjName, AModule);
       LoadedLocals.Add(ObjName);
     except
+      on E: Exception do
+      begin
+        MsgLogConsole(Format('ERROR: Exception in CudaText for %s.%s: %s', [AModule, AMethod, E.Message]));
+        if FEngine.PyErr_Occurred <> nil then
+          FEngine.CheckError(False)
+        else
+          raise;
+      end;
     end;
   end;
 
@@ -387,7 +395,7 @@ begin
     except
       on E: Exception do
       begin
-        MsgLogConsole(Format('ERROR: Exception in CudaText for %s.%s: ', [AModule, AMethod, E.Message]));
+        MsgLogConsole(Format('ERROR: Exception in CudaText for %s.%s: %s', [AModule, AMethod, E.Message]));
         if FEngine.PyErr_Occurred <> nil then
           FEngine.CheckError(False)
         else
@@ -485,18 +493,48 @@ begin
         ImportCommand(ObjName, AModule);
         LoadedLocals.Add(ObjName);
       except
+        on E: Exception do
+        begin
+          MsgLogConsole(Format('ERROR: Exception in CudaText for %s.%s: %s', [AModule, ACmd, E.Message]));
+          if FEngine.PyErr_Occurred <> nil then
+            FEngine.CheckError(False)
+          else
+            raise;
+        end;
       end;
     end;
 
-    InitParamsObj;
-    Result:= MethodEvalEx(ObjName, ACmd, ParamsObj);
+    try
+      InitParamsObj;
+      Result:= MethodEvalEx(ObjName, ACmd, ParamsObj);
+    except
+      on E: Exception do
+      begin
+        MsgLogConsole(Format('ERROR: Exception in CudaText for %s.%s: %s', [AModule, ACmd, E.Message]));
+        if FEngine.PyErr_Occurred <> nil then
+          FEngine.CheckError(False)
+        else
+          raise;
+      end;
+    end;
   end
   else
   //lazy event: run only of ObjName already created
   if IsLoadedLocal(ObjName) then
   begin
-    InitParamsObj;
-    Result:= MethodEvalEx(ObjName, ACmd, ParamsObj);
+    try
+      InitParamsObj;
+      Result:= MethodEvalEx(ObjName, ACmd, ParamsObj);
+    except
+      on E: Exception do
+      begin
+        MsgLogConsole(Format('ERROR: Exception in CudaText for %s.%s: %s', [AModule, ACmd, E.Message]));
+        if FEngine.PyErr_Occurred <> nil then
+          FEngine.CheckError(False)
+        else
+          raise;
+      end;
+    end;
   end;
 
   FRunning:= false;
