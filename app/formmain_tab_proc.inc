@@ -335,6 +335,8 @@ begin
     if not Application.Terminated then
       if bNeedTreeUpd then
         ClearTreeviewWithData(CodeTree.Tree);
+
+    FNeedUpdateStatuses:= true;
   end;
 end;
 
