@@ -3377,19 +3377,6 @@ begin
 end;
 
 procedure TfmMain.DoApplyUiOps;
-  //
-  procedure ApplyEditorUiOps(Ed: TATSynEdit);
-  begin
-    Ed.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
-    Ed.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
-    Ed.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
-    Ed.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
-    Ed.OptScrollbarsNew:= EditorOps.OpScrollbarsNew;
-    Ed.DoubleBuffered:= UiOps.DoubleBuffered;
-    Ed.Font.Size:= EditorOps.OpFontSize;
-    Ed.Invalidate;
-  end;
-  //
 var
   id: TAppPanelId;
   {$ifdef unix}
@@ -3436,8 +3423,8 @@ begin
 
   if Assigned(fmFind) then
   begin
-    ApplyEditorUiOps(fmFind.edFind);
-    ApplyEditorUiOps(fmFind.edRep);
+    EditorApplyOpsCommon(fmFind.edFind);
+    EditorApplyOpsCommon(fmFind.edRep);
   end;
 
   UpdateStatusbarPanelsFromString(UiOps.StatusPanels);
@@ -3447,20 +3434,20 @@ begin
   CodeTree.Tree.ToolTips:= UiOps.TreeShowTooltips;
   CodeTree.Invalidate;
 
-  ApplyEditorUiOps(CodeTreeFilterInput);
+  EditorApplyOpsCommon(CodeTreeFilterInput);
   CodeTreeFilterReset.Width:= AppScale(UiOps.ScrollbarWidth);
 
   if Assigned(fmConsole) then
   begin
     EditorCaretShapeFromString(fmConsole.EdMemo.CaretShapeReadonly, EditorOps.OpCaretViewReadonly);
-    ApplyEditorUiOps(fmConsole.EdMemo);
-    ApplyEditorUiOps(fmConsole.EdInput);
+    EditorApplyOpsCommon(fmConsole.EdMemo);
+    EditorApplyOpsCommon(fmConsole.EdInput);
     fmConsole.EdInput.Height:= AppScale(UiOps.InputHeight);
     fmConsole.MemoWordWrap:= UiOps.ConsoleWordWrap;
   end;
 
-  ApplyEditorUiOps(EditorOutput);
-  ApplyEditorUiOps(EditorValidate);
+  EditorApplyOpsCommon(EditorOutput);
+  EditorApplyOpsCommon(EditorValidate);
 
   DoApplyUiOpsToGroups(Groups);
   if FloatGroups then

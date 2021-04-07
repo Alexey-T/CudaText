@@ -54,6 +54,7 @@ procedure EditorClear(Ed: TATSynEdit);
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
   AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering, AOneLiner: boolean);
+procedure EditorApplyOpsCommon(Ed: TATSynEdit);
 
 function EditorGetLinkAtScreenCoord(Ed: TATSynEdit; P: TPoint): atString;
 function EditorGetLinkAtCaret(Ed: TATSynEdit): atString;
@@ -389,6 +390,17 @@ begin
   Ed.OptKeyLeftRightGoToNextLineWithCarets:= Op.OpKeyLeftRightGoToNextLineWithCarets;
   Ed.OptKeyLeftRightSwapSel:= Op.OpKeyLeftRightSwapSel;
   Ed.OptKeyLeftRightSwapSelAndSelect:= Op.OpKeyLeftRightSwapSelAndSelect;
+end;
+
+procedure EditorApplyOpsCommon(Ed: TATSynEdit);
+begin
+  Ed.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
+  Ed.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
+  Ed.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
+  Ed.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
+  Ed.OptScrollbarsNew:= EditorOps.OpScrollbarsNew;
+  Ed.DoubleBuffered:= UiOps.DoubleBuffered;
+  Ed.Font.Size:= EditorOps.OpFontSize;
 end;
 
 function EditorGetSelLinesCount(ed: TATSynEdit): integer;
