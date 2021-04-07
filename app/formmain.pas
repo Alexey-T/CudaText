@@ -2379,7 +2379,7 @@ begin
     MsgLogConsole(Format('Loaded console form: %dms', [NTick]));
   end;
 
-  InitSidebar; //after initing PanelCodeTreeAll, ListboxOut, ListboxVal, fmConsole
+  InitSidebar; //after initing PanelCodeTreeAll, EditorOutput, EditorValidate, fmConsole
 
   AppBookmarkImagelist.AddImages(ImageListBm);
   for i:= 2 to 9 do
@@ -2394,10 +2394,13 @@ begin
   FLastStatusbarMessages:= TStringList.Create;
   FLastStatusbarMessages.TextLineBreakStyle:= tlbsLF;
 
+  //init Output/Validate panels
   FillChar(AppPanelProp_Out, SizeOf(AppPanelProp_Out), 0);
   FillChar(AppPanelProp_Val, SizeOf(AppPanelProp_Val), 0);
   AppPanelProp_Out.Editor:= EditorOutput;
   AppPanelProp_Val.Editor:= EditorValidate;
+  AppPanelProp_Out.Objects:= TFPList.Create;
+  AppPanelProp_Val.Objects:= TFPList.Create;
 
   Status:= TATStatus.Create(Self);
   Status.Parent:= Self;
@@ -2644,7 +2647,7 @@ begin
     Btn:= ToolbarSideLow.Buttons[i];
     if Btn.Caption=msgPanelValidate_Init then
     begin
-      NCount:= EditorValidate.Strings.Count;
+      NCount:= EditorValidate.Strings.Count-1;
       if NCount>0 then
         Btn.TextOverlay:= IntToStr(NCount)
       else
@@ -2653,7 +2656,7 @@ begin
     else
     if Btn.Caption=msgPanelOutput_Init then
     begin
-      NCount:= EditorOutput.Strings.Count;
+      NCount:= EditorOutput.Strings.Count-1;
       if NCount>0 then
         Btn.TextOverlay:= IntToStr(NCount)
       else
@@ -6542,7 +6545,7 @@ begin
 
   Ed:= Prop^.Editor;
   CaretY:= Ed.Carets[0].PosY;
-  if not Ed.Strings.IsIndexValid(CaretY) then exit;
+  if not Prop^.IsIndexValid(CaretY) then exit;
 
   SText:= Ed.Strings.Lines[CaretY];
   ItemProp:= TATListboxItemProp(Prop^.Objects[CaretY]);

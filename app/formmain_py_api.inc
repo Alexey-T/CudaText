@@ -2615,9 +2615,6 @@ begin
       if Prop=nil then
         exit(ReturnNone);
 
-      if Prop^.Objects=nil then
-        Prop^.Objects:= TFPList.Create;
-
       case Id of
         LOG_CLEAR:
           begin

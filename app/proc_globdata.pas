@@ -941,6 +941,7 @@ type
     Encoding: string;
     procedure Clear;
     procedure Add(const AText: string; ATag: Int64);
+    function IsIndexValid(AIndex: integer): boolean;
   end;
 
 type
@@ -2708,6 +2709,12 @@ begin
   Editor.Strings.LineAdd(AText);
   Editor.ModeReadOnly:= true;
   Editor.Update(true);
+end;
+
+function TAppPanelProps.IsIndexValid(AIndex: integer): boolean;
+begin
+  Result:= Editor.Strings.IsIndexValid(AIndex) and
+    (AIndex<Objects.Count);
 end;
 
 { TAppManagerThread }
