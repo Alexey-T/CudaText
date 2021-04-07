@@ -5,7 +5,7 @@
 
 1.131.0 (2021/04)
 
-+ add: improved the way how option "undo_limit" is applied. Now Undo limit is not N simple memory-items, but N 'actions', where 'action' is one simple editing (typing a char for example), one multi-caret editing, or one mass-replacement. (thanks @tmsg)
++ add: improved the way how option "undo_limit" is applied. Now Undo limit is not N simple memory-items, but N 'actions', where 'action' is one simple command (typing a char, Del, BkSp etc), one multi-caret editing, or one mass-replacement. (thanks @tmsg)
 + add: Output/Validate panels have context menu item "Copy selected line" (thanks @jkeks)
 + add: plugin Comments: after toggling line comment, shift caret horizontally too (thanks @xcme)
 + add: plugin Sort: new option "ini_files_case_sensitive" for "Ini files: sort sections and keys" (thanks @BBServ)
