@@ -7,11 +7,13 @@
 
 + add: improved the way how option "undo_limit" is applied. Now Undo limit is not N simple memory-items, but N 'actions', where 'action' is one simple command (typing a char, Del, BkSp etc), one multi-caret editing, or one mass-replacement. (thanks @tmsg)
 + add: panels Output/Validate are now based on 'editor' control (before it was a 'listbox' control), so it's possible to select some text range and "copy" this range (thanks @jkeks)
++ add: panels Output/Validate: context menu has item "Toggle word wrap"
 + add: plugin Comments: after toggling line comment, shift caret horizontally too (thanks @xcme)
 + add: plugin Sort: new option "ini_files_case_sensitive" for "Ini files: sort sections and keys" (thanks @BBServ)
 + add: option "dim_unfocused" allows value<0 (thanks @kvichans)
 + add: Undo for commands "move selected lines up/down" undoes all commands by single step (thanks @xcme)
 + add: Linux/BSD: app locates config in ~/.config if it was run from /opt/AnyDir (thanks linux.org.ru)
++ add: handle plugin exceptions in Command.__init__ (thanks @Shovel)
 * change: renamed option "undo_for_caret_jump" to "undo_mouse_clicks", changed its default (thanks @xcme)
 * change: changed default of "renderer_offsets__linux" to true for Qt5 version
 
