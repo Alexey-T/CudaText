@@ -3428,8 +3428,6 @@ begin
   ButtonCancel.DoubleBuffered:= UiOps.DoubleBuffered;
   StatusProgress.DoubleBuffered:= UiOps.DoubleBuffered;
   LexerProgress.DoubleBuffered:= UiOps.DoubleBuffered;
-  EditorOutput.DoubleBuffered:= UiOps.DoubleBuffered;
-  EditorValidate.DoubleBuffered:= UiOps.DoubleBuffered;
   if Assigned(fmConsole) then
     fmConsole.IsDoubleBuffered:= UiOps.DoubleBuffered;
   if Assigned(fmFind) then
