@@ -452,9 +452,8 @@ type
     procedure FrameOnEditorScroll(Sender: TObject);
     procedure FrameOnInitAdapter(Sender: TObject);
     procedure FrameParseDone(Sender: TObject);
-    procedure ListboxOutClick(Sender: TObject);
-    procedure ListboxOutDrawItem(Sender: TObject; C: TCanvas; AIndex: integer; const ARect: TRect);
-    procedure ListboxOutKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure EditorOutputClickDbl(Sender: TObject; var AHandled: boolean);
+    procedure EditorOutputKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure mnuEditClick(Sender: TObject);
     procedure mnuTabColorClick(Sender: TObject);
     procedure mnuTabPinnedClick(Sender: TObject);
@@ -584,11 +583,7 @@ type
     mnuToolbarCommentLineDel: TMenuItem;
     mnuToolbarCommentLineToggle: TMenuItem;
     mnuToolbarCommentStream: TMenuItem;
-    mnuContextOutputCopy: TMenuItem;
-    mnuContextOutputCopyOne: TMenuItem;
     mnuContextOutputClear: TMenuItem;
-    mnuContextValidateCopy: TMenuItem;
-    mnuContextValidateCopyOne: TMenuItem;
     mnuContextValidateClear: TMenuItem;
     PopupToolbarCase: TPopupMenu;
     PopupToolbarComment: TPopupMenu;
@@ -886,6 +881,7 @@ type
     procedure InitPopupLex;
     procedure InitPopupTab;
     procedure InitPopupTabSize;
+    procedure InitBottomEditor(var Ed: TATSynEdit);
     procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer;
       const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
     procedure InitFloatGroups;
@@ -916,12 +912,8 @@ type
     procedure MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
     function GetStatusbarPrefix(Frame: TEditorFrame): string;
     procedure MsgStatusFileOpened(const AFileName1, AFileName2: string);
-    procedure PopupListboxOutputCopyClick(Sender: TObject);
     procedure PopupListboxOutputClearClick(Sender: TObject);
-    procedure PopupListboxOutputCopyOneClick(Sender: TObject);
     procedure PopupListboxValidateClearClick(Sender: TObject);
-    procedure PopupListboxValidateCopyClick(Sender: TObject);
-    procedure PopupListboxValidateCopyOneClick(Sender: TObject);
     procedure SearcherDirectoryEnter(FileIterator: TFileIterator);
     procedure SetShowFloatGroup1(AValue: boolean);
     procedure SetShowFloatGroup2(AValue: boolean);
@@ -1126,8 +1118,8 @@ type
     CodeTreeFilterReset: TATButton;
     PanelCodeTreeAll: TATPanelSimple;
     PanelCodeTreeTop: TATPanelSimple;
-    ListboxOut: TATListbox;
-    ListboxVal: TATListbox;
+    EditorOutput: TATSynEdit;
+    EditorValidate: TATSynEdit;
     LexerProgress: TATGauge;
     LexersDetected: TStringList;
     function FrameCount: integer;
@@ -1674,14 +1666,6 @@ begin
     mnuContextOutputClear:= TMenuItem.Create(Self);
     mnuContextOutputClear.OnClick:= @PopupListboxOutputClearClick;
     PopupListboxOutput.Items.Add(mnuContextOutputClear);
-
-    mnuContextOutputCopyOne:= TMenuItem.Create(Self);
-    mnuContextOutputCopyOne.OnClick:= @PopupListboxOutputCopyOneClick;
-    PopupListboxOutput.Items.Add(mnuContextOutputCopyOne);
-
-    mnuContextOutputCopy:= TMenuItem.Create(Self);
-    mnuContextOutputCopy.OnClick:= @PopupListboxOutputCopyClick;
-    PopupListboxOutput.Items.Add(mnuContextOutputCopy);
   end;
 end;
 
@@ -1694,14 +1678,6 @@ begin
     mnuContextValidateClear:= TMenuItem.Create(Self);
     mnuContextValidateClear.OnClick:= @PopupListboxValidateClearClick;
     PopupListboxValidate.Items.Add(mnuContextValidateClear);
-
-    mnuContextValidateCopyOne:= TMenuItem.Create(Self);
-    mnuContextValidateCopyOne.OnClick:= @PopupListboxValidateCopyOneClick;
-    PopupListboxValidate.Items.Add(mnuContextValidateCopyOne);
-
-    mnuContextValidateCopy:= TMenuItem.Create(Self);
-    mnuContextValidateCopy.OnClick:= @PopupListboxValidateCopyClick;
-    PopupListboxValidate.Items.Add(mnuContextValidateCopy);
   end;
 end;
 
@@ -2390,27 +2366,8 @@ begin
   CodeTreeFilterInput.OnChange:= @CodeTreeFilter_OnChange;
   CodeTreeFilterInput.OnCommand:= @CodeTreeFilter_OnCommand;
 
-  ListboxOut:= TATListbox.Create(Self);
-  ListboxOut.VirtualMode:= false;
-  ListboxOut.CanGetFocus:= true;
-  ListboxOut.OwnerDrawn:= true;
-  ListboxOut.ScrollStyleVert:= alssShow;
-  ListboxOut.ScrollStyleHorz:= alssAuto;
-  ListboxOut.OnDblClick:= @ListboxOutClick;
-  ListboxOut.OnDrawItem:= @ListboxOutDrawItem;
-  ListboxOut.OnKeyDown:= @ListboxOutKeyDown;
-  ListboxOut.OnContextPopup:= @ListboxOutContextPopup;
-
-  ListboxVal:= TATListbox.Create(Self);
-  ListboxVal.VirtualMode:= false;
-  ListboxVal.CanGetFocus:= true;
-  ListboxVal.OwnerDrawn:= true;
-  ListboxVal.ScrollStyleVert:= alssShow;
-  ListboxVal.ScrollStyleHorz:= alssAuto;
-  ListboxVal.OnDblClick:= @ListboxOutClick;
-  ListboxVal.OnDrawItem:= @ListboxOutDrawItem;
-  ListboxVal.OnKeyDown:= @ListboxOutKeyDown;
-  ListboxVal.OnContextPopup:= @ListboxValidateContextPopup;
+  InitBottomEditor(EditorOutput);
+  InitBottomEditor(EditorValidate);
 
   NTick:= GetTickCount64;
   InitConsole;
@@ -2439,8 +2396,8 @@ begin
 
   FillChar(AppPanelProp_Out, SizeOf(AppPanelProp_Out), 0);
   FillChar(AppPanelProp_Val, SizeOf(AppPanelProp_Val), 0);
-  AppPanelProp_Out.Listbox:= ListboxOut;
-  AppPanelProp_Val.Listbox:= ListboxVal;
+  AppPanelProp_Out.Editor:= EditorOutput;
+  AppPanelProp_Val.Editor:= EditorValidate;
 
   Status:= TATStatus.Create(Self);
   Status.Parent:= Self;
@@ -2687,7 +2644,7 @@ begin
     Btn:= ToolbarSideLow.Buttons[i];
     if Btn.Caption=msgPanelValidate_Init then
     begin
-      NCount:= ListboxVal.Items.Count;
+      NCount:= EditorValidate.Strings.Count;
       if NCount>0 then
         Btn.TextOverlay:= IntToStr(NCount)
       else
@@ -2696,7 +2653,7 @@ begin
     else
     if Btn.Caption=msgPanelOutput_Init then
     begin
-      NCount:= ListboxOut.Items.Count;
+      NCount:= EditorOutput.Strings.Count;
       if NCount>0 then
         Btn.TextOverlay:= IntToStr(NCount)
       else
@@ -3449,8 +3406,8 @@ begin
   ButtonCancel.DoubleBuffered:= UiOps.DoubleBuffered;
   StatusProgress.DoubleBuffered:= UiOps.DoubleBuffered;
   LexerProgress.DoubleBuffered:= UiOps.DoubleBuffered;
-  ListboxOut.DoubleBuffered:= UiOps.DoubleBuffered;
-  ListboxVal.DoubleBuffered:= UiOps.DoubleBuffered;
+  EditorOutput.DoubleBuffered:= UiOps.DoubleBuffered;
+  EditorValidate.DoubleBuffered:= UiOps.DoubleBuffered;
   if Assigned(fmConsole) then
     fmConsole.IsDoubleBuffered:= UiOps.DoubleBuffered;
   if Assigned(fmFind) then
@@ -5056,35 +5013,15 @@ begin
   TimerTooltip.Enabled:= true;
 end;
 
-procedure TfmMain.PopupListboxOutputCopyOneClick(Sender: TObject);
-begin
-  AppListbox_CopyOneLine(ListboxOut);
-end;
-
-procedure TfmMain.PopupListboxValidateCopyOneClick(Sender: TObject);
-begin
-  AppListbox_CopyOneLine(ListboxVal);
-end;
-
-procedure TfmMain.PopupListboxOutputCopyClick(Sender: TObject);
-begin
-  AppListbox_CopyAllLines(ListboxOut);
-end;
-
-procedure TfmMain.PopupListboxValidateCopyClick(Sender: TObject);
-begin
-  AppListbox_CopyAllLines(ListboxVal);
-end;
-
 procedure TfmMain.PopupListboxOutputClearClick(Sender: TObject);
 begin
-  AppListbox_Clear(ListboxOut);
+  AppPanelProp_Out.Clear;
   UpdateSidebarButtonOverlay;
 end;
 
 procedure TfmMain.PopupListboxValidateClearClick(Sender: TObject);
 begin
-  AppListbox_Clear(ListboxVal);
+  AppPanelProp_Val.Clear;
   UpdateSidebarButtonOverlay;
 end;
 
@@ -6356,8 +6293,6 @@ end;
 procedure TfmMain.ListboxOutContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
 begin
   InitPopupListboxOutput;
-  mnuContextOutputCopy.Caption:= cStrMenuitemCopy;
-  mnuContextOutputCopyOne.Caption:= msgCopyCurrentLine;
   mnuContextOutputClear.Caption:= msgFileClearList;
   PopupListboxOutput.Popup;
   Handled:= true;
@@ -6366,8 +6301,6 @@ end;
 procedure TfmMain.ListboxValidateContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
 begin
   InitPopupListboxValidate;
-  mnuContextValidateCopy.Caption:= cStrMenuitemCopy;
-  mnuContextValidateCopyOne.Caption:= msgCopyCurrentLine;
   mnuContextValidateClear.Caption:= msgFileClearList;
   PopupListboxValidate.Popup;
   Handled:= true;
@@ -6445,11 +6378,12 @@ begin
   mnuToolbarCommentStream.Caption:= msgCommentStreamToggle;
 end;
 
-procedure TfmMain.ListboxOutKeyDown(Sender: TObject; var Key: Word;
+procedure TfmMain.EditorOutputKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 var
   Prop: ^TAppPanelProps;
-  List: TATListbox;
+  Ed: TATSynEdit;
+  CaretY: integer;
 begin
   //Esc
   if (Key=VK_ESCAPE) then
@@ -6459,48 +6393,24 @@ begin
     exit
   end;
 
-  List:= Sender as TATListbox;
-  if Sender=ListboxOut then
+  Ed:= Sender as TATSynEdit;
+  if Ed=EditorOutput then
     Prop:= @AppPanelProp_Out
   else
-    Prop:= @AppPanelProp_Val;
+  if Ed=EditorValidate then
+    Prop:= @AppPanelProp_Val
+  else
+    exit;
 
-  if not ((List.ItemIndex>=0) and
-          (List.ItemIndex<Prop^.Listbox.Items.Count)) then exit;
+  CaretY:= Ed.Carets[0].PosY;
+  if not Ed.Strings.IsIndexValid(CaretY) then exit;
 
   //Ctrl+C
   if (Key=Ord('C')) and (Shift=[ssCtrl]) then
   begin
-    SClipboardCopy(Prop^.Listbox.Items.Text);
+    Ed.DoCommand(cCommand_ClipboardCopy);
     Key:= 0;
     exit
-  end;
-
-  //Ctrl+D
-  if (Key=Ord('D')) and (Shift=[ssCtrl]) then
-  begin
-    SClipboardCopy(Prop^.Listbox.Items[List.ItemIndex]);
-    Key:= 0;
-    exit
-  end;
-
-  //Ctrl+Del
-  if Key=VK_DELETE then
-  begin
-    ////don't enable Del for Output panel
-    //if Shift=[] then
-    //  Prop^.Items.Delete(List.ItemIndex);
-
-    if Shift=[ssCtrl] then
-      Prop^.Listbox.Items.Clear;
-
-    if List.ItemCount=0 then
-      List.ItemIndex:= -1
-    else
-    if List.ItemIndex>=List.ItemCount then
-      List.ItemIndex:= List.ItemCount-1;
-
-    List.Invalidate;
   end;
 end;
 
@@ -6609,30 +6519,33 @@ begin
   end;
 end;
 
-procedure TfmMain.ListboxOutClick(Sender: TObject);
+procedure TfmMain.EditorOutputClickDbl(Sender: TObject; var AHandled: boolean);
 var
   Prop: ^TAppPanelProps;
   ResFilename: string;
   ResLine, ResCol: integer;
-  NIndex: integer;
-  SText: string;
   Ed: TATSynEdit;
   ItemProp: TATListboxItemProp;
   Params: TAppVariantArray;
   Frame: TEditorFrame;
+  CaretY: integer;
   bFound: boolean;
+  SText: string;
 begin
-  if Sender=ListboxOut then
+  if Sender=EditorOutput then
     Prop:= @AppPanelProp_Out
   else
-    Prop:= @AppPanelProp_Val;
+  if Sender=EditorValidate then
+    Prop:= @AppPanelProp_Val
+  else
+    exit;
 
-  NIndex:= Prop^.Listbox.ItemIndex;
-  if NIndex<0 then exit;
-  if NIndex>=Prop^.Listbox.Items.Count then exit;
+  Ed:= Prop^.Editor;
+  CaretY:= Ed.Carets[0].PosY;
+  if not Ed.Strings.IsIndexValid(CaretY) then exit;
 
-  SText:= Prop^.Listbox.Items[NIndex];
-  ItemProp:= TATListboxItemProp(Prop^.Listbox.Items.Objects[NIndex]);
+  SText:= Ed.Strings.Lines[CaretY];
+  ItemProp:= TATListboxItemProp(Prop^.Objects[CaretY]);
 
   DoParseOutputLine(Prop^, SText, ResFilename, ResLine, ResCol);
   if (ResFilename<>'') and (ResLine>=0) then
@@ -6671,49 +6584,6 @@ begin
     Params[1]:= AppVariant(ItemProp.Tag);
     DoPyEvent(nil, cEventOnOutputNav, Params);
   end;
-end;
-
-
-procedure TfmMain.ListboxOutDrawItem(Sender: TObject; C: TCanvas;
-  AIndex: integer; const ARect: TRect);
-const
-  cDx=4;
-  cDy=1;
-var
-  Listbox: TATListbox;
-  Prop: PAppPanelProps;
-  ResFilename: string;
-  ResLine, ResCol: integer;
-begin
-  Listbox:= Sender as TATListbox;
-  Prop:= PyHelper_GetPanelProps_ByListbox(Listbox);
-  if Prop=nil then exit;
-  if AIndex<0 then exit;
-
-  DoParseOutputLine(Prop^, Listbox.Items[AIndex], ResFilename, ResLine, ResCol);
-  if (ResFilename<>'') and (ResLine>=0) then
-  begin
-    C.Font.Color:= GetAppColor(apclListFontHotkey);
-    C.Brush.Color:= GetAppColor(apclListBg);
-  end
-  else
-  begin
-    C.Font.Color:= GetAppColor(apclListFont);
-    C.Brush.Color:= GetAppColor(apclListBg);
-  end;
-
-  if AIndex=Listbox.ItemIndex then
-  begin
-    C.Font.Color:= GetAppColor(apclListSelFont);
-    C.Brush.Color:= GetAppColor(apclListSelBg);
-    C.FillRect(ARect);
-  end;
-
-  C.TextOut(
-    ARect.Left+cDx-Listbox.ScrollHorz,
-    ARect.Top+cDy,
-    Listbox.Items[AIndex]
-    );
 end;
 
 
@@ -8079,6 +7949,23 @@ begin
 
   Inc(AppUntitledCount);
   Result:= msgUntitledTab+IntToStr(AppUntitledCount);
+end;
+
+
+procedure TfmMain.InitBottomEditor(var Ed: TATSynEdit);
+begin
+  if Ed=nil then
+    Ed:= TATSynEdit.Create(Self);
+
+  Ed.OptRulerVisible:= false;
+  Ed.OptGutterVisible:= false;
+  Ed.OptUnprintedVisible:= false;
+  Ed.OptShowMouseSelFrame:= false;
+  Ed.OptShowCurLine:= true;
+  Ed.ModeReadOnly:= true;
+
+  Ed.OnClickDouble:= @EditorOutputClickDbl;
+  Ed.OnKeyDown:= @EditorOutputKeyDown;
 end;
 
 

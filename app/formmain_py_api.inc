@@ -2582,12 +2582,12 @@ begin
     Result:= @AppPanelProp_Val;
 end;
 
-function PyHelper_GetPanelProps_ByListbox(AListbox: TATListbox): PAppPanelProps;
+function PyHelper_GetPanelProps_ByListbox(Ed: TATSynEdit): PAppPanelProps;
 begin
   Result:= nil;
-  if AListbox=fmMain.ListboxOut then
+  if Ed=fmMain.EditorOutput then
     exit(@AppPanelProp_Out);
-  if AListbox=fmMain.ListboxVal then
+  if Ed=fmMain.EditorValidate then
     exit(@AppPanelProp_Val);
 end;
 
@@ -2615,24 +2615,19 @@ begin
       if Prop=nil then
         exit(ReturnNone);
 
+      if Prop^.Objects=nil then
+        Prop^.Objects:= TFPList.Create;
+
       case Id of
         LOG_CLEAR:
           begin
-            for i:= Prop^.Listbox.ItemCount-1 downto 0 do
-            begin
-              Obj:= Prop^.Listbox.Items.Objects[i];
-              if Assigned(Obj) then
-                Obj.Free;
-            end;
-            Prop^.Listbox.Items.Clear;
-            Prop^.Listbox.Invalidate;
+            Prop^.Clear;
             Result:= ReturnNone;
           end;
 
         LOG_ADD:
           begin
-            Prop^.Listbox.Items.AddObject(StrText, TATListboxItemProp.Create(NTag, false, ''));
-            Prop^.Listbox.Invalidate;
+            Prop^.Add(StrText, NTag);
             Result:= ReturnNone;
           end;
 
@@ -2674,15 +2669,15 @@ begin
 
         LOG_GET_LINES_LIST:
           begin
-            NLen:= Prop^.Listbox.Items.Count;
+            NLen:= Prop^.Editor.Strings.Count;
             Result:= PyList_New(NLen);
             if not Assigned(Result) then
               raise EPythonError.Create(msgPythonListError);
             for i:= 0 to NLen-1 do
             begin
-              Obj:= Prop^.Listbox.Items.Objects[i];
+              Obj:= TObject(Prop^.Objects[i]);
               PyList_SetItem(Result, i, Py_BuildValue('(sL)',
-                  PChar(Prop^.Listbox.Items[i]),
+                  PChar(string(Prop^.Editor.Strings.Lines[i])),
                   Int64((Obj as TATListboxItemProp).Tag)
                   ));
             end;
@@ -2690,12 +2685,12 @@ begin
 
         LOG_GET_LINEINDEX:
           begin
-            Result:= PyLong_FromLong(Prop^.Listbox.ItemIndex);
+            Result:= PyLong_FromLong(Prop^.Editor.Carets[0].PosY);
           end;
 
         LOG_SET_LINEINDEX:
           begin
-            Prop^.Listbox.ItemIndex:= StrToIntDef(StrText, 0);
+            Prop^.Editor.DoCaretSingle(0, StrToIntDef(StrText, 0));
             Result:= ReturnNone;
           end;
 

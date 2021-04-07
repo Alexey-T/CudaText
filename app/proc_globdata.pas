@@ -926,8 +926,12 @@ var
 
 type
   PAppPanelProps = ^TAppPanelProps;
+
+  { TAppPanelProps }
+
   TAppPanelProps = record
-    Listbox: TATListbox;
+    Editor: TATSynEdit;
+    Objects: TFPList;
     RegexStr: string;
     RegexIdLine,
     RegexIdCol,
@@ -935,6 +939,8 @@ type
     DefFilename: string;
     ZeroBase: boolean;
     Encoding: string;
+    procedure Clear;
+    procedure Add(const AText: string; ATag: Int64);
   end;
 
 type
@@ -2666,6 +2672,42 @@ begin
 
   F.Right:= F.Left+w;
   F.Bottom:= F.Top+h;
+end;
+
+procedure EditorClear(Ed: TATSynEdit);
+begin
+  Ed.Strings.Clear;
+  Ed.Strings.ActionAddFakeLineIfNeeded;
+  Ed.DoCaretSingle(0, 0);
+  Ed.Update(true);
+  Ed.Modified:= false;
+end;
+
+{ TAppPanelProps }
+
+procedure TAppPanelProps.Clear;
+var
+  Obj: TObject;
+  i: integer;
+begin
+  for i:= Objects.Count-1 downto 0 do
+  begin
+    Obj:= TObject(Objects.Items[i]);
+    if Assigned(Obj) then
+      Obj.Free;
+  end;
+  Objects.Clear;
+  EditorClear(Editor);
+  Editor.Update(true);
+end;
+
+procedure TAppPanelProps.Add(const AText: string; ATag: Int64);
+begin
+  Objects.Add(TATListboxItemProp.Create(ATag, false, ''));
+  Editor.ModeReadOnly:= false;
+  Editor.Strings.LineAdd(AText);
+  Editor.ModeReadOnly:= true;
+  Editor.Update(true);
 end;
 
 { TAppManagerThread }

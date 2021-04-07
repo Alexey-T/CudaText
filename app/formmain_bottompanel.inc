@@ -13,8 +13,8 @@ begin
     Assigned(fmConsole) and
     (fmConsole.EdInput.Focused or
     fmConsole.EdMemo.Focused or
-    ListboxOut.Focused or
-    ListboxVal.Focused);
+    EditorOutput.Focused or
+    EditorValidate.Focused);
 end;
 
 

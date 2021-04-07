@@ -72,10 +72,8 @@ begin
     ColorScrolled:= GetAppColor(apclScrollScrolled);
   end;
 
-  ListboxOut.Color:= GetAppColor(apclListBg);
-  ListboxOut.Invalidate;
-  ListboxVal.Color:= ListboxOut.Color;
-  ListboxVal.Invalidate;
+  EditorApplyTheme(EditorOutput);
+  EditorApplyTheme(EditorValidate);
 
   EditorApplyTheme(CodeTreeFilterInput);
   if Assigned(fmConsole) then

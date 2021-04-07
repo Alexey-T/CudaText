@@ -1369,8 +1369,8 @@ begin
   AppPanels[cPaneSide].Add(msgPanelTree_Init, cSidebarIconTree, PtrInt(Pointer(PanelCodeTreeAll)), @DoSidebar_OnShowCodeTree);
 
   AppPanels[cPaneOut].Add(msgPanelConsole_Init, cSidebarIconConsole, PtrInt(Pointer(fmConsole)), nil);
-  AppPanels[cPaneOut].Add(msgPanelOutput_Init, cSidebarIconOutput, PtrInt(Pointer(ListboxOut)), nil);
-  AppPanels[cPaneOut].Add(msgPanelValidate_Init, cSidebarIconValidate, PtrInt(Pointer(ListboxVal)), nil);
+  AppPanels[cPaneOut].Add(msgPanelOutput_Init, cSidebarIconOutput, PtrInt(Pointer(EditorOutput)), nil);
+  AppPanels[cPaneOut].Add(msgPanelValidate_Init, cSidebarIconValidate, PtrInt(Pointer(EditorValidate)), nil);
 end;
 
 
@@ -1436,7 +1436,6 @@ begin
 
   mnuTabsizeSpace.Checked:= Ed.OptTabSpaces;
 end;
-
 
 procedure TfmMain.InitPopupTree;
 var
