@@ -485,55 +485,33 @@ begin
 
   ObjName:= NamePrefix+AModule;
 
-  if not ALazy then
-  begin
-    if not IsLoadedLocal(ObjName) then
+  try
+    if not ALazy then
     begin
-      try
+      if not IsLoadedLocal(ObjName) then
+      begin
         ImportCommand(ObjName, AModule);
         LoadedLocals.Add(ObjName);
-      except
-        on E: Exception do
-        begin
-          MsgLogConsole(Format('ERROR: Exception in CudaText for %s.%s: %s', [AModule, ACmd, E.Message]));
-          if FEngine.PyErr_Occurred <> nil then
-            FEngine.CheckError(False)
-          else
-            raise;
-        end;
       end;
-    end;
 
-    try
       InitParamsObj;
       Result:= MethodEvalEx(ObjName, ACmd, ParamsObj);
-    except
-      on E: Exception do
-      begin
-        MsgLogConsole(Format('ERROR: Exception in CudaText for %s.%s: %s', [AModule, ACmd, E.Message]));
-        if FEngine.PyErr_Occurred <> nil then
-          FEngine.CheckError(False)
-        else
-          raise;
-      end;
+    end
+    else
+    //lazy event: run only of ObjName already created
+    if IsLoadedLocal(ObjName) then
+    begin
+      InitParamsObj;
+      Result:= MethodEvalEx(ObjName, ACmd, ParamsObj);
     end;
-  end
-  else
-  //lazy event: run only of ObjName already created
-  if IsLoadedLocal(ObjName) then
-  begin
-    try
-      InitParamsObj;
-      Result:= MethodEvalEx(ObjName, ACmd, ParamsObj);
-    except
-      on E: Exception do
-      begin
-        MsgLogConsole(Format('ERROR: Exception in CudaText for %s.%s: %s', [AModule, ACmd, E.Message]));
-        if FEngine.PyErr_Occurred <> nil then
-          FEngine.CheckError(False)
-        else
-          raise;
-      end;
+  except
+    on E: Exception do
+    begin
+      MsgLogConsole(Format('ERROR: Exception in CudaText for %s.%s: %s', [AModule, ACmd, E.Message]));
+      if FEngine.PyErr_Occurred <> nil then
+        FEngine.CheckError(False)
+      else
+        raise;
     end;
   end;
 
