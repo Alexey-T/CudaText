@@ -521,10 +521,9 @@
 
   //[Text/Undo]
   //Undo: Max count of 'actions' which can be undone. 'Action' is:
-  //- one simple command (typing, Delete, BkSp, Delete Line, Delete Word etc);
-  //- one multi-carets edition, with any number of carets, up to "undo_max_carets";
-  //- one 'replace all' action;
-  //- one mouse click, if "undo_mouse_clicks":true
+  //- one simple command: typing, Delete, BkSp, Enter, 'delete line', 'delete word' etc;
+  //- one multi-carets edition, with any number of carets up to "undo_max_carets";
+  //- one 'replace all' action in the Replace dialog
   "undo_limit": 5000,
 
   //Undo: When multi-carets editing is performing, and count of carets is too big,
