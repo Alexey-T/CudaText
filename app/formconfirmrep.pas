@@ -85,7 +85,7 @@ begin
   LabelInfo.Font.Name:= UiOps.VarFontName;
   LabelInfo.Font.Size:= UiOps.VarFontSize;
 
-  DoScalePanelControls(Self);
+  AppScalePanelControls(Self);
 end;
 
 procedure TfmConfirmReplace.FormKeyDown(Sender: TObject; var Key: Word;

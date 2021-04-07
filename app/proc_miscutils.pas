@@ -59,7 +59,7 @@ function DoPictureLoadFromFile(const AFilename: string): TGraphic;
 function DoClipboardSavePictureToFile(const fn: string): boolean;
 function DoClipboardFormatsAsString: string;
 
-procedure DoScalePanelControls(APanel: TWinControl);
+procedure AppScalePanelControls(APanel: TWinControl);
 procedure AppScaleSplitter(C: TSplitter);
 
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
@@ -481,7 +481,7 @@ begin
     Result+= 'p';
 end;
 
-procedure DoScalePanelControls(APanel: TWinControl);
+procedure AppScalePanelControls(APanel: TWinControl);
 var
   Ctl: TControl;
   i: integer;
@@ -497,7 +497,7 @@ begin
     end;
 
     if Ctl is TATPanelSimple then
-      DoScalePanelControls(Ctl as TATPanelSimple)
+      AppScalePanelControls(Ctl as TATPanelSimple)
   end;
 end;
 

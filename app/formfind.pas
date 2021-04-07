@@ -774,7 +774,7 @@ begin
   edRep.OptPasteAtEndMakesFinalEmptyLine:= false;
 
   IsDoubleBuffered:= UiOps.DoubleBuffered;
-  DoScalePanelControls(Self);
+  AppScalePanelControls(Self);
 
   bFindFirst.Hint:= UiOps.HotkeyFindFirst;
   bFindNext.Hint:= UiOps.HotkeyFindNext;
