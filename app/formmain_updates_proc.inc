@@ -432,7 +432,16 @@ begin
       DoOps_LoadOptionsLexerSpecific(F, F.Ed2);
   end;
 
-  if Assigned(fmFind) then fmFind.UpdateFonts;
+  if Assigned(fmFind) then
+    fmFind.UpdateFonts;
+
+  EditorOutput.Font.Name:= EditorOps.OpFontName;
+  EditorOutput.Font.Size:= EditorOps.OpFontSize;
+  EditorOutput.Font.Quality:= EditorOps.OpFontQuality;
+
+  EditorValidate.Font.Name:= EditorOps.OpFontName;
+  EditorValidate.Font.Size:= EditorOps.OpFontSize;
+  EditorValidate.Font.Quality:= EditorOps.OpFontQuality;
 end;
 
 procedure TfmMain.DoApplyFont_Ui;
