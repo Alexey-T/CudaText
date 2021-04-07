@@ -1660,22 +1660,19 @@ begin
   begin
     AMenu:= TPopupMenu.Create(Self);
 
-    mi:= TMenuItem.Create(Self);
+    mi:= TMenuItem.Create(AEditor);
     mi.Caption:= 'Copy';
     mi.OnClick:=@PopupBottomCopyClick;
-    mi.Tag:= PtrInt(AEditor);
     AMenu.Items.Add(mi);
 
-    mi:= TMenuItem.Create(Self);
+    mi:= TMenuItem.Create(AEditor);
     mi.Caption:= 'Select all';
     mi.OnClick:=@PopupBottomSelectAllClick;
-    mi.Tag:= PtrInt(AEditor);
     AMenu.Items.Add(mi);
 
-    mi:= TMenuItem.Create(Self);
+    mi:= TMenuItem.Create(AEditor);
     mi.Caption:= 'Clear';
     mi.OnClick:=@PopupBottomClearClick;
-    mi.Tag:= PtrInt(AEditor);
     AMenu.Items.Add(mi);
   end;
 end;
@@ -7907,7 +7904,7 @@ var
   Ed: TATSynEdit;
   Prop: ^TAppPanelProps;
 begin
-  Ed:= TATSynEdit((Sender as TMenuItem).Tag);
+  Ed:= (Sender as TMenuItem).Owner as TATSynEdit;
   Prop:= PyHelper_FindPanelProps(Ed);
   if Assigned(Prop) then
   begin
@@ -7920,7 +7917,7 @@ procedure TfmMain.PopupBottomCopyClick(Sender: TObject);
 var
   Ed: TATSynEdit;
 begin
-  Ed:= TATSynEdit((Sender as TMenuItem).Tag);
+  Ed:= (Sender as TMenuItem).Owner as TATSynEdit;
   Ed.DoCommand(cCommand_ClipboardCopy);
 end;
 
@@ -7928,7 +7925,7 @@ procedure TfmMain.PopupBottomSelectAllClick(Sender: TObject);
 var
   Ed: TATSynEdit;
 begin
-  Ed:= TATSynEdit((Sender as TMenuItem).Tag);
+  Ed:= (Sender as TMenuItem).Owner as TATSynEdit;
   Ed.DoCommand(cCommand_SelectAll);
 end;
 
