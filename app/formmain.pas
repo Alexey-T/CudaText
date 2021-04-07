@@ -452,8 +452,8 @@ type
     procedure FrameOnEditorScroll(Sender: TObject);
     procedure FrameOnInitAdapter(Sender: TObject);
     procedure FrameParseDone(Sender: TObject);
-    procedure EditorOutputClickDbl(Sender: TObject; var AHandled: boolean);
-    procedure EditorOutputKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure EditorOutput_OnClickDbl(Sender: TObject; var AHandled: boolean);
+    procedure EditorOutput_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure mnuEditClick(Sender: TObject);
     procedure mnuTabColorClick(Sender: TObject);
     procedure mnuTabPinnedClick(Sender: TObject);
@@ -6348,7 +6348,7 @@ begin
   mnuToolbarCommentStream.Caption:= msgCommentStreamToggle;
 end;
 
-procedure TfmMain.EditorOutputKeyDown(Sender: TObject; var Key: Word;
+procedure TfmMain.EditorOutput_OnKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   //Esc
@@ -6465,7 +6465,7 @@ begin
   end;
 end;
 
-procedure TfmMain.EditorOutputClickDbl(Sender: TObject; var AHandled: boolean);
+procedure TfmMain.EditorOutput_OnClickDbl(Sender: TObject; var AHandled: boolean);
 var
   Prop: ^TAppPanelProps;
   ResFilename: string;
@@ -7946,8 +7946,8 @@ begin
   InitPopupBottomEditor(PopupBottomEditor, Ed);
   Ed.PopupText:= PopupBottomEditor;
 
-  Ed.OnClickDouble:= @EditorOutputClickDbl;
-  Ed.OnKeyDown:= @EditorOutputKeyDown;
+  Ed.OnClickDouble:= @EditorOutput_OnClickDbl;
+  Ed.OnKeyDown:= @EditorOutput_OnKeyDown;
 end;
 
 
