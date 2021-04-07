@@ -6511,6 +6511,8 @@ var
   bFound: boolean;
   SText: string;
 begin
+  AHandled:= true; //avoid selection of word
+
   if Sender=EditorOutput then
     Prop:= @AppPanelProp_Out
   else
