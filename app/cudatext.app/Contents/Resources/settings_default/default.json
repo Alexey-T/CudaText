@@ -520,12 +520,16 @@
   "wrap_enabled_max_lines": 60000,
 
   //[Text/Undo]
-  //Undo: Max count of simple commands which can be undone
+  //Undo: Max count of 'actions' which can be undone. 'Action' is:
+  //- one simple command (typing, Delete, BkSp, Delete Line, Delete Word etc);
+  //- one multi-carets edition, with any number of carets, up to "undo_max_carets";
+  //- one 'replace all' action;
+  //- one mouse click, if "undo_mouse_clicks":true
   "undo_limit": 5000,
 
   //Undo: When multi-carets editing is performing, and count of carets is too big,
   //clear the Undo-information (to not slow down too much)
-  "undo_max_carets": 5000,
+  "undo_max_carets": 20000,
 
   //Undo: Allows to revert commands by groups (groups are separated e.g. by mouse clicks)
   "undo_grouped": true,
