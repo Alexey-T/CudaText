@@ -3460,6 +3460,14 @@ begin
     fmConsole.MemoWordWrap:= UiOps.ConsoleWordWrap;
   end;
 
+  EditorOutput.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
+  EditorOutput.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
+  EditorOutput.OptScrollbarsNew:= EditorOps.OpScrollbarsNew;
+
+  EditorValidate.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
+  EditorValidate.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
+  EditorValidate.OptScrollbarsNew:= EditorOps.OpScrollbarsNew;
+
   DoApplyUiOpsToGroups(Groups);
   if FloatGroups then
   begin
