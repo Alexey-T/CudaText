@@ -6383,35 +6383,11 @@ end;
 
 procedure TfmMain.EditorOutputKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
-var
-  Prop: ^TAppPanelProps;
-  Ed: TATSynEdit;
-  CaretY: integer;
 begin
   //Esc
   if (Key=VK_ESCAPE) then
   begin
     CurrentFrame.SetFocus;
-    Key:= 0;
-    exit
-  end;
-
-  Ed:= Sender as TATSynEdit;
-  if Ed=EditorOutput then
-    Prop:= @AppPanelProp_Out
-  else
-  if Ed=EditorValidate then
-    Prop:= @AppPanelProp_Val
-  else
-    exit;
-
-  CaretY:= Ed.Carets[0].PosY;
-  if not Ed.Strings.IsIndexValid(CaretY) then exit;
-
-  //Ctrl+C
-  if (Key=Ord('C')) and (Shift=[ssCtrl]) then
-  begin
-    Ed.DoCommand(cCommand_ClipboardCopy);
     Key:= 0;
     exit
   end;
@@ -7965,6 +7941,7 @@ begin
   Ed.OptUnprintedVisible:= false;
   Ed.OptShowMouseSelFrame:= false;
   Ed.OptShowCurLine:= true;
+  Ed.OptCaretManyAllowed:= false;
   Ed.ModeReadOnly:= true;
 
   Ed.OnClickDouble:= @EditorOutputClickDbl;
