@@ -167,9 +167,10 @@ begin
     msgCopyFilenameName:= ini.ReadString('m_e', 'cp_name', msgCopyFilenameName);
     msgCopyFilenameDir:= ini.ReadString('m_e', 'cp_dir', msgCopyFilenameDir);
     msgCopyFilenameFull:= ini.ReadString('m_e', 'cp_full', msgCopyFilenameFull);
+    msgCopyCurrentLine:= ini.ReadString('m_e', 'cp_ln', msgCopyCurrentLine);
 
     DoLocMenuitem(mnuEditCopySub, msgCopySub);
-    DoLocMenuitem(ini, mnuEditCopyLine, 'm_e', 'cp_ln');
+    DoLocMenuitem(mnuEditCopyLine, msgCopyCurrentLine);
     DoLocMenuitem(ini, mnuEditCopyAppend, 'm_e', 'cp_add');
     DoLocMenuitem(mnuEditCopyFFull, msgCopyFilenameFull);
     DoLocMenuitem(mnuEditCopyFName, msgCopyFilenameName);
