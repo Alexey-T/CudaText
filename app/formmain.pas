@@ -525,8 +525,7 @@ type
     PopupTabSize: TPopupMenu;
     PopupViewerMode: TPopupMenu;
     PopupPicScale: TPopupMenu;
-    PopupListboxOutput: TPopupMenu;
-    PopupListboxValidate: TPopupMenu;
+    PopupBottomEditor: TPopupMenu;
     mnuTabCloseAllAll: TMenuItem;
     mnuTabCloseAllSame: TMenuItem;
     mnuTabCloseLeft: TMenuItem;
@@ -583,8 +582,6 @@ type
     mnuToolbarCommentLineDel: TMenuItem;
     mnuToolbarCommentLineToggle: TMenuItem;
     mnuToolbarCommentStream: TMenuItem;
-    mnuContextOutputClear: TMenuItem;
-    mnuContextValidateClear: TMenuItem;
     PopupToolbarCase: TPopupMenu;
     PopupToolbarComment: TPopupMenu;
     PopupSidebarClone: TPopupMenu;
@@ -715,6 +712,9 @@ type
       var PaintImages, DefaultDraw: Boolean);
     function IsTooManyTabsOpened: boolean;
     function GetUntitledNumberedCaption: string;
+    procedure PopupBottomClearClick(Sender: TObject);
+    procedure PopupBottomCopyClick(Sender: TObject);
+    procedure PopupBottomSelectAllClick(Sender: TObject);
     procedure UpdateGlobalProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
     procedure UpdateLexerProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
     procedure ConfirmButtonOkClick(Sender: TObject);
@@ -873,8 +873,7 @@ type
     procedure InitPaintTest;
     procedure InitPopupTree;
     procedure InitPopupPicScale;
-    procedure InitPopupListboxOutput;
-    procedure InitPopupListboxValidate;
+    procedure InitPopupBottomEditor(var AMenu: TPopupMenu; AEditor: TATSynEdit);
     procedure InitPopupViewerMode;
     procedure InitPopupEnc;
     procedure InitPopupEnds;
@@ -891,8 +890,6 @@ type
     function IsWindowMaximizedOrFullscreen: boolean;
     function IsAllowedToOpenFileNow: boolean;
     function IsThemeNameExist(const AName: string; AThemeUI: boolean): boolean;
-    procedure ListboxOutContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
-    procedure ListboxValidateContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure PopupToolbarCaseOnPopup(Sender: TObject);
     procedure PopupToolbarCommentOnPopup(Sender: TObject);
     procedure MenuRecentsClear(Sender: TObject);
@@ -912,8 +909,6 @@ type
     procedure MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
     function GetStatusbarPrefix(Frame: TEditorFrame): string;
     procedure MsgStatusFileOpened(const AFileName1, AFileName2: string);
-    procedure PopupListboxOutputClearClick(Sender: TObject);
-    procedure PopupListboxValidateClearClick(Sender: TObject);
     procedure SearcherDirectoryEnter(FileIterator: TFileIterator);
     procedure SetShowFloatGroup1(AValue: boolean);
     procedure SetShowFloatGroup2(AValue: boolean);
@@ -1657,27 +1652,31 @@ begin
   UpdateStatusbar;
 end;
 
-procedure TfmMain.InitPopupListboxOutput;
+procedure TfmMain.InitPopupBottomEditor(var AMenu: TPopupMenu; AEditor: TATSynEdit);
+var
+  mi: TMenuItem;
 begin
-  if PopupListboxOutput=nil then
+  if AMenu=nil then
   begin
-    PopupListboxOutput:= TPopupMenu.Create(Self);
+    AMenu:= TPopupMenu.Create(Self);
 
-    mnuContextOutputClear:= TMenuItem.Create(Self);
-    mnuContextOutputClear.OnClick:= @PopupListboxOutputClearClick;
-    PopupListboxOutput.Items.Add(mnuContextOutputClear);
-  end;
-end;
+    mi:= TMenuItem.Create(Self);
+    mi.Caption:= 'Copy';
+    mi.OnClick:=@PopupBottomCopyClick;
+    mi.Tag:= PtrInt(AEditor);
+    AMenu.Items.Add(mi);
 
-procedure TfmMain.InitPopupListboxValidate;
-begin
-  if PopupListboxValidate=nil then
-  begin
-    PopupListboxValidate:= TPopupMenu.Create(Self);
+    mi:= TMenuItem.Create(Self);
+    mi.Caption:= 'Select all';
+    mi.OnClick:=@PopupBottomSelectAllClick;
+    mi.Tag:= PtrInt(AEditor);
+    AMenu.Items.Add(mi);
 
-    mnuContextValidateClear:= TMenuItem.Create(Self);
-    mnuContextValidateClear.OnClick:= @PopupListboxValidateClearClick;
-    PopupListboxValidate.Items.Add(mnuContextValidateClear);
+    mi:= TMenuItem.Create(Self);
+    mi.Caption:= 'Clear';
+    mi.OnClick:=@PopupBottomClearClick;
+    mi.Tag:= PtrInt(AEditor);
+    AMenu.Items.Add(mi);
   end;
 end;
 
@@ -5016,18 +5015,6 @@ begin
   TimerTooltip.Enabled:= true;
 end;
 
-procedure TfmMain.PopupListboxOutputClearClick(Sender: TObject);
-begin
-  AppPanelProp_Out.Clear;
-  UpdateSidebarButtonOverlay;
-end;
-
-procedure TfmMain.PopupListboxValidateClearClick(Sender: TObject);
-begin
-  AppPanelProp_Val.Clear;
-  UpdateSidebarButtonOverlay;
-end;
-
 procedure TfmMain.SetShowMenu(AValue: boolean);
 begin
   if FMenuVisible=AValue then exit;
@@ -6290,23 +6277,6 @@ begin
     C.Brush.Color:= NColor;
     C.Rectangle(R);
   end;
-end;
-
-
-procedure TfmMain.ListboxOutContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
-begin
-  InitPopupListboxOutput;
-  mnuContextOutputClear.Caption:= msgFileClearList;
-  PopupListboxOutput.Popup;
-  Handled:= true;
-end;
-
-procedure TfmMain.ListboxValidateContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
-begin
-  InitPopupListboxValidate;
-  mnuContextValidateClear.Caption:= msgFileClearList;
-  PopupListboxValidate.Popup;
-  Handled:= true;
 end;
 
 procedure TfmMain.PopupToolbarCaseOnPopup(Sender: TObject);
@@ -7932,6 +7902,36 @@ begin
   Result:= msgUntitledTab+IntToStr(AppUntitledCount);
 end;
 
+procedure TfmMain.PopupBottomClearClick(Sender: TObject);
+var
+  Ed: TATSynEdit;
+  Prop: ^TAppPanelProps;
+begin
+  Ed:= TATSynEdit((Sender as TMenuItem).Tag);
+  Prop:= PyHelper_FindPanelProps(Ed);
+  if Assigned(Prop) then
+  begin
+    Prop^.Clear;
+    UpdateSidebarButtonOverlay;
+  end;
+end;
+
+procedure TfmMain.PopupBottomCopyClick(Sender: TObject);
+var
+  Ed: TATSynEdit;
+begin
+  Ed:= TATSynEdit((Sender as TMenuItem).Tag);
+  Ed.DoCommand(cCommand_ClipboardCopy);
+end;
+
+procedure TfmMain.PopupBottomSelectAllClick(Sender: TObject);
+var
+  Ed: TATSynEdit;
+begin
+  Ed:= TATSynEdit((Sender as TMenuItem).Tag);
+  Ed.DoCommand(cCommand_SelectAll);
+end;
+
 
 procedure TfmMain.InitBottomEditor(var Ed: TATSynEdit);
 begin
@@ -7945,6 +7945,9 @@ begin
   Ed.OptShowCurLine:= true;
   Ed.OptCaretManyAllowed:= false;
   Ed.ModeReadOnly:= true;
+
+  InitPopupBottomEditor(PopupBottomEditor, Ed);
+  Ed.PopupText:= PopupBottomEditor;
 
   Ed.OnClickDouble:= @EditorOutputClickDbl;
   Ed.OnKeyDown:= @EditorOutputKeyDown;

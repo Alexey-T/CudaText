@@ -2582,7 +2582,7 @@ begin
     Result:= @AppPanelProp_Val;
 end;
 
-function PyHelper_GetPanelProps_ByListbox(Ed: TATSynEdit): PAppPanelProps;
+function PyHelper_FindPanelProps(Ed: TATSynEdit): PAppPanelProps;
 begin
   Result:= nil;
   if Ed=fmMain.EditorOutput then
