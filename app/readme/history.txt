@@ -9,9 +9,9 @@
 + add: Output/Validate panels have context menu item "Copy selected line" (thanks @jkeks)
 + add: plugin Comments: after toggling line comment, shift caret horizontally too (thanks @xcme)
 + add: plugin Sort: new option "ini_files_case_sensitive" for "Ini files: sort sections and keys" (thanks @BBServ)
-+ add: app uses configs in ~/.config if it was run from /opt/AnyDir (thanks linux.org.ru)
 + add: option "dim_unfocused" allows value<0 (thanks @kvichans)
 + add: Undo for commands "move selected lines up/down" undoes all commands by single step (thanks @xcme)
++ add: Linux/BSD: app locates config in ~/.config if it was run from /opt/AnyDir (thanks linux.org.ru)
 * change: renamed option "undo_for_caret_jump" to "undo_mouse_clicks", changed its default (thanks @xcme)
 * change: changed default of "renderer_offsets__linux" to true for Qt5 version
 
