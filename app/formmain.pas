@@ -585,8 +585,10 @@ type
     mnuToolbarCommentLineToggle: TMenuItem;
     mnuToolbarCommentStream: TMenuItem;
     mnuContextOutputCopy: TMenuItem;
+    mnuContextOutputCopyOne: TMenuItem;
     mnuContextOutputClear: TMenuItem;
     mnuContextValidateCopy: TMenuItem;
+    mnuContextValidateCopyOne: TMenuItem;
     mnuContextValidateClear: TMenuItem;
     PopupToolbarCase: TPopupMenu;
     PopupToolbarComment: TPopupMenu;
@@ -916,8 +918,10 @@ type
     procedure MsgStatusFileOpened(const AFileName1, AFileName2: string);
     procedure PopupListboxOutputCopyClick(Sender: TObject);
     procedure PopupListboxOutputClearClick(Sender: TObject);
+    procedure PopupListboxOutputCopyOneClick(Sender: TObject);
     procedure PopupListboxValidateClearClick(Sender: TObject);
     procedure PopupListboxValidateCopyClick(Sender: TObject);
+    procedure PopupListboxValidateCopyOneClick(Sender: TObject);
     procedure SearcherDirectoryEnter(FileIterator: TFileIterator);
     procedure SetShowFloatGroup1(AValue: boolean);
     procedure SetShowFloatGroup2(AValue: boolean);
@@ -1671,6 +1675,10 @@ begin
     mnuContextOutputClear.OnClick:= @PopupListboxOutputClearClick;
     PopupListboxOutput.Items.Add(mnuContextOutputClear);
 
+    mnuContextOutputCopyOne:= TMenuItem.Create(Self);
+    mnuContextOutputCopyOne.OnClick:= @PopupListboxOutputCopyOneClick;
+    PopupListboxOutput.Items.Add(mnuContextOutputCopyOne);
+
     mnuContextOutputCopy:= TMenuItem.Create(Self);
     mnuContextOutputCopy.OnClick:= @PopupListboxOutputCopyClick;
     PopupListboxOutput.Items.Add(mnuContextOutputCopy);
@@ -1686,6 +1694,10 @@ begin
     mnuContextValidateClear:= TMenuItem.Create(Self);
     mnuContextValidateClear.OnClick:= @PopupListboxValidateClearClick;
     PopupListboxValidate.Items.Add(mnuContextValidateClear);
+
+    mnuContextValidateCopyOne:= TMenuItem.Create(Self);
+    mnuContextValidateCopyOne.OnClick:= @PopupListboxValidateCopyOneClick;
+    PopupListboxValidate.Items.Add(mnuContextValidateCopyOne);
 
     mnuContextValidateCopy:= TMenuItem.Create(Self);
     mnuContextValidateCopy.OnClick:= @PopupListboxValidateCopyClick;
@@ -5044,31 +5056,35 @@ begin
   TimerTooltip.Enabled:= true;
 end;
 
-procedure TfmMain.PopupListboxOutputCopyClick(Sender: TObject);
+procedure TfmMain.PopupListboxOutputCopyOneClick(Sender: TObject);
 begin
-  SClipboardCopy(ListboxOut.Items.Text);
+  AppListbox_CopyOneLine(ListboxOut);
 end;
 
-procedure TfmMain.PopupListboxOutputClearClick(Sender: TObject);
+procedure TfmMain.PopupListboxValidateCopyOneClick(Sender: TObject);
 begin
-  ListboxOut.Items.Clear;
-  ListboxOut.ItemIndex:= -1;
-  ListboxOut.ItemTop:= 0;
-  ListboxOut.Invalidate;
-  UpdateSidebarButtonOverlay;
+  AppListbox_CopyOneLine(ListboxVal);
+end;
+
+procedure TfmMain.PopupListboxOutputCopyClick(Sender: TObject);
+begin
+  AppListbox_CopyAllLines(ListboxOut);
 end;
 
 procedure TfmMain.PopupListboxValidateCopyClick(Sender: TObject);
 begin
-  SClipboardCopy(ListboxVal.Items.Text);
+  AppListbox_CopyAllLines(ListboxVal);
+end;
+
+procedure TfmMain.PopupListboxOutputClearClick(Sender: TObject);
+begin
+  AppListbox_Clear(ListboxOut);
+  UpdateSidebarButtonOverlay;
 end;
 
 procedure TfmMain.PopupListboxValidateClearClick(Sender: TObject);
 begin
-  ListboxVal.Items.Clear;
-  ListboxVal.ItemIndex:= -1;
-  ListboxVal.ItemTop:= 0;
-  ListboxVal.Invalidate;
+  AppListbox_Clear(ListboxVal);
   UpdateSidebarButtonOverlay;
 end;
 
@@ -6341,6 +6357,7 @@ procedure TfmMain.ListboxOutContextPopup(Sender: TObject; MousePos: TPoint; var 
 begin
   InitPopupListboxOutput;
   mnuContextOutputCopy.Caption:= cStrMenuitemCopy;
+  mnuContextOutputCopyOne.Caption:= cStrMenuitemCopyOne;
   mnuContextOutputClear.Caption:= msgFileClearList;
   PopupListboxOutput.Popup;
   Handled:= true;
@@ -6350,6 +6367,7 @@ procedure TfmMain.ListboxValidateContextPopup(Sender: TObject; MousePos: TPoint;
 begin
   InitPopupListboxValidate;
   mnuContextValidateCopy.Caption:= cStrMenuitemCopy;
+  mnuContextValidateCopyOne.Caption:= cStrMenuitemCopyOne;
   mnuContextValidateClear.Caption:= msgFileClearList;
   PopupListboxValidate.Popup;
   Handled:= true;

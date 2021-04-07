@@ -40,6 +40,10 @@ function FormPosGetAsString(Form: TForm; AOnlySize: boolean): string;
 procedure FormPosSetFromString(Form: TForm; const S: string; AOnlySize: boolean);
 procedure RectSetFromString(var R: TRect; const S: string; AOnlySize: boolean);
 
+procedure AppListbox_CopyOneLine(L: TATListbox);
+procedure AppListbox_CopyAllLines(L: TATListbox);
+procedure AppListbox_Clear(L: TATListbox);
+
 procedure FormLock(Ctl: TForm);
 procedure FormUnlock(Ctl: TForm);
 //procedure ControlAutosizeOnlyByWidth(C: TWinControl);
@@ -1059,6 +1063,25 @@ begin
       Break;
   end;
   Result:= Copy(AFileName, N+1, MaxInt);
+end;
+
+procedure AppListbox_CopyOneLine(L: TATListbox);
+begin
+  if L.IsIndexValid(L.ItemIndex) then
+    SClipboardCopy(L.Items[L.ItemIndex]);
+end;
+
+procedure AppListbox_CopyAllLines(L: TATListbox);
+begin
+  SClipboardCopy(L.Items.Text);
+end;
+
+procedure AppListbox_Clear(L: TATListbox);
+begin
+  L.Items.Clear;
+  L.ItemIndex:= -1;
+  L.ItemTop:= 0;
+  L.Invalidate;
 end;
 
 end.
