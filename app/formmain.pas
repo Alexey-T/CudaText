@@ -7959,12 +7959,13 @@ begin
   if Form=nil then
   begin
     Form:= TFormDummy.Create(Self);
+    Form.ShowInTaskBar:= stNever;
     Form.BorderStyle:= bsNone;
   end;
 
   if Ed=nil then
   begin
-    Ed:= TATSynEdit.Create(Self);
+    Ed:= TATSynEdit.Create(Form);
     Ed.Parent:= Form;
     Ed.Align:= alClient;
   end;
@@ -7980,6 +7981,9 @@ begin
 
   InitPopupBottomEditor(PopupBottomEditor, Ed);
   Ed.PopupText:= PopupBottomEditor;
+
+  //support dlg_proc API, it needs PropsObject
+  DoControl_InitPropsObject(Ed, Form, 'editor');
 
   Ed.OnClickDouble:= @EditorOutput_OnClickDbl;
   Ed.OnKeyDown:= @EditorOutput_OnKeyDown;
