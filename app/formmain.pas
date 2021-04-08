@@ -713,6 +713,7 @@ type
       var PaintImages, DefaultDraw: Boolean);
     function IsTooManyTabsOpened: boolean;
     function GetUntitledNumberedCaption: string;
+    procedure PopupBottomOnPopup(Sender: TObject);
     procedure PopupBottomClearClick(Sender: TObject);
     procedure PopupBottomCopyClick(Sender: TObject);
     procedure PopupBottomSelectAllClick(Sender: TObject);
@@ -875,7 +876,7 @@ type
     procedure InitPaintTest;
     procedure InitPopupTree;
     procedure InitPopupPicScale;
-    procedure InitPopupBottomEditor(var AMenu: TPopupMenu; AEditor: TATSynEdit);
+    procedure InitBottomPopup(var AMenu: TPopupMenu; AEditor: TATSynEdit);
     procedure InitPopupViewerMode;
     procedure InitPopupEnc;
     procedure InitPopupEnds;
@@ -1656,31 +1657,32 @@ begin
   UpdateStatusbar;
 end;
 
-procedure TfmMain.InitPopupBottomEditor(var AMenu: TPopupMenu; AEditor: TATSynEdit);
+procedure TfmMain.InitBottomPopup(var AMenu: TPopupMenu; AEditor: TATSynEdit);
 var
   mi: TMenuItem;
 begin
   if AMenu=nil then
   begin
     AMenu:= TPopupMenu.Create(Self);
+    AMenu.OnPopup:=@PopupBottomOnPopup;
 
     mi:= TMenuItem.Create(AEditor);
-    mi.Caption:= cStrMenuitemCopy;
+    mi.Caption:= 'copy';
     mi.OnClick:=@PopupBottomCopyClick;
     AMenu.Items.Add(mi);
 
     mi:= TMenuItem.Create(AEditor);
-    mi.Caption:= cStrMenuitemSelectAll;
+    mi.Caption:= 'select all';
     mi.OnClick:=@PopupBottomSelectAllClick;
     AMenu.Items.Add(mi);
 
     mi:= TMenuItem.Create(AEditor);
-    mi.Caption:= msgConsoleClear;
+    mi.Caption:= 'clear';
     mi.OnClick:=@PopupBottomClearClick;
     AMenu.Items.Add(mi);
 
     mi:= TMenuItem.Create(AEditor);
-    mi.Caption:= msgConsoleToggleWrap;
+    mi.Caption:= 'toggle word wrap';
     mi.OnClick:=@PopupBottomWrapClick;
     AMenu.Items.Add(mi);
   end;
@@ -6290,6 +6292,17 @@ begin
   end;
 end;
 
+procedure TfmMain.PopupBottomOnPopup(Sender: TObject);
+var
+  Popup: TPopupMenu;
+begin
+  Popup:= Sender as TPopupMenu;
+  Popup.Items[0].Caption:= cStrMenuitemCopy;
+  Popup.Items[1].Caption:= cStrMenuitemSelectAll;
+  Popup.Items[2].Caption:= msgConsoleClear;
+  Popup.Items[3].Caption:= msgConsoleToggleWrap;
+end;
+
 procedure TfmMain.PopupToolbarCaseOnPopup(Sender: TObject);
 begin
   if mnuToolbarCaseLow=nil then
@@ -7971,7 +7984,7 @@ begin
   Ed.OptMarginRight:= 2000;
   Ed.ModeReadOnly:= true;
 
-  InitPopupBottomEditor(Popup, Ed);
+  InitBottomPopup(Popup, Ed);
   Ed.PopupText:= Popup;
 
   //support dlg_proc API, it needs PropsObject
