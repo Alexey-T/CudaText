@@ -822,7 +822,7 @@ object SyntAnal16: TLibSyntAnalyzer
     'Open Tag'
     'Close Tag'
     'Include Tag')
-  Extentions = 'php php3 php4 php5 php7 phpt'
+  Extentions = 'php php3 php4 php5 php7 phpt sublime-build'
   LexerName = 'PHP'
   Notes.Strings = (
     'Created by 480499497 from forum.wincmd.ru (named HTML_dev)'
