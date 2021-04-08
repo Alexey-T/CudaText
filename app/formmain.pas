@@ -876,7 +876,7 @@ type
     procedure InitPaintTest;
     procedure InitPopupTree;
     procedure InitPopupPicScale;
-    procedure InitBottomPopup(var AMenu: TPopupMenu; AEditor: TATSynEdit);
+    procedure InitPopupBottom(var AMenu: TPopupMenu; AEditor: TATSynEdit);
     procedure InitPopupViewerMode;
     procedure InitPopupEnc;
     procedure InitPopupEnds;
@@ -884,7 +884,7 @@ type
     procedure InitPopupTab;
     procedure InitPopupTabSize;
     procedure InitBottomEditor(var Form: TFormDummy; var Ed: TATSynEdit;
-      var Popup: TPopupMenu);
+      var APopup: TPopupMenu);
     procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer;
       const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
     procedure InitFloatGroups;
@@ -1657,7 +1657,7 @@ begin
   UpdateStatusbar;
 end;
 
-procedure TfmMain.InitBottomPopup(var AMenu: TPopupMenu; AEditor: TATSynEdit);
+procedure TfmMain.InitPopupBottom(var AMenu: TPopupMenu; AEditor: TATSynEdit);
 var
   mi: TMenuItem;
 begin
@@ -7965,7 +7965,7 @@ begin
 end;
 
 
-procedure TfmMain.InitBottomEditor(var Form: TFormDummy; var Ed: TATSynEdit; var Popup: TPopupMenu);
+procedure TfmMain.InitBottomEditor(var Form: TFormDummy; var Ed: TATSynEdit; var APopup: TPopupMenu);
 begin
   Form:= TFormDummy.Create(Self);
   Form.ShowInTaskBar:= stNever;
@@ -7984,8 +7984,8 @@ begin
   Ed.OptMarginRight:= 2000;
   Ed.ModeReadOnly:= true;
 
-  InitBottomPopup(Popup, Ed);
-  Ed.PopupText:= Popup;
+  InitPopupBottom(APopup, Ed);
+  Ed.PopupText:= APopup;
 
   //support dlg_proc API, it needs PropsObject
   DoControl_InitPropsObject(Ed, Form, 'editor');
