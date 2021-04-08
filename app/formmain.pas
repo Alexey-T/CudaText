@@ -1668,21 +1668,25 @@ begin
 
     mi:= TMenuItem.Create(AEditor);
     mi.Caption:= 'copy';
+    mi.Tag:= 100;
     mi.OnClick:=@PopupBottomCopyClick;
     AMenu.Items.Add(mi);
 
     mi:= TMenuItem.Create(AEditor);
     mi.Caption:= 'select all';
+    mi.Tag:= 101;
     mi.OnClick:=@PopupBottomSelectAllClick;
     AMenu.Items.Add(mi);
 
     mi:= TMenuItem.Create(AEditor);
     mi.Caption:= 'clear';
+    mi.Tag:= 102;
     mi.OnClick:=@PopupBottomClearClick;
     AMenu.Items.Add(mi);
 
     mi:= TMenuItem.Create(AEditor);
     mi.Caption:= 'toggle word wrap';
+    mi.Tag:= 103;
     mi.OnClick:=@PopupBottomWrapClick;
     AMenu.Items.Add(mi);
   end;
@@ -6295,12 +6299,23 @@ end;
 procedure TfmMain.PopupBottomOnPopup(Sender: TObject);
 var
   Popup: TPopupMenu;
+  i: integer;
 begin
   Popup:= Sender as TPopupMenu;
-  Popup.Items[0].Caption:= cStrMenuitemCopy;
-  Popup.Items[1].Caption:= cStrMenuitemSelectAll;
-  Popup.Items[2].Caption:= msgConsoleClear;
-  Popup.Items[3].Caption:= msgConsoleToggleWrap;
+  for i:= 0 to Popup.Items.Count-1 do
+    case Popup.Items[i].Tag of
+      100:
+        Popup.Items[i].Caption:= cStrMenuitemCopy;
+      101:
+        Popup.Items[i].Caption:= cStrMenuitemSelectAll;
+      102:
+        Popup.Items[i].Caption:= msgConsoleClear;
+      103:
+        begin
+          Popup.Items[i].Caption:= msgConsoleToggleWrap;
+          Popup.Items[i].Checked:= (Popup.Items[i].Owner as TATSynEdit).OptWrapMode<>cWrapOff;
+        end;
+    end;
 end;
 
 procedure TfmMain.PopupToolbarCaseOnPopup(Sender: TObject);
