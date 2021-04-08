@@ -1942,7 +1942,9 @@ Note: Toolbars contain several "button_ex" objects, which are anchored one to an
 
 Editor class has methods to work with editor. Global objects of Editor exist:
 
-* "ed": refers to currently focused editor (in any tab).
+* "ed": refers to currently focused editor, in any UI-tab.
+* use handle EDHANDLE_OUTPUT to make editor object of the Output panel: Editor(EDHANDLE_OUTPUT).
+* use handle EDHANDLE_VALIDATE to make editor object of the Output panel: Editor(EDHANDLE_VALIDATE).
 
 ==Carets==
 ===Editor.get_carets===
@@ -4264,5 +4266,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.378 (app 1.131.0)
 * add: file_open: added option "/noloadundo"
+
+1.0.379 (app 1.131.0)
+* add: handles of editors of Output/Validate panels: EDHANDLE_OUTPUT, EDHANDLE_VALIDATE
 
 [[Category:CudaText]]

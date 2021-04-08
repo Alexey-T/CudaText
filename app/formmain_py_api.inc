@@ -81,6 +81,12 @@ begin
     0: //"ed"
       Result:= fmMain.CurrentEditor;
 
+    1: //"ed_output"
+      Result:= fmMain.EditorOutput;
+
+    2: //"ed_validate"
+      Result:= fmMain.EditorValidate;
+
     cPyEditorHandleMin..cPyEditorHandleMax:
       begin
         nTab:= Handle-cPyEditorHandleMin;

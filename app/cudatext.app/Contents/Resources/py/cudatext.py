@@ -1412,6 +1412,10 @@ class Editor:
 #objects
 ed = Editor(0)
 
+#handles of editors of Output/Validate panels
+EDHANDLE_OUTPUT = 1
+EDHANDLE_VALIDATE = 2
+
 #support input() in plugins
 def _input(s):
     return dlg_input(s, '') or ''
