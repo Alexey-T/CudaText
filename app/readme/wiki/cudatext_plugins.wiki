@@ -641,6 +641,27 @@ for($i=0; $i<10; $i++) {
 
 [[File:cudatext-runner-thread.gif]]
 
+==Example PHP tool==
+How to debug for example PHP file, with Runner.
+Create file "[CudaText]/data/buildsystems/php.sublime-build" with such text, on Unix:
+<syntaxhighlight lang="json">
+{
+  "file_patterns": ["*.php"],
+  "cmd": ["php", "$file"]
+}
+</syntaxhighlight>
+On Windows the "cmd" must be modified like this:
+<syntaxhighlight lang="json">
+{
+  "file_patterns": ["*.php"],
+  "cmd": ["C:\\PHP_folder\\php-win.exe", "$file"]
+}
+</syntaxhighlight>
+
+Restart CudaText.
+
+After opening a PHP file, call Runner main command "Build", that's it. It must show PHP script output (in the Output panel) line-by-line, as it appears.
+
 =FindInFiles=
 
 ==FiF3 and FiF4: comparision and future==
