@@ -614,12 +614,11 @@ Tool properties:
 * Initial folder: {FileDir}
 
 =Runner=
-Plugin Runner was written as an alteanative to External Tools.
-It is not only an alternative:
+Plugin Runner was written as an alternative to External Tools.
 
 * Runner is more light weight, it has less code.
 * Runner supports displaying of appearing tool output at runtime.
-* Runner supports Sublime Text 3 build-systems. Only specifying the build-system for the current lexer is needed.
+* Runner supports Sublime Text 3 build-systems.
 
 Many build-systems from Sublime Text 3 were packaged and put to add-on collection, search for add-on "Many Build Systems".
 Only few build-systems were packaged into own separate packages because they have big EXE/Binary files.
@@ -637,7 +636,7 @@ for($i=0; $i<10; $i++) {
 
 [[File:cudatext-runner-thread.gif]]
 
-See the [https://github.com/halfbrained/cuda_runner/blob/main/readme/readme.txt Runner readme in GitHub] for more information.
+See the [https://github.com/halfbrained/cuda_runner/blob/main/readme/readme.txt Runner documentation in GitHub] for more information.
 
 =FindInFiles=
 
