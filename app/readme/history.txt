@@ -15,8 +15,8 @@
 + add: Linux/BSD: app locates config in ~/.config if it was run from /opt/AnyDir (thanks linux.org.ru)
 + add: handle plugin exceptions in Command.__init__ (thanks @Shovel)
 * change: renamed option "undo_for_caret_jump" to "undo_mouse_clicks", changed its default (thanks @xcme)
-* change: changed default of "renderer_offsets__linux" to true for Qt5 version
-- fix: option "undo_persistent" did not work when file is loaded from session
+* change: changed default of "renderer_offsets__linux" to true for Qt5 version (thanks @Maia-Everett)
+- fix: option "undo_persistent" did not work when file was loaded from session
 
 1.130.0 (2021/04)
 
