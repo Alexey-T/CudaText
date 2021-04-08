@@ -525,7 +525,8 @@ type
     PopupTabSize: TPopupMenu;
     PopupViewerMode: TPopupMenu;
     PopupPicScale: TPopupMenu;
-    PopupBottomEditor: TPopupMenu;
+    PopupOutput: TPopupMenu;
+    PopupValidate: TPopupMenu;
     mnuTabCloseAllAll: TMenuItem;
     mnuTabCloseAllSame: TMenuItem;
     mnuTabCloseLeft: TMenuItem;
@@ -881,7 +882,8 @@ type
     procedure InitPopupLex;
     procedure InitPopupTab;
     procedure InitPopupTabSize;
-    procedure InitBottomEditor(var Form: TFormDummy; var Ed: TATSynEdit);
+    procedure InitBottomEditor(var Form: TFormDummy; var Ed: TATSynEdit;
+      var Popup: TPopupMenu);
     procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer;
       const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
     procedure InitFloatGroups;
@@ -2369,8 +2371,8 @@ begin
   CodeTreeFilterInput.OnChange:= @CodeTreeFilter_OnChange;
   CodeTreeFilterInput.OnCommand:= @CodeTreeFilter_OnCommand;
 
-  InitBottomEditor(fmOutput, EditorOutput);
-  InitBottomEditor(fmValidate, EditorValidate);
+  InitBottomEditor(fmOutput, EditorOutput, PopupOutput);
+  InitBottomEditor(fmValidate, EditorValidate, PopupValidate);
 
   NTick:= GetTickCount64;
   InitConsole;
@@ -7950,7 +7952,7 @@ begin
 end;
 
 
-procedure TfmMain.InitBottomEditor(var Form: TFormDummy; var Ed: TATSynEdit);
+procedure TfmMain.InitBottomEditor(var Form: TFormDummy; var Ed: TATSynEdit; var Popup: TPopupMenu);
 begin
   Form:= TFormDummy.Create(Self);
   Form.ShowInTaskBar:= stNever;
@@ -7969,8 +7971,8 @@ begin
   Ed.OptMarginRight:= 2000;
   Ed.ModeReadOnly:= true;
 
-  InitPopupBottomEditor(PopupBottomEditor, Ed);
-  Ed.PopupText:= PopupBottomEditor;
+  InitPopupBottomEditor(Popup, Ed);
+  Ed.PopupText:= Popup;
 
   //support dlg_proc API, it needs PropsObject
   DoControl_InitPropsObject(Ed, Form, 'editor');
