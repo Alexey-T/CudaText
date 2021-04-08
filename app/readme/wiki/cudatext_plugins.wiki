@@ -637,7 +637,7 @@ for($i=0; $i<10; $i++) {
 
 [[File:cudatext-runner-thread.gif]]
 
-See the [https://github.com/halfbrained/cuda_runner/blob/main/readme/readme.txt Runner readme in GutHub] for more information.
+See the [https://github.com/halfbrained/cuda_runner/blob/main/readme/readme.txt Runner readme in GitHub] for more information.
 
 =FindInFiles=
 
