@@ -1663,27 +1663,23 @@ begin
     AMenu:= TPopupMenu.Create(Self);
 
     mi:= TMenuItem.Create(AEditor);
-    mi.Caption:= 'Copy';
+    mi.Caption:= cStrMenuitemCopy;
     mi.OnClick:=@PopupBottomCopyClick;
     AMenu.Items.Add(mi);
 
     mi:= TMenuItem.Create(AEditor);
-    mi.Caption:= 'Select all';
+    mi.Caption:= cStrMenuitemSelectAll;
     mi.OnClick:=@PopupBottomSelectAllClick;
     AMenu.Items.Add(mi);
 
     mi:= TMenuItem.Create(AEditor);
-    mi.Caption:= 'Toggle word wrap';
-    mi.OnClick:=@PopupBottomWrapClick;
-    AMenu.Items.Add(mi);
-
-    mi:= TMenuItem.Create(AEditor);
-    mi.Caption:= '-';
-    AMenu.Items.Add(mi);
-
-    mi:= TMenuItem.Create(AEditor);
-    mi.Caption:= 'Clear';
+    mi.Caption:= msgConsoleClear;
     mi.OnClick:=@PopupBottomClearClick;
+    AMenu.Items.Add(mi);
+
+    mi:= TMenuItem.Create(AEditor);
+    mi.Caption:= msgConsoleToggleWrap;
+    mi.OnClick:=@PopupBottomWrapClick;
     AMenu.Items.Add(mi);
   end;
 end;
