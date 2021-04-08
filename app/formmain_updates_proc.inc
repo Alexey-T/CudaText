@@ -435,13 +435,13 @@ begin
   if Assigned(fmFind) then
     fmFind.UpdateFonts;
 
-  EditorOutput.Font.Name:= EditorOps.OpFontName;
-  EditorOutput.Font.Size:= EditorOps.OpFontSize;
-  EditorOutput.Font.Quality:= EditorOps.OpFontQuality;
+  fmOutput.Ed.Font.Name:= EditorOps.OpFontName;
+  fmOutput.Ed.Font.Size:= EditorOps.OpFontSize;
+  fmOutput.Ed.Font.Quality:= EditorOps.OpFontQuality;
 
-  EditorValidate.Font.Name:= EditorOps.OpFontName;
-  EditorValidate.Font.Size:= EditorOps.OpFontSize;
-  EditorValidate.Font.Quality:= EditorOps.OpFontQuality;
+  fmValidate.Ed.Font.Name:= EditorOps.OpFontName;
+  fmValidate.Ed.Font.Size:= EditorOps.OpFontSize;
+  fmValidate.Ed.Font.Quality:= EditorOps.OpFontQuality;
 end;
 
 procedure TfmMain.DoApplyFont_Ui;

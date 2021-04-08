@@ -2585,9 +2585,9 @@ end;
 function PyHelper_FindPanelProps_ByObject(Ed: TATSynEdit): PAppPanelProps;
 begin
   Result:= nil;
-  if Ed=fmMain.EditorOutput then
+  if Ed=fmOutput.Ed then
     exit(@AppPanelProp_Out);
-  if Ed=fmMain.EditorValidate then
+  if Ed=fmValidate.Ed then
     exit(@AppPanelProp_Val);
 end;
 

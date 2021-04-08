@@ -72,8 +72,8 @@ begin
     ColorScrolled:= GetAppColor(apclScrollScrolled);
   end;
 
-  EditorApplyTheme(EditorOutput);
-  EditorApplyTheme(EditorValidate);
+  EditorApplyTheme(fmOutput.Ed);
+  EditorApplyTheme(fmValidate.Ed);
 
   EditorApplyTheme(CodeTreeFilterInput);
   if Assigned(fmConsole) then

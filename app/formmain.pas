@@ -157,6 +157,12 @@ type
   TAppTooltipPos = (atpWindowTop, atpWindowBottom, atpEditorCaret);
 
 type
+  TAppFormWithEditor = class(TFormDummy)
+  public
+    Ed: TATSynEdit;
+  end;
+
+type
   TATFindMarkingMode = (
     markingNone,
     markingSelections,
@@ -883,8 +889,7 @@ type
     procedure InitPopupLex;
     procedure InitPopupTab;
     procedure InitPopupTabSize;
-    procedure InitBottomEditor(var Form: TFormDummy; var Ed: TATSynEdit;
-      var APopup: TPopupMenu);
+    procedure InitBottomEditor(var Form: TAppFormWithEditor; var APopup: TPopupMenu);
     procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer;
       const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
     procedure InitFloatGroups;
@@ -1117,8 +1122,6 @@ type
     CodeTreeFilterReset: TATButton;
     PanelCodeTreeAll: TATPanelSimple;
     PanelCodeTreeTop: TATPanelSimple;
-    EditorOutput: TATSynEdit;
-    EditorValidate: TATSynEdit;
     LexerProgress: TATGauge;
     LexersDetected: TStringList;
     function FrameCount: integer;
@@ -1156,11 +1159,13 @@ type
 
 var
   fmMain: TfmMain;
-  fmOutput: TFormDummy = nil;
-  fmValidate: TFormDummy = nil;
+
 var
   NTickInitial: QWord = 0;
 
+var
+  fmOutput: TAppFormWithEditor = nil;
+  fmValidate: TAppFormWithEditor = nil;
 
 implementation
 
@@ -2377,8 +2382,8 @@ begin
   CodeTreeFilterInput.OnChange:= @CodeTreeFilter_OnChange;
   CodeTreeFilterInput.OnCommand:= @CodeTreeFilter_OnCommand;
 
-  InitBottomEditor(fmOutput, EditorOutput, PopupOutput);
-  InitBottomEditor(fmValidate, EditorValidate, PopupValidate);
+  InitBottomEditor(fmOutput, PopupOutput);
+  InitBottomEditor(fmValidate, PopupValidate);
 
   NTick:= GetTickCount64;
   InitConsole;
@@ -2408,8 +2413,8 @@ begin
   //init Output/Validate panels
   FillChar(AppPanelProp_Out, SizeOf(AppPanelProp_Out), 0);
   FillChar(AppPanelProp_Val, SizeOf(AppPanelProp_Val), 0);
-  AppPanelProp_Out.Editor:= EditorOutput;
-  AppPanelProp_Val.Editor:= EditorValidate;
+  AppPanelProp_Out.Editor:= fmOutput.Ed;
+  AppPanelProp_Val.Editor:= fmValidate.Ed;
   AppPanelProp_Out.Objects:= TFPList.Create;
   AppPanelProp_Val.Objects:= TFPList.Create;
 
@@ -2658,7 +2663,7 @@ begin
     Btn:= ToolbarSideLow.Buttons[i];
     if Btn.Caption=msgPanelValidate_Init then
     begin
-      NCount:= EditorValidate.Strings.Count-1;
+      NCount:= fmValidate.Ed.Strings.Count-1;
       if NCount>0 then
         Btn.TextOverlay:= IntToStr(NCount)
       else
@@ -2667,7 +2672,7 @@ begin
     else
     if Btn.Caption=msgPanelOutput_Init then
     begin
-      NCount:= EditorOutput.Strings.Count-1;
+      NCount:= fmOutput.Ed.Strings.Count-1;
       if NCount>0 then
         Btn.TextOverlay:= IntToStr(NCount)
       else
@@ -3451,8 +3456,8 @@ begin
     fmConsole.MemoWordWrap:= UiOps.ConsoleWordWrap;
   end;
 
-  EditorApplyOpsCommon(EditorOutput);
-  EditorApplyOpsCommon(EditorValidate);
+  EditorApplyOpsCommon(fmOutput.Ed);
+  EditorApplyOpsCommon(fmValidate.Ed);
 
   DoApplyUiOpsToGroups(Groups);
   if FloatGroups then
@@ -6526,13 +6531,8 @@ var
 begin
   AHandled:= true; //avoid selection of word
 
-  if Sender=EditorOutput then
-    Prop:= @AppPanelProp_Out
-  else
-  if Sender=EditorValidate then
-    Prop:= @AppPanelProp_Val
-  else
-    exit;
+  Prop:= PyHelper_FindPanelProps_ByObject(Sender as TATSynEdit);
+  if Prop=nil then exit;
 
   Ed:= Prop^.Editor;
   CaretY:= Ed.Carets[0].PosY;
@@ -7984,33 +7984,33 @@ begin
 end;
 
 
-procedure TfmMain.InitBottomEditor(var Form: TFormDummy; var Ed: TATSynEdit; var APopup: TPopupMenu);
+procedure TfmMain.InitBottomEditor(var Form: TAppFormWithEditor; var APopup: TPopupMenu);
 begin
-  Form:= TFormDummy.Create(Self);
+  Form:= TAppFormWithEditor.Create(Self);
   Form.ShowInTaskBar:= stNever;
   Form.BorderStyle:= bsNone;
 
-  Ed:= TATSynEdit.Create(Form);
-  Ed.Parent:= Form;
-  Ed.Align:= alClient;
+  Form.Ed:= TATSynEdit.Create(Form);
+  Form.Ed.Parent:= Form;
+  Form.Ed.Align:= alClient;
 
-  Ed.OptRulerVisible:= false;
-  Ed.OptGutterVisible:= false;
-  Ed.OptUnprintedVisible:= false;
-  Ed.OptShowMouseSelFrame:= false;
-  Ed.OptShowCurLine:= true;
-  Ed.OptCaretManyAllowed:= false;
-  Ed.OptMarginRight:= 2000;
-  Ed.ModeReadOnly:= true;
+  Form.Ed.OptRulerVisible:= false;
+  Form.Ed.OptGutterVisible:= false;
+  Form.Ed.OptUnprintedVisible:= false;
+  Form.Ed.OptShowMouseSelFrame:= false;
+  Form.Ed.OptShowCurLine:= true;
+  Form.Ed.OptCaretManyAllowed:= false;
+  Form.Ed.OptMarginRight:= 2000;
+  Form.Ed.ModeReadOnly:= true;
 
-  InitPopupBottom(APopup, Ed);
-  Ed.PopupText:= APopup;
+  InitPopupBottom(APopup, Form.Ed);
+  Form.Ed.PopupText:= APopup;
 
   //support dlg_proc API, it needs PropsObject
-  DoControl_InitPropsObject(Ed, Form, 'editor');
+  DoControl_InitPropsObject(Form.Ed, Form, 'editor');
 
-  Ed.OnClickDouble:= @EditorOutput_OnClickDbl;
-  Ed.OnKeyDown:= @EditorOutput_OnKeyDown;
+  Form.Ed.OnClickDouble:= @EditorOutput_OnClickDbl;
+  Form.Ed.OnKeyDown:= @EditorOutput_OnKeyDown;
 end;
 
 
