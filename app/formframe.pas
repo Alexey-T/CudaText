@@ -169,7 +169,8 @@ type
     procedure DoDeactivatePictureMode;
     procedure DoDeactivateViewerMode;
     procedure DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string;
-      AAllowLoadHistory, AAllowLoadHistoryEnc, AAllowLexerDetect, AAllowErrorMsgBox, AKeepScroll: boolean; AOpenMode: TAppOpenMode);
+      AAllowLoadHistory, AAllowLoadHistoryEnc, AAllowLexerDetect, AAllowErrorMsgBox,
+      AKeepScroll, AAllowLoadUndo: boolean; AOpenMode: TAppOpenMode);
     procedure DoImageboxScroll(Sender: TObject);
     procedure DoOnChangeCaption;
     procedure DoOnUpdateState;
@@ -375,7 +376,7 @@ type
     //file
     procedure DoFileClose;
     procedure DoFileOpen(const AFileName, AFileName2: string; AAllowLoadHistory, AAllowLexerDetect,
-      AAllowErrorMsgBox: boolean; AOpenMode: TAppOpenMode);
+      AAllowErrorMsgBox, AAllowLoadUndo: boolean; AOpenMode: TAppOpenMode);
     procedure DoFileOpen_AsBinary(const AFileName: string; AMode: TATBinHexMode);
     procedure DoFileOpen_AsPicture(const AFileName: string);
     function DoFileSave(ASaveAs, AAllEditors: boolean): boolean;
@@ -2184,7 +2185,7 @@ begin
 end;
 
 procedure TEditorFrame.DoFileOpen(const AFileName, AFileName2: string;
-  AAllowLoadHistory, AAllowLexerDetect, AAllowErrorMsgBox: boolean;
+  AAllowLoadHistory, AAllowLexerDetect, AAllowErrorMsgBox, AAllowLoadUndo: boolean;
   AOpenMode: TAppOpenMode);
 begin
   NotifEnabled:= false; //for binary-viewer and pictures, NotifEnabled must be False
@@ -2245,14 +2246,28 @@ begin
   DoDeactivatePictureMode;
   DoDeactivateViewerMode;
 
-  DoFileOpen_Ex(Ed1, AFileName, AAllowLoadHistory, AAllowLoadHistory, AAllowLexerDetect, AAllowErrorMsgBox, false, AOpenMode);
+  DoFileOpen_Ex(Ed1, AFileName,
+    AAllowLoadHistory,
+    AAllowLoadHistory,
+    AAllowLexerDetect,
+    AAllowErrorMsgBox,
+    false,
+    AAllowLoadUndo,
+    AOpenMode);
 
   if AFileName2<>'' then
   begin
     EditorsLinked:= false;
     SplitHorz:= false;
     Splitted:= true;
-    DoFileOpen_Ex(Ed2, AFileName2, AAllowLoadHistory, AAllowLoadHistory, AAllowLexerDetect, AAllowErrorMsgBox, false, AOpenMode);
+    DoFileOpen_Ex(Ed2, AFileName2,
+      AAllowLoadHistory,
+      AAllowLoadHistory,
+      AAllowLexerDetect,
+      AAllowErrorMsgBox,
+      false,
+      AAllowLoadUndo,
+      AOpenMode);
   end;
 
   DoOnUpdateStatusbar;
@@ -2260,7 +2275,7 @@ end;
 
 procedure TEditorFrame.DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string;
   AAllowLoadHistory, AAllowLoadHistoryEnc, AAllowLexerDetect,
-  AAllowErrorMsgBox, AKeepScroll: boolean; AOpenMode: TAppOpenMode);
+  AAllowErrorMsgBox, AKeepScroll, AAllowLoadUndo: boolean; AOpenMode: TAppOpenMode);
 begin
   try
     if AKeepScroll then
@@ -2283,8 +2298,8 @@ begin
   //turn off opts for huge files
   FileWasBig[Ed]:= Ed.Strings.Count>EditorOps.OpWrapEnabledMaxLines;
 
-  //AAllowLoadHistory must not affect DoLoadUndo, because session-loading disables AAllowLoadHistory via '/nohistory'
-  DoLoadUndo(Ed);
+  if AAllowLoadUndo then
+    DoLoadUndo(Ed);
 
   if AAllowLoadHistory then
     DoLoadHistory(Ed, AAllowLoadHistoryEnc);
@@ -2578,6 +2593,7 @@ begin
     false{AllowLexerDetect},
     false{AllowMsgBox},
     true{KeepScroll},
+    true{AllowLoadUndo},
     Mode);
   if Ed.Strings.Count=0 then exit;
 

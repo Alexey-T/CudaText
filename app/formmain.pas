@@ -3646,7 +3646,7 @@ function TfmMain.DoFileOpen(AFileName, AFileName2: string; APages: TATPages;
 var
   D: TATTabData;
   F: TEditorFrame;
-  bSilent, bPreviewTab, bEnableHistory,
+  bSilent, bPreviewTab, bEnableHistory, bEnableLoadUndo,
   bEnableEventPre, bEnableEventOpened, bEnableEventOpenedNone,
   bAllowZip, bAllowPics, bAllowLexerDetect, bDetectedPics,
   bAndActivate, bAllowNear: boolean;
@@ -3679,6 +3679,7 @@ begin
   bSilent:= Pos('/silent', AOptions)>0;
   bPreviewTab:= Pos('/preview', AOptions)>0;
   bEnableHistory:= Pos('/nohistory', AOptions)=0;
+  bEnableLoadUndo:= Pos('/noloadundo', AOptions)=0;
   bEnableEventPre:= Pos('/noevent', AOptions)=0;
   bEnableEventOpened:= Pos('/noopenedevent', AOptions)=0;
   bEnableEventOpenedNone:= Pos('/nononeevent', AOptions)=0;
@@ -3886,7 +3887,12 @@ begin
 
     Result.Adapter[Result.Ed1].Stop;
     Result.Adapter[Result.Ed2].Stop;
-    Result.DoFileOpen(AFileName, AFileName2, bEnableHistory, bAllowLexerDetect, true, OpenMode);
+    Result.DoFileOpen(AFileName, AFileName2,
+      bEnableHistory,
+      bAllowLexerDetect,
+      true,
+      bEnableLoadUndo,
+      OpenMode);
     MsgStatusFileOpened(AFileName, AFileName2);
 
     if bEnableEventOpened then
@@ -3907,7 +3913,12 @@ begin
     if F.IsEmpty then
     begin
       //tick:= GetTickCount64;
-      F.DoFileOpen(AFileName, AFileName2, bEnableHistory, bAllowLexerDetect, true, OpenMode);
+      F.DoFileOpen(AFileName, AFileName2,
+        bEnableHistory,
+        bAllowLexerDetect,
+        true,
+        bEnableLoadUndo,
+        OpenMode);
       Result:= F;
       //tick:= (GetTickCount64-tick) div 1000;
 
@@ -3951,7 +3962,12 @@ begin
   F:= D.TabObject as TEditorFrame;
 
   //tick:= GetTickCount64;
-  F.DoFileOpen(AFileName, AFileName2, bEnableHistory, bAllowLexerDetect, true, OpenMode);
+  F.DoFileOpen(AFileName, AFileName2,
+    bEnableHistory,
+    bAllowLexerDetect,
+    true,
+    bEnableLoadUndo,
+    OpenMode);
   Result:= F;
   //tick:= (GetTickCount64-tick) div 1000;
 

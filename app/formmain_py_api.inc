@@ -4186,7 +4186,7 @@ begin
               begin
                 Str:= F.FileName;
                 F.DoFileClose;
-                F.DoFileOpen(Str, '', false, true, true, cOpenModeEditor);
+                F.DoFileOpen(Str, '', false, true, true, true, cOpenModeEditor);
               end;
             end
             else
