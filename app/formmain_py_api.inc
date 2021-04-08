@@ -4690,6 +4690,22 @@ begin
               Result:= ReturnNone;
           end;
 
+        APP_PROC_GET_OUTPUT_FORM:
+          begin
+            if Assigned(fmOutput) then
+              Result:= PyHelper_ObjectHandle(fmOutput)
+            else
+              Result:= ReturnNone;
+          end;
+
+        APP_PROC_GET_VALIDATE_FORM:
+          begin
+            if Assigned(fmValidate) then
+              Result:= PyHelper_ObjectHandle(fmValidate)
+            else
+              Result:= ReturnNone;
+          end;
+
         APP_PROC_GET_CODETREE:
           begin
             Result:= PyHelper_ObjectHandle(fmMain.CodeTree);

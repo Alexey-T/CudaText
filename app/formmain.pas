@@ -1114,8 +1114,6 @@ type
     CodeTreeFilterReset: TATButton;
     PanelCodeTreeAll: TATPanelSimple;
     PanelCodeTreeTop: TATPanelSimple;
-    fmOutput: TFormDummy;
-    fmValidate: TFormDummy;
     EditorOutput: TATSynEdit;
     EditorValidate: TATSynEdit;
     LexerProgress: TATGauge;
@@ -1155,7 +1153,8 @@ type
 
 var
   fmMain: TfmMain;
-
+  fmOutput: TFormDummy = nil;
+  fmValidate: TFormDummy = nil;
 var
   NTickInitial: QWord = 0;
 
