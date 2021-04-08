@@ -181,6 +181,8 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_GET_TAB_IMAGELIST: Returns int handle of imagelist, containing icons of all UI-tabs. Use imagelist_proc() to work with it. Use PROP_TAB_ICON property to get/set file-tab icon index (index in this imagelist).
 * PROC_GET_CODETREE: Returns int handle of built-in code-tree UI control. Use tree_proc() to work with it.
 * PROC_GET_CONSOLE_FORM: Returns int handle of built-in Console form. Use dlg_proc() to work with it.
+* PROC_GET_OUTPUT_FORM: Returns int handle of built-in Output form (contains the Output read-only editor). Use dlg_proc() to work with it.
+* PROC_GET_VALIDATE_FORM: Returns int handle of built-in Validate form (contains the Validate read-only editor). Use dlg_proc() to work with it.
 * PROC_SET_FOLDER: Sets path of folder which will be used as initial folder in program's Open/Save-as dialogs.
 * PROC_WINDOW_TOPMOST_GET: Returns bool flag: main window has "always on top" style.
 * PROC_WINDOW_TOPMOST_SET: Sets bool flag: main window has "always on top" style.
@@ -1940,11 +1942,8 @@ Note: Toolbars contain several "button_ex" objects, which are anchored one to an
 
 =Editor class=
 
-Editor class has methods to work with editor. Global objects of Editor exist:
-
-* "ed": refers to currently focused editor, in any UI-tab.
-* use handle EDHANDLE_OUTPUT to make editor object of the Output panel: Editor(EDHANDLE_OUTPUT).
-* use handle EDHANDLE_VALIDATE to make editor object of the Output panel: Editor(EDHANDLE_VALIDATE).
+Editor class has methods to work with editor-controls.
+Global object of Editor exist: "ed", it always refers to the currently focused editor in UI-tabs.
 
 ==Carets==
 ===Editor.get_carets===
@@ -4268,6 +4267,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: file_open: added option "/noloadundo"
 
 1.0.379 (app 1.131.0)
-* add: handles of editors of Output/Validate panels: EDHANDLE_OUTPUT, EDHANDLE_VALIDATE
+* add: app_proc: PROC_GET_OUTPUT_FORM
+* add: app_proc: PROC_GET_VALIDATE_FORM
 
 [[Category:CudaText]]
