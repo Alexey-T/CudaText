@@ -881,7 +881,7 @@ type
     procedure InitPopupLex;
     procedure InitPopupTab;
     procedure InitPopupTabSize;
-    procedure InitBottomEditor(var Ed: TATSynEdit);
+    procedure InitBottomEditor(var Form: TFormDummy; var Ed: TATSynEdit);
     procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer;
       const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
     procedure InitFloatGroups;
@@ -1114,6 +1114,8 @@ type
     CodeTreeFilterReset: TATButton;
     PanelCodeTreeAll: TATPanelSimple;
     PanelCodeTreeTop: TATPanelSimple;
+    fmOutput: TFormDummy;
+    fmValidate: TFormDummy;
     EditorOutput: TATSynEdit;
     EditorValidate: TATSynEdit;
     LexerProgress: TATGauge;
@@ -2372,8 +2374,8 @@ begin
   CodeTreeFilterInput.OnChange:= @CodeTreeFilter_OnChange;
   CodeTreeFilterInput.OnCommand:= @CodeTreeFilter_OnCommand;
 
-  InitBottomEditor(EditorOutput);
-  InitBottomEditor(EditorValidate);
+  InitBottomEditor(fmOutput, EditorOutput);
+  InitBottomEditor(fmValidate, EditorValidate);
 
   NTick:= GetTickCount64;
   InitConsole;
@@ -7953,10 +7955,20 @@ begin
 end;
 
 
-procedure TfmMain.InitBottomEditor(var Ed: TATSynEdit);
+procedure TfmMain.InitBottomEditor(var Form: TFormDummy; var Ed: TATSynEdit);
 begin
+  if Form=nil then
+  begin
+    Form:= TFormDummy.Create(Self);
+    Form.BorderStyle:= bsNone;
+  end;
+
   if Ed=nil then
+  begin
     Ed:= TATSynEdit.Create(Self);
+    Ed.Parent:= Form;
+    Ed.Align:= alClient;
+  end;
 
   Ed.OptRulerVisible:= false;
   Ed.OptGutterVisible:= false;
