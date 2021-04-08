@@ -649,7 +649,7 @@ If you see lexer config in SynWrite, you will find that we need styles "Comment"
 
 ===Automatic folding of comments===
 
-There is an option "auto_fold_comments" (default is 5) which allows to automatically
+There is an option "auto_fold_comments" (default is 0 - it's turned off) which allows to automatically
 create folding ranges from N consecutive lines, which are all "syntax comments".
 This works for both line-comments and stream-comments, they can be even mixed
 (one comment after another, with any amount of blank lines in between,
