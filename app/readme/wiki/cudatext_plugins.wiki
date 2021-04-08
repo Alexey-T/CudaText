@@ -613,6 +613,32 @@ Tool properties:
 * Parameters: "/L={FileName}" /C
 * Initial folder: {FileDir}
 
+=Runner=
+Plugin Runner was written as an alteanative to External Tools.
+It is not only an alternative:
+
+* Runner is more light weight, it has less code.
+* Runner supports displaying of appearing tool output at runtime.
+* Runner supports Sublime Text 3 build-systems. Only specifying the build-system for the current lexer is needed.
+
+Many build-systems from Sublime Text 3 were packaged and put to add-on collection, search for add-on "Many Build Systems".
+Only few build-systems were packaged into own separate packages because they have big EXE/Binary files.
+Some ST3 plugins have build-systems paired with some Python code - they are not supported by Runner.
+
+Here is the GIF animation which shows reaction of Runner to PHP script running:
+<syntaxhighlight lang="php">
+<?php
+for($i=0; $i<10; $i++) {
+	sleep(1);
+	echo "$i is here\n";
+}
+?>
+</syntaxhighlight>
+
+[[File:cudatext-runner-thread.gif]]
+
+See the [https://github.com/halfbrained/cuda_runner/blob/main/readme/readme.txt Runner readme in GutHub] for more information.
+
 =FindInFiles=
 
 ==FiF3 and FiF4: comparision and future==
