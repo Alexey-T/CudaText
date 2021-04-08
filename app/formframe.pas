@@ -2283,11 +2283,11 @@ begin
   //turn off opts for huge files
   FileWasBig[Ed]:= Ed.Strings.Count>EditorOps.OpWrapEnabledMaxLines;
 
+  //AAllowLoadHistory must not affect DoLoadUndo, because session-loading disables AAllowLoadHistory via '/nohistory'
+  DoLoadUndo(Ed);
+
   if AAllowLoadHistory then
-  begin
-    DoLoadUndo(Ed);
     DoLoadHistory(Ed, AAllowLoadHistoryEnc);
-  end;
 
   //save temp-options, to later know which options are changed,
   //during loading of lexer-specific config
