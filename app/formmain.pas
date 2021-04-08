@@ -7956,19 +7956,13 @@ end;
 
 procedure TfmMain.InitBottomEditor(var Form: TFormDummy; var Ed: TATSynEdit);
 begin
-  if Form=nil then
-  begin
-    Form:= TFormDummy.Create(Self);
-    Form.ShowInTaskBar:= stNever;
-    Form.BorderStyle:= bsNone;
-  end;
+  Form:= TFormDummy.Create(Self);
+  Form.ShowInTaskBar:= stNever;
+  Form.BorderStyle:= bsNone;
 
-  if Ed=nil then
-  begin
-    Ed:= TATSynEdit.Create(Form);
-    Ed.Parent:= Form;
-    Ed.Align:= alClient;
-  end;
+  Ed:= TATSynEdit.Create(Form);
+  Ed.Parent:= Form;
+  Ed.Align:= alClient;
 
   Ed.OptRulerVisible:= false;
   Ed.OptGutterVisible:= false;
