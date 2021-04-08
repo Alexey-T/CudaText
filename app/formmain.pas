@@ -6299,23 +6299,27 @@ end;
 procedure TfmMain.PopupBottomOnPopup(Sender: TObject);
 var
   Popup: TPopupMenu;
+  mi: TMenuItem;
   i: integer;
 begin
   Popup:= Sender as TPopupMenu;
   for i:= 0 to Popup.Items.Count-1 do
-    case Popup.Items[i].Tag of
+  begin
+    mi:= Popup.Items[i];
+    case mi.Tag of
       100:
-        Popup.Items[i].Caption:= cStrMenuitemCopy;
+        mi.Caption:= cStrMenuitemCopy;
       101:
-        Popup.Items[i].Caption:= cStrMenuitemSelectAll;
+        mi.Caption:= cStrMenuitemSelectAll;
       102:
-        Popup.Items[i].Caption:= msgConsoleClear;
+        mi.Caption:= msgConsoleClear;
       103:
         begin
-          Popup.Items[i].Caption:= msgConsoleToggleWrap;
-          Popup.Items[i].Checked:= (Popup.Items[i].Owner as TATSynEdit).OptWrapMode<>cWrapOff;
+          mi.Caption:= msgConsoleToggleWrap;
+          mi.Checked:= (mi.Owner as TATSynEdit).OptWrapMode<>cWrapOff;
         end;
     end;
+  end;
 end;
 
 procedure TfmMain.PopupToolbarCaseOnPopup(Sender: TObject);
