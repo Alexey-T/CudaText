@@ -647,14 +647,12 @@ Create file "[CudaText]/data/buildsystems/php.sublime-build" with such text, on 
 <syntaxhighlight lang="json">
 {
   "file_patterns": ["*.php"],
-  "cmd": ["php", "$file"]
-}
-</syntaxhighlight>
-On Windows the "cmd" must be modified like this:
-<syntaxhighlight lang="json">
-{
-  "file_patterns": ["*.php"],
-  "cmd": ["C:\\PHP_folder\\php-win.exe", "$file"]
+  "linux": {
+    "cmd": ["php", "$file"]
+  },
+  "windows": {
+    "cmd": ["C:\\PHP_folder\\php-win.exe", "$file"]
+  }
 }
 </syntaxhighlight>
 
