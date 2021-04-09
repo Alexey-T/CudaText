@@ -2570,7 +2570,7 @@ var
   AppPanelActive: string = '0';
 
 
-function PyHelper_FindPanelProps_ByCaption(const ACaption: string): TAppFormWithEditor;
+function FindBottomForm_ByCaption(const ACaption: string): TAppFormWithEditor;
 begin
   case ACaption of
     '0':
@@ -2582,7 +2582,7 @@ begin
   end;
 end;
 
-function PyHelper_FindPanelProps_ByObject(Ed: TATSynEdit): TAppFormWithEditor;
+function FindBottomForm_ByEditor(Ed: TATSynEdit): TAppFormWithEditor;
 begin
   Result:= nil;
   if Ed=fmOutput.Ed then
@@ -2610,9 +2610,9 @@ begin
       StrPanel:= string(PtrPanel);
 
       if StrPanel<>'' then
-        Form:= PyHelper_FindPanelProps_ByCaption(StrPanel)
+        Form:= FindBottomForm_ByCaption(StrPanel)
       else
-        Form:= PyHelper_FindPanelProps_ByCaption(AppPanelActive);
+        Form:= FindBottomForm_ByCaption(AppPanelActive);
       if Form=nil then
         exit(ReturnNone);
 

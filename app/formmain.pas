@@ -6569,7 +6569,7 @@ var
 begin
   AHandled:= true; //avoid selection of word
 
-  Form:= PyHelper_FindPanelProps_ByObject(Sender as TATSynEdit);
+  Form:= FindBottomForm_ByEditor(Sender as TATSynEdit);
   if Form=nil then exit;
 
   Ed:= Form.Ed;
@@ -7989,7 +7989,7 @@ var
   Form: TAppFormWithEditor;
 begin
   Ed:= (Sender as TMenuItem).Owner as TATSynEdit;
-  Form:= PyHelper_FindPanelProps_ByObject(Ed);
+  Form:= FindBottomForm_ByEditor(Ed);
   if Assigned(Form) then
   begin
     Form.Clear;
