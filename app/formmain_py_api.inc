@@ -2687,7 +2687,13 @@ begin
 
         LOG_SET_LINEINDEX:
           begin
-            Prop^.Editor.DoCaretSingle(0, StrToIntDef(StrText, 0));
+            Prop^.Editor.DoGotoPos(
+              Point(0, StrToIntDef(StrText, 0)),
+              Point(-1, -1),
+              UiOps.FindIndentHorz,
+              UiOps.FindIndentVert,
+              true,
+              true);
             Result:= ReturnNone;
           end;
 
