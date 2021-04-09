@@ -163,8 +163,8 @@ type
   TAppFormWithEditor = class(TFormDummy)
   public
     Ed: TATSynEdit;
+    Tags: TFPList;
     Popup: TPopupMenu;
-    Objects: TFPList;
     RegexStr: string;
     RegexIdLine,
     RegexIdCol,
@@ -1571,24 +1571,15 @@ end;
 { TAppFormWithEditor }
 
 procedure TAppFormWithEditor.Clear;
-var
-  Obj: TObject;
-  i: integer;
 begin
-  for i:= Objects.Count-1 downto 0 do
-  begin
-    Obj:= TObject(Objects.Items[i]);
-    if Assigned(Obj) then
-      Obj.Free;
-  end;
-  Objects.Clear;
   EditorClear(Ed);
   Ed.Update(true);
+  Tags.Clear;
 end;
 
 procedure TAppFormWithEditor.Add(const AText: string; ATag: Int64);
 begin
-  Objects.Add(TATListboxItemProp.Create(ATag, false, ''));
+  Tags.Add(pointer(ATag));
   Ed.ModeReadOnly:= false;
   Ed.Strings.LineAdd(AText);
   Ed.ModeReadOnly:= true;
@@ -1598,7 +1589,7 @@ end;
 function TAppFormWithEditor.IsIndexValid(AIndex: integer): boolean;
 begin
   Result:= Ed.Strings.IsIndexValid(AIndex) and
-    (AIndex<Objects.Count);
+    (AIndex<Tags.Count);
 end;
 
 { TAppCompletionApiProps }
@@ -6560,11 +6551,11 @@ var
   ResFilename: string;
   ResLine, ResCol: integer;
   Ed: TATSynEdit;
-  ItemProp: TATListboxItemProp;
   Params: TAppVariantArray;
   Frame: TEditorFrame;
   CaretY: integer;
   bFound: boolean;
+  NTag: Int64;
   SText: string;
 begin
   AHandled:= true; //avoid selection of word
@@ -6574,10 +6565,13 @@ begin
 
   Ed:= Form.Ed;
   CaretY:= Ed.Carets[0].PosY;
-  if not Form.IsIndexValid(CaretY) then exit;
+  if not Ed.Strings.IsIndexValid(CaretY) then exit;
 
   SText:= Ed.Strings.Lines[CaretY];
-  ItemProp:= TATListboxItemProp(Form.Objects[CaretY]);
+  if CaretY<Form.Tags.Count then
+    NTag:= Int64(Form.Tags[CaretY])
+  else
+    NTag:= 0;
 
   DoParseOutputLine(Form, SText, ResFilename, ResLine, ResCol);
   if (ResFilename<>'') and (ResLine>=0) then
@@ -6613,7 +6607,7 @@ begin
     MsgStatus(msgStatusClickingLogLine);
     SetLength(Params, 2);
     Params[0]:= AppVariant(SText);
-    Params[1]:= AppVariant(ItemProp.Tag);
+    Params[1]:= AppVariant(NTag);
     DoPyEvent(nil, cEventOnOutputNav, Params);
   end;
 end;
@@ -8042,7 +8036,7 @@ begin
   Form.Ed.OptMarginRight:= 2000;
   Form.Ed.ModeReadOnly:= true;
 
-  Form.Objects:= TFPList.Create;
+  Form.Tags:= TFPList.Create;
 
   InitPopupBottom(Form.Popup, Form.Ed);
   Form.Ed.PopupText:= Form.Popup;

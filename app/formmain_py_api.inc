@@ -2601,7 +2601,6 @@ var
   NTag: Int64;
   Form: TAppFormWithEditor;
   List: TStringList;
-  Obj: TObject;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'isLs:app_log', @Id, @PtrText, @NTag, @PtrPanel)) then
@@ -2673,10 +2672,13 @@ begin
               raise EPythonError.Create(msgPythonListError);
             for i:= 0 to NLen-1 do
             begin
-              Obj:= TObject(Form.Objects[i]);
+              if i<Form.Tags.Count then
+                NTag:= Int64(Form.Tags[i])
+              else
+                NTag:= 0;
               PyList_SetItem(Result, i, Py_BuildValue('(sL)',
                   PChar(string(Form.Ed.Strings.Lines[i])),
-                  Int64((Obj as TATListboxItemProp).Tag)
+                  NTag
                   ));
             end;
           end;
