@@ -523,17 +523,17 @@ Possible values of "panel":
 
 Possible values of "id" for Output/Validate panels:
 
-* LOG_CLEAR: Clears log panel. Param "text" ignored.
+* LOG_CLEAR: Clears log panel. Param "text" is ignored.
 * LOG_ADD: Adds line to log panel. Param "tag" is used here: int value associated with line, it's passed in on_output_nav.
-* LOG_SET_REGEX: Sets parsing regex for log panel. Param "text". Regex must have some groups in round brackets, indexes of these groups must be passed in separate API calls. All lines in log panel, which can be parsed by this regex, will allow navigation to source code by click or double-click.
+* LOG_SET_REGEX: Sets parsing RegEx for log panel. Param "text" is RegEx string. RegEx must have some groups in round brackets, indexes of these groups must be passed in separate API calls. All lines in log panel, which can be parsed by this regex, will allow navigation to source code by click or double-click.
 * LOG_SET_LINE_ID: Sets index of regex group for line-number. Param "text" is one-char string from "1" to "8", and "0" means "not used".
-* LOG_SET_COL_ID: Sets index of regex group for column-number. Param "text".
-* LOG_SET_NAME_ID: Sets index of regex group for file-name. Param "text".
-* LOG_SET_FILENAME: Sets default file name, which will be used when regex cannot find file name in a string. Param "text".
-* LOG_SET_ZEROBASE: Sets flag: line and column numbers are 0-based, not 1-based. Param "text" is one-char string "0" or "1".
+* LOG_SET_COL_ID: Sets index of regex group for column-number. Param "text" must be str(number).
+* LOG_SET_NAME_ID: Sets index of regex group for file-name. Param "text" must be str(number).
+* LOG_SET_FILENAME: Sets default file name, which will be used when regex cannot find file name in a string. Param "text" is value.
+* LOG_SET_ZEROBASE: Sets flag: line and column numbers are 0-based, not 1-based. Param "text" must be one-char string "0" or "1".
 * LOG_GET_LINES_LIST: Returns items in panel's listbox, as list of 2-tuples (line, tag).
 * LOG_GET_LINEINDEX: Returns index of selected line in panel's listbox.
-* LOG_SET_LINEINDEX: Sets index of selected line in panel's listbox.
+* LOG_SET_LINEINDEX: Sets index of selected line in panel's listbox. Param "text" must be str(number).
 
 Possible values of "id" for "Console" panel:
 
