@@ -941,6 +941,8 @@ def app_proc(id, val):
     return ct.app_proc(id, to_str(val))
 
 def app_log(id, text, tag=0, panel=''):
+    if type(text) is not str:
+        raise ValueError('app_log() parameter "text" must be string')
     return ct.app_log(id, text, tag, panel)
 
 def app_idle(wait=False):
