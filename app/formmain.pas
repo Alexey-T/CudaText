@@ -6593,9 +6593,14 @@ begin
     if bFound then
     begin
       Frame.SetFocus;
-      Frame.Editor.DoCaretSingle(ResCol, ResLine);
-      Frame.Editor.DoGotoCaret(cEdgeTop);
-      Frame.Editor.Update;
+      Frame.Editor.DoGotoPos(
+         Point(ResCol, ResLine),
+         Point(-1, -1),
+         UiOps.FindIndentHorz,
+         UiOps.FindIndentVert,
+         true{PlaceCaret},
+         true{Unfold}
+         );
       UpdateStatusbar;
     end;
   end
