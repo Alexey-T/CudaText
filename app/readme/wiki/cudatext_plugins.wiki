@@ -112,7 +112,10 @@ Texts of snippets usually have tab-stop(s), e.g. ${1:some_text}. Plugin Snippets
 === Snippets from VSCode ===
 Since recent versions, Snippets plugin supports snippets from VSCode editor. It gives menu items in "Plugins / Snippets":
 
-* "Install VSCode snippets..."
+* "Install VSCode snippets..." - this suggests to install packages with snippets (packages usually contain more functionality, and CudaText plugin will install only snippets).
+
+[[File:cudatext-snippets-add-vscode.png]]
+
 * "Remove VSCode snippets"
 * "Visit homepage of VSCode snippets..."
 * "Convert snippets package from old format" - this takes snippets in old .cuda-snippet format (if you have some old ones) and converts them to VSCode JSON format.
