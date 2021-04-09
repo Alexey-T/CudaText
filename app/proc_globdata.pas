@@ -925,10 +925,9 @@ var
   AppTreeHelpers: TFPList;
 
 type
-  PAppPanelProps = ^TAppPanelProps;
-
   { TAppPanelProps }
 
+  PAppPanelProps = ^TAppPanelProps;
   TAppPanelProps = record
     Editor: TATSynEdit;
     Objects: TFPList;

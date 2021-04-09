@@ -161,6 +161,7 @@ type
   public
     Ed: TATSynEdit;
     Popup: TPopupMenu;
+    PanelProps: TAppPanelProps;
   end;
 
 type
@@ -2408,14 +2409,6 @@ begin
   FListTimers:= TStringList.Create;
   FLastStatusbarMessages:= TStringList.Create;
   FLastStatusbarMessages.TextLineBreakStyle:= tlbsLF;
-
-  //init Output/Validate panels
-  FillChar(AppPanelProp_Out, SizeOf(AppPanelProp_Out), 0);
-  FillChar(AppPanelProp_Val, SizeOf(AppPanelProp_Val), 0);
-  AppPanelProp_Out.Editor:= fmOutput.Ed;
-  AppPanelProp_Val.Editor:= fmValidate.Ed;
-  AppPanelProp_Out.Objects:= TFPList.Create;
-  AppPanelProp_Val.Objects:= TFPList.Create;
 
   Status:= TATStatus.Create(Self);
   Status.Parent:= Self;
@@ -8002,6 +7995,9 @@ begin
   Form.Ed.OptCaretManyAllowed:= false;
   Form.Ed.OptMarginRight:= 2000;
   Form.Ed.ModeReadOnly:= true;
+
+  Form.PanelProps.Editor:= Form.Ed;
+  Form.PanelProps.Objects:= TFPList.Create;
 
   InitPopupBottom(Form.Popup, Form.Ed);
   Form.Ed.PopupText:= Form.Popup;

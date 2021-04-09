@@ -2567,8 +2567,6 @@ begin
 end;
 
 var
-  AppPanelProp_Out: TAppPanelProps;
-  AppPanelProp_Val: TAppPanelProps;
   AppPanelActive: string = '0';
 
 
@@ -2576,19 +2574,19 @@ function PyHelper_FindPanelProps_ByCaption(const ACaption: string): PAppPanelPro
 begin
   Result:= nil;
   if ACaption='0' then
-    Result:= @AppPanelProp_Out
+    Result:= @fmOutput.PanelProps
   else
   if ACaption='1' then
-    Result:= @AppPanelProp_Val;
+    Result:= @fmValidate.PanelProps;
 end;
 
 function PyHelper_FindPanelProps_ByObject(Ed: TATSynEdit): PAppPanelProps;
 begin
   Result:= nil;
   if Ed=fmOutput.Ed then
-    exit(@AppPanelProp_Out);
+    exit(@fmOutput.PanelProps);
   if Ed=fmValidate.Ed then
-    exit(@AppPanelProp_Val);
+    exit(@fmValidate.PanelProps);
 end;
 
 
