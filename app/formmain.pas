@@ -160,6 +160,7 @@ type
   TAppFormWithEditor = class(TFormDummy)
   public
     Ed: TATSynEdit;
+    Popup: TPopupMenu;
   end;
 
 type
@@ -531,8 +532,6 @@ type
     PopupTabSize: TPopupMenu;
     PopupViewerMode: TPopupMenu;
     PopupPicScale: TPopupMenu;
-    PopupOutput: TPopupMenu;
-    PopupValidate: TPopupMenu;
     mnuTabCloseAllAll: TMenuItem;
     mnuTabCloseAllSame: TMenuItem;
     mnuTabCloseLeft: TMenuItem;
@@ -889,8 +888,7 @@ type
     procedure InitPopupLex;
     procedure InitPopupTab;
     procedure InitPopupTabSize;
-    procedure InitBottomEditor(var Form: TAppFormWithEditor;
-      var APopup: TPopupMenu; const AEdName: string);
+    procedure InitBottomEditor(var Form: TAppFormWithEditor);
     procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer;
       const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
     procedure InitFloatGroups;
@@ -2383,8 +2381,8 @@ begin
   CodeTreeFilterInput.OnChange:= @CodeTreeFilter_OnChange;
   CodeTreeFilterInput.OnCommand:= @CodeTreeFilter_OnCommand;
 
-  InitBottomEditor(fmOutput, PopupOutput, 'log');
-  InitBottomEditor(fmValidate, PopupValidate, 'log');
+  InitBottomEditor(fmOutput);
+  InitBottomEditor(fmValidate);
 
   NTick:= GetTickCount64;
   InitConsole;
@@ -7985,14 +7983,14 @@ begin
 end;
 
 
-procedure TfmMain.InitBottomEditor(var Form: TAppFormWithEditor; var APopup: TPopupMenu; const AEdName: string);
+procedure TfmMain.InitBottomEditor(var Form: TAppFormWithEditor);
 begin
   Form:= TAppFormWithEditor.Create(Self);
   Form.ShowInTaskBar:= stNever;
   Form.BorderStyle:= bsNone;
 
   Form.Ed:= TATSynEdit.Create(Form);
-  Form.Ed.Name:= AEdName;
+  Form.Ed.Name:= 'log';
   Form.Ed.Parent:= Form;
   Form.Ed.Align:= alClient;
 
@@ -8005,8 +8003,8 @@ begin
   Form.Ed.OptMarginRight:= 2000;
   Form.Ed.ModeReadOnly:= true;
 
-  InitPopupBottom(APopup, Form.Ed);
-  Form.Ed.PopupText:= APopup;
+  InitPopupBottom(Form.Popup, Form.Ed);
+  Form.Ed.PopupText:= Form.Popup;
 
   //support dlg_proc API, it needs PropsObject
   DoControl_InitPropsObject(Form.Ed, Form, 'editor');
