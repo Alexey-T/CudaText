@@ -6550,7 +6550,6 @@ var
   Form: TAppFormWithEditor;
   ResFilename: string;
   ResLine, ResCol: integer;
-  Ed: TATSynEdit;
   Params: TAppVariantArray;
   Frame: TEditorFrame;
   CaretY: integer;
@@ -6563,11 +6562,10 @@ begin
   Form:= FindBottomForm_ByEditor(Sender as TATSynEdit);
   if Form=nil then exit;
 
-  Ed:= Form.Ed;
-  CaretY:= Ed.Carets[0].PosY;
-  if not Ed.Strings.IsIndexValid(CaretY) then exit;
+  CaretY:= Form.Ed.Carets[0].PosY;
+  if not Form.Ed.Strings.IsIndexValid(CaretY) then exit;
 
-  SText:= Ed.Strings.Lines[CaretY];
+  SText:= Form.Ed.Strings.Lines[CaretY];
   if CaretY<Form.Tags.Count then
     NTag:= Int64(Form.Tags[CaretY])
   else
@@ -6595,10 +6593,9 @@ begin
     if bFound then
     begin
       Frame.SetFocus;
-      Ed:= Frame.Editor;
-      Ed.DoCaretSingle(ResCol, ResLine);
-      Ed.DoGotoCaret(cEdgeTop);
-      Ed.Update;
+      Frame.Editor.DoCaretSingle(ResCol, ResLine);
+      Frame.Editor.DoGotoCaret(cEdgeTop);
+      Frame.Editor.Update;
       UpdateStatusbar;
     end;
   end
