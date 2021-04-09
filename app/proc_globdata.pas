@@ -925,25 +925,6 @@ var
   AppTreeHelpers: TFPList;
 
 type
-  { TAppPanelProps }
-
-  PAppPanelProps = ^TAppPanelProps;
-  TAppPanelProps = record
-    Editor: TATSynEdit;
-    Objects: TFPList;
-    RegexStr: string;
-    RegexIdLine,
-    RegexIdCol,
-    RegexIdName: integer;
-    DefFilename: string;
-    ZeroBase: boolean;
-    Encoding: string;
-    procedure Clear;
-    procedure Add(const AText: string; ATag: Int64);
-    function IsIndexValid(AIndex: integer): boolean;
-  end;
-
-type
   TAppMenuProps = class
   public
     CommandCode: integer;
@@ -2681,39 +2662,6 @@ begin
   Ed.DoCaretSingle(0, 0);
   Ed.Update(true);
   Ed.Modified:= false;
-end;
-
-{ TAppPanelProps }
-
-procedure TAppPanelProps.Clear;
-var
-  Obj: TObject;
-  i: integer;
-begin
-  for i:= Objects.Count-1 downto 0 do
-  begin
-    Obj:= TObject(Objects.Items[i]);
-    if Assigned(Obj) then
-      Obj.Free;
-  end;
-  Objects.Clear;
-  EditorClear(Editor);
-  Editor.Update(true);
-end;
-
-procedure TAppPanelProps.Add(const AText: string; ATag: Int64);
-begin
-  Objects.Add(TATListboxItemProp.Create(ATag, false, ''));
-  Editor.ModeReadOnly:= false;
-  Editor.Strings.LineAdd(AText);
-  Editor.ModeReadOnly:= true;
-  Editor.Update(true);
-end;
-
-function TAppPanelProps.IsIndexValid(AIndex: integer): boolean;
-begin
-  Result:= Editor.Strings.IsIndexValid(AIndex) and
-    (AIndex<Objects.Count);
 end;
 
 { TAppManagerThread }

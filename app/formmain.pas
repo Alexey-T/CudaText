@@ -157,11 +157,24 @@ type
   TAppTooltipPos = (atpWindowTop, atpWindowBottom, atpEditorCaret);
 
 type
+
+  { TAppFormWithEditor }
+
   TAppFormWithEditor = class(TFormDummy)
   public
     Ed: TATSynEdit;
     Popup: TPopupMenu;
-    PanelProps: TAppPanelProps;
+    Objects: TFPList;
+    RegexStr: string;
+    RegexIdLine,
+    RegexIdCol,
+    RegexIdName: integer;
+    DefFilename: string;
+    ZeroBase: boolean;
+    Encoding: string;
+    procedure Clear;
+    procedure Add(const AText: string; ATag: Int64);
+    function IsIndexValid(AIndex: integer): boolean;
   end;
 
 type
@@ -1553,6 +1566,39 @@ begin
     Map:= TATKeymap(AppKeymapLexers.Objects[i]);
     Keymap_UpdateDynamicEx(Map, ACategory);
   end;
+end;
+
+{ TAppFormWithEditor }
+
+procedure TAppFormWithEditor.Clear;
+var
+  Obj: TObject;
+  i: integer;
+begin
+  for i:= Objects.Count-1 downto 0 do
+  begin
+    Obj:= TObject(Objects.Items[i]);
+    if Assigned(Obj) then
+      Obj.Free;
+  end;
+  Objects.Clear;
+  EditorClear(Ed);
+  Ed.Update(true);
+end;
+
+procedure TAppFormWithEditor.Add(const AText: string; ATag: Int64);
+begin
+  Objects.Add(TATListboxItemProp.Create(ATag, false, ''));
+  Ed.ModeReadOnly:= false;
+  Ed.Strings.LineAdd(AText);
+  Ed.ModeReadOnly:= true;
+  Ed.Update(true);
+end;
+
+function TAppFormWithEditor.IsIndexValid(AIndex: integer): boolean;
+begin
+  Result:= Ed.Strings.IsIndexValid(AIndex) and
+    (AIndex<Objects.Count);
 end;
 
 { TAppCompletionApiProps }
@@ -6479,29 +6525,29 @@ begin
   F.Editor.DoCommand(cmd_CopyFilenameName);
 end;
 
-procedure DoParseOutputLine(const AProp: TAppPanelProps;
+procedure DoParseOutputLine(const AForm: TAppFormWithEditor;
   const AStr: string;
   out AFilename: string;
   out ALine, ACol: integer);
 var
   Parts: TRegexParts;
 begin
-  AFilename:= AProp.DefFilename;
+  AFilename:= AForm.DefFilename;
   ALine:= -1;
   ACol:= 0;
 
-  if AProp.RegexStr='' then exit;
-  if AProp.RegexIdLine=0 then exit;
+  if AForm.RegexStr='' then exit;
+  if AForm.RegexIdLine=0 then exit;
 
-  if not SRegexFindParts(AProp.RegexStr, AStr, Parts) then exit;
-  if AProp.RegexIdName>0 then
-    AFilename:= Parts[AProp.RegexIdName].Str;
-  if AProp.RegexIdLine>0 then
-    ALine:= StrToIntDef(Parts[AProp.RegexIdLine].Str, -1);
-  if AProp.RegexIdCol>0 then
-    ACol:= StrToIntDef(Parts[AProp.RegexIdCol].Str, 0);
+  if not SRegexFindParts(AForm.RegexStr, AStr, Parts) then exit;
+  if AForm.RegexIdName>0 then
+    AFilename:= Parts[AForm.RegexIdName].Str;
+  if AForm.RegexIdLine>0 then
+    ALine:= StrToIntDef(Parts[AForm.RegexIdLine].Str, -1);
+  if AForm.RegexIdCol>0 then
+    ACol:= StrToIntDef(Parts[AForm.RegexIdCol].Str, 0);
 
-  if not AProp.ZeroBase then
+  if not AForm.ZeroBase then
   begin
     if ALine>0 then Dec(ALine);
     if ACol>0 then Dec(ACol);
@@ -6510,7 +6556,7 @@ end;
 
 procedure TfmMain.EditorOutput_OnClickDbl(Sender: TObject; var AHandled: boolean);
 var
-  Prop: ^TAppPanelProps;
+  Form: TAppFormWithEditor;
   ResFilename: string;
   ResLine, ResCol: integer;
   Ed: TATSynEdit;
@@ -6523,17 +6569,17 @@ var
 begin
   AHandled:= true; //avoid selection of word
 
-  Prop:= PyHelper_FindPanelProps_ByObject(Sender as TATSynEdit);
-  if Prop=nil then exit;
+  Form:= PyHelper_FindPanelProps_ByObject(Sender as TATSynEdit);
+  if Form=nil then exit;
 
-  Ed:= Prop^.Editor;
+  Ed:= Form.Ed;
   CaretY:= Ed.Carets[0].PosY;
-  if not Prop^.IsIndexValid(CaretY) then exit;
+  if not Form.IsIndexValid(CaretY) then exit;
 
   SText:= Ed.Strings.Lines[CaretY];
-  ItemProp:= TATListboxItemProp(Prop^.Objects[CaretY]);
+  ItemProp:= TATListboxItemProp(Form.Objects[CaretY]);
 
-  DoParseOutputLine(Prop^, SText, ResFilename, ResLine, ResCol);
+  DoParseOutputLine(Form, SText, ResFilename, ResLine, ResCol);
   if (ResFilename<>'') and (ResLine>=0) then
   begin
     MsgStatus(Format(msgStatusGotoFileLineCol, [ResFilename, ResLine+1, ResCol+1]));
@@ -7940,13 +7986,13 @@ end;
 procedure TfmMain.PopupBottomClearClick(Sender: TObject);
 var
   Ed: TATSynEdit;
-  Prop: ^TAppPanelProps;
+  Form: TAppFormWithEditor;
 begin
   Ed:= (Sender as TMenuItem).Owner as TATSynEdit;
-  Prop:= PyHelper_FindPanelProps_ByObject(Ed);
-  if Assigned(Prop) then
+  Form:= PyHelper_FindPanelProps_ByObject(Ed);
+  if Assigned(Form) then
   begin
-    Prop^.Clear;
+    Form.Clear;
     UpdateSidebarButtonOverlay;
   end;
 end;
@@ -7996,8 +8042,7 @@ begin
   Form.Ed.OptMarginRight:= 2000;
   Form.Ed.ModeReadOnly:= true;
 
-  Form.PanelProps.Editor:= Form.Ed;
-  Form.PanelProps.Objects:= TFPList.Create;
+  Form.Objects:= TFPList.Create;
 
   InitPopupBottom(Form.Popup, Form.Ed);
   Form.Ed.PopupText:= Form.Popup;

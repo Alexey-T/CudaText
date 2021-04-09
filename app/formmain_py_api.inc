@@ -2570,23 +2570,26 @@ var
   AppPanelActive: string = '0';
 
 
-function PyHelper_FindPanelProps_ByCaption(const ACaption: string): PAppPanelProps;
+function PyHelper_FindPanelProps_ByCaption(const ACaption: string): TAppFormWithEditor;
 begin
-  Result:= nil;
-  if ACaption='0' then
-    Result:= @fmOutput.PanelProps
-  else
-  if ACaption='1' then
-    Result:= @fmValidate.PanelProps;
+  case ACaption of
+    '0':
+      Result:= fmOutput;
+    '1':
+      Result:= fmValidate;
+    else
+      Result:= nil;
+  end;
 end;
 
-function PyHelper_FindPanelProps_ByObject(Ed: TATSynEdit): PAppPanelProps;
+function PyHelper_FindPanelProps_ByObject(Ed: TATSynEdit): TAppFormWithEditor;
 begin
   Result:= nil;
   if Ed=fmOutput.Ed then
-    exit(@fmOutput.PanelProps);
+    Result:= fmOutput
+  else
   if Ed=fmValidate.Ed then
-    exit(@fmValidate.PanelProps);
+    Result:= fmValidate;
 end;
 
 
@@ -2596,7 +2599,7 @@ var
   StrText, StrPanel: string;
   Id, NLen, i: integer;
   NTag: Int64;
-  Prop: PAppPanelProps;
+  Form: TAppFormWithEditor;
   List: TStringList;
   Obj: TObject;
 begin
@@ -2607,72 +2610,72 @@ begin
       StrPanel:= string(PtrPanel);
 
       if StrPanel<>'' then
-        Prop:= PyHelper_FindPanelProps_ByCaption(StrPanel)
+        Form:= PyHelper_FindPanelProps_ByCaption(StrPanel)
       else
-        Prop:= PyHelper_FindPanelProps_ByCaption(AppPanelActive);
-      if Prop=nil then
+        Form:= PyHelper_FindPanelProps_ByCaption(AppPanelActive);
+      if Form=nil then
         exit(ReturnNone);
 
       case Id of
         LOG_CLEAR:
           begin
-            Prop^.Clear;
+            Form.Clear;
             Result:= ReturnNone;
           end;
 
         LOG_ADD:
           begin
-            Prop^.Add(StrText, NTag);
+            Form.Add(StrText, NTag);
             Result:= ReturnNone;
           end;
 
         LOG_SET_REGEX:
           begin
-            Prop^.RegexStr:= StrText;
+            Form.RegexStr:= StrText;
             Result:= ReturnNone;
           end;
 
         LOG_SET_LINE_ID:
           begin
-            Prop^.RegexIdLine:= StrToIntDef(StrText, 0);
+            Form.RegexIdLine:= StrToIntDef(StrText, 0);
             Result:= ReturnNone;
           end;
 
         LOG_SET_COL_ID:
           begin
-            Prop^.RegexIdCol:= StrToIntDef(StrText, 0);
+            Form.RegexIdCol:= StrToIntDef(StrText, 0);
             Result:= ReturnNone;
           end;
 
         LOG_SET_NAME_ID:
           begin
-            Prop^.RegexIdName:= StrToIntDef(StrText, 0);
+            Form.RegexIdName:= StrToIntDef(StrText, 0);
             Result:= ReturnNone;
           end;
 
         LOG_SET_FILENAME:
           begin
-            Prop^.DefFilename:= StrText;
+            Form.DefFilename:= StrText;
             Result:= ReturnNone;
           end;
 
         LOG_SET_ZEROBASE:
           begin
-            Prop^.ZeroBase:= Bool(StrToIntDef(StrText, 0));
+            Form.ZeroBase:= Bool(StrToIntDef(StrText, 0));
             Result:= ReturnNone;
           end;
 
         LOG_GET_LINES_LIST:
           begin
-            NLen:= Prop^.Editor.Strings.Count;
+            NLen:= Form.Ed.Strings.Count;
             Result:= PyList_New(NLen);
             if not Assigned(Result) then
               raise EPythonError.Create(msgPythonListError);
             for i:= 0 to NLen-1 do
             begin
-              Obj:= TObject(Prop^.Objects[i]);
+              Obj:= TObject(Form.Objects[i]);
               PyList_SetItem(Result, i, Py_BuildValue('(sL)',
-                  PChar(string(Prop^.Editor.Strings.Lines[i])),
+                  PChar(string(Form.Ed.Strings.Lines[i])),
                   Int64((Obj as TATListboxItemProp).Tag)
                   ));
             end;
@@ -2680,12 +2683,12 @@ begin
 
         LOG_GET_LINEINDEX:
           begin
-            Result:= PyLong_FromLong(Prop^.Editor.Carets[0].PosY);
+            Result:= PyLong_FromLong(Form.Ed.Carets[0].PosY);
           end;
 
         LOG_SET_LINEINDEX:
           begin
-            Prop^.Editor.DoGotoPos(
+            Form.Ed.DoGotoPos(
               Point(0, StrToIntDef(StrText, 0)),
               Point(-1, -1),
               UiOps.FindIndentHorz,
