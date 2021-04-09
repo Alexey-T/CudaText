@@ -889,7 +889,8 @@ type
     procedure InitPopupLex;
     procedure InitPopupTab;
     procedure InitPopupTabSize;
-    procedure InitBottomEditor(var Form: TAppFormWithEditor; var APopup: TPopupMenu);
+    procedure InitBottomEditor(var Form: TAppFormWithEditor;
+      var APopup: TPopupMenu; const AEdName: string);
     procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer;
       const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
     procedure InitFloatGroups;
@@ -2382,8 +2383,8 @@ begin
   CodeTreeFilterInput.OnChange:= @CodeTreeFilter_OnChange;
   CodeTreeFilterInput.OnCommand:= @CodeTreeFilter_OnCommand;
 
-  InitBottomEditor(fmOutput, PopupOutput);
-  InitBottomEditor(fmValidate, PopupValidate);
+  InitBottomEditor(fmOutput, PopupOutput, 'log');
+  InitBottomEditor(fmValidate, PopupValidate, 'log');
 
   NTick:= GetTickCount64;
   InitConsole;
@@ -7984,13 +7985,14 @@ begin
 end;
 
 
-procedure TfmMain.InitBottomEditor(var Form: TAppFormWithEditor; var APopup: TPopupMenu);
+procedure TfmMain.InitBottomEditor(var Form: TAppFormWithEditor; var APopup: TPopupMenu; const AEdName: string);
 begin
   Form:= TAppFormWithEditor.Create(Self);
   Form.ShowInTaskBar:= stNever;
   Form.BorderStyle:= bsNone;
 
   Form.Ed:= TATSynEdit.Create(Form);
+  Form.Ed.Name:= AEdName;
   Form.Ed.Parent:= Form;
   Form.Ed.Align:= alClient;
 
