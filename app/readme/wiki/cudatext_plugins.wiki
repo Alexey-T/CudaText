@@ -109,6 +109,20 @@ Dialog of Snippets plugin:
 
 Texts of snippets usually have tab-stop(s), e.g. ${1:some_text}. Plugin Snippets finds tab-stops and places "markers" for them. After markers are placed, Tab-key works special in editor, it jumps to next marker. See detailed information in the [[CudaText#Markers]].
 
+=== Snippets from VSCode ===
+Since recent versions, Snippets plugin supports snippets from VSCode editor. It gives menu items in "Plugins / Snippets":
+
+* "Install VSCode snippets..."
+* "Remove VSCode snippets"
+* "Visit homepage of VSCode snippets..."
+* "Convert snippets package from old format" - this takes snippets in old .cuda-snippet format (if you have some old ones) and converts them to VSCode JSON format.
+
+Plugin also gives the fully featured snippet editor dialog, in menu item "Add/edit snippets...".
+
+[[File:cudatext-snippets-editor.png]]
+
+Currently most of VSCode/TextMate "macros" are supported in snippets body, but not all. Refer to readme file of the plugin.
+
 === Snippets for HTML tags ===
 
 CudaText has preinstalled 120+ snippets for HTML tags. (You still need to install Snippets plugin.) They are enabled with HTML lexer. Just type tag name without a bracket, press Tab, and snippet is inserted. E.g. "a"<Tab> will insert:
