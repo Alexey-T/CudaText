@@ -1552,9 +1552,8 @@ var
 begin
   {$if defined(LCLQT5) or defined(darwin)}
   ATTabsStretchDrawEnabled:= false;
-  {$endif};
-  {$if defined(LCLQT5) or defined(darwin)}
   ATTabsCircleDrawEnabled:= false;
+  ATTabsPixelsDrawEnabled:= false;
   {$endif};
 
   with Op do
