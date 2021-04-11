@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: Find dialog: with option "Hi" the "find what" field is colored in 'disabled state' if cannot find anything (thanks @tmsg)
+
 1.131.0 (2021/04)
 
 + add: improved the way how option "undo_limit" is applied. Now Undo limit is not N simple memory-items, but N 'actions', where 'action' is one simple command (typing a char, Del, BkSp etc), one multi-caret editing, or one mass-replacement. (thanks @tmsg)
