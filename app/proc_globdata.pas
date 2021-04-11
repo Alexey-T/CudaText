@@ -1550,12 +1550,6 @@ procedure InitUiOps(var Op: TUiOps);
 var
   element: TAppHistoryElement;
 begin
-  {$if defined(LCLQT5) or defined(darwin)}
-  ATTabsStretchDrawEnabled:= false;
-  ATTabsCircleDrawEnabled:= false;
-  ATTabsPixelsDrawEnabled:= false;
-  {$endif};
-
   with Op do
   begin
     VarFontName:= 'default';
