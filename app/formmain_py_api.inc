@@ -700,8 +700,12 @@ begin
       StrArgs:= string(PtrArgs);
 
       Pages:= nil;
-      if (Num>=Low(TATGroupsNums)) and (Num<=High(TATGroupsNums)) then
-        Pages:= fmMain.Groups.Pages[Num];
+      if (Num>=0) and (Num<=cAppMaxGroup) then
+      begin
+        Pages:= GetPagesOfGroupIndex(Num);
+        if Pages=nil then
+          Pages:= fmMain.Groups.Pages[0];
+      end;
 
       Ok:= fmMain.DoFileOpen(StrFile, StrFile2, Pages, StrArgs)<>nil;
       Result:= PyBool_FromLong(Ord(Ok));
