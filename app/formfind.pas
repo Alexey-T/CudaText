@@ -1480,6 +1480,13 @@ var
   NTick: QWord;
 begin
   ClearHiAll;
+
+  if UiOps.FindShowNothingByColor then
+  begin
+    NColorBG:= GetAppColor(apclEdTextBg);
+    edFind.Colors.TextBG:= NColorBG;
+  end;
+
   if edFind.Text='' then exit;
   if not chkHiAll.Enabled then exit;
 
@@ -1505,11 +1512,14 @@ begin
       EditorHighlightAllMatches(Finder, AMoveCaret, NMatches);
       NTick:= GetTickCount64-NTick;
 
-      if NMatches=0 then
-        NColorBG:= GetAppColor(apclButtonBgDisabled)
-      else
-        NColorBG:= GetAppColor(apclEdTextBg);
-      edFind.Colors.TextBG:= NColorBG;
+      if UiOps.FindShowNothingByColor then
+      begin
+        if NMatches=0 then
+          NColorBG:= GetAppColor(apclButtonBgDisabled)
+        else
+          NColorBG:= GetAppColor(apclEdTextBg);
+        edFind.Colors.TextBG:= NColorBG;
+      end;
 
       if Assigned(FOnShowMatchesCount) then
         FOnShowMatchesCount(NMatches, NTick);

@@ -262,6 +262,7 @@ type
     FindSuggestWord: boolean;
     FindSuggestInSelection: boolean;
     FindSelCase: integer;
+    FindShowNothingByColor: boolean;
 
     FindHiddenButtons: string;
     FindShow_FindFirst: boolean;
@@ -1667,6 +1668,7 @@ begin
     FindSuggestWord:= false;
     FindSuggestInSelection:= false;
     FindSelCase:= 2;
+    FindShowNothingByColor:= true;
 
     FindHiddenButtons:= '';
     FindShow_FindFirst:= true;
