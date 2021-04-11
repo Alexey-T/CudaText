@@ -1314,7 +1314,7 @@ First parameter can be 2-tuple (or 2-list) of string, to open two files in a sin
 Returns bool. True, if first filename is empty. Otherwise, returns True if first filename exists, and second filename is empty or exists.
 For zip file (only first filename is checked for it), returns True only if zip file contains valid CudaText add-on, and it was installed.
 
-* Param "group": index of tab-group (0-based), default means "current group". If you pass index of currently hidden group, group won't show, you need to call editor command to show it, see [[#cmd]].
+* Param "group": index of tab-group (0-based, currently 0...8). Default means "current group". If you pass index of currently hidden group, group won't show, you need to call editor command to show it, see [[#cmd]].
 * Param "options": string:
 ** If it has "/preview", then file opens in a "temporary preview" tab, with italic caption. Param "group" is ignored then, used 1st group.
 ** If it has "/nohistory", file's saved history (caret, scroll pos, etc) won't be used.
