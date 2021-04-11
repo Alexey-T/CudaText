@@ -177,14 +177,18 @@ begin
 
   GetFrameLocation(F, Gr, Pages, NLocalGroups, NGlobalGroup, NTab);
 
-  for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
-    with Gr.Pages[i] do
+  for i:= 0 to cAppMaxGroup do
+  begin
+    Pages:= GetPagesOfGroupIndex(i);
+    if Pages=nil then Continue;
+    with Pages do
     begin
       bGroupActive:= i=NLocalGroups;
       Tabs.ColorTabActive:= IfThen(bGroupActive, NColorTabActive, NColorTabOther);
       Tabs.ColorActiveMark:= IfThen(bGroupActive, NColorMarkActive, NColorMarkOther);
       Tabs.Invalidate;
     end;
+  end;
 end;
 
 procedure TfmMain.DoClearSingleFirstTab;
