@@ -4993,6 +4993,7 @@ begin
     FFormTooltip.BorderStyle:= bsNone;
     FFormTooltip.ShowInTaskBar:= stNever;
     FFormTooltip.FormStyle:= fsSystemStayOnTop;
+    FFormTooltip.ControlStyle:= FFormTooltip.ControlStyle+[csNoFocus]; //recommended by Zeljko in Laz bugtracker
 
     FTooltipPanel:= TAppPanelEx.Create(FFormTooltip);
     FTooltipPanel.Align:= alClient;
