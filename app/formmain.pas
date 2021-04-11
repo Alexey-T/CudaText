@@ -3430,6 +3430,7 @@ var
   {$ifdef unix}
   CmdParams: TAppStringArray;
   {$endif}
+  Pages: TATPages;
   i: integer;
 begin
   cAdapterIdleInterval:= UiOps.LexerDelayedParsingPause;
@@ -3449,8 +3450,13 @@ begin
 
   //apply DoubleBuffered
   //no need for ToolbarMain and buttons
-  for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
-    Groups.Pages[i].Tabs.DoubleBuffered:= UiOps.DoubleBuffered;
+  for i:= 0 to cAppMaxGroup do
+  begin
+    Pages:= GetPagesOfGroupIndex(i);
+    if Pages=nil then Continue;
+    Pages.Tabs.DoubleBuffered:= UiOps.DoubleBuffered;
+  end;
+
   for i:= 0 to FrameCount-1 do
     with Frames[i] do
     begin
