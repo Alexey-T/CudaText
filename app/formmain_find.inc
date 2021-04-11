@@ -847,9 +847,11 @@ var
   ok, bCase: boolean;
 begin
   bCase:= true;
-  case UiOps.FindSelCase of
-    0: bCase:= false;
-    1: bCase:= true;
+  case UiOps.FindWordCaseSensitive of
+    0:
+      bCase:= false;
+    1:
+      bCase:= true;
     2:
       begin
         if Assigned(fmFind) then
