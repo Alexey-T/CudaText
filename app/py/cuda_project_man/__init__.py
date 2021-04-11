@@ -53,12 +53,13 @@ NodeInfo = collections.namedtuple("NodeInfo", "caption image")
 
 _homedir = os.path.expanduser('~')
 
-def nice_filename(path):
+def collapse_filename(fn):
+    if (fn+'/').startswith(_homedir+'/'):
+        fn = fn.replace(_homedir, '~', 1)
+    return fn
 
-    dir = os.path.dirname(path)
-    if dir == _homedir or dir.startswith(_homedir+'/'):
-        dir = dir.replace(_homedir, '~')
-    return os.path.basename(path) + ' ('+ dir + ')'
+def nice_filename(path):
+    return os.path.basename(path) + ' ('+ collapse_filename(os.path.dirname(path)) + ')'
 
 
 def is_simple_listed(name, masks):
@@ -940,7 +941,7 @@ class Command:
             return
 
         files.sort()
-        files_nice = [os.path.basename(fn)+'\t'+os.path.dirname(fn) for fn in files]
+        files_nice = [os.path.basename(fn)+'\t'+collapse_filename(os.path.dirname(fn)) for fn in files]
 
         res = dlg_menu(DMENU_LIST_ALT+DMENU_NO_FULLFILTER, #fuzzy search is needed for users
                        files_nice,
