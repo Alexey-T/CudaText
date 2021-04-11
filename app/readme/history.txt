@@ -3,7 +3,10 @@
   - fixed
   * changed
 
+1.131.1 (2021/04)
+
 + add: Find dialog: with option "Hi" the "find what" field is colored in 'disabled state' if cannot find anything (thanks @tmsg)
++ add: command "close all tabs" closes tabs in 3 floating groups too
 
 1.131.0 (2021/04)
 
