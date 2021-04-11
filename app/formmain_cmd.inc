@@ -45,7 +45,8 @@ begin
 
     cmd_FileCloseAll:
       begin
-        EdGrp.CloseTabs(tabCloseAll, false);
+        //EdGrp.CloseTabs(tabCloseAll, false);
+        DoCloseAllTabs;
         CurrentFrame.SetFocus;
       end;
 

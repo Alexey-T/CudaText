@@ -2532,12 +2532,16 @@ end;
 
 procedure TfmMain.DoCloseAllTabs;
 var
+  Pages: TATPages;
   Tabs: TATTabs;
   nGroup, nTab: integer;
 begin
-  for nGroup:= High(TATGroupsNums) to Low(TATGroupsNums) do
+  for nGroup:= 0 to Pred(6+3) do
   begin
-    Tabs:= Groups.Pages[nGroup].Tabs;
+    Pages:= GetPagesOfGroupIndex(nGroup);
+    if Pages=nil then Continue;
+    if not Pages.Visible then Continue;
+    Tabs:= Pages.Tabs;
     for nTab:= Tabs.TabCount-1 downto 0 do
       Tabs.DeleteTab(nTab, true{AllowEvent}, false{AWithCancelBtn});
   end;
@@ -5245,8 +5249,9 @@ begin
     FreeAndNil(ListNoSave);
   end;
 
-  Result:= Groups.CloseTabs(tabCloseAll, false);
-  if not Result then exit;
+  //Result:= Groups.CloseTabs(tabCloseAll, false);
+  DoCloseAllTabs;
+  Result:= true;
 end;
 
 
