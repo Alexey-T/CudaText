@@ -1476,6 +1476,7 @@ procedure TfmFind.UpdateHiAll(AMoveCaret: boolean);
 var
   Finder: TATEditorFinder;
   NMatches: integer;
+  NColorBG: TColor;
   NTick: QWord;
 begin
   ClearHiAll;
@@ -1503,6 +1504,12 @@ begin
       NTick:= GetTickCount64;
       EditorHighlightAllMatches(Finder, AMoveCaret, NMatches);
       NTick:= GetTickCount64-NTick;
+
+      if NMatches=0 then
+        NColorBG:= GetAppColor(apclButtonBgDisabled)
+      else
+        NColorBG:= GetAppColor(apclEdTextBg);
+      edFind.Colors.TextBG:= NColorBG;
 
       if Assigned(FOnShowMatchesCount) then
         FOnShowMatchesCount(NMatches, NTick);
