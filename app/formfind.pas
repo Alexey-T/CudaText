@@ -1519,6 +1519,7 @@ begin
         else
           NColorBG:= GetAppColor(apclEdTextBg);
         edFind.Colors.TextBG:= NColorBG;
+        edFind.Update;
       end;
 
       if Assigned(FOnShowMatchesCount) then
