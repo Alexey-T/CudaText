@@ -104,6 +104,9 @@ const
   cAppHistoryElementChar: array[TAppHistoryElement] of char =
     'tchsTeblwMmrunSfkCFi';
 
+const
+  cAppMaxGroup = Pred(6+3); //6 normal groups + 3 floating groups
+
 var
   //ATSynEdit has range for bookmarks 0..63, 0=none
   AppBookmarkSetup: array[1..63] of

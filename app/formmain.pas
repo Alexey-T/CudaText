@@ -2106,7 +2106,7 @@ begin
   if PntScreen<>FLastMousePos then
   begin
     FLastMousePos:= PntScreen;
-    for i:= 0 to Pred(6+3) do
+    for i:= 0 to cAppMaxGroup do
     begin
       Ed:= GetEditorActiveInGroup(i);
       if Ed=nil then Continue; //not Break: support 3 floating grps
@@ -2536,7 +2536,7 @@ var
   Tabs: TATTabs;
   nGroup, nTab: integer;
 begin
-  for nGroup:= 0 to Pred(6+3) do
+  for nGroup:= 0 to cAppMaxGroup do
   begin
     Pages:= GetPagesOfGroupIndex(nGroup);
     if Pages=nil then Continue;
@@ -7575,7 +7575,7 @@ begin
 
   FrameList:= TStringList.Create;
   try
-    for iGroup:= 0 to 8 do
+    for iGroup:= 0 to cAppMaxGroup do
     begin
       Pages:= GetPagesOfGroupIndex(iGroup);
       if Pages=nil then Continue;
