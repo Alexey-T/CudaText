@@ -451,8 +451,8 @@ begin
            bModified:= false;
       end;
 
-      if (nIndex<Low(TATGroupsNums)) or (nIndex>High(TATGroupsNums)) then
-        nIndex:= Low(TATGroupsNums);
+      if (nIndex<0) or (nIndex>High(TATGroupsNums)) then
+        nIndex:= 0;
       Pages:= Groups.Pages[nIndex];
 
       if SBeginsWith(sKind, 'bin') then
