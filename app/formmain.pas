@@ -2106,10 +2106,11 @@ begin
   if PntScreen<>FLastMousePos then
   begin
     FLastMousePos:= PntScreen;
-    for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
+    for i:= 0 to Pred(6+3) do
     begin
       Ed:= GetEditorActiveInGroup(i);
-      if Ed=nil then Break;
+      if Ed=nil then Continue; //not Break: support 3 floating grps
+      if not Ed.Visible then Continue;
       PntLocal:= Ed.ScreenToClient(PntScreen);
       if PtInRect(Ed.ClientRect, PntLocal) then
       begin
