@@ -241,8 +241,12 @@ begin
 
     DoOps_SaveHistory_GroupView(cfg);
 
-    for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
-      cfg.SetValue('/tab_index/g'+Inttostr(i), Groups.Pages[i].Tabs.TabIndex);
+    for i:= 0 to cAppMaxGroup do
+    begin
+      Pages:= GetPagesOfGroupIndex(i);
+      if Pages=nil then Continue;
+      cfg.SetValue('/tab_index/g'+IntToStr(i), Pages.Tabs.TabIndex);
+    end;
     cfg.SetValue('/tab_index/g_active', Groups.FindPages(Groups.PagesCurrent));
 
     cfg.SetValue('/panels/side_show', AppPanels[cPaneSide].Visible);
