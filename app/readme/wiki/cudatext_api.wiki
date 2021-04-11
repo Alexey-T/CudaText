@@ -2169,6 +2169,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 
 * PROP_LINE_NUMBERS: int: style of line numbers. One of LINENUM_nnn values.
 * PROP_LINE_TOP: int: index of line visible at the top of editor.
+** Note: If you set PROP_LINE_TOP immediately after file_open(), it may not work, you need to call app_idle(True) first.
 * PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word wrap).
 
 * PROP_SCROLL_VERT: int: approximate vertical scroll position. Index in WrapInfo list, you can read this list via get_wrapinfo().
@@ -2320,6 +2321,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_RULER: bool: show ruler.
 * PROP_COLOR: color property, value must be 2-tuple (COLOR_ID_nnnn, int_color_value).
 * PROP_LINE_TOP: int: index of line visible at the editor top.
+** Note: If you set PROP_LINE_TOP immediately after file_open(), it may not work, you need to call app_idle(True) first.
 * PROP_LINE_NUMBERS: int: style of line numbers. One of LINENUM_nnn values.
 * PROP_LINE_STATE: 2-tuple: state of the line with given index. 2-tuple (line_index, LINESTATE_nnn).
 * PROP_LINE_STATES_UPDATED: currently supports writing only empty string value, writing it means clearing of "updated" flags for all lines.
