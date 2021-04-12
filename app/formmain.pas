@@ -4026,14 +4026,6 @@ begin
   UpdateStatusbar;
   MsgStatusFileOpened(AFileName, AFileName2);
 
-  if bAndActivate then
-  begin
-    //set TabIndex before on_open firing, to fix CudaText #3314
-    if Assigned(APages) then
-      APages.Tabs.TabIndex:= APages.Tabs.FindTabByObject(Result);
-    DoFocusResult;
-  end;
-
   SetLength(Params, 0);
 
   if bEnableEventOpened then
@@ -4047,6 +4039,8 @@ begin
   if bEnableEventOpened then
     if AFileName2<>'' then
       DoPyEvent(F.Ed2, cEventOnOpen, Params);
+
+  DoFocusResult;
 end;
 
 
