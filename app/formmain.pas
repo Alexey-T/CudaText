@@ -4033,17 +4033,15 @@ begin
   SetLength(Params, 0);
 
   if bEnableEventOpened then
-  begin
     DoPyEvent(F.Ed1, cEventOnOpen, Params);
-  end;
 
-  if IsFilenameForLexerDetecter(AFileName) then
-    if F.IsText and (F.LexerName[F.Ed1]='') then
-      if bEnableEventOpenedNone then
+  if bEnableEventOpenedNone then
+    if IsFilenameForLexerDetecter(AFileName) then
+      if F.IsText and (F.LexerName[F.Ed1]='') then
         DoPyEvent(F.Ed1, cEventOnOpenNone, Params);
 
-  if AFileName2<>'' then
-    if bEnableEventOpened then
+  if bEnableEventOpened then
+    if AFileName2<>'' then
       DoPyEvent(F.Ed2, cEventOnOpen, Params);
 
   DoFocusResult;
