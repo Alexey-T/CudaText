@@ -2768,17 +2768,13 @@ begin
 
   //set group according to mouse cursor
   Pages:= nil;
-  for i:= 0 to cAppMaxGroup do
-  begin
-    Pages:= GetPagesOfGroupIndex(i);
-    if Pages=nil then Continue;
-    if not Pages.Visible then Continue;
-    if PtInControl(Pages, Mouse.CursorPos) then
-      Break;
-  end;
-
-  if Pages=nil then
-    Pages:= Groups.Pages[0];
+  for i in [Low(TATGroupsNums)..High(TATGroupsNums)] do
+    if Groups.Pages[i].Visible then
+      if PtInControl(Groups.Pages[i], Mouse.CursorPos) then
+      begin
+        Pages:= Groups.Pages[i];
+        Break;
+      end;
 
   for i:= 0 to Length(Filenames)-1 do
   begin
