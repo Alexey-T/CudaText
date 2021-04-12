@@ -4272,7 +4272,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: app_proc: PROC_GET_OUTPUT_FORM
 * add: app_proc: PROC_GET_VALIDATE_FORM
 
-1.0.308 (app 1.131.1)
+1.0.380 (app 1.131.1)
 * change: app_log: param "tag" is now ignored
 
 [[Category:CudaText]]
