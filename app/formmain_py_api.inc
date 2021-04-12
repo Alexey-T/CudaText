@@ -2628,7 +2628,7 @@ begin
 
         LOG_ADD:
           begin
-            Form.Add(StrText, NTag);
+            Form.Add(StrText);
             Result:= ReturnNone;
           end;
 
@@ -2676,13 +2676,9 @@ begin
               raise EPythonError.Create(msgPythonListError);
             for i:= 0 to NLen-1 do
             begin
-              if i<Form.Tags.Count then
-                NTag:= Int64(Form.Tags[i])
-              else
-                NTag:= 0;
               PyList_SetItem(Result, i, Py_BuildValue('(sL)',
                   PChar(string(Form.Ed.Strings.Lines[i])),
-                  NTag
+                  0
                   ));
             end;
           end;

@@ -163,7 +163,6 @@ type
   TAppFormWithEditor = class(TFormDummy)
   public
     Ed: TATSynEdit;
-    Tags: TFPList;
     Popup: TPopupMenu;
     RegexStr: string;
     RegexIdLine,
@@ -173,7 +172,7 @@ type
     ZeroBase: boolean;
     Encoding: string;
     procedure Clear;
-    procedure Add(const AText: string; ATag: Int64);
+    procedure Add(const AText: string);
     function IsIndexValid(AIndex: integer): boolean;
   end;
 
@@ -1574,12 +1573,10 @@ procedure TAppFormWithEditor.Clear;
 begin
   EditorClear(Ed);
   Ed.Update(true);
-  Tags.Clear;
 end;
 
-procedure TAppFormWithEditor.Add(const AText: string; ATag: Int64);
+procedure TAppFormWithEditor.Add(const AText: string);
 begin
-  Tags.Add(pointer(ATag));
   Ed.ModeReadOnly:= false;
   Ed.Strings.LineAdd(AText);
   Ed.ModeReadOnly:= true;
@@ -1588,8 +1585,7 @@ end;
 
 function TAppFormWithEditor.IsIndexValid(AIndex: integer): boolean;
 begin
-  Result:= Ed.Strings.IsIndexValid(AIndex) and
-    (AIndex<Tags.Count);
+  Result:= Ed.Strings.IsIndexValid(AIndex);
 end;
 
 { TAppCompletionApiProps }
@@ -6567,7 +6563,6 @@ var
   Frame: TEditorFrame;
   CaretY: integer;
   bFound: boolean;
-  NTag: Int64;
   SText: string;
 begin
   AHandled:= true; //avoid selection of word
@@ -6579,10 +6574,6 @@ begin
   if not Form.Ed.Strings.IsIndexValid(CaretY) then exit;
 
   SText:= Form.Ed.Strings.Lines[CaretY];
-  if CaretY<Form.Tags.Count then
-    NTag:= Int64(Form.Tags[CaretY])
-  else
-    NTag:= 0;
 
   DoParseOutputLine(Form, SText, ResFilename, ResLine, ResCol);
   if (ResFilename<>'') and (ResLine>=0) then
@@ -6622,7 +6613,7 @@ begin
     MsgStatus(msgStatusClickingLogLine);
     SetLength(Params, 2);
     Params[0]:= AppVariant(SText);
-    Params[1]:= AppVariant(NTag);
+    Params[1]:= AppVariant(0);
     DoPyEvent(nil, cEventOnOutputNav, Params);
   end;
 end;
@@ -8050,8 +8041,6 @@ begin
   Form.Ed.OptCaretManyAllowed:= false;
   Form.Ed.OptMarginRight:= 2000;
   Form.Ed.ModeReadOnly:= true;
-
-  Form.Tags:= TFPList.Create;
 
   InitPopupBottom(Form.Popup, Form.Ed);
   Form.Ed.PopupText:= Form.Popup;
