@@ -36,7 +36,7 @@ const
   cSystemLibDir =
     {$ifdef windows} '' {$endif}
     {$ifdef linux} '/usr/lib' {$endif}
-    {$ifdef darwin} '/' {$endif}
+    {$ifdef darwin} '/Library/Frameworks' {$endif}
     {$ifdef freebsd} '/usr/local/lib' {$endif}
     {$ifdef netbsd} '/usr/pkg/lib' {$endif}
     {$ifdef openbsd} '/usr/local/lib' {$endif}
