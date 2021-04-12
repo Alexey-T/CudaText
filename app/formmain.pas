@@ -4028,7 +4028,7 @@ begin
 
   //set TabIndex before on_open firing, to fix CudaText #3314
   if Assigned(APages) then
-    APages.Tabs.TabIndex:= APages.Tabs.FindTabByObject(F);
+    APages.Tabs.TabIndex:= APages.Tabs.FindTabByObject(Result);
 
   SetLength(Params, 0);
 
