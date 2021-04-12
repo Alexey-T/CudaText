@@ -7,6 +7,7 @@
 
 + add: Find dialog: with option "Hi" the "find what" field is colored in 'disabled state' if cannot find anything (thanks @tmsg)
 + add: command "close all tabs" closes tabs in 3 floating groups too
+* change: save "tab is pinned" state only in session, not in file-history (thanks @kvichans)
 
 1.131.0 (2021/04)
 
