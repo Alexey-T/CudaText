@@ -4026,9 +4026,13 @@ begin
   UpdateStatusbar;
   MsgStatusFileOpened(AFileName, AFileName2);
 
-  //set TabIndex before on_open firing, to fix CudaText #3314
-  if Assigned(APages) then
-    APages.Tabs.TabIndex:= APages.Tabs.FindTabByObject(Result);
+  {
+  //set TabIndex before on_open firing, to fix CudaText #3314 ?
+  //not needed! because bAndActivate=false in the case of #3314, ie during session loading
+  if bAndActivate then
+    if Assigned(APages) then
+      APages.Tabs.TabIndex:= APages.Tabs.FindTabByObject(Result);
+      }
 
   SetLength(Params, 0);
 
