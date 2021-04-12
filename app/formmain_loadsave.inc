@@ -285,6 +285,7 @@ begin
       if bModified then
         cfg.SetValue(path+'/tab_title', Frame.TabCaption);
       cfg.SetValue(path+'/group', nLocalGroup+1); //support old sessions with 1-based index
+      cfg.SetDeleteValue(path+'/pinned', Frame.TabPinned, false);
 
       if Frame.IsText then value:= ''
       else
@@ -499,6 +500,8 @@ begin
 
         if sFilename2<>'' then
           Frame.DoLoadHistoryEx(Frame.Ed2, cfg, item_path2, true);
+
+        Frame.TabPinned:= cfg.GetValue(item_path+'pinned', false);
 
         //event on_open was blocked in DoFileOpen, call it here
         //(plugin "Tab Icons" needs it)

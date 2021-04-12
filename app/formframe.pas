@@ -462,7 +462,6 @@ const
   cHistory_Caret       = '/crt';
   //cHistory_Markers     = '/mrk';
   cHistory_TabColor    = '/color';
-  cHistory_TabPinned   = '/pinned';
   cHistory_Bookmark    = '/bm';
   cHistory_BookmarkKind = '/bm_kind';
   cHistory_FoldingShow  = '/fold';
@@ -3198,7 +3197,7 @@ begin
       c.SetValue(path+cHistory_TabColor, ColorToString(TabColor));
   end;
 
-  c.SetDeleteValue(path+cHistory_TabPinned, TabPinned, false);
+  //c.SetDeleteValue(path+cHistory_TabPinned, TabPinned, false);
 
   if UiOps.HistoryItems[ahhCaret] then
     DoSaveHistory_Caret(Ed, c, path);
@@ -3356,7 +3355,7 @@ begin
 
   TabColor:= StringToColorDef(c.GetValue(path+cHistory_TabColor, ''), clNone);
 
-  TabPinned:= c.GetValue(path+cHistory_TabPinned, false);
+  //TabPinned:= c.GetValue(path+cHistory_TabPinned, false);
 
   if not Ed.IsReadOnlyAutodetected then
     ReadOnly[Ed]:= c.GetValue(path+cHistory_ReadOnly, ReadOnly[Ed]);
