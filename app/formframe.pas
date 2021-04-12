@@ -3197,8 +3197,6 @@ begin
       c.SetValue(path+cHistory_TabColor, ColorToString(TabColor));
   end;
 
-  //c.SetDeleteValue(path+cHistory_TabPinned, TabPinned, false);
-
   if UiOps.HistoryItems[ahhCaret] then
     DoSaveHistory_Caret(Ed, c, path);
 
@@ -3354,8 +3352,6 @@ begin
   end;
 
   TabColor:= StringToColorDef(c.GetValue(path+cHistory_TabColor, ''), clNone);
-
-  //TabPinned:= c.GetValue(path+cHistory_TabPinned, false);
 
   if not Ed.IsReadOnlyAutodetected then
     ReadOnly[Ed]:= c.GetValue(path+cHistory_ReadOnly, ReadOnly[Ed]);
