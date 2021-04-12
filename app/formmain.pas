@@ -3689,6 +3689,14 @@ end;
 
 function TfmMain.DoFileOpen(AFileName, AFileName2: string; APages: TATPages;
   const AOptions: string): TEditorFrame;
+  //
+  procedure DoFocusResult;
+  begin
+    if Assigned(Result) then
+      if Visible and Result.Visible and Result.Enabled then
+        Result.SetFocus;
+  end;
+  //
 var
   D: TATTabData;
   F: TEditorFrame;
@@ -3941,13 +3949,13 @@ begin
       OpenMode);
     MsgStatusFileOpened(AFileName, AFileName2);
 
+    DoFocusResult;
     if bEnableEventOpened then
     begin
       SetLength(Params, 0);
       DoPyEvent(Result.Ed1, cEventOnOpen, Params);
     end;
 
-    Result.SetFocus;
     exit;
   end;
 
@@ -4007,7 +4015,6 @@ begin
   end;
   F:= D.TabObject as TEditorFrame;
 
-  //tick:= GetTickCount64;
   F.DoFileOpen(AFileName, AFileName2,
     bEnableHistory,
     bAllowLexerDetect,
@@ -4015,12 +4022,13 @@ begin
     bEnableLoadUndo,
     OpenMode);
   Result:= F;
-  //tick:= (GetTickCount64-tick) div 1000;
 
   UpdateStatusbar;
-  //if tick>2 then
-  //  msg:= msg+' ('+IntToStr(tick)+'s)';
   MsgStatusFileOpened(AFileName, AFileName2);
+
+  //set TabIndex before on_open firing, to fix CudaText #3314
+  if Assigned(APages) then
+    APages.Tabs.TabIndex:= APages.Tabs.FindTabByObject(F);
 
   SetLength(Params, 0);
 
@@ -4038,8 +4046,7 @@ begin
     if bEnableEventOpened then
       DoPyEvent(F.Ed2, cEventOnOpen, Params);
 
-  if Visible and Result.Visible and Result.Enabled then
-    Result.SetFocus;
+  DoFocusResult;
 end;
 
 
