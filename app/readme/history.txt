@@ -7,7 +7,7 @@
 
 + add: Find dialog: with option "Hi" the "find what" field is colored in 'disabled state' if cannot find anything (thanks @tmsg)
 + add: command "close all tabs" closes tabs in 3 floating groups too
-+ add: Windows option "Underline keyboard shortcuts and access keys" is now considered (thanks Udo Weik)
++ add: Windows option "Underline keyboard shortcuts and access keys" is now considered for 'themed' menu (thanks Udo Weik)
 * change: save "tab is pinned" state only in session, not in file-history (thanks @kvichans)
 
 1.131.0 (2021/04)
