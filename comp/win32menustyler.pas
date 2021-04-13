@@ -10,7 +10,7 @@ interface
 
 uses
   Windows, SysUtils, Classes, Graphics, Menus, Forms,
-  Types, LCLType, LCLProc,
+  Types, LCLType, LCLProc, Registry,
   ImgList;
 
 type
@@ -56,6 +56,7 @@ var
   MenuStylerTheme: TWin32MenuStylerTheme;
   MenuStyler: TWin32MenuStyler = nil;
 
+  MenuStylerAlwaysShowAccelerators: boolean = false;
 
 implementation
 
@@ -222,6 +223,9 @@ begin
 
   Y:= (ARect.Top+ARect.Bottom-ExtTall.cy) div 2;
 
+  if MenuStylerAlwaysShowAccelerators then
+    NDrawFlags:= 0
+  else
   if odNoAccel in AState then
     NDrawFlags:= DT_HIDEPREFIX
   else
@@ -331,6 +335,16 @@ initialization
     IndentRightPercents:= 250;
     IndentSubmenuArrowPercents:= 150;
   end;
+
+  with TRegistry.Create do
+  try
+    RootKey:= HKEY_CURRENT_USER;
+    if OpenKey('Control Panel\Accessibility\Keyboard Preference', false) then
+      MenuStylerAlwaysShowAccelerators:= ReadString('On')='1';
+  finally
+    Free;
+  end;;
+
 
 finalization
 
