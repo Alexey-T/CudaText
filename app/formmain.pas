@@ -1158,6 +1158,7 @@ type
     property ThemeSyntax: string write SetThemeSyntax;
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
     procedure DoPyEvent_AppActivate(AEvent: TAppPyEvent);
+    procedure DoPyEvent_SessionAction(AEventValue: integer);
     procedure DoPyCommand(const AModule, AMethod: string; const AParams: TAppVariantArray);
     function RunTreeHelper(Frame: TEditorFrame): boolean;
     function DoPyLexerDetection(const Filename: string; Lexers: TStringList): integer;
@@ -2600,6 +2601,15 @@ begin
     SetLength(Params, 0);
     DoPyEvent(nil, AEvent, Params);
   end;
+end;
+
+procedure TfmMain.DoPyEvent_SessionAction(AEventValue: integer);
+var
+  Params: TAppVariantArray;
+begin
+  SetLength(Params, 1);
+  Params[0]:= AppVariant(AEventValue);
+  DoPyEvent(nil, cEventOnState, Params);
 end;
 
 procedure TfmMain.AppPropsActivate(Sender: TObject);
