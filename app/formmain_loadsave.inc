@@ -371,6 +371,8 @@ begin
   if AFileName='' then exit;
   if not FileExists(AFileName) then exit;
 
+  DoPyEvent_SessionAction(APPSTATE_SESSION_LOAD_BEGIN);
+
   nCountFilesBefore:= FrameCount;
   if nCountFilesBefore=1 then
     if Frames[0].IsEmpty then
@@ -378,7 +380,11 @@ begin
 
   FSessionIsClosing:= true;
   try
-    if not DoFileCloseAll(true) then exit;
+    if not DoFileCloseAll(true) then
+    begin
+      DoPyEvent_SessionAction(APPSTATE_SESSION_LOAD_FAIL);
+      exit;
+    end;
   finally
     FSessionIsClosing:= false;
   end;
@@ -394,6 +400,7 @@ begin
       cfg.Filename:= AFileName;
     except
       MsgBadConfig(AFileName);
+      DoPyEvent_SessionAction(APPSTATE_SESSION_LOAD_FAIL);
       exit;
     end;
 
@@ -591,7 +598,9 @@ begin
   AppSessionName:= AFileName;
 
   if (nCountFilesBefore>0) or (nCountFiles>0) then
-    DoPyEvent_SessionAction(APPSTATE_SESSION_LOAD);
+    DoPyEvent_SessionAction(APPSTATE_SESSION_LOAD)
+  else
+    DoPyEvent_SessionAction(APPSTATE_SESSION_LOAD_FAIL)
 end;
 
 procedure TfmMain.DoOps_LoadHistory_GroupView(cfg: TJsonConfig);
