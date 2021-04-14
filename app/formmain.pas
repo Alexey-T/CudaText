@@ -2569,8 +2569,12 @@ begin
   //after UpdateMenuRecent
   DoOps_SaveHistory(UiOps.SaveModifiedTabsOnClose);
 
+  {
+  //seems doing DoCloseAllTabs on FormClose is bad idea:
+  //app asks to save modified tabs, even with UiOps.AutoSaveSession.
   FSessionIsClosing:= true; //to avoid asking "Close pinned tab?"
   DoCloseAllTabs;
+  }
 
   SetLength(Params, 0);
   DoPyEvent(nil, cEventOnExit, Params);
