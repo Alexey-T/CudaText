@@ -2569,7 +2569,9 @@ begin
   //after UpdateMenuRecent
   DoOps_SaveHistory(UiOps.SaveModifiedTabsOnClose);
 
+  FSessionIsClosing:= true; //to avoid asking "Close pinned tab?"
   DoCloseAllTabs;
+
   SetLength(Params, 0);
   DoPyEvent(nil, cEventOnExit, Params);
 end;
