@@ -6,6 +6,8 @@
 1.131.1 (2021/04)
 
 + add: support for the "LSP Client" new plugin (thanks @Shovel)
++ add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Runner
++ add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Configure_Menu
 + add: Find dialog: with option "Hi" the "find what" field is colored in 'disabled state' if cannot find anything (thanks @tmsg)
 + add: command "close all tabs" closes tabs in 3 floating groups too
 + add: Windows option "Underline keyboard shortcuts and access keys" is now considered for 'themed' menu (thanks Udo Weik)
