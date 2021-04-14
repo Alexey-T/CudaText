@@ -3,9 +3,10 @@
   - fixed
   * changed
 
-1.131.3 (2021/04)
+1.132.0 (2021/04)
 
 + add: support for the "LSP Client" new plugin (thanks @Shovel)
++ add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#LSP_Client
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Runner
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Configure_Menu
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#CudaFormatter
