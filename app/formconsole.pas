@@ -122,10 +122,10 @@ begin
   if StartsStr(cConsolePrompt, S) then
     exit(acLinePrompt);
 
-  if StartsText('NOTE: ', S) then
+  if StartsText('NOTE:', S) then
     exit(acLineNote);
 
-  if StartsText('ERROR: ', S) then
+  if StartsText('ERROR:', S) then
     exit(acLineError);
 
   //EndsText is better than compare, to find FindInFiles4 log string added to 'traceback'
