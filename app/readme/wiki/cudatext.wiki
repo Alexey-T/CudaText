@@ -1509,16 +1509,7 @@ Control of UI tabs is named ATTabs, and has many features:
 ==Show pictures in the text==
 CudaText gives the plugin API to show pictures between the text lines.
 These spaces between lines are called "gaps".
-Plugin "Insert Pics" exists to show picture files in gaps,
-it saves pictures in the "helper files" (using Base64 encoding) 
-near the original text file. It looks like this:
-
-[[File:cudatext-insert-pics.png]]
-
-* You can use any lexer for files with pictures.
-* You can add the unlimited number of pictures. But only one picture per "gap".
-* You can add/delete pictures later, using plugin's commands in menu "Plugins / Insert Pics".
-* When you delete the "helper file" (located in the same folder), all pictures will be lost for plugin.
+Plugin "Insert Pics" exists to show picture files in gaps: [[CudaText_plugins#Insert_Pics]].
 
 ==Activating internet links==
 CudaText allows to activate internet links (URLs) and e-mails (e-mail can be with the 'mailto:' and without it).
