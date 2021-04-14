@@ -752,17 +752,19 @@ Command "auto-completion menu" (default hotkey: Ctrl+Space) shows auto-completio
 
 ===IntelliSense===
 
-Intelligent completion is supported via plugins. For the end of 2020 year, such plugins exist:
+Intelligent completion is supported via plugins. For the 2021 year, such plugins exist:
 
-* JavaScript lexer - "JS Tern"
-* Python lexer - "Python IntelliSense"
-* HTML lexer - "HTML Completion", gives additional completion for "id" and "class" names
-* AutoIt lexer - "AutoIt Helper"
-* SPIR lexer - "SPIR Helper"
+* [[CudaText_plugins#LSP_Client|LSP Client]] - supports Microsoft LSP protocol, for lot of languages.
+
+And specialized plugins:
+
+* for JavaScript lexer - "JS Tern"
+* for Python lexer - "Python IntelliSense"
+* for HTML lexer - "HTML Completion", gives additional completion for "id" and "class" names
+* for AutoIt lexer - "AutoIt Helper"
+* for SPIR lexer - "SPIR Helper"
 
 In the case of files without lexer, consider to use plugins "Complete From Text" and "Intext Complete". They suggest completions from all words from the current document (or all opened documents, by option).
-
-Microsoft LSP protocol is not yet supported by CudaText nor by plugins.
 
 ===Static auto-completion files===
 
