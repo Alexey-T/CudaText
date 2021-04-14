@@ -9,7 +9,7 @@
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Runner
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Configure_Menu
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#CudaFormatter
-+ add: Find dialog: with option "Hi" the "find what" field is colored in 'disabled state' if cannot find anything (thanks @tmsg)
++ add: Find dialog: with option 'Hi' the input field background is colored if cannot find anything (thanks @tmsg)
 + add: command "close all tabs" closes tabs in 3 floating groups too
 + add: Windows option "Underline keyboard shortcuts and access keys" is now considered for 'themed' menu (thanks Udo Weik)
 * change: save "tab is pinned" state only in session, not in file-history (thanks @kvichans)
