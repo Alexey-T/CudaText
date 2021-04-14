@@ -15,7 +15,7 @@ object fmSaveTabs: TfmSaveTabs
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   OnShow = FormShow
-  Position = poScreenCenter
+  Position = poMainFormCenter
   ShowInTaskBar = stNever
   LCLVersion = '2.1.0.0'
   object List: TCheckListBox
