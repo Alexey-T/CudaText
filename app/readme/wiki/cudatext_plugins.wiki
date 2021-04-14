@@ -769,13 +769,16 @@ How to configure it for e.g. Python on Linux:
     "RenamedPythonLexer": "python"
   },
   "cmd_windows": ["C:\\Python_folder\\pyls.exe"],
+  "cmd_macos": ["pyls"],
   "cmd_unix": ["/home/user/.local/bin/pyls"]
 }
 </syntaxhighlight>
 
 * open some Python script, and call some commands of LSP Client plugin. It will run the server, and it should work.
 
-Python server supports at least: 
+All LSP servers should have a homepage with description of their supported functions.
+LSP Client features are limited by the server's features.
+For example, Python server has [https://github.com/palantir/python-language-server this homepage] and supports: 
 
 * Hover: shows the tooltip when you hover mouse above identifiers. You need the Ctrl key pressed while you hover.
 * Auto-Completion: integrated with CudaText auto-completion command.
