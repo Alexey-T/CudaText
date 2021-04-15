@@ -5071,7 +5071,7 @@ begin
           EditorBracket_FindOpeningBracketBackward(Ed,
             P.X, P.Y,
             '()',
-            P.X,
+            EditorOps.OpBracketDistance,
             TempX, TempY);
           if TempX>=0 then
             P.X:= TempX+1;
