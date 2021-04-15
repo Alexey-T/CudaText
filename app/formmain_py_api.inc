@@ -563,17 +563,17 @@ end;
 
 function api_msg_status(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  P: PChar;
-  Str: string;
-  Flag: integer;
+  PtrText: PChar;
+  StrText: string;
+  NFlag: integer;
 begin
   with AppPython.Engine do
   begin
-    if Bool(PyArg_ParseTuple(Args, 'si:msg_status', @P, @Flag)) then
+    if Bool(PyArg_ParseTuple(Args, 'si:msg_status', @PtrText, @NFlag)) then
     begin
-      Str:= string(P);
-      fmMain.MsgStatus(Str);
-      if Bool(Flag) then
+      StrText:= string(PtrText);
+      fmMain.MsgStatus(StrText);
+      if Bool(NFlag) then
         Application.ProcessMessages; //PluginManager calls loop with msg_status
     end;
     Result:= ReturnNone;
