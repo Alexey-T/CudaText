@@ -772,6 +772,13 @@ const
   HOWREP_REPLACE = 1;
   HOWREP_SKIP    = 2;
 
+  HINTPOS_CARET         = 0;
+  HINTPOS_CARET_BRACKET = 1;
+  HINTPOS_TEXT          = 2;
+  HINTPOS_TEXT_BRACKET  = 3;
+  HINTPOS_WINDOW_TOP    = 8;
+  HINTPOS_WINDOW_BOTTOM = 9;
+
 implementation
 
 end.

@@ -928,6 +928,13 @@ HOWREP_CANCEL  = 0
 HOWREP_REPLACE = 1
 HOWREP_SKIP    = 2
 
+HINTPOS_CARET         = 0
+HINTPOS_CARET_BRACKET = 1
+HINTPOS_TEXT          = 2
+HINTPOS_TEXT_BRACKET  = 3
+HINTPOS_WINDOW_TOP    = 8
+HINTPOS_WINDOW_BOTTOM = 9
+
 API, EXE_VER = ct.app_ver()
 
 def app_exe_version():
@@ -962,8 +969,8 @@ def msg_box_ex(caption, text, buttons, icon, focused=0):
 def msg_status(text, process_messages=False):
     return ct.msg_status(text, process_messages)
 
-def msg_status_alt(text, seconds, posx=-1, posy=-1, bracket=False):
-    return ct.msg_status_alt(text, seconds, posx, posy, bracket)
+def msg_status_alt(text, pause, pos=HINTPOS_CARET, x=0, y=0):
+    return ct.msg_status_alt(text, pause, pos, x, y)
 
 def dlg_input(label, defvalue):
     return ct.dlg_input(label, defvalue)

@@ -584,30 +584,49 @@ function api_msg_status_alt(Self, Args: PPyObject): PPyObject; cdecl;
 var
   PtrText: PChar;
   StrText: string;
+  NPause, NPos, NX, NY: integer;
   TooltipPos: TAppTooltipPos;
-  NPause, NPosX, NPosY, NGotoBracket: integer;
+  bGotoBracket: boolean;
 begin
   with AppPython.Engine do
   begin
-    if Bool(PyArg_ParseTuple(Args, 'siiii:msg_status_alt', @PtrText, @NPause, @NPosX, @NPosY, @NGotoBracket)) then
+    if Bool(PyArg_ParseTuple(Args, 'siiii:msg_status_alt', @PtrText, @NPause, @NPos, @NX, @NY)) then
     begin
       StrText:= string(PtrText);
+      bGotoBracket:= false;
 
-      if (NPosX>=0) and (NPosY>=0) then
-        TooltipPos:= atpCustomTextPos
-      else
-      if (NPosX=-1) then
-        TooltipPos:= atpEditorCaret
-      else
-      if (NPosX=-2) then
-        TooltipPos:= atpWindowTop
-      else
-      if (NPosX=-3) then
-        TooltipPos:= atpWindowBottom
-      else
-        exit;
+      case NPos of
+        HINTPOS_CARET:
+          begin
+            TooltipPos:= atpEditorCaret;
+          end;
+        HINTPOS_CARET_BRACKET:
+          begin
+            TooltipPos:= atpEditorCaret;
+            bGotoBracket:= true;
+          end;
+        HINTPOS_TEXT:
+          begin
+            TooltipPos:= atpCustomTextPos;
+          end;
+        HINTPOS_TEXT_BRACKET:
+          begin
+            TooltipPos:= atpCustomTextPos;
+            bGotoBracket:= true;
+          end;
+        HINTPOS_WINDOW_TOP:
+          begin
+            TooltipPos:= atpWindowTop;
+          end;
+        HINTPOS_WINDOW_BOTTOM:
+          begin
+            TooltipPos:= atpWindowBottom;
+          end;
+        else
+          exit(ReturnNone);
+      end;
 
-      fmMain.DoTooltipShow(StrText, NPause, TooltipPos, bool(NGotoBracket), NPosX, NPosY);
+      fmMain.DoTooltipShow(StrText, NPause, TooltipPos, bGotoBracket, NX, NY);
       Application.ProcessMessages;
     end;
     Result:= ReturnNone;
