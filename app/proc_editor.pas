@@ -1252,7 +1252,7 @@ begin
     S:= Ed.Strings.Lines[iLine];
     if S='' then Continue;
     if iLine=PosY then
-      nChar:= Min(PosX, Length(S)-1)
+      nChar:= Min(PosX-1, Length(S)-1)
     else
       nChar:= Length(S)-1;
     for iChar:= nChar downto 0 do
