@@ -642,17 +642,19 @@ Param "process_messages": if True, function also does UI messages processing. It
 
 ===msg_status_alt===
 
- msg_status_alt(text, seconds, posx=-1, posy=-1, bracket=False)
+ msg_status_alt(text, pause, pos=HINTPOS_CARET, x=0, y=0)
 
-Shows given text in the floating tooptip. Multi-line text (with "\n") is supported.
+Shows given text in the floating tooptip.
 
-* Param "seconds": Show duration in seconds, 1..30. Value<=0 hides the tooltip, if it's already shown.
-* Params "posx", "posy":
-** If posx>=0 and posy>=0: Show tooltip near specified text position.
-** If posx=-1: Show tooltip near first editor caret.
-** If posx=-2: Show tooltip at window top.
-** If posx=-3: Show tooltip at window bottom.
-* Param "bracket": If True, tooltip position (in the text) will be adjusted to show it after nearest opening bracket.
+* Param "text": Text of tooltip. Multi-line text, with "\n", is supported.
+* Param "pause": Show duration in seconds, 1..30. Value<=0 hides the tooltip, if it's already shown.
+* Param "pos": Possible values are:
+** HINTPOS_CARET: Show near the first caret.
+** HINTPOS_CARET_BRACKET: Like HINTPOS_CARET, but moves to the nearest opening bracket.
+** HINTPOS_TEXT: Show near custom text position specified by params "x" and "y" (0-based).
+** HINTPOS_TEXT_BRACKET: Like HINTPOS_TEXT, but moves to the nearest opening bracket.
+** HINTPOS_WINDOW_TOP: Show near the window top.
+** HINTPOS_WINDOW_BOTTOM: Show near the window bottom.
 
 ===dlg_input===
 
@@ -4283,6 +4285,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: on_state: add APPSTATE_SESSION_LOAD_BEGIN, APPSTATE_SESSION_LOAD_FAIL
 
 1.0.382 (app 1.132.0)
-* add: msg_status_alt: add params "posx", "posy", "bracket"
+* add: msg_status_alt: added params "pos", "x", "y"
 
 [[Category:CudaText]]
