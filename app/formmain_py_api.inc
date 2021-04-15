@@ -596,7 +596,16 @@ begin
       if (NPosX>=0) and (NPosY>=0) then
         TooltipPos:= atpCustomTextPos
       else
-        TooltipPos:= atpEditorCaret;
+      if (NPosX=-1) then
+        TooltipPos:= atpEditorCaret
+      else
+      if (NPosX=-2) then
+        TooltipPos:= atpWindowTop
+      else
+      if (NPosX=-3) then
+        TooltipPos:= atpWindowBottom
+      else
+        exit;
 
       fmMain.DoTooltipShow(StrText, NPause, TooltipPos, bool(NGotoBracket), NPosX, NPosY);
       Application.ProcessMessages;
