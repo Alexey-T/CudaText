@@ -5075,6 +5075,8 @@ begin
             TempX, TempY);
           if TempX>=0 then
             P.X:= TempX+1;
+          if TempY>=0 then
+            P.Y:= TempY;
         end;
         P:= Ed.CaretPosToClientPos(P);
         if P.Y<0 then exit;

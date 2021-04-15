@@ -585,19 +585,20 @@ var
   PtrText: PChar;
   StrText: string;
   TooltipPos: TAppTooltipPos;
-  NPause, NPosX, NPosY: Longint;
+  NPause, NPosX, NPosY, NGotoBracket: integer;
 begin
   with AppPython.Engine do
   begin
-    if Bool(PyArg_ParseTuple(Args, 'siii:msg_status_alt', @PtrText, @NPause, @NPosX, @NPosY)) then
+    if Bool(PyArg_ParseTuple(Args, 'siiii:msg_status_alt', @PtrText, @NPause, @NPosX, @NPosY, @NGotoBracket)) then
     begin
       StrText:= string(PtrText);
+
       if (NPosX>=0) and (NPosY>=0) then
         TooltipPos:= atpCustomTextPos
       else
         TooltipPos:= atpEditorCaret;
 
-      fmMain.DoTooltipShow(StrText, NPause, TooltipPos, false, NPosX, NPosY);
+      fmMain.DoTooltipShow(StrText, NPause, TooltipPos, bool(NGotoBracket), NPosX, NPosY);
       Application.ProcessMessages;
     end;
     Result:= ReturnNone;

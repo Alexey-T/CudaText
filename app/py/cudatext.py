@@ -962,8 +962,8 @@ def msg_box_ex(caption, text, buttons, icon, focused=0):
 def msg_status(text, process_messages=False):
     return ct.msg_status(text, process_messages)
 
-def msg_status_alt(text, seconds, posx=-1, posy=-1):
-    return ct.msg_status_alt(text, seconds, posx, posy)
+def msg_status_alt(text, seconds, posx=-1, posy=-1, bracket=0):
+    return ct.msg_status_alt(text, seconds, posx, posy, bracket)
 
 def dlg_input(label, defvalue):
     return ct.dlg_input(label, defvalue)
