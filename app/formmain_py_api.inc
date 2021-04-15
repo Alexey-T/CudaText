@@ -582,23 +582,22 @@ end;
 
 function api_msg_status_alt(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  Ptr: PChar;
-  Str: string;
+  PtrText: PChar;
+  StrText: string;
   TooltipPos: TAppTooltipPos;
-  PosX, PosY: Longint;
-  Num: integer;
+  NPause, NPosX, NPosY: Longint;
 begin
   with AppPython.Engine do
   begin
-    if Bool(PyArg_ParseTuple(Args, 'siii:msg_status_alt', @Ptr, @Num, @PosX, @PosY)) then
+    if Bool(PyArg_ParseTuple(Args, 'siii:msg_status_alt', @PtrText, @NPause, @NPosX, @NPosY)) then
     begin
-      Str:= string(Ptr);
-      if (PosX>=0) and (PosY>=0) then
+      StrText:= string(PtrText);
+      if (NPosX>=0) and (NPosY>=0) then
         TooltipPos:= atpCustomTextPos
       else
         TooltipPos:= atpEditorCaret;
 
-      fmMain.DoTooltipShow(Str, Num, TooltipPos, false, PosX, PosY);
+      fmMain.DoTooltipShow(StrText, NPause, TooltipPos, false, NPosX, NPosY);
       Application.ProcessMessages;
     end;
     Result:= ReturnNone;
