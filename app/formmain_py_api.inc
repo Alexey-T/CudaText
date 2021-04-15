@@ -8753,7 +8753,6 @@ begin
             if Form.Parent=nil then
             begin
               Form.DoEmulatedModalShow;
-              Inc(AppApiDialogsOpened);
             end
             else
               MsgLogConsole('ERROR: DLG_SHOW_MODAL was called for docked form');
@@ -8763,7 +8762,6 @@ begin
         DLG_SHOW_NONMODAL:
           begin
             Form.Show;
-            Inc(AppApiDialogsOpened);
             Result:= ReturnNone;
           end;
 
@@ -8771,7 +8769,6 @@ begin
           begin
             //DoForm_CloseDockedForms(Form); //not needed
             Form.Close;
-            AppApiDialogsOpened:= Max(0, AppApiDialogsOpened-1);
             Result:= ReturnNone;
           end;
 

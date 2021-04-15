@@ -75,7 +75,6 @@ type
 var
   AppActiveForm: TObject = nil;
   AppThemeStatusbar: TATFlatTheme;
-  AppApiDialogsOpened: integer = 0;
 
 type
   TAppHistoryElement = (
