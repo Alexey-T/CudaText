@@ -642,11 +642,12 @@ Param "process_messages": if True, function also does UI messages processing. It
 
 ===msg_status_alt===
 
- msg_status_alt(text, seconds)
+ msg_status_alt(text, seconds, posx=-1, posy=-1)
 
-Shows given text in the floating tooptip on the top. Multi-line text (with "\n") is supported.
+Shows given text in the floating tooptip. Multi-line text (with "\n") is supported.
 
-Param "seconds": show pause in seconds, 1..30. Value<=0 hides the tooltip.
+* Param "seconds": Show duration in seconds, 1..30. Value<=0 hides the tooltip, if it's already shown.
+* Params "posx", "posy": If (-1, -1), show tooltip near the first caret. If both values >=0, show tooltip near specified text position.
 
 ===dlg_input===
 
@@ -4275,5 +4276,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.381 (app 1.131.1)
 * change: app_log: param "tag" is now ignored
 * add: on_state: add APPSTATE_SESSION_LOAD_BEGIN, APPSTATE_SESSION_LOAD_FAIL
+
+1.0.382 (app 1.132.0)
+* add: msg_status_alt: add params "posx", "posy"
 
 [[Category:CudaText]]
