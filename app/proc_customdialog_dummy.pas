@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, Graphics,
-  StdCtrls, Forms, ComCtrls, ExtCtrls,
+  StdCtrls, Forms, ComCtrls, ExtCtrls, Math,
   LCLType,
   LCLIntf,
   ListFilterEdit,
@@ -106,6 +106,7 @@ type
   public
     IsDlgCustom: boolean;
     IsDlgModalEmulated: boolean;
+    IsDlgCounterIgnored: boolean;
     IdClicked: integer;
     FEventOnClose: string;
     FEventOnCloseQuery: string;
@@ -337,6 +338,10 @@ var
   i: integer;
 begin
   IsFormShownAlready:= true;
+
+  if not IsDlgCounterIgnored then
+    Inc(AppApiDialogCounter);
+
   DoForm_SetupFilters(Self);
 
   for i:= 0 to ComponentCount-1 do
@@ -354,6 +359,9 @@ end;
 procedure TFormDummy.DoOnFormHide(Sender: TObject);
 begin
   DoEvent(-1, FEventOnHide, AppVariantNil);
+
+  if not IsDlgCounterIgnored then
+    AppApiDialogCounter:= Max(0, AppApiDialogCounter-1);
 end;
 
 procedure TFormDummy.DoOnFormMouseEnter(Sender: TObject);

@@ -8055,6 +8055,7 @@ begin
   Form:= TAppFormWithEditor.Create(Self);
   Form.ShowInTaskBar:= stNever;
   Form.BorderStyle:= bsNone;
+  Form.IsDlgCounterIgnored:= true;
 
   Form.Ed:= TATSynEdit.Create(Form);
   Form.Ed.Name:= 'log';

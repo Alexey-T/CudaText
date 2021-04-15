@@ -275,6 +275,7 @@ begin
   begin
     ShowInTaskBar:= stNever;
     BorderStyle:= bsNone;
+    IsDlgCounterIgnored:= true;
 
     FAdapter:= TATAdapterSimple.Create(fmConsole);
     FAdapter.OnGetLineColor:= @DoGetLineColor;
