@@ -17,6 +17,7 @@ var
   PyEscapeFlag: boolean = false; //Esc key was pressed in application
   PyEditorMaybeDeleted: boolean = false; //command plugin maybe deleted the editor e.g. by 'close file' command
   PyCurrentFolder: string = ''; //initial folder of API Open/SaveAs dialogs
+  PyDialogsOpenedCounter: integer = 0;
 
 var
   AppEmmet: TEmmet = nil;
@@ -8751,15 +8752,19 @@ begin
           begin
             //don't do ShowModal for docked forms, this hangs the app
             if Form.Parent=nil then
-              Form.DoEmulatedModalShow
+            begin
+              Form.DoEmulatedModalShow;
+              Inc(PyDialogsOpenedCounter);
+            end
             else
-              MsgLogConsole('Error: DLG_SHOW_MODAL was called for docked form');
+              MsgLogConsole('ERROR: DLG_SHOW_MODAL was called for docked form');
             Result:= ReturnNone;
           end;
 
         DLG_SHOW_NONMODAL:
           begin
             Form.Show;
+            Inc(PyDialogsOpenedCounter);
             Result:= ReturnNone;
           end;
 
@@ -8767,6 +8772,7 @@ begin
           begin
             //DoForm_CloseDockedForms(Form); //not needed
             Form.Close;
+            PyDialogsOpenedCounter:= Max(0, PyDialogsOpenedCounter-1);
             Result:= ReturnNone;
           end;
 
