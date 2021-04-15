@@ -647,8 +647,12 @@ Param "process_messages": if True, function also does UI messages processing. It
 Shows given text in the floating tooptip. Multi-line text (with "\n") is supported.
 
 * Param "seconds": Show duration in seconds, 1..30. Value<=0 hides the tooltip, if it's already shown.
-* Params "posx", "posy": If (-1, -1), show tooltip near the first caret. If both values >=0, show tooltip near specified text position.
-* Param "bracket": If True, tooltip position will be adjusted to show it after nearest opening bracket.
+* Params "posx", "posy":
+** If posx>=0 and posy>=0: Show tooltip near specified text position.
+** If posx=-1: Show tooltip near first editor caret.
+** If posx=-2: Show tooltip at window top.
+** If posx=-3: Show tooltip at window bottom.
+* Param "bracket": If True, tooltip position (in the text) will be adjusted to show it after nearest opening bracket.
 
 ===dlg_input===
 
