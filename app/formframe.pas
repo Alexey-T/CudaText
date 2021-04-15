@@ -3814,6 +3814,9 @@ begin
   DoOnChangeCaption;
   DoShow;
 
+  //avoid focusing if API dialogs are shown
+  if AppApiDialogsOpened>0 then exit;
+
   if Visible and Enabled then
   begin
     if IsText then
