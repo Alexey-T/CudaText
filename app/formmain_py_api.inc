@@ -584,15 +584,22 @@ function api_msg_status_alt(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Ptr: PChar;
   Str: string;
+  TooltipPos: TAppTooltipPos;
+  PosX, PosY: Longint;
   Num: integer;
 begin
   with AppPython.Engine do
   begin
-    if Bool(PyArg_ParseTuple(Args, 'si:msg_status_alt', @Ptr, @Num)) then
+    if Bool(PyArg_ParseTuple(Args, 'siii:msg_status_alt', @Ptr, @Num, @PosX, @PosY)) then
     begin
       Str:= string(Ptr);
-      fmMain.DoTooltipShow(Str, Num, atpEditorCaret, false);
-      Application.ProcessMessages; //PluginManager calls loop with msg_status
+      if (PosX>=0) and (PosY>=0) then
+        TooltipPos:= atpCustomTextPos
+      else
+        TooltipPos:= atpEditorCaret;
+
+      fmMain.DoTooltipShow(Str, Num, TooltipPos, false, PosX, PosY);
+      Application.ProcessMessages;
     end;
     Result:= ReturnNone;
   end;

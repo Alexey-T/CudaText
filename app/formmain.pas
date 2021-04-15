@@ -154,7 +154,7 @@ var
 {$endif}
 
 type
-  TAppTooltipPos = (atpWindowTop, atpWindowBottom, atpEditorCaret);
+  TAppTooltipPos = (atpWindowTop, atpWindowBottom, atpEditorCaret, atpCustomTextPos);
 
 type
 
@@ -1099,7 +1099,7 @@ type
     procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
     procedure MsgStatus(AText: string; AFinderMessage: boolean=false);
     procedure DoTooltipShow(const AText: string; ASeconds: integer;
-      APosition: TAppTooltipPos; AGotoBracket: boolean);
+      APosition: TAppTooltipPos; AGotoBracket: boolean; APosX, APosY: integer);
     procedure DoTooltipHide;
     procedure MsgStatusErrorInRegex;
     procedure UpdateSomeStates(F: TEditorFrame);
@@ -4995,7 +4995,7 @@ begin
 end;
 
 procedure TfmMain.DoTooltipShow(const AText: string; ASeconds: integer;
-  APosition: TAppTooltipPos; AGotoBracket: boolean);
+  APosition: TAppTooltipPos; AGotoBracket: boolean; APosX, APosY: integer);
 var
   Ed: TATSynEdit;
   WorkRect: TRect;
@@ -5049,13 +5049,22 @@ begin
       begin
         P:= Status.ClientToScreen(Point(0, 0));
       end;
-    atpEditorCaret:
+    atpEditorCaret,
+    atpCustomTextPos:
       begin
         Ed:= CurrentEditor;
         NCellSize:= Ed.TextCharSize.Y;
-        if Ed.Carets.Count=0 then exit;
-        P.X:= Ed.Carets[0].PosX;
-        P.Y:= Ed.Carets[0].PosY;
+        if APosition=atpEditorCaret then
+        begin
+          if Ed.Carets.Count=0 then exit;
+          P.X:= Ed.Carets[0].PosX;
+          P.Y:= Ed.Carets[0].PosY;
+        end
+        else
+        begin
+          P.X:= APosX;
+          P.Y:= APosY;
+        end;
         FLastTooltipLine:= P.Y;
         if AGotoBracket then
         begin
@@ -6654,7 +6663,7 @@ begin
   S:= DoPyEvent(Ed, cEventOnFuncHint, Params).Str;
   S:= Trim(S);
   if S<>'' then
-    DoTooltipShow(S, UiOps.AltTooltipTime, atpEditorCaret, true);
+    DoTooltipShow(S, UiOps.AltTooltipTime, atpEditorCaret, true, -1, -1);
 end;
 
 procedure TfmMain.DoTooltipHide;
