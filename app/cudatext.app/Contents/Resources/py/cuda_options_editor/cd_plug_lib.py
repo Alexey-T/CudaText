@@ -482,6 +482,11 @@ def dlg_wrapper(title, w, h, cnts, in_vals={}, focus_cid=None):
 #       for k in ['cap', 'hint', 'props', 'font_name', 'font_size', 'font_color', 'font', 'name']:
 #               lst += [k+'='+str(cnt[k])]
 
+        if 'props' in cnt:
+            props = cnt.pop('props').split(',')
+            for p_i, p_s in enumerate(props):
+                lst += ['ex'+str(p_i)+'='+p_s]
+
         # Position:
         #   t[op] or tid, l[eft] required
         #   w[idth]  >>> r[ight ]=l+w
