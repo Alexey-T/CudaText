@@ -878,7 +878,7 @@ var
   oFind, oRep,
   oFindHist, oRepHist,
   bCase, bWord, bRegex, bCfm,
-  bInSel, bWrap, bMulLine, oTokens: PPyObject;
+  bInSel, bWrap, bMulLine, bHiAll, oTokens: PPyObject;
 begin
   with AppPython.Engine do
   begin
@@ -896,6 +896,7 @@ begin
     bInSel:= ReturnNone;
     bWrap:= ReturnNone;
     bMulLine:= ReturnNone;
+    bHiAll:= ReturnNone;
     oTokens:= ReturnNone;
 
     if Assigned(fmFind) then
@@ -911,10 +912,11 @@ begin
       bInSel:= PyBool_FromLong(Ord(fmFind.chkInSel.Checked));
       bWrap:= PyBool_FromLong(Ord(fmFind.chkWrap.Checked));
       bMulLine:= PyBool_FromLong(Ord(fmFind.chkMulLine.Checked));
+      bHiAll:= PyBool_FromLong(Ord(fmFind.IsHiAll));
       oTokens:= PyLong_FromLong(Ord(fmFind.bTokens.ItemIndex));
     end;
 
-    Result:= Py_BuildValue('{sOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsO}',
+    Result:= Py_BuildValue('{sOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsO}',
       'find', PyUnicodeFromString(FFinder.StrFind),
       'rep', PyUnicodeFromString(FFinder.StrReplace),
 
@@ -940,7 +942,8 @@ begin
       'op_insel_d', bInSel,
       'op_wrap_d', bWrap,
       'op_mulline_d', bMulLine,
-      'op_tokens_d', oTokens
+      'op_tokens_d', oTokens,
+      'op_hi_d', bHiAll
       );
   end;
 end;
@@ -1103,6 +1106,15 @@ begin
           begin
             fmFind.bTokens.ItemIndex:= StrToIntDef(SValue, 0);
             fmFind.bTokens.Invalidate;
+          end;
+        end;
+      'op_hi_d':
+        begin
+          if Assigned(fmFind) then
+          begin
+            fmFind.IsHiAll:= AppStrToBool(SValue);
+            fmFind.chkHiAll.Invalidate;
+            fmFind.DoOnChange;
           end;
         end;
     end;
