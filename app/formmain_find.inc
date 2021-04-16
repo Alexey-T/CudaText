@@ -951,14 +951,14 @@ end;
 
 procedure TfmMain.DoFindOptions_ApplyDict(const AText: string);
 var
-  Sep: TATStringSeparator;
+  Sep, Sep2: TATStringSeparator;
   SItem, SKey, SValue: string;
   bListValue: boolean;
 begin
   //text is '{key1:value1;key2:value2}' from to_str()
   Sep.Init(SDeleteCurlyBrackets(AText), #1);
-  repeat
-    if not Sep.GetItemStr(SItem) then Break;
+  while Sep.GetItemStr(SItem) do
+  begin
     SSplitByChar(SItem, ':', SKey, SValue);
 
     bListValue:= (SKey='find_h') or (SKey='rep_h');
@@ -996,8 +996,8 @@ begin
           if Assigned(fmFind) then
           begin
             fmFind.edFind.Items.Clear;
-            Sep.Init(SValue);
-            while Sep.GetItemStr(SItem) do
+            Sep2.Init(SValue);
+            while Sep2.GetItemStr(SItem) do
             begin
               SItem:= StringReplace(SItem, #2, ',', [rfReplaceAll]);
               fmFind.edFind.Items.Add(SItem);
@@ -1010,8 +1010,8 @@ begin
           if Assigned(fmFind) then
           begin
             fmFind.edRep.Items.Clear;
-            Sep.Init(SValue);
-            while Sep.GetItemStr(SItem) do
+            Sep2.Init(SValue);
+            while Sep2.GetItemStr(SItem) do
             begin
               SItem:= StringReplace(SItem, #2, ',', [rfReplaceAll]);
               fmFind.edRep.Items.Add(SItem);
@@ -1118,7 +1118,7 @@ begin
           end;
         end;
     end;
-  until false;
+  end;
 end;
 
 
