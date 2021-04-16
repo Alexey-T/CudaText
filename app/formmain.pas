@@ -614,6 +614,7 @@ type
     FBoundsFloatGroups3: TRect;
     FListTimers: TStringList;
     FLastStatusbarMessages: TStringList;
+    FLastProjectPath: string;
     FConsoleMustShow: boolean;
     FSessionIsLoading: boolean;
     FSessionIsClosing: boolean;
@@ -1168,6 +1169,7 @@ type
     procedure FinderOnConfirmReplace_API(Sender: TObject; APos1, APos2: TPoint;
       AForMany: boolean; var AConfirm, AContinue: boolean; var AReplacement: UnicodeString);
     procedure PyStatusbarPanelClick(Sender: TObject; const ATag: Int64);
+    procedure SetProjectPath(const APath: string);
   end;
 
 var
@@ -8081,6 +8083,19 @@ begin
   Form.Ed.OnKeyDown:= @EditorOutput_OnKeyDown;
 end;
 
+procedure TfmMain.SetProjectPath(const APath: string);
+var
+  Params: TAppVariantArray;
+begin
+  if FLastProjectPath<>APath then
+  begin
+    FLastProjectPath:= APath;
+
+    SetLength(Params, 1);
+    Params[0]:= AppVariant(APPSTATE_PROJECT);
+    DoPyEvent(nil, cEventOnState, Params);
+  end;
+end;
 
 //----------------------------
 {$I formmain_loadsave.inc}

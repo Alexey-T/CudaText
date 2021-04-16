@@ -5119,6 +5119,12 @@ begin
             Result:= ReturnNone;
           end;
 
+        APP_PROC_SET_PROJECT:
+          begin
+            fmMain.SetProjectPath(Str);
+            Result:= ReturnNone;
+          end;
+
         APP_PROC_GET_UNIQUE_TAG:
           begin
             Inc(cPyUniqueTag);
