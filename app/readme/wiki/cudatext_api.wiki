@@ -236,6 +236,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 * PROC_GET_MOUSE_POS: Returns mouse cursor position in screen-related coordinates, as (x, y) tuple.
 * PROC_SEND_MESSAGE: For Windows. Sends message to a window by its handle. Param "text" must be 4-tuple of int (window_handle, msg_code, param1, param2).
 * PROC_GET_UNIQUE_TAG: Gets integer value, which is unique for the current CudaText process (it starts with 100, increasing with each call). Use this value for Editor.markers() and Editor.attr() tag values.
+* PROC_SET_PROJECT: Informs the CudaText that some "project" (in the Project Manager) has been opened or closed. App will fire "on_state" event with APPSTATE_PROJECT.
 
 ====Clipboard====
 
@@ -4288,5 +4289,9 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.383 (app 1.132.0)
 * add: msg_status_alt: added params "pos", "x", "y"
 * add: app_proc: PROC_GET_FINDER_PROP/PROC_SET_FINDER_PROP support new key "op_hi_d"
+
+1.0.384 (app 1.132.0)
+* add: app_proc: PROC_SET_PROJECT
+* add: on_state: APPSTATE_PROJECT
 
 [[Category:CudaText]]
