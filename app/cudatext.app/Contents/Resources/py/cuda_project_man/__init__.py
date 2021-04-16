@@ -372,6 +372,7 @@ class Command:
         self.project_file_path = None
         self.update_global_data()
         app_proc(PROC_SET_FOLDER, '')
+        app_proc(PROC_SET_PROJECT, '')
 
     def add_recent(self, path):
         recent = self.options["recent_projects"]
@@ -602,9 +603,10 @@ class Command:
                         app_proc(PROC_SET_FOLDER, fn)
                         break
 
+                app_proc(PROC_SET_PROJECT, path)
                 msg_status(_("Project opened: ") + path)
             else:
-                msg_status(_("Recent item not found: ") + path)
+                msg_status(_("Project filename is not found: ") + path)
 
     def action_add_folder(self):
         fn = dlg_dir("")
