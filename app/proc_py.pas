@@ -133,7 +133,7 @@ begin
       if Obj^.ob_type=PyUnicode_Type then
       begin
         R.Val:= evrString;
-        R.Str:= PyUnicode_AsWideString(Obj);
+        R.Str:= PyUnicodeAsUTF8String(Obj);
       end
       else
       if (Obj^.ob_type=PyLong_Type) then
@@ -657,7 +657,7 @@ begin
   begin
     if PyUnicode_Check(Obj) then
     begin
-      w:= PyUnicode_AsWideString(Obj);
+      w:= PyUnicodeAsString(Obj);
       if QuoteStrings then
         w:= '"'+w+'"';
       Result:= w;
@@ -666,7 +666,7 @@ begin
 
     s:= PyObject_Str(Obj);
     if Assigned(s) and PyUnicode_Check(s) then
-      Result:= PyUnicode_AsWideString(s);
+      Result:= PyUnicodeAsUTF8String(s);
     Py_XDECREF(s);
   end;
 end;

@@ -7461,7 +7461,7 @@ begin
         NX2:= PyLong_AsLong(PyTuple_GetItem(DataPos, 2));
         NY2:= PyLong_AsLong(PyTuple_GetItem(DataPos, 3));
         NLevel:= PyLong_AsLong(DataLevel);
-        STitle:= PyUnicode_AsWideString(DataTitle);
+        STitle:= PyUnicodeAsUTF8String(DataTitle);
         NIcon:= PyLong_AsLong(DataIcon);
 
         if (Node=nil) or (NLevel<=1) then
