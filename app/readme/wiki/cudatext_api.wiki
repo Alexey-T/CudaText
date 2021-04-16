@@ -224,6 +224,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** "op_wrap_d": option "wrapped search" of dialog, None if dialog not inited
 ** "op_mulline_d": option "multi-line input fields" of dialog, None if dialog not inited
 ** "op_tokens_d": option "allowed syntax elements" of dialog (int), None if dialog not inited
+** "op_hi_d": option "highlight all matches" of dialog, None if dialog not inited
 
 * PROC_SET_FINDER_PROP: Sets properties of Find/Replace dialog and search engine. Param "text" must be dict, with all or some keys listed in PROC_GET_FINDER_PROP. Values types: str (for text fields), bool (for flags), int (for choices).
 
@@ -4284,7 +4285,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * change: app_log: param "tag" is now ignored
 * add: on_state: add APPSTATE_SESSION_LOAD_BEGIN, APPSTATE_SESSION_LOAD_FAIL
 
-1.0.382 (app 1.132.0)
+1.0.383 (app 1.132.0)
 * add: msg_status_alt: added params "pos", "x", "y"
+* add: app_proc: PROC_GET_FINDER_PROP/PROC_SET_FINDER_PROP support new key "op_hi_d"
 
 [[Category:CudaText]]
