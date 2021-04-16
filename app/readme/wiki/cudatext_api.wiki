@@ -1158,7 +1158,7 @@ Special events for control "editor"/"editor_edit"/"editor_combo":
 
 ====Signatures of event callbacks====
 
-Callbacks must be in forms shown in the topic [[#Callback_param]].
+Callbacks must be in forms shown in the topic [[#Callback_parameter]].
 
 Callbacks for "dlg_proc" must be declared as:
 
@@ -1629,7 +1629,7 @@ Result is True if params are OK, False if params not OK (callback string incorre
 
 ====Callbacks====
 
-Callback param must be in one of these forms: [[#Callback_param]].
+Callback param must be in one of these forms: [[#Callback_parameter]].
 
 Callbacks in timer_proc must be declared as:
 
@@ -1671,7 +1671,7 @@ Value of "id_menu" can be:
 Value of "command" parameter for MENU_ADD can be:
 
 * int_command or str(int_command) - int command code, from module cudatext_cmd (pass 0 if item does nothing)
-* callback in one of these forms: [[#Callback_param]].
+* callback in one of these forms: [[#Callback_parameter]].
 * (deprecated callback form) callback in the form "module,method" or "module,method,param" (param can be of any primitive type).
 
 * to create standard special sub-menus, special values:
@@ -1929,7 +1929,7 @@ Possible values of "id_action":
 * BTN_SET_FLAT: Sets flat state. Param "value" must be bool.
 * BTN_GET_DATA1: Returns data1 string. Data1 contains:
 ** str(integer_command_code) to run command by number like Editor.cmd()
-** or string with [[#Callback_param]]. Note: not any callback form, only string callback form
+** or string with [[#Callback_parameter]]. Note: not any callback form, only string callback form
 * BTN_SET_DATA1: Sets data1 string. See BTN_GET_DATA1.
 * BTN_GET_DATA2: Returns data2 string. Data2 is currently not used by CudaText.
 * BTN_SET_DATA2: Sets data2 string. See BTN_GET_DATA2.
