@@ -62,6 +62,7 @@ type
     procedure MemoClickDbl(Sender: TObject; var AHandled: boolean);
     procedure MemoCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
     procedure MemoContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+    procedure InputFocused(Sender: TObject);
     procedure DoNavigate(Sender: TObject);
     procedure DoToggleWrap(Sender: TObject);
     function ParseLine(const S: string): TAppConsoleLineKind;
@@ -427,6 +428,12 @@ begin
   mnuTextWrap.Checked:= MemoWordWrap;
 
   Handled:= false;
+end;
+
+procedure TfmConsole.InputFocused(Sender: TObject);
+begin
+  if Assigned(FOnNavigate) then
+    FOnNavigate('console-input-focus');
 end;
 
 procedure TfmConsole.SetIsDoubleBuffered(AValue: boolean);
