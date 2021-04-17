@@ -54,6 +54,7 @@ type
     FOnNavigate: TAppConsoleEvent;
     FOnNumberChange: TNotifyEvent;
     FCudatextImported: boolean;
+    FInputFirstChanged: boolean;
     mnuTextClear: TMenuItem;
     mnuTextNav: TMenuItem;
     mnuTextWrap: TMenuItem;
@@ -437,8 +438,12 @@ end;
 
 procedure TfmConsole.InputOnChange(Sender: TObject);
 begin
-  if Assigned(FOnNavigate) then
-    FOnNavigate('input_change');
+  if not FInputFirstChanged then
+  begin
+    if Assigned(FOnNavigate) then
+      FOnNavigate('input_change');
+  end;
+  FInputFirstChanged:= true;
 end;
 
 procedure TfmConsole.SetIsDoubleBuffered(AValue: boolean);
