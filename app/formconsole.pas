@@ -75,6 +75,7 @@ type
     EdInput: TATComboEdit;
     EdMemo: TATSynEdit;
     ErrorCounter: integer;
+    constructor Create(AOwner: TComponent); override;
     property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
     property OnNumberChange: TNotifyEvent read FOnNumberChange write FOnNumberChange;
     procedure DoAddLine(const AText: UnicodeString);
@@ -267,73 +268,76 @@ begin
   end;
 end;
 
+constructor TfmConsole.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+
+  ShowInTaskBar:= stNever;
+  BorderStyle:= bsNone;
+  IsDlgCounterIgnored:= true;
+
+  FAdapter:= TATAdapterSimple.Create(Self);
+  FAdapter.OnGetLineColor:= @DoGetLineColor;
+
+  EdInput:= TATComboEdit.Create(Self);
+  EdInput.Name:= 'input';
+  EdInput.Parent:= Self;
+  EdInput.Align:= alBottom;
+  EdInput.WantTabs:= false;
+  EdInput.TabStop:= true;
+  EdInput.OnCommand:= @ComboCommand;
+
+  EdInput.OptTabSize:= 4;
+  EdInput.OptBorderWidth:= 1;
+  EdInput.OptBorderWidthFocused:= 1;
+
+  EdMemo:= TATSynEdit.Create(Self);
+  EdMemo.Name:= 'memo';
+  EdMemo.Parent:= Self;
+  EdMemo.Align:= alClient;
+  EdMemo.BorderStyle:= bsNone;
+
+  EdMemo.WantTabs:= false;
+  EdMemo.TabStop:= true;
+  EdMemo.AdapterForHilite:= FAdapter;
+
+  IsDoubleBuffered:= UiOps.DoubleBuffered;
+
+  EdMemo.OptWrapMode:= cWrapOn;
+  EdMemo.OptScrollbarsNew:= EditorOps.OpScrollbarsNew;
+  EdMemo.OptUndoLimit:= 0;
+
+  EdMemo.OptTabSize:= 4;
+  EdMemo.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
+  EdMemo.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
+  EdMemo.OptBorderWidth:= 0;
+  EdMemo.OptShowURLs:= false;
+  EdMemo.OptCaretVirtual:= false;
+  EdMemo.OptCaretManyAllowed:= false;
+  EdMemo.OptGutterVisible:= false;
+  EdMemo.OptRulerVisible:= false;
+  EdMemo.OptUnprintedVisible:= false;
+  EdMemo.OptMarginRight:= 2000;
+  EdMemo.ModeReadOnly:= true;
+  EdMemo.OptMouseRightClickMovesCaret:= true;
+  EdMemo.OptMouseWheelZooms:= false;
+  EdMemo.OptShowMouseSelFrame:= false;
+
+  //support dlg_proc API, it needs PropsObject
+  DoControl_InitPropsObject(EdInput, Self, 'editor_edit');
+  DoControl_InitPropsObject(EdMemo, Self, 'editor');
+
+  EdMemo.OnClickDouble:= @MemoClickDbl;
+  EdMemo.OnCommand:= @MemoCommand;
+  //after DoControl_InitPropsObject, because it did set custom OnContextMenu
+  EdMemo.OnContextPopup:= @MemoContextPopup;
+end;
+
 
 procedure InitConsole;
 begin
-  if Assigned(fmConsole) then exit;
-  fmConsole:= TfmConsole.Create(nil);
-  with fmConsole do
-  begin
-    ShowInTaskBar:= stNever;
-    BorderStyle:= bsNone;
-    IsDlgCounterIgnored:= true;
-
-    FAdapter:= TATAdapterSimple.Create(fmConsole);
-    FAdapter.OnGetLineColor:= @DoGetLineColor;
-
-    EdInput:= TATComboEdit.Create(fmConsole);
-    EdInput.Name:= 'input';
-    EdInput.Parent:= fmConsole;
-    EdInput.Align:= alBottom;
-    EdInput.WantTabs:= false;
-    EdInput.TabStop:= true;
-    EdInput.OnCommand:= @ComboCommand;
-
-    EdInput.OptTabSize:= 4;
-    EdInput.OptBorderWidth:= 1;
-    EdInput.OptBorderWidthFocused:= 1;
-
-    EdMemo:= TATSynEdit.Create(fmConsole);
-    EdMemo.Name:= 'memo';
-    EdMemo.Parent:= fmConsole;
-    EdMemo.Align:= alClient;
-    EdMemo.BorderStyle:= bsNone;
-
-    EdMemo.WantTabs:= false;
-    EdMemo.TabStop:= true;
-    EdMemo.AdapterForHilite:= FAdapter;
-
-    IsDoubleBuffered:= UiOps.DoubleBuffered;
-
-    EdMemo.OptWrapMode:= cWrapOn;
-    EdMemo.OptScrollbarsNew:= EditorOps.OpScrollbarsNew;
-    EdMemo.OptUndoLimit:= 0;
-
-    EdMemo.OptTabSize:= 4;
-    EdMemo.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
-    EdMemo.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
-    EdMemo.OptBorderWidth:= 0;
-    EdMemo.OptShowURLs:= false;
-    EdMemo.OptCaretVirtual:= false;
-    EdMemo.OptCaretManyAllowed:= false;
-    EdMemo.OptGutterVisible:= false;
-    EdMemo.OptRulerVisible:= false;
-    EdMemo.OptUnprintedVisible:= false;
-    EdMemo.OptMarginRight:= 2000;
-    EdMemo.ModeReadOnly:= true;
-    EdMemo.OptMouseRightClickMovesCaret:= true;
-    EdMemo.OptMouseWheelZooms:= false;
-    EdMemo.OptShowMouseSelFrame:= false;
-
-    //support dlg_proc API, it needs PropsObject
-    DoControl_InitPropsObject(EdInput, fmConsole, 'editor_edit');
-    DoControl_InitPropsObject(EdMemo, fmConsole, 'editor');
-
-    EdMemo.OnClickDouble:= @MemoClickDbl;
-    EdMemo.OnCommand:= @MemoCommand;
-    //after DoControl_InitPropsObject, because it did set custom OnContextMenu
-    EdMemo.OnContextPopup:= @MemoContextPopup;
-  end;
+  if fmConsole=nil then
+    fmConsole:= TfmConsole.Create(nil);
 end;
 
 procedure TfmConsole.ComboCommand(Sender: TObject; ACmd: integer;
@@ -445,11 +449,11 @@ end;
 procedure TfmConsole.SetWordWrap(AValue: boolean);
 begin
   if AValue then
-    fmConsole.EdMemo.OptWrapMode:= cWrapOn
+    EdMemo.OptWrapMode:= cWrapOn
   else
-    fmConsole.EdMemo.OptWrapMode:= cWrapOff;
-  //fmConsole.EdMemo.OptAllowScrollbarHorz:= not AValue;
-  fmConsole.EdMemo.Update;
+    EdMemo.OptWrapMode:= cWrapOff;
+  //EdMemo.OptAllowScrollbarHorz:= not AValue;
+  EdMemo.Update;
 end;
 
 procedure TfmConsole.MemoCommand(Sender: TObject; ACmd: integer;
