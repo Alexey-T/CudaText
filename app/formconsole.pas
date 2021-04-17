@@ -57,12 +57,12 @@ type
     mnuTextClear: TMenuItem;
     mnuTextNav: TMenuItem;
     mnuTextWrap: TMenuItem;
-    procedure ComboCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
+    procedure InputOnCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
+    procedure InputOnChange(Sender: TObject);
     procedure DoGetLineColor(Ed: TATSynEdit; ALineIndex: integer; var AColorFont, AColorBg: TColor);
     procedure MemoClickDbl(Sender: TObject; var AHandled: boolean);
     procedure MemoCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
     procedure MemoContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
-    procedure InputChanged(Sender: TObject);
     procedure DoNavigate(Sender: TObject);
     procedure DoToggleWrap(Sender: TObject);
     function ParseLine(const S: string): TAppConsoleLineKind;
@@ -285,8 +285,8 @@ begin
   EdInput.Align:= alBottom;
   EdInput.WantTabs:= false;
   EdInput.TabStop:= true;
-  EdInput.OnCommand:= @ComboCommand;
-  EdInput.OnChange:= @InputChanged;
+  EdInput.OnCommand:= @InputOnCommand;
+  EdInput.OnChange:= @InputOnChange;
 
   EdInput.OptTabSize:= 4;
   EdInput.OptBorderWidth:= 1;
@@ -341,7 +341,7 @@ begin
     fmConsole:= TfmConsole.Create(nil);
 end;
 
-procedure TfmConsole.ComboCommand(Sender: TObject; ACmd: integer;
+procedure TfmConsole.InputOnCommand(Sender: TObject; ACmd: integer;
   const AText: string; var AHandled: boolean);
 var
   s: string;
@@ -435,10 +435,10 @@ begin
   Handled:= false;
 end;
 
-procedure TfmConsole.InputChanged(Sender: TObject);
+procedure TfmConsole.InputOnChange(Sender: TObject);
 begin
   if Assigned(FOnNavigate) then
-    FOnNavigate('console-input-focus');
+    FOnNavigate('input_change');
 end;
 
 procedure TfmConsole.SetIsDoubleBuffered(AValue: boolean);
