@@ -83,8 +83,8 @@ begin
 
   FLabelLink:= TATLabelLink.Create(Self);
   FLabelLink.Parent:= Self;
-  FLabelLink.Caption:= 'UVviewsoft.com';
-  FLabelLink.Link:= 'http://uvviewsoft.com';
+  FLabelLink.Caption:= 'CudaText.github.io';
+  FLabelLink.Link:= 'https://cudatext.github.io/';
   FLabelLink.Left:= labelName.Left;
   FLabelLink.AnchorSideTop.Control:= labelPlatform;
   FLabelLink.AnchorSideTop.Side:= asrBottom;
