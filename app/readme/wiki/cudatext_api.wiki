@@ -79,8 +79,8 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 
 * on_message(self, ed_self, id, text): Called on showing a text in the statusbar. Param "id" means statusbar column index, currently only value 0 is used ("text message" statusbar cell). Method can return False to disable usual showing of message. Param "ed_self" is None here.
 * on_console_nav(self, ed_self, text): Called for Console panel events. Param "ed_self" is None here.
-** Called on double-clicking lines, or calling context menu item "Navigate", in Console panel's memo-field. Param "text" is line with caret.
-** Called also when Console input-field is changed, param "text" value is "input_change".
+** Called on double-clicking lines, or calling context menu item "Navigate", in the Console's memo-field. Param "text" is line with caret.
+** Called also when Console input-field is first changed. Param "text" value is "(console_input_change)".
 * on_output_nav(self, ed_self, text, tag): Called on clicking line, or pressing Enter, in the Output or Validate panel. Param "text" is clicked line, param "tag" is int value associated with line. Event is called only if app cannot parse output line by itself using given regex, or regex is not set. Param "ed_self" is None here.
 
 ==Events - Macros==

@@ -441,7 +441,7 @@ begin
   if not FInputFirstChanged then
   begin
     if Assigned(FOnNavigate) then
-      FOnNavigate('input_change');
+      FOnNavigate('(console_input_change)');
   end;
   FInputFirstChanged:= true;
 end;
