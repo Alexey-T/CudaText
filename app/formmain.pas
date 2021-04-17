@@ -1158,8 +1158,8 @@ type
     property ThemeUi: string write SetThemeUi;
     property ThemeSyntax: string write SetThemeSyntax;
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
+    procedure DoPyEvent_AppState(AState: integer);
     procedure DoPyEvent_AppActivate(AEvent: TAppPyEvent);
-    procedure DoPyEvent_SessionAction(AEventValue: integer);
     procedure DoPyCommand(const AModule, AMethod: string; const AParams: TAppVariantArray);
     function RunTreeHelper(Frame: TEditorFrame): boolean;
     function DoPyLexerDetection(const Filename: string; Lexers: TStringList): integer;
@@ -2597,6 +2597,15 @@ begin
   DoTooltipHide;
 end;
 
+procedure TfmMain.DoPyEvent_AppState(AState: integer);
+var
+  Params: TAppVariantArray;
+begin
+  SetLength(Params, 1);
+  Params[0]:= AppVariant(AState);
+  DoPyEvent(nil, cEventOnState, Params);
+end;
+
 procedure TfmMain.DoPyEvent_AppActivate(AEvent: TAppPyEvent);
 var
   Tick: QWord;
@@ -2609,15 +2618,6 @@ begin
     SetLength(Params, 0);
     DoPyEvent(nil, AEvent, Params);
   end;
-end;
-
-procedure TfmMain.DoPyEvent_SessionAction(AEventValue: integer);
-var
-  Params: TAppVariantArray;
-begin
-  SetLength(Params, 1);
-  Params[0]:= AppVariant(AEventValue);
-  DoPyEvent(nil, cEventOnState, Params);
 end;
 
 procedure TfmMain.AppPropsActivate(Sender: TObject);
@@ -3629,13 +3629,8 @@ begin
 end;
 
 procedure TfmMain.DoGroupsChangeMode(Sender: TObject);
-var
-  Params: TAppVariantArray;
 begin
-  SetLength(Params, 1);
-  Params[0]:= AppVariant(APPSTATE_GROUPS);
-
-  DoPyEvent(nil, cEventOnState, Params);
+  DoPyEvent_AppState(APPSTATE_GROUPS);
   DoApplyCenteringOption;
 end;
 
@@ -6173,7 +6168,6 @@ const
 var
   ListFiles, ListNames: TStringList;
   NResult, NItemIndex, i: integer;
-  Params: TAppVariantArray;
   S: string;
 begin
   ListFiles:= TStringList.Create;
@@ -6212,9 +6206,7 @@ begin
         MsgBox(msgStatusI18nPluginsMenuAfterRestart, MB_OK or MB_ICONINFORMATION);
     end;
 
-    SetLength(Params, 1);
-    Params[0]:= AppVariant(APPSTATE_LANG);
-    DoPyEvent(nil, cEventOnState, Params);
+    DoPyEvent_AppState(APPSTATE_LANG);
   finally
     FreeAndNil(ListNames);
     FreeAndNil(ListFiles);
@@ -8084,16 +8076,11 @@ begin
 end;
 
 procedure TfmMain.SetProjectPath(const APath: string);
-var
-  Params: TAppVariantArray;
 begin
   if FLastProjectPath<>APath then
   begin
     FLastProjectPath:= APath;
-
-    SetLength(Params, 1);
-    Params[0]:= AppVariant(APPSTATE_PROJECT);
-    DoPyEvent(nil, cEventOnState, Params);
+    DoPyEvent_AppState(APPSTATE_PROJECT);
   end;
 end;
 

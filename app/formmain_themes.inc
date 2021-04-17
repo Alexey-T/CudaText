@@ -248,7 +248,6 @@ end;
 
 procedure TfmMain.SetThemeUi(const AValue: string);
 var
-  Params: TAppVariantArray;
   SName: string;
 begin
   UiOps.ThemeUi:= AValue;
@@ -270,14 +269,11 @@ begin
   DoClearLexersAskedList;
   DoApplyTheme;
 
-  SetLength(Params, 1);
-  Params[0]:= AppVariant(APPSTATE_THEME_UI);
-  DoPyEvent(nil, cEventOnState, Params);
+  DoPyEvent_AppState(APPSTATE_THEME_UI);
 end;
 
 procedure TfmMain.SetThemeSyntax(const AValue: string);
 var
-  Params: TAppVariantArray;
   SName: string;
 begin
   UiOps.ThemeSyntax:= AValue;
@@ -299,9 +295,7 @@ begin
   DoClearLexersAskedList;
   DoApplyTheme;
 
-  SetLength(Params, 1);
-  Params[0]:= AppVariant(APPSTATE_THEME_SYNTAX);
-  DoPyEvent(nil, cEventOnState, Params);
+  DoPyEvent_AppState(APPSTATE_THEME_SYNTAX);
 end;
 
 
@@ -351,7 +345,6 @@ end;
 
 procedure TfmMain.DoDialogTheme(AThemeUI: boolean);
 var
-  Params: TAppVariantArray;
   Str, StrName, StrExt: string;
 begin
   if AThemeUI then
@@ -381,13 +374,10 @@ begin
       AppThemeSaveToFile(Str, AppTheme, AThemeUI);
     end;
 
-    SetLength(Params, 1);
     if AThemeUI then
-      Params[0]:= AppVariant(APPSTATE_THEME_UI)
+      DoPyEvent_AppState(APPSTATE_THEME_UI)
     else
-      Params[0]:= AppVariant(APPSTATE_THEME_SYNTAX);
-
-    DoPyEvent(nil, cEventOnState, Params);
+      DoPyEvent_AppState(APPSTATE_THEME_SYNTAX)
   end;
 end;
 

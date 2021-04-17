@@ -371,7 +371,7 @@ begin
   if AFileName='' then exit;
   if not FileExists(AFileName) then exit;
 
-  DoPyEvent_SessionAction(APPSTATE_SESSION_LOAD_BEGIN);
+  DoPyEvent_AppState(APPSTATE_SESSION_LOAD_BEGIN);
 
   nCountFilesBefore:= FrameCount;
   if nCountFilesBefore=1 then
@@ -382,7 +382,7 @@ begin
   try
     if not DoFileCloseAll(true) then
     begin
-      DoPyEvent_SessionAction(APPSTATE_SESSION_LOAD_FAIL);
+      DoPyEvent_AppState(APPSTATE_SESSION_LOAD_FAIL);
       exit;
     end;
   finally
@@ -400,7 +400,7 @@ begin
       cfg.Filename:= AFileName;
     except
       MsgBadConfig(AFileName);
-      DoPyEvent_SessionAction(APPSTATE_SESSION_LOAD_FAIL);
+      DoPyEvent_AppState(APPSTATE_SESSION_LOAD_FAIL);
       exit;
     end;
 
@@ -598,9 +598,9 @@ begin
   AppSessionName:= AFileName;
 
   if (nCountFilesBefore>0) or (nCountFiles>0) then
-    DoPyEvent_SessionAction(APPSTATE_SESSION_LOAD)
+    DoPyEvent_AppState(APPSTATE_SESSION_LOAD)
   else
-    DoPyEvent_SessionAction(APPSTATE_SESSION_LOAD_FAIL)
+    DoPyEvent_AppState(APPSTATE_SESSION_LOAD_FAIL)
 end;
 
 procedure TfmMain.DoOps_LoadHistory_GroupView(cfg: TJsonConfig);
@@ -1518,7 +1518,6 @@ end;
 procedure TfmMain.DoOps_LoadOptionsAndApplyAll;
 // called by command "settings: reload/apply config"
 var
-  Params: TAppVariantArray;
   bDisFree: boolean;
 begin
   bDisFree:= ShowDistractionFree;
@@ -1526,9 +1525,7 @@ begin
   DoApplyAllOps;
 
   MsgStatus(msgStatusReadingOps);
-  SetLength(Params, 1);
-  Params[0]:= AppVariant(APPSTATE_CONFIG_REREAD);
-  DoPyEvent(nil, cEventOnState, Params);
+  DoPyEvent_AppState(APPSTATE_CONFIG_REREAD);
 
   if bDisFree then
     SetShowDistractionFree_Forced;
