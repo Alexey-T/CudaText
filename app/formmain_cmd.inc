@@ -477,7 +477,7 @@ begin
         if Assigned(Frame) then
         begin
           Frame.DoMacroStop(false);
-          DoOnMacro(Frame, Frame.MacroStrings.Text);
+          DoPyEvent_Macro(Frame, Frame.MacroStrings.Text);
           MsgStatus('');
         end;
       end;

@@ -855,10 +855,7 @@ type
     procedure DoApplyTheme;
     procedure DoApplyTheme_ThemedMainMenu;
     procedure DoApplyThemeToGroups(G: TATGroups);
-    function DoOnMessage(const AText: string): boolean;
-    function DoOnConsoleNav(const Str: string): boolean;
     procedure DoOnConsoleNumberChange(Sender: TObject);
-    function DoOnMacro(Frame: TEditorFrame; const Str: string): boolean;
     function DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean): boolean;
     function DoDialogMenuApi(const AProps: TDlgMenuProps): integer;
     procedure DoDialogMenuTranslations;
@@ -1158,6 +1155,9 @@ type
     property ThemeUi: string write SetThemeUi;
     property ThemeSyntax: string write SetThemeSyntax;
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
+    function DoPyEvent_ConsoleNav(const AText: string): boolean;
+    function DoPyEvent_Message(const AText: string): boolean;
+    function DoPyEvent_Macro(Frame: TEditorFrame; const AText: string): boolean;
     procedure DoPyEvent_AppState(AState: integer);
     procedure DoPyEvent_AppActivate(AEvent: TAppPyEvent);
     procedure DoPyCommand(const AModule, AMethod: string; const AParams: TAppVariantArray);
@@ -2424,7 +2424,7 @@ begin
 
   NTick:= GetTickCount64;
   InitConsole;
-  fmConsole.OnConsoleNav:= @DoOnConsoleNav;
+  fmConsole.OnConsoleNav:= @DoPyEvent_ConsoleNav;
   fmConsole.OnNumberChange:= @DoOnConsoleNumberChange;
   if UiOps.LogConsoleDetailedStartupTime then
   begin
@@ -4963,7 +4963,7 @@ begin
   SReplaceAll(AText, #10, ' ');
   SReplaceAll(AText, #13, ' ');
 
-  if DoOnMessage(AText) then
+  if DoPyEvent_Message(AText) then
   begin
     if AText='' then
     begin
@@ -6720,24 +6720,22 @@ begin
   fmCharmaps.Show;
 end;
 
-function TfmMain.DoOnConsoleNav(const Str: string): boolean;
+function TfmMain.DoPyEvent_ConsoleNav(const AText: string): boolean;
 var
   Params: TAppVariantArray;
 begin
   SetLength(Params, 1);
-  Params[0]:= AppVariant(Str);
-
+  Params[0]:= AppVariant(AText);
   Result:= DoPyEvent(nil, cEventOnConsoleNav, Params).Val <> evrFalse;
 end;
 
-function TfmMain.DoOnMessage(const AText: string): boolean;
+function TfmMain.DoPyEvent_Message(const AText: string): boolean;
 var
   Params: TAppVariantArray;
 begin
   SetLength(Params, 2);
   Params[0]:= AppVariant(0); //reserved for future
   Params[1]:= AppVariant(AText);
-
   Result:= DoPyEvent(nil, cEventOnMessage, Params).Val <> evrFalse;
 end;
 
@@ -6747,13 +6745,12 @@ begin
   UpdateSidebarButtonOverlay;
 end;
 
-function TfmMain.DoOnMacro(Frame: TEditorFrame; const Str: string): boolean;
+function TfmMain.DoPyEvent_Macro(Frame: TEditorFrame; const AText: string): boolean;
 var
   Params: TAppVariantArray;
 begin
   SetLength(Params, 1);
-  Params[0]:= AppVariant(Str);
-
+  Params[0]:= AppVariant(AText);
   Result:= DoPyEvent(Frame.Editor, cEventOnMacro, Params).Val <> evrFalse;
 end;
 
