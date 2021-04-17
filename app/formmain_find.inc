@@ -553,6 +553,9 @@ begin
   FinderUpdateEditor(false);
   ShowFinderResult(ok);
   UpdateAppForSearch(false, false, true); //hide search progressbar
+
+  //add string to history, issue #3326
+  fmFind.edFind.DoAddLineToHistory(FFinder.StrFind, UiOps.MaxHistoryEdits);
 end;
 
 procedure TfmMain.DoFindMarkingInit(AMode: TATFindMarkingMode);
