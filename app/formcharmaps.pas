@@ -82,7 +82,7 @@ type
   end;
 
 var
-  fmCharmaps: TfmCharmaps;
+  fmCharmaps: TfmCharmaps = nil;
 
 function DoDialogCharmapModal: string;
 
