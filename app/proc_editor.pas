@@ -928,7 +928,7 @@ begin
 end;
 
 
-function EditorAutoCloseBracket_NeedPair(Ed: TATSynEdit; Caret: TATCaretItem): boolean;
+function EditorAutoCloseBracket_NeedPair(Ed: TATSynEdit; Caret: TATCaretItem; AQuoteChar: boolean): boolean;
 var
   NPos: integer;
   Str: atString;
@@ -936,13 +936,20 @@ begin
   Result:= true;
   NPos:= Caret.PosX;
   Str:= Ed.Strings.Lines[Caret.PosY];
+
   //don't do, if before caret is \
   if (NPos>=1) and (NPos<=Length(Str)) and (Str[NPos]='\') then
     exit(false);
+
   //don't do, if caret before text
   if (NPos<Length(Str)) and
     not Editor_NextCharAllowed_AutoCloseBracket(Str[NPos+1]) then
       exit(false);
+
+  //don't do, if quote-char is typed after a word-char. CudaText issue #3331
+  if AQuoteChar then
+   if (NPos>=1) and (NPos<=Length(Str)) and IsCharWord(Str[NPos], Ed.OptNonWordChars) then
+     exit(false);
 end;
 
 function EditorAutoPairChar(Ed: TATSynEdit; CharBegin: atChar): boolean;
@@ -951,6 +958,7 @@ var
   X1, Y1, X2, Y2: integer;
   NCaret: integer;
   bSel, bBackwardSel: boolean;
+  bQuoteChar: boolean;
   CharEnd: atChar;
   Shift, PosAfter: TPoint;
 begin
@@ -962,6 +970,13 @@ begin
   CharEnd:= EditorBracket_GetPairForOpeningBracketOrQuote(CharBegin);
   if CharEnd=#0 then exit;
 
+  case CharBegin of
+    '"', '''', '`':
+      bQuoteChar:= true;
+    else
+      bQuoteChar:= false;
+  end;
+
   //make additional loop, to detect that ALL carets need pairing.
   //if at least one caret doesn't need, stop.
   //it's needed to make pair for all or nothing. issue #3219.
@@ -970,7 +985,7 @@ begin
     Caret:= Ed.Carets[NCaret];
     if not Ed.Strings.IsIndexValid(Caret.PosY) then Continue;
     if Caret.EndY<0 then
-      if not EditorAutoCloseBracket_NeedPair(Ed, Caret) then
+      if not EditorAutoCloseBracket_NeedPair(Ed, Caret, bQuoteChar) then
         exit;
   end;
 
@@ -986,7 +1001,7 @@ begin
     bBackwardSel:= not Caret.IsForwardSelection;
 
     if not bSel then
-      if not EditorAutoCloseBracket_NeedPair(Ed, Caret) then Continue;
+      if not EditorAutoCloseBracket_NeedPair(Ed, Caret, bQuoteChar) then Continue;
 
     if not bSel then
     begin
