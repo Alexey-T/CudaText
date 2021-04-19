@@ -1348,9 +1348,16 @@ For single caret:
 
 For multi-carets:
 
-CudaText first looks at contexts of all carets. If all carets allow pairing, app does the pairing.
-* For caret with selection, app considers "caret is OK", and action will enclose the selection for that caret.
-* If at least one caret has context not suitable for pairing, app will not do the pairing for all carets.
+CudaText first looks at contexts of all carets. If all carets have OK context, app does the pairing.
+If at least one caret has context "not suitable for pairing", app will not do the pairing, for all carets.
+
+Context "not suitable for pairing" is:
+
+** Char is typed after a backslash-char
+** Char is typed just before a word-char
+** Quote-char is typed after a word-char
+
+For caret with selection, context is "suitable for pairing". And typed char will enclose the selection for that caret.
 
 ==Word jump commands==
 CudaText provides several word-jump commands, see them in the Command Palette by entering "go to word":
