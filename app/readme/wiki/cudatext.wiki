@@ -1338,11 +1338,12 @@ Option supports auto-pairing of brackets and some other chars (quotes, tilde etc
 
 For single caret:
 
-* If no selection, and opening bracket is typed (not only bracket, any char from option), CudaText inserts 2 paired chars like "()", moving the caret inside that pair.
-** In context "\|" (backslash before caret), app doesn't do pairing.
-** In context "|text" (text after caret), app doesn't do pairing.
+* If there is no selection, and char is typed (not only bracket-char, but any char from the option), CudaText inserts 2 paired chars like "()", moving the caret inside that pair. Incorrect contexts for the pairing are:
+** Context "\|" - char is typed after backslash-char
+** Context "|w" - char is typed just before a word-char
+** Context "w|" - quote-char (single quote, double quote, backtick) is typed after a word-char
 * If selection is present, and opening bracket is typed, CudaText encloses the selection into 2 paired chars, like "(selection)".
-* If no selection, and closing bracket is typed, CudaText may ignore this char or not. This depends on context. 
+* If there is no selection, and closing bracket is typed, CudaText may ignore this char or not. This depends on context. 
 ** In context "f(|)", app ignores closing bracket and only moves caret righter.
 ** In context "f(text|)", new closing bracket is added.
 
@@ -1350,12 +1351,6 @@ For multi-carets:
 
 CudaText first looks at contexts of all carets. If all carets have OK context, app does the pairing.
 If at least one caret has context "not suitable for pairing", app will not do the pairing, for all carets.
-
-Context "not suitable for pairing" is:
-
-** Char is typed after a backslash-char
-** Char is typed just before a word-char
-** Quote-char is typed after a word-char
 
 For caret with selection, context is "suitable for pairing". And typed char will enclose the selection for that caret.
 
