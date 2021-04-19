@@ -937,19 +937,21 @@ begin
   NPos:= Caret.PosX;
   Str:= Ed.Strings.Lines[Caret.PosY];
 
-  //bad context: caret after a backslash
-  if (NPos>=1) and (NPos<=Length(Str)) and (Str[NPos]='\') then
-    exit(false);
+  if (NPos>=1) and (NPos<=Length(Str)) then
+  begin
+    //bad context: caret after a backslash
+    if (Str[NPos]='\') then
+      exit(false);
+
+    //bad context: quote-char is typed after a word-char. issue #3331
+    if AQuoteChar and IsCharWord(Str[NPos], Ed.OptNonWordChars) then
+       exit(false);
+  end;
 
   //bad context: caret is just before a word-char
   if (NPos<Length(Str)) and
     not Editor_NextCharAllowed_AutoCloseBracket(Str[NPos+1]) then
       exit(false);
-
-  //bad context: quote-char is typed after a word-char. issue #3331
-  if AQuoteChar then
-   if (NPos>=1) and (NPos<=Length(Str)) and IsCharWord(Str[NPos], Ed.OptNonWordChars) then
-     exit(false);
 end;
 
 function EditorAutoPairChar(Ed: TATSynEdit; CharBegin: atChar): boolean;
