@@ -336,6 +336,8 @@ var
   C: TComponent;
   i: integer;
 begin
+  inherited;
+
   IsFormShownAlready:= true;
 
   if not IsDlgCounterIgnored then
@@ -357,6 +359,8 @@ end;
 
 procedure TFormDummy.DoHide;
 begin
+  inherited;
+
   DoEvent(-1, FEventOnHide, AppVariantNil);
 
   if not IsDlgCounterIgnored then
