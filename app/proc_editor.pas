@@ -937,16 +937,16 @@ begin
   NPos:= Caret.PosX;
   Str:= Ed.Strings.Lines[Caret.PosY];
 
-  //don't do, if before caret is \
+  //bad context: caret after a backslash
   if (NPos>=1) and (NPos<=Length(Str)) and (Str[NPos]='\') then
     exit(false);
 
-  //don't do, if caret before text
+  //bad context: caret is just before a word-char
   if (NPos<Length(Str)) and
     not Editor_NextCharAllowed_AutoCloseBracket(Str[NPos+1]) then
       exit(false);
 
-  //don't do, if quote-char is typed after a word-char. CudaText issue #3331
+  //bad context: quote-char is typed after a word-char. issue #3331
   if AQuoteChar then
    if (NPos>=1) and (NPos<=Length(Str)) and IsCharWord(Str[NPos], Ed.OptNonWordChars) then
      exit(false);
