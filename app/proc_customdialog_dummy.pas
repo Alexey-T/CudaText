@@ -89,21 +89,20 @@ type
   TFormDummy = class(TForm)
   private
     IsFormShownAlready: boolean;
-    procedure DoOnFormMouseEnter(Sender: TObject);
-    procedure DoOnFormMouseLeave(Sender: TObject);
-    procedure DoOnFormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure DoOnFormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnFormWindowStateChange(Sender: TObject);
     procedure _HandleClickEvent(Sender: TObject; ADblClick: boolean);
     procedure _HandleMouseEvent(Sender: TObject;
       const AEventKind: TAppCtlMouseEvent; const AData: TAppVariant);
   protected
+    procedure KeyDown(var Key: Word; Shift: TShiftState); override;
+    procedure KeyUp(var Key: Word; Shift: TShiftState); override;
+    procedure MouseEnter; override;
+    procedure MouseLeave; override;
     procedure DoShow; override;
     procedure DoHide; override;
     procedure Activate; override;
     procedure Deactivate; override;
     procedure DoClose(var CloseAction: TCloseAction); override;
-    function CloseQuery: boolean; override;
   public
     IsDlgCustom: boolean;
     IsDlgModalEmulated: boolean;
@@ -132,6 +131,7 @@ type
     procedure SetFocus; override;
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
+    function CloseQuery: boolean; override;
     procedure DoOnResize; override;
     procedure DoOnClick(Sender: TObject);
     procedure DoOnClickX(Sender: TObject);
@@ -303,10 +303,6 @@ begin
   IdClicked:= -1;
   TagString:= '';
 
-  OnKeyDown:= @DoOnFormKeyDown;
-  OnKeyUp:= @DoOnFormKeyUp;
-  OnMouseEnter:= @DoOnFormMouseEnter;
-  OnMouseLeave:= @DoOnFormMouseLeave;
   OnWindowStateChange:= @DoOnFormWindowStateChange;
 
   PrevBorderStyle:= BorderStyle;
@@ -363,13 +359,15 @@ begin
     AppApiDialogCounter:= Max(0, AppApiDialogCounter-1);
 end;
 
-procedure TFormDummy.DoOnFormMouseEnter(Sender: TObject);
+procedure TFormDummy.MouseEnter;
 begin
+  inherited;
   DoEvent(-1, FEventOnMouseEnter, AppVariantNil);
 end;
 
-procedure TFormDummy.DoOnFormMouseLeave(Sender: TObject);
+procedure TFormDummy.MouseLeave;
 begin
+  inherited;
   DoEvent(-1, FEventOnMouseExit, AppVariantNil);
 end;
 
@@ -478,7 +476,7 @@ begin
   _HandleClickEvent(Sender, true);
 end;
 
-procedure TFormDummy.DoOnFormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TFormDummy.KeyDown(var Key: Word; Shift: TShiftState);
 {
 Wiki:
     param "id_ctl": int key code.
@@ -488,6 +486,7 @@ var
   Form: TCustomForm;
   Data: TAppVariant;
 begin
+  inherited;
   Data:= AppVariant(ConvertShiftStateToString(Shift));
 
   if not DoEvent(Key, FEventOnKeyDown, Data) then
@@ -518,7 +517,7 @@ begin
   end;
 end;
 
-procedure TFormDummy.DoOnFormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TFormDummy.KeyUp(var Key: Word; Shift: TShiftState);
 {
 Wiki:
     param "id_ctl": int key code.
@@ -527,6 +526,7 @@ Wiki:
 var
   Data: TAppVariant;
 begin
+  inherited;
   Data:= AppVariant(ConvertShiftStateToString(Shift));
 
   if not DoEvent(Key, FEventOnKeyUp, Data) then
