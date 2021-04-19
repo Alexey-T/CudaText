@@ -91,8 +91,6 @@ type
     IsFormShownAlready: boolean;
     procedure DoOnFormActivate(Sender: TObject);
     procedure DoOnFormDeactivate(Sender: TObject);
-    procedure DoOnFormShow(Sender: TObject);
-    procedure DoOnFormHide(Sender: TObject);
     procedure DoOnFormMouseEnter(Sender: TObject);
     procedure DoOnFormMouseLeave(Sender: TObject);
     procedure DoOnFormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -103,6 +101,9 @@ type
     procedure _HandleClickEvent(Sender: TObject; ADblClick: boolean);
     procedure _HandleMouseEvent(Sender: TObject;
       const AEventKind: TAppCtlMouseEvent; const AData: TAppVariant);
+  protected
+    procedure DoShow; override;
+    procedure DoHide; override;
   public
     IsDlgCustom: boolean;
     IsDlgModalEmulated: boolean;
@@ -302,8 +303,6 @@ begin
   IdClicked:= -1;
   TagString:= '';
 
-  OnShow:= @DoOnFormShow;
-  OnHide:= @DoOnFormHide;
   OnClose:= @DoOnFormClose;
   OnCloseQuery:= @DoOnFormCloseQuery;
   OnKeyDown:= @DoOnFormKeyDown;
@@ -332,7 +331,7 @@ begin
   inherited;
 end;
 
-procedure TFormDummy.DoOnFormShow(Sender: TObject);
+procedure TFormDummy.DoShow;
 var
   C: TComponent;
   i: integer;
@@ -356,7 +355,7 @@ begin
   DoEvent(-1, FEventOnShow, AppVariantNil);
 end;
 
-procedure TFormDummy.DoOnFormHide(Sender: TObject);
+procedure TFormDummy.DoHide;
 begin
   DoEvent(-1, FEventOnHide, AppVariantNil);
 
