@@ -89,8 +89,6 @@ type
   TFormDummy = class(TForm)
   private
     IsFormShownAlready: boolean;
-    procedure DoOnFormActivate(Sender: TObject);
-    procedure DoOnFormDeactivate(Sender: TObject);
     procedure DoOnFormMouseEnter(Sender: TObject);
     procedure DoOnFormMouseLeave(Sender: TObject);
     procedure DoOnFormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -104,6 +102,8 @@ type
   protected
     procedure DoShow; override;
     procedure DoHide; override;
+    procedure Activate; override;
+    procedure Deactivate; override;
   public
     IsDlgCustom: boolean;
     IsDlgModalEmulated: boolean;
@@ -307,8 +307,6 @@ begin
   OnCloseQuery:= @DoOnFormCloseQuery;
   OnKeyDown:= @DoOnFormKeyDown;
   OnKeyUp:= @DoOnFormKeyUp;
-  OnActivate:= @DoOnFormActivate;
-  OnDeactivate:= @DoOnFormDeactivate;
   OnMouseEnter:= @DoOnFormMouseEnter;
   OnMouseLeave:= @DoOnFormMouseLeave;
   OnWindowStateChange:= @DoOnFormWindowStateChange;
@@ -377,13 +375,15 @@ begin
   DoEvent(-1, FEventOnMouseExit, AppVariantNil);
 end;
 
-procedure TFormDummy.DoOnFormActivate(Sender: TObject);
+procedure TFormDummy.Activate;
 begin
+  inherited;
   DoEvent(-1, FEventOnActivate, AppVariantNil);
 end;
 
-procedure TFormDummy.DoOnFormDeactivate(Sender: TObject);
+procedure TFormDummy.Deactivate;
 begin
+  inherited;
   DoEvent(-1, FEventOnDeactivate, AppVariantNil);
 end;
 
