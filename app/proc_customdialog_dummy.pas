@@ -93,8 +93,6 @@ type
     procedure DoOnFormMouseLeave(Sender: TObject);
     procedure DoOnFormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnFormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure DoOnFormClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure DoOnFormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure DoOnFormWindowStateChange(Sender: TObject);
     procedure _HandleClickEvent(Sender: TObject; ADblClick: boolean);
     procedure _HandleMouseEvent(Sender: TObject;
@@ -104,6 +102,8 @@ type
     procedure DoHide; override;
     procedure Activate; override;
     procedure Deactivate; override;
+    procedure DoClose(var CloseAction: TCloseAction); override;
+    function CloseQuery: boolean; override;
   public
     IsDlgCustom: boolean;
     IsDlgModalEmulated: boolean;
@@ -303,8 +303,6 @@ begin
   IdClicked:= -1;
   TagString:= '';
 
-  OnClose:= @DoOnFormClose;
-  OnCloseQuery:= @DoOnFormCloseQuery;
   OnKeyDown:= @DoOnFormKeyDown;
   OnKeyUp:= @DoOnFormKeyUp;
   OnMouseEnter:= @DoOnFormMouseEnter;
@@ -547,9 +545,10 @@ begin
   DoEvent(-1, FEventOnResize, AppVariantNil);
 end;
 
-procedure TFormDummy.DoOnFormCloseQuery(Sender: TObject; var CanClose: boolean);
+function TFormDummy.CloseQuery: boolean;
 begin
-  CanClose:= DoEvent(-1, FEventOnCloseQuery, AppVariantNil);
+  inherited;
+  Result:= DoEvent(-1, FEventOnCloseQuery, AppVariantNil);
 end;
 
 procedure TFormDummy.DoOnFormWindowStateChange(Sender: TObject);
@@ -579,8 +578,9 @@ begin
 end;
 
 
-procedure TFormDummy.DoOnFormClose(Sender: TObject; var CloseAction: TCloseAction);
+procedure TFormDummy.DoClose(var CloseAction: TCloseAction);
 begin
+  inherited;
   CloseAction:= caHide; //caFree gives crash on btn clicks on win
   if IsDlgCustom then exit;
 
