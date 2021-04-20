@@ -18,8 +18,14 @@ from . import opt
 from cudax_lib import get_translation
 _   = get_translation(__file__)  # i18n
 
-dir_for_all = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
+_homedir = os.path.expanduser('~')
+dir_for_all = os.path.join(_homedir, 'CudaText_addons')
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman.json')
+
+def collapse_filename(fn):
+    if (fn+'/').startswith(_homedir+'/'):
+        fn = fn.replace(_homedir, '~', 1)
+    return fn
 
 PREINST = 'preinstalled'
 STD_MODULES = (
@@ -396,7 +402,7 @@ class Command:
         if m is None: return
         fn = get_initpy_of_module(m)
         file_open(fn)
-        msg_status(_('Opened: ')+fn)
+        msg_status(_('Opened: ')+collapse_filename(fn))
 
     def do_homepage(self):
         m = get_installed_choice(_('Visit homepage'))
