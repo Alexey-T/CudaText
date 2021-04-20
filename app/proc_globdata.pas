@@ -1773,7 +1773,7 @@ begin
     PluginDialogsShowInTaskbar:= {$ifdef windows} false {$else} true {$endif}; //to fix issue #3078 on Linux
     PluginDialogsModalFormStyle:= {$ifdef LCLQT5} fsNormal {$else} fsStayOnTop {$endif};
     FloatGroupsShowInTaskbar:= stAlways;
-    OneInstance:= false;
+    OneInstance:= true;
     NotificationEnabled:= true;
     NotificationTimeSeconds:= 2;
     NotificationConfirmReload:= 1;

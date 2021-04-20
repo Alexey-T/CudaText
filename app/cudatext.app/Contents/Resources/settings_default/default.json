@@ -129,8 +129,8 @@
   "ui_buffered__linux": true,
   "ui_buffered__mac": false,
 
-  //Allow to run only one instance of CudaText
-  "ui_one_instance": false,
+  //Allow to run only one instance (main window) of CudaText
+  "ui_one_instance": true,
 
   //Show modal plugin's dialogs with separate taskbar button [has suffix]
   //Note: Linux desktop Cinnamon has problem if you set 'false'
