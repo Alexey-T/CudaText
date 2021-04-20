@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.132.1 (2021/04)
+
++ add: improved "auto_close_brackets": don't pair the quote-char after a word-char (thanks @xcme)
+* change: default of "ui_one_instance" changed to 'true' (reason: like in Sublime, EmEditor, Notepad++)
+
 1.132.0 (2021/04)
 
 + add: support for the "LSP Client" new plugin (thanks @Shovel)
