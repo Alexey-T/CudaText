@@ -849,7 +849,7 @@ begin
   IsMultiLine:= bMultiLineText;
 
   edFind.Text:= AText;
-  edFind.DoEventChange(); //for lexer RegEx
+  edFind.DoEventChange(0); //for lexer RegEx
 end;
 
 procedure TfmFind.UpdateInputReplace(const AText: UnicodeString);
