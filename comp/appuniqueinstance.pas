@@ -99,7 +99,8 @@ end;
 {$ifdef PollIPCMessage}
 procedure TUniqueInstance.CheckMessage(Sender: TObject);
 begin
-  FIPCServer.PeekMessage(1, True);
+  if FIPCServer.Active then
+    FIPCServer.PeekMessage(1, True);
 end;
 {$endif}
 
