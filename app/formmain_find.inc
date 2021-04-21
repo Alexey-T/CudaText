@@ -827,7 +827,7 @@ var
 begin
   Ed:= FFinder.Editor;
   if AUpdateText then
-    Ed.DoEventChange;
+    Ed.DoEventChange(FFinder.MatchEdPos.Y);
 
   Ed.Update(AUpdateText);
 

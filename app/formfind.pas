@@ -1363,8 +1363,8 @@ begin
       end;
 
       Adapter.AddEditor(edFind);
-      edFind.DoEventChange();
-      Adapter.ParseFromLine(0, true);
+      edFind.DoEventChange(0);
+      //Adapter.ParseFromLine(0, true); //seems not needed with parser thread
     end
     else
     begin

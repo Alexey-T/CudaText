@@ -4770,7 +4770,7 @@ begin
     Ed.Modified:= true;
   end;
 
-  Ed.DoEventChange; //reanalyze all file
+  Ed.DoEventChange(0); //reanalyze all file
   UpdateFrameEx(Frame, false);
   UpdateStatusbar;
   MsgStatus(msgStatusEncChanged);
