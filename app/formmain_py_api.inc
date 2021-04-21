@@ -1509,7 +1509,7 @@ begin
       Strs.LoadFromString(StrW);
 
       Ed.DoCaretsFixIncorrectPos(false);
-      Ed.DoEventChange;
+      Ed.DoEventChange(0);
       Strs.ActionSaveLastEditionPos(0, 0);
       Ed.Update(true);
 
@@ -1552,7 +1552,7 @@ begin
           Strs.LinesEnds[N]:= Strs.Endings;
       end;
 
-      Ed.DoEventChange;
+      Ed.DoEventChange(N);
       Strs.ActionSaveLastEditionPos(0, N);
       Ed.Update(true);
 
@@ -1583,7 +1583,7 @@ begin
       Strs.TextDeleteRange(X1, Y1, X2, Y2, Shift, PosAfter);
       Ed.DoCaretsShift(0, X1, Y1, Shift.X, Shift.Y, PosAfter);
 
-      Ed.DoEventChange;
+      Ed.DoEventChange(Y1);
       Ed.Update(true);
 
       Result:= ReturnNone;
@@ -1624,7 +1624,7 @@ begin
         Ed.DoCaretsShift(0, X1, Y1, Shift.X, Shift.Y, PosAfter);
       end;
 
-      Ed.DoEventChange;
+      Ed.DoEventChange(Y1);
       Ed.Update(true);
 
       Result:= Py_BuildValue('(ii)', PosAfter.X, PosAfter.Y);
@@ -1658,7 +1658,7 @@ begin
         UTF8Decode(StrText), Shift, PosAfter, true);
       Ed.DoCaretsShift(0, X1, Y1, Shift.X, Shift.Y, PosAfter);
 
-      Ed.DoEventChange;
+      Ed.DoEventChange(Y1);
       Ed.Update(true);
 
       Result:= Py_BuildValue('(ii)', PosAfter.X, PosAfter.Y);
@@ -1693,7 +1693,7 @@ begin
         Res:= Strs.TextReplaceLines_UTF8(Y1, Y2, Lines);
         Ed.DoCaretsShift(0, 0, Y1, 0, Lines.Count-(Y2-Y1+1), Point(0, Y1+Lines.Count));
 
-        Ed.DoEventChange;
+        Ed.DoEventChange(Y1);
       finally
         FreeAndNil(Lines);
       end;
@@ -7544,7 +7544,9 @@ begin
         if bChange then
         begin
           Ed.Update(true);
-          Ed.DoEventChange;
+          Ed.DoEventChange(Min(
+            Finder.MatchEdPos.Y,
+            Finder.MatchEdEnd.Y));
         end
         else
         if AUpdateCaret then
