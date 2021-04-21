@@ -171,7 +171,7 @@ begin
   Ed.OptOverwriteSel:= Op.OpOverwriteSel;
   Ed.OptOverwriteAllowedOnPaste:= Op.OpOverwriteOnPaste;
 
-  ec_SyntAnal.AutoFoldComments:= Op.OpAutoFoldComments;
+  //ec_SyntAnal.AutoFoldComments:= Op.OpAutoFoldComments; //TODO: fix crash and enable
   Ed.OptAutoPairForMultiCarets:= Op.OpAutoCloseBracketsMultiCarets;
   Ed.OptAutoPairChars:= Op.OpAutoCloseBrackets;
   Ed.OptAutocompleteAutoshowCharCount:= Op.OpAutocompleteAutoshowCharCount;
