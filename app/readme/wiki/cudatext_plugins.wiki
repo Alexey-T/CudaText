@@ -834,9 +834,10 @@ Create the file "[CudaText]/settings/lsp_mypython.json"
 
 Open some Python script, and call some commands of LSP Client. It will run the server, and it should work.
 
-LSP Client has some settings, use menu item to open the config-file: "Options / Settings-plugins / LSP Client".
-In the config-file key "lexers" you need to specify the mapping between CudaText lexer names and LSP language names.
+In the server config "lsp_*.json", key "lexers", you need to specify the mapping between CudaText lexer names and LSP language names.
 For example, while CudaText lexer name is "Bash script", LSP language name is "bash".
 And while CudaText lexer name is "C#", LSP language name is "csharp".
+
+LSP Client has some settings, use menu item to open the config-file: "Options / Settings-plugins / LSP Client".
 
 [[Category:CudaText]]
