@@ -795,30 +795,45 @@ near the original text file. Files with pictures look like this:
 
 Plugin "LSP Client" allows to use Microsoft LSP protocol in CudaText with servers for many languages. 
 It requires that CudaText uses Python 3.6 or newer (otherwise you will see the error messagebox).
-LSP Client gives several commands in the "Plugins / LSP Client", and all these commands work only if server supports that command.
 
-All LSP servers should have a homepage with description of their functions, and installation information.
-Plugin was initially tested with 2 popular servers: Python, C#.
-
-Example for Python server on Linux.
-Python server has [https://github.com/palantir/python-language-server this homepage] and supports: 
+LSP Client gives several commands in the "Plugins / LSP Client", and all these commands work only if server supports them.
+Some of LSP commands are:
 
 * Auto-completion: integrated with CudaText command "Auto-completion menu" (in the Command Palette).
 * Go to defintion: integrated with CudaText command "Go to definition" (in the Command Palette, and in the editor context menu).
 * Function signature help: integrated with CudaText command "Show function hint" (in the Command Palette).
 * Hover: shows the tooltip when you hover mouse above identifiers. You need the Ctrl key pressed while you hover.
-* Find references: finds all locations where an identifier is used and shows menu with locations.
-* Code linting.
+* Find references: finds all locations where an identifier (under first caret) is used and shows menu with locations.
+* Code linting: checks the syntax of code, and places underlines and/or bookmarks on "incorrect lines".
 * Document formatting.
+
+All LSP servers should have a homepage with description of their functions, and installation information.
+LSP Client was initially tested with 2 popular servers: Python, C#.
+
+In the server config "lsp_*.json", key "lexers", you need to specify the mapping between CudaText lexer names and LSP language names.
+For example, while CudaText lexer name is "Bash script", LSP language name is "bash".
+And while CudaText lexer name is "C#", LSP language name is "csharp".
+
+LSP Client has the config-file, use menu item to open it: "Options / Settings-plugins / LSP Client".
+
+==Example for Python server==
+Python server has [https://github.com/palantir/python-language-server this homepage] and supports:
+
+* Auto-completion
+* Go to defintion
+* Function signature help
+* Hover
+* Find references
+* Code linting
+* Document formatting
 
 Use "pip" to install the Python LSP server:
 
  pip install python-language-server
  
-Server installation added the command "pyls" which is not in the PATH.
+Server installation adds the command "pyls" which is not in the PATH.
 You need to write the full path to LSP Client config.
-Create the file "[CudaText]/settings/lsp_mypython.json"
-(any file name with prefix "lsp_" and suffix ".json") with text like this:
+Create the file "[CudaText]/settings/lsp_py.json" with text like this:
 
 <syntaxhighlight lang="json">
 {
@@ -833,11 +848,5 @@ Create the file "[CudaText]/settings/lsp_mypython.json"
 </syntaxhighlight>
 
 Open some Python script, and call some commands of LSP Client. It will run the server, and it should work.
-
-In the server config "lsp_*.json", key "lexers", you need to specify the mapping between CudaText lexer names and LSP language names.
-For example, while CudaText lexer name is "Bash script", LSP language name is "bash".
-And while CudaText lexer name is "C#", LSP language name is "csharp".
-
-LSP Client has some settings, use menu item to open the config-file: "Options / Settings-plugins / LSP Client".
 
 [[Category:CudaText]]
