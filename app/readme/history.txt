@@ -4,7 +4,7 @@
   * changed
 
 + add: color theme "syn" (ui- and syntax-theme) which looks like in SynWrite (from @JairoMartinezA)
-- fix: undo after pasting 50-lines-block gave the huge pause
+- fix: undo of 'paste 50-lines block' action was giving the huge pause
 
 1.132.1 (2021/04)
 
