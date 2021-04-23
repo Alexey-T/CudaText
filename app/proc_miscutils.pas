@@ -118,7 +118,6 @@ function FinderOptionsToString(F: TATEditorFinder): string;
 procedure FinderOptionsFromString(F: TATEditorFinder; const S: string);
 
 type
-
   { TAppPanelEx }
 
   TAppPanelEx = class(TPanel)
@@ -129,6 +128,16 @@ type
     constructor Create(TheOwner: TComponent); override;
     procedure Paint; override;
   end;
+
+type
+  { TAppSplitter }
+
+  TAppSplitter = class(TSplitter)
+  public
+    CustomColored: boolean;
+    procedure Paint; override;
+  end;
+
 
 implementation
 
@@ -1005,6 +1014,22 @@ begin
     Inc(Result.Y, Ext.cy);
     Result.X:= Max(Result.X, Ext.cx);
   end;
+end;
+
+{ TAppSplitter }
+
+procedure TAppSplitter.Paint;
+var
+  C: TCanvas;
+begin
+  if CustomColored then
+  begin
+    C:= Canvas;
+    C.Brush.Color:= Self.Color;
+    C.FillRect(0, 0, Width, Height);
+  end
+  else
+    inherited Paint;
 end;
 
 { TAppPanelEx }

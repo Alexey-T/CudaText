@@ -440,6 +440,7 @@ class Command:
             'ex0': True,
             'ex1': True,
             'act': True,
+            'color': 0xff,
             'on_change': self.callback_splitter_left,
             })
 
@@ -451,6 +452,7 @@ class Command:
             'align': ALIGN_RIGHT,
             'ex0': True,
             'ex1': True,
+            'color': 0xff,
             })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'splitter')

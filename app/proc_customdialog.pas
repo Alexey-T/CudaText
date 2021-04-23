@@ -1009,11 +1009,11 @@ begin
 
   if S='splitter' then
   begin
-    Ctl:= TSplitter.Create(AForm);
-    TSplitter(Ctl).Beveled:= true;
-    TSplitter(Ctl).ResizeStyle:= rsPattern;
-    TSplitter(Ctl).AutoSnap:= false;
-    TSplitter(Ctl).OnMoved:= @AForm.DoOnChange;
+    Ctl:= TAppSplitter.Create(AForm);
+    TAppSplitter(Ctl).Beveled:= true;
+    TAppSplitter(Ctl).ResizeStyle:= rsPattern;
+    TAppSplitter(Ctl).AutoSnap:= false;
+    TAppSplitter(Ctl).OnMoved:= @AForm.DoOnChange;
     exit;
   end;
 
@@ -1887,6 +1887,8 @@ begin
 
   if AName='color' then
   begin
+    if C is TAppSplitter then
+      TAppSplitter(C).CustomColored:= true;
     with DoControl_Target(C) do
       Color:= StrToIntDef(AValue, Color);
     exit;

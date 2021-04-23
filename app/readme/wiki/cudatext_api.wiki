@@ -4300,4 +4300,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: on_state: APPSTATE_PROJECT
 * add: on_console_nav: also it's called when Console input is changed
 
+1.0.386 (app 1.132.9)
+* add: dlg_proc: control "splitter" supports property "color"
+
 [[Category:CudaText]]
