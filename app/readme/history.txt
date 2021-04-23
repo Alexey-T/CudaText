@@ -3,6 +3,9 @@
   - fixed
   * changed
 
++ add: color theme "syn" (ui- and syntax-theme) which looks like in SynWrite (from @JairoMartinezA)
+- fix: undo after pasting 50-lines-block gave the huge pause
+
 1.132.1 (2021/04)
 
 + add: improved "auto_close_brackets": don't pair the quote-char after a word-char (thanks @xcme)
