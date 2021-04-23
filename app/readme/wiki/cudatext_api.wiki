@@ -174,7 +174,7 @@ Performs application-wide action.
 
 Parameter "text" is usually string, but can be of other types (bool, int, float, tuple/list of simple types).
 
-====Misc properties====
+====app_proc - Misc properties====
 
 * PROC_GET_LANG: Returns string id of active app translation. E.g. "ru_RU" if translation file is "ru_RU.ini", or "translation template" if such file is used. Returns empty string if built-in English translation is used.
 * PROC_GET_GROUPING: Returns grouping mode in program, one of GROUPS_nnnn int contants.
@@ -202,7 +202,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_CONFIG_SCALE_GET: Returns UI scales, as 2-tuple (int_scale_UI, int_scale_font). Both values are in percents, defaults are 100.
 * PROC_CONFIG_SCALE_SET: Sets UI scales, value must be 2-tuple (int_scale_UI, int_scale_font).
 
-====Search properties====
+====app_proc - Search properties====
 
 Actions work with props of Find/Replace dialog, and props of low-level search engine. When user runs some search command in the dialog, dialog applies its props to the search engine. So most of the time, props of dialog and search engine are sync'ed. But they aren't sync'ed if user just typed new text in the dialog. They also aren't sync'ed if user runs some search command via Command Palette or hotkey (e.g. "find current word, previous").
 
@@ -234,7 +234,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 * PROC_SET_FINDER_PROP: Sets properties of Find/Replace dialog and search engine. Param "text" must be dict, with all or some keys listed in PROC_GET_FINDER_PROP. Values types: str (for text fields), bool (for flags), int (for choices).
 
-====System====
+====app_proc - System====
 
 * PROC_ENUM_FONTS: Returns list of font names, currently installed in OS. Note: only some names are common in all OSes (like Arial, Courier, Courier New, Terminal, maybe more).
 * PROC_GET_SYSTEM_PPI: Returns int value of screen pixels-per-inch. Usual value is 96. When OS UI is scaled, it's bigger, e.g. for scale 150% it is round(96*1.5).
@@ -243,7 +243,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 * PROC_SEND_MESSAGE: For Windows. Sends message to a window by its handle. Param "text" must be 4-tuple of int (window_handle, msg_code, param1, param2).
 * PROC_GET_UNIQUE_TAG: Gets integer value, which is unique for the current CudaText process (it starts with 100, increasing with each call). Use this value for Editor.markers() and Editor.attr() tag values.
 
-====Clipboard====
+====app_proc - Clipboard====
 
 * PROC_GET_CLIP: Returns clipboard text.
 * PROC_SET_CLIP: Copies text to clipboard (usual).
@@ -259,7 +259,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 * PROC_CLIP_SAVE_PIC: If Clipboard has a picture format, saves it to given filename (recommended the .png extension). Returns bool: clipboard has a picture, file is saved.
 
-====Plugin calls====
+====app_proc - Plugin calls====
 
 * PROC_SET_EVENTS: Subscribes plugin to events. First it removes all subscribed events for specified module name (even those from install.inf file) and then adds specified events (if event list is not empty). Param "text" must be 4 values ";"-separated: "module_name;event_list;lexer_list;filter".
 ** module_name is plugin's main module name, usually starting with "cuda_".
@@ -297,7 +297,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** (for plugins) "p_from_api": bool: Shows that command was generated from API by some plugin.
 ** (for plugins) "p_in_menu": str: Value of parameter "menu" from install.inf.
 
-====Hotkeys====
+====app_proc - Hotkeys====
 
 * PROC_GET_ESCAPE: Returns Esc-key flag (bool). This flag is set when user presses Esc key, each Esc press is counted since app start. Note: to allow app to handle key press in long loop, call msg_status('text', True).
 * PROC_SET_ESCAPE: Sets Esc-key flag. Param "text" must be bool (or "0"/"1").
@@ -318,11 +318,11 @@ Notes:
 
 * Value of command_id can be: str(int_command_code) or "module,method" or "module,method,param".
 
-====Python====
+====app_proc - Python====
 * PROC_EXEC_PYTHON: Runs Python string in the context of Console. It is not the same as standard exec() call, it uses the same globals/locals as CudaText Console.
 * PROC_EXEC_PLUGIN: Runs Python plugin's method. Text must be comma-separated: "module_name,method_name,params", where "params" is optional part, it is parameter(s) for the method.
 
-====Themes====
+====app_proc - Themes====
 
 Notes:
 * Theme names are short strings, lowercase, e.g. "cobalt", "sub". Empty string means built-in theme.
@@ -339,7 +339,7 @@ Actions:
 * PROC_THEME_UI_DICT_GET: Returns contents of current UI-theme, as dict.
 * PROC_THEME_SYNTAX_DICT_GET: Returns contents of current syntax-theme, as dict. For description of keys of result, see LEXER_GET_STYLES.
 
-====Sessions====
+====app_proc - Sessions====
 
 Session is a set of opened files + untitled tabs, with some properties of editors in these tabs, with group-indexes of tabs, with layout of groups. Session format is JSON.
 
@@ -347,7 +347,7 @@ Session is a set of opened files + untitled tabs, with some properties of editor
 * PROC_LOAD_SESSION: Loads session from file with given name (closes all tabs first). Returns bool: tabs closed w/o pressing Cancel, session was loaded.
 * PROC_SET_SESSION: Tells to app filename of session. Session with this filename will be saved on exit, loaded on start, shown in app title in {} brackets. Don't set here empty string. Default filename is "history session.json" without path. Missing path means that folder "settings" will be used.
 
-====Sidebar panels====
+====app_proc - Sidebar panels====
 
 General notes:
 
@@ -388,7 +388,7 @@ Actions:
 
 * PROC_SIDEPANEL_GET_IMAGELIST: Returns int handle of sidebar's imagelist. Use this handle with imagelist_proc().
 
-==== Bottom-bar panels====
+====app_proc - Bottom-bar panels====
 
 * PROC_BOTTOMPANEL_ADD_DIALOG: Adds tab. Same as for PROC_SIDEPANEL_ADD_DIALOG.
 * PROC_BOTTOMPANEL_REMOVE: Removes tab. Same as for PROC_SIDEPANEL_REMOVE.
@@ -399,7 +399,7 @@ Actions:
 * PROC_BOTTOMPANEL_GET: Returns caption of last activated tab. Same as for PROC_SIDEPANEL_GET.
 * PROC_BOTTOMPANEL_SET_PROP: Sets sidebar's button properties. Same as for PROC_SIDEPANEL_SET_PROP. 
 
-====Splitters====
+====app_proc - Splitters====
 
 Splitter id:
 
@@ -470,7 +470,7 @@ Positions of group splitters (G1, G2, G3, G4, G5) are determined by grouping vie
           t G1 t G2 t
 </pre>
 
-====Show/Hide/Undock UI elements====
+====app_proc - Show/Hide/Undock UI elements====
 
 Actions can get/set state of UI elements (pass "0"/"1" or False/True):
 
@@ -500,7 +500,7 @@ Actions can get/set state of UI elements (pass "0"/"1" or False/True):
 * PROC_FLOAT_BOTTOM_GET
 * PROC_FLOAT_BOTTOM_SET
 
-====Screen coordinates====
+====app_proc - Screen coordinates====
 
 Notes:
 
@@ -774,7 +774,7 @@ Param "lexer" is optional lexer name. If not empty, dialog enables checkbox "For
 
 Shows dialog with controls of many types. This is legacy API, it is recommended to use "dlg_proc" instead.
 
-====Types of dialog controls====
+====dlg_custom - Types of controls====
 
 * "button": simple button
 * "label": simple read-only text
@@ -820,7 +820,7 @@ Details:
 * Control "paintbox" is empty area, plugin can paint on it. Get canvas_id via DLG_CTL_HANDLE, and use it in canvas_proc().
 * Control property "name" is required for "filter_nnnnn" controls: must set name of listbox/listview, and name of its filter - to the same name with prefix "f_" (e.g. listbox name "mylist" with filter name "f_mylist").
 
-==== Properties of dialog controls ====
+====dlg_custom - Properties of controls====
 
 Parameter "text" in "dlg_custom" is "\n"-separated items, one item per control.
 Each item is chr(1)-separated properties in the form "name=value".
@@ -849,7 +849,7 @@ Possible properties:
 * "val": value of control. Described below.
 * "items": list of items. Described below.
 
-====Property "items" of dialog controls====
+====dlg_custom - Property "items"====
 
 Possible values of "items" in "dlg_custom":
 
@@ -862,7 +862,7 @@ Possible values of "items" in "dlg_custom":
 
 Action DLG_CTL_PROP_GET also returns key "items" (in the same format) for these controls: "listbox", "checklistbox", "listview", "checklistview".
 
-====Property "columns" of dialog controls====
+====dlg_custom - Property "columns"====
 
 * For "listview", "checklistview": "\t"-separated items, each item is "\r"-separated props of a column:
 ** caption (must be without "\t", "\r", "\n")
@@ -879,7 +879,7 @@ Action DLG_CTL_PROP_GET also returns key "columns" in the same format.
 
 Action DLG_CTL_PROP_SET, for "listview", allows both "items" (it sets columns) and "columns", and "columns" is applied last.
 
-====Property "val" of dialog controls====
+====dlg_custom - Property "val"====
 
 * For "check": checked state "0", "1" or "?" for grayed state
 * For "radio", "checkbutton": checked state "0", "1"
@@ -891,7 +891,7 @@ Action DLG_CTL_PROP_SET, for "listview", allows both "items" (it sets columns) a
 * For "tabs", "pages": index of active tab
 * For "trackbar", "progressbar": position, int value
 
-====Properties "ex" of dialog controls====
+====dlg_custom - Properties "ex"====
 
 Properties "ex0"..."ex9" are control-specific. They have different simple type (str, bool, int...).
 
@@ -962,7 +962,7 @@ Properties "ex0"..."ex9" are control-specific. They have different simple type (
 ** "ex2": bool: auto jump to edge, when size of linked control becomes < min size
 ** "ex3": int: mininal size of linked control (controlled by splitter)
 
-====Return value of dlg_custom====
+====dlg_custom - Return value====
 
 Dialog is closed by clicking any button or by changing of any control which has "act=1".
 
@@ -972,7 +972,7 @@ Dialog is closed by clicking any button or by changing of any control which has 
 ** "clicked_index": index of control which closed dialog (0-based).
 ** "state_text": "\n"-separated values of controls. Same count of items as in text, plus optional additional lines in the form "key=value". Line "focused=N" with index of last focused control (0-based) or -1.
 
-====Notes====
+====dlg_custom - Notes====
 
 * Property "type" must be first.
 * Property "act" must be set after "val".
@@ -995,7 +995,7 @@ Often the function works with some control. To pass some control here, use one o
 * Set param "name" to control's name. You give name to a control when you create this control. Param "name" is used if it's not empty.
 * Set param "index" to control's index. You get index of newly created control from dlg_proc call. You can find the index from name, using DLG_CTL_FIND action. Param "index" is used if it's >=0 and param "name" is empty.
 
-====Types of dlg_proc controls====
+====dlg_proc - Types of controls====
 
 Possible types of UI controls are described in "dlg_custom" topic.
 Additional types, supported only by "dlg_proc":
@@ -1010,7 +1010,7 @@ Additional types, supported only by "dlg_proc":
 * "toolbar": toolbar: panel which holds buttons with icons, works via toolbar_proc()
 * "treeview": tree structure with nodes and nested nodes, works via tree_proc()
 
-====Form properties====
+====dlg_proc - Forms properties====
 
 * "cap": str: Caption of form.
 * "x", "y": int: Position (screen coordinates), left/top.
@@ -1035,7 +1035,7 @@ Additional types, supported only by "dlg_proc":
 * "focused" (only for reading): index of currently focused control.
 * (deprecated) "resize": bool: Border of form has "resizable" style.
 
-====Form events====
+====dlg_proc - Forms events====
 
 These are also properties of forms.
 
@@ -1067,7 +1067,7 @@ How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=
       app_proc(PROC_HOTKEY_INT_TO_STR, id_ctl)
 </syntaxhighlight>
 
-====Control properties====
+====dlg_proc - Control properties====
 
 * "name": str: Optional name of control, to find control later by name. May be not unique for controls.
 * "cap": str: Caption.
@@ -1117,7 +1117,7 @@ Special properties for controls "tabs", "pages", "toolbar", "statusbar":
 
 * "tab_hovered": int: index of tab/cell under mouse cursor. Property is missed if no such tab/cell.
 
-====Control events - general====
+====dlg_proc - Control events - general====
 
 General events for all controls:
 
@@ -1132,7 +1132,7 @@ General events for all controls:
 * "on_focus_exit": Called when control looses focus. Supported for the same controls as "on_focus_enter".
 * "on_menu": Called before showing context menu, after right click or ContextMenu hotkey. Param "data": like in "on_mouse_down". Method can return False to disable default menu (if any).
 
-====Control events - for specific controls====
+====dlg_proc - Control events - for specific controls====
 
 Special events for controls "listview", "checklistview":
 
@@ -1149,7 +1149,7 @@ Special events for control "treeview":
 * "on_fold", "on_unfold": Called before treeview node is folded/unfolded. Param "data" is int handle of treeview node.
 * "on_select": Called after selection is changed.
 
-====Control events - for editor control====
+====dlg_proc - Control events - for editor control====
 
 Special events for control "editor"/"editor_edit"/"editor_combo":
 
@@ -1163,7 +1163,7 @@ Special events for control "editor"/"editor_edit"/"editor_combo":
 * "on_click_link": Called on mouse click (single or double, depends on settings) over hyperlink (hyperlinks are defined via PROP_LINKS_SHOW, PROP_LINKS_REGEX). Param "data" is str.
 * "on_paste": Called before doing one of Paste commands. Param "data" is dict: {"keep_caret": bool, "sel_then": bool}. Method can return False to disable default operation.
 
-====Signatures of event callbacks====
+====dlg_proc - Signatures of event callbacks====
 
 Callbacks must be in forms shown in the topic [[#Callback_parameter]].
 
@@ -1187,7 +1187,7 @@ Parameters:
 * "data": Value specific to event.
 * "info": Additional value passed from CudaText, if extended form of callback is specified, with "info" part.
 
-====Actions====
+====dlg_proc - Actions====
 
 Param "prop": it can be of any simple type (str, int, bool), also tuple/list (of any simple type), also dict (keys: str, values: simple type or tuple/list). Most used is dict. Example: prop={"cap": "...", "x": 10, "y": 10, "w": 600, "en": False}.
 
@@ -1241,7 +1241,7 @@ Possible values of "id_action":
 ** It is faster than setting form properties "x", "y", "w", "h", it makes single resize.
 ** String format is the same as in DLG_POS_GET_STR, comma-separated numbers "x,y,w,h", any number can be skipped to keep old value.
 
-====Anchors====
+====dlg_proc - Anchors====
 
 Anchor is attaching of control's side to another control, or to the parent form, so control is auto positioned, initially and on form resize. Lazarus IDE has such Anchor Editor dialog:
 
@@ -1294,7 +1294,7 @@ Example: to attach "colorpanel" to the right side of form, clear left anchor (se
       { 'a_l': None, 'a_r': ('', ']'), 'a_b': ('', ']'), 'sp_a': 6  } )
 </syntaxhighlight>
 
-====Example====
+====dlg_proc - Example====
 
 Detailed demo plugin exists, it shows many dlg_proc actions, shows modal/nonmodal forms, uses callbacks, moves control by button click, moves control on form resize. It is in the CudaText repo with name "cuda_testing_dlg_proc".
 
@@ -1634,7 +1634,7 @@ Possible values of "id":
 
 Result is True if params are OK, False if params not OK (callback string incorrect, not created callback specified on stopping); or None (for unknown "id").
 
-====Callbacks====
+====timer_proc - Callbacks====
 
 Callback param must be in one of these forms: [[#Callback_parameter]].
 
@@ -1656,7 +1656,7 @@ class Command:
 
 Perform action on menu items.
 
-====Menu id====
+====menu_proc - Menu id====
 
 Value of "id_menu" can be:
 
@@ -1673,7 +1673,7 @@ Value of "id_menu" can be:
 * "tab": tab header context menu
 * "toolmenu:"+name: dropdown submenu of toolbar button
 
-====Command for new items====
+====menu_proc - Command for new items====
 
 Value of "command" parameter for MENU_ADD can be:
 
@@ -1688,7 +1688,7 @@ Value of "command" parameter for MENU_ADD can be:
 
 * empty string, if item will be used as submenu (item is a submenu, if any subitems are added to it)
 
-====Item props as dict====
+====menu_proc - Properties as dict====
 
 Some actions get dict for menu items. Dict keys:
 
@@ -1704,7 +1704,7 @@ Some actions get dict for menu items. Dict keys:
 * "checked": checked state, bool
 * "radio": radio-item state, bool (it means round checkmark in checked state)
 
-====Actions====
+====menu_proc - Actions====
 
 Possible values of "id_action":
 
@@ -1733,7 +1733,7 @@ Possible values of "id_action":
 * MENU_SET_IMAGELIST: Changes imagelist object of menu, which contains menu item. Param "command" must be imagelist handle.
 * MENU_SET_IMAGEINDEX: Changes icon index of menu item (index in imagelist). Param "index" must be icon index.
 
-====Example====
+====menu_proc - Example====
 
 Example adds item "Misc" to the main menu, and sub-items: "About", separator, "Rename file" (from CudaExt plugin):
 
@@ -3075,7 +3075,7 @@ Text is "\n"-separated undo/redo items. Each line is tab-separated elements:
 Note that field "line state" was inserted in API 1.0.328, new format of data became incompatible with old format.
 
 =API of 3rd-party plugins=
-==Options Editor==
+==API of Options Editor==
 Options Editor plugin (preinstalled in CudaText) has API which allows to call its dialog with custom options. Example shows dialog with 4 custom options, with custom title. Options which user changed in dialog will be saved to user.json or lexer-specific config.
 
 <syntaxhighlight lang="Python">
@@ -3144,7 +3144,7 @@ This will show:
 
 Options Editor stores values in JSON with trailing comma, so to read these options, plugin must use cudax_lib.get_opt() instead of json.load().
 
-==Project Manager==
+==API of Project Manager==
 Project Manager plugin (preinstalled in CudaText) gives API to read properties of currently opened project. It has global variable '''global_project_info''', which is dict with keys:
 
 * "filename": Path of project file (*.cuda-proj), or empty string if project is not saved.
