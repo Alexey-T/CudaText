@@ -117,7 +117,7 @@ var
   fmLexerProp: TfmLexerProp;
 
 function DoShowDialogLexerProp(
-  an: TecSyntAnalyzer;
+  An: TecSyntAnalyzer;
   const AFontName: string;
   AFontSize: integer): boolean;
 
@@ -466,25 +466,25 @@ begin
 end;
 
 
-function DoShowDialogLexerProp(an: TecSyntAnalyzer; const AFontName: string;
+function DoShowDialogLexerProp(An: TecSyntAnalyzer; const AFontName: string;
   AFontSize: integer): boolean;
 var
   F: TfmLexerProp;
-  anIncorrect: TecSyntAnalyzer;
+  AnIncorrect: TecSyntAnalyzer;
 begin
   Result:= false;
-  if an=nil then exit;
+  if An=nil then exit;
 
   F:= TfmLexerProp.Create(nil);
   try
-    DoApplyLexerStylesMap(an, anIncorrect);
+    DoApplyLexerStylesMap(An, AnIncorrect);
     EditorApplyTheme(F.edSample);
 
-    F.FAnalyzer:= an;
-    F.edName.Text:= an.LexerName;
-    F.edTypes.Text:= an.Extentions;
-    F.edCmtLine.Text:= an.LineComment;
-    F.edNotes.Lines.AddStrings(an.Notes);
+    F.FAnalyzer:= An;
+    F.edName.Text:= An.LexerName;
+    F.edTypes.Text:= An.Extentions;
+    F.edCmtLine.Text:= An.LineComment;
+    F.edNotes.Lines.AddStrings(An.Notes);
 
     F.edSample.Font.Name:= AFontName;
     F.edSample.Font.Size:= AFontSize;
@@ -493,10 +493,10 @@ begin
     F.edSample.Gutter[F.edSample.GutterBandStates].Visible:= false;
     F.edSample.OptMarginRight:= 2000;
 
-    F.Adapter.Lexer:= an;
-    if Assigned(an.SampleText) then
+    F.Adapter.Lexer:= An;
+    if Assigned(An.SampleText) then
     begin
-      F.edSample.Strings.LoadFromString(an.SampleText.Text);
+      F.edSample.Strings.LoadFromString(An.SampleText.Text);
       F.edSample.UpdateWrapInfo(true);
       F.edSample.DoEventChange(0); //parse from beginning
     end;
@@ -507,11 +507,11 @@ begin
     Result:= F.IsChangedLexer;
     if Result then
     begin
-      //an.LexerName:= F.edName.Text; //read-only
-      an.Extentions:= F.edTypes.Text;
-      an.LineComment:= F.edCmtLine.Text;
-      //an.Notes.Clear;
-      //an.Notes.AddStrings(F.edNotes.Lines);
+      //An.LexerName:= F.edName.Text; //read-only
+      An.Extentions:= F.edTypes.Text;
+      An.LineComment:= F.edCmtLine.Text;
+      //An.Notes.Clear;
+      //An.Notes.AddStrings(F.edNotes.Lines);
     end;
   finally
     F.Free;
