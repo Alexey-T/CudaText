@@ -470,14 +470,14 @@ function DoShowDialogLexerProp(an: TecSyntAnalyzer; const AFontName: string;
   AFontSize: integer): boolean;
 var
   F: TfmLexerProp;
-  an2: TecSyntAnalyzer;
+  anIncorrect: TecSyntAnalyzer;
 begin
   Result:= false;
   if an=nil then exit;
 
   F:= TfmLexerProp.Create(nil);
   try
-    DoApplyLexerStylesMap(an, an2);
+    DoApplyLexerStylesMap(an, anIncorrect);
     EditorApplyTheme(F.edSample);
 
     F.FAnalyzer:= an;
@@ -494,8 +494,7 @@ begin
     if Assigned(an.SampleText) then
     begin
       F.edSample.Strings.LoadFromString(an.SampleText.Text);
-      F.edSample.Update(true);
-      F.edSample.DoEventChange;
+      F.edSample.DoEventChange(0); //parse from beginning
     end;
     F.edSample.ModeReadOnly:= true;
 
