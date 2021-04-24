@@ -490,10 +490,14 @@ begin
     F.edSample.Font.Size:= AFontSize;
     F.edSample.Gutter[F.edSample.GutterBandBookmarks].Visible:= false;
     F.edSample.Gutter[F.edSample.GutterBandNumbers].Visible:= false;
+    F.edSample.Gutter[F.edSample.GutterBandStates].Visible:= false;
+    F.edSample.OptMarginRight:= 2000;
+
     F.Adapter.Lexer:= an;
     if Assigned(an.SampleText) then
     begin
       F.edSample.Strings.LoadFromString(an.SampleText.Text);
+      F.edSample.UpdateWrapInfo(true);
       F.edSample.DoEventChange(0); //parse from beginning
     end;
     F.edSample.ModeReadOnly:= true;
