@@ -3056,7 +3056,7 @@ begin
       DoShowConsole(false);
 
   //postpone parsing until frames are shown
-  AllowFrameParsing:= true;
+  UiOps.AllowFrameParsing:= true;
   _Init_FramesOnShow;
 
   FHandledUntilFirstFocus:= true;

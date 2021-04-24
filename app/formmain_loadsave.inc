@@ -1183,7 +1183,7 @@ begin
   UiOps.LexerDelayedParsingSize:= cfg.GetValue('lexer_delayed_parsing_size', UiOps.LexerDelayedParsingSize);
   UiOps.LexerPostponeUntilShown:= cfg.GetValue('lexer_postpone_until_shown', UiOps.LexerPostponeUntilShown);
   if not UiOps.LexerPostponeUntilShown then
-   AllowFrameParsing:= true;
+    UiOps.AllowFrameParsing:= true;
 
   UiOps.ShowMenubar:= cfg.GetValue('ui_menu_show', UiOps.ShowMenubar);
   UiOps.ShowStatusbar:= cfg.GetValue('ui_statusbar_show', UiOps.ShowStatusbar);

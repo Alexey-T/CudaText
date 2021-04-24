@@ -429,10 +429,6 @@ procedure GetFrameLocation(Frame: TEditorFrame;
 
 procedure UpdateTabPreviewStyle(D: TATTabData; AValue: boolean);
 
-var
-  //must be set in FormMain.OnShow
-  AllowFrameParsing: boolean = false;
-
 
 implementation
 
@@ -709,7 +705,7 @@ var
   an: TecSyntAnalyzer;
 begin
   //analize file, when frame is shown for the 1st time
-  if AllowFrameParsing and not FWasVisible then
+  if UiOps.AllowFrameParsing and not FWasVisible then
   begin
     FWasVisible:= true;
     //ShowMessage('show frame: '+FileName); ////debug
@@ -2002,7 +1998,7 @@ begin
     exit;
   end;
 
-  if AllowFrameParsing then
+  if UiOps.AllowFrameParsing then
   begin
     if Assigned(an) then
     begin

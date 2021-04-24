@@ -169,6 +169,7 @@ type
     PyLibrary: string;
     PyChangeSlow: integer;
     InfoAboutOptionsEditor: boolean;
+    AllowFrameParsing: boolean; //must be set in FormMain.OnShow
 
     LogPluginIniting: boolean;
     LogSessions: boolean;
@@ -1715,6 +1716,7 @@ begin
 
     PyChangeSlow:= 2000;
     InfoAboutOptionsEditor:= true;
+    AllowFrameParsing:= false;
 
     LogPluginIniting:= true;
     LogSessions:= true;

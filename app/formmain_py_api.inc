@@ -7768,7 +7768,7 @@ begin
                   Ada:= Frame.Adapter[Ed];
                   if Ada=nil then
                   begin
-                    AllowFrameParsing:= true;
+                    UiOps.AllowFrameParsing:= true;
                     Frame.DoShow;
                     Ada:= Frame.Adapter[Ed];
                   end;
