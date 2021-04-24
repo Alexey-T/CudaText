@@ -1964,12 +1964,15 @@ end;
 procedure TEditorFrame.SetLexer(Ed: TATSynEdit; an: TecSyntAnalyzer);
 var
   an2: TecSyntAnalyzer;
-  ada: TATAdapterEControl;
+  //ada: TATAdapterEControl;
   Params: TAppVariantArray;
 begin
+  {
+  //it breaks code-tree, issue #3348
   ada:= Adapter[Ed];
   if Assigned(ada) and Assigned(ada.Lexer) then
     if not ada.Stop then exit;
+  }
 
   if (an=nil) or IsFileTooBigForLexer(GetFileName(Ed)) then
   begin
