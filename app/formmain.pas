@@ -1132,7 +1132,7 @@ type
     CodeTreeFilterReset: TATButton;
     PanelCodeTreeAll: TATPanelSimple;
     PanelCodeTreeTop: TATPanelSimple;
-    LexerProgress: TATGauge;
+    //LexerProgress: TATGauge;
     LexersDetected: TStringList;
     function FrameCount: integer;
     property Frames[N: integer]: TEditorFrame read GetFrame;
@@ -2337,8 +2337,10 @@ begin
     Splitter.OnPaint:= @SplitterOnPaintDummy;
   end;
 
+  {
   LexerProgress:= TATGauge.Create(Self);
   LexerProgress.Parent:= Status;
+  }
 
   OnLexerParseProgress:= @DoOnLexerParseProgress;
   CustomDialog_DoPyCallback:= @DoPyCallbackFromAPI;
@@ -3446,7 +3448,7 @@ begin
   cAdapterIdleInterval:= UiOps.LexerDelayedParsingPause;
   cAdapterIdleTextSize:= UiOps.LexerDelayedParsingSize;
 
-  LexerProgress.Width:= AppScale(UiOps.ProgressbarHeightSmall);
+  //LexerProgress.Width:= AppScale(UiOps.ProgressbarHeightSmall);
   StatusProgress.Width:= AppScale(UiOps.ProgressbarWidth);
   ButtonCancel.Width:= AppScale(UiOps.ProgressbarWidth);
 
@@ -3478,7 +3480,7 @@ begin
   Status.DoubleBuffered:= UiOps.DoubleBuffered;
   ButtonCancel.DoubleBuffered:= UiOps.DoubleBuffered;
   StatusProgress.DoubleBuffered:= UiOps.DoubleBuffered;
-  LexerProgress.DoubleBuffered:= UiOps.DoubleBuffered;
+  //LexerProgress.DoubleBuffered:= UiOps.DoubleBuffered;
   if Assigned(fmConsole) then
     fmConsole.IsDoubleBuffered:= UiOps.DoubleBuffered;
   if Assigned(fmFind) then
@@ -7930,10 +7932,12 @@ end;
 
 procedure TfmMain.UpdateLexerProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
 begin
+  {
   LexerProgress.Visible:= AVisible;
   LexerProgress.MinValue:= 0;
   LexerProgress.MaxValue:= AMaxValue;
   LexerProgress.Progress:= AValue;
+  }
 end;
 
 procedure TfmMain.FindDialogGetMainEditor(out AEditor: TATSynEdit);

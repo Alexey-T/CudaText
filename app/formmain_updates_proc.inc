@@ -261,6 +261,7 @@ begin
     Width:= UiOps.ProgressbarWidth;
   end;
 
+  (*
   with LexerProgress do
   begin
     Parent:= Status;
@@ -277,6 +278,7 @@ begin
     ShowText:= false;
     Width:= UiOps.ProgressbarHeightSmall;
   end;
+  *)
 
   with ButtonCancel do
   begin
