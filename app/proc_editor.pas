@@ -2083,12 +2083,7 @@ begin
     begin
       Ada:= TATAdapterEControl(Ed.AdapterForHilite);
       if Assigned(Ada.AnClient) then
-      begin
         Ada.AnClient.EventParseNeeded.SetEvent;
-        //debug
-        //Application.MainForm.Caption:= 'parse-need: '+ExtractFilename(Ed.FileName);
-        //Sleep(1500);
-      end;
     end;
 end;
 
