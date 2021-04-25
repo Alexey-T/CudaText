@@ -21,7 +21,6 @@ uses
   ATSynEdit_CanvasProc,
   ATSynEdit_Carets,
   ATSynEdit_Markers,
-  ATSynEdit_Ranges,
   ATSynEdit_Commands,
   ATSynEdit_CharSizer,
   ATSynEdit_Gutter_Decor,
@@ -33,12 +32,12 @@ uses
   proc_globdata,
   proc_colors,
   proc_msg,
-  proc_str,
   proc_files,
   ec_SyntAnal,
   ec_syntax_format,
   math;
 
+procedure EditorStartParse(Ed: TATSynEdit);
 procedure EditorAdjustForBigFile(Ed: TATSynEdit);
 function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
 function EditorIsEmpty(Ed: TATSynEdit): boolean;
@@ -2075,6 +2074,18 @@ begin
   end;
 end;
 
+procedure EditorStartParse(Ed: TATSynEdit);
+var
+  Ada: TATAdapterEControl;
+begin
+  if Assigned(Ed.AdapterForHilite) then
+    if Ed.AdapterForHilite is TATAdapterEControl then
+    begin
+      Ada:= TATAdapterEControl(Ed.AdapterForHilite);
+      if Assigned(Ada.AnClient) then
+        Ada.AnClient.EventParseNeeded.SetEvent;
+    end;
+end;
 
 end.
 

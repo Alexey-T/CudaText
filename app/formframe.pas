@@ -708,7 +708,6 @@ begin
   if UiOps.AllowFrameParsing and not FWasVisible then
   begin
     FWasVisible:= true;
-    //ShowMessage('show frame: '+FileName); ////debug
 
     an:= LexerInitial[Ed1];
     if Assigned(an) then
