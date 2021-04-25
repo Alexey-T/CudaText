@@ -2040,10 +2040,10 @@ begin
     begin
       Ada:= TATAdapterEControl(Ed.AdapterForHilite);
       Ada.Lexer:= an;
-    end;
 
-    if Assigned(an) then
-      EditorStartParse(Ed);
+      if Assigned(an) then
+        EditorStartParse(Ed);
+    end;
   end
   else
   begin
