@@ -1960,7 +1960,7 @@ end;
 procedure TEditorFrame.SetLexer(Ed: TATSynEdit; an: TecSyntAnalyzer);
 var
   an2: TecSyntAnalyzer;
-  //ada: TATAdapterEControl;
+  Ada: TATAdapterEControl;
   Params: TAppVariantArray;
 begin
   {
@@ -2039,9 +2039,8 @@ begin
 
     if Ed.AdapterForHilite is TATAdapterEControl then
     begin
-      TATAdapterEControl(Ed.AdapterForHilite).Lexer:= an;
-      //if Assigned(an) then
-      //  ShowMessage('lexer '+an.LexerName);
+      Ada:= TATAdapterEControl(Ed.AdapterForHilite);
+      Ada.Lexer:= an;
     end;
   end
   else
