@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+1.133.0 (2021/05)
+
++ add: major change: parser is multi-threaded now. This allows app to react to typing commands faster, and allows to not blink with uncolored text, on big files. Total parsing speed is better too, on big files. Options "lexer_delayed_parsing_*" are not used now, will be removed soon.
 + add: color theme "syn" (ui- and syntax-theme) which looks like in SynWrite (from @JairoMartinezA)
 - fix: undo of 'paste 50-lines block' action was giving the huge pause
 
