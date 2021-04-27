@@ -3301,18 +3301,23 @@ end;
 procedure TfmMain.DoApplyLexerStyleMaps(AndApplyTheme: boolean);
 var
   F: TEditorFrame;
+  An, AnIncorrect: TecSyntAnalyzer;
   i: integer;
 begin
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
 
-    if Assigned(F.Lexer[F.Ed1]) then
-      F.Lexer[F.Ed1]:= F.Lexer[F.Ed1];
+    An:= F.Lexer[F.Ed1];
+    if Assigned(An) then
+      DoApplyLexerStylesMap(An, AnIncorrect);
 
     if not F.EditorsLinked then
-      if Assigned(F.Lexer[F.Ed2]) then
-        F.Lexer[F.Ed2]:= F.Lexer[F.Ed2];
+    begin
+      An:= F.Lexer[F.Ed2];
+      if Assigned(An) then
+        DoApplyLexerStylesMap(An, AnIncorrect);
+    end;
 
     if AndApplyTheme then
       F.ApplyTheme;
