@@ -37,13 +37,13 @@ object fmLexerLib: TfmLexerLib
   end
   object PanelTop: TPanel
     Left = 0
-    Height = 35
+    Height = 41
     Top = 0
     Width = 459
     Align = alTop
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 35
+    ClientHeight = 41
     ClientWidth = 459
     TabOrder = 0
     object btnConfig: TButton
@@ -56,6 +56,7 @@ object fmLexerLib: TfmLexerLib
       AutoSize = True
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
+      BorderSpacing.Bottom = 6
       Caption = 'Con&figure'
       OnClick = btnConfigClick
       TabOrder = 0
@@ -70,6 +71,7 @@ object fmLexerLib: TfmLexerLib
       Width = 56
       AutoSize = True
       BorderSpacing.Left = 6
+      BorderSpacing.Bottom = 6
       Caption = '&Delete'
       OnClick = btnDeleteClick
       TabOrder = 1
@@ -81,7 +83,8 @@ object fmLexerLib: TfmLexerLib
     Top = 41
     Width = 447
     Align = alClient
-    BorderSpacing.Around = 6
+    BorderSpacing.Left = 6
+    BorderSpacing.Right = 6
     ItemHeight = 0
     ScrollWidth = 445
     TabOrder = 2
