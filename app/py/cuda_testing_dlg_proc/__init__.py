@@ -721,6 +721,7 @@ class Command:
         listbox_proc(h_list, LISTBOX_SET_SEL, index=2)
         listbox_proc(h_list, LISTBOX_SET_ITEM_H, index=28)
         listbox_proc(h_list, LISTBOX_SET_DRAWN, index=1)
+        listbox_proc(h_list, LISTBOX_SET_HEADER, text='header0|header1|header2')
 
         n=dlg_proc(h, DLG_CTL_ADD, 'check')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
