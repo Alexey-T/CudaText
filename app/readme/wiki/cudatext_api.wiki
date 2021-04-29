@@ -4306,6 +4306,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.387 (app 1.132.9)
 * add: dlg_proc: control "splitter" supports property "color"
+* add: dlg_proc: control "listbox_ex" supports event "on_click_header"
 * add: listbox_proc: LISTBOX_GET_HEADER, LISTBOX_SET_HEADER
 * add: listbox_proc: LISTBOX_GET_HEADER_IMAGELIST, LISTBOX_SET_HEADER_IMAGELIST
 * fix: controls "editor_edit" and "editor_combo" didn't support PROP_RO
