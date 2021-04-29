@@ -6210,6 +6210,18 @@ begin
             Result:= ReturnNone;
           end;
 
+        LISTBOX_GET_HEADER_IMAGEINDEXES:
+          begin
+            Result:= PyUnicodeFromString(
+              IntArrayToString(Listbox.ColumnImageIndexes));
+          end;
+
+        LISTBOX_SET_HEADER_IMAGEINDEXES:
+          begin
+            Listbox.ColumnImageIndexes:= StringToIntArray(StrText);
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
