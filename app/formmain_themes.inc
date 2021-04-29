@@ -126,6 +126,7 @@ begin
   ATFlatTheme.ColorBgListbox:= GetAppColor(apclListBg);
   ATFlatTheme.ColorBgListboxSel:= GetAppColor(apclListSelBg);
   ATFlatTheme.ColorBgListboxHottrack:= ColorBlendHalf(ATFlatTheme.ColorBgListbox, ATFlatTheme.ColorBgListboxSel);
+  ATFlatTheme.ColorBgListboxHeader:= GetAppColor(apclButtonBgDisabled);
   ATFlatTheme.ColorBgOverlay:= GetAppColor(apclSideBadgeBg);
 
   UpdateThemeStatusbar;
