@@ -83,6 +83,7 @@ STD_THEMES = (
   'green',
   'navy',
   'sub',
+  'syn',
   'white',
   'zeus',
 )
