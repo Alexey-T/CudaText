@@ -1553,6 +1553,8 @@ Possible values of "id_action":
 * LISTBOX_SET_SCROLLSTYLE_VERT: Sets style of vertical scrollbar. Param "index": int value, one of SCROLLSTYLE_ constants.
 * LISTBOX_GET_SCROLLPOS_HORZ: Returns horizontal scroll position.
 * LISTBOX_SET_SCROLLPOS_HORZ: Sets horizontal scroll position. Param "index": int value.
+* LISTBOX_GET_HEADER: Returns header string.
+* LISTBOX_SET_HEADER: Sets header string. It may contain "column separator char", see LISTBOX_SET_COLUMN_SEP.
 
 Listbox can have columns. It works only if listbox is not owner-drawn, and column sizes were set via LISTBOX_SET_COLUMNS. You must add separator-chars inside items to split items into columns. Column sizes are passed as list of int. Each list item can be:
 * value>0: Column width in pixels.
@@ -4300,7 +4302,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: on_state: APPSTATE_PROJECT
 * add: on_console_nav: also it's called when Console input is changed
 
-1.0.386 (app 1.132.9)
+1.0.387 (app 1.132.9)
 * add: dlg_proc: control "splitter" supports property "color"
+* add: listbox_proc: LISTBOX_GET_HEADER, LISTBOX_SET_HEADER
 
 [[Category:CudaText]]

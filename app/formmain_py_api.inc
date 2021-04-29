@@ -6187,6 +6187,18 @@ begin
             Result:= ReturnNone;
           end;
 
+        LISTBOX_GET_HEADER:
+          begin
+            Result:= PyUnicodeFromString(Listbox.ColumnHeader);
+          end;
+
+        LISTBOX_SET_HEADER:
+          begin
+            Listbox.ColumnHeader:= StrText;
+            Listbox.Invalidate;
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
