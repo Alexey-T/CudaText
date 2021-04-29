@@ -1142,6 +1142,7 @@ Special events for controls "listview", "checklistview":
 Special events for control "listbox_ex":
 
 * "on_click_x": Called when listbox has X marks shown and X mark is clicked.
+* "on_click_header": Called when listbox shows a header, and header is clicked. Param "data": int column index.
 * "on_draw_item": Called if listbox is owner-drawn. Param "data" is dict: { "canvas": canvas_id, "index": int_item_index, "rect": item_rectangle_4_tuple }.
 
 Special events for control "treeview":
