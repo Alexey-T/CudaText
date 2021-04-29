@@ -1054,6 +1054,7 @@ var
   IdControl: integer;
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
+  if not Props.FActive then exit; //fire on_change only if 'act':True
   IdControl:= FindControlIndexByOurObject(Sender);
   DoEvent(IdControl, Props.FEventOnChange, AppVariantNil);
 end;
