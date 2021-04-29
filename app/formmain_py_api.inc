@@ -6199,6 +6199,17 @@ begin
             Result:= ReturnNone;
           end;
 
+        LISTBOX_GET_HEADER_IMAGELIST:
+          begin
+            Result:= PyHelper_ObjectHandle(Listbox.HeaderImages);
+          end;
+
+        LISTBOX_SET_HEADER_IMAGELIST:
+          begin
+            Listbox.HeaderImages:= TImageList(PtrInt(StrToInt64Def(StrText, 0)));
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
