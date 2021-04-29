@@ -950,6 +950,7 @@ begin
     TATListbox(Ctl).VirtualMode:= false;
     TATListbox(Ctl).CanGetFocus:= true;
     TATListbox(Ctl).OnClickXMark:= @AForm.DoOnClickX;
+    TATListbox(Ctl).OnClickHeader:= @AForm.DoOnListboxClickHeader;
     TATListbox(Ctl).OnChangedSel:= @AForm.DoOnChange;
     TATListbox(Ctl).OnDrawItem:= @AForm.DoOnListboxDrawItem;
     exit;

@@ -140,6 +140,7 @@ type
     procedure DoOnCheckGroupClicked(Sender: TObject; AIndex: integer);
     procedure DoOnListboxSelect(Sender: TObject; User: boolean);
     procedure DoOnListboxDrawItem(Sender: TObject; ACanvas: TCanvas; AIndex: integer; const ARect: TRect);
+    procedure DoOnListboxClickHeader(Sender: TObject; AIndex: integer);
     procedure DoOnListviewChange(Sender: TObject; Item: TListItem; Change: TItemChange);
     procedure DoOnListviewSelect(Sender: TObject; Item: TListItem; Selected: Boolean);
     procedure DoOnListviewColumnClick(Sender: TObject; Column: TListColumn);
@@ -858,6 +859,18 @@ begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
   Data:= AppVariant(Column.Index);
+  DoEvent(IdControl, Props.FEventOnClickHeader, Data);
+end;
+
+procedure TFormDummy.DoOnListboxClickHeader(Sender: TObject; AIndex: integer);
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+  Data: TAppVariant;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  IdControl:= FindControlIndexByOurObject(Sender);
+  Data:= AppVariant(AIndex);
   DoEvent(IdControl, Props.FEventOnClickHeader, Data);
 end;
 
