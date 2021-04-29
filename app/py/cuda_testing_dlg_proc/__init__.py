@@ -73,7 +73,7 @@ class Command:
             button_proc(id_btn, BTN_SET_KIND, BTNKIND_TEXT_ICON_VERT)
             button_proc(id_btn, BTN_SET_IMAGELIST, id_imglist)
             button_proc(id_btn, BTN_SET_IMAGEINDEX, int(b))
-            
+
             #set overlay text
             self.btn_overlay+=1
             button_proc(id_btn, BTN_SET_OVERLAY, self.btn_overlay)
@@ -83,20 +83,20 @@ class Command:
             color2 = 0x0000ff
             button_proc(id_btn, BTN_SET_COLOR_LINE, color1)
             button_proc(id_btn, BTN_SET_COLOR_LINE2, color2)
-            
+
 
     def callback_splitter_left(self, id_dlg, id_ctl, data='', info=''):
         h = id_dlg
         print('callback_splitter_left')
 
     def callback_combo_change(self, id_dlg, id_ctl, data='', info=''):
-        
+
         p = dlg_proc(id_dlg, DLG_CTL_PROP_GET, name='c1')
         text = p['val']
         dlg_proc(id_dlg, DLG_PROP_SET, prop={'cap': 'text: '+text})
 
     def callback_combo_change2(self, id_dlg, id_ctl, data='', info=''):
-    
+
         p = dlg_proc(id_dlg, DLG_CTL_PROP_GET, name='c2')
         index = p['val']
         dlg_proc(id_dlg, DLG_PROP_SET, prop={'cap': 'index: '+str(index)})
@@ -132,10 +132,14 @@ class Command:
 
 
     def callback_listbox_click_x(self, id_dlg, id_ctl, data='', info=''):
-        
+
         index_sel = listbox_proc(self.id_listbox, LISTBOX_GET_SEL)
         print('listbox: x clicked for item %d'%index_sel)
-        
+
+    def callback_listbox_click_header(self, id_dlg, id_ctl, data='', info=''):
+
+        print('listbox: header clicked for column %d'%data)
+
     def callback_listbox_drawitem(self, id_dlg, id_ctl, data='', info=''):
 
         #print('listbox on_draw_item, data:', data)
@@ -191,7 +195,7 @@ class Command:
         val = (val+1)%3 # possible values: 0..2
         listbox_proc(self.id_listbox, LISTBOX_SET_SHOW_X, index=val)
         listbox_proc(self.id_listbox, LISTBOX_SET_HOTTRACK, index=(1 if val>0 else 0))
-        
+
 
     def callback_listbox_columns(self, id_dlg, id_ctl, data='', info=''):
 
@@ -276,9 +280,9 @@ class Command:
             dlg_proc(id_dlg, DLG_POS_SET_FROM_STR, self.pos_str)
 
     def callback_maindlg_setprops(self, id_dlg, id_ctl, data='', info=''):
-        res = dlg_input_ex(2, 
-            'Set sidebar icon props', 
-            'ImageIndex:', 
+        res = dlg_input_ex(2,
+            'Set sidebar icon props',
+            'ImageIndex:',
             '0',
             'Hint:',
             'test_panel')
@@ -597,7 +601,7 @@ class Command:
             'w': 100,
             'on_change': self.callback_maindlg_paint_click
             })
-            
+
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'btn_pos_save',
@@ -710,6 +714,7 @@ class Command:
             'w': 400,
             'h': 200,
             'on_click_x': self.callback_listbox_click_x,
+            'on_click_header': self.callback_listbox_click_header,
             'on_draw_item': self.callback_listbox_drawitem,
             })
 
@@ -775,7 +780,7 @@ class Command:
             'w': 400,
             'items': '\t'.join(['Aaa', 'Bbb', 'Ccc', 'Ddd']),
             'val': 'init text',
-            'act': True, # for on_change 
+            'act': True, # for on_change
             'on_change': self.callback_combo_change,
             })
 
@@ -787,7 +792,7 @@ class Command:
             'w': 400,
             'items': '\t'.join(['Aaaaa', 'Bbbbb', 'Ccccc', 'Ddddd']),
             'val': 1,
-            'act': True, # for on_change 
+            'act': True, # for on_change
             'on_change': self.callback_combo_change2,
             })
 
@@ -914,7 +919,7 @@ int main(int argc, char *argv[])
             })
         eh=dlg_proc(h, DLG_CTL_HANDLE, name='ed_edit')
         e1=Editor(eh)
-        e1.set_prop(PROP_COMBO_ITEMS, '\n'.join(('aa','bb','ee')) ) 
+        e1.set_prop(PROP_COMBO_ITEMS, '\n'.join(('aa','bb','ee')) )
         e1.set_text_all('editor_edit')
 
         #-----------------------------------------
@@ -925,7 +930,7 @@ int main(int argc, char *argv[])
 
         eh=dlg_proc(h, DLG_CTL_HANDLE, name='ed_combo')
         e2=Editor(eh)
-        e2.set_prop(PROP_COMBO_ITEMS, '\n'.join(('aa','bb','dd')) ) 
+        e2.set_prop(PROP_COMBO_ITEMS, '\n'.join(('aa','bb','dd')) )
         e2.set_text_all('editor_combo')
 
         dlg_proc(h, DLG_CTL_FOCUS, name='ed_main')
@@ -1101,7 +1106,7 @@ int main(int argc, char *argv[])
         button_proc(btn_id, BTN_SET_DATA1, lambda: print('choice in menu'))
 
         toolbar_proc(tb_id, TOOLBAR_UPDATE)
-        
+
         #----------
         n = dlg_proc(id, DLG_CTL_ADD, 'statusbar')
         dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
@@ -1119,7 +1124,7 @@ int main(int argc, char *argv[])
         statusbar_proc(sb_id, STATUSBAR_ADD_CELL, tag=11)
         statusbar_proc(sb_id, STATUSBAR_ADD_CELL, tag=22)
         statusbar_proc(sb_id, STATUSBAR_ADD_CELL, tag=33)
-        
+
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_CALLBACK, tag=33, value=
             'module=cuda_testing_dlg_proc;cmd=callback_statusbar_click;')
 
@@ -1305,20 +1310,20 @@ int main(int argc, char *argv[])
         props = dlg_proc(id, DLG_CTL_PROP_GET, index=n)
         id_listview1 = props['imagelist_small']
         id_listview2 = props['imagelist_large']
-        
+
         dir_icons = os.path.join(app_path(APP_DIR_DATA), 'sideicons', 'octicons_20x20')
         fn_icon1 = os.path.join(dir_icons, 'console.png')
         fn_icon2 = os.path.join(dir_icons, 'find.png')
         print('icon1:', fn_icon1)
         print('icon2:', fn_icon2)
-        
+
         imagelist_proc(id_listview1, IMAGELIST_SET_SIZE, value=(20,20))
         icon1 = imagelist_proc(id_listview1, IMAGELIST_ADD, value=fn_icon1)
         icon2 = imagelist_proc(id_listview1, IMAGELIST_ADD, value=fn_icon2)
-        print('icon indexes:', icon1, icon2)        
-        
+        print('icon indexes:', icon1, icon2)
+
         dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
-            'imageindexes': '\t'.join([str(icon1), str(icon2)])    
+            'imageindexes': '\t'.join([str(icon1), str(icon2)])
             })
         props = dlg_proc(id, DLG_CTL_PROP_GET, index=n)
         print('Listview props:', props)
