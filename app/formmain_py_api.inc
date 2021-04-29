@@ -6189,12 +6189,12 @@ begin
 
         LISTBOX_GET_HEADER:
           begin
-            Result:= PyUnicodeFromString(Listbox.ColumnHeader);
+            Result:= PyUnicodeFromString(Listbox.HeaderText);
           end;
 
         LISTBOX_SET_HEADER:
           begin
-            Listbox.ColumnHeader:= StrText;
+            Listbox.HeaderText:= StrText;
             Listbox.Invalidate;
             Result:= ReturnNone;
           end;
@@ -6213,12 +6213,12 @@ begin
         LISTBOX_GET_HEADER_IMAGEINDEXES:
           begin
             Result:= PyUnicodeFromString(
-              IntArrayToString(Listbox.ColumnImageIndexes));
+              IntArrayToString(Listbox.HeaderImageIndexes));
           end;
 
         LISTBOX_SET_HEADER_IMAGEINDEXES:
           begin
-            Listbox.ColumnImageIndexes:= StringToIntArray(StrText);
+            Listbox.HeaderImageIndexes:= StringToIntArray(StrText);
             Result:= ReturnNone;
           end;
 
