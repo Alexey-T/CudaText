@@ -1555,6 +1555,8 @@ Possible values of "id_action":
 * LISTBOX_SET_SCROLLPOS_HORZ: Sets horizontal scroll position. Param "index": int value.
 * LISTBOX_GET_HEADER: Returns header string.
 * LISTBOX_SET_HEADER: Sets header string. It may contain "column separator char", see LISTBOX_SET_COLUMN_SEP.
+* LISTBOX_GET_HEADER_IMAGELIST: Returns int handle of header's image-list.
+* LISTBOX_SET_HEADER_IMAGELIST: Sets int handle of header's image-list. Each icon corresponds to each header's cell, count of icons can be less than count of cells.
 
 Listbox can have columns. It works only if listbox is not owner-drawn, and column sizes were set via LISTBOX_SET_COLUMNS. You must add separator-chars inside items to split items into columns. Column sizes are passed as list of int. Each list item can be:
 * value>0: Column width in pixels.
@@ -4305,6 +4307,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.387 (app 1.132.9)
 * add: dlg_proc: control "splitter" supports property "color"
 * add: listbox_proc: LISTBOX_GET_HEADER, LISTBOX_SET_HEADER
+* add: listbox_proc: LISTBOX_GET_HEADER_IMAGELIST, LISTBOX_SET_HEADER_IMAGELIST
 * fix: controls "editor_edit" and "editor_combo" didn't support PROP_RO
 
 [[Category:CudaText]]
