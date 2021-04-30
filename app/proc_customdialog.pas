@@ -695,9 +695,14 @@ var
 begin
   Props:= TAppControlProps.Create(ATypeName);
   Props.FName:= Ctl.Name;
+  Ctl.Tag:= PtrInt(Props);
+
+  //for buttons, set 'act':True by default
   if SBeginsWith(ATypeName, 'button') then
     Props.FActive:= true;
-  Ctl.Tag:= PtrInt(Props);
+  //for editors, set 'act':True, issue #3361
+  if Ctl is TATSynEdit then
+    Props.FActive:= true;
 
   //treeview is a special case, because it's inside TAppTreeContainer
   if Ctl is TAppTreeContainer then
