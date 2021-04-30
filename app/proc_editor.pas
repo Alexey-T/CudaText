@@ -253,7 +253,10 @@ begin
 
   Ed.OptMaxLineLenToTokenize:= Op.OpMaxLineLenToTokenize;
 
-  OptUnprintedEndArrowOrDot:= Pos('.', Op.OpUnprintedContent)=0;
+  if Pos('.', Op.OpUnprintedContent)=0 then
+    OptUnprintedEndSymbol:= 1
+  else
+    OptUnprintedEndSymbol:= 0;
   OptUnprintedTabCharLength:= Op.OpUnprintedTabArrowLen;
   OptUnprintedSpaceDotScale:= Op.OpUnprintedSpaceDotScale;
   OptUnprintedEndDotScale:= Op.OpUnprintedEndDotScale;
