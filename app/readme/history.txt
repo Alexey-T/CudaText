@@ -5,7 +5,7 @@
 
 1.133.0 (2021/05)
 
-+ add: major change: parser is multi-threaded now. This allows app to react to typing commands faster, and allows to not blink with uncolored text, on big files. Total parsing speed is better too, on big files. Options "lexer_delayed_parsing_*" are not used now, will be removed soon.
++ add: major change: parser is multi-threaded now. This allows app to react to typing commands faster, and allows to not blink with uncolored text, on big files. Total parsing speed is better too, on big files. Options "lexer_delayed_parsing_*" were removed.
 + add: color theme "syn" (ui- and syntax-theme) which looks like in SynWrite (from @JairoMartinezA)
 * change: hotkey Ctrl+Right reassigned from command "go to word next" to "go to word end", to be like in other editors (thanks @Shovel)
 - fix: undo of 'paste 50-lines block' action was giving the huge pause
