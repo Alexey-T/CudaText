@@ -2083,8 +2083,7 @@ begin
   end;
 
   //flush saved Python "print" results to console
-  if Assigned(fmConsole) then
-  if not AppConsoleQueue.IsEmpty() then
+  if Assigned(fmConsole) and not AppConsoleQueue.IsEmpty() then
   begin
     //avoid output of huge items count at once
     NCnt:= Min(AppConsoleQueue.Size, 300);
