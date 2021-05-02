@@ -867,9 +867,10 @@ begin
 
   //sync Find dialog with text
   if Assigned(fmFind) then
-    fmFind.UpdateInputFind(Str);
+    if fmFind.edFind.Text<>Str then //issue #3353
+      fmFind.UpdateInputFind(Str);
 
-  //make command "find next" working with new text (issue #2803)
+  //make command "find next" working with new text, issue #2803
   FFinder.StrFind:= Str;
   //and clear regex option (issue #2812)
   FFinder.OptRegex:= false;
