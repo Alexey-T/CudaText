@@ -471,7 +471,8 @@
   //  if "t" in value: Whitespace only at end of lines
   //  if "e" in value: Show end-of-lines marks
   //  if "d" in value: Detailed end-of-lines: "LF", "CRLF", "CR" (overrides ".")
-  //  if "." in value: Instead of arrows at end-of-lines, show thick dots
+  //  if "." in value: Instead of arrows at end-of-lines, show thick dots (overrides "p")
+  //  if "p" in value: Instead of arrows at end-of-lines, show pilcrow chars
   "unprinted_content": "se",
 
   //Unprinted symbols: Replace control ASCII characters (codes 0..31) with replacement-char.

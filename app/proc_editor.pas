@@ -256,6 +256,9 @@ begin
   if Pos('.', Op.OpUnprintedContent)>0 then
     OptUnprintedEndSymbol:= aeueDot
   else
+  if Pos('p', Op.OpUnprintedContent)>0 then
+    OptUnprintedEndSymbol:= aeuePilcrow
+  else
     OptUnprintedEndSymbol:= aeueArrowDown;
   OptUnprintedTabCharLength:= Op.OpUnprintedTabArrowLen;
   OptUnprintedSpaceDotScale:= Op.OpUnprintedSpaceDotScale;
