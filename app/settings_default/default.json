@@ -236,14 +236,6 @@
   //Reason for option: dynamic highlighting disables highlighting cache, so slows down scrolling
   "lexer_dynamic_hilite_max_lines": 2000,
 
-  //If document size (in chars) is bigger than this option, lexer analysis
-  //becomes delayed, ie analysis starts only after last text change + pause
-  //(during this pause you'll see non-colored text)
-  "lexer_delayed_parsing_size": 100000,
-
-  //Delayed lexer analysis: pause in msec
-  "lexer_delayed_parsing_pause": 400,
-
   //On app start, postpone lexer parsing, until file tab becomes visible (ie don't parse hidden tabs).
   //This makes much faster app start, if session loads lot of files.
   "lexer_postpone_until_shown": true,
