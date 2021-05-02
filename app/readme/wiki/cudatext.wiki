@@ -1367,11 +1367,17 @@ CudaText provides several word-jump commands, see them in the Command Palette by
 * go to word end
 * go to word end + select
 
-"Go to word next" vs "Go to word end"? "...end" first jumps to the end of the current word (right word boundary), only after that it jumps to the next word start. "...next" always jumps to the next word start.
+"Go to word next" vs "Go to word end"?
 
-For example, Windows 7 Notepad performs "...next" on pressing Ctrl+Right, while Sublime Text 3 performs "...end" on pressing Ctrl+Right. To configure Ctrl+Right (and Shift+Ctrl+Right) behaviour, re-assign this hotkey from one command to another - press F9 in the Command Palette dialog.
+* "...next" - jumps to the next word start (left word boundary).
+* "...end" - jumps to the end of the current word (right word boundary), and after that it jumps to the next word end too.
 
-"Go to word next" vs "Go to word next, simple"? "...simple" command performs simplified jump, it treats all alpha-numerical characters and symbols (#$%^&@ etc) as one group, so it makes single jump over "test@#some!" string. "Go to word next" treats alpha-numericals and symbols as different char groups, and stops at the beginning of each group.
+For example, Windows 7 Notepad performs "...next" on pressing Ctrl+Right, while Sublime Text 3 performs "...end" on pressing Ctrl+Right. To configure Ctrl+Right (and Shift+Ctrl+Right) behaviour, re-assign this hotkey from one command to another - to reassign it, press F9 in the Command Palette dialog.
+
+"Go to word next" vs "Go to word next, simple"?
+
+* "..., simple" command performs simplified jump, it treats all alpha-numerical characters and symbols (#$%^&@ etc) as one group, so it makes single jump over "test@#some!" string.
+* "Go to word next" treats alpha-numericals and symbols as different char groups, and stops at the beginning of each group.
 
 Plugin CudaExt provides such related commands:
 
