@@ -179,8 +179,6 @@ type
 
     LexerThemes: boolean;
     LexerMenuGrouped: boolean;
-    LexerDelayedParsingPause: integer;
-    LexerDelayedParsingSize: integer;
     LexerPostponeUntilShown: boolean;
     LexerParsingMinTimeForEvent: integer;
 
@@ -1567,8 +1565,6 @@ begin
 
     LexerThemes:= true;
     LexerMenuGrouped:= true;
-    LexerDelayedParsingPause:= 400;
-    LexerDelayedParsingSize:= 100*1000;
     LexerPostponeUntilShown:= true;
     LexerParsingMinTimeForEvent:= 600;
 

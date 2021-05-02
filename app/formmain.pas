@@ -3450,9 +3450,6 @@ var
   Pages: TATPages;
   i: integer;
 begin
-  cAdapterIdleInterval:= UiOps.LexerDelayedParsingPause;
-  cAdapterIdleTextSize:= UiOps.LexerDelayedParsingSize;
-
   //LexerProgress.Width:= AppScale(UiOps.ProgressbarHeightSmall);
   StatusProgress.Width:= AppScale(UiOps.ProgressbarWidth);
   ButtonCancel.Width:= AppScale(UiOps.ProgressbarWidth);

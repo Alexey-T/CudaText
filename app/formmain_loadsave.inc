@@ -1179,8 +1179,6 @@ begin
 
   UiOps.LexerThemes:= cfg.GetValue('ui_lexer_themes', UiOps.LexerThemes);
   UiOps.LexerMenuGrouped:= cfg.GetValue('ui_lexers_grouped', UiOps.LexerMenuGrouped);
-  UiOps.LexerDelayedParsingPause:= cfg.GetValue('lexer_delayed_parsing_pause', UiOps.LexerDelayedParsingPause);
-  UiOps.LexerDelayedParsingSize:= cfg.GetValue('lexer_delayed_parsing_size', UiOps.LexerDelayedParsingSize);
   UiOps.LexerPostponeUntilShown:= cfg.GetValue('lexer_postpone_until_shown', UiOps.LexerPostponeUntilShown);
   if not UiOps.LexerPostponeUntilShown then
     UiOps.AllowFrameParsing:= true;
