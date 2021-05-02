@@ -9,6 +9,7 @@
 + add: color theme "syn" (ui- and syntax-theme) which looks like in SynWrite (from @JairoMartinezA)
 * change: hotkey Ctrl+Right reassigned from command "go to word next" to "go to word end", to be like in other editors (thanks @Shovel)
 - fix: undo of 'paste 50-lines block' action was giving the huge pause
+- fix: missed scrolling to found match in some cases (thanks @king.midas)
 
 1.132.1 (2021/04)
 
