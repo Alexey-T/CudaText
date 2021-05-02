@@ -226,15 +226,11 @@ begin
       Result := PyRun_String(PChar(Command), Mode, GlobalsMain, GlobalsMain); //seems no need separate Locals
       if Result = nil then
         CheckError(False);
+      if PyErr_Occurred <> nil then
+        CheckError(False);
     except
       on E: Exception do
-      begin
         MsgLogConsole('ERROR: Exception in CudaText: '+E.Message);
-        if PyErr_Occurred <> nil then
-          CheckError(False)
-        else
-          raise;
-      end;
     end;
   end;
 end;
@@ -276,15 +272,11 @@ begin
             Result:=PyObject_Call(Func,Params,nil);
             if Result = nil then
               CheckError(False);
+            if PyErr_Occurred <> nil then
+              CheckError(False);
           except
             on E: Exception do
-            begin
               MsgLogConsole(Format('ERROR: Exception in CudaText for %s: %s', [AFunc, E.Message]));
-              if PyErr_Occurred <> nil then
-                CheckError(False)
-              else
-                raise;
-            end;
           end;
         finally
           Py_DECREF(Params);
@@ -326,15 +318,11 @@ begin
             ObjObject:= PyObject_CallObject(ObjClass, nil);
             if Assigned(ObjObject) then
               PyDict_SetItemString(GlobalsMain, PChar(AObjectName), ObjObject);
+            if PyErr_Occurred <> nil then
+              CheckError(False);
           except
             on E: Exception do
-            begin
               MsgLogConsole(Format('ERROR: Exception in CudaText for importing %s: %s', [AModule, E.Message]));
-              if FEngine.PyErr_Occurred <> nil then
-                FEngine.CheckError(False)
-              else
-                raise;
-            end;
           end;
         finally
           Py_DECREF(ObjClass);
@@ -392,15 +380,12 @@ begin
           Result:= Pointer(Obj)<>Pointer(Py_False);
           Py_XDECREF(Obj);
         end;
+
+      if FEngine.PyErr_Occurred <> nil then
+        FEngine.CheckError(False);
     except
       on E: Exception do
-      begin
         MsgLogConsole(Format('ERROR: Exception in CudaText for %s.%s: %s', [AModule, AMethod, E.Message]));
-        if FEngine.PyErr_Occurred <> nil then
-          FEngine.CheckError(False)
-        else
-          raise;
-      end;
     end;
   finally
     TimeTrackEnd(AModule, tick);
@@ -461,15 +446,11 @@ var
             PyTuple_SetItem(ObjEditorArgs, 0, PyLong_FromLongLong(PtrInt(AEd)));
             MaskFPU(true);
             ParamsObj[0]:= PyObject_CallObject(ObjEditor, ObjEditorArgs);
+            if PyErr_Occurred <> nil then
+              CheckError(False);
           except
             on E: Exception do
-            begin
               MsgLogConsole(Format('ERROR: Exception in CudaText for %s.%s: %s', [AModule, ACmd, E.Message]));
-              if FEngine.PyErr_Occurred <> nil then
-                FEngine.CheckError(False)
-              else
-                raise;
-            end;
           end;
         finally
           Py_XDECREF(ObjEditorArgs);
@@ -515,15 +496,12 @@ begin
       InitParamsObj;
       Result:= MethodEvalEx(ObjName, ACmd, ParamsObj);
     end;
+
+    if FEngine.PyErr_Occurred <> nil then
+      FEngine.CheckError(False);
   except
     on E: Exception do
-    begin
       MsgLogConsole(Format('ERROR: Exception in CudaText for %s.%s: %s', [AModule, ACmd, E.Message]));
-      if FEngine.PyErr_Occurred <> nil then
-        FEngine.CheckError(False)
-      else
-        raise;
-    end;
   end;
 
   FRunning:= false;
@@ -589,15 +567,11 @@ begin
                         RaiseError;
                     MaskFPU(true);
                     Result:=PyObject_Call(Func,Params,ParamsDic);
+                    if PyErr_Occurred <> nil then
+                      CheckError(False);
                   except
                     on E: Exception do
-                    begin
                       MsgLogConsole(Format('ERROR: Exception in CudaText for %s.%s: %s', [AModule, AFunc, E.Message]));
-                      if FEngine.PyErr_Occurred <> nil then
-                        FEngine.CheckError(False)
-                      else
-                        raise;
-                    end;
                   end;
                 finally
                   Py_DECREF(ParamsDic);
@@ -640,15 +614,11 @@ begin
                   RaiseError;
               MaskFPU(true);
               Result:=PyObject_Call(Func,Params,nil);
+              if PyErr_Occurred <> nil then
+                CheckError(False);
             except
               on E: Exception do
-              begin
                 MsgLogConsole(Format('ERROR: Exception in CudaText for %s.%s: %s', [AModule, AFunc, E.Message]));
-                if FEngine.PyErr_Occurred <> nil then
-                  FEngine.CheckError(False)
-                else
-                  raise;
-              end;
             end;
           finally
             Py_DECREF(Params);
