@@ -12,6 +12,7 @@
 - fix: undo of 'paste 50-lines block' action was giving the huge pause
 - fix: missed scrolling to found match in some cases (thanks @king.midas)
 - fix: wrong catching of Python exceptions (thanks @Shovel)
+- fix: lexer C++: missed items in code-tree (thanks @X547)
 
 1.132.1 (2021/04)
 
