@@ -592,7 +592,7 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 2
         end
         item
-          TokenTypes = 32772
+          TokenTypes = 4
         end
         item
           TagList.Strings = (
@@ -680,7 +680,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 3086
+          TokenTypes = 7182
         end
         item
           TagList.Strings = (
@@ -723,6 +723,17 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 256
         end>
       HighlightPos = cpBound
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'destructor'
+      ConditionList = <
+        item
+          TokenTypes = 32768
+        end>
+      HighlightPos = cpAny
+      NoEndRule = True
+      TreeItemImage = 5
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
