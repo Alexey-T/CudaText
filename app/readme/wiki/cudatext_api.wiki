@@ -2994,7 +2994,13 @@ Getter must return list of tuples: (pos, level, caption, icon).
 
 Getter can also return value not of "list" type, in this case CudaText will not update the code-tree.
 
-See examples of TreeHelpers: for Markdown, for MediaWiki. They are add-ons in the CudaText AddonManager.
+TreeHelpers can be written in Pascal too. This way they will work much faster.
+To write/debug a TreeHelper in Pascal, use the project "treehelpertester" in the CudaText GitHub repo.
+These TreeHelpers were rewritten from Python to Pascal and are built-in now:
+
+* Markdown
+* MediaWiki
+* reST
 
 =Linters=
 
