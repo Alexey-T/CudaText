@@ -360,7 +360,7 @@ class Command:
         if path:
             if path in self.project["nodes"]:
                 return
-            msg_status(_("Adding to project: ") + path, True)
+            msg_status(_("Adding to project: ") + collapse_filename(path), True)
             self.project["nodes"].append(path)
             self.project["nodes"].sort(key=Command.node_ordering)
             self.action_refresh()
@@ -588,7 +588,7 @@ class Command:
             path = dlg_file(True, "", "", PROJECT_DIALOG_FILTER)
         if path:
             if Path(path).exists():
-                print(_('Loading project: ') + path)
+                print(_('Loading project: ') + collapse_filename(path))
                 with open(path, encoding='utf8') as fin:
                     self.project = json.load(fin)
                     self.project_file_path = Path(path)
@@ -660,7 +660,7 @@ class Command:
                 json.dump(self.project, fout, indent=4)
 
             self.update_global_data()
-            print(_('Saving project: ') + str(path))
+            print(_('Saving project: ') + collapse_filename(str(path)))
             msg_status(_("Project saved"))
 
             if need_refresh:
