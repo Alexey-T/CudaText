@@ -20,6 +20,8 @@ TYPES = {
     "/makefile.gnu": ['Makefile'],
     "/makefile.msc": ['Makefile'],
     "/makefile.vc": ['Makefile'],
+    "/meson.build": ['Meson'],
+    "/meson_options.txt": ['Meson'],
     "/nginx.conf": ['Nginx'],
     "/singularity": ['Singularity'],
     "4gl": ['Informix 4GL'],
