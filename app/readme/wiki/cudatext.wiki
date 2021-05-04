@@ -449,6 +449,7 @@ Most of them are located in Addons Manager "Install" list.
 * MATLAB
 * Maya
 * MediaWiki
+* Meson
 * Metafont
 * MIB files
 * MikroTik Script
