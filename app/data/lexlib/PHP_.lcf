@@ -188,7 +188,7 @@ object SyntAnal14: TLibSyntAnalyzer
       DisplayName = 'Integer'
       StyleName = 'Number'
       TokenType = 2
-      Expression = '0x\h[\h_]*\b |'#13#10'0b[01][01_]*\b |'#13#10'\d+\b'
+      Expression = '0x\h[\h_]*\b |'#13#10'0b[01][01_]*\b |'#13#10'0o[0-7][0-7_]*\b |'#13#10'\d+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -328,6 +328,7 @@ object SyntAnal14: TLibSyntAnalyzer
             'endif'
             'endswitch'
             'endwhile'
+            'enum'
             'eval'
             'exit'
             'extends'
@@ -390,6 +391,7 @@ object SyntAnal14: TLibSyntAnalyzer
             'integer'
             'iterable'
             'mixed'
+            'noreturn'
             'null'
             'numeric'
             'object'
@@ -620,6 +622,7 @@ object SyntAnal14: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'class'
+            'enum'
             'interface'
             'trait')
           TokenTypes = 2
