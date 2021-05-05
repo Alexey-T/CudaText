@@ -962,8 +962,9 @@ end;
 function EditorAutoPairChar(Ed: TATSynEdit; CharBegin: atChar): boolean;
 var
   Caret: TATCaretItem;
+  St: TATStrings;
   X1, Y1, X2, Y2: integer;
-  NCaret: integer;
+  NCaret, NLineChanged: integer;
   bSel, bBackwardSel: boolean;
   bQuoteChar: boolean;
   CharEnd: atChar;
@@ -984,13 +985,16 @@ begin
       bQuoteChar:= false;
   end;
 
+  St:= Ed.Strings;
+  NLineChanged:= St.Count-1;
+
   //make additional loop, to detect that ALL carets need pairing.
   //if at least one caret doesn't need, stop.
   //it's needed to make pair for all or nothing. issue #3219.
   for NCaret:= Ed.Carets.Count-1 downto 0 do
   begin
     Caret:= Ed.Carets[NCaret];
-    if not Ed.Strings.IsIndexValid(Caret.PosY) then Continue;
+    if not St.IsIndexValid(Caret.PosY) then Continue;
     if Caret.EndY<0 then
       if not EditorAutoCloseBracket_NeedPair(Ed, Caret, bQuoteChar) then
         exit;
@@ -999,20 +1003,21 @@ begin
   //cancel vertical selection
   Ed.DoSelect_ClearColumnBlock;
 
-  Ed.Strings.BeginUndoGroup;
+  St.BeginUndoGroup;
   for NCaret:= Ed.Carets.Count-1 downto 0 do
   begin
     Caret:= Ed.Carets[NCaret];
-    if not Ed.Strings.IsIndexValid(Caret.PosY) then Continue;
+    if not St.IsIndexValid(Caret.PosY) then Continue;
     Caret.GetRange(X1, Y1, X2, Y2, bSel);
     bBackwardSel:= not Caret.IsForwardSelection;
+    NLineChanged:= Min(NLineChanged, Y1);
 
     if not bSel then
       if not EditorAutoCloseBracket_NeedPair(Ed, Caret, bQuoteChar) then Continue;
 
     if not bSel then
     begin
-      Ed.Strings.TextInsert(X1, Y1, CharBegin+CharEnd, false, Shift, PosAfter);
+      St.TextInsert(X1, Y1, CharBegin+CharEnd, false, Shift, PosAfter);
       Ed.DoCaretsShift(NCaret, X1, Y1, Shift.X, Shift.Y, PosAfter);
 
       Caret.PosX:= Caret.PosX+1;
@@ -1021,10 +1026,10 @@ begin
     end
     else
     begin
-      Ed.Strings.TextInsert(X2, Y2, CharEnd, false, Shift, PosAfter);
+      St.TextInsert(X2, Y2, CharEnd, false, Shift, PosAfter);
       Ed.DoCaretsShift(NCaret, X2, Y2, Shift.X, Shift.Y, PosAfter);
 
-      Ed.Strings.TextInsert(X1, Y1, CharBegin, false, Shift, PosAfter);
+      St.TextInsert(X1, Y1, CharBegin, false, Shift, PosAfter);
       Ed.DoCaretsShift(NCaret, X1, Y1, Shift.X, Shift.Y, PosAfter);
 
       Caret.EndX:= X1+1;
@@ -1038,11 +1043,12 @@ begin
 
     Result:= true;
   end;
-  Ed.Strings.EndUndoGroup;
+  St.EndUndoGroup;
 
   if Result then
   begin
     Ed.Modified:= true;
+    Ed.DoEventChange(NLineChanged);
     Ed.Update(true);
   end;
 end;
