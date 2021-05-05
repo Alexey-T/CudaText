@@ -903,10 +903,12 @@ function EditorAutoSkipClosingBracket(Ed: TATSynEdit; CharClosing: char): boolea
 var
   Caret: TATCaretItem;
   CharOpening: char;
+  St: TATStrings;
   Str: UnicodeString;
   iCaret: integer;
 begin
   Result:= false;
+  St:= Ed.Strings;
 
   CharOpening:= EditorBracket_GetPairForClosingBracketOrQuote(CharClosing);
   if CharOpening=#0 then exit;
@@ -918,9 +920,9 @@ begin
     //improve auto-closing brackets, avoid duplicate )]}
     //when closing bracket )]} is typed over itself,
     //and previous char is opening bracket ([{
-    if Ed.Strings.IsIndexValid(Caret.PosY) then
+    if St.IsIndexValid(Caret.PosY) then
     begin
-      Str:= Ed.Strings.Lines[Caret.PosY];
+      Str:= St.Lines[Caret.PosY];
       if (Caret.PosX<Length(Str)) then
        if Str[Caret.PosX+1]=CharClosing then
         if (Caret.PosX>0) and (Str[Caret.PosX]=CharOpening) then //only if previous is ([{
