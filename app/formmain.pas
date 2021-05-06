@@ -2907,17 +2907,19 @@ procedure TfmMain.FormShow(Sender: TObject);
   // it's needed for macOS and Win10
   var
     id: TAppPanelId;
+  const
+    cStyle = rsPattern;
   begin
     for id:= Low(id) to High(id) do
       if id<>cPaneNone then
         with AppPanels[id] do
-          Splitter.ResizeStyle:= rsPattern;
+          Splitter.ResizeStyle:= cStyle;
 
-    Groups.Splitter1.ResizeStyle:= rsPattern;
-    Groups.Splitter2.ResizeStyle:= rsPattern;
-    Groups.Splitter3.ResizeStyle:= rsPattern;
-    Groups.Splitter4.ResizeStyle:= rsPattern;
-    Groups.Splitter5.ResizeStyle:= rsPattern;
+    Groups.Splitter1.ResizeStyle:= cStyle;
+    Groups.Splitter2.ResizeStyle:= cStyle;
+    Groups.Splitter3.ResizeStyle:= cStyle;
+    Groups.Splitter4.ResizeStyle:= cStyle;
+    Groups.Splitter5.ResizeStyle:= cStyle;
   end;
   //
   procedure _Init_WindowMaximized;
