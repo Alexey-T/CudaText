@@ -1625,12 +1625,14 @@ procedure TAppNotifThread.HandleOneFrame;
 var
   NewProps: TAppFileProps;
 begin
-  //if file was deleted outside, mark frame as modified
+  AppGetFileProps(CurFrame.FileName, NewProps);
+
   if UiOps.MarkFilesDeletedOutsideAsModified then
   begin
-    if not FileExists(CurFrame.FileName) then
+    if not NewProps.Exists then
     begin
-      Synchronize(@ModifyFrame1);
+      if not CurFrame.Modified then
+        Synchronize(@ModifyFrame1);
       exit;
     end;
 
@@ -1638,12 +1640,12 @@ begin
       if CurFrame.FileName2<>'' then
         if not FileExists(CurFrame.FileName2) then
         begin
-          Synchronize(@ModifyFrame1);
+          if not CurFrame.Modified then
+            Synchronize(@ModifyFrame1);
           exit;
         end;
   end;
 
-  AppGetFileProps(CurFrame.FileName, NewProps);
   if not CurFrame.FileProps.Inited then
   begin
     Move(NewProps, CurFrame.FileProps, SizeOf(NewProps));
