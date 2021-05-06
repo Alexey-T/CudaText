@@ -8,6 +8,7 @@ TYPES = {
     "/fluentd.conf": ['Apache config'],
     "/hosts": ['Properties'],
     "/httpd.conf": ['Apache config'],
+    "/Jamfile": ['Jamfile'],
     "/logstash.conf": ['Logstash DSL'],
     "/logstash.conf.j2": ['Logstash DSL'],
     "/logstash.conf.template": ['Logstash DSL'],
