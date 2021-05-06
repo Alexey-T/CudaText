@@ -2903,24 +2903,21 @@ end;
 procedure TfmMain.FormShow(Sender: TObject);
   //
   procedure _Init_FixSplitters;
-  {$ifdef darwin}
+  // https://bugs.freepascal.org/view.php?id=35599
+  // it's needed for macOS and Win10
   var
     id: TAppPanelId;
-  {$endif}
   begin
-    {$ifdef darwin}
-    // https://bugs.freepascal.org/view.php?id=35599
     for id:= Low(id) to High(id) do
       if id<>cPaneNone then
         with AppPanels[id] do
-          Splitter.ResizeStyle:= rsUpdate;
+          Splitter.ResizeStyle:= rsPattern;
 
-    Groups.Splitter1.ResizeStyle:= rsUpdate;
-    Groups.Splitter2.ResizeStyle:= rsUpdate;
-    Groups.Splitter3.ResizeStyle:= rsUpdate;
-    Groups.Splitter4.ResizeStyle:= rsUpdate;
-    Groups.Splitter5.ResizeStyle:= rsUpdate;
-    {$endif}
+    Groups.Splitter1.ResizeStyle:= rsPattern;
+    Groups.Splitter2.ResizeStyle:= rsPattern;
+    Groups.Splitter3.ResizeStyle:= rsPattern;
+    Groups.Splitter4.ResizeStyle:= rsPattern;
+    Groups.Splitter5.ResizeStyle:= rsPattern;
   end;
   //
   procedure _Init_WindowMaximized;
