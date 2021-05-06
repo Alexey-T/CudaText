@@ -1,4 +1,4 @@
-object SyntAnal22: TLibSyntAnalyzer
+object SyntAnal21: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -51,7 +51,7 @@ object SyntAnal22: TLibSyntAnalyzer
     item
       DisplayName = 'NewDoc'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGreen
+      Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -95,6 +95,24 @@ object SyntAnal22: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'Env var'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Brackets BG'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = clMoneyGreen
+      FormatType = ftBackGround
     end>
   TokenRules = <
     item
@@ -196,9 +214,24 @@ object SyntAnal22: TLibSyntAnalyzer
     end
     item
       DisplayName = '1st -'
-      StyleName = 'Symbol'
+      StyleName = 'Id key'
       TokenType = 8
-      Expression = '(?<=^[\x20\x09]*)\-\x20'
+      Expression = '(?<=^[\x20\x09]*)\-\x20[a-z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Env var'
+      StyleName = 'Env var'
+      Expression = '%[a-z_]\w*%'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Symbol ()'
+      StyleName = 'Symbol'
+      TokenType = 9
+      Expression = '[\(\)]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -206,7 +239,7 @@ object SyntAnal22: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[,;/\*\(\)\{\}\[\]<>=%!\#\|\?&~]'
+      Expression = '[,;\*\{\}\[\]<>=%!\#\|\?&~]'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -264,6 +297,32 @@ object SyntAnal22: TLibSyntAnalyzer
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
+    end
+    item
+      DisplayName = '('
+      StyleName = 'Brackets BG'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '(')
+          TokenTypes = 512
+        end>
+      BlockEnd = ')'
+      DynHighlight = dhRangeNoBound
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = ')'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            ')')
+          TokenTypes = 512
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <>
@@ -285,11 +344,11 @@ object SyntAnal22: TLibSyntAnalyzer
     '  test "quote" '#39'here'#39': Null'
     '  property_map:'
     '    - /some/path: __key__'
-    '      external_name: ID'
-    '    - property: name'
+    '      external_name: id'
+    '    - property: %name%'
     '      import_template: "%(First Name)s %(Last Name)s"'
     '      export:'
-    '        - external_name: First Name'
+    '        - external_name: %FirstName%'
     
       '          export_transform: transform.regexp_extract('#39'([^ ]+) ?.' +
       '*$'#39')')
@@ -302,7 +361,8 @@ object SyntAnal22: TLibSyntAnalyzer
     'Number'
     '^Id'
     'Timestamp'
-    '^Symbol')
+    '^Symbol'
+    'Symbol ()')
   Extentions = 'yml yaml'
   LexerName = 'YAML'
   Notes.Strings = (
