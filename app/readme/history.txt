@@ -11,6 +11,7 @@
 + add: color theme "syn", which mimics SynWrite (from @JairoMartinezA)
 + add: lexer C++: show more items in code-tree (thanks @X547)
 + add: lexer PHP: support some features of PHP 8.1 (octal numbers, enums, 'noreturn')
++ add: lexer YAML: highlight %vars%, blocks in () brackets
 * change: hotkey Ctrl+Right reassigned from command "go to word next" to "go to word end", to be like in other editors (thanks @Shovel)
 - fix: undo of "paste 50-lines block" action was giving the huge pause
 - fix: "find current word, next" didn't scroll to found match in some cases (thanks @king.midas)

@@ -16,4 +16,6 @@ Number=Number
 Timestamp=String2
 Handle=Id3
 Directive=Id4
-Alias=IdVar
+Alias=Label
+Env var=IdVar
+Brackets BG=IncludeBG1
