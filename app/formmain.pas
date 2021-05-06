@@ -134,6 +134,7 @@ type
     procedure HandleOneFrame;
     procedure NotifyFrame1;
     procedure NotifyFrame2;
+    procedure ModifyFrame1;
   protected
     procedure Execute; override;
   end;
@@ -1614,10 +1615,32 @@ begin
   CurFrame.NotifyAboutChange(CurFrame.Ed2);
 end;
 
+procedure TAppNotifThread.ModifyFrame1;
+begin
+  CurFrame.Ed1.Modified:= true;
+  CurFrame.UpdateModified(CurFrame.Ed1);
+end;
+
 procedure TAppNotifThread.HandleOneFrame;
 var
   NewProps: TAppFileProps;
 begin
+  //if file was deleted outside, mark frame as modified
+  if CurFrame.FileName<>'' then
+    if not FileExists(CurFrame.FileName) then
+    begin
+      Synchronize(@ModifyFrame1);
+      exit;
+    end;
+
+  if not CurFrame.EditorsLinked then
+    if CurFrame.FileName2<>'' then
+      if not FileExists(CurFrame.FileName2) then
+      begin
+        Synchronize(@ModifyFrame1);
+        exit;
+      end;
+
   AppGetFileProps(CurFrame.FileName, NewProps);
   if not CurFrame.FileProps.Inited then
   begin
