@@ -1626,20 +1626,22 @@ var
   NewProps: TAppFileProps;
 begin
   //if file was deleted outside, mark frame as modified
-  if CurFrame.FileName<>'' then
+  if UiOps.MarkFilesDeletedOutsideAsModified then
+  begin
     if not FileExists(CurFrame.FileName) then
     begin
       Synchronize(@ModifyFrame1);
       exit;
     end;
 
-  if not CurFrame.EditorsLinked then
-    if CurFrame.FileName2<>'' then
-      if not FileExists(CurFrame.FileName2) then
-      begin
-        Synchronize(@ModifyFrame1);
-        exit;
-      end;
+    if not CurFrame.EditorsLinked then
+      if CurFrame.FileName2<>'' then
+        if not FileExists(CurFrame.FileName2) then
+        begin
+          Synchronize(@ModifyFrame1);
+          exit;
+        end;
+  end;
 
   AppGetFileProps(CurFrame.FileName, NewProps);
   if not CurFrame.FileProps.Inited then
