@@ -830,13 +830,18 @@ Auto-completion behaviour for this case is described in the
 
 == Code-Tree ==
 
-To show code-tree, activate side-panel (default hotkey: F12). Many lexers support code-tree: most C-based, HTML, XML, CSS, JS etc. Code-tree is configured inside each lexer properties (see how to edit lexers). Example of tree for Pascal:
+Code-tree is treeview UI control which shows structure of classes/functions/etc, structure info from lexer (if lexer supports this).
+To show code-tree, activate side-panel (default hotkey: F12). Many lexers support code-tree: most C-based, HTML, XML, CSS, JS etc. Example of tree for Pascal:
 
 [[File:atsynedit_tree.png]]
 
 * Double-click on a tree node moves caret to its text.
 * Tree is filled after few seconds after file opening (search for options ui_tree* to change this pause).
 * When you move caret, tree shows tree node for caret position, after a pause (search for options ui_tree* to change this).
+* Tree has the "filter" input field: when not empty, tree shows only nodes/items containing the filter string. Button X near the input clears the filter field. Last entered filter strings are saved to sessions.
+* Tree for CSS lexer has additional feature: in the "Colors" node, it shows colored preview-squares.
+
+[[File:cudatext-tree-css-colors.png]]
 
 ==Console panel==
 
