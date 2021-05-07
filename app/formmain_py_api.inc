@@ -8211,7 +8211,7 @@ begin
       //StrText2:= string(PtrText2);
       //StrCmd:= string(PtrCmd);
 
-      FToolbar:= DoToolbar_GetToolbarFromId(StrToolbar);
+      FToolbar:= PyHelper_ToolbarFromId(StrToolbar);
       if FToolbar=nil then
         exit(ReturnNone);
 
@@ -8338,7 +8338,7 @@ begin
       StrBar:= string(PtrBar);
       StrValue:= string(PtrValue);
 
-      FBar:= DoStatusbar_GetStatusbarFromId(StrBar);
+      FBar:= PyHelper_StatusbarFromId(StrBar);
       if FBar=nil then
         exit(ReturnNone);
 

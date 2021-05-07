@@ -1,6 +1,6 @@
 {$ifdef nnnn}begin end;{$endif}
 
-function DoToolbar_GetToolbarFromId(const Str: string): TATFlatToolbar;
+function PyHelper_ToolbarFromId(const Str: string): TATFlatToolbar;
 var
   N: PtrInt;
   Obj: TObject;
@@ -17,7 +17,10 @@ begin
     if Obj is TATFlatToolbar then
       exit(TATFlatToolbar(Obj))
     else
+    begin
+      MsgLogConsole('ERROR: toolbar_proc() gets bad handle');
       exit;
+    end;
   end;
 end;
 

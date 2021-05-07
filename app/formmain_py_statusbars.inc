@@ -1,6 +1,6 @@
 {$ifdef nnnn}begin end;{$endif}
 
-function DoStatusbar_GetStatusbarFromId(const Str: string): TATStatus;
+function PyHelper_StatusbarFromId(const Str: string): TATStatus;
 var
   N: PtrInt;
   Obj: TObject;
@@ -17,7 +17,10 @@ begin
     if Obj is TATStatus then
       exit(TATStatus(Obj))
     else
+    begin
+      MsgLogConsole('ERROR: statusbar_proc() gets bad handle');
       exit;
+    end;
   end;
 end;
 
