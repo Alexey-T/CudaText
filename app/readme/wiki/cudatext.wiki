@@ -419,7 +419,6 @@ Most of them are located in Addons Manager "Install" list.
 * Inno Setup
 * Intel HEX
 * Jade
-* Jamfile
 * Jasmine JVM Assembler
 * Java
 * Java Velocity
@@ -479,6 +478,7 @@ Most of them are located in Addons Manager "Install" list.
 * Pascal
 * Pawn
 * PECmd script
+* Perforce Jam
 * Perl
 * PHP
 * PICL
