@@ -7,13 +7,13 @@
 
 + add: major change: parser is multi-threaded now. This allows app to react to typing commands faster, and allows to not blink with uncolored text, on big files. Total parsing speed is better too, on big files. Options "lexer_delayed_parsing_*" were removed.
 + add: option "unprinted_content" allows new sub-option to show pilcrow chars (thanks @OmlineEditor)
-+ add: better catching of Python exceptions (thanks @Shovel, @pyscripter)
-+ add: if file is deleted outside of CudaText, mark it as 'modified' (thanks @JairoMartinezA)
++ add: if file is deleted outside of CudaText, mark it as 'modified', like in Sublime (thanks @JairoMartinezA)
 + add: color theme "syn", which mimics SynWrite (from @JairoMartinezA)
 + add: lexer C++: show more items in code-tree (thanks @X547)
 + add: lexer PHP: support some features of PHP 8.1 (octal numbers, enums, 'noreturn')
 + add: lexer YAML: highlight %vars%, blocks in () brackets
 * change: hotkey Ctrl+Right reassigned from command "go to word next" to "go to word end", to be like in other editors (thanks @Shovel)
+- fix: plugin exceptions were not handled good, e.g. if exception occured on button-press in plugin dialog (thanks @Shovel, @pyscripter)
 - fix: undo of "paste 50-lines block" action was giving the huge pause
 - fix: "find current word, next" didn't scroll to found match in some cases (thanks @king.midas)
 
