@@ -6643,8 +6643,16 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'LiLisis:tree_proc', @IdTree, @IdAction, @IdItem, @NIndex, @PtrText, @NImageIndex, @PtrData)) then
     begin
       StrText:= string(PtrText);
-      TreeCont:= TAppTreeContainer(PtrInt(IdTree));
+
+      Obj:= TObject(PtrInt(IdTree));
+      if not (Obj is TAppTreeContainer) then
+      begin
+        MsgLogConsole('ERROR: tree_proc() gets bad handle of tree');
+        exit(ReturnNone);
+      end;
+      TreeCont:= TAppTreeContainer(Obj);
       TreeNode:= TTreeNode(PtrInt(IdItem));
+      Obj:= nil;
 
       case IdAction of
         TREE_ITEM_ENUM:
