@@ -7341,6 +7341,7 @@ var
   PtrValue: PChar;
   StrValue: string;
   Obj: TComponent;
+  Obj2: TObject;
   Image: TImage;
   Gr: TGraphic;
   NX, NY, NX2, NY2: integer;
@@ -7364,8 +7365,16 @@ begin
       end;
 
       //other actions require id_image param
-      Image:= TImage(PtrInt(IdImage));
-      if Image=nil then exit(ReturnNone);
+      if IdImage=0 then
+        exit(ReturnNone);
+
+      Obj2:= TObject(PtrInt(IdImage));
+      if not (Obj2 is TImage) then
+      begin
+        MsgLogConsole('ERROR: image_proc() gets bad image handle');
+        exit(ReturnNone);
+      end;
+      Image:= TImage(Obj2);
 
       case IdAction of
         APP_IMAGE_GET_SIZE:
