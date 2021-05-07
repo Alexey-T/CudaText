@@ -5911,7 +5911,16 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Liiss:listbox_proc', @IdList, @IdAction, @NIndex, @PtrText, @PtrTag)) then
     begin
       if IdList=0 then exit(ReturnNone);
-      Listbox:= TATListbox(PtrInt(IdList));
+
+      Obj:= TObject(PtrInt(IdList));
+      if not (Obj is TATListbox) then
+      begin
+        MsgLogConsole('ERROR: listbox_proc() gets bad handle');
+        exit(ReturnNone);
+      end;
+      Listbox:= TATListbox(Obj);
+      Obj:= nil;
+
       StrText:= string(PtrText);
       StrTag:= string(PtrTag);
       NTag:= StrToInt64Def(StrTag, 0);
