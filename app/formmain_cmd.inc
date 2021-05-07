@@ -501,7 +501,7 @@ begin
     cmd_TreeGotoPrevBrother:
       DoTreeviewJump(CodeTree.Tree, treeGoPrevBro);
     cmd_TreeUpdate:
-      UpdateTree(true, false{ignore visible}, true{ForceUpdateAll});
+      UpdateTree(true, false{ignore visible});
     cmd_TreeSelectBlockForCurNode:
       DoCodetree_GotoBlockForCurrentNode(true);
     cmd_TreeGotoBlockForCurNode:

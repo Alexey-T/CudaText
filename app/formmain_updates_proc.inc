@@ -969,8 +969,7 @@ begin
   CodeTreeFilter.InvalidateFilter;
 end;
 
-procedure TfmMain.UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean;
-  AForceUpdateAll: boolean);
+procedure TfmMain.UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean);
 var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
@@ -1010,12 +1009,6 @@ begin
   begin
     Application.ProcessMessages;
     if Application.Terminated then exit;
-  end;
-
-  if AForceUpdateAll then
-  begin
-    Ada.ParseInvoke(Ed, true);
-    //Ed.DoEventChange; //why it was needed?
   end;
 
  if AFill then

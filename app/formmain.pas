@@ -1111,7 +1111,7 @@ type
     procedure UpdateSidebarButtonFind;
     procedure UpdateTabCaptionsFromFolders;
     procedure UpdateTabsActiveColor(F: TEditorFrame);
-    procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true; AForceUpdateAll: boolean=false);
+    procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true);
     procedure UpdateTreeContents;
     procedure UpdateTreeSelection(Frame: TEditorFrame; Ed: TATSynEdit);
     procedure UpdateCaption;
