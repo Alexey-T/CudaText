@@ -6530,6 +6530,7 @@ var
   PtrValue: PChar;
   StrValue: string;
   Obj: TComponent;
+  Obj2: TObject;
   List: TImageList;
   NX, NY, NIndex: integer;
   Canvas: TCanvas;
@@ -6552,8 +6553,15 @@ begin
       end;
 
       //other actions require id_list param
-      List:= TImageList(PtrInt(IdList));
-      if List=nil then exit(ReturnNone);
+      if IdList=0 then
+        exit(ReturnNone);
+      Obj2:= TObject(PtrInt(IdList));
+      if not (Obj2 is TImageList) then
+      begin
+        MsgLogConsole('ERROR: imagelist_proc() gets bad handle');
+        exit(ReturnNone);
+      end;
+      List:= TImageList(Obj2);
 
       case IdAction of
         IMAGELIST_COUNT:
