@@ -6233,6 +6233,7 @@ end;
 
 function api_button_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
+  Obj: TObject;
   IdBtn: Int64;
   IdAction: integer;
   PtrValue: PChar;
@@ -6244,7 +6245,14 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Lis:button_proc', @IdBtn, @IdAction, @PtrValue)) then
     begin
       StrValue:= string(PtrValue);
-      Btn:= TATButton(PtrInt(IdBtn));
+
+      Obj:= TObject(PtrInt(IdBtn));
+      if not (Obj is TATButton) then
+      begin
+        MsgLogConsole('ERROR: button_proc() gets bad handle');
+        exit(ReturnNone);
+      end;
+      Btn:= TATButton(Obj);
 
       case IdAction of
         BTN_UPDATE:
