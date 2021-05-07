@@ -6527,6 +6527,8 @@ end;
 
 
 function PyHelper_CanvasId_to_CanvasObject(const IdCanvas: Int64): TCanvas;
+var
+  Obj: TObject;
 begin
   if IdCanvas=0 then //support PaintBox for plugins debugging
   begin
@@ -6536,7 +6538,13 @@ begin
     Result:= fmMain.PaintTest.Canvas;
   end
   else
-    Result:= TCanvas(PtrInt(IdCanvas));
+  begin
+    Obj:= TObject(PtrInt(IdCanvas));
+    if not (Obj is TCanvas) then
+      Result:= nil
+    else
+      Result:= TCanvas(Obj);
+  end;
 end;
 
 
@@ -6629,6 +6637,11 @@ begin
             Sep.Init(StrValue);
             Sep.GetItemInt64(Num64, 0);
             Canvas:= PyHelper_CanvasId_to_CanvasObject(Num64);
+            if Canvas=nil then
+            begin
+              MsgLogConsole('ERROR: imagelist_proc() gets bad canvas handle');
+              exit(ReturnNone);
+            end;
             Sep.GetItemInt(NX, 0);
             Sep.GetItemInt(NY, 0);
             Sep.GetItemInt(NIndex, 0);
@@ -7201,6 +7214,11 @@ begin
               @NX, @NY, @NX2, @NY2, @NStyle, @NP1, @NP2)) then
     begin
       C:= PyHelper_CanvasId_to_CanvasObject(IdCanvas);
+      if C=nil then
+      begin
+        MsgLogConsole('ERROR: canvas_proc() gets bad canvas handle');
+        exit(ReturnNone);
+      end;
       StrText:= string(PtrText);
 
       case IdAction of
@@ -7369,6 +7387,11 @@ begin
             Sep.Init(StrValue);
             Sep.GetItemInt64(Num64, 0);
             Canvas:= PyHelper_CanvasId_to_CanvasObject(Num64);
+            if Canvas=nil then
+            begin
+              MsgLogConsole('ERROR: image_proc() gets bad canvas handle');
+              exit(ReturnNone);
+            end;
             Sep.GetItemInt(NX, 0);
             Sep.GetItemInt(NY, 0);
             Canvas.Draw(NX, NY, Image.Picture.Graphic);
@@ -7380,6 +7403,11 @@ begin
             Sep.Init(StrValue);
             Sep.GetItemInt64(Num64, 0);
             Canvas:= PyHelper_CanvasId_to_CanvasObject(Num64);
+            if Canvas=nil then
+            begin
+              MsgLogConsole('ERROR: image_proc() gets bad canvas handle');
+              exit(ReturnNone);
+            end;
             Sep.GetItemInt(NX, 0);
             Sep.GetItemInt(NY, 0);
             Sep.GetItemInt(NX2, 0);
