@@ -3796,6 +3796,7 @@ begin
               if Assigned(An) then
                 DoApplyLexerStylesMap(An, AnOut);
               (Ed.AdapterForHilite as TATAdapterEControl).Lexer:= An;
+              Ed.DoEventChange(0);
             end;
           end;
 
