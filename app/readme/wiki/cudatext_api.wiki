@@ -4324,4 +4324,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: listbox_proc: LISTBOX_GET_HEADER_IMAGEINDEXES, LISTBOX_SET_HEADER_IMAGEINDEXES
 * fix: controls "editor_edit" and "editor_combo" didn't support PROP_RO
 
+1.0.389 (app 1.133.0)
+* change: listbox_proc: LISTBOX_SET_COLUMNS calcs "percent values" (value<0) after the counting "pixel values" (value>0)
+
 [[Category:CudaText]]
