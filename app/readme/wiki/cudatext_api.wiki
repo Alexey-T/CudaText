@@ -1572,6 +1572,9 @@ Actions for columns:
 * LISTBOX_SET_COLUMN_SEP: Sets column separator char. Param "text" must be single-char string.
 * LISTBOX_GET_COLUMNS: Returns list of column sizes.
 * LISTBOX_SET_COLUMNS: Sets list of column sizes. Param "text" must be list of int.
+** Int value>0 means that value is in pixels.
+** Int value=0 means that column will auto-size to the rest of the width.
+** Int value<0 means that value is in percents.
 
 Example adds 3 columns:
 <syntaxhighlight lang="python">
