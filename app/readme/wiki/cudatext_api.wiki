@@ -1563,18 +1563,15 @@ Possible values of "id_action":
 
 Listbox can have columns. It works only if listbox is not owner-drawn, and column sizes were set via LISTBOX_SET_COLUMNS. You must add separator-chars inside items to split items into columns. Column sizes are passed as list of int. Each list item can be:
 * value>0: Column width in pixels.
-* value<0: Column width in percents of listbox width.
-* value=0: Column is auto-stretched to fill the entire width. Several auto-stretched columns are allowed.
+* value<0: Column width in percents (percents of the entire listbox width, minus all fixed sizes).
+* value=0: Column is auto-stretched to fill the rest of the width. Several auto-stretched columns are allowed.
 
 Actions for columns:
 
 * LISTBOX_GET_COLUMN_SEP: Returns column separator char.
 * LISTBOX_SET_COLUMN_SEP: Sets column separator char. Param "text" must be single-char string.
 * LISTBOX_GET_COLUMNS: Returns list of column sizes.
-* LISTBOX_SET_COLUMNS: Sets list of column sizes. Param "text" must be list of int.
-** Int value>0 means that value is in pixels.
-** Int value=0 means that column will auto-size to the rest of the width.
-** Int value<0 means that value is in percents.
+* LISTBOX_SET_COLUMNS: Sets list of column sizes. Param "text" must be list of int. List items can be >0, <0, =0, see above.
 
 Example adds 3 columns:
 <syntaxhighlight lang="python">
