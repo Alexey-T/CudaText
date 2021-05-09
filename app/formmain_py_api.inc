@@ -7067,7 +7067,7 @@ end;
 procedure PyHelper_FindTokenRange(An: TecClientSyntAnalyzer; ALineFrom, ALineTo: integer;
   out ResFrom, ResTo: integer);
 var
-  NMaxLine: integer;
+  NMaxLine, NMaxToken: integer;
 begin
   ResFrom:= -1;
   ResTo:= -1;
@@ -7076,6 +7076,8 @@ begin
   if ALineFrom>ALineTo then exit;
 
   NMaxLine:= High(An.PublicData.TokenIndexer);
+  NMaxToken:= An.PublicData.Tokens.Count-1;
+
   if ALineFrom>NMaxLine then exit;
   if ALineTo>NMaxLine then
     ALineTo:= NMaxLine;
@@ -7091,9 +7093,9 @@ begin
   while (ALineTo<=NMaxLine) and (An.PublicData.TokenIndexer[ALineTo]<0) do
     Inc(ALineTo);
   if ALineTo<=NMaxLine then
-    ResTo:= An.PublicData.TokenIndexer[ALineTo]-1
+    ResTo:= Min(NMaxToken, An.PublicData.TokenIndexer[ALineTo]-1)
   else
-    ResTo:= An.PublicData.Tokens.Count-1;
+    ResTo:= NMaxToken;
 end;
 
 function PyHelper_GetTokenList(Adapter: TATAdapterEControl; ALineFrom, ALineTo: integer): PPyObject;
@@ -7113,7 +7115,6 @@ begin
     PyHelper_FindTokenRange(An, ALineFrom, ALineTo, NIndexFrom, NIndexTo);
     if NIndexFrom<0 then
       exit(PyList_New(0));
-    NIndexTo:= Min(NIndexTo, An.PublicData.Tokens.Count-1);
 
     NCount:= NIndexTo-NIndexFrom+1;
     if NCount<=0 then
