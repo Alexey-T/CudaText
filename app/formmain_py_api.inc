@@ -8843,7 +8843,7 @@ begin
       else
       if NAction<>DLG_CREATE then
         begin
-          MsgLogConsole('NOTE: dlg_proc() gets zero handle');
+          MsgLogConsole('ERROR: dlg_proc() gets zero handle');
           exit(ReturnNone);
         end;
 
