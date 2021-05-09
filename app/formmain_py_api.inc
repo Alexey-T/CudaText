@@ -7075,25 +7075,25 @@ begin
   if ALineFrom<0 then exit;
   if ALineFrom>ALineTo then exit;
 
-  NMaxLine:= High(An.TokenIndexer);
+  NMaxLine:= High(An.PublicData.TokenIndexer);
   if ALineFrom>NMaxLine then exit;
   if ALineTo>NMaxLine then
     ALineTo:= NMaxLine;
 
-  while (ALineFrom<=NMaxLine) and (An.TokenIndexer[ALineFrom]<0) do
+  while (ALineFrom<=NMaxLine) and (An.PublicData.TokenIndexer[ALineFrom]<0) do
     Inc(ALineFrom);
   if ALineFrom<=NMaxLine then
-    ResFrom:= An.TokenIndexer[ALineFrom]
+    ResFrom:= An.PublicData.TokenIndexer[ALineFrom]
   else
     exit;
 
   Inc(ALineTo);
-  while (ALineTo<=NMaxLine) and (An.TokenIndexer[ALineTo]<0) do
+  while (ALineTo<=NMaxLine) and (An.PublicData.TokenIndexer[ALineTo]<0) do
     Inc(ALineTo);
   if ALineTo<=NMaxLine then
-    ResTo:= An.TokenIndexer[ALineTo]-1
+    ResTo:= An.PublicData.TokenIndexer[ALineTo]-1
   else
-    ResTo:= An.TagCount-1;
+    ResTo:= An.PublicData.Tokens.Count-1;
 end;
 
 function PyHelper_GetTokenList(Adapter: TATAdapterEControl; ALineFrom, ALineTo: integer): PPyObject;
@@ -7113,6 +7113,7 @@ begin
     PyHelper_FindTokenRange(An, ALineFrom, ALineTo, NIndexFrom, NIndexTo);
     if NIndexFrom<0 then
       exit(PyList_New(0));
+    NIndexTo:= Min(NIndexTo, An.PublicData.Tokens.Count-1);
 
     NCount:= NIndexTo-NIndexFrom+1;
     if NCount<=0 then
@@ -7124,7 +7125,7 @@ begin
 
     for iToken:= NIndexFrom to NIndexTo do
     begin
-      Token:= An.Tags[iToken];
+      Token:= An.PublicData.Tokens._GetItemPtr(iToken);
       TokenStr:= Adapter.GetTokenString(Token);
       TokenKind:= atkOther;
 
