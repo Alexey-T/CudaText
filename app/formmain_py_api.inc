@@ -8808,7 +8808,9 @@ type
 //dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name='')
 function api_dlg_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
+  FormHandle: Int64;
   Form: TFormDummy;
+  Obj: TObject;
   PtrProp, PtrName: PChar;
   StrProp, StrName: string;
   NAction: integer;
@@ -8821,14 +8823,29 @@ begin
   with AppPython.Engine do
   begin
     if Bool(PyArg_ParseTuple(Args, 'LisLLs:dlg_proc',
-      @Form, @NAction, @PtrProp, @NIndex, @NIndex2, @PtrName)) then
+      @FormHandle, @NAction, @PtrProp, @NIndex, @NIndex2, @PtrName)) then
     begin
       StrProp:= string(PtrProp);
       StrName:= string(PtrName);
 
-      if NAction<>DLG_CREATE then
-        if Form=nil then
+      Form:= nil;
+      if FormHandle<>0 then
+      begin
+        Obj:= TObject(PtrInt(FormHandle));
+        if not (Obj is TFormDummy) then
+        begin
+          MsgLogConsole('ERROR: dlg_proc() gets bad handle');
           exit(ReturnNone);
+        end;
+        Form:= TFormDummy(Obj);
+        Obj:= nil;
+      end
+      else
+      if NAction<>DLG_CREATE then
+        begin
+          MsgLogConsole('NOTE: dlg_proc() gets zero handle');
+          exit(ReturnNone);
+        end;
 
       //find control by name, then by index
       Ctl:= nil;
