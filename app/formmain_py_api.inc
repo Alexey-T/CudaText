@@ -4649,6 +4649,10 @@ begin
             Result:= ReturnNone;
           end;
 
+        APP_PROC_GET_OS_SUFFIX:
+          begin
+            Result:= PyUnicodeFromString(cOptionSystemSuffix);
+          end;
 
         APP_PROC_EXEC_PYTHON:
           begin

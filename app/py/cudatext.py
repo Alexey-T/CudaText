@@ -303,6 +303,7 @@ SPLITTER_G5      = 9
 PROC_SET_CLIP_ALT        = -1
 PROC_GET_CLIP            = 0
 PROC_SET_CLIP            = 1
+PROC_GET_OS_SUFFIX       = 2
 PROC_SAVE_SESSION        = 3
 PROC_LOAD_SESSION        = 4
 PROC_SET_SESSION         = 5
