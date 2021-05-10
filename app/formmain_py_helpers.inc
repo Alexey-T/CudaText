@@ -411,7 +411,7 @@ begin
 
   AppPython.ClearCache;
 
-  //https://github.com/Alexey-T/CudaText/issues/1253
+  //support on_start, issue #1253
   SetLength(Params, 0);
   DoPyEvent(nil, cEventOnStart, Params);
 end;
