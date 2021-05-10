@@ -236,6 +236,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 ====app_proc - System====
 
+* PROC_GET_OS_SUFFIX: Returns string of OS suffix, which is used in some CudaText option names. Possible values are listed in the default.json file.
 * PROC_ENUM_FONTS: Returns list of font names, currently installed in OS. Note: only some names are common in all OSes (like Arial, Courier, Courier New, Terminal, maybe more).
 * PROC_GET_SYSTEM_PPI: Returns int value of screen pixels-per-inch. Usual value is 96. When OS UI is scaled, it's bigger, e.g. for scale 150% it is round(96*1.5).
 * PROC_GET_GUI_HEIGHT: Returns height (pixels) of GUI element for dlg_custom(). Possible values of 'text': 'button', 'label', 'linklabel', 'combo', 'combo_ro', 'edit', 'spinedit', 'check', 'radio', 'checkbutton', 'filter_listbox', 'filter_listview'. Special value 'scrollbar' gets size of OS scrollbar. Returns None for other values.
@@ -4321,8 +4322,9 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: listbox_proc: LISTBOX_GET_HEADER_IMAGEINDEXES, LISTBOX_SET_HEADER_IMAGEINDEXES
 * fix: controls "editor_edit" and "editor_combo" didn't support PROP_RO
 
-1.0.389 (app 1.133.0)
+1.0.390 (app 1.133.0)
 * change: listbox_proc: LISTBOX_SET_COLUMNS calcs "percent values" (value<0) after the counting "pixel values" (value>0)
 * add: dlg_proc: control "listbox_ex" border is themed now
+* add: app_proc: PROC_GET_OS_SUFFIX
 
 [[Category:CudaText]]
