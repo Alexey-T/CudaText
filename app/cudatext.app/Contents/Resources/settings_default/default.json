@@ -1100,7 +1100,7 @@
 
   //[View/Web]
   //Underline HTML color codes (like #008080, #0a0) in these file extensions,
-  //comma-separated, w/o dot. "*" for all files, empty str to disable.
+  //comma-separated, without dot. "*" for all files, empty str to disable.
   "underline_color_files": "*",
 
   //How to paint HTML color codes:
@@ -1223,11 +1223,11 @@
   //  2: close auto-completion
   "autocomplete_up_down_at_edge": 1,
 
-  //If completion listbox has just single item, then commit it w/o showing menus
+  //If completion listbox has just single item, then commit it without showing menus
   "autocomplete_commit_single_item": false,
 
   //Auto-pair some chars on typing.
-  //Value must have some of supported chars w/o spaces:
+  //Value must have some of supported chars without spaces:
   //  ( [ { < ' " ` ~ * #
   //(Don't forget that JSON config needs double-quote escaped.)
   //Feature doesn't work on backslash-escaped chars.
