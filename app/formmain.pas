@@ -7105,6 +7105,7 @@ end;
 function TfmMain.DoMenuAdd_Params(const AMenuId, AMenuCmd, AMenuCaption,
   AMenuHotkey, AMenuTagString: string; AIndex: integer): string;
 var
+  MenuProps: TAppMenuProps;
   mi, miMain: TMenuItem;
   Num: integer;
 begin
@@ -7114,8 +7115,9 @@ begin
   begin
     mi:= TMenuItem.Create(Self);
     mi.Caption:= AMenuCaption;
-    mi.Tag:= PtrInt(TAppMenuProps.Create);
-    TAppMenuProps(mi.Tag).TagString:= AMenuTagString;
+    MenuProps:= TAppMenuProps.Create;
+    MenuProps.TagString:= AMenuTagString;
+    mi.Tag:= PtrInt(MenuProps);
 
     Num:= StrToIntDef(AMenuCmd, 0); //command code
     if Num>0 then
@@ -7132,7 +7134,7 @@ begin
     if AMenuCmd='_plugins' then
     begin
       mnuPlugins:= mi;
-      TAppMenuProps(mi.Tag).CommandString:= 'plugins';
+      MenuProps.CommandString:= 'plugins';
       UpdateMenuPlugins;
     end
     else
@@ -7143,8 +7145,8 @@ begin
     end
     else
     begin
-      TAppMenuProps(mi.Tag).CommandCode:= -1;
-      TAppMenuProps(mi.Tag).CommandString:= AMenuCmd;
+      MenuProps.CommandCode:= -1;
+      MenuProps.CommandString:= AMenuCmd;
       if (AMenuCmd<>'0') and (AMenuCmd<>'') then
         mi.OnClick:= @MenuMainClick;
     end;
