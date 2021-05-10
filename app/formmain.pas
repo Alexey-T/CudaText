@@ -7025,8 +7025,16 @@ procedure TfmMain.DoMenuClear(const AMenuId: string);
       ClearMenuItem(mi.Items[i]);
     if mi.Tag<>0 then
     begin
-      Obj:= TObject(mi.Tag);
-      Obj.Free;
+      //avoid crash in kvichans' plugin, detect not valid tag
+      if (mi.Tag>0) and (mi.Tag<20000) then
+      begin
+        MsgLogConsole('ERROR: bad menu-item tag in menu_proc(..., MENU_CLEAR, ...): '+IntToStr(mi.Tag));
+      end
+      else
+      begin
+        Obj:= TObject(mi.Tag);
+        Obj.Free;
+      end;
       mi.Tag:= 0;
     end;
     mi.Clear;
