@@ -158,15 +158,17 @@ begin
     acLineNote:
       begin
         fmt:= GetAppStyle(apstLightBG2);
-        AColorFont:= fmt.Font.Color;
         AColorBg:= fmt.BgColor;
+        fmt:= GetAppStyle(apstId);
+        AColorFont:= fmt.Font.Color;
         exit
       end;
     acLineError:
       begin
         fmt:= GetAppStyle(apstLightBG1);
-        AColorFont:= fmt.Font.Color;
         AColorBg:= fmt.BgColor;
+        fmt:= GetAppStyle(apstId);
+        AColorFont:= fmt.Font.Color;
         exit
       end;
   end;
