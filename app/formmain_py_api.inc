@@ -380,7 +380,10 @@ begin
     if Obj is TMenuItem then
       exit(TMenuItem(Obj))
     else
+    begin
+      MsgLogConsole('ERROR: menu_proc() gets bad handle');
       exit;
+    end;
   end;
 
   if Str=PyMenuId_Top then exit(fmMain.MainMenu.Items);
