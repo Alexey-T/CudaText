@@ -4323,5 +4323,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.389 (app 1.133.0)
 * change: listbox_proc: LISTBOX_SET_COLUMNS calcs "percent values" (value<0) after the counting "pixel values" (value>0)
+* add: dlg_proc: control "listbox_ex" border is themed now
 
 [[Category:CudaText]]
