@@ -609,8 +609,8 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 
 ===Differences in lexer support in CudaText/SynWrite===
 
-* SynWrite has lexer engine with old code for indentation-based folding, so all lexers with indentation-based folding must be different in CudaText and SynWrite.
-* SynWrite lexers need constructs like \x0D\x0A or \z (any line-break), while CudaText lexers are OK with simple \n (because internal buffer never has CR char).
+* SynWrite supports "lexer grammar", while CudaText 1.133+ does not support "grammar" anymore.
+* SynWrite lexers need constructs like \x0D\x0A or \z (to catch any line-break: LF, CRLF, CR), while CudaText lexers are OK with simple \n (because internal buffer always has LF separator).
 * Some lexers need to find equal identifiers at begin/end of blocks: HTML, Bash, others. Bash lexer needs extended feature: to see NAME and 'NAME' and "NAME" as equal identifiers (word and quoted word). Only CudaText has this extended feature, not SynWrite.
 * For CudaText you must avoid "system colors" in lexer styles (e.g. "window background", "window text", "hint background"), because OS'es have different system colors.
 * SynWrite lexer settings are not used in CudaText:
