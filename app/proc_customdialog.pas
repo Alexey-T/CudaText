@@ -1741,6 +1741,10 @@ begin
 
   if AName='border' then
   begin
+    //listbox has it's special BorderStyle
+    if C is TATListbox then
+      TATListbox(C).BorderStyle:= cControlBorderStyles[AppStrToBool(AValue)]
+    else
     if C is TWinControl then
       TWinControlHack(C).BorderStyle:= cControlBorderStyles[AppStrToBool(AValue)];
     exit;
