@@ -7166,7 +7166,7 @@ begin
             'ks',
             PChar(cPyTokenKind[TokenKind])
             ));
-    end;
+      end;
     finally
       An.CriSecForData.Leave;
     end;
