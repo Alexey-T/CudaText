@@ -1153,9 +1153,9 @@ end;
 
 procedure DoControl_SetBorder(C: TControl; AValue: boolean);
 begin
-  //listbox has it's special BorderStyle
+  //listbox has it's special BorderVisible
   if C is TATListbox then
-    TATListbox(C).BorderStyle:= cControlBorderStyles[AValue]
+    TATListbox(C).BorderVisible:= AValue
   else
   //editor has it's special OptBorderVisible
   if C is TATSynEdit then
