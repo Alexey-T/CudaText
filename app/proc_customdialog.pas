@@ -1151,6 +1151,19 @@ begin
   C.Anchors:= C.Anchors+[AKind];
 end;
 
+procedure DoControl_SetBorder(C: TControl; AValue: boolean);
+begin
+  //listbox has it's special BorderStyle
+  if C is TATListbox then
+    TATListbox(C).BorderStyle:= cControlBorderStyles[AValue]
+  else
+  //editor has it's special OptBorderVisible
+  if C is TATSynEdit then
+    TATSynEdit(C).OptBorderVisible:= AValue
+  else
+  if C is TWinControl then
+    TWinControlHack(C).BorderStyle:= cControlBorderStyles[AValue];
+end;
 
 procedure DoControl_SetEx(C: TControl; const S: string; AIndex: integer);
 const
@@ -1741,16 +1754,7 @@ begin
 
   if AName='border' then
   begin
-    //listbox has it's special BorderStyle
-    if C is TATListbox then
-      TATListbox(C).BorderStyle:= cControlBorderStyles[AppStrToBool(AValue)]
-    else
-    //editor has it's special OptBorderVisible
-    if C is TATSynEdit then
-      TATSynEdit(C).OptBorderVisible:= AppStrToBool(AValue)
-    else
-    if C is TWinControl then
-      TWinControlHack(C).BorderStyle:= cControlBorderStyles[AppStrToBool(AValue)];
+    DoControl_SetBorder(C, AppStrToBool(AValue));
     exit;
   end;
 
