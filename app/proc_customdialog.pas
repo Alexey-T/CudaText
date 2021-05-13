@@ -1745,6 +1745,10 @@ begin
     if C is TATListbox then
       TATListbox(C).BorderStyle:= cControlBorderStyles[AppStrToBool(AValue)]
     else
+    //editor has it's special OptBorderVisible
+    if C is TATSynEdit then
+      TATSynEdit(C).OptBorderVisible:= AppStrToBool(AValue)
+    else
     if C is TWinControl then
       TWinControlHack(C).BorderStyle:= cControlBorderStyles[AppStrToBool(AValue)];
     exit;
