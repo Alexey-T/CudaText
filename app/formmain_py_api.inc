@@ -7119,51 +7119,56 @@ begin
     An:= Adapter.AnClient;
     if An=nil then exit(ReturnNone);
 
-    PyHelper_FindTokenRange(An, ALineFrom, ALineTo, NIndexFrom, NIndexTo);
-    if NIndexFrom<0 then
-      exit(PyList_New(0));
+    An.CriSecForData.Enter;
+    try
+      PyHelper_FindTokenRange(An, ALineFrom, ALineTo, NIndexFrom, NIndexTo);
+      if NIndexFrom<0 then
+        exit(PyList_New(0));
 
-    NCount:= NIndexTo-NIndexFrom+1;
-    if NCount<=0 then
-      exit(PyList_New(0));
+      NCount:= NIndexTo-NIndexFrom+1;
+      if NCount<=0 then
+        exit(PyList_New(0));
 
-    Result:= PyList_New(NCount);
-    if not Assigned(Result) then
-      raise EPythonError.Create(msgPythonListError);
+      Result:= PyList_New(NCount);
+      if not Assigned(Result) then
+        raise EPythonError.Create(msgPythonListError);
 
-    for iToken:= NIndexFrom to NIndexTo do
-    begin
-      Token:= An.PublicData.Tokens._GetItemPtr(iToken);
-      TokenStr:= Adapter.GetTokenString(Token);
-      TokenKind:= atkOther;
-
-      if Assigned(Token^.Style) then
+      for iToken:= NIndexFrom to NIndexTo do
       begin
-        TokenStyle:= Token^.Style.DisplayName;
-        TokenKind:= TATTokenKind(Token^.Style.TokenKind);
-      end
-      else
-        TokenStyle:= '';
+        Token:= An.PublicData.Tokens._GetItemPtr(iToken);
+        TokenStr:= Adapter.GetTokenString(Token);
+        TokenKind:= atkOther;
 
-      PyList_SetItem(Result, iToken-NIndexFrom,
-        Py_BuildValue('{sssssisisisisiss}',
-          'str',
-          PChar(TokenStr),
-          'style',
-          PChar(TokenStyle),
-          'x1',
-          Token^.Range.PointStart.X,
-          'y1',
-          Token^.Range.PointStart.Y,
-          'x2',
-          Token^.Range.PointEnd.X,
-          'y2',
-          Token^.Range.PointEnd.Y,
-          'ki',
-          Token^.TokenType,
-          'ks',
-          PChar(cPyTokenKind[TokenKind])
-          ));
+        if Assigned(Token^.Style) then
+        begin
+          TokenStyle:= Token^.Style.DisplayName;
+          TokenKind:= TATTokenKind(Token^.Style.TokenKind);
+        end
+        else
+          TokenStyle:= '';
+
+        PyList_SetItem(Result, iToken-NIndexFrom,
+          Py_BuildValue('{sssssisisisisiss}',
+            'str',
+            PChar(TokenStr),
+            'style',
+            PChar(TokenStyle),
+            'x1',
+            Token^.Range.PointStart.X,
+            'y1',
+            Token^.Range.PointStart.Y,
+            'x2',
+            Token^.Range.PointEnd.X,
+            'y2',
+            Token^.Range.PointEnd.Y,
+            'ki',
+            Token^.TokenType,
+            'ks',
+            PChar(cPyTokenKind[TokenKind])
+            ));
+    end;
+    finally
+      An.CriSecForData.Leave;
     end;
   end;
 end;
