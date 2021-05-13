@@ -129,8 +129,10 @@ begin
   ATFlatTheme.ColorBgListboxHeader:= GetAppColor(apclButtonBgDisabled);
   ATFlatTheme.ColorBgOverlay:= GetAppColor(apclSideBadgeBg);
   //maybe use border colors from editor, not from buttons?
-  ATFlatTheme.ColorListboxBorderPassive:= GetAppColor(apclButtonBorderPassive);
-  ATFlatTheme.ColorListboxBorderFocused:= GetAppColor(apclButtonBorderFocused);
+  ATFlatTheme.ColorListboxBorderPassive:= GetAppColor(apclEdBorder);
+  ATFlatTheme.ColorListboxBorderFocused:= GetAppColor(apclEdBorderFocused);
+  //ATFlatTheme.ColorListboxBorderPassive:= GetAppColor(apclButtonBorderPassive);
+  //ATFlatTheme.ColorListboxBorderFocused:= GetAppColor(apclButtonBorderFocused);
 
   UpdateThemeStatusbar;
 
