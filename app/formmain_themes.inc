@@ -123,6 +123,7 @@ begin
   ATFlatTheme.ColorBorderFocused:= GetAppColor(apclButtonBorderFocused);
   ATFlatTheme.ColorFontListbox:= GetAppColor(apclListFont);
   ATFlatTheme.ColorFontListboxSel:= GetAppColor(apclListSelFont);
+  ATFlatTheme.ColorFontListboxHeader:= GetAppColor(apclListFont);
   ATFlatTheme.ColorBgListbox:= GetAppColor(apclListBg);
   ATFlatTheme.ColorBgListboxSel:= GetAppColor(apclListSelBg);
   ATFlatTheme.ColorBgListboxHottrack:= ColorBlendHalf(ATFlatTheme.ColorBgListbox, ATFlatTheme.ColorBgListboxSel);
