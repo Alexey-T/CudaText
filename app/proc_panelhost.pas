@@ -503,6 +503,7 @@ begin
     //FormFloat.BorderStyle:= bsSizeToolWin; //such style is nice but it lacks Maximize button
     FormFloat.BorderIcons:= [biSystemMenu, biMaximize];
     FormFloat.ShowInTaskBar:= stNever;
+    FormFloat.FormStyle:= fsStayOnTop; //issue #3383
     FormFloat.OnClose:= OnCloseFloatForm;
   end;
 end;
