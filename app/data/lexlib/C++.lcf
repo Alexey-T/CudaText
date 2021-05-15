@@ -148,6 +148,14 @@ object SyntAnal5: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = '~Id with ::'
+      StyleName = 'Id'
+      TokenType = 15
+      Expression = '(?<=::)~[a-z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Id'
       StyleName = 'Id'
       TokenType = 2
@@ -490,13 +498,13 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 1024
         end
         item
-          TokenTypes = 4
+          TokenTypes = 32772
         end
         item
           TokenTypes = 512
         end
         item
-          TokenTypes = 4
+          TokenTypes = 32772
         end
         item
           TokenTypes = 512
@@ -542,7 +550,7 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 1024
         end
         item
-          TokenTypes = 4
+          TokenTypes = 32772
         end
         item
           TokenTypes = 512
