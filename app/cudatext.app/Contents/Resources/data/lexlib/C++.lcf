@@ -476,6 +476,7 @@ object SyntAnal5: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
+            ':'
             '{')
           TokenTypes = 264
         end
@@ -645,12 +646,12 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 128
         end>
       BlockEnd = '}'
-      NameFmt = '%s0~[{]1'
+      NameFmt = '%s-1~[{]1'
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
       CollapseFmt = '%sz0'
-      TreeItemImage = 3
+      TreeItemImage = 4
       IgnoreAsParent = False
     end
     item
@@ -671,8 +672,7 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 128
         end>
       BlockEnd = '}'
-      NameFmt = '%s0~[{]1'
-      RefToCondEnd = True
+      NameFmt = '%s1'
       HighlightPos = cpAny
       CancelNextRules = True
       CollapseFmt = '%sz0'
