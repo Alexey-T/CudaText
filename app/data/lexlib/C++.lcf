@@ -734,54 +734,18 @@ object SyntAnal5: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'namespace'
-      Enabled = False
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '{')
-          TokenTypes = 256
-        end
-        item
-          CondType = tcSkip
-          TokenTypes = 6
-        end
-        item
-          TagList.Strings = (
-            'namespace')
-          TokenTypes = 128
-        end>
-      BlockEnd = '}'
-      NameFmt = '%s1'
-      HighlightPos = cpAny
-      CancelNextRules = True
-      CollapseFmt = '%sz0'
-      TreeItemImage = 0
-      IgnoreAsParent = False
-    end
-    item
       DisplayName = 'operator'
       ConditionList = <
-        item
-          TagList.Strings = (
-            '{')
-          TokenTypes = 256
-        end
-        item
-          CondType = tcSkip
-          TokenTypes = 7182
-        end
         item
           TagList.Strings = (
             'operator')
           TokenTypes = 128
         end>
-      BlockEnd = '}'
-      NameFmt = '%sz0'
+      NameFmt = '%s0 %s-1'
       RefToCondEnd = True
       HighlightPos = cpAny
-      CancelNextRules = True
       CollapseFmt = '%sz0'
+      NoEndRule = True
       TreeItemImage = 7
       IgnoreAsParent = False
     end
@@ -876,19 +840,21 @@ object SyntAnal5: TLibSyntAnalyzer
     '}'
     ''
     'struct Books {'
-    '   int   book_id;'
+    '  int book_id;'
     '};'
     ''
     'typedef struct Name1'
     '{'
-    #9'int flags;'
+    '  int flags;'
     '} Struct1;'
     ''
     'template <name T>'
     'struct somedata<IReader>{'
     '  IReader* val;'
     '  int val2;'
-    '};')
+    '};'
+    ''
+    'operator >=(v1, v2) {}')
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
