@@ -2570,7 +2570,7 @@ begin
     if not Pages.Visible then Continue;
     Tabs:= Pages.Tabs;
     for nTab:= Tabs.TabCount-1 downto 0 do
-      Tabs.DeleteTab(nTab, true{AllowEvent}, false{AWithCancelBtn});
+      Tabs.DeleteTab(nTab, true{AllowEvent}, false{AWithCancelBtn}, aocNone);
   end;
 end;
 
