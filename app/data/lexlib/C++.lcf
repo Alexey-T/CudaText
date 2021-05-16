@@ -502,9 +502,47 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           TokenTypes = 4
+        end
+        item
+          TagList.Strings = (
+            '-'
+            '^'
+            '^^'
+            ','
+            ';'
+            ':'
+            '::'
+            '!='
+            '?'
+            '.'
+            '('
+            ')'
+            '['
+            ']'
+            '{'
+            '}'
+            '&'
+            '&&'
+            '<'
+            '<<'
+            '<='
+            '='
+            '=='
+            '>'
+            '->'
+            '>='
+            '>>'
+            '|'
+            '||'
+            'else'
+            'new'
+            'return')
+          CondType = tcNotEqual
+          TokenTypes = 14216
         end>
-      NameFmt = '%s-4'
-      GroupFmt = '%s0\%s-2'
+      BlockOffset = -1
+      NameFmt = '%s-5'
+      GroupFmt = '%s-1\%s-3'
       RefToCondEnd = True
       HighlightPos = cpAny
       CollapseFmt = '%sz0'
@@ -599,7 +637,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 6734
+          TokenTypes = 6862
         end
         item
           TagList.Strings = (
