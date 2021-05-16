@@ -6,7 +6,7 @@
 1.133.1 (2021/05)
 
 + add: floating bottom/side panels now have 'stay on top' style (thanks @Shovel)
-+ add: lexer C++: better code-tree for classes
++ add: lexer C++: better code-tree, support all kinds if C++11 strings
 - fix: stability of multi-threaded parser
 
 1.133.0 (2021/05)
