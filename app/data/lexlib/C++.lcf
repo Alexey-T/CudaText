@@ -95,7 +95,7 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'String'
       StyleName = 'String'
       TokenType = 4
-      Expression = 'L?"(\\"|\\\\|\\\n|.)*?("|$)'
+      Expression = '(u8|L|u|U)?"(\\.|.)*?("s?|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -103,7 +103,9 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'String raw'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?s)R"\( .+? \)" |'#13#10'(?s)R"(.+?)\( .+? \)\1"'
+      Expression = 
+        '(?s)(u8R|LR|uR|UR|R)"\( .+? \)"s? |'#13#10'(?s)(u8R|LR|uR|UR|R)"(.+?)\' +
+        '( .+? \)\1"s?'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -136,6 +138,14 @@ object SyntAnal5: TLibSyntAnalyzer
       StyleName = 'Label'
       TokenType = 14
       Expression = '(?<=\bgoto\x20+)[a-z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Char'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '(u8|L|u|U)?'#39'.*?('#39'|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -272,14 +282,6 @@ object SyntAnal5: TLibSyntAnalyzer
       Expression = 
         '\[\[| \]\]| \.\.\.| [\[\],\.:\\\?] |<=> |'#13#10'[\-\+<>\|\&]{2}=? | \' +
         '#{1,2}|'#13#10'[\+\-\*/&\|\^!<>=~%]=?'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Char'
-      StyleName = 'String'
-      TokenType = 4
-      Expression = #39'.*?('#39'|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end>
