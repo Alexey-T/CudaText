@@ -103,7 +103,7 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'String raw'
       StyleName = 'String'
       TokenType = 4
-      Expression = 'R"\( .+? \)" |'#13#10'R"(.+?)\( .+? \)\1"'
+      Expression = '(?s)R"\( .+? \)" |'#13#10'(?s)R"(.+?)\( .+? \)\1"'
       ColumnFrom = 0
       ColumnTo = 0
     end
