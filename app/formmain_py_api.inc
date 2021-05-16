@@ -3000,8 +3000,12 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Lis:get_prop', @H, @Id, @Ptr)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
+      if Ed=nil then
+        exit(ReturnNone);
       Str:= string(Ptr);
       F:= GetEditorFrame(Ed);
+
+      //Application.MainForm.Caption:= 'get_prop '+IntToStr(id)+', filename: '+Ed.FileName;
 
       case Id of
         PROP_GUTTER_ALL:
@@ -3729,6 +3733,8 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Lis:set_prop', @H, @Id, @Ptr)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
+      if Ed=nil then
+        exit(ReturnNone);
       F:= GetEditorFrame(Ed);
       Str:= string(Ptr);
 
