@@ -161,7 +161,8 @@ procedure TAppPanelHost.SetAlign(AValue: TAlign);
 begin
   if FAlign=AValue then Exit;
   FAlign:= AValue;
-  PanelGrouper.Align:= FAlign;
+  if not Floating then
+    PanelGrouper.Align:= FAlign;
   Splitter.Align:= FAlign;
   UpdateSplitter;
 end;

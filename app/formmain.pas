@@ -5181,8 +5181,6 @@ const
   cVal: array[boolean] of TAlign = (alLeft, alRight);
 begin
   if AValue=GetShowSidebarOnRight then exit;
-  if AppPanels[cPaneSide].Floating then exit;
-  PanelSide.Align:= cVal[AValue];
   AppPanels[cPaneSide].Align:= cVal[AValue];
 end;
 
