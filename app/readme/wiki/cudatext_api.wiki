@@ -4327,4 +4327,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: dlg_proc: control "listbox_ex" border is themed now
 * add: app_proc: PROC_GET_OS_SUFFIX
 
+1.0.391 (app 1.133.1)
+* add: tree_proc: TREE_ITEM_SELECT with id_item=0 removes the selection
+
 [[Category:CudaText]]
