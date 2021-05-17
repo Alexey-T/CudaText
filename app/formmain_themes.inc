@@ -80,6 +80,7 @@ begin
   begin
     EditorApplyTheme(fmConsole.EdInput);
     EditorApplyTheme(fmConsole.EdMemo);
+    fmConsole.Invalidate;
   end;
 
   ToolbarMain.Color:= GetAppColor(apclTabBg);
@@ -151,7 +152,7 @@ begin
     DoApplyThemeToGroups(GroupsF3);
   end;
 
-  if assigned(fmFind) then
+  if Assigned(fmFind) then
   begin
     fmFind.Color:= GetAppColor(apclTabBg);
     EditorApplyTheme(fmFind.edFind);
@@ -164,6 +165,15 @@ begin
   //proc_sidepanel_add_dialog
   for i:= 0 to CustomDialogs.Count-1 do
     DoApplyThemeToCustomDialog(TFormDummy(CustomDialogs[i]));
+
+  //floating side-panel and bottom-panel
+  with AppPanels[cPaneSide] do
+    if Assigned(FormFloat) then
+      FormFloat.Invalidate;
+
+  with AppPanels[cPaneOut] do
+    if Assigned(FormFloat) then
+      FormFloat.Invalidate;
 
   //apply AppTheme to all frames
   DoApplyLexerStyleMaps(true);
