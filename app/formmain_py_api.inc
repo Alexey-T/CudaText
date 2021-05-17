@@ -6843,6 +6843,10 @@ begin
               TreeNode.Selected:= true;
               TreeNode.MakeVisible;
               TreeCont.Tree.Invalidate;
+            end
+            else
+            begin
+              TreeCont.Tree.Selected:= nil;
             end;
             Result:= ReturnNone;
           end;
