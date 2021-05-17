@@ -1094,7 +1094,7 @@ How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=
 
 * "sp_l", "sp_r", "sp_t", "sp_b", "sp_a": int: Border spacing, ie padding of control's edge from anchored controls (or parent form). 5 props here: left, right, top, bottom, around. "Around" padding is added to padding of all 4 sides.
 
-* "a_l", "a_r", "a_t", "a_b": 2-tuple (str_control_name, str_side): Anchors of control. See [[#Anchors]]. Value is 2-tuple, or None to disable anchor.
+* "a_l", "a_r", "a_t", "a_b": 2-tuple (str_control_name, str_side): Anchors of control. See [[#dlg_proc_-_Anchors]]. Value is 2-tuple, or None to disable anchor.
 ** Item-0: name of target control, or empty str to use control's parent (it is form by default).
 ** Item-1: side of target control, one of 3 values: "[" (left/top), "-" (center), "]" (right/bottom).
 
@@ -1263,7 +1263,7 @@ Side value "[" aligns control to left/top side of target:
           +--------+
           | target |
           +--------+
-
+  
           +--------------+
           |   control    |
           +--------------+
@@ -1273,7 +1273,7 @@ Side value "]" aligns control to right/bottom side of target:
            +--------+
            | target |
            +--------+
-
+  
      +--------------+
      |   control    |
      +--------------+
@@ -1283,10 +1283,12 @@ Side value "-" centers control relative to target:
            +--------+
            | target |
            +--------+
-
+  
         +--------------+
         |   control    |
         +--------------+
+
+Useful information in the Lazarus wiki: [[Anchor_Docking#Why_use_Anchors_instead_of_Align.3F]].
 
 Example: to attach "colorpanel" to the right side of form, clear left anchor (set to None), and add right/bottom anchors. This also sets spacing-aroung (padding) to 6 pixels.
 
