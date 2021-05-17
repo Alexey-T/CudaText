@@ -91,6 +91,7 @@ begin
   ToolbarSideLow.Color:= ToolbarSideTop.Color;
   ToolbarSideMid.Color:= ToolbarSideTop.Color;
 
+  //floating side-panel and bottom-panel
   for id in TAppPanelId do
     if id<>cPaneNone then
       with AppPanels[id] do
@@ -99,6 +100,8 @@ begin
         PanelTitle.Font.Color:= GetAppColor(apclTabFont);
         Splitter.Color:= GetAppColor(apclSplitMain);
         Splitter.Invalidate;
+        if Assigned(FormFloat) then
+          FormFloat.Invalidate;
       end;
 
   NColor:= GetAppColor(apclStatusBg);
@@ -165,15 +168,6 @@ begin
   //proc_sidepanel_add_dialog
   for i:= 0 to CustomDialogs.Count-1 do
     DoApplyThemeToCustomDialog(TFormDummy(CustomDialogs[i]));
-
-  //floating side-panel and bottom-panel
-  with AppPanels[cPaneSide] do
-    if Assigned(FormFloat) then
-      FormFloat.Invalidate;
-
-  with AppPanels[cPaneOut] do
-    if Assigned(FormFloat) then
-      FormFloat.Invalidate;
 
   //apply AppTheme to all frames
   DoApplyLexerStyleMaps(true);
