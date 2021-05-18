@@ -7,6 +7,7 @@
 
 + add: floating bottom/side panels now have 'stay on top' style (thanks @Shovel)
 + add: lexer C++: better code-tree; support all kinds if C++11 strings
+- fix: flickering in CudaExt commands with option "dim_unfocused" (thanks @kvichans)
 - fix: auto-reloading of file when ui-tab is splitted (thanks @Shovel)
 - fix: stability of multi-threaded parser
 
