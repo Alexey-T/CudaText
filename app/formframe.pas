@@ -2595,6 +2595,14 @@ begin
     true{KeepScroll},
     true{AllowLoadUndo},
     Mode);
+
+  //fix issue #3394
+  if EditorsLinked and Splitted and (Ed=Ed1) then
+  begin
+    Ed2.Update(true);
+    Ed2.DoCaretsFixIncorrectPos(false);
+  end;
+
   if Ed.Strings.Count=0 then exit;
 
   //restore props
