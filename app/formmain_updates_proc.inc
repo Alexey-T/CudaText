@@ -347,7 +347,7 @@ begin
     fmFind.Enabled:= b;
 end;
 
-procedure TfmMain.UpdateAppForSearch(AStart, AEdLock, AFindMode: boolean; AUpdateEnableAll: boolean=true);
+procedure TfmMain.UpdateAppForSearch(AStart, AEdLock, AFindMode, AUpdateEnableAll: boolean);
 var
   Frame: TEditorFrame;
   Ed: TATSynEdit;

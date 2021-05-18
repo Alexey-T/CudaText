@@ -507,7 +507,7 @@ begin
 
     CurrentFrame.SetFocus;
     fmFind.Hide;
-    UpdateAppForSearch(false, false, true);
+    UpdateAppForSearch(false, false, true, true);
   end;
 end;
 
@@ -557,7 +557,7 @@ begin
   ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
   FinderUpdateEditor(false);
   ShowFinderResult(ok);
-  UpdateAppForSearch(false, false, true); //hide search progressbar
+  UpdateAppForSearch(false, false, true, true); //hide search progressbar
 
   //add string to history, issue #3326
   fmFind.edFind.DoAddLineToHistory(FFinder.StrFind, UiOps.MaxHistoryEdits);
@@ -617,7 +617,7 @@ begin
     Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt])+FinderOptionsToHint,
     true);
 
-  UpdateAppForSearch(false, false, true); //hide search progressbar
+  UpdateAppForSearch(false, false, true, true); //hide search progressbar
 end;
 
 

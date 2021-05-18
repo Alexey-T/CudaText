@@ -1121,7 +1121,7 @@ type
     procedure UpdateInputForm(Form: TForm; AndHeight: boolean= true);
     procedure UpdateFrameEx(F: TEditorFrame; AUpdatedText: boolean);
     procedure UpdateCurrentFrame(AUpdatedText: boolean= false);
-    procedure UpdateAppForSearch(AStart, AEdLock, AFindMode: boolean; AUpdateEnableAll: boolean=true);
+    procedure UpdateAppForSearch(AStart, AEdLock, AFindMode, AUpdateEnableAll: boolean);
     procedure UpdateStatusbar;
     procedure InitStatusbarControls;
     procedure DoOnDeleteLexer(Sender: TObject; const ALexerName: string);
