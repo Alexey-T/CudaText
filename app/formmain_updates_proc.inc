@@ -363,9 +363,9 @@ begin
     FFindConfirmAll:= mrNone;
     ButtonCancel.Show;
     UpdateGlobalProgressbar(0, true);
-    UpdateEnabledAll(false);
     if AEdLock then
     begin
+      UpdateEnabledAll(false);
       Ed.BeginUpdate;
       Ed.Enabled:= false;
     end;
@@ -374,9 +374,12 @@ begin
   begin
     ButtonCancel.Hide;
     UpdateGlobalProgressbar(0, false);
-    UpdateEnabledAll(true);
-    Ed.Enabled:= true;
-    Ed.EndUpdate;
+    if AEdLock then
+    begin
+      UpdateEnabledAll(true);
+      Ed.Enabled:= true;
+      Ed.EndUpdate;
+    end;
 
     if Assigned(fmFind) and fmFind.Visible and fmFind.Enabled then
       fmFind.UpdateFocus(AFindMode)
