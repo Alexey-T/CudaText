@@ -347,7 +347,7 @@ begin
     fmFind.Enabled:= b;
 end;
 
-procedure TfmMain.UpdateAppForSearch(AStart, AEdLock, AFindMode: boolean);
+procedure TfmMain.UpdateAppForSearch(AStart, AEdLock, AFindMode: boolean; AUpdateEnableAll: boolean=true);
 var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
@@ -363,9 +363,10 @@ begin
     FFindConfirmAll:= mrNone;
     ButtonCancel.Show;
     UpdateGlobalProgressbar(0, true);
+    if AUpdateEnableAll then
+      UpdateEnabledAll(false);
     if AEdLock then
     begin
-      UpdateEnabledAll(false);
       Ed.BeginUpdate;
       Ed.Enabled:= false;
     end;
@@ -374,9 +375,10 @@ begin
   begin
     ButtonCancel.Hide;
     UpdateGlobalProgressbar(0, false);
-    if AEdLock then
-    begin
+    if AUpdateEnableAll then
       UpdateEnabledAll(true);
+    //if AEdLock then //works ok even without this check
+    begin
       Ed.Enabled:= true;
       Ed.EndUpdate;
     end;

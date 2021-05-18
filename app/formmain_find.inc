@@ -108,7 +108,12 @@ begin
 end;
 
 
-procedure TfmMain.FindDialogDone(Sender: TObject; Res: TAppFinderOperation);
+procedure TfmMain.FindDialogDone2(Sender: TObject; Res: TAppFinderOperation);
+begin
+  FindDialogDone(Sender, Res, true);
+end;
+
+procedure TfmMain.FindDialogDone(Sender: TObject; Res: TAppFinderOperation; AEnableUpdateAll: boolean);
 var
   Category: TAppFinderOperationCategory;
   ListFound: TStringList;
@@ -158,7 +163,7 @@ begin
       Frame.SetFocus;
     fmFind.Hide;
     fmFind.ClearHiAll;
-    UpdateAppForSearch(false, false, bFindMode);
+    UpdateAppForSearch(false, false, bFindMode, AEnableUpdateAll);
     Exit;
   end;
 
@@ -182,7 +187,7 @@ begin
 
   if Frame.IsBinary then
   begin
-    UpdateAppForSearch(true, false, true);
+    UpdateAppForSearch(true, false, true, AEnableUpdateAll);
     Application.ProcessMessages;
 
     case Res of
@@ -194,7 +199,7 @@ begin
         ShowFinderResultSimple(Frame.BinaryFindNext(Res=afoFindPrev));
     end;
 
-    UpdateAppForSearch(false, false, true);
+    UpdateAppForSearch(false, false, true, AEnableUpdateAll);
     exit;
   end;
 
@@ -218,7 +223,7 @@ begin
     //(Res=afoReplaceStop) or
     (Res=afoReplaceAll) or
     (Res=afoReplaceGlobal);
-  UpdateAppForSearch(true, bDoLock, bFindMode);
+  UpdateAppForSearch(true, bDoLock, bFindMode, AEnableUpdateAll);
 
   if bDoLock then
   begin
@@ -355,7 +360,7 @@ begin
     end;
   end; //case Res of
 
-  UpdateAppForSearch(false, false, bFindMode);
+  UpdateAppForSearch(false, false, bFindMode, AEnableUpdateAll);
 
   {$ifdef LCLgtk2}
   //Linux gtk2: UpdateAppForSearch don't put focus anywhere (Laz bug?) after "confirmation" form
@@ -373,7 +378,7 @@ begin
   if not Assigned(fmFind) then
   begin
     fmFind:= TfmFind.Create(Self);
-    fmFind.OnResult:= @FindDialogDone;
+    fmFind.OnResult:= @FindDialogDone2;
     fmFind.OnChangeOptions:= @DoFindOptions_OnChange;
     fmFind.OnFocusEditor:= @FindDialogFocusEditor;
     fmFind.OnGetMainEditor:= @FindDialogGetMainEditor;
@@ -1145,7 +1150,11 @@ begin
   FFinder.StrFind:= UTF8Decode(SFind);
   FFinder.StrReplace:= UTF8Decode(SRep);
   FinderOptionsFromString(FFinder, SOpt);
-  FindDialogDone(nil{skip dialog}, AppFinderOperationFromString(SAction));
+  FindDialogDone(
+    nil, //skip dialog
+    AppFinderOperationFromString(SAction),
+    false //'false' to solve issue #3303
+    );
 end;
 
 procedure TfmMain.DoFindOptions_OnChange(Sender: TObject);

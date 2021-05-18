@@ -1036,7 +1036,8 @@ type
     procedure DoToggleUiTabs;
     function FinderReplaceAll(Ed: TATSynEdit; AResetCaret: boolean): integer;
     procedure FinderShowReplaceReport(ACounter, ATime: integer);
-    procedure FindDialogDone(Sender: TObject; Res: TAppFinderOperation);
+    procedure FindDialogDone(Sender: TObject; Res: TAppFinderOperation; AEnableUpdateAll: boolean);
+    procedure FindDialogDone2(Sender: TObject; Res: TAppFinderOperation);
     procedure FinderOnFound(Sender: TObject; APos1, APos2: TPoint);
     procedure FinderOnProgress(Sender: TObject; const ACurPos, AMaxPos: Int64; var AContinue: boolean);
     procedure FinderUpdateEditor(AUpdateText: boolean; AUpdateStatusbar: boolean=true);
@@ -1120,7 +1121,7 @@ type
     procedure UpdateInputForm(Form: TForm; AndHeight: boolean= true);
     procedure UpdateFrameEx(F: TEditorFrame; AUpdatedText: boolean);
     procedure UpdateCurrentFrame(AUpdatedText: boolean= false);
-    procedure UpdateAppForSearch(AStart, AEdLock, AFindMode: boolean);
+    procedure UpdateAppForSearch(AStart, AEdLock, AFindMode: boolean; AUpdateEnableAll: boolean=true);
     procedure UpdateStatusbar;
     procedure InitStatusbarControls;
     procedure DoOnDeleteLexer(Sender: TObject; const ALexerName: string);
