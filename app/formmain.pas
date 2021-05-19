@@ -2274,6 +2274,10 @@ begin
     Range:= DataObj as TATRangeInCodeTree;
     Range.PosBegin:= APosBegin;
     Range.PosEnd:= APosEnd;
+  end
+  else
+  begin
+    MsgLogConsole('ERROR: tree_proc(... TREE_ITEM_SET_RANGE ...) gets wrong node type: '+DataObj.ClassName);
   end;
 end;
 
