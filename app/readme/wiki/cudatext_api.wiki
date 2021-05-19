@@ -4332,4 +4332,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.391 (app 1.133.1)
 * add: tree_proc: TREE_ITEM_SELECT with id_item=0 removes the selection
 
+1.0.392 (app 1.133.2)
+* add: on_state: add APPSTATE_CODETREE_BEFORE_FILL, APPSTATE_CODETREE_AFTER_FILL
+
 [[Category:CudaText]]
