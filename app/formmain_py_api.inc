@@ -6688,7 +6688,7 @@ var
   ItemList: TFPList;
   Sep: TATStringSeparator;
   Obj: TObject;
-  ObjData: TAppTreeNodeData;
+  ObjData: TATRangeInCodeTree;
   i: integer;
 begin
   with AppPython.Engine do
@@ -6763,8 +6763,8 @@ begin
                 if Node1.Data<>nil then
                 begin
                   Obj:= TObject(Node1.Data);
-                  if Obj is TAppTreeNodeData then
-                    StrData:= (Obj as TAppTreeNodeData).DataString;
+                  if Obj is TATRangeInCodeTree then
+                    StrData:= (Obj as TATRangeInCodeTree).DataString;
                 end;
 
                 PyList_SetItem(Result, i,
@@ -6797,7 +6797,7 @@ begin
 
             if Assigned(PtrData) then
             begin
-              ObjData:= TAppTreeNodeData.Create;
+              ObjData:= TATRangeInCodeTree.Create;
               ObjData.DataString:= string(PtrData);
               Node1.Data:= ObjData;
             end;
@@ -6867,8 +6867,8 @@ begin
               if TreeNode.Data<>nil then
               begin
                 Obj:= TObject(TreeNode.Data);
-                if Obj is TAppTreeNodeData then
-                  StrData:= (Obj as TAppTreeNodeData).DataString;
+                if Obj is TATRangeInCodeTree then
+                  StrData:= (Obj as TATRangeInCodeTree).DataString;
               end;
 
               Result:= Py_BuildValue('{sssisisisisLsOsOsOss}',

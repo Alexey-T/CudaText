@@ -60,12 +60,6 @@ procedure DoForm_FocusControl(F: TForm; C: TControl);
 procedure DoForm_ScaleAuto(F: TForm; ASimpleResize: boolean=false);
 procedure DoForm_CloseDockedForms(F: TForm);
 
-type
-  TAppTreeNodeData = class(TATRangeInCodeTree)
-  public
-    DataString: string;
-  end;
-
 //var
 //  CustomDialog_Listbox_OnDrawItem: TATListboxDrawItemEvent = nil;
 
