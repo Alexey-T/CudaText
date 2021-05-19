@@ -3768,7 +3768,9 @@ begin
 
   if not AValue then
     if Assigned(FCachedTreeview[N]) then
+    begin
       ClearTreeviewWithData(FCachedTreeview[N]);
+    end;
 end;
 
 procedure TEditorFrame.SetEnabledFolding(AValue: boolean);

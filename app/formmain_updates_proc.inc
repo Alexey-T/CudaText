@@ -990,6 +990,7 @@ begin
   Ada:= Frame.Adapter[Ed];
   if (Ada=nil) or (Ada.AnClient=nil) then
   begin
+    DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
     ClearTreeviewWithData(CodeTree.Tree);
     exit
   end;
@@ -1005,6 +1006,7 @@ begin
   NRanges:= Ada.AnClient.RangeCount;
   if (NRanges>UiOps.MaxRangesForCodeTree) then
   begin
+    DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
     ClearTreeviewWithData(CodeTree.Tree);
     exit;
   end;
@@ -1060,12 +1062,12 @@ begin
      CodeTree.Tree.Font.Size:= AppScaleFont(UiOps.VarFontSize);
      CodeTree.Tree.Perform(CM_CHANGED, 0, 0);
     end;
+
+   DoPyEvent_AppState(APPSTATE_CODETREE_AFTER_FILL);
   end;
 
   UpdateTreeFilter;
   UpdateTreeSelection(Frame, Ed);
-
-  DoPyEvent_AppState(APPSTATE_CODETREE_AFTER_FILL);
 end;
 
 procedure TfmMain.UpdateTreeSelection(Frame: TEditorFrame; Ed: TATSynEdit);
@@ -1081,6 +1083,8 @@ begin
     CodeTree.Tree,
     Caret.PosX, Caret.PosY
     );
+
+  DoPyEvent_AppState(APPSTATE_CODETREE_SET_SELECTION);
 end;
 
 procedure TfmMain.UpdateMenuEnc(AMenu: TMenuItem);
