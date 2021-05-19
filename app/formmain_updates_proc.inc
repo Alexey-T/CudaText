@@ -1037,6 +1037,8 @@ begin
    else
      CodeTree.Tree.Images:= nil;
 
+   DoPyEvent_AppState(APPSTATE_CODETREE_BEFORE_FILL);
+
    FCodetreeModifiedVersion:= Ed.Strings.ModifiedVersion;
    if not RunTreeHelper(Frame) then
    begin
@@ -1062,6 +1064,8 @@ begin
 
   UpdateTreeFilter;
   UpdateTreeSelection(Frame, Ed);
+
+  DoPyEvent_AppState(APPSTATE_CODETREE_AFTER_FILL);
 end;
 
 procedure TfmMain.UpdateTreeSelection(Frame: TEditorFrame; Ed: TATSynEdit);
