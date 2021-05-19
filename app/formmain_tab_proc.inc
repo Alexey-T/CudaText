@@ -135,7 +135,8 @@ begin
     //prevent ListIndexError on file_open(..)
     if not FDisableTreeClearing then
     begin
-      DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
+      if CodeTree.Tree.Items.Count>0 then
+        DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
       ClearTreeviewWithData(CodeTree.Tree);
     end;
 
@@ -342,7 +343,8 @@ begin
     if not Application.Terminated then
       if bNeedTreeUpd then
       begin
-        DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
+        if CodeTree.Tree.Items.Count>0 then
+          DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
         ClearTreeviewWithData(CodeTree.Tree);
       end;
 
