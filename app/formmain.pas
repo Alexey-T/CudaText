@@ -2245,7 +2245,11 @@ begin
   if ANode.Data=nil then exit;
 
   DataObj:= TObject(ANode.Data);
-  if not (DataObj is TATRangeInCodeTree) then exit;
+  if not (DataObj is TATRangeInCodeTree) then
+  begin
+    MsgLogConsole('ERROR: tree_proc(... TREE_ITEM_GET_RANGE ...) gets wrong node type: '+DataObj.ClassName);
+    exit;
+  end;
   Range:= DataObj as TATRangeInCodeTree;
   APosBegin:= Range.PosBegin;
   APosEnd:= Range.PosEnd;

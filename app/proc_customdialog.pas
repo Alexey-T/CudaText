@@ -61,7 +61,8 @@ procedure DoForm_ScaleAuto(F: TForm; ASimpleResize: boolean=false);
 procedure DoForm_CloseDockedForms(F: TForm);
 
 type
-  TAppTreeNodeData = class
+  TAppTreeNodeData = class(TATRangeInCodeTree)
+  public
     DataString: string;
   end;
 
