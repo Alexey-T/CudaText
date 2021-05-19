@@ -1018,32 +1018,32 @@ begin
     if Application.Terminated then exit;
   end;
 
- if AFill then
- begin
-   if Assigned(Ada.Lexer) then
-     FCodetreeLexer:= Ada.Lexer.LexerName
-   else
-     FCodetreeLexer:= '';
+  if AFill then
+  begin
+    if Assigned(Ada.Lexer) then
+      FCodetreeLexer:= Ada.Lexer.LexerName
+    else
+      FCodetreeLexer:= '';
 
-   case FCodetreeLexer of
-     'CSS': //we can add more lexers, but not needed yet
-       FCodetreeLexerCSS:= true;
-     else
-       FCodetreeLexerCSS:= false;
-   end;
+    case FCodetreeLexer of
+      'CSS': //we can add more lexers, but not needed yet
+        FCodetreeLexerCSS:= true;
+      else
+        FCodetreeLexerCSS:= false;
+    end;
 
-   InitImageListCodetree;
+    InitImageListCodetree;
 
-   if UiOps.TreeShowIcons then
-     CodeTree.Tree.Images:= ImageListTree
-   else
-     CodeTree.Tree.Images:= nil;
+    if UiOps.TreeShowIcons then
+      CodeTree.Tree.Images:= ImageListTree
+    else
+      CodeTree.Tree.Images:= nil;
 
-   DoPyEvent_AppState(APPSTATE_CODETREE_BEFORE_FILL);
+    DoPyEvent_AppState(APPSTATE_CODETREE_BEFORE_FILL);
 
-   FCodetreeModifiedVersion:= Ed.Strings.ModifiedVersion;
-   if not RunTreeHelper(Frame) then
-   begin
+    FCodetreeModifiedVersion:= Ed.Strings.ModifiedVersion;
+    if not RunTreeHelper(Frame) then
+    begin
      if not Assigned(FCodetreeBuffer) then
        FCodetreeBuffer:= TTreeView.Create(Self);
      Ada.TreeFill(FCodetreeBuffer);
@@ -1063,7 +1063,7 @@ begin
      CodeTree.Tree.Perform(CM_CHANGED, 0, 0);
     end;
 
-   DoPyEvent_AppState(APPSTATE_CODETREE_AFTER_FILL);
+    DoPyEvent_AppState(APPSTATE_CODETREE_AFTER_FILL);
   end;
 
   UpdateTreeFilter;
