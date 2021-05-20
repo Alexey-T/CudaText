@@ -974,7 +974,7 @@ begin
   CodeTreeFilter.InvalidateFilter;
 end;
 
-procedure TfmMain.UpdateTreeImagelist;
+procedure TfmMain.UpdateTreeImagelistActivity;
 begin
   if UiOps.TreeShowIcons then
     CodeTree.Tree.Images:= ImageListTree
@@ -1043,7 +1043,7 @@ begin
     end;
 
     InitImageListCodetree;
-    UpdateTreeImagelist;
+    UpdateTreeImagelistActivity;
     DoPyEvent_AppState(APPSTATE_CODETREE_BEFORE_FILL);
 
     FCodetreeModifiedVersion:= Ed.Strings.ModifiedVersion;

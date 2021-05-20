@@ -1115,7 +1115,7 @@ type
     procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true);
     procedure UpdateTreeContents;
     procedure UpdateTreeSelection(Frame: TEditorFrame; Ed: TATSynEdit);
-    procedure UpdateTreeImagelist;
+    procedure UpdateTreeImagelistActivity;
     procedure UpdateCaption;
     procedure UpdateEnabledAll(b: boolean);
     procedure InitFrameEvents(F: TEditorFrame);
