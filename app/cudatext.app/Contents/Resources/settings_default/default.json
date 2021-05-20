@@ -176,8 +176,8 @@
   //Manual reopening/reloading of file: confirm to reload, if tab has unsaved changes
   "ui_reload_unsaved_confirm": true,
 
-  //Command "File / Save" works always, even with unmodified state of document.
-  //Otherwise, it works only for modified (dirty) documents, of if the file was deleted outside.
+  //Allow command "File / Save" to work always, even with unmodified state of the document.
+  //Otherwise, command works only for modified documents, or if the file was deleted outside.
   "ui_save_always": true,
 
   //[Lexers]
