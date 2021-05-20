@@ -4121,7 +4121,7 @@ end;
 procedure TEditorFrame.PanelInfoClick(Sender: TObject);
 begin
   PanelInfo.Hide;
-  AppPython.RunCommand('cuda_options_editor', 'dlg_cuda_options', []);
+  AppPython.RunCommand('cuda_prefs', 'dlg_cuda_options', []);
 end;
 
 
