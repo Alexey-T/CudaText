@@ -6683,7 +6683,7 @@ var
   Pnt1, Pnt2: TPoint;
   PtrText, PtrData: PChar;
   StrText, StrData: string;
-  TreeCont: TAppTreeContainer;
+  TreeContainer: TAppTreeContainer;
   TreeNode, Node1: TTreeNode;
   ItemList: TFPList;
   Sep: TATStringSeparator;
@@ -6702,7 +6702,7 @@ begin
         MsgLogConsole('ERROR: tree_proc() gets bad handle of tree');
         exit(ReturnNone);
       end;
-      TreeCont:= TAppTreeContainer(Obj);
+      TreeContainer:= TAppTreeContainer(Obj);
       TreeNode:= TTreeNode(PtrInt(IdItem));
       Obj:= nil;
 
@@ -6712,7 +6712,7 @@ begin
             if Assigned(TreeNode) then
               Node1:= TreeNode.GetFirstChild
             else
-              Node1:= TreeCont.Tree.Items.GetFirstNode;
+              Node1:= TreeContainer.Tree.Items.GetFirstNode;
             if Node1=nil then exit(ReturnNone);
 
             ItemList:= TFPList.Create;
@@ -6741,7 +6741,7 @@ begin
             if Assigned(TreeNode) then
               Node1:= TreeNode.GetFirstChild
             else
-              Node1:= TreeCont.Tree.Items.GetFirstNode;
+              Node1:= TreeContainer.Tree.Items.GetFirstNode;
             if Node1=nil then exit(ReturnNone);
 
             ItemList:= TFPList.Create;
@@ -6788,7 +6788,7 @@ begin
 
         TREE_ITEM_ADD:
           begin
-            Node1:= TreeCont.Tree.Items.AddChild(TreeNode, StrText);
+            Node1:= TreeContainer.Tree.Items.AddChild(TreeNode, StrText);
             Node1.Text:= StrText;
             Node1.ImageIndex:= NImageIndex;
             Node1.SelectedIndex:= NImageIndex;
@@ -6802,7 +6802,7 @@ begin
               Node1.Data:= ObjData;
             end;
 
-            TreeCont.Tree.Invalidate;
+            TreeContainer.Tree.Invalidate;
             Result:= PyHelper_ObjectHandle(Node1);
           end;
 
@@ -6813,13 +6813,13 @@ begin
             else
             begin
               //handle code-tree clearing via API
-              if TreeCont=fmMain.CodeTree then
+              if TreeContainer=fmMain.CodeTree then
                 fmMain.DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
 
-              ClearTreeviewWithData(TreeCont.Tree);
+              ClearTreeviewWithData(TreeContainer.Tree);
             end;
 
-            TreeCont.Tree.Invalidate;
+            TreeContainer.Tree.Invalidate;
             Result:= ReturnNone;
           end;
 
@@ -6827,14 +6827,14 @@ begin
           begin
             if Assigned(TreeNode) then
               TreeNode.Text:= StrText;
-            TreeCont.Tree.Invalidate;
+            TreeContainer.Tree.Invalidate;
             Result:= ReturnNone;
           end;
 
         TREE_ITEM_SET_ICON:
           begin
             //issue #3400
-            if TreeCont=fmMain.CodeTree then
+            if TreeContainer=fmMain.CodeTree then
               fmMain.UpdateTreeImagelist;
 
             if Assigned(TreeNode) then
@@ -6842,7 +6842,7 @@ begin
               TreeNode.ImageIndex:= NImageIndex;
               TreeNode.SelectedIndex:= NImageIndex;
             end;
-            TreeCont.Tree.Invalidate;
+            TreeContainer.Tree.Invalidate;
             Result:= ReturnNone;
           end;
 
@@ -6852,19 +6852,19 @@ begin
             begin
               TreeNode.Selected:= true;
               TreeNode.MakeVisible;
-              TreeCont.Tree.Invalidate;
+              TreeContainer.Tree.Invalidate;
             end
             else
             begin
-              TreeCont.Tree.Selected:= nil;
+              TreeContainer.Tree.Selected:= nil;
             end;
             Result:= ReturnNone;
           end;
 
         TREE_ITEM_GET_SELECTED:
           begin
-            if Assigned(TreeCont.Tree.Selected) then
-              Result:= PyHelper_ObjectHandle(TreeCont.Tree.Selected)
+            if Assigned(TreeContainer.Tree.Selected) then
+              Result:= PyHelper_ObjectHandle(TreeContainer.Tree.Selected)
             else
               Result:= ReturnNone;
           end;
@@ -6912,7 +6912,7 @@ begin
           begin
             if Assigned(TreeNode) then
               TreeNode.Collapse(false);
-            TreeCont.Tree.Invalidate;
+            TreeContainer.Tree.Invalidate;
             Result:= ReturnNone;
           end;
 
@@ -6921,46 +6921,46 @@ begin
             if Assigned(TreeNode) then
               TreeNode.Collapse(true)
             else
-              TreeCont.Tree.FullCollapse;
-            TreeCont.Tree.Invalidate;
+              TreeContainer.Tree.FullCollapse;
+            TreeContainer.Tree.Invalidate;
             Result:= ReturnNone;
           end;
 
         TREE_ITEM_FOLD_LEVEL:
           begin
-            DoTreeviewFoldLevel(TreeCont.Tree, NIndex);
+            DoTreeviewFoldLevel(TreeContainer.Tree, NIndex);
             Result:= ReturnNone;
           end;
 
         TREE_ITEM_UNFOLD:
           begin
-            //if TreeCont.Owner is TFormDummy then
-            //  (TreeCont.Owner as TFormDummy).BlockedOnUnfold:= true;
+            //if TreeContainer.Owner is TFormDummy then
+            //  (TreeContainer.Owner as TFormDummy).BlockedOnUnfold:= true;
 
             if Assigned(TreeNode) then
               TreeNode.Expand(false);
 
-            //if TreeCont.Owner is TFormDummy then
-            //  (TreeCont.Owner as TFormDummy).BlockedOnUnfold:= false;
+            //if TreeContainer.Owner is TFormDummy then
+            //  (TreeContainer.Owner as TFormDummy).BlockedOnUnfold:= false;
 
-            TreeCont.Tree.Invalidate;
+            TreeContainer.Tree.Invalidate;
             Result:= ReturnNone;
           end;
 
         TREE_ITEM_UNFOLD_DEEP:
           begin
-            //if TreeCont.Owner is TFormDummy then
-            //  (TreeCont.Owner as TFormDummy).BlockedOnUnfold:= true;
+            //if TreeContainer.Owner is TFormDummy then
+            //  (TreeContainer.Owner as TFormDummy).BlockedOnUnfold:= true;
 
             if Assigned(TreeNode) then
               TreeNode.Expand(true)
             else
-              TreeCont.Tree.FullExpand;
+              TreeContainer.Tree.FullExpand;
 
-            //if TreeCont.Owner is TFormDummy then
-            //  (TreeCont.Owner as TFormDummy).BlockedOnUnfold:= false;
+            //if TreeContainer.Owner is TFormDummy then
+            //  (TreeContainer.Owner as TFormDummy).BlockedOnUnfold:= false;
 
-            TreeCont.Tree.Invalidate;
+            TreeContainer.Tree.Invalidate;
             Result:= ReturnNone;
           end;
 
@@ -6989,33 +6989,33 @@ begin
 
         TREE_GET_IMAGELIST:
           begin
-            Result:= PyHelper_ObjectHandle(TreeCont.Tree.Images);
+            Result:= PyHelper_ObjectHandle(TreeContainer.Tree.Images);
           end;
 
         TREE_LOCK:
           begin
-            TreeCont.Tree.Items.BeginUpdate;
+            TreeContainer.Tree.Items.BeginUpdate;
             Result:= ReturnNone;
           end;
 
         TREE_UNLOCK:
           begin
-            TreeCont.Tree.Items.EndUpdate;
-            TTreeviewAccess(TreeCont.Tree).DoSelectionChanged; //force update new scrollbars
+            TreeContainer.Tree.Items.EndUpdate;
+            TTreeviewAccess(TreeContainer.Tree).DoSelectionChanged; //force update new scrollbars
             Result:= ReturnNone;
           end;
 
         TREE_PROP_SHOW_ROOT:
           begin
-            TreeCont.Tree.ShowRoot:= AppStrToBool(StrText);
-            TreeCont.Tree.Invalidate;
+            TreeContainer.Tree.ShowRoot:= AppStrToBool(StrText);
+            TreeContainer.Tree.Invalidate;
             Result:= ReturnNone;
           end;
 
         TREE_THEME:
           begin
-            TreeCont.Themed:= true;
-            DoApplyThemeToTreeview(TreeCont.Tree, true, false);
+            TreeContainer.Themed:= true;
+            DoApplyThemeToTreeview(TreeContainer.Tree, true, false);
             Result:= ReturnNone;
           end;
 
