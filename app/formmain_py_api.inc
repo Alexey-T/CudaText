@@ -6814,8 +6814,7 @@ begin
             begin
               //handle code-tree clearing via API
               if TreeCont=fmMain.CodeTree then
-                if fmMain.CodeTree.Tree.Items.Count>0 then
-                  fmMain.DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
+                fmMain.DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
 
               ClearTreeviewWithData(TreeCont.Tree);
             end;
