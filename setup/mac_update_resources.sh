@@ -16,7 +16,7 @@ mkdir $app/Contents/Resources/py/cuda_make_plugin
 mkdir $app/Contents/Resources/py/cuda_multi_installer
 mkdir $app/Contents/Resources/py/cuda_comments
 mkdir $app/Contents/Resources/py/cuda_new_file
-mkdir $app/Contents/Resources/py/cuda_options_editor
+mkdir $app/Contents/Resources/py/cuda_prefs
 mkdir $app/Contents/Resources/py/cuda_palette
 mkdir $app/Contents/Resources/py/cuda_project_man
 mkdir $app/Contents/Resources/py/cuda_snippet_panel
@@ -42,8 +42,8 @@ cp $from/py/cuda_new_file/*.py $app/Contents/Resources/py/cuda_new_file
 cp $from/py/cuda_new_file/*.inf $app/Contents/Resources/py/cuda_new_file
 rm -rf $from/py/cuda_project_man/__pycache__
 cp -rf $from/py/cuda_project_man/* $app/Contents/Resources/py/cuda_project_man
-rm -rf $from/py/cuda_options_editor/__pycache__
-cp -rf $from/py/cuda_options_editor/* $app/Contents/Resources/py/cuda_options_editor
+rm -rf $from/py/cuda_prefs/__pycache__
+cp -rf $from/py/cuda_prefs/* $app/Contents/Resources/py/cuda_prefs
 rm -rf $from/py/cuda_snippet_panel/__pycache__
 cp -rf $from/py/cuda_snippet_panel/* $app/Contents/Resources/py/cuda_snippet_panel
 rm -rf $from/py/cuda_sort/__pycache__
