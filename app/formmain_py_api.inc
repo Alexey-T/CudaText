@@ -6833,6 +6833,10 @@ begin
 
         TREE_ITEM_SET_ICON:
           begin
+            //issue #3400
+            if TreeCont=fmMain.CodeTree then
+              fmMain.UpdateTreeImagelist;
+
             if Assigned(TreeNode) then
             begin
               TreeNode.ImageIndex:= NImageIndex;
