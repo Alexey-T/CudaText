@@ -78,7 +78,9 @@ begin
       if (Tree.Items.Count>0) then
       begin
         bTreeCached:= true;
+        DoPyEvent_AppState(APPSTATE_CODETREE_BEFORE_FILL);
         DoTreeviewCopy(Tree, CodeTree.Tree);
+        DoPyEvent_AppState(APPSTATE_CODETREE_AFTER_FILL);
         UpdateTreeFilter;
         UpdateTreeSelection(F, Ed);
       end;
