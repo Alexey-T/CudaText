@@ -6703,7 +6703,14 @@ begin
         exit(ReturnNone);
       end;
       TreeContainer:= TAppTreeContainer(Obj);
-      TreeNode:= TTreeNode(PtrInt(IdItem));
+
+      Obj:= TObject(PtrInt(IdItem));
+      if Assigned(Obj) and not (Obj is TTreeNode) then
+      begin
+        MsgLogConsole('ERROR: tree_proc() gets bad handle of tree-node');
+        exit(ReturnNone);
+      end;
+      TreeNode:= TTreeNode(Obj);
       Obj:= nil;
 
       case IdAction of
