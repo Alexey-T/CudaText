@@ -52,6 +52,7 @@ type
     procedure ScrollHorzChange(Sender: TObject);
     procedure ScrollVertChange(Sender: TObject);
     procedure SetThemed(AValue: boolean);
+    procedure TreeOnDeletion(Sender: TObject; Node: TTreeNode);
     procedure UpdateScrollbars;
   public
     Tree: TAppTreeView;
@@ -75,6 +76,7 @@ begin
   Tree.Parent:= Self;
   Tree.Align:= alClient;
   Tree.Container:= Self;
+  Tree.OnDeletion:= @TreeOnDeletion;
 
   FScrollbarVert:= TATScrollbar.Create(nil);
   FScrollbarVert.Parent:= Self;
@@ -137,6 +139,15 @@ begin
     Tree.ScrollBars:= ssNone
   else
     Tree.ScrollBars:= ssAutoBoth;
+end;
+
+procedure TAppTreeContainer.TreeOnDeletion(Sender: TObject; Node: TTreeNode);
+begin
+  if Assigned(Node.Data) then
+  begin
+    TObject(Node.Data).Free;
+    Node.Data:= nil;
+  end;
 end;
 
 procedure TAppTreeContainer.UpdateScrollbars;
