@@ -1115,6 +1115,7 @@ type
     procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true);
     procedure UpdateTreeContents;
     procedure UpdateTreeSelection(Frame: TEditorFrame; Ed: TATSynEdit);
+    procedure UpdateTreeImagelist;
     procedure UpdateCaption;
     procedure UpdateEnabledAll(b: boolean);
     procedure InitFrameEvents(F: TEditorFrame);
@@ -1136,7 +1137,6 @@ type
     PanelCodeTreeTop: TATPanelSimple;
     //LexerProgress: TATGauge;
     LexersDetected: TStringList;
-    procedure UpdateTreeImagelist;
     function FrameCount: integer;
     property Frames[N: integer]: TEditorFrame read GetFrame;
     function CurrentGroups: TATGroups;
