@@ -974,6 +974,14 @@ begin
   CodeTreeFilter.InvalidateFilter;
 end;
 
+procedure TfmMain.UpdateTreeImagelist;
+begin
+  if UiOps.TreeShowIcons then
+    CodeTree.Tree.Images:= ImageListTree
+  else
+    CodeTree.Tree.Images:= nil;
+end;
+
 procedure TfmMain.UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean);
 var
   Frame: TEditorFrame;
@@ -1035,12 +1043,7 @@ begin
     end;
 
     InitImageListCodetree;
-
-    if UiOps.TreeShowIcons then
-      CodeTree.Tree.Images:= ImageListTree
-    else
-      CodeTree.Tree.Images:= nil;
-
+    UpdateTreeImagelist;
     DoPyEvent_AppState(APPSTATE_CODETREE_BEFORE_FILL);
 
     FCodetreeModifiedVersion:= Ed.Strings.ModifiedVersion;

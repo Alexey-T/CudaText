@@ -1136,6 +1136,7 @@ type
     PanelCodeTreeTop: TATPanelSimple;
     //LexerProgress: TATGauge;
     LexersDetected: TStringList;
+    procedure UpdateTreeImagelist;
     function FrameCount: integer;
     property Frames[N: integer]: TEditorFrame read GetFrame;
     function CurrentGroups: TATGroups;
