@@ -85,7 +85,7 @@ begin
     end;
 
     if not bTreeCached then
-      UpdateTreeContents;
+      UpdateTreeByTimer;
   end;
 end;
 
@@ -251,7 +251,7 @@ var
   Params: TAppVariantArray;
 begin
   UpdateLexerProgressbar(0, true);
-  UpdateTreeContents;
+  UpdateTreeByTimer;
 
   Ada:= Sender as TATAdapterEControl;
   Ed:= Ada.Editor;

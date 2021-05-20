@@ -1113,7 +1113,7 @@ type
     procedure UpdateTabCaptionsFromFolders;
     procedure UpdateTabsActiveColor(F: TEditorFrame);
     procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true);
-    procedure UpdateTreeContents;
+    procedure UpdateTreeByTimer;
     procedure UpdateTreeSelection(Frame: TEditorFrame; Ed: TATSynEdit);
     procedure UpdateTreeImagelistActivity;
     procedure UpdateCaption;
@@ -3971,7 +3971,7 @@ begin
     Result:= F;
     Result.SetFocus;
     UpdateStatusbar;
-    UpdateTreeContents;
+    UpdateTreeByTimer;
     Exit
   end;
 
@@ -4837,7 +4837,7 @@ begin
   //if some lexer selected, OnParseDone will update the tree
   //if (none) lexer selected, update tree manually
   if SName='' then
-    UpdateTreeContents;
+    UpdateTreeByTimer;
 
   UpdateFrameEx(F, false);
   UpdateStatusbar;

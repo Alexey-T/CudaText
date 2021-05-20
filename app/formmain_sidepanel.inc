@@ -124,7 +124,7 @@ end;
 
 procedure TfmMain.DoSidebar_OnShowCodeTree(Sender: TObject);
 begin
-  UpdateTreeContents;
+  UpdateTreeByTimer;
 end;
 
 procedure TfmMain.DoSidebar_OnPythonCall(const ACallback: string);

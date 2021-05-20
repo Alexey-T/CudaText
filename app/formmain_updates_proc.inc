@@ -963,7 +963,7 @@ begin
   UpdateMenuItemChecked(mnuGr6, mnuGr6_Alt, Groups.Mode= gm6Grid);
 end;
 
-procedure TfmMain.UpdateTreeContents;
+procedure TfmMain.UpdateTreeByTimer;
 begin
   TimerTreeFill.Enabled:= false;
   TimerTreeFill.Enabled:= true;
