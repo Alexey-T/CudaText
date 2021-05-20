@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.133.1 (2021/05)
+1.134.0 (2021/05)
 
+* change: plugin "Options Editor" was replaced to "Options Editor lite" (written by @Shovel). You must reassign hotkey to the new plugin, if such a hotkey exists. New plugin is more lite and much easier to maintain.
 + add: floating bottom/side panels now have 'stay on top' style (thanks @Shovel)
 + add: lexer C++: better code-tree; support all kinds if C++11 strings
 - fix: flickering in CudaExt commands with option "dim_unfocused" (thanks @kvichans)
