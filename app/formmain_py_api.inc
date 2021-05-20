@@ -6842,7 +6842,10 @@ begin
           begin
             //issue #3400
             if TreeContainer=fmMain.CodeTree then
+            begin
+              fmMain.InitImageListCodetree;
               fmMain.UpdateTreeImagelist;
+            end;
 
             if Assigned(TreeNode) then
             begin
