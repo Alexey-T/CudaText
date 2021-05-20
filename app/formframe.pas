@@ -250,6 +250,7 @@ type
     procedure SetUnprintedSpaces(AValue: boolean);
     procedure SetEditorsLinked(AValue: boolean);
     procedure SplitterMoved(Sender: TObject);
+    procedure TreeOnDeletion(Sender: TObject; Node: TTreeNode);
     procedure UpdateEds(AUpdateWrapInfo: boolean=false);
     procedure UpdateCaptionFromFilename;
     function GetLexer(Ed: TATSynEdit): TecSyntAnalyzer;
@@ -1906,7 +1907,10 @@ var
 begin
   N:= EditorObjToTreeviewIndex(Ed);
   if FCachedTreeview[N]=nil then
+  begin
     FCachedTreeview[N]:= TTreeView.Create(Self);
+    FCachedTreeview[N].OnDeletion:=@TreeOnDeletion;
+  end;
   Result:= FCachedTreeview[N];
 end;
 
@@ -2702,6 +2706,15 @@ end;
 procedure TEditorFrame.SplitterMoved(Sender: TObject);
 begin
   FSplitPos:= GetSplitPosCurrent;
+end;
+
+procedure TEditorFrame.TreeOnDeletion(Sender: TObject; Node: TTreeNode);
+begin
+  if Assigned(Node.Data) then
+  begin
+    TObject(Node.Data).Free;
+    Node.Data:= nil;
+  end;
 end;
 
 procedure TEditorFrame.SetUnprintedEnds(AValue: boolean);
@@ -3768,9 +3781,7 @@ begin
 
   if not AValue then
     if Assigned(FCachedTreeview[N]) then
-    begin
-      ClearTreeviewWithData(FCachedTreeview[N]);
-    end;
+      FCachedTreeview[N].Items.Clear;
 end;
 
 procedure TEditorFrame.SetEnabledFolding(AValue: boolean);

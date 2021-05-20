@@ -6823,7 +6823,7 @@ begin
               if TreeContainer=fmMain.CodeTree then
                 fmMain.DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
 
-              ClearTreeviewWithData(TreeContainer.Tree);
+              TreeContainer.Tree.Items.Clear;
             end;
 
             TreeContainer.Tree.Invalidate;

@@ -1000,7 +1000,7 @@ begin
   begin
     if CodeTree.Tree.Items.Count>0 then
       DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
-    ClearTreeviewWithData(CodeTree.Tree);
+    CodeTree.Tree.Items.Clear;
     exit
   end;
 

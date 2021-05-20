@@ -137,7 +137,7 @@ begin
     begin
       if CodeTree.Tree.Items.Count>0 then
         DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
-      ClearTreeviewWithData(CodeTree.Tree);
+      CodeTree.Tree.Items.Clear;
     end;
 
     if F.CanFocus and F.CanSetFocus then
@@ -345,7 +345,7 @@ begin
       begin
         if CodeTree.Tree.Items.Count>0 then
           DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
-        ClearTreeviewWithData(CodeTree.Tree);
+        CodeTree.Tree.Items.Clear;
       end;
 
     FNeedUpdateStatuses:= true;
