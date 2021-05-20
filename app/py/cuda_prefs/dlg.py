@@ -95,6 +95,7 @@ VK_ENTER = 13
 VK_F = ord('F')
 VK_ESCAPE = 27
 LIST_SEP = chr(1)
+IS_WIN = os.name=='nt'
 
 BTN_H = app_proc(PROC_GET_GUI_HEIGHT, 'button')
 BTN_W = BTN_H*3
@@ -233,6 +234,7 @@ def map_option_value(opt, val=None, caption=None):
             ind = jdc.index(caption)
             val, _cap = dct[ind]
             return val
+
 
         else:
             raise OptionMapValueError('require "val" or "caption"')
@@ -622,6 +624,7 @@ class DialogMK2:
         dlg_proc(h, DLG_PROP_SET, prop={
                 'cap': self.title,
                 'w': 600, 'h': 400,
+                'w_min': 550, 'h_min': 250,
                 'border': DBORDER_SIZE,
                 'color': color_form_bg,
                 #'on_mouse_exit': self.dlgcolor_mouse_exit,
@@ -764,6 +767,16 @@ class DialogMK2:
         h_ed = dlg_proc(h, DLG_CTL_HANDLE, index=n)
         edt = Editor(h_ed)
 
+        n = dlg_proc(h, DLG_CTL_ADD, 'label')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+                'name': 'mod_label',
+                'p': 'panel_value',
+                'a_t': ('scope', '-'),
+                'sp_r': PAD,
+                'cap': _('[mod]'),
+                'font_color': COL_FONT,
+                })
+
 
         ### SPLITTERS ###
         # list--opt_description
@@ -810,6 +823,7 @@ class DialogMK2:
         # Cancel #######
         n = dlg_proc(h, DLG_CTL_ADD, 'button_ex')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+                'name': 'btn_cancel',
                 'h': BTN_H, 'max_h': BTN_H,
                 'w': BTN_W, 'max_w': BTN_W,
                 'a_l': None, 'a_t': None, 'a_r': ('btn_apply', '['),  'a_b': ('', ']'),
@@ -827,6 +841,13 @@ class DialogMK2:
                 'cap': _('Help'),
                 'on_change': self.dlg_help,
                 })
+
+        # reverse buttons for Windows: [Cancel, Apply, OK] => [OK, Apply, Cancel]
+        if IS_WIN:
+            dlg_proc(h, DLG_CTL_PROP_SET, name='btn_cancel',    prop={'a_r': ('',           ']')})
+            dlg_proc(h, DLG_CTL_PROP_SET, name='btn_apply',     prop={'a_r': ('btn_cancel', '[')})
+            dlg_proc(h, DLG_CTL_PROP_SET, name='btn_ok',        prop={'a_r': ('btn_apply',  '[')})
+
 
         ### listbox
         listbox_proc(self._h_list, LISTBOX_SET_COLUMN_SEP, text=LIST_SEP)
@@ -1010,6 +1031,16 @@ class DialogMK2:
             if _old_val is None: # no chage - ignore
                 return
 
+        # if resetting value -- ask confirmation
+        scam = app_proc(PROC_GET_KEYSTATE, '')
+        if scam != 'c'  and  self.scope != 'f'  and  val is None:
+            _scope_cap = self._scope_captions[self.scope]
+            _jval = self.optman.get_opt_scope_value(self._cur_opt, scope=self.scope, is_ui=True)
+            _msg = _('Remove option [{}]\n   {} = {!r}\n?').format(_scope_cap,  self._cur_opt_name,  _jval)
+            res = msg_box(_msg, MB_OKCANCEL + MB_ICONQUESTION)
+            if res != ID_OK:
+                return
+
         lex = ed.get_prop(PROP_LEXER_FILE)  if scope == 'l' else None
         opt_change = OptChange(name,  scope,  val,  lexer=lex,  old_value=_old_val)
         pass;       LOG and print('NOTE: new option change: '+str(opt_change))
@@ -1042,6 +1073,8 @@ class DialogMK2:
             if prop_type == '#rgb'  or  prop_type == '#rgb-e':
                 self._update_rgb_edit()
 
+            self.toggle_mod_indicator(by_timer=True)
+
             key_code, key_state = data
             if key_code != VK_ENTER:
                 return
@@ -1073,6 +1106,7 @@ class DialogMK2:
             else: # canceled dialog
                 return
 
+        self.toggle_mod_indicator(show=True)
         self.add_opt_change(self._cur_opt_name, self.scope, val)
 
 
@@ -1093,9 +1127,11 @@ class DialogMK2:
         self.opt_comment_ed.set_text_all(self._cur_opt.get('cmt', ''))
 
         # if have a change for this option -- show it
+        is_opt_modified = False
         removed_scopes = set(self.hidden_scopes)
         for opt_change in reversed(self._opt_changes):
             if opt_change.name == self._cur_opt_name:
+                is_opt_modified = True
                 if opt_change.value is not None:  # setting value
                     # (scope, val) - [f],[l],[u], [def]
                     _opt = self.optman.get_opt(opt_change.name)
@@ -1114,6 +1150,8 @@ class DialogMK2:
             active_scope_val = self.optman.get_opt_scope_value(self._cur_opt, active_scope, is_ui=True) # for UI
             active_scoped_val = (active_scope, active_scope_val)
             pass;       LOG and print(' *** using option value: {}; removed:{}'.format(active_scoped_val, removed_scopes))
+
+        self.toggle_mod_indicator(show=is_opt_modified)
 
         new_scope, _new_val = active_scoped_val
 
@@ -1144,9 +1182,11 @@ class DialogMK2:
         for opt_change in reversed(self._opt_changes):
             if opt_change.name == self._cur_opt_name  and  opt_change.scope == self.scope:
                 cur_scope_val = opt_change.value  or  ''
+                self.toggle_mod_indicator(show=True)
                 break
         else:
             cur_scope_val = self.optman.get_opt_scope_value(self._cur_opt, scope=self.scope, is_ui=True)
+            self.toggle_mod_indicator(show=False)
 
         pass;       LOG and print(' -- scoped val:{}:[{}]'.format(self.scope, cur_scope_val))
 
@@ -1233,7 +1273,7 @@ class DialogMK2:
                 menu_proc(self._h_col_menu, MENU_ADD, caption='-')
 
                 la = lambda: self.configure_columns()
-                menu_proc(self._h_col_menu, MENU_ADD, command=la, caption=_('Configure'))
+                menu_proc(self._h_col_menu, MENU_ADD, command=la, caption=_('Configure...'))
             #end if
 
 
@@ -1327,6 +1367,17 @@ class DialogMK2:
             for item_id,name in tree_proc(self._h_tree, TREE_ITEM_ENUM):
                 if name == TREE_ITEM_ALL:
                     tree_proc(self._h_tree, TREE_ITEM_SELECT, id_item=item_id)
+
+    def toggle_mod_indicator(self, tag='', info='', show=True, by_timer=False):
+        if by_timer:
+            timer_proc(TIMER_START_ONE, self.toggle_mod_indicator, 30, tag='ed_check_state')
+        else:
+            if tag == 'ed_check_state':
+                ed_line_state = self.val_eds.val_edit.get_prop(PROP_LINE_STATE, 0)
+                if ed_line_state == LINESTATE_NORMAL:
+                    return
+
+            dlg_proc(self.h, DLG_CTL_PROP_SET, name='mod_label', prop={'vis':show})
 
     def apply_changes(self, closing=False):
         """ batch apply qued option changes
@@ -1578,6 +1629,10 @@ class ValueEds:
             self.layout_ed_btn(h, n, _('Edit...'))
         #end if
 
+        # set line state: normal (not edited)
+        if type_wgt_name == M.WGT_NAME__EDIT:
+            self.val_edit.set_prop(PROP_LINE_STATE, (0, LINESTATE_NORMAL))
+
         self._current_type = newtype
 
     def clear_edits(self, h):
@@ -1631,7 +1686,7 @@ class ValueEds:
             'name': name,
             'p': M.VALUE_ED_PANEL,
             'h': BTN_H, 'max_h': BTN_H,
-            'a_l': ('', '['),
+            'a_l': ('mod_label', ']'),
             'a_t': (M.VALUE_ED_RESET, '['),
             'a_r': (M.VALUE_ED_RESET, '['),
             'a_b': (M.VALUE_ED_RESET, ']'),
@@ -1752,7 +1807,8 @@ class ValueEds:
         })
         # ... edit
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
-                'a_l': ('', '['),       'a_r': (M.WGT_NAME__BTN_EDIT, '[')
+                #'a_l': ('', '['),
+                'a_r': (M.WGT_NAME__BTN_EDIT, '[')
         })
 
     def update_ed_color(edt):

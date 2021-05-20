@@ -519,7 +519,6 @@ class OptEdD:
         jval    = oi['jlvl']    if m.for_ulf=='l' else \
                   oi['juvl']    if m.for_ulf=='u' else \
                   oi['jfvl']
-        scam    = app.app_proc(app.PROC_GET_KEYSTATE, '')
 
         # Get new value
         newv    = None
@@ -537,11 +536,6 @@ class OptEdD:
 
         elif aid=='setd'  and  ulfvl is not None  and  m.for_ulf!='f':
             # Remove from user/lexer
-            if  scam!='c' and \
-                app.ID_OK != app.msg_box(f(_('Remove {} option'
-                                            '\n   {} = {!r}'
-                                            '\n?'), 'LEXER' if m.for_ulf=='l' else 'USER', op, jval)
-                                        , app.MB_OKCANCEL+app.MB_ICONQUESTION): return []
             newv= None
 
         elif aid=='setv':                   # Add/Set opt for user/lexer/file

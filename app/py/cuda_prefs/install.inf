@@ -1,5 +1,5 @@
 [info]
-title=Options Editor lite
+title=Options Editor Lite
 desc=View and change options from user.json
 type=cudatext-plugin
 subdir=cuda_prefs
@@ -8,6 +8,6 @@ api=1.0.391
 
 [item10]
 section=commands
-caption=Options Editor lite...
+caption=Options Editor Lite...
 method=dlg_cuda_options
 ;menu=0

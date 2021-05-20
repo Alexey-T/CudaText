@@ -1,5 +1,5 @@
 Plugin for CudaText.
-Gives command "Options Editor lite" - dialog for configuring all options in CudaText (they are listed in default.json, and are read/parsed from there by plugin).
+Gives command "Options Editor Lite" - dialog for configuring all options in CudaText (they are listed in default.json, and are read/parsed from there by plugin).
 
 Options are grouped by sections, which are read from default.json.
 By default saves options to user.json (Scope: User), but Lexer scope can be chosen to set lexer-specific config.
