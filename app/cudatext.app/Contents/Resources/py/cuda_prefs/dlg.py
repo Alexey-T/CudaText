@@ -490,7 +490,7 @@ class DialogMK2:
         # states
         j = {}
         j[STATE_KEY_TREE_W] = dlg_proc(self.h, DLG_CTL_PROP_GET, name='category_tree')['w']
-        j[STATE_KEY_DESCR_MEMO_H] = dlg_proc(self.h, DLG_CTL_PROP_GET, name='descr_memo')['h']
+        j[STATE_KEY_DESCR_MEMO_H] = dlg_proc(self.h, DLG_CTL_PROP_GET, name='panel_value')['h']
         j[STATE_KEY_FILTER_STR] = self.filter_val
         j[STATE_KEY_FILTER_HIST] = filter_history
         j[STATE_KEY_FILTER_VISIBLE] = dlg_proc(self.h, DLG_CTL_PROP_GET, name='panel_filter')['vis']
@@ -893,7 +893,7 @@ class DialogMK2:
                     'w': self._state.get(STATE_KEY_TREE_W),
                     })
         if self._state.get(STATE_KEY_DESCR_MEMO_H):
-            dlg_proc(h, DLG_CTL_PROP_SET, name='descr_memo', prop={
+            dlg_proc(h, DLG_CTL_PROP_SET, name='panel_value', prop={
                     'h': self._state.get(STATE_KEY_DESCR_MEMO_H),
                     })
 
