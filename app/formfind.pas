@@ -1505,7 +1505,7 @@ begin
       Finder.OptWords:= chkWords.Checked;
       Finder.OptRegex:= chkRegex.Checked;
       Finder.OptTokens:= TATFinderTokensAllowed(bTokens.ItemIndex);
-      Finder.OptWrapped:= false;
+      Finder.OptWrapped:= chkWrap.Checked;
       Finder.OnGetToken:= FOnGetToken;
 
       NTick:= GetTickCount64;
