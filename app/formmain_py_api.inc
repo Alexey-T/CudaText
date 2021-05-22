@@ -4532,7 +4532,7 @@ begin
         'method',
         PChar(SMethod),
         'btn_h',
-        PyHelper_ObjectHandle(Btn)
+        Int64(PtrInt(Btn))
         ));
     end;
   end;
