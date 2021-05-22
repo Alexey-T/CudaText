@@ -4518,7 +4518,7 @@ begin
         NHandle:= Int64(PtrInt(PanelItem.ItemControl));
       end;
 
-      PyList_SetItem(Result, i, Py_BuildValue('{sssssLsissss}',
+      PyList_SetItem(Result, i, Py_BuildValue('{sssssLsisssssL}',
         'cap',
         PChar(Btn.Caption),
         'hint',
@@ -4530,7 +4530,9 @@ begin
         'module',
         PChar(SModule),
         'method',
-        PChar(SMethod)
+        PChar(SMethod),
+        'btn_h',
+        PyHelper_ObjectHandle(Btn)
         ));
     end;
   end;
