@@ -372,10 +372,11 @@ Actions:
 * (deprecated) PROC_SIDEPANEL_ENUM: Enumerates tabs. Returns str, "\n"-separated captions of tabs.
 
 * PROC_SIDEPANEL_ENUM_ALL: Enumerates tabs. Returns list of dict, each dict item has keys:
-** "cap": str: Caption.
-** "hint": str: Floating tooltip (it changes when translation is applied).
-** "dlg": int: Handle of dialog. Can be 0, if dialog is not yet created, like for plugins "Tabs", "Snippet panel".
-** "img": int: Image-index in the imagelist.
+** "cap": str: Panel caption (not affected by translation)
+** "hint": str: Button's floating tooltip (affected by translation).
+** "dlg": int: Handle of panel's dialog. Can be 0, if dialog is not yet created. For example, plugins "Tabs" and "Snippet Panel" do not create the dialog until plugin is called.
+** "img": int: Button's image-index in the imagelist.
+** "btn_h": int: Button's handle. Use this handle with button_proc().
 ** "module": str: Python module name, or empty str.
 ** "method": str: Python method name, or empty str.
 
@@ -4334,5 +4335,5 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.392 (app 1.133.2)
 * add: on_state: add values APPSTATE_CODETREE_*
-
+* add: app_proc: PROC_SIDEPANEL_ENUM_ALL/PROC_BOTTOMPANEL_ENUM_ALL gets also button handles
 [[Category:CudaText]]
