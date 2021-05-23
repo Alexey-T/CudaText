@@ -530,6 +530,7 @@ Most of them are located in Addons Manager "Install" list.
 * Stata
 * Strace
 * Stylus
+* Svelte
 * Swift
 * T-SQL
 * TAGML
