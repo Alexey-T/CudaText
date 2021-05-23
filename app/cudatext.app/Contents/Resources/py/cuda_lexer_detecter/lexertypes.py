@@ -360,6 +360,7 @@ TYPES = {
     "sty": ['LaTeX'],
     "styl": ['Stylus'],
     "svelte": ['Svelte'],
+    "svlt": ['Svelte'],
     "swift": ['Swift'],
     "synw-snippet": ['SynWrite snippets'],
     "tab": ['nnCron'],
