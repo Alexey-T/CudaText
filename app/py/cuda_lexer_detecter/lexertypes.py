@@ -359,6 +359,7 @@ TYPES = {
     "strace": ['Strace'],
     "sty": ['LaTeX'],
     "styl": ['Stylus'],
+    "svelte": ['Svelte'],
     "swift": ['Swift'],
     "synw-snippet": ['SynWrite snippets'],
     "tab": ['nnCron'],
