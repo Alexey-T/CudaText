@@ -170,7 +170,9 @@ begin
   Ed.OptOverwriteSel:= Op.OpOverwriteSel;
   Ed.OptOverwriteAllowedOnPaste:= Op.OpOverwriteOnPaste;
 
+  ec_SyntAnal.OptCriticalSectionForBuffer:= Op.OpLexerParserSafer;
   ec_SyntAnal.AutoFoldComments:= Op.OpAutoFoldComments;
+
   Ed.OptAutoPairForMultiCarets:= Op.OpAutoCloseBracketsMultiCarets;
   Ed.OptAutoPairChars:= Op.OpAutoCloseBrackets;
   Ed.OptAutocompleteAutoshowCharCount:= Op.OpAutocompleteAutoshowCharCount;
