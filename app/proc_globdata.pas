@@ -1173,11 +1173,77 @@ begin
   *)
 end;
 
-procedure InitDirs;
+procedure InitDirs_Windows;
+begin
+  AppDir_Home:= '';
+end;
+
+procedure InitDirs_macOS;
+begin
+  //from https://github.com/graemeg/freepascal/blob/master/rtl/unix/sysutils.pp
+  AppDir_Home:= GetEnvironmentVariable('HOME');
+  if AppDir_Home<>'' then
+    AppDir_Home:= IncludeTrailingPathDelimiter(AppDir_Home);
+  OpDirLocal:= AppDir_Home+'Library/Application Support/CudaText';
+  CreateDirUTF8(OpDirLocal);
+end;
+
+procedure InitDirs_Haiku;
 var
-  S, HomeConfig: string;
+  HomeConfig: string;
+begin
+  AppDir_Home:= '/boot/home';
+  HomeConfig:= AppDir_Home+'/config/settings';
+  OpDirLocal:= HomeConfig+'/cudatext';
+  CreateDirUTF8(OpDirLocal);
+end;
+
+procedure InitDirs_UnixCommon;
+var
+  HomeConfig: string;
   SPathOrig, SPath: RawByteString;
   bAppPortable: boolean;
+begin
+  //from https://github.com/graemeg/freepascal/blob/master/rtl/unix/sysutils.pp
+  AppDir_Home:= GetEnvironmentVariable('HOME');
+  if AppDir_Home<>'' then
+    AppDir_Home:= IncludeTrailingPathDelimiter(AppDir_Home);
+
+  SPathOrig:= Which(OpFileExe);
+  //MsgStdout('CudaText binary: '+SPathOrig);
+  {$if FPC_FULLVERSION>30200}
+  //FileGetSymLinkTarget was added in FPC 3.2
+  if FileGetSymLinkTarget(SPathOrig, SPath) then
+  begin
+    //support relative target of symlink like '../dir/cudatext'
+    if not SBeginsWith(SPath, '/') then
+      SPath:= ExtractFilePath(SPathOrig)+SPath;
+    MsgStdout('CudaText starts via symlink to: '+SPath);
+    OpDirLocal:= ExtractFileDir(SPath);
+  end
+  else
+  {$endif}
+  begin
+    bAppPortable:= DirectoryExists(OpDirExe+'/data/lexlib') and
+      not SBeginsWith(OpDirExe, '/opt/');
+    if not bAppPortable then
+    begin
+      HomeConfig:= GetEnvironmentVariable('XDG_CONFIG_HOME');
+      if HomeConfig='' then
+        HomeConfig:= AppDir_Home + '.config/'
+      else
+        HomeConfig:= IncludeTrailingPathDelimiter(HomeConfig);
+
+      OpDirLocal:= HomeConfig+'cudatext';
+      CreateDirUTF8(OpDirLocal);
+      //MsgStdout('CudaText starts not portable: '+OpDirLocal);
+    end;
+  end;
+end;
+
+procedure InitDirs;
+var
+  S: string;
 begin
   OpFileExe:= ParamStr(0);
   OpDirExe:= ExtractFileDir(OpFileExe);
@@ -1185,55 +1251,17 @@ begin
   OpDirLocal:= OpDirExe;
 
   {$ifdef windows}
-  AppDir_Home:= '';
+  InitDirs_Windows;
   {$else}
-  {$ifdef haiku}
-  AppDir_Home:= '/boot/home';
-  HomeConfig:= AppDir_Home+'/config/settings';
-  OpDirLocal:= HomeConfig+'/cudatext';
-  CreateDirUTF8(OpDirLocal);
-  {$else}
-  //from https://github.com/graemeg/freepascal/blob/master/rtl/unix/sysutils.pp
-  AppDir_Home:= GetEnvironmentVariable('HOME');
-  if AppDir_Home<>'' then
-    AppDir_Home:= IncludeTrailingPathDelimiter(AppDir_Home);
-
     {$ifdef darwin}
-    OpDirLocal:= AppDir_Home+'Library/Application Support/CudaText';
-    CreateDirUTF8(OpDirLocal);
+    InitDirs_macOS;
     {$else}
-    SPathOrig:= Which(OpFileExe);
-    //MsgStdout('CudaText binary: '+SPathOrig);
-    {$if FPC_FULLVERSION>30200}
-    //FileGetSymLinkTarget was added in FPC 3.2
-    if FileGetSymLinkTarget(SPathOrig, SPath) then
-    begin
-      //support relative target of symlink like '../dir/cudatext'
-      if not SBeginsWith(SPath, '/') then
-        SPath:= ExtractFilePath(SPathOrig)+SPath;
-      MsgStdout('CudaText starts via symlink to: '+SPath);
-      OpDirLocal:= ExtractFileDir(SPath);
-    end
-    else
+      {$ifdef haiku}
+      InitDirs_Haiku;
+      {$else}
+      InitDirs_UnixCommon;
+      {$endif}
     {$endif}
-    begin
-      bAppPortable:= DirectoryExists(OpDirExe+'/data/lexlib') and
-        not SBeginsWith(OpDirExe, '/opt/');
-      if not bAppPortable then
-      begin
-        HomeConfig:= GetEnvironmentVariable('XDG_CONFIG_HOME');
-        if HomeConfig='' then
-          HomeConfig:= AppDir_Home + '.config/'
-        else
-          HomeConfig:= IncludeTrailingPathDelimiter(HomeConfig);
-
-        OpDirLocal:= HomeConfig+'cudatext';
-        CreateDirUTF8(OpDirLocal);
-        //MsgStdout('CudaText starts not portable: '+OpDirLocal);
-      end;
-    end;
-    {$endif}
-  {$endif}
   {$endif}
 
   //support command line key -s=folder
