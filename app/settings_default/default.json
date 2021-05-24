@@ -1235,11 +1235,12 @@
   "auto_close_brackets": "([{",
 
   //If value>1, option allows N consecutive commented lines to automatically create the folding range.
-  //Note: option is global, not per-lexer.
+  //Note: this option is global, not per-lexer.
   "auto_fold_comments": 0,
 
   //[File]
   //Extensions of picture files (they show as pictures)
+  //Note: this option is global, not per-lexer.
   "picture_types": "bmp,png,jpg,jpeg,jpe,gif,ico",
 
   //[View/Web]
