@@ -580,7 +580,6 @@ type
     OpCenteringWidth: integer;
     OpCenteringForDistractionFree: integer;
     OpScrollStyleHorz: integer;
-    OpLexerParserSafer: boolean;
     OpLexerDynamicHiliteEnabled: boolean;
     OpLexerDynamicHiliteMaxLines: integer;
     OpLexerLineSeparators: boolean;
@@ -1472,7 +1471,6 @@ begin
     OpCenteringWidth:= 0;
     OpCenteringForDistractionFree:= 100;
     OpScrollStyleHorz:= 2; //hide, show, auto
-    OpLexerParserSafer:= false;
     OpLexerDynamicHiliteEnabled:= false;
     OpLexerDynamicHiliteMaxLines:= 2000;
     OpLexerLineSeparators:= false;

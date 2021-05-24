@@ -227,9 +227,6 @@
   "dim_unfocused": 0,
 
   //[Lexers]
-  //Use additional blocking in the lexer parser, to make parsing safer, but slower
-  "lexer_parser_safer": false,
-
   //Enable caret-depending highlightings.
   //- e.g. Pascal highlightes "begin"/"end" with green when caret is inside block
   //- HTML/XML highlightes opening/closing tags when caret is inside tag
