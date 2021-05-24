@@ -8,6 +8,7 @@
 * change: plugin "Options Editor" was replaced to "Options Editor lite" (written by @Shovel). You must reassign hotkey to the new plugin, if such a hotkey exists. New plugin is more lite and much easier to maintain.
 + add: floating bottom/side panels now have 'stay on top' style (thanks @Shovel)
 + add: lexer C++: better code-tree; support all kinds if C++11 strings
+- fix: single-instance default was not changed to 'true' for Windows (thanks @JairoMartinezA)
 - fix: unneeded scrolling with finder option "Hi" (thanks @xcme)
 - fix: flickering in CudaExt commands with option "dim_unfocused" (thanks @kvichans)
 - fix: auto-reloading of file when ui-tab is splitted (thanks @Shovel)

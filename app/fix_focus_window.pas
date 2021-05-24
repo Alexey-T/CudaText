@@ -159,7 +159,8 @@ function IsSetToOneInstance: boolean;
 var
   c: TJSONConfig;
 begin
-  Result := False;
+  //default must be True, issue #3337
+  Result := True;
   c := TJSONConfig.Create(nil);
   try
     try
@@ -171,7 +172,7 @@ begin
         Exit;
       end;
     end;
-    Result := c.GetValue('ui_one_instance', False);
+    Result := c.GetValue('ui_one_instance', Result);
   finally
     c.Free;
   end;
