@@ -1187,6 +1187,12 @@ begin
   {$ifdef windows}
   AppDir_Home:= '';
   {$else}
+  {$ifdef haiku}
+  AppDir_Home:= '/boot/home';
+  HomeConfig:= AppDir_Home+'/config/settings';
+  OpDirLocal:= HomeConfig+'/cudatext';
+  CreateDirUTF8(OpDirLocal);
+  {$else}
   //from https://github.com/graemeg/freepascal/blob/master/rtl/unix/sysutils.pp
   AppDir_Home:= GetEnvironmentVariable('HOME');
   if AppDir_Home<>'' then
@@ -1227,6 +1233,7 @@ begin
       end;
     end;
     {$endif}
+  {$endif}
   {$endif}
 
   //support command line key -s=folder
