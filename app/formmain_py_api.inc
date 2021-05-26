@@ -1491,31 +1491,13 @@ var
   H: Int64;
   Ed: TATSynEdit;
   PtrText: PChar;
-  StrW: atString;
-  Strs: TATStrings;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Ls:set_text_all', @H, @PtrText)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
-      if Ed.ModeReadOnly then
-        exit(ReturnNone);
-      Strs:= Ed.Strings;
-      Strs.SetNewCommandMark;
-
-      StrW:= UTF8Decode(string(PtrText));
-
-      //don't keep Undo, not needed in set_text_all
-      Ed.DoCaretSingle(0, 0);
-      Ed.Markers.Clear;
-      Ed.Attribs.Clear;
-      Strs.LoadFromString(StrW);
-
-      Ed.DoCaretsFixIncorrectPos(false);
-      Ed.DoEventChange(0);
-      Strs.ActionSaveLastEditionPos(0, 0);
-      Ed.Update(true);
-
+      if not Ed.ModeReadOnly then
+        EditorSetAllText(Ed, UTF8Decode(string(PtrText)));
       Result:= ReturnNone;
     end
     else
