@@ -1958,7 +1958,11 @@ begin
       AStr[i]:= '_';
 
   if AIndex=-1 then
-    Strs.LineAdd(AStr)
+  begin
+    if Strs.LinesEnds[Strs.Count-1]=cEndNone then
+      Strs.LinesEnds[Strs.Count-1]:= Strs.Endings;
+    Strs.LineAdd(AStr);
+  end
   else
   if Strs.IsIndexValid(AIndex) then
   begin
