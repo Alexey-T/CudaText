@@ -1565,39 +1565,23 @@ end;
 function api_ed_insert(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
-  X1, Y1: Integer;
+  Ed: TATSynEdit;
   Ptr: PChar;
   Str: atString;
-  Ed: TATSynEdit;
-  Strs: TATStrings;
-  Shift, PosAfter: TPoint;
+  X1, Y1: Integer;
+  PosAfter: TPoint;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liis:insert', @H, @X1, @Y1, @Ptr)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
-      Str:= UTF8Decode(string(Ptr));
-      Strs:= Ed.Strings;
       if Ed.ModeReadOnly then
-        Exit(ReturnNone);
-      Strs.SetNewCommandMark;
-
-      if Y1<0 then
-        Exit(ReturnNone);
-
-      //too big index- do append
-      if Y1>=Strs.Count then
-        Strs.TextAppend(Str, Shift, PosAfter)
+        exit(ReturnNone);
+      Str:= UTF8Decode(string(Ptr));
+      if EditorInsert(Ed, X1, Y1, Str, PosAfter) then
+        Result:= Py_BuildValue('(ii)', PosAfter.X, PosAfter.Y)
       else
-      begin
-        Strs.TextInsert(X1, Y1, Str, false, Shift, PosAfter);
-        Ed.DoCaretsShift(0, X1, Y1, Shift.X, Shift.Y, PosAfter);
-      end;
-
-      Ed.DoEventChange(Y1);
-      Ed.Update(true);
-
-      Result:= Py_BuildValue('(ii)', PosAfter.X, PosAfter.Y);
+        Result:= ReturnNone;
     end
   else
     Result:= ReturnNone;

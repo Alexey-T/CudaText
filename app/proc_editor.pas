@@ -76,8 +76,10 @@ function EditorAutoSkipClosingBracket(Ed: TATSynEdit; CharClosing: char): boolea
 function EditorAutoPairChar(Ed: TATSynEdit; CharBegin: atChar): boolean;
 procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer);
 procedure EditorCopyLine(Ed: TATSynEdit);
+
 procedure EditorSetLine(Ed: TATSynEdit; AIndex: integer; AStr: UnicodeString);
 procedure EditorDeleteRange(Ed: TATSynEdit; X1, Y1, X2, Y2: integer);
+function EditorInsert(Ed: TATSynEdit; X1, Y1: integer; const AStr: UnicodeString; var APosAfter: TPoint): boolean;
 procedure EditorHighlightBadRegexBrackets(Ed: TATSynEdit; AOnlyClear: boolean);
 
 procedure EditorCaretShapeFromString(Props: TATCaretShape; const AText: string);
@@ -1987,6 +1989,29 @@ begin
 
   Strs.TextDeleteRange(X1, Y1, X2, Y2, Shift, PosAfter);
   Ed.DoCaretsShift(0, X1, Y1, Shift.X, Shift.Y, PosAfter);
+
+  Ed.DoEventChange(Y1);
+  Ed.Update(true);
+end;
+
+function EditorInsert(Ed: TATSynEdit; X1, Y1: integer; const AStr: UnicodeString; var APosAfter: TPoint): boolean;
+var
+  Strs: TATStrings;
+  Shift: TPoint;
+begin
+  Result:= true;
+  Strs:= Ed.Strings;
+  Strs.SetNewCommandMark;
+  if Y1<0 then exit(false);
+
+  //too big index: do append
+  if Y1>=Strs.Count then
+    Strs.TextAppend(AStr, Shift, APosAfter)
+  else
+  begin
+    Strs.TextInsert(X1, Y1, AStr, false, Shift, APosAfter);
+    Ed.DoCaretsShift(0, X1, Y1, Shift.X, Shift.Y, APosAfter);
+  end;
 
   Ed.DoEventChange(Y1);
   Ed.Update(true);
