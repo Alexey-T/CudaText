@@ -76,6 +76,7 @@ function EditorAutoSkipClosingBracket(Ed: TATSynEdit; CharClosing: char): boolea
 function EditorAutoPairChar(Ed: TATSynEdit; CharBegin: atChar): boolean;
 procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer);
 procedure EditorCopyLine(Ed: TATSynEdit);
+procedure EditorSetLine(Ed: TATSynEdit; AIndex: integer; AStr: UnicodeString);
 procedure EditorHighlightBadRegexBrackets(Ed: TATSynEdit; AOnlyClear: boolean);
 
 procedure EditorCaretShapeFromString(Props: TATCaretShape; const AText: string);
@@ -1941,6 +1942,34 @@ begin
   end;
 
   Ed.Invalidate;
+end;
+
+procedure EditorSetLine(Ed: TATSynEdit; AIndex: integer; AStr: UnicodeString);
+var
+  Strs: TATStrings;
+  i: integer;
+begin
+  Strs:= Ed.Strings;
+  Strs.SetNewCommandMark;
+
+  //replace \AIndex \r to "_"
+  for i:= 1 to Length(AStr) do
+    if (AStr[i]=#10) or (AStr[i]=#13) then
+      AStr[i]:= '_';
+
+  if AIndex=-1 then
+    Strs.LineAdd(AStr)
+  else
+  if Strs.IsIndexValid(AIndex) then
+  begin
+    Strs.Lines[AIndex]:= AStr;
+    if Strs.LinesEnds[AIndex]=cEndNone then
+      Strs.LinesEnds[AIndex]:= Strs.Endings;
+  end;
+
+  Ed.DoEventChange(AIndex);
+  Strs.ActionSaveLastEditionPos(0, AIndex);
+  Ed.Update(true);
 end;
 
 procedure EditorHighlightBadRegexBrackets(Ed: TATSynEdit; AOnlyClear: boolean);

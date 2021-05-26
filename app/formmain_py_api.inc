@@ -1525,40 +1525,18 @@ end;
 function api_ed_set_text_line(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
-  N, i: Integer;
-  Ptr: PChar;
   Ed: TATSynEdit;
+  NIndex: Integer;
+  Ptr: PChar;
   Str: atString;
-  Strs: TATStrings;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'Lis:set_text_line', @H, @N, @Ptr)) then
+    if Bool(PyArg_ParseTuple(Args, 'Lis:set_text_line', @H, @NIndex, @Ptr)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
       Str:= UTF8Decode(string(Ptr));
-      Strs:= Ed.Strings;
-      if Ed.ModeReadOnly then
-        exit(ReturnNone);
-      Strs.SetNewCommandMark;
-
-      //replace \n \r to "_"
-      for i:= 1 to Length(Str) do
-        if (Str[i]=#10) or (Str[i]=#13) then Str[i]:= '_';
-
-      if N=-1 then
-        Strs.LineAdd(Str)
-      else
-      if Strs.IsIndexValid(N) then
-      begin
-        Strs.Lines[N]:= Str;
-        if Strs.LinesEnds[N]=cEndNone then
-          Strs.LinesEnds[N]:= Strs.Endings;
-      end;
-
-      Ed.DoEventChange(N);
-      Strs.ActionSaveLastEditionPos(0, N);
-      Ed.Update(true);
-
+      if not Ed.ModeReadOnly then
+        EditorSetLine(Ed, NIndex, Str);
       Result:= ReturnNone;
     end
   else
