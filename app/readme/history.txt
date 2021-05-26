@@ -12,7 +12,7 @@
 - fix: unneeded scrolling with finder option "Hi" (thanks @xcme)
 - fix: flickering in CudaExt commands with option "dim_unfocused" (thanks @kvichans)
 - fix: auto-reloading of file when ui-tab is splitted (thanks @Shovel)
-- fix: stability of multi-threaded parser
+- fix: memory leak, stability of multi-threaded parser
 
 1.133.0 (2021/05)
 
