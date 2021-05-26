@@ -1547,26 +1547,15 @@ end;
 function api_ed_delete(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
-  X1, Y1, X2, Y2: Integer;
   Ed: TATSynEdit;
-  Shift, PosAfter: TPoint;
-  Strs: TATStrings;
+  X1, Y1, X2, Y2: Integer;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liiii:delete', @H, @X1, @Y1, @X2, @Y2)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
-      if Ed.ModeReadOnly then
-        exit(ReturnNone);
-      Strs:= Ed.Strings;
-      Strs.SetNewCommandMark;
-
-      Strs.TextDeleteRange(X1, Y1, X2, Y2, Shift, PosAfter);
-      Ed.DoCaretsShift(0, X1, Y1, Shift.X, Shift.Y, PosAfter);
-
-      Ed.DoEventChange(Y1);
-      Ed.Update(true);
-
+      if not Ed.ModeReadOnly then
+        EditorDeleteRange(Ed, X1, Y1, X2, Y2);
       Result:= ReturnNone;
     end
   else

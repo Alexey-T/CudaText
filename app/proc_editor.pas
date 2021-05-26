@@ -77,6 +77,7 @@ function EditorAutoPairChar(Ed: TATSynEdit; CharBegin: atChar): boolean;
 procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer);
 procedure EditorCopyLine(Ed: TATSynEdit);
 procedure EditorSetLine(Ed: TATSynEdit; AIndex: integer; AStr: UnicodeString);
+procedure EditorDeleteRange(Ed: TATSynEdit; X1, Y1, X2, Y2: integer);
 procedure EditorHighlightBadRegexBrackets(Ed: TATSynEdit; AOnlyClear: boolean);
 
 procedure EditorCaretShapeFromString(Props: TATCaretShape; const AText: string);
@@ -1973,6 +1974,21 @@ begin
 
   Ed.DoEventChange(AIndex);
   Strs.ActionSaveLastEditionPos(0, AIndex);
+  Ed.Update(true);
+end;
+
+procedure EditorDeleteRange(Ed: TATSynEdit; X1, Y1, X2, Y2: integer);
+var
+  Strs: TATStrings;
+  Shift, PosAfter: TPoint;
+begin
+  Strs:= Ed.Strings;
+  Strs.SetNewCommandMark;
+
+  Strs.TextDeleteRange(X1, Y1, X2, Y2, Shift, PosAfter);
+  Ed.DoCaretsShift(0, X1, Y1, Shift.X, Shift.Y, PosAfter);
+
+  Ed.DoEventChange(Y1);
   Ed.Update(true);
 end;
 
