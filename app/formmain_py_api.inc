@@ -1701,7 +1701,7 @@ begin
       Ed:= PyHelper_EditorFromHandle(H);
       Str:= string(Ptr);
 
-      Ed.DoCommand(NCode, Str);
+      Ed.DoCommand(NCode, UTF8Decode(Str));
 
       //many commands use timer, so immediate quit is not ok, app didn't finish command yet.
       //example of bug: plugin Differ uses ed.cmd(cmd_FileClose) and immediately after that it calls
