@@ -1951,7 +1951,7 @@ end;
 procedure EditorSetLine(Ed: TATSynEdit; AIndex: integer; AStr: UnicodeString);
 var
   Strs: TATStrings;
-  i: integer;
+  NLastIndex, i: integer;
 begin
   Strs:= Ed.Strings;
   Strs.SetNewCommandMark;
@@ -1963,11 +1963,14 @@ begin
 
   if AIndex=-1 then
   begin
-    if Strs.LinesEnds[Strs.Count-1]=cEndNone then
-      Strs.LinesEnds[Strs.Count-1]:= Strs.Endings;
+    NLastIndex:= Strs.Count-1;
     Strs.LineAdd(AStr);
-    if AStr='' then
-      Strs.ActionDeleteFakeLineAndFinalEol;
+    //fix old last line not having the EOL mark
+    if NLastIndex>=0 then
+    begin
+      if Strs.LinesEnds[NLastIndex]=cEndNone then
+        Strs.LinesEnds[NLastIndex]:= Strs.Endings;
+    end;
   end
   else
   if Strs.IsIndexValid(AIndex) then
