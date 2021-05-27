@@ -1966,6 +1966,8 @@ begin
     if Strs.LinesEnds[Strs.Count-1]=cEndNone then
       Strs.LinesEnds[Strs.Count-1]:= Strs.Endings;
     Strs.LineAdd(AStr);
+    if AStr='' then
+      Strs.ActionDeleteFakeLineAndFinalEol;
   end
   else
   if Strs.IsIndexValid(AIndex) then
