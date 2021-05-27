@@ -1644,11 +1644,13 @@ end;
 function api_ed_get_line_count(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
+  Ed: TATSynEdit;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_line_count', @H)) then
     begin
-      Result:= PyLong_FromLong(PyHelper_EditorFromHandle(H).Strings.Count);
+      Ed:= PyHelper_EditorFromHandle(H);
+      Result:= PyLong_FromLong(Ed.Strings.Count);
     end
   else
     Result:= ReturnNone;
