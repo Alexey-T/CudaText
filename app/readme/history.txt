@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.134.0 (2021/05)
+1.133.5 (2021/05)
 
 * change: plugin "Options Editor" was replaced with "Options Editor Lite", written by @Shovel. You must reassign hotkey to the new plugin, if such a hotkey exists. New plugin is more lite and much easier to maintain.
 + add: floating bottom/side panels now have 'stay on top' style (thanks @Shovel)
