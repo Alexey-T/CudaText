@@ -1524,6 +1524,10 @@ Control of UI tabs is named ATTabs, and has many features:
 
 [[File:cudatext-tab-colors.png]]
 
+* Tabs can have file-type icons, if plugin "Tab Icons" is installed (icons are preinstalled already, they are used by Project Manager).
+
+[[File:cudatext-tab-icons.png]]
+
 * Tabs can show "path suffix" when there are several tabs for the same base filename. In the example picture, we have opened files "t.txt" from 3 different folders, and tabs show that folders after a bullet-char. Feature can show "path suffix" for up to 4 folder levels.
 
 [[File:cudatext-tabs-path-suffix.png]]
