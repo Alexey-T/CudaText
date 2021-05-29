@@ -1970,7 +1970,7 @@ homepage=https://github.com/nnnn/pppp
 * IncludeBG#, SectionBG#: Styles which have background color set, and foreground color unset (none). Used to highlight function blocks, sub-lexer blocks, parts of a file, etc.
 * BracketBG: Style with background+foreground colors. Used to highlight paired brackets, begin/end keywords, repeat/until keywords (when "dynamic highlighting" option is on) etc.
 * CurBlockBG: Style with background color set, foreground color unset. Used to highlight block under caret, when "dynamic highlighting" option is on.
-* SeparLine: Color of horizontal 1-pixel separator lines. Was used before in Pascal, for lines above functions.
+* SeparLine: Frame color for Find/Replace dialog's "Highlight all" ("Hi") results.
 * TagBound: HTML tags: angled brackets.
 * TagId: HTML tags: tag names.
 * TagIdBad: HTML tags: incorrect tag names.
