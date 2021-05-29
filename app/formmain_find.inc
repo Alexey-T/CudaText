@@ -836,6 +836,8 @@ begin
 
   Ed.Update(AUpdateText);
 
+  {
+  //2021.05: lot of DoShowPos calls already for finder
   //not DoGotoPos, we may need to show marker, not caret
   Ed.DoShowPos(
     FFinder.MatchEdPos,
@@ -844,6 +846,7 @@ begin
     true,
     true
     );
+    }
 
   if AUpdateStatusbar then
     UpdateStatusbar;
