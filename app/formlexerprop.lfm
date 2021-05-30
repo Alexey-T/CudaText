@@ -140,8 +140,7 @@ object fmLexerProp: TfmLexerProp
         ParentFont = False
         TabOrder = 2
         TabStop = True
-        OptBorderWidth = 1
-        OptBorderWidthFocused = 1
+        OptBorderVisible = False
         OptRulerVisible = False
         OptNumbersStyle = cNumbersNone
         OptUnprintedVisible = False
