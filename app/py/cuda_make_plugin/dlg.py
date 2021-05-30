@@ -20,10 +20,10 @@ def is_correct_id(name):
 def get_module_dir():
     dir = app_path(APP_DIR_PY)
     for i in range(2000):
-        name = 'sample'+str(i+1)
+        name = 'test'+str(i+1)
         if not os.path.isdir(os.path.join(dir, 'cuda_'+name)):
             return name
-    return 'sample'
+    return 'test'
 
 
 def dlg_make_plugin():
@@ -44,9 +44,9 @@ def dlg_make_plugin():
     id_ok = 9
     c1 = chr(1)
 
-    s_caption = 'My Sample'
+    s_caption = 'Test plugin'
     s_module = get_module_dir()
-    s_plugin_items = 'My command name>run'
+    s_plugin_items = 'Test command>run'
     s_events_checks = ''
 
     while True:
