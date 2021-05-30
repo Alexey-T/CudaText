@@ -2380,6 +2380,7 @@ begin
 
   OnLexerParseProgress:= @DoOnLexerParseProgress;
   CustomDialog_DoPyCallback:= @DoPyCallbackFromAPI;
+  CustomDialog_OnEditorCommand:= @FrameOnEditorCommand;
   FFileNameLogDebug:= AppDir_Settings+DirectorySeparator+'app.log';
   FFileNameLogConsole:= AppDir_Settings+DirectorySeparator+'console.log';
 

@@ -44,7 +44,9 @@ type
 
 var
   CustomDialog_DoPyCallback: TAppPyCommonCallback = nil;
+  CustomDialog_OnEditorCommand: TATSynEditCommandEvent = nil;
   CustomDialogs: TFPList;
+
 
 type
   { TAppControlProps }
