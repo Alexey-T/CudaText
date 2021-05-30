@@ -1785,9 +1785,9 @@ class ValueEds:
         """ changes button_ex checkbox icon to proper value, and sends control click to default callback
         """
         cb_val = self.cb_value
-        # cycle: True => False => None   => True...
+        # cycle: [None => ] True => False => True...
         if   cb_val is True:  nextind = ValueEds._cb_icons[False]
-        elif cb_val is False: nextind = ValueEds._cb_icons[None]
+        #elif cb_val is False: nextind = ValueEds._cb_icons[True]
         else:                 nextind = ValueEds._cb_icons[True]
 
         button_proc(self._h_cbx, BTN_SET_IMAGEINDEX, nextind)
