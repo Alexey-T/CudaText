@@ -9,9 +9,11 @@ object fmLexerProp: TfmLexerProp
   ClientWidth = 654
   Constraints.MinHeight = 350
   Constraints.MinWidth = 600
+  KeyPreview = True
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnKeyDown = FormKeyDown
   OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever
@@ -138,6 +140,8 @@ object fmLexerProp: TfmLexerProp
         ParentFont = False
         TabOrder = 2
         TabStop = True
+        OptBorderWidth = 1
+        OptBorderWidthFocused = 1
         OptRulerVisible = False
         OptNumbersStyle = cNumbersNone
         OptUnprintedVisible = False

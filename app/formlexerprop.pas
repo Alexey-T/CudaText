@@ -15,6 +15,7 @@ uses
   Classes, SysUtils, Graphics, Forms, Controls, StdCtrls,
   Dialogs, ButtonPanel, ComCtrls, ExtCtrls, ColorBox, IniFiles,
   LazUTF8, LazFileUtils,
+  LCLType,
   ec_SyntAnal,
   ec_syntax_format,
   ATSynEdit,
@@ -86,6 +87,7 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure ListStylesClick(Sender: TObject);
   private
@@ -333,6 +335,17 @@ begin
 
   FFormats.Clear;
   FreeAndNil(FFormats);
+end;
+
+procedure TfmLexerProp.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (Key=VK_ESCAPE) and (Shift=[]) then
+  begin
+    ModalResult:= mrCancel;
+    Key:= 0;
+    exit;
+  end;
 end;
 
 procedure TfmLexerProp.FormShow(Sender: TObject);
