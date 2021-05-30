@@ -8,6 +8,7 @@
 * change: plugin "Options Editor" was replaced with "Options Editor Lite", written by @Shovel. You must reassign hotkey to the new plugin, if such a hotkey exists. New plugin is more lite and much easier to maintain.
 + add: floating bottom/side panels now have 'stay on top' style (thanks @Shovel)
 + add: lexer C++: better code-tree; support all kinds if C++11 strings
+- fix: regression: cannot scroll to the search result, in huge line in word-wrap mode
 - fix: minor API issues (thanks @Shovel, @OlehL)
 - fix: single-instance default was not changed to 'true' for Windows (thanks @JairoMartinezA)
 - fix: unneeded scrolling with finder option "Hi" (thanks @xcme)
