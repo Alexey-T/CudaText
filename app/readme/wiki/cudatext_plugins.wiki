@@ -825,7 +825,7 @@ And while CudaText lexer name is "C#", LSP language name is "csharp".
 
 LSP Client also has the settings file, use menu item to open it: "Options / Settings-plugins / LSP Client".
 
-==Example for Python server==
+==LSP server for Python==
 Python server has [https://github.com/palantir/python-language-server this homepage] and supports:
 
 * Auto-completion
@@ -856,5 +856,55 @@ Create the file "[CudaText]/settings/lsp_py.json" with text like this:
 </syntaxhighlight>
 
 Open some Python script, and call some commands of LSP Client. It will run the server, and it should work.
+
+==LSP server for CSS/SCSS/LESS==
+
+The CSS (and SCSS, LESS) server is not easy to install, so here is the instruction, from the author of LSP Client:
+
+* Download the repository of VSCode: https://github.com/microsoft/vscode
+* From the repository, get the folder "extensions/css-language-features/server" and enter in it.
+* Replace the file "tsconfig.json" with content:
+<syntaxhighlight lang="json">
+{
+    "compilerOptions": {
+	    "target": "es2018",
+	    "lib": [
+		    "es2018"
+	    ],
+	    "module": "commonjs",
+	    "strict": true,
+	    "alwaysStrict": true,
+	    "noImplicitAny": true,
+	    "noImplicitReturns": true,
+	    "noImplicitOverride": true,
+	    "noUnusedLocals": true,
+	    "noUnusedParameters": true,
+	    "forceConsistentCasingInFileNames": true,
+	    
+	    "outDir": "./out"
+    },
+  "files": [
+      "src/node/cssServerMain.ts"
+  ]
+}
+</syntaxhighlight>
+
+* Install dependencies and TypeScript. In Terminal:
+
+ npm install
+ npm install typescript
+
+* Compile it. In Terminal:
+
+ npx tsc
+
+Server should be compiled. To use the server in LSP Client, create the file "lsp_css.json" with such content:
+<syntaxhighlight lang="json">
+"cmd_unix": [
+    "node",
+    "path_to_server/server/out/node/cssServerMain.js",
+    "--stdio"
+]
+</syntaxhighlight>
 
 [[Category:CudaText]]
