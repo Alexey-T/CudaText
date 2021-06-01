@@ -757,7 +757,7 @@ Command "auto-completion menu" (default hotkey: Ctrl+Space) shows auto-completio
 
 Intelligent completion is supported via plugins. For the 2021 year, such plugins exist:
 
-* [[CudaText_plugins#LSP_Client|LSP Client]] - supports Microsoft LSP protocol, for lot of languages.
+* [[CudaText_plugins#LSP_Client|LSP Client]] - supports Microsoft LSP protocol, for lot of languages. Plugin was tested to work good with servers: Python, C++, C#, CSS/SCSS/LESS, JavaScript/TypeScript, Go, Rust.
 
 And specialized plugins:
 
