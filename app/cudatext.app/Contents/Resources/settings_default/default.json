@@ -648,6 +648,9 @@
   //Find dialog option "Highlight all matches": also move caret to the first found match
   "find_hi_move_caret": true,
 
+  //Find dialog option "Highlight all matches": force scrolling to the first of all found matches
+  "find_hi_always_scroll_to_1st": false,
+
   //[Ui]
   //UI scale factor in %, 70 to 500. [has suffix]
   //If value=0, then OS scaling is detected and used (currently only on Windows).

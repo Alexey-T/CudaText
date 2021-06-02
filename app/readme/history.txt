@@ -3,6 +3,9 @@
   - fixed
   * changed
 
++ add: option "find_hi_always_scroll_to_1st"
++ add: lexer YAML fixes 
+
 1.133.5 (2021/05)
 
 * change: plugin "Options Editor" was replaced with "Options Editor Lite", written by @Shovel. You must reassign hotkey to the new plugin, if such a hotkey exists. New plugin is more lite and much easier to maintain.

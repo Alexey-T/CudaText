@@ -290,6 +290,7 @@ type
     FindHiAll_MaxLines: integer;
     FindHiAll_TagValue: Int64;
     FindHiAll_MoveCaret: boolean;
+    FindHiAll_ForceScrollToFirstMatch: boolean;
 
     AllowProgramUpdates: boolean;
     EscapeClose: boolean;
@@ -1723,6 +1724,7 @@ begin
     FindHiAll_MaxLines:= 1000;
     FindHiAll_TagValue:= 505; //some rarely used int tag
     FindHiAll_MoveCaret:= true;
+    FindHiAll_ForceScrollToFirstMatch:= false;
 
     AllowProgramUpdates:= true;
     EscapeClose:= false;
