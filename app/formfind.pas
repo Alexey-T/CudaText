@@ -19,6 +19,7 @@ uses
   ATPanelSimple,
   ATStringProc,
   ATSynEdit,
+  ATSynEdit_Carets,
   ATSynEdit_Edits,
   ATSynEdit_Commands,
   ATSynEdit_Finder,
@@ -1099,6 +1100,11 @@ end;
 
 
 procedure TfmFind.FormShow(Sender: TObject);
+var
+  Ed: TATSynEdit;
+  Caret: TATCaretItem;
+  X1, Y1, X2, Y2: integer;
+  bSel: boolean;
 begin
   edFind.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
   edRep.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
@@ -1109,6 +1115,14 @@ begin
   UpdateFonts;
   FixFormPositionToDesktop(Self);
   OnResize(Self);
+
+  OnGetMainEditor(Ed);
+  if Ed.Carets.Count>0 then
+  begin
+    Caret:= Ed.Carets[0];
+    Caret.GetRange(X1, Y1, X2, Y2, bSel);
+    FInitialCaretPos:= Point(X1, Y1);
+  end;
 end;
 
 procedure TfmFind.DoResult(Str: TAppFinderOperation);
