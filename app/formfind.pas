@@ -1107,14 +1107,16 @@ begin
   edFind.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
   edRep.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
 
+  UpdateInitialCaretPos;
   UpdateFormHeight;
   UpdateFonts;
   FixFormPositionToDesktop(Self);
   OnResize(Self);
-  UpdateInitialCaretPos;
 end;
 
 procedure TfmFind.UpdateInitialCaretPos;
+//should be called after creation + in OnShow,
+//Sublime updates caret position on each Find dlg show
 var
   Ed: TATSynEdit;
 begin
