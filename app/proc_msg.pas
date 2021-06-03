@@ -92,6 +92,7 @@ const
   msgThemeName: string = 'Theme name:';
   msgGotoDialogTooltip: string = '(10, 10:10, 10%%, d100, xFFF, %s)';
   msgGotoDialogInfoExt: string = 'with "+": select';
+  msgIgnoredCommandIfNotFocused: string = 'Ignoring the command, editor isn''t focused';
 
   msgMenuTranslations: string = 'Translations';
   msgMenuThemesUI: string = 'UI themes';

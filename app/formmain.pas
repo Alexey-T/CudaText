@@ -5866,7 +5866,7 @@ end;
 procedure TfmMain.MenuMainClick(Sender: TObject);
 var
   F: TEditorFrame;
-  bFindFocused: boolean;
+  bFindFocused, bPanelFocused: boolean;
   NTag: PtrInt;
   NCommand: integer;
   SCallback: string;
@@ -5886,10 +5886,21 @@ begin
     F:= Frames[0];
 
   //dont do editor commands here if ed not focused
-  bFindFocused:= Assigned(fmFind) and
-    (fmFind.edFind.Focused or fmFind.edRep.Focused);
-  if bFindFocused then
-    if (NCommand>0) and (NCommand<cmdFirstAppCommand) then exit;
+  bFindFocused:= Assigned(fmFind) and (
+    fmFind.edFind.Focused or
+    fmFind.edRep.Focused);
+  bPanelFocused:=
+    CodeTree.Tree.Focused or
+    //fmOutput.Ed.Focused or
+    //fmValidate.Ed.Focused or
+    (Assigned(fmConsole) and (fmConsole.EdInput.Focused or fmConsole.EdMemo.Focused));
+
+  if bFindFocused or bPanelFocused then
+    if (NCommand>0) and (NCommand<cmdFirstAppCommand) then
+    begin
+      MsgStatus(msgIgnoredCommandIfNotFocused);
+      exit;
+    end;
 
   //-1 means run callback
   if NCommand=-1 then
