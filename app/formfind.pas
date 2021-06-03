@@ -215,9 +215,10 @@ type
     procedure UpdateHiAll(AMoveCaret: boolean);
   public
     { public declarations }
-    FCaptionFind,
+    FCaptionFind: string;
     FCaptionReplace: string;
     FBinaryMode: boolean;
+    FInitialCaretPos: TPoint;
     procedure Localize;
     procedure DoOnChange;
     procedure UpdateFormHeight;
@@ -1509,7 +1510,7 @@ begin
       Finder.OnGetToken:= FOnGetToken;
 
       NTick:= GetTickCount64;
-      EditorHighlightAllMatches(Finder, AMoveCaret, NMatches);
+      EditorHighlightAllMatches(Finder, AMoveCaret, NMatches, FInitialCaretPos);
       NTick:= GetTickCount64-NTick;
 
       if UiOps.FindShowNothingByColor then

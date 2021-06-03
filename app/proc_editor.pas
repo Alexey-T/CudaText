@@ -133,7 +133,7 @@ function EditorFindCurrentWordOrSel(Ed: TATSynEdit;
   ANext, AWordOrSel, AOptCase, AOptWrapped: boolean;
   out Str: UnicodeString): boolean;
 procedure EditorHighlightAllMatches(AFinder: TATEditorFinder;
-  AScrollNeeded: boolean; out AMatchesCount: integer);
+  AScrollNeeded: boolean; out AMatchesCount: integer; ACaretPos: TPoint);
 
 
 implementation
@@ -1863,11 +1863,11 @@ end;
 
 
 procedure EditorHighlightAllMatches(AFinder: TATEditorFinder;
-  AScrollNeeded: boolean; out AMatchesCount: integer);
+  AScrollNeeded: boolean; out AMatchesCount: integer; ACaretPos: TPoint);
 var
   ColorBorder: TColor;
   StyleBorder: TATLineStyle;
-  bMoveCaret: boolean;
+  bChanged: boolean;
 begin
   ColorBorder:= GetAppStyle(AppHiAll_ThemeStyleId).BgColor;
 
@@ -1876,15 +1876,35 @@ begin
   else
     StyleBorder:= cLineStyleRounded;
 
-  bMoveCaret:= UiOps.FindHiAll_MoveCaret and not AFinder.Editor.Carets.IsSelection;
-
   AMatchesCount:= AFinder.DoAction_HighlightAllEditorMatches(
     ColorBorder,
     StyleBorder,
     UiOps.FindHiAll_TagValue,
-    UiOps.FindHiAll_MaxLines,
-    bMoveCaret
+    UiOps.FindHiAll_MaxLines
     );
+
+  if UiOps.FindHiAll_MoveCaret then
+  begin
+    //we found and highlighted all matches,
+    //now we need to do 'find next from caret' like Sublime does
+    AFinder.OptFromCaret:= true;
+    AFinder.Editor.DoCaretSingle(ACaretPos.X, ACaretPos.Y);
+
+    if AFinder.DoAction_FindOrReplace(
+      false{AReplace},
+      false,
+      bChanged,
+      false{AUpdateCaret}
+      ) then
+      AFinder.Editor.DoGotoPos(
+        AFinder.MatchEdPos,
+        AFinder.MatchEdEnd,
+        AFinder.IndentHorz,
+        100{big value to center vertically},
+        true{APlaceCaret},
+        true{ADoUnfold}
+        );
+  end;
 end;
 
 
