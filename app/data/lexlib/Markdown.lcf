@@ -340,7 +340,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StyleName = 'Image'
       StatesAbsent = 3
       TokenType = 11
-      Expression = '(?s)(?<=\])\(.*?\) (\{.*?\})?'
+      Expression = '(?s)(?<=\])\( (\([^\)]*\)|.)*?\) (\{.*?\})?'
       ColumnFrom = 0
       ColumnTo = 0
     end
