@@ -5,6 +5,7 @@
 
 + add: option "find_hi_always_scroll_to_1st"
 + add: lexer YAML fixes 
+- fix: if no bookmarks, 'go to next bookmark' hangs (thanks @rayhester)
 
 1.133.5 (2021/05)
 
