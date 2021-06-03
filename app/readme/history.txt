@@ -3,15 +3,15 @@
   - fixed
   * changed
 
-+ add: option "find_hi_always_scroll_to_1st"
-+ add: lexer YAML fixes 
-- fix: if no bookmarks, 'go to next bookmark' hangs (thanks @rayhester)
 
-1.133.5 (2021/05)
+1.133.6 (2021/05)
 
 * change: plugin "Options Editor" was replaced with "Options Editor Lite", written by @Shovel. You must reassign hotkey to the new plugin, if such a hotkey exists. New plugin is more lite and much easier to maintain.
++ add: option "find_hi_always_scroll_to_1st" (thanks @tmsg)
 + add: floating bottom/side panels now have 'stay on top' style (thanks @Shovel)
 + add: lexer C++: better code-tree; support all kinds if C++11 strings
++ add: lexer YAML fixes 
+- fix: without bookmarks, 'go to next bookmark' hangs (thanks @rayhester)
 - fix: regression: cannot scroll to the search result, in huge line in word-wrap mode
 - fix: minor API issues (thanks @Shovel, @OlehL)
 - fix: single-instance default was not changed to 'true' for Windows (thanks @JairoMartinezA)
