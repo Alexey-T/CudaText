@@ -5885,22 +5885,24 @@ begin
   if F=nil then
     F:= Frames[0];
 
-  //dont do editor commands here if ed not focused
-  bFindFocused:= Assigned(fmFind) and (
-    fmFind.edFind.Focused or
-    fmFind.edRep.Focused);
-  bPanelFocused:=
-    CodeTree.Tree.Focused or
-    //fmOutput.Ed.Focused or
-    //fmValidate.Ed.Focused or
-    (Assigned(fmConsole) and (fmConsole.EdInput.Focused or fmConsole.EdMemo.Focused));
+  if IsCommandForClipboardAction(NCommand) then
+  //if (NCommand>0) and (NCommand<cmdFirstAppCommand) then
+  begin
+    //dont do editor commands here if ed not focused
+    bFindFocused:= Assigned(fmFind) and
+      (fmFind.edFind.Focused or
+      fmFind.edRep.Focused);
+    bPanelFocused:=
+      CodeTree.Tree.Focused or
+      CodeTreeFilterInput.Focused or
+      (Assigned(fmConsole) and (fmConsole.EdInput.Focused or fmConsole.EdMemo.Focused));
 
-  if bFindFocused or bPanelFocused then
-    if (NCommand>0) and (NCommand<cmdFirstAppCommand) then
+    if bFindFocused or bPanelFocused then
     begin
       MsgStatus(msgIgnoredCommandIfNotFocused);
       exit;
     end;
+  end;
 
   //-1 means run callback
   if NCommand=-1 then
