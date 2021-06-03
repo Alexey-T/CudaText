@@ -1883,8 +1883,6 @@ begin
     StyleBorder,
     UiOps.FindHiAll_TagValue,
     UiOps.FindHiAll_MaxLines,
-    AScrollNeeded,
-    UiOps.FindHiAll_ForceScrollToFirstMatch,
     bMoveCaret
     );
 end;
