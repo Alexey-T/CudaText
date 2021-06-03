@@ -223,6 +223,7 @@ type
     procedure Localize;
     procedure DoOnChange;
     procedure UpdateFormHeight;
+    procedure UpdateInitialCaretPos;
     procedure UpdateState(AMoveCaret: boolean);
     procedure UpdateFonts;
     procedure UpdateFocus(AFindMode: boolean);
@@ -1100,11 +1101,6 @@ end;
 
 
 procedure TfmFind.FormShow(Sender: TObject);
-var
-  Ed: TATSynEdit;
-  Caret: TATCaretItem;
-  X1, Y1, X2, Y2: integer;
-  bSel: boolean;
 begin
   edFind.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
   edRep.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
@@ -1115,14 +1111,16 @@ begin
   UpdateFonts;
   FixFormPositionToDesktop(Self);
   OnResize(Self);
+  UpdateInitialCaretPos;
+end;
 
+procedure TfmFind.UpdateInitialCaretPos;
+var
+  Ed: TATSynEdit;
+begin
   OnGetMainEditor(Ed);
   if Ed.Carets.Count>0 then
-  begin
-    Caret:= Ed.Carets[0];
-    Caret.GetRange(X1, Y1, X2, Y2, bSel);
-    FInitialCaretPos:= Point(X1, Y1);
-  end;
+    FInitialCaretPos:= Ed.Carets[0].GetLeftEdge;
 end;
 
 procedure TfmFind.DoResult(Str: TAppFinderOperation);
