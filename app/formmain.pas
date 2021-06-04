@@ -3113,6 +3113,7 @@ begin
   end;
 
   FHandledOnShowFully:= true;
+  FNeedUpdateMenuChecks:= true;
 end;
 
 procedure TfmMain.ShowWelcomeInfo;
