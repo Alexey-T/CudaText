@@ -487,6 +487,7 @@ begin
     else
       chkInSel.Checked:= FFinder.OptInSelection;
 
+    UpdateInitialCaretPos;
     UpdateInputFind(StrSuggested);
     IsReplace:= AReplaceMode;
 

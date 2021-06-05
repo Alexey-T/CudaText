@@ -1112,7 +1112,6 @@ begin
   edFind.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
   edRep.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
 
-  UpdateInitialCaretPos;
   UpdateFormHeight;
   UpdateFonts;
   FixFormPositionToDesktop(Self);
