@@ -1119,8 +1119,8 @@ begin
 end;
 
 procedure TfmFind.UpdateInitialCaretPos;
-//should be called after creation + in OnShow,
-//Sublime updates caret position on each Find dlg show
+//should be called on dlg creation + on each dialog activation,
+//like in Sublime
 var
   Ed: TATSynEdit;
 begin
