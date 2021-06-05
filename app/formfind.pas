@@ -853,11 +853,11 @@ procedure TfmFind.UpdateInputFind(const AText: UnicodeString);
 var
   bMultiLineText: boolean;
 begin
-  bMultiLineText:= Pos(#10, AText)>0;
-  IsMultiLine:= bMultiLineText;
-
   edFind.Text:= AText;
   edFind.DoEventChange(0); //for lexer RegEx
+
+  bMultiLineText:= Pos(#10, AText)>0;
+  IsMultiLine:= bMultiLineText;
 end;
 
 procedure TfmFind.UpdateInputReplace(const AText: UnicodeString);
