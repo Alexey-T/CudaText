@@ -7533,7 +7533,8 @@ begin
 
         GAP_DELETE:
           begin
-            if Num2<Num1 then Num2:= Num1; //allow value Num2=-1
+            if Num2<Num1 then
+              Num2:= Num1; //allow value Num2=-1
             if Ed.Gaps.DeleteForLineRange(Num1, Num2) then
               Ed.Update;
             Result:= ReturnNone;
@@ -7541,8 +7542,18 @@ begin
 
         GAP_DELETE_ALL:
           begin
-            Ed.Gaps.Clear;
-            Ed.Update;
+            if Ed.Gaps.Count>0 then
+            begin
+              Ed.Gaps.Clear;
+              Ed.Update;
+            end;
+            Result:= ReturnNone;
+          end;
+
+        GAP_DELETE_BY_TAG:
+          begin
+            if Ed.Gaps.DeleteWithTag(NTag) then
+              Ed.Update;
             Result:= ReturnNone;
           end;
 

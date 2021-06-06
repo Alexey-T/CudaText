@@ -664,6 +664,7 @@ GAP_ADD         = 2
 GAP_DELETE      = 3
 GAP_DELETE_ALL  = 4
 GAP_GET_ALL     = 5
+GAP_DELETE_BY_TAG = 6
 
 FOLDING_GET_LIST           = 0
 FOLDING_FOLD               = 1
