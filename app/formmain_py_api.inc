@@ -7469,6 +7469,8 @@ var
   Id, NColor, NSize: integer;
   Ed: TATSynEdit;
   Bmp: TBitmap;
+  Form: TCustomForm;
+  GapObject: TObject;
   ScrollInfo: TATEditorScrollInfo;
 begin
   with AppPython.Engine do
@@ -7496,17 +7498,26 @@ begin
           begin
             if Ed.Strings.IsIndexValid(Num1) or (Num1=-1) then
             begin
-              if Num2<>0 then
-              begin
-                Bmp:= TBitmap(PtrInt(Num2));
-                if NSize<=0 then
-                  NSize:= Bmp.Height+2{borders};
-              end
+              GapObject:= TObject(PtrInt(Num2));
+              if GapObject is TBitmap then
+                Bmp:= TBitmap(GapObject)
               else
                 Bmp:= nil;
+              if GapObject is TCustomForm then
+                Form:= TCustomForm(GapObject)
+              else
+                Form:= nil;
+              if NSize<=0 then
+              begin
+                if Assigned(Bmp) then
+                  NSize:= Bmp.Height+2{borders}
+                else
+                if Assigned(Form) then
+                  NSize:= Form.Height+2{borders};
+              end;
 
               Ed.Gaps.DeleteForLineRange(Num1, Num1);
-              if Ed.Gaps.Add(Num1, NSize, Bmp, NTag, NColor) then
+              if Ed.Gaps.Add(Num1, NSize, Bmp, Form, NTag, NColor) then
               begin
                 ////better to do always, to fix [v-scroll cannot reach end for many gaps at end]
                 //if Num1=Ed.Strings.Count-1 then
