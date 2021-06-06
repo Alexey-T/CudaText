@@ -2504,7 +2504,7 @@ Controls bookmarks. Possible values of "id":
 
 * BOOKMARK_CLEAR: Removes bookmark from line, specified by "nline" param.
 * BOOKMARK_CLEAR_ALL: Removes all bookmarks ("nline" ignored).
-* BOOKMARK_DELETE_BY_TAG: Removes all bookmarks, which have tag, given by "tag" param.
+* BOOKMARK_DELETE_BY_TAG: Removes all bookmarks, which have the tag, given by "tag" param.
 
 * BOOKMARK_SETUP: Configures bookmarks with kind, given by "nkind" param.
 ** Param "ncolor": Color of bookmarked line.
@@ -2545,7 +2545,7 @@ Controls decorations on gutter. It is used to show some visual marks, which look
 ** "auto_del": bool, auto-delete decoration, when its line is deleted.
 
 * DECOR_DELETE_BY_LINE: Deletes single decoration for given line. Params used: "line".
-* DECOR_DELETE_BY_TAG: Deletes all decorations for given tag. Param used: "tag".
+* DECOR_DELETE_BY_TAG: Deletes all decorations with the given tag. Param used: "tag".
 * DECOR_DELETE_ALL: Deletes all decorations.
 * DECOR_GET_IMAGELIST: Returns int handle of decoration imagelist (default size is 16x16).
 
@@ -2731,7 +2731,7 @@ Possible values of "id":
 
 * HOTSPOT_DELETE_ALL: Deletes all hotspots.
 * HOTSPOT_DELETE_LAST: Deletes last hotspot.
-* HOTSPOT_DELETE_BY_TAG: Deletes all hotspots with specified "tag".
+* HOTSPOT_DELETE_BY_TAG: Deletes all hotspots with the given tag, "tag" param.
 
 ==Misc==
 
