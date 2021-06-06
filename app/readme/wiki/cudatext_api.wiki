@@ -2846,7 +2846,7 @@ Possible values of "id":
 * GAP_ADD: Adds gap to editor. Returns bool: params correct, gap added. Params:
 ** "num1": int: Line index; can be -1 for gap before the first line.
 ** "num2": int: Can be:
-*** 0: gap will be empty are filled with some color;
+*** 0: gap is empty, filled with specified color;
 *** handle of bitmap (created via GAP_MAKE_BITMAP): place bitmap in the gap;
 *** handle of dialog (created via dlg_proc()): place form in the gap.
 ** "tag": int: Some value, to separate gaps from several plugins.
