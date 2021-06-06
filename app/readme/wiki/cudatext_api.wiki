@@ -2850,8 +2850,9 @@ Possible values of "id":
 ** "size": int: If >0, it is gap height in pixels. If 0, gap height is calculated from bitmap handle.
 ** "color": int: If not COLOR_NONE, then it's gap background color.
 
-* GAP_DELETE: Deletes gaps, for line indexes from num1 to num2.
 * GAP_DELETE_ALL: Deletes all gaps.
+* GAP_DELETE: Deletes gaps for the given line indexes range, from value of "num1" to value of "num2" (inclusive).
+* GAP_DELETE_BY_TAG: Deletes gaps which have the tag, given by param "tag".
 
 Example plugin:
 
@@ -4336,4 +4337,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.392 (app 1.133.2)
 * add: on_state: add values APPSTATE_CODETREE_*
 * add: app_proc: PROC_SIDEPANEL_ENUM_ALL/PROC_BOTTOMPANEL_ENUM_ALL gets also button handles
+
+1.0.393 (app 1.133.6)
+* add: Editor.gap: add GAP_DELETE_BY_TAG
+
 [[Category:CudaText]]
