@@ -2848,7 +2848,7 @@ Possible values of "id":
 ** "num2": int: Can be:
 *** 0: gap is empty, filled with specified color;
 *** handle of bitmap (created via GAP_MAKE_BITMAP): place bitmap in the gap;
-*** handle of dialog (created via dlg_proc()): place form in the gap.
+*** handle of dialog (created via dlg_proc()): place dialog in the gap.
 ** "tag": int: Some value, to separate gaps from several plugins.
 ** "size": int: If >0, it is gap height in pixels. If 0, gap height is calculated from bitmap handle.
 ** "color": int: If not COLOR_NONE, then it's gap background color.
@@ -4343,6 +4343,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.393 (app 1.133.6)
 * add: Editor.gap: add GAP_DELETE_BY_TAG
-* add: Editor.gap: GAP_ADD can also add the form using form's handle
+* add: Editor.gap: GAP_ADD can also add the dialog, using its handle
 
 [[Category:CudaText]]
