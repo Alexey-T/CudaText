@@ -767,7 +767,8 @@ begin
         Ed.MarkerGotoLast(true,
           UiOps.FindIndentHorz,
           UiOps.FindIndentVert);
-        if Ed.Markers.Count=0 then
+        if Assigned(Frame) then
+         if Ed.Markers.Count=0 then
           Frame.TabKeyCollectMarkers:= false;
         UpdateStatusbar;
         AHandled:= true;
@@ -788,7 +789,8 @@ begin
     cmd_Markers_ClearAll:
       begin
         Ed.MarkerClearAll;
-        Frame.TabKeyCollectMarkers:= false;
+        if Assigned(Frame) then
+          Frame.TabKeyCollectMarkers:= false;
         UpdateStatusbar;
         AHandled:= true;
         exit
@@ -861,65 +863,79 @@ begin
 
     cmd_SplitTabToggle:
       begin
-        Frame.Splitted:= not Frame.Splitted;
+        if Assigned(Frame) then
+          Frame.Splitted:= not Frame.Splitted;
         AHandled:= true;
         exit
       end;
     cmd_SplitTabHorzVert:
       begin
-        Frame.SplitHorz:= not Frame.SplitHorz;
+        if Assigned(Frame) then
+          Frame.SplitHorz:= not Frame.SplitHorz;
         AHandled:= true;
         exit
       end;
 
     cmd_SplitTabHorz:
       begin
-        Frame.SplitHorz:= true;
-        Frame.Splitted:= true;
+        if Assigned(Frame) then
+        begin
+          Frame.SplitHorz:= true;
+          Frame.Splitted:= true;
+        end;
         AHandled:= true;
         exit
       end;
     cmd_SplitTabVert:
       begin
-        Frame.SplitHorz:= false;
-        Frame.Splitted:= true;
+        if Assigned(Frame) then
+        begin
+          Frame.SplitHorz:= false;
+          Frame.Splitted:= true;
+        end;
         AHandled:= true;
         exit
       end;
     cmd_SplitTabNo:
       begin
-        Frame.Splitted:= false;
+        if Assigned(Frame) then
+          Frame.Splitted:= false;
         AHandled:= true;
         exit
       end;
 
     cmd_SplitTab3070:
       begin
-        Frame.SplitPos:= 0.7;
+        if Assigned(Frame) then
+          Frame.SplitPos:= 0.7;
         AHandled:= true;
         exit
       end;
     cmd_SplitTab4060:
       begin
-        Frame.SplitPos:= 0.6;
+        if Assigned(Frame) then
+          Frame.SplitPos:= 0.6;
         AHandled:= true;
         exit
       end;
     cmd_SplitTab5050:
       begin
-        Frame.SplitPos:= 0.5;
+        if Assigned(Frame) then
+          Frame.SplitPos:= 0.5;
         AHandled:= true;
         exit
       end;
     cmd_SplitTab6040:
       begin
-        Frame.SplitPos:= 0.4;
+        if Assigned(Frame) then
+          Frame.SplitPos:= 0.4;
         AHandled:= true;
         exit
       end;
     cmd_SplitTab7030:
       begin
-        Frame.SplitPos:= 0.3;
+        if Assigned(Frame) then
+          Frame.SplitPos:= 0.3;
         AHandled:= true;
         exit
       end;
@@ -1042,7 +1058,10 @@ begin
   case ACommand of
     cCommand_KeyTab:
       begin
-        AHandled:= Frame.TabKeyCollectMarkers and (Ed.Markers.Count>0);
+        if Assigned(Frame) then
+          AHandled:= Frame.TabKeyCollectMarkers and (Ed.Markers.Count>0)
+        else
+          AHandled:= false;
         if AHandled then
         begin
           Ed.MarkerGotoLast(true,
