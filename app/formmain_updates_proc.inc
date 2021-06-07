@@ -117,6 +117,8 @@ begin
   UpdateToolbarButton(ToolbarMain, cCommand_Redo, false, bEditable and not Ed.Strings.RedoEmpty);
   UpdateToolbarButton(ToolbarMain, cCommand_TextIndent, false, bEditable);
   UpdateToolbarButton(ToolbarMain, cCommand_TextUnindent, false, bEditable);
+
+  UpdateToolbarButton(ToolbarMain, cmd_ToggleFileNotifications, UiOps.NotificationEnabled, true);
 end;
 
 procedure TfmMain.UpdateStatusbar_RealWork;

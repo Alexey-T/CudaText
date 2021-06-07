@@ -296,6 +296,7 @@ cmd_ShowPanelValidate_AndFocus = 2563
 cmd_ToggleSidePanelAndSyntaxTree = 2565
 cmd_OpsFontSizeReset = 2566
 cmd_FindPythonLib = 2567
+cmd_ToggleFileNotification = 2568
 
 cmd_ChooseTranslation = 2570
 cmd_ChooseThemeUI     = 2571

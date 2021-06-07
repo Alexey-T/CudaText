@@ -131,6 +131,17 @@ begin
           Frame.DoHideNotificationPanels;
       end;
 
+    cmd_ToggleFileNotifications:
+      begin
+        UiOps.NotificationEnabled:= not UiOps.NotificationEnabled;
+        if UiOps.NotificationEnabled then
+          if AppNotifThread=nil then
+          begin
+            AppNotifThread:= TAppNotifThread.Create(false);
+            AppNotifThread.Priority:= tpLower;
+          end;
+      end;
+
     cmd_SwitchTab_HotkeyNext:
       DoSwitchTab(true);
     cmd_SwitchTab_HotkeyPrev:

@@ -116,6 +116,7 @@ const
   cmd_ToggleSidePanelAndSyntaxTree = 2565;
   cmd_OpsFontSizeReset = 2566;
   cmd_FindPythonLib = 2567;
+  cmd_ToggleFileNotifications = 2568;
 
   cmd_ChooseTranslation = 2570;
   cmd_ChooseThemeUI     = 2571;
@@ -428,6 +429,7 @@ begin
   M.Add(cmd_FocusEditor, 'ui: focus editor', [], []);
   M.Add(cmd_FocusNotificationPanel, 'ui: focus editor notification panel', [], []);
   M.Add(cmd_HideNotificationPanels, 'ui: hide editor notification panel(s)', [], []);
+  M.Add(cmd_ToggleFileNotifications, 'ui: toggle file change notifications on/off', [], []);
 
   M.Add(cmd_SwitchTab_HotkeyNext, 'ui: switch tab, to next', ['Ctrl+Tab'], []);
   M.Add(cmd_SwitchTab_HotkeyPrev, 'ui: switch tab, to previous', ['Ctrl+Shift+Tab'], []);
