@@ -12,6 +12,7 @@
 + add: floating bottom/side panels now have 'stay on top' style (thanks @Shovel)
 + add: lexer C++: better code-tree; support all kinds if C++11 strings
 + add: lexer YAML fixes 
+- fix: crash on pressing Tab in the Snippets' plugin dialog (thanks @sigzero)
 - fix: without bookmarks, 'go to next bookmark' hangs (thanks @rayhester)
 - fix: regression: cannot scroll to the search result, in huge line in word-wrap mode
 - fix: minor API issues (thanks @Shovel, @OlehL)
