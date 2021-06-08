@@ -15,11 +15,11 @@
 + add: lexer YAML fixes 
 - fix: without bookmarks, 'go to next bookmark' hangs (thanks @rayhester)
 - fix: regression: crash on pressing Tab in the Snippets' plugin dialog (thanks @sigzero)
-- fix: regression: cannot scroll to the search result, in huge line in word-wrap mode
-- fix: minor API issues (thanks @Shovel, @OlehL)
+- fix: regression: Find dialog cannot scroll to the search result, in huge line in word-wrap mode
 - fix: single-instance default was not changed to 'true' for Windows (thanks @JairoMartinezA)
 - fix: flickering in CudaExt plugin commands with option "dim_unfocused" (thanks @kvichans)
-- fix: auto-reloading of file when ui-tab is splitted (thanks @Shovel)
+- fix: auto-reloading cannot reload paired file, when ui-tab is splitted (thanks @Shovel)
+- fix: minor API issues (thanks @Shovel, @OlehL)
 - fix: stability of multi-threaded parser
 
 1.133.0 (2021/05)
