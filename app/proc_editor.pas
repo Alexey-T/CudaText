@@ -2170,9 +2170,15 @@ function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
     Ed.SaveToFile(fn);
   end;
   //
+  function IsBadResultFile(const fn: string): boolean;
+  begin
+    Result:= (not FileExists(fn)) or (FileUtil.FileSize(fn)=0);
+  end;
+  //
 var
   OldEncoding: string;
   OldAttr: Longint;
+  STempFilename: string;
 begin
   Result:= true;
   while true do
@@ -2182,9 +2188,19 @@ begin
     try
       try
         SaveSimple(AFileName);
-        //prevent empty result file, issue #3435
-        if (Ed.Strings.Count>0) and (FileUtil.FileSize(AFileName)=0) then
-          raise EFileNotFoundException.Create('Saved to an empty file');
+
+        //workaround empty result file on Linux in smb dir, issue #3435
+        if (Ed.Strings.Count>0) and IsBadResultFile(AFileName) then
+        begin
+          STempFilename:= GetTempFileName('', 'cudatext_');
+          SaveSimple(STempFilename);
+          if IsBadResultFile(STempFilename) then
+            raise EFileNotFoundException.Create('Saved to an empty file');
+          CopyFile(STempFilename, AFileName);
+          if IsBadResultFile(AFileName) then
+            raise EFileNotFoundException.Create('Saved to an empty file');
+        end;
+
       except
         on E: EConvertError do
           begin
