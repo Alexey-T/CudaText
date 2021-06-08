@@ -16,6 +16,7 @@ uses
   Controls, LCLType,
   Dialogs, Forms,
   Clipbrd,
+  FileUtil,
   ATSynEdit,
   ATSynEdit_LineParts,
   ATSynEdit_CanvasProc,
@@ -2172,8 +2173,10 @@ function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
 var
   OldEncoding: string;
   OldAttr: Longint;
+  bNotEmpty: boolean;
 begin
   Result:= true;
+  bNotEmpty:= Ed.Strings.Count>0;
   while true do
   try
     AppFileAttrPrepare(AFileName, OldAttr);
@@ -2181,6 +2184,9 @@ begin
     try
       try
         DoSave;
+        //prevent empty result file, issue #3435
+        if bNotEmpty and (FileUtil.FileSize(AFileName)=0) then
+          raise EWriteError.Create('Saved to the empty resulting file');
       except
         on E: EConvertError do
           begin
@@ -2188,7 +2194,12 @@ begin
             Ed.EncodingName:= cEncNameUtf8_NoBom;
             DoSave;
             MsgBox(Format(msgCannotSaveFileWithEnc, [OldEncoding]), MB_OK or MB_ICONWARNING);
-          end
+          end;
+        on E: EWriteError do
+          begin
+            MsgBox(msgCannotSaveFile+#10+AFileName, MB_OK or MB_ICONERROR);
+            exit(false);
+          end;
         else
           raise;
       end;
