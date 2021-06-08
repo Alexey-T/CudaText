@@ -2173,10 +2173,8 @@ function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
 var
   OldEncoding: string;
   OldAttr: Longint;
-  bNotEmpty: boolean;
 begin
   Result:= true;
-  bNotEmpty:= Ed.Strings.Count>0;
   while true do
   try
     AppFileAttrPrepare(AFileName, OldAttr);
@@ -2185,8 +2183,8 @@ begin
       try
         DoSave;
         //prevent empty result file, issue #3435
-        if bNotEmpty and (FileUtil.FileSize(AFileName)=0) then
-          raise EWriteError.Create('Saved to the empty resulting file');
+        if (Ed.Strings.Count>0) and (FileUtil.FileSize(AFileName)=0) then
+          raise EFileNotFoundException.Create('Saved to an empty file');
       except
         on E: EConvertError do
           begin
@@ -2195,7 +2193,7 @@ begin
             DoSave;
             MsgBox(Format(msgCannotSaveFileWithEnc, [OldEncoding]), MB_OK or MB_ICONWARNING);
           end;
-        on E: EWriteError do
+        on E: EFileNotFoundException do
           begin
             MsgBox(msgCannotSaveFile+#10+AFileName, MB_OK or MB_ICONERROR);
             exit(false);
@@ -2207,14 +2205,10 @@ begin
       Ed.EndUpdate;
     end;
     AppFileAttrRestore(AFileName, OldAttr);
-    Break;
+    exit;
   except
-    if MsgBox(msgCannotSaveFile+#10+AFileName,
-      MB_RETRYCANCEL or MB_ICONERROR) = IDCANCEL then
-    begin
-      Result:= false;
-      Break;
-    end;
+    if MsgBox(msgCannotSaveFile+#10+AFileName, MB_RETRYCANCEL or MB_ICONERROR) = IDCANCEL then
+      exit(false);
   end;
 end;
 
