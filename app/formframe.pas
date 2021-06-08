@@ -2374,6 +2374,7 @@ end;
 
 procedure TEditorFrame.SetFileName(Ed: TATSynEdit; const AFileName: string);
 begin
+  Ed.FileName:= AFileName;
   if EditorsLinked or (Ed=Ed1) then
     FFileName:= AFileName
   else
