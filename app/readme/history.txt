@@ -4,21 +4,21 @@
   * changed
 
 
-1.133.6 (2021/05)
+1.134.0 (2021/06)
 
 * change: plugin "Options Editor" was replaced with "Options Editor Lite", written by @Shovel. You must reassign hotkey to the new plugin, if such a hotkey exists. New plugin is more lite and much easier to maintain.
-+ add: command "ui: toggle file change notifications on/off" (thanks @ertank)
++ add: incremental search in the Find dialog works more like in Sublime now (thanks @xcme, @tmsg) 
++ add: command "ui: toggle file-change notifications" (thanks @ertank)
 + add: Linux gtk2 version has improved IME support (patch by @rasberryrabbit)
 + add: floating bottom/side panels now have 'stay on top' style (thanks @Shovel)
 + add: lexer C++: better code-tree; support all kinds if C++11 strings
 + add: lexer YAML fixes 
-- fix: crash on pressing Tab in the Snippets' plugin dialog (thanks @sigzero)
 - fix: without bookmarks, 'go to next bookmark' hangs (thanks @rayhester)
+- fix: regression: crash on pressing Tab in the Snippets' plugin dialog (thanks @sigzero)
 - fix: regression: cannot scroll to the search result, in huge line in word-wrap mode
 - fix: minor API issues (thanks @Shovel, @OlehL)
 - fix: single-instance default was not changed to 'true' for Windows (thanks @JairoMartinezA)
-- fix: unneeded scrolling with finder option "Hi" (thanks @xcme)
-- fix: flickering in CudaExt commands with option "dim_unfocused" (thanks @kvichans)
+- fix: flickering in CudaExt plugin commands with option "dim_unfocused" (thanks @kvichans)
 - fix: auto-reloading of file when ui-tab is splitted (thanks @Shovel)
 - fix: stability of multi-threaded parser
 
