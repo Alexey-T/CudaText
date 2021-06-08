@@ -8,6 +8,7 @@
 
 * change: plugin "Options Editor" was replaced with "Options Editor Lite", written by @Shovel. You must reassign hotkey to the new plugin, if such a hotkey exists. New plugin is more lite and much easier to maintain.
 + add: incremental search in the Find dialog works more like in Sublime now (thanks @xcme, @tmsg) 
++ add: handle file-save errors (resulting file is empty) on smb shares on Linux (thanks @mdsystems)
 + add: command "ui: toggle file-change notifications" (thanks @ertank)
 + add: Linux gtk2 version has improved IME support (patch by @rasberryrabbit)
 + add: floating bottom/side panels now have 'stay on top' style (thanks @Shovel)
