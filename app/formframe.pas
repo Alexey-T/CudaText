@@ -2479,7 +2479,6 @@ begin
       FOnAddRecent(Ed);
 
     SFileName:= SaveDialog.FileName;
-    SetFileName(Ed, SFileName);
     bNameChanged:= true;
 
     //remove read-only (it may be set for original file)
@@ -2501,23 +2500,25 @@ begin
   if bNameChanged then
     DoLexerFromFilename(Ed, GetFileName(Ed));
 
+  if Result then
+  begin
+    SetFileName(Ed, SFileName);
+
+    if not TabCaptionFromApi then
+      UpdateCaptionFromFilename;
+
+    DoSaveUndo(Ed, SFileName);
+    DoPyEvent(Ed, cEventOnSaveAfter, Params);
+    if Assigned(FOnSaveFile) then
+      FOnSaveFile(Self);
+  end;
+
   if EditorsLinked or (Ed=Ed1) then
     AppGetFileProps(GetFileName(Ed), FileProps)
   else
     AppGetFileProps(GetFileName(Ed), FileProps2);
 
   NotifEnabled:= PrevEnabled or bNameChanged;
-
-  if not TabCaptionFromApi then
-    UpdateCaptionFromFilename;
-
-  if Result then
-  begin
-    DoSaveUndo(Ed, SFileName);
-    DoPyEvent(Ed, cEventOnSaveAfter, Params);
-    if Assigned(FOnSaveFile) then
-      FOnSaveFile(Self);
-  end;
 end;
 
 procedure TEditorFrame.DoFileReload_DisableDetectEncoding(Ed: TATSynEdit);
