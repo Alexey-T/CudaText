@@ -2158,7 +2158,7 @@ end;
 
 function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
   //
-  procedure DoSave;
+  procedure SaveSimple(const fn: string);
   begin
     {
     //atomic file saving is NOT a good thing, people write they loose file properties,
@@ -2167,7 +2167,7 @@ function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
       ....
     else
     }
-      Ed.SaveToFile(AFileName);
+    Ed.SaveToFile(fn);
   end;
   //
 var
@@ -2181,7 +2181,7 @@ begin
     Ed.BeginUpdate;
     try
       try
-        DoSave;
+        SaveSimple(AFileName);
         //prevent empty result file, issue #3435
         if (Ed.Strings.Count>0) and (FileUtil.FileSize(AFileName)=0) then
           raise EFileNotFoundException.Create('Saved to an empty file');
@@ -2190,7 +2190,7 @@ begin
           begin
             OldEncoding:= Ed.EncodingName;
             Ed.EncodingName:= cEncNameUtf8_NoBom;
-            DoSave;
+            SaveSimple(AFileName);
             MsgBox(Format(msgCannotSaveFileWithEnc, [OldEncoding]), MB_OK or MB_ICONWARNING);
           end;
         on E: EFileNotFoundException do
