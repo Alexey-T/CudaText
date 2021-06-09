@@ -666,10 +666,10 @@ After the option "auto_fold_comments" appeared, all 3rd-party lexers should be s
 
 ==Location of folders 'settings', 'py', 'data'==
 
-Non-portable CudaText installation exists
+Non-portable CudaText installation is used for:
 
-* for Linux - .deb package, which copies several folders to system folder
-* for macOS
+* Linux: .deb package, which installs binary file to "usr/bin/cudatext" and several data folders to "/usr/share/cudatext"
+* macOS: installer creates the sym-link in the "Applications"
 
 All other CudaText packages are portable. When program runs, it first detects "am I in portable mode?" (executable file is located near folder "data"). And if "not portable", these locations of 'data' and 'py' folders are used:
 
