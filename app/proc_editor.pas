@@ -2175,10 +2175,22 @@ function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
     Result:= (not FileExists(fn)) or (FileUtil.FileSize(fn)=0);
   end;
   //
+  procedure SaveViaTempCopy(const fn: string);
+  var
+    fnTemp: string;
+  begin
+    fnTemp:= GetTempFileName('', 'cudatext_');
+    SaveSimple(fnTemp);
+    if IsBadResultFile(fnTemp) then
+      raise EFileNotFoundException.Create('Cannot save to a temp file.');
+    CopyFile(fnTemp, fn);
+    if IsBadResultFile(fn) then
+      raise EFileNotFoundException.CreateFmt('Cannot save to "%s". Saved to a temporary file "%s".', [fn, fnTemp]);
+  end;
+  //
 var
   OldEncoding: string;
   OldAttr: Longint;
-  STempFilename: string;
 begin
   Result:= true;
   while true do
@@ -2188,19 +2200,6 @@ begin
     try
       try
         SaveSimple(AFileName);
-
-        //workaround empty result file on Linux in smb dir, issue #3435
-        if (Ed.Strings.Count>0) and IsBadResultFile(AFileName) then
-        begin
-          STempFilename:= GetTempFileName('', 'cudatext_');
-          SaveSimple(STempFilename);
-          if IsBadResultFile(STempFilename) then
-            raise EFileNotFoundException.Create('Saved to an empty file');
-          CopyFile(STempFilename, AFileName);
-          if IsBadResultFile(AFileName) then
-            raise EFileNotFoundException.Create('Saved to an empty file');
-        end;
-
       except
         on E: EConvertError do
           begin
@@ -2209,10 +2208,11 @@ begin
             SaveSimple(AFileName);
             MsgBox(Format(msgCannotSaveFileWithEnc, [OldEncoding]), MB_OK or MB_ICONWARNING);
           end;
-        on E: EFileNotFoundException do
+        on E: EFOpenError do
           begin
-            MsgBox(msgCannotSaveFile+#10+AFileName, MB_OK or MB_ICONERROR);
-            exit(false);
+            SaveViaTempCopy(AFileName);
+            if IsBadResultFile(AFileName) then
+              raise;
           end;
         else
           raise;
@@ -2223,8 +2223,11 @@ begin
     AppFileAttrRestore(AFileName, OldAttr);
     exit;
   except
-    if MsgBox(msgCannotSaveFile+#10+AFileName, MB_RETRYCANCEL or MB_ICONERROR) = IDCANCEL then
-      exit(false);
+    on E: Exception do
+    begin
+      if MsgBox(E.ClassName+#10+E.Message, MB_RETRYCANCEL or MB_ICONERROR) = IDCANCEL then
+        exit(false);
+    end;
   end;
 end;
 
