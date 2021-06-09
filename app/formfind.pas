@@ -515,9 +515,9 @@ begin
     FPopupMore.Items.Add(FMenuitemRepGlobal);
   end;
 
-  //cannot run find-prev, find-next, select-all with Hi option
-  FMenuitemFindPrev.Enabled:= not chkHiAll.Checked;
-  FMenuitemFindNext.Enabled:= not chkHiAll.Checked;
+  //cannot run select-all with Hi option
+  //FMenuitemFindPrev.Enabled:= not chkHiAll.Checked;
+  //FMenuitemFindNext.Enabled:= not chkHiAll.Checked;
   FMenuitemSelectAll.Enabled:= not chkHiAll.Checked;
 
   FMenuitemOptRegex.Caption:= SCaptionOptRegex;
