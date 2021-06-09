@@ -675,6 +675,7 @@ All other CudaText packages are portable. When program runs, it first detects "a
 
 * Linux, *BSD, Solaris: ~/.config/cudatext, or $XDG_CONFIG_HOME/cudatext if this OS variable is set
 * macOS: ~/Library/Application Support/CudaText
+* Haiku: /boot/home/config/settings/cudatext
 
 ==Encodings==
 
