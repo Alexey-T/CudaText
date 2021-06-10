@@ -204,52 +204,115 @@ begin
       DoSidebar_MainMenuClick(nil);
 
     cmd_ToggleFullScreen:
-      DoToggleFullScreen;
+      begin
+        DoToggleFullScreen;
+        FNeedUpdateMenuChecks:= true;
+      end;
     cmd_ToggleDistractionFree:
-      DoToggleDistractionFree;
+      begin
+        DoToggleDistractionFree;
+        FNeedUpdateMenuChecks:= true;
+      end;
+
     cmd_ToggleSidePanel:
-      DoToggleSidePanel;
+      begin
+        DoToggleSidePanel;
+        FNeedUpdateMenuChecks:= true;
+      end;
     cmd_ToggleBottomPanel:
-      DoToggleBottomPanel;
+      begin
+        DoToggleBottomPanel;
+        FNeedUpdateMenuChecks:= true;
+      end;
+
     cmd_ToggleFindDialog:
       DoToggleFindDialog;
+
     cmd_ToggleSidebar:
-      DoToggleSidebar;
+      begin
+        DoToggleSidebar;
+        FNeedUpdateMenuChecks:= true;
+      end;
+
     cmd_ToggleToolbar:
-      DoToggleToolbar;
+      begin
+        DoToggleToolbar;
+        FNeedUpdateMenuChecks:= true;
+      end;
+
     cmd_ToggleStatusbar:
-      DoToggleStatusbar;
+      begin
+        DoToggleStatusbar;
+        FNeedUpdateMenuChecks:= true;
+      end;
+
     cmd_ToggleUiTabs:
       DoToggleUiTabs;
+
     cmd_ToggleOnTop:
-      DoToggleOnTop;
+      begin
+        DoToggleOnTop;
+        FNeedUpdateMenuChecks:= true;
+      end;
+
     cmd_ToggleFloatSide:
+    begin
       DoToggleFloatSide;
+      FNeedUpdateMenuChecks:= true;
+    end;
+
     cmd_ToggleFloatBottom:
+    begin
       DoToggleFloatBottom;
+      FNeedUpdateMenuChecks:= true;
+    end;
 
     cmd_OpsReloadAndApply:
       DoOps_LoadOptionsAndApplyAll;
 
     cmd_ShowPanelConsole:
-      DoShowConsole(false);
+      begin
+        DoShowConsole(false);
+        FNeedUpdateMenuChecks:= true;
+      end;
     cmd_ShowPanelOutput:
-      DoShowOutput(false);
+      begin
+        DoShowOutput(false);
+        FNeedUpdateMenuChecks:= true;
+      end;
     cmd_ShowPanelValidate:
-      DoShowValidate(false);
+      begin
+        DoShowValidate(false);
+        FNeedUpdateMenuChecks:= true;
+      end;
 
     cmd_ShowPanelConsole_AndFocus:
-      DoShowConsole(true);
+      begin
+        DoShowConsole(true);
+        FNeedUpdateMenuChecks:= true;
+      end;
     cmd_ShowPanelOutput_AndFocus:
-      DoShowOutput(true);
+      begin
+        DoShowOutput(true);
+        FNeedUpdateMenuChecks:= true;
+      end;
     cmd_ShowPanelValidate_AndFocus:
-      DoShowValidate(true);
+      begin
+        DoShowValidate(true);
+        FNeedUpdateMenuChecks:= true;
+      end;
 
     cmd_ShowSidePanelAsIs:
-      AppPanels[cPaneSide].Visible:= true;
+      begin
+        AppPanels[cPaneSide].Visible:= true;
+        FNeedUpdateMenuChecks:= true;
+      end;
 
     cmd_ShowSidePanelAndSyntaxTree:
-      AppPanels[cPaneSide].UpdatePanels(msgPanelTree_Init, false, true);
+      begin
+        AppPanels[cPaneSide].UpdatePanels(msgPanelTree_Init, false, true);
+        FNeedUpdateMenuChecks:= true;
+      end;
 
     cmd_ToggleSidePanelAndSyntaxTree:
       begin
@@ -257,13 +320,20 @@ begin
           AppPanels[cPaneSide].Visible:= false
         else
           AppPanels[cPaneSide].UpdatePanels(msgPanelTree_Init, false, true);
+        FNeedUpdateMenuChecks:= true;
       end;
 
     cmd_HideSidePanel:
-      AppPanels[cPaneSide].Visible:= false;
+      begin
+        AppPanels[cPaneSide].Visible:= false;
+        FNeedUpdateMenuChecks:= true;
+      end;
 
     cmd_HideBottomPanel:
-      AppPanels[cPaneOut].Visible:= false;
+      begin
+        AppPanels[cPaneOut].Visible:= false;
+        FNeedUpdateMenuChecks:= true;
+      end;
 
     cmd_FindFirst:
       DoFindFirst;
