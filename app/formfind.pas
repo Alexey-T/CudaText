@@ -202,7 +202,7 @@ type
     procedure bRepStopClick(Sender: TObject);
     procedure ControlAutosizeOptionsByWidth;
     procedure DoFocusEditor;
-    procedure DoResult(Str: TAppFinderOperation);
+    procedure DoResult(Op: TAppFinderOperation);
     function GetHiAll: boolean;
     procedure InitPopupMore;
     procedure MenuitemTokensClick(Sender: TObject);
@@ -514,11 +514,6 @@ begin
     FPopupMore.Items.Add(FMenuitemRepAll);
     FPopupMore.Items.Add(FMenuitemRepGlobal);
   end;
-
-  //cannot run select-all with Hi option
-  //FMenuitemFindPrev.Enabled:= not chkHiAll.Checked;
-  //FMenuitemFindNext.Enabled:= not chkHiAll.Checked;
-  FMenuitemSelectAll.Enabled:= not chkHiAll.Checked;
 
   FMenuitemOptRegex.Caption:= SCaptionOptRegex;
   FMenuitemOptRegex.Checked:= chkRegex.Checked;
@@ -1129,19 +1124,31 @@ begin
     FInitialCaretPos:= Ed.Carets[0].GetLeftEdge;
 end;
 
-procedure TfmFind.DoResult(Str: TAppFinderOperation);
+procedure TfmFind.DoResult(Op: TAppFinderOperation);
+var
+  bUpdateState: boolean;
 begin
   if edFind.Text='' then
-    if Str<>afoCloseDlg then exit;
+    if Op<>afoCloseDlg then exit;
 
   if Assigned(FOnResult) then
-    FOnResult(Self, Str);
+    FOnResult(Self, Op);
 
-  if (Str<>afoCloseDlg) then
+  bUpdateState:= not (Op in [
+    afoNone,
+    afoCloseDlg,
+    afoCountAll,
+    afoExtractAll,
+    afoFindMarkAll,
+    afoFindSelectAll
+    ]);
+
+  if Op<>afoCloseDlg then
   begin
     edFind.DoAddLineToHistory(edFind.Text, UiOps.MaxHistoryEdits);
     edRep.DoAddLineToHistory(edRep.Text, UiOps.MaxHistoryEdits);
-    UpdateState(false);
+    if bUpdateState then
+      UpdateState(false);
   end;
 end;
 
