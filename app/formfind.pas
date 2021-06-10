@@ -213,7 +213,7 @@ type
     procedure SetReplace(AValue: boolean);
     procedure UpdateButtonBold;
     procedure UpdateRegexHighlight;
-    procedure UpdateHiAll(AMoveCaret: boolean);
+    procedure UpdateHiAll(AEnableFindNext: boolean);
   public
     { public declarations }
     FCaptionFind: string;
@@ -224,7 +224,7 @@ type
     procedure DoOnChange;
     procedure UpdateFormHeight;
     procedure UpdateInitialCaretPos;
-    procedure UpdateState(AMoveCaret: boolean);
+    procedure UpdateState(AEnableFindNextForHiOption: boolean);
     procedure UpdateFonts;
     procedure UpdateFocus(AFindMode: boolean);
     procedure UpdateInputFind(const AText: UnicodeString);
@@ -1308,7 +1308,7 @@ begin
     Result:= FCaptionFind;
 end;
 
-procedure TfmFind.UpdateState(AMoveCaret: boolean);
+procedure TfmFind.UpdateState(AEnableFindNextForHiOption: boolean);
 var
   Ed: TATSynEdit;
 begin
@@ -1367,7 +1367,7 @@ begin
 
   UpdateRegexHighlight;
 
-  UpdateHiAll(AMoveCaret);
+  UpdateHiAll(AEnableFindNextForHiOption);
 end;
 
 procedure TfmFind.UpdateRegexHighlight;
@@ -1498,7 +1498,7 @@ begin
     FOnFocusEditor(nil);
 end;
 
-procedure TfmFind.UpdateHiAll(AMoveCaret: boolean);
+procedure TfmFind.UpdateHiAll(AEnableFindNext: boolean);
 var
   Finder: TATEditorFinder;
   NMatches: integer;
@@ -1535,7 +1535,7 @@ begin
       Finder.OnGetToken:= FOnGetToken;
 
       NTick:= GetTickCount64;
-      EditorHighlightAllMatches(Finder, AMoveCaret, NMatches, FInitialCaretPos);
+      EditorHighlightAllMatches(Finder, AEnableFindNext, NMatches, FInitialCaretPos);
       NTick:= GetTickCount64-NTick;
 
       if UiOps.FindShowNothingByColor then

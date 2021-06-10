@@ -134,7 +134,7 @@ function EditorFindCurrentWordOrSel(Ed: TATSynEdit;
   ANext, AWordOrSel, AOptCase, AOptWrapped: boolean;
   out Str: UnicodeString): boolean;
 procedure EditorHighlightAllMatches(AFinder: TATEditorFinder;
-  AScrollNeeded: boolean; out AMatchesCount: integer; ACaretPos: TPoint);
+  AEnableFindNext: boolean; out AMatchesCount: integer; ACaretPos: TPoint);
 
 
 implementation
@@ -1864,7 +1864,7 @@ end;
 
 
 procedure EditorHighlightAllMatches(AFinder: TATEditorFinder;
-  AScrollNeeded: boolean; out AMatchesCount: integer; ACaretPos: TPoint);
+  AEnableFindNext: boolean; out AMatchesCount: integer; ACaretPos: TPoint);
 var
   ColorBorder: TColor;
   StyleBorder: TATLineStyle;
@@ -1878,6 +1878,7 @@ begin
   else
     StyleBorder:= cLineStyleRounded;
 
+  //stage-1: highlight all matches
   AMatchesCount:= AFinder.DoAction_HighlightAllEditorMatches(
     ColorBorder,
     StyleBorder,
@@ -1885,7 +1886,9 @@ begin
     UiOps.FindHiAll_MaxLines
     );
 
-  if UiOps.FindHiAll_MoveCaret then
+  //stage-2: perform find-next from ACaretPos
+  ////if UiOps.FindHiAll_MoveCaret then
+  if AEnableFindNext then
   begin
     //we found and highlighted all matches,
     //now we need to do 'find next from caret' like Sublime does
