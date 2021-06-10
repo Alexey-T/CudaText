@@ -1052,6 +1052,10 @@ begin
   exit('/usr/lib/amd64/libpython3.5m.so');
   {$endif}
 
+  {$ifdef haiku}
+  exit('/boot/system/develop/lib/libpython3.6m.so');
+  {$endif}
+
   {$ifdef unix}
   exit('libpython3.so');
   {$endif}
