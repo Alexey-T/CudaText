@@ -2220,6 +2220,12 @@ begin
             if IsBadResultFile(AFileName) then
               raise;
           end;
+        on E: EWriteError do //for Linux, saving to smb folder fails
+          begin
+            SaveViaTempCopy(AFileName);
+            if IsBadResultFile(AFileName) then
+              raise;
+          end;
         else
           raise;
       end;
