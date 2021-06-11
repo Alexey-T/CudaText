@@ -2192,6 +2192,7 @@ function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
     CopyFile(fnTemp, fn);
     if IsBadResultFile(fn) then
       raise EFileNotFoundException.CreateFmt('Cannot save to "%s". Saved to a temporary file "%s".', [fn, fnTemp]);
+    DeleteFile(fnTemp);
   end;
   //
 var
