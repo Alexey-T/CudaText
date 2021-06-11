@@ -2218,14 +2218,10 @@ begin
         on E: EFOpenError do
           begin
             SaveViaTempCopy(AFileName);
-            if IsBadResultFile(AFileName) then
-              raise;
           end;
-        on E: EWriteError do //for Linux, saving to smb folder fails
+        on E: EWriteError do //on Linux, saving to smb folder fails, issue #3435
           begin
             SaveViaTempCopy(AFileName);
-            if IsBadResultFile(AFileName) then
-              raise;
           end;
         else
           raise;
