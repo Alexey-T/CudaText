@@ -318,6 +318,8 @@ object SyntAnal5: TLibSyntAnalyzer
             'for'
             'goto'
             'if'
+            'import'
+            'module'
             'namespace'
             'new'
             'not'
