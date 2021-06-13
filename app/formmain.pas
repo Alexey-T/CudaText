@@ -5347,7 +5347,7 @@ begin
     Ed.Modified:= false;
 
   if MsgBox(
-       msgConfirmCloseDelFile+#10+fn,
+       msgConfirmCloseAndDeleteFile+#10+fn,
        MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
     if Groups.CloseTabs(tabCloseCurrent, false) then
       DeleteFileUTF8(fn);

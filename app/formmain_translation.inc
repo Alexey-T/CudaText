@@ -600,7 +600,7 @@ begin
     DoLocString(msgConfirmReloadFileWithEnc      , ini, 'sc', 'ReloadFileWithEnc');
     DoLocString(msgConfirmCreateNewFile          , ini, 'sc', 'CreateNewFile');
     DoLocString(msgConfirmCreateUserConf         , ini, 'sc', 'CreateUserConf');
-    DoLocString(msgConfirmCloseDelFile           , ini, 'sc', 'CloseDelFile');
+    DoLocString(msgConfirmCloseAndDeleteFile     , ini, 'sc', 'CloseDelFile');
     DoLocString(msgConfirmDeleteLexer            , ini, 'sc', 'DeleteLexer');
     DoLocString(msgConfirmRemoveStylesFromBackup , ini, 'sc', 'RemoveStylesFromBackup');
     DoLocString(msgConfirmHotkeyBusy             , ini, 'sc', 'HotkeyBusy');

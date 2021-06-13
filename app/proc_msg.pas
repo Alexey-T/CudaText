@@ -303,7 +303,7 @@ const
   msgConfirmReloadFileWithEnc: string = 'Encoding is changed in memory.'#13'Do you also want to reopen file?';
   msgConfirmCreateNewFile: string = 'File not found:'#13'"%s"'#13#13'Create it?';
   msgConfirmCreateUserConf: string = 'User config not found. Create it?';
-  msgConfirmCloseDelFile: string = 'Close tab and delete its file?';
+  msgConfirmCloseAndDeleteFile: string = 'Close tab and delete its file?';
   msgConfirmDeleteLexer: string = 'Delete lexer "%s"?';
   msgConfirmRemoveStylesFromBackup: string = 'Remove checked styles from backup file?';
   msgConfirmReplaceGlobal: string = 'This will perform mass replace in all opened documents. This will also reset all selections. Continue?';
