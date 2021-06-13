@@ -5330,10 +5330,21 @@ var
 begin
   Frame:= GetEditorFrame(Ed);
   if Frame=nil then exit;
-  if not Frame.EditorsLinked then exit;
+  if not Frame.EditorsLinked then
+  begin
+    MsgStatus(msgCannotHandleSplittedTab);
+    exit;
+  end;
 
   fn:= Frame.GetFileName(Ed);
-  if fn='' then exit;
+  if fn='' then
+  begin
+    MsgStatus(msgCannotHandleUntitledTab);
+    exit;
+  end;
+
+  if Ed.Modified then
+    Ed.Modified:= false;
 
   if MsgBox(
        msgConfirmCloseDelFile+#10+fn,
