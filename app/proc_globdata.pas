@@ -289,7 +289,7 @@ type
     FindSeparateForm: boolean;
     FindHiAll_MaxLines: integer;
     FindHiAll_TagValue: Int64;
-    FindHiAll_MoveCaret: boolean;
+    //FindHiAll_MoveCaret: boolean;
 
     AllowProgramUpdates: boolean;
     EscapeClose: boolean;
@@ -1726,7 +1726,7 @@ begin
     FindSeparateForm:= false;
     FindHiAll_MaxLines:= 1000;
     FindHiAll_TagValue:= 505; //some rarely used int tag
-    FindHiAll_MoveCaret:= true;
+    //FindHiAll_MoveCaret:= true;
 
     AllowProgramUpdates:= true;
     EscapeClose:= false;

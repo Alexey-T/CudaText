@@ -645,9 +645,6 @@
   //for which "Highlight all matches" still works
   "find_hi_max_lines": 1000,
 
-  //Find dialog option "Highlight all matches": also move caret to the first found match
-  "find_hi_move_caret": true,
-
   //[Ui]
   //UI scale factor in %, 70 to 500. [has suffix]
   //If value=0, then OS scaling is detected and used (currently only on Windows).
