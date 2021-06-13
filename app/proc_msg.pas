@@ -285,7 +285,7 @@ const
   msgStatusHotkeyBusy: string = 'Hotkey is busy: %s';
   msgStatusChangedLinesCount: string = 'Changed %d lines';
 
-  msgConfirmHotkeyBusy: string = 'Hotkey is already occupied by command:'#13'%s'#13#13'Overwrite it?';
+  msgConfirmHotkeyBusy: string = 'Hotkey is already occupied by command:'#10'%s'#10#10'Overwrite it?';
   msgConfirmHotkeyList: string = 'hotkeys (%d): %s';
   msgConfirmOkNoHotkeys: string = 'OK without hotkeys';
   msgConfirmSyntaxThemeSameName: string = 'Syntax theme exists, with the same name as UI theme. Do you want to apply it too?';
@@ -297,11 +297,11 @@ const
   msgConfirmReloadItHotkeysSess: string = '(Yes: reopen. No: open text from previous session.)';
   msgConfirmOpenCreatedDoc: string = 'Open created document?';
   msgConfirmSaveColorsToFile: string = 'Save theme to file?';
-  msgConfirmSaveModifiedTab: string = 'Tab is modified:'#13'%s'#13#13'Save it first?';
-  msgConfirmClosePinnedTab: string = 'Tab is pinned:'#13'%s'#13#13'Are you sure you want to close it?';
-  msgConfirmReopenModifiedTab: string = 'Tab is modified:'#13'%s'#13#13'Reopen it?';
-  msgConfirmReloadFileWithEnc: string = 'Encoding is changed in memory.'#13'Do you also want to reopen file?';
-  msgConfirmCreateNewFile: string = 'File not found:'#13'"%s"'#13#13'Create it?';
+  msgConfirmSaveModifiedTab: string = 'Tab is modified:'#10'%s'#10#10'Save it first?';
+  msgConfirmClosePinnedTab: string = 'Tab is pinned:'#10'%s'#10#10'Are you sure you want to close it?';
+  msgConfirmReopenModifiedTab: string = 'Tab is modified:'#10'%s'#10#10'Reopen it?';
+  msgConfirmReloadFileWithEnc: string = 'Encoding is changed in memory.'#10'Do you also want to reopen file?';
+  msgConfirmCreateNewFile: string = 'File not found:'#10'"%s"'#10#10'Create it?';
   msgConfirmCreateUserConfig: string = 'User config not found. Create it?';
   msgConfirmCloseAndDeleteFile: string = 'Close tab and delete its file?';
   msgConfirmDeleteLexer: string = 'Delete lexer "%s"?';
