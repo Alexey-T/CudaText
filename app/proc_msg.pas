@@ -302,7 +302,7 @@ const
   msgConfirmReopenModifiedTab: string = 'Tab is modified:'#13'%s'#13#13'Reopen it?';
   msgConfirmReloadFileWithEnc: string = 'Encoding is changed in memory.'#13'Do you also want to reopen file?';
   msgConfirmCreateNewFile: string = 'File not found:'#13'"%s"'#13#13'Create it?';
-  msgConfirmCreateUserConf: string = 'User config not found. Create it?';
+  msgConfirmCreateUserConfig: string = 'User config not found. Create it?';
   msgConfirmCloseAndDeleteFile: string = 'Close tab and delete its file?';
   msgConfirmDeleteLexer: string = 'Delete lexer "%s"?';
   msgConfirmRemoveStylesFromBackup: string = 'Remove checked styles from backup file?';

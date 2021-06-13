@@ -599,7 +599,7 @@ begin
     DoLocString(msgConfirmReopenModifiedTab      , ini, 'sc', 'ReopenModifiedTab');
     DoLocString(msgConfirmReloadFileWithEnc      , ini, 'sc', 'ReloadFileWithEnc');
     DoLocString(msgConfirmCreateNewFile          , ini, 'sc', 'CreateNewFile');
-    DoLocString(msgConfirmCreateUserConf         , ini, 'sc', 'CreateUserConf');
+    DoLocString(msgConfirmCreateUserConfig       , ini, 'sc', 'CreateUserConf');
     DoLocString(msgConfirmCloseAndDeleteFile     , ini, 'sc', 'CloseDelFile');
     DoLocString(msgConfirmDeleteLexer            , ini, 'sc', 'DeleteLexer');
     DoLocString(msgConfirmRemoveStylesFromBackup , ini, 'sc', 'RemoveStylesFromBackup');
