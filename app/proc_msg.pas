@@ -209,6 +209,7 @@ const
   msgCannotInstallReqPlugin: string = 'Cannot install "%s", it requires missing plugin(s): %s';
   msgCannotInstallReqLexer: string = 'Cannot install "%s", it requires missing lexer(s): %s';
   msgCannotAutocompleteMultiCarets: string = 'Cannot auto-complete with multi-carets';
+  msgCannotFindPkExec: string = 'Cannot find "pkexec" program to copy as root.';
 
   msgStatusbarTextTab: string = 'Tab';
   msgStatusbarTextSpaces: string = 'Spaces';
@@ -234,6 +235,7 @@ const
   msgStatusI18nEnglishAfterRestart: string = 'English translation will be applied after program restart';
   msgStatusI18nPluginsMenuAfterRestart: string = 'Translations of Plugins menu and plugin''s dialogs will be applied after program restart';
 
+  msgStatusSavedTempFile: string = 'Saved to a temporary file:';
   msgStatusSaveIsIgnored: string = '"Save" command ignored (file is not modified yet)';
   msgStatusPluginHotkeyBusy: string = 'Note: hotkey [%s] is busy, skipped it';
   msgStatusSyntaxThemesOff: string = 'Syntax themes are turned off by option "ui_lexer_themes": false. So the following dialog will have no effect. To customize styles, use "Lexer properties" dialog.';

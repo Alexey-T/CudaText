@@ -57,14 +57,14 @@ begin
   begin
     fnPkExec:= FindDefaultExecutablePath('pkexec');
     if fnPkExec='' then
-      raise EFileNotFoundException.Create('Cannot find "pkexec" program to copy as root. Saved to a temporary file:'#10+fnTemp);
+      raise EFileNotFoundException.Create(msgCannotFindPkExec+#10+msgStatusSavedTempFile+#10+fnTemp);
     RunCmdFromPath(fnPkExec, Format('/bin/mv -T "%s" "%s"', [fnTemp, fn]));
     exit;
   end;
   {$endif}
 
   if IsBadResultFile(fn) then
-    raise EFileNotFoundException.Create(msgCannotSaveFile+#10+fn+#10'Saved to a temporary file:'#10+fnTemp);
+    raise EFileNotFoundException.Create(msgCannotSaveFile+#10+fn+#10+msgStatusSavedTempFile+#10+fnTemp);
   DeleteFile(fnTemp);
 end;
 
