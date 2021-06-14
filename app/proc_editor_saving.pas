@@ -55,7 +55,7 @@ function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
     fnTemp:= GetTempFileName('', 'cudatext_');
     SaveSimple(fnTemp);
     if IsBadResultFile(fnTemp) then
-      raise EFileNotFoundException.Create('Cannot save to a temp file.');
+      raise EFileNotFoundException.Create(msgCannotSaveFile+#10+fnTemp);
 
     {$ifdef windows}
     CopyFile(fnTemp, fn)
@@ -67,15 +67,14 @@ function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
     begin
       fnPkExec:= FindDefaultExecutablePath('pkexec');
       if fnPkExec='' then
-        raise EFileNotFoundException.CreateFmt('Cannot find "pkexec" program to copy "%s" as root. Saved to a temporary file "%s".', [fn, fnTemp]);
-      RunCmdFromPath(fnPkExec, Format('/bin/cp "%s" "%s"', [fnTemp, fn]));
-      DeleteFile(fnTemp);
+        raise EFileNotFoundException.Create('Cannot find "pkexec" program to copy as root. Saved to a temporary file:'#10+fnTemp);
+      RunCmdFromPath(fnPkExec, Format('/bin/mv -T "%s" "%s"', [fnTemp, fn]));
       exit;
     end;
     {$endif}
 
     if IsBadResultFile(fn) then
-      raise EFileNotFoundException.CreateFmt('Cannot save to "%s". Saved to a temporary file "%s".', [fn, fnTemp]);
+      raise EFileNotFoundException.Create(msgCannotSaveFile+#10+fn+#10'Saved to a temporary file:'#10+fnTemp);
     DeleteFile(fnTemp);
   end;
   //
