@@ -15,8 +15,7 @@ uses
   Classes, SysUtils, Graphics, StrUtils,
   Controls, LCLType,
   Dialogs, Forms,
-  Clipbrd,
-  FileUtil,
+  Clipbrd, UTF8Process, FileUtil, LazFileUtils,
   ATSynEdit,
   ATSynEdit_LineParts,
   ATSynEdit_CanvasProc,
@@ -2184,12 +2183,30 @@ function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
   procedure SaveViaTempCopy(const fn: string);
   var
     fnTemp: string;
+    fnPkExec: string;
   begin
     fnTemp:= GetTempFileName('', 'cudatext_');
     SaveSimple(fnTemp);
     if IsBadResultFile(fnTemp) then
       raise EFileNotFoundException.Create('Cannot save to a temp file.');
-    CopyFile(fnTemp, fn);
+
+    {$ifdef windows}
+    CopyFile(fnTemp, fn)
+    {$else}
+    //try to run command 'pkexec /bin/cp "temp_filename" "final_filename"' to copy as root
+    if DirectoryIsWritable(ExtractFileDir(fn)) then
+      CopyFile(fnTemp, fn)
+    else
+    begin
+      fnPkExec:= FindDefaultExecutablePath('pkexec');
+      if fnPkExec='' then
+        raise EFileNotFoundException.CreateFmt('Cannot find "pkexec" program to copy "%s" as root. Saved to a temporary file "%s".', [fn, fnTemp]);
+      RunCmdFromPath(fnPkExec, Format('/bin/cp "%s" "%s"', [fnTemp, fn]));
+      DeleteFile(fnTemp);
+      exit;
+    end;
+    {$endif}
+
     if IsBadResultFile(fn) then
       raise EFileNotFoundException.CreateFmt('Cannot save to "%s". Saved to a temporary file "%s".', [fn, fnTemp]);
     DeleteFile(fnTemp);
