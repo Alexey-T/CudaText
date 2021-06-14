@@ -27,57 +27,49 @@ uses
   proc_msg,
   proc_globdata;
 
+procedure SaveSimple(Ed: TATSynEdit; const fn: string);
+begin
+  Ed.SaveToFile(fn);
+end;
+
+function IsBadResultFile(const fn: string): boolean;
+begin
+  Result:= (not FileExists(fn)) or (FileUtil.FileSize(fn)=0);
+end;
+
+procedure SaveViaTempCopy(Ed: TATSynEdit; const fn: string);
+var
+  fnTemp: string;
+  fnPkExec: string;
+begin
+  fnTemp:= GetTempFileName('', 'cudatext_');
+  SaveSimple(Ed, fnTemp);
+  if IsBadResultFile(fnTemp) then
+    raise EFileNotFoundException.Create(msgCannotSaveFile+#10+fnTemp);
+
+  {$ifdef windows}
+  CopyFile(fnTemp, fn)
+  {$else}
+  //try to run command 'pkexec /bin/cp "temp_filename" "final_filename"' to copy as root
+  if DirectoryIsWritable(ExtractFileDir(fn)) then
+    CopyFile(fnTemp, fn)
+  else
+  begin
+    fnPkExec:= FindDefaultExecutablePath('pkexec');
+    if fnPkExec='' then
+      raise EFileNotFoundException.Create('Cannot find "pkexec" program to copy as root. Saved to a temporary file:'#10+fnTemp);
+    RunCmdFromPath(fnPkExec, Format('/bin/mv -T "%s" "%s"', [fnTemp, fn]));
+    exit;
+  end;
+  {$endif}
+
+  if IsBadResultFile(fn) then
+    raise EFileNotFoundException.Create(msgCannotSaveFile+#10+fn+#10'Saved to a temporary file:'#10+fnTemp);
+  DeleteFile(fnTemp);
+end;
+
 
 function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
-  //
-  procedure SaveSimple(const fn: string);
-  begin
-    {
-    //atomic file saving is NOT a good thing, people write they loose file properties,
-    //and even loose data
-    if UiOps.AtomicFileSave then
-      ....
-    else
-    }
-    Ed.SaveToFile(fn);
-  end;
-  //
-  function IsBadResultFile(const fn: string): boolean;
-  begin
-    Result:= (not FileExists(fn)) or (FileUtil.FileSize(fn)=0);
-  end;
-  //
-  procedure SaveViaTempCopy(const fn: string);
-  var
-    fnTemp: string;
-    fnPkExec: string;
-  begin
-    fnTemp:= GetTempFileName('', 'cudatext_');
-    SaveSimple(fnTemp);
-    if IsBadResultFile(fnTemp) then
-      raise EFileNotFoundException.Create(msgCannotSaveFile+#10+fnTemp);
-
-    {$ifdef windows}
-    CopyFile(fnTemp, fn)
-    {$else}
-    //try to run command 'pkexec /bin/cp "temp_filename" "final_filename"' to copy as root
-    if DirectoryIsWritable(ExtractFileDir(fn)) then
-      CopyFile(fnTemp, fn)
-    else
-    begin
-      fnPkExec:= FindDefaultExecutablePath('pkexec');
-      if fnPkExec='' then
-        raise EFileNotFoundException.Create('Cannot find "pkexec" program to copy as root. Saved to a temporary file:'#10+fnTemp);
-      RunCmdFromPath(fnPkExec, Format('/bin/mv -T "%s" "%s"', [fnTemp, fn]));
-      exit;
-    end;
-    {$endif}
-
-    if IsBadResultFile(fn) then
-      raise EFileNotFoundException.Create(msgCannotSaveFile+#10+fn+#10'Saved to a temporary file:'#10+fnTemp);
-    DeleteFile(fnTemp);
-  end;
-  //
 var
   OldEncoding: string;
   OldAttr: Longint;
@@ -89,22 +81,22 @@ begin
     Ed.BeginUpdate;
     try
       try
-        SaveSimple(AFileName);
+        SaveSimple(Ed, AFileName);
       except
         on E: EConvertError do
           begin
             OldEncoding:= Ed.EncodingName;
             Ed.EncodingName:= cEncNameUtf8_NoBom;
-            SaveSimple(AFileName);
+            SaveSimple(Ed, AFileName);
             MsgBox(Format(msgCannotSaveFileWithEnc, [OldEncoding]), MB_OK or MB_ICONWARNING);
           end;
         on E: EFOpenError do
           begin
-            SaveViaTempCopy(AFileName);
+            SaveViaTempCopy(Ed, AFileName);
           end;
         on E: EWriteError do //on Linux, saving to smb folder fails, issue #3435
           begin
-            SaveViaTempCopy(AFileName);
+            SaveViaTempCopy(Ed, AFileName);
           end;
         else
           raise;
