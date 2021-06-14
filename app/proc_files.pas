@@ -14,7 +14,7 @@ interface
 function AppCreateFile(const fn: string): boolean;
 function AppCreateFileJSON(const fn: string): boolean;
 
-procedure AppCopyDir(const d1, d2: string);
+procedure AppCopyDir(const DirSrc, DirTarget: string);
 
 function AppIsFileContentText(const fn: string;
   BufSizeKb: integer;
@@ -33,11 +33,10 @@ implementation
 
 uses
   Classes, SysUtils,
-  LazFileUtils,
+  FileUtil, LazFileUtils,
   ATStrings,
   proc_globdata,
-  win32linkfiles,
-  CopyDir;
+  win32linkfiles;
 
 function AppCreateFile(const fn: string): boolean;
 var
@@ -232,16 +231,13 @@ begin
   {$endif}
 end;
 
-procedure AppCopyDir(const d1, d2: string);
-var
-  c: TCopyDir;
+procedure AppCopyDir(const DirSrc, DirTarget: string);
 begin
-  c:= TCopyDir.Create(d1, d2);
-  try
-    c.Start;
-  finally
-    c.Free;
-  end;
+  CopyDirTree(DirSrc, DirTarget, [
+    cffOverwriteFile,
+    cffCreateDestDirectory,
+    cffPreserveTime
+    ]);
 end;
 
 function AppExpandWin32RelativeRootFilename(const fn: string): string;
