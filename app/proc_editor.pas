@@ -15,7 +15,7 @@ uses
   Classes, SysUtils, Graphics, StrUtils,
   Controls, LCLType,
   Dialogs, Forms,
-  Clipbrd, UTF8Process, FileUtil, LazFileUtils,
+  Clipbrd,
   ATSynEdit,
   ATSynEdit_LineParts,
   ATSynEdit_CanvasProc,
@@ -32,14 +32,12 @@ uses
   proc_globdata,
   proc_colors,
   proc_msg,
-  proc_files,
   ec_SyntAnal,
   ec_syntax_format,
   math;
 
 procedure EditorStartParse(Ed: TATSynEdit);
 procedure EditorAdjustForBigFile(Ed: TATSynEdit);
-function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
 function EditorIsEmpty(Ed: TATSynEdit): boolean;
 function EditorIsModifiedEx(Ed: TATSynEdit): boolean;
 procedure EditorSaveTempOptions(Ed: TATSynEdit; out Ops: TATEditorTempOptions);
@@ -2161,101 +2159,6 @@ begin
   Ed.OptMinimapVisible:= false;
 end;
 
-function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
-  //
-  procedure SaveSimple(const fn: string);
-  begin
-    {
-    //atomic file saving is NOT a good thing, people write they loose file properties,
-    //and even loose data
-    if UiOps.AtomicFileSave then
-      ....
-    else
-    }
-    Ed.SaveToFile(fn);
-  end;
-  //
-  function IsBadResultFile(const fn: string): boolean;
-  begin
-    Result:= (not FileExists(fn)) or (FileUtil.FileSize(fn)=0);
-  end;
-  //
-  procedure SaveViaTempCopy(const fn: string);
-  var
-    fnTemp: string;
-    fnPkExec: string;
-  begin
-    fnTemp:= GetTempFileName('', 'cudatext_');
-    SaveSimple(fnTemp);
-    if IsBadResultFile(fnTemp) then
-      raise EFileNotFoundException.Create('Cannot save to a temp file.');
-
-    {$ifdef windows}
-    CopyFile(fnTemp, fn)
-    {$else}
-    //try to run command 'pkexec /bin/cp "temp_filename" "final_filename"' to copy as root
-    if DirectoryIsWritable(ExtractFileDir(fn)) then
-      CopyFile(fnTemp, fn)
-    else
-    begin
-      fnPkExec:= FindDefaultExecutablePath('pkexec');
-      if fnPkExec='' then
-        raise EFileNotFoundException.CreateFmt('Cannot find "pkexec" program to copy "%s" as root. Saved to a temporary file "%s".', [fn, fnTemp]);
-      RunCmdFromPath(fnPkExec, Format('/bin/cp "%s" "%s"', [fnTemp, fn]));
-      DeleteFile(fnTemp);
-      exit;
-    end;
-    {$endif}
-
-    if IsBadResultFile(fn) then
-      raise EFileNotFoundException.CreateFmt('Cannot save to "%s". Saved to a temporary file "%s".', [fn, fnTemp]);
-    DeleteFile(fnTemp);
-  end;
-  //
-var
-  OldEncoding: string;
-  OldAttr: Longint;
-begin
-  Result:= true;
-  while true do
-  try
-    AppFileAttrPrepare(AFileName, OldAttr);
-    Ed.BeginUpdate;
-    try
-      try
-        SaveSimple(AFileName);
-      except
-        on E: EConvertError do
-          begin
-            OldEncoding:= Ed.EncodingName;
-            Ed.EncodingName:= cEncNameUtf8_NoBom;
-            SaveSimple(AFileName);
-            MsgBox(Format(msgCannotSaveFileWithEnc, [OldEncoding]), MB_OK or MB_ICONWARNING);
-          end;
-        on E: EFOpenError do
-          begin
-            SaveViaTempCopy(AFileName);
-          end;
-        on E: EWriteError do //on Linux, saving to smb folder fails, issue #3435
-          begin
-            SaveViaTempCopy(AFileName);
-          end;
-        else
-          raise;
-      end;
-    finally
-      Ed.EndUpdate;
-    end;
-    AppFileAttrRestore(AFileName, OldAttr);
-    exit;
-  except
-    on E: Exception do
-    begin
-      if MsgBox(E.ClassName+#10+E.Message, MB_RETRYCANCEL or MB_ICONERROR) = IDCANCEL then
-        exit(false);
-    end;
-  end;
-end;
 
 procedure EditorStartParse(Ed: TATSynEdit);
 var

@@ -1023,7 +1023,7 @@
         <PackageName Value="LCL"/>
       </Item12>
     </RequiredPackages>
-    <Units Count="59">
+    <Units Count="60">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1329,6 +1329,10 @@
         <Filename Value="proc_cssprovider.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit58>
+      <Unit59>
+        <Filename Value="proc_editor_saving.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit59>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

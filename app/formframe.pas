@@ -45,6 +45,7 @@ uses
   proc_appvariant,
   proc_globdata,
   proc_editor,
+  proc_editor_saving,
   proc_cmd,
   proc_colors,
   proc_files,
