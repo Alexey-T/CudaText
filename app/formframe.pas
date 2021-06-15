@@ -734,8 +734,9 @@ procedure TEditorFrame.TimerChangeTimer(Sender: TObject);
 var
   Params: TAppVariantArray;
 begin
-  SetLength(Params, 0);
   TimerChange.Enabled:= false;
+
+  SetLength(Params, 0);
   DoPyEvent(Editor, cEventOnChangeSlow, Params);
 end;
 
@@ -2633,8 +2634,8 @@ begin
 
   OnUpdateStatusbar(Self);
 
-  SetLength(Params, 0);
-  DoPyEvent(Ed, cEventOnChangeSlow, Params);
+  //fire 'on_change_slow' and disable its timer
+  TimerChangeTimer(nil);
 end;
 
 procedure TEditorFrame.SetLineEnds(Ed: TATSynEdit; AValue: TATLineEnds);
