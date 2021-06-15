@@ -50,7 +50,7 @@ begin
   {$ifdef windows}
   CopyFile(fnTemp, fn)
   {$else}
-  //try to run command 'pkexec /bin/cp "temp_filename" "final_filename"' to copy as root
+  //run 'pkexec /bin/mv -T "temp_filename" "final_filename"'
   if DirectoryIsWritable(ExtractFileDir(fn)) then
     CopyFile(fnTemp, fn)
   else
