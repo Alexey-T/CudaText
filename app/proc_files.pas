@@ -197,7 +197,9 @@ begin
   {$ifdef windows}
   Result:= FileIsReadOnlyUTF8(fn);
   {$else}
-  Result:= not FileIsWritable(fn);
+  //Result:= not FileIsWritable(fn);
+  //on Unix, always allow to edit file, we can save even systems files via "pkexec"
+  Result:= false;
   {$endif}
 end;
 
