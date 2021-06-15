@@ -22,7 +22,7 @@ object fmMain: TfmMain
   OnKeyDown = FormKeyDown
   OnResize = FormResize
   OnShow = FormShow
-  LCLVersion = '2.1.0.0'
+  LCLVersion = '2.3.0.0'
   Visible = True
   object PanelSide: TATPanelSimple
     Left = 0

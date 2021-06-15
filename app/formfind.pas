@@ -213,7 +213,6 @@ type
     procedure SetReplace(AValue: boolean);
     procedure UpdateButtonBold;
     procedure UpdateRegexHighlight;
-    procedure UpdateHiAll(AEnableFindNext: boolean);
   public
     { public declarations }
     FCaptionFind: string;
@@ -230,6 +229,7 @@ type
     procedure UpdateInputFind(const AText: UnicodeString);
     procedure UpdateInputReplace(const AText: UnicodeString);
     procedure UpdateCaption(const AText: string);
+    procedure UpdateHiAll(AEnableFindNext: boolean);
     procedure ClearHiAll;
     function CurrentCaption: string;
     property OnResult: TAppFinderOperationEvent read FOnResult write FOnResult;

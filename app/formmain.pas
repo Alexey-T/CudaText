@@ -8189,6 +8189,11 @@ begin
 
   SetLength(Params, 0);
   DoPyEvent(Ed, cEventOnChangeSlow, Params);
+
+  //call Find dialog's updating of 'Hi' results
+  if Assigned(fmFind) and fmFind.Visible then
+    if fmFind.chkHiAll.Checked then
+      fmFind.UpdateHiAll(false);
 end;
 
 
