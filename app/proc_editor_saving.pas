@@ -49,11 +49,11 @@ begin
 
   if cSystemHasPkExec then
   begin
-    //run 'pkexec /bin/mv -T "temp_filename" "final_filename"'
     if DirectoryIsWritable(ExtractFileDir(fn)) then
       CopyFile(fnTemp, fn)
     else
     begin
+      //run 'pkexec /bin/mv -T "temp_filename" "final_filename"'
       fnPkExec:= FindDefaultExecutablePath('pkexec');
       if fnPkExec='' then
         raise EFileNotFoundException.Create(msgCannotFindPkExec+#10+msgStatusSavedTempFile+#10+fnTemp);
