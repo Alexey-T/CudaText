@@ -47,22 +47,22 @@ begin
   if IsBadResultFile(fnTemp) then
     raise EFileNotFoundException.Create(msgCannotSaveFile+#10+fnTemp);
 
- if cSystemHasPkExec then
- begin
-  //run 'pkexec /bin/mv -T "temp_filename" "final_filename"'
-  if DirectoryIsWritable(ExtractFileDir(fn)) then
-    CopyFile(fnTemp, fn)
-  else
+  if cSystemHasPkExec then
   begin
-    fnPkExec:= FindDefaultExecutablePath('pkexec');
-    if fnPkExec='' then
-      raise EFileNotFoundException.Create(msgCannotFindPkExec+#10+msgStatusSavedTempFile+#10+fnTemp);
-    RunCmdFromPath(fnPkExec, Format('/bin/mv -T "%s" "%s"', [fnTemp, fn]));
-    exit;
-  end;
- end
- else
-   CopyFile(fnTemp, fn);
+    //run 'pkexec /bin/mv -T "temp_filename" "final_filename"'
+    if DirectoryIsWritable(ExtractFileDir(fn)) then
+      CopyFile(fnTemp, fn)
+    else
+    begin
+      fnPkExec:= FindDefaultExecutablePath('pkexec');
+      if fnPkExec='' then
+        raise EFileNotFoundException.Create(msgCannotFindPkExec+#10+msgStatusSavedTempFile+#10+fnTemp);
+      RunCmdFromPath(fnPkExec, Format('/bin/mv -T "%s" "%s"', [fnTemp, fn]));
+      exit;
+    end;
+  end
+  else
+    CopyFile(fnTemp, fn);
 
   if IsBadResultFile(fn) then
     raise EFileNotFoundException.Create(msgCannotSaveFile+#10+fn+#10+msgStatusSavedTempFile+#10+fnTemp);
