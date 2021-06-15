@@ -3339,6 +3339,7 @@ procedure TfmMain.DoApplyLexerStyleMaps(AndApplyTheme: boolean);
 var
   F: TEditorFrame;
   An, AnIncorrect: TecSyntAnalyzer;
+  Ada: TATAdapterEControl;
   i: integer;
 begin
   for i:= 0 to FrameCount-1 do
@@ -3347,13 +3348,33 @@ begin
 
     An:= F.Lexer[F.Ed1];
     if Assigned(An) then
+    begin
       DoApplyLexerStylesMap(An, AnIncorrect);
+
+      //update Markdown code-blocks
+      if AndApplyTheme then
+      begin
+        Ada:= TATAdapterEControl(F.Adapter[F.Ed1]);
+        if Assigned(Ada) then
+          Ada.UpdateRangesFoldAndColored;
+      end;
+    end;
 
     if not F.EditorsLinked then
     begin
       An:= F.Lexer[F.Ed2];
       if Assigned(An) then
+      begin
         DoApplyLexerStylesMap(An, AnIncorrect);
+
+        //update Markdown code-blocks
+        if AndApplyTheme then
+        begin
+          Ada:= TATAdapterEControl(F.Adapter[F.Ed2]);
+          if Assigned(Ada) then
+            Ada.UpdateRangesFoldAndColored;
+        end;
+      end;
     end;
 
     if AndApplyTheme then
