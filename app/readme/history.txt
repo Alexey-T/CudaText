@@ -6,7 +6,7 @@
 1.134.1 (2021/06)
 
 + add: Linux: when saving file to a system folder, program runs helper tool 'pkexec' as 'root', to do it
-+ add: Linux: applied @rasberryrabbit patches (for Lazarus and ATSynEdit) for better IME support
++ add: Linux gtk2 version has improved IME support (again, patches by @rasberryrabbit)
 
 1.134.0 (2021/06)
 
