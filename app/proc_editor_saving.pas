@@ -47,9 +47,8 @@ begin
   if IsBadResultFile(fnTemp) then
     raise EFileNotFoundException.Create(msgCannotSaveFile+#10+fnTemp);
 
-  {$ifdef windows}
-  CopyFile(fnTemp, fn)
-  {$else}
+ if cSystemHasPkExec then
+ begin
   //run 'pkexec /bin/mv -T "temp_filename" "final_filename"'
   if DirectoryIsWritable(ExtractFileDir(fn)) then
     CopyFile(fnTemp, fn)
@@ -61,7 +60,9 @@ begin
     RunCmdFromPath(fnPkExec, Format('/bin/mv -T "%s" "%s"', [fnTemp, fn]));
     exit;
   end;
-  {$endif}
+ end
+ else
+   CopyFile(fnTemp, fn);
 
   if IsBadResultFile(fn) then
     raise EFileNotFoundException.Create(msgCannotSaveFile+#10+fn+#10+msgStatusSavedTempFile+#10+fnTemp);

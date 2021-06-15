@@ -45,6 +45,13 @@ const
     {$ifdef haiku} '/system/lib' {$endif}
     ;
 
+  cSystemHasPkExec =
+    {$if defined(linux) or defined(bsd)}
+    true
+    {$else}
+    false
+    {$endif};
+
 const
   EOL = #10;
   msgPythonListError = 'Cannot create new list object'; //no need i18n
