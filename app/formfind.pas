@@ -1507,7 +1507,7 @@ var
 begin
   ClearHiAll;
 
-  if UiOps.FindShowNothingByColor then
+  if UiOps.FindShowNoResultsByInputBgColor then
   begin
     NColorBG:= GetAppColor(apclEdTextBg);
     edFind.Colors.TextBG:= NColorBG;
@@ -1538,7 +1538,7 @@ begin
       EditorHighlightAllMatches(Finder, AEnableFindNext, NMatches, FInitialCaretPos);
       NTick:= GetTickCount64-NTick;
 
-      if UiOps.FindShowNothingByColor then
+      if UiOps.FindShowNoResultsByInputBgColor then
       begin
         if NMatches=0 then
           NColorBG:= GetAppColor(apclButtonBgDisabled)

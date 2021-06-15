@@ -265,7 +265,7 @@ type
     FindSuggestWord: boolean;
     FindSuggestInSelection: boolean;
     FindWordCaseSensitive: integer;
-    FindShowNothingByColor: boolean;
+    FindShowNoResultsByInputBgColor: boolean;
 
     FindHiddenButtons: string;
     FindShow_FindFirst: boolean;
@@ -1702,7 +1702,7 @@ begin
     FindSuggestWord:= false;
     FindSuggestInSelection:= false;
     FindWordCaseSensitive:= 2;
-    FindShowNothingByColor:= true;
+    FindShowNoResultsByInputBgColor:= true;
 
     FindHiddenButtons:= '';
     FindShow_FindFirst:= true;
