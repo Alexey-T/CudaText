@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+1.134.1 (2021/06)
+
++ add: Linux: when saving file to a system folder, program runs helper tool 'pkexec' as 'root', to do it
 
 1.134.0 (2021/06)
 
