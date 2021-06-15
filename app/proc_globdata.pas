@@ -157,6 +157,13 @@ const
   AppExtensionThemeSyntax = '.cuda-theme-syntax';
 
 type
+  TUiOpsFindCaseSensitive = (
+    ufcsCaseIgnore,
+    ufcsCaseSens,
+    ufcsCaseFromDialog
+    );
+
+type
   TUiOps = record
     VarFontName: string;
     VarFontSize: integer;
@@ -264,7 +271,7 @@ type
     FindSuggestSel: boolean;
     FindSuggestWord: boolean;
     FindSuggestInSelection: boolean;
-    FindWordCaseSensitive: integer;
+    FindCurrentWordCaseSensitive: TUiOpsFindCaseSensitive;
     FindShowNoResultsByInputBgColor: boolean;
 
     FindHiddenButtons: string;
@@ -1701,7 +1708,7 @@ begin
     FindSuggestSel:= true;
     FindSuggestWord:= false;
     FindSuggestInSelection:= false;
-    FindWordCaseSensitive:= 2;
+    FindCurrentWordCaseSensitive:= ufcsCaseFromDialog;
     FindShowNoResultsByInputBgColor:= true;
 
     FindHiddenButtons:= '';

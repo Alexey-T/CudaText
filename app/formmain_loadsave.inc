@@ -1219,7 +1219,7 @@ begin
   UiOps.FindSuggestSel:= cfg.GetValue('find_suggest_sel', UiOps.FindSuggestSel);
   UiOps.FindSuggestWord:= cfg.GetValue('find_suggest_cur_word', UiOps.FindSuggestWord);
   UiOps.FindSuggestInSelection:= cfg.GetValue('find_suggest_in_selection', UiOps.FindSuggestInSelection);
-  UiOps.FindWordCaseSensitive:= cfg.GetValue('find_sel_case', UiOps.FindWordCaseSensitive);
+  UiOps.FindCurrentWordCaseSensitive:= TUiOpsFindCaseSensitive(cfg.GetValue('find_sel_case', Ord(UiOps.FindCurrentWordCaseSensitive)));
 
   UiOps.FindHiddenButtons:= cfg.GetValue('find_hidden_buttons', UiOps.FindHiddenButtons);
   UiOps.FindShow_FindFirst:=     Pos('f', UiOps.FindHiddenButtons)=0;

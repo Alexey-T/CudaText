@@ -860,12 +860,12 @@ var
   ok, bCase: boolean;
 begin
   bCase:= true;
-  case UiOps.FindWordCaseSensitive of
-    0:
+  case UiOps.FindCurrentWordCaseSensitive of
+    ufcsCaseIgnore:
       bCase:= false;
-    1:
+    ufcsCaseSens:
       bCase:= true;
-    2:
+    ufcsCaseFromDialog:
       begin
         if Assigned(fmFind) then
           bCase:= fmFind.chkCase.Checked;
