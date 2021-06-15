@@ -119,6 +119,7 @@ type
     FEnabledCodeTree: array[0..1] of boolean;
     FNotifEnabled: boolean;
     FOnChangeCaption: TNotifyEvent;
+    FOnChangeSlow: TNotifyEvent;
     FOnProgress: TATFinderProgress;
     FOnUpdateStatusbar: TNotifyEvent;
     FOnUpdateState: TNotifyEvent;
@@ -412,6 +413,7 @@ type
     property OnMsgStatus: TStrEvent read FOnMsgStatus write FOnMsgStatus;
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
     property OnChangeCaption: TNotifyEvent read FOnChangeCaption write FOnChangeCaption;
+    property OnChangeSlow: TNotifyEvent read FOnChangeSlow write FOnChangeSlow;
     property OnUpdateStatusbar: TNotifyEvent read FOnUpdateStatusbar write FOnUpdateStatusbar;
     property OnUpdateState: TNotifyEvent read FOnUpdateState write FOnUpdateState;
     property OnEditorCommand: TATSynEditCommandEvent read FOnEditorCommand write FOnEditorCommand;
@@ -731,13 +733,10 @@ begin
 end;
 
 procedure TEditorFrame.TimerChangeTimer(Sender: TObject);
-var
-  Params: TAppVariantArray;
 begin
   TimerChange.Enabled:= false;
-
-  SetLength(Params, 0);
-  DoPyEvent(Editor, cEventOnChangeSlow, Params);
+  if Assigned(FOnChangeSlow) then
+    FOnChangeSlow(Editor);
 end;
 
 procedure TEditorFrame.btnReloadYesClick(Sender: TObject);

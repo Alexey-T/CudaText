@@ -472,6 +472,7 @@ type
     procedure FrameOnEditorChangeCaretPos(Sender: TObject);
     procedure FrameOnEditorScroll(Sender: TObject);
     procedure FrameOnInitAdapter(Sender: TObject);
+    procedure FrameOnChangeSlow(Sender: TObject);
     procedure FrameParseDone(Sender: TObject);
     procedure EditorOutput_OnClickDbl(Sender: TObject; var AHandled: boolean);
     procedure EditorOutput_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -8178,6 +8179,18 @@ begin
     DoPyEvent_AppState(APPSTATE_PROJECT);
   end;
 end;
+
+procedure TfmMain.FrameOnChangeSlow(Sender: TObject);
+var
+  Params: TAppVariantArray;
+  Ed: TATSynEdit;
+begin
+  Ed:= Sender as TATSynEdit;
+
+  SetLength(Params, 0);
+  DoPyEvent(Ed, cEventOnChangeSlow, Params);
+end;
+
 
 //----------------------------
 {$I formmain_loadsave.inc}
