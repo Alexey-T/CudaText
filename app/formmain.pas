@@ -8180,23 +8180,6 @@ begin
   end;
 end;
 
-procedure TfmMain.FrameOnChangeSlow(Sender: TObject);
-var
-  Params: TAppVariantArray;
-  Ed: TATSynEdit;
-begin
-  Ed:= Sender as TATSynEdit;
-
-  SetLength(Params, 0);
-  DoPyEvent(Ed, cEventOnChangeSlow, Params);
-
-  //call Find dialog's updating of 'Hi' results
-  if Assigned(fmFind) and fmFind.Visible then
-    if fmFind.chkHiAll.Checked then
-      fmFind.UpdateHiAll(false);
-end;
-
-
 //----------------------------
 {$I formmain_loadsave.inc}
 {$I formmain_updates_proc.inc}

@@ -286,3 +286,19 @@ begin
   Result:= D.TabObject as TEditorFrame;
 end;
 
+procedure TfmMain.FrameOnChangeSlow(Sender: TObject);
+var
+  Params: TAppVariantArray;
+  Ed: TATSynEdit;
+begin
+  Ed:= Sender as TATSynEdit;
+
+  SetLength(Params, 0);
+  DoPyEvent(Ed, cEventOnChangeSlow, Params);
+
+  //call Find dialog's updating of 'Hi' results
+  if Assigned(fmFind) and fmFind.Visible then
+    if fmFind.chkHiAll.Checked then
+      fmFind.UpdateHiAll(false);
+end;
+
