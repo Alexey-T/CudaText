@@ -298,7 +298,7 @@ begin
 
   //call Find dialog's updating of 'Hi' results
   if Assigned(fmFind) and fmFind.Visible then
-    if fmFind.chkHiAll.Checked then
+    if fmFind.chkHiAll.Enabled and fmFind.chkHiAll.Checked then
       fmFind.UpdateHiAll(false);
 end;
 
