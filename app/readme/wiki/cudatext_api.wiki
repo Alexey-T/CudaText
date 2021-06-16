@@ -174,18 +174,20 @@ Performs application-wide action.
 
 Parameter "text" is usually string, but can be of other types (bool, int, float, tuple/list of simple types).
 
-====app_proc - Misc properties====
-
-* PROC_GET_LANG: Returns string id of active app translation. E.g. "ru_RU" if translation file is "ru_RU.ini", or "translation template" if such file is used. Returns empty string if built-in English translation is used.
-* PROC_GET_GROUPING: Returns grouping mode in program, one of GROUPS_nnnn int contants.
-* PROC_SET_GROUPING: Sets grouping mode in program, one of GROUPS_nnnn int contants.
-* PROC_PROGRESSBAR: Changes state of the progress-bar (hidden by default), which is located on the status-bar right corner. Int value<0: progressbar hides, value in 0..100: progressbar shows with the given value.
+====app_proc - Getting handles====
 
 * PROC_GET_TAB_IMAGELIST: Returns int handle of imagelist, containing icons of all UI-tabs. Use imagelist_proc() to work with it. Use PROP_TAB_ICON property to get/set file-tab icon index (index in this imagelist).
 * PROC_GET_CODETREE: Returns int handle of built-in code-tree UI control. Use tree_proc() to work with it.
 * PROC_GET_CONSOLE_FORM: Returns int handle of built-in Console form. Use dlg_proc() to work with it.
 * PROC_GET_OUTPUT_FORM: Returns int handle of built-in Output form (contains the Output read-only editor). Use dlg_proc() to work with it.
 * PROC_GET_VALIDATE_FORM: Returns int handle of built-in Validate form (contains the Validate read-only editor). Use dlg_proc() to work with it.
+
+====app_proc - Misc properties====
+
+* PROC_GET_LANG: Returns string id of active app translation. E.g. "ru_RU" if translation file is "ru_RU.ini", or "translation template" if such file is used. Returns empty string if built-in English translation is used.
+* PROC_GET_GROUPING: Returns grouping mode in program, one of GROUPS_nnnn int contants.
+* PROC_SET_GROUPING: Sets grouping mode in program, one of GROUPS_nnnn int contants.
+* PROC_PROGRESSBAR: Changes state of the progress-bar (hidden by default), which is located on the status-bar right corner. Int value<0: progressbar hides, value in 0..100: progressbar shows with the given value.
 
 * PROC_SET_FOLDER: Sets path of folder which will be used as initial folder in program's Open/Save-as dialogs.
 * PROC_SET_PROJECT: Informs the program that some "project" (in the Project Manager) has been opened or closed. Program will fire "on_state" event with APPSTATE_PROJECT.
