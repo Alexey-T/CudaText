@@ -1769,7 +1769,9 @@ Example creates popup-menu with one item and shows it at (x=100, y=100):
 
 Perform action on toolbar UI control.
 
-Param "id_toolbar": int handle of toolbar. Can be "top" for main app toolbar. Function returns None, if id_toolbar not correct.
+Param "id_toolbar": int handle of toolbar.
+Deprecated: it can be string "top" for main app toolbar.
+Function returns None, if "id_toolbar" is not correct.
 
 Param "id_action" possible values:
 
@@ -1795,7 +1797,7 @@ Param "id_action" possible values:
 
 Perform action on statusbar UI control.
 
-* Param "id_statusbar": handle of control. Can be "main" for main program statusbar.
+* Param "id_statusbar": handle of control. Deprecated: it can be string "main" for main app statusbar.
 * Param "index": index of cell (0-based), if action needs it.
 * Param "tag": int tag of cell. Tag value, if not 0, overrides "index" param. It's needed to address a cell without knowing its index, only by tag. CudaText addresses standard cells by tag in the range 1..20.
 
@@ -4348,5 +4350,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.394 (app 1.134.2)
 * add: app_proc: PROC_GET_MAIN_TOOLBAR
 * add: app_proc: PROC_GET_MAIN_STATUSBAR
+* deprecate toolbar_proc() special string handle "top"
+* deprecate statusbar_proc() special string handle "main"
 
 [[Category:CudaText]]
