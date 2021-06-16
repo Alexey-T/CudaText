@@ -6,6 +6,7 @@
 1.134.1 (2021/06)
 
 + add: Linux: when saving file to a system folder, program runs helper tool 'pkexec' as 'root', to do it (thanks @Shovel)
+- fix: Windows: unusual flickering on window minimize/restore (thanks @xcme)
 - fix: issue with multi-carets, when selections are adjastent/touched (thanks @xcme)
 - fix: multi-carets made by Shift+Alt+Down gave skipping of the first BkSp/Del command
 
