@@ -181,6 +181,8 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_GET_CONSOLE_FORM: Returns int handle of built-in Console form. Use dlg_proc() to work with it.
 * PROC_GET_OUTPUT_FORM: Returns int handle of built-in Output form (contains the Output read-only editor). Use dlg_proc() to work with it.
 * PROC_GET_VALIDATE_FORM: Returns int handle of built-in Validate form (contains the Validate read-only editor). Use dlg_proc() to work with it.
+* PROC_GET_MAIN_TOOLBAR: Returns int handle of main app toolbar. Use toolbar_proc() to work with it.
+* PROC_GET_MAIN_STATUSBAR: Returns int handle of main app statusbar. Use statusbar_proc() to work with it.
 
 ====app_proc - Misc properties====
 
