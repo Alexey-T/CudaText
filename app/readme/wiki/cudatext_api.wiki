@@ -139,15 +139,11 @@ Returns version of program. String, 4 dot-separated numbers.
 
 Returns version of API. String, 3 dot-separated numbers.
 
- API
-
-Constant, int. It is the last number from app_api_version() complex result.
-
 Example of version check:
 
 <syntaxhighlight lang="python">
   from cudatext import *
-  if API < 350:
+  if app_api_version() < '1.0.350':
       msg_box('Plugin needs newer program version', MB_OK+MB_ICONWARNING)
 </syntaxhighlight>
 
@@ -4354,6 +4350,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.394 (app 1.134.2)
 * add: app_proc: PROC_GET_MAIN_TOOLBAR
 * add: app_proc: PROC_GET_MAIN_STATUSBAR
+* deleted: "API" constant which had the API version
 * deprecate toolbar_proc() special string handle "top"
 * deprecate statusbar_proc() special string handle "main"
 
