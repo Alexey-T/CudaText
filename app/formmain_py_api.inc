@@ -4713,6 +4713,16 @@ begin
             Result:= ReturnNone;
           end;
 
+        APP_PROC_GET_MAIN_TOOLBAR:
+          begin
+            Result:= PyHelper_ObjectHandle(fmMain.ToolbarMain);
+          end;
+
+        APP_PROC_GET_MAIN_STATUSBAR:
+          begin
+            Result:= PyHelper_ObjectHandle(fmMain.Status);
+          end;
+
         //-------------------
         APP_PROC_SIDEPANEL_ADD_DIALOG:
           begin
