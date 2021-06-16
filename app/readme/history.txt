@@ -7,6 +7,7 @@
 
 + add: Linux: when saving file to a system folder, program runs helper tool 'pkexec' as 'root', to do it
 + add: Linux gtk2 version has improved IME support (again, patches by @rasberryrabbit)
+- fix: multi-carets made by Shift+Alt+Down gave skipping of the first BkSp/Del command
 
 1.134.0 (2021/06)
 
