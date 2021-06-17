@@ -22,7 +22,7 @@ implementation
 
 uses
   FileUtil, LazFileUtils,
-  UTF8Process,
+  Process,
   proc_files,
   proc_msg,
   proc_globdata;
@@ -40,7 +40,7 @@ end;
 procedure SaveViaTempCopy(Ed: TATSynEdit; const fn: string);
 var
   fnTemp: string;
-  fnPkExec: string;
+  SOutput: string;
 begin
   fnTemp:= GetTempFileName('', 'cudatext_');
   SaveSimple(Ed, fnTemp);
@@ -55,11 +55,8 @@ begin
     if UiOps.AllowRunPkExec then
     begin
       //run 'pkexec /bin/mv -T "temp_filename" "final_filename"'
-      fnPkExec:= FindDefaultExecutablePath('pkexec');
-      if fnPkExec='' then
+      if not RunCommand('pkexec', ['/bin/mv', '-T', fnTemp, fn], SOutput, [poWaitOnExit]) then
         raise EFileNotFoundException.Create(msgCannotFindPkExec+#10+msgStatusSavedTempFile+#10+fnTemp);
-      RunCmdFromPath(fnPkExec, Format('/bin/mv -T "%s" "%s"', [fnTemp, fn]));
-      exit;
     end;
   end
   else
