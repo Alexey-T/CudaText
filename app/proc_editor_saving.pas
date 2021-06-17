@@ -52,6 +52,7 @@ begin
     if DirectoryIsWritable(ExtractFileDir(fn)) then
       CopyFile(fnTemp, fn)
     else
+    if UiOps.AllowRunPkExec then
     begin
       //run 'pkexec /bin/mv -T "temp_filename" "final_filename"'
       fnPkExec:= FindDefaultExecutablePath('pkexec');

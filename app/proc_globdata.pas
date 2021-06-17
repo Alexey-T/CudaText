@@ -177,6 +177,7 @@ type
     PyChangeSlow: integer;
     InfoAboutOptionsEditor: boolean;
     AllowFrameParsing: boolean; //must be set in FormMain.OnShow
+    AllowRunPkExec: boolean;
 
     LogPluginIniting: boolean;
     LogSessions: boolean;
@@ -1760,6 +1761,7 @@ begin
     PyChangeSlow:= 2000;
     InfoAboutOptionsEditor:= true;
     AllowFrameParsing:= false;
+    AllowRunPkExec:= true;
 
     LogPluginIniting:= true;
     LogSessions:= true;
