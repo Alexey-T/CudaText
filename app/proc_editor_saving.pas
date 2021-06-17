@@ -54,8 +54,7 @@ begin
     else
     if UiOps.AllowRunPkExec then
     begin
-      //run 'pkexec /bin/mv -T "temp_filename" "final_filename"'
-      if not RunCommand('pkexec', ['/bin/mv', '-T', fnTemp, fn], SOutput, [poWaitOnExit]) then
+      if not RunCommand('pkexec', ['/bin/cp', '-T', fnTemp, fn], SOutput, [poWaitOnExit]) then
         raise EFileNotFoundException.Create(msgCannotFindPkExec+#10+msgStatusSavedTempFile+#10+fnTemp);
     end;
   end
