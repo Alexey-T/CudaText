@@ -4347,7 +4347,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.gap: add GAP_DELETE_BY_TAG
 * add: Editor.gap: GAP_ADD can also add the dialog, using its handle
 
-1.0.394 (app 1.134.2)
+1.0.394 (app 1.134.1.2)
 * add: app_proc: PROC_GET_MAIN_TOOLBAR
 * add: app_proc: PROC_GET_MAIN_STATUSBAR
 * delete: redundant "API" constant which had the API version (seems no one used it)
