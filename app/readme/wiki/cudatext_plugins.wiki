@@ -814,6 +814,39 @@ near the original text file. Files with pictures look like this:
 * You can add/delete pictures later, using plugin's commands in menu "Plugins / Insert Pics".
 * When you delete the "helper file" (located in the same folder), all pictures will be lost for plugin.
 
+=Complete From Text=
+Plugin allows to show auto-completion listbox with words from the current file (or all opened UI-tabs, by option).
+E.g. if you typed "op" and press Ctrl+Space (default auto-completion hotkey), it may suggest previously mentioned words "operations", "opinion", "option" etc.
+Plugin is not smart like "LSP Client" plugin, so expect lot of 'false positives' in its listbox.
+
+[[File:cudatext-complete-from-text.png]]
+
+Plugin is preconfigured to work with small set of lexers: none-lexer, Ini files, Markdown, reStructuredText, MediaWiki, Python. Here is how to use it for let's say "C" lexer:
+
+* Install the plugin
+* Call menu item "Options / Settings-plugins / Complete From Text"
+* This opens the "plugins.ini" file
+* Find section "[complete_from_text]", add ",c" (without quotes) to the line "lexers="
+* Restart CudaText
+
+Plugin has more options in that "plugins.ini" file:
+
+* 'lexers': comma-separated lexer names, ie for which lexers to work; specify none-lexer as '-'.
+* 'min_len': minimal word length, words of smaller length will be ignored.
+* 'max_lines': if document has bigger count of lines, ignore this document.    
+* 'case_sens': case-sensitive; words starting with 'A' will be ignored when you typed 'a'.
+* 'no_comments': ignore words inside "syntax comments" (lexer specific).
+* 'no_strings': ignore words inside "syntax strings" (lexer specific).
+* 'what_editors': which documents (ie UI tabs) to read to get words. Values:
+**    0: only current document.
+**    1: all opened documents.
+**    2: all opened documents with the same lexer.
+* 'use_acp': add suggestions from autocomplete files in 'data/autocomplete'
+* 'case_split': expands suggestions, autocompletion for 'AB' will include 'AzzBzz', so to get 'ValueError' just typing 'VE' (or 'VaE', 'VErr', 'ValErr' etc.) and calling on autocompletion will suggest it.
+* 'underscore_split': expands suggestions, autocompletion for 'AB' will include 'AZZ_BZZ', so to get 'supports_bytes_environ' just typing 'sb' (or 'sbe', 'supbyenv' etc.) and calling on autocompletion will suggest it. 
+
+Plugin supports CudaText option "nonword_chars", so for example words with '$' can be added, if CudaText option is configured so.
+
 =LSP Client=
 
 Plugin "LSP Client" allows to use Microsoft LSP protocol in CudaText with servers for many languages. 
