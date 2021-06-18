@@ -47,12 +47,11 @@ begin
   if IsBadResultFile(fnTemp) then
     raise EFileNotFoundException.Create(msgCannotSaveFile+#10+fnTemp);
 
-  if cSystemHasPkExec then
+  if cSystemHasPkExec and UiOps.AllowRunPkExec then
   begin
     if DirectoryIsWritable(ExtractFileDir(fn)) then
       CopyFile(fnTemp, fn)
     else
-    if UiOps.AllowRunPkExec then
     begin
       if not RunCommand('pkexec', ['/bin/cp', '-T', fnTemp, fn], SOutput, [poWaitOnExit]) then
         raise EFileNotFoundException.Create(msgCannotFindPkExec+#10+msgStatusSavedTempFile+#10+fnTemp);
