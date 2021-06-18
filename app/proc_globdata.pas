@@ -516,6 +516,7 @@ type
     OpMinimapTooltipShow: boolean;
     OpMinimapTooltipLineCount: integer;
     OpMinimapTooltipWidth: integer;
+    OpMinimapDragImmediately: boolean;
 
     OpMicromapShow: boolean;
     OpMicromapWidthSmall: integer;
@@ -1451,6 +1452,7 @@ begin
     OpMinimapTooltipShow:= false;
     OpMinimapTooltipLineCount:= 6;
     OpMinimapTooltipWidth:= 60;
+    OpMinimapDragImmediately:= false;
 
     OpMicromapShow:= false;
     OpMicromapWidthSmall:= 4;

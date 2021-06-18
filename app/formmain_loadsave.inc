@@ -961,6 +961,7 @@ begin
   Op.OpMinimapTooltipShow:= cfg.GetValue('minimap_tooltip_show', Op.OpMinimapTooltipShow);
   Op.OpMinimapTooltipLineCount:= cfg.GetValue('minimap_tooltip_line_count', Op.OpMinimapTooltipLineCount);
   Op.OpMinimapTooltipWidth:= cfg.GetValue('minimap_tooltip_width', Op.OpMinimapTooltipWidth);
+  Op.OpMinimapDragImmediately:= cfg.GetValue('minimap_drag_immediately', Op.OpMinimapDragImmediately);
 
   Op.OpMicromapShow:= cfg.GetValue('micromap_show', Op.OpMicromapShow);
 

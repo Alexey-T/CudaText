@@ -423,9 +423,9 @@
   //Minimap: Show 1-pixel border around selection area
   "minimap_sel_border": true,
 
-  //Minimap: Width
-  //  value=0: auto-size
-  //  value>0: fixed width in chars
+  //Minimap: Width of minimap area
+  //  value=0: auto-size according to current window width
+  //  value>0: use specified fixed width, in chars
   "minimap_char_width": 0,
 
   //Minimap: Place minimap to the left side
@@ -442,6 +442,11 @@
 
   //Minimap: Width of "tooltip panel" in percents of editor width
   "minimap_tooltip_width": 60,
+
+  //Minimap: Feature of Sublime Text 2 (removed in Sublime Text 3):
+  //mouse-down on minimap starts the dragging of sel-rect immediately.
+  //If turned off (default): click on minimap only scrolls.
+  "minimap_drag_immediately": false,
 
   //[View/Micromap]
   //Micromap (small vertical bar at the right side, showing "line states"): show

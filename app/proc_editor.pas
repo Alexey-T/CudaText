@@ -221,6 +221,7 @@ begin
     Ed.OptMinimapTooltipVisible:= Op.OpMinimapTooltipShow;
     Ed.OptMinimapTooltipLinesCount:= Op.OpMinimapTooltipLineCount;
     Ed.OptMinimapTooltipWidthPercents:= Op.OpMinimapTooltipWidth;
+    Ed.OptMinimapDragImmediately:= Op.OpMinimapDragImmediately;
 
     if not Ed.IsModifiedMicromapVisible then
       Ed.OptMicromapVisible:= Op.OpMicromapShow;
