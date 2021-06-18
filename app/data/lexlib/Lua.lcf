@@ -1,4 +1,4 @@
-object SyntAnal13: TLibSyntAnalyzer
+object SyntAnal12: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -152,6 +152,14 @@ object SyntAnal13: TLibSyntAnalyzer
       StyleName = 'Id'
       TokenType = 2
       Expression = '[a-zA-Z_][\w\d]*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Shebang cmt'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '^\#!.+'
       ColumnFrom = 0
       ColumnTo = 0
     end
