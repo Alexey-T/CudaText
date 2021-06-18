@@ -374,7 +374,7 @@ Actions:
 * PROC_SIDEPANEL_ENUM_ALL: Enumerates tabs. Returns list of dict, each dict item has keys:
 ** "cap": str: Panel caption (not affected by translation)
 ** "hint": str: Button's floating tooltip (affected by translation).
-** "dlg": int: Handle of panel's dialog. Can be 0, if dialog is not yet created. For example, plugins "Tabs" and "Snippet Panel" do not create the dialog until plugin is called.
+** "dlg": int: Handle of panel's dialog. Can be 0, if dialog is not yet created. For example, plugins "Tabs List" and "Snippet Panel" do not create the dialog until plugin is called.
 ** "img": int: Button's image-index in the imagelist.
 ** "btn_h": int: Button's handle. Use this handle with button_proc().
 ** "module": str: Python module name, or empty str.
