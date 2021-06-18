@@ -3,7 +3,11 @@
   - fixed
   * changed
 
+1.134.2 (2021/06)
+
 + add: Wiki topic: https://wiki.freepascal.org/CudaText_plugins#Complete_From_Text
++ add: lexer Lua: highlight the shebang
+- fix: to fix hover buttons highlight on Windows, disabled the hover highlight at all
 
 1.134.1 (2021/06)
 
