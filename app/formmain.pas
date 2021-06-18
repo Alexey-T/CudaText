@@ -3625,10 +3625,6 @@ begin
   ATFlatTheme.ScalePercents:= UiOps.Scale;
   ATFlatTheme.ScaleFontPercents:= UiOps.ScaleFont;
 
-  {$ifndef windows}
-  ATFlatTheme.EnableColorBgOver:= false;
-  {$endif}
-
   ATScrollbar.ATScrollbarTheme.InitialSize:= UiOps.ScrollbarWidth;
   ATScrollbar.ATScrollbarTheme.BorderSize:= UiOps.ScrollbarBorderSize;
   ATScrollbar.ATScrollbarTheme.ScalePercents:= UiOps.Scale;
