@@ -76,7 +76,7 @@ procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer
 procedure EditorCopyLine(Ed: TATSynEdit);
 
 procedure EditorSetLine(Ed: TATSynEdit; AIndex: integer; AStr: UnicodeString);
-procedure EditorSetAllText(Ed: TATSynEdit; const AStr: UnicodeString);
+procedure EditorSetAllTextW(Ed: TATSynEdit; const AStr: UnicodeString);
 procedure EditorDeleteRange(Ed: TATSynEdit; X1, Y1, X2, Y2: integer);
 function EditorInsert(Ed: TATSynEdit; X1, Y1: integer; const AStr: UnicodeString; var APosAfter: TPoint): boolean;
 procedure EditorHighlightBadRegexBrackets(Ed: TATSynEdit; AOnlyClear: boolean);
@@ -2009,7 +2009,7 @@ begin
   Ed.Update(true);
 end;
 
-procedure EditorSetAllText(Ed: TATSynEdit; const AStr: UnicodeString);
+procedure EditorSetAllTextW(Ed: TATSynEdit; const AStr: UnicodeString);
 var
   Strs: TATStrings;
 begin
@@ -2020,7 +2020,7 @@ begin
   Ed.DoCaretSingle(0, 0);
   Ed.Markers.Clear;
   Ed.Attribs.Clear;
-  Strs.LoadFromString(AStr);
+  Strs.LoadFromStringW(AStr);
 
   Ed.DoCaretsFixIncorrectPos(false);
   Ed.DoEventChange(0);

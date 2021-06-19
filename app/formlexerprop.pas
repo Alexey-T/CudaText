@@ -509,7 +509,7 @@ begin
     F.Adapter.Lexer:= An;
     if Assigned(An.SampleText) then
     begin
-      F.edSample.Strings.LoadFromString(An.SampleText.Text);
+      F.edSample.Strings.LoadFromStringW(An.SampleText.Text);
       F.edSample.UpdateWrapInfo(true);
       F.edSample.DoEventChange(0); //parse from beginning
     end;
