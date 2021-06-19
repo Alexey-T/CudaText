@@ -3133,7 +3133,7 @@ begin
       SText:= msgFirstStartInfo;
       if not AppPython.Inited then
         SText+= #10+msgCannotInitPython1+#10+msgCannotInitPython2+#10+msgCannotInitPython2b;
-      Ed.Strings.LoadFromStringW(SText);
+      Ed.Strings.LoadFromString(SText);
       Ed.Modified:= false;
       Frame.InSession:= false;
       Frame.InHistory:= false;

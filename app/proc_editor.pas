@@ -2020,7 +2020,7 @@ begin
   Ed.DoCaretSingle(0, 0);
   Ed.Markers.Clear;
   Ed.Attribs.Clear;
-  Strs.LoadFromStringW(AStr);
+  Strs.LoadFromString(AStr);
 
   Ed.DoCaretsFixIncorrectPos(false);
   Ed.DoEventChange(0);

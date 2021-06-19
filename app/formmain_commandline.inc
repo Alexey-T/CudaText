@@ -176,7 +176,7 @@ begin
       if Assigned(Frame) then
       begin
         Frame.TabCaption:= '(stdin)';
-        Frame.Ed1.Strings.LoadFromStringW(UTF8Decode(_GetStdin));
+        Frame.Ed1.Strings.LoadFromString(UTF8Decode(_GetStdin));
         //Frame.Ed1.Modified:= false;
       end;
       Continue;
