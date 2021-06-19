@@ -8,7 +8,7 @@
 + add: Linux: when saving file to a system folder, program runs helper tool 'pkexec' as 'root', to do it (thanks @Shovel)
 + add: option "minimap_drag_immediately", to mimic ST2 minimap behaviour (thanks @Katarn)
 + add: Wiki topic: https://wiki.freepascal.org/CudaText_plugins#Complete_From_Text
-- fix: API used in CudaFormatter was breaking file encoding, on huge files (thanks @ertank)
+- fix: regression: API used in CudaFormatter was breaking file encoding, only on huge files (thanks @ertank)
 - fix: disabled the buttons hover highlight at all, because it's buggy on Windows (thanks @xcme)
 - fix: Windows: unusual flickering on window minimize/restore (thanks @xcme)
 - fix: issue with multi-carets, when selections are adjastent/touched (thanks @xcme)
