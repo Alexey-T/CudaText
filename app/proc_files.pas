@@ -34,9 +34,6 @@ implementation
 
 uses
   Classes, SysUtils, LCLIntf,
-  {$ifdef windows}
-  Windows, ShellAPI,
-  {$endif}
   FileUtil, LazFileUtils,
   ATStrings,
   proc_globdata,
@@ -278,12 +275,12 @@ end;
 
 procedure AppBrowseToFilenameInShell(const fn: string);
 var
-  Params: UnicodeString;
+  Params: string;
 begin
   if fn='' then exit;
   {$ifdef windows}
-  Params:= '/n,/select,'+UTF8Decode(fn);
-  ShellExecuteW(0, nil, 'explorer.exe', PWideChar(Params), nil, SW_SHOWNORMAL);
+  Params:= '/n,/select,'+fn;
+  ExecuteProcess('explorer.exe', Params);
   {$else}
   OpenURL(ExtractFileDir(fn));
   {$endif}
