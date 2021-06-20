@@ -3754,9 +3754,12 @@ begin
   MsgStatus(S);
 end;
 
-function IsFilenameForLexerDetecter(const S: string): boolean;
+function IsFilenameForLexerDetecter(const AFileName: string): boolean;
 begin
-  Result:= LowerCase(ExtractFileExt(S))<>'.txt';
+  if IsFileTooBigForLexer(AFileName) then //fixing issue #3449
+    Result:= false
+  else
+    Result:= LowerCase(ExtractFileExt(AFileName))<>'.txt';
 end;
 
 function TfmMain.DoFileOpen(AFileName, AFileName2: string; APages: TATPages;
