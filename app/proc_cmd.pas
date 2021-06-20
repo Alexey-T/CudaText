@@ -68,6 +68,7 @@ const
   cmd_FileCloseAndDelete = 2514;
   cmd_FileExportHtml     = 2515;
   cmd_RepaintEditor      = 2516;
+  cmd_OpenContainingFolder = 2517;
 
   cmd_OpsOpenDefaultAndUser = 2519;
   cmd_OpsClearRecent     = 2520;
@@ -375,6 +376,7 @@ begin
   M.Add(cmd_FileCloseAndDelete, 'file: close tab, delete file', [], []);
   M.Add(cmd_FileExit, 'file: quit program', [cXControl+'+Q'], []);
   M.Add(cmd_FileExportHtml, 'file: export to html', [], []);
+  M.Add(cmd_OpenContainingFolder, 'file: open folder containing the current file', [], []);
 
   M.Add(cmd_OpsReloadAndApply, 'settings: reload/apply config', [], []);
   M.Add(cmd_OpsClearRecent, 'settings: clear recent files history', [], []);

@@ -110,6 +110,12 @@ begin
           DoFileExportHtml(Frame);
       end;
 
+    cmd_OpenContainingFolder:
+      begin
+        if Ed.FileName<>'' then
+          OpenURL(ExtractFileDir(Ed.FileName));
+      end;
+
     cmd_ToggleFocusSplitEditors:
       begin
         if Assigned(Frame) then
