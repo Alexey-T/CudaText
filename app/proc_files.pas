@@ -27,12 +27,13 @@ procedure AppFileAttrPrepare(const fn: string; out attr: Longint);
 procedure AppFileAttrRestore(const fn: string; attr: Longint);
 
 function AppExpandFilename(const fn: string): string;
+procedure AppBrowseToFilenameInShell(const fn: string);
 
 
 implementation
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, LCLIntf,
   FileUtil, LazFileUtils,
   ATStrings,
   proc_globdata,
@@ -271,6 +272,16 @@ begin
     )));
 end;
 
+
+procedure AppBrowseToFilenameInShell(const fn: string);
+begin
+  if fn='' then exit;
+  {$ifdef windows}
+  ExecuteProcess('explorer.exe', '"n,/select,'+fn+'"');
+  {$else}
+  OpenURL(ExtractFileDir(fn));
+  {$endif}
+end;
 
 end.
 

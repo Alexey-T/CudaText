@@ -113,7 +113,7 @@ begin
     cmd_OpenContainingFolder:
       begin
         if Ed.FileName<>'' then
-          OpenURL(ExtractFileDir(Ed.FileName));
+          AppBrowseToFilenameInShell(Ed.FileName);
       end;
 
     cmd_OpenFileInDefaultApp:
