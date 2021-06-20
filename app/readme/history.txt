@@ -9,6 +9,7 @@
 + add: option "minimap_drag_immediately", to mimic ST2 minimap behaviour (thanks @Katarn)
 + add: Wiki topic: https://wiki.freepascal.org/CudaText_plugins#Complete_From_Text
 + add: command "open folder containing the current file" (thanks @ertank)
++ add: command "open file in default application"
 - fix: regression: API used in CudaFormatter was breaking file encoding, only on huge files (thanks @ertank)
 - fix: disabled the buttons hover highlight at all, because it's buggy on Windows (thanks @xcme)
 - fix: Windows: unusual flickering on window minimize/restore (thanks @xcme)

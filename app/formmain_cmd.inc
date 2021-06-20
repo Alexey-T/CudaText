@@ -116,6 +116,12 @@ begin
           OpenURL(ExtractFileDir(Ed.FileName));
       end;
 
+    cmd_OpenFileInDefaultApp:
+      begin
+        if Ed.FileName<>'' then
+          OpenURL(Ed.FileName);
+      end;
+
     cmd_ToggleFocusSplitEditors:
       begin
         if Assigned(Frame) then

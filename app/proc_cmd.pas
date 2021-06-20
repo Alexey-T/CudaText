@@ -68,7 +68,6 @@ const
   cmd_FileCloseAndDelete = 2514;
   cmd_FileExportHtml     = 2515;
   cmd_RepaintEditor      = 2516;
-  cmd_OpenContainingFolder = 2517;
 
   cmd_OpsOpenDefaultAndUser = 2519;
   cmd_OpsClearRecent     = 2520;
@@ -151,6 +150,8 @@ const
 
   cmd_SelectExpandToWord = 2600; //like Ctrl+D in Sublime
 
+  cmd_OpenContainingFolder = 2601;
+  cmd_OpenFileInDefaultApp = 2602;
   cmd_FileOpen_TextViewer    = 2603;
   cmd_FileOpen_HexViewer     = 2604;
   cmd_FileOpen_UnicodeViewer = 2605;
@@ -377,6 +378,7 @@ begin
   M.Add(cmd_FileExit, 'file: quit program', [cXControl+'+Q'], []);
   M.Add(cmd_FileExportHtml, 'file: export to html', [], []);
   M.Add(cmd_OpenContainingFolder, 'file: open folder containing the current file', [], []);
+  M.Add(cmd_OpenFileInDefaultApp, 'file: open file in default application', [], []);
 
   M.Add(cmd_OpsReloadAndApply, 'settings: reload/apply config', [], []);
   M.Add(cmd_OpsClearRecent, 'settings: clear recent files history', [], []);
