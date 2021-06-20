@@ -1497,7 +1497,7 @@ begin
     begin
       Ed:= PyHelper_EditorFromHandle(H);
       if not Ed.ModeReadOnly then
-        EditorSetAllTextW(Ed, UTF8Decode(string(PtrText)));
+        EditorSetAllText(Ed, string(PtrText));
       Result:= ReturnNone;
     end
     else
