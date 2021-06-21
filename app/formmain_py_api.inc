@@ -2903,7 +2903,7 @@ function PyHelper_GetScrollInfo(const AInfo: TATEditorScrollInfo): PPyObject;
 begin
   with AppPython.Engine do
   begin
-    Result:= Py_BuildValue('{sisisisisisisisisisi}',
+    Result:= Py_BuildValue('{sLsLsLsLsLsLsLsLsLsL}',
       'pos', AInfo.NPos,
       'pos_last', AInfo.NPosLast,
       'max', AInfo.NMax,
