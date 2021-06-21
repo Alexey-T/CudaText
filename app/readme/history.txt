@@ -12,8 +12,8 @@
 + add: Wiki topic: https://wiki.freepascal.org/CudaText_plugins#Complete_From_Text
 - fix: for huge lines >40M chars, rendering at line end was broken
 - fix: for long lines >1024 chars, clicking after 1024'th char gave bad caret placement
+- fix: for huge files >25M, CudaFormatter was breaking file encoding (thanks @ertank)
 - fix: dialog Go To didn't work for single-line documents (e.g. go to "1:100")
-- fix: API used in CudaFormatter was breaking file encoding, on huge files >25M (thanks @ertank)
 - fix: disabled the buttons hover highlight at all, because it's buggy on Windows (thanks @xcme)
 - fix: Windows: unusual flickering on window minimize/restore (thanks @xcme)
 - fix: issue with multi-carets, when selections are adjastent/touched (thanks @xcme)
