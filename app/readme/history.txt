@@ -10,6 +10,7 @@
 + add: command "open file in default application"
 + add: option "minimap_drag_immediately", to mimic ST2 minimap behaviour (thanks @Katarn)
 + add: Wiki topic: https://wiki.freepascal.org/CudaText_plugins#Complete_From_Text
+- fix: for huge files >50M, UTF-16 BOM was ignored and UTF-8 was used (thanks @ertank)
 - fix: for huge lines >40M chars, rendering at line end was broken
 - fix: for long lines >1024 chars, clicking after 1024'th char gave bad caret placement
 - fix: for huge files >25M, CudaFormatter was breaking file encoding (thanks @ertank)
