@@ -1112,7 +1112,7 @@ var
   Sep: TATStringSeparator;
 begin
   NumCount:= Ed.Strings.Count;
-  if NumCount<2 then exit(false);
+  if NumCount=0 then exit(false);
 
   bExtend:= SEndsWith(SInput, '+');
   if bExtend then
