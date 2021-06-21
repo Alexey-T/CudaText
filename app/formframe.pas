@@ -392,6 +392,7 @@ type
     procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
     procedure DoLoadHistory(Ed: TATSynEdit; AllowEnc: boolean);
     procedure DoLoadHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString; AllowEnc: boolean);
+    procedure DoLoadHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
     //misc
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
     procedure DoPyEventState(Ed: TATSynEdit; AState: integer);
@@ -3110,6 +3111,41 @@ begin
    end;
 end;
 
+procedure TEditorFrame.DoLoadHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
+var
+  items, items2: TStringList;
+  BmData: TATBookmarkData;
+  nTop, nKind, i: integer;
+begin
+  FillChar(BmData, SizeOf(BmData), 0);
+  BmData.ShowInBookmarkList:= true;
+
+  items:= TStringList.Create;
+  items2:= TStringList.Create;
+  try
+    c.GetValue(path+cHistory_Bookmark, items, '');
+    c.GetValue(path+cHistory_BookmarkKind, items2, '');
+    for i:= 0 to items.Count-1 do
+    begin
+      nTop:= StrToIntDef(items[i], -1);
+      if i<items2.Count then
+        nKind:= StrToIntDef(items2[i], 1)
+      else
+        nKind:= 1;
+      if Ed.Strings.IsIndexValid(nTop) then
+      begin
+        BmData.LineNum:= nTop;
+        BmData.Kind:= nKind;
+        BmData.AutoDelete:= bmadOption;
+        Ed.Strings.Bookmarks.Add(BmData);
+      end;
+    end;
+  finally
+    FreeAndNil(items2);
+    FreeAndNil(items);
+  end;
+end;
+
 procedure TEditorFrame.DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
 var
   items, items2: TStringList;
@@ -3317,14 +3353,10 @@ var
   NCaretEndX, NCaretEndY: integer;
   nTop, nKind, i: integer;
   items, items2: TStringlist;
-  BmData: TATBookmarkData;
   Sep: TATStringSeparator;
   NFlag: integer;
 begin
   sFileName:= GetFileName(Ed);
-
-  FillChar(BmData, SizeOf(BmData), 0);
-  BmData.ShowInBookmarkList:= true;
 
   //file not listed in history file? exit
   sCaretString:= c.GetValue(path+cHistory_Caret, '');
@@ -3501,30 +3533,7 @@ begin
   Ed.Strings.ActionSaveLastEditionPos(NCaretPosX, NCaretPosY);
 
   //bookmarks
-  items:= TStringList.create;
-  items2:= TStringList.create;
-  try
-    c.GetValue(path+cHistory_Bookmark, items, '');
-    c.GetValue(path+cHistory_BookmarkKind, items2, '');
-    for i:= 0 to items.Count-1 do
-    begin
-      nTop:= StrToIntDef(items[i], -1);
-      if i<items2.Count then
-        nKind:= StrToIntDef(items2[i], 1)
-      else
-        nKind:= 1;
-      if Ed.Strings.IsIndexValid(nTop) then
-      begin
-        BmData.LineNum:= nTop;
-        BmData.Kind:= nKind;
-        BmData.AutoDelete:= bmadOption;
-        Ed.Strings.Bookmarks.Add(BmData);
-      end;
-    end;
-  finally
-    FreeAndNil(items2);
-    FreeAndNil(items);
-  end;
+  DoLoadHistory_Bookmarks(Ed, c, path);
 
   FCodetreeFilter:= c.GetValue(path+cHistory_CodeTreeFilter, '');
   c.GetValue(path+cHistory_CodeTreeFilters, FCodetreeFilterHistory, '');
