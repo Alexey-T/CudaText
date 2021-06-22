@@ -1352,7 +1352,11 @@ const
       {$ifdef darwin}
       ('Monaco', 'Liberation Mono', 'DejaVu Sans Mono');
       {$else}
-      ('DejaVu Sans Mono', 'Liberation Mono', 'Courier New');
+        {$ifdef haiku}
+        ('Noto', 'Monoid Nerd', '');
+        {$else}
+        ('DejaVu Sans Mono', 'Liberation Mono', 'Courier New');
+        {$endif}
       {$endif}
     {$endif}
 
