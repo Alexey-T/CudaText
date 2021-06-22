@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.134.5 (2021/06)
+
++ add: option "max_line_len_parsed" is now also used as limit for pair-bracket finder; it gave smoother work with huge lines >5M chars
+
 1.134.4 (2021/06)
 
 + add: Linux: when saving file to a system folder, program runs helper tool 'pkexec' as 'root', to do it (thanks @Shovel)
