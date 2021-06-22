@@ -1342,6 +1342,9 @@ begin
   begin
     for IndexY:= FromY to Min(Int64(St.Count-1), Int64(FromY)+MaxDistance) do
     begin
+      if St.LinesLen[IndexY]>EditorOps.OpMaxLineLenForBracketFinder then
+        Continue;
+
       S:= St.Lines[IndexY];
       if S='' then Continue;
       if IndexY=FromY then
@@ -1373,6 +1376,9 @@ begin
   begin
     for IndexY:= FromY downto Max(0, Int64(FromY)-MaxDistance) do
     begin
+      if St.LinesLen[IndexY]>EditorOps.OpMaxLineLenForBracketFinder then
+        Continue;
+
       S:= St.Lines[IndexY];
       if S='' then Continue;
       if IndexY=FromY then
