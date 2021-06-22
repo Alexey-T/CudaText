@@ -1284,6 +1284,9 @@ begin
 
   for iLine:= PosY downto Max(0, PosY-MaxDistance) do
   begin
+    if Ed.Strings.LinesLen[iLine]>EditorOps.OpMaxLineLenForBracketFinder then
+      Continue;
+
     S:= Ed.Strings.Lines[iLine];
     if S='' then Continue;
     if iLine=PosY then
