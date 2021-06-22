@@ -1425,6 +1425,7 @@ procedure EditorBracket_FindBoth(Ed: TATSynEdit;
   out CharFrom, CharTo: atChar;
   out Kind: TATEditorBracketKind);
 var
+  St: TATStrings;
   S: atString;
 begin
   FoundX:= -1;
@@ -1432,11 +1433,13 @@ begin
   CharFrom:= #0;
   CharTo:= #0;
   Kind:= bracketUnknown;
+  St:= Ed.Strings;
 
   if PosX<0 then exit;
-  if not Ed.Strings.IsIndexValid(PosY) then exit;
+  if not St.IsIndexValid(PosY) then exit;
+  if St.LinesLen[PosY]>EditorOps.OpMaxLineLenForBracketFinder then exit;
 
-  S:= Ed.Strings.Lines[PosY];
+  S:= St.Lines[PosY];
   if (PosX=Length(S)) and (PosX>0) then
     Dec(PosX);
 
@@ -1475,7 +1478,7 @@ begin
       if FoundY<0 then exit;
       PosX:= FoundX;
       PosY:= FoundY;
-      S:= Ed.Strings.Lines[PosY];
+      S:= St.Lines[PosY];
       CharFrom:= S[PosX+1];
       EditorBracket_GetCharKind(CharFrom, Kind, CharTo);
     end;
