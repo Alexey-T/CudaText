@@ -1405,8 +1405,8 @@ begin
     OpTabSpaces:= false;
     OpTabMaxPosExpanded:= 500;
     OpMaxLineLenForAccurateCharWidths:= 500;
-    OpMaxLineLenForBracketFinder:= 1000;
     OpMaxLineLenToTokenize:= 4000;
+    OpMaxLineLenForBracketFinder:= 1000;
 
     OpActiveBorderRaw:= 1;
     OpActiveBorderInControls:= true;
