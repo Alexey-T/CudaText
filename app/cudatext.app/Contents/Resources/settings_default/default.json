@@ -317,7 +317,8 @@
   "max_line_len_for_accurate_width": 500,
 
   //[Lexers]
-  //Maximal line length, which will be parsed (and syntax highlighted) by lexers
+  //Maximal line length, which will be parsed (and syntax highlighted) by lexers.
+  //Also, maximal line length, which is handled by pair-brackets finder.
   "max_line_len_parsed": 4000,
 
   //[View/Gutter]
