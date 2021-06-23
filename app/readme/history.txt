@@ -3,14 +3,11 @@
   - fixed
   * changed
 
-1.134.5 (2021/06)
+1.135.0 (2021/06)
 
-+ add: option "max_line_len_parsed" is now also used as limit for pair-bracket finder; it gave smoother work with huge lines >5M chars
-+ add: Linux gtk2 version has improved IME support (again patch by @rasberryrabbit)
-
-1.134.4 (2021/06)
-
++ add: option "max_line_len_parsed" is now also used as limit for pair-bracket finder; it gives smoother work with huge lines >1M chars
 + add: Linux: when saving file to a system folder, program runs helper tool 'pkexec' as 'root', to do it (thanks @Shovel)
++ add: Linux: gtk2 version has improved IME support (again patch by @rasberryrabbit)
 + add: command "open folder containing the current file" (thanks @ertank)
 + add: command "open file in default application"
 + add: option "minimap_drag_immediately", to mimic ST2 minimap behaviour (thanks @Katarn)
