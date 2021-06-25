@@ -2627,11 +2627,11 @@ Possible values of "id":
 
 ===Editor.get_wrapinfo===
 
- get_wrapinfo()
+ get_wrapinfo(param1=-1, param2=-1)
 
-Gets info about wrapped lines. It allows to calculate, at which positions long lines are wrapped (when wrap mode is on). It allows to see, which text parts are folded.
+Gets info about wrapping of lines on screen. It allows to calculate, at which positions long lines are wrapped (when "word wrap mode" is on). It allows to see, which text parts are folded.
 
-Returns list of dict. Dict items has keys:
+Returns list of dict, for specified lines range. Dict items has keys:
 
 * "line": int: Original line index, for this part.
 * "char": int: Char index (1-based, for UTF-16 stream of chars), at which this part starts. It is >1, for next parts of long wrapped line.
@@ -2639,6 +2639,16 @@ Returns list of dict. Dict items has keys:
 * "indent": int: Screen indent in spaces, for this part, it's used in rendering when option "Show wrapped parts indented" is on.
 * "final": int: State of this part. 0: final part of the entire line; 1: partially folded part; 2: first or middle part of the entire line.
 * "initial": bool: True if part is initial for the entire (wrapped) line, False if it is continuation (ie, wrapped) part.
+
+Parameter "param1" is the minimal line index (0-based) for which to return the information.
+Parameter "param2" is the maximal line index.
+Notes:
+
+* If both "param1" and "param2" are default, returns entire document information.
+* If "param2" < "param1", returns empty list.
+* If "param1" is -1 or specifies incorrect line index, returns empty list.
+* If "param2" is -1 or specifies incorrect line index, its value is replaced to the maximal possible index.
+* Length of resulting list equals the lines count only for non-wrapped document. For wrapped document, you get 1 or more list items per each document line.
 
 ===Editor.markers===
 
@@ -4353,5 +4363,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * delete: redundant "API" constant which had the API version (seems no one used it)
 * deprecate: toolbar_proc() special string handle "top"
 * deprecate: statusbar_proc() special string handle "main"
+
+1.0.395 (app 1.135.1)
+* add: Editor.get_wrapinfo: add optional params to specify lines range
 
 [[Category:CudaText]]
