@@ -2870,19 +2870,43 @@ var
   H: Int64;
   Ed: TATSynEdit;
   Data: TATWrapItem;
-  NLen, i: Integer;
+  NParam1, NParam2: integer;
+  NIndex1, NIndex2: integer;
+  NLen, i: integer;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'L:get_wrapinfo', @H)) then
+    if Bool(PyArg_ParseTuple(Args, 'Lii:get_wrapinfo', @H, @NParam1, @NParam2)) then
       begin
         Ed:= PyHelper_EditorFromHandle(H);
-        NLen:= Ed.WrapInfo.Count;
+        if NParam2<NParam1 then
+          exit(PyList_New(0));
+
+        if NParam1>=0 then
+        begin
+          Ed.WrapInfo.FindIndexesOfLineNumber(NParam1, NIndex1, i);
+          if NIndex1<0 then
+            exit(PyList_New(0));
+        end
+        else
+          NIndex1:= 0;
+
+        if NParam2>=0 then
+        begin
+          Ed.WrapInfo.FindIndexesOfLineNumber(NParam2, i, NIndex2);
+          if NIndex2<0 then
+            NIndex2:= Ed.WrapInfo.Count-1;
+        end
+        else
+          NIndex2:= Ed.WrapInfo.Count-1;
+
+        NLen:= Max(0, NIndex2-NIndex1+1);
         Result:= PyList_New(NLen);
         if not Assigned(Result) then
           raise EPythonError.Create(msgPythonListError);
+
         for i:= 0 to NLen-1 do
         begin
-          Data:= Ed.WrapInfo[i];
+          Data:= Ed.WrapInfo[i+NIndex1];
           PyList_SetItem(Result, i,
             Py_BuildValue('{sisisisisisO}',
               'line', Data.NLineIndex,
