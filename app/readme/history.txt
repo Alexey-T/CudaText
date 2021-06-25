@@ -6,7 +6,7 @@
 1.135.1 (2021/06)
 
 + add: reduce flickering on typing with lexer, in e.g. Markdown documents (thanks @kvichans)
-+ add: add some API for 'Highlight Occerrences' plugin (thanks @Shovel)
++ add: add some API for 'Highlight Occurrences' plugin (thanks @Shovel)
 
 1.135.0 (2021/06)
 
