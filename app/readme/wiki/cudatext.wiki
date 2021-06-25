@@ -604,9 +604,17 @@ Now you need to create .zip installation of lexer, for both editors: SynWrite, C
 
 ===Lite lexers===
 
-Lite lexers are lexers is special format (internally it's JSON file), with very limited features. They don't support code-tree, folding, don't support multi-line comments, don't have rich highlighting (e.g. background highlight of string `12+$var` with additional highlight for 12 and $var inside). And they don't keep tokens information in memory (positions of found tokens in text). But they work very fast for any file size (with average line length). Lite lexers have " ^" suffix in name. Currently few lite lexers are made: XML ^, JSON ^, Log files ^, SQL ^. You can also choose them, from the usual lexers menu (they are visible by suffix).
+Lite lexers are lexers is special format (internally it's JSON file), with very limited features. They don't support code-tree, folding, don't support multi-line comments, don't have rich highlighting (e.g. background highlight of string `12+$var` with additional highlight for 12 and $var inside). And they don't keep tokens information in memory (positions of found tokens in text). But they work very fast for any file size (note: lines longer than 4K chars are not parsed). Lite lexers process only lines visible on screen, not all document lines.
 
-Lite lexers are auto used for big files, if file size is bigger than option "ui_max_size_lexer". And for small files, if normal lexer not found.
+Lite lexers have the " ^" suffix in name. Currently few lexers are preinstalled: XML ^, JSON ^, Log files ^, SQL ^. You can also choose them, from the usual lexers menu (they are visible by suffix).
+
+Lite lexers are auto used for big files, if file size is bigger than option "ui_max_size_lexer". And for small files, if normal lexer not found (e.g. "SQL ^" is used also for small files, if "normal" SQL lexer not installed).
+
+How to change styles in lite lexers? For example, lite lexer "Log files ^" apply styles "Id", "Id2" to some rules and you want to change that? It's easy:
+
+* open the file: [CudaText]/data/lexliblite/Log files.cuda-litelexer
+* find and edit styles names
+* all possible styles are listed in the CudaText dialog "Options / Settings - theme - syntax..."
 
 ===Differences in lexer support in CudaText/SynWrite===
 
