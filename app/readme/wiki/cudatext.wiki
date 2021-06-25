@@ -608,9 +608,9 @@ Lite lexers are lexers is special format (internally it's JSON file), with very 
 
 Lite lexers have the " ^" suffix in name. Currently few lexers are preinstalled: XML ^, JSON ^, Log files ^, SQL ^. You can also choose them, from the usual lexers menu (they are visible by suffix).
 
-Lite lexers are auto used for big files, if file size is bigger than option "ui_max_size_lexer". And for small files, if normal lexer not found (e.g. "SQL ^" is used also for small files, if "normal" SQL lexer not installed).
+Lite lexers are auto used for big files, if file size is bigger than option "ui_max_size_lexer". And for small files, if normal lexer not found (e.g. "SQL ^" is used also for small files, because "normal" SQL lexer is not preinstalled).
 
-How to change styles in lite lexers? For example, lite lexer "Log files ^" apply styles "Id", "Id2" to some rules and you want to change that? It's easy:
+How to change styles in lite lexers? For example, "Log files ^" uses styles "Id"/"Id2", and you want to change that? It's easy:
 
 * open the file: [CudaText]/data/lexliblite/Log files.cuda-litelexer
 * find and edit styles names
@@ -640,6 +640,13 @@ The question makes sense, because when user types the block ending (e.g. "}" in 
 Find the lexer file, .lcf file in the folder data/lexlib. This file has the ending with "end", before "end" you see several lexer settings. You can add there:
 
  FullRefreshSize = 5000
+
+Insert it near the end of file, like here:
+
+   FullRefreshSize = 5000
+   LineComment = '#'
+   Charset = DEFAULT_CHARSET
+ end
 
 This tells lexer to re-scan entire document, on editing in any document place, when document size is less than 5000 chars.
 
