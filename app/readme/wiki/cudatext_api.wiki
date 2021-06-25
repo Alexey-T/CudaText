@@ -2649,7 +2649,7 @@ Notes:
 * If "param1" < 0, its value is replaced to the minimal possible index.
 * If "param1" specifies incorrect line index, returns empty list.
 * If "param2" is < 0 or specifies incorrect line index, its value is replaced to the maximal possible index.
-* Length of resulting list equals the lines count only for non-wrapped document. For wrapped document, you get 1 or more list items per each document line.
+* Length of resulting list equals the lines count for non-wrapped document. For wrapped document, you get 1 or more list items per each document line.
 
 ===Editor.markers===
 
