@@ -2646,8 +2646,9 @@ Notes:
 
 * If both "param1" and "param2" are default, returns entire document information.
 * If "param2" < "param1", returns empty list.
-* If "param1" is -1 or specifies incorrect line index, returns empty list.
-* If "param2" is -1 or specifies incorrect line index, its value is replaced to the maximal possible index.
+* If "param1" < 0, its value is replaced to the minimal possible index.
+* If "param1" specifies incorrect line index, returns empty list.
+* If "param2" is < 0 or specifies incorrect line index, its value is replaced to the maximal possible index.
 * Length of resulting list equals the lines count only for non-wrapped document. For wrapped document, you get 1 or more list items per each document line.
 
 ===Editor.markers===
