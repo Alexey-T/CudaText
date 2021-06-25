@@ -2881,7 +2881,7 @@ begin
         if NParam2<NParam1 then
           exit(PyList_New(0));
 
-        if NParam1>=0 then
+        if NParam1>0 then
         begin
           Ed.WrapInfo.FindIndexesOfLineNumber(NParam1, NIndex1, i);
           if NIndex1<0 then
