@@ -5,7 +5,7 @@
 
 1.135.1 (2021/06)
 
-+ add: reduce flickering on typing with lexer, in e.g. Markdown documents (thanks @kvichans)
++ add: reduce flickering on typing with lexer, e.g. in Markdown (thanks @kvichans)
 + add: add some API for 'Highlight Occurrences' plugin (thanks @Shovel)
 + add: disable Find dialog if current ui-tab is binary/picture viewer (thanks @tmsg)
 - fix: action 'trim spaces' was removing too much chars: codes 0x00...0x1F (thanks @JairoMartinezA)
