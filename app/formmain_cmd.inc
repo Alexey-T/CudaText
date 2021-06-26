@@ -403,13 +403,16 @@ begin
       DoOps_FontSizeChange(-1);
     cmd_OpsFontSizeReset:
       DoOps_FontSizeReset;
+
     cmd_FindPythonLib:
       DoOps_FindPythonLib(nil);
 
     cmd_ResetPythonPlugins:
       DoPyResetPlugins;
+
     cmd_RunLastCommandPlugin:
       DoPyRunLastPlugin;
+
     cmd_RescanPythonPluginsInfFiles:
       DoPyRescanPlugins;
 
