@@ -4441,21 +4441,21 @@ begin
   Frame:= CurrentFrame;
   Ed:= Frame.Editor;
 
-    if Frame.IsBinary then
-    begin
-      if ViewerGotoFromString(Frame.Binary, AInput) then
-        MsgStatus('')
-      else
-        MsgStatus(msgStatusBadLineNum);
-    end
+  if Frame.IsBinary then
+  begin
+    if ViewerGotoFromString(Frame.Binary, AInput) then
+      MsgStatus('')
     else
-    if Frame.IsText then
-    begin
-      if EditorGotoFromString(Ed, AInput) then
-        MsgStatus('')
-      else
-        MsgStatus(msgStatusBadLineNum);
-    end;
+      MsgStatus(msgStatusBadLineNum);
+  end
+  else
+  if Frame.IsText then
+  begin
+    if EditorGotoFromString(Ed, AInput) then
+      MsgStatus('')
+    else
+      MsgStatus(msgStatusBadLineNum);
+  end;
 
   Frame.SetFocus;
 end;
