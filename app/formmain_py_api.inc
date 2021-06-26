@@ -5514,7 +5514,7 @@ var
   H: Int64;
   Ed: TATSynEdit;
   Strs: TATStrings;
-  Id, X, Y: integer;
+  Id, X, Y, NValue: integer;
   PtrValue: PChar;
   StrValue: string;
   StrTemp: UnicodeString;
@@ -5584,6 +5584,24 @@ begin
               exit(ReturnNone);
 
             Result:= Py_BuildValue('(ii)', Pnt.X, Pnt.Y);
+          end;
+
+        CONVERT_OFFSET_TO_CARET:
+          begin
+            Pnt:= Ed.OffsetToCaretPos(X);
+            if Pnt.Y<0 then
+              exit(ReturnNone);
+
+            Result:= Py_BuildValue('(ii)', Pnt.X, Pnt.Y);
+          end;
+
+        CONVERT_CARET_TO_OFFSET:
+          begin
+            NValue:= Ed.CaretPosToOffset(Point(X, Y));
+            if NValue<0 then
+              exit(ReturnNone);
+
+            Result:= PyLong_FromLong(NValue);
           end;
 
         else
