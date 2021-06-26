@@ -1495,49 +1495,59 @@ var
   SLexerName: string;
   STextW: UnicodeString;
   bTypedChar, bWordChar, bIdentChar: boolean;
+  NValue: integer;
 begin
   Ed:= Sender as TATSynEdit;
   if Ed.Carets.Count<>1 then exit;
   Caret:= Ed.Carets[0];
   if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
+  bTypedChar:= false;
 
   //some commands affect FTextCharsTyped
-  if (ACommand=cCommand_KeyBackspace) then
+ case ACommand of
+ cCommand_KeyBackspace:
   begin
     if FTextCharsTyped>0 then
       Dec(FTextCharsTyped);
     exit;
   end;
 
-  if (ACommand=cCommand_ToggleReadOnly) then
+ cCommand_ToggleReadOnly:
   begin
     DoPyEventState(Ed, EDSTATE_READONLY);
     exit;
   end;
 
-  if (ACommand=cCommand_ToggleWordWrap) or
-    (ACommand=cCommand_ToggleWordWrapAlt) then
+ cCommand_ToggleWordWrap,
+ cCommand_ToggleWordWrapAlt:
   begin
     DoPyEventState(Ed, EDSTATE_WRAP);
     exit;
   end;
 
-  if (ACommand=cCommand_ZoomIn) or
-    (ACommand=cCommand_ZoomOut) then
+ cCommand_ZoomIn,
+ cCommand_ZoomOut,
+ cCommand_ZoomReset:
   begin
-    OnMsgStatus(Self, Format(msgStatusFontSizeChanged, [Ed.OptScaleFont]));
+    if ACommand=cCommand_ZoomReset then
+    begin
+      NValue:= EditorScaleFontPercents;
+      if NValue=0 then
+        NValue:= EditorScalePercents;
+    end
+    else
+      NValue:= Ed.OptScaleFont;
+    OnMsgStatus(Self, Format(msgStatusFontSizeChanged, [NValue]));
     exit;
   end;
 
-  if (ACommand=cCommand_ZoomReset) then
+ cCommand_TextInsert:
   begin
-    OnMsgStatus(Self, Format(msgStatusFontSizeChanged, [100]));
-    exit;
-  end;
-
-  bTypedChar:= (ACommand=cCommand_TextInsert) and
+    bTypedChar:=
     (AText<>'') and
     ((Length(AText)=1) or (UTF8Length(AText)=1));
+  end;
+ end;
 
   //autoshow autocompletion
   if bTypedChar then
