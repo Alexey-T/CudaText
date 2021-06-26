@@ -1522,6 +1522,19 @@ begin
     exit;
   end;
 
+  if (ACommand=cCommand_ZoomIn) or
+    (ACommand=cCommand_ZoomOut) then
+  begin
+    OnMsgStatus(Self, Format(msgStatusFontSizeChanged, [Ed.OptScaleFont]));
+    exit;
+  end;
+
+  if (ACommand=cCommand_ZoomReset) then
+  begin
+    OnMsgStatus(Self, Format(msgStatusFontSizeChanged, [100]));
+    exit;
+  end;
+
   bTypedChar:= (ACommand=cCommand_TextInsert) and
     (AText<>'') and
     ((Length(AText)=1) or (UTF8Length(AText)=1));
