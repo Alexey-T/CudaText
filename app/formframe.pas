@@ -225,7 +225,6 @@ type
     procedure InitEditor(var ed: TATSynEdit);
     procedure InitPanelReload(Index: integer);
     procedure InitPanelInfo(const AText: string; AOnClick: TNotifyEvent);
-    function IsCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integer): boolean;
     procedure PanelInfoClick(Sender: TObject);
     procedure SetBracketHilite(AValue: boolean);
     procedure SetEnabledCodeTree(Ed: TATSynEdit; AValue: boolean);
@@ -324,7 +323,6 @@ type
     property LexerLite[Ed: TATSynEdit]: TATLiteLexer read GetLexerLite write SetLexerLite;
     property LexerName[Ed: TATSynEdit]: string read GetLexerName write SetLexerName;
     property LexerInitial[Ed: TATSynEdit]: TecSyntAnalyzer read GetInitialLexer write SetInitialLexer;
-    function LexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
 
     property Locked: boolean read FLocked write SetLocked;
     property CommentString[Ed: TATSynEdit]: string read GetCommentString;
@@ -1223,27 +1221,6 @@ begin
   begin
     Lexer[Ed]:= AppManager.FindLexerByName(AValue);
   end;
-end;
-
-//TODO: delete, proc_editor func exists
-function TEditorFrame.LexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
-var
-  CurAdapter: TATAdapterHilite;
-  an: TecSyntAnalyzer;
-begin
-  Result:= '';
-  CurAdapter:= Ed.AdapterForHilite;
-  if CurAdapter=nil then exit;
-
-  if CurAdapter is TATAdapterEControl then
-  begin
-    an:= TATAdapterEControl(CurAdapter).LexerAtPos(APos);
-    if Assigned(an) then
-      Result:= an.LexerName;
-  end
-  else
-  if CurAdapter is TATLiteLexer then
-    Result:= TATLiteLexer(CurAdapter).LexerName+msgLiteLexerSuffix;
 end;
 
 procedure TEditorFrame.SetSplitHorz(AValue: boolean);
@@ -3995,14 +3972,6 @@ begin
   end;
 end;
 
-//TODO: delete it, made the proc_editor.EditorCaretInsideCommentOrString
-function TEditorFrame.IsCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integer): boolean;
-var
-  Kind: TATTokenKind;
-begin
-  Kind:= EditorGetTokenKind(Ed, AX, AY);
-  Result:= (Kind=atkComment) or (Kind=atkString);
-end;
 
 function TEditorFrame.IsTreeBusy: boolean;
 begin

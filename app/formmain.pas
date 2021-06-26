@@ -6050,7 +6050,7 @@ begin
 
   if bWithLexer then
   begin
-    SLexer:= Frame.LexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
+    SLexer:= EditorLexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
     if SLexer='' then exit;
 
     bNeedHtml:= UiOps.AutocompleteHtml and SRegexMatchesString(SLexer, UiOps.AutocompleteHtml_Lexers, false);

@@ -3091,21 +3091,7 @@ begin
             Sep.Init(Str, ',');
             Sep.GetItemInt(Pnt.X, 0);
             Sep.GetItemInt(Pnt.Y, 0);
-            //if editor in frame, use frame's prop
-            if Assigned(F) then
-              Result:= PyUnicodeFromString(F.LexerNameAtPos(Ed, Pnt))
-            else
-            if Ed.AdapterForHilite is TATAdapterEControl then
-            begin
-              Ada:= Ed.AdapterForHilite as TATAdapterEControl;
-              Lex:= Ada.LexerAtPos(Pnt);
-              if Assigned(Lex) then
-                Result:= PyUnicodeFromString(Lex.LexerName)
-              else
-                Result:= PyUnicodeFromString('');
-            end
-            else
-              Result:= PyUnicodeFromString('');
+            Result:= PyUnicodeFromString(EditorLexerNameAtPos(Ed, Pnt));
           end;
 
         PROP_LEXER_CARET:
@@ -3115,21 +3101,7 @@ begin
               Pnt.X:= PosX;
               Pnt.Y:= PosY;
             end;
-            //if editor in frame, use frame's prop
-            if Assigned(F) then
-              Result:= PyUnicodeFromString(F.LexerNameAtPos(Ed, Pnt))
-            else
-            if Ed.AdapterForHilite is TATAdapterEControl then
-            begin
-              Ada:= Ed.AdapterForHilite as TATAdapterEControl;
-              Lex:= Ada.LexerAtPos(Pnt);
-              if Assigned(Lex) then
-                Result:= PyUnicodeFromString(Lex.LexerName)
-              else
-                Result:= PyUnicodeFromString('');
-            end
-            else
-              Result:= PyUnicodeFromString('');
+            Result:= PyUnicodeFromString(EditorLexerNameAtPos(Ed, Pnt));
           end;
 
         PROP_TAB_COLOR:
