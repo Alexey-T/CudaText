@@ -4369,6 +4369,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.396 (app 1.135.1)
 * add: Editor.get_wrapinfo: add optional params to specify lines range
-* add: Editor.convert: add CONVERT_OFFSET_TO_CARET, CONVERT_CARET_TO_OFFSET
+* add: Editor.convert: CONVERT_OFFSET_TO_CARET
+* add: Editor.convert: CONVERT_CARET_TO_OFFSET
 
 [[Category:CudaText]]
