@@ -293,6 +293,8 @@ const
   msgStatusNeedToCloseTabSavedOrDup: string = 'You need to close tab: saved-as or duplicate.';
   msgStatusHotkeyBusy: string = 'Hotkey is busy: %s';
   msgStatusChangedLinesCount: string = 'Changed %d lines';
+  msgStatusFontSizeChanged: string = 'Font size %d was changed to %d';
+  msgStatusFontSizeReset: string = 'Font size %d was reset';
 
   msgConfirmHotkeyBusy: string = 'Hotkey is already occupied by command:'#10'%s'#10#10'Overwrite it?';
   msgConfirmHotkeyList: string = 'hotkeys (%d): %s';
