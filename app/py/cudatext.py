@@ -1424,7 +1424,8 @@ class Editor:
         return ct.ed_micromap(self.h, id, param1, param2, param3)
 
     def __str__(self):
-        return '<Editor id:{} title:"{}" gr:{} tab:{}>'.format(
+        return '<Editor h:{} id:{} title:"{}" gr:{} tab:{}>'.format(
+            self.h,
             self.get_prop(PROP_TAB_ID),
             self.get_prop(PROP_TAB_TITLE),
             self.get_prop(PROP_INDEX_GROUP),
