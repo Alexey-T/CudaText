@@ -498,10 +498,11 @@ begin
     MsgLogDebug('find dlg: show');
     Show;
     MsgLogDebug('find dlg: focus');
-    UpdateFocus(true);
   end;
 
   UpdateFindDialogEnabled(Frame);
+  if fmFind.Enabled then
+    fmFind.UpdateFocus(true);
 end;
 
 procedure TfmMain.UpdateFindDialogEnabled(Frame: TEditorFrame);
