@@ -2792,10 +2792,12 @@ Converts something in editor. Possible values of "id":
 * CONVERT_LINE_TABS_TO_SPACES: Convert line (param "text") from tab-chars to spaces, using current tab size. Returns str. Returns original line, if no tab-chars in it.
 * CONVERT_SCREEN_TO_LOCAL: Convert pixel coordinates (x,y), from screen-related to control-related.
 * CONVERT_LOCAL_TO_SCREEN: Convert pixel coordinates (x,y), from control-related to screen-related.
-* CONVERT_PIXELS_TO_CARET: Convert pixel control-related coords (x,y) to caret position (column,line).
-* CONVERT_CARET_TO_PIXELS: Convert caret position (column,line) to pixel control-related coords (x,y).
+* CONVERT_PIXELS_TO_CARET: Convert pixel control-related coords (x,y) to text position (column,line).
+* CONVERT_CARET_TO_PIXELS: Convert text position (column,line) to pixel control-related coords (x,y).
+* CONVERT_OFFSET_TO_CARET: Convert absolute offset (0-based) given by param "x", to text position (column,line).
+* CONVERT_CARET_TO_OFFSET: Convert text position (column,line) to absolute offset.
 
-Returns None if params incorrect, or cannot calc result.
+Returns None if params are incorrect, or cannot calculate the result.
 
 ===Editor.complete===
 
@@ -4365,7 +4367,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * deprecate: toolbar_proc() special string handle "top"
 * deprecate: statusbar_proc() special string handle "main"
 
-1.0.395 (app 1.135.1)
+1.0.396 (app 1.135.1)
 * add: Editor.get_wrapinfo: add optional params to specify lines range
+* add: Editor.convert: add CONVERT_OFFSET_TO_CARET, CONVERT_CARET_TO_OFFSET
 
 [[Category:CudaText]]
