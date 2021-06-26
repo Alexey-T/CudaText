@@ -739,6 +739,7 @@ type
     procedure PopupBottomCopyClick(Sender: TObject);
     procedure PopupBottomSelectAllClick(Sender: TObject);
     procedure PopupBottomWrapClick(Sender: TObject);
+    procedure UpdateFindDialogEnabled(Frame: TEditorFrame);
     procedure UpdateGlobalProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
     procedure UpdateLexerProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
     procedure ConfirmButtonOkClick(Sender: TObject);

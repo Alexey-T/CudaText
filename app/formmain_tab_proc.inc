@@ -162,8 +162,13 @@ begin
 
   //apply "Highlight all matches" on focusing new tab
   if Assigned(fmFind) and fmFind.Visible then
-    fmFind.UpdateState(false); //if 'true', we have issue #3244
-                               //if 'true', also the 'select-all' result is reset on focusing editor
+  begin
+    UpdateFindDialogEnabled(F);
+
+    if fmFind.Enabled then
+      fmFind.UpdateState(false); //if 'true', we have issue #3244
+                                 //if 'true', also the 'select-all' result is reset on focusing editor
+  end;
 end;
 
 procedure TfmMain.UpdateTabsActiveColor(F: TEditorFrame);

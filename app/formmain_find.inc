@@ -430,11 +430,13 @@ end;
 
 procedure TfmMain.DoDialogFind(AReplaceMode: boolean);
 var
+  Frame: TEditorFrame;
   Ed: TATSynEdit;
   StrSel, StrWord, StrSuggested: atString;
   bMultiLineSel: boolean;
 begin
-  Ed:= CurrentEditor;
+  Frame:= CurrentFrame;
+  Ed:= Frame.Editor;
 
   StrWord:= Ed.TextCurrentWord;
   StrSel:= Ed.TextSelected;
@@ -497,6 +499,21 @@ begin
     Show;
     MsgLogDebug('find dlg: focus');
     UpdateFocus(true);
+  end;
+
+  UpdateFindDialogEnabled(Frame);
+end;
+
+procedure TfmMain.UpdateFindDialogEnabled(Frame: TEditorFrame);
+var
+  bEnabledPrev, bEnabledNow: boolean;
+begin
+  bEnabledPrev:= fmFind.Enabled;
+  bEnabledNow:= Frame.IsText;
+  if bEnabledPrev<>bEnabledNow then
+  begin
+    fmFind.Enabled:= bEnabledNow;
+    fmFind.UpdateState(false);
   end;
 end;
 

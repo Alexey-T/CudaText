@@ -217,7 +217,6 @@ type
     { public declarations }
     FCaptionFind: string;
     FCaptionReplace: string;
-    FBinaryMode: boolean;
     FInitialCaretPos: TPoint;
     procedure Localize;
     procedure DoOnChange;
@@ -1311,33 +1310,38 @@ end;
 procedure TfmFind.UpdateState(AEnableFindNextForHiOption: boolean);
 var
   Ed: TATSynEdit;
+  bEnabled: boolean;
 begin
   cPadding:= AppScale(4);
+  bEnabled:= Self.Enabled;
 
   PanelTop.Visible:= IsNarrow;
   PanelOps.Visible:= not IsNarrow;
-  chkWords.Enabled:= not chkRegex.Checked and (edFind.Strings.Count<2); //disable "w" for multi-line input
   edRep.Visible:= IsReplace;
   PanelBtnRep.Visible:= IsReplace;
-  chkConfirm.Enabled:= IsReplace;
 
-  bFindFirst.Enabled:= true;
-  bFindNext.Enabled:= true;
-  edRep.Enabled:= IsReplace;
-  bRep.Enabled:= IsReplace;
-  bRepAll.Enabled:= IsReplace;
-  bRepGlobal.Enabled:= IsReplace;
+  edFind.Enabled:= bEnabled;
+  edRep.Enabled:= bEnabled and IsReplace;
+  bFindFirst.Enabled:= bEnabled;
+  bFindNext.Enabled:= bEnabled;
+  bFindPrev.Enabled:= bEnabled;
+  bRep.Enabled:= bEnabled and IsReplace;
+  bRepAll.Enabled:= bEnabled and IsReplace;
+  bRepGlobal.Enabled:= bEnabled and IsReplace;
+  bMore.Enabled:= bEnabled;
 
   FOnGetMainEditor(Ed);
-  chkHiAll.Enabled:= Ed.Strings.Count<UiOps.FindHiAll_MaxLines;
+  chkHiAll.Enabled:= bEnabled and (Ed.Strings.Count<UiOps.FindHiAll_MaxLines);
 
-  if FBinaryMode then
-  begin
-    chkRegex.Enabled:= false;
-    chkWrap.Enabled:= false;
-    chkInSel.Enabled:= false;
-    chkHiAll.Enabled:= false;
-  end;
+  chkCase.Enabled:= bEnabled;
+  chkWords.Enabled:= bEnabled and not chkRegex.Checked and (edFind.Strings.Count<2); //disable "w" for multi-line input
+  chkRegex.Enabled:= bEnabled;
+  chkWrap.Enabled:= bEnabled;
+  chkInSel.Enabled:= bEnabled;
+  chkHiAll.Enabled:= bEnabled;
+  chkMulLine.Enabled:= bEnabled;
+  chkConfirm.Enabled:= bEnabled and IsReplace;
+  bTokens.Enabled:= bEnabled;
 
   bFindFirst.Visible:= UiOps.FindShow_FindFirst;
   bFindNext.Visible:= UiOps.FindShow_FindNext;
