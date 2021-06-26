@@ -2228,7 +2228,7 @@ var
   SLexerName: string;
   bWordChar, bIdentChar: boolean;
 begin
-  Result:= false;
+  Result:= true;
   if Ed.Carets.Count=0 then exit;
   Caret:= Ed.Carets[0];
 
@@ -2241,7 +2241,7 @@ begin
 
     ACharsTyped:= 0;
     Ed.DoCommand(ACmdAutoComplete);
-    exit(true);
+    exit;
   end;
 
   //other conditions need word-char
@@ -2252,7 +2252,7 @@ begin
     if not bWordChar then
     begin
       ACharsTyped:= 0;
-      exit(true);
+      exit;
     end;
   end;
 
@@ -2263,7 +2263,7 @@ begin
   begin
     if Ed.Strings.LineCharAt(Caret.PosY, Caret.PosX-1)='<' then
       Ed.DoCommand(ACmdAutoComplete);
-    exit(true);
+    exit;
   end;
 
   (*
@@ -2273,7 +2273,7 @@ begin
   begin
     if EditorIsAutocompleteCssPosition(Ed, Caret.PosX-1, Caret.PosY) then
       Ed.DoCommand(ACmdAutoComplete);
-    exit(true);
+    exit;
   end;
   *)
 
@@ -2282,21 +2282,23 @@ begin
   begin
     //ignore if number typed
     bIdentChar:= bWordChar and not IsCharDigit(AText[1]);
-    if (ACharsTyped=0) and (not bIdentChar) then exit(true);
+    if (ACharsTyped=0) and (not bIdentChar) then exit;
 
     //check that we are not inside comment/string
-    if EditorCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit(true);
+    if EditorCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit;
 
     Inc(ACharsTyped);
     if ACharsTyped=Ed.OptAutocompleteAutoshowCharCount then
     begin
       ACharsTyped:= 0;
       Ed.DoCommand(ACmdAutoComplete);
-      exit(true);
+      exit;
     end;
   end
   else
     ACharsTyped:= 0;
+
+  Result:= false;
 end;
 
 end.
