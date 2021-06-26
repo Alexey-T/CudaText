@@ -24,7 +24,9 @@ uses
   ATSynEdit_Commands,
   ATSynEdit_CharSizer,
   ATSynEdit_Gutter_Decor,
+  ATSynEdit_Adapters,
   ATSynEdit_Adapter_EControl,
+  ATSynEdit_Adapter_LiteLexer,
   ATSynEdit_Finder,
   ATStrings,
   ATStringProc,
@@ -55,6 +57,7 @@ procedure EditorApplyOpsCommon(Ed: TATSynEdit);
 
 function EditorGetLinkAtScreenCoord(Ed: TATSynEdit; P: TPoint): atString;
 function EditorGetLinkAtCaret(Ed: TATSynEdit): atString;
+function EditorLexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
 
 type
   TEdSelType = (selNo, selSmall, selStream, selCol, selCarets);
@@ -83,6 +86,7 @@ procedure EditorHighlightBadRegexBrackets(Ed: TATSynEdit; AOnlyClear: boolean);
 
 procedure EditorCaretShapeFromString(Props: TATCaretShape; const AText: string);
 procedure EditorCaretShapeFromPyTuple(Props: TATCaretShape; const AText: string);
+function EditorCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integer): boolean;
 
 type
   TATEditorBracketKind = (
@@ -133,6 +137,8 @@ function EditorFindCurrentWordOrSel(Ed: TATSynEdit;
 procedure EditorHighlightAllMatches(AFinder: TATEditorFinder;
   AEnableFindNext: boolean; out AMatchesCount: integer; ACaretPos: TPoint);
 
+function EditorAutoCompletionAfterTypingChar(Ed: TATSynEdit;
+  const AText: string; var ACharsTyped: integer; ACmdAutoComplete: integer): boolean;
 
 implementation
 
@@ -2184,6 +2190,113 @@ begin
       if Assigned(Ada.AnClient) then
         Ada.AnClient.EventParseNeeded.SetEvent;
     end;
+end;
+
+function EditorCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integer): boolean;
+var
+  Kind: TATTokenKind;
+begin
+  Kind:= EditorGetTokenKind(Ed, AX, AY);
+  Result:= (Kind=atkComment) or (Kind=atkString);
+end;
+
+function EditorLexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
+var
+  CurAdapter: TATAdapterHilite;
+  an: TecSyntAnalyzer;
+begin
+  Result:= '';
+  CurAdapter:= Ed.AdapterForHilite;
+  if CurAdapter=nil then exit;
+
+  if CurAdapter is TATAdapterEControl then
+  begin
+    an:= TATAdapterEControl(CurAdapter).LexerAtPos(APos);
+    if Assigned(an) then
+      Result:= an.LexerName;
+  end
+  else
+  if CurAdapter is TATLiteLexer then
+    Result:= TATLiteLexer(CurAdapter).LexerName+msgLiteLexerSuffix;
+end;
+
+function EditorAutoCompletionAfterTypingChar(Ed: TATSynEdit;
+  const AText: string; var ACharsTyped: integer; ACmdAutoComplete: integer): boolean;
+var
+  Caret: TATCaretItem;
+  STextW: UnicodeString;
+  SLexerName: string;
+  bWordChar, bIdentChar: boolean;
+begin
+  Result:= false;
+  if Ed.Carets.Count=0 then exit;
+  Caret:= Ed.Carets[0];
+
+  //autoshow by trigger chars
+  if (Ed.OptAutocompleteTriggerChars<>'') and
+    (Pos(AText[1], Ed.OptAutocompleteTriggerChars)>0) then
+  begin
+    //check that we are not inside comment/string
+    if EditorCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit;
+
+    ACharsTyped:= 0;
+    Ed.DoCommand(ACmdAutoComplete);
+    exit(true);
+  end;
+
+  //other conditions need word-char
+  STextW:= UTF8Decode(AText);
+  if Length(STextW)=1 then
+  begin
+    bWordChar:= IsCharWord(STextW[1], Ed.OptNonWordChars);
+    if not bWordChar then
+    begin
+      ACharsTyped:= 0;
+      exit(true);
+    end;
+  end;
+
+  SLexerName:= EditorLexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
+
+  //autoshow for HTML
+  if UiOps.AutocompleteHtml and (Pos('HTML', SLexerName)>0) then
+  begin
+    if Ed.Strings.LineCharAt(Caret.PosY, Caret.PosX-1)='<' then
+      Ed.DoCommand(ACmdAutoComplete);
+    exit(true);
+  end;
+
+  (*
+  //autoshow for CSS
+  //seems bad, so commented, CSS must work like other lexers with AutoshowCharCount
+  if UiOps.AutocompleteCss and (SLexerName='CSS') then
+  begin
+    if EditorIsAutocompleteCssPosition(Ed, Caret.PosX-1, Caret.PosY) then
+      Ed.DoCommand(ACmdAutoComplete);
+    exit(true);
+  end;
+  *)
+
+  //autoshow for others, when typed N chars
+  if (Ed.OptAutocompleteAutoshowCharCount>0) then
+  begin
+    //ignore if number typed
+    bIdentChar:= bWordChar and not IsCharDigit(AText[1]);
+    if (ACharsTyped=0) and (not bIdentChar) then exit(true);
+
+    //check that we are not inside comment/string
+    if EditorCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit(true);
+
+    Inc(ACharsTyped);
+    if ACharsTyped=Ed.OptAutocompleteAutoshowCharCount then
+    begin
+      ACharsTyped:= 0;
+      Ed.DoCommand(ACmdAutoComplete);
+      exit(true);
+    end;
+  end
+  else
+    ACharsTyped:= 0;
 end;
 
 end.

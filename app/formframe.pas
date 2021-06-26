@@ -1225,7 +1225,7 @@ begin
   end;
 end;
 
-
+//TODO: delete, proc_editor func exists
 function TEditorFrame.LexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
 var
   CurAdapter: TATAdapterHilite;
@@ -1543,81 +1543,15 @@ begin
 
     cCommand_TextInsert:
       begin
+        //autoshow autocompletion after typing N letters
         bTypedChar:=
           (AText<>'') and
           ((Length(AText)=1) or (UTF8Length(AText)=1));
+        if bTypedChar then
+          if EditorAutoCompletionAfterTypingChar(Ed, AText, FTextCharsTyped, cmd_AutoComplete) then
+            exit;
       end;
   end; //case ACommand of
-
-  //autoshow autocompletion
-  if bTypedChar then
-  begin
-    //autoshow by trigger chars
-    if (Ed.OptAutocompleteTriggerChars<>'') and
-      (Pos(AText[1], Ed.OptAutocompleteTriggerChars)>0) then
-    begin
-      //check that we are not inside comment/string
-      if IsCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit;
-
-      FTextCharsTyped:= 0;
-      Ed.DoCommand(cmd_AutoComplete);
-      exit;
-    end;
-
-    //other conditions need word-char
-    STextW:= UTF8Decode(AText);
-    if Length(STextW)=1 then
-    begin
-      bWordChar:= IsCharWord(STextW[1], Ed.OptNonWordChars);
-      if not bWordChar then
-      begin
-        FTextCharsTyped:= 0;
-        exit;
-      end;
-    end;
-
-    SLexerName:= LexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
-
-    //autoshow for HTML
-    if UiOps.AutocompleteHtml and (Pos('HTML', SLexerName)>0) then
-    begin
-      if Ed.Strings.LineCharAt(Caret.PosY, Caret.PosX-1)='<' then
-        Ed.DoCommand(cmd_AutoComplete);
-      exit;
-    end;
-
-    (*
-    //autoshow for CSS
-    //seems bad, so commented, CSS must work like other lexers with AutoshowCharCount
-    if UiOps.AutocompleteCss and (SLexerName='CSS') then
-    begin
-      if EditorIsAutocompleteCssPosition(Ed, Caret.PosX-1, Caret.PosY) then
-        Ed.DoCommand(cmd_AutoComplete);
-      exit;
-    end;
-    *)
-
-    //autoshow for others, when typed N chars
-    if (Ed.OptAutocompleteAutoshowCharCount>0) then
-    begin
-      //ignore if number typed
-      bIdentChar:= bWordChar and not IsCharDigit(AText[1]);
-      if (FTextCharsTyped=0) and (not bIdentChar) then exit;
-
-      //check that we are not inside comment/string
-      if IsCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit;
-
-      Inc(FTextCharsTyped);
-      if FTextCharsTyped=Ed.OptAutocompleteAutoshowCharCount then
-      begin
-        FTextCharsTyped:= 0;
-        Ed.DoCommand(cmd_AutoComplete);
-        exit;
-      end;
-    end
-    else
-      FTextCharsTyped:= 0;
-  end;
 
   if Ed.LastCommandChangedLines>0 then
     if Assigned(FOnMsgStatus) then
@@ -4061,7 +3995,7 @@ begin
   end;
 end;
 
-
+//TODO: delete it, made the proc_editor.EditorCaretInsideCommentOrString
 function TEditorFrame.IsCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integer): boolean;
 var
   Kind: TATTokenKind;
