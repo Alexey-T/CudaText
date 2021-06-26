@@ -823,7 +823,7 @@ Plugin is not smart like "LSP Client" plugin, so expect lot of 'false positives'
 
 In the picture above, one word was taken from C lexer's C.acp file (this is a feature).
 
-Plugin is preconfigured to work with small set of lexers: none-lexer, Ini files, Markdown, reStructuredText, MediaWiki, Python. Here is how to use it for let's say "C" lexer:
+Plugin is preconfigured to work with small set of lexers: none-lexer, Ini files, Markdown, reStructuredText, Properties. Here is how to use it for let's say "C" lexer:
 
 * Install the plugin
 * Call menu item "Options / Settings-plugins / Complete From Text"
