@@ -1504,50 +1504,50 @@ begin
   bTypedChar:= false;
 
   //some commands affect FTextCharsTyped
- case ACommand of
- cCommand_KeyBackspace:
-  begin
-    if FTextCharsTyped>0 then
-      Dec(FTextCharsTyped);
-    exit;
-  end;
+  case ACommand of
+    cCommand_KeyBackspace:
+      begin
+        if FTextCharsTyped>0 then
+          Dec(FTextCharsTyped);
+        exit;
+      end;
 
- cCommand_ToggleReadOnly:
-  begin
-    DoPyEventState(Ed, EDSTATE_READONLY);
-    exit;
-  end;
+    cCommand_ToggleReadOnly:
+      begin
+        DoPyEventState(Ed, EDSTATE_READONLY);
+        exit;
+      end;
 
- cCommand_ToggleWordWrap,
- cCommand_ToggleWordWrapAlt:
-  begin
-    DoPyEventState(Ed, EDSTATE_WRAP);
-    exit;
-  end;
+    cCommand_ToggleWordWrap,
+    cCommand_ToggleWordWrapAlt:
+      begin
+        DoPyEventState(Ed, EDSTATE_WRAP);
+        exit;
+      end;
 
- cCommand_ZoomIn,
- cCommand_ZoomOut,
- cCommand_ZoomReset:
-  begin
-    if ACommand=cCommand_ZoomReset then
-    begin
-      NValue:= EditorScaleFontPercents;
-      if NValue=0 then
-        NValue:= EditorScalePercents;
-    end
-    else
-      NValue:= Ed.OptScaleFont;
-    OnMsgStatus(Self, Format(msgStatusFontSizeChanged, [NValue]));
-    exit;
-  end;
+    cCommand_ZoomIn,
+    cCommand_ZoomOut,
+    cCommand_ZoomReset:
+      begin
+        if ACommand=cCommand_ZoomReset then
+        begin
+          NValue:= EditorScaleFontPercents;
+          if NValue=0 then
+            NValue:= EditorScalePercents;
+        end
+        else
+          NValue:= Ed.OptScaleFont;
+        OnMsgStatus(Self, Format(msgStatusFontSizeChanged, [NValue]));
+        exit;
+      end;
 
- cCommand_TextInsert:
-  begin
-    bTypedChar:=
-    (AText<>'') and
-    ((Length(AText)=1) or (UTF8Length(AText)=1));
-  end;
- end;
+    cCommand_TextInsert:
+      begin
+        bTypedChar:=
+          (AText<>'') and
+          ((Length(AText)=1) or (UTF8Length(AText)=1));
+      end;
+  end; //case ACommand of
 
   //autoshow autocompletion
   if bTypedChar then
