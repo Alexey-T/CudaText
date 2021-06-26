@@ -2865,58 +2865,68 @@ begin
 end;
 
 
+function PyHelper_GetWrapInfo(Ed: TATSynEdit; AParam1, AParam2: integer): PPyObject;
+var
+  Data: TATWrapItem;
+  NIndex1, NIndex2: integer;
+  NLen, i: integer;
+begin
+  with AppPython.Engine do
+  begin
+    if AParam2<AParam1 then
+      exit(PyList_New(0));
+
+    if AParam1>0 then
+    begin
+      Ed.WrapInfo.FindIndexesOfLineNumber(AParam1, NIndex1, i);
+      if NIndex1<0 then
+        exit(PyList_New(0));
+    end
+    else
+      NIndex1:= 0;
+
+    if AParam2>=0 then
+    begin
+      Ed.WrapInfo.FindIndexesOfLineNumber(AParam2, i, NIndex2);
+      if NIndex2<0 then
+        NIndex2:= Ed.WrapInfo.Count-1;
+    end
+    else
+      NIndex2:= Ed.WrapInfo.Count-1;
+
+    NLen:= Max(0, NIndex2-NIndex1+1);
+    Result:= PyList_New(NLen);
+    if not Assigned(Result) then
+      raise EPythonError.Create(msgPythonListError);
+
+    for i:= 0 to NLen-1 do
+    begin
+      Data:= Ed.WrapInfo[i+NIndex1];
+      PyList_SetItem(Result, i,
+        Py_BuildValue('{sisisisisisO}',
+          'line', Data.NLineIndex,
+          'char', Data.NCharIndex,
+          'len', Data.NLength,
+          'indent', Data.NIndent,
+          'final', Ord(Data.NFinal),
+          'initial', PyBool_FromLong(Ord(Data.bInitial))
+          ));
+    end;
+  end
+end;
+
+
 function api_ed_get_wrapinfo(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
-  Data: TATWrapItem;
   NParam1, NParam2: integer;
-  NIndex1, NIndex2: integer;
-  NLen, i: integer;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lii:get_wrapinfo', @H, @NParam1, @NParam2)) then
       begin
         Ed:= PyHelper_EditorFromHandle(H);
-        if NParam2<NParam1 then
-          exit(PyList_New(0));
-
-        if NParam1>0 then
-        begin
-          Ed.WrapInfo.FindIndexesOfLineNumber(NParam1, NIndex1, i);
-          if NIndex1<0 then
-            exit(PyList_New(0));
-        end
-        else
-          NIndex1:= 0;
-
-        if NParam2>=0 then
-        begin
-          Ed.WrapInfo.FindIndexesOfLineNumber(NParam2, i, NIndex2);
-          if NIndex2<0 then
-            NIndex2:= Ed.WrapInfo.Count-1;
-        end
-        else
-          NIndex2:= Ed.WrapInfo.Count-1;
-
-        NLen:= Max(0, NIndex2-NIndex1+1);
-        Result:= PyList_New(NLen);
-        if not Assigned(Result) then
-          raise EPythonError.Create(msgPythonListError);
-
-        for i:= 0 to NLen-1 do
-        begin
-          Data:= Ed.WrapInfo[i+NIndex1];
-          PyList_SetItem(Result, i,
-            Py_BuildValue('{sisisisisisO}',
-              'line', Data.NLineIndex,
-              'char', Data.NCharIndex,
-              'len', Data.NLength,
-              'indent', Data.NIndent,
-              'final', Ord(Data.NFinal),
-              'initial', PyBool_FromLong(Ord(Data.bInitial))
-              ));
-        end;
+        Result:= PyHelper_GetWrapInfo(Ed, NParam1, NParam2);
       end
   else
     Result:= ReturnNone;
