@@ -7,7 +7,8 @@
 
 + add: reduce flickering on typing with lexer, in e.g. Markdown documents (thanks @kvichans)
 + add: add some API for 'Highlight Occurrences' plugin (thanks @Shovel)
-- fix: action "trim spaces" was removing too much: char codes 0x00...0x1F (thanks @JairoMartinezA)
+- fix: action 'trim spaces' was removing too much chars: codes 0x00...0x1F (thanks @JairoMartinezA)
+- fix: clicking after 1024'th char gave bad caret placement, now with "caret_after_end":false (thanks @Shovel)
 
 1.135.0 (2021/06)
 
