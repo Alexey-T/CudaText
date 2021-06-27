@@ -2799,6 +2799,9 @@ Converts something in editor. Possible values of "id":
 
 Returns None if params are incorrect, or cannot calculate the result.
 
+Notes:
+* While CudaText has the file viewer active (not the editor, only binary/hex viewer), the editor is hidden and empty, so Editor.convert() doesn't work.
+
 ===Editor.complete===
 
  complete(text, len1, len2, selected=0, alt_order=False)
