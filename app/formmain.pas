@@ -2024,6 +2024,10 @@ begin
   if Frame.IsBinary then
   begin
     case Data.Tag of
+      StatusbarTag_Caret:
+        begin
+          DoDialogGoto;
+        end;
       StatusbarTag_Enc:
         begin
           with Mouse.CursorPos do
