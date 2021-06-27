@@ -1335,7 +1335,9 @@ CudaText has internal file viewer, for files on unlimited size. Only visible por
 * Unicode: like Text, but in UTF-16 encoding
 * Unicode/Hex: like Hex, but in UTF-16 encoding
 
-[[File:cudatext-viewer-hex.png]]
+Combined screenshot shows the different modes in action: Text, Binary, Hex, Unicode.
+
+[[File:cudatext-viewer-modes.png]]
 
 CudaText suggests to use viewer for files of too big size (bigger than option "ui_max_size_open"). And for files with binary contents.
 
