@@ -218,6 +218,7 @@ type
     FCaptionFind: string;
     FCaptionReplace: string;
     FInitialCaretPos: TPoint;
+    FForViewer: boolean;
     procedure Localize;
     procedure DoOnChange;
     procedure UpdateFormHeight;
@@ -1325,23 +1326,22 @@ begin
   bFindFirst.Enabled:= bEnabled;
   bFindNext.Enabled:= bEnabled;
   bFindPrev.Enabled:= bEnabled;
-  bRep.Enabled:= bEnabled and IsReplace;
-  bRepAll.Enabled:= bEnabled and IsReplace;
-  bRepGlobal.Enabled:= bEnabled and IsReplace;
-  bMore.Enabled:= bEnabled;
+  bRep.Enabled:= bEnabled and IsReplace and not FForViewer;
+  bRepAll.Enabled:= bEnabled and IsReplace and not FForViewer;
+  bRepGlobal.Enabled:= bEnabled and IsReplace and not FForViewer;
+  bMore.Enabled:= bEnabled and not FForViewer;
 
   FOnGetMainEditor(Ed);
   chkHiAll.Enabled:= bEnabled and (Ed.Strings.Count<UiOps.FindHiAll_MaxLines);
 
   chkCase.Enabled:= bEnabled;
   chkWords.Enabled:= bEnabled and not chkRegex.Checked and (edFind.Strings.Count<2); //disable "w" for multi-line input
-  chkRegex.Enabled:= bEnabled;
-  chkWrap.Enabled:= bEnabled;
-  chkInSel.Enabled:= bEnabled;
-  chkHiAll.Enabled:= bEnabled;
+  chkRegex.Enabled:= bEnabled and not FForViewer;
+  chkWrap.Enabled:= bEnabled and not FForViewer;
+  chkInSel.Enabled:= bEnabled and not FForViewer;
   chkMulLine.Enabled:= bEnabled;
-  chkConfirm.Enabled:= bEnabled and IsReplace;
-  bTokens.Enabled:= bEnabled;
+  chkConfirm.Enabled:= bEnabled and IsReplace and not FForViewer;
+  bTokens.Enabled:= bEnabled and not FForViewer;
 
   bFindFirst.Visible:= UiOps.FindShow_FindFirst;
   bFindNext.Visible:= UiOps.FindShow_FindNext;
@@ -1509,6 +1509,13 @@ var
   NColorBG: TColor;
   NTick: QWord;
 begin
+  if FForViewer then
+  begin
+    NColorBG:= GetAppColor(apclEdTextBg);
+    edFind.Colors.TextBG:= NColorBG;
+    exit;
+  end;
+
   ClearHiAll;
 
   if UiOps.FindShowNoResultsByInputBgColor then

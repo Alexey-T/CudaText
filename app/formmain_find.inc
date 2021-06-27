@@ -120,6 +120,7 @@ var
   Frame, FrameNew, FramePrev: TEditorFrame;
   Ed: TATSynEdit;
   ok, bChanged, bDoLock, bFindMode, bChangeFrame: boolean;
+  bHiliteAll: boolean;
   NCounter, IndexFrame: integer;
   NTime: integer;
   NTick: QWord;
@@ -128,6 +129,7 @@ begin
   Frame:= CurrentFrame;
   Category:= cAppFinderOperationCategory[Res];
   if Category=afcNone then exit;
+  bHiliteAll:= false;
 
   if Category in [afcFind, afcReplaceOne] then
   begin
@@ -183,6 +185,7 @@ begin
     FFinder.OptFromCaret:= (Res=afoFindNext) or (Res=afoFindPrev) or (Res=afoReplace);
     FFinder.OptConfirmReplace:= chkConfirm.Checked;
     FFinder.OptTokens:= TATFinderTokensAllowed(bTokens.ItemIndex);
+    bHiliteAll:= chkHiAll.Checked;
   end;
 
   if Frame.IsBinary then
@@ -192,11 +195,24 @@ begin
 
     case Res of
       afoFindFirst:
-        ShowFinderResultSimple(Frame.BinaryFindFirst(FFinder, false));
+        begin
+          FLastViewerSearchText:= FFinder.StrFind;
+          ok:= Frame.BinaryFindFirst(FFinder, bHiliteAll);
+          ShowFinderResultSimple(ok);
+        end;
 
       afoFindNext,
       afoFindPrev:
-        ShowFinderResultSimple(Frame.BinaryFindNext(Res=afoFindPrev));
+        begin
+          if (Frame.Binary.SearchResultLength=0) or (FLastViewerSearchText<>FFinder.StrFind) then
+          begin
+            FLastViewerSearchText:= FFinder.StrFind;
+            ok:= Frame.BinaryFindFirst(FFinder, bHiliteAll);
+          end
+          else
+            ok:= Frame.BinaryFindNext(Res=afoFindPrev);
+          ShowFinderResultSimple(ok);
+        end;
     end;
 
     UpdateAppForSearch(false, false, true, AEnableUpdateAll);
@@ -448,7 +464,7 @@ begin
   if Ed.Carets.Count=1 then
     bMultiLineSel:= Ed.Carets[0].IsMultilineSelection;
 
-  MsgLogDebug('find dlg: init');
+  //MsgLogDebug('find dlg: init');
   InitFormFind;
 
   with fmFind do
@@ -493,11 +509,11 @@ begin
     UpdateInputFind(StrSuggested);
     IsReplace:= AReplaceMode;
 
-    MsgLogDebug('find dlg: update state');
+    //MsgLogDebug('find dlg: update state');
     UpdateState(true);
-    MsgLogDebug('find dlg: show');
+    //MsgLogDebug('find dlg: show');
     Show;
-    MsgLogDebug('find dlg: focus');
+    //MsgLogDebug('find dlg: focus');
   end;
 
   UpdateFindDialogEnabled(Frame);
@@ -508,14 +524,20 @@ end;
 procedure TfmMain.UpdateFindDialogEnabled(Frame: TEditorFrame);
 var
   bEnabledPrev, bEnabledNow: boolean;
+  bBinaryPrev, bBinaryNow: boolean;
 begin
   bEnabledPrev:= fmFind.Enabled;
-  bEnabledNow:= Frame.IsText;
-  if bEnabledPrev<>bEnabledNow then
-  begin
-    fmFind.Enabled:= bEnabledNow;
+  bEnabledNow:= Frame.IsText or Frame.IsBinary;
+
+  bBinaryPrev:= fmFind.FForViewer;
+  bBinaryNow:= Frame.IsBinary;
+
+  fmFind.Enabled:= bEnabledNow;
+  fmFind.FForViewer:= bBinaryNow;
+
+  if (bEnabledPrev<>bEnabledNow) or
+    (bBinaryPrev<>bBinaryNow) then
     fmFind.UpdateState(false);
-  end;
 end;
 
 procedure TfmMain.DoDialogFind_Hide;
