@@ -1975,6 +1975,11 @@ Note: Toolbars contain several "button_ex" objects, which are anchored one to an
 Editor class has methods to work with editor-controls.
 Global object of Editor exist: "ed", it always refers to the currently focused editor in UI-tabs.
 
+Notes:
+
+* Most of Editor APIs work for editor-controls in the UI-tabs and for editor-controls created by dlg_proc(). But not all the APIs, some of them require the editor-control in the UI-tab. For example, some get_prop()/set_prop() properties need the editor in UI-tab.
+* While CudaText has the file viewer active (not the editor, only binary/hex viewer), the editor is hidden and empty, so Editor APIs don't work.
+
 ==Carets==
 ===Editor.get_carets===
 
@@ -2798,9 +2803,6 @@ Converts something in editor. Possible values of "id":
 * CONVERT_CARET_TO_OFFSET: Convert text position (column,line) to absolute offset.
 
 Returns None if params are incorrect, or cannot calculate the result.
-
-Notes:
-* While CudaText has the file viewer active (not the editor, only binary/hex viewer), the editor is hidden and empty, so Editor.convert() doesn't work.
 
 ===Editor.complete===
 
