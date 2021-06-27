@@ -9,6 +9,7 @@
 + add: add some API for 'Highlight Occurrences' plugin (thanks @Shovel)
 + add: disable the Find dialog when current ui-tab is binary/picture viewer (thanks @tmsg)
 + add: commands "current document font size: bigger/smaller/reset" show statusbar msg (thanks @kvichans)
++ add: file viewer: keep the previous position after the viewer-mode change
 - fix: action 'trim spaces' was removing too much chars: codes 0x00...0x1F (thanks @JairoMartinezA)
 - fix: clicking after 1024'th char gave bad caret placement, now with "caret_after_end":false (thanks @Shovel)
 
