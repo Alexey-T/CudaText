@@ -2054,6 +2054,7 @@ begin
   ViewerApplyTheme(FBin);
   FBin.Show;
   FBin.Mode:= AMode;
+  FBin.PosBegin;
   FBin.OpenStream(FBinStream);
 
   if Visible and FBin.Visible and FBin.CanFocus then
