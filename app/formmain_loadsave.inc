@@ -294,6 +294,14 @@ begin
       if Frame.IsPicture then value:= 'pic';
       cfg.SetValue(path+'/kind', value);
 
+      {
+      //TODO: add together with restoring of 'v_pos'
+      if Frame.IsBinary then
+        cfg.SetValue(path+'/v_pos', Frame.Binary.PosOffset)
+      else
+        cfg.DeleteValue(path+'/v_pos');
+        }
+
       if bModified and ASaveModifiedTabs and UiOps.HistoryItems[ahhText] then
       begin
         cfg.SetValue(path+'/text', Frame.Editor.Text);
