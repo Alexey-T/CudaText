@@ -464,7 +464,17 @@ begin
       Pages:= Groups.Pages[nIndex];
 
       if SBeginsWith(sKind, 'bin') then
-        sOpenOptions:= '/view-binary'
+      begin
+        nIndex:= StrToIntDef(sKind[Length(sKind)], -1);
+        case nIndex of
+          0: sOpenOptions:= '/view-text';
+          1: sOpenOptions:= '/view-binary';
+          2: sOpenOptions:= '/view-hex';
+          3: sOpenOptions:= '/view-unicode';
+          4: sOpenOptions:= '/view-uhex';
+          else sOpenOptions:= '/view-binary';
+        end;
+      end
       else
         sOpenOptions:= '';
 
