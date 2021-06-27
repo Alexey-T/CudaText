@@ -615,7 +615,6 @@ type
     FBoundsFloatGroups2: TRect;
     FBoundsFloatGroups3: TRect;
     FListTimers: TStringList;
-    FLastViewerSearchText: UnicodeString;
     FLastStatusbarMessages: TStringList;
     FLastProjectPath: string;
     FConsoleMustShow: boolean;

@@ -196,7 +196,6 @@ begin
     case Res of
       afoFindFirst:
         begin
-          FLastViewerSearchText:= FFinder.StrFind;
           ok:= Frame.BinaryFindFirst(FFinder, bHiliteAll);
           ShowFinderResultSimple(ok);
         end;
@@ -204,11 +203,8 @@ begin
       afoFindNext,
       afoFindPrev:
         begin
-          if (Frame.Binary.SearchResultLength=0) or (FLastViewerSearchText<>FFinder.StrFind) then
-          begin
-            FLastViewerSearchText:= FFinder.StrFind;
-            ok:= Frame.BinaryFindFirst(FFinder, bHiliteAll);
-          end
+          if (not Frame.Binary.SearchStarted) or (Frame.Binary.SearchString<>FFinder.StrFind) then
+            ok:= Frame.BinaryFindFirst(FFinder, bHiliteAll)
           else
             ok:= Frame.BinaryFindNext(Res=afoFindPrev);
           ShowFinderResultSimple(ok);
