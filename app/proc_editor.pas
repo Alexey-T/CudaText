@@ -1111,7 +1111,7 @@ end;
 
 function EditorGotoFromString(Ed: TATSynEdit; SInput: string): boolean;
 var
-  NumCount, NumLine, NumCol: integer;
+  NumCount, NumLine, NumCol, NumOffset: integer;
   Pnt: TPoint;
   bExtend: boolean;
   Caret: TATCaretItem;
@@ -1136,18 +1136,34 @@ begin
   else
   if SBeginsWith(SInput, 'd') then
   begin
-    Pnt:= Ed.Strings.OffsetToPosition(
-      StrToIntDef(Copy(SInput, 2, MaxInt), -1));
-    NumLine:= Pnt.Y;
-    NumCol:= Pnt.X;
+    NumOffset:= StrToIntDef(Copy(SInput, 2, MaxInt), -1);
+    if NumOffset>=0 then
+    begin
+      Pnt:= Ed.OffsetToCaretPos(NumOffset);
+      NumLine:= Pnt.Y;
+      NumCol:= Pnt.X;
+    end
+    else
+    begin
+      NumLine:= -1;
+      NumCol:= -1;
+    end;
   end
   else
   if SBeginsWith(SInput, 'x') then
   begin
-    Pnt:= Ed.Strings.OffsetToPosition(
-      StrToIntDef('$'+Copy(SInput, 2, MaxInt), -1));
-    NumLine:= Pnt.Y;
-    NumCol:= Pnt.X;
+    NumOffset:= StrToIntDef('$'+Copy(SInput, 2, MaxInt), -1);
+    if NumOffset>=0 then
+    begin
+      Pnt:= Ed.OffsetToCaretPos(NumOffset);
+      NumLine:= Pnt.Y;
+      NumCol:= Pnt.X;
+    end
+    else
+    begin
+      NumLine:= -1;
+      NumCol:= -1;
+    end;
   end
   else
   begin
