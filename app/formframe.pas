@@ -2038,6 +2038,7 @@ begin
     FBin.Parent:= Self;
     FBin.Align:= alClient;
     FBin.BorderStyle:= bsNone;
+    FBin.ResizeFollowTail:= false; //fixes scrolling to the end on file loading
     FBin.TextGutter:= true;
     FBin.TextWidth:= UiOps.ViewerBinaryWidth;
     FBin.TextPopupCommands:= [vpCmdCopy, vpCmdCopyHex, vpCmdSelectAll];
