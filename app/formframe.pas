@@ -3647,10 +3647,11 @@ begin
   GetFrameLocation(Self, Gr, Pages, NLocalGroup, NGlobalGroup, NTab);
   D:= Pages.Tabs.GetTabData(NTab);
   if Assigned(D) then
-  begin
-    D.TabVisible:= AValue;
-    Pages.Tabs.Invalidate;
-  end;
+    if D.TabVisible<>AValue then
+    begin
+      D.TabVisible:= AValue;
+      Pages.Tabs.Invalidate;
+    end;
 end;
 
 procedure TEditorFrame.InitPanelInfo(const AText: string; AOnClick: TNotifyEvent);
