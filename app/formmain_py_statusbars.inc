@@ -18,7 +18,7 @@ begin
       exit(TATStatus(Obj))
     else
     begin
-      MsgLogConsole('ERROR: statusbar_proc() gets bad handle');
+      MsgLogConsole('ERROR: statusbar_proc() gets bad handle of type '+Obj.ClassName);
       exit;
     end;
   end;

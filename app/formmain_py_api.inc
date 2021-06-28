@@ -381,7 +381,7 @@ begin
       exit(TMenuItem(Obj))
     else
     begin
-      MsgLogConsole('ERROR: menu_proc() gets bad handle');
+      MsgLogConsole('ERROR: menu_proc() gets bad handle of type '+Obj.ClassName);
       exit;
     end;
   end;
@@ -5900,7 +5900,7 @@ begin
       Obj:= TObject(PtrInt(IdList));
       if not (Obj is TATListbox) then
       begin
-        MsgLogConsole('ERROR: listbox_proc() gets bad handle');
+        MsgLogConsole('ERROR: listbox_proc() gets bad handle of type '+Obj.ClassName);
         exit(ReturnNone);
       end;
       Listbox:= TATListbox(Obj);
@@ -6243,7 +6243,7 @@ begin
       Obj:= TObject(PtrInt(IdBtn));
       if not (Obj is TATButton) then
       begin
-        MsgLogConsole('ERROR: button_proc() gets bad handle');
+        MsgLogConsole('ERROR: button_proc() gets bad handle of type '+Obj.ClassName);
         exit(ReturnNone);
       end;
       Btn:= TATButton(Obj);
@@ -6568,7 +6568,7 @@ begin
       Obj2:= TObject(PtrInt(IdList));
       if not (Obj2 is TImageList) then
       begin
-        MsgLogConsole('ERROR: imagelist_proc() gets bad handle');
+        MsgLogConsole('ERROR: imagelist_proc() gets bad handle of type '+Obj2.ClassName);
         exit(ReturnNone);
       end;
       List:= TImageList(Obj2);
@@ -6670,7 +6670,7 @@ begin
       Obj:= TObject(PtrInt(IdTree));
       if not (Obj is TAppTreeContainer) then
       begin
-        MsgLogConsole('ERROR: tree_proc() gets bad handle of tree');
+        MsgLogConsole('ERROR: tree_proc() gets bad handle of tree, of type '+Obj.ClassName);
         exit(ReturnNone);
       end;
       TreeContainer:= TAppTreeContainer(Obj);
@@ -6678,7 +6678,7 @@ begin
       Obj:= TObject(PtrInt(IdItem));
       if Assigned(Obj) and not (Obj is TTreeNode) then
       begin
-        MsgLogConsole('ERROR: tree_proc() gets bad handle of tree-node');
+        MsgLogConsole('ERROR: tree_proc() gets bad handle of tree-node, of type '+Obj.ClassName);
         exit(ReturnNone);
       end;
       TreeNode:= TTreeNode(Obj);
@@ -8871,7 +8871,7 @@ begin
         Obj:= TObject(PtrInt(FormHandle));
         if not (Obj is TFormDummy) then
         begin
-          MsgLogConsole('ERROR: dlg_proc() gets bad handle');
+          MsgLogConsole('ERROR: dlg_proc() gets bad handle of type '+Obj.ClassName);
           exit(ReturnNone);
         end;
         Form:= TFormDummy(Obj);

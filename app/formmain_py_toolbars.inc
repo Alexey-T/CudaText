@@ -18,7 +18,7 @@ begin
       exit(TATFlatToolbar(Obj))
     else
     begin
-      MsgLogConsole('ERROR: toolbar_proc() gets bad handle');
+      MsgLogConsole('ERROR: toolbar_proc() gets bad handle of type '+Obj.ClassName);
       exit;
     end;
   end;
