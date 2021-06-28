@@ -16,6 +16,6 @@ Requires packages:
 
 Information:
 
-* Homepage with screenshots and animations and feature list: http://uvviewsoft.com
-* Almost full documentation in the Wiki: http://wiki.freepascal.org/CudaText
+* Homepage with screenshots and animations and feature list: http://cudatext.github.io
+* Full documentation in the Wiki: http://wiki.freepascal.org/CudaText
 * How to compile, Wiki topic: https://wiki.freepascal.org/CudaText#How_to_compile_CudaText
