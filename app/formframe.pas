@@ -1472,6 +1472,8 @@ var
   bTypedChar: boolean;
   NValue: integer;
 begin
+  Ed:= Sender as TATSynEdit;
+
   if IsBinary then
   begin
     case ACommand of
@@ -1488,11 +1490,15 @@ begin
           Binary.Font.Size:= EditorOps.OpFontSize;
           Binary.Redraw;
         end;
+      cCommand_ToggleUnprinted:
+        begin
+          Binary.TextNonPrintable:= not Binary.TextNonPrintable;
+          Binary.Redraw;
+        end;
     end;
     exit;
   end;
 
-  Ed:= Sender as TATSynEdit;
   if Ed.Carets.Count<>1 then exit;
   Caret:= Ed.Carets[0];
   if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
@@ -2058,7 +2064,6 @@ begin
     FBin.BorderStyle:= bsNone;
     FBin.ResizeFollowTail:= false; //fixes scrolling to the end on file loading
     FBin.TextGutter:= true;
-    FBin.TextWidth:= UiOps.ViewerBinaryWidth;
     FBin.TextPopupCommands:= [vpCmdCopy, vpCmdCopyHex, vpCmdSelectAll];
     FBin.TextPopupCaption[vpCmdCopy]:= cStrMenuitemCopy;
     FBin.TextPopupCaption[vpCmdCopyHex]:= cStrMenuitemCopy+' (hex)';
@@ -2066,13 +2071,16 @@ begin
     FBin.Show;
   end;
 
+  FBin.TextWidth:= UiOps.ViewerBinaryWidth;
+  FBin.TextNonPrintable:= UiOps.ViewerNonPrintable;
+  FBin.Mode:= AMode;
+
   if Assigned(FBinStream) then
     FreeAndNil(FBinStream);
   FBinStream:= TFileStream.Create(AFileName, fmOpenRead or fmShareDenyWrite);
 
   ViewerApplyTheme(FBin);
   FBin.Show;
-  FBin.Mode:= AMode;
   FBin.OpenStream(FBinStream);
   FBin.PosBegin;
 

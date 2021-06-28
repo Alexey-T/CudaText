@@ -1350,8 +1350,11 @@
   "find_hotkey_op_hi": "",
 
   //[Viewer]
-  //Viewer text width in binary mode
+  //Viewer text width in 'binary' mode
   "viewer_binary_width": 100,
+
+  //Viewer shows non-printable chars and high-ANSI chars 0x7F...0xFF
+  "viewer_unprinted": false,
 
   //[Log]
   //Show in console lines "Init: cuda_nnnn" about plugins initialization
