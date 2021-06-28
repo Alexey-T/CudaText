@@ -1490,7 +1490,7 @@ Possible values of "id_action":
 * TREE_ITEM_SET_TEXT: Sets item's text. Params: "id_item", "text".
 * TREE_ITEM_SET_ICON: Sets item's icon. Params: "id_item", "image_index".
 
-* TREE_ITEM_SELECT: Selects item.
+* TREE_ITEM_SELECT: Selects the item specified by "id_item". If "id_item" is 0, it removes the selection.
 * TREE_ITEM_SHOW: Makes item visible, ie scrolls control to this item.
 * TREE_ITEM_GET_SELECTED: Returns int handle of selected item (param "id_item" is ignored). Returns None if nothing is selected.
 
